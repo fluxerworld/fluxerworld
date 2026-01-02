@@ -33,7 +33,7 @@ import type {UserRecord} from '~/records/UserRecord';
 import AuthenticationStore from '~/stores/AuthenticationStore';
 import MemberSidebarStore from '~/stores/MemberSidebarStore';
 import UserStore from '~/stores/UserStore';
-import type {GroupDMMemberGroup, MemberGroup} from '~/utils/MemberListUtils';
+import type {GroupDMMemberGroup} from '~/utils/MemberListUtils';
 import * as MemberListUtils from '~/utils/MemberListUtils';
 import * as NicknameUtils from '~/utils/NicknameUtils';
 import styles from './ChannelMembers.module.css';
@@ -64,35 +64,6 @@ const SkeletonMemberItem = ({index}: {index: number}) => {
 		</div>
 	);
 };
-
-const _MemberListGroup = observer(
-	({guild, group, channelId}: {guild: GuildRecord; group: MemberGroup; channelId: string}) => (
-		<div className={styles.groupContainer}>
-			<div className={styles.groupHeader}>
-				{group.displayName} — {group.count}
-			</div>
-			<div className={styles.membersList}>
-				{group.members.map((member: GuildMemberRecord) => {
-					const user = member.user;
-					const userId = user.id;
-					return (
-						<MemberListItem
-							key={userId}
-							user={user}
-							channelId={channelId}
-							guildId={guild.id}
-							isOwner={guild.isOwner(userId)}
-							roleColor={member.getColorString?.() ?? undefined}
-							displayName={NicknameUtils.getNickname(user, guild.id)}
-							disableBackdrop={true}
-						/>
-					);
-				})}
-			</div>
-			<div className={styles.groupSpacer} />
-		</div>
-	),
-);
 
 interface GroupDMMemberListGroupProps {
 	group: GroupDMMemberGroup;

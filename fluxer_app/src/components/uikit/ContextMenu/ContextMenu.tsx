@@ -378,7 +378,7 @@ export const SubMenu = React.forwardRef<HTMLDivElement, SubMenuProps>(
 						/>
 					</svg>
 				</AriaMenuItem>
-				<AriaPopover placement="right top" offset={4} className={styles.submenuPopover}>
+				<AriaPopover placement="right top" offset={0} className={styles.submenuPopover}>
 					<AriaMenu className={styles.ariaMenu} aria-label="Submenu" autoFocus="first" selectionMode={selectionMode}>
 						{children}
 					</AriaMenu>

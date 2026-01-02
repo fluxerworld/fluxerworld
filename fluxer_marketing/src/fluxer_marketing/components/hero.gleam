@@ -61,7 +61,7 @@ pub fn render(ctx: Context) -> Element(a) {
         html.p([attribute.class("lead text-white/90")], [
           html.text(g_(
             i18n_ctx,
-            "Built for friends, groups, and communities. Text, voice, and video. Open source and community-funded.",
+            "An open-source, independent instant messaging and VoIP platform. Built for friends, groups, and communities.",
           )),
         ]),
         html.div(

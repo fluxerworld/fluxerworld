@@ -161,6 +161,19 @@ fn get_bool_query(req: Request, key: String) -> Bool {
   }
 }
 
+fn clamp_limit(limit: Int) -> Int {
+  let min = 10
+  let max = 200
+  case limit < min {
+    True -> min
+    False ->
+      case limit > max {
+        True -> max
+        False -> limit
+      }
+  }
+}
+
 fn api_error_message(err: common.ApiError) -> String {
   case err {
     common.Unauthorized -> "Unauthorized"
@@ -897,27 +910,71 @@ fn handle_authenticated_request(req: Request, ctx: Context) -> Response {
         Get -> {
           use user_session, current_admin <- with_session_and_admin(req, ctx)
           let flash_data = flash.from_request(req)
+          let admin_acls = case current_admin {
+            option.Some(admin) -> admin.acls
+            _ -> []
+          }
 
-          pending_verifications_page.view(
-            ctx,
-            user_session,
-            current_admin,
-            flash_data,
-          )
+          case
+            acl.has_permission(
+              admin_acls,
+              constants.acl_pending_verification_view,
+            )
+          {
+            True ->
+              pending_verifications_page.view(
+                ctx,
+                user_session,
+                current_admin,
+                flash_data,
+              )
+            False ->
+              wisp.response(403)
+              |> wisp.string_body(
+                "Forbidden: requires pending_verification:view permission",
+              )
+          }
         }
         Post -> {
           use user_session <- with_session(req, ctx)
           let query = wisp.get_query(req)
           let action = list.key_find(query, "action") |> option.from_result
           let background = get_bool_query(req, "background")
+          let admin_result = users.get_current_admin(ctx, user_session)
+          let admin_acls = case admin_result {
+            Ok(option.Some(admin)) -> admin.acls
+            _ -> []
+          }
 
-          pending_verifications_page.handle_action(
-            req,
-            ctx,
-            user_session,
-            action,
-            background,
-          )
+          case
+            acl.has_permission(
+              admin_acls,
+              constants.acl_pending_verification_review,
+            )
+          {
+            True ->
+              pending_verifications_page.handle_action(
+                req,
+                ctx,
+                user_session,
+                action,
+                background,
+              )
+            False ->
+              case background {
+                True ->
+                  wisp.json_response(
+                    "{\"error\": \"Forbidden: requires pending_verification:review permission\"}",
+                    403,
+                  )
+                False ->
+                  flash.redirect_with_error(
+                    ctx,
+                    "/pending-verifications",
+                    "Forbidden: requires pending_verification:review permission",
+                  )
+              }
+          }
         }
         _ -> wisp.method_not_allowed([Get, Post])
       }
@@ -932,8 +989,32 @@ fn handle_authenticated_request(req: Request, ctx: Context) -> Response {
             |> option.unwrap("1")
           let page =
             int.parse(page_str) |> option.from_result |> option.unwrap(1)
+          let admin_result = users.get_current_admin(ctx, user_session)
+          let admin_acls = case admin_result {
+            Ok(option.Some(admin)) -> admin.acls
+            _ -> []
+          }
+          let can_review =
+            acl.has_permission(
+              admin_acls,
+              constants.acl_pending_verification_review,
+            )
 
-          pending_verifications_page.view_fragment(ctx, user_session, page)
+          case
+            acl.has_permission(
+              admin_acls,
+              constants.acl_pending_verification_view,
+            )
+          {
+            True ->
+              pending_verifications_page.view_fragment(
+                ctx,
+                user_session,
+                page,
+                can_review,
+              )
+            False -> wisp.response(403) |> wisp.string_body("Forbidden")
+          }
         }
         _ -> wisp.method_not_allowed([Get])
       }
@@ -985,34 +1066,39 @@ fn handle_authenticated_request(req: Request, ctx: Context) -> Response {
             |> option.unwrap("0")
           let page =
             int.parse(page_str) |> option.from_result |> option.unwrap(0)
-          let fragment = get_bool_query(req, "fragment")
-          let table_view = get_bool_query(req, "view")
+          let sort =
+            list.key_find(query, "sort")
+            |> option.from_result
+            |> option.map(fn(s) {
+              case string.trim(s) {
+                "" -> option.None
+                v -> option.Some(v)
+              }
+            })
+            |> option.unwrap(option.None)
+          let limit_str =
+            list.key_find(query, "limit")
+            |> option.from_result
+            |> option.unwrap("50")
+          let limit =
+            int.parse(limit_str)
+            |> option.from_result
+            |> option.unwrap(50)
+            |> clamp_limit
 
-          case fragment {
-            True ->
-              reports_page.view_fragment(
-                ctx,
-                user_session,
-                search_query,
-                status_filter,
-                type_filter,
-                category_filter,
-                page,
-              )
-            False ->
-              reports_page.view_with_mode(
-                ctx,
-                user_session,
-                current_admin,
-                flash_data,
-                search_query,
-                status_filter,
-                type_filter,
-                category_filter,
-                page,
-                table_view,
-              )
-          }
+          reports_page.view_with_mode(
+            ctx,
+            user_session,
+            current_admin,
+            flash_data,
+            search_query,
+            status_filter,
+            type_filter,
+            category_filter,
+            page,
+            limit,
+            sort,
+          )
         }
         _ -> wisp.method_not_allowed([Get])
       }

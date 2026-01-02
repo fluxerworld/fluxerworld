@@ -19,9 +19,7 @@
 
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ClaimAccountModal} from '~/components/modals/ClaimAccountModal';
+import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
 import {Button} from '~/components/uikit/Button/Button';
 import {WarningAlert} from '~/components/uikit/WarningAlert/WarningAlert';
 
@@ -30,7 +28,7 @@ export const UnclaimedAccountAlert = observer(() => {
 		<WarningAlert
 			title={<Trans>Unclaimed Account</Trans>}
 			actions={
-				<Button small={true} onClick={() => ModalActionCreators.push(modal(() => <ClaimAccountModal />))}>
+				<Button small={true} onClick={() => openClaimAccountModal({force: true})}>
 					<Trans>Claim Account</Trans>
 				</Button>
 			}

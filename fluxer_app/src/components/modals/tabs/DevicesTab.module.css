@@ -58,6 +58,7 @@
 	flex: 1;
 	flex-direction: column;
 	gap: 0.75rem;
+	box-sizing: border-box;
 	padding: 1rem;
 	border-radius: 0.5rem;
 	border: 1px solid var(--background-header-secondary);
@@ -117,6 +118,8 @@
 	font-size: 0.875rem;
 	font-weight: 600;
 	color: var(--text-primary);
+	max-width: 100%;
+	min-width: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
@@ -129,15 +132,39 @@
 }
 
 .authSessionLocation {
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
 	font-size: 0.875rem;
 	color: var(--text-primary-muted);
+	min-width: 0;
+	flex-wrap: nowrap;
+}
+
+.locationText {
+	flex: 0 1 auto;
+	min-width: 0;
+	max-width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
+.locationSeparator {
+	background-color: var(--background-modifier-accent);
+	width: 0.25rem;
+	height: 0.25rem;
+	border-radius: 9999px;
+	display: inline-block;
+	flex-shrink: 0;
+	opacity: 0.8;
+	margin: 0 0.15rem;
+}
+
 .lastUsed {
 	font-size: 0.75rem;
+	flex-shrink: 0;
+	white-space: nowrap;
 }
 
 .authSessionActions {
@@ -228,15 +255,9 @@
 }
 
 .devicesGrid {
-	display: grid;
-	grid-template-columns: repeat(1, minmax(0, 1fr));
+	display: flex;
+	flex-direction: column;
 	gap: 1rem;
-}
-
-@media (min-width: 1024px) {
-	.devicesGrid {
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-	}
 }
 
 .logoutSection {

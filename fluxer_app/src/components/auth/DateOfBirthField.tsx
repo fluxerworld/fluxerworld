@@ -84,9 +84,6 @@ function NativeDatePicker({
 	error,
 }: NativeDatePickerProps) {
 	const {t} = useLingui();
-	const _monthPlaceholder = t`Month`;
-	const _dayPlaceholder = t`Day`;
-	const _yearPlaceholder = t`Year`;
 	const dateOfBirthPlaceholder = t`Date of birth`;
 
 	const currentYear = new Date().getFullYear();

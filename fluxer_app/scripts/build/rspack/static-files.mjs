@@ -31,7 +31,7 @@ function generateManifest(cdnEndpointRaw) {
 		name: 'Fluxer',
 		short_name: 'Fluxer',
 		description:
-			'Chat that puts you first. Built for friends, groups, and communities. Text, voice, and video. Open source and community-funded.',
+			'Fluxer is an open-source, independent instant messaging and VoIP platform. Built for friends, groups, and communities.',
 		start_url: '/',
 		display: 'standalone',
 		orientation: 'portrait-primary',

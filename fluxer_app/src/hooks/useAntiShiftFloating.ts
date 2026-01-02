@@ -65,10 +65,9 @@ export function useAntiShiftFloating(
 	} = options;
 
 	const floatingRef = React.useRef<HTMLElement>(null);
-	const [state, setState] = React.useState<FloatingState>({
-		x: -9999,
-		y: -9999,
-		isReady: false,
+	const [state, setState] = React.useState<FloatingState>(() => {
+		const {x, y} = target ? getInitialGuess(target, placement, offsetMainAxis, offsetCrossAxis) : {x: -9999, y: -9999};
+		return {x, y, isReady: false};
 	});
 	const cleanupRef = React.useRef<(() => void) | null>(null);
 	const isCalculatingRef = React.useRef(false);
@@ -92,13 +91,6 @@ export function useAntiShiftFloating(
 					isCalculatingRef.current = false;
 					return;
 				}
-
-				Object.assign(floating.style, {
-					visibility: 'hidden',
-					position: 'fixed',
-					left: '-9999px',
-					top: '-9999px',
-				});
 
 				const adaptivePadding = enableSmartBoundary ? getAdaptivePadding() : 8;
 				const shiftPadding = Math.max(6, adaptivePadding);
@@ -206,4 +198,51 @@ export function useAntiShiftFloating(
 		},
 		updatePosition,
 	};
+}
+
+function getInitialGuess(target: HTMLElement, placement: Placement, offsetMainAxis: number, offsetCrossAxis: number) {
+	const rect = target.getBoundingClientRect();
+	const [side, align = 'center'] = placement.split('-') as [string, string];
+
+	let x = rect.left;
+	let y = rect.top;
+
+	switch (side) {
+		case 'right':
+			x = rect.right + offsetMainAxis;
+			break;
+		case 'left':
+			x = rect.left - offsetMainAxis;
+			break;
+		case 'bottom':
+			y = rect.bottom + offsetMainAxis;
+			break;
+		case 'top':
+			y = rect.top - offsetMainAxis;
+			break;
+		default:
+			break;
+	}
+
+	if (side === 'top' || side === 'bottom') {
+		if (align === 'end') {
+			x = rect.right;
+		} else if (align === 'start') {
+			x = rect.left;
+		} else {
+			x = rect.left + rect.width / 2;
+		}
+		x += offsetCrossAxis;
+	} else {
+		if (align === 'end') {
+			y = rect.bottom;
+		} else if (align === 'start') {
+			y = rect.top;
+		} else {
+			y = rect.top + rect.height / 2;
+		}
+		y += offsetCrossAxis;
+	}
+
+	return {x, y};
 }

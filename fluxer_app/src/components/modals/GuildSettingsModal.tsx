@@ -25,6 +25,7 @@ import * as UnsavedChangesActionCreators from '~/actions/UnsavedChangesActionCre
 import * as Modal from '~/components/modals/Modal';
 import GuildSettingsModalStore from '~/stores/GuildSettingsModalStore';
 import GuildStore from '~/stores/GuildStore';
+import ConnectionStore from '~/stores/gateway/ConnectionStore';
 import MobileLayoutStore from '~/stores/MobileLayoutStore';
 import PermissionStore from '~/stores/PermissionStore';
 import UnsavedChangesStore from '~/stores/UnsavedChangesStore';
@@ -78,6 +79,10 @@ export const GuildSettingsModal: React.FC<GuildSettingsModalProps> = observer(
 		const {enabled: isMobile} = MobileLayoutStore;
 
 		const unsavedChangesStore = UnsavedChangesStore;
+
+		React.useEffect(() => {
+			ConnectionStore.syncGuildIfNeeded(guildId, 'guild-settings-modal');
+		}, [guildId]);
 
 		React.useEffect(() => {
 			if (!guild) {

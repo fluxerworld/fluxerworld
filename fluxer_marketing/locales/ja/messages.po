@@ -6,15 +6,15 @@ msgstr ""
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:190
 msgid " in Chrome"
-msgstr "Chromeで"
+msgstr "（Chromeで）"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:288
 msgid " in Chrome or another browser with PWA support"
-msgstr "ChromeまたはPWAサポートのある他のブラウザで"
+msgstr "（ChromeまたはPWA対応のブラウザで）"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:236
 msgid " in Safari"
-msgstr "Safariで"
+msgstr "（Safariで）"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1032
 msgid "/forever"
@@ -37,35 +37,35 @@ msgstr "／年"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:654
 msgid "500MB uploads, 4000 character messages, 300 bookmarks, 50 emoji packs, and much more."
-msgstr "アップロードは500MBまで、メッセージは4,000文字まで、ブックマークは300件まで、絵文字パックは50個まで…そのほか盛りだくさん。"
+msgstr "アップロードは最大500MB、メッセージは最大4,000文字、ブックマークは300件、絵文字パックは50個。ほかにも盛りだくさん。"
 
 #: src/fluxer_marketing/components/communities_section.gleam:86
 msgid "A chat platform that answers to you, not investors. It's ad-free, open source, community-funded, and never sells your data or nags you with upgrade pop-ups."
-msgstr "投資家ではなく、あなたに応えるチャットプラットフォーム。広告なし、オープンソース、コミュニティ資金で運営し、あなたのデータを売ったり、アップグレードのポップアップで催促したりしません。"
+msgstr "投資家ではなく、あなたに応えるチャットプラットフォーム。広告なし、オープンソース、コミュニティの支援で運営し、データを売ることも、アップグレードを促すポップアップでしつこく迫ることもありません。"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:219
 msgid "A non-paid role for recurring contributors who help shape Fluxer alongside the core team."
-msgstr "コアチームと一緒にFluxerを形作る、継続的な貢献者向けの無報酬ロールです。"
+msgstr "コアチームとともにFluxerを形づくる、継続的な貢献者向けの無報酬ロールです。"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1074
 msgid "Access to Fluxer Operators community"
-msgstr "Fluxer Operatorsコミュニティへの参加"
+msgstr "Fluxer Operatorsコミュニティへのアクセス"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:225
 msgid "Access to VIP voice servers reserved exclusively for partnered communities."
-msgstr "提携コミュニティ専用のVIPボイスサーバーにアクセスできます。"
+msgstr "提携コミュニティ限定のVIPボイスサーバーにアクセスできます。"
 
 #: src/fluxer_marketing/components/coming_features.gleam:48
 msgid "Activity sharing"
-msgstr "アクティビティ共有"
+msgstr "アクティビティの共有"
 
 #: src/fluxer_marketing/pages/download_page.gleam:228
 msgid "Add Fluxer to your home screen to hide the browser UI."
-msgstr "Fluxerをホーム画面に追加すると、ブラウザのUIを非表示にできます。"
+msgstr "Fluxerをホーム画面に追加すると、ブラウザUIを非表示にできます。"
 
 #: src/fluxer_marketing/components/current_features.gleam:133
 msgid "Add custom emojis, save media for later, and style the app with custom CSS."
-msgstr "カスタム絵文字を追加し、メディアを後で見るために保存し、カスタムCSSでアプリを着せ替えできます。"
+msgstr "カスタム絵文字の追加、メディアの保存、カスタムCSSでの着せ替えができます。"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1124
 msgid "After the offer ends, Operator Pass stays available on its own."
@@ -73,15 +73,19 @@ msgstr "キャンペーン終了後も、Operator Passは単体で購入でき�
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:843
 msgid "All current and future Plutonium benefits, forever"
-msgstr "現在および今後追加されるPlutonium特典を、ずっと利用できます"
+msgstr "現在および今後追加されるPlutonium特典を、永久に利用できます"
 
 #: src/fluxer_marketing/components/current_features.gleam:55
 msgid "All the basics you expect, plus a few things you don't."
-msgstr "必要な機能はひと通り。さらに、ちょっと意外な便利機能も。"
+msgstr "欲しい機能はひと通り。さらに、ちょっと意外な便利機能も。"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:102
 msgid "All translations are currently LLM-generated with minimal human revision. We'd love to get real people to help us out localizing Fluxer into your language! To do so, shoot an email to i18n@fluxer.app and we'll be happy to accept your contributions."
-msgstr "現在の翻訳は、LLMが生成したものを最小限の人手で見直したものです。Fluxerをあなたの言語に本格的にローカライズするために、実際の人に手伝ってもらえたら嬉しいです！i18n@fluxer.app までメールを送ってください。貢献を喜んで受け付けます。"
+msgstr "現在の翻訳は、LLMが生成したものを最小限の人手で見直したものです。Fluxerをあなたの言語に本格的にローカライズするために、ぜひ力を貸してください！i18n@fluxer.app までメールでご連絡ください。貢献を喜んで受け付けます。"
+
+#: src/fluxer_marketing/components/hero.gleam:64
+msgid "An open-source, independent instant messaging and VoIP platform. Built for friends, groups, and communities."
+msgstr "オープンソースで独立したインスタントメッセージング／VoIPプラットフォーム。友だち、グループ、コミュニティのために作られました。"
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:524
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:97
@@ -120,7 +124,7 @@ msgstr "アラビア語"
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:143
 msgid "Articles in "
-msgstr "次のカテゴリの記事: "
+msgstr "カテゴリ："
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:291
 msgid "Articles in this section"
@@ -128,19 +132,19 @@ msgstr "このセクションの記事"
 
 #: src/fluxer_marketing/components/current_features.gleam:106
 msgid "Audit logs for transparency"
-msgstr "透明性のための監査ログ"
+msgstr "透明性を高める監査ログ"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:302
+#: src/fluxer_marketing/pages/donate_page.gleam:301
 msgid "Available for Swedish bank accounts"
-msgstr "スウェーデンの銀行口座で利用可能"
+msgstr "スウェーデンの銀行口座で利用できます"
 
 #: src/fluxer_marketing/pages/download_page.gleam:67
 msgid "Available on your desktop — and on the web"
-msgstr "デスクトップでも、Webでも利用できます"
+msgstr "デスクトップでもWebでも利用できます"
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:182
 msgid "Back to "
-msgstr "戻る: "
+msgstr "戻る："
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:279
 #: src/fluxer_marketing/pages/help_search_page.gleam:115
@@ -177,7 +181,7 @@ msgstr "ベータ"
 
 #: src/fluxer_marketing/components/coming_features.gleam:54
 msgid "Better noise cancellation"
-msgstr "ノイズキャンセルの強化"
+msgstr "ノイズキャンセルを強化"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:350
 msgid "Bio character limit"
@@ -208,7 +212,7 @@ msgstr "Bluesky"
 msgid "Bookmarked messages"
 msgstr "ブックマークしたメッセージ"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:388
+#: src/fluxer_marketing/pages/donate_page.gleam:387
 msgid "Both donation types support the same cause equally. The only difference is that Business donations allow you to specify a tax ID (if applicable) and receive a PDF invoice when finalized, which can be useful for company accounting purposes."
 msgstr "どちらの寄付も支援内容は同じです。違いは、法人（Business）寄付では（該当する場合）納税者番号を指定でき、確定後にPDFの請求書を受け取れる点で、会社の経理処理に役立つことがあります。"
 
@@ -234,15 +238,11 @@ msgstr "カテゴリから探す"
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:65
 msgid "Browse help articles about "
-msgstr "次のトピックのヘルプ記事を探す: "
+msgstr "次のトピックのヘルプ記事を探す："
 
 #: src/fluxer_marketing/components/communities_section.gleam:44
 msgid "Built for communities of all kinds."
 msgstr "あらゆるコミュニティのために。"
-
-#: src/fluxer_marketing/components/hero.gleam:64
-msgid "Built for friends, groups, and communities. Text, voice, and video. Open source and community-funded."
-msgstr "友だち、グループ、コミュニティのために。テキスト、音声、ビデオ。オープンソースで、コミュニティ資金で運営。"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:119
 msgid "Bulgarian"
@@ -254,7 +254,7 @@ msgstr "法人"
 
 #: src/fluxer_marketing/components/coming_features.gleam:56
 msgid "Call pop-out"
-msgstr "通話のポップアウト"
+msgstr "通話を別ウィンドウで表示"
 
 #: src/fluxer_marketing/components/footer.gleam:220
 #: src/fluxer_marketing/components/navigation.gleam:358
@@ -273,7 +273,7 @@ msgstr "言語を変更"
 
 #: src/fluxer_marketing/components/hero.gleam:59
 msgid "Chat that puts you first"
-msgstr "あなたが主役のチャット"
+msgstr "あなたの味方のチャット"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:150
 msgid "Chinese (Simplified)"
@@ -301,7 +301,7 @@ msgstr "言語を選択"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:564
 msgid "Choose your own 4-digit tag like #0001, #1337, or #9999 to make your username truly unique."
-msgstr "#0001、#1337、#9999 のような4桁タグを好きに選んで、ユーザー名を本当にユニークにできます。"
+msgstr "#0001、#1337、#9999 のような4桁タグを自由に選んで、ユーザー名を本当にユニークにできます。"
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:136
 msgid "Clear search"
@@ -361,7 +361,7 @@ msgstr "コミュニティテンプレート"
 
 #: src/fluxer_marketing/components/current_features.gleam:139
 msgid "Compact mode and display options"
-msgstr "コンパクトモードと表示オプション"
+msgstr "コンパクトモードと表示設定"
 
 #: src/fluxer_marketing/components/navigation.gleam:348
 msgid "Company"
@@ -390,7 +390,7 @@ msgstr "サポートに問い合わせ"
 
 #: src/fluxer_marketing/components/partner_section.gleam:70
 msgid "Content creators and community owners: unlock exclusive perks including free Plutonium, a Partner badge, custom vanity URLs, and more."
-msgstr "コンテンツクリエイターやコミュニティ運営者向け：無料のPlutonium、Partnerバッジ、カスタムのバニティURLなどの限定特典をアンロック。"
+msgstr "コンテンツクリエイター／コミュニティ運営者向け：無料のPlutonium、Partnerバッジ、カスタムのバニティURLなどの限定特典をアンロック。"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:178
 msgid "Contribute code"
@@ -406,7 +406,7 @@ msgstr "アカウントを作成して、一緒にいいものを作りましょ
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1191
 msgid "Create your Fluxer account to get that sweet Plutonium while it's hot."
-msgstr "アカウントを作成して、今のうちにPlutoniumをゲット。"
+msgstr "Fluxerアカウントを作って、今のうちにPlutoniumをゲット。"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:211
 msgid "Creator Monetization"
@@ -519,7 +519,7 @@ msgstr "Discovery"
 msgid "Display an exclusive Partner badge on your profile to stand out."
 msgstr "プロフィールに限定のPartnerバッジを表示して、ひときわ目立てます。"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:367
+#: src/fluxer_marketing/pages/donate_page.gleam:366
 msgid "Do I get anything in return?"
 msgstr "見返りはありますか？"
 
@@ -536,34 +536,34 @@ msgstr "寄付"
 #: src/fluxer_marketing/pages/donate_page.gleam:216
 #: src/fluxer_marketing/pages/donate_page.gleam:255
 msgid "Donate in EUR"
-msgstr "EURで寄付"
+msgstr "EURで寄付する"
 
 #: src/fluxer_marketing/pages/donate_page.gleam:203
 #: src/fluxer_marketing/pages/donate_page.gleam:242
 msgid "Donate in USD"
-msgstr "USDで寄付"
+msgstr "USDで寄付する"
 
 #: src/fluxer_marketing/components/footer.gleam:78
 #: src/fluxer_marketing/pages/download_page.gleam:329
 msgid "Donate to Fluxer"
 msgstr "Fluxerに寄付する"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:298
+#: src/fluxer_marketing/pages/donate_page.gleam:297
 msgid "Donate with Swish"
 msgstr "Swishで寄付する"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:370
+#: src/fluxer_marketing/pages/donate_page.gleam:369
 msgid "Donations are voluntary gifts and do not provide you with any product, service, ownership, or special rights. If you're looking for premium features, check out {0}."
 msgstr "寄付は任意の贈与であり、製品・サービス、所有権、特別な権利は提供しません。プレミアム機能をお探しなら、{0} をご覧ください。"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:308
 msgid "Done! You can now open Fluxer as if it were a regular program."
-msgstr "完了！Fluxerを通常のプログラムのように開くことができます。"
+msgstr "完了！これでFluxerを通常のアプリのように開けます。"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:206
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:256
 msgid "Done! You can open Fluxer from your home screen."
-msgstr "完了！ホーム画面からFluxerを開くことができます。"
+msgstr "完了！ホーム画面からFluxerを開けます。"
 
 #: src/fluxer_marketing/components/footer.gleam:132
 #: src/fluxer_marketing/components/navigation.gleam:84
@@ -590,7 +590,7 @@ msgstr "Fluxerのロゴやブランド素材をダウンロードし、プレス
 #: src/fluxer_marketing/components/platform_download_button.gleam:428
 #: src/fluxer_marketing/components/platform_download_button.gleam:538
 msgid "Download for "
-msgstr "次の環境向けにダウンロード: "
+msgstr "ダウンロード："
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:191
 msgid "Download for Windows"
@@ -678,7 +678,7 @@ msgstr "Discoveryで注目表示"
 
 #: src/fluxer_marketing/components/coming_features.gleam:30
 msgid "Federation"
-msgstr "連邦"
+msgstr "フェデレーション"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:357
 msgid "File upload size"
@@ -724,7 +724,7 @@ msgstr "Fluxerコミュニティチーム"
 msgid "Fluxer Partner"
 msgstr "Fluxer Partner"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:372
+#: src/fluxer_marketing/pages/donate_page.gleam:371
 #: src/fluxer_marketing/pages/plutonium_page.gleam:51
 #: src/fluxer_marketing/pages/plutonium_page.gleam:76
 msgid "Fluxer Plutonium"
@@ -760,7 +760,7 @@ msgstr "@fluxer.app をフォロー"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:120
 msgid "Follow us on Bluesky"
-msgstr "Blueskyでフォロー"
+msgstr "Blueskyでフォローする"
 
 #: src/fluxer_marketing/pages/press_page.gleam:230
 msgid "For backgrounds, text on dark surfaces, and creating contrast."
@@ -800,7 +800,7 @@ msgstr "無料のPlutonium"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1024
 msgid "Free Self-Hosting"
-msgstr "無料セルフホスティング"
+msgstr "セルフホスト無料"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:152
 msgid "Free vs Plutonium"
@@ -810,7 +810,7 @@ msgstr "FreeとPlutoniumの比較"
 msgid "French"
 msgstr "フランス語"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:346
+#: src/fluxer_marketing/pages/donate_page.gleam:345
 msgid "Frequently Asked Questions"
 msgstr "よくある質問"
 
@@ -881,7 +881,7 @@ msgstr "参加する"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:956
 msgid "Get lifetime Plutonium on Fluxer.app plus an Operator Pass for self-hosting. Pay {0} one-time. Available until October 1, 2026 or when {1} slots are claimed."
-msgstr "Fluxer.appで生涯Plutoniumに加えて、セルフホスティング用のOperator Passも。{0}を一度だけ支払い。2026年10月1日まで、または{1}枠が埋まり次第終了。"
+msgstr "Fluxer.appで生涯Plutonium＋セルフホスト用のOperator Pass。料金は{0}の買い切りです。2026年10月1日まで、または{1}枠が埋まり次第終了。"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:51
 msgid "Get more with Fluxer Plutonium"
@@ -897,16 +897,16 @@ msgstr "アプリを開いていないときもプッシュ通知を受け取れ
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:89
 msgid "Get updates, see upcoming features, discuss suggestions, and chat with the team."
-msgstr "更新情報を受け取り、今後の機能を見て、提案を話し合い、チームともチャットできます。"
+msgstr "アップデート情報を受け取り、今後の機能を確認し、提案を話し合い、チームともチャットできます。"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:385
 #: src/fluxer_marketing/pages/plutonium_page.gleam:601
 msgid "Global emoji & sticker access"
-msgstr "絵文字＆スタンプをどこでも利用"
+msgstr "どこでも使える絵文字＆スタンプ"
 
 #: src/fluxer_marketing/components/coming_features.gleam:53
 msgid "Global voice regions"
-msgstr "グローバル音声リージョン"
+msgstr "世界各地の音声リージョン"
 
 #: src/fluxer_marketing/pages/not_found_page.gleam:78
 msgid "Go home"
@@ -983,7 +983,7 @@ msgstr "ヒンディー語"
 
 #: src/fluxer_marketing/components/communities_section.gleam:72
 msgid "Hobbyists"
-msgstr "趣味の人たち"
+msgstr "趣味"
 
 #: src/fluxer_marketing/components/current_features.gleam:85
 msgid "Hop in a call with friends or share your screen to work together."
@@ -991,7 +991,7 @@ msgstr "友だちと通話したり、画面共有で一緒に作業したりで
 
 #: src/fluxer_marketing/components/current_features.gleam:153
 msgid "Host your own instance"
-msgstr "自分でインスタンスを運用"
+msgstr "自分のインスタンスを運用"
 
 #: src/fluxer_marketing/pages/help_center_page.gleam:64
 #: src/fluxer_marketing/pages/help_search_page.gleam:63
@@ -1012,7 +1012,7 @@ msgstr "ハンガリー語"
 
 #: src/fluxer_marketing/components/footer.gleam:329
 msgid "IP geolocation data by "
-msgstr "IPジオロケーションデータ提供: "
+msgstr "IPジオロケーションデータ提供："
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:223
 #: src/fluxer_marketing/pages/help_article_page.gleam:365
@@ -1044,11 +1044,11 @@ msgstr "Fluxerをアプリとしてインストールする"
 msgid "Intel"
 msgstr "Intel"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:377
+#: src/fluxer_marketing/pages/donate_page.gleam:376
 msgid "Is my donation tax-deductible?"
 msgstr "寄付は税控除の対象になりますか？"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:359
+#: src/fluxer_marketing/pages/donate_page.gleam:358
 msgid "Is this a subscription?"
 msgstr "サブスクリプションですか？"
 
@@ -1220,13 +1220,13 @@ msgstr "記事が見つかりません。"
 
 #: src/fluxer_marketing/pages/help_search_page.gleam:94
 msgid "No results found for"
-msgstr "次の検索結果はありません: "
+msgstr "次の検索結果はありません："
 
-#: src/fluxer_marketing/pages/donate_page.gleam:380
+#: src/fluxer_marketing/pages/donate_page.gleam:379
 msgid "No, donations to Fluxer are not tax-deductible as we are not a registered charitable organization."
 msgstr "いいえ。Fluxerは登録慈善団体ではないため、寄付は税控除の対象になりません。"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:362
+#: src/fluxer_marketing/pages/donate_page.gleam:361
 msgid "No, this is a one-time donation. You choose the amount you want to give, and there are no recurring charges."
 msgstr "いいえ。これは一度きりの寄付です。金額は任意で、継続的な請求はありません。"
 
@@ -1260,7 +1260,7 @@ msgstr "一度の購入で、生涯使えます"
 
 #: src/fluxer_marketing/components/plutonium_banner.gleam:43
 msgid "Only {0} of {1} Visionary lifetime slots left — lifetime Plutonium + Operator Pass"
-msgstr "{1}枠中、残り{0}枠 — 生涯Plutonium＋Operator Pass"
+msgstr "残り{0}/{1}枠 — 生涯Plutonium＋Operator Pass"
 
 #: src/fluxer_marketing/components/navigation.gleam:172
 msgid "Open Fluxer"
@@ -1368,7 +1368,7 @@ msgstr "ポルトガル語（ブラジル）"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:154
 msgid "Premium quality"
-msgstr "プレミアム品質"
+msgstr "高品質"
 
 #: src/fluxer_marketing/components/footer.gleam:198
 #: src/fluxer_marketing/components/navigation.gleam:337
@@ -1381,15 +1381,15 @@ msgstr "「ホーム画面に追加」を押してください"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:249
 msgid "Press \"Add\" in the upper-right corner"
-msgstr "右上隅の「追加」を押します"
+msgstr "右上の「追加」を押してください"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:200
 msgid "Press \"Install app\""
-msgstr "「アプリをインストール」を押します"
+msgstr "「アプリをインストール」を押してください"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:301
 msgid "Press \"Install\" in the popup that appears"
-msgstr "表示されるポップアップの「インストール」を押します"
+msgstr "表示されるポップアップの「インストール」を押してください"
 
 #: src/fluxer_marketing/pages/press_page.gleam:45
 #: src/fluxer_marketing/pages/press_page.gleam:65
@@ -1402,15 +1402,15 @@ msgstr "プレス窓口"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:197
 msgid "Press the \"More\" (\\u{22EE}) button in the top-right corner"
-msgstr "右上の「もっと見る」(\\u{22EE}) ボタンを押します"
+msgstr "右上の「その他」（\\u{22EE}）ボタンを押してください"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:243
 msgid "Press the Share button (rectangle with upwards-pointing arrow)"
-msgstr "共有ボタン（上向きの矢印が付いた長方形）を押します"
+msgstr "共有ボタン（上向き矢印の付いた四角）を押してください"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:296
 msgid "Press the install button (downwards-pointing arrow on monitor) in the address bar"
-msgstr "アドレスバーのインストールボタン（モニター上の下向き矢印）を押します"
+msgstr "アドレスバーのインストールボタン（モニターに下向き矢印）を押してください"
 
 #: src/fluxer_marketing/components/footer.gleam:110
 #: src/fluxer_marketing/components/navigation.gleam:93
@@ -1420,7 +1420,7 @@ msgstr "料金"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:851
 msgid "Priority support and Operators community access for self-hosting"
-msgstr "セルフホスティング向けの優先サポートとOperatorsコミュニティへの参加"
+msgstr "セルフホスト向けの優先サポートとOperatorsコミュニティへの参加"
 
 #: src/fluxer_marketing/components/footer.gleam:249
 #: src/fluxer_marketing/components/navigation.gleam:406
@@ -1459,7 +1459,7 @@ msgstr "フォーラムをWebに公開"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:883
 msgid "Purchase Visionary directly in the app after creating your account. Your purchase date and order number will be displayed on your profile (can be hidden in privacy settings)."
-msgstr "アカウント作成後、アプリ内で直接Visionaryを購入できます。購入日と注文番号はプロフィールに表示されます（プライバシー設定で非表示にできます）。"
+msgstr "アカウント作成後、アプリ内でVisionaryを直接購入できます。購入日と注文番号はプロフィールに表示されます（プライバシー設定で非表示にできます）。"
 
 #: src/fluxer_marketing/components/current_features.gleam:122
 msgid "Quick switcher with keyboard shortcuts"
@@ -1527,7 +1527,7 @@ msgstr "あなたの影響力を称える特典で、コミュニティの成長
 
 #: src/fluxer_marketing/pages/careers_page.gleam:344
 msgid "Right now we're focused on shipping a great product and keeping Fluxer independent and bootstrapped."
-msgstr "今は素晴らしいプロダクトを届けること、そしてFluxerを独立・自走のまま保つことに集中しています。"
+msgstr "今は、素晴らしいプロダクトを届けることと、Fluxerを独立・自走のまま保つことに集中しています。"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:143
 msgid "Romanian"
@@ -1556,7 +1556,7 @@ msgstr "保存したメディア"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:584
 msgid "Schedule messages to be sent at a specific time in the future. No DeLorean required."
-msgstr "未来の指定した時刻に送信するよう、メッセージを予約できます。デロリアンは不要。"
+msgstr "未来の指定時刻に送信するよう、メッセージを予約できます。デロリアンは不要。"
 
 #: src/fluxer_marketing/components/current_features.gleam:89
 msgid "Screen sharing built in"
@@ -1564,7 +1564,7 @@ msgstr "画面共有を標準搭載"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:132
 msgid "Screenshots courtesy of "
-msgstr "スクリーンショットは提供によるものです"
+msgstr "スクリーンショット提供："
 
 #: src/fluxer_marketing/pages/help_components.gleam:93
 msgid "Search"
@@ -1585,7 +1585,7 @@ msgstr "ヘルプを検索..."
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:92
 msgid "Search in "
-msgstr "次の中を検索: "
+msgstr "次の中を検索："
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:90
 #: src/fluxer_marketing/pages/help_center_page.gleam:65
@@ -1595,11 +1595,11 @@ msgstr "ヘルプ記事を検索するか、カテゴリから探せます。"
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:126
 msgid "Search results for"
-msgstr "検索結果: "
+msgstr "検索結果："
 
 #: src/fluxer_marketing/pages/help_search_page.gleam:49
 msgid "Search results for: "
-msgstr "検索結果: "
+msgstr "検索結果："
 
 #: src/fluxer_marketing/components/current_features.gleam:120
 msgid "Search through message history"
@@ -1619,11 +1619,11 @@ msgstr "特典を見る"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:979
 msgid "Self-Hosting"
-msgstr "セルフホスティング"
+msgstr "セルフホスト"
 
 #: src/fluxer_marketing/components/current_features.gleam:146
 msgid "Self-hosting"
-msgstr "セルフホスティング"
+msgstr "セルフホスト"
 
 #: src/fluxer_marketing/pages/download_page.gleam:330
 msgid "Send a one-time gift"
@@ -1635,7 +1635,7 @@ msgstr "以下の情報を添えてメールをお送りください："
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:634
 msgid "Set personalized sounds when you join voice channels to make your presence known."
-msgstr "ボイスチャンネルに参加したときのサウンドを設定して、存在感をアピールできます。"
+msgstr "ボイスチャンネル参加時のサウンドを設定して、存在感をアピールできます。"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:408
 msgid "Share a bit about yourself, what you'd like to work on, and links to any relevant work."
@@ -1696,7 +1696,7 @@ msgstr "アニメーションするプロフィール画像やバナーで、個
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:127
 msgid "Stay updated on news, service status, and what's happening. You can also follow "
-msgstr "ニュース、稼働状況、最新情報をチェックできます。さらに "
+msgstr "ニュースや稼働状況、最新情報をチェックできます。さらに"
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:218
 #: src/fluxer_marketing/pages/help_article_page.gleam:360
@@ -1709,7 +1709,7 @@ msgstr "通話用の動画背景を最大15個まで保存。Downloadsフォル�
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:614
 msgid "Stream in up to 4K resolution at 60fps so others can see you in stunning clarity."
-msgstr "最大4K・60fpsで配信して、驚くほど鮮明に見せられます。"
+msgstr "最大4K・60fpsで配信。相手に驚くほど鮮明に見せられます。"
 
 #: src/fluxer_marketing/components/coming_features.gleam:58
 msgid "Streamer mode"
@@ -1748,7 +1748,7 @@ msgstr "タイ語"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:998
 msgid "The Operator Pass is optional: pay for support and community access."
-msgstr "Operator Passは任意です。サポートとコミュニティ参加のためにお支払いください。"
+msgstr "Operator Passは任意です。サポートとコミュニティ参加のためにご購入ください。"
 
 #: src/fluxer_marketing/components/coming_features.gleam:89
 msgid "The future is being built right now. These features are coming soon."
@@ -1760,7 +1760,7 @@ msgstr "有償ロールのこれから"
 
 #: src/fluxer_marketing/components/coming_features.gleam:51
 msgid "Theme marketplace"
-msgstr "テーママーケット"
+msgstr "テーママーケットプレイス"
 
 #: src/fluxer_marketing/pages/download_page.gleam:255
 msgid "This isn't a full replacement for the desktop app yet, and some things you'd expect from a mobile chat app are still missing."
@@ -1786,11 +1786,11 @@ msgstr "信頼と安全"
 
 #: src/fluxer_marketing/pages/help_search_page.gleam:140
 msgid "Try different keywords or browse our categories."
-msgstr "別のキーワードを試すか、カテゴリを参照してください。"
+msgstr "別のキーワードを試すか、カテゴリをご覧ください。"
 
 #: src/fluxer_marketing/components/hackernews_banner.gleam:75
 msgid "Try it without an email at"
-msgstr "メールなしで試してみて"
+msgstr "メール不要で試す："
 
 #: src/fluxer_marketing/components/locale_selector.gleam:147
 msgid "Turkish"
@@ -1818,7 +1818,7 @@ msgstr "独立系コミュニケーションプラットフォームを支援し
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:611
 msgid "Up to 4K video quality"
-msgstr "最大4Kのビデオ品質"
+msgstr "最大4K画質"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:54
 msgid "Upgrade to Plutonium for $4.99/mo: custom username tags, per-community profiles, message scheduling, 4K streaming, 500MB uploads, and more exclusive features."
@@ -1846,7 +1846,7 @@ msgstr "アニメーション絵文字を使う"
 
 #: src/fluxer_marketing/components/current_features.gleam:154
 msgid "Use our desktop client (mobile coming soon)"
-msgstr "デスクトップクライアントを使用してください（モバイル版はもうすぐ登場）"
+msgstr "デスクトップクライアントを使用（モバイルは近日公開）"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:604
 msgid "Use your favorite emojis and stickers from any community, anywhere across Fluxer."
@@ -1915,7 +1915,7 @@ msgstr "すべての申請を確認し、できるだけ早くご連絡します
 
 #: src/fluxer_marketing/pages/press_page.gleam:301
 msgid "We typically respond within 24 hours during business days."
-msgstr "通常、営業日で24時間以内に返信します。"
+msgstr "通常、営業日であれば24時間以内に返信します。"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:62
 msgid "We're building a complete platform with all the features you'd expect. But we can't do it without your help!"
@@ -1937,7 +1937,7 @@ msgstr "Fluxerを支える事業はまだ構築途中で、現時点では有償
 msgid "Webhooks and bot support"
 msgstr "WebhookとBotのサポート"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:351
+#: src/fluxer_marketing/pages/donate_page.gleam:350
 msgid "What does my donation support?"
 msgstr "寄付は何に使われますか？"
 
@@ -1953,7 +1953,7 @@ msgstr "今使える機能"
 msgid "What's coming next"
 msgstr "次に来るもの"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:385
+#: src/fluxer_marketing/pages/donate_page.gleam:384
 msgid "What's the difference between Individual and Business?"
 msgstr "個人と法人の違いは何ですか？"
 
@@ -1989,7 +1989,7 @@ msgstr "コミュニティは認証済みステータスを得て、信頼性を
 msgid "Your community receives increased limits when you need them."
 msgstr "必要なときに、コミュニティの各種上限が引き上げられます。"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:354
+#: src/fluxer_marketing/pages/donate_page.gleam:353
 msgid "Your donation helps fund Fluxer's infrastructure costs, including servers, bandwidth, storage, and ongoing development of new features. It helps us maintain and improve the platform for everyone."
 msgstr "寄付は、サーバー、帯域、ストレージなどのインフラ費用と、新機能の継続的な開発に充てられます。プラットフォームをみんなのために維持・改善する助けになります。"
 
@@ -2034,7 +2034,7 @@ msgid "one-time purchase"
 msgstr "買い切り"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:68
-#: src/fluxer_marketing/pages/donate_page.gleam:284
+#: src/fluxer_marketing/pages/donate_page.gleam:282
 #: src/fluxer_marketing/pages/plutonium_page.gleam:106
 #: src/fluxer_marketing/pages/plutonium_page.gleam:230
 msgid "or"
@@ -2054,9 +2054,8 @@ msgstr "件の検索結果："
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:801
 msgid "{0} of {1} slots left"
-msgstr "{1}枠中、残り{0}枠"
+msgstr "残り{0}/{1}枠"
 
 #: src/fluxer_marketing/components/footer.gleam:325
 msgid "© Fluxer Platform AB (Swedish limited liability company: 559537-3993)"
 msgstr "© Fluxer Platform AB（スウェーデンの有限責任会社：559537-3993）"
-

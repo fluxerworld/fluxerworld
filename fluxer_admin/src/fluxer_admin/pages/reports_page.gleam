@@ -20,13 +20,12 @@ import fluxer_admin/api/reports
 import fluxer_admin/components/date_time
 import fluxer_admin/components/flash
 import fluxer_admin/components/layout
-import fluxer_admin/components/review_deck
-import fluxer_admin/components/review_hintbar
 import fluxer_admin/components/ui
 import fluxer_admin/web.{type Context, type Session, href}
 import gleam/int
 import gleam/list
 import gleam/option
+import gleam/order
 import gleam/string
 import gleam/uri
 import lustre/attribute as a
@@ -55,6 +54,95 @@ const report_category_options = [
   #("extremist_community", "Extremist Community"),
 ]
 
+fn sort_option(
+  value: String,
+  label: String,
+  current: option.Option(String),
+) -> element.Element(a) {
+  h.option([a.value(value), a.selected(current == option.Some(value))], label)
+}
+
+fn limit_option(value: Int, current: Int) -> element.Element(a) {
+  h.option(
+    [a.value(int.to_string(value)), a.selected(value == current)],
+    int.to_string(value),
+  )
+}
+
+fn quick_filter_chip(
+  ctx: Context,
+  label: String,
+  status_filter: option.Option(Int),
+  type_filter: option.Option(Int),
+  category_filter: option.Option(String),
+  query: option.Option(String),
+  sort: option.Option(String),
+  limit: Int,
+) -> element.Element(a) {
+  let url =
+    build_pagination_url(
+      0,
+      query,
+      status_filter,
+      type_filter,
+      category_filter,
+      sort,
+      limit,
+    )
+
+  h.a(
+    [
+      href(ctx, url),
+      a.class(
+        "px-3 py-1.5 bg-neutral-100 text-neutral-700 border border-neutral-200 rounded-full text-sm hover:bg-neutral-200 transition-colors",
+      ),
+    ],
+    [element.text(label)],
+  )
+}
+
+fn selection_toolbar() -> element.Element(a) {
+  h.div(
+    [
+      a.class(
+        "flex items-center justify-between gap-3 bg-white border border-neutral-200 rounded-lg px-3 py-2 mb-3",
+      ),
+      a.attribute("data-report-toolbar", "true"),
+    ],
+    [
+      h.div([a.class("flex items-center gap-2")], [
+        h.input([
+          a.type_("checkbox"),
+          a.class("h-4 w-4 rounded border-neutral-300"),
+          a.attribute("data-report-select-all", "true"),
+        ]),
+        h.span([a.class("text-sm text-neutral-700")], [
+          element.text("Select all on this page"),
+        ]),
+      ]),
+      h.div([a.class("flex items-center gap-2 flex-wrap")], [
+        h.span(
+          [
+            a.attribute("data-report-selected-count", "true"),
+            a.class("text-sm text-neutral-600"),
+          ],
+          [element.text("0 selected")],
+        ),
+        h.button(
+          [
+            a.attribute("data-report-bulk-resolve", "true"),
+            a.class(
+              "px-3 py-1.5 bg-green-600 text-white rounded-lg text-sm disabled:opacity-40 disabled:cursor-not-allowed",
+            ),
+            a.disabled(True),
+          ],
+          [element.text("Resolve selected")],
+        ),
+      ]),
+    ],
+  )
+}
+
 pub fn view(
   ctx: Context,
   session: Session,
@@ -65,6 +153,8 @@ pub fn view(
   type_filter: option.Option(Int),
   category_filter: option.Option(String),
   page: Int,
+  limit: Int,
+  sort: option.Option(String),
 ) -> Response {
   view_with_mode(
     ctx,
@@ -76,57 +166,9 @@ pub fn view(
     type_filter,
     category_filter,
     page,
-    True,
+    limit,
+    sort,
   )
-}
-
-pub fn view_fragment(
-  ctx: Context,
-  session: Session,
-  query: option.Option(String),
-  status_filter: option.Option(Int),
-  type_filter: option.Option(Int),
-  category_filter: option.Option(String),
-  page: Int,
-) -> Response {
-  let limit = 50
-  let offset = page * limit
-
-  let result =
-    reports.search_reports(
-      ctx,
-      session,
-      query,
-      status_filter,
-      type_filter,
-      category_filter,
-      limit,
-      offset,
-    )
-
-  let content = case result {
-    Ok(response) -> {
-      h.div([a.attribute("data-review-fragment", "true")], [
-        h.div(
-          [a.class("max-w-7xl mx-auto")],
-          list.map(response.reports, fn(report) {
-            render_report_card(ctx, report)
-          }),
-        ),
-      ])
-    }
-    Error(err) -> {
-      h.div(
-        [
-          a.attribute("data-review-fragment", "true"),
-          a.attribute("data-fragment-error", "true"),
-        ],
-        [h.span([], [element.text(api_error_message(err))])],
-      )
-    }
-  }
-
-  wisp.html_response(element.to_document_string(content), 200)
 }
 
 pub fn view_with_mode(
@@ -139,9 +181,9 @@ pub fn view_with_mode(
   type_filter: option.Option(Int),
   category_filter: option.Option(String),
   page: Int,
-  table_view: Bool,
+  limit: Int,
+  sort: option.Option(String),
 ) -> Response {
-  let limit = 50
   let offset = page * limit
 
   let result =
@@ -158,6 +200,7 @@ pub fn view_with_mode(
 
   let content = case result {
     Ok(response) -> {
+      let sorted_reports = sort_reports(response.reports, sort)
       h.div([a.class("max-w-7xl mx-auto")], [
         ui.flex_row_between([
           ui.heading_page("Reports"),
@@ -167,7 +210,7 @@ pub fn view_with_mode(
                 "Found "
                 <> int.to_string(response.total)
                 <> " results (showing "
-                <> int.to_string(list.length(response.reports))
+                <> int.to_string(list.length(sorted_reports))
                 <> ")",
               ),
             ]),
@@ -179,41 +222,28 @@ pub fn view_with_mode(
           status_filter,
           type_filter,
           category_filter,
-          table_view,
+          sort,
+          limit,
         ),
         case list.is_empty(response.reports) {
           True -> empty_state()
           False ->
-            case table_view {
-              True ->
-                h.div([a.class("mt-4")], [
-                  render_reports_table(ctx, response.reports),
-                  render_pagination(
-                    ctx,
-                    response.total,
-                    response.offset,
-                    response.limit,
-                    page,
-                    query,
-                    status_filter,
-                    type_filter,
-                    category_filter,
-                  ),
-                ])
-              False ->
-                h.div([a.class("mt-4")], [
-                  render_review_deck(
-                    ctx,
-                    response.reports,
-                    response.total,
-                    page,
-                    query,
-                    status_filter,
-                    type_filter,
-                    category_filter,
-                  ),
-                ])
-            }
+            h.div([a.class("mt-4")], [
+              selection_toolbar(),
+              render_reports_table(ctx, sorted_reports),
+              render_pagination(
+                ctx,
+                response.total,
+                response.offset,
+                response.limit,
+                page,
+                query,
+                status_filter,
+                type_filter,
+                category_filter,
+                sort,
+              ),
+            ])
         },
       ])
     }
@@ -228,7 +258,7 @@ pub fn view_with_mode(
       session,
       current_admin,
       flash_data,
-      content,
+      h.div([], [content, reports_script()]),
     )
   wisp.html_response(element.to_document_string(html), 200)
 }
@@ -239,10 +269,63 @@ fn render_filters(
   status_filter: option.Option(Int),
   type_filter: option.Option(Int),
   category_filter: option.Option(String),
-  table_view: Bool,
+  sort: option.Option(String),
+  limit: Int,
 ) {
   h.div([a.class("bg-white border border-neutral-200 rounded-lg p-4 mb-6")], [
     h.form([a.method("get"), a.class("space-y-4")], [
+      h.div([a.class("flex flex-wrap gap-2")], [
+        quick_filter_chip(
+          ctx,
+          "Pending",
+          option.Some(0),
+          type_filter,
+          category_filter,
+          query,
+          sort,
+          limit,
+        ),
+        quick_filter_chip(
+          ctx,
+          "Resolved",
+          option.Some(1),
+          type_filter,
+          category_filter,
+          query,
+          sort,
+          limit,
+        ),
+        quick_filter_chip(
+          ctx,
+          "Message",
+          status_filter,
+          option.Some(0),
+          category_filter,
+          query,
+          sort,
+          limit,
+        ),
+        quick_filter_chip(
+          ctx,
+          "User",
+          status_filter,
+          option.Some(1),
+          category_filter,
+          query,
+          sort,
+          limit,
+        ),
+        quick_filter_chip(
+          ctx,
+          "Guild",
+          status_filter,
+          option.Some(2),
+          category_filter,
+          query,
+          sort,
+          limit,
+        ),
+      ]),
       h.div([a.class("w-full")], [
         h.label([a.class("block body-sm text-neutral-700 mb-2")], [
           element.text("Search"),
@@ -257,7 +340,7 @@ fn render_filters(
           ),
         ]),
       ]),
-      h.div([a.class("grid grid-cols-1 md:grid-cols-3 gap-4")], [
+      h.div([a.class("grid grid-cols-1 md:grid-cols-4 gap-4")], [
         h.div([a.class("flex-1")], [
           h.label([a.class("block body-sm text-neutral-700 mb-2")], [
             element.text("Status"),
@@ -350,6 +433,44 @@ fn render_filters(
             ),
           ])
         },
+        h.div([a.class("flex-1")], [
+          h.label([a.class("block body-sm text-neutral-700 mb-2")], [
+            element.text("Sort"),
+          ]),
+          h.select(
+            [
+              a.name("sort"),
+              a.class(
+                "w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent",
+              ),
+            ],
+            [
+              sort_option("reported_at_desc", "Newest first", sort),
+              sort_option("reported_at_asc", "Oldest first", sort),
+              sort_option("status_asc", "Status ↑", sort),
+              sort_option("status_desc", "Status ↓", sort),
+            ],
+          ),
+        ]),
+        h.div([a.class("flex-1")], [
+          h.label([a.class("block body-sm text-neutral-700 mb-2")], [
+            element.text("Page size"),
+          ]),
+          h.select(
+            [
+              a.name("limit"),
+              a.class(
+                "w-full px-3 py-2 border border-neutral-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-neutral-900 focus:border-transparent",
+              ),
+            ],
+            [
+              limit_option(25, limit),
+              limit_option(50, limit),
+              limit_option(100, limit),
+              limit_option(150, limit),
+            ],
+          ),
+        ]),
       ]),
       h.div([a.class("flex gap-2")], [
         h.button(
@@ -370,54 +491,6 @@ fn render_filters(
           ],
           [element.text("Clear")],
         ),
-        h.a(
-          [
-            href(
-              ctx,
-              build_table_view_url(
-                query,
-                status_filter,
-                type_filter,
-                category_filter,
-                False,
-              ),
-            ),
-            a.class(
-              "px-4 py-2 "
-              <> case table_view {
-                True ->
-                  "bg-neutral-100 text-neutral-600 border border-neutral-200"
-                False -> "bg-white text-neutral-900 border border-neutral-300"
-              }
-              <> " rounded-lg label hover:bg-neutral-50 transition-colors",
-            ),
-          ],
-          [element.text("Deck")],
-        ),
-        h.a(
-          [
-            href(
-              ctx,
-              build_table_view_url(
-                query,
-                status_filter,
-                type_filter,
-                category_filter,
-                True,
-              ),
-            ),
-            a.class(
-              "px-4 py-2 "
-              <> case table_view {
-                True -> "bg-white text-neutral-900 border border-neutral-300"
-                False ->
-                  "bg-neutral-100 text-neutral-600 border border-neutral-200"
-              }
-              <> " rounded-lg label hover:bg-neutral-50 transition-colors",
-            ),
-          ],
-          [element.text("Table view")],
-        ),
       ]),
     ]),
   ])
@@ -427,6 +500,17 @@ fn render_reports_table(ctx: Context, reports: List(reports.SearchReportResult))
   let base_cell = ui.table_cell_class
 
   let columns = [
+    ui.TableColumn(
+      "",
+      base_cell <> " w-10",
+      fn(report: reports.SearchReportResult) {
+        h.input([
+          a.type_("checkbox"),
+          a.class("h-4 w-4 rounded border-neutral-300"),
+          a.attribute("data-report-select", report.report_id),
+        ])
+      },
+    ),
     ui.TableColumn(
       "Reported At",
       base_cell <> " whitespace-nowrap",
@@ -463,7 +547,9 @@ fn render_reports_table(ctx: Context, reports: List(reports.SearchReportResult))
     ui.TableColumn(
       "Status",
       "px-6 py-4 whitespace-nowrap",
-      fn(report: reports.SearchReportResult) { status_pill(report.status) },
+      fn(report: reports.SearchReportResult) {
+        status_pill(report.report_id, report.status)
+      },
     ),
     ui.TableColumn(
       "Actions",
@@ -474,7 +560,9 @@ fn render_reports_table(ctx: Context, reports: List(reports.SearchReportResult))
     ),
   ]
 
-  ui.data_table(columns, reports)
+  h.div([a.attribute("data-report-table", "true")], [
+    ui.data_table(columns, reports),
+  ])
 }
 
 fn render_reported_cell(ctx: Context, report: reports.SearchReportResult) {
@@ -514,22 +602,24 @@ fn render_reporter_cell(ctx: Context, report: reports.SearchReportResult) {
       h.span([a.class("text-sm text-neutral-900")], [element.text(primary)])
   }
 
-  let detail_fragments = []
-  let detail_fragments = case report.reporter_full_legal_name {
-    option.Some(full_name) ->
-      list.append(detail_fragments, [element.text(full_name)])
-    option.None -> detail_fragments
+  let detail_values = []
+  let detail_values = case report.reporter_full_legal_name {
+    option.Some(full_name) -> list.append(detail_values, [full_name])
+    option.None -> detail_values
   }
 
-  let detail_fragments = case report.reporter_country_of_residence {
-    option.Some(country) ->
-      list.append(detail_fragments, [element.text(country)])
-    option.None -> detail_fragments
+  let detail_values = case report.reporter_country_of_residence {
+    option.Some(country) -> list.append(detail_values, [country])
+    option.None -> detail_values
   }
 
-  let secondary = case list.is_empty(detail_fragments) {
+  let secondary = case list.is_empty(detail_values) {
     True -> element.none()
-    False -> h.div([a.class("text-xs text-neutral-500")], detail_fragments)
+    False ->
+      h.div(
+        [a.class("flex flex-col gap-1 text-xs text-neutral-500")],
+        list.map(detail_values, fn(value) { h.div([], [element.text(value)]) }),
+      )
   }
 
   h.div([a.class("flex flex-col gap-1")], [
@@ -588,6 +678,62 @@ fn render_reported_guild_cell(ctx: Context, report: reports.SearchReportResult) 
   }
 }
 
+fn compare_reports(
+  sort_key: String,
+  a: reports.SearchReportResult,
+  b: reports.SearchReportResult,
+) -> Bool {
+  case sort_key {
+    "reported_at_asc" ->
+      string.compare(a.reported_at, b.reported_at) == order.Lt
+    "status_asc" ->
+      case a.status == b.status {
+        True -> string.compare(a.reported_at, b.reported_at) == order.Lt
+        False -> a.status < b.status
+      }
+    "status_desc" ->
+      case a.status == b.status {
+        True -> string.compare(a.reported_at, b.reported_at) == order.Lt
+        False -> a.status > b.status
+      }
+    _ ->
+      case string.compare(a.reported_at, b.reported_at) {
+        order.Gt -> True
+        order.Eq ->
+          case string.compare(a.report_id, b.report_id) {
+            order.Lt -> True
+            _ -> False
+          }
+        order.Lt -> False
+      }
+  }
+}
+
+fn insert_sorted(
+  acc: List(reports.SearchReportResult),
+  item: reports.SearchReportResult,
+  sort_key: String,
+) -> List(reports.SearchReportResult) {
+  case acc {
+    [] -> [item]
+    [head, ..tail] ->
+      case compare_reports(sort_key, item, head) {
+        True -> [item, ..acc]
+        False -> [head, ..insert_sorted(tail, item, sort_key)]
+      }
+  }
+}
+
+fn sort_reports(
+  reports_list: List(reports.SearchReportResult),
+  sort: option.Option(String),
+) -> List(reports.SearchReportResult) {
+  let sort_key = option.unwrap(sort, "reported_at_desc")
+  list.fold(reports_list, [], fn(acc, item) {
+    insert_sorted(acc, item, sort_key)
+  })
+}
+
 fn format_user_tag(report: reports.SearchReportResult) -> String {
   case report.reported_user_tag {
     option.Some(tag) -> tag
@@ -605,15 +751,52 @@ fn format_user_tag(report: reports.SearchReportResult) -> String {
 }
 
 fn render_actions_cell(ctx: Context, report: reports.SearchReportResult) {
-  h.a(
-    [
-      href(ctx, "/reports/" <> report.report_id),
-      a.class(
-        "inline-flex items-center px-3 py-1.5 bg-neutral-900 text-white rounded text-xs font-medium hover:bg-neutral-800 transition-colors",
+  let resolve_button = case report.status == 0 {
+    True ->
+      h.form(
+        [
+          a.method("post"),
+          a.attribute("action", "/reports/" <> report.report_id <> "/resolve"),
+          a.attribute("data-report-action", "resolve"),
+          a.attribute("data-report-id", report.report_id),
+          a.attribute("data-confirm", "Resolve this report?"),
+          a.attribute("data-async", "true"),
+        ],
+        [
+          h.input([a.type_("hidden"), a.name("_method"), a.value("post")]),
+          h.input([
+            a.type_("hidden"),
+            a.name("public_comment"),
+            a.value("Resolved via reports table"),
+          ]),
+          h.button(
+            [
+              a.type_("submit"),
+              a.class(
+                "px-3 py-1.5 bg-green-600 text-white rounded text-xs font-medium hover:bg-green-700 transition-colors",
+              ),
+            ],
+            [element.text("Resolve")],
+          ),
+        ],
+      )
+    False -> element.none()
+  }
+
+  h.div([a.class("flex flex-col gap-2")], [
+    h.div([a.class("flex flex-wrap gap-2")], [
+      h.a(
+        [
+          href(ctx, "/reports/" <> report.report_id),
+          a.class(
+            "inline-flex items-center px-3 py-1.5 bg-neutral-900 text-white rounded text-xs font-medium hover:bg-neutral-800 transition-colors",
+          ),
+        ],
+        [element.text("View Details")],
       ),
-    ],
-    [element.text("View Details")],
-  )
+      resolve_button,
+    ]),
+  ])
 }
 
 fn render_pagination(
@@ -626,6 +809,7 @@ fn render_pagination(
   status_filter: option.Option(Int),
   type_filter: option.Option(Int),
   category_filter: option.Option(String),
+  sort: option.Option(String),
 ) {
   let total_pages = { total + limit - 1 } / limit
   let has_previous = current_page > 0
@@ -641,6 +825,8 @@ fn render_pagination(
             status_filter,
             type_filter,
             category_filter,
+            sort,
+            limit,
           )
 
         h.a(
@@ -680,6 +866,8 @@ fn render_pagination(
             status_filter,
             type_filter,
             category_filter,
+            sort,
+            limit,
           )
 
         h.a(
@@ -711,9 +899,14 @@ fn build_pagination_url(
   status_filter: option.Option(Int),
   type_filter: option.Option(Int),
   category_filter: option.Option(String),
+  sort: option.Option(String),
+  limit: Int,
 ) -> String {
   let base = "/reports"
-  let mut_params = [#("page", int.to_string(page))]
+  let mut_params = [
+    #("page", int.to_string(page)),
+    #("limit", int.to_string(limit)),
+  ]
 
   let mut_params = case query {
     option.Some(q) ->
@@ -739,6 +932,15 @@ fn build_pagination_url(
       case string.trim(c) {
         "" -> mut_params
         c -> [#("category", c), ..mut_params]
+      }
+    option.None -> mut_params
+  }
+
+  let mut_params = case sort {
+    option.Some(s) ->
+      case string.trim(s) {
+        "" -> mut_params
+        s -> [#("sort", s), ..mut_params]
       }
     option.None -> mut_params
   }
@@ -778,14 +980,16 @@ fn report_type_pill(report_type: Int) {
   ui.pill(format_report_type(report_type), tone)
 }
 
-fn status_pill(status: Int) {
+fn status_pill(report_id: String, status: Int) {
   let #(label, tone) = case status {
     0 -> #("Pending", ui.PillWarning)
     1 -> #("Resolved", ui.PillSuccess)
     _ -> #("Unknown", ui.PillNeutral)
   }
 
-  ui.pill(label, tone)
+  h.span([a.attribute("data-status-pill", report_id)], [
+    ui.pill(label, tone),
+  ])
 }
 
 fn empty_state() {
@@ -795,344 +999,163 @@ fn empty_state() {
   ])
 }
 
-fn api_error_message(err: common.ApiError) -> String {
-  case err {
-    common.Unauthorized -> "Authentication Required"
-    common.Forbidden(msg) -> msg
-    common.NotFound -> "Reports could not be retrieved."
-    common.ServerError ->
-      "An internal server error occurred. Please try again later."
-    common.NetworkError ->
-      "Could not connect to the API. Please try again later."
-  }
-}
+fn reports_script() -> element.Element(a) {
+  let js =
+    "
+(function () {
+  const table = document.querySelector('[data-report-table]');
+  if (!table) return;
+  const toolbar = document.querySelector('[data-report-toolbar]');
+  const selectAll = toolbar?.querySelector('[data-report-select-all]') || null;
+  const countEl = toolbar?.querySelector('[data-report-selected-count]') || null;
+  const bulkBtn = toolbar?.querySelector('[data-report-bulk-resolve]') || null;
 
-fn build_table_view_url(
-  query: option.Option(String),
-  status_filter: option.Option(Int),
-  type_filter: option.Option(Int),
-  category_filter: option.Option(String),
-  table_view: Bool,
-) -> String {
-  let base = "/reports"
-  let mut_params = [
-    #("table", case table_view {
-      True -> "1"
-      False -> "0"
-    }),
-  ]
-
-  let mut_params = case query {
-    option.Some(q) ->
-      case string.trim(q) {
-        "" -> mut_params
-        q -> [#("q", q), ..mut_params]
-      }
-    option.None -> mut_params
+  function showToast(message, ok) {
+    const box = document.createElement('div');
+    box.className = 'fixed left-4 right-4 bottom-4 z-50';
+    box.innerHTML =
+      '<div class=\"max-w-xl mx-auto\">' +
+      '<div class=\"px-4 py-3 rounded-lg shadow border ' +
+      (ok ? 'bg-green-50 border-green-200 text-green-800' : 'bg-red-50 border-red-200 text-red-800') +
+      '\">' +
+      '<div class=\"text-sm font-semibold\">' + (ok ? 'Success' : 'Action failed') + '</div>' +
+      '<div class=\"text-sm mt-1 break-words\">' + (message || (ok ? 'Done' : 'Unknown error')) + '</div>' +
+      '</div></div>';
+    document.body.appendChild(box);
+    setTimeout(() => box.remove(), 4000);
   }
 
-  let mut_params = case status_filter {
-    option.Some(s) -> [#("status", int.to_string(s)), ..mut_params]
-    option.None -> mut_params
+  function selectionBoxes() {
+    return Array.from(table.querySelectorAll('[data-report-select]'));
   }
 
-  let mut_params = case type_filter {
-    option.Some(t) -> [#("type", int.to_string(t)), ..mut_params]
-    option.None -> mut_params
-  }
-
-  let mut_params = case category_filter {
-    option.Some(c) ->
-      case string.trim(c) {
-        "" -> mut_params
-        c -> [#("category", c), ..mut_params]
-      }
-    option.None -> mut_params
-  }
-
-  case mut_params {
-    [] -> base
-    params -> {
-      let query_string =
-        params
-        |> list.map(fn(pair) {
-          let #(key, value) = pair
-          key <> "=" <> uri.percent_encode(value)
-        })
-        |> string.join("&")
-      base <> "?" <> query_string
+  function updateSelection() {
+    const boxes = selectionBoxes();
+    const selected = boxes.filter((b) => b.checked);
+    if (countEl) countEl.textContent = selected.length + ' selected';
+    if (bulkBtn) bulkBtn.disabled = selected.length === 0;
+    if (selectAll) {
+      selectAll.checked = selected.length > 0 && selected.length === boxes.length;
+      selectAll.indeterminate =
+        selected.length > 0 && selected.length < boxes.length;
     }
   }
-}
 
-fn prepend_fragment_base(ctx: Context, path: String) -> String {
-  ctx.base_path <> path
-}
-
-fn render_review_deck(
-  ctx: Context,
-  reports: List(reports.SearchReportResult),
-  _total: Int,
-  page: Int,
-  query: option.Option(String),
-  status_filter: option.Option(Int),
-  type_filter: option.Option(Int),
-  category_filter: option.Option(String),
-) {
-  let fragment_base =
-    prepend_fragment_base(
-      ctx,
-      "/reports/fragment?"
-        <> build_table_view_url(
-        query,
-        status_filter,
-        type_filter,
-        category_filter,
-        True,
-      ),
-    )
-
-  let deck_attrs = [
-    a.attribute("data-review-deck", "true"),
-    a.attribute("data-fragment-base", fragment_base),
-    a.attribute("data-next-page", int.to_string(page + 1)),
-    a.attribute("data-can-paginate", "true"),
-    a.attribute("data-empty-url", "/reports"),
-    a.attribute("data-prefetch-when-remaining", "6"),
-    a.tabindex(0),
-  ]
-
-  h.div(deck_attrs, [
-    review_deck.styles(),
-    h.div(
-      [a.class("max-w-7xl mx-auto")],
-      list.map(reports, fn(report) { render_report_card(ctx, report) }),
-    ),
-    h.div(
-      [
-        a.attribute("data-review-progress", "true"),
-        a.class("text-center mt-4 body-sm text-neutral-600"),
-      ],
-      [
-        element.text(int.to_string(list.length(reports)) <> " remaining"),
-      ],
-    ),
-    review_hintbar.view(
-      "←",
-      "Skip",
-      "→",
-      "Resolve",
-      "Esc",
-      "Exit",
-      option.Some("Swipe cards on touch devices"),
-    ),
-    ..review_deck.script_tags()
-  ])
-}
-
-fn render_report_card(ctx: Context, report: reports.SearchReportResult) {
-  let card_attrs = [
-    a.attribute("data-review-card", "true"),
-    a.attribute("data-left-mode", "skip"),
-    a.attribute("data-direct-url", "/reports/" <> report.report_id),
-    a.attribute("data-expand-url", "/reports/" <> report.report_id),
-    a.attribute("data-expand-target", "[data-report-context]"),
-    a.tabindex(0),
-    a.class(
-      "review-card bg-white border border-neutral-200 rounded-xl shadow-sm p-6 mb-4 focus:outline-none focus:ring-2 focus:ring-neutral-900",
-    ),
-  ]
-
-  h.div(card_attrs, [
-    h.div([a.class("flex items-start justify-between gap-4 mb-4")], [
-      h.div([a.class("flex items-center gap-3")], [
-        h.a(
-          [
-            href(ctx, "/reports/" <> report.report_id),
-            a.class("hover:underline"),
-          ],
-          [element.text("#" <> report.report_id)],
-        ),
-        status_pill(report.status),
-        report_type_pill(report.report_type),
-      ]),
-      h.span([a.class("body-sm text-neutral-500 whitespace-nowrap")], [
-        element.text(date_time.format_timestamp(report.reported_at)),
-      ]),
-    ]),
-    h.div([a.class("space-y-2 mb-4")], [
-      h.div([a.class("flex items-center gap-2")], [
-        h.span([a.class("label-sm text-neutral-600")], [
-          element.text("Category:"),
-        ]),
-        h.span([a.class("body-sm text-neutral-900")], [
-          element.text(report.category),
-        ]),
-      ]),
-      case report.additional_info {
-        option.Some(info) if info != "" ->
-          h.div([a.class("flex items-start gap-2")], [
-            h.span([a.class("label-sm text-neutral-600")], [
-              element.text("Details:"),
-            ]),
-            h.span([a.class("body-sm text-neutral-900 flex-1")], [
-              element.text(info),
-            ]),
-          ])
-        _ -> element.none()
-      },
-    ]),
-    h.div([a.class("grid grid-cols-1 md:grid-cols-2 gap-4 mb-4")], [
-      h.div([a.class("space-y-1")], [
-        h.div([a.class("label-sm text-neutral-600")], [element.text("Reporter")]),
-        render_reporter_compact(ctx, report),
-      ]),
-      h.div([a.class("space-y-1")], [
-        h.div([a.class("label-sm text-neutral-600")], [element.text("Reported")]),
-        render_reported_compact(ctx, report),
-      ]),
-    ]),
-    h.div([a.attribute("data-report-context", "true"), a.hidden(True)], []),
-    h.form(
-      [
-        a.attribute("data-review-submit", "left"),
-        a.method("post"),
-        a.attribute("action", "/reports/" <> report.report_id <> "/skip"),
-      ],
-      [h.input([a.type_("hidden"), a.name("_method"), a.value("post")])],
-    ),
-    h.form(
-      [
-        a.attribute("data-review-submit", "right"),
-        a.method("post"),
-        a.attribute("action", "/reports/" <> report.report_id <> "/resolve"),
-      ],
-      [
-        h.input([a.type_("hidden"), a.name("_method"), a.value("post")]),
-        h.input([
-          a.type_("hidden"),
-          a.name("public_comment"),
-          a.value("Resolved via review deck"),
-        ]),
-      ],
-    ),
-    h.div(
-      [
-        a.class(
-          "flex items-center justify-between pt-4 border-t border-neutral-200",
-        ),
-      ],
-      [
-        h.button(
-          [
-            a.attribute("data-review-action", "left"),
-            a.class(
-              "px-4 py-2 bg-white text-neutral-700 border border-neutral-300 rounded-lg label hover:bg-neutral-50 transition-colors",
-            ),
-          ],
-          [element.text("Skip")],
-        ),
-        h.button(
-          [
-            a.attribute("data-review-action", "right"),
-            a.class(
-              "px-4 py-2 bg-green-600 text-white rounded-lg label hover:bg-green-700 transition-colors",
-            ),
-          ],
-          [element.text("Resolve")],
-        ),
-      ],
-    ),
-  ])
-}
-
-fn render_reporter_compact(ctx: Context, report: reports.SearchReportResult) {
-  let primary = case report.reporter_tag {
-    option.Some(tag) -> tag
-    option.None ->
-      case report.reporter_email {
-        option.Some(email) -> email
-        option.None -> "Anonymous"
-      }
+  function setLoading(btn, loading) {
+    if (!btn) return;
+    btn.disabled = loading;
+    if (loading) {
+      btn.dataset.originalText = btn.textContent;
+      btn.textContent = 'Working…';
+    } else if (btn.dataset.originalText) {
+      btn.textContent = btn.dataset.originalText;
+    }
   }
 
-  let primary_element = case report.reporter_id {
-    option.Some(id) ->
-      h.a(
-        [
-          href(ctx, "/users/" <> id),
-          a.class("body-sm text-neutral-900 hover:text-neutral-600 underline"),
-        ],
-        [element.text(primary)],
-      )
-    option.None ->
-      h.span([a.class("body-sm text-neutral-900")], [element.text(primary)])
+  async function submitForm(form) {
+    const actionUrl = new URL(form.action, window.location.origin);
+    actionUrl.searchParams.set('background', '1');
+    const fd = new FormData(form);
+    const body = new URLSearchParams();
+    fd.forEach((v, k) => body.append(k, v));
+    const resp = await fetch(actionUrl.toString(), {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body: body.toString(),
+      credentials: 'same-origin',
+    });
+    if (!resp.ok && resp.status !== 204) {
+      let t = '';
+      try { t = await resp.text(); } catch (_) {}
+      throw new Error(t || 'Request failed (' + resp.status + ')');
+    }
   }
 
-  primary_element
-}
-
-fn render_reported_compact(ctx: Context, report: reports.SearchReportResult) {
-  case report.report_type {
-    0 ->
-      case report.reported_user_id {
-        option.Some(id) ->
-          h.a(
-            [
-              href(ctx, "/users/" <> id),
-              a.class(
-                "body-sm text-neutral-900 hover:text-neutral-600 underline",
-              ),
-            ],
-            [element.text(format_user_tag(report))],
-          )
-        option.None ->
-          h.span([a.class("body-sm text-neutral-400 italic")], [
-            element.text("—"),
-          ])
-      }
-    1 ->
-      case report.reported_user_id {
-        option.Some(id) ->
-          h.a(
-            [
-              href(ctx, "/users/" <> id),
-              a.class(
-                "body-sm text-neutral-900 hover:text-neutral-600 underline",
-              ),
-            ],
-            [element.text(format_user_tag(report))],
-          )
-        option.None ->
-          h.span([a.class("body-sm text-neutral-400 italic")], [
-            element.text("—"),
-          ])
-      }
-    2 ->
-      case report.reported_guild_id {
-        option.Some(guild_id) -> {
-          let primary_name = case report.reported_guild_name {
-            option.Some(name) -> name
-            option.None -> "Guild " <> guild_id
-          }
-          h.a(
-            [
-              href(ctx, "/guilds/" <> guild_id),
-              a.class(
-                "body-sm text-neutral-900 hover:text-neutral-600 underline",
-              ),
-            ],
-            [element.text(primary_name)],
-          )
-        }
-        option.None ->
-          h.span([a.class("body-sm text-neutral-400 italic")], [
-            element.text("—"),
-          ])
-      }
-    _ ->
-      h.span([a.class("body-sm text-neutral-400 italic")], [element.text("—")])
+  function markResolved(reportId) {
+    const pill = table.querySelector('[data-status-pill=\"' + reportId + '\"]');
+    if (pill) pill.textContent = 'Resolved';
+    const form = table.querySelector('form[data-report-id=\"' + reportId + '\"]');
+    if (form) {
+      form.remove();
+    }
   }
+
+  async function resolveOne(reportId) {
+    const form = table.querySelector(
+      'form[data-report-id=\"' + reportId + '\"][data-report-action=\"resolve\"]'
+    );
+    if (!form) throw new Error('Missing resolve form');
+    await submitForm(form);
+    markResolved(reportId);
+  }
+
+  async function handleBulkResolve() {
+    const boxes = selectionBoxes().filter((b) => b.checked);
+    if (boxes.length === 0) return;
+    if (!window.confirm('Resolve ' + boxes.length + ' report(s)?')) return;
+    setLoading(bulkBtn, true);
+    try {
+      for (const box of boxes) {
+        const id = box.getAttribute('data-report-select');
+        if (!id) continue;
+        await resolveOne(id);
+        box.checked = false;
+      }
+      showToast('Resolved ' + boxes.length + ' report(s)', true);
+    } catch (err) {
+      showToast(err && err.message ? err.message : String(err), false);
+    } finally {
+      setLoading(bulkBtn, false);
+      updateSelection();
+    }
+  }
+
+  function wireSelection() {
+    if (selectAll) {
+      selectAll.addEventListener('change', (e) => {
+        selectionBoxes().forEach((b) => (b.checked = e.target.checked));
+        updateSelection();
+      });
+    }
+    table.addEventListener('change', (e) => {
+      const t = e.target;
+      if (t && t.matches('[data-report-select]')) updateSelection();
+    });
+    if (bulkBtn) {
+      bulkBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        handleBulkResolve();
+      });
+    }
+    updateSelection();
+  }
+
+  function wireAsyncForms() {
+    table.querySelectorAll('form[data-async]').forEach((form) => {
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const confirmMsg = form.getAttribute('data-confirm');
+        if (confirmMsg && !window.confirm(confirmMsg)) return;
+        const btn = form.querySelector('button[type=\"submit\"]');
+        const id = form.getAttribute('data-report-id') || form.querySelector('[name=\"report_id\"]')?.value;
+        setLoading(btn, true);
+        submitForm(form)
+          .then(() => {
+            if (id) markResolved(id);
+            showToast('Resolved report', true);
+          })
+          .catch((err) => showToast(err && err.message ? err.message : String(err), false))
+          .finally(() => setLoading(btn, false));
+      });
+    });
+  }
+
+  wireSelection();
+  wireAsyncForms();
+})();
+"
+
+  h.script([a.attribute("defer", "defer")], js)
 }
 
 fn error_view(err: common.ApiError) {

@@ -70,6 +70,9 @@ jobs:
           echo "Deploying commit ${sha}"
           printf 'DEPLOY_SHA=%s\n' "$sha" >> "$GITHUB_ENV"
 
+      - name: Set build timestamp
+        run: echo "BUILD_TIMESTAMP=$(date -u +%s)" >> "$GITHUB_ENV"
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -89,6 +92,8 @@ jobs:
           platforms: linux/amd64
           cache-from: type=gha,scope=${{ env.CACHE_SCOPE }}
           cache-to: type=gha,mode=max,scope=${{ env.CACHE_SCOPE }}
+          build-args: |
+            BUILD_TIMESTAMP=${{ env.BUILD_TIMESTAMP }}
         env:
           DOCKER_BUILD_SUMMARY: false
           DOCKER_BUILD_RECORD_UPLOAD: false

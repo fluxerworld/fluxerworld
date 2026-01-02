@@ -21,7 +21,13 @@ import type Stripe from 'stripe';
 import type {UserID} from '~/BrandedTypes';
 import {Config} from '~/Config';
 import {UserFlags, UserPremiumTypes} from '~/Constants';
-import {NoVisionarySlotsAvailableError, PremiumPurchaseBlockedError, StripeError, UnknownUserError} from '~/Errors';
+import {
+	NoVisionarySlotsAvailableError,
+	PremiumPurchaseBlockedError,
+	StripeError,
+	UnclaimedAccountRestrictedError,
+	UnknownUserError,
+} from '~/Errors';
 import {Logger} from '~/Logger';
 import type {User} from '~/Models';
 import type {IUserRepository} from '~/user/IUserRepository';
@@ -212,6 +218,10 @@ export class StripeCheckoutService {
 	}
 
 	validateUserCanPurchase(user: User): void {
+		if (!user.passwordHash && !user.isBot) {
+			throw new UnclaimedAccountRestrictedError('make purchases');
+		}
+
 		if (user.flags & UserFlags.PREMIUM_PURCHASE_DISABLED) {
 			throw new PremiumPurchaseBlockedError();
 		}

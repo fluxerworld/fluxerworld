@@ -34,6 +34,7 @@ export function useReactionTooltip(hoverDelay = 500) {
 	const hoverTimerRef = React.useRef<NodeJS.Timeout | null>(null);
 	const closeTimerRef = React.useRef<NodeJS.Timeout | null>(null);
 	const isCalculatingRef = React.useRef(false);
+	const lastPointerRef = React.useRef<{x: number; y: number} | null>(null);
 
 	const [state, setState] = React.useState<ReactionTooltipState>({
 		x: 0,
@@ -57,6 +58,17 @@ export function useReactionTooltip(hoverDelay = 500) {
 		if (!node || !(node instanceof Node)) return false;
 		return !!targetRef.current?.contains(node) || !!tooltipRef.current?.contains(node);
 	}, []);
+
+	const updateLastPointer = React.useCallback((event: MouseEvent | React.MouseEvent | PointerEvent) => {
+		lastPointerRef.current = {x: event.clientX, y: event.clientY};
+	}, []);
+
+	const shouldKeepOpen = React.useCallback(() => {
+		const lastPointer = lastPointerRef.current;
+		if (!lastPointer) return false;
+		const element = document.elementFromPoint(lastPointer.x, lastPointer.y);
+		return isInHoverRegion(element);
+	}, [isInHoverRegion]);
 
 	const updatePosition = React.useCallback(async () => {
 		if (!state.isOpen || !targetRef.current || !tooltipRef.current || isCalculatingRef.current) {
@@ -110,6 +122,15 @@ export function useReactionTooltip(hoverDelay = 500) {
 		setState({x: 0, y: 0, isOpen: false, isReady: false});
 	}, [clearTimers]);
 
+	const scheduleHide = React.useCallback(() => {
+		closeTimerRef.current = setTimeout(() => {
+			if (shouldKeepOpen()) {
+				return;
+			}
+			hide();
+		}, 100);
+	}, [hide, shouldKeepOpen]);
+
 	const handleMouseEnter = React.useCallback(() => {
 		clearTimers();
 		if (state.isOpen) return;
@@ -121,35 +142,37 @@ export function useReactionTooltip(hoverDelay = 500) {
 	const handleMouseLeave = React.useCallback(
 		(event: React.MouseEvent) => {
 			clearTimers();
+			updateLastPointer(event);
 
 			if (isInHoverRegion(event.relatedTarget)) {
 				return;
 			}
 
-			closeTimerRef.current = setTimeout(() => {
-				hide();
-			}, 100);
+			scheduleHide();
 		},
-		[hide, clearTimers],
+		[clearTimers, isInHoverRegion, scheduleHide, updateLastPointer],
 	);
 
-	const handleTooltipMouseEnter = React.useCallback(() => {
-		clearTimers();
-	}, [clearTimers]);
+	const handleTooltipMouseEnter = React.useCallback(
+		(event: React.MouseEvent) => {
+			clearTimers();
+			updateLastPointer(event);
+		},
+		[clearTimers, updateLastPointer],
+	);
 
 	const handleTooltipMouseLeave = React.useCallback(
 		(event: React.MouseEvent) => {
 			clearTimers();
+			updateLastPointer(event);
 
 			if (isInHoverRegion(event.relatedTarget)) {
 				return;
 			}
 
-			closeTimerRef.current = setTimeout(() => {
-				hide();
-			}, 100);
+			scheduleHide();
 		},
-		[hide, clearTimers, isInHoverRegion],
+		[clearTimers, isInHoverRegion, scheduleHide, updateLastPointer],
 	);
 
 	React.useEffect(() => {
@@ -182,6 +205,24 @@ export function useReactionTooltip(hoverDelay = 500) {
 			}
 		};
 	}, [state.isOpen, updatePosition]);
+
+	React.useEffect(() => {
+		if (!state.isOpen) {
+			return;
+		}
+
+		const handlePointerMove = (event: PointerEvent | MouseEvent) => {
+			lastPointerRef.current = {x: event.clientX, y: event.clientY};
+		};
+
+		window.addEventListener('pointermove', handlePointerMove, {passive: true});
+		window.addEventListener('mousemove', handlePointerMove, {passive: true});
+
+		return () => {
+			window.removeEventListener('pointermove', handlePointerMove);
+			window.removeEventListener('mousemove', handlePointerMove);
+		};
+	}, [state.isOpen]);
 
 	React.useEffect(() => {
 		return () => {

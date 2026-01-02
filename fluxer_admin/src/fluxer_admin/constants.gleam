@@ -259,6 +259,10 @@ pub const acl_user_delete = "user:delete"
 
 pub const acl_user_cancel_bulk_message_deletion = "user:cancel:bulk_message_deletion"
 
+pub const acl_pending_verification_view = "pending_verification:view"
+
+pub const acl_pending_verification_review = "pending_verification:review"
+
 pub const acl_beta_codes_generate = "beta_codes:generate"
 
 pub const acl_gift_codes_generate = "gift_codes:generate"
@@ -506,6 +510,8 @@ pub fn get_all_acls() -> List(String) {
     acl_user_disable_suspicious,
     acl_user_delete,
     acl_user_cancel_bulk_message_deletion,
+    acl_pending_verification_view,
+    acl_pending_verification_review,
     acl_beta_codes_generate,
     acl_gift_codes_generate,
     acl_guild_lookup,

@@ -10,7 +10,7 @@ msgstr " i Chrome"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:288
 msgid " in Chrome or another browser with PWA support"
-msgstr " i Chrome eller en anden browser med PWA-support"
+msgstr " i Chrome eller en anden browser med PWA-understøttelse"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:236
 msgid " in Safari"
@@ -37,15 +37,15 @@ msgstr "/år"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:654
 msgid "500MB uploads, 4000 character messages, 300 bookmarks, 50 emoji packs, and much more."
-msgstr "500 MB uploads, beskeder på 4.000 tegn, 300 bogmærker, 50 emojipakker – og meget mere."
+msgstr "Uploads op til 500 MB, beskeder på 4.000 tegn, 300 bogmærker, 50 emojipakker – og meget mere."
 
 #: src/fluxer_marketing/components/communities_section.gleam:86
 msgid "A chat platform that answers to you, not investors. It's ad-free, open source, community-funded, and never sells your data or nags you with upgrade pop-ups."
-msgstr "En chatplatform, der står til ansvar over for dig – ikke investorer. Den er reklamefri, open source, fællesskabsfinansieret og sælger aldrig dine data eller plager dig med opgraderings-popups."
+msgstr "En chatplatform, der er til for dig – ikke investorer. Den er reklamefri, open source, finansieret af fællesskabet og sælger aldrig dine data eller plager dig med opgraderings-popups."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:219
 msgid "A non-paid role for recurring contributors who help shape Fluxer alongside the core team."
-msgstr "En ulønnet rolle for faste bidragydere, der er med til at forme Fluxer sammen med kerneteamet."
+msgstr "En ulønnet rolle for løbende bidragydere, der er med til at forme Fluxer sammen med kerneteamet."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1074
 msgid "Access to Fluxer Operators community"
@@ -53,19 +53,19 @@ msgstr "Adgang til Fluxer Operators-fællesskabet"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:225
 msgid "Access to VIP voice servers reserved exclusively for partnered communities."
-msgstr "Adgang til VIP-voiceservere, der er forbeholdt partner-communities."
+msgstr "Adgang til VIP-voice-servere, der udelukkende er for partnerfællesskaber."
 
 #: src/fluxer_marketing/components/coming_features.gleam:48
 msgid "Activity sharing"
-msgstr "Deling af aktivitet"
+msgstr "Aktivitetsdeling"
 
 #: src/fluxer_marketing/pages/download_page.gleam:228
 msgid "Add Fluxer to your home screen to hide the browser UI."
-msgstr "Tilføj Fluxer til din hjemmeskærm for at skjule browserens brugerflade."
+msgstr "Tilføj Fluxer til hjemmeskærmen for at skjule browserens brugerflade."
 
 #: src/fluxer_marketing/components/current_features.gleam:133
 msgid "Add custom emojis, save media for later, and style the app with custom CSS."
-msgstr "Tilføj brugerdefinerede emojis, gem medier til senere, og tilpas appen med egen CSS."
+msgstr "Tilføj egne emojis, gem medier til senere, og tilpas appen med din egen CSS."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1124
 msgid "After the offer ends, Operator Pass stays available on its own."
@@ -77,11 +77,15 @@ msgstr "Alle nuværende og fremtidige Plutonium-fordele – for altid"
 
 #: src/fluxer_marketing/components/current_features.gleam:55
 msgid "All the basics you expect, plus a few things you don't."
-msgstr "Alt det basale, du forventer – plus et par ting, du ikke gør."
+msgstr "Alt det grundlæggende, du forventer – og lidt til."
 
 #: src/fluxer_marketing/components/locale_selector.gleam:102
 msgid "All translations are currently LLM-generated with minimal human revision. We'd love to get real people to help us out localizing Fluxer into your language! To do so, shoot an email to i18n@fluxer.app and we'll be happy to accept your contributions."
-msgstr "Alle oversættelser er lige nu LLM-genererede med minimal menneskelig revision. Vi vil rigtig gerne have rigtige mennesker til at hjælpe os med at lokalisere Fluxer til dit sprog! Send en mail til i18n@fluxer.app, så tager vi med glæde imod dine bidrag."
+msgstr "Alle oversættelser er lige nu LLM-genererede og kun let gennemgået af mennesker. Vi vil rigtig gerne have rigtige mennesker til at hjælpe os med at oversætte Fluxer til dit sprog! Send en mail til i18n@fluxer.app, så tager vi med glæde imod dine bidrag."
+
+#: src/fluxer_marketing/components/hero.gleam:64
+msgid "An open-source, independent instant messaging and VoIP platform. Built for friends, groups, and communities."
+msgstr "En open source, uafhængig platform til chat og VoIP. Bygget til venner, grupper og fællesskaber."
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:524
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:97
@@ -108,7 +112,7 @@ msgstr "Apple Silicon"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:448
 msgid "Apply at partners@fluxer.app"
-msgstr "Ansøg via partners@fluxer.app"
+msgstr "Søg på partners@fluxer.app"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:170
 msgid "Approved reports grant access to Fluxer Testers, where you can earn points for Plutonium codes and the Bug Hunter badge."
@@ -128,15 +132,15 @@ msgstr "Artikler i dette afsnit"
 
 #: src/fluxer_marketing/components/current_features.gleam:106
 msgid "Audit logs for transparency"
-msgstr "Auditlogs for gennemsigtighed"
+msgstr "Revisionslogs for gennemsigtighed"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:302
+#: src/fluxer_marketing/pages/donate_page.gleam:301
 msgid "Available for Swedish bank accounts"
 msgstr "Tilgængelig for svenske bankkonti"
 
 #: src/fluxer_marketing/pages/download_page.gleam:67
 msgid "Available on your desktop — and on the web"
-msgstr "Tilgængelig på din computer — og på webben"
+msgstr "Tilgængelig på din computer – og på webben"
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:182
 msgid "Back to "
@@ -149,7 +153,7 @@ msgstr "Tilbage til Hjælpecenteret"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:674
 msgid "Be the first to try new features before they're released to everyone else."
-msgstr "Vær den første til at prøve nye funktioner, før de bliver rullet ud til alle andre."
+msgstr "Vær den første til at prøve nye funktioner, før de rulles ud til alle andre."
 
 #: src/fluxer_marketing/components/partner_section.gleam:64
 #: src/fluxer_marketing/pages/careers_page.gleam:173
@@ -208,9 +212,9 @@ msgstr "Bluesky"
 msgid "Bookmarked messages"
 msgstr "Bogmærkede beskeder"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:388
+#: src/fluxer_marketing/pages/donate_page.gleam:387
 msgid "Both donation types support the same cause equally. The only difference is that Business donations allow you to specify a tax ID (if applicable) and receive a PDF invoice when finalized, which can be useful for company accounting purposes."
-msgstr "Begge donationstyper støtter den samme sag lige meget. Den eneste forskel er, at erhvervsdonationer gør det muligt at angive et CVR-/skatte-ID (hvis relevant) og modtage en PDF-faktura, når donationen er gennemført – hvilket kan være nyttigt til virksomhedens bogføring."
+msgstr "Begge donationstyper støtter den samme sag i lige høj grad. Den eneste forskel er, at erhvervsdonationer giver mulighed for at angive et CVR-/skatte-ID (hvis relevant) og modtage en PDF-faktura, når donationen er gennemført – hvilket kan være nyttigt til virksomhedens bogføring."
 
 #: src/fluxer_marketing/pages/press_page.gleam:200
 msgid "Brand Colors"
@@ -238,11 +242,7 @@ msgstr "Gennemse hjælpeartikler om "
 
 #: src/fluxer_marketing/components/communities_section.gleam:44
 msgid "Built for communities of all kinds."
-msgstr "Bygget til fællesskaber i alle former."
-
-#: src/fluxer_marketing/components/hero.gleam:64
-msgid "Built for friends, groups, and communities. Text, voice, and video. Open source and community-funded."
-msgstr "Bygget til venner, grupper og fællesskaber. Tekst, tale og video. Open source og fællesskabsfinansieret."
+msgstr "Bygget til fællesskaber i alle afskygninger."
 
 #: src/fluxer_marketing/components/locale_selector.gleam:119
 msgid "Bulgarian"
@@ -250,11 +250,11 @@ msgstr "Bulgarsk"
 
 #: src/fluxer_marketing/pages/donate_page.gleam:177
 msgid "Business"
-msgstr "Virksomhed"
+msgstr "Erhverv"
 
 #: src/fluxer_marketing/components/coming_features.gleam:56
 msgid "Call pop-out"
-msgstr "Opkald i eget vindue"
+msgstr "Opkald i separat vindue"
 
 #: src/fluxer_marketing/components/footer.gleam:220
 #: src/fluxer_marketing/components/navigation.gleam:358
@@ -273,7 +273,7 @@ msgstr "Skift sprog"
 
 #: src/fluxer_marketing/components/hero.gleam:59
 msgid "Chat that puts you first"
-msgstr "Chat, der sætter dig først"
+msgstr "Chatten på din side"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:150
 msgid "Chinese (Simplified)"
@@ -377,20 +377,20 @@ msgstr "Virksomhedsoplysninger"
 #: src/fluxer_marketing/components/footer.gleam:278
 #: src/fluxer_marketing/components/navigation.gleam:426
 msgid "Connect"
-msgstr "Forbind"
+msgstr "Kontakt"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1038
 msgid "Connect from any client"
-msgstr "Opret forbindelse fra enhver klient"
+msgstr "Forbind fra enhver klient"
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:233
 #: src/fluxer_marketing/pages/help_article_page.gleam:375
 msgid "Contact Support"
-msgstr "Kontakt support"
+msgstr "Kontakt supporten"
 
 #: src/fluxer_marketing/components/partner_section.gleam:70
 msgid "Content creators and community owners: unlock exclusive perks including free Plutonium, a Partner badge, custom vanity URLs, and more."
-msgstr "Indholdsskabere og community-ejere: få eksklusive fordele som gratis Plutonium, et Partner-badge, brugerdefinerede vanity-URL’er og meget mere."
+msgstr "Indholdsskabere og community-ejere: få eksklusive fordele som gratis Plutonium, et Partner-badge, en eksklusiv vanity-URL og meget mere."
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:178
 msgid "Contribute code"
@@ -402,7 +402,7 @@ msgstr "Bidrag på GitHub"
 
 #: src/fluxer_marketing/components/final_cta.gleam:69
 msgid "Create an account and help us build something good."
-msgstr "Opret en konto og hjælp os med at bygge noget godt."
+msgstr "Opret en konto og vær med til at bygge noget godt."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1191
 msgid "Create your Fluxer account to get that sweet Plutonium while it's hot."
@@ -410,11 +410,11 @@ msgstr "Opret din Fluxer-konto og snup det lækre Plutonium, mens du kan."
 
 #: src/fluxer_marketing/pages/partners_page.gleam:211
 msgid "Creator Monetization"
-msgstr "Indtjening for creators"
+msgstr "Skaberindtjening"
 
 #: src/fluxer_marketing/components/coming_features.gleam:50
 msgid "Creator monetization"
-msgstr "Indtjening for creators"
+msgstr "Skaberindtjening"
 
 #: src/fluxer_marketing/components/communities_section.gleam:62
 msgid "Creators"
@@ -426,29 +426,29 @@ msgstr "Kroatisk"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:280
 msgid "Custom 4-digit username tag"
-msgstr "Brugerdefineret 4-cifret brugernavnetag"
+msgstr "Eget 4-cifret brugernavnetag"
 
 #: src/fluxer_marketing/components/current_features.gleam:138
 msgid "Custom CSS themes"
-msgstr "Brugerdefinerede CSS-temaer"
+msgstr "Egne CSS-temaer"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:145
 msgid "Custom Vanity URL"
-msgstr "Brugerdefineret vanity-URL"
+msgstr "Eksklusiv vanity-URL"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:315
 #: src/fluxer_marketing/pages/plutonium_page.gleam:631
 msgid "Custom entrance sounds"
-msgstr "Brugerdefinerede indgangslyde"
+msgstr "Egne indgangslyde"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:127
 msgid "Custom identity"
-msgstr "Brugerdefineret identitet"
+msgstr "Egen identitet"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:322
 #: src/fluxer_marketing/pages/plutonium_page.gleam:641
 msgid "Custom notification sounds"
-msgstr "Brugerdefinerede notifikationslyde"
+msgstr "Egne notifikationslyde"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:413
 msgid "Custom themes"
@@ -456,11 +456,11 @@ msgstr "Brugerdefinerede temaer"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:561
 msgid "Custom username tag"
-msgstr "Brugerdefineret brugernavnetag"
+msgstr "Eget brugernavnetag"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:308
 msgid "Custom video backgrounds"
-msgstr "Brugerdefinerede videobaggrunde"
+msgstr "Egne videobaggrunde"
 
 #: src/fluxer_marketing/components/current_features.gleam:130
 msgid "Customization"
@@ -492,7 +492,7 @@ msgstr "Design og branding"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:99
 msgid "Desktop"
-msgstr "Desktop"
+msgstr "Computer"
 
 #: src/fluxer_marketing/components/footer.gleam:209
 msgid "Developer Docs"
@@ -513,13 +513,13 @@ msgstr "Direkte support fra teamet"
 
 #: src/fluxer_marketing/components/coming_features.gleam:44
 msgid "Discovery"
-msgstr "Opdag"
+msgstr "Opdagelse"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:126
 msgid "Display an exclusive Partner badge on your profile to stand out."
 msgstr "Vis et eksklusivt Partner-badge på din profil og skil dig ud."
 
-#: src/fluxer_marketing/pages/donate_page.gleam:367
+#: src/fluxer_marketing/pages/donate_page.gleam:366
 msgid "Do I get anything in return?"
 msgstr "Får jeg noget igen?"
 
@@ -548,22 +548,22 @@ msgstr "Donér i USD"
 msgid "Donate to Fluxer"
 msgstr "Donér til Fluxer"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:298
+#: src/fluxer_marketing/pages/donate_page.gleam:297
 msgid "Donate with Swish"
 msgstr "Donér med Swish"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:370
+#: src/fluxer_marketing/pages/donate_page.gleam:369
 msgid "Donations are voluntary gifts and do not provide you with any product, service, ownership, or special rights. If you're looking for premium features, check out {0}."
 msgstr "Donationer er frivillige gaver og giver dig ikke noget produkt, nogen service, ejerskab eller særlige rettigheder. Hvis du leder efter premium-funktioner, så tjek {0}."
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:308
 msgid "Done! You can now open Fluxer as if it were a regular program."
-msgstr "Færdig! Du kan nu åbne Fluxer, som om det var et almindeligt program."
+msgstr "Færdig! Nu kan du åbne Fluxer, som var det et almindeligt program."
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:206
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:256
 msgid "Done! You can open Fluxer from your home screen."
-msgstr "Færdig! Du kan åbne Fluxer fra din startskærm."
+msgstr "Færdig! Nu kan du åbne Fluxer fra hjemmeskærmen."
 
 #: src/fluxer_marketing/components/footer.gleam:132
 #: src/fluxer_marketing/components/navigation.gleam:84
@@ -581,11 +581,11 @@ msgstr "Download Fluxer"
 
 #: src/fluxer_marketing/pages/download_page.gleam:49
 msgid "Download Fluxer for Windows, macOS, and Linux. Mobile apps are underway."
-msgstr "Download Fluxer til Windows, macOS og Linux. Mobilapps er undervejs."
+msgstr "Download Fluxer til Windows, macOS og Linux. Mobilapps er på vej."
 
 #: src/fluxer_marketing/pages/press_page.gleam:48
 msgid "Download Fluxer logos, brand assets, and get in touch with our press team"
-msgstr "Download Fluxer-logoer, brandmaterialer og kontakt vores presseteam"
+msgstr "Download Fluxer-logoer, brandmaterialer, og kontakt vores presseteam"
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:428
 #: src/fluxer_marketing/components/platform_download_button.gleam:538
@@ -602,7 +602,7 @@ msgstr "Download til macOS"
 
 #: src/fluxer_marketing/pages/press_page.gleam:68
 msgid "Download our logos, learn about our brand colors, and get in touch with our press team."
-msgstr "Download vores logoer, lær om vores brandfarver, og kontakt vores presseteam."
+msgstr "Download vores logoer, læs om vores brandfarver, og kontakt vores presseteam."
 
 #: src/fluxer_marketing/components/locale_selector.gleam:139
 msgid "Dutch"
@@ -622,7 +622,7 @@ msgstr "Tidlig adgang"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:214
 msgid "Early access to creator monetization features with lower platform fees than non-partners."
-msgstr "Tidlig adgang til funktioner til creator-indtjening med lavere platformgebyrer end for ikke-partnere."
+msgstr "Tidlig adgang til skaberindtjening med lavere platformgebyrer end for ikke-partnere."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:406
 msgid "Early access to new features"
@@ -646,11 +646,11 @@ msgstr "Engelsk (US)"
 
 #: src/fluxer_marketing/components/coming_features.gleam:43
 msgid "Event tickets"
-msgstr "Eventbilletter"
+msgstr "Billetter til arrangementer"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1071
 msgid "Everything in Free, plus:"
-msgstr "Alt i Gratis, plus:"
+msgstr "Alt i Gratis – plus:"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:233
 msgid "Exclusive Merch"
@@ -674,11 +674,11 @@ msgstr "Funktion"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:167
 msgid "Featured in Discovery"
-msgstr "Fremhævet i Opdag"
+msgstr "Fremhævet i Opdagelse"
 
 #: src/fluxer_marketing/components/coming_features.gleam:30
 msgid "Federation"
-msgstr "Fællesskab"
+msgstr "Føderation"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:357
 msgid "File upload size"
@@ -690,7 +690,7 @@ msgstr "Filtrér efter brugere, datoer og meget mere"
 
 #: src/fluxer_marketing/pages/help_center_page.gleam:49
 msgid "Find answers to common questions and learn how to use Fluxer."
-msgstr "Find svar på almindelige spørgsmål og lær at bruge Fluxer."
+msgstr "Find svar på de mest almindelige spørgsmål og lær at bruge Fluxer."
 
 #: src/fluxer_marketing/components/current_features.gleam:117
 msgid "Find old messages or jump between communities and channels in seconds."
@@ -706,7 +706,7 @@ msgstr "Finsk"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:121
 msgid "Fix bugs, ship features, or polish the experience in our main repo."
-msgstr "Ret bugs, lancér nye funktioner eller finpuds oplevelsen i vores hovedrepo."
+msgstr "Ret fejl, ship features, eller finpuds oplevelsen i vores hovedrepo."
 
 #: src/fluxer_marketing/components/footer.gleam:99
 msgid "Fluxer"
@@ -724,7 +724,7 @@ msgstr "Fluxers community-team"
 msgid "Fluxer Partner"
 msgstr "Fluxer-partner"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:372
+#: src/fluxer_marketing/pages/donate_page.gleam:371
 #: src/fluxer_marketing/pages/plutonium_page.gleam:51
 #: src/fluxer_marketing/pages/plutonium_page.gleam:76
 msgid "Fluxer Plutonium"
@@ -740,11 +740,11 @@ msgstr "Fluxers vilkår for brug"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:105
 msgid "Fluxer is built in the open. Pick the path that fits how you like to help."
-msgstr "Fluxer bliver bygget i det åbne. Vælg den vej, der passer til, hvordan du bedst kan lide at hjælpe."
+msgstr "Fluxer bygges i det åbne. Vælg den vej, der passer til den måde, du helst vil hjælpe på."
 
 #: src/fluxer_marketing/pages/download_page.gleam:303
 msgid "Fluxer is community-funded. If you'd like to help support iOS and Android development:"
-msgstr "Fluxer er fællesskabsfinansieret. Hvis du vil hjælpe med at støtte iOS- og Android-udviklingen:"
+msgstr "Fluxer er finansieret af fællesskabet. Hvis du vil hjælpe med at støtte iOS- og Android-udviklingen:"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:991
 msgid "Fluxer is free and open source. Anyone can self-host for free."
@@ -764,7 +764,7 @@ msgstr "Følg os på Bluesky"
 
 #: src/fluxer_marketing/pages/press_page.gleam:230
 msgid "For backgrounds, text on dark surfaces, and creating contrast."
-msgstr "Til baggrunde, tekst på mørke flader og til at skabe kontrast."
+msgstr "Til baggrunde, tekst på mørke flader og for at skabe kontrast."
 
 #: src/fluxer_marketing/pages/press_page.gleam:111
 #: src/fluxer_marketing/pages/press_page.gleam:165
@@ -778,7 +778,7 @@ msgstr "Til lyse baggrunde"
 
 #: src/fluxer_marketing/pages/press_page.gleam:237
 msgid "For text, icons on light surfaces, and creating depth."
-msgstr "Til tekst, ikoner på lyse flader og til at skabe dybde."
+msgstr "Til tekst og ikoner på lyse flader – og for at skabe dybde."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:189
 msgid "Forever"
@@ -786,7 +786,7 @@ msgstr "For altid"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:189
 msgid "Found a security issue?"
-msgstr "Har du fundet et sikkerhedsproblem?"
+msgstr "Fundet en sikkerhedsfejl?"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:175
 #: src/fluxer_marketing/pages/plutonium_page.gleam:265
@@ -804,19 +804,19 @@ msgstr "Gratis self-hosting"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:152
 msgid "Free vs Plutonium"
-msgstr "Gratis vs Plutonium"
+msgstr "Gratis vs. Plutonium"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:129
 msgid "French"
 msgstr "Fransk"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:346
+#: src/fluxer_marketing/pages/donate_page.gleam:345
 msgid "Frequently Asked Questions"
 msgstr "Ofte stillede spørgsmål"
 
 #: src/fluxer_marketing/components/hackernews_banner.gleam:72
 msgid "From HN?"
-msgstr "Fra HN?"
+msgstr "Kommer du fra HN?"
 
 #: src/fluxer_marketing/components/current_features.gleam:72
 msgid "Full Markdown support in messages"
@@ -833,7 +833,7 @@ msgstr "Fuldfarveversion"
 
 #: src/fluxer_marketing/components/current_features.gleam:152
 msgid "Fully open source (AGPLv3)"
-msgstr "100% open source (AGPLv3)"
+msgstr "Fuldt open source (AGPLv3)"
 
 #: src/fluxer_marketing/components/communities_section.gleam:57
 msgid "Gaming"
@@ -857,7 +857,7 @@ msgstr "Få Visionary + Operator Pass"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:148
 msgid "Get an exclusive custom vanity URL like fluxer.gg/yourcommunity."
-msgstr "Få en eksklusiv, brugerdefineret vanity-URL som fluxer.gg/ditfaellesskab."
+msgstr "Få en eksklusiv vanity-URL som fluxer.gg/ditfaellesskab."
 
 #: src/fluxer_marketing/pages/partners_page.gleam:236
 msgid "Get exclusive Fluxer Partner-only merchandise and swag."
@@ -869,7 +869,7 @@ msgstr "Få gratis Plutonium på din konto, så du kan nyde alle premium-funktio
 
 #: src/fluxer_marketing/pages/partners_page.gleam:170
 msgid "Get heightened visibility by being featured in Community Discovery."
-msgstr "Få større synlighed ved at blive fremhævet i Fællesskabsopdagelse."
+msgstr "Få større synlighed ved at blive fremhævet i Community Discovery."
 
 #: src/fluxer_marketing/pages/not_found_page.gleam:87
 msgid "Get help"
@@ -881,7 +881,7 @@ msgstr "Vær med"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:956
 msgid "Get lifetime Plutonium on Fluxer.app plus an Operator Pass for self-hosting. Pay {0} one-time. Available until October 1, 2026 or when {1} slots are claimed."
-msgstr "Få Plutonium for livet på Fluxer.app plus et Operator Pass til self-hosting. Betal {0} én gang. Tilgængeligt indtil 1. oktober 2026 eller indtil {1} pladser er taget."
+msgstr "Få Plutonium for livet på Fluxer.app plus et Operator Pass til self-hosting. Betal {0} én gang. Tilgængeligt indtil 1. oktober 2026 eller når {1} pladser er taget."
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:51
 msgid "Get more with Fluxer Plutonium"
@@ -893,7 +893,7 @@ msgstr "Få fordele og hjælp med at finansiere udviklingen"
 
 #: src/fluxer_marketing/pages/download_page.gleam:237
 msgid "Get push notifications when you're away from the app."
-msgstr "Få push-notifikationer, når du er væk fra appen."
+msgstr "Få pushnotifikationer, når du ikke er i appen."
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:89
 msgid "Get updates, see upcoming features, discuss suggestions, and chat with the team."
@@ -914,7 +914,7 @@ msgstr "Gå til forsiden"
 
 #: src/fluxer_marketing/components/current_features.gleam:104
 msgid "Granular roles and permissions"
-msgstr "Detaljerede roller og tilladelser"
+msgstr "Finmaskede roller og tilladelser"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:123
 msgid "Greek"
@@ -922,7 +922,7 @@ msgstr "Græsk"
 
 #: src/fluxer_marketing/pages/press_page.gleam:285
 msgid "Have a story about Fluxer? Need more information or high-resolution assets?"
-msgstr "Har du en historie om Fluxer? Brug for mere information eller højopløselige materialer?"
+msgstr "Har du en historie om Fluxer? Har du brug for mere information eller højopløseligt materiale?"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:130
 msgid "Hebrew"
@@ -959,11 +959,11 @@ msgstr "Støt en uafhængig kommunikationsplatform. Din donation finansierer pla
 
 #: src/fluxer_marketing/pages/careers_page.gleam:132
 msgid "Help translate Fluxer and its docs so it feels native everywhere."
-msgstr "Hjælp med at oversætte Fluxer og vores dokumentation, så det føles hjemmevant overalt."
+msgstr "Hjælp med at oversætte Fluxer og dokumentationen, så det føles hjemmevant overalt."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:69
 msgid "Help us build a different kind of communication platform — open source, community-funded, and built with care."
-msgstr "Hjælp os med at bygge en anden slags kommunikationsplatform — open source, fællesskabsfinansieret og bygget med omtanke."
+msgstr "Hjælp os med at bygge en anden slags kommunikationsplatform – open source, fællesskabsfinansieret og bygget med omtanke."
 
 #: src/fluxer_marketing/pages/donate_page.gleam:89
 msgid "Help us build an independent communication platform that puts users first."
@@ -987,11 +987,11 @@ msgstr "Hobbyfolk"
 
 #: src/fluxer_marketing/components/current_features.gleam:85
 msgid "Hop in a call with friends or share your screen to work together."
-msgstr "Hop i et opkald med venner, eller del din skærm for at arbejde sammen."
+msgstr "Hop på et opkald med venner, eller del din skærm og arbejd sammen."
 
 #: src/fluxer_marketing/components/current_features.gleam:153
 msgid "Host your own instance"
-msgstr "Host din egen instans"
+msgstr "Kør din egen instans"
 
 #: src/fluxer_marketing/pages/help_center_page.gleam:64
 #: src/fluxer_marketing/pages/help_search_page.gleam:63
@@ -1000,7 +1000,7 @@ msgstr "Hvordan kan vi hjælpe?"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:39
 msgid "How to install as an app"
-msgstr "Hvordan man installerer som en app"
+msgstr "Sådan installerer du som app"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:434
 msgid "How you plan to use Fluxer with your community"
@@ -1012,16 +1012,16 @@ msgstr "Ungarsk"
 
 #: src/fluxer_marketing/components/footer.gleam:329
 msgid "IP geolocation data by "
-msgstr "IP-geolokationsdata fra "
+msgstr "IP-geolokationsdata leveret af "
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:223
 #: src/fluxer_marketing/pages/help_article_page.gleam:365
 msgid "If you couldn't find what you're looking for, our support team is here to help."
-msgstr "Hvis du ikke kunne finde det, du leder efter, står vores supportteam klar til at hjælpe."
+msgstr "Hvis du ikke fandt det, du ledte efter, står vores supportteam klar til at hjælpe."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:176
 msgid "If you're a creator or community owner, explore the Partner program and its perks."
-msgstr "Hvis du er creator eller ejer et fællesskab, så udforsk Partner-programmet og fordelene."
+msgstr "Hvis du er skaber eller ejer et fællesskab, så udforsk Partner-programmet og fordelene."
 
 #: src/fluxer_marketing/pages/partners_page.gleam:189
 msgid "Increased Limits"
@@ -1037,18 +1037,18 @@ msgstr "Indonesisk"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:59
 msgid "Install Fluxer as an app"
-msgstr "Installer Fluxer som en app"
+msgstr "Installer Fluxer som app"
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:145
 #: src/fluxer_marketing/components/platform_download_button.gleam:161
 msgid "Intel"
 msgstr "Intel"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:377
+#: src/fluxer_marketing/pages/donate_page.gleam:376
 msgid "Is my donation tax-deductible?"
 msgstr "Kan jeg trække min donation fra i skat?"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:359
+#: src/fluxer_marketing/pages/donate_page.gleam:358
 msgid "Is this a subscription?"
 msgstr "Er det et abonnement?"
 
@@ -1113,7 +1113,7 @@ msgstr "Lær om Fluxer og vores mission"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:178
 msgid "Learn about Partners"
-msgstr "Læs om Partners"
+msgstr "Læs om Partner-programmet"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:195
 msgid "Learn more"
@@ -1129,7 +1129,7 @@ msgstr "Plutonium for livet"
 
 #: src/fluxer_marketing/components/plutonium_banner.gleam:38
 msgid "Lifetime Plutonium + Operator Pass with Visionary — limited slots"
-msgstr "Plutonium for livet + Operator Pass med Visionary — begrænsede pladser"
+msgstr "Plutonium for livet + Operator Pass med Visionary – begrænsede pladser"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1103
 msgid "Limited Offer: Visionary includes Operator Pass"
@@ -1161,7 +1161,7 @@ msgstr "Giv en donation"
 
 #: src/fluxer_marketing/components/current_features.gleam:123
 msgid "Manage friends and block users"
-msgstr "Administrér venner og bloker brugere"
+msgstr "Administrer venner og bloker brugere"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:336
 msgid "Message character limit"
@@ -1192,7 +1192,7 @@ msgstr "Mobilapps er på vej"
 #: src/fluxer_marketing/components/platform_download_button.gleam:218
 #: src/fluxer_marketing/components/platform_download_button.gleam:311
 msgid "Mobile apps are underway"
-msgstr "Mobilapps er undervejs"
+msgstr "Mobilapps er på vej"
 
 #: src/fluxer_marketing/components/current_features.gleam:105
 msgid "Moderation actions and tools"
@@ -1208,7 +1208,7 @@ msgstr "Mest populære"
 
 #: src/fluxer_marketing/components/current_features.gleam:91
 msgid "Mute, deafen, and camera controls"
-msgstr "Slå lyd fra, slå al lyd fra og kamerakontroller"
+msgstr "Slå mikrofonen fra, slå lyden fra og styr kameraet"
 
 #: src/fluxer_marketing/pages/help_search_page.gleam:135
 msgid "No articles found"
@@ -1222,11 +1222,11 @@ msgstr "Ingen artikler fundet."
 msgid "No results found for"
 msgstr "Ingen resultater fundet for"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:380
+#: src/fluxer_marketing/pages/donate_page.gleam:379
 msgid "No, donations to Fluxer are not tax-deductible as we are not a registered charitable organization."
 msgstr "Nej, donationer til Fluxer er ikke fradragsberettigede, da vi ikke er en registreret velgørende organisation."
 
-#: src/fluxer_marketing/pages/donate_page.gleam:362
+#: src/fluxer_marketing/pages/donate_page.gleam:361
 msgid "No, this is a one-time donation. You choose the amount you want to give, and there are no recurring charges."
 msgstr "Nej, det er en engangsdonation. Du vælger selv beløbet, og der er ingen tilbagevendende betalinger."
 
@@ -1244,7 +1244,7 @@ msgstr "Ikke tilgængelig"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:91
 msgid "Note: Plutonium and Visionary benefits only apply to the official Fluxer.app instance, not third-party or self-hosted instances."
-msgstr "Bemærk: Plutonium- og Visionary-fordele gælder kun på den officielle Fluxer.app-instans, ikke på tredjeparts- eller self-hostede instanser."
+msgstr "Bemærk: Plutonium- og Visionary-fordele gælder kun på den officielle Fluxer.app-instans – ikke på tredjeparts- eller self-hostede instanser."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:788
 msgid "Numbered badge (1-{0}) showing your Visionary status"
@@ -1260,7 +1260,7 @@ msgstr "Engangskøb, adgang for livet"
 
 #: src/fluxer_marketing/components/plutonium_banner.gleam:43
 msgid "Only {0} of {1} Visionary lifetime slots left — lifetime Plutonium + Operator Pass"
-msgstr "Kun {0} af {1} Visionary-pladser for livet tilbage — Plutonium for livet + Operator Pass"
+msgstr "Kun {0} af {1} Visionary-pladser for livet tilbage – Plutonium for livet + Operator Pass"
 
 #: src/fluxer_marketing/components/navigation.gleam:172
 msgid "Open Fluxer"
@@ -1269,7 +1269,7 @@ msgstr "Åbn Fluxer"
 #: src/fluxer_marketing/components/hero.gleam:82
 #: src/fluxer_marketing/components/navigation.gleam:473
 msgid "Open in Browser"
-msgstr "Åbn i browser"
+msgstr "Åbn i browseren"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:118
 msgid "Open source"
@@ -1291,7 +1291,7 @@ msgstr "Operator Pass"
 
 #: src/fluxer_marketing/components/coming_features.gleam:31
 msgid "Opt-in E2EE messaging"
-msgstr "Opt-in E2EE besked"
+msgstr "Valgfri E2EE-beskeder"
 
 #: src/fluxer_marketing/components/current_features.gleam:74
 msgid "Organized channels for communities"
@@ -1315,7 +1315,7 @@ msgstr "Vores selvstændige symbol. Brug det kun, når vores brand allerede er t
 
 #: src/fluxer_marketing/components/communities_section.gleam:106
 msgid "Over time, we'd love to explore optional monetization tools that help creators and communities earn, with a small, transparent fee that keeps the app sustainable."
-msgstr "Med tiden vil vi gerne udforske valgfrie monetiseringsværktøjer, der hjælper skabere og fællesskaber med at tjene penge – med et lille, gennemsigtigt gebyr, der gør appen bæredygtig."
+msgstr "Med tiden vil vi gerne udforske valgfrie værktøjer til indtjening, der hjælper skabere og fællesskaber med at tjene – med et lille, gennemsigtigt gebyr, der gør appen bæredygtig."
 
 #: src/fluxer_marketing/pages/not_found_page.gleam:101
 msgid "Page Not Found"
@@ -1331,7 +1331,7 @@ msgstr "Partner-badge"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:90
 msgid "Partner Perks"
-msgstr "Partner-fordele"
+msgstr "Partnerfordele"
 
 #: src/fluxer_marketing/components/footer.gleam:121
 #: src/fluxer_marketing/components/navigation.gleam:298
@@ -1368,7 +1368,7 @@ msgstr "Portugisisk (Brasilien)"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:154
 msgid "Premium quality"
-msgstr "Premium-kvalitet"
+msgstr "Premiumkvalitet"
 
 #: src/fluxer_marketing/components/footer.gleam:198
 #: src/fluxer_marketing/components/navigation.gleam:337
@@ -1377,7 +1377,7 @@ msgstr "Presse"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:246
 msgid "Press \"Add to Home Screen\""
-msgstr "Tryk på \"Tilføj til startskærm"
+msgstr "Tryk på \"Føj til hjemmeskærm\""
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:249
 msgid "Press \"Add\" in the upper-right corner"
@@ -1385,11 +1385,11 @@ msgstr "Tryk på \"Tilføj\" i øverste højre hjørne"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:200
 msgid "Press \"Install app\""
-msgstr "Tryk på \"Installer app"
+msgstr "Tryk på \"Installer app\""
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:301
 msgid "Press \"Install\" in the popup that appears"
-msgstr "Tryk på \"Installer\" i det pop-up vindue, der vises"
+msgstr "Tryk på \"Installer\" i pop op-vinduet, der dukker op"
 
 #: src/fluxer_marketing/pages/press_page.gleam:45
 #: src/fluxer_marketing/pages/press_page.gleam:65
@@ -1402,15 +1402,15 @@ msgstr "Pressekontakt"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:197
 msgid "Press the \"More\" (\\u{22EE}) button in the top-right corner"
-msgstr "Tryk på \"Mere\" (\\u{22EE}) knappen i øverste højre hjørne"
+msgstr "Tryk på knappen \"Mere\" (\\u{22EE}) øverst til højre"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:243
 msgid "Press the Share button (rectangle with upwards-pointing arrow)"
-msgstr "Tryk på del-knappen (rektangel med opadpegende pil)"
+msgstr "Tryk på Del-knappen (rektangel med en opadpegende pil)"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:296
 msgid "Press the install button (downwards-pointing arrow on monitor) in the address bar"
-msgstr "Tryk på install-knappen (nedadpegende pil på skærmen) i adresselinjen"
+msgstr "Tryk på installationsknappen (nedadpegende pil på en skærm) i adresselinjen"
 
 #: src/fluxer_marketing/components/footer.gleam:110
 #: src/fluxer_marketing/components/navigation.gleam:93
@@ -1556,7 +1556,7 @@ msgstr "Gemte medier"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:584
 msgid "Schedule messages to be sent at a specific time in the future. No DeLorean required."
-msgstr "Planlæg beskeder, så de sendes på et bestemt tidspunkt i fremtiden. Ingen DeLorean nødvendig."
+msgstr "Planlæg beskeder, så de sendes på et bestemt tidspunkt i fremtiden. Ingen DeLorean krævet."
 
 #: src/fluxer_marketing/components/current_features.gleam:89
 msgid "Screen sharing built in"
@@ -1564,7 +1564,7 @@ msgstr "Indbygget skærmdeling"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:132
 msgid "Screenshots courtesy of "
-msgstr "Screenshots er venligst stillet til rådighed af "
+msgstr "Skærmbilleder med tak til "
 
 #: src/fluxer_marketing/pages/help_components.gleam:93
 msgid "Search"
@@ -1611,7 +1611,7 @@ msgstr "Sikkerhedsrapporter"
 
 #: src/fluxer_marketing/pages/download_page.gleam:232
 msgid "See badge counts on the app icon."
-msgstr "Se badge-tællere på app-ikonet."
+msgstr "Se badgetællere på appikonet."
 
 #: src/fluxer_marketing/pages/partners_page.gleam:312
 msgid "See perks"
@@ -1752,7 +1752,7 @@ msgstr "Operator Pass er valgfrit: betal for support og adgang til fællesskabet
 
 #: src/fluxer_marketing/components/coming_features.gleam:89
 msgid "The future is being built right now. These features are coming soon."
-msgstr "Fremtiden bliver bygget lige nu. Disse funktioner kommer snart."
+msgstr "Fremtiden bliver bygget lige nu. Disse funktioner er på vej."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:313
 msgid "The future of paid roles"
@@ -1790,7 +1790,7 @@ msgstr "Prøv andre søgeord, eller gennemse vores kategorier."
 
 #: src/fluxer_marketing/components/hackernews_banner.gleam:75
 msgid "Try it without an email at"
-msgstr "Prøv uden en email på"
+msgstr "Prøv uden en e-mail på"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:147
 msgid "Turkish"
@@ -1822,7 +1822,7 @@ msgstr "Op til 4K-videokvalitet"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:54
 msgid "Upgrade to Plutonium for $4.99/mo: custom username tags, per-community profiles, message scheduling, 4K streaming, 500MB uploads, and more exclusive features."
-msgstr "Opgrader til Plutonium for $4.99/md: brugerdefinerede brugernavnetags, profiler pr. fællesskab, planlægning af beskeder, 4K-streaming, 500 MB uploads og flere eksklusive funktioner."
+msgstr "Opgrader til Plutonium for $4.99/md: eget brugernavnetag, profiler pr. fællesskab, planlægning af beskeder, 4K-streaming, uploads op til 500 MB og flere eksklusive funktioner."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:644
 msgid "Upload and use your own notification sounds to personalize your Fluxer experience."
@@ -1834,11 +1834,11 @@ msgstr "Upload animerede GIF’er som dit fællesskabs avatar og banner."
 
 #: src/fluxer_marketing/components/current_features.gleam:136
 msgid "Upload custom emojis and stickers"
-msgstr "Upload brugerdefinerede emojis og stickers"
+msgstr "Upload egne emojis og stickers"
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:315
 msgid "Use Fluxer in your mobile browser for now"
-msgstr "Brug Fluxer i din mobilbrowser indtil videre"
+msgstr "Brug Fluxer i mobilbrowseren indtil videre"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:378
 msgid "Use animated emojis"
@@ -1846,15 +1846,15 @@ msgstr "Brug animerede emojis"
 
 #: src/fluxer_marketing/components/current_features.gleam:154
 msgid "Use our desktop client (mobile coming soon)"
-msgstr "Brug vores desktop-klient (mobiludgaven kommer snart)"
+msgstr "Brug vores desktop-klient (mobil kommer snart)"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:604
 msgid "Use your favorite emojis and stickers from any community, anywhere across Fluxer."
-msgstr "Brug dine yndlings-emojis og -stickers fra enhver community – overalt på Fluxer."
+msgstr "Brug dine yndlings-emojis og -stickers fra ethvert fællesskab – overalt på Fluxer."
 
 #: src/fluxer_marketing/pages/partners_page.gleam:222
 msgid "VIP Voice Servers"
-msgstr "VIP-voiceservere"
+msgstr "VIP-voice-servere"
 
 #: src/fluxer_marketing/components/partner_section.gleam:117
 msgid "Verified Community"
@@ -1895,7 +1895,7 @@ msgstr "Tale og video"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:396
 msgid "Want to help build Fluxer?"
-msgstr "Vil du hjælpe med at bygge Fluxer?"
+msgstr "Vil du være med til at bygge Fluxer?"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:94
 msgid "Ways to contribute"
@@ -1903,7 +1903,7 @@ msgstr "Måder at bidrage på"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:192
 msgid "We appreciate responsible disclosure to security@fluxer.app. We offer Plutonium codes and Bug Hunter badges based on severity."
-msgstr "Vi sætter pris på ansvarlig disclosure til security@fluxer.app. Vi giver Plutonium-koder og Bug Hunter-badges afhængigt af alvorlighedsgraden."
+msgstr "Vi sætter pris på ansvarlig rapportering til security@fluxer.app. Vi giver Plutonium-koder og Bug Hunter-badges afhængigt af alvorlighedsgraden."
 
 #: src/fluxer_marketing/components/final_cta.gleam:56
 msgid "We need your support to make this work."
@@ -1923,7 +1923,7 @@ msgstr "Vi bygger en komplet platform med alle de funktioner, du forventer. Men 
 
 #: src/fluxer_marketing/pages/download_page.gleam:214
 msgid "We're building apps for iOS and Android. Until they're ready, Fluxer works in your mobile browser — and we've put a lot of effort into making it feel as app-like as possible."
-msgstr "Vi bygger apps til iOS og Android. Indtil de er klar, virker Fluxer i din mobilbrowser — og vi har lagt meget arbejde i at få det til at føles så app-agtigt som muligt."
+msgstr "Vi bygger apps til iOS og Android. Indtil de er klar, virker Fluxer i din mobilbrowser – og vi har lagt meget arbejde i at få det til at føles så app-agtigt som muligt."
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:78
 msgid "We're limiting registrations during beta. Once you're in, you can give friends a code to skip the queue."
@@ -1937,7 +1937,7 @@ msgstr "Vi er stadig i gang med at bygge forretningen omkring Fluxer og er ikke 
 msgid "Webhooks and bot support"
 msgstr "Webhooks og bot-understøttelse"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:351
+#: src/fluxer_marketing/pages/donate_page.gleam:350
 msgid "What does my donation support?"
 msgstr "Hvad støtter min donation?"
 
@@ -1947,15 +1947,15 @@ msgstr "Det får du med Plutonium"
 
 #: src/fluxer_marketing/components/current_features.gleam:45
 msgid "What's available today"
-msgstr "Det er tilgængeligt i dag"
+msgstr "Tilgængeligt i dag"
 
 #: src/fluxer_marketing/components/coming_features.gleam:77
 msgid "What's coming next"
-msgstr "Det kommer snart"
+msgstr "Det næste, der kommer"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:385
+#: src/fluxer_marketing/pages/donate_page.gleam:384
 msgid "What's the difference between Individual and Business?"
-msgstr "Hvad er forskellen på Privat og Virksomhed?"
+msgstr "Hvad er forskellen på Privat og Erhverv?"
 
 #: src/fluxer_marketing/pages/press_page.gleam:226
 msgid "White"
@@ -1989,7 +1989,7 @@ msgstr "Dit fællesskab får verificeret status, så det fremstår autentisk og 
 msgid "Your community receives increased limits when you need them."
 msgstr "Dit fællesskab får højere grænser, når du har brug for det."
 
-#: src/fluxer_marketing/pages/donate_page.gleam:354
+#: src/fluxer_marketing/pages/donate_page.gleam:353
 msgid "Your donation helps fund Fluxer's infrastructure costs, including servers, bandwidth, storage, and ongoing development of new features. It helps us maintain and improve the platform for everyone."
 msgstr "Din donation hjælper med at finansiere Fluxers infrastrukturudgifter, herunder servere, båndbredde, lagring og den løbende udvikling af nye funktioner. Den hjælper os med at vedligeholde og forbedre platformen for alle."
 
@@ -2034,7 +2034,7 @@ msgid "one-time purchase"
 msgstr "engangskøb"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:68
-#: src/fluxer_marketing/pages/donate_page.gleam:284
+#: src/fluxer_marketing/pages/donate_page.gleam:282
 #: src/fluxer_marketing/pages/plutonium_page.gleam:106
 #: src/fluxer_marketing/pages/plutonium_page.gleam:230
 msgid "or"
@@ -2059,4 +2059,3 @@ msgstr "{0} af {1} pladser tilbage"
 #: src/fluxer_marketing/components/footer.gleam:325
 msgid "© Fluxer Platform AB (Swedish limited liability company: 559537-3993)"
 msgstr "© Fluxer Platform AB (svensk aktieselskab: 559537-3993)"
-

@@ -96,3 +96,7 @@
 	display: flex;
 	gap: 0.5rem;
 }
+
+.claimButton {
+	align-self: flex-start;
+}

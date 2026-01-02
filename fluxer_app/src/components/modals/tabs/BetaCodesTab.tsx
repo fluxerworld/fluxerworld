@@ -25,6 +25,7 @@ import {observer} from 'mobx-react-lite';
 import React from 'react';
 import * as BetaCodeActionCreators from '~/actions/BetaCodeActionCreators';
 import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
+import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
 import {
 	SettingsTabContainer,
 	SettingsTabContent,
@@ -39,6 +40,7 @@ import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
 import type {BetaCodeRecord} from '~/records/BetaCodeRecord';
 import BetaCodeStore from '~/stores/BetaCodeStore';
 import MobileLayoutStore from '~/stores/MobileLayoutStore';
+import UserStore from '~/stores/UserStore';
 import * as DateUtils from '~/utils/DateUtils';
 import styles from './BetaCodesTab.module.css';
 
@@ -247,10 +249,12 @@ const BetaCodesTab: React.FC = observer(() => {
 	const fetchStatus = BetaCodeStore.fetchStatus;
 	const allowance = BetaCodeStore.allowance;
 	const nextResetAt = BetaCodeStore.nextResetAt;
+	const isClaimed = UserStore.currentUser?.isClaimed() ?? false;
 
 	React.useEffect(() => {
+		if (!isClaimed) return;
 		BetaCodeActionCreators.fetch();
-	}, []);
+	}, [isClaimed]);
 
 	const sortedBetaCodes = React.useMemo(() => {
 		return [...betaCodes].sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
@@ -279,6 +283,27 @@ const BetaCodesTab: React.FC = observer(() => {
 		}
 		return i18n._(msg`${allowance} codes remaining this week`);
 	}, [allowance, nextResetAt, i18n]);
+
+	if (!isClaimed) {
+		return (
+			<SettingsTabContainer>
+				<SettingsTabContent>
+					<StatusSlate
+						Icon={TicketIcon}
+						title={<Trans>Claim your account</Trans>}
+						description={<Trans>Claim your account to generate beta codes.</Trans>}
+						actions={[
+							{
+								text: <Trans>Claim Account</Trans>,
+								onClick: () => openClaimAccountModal({force: true}),
+								variant: 'primary',
+							},
+						]}
+					/>
+				</SettingsTabContent>
+			</SettingsTabContainer>
+		);
+	}
 
 	if (fetchStatus === 'pending' || fetchStatus === 'idle') {
 		return (

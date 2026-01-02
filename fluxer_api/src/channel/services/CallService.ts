@@ -72,6 +72,12 @@ export class CallService {
 			throw new InvalidChannelTypeForCallError();
 		}
 
+		const caller = await this.userRepository.findUnique(userId);
+		const isUnclaimedCaller = caller != null && !caller.passwordHash && !caller.isBot;
+		if (isUnclaimedCaller && channel.type === ChannelTypes.DM) {
+			return {ringable: false};
+		}
+
 		const call = await this.gatewayService.getCall(channelId);
 		const alreadyInCall = call ? call.voice_states.some((vs) => vs.user_id === userId.toString()) : false;
 		if (alreadyInCall) {

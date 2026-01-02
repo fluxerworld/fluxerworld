@@ -16,8 +16,7 @@
 		"undici",
 		"update-electron-app",
 		"@types/ws",
-		"electron-builder-squirrel-windows",
-		"esbuild"
+		"electron-builder-squirrel-windows"
 	],
 	"ignoreBinaries": ["go"],
 	"ignoreExportsUsedInFile": true,

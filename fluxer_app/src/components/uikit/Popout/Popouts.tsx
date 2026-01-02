@@ -125,10 +125,10 @@ const PopoutItem: React.FC<PopoutItemProps> = observer(
 		const transitionStyles = React.useMemo(() => {
 			const shouldAnimate = animationType === 'smooth' && !prefersReducedMotion;
 			const duration = shouldAnimate ? '250ms' : '0ms';
-			const isPositioned = state.isReady;
+			const isPositioned = animationType === 'none' ? true : state.isReady;
 			const transform = getTransform(shouldAnimate, isVisible, isPositioned, targetInDOM);
 			return {
-				opacity: isVisible && isPositioned && targetInDOM ? 1 : 0,
+				opacity: isVisible && targetInDOM ? 1 : 0,
 				transform,
 				transition: `opacity ${duration} ease-in-out${shouldAnimate ? `, transform ${duration} ease-in-out` : ''}`,
 				pointerEvents: isPositioned && targetInDOM ? ('auto' as const) : ('none' as const),

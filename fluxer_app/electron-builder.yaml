@@ -96,8 +96,8 @@ linux:
   icon: electron-build-resources/icons-stable
   category: Network
   maintainer: Fluxer Contributors
-  synopsis: Chat that puts you first
-  description: Chat that puts you first. Built for friends, groups, and communities. Text, voice, and video. Open source and community-funded.
+  synopsis: Fluxer
+  description: Fluxer
   executableName: fluxer
   target:
     - dir

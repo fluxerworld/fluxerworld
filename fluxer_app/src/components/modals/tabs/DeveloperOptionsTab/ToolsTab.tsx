@@ -24,7 +24,7 @@ import {useCallback, useState} from 'react';
 import * as ModalActionCreators from '~/actions/ModalActionCreators';
 import {testBulkDeleteAllMessages} from '~/actions/UserActionCreators';
 import {CaptchaModal} from '~/components/modals/CaptchaModal';
-import {ClaimAccountModal} from '~/components/modals/ClaimAccountModal';
+import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
 import {KeyboardModeIntroModal} from '~/components/modals/KeyboardModeIntroModal';
 import {Button} from '~/components/uikit/Button/Button';
 import type {GatewaySocket} from '~/lib/GatewaySocket';
@@ -67,7 +67,7 @@ export const ToolsTabContent: React.FC<ToolsTabContentProps> = observer(({socket
 	}, []);
 
 	const handleOpenClaimAccountModal = useCallback(() => {
-		ModalActionCreators.push(ModalActionCreators.modal(() => <ClaimAccountModal />));
+		openClaimAccountModal({force: true});
 	}, []);
 
 	if (shouldCrash) {

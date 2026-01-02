@@ -28,11 +28,9 @@ import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import React from 'react';
 import * as DimensionActionCreators from '~/actions/DimensionActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
 import * as UserSettingsActionCreators from '~/actions/UserSettingsActionCreators';
 import {ChannelTypes} from '~/Constants';
-import {ClaimAccountModal} from '~/components/modals/ClaimAccountModal';
+import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
 import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
 import {ComponentDispatch} from '~/lib/ComponentDispatch';
 import {Platform} from '~/lib/Platform';
@@ -330,7 +328,7 @@ export const GuildsLayout = observer(({children}: {children: React.ReactNode}) =
 		if (accountAgeMs < THIRTY_MINUTES_MS) return;
 
 		NagbarStore.markClaimAccountModalShown();
-		ModalActionCreators.push(modal(() => <ClaimAccountModal />));
+		openClaimAccountModal();
 	}, [isReady, user, location.pathname]);
 
 	const shouldShowSidebarDivider = !mobileLayout.enabled;

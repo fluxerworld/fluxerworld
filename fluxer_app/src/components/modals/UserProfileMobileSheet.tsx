@@ -217,6 +217,7 @@ const UserProfileMobileSheetContent: React.FC<UserProfileMobileSheetContentProps
 		const isCurrentUser = user.id === AuthenticationStore.currentUserId;
 		const relationship = RelationshipStore.getRelationship(user.id);
 		const relationshipType = relationship?.type;
+		const currentUserUnclaimed = !(UserStore.currentUser?.isClaimed() ?? true);
 
 		const guildMember = GuildMemberStore.getMember(profile?.guildId ?? guildId ?? '', user.id);
 		const memberRoles = profile?.guildId && guildMember ? guildMember.getSortedRoles() : [];
@@ -389,11 +390,14 @@ const UserProfileMobileSheetContent: React.FC<UserProfileMobileSheetContentProps
 					</button>
 				);
 			}
-			return (
-				<button type="button" onClick={handleSendFriendRequest} className={styles.actionButton}>
-					<UserPlusIcon className={styles.icon} />
-				</button>
-			);
+			if (relationshipType === undefined && !currentUserUnclaimed) {
+				return (
+					<button type="button" onClick={handleSendFriendRequest} className={styles.actionButton}>
+						<UserPlusIcon className={styles.icon} />
+					</button>
+				);
+			}
+			return null;
 		};
 
 		return (

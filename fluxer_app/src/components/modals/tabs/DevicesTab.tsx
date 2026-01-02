@@ -115,10 +115,10 @@ const AuthSession: React.FC<AuthSessionProps> = observer(
 						</span>
 
 						<div className={styles.authSessionLocation}>
-							{authSession.clientLocation}
+							<span className={styles.locationText}>{authSession.clientLocation}</span>
 							{!isCurrent && (
 								<>
-									<StatusDot />
+									<span aria-hidden className={styles.locationSeparator} />
 									<span className={styles.lastUsed}>
 										{DateUtils.getShortRelativeDateString(authSession.approxLastUsedAt ?? new Date(0))}
 									</span>

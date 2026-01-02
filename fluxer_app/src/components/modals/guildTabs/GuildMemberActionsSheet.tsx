@@ -54,6 +54,7 @@ import GuildStore from '~/stores/GuildStore';
 import PermissionStore from '~/stores/PermissionStore';
 import RelationshipStore from '~/stores/RelationshipStore';
 import UserProfileMobileStore from '~/stores/UserProfileMobileStore';
+import UserStore from '~/stores/UserStore';
 import * as CallUtils from '~/utils/CallUtils';
 import * as NicknameUtils from '~/utils/NicknameUtils';
 import * as PermissionUtils from '~/utils/PermissionUtils';
@@ -74,6 +75,7 @@ export const GuildMemberActionsSheet: FC<GuildMemberActionsSheetProps> = observe
 		const currentUserId = AuthenticationStore.currentUserId;
 		const isCurrentUser = user.id === currentUserId;
 		const isBot = user.bot;
+		const currentUserUnclaimed = !(UserStore.currentUser?.isClaimed() ?? true);
 
 		const relationship = RelationshipStore.getRelationship(user.id);
 		const relationshipType = relationship?.type;
@@ -262,7 +264,8 @@ export const GuildMemberActionsSheet: FC<GuildMemberActionsSheetProps> = observe
 				});
 			} else if (
 				relationshipType !== RelationshipTypes.OUTGOING_REQUEST &&
-				relationshipType !== RelationshipTypes.BLOCKED
+				relationshipType !== RelationshipTypes.BLOCKED &&
+				!currentUserUnclaimed
 			) {
 				relationshipItems.push({
 					icon: <UserPlusIcon className={styles.icon} />,

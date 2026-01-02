@@ -73,6 +73,7 @@ export const fetch = async (userId: string, guildId?: string, force = false): Pr
 				query: {
 					...(guildId ? {guild_id: guildId} : {}),
 					with_mutual_friends: true,
+					with_mutual_guilds: true,
 				},
 			});
 			const profile = response.body;

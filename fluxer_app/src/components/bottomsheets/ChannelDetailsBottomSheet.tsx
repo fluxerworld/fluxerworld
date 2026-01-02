@@ -131,6 +131,7 @@ import * as ChannelUtils from '~/utils/ChannelUtils';
 import {getMutedText, getNotificationSettingsLabel} from '~/utils/ContextMenuUtils';
 import {MAX_GROUP_DM_RECIPIENTS} from '~/utils/groupDmUtils';
 import * as InviteUtils from '~/utils/InviteUtils';
+import * as MemberListUtils from '~/utils/MemberListUtils';
 import {buildChannelLink} from '~/utils/messageLinkUtils';
 import * as NicknameUtils from '~/utils/NicknameUtils';
 import * as RouterUtils from '~/utils/RouterUtils';
@@ -278,7 +279,18 @@ interface LazyMemberListGroupProps {
 const LazyMemberListGroup = observer(
 	({guild, group, channelId, members, onMemberLongPress}: LazyMemberListGroupProps) => {
 		const {t} = useLingui();
-		const groupName = group.id === 'online' ? t`Online` : group.id === 'offline' ? t`Offline` : group.id;
+		const groupName = (() => {
+			switch (group.id) {
+				case 'online':
+					return t`Online`;
+				case 'offline':
+					return t`Offline`;
+				default: {
+					const role = guild.getRole(group.id);
+					return role?.name ?? group.id;
+				}
+			}
+		})();
 
 		return (
 			<div className={styles.memberGroupContainer}>
@@ -321,6 +333,7 @@ const LazyGuildMemberList = observer(
 			guildId: guild.id,
 			channelId: channel.id,
 			enabled,
+			allowInitialUnfocusedLoad: true,
 		});
 
 		const memberListState = MemberSidebarStore.getList(guild.id, channel.id);
@@ -364,21 +377,22 @@ const LazyGuildMemberList = observer(
 
 		const groupedItems: Map<string, Array<GuildMemberRecord>> = new Map();
 		const groups = memberListState.groups;
+		const seenMemberIds = new Set<string>();
 
 		for (const group of groups) {
 			groupedItems.set(group.id, []);
 		}
 
-		for (const [, item] of memberListState.items) {
-			if (item.type === 'member') {
+		let currentGroup: string | null = null;
+		const sortedItems = Array.from(memberListState.items.entries()).sort(([a], [b]) => a - b);
+		for (const [, item] of sortedItems) {
+			if (item.type === 'group') {
+				currentGroup = (item.data as {id: string}).id;
+			} else if (item.type === 'member' && currentGroup) {
 				const member = item.data as GuildMemberRecord;
-				for (let i = groups.length - 1; i >= 0; i--) {
-					const group = groups[i];
-					const members = groupedItems.get(group.id);
-					if (members) {
-						members.push(member);
-						break;
-					}
+				if (!seenMemberIds.has(member.user.id)) {
+					seenMemberIds.add(member.user.id);
+					groupedItems.get(currentGroup)?.push(member);
 				}
 			}
 		}
@@ -734,6 +748,24 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 		}, []);
 
 		const isMemberTabVisible = isOpen && activeTab === 'members';
+		const dmMemberGroups = (() => {
+			if (!(isDM || isGroupDM || isPersonalNotes)) return [];
+
+			const currentUserId = AuthenticationStore.currentUserId;
+			let memberIds: Array<string> = [];
+
+			if (isPersonalNotes) {
+				memberIds = currentUser ? [currentUser.id] : [];
+			} else {
+				memberIds = [...channel.recipientIds];
+				if (currentUserId && !memberIds.includes(currentUserId)) {
+					memberIds.push(currentUserId);
+				}
+			}
+
+			const users = memberIds.map((id) => UserStore.getUser(id)).filter((u): u is UserRecord => u !== null);
+			return MemberListUtils.getGroupDMMemberGroups(users);
+		})();
 
 		return (
 			<>
@@ -910,68 +942,60 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 												)}
 
 												<div className={styles.membersHeader}>
-													<Trans>Members</Trans> —{' '}
-													{isPersonalNotes ? 1 : isGroupDM ? channel.recipientIds.length + 1 : 2}
+													<Trans>Members</Trans> — {dmMemberGroups.reduce((total, group) => total + group.count, 0)}
 												</div>
 												<div className={styles.membersListContainer}>
-													{(() => {
-														let memberIds: Array<string> = [];
-														if (isPersonalNotes) {
-															memberIds = currentUser ? [currentUser.id] : [];
-														} else if (isGroupDM) {
-															memberIds = [...channel.recipientIds];
-															if (currentUser && !memberIds.includes(currentUser.id)) {
-																memberIds.push(currentUser.id);
-															}
-														} else if (isDM) {
-															memberIds = [...channel.recipientIds];
-															if (currentUser && !memberIds.includes(currentUser.id)) {
-																memberIds.push(currentUser.id);
-															}
-														}
+													{dmMemberGroups.map((group) => (
+														<div key={group.id} className={styles.memberGroupContainer}>
+															<div className={styles.memberGroupHeader}>
+																{group.displayName} — {group.count}
+															</div>
+															<div className={styles.memberGroupList}>
+																{group.users.map((user, index) => {
+																	const isCurrentUser = user.id === currentUser?.id;
+																	const isOwner = isGroupDM && channel.ownerId === user.id;
 
-														return memberIds.map((userId, index, arr) => {
-															const user = UserStore.getUser(userId);
-															if (!user) return null;
+																	const handleUserClick = () => {
+																		UserProfileActionCreators.openUserProfile(user.id);
+																	};
 
-															const isCurrentUser = user.id === currentUser?.id;
-															const isOwner = isGroupDM && channel.ownerId === user.id;
-
-															const handleUserClick = () => {
-																UserProfileActionCreators.openUserProfile(user.id);
-															};
-
-															return (
-																<React.Fragment key={user.id}>
-																	<button type="button" onClick={handleUserClick} className={styles.memberItemButton}>
-																		<StatusAwareAvatar user={user} size={40} />
-																		<div className={styles.memberItemContent}>
-																			<span className={styles.memberItemName}>
-																				{user.username}
-																				{isCurrentUser && (
-																					<span className={styles.memberItemYou}>
-																						{' '}
-																						<Trans>(you)</Trans>
+																	return (
+																		<React.Fragment key={user.id}>
+																			<button
+																				type="button"
+																				onClick={handleUserClick}
+																				className={styles.memberItemButton}
+																			>
+																				<StatusAwareAvatar user={user} size={40} />
+																				<div className={styles.memberItemContent}>
+																					<span className={styles.memberItemName}>
+																						{user.username}
+																						{isCurrentUser && (
+																							<span className={styles.memberItemYou}>
+																								{' '}
+																								<Trans>(you)</Trans>
+																							</span>
+																						)}
 																					</span>
-																				)}
-																			</span>
-																			{(user.bot || isOwner) && (
-																				<div className={styles.memberItemTags}>
-																					{user.bot && <UserTag system={user.system} />}
-																					{isOwner && (
-																						<Tooltip text={t`Group Owner`}>
-																							<CrownIcon className={styles.ownerCrown} weight="fill" />
-																						</Tooltip>
+																					{(user.bot || isOwner) && (
+																						<div className={styles.memberItemTags}>
+																							{user.bot && <UserTag system={user.system} />}
+																							{isOwner && (
+																								<Tooltip text={t`Group Owner`}>
+																									<CrownIcon className={styles.ownerCrown} weight="fill" />
+																								</Tooltip>
+																							)}
+																						</div>
 																					)}
 																				</div>
-																			)}
-																		</div>
-																	</button>
-																	{index < arr.length - 1 && <div className={styles.memberItemDivider} />}
-																</React.Fragment>
-															);
-														});
-													})()}
+																			</button>
+																			{index < group.users.length - 1 && <div className={styles.memberItemDivider} />}
+																		</React.Fragment>
+																	);
+																})}
+															</div>
+														</div>
+													))}
 												</div>
 											</div>
 										)}

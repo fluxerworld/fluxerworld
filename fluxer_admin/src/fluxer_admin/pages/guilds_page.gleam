@@ -112,7 +112,7 @@ pub fn view(
 fn render_search_form(ctx: Context, query: option.Option(String)) {
   ui.card(ui.PaddingSmall, [
     h.form([a.method("get"), a.class("flex flex-col gap-4")], [
-      h.div([a.class("flex gap-2")], [
+      h.div([a.class("flex flex-col sm:flex-row gap-2")], [
         h.input([
           a.type_("text"),
           a.name("q"),
@@ -123,12 +123,12 @@ fn render_search_form(ctx: Context, query: option.Option(String)) {
           ),
           a.attribute("autocomplete", "off"),
         ]),
-        ui.button_primary("Search", "submit", []),
+        ui.button_primary("Search", "submit", [a.class("w-full sm:w-auto")]),
         h.a(
           [
             href(ctx, "/guilds"),
             a.class(
-              "px-4 py-2 bg-white text-neutral-700 border border-neutral-300 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors",
+              "px-4 py-2 bg-white text-neutral-700 border border-neutral-300 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors w-full sm:w-auto text-center",
             ),
           ],
           [element.text("Clear")],
@@ -159,7 +159,7 @@ fn render_guild_card(ctx: Context, guild: guilds.GuildSearchResult) {
     ],
     [
       h.div([a.class("p-5")], [
-        h.div([a.class("flex items-center gap-4")], [
+        h.div([a.class("flex flex-col sm:flex-row sm:items-center gap-4")], [
           case
             avatar.get_guild_icon_url(
               ctx.media_endpoint,
@@ -169,27 +169,41 @@ fn render_guild_card(ctx: Context, guild: guilds.GuildSearchResult) {
             )
           {
             option.Some(icon_url) ->
-              h.div([a.class("flex-shrink-0")], [
-                h.img([
-                  a.src(icon_url),
-                  a.alt(guild.name),
-                  a.class("w-16 h-16 rounded-full"),
-                ]),
-              ])
+              h.div(
+                [
+                  a.class(
+                    "flex-shrink-0 flex items-center sm:block justify-center",
+                  ),
+                ],
+                [
+                  h.img([
+                    a.src(icon_url),
+                    a.alt(guild.name),
+                    a.class("w-16 h-16 rounded-full"),
+                  ]),
+                ],
+              )
             option.None ->
-              h.div([a.class("flex-shrink-0")], [
-                h.div(
-                  [
-                    a.class(
-                      "w-16 h-16 rounded-full bg-neutral-200 flex items-center justify-center text-base font-medium text-neutral-600",
-                    ),
-                  ],
-                  [element.text(avatar.get_initials_from_name(guild.name))],
-                ),
-              ])
+              h.div(
+                [
+                  a.class(
+                    "flex-shrink-0 flex items-center sm:block justify-center",
+                  ),
+                ],
+                [
+                  h.div(
+                    [
+                      a.class(
+                        "w-16 h-16 rounded-full bg-neutral-200 flex items-center justify-center text-base font-medium text-neutral-600",
+                      ),
+                    ],
+                    [element.text(avatar.get_initials_from_name(guild.name))],
+                  ),
+                ],
+              )
           },
           h.div([a.class("flex-1 min-w-0")], [
-            h.div([a.class("flex items-center gap-2 mb-2")], [
+            h.div([a.class("flex items-center gap-2 mb-2 flex-wrap")], [
               h.h2([a.class("text-base font-medium text-neutral-900")], [
                 element.text(guild.name),
               ]),
@@ -207,7 +221,7 @@ fn render_guild_card(ctx: Context, guild: guilds.GuildSearchResult) {
               },
             ]),
             h.div([a.class("space-y-0.5")], [
-              h.div([a.class("text-sm text-neutral-600")], [
+              h.div([a.class("text-sm text-neutral-600 break-all")], [
                 element.text("ID: " <> guild.id),
               ]),
               h.div([a.class("text-sm text-neutral-600")], [

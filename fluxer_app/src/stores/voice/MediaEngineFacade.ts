@@ -23,19 +23,22 @@ import type {Participant, Room, ScreenShareCaptureOptions, TrackPublishOptions} 
 import {computed, makeObservable} from 'mobx';
 import * as SoundActionCreators from '~/actions/SoundActionCreators';
 import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {type GatewayErrorCode, GatewayErrorCodes} from '~/Constants';
+import {ChannelTypes, type GatewayErrorCode, GatewayErrorCodes} from '~/Constants';
 import type {GatewayErrorData} from '~/lib/GatewaySocket';
 import {Logger} from '~/lib/Logger';
 import {voiceStatsDB} from '~/lib/VoiceStatsDB';
 import type {GuildReadyData} from '~/records/GuildRecord';
 import AuthenticationStore from '~/stores/AuthenticationStore';
 import CallMediaPrefsStore from '~/stores/CallMediaPrefsStore';
+import ChannelStore from '~/stores/ChannelStore';
 import ConnectionStore from '~/stores/ConnectionStore';
 import GuildMemberStore from '~/stores/GuildMemberStore';
 import GuildStore from '~/stores/GuildStore';
 import IdleStore from '~/stores/IdleStore';
 import LocalVoiceStateStore from '~/stores/LocalVoiceStateStore';
+import MediaPermissionStore from '~/stores/MediaPermissionStore';
 import UserStore from '~/stores/UserStore';
+import VoiceDevicePermissionStore from '~/stores/voice/VoiceDevicePermissionStore';
 import {SoundType} from '~/utils/SoundUtils';
 import {
 	checkChannelLimit,
@@ -152,12 +155,41 @@ class MediaEngineFacade {
 			});
 			return;
 		}
+		const currentUser = UserStore.getCurrentUser();
+		const isUnclaimed = !(currentUser?.isClaimed() ?? false);
+		if (isUnclaimed) {
+			if (!this.i18n) {
+				throw new Error('MediaEngineFacade: i18n not initialized');
+			}
+			if (guildId) {
+				const guild = GuildStore.getGuild(guildId);
+				const isOwner = guild?.isOwner(currentUserId) ?? false;
+				if (!isOwner) {
+					ToastActionCreators.createToast({
+						type: 'error',
+						children: this.i18n._(msg`Claim your account to join voice channels you don't own.`),
+					});
+					return;
+				}
+			} else {
+				const channel = ChannelStore.getChannel(channelId);
+				if (channel?.type === ChannelTypes.DM) {
+					ToastActionCreators.createToast({
+						type: 'error',
+						children: this.i18n._(msg`Claim your account to start or join 1:1 calls.`),
+					});
+					return;
+				}
+			}
+		}
 		if (!ConnectionStore.socket) {
 			logger.warn('[connectToVoiceChannel] No socket');
 			return;
 		}
 
 		if (!checkChannelLimit(guildId, channelId)) return;
+
+		this.voiceStateSync.reset();
 
 		const shouldProceed = checkMultipleConnections(
 			guildId,
@@ -185,6 +217,7 @@ class MediaEngineFacade {
 				await this.disconnectFromVoiceChannel('user');
 			}
 		}
+		this.voiceStateSync.reset();
 		VoiceConnectionManager.startConnection(guildId, channelId);
 		sendVoiceStateConnect(guildId, channelId);
 	}
@@ -298,16 +331,28 @@ class MediaEngineFacade {
 		const {guildId, channelId, connectionId} = VoiceConnectionManager.connectionState;
 		if (!channelId || !connectionId) return;
 
+		const devicePermission = VoiceDevicePermissionStore.getState().permissionStatus;
+		const micGranted = MediaPermissionStore.isMicrophoneGranted() || devicePermission === 'granted';
+
 		const payload: VoiceStateSyncPayload = {
 			guild_id: guildId,
 			channel_id: channelId,
 			connection_id: connectionId,
-			self_mute: partial?.self_mute ?? LocalVoiceStateStore.getSelfMute(),
+			self_mute:
+				micGranted && partial?.self_mute !== undefined
+					? partial.self_mute
+					: micGranted
+						? LocalVoiceStateStore.getSelfMute()
+						: true,
 			self_deaf: partial?.self_deaf ?? LocalVoiceStateStore.getSelfDeaf(),
 			self_video: partial?.self_video ?? LocalVoiceStateStore.getSelfVideo(),
 			self_stream: partial?.self_stream ?? LocalVoiceStateStore.getSelfStream(),
 			viewer_stream_key: partial?.viewer_stream_key ?? LocalVoiceStateStore.getViewerStreamKey(),
 		};
+
+		if (!micGranted && !LocalVoiceStateStore.getSelfMute()) {
+			LocalVoiceStateStore.updateSelfMute(true);
+		}
 
 		this.voiceStateSync.requestState(payload);
 	}
@@ -451,6 +496,7 @@ class MediaEngineFacade {
 			GatewayErrorCodes.VOICE_CHANNEL_FULL,
 			GatewayErrorCodes.VOICE_MISSING_CONNECTION_ID,
 			GatewayErrorCodes.VOICE_TOKEN_FAILED,
+			GatewayErrorCodes.VOICE_UNCLAIMED_ACCOUNT,
 		]);
 
 		if (!voiceErrorCodes.has(error.code)) {
@@ -467,7 +513,8 @@ class MediaEngineFacade {
 		} else if (
 			error.code === GatewayErrorCodes.VOICE_PERMISSION_DENIED ||
 			error.code === GatewayErrorCodes.VOICE_CHANNEL_FULL ||
-			error.code === GatewayErrorCodes.VOICE_MEMBER_TIMED_OUT
+			error.code === GatewayErrorCodes.VOICE_MEMBER_TIMED_OUT ||
+			error.code === GatewayErrorCodes.VOICE_UNCLAIMED_ACCOUNT
 		) {
 			if (VoiceConnectionManager.connecting && !VoiceConnectionManager.connected) {
 				logger.info('[handleGatewayError] Permission denied, channel full, or timeout while connecting, aborting');
@@ -480,6 +527,14 @@ class MediaEngineFacade {
 				ToastActionCreators.createToast({
 					type: 'error',
 					children: this.i18n._(msg`You can't join while you're on timeout.`),
+				});
+			} else if (error.code === GatewayErrorCodes.VOICE_UNCLAIMED_ACCOUNT) {
+				if (!this.i18n) {
+					throw new Error('MediaEngineFacade: i18n not initialized');
+				}
+				ToastActionCreators.createToast({
+					type: 'error',
+					children: this.i18n._(msg`Claim your account to join this voice channel.`),
 				});
 			}
 		} else if (error.code === GatewayErrorCodes.VOICE_TOKEN_FAILED) {

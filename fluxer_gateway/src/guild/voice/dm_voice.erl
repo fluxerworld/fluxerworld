@@ -346,7 +346,14 @@ get_voice_token(ChannelId, UserId, _SessionId, SessionPid, Latitude, Longitude) 
                     connection_id => ConnectionId
                 }},
             ok;
+        {error, {http_error, _Status, Body}} ->
+            case parse_unclaimed_error(Body) of
+                true -> SessionPid ! {voice_error, voice_unclaimed_account};
+                false -> SessionPid ! {voice_error, voice_token_failed}
+            end,
+            error;
         {error, _Reason} ->
+            SessionPid ! {voice_error, voice_token_failed},
             error
     end.
 
@@ -383,6 +390,11 @@ get_dm_voice_token_and_create_state(
                 IsMobile,
                 State
             );
+        {error, {http_error, _Status, Body}} ->
+            case parse_unclaimed_error(Body) of
+                true -> {reply, gateway_errors:error(voice_unclaimed_account), State};
+                false -> {reply, gateway_errors:error(voice_token_failed), State}
+            end;
         {error, _Reason} ->
             {reply, gateway_errors:error(voice_token_failed), State}
     end.
@@ -500,6 +512,17 @@ disconnect_voice_user(UserId, State) ->
 
             {reply, #{success => true}, NewState}
     end.
+
+parse_unclaimed_error(Body) when is_binary(Body) ->
+    try jsx:decode(Body, [return_maps]) of
+        #{<<"code">> := <<"UNCLAIMED_ACCOUNT_RESTRICTED">>} -> true;
+        #{<<"error">> := #{<<"code">> := <<"UNCLAIMED_ACCOUNT_RESTRICTED">>}} -> true;
+        _ -> false
+    catch
+        _:_ -> false
+    end;
+parse_unclaimed_error(_) ->
+    false.
 
 broadcast_voice_state_update(ChannelId, VoiceState, State) ->
     Channels = maps:get(channels, State, #{}),

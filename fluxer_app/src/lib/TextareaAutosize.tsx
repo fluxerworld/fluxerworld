@@ -52,13 +52,16 @@ function computeRowConstraints(el: HTMLTextAreaElement, minRows?: number, maxRow
 }
 
 export const TextareaAutosize = React.forwardRef<HTMLTextAreaElement, TextareaAutosizeProps>((props, forwardedRef) => {
-	const {minRows: minRowsProp, maxRows, style, onHeightChange, rows, ...rest} = props;
+	const {minRows: minRowsProp, maxRows, style, onHeightChange, rows, onInput, ...rest} = props;
 
-	const minRows = minRowsProp ?? (typeof rows === 'number' ? rows : undefined);
+	const resolvedRows = rows ?? 1;
+	const minRows = minRowsProp ?? (typeof resolvedRows === 'number' ? resolvedRows : undefined);
 
 	const elRef = React.useRef<HTMLTextAreaElement | null>(null);
 	const onHeightChangeRef = React.useRef(onHeightChange);
+	const lastWidthRef = React.useRef<number | null>(null);
 	const lastHeightRef = React.useRef<number | null>(null);
+	const resizeScheduledRef = React.useRef(false);
 
 	const setRef = React.useCallback(
 		(node: HTMLTextAreaElement | null) => {
@@ -84,9 +87,43 @@ export const TextareaAutosize = React.forwardRef<HTMLTextAreaElement, TextareaAu
 		}
 		if (maxHeight != null) {
 			el.style.maxHeight = `${maxHeight}px`;
-			el.style.overflowY = 'auto';
 		}
 	}, [minRows, maxRows]);
+
+	const resize = React.useCallback(() => {
+		const el = elRef.current;
+		if (!el) return;
+
+		const cs = window.getComputedStyle(el);
+		const {minHeight, maxHeight, lineHeight} = computeRowConstraints(el, minRows, maxRows);
+		const borderBlock = getNumber(cs.borderTopWidth) + getNumber(cs.borderBottomWidth);
+		const isBorderBox = cs.boxSizing === 'border-box';
+
+		el.style.height = 'auto';
+
+		let nextHeight = el.scrollHeight + (isBorderBox ? borderBlock : 0);
+		if (minHeight != null) nextHeight = Math.max(nextHeight, minHeight);
+		if (maxHeight != null) nextHeight = Math.min(nextHeight, maxHeight);
+
+		const heightPx = `${nextHeight}px`;
+		if (el.style.height !== heightPx) {
+			el.style.height = heightPx;
+		}
+
+		if (lastHeightRef.current !== nextHeight) {
+			lastHeightRef.current = nextHeight;
+			onHeightChangeRef.current?.(nextHeight, {rowHeight: lineHeight});
+		}
+	}, [maxRows, minRows]);
+
+	const scheduleResize = React.useCallback(() => {
+		if (resizeScheduledRef.current) return;
+		resizeScheduledRef.current = true;
+		requestAnimationFrame(() => {
+			resizeScheduledRef.current = false;
+			resize();
+		});
+	}, [resize]);
 
 	React.useEffect(() => {
 		const el = elRef.current;
@@ -96,27 +133,38 @@ export const TextareaAutosize = React.forwardRef<HTMLTextAreaElement, TextareaAu
 			const entry = entries[0];
 			if (!entry) return;
 
-			const height = entry.borderBoxSize?.[0]?.blockSize ?? el.getBoundingClientRect().height;
-			if (height !== lastHeightRef.current) {
-				lastHeightRef.current = height;
-				const cs = window.getComputedStyle(el);
-				onHeightChangeRef.current?.(height, {rowHeight: getLineHeight(cs)});
+			const width = entry.borderBoxSize?.[0]?.inlineSize ?? el.getBoundingClientRect().width;
+			if (width !== lastWidthRef.current) {
+				lastWidthRef.current = width;
+				scheduleResize();
 			}
 		});
 
 		ro.observe(el);
 		return () => ro.disconnect();
-	}, []);
+	}, [scheduleResize]);
 
 	const computedStyle = React.useMemo(
 		(): React.CSSProperties => ({
-			fieldSizing: 'content',
+			overflow: maxRows ? 'auto' : 'hidden',
 			...style,
 		}),
-		[style],
+		[maxRows, style],
 	);
 
-	return <textarea {...rest} ref={setRef} rows={rows} style={computedStyle} />;
+	const handleInput = React.useCallback(
+		(event: React.FormEvent<HTMLTextAreaElement>) => {
+			resize();
+			onInput?.(event);
+		},
+		[onInput, resize],
+	);
+
+	React.useLayoutEffect(() => {
+		resize();
+	}, [resize, props.value, props.defaultValue, rows]);
+
+	return <textarea {...rest} ref={setRef} rows={resolvedRows} style={computedStyle} onInput={handleInput} />;
 });
 
 TextareaAutosize.displayName = 'TextareaAutosize';

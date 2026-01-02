@@ -280,9 +280,7 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 			const data = payload as {channelId?: string; heightDelta?: number} | undefined;
 			if (data?.channelId && data.channelId !== channel.id) return;
 
-			if (scrollManager.isPinned()) {
-				scrollManager.handleScroll();
-			}
+			scrollManager.handleScroll();
 		};
 
 		const onFocusBottommostMessage = (payload?: unknown) => {

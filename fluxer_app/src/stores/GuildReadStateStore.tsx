@@ -19,7 +19,6 @@
 
 import {makeAutoObservable, observable, reaction, runInAction} from 'mobx';
 import {ChannelTypes, ME, Permissions} from '~/Constants';
-import {Logger} from '~/lib/Logger';
 import ChannelStore from './ChannelStore';
 import GuildStore from './GuildStore';
 import PermissionStore from './PermissionStore';
@@ -31,8 +30,6 @@ type ChannelId = string;
 
 const PRIVATE_CHANNEL_SENTINEL = ME;
 const CAN_READ_PERMISSIONS = Permissions.VIEW_CHANNEL | Permissions.READ_MESSAGE_HISTORY;
-
-const _logger = new Logger('GuildReadStateStore');
 
 class GuildReadState {
 	unread = observable.box(false);

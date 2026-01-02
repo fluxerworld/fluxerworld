@@ -6,19 +6,19 @@ msgstr ""
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:190
 msgid " in Chrome"
-msgstr "στο Chrome"
+msgstr " στο Chrome"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:288
 msgid " in Chrome or another browser with PWA support"
-msgstr "στο Chrome ή σε άλλο πρόγραμμα περιήγησης με υποστήριξη PWA"
+msgstr " στο Chrome ή σε άλλο πρόγραμμα περιήγησης με υποστήριξη PWA"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:236
 msgid " in Safari"
-msgstr "στο Safari"
+msgstr " στο Safari"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1032
 msgid "/forever"
-msgstr "/για πάντα"
+msgstr "/για-πάντα"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:66
 #: src/fluxer_marketing/pages/plutonium_page.gleam:103
@@ -37,15 +37,15 @@ msgstr "/έτος"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:654
 msgid "500MB uploads, 4000 character messages, 300 bookmarks, 50 emoji packs, and much more."
-msgstr "Αποστολές έως 500MB, μηνύματα έως 4000 χαρακτήρες, 300 σελιδοδείκτες, 50 πακέτα emoji και πολλά άλλα."
+msgstr "Αποστολές έως 500MB, μηνύματα έως 4000 χαρακτήρες, 300 σελιδοδείκτες, 50 πακέτα emoji και πολλά ακόμη."
 
 #: src/fluxer_marketing/components/communities_section.gleam:86
 msgid "A chat platform that answers to you, not investors. It's ad-free, open source, community-funded, and never sells your data or nags you with upgrade pop-ups."
-msgstr "Μια πλατφόρμα συνομιλίας που λογοδοτεί σε εσένα, όχι σε επενδυτές. Είναι χωρίς διαφημίσεις, ανοιχτού κώδικα, χρηματοδοτούμενη από την κοινότητα και δεν πουλά ποτέ τα δεδομένα σου ούτε σε ζαλίζει με αναδυόμενα για αναβάθμιση."
+msgstr "Μια πλατφόρμα συνομιλίας που λογοδοτεί σε εσένα, όχι σε επενδυτές. Χωρίς διαφημίσεις, ανοιχτού κώδικα και χρηματοδοτούμενη από την κοινότητα — δεν πουλά ποτέ τα δεδομένα σου και δεν σε ενοχλεί με αναδυόμενα για αναβάθμιση."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:219
 msgid "A non-paid role for recurring contributors who help shape Fluxer alongside the core team."
-msgstr "Ένας μη αμειβόμενος ρόλος για τακτικούς συνεισφέροντες που βοηθούν να διαμορφωθεί το Fluxer μαζί με την βασική ομάδα."
+msgstr "Ένας μη αμειβόμενος ρόλος για τακτικούς συνεισφέροντες, που βοηθούν να διαμορφωθεί το Fluxer μαζί με τη βασική ομάδα."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1074
 msgid "Access to Fluxer Operators community"
@@ -61,7 +61,7 @@ msgstr "Κοινοποίηση δραστηριότητας"
 
 #: src/fluxer_marketing/pages/download_page.gleam:228
 msgid "Add Fluxer to your home screen to hide the browser UI."
-msgstr "Πρόσθεσε το Fluxer στην αρχική οθόνη για να κρύψεις το περιβάλλον του προγράμματος περιήγησης."
+msgstr "Πρόσθεσε το Fluxer στην αρχική οθόνη για να κρύψεις το UI του προγράμματος περιήγησης."
 
 #: src/fluxer_marketing/components/current_features.gleam:133
 msgid "Add custom emojis, save media for later, and style the app with custom CSS."
@@ -69,11 +69,11 @@ msgstr "Πρόσθεσε προσαρμοσμένα emoji, αποθήκευσε 
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1124
 msgid "After the offer ends, Operator Pass stays available on its own."
-msgstr "Μετά το τέλος της προσφοράς, το Operator Pass θα συνεχίσει να διατίθεται ξεχωριστά."
+msgstr "Όταν τελειώσει η προσφορά, το Operator Pass θα συνεχίσει να διατίθεται ξεχωριστά."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:843
 msgid "All current and future Plutonium benefits, forever"
-msgstr "Όλα τα τωρινά και μελλοντικά προνόμια του Plutonium, για πάντα"
+msgstr "Όλα τα τρέχοντα και μελλοντικά προνόμια του Plutonium, για πάντα"
 
 #: src/fluxer_marketing/components/current_features.gleam:55
 msgid "All the basics you expect, plus a few things you don't."
@@ -81,7 +81,11 @@ msgstr "Όλα τα βασικά που περιμένεις — και μερι
 
 #: src/fluxer_marketing/components/locale_selector.gleam:102
 msgid "All translations are currently LLM-generated with minimal human revision. We'd love to get real people to help us out localizing Fluxer into your language! To do so, shoot an email to i18n@fluxer.app and we'll be happy to accept your contributions."
-msgstr "Όλες οι μεταφράσεις αυτή τη στιγμή παράγονται από LLM, με ελάχιστη ανθρώπινη επιμέλεια. Θα θέλαμε πολύ να βοηθήσουν πραγματικοί άνθρωποι ώστε να τοπικοποιήσουμε το Fluxer στη γλώσσα σου! Στείλε ένα email στο i18n@fluxer.app και θα χαρούμε να δεχτούμε τη συνεισφορά σου."
+msgstr "Όλες οι μεταφράσεις προς το παρόν παράγονται από LLM, με ελάχιστη ανθρώπινη επιμέλεια. Θα θέλαμε πολύ να βοηθήσουν πραγματικοί άνθρωποι για να τοπικοποιήσουμε το Fluxer στη γλώσσα σου! Στείλε email στο i18n@fluxer.app και θα χαρούμε να δεχτούμε τη συνεισφορά σου."
+
+#: src/fluxer_marketing/components/hero.gleam:64
+msgid "An open-source, independent instant messaging and VoIP platform. Built for friends, groups, and communities."
+msgstr "Μια ανοιχτού κώδικα, ανεξάρτητη πλατφόρμα για άμεσα μηνύματα και VoIP. Φτιαγμένη για φίλους, ομάδες και κοινότητες."
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:524
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:97
@@ -120,7 +124,7 @@ msgstr "Αραβικά"
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:143
 msgid "Articles in "
-msgstr "Άρθρα σε "
+msgstr "Άρθρα στα "
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:291
 msgid "Articles in this section"
@@ -130,7 +134,7 @@ msgstr "Άρθρα σε αυτήν την ενότητα"
 msgid "Audit logs for transparency"
 msgstr "Αρχεία καταγραφής ελέγχου για διαφάνεια"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:302
+#: src/fluxer_marketing/pages/donate_page.gleam:301
 msgid "Available for Swedish bank accounts"
 msgstr "Διαθέσιμο για σουηδικούς τραπεζικούς λογαριασμούς"
 
@@ -140,22 +144,22 @@ msgstr "Διαθέσιμο στον υπολογιστή σου — και στ�
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:182
 msgid "Back to "
-msgstr "Επιστροφή σε "
+msgstr "Πίσω στο "
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:279
 #: src/fluxer_marketing/pages/help_search_page.gleam:115
 msgid "Back to Help Center"
-msgstr "Επιστροφή στο Κέντρο Βοήθειας"
+msgstr "Πίσω στο Κέντρο Βοήθειας"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:674
 msgid "Be the first to try new features before they're released to everyone else."
-msgstr "Δοκίμασε πρώτος/η νέες λειτουργίες πριν κυκλοφορήσουν για όλους."
+msgstr "Δοκίμασε πρώτος/πρώτη νέες λειτουργίες πριν κυκλοφορήσουν για όλους."
 
 #: src/fluxer_marketing/components/partner_section.gleam:64
 #: src/fluxer_marketing/pages/careers_page.gleam:173
 #: src/fluxer_marketing/pages/partners_page.gleam:64
 msgid "Become a Fluxer Partner"
-msgstr "Γίνε Συνεργάτης του Fluxer"
+msgstr "Γίνε Συνεργάτης Fluxer"
 
 #: src/fluxer_marketing/components/partner_section.gleam:151
 msgid "Become a Partner"
@@ -208,9 +212,9 @@ msgstr "Bluesky"
 msgid "Bookmarked messages"
 msgstr "Μηνύματα με σελιδοδείκτη"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:388
+#: src/fluxer_marketing/pages/donate_page.gleam:387
 msgid "Both donation types support the same cause equally. The only difference is that Business donations allow you to specify a tax ID (if applicable) and receive a PDF invoice when finalized, which can be useful for company accounting purposes."
-msgstr "Και οι δύο τύποι δωρεάς υποστηρίζουν την ίδια προσπάθεια εξίσου. Η μόνη διαφορά είναι ότι οι δωρεές Επιχείρησης σου επιτρέπουν να δηλώσεις ΑΦΜ (αν ισχύει) και να λάβεις τιμολόγιο σε PDF όταν οριστικοποιηθεί, κάτι που μπορεί να είναι χρήσιμο για τα λογιστικά της εταιρείας."
+msgstr "Και οι δύο τύποι δωρεάς υποστηρίζουν την ίδια προσπάθεια εξίσου. Η μόνη διαφορά είναι ότι οι δωρεές Επιχείρησης σου επιτρέπουν να δηλώσεις ΑΦΜ (αν ισχύει) και να λάβεις τιμολόγιο σε PDF όταν ολοκληρωθεί, κάτι χρήσιμο για τα λογιστικά της εταιρείας."
 
 #: src/fluxer_marketing/pages/press_page.gleam:200
 msgid "Brand Colors"
@@ -239,10 +243,6 @@ msgstr "Περιηγήσου σε άρθρα βοήθειας για "
 #: src/fluxer_marketing/components/communities_section.gleam:44
 msgid "Built for communities of all kinds."
 msgstr "Φτιαγμένο για κοινότητες κάθε είδους."
-
-#: src/fluxer_marketing/components/hero.gleam:64
-msgid "Built for friends, groups, and communities. Text, voice, and video. Open source and community-funded."
-msgstr "Φτιαγμένο για φίλους, ομάδες και κοινότητες. Κείμενο, φωνή και βίντεο. Ανοιχτού κώδικα και χρηματοδοτούμενο από την κοινότητα."
 
 #: src/fluxer_marketing/components/locale_selector.gleam:119
 msgid "Bulgarian"
@@ -273,7 +273,7 @@ msgstr "Αλλαγή γλώσσας"
 
 #: src/fluxer_marketing/components/hero.gleam:59
 msgid "Chat that puts you first"
-msgstr "Συνομιλία που σε βάζει πρώτα"
+msgstr "Συνομιλία που σε βάζει σε πρώτο πλάνο"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:150
 msgid "Chinese (Simplified)"
@@ -309,7 +309,7 @@ msgstr "Εκκαθάριση αναζήτησης"
 
 #: src/fluxer_marketing/pages/download_page.gleam:337
 msgid "Code, issues, docs, and reviews"
-msgstr "Κώδικας, issues, τεκμηρίωση και αξιολογήσεις"
+msgstr "Κώδικας, issues, docs και αξιολογήσεις"
 
 #: src/fluxer_marketing/pages/press_page.gleam:124
 msgid "Color Logo"
@@ -381,7 +381,7 @@ msgstr "Συνδέσου"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1038
 msgid "Connect from any client"
-msgstr "Σύνδεση από οποιονδήποτε πελάτη"
+msgstr "Συνδέσου από οποιονδήποτε client"
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:233
 #: src/fluxer_marketing/pages/help_article_page.gleam:375
@@ -488,15 +488,15 @@ msgstr "Δανικά"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:250
 msgid "Design & branding"
-msgstr "Design & branding"
+msgstr "Σχεδιασμός & branding"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:99
 msgid "Desktop"
-msgstr "Επιτραπέζιος υπολογιστής"
+msgstr "Υπολογιστής"
 
 #: src/fluxer_marketing/components/footer.gleam:209
 msgid "Developer Docs"
-msgstr "Τεκμηρίωση για προγραμματιστές"
+msgstr "Τεκμηρίωση προγραμματιστών"
 
 #: src/fluxer_marketing/components/communities_section.gleam:74
 msgid "Developers"
@@ -519,7 +519,7 @@ msgstr "Ανακάλυψη"
 msgid "Display an exclusive Partner badge on your profile to stand out."
 msgstr "Δείξε ένα αποκλειστικό σήμα Συνεργάτη στο προφίλ σου για να ξεχωρίζεις."
 
-#: src/fluxer_marketing/pages/donate_page.gleam:367
+#: src/fluxer_marketing/pages/donate_page.gleam:366
 msgid "Do I get anything in return?"
 msgstr "Παίρνω κάτι σε αντάλλαγμα;"
 
@@ -548,22 +548,22 @@ msgstr "Δωρεά σε USD"
 msgid "Donate to Fluxer"
 msgstr "Κάνε δωρεά στο Fluxer"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:298
+#: src/fluxer_marketing/pages/donate_page.gleam:297
 msgid "Donate with Swish"
 msgstr "Δωρεά με Swish"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:370
+#: src/fluxer_marketing/pages/donate_page.gleam:369
 msgid "Donations are voluntary gifts and do not provide you with any product, service, ownership, or special rights. If you're looking for premium features, check out {0}."
 msgstr "Οι δωρεές είναι εθελοντικά δώρα και δεν σου παρέχουν κάποιο προϊόν, υπηρεσία, ιδιοκτησία ή ειδικά δικαιώματα. Αν ψάχνεις premium λειτουργίες, δες το {0}."
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:308
 msgid "Done! You can now open Fluxer as if it were a regular program."
-msgstr "Έγινε! Μπορείτε τώρα να ανοίξετε το Fluxer σαν να ήταν κανονικό πρόγραμμα."
+msgstr "Έγινε! Τώρα μπορείς να ανοίγεις το Fluxer σαν κανονικό πρόγραμμα."
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:206
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:256
 msgid "Done! You can open Fluxer from your home screen."
-msgstr "Έγινε! Μπορείτε να ανοίξετε το Fluxer από την αρχική οθόνη σας."
+msgstr "Έγινε! Μπορείς να ανοίγεις το Fluxer από την αρχική οθόνη σου."
 
 #: src/fluxer_marketing/components/footer.gleam:132
 #: src/fluxer_marketing/components/navigation.gleam:84
@@ -650,11 +650,11 @@ msgstr "Εισιτήρια εκδηλώσεων"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1071
 msgid "Everything in Free, plus:"
-msgstr "Ό,τι περιλαμβάνει το Δωρεάν, συν:"
+msgstr "Όλα όσα περιλαμβάνει το Δωρεάν, συν:"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:233
 msgid "Exclusive Merch"
-msgstr "Αποκλειστικό merchandise"
+msgstr "Αποκλειστικό merch"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:863
 msgid "Exclusive communities"
@@ -724,7 +724,7 @@ msgstr "Ομάδα Κοινότητας Fluxer"
 msgid "Fluxer Partner"
 msgstr "Συνεργάτης Fluxer"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:372
+#: src/fluxer_marketing/pages/donate_page.gleam:371
 #: src/fluxer_marketing/pages/plutonium_page.gleam:51
 #: src/fluxer_marketing/pages/plutonium_page.gleam:76
 msgid "Fluxer Plutonium"
@@ -786,7 +786,7 @@ msgstr "Για πάντα"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:189
 msgid "Found a security issue?"
-msgstr "Βρήκες θέμα ασφαλείας;"
+msgstr "Βρήκες ζήτημα ασφαλείας;"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:175
 #: src/fluxer_marketing/pages/plutonium_page.gleam:265
@@ -810,9 +810,9 @@ msgstr "Δωρεάν vs Plutonium"
 msgid "French"
 msgstr "Γαλλικά"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:346
+#: src/fluxer_marketing/pages/donate_page.gleam:345
 msgid "Frequently Asked Questions"
-msgstr "Συχνές Ερωτήσεις"
+msgstr "Συχνές ερωτήσεις"
 
 #: src/fluxer_marketing/components/hackernews_banner.gleam:72
 msgid "From HN?"
@@ -857,11 +857,11 @@ msgstr "Γίνε Visionary + Operator Pass"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:148
 msgid "Get an exclusive custom vanity URL like fluxer.gg/yourcommunity."
-msgstr "Απόκτησε ένα αποκλειστικό, προσαρμοσμένο vanity URL όπως fluxer.gg/yourcommunity."
+msgstr "Απόκτησε ένα αποκλειστικό vanity URL όπως fluxer.gg/yourcommunity."
 
 #: src/fluxer_marketing/pages/partners_page.gleam:236
 msgid "Get exclusive Fluxer Partner-only merchandise and swag."
-msgstr "Απόκτησε αποκλειστικά merchandise και swag μόνο για Συνεργάτες του Fluxer."
+msgstr "Απόκτησε αποκλειστικά merch και swag μόνο για Συνεργάτες Fluxer."
 
 #: src/fluxer_marketing/pages/partners_page.gleam:115
 msgid "Get free Plutonium for your account to enjoy all premium features."
@@ -877,11 +877,11 @@ msgstr "Βρες βοήθεια"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:51
 msgid "Get involved"
-msgstr "Συμμετοχή"
+msgstr "Πάρε μέρος"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:956
 msgid "Get lifetime Plutonium on Fluxer.app plus an Operator Pass for self-hosting. Pay {0} one-time. Available until October 1, 2026 or when {1} slots are claimed."
-msgstr "Απόκτησε Plutonium για μια ζωή στο Fluxer.app μαζί με ένα Operator Pass για αυτοφιλοξενία. Πλήρωσε εφάπαξ {0}. Διαθέσιμο έως την 1η Οκτωβρίου 2026 ή μέχρι να καλυφθούν {1} θέσεις."
+msgstr "Απόκτησε Plutonium για μια ζωή στο Fluxer.app μαζί με Operator Pass για αυτοφιλοξενία. Πλήρωσε εφάπαξ {0}. Διαθέσιμο έως την 1η Οκτωβρίου 2026 ή μέχρι να καλυφθούν {1} θέσεις."
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:51
 msgid "Get more with Fluxer Plutonium"
@@ -893,7 +893,7 @@ msgstr "Πάρε προνόμια και βοήθησε να χρηματοδο�
 
 #: src/fluxer_marketing/pages/download_page.gleam:237
 msgid "Get push notifications when you're away from the app."
-msgstr "Λάβε push ειδοποιήσεις όταν είσαι εκτός εφαρμογής."
+msgstr "Λάβε push ειδοποιήσεις όταν δεν είσαι στην εφαρμογή."
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:89
 msgid "Get updates, see upcoming features, discuss suggestions, and chat with the team."
@@ -959,7 +959,7 @@ msgstr "Στήριξε μια ανεξάρτητη πλατφόρμα επικο
 
 #: src/fluxer_marketing/pages/careers_page.gleam:132
 msgid "Help translate Fluxer and its docs so it feels native everywhere."
-msgstr "Βοήθησε να μεταφραστεί το Fluxer και η τεκμηρίωσή του ώστε να μοιάζει ντόπιο παντού."
+msgstr "Βοήθησε να μεταφραστεί το Fluxer και η τεκμηρίωσή του ώστε να μοιάζει «ντόπιο» παντού."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:69
 msgid "Help us build a different kind of communication platform — open source, community-funded, and built with care."
@@ -991,7 +991,7 @@ msgstr "Μπες σε κλήση με φίλους ή μοιράσου την ο
 
 #: src/fluxer_marketing/components/current_features.gleam:153
 msgid "Host your own instance"
-msgstr "Φιλοξένησε τη δική σου εγκατάσταση"
+msgstr "Φιλοξένησε το δικό σου instance"
 
 #: src/fluxer_marketing/pages/help_center_page.gleam:64
 #: src/fluxer_marketing/pages/help_search_page.gleam:63
@@ -1000,7 +1000,7 @@ msgstr "Πώς μπορούμε να βοηθήσουμε;"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:39
 msgid "How to install as an app"
-msgstr "Πώς να εγκαταστήσετε ως εφαρμογή"
+msgstr "Πώς να το εγκαταστήσεις ως εφαρμογή"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:434
 msgid "How you plan to use Fluxer with your community"
@@ -1037,18 +1037,18 @@ msgstr "Ινδονησιακά"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:59
 msgid "Install Fluxer as an app"
-msgstr "Εγκαταστήστε το Fluxer ως εφαρμογή"
+msgstr "Εγκατέστησε το Fluxer ως εφαρμογή"
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:145
 #: src/fluxer_marketing/components/platform_download_button.gleam:161
 msgid "Intel"
 msgstr "Intel"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:377
+#: src/fluxer_marketing/pages/donate_page.gleam:376
 msgid "Is my donation tax-deductible?"
 msgstr "Εκπίπτει η δωρεά μου από τον φόρο;"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:359
+#: src/fluxer_marketing/pages/donate_page.gleam:358
 msgid "Is this a subscription?"
 msgstr "Είναι συνδρομή;"
 
@@ -1129,11 +1129,11 @@ msgstr "Plutonium για μια ζωή"
 
 #: src/fluxer_marketing/components/plutonium_banner.gleam:38
 msgid "Lifetime Plutonium + Operator Pass with Visionary — limited slots"
-msgstr "Plutonium για μια ζωή + Operator Pass με Visionary — περιορισμένες θέσεις"
+msgstr "Plutonium για μια ζωή + Operator Pass με το Visionary — περιορισμένες θέσεις"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1103
 msgid "Limited Offer: Visionary includes Operator Pass"
-msgstr "Περιορισμένη προσφορά: το Visionary περιλαμβάνει Operator Pass"
+msgstr "Περιορισμένη προσφορά: το Visionary περιλαμβάνει το Operator Pass"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:408
 msgid "Links to your content or community (YouTube, Twitch, Discord, etc.)"
@@ -1157,7 +1157,7 @@ msgstr "Λογότυπο"
 
 #: src/fluxer_marketing/pages/donate_page.gleam:123
 msgid "Make a Donation"
-msgstr "Κάνε μια δωρεά"
+msgstr "Κάνε δωρεά"
 
 #: src/fluxer_marketing/components/current_features.gleam:123
 msgid "Manage friends and block users"
@@ -1222,11 +1222,11 @@ msgstr "Δεν βρέθηκαν άρθρα."
 msgid "No results found for"
 msgstr "Δεν βρέθηκαν αποτελέσματα για"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:380
+#: src/fluxer_marketing/pages/donate_page.gleam:379
 msgid "No, donations to Fluxer are not tax-deductible as we are not a registered charitable organization."
 msgstr "Όχι, οι δωρεές προς το Fluxer δεν εκπίπτουν από τον φόρο, καθώς δεν είμαστε καταχωρισμένος φιλανθρωπικός οργανισμός."
 
-#: src/fluxer_marketing/pages/donate_page.gleam:362
+#: src/fluxer_marketing/pages/donate_page.gleam:361
 msgid "No, this is a one-time donation. You choose the amount you want to give, and there are no recurring charges."
 msgstr "Όχι, αυτή είναι εφάπαξ δωρεά. Διαλέγεις το ποσό που θέλεις να δώσεις και δεν υπάρχουν επαναλαμβανόμενες χρεώσεις."
 
@@ -1244,15 +1244,15 @@ msgstr "Μη διαθέσιμο"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:91
 msgid "Note: Plutonium and Visionary benefits only apply to the official Fluxer.app instance, not third-party or self-hosted instances."
-msgstr "Σημείωση: Τα προνόμια Plutonium και Visionary ισχύουν μόνο για την επίσημη εγκατάσταση Fluxer.app, όχι για εγκαταστάσεις τρίτων ή αυτοφιλοξενούμενες."
+msgstr "Σημείωση: Τα προνόμια Plutonium και Visionary ισχύουν μόνο για το επίσημο instance του Fluxer.app, όχι για εγκαταστάσεις τρίτων ή αυτοφιλοξενούμενες."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:788
 msgid "Numbered badge (1-{0}) showing your Visionary status"
-msgstr "Αριθμημένο σήμα (1–{0}) που δείχνει την ιδιότητά σου ως Visionary"
+msgstr "Αριθμημένο σήμα (1–{0}) που δείχνει το status σου ως Visionary"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:786
 msgid "Numbered badge showing your Visionary status"
-msgstr "Αριθμημένο σήμα που δείχνει την ιδιότητά σου ως Visionary"
+msgstr "Αριθμημένο σήμα που δείχνει το status σου ως Visionary"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:828
 msgid "One-time purchase, lifetime access"
@@ -1260,7 +1260,7 @@ msgstr "Εφάπαξ αγορά, πρόσβαση για μια ζωή"
 
 #: src/fluxer_marketing/components/plutonium_banner.gleam:43
 msgid "Only {0} of {1} Visionary lifetime slots left — lifetime Plutonium + Operator Pass"
-msgstr "Μόνο {0} από {1} θέσεις Visionary εφ’ όρου ζωής απομένουν — Plutonium για μια ζωή + Operator Pass"
+msgstr "Μόνο {0} από {1} θέσεις Visionary εφ’ όρου ζωής έμειναν — Plutonium για μια ζωή + Operator Pass"
 
 #: src/fluxer_marketing/components/navigation.gleam:172
 msgid "Open Fluxer"
@@ -1283,7 +1283,7 @@ msgstr "Ανοιχτού κώδικα (AGPL-3.0)"
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:234
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:284
 msgid "Open the web app"
-msgstr "Ανοίξτε την εφαρμογή ιστού"
+msgstr "Άνοιξε τη web εφαρμογή"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1059
 msgid "Operator Pass"
@@ -1291,7 +1291,7 @@ msgstr "Operator Pass"
 
 #: src/fluxer_marketing/components/coming_features.gleam:31
 msgid "Opt-in E2EE messaging"
-msgstr "Μηνύματα E2EE με επιλεγμένη συμμετοχή"
+msgstr "Μηνύματα E2EE (προαιρετικά)"
 
 #: src/fluxer_marketing/components/current_features.gleam:74
 msgid "Organized channels for communities"
@@ -1299,7 +1299,7 @@ msgstr "Οργανωμένα κανάλια για κοινότητες"
 
 #: src/fluxer_marketing/pages/press_page.gleam:209
 msgid "Our carefully selected color palette that represents the Fluxer brand."
-msgstr "Η προσεκτικά επιλεγμένη παλέτα χρωμάτων που αντιπροσωπεύει το brand του Fluxer."
+msgstr "Η προσεκτικά επιλεγμένη παλέτα χρωμάτων που αντιπροσωπεύει το Fluxer."
 
 #: src/fluxer_marketing/pages/press_page.gleam:102
 msgid "Our full logo including the wordmark. Use this as the primary representation of our brand."
@@ -1360,7 +1360,7 @@ msgstr "Πολωνικά"
 
 #: src/fluxer_marketing/components/coming_features.gleam:41
 msgid "Polls & events"
-msgstr "Δημοσκοπήσεις και εκδηλώσεις"
+msgstr "Δημοσκοπήσεις & εκδηλώσεις"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:142
 msgid "Portuguese (Brazil)"
@@ -1368,7 +1368,7 @@ msgstr "Πορτογαλικά (Βραζιλίας)"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:154
 msgid "Premium quality"
-msgstr "Ποιότητα premium"
+msgstr "Premium ποιότητα"
 
 #: src/fluxer_marketing/components/footer.gleam:198
 #: src/fluxer_marketing/components/navigation.gleam:337
@@ -1377,19 +1377,19 @@ msgstr "Τύπος"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:246
 msgid "Press \"Add to Home Screen\""
-msgstr "Πατήστε \"Προσθήκη στην αρχική οθόνη"
+msgstr "Πάτησε \"Προσθήκη στην αρχική οθόνη\""
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:249
 msgid "Press \"Add\" in the upper-right corner"
-msgstr "Πατήστε \"Προσθήκη\" στην επάνω δεξιά γωνία"
+msgstr "Πάτησε \"Προσθήκη\" στην επάνω δεξιά γωνία"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:200
 msgid "Press \"Install app\""
-msgstr "Πατήστε \"Εγκατάσταση εφαρμογής"
+msgstr "Πάτησε \"Εγκατάσταση εφαρμογής\""
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:301
 msgid "Press \"Install\" in the popup that appears"
-msgstr "Πατήστε \"Εγκατάσταση\" στο αναδυόμενο παράθυρο που εμφανίζεται"
+msgstr "Πάτησε \"Εγκατάσταση\" στο αναδυόμενο παράθυρο που εμφανίζεται"
 
 #: src/fluxer_marketing/pages/press_page.gleam:45
 #: src/fluxer_marketing/pages/press_page.gleam:65
@@ -1402,15 +1402,15 @@ msgstr "Επικοινωνία για Τύπο"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:197
 msgid "Press the \"More\" (\\u{22EE}) button in the top-right corner"
-msgstr "Πατήστε το κουμπί \"Περισσότερα\" (\\u{22EE}) στην επάνω δεξιά γωνία"
+msgstr "Πάτησε το κουμπί \"Περισσότερα\" (\\u{22EE}) στην επάνω δεξιά γωνία"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:243
 msgid "Press the Share button (rectangle with upwards-pointing arrow)"
-msgstr "Πατήστε το κουμπί Κοινή χρήση (ορθογώνιο με βέλος προς τα πάνω)"
+msgstr "Πάτησε το κουμπί Κοινή χρήση (ορθογώνιο με βέλος προς τα πάνω)"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:296
 msgid "Press the install button (downwards-pointing arrow on monitor) in the address bar"
-msgstr "Πατήστε το κουμπί εγκατάστασης (βέλος προς τα κάτω στην οθόνη) στη γραμμή διευθύνσεων"
+msgstr "Πάτησε το κουμπί εγκατάστασης (βέλος προς τα κάτω σε οθόνη) στη γραμμή διευθύνσεων"
 
 #: src/fluxer_marketing/components/footer.gleam:110
 #: src/fluxer_marketing/components/navigation.gleam:93
@@ -1420,7 +1420,7 @@ msgstr "Τιμές"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:851
 msgid "Priority support and Operators community access for self-hosting"
-msgstr "Προτεραιότητα στην υποστήριξη και πρόσβαση στην κοινότητα Operators για αυτοφιλοξενία"
+msgstr "Υποστήριξη προτεραιότητας και πρόσβαση στην κοινότητα Operators για αυτοφιλοξενία"
 
 #: src/fluxer_marketing/components/footer.gleam:249
 #: src/fluxer_marketing/components/navigation.gleam:406
@@ -1459,7 +1459,7 @@ msgstr "Δημοσίευση φόρουμ στο web"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:883
 msgid "Purchase Visionary directly in the app after creating your account. Your purchase date and order number will be displayed on your profile (can be hidden in privacy settings)."
-msgstr "Αγόρασε το Visionary απευθείας μέσα από την εφαρμογή αφού δημιουργήσεις λογαριασμό. Η ημερομηνία αγοράς και ο αριθμός παραγγελίας θα εμφανίζονται στο προφίλ σου (μπορούν να κρυφτούν στις ρυθμίσεις απορρήτου)."
+msgstr "Αγόρασε Visionary απευθείας μέσα από την εφαρμογή αφού δημιουργήσεις λογαριασμό. Η ημερομηνία αγοράς και ο αριθμός παραγγελίας θα εμφανίζονται στο προφίλ σου (μπορείς να τα κρύψεις στις ρυθμίσεις απορρήτου)."
 
 #: src/fluxer_marketing/components/current_features.gleam:122
 msgid "Quick switcher with keyboard shortcuts"
@@ -1471,7 +1471,7 @@ msgstr "Ροές RSS/Atom για φόρουμ"
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:228
 msgid "Read article"
-msgstr "Διάβασε άρθρο"
+msgstr "Διάβασε το άρθρο"
 
 #: src/fluxer_marketing/pages/guidelines_page.gleam:42
 msgid "Read the Fluxer Community Guidelines"
@@ -1491,11 +1491,11 @@ msgstr "Διάβασε τον οδηγό"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:362
 msgid "Ready to become a Partner?"
-msgstr "Έτοιμος/η να γίνεις Συνεργάτης;"
+msgstr "Έτοιμος/έτοιμη να γίνεις Συνεργάτης;"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1180
 msgid "Ready to upgrade?"
-msgstr "Έτοιμος/η για αναβάθμιση;"
+msgstr "Έτοιμος/έτοιμη για αναβάθμιση;"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:80
 msgid "Register now"
@@ -1503,15 +1503,15 @@ msgstr "Κάνε εγγραφή τώρα"
 
 #: src/fluxer_marketing/components/footer.gleam:311
 msgid "Report a bug"
-msgstr "Αναφορά bug"
+msgstr "Ανάφερε bug"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:167
 msgid "Report bugs"
-msgstr "Αναφορά bugs"
+msgstr "Ανάφερε bugs"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:165
 msgid "Report people or communities so we can keep Fluxer safe for everyone."
-msgstr "Ανάφερε άτομα ή κοινότητες για να κρατήσουμε το Fluxer ασφαλές για όλους."
+msgstr "Ανάφερε άτομα ή κοινότητες ώστε να κρατήσουμε το Fluxer ασφαλές για όλους."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:154
 msgid "Report vulnerabilities and help us keep the platform secure."
@@ -1523,7 +1523,7 @@ msgstr "Πόροι"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:99
 msgid "Rewards that recognize your impact, help your community grow, and give you a direct line to the Fluxer team."
-msgstr "Ανταμοιβές που αναγνωρίζουν τον αντίκτυπό σου, βοηθούν την κοινότητά σου να μεγαλώσει και σου δίνουν άμεση γραμμή με την ομάδα του Fluxer."
+msgstr "Ανταμοιβές που αναγνωρίζουν τον αντίκτυπό σου, βοηθούν την κοινότητά σου να μεγαλώσει και σου δίνουν απευθείας γραμμή με την ομάδα του Fluxer."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:344
 msgid "Right now we're focused on shipping a great product and keeping Fluxer independent and bootstrapped."
@@ -1564,7 +1564,7 @@ msgstr "Ενσωματωμένη κοινή χρήση οθόνης"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:132
 msgid "Screenshots courtesy of "
-msgstr "Στιγμιότυπα οθόνης ευγενική προσφορά του"
+msgstr "Τα στιγμιότυπα οθόνης είναι ευγενική προσφορά του "
 
 #: src/fluxer_marketing/pages/help_components.gleam:93
 msgid "Search"
@@ -1585,7 +1585,7 @@ msgstr "Αναζήτηση βοήθειας..."
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:92
 msgid "Search in "
-msgstr "Αναζήτηση σε "
+msgstr "Αναζήτηση στα "
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:90
 #: src/fluxer_marketing/pages/help_center_page.gleam:65
@@ -1611,7 +1611,7 @@ msgstr "Αναφορές ασφάλειας"
 
 #: src/fluxer_marketing/pages/download_page.gleam:232
 msgid "See badge counts on the app icon."
-msgstr "Δες μετρητές ειδοποιήσεων στο εικονίδιο της εφαρμογής."
+msgstr "Δες πόσες ειδοποιήσεις έχεις στο εικονίδιο της εφαρμογής."
 
 #: src/fluxer_marketing/pages/partners_page.gleam:312
 msgid "See perks"
@@ -1639,7 +1639,7 @@ msgstr "Όρισε προσωπικούς ήχους όταν μπαίνεις �
 
 #: src/fluxer_marketing/pages/careers_page.gleam:408
 msgid "Share a bit about yourself, what you'd like to work on, and links to any relevant work."
-msgstr "Πες μας λίγα για εσένα, τι θα ήθελες να κάνεις και βάλε συνδέσμους προς σχετική δουλειά."
+msgstr "Πες μας λίγα για εσένα, τι θα ήθελες να δουλέψεις και βάλε συνδέσμους προς σχετική δουλειά."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:143
 msgid "Share feedback, report bugs, and help make Fluxer welcoming for everyone."
@@ -1651,7 +1651,7 @@ msgstr "Μοιράσου αρχεία και κάνε προεπισκόπηση
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:490
 msgid "Show download options"
-msgstr "Εμφάνιση επιλογών λήψης"
+msgstr "Δες επιλογές λήψης"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:664
 msgid "Show off your Plutonium status with an exclusive badge on your profile."
@@ -1667,7 +1667,7 @@ msgstr "Ανάπτυξη λογισμικού"
 
 #: src/fluxer_marketing/components/coming_features.gleam:57
 msgid "Soundboard"
-msgstr "Soundboard"
+msgstr "Πίνακας ήχων"
 
 #: src/fluxer_marketing/components/footer.gleam:143
 #: src/fluxer_marketing/components/navigation.gleam:438
@@ -1790,7 +1790,7 @@ msgstr "Δοκίμασε διαφορετικές λέξεις-κλειδιά ή
 
 #: src/fluxer_marketing/components/hackernews_banner.gleam:75
 msgid "Try it without an email at"
-msgstr "Δοκιμάστε το χωρίς email στο"
+msgstr "Δοκίμασέ το χωρίς email στο"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:147
 msgid "Turkish"
@@ -1822,7 +1822,7 @@ msgstr "Έως 4K ποιότητα βίντεο"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:54
 msgid "Upgrade to Plutonium for $4.99/mo: custom username tags, per-community profiles, message scheduling, 4K streaming, 500MB uploads, and more exclusive features."
-msgstr "Αναβάθμισε σε Plutonium με $4.99/μήνα: προσαρμοσμένα tag ονόματος χρήστη, προφίλ ανά κοινότητα, προγραμματισμός μηνυμάτων, streaming 4K, αποστολές 500MB και περισσότερες αποκλειστικές λειτουργίες."
+msgstr "Αναβάθμισε σε Plutonium με $4.99/μήνα: προσαρμοσμένα tag ονόματος χρήστη, προφίλ ανά κοινότητα, προγραμματισμό μηνυμάτων, streaming 4K, αποστολές 500MB και περισσότερες αποκλειστικές λειτουργίες."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:644
 msgid "Upload and use your own notification sounds to personalize your Fluxer experience."
@@ -1838,7 +1838,7 @@ msgstr "Ανέβασε προσαρμοσμένα emoji και αυτοκόλλ�
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:315
 msgid "Use Fluxer in your mobile browser for now"
-msgstr "Προς το παρόν, χρησιμοποίησε το Fluxer από το πρόγραμμα περιήγησης στο κινητό"
+msgstr "Προς το παρόν, χρησιμοποίησε το Fluxer από το πρόγραμμα περιήγησης του κινητού"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:378
 msgid "Use animated emojis"
@@ -1846,7 +1846,7 @@ msgstr "Χρησιμοποίησε κινούμενα emoji"
 
 #: src/fluxer_marketing/components/current_features.gleam:154
 msgid "Use our desktop client (mobile coming soon)"
-msgstr "Χρησιμοποιήστε τον επιτραπέζιο πελάτη μας (κινητό σύντομα διαθέσιμο)"
+msgstr "Χρησιμοποίησε τον desktop client μας (κινητό σύντομα διαθέσιμο)"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:604
 msgid "Use your favorite emojis and stickers from any community, anywhere across Fluxer."
@@ -1907,7 +1907,7 @@ msgstr "Εκτιμούμε την υπεύθυνη γνωστοποίηση στ
 
 #: src/fluxer_marketing/components/final_cta.gleam:56
 msgid "We need your support to make this work."
-msgstr "Χρειαζόμαστε τη στήριξή σου για να το κάνουμε να πετύχει."
+msgstr "Χρειαζόμαστε τη στήριξή σου για να πετύχει αυτό."
 
 #: src/fluxer_marketing/pages/partners_page.gleam:453
 msgid "We review all applications and will get back to you as soon as possible."
@@ -1937,7 +1937,7 @@ msgstr "Ακόμα χτίζουμε το επιχειρηματικό κομμά
 msgid "Webhooks and bot support"
 msgstr "Υποστήριξη webhooks και bots"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:351
+#: src/fluxer_marketing/pages/donate_page.gleam:350
 msgid "What does my donation support?"
 msgstr "Τι υποστηρίζει η δωρεά μου;"
 
@@ -1953,7 +1953,7 @@ msgstr "Τι είναι διαθέσιμο σήμερα"
 msgid "What's coming next"
 msgstr "Τι έρχεται μετά"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:385
+#: src/fluxer_marketing/pages/donate_page.gleam:384
 msgid "What's the difference between Individual and Business?"
 msgstr "Ποια είναι η διαφορά ανάμεσα σε Ιδιώτη και Επιχείρηση;"
 
@@ -1989,7 +1989,7 @@ msgstr "Η κοινότητά σου αποκτά επαληθευμένο statu
 msgid "Your community receives increased limits when you need them."
 msgstr "Η κοινότητά σου λαμβάνει αυξημένα όρια όταν τα χρειάζεσαι."
 
-#: src/fluxer_marketing/pages/donate_page.gleam:354
+#: src/fluxer_marketing/pages/donate_page.gleam:353
 msgid "Your donation helps fund Fluxer's infrastructure costs, including servers, bandwidth, storage, and ongoing development of new features. It helps us maintain and improve the platform for everyone."
 msgstr "Η δωρεά σου βοηθά να χρηματοδοτηθούν τα κόστη υποδομής του Fluxer, όπως servers, bandwidth, αποθήκευση και η συνεχής ανάπτυξη νέων λειτουργιών. Μας βοηθά να συντηρούμε και να βελτιώνουμε την πλατφόρμα για όλους."
 
@@ -2034,7 +2034,7 @@ msgid "one-time purchase"
 msgstr "εφάπαξ αγορά"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:68
-#: src/fluxer_marketing/pages/donate_page.gleam:284
+#: src/fluxer_marketing/pages/donate_page.gleam:282
 #: src/fluxer_marketing/pages/plutonium_page.gleam:106
 #: src/fluxer_marketing/pages/plutonium_page.gleam:230
 msgid "or"
@@ -2059,4 +2059,3 @@ msgstr "Απομένουν {0} από {1} θέσεις"
 #: src/fluxer_marketing/components/footer.gleam:325
 msgid "© Fluxer Platform AB (Swedish limited liability company: 559537-3993)"
 msgstr "© Fluxer Platform AB (σουηδική ανώνυμη εταιρεία: 559537-3993)"
-

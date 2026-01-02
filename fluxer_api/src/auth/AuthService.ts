@@ -165,7 +165,13 @@ export class AuthService implements IAuthService {
 		botMfaMirrorService?: BotMfaMirrorService,
 		authMfaService?: AuthMfaService,
 	) {
-		this.utilityService = new AuthUtilityService(repository, rateLimitService, gatewayService);
+		this.utilityService = new AuthUtilityService(
+			repository,
+			rateLimitService,
+			gatewayService,
+			inviteService,
+			pendingJoinInviteStore,
+		);
 
 		this.sessionService = new AuthSessionService(
 			repository,

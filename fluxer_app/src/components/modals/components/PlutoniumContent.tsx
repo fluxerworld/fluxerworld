@@ -94,6 +94,17 @@ export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(
 		mobileLayoutState.enabled,
 	);
 
+	const isClaimed = currentUser?.isClaimed() ?? false;
+	const purchaseDisabled = !isClaimed;
+	const purchaseDisabledTooltip = <Trans>Claim your account to purchase Fluxer Plutonium.</Trans>;
+	const handleSelectPlanGuarded = React.useCallback(
+		(plan: 'monthly' | 'yearly' | 'visionary' | 'gift1Month' | 'gift1Year' | 'giftVisionary') => {
+			if (purchaseDisabled) return;
+			handleSelectPlan(plan);
+		},
+		[handleSelectPlan, purchaseDisabled],
+	);
+
 	const monthlyPrice = React.useMemo(() => getFormattedPrice(PricingTier.Monthly, countryCode), [countryCode]);
 	const yearlyPrice = React.useMemo(() => getFormattedPrice(PricingTier.Yearly, countryCode), [countryCode]);
 	const visionaryPrice = React.useMemo(() => getFormattedPrice(PricingTier.Visionary, countryCode), [countryCode]);
@@ -221,12 +232,14 @@ export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(
 						scrollToPerks={scrollToPerks}
 						handlePerksKeyDown={handlePerksKeyDown}
 						navigateToRedeemGift={navigateToRedeemGift}
-						handleSelectPlan={handleSelectPlan}
+						handleSelectPlan={handleSelectPlanGuarded}
 						handleOpenCustomerPortal={handleOpenCustomerPortal}
 						handleReactivateSubscription={handleReactivateSubscription}
 						handleCancelSubscription={handleCancelSubscription}
 						handleCommunityButtonPointerDown={handleCommunityButtonPointerDown}
 						handleCommunityButtonClick={handleCommunityButtonClick}
+						purchaseDisabled={purchaseDisabled}
+						purchaseDisabledTooltip={purchaseDisabledTooltip}
 					/>
 					<div className={styles.disclaimerContainer}>
 						<PurchaseDisclaimer align="center" isPremium />
@@ -245,7 +258,9 @@ export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(
 					loadingCheckout={loadingCheckout}
 					loadingSlots={loadingSlots}
 					isVisionarySoldOut={isVisionarySoldOut}
-					handleSelectPlan={handleSelectPlan}
+					handleSelectPlan={handleSelectPlanGuarded}
+					purchaseDisabled={purchaseDisabled}
+					purchaseDisabledTooltip={purchaseDisabledTooltip}
 				/>
 			) : (
 				<GiftSection
@@ -257,7 +272,9 @@ export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(
 					loadingCheckout={loadingCheckout}
 					loadingSlots={loadingSlots}
 					isVisionarySoldOut={isVisionarySoldOut}
-					handleSelectPlan={handleSelectPlan}
+					handleSelectPlan={handleSelectPlanGuarded}
+					purchaseDisabled={purchaseDisabled}
+					purchaseDisabledTooltip={purchaseDisabledTooltip}
 				/>
 			)}
 
@@ -280,7 +297,9 @@ export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(
 					isGiftSubscription={subscriptionStatus.isGiftSubscription}
 					loadingCheckout={loadingCheckout}
 					loadingSlots={loadingSlots}
-					handleSelectPlan={handleSelectPlan}
+					handleSelectPlan={handleSelectPlanGuarded}
+					purchaseDisabled={purchaseDisabled}
+					purchaseDisabledTooltip={purchaseDisabledTooltip}
 				/>
 			) : null}
 
@@ -302,7 +321,9 @@ export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(
 					loadingCheckout={loadingCheckout}
 					loadingSlots={loadingSlots}
 					isVisionarySoldOut={isVisionarySoldOut}
-					handleSelectPlan={handleSelectPlan}
+					handleSelectPlan={handleSelectPlanGuarded}
+					purchaseDisabled={purchaseDisabled}
+					purchaseDisabledTooltip={purchaseDisabledTooltip}
 				/>
 			)}
 		</div>

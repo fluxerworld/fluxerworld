@@ -100,21 +100,36 @@ pub fn page_with_refresh(
     [a.attribute("lang", "en"), a.attribute("data-base-path", ctx.base_path)],
     [
       build_head_with_refresh(title, ctx, auto_refresh),
-      h.body([a.class("min-h-screen bg-neutral-50 flex")], [
-        sidebar(ctx, active_page),
-        h.div([a.class("ml-64 flex-1 flex flex-col")], [
-          header(ctx, session, current_admin),
-          h.main([a.class("flex-1 p-8")], [
-            h.div([a.class("max-w-7xl mx-auto")], [
-              case flash_data {
-                option.Some(_) ->
-                  h.div([a.class("mb-6")], [flash.view(flash_data)])
-                option.None -> element.none()
-              },
-              content,
-            ]),
-          ]),
+      h.body([a.class("min-h-screen bg-neutral-50 overflow-hidden")], [
+        h.div([a.class("flex h-screen")], [
+          sidebar(ctx, active_page),
+          h.div(
+            [
+              a.attribute("data-sidebar-overlay", ""),
+              a.class("fixed inset-0 bg-black/50 z-30 hidden lg:hidden"),
+            ],
+            [],
+          ),
+          h.div(
+            [
+              a.class("flex-1 flex flex-col w-full h-screen overflow-y-auto"),
+            ],
+            [
+              header(ctx, session, current_admin),
+              h.main([a.class("flex-1 p-4 sm:p-6 lg:p-8")], [
+                h.div([a.class("w-full max-w-7xl mx-auto")], [
+                  case flash_data {
+                    option.Some(_) ->
+                      h.div([a.class("mb-6")], [flash.view(flash_data)])
+                    option.None -> element.none()
+                  },
+                  content,
+                ]),
+              ]),
+            ],
+          ),
         ]),
+        sidebar_interaction_script(),
       ]),
     ],
   )
@@ -123,18 +138,37 @@ pub fn page_with_refresh(
 fn sidebar(ctx: Context, active_page: String) {
   h.div(
     [
+      a.attribute("data-sidebar", ""),
       a.class(
-        "w-64 bg-neutral-900 text-white flex flex-col h-screen fixed left-0 top-0",
+        "fixed inset-y-0 left-0 z-40 w-64 h-screen bg-neutral-900 text-white flex flex-col transform -translate-x-full transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:inset-auto shadow-xl lg:shadow-none",
       ),
     ],
     [
-      h.div([a.class("p-6 border-b border-neutral-800")], [
-        h.a([href(ctx, "/users")], [
-          h.h1([a.class("text-base font-semibold")], [
-            element.text("Fluxer Admin"),
+      h.div(
+        [
+          a.class(
+            "p-6 border-b border-neutral-800 flex items-center justify-between gap-3",
+          ),
+        ],
+        [
+          h.a([href(ctx, "/users")], [
+            h.h1([a.class("text-base font-semibold")], [
+              element.text("Fluxer Admin"),
+            ]),
           ]),
-        ]),
-      ]),
+          h.button(
+            [
+              a.type_("button"),
+              a.attribute("data-sidebar-close", ""),
+              a.class(
+                "lg:hidden inline-flex items-center justify-center p-2 rounded-md text-neutral-200 hover:bg-neutral-800 focus:outline-none focus:ring-2 focus:ring-white/40",
+              ),
+              a.attribute("aria-label", "Close sidebar"),
+            ],
+            [element.text("Close")],
+          ),
+        ],
+      ),
       h.nav(
         [
           a.class("flex-1 overflow-y-auto p-4 space-y-1 sidebar-scrollbar"),
@@ -304,11 +338,68 @@ fn header(
   h.header(
     [
       a.class(
-        "bg-white border-b border-neutral-200 px-8 py-4 flex items-center justify-between",
+        "bg-white border-b border-neutral-200 px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between gap-4 sticky top-0 z-10",
       ),
     ],
     [
-      render_user_info(ctx, session, current_admin),
+      h.div([a.class("flex items-center gap-3 min-w-0")], [
+        h.button(
+          [
+            a.type_("button"),
+            a.attribute("data-sidebar-toggle", ""),
+            a.class(
+              "lg:hidden inline-flex items-center justify-center p-2 rounded-md border border-neutral-300 text-neutral-700 hover:bg-neutral-100 focus:outline-none focus:ring-2 focus:ring-neutral-400",
+            ),
+            a.attribute("aria-label", "Toggle sidebar"),
+          ],
+          [
+            element.element(
+              "svg",
+              [
+                a.attribute("xmlns", "http://www.w3.org/2000/svg"),
+                a.attribute("viewBox", "0 0 24 24"),
+                a.class("w-5 h-5"),
+                a.attribute("fill", "none"),
+                a.attribute("stroke", "currentColor"),
+                a.attribute("stroke-width", "2"),
+              ],
+              [
+                element.element(
+                  "line",
+                  [
+                    a.attribute("x1", "3"),
+                    a.attribute("y1", "6"),
+                    a.attribute("x2", "21"),
+                    a.attribute("y2", "6"),
+                  ],
+                  [],
+                ),
+                element.element(
+                  "line",
+                  [
+                    a.attribute("x1", "3"),
+                    a.attribute("y1", "12"),
+                    a.attribute("x2", "21"),
+                    a.attribute("y2", "12"),
+                  ],
+                  [],
+                ),
+                element.element(
+                  "line",
+                  [
+                    a.attribute("x1", "3"),
+                    a.attribute("y1", "18"),
+                    a.attribute("x2", "21"),
+                    a.attribute("y2", "18"),
+                  ],
+                  [],
+                ),
+              ],
+            ),
+          ],
+        ),
+        render_user_info(ctx, session, current_admin),
+      ]),
       h.a(
         [
           href(ctx, "/logout"),
@@ -389,4 +480,59 @@ fn render_avatar(
     a.alt(username <> "'s avatar"),
     a.class("w-10 h-10 rounded-full"),
   ])
+}
+
+fn sidebar_interaction_script() {
+  h.script(
+    [a.attribute("defer", "defer")],
+    "
+(function() {
+  const sidebar = document.querySelector('[data-sidebar]');
+  const overlay = document.querySelector('[data-sidebar-overlay]');
+  const toggles = document.querySelectorAll('[data-sidebar-toggle]');
+  const closes = document.querySelectorAll('[data-sidebar-close]');
+  if (!sidebar || !overlay) return;
+
+  const open = () => {
+    sidebar.classList.remove('-translate-x-full');
+    overlay.classList.remove('hidden');
+    document.body.classList.add('overflow-hidden');
+  };
+
+  const close = () => {
+    sidebar.classList.add('-translate-x-full');
+    overlay.classList.add('hidden');
+    document.body.classList.remove('overflow-hidden');
+  };
+
+  toggles.forEach((btn) => btn.addEventListener('click', () => {
+    if (sidebar.classList.contains('-translate-x-full')) {
+      open();
+    } else {
+      close();
+    }
+  }));
+
+  closes.forEach((btn) => btn.addEventListener('click', close));
+  overlay.addEventListener('click', close);
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') close();
+  });
+
+  const syncForDesktop = () => {
+    if (window.innerWidth >= 1024) {
+      overlay.classList.add('hidden');
+      document.body.classList.remove('overflow-hidden');
+      sidebar.classList.remove('-translate-x-full');
+    } else {
+      sidebar.classList.add('-translate-x-full');
+    }
+  };
+
+  window.addEventListener('resize', syncForDesktop);
+  syncForDesktop();
+})();
+    ",
+  )
 }

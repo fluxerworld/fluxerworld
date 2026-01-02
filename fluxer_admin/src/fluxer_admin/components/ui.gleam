@@ -23,7 +23,7 @@ import lustre/attribute as a
 import lustre/element
 import lustre/element/html as h
 
-pub const table_container_class = "bg-white border border-neutral-200 rounded-lg overflow-hidden"
+pub const table_container_class = "bg-white border border-neutral-200 rounded-lg overflow-hidden overflow-x-auto"
 
 pub const table_header_cell_class = "px-6 py-3 text-left text-xs text-neutral-600 uppercase tracking-wider"
 
@@ -469,7 +469,10 @@ pub fn flex_row(
 pub fn flex_row_between(
   children: List(element.Element(a)),
 ) -> element.Element(a) {
-  h.div([a.class("mb-6 flex items-center justify-between")], children)
+  h.div(
+    [a.class("mb-6 flex flex-wrap items-center justify-between gap-3")],
+    children,
+  )
 }
 
 pub fn stack(
@@ -570,35 +573,37 @@ pub fn data_table(
   h.div(
     [a.class("bg-white border border-neutral-200 rounded-lg overflow-hidden")],
     [
-      h.table([a.class("min-w-full divide-y divide-neutral-200")], [
-        h.thead([a.class("bg-neutral-50")], [
-          h.tr(
-            [],
-            list.map(columns, fn(col) {
-              let TableColumn(header, _, _) = col
-              h.th(
-                [
-                  a.class(
-                    "px-6 py-3 text-left text-xs text-neutral-600 uppercase tracking-wider",
-                  ),
-                ],
-                [element.text(header)],
+      h.div([a.class("overflow-x-auto")], [
+        h.table([a.class("min-w-full divide-y divide-neutral-200")], [
+          h.thead([a.class("bg-neutral-50")], [
+            h.tr(
+              [],
+              list.map(columns, fn(col) {
+                let TableColumn(header, _, _) = col
+                h.th(
+                  [
+                    a.class(
+                      "px-6 py-3 text-left text-xs text-neutral-600 uppercase tracking-wider",
+                    ),
+                  ],
+                  [element.text(header)],
+                )
+              }),
+            ),
+          ]),
+          h.tbody(
+            [a.class("bg-white divide-y divide-neutral-200")],
+            list.map(rows, fn(row) {
+              h.tr(
+                [a.class("hover:bg-neutral-50 transition-colors")],
+                list.map(columns, fn(col) {
+                  let TableColumn(_, cell_class, render) = col
+                  h.td([a.class(cell_class)], [render(row)])
+                }),
               )
             }),
           ),
         ]),
-        h.tbody(
-          [a.class("bg-white divide-y divide-neutral-200")],
-          list.map(rows, fn(row) {
-            h.tr(
-              [a.class("hover:bg-neutral-50 transition-colors")],
-              list.map(columns, fn(col) {
-                let TableColumn(_, cell_class, render) = col
-                h.td([a.class(cell_class)], [render(row)])
-              }),
-            )
-          }),
-        ),
       ]),
     ],
   )
@@ -629,7 +634,7 @@ pub fn custom_checkbox(
     ]
   }
 
-  h.label([a.class("flex items-center gap-3 cursor-pointer group")], [
+  h.label([a.class("flex items-center gap-3 cursor-pointer group w-full")], [
     h.input(checkbox_attrs),
     element.element(
       "svg",
@@ -637,7 +642,7 @@ pub fn custom_checkbox(
         a.attribute("xmlns", "http://www.w3.org/2000/svg"),
         a.attribute("viewBox", "0 0 256 256"),
         a.class(
-          "w-5 h-5 bg-white border-2 border-neutral-300 rounded p-0.5 text-white peer-checked:bg-neutral-900 peer-checked:border-neutral-900 transition-colors",
+          "w-5 h-5 bg-white border-2 border-neutral-300 rounded p-0.5 text-white peer-checked:bg-neutral-900 peer-checked:border-neutral-900 transition-colors flex-shrink-0",
         ),
       ],
       [
@@ -655,8 +660,15 @@ pub fn custom_checkbox(
         ),
       ],
     ),
-    h.span([a.class("text-sm text-neutral-900 group-hover:text-neutral-700")], [
-      element.text(label),
+    h.div([a.class("flex-1 min-w-0")], [
+      h.span(
+        [
+          a.class(
+            "text-sm text-neutral-900 group-hover:text-neutral-700 leading-snug truncate",
+          ),
+        ],
+        [element.text(label)],
+      ),
     ]),
   ])
 }

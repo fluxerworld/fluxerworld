@@ -25,8 +25,11 @@ import gleam/dynamic/decode
 import gleam/http
 import gleam/http/request
 import gleam/httpc
+import gleam/int
+import gleam/io
 import gleam/json
 import gleam/option
+import gleam/string
 
 pub type Report {
   Report(
@@ -194,10 +197,7 @@ pub fn list_reports(
           "reported_guild_name",
           decode.optional(decode.string),
         )
-        use reported_guild_icon_hash <- decode.field(
-          "reported_guild_icon_hash",
-          decode.optional(decode.string),
-        )
+        let reported_guild_icon_hash = option.None
         use reported_guild_invite_code <- decode.field(
           "reported_guild_invite_code",
           decode.optional(decode.string),
@@ -518,14 +518,15 @@ pub fn get_report_detail(
 
       let context_message_decoder = {
         use id <- decode.field("id", decode.string)
-        use channel_id <- decode.field(
-          "channel_id",
-          decode.optional(decode.string),
+        use channel_id <- decode.optional_field("channel_id", "", decode.string)
+        use author_id <- decode.optional_field("author_id", "", decode.string)
+        use author_username <- decode.optional_field(
+          "author_username",
+          "",
+          decode.string,
         )
-        use author_id <- decode.field("author_id", decode.string)
-        use author_username <- decode.field("author_username", decode.string)
-        use content <- decode.field("content", decode.string)
-        use timestamp <- decode.field("timestamp", decode.string)
+        use content <- decode.optional_field("content", "", decode.string)
+        use timestamp <- decode.optional_field("timestamp", "", decode.string)
         use attachments <- decode.optional_field(
           "attachments",
           [],
@@ -533,7 +534,7 @@ pub fn get_report_detail(
         )
         decode.success(Message(
           id: id,
-          channel_id: option.unwrap(channel_id, ""),
+          channel_id: channel_id,
           author_id: author_id,
           author_username: author_username,
           content: content,
@@ -608,8 +609,9 @@ pub fn get_report_detail(
           "reported_guild_name",
           decode.optional(decode.string),
         )
-        use reported_guild_icon_hash <- decode.field(
+        use reported_guild_icon_hash <- decode.optional_field(
           "reported_guild_icon_hash",
+          option.None,
           decode.optional(decode.string),
         )
         use reported_guild_invite_code <- decode.field(
@@ -680,7 +682,15 @@ pub fn get_report_detail(
 
       case json.parse(resp.body, report_decoder) {
         Ok(result) -> Ok(result)
-        Error(_) -> Error(ServerError)
+        Error(err) -> {
+          io.println(
+            "reports.get_report_detail decode failed: "
+            <> string.inspect(err)
+            <> " body="
+            <> string.slice(resp.body, 0, 4000),
+          )
+          Error(ServerError)
+        }
       }
     }
     Ok(resp) if resp.status == 401 -> Error(Unauthorized)
@@ -699,7 +709,20 @@ pub fn get_report_detail(
       Error(Forbidden(message))
     }
     Ok(resp) if resp.status == 404 -> Error(NotFound)
-    Ok(_resp) -> Error(ServerError)
-    Error(_) -> Error(NetworkError)
+    Ok(resp) -> {
+      io.println(
+        "reports.get_report_detail unexpected status "
+        <> int.to_string(resp.status)
+        <> " body="
+        <> string.slice(resp.body, 0, 1000),
+      )
+      Error(ServerError)
+    }
+    Error(err) -> {
+      io.println(
+        "reports.get_report_detail network error: " <> string.inspect(err),
+      )
+      Error(NetworkError)
+    }
   }
 }

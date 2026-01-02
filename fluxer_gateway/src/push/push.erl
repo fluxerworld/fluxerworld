@@ -121,10 +121,6 @@ handle_call(_Request, _From, State) ->
     {reply, ok, State}.
 
 handle_cast({handle_message_create, Params}, State) ->
-    ParamMap = case Params of Maps when is_map(Maps) -> Maps; _ -> #{} end,
-    GuildId = maps:get(<<"guild_id">>, ParamMap, undefined),
-    ChannelId = maps:get(<<"channel_id">>, ParamMap, undefined),
-    MessageId = maps:get(<<"id">>, ParamMap, undefined),
     {noreply, do_handle_message_create(Params, State)};
 handle_cast({sync_user_guild_settings, UserId, GuildId, UserGuildSettings}, State) ->
     #{

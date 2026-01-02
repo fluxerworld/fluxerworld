@@ -205,6 +205,7 @@ export const DMChannelView = observer(({channelId}: DMChannelViewProps) => {
 	const title = isDM && displayName ? `@${displayName}` : displayName;
 	useFluxerDocumentTitle(title);
 	const isGroupDM = channel?.type === ChannelTypes.GROUP_DM;
+	const isPersonalNotes = channel?.type === ChannelTypes.DM_PERSONAL_NOTES;
 	const callHeaderState = useCallHeaderState(channel);
 	const call = callHeaderState.call;
 	const showCompactVoiceView = callHeaderState.controlsVariant === 'inCall';
@@ -411,7 +412,7 @@ export const DMChannelView = observer(({channelId}: DMChannelViewProps) => {
 						textarea={
 							isDM && isRecipientBlocked && recipient ? (
 								<BlockedUserBarrier userId={recipient.id} username={recipient.username} />
-							) : isCurrentUserUnclaimed ? (
+							) : isCurrentUserUnclaimed && isDM && !isPersonalNotes && !isGroupDM ? (
 								<UnclaimedDMBarrier />
 							) : (
 								<ChannelTextarea channel={channel} />

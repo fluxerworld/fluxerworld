@@ -22,6 +22,7 @@ import {observer} from 'mobx-react-lite';
 import {useEffect, useMemo, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import * as ModalActionCreators from '~/actions/ModalActionCreators';
+import {modal} from '~/actions/ModalActionCreators';
 import * as ToastActionCreators from '~/actions/ToastActionCreators';
 import * as UserActionCreators from '~/actions/UserActionCreators';
 import {Form} from '~/components/form/Form';
@@ -31,6 +32,7 @@ import confirmStyles from '~/components/modals/ConfirmModal.module.css';
 import * as Modal from '~/components/modals/Modal';
 import {Button} from '~/components/uikit/Button/Button';
 import {useFormSubmit} from '~/hooks/useFormSubmit';
+import ModalStore from '~/stores/ModalStore';
 
 interface FormInputs {
 	email: string;
@@ -230,3 +232,20 @@ export const ClaimAccountModal = observer(() => {
 		</Modal.Root>
 	);
 });
+
+const CLAIM_ACCOUNT_MODAL_KEY = 'claim-account-modal';
+let hasShownClaimAccountModalThisSession = false;
+
+export const openClaimAccountModal = ({force = false}: {force?: boolean} = {}): void => {
+	if (ModalStore.hasModal(CLAIM_ACCOUNT_MODAL_KEY)) {
+		return;
+	}
+	if (!force && hasShownClaimAccountModalThisSession) {
+		return;
+	}
+	hasShownClaimAccountModalThisSession = true;
+	ModalActionCreators.pushWithKey(
+		modal(() => <ClaimAccountModal />),
+		CLAIM_ACCOUNT_MODAL_KEY,
+	);
+};

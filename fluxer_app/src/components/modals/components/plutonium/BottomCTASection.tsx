@@ -17,12 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans} from '@lingui/react/macro';
+import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {Button} from '~/components/uikit/Button/Button';
 import {PurchaseDisclaimer} from '../PurchaseDisclaimer';
 import styles from './BottomCTASection.module.css';
+import {PurchaseDisabledWrapper} from './PurchaseDisabledWrapper';
 
 interface BottomCTASectionProps {
 	isGiftMode: boolean;
@@ -33,6 +34,8 @@ interface BottomCTASectionProps {
 	loadingSlots: boolean;
 	isVisionarySoldOut: boolean;
 	handleSelectPlan: (plan: 'monthly' | 'yearly' | 'visionary' | 'gift1Month' | 'gift1Year' | 'giftVisionary') => void;
+	purchaseDisabled?: boolean;
+	purchaseDisabledTooltip?: React.ReactNode;
 }
 
 export const BottomCTASection: React.FC<BottomCTASectionProps> = observer(
@@ -45,7 +48,12 @@ export const BottomCTASection: React.FC<BottomCTASectionProps> = observer(
 		loadingSlots,
 		isVisionarySoldOut,
 		handleSelectPlan,
+		purchaseDisabled = false,
+		purchaseDisabledTooltip,
 	}) => {
+		const {t} = useLingui();
+		const tooltipText: React.ReactNode = purchaseDisabledTooltip ?? t`Claim your account to purchase Fluxer Plutonium.`;
+
 		return (
 			<div className={styles.container}>
 				<h2 className={styles.title}>
@@ -54,63 +62,79 @@ export const BottomCTASection: React.FC<BottomCTASectionProps> = observer(
 				<div className={styles.buttonContainer}>
 					{!isGiftMode ? (
 						<>
-							<Button
-								variant="secondary"
-								onClick={() => handleSelectPlan('monthly')}
-								submitting={loadingCheckout || loadingSlots}
-								className={styles.button}
-							>
-								<Trans>Monthly {monthlyPrice}</Trans>
-							</Button>
-							<Button
-								variant="primary"
-								onClick={() => handleSelectPlan('yearly')}
-								submitting={loadingCheckout || loadingSlots}
-								className={styles.button}
-							>
-								<Trans>Yearly {yearlyPrice}</Trans>
-							</Button>
-							<Button
-								variant="primary"
-								onClick={() => handleSelectPlan('visionary')}
-								submitting={loadingCheckout || loadingSlots}
-								disabled={isVisionarySoldOut}
-								className={styles.button}
-							>
-								{isVisionarySoldOut ? <Trans>Visionary Sold Out</Trans> : <Trans>Visionary {visionaryPrice}</Trans>}
-							</Button>
+							<PurchaseDisabledWrapper disabled={purchaseDisabled} tooltipText={tooltipText}>
+								<Button
+									variant="secondary"
+									onClick={() => handleSelectPlan('monthly')}
+									submitting={loadingCheckout || loadingSlots}
+									className={styles.button}
+									disabled={purchaseDisabled}
+								>
+									<Trans>Monthly {monthlyPrice}</Trans>
+								</Button>
+							</PurchaseDisabledWrapper>
+							<PurchaseDisabledWrapper disabled={purchaseDisabled} tooltipText={tooltipText}>
+								<Button
+									variant="primary"
+									onClick={() => handleSelectPlan('yearly')}
+									submitting={loadingCheckout || loadingSlots}
+									className={styles.button}
+									disabled={purchaseDisabled}
+								>
+									<Trans>Yearly {yearlyPrice}</Trans>
+								</Button>
+							</PurchaseDisabledWrapper>
+							<PurchaseDisabledWrapper disabled={purchaseDisabled || isVisionarySoldOut} tooltipText={tooltipText}>
+								<Button
+									variant="primary"
+									onClick={() => handleSelectPlan('visionary')}
+									submitting={loadingCheckout || loadingSlots}
+									disabled={purchaseDisabled || isVisionarySoldOut}
+									className={styles.button}
+								>
+									{isVisionarySoldOut ? <Trans>Visionary Sold Out</Trans> : <Trans>Visionary {visionaryPrice}</Trans>}
+								</Button>
+							</PurchaseDisabledWrapper>
 						</>
 					) : (
 						<>
-							<Button
-								variant="secondary"
-								onClick={() => handleSelectPlan('gift1Year')}
-								submitting={loadingCheckout || loadingSlots}
-								className={styles.button}
-							>
-								<Trans>1 Year {yearlyPrice}</Trans>
-							</Button>
-							<Button
-								variant="primary"
-								onClick={() => handleSelectPlan('gift1Month')}
-								submitting={loadingCheckout || loadingSlots}
-								className={styles.button}
-							>
-								<Trans>1 Month {monthlyPrice}</Trans>
-							</Button>
-							<Button
-								variant="primary"
-								onClick={() => handleSelectPlan('giftVisionary')}
-								submitting={loadingCheckout || loadingSlots}
-								disabled={isVisionarySoldOut}
-								className={styles.button}
-							>
-								{isVisionarySoldOut ? (
-									<Trans>Visionary Gift Sold Out</Trans>
-								) : (
-									<Trans>Visionary {visionaryPrice}</Trans>
-								)}
-							</Button>
+							<PurchaseDisabledWrapper disabled={purchaseDisabled} tooltipText={tooltipText}>
+								<Button
+									variant="secondary"
+									onClick={() => handleSelectPlan('gift1Year')}
+									submitting={loadingCheckout || loadingSlots}
+									className={styles.button}
+									disabled={purchaseDisabled}
+								>
+									<Trans>1 Year {yearlyPrice}</Trans>
+								</Button>
+							</PurchaseDisabledWrapper>
+							<PurchaseDisabledWrapper disabled={purchaseDisabled} tooltipText={tooltipText}>
+								<Button
+									variant="primary"
+									onClick={() => handleSelectPlan('gift1Month')}
+									submitting={loadingCheckout || loadingSlots}
+									className={styles.button}
+									disabled={purchaseDisabled}
+								>
+									<Trans>1 Month {monthlyPrice}</Trans>
+								</Button>
+							</PurchaseDisabledWrapper>
+							<PurchaseDisabledWrapper disabled={purchaseDisabled || isVisionarySoldOut} tooltipText={tooltipText}>
+								<Button
+									variant="primary"
+									onClick={() => handleSelectPlan('giftVisionary')}
+									submitting={loadingCheckout || loadingSlots}
+									disabled={purchaseDisabled || isVisionarySoldOut}
+									className={styles.button}
+								>
+									{isVisionarySoldOut ? (
+										<Trans>Visionary Gift Sold Out</Trans>
+									) : (
+										<Trans>Visionary {visionaryPrice}</Trans>
+									)}
+								</Button>
+							</PurchaseDisabledWrapper>
 						</>
 					)}
 				</div>

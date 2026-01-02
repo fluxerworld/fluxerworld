@@ -26,6 +26,7 @@ import {PricingCard} from '../PricingCard';
 import gridStyles from '../PricingGrid.module.css';
 import {PurchaseDisclaimer} from '../PurchaseDisclaimer';
 import styles from './GiftSection.module.css';
+import {PurchaseDisabledWrapper} from './PurchaseDisabledWrapper';
 import {SectionHeader} from './SectionHeader';
 
 interface GiftSectionProps {
@@ -38,6 +39,8 @@ interface GiftSectionProps {
 	loadingSlots: boolean;
 	isVisionarySoldOut: boolean;
 	handleSelectPlan: (plan: 'gift1Month' | 'gift1Year' | 'giftVisionary') => void;
+	purchaseDisabled?: boolean;
+	purchaseDisabledTooltip?: React.ReactNode;
 }
 
 export const GiftSection: React.FC<GiftSectionProps> = observer(
@@ -51,8 +54,11 @@ export const GiftSection: React.FC<GiftSectionProps> = observer(
 		loadingSlots,
 		isVisionarySoldOut,
 		handleSelectPlan,
+		purchaseDisabled = false,
+		purchaseDisabledTooltip,
 	}) => {
 		const {t} = useLingui();
+		const tooltipText: React.ReactNode = purchaseDisabledTooltip ?? t`Claim your account to purchase Fluxer Plutonium.`;
 
 		return (
 			<div ref={giftSectionRef}>
@@ -65,35 +71,43 @@ export const GiftSection: React.FC<GiftSectionProps> = observer(
 					/>
 					<div className={gridStyles.gridWrapper}>
 						<div className={gridStyles.gridThreeColumns}>
-							<PricingCard
-								title={t`1 Year Gift`}
-								price={yearlyPrice}
-								period={t`one-time purchase`}
-								badge={t`Save 17%`}
-								onSelect={() => handleSelectPlan('gift1Year')}
-								buttonText={t`Buy Gift`}
-								isLoading={loadingCheckout || loadingSlots}
-							/>
-							<PricingCard
-								title={t`1 Month Gift`}
-								price={monthlyPrice}
-								period={t`one-time purchase`}
-								isPopular
-								onSelect={() => handleSelectPlan('gift1Month')}
-								buttonText={t`Buy Gift`}
-								isLoading={loadingCheckout || loadingSlots}
-							/>
-							<PricingCard
-								title={t`Visionary Gift`}
-								price={visionaryPrice}
-								period={t`one-time, lifetime`}
-								remainingSlots={loadingSlots ? undefined : visionarySlots?.remaining}
-								onSelect={() => handleSelectPlan('giftVisionary')}
-								buttonText={t`Buy Gift`}
-								isLoading={loadingCheckout || loadingSlots}
-								disabled={isVisionarySoldOut}
-								soldOut={isVisionarySoldOut}
-							/>
+							<PurchaseDisabledWrapper disabled={purchaseDisabled} tooltipText={tooltipText}>
+								<PricingCard
+									title={t`1 Year Gift`}
+									price={yearlyPrice}
+									period={t`one-time purchase`}
+									badge={t`Save 17%`}
+									onSelect={() => handleSelectPlan('gift1Year')}
+									buttonText={t`Buy Gift`}
+									isLoading={loadingCheckout || loadingSlots}
+									disabled={purchaseDisabled}
+								/>
+							</PurchaseDisabledWrapper>
+							<PurchaseDisabledWrapper disabled={purchaseDisabled} tooltipText={tooltipText}>
+								<PricingCard
+									title={t`1 Month Gift`}
+									price={monthlyPrice}
+									period={t`one-time purchase`}
+									isPopular
+									onSelect={() => handleSelectPlan('gift1Month')}
+									buttonText={t`Buy Gift`}
+									isLoading={loadingCheckout || loadingSlots}
+									disabled={purchaseDisabled}
+								/>
+							</PurchaseDisabledWrapper>
+							<PurchaseDisabledWrapper disabled={purchaseDisabled || isVisionarySoldOut} tooltipText={tooltipText}>
+								<PricingCard
+									title={t`Visionary Gift`}
+									price={visionaryPrice}
+									period={t`one-time, lifetime`}
+									remainingSlots={loadingSlots ? undefined : visionarySlots?.remaining}
+									onSelect={() => handleSelectPlan('giftVisionary')}
+									buttonText={t`Buy Gift`}
+									isLoading={loadingCheckout || loadingSlots}
+									disabled={purchaseDisabled || isVisionarySoldOut}
+									soldOut={isVisionarySoldOut}
+								/>
+							</PurchaseDisabledWrapper>
 						</div>
 					</div>
 					<div className={styles.footerContainer}>

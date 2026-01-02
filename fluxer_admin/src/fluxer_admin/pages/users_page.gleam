@@ -114,7 +114,7 @@ pub fn view(
 fn render_search_form(ctx: Context, query: option.Option(String)) {
   ui.card(ui.PaddingSmall, [
     h.form([a.method("get"), a.class("flex flex-col gap-4")], [
-      h.div([a.class("flex gap-2")], [
+      h.div([a.class("flex flex-col sm:flex-row gap-2")], [
         h.input([
           a.type_("text"),
           a.name("q"),
@@ -125,12 +125,12 @@ fn render_search_form(ctx: Context, query: option.Option(String)) {
           ),
           a.attribute("autocomplete", "off"),
         ]),
-        ui.button_primary("Search", "submit", []),
+        ui.button_primary("Search", "submit", [a.class("w-full sm:w-auto")]),
         h.a(
           [
             href(ctx, "/users"),
             a.class(
-              "px-4 py-2 bg-white text-neutral-700 border border-neutral-300 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors",
+              "px-4 py-2 bg-white text-neutral-700 border border-neutral-300 rounded-lg text-sm font-medium hover:bg-neutral-50 transition-colors w-full sm:w-auto text-center",
             ),
           ],
           [element.text("Clear")],

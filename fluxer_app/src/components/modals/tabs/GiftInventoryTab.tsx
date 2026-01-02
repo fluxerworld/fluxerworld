@@ -18,7 +18,7 @@
  */
 
 import {Trans, useLingui} from '@lingui/react/macro';
-import {CaretDownIcon, CheckIcon, CopyIcon, GiftIcon, NetworkSlashIcon} from '@phosphor-icons/react';
+import {CaretDownIcon, CheckIcon, CopyIcon, GiftIcon, NetworkSlashIcon, WarningCircleIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import React from 'react';
@@ -31,6 +31,7 @@ import * as UserActionCreators from '~/actions/UserActionCreators';
 import {UserPremiumTypes} from '~/Constants';
 import {Form} from '~/components/form/Form';
 import {Input} from '~/components/form/Input';
+import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
 import {StatusSlate} from '~/components/modals/shared/StatusSlate';
 import {Button} from '~/components/uikit/Button/Button';
 import {Spinner} from '~/components/uikit/Spinner';
@@ -180,6 +181,7 @@ const GiftInventoryTab: React.FC = observer(() => {
 	const [loading, setLoading] = React.useState(true);
 	const [error, setError] = React.useState(false);
 	const [expandedGiftId, setExpandedGiftId] = React.useState<string | null>(null);
+	const isUnclaimed = !(UserStore.currentUser?.isClaimed() ?? false);
 
 	const giftCodeForm = useForm<GiftCodeFormInputs>({defaultValues: {code: ''}});
 
@@ -201,6 +203,10 @@ const GiftInventoryTab: React.FC = observer(() => {
 	});
 
 	const fetchGifts = React.useCallback(async () => {
+		if (isUnclaimed) {
+			setLoading(false);
+			return;
+		}
 		try {
 			setError(false);
 			const userGifts = await GiftActionCreators.fetchUserGifts();
@@ -211,7 +217,7 @@ const GiftInventoryTab: React.FC = observer(() => {
 			setError(true);
 			setLoading(false);
 		}
-	}, []);
+	}, [isUnclaimed]);
 
 	React.useEffect(() => {
 		fetchGifts();
@@ -224,6 +230,23 @@ const GiftInventoryTab: React.FC = observer(() => {
 	const handleRedeemSuccess = () => {
 		fetchGifts();
 	};
+
+	if (isUnclaimed) {
+		return (
+			<StatusSlate
+				Icon={WarningCircleIcon}
+				title={<Trans>Claim your account</Trans>}
+				description={<Trans>Claim your account to redeem or manage Plutonium gift codes.</Trans>}
+				actions={[
+					{
+						text: <Trans>Claim Account</Trans>,
+						onClick: () => openClaimAccountModal({force: true}),
+						variant: 'primary',
+					},
+				]}
+			/>
+		);
+	}
 
 	return (
 		<div className={styles.container}>

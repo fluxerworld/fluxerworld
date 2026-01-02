@@ -41,11 +41,11 @@ msgstr "Качвания до 500MB, съобщения до 4000 знака, 30
 
 #: src/fluxer_marketing/components/communities_section.gleam:86
 msgid "A chat platform that answers to you, not investors. It's ad-free, open source, community-funded, and never sells your data or nags you with upgrade pop-ups."
-msgstr "Чат платформа, която се отчита пред вас, а не пред инвеститори. Без реклами, с отворен код, финансирана от общността — и никога не продава данните ви и не ви досажда с изскачащи прозорци за ъпгрейд."
+msgstr "Чат платформа, която служи на вас, а не на инвеститорите. Без реклами, с отворен код, финансирана от общността — и никога не продава данните ви и не ви досажда с изскачащи прозорци за надграждане."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:219
 msgid "A non-paid role for recurring contributors who help shape Fluxer alongside the core team."
-msgstr "Неплатена роля за редовни сътрудници, които помагат да оформяме Fluxer заедно с основния екип."
+msgstr "Неплатена позиция за редовни сътрудници, които помагат да оформяме Fluxer заедно с основния екип."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1074
 msgid "Access to Fluxer Operators community"
@@ -69,7 +69,7 @@ msgstr "Добавяйте персонализирани емоджита, за
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1124
 msgid "After the offer ends, Operator Pass stays available on its own."
-msgstr "След края на офертата Operator Pass ще остане наличен и отделно."
+msgstr "След края на офертата Operator Pass ще може да се закупи и отделно."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:843
 msgid "All current and future Plutonium benefits, forever"
@@ -77,11 +77,15 @@ msgstr "Всички настоящи и бъдещи предимства на 
 
 #: src/fluxer_marketing/components/current_features.gleam:55
 msgid "All the basics you expect, plus a few things you don't."
-msgstr "Всичко основно, което очаквате — плюс няколко неща, които не."
+msgstr "Всичко основно, което очаквате — плюс няколко неща, които не очаквате."
 
 #: src/fluxer_marketing/components/locale_selector.gleam:102
 msgid "All translations are currently LLM-generated with minimal human revision. We'd love to get real people to help us out localizing Fluxer into your language! To do so, shoot an email to i18n@fluxer.app and we'll be happy to accept your contributions."
-msgstr "Всички преводи в момента са генерирани от езиков модел (LLM) с минимална човешка редакция. Ще се радваме истински хора да ни помогнат да локализираме Fluxer на вашия език! Пишете ни на i18n@fluxer.app и с удоволствие ще приемем вашия принос."
+msgstr "Всички преводи в момента са генерирани от LLM с минимална човешка редакция. Ще се радваме истински хора да ни помогнат да локализираме Fluxer на вашия език! Пишете ни на i18n@fluxer.app и с удоволствие ще приемем вашия принос."
+
+#: src/fluxer_marketing/components/hero.gleam:64
+msgid "An open-source, independent instant messaging and VoIP platform. Built for friends, groups, and communities."
+msgstr "Отворена, независима платформа за мигновени съобщения и VoIP. Създадена за приятели, групи и общности."
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:524
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:97
@@ -108,11 +112,11 @@ msgstr "Apple Silicon"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:448
 msgid "Apply at partners@fluxer.app"
-msgstr "Кандидатствайте на partners@fluxer.app"
+msgstr "Кандидатствайте на адрес partners@fluxer.app"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:170
 msgid "Approved reports grant access to Fluxer Testers, where you can earn points for Plutonium codes and the Bug Hunter badge."
-msgstr "Одобрените доклади ви дават достъп до Fluxer Testers, където можете да печелите точки за Plutonium кодове и значката Bug Hunter."
+msgstr "Одобрените доклади ви дават достъп до Fluxer Testers, където можете да печелите точки за Plutonium кодове и значката „Bug Hunter“."
 
 #: src/fluxer_marketing/components/locale_selector.gleam:118
 msgid "Arabic"
@@ -120,7 +124,7 @@ msgstr "Арабски"
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:143
 msgid "Articles in "
-msgstr "Статии в "
+msgstr "Статии на "
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:291
 msgid "Articles in this section"
@@ -128,15 +132,15 @@ msgstr "Статии в този раздел"
 
 #: src/fluxer_marketing/components/current_features.gleam:106
 msgid "Audit logs for transparency"
-msgstr "Одитни журнали за прозрачност"
+msgstr "Одитни дневници за прозрачност"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:302
+#: src/fluxer_marketing/pages/donate_page.gleam:301
 msgid "Available for Swedish bank accounts"
-msgstr "Наличен за шведски банкови сметки"
+msgstr "Налично за шведски банкови сметки"
 
 #: src/fluxer_marketing/pages/download_page.gleam:67
 msgid "Available on your desktop — and on the web"
-msgstr "Налично за настолния ви компютър — и в уеб"
+msgstr "Налично за настолния ви компютър — и в уеба"
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:182
 msgid "Back to "
@@ -149,7 +153,7 @@ msgstr "Назад към Центъра за помощ"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:674
 msgid "Be the first to try new features before they're released to everyone else."
-msgstr "Бъдете сред първите, които пробват новите функции, преди да станат достъпни за всички."
+msgstr "Бъдете сред първите, които изпробват новите функции, преди да са достъпни за всички."
 
 #: src/fluxer_marketing/components/partner_section.gleam:64
 #: src/fluxer_marketing/pages/careers_page.gleam:173
@@ -181,7 +185,7 @@ msgstr "По-добро потискане на шума"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:350
 msgid "Bio character limit"
-msgstr "Лимит на знаците в био"
+msgstr "Лимит на знаците в биографията"
 
 #: src/fluxer_marketing/pages/press_page.gleam:235
 msgid "Black"
@@ -206,9 +210,9 @@ msgstr "Bluesky"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:343
 msgid "Bookmarked messages"
-msgstr "Съобщения в отметки"
+msgstr "Отметнати съобщения"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:388
+#: src/fluxer_marketing/pages/donate_page.gleam:387
 msgid "Both donation types support the same cause equally. The only difference is that Business donations allow you to specify a tax ID (if applicable) and receive a PDF invoice when finalized, which can be useful for company accounting purposes."
 msgstr "И двата вида дарения подкрепят една и съща кауза по равен начин. Единствената разлика е, че даренията Business позволяват да посочите данъчен номер (ако е приложимо) и да получите PDF фактура след финализиране, което може да е полезно за фирмено счетоводство."
 
@@ -240,10 +244,6 @@ msgstr "Разгледайте помощните статии за "
 msgid "Built for communities of all kinds."
 msgstr "Създаден за общности от всякакъв тип."
 
-#: src/fluxer_marketing/components/hero.gleam:64
-msgid "Built for friends, groups, and communities. Text, voice, and video. Open source and community-funded."
-msgstr "Създаден за приятели, групи и общности. Текст, глас и видео. Отворен код и финансиран от общността."
-
 #: src/fluxer_marketing/components/locale_selector.gleam:119
 msgid "Bulgarian"
 msgstr "Български"
@@ -254,7 +254,7 @@ msgstr "Бизнес"
 
 #: src/fluxer_marketing/components/coming_features.gleam:56
 msgid "Call pop-out"
-msgstr "Отделяне на разговора в прозорец"
+msgstr "Разговор в отделен прозорец"
 
 #: src/fluxer_marketing/components/footer.gleam:220
 #: src/fluxer_marketing/components/navigation.gleam:358
@@ -273,7 +273,7 @@ msgstr "Смяна на езика"
 
 #: src/fluxer_marketing/components/hero.gleam:59
 msgid "Chat that puts you first"
-msgstr "Чат, който поставя вас на първо място"
+msgstr "Чат, в който вие сте на първо място"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:150
 msgid "Chinese (Simplified)"
@@ -305,11 +305,11 @@ msgstr "Изберете свой 4-цифрен таг като #0001, #1337 и
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:136
 msgid "Clear search"
-msgstr "Изчистване на търсенето"
+msgstr "Изчисти търсенето"
 
 #: src/fluxer_marketing/pages/download_page.gleam:337
 msgid "Code, issues, docs, and reviews"
-msgstr "Код, проблеми, документация и прегледи"
+msgstr "Код, проблеми, документация и ревюта"
 
 #: src/fluxer_marketing/pages/press_page.gleam:124
 msgid "Color Logo"
@@ -331,7 +331,7 @@ msgstr "Очаквайте скоро"
 #: src/fluxer_marketing/pages/plutonium_page.gleam:367
 #: src/fluxer_marketing/pages/plutonium_page.gleam:586
 msgid "Coming soon"
-msgstr "Скоро идва"
+msgstr "Скоро"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:329
 msgid "Communities"
@@ -361,7 +361,7 @@ msgstr "Шаблони за общности"
 
 #: src/fluxer_marketing/components/current_features.gleam:139
 msgid "Compact mode and display options"
-msgstr "Компактен режим и опции за изглед"
+msgstr "Компактен режим и опции за показване"
 
 #: src/fluxer_marketing/components/navigation.gleam:348
 msgid "Company"
@@ -377,11 +377,11 @@ msgstr "Информация за компанията"
 #: src/fluxer_marketing/components/footer.gleam:278
 #: src/fluxer_marketing/components/navigation.gleam:426
 msgid "Connect"
-msgstr "Свързване"
+msgstr "Свържете се"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1038
 msgid "Connect from any client"
-msgstr "Свържете се от който и да е клиент"
+msgstr "Свързвайте се от всеки клиент"
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:233
 #: src/fluxer_marketing/pages/help_article_page.gleam:375
@@ -406,7 +406,7 @@ msgstr "Създайте акаунт и ни помогнете да изгра
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1191
 msgid "Create your Fluxer account to get that sweet Plutonium while it's hot."
-msgstr "Създайте своя Fluxer акаунт, за да грабнете този сладък Plutonium, докато го има."
+msgstr "Създайте своя Fluxer акаунт, за да грабнете този сладък Plutonium, докато е наличен."
 
 #: src/fluxer_marketing/pages/partners_page.gleam:211
 msgid "Creator Monetization"
@@ -492,7 +492,7 @@ msgstr "Дизайн и брандинг"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:99
 msgid "Desktop"
-msgstr "Десктоп"
+msgstr "Настолен компютър"
 
 #: src/fluxer_marketing/components/footer.gleam:209
 msgid "Developer Docs"
@@ -519,7 +519,7 @@ msgstr "Откриване"
 msgid "Display an exclusive Partner badge on your profile to stand out."
 msgstr "Покажете ексклузивна партньорска значка в профила си, за да изпъкнете."
 
-#: src/fluxer_marketing/pages/donate_page.gleam:367
+#: src/fluxer_marketing/pages/donate_page.gleam:366
 msgid "Do I get anything in return?"
 msgstr "Получавам ли нещо в замяна?"
 
@@ -548,17 +548,17 @@ msgstr "Дарете в USD"
 msgid "Donate to Fluxer"
 msgstr "Дарете за Fluxer"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:298
+#: src/fluxer_marketing/pages/donate_page.gleam:297
 msgid "Donate with Swish"
-msgstr "Дарете с Swish"
+msgstr "Дарете със Swish"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:370
+#: src/fluxer_marketing/pages/donate_page.gleam:369
 msgid "Donations are voluntary gifts and do not provide you with any product, service, ownership, or special rights. If you're looking for premium features, check out {0}."
 msgstr "Даренията са доброволни подаръци и не ви предоставят продукт, услуга, собственост или специални права. Ако търсите премиум функции, вижте {0}."
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:308
 msgid "Done! You can now open Fluxer as if it were a regular program."
-msgstr "Готово! Сега можете да отворите Fluxer, както ако беше обикновена програма."
+msgstr "Готово! Вече можете да отворите Fluxer все едно е обикновена програма."
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:206
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:256
@@ -610,7 +610,7 @@ msgstr "Нидерландски"
 
 #: src/fluxer_marketing/components/coming_features.gleam:55
 msgid "E2EE calls"
-msgstr "Обаждания с край-до-край криптиране"
+msgstr "Край-до-край криптирани обаждания"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:200
 msgid "Early Feature Access"
@@ -650,11 +650,11 @@ msgstr "Билети за събития"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1071
 msgid "Everything in Free, plus:"
-msgstr "Всичко от Безплатно, плюс:"
+msgstr "Всичко от Безплатния план, плюс:"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:233
 msgid "Exclusive Merch"
-msgstr "Ексклузивен мърч"
+msgstr "Ексклузивни артикули"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:863
 msgid "Exclusive communities"
@@ -674,7 +674,7 @@ msgstr "Функция"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:167
 msgid "Featured in Discovery"
-msgstr "Показване в Откриване"
+msgstr "Показване в „Откриване“"
 
 #: src/fluxer_marketing/components/coming_features.gleam:30
 msgid "Federation"
@@ -682,7 +682,7 @@ msgstr "Федерация"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:357
 msgid "File upload size"
-msgstr "Размер на качваните файлове"
+msgstr "Максимален размер на качваните файлове"
 
 #: src/fluxer_marketing/components/current_features.gleam:121
 msgid "Filter by users, dates, and more"
@@ -724,7 +724,7 @@ msgstr "Екип „Общност“ на Fluxer"
 msgid "Fluxer Partner"
 msgstr "Партньор на Fluxer"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:372
+#: src/fluxer_marketing/pages/donate_page.gleam:371
 #: src/fluxer_marketing/pages/plutonium_page.gleam:51
 #: src/fluxer_marketing/pages/plutonium_page.gleam:76
 msgid "Fluxer Plutonium"
@@ -810,7 +810,7 @@ msgstr "Безплатно срещу Plutonium"
 msgid "French"
 msgstr "Френски"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:346
+#: src/fluxer_marketing/pages/donate_page.gleam:345
 msgid "Frequently Asked Questions"
 msgstr "Често задавани въпроси"
 
@@ -861,7 +861,7 @@ msgstr "Получете ексклузивен персонализиран van
 
 #: src/fluxer_marketing/pages/partners_page.gleam:236
 msgid "Get exclusive Fluxer Partner-only merchandise and swag."
-msgstr "Вземете ексклузивни мърч артикули и подаръци само за Fluxer Partner."
+msgstr "Вземете ексклузивен мърч и подаръци само за Fluxer Partner."
 
 #: src/fluxer_marketing/pages/partners_page.gleam:115
 msgid "Get free Plutonium for your account to enjoy all premium features."
@@ -983,7 +983,7 @@ msgstr "Хинди"
 
 #: src/fluxer_marketing/components/communities_section.gleam:72
 msgid "Hobbyists"
-msgstr "Хоби ентусиасти"
+msgstr "Любители"
 
 #: src/fluxer_marketing/components/current_features.gleam:85
 msgid "Hop in a call with friends or share your screen to work together."
@@ -991,7 +991,7 @@ msgstr "Включете се в разговор с приятели или с�
 
 #: src/fluxer_marketing/components/current_features.gleam:153
 msgid "Host your own instance"
-msgstr "Хоствайте своя инстанция"
+msgstr "Хоствайте собствена инстанция"
 
 #: src/fluxer_marketing/pages/help_center_page.gleam:64
 #: src/fluxer_marketing/pages/help_search_page.gleam:63
@@ -1044,11 +1044,11 @@ msgstr "Инсталирайте Fluxer като приложение"
 msgid "Intel"
 msgstr "Intel"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:377
+#: src/fluxer_marketing/pages/donate_page.gleam:376
 msgid "Is my donation tax-deductible?"
 msgstr "Приспада ли се дарението ми от данъци?"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:359
+#: src/fluxer_marketing/pages/donate_page.gleam:358
 msgid "Is this a subscription?"
 msgstr "Това абонамент ли е?"
 
@@ -1101,7 +1101,7 @@ msgstr "Присъединете се към екипа зад Fluxer"
 
 #: src/fluxer_marketing/components/current_features.gleam:101
 msgid "Keep your community running smoothly with roles, permissions, and logs."
-msgstr "Поддържайте общността си в ред с роли, разрешения и журнали."
+msgstr "Поддържайте общността си в ред с роли, разрешения и дневници."
 
 #: src/fluxer_marketing/components/locale_selector.gleam:137
 msgid "Korean"
@@ -1113,7 +1113,7 @@ msgstr "Научете повече за Fluxer и нашата мисия"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:178
 msgid "Learn about Partners"
-msgstr "Научете повече за партньорите"
+msgstr "Научете повече за партньорската програма"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:195
 msgid "Learn more"
@@ -1137,7 +1137,7 @@ msgstr "Ограничена оферта: Visionary включва Operator Pas
 
 #: src/fluxer_marketing/pages/partners_page.gleam:408
 msgid "Links to your content or community (YouTube, Twitch, Discord, etc.)"
-msgstr "Линкове към вашето съдържание или общност (YouTube, Twitch, Discord и др.)"
+msgstr "Връзки към вашето съдържание или общност (YouTube, Twitch, Discord и др.)"
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:364
 msgid "Linux"
@@ -1186,7 +1186,7 @@ msgstr "Минимално дарение: $5 / €5"
 
 #: src/fluxer_marketing/pages/download_page.gleam:203
 msgid "Mobile apps are on the way"
-msgstr "Мобилните приложения са на път"
+msgstr "Мобилните приложения идват скоро"
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:213
 #: src/fluxer_marketing/components/platform_download_button.gleam:218
@@ -1222,11 +1222,11 @@ msgstr "Няма намерени статии."
 msgid "No results found for"
 msgstr "Няма резултати за"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:380
+#: src/fluxer_marketing/pages/donate_page.gleam:379
 msgid "No, donations to Fluxer are not tax-deductible as we are not a registered charitable organization."
 msgstr "Не, даренията към Fluxer не подлежат на данъчно приспадане, тъй като не сме регистрирана благотворителна организация."
 
-#: src/fluxer_marketing/pages/donate_page.gleam:362
+#: src/fluxer_marketing/pages/donate_page.gleam:361
 msgid "No, this is a one-time donation. You choose the amount you want to give, and there are no recurring charges."
 msgstr "Не, това е еднократно дарение. Вие избирате сумата и няма периодични такси."
 
@@ -1240,7 +1240,7 @@ msgstr "Норвежки"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:295
 msgid "Not available"
-msgstr "Недостъпно"
+msgstr "Не е налично"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:91
 msgid "Note: Plutonium and Visionary benefits only apply to the official Fluxer.app instance, not third-party or self-hosted instances."
@@ -1291,7 +1291,7 @@ msgstr "Operator Pass"
 
 #: src/fluxer_marketing/components/coming_features.gleam:31
 msgid "Opt-in E2EE messaging"
-msgstr "Опционално E2EE съобщение"
+msgstr "Съобщения с E2EE по избор"
 
 #: src/fluxer_marketing/components/current_features.gleam:74
 msgid "Organized channels for communities"
@@ -1341,7 +1341,7 @@ msgstr "Партньори"
 #: src/fluxer_marketing/pages/plutonium_page.gleam:287
 #: src/fluxer_marketing/pages/plutonium_page.gleam:571
 msgid "Per-community profiles"
-msgstr "Профили по общности"
+msgstr "Профили за всяка общност"
 
 #: src/fluxer_marketing/pages/download_page.gleam:315
 #: src/fluxer_marketing/pages/plutonium_page.gleam:215
@@ -1377,19 +1377,19 @@ msgstr "Преса"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:246
 msgid "Press \"Add to Home Screen\""
-msgstr "Натиснете 'Добавяне на Начален екран'"
+msgstr "Натиснете „Добавяне на начален екран“"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:249
 msgid "Press \"Add\" in the upper-right corner"
-msgstr "Натиснете \"Добави\" в горния десен ъгъл"
+msgstr "Натиснете „Добави“ в горния десен ъгъл"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:200
 msgid "Press \"Install app\""
-msgstr "Натиснете \"Инсталиране на приложението"
+msgstr "Натиснете „Инсталиране на приложението“"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:301
 msgid "Press \"Install\" in the popup that appears"
-msgstr "Натиснете \"Инсталирай\" в изскачащия прозорец, който се появява"
+msgstr "Натиснете „Инсталирай“ в изскачащия прозорец, който се появява"
 
 #: src/fluxer_marketing/pages/press_page.gleam:45
 #: src/fluxer_marketing/pages/press_page.gleam:65
@@ -1402,15 +1402,15 @@ msgstr "Контакт за пресата"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:197
 msgid "Press the \"More\" (\\u{22EE}) button in the top-right corner"
-msgstr "Натиснете бутона \"Още\" (\\u{22EE}) в горния десен ъгъл"
+msgstr "Натиснете бутона „Още“ (\\u{22EE}) в горния десен ъгъл"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:243
 msgid "Press the Share button (rectangle with upwards-pointing arrow)"
-msgstr "Натиснете бутона Сподели (правоъгълник с нагоре сочеща стрелка)"
+msgstr "Натиснете бутона „Споделяне“ (правоъгълник със стрелка нагоре)"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:296
 msgid "Press the install button (downwards-pointing arrow on monitor) in the address bar"
-msgstr "Натиснете бутона за инсталиране (стрелка надолу на монитора) в адресната лента"
+msgstr "Натиснете бутона за инсталиране (стрелка надолу върху монитор) в адресната лента"
 
 #: src/fluxer_marketing/components/footer.gleam:110
 #: src/fluxer_marketing/components/navigation.gleam:93
@@ -1430,7 +1430,7 @@ msgstr "Политика за поверителност"
 
 #: src/fluxer_marketing/components/current_features.gleam:73
 msgid "Private DMs and group chats"
-msgstr "Лични съобщения и групови чатове"
+msgstr "Лични разговори и групови чатове"
 
 #: src/fluxer_marketing/components/navigation.gleam:270
 msgid "Product"
@@ -1447,7 +1447,7 @@ msgstr "Връзки в профила"
 
 #: src/fluxer_marketing/components/hero.gleam:55
 msgid "Public Beta"
-msgstr "Публична бета"
+msgstr "Публична бета версия"
 
 #: src/fluxer_marketing/components/coming_features.gleam:46
 msgid "Public profile URLs"
@@ -1564,7 +1564,7 @@ msgstr "Вградено споделяне на екрана"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:132
 msgid "Screenshots courtesy of "
-msgstr "Скрийншотове с любезното съдействие на "
+msgstr "Екранни снимки с любезното съдействие на "
 
 #: src/fluxer_marketing/pages/help_components.gleam:93
 msgid "Search"
@@ -1581,7 +1581,7 @@ msgstr "Резултати от търсенето"
 #: src/fluxer_marketing/pages/help_center_page.gleam:67
 #: src/fluxer_marketing/pages/help_search_page.gleam:66
 msgid "Search for help..."
-msgstr "Търсене в помощта..."
+msgstr "Търсете в помощта..."
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:92
 msgid "Search in "
@@ -1639,7 +1639,7 @@ msgstr "Задайте персонализирани звуци при влиз
 
 #: src/fluxer_marketing/pages/careers_page.gleam:408
 msgid "Share a bit about yourself, what you'd like to work on, and links to any relevant work."
-msgstr "Разкажете накратко за себе си, върху какво бихте искали да работите, и дайте линкове към релевантни проекти."
+msgstr "Разкажете накратко за себе си, върху какво бихте искали да работите, и дайте връзки към релевантни проекти."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:143
 msgid "Share feedback, report bugs, and help make Fluxer welcoming for everyone."
@@ -1647,7 +1647,7 @@ msgstr "Споделяйте обратна връзка, докладвайте
 
 #: src/fluxer_marketing/components/current_features.gleam:75
 msgid "Share files and preview links"
-msgstr "Споделяйте файлове и преглеждайте линкове"
+msgstr "Споделяйте файлове и преглеждайте връзки"
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:490
 msgid "Show download options"
@@ -1659,7 +1659,7 @@ msgstr "Покажете статуса си Plutonium с ексклузивна
 
 #: src/fluxer_marketing/components/coming_features.gleam:33
 msgid "Slash commands"
-msgstr "Команди със слеш"
+msgstr "Slash команди"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:236
 msgid "Software development"
@@ -1667,7 +1667,7 @@ msgstr "Софтуерна разработка"
 
 #: src/fluxer_marketing/components/coming_features.gleam:57
 msgid "Soundboard"
-msgstr "Саундборд"
+msgstr "Soundboard"
 
 #: src/fluxer_marketing/components/footer.gleam:143
 #: src/fluxer_marketing/components/navigation.gleam:438
@@ -1822,7 +1822,7 @@ msgstr "Видео качество до 4K"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:54
 msgid "Upgrade to Plutonium for $4.99/mo: custom username tags, per-community profiles, message scheduling, 4K streaming, 500MB uploads, and more exclusive features."
-msgstr "Надстройте до Plutonium за $4.99/мес.: персонализирани тагове към потребителското име, профили по общности, планиране на съобщения, 4K стрийминг, качвания до 500MB и още ексклузивни функции."
+msgstr "Надстройте до Plutonium за $4.99/мес.: персонализирани тагове към потребителското име, профили за всяка общност, планиране на съобщения, 4K стрийминг, качвания до 500MB и още ексклузивни функции."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:644
 msgid "Upload and use your own notification sounds to personalize your Fluxer experience."
@@ -1846,7 +1846,7 @@ msgstr "Използвайте анимирани емоджита"
 
 #: src/fluxer_marketing/components/current_features.gleam:154
 msgid "Use our desktop client (mobile coming soon)"
-msgstr "Използвайте нашия десктоп клиент (мобилната версия идва скоро)"
+msgstr "Използвайте нашия настолен клиент (мобилната версия идва скоро)"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:604
 msgid "Use your favorite emojis and stickers from any community, anywhere across Fluxer."
@@ -1903,7 +1903,7 @@ msgstr "Начини да допринесете"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:192
 msgid "We appreciate responsible disclosure to security@fluxer.app. We offer Plutonium codes and Bug Hunter badges based on severity."
-msgstr "Оценяваме отговорното докладване на security@fluxer.app. Предлагаме Plutonium кодове и значки Bug Hunter според сериозността."
+msgstr "Оценяваме отговорното докладване на security@fluxer.app. Предлагаме Plutonium кодове и значки „Bug Hunter“ според сериозността."
 
 #: src/fluxer_marketing/components/final_cta.gleam:56
 msgid "We need your support to make this work."
@@ -1937,7 +1937,7 @@ msgstr "Все още изграждаме бизнеса около Fluxer и �
 msgid "Webhooks and bot support"
 msgstr "Уебхукове и поддръжка за ботове"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:351
+#: src/fluxer_marketing/pages/donate_page.gleam:350
 msgid "What does my donation support?"
 msgstr "Какво подкрепя дарението ми?"
 
@@ -1953,7 +1953,7 @@ msgstr "Какво е налично днес"
 msgid "What's coming next"
 msgstr "Какво предстои"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:385
+#: src/fluxer_marketing/pages/donate_page.gleam:384
 msgid "What's the difference between Individual and Business?"
 msgstr "Каква е разликата между Индивидуално и Бизнес?"
 
@@ -1989,7 +1989,7 @@ msgstr "Общността ви получава верифициран стат
 msgid "Your community receives increased limits when you need them."
 msgstr "Общността ви получава повишени лимити, когато имате нужда от тях."
 
-#: src/fluxer_marketing/pages/donate_page.gleam:354
+#: src/fluxer_marketing/pages/donate_page.gleam:353
 msgid "Your donation helps fund Fluxer's infrastructure costs, including servers, bandwidth, storage, and ongoing development of new features. It helps us maintain and improve the platform for everyone."
 msgstr "Дарението ви помага да финансираме инфраструктурните разходи на Fluxer, включително сървъри, трафик, съхранение и текущата разработка на нови функции. То ни помага да поддържаме и подобряваме платформата за всички."
 
@@ -2034,7 +2034,7 @@ msgid "one-time purchase"
 msgstr "еднократна покупка"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:68
-#: src/fluxer_marketing/pages/donate_page.gleam:284
+#: src/fluxer_marketing/pages/donate_page.gleam:282
 #: src/fluxer_marketing/pages/plutonium_page.gleam:106
 #: src/fluxer_marketing/pages/plutonium_page.gleam:230
 msgid "or"
@@ -2059,4 +2059,3 @@ msgstr "Остават {0} от {1} места"
 #: src/fluxer_marketing/components/footer.gleam:325
 msgid "© Fluxer Platform AB (Swedish limited liability company: 559537-3993)"
 msgstr "© Fluxer Platform AB (шведско дружество с ограничена отговорност: 559537-3993)"
-

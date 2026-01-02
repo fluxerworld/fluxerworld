@@ -24,7 +24,12 @@ import {applicationIdToUserId} from '~/BrandedTypes';
 import {UserFlags, UserPremiumTypes} from '~/Constants';
 import type {UserRow} from '~/database/CassandraTypes';
 import type {ApplicationRow} from '~/database/types/OAuth2Types';
-import {BotUserNotFoundError, InputValidationError, UnknownApplicationError} from '~/Errors';
+import {
+	BotUserNotFoundError,
+	InputValidationError,
+	UnclaimedAccountRestrictedError,
+	UnknownApplicationError,
+} from '~/Errors';
 import type {DiscriminatorService} from '~/infrastructure/DiscriminatorService';
 import type {EntityAssetService, PreparedAssetUpload} from '~/infrastructure/EntityAssetService';
 import type {IGatewayService} from '~/infrastructure/IGatewayService';
@@ -129,6 +134,10 @@ export class ApplicationService {
 		const initialRedirectUris = args.redirectUris ?? [];
 		const owner = await this.deps.userRepository.findUniqueAssert(args.ownerUserId);
 		const botIsPublic = args.botPublic ?? true;
+
+		if (!owner.passwordHash && !owner.isBot) {
+			throw new UnclaimedAccountRestrictedError('create applications');
+		}
 
 		const applicationId: ApplicationID = this.deps.snowflakeService.generate() as ApplicationID;
 		const botUserId = applicationIdToUserId(applicationId);

@@ -40,7 +40,7 @@ class FocusManager {
 		this.initialized = true;
 
 		this.disposer = autorun(() => {
-			this.notifyListeners(WindowStore.focused);
+			this.notifyListeners(this.isForeground());
 		});
 	}
 
@@ -53,7 +53,7 @@ class FocusManager {
 
 	subscribe(listener: FocusChangeListener): () => void {
 		this.listeners.add(listener);
-		listener(WindowStore.isFocused());
+		listener(this.isForeground());
 
 		return () => {
 			this.listeners.delete(listener);
@@ -70,8 +70,12 @@ class FocusManager {
 		});
 	}
 
+	private isForeground(): boolean {
+		return WindowStore.isFocused() && WindowStore.isVisible();
+	}
+
 	isFocused(): boolean {
-		return WindowStore.isFocused();
+		return WindowStore.isFocused() && WindowStore.isVisible();
 	}
 }
 

@@ -22,7 +22,7 @@ import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import * as ModalActionCreators from '~/actions/ModalActionCreators';
 import {modal} from '~/actions/ModalActionCreators';
-import {ClaimAccountModal} from '~/components/modals/ClaimAccountModal';
+import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
 import {EmailChangeModal} from '~/components/modals/EmailChangeModal';
 import {PasswordChangeModal} from '~/components/modals/PasswordChangeModal';
 import {SettingsTabSection} from '~/components/modals/shared/SettingsTabLayout';
@@ -94,7 +94,7 @@ export const AccountTabContent: React.FC<AccountTabProps> = observer(
 									<Trans>No email address set</Trans>
 								</div>
 							</div>
-							<Button small={true} onClick={() => ModalActionCreators.push(modal(() => <ClaimAccountModal />))}>
+							<Button small={true} className={styles.claimButton} fitContent onClick={() => openClaimAccountModal()}>
 								<Trans>Add Email</Trans>
 							</Button>
 						</div>
@@ -134,7 +134,7 @@ export const AccountTabContent: React.FC<AccountTabProps> = observer(
 										<Trans>No password set</Trans>
 									</div>
 								</div>
-								<Button small={true} onClick={() => ModalActionCreators.push(modal(() => <ClaimAccountModal />))}>
+								<Button small={true} className={styles.claimButton} fitContent onClick={() => openClaimAccountModal()}>
 									<Trans>Set Password</Trans>
 								</Button>
 							</>

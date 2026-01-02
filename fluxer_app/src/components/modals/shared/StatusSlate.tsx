@@ -36,13 +36,16 @@ interface StatusSlateProps {
 	description: React.ReactNode;
 	actions?: Array<StatusAction>;
 	fullHeight?: boolean;
+	iconClassName?: string;
+	iconStyle?: React.CSSProperties;
 }
 
 export const StatusSlate: React.FC<StatusSlateProps> = observer(
-	({Icon, title, description, actions = [], fullHeight = false}) => {
+	({Icon, title, description, actions = [], fullHeight = false, iconClassName, iconStyle}) => {
+		const iconClass = [styles.icon, iconClassName].filter(Boolean).join(' ');
 		return (
 			<div className={`${styles.container} ${fullHeight ? styles.fullHeight : ''}`}>
-				<Icon className={styles.icon} aria-hidden />
+				<Icon className={iconClass} style={iconStyle} aria-hidden />
 				<h3 className={styles.title}>{title}</h3>
 				<p className={styles.description}>{description}</p>
 				{actions.length > 0 && (

@@ -723,10 +723,8 @@ function findFormattingEnd(
 
 			if (currentChar === markerChar) {
 				if (markerChar === BACKTICK && position + 1 < textLength && text.charCodeAt(position + 1) === BACKTICK) {
-					let _backtickCount = 0;
 					let checkPos = position;
 					while (checkPos < textLength && text.charCodeAt(checkPos) === BACKTICK) {
-						_backtickCount++;
 						checkPos++;
 					}
 					position = checkPos;

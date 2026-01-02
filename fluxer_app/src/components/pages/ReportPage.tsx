@@ -17,327 +17,138 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
+import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import React from 'react';
-import {Input, Textarea} from '~/components/form/Input';
-import {Select, type SelectOption} from '~/components/form/Select';
-import {Button} from '~/components/uikit/Button/Button';
-import {RadioGroup, type RadioOption} from '~/components/uikit/RadioGroup/RadioGroup';
+import * as ToastActionCreators from '~/actions/ToastActionCreators';
+import type {SelectOption} from '~/components/form/Select';
+import type {RadioOption} from '~/components/uikit/RadioGroup/RadioGroup';
+import {AuthLayoutContext} from '~/contexts/AuthLayoutContext';
 import {Endpoints} from '~/Endpoints';
 import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
 import HttpClient from '~/lib/HttpClient';
 import styles from './ReportPage.module.css';
+import {
+	COUNTRY_OPTIONS,
+	GUILD_CATEGORY_OPTIONS,
+	MESSAGE_CATEGORY_OPTIONS,
+	REPORT_TYPE_OPTION_DESCRIPTORS,
+	USER_CATEGORY_OPTIONS,
+} from './report/optionDescriptors';
+import ReportBreadcrumbs from './report/ReportBreadcrumbs';
+import ReportStepComplete from './report/ReportStepComplete';
+import ReportStepDetails from './report/ReportStepDetails';
+import ReportStepEmail from './report/ReportStepEmail';
+import ReportStepSelection from './report/ReportStepSelection';
+import ReportStepVerification from './report/ReportStepVerification';
+import {createInitialState, reducer} from './report/state';
+import type {FlowStep, FormValues, ReportType} from './report/types';
+import {
+	EMAIL_REGEX,
+	formatVerificationCodeInput,
+	isValidHttpUrl,
+	normalizeLikelyUrl,
+	VERIFICATION_CODE_REGEX,
+} from './report/validators';
 
-type ReportType = 'message' | 'user' | 'guild';
-type FlowStep = 'selection' | 'email' | 'verification' | 'details' | 'complete';
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const VERIFICATION_CODE_REGEX = /^[A-Z0-9]{4}-[A-Z0-9]{4}$/;
-
-const FLOW_TOTAL_STEPS = 4;
-
-const INITIAL_FORM_VALUES = {
-	category: '',
-	reporterFullName: '',
-	reporterCountry: '',
-	reporterFluxerTag: '',
-	messageLink: '',
-	messageUserTag: '',
-	userId: '',
-	userTag: '',
-	guildId: '',
-	inviteCode: '',
-	additionalInfo: '',
-};
-
-type FormValues = typeof INITIAL_FORM_VALUES;
-
-type State = {
-	selectedType: ReportType | null;
-	flowStep: FlowStep;
-
-	email: string;
-	verificationCode: string;
-	ticket: string | null;
-
-	formValues: FormValues;
-
-	isSendingCode: boolean;
-	isVerifying: boolean;
-	isSubmitting: boolean;
-
-	errorMessage: string | null;
-	successReportId: string | null;
-};
-
-type Action =
-	| {type: 'RESET_ALL'}
-	| {type: 'SELECT_TYPE'; reportType: ReportType}
-	| {type: 'GO_TO_SELECTION'}
-	| {type: 'GO_TO_EMAIL'}
-	| {type: 'GO_TO_VERIFICATION'}
-	| {type: 'GO_TO_DETAILS'}
-	| {type: 'SET_ERROR'; message: string | null}
-	| {type: 'SET_EMAIL'; email: string}
-	| {type: 'SET_VERIFICATION_CODE'; code: string}
-	| {type: 'SET_TICKET'; ticket: string | null}
-	| {type: 'SET_FORM_FIELD'; field: keyof FormValues; value: string}
-	| {type: 'SENDING_CODE'; value: boolean}
-	| {type: 'VERIFYING'; value: boolean}
-	| {type: 'SUBMITTING'; value: boolean}
-	| {type: 'SUBMIT_SUCCESS'; reportId: string};
-
-const createInitialState = (): State => ({
-	selectedType: null,
-	flowStep: 'selection',
-
-	email: '',
-	verificationCode: '',
-	ticket: null,
-
-	formValues: {...INITIAL_FORM_VALUES},
-
-	isSendingCode: false,
-	isVerifying: false,
-	isSubmitting: false,
-
-	errorMessage: null,
-	successReportId: null,
-});
-
-function reducer(state: State, action: Action): State {
-	switch (action.type) {
-		case 'RESET_ALL':
-			return createInitialState();
-
-		case 'SELECT_TYPE':
-			return {
-				...createInitialState(),
-				selectedType: action.reportType,
-				flowStep: 'email',
-			};
-
-		case 'GO_TO_SELECTION':
-			return {
-				...createInitialState(),
-			};
-
-		case 'GO_TO_EMAIL':
-			return {
-				...state,
-				flowStep: 'email',
-				verificationCode: '',
-				ticket: null,
-				isVerifying: false,
-				errorMessage: null,
-			};
-
-		case 'GO_TO_VERIFICATION':
-			return {
-				...state,
-				flowStep: 'verification',
-				verificationCode: '',
-				ticket: null,
-				errorMessage: null,
-			};
-
-		case 'GO_TO_DETAILS':
-			return {
-				...state,
-				flowStep: 'details',
-				errorMessage: null,
-			};
-
-		case 'SET_ERROR':
-			return {...state, errorMessage: action.message};
-
-		case 'SET_EMAIL':
-			return {...state, email: action.email, errorMessage: null};
-
-		case 'SET_VERIFICATION_CODE':
-			return {...state, verificationCode: action.code, errorMessage: null};
-
-		case 'SET_TICKET':
-			return {...state, ticket: action.ticket};
-
-		case 'SET_FORM_FIELD':
-			return {
-				...state,
-				formValues: {...state.formValues, [action.field]: action.value},
-				errorMessage: null,
-			};
-
-		case 'SENDING_CODE':
-			return {...state, isSendingCode: action.value};
-
-		case 'VERIFYING':
-			return {...state, isVerifying: action.value};
-
-		case 'SUBMITTING':
-			return {...state, isSubmitting: action.value};
-
-		case 'SUBMIT_SUCCESS':
-			return {
-				...state,
-				successReportId: action.reportId,
-				flowStep: 'complete',
-				isSubmitting: false,
-				errorMessage: null,
-			};
-
-		default:
-			return state;
-	}
-}
-
-function getStepNumber(step: FlowStep): number | null {
-	switch (step) {
-		case 'selection':
-			return 1;
-		case 'email':
-			return 2;
-		case 'verification':
-			return 3;
-		case 'details':
-			return 4;
-		case 'complete':
-			return null;
-	}
-}
-
-function formatVerificationCodeInput(raw: string): string {
-	const cleaned = raw
-		.toUpperCase()
-		.replace(/[^A-Z0-9]/g, '')
-		.slice(0, 8);
-	if (cleaned.length <= 4) return cleaned;
-	return `${cleaned.slice(0, 4)}-${cleaned.slice(4)}`;
-}
-
-function normalizeLikelyUrl(raw: string): string {
-	const trimmed = raw.trim();
-	if (!trimmed) return '';
-
-	if (!/^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//.test(trimmed)) {
-		return `https://${trimmed}`;
-	}
-
-	return trimmed;
-}
-
-function isValidHttpUrl(raw: string): boolean {
-	try {
-		const url = new URL(raw);
-		return url.protocol === 'http:' || url.protocol === 'https:';
-	} catch {
-		return false;
-	}
-}
+type ValidationError = {path: string; message: string};
 
 export const ReportPage = observer(() => {
 	const {t} = useLingui();
+	const authLayout = React.useContext(AuthLayoutContext);
 
 	useFluxerDocumentTitle(t`Report Illegal Content`);
 
+	React.useLayoutEffect(() => {
+		if (!authLayout) return;
+		authLayout.setShowLogoSide(false);
+		return () => authLayout.setShowLogoSide(true);
+	}, [authLayout]);
+
 	const [state, dispatch] = React.useReducer(reducer, undefined, createInitialState);
 
-	const reportTypeOptions = React.useMemo<ReadonlyArray<RadioOption<ReportType>>>(
-		() => [
-			{value: 'message', name: t`Report a Message`},
-			{value: 'user', name: t`Report a User Profile`},
-			{value: 'guild', name: t`Report a Community`},
-		],
+	const parseValidationErrors = React.useCallback(
+		(
+			error: unknown,
+		): {fieldErrors: Partial<Record<keyof FormValues, string>>; generalMessage: string | null} | null => {
+			if (error && typeof error === 'object' && 'body' in error && (error as {body?: unknown}).body) {
+				const body = (error as {body?: any}).body;
+				const pathMap: Record<string, keyof FormValues> = {
+					category: 'category',
+					reporter_full_legal_name: 'reporterFullName',
+					reporter_country_of_residence: 'reporterCountry',
+					reporter_fluxer_tag: 'reporterFluxerTag',
+					message_link: 'messageLink',
+					reported_user_tag: 'messageUserTag',
+					user_id: 'userId',
+					user_tag: 'userTag',
+					guild_id: 'guildId',
+					invite_code: 'inviteCode',
+					additional_info: 'additionalInfo',
+				};
+
+				if (body?.code === 'INVALID_FORM_BODY' && Array.isArray(body.errors)) {
+					const fieldErrors: Partial<Record<keyof FormValues, string>> = {};
+					const errors = body.errors as Array<ValidationError>;
+					for (const err of errors) {
+						const mapped = pathMap[err.path];
+						if (mapped) {
+							fieldErrors[mapped] = err.message;
+						}
+					}
+
+					const hasFieldErrors = Object.keys(fieldErrors).length > 0;
+					const generalMessage = hasFieldErrors
+						? null
+						: (errors[0]?.message ?? t`Something went wrong while submitting the report. Please try again.`);
+
+					return {fieldErrors, generalMessage};
+				}
+
+				if (typeof body?.message === 'string') {
+					return {fieldErrors: {}, generalMessage: body.message};
+				}
+			}
+
+			return null;
+		},
 		[t],
 	);
 
-	const reportTypeLabel = React.useMemo(() => {
-		const match = reportTypeOptions.find((o) => o.value === state.selectedType);
-		return match?.name ?? '';
-	}, [reportTypeOptions, state.selectedType]);
+	const reportTypeOptions = React.useMemo<ReadonlyArray<RadioOption<ReportType>>>(() => {
+		return REPORT_TYPE_OPTION_DESCRIPTORS.map((option) => ({
+			value: option.value,
+			name: t(option.name),
+		}));
+	}, [t]);
 
-	const messageCategoryOptions = React.useMemo<Array<SelectOption<string>>>(
-		() => [
-			{value: '', label: t`Select a category`},
-			{value: 'harassment', label: t`Harassment or Bullying`},
-			{value: 'hate_speech', label: t`Hate Speech`},
-			{value: 'violent_content', label: t`Violent or Graphic Content`},
-			{value: 'spam', label: t`Spam or Scam`},
-			{value: 'nsfw_violation', label: t`NSFW Policy Violation`},
-			{value: 'illegal_activity', label: t`Illegal Activity`},
-			{value: 'doxxing', label: t`Sharing Personal Information`},
-			{value: 'self_harm', label: t`Self-Harm or Suicide`},
-			{value: 'child_safety', label: t`Child Safety Concerns`},
-			{value: 'malicious_links', label: t`Malicious Links`},
-			{value: 'impersonation', label: t`Impersonation`},
-			{value: 'other', label: t`Other`},
-		],
-		[t],
-	);
+	const messageCategoryOptions = React.useMemo<Array<SelectOption<string>>>(() => {
+		return MESSAGE_CATEGORY_OPTIONS.map((option) => ({
+			value: option.value,
+			label: t(option.label),
+		}));
+	}, [t]);
 
-	const userCategoryOptions = React.useMemo<Array<SelectOption<string>>>(
-		() => [
-			{value: '', label: t`Select a category`},
-			{value: 'harassment', label: t`Harassment or Bullying`},
-			{value: 'hate_speech', label: t`Hate Speech`},
-			{value: 'spam_account', label: t`Spam Account`},
-			{value: 'impersonation', label: t`Impersonation`},
-			{value: 'underage_user', label: t`Underage User`},
-			{value: 'inappropriate_profile', label: t`Inappropriate Profile`},
-			{value: 'other', label: t`Other`},
-		],
-		[t],
-	);
+	const userCategoryOptions = React.useMemo<Array<SelectOption<string>>>(() => {
+		return USER_CATEGORY_OPTIONS.map((option) => ({
+			value: option.value,
+			label: t(option.label),
+		}));
+	}, [t]);
 
-	const guildCategoryOptions = React.useMemo<Array<SelectOption<string>>>(
-		() => [
-			{value: '', label: t`Select a category`},
-			{value: 'harassment', label: t`Harassment`},
-			{value: 'hate_speech', label: t`Hate Speech`},
-			{value: 'extremist_community', label: t`Extremist Community`},
-			{value: 'illegal_activity', label: t`Illegal Activity`},
-			{value: 'child_safety', label: t`Child Safety Concerns`},
-			{value: 'raid_coordination', label: t`Raid Coordination`},
-			{value: 'spam', label: t`Spam or Scam Community`},
-			{value: 'malware_distribution', label: t`Malware Distribution`},
-			{value: 'other', label: t`Other`},
-		],
-		[t],
-	);
+	const guildCategoryOptions = React.useMemo<Array<SelectOption<string>>>(() => {
+		return GUILD_CATEGORY_OPTIONS.map((option) => ({
+			value: option.value,
+			label: t(option.label),
+		}));
+	}, [t]);
 
-	const countryOptions = React.useMemo<Array<SelectOption<string>>>(
-		() => [
-			{value: '', label: t`Select a country`},
-			{value: 'AT', label: t`Austria`},
-			{value: 'BE', label: t`Belgium`},
-			{value: 'BG', label: t`Bulgaria`},
-			{value: 'HR', label: t`Croatia`},
-			{value: 'CY', label: t`Cyprus`},
-			{value: 'CZ', label: t`Czech Republic`},
-			{value: 'DK', label: t`Denmark`},
-			{value: 'EE', label: t`Estonia`},
-			{value: 'FI', label: t`Finland`},
-			{value: 'FR', label: t`France`},
-			{value: 'DE', label: t`Germany`},
-			{value: 'GR', label: t`Greece`},
-			{value: 'HU', label: t`Hungary`},
-			{value: 'IE', label: t`Ireland`},
-			{value: 'IT', label: t`Italy`},
-			{value: 'LV', label: t`Latvia`},
-			{value: 'LT', label: t`Lithuania`},
-			{value: 'LU', label: t`Luxembourg`},
-			{value: 'MT', label: t`Malta`},
-			{value: 'NL', label: t`Netherlands`},
-			{value: 'PL', label: t`Poland`},
-			{value: 'PT', label: t`Portugal`},
-			{value: 'RO', label: t`Romania`},
-			{value: 'SK', label: t`Slovakia`},
-			{value: 'SI', label: t`Slovenia`},
-			{value: 'ES', label: t`Spain`},
-			{value: 'SE', label: t`Sweden`},
-		],
-		[t],
-	);
+	const countryOptions = React.useMemo<Array<SelectOption<string>>>(() => {
+		return COUNTRY_OPTIONS.map((option) => ({
+			value: option.value,
+			label: t(option.label),
+		}));
+	}, [t]);
 
 	const categoryOptionsByType = React.useMemo(() => {
 		return {
@@ -349,7 +160,11 @@ export const ReportPage = observer(() => {
 
 	const categoryOptions = state.selectedType ? categoryOptionsByType[state.selectedType] : [];
 
-	const isBusy = state.isSendingCode || state.isVerifying || state.isSubmitting;
+	React.useEffect(() => {
+		if (state.resendCooldownSeconds <= 0) return;
+		const timer = window.setInterval(() => dispatch({type: 'TICK_RESEND_COOLDOWN'}), 1000);
+		return () => window.clearInterval(timer);
+	}, [state.resendCooldownSeconds, dispatch]);
 
 	React.useEffect(() => {
 		if (state.flowStep === 'selection') return;
@@ -399,6 +214,9 @@ export const ReportPage = observer(() => {
 
 		dispatch({type: 'SET_ERROR', message: null});
 		dispatch({type: 'SENDING_CODE', value: true});
+		if (state.flowStep === 'verification') {
+			dispatch({type: 'START_RESEND_COOLDOWN', seconds: 30});
+		}
 
 		try {
 			await HttpClient.post({
@@ -408,12 +226,19 @@ export const ReportPage = observer(() => {
 
 			dispatch({type: 'SET_EMAIL', email: normalizedEmail});
 			dispatch({type: 'GO_TO_VERIFICATION'});
+
+			if (state.flowStep === 'verification') {
+				ToastActionCreators.createToast({type: 'success', children: t`Code resent`});
+			}
 		} catch (_error) {
 			dispatch({type: 'SET_ERROR', message: t`Failed to send verification code. Please try again.`});
+			if (state.flowStep === 'verification') {
+				ToastActionCreators.createToast({type: 'error', children: t`Failed to resend code. Please try again.`});
+			}
 		} finally {
 			dispatch({type: 'SENDING_CODE', value: false});
 		}
-	}, [state.email, state.isSendingCode, state.isVerifying, state.isSubmitting, t]);
+	}, [state.email, state.isSendingCode, state.isVerifying, state.isSubmitting, state.flowStep, t]);
 
 	const verifyCode = React.useCallback(async () => {
 		if (state.isSendingCode || state.isVerifying || state.isSubmitting) return;
@@ -463,6 +288,8 @@ export const ReportPage = observer(() => {
 			dispatch({type: 'SET_ERROR', message: t`You must verify your email before submitting a report.`});
 			return;
 		}
+
+		dispatch({type: 'CLEAR_FIELD_ERRORS'});
 
 		const reporterFullName = state.formValues.reporterFullName.trim();
 		const reporterCountry = state.formValues.reporterCountry;
@@ -560,413 +387,149 @@ export const ReportPage = observer(() => {
 
 			dispatch({type: 'SUBMIT_SUCCESS', reportId: response.body.report_id});
 		} catch (_error) {
-			dispatch({type: 'SET_ERROR', message: t`Something went wrong while submitting the report. Please try again.`});
+			const parsed = parseValidationErrors(_error);
+			if (parsed) {
+				dispatch({type: 'SET_FIELD_ERRORS', errors: parsed.fieldErrors});
+				dispatch({type: 'SET_ERROR', message: parsed.generalMessage});
+			} else {
+				dispatch({type: 'SET_ERROR', message: t`Something went wrong while submitting the report. Please try again.`});
+			}
 			dispatch({type: 'SUBMITTING', value: false});
 		}
 	}, [state, t]);
 
-	const stepNumber = getStepNumber(state.flowStep);
+	const reporterFullName = state.formValues.reporterFullName.trim();
+	const reporterCountry = state.formValues.reporterCountry;
+	const category = state.formValues.category;
 
-	const renderStepHeader = (title: React.ReactNode, description: React.ReactNode) => (
-		<>
-			{stepNumber !== null && (
-				<div className={styles.stepIndicator}>
-					<Trans>
-						Step {stepNumber} of {FLOW_TOTAL_STEPS}
-					</Trans>
-				</div>
-			)}
-			<h1 className={styles.title}>{title}</h1>
-			<p className={styles.description}>{description}</p>
-		</>
+	const messageLinkNormalized = normalizeLikelyUrl(state.formValues.messageLink);
+	const messageLinkOk = state.selectedType !== 'message' ? true : isValidHttpUrl(messageLinkNormalized);
+
+	const userTargetOk =
+		state.selectedType !== 'user' ? true : Boolean(state.formValues.userId.trim() || state.formValues.userTag.trim());
+
+	const guildTargetOk = state.selectedType !== 'guild' ? true : Boolean(state.formValues.guildId.trim());
+
+	const canSubmit =
+		Boolean(category) &&
+		Boolean(reporterFullName) &&
+		Boolean(reporterCountry) &&
+		messageLinkOk &&
+		userTargetOk &&
+		guildTargetOk;
+
+	const handleBreadcrumbSelect = (step: FlowStep) => {
+		switch (step) {
+			case 'selection':
+				dispatch({type: 'GO_TO_SELECTION'});
+				break;
+			case 'email':
+				dispatch({type: 'GO_TO_EMAIL'});
+				break;
+			case 'verification':
+				dispatch({type: 'GO_TO_VERIFICATION'});
+				break;
+			case 'details':
+				dispatch({type: 'GO_TO_DETAILS'});
+				break;
+			default:
+				break;
+		}
+	};
+
+	const renderStep = () => {
+		switch (state.flowStep) {
+			case 'selection':
+				return (
+					<ReportStepSelection
+						reportTypeOptions={reportTypeOptions}
+						selectedType={state.selectedType}
+						onSelect={onSelectType}
+					/>
+				);
+
+			case 'email':
+				return (
+					<ReportStepEmail
+						email={state.email}
+						errorMessage={state.errorMessage}
+						isSending={state.isSendingCode}
+						onEmailChange={(value) => dispatch({type: 'SET_EMAIL', email: value})}
+						onSubmit={() => void sendVerificationCode()}
+						onStartOver={() => dispatch({type: 'GO_TO_SELECTION'})}
+					/>
+				);
+
+			case 'verification':
+				return (
+					<ReportStepVerification
+						email={state.email}
+						verificationCode={state.verificationCode}
+						errorMessage={state.errorMessage}
+						isVerifying={state.isVerifying}
+						isResending={state.isSendingCode}
+						resendCooldownSeconds={state.resendCooldownSeconds}
+						onChangeEmail={() => dispatch({type: 'GO_TO_EMAIL'})}
+						onResend={() => void sendVerificationCode()}
+						onVerify={() => void verifyCode()}
+						onCodeChange={(value) =>
+							dispatch({type: 'SET_VERIFICATION_CODE', code: formatVerificationCodeInput(value)})
+						}
+						onStartOver={() => dispatch({type: 'GO_TO_SELECTION'})}
+					/>
+				);
+
+			case 'details':
+				return (
+					<ReportStepDetails
+						selectedType={state.selectedType as ReportType}
+						formValues={state.formValues}
+						categoryOptions={categoryOptions}
+						countryOptions={countryOptions}
+						fieldErrors={state.fieldErrors}
+						errorMessage={state.errorMessage}
+						canSubmit={canSubmit}
+						isSubmitting={state.isSubmitting}
+						onFieldChange={(field, value) => dispatch({type: 'SET_FORM_FIELD', field, value})}
+						onSubmit={() => void handleSubmit()}
+						onStartOver={() => dispatch({type: 'RESET_ALL'})}
+						onBack={() => dispatch({type: 'GO_TO_VERIFICATION'})}
+						messageLinkOk={messageLinkOk}
+						userTargetOk={userTargetOk}
+						guildTargetOk={guildTargetOk}
+					/>
+				);
+
+			case 'complete':
+				return state.successReportId ? <ReportStepComplete onStartOver={() => dispatch({type: 'RESET_ALL'})} /> : null;
+
+			default:
+				return null;
+		}
+	};
+
+	const breadcrumbs =
+		state.flowStep === 'complete' ? null : (
+			<ReportBreadcrumbs
+				current={state.flowStep}
+				hasSelection={Boolean(state.selectedType)}
+				hasEmail={Boolean(state.email.trim())}
+				hasTicket={Boolean(state.ticket)}
+				onSelect={handleBreadcrumbSelect}
+			/>
+		);
+
+	const breadcrumbShell =
+		state.flowStep === 'complete' ? null : (
+			<div className={styles.breadcrumbShell}>
+				{breadcrumbs ?? <span className={styles.breadcrumbPlaceholder} aria-hidden="true" />}
+			</div>
+		);
+
+	return (
+		<div className={styles.page}>
+			{breadcrumbShell}
+			<div className={styles.mainColumn}>{renderStep()}</div>
+		</div>
 	);
-
-	if (state.flowStep === 'complete' && state.successReportId) {
-		return (
-			<div className={styles.container}>
-				{renderStepHeader(
-					<Trans>Report Submitted</Trans>,
-					<Trans>Thank you for filing a report. We&apos;ll review it as soon as possible.</Trans>,
-				)}
-
-				<div className={styles.successBox}>
-					<div className={styles.successLabel}>
-						<Trans>Your submission ID</Trans>
-					</div>
-					<div className={styles.successValue}>{state.successReportId}</div>
-				</div>
-
-				<div className={styles.footer}>
-					<button type="button" className={styles.link} onClick={() => dispatch({type: 'RESET_ALL'})} disabled={isBusy}>
-						<Trans>Submit another report</Trans>
-					</button>
-				</div>
-			</div>
-		);
-	}
-
-	if (state.flowStep === 'selection') {
-		return (
-			<div className={styles.container}>
-				{renderStepHeader(
-					<Trans>Report Illegal Content</Trans>,
-					<Trans>
-						Use this form to report illegal content under the Digital Services Act (DSA). Select what you want to
-						report.
-					</Trans>,
-				)}
-
-				<div className={styles.form}>
-					<RadioGroup<ReportType>
-						options={reportTypeOptions}
-						value={state.selectedType}
-						onChange={onSelectType}
-						aria-label={t`Report Type`}
-					/>
-				</div>
-			</div>
-		);
-	}
-
-	if (state.flowStep === 'email') {
-		const normalizedEmail = state.email.trim();
-		const emailLooksValid = normalizedEmail.length > 0 && EMAIL_REGEX.test(normalizedEmail);
-
-		return (
-			<div className={styles.container}>
-				{renderStepHeader(
-					<Trans>Enter Your Email</Trans>,
-					<Trans>We need to verify your email address before you can submit a report.</Trans>,
-				)}
-
-				{state.selectedType && (
-					<div className={styles.metaLine}>
-						<Trans>Reporting:</Trans> <span className={styles.metaValue}>{reportTypeLabel}</span>
-					</div>
-				)}
-
-				{state.errorMessage && (
-					<div className={styles.errorBox} role="alert" aria-live="polite">
-						{state.errorMessage}
-					</div>
-				)}
-
-				<form
-					className={styles.form}
-					onSubmit={(e) => {
-						e.preventDefault();
-						void sendVerificationCode();
-					}}
-				>
-					<Input
-						label={t`Email Address`}
-						type="email"
-						value={state.email}
-						onChange={(e) => dispatch({type: 'SET_EMAIL', email: e.target.value})}
-						placeholder="you@example.com"
-						autoComplete="email"
-					/>
-
-					<Button
-						fitContainer
-						type="submit"
-						disabled={!emailLooksValid || state.isSendingCode}
-						submitting={state.isSendingCode}
-					>
-						<Trans>Send Verification Code</Trans>
-					</Button>
-				</form>
-
-				<div className={styles.footer}>
-					<button
-						type="button"
-						className={styles.link}
-						onClick={() => dispatch({type: 'GO_TO_SELECTION'})}
-						disabled={isBusy}
-					>
-						<Trans>Start over</Trans>
-					</button>
-				</div>
-			</div>
-		);
-	}
-
-	if (state.flowStep === 'verification') {
-		const codeForValidation = state.verificationCode.trim().toUpperCase();
-		const codeLooksValid = VERIFICATION_CODE_REGEX.test(codeForValidation);
-
-		return (
-			<div className={styles.container}>
-				{renderStepHeader(
-					<Trans>Enter Verification Code</Trans>,
-					<Trans>We sent a verification code to {state.email}.</Trans>,
-				)}
-
-				{state.errorMessage && (
-					<div className={styles.errorBox} role="alert" aria-live="polite">
-						{state.errorMessage}
-					</div>
-				)}
-
-				<form
-					className={styles.form}
-					onSubmit={(e) => {
-						e.preventDefault();
-						void verifyCode();
-					}}
-				>
-					<Input
-						label={t`Verification Code`}
-						type="text"
-						value={state.verificationCode}
-						onChange={(e) =>
-							dispatch({type: 'SET_VERIFICATION_CODE', code: formatVerificationCodeInput(e.target.value)})
-						}
-						placeholder="ABCD-1234"
-						autoComplete="one-time-code"
-						footer={
-							<span className={styles.helperText}>
-								<Trans>Letters and numbers only. You can paste the code—formatting is automatic.</Trans>
-							</span>
-						}
-					/>
-
-					<Button
-						fitContainer
-						type="submit"
-						disabled={!codeLooksValid || state.isVerifying}
-						submitting={state.isVerifying}
-					>
-						<Trans>Verify Code</Trans>
-					</Button>
-				</form>
-
-				<div className={styles.footer}>
-					<div className={styles.footerRow}>
-						<button
-							type="button"
-							className={styles.link}
-							onClick={() => dispatch({type: 'GO_TO_EMAIL'})}
-							disabled={isBusy}
-						>
-							<Trans>Change email</Trans>
-						</button>
-
-						<button
-							type="button"
-							className={styles.link}
-							onClick={() => void sendVerificationCode()}
-							disabled={state.isSendingCode || state.isVerifying || state.isSubmitting}
-						>
-							<Trans>Resend code</Trans>
-						</button>
-					</div>
-
-					<button
-						type="button"
-						className={styles.link}
-						onClick={() => dispatch({type: 'GO_TO_SELECTION'})}
-						disabled={isBusy}
-					>
-						<Trans>Start over</Trans>
-					</button>
-				</div>
-			</div>
-		);
-	}
-
-	if (state.flowStep === 'details' && state.selectedType) {
-		const reporterFullName = state.formValues.reporterFullName.trim();
-		const reporterCountry = state.formValues.reporterCountry;
-		const category = state.formValues.category;
-
-		const messageLinkNormalized = normalizeLikelyUrl(state.formValues.messageLink);
-		const messageLinkOk = state.selectedType !== 'message' ? true : isValidHttpUrl(messageLinkNormalized);
-
-		const userTargetOk =
-			state.selectedType !== 'user' ? true : Boolean(state.formValues.userId.trim() || state.formValues.userTag.trim());
-
-		const guildTargetOk = state.selectedType !== 'guild' ? true : Boolean(state.formValues.guildId.trim());
-
-		const canSubmit =
-			Boolean(category) &&
-			Boolean(reporterFullName) &&
-			Boolean(reporterCountry) &&
-			messageLinkOk &&
-			userTargetOk &&
-			guildTargetOk;
-
-		return (
-			<div className={styles.container}>
-				{renderStepHeader(<Trans>Report Details</Trans>, <Trans>Please provide the details of your report.</Trans>)}
-
-				<div className={styles.metaLine}>
-					<Trans>Reporting:</Trans> <span className={styles.metaValue}>{reportTypeLabel}</span>
-					<span className={styles.metaSpacer} aria-hidden="true">
-						•
-					</span>
-					<span className={styles.metaValue}>
-						<Trans>Email verified</Trans>
-					</span>
-				</div>
-
-				{state.errorMessage && (
-					<div className={styles.errorBox} role="alert" aria-live="polite">
-						{state.errorMessage}
-					</div>
-				)}
-
-				<form
-					className={styles.form}
-					onSubmit={(e) => {
-						e.preventDefault();
-						void handleSubmit();
-					}}
-				>
-					<Select<string>
-						label={t`Violation Category`}
-						value={state.formValues.category}
-						options={categoryOptions}
-						onChange={(value) => dispatch({type: 'SET_FORM_FIELD', field: 'category', value})}
-						isSearchable={false}
-					/>
-
-					{state.selectedType === 'message' && (
-						<>
-							<Input
-								label={t`Message Link`}
-								type="url"
-								value={state.formValues.messageLink}
-								onChange={(e) => dispatch({type: 'SET_FORM_FIELD', field: 'messageLink', value: e.target.value})}
-								placeholder="https://fluxer.app/channels/..."
-								autoComplete="off"
-								footer={
-									!state.formValues.messageLink.trim() ? undefined : !messageLinkOk ? (
-										<span className={styles.helperText}>
-											<Trans>That doesn&apos;t look like a valid URL.</Trans>
-										</span>
-									) : undefined
-								}
-							/>
-							<Input
-								label={t`Reported User Tag (optional)`}
-								type="text"
-								value={state.formValues.messageUserTag}
-								onChange={(e) => dispatch({type: 'SET_FORM_FIELD', field: 'messageUserTag', value: e.target.value})}
-								placeholder="username#1234"
-								autoComplete="off"
-							/>
-						</>
-					)}
-
-					{state.selectedType === 'user' && (
-						<>
-							<Input
-								label={t`User ID (optional)`}
-								type="text"
-								value={state.formValues.userId}
-								onChange={(e) => dispatch({type: 'SET_FORM_FIELD', field: 'userId', value: e.target.value})}
-								placeholder="123456789012345678"
-								autoComplete="off"
-							/>
-							<Input
-								label={t`User Tag (optional)`}
-								type="text"
-								value={state.formValues.userTag}
-								onChange={(e) => dispatch({type: 'SET_FORM_FIELD', field: 'userTag', value: e.target.value})}
-								placeholder="username#1234"
-								autoComplete="off"
-								footer={
-									userTargetOk ? undefined : (
-										<span className={styles.helperText}>
-											<Trans>Provide at least a user ID or a user tag.</Trans>
-										</span>
-									)
-								}
-							/>
-						</>
-					)}
-
-					{state.selectedType === 'guild' && (
-						<>
-							<Input
-								label={t`Guild (Community) ID`}
-								type="text"
-								value={state.formValues.guildId}
-								onChange={(e) => dispatch({type: 'SET_FORM_FIELD', field: 'guildId', value: e.target.value})}
-								placeholder="123456789012345678"
-								autoComplete="off"
-								footer={
-									guildTargetOk ? undefined : (
-										<span className={styles.helperText}>
-											<Trans>Guild ID is required.</Trans>
-										</span>
-									)
-								}
-							/>
-							<Input
-								label={t`Invite Code (optional)`}
-								type="text"
-								value={state.formValues.inviteCode}
-								onChange={(e) => dispatch({type: 'SET_FORM_FIELD', field: 'inviteCode', value: e.target.value})}
-								placeholder="abcDEF12"
-								autoComplete="off"
-							/>
-						</>
-					)}
-
-					<Input
-						label={t`Full Legal Name`}
-						type="text"
-						value={state.formValues.reporterFullName}
-						onChange={(e) => dispatch({type: 'SET_FORM_FIELD', field: 'reporterFullName', value: e.target.value})}
-						placeholder={t`First and last name`}
-						autoComplete="name"
-					/>
-
-					<Select<string>
-						label={t`Country of Residence`}
-						value={state.formValues.reporterCountry}
-						options={countryOptions}
-						onChange={(value) => dispatch({type: 'SET_FORM_FIELD', field: 'reporterCountry', value})}
-					/>
-
-					<Input
-						label={t`Your FluxerTag (optional)`}
-						type="text"
-						value={state.formValues.reporterFluxerTag}
-						onChange={(e) => dispatch({type: 'SET_FORM_FIELD', field: 'reporterFluxerTag', value: e.target.value})}
-						placeholder="username#1234"
-					/>
-
-					<Textarea
-						label={t`Additional Comments (optional)`}
-						value={state.formValues.additionalInfo}
-						onChange={(e) => dispatch({type: 'SET_FORM_FIELD', field: 'additionalInfo', value: e.target.value})}
-						placeholder={t`Describe what makes the content illegal`}
-						maxLength={1000}
-						minRows={3}
-						maxRows={6}
-					/>
-
-					<Button
-						fitContainer
-						type="submit"
-						disabled={!canSubmit || state.isSubmitting}
-						submitting={state.isSubmitting}
-					>
-						<Trans>Submit DSA Report</Trans>
-					</Button>
-				</form>
-
-				<div className={styles.footer}>
-					<button type="button" className={styles.link} onClick={() => dispatch({type: 'RESET_ALL'})} disabled={isBusy}>
-						<Trans>Start over</Trans>
-					</button>
-				</div>
-			</div>
-		);
-	}
-
-	return null;
 });

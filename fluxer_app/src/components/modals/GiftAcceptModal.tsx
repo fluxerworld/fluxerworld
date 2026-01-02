@@ -23,12 +23,14 @@ import {observer} from 'mobx-react-lite';
 import React from 'react';
 import * as GiftActionCreators from '~/actions/GiftActionCreators';
 import * as ModalActionCreators from '~/actions/ModalActionCreators';
+import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
 import * as Modal from '~/components/modals/Modal';
 import {Button} from '~/components/uikit/Button/Button';
 import {Spinner} from '~/components/uikit/Spinner';
 import i18n from '~/i18n';
 import {UserRecord} from '~/records/UserRecord';
 import GiftStore from '~/stores/GiftStore';
+import UserStore from '~/stores/UserStore';
 import {getGiftDurationText} from '~/utils/giftUtils';
 import styles from './GiftAcceptModal.module.css';
 
@@ -41,6 +43,7 @@ export const GiftAcceptModal = observer(function GiftAcceptModal({code}: GiftAcc
 	const giftState = GiftStore.gifts.get(code) ?? null;
 	const gift = giftState?.data ?? null;
 	const [isRedeeming, setIsRedeeming] = React.useState(false);
+	const isUnclaimed = !(UserStore.currentUser?.isClaimed() ?? false);
 
 	React.useEffect(() => {
 		if (!giftState) {
@@ -64,6 +67,10 @@ export const GiftAcceptModal = observer(function GiftAcceptModal({code}: GiftAcc
 	};
 
 	const handleRedeem = async () => {
+		if (isUnclaimed) {
+			openClaimAccountModal({force: true});
+			return;
+		}
 		setIsRedeeming(true);
 		try {
 			await GiftActionCreators.redeem(i18n, code);
@@ -130,6 +137,42 @@ export const GiftAcceptModal = observer(function GiftAcceptModal({code}: GiftAcc
 
 	const renderGift = () => {
 		const durationText = getGiftDurationText(i18n, gift!);
+		if (isUnclaimed) {
+			return (
+				<>
+					<div className={styles.card}>
+						<div className={styles.cardGrid}>
+							<div className={`${styles.iconCircle} ${styles.iconCircleInactive}`}>
+								<GiftIcon className={styles.icon} weight="fill" />
+							</div>
+							<div className={styles.cardContent}>
+								<h3 className={`${styles.title} ${styles.titlePrimary}`}>{durationText}</h3>
+								{creator && (
+									<span className={styles.subtitle}>{t`From ${creator.username}#${creator.discriminator}`}</span>
+								)}
+								<span className={styles.helpText}>
+									<Trans>Claim your account to redeem this gift.</Trans>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div className={styles.footer}>
+						<Button variant="secondary" onClick={handleDismiss}>
+							<Trans>Maybe later</Trans>
+						</Button>
+						<Button
+							variant="primary"
+							onClick={() => {
+								openClaimAccountModal({force: true});
+								handleDismiss();
+							}}
+						>
+							<Trans>Claim Account</Trans>
+						</Button>
+					</div>
+				</>
+			);
+		}
 		return (
 			<>
 				<div className={styles.card}>

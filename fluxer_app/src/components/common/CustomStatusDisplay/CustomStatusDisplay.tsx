@@ -18,14 +18,13 @@
  */
 
 import {FloatingPortal} from '@floating-ui/react';
-import {Trans, useLingui} from '@lingui/react/macro';
-import {PencilIcon, SealCheckIcon, SmileyIcon} from '@phosphor-icons/react';
+import {Trans} from '@lingui/react/macro';
+import {PencilIcon, SmileyIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {AnimatePresence, motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
 import React from 'react';
-import {GuildFeatures} from '~/Constants';
-import {GuildIcon} from '~/components/popouts/GuildIcon';
+import {EmojiAttributionSubtext, getEmojiAttribution} from '~/components/emojis/EmojiAttributionSubtext';
 import {EmojiTooltipContent} from '~/components/uikit/EmojiTooltipContent/EmojiTooltipContent';
 import FocusRing from '~/components/uikit/FocusRing/FocusRing';
 import {useTooltipPortalRoot} from '~/components/uikit/Tooltip';
@@ -35,7 +34,6 @@ import {useReactionTooltip} from '~/hooks/useReactionTooltip';
 import {type CustomStatus, getCustomStatusText, normalizeCustomStatus} from '~/lib/customStatus';
 import UnicodeEmojis from '~/lib/UnicodeEmojis';
 import EmojiStore from '~/stores/EmojiStore';
-import GuildListStore from '~/stores/GuildListStore';
 import GuildStore from '~/stores/GuildStore';
 import MobileLayoutStore from '~/stores/MobileLayoutStore';
 import PresenceStore from '~/stores/PresenceStore';
@@ -128,62 +126,6 @@ const getTooltipEmojiUrl = (status: CustomStatus): string | null => {
 	return null;
 };
 
-const StatusEmojiTooltipSubtext = observer(({status}: {status: CustomStatus}) => {
-	const {t} = useLingui();
-	const isCustomEmoji = Boolean(status.emojiId);
-
-	if (!isCustomEmoji) {
-		return (
-			<span>
-				<Trans>This is a default emoji on Fluxer.</Trans>
-			</span>
-		);
-	}
-
-	const emoji = status.emojiId ? EmojiStore.getEmojiById(status.emojiId) : null;
-	const guildId = emoji?.guildId;
-	const isMember = guildId ? GuildListStore.guilds.some((guild) => guild.id === guildId) : false;
-
-	if (!isMember) {
-		return (
-			<span>
-				<Trans>This is a custom emoji from a community. Ask the author for an invite to use this emoji.</Trans>
-			</span>
-		);
-	}
-
-	const guild = guildId ? GuildStore.getGuild(guildId) : null;
-
-	if (!guild) {
-		return (
-			<span>
-				<Trans>This is a custom emoji from a community.</Trans>
-			</span>
-		);
-	}
-
-	const isVerified = guild.features.has(GuildFeatures.VERIFIED);
-
-	return (
-		<div className={styles.emojiTooltipSubtext}>
-			<span>
-				<Trans>This is a custom emoji from</Trans>
-			</span>
-			<div className={styles.emojiTooltipGuildRow}>
-				<div className={styles.emojiTooltipGuildIcon}>
-					<GuildIcon id={guild.id} name={guild.name} icon={guild.icon} sizePx={20} />
-				</div>
-				<span className={styles.emojiTooltipGuildName}>{guild.name}</span>
-				{isVerified && (
-					<Tooltip text={t`Verified Community`} position="top">
-						<SealCheckIcon className={styles.emojiTooltipVerifiedIcon} />
-					</Tooltip>
-				)}
-			</div>
-		</div>
-	);
-});
-
 interface StatusEmojiWithTooltipProps {
 	status: CustomStatus;
 	children: React.ReactNode;
@@ -195,6 +137,13 @@ const StatusEmojiWithTooltip = observer(
 	({status, children, onClick, isButton = false}: StatusEmojiWithTooltipProps) => {
 		const tooltipPortalRoot = useTooltipPortalRoot();
 		const {targetRef, tooltipRef, state, updatePosition, handlers, tooltipHandlers} = useReactionTooltip(500);
+		const emoji = status.emojiId ? EmojiStore.getEmojiById(status.emojiId) : null;
+		const attribution = getEmojiAttribution({
+			emojiId: status.emojiId,
+			guildId: emoji?.guildId ?? null,
+			guild: emoji?.guildId ? GuildStore.getGuild(emoji.guildId) : null,
+			emojiName: status.emojiName,
+		});
 
 		const getEmojiDisplayName = (): string => {
 			if (status.emojiId) {
@@ -257,7 +206,18 @@ const StatusEmojiWithTooltip = observer(
 									emoji={shouldUseNativeEmoji && status.emojiName && !status.emojiId ? status.emojiName : undefined}
 									emojiAlt={status.emojiName ?? undefined}
 									primaryContent={emojiName}
-									subtext={<StatusEmojiTooltipSubtext status={status} />}
+									subtext={
+										<EmojiAttributionSubtext
+											attribution={attribution}
+											classes={{
+												container: styles.emojiTooltipSubtext,
+												guildRow: styles.emojiTooltipGuildRow,
+												guildIcon: styles.emojiTooltipGuildIcon,
+												guildName: styles.emojiTooltipGuildName,
+												verifiedIcon: styles.emojiTooltipVerifiedIcon,
+											}}
+										/>
+									}
 								/>
 							</motion.div>
 						</AnimatePresence>

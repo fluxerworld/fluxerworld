@@ -17,15 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
+import {Trans, useLingui} from '@lingui/react/macro';
+import {WarningCircleIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import React from 'react';
 import * as RelationshipActionCreators from '~/actions/RelationshipActionCreators';
 import {APIErrorCodes} from '~/Constants';
 import {Input} from '~/components/form/Input';
+import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
+import {StatusSlate} from '~/components/modals/shared/StatusSlate';
 import {Button} from '~/components/uikit/Button/Button';
 import MobileLayoutStore from '~/stores/MobileLayoutStore';
+import UserStore from '~/stores/UserStore';
 import {getApiErrorCode} from '~/utils/ApiErrorUtils';
 import styles from './AddFriendForm.module.css';
 
@@ -35,10 +39,29 @@ interface AddFriendFormProps {
 
 export const AddFriendForm: React.FC<AddFriendFormProps> = observer(({onSuccess}) => {
 	const {t} = useLingui();
+
 	const [input, setInput] = React.useState('');
 	const [isLoading, setIsLoading] = React.useState(false);
 	const [resultStatus, setResultStatus] = React.useState<'success' | 'error' | null>(null);
 	const [errorCode, setErrorCode] = React.useState<string | null>(null);
+
+	const isClaimed = UserStore.currentUser?.isClaimed() ?? true;
+	if (!isClaimed) {
+		return (
+			<StatusSlate
+				Icon={WarningCircleIcon}
+				title={<Trans>Claim your account</Trans>}
+				description={<Trans>Claim your account to send friend requests.</Trans>}
+				actions={[
+					{
+						text: <Trans>Claim Account</Trans>,
+						onClick: () => openClaimAccountModal({force: true}),
+						variant: 'primary',
+					},
+				]}
+			/>
+		);
+	}
 
 	const parseInput = (input: string): [string, string] => {
 		const parts = input.split('#');

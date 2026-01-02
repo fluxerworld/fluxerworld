@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"type": "module",
 	"private": true,
-	"description": "Fluxer desktop client. Chat that puts you first.",
+	"description": "Fluxer is an open-source, independent instant messaging and VoIP platform. Built for friends, groups, and communities.",
 	"homepage": "https://fluxer.app",
 	"author": "Fluxer Contributors <developers@fluxer.app>",
 	"sideEffects": [

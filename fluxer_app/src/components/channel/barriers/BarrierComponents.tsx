@@ -23,7 +23,7 @@ import {observer} from 'mobx-react-lite';
 import {useEffect, useState} from 'react';
 import * as ModalActionCreators from '~/actions/ModalActionCreators';
 import {modal} from '~/actions/ModalActionCreators';
-import {ClaimAccountModal} from '~/components/modals/ClaimAccountModal';
+import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
 import {PhoneAddModal} from '~/components/modals/PhoneAddModal';
 import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
 import {Button} from '~/components/uikit/Button/Button';
@@ -103,7 +103,7 @@ export const UnclaimedAccountBarrier = observer(({onAction}: BarrierProps) => {
 					small={true}
 					onClick={() => {
 						onAction?.();
-						ModalActionCreators.push(modal(() => <ClaimAccountModal />));
+						openClaimAccountModal({force: true});
 					}}
 				>
 					<Trans>Claim Account</Trans>
@@ -234,7 +234,7 @@ export const UnclaimedDMBarrier = observer(({onAction}: BarrierProps) => {
 					small={true}
 					onClick={() => {
 						onAction?.();
-						ModalActionCreators.push(modal(() => <ClaimAccountModal />));
+						openClaimAccountModal({force: true});
 					}}
 				>
 					<Trans>Claim Account</Trans>

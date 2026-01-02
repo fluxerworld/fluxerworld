@@ -18,9 +18,11 @@
  */
 
 import type {ChannelID, GuildID, UserID} from '~/BrandedTypes';
+import {ChannelTypes} from '~/Constants';
 import type {IChannelRepository} from '~/channel/IChannelRepository';
 import {
 	FeatureTemporarilyDisabledError,
+	UnclaimedAccountRestrictedError,
 	UnknownChannelError,
 	UnknownGuildMemberError,
 	UnknownUserError,
@@ -112,6 +114,21 @@ export class VoiceService {
 		const channel = await this.channelRepository.findUnique(channelId);
 		if (!channel) {
 			throw new UnknownChannelError();
+		}
+
+		const isUnclaimed = !user.passwordHash && !user.isBot;
+		if (isUnclaimed) {
+			if (channel.type === ChannelTypes.DM) {
+				throw new UnclaimedAccountRestrictedError('join 1:1 voice calls');
+			}
+
+			if (channel.type === ChannelTypes.GUILD_VOICE) {
+				const guild = guildId ? await this.guildRepository.findUnique(guildId) : null;
+				const isOwner = guild?.ownerId === userId;
+				if (!isOwner) {
+					throw new UnclaimedAccountRestrictedError('join voice channels you do not own');
+				}
+			}
 		}
 
 		let mute = false;

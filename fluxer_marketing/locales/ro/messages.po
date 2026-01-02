@@ -6,15 +6,15 @@ msgstr ""
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:190
 msgid " in Chrome"
-msgstr "în Chrome"
+msgstr " în Chrome"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:288
 msgid " in Chrome or another browser with PWA support"
-msgstr "în Chrome sau alt browser cu suport PWA"
+msgstr " în Chrome sau într-un alt browser cu suport PWA"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:236
 msgid " in Safari"
-msgstr "în Safari"
+msgstr " în Safari"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1032
 msgid "/forever"
@@ -37,11 +37,11 @@ msgstr "/an"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:654
 msgid "500MB uploads, 4000 character messages, 300 bookmarks, 50 emoji packs, and much more."
-msgstr "Încărcări de până la 500 MB, mesaje de 4.000 de caractere, 300 de marcaje, 50 de pachete de emoji și multe altele."
+msgstr "Încărcări de până la 500 MB, mesaje de 4.000 de caractere, 300 de mesaje marcate, 50 de pachete de emoji și multe altele."
 
 #: src/fluxer_marketing/components/communities_section.gleam:86
 msgid "A chat platform that answers to you, not investors. It's ad-free, open source, community-funded, and never sells your data or nags you with upgrade pop-ups."
-msgstr "O platformă de chat care dă socoteală utilizatorilor, nu investitorilor. Fără reclame, open-source, finanțată de comunitate și nu îți vinde niciodată datele și nu te agasează cu pop-up-uri de upgrade."
+msgstr "O platformă de chat care răspunde în fața ta, nu a investitorilor. Fără reclame, open-source, susținută de comunitate și nu îți vinde niciodată datele și nu te sâcâie cu ferestre pop-up de upgrade."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:219
 msgid "A non-paid role for recurring contributors who help shape Fluxer alongside the core team."
@@ -61,11 +61,11 @@ msgstr "Partajarea activității"
 
 #: src/fluxer_marketing/pages/download_page.gleam:228
 msgid "Add Fluxer to your home screen to hide the browser UI."
-msgstr "Adaugă Fluxer pe ecranul de pornire ca să ascunzi interfața browserului."
+msgstr "Adaugă Fluxer pe ecranul principal ca să ascunzi interfața browserului."
 
 #: src/fluxer_marketing/components/current_features.gleam:133
 msgid "Add custom emojis, save media for later, and style the app with custom CSS."
-msgstr "Adaugă emoji personalizate, salvează media pentru mai târziu și personalizează aplicația cu CSS propriu."
+msgstr "Adaugă emoji personalizate, salvează fișiere media pentru mai târziu și personalizează aplicația cu CSS propriu."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1124
 msgid "After the offer ends, Operator Pass stays available on its own."
@@ -81,7 +81,11 @@ msgstr "Tot ce te aștepți să găsești, plus câteva lucruri la care nu te-ai
 
 #: src/fluxer_marketing/components/locale_selector.gleam:102
 msgid "All translations are currently LLM-generated with minimal human revision. We'd love to get real people to help us out localizing Fluxer into your language! To do so, shoot an email to i18n@fluxer.app and we'll be happy to accept your contributions."
-msgstr "Toate traducerile sunt generate în prezent de un LLM, cu revizuire umană minimă. Ne-ar plăcea să avem oameni reali care să ne ajute să localizăm Fluxer în limba ta! Pentru asta, trimite un email la i18n@fluxer.app și vom fi bucuroși să-ți acceptăm contribuțiile."
+msgstr "Toate traducerile sunt momentan generate de un LLM, cu o revizuire umană minimă. Ne-ar plăcea să ne ajute oameni reali să localizăm Fluxer în limba ta! Pentru asta, trimite un email la i18n@fluxer.app și vom fi bucuroși să-ți acceptăm contribuțiile."
+
+#: src/fluxer_marketing/components/hero.gleam:64
+msgid "An open-source, independent instant messaging and VoIP platform. Built for friends, groups, and communities."
+msgstr "O platformă independentă de mesagerie instantanee și VoIP, open-source. Creată pentru prieteni, grupuri și comunități."
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:524
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:97
@@ -108,7 +112,7 @@ msgstr "Apple Silicon"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:448
 msgid "Apply at partners@fluxer.app"
-msgstr "Aplică la partners@fluxer.app"
+msgstr "Aplică la adresa partners@fluxer.app"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:170
 msgid "Approved reports grant access to Fluxer Testers, where you can earn points for Plutonium codes and the Bug Hunter badge."
@@ -124,15 +128,15 @@ msgstr "Articole în "
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:291
 msgid "Articles in this section"
-msgstr "Articole în această secțiune"
+msgstr "Articole din această secțiune"
 
 #: src/fluxer_marketing/components/current_features.gleam:106
 msgid "Audit logs for transparency"
-msgstr "Jurnale de audit pentru transparență"
+msgstr "Jurnale de audit, pentru transparență"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:302
+#: src/fluxer_marketing/pages/donate_page.gleam:301
 msgid "Available for Swedish bank accounts"
-msgstr "Disponibil pentru conturile bancare suedeze"
+msgstr "Disponibil pentru conturi bancare din Suedia"
 
 #: src/fluxer_marketing/pages/download_page.gleam:67
 msgid "Available on your desktop — and on the web"
@@ -177,11 +181,11 @@ msgstr "Beta"
 
 #: src/fluxer_marketing/components/coming_features.gleam:54
 msgid "Better noise cancellation"
-msgstr "Anulare a zgomotului mai bună"
+msgstr "Anulare a zgomotului îmbunătățită"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:350
 msgid "Bio character limit"
-msgstr "Limită de caractere pentru bio"
+msgstr "Limită de caractere pentru biografie"
 
 #: src/fluxer_marketing/pages/press_page.gleam:235
 msgid "Black"
@@ -208,9 +212,9 @@ msgstr "Bluesky"
 msgid "Bookmarked messages"
 msgstr "Mesaje marcate"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:388
+#: src/fluxer_marketing/pages/donate_page.gleam:387
 msgid "Both donation types support the same cause equally. The only difference is that Business donations allow you to specify a tax ID (if applicable) and receive a PDF invoice when finalized, which can be useful for company accounting purposes."
-msgstr "Ambele tipuri de donații susțin cauza în mod egal. Singura diferență este că donațiile Business îți permit să specifici un cod fiscal (dacă e cazul) și să primești o factură PDF după finalizare, ceea ce poate fi util pentru contabilitatea companiei."
+msgstr "Ambele tipuri de donații susțin cauza în mod egal. Singura diferență este că donațiile pentru companii îți permit să specifici un cod fiscal (dacă e cazul) și să primești o factură PDF după finalizare, ceea ce poate fi util pentru contabilitatea firmei."
 
 #: src/fluxer_marketing/pages/press_page.gleam:200
 msgid "Brand Colors"
@@ -240,17 +244,13 @@ msgstr "Răsfoiește articole de ajutor despre "
 msgid "Built for communities of all kinds."
 msgstr "Creat pentru comunități de toate felurile."
 
-#: src/fluxer_marketing/components/hero.gleam:64
-msgid "Built for friends, groups, and communities. Text, voice, and video. Open source and community-funded."
-msgstr "Creat pentru prieteni, grupuri și comunități. Text, voce și video. Open-source și finanțat de comunitate."
-
 #: src/fluxer_marketing/components/locale_selector.gleam:119
 msgid "Bulgarian"
 msgstr "Bulgară"
 
 #: src/fluxer_marketing/pages/donate_page.gleam:177
 msgid "Business"
-msgstr "Business"
+msgstr "Companie"
 
 #: src/fluxer_marketing/components/coming_features.gleam:56
 msgid "Call pop-out"
@@ -309,7 +309,7 @@ msgstr "Șterge căutarea"
 
 #: src/fluxer_marketing/pages/download_page.gleam:337
 msgid "Code, issues, docs, and reviews"
-msgstr "Cod, probleme, documentație și review-uri"
+msgstr "Cod, issue-uri, documentație și review-uri"
 
 #: src/fluxer_marketing/pages/press_page.gleam:124
 msgid "Color Logo"
@@ -345,7 +345,7 @@ msgstr "Comunitate"
 #: src/fluxer_marketing/components/navigation.gleam:415
 #: src/fluxer_marketing/pages/guidelines_page.gleam:41
 msgid "Community Guidelines"
-msgstr "Reguli ale comunității"
+msgstr "Regulile comunității"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:134
 msgid "Community Verification"
@@ -390,11 +390,11 @@ msgstr "Contactează suportul"
 
 #: src/fluxer_marketing/components/partner_section.gleam:70
 msgid "Content creators and community owners: unlock exclusive perks including free Plutonium, a Partner badge, custom vanity URLs, and more."
-msgstr "Creatori de conținut și administratori de comunități: deblocați avantaje exclusive, inclusiv Plutonium gratuit, o insignă de Partener, URL-uri vanity personalizate și multe altele."
+msgstr "Creatori de conținut și administratori de comunități: deblochează avantaje exclusive, inclusiv Plutonium gratuit, o insignă de Partener, URL-uri vanity personalizate și multe altele."
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:178
 msgid "Contribute code"
-msgstr "Contribuie cu cod"
+msgstr "Contribuie la cod"
 
 #: src/fluxer_marketing/pages/download_page.gleam:336
 msgid "Contribute on GitHub"
@@ -410,11 +410,11 @@ msgstr "Creează-ți contul Fluxer ca să prinzi Plutonium cât e încă „cald
 
 #: src/fluxer_marketing/pages/partners_page.gleam:211
 msgid "Creator Monetization"
-msgstr "Monetizarea creatorilor"
+msgstr "Monetizare pentru creatori"
 
 #: src/fluxer_marketing/components/coming_features.gleam:50
 msgid "Creator monetization"
-msgstr "Monetizarea creatorilor"
+msgstr "Monetizare pentru creatori"
 
 #: src/fluxer_marketing/components/communities_section.gleam:62
 msgid "Creators"
@@ -426,7 +426,7 @@ msgstr "Croată"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:280
 msgid "Custom 4-digit username tag"
-msgstr "Tag de utilizator din 4 cifre personalizat"
+msgstr "Tag de utilizator personalizat din 4 cifre"
 
 #: src/fluxer_marketing/components/current_features.gleam:138
 msgid "Custom CSS themes"
@@ -439,7 +439,7 @@ msgstr "URL vanity personalizat"
 #: src/fluxer_marketing/pages/plutonium_page.gleam:315
 #: src/fluxer_marketing/pages/plutonium_page.gleam:631
 msgid "Custom entrance sounds"
-msgstr "Sunete personalizate la intrare"
+msgstr "Sunete de intrare personalizate"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:127
 msgid "Custom identity"
@@ -476,7 +476,7 @@ msgstr "Cehă"
 
 #: src/fluxer_marketing/components/coming_features.gleam:35
 msgid "DM folders"
-msgstr "Dosare pentru DM-uri"
+msgstr "Foldere pentru DM-uri"
 
 #: src/fluxer_marketing/components/current_features.gleam:69
 msgid "DM your friends, chat with groups, or build communities with channels."
@@ -519,7 +519,7 @@ msgstr "Discovery"
 msgid "Display an exclusive Partner badge on your profile to stand out."
 msgstr "Afișează pe profil o insignă exclusivă de Partener ca să ieși în evidență."
 
-#: src/fluxer_marketing/pages/donate_page.gleam:367
+#: src/fluxer_marketing/pages/donate_page.gleam:366
 msgid "Do I get anything in return?"
 msgstr "Primesc ceva la schimb?"
 
@@ -548,22 +548,22 @@ msgstr "Donează în USD"
 msgid "Donate to Fluxer"
 msgstr "Donează pentru Fluxer"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:298
+#: src/fluxer_marketing/pages/donate_page.gleam:297
 msgid "Donate with Swish"
 msgstr "Donează cu Swish"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:370
+#: src/fluxer_marketing/pages/donate_page.gleam:369
 msgid "Donations are voluntary gifts and do not provide you with any product, service, ownership, or special rights. If you're looking for premium features, check out {0}."
 msgstr "Donațiile sunt cadouri voluntare și nu îți oferă niciun produs, serviciu, drept de proprietate sau drepturi speciale. Dacă vrei funcții premium, aruncă o privire la {0}."
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:308
 msgid "Done! You can now open Fluxer as if it were a regular program."
-msgstr "Finalizat! Acum poți deschide Fluxer ca și cum ar fi un program obișnuit."
+msgstr "Gata! Acum poți deschide Fluxer ca pe un program obișnuit."
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:206
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:256
 msgid "Done! You can open Fluxer from your home screen."
-msgstr "Finalizat! Poți deschide Fluxer de pe ecranul tău de start."
+msgstr "Gata! Poți deschide Fluxer de pe ecranul principal."
 
 #: src/fluxer_marketing/components/footer.gleam:132
 #: src/fluxer_marketing/components/navigation.gleam:84
@@ -610,7 +610,7 @@ msgstr "Olandeză"
 
 #: src/fluxer_marketing/components/coming_features.gleam:55
 msgid "E2EE calls"
-msgstr "Apeluri cu criptare end-to-end"
+msgstr "Apeluri E2EE"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:200
 msgid "Early Feature Access"
@@ -622,7 +622,7 @@ msgstr "Acces timpuriu"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:214
 msgid "Early access to creator monetization features with lower platform fees than non-partners."
-msgstr "Acces timpuriu la funcțiile de monetizare pentru creatori, cu comisioane de platformă mai mici decât pentru non-parteneri."
+msgstr "Acces timpuriu la funcțiile de monetizare pentru creatori, cu comisioane de platformă mai mici decât pentru neparteneri."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:406
 msgid "Early access to new features"
@@ -650,7 +650,7 @@ msgstr "Bilete la evenimente"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1071
 msgid "Everything in Free, plus:"
-msgstr "Tot ce primești în Free, plus:"
+msgstr "Tot ce primești cu Free, plus:"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:233
 msgid "Exclusive Merch"
@@ -724,7 +724,7 @@ msgstr "Echipa comunității Fluxer"
 msgid "Fluxer Partner"
 msgstr "Partener Fluxer"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:372
+#: src/fluxer_marketing/pages/donate_page.gleam:371
 #: src/fluxer_marketing/pages/plutonium_page.gleam:51
 #: src/fluxer_marketing/pages/plutonium_page.gleam:76
 msgid "Fluxer Plutonium"
@@ -740,11 +740,11 @@ msgstr "Termenii de utilizare Fluxer"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:105
 msgid "Fluxer is built in the open. Pick the path that fits how you like to help."
-msgstr "Fluxer este construit la vedere. Alege calea care ți se potrivește în felul în care îți place să ajuți."
+msgstr "Fluxer este construit la vedere. Alege calea care ți se potrivește, în funcție de cum îți place să ajuți."
 
 #: src/fluxer_marketing/pages/download_page.gleam:303
 msgid "Fluxer is community-funded. If you'd like to help support iOS and Android development:"
-msgstr "Fluxer este finanțat de comunitate. Dacă vrei să ajuți dezvoltarea pentru iOS și Android:"
+msgstr "Fluxer este susținut de comunitate. Dacă vrei să ajuți dezvoltarea pentru iOS și Android:"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:991
 msgid "Fluxer is free and open source. Anyone can self-host for free."
@@ -810,13 +810,13 @@ msgstr "Gratuit vs Plutonium"
 msgid "French"
 msgstr "Franceză"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:346
+#: src/fluxer_marketing/pages/donate_page.gleam:345
 msgid "Frequently Asked Questions"
 msgstr "Întrebări frecvente"
 
 #: src/fluxer_marketing/components/hackernews_banner.gleam:72
 msgid "From HN?"
-msgstr "De la HN?"
+msgstr "De pe HN?"
 
 #: src/fluxer_marketing/components/current_features.gleam:72
 msgid "Full Markdown support in messages"
@@ -869,11 +869,11 @@ msgstr "Primește Plutonium gratuit pe contul tău ca să te bucuri de toate fun
 
 #: src/fluxer_marketing/pages/partners_page.gleam:170
 msgid "Get heightened visibility by being featured in Community Discovery."
-msgstr "Bucură-te de vizibilitate mai mare fiind inclus în Community Discovery."
+msgstr "Bucură-te de mai multă vizibilitate fiind inclus în Community Discovery."
 
 #: src/fluxer_marketing/pages/not_found_page.gleam:87
 msgid "Get help"
-msgstr "Obține ajutor"
+msgstr "Primește ajutor"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:51
 msgid "Get involved"
@@ -881,7 +881,7 @@ msgstr "Implică-te"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:956
 msgid "Get lifetime Plutonium on Fluxer.app plus an Operator Pass for self-hosting. Pay {0} one-time. Available until October 1, 2026 or when {1} slots are claimed."
-msgstr "Obține Plutonium pe viață pe Fluxer.app plus un Operator Pass pentru self-hosting. Plătești {0} o singură dată. Disponibil până la 1 octombrie 2026 sau până când sunt revendicate {1} locuri."
+msgstr "Obține Plutonium pe viață pe Fluxer.app plus un Operator Pass pentru self-hosting. Plătești {0} o singură dată. Disponibil până la 1 octombrie 2026 sau până când se revendică toate cele {1} locuri."
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:51
 msgid "Get more with Fluxer Plutonium"
@@ -893,7 +893,7 @@ msgstr "Primește beneficii și ajută la finanțarea dezvoltării"
 
 #: src/fluxer_marketing/pages/download_page.gleam:237
 msgid "Get push notifications when you're away from the app."
-msgstr "Primește notificări push când ești departe de aplicație."
+msgstr "Primește notificări push când nu ești în aplicație."
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:89
 msgid "Get updates, see upcoming features, discuss suggestions, and chat with the team."
@@ -906,7 +906,7 @@ msgstr "Acces global la emoji și stickere"
 
 #: src/fluxer_marketing/components/coming_features.gleam:53
 msgid "Global voice regions"
-msgstr "Regiuni vocale globale"
+msgstr "Regiuni vocale la nivel global"
 
 #: src/fluxer_marketing/pages/not_found_page.gleam:78
 msgid "Go home"
@@ -914,7 +914,7 @@ msgstr "Acasă"
 
 #: src/fluxer_marketing/components/current_features.gleam:104
 msgid "Granular roles and permissions"
-msgstr "Roluri și permisiuni granulare"
+msgstr "Roluri și permisiuni detaliate"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:123
 msgid "Greek"
@@ -922,7 +922,7 @@ msgstr "Greacă"
 
 #: src/fluxer_marketing/pages/press_page.gleam:285
 msgid "Have a story about Fluxer? Need more information or high-resolution assets?"
-msgstr "Ai o poveste despre Fluxer? Ai nevoie de mai multe informații sau de materiale la rezoluție mare?"
+msgstr "Ai o poveste despre Fluxer? Ai nevoie de mai multe informații sau de materiale la rezoluție înaltă?"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:130
 msgid "Hebrew"
@@ -946,24 +946,24 @@ msgstr "Centrul de ajutor"
 
 #: src/fluxer_marketing/pages/download_page.gleam:291
 msgid "Help make the mobile app a reality"
-msgstr "Ajută-ne să facem aplicația mobilă realitate"
+msgstr "Ajută-ne să facem aplicația mobilă posibilă"
 
 #: src/fluxer_marketing/components/footer.gleam:66
 #: src/fluxer_marketing/pages/donate_page.gleam:53
 msgid "Help support an independent communication platform. Your donation funds the platform's infrastructure and development."
-msgstr "Ajută la susținerea unei platforme de comunicare independente. Donația ta finanțează infrastructura și dezvoltarea platformei."
+msgstr "Susține o platformă de comunicare independentă. Donația ta finanțează infrastructura și dezvoltarea platformei."
 
 #: src/fluxer_marketing/pages/donate_page.gleam:134
 msgid "Help support an independent communication platform. Your donation funds the platform's infrastructure and development. It is a voluntary gift and does not constitute payment for any product or service or give you any ownership or special rights."
-msgstr "Ajută la susținerea unei platforme de comunicare independente. Donația ta finanțează infrastructura și dezvoltarea platformei. Este un cadou voluntar și nu reprezintă plata pentru vreun produs sau serviciu și nu îți oferă drepturi de proprietate ori drepturi speciale."
+msgstr "Susține o platformă de comunicare independentă. Donația ta finanțează infrastructura și dezvoltarea platformei. Este un cadou voluntar și nu reprezintă plata pentru vreun produs sau serviciu și nu îți oferă drepturi de proprietate ori drepturi speciale."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:132
 msgid "Help translate Fluxer and its docs so it feels native everywhere."
-msgstr "Ajută la traducerea Fluxer și a documentației, ca să pară nativ peste tot."
+msgstr "Ajută la traducerea Fluxer și a documentației, ca să se simtă nativ oriunde."
 
 #: src/fluxer_marketing/pages/careers_page.gleam:69
 msgid "Help us build a different kind of communication platform — open source, community-funded, and built with care."
-msgstr "Ajută-ne să construim un alt fel de platformă de comunicare — open-source, finanțată de comunitate și făcută cu grijă."
+msgstr "Ajută-ne să construim un alt fel de platformă de comunicare — open-source, susținută de comunitate și făcută cu grijă."
 
 #: src/fluxer_marketing/pages/donate_page.gleam:89
 msgid "Help us build an independent communication platform that puts users first."
@@ -1025,7 +1025,7 @@ msgstr "Dacă ești creator sau deții o comunitate, explorează programul de Pa
 
 #: src/fluxer_marketing/pages/partners_page.gleam:189
 msgid "Increased Limits"
-msgstr "Limite mărite"
+msgstr "Limite crescute"
 
 #: src/fluxer_marketing/pages/donate_page.gleam:160
 msgid "Individual"
@@ -1044,11 +1044,11 @@ msgstr "Instalează Fluxer ca aplicație"
 msgid "Intel"
 msgstr "Intel"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:377
+#: src/fluxer_marketing/pages/donate_page.gleam:376
 msgid "Is my donation tax-deductible?"
 msgstr "Donația mea este deductibilă fiscal?"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:359
+#: src/fluxer_marketing/pages/donate_page.gleam:358
 msgid "Is this a subscription?"
 msgstr "Este un abonament?"
 
@@ -1101,7 +1101,7 @@ msgstr "Alătură-te echipei din spatele Fluxer"
 
 #: src/fluxer_marketing/components/current_features.gleam:101
 msgid "Keep your community running smoothly with roles, permissions, and logs."
-msgstr "Ține-ți comunitatea în formă cu roluri, permisiuni și jurnale."
+msgstr "Ține-ți comunitatea în bună funcționare cu roluri, permisiuni și jurnale."
 
 #: src/fluxer_marketing/components/locale_selector.gleam:137
 msgid "Korean"
@@ -1161,7 +1161,7 @@ msgstr "Fă o donație"
 
 #: src/fluxer_marketing/components/current_features.gleam:123
 msgid "Manage friends and block users"
-msgstr "Gestionează prieteni și blochează utilizatori"
+msgstr "Gestionează-ți prietenii și blochează utilizatori"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:336
 msgid "Message character limit"
@@ -1208,31 +1208,31 @@ msgstr "Cel mai popular"
 
 #: src/fluxer_marketing/components/current_features.gleam:91
 msgid "Mute, deafen, and camera controls"
-msgstr "Controale pentru microfon, sunet și cameră"
+msgstr "Controale pentru mut, surdină și cameră"
 
 #: src/fluxer_marketing/pages/help_search_page.gleam:135
 msgid "No articles found"
-msgstr "Nu am găsit articole"
+msgstr "Nu s-au găsit articole"
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:163
 msgid "No articles found."
-msgstr "Nu am găsit articole."
+msgstr "Nu s-au găsit articole."
 
 #: src/fluxer_marketing/pages/help_search_page.gleam:94
 msgid "No results found for"
-msgstr "Nu am găsit rezultate pentru"
+msgstr "Nu s-au găsit rezultate pentru"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:380
+#: src/fluxer_marketing/pages/donate_page.gleam:379
 msgid "No, donations to Fluxer are not tax-deductible as we are not a registered charitable organization."
 msgstr "Nu, donațiile către Fluxer nu sunt deductibile fiscal, deoarece nu suntem o organizație caritabilă înregistrată."
 
-#: src/fluxer_marketing/pages/donate_page.gleam:362
+#: src/fluxer_marketing/pages/donate_page.gleam:361
 msgid "No, this is a one-time donation. You choose the amount you want to give, and there are no recurring charges."
 msgstr "Nu, este o donație unică. Alegi suma pe care vrei să o oferi și nu există taxe recurente."
 
 #: src/fluxer_marketing/components/current_features.gleam:90
 msgid "Noise suppression and echo cancellation"
-msgstr "Reducerea zgomotului și anularea ecoului"
+msgstr "Reducere a zgomotului și anulare a ecoului"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:140
 msgid "Norwegian"
@@ -1273,11 +1273,11 @@ msgstr "Deschide în browser"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:118
 msgid "Open source"
-msgstr "Open source"
+msgstr "Open-source"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1039
 msgid "Open source (AGPL-3.0)"
-msgstr "Open source (AGPL-3.0)"
+msgstr "Open-source (AGPL-3.0)"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:188
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:234
@@ -1291,7 +1291,7 @@ msgstr "Operator Pass"
 
 #: src/fluxer_marketing/components/coming_features.gleam:31
 msgid "Opt-in E2EE messaging"
-msgstr "Mesagerie E2EE cu opt-in"
+msgstr "Mesagerie E2EE opțională"
 
 #: src/fluxer_marketing/components/current_features.gleam:74
 msgid "Organized channels for communities"
@@ -1303,7 +1303,7 @@ msgstr "Paleta noastră de culori, atent aleasă, care reprezintă brandul Fluxe
 
 #: src/fluxer_marketing/pages/press_page.gleam:102
 msgid "Our full logo including the wordmark. Use this as the primary representation of our brand."
-msgstr "Logo-ul complet, inclusiv wordmark-ul. Folosește-l ca reprezentarea principală a brandului nostru."
+msgstr "Logo-ul complet, inclusiv wordmark-ul. Folosește-l ca reprezentare principală a brandului nostru."
 
 #: src/fluxer_marketing/pages/press_page.gleam:221
 msgid "Our primary brand color. Use this for key brand elements and accents."
@@ -1341,7 +1341,7 @@ msgstr "Parteneri"
 #: src/fluxer_marketing/pages/plutonium_page.gleam:287
 #: src/fluxer_marketing/pages/plutonium_page.gleam:571
 msgid "Per-community profiles"
-msgstr "Profiluri pe comunitate"
+msgstr "Profiluri separate pentru fiecare comunitate"
 
 #: src/fluxer_marketing/pages/download_page.gleam:315
 #: src/fluxer_marketing/pages/plutonium_page.gleam:215
@@ -1377,19 +1377,19 @@ msgstr "Presă"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:246
 msgid "Press \"Add to Home Screen\""
-msgstr "Apasă pe „Adaugă pe ecranul de start”"
+msgstr "Apasă pe „Adaugă pe ecranul principal”"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:249
 msgid "Press \"Add\" in the upper-right corner"
-msgstr "Apasă \"Adaugă\" în colțul din dreapta sus"
+msgstr "Apasă pe „Adaugă” în colțul din dreapta sus"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:200
 msgid "Press \"Install app\""
-msgstr "Apasă \"Instalează aplicația"
+msgstr "Apasă pe „Instalează aplicația”"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:301
 msgid "Press \"Install\" in the popup that appears"
-msgstr "Apasă \"Instalează\" în fereastra popup care apare"
+msgstr "Apasă pe „Instalează” în fereastra pop-up care apare"
 
 #: src/fluxer_marketing/pages/press_page.gleam:45
 #: src/fluxer_marketing/pages/press_page.gleam:65
@@ -1402,15 +1402,15 @@ msgstr "Contact pentru presă"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:197
 msgid "Press the \"More\" (\\u{22EE}) button in the top-right corner"
-msgstr "Apasă butonul \"Mai multe\" (\\u{22EE}) din colțul din dreapta sus"
+msgstr "Apasă butonul „Mai multe” (\\u{22EE}) din colțul din dreapta sus"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:243
 msgid "Press the Share button (rectangle with upwards-pointing arrow)"
-msgstr "Apasă butonul Share (dreptunghi cu săgeată îndreptată în sus)"
+msgstr "Apasă butonul Share (dreptunghi cu o săgeată în sus)"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:296
 msgid "Press the install button (downwards-pointing arrow on monitor) in the address bar"
-msgstr "Apasă butonul de instalare (săgeată îndreptată în jos pe monitor) din bara de adresă"
+msgstr "Apasă butonul de instalare (săgeată în jos pe un monitor) din bara de adresă"
 
 #: src/fluxer_marketing/components/footer.gleam:110
 #: src/fluxer_marketing/components/navigation.gleam:93
@@ -1467,7 +1467,7 @@ msgstr "Comutator rapid cu scurtături de la tastatură"
 
 #: src/fluxer_marketing/components/coming_features.gleam:40
 msgid "RSS/Atom feeds for forums"
-msgstr "Feeduri RSS/Atom pentru forumuri"
+msgstr "Feed-uri RSS/Atom pentru forumuri"
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:228
 msgid "Read article"
@@ -1495,7 +1495,7 @@ msgstr "Ești gata să devii Partener?"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1180
 msgid "Ready to upgrade?"
-msgstr "Ești gata să faci upgrade?"
+msgstr "Ești gata de upgrade?"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:80
 msgid "Register now"
@@ -1527,7 +1527,7 @@ msgstr "Recompense care îți recunosc impactul, ajută comunitatea să crească
 
 #: src/fluxer_marketing/pages/careers_page.gleam:344
 msgid "Right now we're focused on shipping a great product and keeping Fluxer independent and bootstrapped."
-msgstr "Acum ne concentrăm pe livrarea unui produs excelent și pe păstrarea Fluxer independent și bootstrapped."
+msgstr "Acum ne concentrăm pe livrarea unui produs grozav și pe păstrarea Fluxer independent și bootstrapped."
 
 #: src/fluxer_marketing/components/locale_selector.gleam:143
 msgid "Romanian"
@@ -1556,7 +1556,7 @@ msgstr "Media salvată"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:584
 msgid "Schedule messages to be sent at a specific time in the future. No DeLorean required."
-msgstr "Programează mesajele să fie trimise la un moment anume în viitor. Fără DeLorean."
+msgstr "Programează mesajele să fie trimise la o oră anume în viitor. Fără DeLorean."
 
 #: src/fluxer_marketing/components/current_features.gleam:89
 msgid "Screen sharing built in"
@@ -1647,11 +1647,11 @@ msgstr "Oferă feedback, raportează bug-uri și ajută la menținerea Fluxer pr
 
 #: src/fluxer_marketing/components/current_features.gleam:75
 msgid "Share files and preview links"
-msgstr "Partajează fișiere și previzualizează linkuri"
+msgstr "Partajează fișiere și previzualizează linkurile"
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:490
 msgid "Show download options"
-msgstr "Arată opțiunile de descărcare"
+msgstr "Afișează opțiunile de descărcare"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:664
 msgid "Show off your Plutonium status with an exclusive badge on your profile."
@@ -1684,7 +1684,7 @@ msgstr "Spaniolă (Spania)"
 
 #: src/fluxer_marketing/pages/download_page.gleam:323
 msgid "Sponsor the roadmap for mobile"
-msgstr "Sponsorizează roadmap-ul pentru mobil"
+msgstr "Sponsorizează planul de dezvoltare pentru mobil"
 
 #: src/fluxer_marketing/components/coming_features.gleam:42
 msgid "Stage channels"
@@ -1760,7 +1760,7 @@ msgstr "Viitorul rolurilor plătite"
 
 #: src/fluxer_marketing/components/coming_features.gleam:51
 msgid "Theme marketplace"
-msgstr "Marketplace de teme"
+msgstr "Piață de teme"
 
 #: src/fluxer_marketing/pages/download_page.gleam:255
 msgid "This isn't a full replacement for the desktop app yet, and some things you'd expect from a mobile chat app are still missing."
@@ -1790,7 +1790,7 @@ msgstr "Încearcă alte cuvinte-cheie sau răsfoiește categoriile noastre."
 
 #: src/fluxer_marketing/components/hackernews_banner.gleam:75
 msgid "Try it without an email at"
-msgstr "Încearcă fără un email la"
+msgstr "Încearcă fără email la"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:147
 msgid "Turkish"
@@ -1822,7 +1822,7 @@ msgstr "Calitate video până la 4K"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:54
 msgid "Upgrade to Plutonium for $4.99/mo: custom username tags, per-community profiles, message scheduling, 4K streaming, 500MB uploads, and more exclusive features."
-msgstr "Fă upgrade la Plutonium pentru $4.99/lună: taguri de utilizator personalizate, profiluri pe comunitate, programarea mesajelor, streaming 4K, încărcări de 500 MB și mai multe funcții exclusive."
+msgstr "Fă upgrade la Plutonium pentru $4.99/lună: taguri de utilizator personalizate, profiluri separate pe comunități, programarea mesajelor, streaming 4K, încărcări de 500 MB și mai multe funcții exclusive."
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:644
 msgid "Upload and use your own notification sounds to personalize your Fluxer experience."
@@ -1846,7 +1846,7 @@ msgstr "Folosește emoji animate"
 
 #: src/fluxer_marketing/components/current_features.gleam:154
 msgid "Use our desktop client (mobile coming soon)"
-msgstr "Utilizați clientul nostru desktop (versiunea mobilă va veni în curând)"
+msgstr "Folosește clientul nostru desktop (mobil în curând)"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:604
 msgid "Use your favorite emojis and stickers from any community, anywhere across Fluxer."
@@ -1911,7 +1911,7 @@ msgstr "Avem nevoie de sprijinul tău ca să funcționeze."
 
 #: src/fluxer_marketing/pages/partners_page.gleam:453
 msgid "We review all applications and will get back to you as soon as possible."
-msgstr "Revizuim toate aplicațiile și îți vom răspunde cât de repede putem."
+msgstr "Revizuim toate aplicațiile și îți vom răspunde cât de curând putem."
 
 #: src/fluxer_marketing/pages/press_page.gleam:301
 msgid "We typically respond within 24 hours during business days."
@@ -1937,7 +1937,7 @@ msgstr "Încă construim partea de business din jurul Fluxer și nu suntem chiar
 msgid "Webhooks and bot support"
 msgstr "Webhook-uri și suport pentru boți"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:351
+#: src/fluxer_marketing/pages/donate_page.gleam:350
 msgid "What does my donation support?"
 msgstr "Ce susține donația mea?"
 
@@ -1947,13 +1947,13 @@ msgstr "Ce primești cu Plutonium"
 
 #: src/fluxer_marketing/components/current_features.gleam:45
 msgid "What's available today"
-msgstr "Ce este disponibil azi"
+msgstr "Ce este disponibil astăzi"
 
 #: src/fluxer_marketing/components/coming_features.gleam:77
 msgid "What's coming next"
 msgstr "Ce urmează"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:385
+#: src/fluxer_marketing/pages/donate_page.gleam:384
 msgid "What's the difference between Individual and Business?"
 msgstr "Care este diferența dintre Individual și Business?"
 
@@ -1987,9 +1987,9 @@ msgstr "Comunitatea ta primește statut verificat pentru autenticitate și încr
 
 #: src/fluxer_marketing/pages/partners_page.gleam:192
 msgid "Your community receives increased limits when you need them."
-msgstr "Comunitatea ta primește limite mărite când ai nevoie."
+msgstr "Comunitatea ta primește limite crescute când ai nevoie."
 
-#: src/fluxer_marketing/pages/donate_page.gleam:354
+#: src/fluxer_marketing/pages/donate_page.gleam:353
 msgid "Your donation helps fund Fluxer's infrastructure costs, including servers, bandwidth, storage, and ongoing development of new features. It helps us maintain and improve the platform for everyone."
 msgstr "Donația ta ajută la acoperirea costurilor de infrastructură ale Fluxer, inclusiv servere, bandă, stocare și dezvoltarea continuă a funcțiilor noi. Ne ajută să menținem și să îmbunătățim platforma pentru toată lumea."
 
@@ -2034,7 +2034,7 @@ msgid "one-time purchase"
 msgstr "achiziție unică"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:68
-#: src/fluxer_marketing/pages/donate_page.gleam:284
+#: src/fluxer_marketing/pages/donate_page.gleam:282
 #: src/fluxer_marketing/pages/plutonium_page.gleam:106
 #: src/fluxer_marketing/pages/plutonium_page.gleam:230
 msgid "or"
@@ -2059,4 +2059,3 @@ msgstr "{0} din {1} locuri rămase"
 #: src/fluxer_marketing/components/footer.gleam:325
 msgid "© Fluxer Platform AB (Swedish limited liability company: 559537-3993)"
 msgstr "© Fluxer Platform AB (societate cu răspundere limitată din Suedia: 559537-3993)"
-

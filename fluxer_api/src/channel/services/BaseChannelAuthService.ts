@@ -174,6 +174,11 @@ export abstract class BaseChannelAuthService {
 	async validateDMSendPermissions({channelId, userId}: {channelId: ChannelID; userId: UserID}): Promise<void> {
 		const channel = await this.channelRepository.channelData.findUnique(channelId);
 		if (!channel) throw new UnknownChannelError();
+
+		if (channel.type === ChannelTypes.GROUP_DM || channel.type === ChannelTypes.DM_PERSONAL_NOTES) {
+			return;
+		}
+
 		const recipients = await this.userRepository.listUsers(Array.from(channel.recipientIds));
 		await this.dmPermissionValidator.validate({recipients, userId});
 	}

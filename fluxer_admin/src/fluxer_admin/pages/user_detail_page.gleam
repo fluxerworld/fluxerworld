@@ -121,85 +121,99 @@ pub fn view(
         h.div(
           [a.class("bg-white border border-neutral-200 rounded-lg p-6 mb-6")],
           [
-            h.div([a.class("flex items-start gap-6")], [
-              h.div([a.class("flex-shrink-0")], [
-                h.img([
-                  a.src(avatar.get_user_avatar_url(
-                    ctx.media_endpoint,
-                    ctx.cdn_endpoint,
-                    user_data.id,
-                    user_data.avatar,
-                    True,
-                    ctx.asset_version,
-                  )),
-                  a.alt(user_data.username),
-                  a.class("w-24 h-24 rounded-full"),
-                ]),
-              ]),
-              h.div([a.class("flex-1")], [
-                h.div([a.class("flex items-center gap-3 mb-3")], [
-                  ui.heading_section(
-                    user_data.username
-                    <> "#"
-                    <> user.format_discriminator(user_data.discriminator),
-                  ),
-                  case user_data.bot {
-                    True ->
-                      h.span(
-                        [
-                          a.class(
-                            "px-2 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded uppercase",
-                          ),
-                        ],
-                        [element.text("Bot")],
-                      )
-                    False -> element.none()
-                  },
-                ]),
-                case list.is_empty(badges) {
-                  False ->
-                    h.div(
-                      [a.class("flex items-center gap-2 mb-3")],
-                      list.map(badges, fn(b) {
-                        h.img([
-                          a.src(b.icon),
-                          a.alt(b.name),
-                          a.title(b.name),
-                          a.class("w-6 h-6"),
-                        ])
-                      }),
-                    )
-                  True -> element.none()
-                },
-                h.div([a.class("flex flex-wrap items-start gap-4")], [
-                  h.div([a.class("flex items-start gap-2")], [
-                    h.div([a.class("text-sm font-medium text-neutral-600")], [
-                      element.text("User ID:"),
+            h.div(
+              [
+                a.class(
+                  "flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6",
+                ),
+              ],
+              [
+                h.div(
+                  [
+                    a.class(
+                      "flex-shrink-0 flex items-center sm:block justify-center",
+                    ),
+                  ],
+                  [
+                    h.img([
+                      a.src(avatar.get_user_avatar_url(
+                        ctx.media_endpoint,
+                        ctx.cdn_endpoint,
+                        user_data.id,
+                        user_data.avatar,
+                        True,
+                        ctx.asset_version,
+                      )),
+                      a.alt(user_data.username),
+                      a.class("w-24 h-24 rounded-full"),
                     ]),
-                    h.div([a.class("text-sm text-neutral-900")], [
-                      element.text(user_data.id),
-                    ]),
+                  ],
+                ),
+                h.div([a.class("flex-1")], [
+                  h.div([a.class("flex flex-wrap items-center gap-3 mb-3")], [
+                    ui.heading_section(
+                      user_data.username
+                      <> "#"
+                      <> user.format_discriminator(user_data.discriminator),
+                    ),
+                    case user_data.bot {
+                      True ->
+                        h.span(
+                          [
+                            a.class(
+                              "px-2 py-1 bg-blue-100 text-blue-700 text-sm font-medium rounded uppercase",
+                            ),
+                          ],
+                          [element.text("Bot")],
+                        )
+                      False -> element.none()
+                    },
                   ]),
-                  case user.extract_timestamp(user_data.id) {
-                    Ok(created_at) ->
-                      h.div([a.class("flex items-start gap-2")], [
-                        h.div(
-                          [
-                            a.class("text-sm font-medium text-neutral-600"),
-                          ],
-                          [
-                            element.text("Created:"),
-                          ],
-                        ),
-                        h.div([a.class("text-sm text-neutral-900")], [
-                          element.text(created_at),
-                        ]),
-                      ])
-                    Error(_) -> element.none()
+                  case list.is_empty(badges) {
+                    False ->
+                      h.div(
+                        [a.class("flex items-center gap-2 mb-3 flex-wrap")],
+                        list.map(badges, fn(b) {
+                          h.img([
+                            a.src(b.icon),
+                            a.alt(b.name),
+                            a.title(b.name),
+                            a.class("w-6 h-6"),
+                          ])
+                        }),
+                      )
+                    True -> element.none()
                   },
+                  h.div([a.class("flex flex-wrap items-start gap-4")], [
+                    h.div([a.class("flex items-start gap-2 min-w-0")], [
+                      h.div([a.class("text-sm font-medium text-neutral-600")], [
+                        element.text("User ID:"),
+                      ]),
+                      h.div([a.class("text-sm text-neutral-900 break-all")], [
+                        element.text(user_data.id),
+                      ]),
+                    ]),
+                    case user.extract_timestamp(user_data.id) {
+                      Ok(created_at) ->
+                        h.div([a.class("flex items-start gap-2")], [
+                          h.div(
+                            [
+                              a.class("text-sm font-medium text-neutral-600"),
+                            ],
+                            [
+                              element.text("Created:"),
+                            ],
+                          ),
+                          h.div([a.class("text-sm text-neutral-900")], [
+                            element.text(created_at),
+                          ]),
+                        ])
+                      Error(_) -> element.none()
+                    },
+                  ]),
                 ]),
-              ]),
-            ]),
+              ],
+            ),
           ],
         ),
         render_tabs(

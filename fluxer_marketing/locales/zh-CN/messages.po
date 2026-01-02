@@ -6,15 +6,15 @@ msgstr ""
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:190
 msgid " in Chrome"
-msgstr "在 Chrome 中"
+msgstr " 在 Chrome 中"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:288
 msgid " in Chrome or another browser with PWA support"
-msgstr "在 Chrome 或其他支持 PWA 的浏览器中"
+msgstr " 在 Chrome 或其他支持 PWA 的浏览器中"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:236
 msgid " in Safari"
-msgstr "在 Safari 中"
+msgstr " 在 Safari 中"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1032
 msgid "/forever"
@@ -37,11 +37,11 @@ msgstr "/年"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:654
 msgid "500MB uploads, 4000 character messages, 300 bookmarks, 50 emoji packs, and much more."
-msgstr "上传上限 500MB、单条消息上限 4000 字符、书签 300 条、表情包 50 个，还有更多。"
+msgstr "上传上限 500 MB、单条消息最多 4000 字符、最多 300 条书签、50 个表情包，还有更多。"
 
 #: src/fluxer_marketing/components/communities_section.gleam:86
 msgid "A chat platform that answers to you, not investors. It's ad-free, open source, community-funded, and never sells your data or nags you with upgrade pop-ups."
-msgstr "一个以你为先、而非迎合投资人的聊天平台。无广告、开源、由社区资助，从不出售你的数据，也不会用升级弹窗烦你。"
+msgstr "一个只对你负责、而不是对投资人负责的聊天平台。无广告、开源、由社区资助，从不出售你的数据，也不会用升级弹窗打扰你。"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:219
 msgid "A non-paid role for recurring contributors who help shape Fluxer alongside the core team."
@@ -53,7 +53,7 @@ msgstr "加入 Fluxer Operators 社区"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:225
 msgid "Access to VIP voice servers reserved exclusively for partnered communities."
-msgstr "访问仅向合作社区开放的 VIP 语音服务器。"
+msgstr "访问仅对合作社区开放的 VIP 语音服务器。"
 
 #: src/fluxer_marketing/components/coming_features.gleam:48
 msgid "Activity sharing"
@@ -61,11 +61,11 @@ msgstr "活动分享"
 
 #: src/fluxer_marketing/pages/download_page.gleam:228
 msgid "Add Fluxer to your home screen to hide the browser UI."
-msgstr "将 Fluxer 添加到主屏幕，隐藏浏览器界面。"
+msgstr "将 Fluxer 添加到主屏幕，以隐藏浏览器界面。"
 
 #: src/fluxer_marketing/components/current_features.gleam:133
 msgid "Add custom emojis, save media for later, and style the app with custom CSS."
-msgstr "添加自定义表情，稍后保存媒体，并用自定义 CSS 打造应用风格。"
+msgstr "添加自定义表情，保存媒体以便稍后查看，并用自定义 CSS 打造应用风格。"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1124
 msgid "After the offer ends, Operator Pass stays available on its own."
@@ -73,15 +73,19 @@ msgstr "优惠结束后，Operator Pass 仍可单独购买。"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:843
 msgid "All current and future Plutonium benefits, forever"
-msgstr "永久享受当前及未来所有 Plutonium 权益"
+msgstr "永久享受现有及未来所有 Plutonium 权益"
 
 #: src/fluxer_marketing/components/current_features.gleam:55
 msgid "All the basics you expect, plus a few things you don't."
-msgstr "你期待的基础功能都有，外加一些意想不到的惊喜。"
+msgstr "你期待的基础功能一应俱全，外加一些意想不到的惊喜。"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:102
 msgid "All translations are currently LLM-generated with minimal human revision. We'd love to get real people to help us out localizing Fluxer into your language! To do so, shoot an email to i18n@fluxer.app and we'll be happy to accept your contributions."
-msgstr "目前所有翻译均由 LLM 生成，人工校对很少。我们非常希望有真实的人来帮助我们把 Fluxer 本地化到你的语言！如果愿意，请发邮件到 i18n@fluxer.app，我们很乐意接收你的贡献。"
+msgstr "目前所有翻译均由 LLM 生成，仅做了少量人工校对。我们非常希望有母语者来帮助我们把 Fluxer 本地化到你的语言！如果愿意，请发邮件至 i18n@fluxer.app，我们很乐意接收你的贡献。"
+
+#: src/fluxer_marketing/components/hero.gleam:64
+msgid "An open-source, independent instant messaging and VoIP platform. Built for friends, groups, and communities."
+msgstr "一个开源、独立的即时消息与 VoIP 平台。为朋友、群组与社区而生。"
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:524
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:97
@@ -108,11 +112,11 @@ msgstr "Apple Silicon"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:448
 msgid "Apply at partners@fluxer.app"
-msgstr "申请请联系 partners@fluxer.app"
+msgstr "申请请发送邮件至 partners@fluxer.app"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:170
 msgid "Approved reports grant access to Fluxer Testers, where you can earn points for Plutonium codes and the Bug Hunter badge."
-msgstr "经确认的报告将获得 Fluxer Testers 的访问权限，你可以在那里通过积分兑换 Plutonium 兑换码并获得 Bug Hunter 徽章。"
+msgstr "经确认的报告将获得 Fluxer Testers 的访问权限；你可以在那里用积分兑换 Plutonium 兑换码并获得 Bug Hunter 徽章。"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:118
 msgid "Arabic"
@@ -120,7 +124,7 @@ msgstr "阿拉伯语"
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:143
 msgid "Articles in "
-msgstr "以下分类的文章： "
+msgstr "分类文章： "
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:291
 msgid "Articles in this section"
@@ -128,11 +132,11 @@ msgstr "本节文章"
 
 #: src/fluxer_marketing/components/current_features.gleam:106
 msgid "Audit logs for transparency"
-msgstr "透明的审计日志"
+msgstr "透明审计日志"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:302
+#: src/fluxer_marketing/pages/donate_page.gleam:301
 msgid "Available for Swedish bank accounts"
-msgstr "可用于瑞典银行账户"
+msgstr "仅适用于瑞典银行账户"
 
 #: src/fluxer_marketing/pages/download_page.gleam:67
 msgid "Available on your desktop — and on the web"
@@ -140,7 +144,7 @@ msgstr "桌面端可用，也可通过网页使用"
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:182
 msgid "Back to "
-msgstr "返回到 "
+msgstr "返回 "
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:279
 #: src/fluxer_marketing/pages/help_search_page.gleam:115
@@ -149,7 +153,7 @@ msgstr "返回帮助中心"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:674
 msgid "Be the first to try new features before they're released to everyone else."
-msgstr "在向所有人发布之前，抢先体验新功能。"
+msgstr "在向所有人发布之前，率先体验新功能。"
 
 #: src/fluxer_marketing/components/partner_section.gleam:64
 #: src/fluxer_marketing/pages/careers_page.gleam:173
@@ -189,7 +193,7 @@ msgstr "黑色"
 
 #: src/fluxer_marketing/pages/press_page.gleam:117
 msgid "Black Logo"
-msgstr "黑色标志"
+msgstr "黑色徽标"
 
 #: src/fluxer_marketing/pages/press_page.gleam:171
 msgid "Black Symbol"
@@ -208,17 +212,17 @@ msgstr "Bluesky"
 msgid "Bookmarked messages"
 msgstr "已加书签的消息"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:388
+#: src/fluxer_marketing/pages/donate_page.gleam:387
 msgid "Both donation types support the same cause equally. The only difference is that Business donations allow you to specify a tax ID (if applicable) and receive a PDF invoice when finalized, which can be useful for company accounting purposes."
-msgstr "两种捐助方式支持的事业完全相同。唯一的区别是：企业捐助允许你填写税号（如适用），并在完成后获得 PDF 发票，方便公司报账。"
+msgstr "两种捐助对事业的支持完全一致。区别在于：企业捐助可填写税号（如适用），并在完成后获得 PDF 发票，方便公司报账。"
 
 #: src/fluxer_marketing/pages/press_page.gleam:200
 msgid "Brand Colors"
-msgstr "品牌色"
+msgstr "品牌配色"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:421
 msgid "Brief description of your audience and what you do"
-msgstr "简要介绍你的受众以及你所做的内容"
+msgstr "简要介绍你的受众，以及你在做什么"
 
 #: src/fluxer_marketing/pages/help_search_page.gleam:150
 msgid "Browse Categories"
@@ -240,10 +244,6 @@ msgstr "浏览关于以下主题的帮助文章： "
 msgid "Built for communities of all kinds."
 msgstr "为各种社区而生。"
 
-#: src/fluxer_marketing/components/hero.gleam:64
-msgid "Built for friends, groups, and communities. Text, voice, and video. Open source and community-funded."
-msgstr "为朋友、群组和社区打造。文字、语音和视频。开源并由社区资助。"
-
 #: src/fluxer_marketing/components/locale_selector.gleam:119
 msgid "Bulgarian"
 msgstr "保加利亚语"
@@ -254,7 +254,7 @@ msgstr "企业"
 
 #: src/fluxer_marketing/components/coming_features.gleam:56
 msgid "Call pop-out"
-msgstr "通话弹出窗口"
+msgstr "通话浮窗"
 
 #: src/fluxer_marketing/components/footer.gleam:220
 #: src/fluxer_marketing/components/navigation.gleam:358
@@ -273,7 +273,7 @@ msgstr "切换语言"
 
 #: src/fluxer_marketing/components/hero.gleam:59
 msgid "Chat that puts you first"
-msgstr "把你放在第一位的聊天"
+msgstr "以你为先的聊天"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:150
 msgid "Chinese (Simplified)"
@@ -313,7 +313,7 @@ msgstr "代码、问题、文档与评审"
 
 #: src/fluxer_marketing/pages/press_page.gleam:124
 msgid "Color Logo"
-msgstr "彩色标志"
+msgstr "彩色徽标"
 
 #: src/fluxer_marketing/pages/press_page.gleam:178
 msgid "Color Symbol"
@@ -381,7 +381,7 @@ msgstr "联系"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1038
 msgid "Connect from any client"
-msgstr "可从任何客户端连接"
+msgstr "可通过任意客户端连接"
 
 #: src/fluxer_marketing/pages/help_article_page.gleam:233
 #: src/fluxer_marketing/pages/help_article_page.gleam:375
@@ -448,7 +448,7 @@ msgstr "自定义身份"
 #: src/fluxer_marketing/pages/plutonium_page.gleam:322
 #: src/fluxer_marketing/pages/plutonium_page.gleam:641
 msgid "Custom notification sounds"
-msgstr "自定义通知音"
+msgstr "自定义通知音效"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:413
 msgid "Custom themes"
@@ -519,9 +519,9 @@ msgstr "发现"
 msgid "Display an exclusive Partner badge on your profile to stand out."
 msgstr "在个人资料中展示专属合作伙伴徽章，让你更出众。"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:367
+#: src/fluxer_marketing/pages/donate_page.gleam:366
 msgid "Do I get anything in return?"
-msgstr "我能获得什么回报吗？"
+msgstr "我能得到什么回报吗？"
 
 #: src/fluxer_marketing/components/navigation.gleam:111
 #: src/fluxer_marketing/components/navigation.gleam:319
@@ -548,22 +548,22 @@ msgstr "以美元捐助"
 msgid "Donate to Fluxer"
 msgstr "向 Fluxer 捐助"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:298
+#: src/fluxer_marketing/pages/donate_page.gleam:297
 msgid "Donate with Swish"
-msgstr "通过Swish捐款"
+msgstr "通过 Swish 捐助"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:370
+#: src/fluxer_marketing/pages/donate_page.gleam:369
 msgid "Donations are voluntary gifts and do not provide you with any product, service, ownership, or special rights. If you're looking for premium features, check out {0}."
-msgstr "捐助属于自愿赠与，不会向你提供任何产品、服务、所有权或特殊权利。如需高级功能，请查看 {0}。"
+msgstr "捐助是自愿赠与，不会向你提供任何产品、服务、所有权或特殊权利。如需高级功能，请查看 {0}。"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:308
 msgid "Done! You can now open Fluxer as if it were a regular program."
-msgstr "完成！您现在可以像使用常规程序一样打开 Fluxer。"
+msgstr "完成！现在你可以像使用常规程序一样打开 Fluxer 了。"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:206
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:256
 msgid "Done! You can open Fluxer from your home screen."
-msgstr "完成！您可以从主屏幕打开 Fluxer。"
+msgstr "完成！你可以从主屏幕打开 Fluxer 了。"
 
 #: src/fluxer_marketing/components/footer.gleam:132
 #: src/fluxer_marketing/components/navigation.gleam:84
@@ -602,7 +602,7 @@ msgstr "下载 macOS 版"
 
 #: src/fluxer_marketing/pages/press_page.gleam:68
 msgid "Download our logos, learn about our brand colors, and get in touch with our press team."
-msgstr "下载我们的徽标，了解品牌色，并联系媒体团队。"
+msgstr "下载我们的徽标，了解品牌配色，并联系媒体团队。"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:139
 msgid "Dutch"
@@ -614,7 +614,7 @@ msgstr "端到端加密通话"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:200
 msgid "Early Feature Access"
-msgstr "抢先体验新功能"
+msgstr "抢先体验"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:671
 msgid "Early access"
@@ -724,7 +724,7 @@ msgstr "Fluxer 社区团队"
 msgid "Fluxer Partner"
 msgstr "Fluxer 合作伙伴"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:372
+#: src/fluxer_marketing/pages/donate_page.gleam:371
 #: src/fluxer_marketing/pages/plutonium_page.gleam:51
 #: src/fluxer_marketing/pages/plutonium_page.gleam:76
 msgid "Fluxer Plutonium"
@@ -778,7 +778,7 @@ msgstr "适用于浅色背景"
 
 #: src/fluxer_marketing/pages/press_page.gleam:237
 msgid "For text, icons on light surfaces, and creating depth."
-msgstr "适用于文字、浅色表面上的图标，以及营造层次感。"
+msgstr "适用于浅色表面上的文字与图标，以及营造层次感。"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:189
 msgid "Forever"
@@ -810,13 +810,13 @@ msgstr "免费版与 Plutonium 对比"
 msgid "French"
 msgstr "法语"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:346
+#: src/fluxer_marketing/pages/donate_page.gleam:345
 msgid "Frequently Asked Questions"
 msgstr "常见问题"
 
 #: src/fluxer_marketing/components/hackernews_banner.gleam:72
 msgid "From HN?"
-msgstr "来自 HN 吗？"
+msgstr "来自 HN？"
 
 #: src/fluxer_marketing/components/current_features.gleam:72
 msgid "Full Markdown support in messages"
@@ -824,7 +824,7 @@ msgstr "消息完整支持 Markdown"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1037
 msgid "Full access to all features"
-msgstr "全功能完整使用"
+msgstr "完整使用所有功能"
 
 #: src/fluxer_marketing/pages/press_page.gleam:125
 #: src/fluxer_marketing/pages/press_page.gleam:179
@@ -881,7 +881,7 @@ msgstr "参与其中"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:956
 msgid "Get lifetime Plutonium on Fluxer.app plus an Operator Pass for self-hosting. Pay {0} one-time. Available until October 1, 2026 or when {1} slots are claimed."
-msgstr "在 Fluxer.app 获得终身 Plutonium，并为自托管获得 Operator Pass。一次性支付 {0}。有效期至 2026 年 10 月 1 日，或在 {1} 个名额被领取完为止。"
+msgstr "在 Fluxer.app 获得终身 Plutonium，并为自托管获得 Operator Pass。一次性支付 {0}。有效期至 2026 年 10 月 1 日，或在 {1} 个名额领完为止。"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:51
 msgid "Get more with Fluxer Plutonium"
@@ -897,12 +897,12 @@ msgstr "离开应用时也能收到推送通知。"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:89
 msgid "Get updates, see upcoming features, discuss suggestions, and chat with the team."
-msgstr "获取最新动态、查看即将推出的功能、讨论建议，并与团队聊天。"
+msgstr "获取最新动态，了解即将推出的功能，讨论建议，并与团队聊天。"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:385
 #: src/fluxer_marketing/pages/plutonium_page.gleam:601
 msgid "Global emoji & sticker access"
-msgstr "全局表情与贴纸使用权限"
+msgstr "全局表情与贴纸权限"
 
 #: src/fluxer_marketing/components/coming_features.gleam:53
 msgid "Global voice regions"
@@ -914,7 +914,7 @@ msgstr "返回首页"
 
 #: src/fluxer_marketing/components/current_features.gleam:104
 msgid "Granular roles and permissions"
-msgstr "细粒度角色与权限"
+msgstr "精细化角色与权限"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:123
 msgid "Greek"
@@ -971,11 +971,11 @@ msgstr "帮助我们打造一个用户优先的独立通信平台。"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:651
 msgid "Higher limits everywhere"
-msgstr "各项限制全面提升"
+msgstr "各项上限全面提升"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:92
 msgid "Higher limits, exclusive features, and early access to new updates"
-msgstr "更高额度、专属功能，以及抢先体验新更新"
+msgstr "更高上限、专属功能，以及抢先体验新更新"
 
 #: src/fluxer_marketing/components/locale_selector.gleam:131
 msgid "Hindi"
@@ -1000,7 +1000,7 @@ msgstr "我们能帮你什么？"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:39
 msgid "How to install as an app"
-msgstr "如何安装为应用程序"
+msgstr "如何安装为应用"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:434
 msgid "How you plan to use Fluxer with your community"
@@ -1037,18 +1037,18 @@ msgstr "印度尼西亚语"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:59
 msgid "Install Fluxer as an app"
-msgstr "将 Fluxer 安装为应用程序"
+msgstr "将 Fluxer 安装为应用"
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:145
 #: src/fluxer_marketing/components/platform_download_button.gleam:161
 msgid "Intel"
 msgstr "Intel"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:377
+#: src/fluxer_marketing/pages/donate_page.gleam:376
 msgid "Is my donation tax-deductible?"
 msgstr "我的捐助可以抵税吗？"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:359
+#: src/fluxer_marketing/pages/donate_page.gleam:358
 msgid "Is this a subscription?"
 msgstr "这是订阅吗？"
 
@@ -1081,7 +1081,7 @@ msgstr "加入并帮我们传播"
 
 #: src/fluxer_marketing/components/current_features.gleam:88
 msgid "Join from multiple devices at once"
-msgstr "同时从多台设备加入"
+msgstr "可同时在多台设备上登录"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:47
 msgid "Join the Fluxer Partner Program and unlock exclusive benefits for you and your community"
@@ -1129,7 +1129,7 @@ msgstr "终身 Plutonium"
 
 #: src/fluxer_marketing/components/plutonium_banner.gleam:38
 msgid "Lifetime Plutonium + Operator Pass with Visionary — limited slots"
-msgstr "通过 Visionary 获得终身 Plutonium + Operator Pass —— 名额有限"
+msgstr "通过 Visionary 获得终身 Plutonium + Operator Pass——名额有限"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1103
 msgid "Limited Offer: Visionary includes Operator Pass"
@@ -1208,7 +1208,7 @@ msgstr "最受欢迎"
 
 #: src/fluxer_marketing/components/current_features.gleam:91
 msgid "Mute, deafen, and camera controls"
-msgstr "静音、拒听与摄像头控制"
+msgstr "静音、禁听与摄像头控制"
 
 #: src/fluxer_marketing/pages/help_search_page.gleam:135
 msgid "No articles found"
@@ -1220,13 +1220,13 @@ msgstr "未找到相关文章。"
 
 #: src/fluxer_marketing/pages/help_search_page.gleam:94
 msgid "No results found for"
-msgstr "未找到与以下内容相关的结果："
+msgstr "未找到相关结果："
 
-#: src/fluxer_marketing/pages/donate_page.gleam:380
+#: src/fluxer_marketing/pages/donate_page.gleam:379
 msgid "No, donations to Fluxer are not tax-deductible as we are not a registered charitable organization."
 msgstr "不可以。由于 Fluxer 不是注册慈善组织，因此捐助不支持抵税。"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:362
+#: src/fluxer_marketing/pages/donate_page.gleam:361
 msgid "No, this is a one-time donation. You choose the amount you want to give, and there are no recurring charges."
 msgstr "不是。这是一次性捐助。你可以自行选择金额，不会产生任何周期性扣款。"
 
@@ -1283,7 +1283,7 @@ msgstr "开源（AGPL-3.0）"
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:234
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:284
 msgid "Open the web app"
-msgstr "打开网页应用"
+msgstr "打开网页版应用"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:1059
 msgid "Operator Pass"
@@ -1311,7 +1311,7 @@ msgstr "我们的主品牌色。用于关键品牌元素与点缀。"
 
 #: src/fluxer_marketing/pages/press_page.gleam:156
 msgid "Our standalone symbol. Use this only when our brand is clearly visible or well-established elsewhere in the context."
-msgstr "独立符号。仅在上下文中已有清晰品牌露出或品牌已充分建立时使用。"
+msgstr "独立图标。仅在上下文中已有清晰品牌露出或品牌已充分建立时使用。"
 
 #: src/fluxer_marketing/components/communities_section.gleam:106
 msgid "Over time, we'd love to explore optional monetization tools that help creators and communities earn, with a small, transparent fee that keeps the app sustainable."
@@ -1377,19 +1377,19 @@ msgstr "媒体"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:246
 msgid "Press \"Add to Home Screen\""
-msgstr "按 \"添加到主屏幕"
+msgstr "点击“添加到主屏幕”"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:249
 msgid "Press \"Add\" in the upper-right corner"
-msgstr "在右上角按“添加”"
+msgstr "在右上角点击“添加”"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:200
 msgid "Press \"Install app\""
-msgstr "按“安装应用”"
+msgstr "点击“安装应用”"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:301
 msgid "Press \"Install\" in the popup that appears"
-msgstr "在出现的弹窗中按“安装”"
+msgstr "在弹出的窗口中点击“安装”"
 
 #: src/fluxer_marketing/pages/press_page.gleam:45
 #: src/fluxer_marketing/pages/press_page.gleam:65
@@ -1402,15 +1402,15 @@ msgstr "媒体联系"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:197
 msgid "Press the \"More\" (\\u{22EE}) button in the top-right corner"
-msgstr "按右上角的“更多” (\\u{22EE}) 按钮"
+msgstr "点击右上角的“更多”（\\u{22EE}）按钮"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:243
 msgid "Press the Share button (rectangle with upwards-pointing arrow)"
-msgstr "按分享按钮（带向上箭头的矩形）"
+msgstr "点击分享按钮（带向上箭头的矩形）"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:296
 msgid "Press the install button (downwards-pointing arrow on monitor) in the address bar"
-msgstr "在地址栏按安装按钮（显示向下箭头的显示器）"
+msgstr "在地址栏点击安装按钮（显示器上有向下箭头）"
 
 #: src/fluxer_marketing/components/footer.gleam:110
 #: src/fluxer_marketing/components/navigation.gleam:93
@@ -1564,7 +1564,7 @@ msgstr "内置屏幕共享"
 
 #: src/fluxer_marketing/components/pwa_install_dialog.gleam:132
 msgid "Screenshots courtesy of "
-msgstr "截图由提供"
+msgstr "截图来自 "
 
 #: src/fluxer_marketing/pages/help_components.gleam:93
 msgid "Search"
@@ -1585,7 +1585,7 @@ msgstr "搜索帮助…"
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:92
 msgid "Search in "
-msgstr "在以下内容中搜索： "
+msgstr "搜索范围： "
 
 #: src/fluxer_marketing/pages/help_category_page.gleam:90
 #: src/fluxer_marketing/pages/help_center_page.gleam:65
@@ -1734,7 +1734,7 @@ msgstr "在多个实例间切换"
 
 #: src/fluxer_marketing/pages/press_page.gleam:147
 msgid "Symbol"
-msgstr "符号"
+msgstr "图标"
 
 #: src/fluxer_marketing/components/footer.gleam:238
 #: src/fluxer_marketing/components/navigation.gleam:397
@@ -1773,7 +1773,7 @@ msgstr "这个页面不存在，但还有更多内容值得探索。"
 
 #: src/fluxer_marketing/components/coming_features.gleam:37
 msgid "Threads and forums"
-msgstr "话题串与论坛"
+msgstr "线程与论坛"
 
 #: src/fluxer_marketing/pages/careers_page.gleam:243
 msgid "Translation & localization"
@@ -1790,7 +1790,7 @@ msgstr "试试其他关键词，或浏览我们的分类。"
 
 #: src/fluxer_marketing/components/hackernews_banner.gleam:75
 msgid "Try it without an email at"
-msgstr "在这里尝试，不使用电子邮件"
+msgstr "无需邮箱即可在此体验："
 
 #: src/fluxer_marketing/components/locale_selector.gleam:147
 msgid "Turkish"
@@ -1814,7 +1814,7 @@ msgstr "在新功能向所有人开放之前，抢先解锁并测试。"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:79
 msgid "Unlock higher limits and exclusive features while supporting an independent communication platform."
-msgstr "在支持独立通信平台的同时，解锁更高额度与专属功能。"
+msgstr "在支持独立通信平台的同时，解锁更高上限与专属功能。"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:611
 msgid "Up to 4K video quality"
@@ -1822,7 +1822,7 @@ msgstr "最高 4K 视频质量"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:54
 msgid "Upgrade to Plutonium for $4.99/mo: custom username tags, per-community profiles, message scheduling, 4K streaming, 500MB uploads, and more exclusive features."
-msgstr "以 $4.99/月 升级到 Plutonium：自定义用户名标签、按社区分别设置资料、消息定时发送、4K 推流、500MB 上传，以及更多专属功能。"
+msgstr "以 $4.99/月 升级到 Plutonium：自定义用户名标签、按社区分别设置资料、消息定时发送、4K 推流、500 MB 上传，以及更多专属功能。"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:644
 msgid "Upload and use your own notification sounds to personalize your Fluxer experience."
@@ -1838,7 +1838,7 @@ msgstr "上传自定义表情与贴纸"
 
 #: src/fluxer_marketing/components/platform_download_button.gleam:315
 msgid "Use Fluxer in your mobile browser for now"
-msgstr "先在手机浏览器中使用 Fluxer"
+msgstr "暂时先在手机浏览器中使用 Fluxer"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:378
 msgid "Use animated emojis"
@@ -1846,7 +1846,7 @@ msgstr "使用动态表情"
 
 #: src/fluxer_marketing/components/current_features.gleam:154
 msgid "Use our desktop client (mobile coming soon)"
-msgstr "使用我们的桌面客户端（移动版即将推出）"
+msgstr "使用我们的桌面客户端（移动端即将推出）"
 
 #: src/fluxer_marketing/pages/plutonium_page.gleam:604
 msgid "Use your favorite emojis and stickers from any community, anywhere across Fluxer."
@@ -1903,7 +1903,7 @@ msgstr "参与方式"
 
 #: src/fluxer_marketing/components/get_involved_section.gleam:192
 msgid "We appreciate responsible disclosure to security@fluxer.app. We offer Plutonium codes and Bug Hunter badges based on severity."
-msgstr "感谢你通过 security@fluxer.app 进行负责任的披露。我们会根据严重程度提供 Plutonium 兑换码与 Bug Hunter 徽章。"
+msgstr "感谢你通过 security@fluxer.app 进行负责任披露。我们会根据严重程度发放 Plutonium 兑换码与 Bug Hunter 徽章。"
 
 #: src/fluxer_marketing/components/final_cta.gleam:56
 msgid "We need your support to make this work."
@@ -1937,7 +1937,7 @@ msgstr "我们仍在搭建 Fluxer 的业务体系，目前还没完全准备好�
 msgid "Webhooks and bot support"
 msgstr "Webhook 与机器人支持"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:351
+#: src/fluxer_marketing/pages/donate_page.gleam:350
 msgid "What does my donation support?"
 msgstr "我的捐助会支持什么？"
 
@@ -1953,7 +1953,7 @@ msgstr "当前已提供的功能"
 msgid "What's coming next"
 msgstr "接下来会有什么"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:385
+#: src/fluxer_marketing/pages/donate_page.gleam:384
 msgid "What's the difference between Individual and Business?"
 msgstr "个人与企业捐助有什么区别？"
 
@@ -1963,7 +1963,7 @@ msgstr "白色"
 
 #: src/fluxer_marketing/pages/press_page.gleam:110
 msgid "White Logo"
-msgstr "白色标志"
+msgstr "白色徽标"
 
 #: src/fluxer_marketing/pages/press_page.gleam:164
 msgid "White Symbol"
@@ -1987,9 +1987,9 @@ msgstr "你的社区将获得认证标识，提升真实性与信任度。"
 
 #: src/fluxer_marketing/pages/partners_page.gleam:192
 msgid "Your community receives increased limits when you need them."
-msgstr "当你需要时，你的社区将获得更高额度。"
+msgstr "当你需要时，你的社区将获得更高上限。"
 
-#: src/fluxer_marketing/pages/donate_page.gleam:354
+#: src/fluxer_marketing/pages/donate_page.gleam:353
 msgid "Your donation helps fund Fluxer's infrastructure costs, including servers, bandwidth, storage, and ongoing development of new features. It helps us maintain and improve the platform for everyone."
 msgstr "你的捐助将用于 Fluxer 的基础设施成本，包括服务器、带宽、存储以及新功能的持续开发，帮助我们为所有人维护并改进平台。"
 
@@ -2034,7 +2034,7 @@ msgid "one-time purchase"
 msgstr "一次性购买"
 
 #: src/fluxer_marketing/components/plutonium_section.gleam:68
-#: src/fluxer_marketing/pages/donate_page.gleam:284
+#: src/fluxer_marketing/pages/donate_page.gleam:282
 #: src/fluxer_marketing/pages/plutonium_page.gleam:106
 #: src/fluxer_marketing/pages/plutonium_page.gleam:230
 msgid "or"
@@ -2059,4 +2059,3 @@ msgstr "还剩 {0}/{1} 个名额"
 #: src/fluxer_marketing/components/footer.gleam:325
 msgid "© Fluxer Platform AB (Swedish limited liability company: 559537-3993)"
 msgstr "© Fluxer Platform AB（瑞典有限责任公司：559537-3993）"
-

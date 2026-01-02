@@ -1164,6 +1164,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 		};
 
 		const renderActionButtons = () => {
+			const currentUserUnclaimed = !(UserStore.currentUser?.isClaimed() ?? true);
 			if (isCurrentUser && disableEditProfile) {
 				return (
 					<div className={userProfileModalStyles.actionButtons}>
@@ -1284,8 +1285,11 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 					);
 				}
 				if (relationshipType === undefined && !isUserBot) {
+					const tooltipText = currentUserUnclaimed
+						? t`Claim your account to send friend requests.`
+						: t`Send Friend Request`;
 					return (
-						<Tooltip text={t`Send Friend Request`} maxWidth="xl">
+						<Tooltip text={tooltipText} maxWidth="xl">
 							<div>
 								<Button
 									variant="secondary"
@@ -1293,6 +1297,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 									square={true}
 									icon={<UserPlusIcon className={userProfileModalStyles.buttonIcon} />}
 									onClick={handleSendFriendRequest}
+									disabled={currentUserUnclaimed}
 								/>
 							</div>
 						</Tooltip>

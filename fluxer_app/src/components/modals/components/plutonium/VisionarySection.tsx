@@ -23,6 +23,7 @@ import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import type {VisionarySlots} from '~/actions/PremiumActionCreators';
 import {Button} from '~/components/uikit/Button/Button';
+import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
 import {VisionaryBenefit} from '../VisionaryBenefit';
 import {SectionHeader} from './SectionHeader';
 import styles from './VisionarySection.module.css';
@@ -36,6 +37,8 @@ interface VisionarySectionProps {
 	loadingCheckout: boolean;
 	loadingSlots: boolean;
 	handleSelectPlan: (plan: 'visionary') => void;
+	purchaseDisabled?: boolean;
+	purchaseDisabledTooltip?: React.ReactNode;
 }
 
 export const VisionarySection: React.FC<VisionarySectionProps> = observer(
@@ -48,9 +51,15 @@ export const VisionarySection: React.FC<VisionarySectionProps> = observer(
 		loadingCheckout,
 		loadingSlots,
 		handleSelectPlan,
+		purchaseDisabled = false,
+		purchaseDisabledTooltip,
 	}) => {
 		const {t} = useLingui();
 		const currentAccessLabel = isGiftSubscription ? t`gift time` : t`subscription`;
+		const tooltipText: string | (() => React.ReactNode) =
+			purchaseDisabledTooltip != null
+				? () => purchaseDisabledTooltip
+				: t`Claim your account to purchase Fluxer Plutonium.`;
 
 		return (
 			<section className={styles.section}>
@@ -99,15 +108,32 @@ export const VisionarySection: React.FC<VisionarySectionProps> = observer(
 
 				{!isVisionary && visionarySlots && visionarySlots.remaining > 0 && (
 					<div className={styles.ctaContainer}>
-						<Button
-							variant="primary"
-							onClick={() => handleSelectPlan('visionary')}
-							submitting={loadingCheckout || loadingSlots}
-							className={styles.ctaButton}
-						>
-							<CrownIcon className={styles.ctaIcon} weight="fill" />
-							<Trans>Upgrade to Visionary — {formatter.format(visionarySlots.remaining)} Left</Trans>
-						</Button>
+						{purchaseDisabled ? (
+							<Tooltip text={tooltipText}>
+								<div>
+									<Button
+										variant="primary"
+										onClick={() => handleSelectPlan('visionary')}
+										submitting={loadingCheckout || loadingSlots}
+										className={styles.ctaButton}
+										disabled
+									>
+										<CrownIcon className={styles.ctaIcon} weight="fill" />
+										<Trans>Upgrade to Visionary — {formatter.format(visionarySlots.remaining)} Left</Trans>
+									</Button>
+								</div>
+							</Tooltip>
+						) : (
+							<Button
+								variant="primary"
+								onClick={() => handleSelectPlan('visionary')}
+								submitting={loadingCheckout || loadingSlots}
+								className={styles.ctaButton}
+							>
+								<CrownIcon className={styles.ctaIcon} weight="fill" />
+								<Trans>Upgrade to Visionary — {formatter.format(visionarySlots.remaining)} Left</Trans>
+							</Button>
+						)}
 
 						{isPremium && (
 							<p className={styles.disclaimer}>

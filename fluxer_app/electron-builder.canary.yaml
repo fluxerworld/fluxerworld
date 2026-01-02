@@ -96,8 +96,8 @@ linux:
   icon: electron-build-resources/icons-canary
   category: Network
   maintainer: Fluxer Contributors
-  synopsis: Chat that puts you first (Canary)
-  description: Canary build of Fluxer. Chat that puts you first. Built for friends, groups, and communities.
+  synopsis: Fluxer Canary
+  description: Fluxer Canary
   executableName: fluxercanary
   target:
     - dir

@@ -86,6 +86,7 @@ class ConnectionStore {
 				handleGatewayDispatch: action.bound,
 				ensureGuildActiveAndSynced: action.bound,
 				flushPendingGuildSync: action.bound,
+				syncGuildIfNeeded: action.bound,
 			},
 			{autoBind: true},
 		);
@@ -322,6 +323,10 @@ class ConnectionStore {
 			logger.warn('Failed to update guild subscriptions; will retry when possible', err);
 			this.pendingGuildSyncId = guildId;
 		}
+	}
+
+	syncGuildIfNeeded(guildId: string, reason?: string): void {
+		this.ensureGuildActiveAndSynced(guildId, {reason});
 	}
 
 	private flushPendingGuildSync(): void {

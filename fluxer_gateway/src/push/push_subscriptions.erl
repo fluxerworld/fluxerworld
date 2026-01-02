@@ -89,7 +89,7 @@ fetch_and_cache_user_guild_settings(UserId, GuildId, _State) ->
                     ),
                     Settings
             end;
-        {error, Reason} ->
+        {error, _Reason} ->
             null
     end.
 

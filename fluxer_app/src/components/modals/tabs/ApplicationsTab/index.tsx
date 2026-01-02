@@ -17,7 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans} from '@lingui/react/macro';
+import {Trans, useLingui} from '@lingui/react/macro';
 import {BookOpenIcon, WarningCircleIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import React from 'react';
@@ -38,12 +38,16 @@ import styles from '~/components/modals/tabs/ApplicationsTab/ApplicationsTab.mod
 import ApplicationsTabStore from '~/components/modals/tabs/ApplicationsTab/ApplicationsTabStore';
 import {Button} from '~/components/uikit/Button/Button';
 import {Spinner} from '~/components/uikit/Spinner';
+import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
 import type {DeveloperApplication} from '~/records/DeveloperApplicationRecord';
+import UserStore from '~/stores/UserStore';
 
 const ApplicationsTab: React.FC = observer(() => {
+	const {t} = useLingui();
 	const {checkUnsavedChanges} = useUnsavedChangesFlash('applications');
 	const {setContentKey} = useSettingsContentKey();
 	const store = ApplicationsTabStore;
+	const isUnclaimed = !(UserStore.currentUser?.isClaimed() ?? false);
 
 	React.useLayoutEffect(() => {
 		setContentKey(store.contentKey);
@@ -138,9 +142,19 @@ const ApplicationsTab: React.FC = observer(() => {
 					description={<Trans>Create and manage applications and bots for your account.</Trans>}
 				>
 					<div className={styles.buttonContainer}>
-						<Button variant="primary" fitContainer={false} fitContent onClick={openCreateModal}>
-							<Trans>Create Application</Trans>
-						</Button>
+						{isUnclaimed ? (
+							<Tooltip text={t`Claim your account to create applications.`}>
+								<div>
+									<Button variant="primary" fitContainer={false} fitContent onClick={openCreateModal} disabled>
+										<Trans>Create Application</Trans>
+									</Button>
+								</div>
+							</Tooltip>
+						) : (
+							<Button variant="primary" fitContainer={false} fitContent onClick={openCreateModal}>
+								<Trans>Create Application</Trans>
+							</Button>
+						)}
 						<a className={styles.documentationLink} href="https://fluxer.dev" target="_blank" rel="noreferrer">
 							<BookOpenIcon weight="fill" size={18} className={styles.documentationIcon} />
 							<Trans>Read the Documentation (fluxer.dev)</Trans>

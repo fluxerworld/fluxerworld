@@ -24,6 +24,7 @@ import * as ModalActionCreators from '~/actions/ModalActionCreators';
 import {ChannelTypes} from '~/Constants';
 import * as Modal from '~/components/modals/Modal';
 import ChannelStore from '~/stores/ChannelStore';
+import ConnectionStore from '~/stores/gateway/ConnectionStore';
 import MobileLayoutStore from '~/stores/MobileLayoutStore';
 import {isMobileExperienceEnabled} from '~/utils/mobileExperience';
 import {
@@ -41,6 +42,7 @@ import type {ChannelSettingsTabType} from './utils/channelSettingsConstants';
 export const ChannelSettingsModal: React.FC<ChannelSettingsModalProps> = observer(({channelId, initialMobileTab}) => {
 	const {t} = useLingui();
 	const channel = ChannelStore.getChannel(channelId);
+	const guildId = channel?.guildId;
 	const [selectedTab, setSelectedTab] = React.useState<ChannelSettingsTabType>('overview');
 
 	const availableTabs = React.useMemo(() => {
@@ -58,6 +60,12 @@ export const ChannelSettingsModal: React.FC<ChannelSettingsModalProps> = observe
 
 	const mobileNav = useMobileNavigation<ChannelSettingsTabType>(initialTab);
 	const {enabled: isMobile} = MobileLayoutStore;
+
+	React.useEffect(() => {
+		if (guildId) {
+			ConnectionStore.syncGuildIfNeeded(guildId, 'channel-settings-modal');
+		}
+	}, [guildId]);
 
 	React.useEffect(() => {
 		if (!channel) {

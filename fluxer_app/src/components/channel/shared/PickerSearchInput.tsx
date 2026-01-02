@@ -79,7 +79,6 @@ export const PickerSearchInput = React.forwardRef<HTMLInputElement, PickerSearch
 		{value, onChange, placeholder, inputRef, onKeyDown, maxLength = 100, showBackButton = false, onBackButtonClick},
 		forwardedRef,
 	) => {
-		const _inputElementRef = React.useRef<HTMLInputElement | null>(null);
 		const {t} = useLingui();
 		const inputElementRef = React.useRef<HTMLInputElement | null>(null);
 		const {canFocus, safeFocusTextarea} = useInputFocusManagement(inputElementRef);

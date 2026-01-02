@@ -19,14 +19,17 @@
 
 import crypto from 'node:crypto';
 import {promisify} from 'node:util';
-import type {UserID} from '~/BrandedTypes';
+import {createInviteCode, type UserID} from '~/BrandedTypes';
 import {APIErrorCodes, UserFlags} from '~/Constants';
 import {AccessDeniedError, FluxerAPIError, InputValidationError, UnauthorizedError} from '~/Errors';
 import type {IGatewayService} from '~/infrastructure/IGatewayService';
 import type {IRateLimitService} from '~/infrastructure/IRateLimitService';
+import type {PendingJoinInviteStore} from '~/infrastructure/PendingJoinInviteStore';
+import type {InviteService} from '~/invite/InviteService';
 import {Logger} from '~/Logger';
 import {getUserSearchService} from '~/Meilisearch';
 import type {User} from '~/Models';
+import {createRequestCache} from '~/middleware/RequestCacheMiddleware';
 import type {IUserRepository} from '~/user/IUserRepository';
 import {mapUserToPrivateResponse} from '~/user/UserModel';
 import * as AgeUtils from '~/utils/AgeUtils';
@@ -61,6 +64,8 @@ export class AuthUtilityService {
 		private repository: IUserRepository,
 		private rateLimitService: IRateLimitService,
 		private gatewayService: IGatewayService,
+		private inviteService: InviteService,
+		private pendingJoinInviteStore: PendingJoinInviteStore,
 	) {}
 
 	async generateSecureToken(length = 64): Promise<string> {
@@ -210,5 +215,29 @@ export class AuthUtilityService {
 			event: 'USER_UPDATE',
 			data: mapUserToPrivateResponse(updatedUser!),
 		});
+
+		await this.autoJoinPendingInvite(userId);
+	}
+
+	private async autoJoinPendingInvite(userId: UserID): Promise<void> {
+		const pendingInviteCode = await this.pendingJoinInviteStore.getPendingInvite(userId);
+		if (!pendingInviteCode) {
+			return;
+		}
+
+		try {
+			await this.inviteService.acceptInvite({
+				userId,
+				inviteCode: createInviteCode(pendingInviteCode),
+				requestCache: createRequestCache(),
+			});
+		} catch (error) {
+			Logger.warn(
+				{userId, inviteCode: pendingInviteCode, error},
+				'Failed to auto-join invite after redeeming beta code',
+			);
+		} finally {
+			await this.pendingJoinInviteStore.deletePendingInvite(userId);
+		}
 	}
 }

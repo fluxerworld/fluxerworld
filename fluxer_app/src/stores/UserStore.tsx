@@ -18,9 +18,7 @@
  */
 
 import {action, makeAutoObservable, reaction, runInAction} from 'mobx';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ClaimAccountModal} from '~/components/modals/ClaimAccountModal';
+import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
 import {type User, type UserPrivate, UserRecord} from '~/records/UserRecord';
 import AuthenticationStore from '~/stores/AuthenticationStore';
 
@@ -73,7 +71,7 @@ class UserStore {
 
 		if (!userRecord.isClaimed()) {
 			setTimeout(async () => {
-				ModalActionCreators.push(modal(() => <ClaimAccountModal />));
+				openClaimAccountModal();
 			}, 1000);
 		}
 	}

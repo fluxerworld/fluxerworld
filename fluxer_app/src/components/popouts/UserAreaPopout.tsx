@@ -455,7 +455,8 @@ export const UserAreaPopout = observer(() => {
 						<div className={styles.footer}>
 							<div className={styles.actionGroup}>
 								<Popout
-									hoverDelay={200}
+									hoverDelay={0}
+									hoverCloseDelay={120}
 									position="right-start"
 									preventInvert
 									toggleClose={false}
@@ -473,7 +474,8 @@ export const UserAreaPopout = observer(() => {
 								<div className={styles.actionDivider} />
 
 								<Popout
-									hoverDelay={200}
+									hoverDelay={0}
+									hoverCloseDelay={120}
 									position="right-start"
 									preventInvert
 									toggleClose={false}

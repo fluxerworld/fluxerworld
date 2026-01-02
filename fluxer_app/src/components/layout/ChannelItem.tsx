@@ -76,6 +76,7 @@ import ReadStateStore from '~/stores/ReadStateStore';
 import SelectedChannelStore from '~/stores/SelectedChannelStore';
 import TrustedDomainStore from '~/stores/TrustedDomainStore';
 import UserGuildSettingsStore from '~/stores/UserGuildSettingsStore';
+import UserStore from '~/stores/UserStore';
 import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
 
 import * as ChannelUtils from '~/utils/ChannelUtils';
@@ -194,10 +195,18 @@ export const ChannelItem = observer(
 
 		const showKeyboardAffordances = keyboardModeEnabled && isFocused;
 		const currentUserId = AuthenticationStore.currentUserId;
+		const currentUser = UserStore.getCurrentUser();
+		const isUnclaimed = !(currentUser?.isClaimed() ?? false);
+		const isGuildOwner = currentUser ? guild.isOwner(currentUser.id) : false;
 		const currentMember = currentUserId ? GuildMemberStore.getMember(guild.id, currentUserId) : null;
 		const isCurrentUserTimedOut = Boolean(currentMember?.isTimedOut());
+		const voiceBlockedForUnclaimed = channelIsVoice && isUnclaimed && !isGuildOwner;
 		const voiceTooltipText =
-			channelIsVoice && isCurrentUserTimedOut ? t`You can't join while you're on timeout.` : undefined;
+			channelIsVoice && isCurrentUserTimedOut
+				? t`You can't join while you're on timeout.`
+				: channelIsVoice && voiceBlockedForUnclaimed
+					? t`Claim your account to join this voice channel.`
+					: undefined;
 
 		const isVoiceSelected =
 			channel.type === ChannelTypes.GUILD_VOICE &&
@@ -367,6 +376,13 @@ export const ChannelItem = observer(
 				});
 				return;
 			}
+			if (channel.type === ChannelTypes.GUILD_VOICE && voiceBlockedForUnclaimed) {
+				ToastActionCreators.createToast({
+					type: 'error',
+					children: t`Claim your account to join this voice channel.`,
+				});
+				return;
+			}
 			if (channel.type === ChannelTypes.GUILD_CATEGORY) {
 				onToggle?.();
 				return;
@@ -512,6 +528,7 @@ export const ChannelItem = observer(
 					contextMenuOpen && styles.contextMenuOpen,
 					showKeyboardAffordances && styles.keyboardFocus,
 					channelIsVoice && styles.channelItemVoice,
+					voiceBlockedForUnclaimed && styles.channelItemDisabled,
 				)}
 				onClick={handleSelect}
 				onContextMenu={handleContextMenu}

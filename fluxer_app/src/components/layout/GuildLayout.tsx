@@ -200,6 +200,10 @@ export const GuildLayout = observer(({children}: {children: React.ReactNode}) =>
 		if (nagbarState.forceHideInvitesDisabled) return false;
 		if (nagbarState.forceInvitesDisabled) return true;
 
+		if (user && !user.isClaimed() && guild.ownerId === user.id) {
+			return false;
+		}
+
 		const hasInvitesDisabled = guild.features.has(GuildFeatures.INVITES_DISABLED);
 		if (!hasInvitesDisabled) return false;
 
@@ -218,6 +222,7 @@ export const GuildLayout = observer(({children}: {children: React.ReactNode}) =>
 		invitesDisabledDismissed,
 		nagbarState.forceInvitesDisabled,
 		nagbarState.forceHideInvitesDisabled,
+		user,
 	]);
 
 	const shouldShowStaffOnlyGuild = React.useMemo(() => {

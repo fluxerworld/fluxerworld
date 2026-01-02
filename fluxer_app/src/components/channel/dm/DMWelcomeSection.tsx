@@ -29,6 +29,7 @@ import {AvatarStack} from '~/components/uikit/avatars/AvatarStack';
 import {Button} from '~/components/uikit/Button/Button';
 import FocusRing from '~/components/uikit/FocusRing/FocusRing';
 import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
+import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
 import type {ProfileRecord} from '~/records/ProfileRecord';
 import GuildMemberStore from '~/stores/GuildMemberStore';
 import MobileLayoutStore from '~/stores/MobileLayoutStore';
@@ -92,6 +93,7 @@ export const DMWelcomeSection: React.FC<DMWelcomeSectionProps> = observer(functi
 	};
 
 	const hasMutualGuilds = mutualGuilds.length > 0;
+	const currentUserUnclaimed = !(UserStore.currentUser?.isClaimed() ?? true);
 	const shouldShowActionButton =
 		!user.bot &&
 		(relationshipType === undefined ||
@@ -103,12 +105,22 @@ export const DMWelcomeSection: React.FC<DMWelcomeSectionProps> = observer(functi
 	const renderActionButton = () => {
 		if (user.bot) return null;
 		switch (relationshipType) {
-			case undefined:
-				return (
-					<Button small={true} onClick={handleSendFriendRequest}>
+			case undefined: {
+				const tooltipText = t`Claim your account to send friend requests.`;
+				const button = (
+					<Button small={true} onClick={handleSendFriendRequest} disabled={currentUserUnclaimed}>
 						<Trans>Send Friend Request</Trans>
 					</Button>
 				);
+				if (currentUserUnclaimed) {
+					return (
+						<Tooltip text={tooltipText} maxWidth="xl">
+							<div>{button}</div>
+						</Tooltip>
+					);
+				}
+				return button;
+			}
 			case RelationshipTypes.INCOMING_REQUEST:
 				return (
 					<div className={styles.actionButtonsContainer}>

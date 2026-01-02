@@ -17,12 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans} from '@lingui/react/macro';
+import {Trans, useLingui} from '@lingui/react/macro';
 import {DotsThreeIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {Button} from '~/components/uikit/Button/Button';
+import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
 import type {UserRecord} from '~/records/UserRecord';
 import {PerksButton} from '../PerksButton';
 import type {GracePeriodInfo} from './hooks/useSubscriptionStatus';
@@ -61,6 +62,8 @@ interface SubscriptionCardProps {
 	handleCancelSubscription: () => void;
 	handleCommunityButtonPointerDown: (event: React.PointerEvent) => void;
 	handleCommunityButtonClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
+	purchaseDisabled?: boolean;
+	purchaseDisabledTooltip?: React.ReactNode;
 }
 
 export const SubscriptionCard: React.FC<SubscriptionCardProps> = observer(
@@ -97,9 +100,25 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = observer(
 		handleCancelSubscription,
 		handleCommunityButtonPointerDown,
 		handleCommunityButtonClick,
+		purchaseDisabled = false,
+		purchaseDisabledTooltip,
 	}) => {
+		const {t} = useLingui();
 		const {isInGracePeriod, isExpired: isFullyExpired, graceEndDate} = gracePeriodInfo;
 		const isPremium = currentUser.isPremium();
+		const tooltipText: string | (() => React.ReactNode) =
+			purchaseDisabledTooltip != null
+				? () => purchaseDisabledTooltip
+				: t`Claim your account to purchase or redeem Fluxer Plutonium.`;
+
+		const wrapIfDisabled = (element: React.ReactElement, key: string, disabled: boolean) =>
+			disabled ? (
+				<Tooltip key={key} text={tooltipText}>
+					<div>{element}</div>
+				</Tooltip>
+			) : (
+				element
+			);
 
 		return (
 			<div className={clsx(styles.card, subscriptionCardColorClass)}>
@@ -251,44 +270,63 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = observer(
 					<div className={styles.actions}>
 						{isGiftSubscription ? (
 							<>
-								<Button variant="inverted" onClick={navigateToRedeemGift} small className={styles.actionButton}>
-									<Trans>Redeem Gift Code</Trans>
-								</Button>
-								{!isVisionary && !isVisionarySoldOut && (
+								{wrapIfDisabled(
 									<Button
 										variant="inverted"
-										onClick={() => handleSelectPlan('visionary')}
-										submitting={loadingCheckout || loadingSlots}
+										onClick={navigateToRedeemGift}
 										small
 										className={styles.actionButton}
+										disabled={purchaseDisabled}
 									>
-										<Trans>Upgrade to Visionary</Trans>
-									</Button>
+										<Trans>Redeem Gift Code</Trans>
+									</Button>,
+									'redeem-gift',
+									purchaseDisabled,
 								)}
+								{!isVisionary &&
+									!isVisionarySoldOut &&
+									wrapIfDisabled(
+										<Button
+											variant="inverted"
+											onClick={() => handleSelectPlan('visionary')}
+											submitting={loadingCheckout || loadingSlots}
+											small
+											className={styles.actionButton}
+											disabled={purchaseDisabled}
+										>
+											<Trans>Upgrade to Visionary</Trans>
+										</Button>,
+										'upgrade-gift-visionary',
+										purchaseDisabled,
+									)}
 							</>
 						) : (
 							<>
-								{hasEverPurchased && (
-									<Button
-										variant="inverted"
-										onClick={shouldUseReactivateQuickAction ? handleReactivateSubscription : handleOpenCustomerPortal}
-										submitting={shouldUseReactivateQuickAction ? loadingReactivate : loadingPortal}
-										small
-										className={styles.actionButton}
-									>
-										{isFullyExpired ? (
-											<Trans>Resubscribe</Trans>
-										) : isInGracePeriod ? (
-											<Trans>Resubscribe</Trans>
-										) : premiumWillCancel ? (
-											<Trans>Reactivate</Trans>
-										) : isVisionary ? (
-											<Trans>Open Customer Portal</Trans>
-										) : (
-											<Trans>Manage Subscription</Trans>
-										)}
-									</Button>
-								)}
+								{hasEverPurchased &&
+									wrapIfDisabled(
+										<Button
+											variant="inverted"
+											onClick={shouldUseReactivateQuickAction ? handleReactivateSubscription : handleOpenCustomerPortal}
+											submitting={shouldUseReactivateQuickAction ? loadingReactivate : loadingPortal}
+											small
+											className={styles.actionButton}
+											disabled={purchaseDisabled && shouldUseReactivateQuickAction}
+										>
+											{isFullyExpired ? (
+												<Trans>Resubscribe</Trans>
+											) : isInGracePeriod ? (
+												<Trans>Resubscribe</Trans>
+											) : premiumWillCancel ? (
+												<Trans>Reactivate</Trans>
+											) : isVisionary ? (
+												<Trans>Open Customer Portal</Trans>
+											) : (
+												<Trans>Manage Subscription</Trans>
+											)}
+										</Button>,
+										'manage-reactivate',
+										purchaseDisabled && shouldUseReactivateQuickAction,
+									)}
 
 								{isVisionary && (
 									<Button
@@ -305,17 +343,22 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = observer(
 									</Button>
 								)}
 
-								{!isVisionary && !isVisionarySoldOut && (
-									<Button
-										variant="inverted"
-										onClick={() => handleSelectPlan('visionary')}
-										submitting={loadingCheckout || loadingSlots}
-										small
-										className={styles.actionButton}
-									>
-										<Trans>Upgrade to Visionary</Trans>
-									</Button>
-								)}
+								{!isVisionary &&
+									!isVisionarySoldOut &&
+									wrapIfDisabled(
+										<Button
+											variant="inverted"
+											onClick={() => handleSelectPlan('visionary')}
+											submitting={loadingCheckout || loadingSlots}
+											small
+											className={styles.actionButton}
+											disabled={purchaseDisabled}
+										>
+											<Trans>Upgrade to Visionary</Trans>
+										</Button>,
+										'upgrade-visionary',
+										purchaseDisabled,
+									)}
 
 								{shouldUseCancelQuickAction && (
 									<Button

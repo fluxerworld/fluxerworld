@@ -205,6 +205,8 @@ export const UserAccountController = (app: HonoApp) => {
 			const emailTokenProvided = emailToken !== undefined;
 			const isUnclaimed = !user.passwordHash;
 			if (isUnclaimed) {
+				const {username: _ignoredUsername, discriminator: _ignoredDiscriminator, ...rest} = userUpdateData;
+				userUpdateData = rest;
 				const allowed = new Set(['new_password']);
 				const disallowedField = Object.keys(userUpdateData).find((key) => !allowed.has(key));
 				if (disallowedField) {

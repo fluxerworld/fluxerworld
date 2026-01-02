@@ -217,6 +217,8 @@ export const AdminACLs = {
 	USER_DISABLE_SUSPICIOUS: 'user:disable:suspicious',
 	USER_DELETE: 'user:delete',
 	USER_CANCEL_BULK_MESSAGE_DELETION: 'user:cancel:bulk_message_deletion',
+	PENDING_VERIFICATION_VIEW: 'pending_verification:view',
+	PENDING_VERIFICATION_REVIEW: 'pending_verification:review',
 	BETA_CODES_GENERATE: 'beta_codes:generate',
 	GIFT_CODES_GENERATE: 'gift_codes:generate',
 

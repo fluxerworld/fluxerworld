@@ -40,9 +40,7 @@ import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
 import {MessagePreviewContext} from '~/Constants';
 import {Message, type MessageBehaviorOverrides} from '~/components/channel/Message';
-import {GroupDMAvatar} from '~/components/common/GroupDMAvatar';
 import {MessageContextPrefix} from '~/components/shared/MessageContextPrefix/MessageContextPrefix';
-import {Avatar} from '~/components/uikit/Avatar';
 import {Button} from '~/components/uikit/Button/Button';
 import {ContextMenuCloseProvider} from '~/components/uikit/ContextMenu/ContextMenu';
 import {MenuGroup} from '~/components/uikit/ContextMenu/MenuGroup';
@@ -58,9 +56,7 @@ import ChannelSearchStore, {getChannelSearchContextId} from '~/stores/ChannelSea
 import ChannelStore from '~/stores/ChannelStore';
 import GuildNSFWAgreeStore from '~/stores/GuildNSFWAgreeStore';
 import GuildStore from '~/stores/GuildStore';
-import UserStore from '~/stores/UserStore';
 import {applyChannelSearchHighlight, clearChannelSearchHighlight} from '~/utils/ChannelSearchHighlight';
-import * as ChannelUtils from '~/utils/ChannelUtils';
 import {goToMessage} from '~/utils/MessageNavigator';
 import * as RouterUtils from '~/utils/RouterUtils';
 import {tokenizeSearchQuery} from '~/utils/SearchQueryTokenizer';
@@ -78,14 +74,6 @@ import type {SearchMachineState} from './SearchResultsUtils';
 import {areSegmentsEqual} from './SearchResultsUtils';
 import {DEFAULT_SCOPE_VALUE, getScopeOptionsForChannel} from './searchScopeOptions';
 
-const getChannelDisplayName = (channel: ChannelRecord): string => {
-	if (channel.isPrivate()) {
-		return ChannelUtils.getDMDisplayName(channel);
-	}
-
-	return channel.name?.trim() || ChannelUtils.getName(channel);
-};
-
 const getChannelGuild = (channel: ChannelRecord): GuildRecord | null => {
 	if (!channel.guildId) {
 		return null;
@@ -99,37 +87,6 @@ const getChannelPath = (channel: ChannelRecord): string => {
 		return Routes.guildChannel(channel.guildId, channel.id);
 	}
 	return Routes.dmChannel(channel.id);
-};
-
-const _renderChannelIcon = (channel: ChannelRecord): React.ReactNode => {
-	if (channel.isPersonalNotes()) {
-		return ChannelUtils.getIcon(channel, {className: styles.channelIcon});
-	}
-
-	if (channel.isDM()) {
-		const recipientId = channel.recipientIds[0];
-		const recipient = recipientId ? UserStore.getUser(recipientId) : null;
-
-		if (recipient) {
-			return (
-				<div className={styles.channelIconAvatar}>
-					<Avatar user={recipient} size={20} status={null} className={styles.channelIconAvatarImage} />
-				</div>
-			);
-		}
-
-		return ChannelUtils.getIcon(channel, {className: styles.channelIcon});
-	}
-
-	if (channel.isGroupDM()) {
-		return (
-			<div className={styles.channelIconAvatar}>
-				<GroupDMAvatar channel={channel} size={20} disableStatusIndicator />
-			</div>
-		);
-	}
-
-	return ChannelUtils.getIcon(channel, {className: styles.channelIcon});
 };
 
 interface ChannelSearchResultsProps {
@@ -753,7 +710,6 @@ export const ChannelSearchResults = observer(
 								}
 
 								const channelGuild = getChannelGuild(messageChannel);
-								const _channelDisplayName = getChannelDisplayName(messageChannel);
 								const showGuildMeta = shouldShowGuildMetaForScope(
 									channelGuild,
 									(activeScope ?? DEFAULT_SCOPE_VALUE) as MessageSearchScope,

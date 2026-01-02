@@ -24,7 +24,7 @@ import * as ModalActionCreators from '~/actions/ModalActionCreators';
 import {modal} from '~/actions/ModalActionCreators';
 import * as UserActionCreators from '~/actions/UserActionCreators';
 import {BackupCodesViewModal} from '~/components/modals/BackupCodesViewModal';
-import {ClaimAccountModal} from '~/components/modals/ClaimAccountModal';
+import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
 import {ConfirmModal} from '~/components/modals/ConfirmModal';
 import {MfaTotpDisableModal} from '~/components/modals/MfaTotpDisableModal';
 import {MfaTotpEnableModal} from '~/components/modals/MfaTotpEnableModal';
@@ -202,7 +202,7 @@ export const SecurityTabContent: React.FC<SecurityTabProps> = observer(
 						<Trans>Claim your account to access security features like two-factor authentication and passkeys.</Trans>
 					}
 				>
-					<Button onClick={() => ModalActionCreators.push(modal(() => <ClaimAccountModal />))}>
+					<Button className={styles.claimButton} fitContent onClick={() => openClaimAccountModal()}>
 						<Trans>Claim Account</Trans>
 					</Button>
 				</SettingsTabSection>

@@ -24,8 +24,10 @@ import * as ModalActionCreators from '~/actions/ModalActionCreators';
 import {modal} from '~/actions/ModalActionCreators';
 import {RelationshipTypes} from '~/Constants';
 import {ChangeFriendNicknameModal} from '~/components/modals/ChangeFriendNicknameModal';
+import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
 import type {UserRecord} from '~/records/UserRecord';
 import RelationshipStore from '~/stores/RelationshipStore';
+import UserStore from '~/stores/UserStore';
 import * as RelationshipActionUtils from '~/utils/RelationshipActionUtils';
 import {
 	AcceptFriendRequestIcon,
@@ -50,6 +52,7 @@ export const SendFriendRequestMenuItem: React.FC<SendFriendRequestMenuItemProps>
 		const [submitting, setSubmitting] = React.useState(false);
 
 		const showFriendRequestSent = relationshipType === RelationshipTypes.OUTGOING_REQUEST;
+		const isCurrentUserUnclaimed = !(UserStore.currentUser?.isClaimed() ?? true);
 
 		const handleSendFriendRequest = React.useCallback(async () => {
 			if (submitting || showFriendRequestSent) return;
@@ -57,6 +60,24 @@ export const SendFriendRequestMenuItem: React.FC<SendFriendRequestMenuItemProps>
 			await RelationshipActionUtils.sendFriendRequest(i18n, user.id);
 			setSubmitting(false);
 		}, [i18n, showFriendRequestSent, submitting, user.id]);
+
+		if (isCurrentUserUnclaimed) {
+			const tooltip = t`Claim your account to send friend requests.`;
+			return (
+				<Tooltip text={tooltip} maxWidth="xl">
+					<div>
+						<MenuItem
+							icon={<SendFriendRequestIcon />}
+							onClick={handleSendFriendRequest}
+							disabled={true}
+							closeOnSelect={false}
+						>
+							{showFriendRequestSent ? t`Friend Request Sent` : t`Add Friend`}
+						</MenuItem>
+					</div>
+				</Tooltip>
+			);
+		}
 
 		return (
 			<MenuItem

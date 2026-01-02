@@ -31,6 +31,7 @@ import {
 } from '~/components/embeds/EmbedCard/EmbedCard';
 import cardStyles from '~/components/embeds/EmbedCard/EmbedCard.module.css';
 import {useEmbedSkeletonOverride} from '~/components/embeds/EmbedCard/useEmbedSkeletonOverride';
+import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
 import {Button} from '~/components/uikit/Button/Button';
 import i18n from '~/i18n';
 import {ComponentDispatch} from '~/lib/ComponentDispatch';
@@ -48,6 +49,7 @@ export const GiftEmbed = observer(function GiftEmbed({code}: GiftEmbedProps) {
 	const giftState = GiftStore.gifts.get(code) ?? null;
 	const gift = giftState?.data;
 	const creator = UserStore.getUser(gift?.created_by?.id ?? '');
+	const isUnclaimed = !(UserStore.currentUser?.isClaimed() ?? false);
 	const shouldForceSkeleton = useEmbedSkeletonOverride();
 
 	React.useEffect(() => {
@@ -76,6 +78,10 @@ export const GiftEmbed = observer(function GiftEmbed({code}: GiftEmbedProps) {
 	const durationText = getGiftDurationText(i18n, gift);
 
 	const handleRedeem = async () => {
+		if (isUnclaimed) {
+			openClaimAccountModal({force: true});
+			return;
+		}
 		try {
 			await GiftActionCreators.redeem(i18n, code);
 		} catch (error) {
@@ -87,17 +93,22 @@ export const GiftEmbed = observer(function GiftEmbed({code}: GiftEmbedProps) {
 		<span className={styles.subRow}>{t`From ${creator.username}#${creator.discriminator}`}</span>
 	) : undefined;
 
-	const helpText = gift.redeemed ? t`Already redeemed` : t`Click to claim your gift!`;
+	const helpText = gift.redeemed
+		? t`Already redeemed`
+		: isUnclaimed
+			? t`Claim your account to redeem this gift.`
+			: t`Click to claim your gift!`;
 
-	const footer = gift.redeemed ? (
-		<Button variant="primary" matchSkeletonHeight disabled>
-			{t`Gift Claimed`}
-		</Button>
-	) : (
-		<Button variant="primary" matchSkeletonHeight onClick={handleRedeem}>
-			{t`Claim Gift`}
-		</Button>
-	);
+	const footer =
+		gift.redeemed && !isUnclaimed ? (
+			<Button variant="primary" matchSkeletonHeight disabled>
+				{t`Gift Claimed`}
+			</Button>
+		) : (
+			<Button variant="primary" matchSkeletonHeight onClick={handleRedeem} disabled={gift.redeemed || isUnclaimed}>
+				{gift.redeemed ? t`Gift Claimed` : isUnclaimed ? t`Claim Account to Redeem` : t`Claim Gift`}
+			</Button>
+		);
 
 	return (
 		<EmbedCard

@@ -230,6 +230,17 @@ export const InviteModal = observer(({channelId}: {channelId: string}) => {
 								<span className={styles.channelName}>{channel.name}</span>
 							</Trans>
 						</p>
+						{invitesDisabled && (
+							<div className={styles.warningContainer}>
+								<WarningCircleIcon className={styles.warningIcon} weight="fill" />
+								<p className={styles.warningText}>
+									<Trans>
+										Invites are currently disabled in this community by an admin. While this invite can be created, it
+										cannot be accepted until invites are re-enabled.
+									</Trans>
+								</p>
+							</div>
+						)}
 						<div className={selectorStyles.headerSearch}>
 							<Input
 								value={searchQuery}
@@ -248,33 +259,19 @@ export const InviteModal = observer(({channelId}: {channelId: string}) => {
 						<Spinner />
 					</div>
 				) : !showAdvanced ? (
-					<>
-						<RecipientList
-							recipients={recipients}
-							sendingTo={sendingTo}
-							sentTo={sentInvites}
-							onSend={handleSendInvite}
-							defaultButtonLabel={t`Invite`}
-							sentButtonLabel={t`Sent`}
-							buttonClassName={styles.inviteButton}
-							scrollerKey="invite-modal-friend-list-scroller"
-							searchQuery={searchQuery}
-							onSearchQueryChange={setSearchQuery}
-							showSearchInput={false}
-						/>
-
-						{invitesDisabled && (
-							<div className={styles.warningContainer}>
-								<WarningCircleIcon className={styles.warningIcon} weight="fill" />
-								<p className={styles.warningText}>
-									<Trans>
-										Invites are currently disabled in this community by an admin. While this invite can be created, it
-										cannot be accepted until invites are re-enabled.
-									</Trans>
-								</p>
-							</div>
-						)}
-					</>
+					<RecipientList
+						recipients={recipients}
+						sendingTo={sendingTo}
+						sentTo={sentInvites}
+						onSend={handleSendInvite}
+						defaultButtonLabel={t`Invite`}
+						sentButtonLabel={t`Sent`}
+						buttonClassName={styles.inviteButton}
+						scrollerKey="invite-modal-friend-list-scroller"
+						searchQuery={searchQuery}
+						onSearchQueryChange={setSearchQuery}
+						showSearchInput={false}
+					/>
 				) : (
 					<div className={styles.advancedView}>
 						<Select

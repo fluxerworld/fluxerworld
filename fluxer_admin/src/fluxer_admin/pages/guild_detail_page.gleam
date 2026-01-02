@@ -118,60 +118,81 @@ pub fn view(
         h.div(
           [a.class("bg-white border border-neutral-200 rounded-lg p-6 mb-6")],
           [
-            h.div([a.class("flex items-start gap-6")], [
-              case
-                avatar.get_guild_icon_url(
-                  ctx.media_endpoint,
-                  guild_data.id,
-                  guild_data.icon,
-                  True,
-                )
-              {
-                option.Some(icon_url) ->
-                  h.div([a.class("flex-shrink-0")], [
-                    h.img([
-                      a.src(icon_url),
-                      a.alt(guild_data.name),
-                      a.class("w-24 h-24 rounded-full"),
-                    ]),
-                  ])
-                option.None ->
-                  h.div([a.class("flex-shrink-0")], [
+            h.div(
+              [
+                a.class(
+                  "flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6",
+                ),
+              ],
+              [
+                case
+                  avatar.get_guild_icon_url(
+                    ctx.media_endpoint,
+                    guild_data.id,
+                    guild_data.icon,
+                    True,
+                  )
+                {
+                  option.Some(icon_url) ->
                     h.div(
                       [
                         a.class(
-                          "w-24 h-24 rounded-full bg-neutral-200 flex items-center justify-center text-base font-semibold text-neutral-600",
+                          "flex-shrink-0 flex items-center sm:block justify-center",
                         ),
                       ],
                       [
-                        element.text(avatar.get_initials_from_name(
-                          guild_data.name,
-                        )),
+                        h.img([
+                          a.src(icon_url),
+                          a.alt(guild_data.name),
+                          a.class("w-24 h-24 rounded-full"),
+                        ]),
                       ],
-                    ),
-                  ])
-              },
-              ui.detail_header(guild_data.name, [
-                #(
-                  "Guild ID:",
-                  h.div([a.class("text-sm text-neutral-900")], [
-                    element.text(guild_data.id),
-                  ]),
-                ),
-                #(
-                  "Owner ID:",
-                  h.a(
-                    [
-                      href(ctx, "/users/" <> guild_data.owner_id),
-                      a.class(
-                        "text-sm text-neutral-900 hover:text-blue-600 hover:underline",
-                      ),
-                    ],
-                    [element.text(guild_data.owner_id)],
+                    )
+                  option.None ->
+                    h.div(
+                      [
+                        a.class(
+                          "flex-shrink-0 flex items-center sm:block justify-center",
+                        ),
+                      ],
+                      [
+                        h.div(
+                          [
+                            a.class(
+                              "w-24 h-24 rounded-full bg-neutral-200 flex items-center justify-center text-base font-semibold text-neutral-600",
+                            ),
+                          ],
+                          [
+                            element.text(avatar.get_initials_from_name(
+                              guild_data.name,
+                            )),
+                          ],
+                        ),
+                      ],
+                    )
+                },
+                ui.detail_header(guild_data.name, [
+                  #(
+                    "Guild ID:",
+                    h.div([a.class("text-sm text-neutral-900 break-all")], [
+                      element.text(guild_data.id),
+                    ]),
                   ),
-                ),
-              ]),
-            ]),
+                  #(
+                    "Owner ID:",
+                    h.a(
+                      [
+                        href(ctx, "/users/" <> guild_data.owner_id),
+                        a.class(
+                          "text-sm text-neutral-900 hover:text-blue-600 hover:underline",
+                        ),
+                      ],
+                      [element.text(guild_data.owner_id)],
+                    ),
+                  ),
+                ]),
+              ],
+            ),
           ],
         ),
         render_tabs(

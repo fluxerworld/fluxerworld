@@ -17,96 +17,221 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-.container {
+.page {
+	--report-max-width: 640px;
+	max-width: var(--report-max-width);
+	width: 100%;
+	margin: 0 auto;
+	padding: 1rem 0 2rem;
 	display: flex;
 	flex-direction: column;
-	gap: 1.25rem;
-	max-width: 32rem;
-	margin: 0 auto;
-	text-align: left;
+	gap: 1rem;
 }
 
-.stepIndicator {
-	font-size: 0.75rem;
-	line-height: 1rem;
-	letter-spacing: 0.06em;
+.breadcrumbs {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	flex-wrap: wrap;
+	margin-bottom: 0.25rem;
+}
+
+.breadcrumbShell {
+	position: sticky;
+	top: 0;
+	z-index: 5;
+	padding-top: 0.3rem;
+	padding-bottom: 0.5rem;
+	margin-bottom: 0.25rem;
+	min-height: 2.5rem;
+	display: flex;
+	align-items: center;
+	width: 100%;
+}
+
+.breadcrumbPlaceholder {
+	width: 100%;
+	height: 1.5rem;
+}
+
+.breadcrumbStep {
+	display: flex;
+	align-items: center;
+	gap: 0.35rem;
+	padding: 0.35rem 0.6rem;
+	border-radius: 0.5rem;
+	background: none;
+	border: none;
+	color: var(--text-tertiary);
+	font-size: 0.85rem;
+	cursor: pointer;
+	transition:
+		color 0.1s ease,
+		background 0.1s ease;
+}
+
+.breadcrumbStep:disabled {
+	opacity: 0.6;
+	cursor: default;
+}
+
+.breadcrumbStep:hover:not(:disabled) {
+	color: var(--text-secondary);
+}
+
+.breadcrumbActive {
+	color: var(--text-primary);
+	cursor: default;
+	background: color-mix(in srgb, var(--background-modifier-accent) 60%, transparent);
+}
+
+.breadcrumbActive:hover {
+	color: var(--text-primary);
+}
+
+.breadcrumbNumber {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.4rem;
+	height: 1.4rem;
+	border-radius: 50%;
+	background: var(--background-modifier-accent);
+	font-weight: 600;
+	font-size: 0.8rem;
+}
+
+.breadcrumbActive .breadcrumbNumber {
+	background: var(--brand-primary);
+	color: white;
+}
+
+.breadcrumbLabel {
+	font-weight: 600;
+}
+
+.breadcrumbSeparator {
+	color: var(--text-tertiary);
+	font-size: 0.9rem;
+}
+
+.card {
+	background: transparent;
+	border: none;
+	border-radius: 16px;
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	width: 100%;
+	margin: 0;
+	box-shadow: none;
+}
+
+.cardHeader {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2rem;
+	width: 100%;
+}
+
+.cardBody {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	width: 100%;
+	min-height: 1px;
+}
+
+.eyebrow {
+	margin: 0;
 	text-transform: uppercase;
-	color: var(--text-muted);
-	text-align: center;
+	letter-spacing: 0.06em;
+	font-size: 0.75rem;
+	color: var(--text-tertiary);
 }
 
 .title {
-	margin-bottom: 0.25rem;
-	text-align: center;
-	font-size: 1.25rem;
-	line-height: 1.75rem;
-	font-weight: 600;
-	letter-spacing: 0.025em;
+	margin: 0;
+	font-size: 1.3rem;
+	line-height: 1.6rem;
+	font-weight: 700;
 	color: var(--text-primary);
 }
 
 .description {
-	margin-bottom: 0.75rem;
-	text-align: center;
-	font-size: 0.875rem;
-	line-height: 1.25rem;
-	color: var(--text-tertiary);
-}
-
-.metaLine {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	gap: 0.5rem;
-	font-size: 0.875rem;
-	line-height: 1.25rem;
-	color: var(--text-tertiary);
-	text-align: center;
-}
-
-.metaValue {
-	color: var(--text-primary);
-	font-weight: 500;
-}
-
-.metaSpacer {
-	color: var(--text-muted);
+	margin: 0.2rem 0 0;
+	font-size: 0.95rem;
+	line-height: 1.45rem;
+	color: var(--text-secondary);
 }
 
 .form {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+	align-items: stretch;
 }
 
-.footer {
-	margin-top: 1.25rem;
+.footerLinks {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+}
+
+.actionRow {
 	display: flex;
 	flex-direction: column;
 	gap: 0.75rem;
-	align-items: center;
-	text-align: center;
+	width: 100%;
 }
 
-.footerRow {
+@media (min-width: 640px) {
+	.actionRow {
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+	}
+}
+
+.actionButton {
+	align-self: flex-start;
+}
+
+.linkRow {
 	display: flex;
-	gap: 1rem;
-	justify-content: center;
-	flex-wrap: wrap;
+	align-items: center;
+	gap: 0.45rem;
+	font-size: 0.9rem;
+	color: var(--text-secondary);
+}
+
+.linkButton {
+	all: unset;
+	font-size: 0.9rem;
+	font-weight: 600;
+	color: var(--text-secondary);
+	cursor: pointer;
+}
+
+.linkButton:hover {
+	color: var(--text-primary);
+	text-decoration: underline;
+}
+
+.linkSeparator {
+	color: var(--background-modifier-accent);
 }
 
 .link {
-	font-size: 0.875rem;
-	line-height: 1.25rem;
+	font-size: 0.9rem;
 	color: var(--text-tertiary);
 	text-decoration: none;
 	background: none;
 	border: none;
 	cursor: pointer;
-	transition-property: color;
-	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-	transition-duration: 150ms;
 	padding: 0;
+	transition: color 120ms ease;
 }
 
 .link:hover {
@@ -121,44 +246,24 @@
 }
 
 .errorBox {
-	margin-bottom: 0.5rem;
 	padding: 0.75rem 1rem;
 	border-radius: var(--radius-lg);
 	background-color: color-mix(in srgb, var(--status-danger) 15%, transparent);
 	color: var(--status-danger);
-	font-size: 0.875rem;
-	line-height: 1.25rem;
-	text-align: left;
-}
-
-.successBox {
-	margin-top: 0.25rem;
-	padding: 0.75rem 1rem;
-	border-radius: var(--radius-lg);
-	background-color: color-mix(in srgb, var(--status-success) 12%, transparent);
-	color: var(--text-primary);
-	text-align: left;
-}
-
-.successLabel {
-	font-size: 0.75rem;
-	line-height: 1rem;
-	letter-spacing: 0.06em;
-	text-transform: uppercase;
-	color: var(--text-tertiary);
-	margin-bottom: 0.25rem;
-}
-
-.successValue {
-	font-size: 1rem;
-	line-height: 1.5rem;
-	font-weight: 600;
-	letter-spacing: 0.02em;
-	word-break: break-word;
+	font-size: 0.9rem;
+	line-height: 1.3rem;
 }
 
 .helperText {
-	font-size: 0.75rem;
+	font-size: 0.8rem;
 	color: var(--text-muted);
-	text-align: left;
+}
+
+.mainColumn {
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	width: 100%;
+	margin: 0;
 }

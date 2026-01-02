@@ -30,7 +30,7 @@ export const VerificationAdminController = (app: HonoApp) => {
 	app.post(
 		'/admin/pending-verifications/list',
 		RateLimitMiddleware(RateLimitConfigs.ADMIN_LOOKUP),
-		requireAdminACL(AdminACLs.USER_LOOKUP),
+		requireAdminACL(AdminACLs.PENDING_VERIFICATION_VIEW),
 		Validator('json', z.object({limit: z.number().default(100)})),
 		async (ctx) => {
 			const adminService = ctx.get('adminService');
@@ -42,7 +42,7 @@ export const VerificationAdminController = (app: HonoApp) => {
 	app.post(
 		'/admin/pending-verifications/approve',
 		RateLimitMiddleware(RateLimitConfigs.ADMIN_USER_MODIFY),
-		requireAdminACL(AdminACLs.USER_UPDATE_FLAGS),
+		requireAdminACL(AdminACLs.PENDING_VERIFICATION_REVIEW),
 		Validator('json', z.object({user_id: Int64Type})),
 		async (ctx) => {
 			const adminService = ctx.get('adminService');
@@ -56,7 +56,7 @@ export const VerificationAdminController = (app: HonoApp) => {
 	app.post(
 		'/admin/pending-verifications/reject',
 		RateLimitMiddleware(RateLimitConfigs.ADMIN_USER_MODIFY),
-		requireAdminACL(AdminACLs.USER_UPDATE_FLAGS),
+		requireAdminACL(AdminACLs.PENDING_VERIFICATION_REVIEW),
 		Validator('json', z.object({user_id: Int64Type})),
 		async (ctx) => {
 			const adminService = ctx.get('adminService');
@@ -70,7 +70,7 @@ export const VerificationAdminController = (app: HonoApp) => {
 	app.post(
 		'/admin/pending-verifications/bulk-approve',
 		RateLimitMiddleware(RateLimitConfigs.ADMIN_USER_MODIFY),
-		requireAdminACL(AdminACLs.USER_UPDATE_FLAGS),
+		requireAdminACL(AdminACLs.PENDING_VERIFICATION_REVIEW),
 		Validator('json', z.object({user_ids: z.array(Int64Type).min(1)})),
 		async (ctx) => {
 			const adminService = ctx.get('adminService');
@@ -85,7 +85,7 @@ export const VerificationAdminController = (app: HonoApp) => {
 	app.post(
 		'/admin/pending-verifications/bulk-reject',
 		RateLimitMiddleware(RateLimitConfigs.ADMIN_USER_MODIFY),
-		requireAdminACL(AdminACLs.USER_UPDATE_FLAGS),
+		requireAdminACL(AdminACLs.PENDING_VERIFICATION_REVIEW),
 		Validator('json', z.object({user_ids: z.array(Int64Type).min(1)})),
 		async (ctx) => {
 			const adminService = ctx.get('adminService');

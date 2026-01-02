@@ -100,3 +100,7 @@
 	border-top: 1px solid var(--background-header-secondary);
 	padding-top: 1rem;
 }
+
+.claimButton {
+	align-self: flex-start;
+}

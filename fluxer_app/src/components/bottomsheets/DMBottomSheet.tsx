@@ -78,6 +78,7 @@ import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
 import SelectedChannelStore from '~/stores/SelectedChannelStore';
 import UserGuildSettingsStore from '~/stores/UserGuildSettingsStore';
 import UserProfileMobileStore from '~/stores/UserProfileMobileStore';
+import UserStore from '~/stores/UserStore';
 import * as CallUtils from '~/utils/CallUtils';
 import {getMutedText} from '~/utils/ContextMenuUtils';
 import * as InviteUtils from '~/utils/InviteUtils';
@@ -113,6 +114,7 @@ export const DMBottomSheet: React.FC<DMBottomSheetProps> = observer(({isOpen, on
 	const isRecipientBot = recipient?.bot;
 	const relationship = recipient ? RelationshipStore.getRelationship(recipient.id) : null;
 	const relationshipType = relationship?.type;
+	const currentUserUnclaimed = !(UserStore.currentUser?.isClaimed() ?? true);
 
 	const handleMarkAsRead = () => {
 		ReadStateActionCreators.ack(channel.id, true, true);
@@ -517,7 +519,8 @@ export const DMBottomSheet: React.FC<DMBottomSheetProps> = observer(({isOpen, on
 			});
 		} else if (
 			relationshipType !== RelationshipTypes.OUTGOING_REQUEST &&
-			relationshipType !== RelationshipTypes.BLOCKED
+			relationshipType !== RelationshipTypes.BLOCKED &&
+			!currentUserUnclaimed
 		) {
 			relationshipItems.push({
 				icon: <UserPlusIcon weight="fill" className={sharedStyles.icon} />,

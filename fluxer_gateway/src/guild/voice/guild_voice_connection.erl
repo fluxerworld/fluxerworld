@@ -644,10 +644,32 @@ request_voice_token(GuildId, ChannelId, UserId, VoicePermissions) ->
                 endpoint => maps:get(<<"endpoint">>, Data),
                 connection_id => maps:get(<<"connectionId">>, Data)
             }};
+        {error, {http_error, _Status, Body}} ->
+            case parse_unclaimed_error(Body) of
+                true ->
+                    {error, voice_unclaimed_account};
+                false ->
+                    logger:error("[guild_voice_connection] RPC request failed: ~p", [{http_error, Body}]),
+                    {error, voice_token_failed}
+            end;
         {error, Reason} ->
             logger:error("[guild_voice_connection] RPC request failed: ~p", [Reason]),
-            {error, Reason}
+            {error, voice_token_failed}
     end.
+
+parse_unclaimed_error(Body) when is_binary(Body) ->
+    try jsx:decode(Body, [return_maps]) of
+        #{<<"code">> := <<"UNCLAIMED_ACCOUNT_RESTRICTED">>} ->
+            true;
+        #{<<"error">> := #{<<"code">> := <<"UNCLAIMED_ACCOUNT_RESTRICTED">>}} ->
+            true;
+        _ ->
+            false
+    catch
+        _:_ -> false
+    end;
+parse_unclaimed_error(_) ->
+    false.
 
 -spec pending_voice_connections(guild_state()) -> pending_voice_connections().
 pending_voice_connections(State) ->

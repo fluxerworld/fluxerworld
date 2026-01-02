@@ -50,6 +50,7 @@ interface PopoutProps {
 	containerClass?: string;
 	preventInvert?: boolean;
 	hoverDelay?: number;
+	hoverCloseDelay?: number;
 	toggleClose?: boolean;
 	subscribeTo?: ComponentActionType;
 	onOpen?: () => void;
@@ -192,8 +193,8 @@ export const Popout = React.forwardRef<HTMLElement, PopoutProps>((props, ref) =>
 			if (!isTriggerHoveringRef.current && !isContentHoveringRef.current && !hasActiveDependents) {
 				close();
 			}
-		}, 300);
-	}, [close, state.id]);
+		}, props.hoverCloseDelay ?? 300);
+	}, [close, state.id, props.hoverCloseDelay]);
 
 	const handleContentMouseEnter = React.useCallback(() => {
 		isContentHoveringRef.current = true;

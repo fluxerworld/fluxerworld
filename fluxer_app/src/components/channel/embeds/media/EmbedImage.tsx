@@ -251,6 +251,11 @@ export const EmbedImage: FC<EmbedImageProps> = observer(
 				aspectRatio: true,
 			},
 		);
+		const resolvedContainerStyle: React.CSSProperties = {
+			...containerStyle,
+			width: dimensions.width,
+			maxWidth: '100%',
+		};
 
 		const shouldRenderPlaceholder = error || !loaded;
 
@@ -295,7 +300,7 @@ export const EmbedImage: FC<EmbedImageProps> = observer(
 				<div className={styles.blurContainer}>
 					<div className={clsx(styles.rowContainer, isInline && styles.justifyEnd)}>
 						<div className={styles.innerContainer}>
-							<div className={styles.imageWrapper} style={containerStyle}>
+							<div className={styles.imageWrapper} style={resolvedContainerStyle}>
 								<div className={styles.imageContainer}>
 									{thumbHashURL && (
 										<div className={styles.thumbHashContainer}>
@@ -328,7 +333,7 @@ export const EmbedImage: FC<EmbedImageProps> = observer(
 				<div className={clsx(styles.rowContainer, isInline && styles.justifyEnd)}>
 					<MediaContainer
 						className={clsx(styles.mediaContainer, styles.cursorPointer)}
-						style={containerStyle}
+						style={resolvedContainerStyle}
 						showFavoriteButton={showFavoriteButton}
 						isFavorited={isFavorited}
 						onFavoriteClick={handleFavoriteClick}

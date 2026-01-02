@@ -32,11 +32,9 @@ import {ConfirmModal} from '~/components/modals/ConfirmModal';
 import {ClientInfo} from '~/components/modals/components/ClientInfo';
 import {LogoutModal} from '~/components/modals/components/LogoutModal';
 import styles from '~/components/modals/components/MobileSettingsView.module.css';
-import {ScrollSpyProvider, useScrollSpyContext} from '~/components/modals/hooks/ScrollSpyContext';
 import type {MobileNavigationState} from '~/components/modals/hooks/useMobileNavigation';
 import {useSettingsContentKey} from '~/components/modals/hooks/useSettingsContentKey';
 import {
-	MobileSectionNav,
 	MobileSettingsDangerItem,
 	MobileHeader as SharedMobileHeader,
 } from '~/components/modals/shared/MobileSettingsComponents';
@@ -44,16 +42,13 @@ import userSettingsStyles from '~/components/modals/UserSettingsModal.module.css
 import {getSettingsTabComponent} from '~/components/modals/utils/desktopSettingsTabs';
 import {
 	getCategoryLabel,
-	getSectionIdsForTab,
-	getSectionsForTab,
 	type SettingsTab,
-	tabHasSections,
 	type UserSettingsTabType,
 } from '~/components/modals/utils/settingsConstants';
 import {filterSettingsTabsForDeveloperMode} from '~/components/modals/utils/settingsTabFilters';
 import {Button} from '~/components/uikit/Button/Button';
 import {MentionBadgeAnimated} from '~/components/uikit/MentionBadge';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
+import {Scroller} from '~/components/uikit/Scroller';
 import {Spinner} from '~/components/uikit/Spinner';
 import {usePressable} from '~/hooks/usePressable';
 import {usePushSubscriptions} from '~/hooks/usePushSubscriptions';
@@ -397,26 +392,7 @@ const headerFadeVariants = {
 	exit: {opacity: 0},
 };
 
-interface MobileSectionNavWrapperProps {
-	tabType: UserSettingsTabType;
-}
-
-const MobileSectionNavWrapper: React.FC<MobileSectionNavWrapperProps> = observer(({tabType}) => {
-	const {t} = useLingui();
-	const scrollSpyContext = useScrollSpyContext();
-	const sections = getSectionsForTab(tabType, t);
-
-	if (!scrollSpyContext || sections.length === 0) {
-		return null;
-	}
-
-	const {activeSectionId, scrollToSection} = scrollSpyContext;
-
-	return <MobileSectionNav sections={sections} activeSectionId={activeSectionId} onSectionClick={scrollToSection} />;
-});
-
 interface MobileContentWithScrollSpyProps {
-	tabType: UserSettingsTabType;
 	scrollKey: string;
 	initialGuildId?: string;
 	initialSubtab?: string;
@@ -424,21 +400,9 @@ interface MobileContentWithScrollSpyProps {
 }
 
 const MobileContentWithScrollSpy: React.FC<MobileContentWithScrollSpyProps> = observer(
-	({tabType, scrollKey, initialGuildId, initialSubtab, currentTabComponent}) => {
-		const scrollerRef = React.useRef<ScrollerHandle | null>(null);
-		const scrollContainerRef = React.useRef<HTMLElement | null>(null);
-		const sectionIds = React.useMemo(() => getSectionIdsForTab(tabType), [tabType]);
-		const hasSections = tabHasSections(tabType);
-
-		React.useEffect(() => {
-			if (scrollerRef.current) {
-				scrollContainerRef.current = scrollerRef.current.getScrollerNode();
-			}
-		});
-
-		const content = (
-			<Scroller ref={scrollerRef} className={styles.scrollerFlex} key={scrollKey} data-settings-scroll-container>
-				{hasSections && <MobileSectionNavWrapper tabType={tabType} />}
+	({scrollKey, initialGuildId, initialSubtab, currentTabComponent}) => {
+		return (
+			<Scroller className={styles.scrollerFlex} key={scrollKey} data-settings-scroll-container>
 				<div className={styles.contentContainer}>
 					{currentTabComponent &&
 						React.createElement(currentTabComponent, {
@@ -448,16 +412,6 @@ const MobileContentWithScrollSpy: React.FC<MobileContentWithScrollSpyProps> = ob
 				</div>
 			</Scroller>
 		);
-
-		if (hasSections) {
-			return (
-				<ScrollSpyProvider sectionIds={sectionIds} containerRef={scrollContainerRef}>
-					{content}
-				</ScrollSpyProvider>
-			);
-		}
-
-		return content;
 	},
 );
 
@@ -582,7 +536,6 @@ export const MobileSettingsView: React.FC<MobileSettingsViewProps> = observer(
 								style={{willChange: 'transform'}}
 							>
 								<MobileContentWithScrollSpy
-									tabType={currentTab.type}
 									scrollKey={scrollKey}
 									initialGuildId={initialGuildId}
 									initialSubtab={initialSubtab}

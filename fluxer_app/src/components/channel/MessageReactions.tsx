@@ -108,7 +108,6 @@ const MessageReactionItem = observer(
 
 		const emojiName = getEmojiName(reaction.emoji);
 		const emojiUrl = useEmojiURL({emoji: reaction.emoji, isHovering});
-		const _emojiIdentifier = reaction.emoji.id ?? reaction.emoji.name;
 		const isUnicodeEmoji = reaction.emoji.id == null;
 
 		const variants = {

@@ -247,7 +247,7 @@ const EmbedVideo: FC<EmbedVideoProps> = observer(
 					}
 				: {
 						width: dimensions.width,
-						maxWidth: dimensions.width,
+						maxWidth: '100%',
 						aspectRatio,
 					};
 

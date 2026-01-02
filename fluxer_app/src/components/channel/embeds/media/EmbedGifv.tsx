@@ -457,8 +457,8 @@ export const EmbedGifv: FC<
 		const {width, aspectRatio} = style;
 		const containerStyle = {
 			'--embed-width': `${width}px`,
-			maxWidth: `${width}px`,
-			width: '100%',
+			maxWidth: '100%',
+			width,
 			aspectRatio,
 		} as React.CSSProperties;
 
@@ -488,7 +488,7 @@ export const EmbedGifv: FC<
 					type="gifv"
 					handlePress={openImagePreview}
 				>
-					<div className={styles.videoWrapper}>
+					<div className={styles.videoWrapper} style={aspectRatio ? {aspectRatio} : undefined}>
 						{(!loaded || error) && thumbHashURL && (
 							<img src={thumbHashURL} className={styles.thumbHashPlaceholder} alt={t`Loading placeholder`} />
 						)}
@@ -551,6 +551,7 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 		const {shouldBlur, gateReason} = useNSFWMedia(nsfw, channelId);
 		const containerRef = useRef<HTMLDivElement>(null);
 		const imgRef = useRef<HTMLImageElement>(null);
+		const isHoveredRef = useRef(false);
 
 		const defaultName = deriveDefaultNameFromMessage({
 			message,
@@ -622,16 +623,21 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 		useEffect(() => {
 			if (gifAutoPlay) return;
 
-			const img = imgRef.current;
 			const container = containerRef.current;
-			if (!img || !container) return;
+			if (!container) return;
 
 			const handleMouseEnter = () => {
-				if (FocusManager.isFocused() && img) {
-					img.src = optimizedAnimatedURL;
+				isHoveredRef.current = true;
+				if (FocusManager.isFocused()) {
+					const img = imgRef.current;
+					if (img) {
+						img.src = optimizedAnimatedURL;
+					}
 				}
 			};
 			const handleMouseLeave = () => {
+				isHoveredRef.current = false;
+				const img = imgRef.current;
 				if (img) {
 					img.src = optimizedStaticURL;
 				}
@@ -644,6 +650,24 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 				container.removeEventListener('mouseenter', handleMouseEnter);
 				container.removeEventListener('mouseleave', handleMouseLeave);
 			};
+		}, [gifAutoPlay, optimizedAnimatedURL, optimizedStaticURL]);
+
+		useEffect(() => {
+			if (gifAutoPlay) return;
+
+			const unsubscribe = FocusManager.subscribe((focused) => {
+				const img = imgRef.current;
+				if (!img) return;
+				if (!focused) {
+					img.src = optimizedStaticURL;
+					return;
+				}
+				if (isHoveredRef.current && focused) {
+					img.src = optimizedAnimatedURL;
+				}
+			});
+
+			return unsubscribe;
 		}, [gifAutoPlay, optimizedAnimatedURL, optimizedStaticURL]);
 
 		if (shouldBlur) {
@@ -679,8 +703,8 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 		const {width, aspectRatio} = style;
 		const containerStyle = {
 			'--embed-width': `${width}px`,
-			maxWidth: `${width}px`,
-			width: '100%',
+			maxWidth: '100%',
+			width,
 			aspectRatio,
 		} as React.CSSProperties;
 
@@ -716,7 +740,7 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 					contentHash={contentHash}
 					message={message}
 				>
-					<div className={styles.videoWrapper}>
+					<div className={styles.videoWrapper} style={aspectRatio ? {aspectRatio} : undefined}>
 						{(!loaded || error) && thumbHashURL && (
 							<img src={thumbHashURL} className={styles.thumbHashPlaceholder} alt={t`Loading placeholder`} />
 						)}

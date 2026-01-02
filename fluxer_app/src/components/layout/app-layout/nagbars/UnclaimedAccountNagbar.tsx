@@ -19,12 +19,10 @@
 
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
 import {Nagbar} from '~/components/layout/Nagbar';
 import {NagbarButton} from '~/components/layout/NagbarButton';
 import {NagbarContent} from '~/components/layout/NagbarContent';
-import {ClaimAccountModal} from '~/components/modals/ClaimAccountModal';
+import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
 import UserStore from '~/stores/UserStore';
 
 export const UnclaimedAccountNagbar = observer(({isMobile}: {isMobile: boolean}) => {
@@ -34,7 +32,7 @@ export const UnclaimedAccountNagbar = observer(({isMobile}: {isMobile: boolean})
 	}
 
 	const handleClaimAccount = () => {
-		ModalActionCreators.push(modal(() => <ClaimAccountModal />));
+		openClaimAccountModal({force: true});
 	};
 
 	return (

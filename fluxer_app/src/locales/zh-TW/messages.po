@@ -68,12 +68,12 @@ msgstr "(最多顯示 15 個)"
 msgid "(No content)"
 msgstr "(無內容)"
 
-#: src/components/modals/UserProfileMobileSheet.tsx:552
+#: src/components/modals/UserProfileMobileSheet.tsx:556
 #: src/components/pages/YouPage.tsx:147
 msgid "(only visible to you)"
 msgstr "(僅你可見)"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:954
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:976
 msgid "(you)"
 msgstr "(你)"
 
@@ -138,12 +138,12 @@ msgid "{0} Online"
 msgstr "{0} 在線"
 
 #. placeholder {0}: reaction.count
-#: src/components/channel/MessageReactions.tsx:120
+#: src/components/channel/MessageReactions.tsx:119
 msgid "{0} reaction"
 msgstr "{0} 反應"
 
 #. placeholder {0}: reaction.count
-#: src/components/channel/MessageReactions.tsx:120
+#: src/components/channel/MessageReactions.tsx:119
 msgid "{0} reactions"
 msgstr "{0} 反應"
 
@@ -153,13 +153,13 @@ msgid "{0} remaining"
 msgstr "剩餘 {0}"
 
 #. placeholder {0}: machineState.total
-#: src/components/channel/ChannelSearchResults.tsx:315
+#: src/components/channel/ChannelSearchResults.tsx:272
 msgid "{0} Result"
 msgstr "{0} 結果"
 
 #. placeholder {0}: machineState.total
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:390
-#: src/components/channel/ChannelSearchResults.tsx:315
+#: src/components/channel/ChannelSearchResults.tsx:272
 msgid "{0} Results"
 msgstr "{0} 筆結果"
 
@@ -402,7 +402,7 @@ msgstr "{actor} 更新了貼圖 {namedTarget}。"
 msgid "{actor} updated the webhook {namedTarget}."
 msgstr "{actor} 更新了 Webhook {namedTarget}。"
 
-#: src/components/modals/tabs/BetaCodesTab.tsx:280
+#: src/components/modals/tabs/BetaCodesTab.tsx:284
 msgid "{allowance} codes remaining this week"
 msgstr "本週剩餘 {allowance} 組代碼"
 
@@ -533,7 +533,7 @@ msgstr "{emojiName}，{0} 反應"
 msgid "{emojiName}, {0} reactions"
 msgstr "{emojiName}，{0} 反應"
 
-#: src/components/channel/MessageReactions.tsx:122
+#: src/components/channel/MessageReactions.tsx:121
 msgid "{emojiName}: {reactionCountText}, {actionText}"
 msgstr "{emojiName}：{reactionCountText}，{actionText}"
 
@@ -561,8 +561,8 @@ msgstr "{label} 圖片無法動態顯示。請使用 JPEG、PNG 或 WebP 格式.
 #: src/components/auth/InviteHeader.tsx:127
 #: src/components/auth/InviteHeader.tsx:241
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:281
-#: src/components/channel/InviteEmbed.tsx:180
-#: src/components/channel/InviteEmbed.tsx:444
+#: src/components/channel/InviteEmbed.tsx:182
+#: src/components/channel/InviteEmbed.tsx:446
 msgid "{memberCount} Member"
 msgstr "{memberCount} 位成員"
 
@@ -570,8 +570,8 @@ msgstr "{memberCount} 位成員"
 #: src/components/auth/InviteHeader.tsx:127
 #: src/components/auth/InviteHeader.tsx:241
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:281
-#: src/components/channel/InviteEmbed.tsx:180
-#: src/components/channel/InviteEmbed.tsx:444
+#: src/components/channel/InviteEmbed.tsx:182
+#: src/components/channel/InviteEmbed.tsx:446
 msgid "{memberCount} Members"
 msgstr "{memberCount} 位成員"
 
@@ -606,11 +606,11 @@ msgstr "{minutes} 分鐘和 {seconds} 秒"
 msgid "{minutes} minutes and 1 second"
 msgstr "{minutes}分鐘和1秒"
 
-#: src/components/channel/dm/DMWelcomeSection.tsx:155
+#: src/components/channel/dm/DMWelcomeSection.tsx:167
 msgid "{mutualGuildCount} mutual commmunity"
 msgstr "{mutualGuildCount} 個互通社群"
 
-#: src/components/channel/dm/DMWelcomeSection.tsx:156
+#: src/components/channel/dm/DMWelcomeSection.tsx:168
 msgid "{mutualGuildCount} mutual communities"
 msgstr "{mutualGuildCount} 個互通社群"
 
@@ -632,7 +632,7 @@ msgstr "{participantCount} 位在通話中的參與者"
 
 #: src/components/auth/InviteHeader.tsx:235
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:276
-#: src/components/channel/InviteEmbed.tsx:439
+#: src/components/channel/InviteEmbed.tsx:441
 msgid "{presenceCount} Online"
 msgstr "{presenceCount} 在線"
 
@@ -644,15 +644,15 @@ msgstr "剩餘 {remaining} 字元"
 msgid "{remaining} characters left. Get Plutonium to write up to {premiumMaxLength} characters."
 msgstr "剩餘 {remaining} 字元。如使用 Plutonium 可輸入至多 {premiumMaxLength} 字元。"
 
-#: src/components/channel/InviteEmbed.tsx:301
+#: src/components/channel/InviteEmbed.tsx:303
 msgid "{renderedMemberCount} Member"
 msgstr "{renderedMemberCount} 位成員"
 
-#: src/components/channel/InviteEmbed.tsx:301
+#: src/components/channel/InviteEmbed.tsx:303
 msgid "{renderedMemberCount} Members"
 msgstr "{renderedMemberCount} 位成員"
 
-#: src/components/channel/InviteEmbed.tsx:296
+#: src/components/channel/InviteEmbed.tsx:298
 msgid "{renderedPresenceCount} Online"
 msgstr "{renderedPresenceCount} 在線"
 
@@ -704,11 +704,11 @@ msgstr "{totalSeconds} 秒"
 msgid "{totalSeconds} seconds"
 msgstr "{totalSeconds} 秒"
 
-#: src/components/layout/GuildsLayout.tsx:231
+#: src/components/layout/GuildsLayout.tsx:229
 msgid "{unavailableCount} communities are temporarily unavailable due to a flux capacitor malfunction."
 msgstr "{unavailableCount} 個社群因為時間引擎故障而暫時無法使用。"
 
-#: src/components/layout/GuildsLayout.tsx:230
+#: src/components/layout/GuildsLayout.tsx:228
 msgid "{unavailableCount} community is temporarily unavailable due to a flux capacitor malfunction."
 msgstr "{unavailableCount} 個社群因為時間引擎故障而暫時無法使用。"
 
@@ -814,27 +814,27 @@ msgstr "@everyone 提及"
 msgid "@username"
 msgstr "@username"
 
-#: src/components/channel/CallMessage.tsx:75
+#: src/components/channel/CallMessage.tsx:72
 msgid "# days"
 msgstr "# 天"
 
-#: src/components/channel/CallMessage.tsx:76
+#: src/components/channel/CallMessage.tsx:73
 msgid "# hours"
 msgstr "# 小時"
 
-#: src/components/channel/CallMessage.tsx:77
+#: src/components/channel/CallMessage.tsx:74
 msgid "# minutes"
 msgstr "# 分鐘"
 
-#: src/components/channel/CallMessage.tsx:73
+#: src/components/channel/CallMessage.tsx:70
 msgid "# months"
 msgstr "# 月"
 
-#: src/components/channel/CallMessage.tsx:74
+#: src/components/channel/CallMessage.tsx:71
 msgid "# weeks"
 msgstr "# 週"
 
-#: src/components/channel/CallMessage.tsx:72
+#: src/components/channel/CallMessage.tsx:69
 msgid "# years"
 msgstr "# 年"
 
@@ -878,11 +878,11 @@ msgstr "<0/> 將 <1/> 從群組中移除。"
 msgid "<0/> removed someone from the group."
 msgstr "<0/> 將某人從群組中移除。"
 
-#: src/components/channel/CallMessage.tsx:191
+#: src/components/channel/CallMessage.tsx:185
 msgid "<0/> started a call that lasted {durationText}."
 msgstr "<0/> 開始了一場持續 {durationText} 的通話。"
 
-#: src/components/channel/CallMessage.tsx:154
+#: src/components/channel/CallMessage.tsx:148
 msgid "<0/> started a call."
 msgstr "<0/> 開始了一場通話。"
 
@@ -943,11 +943,11 @@ msgstr "<0>解除靜音</0> 該成員。"
 msgid "<0>Warning:</0> This will also disable SMS two-factor authentication."
 msgstr "<0>警告：</0> 此操作也會停用簡訊雙重驗證。"
 
-#: src/components/modals/tabs/BetaCodesTab.tsx:278
+#: src/components/modals/tabs/BetaCodesTab.tsx:282
 msgid "1 code remaining this week"
 msgstr "本週剩餘 1 組代碼"
 
-#: src/components/channel/CallMessage.tsx:75
+#: src/components/channel/CallMessage.tsx:72
 #: src/components/modals/BanMemberModal.tsx:54
 #: src/components/modals/InviteModal.tsx:77
 #: src/components/modals/InviteModal.tsx:212
@@ -956,7 +956,7 @@ msgstr "本週剩餘 1 組代碼"
 msgid "1 day"
 msgstr "1 天"
 
-#: src/components/channel/CallMessage.tsx:76
+#: src/components/channel/CallMessage.tsx:73
 #: src/components/modals/BanMemberModal.tsx:52
 #: src/components/modals/channelTabs/ChannelOverviewTab.tsx:154
 #: src/components/modals/CustomStatusBottomSheet.tsx:44
@@ -993,7 +993,7 @@ msgstr "1 分鐘和 {seconds} 秒"
 msgid "1 minute and 1 second"
 msgstr "1分鐘和1秒"
 
-#: src/components/channel/CallMessage.tsx:73
+#: src/components/channel/CallMessage.tsx:70
 #: src/components/modals/BanMemberModal.tsx:59
 msgid "1 month"
 msgstr "1 個月"
@@ -1002,12 +1002,12 @@ msgstr "1 個月"
 msgid "1 Month"
 msgstr "1 個月"
 
-#: src/components/modals/components/plutonium/BottomCTASection.tsx:99
+#: src/components/modals/components/plutonium/BottomCTASection.tsx:120
 msgid "1 Month {monthlyPrice}"
 msgstr "1 個月 {monthlyPrice}"
 
-#: src/components/modals/components/plutonium/GiftSection.tsx:78
-#: src/components/modals/components/plutonium/PricingSection.tsx:110
+#: src/components/modals/components/plutonium/GiftSection.tsx:88
+#: src/components/modals/components/plutonium/PricingSection.tsx:128
 msgid "1 Month Gift"
 msgstr "1 個月禮物"
 
@@ -1020,22 +1020,22 @@ msgstr "1 次使用"
 msgid "1 user"
 msgstr "1 位使用者"
 
-#: src/components/channel/CallMessage.tsx:74
+#: src/components/channel/CallMessage.tsx:71
 #: src/components/modals/BanMemberModal.tsx:57
 #: src/components/modals/TimeoutMemberOptions.ts:39
 msgid "1 week"
 msgstr "1 週"
 
-#: src/components/channel/CallMessage.tsx:72
+#: src/components/channel/CallMessage.tsx:69
 msgid "1 year"
 msgstr "1 年"
 
-#: src/components/modals/components/plutonium/BottomCTASection.tsx:91
+#: src/components/modals/components/plutonium/BottomCTASection.tsx:109
 msgid "1 Year {yearlyPrice}"
 msgstr "1 年 {yearlyPrice}"
 
-#: src/components/modals/components/plutonium/GiftSection.tsx:69
-#: src/components/modals/components/plutonium/PricingSection.tsx:101
+#: src/components/modals/components/plutonium/GiftSection.tsx:76
+#: src/components/modals/components/plutonium/PricingSection.tsx:116
 msgid "1 Year Gift"
 msgstr "1 年禮物"
 
@@ -1286,8 +1286,8 @@ msgstr "8 小時"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "系統將自動加入 4 位數標籤以確保唯一性"
 
-#: src/components/channel/CallMessage.tsx:86
-#: src/components/channel/CallMessage.tsx:148
+#: src/components/channel/CallMessage.tsx:83
+#: src/components/channel/CallMessage.tsx:142
 msgid "a few seconds"
 msgstr "幾秒鐘"
 
@@ -1299,7 +1299,7 @@ msgstr "一小群鍵盤勇士正在集結..."
 msgid "A helpful bot that does amazing things!"
 msgstr "一個能做驚人事情的貼心機器人！"
 
-#: src/components/channel/CallMessage.tsx:77
+#: src/components/channel/CallMessage.tsx:74
 msgid "a minute"
 msgstr "一分鐘"
 
@@ -1316,7 +1316,7 @@ msgid "A symphony of clacking keys is underway..."
 msgstr "鍵盤敲擊的交響樂正在進行中..."
 
 #: src/components/modals/tabs/MyProfileTab/BioEditor.tsx:127
-#: src/components/modals/UserProfileMobileSheet.tsx:528
+#: src/components/modals/UserProfileMobileSheet.tsx:532
 #: src/components/pages/YouPage.tsx:132
 msgid "About Me"
 msgstr "關於我"
@@ -1330,18 +1330,18 @@ msgstr "關於你"
 msgid "Accent Color"
 msgstr "強調色"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:291
-#: src/components/channel/dm/DMWelcomeSection.tsx:116
+#: src/components/channel/channel-view/DMChannelView.tsx:292
+#: src/components/channel/dm/DMWelcomeSection.tsx:128
 #: src/components/channel/friends/FriendListItem.tsx:238
 #: src/components/channel/friends/MobileFriendRequestItem.tsx:99
 #: src/components/voice/IncomingCallUI.tsx:302
 msgid "Accept"
 msgstr "接受"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:515
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:260
-#: src/components/modals/UserProfileModal.tsx:1258
-#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:88
+#: src/components/bottomsheets/DMBottomSheet.tsx:517
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:262
+#: src/components/modals/UserProfileModal.tsx:1259
+#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:109
 msgid "Accept Friend Request"
 msgstr "接受好友邀請"
 
@@ -1358,7 +1358,7 @@ msgstr "接受邀請"
 msgid "Accept the incoming call"
 msgstr "接聽來電"
 
-#: src/components/channel/InviteEmbed.tsx:226
+#: src/components/channel/InviteEmbed.tsx:228
 #: src/components/modals/InviteAcceptModal.tsx:163
 msgid "Accepting this invite installs the pack automatically."
 msgstr "接受此邀請會自動安裝套件。"
@@ -1407,7 +1407,7 @@ msgstr "帳戶與 Premium"
 msgid "Account appears to exist solely for spamming"
 msgstr "帳戶疑似僅用於垃圾訊息"
 
-#: src/components/modals/ClaimAccountModal.tsx:105
+#: src/components/modals/ClaimAccountModal.tsx:107
 msgid "Account claimed successfully"
 msgstr "帳戶認領成功"
 
@@ -1459,7 +1459,7 @@ msgstr "僅涵蓋你歷來加入的所有私訊"
 msgid "Action with both icons!"
 msgstr "同時顯示雙圖示的操作！"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:124
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:143
 msgid "Active"
 msgstr "活躍"
 
@@ -1584,12 +1584,13 @@ msgstr "新增電子郵件"
 msgid "Add Favorite Channels"
 msgstr "新增最愛頻道"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:524
+#: src/components/bottomsheets/DMBottomSheet.tsx:527
 #: src/components/channel/dm/AddFriendView.tsx:32
 #: src/components/channel/dm/DMFriendsView.tsx:199
 #: src/components/modals/AddFriendSheet.tsx:50
-#: src/components/modals/UserProfileModal.tsx:1178
-#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:68
+#: src/components/modals/UserProfileModal.tsx:1179
+#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:75
+#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:89
 msgid "Add Friend"
 msgstr "新增好友"
 
@@ -1597,7 +1598,7 @@ msgstr "新增好友"
 msgid "Add Friends"
 msgstr "新增好友"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1187
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1211
 #: src/components/channel/ChannelHeader.tsx:630
 #: src/components/channel/dm/GroupDMWelcomeSection.tsx:85
 msgid "Add Friends to Group"
@@ -1612,7 +1613,7 @@ msgstr "新增項目"
 msgid "Add new reactions to messages."
 msgstr "為訊息新增表情反應。"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:426
+#: src/components/bottomsheets/DMBottomSheet.tsx:428
 #: src/components/profile/ProfileCard/ProfileCardActions.tsx:48
 #: src/components/uikit/ContextMenu/items/UserNoteMenuItems.tsx:42
 msgid "Add Note"
@@ -1647,7 +1648,7 @@ msgstr "新增電話號碼表單"
 #: src/components/channel/MessageActionBar.tsx:450
 #: src/components/channel/MessageActionBar.tsx:741
 #: src/components/channel/messageActionMenu.tsx:92
-#: src/components/channel/MessageReactions.tsx:264
+#: src/components/channel/MessageReactions.tsx:263
 #: src/components/uikit/ContextMenu/items/MessageMenuItems.tsx:65
 msgid "Add Reaction"
 msgstr "新增反應"
@@ -1695,8 +1696,8 @@ msgid "Add to favorites"
 msgstr "加入最愛"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:370
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1103
-#: src/components/bottomsheets/DMBottomSheet.tsx:400
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1127
+#: src/components/bottomsheets/DMBottomSheet.tsx:402
 #: src/components/channel/ChannelHeader.tsx:547
 #: src/components/channel/ChannelHeader.tsx:595
 #: src/components/channel/ChannelHeader.tsx:600
@@ -1731,11 +1732,11 @@ msgid "Added to bookmarks"
 msgstr "已加入書籤"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:118
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:544
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:558
 msgid "Added to favorites"
 msgstr "已加入最愛"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:129
+#: src/components/bottomsheets/DMBottomSheet.tsx:131
 msgid "Added to Favorites"
 msgstr "已加入最愛"
 
@@ -1752,7 +1753,7 @@ msgstr "新增於：{createdDate}"
 msgid "Added: {createdDate} • Last used: {lastUsedDate}"
 msgstr "新增於：{createdDate} • 最後使用：{lastUsedDate}"
 
-#: src/components/pages/ReportPage.tsx:943
+#: src/components/pages/report/ReportStepDetails.tsx:222
 msgid "Additional Comments (optional)"
 msgstr "附加意見（選填）"
 
@@ -1873,7 +1874,7 @@ msgstr "所有來電將靜音通知而不響鈴。預設情況下，非好友來
 msgid "All Communities"
 msgstr "所有社群"
 
-#: src/components/modals/components/plutonium/VisionarySection.tsx:74
+#: src/components/modals/components/plutonium/VisionarySection.tsx:83
 msgid "All current and future Plutonium benefits, forever"
 msgstr "所有現在與未來的 Plutonium 福利，永久有效"
 
@@ -1911,7 +1912,7 @@ msgstr "所有成員"
 msgid "All messages"
 msgstr "所有訊息"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1377
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1401
 #: src/components/channel/ChannelHeader/ChannelNotificationSettingsDropdown.tsx:206
 #: src/components/modals/GuildNotificationSettingsModal.tsx:87
 #: src/components/modals/GuildNotificationSettingsModal.tsx:273
@@ -2071,11 +2072,11 @@ msgstr "已允許 {0}。"
 msgid "Already have an account?"
 msgstr "已經有帳號了嗎？"
 
-#: src/components/channel/InviteEmbed.tsx:187
+#: src/components/channel/InviteEmbed.tsx:189
 msgid "Already joined"
 msgstr "已加入"
 
-#: src/components/channel/GiftEmbed.tsx:90
+#: src/components/channel/GiftEmbed.tsx:97
 msgid "Already redeemed"
 msgstr "已兌換"
 
@@ -2135,8 +2136,8 @@ msgstr "永遠信任 <0>{hostname}</0> — 下次跳過此警告"
 msgid "Always underline links"
 msgstr "連結永遠加底線"
 
-#: src/components/channel/ChannelSearchResults.tsx:511
-#: src/components/channel/ChannelSearchResults.tsx:562
+#: src/components/channel/ChannelSearchResults.tsx:480
+#: src/components/channel/ChannelSearchResults.tsx:531
 #: src/hooks/useChannelSearch.ts:233
 #: src/hooks/useChannelSearch.ts:375
 msgid "An error occurred while searching"
@@ -2198,7 +2199,7 @@ msgid "Animated Emoji ({0})"
 msgstr "動畫表情符號（{0}）"
 
 #: src/components/channel/embeds/media/EmbedGifv.tsx:237
-#: src/components/channel/embeds/media/EmbedGifv.tsx:725
+#: src/components/channel/embeds/media/EmbedGifv.tsx:749
 #: src/components/modals/MediaViewerModal.tsx:294
 #: src/components/modals/MediaViewerModal.tsx:362
 msgid "Animated GIF"
@@ -2320,8 +2321,8 @@ msgstr "應用程式更新成功"
 msgid "Applications"
 msgstr "應用程式"
 
-#: src/components/modals/tabs/ApplicationsTab/index.tsx:99
-#: src/components/modals/tabs/ApplicationsTab/index.tsx:137
+#: src/components/modals/tabs/ApplicationsTab/index.tsx:103
+#: src/components/modals/tabs/ApplicationsTab/index.tsx:141
 msgid "Applications & Bots"
 msgstr "應用程式與機器人"
 
@@ -2352,7 +2353,7 @@ msgid "Archive"
 msgstr "封存"
 
 #. placeholder {0}: user.username
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:162
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:164
 #: src/components/modals/UserProfileActionsSheet.tsx:133
 #: src/utils/RelationshipActionUtils.tsx:141
 msgid "Are you sure you want to block {0}? They won't be able to message you or send you friend requests."
@@ -2368,8 +2369,8 @@ msgid "Are you sure you want to close this group DM? You can always reopen it la
 msgstr "確定要關閉這個群組私訊嗎？你之後還可以重新開啟。"
 
 #. placeholder {0}: recipient?.username ?? ''
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:601
-#: src/components/bottomsheets/DMBottomSheet.tsx:303
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:615
+#: src/components/bottomsheets/DMBottomSheet.tsx:305
 msgid "Are you sure you want to close your DM with {0}? You can always reopen it later."
 msgstr "確定要關閉與 {0} 的私訊嗎？你之後還可以重新開啟。"
 
@@ -2406,7 +2407,7 @@ msgid "Are you sure you want to delete #{0}? This action cannot be undone."
 msgstr "確定要刪除 #{0} 嗎？此操作無法還原。"
 
 #. placeholder {0}: channel.name ?? 'this channel'
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:667
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:681
 msgid "Are you sure you want to delete #{0}? This cannot be undone."
 msgstr "確定要刪除 #{0} 嗎？此操作無法還原。"
 
@@ -2504,7 +2505,7 @@ msgstr "確定要離開 {0} 嗎？"
 msgid "Are you sure you want to leave this community? You will no longer be able to see any messages."
 msgstr "確定要離開這個社群嗎？你將無法再看到任何訊息。"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:338
+#: src/components/bottomsheets/DMBottomSheet.tsx:340
 #: src/hooks/useLeaveGroup.tsx:43
 msgid "Are you sure you want to leave this group? You will no longer be able to see any messages."
 msgstr "確定要離開這個群組嗎？你將無法再看到任何訊息。"
@@ -2515,9 +2516,9 @@ msgid "Are you sure you want to make {0} the group owner? You will lose owner pr
 msgstr "確定要將 {0} 設為群組擁有者嗎？你將失去擁有者權限。"
 
 #. placeholder {0}: user.username
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:145
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:147
 #: src/components/modals/UserProfileActionsSheet.tsx:116
-#: src/components/modals/UserProfileMobileSheet.tsx:303
+#: src/components/modals/UserProfileMobileSheet.tsx:304
 #: src/utils/RelationshipActionUtils.tsx:114
 msgid "Are you sure you want to remove {0} as a friend?"
 msgstr "確定要移除 {0} 為好友嗎？"
@@ -2557,10 +2558,10 @@ msgid "Are you sure you want to transfer ownership of the group to {0}?"
 msgstr "確定要將群組所有權轉移給 {0} 嗎？"
 
 #. placeholder {0}: user.username
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:179
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:181
 #: src/components/modals/tabs/BlockedUsersTab.tsx:57
 #: src/components/modals/UserProfileActionsSheet.tsx:150
-#: src/components/modals/UserProfileMobileSheet.tsx:319
+#: src/components/modals/UserProfileMobileSheet.tsx:320
 #: src/utils/RelationshipActionUtils.tsx:168
 msgid "Are you sure you want to unblock {0}?"
 msgstr "確定要解除封鎖 {0} 嗎？"
@@ -2573,7 +2574,7 @@ msgstr "藝術社"
 msgid "Artists' Corner"
 msgstr "藝術家天地"
 
-#: src/components/modals/components/plutonium/PricingSection.tsx:63
+#: src/components/modals/components/plutonium/PricingSection.tsx:69
 msgid "As a Gift"
 msgstr "作為禮物"
 
@@ -2689,7 +2690,7 @@ msgstr "音訊設定"
 msgid "Audio will be included with this screen share."
 msgstr "此畫面分享將包含音訊。"
 
-#: src/components/pages/ReportPage.tsx:311
+#: src/components/pages/report/optionDescriptors.ts:83
 msgid "Austria"
 msgstr "奧地利"
 
@@ -2844,6 +2845,7 @@ msgstr "平均延遲："
 #: src/components/modals/PhoneAddModal.tsx:235
 #: src/components/modals/RequiredActionModal.tsx:463
 #: src/components/pages/OAuthAuthorizePage.tsx:694
+#: src/components/pages/report/ReportStepDetails.tsx:243
 msgid "Back"
 msgstr "返回"
 
@@ -2933,7 +2935,7 @@ msgid "Balanced quality and bandwidth"
 msgstr "品質與頻寬平衡"
 
 #: src/components/bottomsheets/VoiceParticipantBottomSheet.tsx:353
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:320
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:323
 #: src/components/modals/UserProfileActionsSheet.tsx:262
 msgid "Ban"
 msgstr "封鎖"
@@ -3035,7 +3037,7 @@ msgstr "之前："
 msgid "Begin a call in the current private conversation"
 msgstr "在目前私人對話中開始通話"
 
-#: src/components/pages/ReportPage.tsx:312
+#: src/components/pages/report/optionDescriptors.ts:84
 msgid "Belgium"
 msgstr "比利時"
 
@@ -3066,7 +3068,7 @@ msgstr "測試碼（選填）"
 msgid "Beta Code Redeemed!"
 msgstr "測試碼已兌換！"
 
-#: src/components/modals/tabs/BetaCodesTab.tsx:313
+#: src/components/modals/tabs/BetaCodesTab.tsx:338
 #: src/components/modals/utils/settingsSearchIndex.ts:741
 msgid "Beta Codes"
 msgstr "測試碼"
@@ -3083,13 +3085,13 @@ msgstr "個人簡介"
 msgid "Bio character limit"
 msgstr "個人簡介字數上限"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:538
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:163
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:345
+#: src/components/bottomsheets/DMBottomSheet.tsx:541
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:165
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:348
 #: src/components/modals/UserProfileActionsSheet.tsx:134
 #: src/components/modals/UserProfileActionsSheet.tsx:298
 #: src/components/modals/UserProfileModal.tsx:1062
-#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:190
+#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:211
 #: src/utils/RelationshipActionUtils.tsx:143
 msgid "Block"
 msgstr "封鎖"
@@ -3106,7 +3108,7 @@ msgstr "封鎖社群成員的私訊？"
 msgid "Block for all communities"
 msgstr "在所有社群中封鎖"
 
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:161
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:163
 #: src/components/modals/UserProfileActionsSheet.tsx:132
 #: src/utils/RelationshipActionUtils.tsx:139
 msgid "Block User"
@@ -3270,7 +3272,7 @@ msgstr "需要瀏覽器音訊"
 msgid "Browser locale ({browserLocale}): {format}"
 msgstr "瀏覽器語系 ({browserLocale})：{format}"
 
-#: src/components/pages/ReportPage.tsx:313
+#: src/components/pages/report/optionDescriptors.ts:85
 msgid "Bulgaria"
 msgstr "保加利亞"
 
@@ -3313,16 +3315,16 @@ msgstr "提交期間呈現中..."
 msgid "Buttons with Icons"
 msgstr "帶圖示的按鈕"
 
-#: src/components/modals/components/plutonium/GiftSection.tsx:74
-#: src/components/modals/components/plutonium/GiftSection.tsx:83
-#: src/components/modals/components/plutonium/GiftSection.tsx:92
-#: src/components/modals/components/plutonium/PricingSection.tsx:106
-#: src/components/modals/components/plutonium/PricingSection.tsx:115
-#: src/components/modals/components/plutonium/PricingSection.tsx:124
+#: src/components/modals/components/plutonium/GiftSection.tsx:81
+#: src/components/modals/components/plutonium/GiftSection.tsx:93
+#: src/components/modals/components/plutonium/GiftSection.tsx:105
+#: src/components/modals/components/plutonium/PricingSection.tsx:121
+#: src/components/modals/components/plutonium/PricingSection.tsx:133
+#: src/components/modals/components/plutonium/PricingSection.tsx:145
 msgid "Buy Gift"
 msgstr "購買禮物"
 
-#: src/components/modals/components/plutonium/VisionarySection.tsx:114
+#: src/components/modals/components/plutonium/VisionarySection.tsx:140
 msgid "Buying Visionary will cancel your current {currentAccessLabel} immediately. It is a one-time purchase with lifetime access."
 msgstr "購買 Visionary 將立即取消您目前的 {currentAccessLabel}。這是一項一次性購買，並可享有終身訪問權限."
 
@@ -3347,7 +3349,7 @@ msgstr "繞過慢速模式"
 msgid "Bypass Splash Screen"
 msgstr "跳過啟動畫面"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:271
+#: src/components/channel/channel-view/DMChannelView.tsx:272
 msgid "Call available"
 msgstr "可進行通話"
 
@@ -3446,11 +3448,11 @@ msgstr "相機設定"
 #: src/components/modals/CategoryCreateModal.tsx:79
 #: src/components/modals/ChannelCreateModal.tsx:100
 #: src/components/modals/ChannelDeleteModal.tsx:72
-#: src/components/modals/ClaimAccountModal.tsx:179
-#: src/components/modals/ClaimAccountModal.tsx:219
-#: src/components/modals/components/MobileSettingsView.tsx:302
+#: src/components/modals/ClaimAccountModal.tsx:181
+#: src/components/modals/ClaimAccountModal.tsx:221
+#: src/components/modals/components/MobileSettingsView.tsx:297
 #: src/components/modals/components/plutonium/hooks/useCheckoutActions.tsx:110
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:328
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:371
 #: src/components/modals/ConfirmModal.tsx:146
 #: src/components/modals/CreateDMModal.tsx:88
 #: src/components/modals/CreateFavoriteCategoryModal.tsx:74
@@ -3473,7 +3475,7 @@ msgstr "相機設定"
 #: src/components/modals/HideOwnCameraConfirmModal.tsx:65
 #: src/components/modals/IARModal.tsx:218
 #: src/components/modals/ImageCropModal.tsx:981
-#: src/components/modals/InviteModal.tsx:336
+#: src/components/modals/InviteModal.tsx:333
 #: src/components/modals/KickMemberModal.tsx:60
 #: src/components/modals/MfaTotpDisableModal.tsx:75
 #: src/components/modals/MfaTotpEnableModal.tsx:102
@@ -3498,11 +3500,11 @@ msgstr "相機設定"
 msgid "Cancel"
 msgstr "取消"
 
-#: src/components/channel/dm/DMWelcomeSection.tsx:126
+#: src/components/channel/dm/DMWelcomeSection.tsx:138
 #: src/components/channel/friends/FriendListItem.tsx:164
 #: src/components/channel/friends/FriendListItem.tsx:166
-#: src/components/modals/UserProfileModal.tsx:1273
-#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:171
+#: src/components/modals/UserProfileModal.tsx:1274
+#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:192
 msgid "Cancel Friend Request"
 msgstr "取消好友邀請"
 
@@ -3522,7 +3524,7 @@ msgstr "取消請求"
 msgid "Cancel upload"
 msgstr "取消上傳"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:118
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:137
 msgid "Canceling"
 msgstr "取消中..."
 
@@ -3566,7 +3568,7 @@ msgstr "卡片對齊"
 msgid "Card alignment controls"
 msgstr "卡片對齊控制"
 
-#: src/components/modals/components/MobileSettingsView.tsx:123
+#: src/components/modals/components/MobileSettingsView.tsx:118
 #: src/components/modals/components/SettingsModalHeader.tsx:76
 msgid "Careful! You have unsaved changes."
 msgstr "小心！你有未儲存的變更。"
@@ -3576,7 +3578,7 @@ msgstr "小心！你有未儲存的變更。"
 msgid "Category"
 msgstr "分類"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1371
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1395
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:239
 msgid "Category Default"
 msgstr "分類預設"
@@ -3594,7 +3596,7 @@ msgstr "分類已滿"
 msgid "Category Name"
 msgstr "分類名稱"
 
-#: src/components/modals/ChannelSettingsModal.tsx:105
+#: src/components/modals/ChannelSettingsModal.tsx:113
 #: src/components/modals/components/DesktopChannelSettingsView.tsx:188
 msgid "Category Settings"
 msgstr "分類設定"
@@ -3625,7 +3627,7 @@ msgstr "更換背景"
 msgid "Change Banner"
 msgstr "更換橫幅"
 
-#: src/components/pages/ReportPage.tsx:752
+#: src/components/pages/report/ReportStepVerification.tsx:126
 msgid "Change email"
 msgstr "更改電子郵件"
 
@@ -3647,8 +3649,8 @@ msgstr "更換 FluxerTag"
 msgid "Change FluxerTag form"
 msgstr "更換 FluxerTag 表單"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:433
-#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:133
+#: src/components/bottomsheets/DMBottomSheet.tsx:435
+#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:154
 msgid "Change Friend Nickname"
 msgstr "更改好友暱稱"
 
@@ -3673,7 +3675,7 @@ msgid "Change My Group Nickname"
 msgstr "更改我的群組暱稱"
 
 #: src/components/modals/BaseChangeNicknameModal.tsx:82
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:238
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:240
 #: src/components/modals/RenameChannelModal.tsx:58
 #: src/components/modals/UserProfileActionsSheet.tsx:225
 #: src/components/modals/UserProfileActionsSheet.tsx:225
@@ -3760,8 +3762,8 @@ msgstr "將語音區域改為 {0}。"
 msgid "channel"
 msgstr "頻道"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:483
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:549
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:497
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:563
 #: src/components/invites/InviteListItem.tsx:50
 #: src/components/webhooks/WebhookListItem.tsx:240
 #: src/constants/AuditLogConstants.tsx:236
@@ -3796,7 +3798,7 @@ msgid "Channel Debug"
 msgstr "頻道除錯"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:188
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:675
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:689
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:329
 msgid "Channel deleted"
 msgstr "頻道已刪除"
@@ -3806,11 +3808,11 @@ msgid "Channel Deleted"
 msgstr "頻道已刪除"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:273
-#: src/components/bottomsheets/DMBottomSheet.tsx:366
+#: src/components/bottomsheets/DMBottomSheet.tsx:368
 msgid "Channel ID copied"
 msgstr "頻道 ID 已複製"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:535
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:549
 msgid "Channel ID copied to clipboard"
 msgstr "頻道 ID 已複製到剪貼簿"
 
@@ -3878,9 +3880,9 @@ msgstr "頻道紀錄"
 msgid "Channel removed from favorites"
 msgstr "頻道已從最愛移除"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1092
-#: src/components/layout/ChannelItem.tsx:630
-#: src/components/modals/ChannelSettingsModal.tsx:105
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1116
+#: src/components/layout/ChannelItem.tsx:647
+#: src/components/modals/ChannelSettingsModal.tsx:113
 #: src/components/modals/components/DesktopChannelSettingsView.tsx:188
 msgid "Channel Settings"
 msgstr "頻道設定"
@@ -3947,7 +3949,7 @@ msgstr "查看我們的 <0>Bluesky (@fluxer.app)</0> 以獲得最新狀態。"
 msgid "Check out my custom theme!"
 msgstr "快看看我的自訂主題！"
 
-#: src/components/modals/tabs/ApplicationsTab/index.tsx:105
+#: src/components/modals/tabs/ApplicationsTab/index.tsx:109
 msgid "Check your connection and try again."
 msgstr "請檢查連線並重試。"
 
@@ -3969,8 +3971,8 @@ msgstr "核取方塊"
 msgid "Checking..."
 msgstr "檢查中..."
 
-#: src/components/pages/ReportPage.tsx:270
-#: src/components/pages/ReportPage.tsx:299
+#: src/components/pages/report/optionDescriptors.ts:51
+#: src/components/pages/report/optionDescriptors.ts:74
 #: src/constants/IARConstants.tsx:72
 #: src/constants/IARConstants.tsx:175
 msgid "Child Safety Concerns"
@@ -3983,6 +3985,10 @@ msgstr "簡體中文"
 #: src/utils/LocaleUtils.tsx:67
 msgid "Chinese (Traditional)"
 msgstr "繁體中文"
+
+#: src/components/pages/report/ReportBreadcrumbs.tsx:46
+msgid "Choose"
+msgstr "選擇"
 
 #: src/components/pages/OAuthAuthorizePage.tsx:898
 msgid "Choose a community"
@@ -4080,25 +4086,36 @@ msgstr "選擇您的個人資料強調色"
 
 #: src/components/channel/barriers/BarrierComponents.tsx:109
 #: src/components/channel/barriers/BarrierComponents.tsx:240
-#: src/components/layout/app-layout/nagbars/UnclaimedAccountNagbar.tsx:47
-#: src/components/modals/ClaimAccountModal.tsx:225
-#: src/components/modals/components/UnclaimedAccountAlert.tsx:34
+#: src/components/channel/dm/AddFriendForm.tsx:57
+#: src/components/layout/app-layout/nagbars/UnclaimedAccountNagbar.tsx:45
+#: src/components/modals/ClaimAccountModal.tsx:227
+#: src/components/modals/components/UnclaimedAccountAlert.tsx:32
+#: src/components/modals/GiftAcceptModal.tsx:170
 #: src/components/modals/tabs/AccountSecurityTab/SecurityTab.tsx:206
+#: src/components/modals/tabs/BetaCodesTab.tsx:297
+#: src/components/modals/tabs/GiftInventoryTab.tsx:242
 msgid "Claim Account"
 msgstr "認領帳戶"
 
-#: src/components/channel/GiftEmbed.tsx:98
-#: src/components/modals/GiftAcceptModal.tsx:154
+#: src/components/channel/GiftEmbed.tsx:109
+msgid "Claim Account to Redeem"
+msgstr "認領帳戶以兌換"
+
+#: src/components/channel/GiftEmbed.tsx:109
+#: src/components/modals/GiftAcceptModal.tsx:197
 #: src/components/pages/GiftLoginPage.tsx:155
 #: src/components/pages/GiftRegisterPage.tsx:42
 msgid "Claim Gift"
 msgstr "認領禮物"
 
-#: src/components/modals/ClaimAccountModal.tsx:141
+#: src/components/channel/dm/AddFriendForm.tsx:53
+#: src/components/modals/ClaimAccountModal.tsx:143
+#: src/components/modals/tabs/BetaCodesTab.tsx:293
+#: src/components/modals/tabs/GiftInventoryTab.tsx:238
 msgid "Claim your account"
 msgstr "認領您的帳戶"
 
-#: src/components/modals/ClaimAccountModal.tsx:146
+#: src/components/modals/ClaimAccountModal.tsx:148
 msgid "Claim your account by adding an email and password. We will send a verification code to confirm your email before finishing."
 msgstr "新增電子郵件與密碼來認領您的帳戶。完成前我們會寄發驗證碼以確認您的電子郵件。"
 
@@ -4106,11 +4123,68 @@ msgstr "新增電子郵件與密碼來認領您的帳戶。完成前我們會寄
 msgid "Claim your account to access security features like two-factor authentication and passkeys."
 msgstr "認領帳戶後即可使用雙因素驗證與通行碼等安全功能。"
 
+#: src/components/channel/ChannelHeader/CallButtons.tsx:85
+#: src/components/channel/ChannelHeader/CallButtons.tsx:155
+msgid "Claim your account to call"
+msgstr "認領您的帳號以進行通話"
+
 #: src/components/modals/tabs/MyProfileTab/UsernameSection.tsx:49
 msgid "Claim your account to change your FluxerTag"
 msgstr "認領帳戶以變更您的 FluxerTag"
 
-#: src/components/modals/GiftAcceptModal.tsx:145
+#: src/components/modals/tabs/ApplicationsTab/index.tsx:146
+msgid "Claim your account to create applications."
+msgstr "認領你的帳戶以創建應用程式。"
+
+#: src/components/modals/tabs/BetaCodesTab.tsx:294
+msgid "Claim your account to generate beta codes."
+msgstr "認領你的帳戶以生成測試代碼。"
+
+#: src/components/layout/ChannelItem.tsx:208
+#: src/components/layout/ChannelItem.tsx:382
+#: src/stores/voice/MediaEngineFacade.ts:537
+msgid "Claim your account to join this voice channel."
+msgstr "認領您的帳號以加入此語音頻道。"
+
+#: src/stores/voice/MediaEngineFacade.ts:170
+msgid "Claim your account to join voice channels you don't own."
+msgstr "認領您的帳號以加入您不擁有的語音頻道。"
+
+#: src/components/modals/components/plutonium/BottomCTASection.tsx:55
+#: src/components/modals/components/plutonium/GiftSection.tsx:61
+#: src/components/modals/components/plutonium/PricingSection.tsx:63
+#: src/components/modals/components/plutonium/VisionarySection.tsx:62
+#: src/components/modals/components/PlutoniumContent.tsx:99
+msgid "Claim your account to purchase Fluxer Plutonium."
+msgstr "認領你的帳戶以購買 Fluxer Plutonium。"
+
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:112
+msgid "Claim your account to purchase or redeem Fluxer Plutonium."
+msgstr "認領你的帳戶以購買或兌換 Fluxer Plutonium。"
+
+#: src/components/modals/tabs/GiftInventoryTab.tsx:239
+msgid "Claim your account to redeem or manage Plutonium gift codes."
+msgstr "認領你的帳戶以兌換或管理 Plutonium 禮品代碼。"
+
+#: src/components/channel/GiftEmbed.tsx:99
+#: src/components/modals/GiftAcceptModal.tsx:154
+msgid "Claim your account to redeem this gift."
+msgstr "認領你的帳戶以兌換此禮物。"
+
+#: src/components/channel/dm/AddFriendForm.tsx:54
+#: src/components/channel/dm/DMWelcomeSection.tsx:109
+#: src/components/modals/UserProfileModal.tsx:1289
+#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:65
+msgid "Claim your account to send friend requests."
+msgstr "認領你的帳戶以發送好友請求。"
+
+#: src/components/channel/ChannelHeader/CallButtons.tsx:54
+#: src/components/channel/ChannelHeader/CallButtons.tsx:124
+#: src/stores/voice/MediaEngineFacade.ts:179
+msgid "Claim your account to start or join 1:1 calls."
+msgstr "認領您的帳號以開始或加入一對一通話。"
+
+#: src/components/modals/GiftAcceptModal.tsx:188
 msgid "Claim your gift to activate your premium subscription!"
 msgstr "領取您的禮物以啟用高級訂閱！"
 
@@ -4164,8 +4238,8 @@ msgstr "清除權限"
 
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:420
 #: src/components/channel/MessageSearchBar/MessageSearchBar.tsx:1424
-#: src/components/channel/shared/PickerSearchInput.tsx:195
-#: src/components/channel/shared/PickerSearchInput.tsx:212
+#: src/components/channel/shared/PickerSearchInput.tsx:194
+#: src/components/channel/shared/PickerSearchInput.tsx:211
 #: src/components/modals/components/SettingsSearch.tsx:108
 msgid "Clear search"
 msgstr "清除搜尋"
@@ -4200,11 +4274,11 @@ msgstr "已清除貼圖描述。"
 msgid "Cleared the topic."
 msgstr "已清除主題。"
 
-#: src/components/modals/components/MobileSettingsView.tsx:297
+#: src/components/modals/components/MobileSettingsView.tsx:292
 msgid "Clearing subscriptions ensures the gateway stops sending messages to this installation."
 msgstr "清除訂閱可確保網關停止傳送訊息至此安裝。"
 
-#: src/components/modals/tabs/BetaCodesTab.tsx:366
+#: src/components/modals/tabs/BetaCodesTab.tsx:391
 msgid "Click \"Create Code\" to generate your first code."
 msgstr "點擊「建立代碼」以產生您的第一個代碼。"
 
@@ -4240,13 +4314,13 @@ msgstr "點擊以新增備註"
 msgid "Click to check and uncheck. Available in square and round styles."
 msgstr "點擊以勾選或取消。提供方形與圓形樣式。"
 
-#: src/components/channel/GiftEmbed.tsx:90
+#: src/components/channel/GiftEmbed.tsx:100
 msgid "Click to claim your gift!"
 msgstr "點擊以領取您的禮物！"
 
 #: src/components/invites/InviteListItem.tsx:184
 #: src/components/modals/components/ClientInfo.tsx:76
-#: src/components/modals/tabs/BetaCodesTab.tsx:172
+#: src/components/modals/tabs/BetaCodesTab.tsx:174
 msgid "Click to copy"
 msgstr "點擊以複製"
 
@@ -4328,12 +4402,12 @@ msgid "Close"
 msgstr "關閉"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:341
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:600
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:602
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1239
-#: src/components/bottomsheets/DMBottomSheet.tsx:302
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:614
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:616
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1263
 #: src/components/bottomsheets/DMBottomSheet.tsx:304
-#: src/components/bottomsheets/DMBottomSheet.tsx:557
+#: src/components/bottomsheets/DMBottomSheet.tsx:306
+#: src/components/bottomsheets/DMBottomSheet.tsx:560
 #: src/components/channel/dm/DMList.tsx:292
 #: src/components/uikit/ContextMenu/DMContextMenu.tsx:82
 #: src/components/uikit/ContextMenu/DMContextMenu.tsx:84
@@ -4358,7 +4432,8 @@ msgstr "煤炭主題"
 #: src/components/invites/InviteListItem.tsx:54
 #: src/components/modals/MfaTotpDisableModal.tsx:64
 #: src/components/modals/MfaTotpEnableModal.tsx:91
-#: src/components/modals/tabs/BetaCodesTab.tsx:51
+#: src/components/modals/tabs/BetaCodesTab.tsx:53
+#: src/components/pages/report/ReportBreadcrumbs.tsx:48
 msgid "Code"
 msgstr "程式碼"
 
@@ -4370,7 +4445,8 @@ msgstr "程式碼與等寬字型"
 msgid "Code Blocks"
 msgstr "程式碼區塊"
 
-#: src/components/modals/ClaimAccountModal.tsx:123
+#: src/components/modals/ClaimAccountModal.tsx:125
+#: src/components/pages/ReportPage.tsx:231
 msgid "Code resent"
 msgstr "驗證碼已重新發送"
 
@@ -4379,8 +4455,8 @@ msgid "Code sent"
 msgstr "驗證碼已寄出"
 
 #: src/components/invites/InviteListItem.tsx:180
-#: src/components/modals/tabs/BetaCodesTab.tsx:104
-#: src/components/modals/tabs/BetaCodesTab.tsx:168
+#: src/components/modals/tabs/BetaCodesTab.tsx:106
+#: src/components/modals/tabs/BetaCodesTab.tsx:170
 msgid "Code:"
 msgstr "代碼："
 
@@ -4472,7 +4548,7 @@ msgstr "社群已靜音"
 msgid "Community Debug"
 msgstr "社群偵錯"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1371
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1395
 #: src/components/uikit/ContextMenu/items/CategoryMenuItems.tsx:221
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:239
 msgid "Community Default"
@@ -4542,8 +4618,8 @@ msgstr "社群通知設定"
 msgid "Community organizes raids or harassment campaigns"
 msgstr "社群組織突襲或騷擾活動"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:237
-#: src/components/channel/MemberListItem.tsx:102
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:238
+#: src/components/channel/MemberListItem.tsx:109
 #: src/components/modals/guildTabs/GuildMembersTab.tsx:145
 #: src/components/modals/guildTabs/GuildMembersTab.tsx:197
 msgid "Community Owner"
@@ -4567,14 +4643,14 @@ msgstr "社群宣揚或促成非法活動"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:172
 #: src/components/modals/components/DesktopGuildSettingsView.tsx:204
-#: src/components/modals/GuildSettingsModal.tsx:168
+#: src/components/modals/GuildSettingsModal.tsx:173
 #: src/components/popouts/GuildHeaderPopout.tsx:187
 #: src/components/uikit/ContextMenu/items/GuildMenuItems.tsx:360
 msgid "Community Settings"
 msgstr "社群設定"
 
-#: src/components/layout/GuildLayout.tsx:301
-#: src/components/layout/GuildLayout.tsx:348
+#: src/components/layout/GuildLayout.tsx:306
+#: src/components/layout/GuildLayout.tsx:353
 msgid "Community temporarily unavailable"
 msgstr "社群暫時無法使用"
 
@@ -4782,8 +4858,8 @@ msgstr "已連線至語音"
 msgid "Connecting..."
 msgstr "正在連線…"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:273
-#: src/components/channel/channel-view/DMChannelView.tsx:323
+#: src/components/channel/channel-view/DMChannelView.tsx:274
+#: src/components/channel/channel-view/DMChannelView.tsx:324
 #: src/components/voice/CompactVoiceCallView.tsx:55
 msgid "Connecting…"
 msgstr "正在連線…"
@@ -4979,7 +5055,7 @@ msgstr "控制您的活動狀態"
 
 #: src/components/modals/shared/CopyLinkSection.tsx:61
 #: src/components/modals/tabs/ApplicationsTab/application-detail/ApplicationHeader.tsx:68
-#: src/components/modals/tabs/GiftInventoryTab.tsx:143
+#: src/components/modals/tabs/GiftInventoryTab.tsx:144
 msgid "Copied"
 msgstr "已複製"
 
@@ -5001,7 +5077,7 @@ msgstr "已複製！"
 #: src/components/modals/BackupCodesModal.tsx:82
 #: src/components/modals/shared/CopyLinkSection.tsx:61
 #: src/components/modals/tabs/ApplicationsTab/application-detail/OAuthBuilderSection.tsx:142
-#: src/components/modals/tabs/GiftInventoryTab.tsx:143
+#: src/components/modals/tabs/GiftInventoryTab.tsx:144
 msgid "Copy"
 msgstr "複製"
 
@@ -5017,7 +5093,7 @@ msgstr "複製音訊"
 msgid "Copy authorize URL"
 msgstr "複製授權 URL"
 
-#: src/components/modals/tabs/BetaCodesTab.tsx:178
+#: src/components/modals/tabs/BetaCodesTab.tsx:180
 msgid "Copy beta code"
 msgstr "複製測試代碼"
 
@@ -5028,8 +5104,8 @@ msgstr "複製類別 ID"
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:320
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:347
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:433
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1293
-#: src/components/bottomsheets/DMBottomSheet.tsx:577
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1317
+#: src/components/bottomsheets/DMBottomSheet.tsx:580
 #: src/components/channel/dm/DMList.tsx:271
 #: src/components/channel/dm/DMList.tsx:298
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:362
@@ -5090,7 +5166,7 @@ msgstr "複製圖片"
 msgid "Copy invite link"
 msgstr "複製邀請連結"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1154
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1178
 #: src/components/modals/tabs/ComponentGalleryTab/ButtonsTab.tsx:182
 #: src/components/modals/tabs/ComponentGalleryTab/index.tsx:100
 #: src/components/modals/tabs/ComponentGalleryTab/Inline.tsx:95
@@ -5131,15 +5207,15 @@ msgstr "複製貼圖 ID"
 msgid "Copy Text"
 msgstr "複製文字"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1285
-#: src/components/bottomsheets/DMBottomSheet.tsx:570
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1309
+#: src/components/bottomsheets/DMBottomSheet.tsx:573
 #: src/components/bottomsheets/VoiceParticipantBottomSheet.tsx:370
 #: src/components/modals/guildTabs/BannedUserActionsSheet.tsx:74
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:358
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:361
 #: src/components/modals/tabs/BlockedUsersTab.tsx:107
 #: src/components/modals/UserProfileActionsSheet.tsx:213
 #: src/components/modals/UserProfileModal.tsx:1130
-#: src/components/popouts/UserAreaPopout.tsx:507
+#: src/components/popouts/UserAreaPopout.tsx:509
 #: src/components/profile/ProfileCard/ProfileCardActions.tsx:60
 #: src/components/uikit/ContextMenu/items/CopyMenuItems.tsx:42
 msgid "Copy User ID"
@@ -5175,7 +5251,7 @@ msgstr "倒數計時器"
 msgid "Country"
 msgstr "國家"
 
-#: src/components/pages/ReportPage.tsx:928
+#: src/components/pages/report/ReportStepDetails.tsx:205
 msgid "Country of Residence"
 msgstr "居住國家"
 
@@ -5207,7 +5283,7 @@ msgid "Create a new community or join an existing one."
 msgstr "建立新社群或加入現有社群。"
 
 #. placeholder {0}: recipient.username
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:905
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:937
 msgid "Create a new group with {0}"
 msgstr "與 {0} 建立新群組"
 
@@ -5239,7 +5315,7 @@ msgstr "建立帳號"
 msgid "Create an account to claim your gift"
 msgstr "建立帳號以領取禮物"
 
-#: src/components/modals/tabs/ApplicationsTab/index.tsx:138
+#: src/components/modals/tabs/ApplicationsTab/index.tsx:142
 msgid "Create and manage applications and bots for your account."
 msgstr "為你的帳號建立與管理應用程式和機器人。"
 
@@ -5248,7 +5324,8 @@ msgid "Create and share custom emoji and sticker packs with Fluxer Plutonium."
 msgstr "透過 Fluxer Plutonium 建立與分享自訂表情符號與貼圖包。"
 
 #: src/components/modals/tabs/ApplicationsTab/ApplicationCreateModal.tsx:87
-#: src/components/modals/tabs/ApplicationsTab/index.tsx:142
+#: src/components/modals/tabs/ApplicationsTab/index.tsx:149
+#: src/components/modals/tabs/ApplicationsTab/index.tsx:155
 msgid "Create Application"
 msgstr "建立應用程式"
 
@@ -5267,7 +5344,7 @@ msgid "Create Category"
 msgstr "建立分類"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:180
-#: src/components/layout/ChannelItem.tsx:607
+#: src/components/layout/ChannelItem.tsx:624
 #: src/components/modals/ChannelCreateModal.tsx:58
 #: src/components/modals/ChannelCreateModal.tsx:103
 #: src/components/popouts/GuildHeaderPopout.tsx:194
@@ -5276,8 +5353,8 @@ msgstr "建立分類"
 msgid "Create Channel"
 msgstr "建立頻道"
 
-#: src/components/modals/tabs/BetaCodesTab.tsx:326
-#: src/components/modals/tabs/BetaCodesTab.tsx:369
+#: src/components/modals/tabs/BetaCodesTab.tsx:351
+#: src/components/modals/tabs/BetaCodesTab.tsx:394
 msgid "Create Code"
 msgstr "建立代碼"
 
@@ -5329,7 +5406,7 @@ msgstr "建立新帳號"
 msgid "Create new group"
 msgstr "建立新群組"
 
-#: src/components/modals/InviteModal.tsx:339
+#: src/components/modals/InviteModal.tsx:336
 msgid "Create New Link"
 msgstr "建立新連結"
 
@@ -5373,7 +5450,7 @@ msgid "Create, edit, or delete webhooks."
 msgstr "建立、編輯或刪除 Webhook。"
 
 #: src/components/invites/InviteListItem.tsx:59
-#: src/components/modals/tabs/BetaCodesTab.tsx:57
+#: src/components/modals/tabs/BetaCodesTab.tsx:59
 msgid "Created"
 msgstr "已建立"
 
@@ -5390,7 +5467,7 @@ msgstr "建立於 {createdAt}"
 #. placeholder {0}: invite.pack.creator.username
 #. placeholder {0}: pack.creator.username
 #: src/components/auth/InviteHeader.tsx:158
-#: src/components/channel/InviteEmbed.tsx:218
+#: src/components/channel/InviteEmbed.tsx:220
 #: src/components/modals/InviteAcceptModal.tsx:152
 msgid "Created by {0}"
 msgstr "由 {0} 建立"
@@ -5427,8 +5504,8 @@ msgid "Created with name {newLabel}."
 msgstr "已創建名稱為 {newLabel}。"
 
 #: src/components/invites/InviteListItem.tsx:207
-#: src/components/modals/tabs/BetaCodesTab.tsx:135
-#: src/components/modals/tabs/BetaCodesTab.tsx:212
+#: src/components/modals/tabs/BetaCodesTab.tsx:137
+#: src/components/modals/tabs/BetaCodesTab.tsx:214
 msgid "Created:"
 msgstr "建立時間："
 
@@ -5440,7 +5517,7 @@ msgstr "創意腦力聯盟"
 msgid "Creative Writing Club"
 msgstr "創意寫作社"
 
-#: src/components/pages/ReportPage.tsx:314
+#: src/components/pages/report/optionDescriptors.ts:86
 msgid "Croatia"
 msgstr "克羅埃西亞"
 
@@ -5519,8 +5596,8 @@ msgid "Currently stuck in 1885, appearing offline"
 msgstr "目前卡在 1885 年，顯示離線"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:461
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1023
-#: src/components/bottomsheets/DMBottomSheet.tsx:605
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1047
+#: src/components/bottomsheets/DMBottomSheet.tsx:608
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:305
 msgid "Currently: {mutedText}"
 msgstr "目前狀態：{mutedText}"
@@ -5665,7 +5742,7 @@ msgstr "為各個社群自訂頭像、橫幅、強調色與自我介紹需要 Pl
 msgid "Cut"
 msgstr "剪下"
 
-#: src/components/pages/ReportPage.tsx:315
+#: src/components/pages/report/optionDescriptors.ts:87
 msgid "Cyprus"
 msgstr "塞浦路斯"
 
@@ -5673,7 +5750,7 @@ msgstr "塞浦路斯"
 msgid "Czech"
 msgstr "捷克語"
 
-#: src/components/pages/ReportPage.tsx:316
+#: src/components/pages/report/optionDescriptors.ts:88
 msgid "Czech Republic"
 msgstr "捷克共和國"
 
@@ -5746,9 +5823,9 @@ msgstr "日期格式"
 
 #: src/components/auth/AuthMinimalRegisterFormCore.tsx:93
 #: src/components/auth/AuthRegisterFormCore.tsx:139
-#: src/components/auth/DateOfBirthField.tsx:90
-#: src/components/auth/DateOfBirthField.tsx:124
-#: src/components/auth/DateOfBirthField.tsx:292
+#: src/components/auth/DateOfBirthField.tsx:87
+#: src/components/auth/DateOfBirthField.tsx:121
+#: src/components/auth/DateOfBirthField.tsx:289
 #: src/components/auth/MockMinimalRegisterForm.tsx:107
 msgid "Date of birth"
 msgstr "出生日期"
@@ -5757,8 +5834,7 @@ msgstr "出生日期"
 msgid "Date Options"
 msgstr "日期選項"
 
-#: src/components/auth/DateOfBirthField.tsx:88
-#: src/components/auth/DateOfBirthField.tsx:155
+#: src/components/auth/DateOfBirthField.tsx:152
 #: src/components/auth/MockMinimalRegisterForm.tsx:73
 msgid "Day"
 msgstr "日"
@@ -5817,11 +5893,11 @@ msgstr "取消授權"
 msgid "Deauthorize Application"
 msgstr "取消應用程式授權"
 
-#: src/components/modals/components/MobileSettingsView.tsx:369
+#: src/components/modals/components/MobileSettingsView.tsx:364
 msgid "Debug"
 msgstr "除錯"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1267
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1291
 #: src/components/uikit/ContextMenu/items/DebugMenuItems.tsx:71
 msgid "Debug Channel"
 msgstr "除錯頻道"
@@ -5844,7 +5920,7 @@ msgstr "除錯成員"
 msgid "Debug Message"
 msgstr "除錯訊息"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1275
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1299
 #: src/components/uikit/ContextMenu/items/DebugMenuItems.tsx:53
 msgid "Debug User"
 msgstr "除錯使用者"
@@ -5905,8 +5981,8 @@ msgstr "行動裝置上預設關閉以節省電力與資料用量。"
 #: src/actions/MessageActionCreators.tsx:394
 #: src/components/channel/embeds/media/EmbedAudio.tsx:227
 #: src/components/channel/embeds/media/MediaContainer.tsx:115
-#: src/components/channel/Messages.tsx:444
-#: src/components/channel/Messages.tsx:524
+#: src/components/channel/Messages.tsx:442
+#: src/components/channel/Messages.tsx:522
 #: src/components/channel/MobileMemesPicker.tsx:546
 #: src/components/channel/pickers/memes/MemeGridItem.tsx:120
 #: src/components/emojis/EmojiListItem.tsx:189
@@ -5923,7 +5999,7 @@ msgstr "行動裝置上預設關閉以節省電力與資料用量。"
 msgid "Delete"
 msgstr "刪除"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:666
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:680
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:320
 msgid "Delete {channelType}"
 msgstr "刪除 {channelType}"
@@ -5987,8 +6063,8 @@ msgstr "刪除分類"
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:179
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:181
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:421
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:668
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1224
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:682
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1248
 #: src/components/modals/components/DesktopChannelSettingsView.tsx:176
 #: src/components/modals/components/MobileChannelSettingsView.tsx:85
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:322
@@ -6021,8 +6097,8 @@ msgstr "刪除媒體"
 #: src/components/channel/MessageActionBar.tsx:804
 #: src/components/channel/messageActionMenu.tsx:156
 #: src/components/channel/messageActionMenu.tsx:193
-#: src/components/channel/Messages.tsx:441
-#: src/components/channel/Messages.tsx:521
+#: src/components/channel/Messages.tsx:439
+#: src/components/channel/Messages.tsx:519
 #: src/components/uikit/ContextMenu/items/MessageMenuItems.tsx:273
 msgid "Delete Message"
 msgstr "刪除訊息"
@@ -6114,7 +6190,7 @@ msgstr "拒絕了 {0} 並解除對 {1} 的拒絕。"
 msgid "Denied {0}."
 msgstr "已拒絕 {0}。"
 
-#: src/components/pages/ReportPage.tsx:317
+#: src/components/pages/report/optionDescriptors.ts:89
 msgid "Denmark"
 msgstr "丹麥"
 
@@ -6143,7 +6219,7 @@ msgstr "描述此貼圖"
 msgid "Describe what expressions are inside this pack."
 msgstr "描述此貼圖包有哪些表情。"
 
-#: src/components/pages/ReportPage.tsx:946
+#: src/components/pages/report/ReportStepDetails.tsx:225
 msgid "Describe what makes the content illegal"
 msgstr "描述使該內容非法的原因"
 
@@ -6204,6 +6280,10 @@ msgstr "分離橫幅"
 #: src/components/modals/guildTabs/GuildAuditLogTab.utils.tsx:121
 msgid "details"
 msgstr "詳細"
+
+#: src/components/pages/report/ReportBreadcrumbs.tsx:49
+msgid "Details"
+msgstr "詳細資訊"
 
 #: src/components/modals/AddGuildModal.tsx:150
 msgid "Dev Den"
@@ -6274,7 +6354,7 @@ msgstr "不同尺寸與成員數"
 msgid "Direct message"
 msgstr "私訊"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:477
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:491
 #: src/components/modals/shared/RecipientList.tsx:200
 msgid "Direct Message"
 msgstr "私訊"
@@ -6516,8 +6596,8 @@ msgstr "討論或宣傳非法活動"
 #: src/components/layout/app-layout/nagbars/PremiumGracePeriodNagbar.tsx:79
 #: src/components/layout/app-layout/nagbars/PremiumOnboardingNagbar.tsx:57
 #: src/components/layout/GuildLayout.tsx:106
-#: src/components/modals/GiftAcceptModal.tsx:98
-#: src/components/modals/GiftAcceptModal.tsx:124
+#: src/components/modals/GiftAcceptModal.tsx:105
+#: src/components/modals/GiftAcceptModal.tsx:131
 #: src/components/modals/RequiredActionModal.tsx:475
 msgid "Dismiss"
 msgstr "忽略"
@@ -6562,8 +6642,8 @@ msgstr "將角色成員分開顯示。"
 msgid "Display separator lines between different groups of messages for better visual distinction."
 msgstr "在不同訊息群組間顯示分隔線，以強化視覺區分。"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:613
-#: src/components/bottomsheets/DMBottomSheet.tsx:315
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:627
+#: src/components/bottomsheets/DMBottomSheet.tsx:317
 #: src/components/uikit/ContextMenu/DMContextMenu.tsx:97
 #: src/components/uikit/ContextMenu/UserContextMenu.tsx:168
 msgid "DM closed"
@@ -6581,7 +6661,7 @@ msgstr "私訊預覽"
 msgid "DM Notifications"
 msgstr "私訊通知"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1092
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1116
 msgid "DM Settings"
 msgstr "私訊設定"
 
@@ -6662,6 +6742,7 @@ msgstr "在頻道列表中不要顯示輸入指示器"
 #: src/components/keybinds/KeybindRecorder.tsx:220
 #: src/components/modals/GuildNotificationSettingsModal.tsx:347
 #: src/components/modals/GuildPrivacySettingsModal.tsx:68
+#: src/components/pages/report/ReportBreadcrumbs.tsx:50
 #: src/components/search/HasFilterSheet.tsx:124
 #: src/components/search/UserFilterSheet.tsx:149
 msgid "Done"
@@ -6843,13 +6924,13 @@ msgstr "編輯附件"
 msgid "Edit attachment form"
 msgstr "編輯附件表單"
 
-#: src/components/layout/ChannelItem.tsx:630
+#: src/components/layout/ChannelItem.tsx:647
 #: src/components/uikit/ContextMenu/items/CategoryMenuItems.tsx:299
 msgid "Edit Category"
 msgstr "編輯分類"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:416
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1218
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1242
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:300
 msgid "Edit Channel"
 msgstr "編輯頻道"
@@ -6869,8 +6950,8 @@ msgid "Edit global settings like name, description, and icon."
 msgstr "編輯像名稱、描述與圖示等全域設定。"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:284
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1178
-#: src/components/bottomsheets/DMBottomSheet.tsx:461
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1202
+#: src/components/bottomsheets/DMBottomSheet.tsx:463
 #: src/components/channel/dm/DMList.tsx:237
 #: src/components/channel/dm/GroupDMWelcomeSection.tsx:74
 #: src/components/modals/EditGroupBottomSheet.tsx:177
@@ -6883,7 +6964,7 @@ msgstr "編輯群組"
 msgid "Edit group form"
 msgstr "編輯群組表單"
 
-#: src/components/modals/InviteModal.tsx:327
+#: src/components/modals/InviteModal.tsx:324
 msgid "Edit invite link"
 msgstr "編輯邀請連結"
 
@@ -6910,10 +6991,10 @@ msgstr "編輯筆記"
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "編輯此頻道中角色與成員的覆寫權限。"
 
-#: src/components/modals/UserProfileMobileSheet.tsx:486
-#: src/components/modals/UserProfileModal.tsx:1205
+#: src/components/modals/UserProfileMobileSheet.tsx:490
+#: src/components/modals/UserProfileModal.tsx:1206
 #: src/components/pages/YouPage.tsx:123
-#: src/components/popouts/UserAreaPopout.tsx:519
+#: src/components/popouts/UserAreaPopout.tsx:521
 #: src/components/popouts/UserProfilePopout.tsx:299
 msgid "Edit Profile"
 msgstr "編輯個人檔案"
@@ -6966,19 +7047,20 @@ msgstr "正在編輯排程訊息"
 #: src/components/auth/AuthLoginCore/AuthLoginEmailPasswordForm.tsx:78
 #: src/components/auth/AuthRegisterFormCore.tsx:133
 #: src/components/auth/AuthRegisterFormCore.tsx:159
-#: src/components/modals/ClaimAccountModal.tsx:157
+#: src/components/modals/ClaimAccountModal.tsx:159
 #: src/components/modals/RequiredActionModal.tsx:185
 #: src/components/modals/tabs/DeveloperOptionsTab/MockingTab.tsx:210
 #: src/components/modals/tabs/DeveloperOptionsTab/MockingTab.tsx:241
 #: src/components/modals/utils/settingsSearchIndex.ts:94
 #: src/components/pages/ForgotPasswordPage.tsx:97
+#: src/components/pages/report/ReportBreadcrumbs.tsx:47
 msgid "Email"
 msgstr "電子郵件"
 
 #: src/components/modals/tabs/AccountSecurityTab/AccountTab.tsx:65
 #: src/components/modals/tabs/AccountSecurityTab/AccountTab.tsx:91
 #: src/components/modals/tabs/ComponentGalleryTab/InputsTab.tsx:107
-#: src/components/pages/ReportPage.tsx:662
+#: src/components/pages/report/ReportStepEmail.tsx:76
 msgid "Email Address"
 msgstr "電子郵件地址"
 
@@ -7018,10 +7100,6 @@ msgstr "需驗證電子郵件"
 #: src/components/modals/RequiredActionModal.tsx:131
 msgid "Email Verification Required"
 msgstr "需要驗證電子郵件"
-
-#: src/components/pages/ReportPage.tsx:809
-msgid "Email verified"
-msgstr "電子郵件已驗證"
 
 #: src/components/modals/tabs/DeveloperOptionsTab/AccountPremiumTab.tsx:56
 msgid "Email Verified Override"
@@ -7108,7 +7186,7 @@ msgid "Emoji names must be at least 2 characters long and can only contain alpha
 msgstr "表情符號名稱最少需 2 個字元，只能使用英數字與底線。允許的檔案類型：JPEG、PNG、WebP、GIF。我們會壓縮圖像至 128x128 像素。每個表情符號最大 {0} KB。"
 
 #: src/components/auth/InviteHeader.tsx:140
-#: src/components/channel/InviteEmbed.tsx:197
+#: src/components/channel/InviteEmbed.tsx:199
 #: src/components/modals/InviteAcceptModal.tsx:142
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:70
 msgid "Emoji pack"
@@ -7140,7 +7218,7 @@ msgstr "已更新表情符號"
 
 #: src/components/channel/AutocompleteEmoji.tsx:67
 #: src/components/channel/textarea/TextareaButtons.tsx:150
-#: src/components/modals/ExpressionPickerSheet.tsx:106
+#: src/components/modals/ExpressionPickerSheet.tsx:93
 #: src/components/popouts/ExpressionPickerPopout.tsx:95
 msgid "Emojis"
 msgstr "表情符號"
@@ -7343,11 +7421,11 @@ msgstr "英文"
 msgid "English (US)"
 msgstr "英文（美式）"
 
-#: src/components/pages/ReportPage.tsx:429
+#: src/components/pages/ReportPage.tsx:254
 msgid "Enter a code in the format ABCD-1234."
 msgstr "請輸入格式為 ABCD-1234 的代碼."
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:235
+#: src/components/modals/tabs/GiftInventoryTab.tsx:258
 msgid "Enter a gift code to redeem Plutonium for your account."
 msgstr "輸入禮物代碼以兌換帳戶的 Plutonium。"
 
@@ -7371,7 +7449,7 @@ msgstr "輸入代碼"
 msgid "Enter fullscreen"
 msgstr "進入全螢幕"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:255
+#: src/components/modals/tabs/GiftInventoryTab.tsx:278
 msgid "Enter gift code..."
 msgstr "輸入禮物代碼..."
 
@@ -7414,7 +7492,7 @@ msgstr "輸入傳送至手機的六位數代碼。"
 msgid "Enter the API endpoint of the Fluxer instance you want to connect to."
 msgstr "輸入要連線的 Fluxer 實例 API 端點。"
 
-#: src/components/pages/ReportPage.tsx:424
+#: src/components/pages/ReportPage.tsx:249
 msgid "Enter the code before continuing."
 msgstr "請先輸入代碼再繼續。"
 
@@ -7430,7 +7508,7 @@ msgstr "輸入寄到目前電子郵件的代碼。"
 msgid "Enter the code we emailed to your new address."
 msgstr "輸入我們寄到新信箱的代碼。"
 
-#: src/components/modals/ClaimAccountModal.tsx:190
+#: src/components/modals/ClaimAccountModal.tsx:192
 msgid "Enter the code we sent to your email to verify it. Your password will be set once the code is confirmed."
 msgstr "輸入我們寄到信箱的驗證代碼。代碼確認後即設定密碼。"
 
@@ -7454,13 +7532,9 @@ msgstr "按 Enter 可<0><1>儲存</1></0>"
 msgid "Enter username"
 msgstr "輸入使用者名稱"
 
-#: src/components/pages/ReportPage.tsx:701
-msgid "Enter Verification Code"
+#: src/components/pages/report/ReportStepVerification.tsx:64
+msgid "Enter verification code"
 msgstr "輸入驗證碼"
-
-#: src/components/pages/ReportPage.tsx:638
-msgid "Enter Your Email"
-msgstr "輸入你的電子郵件"
 
 #: src/components/pages/ForgotPasswordPage.tsx:87
 msgid "Enter your email address and we'll send you a link to reset your password."
@@ -7500,7 +7574,7 @@ msgid "Entrance sound uploaded successfully"
 msgstr "進場音效上傳成功"
 
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:297
-#: src/components/channel/ChannelSearchResults.tsx:691
+#: src/components/channel/ChannelSearchResults.tsx:660
 #: src/components/modals/tabs/ComponentGalleryTab/OverlaysTab.tsx:88
 msgid "Error"
 msgstr "錯誤"
@@ -7522,7 +7596,7 @@ msgstr "按 Esc 可離開鍵盤模式"
 msgid "escape to <0><1>cancel</1></0>"
 msgstr "按 Esc 可<0><1>取消</1></0>"
 
-#: src/components/pages/ReportPage.tsx:318
+#: src/components/pages/report/optionDescriptors.ts:90
 msgid "Estonia"
 msgstr "愛沙尼亞"
 
@@ -7561,7 +7635,7 @@ msgstr "排除連結、內嵌或檔案"
 msgid "exclude user"
 msgstr "排除使用者"
 
-#: src/components/modals/components/plutonium/VisionarySection.tsx:95
+#: src/components/modals/components/plutonium/VisionarySection.tsx:104
 msgid "Exclusive community"
 msgstr "專屬社群"
 
@@ -7593,12 +7667,12 @@ msgstr "展開分類"
 msgid "Expiration"
 msgstr "到期"
 
-#: src/components/modals/InviteModal.tsx:281
+#: src/components/modals/InviteModal.tsx:278
 msgid "Expire after"
 msgstr "在以下時間後到期"
 
 #: src/components/accounts/AccountRow.tsx:162
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:114
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:133
 #: src/components/modals/GroupInvitesBottomSheet.tsx:104
 msgid "Expired"
 msgstr "已到期"
@@ -7675,7 +7749,7 @@ msgstr "表情符號包"
 msgid "Expression Packs are a Plutonium feature"
 msgstr "表情符號包為 Plutonium 功能"
 
-#: src/components/modals/ExpressionPickerSheet.tsx:232
+#: src/components/modals/ExpressionPickerSheet.tsx:219
 #: src/components/popouts/ExpressionPickerPopout.tsx:193
 msgid "Expression picker categories"
 msgstr "表情選擇器分類"
@@ -7700,7 +7774,7 @@ msgstr "外部連結可能有危險，請小心。"
 msgid "Extra Large"
 msgstr "超大"
 
-#: src/components/pages/ReportPage.tsx:297
+#: src/components/pages/report/optionDescriptors.ts:72
 #: src/constants/IARConstants.tsx:165
 msgid "Extremist Community"
 msgstr "極端主義社群"
@@ -7749,7 +7823,7 @@ msgstr "無法複製邀請連結"
 msgid "Failed to copy to clipboard"
 msgstr "複製到剪貼簿失敗"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:79
+#: src/components/modals/tabs/GiftInventoryTab.tsx:80
 msgid "Failed to copy URL"
 msgstr "複製連結失敗"
 
@@ -7794,7 +7868,7 @@ msgid "Failed to delete category"
 msgstr "刪除分類失敗"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:194
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:681
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:695
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:335
 msgid "Failed to delete channel"
 msgstr "刪除頻道失敗"
@@ -7868,7 +7942,7 @@ msgstr "載入封鎖名單失敗，請再試一次。"
 msgid "Failed to load emojis"
 msgstr "載入表情符號失敗"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:296
+#: src/components/modals/tabs/GiftInventoryTab.tsx:319
 msgid "Failed to load gift inventory"
 msgstr "載入禮物庫存失敗"
 
@@ -7894,8 +7968,8 @@ msgstr "載入貼圖失敗"
 msgid "Failed to load vanity URL. Please try again."
 msgstr "載入自訂網址失敗，請再試一次。"
 
-#: src/components/modals/components/PlutoniumContent.tsx:146
-#: src/components/modals/components/PlutoniumContent.tsx:272
+#: src/components/modals/components/PlutoniumContent.tsx:157
+#: src/components/modals/components/PlutoniumContent.tsx:289
 msgid "Failed to load Visionary information. Please try again later."
 msgstr "載入 Visionary 資訊失敗，請稍後再試。"
 
@@ -7916,19 +7990,19 @@ msgstr "載入你的社群失敗。"
 msgid "Failed to open customer portal. Please try again."
 msgstr "開啟客戶入口失敗，請再試一次。"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:572
-#: src/components/bottomsheets/DMBottomSheet.tsx:153
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:586
+#: src/components/bottomsheets/DMBottomSheet.tsx:155
 #: src/components/channel/dm/DMList.tsx:216
 #: src/components/uikit/ContextMenu/DMContextMenu.tsx:121
 msgid "Failed to pin DM"
 msgstr "置頂私訊失敗"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:572
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:586
 #: src/components/uikit/ContextMenu/GroupDMContextMenu.tsx:101
 msgid "Failed to pin group"
 msgstr "置頂群組失敗"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:153
+#: src/components/bottomsheets/DMBottomSheet.tsx:155
 msgid "Failed to pin group DM"
 msgstr "無法固定群組私訊"
 
@@ -7957,7 +8031,7 @@ msgstr "無法連接實例 ({status})"
 msgid "Failed to reactivate subscription. Please try again."
 msgstr "重新啟用訂閱失敗，請再試一次。"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:94
+#: src/components/modals/tabs/GiftInventoryTab.tsx:95
 msgid "Failed to redeem gift"
 msgstr "兌換禮物失敗"
 
@@ -7998,6 +8072,10 @@ msgstr "無法從群組移除"
 msgid "Failed to remove timeout. Please try again."
 msgstr "無法移除限時。請再試一次。"
 
+#: src/components/pages/ReportPage.tsx:236
+msgid "Failed to resend code. Please try again."
+msgstr "重新發送代碼失敗。請再試一次。"
+
 #: src/components/modals/guildTabs/GuildRolesTab.tsx:674
 msgid "Failed to reset hoist order"
 msgstr "無法重設置頂順序"
@@ -8018,7 +8096,7 @@ msgstr "無法旋轉。請再試一次。"
 msgid "Failed to send friend request. Please try again."
 msgstr "無法發送好友邀請。請再試一次。"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:262
+#: src/components/bottomsheets/DMBottomSheet.tsx:264
 #: src/components/modals/InviteModal.tsx:176
 #: src/components/uikit/ContextMenu/items/InviteMenuItems.tsx:111
 msgid "Failed to send invite"
@@ -8037,7 +8115,7 @@ msgstr "無法發送簡訊驗證碼。請再試一次。"
 msgid "Failed to send theme"
 msgstr "無法發送主題"
 
-#: src/components/pages/ReportPage.tsx:412
+#: src/components/pages/ReportPage.tsx:234
 msgid "Failed to send verification code. Please try again."
 msgstr "無法發送驗證碼。請再試一次。"
 
@@ -8084,19 +8162,19 @@ msgstr "無法轉移擁有權。請再試一次。"
 msgid "Failed to unblock user. Please try again."
 msgstr "無法解除封鎖使用者。請再試一次。"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:589
-#: src/components/bottomsheets/DMBottomSheet.tsx:170
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:603
+#: src/components/bottomsheets/DMBottomSheet.tsx:172
 #: src/components/channel/dm/DMList.tsx:226
 #: src/components/uikit/ContextMenu/DMContextMenu.tsx:138
 msgid "Failed to unpin DM"
 msgstr "無法取消置頂私訊"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:589
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:603
 #: src/components/uikit/ContextMenu/GroupDMContextMenu.tsx:118
 msgid "Failed to unpin group"
 msgstr "無法取消置頂群組"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:170
+#: src/components/bottomsheets/DMBottomSheet.tsx:172
 msgid "Failed to unpin group DM"
 msgstr "解除群組私訊固定失敗"
 
@@ -8298,7 +8376,7 @@ msgstr "找到完美貼圖"
 msgid "Fine-tune core colors and fonts for this app. Changes here are stored as custom CSS overrides and sync with the editor below."
 msgstr "微調本應用程式的核心色彩與字型。此處變更會儲存為自訂 CSS 覆寫，並與下方編輯器同步。"
 
-#: src/components/pages/ReportPage.tsx:319
+#: src/components/pages/report/optionDescriptors.ts:91
 msgid "Finland"
 msgstr "芬蘭"
 
@@ -8306,7 +8384,7 @@ msgstr "芬蘭"
 msgid "Finnish"
 msgstr "芬蘭語"
 
-#: src/components/pages/ReportPage.tsx:923
+#: src/components/pages/report/ReportStepDetails.tsx:199
 msgid "First and last name"
 msgstr "名字與姓氏"
 
@@ -8419,7 +8497,7 @@ msgstr "Fluxer 需要監控鍵盤與滑鼠輸入的權限，才能讓 <0>按下�
 msgid "Fluxer Partner"
 msgstr "Fluxer 合作夥伴"
 
-#: src/components/modals/components/PlutoniumContent.tsx:182
+#: src/components/modals/components/PlutoniumContent.tsx:193
 #: src/components/modals/PremiumModal.tsx:34
 #: src/components/modals/utils/settingsConstants.tsx:147
 #: src/components/popouts/UserProfileBadges.tsx:99
@@ -8483,7 +8561,7 @@ msgstr "美食與飲品"
 msgid "Foodie Friends"
 msgstr "美食好友"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:660
+#: src/components/bottomsheets/DMBottomSheet.tsx:663
 msgid "For 1 hour"
 msgstr "1小時"
 
@@ -8497,7 +8575,7 @@ msgstr "1小時"
 msgid "For 1 Hour"
 msgstr "1 小時"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:659
+#: src/components/bottomsheets/DMBottomSheet.tsx:662
 #: src/components/popouts/UserAreaPopout.tsx:77
 msgid "For 15 minutes"
 msgstr "15 分鐘"
@@ -8511,7 +8589,7 @@ msgstr "15 分鐘"
 msgid "For 15 Minutes"
 msgstr "15 分鐘"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:663
+#: src/components/bottomsheets/DMBottomSheet.tsx:666
 msgid "For 24 hours"
 msgstr "24小時"
 
@@ -8529,7 +8607,7 @@ msgstr "24 小時"
 msgid "For 3 days"
 msgstr "3 天"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:661
+#: src/components/bottomsheets/DMBottomSheet.tsx:664
 msgid "For 3 hours"
 msgstr "3小時"
 
@@ -8542,7 +8620,7 @@ msgstr "3小時"
 msgid "For 3 Hours"
 msgstr "3 小時"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:662
+#: src/components/bottomsheets/DMBottomSheet.tsx:665
 msgid "For 8 hours"
 msgstr "8小時"
 
@@ -8560,7 +8638,7 @@ msgstr "8 小時"
 msgid "For British eyes only..."
 msgstr "僅供英國人觀看..."
 
-#: src/components/modals/components/plutonium/PricingSection.tsx:62
+#: src/components/modals/components/plutonium/PricingSection.tsx:68
 msgid "For Me"
 msgstr "為我"
 
@@ -8664,15 +8742,15 @@ msgstr "強制在所有頻道啟用慢速模式"
 msgid "Forever"
 msgstr "永久"
 
-#: src/components/modals/components/MobileSettingsView.tsx:300
+#: src/components/modals/components/MobileSettingsView.tsx:295
 msgid "Forget"
 msgstr "忘記"
 
-#: src/components/modals/components/MobileSettingsView.tsx:327
+#: src/components/modals/components/MobileSettingsView.tsx:322
 msgid "Forget Push Subscriptions"
 msgstr "取消推播訂閱"
 
-#: src/components/modals/components/MobileSettingsView.tsx:294
+#: src/components/modals/components/MobileSettingsView.tsx:289
 msgid "Forget push subscriptions?"
 msgstr "要取消推播訂閱嗎？"
 
@@ -8729,7 +8807,7 @@ msgstr "畫面更新率"
 msgid "Frame rates above 30 fps require Plutonium"
 msgstr "畫面更新率超過 30 fps 需要 Plutonium"
 
-#: src/components/pages/ReportPage.tsx:320
+#: src/components/pages/report/optionDescriptors.ts:92
 msgid "France"
 msgstr "法國"
 
@@ -8745,8 +8823,8 @@ msgstr "免費使用者（未購買）"
 msgid "Free User (With Purchase History)"
 msgstr "免費使用者（有購買紀錄）"
 
-#: src/components/modals/components/PlutoniumContent.tsx:163
-#: src/components/modals/components/PlutoniumContent.tsx:289
+#: src/components/modals/components/PlutoniumContent.tsx:174
+#: src/components/modals/components/PlutoniumContent.tsx:308
 msgid "Free vs Plutonium"
 msgstr "免費版 vs Plutonium"
 
@@ -8773,12 +8851,13 @@ msgstr "好友邀請"
 msgid "Friend request sent"
 msgstr "已發送好友邀請"
 
-#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:68
-#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:250
+#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:75
+#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:89
+#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:271
 msgid "Friend Request Sent"
 msgstr "好友邀請已送出"
 
-#: src/components/channel/dm/AddFriendForm.tsx:144
+#: src/components/channel/dm/AddFriendForm.tsx:167
 msgid "Friend request sent!"
 msgstr "好友邀請已送出！"
 
@@ -8787,7 +8866,7 @@ msgstr "好友邀請已送出！"
 msgid "Friend Requests"
 msgstr "好友邀請"
 
-#: src/components/channel/dm/AddFriendForm.tsx:137
+#: src/components/channel/dm/AddFriendForm.tsx:160
 msgid "Friend's FluxerTag"
 msgstr "好友的 FluxerTag"
 
@@ -8828,9 +8907,10 @@ msgstr "來自 {0}"
 
 #. placeholder {0}: creator.username
 #. placeholder {1}: creator.discriminator
-#: src/components/channel/GiftEmbed.tsx:87
-#: src/components/modals/GiftAcceptModal.tsx:116
-#: src/components/modals/GiftAcceptModal.tsx:143
+#: src/components/channel/GiftEmbed.tsx:93
+#: src/components/modals/GiftAcceptModal.tsx:123
+#: src/components/modals/GiftAcceptModal.tsx:151
+#: src/components/modals/GiftAcceptModal.tsx:186
 msgid "From {0}#{1}"
 msgstr "來自 {0}#{1}"
 
@@ -8850,7 +8930,7 @@ msgstr "來自使用者"
 msgid "from:"
 msgstr "來自："
 
-#: src/components/pages/ReportPage.tsx:919
+#: src/components/pages/report/ReportStepDetails.tsx:195
 msgid "Full Legal Name"
 msgstr "完整法定名稱"
 
@@ -8892,7 +8972,7 @@ msgstr "產生邀請"
 msgid "Generate invite link"
 msgstr "產生邀請連結"
 
-#: src/components/modals/tabs/BetaCodesTab.tsx:315
+#: src/components/modals/tabs/BetaCodesTab.tsx:340
 msgid "Generate up to {MAX_UNCLAIMED_BETA_CODES} unclaimed beta codes to invite friends to Fluxer. You can create 3 codes per week."
 msgstr "產生最多 {MAX_UNCLAIMED_BETA_CODES} 組未領取的測試代碼，邀請朋友加入 Fluxer。每週可建立 3 組代碼。"
 
@@ -8909,7 +8989,7 @@ msgstr "地區限制"
 msgid "German"
 msgstr "德語"
 
-#: src/components/pages/ReportPage.tsx:321
+#: src/components/pages/report/optionDescriptors.ts:93
 msgid "Germany"
 msgstr "德國"
 
@@ -8991,13 +9071,13 @@ msgstr "GIF 預覽"
 #: src/components/channel/pickers/gif/GifPickerHeader.tsx:40
 #: src/components/channel/pickers/memes/MemesPickerHeader.tsx:57
 #: src/components/channel/textarea/TextareaButtons.tsx:110
-#: src/components/modals/ExpressionPickerSheet.tsx:68
+#: src/components/modals/ExpressionPickerSheet.tsx:55
 #: src/components/popouts/ExpressionPickerPopout.tsx:69
 msgid "GIFs"
 msgstr "GIFs"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:122
-#: src/components/modals/GiftAcceptModal.tsx:163
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:141
+#: src/components/modals/GiftAcceptModal.tsx:206
 msgid "Gift"
 msgstr "禮物"
 
@@ -9030,19 +9110,20 @@ msgstr "禮物已兌換"
 msgid "Gift Already Redeemed"
 msgstr "禮物已兌換"
 
-#: src/components/channel/GiftEmbed.tsx:94
+#: src/components/channel/GiftEmbed.tsx:105
+#: src/components/channel/GiftEmbed.tsx:109
 msgid "Gift Claimed"
 msgstr "禮物已領取"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:246
+#: src/components/modals/tabs/GiftInventoryTab.tsx:269
 msgid "Gift code cannot be empty"
 msgstr "禮物代碼不得為空"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:243
+#: src/components/modals/tabs/GiftInventoryTab.tsx:266
 msgid "Gift code is required"
 msgstr "需要禮物代碼"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:250
+#: src/components/modals/tabs/GiftInventoryTab.tsx:273
 msgid "Gift code is too long"
 msgstr "禮物代碼太長"
 
@@ -9070,7 +9151,7 @@ msgstr "找不到禮物"
 
 #: src/components/channel/textarea/TextareaButtons.tsx:101
 #: src/components/channel/textarea/TextareaButtons.tsx:177
-#: src/components/modals/components/plutonium/GiftSection.tsx:61
+#: src/components/modals/components/plutonium/GiftSection.tsx:67
 msgid "Gift Plutonium"
 msgstr "贈送 Plutonium"
 
@@ -9078,23 +9159,23 @@ msgstr "贈送 Plutonium"
 msgid "Gift redeemed successfully!"
 msgstr "禮物兌換成功！"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:89
+#: src/components/modals/tabs/GiftInventoryTab.tsx:90
 msgid "Gift redeemed successfully! Enjoy your Plutonium!"
 msgstr "禮物兌換成功！祝您玩得開心的 Plutonium！"
 
-#: src/components/modals/components/plutonium/VisionarySection.tsx:53
+#: src/components/modals/components/plutonium/VisionarySection.tsx:58
 msgid "gift time"
 msgstr "贈禮時間"
 
-#: src/components/channel/GiftEmbed.tsx:151
+#: src/components/channel/GiftEmbed.tsx:162
 msgid "Gift Unavailable"
 msgstr "禮物不可用"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:132
+#: src/components/modals/tabs/GiftInventoryTab.tsx:133
 msgid "Gift URL"
 msgstr "禮物連結"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:75
+#: src/components/modals/tabs/GiftInventoryTab.tsx:76
 msgid "Gift URL copied to clipboard!"
 msgstr "禮物連結已複製到剪貼簿！"
 
@@ -9126,7 +9207,7 @@ msgstr "桌面應用程式提供全域快速鍵"
 msgid "Glorification of violence or disturbing imagery"
 msgstr "美化暴力或令人不安的畫面"
 
-#: src/components/modals/components/MobileSettingsView.tsx:145
+#: src/components/modals/components/MobileSettingsView.tsx:140
 #: src/components/modals/shared/MobileSettingsComponents.tsx:43
 msgid "Go back"
 msgstr "返回"
@@ -9143,7 +9224,7 @@ msgstr "返回先前聚焦的文字頻道"
 msgid "Go forward in navigation history"
 msgstr "前進導覽歷史"
 
-#: src/components/channel/InviteEmbed.tsx:259
+#: src/components/channel/InviteEmbed.tsx:261
 #: src/components/modals/InviteAcceptModal.tsx:100
 msgid "Go to Community"
 msgstr "前往社群"
@@ -9166,15 +9247,15 @@ msgstr "前往登入"
 msgid "Go to message"
 msgstr "前往訊息"
 
-#: src/components/channel/ChannelSearchResults.tsx:841
+#: src/components/channel/ChannelSearchResults.tsx:809
 msgid "Go to page"
 msgstr "前往頁面"
 
-#: src/components/channel/ChannelSearchResults.tsx:808
+#: src/components/channel/ChannelSearchResults.tsx:776
 msgid "Go to page {page}"
 msgstr "前往第 {page} 頁"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:315
+#: src/components/modals/tabs/GiftInventoryTab.tsx:338
 msgid "Go to Plutonium"
 msgstr "前往 Plutonium"
 
@@ -9195,7 +9276,7 @@ msgstr "知道了"
 msgid "Gotcha"
 msgstr "了解"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:116
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:135
 msgid "Grace Period"
 msgstr "寬限期"
 
@@ -9203,7 +9284,7 @@ msgstr "寬限期"
 msgid "Grace Period (Still Have Access)"
 msgstr "寬限期（仍可使用）"
 
-#: src/components/modals/InviteModal.tsx:301
+#: src/components/modals/InviteModal.tsx:298
 msgid "Grant temporary membership"
 msgstr "授予臨時會員資格"
 
@@ -9234,7 +9315,7 @@ msgstr "大成功！"
 msgid "Great success! You can now close this tab and return to the app."
 msgstr "大成功！你現在可以關閉此分頁並返回應用程式。"
 
-#: src/components/pages/ReportPage.tsx:322
+#: src/components/pages/report/optionDescriptors.ts:94
 msgid "Greece"
 msgstr "希臘"
 
@@ -9263,7 +9344,7 @@ msgstr "群組聊天新增權限"
 msgid "Group Chat Permissions"
 msgstr "群組聊天權限"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:481
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:495
 msgid "Group Direct Message"
 msgstr "群組私訊"
 
@@ -9272,7 +9353,7 @@ msgid "Group DM"
 msgstr "群組私訊"
 
 #. placeholder {0}: channel.recipientIds.length + 1
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:772
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:804
 msgid "Group DM · {0} members"
 msgstr "群組私訊 · {0} 位成員"
 
@@ -9317,12 +9398,12 @@ msgstr "群組名稱不可超過 100 個字元"
 msgid "Group Online Status"
 msgstr "群組線上狀態"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:962
-#: src/components/channel/MemberListItem.tsx:102
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:984
+#: src/components/channel/MemberListItem.tsx:109
 msgid "Group Owner"
 msgstr "群組擁有者"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1092
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1116
 msgid "Group Settings"
 msgstr "群組設定"
 
@@ -9335,11 +9416,11 @@ msgstr "群組輸入狀態"
 msgid "Group updated"
 msgstr "群組已更新"
 
-#: src/components/pages/ReportPage.tsx:893
+#: src/components/pages/report/ReportStepDetails.tsx:167
 msgid "Guild (Community) ID"
 msgstr "公會（社群）ID"
 
-#: src/components/pages/ReportPage.tsx:902
+#: src/components/pages/report/ReportStepDetails.tsx:177
 msgid "Guild ID is required."
 msgstr "需要公會ID。"
 
@@ -9355,13 +9436,13 @@ msgstr "公會紀錄"
 msgid "Hang on while we check for scheduled messages."
 msgstr "稍等，我們正在檢查排程訊息。"
 
-#: src/components/pages/ReportPage.tsx:295
+#: src/components/pages/report/optionDescriptors.ts:70
 #: src/constants/IARConstants.tsx:155
 msgid "Harassment"
 msgstr "騷擾"
 
-#: src/components/pages/ReportPage.tsx:262
-#: src/components/pages/ReportPage.tsx:281
+#: src/components/pages/report/optionDescriptors.ts:43
+#: src/components/pages/report/optionDescriptors.ts:59
 #: src/constants/IARConstants.tsx:32
 #: src/constants/IARConstants.tsx:109
 msgid "Harassment or Bullying"
@@ -9383,9 +9464,9 @@ msgstr "曾購買覆蓋"
 msgid "has:"
 msgstr "有："
 
-#: src/components/pages/ReportPage.tsx:263
-#: src/components/pages/ReportPage.tsx:282
-#: src/components/pages/ReportPage.tsx:296
+#: src/components/pages/report/optionDescriptors.ts:44
+#: src/components/pages/report/optionDescriptors.ts:60
+#: src/components/pages/report/optionDescriptors.ts:71
 #: src/constants/IARConstants.tsx:37
 #: src/constants/IARConstants.tsx:114
 #: src/constants/IARConstants.tsx:160
@@ -9430,7 +9511,7 @@ msgid "Help Center"
 msgstr "說明中心"
 
 #. placeholder {0}: user.displayName
-#: src/components/layout/app-layout/nagbars/UnclaimedAccountNagbar.tsx:44
+#: src/components/layout/app-layout/nagbars/UnclaimedAccountNagbar.tsx:42
 msgid "Hey {0}, claim your account to prevent losing access."
 msgstr "嘿 {0}，領取你的帳號以避免失去存取權。"
 
@@ -9654,7 +9735,7 @@ msgstr "https://example.com/callback"
 msgid "Hungarian"
 msgstr "匈牙利語"
 
-#: src/components/pages/ReportPage.tsx:323
+#: src/components/pages/report/optionDescriptors.ts:95
 msgid "Hungary"
 msgstr "匈牙利"
 
@@ -9728,8 +9809,8 @@ msgstr "若你已收到測試代碼，可在下方輸入以立即取得存取權
 msgid "If you want to export your data or delete your messages first, please visit the Privacy Dashboard section in User Settings before proceeding."
 msgstr "若你想先匯出資料或刪除訊息，請在進行前前往使用者設定的隱私儀表板區段。"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:301
-#: src/components/channel/dm/DMWelcomeSection.tsx:119
+#: src/components/channel/channel-view/DMChannelView.tsx:302
+#: src/components/channel/dm/DMWelcomeSection.tsx:131
 #: src/components/channel/friends/FriendListItem.tsx:145
 #: src/components/channel/friends/FriendListItem.tsx:244
 #: src/components/channel/friends/MobileFriendRequestItem.tsx:69
@@ -9740,7 +9821,7 @@ msgstr "忽略"
 
 #: src/components/channel/friends/FriendListItem.tsx:143
 #: src/components/channel/friends/MobileFriendRequestItem.tsx:67
-#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:152
+#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:173
 msgid "Ignore Friend Request"
 msgstr "忽略好友邀請"
 
@@ -9749,8 +9830,8 @@ msgstr "忽略好友邀請"
 msgid "Ignore per-channel message rate limits."
 msgstr "忽略每個頻道的訊息速率限制。"
 
-#: src/components/pages/ReportPage.tsx:267
-#: src/components/pages/ReportPage.tsx:298
+#: src/components/pages/report/optionDescriptors.ts:48
+#: src/components/pages/report/optionDescriptors.ts:73
 #: src/constants/IARConstants.tsx:57
 #: src/constants/IARConstants.tsx:170
 msgid "Illegal Activity"
@@ -9762,7 +9843,7 @@ msgid "image"
 msgstr "圖片"
 
 #: src/components/channel/embeds/media/EmbedGifv.tsx:237
-#: src/components/channel/embeds/media/EmbedImage.tsx:369
+#: src/components/channel/embeds/media/EmbedImage.tsx:374
 #: src/components/modals/MediaViewerModal.tsx:362
 #: src/components/search/HasFilterSheet.tsx:50
 #: src/utils/FavoriteMemeUtils.ts:71
@@ -9783,8 +9864,8 @@ msgstr "圖片預覽"
 msgid "Images"
 msgstr "圖片"
 
-#: src/components/pages/ReportPage.tsx:272
-#: src/components/pages/ReportPage.tsx:284
+#: src/components/pages/report/optionDescriptors.ts:53
+#: src/components/pages/report/optionDescriptors.ts:62
 #: src/constants/IARConstants.tsx:82
 #: src/constants/IARConstants.tsx:124
 msgid "Impersonation"
@@ -9839,7 +9920,7 @@ msgstr "{absWeeks} 週後"
 msgid "in {absYears} years"
 msgstr "{absYears} 年後"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:275
+#: src/components/channel/channel-view/DMChannelView.tsx:276
 msgid "In call"
 msgstr "通話中"
 
@@ -9880,7 +9961,7 @@ msgstr "在瀏覽器中，按鍵通話只有在 Fluxer 分頁處於焦點時才�
 msgid "in:"
 msgstr "在："
 
-#: src/components/pages/ReportPage.tsx:286
+#: src/components/pages/report/optionDescriptors.ts:64
 #: src/constants/IARConstants.tsx:134
 msgid "Inappropriate Profile"
 msgstr "不當的個人檔案"
@@ -9909,7 +9990,7 @@ msgstr "包括所有社群提及"
 msgid "Include audio from your screen in the share"
 msgstr "分享時包含螢幕音訊"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:269
+#: src/components/channel/channel-view/DMChannelView.tsx:270
 #: src/components/voice/IncomingCallUI.tsx:263
 #: src/components/voice/IncomingCallUI.tsx:286
 #: src/components/voice/IncomingCallUI.tsx:324
@@ -9946,11 +10027,11 @@ msgid "Increase app zoom level"
 msgstr "增加應用程式縮放層級"
 
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:284
-#: src/components/channel/ChannelSearchResults.tsx:679
+#: src/components/channel/ChannelSearchResults.tsx:648
 msgid "Indexing Channel"
 msgstr "正在索引頻道"
 
-#: src/components/channel/ChannelSearchResults.tsx:317
+#: src/components/channel/ChannelSearchResults.tsx:274
 msgid "Indexing..."
 msgstr "索引中..."
 
@@ -10032,12 +10113,12 @@ msgstr "附圖示的輸入"
 msgid "Insert emoji"
 msgstr "插入表情符號"
 
-#: src/components/channel/InviteEmbed.tsx:198
+#: src/components/channel/InviteEmbed.tsx:200
 #: src/components/modals/InviteAcceptModal.tsx:143
 msgid "Install Emoji Pack"
 msgstr "安裝表情符號包"
 
-#: src/components/channel/InviteEmbed.tsx:198
+#: src/components/channel/InviteEmbed.tsx:200
 #: src/components/modals/InviteAcceptModal.tsx:143
 msgid "Install Sticker Pack"
 msgstr "安裝貼圖包"
@@ -10104,7 +10185,7 @@ msgstr "禮物代碼無效"
 msgid "Invalid instance response: missing webapp URL."
 msgstr "無效的實例回應：缺少網頁應用程式網址。"
 
-#: src/components/modals/ClaimAccountModal.tsx:108
+#: src/components/modals/ClaimAccountModal.tsx:110
 #: src/components/modals/EmailChangeModal.tsx:108
 #: src/components/modals/EmailChangeModal.tsx:169
 msgid "Invalid or expired code"
@@ -10134,7 +10215,7 @@ msgstr "反轉按鈕已點擊！"
 msgid "Invisible"
 msgstr "隱形"
 
-#: src/components/modals/InviteModal.tsx:257
+#: src/components/modals/InviteModal.tsx:267
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:83
 #: src/constants/AuditLogConstants.tsx:239
 msgid "Invite"
@@ -10144,7 +10225,7 @@ msgstr "邀請"
 msgid "Invite Background"
 msgstr "邀請背景"
 
-#: src/components/pages/ReportPage.tsx:908
+#: src/components/pages/report/ReportStepDetails.tsx:183
 msgid "Invite Code (optional)"
 msgstr "邀請碼（選填）"
 
@@ -10170,7 +10251,7 @@ msgstr "邀請朋友"
 msgid "Invite friends to {0}"
 msgstr "邀請朋友加入 {0}"
 
-#: src/components/modals/InviteModal.tsx:317
+#: src/components/modals/InviteModal.tsx:314
 msgid "Invite link"
 msgstr "邀請連結"
 
@@ -10190,7 +10271,7 @@ msgid "Invite Links"
 msgstr "邀請連結"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:164
-#: src/components/layout/ChannelItem.tsx:599
+#: src/components/layout/ChannelItem.tsx:616
 #: src/components/popouts/GuildHeaderPopout.tsx:178
 msgid "Invite Members"
 msgstr "邀請成員"
@@ -10218,7 +10299,7 @@ msgid "Invite Page Preview"
 msgstr "邀請頁面預覽"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:381
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1144
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1168
 #: src/components/layout/FavoritesChannelListContent.tsx:305
 #: src/components/uikit/ContextMenu/ChannelListContextMenu.tsx:96
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:97
@@ -10236,7 +10317,7 @@ msgstr "邀請已撤銷"
 msgid "Invite sent for {0}"
 msgstr "已傳送 {0} 的邀請"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:256
+#: src/components/bottomsheets/DMBottomSheet.tsx:258
 msgid "Invite sent to {guildName}"
 msgstr "邀請已發送至 {guildName}"
 
@@ -10249,7 +10330,7 @@ msgid "Invite splash preview"
 msgstr "邀請啟動畫面預覽"
 
 #. placeholder {0}: guild.name
-#: src/components/bottomsheets/DMBottomSheet.tsx:499
+#: src/components/bottomsheets/DMBottomSheet.tsx:501
 msgid "Invite to {0}"
 msgstr "邀請至 {0}"
 
@@ -10257,7 +10338,7 @@ msgstr "邀請至 {0}"
 msgid "Invite to Community"
 msgstr "邀請加入社群"
 
-#: src/components/channel/InviteEmbed.tsx:362
+#: src/components/channel/InviteEmbed.tsx:364
 msgid "Invite Unavailable"
 msgstr "邀請無法使用"
 
@@ -10277,7 +10358,7 @@ msgid "Invited by {0}#{1}"
 msgstr "由 {0}#{1} 邀請"
 
 #: src/components/auth/InviteHeader.tsx:159
-#: src/components/channel/InviteEmbed.tsx:222
+#: src/components/channel/InviteEmbed.tsx:224
 msgid "Invited by {inviterTag}"
 msgstr "由 {inviterTag} 邀請"
 
@@ -10290,8 +10371,8 @@ msgid "Inviter:"
 msgstr "邀請者："
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:303
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1199
-#: src/components/bottomsheets/DMBottomSheet.tsx:468
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1223
+#: src/components/bottomsheets/DMBottomSheet.tsx:470
 #: src/components/channel/dm/DMList.tsx:257
 #: src/components/uikit/ContextMenu/GroupDMContextMenu.tsx:145
 msgid "Invites"
@@ -10301,11 +10382,11 @@ msgstr "邀請"
 msgid "Invites are currently disabled for this community."
 msgstr "此社群目前停用邀請功能。"
 
-#: src/components/modals/InviteModal.tsx:270
+#: src/components/modals/InviteModal.tsx:237
 msgid "Invites are currently disabled in this community by an admin. While this invite can be created, it cannot be accepted until invites are re-enabled."
 msgstr "此社群已由管理員停用邀請。雖然仍能建立邀請，但在重新啟用之前無法接受。"
 
-#: src/components/layout/guild-list/GuildListItem.tsx:233
+#: src/components/layout/guild-list/GuildListItem.tsx:234
 msgid "Invites are currently paused in this community"
 msgstr "此社群目前暫停邀請功能"
 
@@ -10317,7 +10398,7 @@ msgstr "預覽社群已鎖定邀請。設定電子郵件與密碼以認領帳號
 msgid "Invites disabled"
 msgstr "邀請已停用"
 
-#: src/components/channel/InviteEmbed.tsx:257
+#: src/components/channel/InviteEmbed.tsx:259
 #: src/components/modals/InviteAcceptModal.tsx:98
 msgid "Invites Disabled"
 msgstr "邀請已停用"
@@ -10343,7 +10424,7 @@ msgstr "目前已停用對 <0>{0}</0> 的邀請"
 msgid "IP address authorized"
 msgstr "IP 位址已授權"
 
-#: src/components/pages/ReportPage.tsx:324
+#: src/components/pages/report/optionDescriptors.ts:96
 msgid "Ireland"
 msgstr "愛爾蘭"
 
@@ -10359,7 +10440,7 @@ msgstr "這裡真是一場狂熱的打字派對"
 msgid "Italian"
 msgstr "義大利語"
 
-#: src/components/pages/ReportPage.tsx:325
+#: src/components/pages/report/optionDescriptors.ts:97
 msgid "Italy"
 msgstr "義大利"
 
@@ -10381,16 +10462,16 @@ msgstr "加入社群"
 msgid "Join a community with stickers to get started!"
 msgstr "加入有貼圖的社群開始吧！"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:315
+#: src/components/channel/channel-view/DMChannelView.tsx:316
 msgid "Join call"
 msgstr "加入通話"
 
-#: src/components/channel/InviteEmbed.tsx:261
-#: src/components/channel/InviteEmbed.tsx:451
+#: src/components/channel/InviteEmbed.tsx:263
+#: src/components/channel/InviteEmbed.tsx:453
 #: src/components/layout/guild-list/AddGuildButton.tsx:71
 #: src/components/modals/AddGuildModal.tsx:129
 #: src/components/modals/AddGuildModal.tsx:410
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:304
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:342
 #: src/components/modals/InviteAcceptModal.tsx:102
 #: src/components/modals/InviteAcceptModalPreview.tsx:114
 msgid "Join Community"
@@ -10400,7 +10481,7 @@ msgstr "加入社群"
 msgid "Join community form"
 msgstr "加入社群表單"
 
-#: src/components/channel/InviteEmbed.tsx:187
+#: src/components/channel/InviteEmbed.tsx:189
 msgid "Join Group"
 msgstr "加入群組"
 
@@ -10416,19 +10497,19 @@ msgstr "加入通知"
 msgid "Join Operators Community"
 msgstr "加入 Operators 社群"
 
-#: src/components/channel/CallMessage.tsx:171
+#: src/components/channel/CallMessage.tsx:165
 msgid "Join the call"
 msgstr "加入通話"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:122
+#: src/components/channel/ChannelHeader/CallButtons.tsx:159
 msgid "Join Video Call"
 msgstr "加入視訊通話"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:118
+#: src/components/channel/ChannelHeader/CallButtons.tsx:150
 msgid "Join Video Call ({participantCount} participant)"
 msgstr "加入視訊通話 ({participantCount} 位參與者)"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:119
+#: src/components/channel/ChannelHeader/CallButtons.tsx:151
 msgid "Join Video Call ({participantCount} participants)"
 msgstr "加入視訊通話 ({participantCount} 位參與者)"
 
@@ -10436,15 +10517,15 @@ msgstr "加入視訊通話 ({participantCount} 位參與者)"
 msgid "Join Visionary Community"
 msgstr "加入 Visionary 社群"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:70
+#: src/components/channel/ChannelHeader/CallButtons.tsx:89
 msgid "Join Voice Call"
 msgstr "加入語音通話"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:66
+#: src/components/channel/ChannelHeader/CallButtons.tsx:80
 msgid "Join Voice Call ({participantCount} participant)"
 msgstr "加入語音通話 ({participantCount} 位參與者)"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:67
+#: src/components/channel/ChannelHeader/CallButtons.tsx:81
 msgid "Join Voice Call ({participantCount} participants)"
 msgstr "加入語音通話 ({participantCount} 位參與者)"
 
@@ -10495,7 +10576,7 @@ msgstr "JPEG、PNG、WebP。最大 10MB。建議：512×512px"
 msgid "JPEG, PNG, WebP. Max 10MB. Recommended: 512×512px. Animated avatars (GIF) require <0/>."
 msgstr "JPEG、PNG、WebP。最大 10MB。建議：512×512px。動畫頭像（GIF）需要 <0/>。"
 
-#: src/components/channel/ChannelSearchResults.tsx:777
+#: src/components/channel/ChannelSearchResults.tsx:745
 #: src/components/pages/MessageListPage.tsx:97
 #: src/components/popouts/RecentMentionsContent.tsx:221
 #: src/components/popouts/SavedMessagesContent.tsx:102
@@ -10519,11 +10600,11 @@ msgstr "跳到訊息"
 msgid "Jump to Oldest Unread Message"
 msgstr "跳到最舊未讀訊息"
 
-#: src/components/channel/ChannelSearchResults.tsx:872
+#: src/components/channel/ChannelSearchResults.tsx:840
 msgid "Jump to page"
 msgstr "跳到頁面"
 
-#: src/components/channel/Messages.tsx:917
+#: src/components/channel/Messages.tsx:915
 msgid "Jump to Present"
 msgstr "跳到目前"
 
@@ -10612,7 +10693,7 @@ msgid "Keyboard Shortcuts"
 msgstr "鍵盤捷徑"
 
 #: src/components/bottomsheets/VoiceParticipantBottomSheet.tsx:344
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:311
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:314
 #: src/components/modals/KickMemberModal.tsx:58
 #: src/components/modals/UserProfileActionsSheet.tsx:253
 msgid "Kick"
@@ -10702,7 +10783,7 @@ msgstr "延遲 {latency} 毫秒"
 msgid "Latency graph"
 msgstr "延遲圖表"
 
-#: src/components/pages/ReportPage.tsx:326
+#: src/components/pages/report/optionDescriptors.ts:98
 msgid "Latvia"
 msgstr "拉脫維亞"
 
@@ -10729,10 +10810,10 @@ msgstr "離開社群"
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:248
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:250
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:314
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1253
-#: src/components/bottomsheets/DMBottomSheet.tsx:337
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1277
 #: src/components/bottomsheets/DMBottomSheet.tsx:339
-#: src/components/bottomsheets/DMBottomSheet.tsx:551
+#: src/components/bottomsheets/DMBottomSheet.tsx:341
+#: src/components/bottomsheets/DMBottomSheet.tsx:554
 #: src/components/channel/dm/DMList.tsx:265
 #: src/components/uikit/ContextMenu/GroupDMContextMenu.tsx:159
 #: src/hooks/useLeaveGroup.tsx:42
@@ -10740,27 +10821,27 @@ msgstr "離開社群"
 msgid "Leave Group"
 msgstr "離開群組"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:122
+#: src/components/channel/ChannelHeader/CallButtons.tsx:157
 msgid "Leave Video Call"
 msgstr "離開視訊通話"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:113
+#: src/components/channel/ChannelHeader/CallButtons.tsx:145
 msgid "Leave Video Call ({participantCount} participant)"
 msgstr "離開視訊通話 ({participantCount} 位參與者)"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:114
+#: src/components/channel/ChannelHeader/CallButtons.tsx:146
 msgid "Leave Video Call ({participantCount} participants)"
 msgstr "離開視訊通話 ({participantCount} 位參與者)"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:70
+#: src/components/channel/ChannelHeader/CallButtons.tsx:87
 msgid "Leave Voice Call"
 msgstr "離開語音通話"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:61
+#: src/components/channel/ChannelHeader/CallButtons.tsx:75
 msgid "Leave Voice Call ({participantCount} participant)"
 msgstr "離開語音通話 ({participantCount} 位參與者)"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:62
+#: src/components/channel/ChannelHeader/CallButtons.tsx:76
 msgid "Leave Voice Call ({participantCount} participants)"
 msgstr "離開語音通話 ({participantCount} 位參與者)"
 
@@ -10785,7 +10866,7 @@ msgstr "靠左對齊"
 msgid "Left community"
 msgstr "已離開社群"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:350
+#: src/components/bottomsheets/DMBottomSheet.tsx:352
 #: src/hooks/useLeaveGroup.tsx:56
 msgid "Left group"
 msgstr "已離開群組"
@@ -10798,7 +10879,7 @@ msgstr "左側圖示"
 msgid "Left Tooltip"
 msgstr "左側提示"
 
-#: src/components/modals/components/plutonium/VisionarySection.tsx:90
+#: src/components/modals/components/plutonium/VisionarySection.tsx:99
 msgid "Let people add you without needing a 4-digit tag"
 msgstr "讓他人無需 4 位數標籤就能加你"
 
@@ -10810,17 +10891,13 @@ msgstr "讓社群自行管理"
 msgid "Letters (a-z, A-Z), numbers (0-9), and underscores (_) only"
 msgstr "僅限英文大小寫字母 (a-z, A-Z)、數字 (0-9) 與底線 (_)"
 
-#: src/components/pages/ReportPage.tsx:729
-msgid "Letters and numbers only. You can paste the code—formatting is automatic."
-msgstr "僅限字母和數字。您可以粘貼代碼——格式會自動調整。"
-
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:120
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:139
 #: src/components/modals/tabs/DeveloperOptionsTab/AccountPremiumTab.tsx:49
 #: src/components/modals/tabs/DeveloperOptionsTab/MockingTab.tsx:371
 msgid "Lifetime"
 msgstr "終身方案"
 
-#: src/components/modals/components/plutonium/VisionarySection.tsx:73
+#: src/components/modals/components/plutonium/VisionarySection.tsx:82
 #: src/utils/giftUtils.ts:58
 msgid "Lifetime Plutonium"
 msgstr "終身 Plutonium"
@@ -10838,7 +10915,7 @@ msgid "Liked!"
 msgstr "已按讚！"
 
 #. placeholder {0}: formatter.format(visionarySlots.total)
-#: src/components/modals/components/plutonium/VisionarySection.tsx:61
+#: src/components/modals/components/plutonium/VisionarySection.tsx:70
 msgid "Limited to {0} users. One-time purchase, lifetime access."
 msgstr "限 {0} 名使用者，一次購買，終身使用。"
 
@@ -10856,7 +10933,7 @@ msgstr "連結"
 msgid "Link channel"
 msgstr "連結頻道"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:530
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:544
 #: src/components/uikit/ContextMenu/MediaContextMenu.tsx:145
 #: src/components/uikit/ContextMenu/MediaContextMenu.tsx:228
 msgid "Link copied to clipboard"
@@ -10902,7 +10979,7 @@ msgstr "列表"
 msgid "Lists members with this role in their own section in the member list."
 msgstr "在成員列表中為擁有此角色的成員獨立分區。"
 
-#: src/components/pages/ReportPage.tsx:327
+#: src/components/pages/report/optionDescriptors.ts:99
 msgid "Lithuania"
 msgstr "立陶宛"
 
@@ -10934,7 +11011,7 @@ msgstr "正在載入封鎖..."
 msgid "Loading communities..."
 msgstr "正在載入社群..."
 
-#: src/components/channel/embeds/media/EmbedImage.tsx:363
+#: src/components/channel/embeds/media/EmbedImage.tsx:368
 msgid "Loading image"
 msgstr "正在載入圖片"
 
@@ -10947,7 +11024,7 @@ msgid "Loading more..."
 msgstr "正在載入更多..."
 
 #: src/components/channel/embeds/media/EmbedGifv.tsx:493
-#: src/components/channel/embeds/media/EmbedGifv.tsx:721
+#: src/components/channel/embeds/media/EmbedGifv.tsx:745
 msgid "Loading placeholder"
 msgstr "載入中佔位符"
 
@@ -10971,7 +11048,7 @@ msgstr "載入主題..."
 msgid "Loading verification methods..."
 msgstr "正在載入驗證方式..."
 
-#: src/components/channel/embeds/media/EmbedImage.tsx:363
+#: src/components/channel/embeds/media/EmbedImage.tsx:368
 msgid "Loading: {alt}"
 msgstr "正在載入：{alt}"
 
@@ -11021,7 +11098,7 @@ msgid "Log in with a passkey"
 msgstr "使用通行金鑰登入"
 
 #: src/components/modals/components/DesktopSettingsView.tsx:346
-#: src/components/modals/components/MobileSettingsView.tsx:362
+#: src/components/modals/components/MobileSettingsView.tsx:357
 #: src/components/pages/PendingVerificationPage.tsx:151
 msgid "Log Out"
 msgstr "登出"
@@ -11101,7 +11178,7 @@ msgstr "低"
 msgid "Low (480p)"
 msgstr "低畫質 (480p)"
 
-#: src/components/pages/ReportPage.tsx:328
+#: src/components/pages/report/optionDescriptors.ts:100
 msgid "Luxembourg"
 msgstr "盧森堡"
 
@@ -11114,16 +11191,16 @@ msgstr "設為群組擁有者"
 msgid "Make links to websites stand out more by always underlining them."
 msgstr "始終加底線讓網站連結更突出。"
 
-#: src/components/pages/ReportPage.tsx:271
+#: src/components/pages/report/optionDescriptors.ts:52
 #: src/constants/IARConstants.tsx:77
 msgid "Malicious Links"
 msgstr "惡意連結"
 
-#: src/components/pages/ReportPage.tsx:329
+#: src/components/pages/report/optionDescriptors.ts:101
 msgid "Malta"
 msgstr "馬爾他"
 
-#: src/components/pages/ReportPage.tsx:302
+#: src/components/pages/report/optionDescriptors.ts:77
 #: src/constants/IARConstants.tsx:190
 msgid "Malware Distribution"
 msgstr "惡意軟體散佈"
@@ -11214,7 +11291,7 @@ msgid "Manage slash commands for this application"
 msgstr "管理此應用程式的斜線指令"
 
 #: src/components/layout/app-layout/nagbars/PremiumGracePeriodNagbar.tsx:83
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:288
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:324
 msgid "Manage Subscription"
 msgstr "管理訂閱"
 
@@ -11227,7 +11304,7 @@ msgstr "管理您用於登入 Fluxer 的電子郵件地址"
 msgid "Manage Webhooks"
 msgstr "管理 Webhook"
 
-#: src/components/modals/tabs/ApplicationsTab/index.tsx:100
+#: src/components/modals/tabs/ApplicationsTab/index.tsx:104
 msgid "Manage your applications and bots."
 msgstr "管理您的應用程式與機器人。"
 
@@ -11243,7 +11320,7 @@ msgstr "管理你的禮物"
 msgid "Manage your phone number for SMS two-factor authentication"
 msgstr "管理用於 SMS 雙重驗證的電話號碼"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:280
+#: src/components/modals/tabs/GiftInventoryTab.tsx:303
 msgid "Manage your purchased Plutonium gift codes. Share the gift URL with someone special or redeem it for yourself!"
 msgstr "管理您購買的 Plutonium 禮物代碼。將禮物網址分享給特別的人或自行兌換！"
 
@@ -11256,8 +11333,8 @@ msgid "Mark as 18+ (NSFW)"
 msgstr "標記為 18+（成人內容）"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:358
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1115
-#: src/components/bottomsheets/DMBottomSheet.tsx:388
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1139
+#: src/components/bottomsheets/DMBottomSheet.tsx:390
 #: src/components/channel/NewMessagesBar.tsx:60
 #: src/components/uikit/ContextMenu/items/CategoryMenuItems.tsx:81
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:79
@@ -11319,7 +11396,7 @@ msgstr "Markdown"
 msgid "Markdown Preview"
 msgstr "Markdown 預覽"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:516
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:530
 msgid "Marked as read"
 msgstr "已標記為已讀"
 
@@ -11347,7 +11424,7 @@ msgstr "滑桿下方標記"
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
-#: src/components/modals/ClaimAccountModal.tsx:160
+#: src/components/modals/ClaimAccountModal.tsx:162
 #: src/components/modals/EmailChangeModal.tsx:254
 msgid "marty@example.com"
 msgstr "marty@example.com"
@@ -11356,7 +11433,7 @@ msgstr "marty@example.com"
 msgid "Mask Visionary as subscription"
 msgstr "將 Visionary 標記為訂閱"
 
-#: src/components/modals/InviteModal.tsx:291
+#: src/components/modals/InviteModal.tsx:288
 msgid "Max number of uses"
 msgstr "最大使用次數"
 
@@ -11393,7 +11470,8 @@ msgstr "相機最大畫質為 1080p"
 msgid "Maximum quality, requires very fast connection"
 msgstr "最高畫質，需要非常快的連線"
 
-#: src/components/modals/GiftAcceptModal.tsx:151
+#: src/components/modals/GiftAcceptModal.tsx:161
+#: src/components/modals/GiftAcceptModal.tsx:194
 msgid "Maybe later"
 msgstr "稍後再說"
 
@@ -11411,7 +11489,7 @@ msgstr "測量中..."
 
 #: src/components/channel/AutocompleteEmoji.tsx:154
 #: src/components/channel/textarea/TextareaButtons.tsx:122
-#: src/components/modals/ExpressionPickerSheet.tsx:77
+#: src/components/modals/ExpressionPickerSheet.tsx:64
 #: src/components/modals/tabs/ChatSettingsTab.tsx:43
 #: src/components/modals/tabs/ChatSettingsTab/Inline.tsx:37
 #: src/components/modals/utils/settingsConstants.tsx:298
@@ -11504,8 +11582,8 @@ msgstr "成員驗證"
 msgid "Member verification level"
 msgstr "成員驗證等級"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:877
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:913
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:909
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:945
 #: src/components/modals/guildTabs/GuildMembersTab.tsx:429
 #: src/components/modals/shared/AddOverridePopout.tsx:176
 #: src/components/modals/utils/guildSettingsConstants.tsx:157
@@ -11536,7 +11614,7 @@ msgstr "成員已清除"
 msgid "Members receive notifications for every message"
 msgstr "成員會收到每則訊息的通知"
 
-#: src/components/modals/InviteModal.tsx:302
+#: src/components/modals/InviteModal.tsx:299
 msgid "Members will be removed when they go offline unless a role is assigned"
 msgstr "成員離線後會被移除，除非已分配角色"
 
@@ -11608,11 +11686,11 @@ msgid "mentions:"
 msgstr "提及："
 
 #: src/components/bottomsheets/VoiceParticipantBottomSheet.tsx:234
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:218
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:220
 #: src/components/modals/tabs/ComponentGalleryTab/InputsTab.tsx:164
-#: src/components/modals/UserProfileMobileSheet.tsx:497
-#: src/components/modals/UserProfileModal.tsx:1189
-#: src/components/modals/UserProfileModal.tsx:1311
+#: src/components/modals/UserProfileMobileSheet.tsx:501
+#: src/components/modals/UserProfileModal.tsx:1190
+#: src/components/modals/UserProfileModal.tsx:1316
 #: src/components/popouts/UserProfilePopout.tsx:289
 #: src/components/popouts/UserProfilePopout.tsx:308
 #: src/components/profile/ProfilePreview.tsx:292
@@ -11689,7 +11767,7 @@ msgstr "訊息群組"
 msgid "Message is too long"
 msgstr "訊息過長"
 
-#: src/components/pages/ReportPage.tsx:837
+#: src/components/pages/report/ReportStepDetails.tsx:107
 msgid "Message Link"
 msgstr "訊息連結"
 
@@ -11744,7 +11822,7 @@ msgstr "訊息與媒體"
 msgid "Messages Deleted"
 msgstr "訊息已刪除"
 
-#: src/components/channel/Messages.tsx:938
+#: src/components/channel/Messages.tsx:936
 msgid "Messages failed to load"
 msgstr "訊息載入失敗"
 
@@ -11888,22 +11966,21 @@ msgstr "管理"
 msgid "Monospace font family"
 msgstr "等寬字型"
 
-#: src/components/auth/DateOfBirthField.tsx:87
-#: src/components/auth/DateOfBirthField.tsx:154
+#: src/components/auth/DateOfBirthField.tsx:151
 #: src/components/auth/MockMinimalRegisterForm.tsx:68
 msgid "Month"
 msgstr "月"
 
-#: src/components/modals/components/plutonium/PricingSection.tsx:71
+#: src/components/modals/components/plutonium/PricingSection.tsx:78
 msgid "Monthly"
 msgstr "每月"
 
-#: src/components/modals/components/plutonium/BottomCTASection.tsx:63
+#: src/components/modals/components/plutonium/BottomCTASection.tsx:73
 msgid "Monthly {monthlyPrice}"
 msgstr "每月 {monthlyPrice}"
 
 #: src/components/accounts/AccountRow.tsx:178
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:863
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:895
 #: src/components/channel/friends/FriendListItem.tsx:229
 #: src/components/channel/MessageActionBar.tsx:647
 #: src/components/channel/MessageActionBar.tsx:776
@@ -11936,7 +12013,7 @@ msgstr "更多貼圖格"
 msgid "Most popular"
 msgstr "最受歡迎"
 
-#: src/components/channel/ChannelSearchResults.tsx:225
+#: src/components/channel/ChannelSearchResults.tsx:182
 #: src/components/search/SortModeSheet.tsx:53
 msgid "Most Relevant"
 msgstr "最相關"
@@ -12015,7 +12092,7 @@ msgstr "多語內容"
 msgid "Music Lovers"
 msgstr "音樂愛好者"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:850
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:882
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:179
 #: src/components/bottomsheets/VoiceParticipantBottomSheet.tsx:253
 #: src/components/layout/UserArea.tsx:213
@@ -12055,7 +12132,7 @@ msgstr "靜音頻道"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:400
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:452
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1010
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1034
 #: src/components/channel/ChannelHeader/ChannelNotificationSettingsDropdown.tsx:171
 #: src/components/modals/GuildNotificationSettingsModal.tsx:295
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:168
@@ -12069,9 +12146,9 @@ msgstr "靜音頻道"
 msgid "Mute Community"
 msgstr "靜音社群"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1012
-#: src/components/bottomsheets/DMBottomSheet.tsx:449
-#: src/components/bottomsheets/DMBottomSheet.tsx:590
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1036
+#: src/components/bottomsheets/DMBottomSheet.tsx:451
+#: src/components/bottomsheets/DMBottomSheet.tsx:593
 msgid "Mute Conversation"
 msgstr "靜音對話"
 
@@ -12096,7 +12173,7 @@ msgstr "靜音成員"
 msgid "Mute User"
 msgstr "靜音使用者"
 
-#: src/components/layout/guild-list/GuildListItem.tsx:193
+#: src/components/layout/guild-list/GuildListItem.tsx:194
 #: src/components/layout/VoiceStateIcons.tsx:53
 #: src/components/voice/VoiceParticipantTile.tsx:897
 #: src/utils/ContextMenuUtils.tsx:159
@@ -12105,7 +12182,7 @@ msgstr "已靜音"
 
 #. placeholder {0}: DateUtils.getFormattedDateTime(new Date(muteConfig.end_time))
 #. placeholder {0}: getFormattedDateTime(new Date(muteConfig.end_time))
-#: src/components/layout/guild-list/GuildListItem.tsx:191
+#: src/components/layout/guild-list/GuildListItem.tsx:192
 #: src/utils/ContextMenuUtils.tsx:157
 msgid "Muted until {0}"
 msgstr "靜音至 {0}"
@@ -12253,7 +12330,7 @@ msgstr "需要帳號嗎？"
 msgid "Neighborhood Watch"
 msgstr "社區巡守隊"
 
-#: src/components/pages/ReportPage.tsx:330
+#: src/components/pages/report/optionDescriptors.ts:102
 msgid "Netherlands"
 msgstr "荷蘭"
 
@@ -12261,9 +12338,9 @@ msgstr "荷蘭"
 msgid "Network"
 msgstr "網路"
 
-#: src/components/modals/components/PlutoniumContent.tsx:145
-#: src/components/modals/components/PlutoniumContent.tsx:271
-#: src/components/modals/tabs/BetaCodesTab.tsx:295
+#: src/components/modals/components/PlutoniumContent.tsx:156
+#: src/components/modals/components/PlutoniumContent.tsx:288
+#: src/components/modals/tabs/BetaCodesTab.tsx:320
 #: src/components/modals/tabs/DevicesTab.tsx:229
 msgid "Network error"
 msgstr "網路錯誤"
@@ -12290,7 +12367,7 @@ msgstr "永不過期"
 #: src/components/channel/Divider.tsx:51
 #: src/components/channel/Divider.tsx:60
 #: src/components/channel/UnreadDividerSlot.tsx:45
-#: src/components/layout/GuildsLayout.tsx:285
+#: src/components/layout/GuildsLayout.tsx:283
 msgid "New"
 msgstr "最新"
 
@@ -12311,7 +12388,7 @@ msgstr "新電子郵件"
 msgid "New email form"
 msgstr "新電子郵件表單"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:902
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:934
 msgid "New Group"
 msgstr "新群組"
 
@@ -12334,7 +12411,7 @@ msgid "new-channel"
 msgstr "新頻道"
 
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:446
-#: src/components/channel/ChannelSearchResults.tsx:223
+#: src/components/channel/ChannelSearchResults.tsx:180
 msgid "Newest"
 msgstr "最新"
 
@@ -12394,7 +12471,7 @@ msgstr "暱稱不得超過 32 個字元"
 msgid "Nickname updated"
 msgstr "暱稱已更新"
 
-#: src/components/layout/GuildLayout.tsx:392
+#: src/components/layout/GuildLayout.tsx:397
 msgid "No accessible channels"
 msgstr "沒有可存取的頻道"
 
@@ -12431,7 +12508,7 @@ msgstr "沒有封鎖使用者"
 msgid "No bans found matching your search."
 msgstr "找不到符合搜尋的封鎖紀錄。"
 
-#: src/components/modals/tabs/BetaCodesTab.tsx:365
+#: src/components/modals/tabs/BetaCodesTab.tsx:390
 msgid "No beta codes yet"
 msgstr "尚無測試版代碼"
 
@@ -12471,7 +12548,7 @@ msgstr "沒有可用頻道"
 msgid "No channels found"
 msgstr "找不到頻道"
 
-#: src/components/modals/tabs/BetaCodesTab.tsx:275
+#: src/components/modals/tabs/BetaCodesTab.tsx:279
 msgid "No codes remaining. Resets {resetString}"
 msgstr "沒有剩餘代碼。將在 {resetString} 重置"
 
@@ -12484,7 +12561,7 @@ msgid "No community banner"
 msgstr "沒有社群橫幅"
 
 #: src/components/auth/InviteHeader.tsx:156
-#: src/components/channel/InviteEmbed.tsx:215
+#: src/components/channel/InviteEmbed.tsx:217
 #: src/components/modals/InviteAcceptModal.tsx:148
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:73
 msgid "No description provided."
@@ -12516,7 +12593,7 @@ msgstr "尚未加好友"
 msgid "No GIFs found"
 msgstr "找不到 GIF"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:311
+#: src/components/modals/tabs/GiftInventoryTab.tsx:334
 msgid "No gifts yet"
 msgstr "尚無禮物"
 
@@ -12656,7 +12733,7 @@ msgid "No results"
 msgstr "沒有結果"
 
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:315
-#: src/components/channel/ChannelSearchResults.tsx:709
+#: src/components/channel/ChannelSearchResults.tsx:678
 msgid "No Results"
 msgstr "沒有結果"
 
@@ -12717,7 +12794,7 @@ msgstr "無系統頻道"
 msgid "No Timer"
 msgstr "無計時器"
 
-#: src/components/channel/dm/AddFriendForm.tsx:70
+#: src/components/channel/dm/AddFriendForm.tsx:93
 msgid "No user found with that FluxerTag."
 msgstr "找不到該 FluxerTag 的使用者。"
 
@@ -12797,7 +12874,7 @@ msgstr "稍後再說"
 msgid "Not your cup of tea? You can disable this feature anytime."
 msgstr "不合你的胃口嗎？你可以隨時關閉此功能。"
 
-#: src/components/modals/UserProfileMobileSheet.tsx:549
+#: src/components/modals/UserProfileMobileSheet.tsx:553
 #: src/components/modals/UserProfileModal.tsx:244
 #: src/components/modals/UserProfileModal.tsx:248
 #: src/components/pages/YouPage.tsx:144
@@ -12813,7 +12890,7 @@ msgstr "備註（只有你可見）"
 msgid "nothing"
 msgstr "什麼都沒有"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1387
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1411
 #: src/components/channel/ChannelHeader/ChannelNotificationSettingsDropdown.tsx:218
 #: src/components/modals/GuildNotificationSettingsModal.tsx:95
 #: src/components/modals/GuildNotificationSettingsModal.tsx:226
@@ -12835,8 +12912,8 @@ msgid "Notification Overrides"
 msgstr "通知覆寫"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:405
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1160
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1341
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1184
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1365
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:199
 #: src/components/channel/ChannelHeader/ChannelNotificationSettingsButton.tsx:59
 #: src/components/modals/GuildNotificationSettingsModal.tsx:162
@@ -12904,17 +12981,17 @@ msgstr "不允許限制級內容"
 msgid "NSFW Gates"
 msgstr "限制級入口"
 
-#: src/components/pages/ReportPage.tsx:266
+#: src/components/pages/report/optionDescriptors.ts:47
 #: src/constants/IARConstants.tsx:52
 msgid "NSFW Policy Violation"
 msgstr "違反限制級政策"
 
 #. placeholder {0}: formatter.format(visionarySlots.total)
-#: src/components/modals/components/plutonium/VisionarySection.tsx:82
+#: src/components/modals/components/plutonium/VisionarySection.tsx:91
 msgid "Numbered badge (1-{0}) showing your Visionary status"
 msgstr "顯示您願景者身份的編號徽章 (1-{0})"
 
-#: src/components/modals/components/plutonium/VisionarySection.tsx:83
+#: src/components/modals/components/plutonium/VisionarySection.tsx:92
 msgid "Numbered badge showing your Visionary status"
 msgstr "編號徽章顯示你的 Visionary 身份"
 
@@ -12933,8 +13010,8 @@ msgstr "物件"
 msgid "Off"
 msgstr "關閉"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:281
-#: src/components/channel/ChannelMembers.tsx:137
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:287
+#: src/components/channel/ChannelMembers.tsx:108
 #: src/Constants.tsx:134
 #: src/utils/MemberListUtils.ts:150
 #: src/utils/MemberListUtils.ts:188
@@ -12962,7 +13039,7 @@ msgid "Okay"
 msgstr "好的"
 
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:446
-#: src/components/channel/ChannelSearchResults.tsx:224
+#: src/components/channel/ChannelSearchResults.tsx:181
 msgid "Oldest"
 msgstr "最舊"
 
@@ -13020,25 +13097,25 @@ msgstr "一個或多個頻道正在建立索引"
 msgid "one second ago"
 msgstr "一秒前"
 
-#: src/components/modals/components/plutonium/GiftSection.tsx:71
-#: src/components/modals/components/plutonium/GiftSection.tsx:80
-#: src/components/modals/components/plutonium/PricingSection.tsx:103
-#: src/components/modals/components/plutonium/PricingSection.tsx:112
+#: src/components/modals/components/plutonium/GiftSection.tsx:78
+#: src/components/modals/components/plutonium/GiftSection.tsx:90
+#: src/components/modals/components/plutonium/PricingSection.tsx:118
+#: src/components/modals/components/plutonium/PricingSection.tsx:130
 msgid "one-time purchase"
 msgstr "一次性購買"
 
-#: src/components/modals/components/plutonium/VisionarySection.tsx:65
+#: src/components/modals/components/plutonium/VisionarySection.tsx:74
 msgid "One-time purchase, lifetime access."
 msgstr "一次性購買，終身訪問。"
 
-#: src/components/modals/components/plutonium/GiftSection.tsx:89
-#: src/components/modals/components/plutonium/PricingSection.tsx:90
-#: src/components/modals/components/plutonium/PricingSection.tsx:121
+#: src/components/modals/components/plutonium/GiftSection.tsx:102
+#: src/components/modals/components/plutonium/PricingSection.tsx:103
+#: src/components/modals/components/plutonium/PricingSection.tsx:142
 msgid "one-time, lifetime"
 msgstr "一次性，終身"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:281
-#: src/components/channel/ChannelMembers.tsx:135
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:285
+#: src/components/channel/ChannelMembers.tsx:106
 #: src/components/channel/dm/DMFriendsView.tsx:168
 #: src/components/channel/friends/views/FriendsList.tsx:95
 #: src/Constants.tsx:130
@@ -13051,7 +13128,7 @@ msgstr "線上"
 msgid "Online Status"
 msgstr "線上狀態"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1382
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1406
 #: src/components/channel/ChannelHeader/ChannelNotificationSettingsDropdown.tsx:212
 #: src/components/modals/GuildNotificationSettingsModal.tsx:91
 #: src/components/modals/GuildNotificationSettingsModal.tsx:281
@@ -13120,11 +13197,11 @@ msgstr "開啟認領帳號對話框"
 msgid "Open color picker"
 msgstr "開啟顏色選擇器"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1398
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1422
 msgid "Open Community Notification Settings"
 msgstr "開啟社群通知設定"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:286
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:322
 msgid "Open Customer Portal"
 msgstr "開啟客戶入口"
 
@@ -13293,7 +13370,7 @@ msgstr "選項三"
 msgid "Option Two"
 msgstr "選項二"
 
-#: src/components/modals/components/plutonium/VisionarySection.tsx:89
+#: src/components/modals/components/plutonium/VisionarySection.tsx:98
 msgid "Optional #0000 tag"
 msgstr "可選的 #0000 標籤"
 
@@ -13309,7 +13386,7 @@ msgstr "或"
 msgid "Or copy the link:"
 msgstr "或複製連結："
 
-#: src/components/modals/InviteModal.tsx:312
+#: src/components/modals/InviteModal.tsx:309
 msgid "or send an invite link to a friend:"
 msgstr "或將邀請連結傳給朋友："
 
@@ -13325,9 +13402,9 @@ msgstr "原始訊息載入失敗"
 msgid "Original message was deleted"
 msgstr "原始訊息已刪除"
 
-#: src/components/pages/ReportPage.tsx:273
-#: src/components/pages/ReportPage.tsx:287
-#: src/components/pages/ReportPage.tsx:303
+#: src/components/pages/report/optionDescriptors.ts:54
+#: src/components/pages/report/optionDescriptors.ts:65
+#: src/components/pages/report/optionDescriptors.ts:78
 #: src/constants/IARConstants.tsx:87
 #: src/constants/IARConstants.tsx:139
 #: src/constants/IARConstants.tsx:195
@@ -13463,8 +13540,8 @@ msgstr "通行金鑰需簽名的 macOS 套件且具有效的應用程式識別�
 #: src/components/auth/AuthLoginCore/AuthLoginEmailPasswordForm.tsx:90
 #: src/components/auth/AuthRegisterFormCore.tsx:136
 #: src/components/auth/AuthRegisterFormCore.tsx:217
-#: src/components/modals/ClaimAccountModal.tsx:168
-#: src/components/modals/ClaimAccountModal.tsx:208
+#: src/components/modals/ClaimAccountModal.tsx:170
+#: src/components/modals/ClaimAccountModal.tsx:210
 #: src/components/modals/SudoVerificationModal.tsx:171
 #: src/components/modals/SudoVerificationModal.tsx:236
 #: src/components/modals/tabs/AccountSecurityTab/AccountTab.tsx:105
@@ -13546,11 +13623,11 @@ msgstr "你朋友的朋友可以將你加入群聊"
 msgid "People who are friends with your friends can call you"
 msgstr "你朋友的朋友可以呼叫你"
 
-#: src/components/modals/components/plutonium/PricingSection.tsx:73
+#: src/components/modals/components/plutonium/PricingSection.tsx:80
 msgid "per month"
 msgstr "每月"
 
-#: src/components/modals/components/plutonium/PricingSection.tsx:80
+#: src/components/modals/components/plutonium/PricingSection.tsx:90
 msgid "per year"
 msgstr "每年"
 
@@ -13588,8 +13665,8 @@ msgstr "權限已授予"
 msgid "Personal notes"
 msgstr "個人備註"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:479
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:778
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:493
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:810
 #: src/components/channel/channel-header/useChannelHeaderData.ts:84
 #: src/components/channel/dm/DMList.tsx:708
 #: src/components/channel/dm/DMList.tsx:795
@@ -13662,16 +13739,16 @@ msgid "Pick which phone step to show"
 msgstr "選擇要顯示的電話步驟"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:336
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1132
-#: src/components/bottomsheets/DMBottomSheet.tsx:483
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1156
+#: src/components/bottomsheets/DMBottomSheet.tsx:485
 #: src/components/channel/dm/DMList.tsx:287
 #: src/components/uikit/ContextMenu/DMContextMenu.tsx:153
 msgid "Pin DM"
 msgstr "釘選私訊"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:295
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1132
-#: src/components/bottomsheets/DMBottomSheet.tsx:483
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1156
+#: src/components/bottomsheets/DMBottomSheet.tsx:485
 #: src/components/channel/dm/DMList.tsx:248
 #: src/components/uikit/ContextMenu/GroupDMContextMenu.tsx:133
 msgid "Pin Group DM"
@@ -13714,20 +13791,20 @@ msgid "Ping: {latency}ms"
 msgstr "延遲：{latency}毫秒"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:219
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:566
-#: src/components/bottomsheets/DMBottomSheet.tsx:147
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:580
+#: src/components/bottomsheets/DMBottomSheet.tsx:149
 #: src/components/channel/dm/DMList.tsx:214
 #: src/components/uikit/ContextMenu/DMContextMenu.tsx:115
 msgid "Pinned DM"
 msgstr "已釘選的私訊"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:219
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:566
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:580
 #: src/components/uikit/ContextMenu/GroupDMContextMenu.tsx:95
 msgid "Pinned group"
 msgstr "已釘選群組"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:147
+#: src/components/bottomsheets/DMBottomSheet.tsx:149
 msgid "Pinned group DM"
 msgstr "固定群組私訊"
 
@@ -13742,7 +13819,7 @@ msgstr "已釘選訊息"
 msgid "pinned:"
 msgstr "已釘選："
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:886
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:918
 msgid "Pins"
 msgstr "釘選"
 
@@ -13789,15 +13866,15 @@ msgstr "請檢查收件匣以確認驗證郵件。"
 msgid "Please enable Fluxer in System Settings → Privacy & Security → Input Monitoring."
 msgstr "請在系統設定 → 隱私與安全性 → 輸入監控 中啟用 Fluxer。"
 
-#: src/components/pages/ReportPage.tsx:396
+#: src/components/pages/ReportPage.tsx:211
 msgid "Please enter a valid email address."
 msgstr "請輸入有效的電子郵件地址。"
 
-#: src/components/channel/dm/AddFriendForm.tsx:74
+#: src/components/channel/dm/AddFriendForm.tsx:97
 msgid "Please enter a valid FluxerTag (Username#0000)."
 msgstr "請輸入有效的 FluxerTag（使用者名稱#0000）。"
 
-#: src/components/pages/ReportPage.tsx:509
+#: src/components/pages/ReportPage.tsx:336
 msgid "Please enter a valid message link URL."
 msgstr "請輸入有效的訊息連結網址。"
 
@@ -13809,25 +13886,21 @@ msgstr "請輸入API端點。"
 msgid "Please fill out the following fields: {fieldList}"
 msgstr "請填寫以下欄位：{fieldList}"
 
-#: src/components/pages/ReportPage.tsx:436
+#: src/components/pages/ReportPage.tsx:261
 msgid "Please go back and enter a valid email address."
 msgstr "請返回並輸入有效的電子郵件地址。"
 
-#: src/components/pages/ReportPage.tsx:542
+#: src/components/pages/ReportPage.tsx:369
 msgid "Please include the community (guild) ID you are reporting."
 msgstr "請提供您要檢舉的社群（公會）ID。"
 
-#: src/components/pages/ReportPage.tsx:504
+#: src/components/pages/ReportPage.tsx:331
 msgid "Please paste the message link you are reporting."
 msgstr "請貼上您要檢舉的訊息連結。"
 
-#: src/components/pages/ReportPage.tsx:391
+#: src/components/pages/ReportPage.tsx:206
 msgid "Please provide an email address."
 msgstr "請提供電子郵件地址。"
-
-#: src/components/pages/ReportPage.tsx:801
-msgid "Please provide the details of your report."
-msgstr "請提供您檢舉的詳細內容。"
 
 #: src/components/modals/tabs/ApplicationsTab/ApplicationDetail.tsx:555
 msgid "Please retry or go back to the applications list."
@@ -13837,7 +13910,7 @@ msgstr "請重新嘗試或返回應用程式清單。"
 msgid "Please select a violation category"
 msgstr "請選擇違規類別"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:297
+#: src/components/modals/tabs/GiftInventoryTab.tsx:320
 msgid "Please try again later."
 msgstr "請稍後再試。"
 
@@ -13878,7 +13951,7 @@ msgstr "Plutonium 徽章隱私"
 msgid "Plutonium perks"
 msgstr "Plutonium 特權"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:110
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:129
 msgid "Plutonium Subscription"
 msgstr "Plutonium 訂閱"
 
@@ -13886,7 +13959,7 @@ msgstr "Plutonium 訂閱"
 msgid "PNG"
 msgstr "PNG"
 
-#: src/components/pages/ReportPage.tsx:331
+#: src/components/pages/report/optionDescriptors.ts:103
 msgid "Poland"
 msgstr "波蘭"
 
@@ -13903,7 +13976,7 @@ msgstr "投票"
 msgid "Popouts"
 msgstr "彈出視窗"
 
-#: src/components/pages/ReportPage.tsx:332
+#: src/components/pages/report/optionDescriptors.ts:104
 msgid "Portugal"
 msgstr "葡萄牙"
 
@@ -13943,11 +14016,11 @@ msgstr "高級版類型覆寫"
 msgid "Press keys..."
 msgstr "請按鍵..."
 
-#: src/components/channel/MessageReactions.tsx:121
+#: src/components/channel/MessageReactions.tsx:120
 msgid "press to add reaction"
 msgstr "按一下以新增反應"
 
-#: src/components/channel/MessageReactions.tsx:121
+#: src/components/channel/MessageReactions.tsx:120
 msgid "press to remove reaction"
 msgstr "按一下以移除反應"
 
@@ -14143,15 +14216,15 @@ msgstr "使用雙重驗證與通行金鑰保護您的帳號"
 msgid "Provide any additional context that may help our Safety Team..."
 msgstr "提供任何可協助安全團隊的額外背景..."
 
-#: src/components/pages/ReportPage.tsx:882
+#: src/components/pages/report/ReportStepDetails.tsx:156
 msgid "Provide at least a user ID or a user tag."
 msgstr "至少提供一個用戶ID或用戶標籤。"
 
-#: src/components/pages/ReportPage.tsx:527
+#: src/components/pages/ReportPage.tsx:354
 msgid "Provide either a user ID or a FluxerTag for the person you are reporting."
 msgstr "提供被檢舉者的使用者 ID 或 FluxerTag。"
 
-#: src/components/pages/ReportPage.tsx:478
+#: src/components/pages/ReportPage.tsx:305
 msgid "Provide your full legal name for the declaration."
 msgstr "提供您的完整法定名稱以供聲明使用。"
 
@@ -14163,7 +14236,7 @@ msgstr "剔除 {dayCount, plural, one {<0># 天</0>} other {<1># 天</1>}} 未�
 msgid "Public bot"
 msgstr "公開機器人"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:312
+#: src/components/modals/tabs/GiftInventoryTab.tsx:335
 msgid "Purchase a Plutonium gift from the Plutonium tab to share with friends!"
 msgstr "從 Plutonium 分頁購買 Plutonium 禮物與朋友分享！"
 
@@ -14171,12 +14244,12 @@ msgstr "從 Plutonium 分頁購買 Plutonium 禮物與朋友分享！"
 msgid "Purchase History"
 msgstr "購買紀錄"
 
-#: src/components/modals/components/plutonium/PricingSection.tsx:61
+#: src/components/modals/components/plutonium/PricingSection.tsx:67
 msgid "Purchase mode"
 msgstr "購買模式"
 
 #. placeholder {0}: getFormattedShortDate(new Date(gift.created_at))
-#: src/components/modals/tabs/GiftInventoryTab.tsx:119
+#: src/components/modals/tabs/GiftInventoryTab.tsx:120
 msgid "Purchased {0}"
 msgstr "購買於 {0}"
 
@@ -14275,7 +14348,7 @@ msgstr "單選鈕可讓您從群組中選擇一個選項。"
 msgid "Radio Group"
 msgstr "單選群組"
 
-#: src/components/pages/ReportPage.tsx:300
+#: src/components/pages/report/optionDescriptors.ts:75
 #: src/constants/IARConstants.tsx:180
 msgid "Raid Coordination"
 msgstr "突襲協調"
@@ -14310,7 +14383,7 @@ msgid "Reactions"
 msgstr "反應"
 
 #: src/components/layout/app-layout/nagbars/PremiumExpiredNagbar.tsx:77
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:284
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:320
 msgid "Reactivate"
 msgstr "重新啟用"
 
@@ -14323,15 +14396,15 @@ msgstr "閱讀訊息歷史"
 msgid "Read the community's audit log of changes and moderation actions."
 msgstr "查看社群的變更與管理措施稽核記錄。"
 
-#: src/components/modals/tabs/ApplicationsTab/index.tsx:146
+#: src/components/modals/tabs/ApplicationsTab/index.tsx:160
 msgid "Read the Documentation (fluxer.dev)"
 msgstr "閱讀文件（fluxer.dev）"
 
-#: src/components/modals/components/plutonium/BottomCTASection.tsx:52
+#: src/components/modals/components/plutonium/BottomCTASection.tsx:60
 msgid "Ready to Buy a Gift?"
 msgstr "準備好購買禮物了嗎？"
 
-#: src/components/modals/components/plutonium/BottomCTASection.tsx:52
+#: src/components/modals/components/plutonium/BottomCTASection.tsx:60
 msgid "Ready to Upgrade?"
 msgstr "準備好升級了嗎？"
 
@@ -14388,11 +14461,11 @@ msgstr "重新連線中…"
 msgid "Record shortcut"
 msgstr "錄製捷徑"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:269
+#: src/components/modals/tabs/GiftInventoryTab.tsx:292
 msgid "Redeem"
 msgstr "兌換"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:232
+#: src/components/modals/tabs/GiftInventoryTab.tsx:255
 msgid "Redeem a Gift"
 msgstr "兌換禮物"
 
@@ -14400,40 +14473,40 @@ msgstr "兌換禮物"
 msgid "Redeem Beta Code"
 msgstr "兌換測試碼"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:165
+#: src/components/modals/tabs/GiftInventoryTab.tsx:166
 msgid "Redeem for Yourself"
 msgstr "為自己兌換"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:255
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:281
 msgid "Redeem Gift Code"
 msgstr "兌換禮物代碼"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:238
+#: src/components/modals/tabs/GiftInventoryTab.tsx:261
 msgid "Redeem gift code form"
 msgstr "禮物代碼兌換表單"
 
 #. placeholder {0}: redeemedBetaCodes.length
-#: src/components/modals/tabs/BetaCodesTab.tsx:349
+#: src/components/modals/tabs/BetaCodesTab.tsx:374
 msgid "Redeemed ({0})"
 msgstr "已兌換（{0}）"
 
 #. placeholder {0}: getFormattedShortDate(new Date(gift.redeemed_at!))
-#: src/components/modals/tabs/GiftInventoryTab.tsx:117
+#: src/components/modals/tabs/GiftInventoryTab.tsx:118
 msgid "Redeemed {0}"
 msgstr "兌換於 {0}"
 
 #. placeholder {0}: gift.redeemed_by.username
 #. placeholder {1}: gift.redeemed_by.discriminator
-#: src/components/modals/tabs/GiftInventoryTab.tsx:153
+#: src/components/modals/tabs/GiftInventoryTab.tsx:154
 msgid "Redeemed by {0}#{1}"
 msgstr "由 {0}#{1} 兌換"
 
-#: src/components/modals/tabs/BetaCodesTab.tsx:54
+#: src/components/modals/tabs/BetaCodesTab.tsx:56
 msgid "Redeemer"
 msgstr "兌換者"
 
-#: src/components/modals/tabs/BetaCodesTab.tsx:111
-#: src/components/modals/tabs/BetaCodesTab.tsx:188
+#: src/components/modals/tabs/BetaCodesTab.tsx:113
+#: src/components/modals/tabs/BetaCodesTab.tsx:190
 msgid "Redeemer:"
 msgstr "兌換者："
 
@@ -14526,7 +14599,7 @@ msgstr "一般按鈕"
 msgid "Regular button clicked!"
 msgstr "一般按鈕已點擊！"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:298
+#: src/components/channel/channel-view/DMChannelView.tsx:299
 #: src/components/voice/IncomingCallUI.tsx:310
 msgid "Reject"
 msgstr "拒絕"
@@ -14624,19 +14697,19 @@ msgstr "移除入場音效"
 msgid "Remove filter"
 msgstr "移除篩選器"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:508
-#: src/components/channel/dm/DMWelcomeSection.tsx:132
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:144
+#: src/components/bottomsheets/DMBottomSheet.tsx:510
+#: src/components/channel/dm/DMWelcomeSection.tsx:144
 #: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:146
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:253
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:148
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:255
 #: src/components/modals/UserProfileActionsSheet.tsx:115
 #: src/components/modals/UserProfileActionsSheet.tsx:117
 #: src/components/modals/UserProfileActionsSheet.tsx:278
-#: src/components/modals/UserProfileMobileSheet.tsx:302
-#: src/components/modals/UserProfileMobileSheet.tsx:304
+#: src/components/modals/UserProfileMobileSheet.tsx:303
+#: src/components/modals/UserProfileMobileSheet.tsx:305
 #: src/components/modals/UserProfileModal.tsx:1143
-#: src/components/modals/UserProfileModal.tsx:1228
-#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:108
+#: src/components/modals/UserProfileModal.tsx:1229
+#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:129
 #: src/utils/RelationshipActionUtils.tsx:113
 #: src/utils/RelationshipActionUtils.tsx:115
 msgid "Remove Friend"
@@ -14654,8 +14727,8 @@ msgid "Remove from favorites"
 msgstr "從收藏移除"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:370
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1103
-#: src/components/bottomsheets/DMBottomSheet.tsx:400
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1127
+#: src/components/bottomsheets/DMBottomSheet.tsx:402
 #: src/components/channel/ChannelHeader.tsx:547
 #: src/components/channel/ChannelHeader.tsx:595
 #: src/components/channel/ChannelHeader.tsx:600
@@ -14720,7 +14793,7 @@ msgstr "移除爆雷"
 msgid "Remove sticker"
 msgstr "移除貼圖"
 
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:285
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:288
 #: src/components/modals/RemoveTimeoutModal.tsx:61
 #: src/components/modals/RemoveTimeoutModal.tsx:75
 #: src/components/modals/TimeoutMemberSheet.tsx:101
@@ -14763,11 +14836,11 @@ msgid "Removed from bookmarks"
 msgstr "已從書籤移除"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:115
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:541
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:555
 msgid "Removed from favorites"
 msgstr "已從收藏移除"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:126
+#: src/components/bottomsheets/DMBottomSheet.tsx:128
 msgid "Removed from Favorites"
 msgstr "從最愛中移除"
 
@@ -14891,7 +14964,7 @@ msgstr "已將社群重新命名為 {0}。"
 msgid "Render all your messages as unknown message type"
 msgstr "將所有訊息渲染為未知訊息類型"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:234
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:253
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "將於 <0>{renewalDate}</0> 續訂。"
 
@@ -14932,15 +15005,15 @@ msgstr "回覆"
 msgid "Replying to <0>{authorNickname}</0>"
 msgstr "正在回覆 <0>{authorNickname}</0>"
 
-#: src/components/pages/ReportPage.tsx:249
+#: src/components/pages/report/optionDescriptors.ts:38
 msgid "Report a Community"
 msgstr "檢舉社群"
 
-#: src/components/pages/ReportPage.tsx:247
+#: src/components/pages/report/optionDescriptors.ts:36
 msgid "Report a Message"
 msgstr "檢舉訊息"
 
-#: src/components/pages/ReportPage.tsx:248
+#: src/components/pages/report/optionDescriptors.ts:37
 msgid "Report a User Profile"
 msgstr "檢舉使用者個人檔案"
 
@@ -14949,12 +15022,12 @@ msgstr "檢舉使用者個人檔案"
 msgid "Report Community"
 msgstr "檢舉社群"
 
-#: src/components/pages/ReportPage.tsx:801
-msgid "Report Details"
-msgstr "檢舉詳細資訊"
+#: src/components/pages/report/ReportStepDetails.tsx:74
+msgid "Report details"
+msgstr "舉報詳細資訊"
 
-#: src/components/pages/ReportPage.tsx:241
-#: src/components/pages/ReportPage.tsx:612
+#: src/components/pages/report/ReportStepSelection.tsx:41
+#: src/components/pages/ReportPage.tsx:60
 msgid "Report Illegal Content"
 msgstr "檢舉非法內容"
 
@@ -14963,17 +15036,13 @@ msgstr "檢舉非法內容"
 msgid "Report Message"
 msgstr "檢舉訊息"
 
-#: src/components/pages/ReportPage.tsx:588
-msgid "Report Submitted"
-msgstr "已提交檢舉"
+#: src/components/pages/report/ReportStepComplete.tsx:36
+msgid "Report submitted"
+msgstr "舉報已提交"
 
 #: src/components/modals/IARModal.tsx:128
 msgid "Report submitted successfully. Our Safety Team will review it shortly."
 msgstr "檢舉提交成功，我們的安全團隊將儘快審核。"
-
-#: src/components/pages/ReportPage.tsx:624
-msgid "Report Type"
-msgstr "檢舉類型"
 
 #: src/components/modals/IARModal.tsx:84
 #: src/components/modals/UserProfileActionsSheet.tsx:289
@@ -14981,14 +15050,9 @@ msgstr "檢舉類型"
 msgid "Report User"
 msgstr "檢舉使用者"
 
-#: src/components/pages/ReportPage.tsx:852
+#: src/components/pages/report/ReportStepDetails.tsx:123
 msgid "Reported User Tag (optional)"
 msgstr "舉報用戶標籤（選填）"
-
-#: src/components/pages/ReportPage.tsx:644
-#: src/components/pages/ReportPage.tsx:804
-msgid "Reporting:"
-msgstr "舉報："
 
 #: src/components/modals/tabs/PrivacySafetyTab/DataExportTab.tsx:48
 #: src/components/modals/tabs/PrivacySafetyTab/DataExportTab.tsx:125
@@ -15050,7 +15114,7 @@ msgstr "需要 Plutonium"
 msgid "Reschedule Message"
 msgstr "重新排程訊息"
 
-#: src/components/modals/ClaimAccountModal.tsx:222
+#: src/components/modals/ClaimAccountModal.tsx:224
 #: src/components/modals/EmailChangeModal.tsx:230
 #: src/components/modals/EmailChangeModal.tsx:294
 msgid "Resend"
@@ -15064,7 +15128,11 @@ msgstr "重新發送（剩餘 {newSecondsRemaining} 秒）"
 msgid "Resend ({originalSecondsRemaining}s)"
 msgstr "重新發送（原始剩餘 {originalSecondsRemaining} 秒）"
 
-#: src/components/modals/ClaimAccountModal.tsx:222
+#: src/components/pages/report/ReportStepVerification.tsx:114
+msgid "Resend ({resendCooldownSeconds}s)"
+msgstr "重新發送 ({resendCooldownSeconds}秒)"
+
+#: src/components/modals/ClaimAccountModal.tsx:224
 msgid "Resend ({resendSecondsRemaining}s)"
 msgstr "重新發送（剩餘 {resendSecondsRemaining} 秒）"
 
@@ -15072,7 +15140,7 @@ msgstr "重新發送（剩餘 {resendSecondsRemaining} 秒）"
 msgid "Resend Button Loading"
 msgstr "重新傳送按鈕載入中"
 
-#: src/components/pages/ReportPage.tsx:761
+#: src/components/pages/report/ReportStepVerification.tsx:116
 msgid "Resend code"
 msgstr "重新發送代碼"
 
@@ -15097,7 +15165,7 @@ msgid "Resent"
 msgstr "已重新傳送"
 
 #: src/components/keybinds/KeybindRecorder.tsx:215
-#: src/components/modals/components/MobileSettingsView.tsx:128
+#: src/components/modals/components/MobileSettingsView.tsx:123
 #: src/components/modals/components/SettingsModalHeader.tsx:81
 #: src/components/modals/ImageCropModal.tsx:977
 #: src/components/modals/tabs/KeybindsTab.tsx:154
@@ -15173,8 +15241,8 @@ msgstr "恢復全螢幕"
 msgid "Restore maximized"
 msgstr "恢復最大化"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:280
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:282
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:316
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:318
 msgid "Resubscribe"
 msgstr "重新訂閱"
 
@@ -15189,11 +15257,11 @@ msgstr "重新訂閱"
 #: src/components/modals/guildTabs/GuildStickersTab.tsx:211
 #: src/components/modals/guildTabs/GuildWebhooksTab.tsx:137
 #: src/components/modals/tabs/ApplicationsTab/ApplicationDetail.tsx:559
-#: src/components/modals/tabs/ApplicationsTab/index.tsx:108
+#: src/components/modals/tabs/ApplicationsTab/index.tsx:112
 #: src/components/modals/tabs/AuthorizedAppsTab.tsx:121
-#: src/components/modals/tabs/BetaCodesTab.tsx:301
+#: src/components/modals/tabs/BetaCodesTab.tsx:326
 #: src/components/modals/tabs/DevicesTab.tsx:231
-#: src/components/modals/tabs/GiftInventoryTab.tsx:300
+#: src/components/modals/tabs/GiftInventoryTab.tsx:323
 msgid "Retry"
 msgstr "重試"
 
@@ -15244,8 +15312,8 @@ msgstr "在繼續前先檢視應用程式的要求。"
 #: src/components/invites/InviteListItem.tsx:217
 #: src/components/modals/GroupInvitesBottomSheet.tsx:78
 #: src/components/modals/GroupInvitesModal.tsx:76
-#: src/components/modals/tabs/BetaCodesTab.tsx:143
-#: src/components/modals/tabs/BetaCodesTab.tsx:220
+#: src/components/modals/tabs/BetaCodesTab.tsx:145
+#: src/components/modals/tabs/BetaCodesTab.tsx:222
 msgid "Revoke"
 msgstr "撤銷"
 
@@ -15369,7 +15437,7 @@ msgstr "身分組與權限"
 msgid "Roles updated successfully"
 msgstr "身分組更新成功"
 
-#: src/components/pages/ReportPage.tsx:333
+#: src/components/pages/report/optionDescriptors.ts:105
 msgid "Romania"
 msgstr "羅馬尼亞"
 
@@ -15423,7 +15491,7 @@ msgstr "飽和度"
 #: src/components/modals/AddFavoriteMemeModal.tsx:102
 #: src/components/modals/AttachmentEditModal.tsx:90
 #: src/components/modals/BaseChangeNicknameModal.tsx:115
-#: src/components/modals/components/MobileSettingsView.tsx:131
+#: src/components/modals/components/MobileSettingsView.tsx:126
 #: src/components/modals/CustomStatusBottomSheet.tsx:231
 #: src/components/modals/CustomStatusModal.tsx:362
 #: src/components/modals/EditFavoriteMemeModal.tsx:88
@@ -15438,9 +15506,9 @@ msgstr "飽和度"
 msgid "Save"
 msgstr "儲存"
 
-#: src/components/modals/components/plutonium/GiftSection.tsx:72
-#: src/components/modals/components/plutonium/PricingSection.tsx:81
-#: src/components/modals/components/plutonium/PricingSection.tsx:104
+#: src/components/modals/components/plutonium/GiftSection.tsx:79
+#: src/components/modals/components/plutonium/PricingSection.tsx:91
+#: src/components/modals/components/plutonium/PricingSection.tsx:119
 msgid "Save 17%"
 msgstr "節省 17%"
 
@@ -15600,8 +15668,8 @@ msgstr "捲動至聊天下方"
 msgid "Scroll Chat Up"
 msgstr "捲動至聊天上方"
 
-#: src/components/modals/components/plutonium/GiftSection.tsx:103
-#: src/components/modals/components/plutonium/PricingSection.tsx:138
+#: src/components/modals/components/plutonium/GiftSection.tsx:117
+#: src/components/modals/components/plutonium/PricingSection.tsx:160
 msgid "Scroll down to view all the sweet perks you get with Plutonium"
 msgstr "往下捲動以查看你使用 Plutonium 可享有的所有超棒特權"
 
@@ -15613,11 +15681,11 @@ msgstr "將聊天記錄向下捲"
 msgid "Scroll the chat history up"
 msgstr "將聊天記錄向上捲"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:857
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:889
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:400
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:460
 #: src/components/channel/ChannelHeader.tsx:586
-#: src/components/channel/shared/PickerSearchInput.tsx:204
+#: src/components/channel/shared/PickerSearchInput.tsx:203
 #: src/components/modals/tabs/ComponentGalleryTab/InputsTab.tsx:126
 #: src/stores/KeybindStore.ts:414
 #: src/utils/quick-switcher/QuickSwitcherModalUtils.tsx:86
@@ -15674,7 +15742,7 @@ msgstr "搜尋頻道、人員或社群"
 #: src/components/common/FriendSelector.tsx:196
 #: src/components/modals/AddFriendsToGroupModal.tsx:53
 #: src/components/modals/CreateDMModal.tsx:68
-#: src/components/modals/InviteModal.tsx:237
+#: src/components/modals/InviteModal.tsx:248
 #: src/components/modals/shared/RecipientList.tsx:177
 #: src/components/modals/ShareThemeModal.tsx:144
 msgid "Search friends"
@@ -15718,7 +15786,7 @@ msgstr "搜尋待處理請求"
 msgid "Search Permissions..."
 msgstr "搜尋權限..."
 
-#: src/components/channel/ChannelSearchResults.tsx:321
+#: src/components/channel/ChannelSearchResults.tsx:278
 #: src/components/modals/components/DesktopSettingsView.tsx:360
 msgid "Search Results"
 msgstr "搜尋結果"
@@ -15737,7 +15805,7 @@ msgid "Search scope"
 msgstr "搜尋範圍"
 
 #. placeholder {0}: activeScopeOption.label
-#: src/components/channel/ChannelSearchResults.tsx:1052
+#: src/components/channel/ChannelSearchResults.tsx:1031
 #: src/components/channel/MessageSearchBar/MessageSearchBar.tsx:378
 msgid "Search scope: {0}"
 msgstr "搜尋範圍：{0}"
@@ -15767,7 +15835,7 @@ msgstr "搜尋使用者"
 msgid "Search within the current view"
 msgstr "在目前視圖中搜尋"
 
-#: src/components/channel/ChannelSearchResults.tsx:319
+#: src/components/channel/ChannelSearchResults.tsx:276
 msgid "Searching..."
 msgstr "搜尋中..."
 
@@ -15848,9 +15916,9 @@ msgstr "查看你的邀請對訪客的顯示樣貌。"
 msgid "Select"
 msgstr "選取"
 
-#: src/components/pages/ReportPage.tsx:261
-#: src/components/pages/ReportPage.tsx:280
-#: src/components/pages/ReportPage.tsx:294
+#: src/components/pages/report/optionDescriptors.ts:42
+#: src/components/pages/report/optionDescriptors.ts:58
+#: src/components/pages/report/optionDescriptors.ts:69
 msgid "Select a category"
 msgstr "選擇一個類別"
 
@@ -15871,7 +15939,7 @@ msgstr "選取社群"
 msgid "Select a community where you have <0>Manage Community</0> permissions."
 msgstr "選取一個你擁有 <0>管理社群</0> 權限的社群。"
 
-#: src/components/pages/ReportPage.tsx:310
+#: src/components/pages/report/optionDescriptors.ts:82
 msgid "Select a country"
 msgstr "選擇一個國家"
 
@@ -15887,7 +15955,7 @@ msgstr "選取要套用的情境..."
 msgid "Select a verification method."
 msgstr "選取驗證方式。"
 
-#: src/components/pages/ReportPage.tsx:473
+#: src/components/pages/ReportPage.tsx:300
 msgid "Select a violation category."
 msgstr "選擇違規類別。"
 
@@ -15958,11 +16026,15 @@ msgstr "選取畫面或視窗"
 msgid "Select the account you want to sign in with on the desktop app."
 msgstr "選取你要在桌面應用程式使用的登入帳號。"
 
+#: src/components/pages/report/ReportStepSelection.tsx:44
+msgid "Select what you want to report."
+msgstr "選擇您想要舉報的內容。"
+
 #: src/components/modals/utils/settingsSearchIndex.ts:460
 msgid "Select your camera"
 msgstr "選取你的攝影機"
 
-#: src/components/pages/ReportPage.tsx:483
+#: src/components/pages/ReportPage.tsx:310
 msgid "Select your country of residence."
 msgstr "選取你的居住國家。"
 
@@ -15986,7 +16058,7 @@ msgstr "選取..."
 msgid "Selections"
 msgstr "所選項目"
 
-#: src/components/pages/ReportPage.tsx:269
+#: src/components/pages/report/optionDescriptors.ts:50
 #: src/constants/IARConstants.tsx:67
 msgid "Self-Harm or Suicide"
 msgstr "自傷或自殺"
@@ -16035,7 +16107,7 @@ msgstr "傳送動作訊息（會套用斜體）。"
 msgid "Send an SMS code first."
 msgstr "先傳送 SMS 驗證碼。"
 
-#: src/components/modals/ClaimAccountModal.tsx:182
+#: src/components/modals/ClaimAccountModal.tsx:184
 #: src/components/modals/EmailChangeModal.tsx:265
 #: src/components/modals/PhoneAddModal.tsx:206
 msgid "Send code"
@@ -16045,9 +16117,9 @@ msgstr "傳送代碼"
 msgid "Send Code"
 msgstr "傳送代碼"
 
-#: src/components/channel/dm/DMWelcomeSection.tsx:109
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:269
-#: src/components/modals/UserProfileModal.tsx:1288
+#: src/components/channel/dm/DMWelcomeSection.tsx:112
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:272
+#: src/components/modals/UserProfileModal.tsx:1290
 msgid "Send Friend Request"
 msgstr "傳送好友邀請"
 
@@ -16073,7 +16145,7 @@ msgstr "傳送訊息"
 msgid "Send Messages"
 msgstr "傳送訊息"
 
-#: src/components/channel/dm/AddFriendForm.tsx:119
+#: src/components/channel/dm/AddFriendForm.tsx:142
 msgid "Send Request"
 msgstr "傳送請求"
 
@@ -16097,11 +16169,11 @@ msgstr "傳送文字轉語音訊息。"
 msgid "Send TTS Messages"
 msgstr "傳送 TTS 訊息"
 
-#: src/components/pages/ReportPage.tsx:676
+#: src/components/pages/report/ReportStepEmail.tsx:92
 msgid "Send Verification Code"
 msgstr "傳送驗證碼"
 
-#: src/components/modals/InviteModal.tsx:258
+#: src/components/modals/InviteModal.tsx:268
 #: src/components/modals/shared/RecipientList.tsx:223
 #: src/components/modals/ShareThemeModal.tsx:162
 msgid "Sent"
@@ -16128,7 +16200,7 @@ msgstr "工作階段已過期。請重新登入。"
 msgid "Set a custom invite URL for your community."
 msgstr "為你的社群設定自訂邀請網址。"
 
-#: src/components/common/CustomStatusDisplay/CustomStatusDisplay.tsx:401
+#: src/components/common/CustomStatusDisplay/CustomStatusDisplay.tsx:361
 #: src/components/modals/StatusChangeBottomSheet.tsx:171
 #: src/components/popouts/UserAreaPopout.tsx:444
 msgid "Set a custom status"
@@ -16336,7 +16408,7 @@ msgid "Set your timezone"
 msgstr "設定你的時區"
 
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:220
-#: src/components/modals/components/MobileSettingsView.tsx:531
+#: src/components/modals/components/MobileSettingsView.tsx:485
 #: src/components/modals/tabs/ComponentGalleryTab/ButtonsTab.tsx:150
 #: src/components/modals/tabs/ComponentGalleryTab/ButtonsTab.tsx:221
 #: src/components/modals/tabs/ComponentGalleryTab/index.tsx:94
@@ -16383,7 +16455,11 @@ msgstr "分享動作！"
 msgid "Share Audio"
 msgstr "分享音訊"
 
-#: src/components/modals/components/plutonium/GiftSection.tsx:63
+#: src/components/pages/report/ReportStepDetails.tsx:77
+msgid "Share only what's needed to help our team assess the content."
+msgstr "僅分享協助我們團隊評估內容所需的資訊。"
+
+#: src/components/modals/components/plutonium/GiftSection.tsx:69
 msgid "Share the Plutonium experience with your friends by purchasing a gift subscription."
 msgstr "購買禮物訂閱，與朋友分享 Plutonium 的體驗。"
 
@@ -16417,7 +16493,7 @@ msgstr "分享你的主題"
 msgid "Shared theme"
 msgstr "共用主題"
 
-#: src/components/pages/ReportPage.tsx:268
+#: src/components/pages/report/optionDescriptors.ts:49
 #: src/constants/IARConstants.tsx:62
 msgid "Sharing Personal Information"
 msgstr "共享個人資訊"
@@ -16797,11 +16873,11 @@ msgstr "具有步進值的滑桿"
 msgid "Sliders"
 msgstr "滑桿"
 
-#: src/components/pages/ReportPage.tsx:334
+#: src/components/pages/report/optionDescriptors.ts:106
 msgid "Slovakia"
 msgstr "斯洛伐克"
 
-#: src/components/pages/ReportPage.tsx:335
+#: src/components/pages/report/optionDescriptors.ts:107
 msgid "Slovenia"
 msgstr "斯洛維尼亞"
 
@@ -16952,7 +17028,8 @@ msgstr "發生錯誤導致應用程式當機。請嘗試重新載入或重設應
 msgid "Something went wrong while loading the audit log."
 msgstr "載入稽核記錄時發生錯誤。"
 
-#: src/components/pages/ReportPage.tsx:563
+#: src/components/pages/ReportPage.tsx:103
+#: src/components/pages/ReportPage.tsx:395
 msgid "Something went wrong while submitting the report. Please try again."
 msgstr "提交報告時發生錯誤。請再試一次。"
 
@@ -16969,7 +17046,7 @@ msgid "Sort"
 msgstr "排序"
 
 #. placeholder {0}: activeSortOption.label
-#: src/components/channel/ChannelSearchResults.tsx:1063
+#: src/components/channel/ChannelSearchResults.tsx:1042
 msgid "Sort mode: {0}"
 msgstr "排序模式：{0}"
 
@@ -17008,21 +17085,21 @@ msgstr "訊息群組之間的間距"
 msgid "Spacious layout with clear visual separation between messages."
 msgstr "寬敞佈局，訊息之間有清晰的視覺分隔。"
 
-#: src/components/pages/ReportPage.tsx:336
+#: src/components/pages/report/optionDescriptors.ts:108
 msgid "Spain"
 msgstr "西班牙"
 
-#: src/components/pages/ReportPage.tsx:283
+#: src/components/pages/report/optionDescriptors.ts:61
 #: src/constants/IARConstants.tsx:119
 msgid "Spam Account"
 msgstr "垃圾帳號"
 
-#: src/components/pages/ReportPage.tsx:265
+#: src/components/pages/report/optionDescriptors.ts:46
 #: src/constants/IARConstants.tsx:47
 msgid "Spam or Scam"
 msgstr "垃圾訊息或詐騙"
 
-#: src/components/pages/ReportPage.tsx:301
+#: src/components/pages/report/optionDescriptors.ts:76
 #: src/constants/IARConstants.tsx:185
 msgid "Spam or Scam Community"
 msgstr "垃圾訊息或詐騙社群"
@@ -17141,9 +17218,9 @@ msgstr "開始策劃可分享與安裝的自訂表情包。"
 msgid "Start Mic Test"
 msgstr "開始麥克風測試"
 
-#: src/components/pages/ReportPage.tsx:687
-#: src/components/pages/ReportPage.tsx:771
-#: src/components/pages/ReportPage.tsx:964
+#: src/components/pages/report/ReportStepDetails.tsx:252
+#: src/components/pages/report/ReportStepEmail.tsx:103
+#: src/components/pages/report/ReportStepVerification.tsx:132
 msgid "Start over"
 msgstr "重新開始"
 
@@ -17151,13 +17228,13 @@ msgstr "重新開始"
 msgid "Start Sharing"
 msgstr "開始分享"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:122
+#: src/components/channel/ChannelHeader/CallButtons.tsx:160
 #: src/components/modals/UserProfileModal.tsx:1109
 #: src/components/uikit/ContextMenu/items/CallMenuItems.tsx:91
 msgid "Start Video Call"
 msgstr "開始視訊通話"
 
-#: src/components/channel/ChannelHeader/CallButtons.tsx:70
+#: src/components/channel/ChannelHeader/CallButtons.tsx:90
 #: src/components/modals/UserProfileModal.tsx:1100
 #: src/components/uikit/ContextMenu/items/CallMenuItems.tsx:60
 msgid "Start Voice Call"
@@ -17182,9 +17259,21 @@ msgstr "狀態指示器"
 msgid "Status Slate"
 msgstr "狀態板"
 
-#: src/components/pages/ReportPage.tsx:574
-msgid "Step {stepNumber} of {FLOW_TOTAL_STEPS}"
-msgstr "第 {stepNumber} 步，共 {FLOW_TOTAL_STEPS} 步"
+#: src/components/pages/report/ReportStepSelection.tsx:38
+msgid "Step 1"
+msgstr "步驟 1"
+
+#: src/components/pages/report/ReportStepEmail.tsx:51
+msgid "Step 2"
+msgstr "步驟 2"
+
+#: src/components/pages/report/ReportStepVerification.tsx:61
+msgid "Step 3"
+msgstr "步驟 3"
+
+#: src/components/pages/report/ReportStepDetails.tsx:71
+msgid "Step 4"
+msgstr "步驟 4"
 
 #: src/utils/SystemMessageUtils.tsx:45
 msgid "Step in, {username}! No paradoxes here; we're all friends."
@@ -17229,7 +17318,7 @@ msgid "Sticker density"
 msgstr "貼圖密度"
 
 #: src/components/auth/InviteHeader.tsx:140
-#: src/components/channel/InviteEmbed.tsx:197
+#: src/components/channel/InviteEmbed.tsx:199
 #: src/components/modals/InviteAcceptModal.tsx:142
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:70
 msgid "Sticker pack"
@@ -17261,7 +17350,7 @@ msgstr "貼圖已更新"
 
 #: src/components/channel/AutocompleteEmoji.tsx:111
 #: src/components/channel/textarea/TextareaButtons.tsx:134
-#: src/components/modals/ExpressionPickerSheet.tsx:86
+#: src/components/modals/ExpressionPickerSheet.tsx:73
 #: src/components/popouts/ExpressionPickerPopout.tsx:79
 msgid "Stickers"
 msgstr "貼圖"
@@ -17330,11 +17419,11 @@ msgstr "自習教室"
 msgid "Style Variations"
 msgstr "風格變化"
 
-#: src/components/pages/ReportPage.tsx:601
+#: src/components/pages/report/ReportStepComplete.tsx:41
 msgid "Submit another report"
 msgstr "提交另一份報告"
 
-#: src/components/pages/ReportPage.tsx:958
+#: src/components/pages/report/ReportStepDetails.tsx:240
 msgid "Submit DSA Report"
 msgstr "提交 DSA 報告"
 
@@ -17346,7 +17435,7 @@ msgstr "提交報告"
 msgid "Submitting"
 msgstr "提交中"
 
-#: src/components/modals/components/plutonium/VisionarySection.tsx:53
+#: src/components/modals/components/plutonium/VisionarySection.tsx:58
 msgid "subscription"
 msgstr "訂閱"
 
@@ -17464,7 +17553,7 @@ msgstr "隱藏嵌入內容"
 msgid "Swap text to reverify variants"
 msgstr "切換文字以重新驗證變體"
 
-#: src/components/pages/ReportPage.tsx:337
+#: src/components/pages/report/optionDescriptors.ts:109
 msgid "Sweden"
 msgstr "瑞典"
 
@@ -17476,7 +17565,7 @@ msgstr "瑞典語"
 msgid "Switch account"
 msgstr "切換帳號"
 
-#: src/components/popouts/UserAreaPopout.tsx:497
+#: src/components/popouts/UserAreaPopout.tsx:499
 msgid "Switch Accounts"
 msgstr "切換帳號"
 
@@ -17649,8 +17738,8 @@ msgstr "文字（不宜在工作場所）"
 msgid "Text channel"
 msgstr "文字頻道"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:473
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:662
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:487
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:676
 #: src/components/channel/channel-header/useChannelHeaderData.ts:96
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:314
 msgid "Text Channel"
@@ -17677,19 +17766,19 @@ msgstr "文字區"
 msgid "Thai"
 msgstr "泰語"
 
-#: src/components/pages/ReportPage.tsx:589
-msgid "Thank you for filing a report. We'll review it as soon as possible."
-msgstr "感謝您提交報告。我們會儘快進行審查。"
-
 #: src/components/modals/IARModal.tsx:187
 msgid "Thank you for helping keep Fluxer safe. Reports are reviewed by our Safety Team. False reports may result in action against your account."
 msgstr "感謝你協助維護 Fluxer 安全。檢舉會由安全團隊審查，惡意檢舉可能導致帳號受到處置。"
+
+#: src/components/pages/report/ReportStepComplete.tsx:37
+msgid "Thank you for helping keep Fluxer safe. We'll review your report as soon as possible."
+msgstr "感謝您幫助保持Fluxer的安全。我們將盡快審查您的舉報。"
 
 #: src/components/form/ColorPickerField.tsx:274
 msgid "That doesn't look like a valid color. Try hex, rgb(), hsl(), or a CSS color name."
 msgstr "這看起來不像有效的顏色。試試 hex、rgb()、hsl() 或 CSS 顏色名稱。"
 
-#: src/components/pages/ReportPage.tsx:846
+#: src/components/pages/report/ReportStepDetails.tsx:117
 msgid "That doesn't look like a valid URL."
 msgstr "這看起來不是有效的 URL。"
 
@@ -17733,8 +17822,8 @@ msgstr "機器人已加入。"
 msgid "The channel you're looking for may have been deleted or you may not have access to it."
 msgstr "你尋找的頻道可能已被刪除，或你沒有存取權限。"
 
-#: src/components/layout/GuildLayout.tsx:308
-#: src/components/layout/GuildLayout.tsx:371
+#: src/components/layout/GuildLayout.tsx:313
+#: src/components/layout/GuildLayout.tsx:376
 msgid "The community you're looking for may have been deleted or you may not have access to it."
 msgstr "你尋找的社群可能已被刪除，或你沒有存取權限。"
 
@@ -17795,7 +17884,7 @@ msgstr "超時時間不得超過 365 天（31536000 秒）。"
 msgid "The URL this link channel points to."
 msgstr "這個連結頻道指向的 URL。"
 
-#: src/components/pages/ReportPage.tsx:452
+#: src/components/pages/ReportPage.tsx:277
 msgid "The verification code is invalid or expired."
 msgstr "驗證碼無效或已過期。"
 
@@ -17869,7 +17958,7 @@ msgstr "這些設定使用瀏覽器原生音訊處理以提升通話品質，建
 msgid "These toggles force the client to treat features as enabled or disabled without relying on the server configuration. They only affect your client experience and are shown to developers for testing."
 msgstr "這些切換會強制用戶端視某些功能為啟用或停用，無需依賴伺服器設定。它們僅影響你的用戶端體驗，並提供給開發者進行測試。"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:356
+#: src/components/channel/channel-view/DMChannelView.tsx:357
 msgid "They might have taken the DeLorean elsewhere."
 msgstr "他們可能把 DeLorean 開到別處了。"
 
@@ -17877,7 +17966,7 @@ msgstr "他們可能把 DeLorean 開到別處了。"
 msgid "they/them"
 msgstr "他們／她們"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:342
+#: src/components/channel/channel-view/DMChannelView.tsx:343
 msgid "Think, McFly! Did you type the right address?"
 msgstr "想清楚，McFly！你打的是正確地址嗎？"
 
@@ -17979,7 +18068,7 @@ msgstr "此社群暫時停用邀請功能，稍後再試。"
 msgid "This community requires you to verify your account before joining. Please set an email and password for your account."
 msgstr "加入此社群前需驗證帳號。請設定電子郵件與密碼。"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:339
+#: src/components/channel/channel-view/DMChannelView.tsx:340
 msgid "This conversation has been erased"
 msgstr "此對話已被清除"
 
@@ -18008,8 +18097,8 @@ msgstr "此禮物代碼已被領取。"
 msgid "This gift code has already been redeemed."
 msgstr "此禮物代碼已被兌換。"
 
-#: src/components/channel/GiftEmbed.tsx:148
-#: src/components/modals/GiftAcceptModal.tsx:92
+#: src/components/channel/GiftEmbed.tsx:159
+#: src/components/modals/GiftAcceptModal.tsx:99
 msgid "This gift code is invalid or already claimed."
 msgstr "此禮物代碼無效或已被領取。"
 
@@ -18022,11 +18111,11 @@ msgstr "此禮物代碼無效或已被兌換。"
 msgid "This gift code may be invalid, expired, or already redeemed."
 msgstr "此禮物代碼可能無效、已過期或已被兌換。"
 
-#: src/components/modals/GiftAcceptModal.tsx:118
+#: src/components/modals/GiftAcceptModal.tsx:125
 msgid "This gift has already been claimed."
 msgstr "此禮物已被領取。"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:157
+#: src/components/modals/tabs/GiftInventoryTab.tsx:158
 msgid "This gift has been redeemed"
 msgstr "此禮物已被兌換"
 
@@ -18044,7 +18133,7 @@ msgstr "此邀請將在 {0} 後失效。"
 msgid "This invite has unlimited uses."
 msgstr "此邀請無使用次數限制。"
 
-#: src/components/modals/InviteModal.tsx:321
+#: src/components/modals/InviteModal.tsx:318
 msgid "This invite link never expires."
 msgstr "此邀請連結永不過期。"
 
@@ -18059,23 +18148,19 @@ msgstr "此邀請可能已過期或被刪除。"
 msgid "This invite never expires."
 msgstr "此邀請永不過期。"
 
-#: src/components/common/CustomStatusDisplay/CustomStatusDisplay.tsx:170
-#: src/components/emojis/EmojiInfoContent.tsx:79
+#: src/components/emojis/EmojiAttributionSubtext.tsx:130
 msgid "This is a custom emoji from"
 msgstr "這是來自的自訂表情符號"
 
-#: src/components/common/CustomStatusDisplay/CustomStatusDisplay.tsx:160
-#: src/components/emojis/EmojiInfoContent.tsx:68
+#: src/components/emojis/EmojiAttributionSubtext.tsx:121
 msgid "This is a custom emoji from a community."
 msgstr "這是來自某個社群的自訂表情符號。"
 
-#: src/components/common/CustomStatusDisplay/CustomStatusDisplay.tsx:150
-#: src/components/emojis/EmojiInfoContent.tsx:56
+#: src/components/emojis/EmojiAttributionSubtext.tsx:111
 msgid "This is a custom emoji from a community. Ask the author for an invite to use this emoji."
 msgstr "這是來自某個社群的自訂表情符號。向作者索取邀請即可使用。"
 
-#: src/components/common/CustomStatusDisplay/CustomStatusDisplay.tsx:138
-#: src/components/emojis/EmojiInfoContent.tsx:43
+#: src/components/emojis/EmojiAttributionSubtext.tsx:101
 msgid "This is a default emoji on Fluxer."
 msgstr "這是 Fluxer 預設的表情符號。"
 
@@ -18095,8 +18180,8 @@ msgstr "訊息即是如此顯示"
 msgid "This is not the channel you're looking for."
 msgstr "這不是你要找的頻道。"
 
-#: src/components/layout/GuildLayout.tsx:307
-#: src/components/layout/GuildLayout.tsx:370
+#: src/components/layout/GuildLayout.tsx:312
+#: src/components/layout/GuildLayout.tsx:375
 msgid "This is not the community you're looking for."
 msgstr "這不是你要找的社群。"
 
@@ -18113,7 +18198,7 @@ msgid "This is the beginning of <0>{displayName}</0>. Add friends to start a con
 msgstr "這是 <0>{displayName}</0> 的第一則訊息。新增好友開始聊天吧！"
 
 #. placeholder {0}: user.username
-#: src/components/channel/dm/DMWelcomeSection.tsx:182
+#: src/components/channel/dm/DMWelcomeSection.tsx:194
 msgid "This is the beginning of your direct message history with <0>{0}</0>."
 msgstr "這是你與 <0>{0}</0> 的私人訊息紀錄開端。"
 
@@ -18194,7 +18279,7 @@ msgstr "此主題連結缺少資料。"
 msgid "This theme may have been removed or the link is invalid."
 msgstr "此主題可能已被移除或連結無效。"
 
-#: src/components/channel/dm/AddFriendForm.tsx:62
+#: src/components/channel/dm/AddFriendForm.tsx:85
 msgid "This user has restricted who can send them friend requests."
 msgstr "此使用者限制誰可以發送好友邀請。"
 
@@ -18216,8 +18301,8 @@ msgid "This was a @silent message."
 msgstr "這是一則 @silent 訊息。"
 
 #: src/actions/MessageActionCreators.tsx:392
-#: src/components/channel/Messages.tsx:442
-#: src/components/channel/Messages.tsx:522
+#: src/components/channel/Messages.tsx:440
+#: src/components/channel/Messages.tsx:520
 msgid "This will create a rift in the space-time continuum and cannot be undone."
 msgstr "這會在時空連續體中創造裂縫，無法還原。"
 
@@ -18283,7 +18368,7 @@ msgstr "時間：{currentFormatted} / {durationFormatted}"
 msgid "Timed out until {0}."
 msgstr "超時至 {0}。"
 
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:285
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:288
 #: src/components/modals/TimeoutMemberModal.tsx:207
 #: src/components/modals/TimeoutMemberSheet.tsx:90
 #: src/components/uikit/ContextMenu/items/GuildMemberMenuItems.tsx:272
@@ -18570,7 +18655,7 @@ msgstr "true 或 false"
 msgid "Try a different name or use @ / # / ! / * prefixes to filter results."
 msgstr "試試不同名稱或使用 @ / # / ! / * 前綴來篩選結果。"
 
-#: src/components/channel/ChannelSearchResults.tsx:710
+#: src/components/channel/ChannelSearchResults.tsx:679
 msgid "Try a different search query"
 msgstr "試試不同的搜尋字串"
 
@@ -18585,13 +18670,13 @@ msgid "Try a different search term or filter"
 msgstr "試試不同的搜尋詞或篩選條件"
 
 #: src/components/auth/HandoffCodeDisplay.tsx:67
-#: src/components/channel/Messages.tsx:939
+#: src/components/channel/Messages.tsx:937
 msgid "Try again"
 msgstr "再試一次"
 
 #: src/components/BootstrapErrorScreen.tsx:68
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:301
-#: src/components/channel/ChannelSearchResults.tsx:694
+#: src/components/channel/ChannelSearchResults.tsx:663
 #: src/components/modals/channelTabs/ChannelInvitesTab.tsx:148
 #: src/components/modals/channelTabs/ChannelWebhooksTab.tsx:159
 #: src/components/NetworkErrorScreen.tsx:56
@@ -18612,7 +18697,7 @@ msgstr "試試其他名稱或確認拼字。"
 msgid "Try another search term"
 msgstr "試試其他搜尋詞"
 
-#: src/components/channel/InviteEmbed.tsx:359
+#: src/components/channel/InviteEmbed.tsx:361
 msgid "Try asking for a new invite."
 msgstr "試著請求新的邀請。"
 
@@ -18802,7 +18887,7 @@ msgstr "無法安裝貼圖包"
 msgid "Unable to load activity logs"
 msgstr "無法載入活動紀錄"
 
-#: src/components/modals/tabs/ApplicationsTab/index.tsx:104
+#: src/components/modals/tabs/ApplicationsTab/index.tsx:108
 msgid "Unable to load applications"
 msgstr "無法載入應用程式"
 
@@ -18814,7 +18899,7 @@ msgstr "無法載入套件資訊。"
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "無法準備任何表情符號上傳。發生以下錯誤："
 
-#: src/components/modals/ClaimAccountModal.tsx:125
+#: src/components/modals/ClaimAccountModal.tsx:127
 #: src/components/modals/EmailChangeModal.tsx:122
 #: src/components/modals/EmailChangeModal.tsx:152
 msgid "Unable to resend code right now"
@@ -18824,7 +18909,7 @@ msgstr "目前無法重新發送代碼"
 msgid "Unable to send code to new email"
 msgstr "無法將代碼發送至新電子郵件"
 
-#: src/components/channel/dm/AddFriendForm.tsx:76
+#: src/components/channel/dm/AddFriendForm.tsx:99
 msgid "Unable to send friend request. Please try again."
 msgstr "無法發送好友邀請。請再試一次。"
 
@@ -18844,17 +18929,17 @@ msgstr "對所有人皆不可用"
 msgid "Unavailable for everyone but staff"
 msgstr "僅對職員可用"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:532
+#: src/components/bottomsheets/DMBottomSheet.tsx:535
 #: src/components/channel/barriers/BarrierComponents.tsx:221
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:180
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:335
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:182
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:338
 #: src/components/modals/tabs/BlockedUsersTab.tsx:58
 #: src/components/modals/tabs/BlockedUsersTab.tsx:171
 #: src/components/modals/UserProfileActionsSheet.tsx:151
 #: src/components/modals/UserProfileActionsSheet.tsx:305
-#: src/components/modals/UserProfileMobileSheet.tsx:320
+#: src/components/modals/UserProfileMobileSheet.tsx:321
 #: src/components/modals/UserProfileModal.tsx:1049
-#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:209
+#: src/components/uikit/ContextMenu/items/RelationshipMenuItems.tsx:230
 #: src/utils/RelationshipActionUtils.tsx:169
 msgid "Unblock"
 msgstr "解除封鎖"
@@ -18863,11 +18948,11 @@ msgstr "解除封鎖"
 msgid "Unblock this user before sending a friend request."
 msgstr "寄送好友邀請前請先解除封鎖此用戶。"
 
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:178
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:180
 #: src/components/modals/tabs/BlockedUsersTab.tsx:56
 #: src/components/modals/UserProfileActionsSheet.tsx:149
-#: src/components/modals/UserProfileMobileSheet.tsx:318
-#: src/components/modals/UserProfileModal.tsx:1243
+#: src/components/modals/UserProfileMobileSheet.tsx:319
+#: src/components/modals/UserProfileModal.tsx:1244
 #: src/utils/RelationshipActionUtils.tsx:167
 msgid "Unblock User"
 msgstr "解除封鎖用戶"
@@ -18878,17 +18963,17 @@ msgstr "解除封鎖用戶"
 msgid "Uncategorized"
 msgstr "未分類"
 
-#: src/components/modals/tabs/BetaCodesTab.tsx:127
-#: src/components/modals/tabs/BetaCodesTab.tsx:204
+#: src/components/modals/tabs/BetaCodesTab.tsx:129
+#: src/components/modals/tabs/BetaCodesTab.tsx:206
 msgid "Unclaimed"
 msgstr "未領取"
 
 #. placeholder {0}: unclaimedBetaCodes.length
-#: src/components/modals/tabs/BetaCodesTab.tsx:333
+#: src/components/modals/tabs/BetaCodesTab.tsx:358
 msgid "Unclaimed ({0})"
 msgstr "未領取（{0}）"
 
-#: src/components/modals/components/UnclaimedAccountAlert.tsx:31
+#: src/components/modals/components/UnclaimedAccountAlert.tsx:29
 #: src/components/modals/tabs/DeveloperOptionsTab/MockingTab.tsx:51
 msgid "Unclaimed Account"
 msgstr "未領取帳號"
@@ -18922,7 +19007,7 @@ msgstr "解除所有裝置靜音"
 msgid "Undeafen User"
 msgstr "解除用戶靜音"
 
-#: src/components/pages/ReportPage.tsx:285
+#: src/components/pages/report/optionDescriptors.ts:63
 #: src/constants/IARConstants.tsx:129
 msgid "Underage User"
 msgstr "未成年用戶"
@@ -18981,7 +19066,7 @@ msgstr "取消專注"
 msgid "Unique invite"
 msgstr "專屬邀請"
 
-#: src/components/modals/components/plutonium/VisionarySection.tsx:79
+#: src/components/modals/components/plutonium/VisionarySection.tsx:88
 msgid "Unique profile badge"
 msgstr "專屬個人徽章"
 
@@ -19035,12 +19120,12 @@ msgstr "未知實體"
 msgid "Unknown error"
 msgstr "未知錯誤"
 
-#: src/components/channel/GiftEmbed.tsx:147
-#: src/components/modals/GiftAcceptModal.tsx:91
+#: src/components/channel/GiftEmbed.tsx:158
+#: src/components/modals/GiftAcceptModal.tsx:98
 msgid "Unknown Gift"
 msgstr "未知贈禮"
 
-#: src/components/channel/InviteEmbed.tsx:357
+#: src/components/channel/InviteEmbed.tsx:359
 msgid "Unknown Invite"
 msgstr "未知邀請"
 
@@ -19113,7 +19198,7 @@ msgstr "使用 Plutonium 解鎖 HD 螢幕分享"
 msgid "Unlock HD Video with Plutonium"
 msgstr "使用 Plutonium 解鎖 HD 影片"
 
-#: src/components/modals/components/PlutoniumContent.tsx:185
+#: src/components/modals/components/PlutoniumContent.tsx:196
 msgid "Unlock higher limits and exclusive features while supporting an independent communication platform."
 msgstr "在支持獨立通訊平台的同時解鎖更高限制與獨家功能。"
 
@@ -19126,9 +19211,9 @@ msgid "Unlock stickers in DMs with Plutonium"
 msgstr "使用 Plutonium 在私訊中解鎖貼圖"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:467
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:850
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1044
-#: src/components/bottomsheets/DMBottomSheet.tsx:645
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:882
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1068
+#: src/components/bottomsheets/DMBottomSheet.tsx:648
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:321
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:179
 #: src/components/bottomsheets/VoiceParticipantBottomSheet.tsx:253
@@ -19154,7 +19239,7 @@ msgstr "解除類別靜音"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:400
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:452
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1005
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1029
 #: src/components/channel/ChannelHeader/ChannelNotificationSettingsDropdown.tsx:167
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:161
 msgid "Unmute Channel"
@@ -19167,9 +19252,9 @@ msgstr "解除頻道靜音"
 msgid "Unmute Community"
 msgstr "解除社群靜音"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1007
-#: src/components/bottomsheets/DMBottomSheet.tsx:449
-#: src/components/bottomsheets/DMBottomSheet.tsx:590
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1031
+#: src/components/bottomsheets/DMBottomSheet.tsx:451
+#: src/components/bottomsheets/DMBottomSheet.tsx:593
 msgid "Unmute Conversation"
 msgstr "解除對話靜音"
 
@@ -19200,16 +19285,16 @@ msgid "Unnamed Group"
 msgstr "未命名群組"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:331
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1126
-#: src/components/bottomsheets/DMBottomSheet.tsx:478
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1150
+#: src/components/bottomsheets/DMBottomSheet.tsx:480
 #: src/components/channel/dm/DMList.tsx:282
 #: src/components/uikit/ContextMenu/DMContextMenu.tsx:149
 msgid "Unpin DM"
 msgstr "解除釘選私訊"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:290
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1126
-#: src/components/bottomsheets/DMBottomSheet.tsx:478
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1150
+#: src/components/bottomsheets/DMBottomSheet.tsx:480
 #: src/components/channel/dm/DMList.tsx:243
 #: src/components/uikit/ContextMenu/GroupDMContextMenu.tsx:129
 msgid "Unpin Group DM"
@@ -19231,20 +19316,20 @@ msgid "Unpin Message"
 msgstr "解除釘選訊息"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:232
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:583
-#: src/components/bottomsheets/DMBottomSheet.tsx:164
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:597
+#: src/components/bottomsheets/DMBottomSheet.tsx:166
 #: src/components/channel/dm/DMList.tsx:224
 #: src/components/uikit/ContextMenu/DMContextMenu.tsx:132
 msgid "Unpinned DM"
 msgstr "已解除釘選私訊"
 
 #: src/components/bottomsheets/ChannelBottomSheet.tsx:232
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:583
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:597
 #: src/components/uikit/ContextMenu/GroupDMContextMenu.tsx:112
 msgid "Unpinned group"
 msgstr "已解除釘選群組"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:164
+#: src/components/bottomsheets/DMBottomSheet.tsx:166
 msgid "Unpinned group DM"
 msgstr "未固定的群組 DM"
 
@@ -19279,7 +19364,7 @@ msgstr "取消嵌入壓抑"
 msgid "Until I change it"
 msgstr "直到我更改為止"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:664
+#: src/components/bottomsheets/DMBottomSheet.tsx:667
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:334
 #: src/components/channel/ChannelHeader/ChannelNotificationSettingsDropdown.tsx:57
 #: src/components/channel/muteOptions.ts:39
@@ -19305,7 +19390,7 @@ msgstr "更新"
 msgid "Update app"
 msgstr "更新應用程式"
 
-#: src/components/modals/components/MobileSettingsView.tsx:244
+#: src/components/modals/components/MobileSettingsView.tsx:239
 msgid "Update Service Worker"
 msgstr "更新服務工作人員"
 
@@ -19402,7 +19487,7 @@ msgstr "正在更新最愛…"
 msgid "Updating..."
 msgstr "正在更新…"
 
-#: src/components/modals/components/plutonium/PricingSection.tsx:84
+#: src/components/modals/components/plutonium/PricingSection.tsx:94
 msgid "Upgrade Now"
 msgstr "立即升級"
 
@@ -19415,18 +19500,19 @@ msgstr "升級為 Plutonium"
 msgid "Upgrade to store up to 15 custom backgrounds and unlock HD video quality, higher frame rates, and more."
 msgstr "升級即可儲存最多 15 個自訂背景並解鎖 HD 影片品質、更高幀率等功能。"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:265
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:316
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:297
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:357
 msgid "Upgrade to Visionary"
 msgstr "升級為 Visionary"
 
 #. placeholder {0}: formatter.format(visionarySlots.remaining)
-#: src/components/modals/components/plutonium/VisionarySection.tsx:109
+#: src/components/modals/components/plutonium/VisionarySection.tsx:122
+#: src/components/modals/components/plutonium/VisionarySection.tsx:134
 msgid "Upgrade to Visionary — {0} Left"
 msgstr "升級為 Visionary — 剩下 {0} 個"
 
 #. placeholder {0}: isGiftSubscription ? 'gift time' : 'subscription'
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:243
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:262
 msgid "Upgrading to Visionary is a <0>one-time</0> purchase and will <1>cancel your current {0} immediately</1>."
 msgstr "升級為 Visionary 是 <0>一次性</0>購買，且會 <1>立即取消您目前的 {0}</1>。"
 
@@ -19674,10 +19760,6 @@ msgstr "如果遺失驗證器 App，可使用這些代碼存取帳號。"
 msgid "Use this button to quickly clear all permissions."
 msgstr "使用此按鈕可快速清除所有權限。"
 
-#: src/components/pages/ReportPage.tsx:613
-msgid "Use this form to report illegal content under the Digital Services Act (DSA). Select what you want to report."
-msgstr "使用此表單根據數位服務法 (DSA) 報告非法內容。選擇您想報告的內容。"
-
 #: src/components/modals/tabs/KeybindsTab.tsx:101
 msgid "Use this shortcut system-wide"
 msgstr "在整個系統中使用此捷徑"
@@ -19708,19 +19790,19 @@ msgstr "使用者看起來未滿 13 歲"
 msgid "User Debug"
 msgstr "使用者除錯"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:353
+#: src/components/channel/channel-view/DMChannelView.tsx:354
 msgid "User has vanished"
 msgstr "使用者已消失"
 
-#: src/components/pages/ReportPage.tsx:865
+#: src/components/pages/report/ReportStepDetails.tsx:137
 msgid "User ID (optional)"
 msgstr "用戶 ID（選填）"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:376
+#: src/components/bottomsheets/DMBottomSheet.tsx:378
 msgid "User ID copied"
 msgstr "使用者 ID 已複製"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:652
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:666
 msgid "User ID copied to clipboard"
 msgstr "使用者 ID 已複製到剪貼簿"
 
@@ -19765,7 +19847,7 @@ msgstr "使用者紀錄"
 msgid "User Settings"
 msgstr "使用者設定"
 
-#: src/components/pages/ReportPage.tsx:873
+#: src/components/pages/report/ReportStepDetails.tsx:146
 msgid "User Tag (optional)"
 msgstr "使用者標籤（選填）"
 
@@ -19805,7 +19887,7 @@ msgstr "使用者名稱至少 1 個字元"
 msgid "Username must be at most 32 characters"
 msgstr "使用者名稱最多 32 個字元"
 
-#: src/components/channel/dm/AddFriendForm.tsx:130
+#: src/components/channel/dm/AddFriendForm.tsx:153
 msgid "Username#0000"
 msgstr "使用者名稱#0000"
 
@@ -19904,7 +19986,7 @@ msgstr "自訂網址長度需介於 2 至 32 個字元，且只能包含英數�
 msgid "Verification Barriers"
 msgstr "驗證障礙"
 
-#: src/components/modals/ClaimAccountModal.tsx:199
+#: src/components/modals/ClaimAccountModal.tsx:201
 #: src/components/modals/EmailChangeModal.tsx:218
 #: src/components/modals/EmailChangeModal.tsx:282
 #: src/components/modals/PhoneAddModal.tsx:224
@@ -19912,11 +19994,11 @@ msgstr "驗證障礙"
 msgid "Verification code"
 msgstr "驗證碼"
 
-#: src/components/pages/ReportPage.tsx:719
+#: src/components/pages/report/ReportStepVerification.tsx:86
 msgid "Verification Code"
 msgstr "驗證碼"
 
-#: src/components/modals/ClaimAccountModal.tsx:88
+#: src/components/modals/ClaimAccountModal.tsx:90
 msgid "Verification code sent"
 msgstr "驗證碼已寄出"
 
@@ -19937,10 +20019,9 @@ msgstr "查看備份代碼前可能需要驗證。"
 #: src/components/auth/AuthPageHeader.tsx:49
 #: src/components/auth/InviteHeader.tsx:81
 #: src/components/auth/InviteHeader.tsx:226
-#: src/components/channel/InviteEmbed.tsx:285
-#: src/components/channel/InviteEmbed.tsx:428
-#: src/components/common/CustomStatusDisplay/CustomStatusDisplay.tsx:178
-#: src/components/emojis/EmojiInfoContent.tsx:87
+#: src/components/channel/InviteEmbed.tsx:287
+#: src/components/channel/InviteEmbed.tsx:430
+#: src/components/emojis/EmojiAttributionSubtext.tsx:143
 #: src/components/layout/GuildHeader.tsx:132
 msgid "Verified Community"
 msgstr "已驗證社群"
@@ -19955,7 +20036,7 @@ msgstr "已驗證公會"
 msgid "Verify"
 msgstr "驗證"
 
-#: src/components/pages/ReportPage.tsx:740
+#: src/components/pages/report/ReportStepVerification.tsx:102
 msgid "Verify Code"
 msgstr "驗證碼"
 
@@ -19979,6 +20060,10 @@ msgstr "驗證電話號碼表單"
 #: src/components/modals/CaptchaModal.tsx:119
 msgid "Verify You're Human"
 msgstr "驗證您是人類"
+
+#: src/components/pages/report/ReportStepEmail.tsx:54
+msgid "Verify your email"
+msgstr "驗證您的電子郵件"
 
 #: src/components/modals/SudoVerificationModal.tsx:359
 msgid "Verify your identity"
@@ -20012,7 +20097,7 @@ msgid "Video"
 msgstr "影片"
 
 #: src/components/channel/ChannelHeader.tsx:572
-#: src/components/modals/UserProfileMobileSheet.tsx:515
+#: src/components/modals/UserProfileMobileSheet.tsx:519
 msgid "Video Call"
 msgstr "視訊通話"
 
@@ -20097,7 +20182,7 @@ msgstr "檢視備份代碼"
 msgid "View backup codes form"
 msgstr "檢視備份代碼表單"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:282
+#: src/components/channel/channel-view/DMChannelView.tsx:283
 msgid "View call"
 msgstr "檢視通話"
 
@@ -20138,7 +20223,7 @@ msgstr "檢視禮物庫存"
 msgid "View Global Profile"
 msgstr "檢視全域個人檔案"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:282
+#: src/components/channel/channel-view/DMChannelView.tsx:283
 msgid "View incoming call"
 msgstr "檢視來電"
 
@@ -20158,10 +20243,10 @@ msgstr "檢視高級功能"
 msgid "View premium perks"
 msgstr "檢視高級權益"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:411
+#: src/components/bottomsheets/DMBottomSheet.tsx:413
 #: src/components/bottomsheets/VoiceParticipantBottomSheet.tsx:226
 #: src/components/channel/friends/MobileFriendRequestItem.tsx:87
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:210
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:212
 #: src/components/modals/tabs/BlockedUsersTab.tsx:87
 #: src/components/uikit/ContextMenu/items/UserProfileMenuItem.tsx:43
 msgid "View Profile"
@@ -20191,7 +20276,7 @@ msgstr "觀眾加入串流"
 msgid "Viewer Leaves Stream"
 msgstr "觀眾離開串流"
 
-#: src/components/pages/ReportPage.tsx:827
+#: src/components/pages/report/ReportStepDetails.tsx:96
 msgid "Violation Category"
 msgstr "違規類別"
 
@@ -20199,7 +20284,7 @@ msgstr "違規類別"
 msgid "Violation category selection"
 msgstr "違規類別選擇"
 
-#: src/components/pages/ReportPage.tsx:264
+#: src/components/pages/report/optionDescriptors.ts:45
 #: src/constants/IARConstants.tsx:42
 msgid "Violent or Graphic Content"
 msgstr "暴力或血腥內容"
@@ -20212,9 +20297,9 @@ msgstr "VIP 語音"
 msgid "Visible Buttons"
 msgstr "可見按鈕"
 
-#: src/components/modals/components/plutonium/PricingSection.tsx:88
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:110
-#: src/components/modals/components/plutonium/VisionarySection.tsx:58
+#: src/components/modals/components/plutonium/PricingSection.tsx:101
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:129
+#: src/components/modals/components/plutonium/VisionarySection.tsx:67
 #: src/components/modals/tabs/DeveloperOptionsTab/MockingTab.tsx:154
 #: src/utils/modals/guildTabs/GuildAuditLogTabUtils.ts:274
 msgid "Visionary"
@@ -20228,25 +20313,25 @@ msgstr "Visionary（終身 #42）"
 msgid "Visionary (Lifetime Plutonium)"
 msgstr "Visionary（終身 Plutonium）"
 
-#: src/components/modals/components/plutonium/BottomCTASection.tsx:80
-#: src/components/modals/components/plutonium/BottomCTASection.tsx:111
+#: src/components/modals/components/plutonium/BottomCTASection.tsx:95
+#: src/components/modals/components/plutonium/BottomCTASection.tsx:134
 msgid "Visionary {visionaryPrice}"
 msgstr "Visionary {visionaryPrice}"
 
-#: src/components/modals/components/plutonium/VisionarySection.tsx:96
+#: src/components/modals/components/plutonium/VisionarySection.tsx:105
 msgid "Visionary community with direct team access"
 msgstr "Visionary 社群，享有直接團隊聯繫"
 
-#: src/components/modals/components/plutonium/GiftSection.tsx:87
-#: src/components/modals/components/plutonium/PricingSection.tsx:119
+#: src/components/modals/components/plutonium/GiftSection.tsx:100
+#: src/components/modals/components/plutonium/PricingSection.tsx:140
 msgid "Visionary Gift"
 msgstr "Visionary 禮物"
 
-#: src/components/modals/components/plutonium/BottomCTASection.tsx:109
+#: src/components/modals/components/plutonium/BottomCTASection.tsx:132
 msgid "Visionary Gift Sold Out"
 msgstr "Visionary 禮物已售罄"
 
-#: src/components/modals/components/plutonium/BottomCTASection.tsx:80
+#: src/components/modals/components/plutonium/BottomCTASection.tsx:95
 msgid "Visionary Sold Out"
 msgstr "Visionary 已售罄"
 
@@ -20281,15 +20366,15 @@ msgstr "語音與視訊設定"
 msgid "Voice Activity"
 msgstr "語音活動"
 
-#: src/components/channel/channel-view/DMChannelView.tsx:277
+#: src/components/channel/channel-view/DMChannelView.tsx:278
 #: src/components/voice/VoiceCallView.tsx:466
 msgid "Voice call"
 msgstr "語音通話"
 
-#: src/components/bottomsheets/DMBottomSheet.tsx:419
+#: src/components/bottomsheets/DMBottomSheet.tsx:421
 #: src/components/channel/ChannelHeader.tsx:562
-#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:225
-#: src/components/modals/UserProfileMobileSheet.tsx:507
+#: src/components/modals/guildTabs/GuildMemberActionsSheet.tsx:227
+#: src/components/modals/UserProfileMobileSheet.tsx:511
 msgid "Voice Call"
 msgstr "語音通話"
 
@@ -20306,8 +20391,8 @@ msgstr "語音通話"
 msgid "Voice channel"
 msgstr "語音頻道"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:475
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:662
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:489
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:676
 #: src/components/channel/channel-header/useChannelHeaderData.ts:100
 #: src/components/uikit/ContextMenu/items/ChannelMenuItems.tsx:314
 msgid "Voice Channel"
@@ -20488,8 +20573,8 @@ msgstr "我們已寄送授權此登入的連結，請檢查 {0} 的收件匣。"
 msgid "We failed to retrieve the full information about this user at this time."
 msgstr "目前無法取得此使用者的完整資訊。"
 
-#: src/components/layout/GuildLayout.tsx:302
-#: src/components/layout/GuildLayout.tsx:349
+#: src/components/layout/GuildLayout.tsx:307
+#: src/components/layout/GuildLayout.tsx:354
 msgid "We fluxed up! Hang tight, we're working on it."
 msgstr "我們出了一點狀況！請稍候，我們正在處理。"
 
@@ -20513,18 +20598,13 @@ msgstr "等待授權時連線中斷，請再試一次。"
 msgid "We need to make sure you're not a bot. Please complete the verification below."
 msgstr "我們需要確認您不是機器人，請完成下方驗證。"
 
-#: src/components/pages/ReportPage.tsx:639
-msgid "We need to verify your email address before you can submit a report."
-msgstr "在提交回報前，我們需要驗證您的電子郵件地址。"
-
 #: src/components/modals/BackupCodesModal.tsx:45
 msgid "We recommend saving these codes now so that you don't get locked out of your account."
 msgstr "建議您現在儲存這些代碼，以免無法登入帳戶。"
 
-#. placeholder {0}: state.email
-#: src/components/pages/ReportPage.tsx:702
-msgid "We sent a verification code to {0}."
-msgstr "我們已將驗證碼發送到 {0}。"
+#: src/components/pages/report/ReportStepVerification.tsx:67
+msgid "We sent a code to {email}."
+msgstr "我們已向 {email} 發送了一個代碼。"
 
 #: src/components/auth/BrowserLoginHandoffModal.tsx:315
 msgid "We will prefill {prefillEmail} once the browser login opens."
@@ -20533,6 +20613,10 @@ msgstr "瀏覽器登入開啟後，我們將預填 {prefillEmail}。"
 #: src/components/pages/EmailRevertPage.tsx:80
 msgid "We'll restore your previous email, sign out old sessions, remove phone numbers, disable MFA, and secure your account with a new password."
 msgstr "我們會還原您之前的電子郵件、登出舊的工作階段、移除電話號碼、停用多重驗證，並以新密碼保護您的帳戶。"
+
+#: src/components/pages/report/ReportStepEmail.tsx:57
+msgid "We'll send a short code to confirm you can receive updates about this report."
+msgstr "我們將發送一個短代碼以確認您可以接收有關此舉報的更新。"
 
 #: src/components/modals/EmailChangeModal.tsx:190
 msgid "We'll verify your current email and then your new email with one-time codes."
@@ -20546,13 +20630,13 @@ msgstr "我們將以一次性代碼驗證您的新電子郵件。"
 msgid "We're having trouble connecting to Fluxer's servers. This could be a temporary network issue or scheduled maintenance."
 msgstr "我們連線 Fluxer 伺服器時遇到困難，可能是暫時性網路問題或排程維護。"
 
-#: src/components/modals/tabs/BetaCodesTab.tsx:297
+#: src/components/modals/tabs/BetaCodesTab.tsx:322
 #: src/components/modals/tabs/DevicesTab.tsx:230
 msgid "We're having trouble connecting to the space-time continuum. Please check your connection and try again."
 msgstr "我們連線時空連續體遇到麻煩，請檢查您的連線並再試一次。"
 
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:287
-#: src/components/channel/ChannelSearchResults.tsx:681
+#: src/components/channel/ChannelSearchResults.tsx:650
 msgid "We're indexing this channel for the first time. This might take a little while..."
 msgstr "我們正在首次建立此頻道的索引，可能需要一些時間……"
 
@@ -20829,17 +20913,16 @@ msgstr "在此撰寫自訂 CSS 以覆寫任何主題 token。例如：\n:root { 
 msgid "Write your content here... This textarea expands as you type."
 msgstr "在此撰寫內容……此文字區會隨輸入自動展開。"
 
-#: src/components/auth/DateOfBirthField.tsx:89
-#: src/components/auth/DateOfBirthField.tsx:156
+#: src/components/auth/DateOfBirthField.tsx:153
 #: src/components/auth/MockMinimalRegisterForm.tsx:78
 msgid "Year"
 msgstr "年"
 
-#: src/components/modals/components/plutonium/PricingSection.tsx:78
+#: src/components/modals/components/plutonium/PricingSection.tsx:88
 msgid "Yearly"
 msgstr "每年"
 
-#: src/components/modals/components/plutonium/BottomCTASection.tsx:71
+#: src/components/modals/components/plutonium/BottomCTASection.tsx:84
 msgid "Yearly {yearlyPrice}"
 msgstr "每年 {yearlyPrice}"
 
@@ -20874,7 +20957,7 @@ msgstr "您即將離開 Fluxer"
 msgid "You are about to transfer ownership of this community to <0>{0}</0>. This action is <1>irreversible</1> and you will lose all owner privileges."
 msgstr "您即將將此社群的擁有權轉移給 <0>{0}</0>。此操作為 <1>不可逆</1>，您將喪失所有擁有者權限。"
 
-#: src/components/channel/dm/AddFriendForm.tsx:72
+#: src/components/channel/dm/AddFriendForm.tsx:95
 msgid "You are already friends with this user."
 msgstr "您已與此使用者成為朋友。"
 
@@ -20960,7 +21043,7 @@ msgstr "您一次最多只能上傳 {MAX_EMOJIS_PER_UPLOAD} 個表情符號。�
 msgid "You can pin messages in this conversation for everyone to see."
 msgstr "您可以在此對話中釘選訊息，供所有人查看。"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:175
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:194
 msgid "You can redeem additional gift codes to <0>extend</0> your gift time. To start a monthly or yearly plan, wait until after it ends — or <1>upgrade to Visionary</1> now (remaining gift time will be discarded)."
 msgstr "您可以兌換額外禮物代碼來<0>延長</0>禮物時間。若要啟用月費或年費方案，請等禮物時間結束後再啟用 — 或立即<1>升級為 Visionary</1>（剩餘禮物時間將被捨棄）。"
 
@@ -20990,7 +21073,7 @@ msgstr "您可以使用連結與 Markdown 來格式化文字。啟用 <0/> 後�
 msgid "You can't add new reactions while you're on timeout."
 msgstr "您在冷卻期間無法新增反應。"
 
-#: src/components/modals/UserProfileModal.tsx:1170
+#: src/components/modals/UserProfileModal.tsx:1171
 msgid "You can't befriend yourself"
 msgstr "您無法與自己成為朋友"
 
@@ -20998,14 +21081,14 @@ msgstr "您無法與自己成為朋友"
 msgid "You can't interact with reactions in search results as it might disrupt the space-time continuum."
 msgstr "您無法在搜尋結果中與反應互動，以免干擾時空連續體。"
 
-#: src/components/layout/ChannelItem.tsx:200
-#: src/components/layout/ChannelItem.tsx:366
-#: src/stores/voice/MediaEngineFacade.ts:151
-#: src/stores/voice/MediaEngineFacade.ts:482
+#: src/components/layout/ChannelItem.tsx:206
+#: src/components/layout/ChannelItem.tsx:375
+#: src/stores/voice/MediaEngineFacade.ts:154
+#: src/stores/voice/MediaEngineFacade.ts:529
 msgid "You can't join while you're on timeout."
 msgstr "您在冷卻期間無法加入。"
 
-#: src/components/modals/UserProfileModal.tsx:1182
+#: src/components/modals/UserProfileModal.tsx:1183
 #: src/components/popouts/UserProfilePopout.tsx:282
 #: src/components/profile/ProfilePreview.tsx:284
 msgid "You can't message yourself"
@@ -21019,7 +21102,7 @@ msgstr "您無法向自己發送好友邀請。"
 msgid "You can't send friend requests to bots."
 msgstr "您無法向機器人發送好友邀請。"
 
-#: src/components/channel/dm/AddFriendForm.tsx:64
+#: src/components/channel/dm/AddFriendForm.tsx:87
 msgid "You can't send friend requests to users you've blocked. Unblock them first."
 msgstr "您無法向已封鎖的使用者發送好友邀請，請先取消封鎖。"
 
@@ -21066,11 +21149,11 @@ msgstr "您無法移除此權限，因為會連帶移除您自己的權限"
 msgid "You cannot save a role with a blank name. Please provide a valid name before saving."
 msgstr "您無法將身分組命名為空白，請在儲存前提供有效名稱。"
 
-#: src/components/channel/dm/AddFriendForm.tsx:68
+#: src/components/channel/dm/AddFriendForm.tsx:91
 msgid "You cannot send a friend request to yourself."
 msgstr "您無法向自己發送好友邀請。"
 
-#: src/components/channel/dm/AddFriendForm.tsx:66
+#: src/components/channel/dm/AddFriendForm.tsx:89
 msgid "You cannot send friend requests to bots."
 msgstr "您無法向機器人發送好友邀請。"
 
@@ -21094,7 +21177,7 @@ msgstr "您沒有存取此訊息所送出的頻道。"
 msgid "You do not have permission to send messages in this channel."
 msgstr "您沒有權限在此頻道發送訊息。"
 
-#: src/components/layout/GuildLayout.tsx:393
+#: src/components/layout/GuildLayout.tsx:398
 msgid "You don't have access to any channels in this community."
 msgstr "您在此社群沒有任何頻道的存取權。"
 
@@ -21114,23 +21197,23 @@ msgstr "您沒有權限安裝此表情符號包。"
 msgid "You don't have permission to install this sticker pack."
 msgstr "您沒有權限安裝此貼圖包。"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:203
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:222
 msgid "You have all <0/> for <1>{monthlyPrice}/month</1>."
 msgstr "您擁有所有 <0/>，<1>{monthlyPrice}/月</1>。"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:208
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:227
 msgid "You have all <0/> for <1>{yearlyPrice}/year</1>."
 msgstr "您擁有所有 <0/>，<1>{yearlyPrice}/年</1>。"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:213
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:232
 msgid "You have all <0/> for your subscription period."
 msgstr "您在訂閱期間擁有全部 <0/>。"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:198
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:217
 msgid "You have all <0/> forever. No subscriptions, no renewals."
 msgstr "您永久擁有全部 <0/>。無需訂閱或續訂。"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:169
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:188
 msgid "You have all <0/> via a <1>gift subscription</1> until <2>{giftEndDate}</2>. It <3>won't renew</3>."
 msgstr "您透過 <1>贈送訂閱</1> 擁有全部 <0/>，直到 <2>{giftEndDate}</2>。它 <3>不會自動續訂</3>。"
 
@@ -21228,11 +21311,11 @@ msgstr "您已失去對此儲存訊息的存取權。要移除嗎？"
 msgid "You made it, {username}! We're about to hit 88mph!"
 msgstr "您做到了，{username}！我們快要達到 88 英里/小時了！"
 
-#: src/components/channel/CallMessage.tsx:179
+#: src/components/channel/CallMessage.tsx:173
 msgid "You missed a call from <0/> that lasted {durationText}."
 msgstr "您錯過了來自 <0/> 的通話，通話時長 {durationText}。"
 
-#: src/components/channel/CallMessage.tsx:184
+#: src/components/channel/CallMessage.tsx:178
 msgid "You missed a call from <0/>."
 msgstr "您未接到來自 <0/> 的電話。"
 
@@ -21252,7 +21335,7 @@ msgstr "您必須年滿 18 歲才能查看此內容。<0>了解更多</0>"
 msgid "You must be connected to the gateway to accept this temporary invite. Please check your connection and try again."
 msgstr "您必須先連線至閘道才能接受此臨時邀請。請檢查連線後再試一次。"
 
-#: src/components/pages/ReportPage.tsx:463
+#: src/components/pages/ReportPage.tsx:288
 msgid "You must verify your email before submitting a report."
 msgstr "請先驗證電子郵件後再提交檢舉。"
 
@@ -21385,7 +21468,7 @@ msgstr "您在語音頻道中"
 msgid "You're sending messages too quickly"
 msgstr "您傳送訊息的速度過快"
 
-#: src/components/channel/Messages.tsx:909
+#: src/components/channel/Messages.tsx:907
 msgid "You're viewing older messages"
 msgstr "您正在查看較舊的訊息"
 
@@ -21464,7 +21547,7 @@ msgstr "您的帳號已獲核准。正在重新導向至應用程式…"
 msgid "Your account has been created, but access is temporarily limited until approval. You will be notified once your account is approved."
 msgstr "您的帳號已建立，但在核准前存取權限受限。核准後會通知您。"
 
-#: src/components/modals/components/UnclaimedAccountAlert.tsx:38
+#: src/components/modals/components/UnclaimedAccountAlert.tsx:36
 msgid "Your account is not yet claimed. Without an email and password, you won't be able to sign in from other devices and you could lose access to your account. Claim your account now to secure it."
 msgstr "您的帳號尚未認領。若未設定電子郵件與密碼，將無法從其他裝置登入，甚至可能失去帳號存取權。立即認領以確保帳號安全。"
 
@@ -21508,7 +21591,7 @@ msgstr "您現有的通知音效設定將予以保留。"
 msgid "Your export request will be processed"
 msgstr "您的匯出請求將被處理"
 
-#: src/components/pages/ReportPage.tsx:935
+#: src/components/pages/report/ReportStepDetails.tsx:213
 msgid "Your FluxerTag (optional)"
 msgstr "您的 FluxerTag（可選）"
 
@@ -21521,7 +21604,7 @@ msgid "Your invite expires in 24 hours"
 msgstr "您的邀請將在24小時後失效"
 
 #. placeholder {0}: getExpirationText()
-#: src/components/modals/InviteModal.tsx:325
+#: src/components/modals/InviteModal.tsx:322
 msgid "Your invite link expires in {0}."
 msgstr "您的邀請連結將在 {0} 後到期。"
 
@@ -21565,7 +21648,7 @@ msgstr "您的個人空間，可快速存取喜愛的頻道、私訊與群組。
 msgid "Your Plutonium subscription has expired. You've lost all Plutonium perks. Reactivate your subscription to regain access."
 msgstr "您的 Plutonium 訂閱已到期，所有 Plutonium 特權已失效。重新啟動訂閱即可恢復存取。"
 
-#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:781
+#: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:813
 msgid "Your private space"
 msgstr "您的私人空間"
 
@@ -21573,7 +21656,7 @@ msgstr "您的私人空間"
 msgid "Your private space for thoughts and reminders"
 msgstr "您的私人空間，用於記錄想法與提醒"
 
-#: src/components/modals/tabs/GiftInventoryTab.tsx:277
+#: src/components/modals/tabs/GiftInventoryTab.tsx:300
 msgid "Your Purchased Gifts"
 msgstr "您購買的禮物"
 
@@ -21585,15 +21668,11 @@ msgstr "您的地區"
 msgid "Your stream is still being broadcast"
 msgstr "您的直播仍在進行中"
 
-#: src/components/pages/ReportPage.tsx:594
-msgid "Your submission ID"
-msgstr "您的提交 ID"
-
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:153
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:172
 msgid "Your subscription ended, but you still have all <0/> until <1>{graceDate}</1>. Resubscribe to keep them."
 msgstr "您的訂閱已結束，但您仍然擁有全部 <0/>，直到 <1>{graceDate}</1>。重新訂閱即可保留。"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:138
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:157
 msgid "Your subscription expired on <0>{expiredDate}</0>. You lost all <1/>. You can reactivate at any time."
 msgstr "您的訂閱已於 <0>{expiredDate}</0> 到期。您已失去所有 <1/>。您可以隨時重新啟動。"
 
@@ -21609,7 +21688,7 @@ msgstr "您的訂閱已重新啟動！"
 msgid "Your subscription has been set to cancel at the end of your billing period."
 msgstr "您的訂閱已排定在結算週期結束時取消。"
 
-#: src/components/modals/components/plutonium/SubscriptionCard.tsx:191
+#: src/components/modals/components/plutonium/SubscriptionCard.tsx:210
 msgid "Your subscription will cancel on <0>{cancelDate}</0>. You'll lose all <1/> after that date."
 msgstr "您的訂閱將在 <0>{cancelDate}</0> 取消。此日期之後您將失去所有 <1/>。"
 

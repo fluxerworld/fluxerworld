@@ -34,6 +34,7 @@ import {
 	HarvestOnCooldownError,
 	MaxBookmarksError,
 	MissingPermissionsError,
+	UnclaimedAccountRestrictedError,
 	UnknownChannelError,
 	UnknownHarvestError,
 	UnknownMessageError,
@@ -118,6 +119,10 @@ export class UserContentService {
 		const user = await this.userAccountRepository.findUnique(userId);
 		if (!user) {
 			throw new UnknownUserError();
+		}
+
+		if (!user.passwordHash && !user.isBot) {
+			throw new UnclaimedAccountRestrictedError('create beta codes');
 		}
 
 		const existingBetaCodes = await this.userContentRepository.listBetaCodes(userId);

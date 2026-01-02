@@ -15,18 +15,16 @@
 //// You should have received a copy of the GNU Affero General Public License
 //// along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
 
+import fluxer_admin/acl
 import fluxer_admin/api/common
 import fluxer_admin/api/verifications
 import fluxer_admin/avatar
 import fluxer_admin/components/flash
 import fluxer_admin/components/layout
-import fluxer_admin/components/review_deck
-import fluxer_admin/components/review_hintbar
 import fluxer_admin/components/ui
+import fluxer_admin/constants
 import fluxer_admin/user
-import fluxer_admin/web.{
-  type Context, type Session, action, href, prepend_base_path,
-}
+import fluxer_admin/web.{type Context, type Session, action, href}
 import gleam/int
 import gleam/list
 import gleam/option
@@ -47,6 +45,60 @@ const suspicious_user_agent_keywords = [
   "go-http-client",
 ]
 
+fn selection_toolbar() -> element.Element(a) {
+  h.div(
+    [
+      a.class(
+        "mt-4 flex items-center justify-between gap-3 bg-neutral-50 border border-neutral-200 rounded-lg px-3 py-2",
+      ),
+      a.attribute("data-selection-toolbar", "true"),
+    ],
+    [
+      h.div([a.class("flex items-center gap-3")], [
+        h.input([
+          a.type_("checkbox"),
+          a.attribute("data-select-all", "true"),
+          a.class("h-4 w-4 rounded border-neutral-300"),
+        ]),
+        h.span([a.class("text-sm text-neutral-700")], [
+          element.text("Select all visible"),
+        ]),
+      ]),
+      h.div([a.class("flex items-center gap-3 flex-wrap justify-end")], [
+        h.span(
+          [
+            a.attribute("data-selected-count", "true"),
+            a.class("text-sm text-neutral-600"),
+          ],
+          [element.text("0 selected")],
+        ),
+        h.div([a.class("flex items-center gap-2")], [
+          h.button(
+            [
+              a.attribute("data-bulk-action", "reject"),
+              a.class(
+                "px-3 py-1.5 bg-red-600 text-white rounded-lg text-sm disabled:opacity-40 disabled:cursor-not-allowed",
+              ),
+              a.disabled(True),
+            ],
+            [element.text("Reject selected")],
+          ),
+          h.button(
+            [
+              a.attribute("data-bulk-action", "approve"),
+              a.class(
+                "px-3 py-1.5 bg-green-600 text-white rounded-lg text-sm disabled:opacity-40 disabled:cursor-not-allowed",
+              ),
+              a.disabled(True),
+            ],
+            [element.text("Approve selected")],
+          ),
+        ]),
+      ]),
+    ],
+  )
+}
+
 pub fn view(
   ctx: Context,
   session: Session,
@@ -55,6 +107,12 @@ pub fn view(
 ) -> Response {
   let limit = 50
   let result = verifications.list_pending_verifications(ctx, session, limit)
+  let admin_acls = case current_admin {
+    option.Some(admin) -> admin.acls
+    option.None -> []
+  }
+  let can_review =
+    acl.has_permission(admin_acls, constants.acl_pending_verification_review)
 
   let content = case result {
     Ok(response) -> {
@@ -75,72 +133,31 @@ pub fn view(
                   h.span(
                     [
                       a.class("body-sm text-neutral-600"),
-                      a.attribute("data-review-progress", ""),
+                      a.attribute("data-remaining-total", "true"),
                     ],
-                    [
-                      element.text(int.to_string(count) <> " remaining"),
-                    ],
+                    [element.text(int.to_string(count) <> " remaining")],
                   )
               },
             ]),
           ]),
+          case can_review {
+            True -> selection_toolbar()
+            False -> element.none()
+          },
           case list.is_empty(response.pending_verifications) {
             True -> empty_state()
             False ->
-              h.div(
-                [a.class("mt-4")],
-                list.append(
-                  [review_deck.styles()],
-                  list.append(review_deck.script_tags(), [
-                    h.div(
-                      [
-                        a.attribute("data-review-deck", "true"),
-                        a.attribute(
-                          "data-fragment-base",
-                          prepend_base_path(
-                            ctx,
-                            "/pending-verifications/fragment",
-                          ),
-                        ),
-                        a.attribute("data-next-page", "2"),
-                        a.attribute("data-can-paginate", "true"),
-                        a.attribute("data-prefetch-when-remaining", "6"),
-                        a.attribute(
-                          "data-empty-url",
-                          prepend_base_path(ctx, "/pending-verifications"),
-                        ),
-                        a.tabindex(0),
-                      ],
-                      [
-                        h.div(
-                          [a.class("max-w-2xl mx-auto")],
-                          list.map(response.pending_verifications, fn(pv) {
-                            render_pending_verification_card(ctx, pv)
-                          }),
-                        ),
-                        h.div(
-                          [
-                            a.attribute("data-review-progress", "true"),
-                            a.class("text-center mt-4 body-sm text-neutral-600"),
-                          ],
-                          [
-                            element.text(int.to_string(total) <> " remaining"),
-                          ],
-                        ),
-                        review_hintbar.view(
-                          "←",
-                          "Reject",
-                          "→",
-                          "Approve",
-                          "Esc",
-                          "Exit",
-                          option.Some("Swipe cards on touch devices"),
-                        ),
-                      ],
-                    ),
-                  ]),
+              h.div([a.class("mt-4")], [
+                h.div(
+                  [
+                    a.class("grid gap-4 md:grid-cols-2 xl:grid-cols-3"),
+                    a.attribute("data-select-grid", "true"),
+                  ],
+                  list.map(response.pending_verifications, fn(pv) {
+                    render_pending_verification_card(ctx, pv, can_review)
+                  }),
                 ),
-              )
+              ])
           },
         ],
       )
@@ -156,12 +173,17 @@ pub fn view(
       session,
       current_admin,
       flash_data,
-      content,
+      h.div([], [content, pending_verifications_script()]),
     )
   wisp.html_response(element.to_document_string(html), 200)
 }
 
-pub fn view_fragment(ctx: Context, session: Session, page: Int) -> Response {
+pub fn view_fragment(
+  ctx: Context,
+  session: Session,
+  page: Int,
+  can_review: Bool,
+) -> Response {
   let limit = 50
   let _offset = page * limit
   let result = verifications.list_pending_verifications(ctx, session, limit)
@@ -170,19 +192,17 @@ pub fn view_fragment(ctx: Context, session: Session, page: Int) -> Response {
     Ok(response) -> {
       let fragment =
         h.div(
-          [
-            a.attribute("data-review-fragment", "true"),
-            a.attribute("data-page", int.to_string(page)),
-          ],
+          [a.class("grid gap-4 md:grid-cols-2 xl:grid-cols-3")],
           list.map(response.pending_verifications, fn(pv) {
-            render_pending_verification_card(ctx, pv)
+            render_pending_verification_card(ctx, pv, can_review)
           }),
         )
 
       wisp.html_response(element.to_document_string(fragment), 200)
     }
     Error(_) -> {
-      let empty = h.div([a.attribute("data-review-fragment", "true")], [])
+      let empty =
+        h.div([a.class("grid gap-4 md:grid-cols-2 xl:grid-cols-3")], [])
 
       wisp.html_response(element.to_document_string(empty), 200)
     }
@@ -198,6 +218,12 @@ pub fn view_single(
 ) -> Response {
   let limit = 50
   let result = verifications.list_pending_verifications(ctx, session, limit)
+  let admin_acls = case current_admin {
+    option.Some(admin) -> admin.acls
+    option.None -> []
+  }
+  let can_review =
+    acl.has_permission(admin_acls, constants.acl_pending_verification_review)
 
   let content = case result {
     Ok(response) -> {
@@ -224,45 +250,13 @@ pub fn view_single(
                 ),
               ]),
               h.div(
-                [a.class("mt-4")],
-                list.append(
-                  [review_deck.styles()],
-                  list.append(review_deck.script_tags(), [
-                    h.div(
-                      [
-                        a.attribute("data-review-deck", "true"),
-                        a.attribute(
-                          "data-empty-url",
-                          prepend_base_path(ctx, "/pending-verifications"),
-                        ),
-                        a.tabindex(0),
-                      ],
-                      [
-                        h.div([a.class("max-w-2xl mx-auto")], [
-                          render_pending_verification_card(ctx, pv),
-                        ]),
-                        h.div(
-                          [
-                            a.attribute("data-review-progress", "true"),
-                            a.class("text-center mt-4 body-sm text-neutral-600"),
-                          ],
-                          [
-                            element.text("1 remaining"),
-                          ],
-                        ),
-                        review_hintbar.view(
-                          "←",
-                          "Reject",
-                          "→",
-                          "Approve",
-                          "Esc",
-                          "Exit",
-                          option.Some("Swipe cards on touch devices"),
-                        ),
-                      ],
-                    ),
-                  ]),
-                ),
+                [
+                  a.class("mt-4 max-w-3xl"),
+                  a.attribute("data-select-grid", "true"),
+                ],
+                [
+                  render_pending_verification_card(ctx, pv, can_review),
+                ],
               ),
             ],
           )
@@ -289,7 +283,7 @@ pub fn view_single(
       session,
       current_admin,
       flash_data,
-      content,
+      h.div([], [content, pending_verifications_script()]),
     )
   wisp.html_response(element.to_document_string(html), 200)
 }
@@ -432,23 +426,30 @@ fn api_error_message(err: common.ApiError) -> String {
 fn render_pending_verification_card(
   ctx: Context,
   pv: verifications.PendingVerification,
+  can_review: Bool,
 ) -> element.Element(a) {
   let metadata_warning = user_agent_warning(pv.metadata)
+  let geoip_hint = geoip_reason_value(pv.metadata)
 
   h.div(
     [
-      a.attribute("data-review-card", "true"),
-      a.attribute(
-        "data-direct-url",
-        prepend_base_path(ctx, "/pending-verifications/" <> pv.user_id),
-      ),
       a.class(
         "bg-white border border-neutral-200 rounded-xl shadow-sm p-6 focus:outline-none focus:ring-2 focus:ring-neutral-900",
       ),
       a.tabindex(0),
+      a.attribute("data-select-card", pv.user_id),
     ],
     [
       h.div([a.class("flex items-start gap-4 mb-6")], [
+        case can_review {
+          True ->
+            h.input([
+              a.type_("checkbox"),
+              a.class("h-4 w-4 mt-1.5 rounded border-neutral-300"),
+              a.attribute("data-select-checkbox", pv.user_id),
+            ])
+          False -> element.none()
+        },
         h.img([
           a.src(avatar.get_user_avatar_url(
             ctx.media_endpoint,
@@ -487,6 +488,16 @@ fn render_pending_verification_card(
             element.text("Registered " <> format_timestamp(pv.created_at)),
           ]),
         ]),
+        h.div([a.class("flex flex-col items-end gap-2 ml-auto")], [
+          case metadata_warning {
+            option.Some(msg) -> ui.pill(msg, ui.PillWarning)
+            option.None -> element.none()
+          },
+          case geoip_hint {
+            option.Some(hint) -> ui.pill("GeoIP: " <> hint, ui.PillInfo)
+            option.None -> element.none()
+          },
+        ]),
       ]),
       h.details(
         [
@@ -515,63 +526,68 @@ fn render_pending_verification_card(
           ]),
         ],
       ),
-      h.form(
-        [
-          a.method("post"),
-          action(ctx, "/pending-verifications?action=reject"),
-          a.attribute("data-review-submit", "left"),
-          a.class("inline-flex w-full"),
-        ],
-        [
-          h.input([
-            a.type_("hidden"),
-            a.name("user_id"),
-            a.value(pv.user_id),
-          ]),
-        ],
-      ),
-      h.form(
-        [
-          a.method("post"),
-          action(ctx, "/pending-verifications?action=approve"),
-          a.attribute("data-review-submit", "right"),
-          a.class("inline-flex w-full"),
-        ],
-        [
-          h.input([
-            a.type_("hidden"),
-            a.name("user_id"),
-            a.value(pv.user_id),
-          ]),
-        ],
-      ),
-      h.div(
-        [
-          a.class(
-            "flex items-center justify-between gap-4 pt-4 border-t border-neutral-200",
-          ),
-        ],
-        [
-          h.button(
-            [
-              a.attribute("data-review-action", "left"),
-              a.class(
-                "px-4 py-2 bg-red-600 text-white rounded-lg label hover:bg-red-700 transition-colors",
+      case can_review {
+        True ->
+          h.div([a.class("pt-4 border-t border-neutral-200")], [
+            h.div([a.class("flex items-center justify-end gap-2 flex-wrap")], [
+              h.form(
+                [
+                  a.method("post"),
+                  action(ctx, "/pending-verifications?action=reject"),
+                  a.attribute("data-async", "true"),
+                  a.attribute("data-confirm", "Reject this registration?"),
+                ],
+                [
+                  h.input([
+                    a.type_("hidden"),
+                    a.name("user_id"),
+                    a.value(pv.user_id),
+                  ]),
+                  h.button(
+                    [
+                      a.type_("submit"),
+                      a.attribute("data-action-type", "reject"),
+                      a.attribute("accesskey", "r"),
+                      a.class(
+                        "px-4 py-2 bg-red-600 text-white rounded-lg label hover:bg-red-700 transition-colors",
+                      ),
+                    ],
+                    [element.text("Reject")],
+                  ),
+                ],
               ),
-            ],
-            [element.text("Reject")],
-          ),
-          h.button(
-            [
-              a.attribute("data-review-action", "right"),
-              a.class(
-                "px-4 py-2 bg-green-600 text-white rounded-lg label hover:bg-green-700 transition-colors",
+              h.form(
+                [
+                  a.method("post"),
+                  action(ctx, "/pending-verifications?action=approve"),
+                  a.attribute("data-async", "true"),
+                ],
+                [
+                  h.input([
+                    a.type_("hidden"),
+                    a.name("user_id"),
+                    a.value(pv.user_id),
+                  ]),
+                  h.button(
+                    [
+                      a.type_("submit"),
+                      a.attribute("data-action-type", "approve"),
+                      a.attribute("accesskey", "a"),
+                      a.class(
+                        "px-4 py-2 bg-green-600 text-white rounded-lg label hover:bg-green-700 transition-colors",
+                      ),
+                    ],
+                    [element.text("Approve")],
+                  ),
+                ],
               ),
-            ],
-            [element.text("Approve")],
-          ),
-        ],
-      ),
+            ]),
+          ])
+        False ->
+          h.div([a.class("text-sm text-neutral-500 pt-2")], [
+            element.text("You need pending_verification:review to act"),
+          ])
+      },
     ],
   )
 }
@@ -689,6 +705,19 @@ fn metadata_value(
   })
 }
 
+fn geoip_reason_value(
+  metadata: List(verifications.PendingVerificationMetadata),
+) -> option.Option(String) {
+  case metadata_value(metadata, "geoip_reason") {
+    option.Some(reason) ->
+      case reason {
+        "none" -> option.None
+        r -> option.Some(r)
+      }
+    option.None -> option.None
+  }
+}
+
 fn option_or_default(default: String, value: option.Option(String)) -> String {
   case value {
     option.Some(v) -> v
@@ -735,6 +764,190 @@ fn empty_state() {
     ui.text_muted("No pending verifications"),
     ui.text_small_muted("All registration requests have been processed"),
   ])
+}
+
+fn pending_verifications_script() -> element.Element(a) {
+  let js =
+    "
+(function () {
+  const grid = document.querySelector('[data-select-grid]');
+  if (!grid) return;
+  const toolbar = document.querySelector('[data-selection-toolbar]');
+  const remainingEl = document.querySelector('[data-remaining-total]');
+
+  const countEl = toolbar?.querySelector('[data-selected-count]') || null;
+  const selectAll = toolbar?.querySelector('[data-select-all]') || null;
+  const bulkButtons = toolbar
+    ? Array.from(toolbar.querySelectorAll('[data-bulk-action]'))
+    : [];
+
+  function showToast(message, variant) {
+    const box = document.createElement('div');
+    box.className = 'fixed left-4 right-4 bottom-4 z-50';
+    box.innerHTML =
+      '<div class=\"max-w-xl mx-auto\">' +
+      '<div class=\"px-4 py-3 rounded-lg shadow border ' +
+      (variant === 'success'
+        ? 'bg-green-50 border-green-200 text-green-800'
+        : 'bg-red-50 border-red-200 text-red-800') +
+      '\">' +
+      '<div class=\"text-sm font-semibold\">' +
+      (variant === 'success' ? 'Saved' : 'Action failed') +
+      '</div>' +
+      '<div class=\"text-sm mt-1 break-words\">' + (message || 'OK') + '</div>' +
+      '</div></div>';
+    document.body.appendChild(box);
+    setTimeout(() => box.remove(), 4200);
+  }
+
+  function updateRemaining() {
+    if (!remainingEl) return;
+    const total = grid.querySelectorAll('[data-select-card]').length;
+    remainingEl.textContent = total.toString() + ' remaining';
+  }
+
+  function updateSelection() {
+    const boxes = Array.from(grid.querySelectorAll('[data-select-checkbox]'));
+    const selected = boxes.filter((b) => b.checked);
+    if (countEl) countEl.textContent = selected.length + ' selected';
+    bulkButtons.forEach((btn) => (btn.disabled = selected.length === 0));
+    if (selectAll) {
+      selectAll.checked = selected.length > 0 && selected.length === boxes.length;
+      selectAll.indeterminate =
+        selected.length > 0 && selected.length < boxes.length;
+    }
+  }
+
+  function cardFor(id) {
+    return grid.querySelector('[data-select-card=\"' + id + '\"]');
+  }
+
+  function removeCard(id) {
+    const card = cardFor(id);
+    if (card) card.remove();
+    updateRemaining();
+    updateSelection();
+    if (grid.querySelectorAll('[data-select-card]').length === 0) {
+      grid.innerHTML =
+        '<div class=\"col-span-full border border-dashed border-neutral-200 rounded-lg p-8 text-center text-neutral-500\">All registration requests have been processed</div>';
+    }
+  }
+
+  function setButtonLoading(btn, loading) {
+    if (!btn) return;
+    btn.disabled = loading;
+    if (loading) {
+      btn.dataset.originalText = btn.textContent;
+      btn.textContent = 'Working…';
+    } else if (btn.dataset.originalText) {
+      btn.textContent = btn.dataset.originalText;
+    }
+  }
+
+  async function submitForm(form) {
+    const actionUrl = new URL(form.action, window.location.origin);
+    actionUrl.searchParams.set('background', '1');
+    const fd = new FormData(form);
+    const body = new URLSearchParams();
+    fd.forEach((v, k) => body.append(k, v));
+    const resp = await fetch(actionUrl.toString(), {
+      method: 'POST',
+      headers: { 'content-type': 'application/x-www-form-urlencoded;charset=UTF-8' },
+      body: body.toString(),
+      credentials: 'same-origin',
+    });
+    if (!resp.ok && resp.status !== 204) {
+      let txt = '';
+      try { txt = await resp.text(); } catch (_) {}
+      throw new Error(txt || 'Request failed (' + resp.status + ')');
+    }
+  }
+
+  async function actOn(id, action) {
+    const form = grid.querySelector(
+      '[data-select-card=\"' + id + '\"] form[data-action-type=\"' + action + '\"]'
+    );
+    if (!form) throw new Error('Missing form for ' + action);
+    await submitForm(form);
+    removeCard(id);
+  }
+
+  async function handleBulk(action) {
+    const boxes = Array.from(grid.querySelectorAll('[data-select-checkbox]:checked'));
+    if (boxes.length === 0) return;
+    const confirmMsg =
+      action === 'reject'
+        ? 'Reject ' + boxes.length + ' registration(s)?'
+        : 'Approve ' + boxes.length + ' registration(s)?';
+    if (!window.confirm(confirmMsg)) return;
+
+    const button = toolbar.querySelector('[data-bulk-action=\"' + action + '\"]');
+    setButtonLoading(button, true);
+    try {
+      for (const box of boxes) {
+        const id = box.getAttribute('data-select-checkbox');
+        if (!id) continue;
+        await actOn(id, action);
+      }
+      showToast('Completed ' + action + ' for ' + boxes.length + ' item(s)', 'success');
+    } catch (err) {
+      showToast(err && err.message ? err.message : String(err), 'error');
+    } finally {
+      setButtonLoading(button, false);
+    }
+  }
+
+  bulkButtons.forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const action = btn.getAttribute('data-bulk-action');
+      if (action) handleBulk(action);
+    });
+  });
+
+  if (selectAll) {
+    selectAll.addEventListener('change', (e) => {
+      const boxes = grid.querySelectorAll('[data-select-checkbox]');
+      boxes.forEach((b) => (b.checked = e.target.checked));
+      updateSelection();
+    });
+  }
+
+  grid.addEventListener('change', (e) => {
+    const target = e.target;
+    if (target && target.matches('[data-select-checkbox]')) {
+      updateSelection();
+    }
+  });
+
+  document.querySelectorAll('form[data-async]').forEach((form) => {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const confirmMsg = form.getAttribute('data-confirm');
+      if (confirmMsg && !window.confirm(confirmMsg)) return;
+      const btn = form.querySelector('button[type=\"submit\"]');
+      const id = form.querySelector('[name=\"user_id\"]')?.value;
+      const action = btn?.getAttribute('data-action-type') || 'action';
+      setButtonLoading(btn, true);
+      submitForm(form)
+        .then(() => {
+          if (id) removeCard(id);
+          showToast(
+            (action === 'approve' ? 'Approved ' : 'Rejected ') + (id || 'item'),
+            'success'
+          );
+        })
+        .catch((err) => showToast(err && err.message ? err.message : String(err), 'error'))
+        .finally(() => setButtonLoading(btn, false));
+    });
+  });
+
+  updateRemaining();
+  updateSelection();
+})();
+"
+
+  h.script([a.attribute("defer", "defer")], js)
 }
 
 fn error_view(err: common.ApiError) {
