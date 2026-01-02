@@ -4,25 +4,80 @@ on:
   push:
     branches:
       - main
+      - canary
     paths:
-      - fluxer_api/**/*
+      - fluxer_api/**
       - .github/workflows/deploy-api.yaml
   workflow_dispatch:
+    inputs:
+      channel:
+        type: choice
+        options:
+          - stable
+          - canary
+        default: stable
+        description: Channel to deploy
+      ref:
+        type: string
+        required: false
+        default: ''
+        description: Optional git ref to deploy (defaults to main/canary based on channel)
 
 concurrency:
-  group: deploy-fluxer-api
+  group: deploy-fluxer-api-${{ github.event_name == 'workflow_dispatch' && inputs.channel || (github.ref_name == 'canary' && 'canary') || 'stable' }}
   cancel-in-progress: true
 
 permissions:
   contents: read
 
 jobs:
+  channel-vars:
+    uses: ./.github/workflows/channel-vars.yaml
+    with:
+      github_event_name: ${{ github.event_name }}
+      github_ref_name: ${{ github.ref_name }}
+      github_ref: ${{ github.ref }}
+      workflow_dispatch_channel: ${{ github.event_name == 'workflow_dispatch' && inputs.channel || '' }}
+      workflow_dispatch_ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || '' }}
+
   deploy:
-    name: Deploy app
+    name: Deploy api
+    needs: channel-vars
     runs-on: blacksmith-2vcpu-ubuntu-2404
     timeout-minutes: 10
+    env:
+      CHANNEL: ${{ needs.channel-vars.outputs.channel }}
+      IS_CANARY: ${{ needs.channel-vars.outputs.is_canary }}
+      SOURCE_REF: ${{ needs.channel-vars.outputs.source_ref }}
+      STACK_SUFFIX: ${{ needs.channel-vars.outputs.stack_suffix }}
+
+      STACK: ${{ format('fluxer-api{0}', needs.channel-vars.outputs.stack_suffix) }}
+      WORKER_STACK: ${{ format('fluxer-api-worker{0}', needs.channel-vars.outputs.stack_suffix) }}
+      CACHE_SCOPE: ${{ format('deploy-fluxer-api{0}', needs.channel-vars.outputs.stack_suffix) }}
+
+      API_PUBLIC_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://api.canary.fluxer.app' || 'https://api.fluxer.app' }}
+      API_CLIENT_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://web.canary.fluxer.app/api' || 'https://web.fluxer.app/api' }}
+      APP_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://web.canary.fluxer.app' || 'https://web.fluxer.app' }}
+
+      MARKETING_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://canary.fluxer.app' || 'https://fluxer.app' }}
+
+      ADMIN_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://admin.canary.fluxer.app' || 'https://admin.fluxer.app' }}
+      ADMIN_REDIRECT_URI: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://admin.canary.fluxer.app/oauth2_callback' || 'https://admin.fluxer.app/oauth2_callback' }}
+
+      CADDY_DOMAIN: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'api.canary.fluxer.app' || 'api.fluxer.app' }}
+
     steps:
       - uses: actions/checkout@v6
+        with:
+          ref: ${{ env.SOURCE_REF }}
+          fetch-depth: 0
+
+      - name: Record deploy commit
+        run: |
+          set -euo pipefail
+          sha=$(git rev-parse HEAD)
+          echo "Deploying commit ${sha}"
+          printf 'DEPLOY_SHA=%s\n' "$sha" >> "$GITHUB_ENV"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -33,16 +88,18 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
-      - name: Build image
+      - name: Build image(s)
         uses: docker/build-push-action@v6
         with:
           context: fluxer_api
           file: fluxer_api/Dockerfile
-          tags: fluxer-api:${{ github.sha }}
+          tags: |
+            ${{ env.STACK }}:${{ env.DEPLOY_SHA }}
+            ${{ env.WORKER_STACK }}:${{ env.DEPLOY_SHA }}
           load: true
           platforms: linux/amd64
-          cache-from: type=gha,scope=deploy-fluxer-api
-          cache-to: type=gha,mode=max,scope=deploy-fluxer-api
+          cache-from: type=gha,scope=${{ env.CACHE_SCOPE }}
+          cache-to: type=gha,mode=max,scope=${{ env.CACHE_SCOPE }}
         env:
           DOCKER_BUILD_SUMMARY: false
           DOCKER_BUILD_RECORD_UPLOAD: false
@@ -66,137 +123,237 @@ jobs:
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
-      - name: Push image and deploy
+      - name: Push image(s) and deploy
         env:
-          IMAGE_TAG: fluxer-api:${{ github.sha }}
           SERVER: ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}
+          IMAGE_TAG_APP: ${{ env.STACK }}:${{ env.DEPLOY_SHA }}
+          IMAGE_TAG_WORKER: ${{ env.WORKER_STACK }}:${{ env.DEPLOY_SHA }}
         run: |
           set -euo pipefail
-          docker pussh ${IMAGE_TAG} ${SERVER}
 
-          ssh ${SERVER} "IMAGE_TAG=${IMAGE_TAG}" bash << 'EOF'
-            set -e
-            sudo mkdir -p /opt/fluxer-api
-            sudo chown -R ${USER}:${USER} /opt/fluxer-api
-            cd /opt/fluxer-api
+          docker pussh "${IMAGE_TAG_APP}" "${SERVER}"
+
+          if [[ "${IS_CANARY}" == "true" ]]; then
+            docker pussh "${IMAGE_TAG_WORKER}" "${SERVER}"
+          fi
+
+          ssh "${SERVER}" \
+            "IMAGE_TAG_APP=${IMAGE_TAG_APP} IMAGE_TAG_WORKER=${IMAGE_TAG_WORKER} STACK=${STACK} WORKER_STACK=${WORKER_STACK} IS_CANARY=${IS_CANARY} APP_ENDPOINT=${APP_ENDPOINT} API_PUBLIC_ENDPOINT=${API_PUBLIC_ENDPOINT} API_CLIENT_ENDPOINT=${API_CLIENT_ENDPOINT} MARKETING_ENDPOINT=${MARKETING_ENDPOINT} ADMIN_ENDPOINT=${ADMIN_ENDPOINT} ADMIN_REDIRECT_URI=${ADMIN_REDIRECT_URI} CADDY_DOMAIN=${CADDY_DOMAIN} bash" << 'EOF'
+          set -euo pipefail
+
+          write_runtime_env() {
+            local dir="$1"
+            cat > "${dir}/runtime.env" << ENVEOF
+          NODE_ENV=production
+          FLUXER_API_PORT=8080
+          SENTRY_DSN=https://bb16e8b823b82d788db49a666b3b4b90@o4510149383094272.ingest.us.sentry.io/4510205804019712
+
+          CASSANDRA_HOSTS=cassandra
+          CASSANDRA_KEYSPACE=fluxer
+          CASSANDRA_LOCAL_DC=dc1
+
+          FLUXER_GATEWAY_RPC_HOST=fluxer-gateway_app
+          FLUXER_GATEWAY_RPC_PORT=8081
+
+          FLUXER_MEDIA_PROXY_HOST=fluxer-media-proxy_app
+          FLUXER_MEDIA_PROXY_PORT=8080
+
+          FLUXER_METRICS_HOST=fluxer-metrics_app:8080
+
+          FLUXER_API_CLIENT_ENDPOINT=${API_CLIENT_ENDPOINT}
+          FLUXER_APP_ENDPOINT=${APP_ENDPOINT}
+          FLUXER_CDN_ENDPOINT=https://fluxerstatic.com
+          FLUXER_MEDIA_ENDPOINT=https://fluxerusercontent.com
+          FLUXER_INVITE_ENDPOINT=https://fluxer.gg
+          FLUXER_GIFT_ENDPOINT=https://fluxer.gift
+
+          AWS_S3_ENDPOINT=https://s3.us-east-va.io.cloud.ovh.us
+          AWS_S3_BUCKET_CDN=fluxer
+          AWS_S3_BUCKET_UPLOADS=fluxer-uploads
+          AWS_S3_BUCKET_REPORTS=fluxer-reports
+          AWS_S3_BUCKET_HARVESTS=fluxer-harvests
+          AWS_S3_BUCKET_DOWNLOADS=fluxer-downloads
+
+          SENDGRID_FROM_EMAIL=noreply@fluxer.app
+          SENDGRID_FROM_NAME=Fluxer
+          SENDGRID_WEBHOOK_PUBLIC_KEY=MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEoeqQS37o9s8ZcLBJUtT4hghAmI5RqsvcQ0OvsUn3XPfl7GkjxljufyxuL8+m1mCHP2IA1jdYT3kJQoQYXP6ZpQ==
+
+          FLUXER_API_PUBLIC_ENDPOINT=${API_PUBLIC_ENDPOINT}
+          FLUXER_GATEWAY_ENDPOINT=wss://gateway.fluxer.app
+
+          FLUXER_MARKETING_ENDPOINT=${MARKETING_ENDPOINT}
+          FLUXER_PATH_MARKETING=/
+
+          FLUXER_ADMIN_ENDPOINT=${ADMIN_ENDPOINT}
+          FLUXER_PATH_ADMIN=/
+
+          ADMIN_OAUTH2_CLIENT_ID=1440355698178071552
+          ADMIN_OAUTH2_REDIRECT_URI=${ADMIN_REDIRECT_URI}
+          ADMIN_OAUTH2_AUTO_CREATE=false
+
+          PASSKEYS_ENABLED=true
+          PASSKEY_RP_NAME=Fluxer
+          PASSKEY_RP_ID=fluxer.app
+          PASSKEY_ALLOWED_ORIGINS=https://web.fluxer.app,https://web.canary.fluxer.app
+
+          CAPTCHA_ENABLED=true
+          CAPTCHA_PRIMARY_PROVIDER=turnstile
+          HCAPTCHA_SITE_KEY=9cbad400-df84-4e0c-bda6-e65000be78aa
+          TURNSTILE_SITE_KEY=0x4AAAAAAB_lAoDdTWznNHMq
+
+          EMAIL_ENABLED=true
+          SMS_ENABLED=true
+          VOICE_ENABLED=true
+
+          SEARCH_ENABLED=true
+          MEILISEARCH_URL=http://meilisearch:7700
+
+          STRIPE_ENABLED=true
+          STRIPE_PRICE_ID_MONTHLY_USD=price_1SJHZzFPC94Os7FdzBgvz0go
+          STRIPE_PRICE_ID_YEARLY_USD=price_1SJHabFPC94Os7FdhSOWVfcr
+          STRIPE_PRICE_ID_VISIONARY_USD=price_1SJHGTFPC94Os7FdWTyqvJZ8
+          STRIPE_PRICE_ID_MONTHLY_EUR=price_1SJHaFFPC94Os7FdmcrGicXa
+          STRIPE_PRICE_ID_YEARLY_EUR=price_1SJHarFPC94Os7Fddbyzr5I8
+          STRIPE_PRICE_ID_VISIONARY_EUR=price_1SJHGnFPC94Os7FdZn23KkYB
+          STRIPE_PRICE_ID_GIFT_VISIONARY_USD=price_1SKhWqFPC94Os7FdxRmQrg3k
+          STRIPE_PRICE_ID_GIFT_VISIONARY_EUR=price_1SKhXrFPC94Os7FdcepLrJqr
+          STRIPE_PRICE_ID_GIFT_1_MONTH_USD=price_1SJHHKFPC94Os7FdGwUs1EQg
+          STRIPE_PRICE_ID_GIFT_1_YEAR_USD=price_1SJHHrFPC94Os7FdWrQN5tKl
+          STRIPE_PRICE_ID_GIFT_1_MONTH_EUR=price_1SJHHaFPC94Os7FdwwpwhliW
+          STRIPE_PRICE_ID_GIFT_1_YEAR_EUR=price_1SJHI5FPC94Os7Fd3DpLxb0D
+
+          FLUXER_VISIONARIES_GUILD_ID=1428504839258075143
+          FLUXER_OPERATORS_GUILD_ID=1434192442151473226
+
+          CLOUDFLARE_PURGE_ENABLED=true
+
+          CLAMAV_ENABLED=true
+          CLAMAV_HOST=clamav
+          CLAMAV_PORT=3310
+
+          GEOIP_HOST=fluxer-geoip_app:8080
+          GEOIP_PROVIDER=maxmind
+          MAXMIND_DB_PATH=/data/GeoLite2-City.mmdb
+
+          VAPID_PUBLIC_KEY=BEIwQxIwfj6m90tLYAR0AU_GJWU4kw8J_zJcHQG55NCUWSyRy-dzMOgvxk8yEDwdVyJZa6xUL4fmwngijq8T2pY
+          ENVEOF
+          }
+
+          deploy_api_stack() {
+            sudo mkdir -p "/opt/${STACK}"
+            sudo chown -R "${USER}:${USER}" "/opt/${STACK}"
+            cd "/opt/${STACK}"
+
+            write_runtime_env "$(pwd)"
 
             cat > compose.yaml << COMPOSEEOF
+          x-deploy-base: &deploy_base
+            restart_policy:
+              condition: on-failure
+              delay: 5s
+              max_attempts: 3
+            update_config:
+              parallelism: 1
+              delay: 10s
+              order: start-first
+            rollback_config:
+              parallelism: 1
+              delay: 10s
+
+          x-healthcheck: &healthcheck
+            test: ['CMD', 'curl', '-f', 'http://localhost:8080/_health']
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 40s
+
           services:
             app:
-              image: ${IMAGE_TAG}
+              image: ${IMAGE_TAG_APP}
               command: ['npm', 'run', 'start']
               env_file:
                 - /etc/fluxer/fluxer.env
-              environment:
-                - NODE_ENV=production
-                - FLUXER_API_PORT=8080
-                - SENTRY_DSN=https://bb16e8b823b82d788db49a666b3b4b90@o4510149383094272.ingest.us.sentry.io/4510205804019712
-                - CASSANDRA_HOSTS=cassandra
-                - CASSANDRA_KEYSPACE=fluxer
-                - CASSANDRA_LOCAL_DC=dc1
-                - FLUXER_GATEWAY_RPC_HOST=fluxer-gateway_app
-                - FLUXER_GATEWAY_RPC_PORT=8081
-                - FLUXER_MEDIA_PROXY_HOST=fluxer-media-proxy_app
-                - FLUXER_MEDIA_PROXY_PORT=8080
-                - FLUXER_METRICS_HOST=fluxer-metrics_app:8080
-                - FLUXER_API_CLIENT_ENDPOINT=https://web.fluxer.app/api
-                - FLUXER_APP_ENDPOINT=https://web.fluxer.app
-                - FLUXER_CDN_ENDPOINT=https://fluxerstatic.com
-                - FLUXER_MEDIA_ENDPOINT=https://fluxerusercontent.com
-                - FLUXER_INVITE_ENDPOINT=https://fluxer.gg
-                - FLUXER_GIFT_ENDPOINT=https://fluxer.gift
-                - AWS_S3_ENDPOINT=https://s3.us-east-va.io.cloud.ovh.us
-                - AWS_S3_BUCKET_CDN=fluxer
-                - AWS_S3_BUCKET_UPLOADS=fluxer-uploads
-                - AWS_S3_BUCKET_REPORTS=fluxer-reports
-                - AWS_S3_BUCKET_HARVESTS=fluxer-harvests
-                - AWS_S3_BUCKET_DOWNLOADS=fluxer-downloads
-                - SENDGRID_FROM_EMAIL=noreply@fluxer.app
-                - SENDGRID_FROM_NAME=Fluxer
-                - SENDGRID_WEBHOOK_PUBLIC_KEY=MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEoeqQS37o9s8ZcLBJUtT4hghAmI5RqsvcQ0OvsUn3XPfl7GkjxljufyxuL8+m1mCHP2IA1jdYT3kJQoQYXP6ZpQ==
-                - FLUXER_API_PUBLIC_ENDPOINT=https://api.fluxer.app
-                - FLUXER_GATEWAY_ENDPOINT=wss://gateway.fluxer.app
-                - FLUXER_MARKETING_ENDPOINT=https://fluxer.app
-                - FLUXER_PATH_MARKETING=/
-                - FLUXER_ADMIN_ENDPOINT=https://admin.fluxer.app
-                - FLUXER_PATH_ADMIN=/
-                - ADMIN_OAUTH2_CLIENT_ID=1440355698178071552
-                - ADMIN_OAUTH2_REDIRECT_URI=https://admin.fluxer.app/oauth2_callback
-                - ADMIN_OAUTH2_AUTO_CREATE=false
-                - PASSKEYS_ENABLED=true
-                - PASSKEY_RP_NAME=Fluxer
-                - PASSKEY_RP_ID=fluxer.app
-                - PASSKEY_ALLOWED_ORIGINS=https://web.fluxer.app,https://web.canary.fluxer.app
-                - CAPTCHA_ENABLED=true
-                - CAPTCHA_PRIMARY_PROVIDER=turnstile
-                - HCAPTCHA_SITE_KEY=9cbad400-df84-4e0c-bda6-e65000be78aa
-                - TURNSTILE_SITE_KEY=0x4AAAAAAB_lAoDdTWznNHMq
-                - EMAIL_ENABLED=true
-                - SMS_ENABLED=true
-                - VOICE_ENABLED=true
-                - SEARCH_ENABLED=true
-                - MEILISEARCH_URL=http://meilisearch:7700
-                - STRIPE_ENABLED=true
-                - STRIPE_PRICE_ID_MONTHLY_USD=price_1SJHZzFPC94Os7FdzBgvz0go
-                - STRIPE_PRICE_ID_YEARLY_USD=price_1SJHabFPC94Os7FdhSOWVfcr
-                - STRIPE_PRICE_ID_VISIONARY_USD=price_1SJHGTFPC94Os7FdWTyqvJZ8
-                - STRIPE_PRICE_ID_MONTHLY_EUR=price_1SJHaFFPC94Os7FdmcrGicXa
-                - STRIPE_PRICE_ID_YEARLY_EUR=price_1SJHarFPC94Os7Fddbyzr5I8
-                - STRIPE_PRICE_ID_VISIONARY_EUR=price_1SJHGnFPC94Os7FdZn23KkYB
-                - STRIPE_PRICE_ID_GIFT_VISIONARY_USD=price_1SKhWqFPC94Os7FdxRmQrg3k
-                - STRIPE_PRICE_ID_GIFT_VISIONARY_EUR=price_1SKhXrFPC94Os7FdcepLrJqr
-                - STRIPE_PRICE_ID_GIFT_1_MONTH_USD=price_1SJHHKFPC94Os7FdGwUs1EQg
-                - STRIPE_PRICE_ID_GIFT_1_YEAR_USD=price_1SJHHrFPC94Os7FdWrQN5tKl
-                - STRIPE_PRICE_ID_GIFT_1_MONTH_EUR=price_1SJHHaFPC94Os7FdwwpwhliW
-                - STRIPE_PRICE_ID_GIFT_1_YEAR_EUR=price_1SJHI5FPC94Os7Fd3DpLxb0D
-                - FLUXER_VISIONARIES_GUILD_ID=1428504839258075143
-                - FLUXER_OPERATORS_GUILD_ID=1434192442151473226
-                - CLOUDFLARE_PURGE_ENABLED=true
-                - CLAMAV_ENABLED=true
-                - CLAMAV_HOST=clamav
-                - CLAMAV_PORT=3310
-                - GEOIP_HOST=fluxer-geoip_app:8080
-                - GEOIP_PROVIDER=maxmind
-                - MAXMIND_DB_PATH=/data/GeoLite2-City.mmdb
-                - VAPID_PUBLIC_KEY=BEIwQxIwfj6m90tLYAR0AU_GJWU4kw8J_zJcHQG55NCUWSyRy-dzMOgvxk8yEDwdVyJZa6xUL4fmwngijq8T2pY
+                - ./runtime.env
               volumes:
                 - /opt/geoip/GeoLite2-City.mmdb:/data/GeoLite2-City.mmdb:ro
               deploy:
+                <<: *deploy_base
                 replicas: 2
-                restart_policy:
-                  condition: on-failure
-                  delay: 5s
-                  max_attempts: 3
-                update_config:
-                  parallelism: 1
-                  delay: 10s
-                  order: start-first
-                rollback_config:
-                  parallelism: 1
-                  delay: 10s
                 labels:
-                  - 'caddy=api.fluxer.app'
+                  - "caddy=${CADDY_DOMAIN}"
                   - 'caddy.reverse_proxy={{upstreams 8080}}'
                   - 'caddy.header.Strict-Transport-Security="max-age=31536000; includeSubDomains; preload"'
                   - 'caddy.header.X-Xss-Protection="1; mode=block"'
                   - 'caddy.header.X-Content-Type-Options=nosniff'
                   - 'caddy.header.Referrer-Policy=strict-origin-when-cross-origin'
                   - 'caddy.header.X-Frame-Options=DENY'
-                  - 'caddy.header.Expect-Ct="max-age=86400, report-uri=\"https://o4510149383094272.ingest.us.sentry.io/api/4510205804019712/security/?sentry_key=bb16e8b823b82d788db49a666b3b4b90\""'
-              networks:
-                - fluxer-shared
-              healthcheck:
-                test: ['CMD', 'curl', '-f', 'http://localhost:8080/_health']
-                interval: 30s
-                timeout: 10s
-                retries: 3
-                start_period: 40s
+                  - 'caddy.header.Expect-Ct="max-age=86400, report-uri=\\"https://o4510149383094272.ingest.us.sentry.io/api/4510205804019712/security/?sentry_key=bb16e8b823b82d788db49a666b3b4b90\\""'
+              networks: [fluxer-shared]
+              healthcheck: *healthcheck
 
           networks:
             fluxer-shared:
               external: true
           COMPOSEEOF
 
-            docker stack deploy -c compose.yaml fluxer-api
-            docker service update --image ${IMAGE_TAG} fluxer-api_app
+            docker stack deploy \
+              --with-registry-auth \
+              --detach=false \
+              --resolve-image never \
+              -c compose.yaml \
+              "${STACK}"
+          }
+
+          deploy_worker_stack_canary_only() {
+            if [[ "${IS_CANARY}" != "true" ]]; then
+              return 0
+            fi
+
+            sudo mkdir -p "/opt/${WORKER_STACK}"
+            sudo chown -R "${USER}:${USER}" "/opt/${WORKER_STACK}"
+            cd "/opt/${WORKER_STACK}"
+
+            write_runtime_env "$(pwd)"
+
+            cat > compose.yaml << COMPOSEEOF
+          x-deploy-base: &deploy_base
+            restart_policy:
+              condition: on-failure
+              delay: 5s
+              max_attempts: 3
+            update_config:
+              parallelism: 1
+              delay: 10s
+              order: start-first
+            rollback_config:
+              parallelism: 1
+              delay: 10s
+
+          services:
+            worker:
+              image: ${IMAGE_TAG_WORKER}
+              command: ['npm', 'run', 'start:worker']
+              env_file:
+                - /etc/fluxer/fluxer.env
+                - ./runtime.env
+              deploy:
+                <<: *deploy_base
+                replicas: 1
+              networks: [fluxer-shared]
+
+          networks:
+            fluxer-shared:
+              external: true
+          COMPOSEEOF
+
+            docker stack deploy \
+              --with-registry-auth \
+              --detach=false \
+              --resolve-image never \
+              -c compose.yaml \
+              "${WORKER_STACK}"
+          }
+
+          deploy_api_stack
+          deploy_worker_stack_canary_only
           EOF

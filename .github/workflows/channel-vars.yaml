@@ -1,0 +1,94 @@
+name: channel vars
+
+on:
+  workflow_call:
+    inputs:
+      github_event_name:
+        type: string
+      github_ref_name:
+        type: string
+        required: false
+      github_ref:
+        type: string
+        required: false
+      workflow_dispatch_channel:
+        type: string
+        required: false
+      workflow_dispatch_ref:
+        type: string
+        required: false
+
+    outputs:
+      channel:
+        description: 'Computed release channel (stable|canary)'
+        value: ${{ jobs.emit.outputs.channel }}
+      is_canary:
+        description: 'Whether this is a canary deploy (true|false)'
+        value: ${{ jobs.emit.outputs.is_canary }}
+      source_ref:
+        description: 'Git ref to check out for the deploy'
+        value: ${{ jobs.emit.outputs.source_ref }}
+      stack_suffix:
+        description: "Suffix for stack/image names ('' or '-canary')"
+        value: ${{ jobs.emit.outputs.stack_suffix }}
+
+jobs:
+  emit:
+    runs-on: ubuntu-latest
+    outputs:
+      channel: ${{ steps.compute.outputs.channel }}
+      is_canary: ${{ steps.compute.outputs.is_canary }}
+      source_ref: ${{ steps.compute.outputs.source_ref }}
+      stack_suffix: ${{ steps.compute.outputs.stack_suffix }}
+    steps:
+      - name: Determine channel
+        id: compute
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          event_name="${{ inputs.github_event_name }}"
+          ref_name="${{ inputs.github_ref_name || '' }}"
+          ref="${{ inputs.github_ref || '' }}"
+          dispatch_channel="${{ inputs.workflow_dispatch_channel || '' }}"
+          dispatch_ref="${{ inputs.workflow_dispatch_ref || '' }}"
+
+          channel="stable"
+          if [[ "${event_name}" == "push" ]]; then
+            if [[ "${ref_name}" == "canary" ]]; then
+              channel="canary"
+            fi
+          else
+            if [[ "${dispatch_channel}" == "canary" ]]; then
+              channel="canary"
+            fi
+          fi
+
+          if [[ "${event_name}" == "push" ]]; then
+            source_ref="${ref:-refs/heads/${ref_name:-main}}"
+          else
+            if [[ -n "${dispatch_ref}" ]]; then
+              source_ref="${dispatch_ref}"
+            else
+              if [[ "${channel}" == "canary" ]]; then
+                source_ref="refs/heads/canary"
+              else
+                source_ref="refs/heads/main"
+              fi
+            fi
+          fi
+
+          stack_suffix=""
+          if [[ "${channel}" == "canary" ]]; then
+            stack_suffix="-canary"
+          fi
+
+          is_canary="false"
+          if [[ "${channel}" == "canary" ]]; then
+            is_canary="true"
+          fi
+
+          printf 'channel=%s\n' "${channel}" >> "$GITHUB_OUTPUT"
+          printf 'is_canary=%s\n' "${is_canary}" >> "$GITHUB_OUTPUT"
+          printf 'source_ref=%s\n' "${source_ref}" >> "$GITHUB_OUTPUT"
+          printf 'stack_suffix=%s\n' "${stack_suffix}" >> "$GITHUB_OUTPUT"

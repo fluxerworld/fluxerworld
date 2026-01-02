@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       confirmation:
-        description: 'this will cause service interruption for all users. type RESTART to confirm.'
+        description: this will cause service interruption for all users. type RESTART to confirm.
         required: true
         type: string
 
@@ -36,6 +36,13 @@ jobs:
 
       - uses: actions/checkout@v6
 
+      - name: Record deploy commit
+        run: |
+          set -euo pipefail
+          sha=$(git rev-parse HEAD)
+          echo "Deploying commit ${sha}"
+          printf 'DEPLOY_SHA=%s\n' "$sha" >> "$GITHUB_ENV"
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -50,7 +57,7 @@ jobs:
         with:
           context: ${{ env.CONTEXT_DIR }}
           file: ${{ env.CONTEXT_DIR }}/Dockerfile
-          tags: ${{ env.IMAGE_NAME }}:${{ github.sha }}
+          tags: ${{ env.IMAGE_NAME }}:${{ env.DEPLOY_SHA }}
           load: true
           platforms: linux/amd64
           cache-from: type=gha,scope=${{ env.SERVICE_NAME }}
@@ -80,19 +87,19 @@ jobs:
 
       - name: Push image and deploy
         env:
-          IMAGE_TAG: ${{ env.IMAGE_NAME }}:${{ github.sha }}
+          IMAGE_TAG: ${{ env.IMAGE_NAME }}:${{ env.DEPLOY_SHA }}
           SERVER: ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}
         run: |
           set -euo pipefail
-          docker pussh ${IMAGE_TAG} ${SERVER}
+          docker pussh "${IMAGE_TAG}" "${SERVER}"
 
-          ssh ${SERVER} "IMAGE_TAG=${IMAGE_TAG} SERVICE_NAME=${SERVICE_NAME} COMPOSE_STACK=${COMPOSE_STACK}" bash << 'EOF'
-            set -euo pipefail
-            sudo mkdir -p /opt/${SERVICE_NAME}
-            sudo chown -R ${USER}:${USER} /opt/${SERVICE_NAME}
-            cd /opt/${SERVICE_NAME}
+          ssh "${SERVER}" "IMAGE_TAG=${IMAGE_TAG} SERVICE_NAME=${SERVICE_NAME} COMPOSE_STACK=${COMPOSE_STACK} bash" << 'EOF'
+          set -euo pipefail
+          sudo mkdir -p "/opt/${SERVICE_NAME}"
+          sudo chown -R "${USER}:${USER}" "/opt/${SERVICE_NAME}"
+          cd "/opt/${SERVICE_NAME}"
 
-            cat > compose.yaml << COMPOSEEOF
+          cat > compose.yaml << COMPOSEEOF
           services:
             app:
               image: ${IMAGE_TAG}
@@ -138,6 +145,5 @@ jobs:
               external: true
           COMPOSEEOF
 
-            docker stack deploy -c compose.yaml ${COMPOSE_STACK}
-            docker service update --image ${IMAGE_TAG} fluxer-gateway_app
+          docker stack deploy --with-registry-auth --detach=false --resolve-image never -c compose.yaml "${COMPOSE_STACK}"
           EOF

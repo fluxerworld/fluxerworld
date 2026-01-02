@@ -5,9 +5,9 @@ on:
     branches:
       - main
     paths:
-      - fluxer_metrics/**/*
+      - fluxer_metrics/**
       - .github/workflows/deploy-metrics.yaml
-  workflow_dispatch:
+  workflow_dispatch: {}
 
 concurrency:
   group: deploy-fluxer-metrics
@@ -24,6 +24,13 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      - name: Record deploy commit
+        run: |
+          set -euo pipefail
+          sha=$(git rev-parse HEAD)
+          echo "Deploying commit ${sha}"
+          printf 'DEPLOY_SHA=%s\n' "$sha" >> "$GITHUB_ENV"
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -38,7 +45,7 @@ jobs:
         with:
           context: fluxer_metrics
           file: fluxer_metrics/Dockerfile
-          tags: fluxer-metrics:${{ github.sha }}
+          tags: fluxer-metrics:${{ env.DEPLOY_SHA }}
           load: true
           platforms: linux/amd64
           cache-from: type=gha,scope=deploy-fluxer-metrics
@@ -68,19 +75,19 @@ jobs:
 
       - name: Push image and deploy
         env:
-          IMAGE_TAG: fluxer-metrics:${{ github.sha }}
+          IMAGE_TAG: fluxer-metrics:${{ env.DEPLOY_SHA }}
           SERVER: ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}
         run: |
           set -euo pipefail
-          docker pussh ${IMAGE_TAG} ${SERVER}
+          docker pussh "${IMAGE_TAG}" "${SERVER}"
 
-          ssh ${SERVER} bash << EOF
-            set -e
-            sudo mkdir -p /opt/fluxer-metrics
-            sudo chown -R \${USER}:\${USER} /opt/fluxer-metrics
-            cd /opt/fluxer-metrics
+          ssh "${SERVER}" "IMAGE_TAG=${IMAGE_TAG} bash" << 'EOF'
+          set -euo pipefail
+          sudo mkdir -p /opt/fluxer-metrics
+          sudo chown -R "${USER}:${USER}" /opt/fluxer-metrics
+          cd /opt/fluxer-metrics
 
-            cat > compose.yaml << 'COMPOSEEOF'
+          cat > compose.yaml << 'COMPOSEEOF'
           services:
             app:
               image: ${IMAGE_TAG}
@@ -120,6 +127,5 @@ jobs:
               external: true
           COMPOSEEOF
 
-            docker stack deploy -c compose.yaml --with-registry-auth fluxer-metrics
-            docker service update --image ${IMAGE_TAG} fluxer-metrics_app
+          docker stack deploy --with-registry-auth --detach=false --resolve-image never -c compose.yaml fluxer-metrics
           EOF

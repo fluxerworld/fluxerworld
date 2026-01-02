@@ -4,27 +4,71 @@ on:
   push:
     branches:
       - main
+      - canary
     paths:
-      - fluxer_marketing/**/*
+      - fluxer_marketing/**
       - .github/workflows/deploy-marketing.yaml
   workflow_dispatch:
+    inputs:
+      channel:
+        type: choice
+        options:
+          - stable
+          - canary
+        default: stable
+        description: Channel to deploy
+      ref:
+        type: string
+        required: false
+        default: ''
+        description: Optional git ref to deploy (defaults to main/canary based on channel)
 
 concurrency:
-  group: deploy-fluxer-marketing
+  group: deploy-fluxer-marketing-${{ github.event_name == 'workflow_dispatch' && inputs.channel || (github.ref_name == 'canary' && 'canary') || 'stable' }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
+  channel-vars:
+    uses: ./.github/workflows/channel-vars.yaml
+    with:
+      github_event_name: ${{ github.event_name }}
+      github_ref_name: ${{ github.ref_name }}
+      github_ref: ${{ github.ref }}
+      workflow_dispatch_channel: ${{ github.event_name == 'workflow_dispatch' && inputs.channel || '' }}
+      workflow_dispatch_ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || '' }}
+
   deploy:
-    name: Deploy app
+    name: Deploy marketing
+    needs: channel-vars
     runs-on: blacksmith-2vcpu-ubuntu-2404
     timeout-minutes: 10
+    env:
+      CHANNEL: ${{ needs.channel-vars.outputs.channel }}
+      IS_CANARY: ${{ needs.channel-vars.outputs.is_canary }}
+      SOURCE_REF: ${{ needs.channel-vars.outputs.source_ref }}
+      STACK_SUFFIX: ${{ needs.channel-vars.outputs.stack_suffix }}
+      STACK: ${{ format('fluxer-marketing{0}', needs.channel-vars.outputs.stack_suffix) }}
+      IMAGE_NAME: ${{ format('fluxer-marketing{0}', needs.channel-vars.outputs.stack_suffix) }}
+      CACHE_SCOPE: ${{ format('deploy-fluxer-marketing{0}', needs.channel-vars.outputs.stack_suffix) }}
+      APP_REPLICAS: ${{ needs.channel-vars.outputs.is_canary == 'true' && 1 || 2 }}
+      API_PUBLIC_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://api.canary.fluxer.app' || 'https://api.fluxer.app' }}
+      API_HOST: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'fluxer-api-canary_app:8080' || 'fluxer-api_app:8080' }}
+      APP_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://web.canary.fluxer.app' || 'https://web.fluxer.app' }}
+      MARKETING_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://canary.fluxer.app' || 'https://fluxer.app' }}
+      CADDY_DOMAIN: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'canary.fluxer.app' || 'fluxer.app' }}
+      RELEASE_CHANNEL: ${{ needs.channel-vars.outputs.channel }}
+
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && 'refs/heads/main' || github.ref }}
+          ref: ${{ env.SOURCE_REF }}
+          fetch-depth: 0
 
       - name: Record deploy commit
-        run: |
+        run: |-
           set -euo pipefail
           sha=$(git rev-parse HEAD)
           echo "Deploying commit ${sha}"
@@ -44,19 +88,18 @@ jobs:
         with:
           context: fluxer_marketing
           file: fluxer_marketing/Dockerfile
-          tags: fluxer-marketing:${{ env.DEPLOY_SHA }}
+          tags: ${{ env.IMAGE_NAME }}:${{ env.DEPLOY_SHA }}
           load: true
           platforms: linux/amd64
-          cache-from: type=gha,scope=deploy-fluxer-marketing
-          cache-to: type=gha,mode=max,scope=deploy-fluxer-marketing
-          build-args: |
-            BUILD_TIMESTAMP=${{ github.run_id }}
+          cache-from: type=gha,scope=${{ env.CACHE_SCOPE }}
+          cache-to: type=gha,mode=max,scope=${{ env.CACHE_SCOPE }}
+          build-args: BUILD_TIMESTAMP=${{ github.run_id }}
         env:
           DOCKER_BUILD_SUMMARY: false
           DOCKER_BUILD_RECORD_UPLOAD: false
 
       - name: Install docker-pussh
-        run: |
+        run: |-
           set -euo pipefail
           mkdir -p ~/.docker/cli-plugins
           curl -fsSL https://raw.githubusercontent.com/psviderski/unregistry/v0.3.1/docker-pussh \
@@ -69,44 +112,55 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_SERVER }}
 
       - name: Add server to known hosts
-        run: |
+        run: |-
           set -euo pipefail
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
 
       - name: Push image and deploy
         env:
-          IMAGE_TAG: fluxer-marketing:${{ env.DEPLOY_SHA }}
+          IMAGE_TAG: ${{ env.IMAGE_NAME }}:${{ env.DEPLOY_SHA }}
           SERVER: ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}
-        run: |
+          STACK: ${{ env.STACK }}
+          IS_CANARY: ${{ env.IS_CANARY }}
+          API_PUBLIC_ENDPOINT: ${{ env.API_PUBLIC_ENDPOINT }}
+          API_HOST: ${{ env.API_HOST }}
+          APP_ENDPOINT: ${{ env.APP_ENDPOINT }}
+          MARKETING_ENDPOINT: ${{ env.MARKETING_ENDPOINT }}
+          CADDY_DOMAIN: ${{ env.CADDY_DOMAIN }}
+          RELEASE_CHANNEL: ${{ env.RELEASE_CHANNEL }}
+          APP_REPLICAS: ${{ env.APP_REPLICAS }}
+        run: |-
           set -euo pipefail
-          docker pussh ${IMAGE_TAG} ${SERVER}
+          docker pussh "${IMAGE_TAG}" "${SERVER}"
 
-          ssh ${SERVER} "IMAGE_TAG=${IMAGE_TAG}" bash << 'EOF'
-            set -e
-            sudo mkdir -p /opt/fluxer-marketing
-            sudo chown -R ${USER}:${USER} /opt/fluxer-marketing
-            cd /opt/fluxer-marketing
+          ssh "${SERVER}" \
+            "IMAGE_TAG=${IMAGE_TAG} STACK=${STACK} IS_CANARY=${IS_CANARY} API_PUBLIC_ENDPOINT=${API_PUBLIC_ENDPOINT} API_HOST=${API_HOST} APP_ENDPOINT=${APP_ENDPOINT} MARKETING_ENDPOINT=${MARKETING_ENDPOINT} CADDY_DOMAIN=${CADDY_DOMAIN} RELEASE_CHANNEL=${RELEASE_CHANNEL} APP_REPLICAS=${APP_REPLICAS} bash" << 'EOF'
+          set -euo pipefail
 
-            cat > compose.yaml << COMPOSEEOF
+          sudo mkdir -p "/opt/${STACK}"
+          sudo chown -R "${USER}:${USER}" "/opt/${STACK}"
+          cd "/opt/${STACK}"
+
+          cat > compose.yaml << COMPOSEEOF
           services:
             app:
               image: ${IMAGE_TAG}
               env_file:
                 - /etc/fluxer/fluxer.env
               environment:
-                - FLUXER_API_PUBLIC_ENDPOINT=https://api.fluxer.app
-                - FLUXER_API_HOST=fluxer-api_app:8080
-                - FLUXER_APP_ENDPOINT=https://web.fluxer.app
+                - FLUXER_API_PUBLIC_ENDPOINT=${API_PUBLIC_ENDPOINT}
+                - FLUXER_API_HOST=${API_HOST}
+                - FLUXER_APP_ENDPOINT=${APP_ENDPOINT}
                 - FLUXER_CDN_ENDPOINT=https://fluxerstatic.com
-                - FLUXER_MARKETING_ENDPOINT=https://fluxer.app
+                - FLUXER_MARKETING_ENDPOINT=${MARKETING_ENDPOINT}
                 - FLUXER_MARKETING_PORT=8080
                 - FLUXER_PATH_MARKETING=/
                 - GEOIP_HOST=fluxer-geoip_app:8080
-                - RELEASE_CHANNEL=stable
+                - RELEASE_CHANNEL=${RELEASE_CHANNEL}
                 - FLUXER_METRICS_HOST=fluxer-metrics_app:8080
               deploy:
-                replicas: 2
+                replicas: ${APP_REPLICAS}
                 restart_policy:
                   condition: on-failure
                   delay: 5s
@@ -119,33 +173,47 @@ jobs:
                   parallelism: 1
                   delay: 10s
                 labels:
-                  - 'caddy=fluxer.app'
-                  - 'caddy.reverse_proxy={{upstreams 8080}}'
-                  - 'caddy.header.Strict-Transport-Security="max-age=31536000; includeSubDomains; preload"'
-                  - 'caddy.header.X-Xss-Protection="1; mode=block"'
-                  - 'caddy.header.X-Content-Type-Options=nosniff'
-                  - 'caddy.header.Referrer-Policy=strict-origin-when-cross-origin'
-                  - 'caddy.header.X-Frame-Options=DENY'
-                  - 'caddy.redir_0=/channels/* https://web.fluxer.app{uri}'
-                  - 'caddy.redir_1=/channels https://web.fluxer.app{uri}'
-                  - 'caddy.redir_2=/delete-my-account https://fluxer.app/help/articles/1445724566704881664 302'
-                  - 'caddy.redir_3=/delete-my-data https://fluxer.app/help/articles/1445730947679911936 302'
-                  - 'caddy.redir_4=/export-my-data https://fluxer.app/help/articles/1445731738851475456 302'
-                  - 'caddy.redir_5=/bugs https://fluxer.app/help/articles/1447264362996695040 302'
-                  - 'caddy_1=www.fluxer.app'
-                  - 'caddy_1.redir=https://fluxer.app{uri}'
-                  - 'caddy_3=fluxer.gg'
-                  - 'caddy_3.redir=https://web.fluxer.app/invite{uri}'
-                  - 'caddy_4=fluxer.gift'
-                  - 'caddy_4.redir=https://web.fluxer.app/gift{uri}'
-                  - 'caddy_5=fluxerapp.com'
-                  - 'caddy_5.redir=https://fluxer.app{uri}'
-                  - 'caddy_6=www.fluxerapp.com'
-                  - 'caddy_6.redir=https://fluxer.app{uri}'
-                  - 'caddy_7=fluxer.dev'
-                  - 'caddy_7.redir=https://docs.fluxer.app{uri}'
-                  - 'caddy_8=www.fluxer.dev'
-                  - 'caddy_8.redir=https://docs.fluxer.app{uri}'
+                  caddy: "${CADDY_DOMAIN}"
+                  caddy.reverse_proxy: "{{upstreams 8080}}"
+                  caddy.header.Strict-Transport-Security: "max-age=31536000; includeSubDomains; preload"
+                  caddy.header.X-Xss-Protection: "1; mode=block"
+                  caddy.header.X-Content-Type-Options: "nosniff"
+                  caddy.header.Referrer-Policy: "strict-origin-when-cross-origin"
+                  caddy.header.X-Frame-Options: "DENY"
+          COMPOSEEOF
+
+          if [[ "${IS_CANARY}" == "true" ]]; then
+            cat >> compose.yaml << 'COMPOSEEOF'
+                  caddy.header.X-Robots-Tag: "noindex, nofollow, nosnippet, noimageindex"
+                  caddy.@channels.path: "/channels /channels/*"
+                  caddy.redir: "@channels https://web.canary.fluxer.app{uri}"
+          COMPOSEEOF
+          else
+            cat >> compose.yaml << 'COMPOSEEOF'
+                  caddy.redir_0: "/channels/* https://web.fluxer.app{uri}"
+                  caddy.redir_1: "/channels https://web.fluxer.app{uri}"
+                  caddy.redir_2: "/delete-my-account https://fluxer.app/help/articles/1445724566704881664 302"
+                  caddy.redir_3: "/delete-my-data https://fluxer.app/help/articles/1445730947679911936 302"
+                  caddy.redir_4: "/export-my-data https://fluxer.app/help/articles/1445731738851475456 302"
+                  caddy.redir_5: "/bugs https://fluxer.app/help/articles/1447264362996695040 302"
+                  caddy_1: "www.fluxer.app"
+                  caddy_1.redir: "https://fluxer.app{uri}"
+                  caddy_3: "fluxer.gg"
+                  caddy_3.redir: "https://web.fluxer.app/invite{uri}"
+                  caddy_4: "fluxer.gift"
+                  caddy_4.redir: "https://web.fluxer.app/gift{uri}"
+                  caddy_5: "fluxerapp.com"
+                  caddy_5.redir: "https://fluxer.app{uri}"
+                  caddy_6: "www.fluxerapp.com"
+                  caddy_6.redir: "https://fluxer.app{uri}"
+                  caddy_7: "fluxer.dev"
+                  caddy_7.redir: "https://docs.fluxer.app{uri}"
+                  caddy_8: "www.fluxer.dev"
+                  caddy_8.redir: "https://docs.fluxer.app{uri}"
+          COMPOSEEOF
+          fi
+
+          cat >> compose.yaml << 'COMPOSEEOF'
               networks:
                 - fluxer-shared
               healthcheck:
@@ -160,6 +228,10 @@ jobs:
               external: true
           COMPOSEEOF
 
-            docker stack deploy -c compose.yaml fluxer-marketing
-            docker service update --image ${IMAGE_TAG} fluxer-marketing_app
+          docker stack deploy \
+            --with-registry-auth \
+            --detach=false \
+            --resolve-image never \
+            -c compose.yaml \
+            "${STACK}"
           EOF

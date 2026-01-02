@@ -3,10 +3,18 @@ name: build desktop
 on:
   workflow_dispatch:
     inputs:
+      channel:
+        description: Channel to build (stable or canary)
+        required: false
+        type: choice
+        options:
+          - stable
+          - canary
+        default: stable
       ref:
         description: Git ref to build (branch, tag, or commit SHA)
         required: false
-        default: stable
+        default: ''
         type: string
       skip_windows:
         description: Skip Windows builds
@@ -58,14 +66,38 @@ permissions:
   contents: write
 
 concurrency:
-  group: desktop-stable-${{ inputs.ref || 'stable' }}
+  group: desktop-${{ inputs.channel }}
   cancel-in-progress: true
 
 env:
-  CHANNEL: stable
-  SOURCE_REF: ${{ inputs.ref || 'stable' }}
+  CHANNEL: ${{ inputs.channel }}
+  BUILD_CHANNEL: ${{ inputs.channel == 'canary' && 'canary' || 'stable' }}
+  SOURCE_REF: ${{ inputs.ref && inputs.ref || (inputs.channel == 'canary' && 'canary' || 'main') }}
 
 jobs:
+  meta:
+    name: Resolve build metadata
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      pub_date: ${{ steps.meta.outputs.pub_date }}
+      channel: ${{ steps.meta.outputs.channel }}
+      build_channel: ${{ steps.meta.outputs.build_channel }}
+      source_ref: ${{ steps.meta.outputs.source_ref }}
+    steps:
+      - name: Set metadata
+        id: meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="0.0.${GITHUB_RUN_NUMBER}"
+          PUB_DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
+          echo "pub_date=${PUB_DATE}" >> "$GITHUB_OUTPUT"
+          echo "channel=${{ inputs.channel }}" >> "$GITHUB_OUTPUT"
+          echo "build_channel=${{ inputs.channel == 'canary' && 'canary' || 'stable' }}" >> "$GITHUB_OUTPUT"
+          echo "source_ref=${{ (inputs.ref && inputs.ref) || (inputs.channel == 'canary' && 'canary' || 'main') }}" >> "$GITHUB_OUTPUT"
+
   matrix:
     name: Resolve build matrix
     runs-on: blacksmith-2vcpu-ubuntu-2404
@@ -74,7 +106,10 @@ jobs:
     steps:
       - name: Build platform matrix
         id: set-matrix
+        shell: bash
         run: |
+          set -euo pipefail
+
           PLATFORMS='[
             {"platform":"windows","arch":"x64","os":"windows-latest","electron_arch":"x64"},
             {"platform":"windows","arch":"arm64","os":"windows-11-arm","electron_arch":"arm64"},
@@ -119,16 +154,20 @@ jobs:
 
   build:
     name: Build ${{ matrix.platform }} (${{ matrix.arch }})
-    needs: matrix
-    outputs:
-      version: ${{ steps.metadata.outputs.version }}
-      pub_date: ${{ steps.metadata.outputs.pub_date }}
+    needs:
+      - meta
+      - matrix
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix: ${{ fromJson(needs.matrix.outputs.matrix) }}
     env:
       APP_WORKDIR: fluxer_app
+      CHANNEL: ${{ needs.meta.outputs.channel }}
+      BUILD_CHANNEL: ${{ needs.meta.outputs.build_channel }}
+      SOURCE_REF: ${{ needs.meta.outputs.source_ref }}
+      VERSION: ${{ needs.meta.outputs.version }}
+      PUB_DATE: ${{ needs.meta.outputs.pub_date }}
     steps:
       - name: Checkout source
         uses: actions/checkout@v6
@@ -167,18 +206,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Set build metadata
-        id: metadata
-        shell: bash
-        run: |
-          set -euo pipefail
-          VERSION="0.0.${GITHUB_RUN_NUMBER}"
-          PUB_DATE="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-          echo "VERSION=${VERSION}" >> "$GITHUB_ENV"
-          echo "PUB_DATE=${PUB_DATE}" >> "$GITHUB_ENV"
-          echo "version=${VERSION}" >> "$GITHUB_OUTPUT"
-          echo "pub_date=${PUB_DATE}" >> "$GITHUB_OUTPUT"
-
       - name: Resolve pnpm store path (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
@@ -191,6 +218,7 @@ jobs:
         if: runner.os != 'Windows'
         shell: bash
         run: |
+          set -euo pipefail
           store="$(pnpm store path --silent)"
           echo "PNPM_STORE_PATH=$store" >> "$GITHUB_ENV"
           mkdir -p "$store"
@@ -232,19 +260,19 @@ jobs:
 
       - name: Update version
         working-directory: ${{ env.APP_WORKDIR }}
-        run: pnpm version "$VERSION" --no-git-tag-version --allow-same-version
+        run: pnpm version "${{ env.VERSION }}" --no-git-tag-version --allow-same-version
 
       - name: Build Electron main process
         working-directory: ${{ env.APP_WORKDIR }}
         env:
-          BUILD_CHANNEL: stable
+          BUILD_CHANNEL: ${{ env.BUILD_CHANNEL }}
         run: pnpm electron:compile
 
       - name: Build Electron app (macOS)
         if: matrix.platform == 'macos'
         working-directory: ${{ env.APP_WORKDIR }}
         env:
-          BUILD_CHANNEL: stable
+          BUILD_CHANNEL: ${{ env.BUILD_CHANNEL }}
           CSC_LINK: ${{ secrets.APPLE_CERTIFICATE }}
           CSC_KEY_PASSWORD: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
           APPLE_ID: ${{ secrets.APPLE_ID }}
@@ -256,7 +284,7 @@ jobs:
         if: matrix.platform == 'windows'
         working-directory: ${{ env.APP_WORKDIR }}
         env:
-          BUILD_CHANNEL: stable
+          BUILD_CHANNEL: ${{ env.BUILD_CHANNEL }}
           TEMP: C:\t
           TMP: C:\t
           SQUIRREL_TEMP: C:\sq
@@ -268,7 +296,7 @@ jobs:
         working-directory: ${{ env.APP_WORKDIR }}
         shell: pwsh
         env:
-          BUILD_VERSION: ${{ steps.metadata.outputs.version }}
+          BUILD_VERSION: ${{ env.VERSION }}
           MAX_WINDOWS_PATH_LEN: 260
           PATH_HEADROOM: 10
         run: |
@@ -332,7 +360,7 @@ jobs:
         if: matrix.platform == 'linux'
         working-directory: ${{ env.APP_WORKDIR }}
         env:
-          BUILD_CHANNEL: stable
+          BUILD_CHANNEL: ${{ env.BUILD_CHANNEL }}
           USE_SYSTEM_FPM: true
         run: pnpm exec electron-builder --config electron-builder.yaml --linux --${{ matrix.electron_arch }}
 
@@ -377,6 +405,7 @@ jobs:
         if: runner.os != 'Windows'
         shell: bash
         run: |
+          set -euo pipefail
           mkdir -p upload_staging
           DIST="${{ env.APP_WORKDIR }}/dist-electron"
 
@@ -396,13 +425,14 @@ jobs:
         if: matrix.arch == 'arm64'
         shell: bash
         run: |
+          set -euo pipefail
           cd upload_staging
           [[ "${{ matrix.platform }}" == "macos" && -f latest-mac.yml && ! -f latest-mac-arm64.yml ]] && mv latest-mac.yml latest-mac-arm64.yml || true
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: fluxer-desktop-stable-${{ matrix.platform }}-${{ matrix.arch }}
+          name: fluxer-desktop-${{ env.BUILD_CHANNEL }}-${{ matrix.platform }}-${{ matrix.arch }}
           path: |
             upload_staging/*.exe
             upload_staging/*.exe.blockmap
@@ -421,10 +451,13 @@ jobs:
 
   upload:
     name: Upload to S3 (rclone)
-    needs: build
+    needs:
+      - meta
+      - build
     runs-on: blacksmith-2vcpu-ubuntu-2404
     env:
-      CHANNEL: stable
+      CHANNEL: ${{ needs.meta.outputs.build_channel }}
+      DISPLAY_CHANNEL: ${{ needs.meta.outputs.channel }}
       S3_ENDPOINT: https://s3.us-east-va.io.cloud.ovh.us
       S3_BUCKET: fluxer-downloads
       PUBLIC_DL_BASE: https://api.fluxer.app/dl
@@ -435,7 +468,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           path: artifacts
-          pattern: fluxer-desktop-stable-*
+          pattern: fluxer-desktop-${{ needs.meta.outputs.build_channel }}-*
 
       - name: Install rclone
         run: |
@@ -459,19 +492,19 @@ jobs:
 
       - name: Build S3 payload layout (+ manifest.json)
         env:
-          VERSION: ${{ needs.build.outputs.version }}
-          PUB_DATE: ${{ needs.build.outputs.pub_date }}
+          VERSION: ${{ needs.meta.outputs.version }}
+          PUB_DATE: ${{ needs.meta.outputs.pub_date }}
         run: |
           set -euo pipefail
 
           mkdir -p s3_payload
 
           shopt -s nullglob
-          for dir in artifacts/fluxer-desktop-stable-*; do
+          for dir in artifacts/fluxer-desktop-${CHANNEL}-*; do
             [ -d "$dir" ] || continue
 
             base="$(basename "$dir")"
-            if [[ "$base" =~ ^fluxer-desktop-stable-([a-z]+)-([a-z0-9]+)$ ]]; then
+            if [[ "$base" =~ ^fluxer-desktop-[a-z]+-([a-z]+)-([a-z0-9]+)$ ]]; then
               platform="${BASH_REMATCH[1]}"
               arch="${BASH_REMATCH[2]}"
             else
@@ -602,9 +635,9 @@ jobs:
       - name: Build summary
         run: |
           {
-            echo "## Desktop Stable Upload Complete"
+            echo "## Desktop ${DISPLAY_CHANNEL^} Upload Complete"
             echo ""
-            echo "**Version:** ${{ steps.metadata.outputs.version }}"
+            echo "**Version:** ${{ needs.meta.outputs.version }}"
             echo ""
             echo "**S3 prefix:** desktop/${CHANNEL}/"
             echo ""

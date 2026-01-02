@@ -4,35 +4,76 @@ on:
   push:
     branches:
       - main
+      - canary
     paths:
-      - fluxer_app/**/*
+      - fluxer_app/**
       - .github/workflows/deploy-app.yaml
   workflow_dispatch:
+    inputs:
+      channel:
+        type: choice
+        options:
+          - stable
+          - canary
+        default: stable
+        description: Channel to deploy
+      ref:
+        type: string
+        required: false
+        default: ''
+        description: Optional git ref to deploy (defaults to main/canary based on channel)
 
 concurrency:
-  group: deploy-fluxer-app-stable
+  group: deploy-fluxer-app-${{ github.event_name == 'workflow_dispatch' && inputs.channel || (github.ref_name == 'canary' && 'canary') || 'stable' }}
   cancel-in-progress: true
 
 permissions:
   contents: write
 
-env:
-  SERVICE_NAME: fluxer-app-stable
-  IMAGE_NAME: fluxer-app-stable
-  COMPOSE_STACK: fluxer-app-stable
-  DOCKERFILE: fluxer_app/proxy/Dockerfile
-  SENTRY_PROXY_PATH: /error-reporting-proxy
-  DEPLOY_BRANCH: ${{ github.event_name == 'workflow_dispatch' && 'main' || github.ref_name }}
-
 jobs:
+  channel-vars:
+    uses: ./.github/workflows/channel-vars.yaml
+    with:
+      github_event_name: ${{ github.event_name }}
+      github_ref_name: ${{ github.ref_name }}
+      github_ref: ${{ github.ref }}
+      workflow_dispatch_channel: ${{ github.event_name == 'workflow_dispatch' && inputs.channel || '' }}
+      workflow_dispatch_ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || '' }}
+
   deploy:
-    name: Deploy app (stable)
+    name: Deploy app
+    needs: channel-vars
     runs-on: blacksmith-2vcpu-ubuntu-2404
     timeout-minutes: 10
+    env:
+      CHANNEL: ${{ needs.channel-vars.outputs.channel }}
+      IS_CANARY: ${{ needs.channel-vars.outputs.is_canary }}
+      SOURCE_REF: ${{ needs.channel-vars.outputs.source_ref }}
+      STACK_SUFFIX: ${{ needs.channel-vars.outputs.stack_suffix }}
+
+      SERVICE_NAME: ${{ format('fluxer-app{0}', needs.channel-vars.outputs.stack_suffix) }}
+      DOCKERFILE: fluxer_app/proxy/Dockerfile
+      SENTRY_PROXY_PATH: /error-reporting-proxy
+      CACHE_SCOPE: ${{ format('fluxer-app{0}', needs.channel-vars.outputs.stack_suffix) }}
+
+      PUBLIC_BOOTSTRAP_API_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://web.canary.fluxer.app/api' || 'https://web.fluxer.app/api' }}
+      PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://api.canary.fluxer.app' || 'https://api.fluxer.app' }}
+      PUBLIC_PROJECT_ENV: ${{ needs.channel-vars.outputs.channel }}
+      PUBLIC_SENTRY_DSN: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://59ced0e2666ab83dd1ddb056cdd22d1b@sentry.web.canary.fluxer.app/4510205815291904' || 'https://59ced0e2666ab83dd1ddb056cdd22d1b@sentry.web.fluxer.app/4510205815291904' }}
+
+      SENTRY_REPORT_HOST: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://sentry.web.canary.fluxer.app' || 'https://sentry.web.fluxer.app' }}
+      API_TARGET: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'fluxer-api-canary_app' || 'fluxer-api_app' }}
+
+      CADDY_APP_DOMAIN: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'web.canary.fluxer.app' || 'web.fluxer.app' }}
+      SENTRY_CADDY_DOMAIN: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'sentry.web.canary.fluxer.app' || 'sentry.web.fluxer.app' }}
+
+      RELEASE_CHANNEL: ${{ needs.channel-vars.outputs.channel }}
+      APP_REPLICAS: ${{ needs.channel-vars.outputs.is_canary == 'true' && 1 || 2 }}
+
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ github.event_name == 'workflow_dispatch' && 'refs/heads/main' || github.ref }}
+          ref: ${{ env.SOURCE_REF }}
           fetch-depth: 0
 
       - name: Set up pnpm
@@ -100,13 +141,13 @@ jobs:
         working-directory: fluxer_app
         env:
           NODE_ENV: production
-          PUBLIC_BOOTSTRAP_API_ENDPOINT: https://web.fluxer.app/api
-          PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT: https://api.fluxer.app
+          PUBLIC_BOOTSTRAP_API_ENDPOINT: ${{ env.PUBLIC_BOOTSTRAP_API_ENDPOINT }}
+          PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT: ${{ env.PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT }}
           PUBLIC_API_VERSION: 1
-          PUBLIC_PROJECT_ENV: stable
+          PUBLIC_PROJECT_ENV: ${{ env.PUBLIC_PROJECT_ENV }}
           PUBLIC_SENTRY_PROJECT_ID: 4510205815291904
           PUBLIC_SENTRY_PUBLIC_KEY: 59ced0e2666ab83dd1ddb056cdd22d1b
-          PUBLIC_SENTRY_DSN: https://59ced0e2666ab83dd1ddb056cdd22d1b@sentry.web.fluxer.app/4510205815291904
+          PUBLIC_SENTRY_DSN: ${{ env.PUBLIC_SENTRY_DSN }}
           PUBLIC_SENTRY_PROXY_PATH: ${{ env.SENTRY_PROXY_PATH }}
           PUBLIC_BUILD_NUMBER: ${{ github.run_number }}
         run: |
@@ -119,7 +160,7 @@ jobs:
             "sha": "$PUBLIC_BUILD_SHA",
             "buildNumber": $PUBLIC_BUILD_NUMBER,
             "timestamp": $PUBLIC_BUILD_TIMESTAMP,
-            "env": "stable"
+            "env": "$PUBLIC_PROJECT_ENV"
           }
           EOF
 
@@ -169,11 +210,11 @@ jobs:
         with:
           context: .
           file: ${{ env.DOCKERFILE }}
-          tags: ${{ env.IMAGE_NAME }}:${{ env.DEPLOY_SHA }}
+          tags: ${{ env.SERVICE_NAME }}:${{ env.DEPLOY_SHA }}
           load: true
           platforms: linux/amd64
-          cache-from: type=gha,scope=${{ env.SERVICE_NAME }}
-          cache-to: type=gha,mode=max,scope=${{ env.SERVICE_NAME }}
+          cache-from: type=gha,scope=${{ env.CACHE_SCOPE }}
+          cache-to: type=gha,mode=max,scope=${{ env.CACHE_SCOPE }}
         env:
           DOCKER_BUILD_SUMMARY: false
           DOCKER_BUILD_RECORD_UPLOAD: false
@@ -199,118 +240,114 @@ jobs:
 
       - name: Push image and deploy
         env:
-          IMAGE_TAG: ${{ env.IMAGE_NAME }}:${{ env.DEPLOY_SHA }}
+          IMAGE_TAG: ${{ env.SERVICE_NAME }}:${{ env.DEPLOY_SHA }}
           SERVER: ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}
+
+          SERVICE_NAME: ${{ env.SERVICE_NAME }}
+          COMPOSE_STACK: ${{ env.SERVICE_NAME }}
+
           SENTRY_DSN: https://59ced0e2666ab83dd1ddb056cdd22d1b@o4510149383094272.ingest.us.sentry.io/4510205815291904
           SENTRY_PROXY_PATH: ${{ env.SENTRY_PROXY_PATH }}
-          SENTRY_REPORT_HOST: https://sentry.web.fluxer.app
+          SENTRY_REPORT_HOST: ${{ env.SENTRY_REPORT_HOST }}
+
+          CADDY_APP_DOMAIN: ${{ env.CADDY_APP_DOMAIN }}
+          SENTRY_CADDY_DOMAIN: ${{ env.SENTRY_CADDY_DOMAIN }}
+          API_TARGET: ${{ env.API_TARGET }}
+
+          RELEASE_CHANNEL: ${{ env.RELEASE_CHANNEL }}
+          APP_REPLICAS: ${{ env.APP_REPLICAS }}
         run: |
           set -euo pipefail
-          docker pussh ${IMAGE_TAG} ${SERVER}
+          docker pussh "${IMAGE_TAG}" "${SERVER}"
 
-          ssh ${SERVER} \
-            "IMAGE_TAG=${IMAGE_TAG} SERVICE_NAME=${SERVICE_NAME} COMPOSE_STACK=${COMPOSE_STACK} SENTRY_DSN=${SENTRY_DSN} SENTRY_PROXY_PATH=${SENTRY_PROXY_PATH} SENTRY_REPORT_HOST=${SENTRY_REPORT_HOST}" bash << 'EOF'
-            set -euo pipefail
-            sudo mkdir -p /opt/${SERVICE_NAME}
-            sudo chown -R ${USER}:${USER} /opt/${SERVICE_NAME}
-            cd /opt/${SERVICE_NAME}
+          ssh "${SERVER}" \
+            "IMAGE_TAG=${IMAGE_TAG} SERVICE_NAME=${SERVICE_NAME} COMPOSE_STACK=${COMPOSE_STACK} SENTRY_DSN=${SENTRY_DSN} SENTRY_PROXY_PATH=${SENTRY_PROXY_PATH} SENTRY_REPORT_HOST=${SENTRY_REPORT_HOST} CADDY_APP_DOMAIN=${CADDY_APP_DOMAIN} SENTRY_CADDY_DOMAIN=${SENTRY_CADDY_DOMAIN} API_TARGET=${API_TARGET} RELEASE_CHANNEL=${RELEASE_CHANNEL} APP_REPLICAS=${APP_REPLICAS} bash" << 'EOF'
+          set -euo pipefail
+          sudo mkdir -p "/opt/${SERVICE_NAME}"
+          sudo chown -R "${USER}:${USER}" "/opt/${SERVICE_NAME}"
+          cd "/opt/${SERVICE_NAME}"
 
-            cat > compose.yaml << COMPOSEEOF
+          cat > compose.yaml << COMPOSEEOF
+          x-deploy-base: &deploy_base
+            restart_policy:
+              condition: on-failure
+              delay: 5s
+              max_attempts: 3
+            update_config:
+              parallelism: 1
+              delay: 10s
+              order: start-first
+            rollback_config:
+              parallelism: 1
+              delay: 10s
+
+          x-common-caddy-headers: &common_caddy_headers
+            caddy.header.Strict-Transport-Security: "max-age=31536000; includeSubDomains; preload"
+            caddy.header.X-Xss-Protection: "1; mode=block"
+            caddy.header.X-Content-Type-Options: "nosniff"
+            caddy.header.Referrer-Policy: "strict-origin-when-cross-origin"
+            caddy.header.X-Frame-Options: "DENY"
+            caddy.header.Expect-Ct: "max-age=86400, report-uri=\\"${SENTRY_REPORT_HOST}/api/4510205815291904/security/?sentry_key=59ced0e2666ab83dd1ddb056cdd22d1b\\""
+            caddy.header.Cache-Control: "no-store, no-cache, must-revalidate"
+            caddy.header.Pragma: "no-cache"
+            caddy.header.Expires: "0"
+
+          x-env-base: &env_base
+            PORT: 8080
+            RELEASE_CHANNEL: ${RELEASE_CHANNEL}
+            FLUXER_METRICS_HOST: fluxer-metrics_app:8080
+            SENTRY_DSN: ${SENTRY_DSN}
+            SENTRY_REPORT_HOST: ${SENTRY_REPORT_HOST}
+
+          x-healthcheck: &healthcheck
+            test: ['CMD', 'curl', '-f', 'http://localhost:8080/_health']
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 40s
+
           services:
             app:
               image: ${IMAGE_TAG}
               deploy:
-                replicas: 2
-                restart_policy:
-                  condition: on-failure
-                  delay: 5s
-                  max_attempts: 3
-                update_config:
-                  parallelism: 1
-                  delay: 10s
-                  order: start-first
-                rollback_config:
-                  parallelism: 1
-                  delay: 10s
+                <<: *deploy_base
+                replicas: ${APP_REPLICAS}
                 labels:
-                  - 'caddy=web.fluxer.app'
-                  - 'caddy.handle_path_0=/api*'
-                  - 'caddy.handle_path_0.reverse_proxy=http://fluxer-api_app:8080'
-                  - 'caddy.reverse_proxy={{upstreams 8080}}'
-                  - 'caddy.header.Strict-Transport-Security="max-age=31536000; includeSubDomains; preload"'
-                  - 'caddy.header.X-Xss-Protection="1; mode=block"'
-                  - 'caddy.header.X-Content-Type-Options=nosniff'
-                  - 'caddy.header.Referrer-Policy=strict-origin-when-cross-origin'
-                  - 'caddy.header.X-Frame-Options=DENY'
-                  - "caddy.header.Expect-Ct=max-age=86400, report-uri=\"${SENTRY_REPORT_HOST}/api/4510205815291904/security/?sentry_key=59ced0e2666ab83dd1ddb056cdd22d1b\""
-                  - 'caddy.header.Cache-Control="no-store, no-cache, must-revalidate"'
-                  - 'caddy.header.Pragma=no-cache'
-                  - 'caddy.header.Expires=0'
+                  <<: *common_caddy_headers
+                  caddy: ${CADDY_APP_DOMAIN}
+                  caddy.handle_path_0: /api*
+                  caddy.handle_path_0.reverse_proxy: "http://${API_TARGET}:8080"
+                  caddy.reverse_proxy: "{{upstreams 8080}}"
               environment:
-                - PORT=8080
-                - RELEASE_CHANNEL=stable
-                - FLUXER_METRICS_HOST=fluxer-metrics_app:8080
-                - SENTRY_DSN=${SENTRY_DSN}
-                - SENTRY_PROXY_PATH=${SENTRY_PROXY_PATH}
-                - SENTRY_REPORT_HOST=${SENTRY_REPORT_HOST}
-              networks:
-                - fluxer-shared
-              healthcheck:
-                test: ['CMD', 'curl', '-f', 'http://localhost:8080/_health']
-                interval: 30s
-                timeout: 10s
-                retries: 3
-                start_period: 40s
+                <<: *env_base
+                SENTRY_PROXY_PATH: ${SENTRY_PROXY_PATH}
+              networks: [fluxer-shared]
+              healthcheck: *healthcheck
 
             sentry:
               image: ${IMAGE_TAG}
               deploy:
+                <<: *deploy_base
                 replicas: 1
-                restart_policy:
-                  condition: on-failure
-                  delay: 5s
-                  max_attempts: 3
-                update_config:
-                  parallelism: 1
-                  delay: 10s
-                  order: start-first
-                rollback_config:
-                  parallelism: 1
-                  delay: 10s
                 labels:
-                  - 'caddy=sentry.web.fluxer.app'
-                  - 'caddy.reverse_proxy={{upstreams 8080}}'
-                  - 'caddy.header.Strict-Transport-Security="max-age=31536000; includeSubDomains; preload"'
-                  - 'caddy.header.X-Xss-Protection="1; mode=block"'
-                  - 'caddy.header.X-Content-Type-Options=nosniff'
-                  - 'caddy.header.Referrer-Policy=strict-origin-when-cross-origin'
-                  - 'caddy.header.X-Frame-Options=DENY'
-                  - "caddy.header.Expect-Ct=max-age=86400, report-uri=\"${SENTRY_REPORT_HOST}/api/4510205815291904/security/?sentry_key=59ced0e2666ab83dd1ddb056cdd22d1b\""
-                  - 'caddy.header.Cache-Control="no-store, no-cache, must-revalidate"'
-                  - 'caddy.header.Pragma=no-cache'
-                  - 'caddy.header.Expires=0'
+                  <<: *common_caddy_headers
+                  caddy: ${SENTRY_CADDY_DOMAIN}
+                  caddy.reverse_proxy: "{{upstreams 8080}}"
               environment:
-                - PORT=8080
-                - RELEASE_CHANNEL=stable
-                - FLUXER_METRICS_HOST=fluxer-metrics_app:8080
-                - SENTRY_DSN=${SENTRY_DSN}
-                - SENTRY_PROXY_PATH=/
-                - SENTRY_REPORT_HOST=${SENTRY_REPORT_HOST}
-              networks:
-                - fluxer-shared
-              healthcheck:
-                test: ['CMD', 'curl', '-f', 'http://localhost:8080/_health']
-                interval: 30s
-                timeout: 10s
-                retries: 3
-                start_period: 40s
+                <<: *env_base
+                SENTRY_PROXY_PATH: /
+              networks: [fluxer-shared]
+              healthcheck: *healthcheck
 
           networks:
             fluxer-shared:
               external: true
           COMPOSEEOF
 
-            docker stack deploy -c compose.yaml ${COMPOSE_STACK}
-            docker service update --image ${IMAGE_TAG} fluxer-app-stable_app
-            docker service update --image ${IMAGE_TAG} fluxer-app-stable_sentry
+          docker stack deploy \
+            --with-registry-auth \
+            --detach=false \
+            --resolve-image never \
+            -c compose.yaml \
+            "${COMPOSE_STACK}"
           EOF

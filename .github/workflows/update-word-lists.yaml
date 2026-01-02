@@ -53,7 +53,7 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           branch: word-lists-update-${{ github.run_id }}
           base: canary
-          title: "chore: update word lists from Tailscale upstream"
+          title: 'chore: update word lists from Tailscale upstream'
           body: |
             Automated update of scales.txt and tails.txt from the Tailscale repository.
 
@@ -62,7 +62,7 @@ jobs:
             Source:
             - https://github.com/tailscale/tailscale/blob/main/words/scales.txt
             - https://github.com/tailscale/tailscale/blob/main/words/tails.txt
-          commit-message: "chore: update word lists from Tailscale upstream"
+          commit-message: 'chore: update word lists from Tailscale upstream'
           files: |
             fluxer_api/src/words/scales.txt
             fluxer_api/src/words/tails.txt

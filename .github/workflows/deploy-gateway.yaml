@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - canary
-      - main
     paths:
       - 'fluxer_gateway/**'
 
@@ -23,15 +22,15 @@ jobs:
     timeout-minutes: 10
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           sparse-checkout: fluxer_gateway
 
       - name: Set up Erlang
         uses: erlef/setup-beam@v1
         with:
-          otp-version: "28"
-          rebar3-version: "3.24.0"
+          otp-version: '28'
+          rebar3-version: '3.24.0'
 
       - name: Compile
         working-directory: fluxer_gateway
