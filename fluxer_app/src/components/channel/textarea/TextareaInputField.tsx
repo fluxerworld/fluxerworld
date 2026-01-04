@@ -21,6 +21,7 @@ import {clsx} from 'clsx';
 import React from 'react';
 import * as HighlightActionCreators from '~/actions/HighlightActionCreators';
 import {type AutocompleteOption, isChannel} from '~/components/channel/Autocomplete';
+import type {ScrollerHandle} from '~/components/uikit/Scroller';
 import {useTextareaAutofocus} from '~/hooks/useTextareaAutofocus';
 import {TextareaAutosize} from '~/lib/TextareaAutosize';
 import styles from './TextareaInput.module.css';
@@ -33,6 +34,7 @@ interface TextareaInputFieldProps {
 	value: string;
 	placeholder: string;
 	textareaRef: React.RefObject<HTMLTextAreaElement | null>;
+	scrollerRef?: React.RefObject<ScrollerHandle | null>;
 	shouldStickToBottomRef?: React.MutableRefObject<boolean>;
 	isFocused?: boolean;
 	isAutocompleteAttached: boolean;
