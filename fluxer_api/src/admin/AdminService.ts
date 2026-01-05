@@ -166,7 +166,6 @@ export class AdminService {
 			userRepository: this.userRepository,
 			guildRepository: this.guildRepository,
 			discriminatorService: this.discriminatorService,
-			snowflakeService: this.snowflakeService,
 			authService: this.authService,
 			emailService: this.emailService,
 			entityAssetService: this.entityAssetService,
