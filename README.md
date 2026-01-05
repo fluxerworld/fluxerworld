@@ -9,5 +9,11 @@
 
 Fluxer is an open-source, independent instant messaging and VoIP platform. Built for friends, groups, and communities.
 
+<div align="left" style="margin-top:12px;">
+  <img src="https://fluxerstatic.com/marketing/screenshots/desktop-2560w.avif?v=4" alt="Fluxer desktop screenshot" width="720">
+</div>
+
+---
+
 > [!NOTE]
 > Docs are coming very soon! With your help and [donations](https://fluxer.app/donate), the self-hosting and documentation story will get a lot better.
