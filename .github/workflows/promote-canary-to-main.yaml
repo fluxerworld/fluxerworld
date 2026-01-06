@@ -1,0 +1,98 @@
+name: promote canary -> main
+
+on:
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        type: boolean
+        default: false
+        description: "Show what would change, but don't push"
+      src:
+        type: string
+        default: canary
+        description: 'Source branch'
+      dst:
+        type: string
+        default: main
+        description: 'Destination branch'
+
+concurrency:
+  group: promote-${{ inputs.dst }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  promote:
+    runs-on: blacksmith-2vcpu-ubuntu-2404
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout source branch
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.src }}
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Configure git identity
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Fetch destination branch
+        run: |
+          set -euo pipefail
+          git fetch origin "${{ inputs.dst }}" --prune --tags
+
+      - name: Verify FF-only + write summary
+        id: verify
+        run: |
+          set -euo pipefail
+          src="${{ inputs.src }}"
+          dst="${{ inputs.dst }}"
+
+          SRC_SHA="$(git rev-parse HEAD)"
+          DST_SHA="$(git rev-parse "origin/${dst}")"
+
+          echo "src=$src" >> "$GITHUB_OUTPUT"
+          echo "dst=$dst" >> "$GITHUB_OUTPUT"
+          echo "src_sha=$SRC_SHA" >> "$GITHUB_OUTPUT"
+          echo "dst_sha=$DST_SHA" >> "$GITHUB_OUTPUT"
+
+          # Ensure main is an ancestor of canary => fast-forward is possible
+          if ! git merge-base --is-ancestor "origin/${dst}" HEAD; then
+            echo "::error::Cannot fast-forward: origin/${dst} is not an ancestor of ${src}. Branches have diverged."
+            exit 1
+          fi
+
+          ahead="$(git rev-list --count "origin/${dst}..HEAD")"
+          echo "ahead=$ahead" >> "$GITHUB_OUTPUT"
+
+          {
+            echo "## Promote \`${src}\` → \`${dst}\` (ff-only)"
+            echo ""
+            echo "- ${dst}: \`${DST_SHA}\`"
+            echo "- ${src}: \`${SRC_SHA}\`"
+            echo "- Commits to promote: **${ahead}**"
+            echo ""
+            echo "### Commits"
+            if [ "$ahead" -eq 0 ]; then
+              echo "_Nothing to promote._"
+            else
+              git log --oneline --decorate "origin/${dst}..HEAD"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Push fast-forward
+        if: ${{ steps.verify.outputs.ahead != '0' && inputs.dry_run != true }}
+        run: |
+          set -euo pipefail
+          dst="${{ steps.verify.outputs.dst }}"
+          git push origin "HEAD:refs/heads/${dst}"
+
+      - name: Dry run / no-op
+        if: ${{ steps.verify.outputs.ahead == '0' || inputs.dry_run == true }}
+        run: |
+          echo "No push performed (dry_run=${{ inputs.dry_run }}, ahead=${{ steps.verify.outputs.ahead }})."
