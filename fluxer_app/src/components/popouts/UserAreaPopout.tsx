@@ -315,14 +315,14 @@ export const UserAreaPopout = observer(() => {
 		if (!currentUserId) {
 			return;
 		}
-		TextCopyActionCreators.copy(i18n, currentUserId, true);
+		TextCopyActionCreators.copy(i18n, currentUserId);
 	}, [currentUserId, i18n]);
 
 	const handleCopyUserTag = React.useCallback(() => {
 		if (!currentUser) {
 			return;
 		}
-		TextCopyActionCreators.copy(i18n, currentUser.tag, true);
+		TextCopyActionCreators.copy(i18n, currentUser.tag);
 	}, [currentUser, i18n]);
 
 	const openManageAccounts = React.useCallback(() => {
