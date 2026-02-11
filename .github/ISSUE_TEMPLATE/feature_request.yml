@@ -1,82 +1,42 @@
 name: Feature request
 description: Suggest an improvement or new capability
-title: 'feat: '
 labels: ['enhancement']
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for taking the time to propose an improvement.
+        Thanks for the suggestion.
 
-        If this is **larger work** (new feature, meaningful refactor, new dependency, new API surface, behavior change),
-        it's best to align with maintainers early; an issue like this is a great place to do that.
-
-        **Security note:** Please do not report security issues here. Use https://fluxer.app/security instead.
+        For larger changes, please align with maintainers before investing time.
+        Security issues should go to https://fluxer.app/security.
   - type: textarea
     id: problem
     attributes:
-      label: Problem / motivation
-      description: What problem are you trying to solve? Who is it for?
+      label: Problem
+      description: What problem are you trying to solve, and for whom?
       placeholder: "Right now, users can't ..., which causes ..."
     validations:
       required: true
-
   - type: textarea
     id: proposal
     attributes:
       label: Proposed solution
-      description: What would you like to see happen? Include UX/API shape if relevant.
-      placeholder: 'Add ..., so that ...'
+      description: What would you like to see happen?
+      placeholder: "Add ..., so that ..."
     validations:
       required: true
-
   - type: textarea
-    id: alternatives
+    id: notes
     attributes:
-      label: Alternatives considered
-      description: Other approaches you considered, and why they're worse.
-      placeholder: "- Option A: ...\n- Option B: ..."
-    validations:
-      required: false
-
-  - type: dropdown
-    id: impact
-    attributes:
-      label: Impact
-      description: Roughly how big is this change?
-      options:
-        - Small (localized, low risk)
-        - Medium (touches multiple areas)
-        - Large (new surface area / refactor / dependency)
-        - Not sure
-    validations:
-      required: true
-
-  - type: checkboxes
-    id: compatibility
-    attributes:
-      label: Compatibility
-      options:
-        - label: This might be a breaking change (behavior/API).
-          required: false
-        - label: This introduces a new dependency.
-          required: false
-
-  - type: textarea
-    id: scope
-    attributes:
-      label: Scope / implementation notes
+      label: Notes (optional)
       description: Constraints, rough plan, or links to relevant code.
       placeholder: "Notes: ...\nPotential files/areas: ..."
     validations:
       required: false
-
   - type: checkboxes
-    id: contribution
+    id: checks
     attributes:
-      label: Contribution
+      label: Checks
       options:
-        - label: I'm willing to open a PR for this (after maintainer alignment).
-          required: false
-        - label: I can help test/verify a PR for this.
-          required: false
+        - label: I searched for existing issues and didn't find a duplicate.
+          required: true

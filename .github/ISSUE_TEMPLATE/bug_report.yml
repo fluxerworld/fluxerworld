@@ -1,100 +1,57 @@
 name: Bug report
-description: Report a reproducible problem in fluxer
-title: 'bug: '
+description: Report a reproducible problem in Fluxer
 labels: ['bug']
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks for the report!
+        Thanks for the report.
 
-        **Security note:** Please do not report security issues here. Use https://fluxer.app/security instead.
-
-        Before filing, please check for existing issues and include enough detail for someone else to reproduce.
+        Please check for existing issues before filing.
+        Security issues should go to https://fluxer.app/security.
   - type: textarea
     id: summary
     attributes:
       label: Summary
-      description: What happened, in one or two sentences?
-      placeholder: 'When I ..., the app ..., but I expected ...'
+      description: What happened, and what did you expect instead?
+      placeholder: "When I ..., the app ..., but I expected ..."
     validations:
       required: true
-
   - type: textarea
     id: repro
     attributes:
       label: Steps to reproduce
-      description: Provide clear, numbered steps. Include any relevant data/inputs.
+      description: Provide clear, numbered steps.
       placeholder: |
         1. Go to ...
         2. Click ...
-        3. See error ...
+        3. See ...
     validations:
       required: true
-
-  - type: textarea
-    id: expected
-    attributes:
-      label: Expected behavior
-      placeholder: 'It should ...'
-    validations:
-      required: true
-
-  - type: textarea
-    id: actual
-    attributes:
-      label: Actual behavior
-      placeholder: 'Instead, it ...'
-    validations:
-      required: true
-
-  - type: dropdown
-    id: area
-    attributes:
-      label: Area
-      description: Where does this bug appear?
-      options:
-        - Backend / API
-        - Frontend / Web
-        - Mobile
-        - CLI / tooling
-        - CI / build
-        - Docs
-        - Not sure
-    validations:
-      required: true
-
   - type: textarea
     id: environment
     attributes:
-      label: Environment
-      description: Include versions that matter (commit SHA/tag, OS, runtime, browser/device).
+      label: Environment (optional)
+      description: Include versions that matter (commit/tag, OS, runtime, browser/device).
       placeholder: |
         - Commit/Tag:
         - OS:
-        - Runtime (node/go/python/etc):
+        - Runtime:
         - Browser (if applicable):
-        - Deployment (local/dev/prod):
     validations:
-      required: true
-
+      required: false
   - type: textarea
     id: logs
     attributes:
-      label: Logs / screenshots
-      description: Paste logs (redact secrets) and/or attach screenshots/recordings.
-      placeholder: 'Paste stack traces, console output, network errors, etc.'
+      label: Logs or screenshots (optional)
+      description: Paste logs (redact secrets) or attach screenshots/recordings.
+      placeholder: "Paste stack traces, console output, network errors, etc."
     validations:
       required: false
-
   - type: checkboxes
     id: checks
     attributes:
-      label: Pre-flight checks
+      label: Checks
       options:
         - label: I searched for existing issues and didn't find a duplicate.
-          required: true
-        - label: This is not a security vulnerability report (those go to https://fluxer.app/security).
-          required: true
-        - label: I included enough information to reproduce the issue.
           required: true

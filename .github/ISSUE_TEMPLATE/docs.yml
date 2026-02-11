@@ -1,45 +1,42 @@
 name: Documentation
 description: Report a docs issue or suggest an improvement
-title: 'docs: '
 labels: ['docs']
 body:
   - type: markdown
     attributes:
       value: |
-        Thanks! Clear docs save everyone time.
+        Thanks.
 
-        **Security note:** Please do not report security issues here. Use https://fluxer.app/security instead.
+        Please check for existing issues before filing.
+        Security issues should go to https://fluxer.app/security.
   - type: textarea
     id: issue
     attributes:
-      label: What's wrong or missing?
-      description: Describe the docs gap, error, ambiguity, or outdated info.
-      placeholder: 'The README says ..., but actually ...'
+      label: What needs fixing?
+      description: Describe the gap, error, or outdated content.
+      placeholder: "The README says ..., but actually ..."
     validations:
       required: true
-
   - type: textarea
     id: location
     attributes:
-      label: Where is it?
+      label: Where is it? (optional)
       description: Link the file/section if possible.
       placeholder: "File: ...\nSection/heading: ...\nLink: ..."
     validations:
       required: false
-
   - type: textarea
     id: suggestion
     attributes:
-      label: Suggested improvement (optional)
-      description: If you already know how it should read, propose wording.
-      placeholder: 'Proposed text: ...'
+      label: Suggested wording (optional)
+      description: If you already know how it should read, propose text.
+      placeholder: "Proposed text: ..."
     validations:
       required: false
-
   - type: checkboxes
     id: checks
     attributes:
-      label: Pre-flight checks
+      label: Checks
       options:
         - label: I searched for existing issues and didn't find a duplicate.
           required: true
