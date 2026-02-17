@@ -68463,11 +68463,25 @@
             "description": "The name of the application"
           },
           "icon": {
-            "type": "null",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "The icon hash of the application"
           },
           "description": {
-            "type": "null",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "The description of the application"
           },
           "bot_public": {
@@ -77063,11 +77077,25 @@
                 "description": "The name of the application"
               },
               "icon": {
-                "type": "null",
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
                 "description": "The icon hash of the application"
               },
               "description": {
-                "type": "null",
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
                 "description": "The description of the application"
               },
               "bot_public": {
@@ -77239,7 +77267,14 @@
                 "description": "The icon hash of the application"
               },
               "description": {
-                "type": "null",
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ],
                 "description": "The description of the application"
               },
               "bot_public": {
@@ -77585,7 +77620,14 @@
             "description": "The icon hash of the application"
           },
           "description": {
-            "type": "null",
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
             "description": "The description of the application"
           },
           "redirect_uris": {
