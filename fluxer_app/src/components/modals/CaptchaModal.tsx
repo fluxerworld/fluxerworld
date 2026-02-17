@@ -17,18 +17,32 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {TurnstileWidget} from '@app/components/captcha/TurnstileWidget';
+import styles from '@app/components/modals/CaptchaModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {Logger} from '@app/lib/Logger';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useCallback, useEffect, useRef, useState} from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {TurnstileWidget} from '~/components/captcha/TurnstileWidget';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import styles from './CaptchaModal.module.css';
+
+const logger = new Logger('CaptchaModal');
 
 export type CaptchaType = 'turnstile' | 'hcaptcha';
+
+interface HCaptchaComponentProps {
+	sitekey: string;
+	onVerify?: (token: string) => void;
+	onExpire?: () => void;
+	onError?: (error: string) => void;
+	theme?: 'light' | 'dark';
+	ref?: React.Ref<HCaptcha>;
+}
+
+const HCaptchaComponent = HCaptcha as React.ComponentType<HCaptchaComponentProps>;
 
 interface CaptchaModalProps {
 	onVerify: (token: string, captchaType: CaptchaType) => void;
@@ -97,7 +111,7 @@ export const CaptchaModal = observer(
 
 		const handleError = useCallback(
 			(error: string) => {
-				console.error(`${captchaType} error:`, error);
+				logger.error(`${captchaType} error:`, error);
 			},
 			[captchaType],
 		);
@@ -118,7 +132,7 @@ export const CaptchaModal = observer(
 			<Modal.Root size="small" centered onClose={handleCancel}>
 				<Modal.Header title={t`Verify You're Human`} onClose={handleCancel} />
 				<Modal.Content>
-					<div className={styles.container}>
+					<Modal.ContentLayout className={styles.container}>
 						<p className={styles.description}>
 							<Trans>We need to make sure you're not a bot. Please complete the verification below.</Trans>
 						</p>
@@ -139,7 +153,7 @@ export const CaptchaModal = observer(
 									theme="dark"
 								/>
 							) : (
-								<HCaptcha
+								<HCaptchaComponent
 									ref={hcaptchaRef}
 									sitekey={RuntimeConfigStore.hcaptchaSiteKey ?? ''}
 									onVerify={handleVerify}
@@ -166,7 +180,7 @@ export const CaptchaModal = observer(
 								</button>
 							</div>
 						)}
-					</div>
+					</Modal.ContentLayout>
 				</Modal.Content>
 				<Modal.Footer>
 					<Button variant="secondary" onClick={handleCancel} disabled={isVerifying}>

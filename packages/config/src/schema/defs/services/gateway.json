@@ -1,0 +1,112 @@
+{
+	"gateway_service": {
+		"type": "object",
+		"description": "Configuration for the Gateway service (WebSocket).",
+		"additionalProperties": false,
+		"required": ["api_host", "admin_reload_secret", "media_proxy_endpoint"],
+		"properties": {
+			"port": {
+				"type": "number",
+				"description": "Port to listen on.",
+				"default": 8771
+			},
+			"rpc_tcp_port": {
+				"type": "number",
+				"description": "Port for API-to-Gateway internal RPC over TCP.",
+				"default": 8772
+			},
+			"api_host": {
+				"type": "string",
+				"description": "Host/Port of the API service to communicate with."
+			},
+			"api_canary_host": {
+				"type": "string",
+				"description": "Host/Port of the Canary API service (optional).",
+				"default": ""
+			},
+			"admin_reload_secret": {
+				"type": "string",
+				"description": "Secret used to trigger code hot-swapping/reloads."
+			},
+			"identify_rate_limit_enabled": {
+				"type": "boolean",
+				"description": "Enable rate limiting for Gateway IDENTIFY opcodes.",
+				"default": false
+			},
+			"push_enabled": {
+				"type": "boolean",
+				"description": "Enable push notification delivery.",
+				"default": true
+			},
+			"push_user_guild_settings_cache_mb": {
+				"type": "number",
+				"description": "Memory cache size (MB) for user guild settings.",
+				"default": 1024
+			},
+			"push_subscriptions_cache_mb": {
+				"type": "number",
+				"description": "Memory cache size (MB) for push subscriptions.",
+				"default": 1024
+			},
+			"push_blocked_ids_cache_mb": {
+				"type": "number",
+				"description": "Memory cache size (MB) for blocked user IDs.",
+				"default": 1024
+			},
+			"push_badge_counts_cache_mb": {
+				"type": "number",
+				"description": "Memory cache size (MB) for badge counts.",
+				"default": 256
+			},
+			"push_badge_counts_cache_ttl_seconds": {
+				"type": "number",
+				"description": "TTL in seconds for badge counts cache.",
+				"default": 60
+			},
+			"media_proxy_endpoint": {
+				"type": "string",
+				"description": "Endpoint URL of the Media Proxy service."
+			},
+			"logger_level": {
+				"type": "string",
+				"description": "Logging level (e.g., debug, info, warn, error).",
+				"default": "info"
+			},
+			"release_node": {
+				"type": "string",
+				"description": "Erlang node name for the release.",
+				"default": "fluxer_gateway@gateway"
+			},
+			"gateway_metrics_enabled": {
+				"type": "boolean",
+				"description": "Enable collection of gateway metrics.",
+				"default": false
+			},
+			"gateway_metrics_report_interval_ms": {
+				"type": "number",
+				"description": "Interval in milliseconds to report gateway metrics.",
+				"default": 30000
+			},
+			"presence_cache_shards": {
+				"type": "number",
+				"description": "Number of shards for presence cache.",
+				"default": 1
+			},
+			"presence_bus_shards": {
+				"type": "number",
+				"description": "Number of shards for presence message bus.",
+				"default": 1
+			},
+			"presence_shards": {
+				"type": "number",
+				"description": "Number of shards for presence handling.",
+				"default": 1
+			},
+			"guild_shards": {
+				"type": "number",
+				"description": "Number of shards for guild handling.",
+				"default": 1
+			}
+		}
+	}
+}

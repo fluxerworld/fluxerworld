@@ -17,22 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
-import {PaletteIcon, QuestionIcon} from '@phosphor-icons/react';
-import {observer} from 'mobx-react-lite';
-import * as ThemeActionCreators from '~/actions/ThemeActionCreators';
+import * as ThemeActionCreators from '@app/actions/ThemeActionCreators';
+import styles from '@app/components/channel/ThemeEmbed.module.css';
 import {
 	EmbedCard,
 	EmbedSkeletonButton,
 	EmbedSkeletonCircle,
 	EmbedSkeletonSubtitle,
 	EmbedSkeletonTitle,
-} from '~/components/embeds/EmbedCard/EmbedCard';
-import cardStyles from '~/components/embeds/EmbedCard/EmbedCard.module.css';
-import {useEmbedSkeletonOverride} from '~/components/embeds/EmbedCard/useEmbedSkeletonOverride';
-import {Button} from '~/components/uikit/Button/Button';
-import {useThemeExists} from '~/hooks/useThemeExists';
-import styles from './ThemeEmbed.module.css';
+} from '@app/components/embeds/embed_card/EmbedCard';
+import cardStyles from '@app/components/embeds/embed_card/EmbedCard.module.css';
+import {useEmbedSkeletonOverride} from '@app/components/embeds/embed_card/useEmbedSkeletonOverride';
+import {Button} from '@app/components/uikit/button/Button';
+import {useThemeExists} from '@app/hooks/useThemeExists';
+import {Trans, useLingui} from '@lingui/react/macro';
+import {PaletteIcon, QuestionIcon} from '@phosphor-icons/react';
+import {observer} from 'mobx-react-lite';
 
 interface ThemeEmbedProps {
 	themeId: string;

@@ -17,28 +17,28 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {ExpressionPickerTabType} from '~/components/popouts/ExpressionPickerPopout';
-import {Logger} from '~/lib/Logger';
-import ExpressionPickerStore from '~/stores/ExpressionPickerStore';
+import type {ExpressionPickerTabType} from '@app/components/popouts/ExpressionPickerPopout';
+import {Logger} from '@app/lib/Logger';
+import ExpressionPickerStore from '@app/stores/ExpressionPickerStore';
 
 const logger = new Logger('ExpressionPicker');
 
-export const open = (channelId: string, tab?: ExpressionPickerTabType): void => {
+export function open(channelId: string, tab?: ExpressionPickerTabType): void {
 	logger.debug(`Opening expression picker for channel ${channelId}, tab: ${tab}`);
 	ExpressionPickerStore.open(channelId, tab);
-};
+}
 
-export const close = (): void => {
+export function close(): void {
 	logger.debug('Closing expression picker');
 	ExpressionPickerStore.close();
-};
+}
 
-export const toggle = (channelId: string, tab: ExpressionPickerTabType): void => {
+export function toggle(channelId: string, tab: ExpressionPickerTabType): void {
 	logger.debug(`Toggling expression picker for channel ${channelId}, tab: ${tab}`);
 	ExpressionPickerStore.toggle(channelId, tab);
-};
+}
 
-export const setTab = (tab: ExpressionPickerTabType): void => {
+export function setTab(tab: ExpressionPickerTabType): void {
 	logger.debug(`Setting expression picker tab to: ${tab}`);
 	ExpressionPickerStore.setTab(tab);
-};
+}

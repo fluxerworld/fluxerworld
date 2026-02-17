@@ -17,6 +17,60 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as PrivateChannelActionCreators from '@app/actions/PrivateChannelActionCreators';
+import * as RelationshipActionCreators from '@app/actions/RelationshipActionCreators';
+import * as UserProfileActionCreators from '@app/actions/UserProfileActionCreators';
+import {EmojiInfoBottomSheet} from '@app/components/bottomsheets/EmojiInfoBottomSheet';
+import {
+	CustomStatusDisplay,
+	type EmojiPressData,
+} from '@app/components/common/custom_status_display/CustomStatusDisplay';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {NoteEditSheet} from '@app/components/modals/NoteEditSheet';
+import {UserProfileActionsSheet} from '@app/components/modals/UserProfileActionsSheet';
+import styles from '@app/components/modals/UserProfileMobileSheet.module.css';
+import {getContrastingNotchColor} from '@app/components/modals/UserProfileUtils';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
+import {UserProfileBadges} from '@app/components/popouts/UserProfileBadges';
+import {
+	UserProfileBio,
+	UserProfileConnections,
+	UserProfileMembershipInfo,
+	UserProfileRoles,
+} from '@app/components/popouts/UserProfileShared';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import {useAutoplayExpandedProfileAnimations} from '@app/hooks/useAutoplayExpandedProfileAnimations';
+import {Logger} from '@app/lib/Logger';
+import type {ProfileRecord} from '@app/records/ProfileRecord';
+import {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import MemberPresenceSubscriptionStore from '@app/stores/MemberPresenceSubscriptionStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
+import UserNoteStore from '@app/stores/UserNoteStore';
+import UserProfileMobileStore from '@app/stores/UserProfileMobileStore';
+import UserProfileStore from '@app/stores/UserProfileStore';
+import UserStore from '@app/stores/UserStore';
+import {getUserAccentColor} from '@app/utils/AccentColorUtils';
+import * as CallUtils from '@app/utils/CallUtils';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import * as ProfileDisplayUtils from '@app/utils/ProfileDisplayUtils';
+import {createMockProfile} from '@app/utils/ProfileUtils';
+import {ME} from '@fluxer/constants/src/AppConstants';
+import {Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {
+	MEDIA_PROXY_AVATAR_SIZE_PROFILE,
+	MEDIA_PROXY_PROFILE_BANNER_SIZE_MODAL,
+} from '@fluxer/constants/src/MediaProxyAssetSizes';
+import {PublicUserFlags, RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {
 	ChatTeardropIcon,
@@ -25,54 +79,17 @@ import {
 	DotsThreeIcon,
 	NotePencilIcon,
 	PencilIcon,
-	PhoneIcon,
 	ProhibitIcon,
 	UserMinusIcon,
 	UserPlusIcon,
 	VideoCameraIcon,
 } from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import type React from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {Sheet} from 'react-modal-sheet';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as PrivateChannelActionCreators from '~/actions/PrivateChannelActionCreators';
-import * as RelationshipActionCreators from '~/actions/RelationshipActionCreators';
-import * as UserProfileActionCreators from '~/actions/UserProfileActionCreators';
-import {DEFAULT_ACCENT_COLOR, ME, Permissions, RelationshipTypes} from '~/Constants';
-import {EmojiInfoBottomSheet} from '~/components/bottomsheets/EmojiInfoBottomSheet';
-import {CustomStatusDisplay, type EmojiPressData} from '~/components/common/CustomStatusDisplay/CustomStatusDisplay';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {NoteEditSheet} from '~/components/modals/NoteEditSheet';
-import {UserProfileActionsSheet} from '~/components/modals/UserProfileActionsSheet';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import {getContrastingNotchColor} from '~/components/modals/userProfileUtils';
-import {UserProfileBadges} from '~/components/popouts/UserProfileBadges';
-import {UserProfileBio, UserProfileMembershipInfo, UserProfileRoles} from '~/components/popouts/UserProfileShared';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Spinner} from '~/components/uikit/Spinner';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import {useAutoplayExpandedProfileAnimations} from '~/hooks/useAutoplayExpandedProfileAnimations';
-import type {ProfileRecord} from '~/records/ProfileRecord';
-import {UserRecord} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import MemberPresenceSubscriptionStore from '~/stores/MemberPresenceSubscriptionStore';
-import PermissionStore from '~/stores/PermissionStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-import SelectedChannelStore from '~/stores/SelectedChannelStore';
-import UserNoteStore from '~/stores/UserNoteStore';
-import UserProfileMobileStore from '~/stores/UserProfileMobileStore';
-import UserProfileStore from '~/stores/UserProfileStore';
-import UserStore from '~/stores/UserStore';
-import * as CallUtils from '~/utils/CallUtils';
-import * as ColorUtils from '~/utils/ColorUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import * as ProfileDisplayUtils from '~/utils/ProfileDisplayUtils';
-import {createMockProfile} from '~/utils/ProfileUtils';
-import styles from './UserProfileMobileSheet.module.css';
+
+const logger = new Logger('UserProfileMobileSheet');
 
 export const UserProfileMobileSheet: React.FC = observer(function UserProfileMobileSheet() {
 	const store = UserProfileMobileStore;
@@ -87,14 +104,16 @@ export const UserProfileMobileSheet: React.FC = observer(function UserProfileMob
 	const storeUser = userId ? UserStore.getUser(userId) : null;
 	const user = storeUser;
 
-	const fallbackUser = React.useMemo(
+	const fallbackUser = useMemo(
 		() =>
 			userId
 				? new UserRecord({
 						id: userId,
 						username: userId,
 						discriminator: '0000',
+						global_name: null,
 						avatar: null,
+						avatar_color: null,
 						flags: 0,
 					})
 				: null,
@@ -102,21 +121,21 @@ export const UserProfileMobileSheet: React.FC = observer(function UserProfileMob
 	);
 
 	const displayUser = user ?? fallbackUser;
-	const fallbackProfile = React.useMemo(() => (fallbackUser ? createMockProfile(fallbackUser) : null), [fallbackUser]);
-	const mockProfile = React.useMemo(() => (user ? createMockProfile(user) : null), [user]);
-	const initialProfile = React.useMemo(
+	const fallbackProfile = useMemo(() => (fallbackUser ? createMockProfile(fallbackUser) : null), [fallbackUser]);
+	const mockProfile = useMemo(() => (user ? createMockProfile(user) : null), [user]);
+	const initialProfile = useMemo(
 		() => (userId ? UserProfileStore.getProfile(userId, guildId) : null),
 		[userId, guildId],
 	);
-	const [profile, setProfile] = React.useState<ProfileRecord | null>(initialProfile);
-	const [isProfileLoading, setIsProfileLoading] = React.useState(() => !initialProfile);
+	const [profile, setProfile] = useState<ProfileRecord | null>(initialProfile);
+	const [isProfileLoading, setIsProfileLoading] = useState(() => !initialProfile);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setProfile(initialProfile);
 		setIsProfileLoading(!initialProfile);
 	}, [initialProfile]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!userId || profile) {
 			setIsProfileLoading(false);
 			return;
@@ -135,7 +154,7 @@ export const UserProfileMobileSheet: React.FC = observer(function UserProfileMob
 			})
 			.catch((error) => {
 				if (cancelled) return;
-				console.error('Failed to fetch user profile:', error);
+				logger.error('Failed to fetch user profile:', error);
 			})
 			.finally(() => {
 				if (cancelled) return;
@@ -147,7 +166,7 @@ export const UserProfileMobileSheet: React.FC = observer(function UserProfileMob
 		};
 	}, [userId, guildId, profile]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!guildId || !userId) {
 			return;
 		}
@@ -156,7 +175,7 @@ export const UserProfileMobileSheet: React.FC = observer(function UserProfileMob
 		if (!hasMember) {
 			MemberPresenceSubscriptionStore.touchMember(guildId, userId);
 			GuildMemberStore.fetchMembers(guildId, {userIds: [userId]}).catch((error) => {
-				console.error('[UserProfileMobileSheet] Failed to fetch guild member:', error);
+				logger.error(' Failed to fetch guild member:', error);
 			});
 		} else {
 			MemberPresenceSubscriptionStore.touchMember(guildId, userId);
@@ -211,14 +230,15 @@ interface EmojiInfoState {
 const UserProfileMobileSheetContent: React.FC<UserProfileMobileSheetContentProps> = observer(
 	function UserProfileMobileSheetContent({user, profile, userNote, guildId, autoFocusNote, isLoading, onClose}) {
 		const {t} = useLingui();
-		const [noteSheetOpen, setNoteSheetOpen] = React.useState(false);
-		const [actionsSheetOpen, setActionsSheetOpen] = React.useState(false);
-		const [showGlobalProfile, setShowGlobalProfile] = React.useState(false);
-		const [emojiInfoOpen, setEmojiInfoOpen] = React.useState(false);
-		const [selectedEmoji, setSelectedEmoji] = React.useState<EmojiInfoState | null>(null);
+		const [noteSheetOpen, setNoteSheetOpen] = useState(false);
+		const [actionsSheetOpen, setActionsSheetOpen] = useState(false);
+		const [showGlobalProfile, setShowGlobalProfile] = useState(false);
+		const [emojiInfoOpen, setEmojiInfoOpen] = useState(false);
+		const [selectedEmoji, setSelectedEmoji] = useState<EmojiInfoState | null>(null);
 		const isCurrentUser = user.id === AuthenticationStore.currentUserId;
 		const relationship = RelationshipStore.getRelationship(user.id);
 		const relationshipType = relationship?.type;
+		const isBlocked = relationshipType === RelationshipTypes.BLOCKED;
 		const currentUserUnclaimed = !(UserStore.currentUser?.isClaimed() ?? true);
 
 		const guildMember = GuildMemberStore.getMember(profile?.guildId ?? guildId ?? '', user.id);
@@ -228,7 +248,7 @@ const UserProfileMobileSheetContent: React.FC<UserProfileMobileSheetContentProps
 		const hasGuildProfile = !!(profile?.guildId && profile?.guildMemberProfile);
 		const shouldShowGuildProfile = hasGuildProfile && !showGlobalProfile;
 
-		const profileContext = React.useMemo<ProfileDisplayUtils.ProfileDisplayContext>(
+		const profileContext = useMemo<ProfileDisplayUtils.ProfileDisplayContext>(
 			() => ({
 				user,
 				profile,
@@ -241,17 +261,23 @@ const UserProfileMobileSheetContent: React.FC<UserProfileMobileSheetContentProps
 
 		const shouldAutoplayProfileAnimations = useAutoplayExpandedProfileAnimations();
 
-		const {avatarUrl, hoverAvatarUrl} = React.useMemo(
-			() => ProfileDisplayUtils.getProfileAvatarUrls(profileContext),
+		const {avatarUrl, hoverAvatarUrl} = useMemo(
+			() => ProfileDisplayUtils.getProfileAvatarUrls(profileContext, undefined, MEDIA_PROXY_AVATAR_SIZE_PROFILE),
 			[profileContext],
 		);
 
-		const bannerUrl = React.useMemo(
-			() => ProfileDisplayUtils.getProfileBannerUrl(profileContext, undefined, shouldAutoplayProfileAnimations),
+		const bannerUrl = useMemo(
+			() =>
+				ProfileDisplayUtils.getProfileBannerUrl(
+					profileContext,
+					undefined,
+					shouldAutoplayProfileAnimations,
+					MEDIA_PROXY_PROFILE_BANNER_SIZE_MODAL,
+				),
 			[profileContext, shouldAutoplayProfileAnimations],
 		);
 
-		const effectiveProfile = React.useMemo(() => {
+		const effectiveProfile = useMemo(() => {
 			if (showGlobalProfile) {
 				return profile?.userProfile ?? null;
 			}
@@ -260,19 +286,18 @@ const UserProfileMobileSheetContent: React.FC<UserProfileMobileSheetContentProps
 
 		const displayGuildId = shouldShowGuildProfile ? guildId : undefined;
 
-		const bannerColor = React.useMemo(() => {
-			const rawAccentColor = effectiveProfile?.accent_color ?? null;
-			const accentColorHex = typeof rawAccentColor === 'number' ? ColorUtils.int2hex(rawAccentColor) : rawAccentColor;
-			return accentColorHex || DEFAULT_ACCENT_COLOR;
-		}, [effectiveProfile]);
+		const bannerColor = useMemo(
+			() => getUserAccentColor(user, effectiveProfile?.accent_color),
+			[user, effectiveProfile],
+		);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (autoFocusNote) {
 				setNoteSheetOpen(true);
 			}
 		}, [autoFocusNote]);
 
-		const notchColor = React.useMemo(
+		const notchColor = useMemo(
 			() => getContrastingNotchColor(effectiveProfile?.banner_color ?? null, !!bannerUrl),
 			[effectiveProfile?.banner_color, bannerUrl],
 		);
@@ -282,8 +307,22 @@ const UserProfileMobileSheetContent: React.FC<UserProfileMobileSheetContentProps
 				onClose();
 				await PrivateChannelActionCreators.openDMChannel(user.id);
 			} catch (error) {
-				console.error('Failed to open DM channel:', error);
+				logger.error('Failed to open DM channel:', error);
 			}
+		};
+
+		const handleOpenBlockedDm = () => {
+			ModalActionCreators.push(
+				modal(() => (
+					<ConfirmModal
+						title={t`Open DM`}
+						description={t`You blocked ${user.username}. You won't be able to send messages unless you unblock them.`}
+						primaryText={t`Open DM`}
+						primaryVariant="primary"
+						onPrimary={handleMessage}
+					/>
+				)),
+			);
 		};
 
 		const handleSendFriendRequest = () => {
@@ -339,7 +378,7 @@ const UserProfileMobileSheetContent: React.FC<UserProfileMobileSheetContentProps
 				const channelId = await PrivateChannelActionCreators.ensureDMChannel(user.id);
 				await CallUtils.checkAndStartCall(channelId);
 			} catch (error) {
-				console.error('Failed to start voice call:', error);
+				logger.error('Failed to start voice call:', error);
 			}
 		};
 
@@ -348,7 +387,7 @@ const UserProfileMobileSheetContent: React.FC<UserProfileMobileSheetContentProps
 				const channelId = await PrivateChannelActionCreators.ensureDMChannel(user.id);
 				await CallUtils.checkAndStartCall(channelId);
 			} catch (error) {
-				console.error('Failed to start video call:', error);
+				logger.error('Failed to start video call:', error);
 			}
 		};
 
@@ -362,7 +401,8 @@ const UserProfileMobileSheetContent: React.FC<UserProfileMobileSheetContentProps
 		};
 
 		const renderRelationshipButton = () => {
-			if (isCurrentUser || user.bot) return null;
+			const isFriendlyBot = user.bot && (user.flags & PublicUserFlags.FRIENDLY_BOT) === PublicUserFlags.FRIENDLY_BOT;
+			if (isCurrentUser || (user.bot && !isFriendlyBot)) return null;
 
 			if (relationshipType === RelationshipTypes.FRIEND) {
 				return (
@@ -495,19 +535,23 @@ const UserProfileMobileSheetContent: React.FC<UserProfileMobileSheetContentProps
 												</div>
 											) : (
 												<div className={styles.actionButtonsContainer}>
-													<button type="button" onClick={handleMessage} className={styles.actionCard}>
+													<button
+														type="button"
+														onClick={isBlocked ? handleOpenBlockedDm : handleMessage}
+														className={styles.actionCard}
+													>
 														<div className={styles.actionIconContainer}>
 															<ChatTeardropIcon className={styles.actionIcon} />
 														</div>
 														<span className={styles.actionLabel}>
-															<Trans>Message</Trans>
+															{isBlocked ? <Trans>Open DM</Trans> : <Trans>Message</Trans>}
 														</span>
 													</button>
 													{relationshipType === RelationshipTypes.FRIEND && !user.bot && (
 														<>
 															<button type="button" onClick={handleStartVoiceCall} className={styles.actionCard}>
 																<div className={styles.actionIconContainerSecondary}>
-																	<PhoneIcon className={styles.actionIconSecondary} />
+																	<VideoCameraIcon className={styles.actionIconSecondary} />
 																</div>
 																<span className={styles.actionLabel}>
 																	<Trans>Voice Call</Trans>
@@ -543,9 +587,9 @@ const UserProfileMobileSheetContent: React.FC<UserProfileMobileSheetContentProps
 															user={user}
 															memberRoles={[...memberRoles]}
 															canManageRoles={canManageRoles}
-															forceMobile={true}
 														/>
 													</div>
+													<UserProfileConnections profile={profile} variant="mobile" />
 												</div>
 											)}
 

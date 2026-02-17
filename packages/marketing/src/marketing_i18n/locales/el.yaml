@@ -1,0 +1,440 @@
+app.communities.community: Κοινότητα
+app.communities.community_support: Υποστήριξη κοινοτήτων
+app.communities.featured_in_discovery: Προτεινόμενο στην ανακάλυψη
+app.communities.moderation.actions_and_tools: Ενέργειες και εργαλεία διαχείρισης
+app.communities.moderation.report_people_or_communities: Κάνε αναφορά σε άτομα ή κοινότητες, για να κρατάμε το Fluxer ασφαλές για όλους.
+app.communities.moderation.tools: Εργαλεία διαχείρισης
+app.communities.roles_permissions_audit.audit_logs: Αρχεία ελέγχου (audit logs) για διαφάνεια
+app.communities.roles_permissions_audit.granular_roles_and_permissions: Λεπτομερείς ρόλοι και δικαιώματα
+app.communities.roles_permissions_audit.keep_running_smoothly: Κράτα την κοινότητά σου να δουλεύει ρολόι με ρόλους, δικαιώματα και αρχεία.
+app.communities.title: Κοινότητες
+app.communities.verification.label: Επαλήθευση κοινότητας
+app.communities.verification.value_statement: Η κοινότητά σου παίρνει σήμανση επαλήθευσης για αυθεντικότητα και εμπιστοσύνη.
+app.communities.verification.verified_community: Επαληθευμένη κοινότητα
+app.customization.animated_profile.animated_avatars_and_banners: Κινούμενα avatar και banner
+app.customization.animated_profile.stand_out_animated_profile: Ξεχώρισε με κινούμενη φωτογραφία προφίλ και banner για να δείξεις την προσωπικότητά σου.
+app.customization.app_icon_badges: Δες μετρητές σημάτων στο εικονίδιο της εφαρμογής.
+app.customization.compact_mode: Συμπαγής λειτουργία και επιλογές προβολής
+app.customization.custom_css_themes: Θέματα CSS
+app.customization.custom_sounds.entrance_sounds: Προσαρμοσμένοι ήχοι εισόδου
+app.customization.custom_sounds.notification_sounds: Προσαρμοσμένοι ήχοι ειδοποιήσεων
+app.customization.custom_sounds.set_personalized_join_sounds: Βάλε προσωπικούς ήχους όταν μπαίνεις σε φωνητικά κανάλια, για να σε καταλαβαίνουν.
+app.customization.custom_sounds.upload_custom_notification_sounds: Ανέβασε και χρησιμοποίησε δικούς σου ήχους ειδοποιήσεων για να κάνεις το Fluxer πιο δικό σου.
+app.customization.custom_themes: Προσαρμοσμένα θέματα
+app.customization.global_emoji_and_sticker_access: Παγκόσμια πρόσβαση σε emoji και αυτοκόλλητα
+app.customization.saved_media_and_css: Πρόσθεσε προσαρμοσμένα emoji, αποθήκευσε πολυμέσα για μετά και ντύσε την εφαρμογή με δικό σου CSS.
+app.customization.title: Παραμετροποίηση
+app.customization.upload_custom_emojis_and_stickers: Ανέβασε δικά σου emoji και αυτοκόλλητα
+app.customization.use_animated_emojis: Χρησιμοποίησε κινούμενα emoji
+app.messaging.description: Στείλε DM στους φίλους σου, μίλα σε ομάδες ή φτιάξε κοινότητες με κανάλια.
+app.messaging.features.bookmarked_messages: Σελιδοδείκτες μηνυμάτων
+app.messaging.features.file_sharing: Μοίρασε αρχεία και δες προεπισκοπήσεις συνδέσμων
+app.messaging.features.full_markdown_support: Πλήρης υποστήριξη Markdown στα μηνύματα
+app.messaging.features.message_scheduling.description: Προγραμμάτισε μηνύματα να σταλούν σε συγκεκριμένη ώρα στο μέλλον. Δεν χρειάζεται DeLorean.
+app.messaging.features.organised_channels_for_communities: Οργανωμένα κανάλια για κοινότητες
+app.messaging.features.private_dms_and_group_chats: Ιδιωτικά DM και ομαδικές συνομιλίες
+app.messaging.features.save_media: Αποθήκευσε εικόνες, βίντεο, GIF και ήχο
+app.messaging.features.search.filter_options: Φίλτρα ανά χρήστη, ημερομηνία και άλλα
+app.messaging.features.search.find_old_messages: Βρες παλιά μηνύματα ή άλλαξε κοινότητες και κανάλια σε δευτερόλεπτα.
+app.messaging.features.search.label: Αναζήτηση ιστορικού μηνυμάτων
+app.messaging.features.search.quick_switcher_shortcuts: Γρήγορη εναλλαγή με συντομεύσεις πληκτρολογίου
+app.messaging.features.search.search_and_quick_switcher: Αναζήτηση και γρήγορη εναλλαγή
+app.messaging.title: Μηνύματα
+app.open.open_fluxer: Άνοιξε το Fluxer
+app.open.open_web_app: Άνοιξε το web app
+app.profiles_identity.custom_identity: Προσαρμοσμένη ταυτότητα
+app.profiles_identity.customise_per_community: Προσαρμόζεις το προφίλ σου διαφορετικά σε κάθε κοινότητα που είσαι.
+app.profiles_identity.manage_friends_and_block_users: Διαχείριση φίλων και αποκλεισμός χρηστών
+app.voice_and_video.features.mute_controls: Έλεγχοι σίγασης, αφωνίας και κάμερας
+app.voice_and_video.features.noise_suppression: Καταστολή θορύβου και ακύρωση ηχούς
+app.voice_and_video.features.screen_sharing: Ενσωματωμένη κοινή χρήση οθόνης
+app.voice_and_video.features.stream_4k_60fps: Μετάδωση έως 4K resolution σε 60 fps ώστε οι άλλοι να σε βλέπουν με εκπληκτική καθαρότητα.
+app.voice_and_video.features.up_to_4k_video_quality: Ποιότητα βίντεο έως 4K
+app.voice_and_video.features.video_backgrounds.description: Αποθήκευσε έως 15 φόντα βίντεο για κλήσεις. Τέρμα κυνήγι στον φάκελο Downloads.
+app.voice_and_video.features.video_quality: Ποιότητα βίντεο
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.video_quality_premium: Μέχρι 4K/60fps
+app.voice_and_video.hop_in_a_call: Μπες σε κλήση με φίλους ή μοιράσου την οθόνη σου για να δουλέψετε μαζί.
+app.voice_and_video.title: Φωνή και βίντεο
+beta_and_access.beta_label: Beta
+beta_and_access.early_access.be_first_to_try: Γίνε από τους πρώτους που δοκιμάζουν νέες λειτουργίες πριν βγουν για όλους.
+beta_and_access.early_access.label: Early access
+beta_and_access.featured_benefit_line: Όλα τα βασικά που περιμένεις, συν μερικά που δεν περιμένεις.
+beta_and_access.public_beta: Δημόσια beta
+beta_and_access.registration_limited_during_beta: Περιορίζουμε τις εγγραφές στη διάρκεια της beta. Μόλις μπεις, μπορείς να δώσεις σε φίλους έναν κωδικό για να προσπεράσουν την αναμονή.
+beta_and_access.try_without_email: Δοκίμασε το Fluxer χωρίς email σε 30 δευτερόλεπτα
+community_funding_and_roles.focused_on_product: Αυτή τη στιγμή είμαστε συγκεντρωμένοι στο να φτιάξουμε ένα πολύ καλό προϊόν και να κρατήσουμε το Fluxer ανεξάρτητο και bootstrapped.
+community_funding_and_roles.future_paid_roles_heading: Το μέλλον των πληρωμένων ρόλων
+community_funding_and_roles.future_paid_roles_note: Ακόμη χτίζουμε το business γύρω από το Fluxer και δεν είμαστε έτοιμοι για πληρωμένους ρόλους.
+community_funding_and_roles.non_paid_recurring_role: Ένας μη πληρωμένος ρόλος για τακτικούς συνεισφέροντες που βοηθούν να διαμορφώσουν το Fluxer μαζί με την core ομάδα.
+community_funding_and_roles.sustainability_note: Με τη στήριξή σου, ελπίζουμε να κάνουμε αυτή την ανεξάρτητη πλατφόρμα επικοινωνίας βιώσιμη και να αρχίσουμε να προσφέρουμε πληρωμένους ρόλους στο μέλλον.
+company_and_resources.blog: Blog
+company_and_resources.careers.careers_at_fluxer: Καριέρα στο Fluxer
+company_and_resources.careers.label: Καριέρα
+company_and_resources.careers.share_a_bit_about_yourself: Πες μας λίγα για σένα και πώς θα ήθελες να βοηθήσεις, στέλνοντας email στο careers@fluxer.app
+company_and_resources.community_team.fluxer_community_team: Ομάδα κοινότητας Fluxer
+company_and_resources.community_team.share_feedback_report_bugs: Στείλε feedback, ανάφερε bugs και βοήθησε να κρατήσουμε το Fluxer φιλόξενο για όλους.
+company_and_resources.company: Εταιρεία
+company_and_resources.company_info: Στοιχεία εταιρείας
+company_and_resources.connect: Επικοινωνία
+company_and_resources.docs: Τεκμηρίωση
+company_and_resources.help.get_help: Βρες βοήθεια
+company_and_resources.help.help_center: Κέντρο βοήθειας
+company_and_resources.help.label: Βοήθεια
+company_and_resources.press.label: Τύπος
+company_and_resources.press.press_contact: Επικοινωνία τύπου
+company_and_resources.product: Προϊόν
+company_and_resources.resources: Πόροι
+company_and_resources.source_and_contribution.code_issues_docs_reviews: Κώδικας, issues, docs και reviews
+company_and_resources.source_and_contribution.contribute_code: Συνεισέφερε κώδικα
+company_and_resources.source_and_contribution.contribute_on_github: Συνεισέφερε στο GitHub
+company_and_resources.source_and_contribution.fix_bugs_ship_features: Διόρθωσε bugs, φέρε features ή γυάλισε την εμπειρία στο βασικό μας repo.
+company_and_resources.source_and_contribution.fluxer_built_in_open: Το Fluxer χτίζεται ανοιχτά. Διάλεξε τον τρόπο που σου ταιριάζει.
+company_and_resources.source_and_contribution.get_involved: Συμμετοχή
+company_and_resources.source_and_contribution.source_code: Πηγαίος κώδικας
+company_and_resources.source_and_contribution.translation.help_translate: Βοήθησε να μεταφραστεί το Fluxer και η τεκμηρίωσή του, για να νιώθει native παντού.
+company_and_resources.source_and_contribution.translation.label: Μετάφραση και τοπικοποίηση
+company_and_resources.source_and_contribution.translation.llm_translation_note: Όλες οι μεταφράσεις είναι προς το παρόν LLM-generated με ελάχιστη ανθρώπινη επιμέλεια. Θα θέλαμε πολύ να μας βοηθήσουν πραγματικοί άνθρωποι να τοπικοποιήσουμε το Fluxer στη γλώσσα σου. Στείλε email στο i18n@fluxer.app και θα χαρούμε να δεχτούμε τη συνεισφορά σου.
+company_and_resources.source_and_contribution.translation.localization_label: Τοπικοποίηση
+company_and_resources.source_and_contribution.view_repository: Δες το repository
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: Θες να βοηθήσεις να χτίσουμε το Fluxer;
+company_and_resources.source_and_contribution.ways_to_contribute: Τρόποι συνεισφοράς
+donations.business: Επιχείρηση
+donations.donate.action: Δωρεά
+donations.donate.label: Κάνε δωρεά στο Fluxer
+donations.donate.description: Υποστηρίξτε το Fluxer με εφάπαξ ή επαναλαμβανόμενη δωρεά
+donations.donation_disclaimer: Οι δωρεές είναι εθελοντικά δώρα και δεν σου δίνουν κάποιο προϊόν, υπηρεσία, ιδιοκτησία ή ειδικά δικαιώματα. Αν ψάχνεις premium λειτουργίες, δες το {0}.
+donations.individual: Ιδιώτης
+donations.individual_vs_business.answer: Και οι δύο τύποι δωρεάς στηρίζουν το ίδιο πράγμα με τον ίδιο τρόπο. Η μόνη διαφορά είναι ότι στις δωρεές Επιχείρησης μπορείς να δηλώσεις ΑΦΜ (αν ισχύει) και να λάβεις PDF τιμολόγιο όταν ολοκληρωθεί, κάτι που μπορεί να βολεύει για τα λογιστικά μιας εταιρείας.
+donations.individual_vs_business.question: Ποια είναι η διαφορά ανάμεσα σε Ιδιώτης και Επιχείρηση;
+donations.infrastructure_costs_detail: Η δωρεά σου βοηθά να καλύψουμε τα κόστη υποδομών του Fluxer, όπως servers, bandwidth, storage και τη συνεχή ανάπτυξη νέων λειτουργιών. Μας βοηθά να συντηρούμε και να βελτιώνουμε την πλατφόρμα για όλους.
+donations.minimum_donation: 'Ελάχιστη δωρεά: $5 / €5'
+donations.mobile_roadmap_sponsorship: Γίνε χορηγός του roadmap για mobile
+donations.send_one_time_gift: Στείλε εφάπαξ δώρο
+donations.support_future_development: Στήριξε τη μελλοντική ανάπτυξη
+donations.support_message: Βοήθησέ μας να χτίσουμε μια ανεξάρτητη πλατφόρμα επικοινωνίας. Η δωρεά σου χρηματοδοτεί τις υποδομές και την ανάπτυξη της πλατφόρμας.
+donations.tax_deductible.answer: Οι δωρεές στο Fluxer δεν εκπίπτουν φορολογικά προς το παρόν, αλλά χρηματοδοτούν απευθείας την υποδομή μας και τη συνεχή ανάπτυξη.
+donations.tax_deductible.question: Εκπίπτει η δωρεά μου από φόρο;
+donations.what_it_supports: Τι υποστηρίζει η δωρεά μου;
+donations.why_support: 'Βοήθησέ μας να χτίσουμε ένα διαφορετικό είδος πλατφόρμας επικοινωνίας: ανοιχτού κώδικα, χρηματοδοτούμενη από την κοινότητα και φτιαγμένη με φροντίδα.'
+donations.recurring: Επαναλαμβανόμενη
+donations.return_question: Παίρνω κάτι σε αντάλλαγμα;
+donations.form.email: Email
+donations.form.email_placeholder: your@email.com
+donations.form.amount: Ποσό
+donations.form.amount_other: Άλλο
+donations.form.amount_placeholder: Βάλε ποσό (5-1000)
+donations.form.billing: Χρέωση
+donations.form.donation_type: Τύπος δωρεάς
+donations.form.one_time: Εφάπαξ
+donations.form.or_label: Ή
+donations.form.monthly: Μηνιαία
+donations.form.yearly: Ετήσια
+donations.form.currency: Νόμισμα
+donations.form.processing: Επεξεργασία...
+donations.form.send_link: Αποστολή συνδέσμου
+donations.form.sending: Αποστέλλεται...
+donations.errors.active_subscription_exists: Έχεις ήδη μια ενεργή επαναλαμβανόμενη δωρεά. Για να ξεκινήσεις άλλη επαναλαμβανόμενη δωρεά, ακύρωσε πρώτα την τρέχουσα χρησιμοποιώντας την πύλη πελατών. Μπορείς να κάνεις μια εφάπαξ δωρεά αντί αυτού.
+donations.errors.invalid_email: Παρακαλώ βάλε έγκυρη διεύθυνση email
+donations.errors.invalid_amount: Το ποσό πρέπει να είναι μεταξύ 5 και 1000
+donations.errors.generic: Κάτι πήγε στραβά. Δοκίμασε ξανά.
+donations.errors.network: Σφάλμα δικτύου. Δοκίμασε ξανά.
+donations.manage.title: Διαχείριση των δωρεών σου
+donations.manage.description: Βάλε το email σου για να λάβεις σύνδεσμο προς την πύλη δωρητών, όπου μπορείς να διαχειριστείς συνδρομές, να κατεβάσεις τιμολόγια και να δεις το ιστορικό δωρεών σου.
+donations.manage.success: Αν υπάρχει λογαριασμός για αυτό το email, θα λάβεις σύντομα σύνδεσμο διαχείρισης.
+donations.success.title: Ευχαριστούμε!
+donations.success.description: Ευχαριστούμε για την υποστήριξή σου!
+donations.success.message: Ευχαριστούμε για τη δωρεά σου! Εκτιμούμε πολύ την υποστήριξή σου.
+donations.success.email_notice: Σύντομα θα λάβεις email επιβεβαίωσης με λεπτομέρειες για τη δωρεά σου και σύνδεσμο προς την πύλη δωρητών σου.
+donations.success.back_to_donate: Πίσω στη δωρεά
+download.download: Λήψη
+download.download_app_or_open_in_browser: Κατέβασε την εφαρμογή ή άνοιξε το Fluxer στον browser σου για να ξεκινήσεις να συνδέεσαι με τις κοινότητές σου.
+download.download_fluxer: Λήψη Fluxer
+download.download_for_prefix: 'Λήψη για '
+download.open_in_browser: Άνοιγμα στον browser
+download.screenshots_courtesy_of: 'Screenshots με την ευγενική παραχώρηση του/της '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: Οδηγίες κοινότητας
+footer.company_information: Πληροφορίες εταιρείας
+footer.connect: Επικοινωνία
+footer.donate: Δωρεά
+footer.download: Λήψη
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (σουηδική εταιρεία περιορισμένης ευθύνης: 559537-3993)'
+footer.help_support_an_independent_communication: Υποστήριξε μια ανεξάρτητη πλατφόρμα επικοινωνίας. Η δωρεά σου χρηματοδοτεί την υποδομή και την ανάπτυξη της πλατφόρμας.
+footer.partners: Συνεργάτες
+footer.plutonium_tier: Plutonium tier
+footer.policies: Πολιτικές
+footer.press: Τύπος
+footer.privacy_policy: Πολιτική απορρήτου
+footer.report_a_bug: Ανάφερε ένα bug
+footer.roadmap: Roadmap
+footer.rss_feed: RSS feed
+footer.security_bug_bounty: Bug bounty ασφάλειας
+footer.source_code: Πηγαίος κώδικας
+footer.terms_of_service: Όροι χρήσης
+general.all: όλα
+general.coming_soon.label: Σύντομα
+general.coming_soon.whats_available_today: Τι είναι διαθέσιμο σήμερα
+general.last_updated: Τελευταία ενημέρωση
+general.made_in_sweden: Φτιαγμένο στη Σουηδία
+general.not_available: Δεν είναι διαθέσιμο
+general.or: ή
+general.tagline: Μια εφαρμογή chat που σε βάζει πρώτα
+languages.change_language: Αλλαγή γλώσσας
+languages.choose_your_language: Διάλεξε γλώσσα
+languages.language_label: Γλώσσα
+languages.list.arabic: Αραβικά
+languages.list.bulgarian: Βουλγαρικά
+languages.list.chinese_simplified: Κινεζικά (απλοποιημένα)
+languages.list.chinese_traditional: Κινεζικά (παραδοσιακά)
+languages.list.croatian: Κροατικά
+languages.list.czech: Τσεχικά
+languages.list.danish: Δανικά
+languages.list.dutch: Ολλανδικά
+languages.list.english: Αγγλικά
+languages.list.english_us: Αγγλικά (ΗΠΑ)
+languages.list.finnish: Φινλανδικά
+languages.list.french: Γαλλικά
+languages.list.german: Γερμανικά
+languages.list.greek: Ελληνικά
+languages.list.hebrew: Εβραϊκά
+languages.list.hindi: Χίντι
+languages.list.hungarian: Ουγγρικά
+languages.list.indonesian: Ινδονησιακά
+languages.list.italian: Ιταλικά
+languages.list.japanese: Ιαπωνικά
+languages.list.korean: Κορεατικά
+languages.list.lithuanian: Λιθουανικά
+languages.list.norwegian: Νορβηγικά
+languages.list.polish: Πολωνικά
+languages.list.portuguese_brazil: Πορτογαλικά (Βραζιλία)
+languages.list.romanian: Ρουμανικά
+languages.list.russian: Ρωσικά
+languages.list.spanish_latin_america: Ισπανικά (Λατινική Αμερική)
+languages.list.spanish_spain: Ισπανικά (Ισπανία)
+languages.list.swedish: Σουηδικά
+languages.list.thai: Ταϊλανδικά
+languages.list.turkish: Τουρκικά
+languages.list.ukrainian: Ουκρανικά
+languages.list.vietnamese: Βιετναμικά
+launch.description: 'Μάθε για τον developer πίσω από το Fluxer, τους στόχους του project, το tech stack και τι έρχεται μετά.'
+launch.heading: Η ιστορία πίσω από το Fluxer
+launch.read_more: Διάβασε το launch post
+launch.view_full_roadmap: Δες ολόκληρο το roadmap
+misc_labels.design_and_branding: Design και branding
+misc_labels.direct_team_support: Άμεση υποστήριξη από την ομάδα
+misc_labels.exclusive_communities: Αποκλειστικές κοινότητες
+misc_labels.exclusive_features: Αποκλειστικές λειτουργίες
+misc_labels.feature: Λειτουργία
+misc_labels.get_updates: Πάρε ενημερώσεις, δες τι έρχεται, συζήτησε ιδέες και μίλα με την ομάδα.
+misc_labels.join_and_spread_word: Μπες και πες το παντού
+misc_labels.join_fluxer_community_contribute: Μπες στην κοινότητα Fluxer και βοήθησε να χτίσουμε το μέλλον της επικοινωνίας, με ανοιχτό κώδικα και συνεισφορές από την κοινότητα.
+misc_labels.join_fluxer_hq: Μπες στο Fluxer HQ
+misc_labels.join_multiple_devices: Σύνδεση από πολλές συσκευές ταυτόχρονα
+misc_labels.join_team_behind_fluxer: Μπες στην ομάδα πίσω από το Fluxer
+misc_labels.learn_more: Μάθε περισσότερα
+misc_labels.product_hunt_badge_title: Fluxer - open-source Discord-like instant messaging και VoIP πλατφόρμα | κορυφαία ανάρτηση στο Product Hunt
+misc_labels.profile_badge: Σήμα προφίλ
+misc_labels.read_the_guide: Διάβασε τον οδηγό
+misc_labels.ready_to_get_started: Έτοιμος να ξεκινήσεις;
+misc_labels.register_now: Κάνε εγγραφή τώρα
+misc_labels.related_policies: Σχετικές πολιτικές
+misc_labels.report_bugs: Ανάφερε bugs
+misc_labels.software_development: Ανάπτυξη λογισμικού
+misc_labels.trust_and_safety: Εμπιστοσύνη και ασφάλεια
+misc_labels.unique_profile_badge: Μοναδικό σήμα προφίλ
+misc_labels.unlimited_users: Απεριόριστοι χρήστες
+navigation.close: Κλείσιμο
+navigation.close_navigation_menu: Κλείσιμο μενού πλοήγησης
+navigation.copy_link_to_section: Αντιγραφή συνδέσμου ενότητας
+navigation.go_home: Πίσω στην αρχική
+navigation.on_this_page: Σε αυτή τη σελίδα
+navigation.page_not_found.description: Αυτή η σελίδα δεν υπάρχει. Αλλά έχεις πολλά ακόμη να δεις.
+navigation.page_not_found.title: Η σελίδα δεν βρέθηκε
+navigation.press.download_assets_intro: Κατέβασε τα λογότυπά μας, μάθε τα χρώματα του brand και έλα σε επαφή με την ομάδα τύπου.
+navigation.press.download_fluxer_assets: Κατέβασε τα λογότυπα και το υλικό branding του Fluxer και έλα σε επαφή με την ομάδα τύπου
+navigation.press.press_and_brand_assets: Τύπος και υλικό branding
+partner_program.become_partner.apply_email: Κάνε αίτηση στο partners@fluxer.app
+partner_program.become_partner.call_to_action: Γίνε συνεργάτης
+partner_program.become_partner.heading: Γίνε Fluxer Partner
+partner_program.become_partner.if_youre_a_creator_or: Αν είσαι creator ή τρέχεις μια μεγάλη κοινότητα, θα χαρούμε να σε ακούσουμε.
+partner_program.become_partner.learn_about_partners: Μάθε για το πρόγραμμα συνεργατών
+partner_program.become_partner.learn_more: Μάθε περισσότερα
+partner_program.become_partner.ready_prompt: Έτοιμος/η να γίνεις συνεργάτης;
+partner_program.description: Αποκλειστικά προνόμια για content creators και ιδιοκτήτες μεγάλων κοινοτήτων.
+partner_program.label: Συνεργάτες
+partner_program.perks.creator_monetization.description: Early access σε εργαλεία εσόδων για creators, με χαμηλότερες χρεώσεις από τους μη συνεργάτες.
+partner_program.perks.creator_monetization.label: Εργαλεία εσόδων για creators
+partner_program.perks.custom_vanity_url.description: Πάρε ένα αποκλειστικό vanity URL όπως fluxer.gg/yourcommunity.
+partner_program.perks.custom_vanity_url.label: Custom vanity URL
+partner_program.perks.direct_team_access.description: Μπες στην αποκλειστική κοινότητα Partners με άμεση πρόσβαση στην ομάδα Fluxer.
+partner_program.perks.direct_team_access.label: Άμεση πρόσβαση στην ομάδα
+partner_program.perks.discovery_visibility: Μεγαλύτερη προβολή με παρουσία στα προτεινόμενα της ανακάλυψης.
+partner_program.perks.exclusive_merch.description: Πάρε αποκλειστικά Fluxer Partner-only προϊόντα και swag.
+partner_program.perks.exclusive_merch.label: Αποκλειστικό merch
+partner_program.perks.free_plutonium.description: Πάρε δωρεάν Plutonium στο account σου για να απολαμβάνεις όλες τις premium λειτουργίες.
+partner_program.perks.free_plutonium.label: Δωρεάν Plutonium
+partner_program.perks.increased_limits.description: Η κοινότητά σου παίρνει αυξημένα όρια όταν τα χρειάζεσαι.
+partner_program.perks.increased_limits.label: Αυξημένα όρια
+partner_program.perks.partner_badge.description: Δείξε ένα αποκλειστικό Partner σήμα στο προφίλ σου για να ξεχωρίζεις.
+partner_program.perks.partner_badge.label: Partner σήμα
+partner_program.perks.vip_voice_servers.description: Πρόσβαση σε VIP voice servers που είναι αποκλειστικά για partnered κοινότητες.
+partner_program.perks.vip_voice_servers.label: VIP φωνητικά κανάλια
+partner_program.requirements.audience_description: Μια σύντομη περιγραφή του κοινού σου και του τι κάνεις
+partner_program.requirements.links_to_content: Σύνδεσμοι προς το περιεχόμενό σου ή την κοινότητά σου (YouTube, Twitch, Discord κλπ.)
+partner_program.requirements.name_and_username: Το όνομά σου και το username σου στην πλατφόρμα
+partner_program.requirements.usage_plan: Πώς σκοπεύεις να χρησιμοποιήσεις το Fluxer με την κοινότητά σου
+partner_program.who_its_for: 'Content creators και ιδιοκτήτες κοινοτήτων: ξεκλείδωσε προνόμια όπως δωρεάν Plutonium, Partner σήμα, custom vanity URLs και πολλά ακόμη.'
+partner_program.perks.heading: Προνόμια Partners
+partner_program.perks.see_perks: Δες τα προνόμια
+partner_program.apply.instructions: Στείλε μας email με τις παρακάτω πληροφορίες για να κάνεις αίτηση στο Fluxer Partner Programme.
+partner_program.apply.response_time: Ελέγχουμε όλες τις αιτήσεις και θα επικοινωνήσουμε μαζί σου μέσα σε λίγες μέρες.
+platform_support.desktop.available_on_desktop_and_web: Διαθέσιμο στον υπολογιστή σου και στο web
+platform_support.desktop.download_desktop_intro: Κατέβασε το Fluxer για Windows, macOS και Linux. Οι εφαρμογές για κινητά είναι στα σκαριά.
+platform_support.desktop.interface_label: Fluxer – διεπαφή υπολογιστή
+platform_support.desktop.label: Υπολογιστής
+platform_support.desktop.use_desktop_client_mobile_soon: Χρησιμοποίησε την εφαρμογή για υπολογιστή (mobile σύντομα)
+platform_support.mobile.install_as_app.add_to_home: Πρόσθεσε το Fluxer στην αρχική οθόνη σου για να κρύψεις το UI του browser.
+platform_support.mobile.install_as_app.done_desktop: Έτοιμο! Τώρα ανοίγεις το Fluxer σαν κανονικό πρόγραμμα.
+platform_support.mobile.install_as_app.done_mobile: Έτοιμο! Τώρα ανοίγεις το Fluxer από την αρχική οθόνη σου.
+platform_support.mobile.install_as_app.guides.in_chrome: ' στο Chrome'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: ' στο Chrome ή σε άλλο browser με υποστήριξη PWA'
+platform_support.mobile.install_as_app.guides.in_safari: ' στο Safari'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: Οδηγός εγκατάστασης PWA για {name}
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: 'Πάτα "Add to home screen"'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: 'Πάτα "Add" πάνω δεξιά'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: 'Πάτα "Install app"'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: Πάτα το κουμπί εγκατάστασης (βέλος προς τα κάτω πάνω σε οθόνη) στη γραμμή διευθύνσεων
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: 'Πάτα "Install" στο popup που θα εμφανιστεί'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: 'Πάτα το κουμπί "More" (⋮) πάνω δεξιά'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: Πάτα το κουμπί κοινοποίησης (ορθογώνιο με βέλος προς τα πάνω)
+platform_support.mobile.install_as_app.install_fluxer_as_app: Εγκατάστησε το Fluxer σαν εφαρμογή
+platform_support.mobile.install_as_app.title: Πώς να το εγκαταστήσεις σαν εφαρμογή
+platform_support.mobile.interface_label: Fluxer – διεπαφή κινητού
+platform_support.mobile.mobile_apps_underway: Οι εφαρμογές για κινητά είναι στα σκαριά
+platform_support.mobile.mobile_browser_explainer: Φτιάχνουμε apps για iOS και Android. Μέχρι να είναι έτοιμα, το Fluxer δουλεύει στο mobile browser σου και έχουμε ρίξει πολλή δουλειά για να μοιάζει όσο γίνεται με app.
+platform_support.mobile.not_full_replacement_yet: Δεν αντικαθιστά ακόμη πλήρως την εφαρμογή για υπολογιστή, και λείπουν ακόμη μερικά πράγματα που θα περίμενες από μια mobile εφαρμογή chat.
+platform_support.mobile.push_notifications: Λάβε ειδοποιήσεις push όταν είσαι εκτός εφαρμογής.
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS και iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: Διάλεξε διανομή Linux
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: Λήψη για macOS
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: Λήψη για Windows
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: Χρώματα brand
+press_branding.assets.full_color: Έγχρωμη έκδοση
+press_branding.assets.label: Λογότυπο
+press_branding.assets.logo_variants.black_logo: Μαύρο λογότυπο
+press_branding.assets.logo_variants.color_logo: Έγχρωμο λογότυπο
+press_branding.assets.logo_variants.white_logo: Λευκό λογότυπο
+press_branding.assets.palette_description: Η προσεκτικά επιλεγμένη παλέτα χρωμάτων που εκπροσωπεί το Fluxer.
+press_branding.assets.premium_quality: Υψηλή ποιότητα
+press_branding.assets.primary_brand_color_description: Το βασικό χρώμα του brand. Χρησιμοποίησέ το για βασικά στοιχεία του brand και για accents.
+press_branding.assets.symbol_variants.black_symbol: Μαύρο σύμβολο
+press_branding.assets.symbol_variants.color_symbol: Έγχρωμο σύμβολο
+press_branding.assets.symbol_variants.label: Σύμβολο
+press_branding.assets.symbol_variants.white_symbol: Λευκό σύμβολο
+press_branding.assets.usage_guidance.dark_surface_guidance: Για φόντα, κείμενο σε σκούρες επιφάνειες και δημιουργία αντίθεσης.
+press_branding.assets.usage_guidance.for_dark_backgrounds: Για σκούρα φόντα
+press_branding.assets.usage_guidance.for_light_backgrounds: Για ανοιχτά φόντα
+press_branding.assets.usage_guidance.full_logo_description: Το πλήρες λογότυπό μας μαζί με το wordmark. Χρησιμοποίησέ το ως την κύρια αναπαράσταση του brand.
+press_branding.assets.usage_guidance.light_surface_guidance: Για κείμενο, εικονίδια σε ανοιχτές επιφάνειες και δημιουργία βάθους.
+press_branding.assets.usage_guidance.symbol_description: Το αυτόνομο σύμβολό μας. Χρησιμοποίησέ το μόνο όταν το brand είναι ξεκάθαρα ορατό ή ήδη καλά γνωστό στο πλαίσιο.
+press_branding.colors.blue_da_ba_dee: Blue Da Ba Dee
+press_branding.colors.white: Λευκό
+press_branding.colors.black: Μαύρο
+press_branding.contact.story_prompt: Έχεις μια ιστορία για το Fluxer; Θα χαρούμε να την ακούσουμε.
+press_branding.contact.response_time: Συνήθως απαντάμε εντός 24 ωρών.
+pricing_and_tiers.billing.forever: Για πάντα
+pricing_and_tiers.billing.most_popular: Πιο δημοφιλές
+pricing_and_tiers.billing.per_forever: /για πάντα
+pricing_and_tiers.billing.per_month: /μήνα
+pricing_and_tiers.billing.per_year_full: /έτος
+pricing_and_tiers.billing.per_year_short: /έτος
+pricing_and_tiers.billing.save_percent: Εξοικονόμησε 17%
+pricing_and_tiers.free.comparison_label: Δωρεάν vs Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 'Ό,τι έχει το δωρεάν, συν:'
+pricing_and_tiers.free.full_access_to_all_features: Πλήρης πρόσβαση σε όλες τις λειτουργίες
+pricing_and_tiers.free.label: Δωρεάν
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: 'Σημείωση: τα οφέλη Plutonium και Visionary ισχύουν μόνο στο επίσημο instance Fluxer.app, όχι σε τρίτα ή self-hosted instances.'
+pricing_and_tiers.plutonium.feature_highlights: Uploads 500 MB, μηνύματα 4.000 χαρακτήρων, 300 σελιδοδείκτες, 50 πακέτα emoji και πολλά ακόμη.
+pricing_and_tiers.plutonium.features.bio_character_limit: Όριο χαρακτήρων bio
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: Διάλεξε το δικό σου 4-digit tag όπως #0001, #1337 ή #9999 για να κάνεις το username σου πραγματικά μοναδικό.
+pricing_and_tiers.plutonium.features.custom_username_tag: Προσαρμοσμένο tag χρήστη
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: Προσαρμοσμένο 4-digit username tag
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: Προσαρμοσμένα φόντα βίντεο
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: Πακέτα emoji και αυτοκόλλητων
+pricing_and_tiers.plutonium.features.file_upload_size: Μέγεθος αρχείου για upload
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: Παγκόσμια πρόσβαση σε emoji και αυτοκόλλητα
+pricing_and_tiers.plutonium.features.message_character_limit: Όριο χαρακτήρων μηνύματος
+pricing_and_tiers.plutonium.features.message_scheduling: Προγραμματισμός μηνυμάτων
+pricing_and_tiers.plutonium.features.per_community_profiles: Προφίλ ανά κοινότητα
+pricing_and_tiers.plutonium.features.saved_media: Αποθηκευμένα πολυμέσα
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: Webhooks και υποστήριξη bots
+pricing_and_tiers.plutonium.get_more_with_plutonium: Περισσότερα με Fluxer Plutonium
+pricing_and_tiers.plutonium.get_plutonium: Πάρε Plutonium
+pricing_and_tiers.plutonium.higher_limits_and_early_access: Μεγαλύτερα όρια, αποκλειστικές λειτουργίες και early access σε νέες ενημερώσεις
+pricing_and_tiers.plutonium.higher_limits_everywhere: Μεγαλύτερα όρια παντού
+pricing_and_tiers.plutonium.show_off_status_badge: Δείξε το Plutonium status σου με ένα αποκλειστικό σήμα στο προφίλ σου.
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: 'Κάνε αναβάθμιση σε Plutonium με $4.99/μήνα: προσαρμοσμένα tags χρήστη, προφίλ ανά κοινότητα, προγραμματισμό μηνυμάτων, 4K streaming, uploads 500 MB και άλλα αποκλειστικά features.'
+pricing_and_tiers.visionary.badge.numbered_badge: Αριθμημένο σήμα που δείχνει το Visionary status σου
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: Αριθμημένο σήμα (1–{0}) που δείχνει το Visionary status σου
+pricing_and_tiers.visionary.bundle_label: Plutonium και Operator Pass για πάντα με Visionary – περιορισμένες θέσεις
+pricing_and_tiers.visionary.communities_with_team_access: Κοινότητες Visionary και Operators με πρόσβαση στην ομάδα
+pricing_and_tiers.visionary.get_visionary: Πάρε Visionary
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: Απόκτησε Plutonium εφ’ όρου ζωής στο Fluxer.app μαζί με Operator Pass για self-hosting. Πλήρωσε {0} μία φορά. Διαθέσιμο μέχρι την 1η Οκτωβρίου 2026 ή μέχρι να καλυφθούν όλες οι θέσεις.
+pricing_and_tiers.visionary.lifetime_operator_pass: Operator Pass για πάντα
+pricing_and_tiers.visionary.lifetime_plutonium: Plutonium για πάντα
+pricing_and_tiers.visionary.limited_offer_note: 'Περιορισμένη προσφορά: το Visionary περιλαμβάνει Operator Pass'
+pricing_and_tiers.visionary.limited_slots_label: Visionary – περιορισμένες θέσεις
+pricing_and_tiers.visionary.one_time_purchase.label: Εφάπαξ αγορά
+pricing_and_tiers.visionary.one_time_purchase.promise: Εφάπαξ αγορά, πρόσβαση για πάντα
+pricing_and_tiers.visionary.purchase_flow: Αγόρασε Visionary απευθείας μέσα από την εφαρμογή αφού δημιουργήσεις λογαριασμό. Η ημερομηνία αγοράς και ο αριθμός παραγγελίας θα εμφανίζονται στο προφίλ σου (μπορείς να τα κρύψεις από τις ρυθμίσεις απορρήτου).
+pricing_and_tiers.visionary.slots_left.generic: Απομένουν {0} από {1} θέσεις
+pricing_and_tiers.visionary.slots_left.visionary_bundle: Μόνο {0} από {1} Visionary θέσεις – Plutonium και Operator Pass για πάντα
+pricing_and_tiers.visionary.slots_left.visionary_only: Απομένουν {0} Visionary θέσεις
+product_positioning.free_and_open_source: Το Fluxer είναι δωρεάν και ανοιχτού κώδικα. Ο καθένας μπορεί να το κάνει self-host χωρίς κόστος.
+product_positioning.intro: Το Fluxer είναι μια δωρεάν πλατφόρμα άμεσων μηνυμάτων και VoIP, ανοιχτού κώδικα, φτιαγμένη για φίλους, ομάδες και κοινότητες.
+product_positioning.open_source.fully_open_source_agplv3: Πλήρως ανοιχτού κώδικα (AGPLv3)
+product_positioning.open_source.label: Ανοιχτός κώδικας
+product_positioning.open_source.license: Ανοιχτός κώδικας (AGPL-3.0)
+product_positioning.self_hosting.connect_from_any_client: Σύνδεση από οποιονδήποτε client
+product_positioning.self_hosting.free_self_hosting: Δωρεάν self-hosting
+product_positioning.self_hosting.host_your_own_instance: Φιλοξένησε το δικό σου instance
+product_positioning.self_hosting.label: Self-hosting
+product_positioning.self_hosting.operator_pass.access_to_operators_community: Πρόσβαση στην κοινότητα Fluxer Operators
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: Όταν τελειώσει η προσφορά, το Operator Pass θα παραμείνει διαθέσιμο ξεχωριστά.
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: 'Το Operator Pass είναι προαιρετικό: πληρώνεις για υποστήριξη και πρόσβαση στην κοινότητα Operators.'
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: Priority υποστήριξη και πρόσβαση στην κοινότητα Operators για self-hosting
+product_positioning.self_hosting.run_backend_on_your_hardware: Τρέξε το Fluxer backend στο δικό σου hardware και συνδέσου με τις εφαρμογές μας.
+product_positioning.self_hosting.switch_between_instances: Εναλλαγή ανάμεσα σε πολλά instances
+security.found_security_issue: Βρήκες θέμα ασφάλειας;
+security.report_vulnerabilities: Ανάφερε ευπάθειες και βοήθησε να κρατήσουμε την πλατφόρμα ασφαλή.
+security.responsible_disclosure_note: Εκτιμάμε το responsible disclosure μέσω της σελίδας bug bounty ασφάλειας. Δίνουμε κωδικούς Plutonium και σήματα Bug Hunter ανάλογα με τη σοβαρότητα.
+security.security_bug_bounty: Bug bounty ασφάλειας
+security.security_reports: Αναφορές ασφάλειας
+security.testers_access_from_reports: Οι εγκεκριμένες αναφορές δίνουν πρόσβαση στο Fluxer Testers, όπου μπορείς να κερδίζεις πόντους για κωδικούς Plutonium και το σήμα Bug Hunter.
+social_and_feeds.bluesky.follow_us: Ακολούθησέ μας στο Bluesky
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: Bluesky RSS feed
+social_and_feeds.follow_fluxer: Ακολούθησε @fluxer.app
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: RSS feed του blog
+social_and_feeds.rss.fluxer_blog_rss: Fluxer blog RSS
+social_and_feeds.rss.label: RSS feed
+social_and_feeds.stay_updated_cta: Μείνε ενημερωμένος για νέα, κατάσταση υπηρεσίας και τι παίζει. Μπορείς επίσης να κάνεις εγγραφή στο

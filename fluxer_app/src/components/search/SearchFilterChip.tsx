@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/search/SearchFilterChip.module.css';
 import {useLingui} from '@lingui/react/macro';
 import {XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import type React from 'react';
-import styles from './SearchFilterChip.module.css';
 
 interface SearchFilterChipProps {
 	label: string;

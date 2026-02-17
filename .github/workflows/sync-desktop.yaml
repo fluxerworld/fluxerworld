@@ -1,0 +1,102 @@
+name: sync desktop
+
+on:
+  push:
+    branches:
+      - main
+      - canary
+    paths:
+      - 'fluxer_desktop/**'
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: Branch to sync (main or canary)
+        required: false
+        default: ''
+        type: string
+
+concurrency:
+  group: sync-desktop-${{ github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    name: Sync to fluxerapp/fluxer_desktop
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout CI scripts
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: scripts/ci
+          sparse-checkout-cone-mode: false
+
+      - name: Create GitHub App token
+        id: app-token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.SYNC_APP_ID }}
+          private-key: ${{ secrets.SYNC_APP_PRIVATE_KEY }}
+          owner: fluxerapp
+          repositories: fluxer_desktop
+
+      - name: Get GitHub App user ID
+        id: get-user-id
+        run: >-
+          python3 scripts/ci/workflows/sync_desktop.py
+          --step get_user_id
+          --app-slug "${{ steps.app-token.outputs.app-slug }}"
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+
+      - name: Checkout source repository
+        uses: actions/checkout@v6
+        with:
+          path: source
+          fetch-depth: 1
+
+      - name: Determine target branch
+        id: branch
+        run: >-
+          python3 scripts/ci/workflows/sync_desktop.py
+          --step determine_branch
+          --input-branch "${{ inputs.branch }}"
+          --ref-name "${{ github.ref_name }}"
+
+      - name: Clone target repository
+        run: >-
+          python3 scripts/ci/workflows/sync_desktop.py
+          --step clone_target
+          --token "${{ steps.app-token.outputs.token }}"
+
+      - name: Configure git
+        run: >-
+          python3 scripts/ci/workflows/sync_desktop.py
+          --step configure_git
+          --app-slug "${{ steps.app-token.outputs.app-slug }}"
+          --user-id "${{ steps.get-user-id.outputs.user-id }}"
+
+      - name: Checkout or create target branch
+        run: >-
+          python3 scripts/ci/workflows/sync_desktop.py
+          --step checkout_or_create_branch
+          --branch-name "${{ steps.branch.outputs.name }}"
+
+      - name: Sync files
+        run: python3 scripts/ci/workflows/sync_desktop.py --step sync_files
+
+      - name: Commit and push
+        run: >-
+          python3 scripts/ci/workflows/sync_desktop.py
+          --step commit_and_push
+          --branch-name "${{ steps.branch.outputs.name }}"
+
+      - name: Summary
+        run: >-
+          python3 scripts/ci/workflows/sync_desktop.py
+          --step summary
+          --branch-name "${{ steps.branch.outputs.name }}"

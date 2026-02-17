@@ -1,0 +1,34 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "TYPING_START",
+	"description": "Sent when a user starts typing in a channel.",
+	"scope": "channel",
+	"scopeNote": "Guild channels dispatch to guild scope; DMs dispatch to presence scope. May be disabled per-guild via guild settings.",
+	"dispatchedBy": ["POST /channels/:channel_id/typing"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID"
+			},
+			"user_id": {
+				"type": "string",
+				"description": "ID of the user who started typing"
+			},
+			"timestamp": {
+				"type": "integer",
+				"description": "Unix timestamp (milliseconds) when typing started"
+			},
+			"guild_id": {
+				"type": "string",
+				"description": "Guild ID (only present for guild channels)"
+			},
+			"member": {
+				"$ref": "GuildMemberResponse",
+				"description": "Guild member object (only present for guild channels)"
+			}
+		},
+		"required": ["channel_id", "user_id", "timestamp"]
+	}
+}

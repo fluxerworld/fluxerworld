@@ -17,13 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/modals/components/PricingCard.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import * as LocaleUtils from '@app/utils/LocaleUtils';
+import {formatNumber} from '@fluxer/number_utils/src/NumberFormatting';
 import {Trans} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {Button} from '~/components/uikit/Button/Button';
-import * as LocaleUtils from '~/utils/LocaleUtils';
-import styles from './PricingCard.module.css';
+import {useCallback} from 'react';
 
 export const PricingCard = observer(
 	({
@@ -58,12 +59,11 @@ export const PricingCard = observer(
 		className?: string;
 	}) => {
 		const locale = LocaleUtils.getCurrentLocale();
-		const formatter = new Intl.NumberFormat(locale);
 
 		const actuallySoldOut = (soldOut ?? isSoldOut ?? false) && !owned;
 		const isCardDisabled = disabled || actuallySoldOut || isLoading || owned;
 
-		const handleClick = React.useCallback(() => {
+		const handleClick = useCallback(() => {
 			if (isCardDisabled) return;
 			onSelect();
 		}, [isCardDisabled, onSelect]);
@@ -96,7 +96,7 @@ export const PricingCard = observer(
 						</div>
 					) : remainingSlots !== undefined && remainingSlots >= 0 && !actuallySoldOut ? (
 						<div className={styles.popularBadge}>
-							<Trans>{formatter.format(remainingSlots)} remaining</Trans>
+							<Trans>{formatNumber(remainingSlots, locale)} remaining</Trans>
 						</div>
 					) : null}
 				</div>

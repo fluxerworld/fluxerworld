@@ -17,16 +17,18 @@
 
 -module(guild_members).
 
--export([get_users_to_mention_by_roles/2]).
--export([get_users_to_mention_by_user_ids/2]).
--export([get_all_users_to_mention/2]).
--export([resolve_all_mentions/2]).
--export([get_members_with_role/2]).
--export([can_manage_roles/2]).
--export([can_manage_role/2]).
--export([get_assignable_roles/2]).
--export([check_target_member/2]).
--export([get_viewable_channels/2]).
+-export([
+    get_users_to_mention_by_roles/2,
+    get_users_to_mention_by_user_ids/2,
+    get_all_users_to_mention/2,
+    resolve_all_mentions/2,
+    get_members_with_role/2,
+    can_manage_roles/2,
+    can_manage_role/2,
+    get_assignable_roles/2,
+    check_target_member/2,
+    get_viewable_channels/2
+]).
 
 -type guild_state() :: map().
 -type guild_reply(T) :: {reply, T, guild_state()}.
@@ -37,22 +39,18 @@
 -type role_id() :: integer().
 -type channel_id() :: integer().
 
--ifdef(TEST).
--include_lib("eunit/include/eunit.hrl").
--endif.
-
 -spec get_users_to_mention_by_roles(map(), guild_state()) -> guild_reply(map()).
 get_users_to_mention_by_roles(
     #{channel_id := ChannelId, role_ids := RoleIds, author_id := AuthorId}, State
 ) ->
-    Members = guild_members(State),
-    RoleIdSet = normalize_int_list(RoleIds),
-    UserIds = collect_mentions(
-        Members,
+    RoleIdList = normalize_int_list(RoleIds),
+    CandidateUserIds = user_ids_for_any_role(RoleIdList, State),
+    UserIds = collect_mentions_for_user_ids(
+        CandidateUserIds,
         AuthorId,
         ChannelId,
         State,
-        fun(Member) -> member_has_any_role(Member, RoleIdSet) end
+        fun(_UserId, _Member) -> true end
     ),
     {reply, #{user_ids => UserIds}, State}.
 
@@ -60,19 +58,13 @@ get_users_to_mention_by_roles(
 get_users_to_mention_by_user_ids(
     #{channel_id := ChannelId, user_ids := UserIdsReq, author_id := AuthorId}, State
 ) ->
-    Members = guild_members(State),
     TargetIds = normalize_int_list(UserIdsReq),
-    UserIds = collect_mentions(
-        Members,
+    UserIds = collect_mentions_for_user_ids(
+        TargetIds,
         AuthorId,
         ChannelId,
         State,
-        fun(Member) ->
-            case member_user_id(Member) of
-                undefined -> false;
-                Id -> lists:member(Id, TargetIds)
-            end
-        end
+        fun(_UserId, _Member) -> true end
     ),
     {reply, #{user_ids => UserIds}, State}.
 
@@ -83,7 +75,7 @@ get_all_users_to_mention(#{channel_id := ChannelId, author_id := AuthorId}, Stat
     {reply, #{user_ids => UserIds}, State}.
 
 -spec resolve_all_mentions(map(), guild_state()) -> guild_reply(map()).
-resolve_all_mentions(
+resolve_all_mentions(Request, State) ->
     #{
         channel_id := ChannelId,
         author_id := AuthorId,
@@ -91,48 +83,122 @@ resolve_all_mentions(
         mention_here := MentionHere,
         role_ids := RoleIds,
         user_ids := DirectUserIds
-    },
-    State
-) ->
+    } = Request,
     Members = guild_members(State),
+    MemberMap = guild_data_index:member_map(guild_data(State)),
     Sessions = maps:get(sessions, State, #{}),
-
     RoleIdSet = gb_sets:from_list(normalize_int_list(RoleIds)),
     DirectUserIdSet = gb_sets:from_list(normalize_int_list(DirectUserIds)),
     HasRoleMentions = not gb_sets:is_empty(RoleIdSet),
     HasDirectMentions = not gb_sets:is_empty(DirectUserIdSet),
-
-    ConnectedUserIds =
-        case MentionHere of
+    ConnectedUserIds = build_connected_user_ids(MentionHere, Sessions),
+    UserIds =
+        case MentionEveryone of
             true ->
-                gb_sets:from_list([
-                    maps:get(user_id, S)
-                 || {_Sid, S} <- maps:to_list(Sessions)
-                ]);
+                resolve_mentions(
+                    Members,
+                    AuthorId,
+                    ChannelId,
+                    MentionEveryone,
+                    MentionHere,
+                    HasRoleMentions,
+                    HasDirectMentions,
+                    RoleIdSet,
+                    DirectUserIdSet,
+                    ConnectedUserIds,
+                    State
+                );
             false ->
-                gb_sets:empty()
+                CandidateUserIds = candidate_user_ids_for_mentions(
+                    MentionHere,
+                    HasRoleMentions,
+                    HasDirectMentions,
+                    RoleIdSet,
+                    DirectUserIdSet,
+                    ConnectedUserIds,
+                    State
+                ),
+                resolve_mentions_for_user_ids(
+                    CandidateUserIds,
+                    MemberMap,
+                    AuthorId,
+                    ChannelId,
+                    MentionEveryone,
+                    MentionHere,
+                    HasRoleMentions,
+                    HasDirectMentions,
+                    RoleIdSet,
+                    DirectUserIdSet,
+                    ConnectedUserIds,
+                    State
+                )
         end,
+    {reply, #{user_ids => UserIds}, State}.
 
-    UserIds = lists:filtermap(
+-spec build_connected_user_ids(boolean(), map()) -> gb_sets:set(user_id()).
+build_connected_user_ids(false, _Sessions) ->
+    gb_sets:empty();
+build_connected_user_ids(true, Sessions) ->
+    gb_sets:from_list(
+        lists:filtermap(
+            fun({_Sid, SessionData}) ->
+                case maps:get(user_id, SessionData, undefined) of
+                    UserId when is_integer(UserId) -> {true, UserId};
+                    _ -> false
+                end
+            end,
+            maps:to_list(Sessions)
+        )
+    ).
+
+-spec resolve_mentions(
+    [member()],
+    user_id(),
+    channel_id(),
+    boolean(),
+    boolean(),
+    boolean(),
+    boolean(),
+    gb_sets:set(),
+    gb_sets:set(),
+    gb_sets:set(),
+    guild_state()
+) -> [user_id()].
+resolve_mentions(
+    Members,
+    AuthorId,
+    ChannelId,
+    MentionEveryone,
+    MentionHere,
+    HasRoleMentions,
+    HasDirectMentions,
+    RoleIdSet,
+    DirectUserIdSet,
+    ConnectedUserIds,
+    State
+) ->
+    lists:filtermap(
         fun(Member) ->
             case member_user_id(Member) of
                 undefined ->
                     false;
-                UserId when UserId =:= AuthorId ->
-                    false;
+                UserId when UserId =:= AuthorId -> false;
                 UserId ->
                     case is_member_bot(Member) of
                         true ->
                             false;
                         false ->
-                            ShouldMention =
-                                MentionEveryone orelse
-                                    (MentionHere andalso
-                                        gb_sets:is_member(UserId, ConnectedUserIds)) orelse
-                                    (HasRoleMentions andalso
-                                        member_has_any_role_set(Member, RoleIdSet)) orelse
-                                    (HasDirectMentions andalso
-                                        gb_sets:is_member(UserId, DirectUserIdSet)),
+                            ShouldMention = check_should_mention(
+                                UserId,
+                                Member,
+                                MentionEveryone,
+                                MentionHere,
+                                HasRoleMentions,
+                                HasDirectMentions,
+                                RoleIdSet,
+                                DirectUserIdSet,
+                                ConnectedUserIds
+                            ),
                             case
                                 ShouldMention andalso
                                     member_can_view_channel(UserId, ChannelId, Member, State)
@@ -144,61 +210,206 @@ resolve_all_mentions(
             end
         end,
         Members
-    ),
-    {reply, #{user_ids => UserIds}, State}.
+    ).
 
--spec get_members_with_role(map(), guild_state()) -> guild_reply(map()).
-get_members_with_role(#{role_id := RoleId}, State) ->
-    Members = guild_members(State),
-    TargetRoles = [RoleId],
-    UserIds = lists:filtermap(
-        fun(Member) ->
-            case member_user_id(Member) of
-                undefined ->
+-spec resolve_mentions_for_user_ids(
+    [user_id()],
+    #{user_id() => member()},
+    user_id(),
+    channel_id(),
+    boolean(),
+    boolean(),
+    boolean(),
+    boolean(),
+    gb_sets:set(),
+    gb_sets:set(),
+    gb_sets:set(),
+    guild_state()
+) -> [user_id()].
+resolve_mentions_for_user_ids(
+    CandidateUserIds,
+    MemberMap,
+    AuthorId,
+    ChannelId,
+    MentionEveryone,
+    MentionHere,
+    HasRoleMentions,
+    HasDirectMentions,
+    RoleIdSet,
+    DirectUserIdSet,
+    ConnectedUserIds,
+    State
+) ->
+    lists:filtermap(
+        fun(UserId) ->
+            case UserId =:= AuthorId of
+                true ->
                     false;
-                UserId ->
-                    case member_has_any_role(Member, TargetRoles) of
-                        true -> {true, UserId};
-                        false -> false
+                false ->
+                    case maps:get(UserId, MemberMap, undefined) of
+                        undefined ->
+                            false;
+                        Member ->
+                            case is_member_bot(Member) of
+                                true ->
+                                    false;
+                                false ->
+                                    ShouldMention = check_should_mention(
+                                        UserId,
+                                        Member,
+                                        MentionEveryone,
+                                        MentionHere,
+                                        HasRoleMentions,
+                                        HasDirectMentions,
+                                        RoleIdSet,
+                                        DirectUserIdSet,
+                                        ConnectedUserIds
+                                    ),
+                                    case
+                                        ShouldMention andalso
+                                            member_can_view_channel(UserId, ChannelId, Member, State)
+                                    of
+                                        true -> {true, UserId};
+                                        false -> false
+                                    end
+                            end
                     end
             end
         end,
-        Members
+        lists:usort(CandidateUserIds)
+    ).
+
+-spec candidate_user_ids_for_mentions(
+    boolean(),
+    boolean(),
+    boolean(),
+    gb_sets:set(),
+    gb_sets:set(),
+    gb_sets:set(),
+    guild_state()
+) -> [user_id()].
+candidate_user_ids_for_mentions(
+    MentionHere,
+    HasRoleMentions,
+    HasDirectMentions,
+    RoleIdSet,
+    DirectUserIdSet,
+    ConnectedUserIds,
+    State
+) ->
+    HereSet =
+        case MentionHere of
+            true -> ConnectedUserIds;
+            false -> gb_sets:empty()
+        end,
+    RoleUsersSet =
+        case HasRoleMentions of
+            true ->
+                gb_sets:from_list(user_ids_for_any_role(gb_sets:to_list(RoleIdSet), State));
+            false ->
+                gb_sets:empty()
+        end,
+    DirectSet =
+        case HasDirectMentions of
+            true -> DirectUserIdSet;
+            false -> gb_sets:empty()
+        end,
+    gb_sets:to_list(gb_sets:union(HereSet, gb_sets:union(RoleUsersSet, DirectSet))).
+
+-spec user_ids_for_any_role([role_id()], guild_state()) -> [user_id()].
+user_ids_for_any_role(RoleIds, State) ->
+    Data = guild_data(State),
+    MemberRoleIndex = guild_data_index:member_role_index(Data),
+    RoleUserIds = lists:foldl(
+        fun(RoleId, AccSet) ->
+            case maps:get(RoleId, MemberRoleIndex, undefined) of
+                undefined ->
+                    AccSet;
+                UserMap ->
+                    lists:foldl(
+                        fun(UserId, InnerSet) -> gb_sets:add(UserId, InnerSet) end,
+                        AccSet,
+                        maps:keys(UserMap)
+                    )
+            end
+        end,
+        gb_sets:empty(),
+        RoleIds
     ),
+    gb_sets:to_list(RoleUserIds).
+
+-spec check_should_mention(
+    user_id(),
+    member(),
+    boolean(),
+    boolean(),
+    boolean(),
+    boolean(),
+    gb_sets:set(),
+    gb_sets:set(),
+    gb_sets:set()
+) -> boolean().
+check_should_mention(
+    UserId,
+    Member,
+    MentionEveryone,
+    MentionHere,
+    HasRoleMentions,
+    HasDirectMentions,
+    RoleIdSet,
+    DirectUserIdSet,
+    ConnectedUserIds
+) ->
+    MentionEveryone orelse
+        (MentionHere andalso gb_sets:is_member(UserId, ConnectedUserIds)) orelse
+        (HasRoleMentions andalso member_has_any_role_set(Member, RoleIdSet)) orelse
+        (HasDirectMentions andalso gb_sets:is_member(UserId, DirectUserIdSet)).
+
+-spec get_members_with_role(map(), guild_state()) -> guild_reply(map()).
+get_members_with_role(#{role_id := RoleId}, State) ->
+    Data = guild_data(State),
+    MemberRoleIndex = guild_data_index:member_role_index(Data),
+    TargetRoleId = type_conv:to_integer(RoleId),
+    UserMap =
+        case TargetRoleId of
+            undefined ->
+                #{};
+            _ ->
+                maps:get(TargetRoleId, MemberRoleIndex, #{})
+        end,
+    UserIds = lists:sort(maps:keys(UserMap)),
     {reply, #{user_ids => UserIds}, State}.
 
 -spec can_manage_roles(map(), guild_state()) -> guild_reply(map()).
 can_manage_roles(#{user_id := UserId, role_id := RoleId}, State) ->
     Data = guild_data(State),
     OwnerId = owner_id(State),
-    Reply =
-        if
-            UserId =:= OwnerId ->
-                true;
-            true ->
-                UserPermissions = guild_permissions:get_member_permissions(
-                    UserId, undefined, State
-                ),
-                case (UserPermissions band constants:manage_roles_permission()) =/= 0 of
-                    false ->
-                        false;
-                    true ->
-                        Roles = maps:get(<<"roles">>, Data, []),
-                        case find_role_by_id(RoleId, Roles) of
-                            undefined ->
-                                false;
-                            Role ->
-                                UserMax = guild_permissions:get_max_role_position(UserId, State),
-                                UserMax > role_position(Role)
-                        end
-                end
-        end,
+    Reply = check_can_manage_roles(UserId, RoleId, OwnerId, Data, State),
     {reply, #{can_manage => Reply}, State}.
+
+-spec check_can_manage_roles(user_id(), role_id(), user_id(), map(), guild_state()) -> boolean().
+check_can_manage_roles(UserId, _RoleId, UserId, _Data, _State) ->
+    true;
+check_can_manage_roles(UserId, RoleId, _OwnerId, Data, State) ->
+    UserPermissions = guild_permissions:get_member_permissions(UserId, undefined, State),
+    case (UserPermissions band constants:manage_roles_permission()) =/= 0 of
+        false ->
+            false;
+        true ->
+            Roles = guild_data_index:role_index(Data),
+            case find_role_by_id(RoleId, Roles) of
+                undefined ->
+                    false;
+                Role ->
+                    UserMax = guild_permissions:get_max_role_position(UserId, State),
+                    UserMax > role_position(Role)
+            end
+    end.
 
 -spec can_manage_role(map(), guild_state()) -> guild_reply(map()).
 can_manage_role(#{user_id := UserId, role_id := RoleId}, State) ->
     Data = guild_data(State),
-    Roles = maps:get(<<"roles">>, Data, []),
+    Roles = guild_data_index:role_index(Data),
     Reply =
         case find_role_by_id(RoleId, Roles) of
             undefined ->
@@ -212,6 +423,7 @@ can_manage_role(#{user_id := UserId, role_id := RoleId}, State) ->
         end,
     {reply, #{can_manage => Reply}, State}.
 
+-spec compare_role_ids_for_equal_position(user_id(), role_id(), guild_state()) -> boolean().
 compare_role_ids_for_equal_position(UserId, TargetRoleId, State) ->
     case guild_permissions:find_member_by_user_id(UserId, State) of
         undefined ->
@@ -219,9 +431,8 @@ compare_role_ids_for_equal_position(UserId, TargetRoleId, State) ->
         Member ->
             MemberRoles = member_roles(Member),
             Data = guild_data(State),
-            Roles = maps:get(<<"roles">>, Data, []),
-            UserHighestRole = get_highest_role(MemberRoles, Roles),
-            case UserHighestRole of
+            Roles = guild_data_index:role_index(Data),
+            case get_highest_role(MemberRoles, Roles) of
                 undefined ->
                     false;
                 HighestRole ->
@@ -230,38 +441,41 @@ compare_role_ids_for_equal_position(UserId, TargetRoleId, State) ->
             end
     end.
 
+-spec get_highest_role([role_id()], [role()] | map()) -> role() | undefined.
 get_highest_role(MemberRoleIds, Roles) ->
     lists:foldl(
         fun(RoleId, Acc) ->
             case find_role_by_id(RoleId, Roles) of
-                undefined ->
-                    Acc;
-                Role ->
-                    case Acc of
-                        undefined ->
-                            Role;
-                        AccRole ->
-                            AccPos = role_position(AccRole),
-                            RolePos = role_position(Role),
-                            if
-                                RolePos > AccPos ->
-                                    Role;
-                                RolePos =:= AccPos ->
-                                    AccId = map_utils:get_integer(AccRole, <<"id">>, 0),
-                                    RId = map_utils:get_integer(Role, <<"id">>, 0),
-                                    if
-                                        RId < AccId -> Role;
-                                        true -> AccRole
-                                    end;
-                                true ->
-                                    AccRole
-                            end
-                    end
+                undefined -> Acc;
+                Role -> compare_roles(Role, Acc)
             end
         end,
         undefined,
         MemberRoleIds
     ).
+
+-spec compare_roles(role(), role() | undefined) -> role().
+compare_roles(Role, undefined) ->
+    Role;
+compare_roles(Role, AccRole) ->
+    AccPos = role_position(AccRole),
+    RolePos = role_position(Role),
+    case RolePos > AccPos of
+        true ->
+            Role;
+        false ->
+            case RolePos =:= AccPos of
+                true ->
+                    AccId = map_utils:get_integer(AccRole, <<"id">>, 0),
+                    RId = map_utils:get_integer(Role, <<"id">>, 0),
+                    case RId < AccId of
+                        true -> Role;
+                        false -> AccRole
+                    end;
+                false ->
+                    AccRole
+            end
+    end.
 
 -spec get_assignable_roles(map(), guild_state()) -> guild_reply(map()).
 get_assignable_roles(#{user_id := UserId}, State) ->
@@ -270,6 +484,7 @@ get_assignable_roles(#{user_id := UserId}, State) ->
     RoleIds = get_assignable_role_ids(UserId, OwnerId, Roles, State),
     {reply, #{role_ids => RoleIds}, State}.
 
+-spec get_assignable_role_ids(user_id(), user_id(), [role()], guild_state()) -> [role_id()].
 get_assignable_role_ids(OwnerId, OwnerId, Roles, _State) ->
     role_ids_from_roles(Roles);
 get_assignable_role_ids(UserId, _OwnerId, Roles, State) ->
@@ -279,6 +494,7 @@ get_assignable_role_ids(UserId, _OwnerId, Roles, State) ->
         Roles
     ).
 
+-spec filter_assignable_role(role(), integer()) -> {true, role_id()} | false.
 filter_assignable_role(Role, UserMaxPosition) ->
     case role_position(Role) < UserMaxPosition of
         true ->
@@ -293,18 +509,18 @@ filter_assignable_role(Role, UserMaxPosition) ->
 -spec check_target_member(map(), guild_state()) -> guild_reply(map()).
 check_target_member(#{user_id := UserId, target_user_id := TargetUserId}, State) ->
     OwnerId = owner_id(State),
-    CanManage =
-        if
-            UserId =:= OwnerId ->
-                true;
-            TargetUserId =:= OwnerId ->
-                false;
-            true ->
-                UserMaxPos = guild_permissions:get_max_role_position(UserId, State),
-                TargetMaxPos = guild_permissions:get_max_role_position(TargetUserId, State),
-                UserMaxPos > TargetMaxPos
-        end,
+    CanManage = check_can_manage_target(UserId, TargetUserId, OwnerId, State),
     {reply, #{can_manage => CanManage}, State}.
+
+-spec check_can_manage_target(user_id(), user_id(), user_id(), guild_state()) -> boolean().
+check_can_manage_target(UserId, _TargetUserId, UserId, _State) ->
+    true;
+check_can_manage_target(_UserId, OwnerId, OwnerId, _State) ->
+    false;
+check_can_manage_target(UserId, TargetUserId, _OwnerId, State) ->
+    UserMaxPos = guild_permissions:get_max_role_position(UserId, State),
+    TargetMaxPos = guild_permissions:get_max_role_position(TargetUserId, State),
+    UserMaxPos > TargetMaxPos.
 
 -spec get_viewable_channels(map(), guild_state()) -> guild_reply(map()).
 get_viewable_channels(#{user_id := UserId}, State) ->
@@ -313,29 +529,33 @@ get_viewable_channels(#{user_id := UserId}, State) ->
         undefined ->
             {reply, #{channel_ids => []}, State};
         Member ->
-            ChannelIds = lists:filtermap(
-                fun(Channel) ->
-                    ChannelId = map_utils:get_integer(Channel, <<"id">>, undefined),
-                    case ChannelId of
-                        undefined ->
-                            false;
-                        _ ->
-                            case
-                                guild_permissions:can_view_channel(UserId, ChannelId, Member, State)
-                            of
-                                true -> {true, ChannelId};
-                                false -> false
-                            end
-                    end
-                end,
-                Channels
-            ),
+            ChannelIds = filter_viewable_channels(Channels, UserId, Member, State),
             {reply, #{channel_ids => ChannelIds}, State}
     end.
 
+-spec filter_viewable_channels([channel()], user_id(), member(), guild_state()) -> [channel_id()].
+filter_viewable_channels(Channels, UserId, Member, State) ->
+    lists:filtermap(
+        fun(Channel) ->
+            ChannelId = map_utils:get_integer(Channel, <<"id">>, undefined),
+            case ChannelId of
+                undefined ->
+                    false;
+                _ ->
+                    case guild_permissions:can_view_channel(UserId, ChannelId, Member, State) of
+                        true -> {true, ChannelId};
+                        false -> false
+                    end
+            end
+        end,
+        Channels
+    ).
+
+-spec find_member_by_user_id(user_id(), guild_state()) -> member() | undefined.
 find_member_by_user_id(UserId, State) ->
     guild_permissions:find_member_by_user_id(UserId, State).
 
+-spec find_role_by_id(role_id(), [role()] | map()) -> role() | undefined.
 find_role_by_id(RoleId, Roles) ->
     guild_permissions:find_role_by_id(RoleId, Roles).
 
@@ -345,15 +565,15 @@ guild_data(State) ->
 
 -spec guild_members(guild_state()) -> [member()].
 guild_members(State) ->
-    map_utils:ensure_list(maps:get(<<"members">>, guild_data(State), [])).
+    guild_data_index:member_values(guild_data(State)).
 
 -spec guild_roles(guild_state()) -> [role()].
 guild_roles(State) ->
-    map_utils:ensure_list(maps:get(<<"roles">>, guild_data(State), [])).
+    guild_data_index:role_list(guild_data(State)).
 
 -spec guild_channels(guild_state()) -> [channel()].
 guild_channels(State) ->
-    map_utils:ensure_list(maps:get(<<"channels">>, guild_data(State), [])).
+    guild_data_index:channel_list(guild_data(State)).
 
 -spec owner_id(guild_state()) -> user_id().
 owner_id(State) ->
@@ -368,11 +588,6 @@ member_user_id(Member) ->
 -spec member_roles(member()) -> [role_id()].
 member_roles(Member) ->
     normalize_int_list(map_utils:ensure_list(maps:get(<<"roles">>, Member, []))).
-
--spec member_has_any_role(member(), [role_id()]) -> boolean().
-member_has_any_role(Member, RoleIds) ->
-    MemberRoles = member_roles(Member),
-    lists:any(fun(RoleId) -> lists:member(RoleId, MemberRoles) end, RoleIds).
 
 -spec member_has_any_role_set(member(), gb_sets:set(role_id())) -> boolean().
 member_has_any_role_set(Member, RoleIdSet) ->
@@ -389,6 +604,39 @@ member_can_view_channel(UserId, ChannelId, Member, State) when is_integer(Channe
     guild_permissions:can_view_channel(UserId, ChannelId, Member, State);
 member_can_view_channel(_, _, _, _) ->
     false.
+
+-spec collect_mentions_for_user_ids(
+    [user_id()],
+    user_id(),
+    channel_id(),
+    guild_state(),
+    fun((user_id(), member()) -> boolean())
+) ->
+    [user_id()].
+collect_mentions_for_user_ids(UserIds, AuthorId, ChannelId, State, Predicate) ->
+    MemberMap = guild_data_index:member_map(guild_data(State)),
+    lists:filtermap(
+        fun(UserId) ->
+            case UserId =:= AuthorId of
+                true ->
+                    false;
+                false ->
+                    case maps:get(UserId, MemberMap, undefined) of
+                        undefined ->
+                            false;
+                        Member ->
+                            case
+                                Predicate(UserId, Member) andalso
+                                    member_can_view_channel(UserId, ChannelId, Member, State)
+                            of
+                                true -> {true, UserId};
+                                false -> false
+                            end
+                    end
+            end
+        end,
+        lists:usort(UserIds)
+    ).
 
 -spec collect_mentions([member()], user_id(), channel_id(), guild_state(), fun(
     (member()) -> boolean()
@@ -446,6 +694,7 @@ role_position(Role) ->
     maps:get(<<"position">>, Role, 0).
 
 -ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
 
 get_users_to_mention_by_roles_basic_test() ->
     State = test_state(),
@@ -454,6 +703,30 @@ get_users_to_mention_by_roles_basic_test() ->
     Request = #{channel_id => ChannelId, role_ids => [RoleMod], author_id => 1},
     {reply, #{user_ids := UserIds}, _} = get_users_to_mention_by_roles(Request, State),
     ?assertEqual([2], UserIds).
+
+get_users_to_mention_by_user_ids_filters_unknown_members_test() ->
+    State = test_state(),
+    Request = #{channel_id => 500, user_ids => [2, 999], author_id => 1},
+    {reply, #{user_ids := UserIds}, _} = get_users_to_mention_by_user_ids(Request, State),
+    ?assertEqual([2], UserIds).
+
+get_members_with_role_uses_member_role_index_test() ->
+    State = test_state(),
+    {reply, #{user_ids := UserIds}, _} = get_members_with_role(#{role_id => 200}, State),
+    ?assertEqual([2], UserIds).
+
+resolve_all_mentions_merges_role_and_direct_candidates_test() ->
+    State = test_state(),
+    Request = #{
+        channel_id => 500,
+        author_id => 1,
+        mention_everyone => false,
+        mention_here => false,
+        role_ids => [200],
+        user_ids => [3]
+    },
+    {reply, #{user_ids := UserIds}, _} = resolve_all_mentions(Request, State),
+    ?assertEqual([2, 3], UserIds).
 
 get_assignable_roles_owner_test() ->
     State = test_state(),
@@ -469,6 +742,32 @@ get_viewable_channels_filters_test() ->
     State = test_state(),
     {reply, #{channel_ids := ChannelIds}, _} = get_viewable_channels(#{user_id => 2}, State),
     ?assert(lists:member(500, ChannelIds)).
+
+member_has_any_role_set_test() ->
+    Member = #{<<"roles">> => [<<"100">>, <<"200">>]},
+    RoleSet = gb_sets:from_list([200]),
+    MissingRoleSet = gb_sets:from_list([999]),
+    ?assertEqual(true, member_has_any_role_set(Member, RoleSet)),
+    ?assertEqual(false, member_has_any_role_set(Member, MissingRoleSet)).
+
+is_member_bot_test() ->
+    BotMember = #{<<"user">> => #{<<"bot">> => true}},
+    HumanMember = #{<<"user">> => #{<<"bot">> => false}},
+    ?assertEqual(true, is_member_bot(BotMember)),
+    ?assertEqual(false, is_member_bot(HumanMember)).
+
+normalize_int_list_test() ->
+    ?assertEqual([1, 2, 3], normalize_int_list([<<"1">>, <<"2">>, <<"3">>])),
+    ?assertEqual([1, 2], normalize_int_list([1, 2])),
+    ?assertEqual([], normalize_int_list([])).
+
+role_ids_from_roles_test() ->
+    Roles = [
+        #{<<"id">> => <<"100">>},
+        #{<<"id">> => <<"200">>},
+        #{<<"name">> => <<"no_id">>}
+    ],
+    ?assertEqual([100, 200], role_ids_from_roles(Roles)).
 
 test_state() ->
     GuildId = 100,

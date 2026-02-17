@@ -17,25 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {MessageTypes} from '~/Constants';
-import {CallMessage} from '~/components/channel/CallMessage';
-import {ChannelIconChangeMessage} from '~/components/channel/ChannelIconChangeMessage';
-import {ChannelNameChangeMessage} from '~/components/channel/ChannelNameChangeMessage';
-import {GuildJoinMessage} from '~/components/channel/GuildJoinMessage';
-import {PinSystemMessage} from '~/components/channel/PinSystemMessage';
-import {RecipientAddMessage} from '~/components/channel/RecipientAddMessage';
-import {RecipientRemoveMessage} from '~/components/channel/RecipientRemoveMessage';
-import {UnknownMessage} from '~/components/channel/UnknownMessage';
-import {UserMessage} from '~/components/channel/UserMessage';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
-import UserStore from '~/stores/UserStore';
+import {CallMessage} from '@app/components/channel/CallMessage';
+import {ChannelIconChangeMessage} from '@app/components/channel/ChannelIconChangeMessage';
+import {ChannelNameChangeMessage} from '@app/components/channel/ChannelNameChangeMessage';
+import {GuildJoinMessage} from '@app/components/channel/GuildJoinMessage';
+import {PinSystemMessage} from '@app/components/channel/PinSystemMessage';
+import {RecipientAddMessage} from '@app/components/channel/RecipientAddMessage';
+import {RecipientRemoveMessage} from '@app/components/channel/RecipientRemoveMessage';
+import {UnknownMessage} from '@app/components/channel/UnknownMessage';
+import {UserMessage} from '@app/components/channel/UserMessage';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import UserStore from '@app/stores/UserStore';
+import {MessageTypes} from '@fluxer/constants/src/ChannelConstants';
+import type React from 'react';
 
-export const getMessageComponent = (
-	_channel: ChannelRecord,
+export function getMessageComponent(
 	message: MessageRecord,
-	forceUnknownMessageType: boolean,
-) => {
+	_channel: ChannelRecord,
+	forceUnknownMessageType = false,
+): React.ReactElement {
 	const currentUser = UserStore.getCurrentUser();
 	if (forceUnknownMessageType && currentUser && message.author.id === currentUser.id) {
 		return <UnknownMessage />;
@@ -63,4 +64,4 @@ export const getMessageComponent = (
 		default:
 			return <UnknownMessage />;
 	}
-};
+}

@@ -17,21 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as React from 'react';
-import {MasonryListComputer} from '~/components/channel/MasonryListComputer';
-import {useMasonryGridNavigation} from '~/hooks/useMasonryGridNavigation';
-import {MASONRY_OVERSCAN_PX, MASONRY_PADDING_PX} from './constants';
+import {MasonryListComputer} from '@app/components/channel/MasonryListComputer';
+import {MASONRY_OVERSCAN_PX, MASONRY_PADDING_PX} from '@app/components/channel/pickers/shared/PickerConstants';
+import {useMasonryGridNavigation} from '@app/hooks/useMasonryGridNavigation';
+import type * as React from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 type VisibleItemTuple = [itemKey: string, sectionIndex: number, itemIndex: number];
 
-type Coords = {
+interface Coords {
 	position: 'absolute' | 'sticky';
 	left?: number;
 	right?: number;
 	top?: number;
 	width: number;
 	height: number;
-};
+}
 
 type CoordsMap = Record<string, Coords>;
 type VisibleSections = Record<string, Array<VisibleItemTuple>>;
@@ -93,17 +94,17 @@ export function MasonryVirtualGrid<T>({
 	paddingPx?: number;
 }) {
 	const stableExtraSections = extraSections ?? EMPTY_EXTRA_SECTIONS;
-	const [masonryComputer] = React.useState(() => new MasonryListComputer());
-	const containerRef = React.useRef<HTMLDivElement>(null);
+	const [masonryComputer] = useState(() => new MasonryListComputer());
+	const containerRef = useRef<HTMLDivElement>(null);
 
-	const [version, setVersion] = React.useState(0);
-	React.useEffect(() => {
+	const [version, setVersion] = useState(0);
+	useEffect(() => {
 		setVersion((v) => v + 1);
 	}, [data, columns, itemGutter, viewportWidth, viewportHeight, itemKeys, stableExtraSections]);
 
 	const sectionCount = 1 + stableExtraSections.length;
 
-	const getItemKeyForComputer = React.useCallback(
+	const getItemKeyForComputer = useCallback(
 		(sectionIndex: number, itemIndex: number): string | null => {
 			if (sectionIndex !== 0) return null;
 			const item = data[itemIndex];
@@ -112,7 +113,7 @@ export function MasonryVirtualGrid<T>({
 		[data, getItemKey],
 	);
 
-	const getItemHeightForComputer = React.useCallback(
+	const getItemHeightForComputer = useCallback(
 		(sectionIndex: number, itemIndex: number, columnWidth: number): number => {
 			if (sectionIndex !== 0) return 0;
 			const item = data[itemIndex];
@@ -122,7 +123,7 @@ export function MasonryVirtualGrid<T>({
 		[data, getItemHeight],
 	);
 
-	const getSectionHeightForComputer = React.useCallback(
+	const getSectionHeightForComputer = useCallback(
 		(sectionIndex: number): number => {
 			if (sectionIndex === 0) return 0;
 			const extra = stableExtraSections.find((s) => s.sectionIndex === sectionIndex);
@@ -131,13 +132,13 @@ export function MasonryVirtualGrid<T>({
 		[stableExtraSections],
 	);
 
-	const masonryState = React.useMemo(() => {
+	const masonryState = useMemo(() => {
 		if (viewportWidth <= 0 || viewportHeight <= 0) {
 			return {
 				coordsMap: {} as CoordsMap,
 				visibleSections: {} as VisibleSections,
 				totalHeight: 0,
-				gridData: null as any,
+				gridData: null,
 			};
 		}
 

@@ -17,15 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {useMaybeMessageViewContext} from '@app/components/channel/MessageViewContext';
+import {PreloadableUserPopout} from '@app/components/channel/PreloadableUserPopout';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {useContextMenuHoverState} from '@app/hooks/useContextMenuHoverState';
+import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
+import styles from '@app/styles/Message.module.css';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import {PreloadableUserPopout} from '~/components/channel/PreloadableUserPopout';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import type {GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {GuildRecord} from '~/records/GuildRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import KeyboardModeStore from '~/stores/KeyboardModeStore';
-import * as NicknameUtils from '~/utils/NicknameUtils';
+import type React from 'react';
+import {useCallback, useMemo, useRef} from 'react';
 
 export const MessageUsername = observer(
 	({
@@ -46,31 +52,45 @@ export const MessageUsername = observer(
 		previewColor?: string;
 		previewName?: string;
 	}) => {
-		const displayName = previewName || NicknameUtils.getNickname(user, guild?.id, message.channelId);
-		const color = previewColor || member?.getColorString();
+		const usernameRef = useRef<HTMLSpanElement | null>(null);
+		const contextMenuOpen = useContextMenuHoverState(usernameRef);
+		const displayName = useMemo(
+			() => previewName || NicknameUtils.getNickname(user, guild?.id, message.channelId),
+			[previewName, user, guild?.id, message.channelId],
+		);
+		const color = useMemo(() => previewColor || member?.getColorString(), [previewColor, member]);
+		const onPopoutToggle = useMaybeMessageViewContext()?.onPopoutToggle;
+		const handlePopoutOpen = useCallback(() => onPopoutToggle?.(true), [onPopoutToggle]);
+		const handlePopoutClose = useCallback(() => onPopoutToggle?.(false), [onPopoutToggle]);
+
+		const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
+			if (e.key === 'Enter' || e.key === ' ') {
+				e.preventDefault();
+				(e.currentTarget as HTMLElement).click();
+			}
+		}, []);
 
 		return (
 			<PreloadableUserPopout
 				user={user}
 				isWebhook={message.webhookId != null}
+				webhookId={message.webhookId ?? undefined}
 				guildId={guild?.id}
 				channelId={message.channelId}
 				enableLongPressActions={false}
+				onPopoutOpen={handlePopoutOpen}
+				onPopoutClose={handlePopoutClose}
 			>
 				<FocusRing>
 					<span
-						className={className}
+						className={clsx(className, contextMenuOpen && styles.contextMenuUnderline)}
 						style={{color}}
 						data-user-id={user.id}
 						data-guild-id={guild?.id}
 						tabIndex={KeyboardModeStore.keyboardModeEnabled ? 0 : -1}
 						role="button"
-						onKeyDown={(e) => {
-							if (e.key === 'Enter' || e.key === ' ') {
-								e.preventDefault();
-								e.currentTarget.click();
-							}
-						}}
+						ref={usernameRef}
+						onKeyDown={handleKeyDown}
 					>
 						{displayName}
 					</span>

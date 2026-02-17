@@ -17,13 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {MicrophonePermissionDeniedModal} from '~/components/alerts/MicrophonePermissionDeniedModal';
-import MediaPermissionStore from '~/stores/MediaPermissionStore';
-import {ensureNativePermission} from '~/utils/NativePermissions';
-import {isDesktop} from '~/utils/NativeUtils';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {MicrophonePermissionDeniedModal} from '@app/components/alerts/MicrophonePermissionDeniedModal';
+import {Logger} from '@app/lib/Logger';
+import MediaPermissionStore from '@app/stores/MediaPermissionStore';
+import {ensureNativePermission} from '@app/utils/NativePermissions';
+import {isDesktop} from '@app/utils/NativeUtils';
+import {useCallback, useEffect, useRef, useState} from 'react';
+
+const logger = new Logger('useMicTest');
 
 interface MicTestSettings {
 	inputDeviceId: string;
@@ -36,27 +39,27 @@ interface MicTestSettings {
 }
 
 export const useMicTest = (settings: MicTestSettings) => {
-	const [isTesting, setIsTesting] = React.useState(false);
-	const [micLevel, setMicLevel] = React.useState(-Infinity);
-	const [peakLevel, setPeakLevel] = React.useState(-Infinity);
+	const [isTesting, setIsTesting] = useState(false);
+	const [micLevel, setMicLevel] = useState(-Infinity);
+	const [peakLevel, setPeakLevel] = useState(-Infinity);
 
-	const audioContextRef = React.useRef<AudioContext | null>(null);
-	const analyserRef = React.useRef<AnalyserNode | null>(null);
-	const gainNodeRef = React.useRef<GainNode | null>(null);
-	const destinationRef = React.useRef<MediaStreamAudioDestinationNode | null>(null);
-	const audioElementRef = React.useRef<HTMLAudioElement | null>(null);
-	const micStreamRef = React.useRef<MediaStream | null>(null);
-	const animationFrameRef = React.useRef<number | null>(null);
-	const sourceRef = React.useRef<MediaStreamAudioSourceNode | null>(null);
-	const canUseFloatTimeDomainRef = React.useRef<boolean>(false);
-	const floatSampleBufferRef = React.useRef<Float32Array | null>(null);
-	const byteSampleBufferRef = React.useRef<Uint8Array | null>(null);
-	const peakDecayRef = React.useRef<number>(-Infinity);
-	const peakHoldTimeRef = React.useRef<number>(0);
+	const audioContextRef = useRef<AudioContext | null>(null);
+	const analyserRef = useRef<AnalyserNode | null>(null);
+	const gainNodeRef = useRef<GainNode | null>(null);
+	const destinationRef = useRef<MediaStreamAudioDestinationNode | null>(null);
+	const audioElementRef = useRef<HTMLAudioElement | null>(null);
+	const micStreamRef = useRef<MediaStream | null>(null);
+	const animationFrameRef = useRef<number | null>(null);
+	const sourceRef = useRef<MediaStreamAudioSourceNode | null>(null);
+	const canUseFloatTimeDomainRef = useRef<boolean>(false);
+	const floatSampleBufferRef = useRef<Float32Array | null>(null);
+	const byteSampleBufferRef = useRef<Uint8Array | null>(null);
+	const peakDecayRef = useRef<number>(-Infinity);
+	const peakHoldTimeRef = useRef<number>(0);
 
 	const micExplicitlyDenied = MediaPermissionStore.microphoneExplicitlyDenied;
 
-	const calculateLevel = React.useCallback(() => {
+	const calculateLevel = useCallback(() => {
 		if (!analyserRef.current) return -Infinity;
 
 		const analyser = analyserRef.current;
@@ -69,7 +72,7 @@ export const useMicTest = (settings: MicTestSettings) => {
 		let sampleCount = 0;
 
 		if (canUseFloat && floatBuffer) {
-			analyser.getFloatTimeDomainData(floatBuffer as any);
+			analyser.getFloatTimeDomainData(floatBuffer as Float32Array<ArrayBuffer>);
 			for (let i = 0; i < floatBuffer.length; i++) {
 				const sample = floatBuffer[i];
 				const power = sample * sample;
@@ -78,7 +81,7 @@ export const useMicTest = (settings: MicTestSettings) => {
 				sampleCount++;
 			}
 		} else if (byteBuffer) {
-			analyser.getByteTimeDomainData(byteBuffer as any);
+			analyser.getByteTimeDomainData(byteBuffer as Uint8Array<ArrayBuffer>);
 			for (let i = 0; i < byteBuffer.length; i++) {
 				const sample = (byteBuffer[i] - 128) / 128;
 				const power = sample * sample;
@@ -103,14 +106,14 @@ export const useMicTest = (settings: MicTestSettings) => {
 		return rmsDb;
 	}, []);
 
-	const drawLoop = React.useCallback(() => {
+	const drawLoop = useCallback(() => {
 		const level = calculateLevel();
 		setMicLevel(level);
 		setPeakLevel(peakDecayRef.current);
 		animationFrameRef.current = requestAnimationFrame(drawLoop);
 	}, [calculateLevel]);
 
-	const stop = React.useCallback(() => {
+	const stop = useCallback(() => {
 		if (animationFrameRef.current) {
 			cancelAnimationFrame(animationFrameRef.current);
 			animationFrameRef.current = null;
@@ -162,7 +165,7 @@ export const useMicTest = (settings: MicTestSettings) => {
 		setPeakLevel(-Infinity);
 	}, []);
 
-	const start = React.useCallback(async () => {
+	const start = useCallback(async () => {
 		if (micExplicitlyDenied) {
 			ModalActionCreators.push(modal(() => <MicrophonePermissionDeniedModal />));
 			return;
@@ -190,7 +193,11 @@ export const useMicTest = (settings: MicTestSettings) => {
 
 			micStreamRef.current = stream;
 
-			const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+			const AudioContextClass =
+				window.AudioContext || (window as {webkitAudioContext?: typeof AudioContext}).webkitAudioContext;
+			if (!AudioContextClass) {
+				throw new Error('AudioContext not available');
+			}
 			audioContextRef.current = new AudioContextClass();
 
 			if (audioContextRef.current.state === 'suspended') {
@@ -224,9 +231,11 @@ export const useMicTest = (settings: MicTestSettings) => {
 
 			if (settings.outputDeviceId !== 'default' && 'setSinkId' in audioElementRef.current) {
 				try {
-					await (audioElementRef.current as any).setSinkId(settings.outputDeviceId);
+					await (
+						audioElementRef.current as HTMLAudioElement & {setSinkId: (deviceId: string) => Promise<void>}
+					).setSinkId(settings.outputDeviceId);
 				} catch (error) {
-					console.warn('Failed to set output device:', error);
+					logger.warn('Failed to set output device', error);
 				}
 			}
 
@@ -236,7 +245,7 @@ export const useMicTest = (settings: MicTestSettings) => {
 			setIsTesting(true);
 			drawLoop();
 		} catch (error) {
-			console.error('Error starting mic test:', error);
+			logger.error('Error starting mic test', error);
 
 			if (error instanceof Error && (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError')) {
 				MediaPermissionStore.markMicrophoneExplicitlyDenied();
@@ -247,7 +256,7 @@ export const useMicTest = (settings: MicTestSettings) => {
 		}
 	}, [settings, drawLoop, stop, micExplicitlyDenied]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		return () => {
 			stop();
 		};

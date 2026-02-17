@@ -41,6 +41,10 @@ class CallInitiatorStore {
 		return recipients ? Array.from(recipients) : [];
 	}
 
+	hasInitiated(channelId: string): boolean {
+		return this.initiatedRecipients.has(channelId);
+	}
+
 	clearChannel(channelId: string): void {
 		this.initiatedRecipients.delete(channelId);
 	}

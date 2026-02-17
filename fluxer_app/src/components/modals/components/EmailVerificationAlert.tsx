@@ -17,18 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import {VerificationResult} from '@app/actions/AuthenticationActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {Button} from '@app/components/uikit/button/Button';
+import {WarningAlert} from '@app/components/uikit/warning_alert/WarningAlert';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import {VerificationResult} from '~/actions/AuthenticationActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {Button} from '~/components/uikit/Button/Button';
-import {WarningAlert} from '~/components/uikit/WarningAlert/WarningAlert';
+import {useState} from 'react';
 
 export const EmailVerificationAlert = observer(() => {
 	const {t} = useLingui();
-	const [isResending, setIsResending] = React.useState(false);
+	const [isResending, setIsResending] = useState(false);
 
 	const handleResend = async () => {
 		if (isResending) return;
@@ -52,7 +52,7 @@ export const EmailVerificationAlert = observer(() => {
 
 	return (
 		<WarningAlert
-			title={<Trans>Email verification required</Trans>}
+			title={<Trans>Email Verification Required</Trans>}
 			actions={
 				<Button variant="primary" small disabled={isResending} submitting={isResending} onClick={handleResend}>
 					<Trans>Resend Email</Trans>

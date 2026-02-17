@@ -1,0 +1,17 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "GUILD_ROLE_DELETE",
+	"description": "Sent when a guild role is deleted.",
+	"scope": "guild",
+	"dispatchedBy": ["DELETE /guilds/:guild_id/roles/:role_id"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"role_id": {
+				"type": "string",
+				"description": "ID of the deleted role"
+			}
+		},
+		"required": ["role_id"]
+	}
+}

@@ -17,55 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
-import {
-	BellIcon,
-	BellSlashIcon,
-	BookOpenIcon,
-	CheckIcon,
-	CopyIcon,
-	FolderPlusIcon,
-	GearIcon,
-	PlusCircleIcon,
-	ShieldIcon,
-	SignOutIcon,
-	UserCircleIcon,
-	UserPlusIcon,
-} from '@phosphor-icons/react';
+import headerStyles from '@app/components/bottomsheets/GuildHeaderBottomSheet.module.css';
+import {MuteDurationSheet} from '@app/components/bottomsheets/MuteDurationSheet';
+import {GuildIcon} from '@app/components/popouts/GuildIcon';
+import {useGuildMenuData} from '@app/components/uikit/context_menu/items/GuildMenuData';
+import {MenuBottomSheet} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {useMuteSheet} from '@app/hooks/useMuteSheet';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import PresenceStore from '@app/stores/PresenceStore';
+import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import * as ReadStateActionCreators from '~/actions/ReadStateActionCreators';
-import * as UserGuildSettingsActionCreators from '~/actions/UserGuildSettingsActionCreators';
-import {Permissions} from '~/Constants';
-import {CategoryCreateModal} from '~/components/modals/CategoryCreateModal';
-import {ChannelCreateModal} from '~/components/modals/ChannelCreateModal';
-import {GuildNotificationSettingsModal} from '~/components/modals/GuildNotificationSettingsModal';
-import {GuildPrivacySettingsModal} from '~/components/modals/GuildPrivacySettingsModal';
-import {GuildSettingsModal} from '~/components/modals/GuildSettingsModal';
-import {InviteModal} from '~/components/modals/InviteModal';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import {GuildIcon} from '~/components/popouts/GuildIcon';
-import type {MenuGroupType} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import {MenuBottomSheet} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import * as Sheet from '~/components/uikit/Sheet/Sheet';
-import {useLeaveGuild} from '~/hooks/useLeaveGuild';
-import type {GuildRecord} from '~/records/GuildRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import PermissionStore from '~/stores/PermissionStore';
-import PresenceStore from '~/stores/PresenceStore';
-import UserGuildSettingsStore from '~/stores/UserGuildSettingsStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import ChannelStore from '~/stores/ChannelStore';
-import ReadStateStore from '~/stores/ReadStateStore';
-import {getMutedText} from '~/utils/ContextMenuUtils';
-import * as InviteUtils from '~/utils/InviteUtils';
-import styles from './ChannelDetailsBottomSheet.module.css';
-import headerStyles from './GuildHeaderBottomSheet.module.css';
-import sharedStyles from './shared.module.css';
+import type React from 'react';
+import {useEffect} from 'react';
 
 interface GuildHeaderBottomSheetProps {
 	isOpen: boolean;
@@ -74,217 +39,21 @@ interface GuildHeaderBottomSheetProps {
 }
 
 export const GuildHeaderBottomSheet: React.FC<GuildHeaderBottomSheetProps> = observer(({isOpen, onClose, guild}) => {
-	const {t, i18n} = useLingui();
-	UserSettingsStore;
-	const leaveGuild = useLeaveGuild();
-	const [muteSheetOpen, setMuteSheetOpen] = React.useState(false);
+	const {t} = useLingui();
 
-	const canManageGuild = PermissionStore.can(Permissions.MANAGE_GUILD, {guildId: guild.id});
-	const canManageChannels = PermissionStore.can(Permissions.MANAGE_CHANNELS, {guildId: guild.id});
-	const invitableChannelId = InviteUtils.getInvitableChannelId(guild.id);
-	const canInvite = InviteUtils.canInviteToChannel(invitableChannelId, guild.id);
-	const canManageRoles = PermissionStore.can(Permissions.MANAGE_ROLES, {guildId: guild.id});
-	const canViewAuditLog = PermissionStore.can(Permissions.VIEW_AUDIT_LOG, {guildId: guild.id});
-	const canManageWebhooks = PermissionStore.can(Permissions.MANAGE_WEBHOOKS, {guildId: guild.id});
-	const canManageEmojis = PermissionStore.can(Permissions.MANAGE_EXPRESSIONS, {guildId: guild.id});
-	const canBanMembers = PermissionStore.can(Permissions.BAN_MEMBERS, {guildId: guild.id});
+	useEffect(() => {
+		if (!isOpen) return;
+		GatewayConnectionStore.syncGuildIfNeeded(guild.id, 'guild-header-bottom-sheet');
+	}, [guild.id, isOpen]);
 
-	const canAccessGuildSettings =
-		canManageGuild || canManageRoles || canViewAuditLog || canManageWebhooks || canManageEmojis || canBanMembers;
-
-	const settings = UserGuildSettingsStore.getSettings(guild.id);
-	const hideMutedChannels = settings?.hide_muted_channels ?? false;
-	const isMuted = settings?.muted ?? false;
-	const muteConfig = settings?.mute_config;
-	const mutedText = getMutedText(isMuted, muteConfig);
-
-	const handleToggleHideMutedChannels = (checked: boolean) => {
-		const currentSettings = UserGuildSettingsStore.getSettings(guild.id);
-		const currentValue = currentSettings?.hide_muted_channels ?? false;
-		if (checked === currentValue) return;
-		UserGuildSettingsActionCreators.toggleHideMutedChannels(guild.id);
-	};
-
-	const handleOpenMuteSheet = () => {
-		setMuteSheetOpen(true);
-	};
-
-	const handleCloseMuteSheet = () => {
-		setMuteSheetOpen(false);
-	};
-
-	const handleInviteMembers = () => {
-		onClose();
-		ModalActionCreators.push(modal(() => <InviteModal channelId={invitableChannelId ?? ''} />));
-	};
-
-	const handleCommunitySettings = () => {
-		onClose();
-		ModalActionCreators.push(modal(() => <GuildSettingsModal guildId={guild.id} />));
-	};
-
-	const handleCreateChannel = () => {
-		onClose();
-		ModalActionCreators.push(modal(() => <ChannelCreateModal guildId={guild.id} />));
-	};
-
-	const handleCreateCategory = () => {
-		onClose();
-		ModalActionCreators.push(modal(() => <CategoryCreateModal guildId={guild.id} />));
-	};
-
-	const handleNotificationSettings = () => {
-		onClose();
-		ModalActionCreators.push(modal(() => <GuildNotificationSettingsModal guildId={guild.id} />));
-	};
-
-	const handlePrivacySettings = () => {
-		onClose();
-		ModalActionCreators.push(modal(() => <GuildPrivacySettingsModal guildId={guild.id} />));
-	};
-
-	const handleEditCommunityProfile = () => {
-		onClose();
-		ModalActionCreators.push(modal(() => <UserSettingsModal initialGuildId={guild.id} initialTab="my_profile" />));
-	};
-
-	const handleLeaveCommunity = () => {
-		onClose();
-		leaveGuild(guild.id);
-	};
-
-	const handleCopyGuildId = () => {
-		void TextCopyActionCreators.copy(i18n, guild.id);
-		onClose();
-	};
-
-	const channels = ChannelStore.getGuildChannels(guild.id);
-	const hasGuildUnread = React.useMemo(() => channels.some((channel) => ReadStateStore.hasUnread(channel.id)), [channels]);
-
-	const handleMarkAsRead = React.useCallback(() => {
-		const channelIds = channels
-			.filter((channel) => ReadStateStore.getUnreadCount(channel.id) > 0)
-			.map((channel) => channel.id);
-
-		if (channelIds.length > 0) {
-			void ReadStateActionCreators.bulkAckChannels(channelIds);
-		}
-
-		onClose();
-	}, [channels, onClose]);
-
-	const menuGroups: Array<MenuGroupType> = [];
-
-	const quickActions = [];
-
-	if (hasGuildUnread) {
-		quickActions.push({
-			icon: <BookOpenIcon weight="fill" className={sharedStyles.icon} />,
-			label: t`Mark as Read`,
-			onClick: handleMarkAsRead,
-		});
-	}
-
-	if (canInvite) {
-		quickActions.push({
-			icon: <UserPlusIcon weight="fill" className={sharedStyles.icon} />,
-			label: t`Invite Members`,
-			onClick: handleInviteMembers,
-		});
-	}
-
-	if (canAccessGuildSettings) {
-		quickActions.push({
-			icon: <GearIcon weight="fill" className={sharedStyles.icon} />,
-			label: t`Community Settings`,
-			onClick: handleCommunitySettings,
-		});
-	}
-
-	if (canManageChannels) {
-		quickActions.push({
-			icon: <PlusCircleIcon weight="fill" className={sharedStyles.icon} />,
-			label: t`Create Channel`,
-			onClick: handleCreateChannel,
-		});
-		quickActions.push({
-			icon: <FolderPlusIcon weight="fill" className={sharedStyles.icon} />,
-			label: t`Create Category`,
-			onClick: handleCreateCategory,
-		});
-	}
-
-	if (quickActions.length > 0) {
-		menuGroups.push({
-			items: quickActions,
-		});
-	}
-
-	const settingsItems = [
-		{
-			icon: <BellIcon weight="fill" className={sharedStyles.icon} />,
-			label: t`Notification Settings`,
-			onClick: handleNotificationSettings,
-		},
-		{
-			icon: <ShieldIcon weight="fill" className={sharedStyles.icon} />,
-			label: t`Privacy Settings`,
-			onClick: handlePrivacySettings,
-		},
-		{
-			icon: <UserCircleIcon weight="fill" className={sharedStyles.icon} />,
-			label: t`Edit Community Profile`,
-			onClick: handleEditCommunityProfile,
-		},
-	];
-
-	menuGroups.push({
-		items: settingsItems,
+	const {muteSheetOpen, muteConfig, openMuteSheet, closeMuteSheet, handleMute, handleUnmute} = useMuteSheet({
+		mode: 'guild',
+		guildId: guild.id,
 	});
 
-	const muteItem = {
-		icon: isMuted ? (
-			<BellIcon weight="fill" className={sharedStyles.icon} />
-		) : (
-			<BellSlashIcon weight="fill" className={sharedStyles.icon} />
-		),
-		label: isMuted ? t`Unmute Community` : t`Mute Community`,
-		onClick: handleOpenMuteSheet,
-	};
-
-	const hideMutedChannelsItem = {
-		label: t`Hide Muted Channels`,
-		checked: hideMutedChannels,
-		onChange: handleToggleHideMutedChannels,
-	};
-
-	menuGroups.push({
-		items: [muteItem, hideMutedChannelsItem],
-	});
-
-	if (!guild.isOwner(AuthenticationStore.currentUserId)) {
-		menuGroups.push({
-			items: [
-				{
-					icon: <SignOutIcon weight="fill" className={sharedStyles.icon} />,
-					label: t`Leave Community`,
-					onClick: handleLeaveCommunity,
-					danger: true,
-				},
-			],
-		});
-	}
-
-	const utilityItems = [
-		{
-			icon: <CopyIcon weight="fill" className={sharedStyles.icon} />,
-			label: t`Copy Guild ID`,
-			onClick: handleCopyGuildId,
-		},
-	];
-
-	menuGroups.push({
-		items: utilityItems,
+	const {groups, isMuted, mutedText} = useGuildMenuData(guild, {
+		onClose,
+		onOpenMuteSheet: openMuteSheet,
 	});
 
 	const presenceCount = PresenceStore.getPresenceCount(guild.id);
@@ -315,89 +84,19 @@ export const GuildHeaderBottomSheet: React.FC<GuildHeaderBottomSheetProps> = obs
 
 	return (
 		<>
-			<MenuBottomSheet isOpen={isOpen} onClose={onClose} groups={menuGroups} headerContent={headerContent} />
+			<MenuBottomSheet isOpen={isOpen} onClose={onClose} groups={groups} headerContent={headerContent} />
 
-			<Sheet.Root isOpen={muteSheetOpen} onClose={handleCloseMuteSheet} snapPoints={[0, 1]} initialSnap={1}>
-				<Sheet.Handle />
-				<Sheet.Header trailing={<Sheet.CloseButton onClick={handleCloseMuteSheet} />}>
-					<Sheet.Title>{isMuted ? t`Unmute Community` : t`Mute Community`}</Sheet.Title>
-				</Sheet.Header>
-				<Sheet.Content padding="none">
-					<div className={styles.muteSheetContainer}>
-						<div className={styles.muteSheetContent}>
-							{isMuted && mutedText ? (
-								<>
-									<div className={styles.muteStatusBanner}>
-										<p className={styles.muteStatusText}>
-											<Trans>Currently: {mutedText}</Trans>
-										</p>
-									</div>
-									<div className={styles.muteOptionsContainer}>
-										<button
-											type="button"
-											onClick={() => {
-												UserGuildSettingsActionCreators.updateGuildSettings(guild.id, {
-													muted: false,
-													mute_config: null,
-												});
-												handleCloseMuteSheet();
-											}}
-											className={styles.muteOptionButton}
-										>
-											<span className={styles.muteOptionLabel}>
-												<Trans>Unmute</Trans>
-											</span>
-										</button>
-									</div>
-								</>
-							) : (
-								<div className={styles.muteOptionsContainer}>
-									{[
-										{label: t`For 15 Minutes`, value: 15 * 60 * 1000},
-										{label: t`For 1 Hour`, value: 60 * 60 * 1000},
-										{label: t`For 3 Hours`, value: 3 * 60 * 60 * 1000},
-										{label: t`For 8 Hours`, value: 8 * 60 * 60 * 1000},
-										{label: t`For 24 Hours`, value: 24 * 60 * 60 * 1000},
-										{label: t`Until I turn it back on`, value: null},
-									].map((option, index, array) => {
-										const isSelected =
-											isMuted &&
-											((option.value === null && !muteConfig?.end_time) ||
-												(option.value !== null && muteConfig?.selected_time_window === option.value));
-
-										return (
-											<React.Fragment key={option.label}>
-												<button
-													type="button"
-													onClick={() => {
-														const newMuteConfig = option.value
-															? {
-																	selected_time_window: option.value,
-																	end_time: new Date(Date.now() + option.value).toISOString(),
-																}
-															: null;
-
-														UserGuildSettingsActionCreators.updateGuildSettings(guild.id, {
-															muted: true,
-															mute_config: newMuteConfig,
-														});
-														handleCloseMuteSheet();
-													}}
-													className={styles.muteOptionButton}
-												>
-													<span className={styles.muteOptionLabel}>{option.label}</span>
-													{isSelected && <CheckIcon className={styles.iconMedium} weight="bold" />}
-												</button>
-												{index < array.length - 1 && <div className={styles.muteOptionDivider} />}
-											</React.Fragment>
-										);
-									})}
-								</div>
-							)}
-						</div>
-					</div>
-				</Sheet.Content>
-			</Sheet.Root>
+			<MuteDurationSheet
+				isOpen={muteSheetOpen}
+				onClose={closeMuteSheet}
+				isMuted={isMuted}
+				mutedText={mutedText ?? null}
+				muteConfig={muteConfig}
+				muteTitle={t`Mute Community`}
+				unmuteTitle={t`Unmute Community`}
+				onMute={handleMute}
+				onUnmute={handleUnmute}
+			/>
 		</>
 	);
 });

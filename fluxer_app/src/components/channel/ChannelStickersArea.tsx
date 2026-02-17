@@ -17,17 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ChannelStickerActionCreators from '@app/actions/ChannelStickerActionCreators';
+import styles from '@app/components/channel/ChannelStickersArea.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useStickerAnimation} from '@app/hooks/useStickerAnimation';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import ChannelStickerStore from '@app/stores/ChannelStickerStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
 import {useLingui} from '@lingui/react/macro';
 import {TrashIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ChannelStickerActionCreators from '~/actions/ChannelStickerActionCreators';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import ChannelStickerStore from '~/stores/ChannelStickerStore';
-import styles from './ChannelStickersArea.module.css';
+import type React from 'react';
+import {useLayoutEffect, useState} from 'react';
 
 interface ChannelStickersAreaProps {
 	channelId: string;
@@ -36,10 +39,11 @@ interface ChannelStickersAreaProps {
 
 export const ChannelStickersArea: React.FC<ChannelStickersAreaProps> = observer(({channelId, hasAttachments}) => {
 	const {t} = useLingui();
+	const {shouldAnimate, interactionHandlers} = useStickerAnimation();
 	const sticker = ChannelStickerStore.getPendingSticker(channelId);
-	const [previousSticker, setPreviousSticker] = React.useState(sticker);
+	const [previousSticker, setPreviousSticker] = useState(sticker);
 
-	React.useLayoutEffect(() => {
+	useLayoutEffect(() => {
 		if (previousSticker && !sticker) {
 			ComponentDispatch.dispatch('FORCE_JUMP_TO_PRESENT');
 		} else if (!previousSticker && sticker) {
@@ -57,12 +61,17 @@ export const ChannelStickersArea: React.FC<ChannelStickersAreaProps> = observer(
 		ChannelStickerActionCreators.removePendingSticker(channelId);
 	};
 
+	const stickerUrl = AvatarUtils.getStickerURL({
+		id: sticker.id,
+		animated: shouldAnimate,
+		size: 320,
+	});
+
 	return (
 		<div className={clsx(styles.container, hasAttachments ? styles.withAttachments : styles.standalone)}>
 			<div className={styles.content}>
 				<div className={styles.stickerPreview}>
-					<img src={sticker.url} alt={sticker.name} className={styles.stickerImage} />
-					{sticker.isAnimated() && <div className={styles.gifBadge}>GIF</div>}
+					<img src={stickerUrl} alt={sticker.name} className={styles.stickerImage} {...interactionHandlers} />
 				</div>
 				<div className={styles.stickerInfo}>
 					<div className={styles.stickerName}>:{sticker.name}:</div>

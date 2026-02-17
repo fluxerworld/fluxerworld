@@ -17,17 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/accounts/AccountListItem.module.css';
+import {MockAvatar} from '@app/components/uikit/MockAvatar';
+import type {Account} from '@app/lib/SessionManager';
+import RuntimeConfigStore, {describeApiEndpoint} from '@app/stores/RuntimeConfigStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {getCurrentLocale} from '@app/utils/LocaleUtils';
+import {formatLastActive} from '@fluxer/date_utils/src/DateFormatting';
 import {Trans, useLingui} from '@lingui/react/macro';
 import clsx from 'clsx';
 import type {ReactNode} from 'react';
-import {MockAvatar} from '~/components/uikit/MockAvatar';
-import type {AccountSummary} from '~/stores/AccountManager';
-import RuntimeConfigStore, {describeApiEndpoint} from '~/stores/RuntimeConfigStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import styles from './AccountListItem.module.css';
 
-export interface AccountListItemProps {
-	account: AccountSummary;
+interface AccountListItemProps {
+	account: Account;
 	disabled?: boolean;
 	isCurrent?: boolean;
 	onClick?: () => void;
@@ -37,7 +39,7 @@ export interface AccountListItemProps {
 	meta?: ReactNode;
 }
 
-export const getAccountAvatarUrl = (account: AccountSummary): string | undefined => {
+export const getAccountAvatarUrl = (account: Account): string | undefined => {
 	const avatar = account.userData?.avatar ?? null;
 	try {
 		const mediaEndpoint = account.instance?.mediaEndpoint ?? RuntimeConfigStore.getSnapshot().mediaEndpoint;
@@ -48,11 +50,6 @@ export const getAccountAvatarUrl = (account: AccountSummary): string | undefined
 	} catch {
 		return undefined;
 	}
-};
-
-export const formatLastActive = (timestamp: number): string => {
-	const formatter = new Intl.DateTimeFormat(undefined, {dateStyle: 'medium', timeStyle: 'short'});
-	return formatter.format(new Date(timestamp));
 };
 
 export const AccountListItem = ({
@@ -75,7 +72,7 @@ export const AccountListItem = ({
 			isCurrent ? (
 				(account.userData?.email ?? t`Email unavailable`)
 			) : (
-				<Trans>Last active {formatLastActive(account.lastActive)}</Trans>
+				<Trans>Last active {formatLastActive(account.lastActive, getCurrentLocale())}</Trans>
 			)
 		) : (
 			(account.userData?.email ?? t`Email unavailable`)

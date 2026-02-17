@@ -1,0 +1,5 @@
+{
+	"typescript.preferences.includePackageJsonAutoImports": "auto",
+	"typescript.suggest.autoImports": true,
+	"typescript.experimental.useTsgo": true
+}

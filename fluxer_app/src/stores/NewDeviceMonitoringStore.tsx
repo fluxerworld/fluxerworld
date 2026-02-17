@@ -17,18 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import {Logger} from '@app/lib/Logger';
+import {makePersistent} from '@app/lib/MobXPersistence';
+import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
+import VoiceDevicePermissionStore from '@app/stores/voice/VoiceDevicePermissionStore';
+import type {VoiceDeviceState} from '@app/utils/VoiceDeviceManager';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {Trans} from '@lingui/react/macro';
 import {makeAutoObservable, runInAction} from 'mobx';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import {Logger} from '~/lib/Logger';
-import {makePersistent} from '~/lib/MobXPersistence';
-import VoiceSettingsStore from '~/stores/VoiceSettingsStore';
-import VoiceDevicePermissionStore, {type VoiceDeviceState} from '~/stores/voice/VoiceDevicePermissionStore';
 
 const logger = new Logger('NewDeviceMonitoringStore');
 

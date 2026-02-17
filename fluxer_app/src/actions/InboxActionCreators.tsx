@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {InboxTab} from '~/stores/InboxStore';
-import InboxStore from '~/stores/InboxStore';
+import type {InboxTab} from '@app/stores/InboxStore';
+import InboxStore from '@app/stores/InboxStore';
 
-export const setTab = (tab: InboxTab): void => {
+export function setTab(tab: InboxTab): void {
 	InboxStore.setTab(tab);
-};
+}

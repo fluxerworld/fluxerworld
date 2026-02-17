@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/UserTag.module.css';
 import {Trans} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import React from 'react';
-import styles from './UserTag.module.css';
 
 interface UserTagProps extends React.ComponentPropsWithoutRef<'span'> {
 	className?: string;

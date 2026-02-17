@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {DebugModal, type DebugTab} from '@app/components/debug/DebugModal';
+import type {GuildRecord} from '@app/records/GuildRecord';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useMemo} from 'react';
-import type {GuildRecord} from '~/records/GuildRecord';
-import {DebugModal, type DebugTab} from './DebugModal';
 
 interface GuildDebugModalProps {
 	title: string;
@@ -36,7 +36,7 @@ export const GuildDebugModal: React.FC<GuildDebugModalProps> = observer(({title,
 	const tabs: Array<DebugTab> = [
 		{
 			id: 'record',
-			label: t`Guild Record`,
+			label: t`Community Record`,
 			data: recordJsonData,
 		},
 	];

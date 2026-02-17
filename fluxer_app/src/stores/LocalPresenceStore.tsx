@@ -17,19 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {CustomStatus, GatewayCustomStatusPayload} from '@app/lib/CustomStatus';
+import {customStatusToKey, normalizeCustomStatus, toGatewayCustomStatus} from '@app/lib/CustomStatus';
+import IdleStore from '@app/stores/IdleStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import type {StatusType} from '@fluxer/constants/src/StatusConstants';
+import {StatusTypes} from '@fluxer/constants/src/StatusConstants';
 import {makeAutoObservable, reaction} from 'mobx';
-import type {StatusType} from '~/Constants';
-import {StatusTypes} from '~/Constants';
-import {
-	type CustomStatus,
-	customStatusToKey,
-	type GatewayCustomStatusPayload,
-	normalizeCustomStatus,
-	toGatewayCustomStatus,
-} from '~/lib/customStatus';
-import IdleStore from '~/stores/IdleStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
 
 type Presence = Readonly<{
 	status: StatusType;

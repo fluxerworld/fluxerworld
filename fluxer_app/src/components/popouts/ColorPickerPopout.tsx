@@ -17,12 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/popouts/ColorPickerPopout.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {ColorArea, ColorPicker, ColorSlider, ColorThumb, parseColor, SliderTrack} from 'react-aria-components';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import styles from './ColorPickerPopout.module.css';
+import {useCallback, useMemo} from 'react';
+import {
+	type Color,
+	ColorArea,
+	ColorPicker,
+	ColorSlider,
+	ColorThumb,
+	parseColor,
+	SliderTrack,
+} from 'react-aria-components';
 
 export const ColorPickerPopout = observer(
 	({
@@ -37,14 +45,14 @@ export const ColorPickerPopout = observer(
 	}) => {
 		const hasCustomColor = color !== null && color !== '#4641D9';
 
-		const handleColorChange = React.useCallback(
-			(newColor: ReturnType<typeof parseColor>) => {
+		const handleColorChange = useCallback(
+			(newColor: Color) => {
 				onChange(newColor.toString('hex'));
 			},
 			[onChange],
 		);
 
-		const parsedColor = React.useMemo(() => {
+		const parsedColor = useMemo(() => {
 			try {
 				return parseColor(color).toFormat('hsb');
 			} catch {

@@ -64,12 +64,14 @@
 	font-weight: 600;
 	word-break: break-word;
 	overflow-wrap: break-word;
+	overflow: hidden;
 }
 
 .description {
 	min-width: 0;
 	font-size: 1.125rem;
 	color: var(--text-primary-muted);
+	overflow: hidden;
 }
 
 .iconSize {

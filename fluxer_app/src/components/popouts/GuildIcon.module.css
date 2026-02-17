@@ -36,6 +36,10 @@
 	background-size: cover;
 	transition: background-image 0.3s ease-in-out;
 	container-type: inline-size;
+	--initials-font-size: clamp(0.85rem, 45cqi, 1.35rem);
+	--initials-letter-spacing: 0.06em;
+	--initials-scale: 1;
+	--initials-scale-cap: 1;
 }
 
 .containerNoIcon {
@@ -47,27 +51,36 @@
 	align-self: center;
 	line-height: 1;
 	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	display: block;
-	width: 100%;
+	display: inline-block;
 	text-align: center;
-	font-size: clamp(0.85rem, 45cqi, 1.35rem);
-	letter-spacing: 0.06em;
+	font-size: var(--initials-font-size);
+	letter-spacing: var(--initials-letter-spacing);
+	transform: scale(calc(var(--initials-scale) * var(--initials-scale-cap)));
+	transform-origin: center;
 }
 
 .container[data-initials-length='medium'] .initials {
-	font-size: clamp(0.85rem, 38cqi, 1.11rem);
-	letter-spacing: 0.02em;
+	--initials-scale: 0.92;
+	--initials-letter-spacing: 0.02em;
 }
 
 .container[data-initials-length='long'] .initials {
-	font-size: clamp(0.85rem, 32cqi, 0.87rem);
-	letter-spacing: -0.02em;
+	--initials-scale: 0.84;
+	--initials-letter-spacing: -0.02em;
 }
 
-@media (prefers-reduced-motion: reduce) {
-	.container {
-		transition: none;
+.container[data-reduced-motion='true'] {
+	transition: none;
+}
+
+@container (max-width: 32px) {
+	.initials {
+		--initials-scale-cap: 0.88;
+	}
+}
+
+@container (max-width: 26px) {
+	.initials {
+		--initials-scale-cap: 0.78;
 	}
 }

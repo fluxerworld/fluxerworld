@@ -17,11 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Routes} from '@app/Routes';
+import {GuildRecord} from '@app/records/GuildRecord';
+import {GuildRoleRecord} from '@app/records/GuildRoleRecord';
+import type {GuildReadyData} from '@app/types/gateway/GatewayGuildTypes';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import type {Guild} from '@fluxer/schema/src/domains/guild/GuildResponseSchemas';
+import type {GuildRole} from '@fluxer/schema/src/domains/guild/GuildRoleSchemas';
 import {makeAutoObservable} from 'mobx';
-import {Routes} from '~/Routes';
-import {type Guild, type GuildReadyData, GuildRecord} from '~/records/GuildRecord';
-import {type GuildRole, GuildRoleRecord} from '~/records/GuildRoleRecord';
-import * as RouterUtils from '~/utils/RouterUtils';
 
 class GuildStore {
 	guilds: Record<string, GuildRecord> = {};

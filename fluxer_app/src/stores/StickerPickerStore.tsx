@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {Logger} from '@app/lib/Logger';
+import {makePersistent} from '@app/lib/MobXPersistence';
+import type {GuildStickerRecord} from '@app/records/GuildStickerRecord';
 import {makeAutoObservable} from 'mobx';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import {Logger} from '~/lib/Logger';
-import {makePersistent} from '~/lib/MobXPersistence';
-import type {GuildStickerRecord} from '~/records/GuildStickerRecord';
 
 type StickerUsageEntry = Readonly<{
 	count: number;

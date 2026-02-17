@@ -17,16 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import type React from 'react';
+import {useCallback, useRef, useState} from 'react';
 
 type HoverHook = [React.RefCallback<HTMLElement>, boolean];
 
 export const useHover = (delay = 0): HoverHook => {
-	const [hovering, setHovering] = React.useState(false);
-	const previousNode = React.useRef<HTMLElement | null>(null);
-	const timeoutId = React.useRef<NodeJS.Timeout | null>(null);
+	const [hovering, setHovering] = useState(false);
+	const previousNode = useRef<HTMLElement | null>(null);
+	const timeoutId = useRef<NodeJS.Timeout | null>(null);
 
-	const handleMouseEnter = React.useCallback(() => {
+	const handleMouseEnter = useCallback(() => {
 		if (timeoutId.current) {
 			clearTimeout(timeoutId.current);
 		}
@@ -35,14 +36,14 @@ export const useHover = (delay = 0): HoverHook => {
 		}, delay);
 	}, [delay]);
 
-	const handleMouseLeave = React.useCallback(() => {
+	const handleMouseLeave = useCallback(() => {
 		if (timeoutId.current) {
 			clearTimeout(timeoutId.current);
 		}
 		setHovering(false);
 	}, []);
 
-	const customRef = React.useCallback(
+	const customRef = useCallback(
 		(node: HTMLElement | null) => {
 			if (previousNode.current) {
 				previousNode.current.removeEventListener('mouseenter', handleMouseEnter);

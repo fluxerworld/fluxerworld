@@ -17,21 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
-import {ArrowLeftIcon, ArrowRightIcon, SignOutIcon} from '@phosphor-icons/react';
-import {AnimatePresence, motion} from 'framer-motion';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {AllSettingsRenderer} from '~/components/modals/components/AllSettingsRenderer';
-import {ClientInfo} from '~/components/modals/components/ClientInfo';
-import {LogoutModal} from '~/components/modals/components/LogoutModal';
-import {SettingsModalHeader} from '~/components/modals/components/SettingsModalHeader';
-import {SettingsSearch} from '~/components/modals/components/SettingsSearch';
-import {ScrollSpyProvider, useScrollSpyContext} from '~/components/modals/hooks/ScrollSpyContext';
-import {useSettingsContentKey} from '~/components/modals/hooks/useSettingsContentKey';
-import {useUnsavedChangesFlash} from '~/components/modals/hooks/useUnsavedChangesFlash';
+import '@app/components/modals/components/SettingsSearchHighlight.css';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {AllSettingsRenderer} from '@app/components/modals/components/AllSettingsRenderer';
+import {ClientInfo} from '@app/components/modals/components/ClientInfo';
+import styles from '@app/components/modals/components/DesktopSettingsView.module.css';
+import {LogoutModal} from '@app/components/modals/components/LogoutModal';
+import {SettingsModalHeader} from '@app/components/modals/components/SettingsModalHeader';
+import {SettingsSearch} from '@app/components/modals/components/SettingsSearch';
+import {ScrollSpyProvider, useScrollSpyContext} from '@app/components/modals/hooks/ScrollSpyContext';
+import {useSettingsContentKey} from '@app/components/modals/hooks/useSettingsContentKey';
+import {useUnsavedChangesFlash} from '@app/components/modals/hooks/useUnsavedChangesFlash';
 import {
 	SettingsModalDesktopContent,
 	SettingsModalDesktopScroll,
@@ -43,36 +40,35 @@ import {
 	SettingsModalSidebarNav,
 	SettingsModalSidebarSubItem,
 	SettingsModalSidebarSubItems,
-	settingsModalStyles,
-} from '~/components/modals/shared/SettingsModalLayout';
-import {AccessibilityTabPreview} from '~/components/modals/tabs/AccessibilityTab';
-import {AppearanceTabPreview} from '~/components/modals/tabs/AppearanceTab';
-import userSettingsStyles from '~/components/modals/UserSettingsModal.module.css';
-import {getSettingsTabComponent} from '~/components/modals/utils/desktopSettingsTabs';
+} from '@app/components/modals/shared/SettingsModalLayout';
+import userSettingsStyles from '@app/components/modals/UserSettingsModal.module.css';
+import {getSettingsTabComponent} from '@app/components/modals/utils/DesktopSettingsTabs';
+import type {SettingsTab} from '@app/components/modals/utils/SettingsConstants';
 import {
 	getCategoryLabel,
 	getSectionIdsForTab,
 	getSectionsForTab,
-	type SettingsTab,
 	tabHasSections,
-	type UserSettingsTabType,
-} from '~/components/modals/utils/settingsConstants';
+} from '@app/components/modals/utils/SettingsConstants';
+import type {SettingsSectionConfig, UserSettingsTabType} from '@app/components/modals/utils/SettingsSectionRegistry';
 import {
 	type FilteredSettingsResult,
 	filterSettingsTabsByQuery,
 	filterSettingsTabsForDeveloperMode,
-} from '~/components/modals/utils/settingsTabFilters';
-import {Button} from '~/components/uikit/Button/Button';
-import {MentionBadgeAnimated} from '~/components/uikit/MentionBadge';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import {Routes} from '~/Routes';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import DeveloperModeStore from '~/stores/DeveloperModeStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import SettingsSidebarStore from '~/stores/SettingsSidebarStore';
-import UserStore from '~/stores/UserStore';
-import '~/components/modals/components/SettingsSearchHighlight.css';
-import styles from '~/components/modals/components/DesktopSettingsView.module.css';
+} from '@app/components/modals/utils/SettingsTabFilters';
+import {Button} from '@app/components/uikit/button/Button';
+import {MentionBadgeAnimated} from '@app/components/uikit/MentionBadge';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import {Routes} from '@app/Routes';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import DeveloperModeStore from '@app/stores/DeveloperModeStore';
+import SettingsSidebarStore from '@app/stores/SettingsSidebarStore';
+import UserStore from '@app/stores/UserStore';
+import {Trans, useLingui} from '@lingui/react/macro';
+import {ArrowLeftIcon, ArrowRightIcon, SignOutIcon} from '@phosphor-icons/react';
+import {AnimatePresence, motion} from 'framer-motion';
+import {observer} from 'mobx-react-lite';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 interface DesktopSettingsViewProps {
 	groupedSettingsTabs: Record<string, Array<SettingsTab>>;
@@ -88,9 +84,9 @@ interface SidebarSectionsProps {
 }
 
 const SidebarSections: React.FC<SidebarSectionsProps> = observer(({tabType}) => {
-	const {t} = useLingui();
+	const {i18n} = useLingui();
 	const scrollSpyContext = useScrollSpyContext();
-	const sections = getSectionsForTab(tabType, t);
+	const sections = getSectionsForTab(tabType, i18n);
 
 	if (!scrollSpyContext || sections.length === 0) {
 		return null;
@@ -100,7 +96,7 @@ const SidebarSections: React.FC<SidebarSectionsProps> = observer(({tabType}) => 
 
 	return (
 		<SettingsModalSidebarSubItems>
-			{sections.map((section) => (
+			{sections.map((section: SettingsSectionConfig) => (
 				<SettingsModalSidebarSubItem
 					key={section.id}
 					label={section.label}
@@ -117,22 +113,21 @@ export const DesktopSettingsView: React.FC<DesktopSettingsViewProps> = observer(
 	({groupedSettingsTabs, currentTab, selectedTab, onTabSelect, initialGuildId, initialSubtab}) => {
 		const {t} = useLingui();
 		const currentUser = UserStore.currentUser;
-		const mobileLayout = MobileLayoutStore;
 		const prefersReducedMotion = AccessibilityStore.useReducedMotion;
-		const contentRef = React.useRef<HTMLDivElement>(null);
-		const scrollContainerRef = React.useRef<HTMLElement | null>(null);
-		const focusContentPanel = React.useCallback(() => {
+		const contentRef = useRef<HTMLDivElement>(null);
+		const scrollContainerRef = useRef<HTMLElement | null>(null);
+		const focusContentPanel = useCallback(() => {
 			contentRef.current?.focus();
 		}, []);
 		const {contentKey} = useSettingsContentKey();
 
-		const sectionIds = React.useMemo(() => (selectedTab ? getSectionIdsForTab(selectedTab) : []), [selectedTab]);
+		const sectionIds = useMemo(() => (selectedTab ? getSectionIdsForTab(selectedTab) : []), [selectedTab]);
 		const hasSections = selectedTab ? tabHasSections(selectedTab) : false;
 
-		const [searchQuery, setSearchQuery] = React.useState('');
-		const [debouncedSearchQuery, setDebouncedSearchQuery] = React.useState('');
+		const [searchQuery, setSearchQuery] = useState('');
+		const [debouncedSearchQuery, setDebouncedSearchQuery] = useState('');
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (!searchQuery.trim()) {
 				setDebouncedSearchQuery('');
 				return;
@@ -147,7 +142,9 @@ export const DesktopSettingsView: React.FC<DesktopSettingsViewProps> = observer(
 
 		const isSearchActive = debouncedSearchQuery.trim().length > 0;
 
-		const {showUnsavedBanner, flashBanner, tabData, checkUnsavedChanges} = useUnsavedChangesFlash(selectedTab);
+		const {showUnsavedBanner, flashBanner, tabData, checkUnsavedChanges} = useUnsavedChangesFlash(
+			selectedTab ?? undefined,
+		);
 
 		const handleLogout = () => {
 			if (checkUnsavedChanges()) return;
@@ -167,7 +164,7 @@ export const DesktopSettingsView: React.FC<DesktopSettingsViewProps> = observer(
 
 		const isDeveloper = DeveloperModeStore.isDeveloper;
 
-		const filterResult: FilteredSettingsResult = React.useMemo(() => {
+		const filterResult: FilteredSettingsResult = useMemo(() => {
 			const developerFilteredTabs = filterSettingsTabsForDeveloperMode(groupedSettingsTabs, isDeveloper);
 
 			if (!isSearchActive) {
@@ -183,13 +180,13 @@ export const DesktopSettingsView: React.FC<DesktopSettingsViewProps> = observer(
 		const useOverride = SettingsSidebarStore.useOverride;
 		const activeTabPanelId = selectedTab ? `settings-tabpanel-${selectedTab}` : undefined;
 		const activeTabId = selectedTab ? `settings-tab-${selectedTab}` : undefined;
-		const hasSelectedTabInSidebar = React.useMemo(() => {
+		const hasSelectedTabInSidebar = useMemo(() => {
 			if (!selectedTab || useOverride) {
 				return false;
 			}
 			return Object.values(filteredGroupedTabs).some((tabs) => tabs.some((tab) => tab.type === selectedTab));
 		}, [filteredGroupedTabs, selectedTab, useOverride]);
-		const scrollKey = React.useMemo(() => {
+		const scrollKey = useMemo(() => {
 			const subtabKey = contentKey ?? initialSubtab ?? 'root';
 
 			if (isSearchActive) {
@@ -364,21 +361,6 @@ export const DesktopSettingsView: React.FC<DesktopSettingsViewProps> = observer(
 						onClose={handleClose}
 					/>
 
-					{!mobileLayout.enabled && selectedTab === 'appearance' && !isSearchActive && (
-						<div className={styles.previewDivider}>
-							<div className={settingsModalStyles.previewContainer}>
-								<AppearanceTabPreview />
-							</div>
-						</div>
-					)}
-					{!mobileLayout.enabled && selectedTab === 'accessibility' && !isSearchActive && (
-						<div className={styles.previewDivider}>
-							<div className={settingsModalStyles.previewContainer}>
-								<AccessibilityTabPreview />
-							</div>
-						</div>
-					)}
-
 					<SettingsModalDesktopScroll scrollKey={scrollKey} scrollerRef={scrollContainerRef}>
 						{isSearchActive ? (
 							<AllSettingsRenderer
@@ -393,14 +375,14 @@ export const DesktopSettingsView: React.FC<DesktopSettingsViewProps> = observer(
 							React.createElement(activeTabComponent, {
 								...(initialGuildId ? {initialGuildId} : {}),
 								...(initialSubtab ? {initialSubtab} : {}),
-							} as any)
+							} as Record<string, unknown>)
 						)}
 					</SettingsModalDesktopScroll>
 				</SettingsModalDesktopContent>
 			</>
 		);
 
-		const scrollSpySectionIds = React.useMemo(
+		const scrollSpySectionIds = useMemo(
 			() => (hasSections && !isSearchActive ? sectionIds : []),
 			[hasSections, isSearchActive, sectionIds],
 		);

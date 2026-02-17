@@ -17,15 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
+import {PlutoniumUpsell} from '@app/components/uikit/plutonium_upsell/PlutoniumUpsell';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import type React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import {PlutoniumUpsell} from '~/components/uikit/PlutoniumUpsell/PlutoniumUpsell';
 
-export const PlutoniumUpsellBanner: React.FC = observer(() => {
+export const PlutoniumUpsellBanner = observer(() => {
 	return (
 		<PlutoniumUpsell
 			buttonText={<Trans>View Plans</Trans>}

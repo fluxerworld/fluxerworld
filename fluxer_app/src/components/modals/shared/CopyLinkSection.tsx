@@ -17,19 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Input} from '@app/components/form/Input';
+import styles from '@app/components/modals/shared/CopyLinkSection.module.css';
+import {Button} from '@app/components/uikit/button/Button';
 import {useLingui} from '@lingui/react/macro';
-import {CheckIcon, CopyIcon} from '@phosphor-icons/react';
-import type {ComponentProps, MouseEvent, ReactNode} from 'react';
-import {Input} from '~/components/form/Input';
-import {Button} from '~/components/uikit/Button/Button';
-import styles from './CopyLinkSection.module.css';
+import {type ComponentProps, type MouseEvent, type ReactNode, useCallback, useEffect, useRef, useState} from 'react';
 
 interface CopyLinkSectionProps {
 	label: ReactNode;
 	value: string;
 	placeholder?: string;
-	onCopy?: () => void;
-	copied?: boolean;
+	onCopy?: () => Promise<boolean>;
 	copyDisabled?: boolean;
 	onInputClick?: (event: MouseEvent<HTMLInputElement>) => void;
 	rightElement?: ReactNode;
@@ -42,7 +40,6 @@ export const CopyLinkSection = ({
 	value,
 	placeholder,
 	onCopy,
-	copied,
 	copyDisabled,
 	onInputClick,
 	rightElement,
@@ -50,15 +47,38 @@ export const CopyLinkSection = ({
 	children,
 }: CopyLinkSectionProps) => {
 	const {t} = useLingui();
+	const [copied, setCopied] = useState(false);
+	const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+	const buttonLabel = copied ? t`Copied!` : t`Copy`;
+	const handleCopy = useCallback(async () => {
+		if (!onCopy) return;
+		const success = await onCopy();
+		if (!success) return;
+		setCopied(true);
+		if (timeoutRef.current) {
+			clearTimeout(timeoutRef.current);
+		}
+		timeoutRef.current = setTimeout(() => {
+			setCopied(false);
+		}, 3000);
+	}, [onCopy]);
+
+	useEffect(() => {
+		if (!value) {
+			setCopied(false);
+		}
+	}, [value]);
+
+	useEffect(() => {
+		return () => {
+			if (timeoutRef.current) {
+				clearTimeout(timeoutRef.current);
+			}
+		};
+	}, []);
 	const defaultRightElement = onCopy && (
-		<Button
-			compact
-			fitContent
-			onClick={onCopy}
-			disabled={!value || copyDisabled}
-			leftIcon={copied ? <CheckIcon size={16} weight="bold" /> : <CopyIcon size={16} />}
-		>
-			{copied ? t`Copied` : t`Copy`}
+		<Button compact fitContent onClick={handleCopy} disabled={!value || copyDisabled}>
+			{buttonLabel}
 		</Button>
 	);
 

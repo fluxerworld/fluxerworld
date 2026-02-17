@@ -1,0 +1,78 @@
+{
+	"env": "test",
+	"instance": {
+		"self_hosted": false
+	},
+	"domain": {
+		"base_domain": "localhost"
+	},
+	"database": {
+		"backend": "sqlite",
+		"sqlite_path": "./data/test.db"
+	},
+	"s3": {
+		"access_key_id": "test-access-key",
+		"secret_access_key": "test-secret-key"
+	},
+	"services": {
+		"media_proxy": {
+			"secret_key": "test-media-proxy-secret-key-minimum-32-chars"
+		},
+		"admin": {
+			"secret_key_base": "test-admin-secret-key-base-minimum-32-chars",
+			"oauth_client_secret": "test-oauth-client-secret"
+		},
+		"gateway": {
+			"rpc_tcp_port": 8089,
+			"api_host": "http://localhost:8088/api",
+			"admin_reload_secret": "test-gateway-admin-reload-secret-32-chars",
+			"media_proxy_endpoint": "http://localhost:8088/media"
+		},
+		"queue": {
+			"secret": "test-queue-secret-key-minimum-32-chars"
+		}
+	},
+	"gateway": {
+		"rpc_secret": "test-gateway-rpc-secret-minimum-32-chars"
+	},
+	"auth": {
+		"sudo_mode_secret": "test-sudo-mode-secret-minimum-32-chars",
+		"connection_initiation_secret": "test-connection-initiation-secret-32ch",
+		"vapid": {
+			"public_key": "test-vapid-public-key",
+			"private_key": "test-vapid-private-key"
+		},
+		"bluesky": {
+			"enabled": true,
+			"keys": []
+		}
+	},
+	"dev": {
+		"disable_rate_limits": true,
+		"test_mode_enabled": true,
+		"relax_registration_rate_limits": true
+	},
+	"proxy": {
+		"trust_cf_connecting_ip": false
+	},
+	"integrations": {
+		"search": {
+			"url": "http://127.0.0.1:7700",
+			"api_key": "test-meilisearch-master-key"
+		},
+		"photo_dna": {
+			"enabled": true,
+			"hash_service_url": "https://api.microsoftmoderator.com/photodna/v1.0/Hash",
+			"hash_service_timeout_ms": 30000,
+			"match_endpoint": "https://api.microsoftmoderator.com/photodna/v1.0/Match",
+			"subscription_key": "test-subscription-key",
+			"match_enhance": false,
+			"rate_limit_rps": 10
+		},
+		"stripe": {
+			"enabled": true,
+			"secret_key": "sk_test_mock_key_for_testing",
+			"webhook_secret": "whsec_test_mock_webhook_secret"
+		}
+	}
+}

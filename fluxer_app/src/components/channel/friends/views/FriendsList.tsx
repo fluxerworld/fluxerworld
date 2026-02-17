@@ -17,19 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {EmptyStateView} from '@app/components/channel/friends/EmptyStateView';
+import {FriendListItem} from '@app/components/channel/friends/FriendListItem';
+import {ListSection} from '@app/components/channel/friends/ListSection';
+import styles from '@app/components/channel/friends/views/FriendsList.module.css';
+import {Scroller} from '@app/components/uikit/Scroller';
+import PresenceStore from '@app/stores/PresenceStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import UserStore from '@app/stores/UserStore';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {isOfflineStatus} from '@fluxer/constants/src/StatusConstants';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {isOfflineStatus, RelationshipTypes} from '~/Constants';
-import {Scroller} from '~/components/uikit/Scroller';
-import PresenceStore from '~/stores/PresenceStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-import UserStore from '~/stores/UserStore';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import {EmptyStateView} from '../EmptyStateView';
-import {FriendListItem} from '../FriendListItem';
-import {ListSection} from '../ListSection';
-import styles from './FriendsList.module.css';
 
 interface FriendsListProps {
 	showOnlineOnly: boolean;
@@ -63,7 +64,13 @@ export const FriendsList: React.FC<FriendsListProps> = observer(({showOnlineOnly
 	});
 
 	const tabFriendIds = showOnlineOnly ? onlineFriendIds : friendIds;
-	const visibleFriends = hasSearch ? tabFriendIds.filter(matchesSearch) : tabFriendIds;
+	const filteredFriends = hasSearch ? tabFriendIds.filter(matchesSearch) : tabFriendIds;
+	const visibleFriends = [...filteredFriends].sort((a, b) => {
+		const userA = UserStore.getUser(a);
+		const userB = UserStore.getUser(b);
+		if (!userA || !userB) return 0;
+		return NicknameUtils.getNickname(userA).localeCompare(NicknameUtils.getNickname(userB));
+	});
 
 	if (friendIds.length === 0) {
 		return (

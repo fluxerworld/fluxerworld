@@ -17,19 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import {DirectCallLobbyBottomSheet} from '@app/components/bottomsheets/DirectCallLobbyBottomSheet';
+import {VoiceLobbyBottomSheet} from '@app/components/bottomsheets/VoiceLobbyBottomSheet';
+import styles from '@app/components/layout/MobileBottomNav.module.css';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import {useConnectedVoiceSession} from '@app/hooks/useConnectedVoiceSession';
+import {useLocation} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import type {UserRecord} from '@app/records/UserRecord';
+import NavigationStore from '@app/stores/NavigationStore';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import {Trans} from '@lingui/react/macro';
 import {BellIcon, HouseIcon, SpeakerHighIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {VoiceLobbyBottomSheet} from '~/components/bottomsheets/VoiceLobbyBottomSheet';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import {useConnectedVoiceSession} from '~/hooks/useConnectedVoiceSession';
-import {useLocation} from '~/lib/router';
-import {Routes} from '~/Routes';
-import type {UserRecord} from '~/records/UserRecord';
-import * as RouterUtils from '~/utils/RouterUtils';
-import styles from './MobileBottomNav.module.css';
+import {useEffect, useRef, useState} from 'react';
 
 interface MobileBottomNavProps {
 	currentUser: UserRecord;
@@ -37,26 +41,30 @@ interface MobileBottomNavProps {
 
 export const MobileBottomNav = observer(({currentUser}: MobileBottomNavProps) => {
 	const location = useLocation();
-	const lastChannelPathRef = React.useRef<string | null>(null);
-	const [voiceLobbyOpen, setVoiceLobbyOpen] = React.useState(false);
+	const lastChannelRef = useRef<{guildId: string | null; channelId: string | null} | null>(null);
+	const [voiceLobbyOpen, setVoiceLobbyOpen] = useState(false);
 
 	const isHomeActive = Routes.isChannelRoute(location.pathname);
 	const isNotificationsActive = location.pathname === Routes.NOTIFICATIONS;
 	const isYouActive = location.pathname === Routes.YOU;
 
 	const {channel: voiceChannel, guild: voiceGuild, isConnected: isConnectedToVoice} = useConnectedVoiceSession();
+	const isDirectCallChannel = Boolean(
+		voiceChannel && (voiceChannel.type === ChannelTypes.DM || voiceChannel.type === ChannelTypes.GROUP_DM),
+	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (Routes.isChannelRoute(location.pathname)) {
-			lastChannelPathRef.current = location.pathname;
+			lastChannelRef.current = {guildId: NavigationStore.guildId, channelId: NavigationStore.channelId};
 		}
 	}, [location.pathname]);
 
 	const handleHomeNavigation = () => {
-		if (lastChannelPathRef.current && (isNotificationsActive || isYouActive)) {
-			RouterUtils.transitionTo(lastChannelPathRef.current);
+		const last = lastChannelRef.current;
+		if (last?.channelId && (isNotificationsActive || isYouActive)) {
+			NavigationActionCreators.selectChannel(last.guildId ?? undefined, last.channelId);
 		} else {
-			RouterUtils.transitionTo(Routes.ME);
+			NavigationActionCreators.deselectGuild();
 		}
 	};
 
@@ -122,13 +130,16 @@ export const MobileBottomNav = observer(({currentUser}: MobileBottomNavProps) =>
 				</button>
 			</div>
 
-			{isConnectedToVoice && voiceChannel && voiceGuild && (
+			{isConnectedToVoice && voiceChannel && voiceGuild && !isDirectCallChannel && (
 				<VoiceLobbyBottomSheet
 					isOpen={voiceLobbyOpen}
 					onClose={handleCloseVoiceLobby}
 					channel={voiceChannel}
 					guild={voiceGuild}
 				/>
+			)}
+			{isConnectedToVoice && voiceChannel && isDirectCallChannel && (
+				<DirectCallLobbyBottomSheet isOpen={voiceLobbyOpen} onClose={handleCloseVoiceLobby} channel={voiceChannel} />
 			)}
 		</>
 	);

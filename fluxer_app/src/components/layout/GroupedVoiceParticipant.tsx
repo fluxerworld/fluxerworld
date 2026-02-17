@@ -17,26 +17,38 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import {PreloadableUserPopout} from '@app/components/channel/PreloadableUserPopout';
+import styles from '@app/components/layout/GroupedVoiceParticipant.module.css';
+import {VoiceParticipantItem} from '@app/components/layout/VoiceParticipantItem';
+import {VoiceStateIcons} from '@app/components/layout/VoiceStateIcons';
+import {AvatarWithPresence} from '@app/components/uikit/avatars/AvatarWithPresence';
+import {VoiceParticipantContextMenu} from '@app/components/uikit/context_menu/VoiceParticipantContextMenu';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {getStreamKey} from '@app/components/voice/StreamKeys';
+import {StreamWatchHoverPopout} from '@app/components/voice/StreamWatchHoverPopout';
+import {useStreamWatchState} from '@app/components/voice/useStreamWatchState';
+import {useContextMenuHoverState} from '@app/hooks/useContextMenuHoverState';
+import {useStreamWatchDoubleClick} from '@app/hooks/useStreamWatchDoubleClick';
+import type {UserRecord} from '@app/records/UserRecord';
+import LocalVoiceStateStore from '@app/stores/LocalVoiceStateStore';
+import UserStore from '@app/stores/UserStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import type {VoiceState} from '@app/types/gateway/GatewayVoiceTypes';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {ME} from '@fluxer/constants/src/AppConstants';
 import {useLingui} from '@lingui/react/macro';
-import {CaretDownIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import {PreloadableUserPopout} from '~/components/channel/PreloadableUserPopout';
-import {AvatarWithPresence} from '~/components/uikit/avatars/AvatarWithPresence';
-import {VoiceParticipantContextMenu} from '~/components/uikit/ContextMenu/VoiceParticipantContextMenu';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip';
-import type {UserRecord} from '~/records/UserRecord';
-import LocalVoiceStateStore from '~/stores/LocalVoiceStateStore';
-import UserStore from '~/stores/UserStore';
-import type {VoiceState} from '~/stores/voice/MediaEngineFacade';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import styles from './GroupedVoiceParticipant.module.css';
-import {VoiceParticipantItem} from './VoiceParticipantItem';
-import {VoiceStateIcons} from './VoiceStateIcons';
+import type React from 'react';
+import {useCallback, useMemo, useRef, useState} from 'react';
+
+function useOpenProfileAriaLabel(user: UserRecord) {
+	const {t} = useLingui();
+	const nickname = NicknameUtils.getNickname(user);
+	return useMemo(() => t`Open profile for ${nickname}`, [t, nickname]);
+}
 
 interface GroupedVoiceParticipantProps {
 	user: UserRecord;
@@ -52,16 +64,21 @@ export const GroupedVoiceParticipant = observer(function GroupedVoiceParticipant
 	anySpeaking: propAnySpeaking,
 }: GroupedVoiceParticipantProps) {
 	const {t} = useLingui();
-	const [isExpanded, setIsExpanded] = React.useState(false);
+	const openProfileAriaLabel = useOpenProfileAriaLabel(user);
+	const [isExpanded, setIsExpanded] = useState(false);
 	const currentUser = UserStore.getCurrentUser();
 	const isCurrentUser = currentUser?.id === user.id;
 	const currentConnectionId = MediaEngineStore.connectionId;
 	const localSelfVideo = LocalVoiceStateStore.selfVideo;
 	const localSelfStream = LocalVoiceStateStore.selfStream;
 
-	const toggleExpanded = React.useCallback(() => setIsExpanded((prev) => !prev), []);
+	const rowRef = useRef<HTMLDivElement>(null);
+	const isContextMenuOpen = useContextMenuHoverState(rowRef);
 
-	const handleContextMenu = React.useCallback(
+	const toggleExpanded = useCallback(() => setIsExpanded((prev) => !prev), []);
+	const connectionCount = voiceStates.length;
+
+	const handleContextMenu = useCallback(
 		(event: React.MouseEvent) => {
 			event.preventDefault();
 			event.stopPropagation();
@@ -79,9 +96,7 @@ export const GroupedVoiceParticipant = observer(function GroupedVoiceParticipant
 		[user, guildId],
 	);
 
-	const connectionCount = voiceStates.length;
-
-	const stateAgg = React.useMemo(() => {
+	const stateAgg = useMemo(() => {
 		let anyCameraOn = false;
 		let anyLive = false;
 		let guildMuted = false;
@@ -125,6 +140,58 @@ export const GroupedVoiceParticipant = observer(function GroupedVoiceParticipant
 		return {anySpeaking, anyCameraOn, anyLive, guildMuted, guildDeaf, allSelfMuted, allSelfDeaf};
 	}, [voiceStates, user.id, isCurrentUser, localSelfVideo, localSelfStream, propAnySpeaking]);
 
+	const activeStreamState = useMemo(() => {
+		for (const state of voiceStates) {
+			const connectionId = state.connection_id ?? '';
+			if (!connectionId) continue;
+			const participant = MediaEngineStore.getParticipantByUserIdAndConnectionId(user.id, connectionId);
+			const live = state.self_stream === true || (participant ? participant.isScreenShareEnabled : false);
+			if (live) return state;
+		}
+
+		if (isCurrentUser && localSelfStream) {
+			return (
+				voiceStates.find((state) => state.connection_id === currentConnectionId) ??
+				voiceStates.find((state) => Boolean(state.connection_id)) ??
+				null
+			);
+		}
+
+		return null;
+	}, [voiceStates, user.id, isCurrentUser, localSelfStream, currentConnectionId]);
+
+	const streamKey = activeStreamState?.connection_id
+		? getStreamKey(guildId, activeStreamState.channel_id ?? null, activeStreamState.connection_id)
+		: '';
+	const showStreamHover = Boolean(activeStreamState?.connection_id);
+
+	const activeChannelId = activeStreamState?.channel_id ?? null;
+
+	const streamWatchStateArgs = useMemo(
+		() => ({streamKey, guildId, channelId: activeChannelId}),
+		[streamKey, guildId, activeChannelId],
+	);
+	const {startWatching} = useStreamWatchState(streamWatchStateArgs);
+
+	const streamParticipantIdentity = useMemo(() => {
+		if (!activeStreamState?.connection_id) return null;
+		return `user_${user.id}_${activeStreamState.connection_id}`;
+	}, [user.id, activeStreamState?.connection_id]);
+
+	const handleNavigateToWatch = useCallback(() => {
+		if (activeChannelId) {
+			NavigationActionCreators.selectChannel(guildId ?? ME, activeChannelId);
+		}
+	}, [guildId, activeChannelId]);
+
+	const {onClick: handleClick, onDoubleClick: handleDoubleClick} = useStreamWatchDoubleClick({
+		streamParticipantIdentity: showStreamHover ? streamParticipantIdentity : null,
+		guildId,
+		channelId: activeChannelId,
+		startWatching,
+		onNavigateToWatch: handleNavigateToWatch,
+	});
+
 	return (
 		<div className={styles.container}>
 			<PreloadableUserPopout
@@ -134,65 +201,87 @@ export const GroupedVoiceParticipant = observer(function GroupedVoiceParticipant
 				position="right-start"
 				disableContextMenu={true}
 			>
-				<div
-					className={clsx(styles.participantButton, stateAgg.anySpeaking && styles.participantButtonSpeaking)}
-					role="button"
-					tabIndex={0}
-					aria-label={`Open profile for ${NicknameUtils.getNickname(user)}`}
-					onContextMenu={handleContextMenu}
+				<StreamWatchHoverPopout
+					enabled={showStreamHover}
+					streamKey={streamKey}
+					guildId={guildId}
+					channelId={activeStreamState?.channel_id ?? null}
 				>
-					<div className={styles.avatarAndName}>
-						<AvatarWithPresence user={user} size={24} speaking={stateAgg.anySpeaking} guildId={guildId} />
-						<div className={styles.nameContainer}>
-							<span
-								className={clsx(
-									styles.participantName,
-									stateAgg.anySpeaking && styles.participantNameSpeaking,
-									isCurrentUser && !stateAgg.anySpeaking && styles.participantNameCurrent,
-								)}
-							>
-								{NicknameUtils.getNickname(user)}
-							</span>
-							{connectionCount > 1 && (
-								<Tooltip text={connectionCount === 1 ? t`${connectionCount} device` : t`${connectionCount} devices`}>
-									<span className={styles.deviceCount}>({connectionCount})</span>
+					{/* biome-ignore lint/a11y/useKeyWithClickEvents: keyboard handling is managed elsewhere */}
+					<div
+						ref={rowRef}
+						className={clsx(
+							styles.participantButton,
+							stateAgg.anySpeaking && styles.participantButtonSpeaking,
+							isContextMenuOpen && styles.participantButtonContextMenuActive,
+						)}
+						role="button"
+						tabIndex={0}
+						aria-label={openProfileAriaLabel}
+						onClick={handleClick}
+						onContextMenu={handleContextMenu}
+						onDoubleClick={handleDoubleClick}
+					>
+						<div className={styles.avatarAndName}>
+							<AvatarWithPresence user={user} size={24} speaking={stateAgg.anySpeaking} guildId={guildId} />
+							<div className={styles.nameContainer}>
+								<span
+									className={clsx(
+										styles.participantName,
+										stateAgg.anySpeaking && styles.participantNameSpeaking,
+										isCurrentUser && !stateAgg.anySpeaking && styles.participantNameCurrent,
+									)}
+								>
+									{NicknameUtils.getNickname(user)}
+								</span>
+								<Tooltip
+									text={
+										isExpanded
+											? connectionCount === 1
+												? t`Hide ${connectionCount} device`
+												: t`Hide ${connectionCount} devices`
+											: connectionCount === 1
+												? t`Show ${connectionCount} device`
+												: t`Show ${connectionCount} devices`
+									}
+								>
+									<button
+										type="button"
+										aria-label={
+											isExpanded
+												? connectionCount === 1
+													? t`Hide ${connectionCount} device`
+													: t`Hide ${connectionCount} devices`
+												: connectionCount === 1
+													? t`Show ${connectionCount} device`
+													: t`Show ${connectionCount} devices`
+										}
+										aria-expanded={isExpanded}
+										onClick={(event) => {
+											event.stopPropagation();
+											toggleExpanded();
+										}}
+										className={styles.deviceCountButton}
+									>
+										({connectionCount})
+									</button>
 								</Tooltip>
-							)}
+							</div>
+						</div>
+
+						<div className={styles.iconsAndToggle}>
+							<VoiceStateIcons
+								isSelfMuted={stateAgg.allSelfMuted && !stateAgg.guildMuted}
+								isSelfDeafened={stateAgg.allSelfDeaf && !stateAgg.guildDeaf}
+								isGuildMuted={stateAgg.guildMuted}
+								isGuildDeafened={stateAgg.guildDeaf}
+								isCameraOn={stateAgg.anyCameraOn}
+								isScreenSharing={stateAgg.anyLive}
+								className={styles.flexShrinkZero}
+							/>
 						</div>
 					</div>
-
-					<div className={styles.iconsAndToggle}>
-						<VoiceStateIcons
-							isSelfMuted={stateAgg.allSelfMuted && !stateAgg.guildMuted}
-							isSelfDeafened={stateAgg.allSelfDeaf && !stateAgg.guildDeaf}
-							isGuildMuted={stateAgg.guildMuted}
-							isGuildDeafened={stateAgg.guildDeaf}
-							isCameraOn={stateAgg.anyCameraOn}
-							isScreenSharing={stateAgg.anyLive}
-							className={styles.flexShrinkZero}
-						/>
-
-						<Tooltip text={isExpanded ? 'Collapse devices' : 'Expand devices'}>
-							<FocusRing offset={-2}>
-								<button
-									type="button"
-									aria-label={isExpanded ? 'Collapse devices' : 'Expand devices'}
-									aria-expanded={isExpanded}
-									onClick={(e) => {
-										e.stopPropagation();
-										toggleExpanded();
-									}}
-									className={styles.toggleButton}
-								>
-									<CaretDownIcon
-										weight="bold"
-										className={clsx(styles.toggleIcon, !isExpanded && styles.toggleIconCollapsed)}
-									/>
-								</button>
-							</FocusRing>
-						</Tooltip>
-					</div>
-				</div>
+				</StreamWatchHoverPopout>
 			</PreloadableUserPopout>
 
 			{isExpanded && (

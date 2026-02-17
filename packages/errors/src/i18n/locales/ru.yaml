@@ -1,0 +1,497 @@
+account.already_verified: Твой аккаунт уже подтвержден.
+account.communication_disabled: Отправка сообщений отключена.
+account.disabled: Этот аккаунт отключен.
+account.email_verification_required_for_guild: Чтобы отправлять сообщения на этом сервере, нужно подтвердить почту.
+account.guild_verification_required: Требуется верификация сервера.
+account.ip_authorization_required: Требуется авторизация по IP.
+account.locked_suspicious_activity: Аккаунт заблокирован из-за подозрительной активности.
+account.phone_required_for_guild: Чтобы отправлять сообщения на этом сервере, нужно добавить номер телефона.
+account.scheduled_for_deletion: Этот аккаунт запланирован на удаление.
+account.session_timeout: Сессия истекла. Обнови страницу и войди снова.
+account.session_token_mismatch: Токен сессии не совпадает.
+account.suspended_permanently: Этот аккаунт заблокирован навсегда.
+account.suspended_temporarily: Этот аккаунт временно заблокирован.
+account.too_new_for_guild: Твой аккаунт слишком новый, чтобы отправлять сообщения на этом сервере.
+account.unauthorized: Нет доступа.
+admin_and_system.acls_must_be_non_empty: ACL не должны быть пустыми.
+admin_and_system.admin_api_key_not_found: Админский API-ключ не найден.
+admin_and_system.audit_log_indexing: Идет индексирование журнала аудита. Попробуй еще раз через немного.
+admin_and_system.channel_indexing: Идет индексирование каналов. Попробуй еще раз через немного.
+admin_and_system.creation_failed: Не удалось создать ресурс. Попробуй еще раз.
+admin_and_system.deletion_failed: Не удалось удалить ресурс. Попробуй еще раз.
+admin_and_system.decryption_failed: Не удалось расшифровать сообщение. Ключи шифрования могут быть недопустимы или повреждены.
+admin_and_system.empty_encrypted_body: Пустое зашифрованное содержимое.
+admin_and_system.encryption_failed: Не удалось зашифровать сообщение. Ключи шифрования могут быть недопустимы или повреждены.
+admin_and_system.general_error: Что-то пошло не так. Попробуй еще раз позже.
+admin_and_system.invalid_acls_format: Неверный формат списков контроля доступа (ACL).
+admin_and_system.invalid_api_origin: Недопустимый источник API.
+admin_and_system.invalid_audit_log_reason: Недопустимая причина в журнале аудита.
+admin_and_system.invalid_bot_flag: Недопустимый флаг бота.
+admin_and_system.invalid_decrypted_json: Недопустимый расшифрованный JSON.
+admin_and_system.invalid_ephemeral_key: Недопустимый временный ключ.
+admin_and_system.invalid_flags_format: Недопустимый формат флагов.
+admin_and_system.invalid_form_body: Недопустимое содержимое формы.
+admin_and_system.invalid_format: Предоставленное значение имеет недопустимый формат.
+admin_and_system.invalid_integer_format: Недопустимый формат целого числа.
+admin_and_system.invalid_iv: Недопустимый вектор инициализации.
+admin_and_system.invalid_suspicious_flags_format: Недопустимый формат флагов подозрительности.
+admin_and_system.invalid_system_flag: Недопустимый системный флаг.
+admin_and_system.invalid_timeout_value: Недопустимое значение времени ожидания.
+admin_and_system.invalid_timestamp: Недопустимая временная метка.
+admin_and_system.invalid_timezone_identifier: Недопустимый идентификатор часового пояса.
+admin_and_system.missing_acl: Отсутствует список контроля доступа (ACL).
+admin_and_system.missing_ephemeral_key: Отсутствует временный ключ.
+admin_and_system.missing_iv: Отсутствует вектор инициализации.
+admin_and_system.must_be_iso_timestamp: Должна быть допустимая ISO временная метка.
+admin_and_system.processing_failed: Не удалось обработать запрос. Попробуй еще раз.
+admin_and_system.response_validation_failed: 'Проверка ответа не прошла: {errors}.'
+admin_and_system.test_harness_disabled: Тестовая инфраструктура отключена.
+admin_and_system.test_harness_forbidden: Тестовая инфраструктура запрещена.
+admin_and_system.unknown_suspicious_flag: Неизвестный флаг подозрительности.
+admin_and_system.update_failed: Не удалось обновить ресурс. Попробуй еще раз.
+admin_and_system.user_must_be_bot_for_system_user: Пользователь должен быть ботом, чтобы его пометить как системного.
+attachments_and_uploads.attachment_fields_required: Обязательны `attachment_id`, `channel_id`, `message_id` и `expires_at`.
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` и `message_id` должны быть валидными целыми числами.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Пользователи с правом MANAGE_MESSAGES могут редактировать только описания вложений, но не другие метаданные.
+attachments_and_uploads.attachment_metadata_without_files: В метаданных вложения есть имя файла, но сами файлы не загружены.
+attachments_and_uploads.attachment_must_be_image: Вложение "{filename}" должно быть изображением (png, jpg, jpeg, webp или gif).
+attachments_and_uploads.attachment_not_found_in_message: Вложение с ID {attachmentId} не найдено в сообщении.
+attachments_and_uploads.attachments_metadata_required_when_uploading: При загрузке файлов обязателен массив метаданных вложений.
+attachments_and_uploads.attachments_not_allowed_for_message: Вложения не разрешены для этого сообщения.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Нельзя ссылаться на вложения, если вложений нет.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Дубликаты attachment ID не допускаются.
+attachments_and_uploads.duplicate_file_index: 'Дублирующийся индекс файла: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Не удалось разобрать multipart form data. Проверь, что имена полей и файлов указаны правильно.
+attachments_and_uploads.failed_to_parse_multipart_payload: Не удалось разобрать multipart payload.
+attachments_and_uploads.failed_to_upload_image: Не удалось загрузить изображение. Попробуй еще раз.
+attachments_and_uploads.file_index_exceeds_maximum: Индекс файла {index} превышает максимально допустимый {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Файл для проверки не найден.
+attachments_and_uploads.file_not_found: Файл не найден.
+attachments_and_uploads.file_size_too_large: Файл слишком большой. Максимальный размер файла — {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Имя файла не может быть пустым после нормализации.
+attachments_and_uploads.filename_invalid_characters: В имени файла есть недопустимые символы.
+attachments_and_uploads.filename_length_invalid: Имя файла должно быть длиной от {min} до {max} символов.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Несовпадение имени файла для вложения {attachmentId}: в метаданных указано "{expectedFilename}", но оно не совпадает.'
+attachments_and_uploads.image_size_exceeds_limit: Размер изображения превышает {maxSize} байт.
+attachments_and_uploads.invalid_file_field_name: 'Неверное имя поля файла: {key}. Ожидается формат: `files[N]`, где N – число.'
+attachments_and_uploads.invalid_image_data: Неверные данные изображения.
+attachments_and_uploads.invalid_image_format: 'Неверный формат изображения. Поддерживаемые расширения: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: Неверный JSON в `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Для индекса {index} нельзя передавать несколько файлов.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Файл для метаданных вложения с ID {attachmentId} не был загружен.
+attachments_and_uploads.no_file_uploaded_for_attachment: Файл для вложения с ID {attachmentId} не был загружен.
+attachments_and_uploads.no_metadata_for_file: Для файла с ID {fileId} не переданы метаданные.
+attachments_and_uploads.no_valid_media_in_message: В сообщении не найдено валидных медиафайлов.
+attachments_and_uploads.payload_json_required_for_multipart: Поле `payload_json` обязательно для multipart-сообщений.
+attachments_and_uploads.preview_must_be_jpeg: Превью должно быть в формате JPEG.
+attachments_and_uploads.referenced_attachment_not_found: Указанное вложение "{filename}" не найдено во вложениях сообщения.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` должен быть валидным целым числом.'
+attachments_and_uploads.too_many_files: Слишком много файлов. Максимум {maxFiles} {maxFiles, plural, one {файл} few {файла} many {файлов} other {файла}}.
+attachments_and_uploads.unknown_image_format: Неизвестный формат изображения.
+attachments_and_uploads.unresolved_attachment_url: Обнаружен неразрешенный URL `attachment://`. Его нужно было разрешить до обработки embed.
+attachments_and_uploads.uploaded_attachment_not_found: Загруженное вложение {filename} не найдено.
+auth_and_oauth.application_not_owned: Ты не владелец этого приложения.
+auth_and_oauth.bot_already_in_guild: Этот бот уже в гильдии.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Боты не могут создавать auth-сессии.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Боты не могут использовать auth-эндпоинты.
+auth_and_oauth.handoff_code_expired: Срок действия кода передачи истек.
+auth_and_oauth.handoff_code_invalid: Неверный код передачи.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize не поддерживается. Используй POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Неверный client secret.
+auth_and_oauth.invalid_client: Неверный клиент.
+auth_and_oauth.invalid_code: Неверный код.
+auth_and_oauth.invalid_grant: Неверный grant.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Тикет авторизации неверный или просрочен.
+auth_and_oauth.invalid_or_expired_authorization_token: Токен авторизации неверный или просрочен.
+auth_and_oauth.invalid_or_expired_ticket: Тикет неверный или просрочен.
+auth_and_oauth.invalid_proof_token: Неверный proof token.
+auth_and_oauth.invalid_redirect_uri: Неверный redirect URI.
+auth_and_oauth.invalid_request: Неверный запрос.
+auth_and_oauth.invalid_scope: Неверный scope.
+auth_and_oauth.invalid_sudo_token: Неверный sudo-токен.
+auth_and_oauth.invalid_token_admin_api_key: Неверный админский API-ключ.
+auth_and_oauth.missing_authorization: Не хватает авторизации.
+auth_and_oauth.missing_client_secret: Не указан client secret.
+auth_and_oauth.missing_redirect_uri: Не указан redirect URI.
+auth_and_oauth.must_start_session_before_sending_messages: Перед отправкой сообщений нужно начать сессию.
+auth_and_oauth.oauth_admin_scope_required: OAuth2 токенам нужен admin scope для доступа к админским эндпоинтам.
+auth_and_oauth.oauth_fields_missing: Не хватает полей OAuth.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Для не-ботовых scope нужен redirect URI.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Для не-ботовых scope response type должен быть code.
+auth_and_oauth.sudo_mode_required: Нужен режим sudo.
+auth_and_oauth.unknown_application: Неизвестное приложение.
+auth_and_oauth.unsupported_response_type: Неподдерживаемый response type.
+auth_and_registration.current_password_incorrect: Текущий пароль неверный.
+auth_and_registration.password_is_too_common: Твой пароль слишком распространенный. Выбери более уникальный пароль.
+auth_and_registration.password_not_set: Пароль не установлен.
+bots.bot_application_not_found: Приложение бота не найдено.
+bots.bot_discriminator_cannot_be_changed: Дискриминатор бота нельзя изменить.
+bots.bot_is_private: Этот бот приватный.
+bots.bot_user_generation_failed: Ошибка генерации пользователя бота.
+bots.bot_user_not_found: Пользователь бота не найден.
+bots.invalid_response_type_for_non_bot: Для не-ботовых scope response type должен быть code.
+bots.not_a_bot_application: Это приложение не является ботом.
+calls_and_voice.call_already_exists: Звонок уже существует.
+calls_and_voice.cannot_modify_voice_state: Нельзя изменить voice state.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Неверный или ограниченный RTC-регион: {region}.'
+calls_and_voice.invalid_rtc_region: 'Неверный RTC-регион: {region}. Доступные регионы: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Неверный формат stream key.
+calls_and_voice.invalid_stream_thumbnail_payload: Неверный payload превью стрима.
+calls_and_voice.no_active_call: Нет активного звонка.
+calls_and_voice.stream_key_channel_mismatch: Stream key не совпадает с каналом.
+calls_and_voice.stream_key_scope_mismatch: Stream key не совпадает по scope.
+calls_and_voice.stream_thumbnail_payload_empty: Payload превью стрима пустой.
+calls_and_voice.unknown_voice_region: Неизвестный голосовой регион.
+calls_and_voice.unknown_voice_server: Неизвестный голосовой сервер.
+calls_and_voice.voice_message_duration_exceeds_limit: Длительность голосового сообщения не может превышать {maxDuration} секунд.
+calls_and_voice.voice_message_duration_required: Во вложениях голосового сообщения должна быть указана длительность.
+calls_and_voice.voice_message_waveform_required: Во вложениях голосового сообщения должны быть данные waveform.
+calls_and_voice.voice_messages_require_single_attachment: Голосовые сообщения должны содержать ровно одно вложение.
+captcha.invalid: Капча неверная.
+captcha.required: Нужна капча.
+channels_and_guilds.afk_channel_must_be_in_guild: AFK-канал должен быть на этом сервере.
+channels_and_guilds.afk_channel_must_be_voice: AFK-канал должен быть голосовым.
+channels_and_guilds.all_channels_must_belong_to_guild: Все каналы должны принадлежать этому серверу.
+channels_and_guilds.animated_guild_banner_requires_feature: Анимированный баннер сервера требует функцию ANIMATED_BANNER.
+channels_and_guilds.cannot_execute_on_dm: Это действие нельзя выполнить в личке.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Владение сервером не может быть передано боту.
+channels_and_guilds.cannot_leave_guild_as_owner: Нельзя покинуть сервер, если ты владелец. Передай права или удали сервер.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Нельзя перемещать канал относительно самого себя или его потомков.
+channels_and_guilds.cannot_report_own_guild: Нельзя пожаловаться на свой сервер.
+channels_and_guilds.categories_cannot_have_parent_channel: У категорий не может быть родительского канала.
+channels_and_guilds.categories_cannot_have_parents: У категорий не может быть родителей.
+channels_and_guilds.channel_id_required: '`channel_id` обязателен.'
+channels_and_guilds.channel_must_be_dm_or_group_dm: Канал должен быть личкой или групповой личкой.
+channels_and_guilds.channel_must_be_voice: Канал должен быть голосовым.
+channels_and_guilds.channel_not_found: Канал не найден.
+channels_and_guilds.context_channel_or_guild_required: Нужен контекстный channel или guild ID.
+channels_and_guilds.guild_banner_requires_feature: Баннер сервера требует функцию BANNER.
+channels_and_guilds.guild_id_must_match_referenced_message: Guild ID должен совпадать с каналом, из которого получено указанное сообщение.
+channels_and_guilds.invalid_channel_id: 'Неверный ID канала: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Этот тип канала не подходит для звонка.
+channels_and_guilds.invalid_channel_type: Неверный тип канала.
+channels_and_guilds.invalid_channel: Неверный канал.
+channels_and_guilds.invalid_parent_channel: Неверный родительский канал.
+channels_and_guilds.invite_splash_requires_feature: Invite splash требует функцию INVITE_SPLASH.
+channels_and_guilds.invites_disabled: Инвайты отключены.
+channels_and_guilds.max_group_dm_recipients_reached: Достигнут максимум {count} {count, plural, one {участника групповой лички} few {участников групповых личек} many {участников групповых личек} other {участников групповых личек}}.
+channels_and_guilds.max_group_dms_reached: Достигнут максимум {count} {count, plural, one {групповой лички} few {групповых личек} many {групповых личек} other {групповых личек}}.
+channels_and_guilds.max_guild_channels_reached: Достигнут максимум {count} {count, plural, one {канала на сервере} few {каналов на сервере} many {каналов на сервере} other {каналов на сервере}}.
+channels_and_guilds.max_guild_members_reached: Достигнут максимум {count} {count, plural, one {участника на сервере} few {участников на сервере} many {участников на сервере} other {участников на сервере}}.
+channels_and_guilds.max_guild_roles_reached: Достигнут максимум {count} {count, plural, one {роли на сервере} few {ролей на сервере} many {ролей на сервере} other {ролей на сервере}}.
+channels_and_guilds.max_guilds_reached: Достигнут максимум {count} {count, plural, one {сервера} few {серверов} many {серверов} other {серверов}}.
+channels_and_guilds.message_history_cutoff_before_guild_creation: История сообщений не может быть отсечена ранее создания сообщества.
+channels_and_guilds.message_history_cutoff_in_future: История сообщений не может быть отсечена в будущем.
+channels_and_guilds.parent_channel_not_in_guild: Родительского канала нет на сервере.
+channels_and_guilds.parent_must_be_category: Родитель должен быть категорией.
+channels_and_guilds.preceding_channel_must_share_parent: Предыдущий канал должен быть в той же категории, что и перемещаемый.
+channels_and_guilds.preceding_channel_not_in_guild: Предыдущего канала нет на сервере.
+channels_and_guilds.system_channel_must_be_in_guild: Системный канал должен быть на этом сервере.
+channels_and_guilds.system_channel_must_be_text: Системный канал должен быть текстовым.
+channels_and_guilds.temporary_invite_requires_presence: Временный инвайт требует присутствия.
+channels_and_guilds.vanity_url_requires_feature: Кастомный URL требует функцию VANITY_URL.
+channels_and_guilds.voice_channel_full: Голосовой канал заполнен.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: В этой категории голосовые каналы нельзя ставить выше текстовых.
+colors.color_value_too_high: Значение цвета не должно превышать 0xffffff.
+colors.color_value_too_low: Значение цвета должно быть не меньше 0x000000.
+content_and_safety.content_blocked: Этот контент заблокирован системами безопасности.
+content_and_safety.csam_scan_failed: Проверка CSAM не удалась.
+content_and_safety.csam_scan_parse_error: Ошибка разбора CSAM-проверки.
+content_and_safety.csam_scan_subscription_error: Ошибка подписки CSAM-проверки.
+content_and_safety.csam_scan_timeout: Таймаут CSAM-проверки.
+content_and_safety.explicit_content_cannot_be_sent: Откровенный контент отправлять нельзя.
+content_and_safety.ncmec_already_submitted: Этот контент уже отправлен в NCMEC.
+content_and_safety.ncmec_submission_failed: Не удалось отправить отчет в NCMEC. Попробуй позже.
+content_and_safety.nsfw_age_restricted: NSFW-контент доступен только по возрасту.
+connections.already_exists: Соединение этого типа с таким идентификатором уже существует.
+connections.bluesky_oauth_callback_failed: Не удалось завершить подключение Bluesky. Попробуй еще раз.
+connections.bluesky_oauth_not_enabled: Подключения Bluesky не включены на этом сервере.
+connections.bluesky_oauth_session_expired: Твоя сессия Bluesky истекла. Переподключи свой аккаунт.
+connections.bluesky_oauth_state_invalid: Запрос авторизации истек или недопустим. Попробуй еще раз.
+connections.initiation_token_invalid: Токен инициирования соединения недопустим или истек.
+connections.invalid_identifier: Идентификатор соединения недопустим.
+connections.invalid_type: Этот тип соединения не поддерживается.
+connections.limit_reached: Ты достиг(ла) максимального числа соединений ({limit}).
+connections.not_found: Неизвестное соединение.
+connections.verification_failed: Не удалось проверить соединение. Убедись, что токен верификации правильно размещен.
+discovery.already_applied: Это сообщество уже подало заявку на участие в каталоге.
+discovery.application_already_reviewed: Эта заявка на участие в каталоге уже рассмотрена.
+discovery.application_not_found: Заявка на участие в каталоге не найдена.
+discovery.description_required: Для размещения в каталоге нужно добавить описание.
+discovery.insufficient_members: В этом сообществе недостаточно участников для участия в каталоге.
+discovery.invalid_category: Недопустимая категория каталога.
+discovery.not_discoverable: Это сообщество не размещено в каталоге.
+donation.amount_invalid: Сумма пожертвования недопустима.
+donation.donor_not_found: Донор не найден.
+donation.magic_link_expired: Магическая ссылка истекла.
+donation.magic_link_invalid: Магическая ссылка недопустима.
+donation.magic_link_used: Магическая ссылка уже использована.
+email.email_already_in_use: Эта почта уже используется.
+email.email_required: Нужна почта.
+email.email_service_not_testable: Почтовый сервис нельзя протестировать.
+email.invalid_format: Неверный формат адреса почты.
+email.invalid_or_expired_reset_token: Неверный или просроченный токен сброса пароля.
+email.invalid_or_expired_revert_token: Неверный или просроченный токен отмены.
+email.invalid_or_expired_verification_token: Неверный или просроченный токен подтверждения.
+email.invalid_or_password: Неверная почта или пароль.
+email.invalid_token: Неверный токен почты.
+email.invalid_verification_code: Неверный код подтверждения.
+email.length_invalid: Адрес почты должен быть длиной от {min} до {max} символов.
+email.must_be_changed_via_token: Почту можно сменить только через токен.
+email.must_change_via_token: Почту можно сменить только через `email_token`.
+email.must_have_email_to_change_it: Чтобы сменить почту, у тебя должен быть адрес почты.
+email.new_email_must_be_different: Новая почта должна отличаться от твоей текущей.
+email.no_new_email_requested: Запрос на новую почту не создавался.
+email.no_original_email_on_record: Исходная почта не указана.
+email.original_email_already_verified: Исходная почта уже подтверждена.
+email.original_email_must_be_verified_first: Сначала нужно подтвердить исходную почту.
+email.original_verification_not_required: Подтверждение исходной почты для этого сценария не требуется.
+email.token_expired: Токен почты просрочен.
+email.user_has_no_email_address: У этого пользователя нет адреса почты.
+email.user_is_not_pending_verification: Этот пользователь не ожидает подтверждения.
+email.verification_code_expired: Срок действия кода подтверждения истек.
+email.verification_code_not_issued: Код подтверждения не был выдан.
+embeds.embed_index_out_of_bounds: Индекс embed {embedIndex} вне диапазона (в сообщении {embedCount} {embedCount, plural, one {embed} other {embeds}}).
+embeds.embed_splash_requires_feature: Embed splash требует функцию INVITE_SPLASH.
+embeds.embeds_exceed_max_characters: Общий размер embeds не должен превышать {maxCharacters} {maxCharacters, plural, one {символ} few {символа} many {символов} other {символа}}.
+embeds.too_many_embeds: Слишком много embeds. Максимум {maxEmbeds} {maxEmbeds, plural, one {embed} other {embeds}}.
+feature_flags.feature_not_available_self_hosted: Эта функция не доступна в самостоятельно размещенных экземплярах.
+feature_flags.feature_temporarily_disabled: Эта функция временно отключена.
+friends_and_dms.already_friends: Вы уже в друзьях.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Нужен хотя бы один получатель, чтобы создать приватные каналы.
+friends_and_dms.at_least_one_recipient_required: Нужен хотя бы один получатель.
+friends_and_dms.bots_cannot_send_friend_requests: Боты не могут отправлять запросы в друзья.
+friends_and_dms.cannot_add_yourself_to_group_dm: Нельзя добавить себя в групповую личку.
+friends_and_dms.cannot_dm_yourself: Нельзя написать самому(ой) себе.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Нельзя отправить запрос в друзья заблокированному пользователю.
+friends_and_dms.cannot_send_friend_request_to_self: Нельзя отправить запрос в друзья самому(ой) себе.
+friends_and_dms.cannot_send_messages_to_user: Ты не можешь отправлять сообщения этому пользователю.
+friends_and_dms.duplicate_recipients_not_allowed: Дубликаты получателей не допускаются.
+friends_and_dms.friend_request_blocked: Пользователь не принимает запросы в друзья в данный момент.
+friends_and_dms.not_friends: Вы не друзья.
+friends_and_dms.recipient_ids_cannot_be_empty: Recipient IDs не могут быть пустыми.
+friends_and_dms.recipient_ids_must_be_strings: Recipient IDs должны быть строками.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Recipient IDs должны быть валидными snowflake.
+harvest.expired: Harvest истек.
+harvest.failed: Harvest не удался.
+harvest.not_ready: Harvest еще не готов.
+harvest.on_cooldown: Harvest на кулдауне.
+harvest.unknown: Неизвестный harvest.
+http.bad_gateway: Плохой шлюз.
+http.bad_request: Неверный запрос.
+http.conflict: Конфликт.
+http.forbidden: Доступ запрещен.
+http.gateway_timeout: Таймаут шлюза.
+http.gone: Удалено.
+http.internal_server_error: Внутренняя ошибка сервера.
+http.method_not_allowed: Метод не разрешен.
+http.not_found: Не найдено.
+http.not_implemented: Не реализовано.
+http.service_unavailable: Сервис недоступен.
+http.validation_error: Ошибка валидации.
+invites_and_beta.invalid_or_already_used_beta_code: Неверный или уже использованный бета-код.
+invites_and_beta.max_beta_codes_reached: Достигнут максимум {count} бета-{count, plural, one {кода} few {кодов} many {кодов} other {кодов}}.
+invites_and_beta.unknown_beta_code: Неизвестный бета-код.
+invites_and_gifts.gift_code_already_redeemed: Подарочный код уже активирован.
+invites_and_gifts.stripe_gift_redemption_in_progress: Активация подарочного кода уже идет. Попробуй еще раз через минуту.
+invites_and_gifts.unknown_gift_code: Неизвестный подарочный код.
+invites_and_packs.emoji_requires_access: Ты не можешь использовать этот эмодзи без доступа к его серверу или установленному паку.
+invites_and_packs.invalid_pack_type: Неверный тип пака.
+invites_and_packs.max_animated_emojis_reached: Достигнут максимум {count} анимированных {count, plural, one {эмодзи} few {эмодзи} many {эмодзи} other {эмодзи}}.
+invites_and_packs.max_emojis_reached: Достигнут максимум {count} {count, plural, one {эмодзи} few {эмодзи} many {эмодзи} other {эмодзи}}.
+invites_and_packs.max_pack_expressions_reached: Достигнут максимум {count} {count, plural, one {выражения в паке} few {выражений в паке} many {выражений в паке} other {выражений в паке}}.
+invites_and_packs.max_packs_reached: Достигнут максимум {count} {count, plural, one {пака} few {паков} many {паков} other {паков}}.
+invites_and_packs.pack_access_denied: Нет доступа к паку.
+limits.at_least_one_entry_required: Нужна хотя бы одна запись.
+limits.base64_length_invalid: Длина строки Base64 должна быть от {min} до {maxLength} символов.
+limits.bucket_required: '`bucket` обязателен.'
+limits.cannot_shrink_reserved_slots: Нельзя уменьшить зарезервированные слоты.
+limits.cannot_specify_before_and_after: Нельзя одновременно указывать `before` и `after`.
+limits.content_exceeds_max_length: Текст не должен превышать {maxLength} {maxLength, plural, one {символ} few {символа} many {символов} other {символа}}.
+limits.integer_out_of_int64_range: Число выходит за допустимый диапазон int64.
+limits.rows_required: '`rows` обязателен.'
+limits.string_length_exact: Строка должна быть ровно {length} {length, plural, one {символ} few {символа} many {символов} other {символа}}.
+limits.string_length_invalid: Длина строки должна быть от {min} до {max} символов.
+limits.timeout_cannot_exceed_365_days: Таймаут не может быть дольше {maxDays} {maxDays, plural, one {дня} few {дней} many {дней} other {дней}} от текущей даты.
+limits.value_must_be_integer_in_range: Значение для `{name}` должно быть целым числом от {minValue} до {maxValue}.
+limits.value_too_small: Значение слишком маленькое.
+media_and_memes.favorite_meme_name_required: Нужно указать название любимого мема.
+media_and_memes.favorite_meme_not_found: Любимый мем не найден.
+media_and_memes.max_favorite_memes_reached: Достигнут максимум {count} любимых {count, plural, one {мема} few {мемов} many {мемов} other {мемов}}.
+media_and_memes.media_already_in_favorites: Этот медиафайл уже в любимых мемах.
+media_and_memes.media_metadata_error: Ошибка метаданных медиа.
+media_and_memes.unknown_favorite_meme: Неизвестный любимый мем.
+messages.cannot_delete_more_than_100: Нельзя удалить больше {max} {max, plural, one {сообщение} few {сообщения} many {сообщений} other {сообщений}} за раз.
+messages.cannot_edit_others_message: Нельзя редактировать чужое сообщение.
+messages.cannot_preload_more_than_100_channels: Нельзя предзагрузить больше {max} {max, plural, one {канал} few {канала} many {каналов} other {каналов}} за раз.
+messages.cannot_reply_to_system_message: Нельзя отвечать на системное сообщение.
+messages.cannot_send_empty_message: Нельзя отправить пустое сообщение.
+messages.forward_messages_cannot_include_extra_content: Пересланные сообщения не могут содержать текст, embeds, вложения или стикеры.
+messages.forward_reference_requires_channel_and_message: Ссылка на пересылку должна включать `channel_id` и `message_id`.
+messages.invalid_message_data: Неверные данные сообщения.
+messages.invalid_scheduled_message_payload: Неверный payload отложенного сообщения.
+messages.message_ids_cannot_be_empty: '`message_ids` не может быть пустым.'
+messages.messages_array_required: Массив `messages` обязателен и не должен быть пустым.
+messages.messages_with_snapshots_cannot_be_edited: Сообщения со снимками нельзя редактировать.
+messages.scheduled_messages_max_30_days: Отложенные сообщения можно планировать максимум на 30 дней вперед.
+messages.scheduled_send_datetime_invalid: Неверные дата или время для отложенной отправки.
+messages.scheduled_time_must_be_future: Время отправки должно быть в будущем.
+messages.voice_messages_attachment_must_be_audio: Вложения голосовых сообщений должны быть аудиофайлами.
+messages.voice_messages_cannot_have_content: Голосовые сообщения не могут содержать текст.
+messages.voice_messages_cannot_have_embeds: Голосовые сообщения не могут содержать embeds.
+messages.voice_messages_cannot_have_favorite_memes: Голосовые сообщения не могут содержать любимые мемы.
+messages.voice_messages_cannot_have_stickers: Голосовые сообщения не могут содержать стикеры.
+mfa_and_passkeys.invalid_mfa_code: Неверный MFA-код.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Неверный счетчик аутентификации WebAuthn.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Неверный счетчик учетных данных WebAuthn.
+mfa_and_passkeys.invalid_webauthn_credential: Неверные учетные данные WebAuthn.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Неверный формат публичного ключа WebAuthn.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Сначала включи 2FA на своем аккаунте, а потом требуй ее от модераторов.
+mfa_and_passkeys.no_passkeys_registered: Ключи доступа не зарегистрированы.
+mfa_and_passkeys.passkey_authentication_failed: Не удалось войти с ключом доступа.
+mfa_and_passkeys.passkeys_disabled: Ключи доступа отключены.
+mfa_and_passkeys.two_factor_not_enabled: Двухфакторная аутентификация не включена.
+mfa_and_passkeys.two_factor_required: Нужна двухфакторная аутентификация.
+mfa_and_passkeys.unknown_webauthn_credential: Неизвестные учетные данные WebAuthn.
+mfa_and_passkeys.webauthn_credential_limit_reached: Достигнут максимум {count} учетных {count, plural, one {данных WebAuthn} few {данных WebAuthn} many {данных WebAuthn} other {данных WebAuthn}}.
+misc_limits.max_bookmarks_reached: Достигнут максимум {count} {count, plural, one {закладки} few {закладок} many {закладок} other {закладок}}.
+misc_limits.max_category_channels_reached: Достигнут максимум {count} {count, plural, one {канала в категории} few {каналов в категории} many {каналов в категории} other {каналов в категории}}.
+misc_limits.max_friends_reached: Достигнут максимум {count} {count, plural, one {друга} few {друзей} many {друзей} other {друзей}}.
+misc_limits.max_invites_reached: Достигнут максимум {count} {count, plural, one {инвайта} few {инвайтов} many {инвайтов} other {инвайтов}}.
+misc_limits.max_pins_per_channel_reached: Достигнут максимум {count} {count, plural, one {закрепа в канале} few {закрепов в канале} many {закрепов в канале} other {закрепов в канале}}}.
+misc.cannot_send_messages_in_non_text_channel: Нельзя отправлять сообщения в нетекстовый канал.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Чтобы отправлять сообщения на этом сервере, нужно подтвердить почту.
+misc.invalid_job_id: Неверный job ID.
+misc.invalid_permissions_integer: Permissions должны быть валидным целым числом.
+misc.invalid_permissions_negative: Permissions не могут быть отрицательными.
+misc.invalid_request_generic: Неверный запрос.
+misc.invalid_snowflake: Неверный snowflake.
+misc.job_already_processed: Задача уже обработана.
+misc.job_id_required: Нужен job ID.
+misc.job_not_found: Задача не найдена.
+misc.max_files_exceeded: Слишком много файлов. Максимум {maxFiles} {maxFiles, plural, one {файл} few {файла} many {файлов} other {файла}}.
+misc.must_have_bot_to_mark_system_user: Пользователь должен быть ботом, чтобы быть отмеченным как системный пользователь.
+moderation_and_reports.cannot_report_own_message: Нельзя пожаловаться на свое сообщение.
+moderation_and_reports.cannot_report_yourself: Нельзя пожаловаться на самого(у) себя.
+moderation_and_reports.invalid_dsa_report_target: Неверная цель DSA-жалобы.
+moderation_and_reports.invalid_dsa_ticket: Неверный DSA-тикет.
+moderation_and_reports.invalid_dsa_verification_code: Неверный код верификации DSA.
+moderation_and_reports.report_already_resolved: Жалоба уже закрыта.
+moderation_and_reports.report_banned: Подача жалоб запрещена.
+moderation_and_reports.unknown_report: Неизвестная жалоба.
+moderation_and_reports.user_is_not_banned: Этот пользователь не забанен.
+names_and_normalization.channel_name_empty_after_normalization: Имя канала не может быть пустым после нормализации.
+names_and_normalization.name_empty_after_normalization: Имя не может быть пустым после нормализации.
+permissions.missing_access: Нет доступа.
+permissions.missing_permissions: Недостаточно прав.
+permissions.not_owner_of_admin_api_key: У тебя нет прав менять этот админский API-ключ.
+permissions.user_banned_from_guild: Этот пользователь забанен на этом сервере.
+permissions.user_ip_banned_from_guild: IP этого пользователя забанен на этом сервере.
+permissions.user_not_in_channel: Этого пользователя нет в этом канале.
+permissions.user_not_in_voice: Этот пользователь не в голосовом канале.
+permissions.user_owns_guilds: Этот пользователь владеет серверами.
+phone.invalid_number: Неверный номер телефона.
+phone.number_already_used: Этот номер телефона уже используется.
+phone.number_format_required: Номер телефона должен быть в формате E.164 (например, +1234567890).
+phone.phone_required_for_sms_mfa: Для SMS MFA нужен номер телефона.
+phone.sms_mfa_not_enabled: SMS MFA не включен.
+phone.sms_mfa_requires_totp: Для SMS MFA нужен TOTP.
+phone.sms_verification_unavailable: SMS-верификация временно недоступна. Попробуй позже.
+phone.verification_code_invalid: Неверный код подтверждения телефона.
+phone.verification_required: Нужна верификация телефона.
+premium_and_plans.animated_avatars_require_premium: Анимированные аватары доступны только с Premium.
+premium_and_plans.banners_require_premium: Баннеры доступны только с Premium.
+premium_and_plans.bio_requires_premium_for_length: Био длиннее {maxLength} символов требует Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: С тарифом Visionary нельзя активировать Plutonium.
+premium_and_plans.custom_emojis_outside_source_require_premium: Без Premium нельзя использовать кастомные эмодзи вне их исходного сервера.
+premium_and_plans.custom_stickers_in_dms_require_premium: Без Premium нельзя использовать кастомные стикеры в личке.
+premium_and_plans.custom_stickers_outside_source_require_premium: Без Premium нельзя использовать кастомные стикеры вне их исходного сервера.
+premium_and_plans.discriminator_change_requires_premium: Смена дискриминатора доступна только с Premium.
+premium_and_plans.no_active_subscription: Нет активной подписки.
+premium_and_plans.no_visionary_slots_available: Свободных слотов Visionary нет.
+premium_and_plans.premium_required_for_custom_emoji: Чтобы использовать кастомный эмодзи, нужен Premium.
+premium_and_plans.visionary_required_for_bot_discriminator: Чтобы настраивать дискриминаторы ботов, нужен пожизненный план Visionary.
+premium_and_plans.visionary_required_for_discriminator: Чтобы использовать этот дискриминатор, нужен пожизненный план Visionary.
+rate_limits.accent_color_changed_too_often: Ты слишком часто менял(а) цвет интерфейса в последнее время. Попробуй снова через {minutes} {minutes, plural, one {минуту} few {минуты} many {минут} other {минуты}}.
+rate_limits.avatar_changed_too_often: Ты слишком часто менял(а) аватар в последнее время. Попробуй снова через {minutes} {minutes, plural, one {минуту} few {минуты} many {минут} other {минуты}}.
+rate_limits.banner_changed_too_often: Ты слишком часто менял(а) баннер в последнее время. Попробуй снова через {minutes} {minutes, plural, one {минуту} few {минуты} many {минут} other {минуты}}.
+rate_limits.bio_changed_too_often: Ты слишком часто менял(а) био в последнее время. Попробуй снова через {minutes} {minutes, plural, one {минуту} few {минуты} many {минут} other {минуты}}.
+rate_limits.ip_authorization_resend_cooldown: Повторная отправка авторизации по IP пока недоступна (кулдаун).
+rate_limits.ip_authorization_resend_limit_exceeded: Превышен лимит повторных отправок авторизации по IP.
+rate_limits.phone_rate_limit_exceeded: Превышен лимит запросов по телефону.
+rate_limits.pronouns_changed_too_often: Ты слишком часто менял(а) местоимения в последнее время. Попробуй снова через {minutes} {minutes, plural, one {минуту} few {минуты} many {минут} other {минуты}}.
+rate_limits.rate_limited: Слишком много запросов. Подожди немного.
+rate_limits.slowmode_rate_limited: 'Сработал слоумод: слишком часто отправляешь.'
+rate_limits.username_changed_too_often: Ты слишком часто менял(а) имя пользователя в последнее время. Попробуй снова через {minutes} {minutes, plural, one {минуту} few {минуты} many {минут} other {минуты}}.
+roles.cannot_reorder_everyone_role: Нельзя менять порядок роли @everyone.
+roles.cannot_set_everyone_hoist: Нельзя задавать hoist для роли @everyone.
+roles.cannot_use_same_role_as_preceding: Нельзя использовать ту же роль, что и предыдущая.
+roles.invalid_role_id: 'Неверный ID роли: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Нельзя использовать `parse` вместе с `allowed_mentions.users` или `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Предыдущей роли нет на сервере.
+stickers_and_emojis.custom_emoji_not_found: Кастомный эмодзи не найден.
+stickers_and_emojis.custom_sticker_not_found: Кастомный стикер не найден.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Ты не можешь использовать этот эмодзи без доступа к его серверу или установленному паку.
+stickers_and_emojis.max_reactions_reached: Достигнут максимум {count} {count, plural, one {реакции} few {реакций} many {реакций} other {реакций}}.
+stickers_and_emojis.max_stickers_reached: Достигнут максимум {count} {count, plural, one {стикера} few {стикеров} many {стикеров} other {стикеров}}.
+stickers_and_emojis.not_valid_unicode_emoji: Это невалидный Unicode-эмодзи.
+stickers_and_emojis.unknown_emoji: Неизвестный эмодзи.
+stickers_and_emojis.unknown_sticker: Неизвестный стикер.
+stripe.error: Ошибка Stripe.
+stripe.invalid_product_configuration: Неверная конфигурация продукта.
+stripe.invalid_product_selection: Неверный выбор продукта.
+stripe.no_active_subscription_found: Активная подписка не найдена.
+stripe.no_purchase_history_customer_portal_unavailable: История покупок не найдена. Портал клиента недоступен.
+stripe.no_subscription_found: Подписка не найдена.
+stripe.payment_not_available: Обработка платежей недоступна.
+stripe.subscription_already_canceling: Подписка уже настроена на отмену в конце периода.
+stripe.subscription_not_canceling: Подписка не настроена на отмену.
+stripe.subscription_period_end_missing: Отсутствует subscription current_period_end.
+stripe.webhook_not_available: Обработка вебхуков недоступна.
+stripe.webhook_signature_invalid: Подпись вебхука Stripe неверная.
+stripe.webhook_signature_missing: Подпись вебхука Stripe отсутствует.
+tickets.ticket_already_completed: Этот тикет уже выполнен.
+tos_and_age.date_of_birth_format_invalid: Неверный формат даты рождения.
+tos_and_age.must_agree_to_tos_and_privacy: Нужно согласиться с Terms of Service и Privacy Policy.
+tos_and_age.must_be_minimum_age: Чтобы создать аккаунт, тебе должно быть хотя бы {minAge} {minAge, plural, one {год} few {года} many {лет} other {года}}.
+unknown_entities.unknown_application: Неизвестное приложение.
+unknown_entities.unknown_channel: Неизвестный канал.
+unknown_entities.unknown_guild: Неизвестный сервер.
+unknown_entities.unknown_invite: Неизвестный инвайт.
+unknown_entities.unknown_member: Неизвестный участник.
+unknown_entities.unknown_message: Неизвестное сообщение.
+unknown_entities.unknown_pack: Неизвестный пак.
+unknown_entities.unknown_role: Неизвестная роль.
+unknown_entities.unknown_user_flag: Неизвестный флаг пользователя.
+unknown_entities.unknown_user: Неизвестный пользователь.
+urls.invalid_url_format: Неверный формат URL.
+urls.invalid_url_or_attachment_reference: Неверный формат URL или ссылка на вложение.
+urls.url_length_invalid: URL должен быть длиной от {min} до {max} символов.
+usernames_and_tags.discriminator_invalid_format: Дискриминатор должен быть из {min}–{max} цифр.
+usernames_and_tags.discriminator_out_of_range: Дискриминатор должен быть от {min} до {max}.
+usernames_and_tags.discriminator_required: Нужен дискриминатор.
+usernames_and_tags.display_name_length_invalid: Отображаемое имя должно быть длиной от {min} до {max} символов.
+usernames_and_tags.display_name_reserved_terms: Отображаемое имя не может содержать "system message".
+usernames_and_tags.display_name_reserved_value: Отображаемое имя не может быть "everyone" или "here".
+usernames_and_tags.global_name_length_invalid: Глобальное имя должно быть длиной от {min} до {max} символов.
+usernames_and_tags.global_name_reserved_value: Глобальное имя не может быть "everyone" или "here".
+usernames_and_tags.tag_already_taken: Этот тег уже занят.
+usernames_and_tags.too_many_users_with_this_username: Слишком много пользователей с таким именем.
+usernames_and_tags.too_many_users_with_username_try_different: Слишком много пользователей с таким именем. Попробуй другое.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Неподтвержденные аккаунты могут установить почту только через токен.
+usernames_and_tags.username_invalid_characters: Имя пользователя может содержать только латинские буквы (a-z, A-Z), цифры (0-9) и подчеркивания (_).
+usernames_and_tags.username_length_invalid: Имя пользователя должно быть длиной от {min} до {max} символов.
+usernames_and_tags.username_not_available: Это имя пользователя недоступно.
+usernames_and_tags.username_reserved_terms: Имя пользователя не может содержать "fluxer" или "system message".
+usernames_and_tags.username_reserved_value: Имя пользователя не может быть "everyone" или "here".
+vanity_urls.vanity_url_already_taken: Этот vanity URL уже занят.
+vanity_urls.vanity_url_code_already_taken: Этот код vanity URL уже занят.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Код vanity URL не может содержать "fluxer".
+vanity_urls.vanity_url_code_length_invalid: Код vanity URL должен быть длиной от {min} до {max} символов.
+vanity_urls.vanity_url_invalid_characters: Vanity URL может содержать только строчные латинские буквы (a-z), цифры (0-9) и дефисы (-).
+webhooks.cannot_modify_system_webhook: Нельзя редактировать системные сообщения.
+webhooks.max_webhooks_per_channel_reached: Достигнут максимум {count} {count, plural, one {вебхука на канал} few {вебхуков на канал} many {вебхуков на канал} other {вебхуков на канал}}.
+webhooks.max_webhooks_per_guild_reached: Достигнут максимум {count} {count, plural, one {вебхука на сервере} few {вебхуков на сервере} many {вебхуков на сервере} other {вебхуков на сервере}}.
+webhooks.max_webhooks_reached: Достигнут максимум {count} {count, plural, one {вебхука} few {вебхуков} many {вебхуков} other {вебхуков}}.
+webhooks.unknown_webhook: Неизвестный вебхук.
+webhooks.webhook_name_length_invalid: Имя вебхука должно быть длиной от {min} до {max} символов.

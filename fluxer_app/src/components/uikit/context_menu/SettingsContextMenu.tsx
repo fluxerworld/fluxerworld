@@ -1,0 +1,122 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
+import {
+	getSettingsTabs,
+	getSubtabsForTab,
+	type SettingsSubtab,
+	type SettingsTab,
+} from '@app/components/modals/utils/SettingsConstants';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import {MenuItemSubmenu} from '@app/components/uikit/context_menu/MenuItemSubmenu';
+import DeveloperModeStore from '@app/stores/DeveloperModeStore';
+import {hasManagedTrait} from '@app/utils/traits/UserTraits';
+import {ManagedTraits} from '@fluxer/constants/src/ManagedTraits';
+import {useLingui} from '@lingui/react/macro';
+import {observer} from 'mobx-react-lite';
+import type React from 'react';
+import {useCallback, useMemo} from 'react';
+
+interface SettingsContextMenuProps {
+	onClose: () => void;
+}
+
+export const SettingsContextMenu: React.FC<SettingsContextMenuProps> = observer(({onClose}) => {
+	const {i18n} = useLingui();
+	const isDeveloper = DeveloperModeStore.isDeveloper;
+	const hasExpressionPackAccess = hasManagedTrait(ManagedTraits.EXPRESSION_PACKS);
+
+	const handleOpenSettings = useCallback(
+		(tab: SettingsTab, subtab?: SettingsSubtab) => {
+			ModalActionCreators.push(modal(() => <UserSettingsModal initialTab={tab.type} initialSubtab={subtab?.type} />));
+			onClose();
+		},
+		[onClose],
+	);
+
+	const renderSettingsMenuItem = useCallback(
+		(tab: SettingsTab) => {
+			const subtabs = getSubtabsForTab(tab.type, i18n);
+
+			if (subtabs.length === 0) {
+				const IconComponent = tab.icon;
+				return (
+					<MenuItem
+						key={tab.type}
+						icon={<IconComponent size={16} weight={tab.iconWeight ?? 'fill'} />}
+						onClick={() => handleOpenSettings(tab)}
+					>
+						{tab.label}
+					</MenuItem>
+				);
+			}
+
+			const IconComponent = tab.icon;
+			return (
+				<MenuItemSubmenu
+					key={tab.type}
+					label={tab.label}
+					icon={<IconComponent size={16} weight={tab.iconWeight ?? 'fill'} />}
+					onTriggerSelect={() => handleOpenSettings(tab)}
+					render={() => (
+						<>
+							{subtabs.map((subtab) => (
+								<MenuItem key={subtab.type} onClick={() => handleOpenSettings(tab, subtab)}>
+									{subtab.label}
+								</MenuItem>
+							))}
+						</>
+					)}
+				/>
+			);
+		},
+		[handleOpenSettings],
+	);
+
+	const accessibleTabs = useMemo(() => {
+		const allTabs = getSettingsTabs(i18n);
+		return allTabs.filter((tab) => {
+			if (!isDeveloper && tab.category === 'staff_only') {
+				return false;
+			}
+			if (!hasExpressionPackAccess && tab.type === 'expression_packs') {
+				return false;
+			}
+			return true;
+		});
+	}, [isDeveloper, hasExpressionPackAccess, i18n]);
+
+	const userSettingsTabs = accessibleTabs.filter((tab) => tab.category === 'user_settings');
+	const appSettingsTabs = accessibleTabs.filter((tab) => tab.category === 'app_settings');
+	const developerTabs = accessibleTabs.filter((tab) => tab.category === 'developer');
+	const staffOnlyTabs = accessibleTabs.filter((tab) => tab.category === 'staff_only');
+
+	return (
+		<>
+			{userSettingsTabs.length > 0 && <MenuGroup>{userSettingsTabs.map(renderSettingsMenuItem)}</MenuGroup>}
+			{appSettingsTabs.length > 0 && <MenuGroup>{appSettingsTabs.map(renderSettingsMenuItem)}</MenuGroup>}
+			{developerTabs.length > 0 && <MenuGroup>{developerTabs.map(renderSettingsMenuItem)}</MenuGroup>}
+			{staffOnlyTabs.length > 0 && <MenuGroup>{staffOnlyTabs.map(renderSettingsMenuItem)}</MenuGroup>}
+		</>
+	);
+});

@@ -17,17 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {openNativePermissionSettings} from '@app/utils/NativePermissions';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {openNativePermissionSettings} from '~/utils/NativePermissions';
 
 export const ScreenRecordingPermissionDeniedModal = observer(() => {
 	const {t} = useLingui();
 
 	return (
 		<ConfirmModal
-			title={t`Screen Recording Permission Required`}
+			title={t`Screen recording permission required`}
 			description={t`Fluxer needs access to screen recording. Open System Settings → Privacy & Security → Screen Recording, allow Fluxer, and then try again.`}
 			primaryText={t`Open Settings`}
 			primaryVariant="primary"

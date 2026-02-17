@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/VoiceChannelUserCount.module.css';
 import {observer} from 'mobx-react-lite';
-import styles from './VoiceChannelUserCount.module.css';
 
 interface VoiceChannelUserCountProps {
 	currentUserCount: number;

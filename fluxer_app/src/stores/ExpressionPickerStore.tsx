@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {ExpressionPickerTabType} from '@app/components/popouts/ExpressionPickerPopout';
 import {makeAutoObservable, runInAction} from 'mobx';
-import type {ExpressionPickerTabType} from '~/components/popouts/ExpressionPickerPopout';
 
 class ExpressionPickerStore {
 	isOpen = false;

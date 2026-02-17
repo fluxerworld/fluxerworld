@@ -17,22 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MfaActionCreators from '@app/actions/MfaActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {Form} from '@app/components/form/Form';
+import {FormErrorText} from '@app/components/form/FormErrorText';
+import {BackupCodesModal} from '@app/components/modals/BackupCodesModal';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useForm} from 'react-hook-form';
-import * as MfaActionCreators from '~/actions/MfaActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {Form} from '~/components/form/Form';
-import {BackupCodesModal} from '~/components/modals/BackupCodesModal';
-import styles from '~/components/modals/ConfirmModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
+
+interface FormInputs {
+	form: string;
+}
 
 export const BackupCodesViewModal = observer(() => {
 	const {t} = useLingui();
-	const form = useForm();
+	const form = useForm<FormInputs>();
 
 	const onSubmit = async () => {
 		const backupCodes = await MfaActionCreators.getBackupCodes();
@@ -52,11 +56,14 @@ export const BackupCodesViewModal = observer(() => {
 	return (
 		<Modal.Root size="small" centered>
 			<Form form={form} onSubmit={handleSubmit} aria-label={t`View backup codes form`}>
-				<Modal.Header title={t`View backup codes`} />
-				<Modal.Content className={styles.content}>
-					<p>
-						<Trans>Verification may be required before viewing your backup codes.</Trans>
-					</p>
+				<Modal.Header title={t`View Backup Codes`} />
+				<Modal.Content>
+					<Modal.ContentLayout>
+						<Modal.Description>
+							<Trans>Verification may be required before viewing your backup codes.</Trans>
+						</Modal.Description>
+						<FormErrorText message={form.formState.errors.form?.message} />
+					</Modal.ContentLayout>
 				</Modal.Content>
 				<Modal.Footer>
 					<Button onClick={ModalActionCreators.pop} variant="secondary">

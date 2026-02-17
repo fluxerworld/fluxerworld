@@ -1,0 +1,23 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "GUILD_EMOJIS_UPDATE",
+	"description": "Sent when guild emojis were updated.",
+	"scope": "guild",
+	"dispatchedBy": [
+		"POST /guilds/:guild_id/emojis",
+		"POST /guilds/:guild_id/emojis/bulk",
+		"PATCH /guilds/:guild_id/emojis/:emoji_id",
+		"DELETE /guilds/:guild_id/emojis/:emoji_id"
+	],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"emojis": {
+				"type": "array",
+				"items": {"$ref": "GuildEmojiResponse"},
+				"description": "Array of all emojis in the guild"
+			}
+		},
+		"required": ["emojis"]
+	}
+}

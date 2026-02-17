@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {GuildReadyData} from '@app/types/gateway/GatewayGuildTypes';
 import {makeAutoObservable, observable} from 'mobx';
-import type {GuildReadyData} from '~/records/GuildRecord';
 
 class GuildAvailabilityStore {
 	unavailableGuilds: Set<string> = observable.set();

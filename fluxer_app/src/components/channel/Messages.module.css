@@ -30,10 +30,6 @@
 	--message-group-spacing: 16px;
 }
 
-.nativeAnchor {
-	overflow-anchor: auto !important;
-}
-
 .scrollerContainer {
 	position: absolute;
 	inset: 0;
@@ -113,15 +109,6 @@
 	padding-left: 0.75rem;
 	padding-right: 0.75rem;
 	cursor: pointer;
-	transition:
-		transform 0.1s ease-out,
-		box-shadow 0.1s ease-out;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
-}
-
-.newMessagesBar:active {
-	transform: translateY(2px);
-	box-shadow: 0 0 0 rgba(0, 0, 0, 0.15);
 }
 
 .newMessagesBarText {
@@ -173,6 +160,4 @@
 
 .unreadSlot[data-visible='1'] {
 	display: block;
-	padding-top: 0.25rem;
-	padding-bottom: 0.25rem;
 }

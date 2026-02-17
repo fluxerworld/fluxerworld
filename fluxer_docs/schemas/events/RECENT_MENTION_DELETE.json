@@ -1,0 +1,17 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "RECENT_MENTION_DELETE",
+	"description": "A recent mention was deleted from the user's mentions list.",
+	"scope": "presence",
+	"dispatchedBy": ["DELETE /users/@me/mentions/:message_id"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"message_id": {
+				"type": "string",
+				"description": "ID of the deleted mention's message"
+			}
+		},
+		"required": ["message_id"]
+	}
+}

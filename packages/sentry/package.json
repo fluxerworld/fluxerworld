@@ -1,0 +1,23 @@
+{
+	"name": "@fluxer/sentry",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./src/Sentry.tsx",
+		"./src/*": "./src/*.tsx",
+		"./*": "./*"
+	},
+	"main": "./src/Sentry.tsx",
+	"types": "./src/Sentry.tsx",
+	"scripts": {
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@sentry/node": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@typescript/native-preview": "catalog:"
+	}
+}

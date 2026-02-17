@@ -1,0 +1,12 @@
+{
+	"extends": "../tsconfigs/service.json",
+	"compilerOptions": {
+		"jsx": "react-jsx",
+		"jsxImportSource": "hono/jsx",
+		"paths": {
+			"@app/*": ["./src/*"],
+			"@fluxer/*": ["./../packages/*", "./../packages/*/src/index.tsx"]
+		}
+	},
+	"include": ["src/**/*"]
+}

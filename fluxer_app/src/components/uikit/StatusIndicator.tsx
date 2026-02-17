@@ -17,8 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/uikit/StatusIndicator.module.css';
+import {StatusTypes} from '@fluxer/constants/src/StatusConstants';
+import clsx from 'clsx';
 import {memo} from 'react';
-import {StatusTypes} from '~/Constants';
 
 interface StatusIndicatorProps {
 	status: string;
@@ -39,12 +41,11 @@ export const StatusIndicator = memo(
 
 		return (
 			<svg
-				className={className}
+				className={clsx(className, styles.displayBlock)}
 				width={size}
 				height={size}
 				viewBox="0 0 1 1"
 				preserveAspectRatio="none"
-				style={{display: 'block'}}
 				aria-hidden={false}
 				aria-label={`status-${normalizedStatus}`}
 				role="img"
@@ -67,8 +68,14 @@ export const renderStatusIconContent = (status: string, size: number, options: R
 	const fill = appearance === 'monochrome' ? (monochromeColor ?? 'currentColor') : `var(--status-${normalizedStatus})`;
 
 	return (
-		// biome-ignore lint/a11y/noSvgWithoutTitle: decorative SVG, aria-hidden
-		<svg width={size} height={size} viewBox="0 0 1 1" preserveAspectRatio="none" style={{display: 'block'}} aria-hidden>
+		<svg
+			width={size}
+			height={size}
+			viewBox="0 0 1 1"
+			preserveAspectRatio="none"
+			className={styles.displayBlock}
+			aria-hidden
+		>
 			<rect x={0} y={0} width={1} height={1} fill={fill} mask={`url(#${maskId})`} />
 		</svg>
 	);

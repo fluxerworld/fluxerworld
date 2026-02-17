@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
 import {makeAutoObservable} from 'mobx';
-import {Logger} from '~/lib/Logger';
-import KeyboardModeStore from './KeyboardModeStore';
 
 const logger = new Logger('ContextMenuStore');
 
@@ -33,12 +33,12 @@ export interface FocusableContextMenuTarget {
 
 export type ContextMenuTargetElement = HTMLElement | FocusableContextMenuTarget;
 
-export const isContextMenuNodeTarget = (target: ContextMenuTargetElement | null | undefined): target is HTMLElement => {
+export function isContextMenuNodeTarget(target: ContextMenuTargetElement | null | undefined): target is HTMLElement {
 	if (!target || typeof Node === 'undefined') {
 		return false;
 	}
 	return target instanceof HTMLElement;
-};
+}
 
 export interface ContextMenuTarget {
 	x: number;
@@ -51,7 +51,7 @@ export interface ContextMenuConfig {
 	noBlurEvent?: boolean;
 	returnFocus?: boolean;
 	returnFocusTarget?: ContextMenuTargetElement | null;
-	align?: 'top-left' | 'top-right';
+	align?: 'top-left' | 'top-right' | 'bottom-left';
 }
 
 export interface ContextMenu {

@@ -17,6 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import AppStorage from '@app/lib/AppStorage';
 import {makeAutoObservable, reaction} from 'mobx';
 
 interface EditingState {
@@ -24,11 +25,15 @@ interface EditingState {
 	content: string;
 }
 
+const MESSAGE_EDIT_STORAGE_KEY = 'MessageEditStore';
+
 class MessageEditStore {
 	private editingStates: Record<string, EditingState> = {};
+	editingDrafts: Record<string, string> = {};
 
 	constructor() {
 		makeAutoObservable(this, {}, {autoBind: true});
+		AppStorage.removeItem(MESSAGE_EDIT_STORAGE_KEY);
 	}
 
 	startEditing(channelId: string, messageId: string, initialContent: string): void {
@@ -37,18 +42,32 @@ class MessageEditStore {
 			return;
 		}
 
+		const contentToUse = initialContent;
 		this.editingStates = {
 			...this.editingStates,
 			[channelId]: {
 				messageId,
-				content: initialContent,
+				content: contentToUse,
 			},
+		};
+
+		this.editingDrafts = {
+			...this.editingDrafts,
+			[messageId]: contentToUse,
 		};
 	}
 
 	stopEditing(channelId: string): void {
+		const state = this.editingStates[channelId];
 		const {[channelId]: _, ...remainingEdits} = this.editingStates;
 		this.editingStates = remainingEdits;
+
+		if (state) {
+			this.editingDrafts = {
+				...this.editingDrafts,
+				[state.messageId]: state.content,
+			};
+		}
 	}
 
 	isEditing(channelId: string, messageId: string): boolean {
@@ -73,6 +92,11 @@ class MessageEditStore {
 				content,
 			},
 		};
+
+		this.editingDrafts = {
+			...this.editingDrafts,
+			[messageId]: content,
+		};
 	}
 
 	getEditingContent(channelId: string, messageId: string): string | null {
@@ -82,6 +106,19 @@ class MessageEditStore {
 		}
 
 		return state.content;
+	}
+
+	getDraftContent(messageId: string): string | null {
+		return this.editingDrafts[messageId] ?? null;
+	}
+
+	clearDraftContent(messageId: string): void {
+		if (!(messageId in this.editingDrafts)) {
+			return;
+		}
+
+		const {[messageId]: _, ...remainingDrafts} = this.editingDrafts;
+		this.editingDrafts = remainingDrafts;
 	}
 
 	subscribe(callback: () => void): () => void {

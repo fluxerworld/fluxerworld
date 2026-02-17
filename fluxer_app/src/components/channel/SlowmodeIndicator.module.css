@@ -36,3 +36,9 @@
 	font-size: 0.6875rem;
 	line-height: var(--slowmode-indicator-height);
 }
+
+.label {
+	font-weight: 600;
+	font-size: 0.6875rem;
+	line-height: var(--slowmode-indicator-height);
+}

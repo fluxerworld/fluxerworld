@@ -1,0 +1,440 @@
+app.communities.community: Comunidade
+app.communities.community_support: Suporte a comunidades
+app.communities.featured_in_discovery: Em destaque na descoberta
+app.communities.moderation.actions_and_tools: Ações e ferramentas de moderação
+app.communities.moderation.report_people_or_communities: Denuncie pessoas ou comunidades pra gente manter o Fluxer seguro pra todo mundo.
+app.communities.moderation.tools: Ferramentas de moderação
+app.communities.roles_permissions_audit.audit_logs: Logs de auditoria pra transparência
+app.communities.roles_permissions_audit.granular_roles_and_permissions: Cargos e permissões detalhados
+app.communities.roles_permissions_audit.keep_running_smoothly: Mantenha sua comunidade rodando liso com cargos, permissões e logs.
+app.communities.title: Comunidades
+app.communities.verification.label: Verificação de comunidade
+app.communities.verification.value_statement: Sua comunidade ganha status verificado pra passar autenticidade e confiança.
+app.communities.verification.verified_community: Comunidade verificada
+app.customization.animated_profile.animated_avatars_and_banners: Avatares e banners animados
+app.customization.animated_profile.stand_out_animated_profile: Destaque-se com fotos de perfil e banners animados pra mostrar sua personalidade.
+app.customization.app_icon_badges: Veja a contagem de badges no ícone do app.
+app.customization.compact_mode: Modo compacto e opções de exibição
+app.customization.custom_css_themes: Temas personalizados com CSS
+app.customization.custom_sounds.entrance_sounds: Sons de entrada personalizados
+app.customization.custom_sounds.notification_sounds: Sons de notificação personalizados
+app.customization.custom_sounds.set_personalized_join_sounds: Defina sons personalizados quando você entra em canais de voz pra todo mundo perceber sua chegada.
+app.customization.custom_sounds.upload_custom_notification_sounds: Envie e use seus próprios sons de notificação pra deixar o Fluxer com a sua cara.
+app.customization.custom_themes: Temas personalizados
+app.customization.global_emoji_and_sticker_access: Acesso global a emojis e figurinhas
+app.customization.saved_media_and_css: Adicione emojis personalizados, salve mídia pra depois e estilize o app com CSS personalizado.
+app.customization.title: Personalização
+app.customization.upload_custom_emojis_and_stickers: Envie emojis e figurinhas personalizados
+app.customization.use_animated_emojis: Use emojis animados
+app.messaging.description: Mande DM pros amigos, converse em grupos ou crie comunidades com canais.
+app.messaging.features.bookmarked_messages: Mensagens salvas
+app.messaging.features.file_sharing: Compartilhe arquivos e visualize links
+app.messaging.features.full_markdown_support: Suporte completo a Markdown nas mensagens
+app.messaging.features.message_scheduling.description: Agende mensagens pra serem enviadas num horário específico no futuro. Sem precisar de um DeLorean.
+app.messaging.features.organised_channels_for_communities: Canais organizados pra comunidades
+app.messaging.features.private_dms_and_group_chats: DMs privadas e chats em grupo
+app.messaging.features.save_media: Salve imagens, vídeos, GIFs e áudio
+app.messaging.features.search.filter_options: Filtre por usuários, datas e muito mais
+app.messaging.features.search.find_old_messages: Encontre mensagens antigas ou pule entre comunidades e canais em segundos.
+app.messaging.features.search.label: Pesquisar histórico de mensagens
+app.messaging.features.search.quick_switcher_shortcuts: Alternador rápido com atalhos de teclado
+app.messaging.features.search.search_and_quick_switcher: Pesquisa e alternador rápido
+app.messaging.title: Mensagens
+app.open.open_fluxer: Abrir o Fluxer
+app.open.open_web_app: Abrir o app web
+app.profiles_identity.custom_identity: Identidade personalizada
+app.profiles_identity.customise_per_community: Personalize seu perfil de um jeito diferente pra cada comunidade da qual você faz parte.
+app.profiles_identity.manage_friends_and_block_users: Gerencie amigos e bloqueie usuários
+app.voice_and_video.features.mute_controls: Controles de mudo, ensurdecer e câmera
+app.voice_and_video.features.noise_suppression: Supressão de ruído e cancelamento de eco
+app.voice_and_video.features.screen_sharing: Compartilhamento de tela integrado
+app.voice_and_video.features.video_backgrounds.description: Guarde até 15 fundos de vídeo pras chamadas. Chega de caçar coisa na pasta Downloads.
+app.voice_and_video.features.video_quality: Qualidade de vídeo
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.video_quality_premium: Até 4K/60fps
+app.voice_and_video.features.stream_4k_60fps: Faça stream em até 4K com 60 fps pra que outras pessoas possam te ver com uma clareza espetacular.
+app.voice_and_video.features.up_to_4k_video_quality: Qualidade de vídeo até 4K
+app.voice_and_video.hop_in_a_call: Entre numa chamada com amigos ou compartilhe a tela pra trabalhar junto.
+app.voice_and_video.title: Voz e vídeo
+beta_and_access.beta_label: Beta
+beta_and_access.early_access.be_first_to_try: Seja o primeiro a testar recursos novos antes de saírem pra todo mundo.
+beta_and_access.early_access.label: Acesso antecipado
+beta_and_access.featured_benefit_line: Tudo o que você espera do básico, mais algumas coisas que você não espera.
+beta_and_access.public_beta: Beta público
+beta_and_access.registration_limited_during_beta: Durante o beta, a gente está limitando os cadastros. Quando você entrar, pode dar um código pros amigos pularem a fila.
+beta_and_access.try_without_email: Teste o Fluxer sem email em 30 segundos
+community_funding_and_roles.focused_on_product: Agora a gente está focado em entregar um produto massa e manter o Fluxer independente e autofinanciado.
+community_funding_and_roles.future_paid_roles_heading: O futuro dos cargos pagos
+community_funding_and_roles.future_paid_roles_note: A gente ainda está estruturando o negócio do Fluxer e ainda não estamos prontos pra cargos pagos.
+community_funding_and_roles.non_paid_recurring_role: Um cargo não pago para colaboradores recorrentes que ajudam a moldar o Fluxer junto com o time principal.
+community_funding_and_roles.sustainability_note: Com seu apoio, a gente espera tornar essa plataforma de comunicação independente sustentável e começar a oferecer cargos pagos no futuro.
+company_and_resources.blog: Blog
+company_and_resources.careers.careers_at_fluxer: Carreiras no Fluxer
+company_and_resources.careers.label: Carreiras
+company_and_resources.careers.share_a_bit_about_yourself: Conta um pouco sobre você e como gostaria de contribuir enviando um email para careers@fluxer.app
+company_and_resources.community_team.fluxer_community_team: Equipe de comunidade do Fluxer
+company_and_resources.community_team.share_feedback_report_bugs: Mande feedback, reporte bugs e ajude a tornar o Fluxer acolhedor pra todo mundo.
+company_and_resources.company: Empresa
+company_and_resources.company_info: Informações da empresa
+company_and_resources.connect: Conectar
+company_and_resources.docs: Documentação
+company_and_resources.help.get_help: Pedir ajuda
+company_and_resources.help.help_center: Central de ajuda
+company_and_resources.help.label: Ajuda
+company_and_resources.press.label: Imprensa
+company_and_resources.press.press_contact: Contato de imprensa
+company_and_resources.product: Produto
+company_and_resources.resources: Recursos
+company_and_resources.source_and_contribution.code_issues_docs_reviews: Código, issues, docs e reviews
+company_and_resources.source_and_contribution.contribute_code: Contribuir com código
+company_and_resources.source_and_contribution.contribute_on_github: Contribuir no GitHub
+company_and_resources.source_and_contribution.fix_bugs_ship_features: Corrija bugs, entregue recursos ou dê um polimento na experiência no nosso repo principal.
+company_and_resources.source_and_contribution.fluxer_built_in_open: O Fluxer é construído às claras. Escolha o caminho que combina com o jeito que você gosta de ajudar.
+company_and_resources.source_and_contribution.get_involved: Participe
+company_and_resources.source_and_contribution.source_code: Código-fonte
+company_and_resources.source_and_contribution.translation.help_translate: Ajude a traduzir o Fluxer e a documentação pra ele soar nativo em todo lugar.
+company_and_resources.source_and_contribution.translation.label: Tradução e localização
+company_and_resources.source_and_contribution.translation.llm_translation_note: Todas as traduções por enquanto são geradas por LLM com pouca revisão humana. A gente adoraria que pessoas reais ajudassem a localizar o Fluxer no seu idioma. Pra isso, mande um email para i18n@fluxer.app e vamos ficar felizes em aceitar suas contribuições.
+company_and_resources.source_and_contribution.translation.localization_label: Localização
+company_and_resources.source_and_contribution.view_repository: Ver repositório
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: Quer ajudar a construir o Fluxer?
+company_and_resources.source_and_contribution.ways_to_contribute: Formas de contribuir
+donations.business: Pessoa jurídica
+donations.donate.action: Doar
+donations.donate.label: Doe para o Fluxer
+donations.donate.description: Apoie o Fluxer com uma doação única ou recorrente
+donations.donation_disclaimer: Doações são presentes voluntários e não te dão nenhum produto, serviço, participação, ou direito especial. Se você está procurando recursos premium, confira {0}.
+donations.individual: Pessoa física
+donations.individual_vs_business.answer: Os dois tipos de doação apoiam a mesma causa do mesmo jeito. A única diferença é que doações de Pessoa jurídica permitem informar um CNPJ (se aplicável) e receber uma nota fiscal em PDF quando finalizado, o que pode ajudar na contabilidade da empresa.
+donations.individual_vs_business.question: Qual é a diferença entre Pessoa física e Pessoa jurídica?
+donations.infrastructure_costs_detail: Sua doação ajuda a cobrir os custos de infraestrutura do Fluxer, incluindo servidores, largura de banda, armazenamento e o desenvolvimento contínuo de novos recursos. Isso ajuda a gente a manter e melhorar a plataforma pra todo mundo.
+donations.minimum_donation: 'Doação mínima: $5 / €5'
+donations.mobile_roadmap_sponsorship: Patrocinar o roadmap de mobile
+donations.send_one_time_gift: Enviar um presente único
+donations.support_future_development: Apoiar desenvolvimento futuro
+donations.support_message: Ajude a gente a construir uma plataforma de comunicação independente. Sua doação financia a infraestrutura e o desenvolvimento da plataforma.
+donations.tax_deductible.answer: Doações para o Fluxer não são dedutíveis no imposto no momento, mas financiam diretamente nossa infraestrutura e desenvolvimento contínuo.
+donations.tax_deductible.question: Minha doação é dedutível no imposto?
+donations.what_it_supports: O que a minha doação apoia?
+donations.why_support: Ajude a gente a construir um tipo diferente de plataforma de comunicação – de código aberto, financiada pela comunidade e feita com cuidado.
+donations.recurring: Recorrente
+donations.return_question: Recebo algo em troca?
+donations.form.email: E-mail
+donations.form.email_placeholder: seu@email.com
+donations.form.amount: Valor
+donations.form.amount_other: Outro
+donations.form.amount_placeholder: Insira o valor (5-1000)
+donations.form.billing: Cobrança
+donations.form.donation_type: Tipo de doação
+donations.form.one_time: Uma única vez
+donations.form.or_label: Ou
+donations.form.monthly: Mensal
+donations.form.yearly: Anual
+donations.form.currency: Moeda
+donations.form.processing: Processando...
+donations.form.send_link: Enviar link
+donations.form.sending: Enviando...
+donations.errors.active_subscription_exists: Você já tem uma doação recorrente ativa. Para iniciar uma doação recorrente diferente, cancele primeiro a atual usando o portal do cliente. Você pode fazer uma doação única em vez disso.
+donations.errors.invalid_email: Insira um endereço de e-mail válido
+donations.errors.invalid_amount: O valor deve estar entre 5 e 1000
+donations.errors.generic: Algo deu errado. Tente novamente.
+donations.errors.network: Erro de rede. Tente novamente.
+donations.manage.title: Gerenciar suas doações
+donations.manage.description: Insira seu e-mail para receber um link pro seu portal de doador, onde você pode gerenciar assinaturas, baixar faturas e ver o histórico de doações.
+donations.manage.success: Se existir uma conta para esse e-mail, você receberá em breve um link de gerenciamento.
+donations.success.title: Obrigado!
+donations.success.description: Obrigado pelo seu apoio!
+donations.success.message: Obrigado pela sua doação! Agradecemos muito o seu apoio.
+donations.success.email_notice: Você receberá em breve um e-mail de confirmação com detalhes sobre sua doação e um link pro seu portal de doador.
+donations.success.back_to_donate: Voltar para doações
+download.download: Baixar
+download.download_app_or_open_in_browser: Baixe o app ou abra o Fluxer no navegador pra começar a se conectar com suas comunidades.
+download.download_fluxer: Baixar o Fluxer
+download.download_for_prefix: 'Baixar para '
+download.open_in_browser: Abrir no navegador
+download.screenshots_courtesy_of: 'Capturas de tela por conta de '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: Diretrizes da comunidade
+footer.company_information: Informações da empresa
+footer.connect: Conectar
+footer.donate: Doar
+footer.download: Baixar
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (sociedade de responsabilidade limitada sueca: 559537-3993)'
+footer.help_support_an_independent_communication: Apoie uma plataforma de comunicação independente. Sua doação financia a infraestrutura e desenvolvimento da plataforma.
+footer.partners: Parceiros
+footer.plutonium_tier: Plano Plutonium
+footer.policies: Políticas
+footer.press: Imprensa
+footer.privacy_policy: Política de privacidade
+footer.report_a_bug: Reportar um bug
+footer.roadmap: Roadmap
+footer.rss_feed: Feed RSS
+footer.security_bug_bounty: Bug bounty de segurança
+footer.source_code: Código-fonte
+footer.terms_of_service: Termos de serviço
+general.all: tudo
+general.coming_soon.label: Em breve
+general.coming_soon.whats_available_today: O que já está disponível hoje
+general.last_updated: Última atualização
+general.made_in_sweden: Feito na Suécia
+general.not_available: Indisponível
+general.or: ou
+general.tagline: Um app de chat que coloca você em primeiro lugar
+languages.change_language: Mudar idioma
+languages.choose_your_language: Escolha seu idioma
+languages.language_label: Idioma
+languages.list.arabic: Árabe
+languages.list.bulgarian: Búlgaro
+languages.list.chinese_simplified: Chinês (simplificado)
+languages.list.chinese_traditional: Chinês (tradicional)
+languages.list.croatian: Croata
+languages.list.czech: Tcheco
+languages.list.danish: Dinamarquês
+languages.list.dutch: Holandês
+languages.list.english: Inglês
+languages.list.english_us: Inglês (EUA)
+languages.list.finnish: Finlandês
+languages.list.french: Francês
+languages.list.german: Alemão
+languages.list.greek: Grego
+languages.list.hebrew: Hebraico
+languages.list.hindi: Hindi
+languages.list.hungarian: Húngaro
+languages.list.indonesian: Indonésio
+languages.list.italian: Italiano
+languages.list.japanese: Japonês
+languages.list.korean: Coreano
+languages.list.lithuanian: Lituano
+languages.list.norwegian: Norueguês
+languages.list.polish: Polonês
+languages.list.portuguese_brazil: Português (Brasil)
+languages.list.romanian: Romeno
+languages.list.russian: Russo
+languages.list.spanish_latin_america: Espanhol (América Latina)
+languages.list.spanish_spain: Espanhol (Espanha)
+languages.list.swedish: Sueco
+languages.list.thai: Tailandês
+languages.list.turkish: Turco
+languages.list.ukrainian: Ucraniano
+languages.list.vietnamese: Vietnamita
+launch.description: Conheça o desenvolvedor por trás do Fluxer, os objetivos do projeto, a stack de tecnologia e o que vem por aí.
+launch.heading: A história por trás do Fluxer
+launch.read_more: Leia o post de lançamento no blog
+launch.view_full_roadmap: Ver o roadmap completo
+misc_labels.design_and_branding: Design e marca
+misc_labels.direct_team_support: Suporte direto do time
+misc_labels.exclusive_communities: Comunidades exclusivas
+misc_labels.exclusive_features: Recursos exclusivos
+misc_labels.feature: Recurso
+misc_labels.get_updates: Receba atualizações, veja recursos que vêm por aí, discuta sugestões e converse com o time.
+misc_labels.join_and_spread_word: Entre e espalhe a palavra
+misc_labels.join_fluxer_community_contribute: Entre na comunidade do Fluxer e ajude a construir o futuro da comunicação com código aberto e contribuições da comunidade.
+misc_labels.join_fluxer_hq: Entrar no Fluxer HQ
+misc_labels.join_multiple_devices: Entre em vários dispositivos ao mesmo tempo
+misc_labels.join_team_behind_fluxer: Junte-se ao time por trás do Fluxer
+misc_labels.learn_more: Saiba mais
+misc_labels.product_hunt_badge_title: Fluxer - plataforma open source de mensagens instantâneas e VoIP tipo Discord | top post no Product Hunt
+misc_labels.profile_badge: Badge do perfil
+misc_labels.read_the_guide: Leia o guia
+misc_labels.ready_to_get_started: Pronto pra começar?
+misc_labels.register_now: Cadastre-se agora
+misc_labels.related_policies: Políticas relacionadas
+misc_labels.report_bugs: Reportar bugs
+misc_labels.software_development: Desenvolvimento de software
+misc_labels.trust_and_safety: Confiança e segurança
+misc_labels.unique_profile_badge: Badge único de perfil
+misc_labels.unlimited_users: Usuários ilimitados
+navigation.close: Fechar
+navigation.close_navigation_menu: Fechar menu de navegação
+navigation.copy_link_to_section: Copiar link da seção
+navigation.go_home: Ir pro início
+navigation.on_this_page: Nesta página
+navigation.page_not_found.description: Esta página não existe. Mas tem muita coisa legal pra explorar.
+navigation.page_not_found.title: Página não encontrada
+navigation.press.download_assets_intro: Baixe nossos logos, veja nossas cores da marca e fale com nossa equipe de imprensa.
+navigation.press.download_fluxer_assets: Baixe os logos do Fluxer, materiais da marca e fale com nossa equipe de imprensa
+navigation.press.press_and_brand_assets: Imprensa e materiais da marca
+partner_program.become_partner.apply_email: Inscreva-se em partners@fluxer.app
+partner_program.become_partner.call_to_action: Vire parceiro
+partner_program.become_partner.heading: Vire um parceiro Fluxer
+partner_program.become_partner.if_youre_a_creator_or: Se você é criador de conteúdo ou toca uma comunidade grande, a gente quer te ouvir.
+partner_program.become_partner.learn_about_partners: Saiba mais sobre parceiros
+partner_program.become_partner.learn_more: Saiba mais
+partner_program.become_partner.ready_prompt: Pronto pra virar parceiro?
+partner_program.description: Vantagens e benefícios exclusivos pra criadores de conteúdo e donos de comunidades grandes.
+partner_program.label: Parceiros
+partner_program.perks.creator_monetization.description: Acesso antecipado a recursos de monetização para criadores, com taxas menores do que as de não parceiros.
+partner_program.perks.creator_monetization.label: Monetização para criadores
+partner_program.perks.custom_vanity_url.description: Ganhe uma URL exclusiva tipo fluxer.gg/suacomunidade.
+partner_program.perks.custom_vanity_url.label: URL personalizada
+partner_program.perks.direct_team_access.description: Entre na comunidade exclusiva de Parceiros com acesso direto ao time do Fluxer.
+partner_program.perks.direct_team_access.label: Acesso direto ao time
+partner_program.perks.discovery_visibility: Mais visibilidade, com destaque na descoberta de comunidades.
+partner_program.perks.exclusive_merch.description: Receba brindes e itens exclusivos pros Parceiros Fluxer.
+partner_program.perks.exclusive_merch.label: Merch exclusivo
+partner_program.perks.free_plutonium.description: Ganhe Plutonium de graça na sua conta pra aproveitar todos os recursos premium.
+partner_program.perks.free_plutonium.label: Plutonium grátis
+partner_program.perks.increased_limits.description: Sua comunidade recebe limites maiores quando você precisar.
+partner_program.perks.increased_limits.label: Limites aumentados
+partner_program.perks.partner_badge.description: Mostre um badge exclusivo de Parceiro no seu perfil pra se destacar.
+partner_program.perks.partner_badge.label: Badge de parceiro
+partner_program.perks.vip_voice_servers.description: Acesso a servidores de voz VIP reservados exclusivamente pra comunidades parceiras.
+partner_program.perks.vip_voice_servers.label: Canais de voz VIP
+partner_program.requirements.audience_description: Descrição rápida do seu público e do que você faz
+partner_program.requirements.links_to_content: Links pro seu conteúdo ou comunidade (YouTube, Twitch, Discord etc.)
+partner_program.requirements.name_and_username: Seu nome e usuário na plataforma
+partner_program.requirements.usage_plan: Como você pretende usar o Fluxer com sua comunidade
+partner_program.who_its_for: 'Criadores de conteúdo e donos de comunidades: destrave vantagens exclusivas, incluindo Plutonium grátis, um badge de Parceiro, URLs personalizadas e muito mais.'
+partner_program.perks.heading: Vantagens para parceiros
+partner_program.perks.see_perks: Ver vantagens
+partner_program.apply.instructions: Envie um e-mail com as seguintes informações para se candidatar ao Programa de Parceiros Fluxer.
+partner_program.apply.response_time: Analisamos todas as candidaturas e respondemos em alguns dias.
+platform_support.desktop.available_on_desktop_and_web: Disponível no desktop e na web
+platform_support.desktop.download_desktop_intro: Baixe o Fluxer pra Windows, macOS e Linux. Os apps mobile estão a caminho.
+platform_support.desktop.interface_label: Interface do Fluxer no desktop
+platform_support.desktop.label: Desktop
+platform_support.desktop.use_desktop_client_mobile_soon: Use o cliente de desktop (mobile em breve)
+platform_support.mobile.install_as_app.add_to_home: Adicione o Fluxer na tela inicial pra esconder a interface do navegador.
+platform_support.mobile.install_as_app.done_desktop: Pronto! Agora você pode abrir o Fluxer como se fosse um programa normal.
+platform_support.mobile.install_as_app.done_mobile: Pronto! Agora você pode abrir o Fluxer pela sua tela inicial.
+platform_support.mobile.install_as_app.guides.in_chrome: ' no Chrome'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: ' no Chrome ou em outro navegador com suporte a PWA'
+platform_support.mobile.install_as_app.guides.in_safari: ' no Safari'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: Guia de instalação de PWA para {name}
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: 'Toque em "Adicionar à tela inicial"'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: 'Toque em "Adicionar" no canto superior direito'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: 'Toque em "Instalar app"'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: Toque no botão de instalar (seta pra baixo no monitor) na barra de endereços
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: 'Toque em "Instalar" no pop-up que aparecer'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: 'Toque no botão "Mais" (⋮) no canto superior direito'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: Toque no botão de compartilhar (retângulo com seta pra cima)
+platform_support.mobile.install_as_app.install_fluxer_as_app: Instalar o Fluxer como app
+platform_support.mobile.install_as_app.title: Como instalar como app
+platform_support.mobile.interface_label: Interface do Fluxer no celular
+platform_support.mobile.mobile_apps_underway: Os apps mobile já estão em desenvolvimento
+platform_support.mobile.mobile_browser_explainer: Estamos criando apps pra iOS e Android. Até ficarem prontos, o Fluxer funciona no navegador do celular, e a gente caprichou pra ele parecer o máximo possível com um app.
+platform_support.mobile.not_full_replacement_yet: Ainda não substitui totalmente o app de desktop, e algumas coisas que você esperaria num app de chat mobile ainda estão faltando.
+platform_support.mobile.push_notifications: Receba notificações push quando você estiver longe do app.
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS e iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: Escolha a distribuição Linux
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: Baixar para macOS
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: Baixar para Windows
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: Cores da marca
+press_branding.assets.full_color: Versão colorida
+press_branding.assets.label: Logo
+press_branding.assets.logo_variants.black_logo: Logo preto
+press_branding.assets.logo_variants.color_logo: Logo colorido
+press_branding.assets.logo_variants.white_logo: Logo branco
+press_branding.assets.palette_description: Nossa paleta de cores, escolhida a dedo, que representa a marca Fluxer.
+press_branding.assets.premium_quality: Qualidade premium
+press_branding.assets.primary_brand_color_description: Nossa cor principal. Use isso nos elementos-chave da marca e nos detalhes.
+press_branding.assets.symbol_variants.black_symbol: Símbolo preto
+press_branding.assets.symbol_variants.color_symbol: Símbolo colorido
+press_branding.assets.symbol_variants.label: Símbolo
+press_branding.assets.symbol_variants.white_symbol: Símbolo branco
+press_branding.assets.usage_guidance.dark_surface_guidance: Para fundos, texto em superfícies escuras e para criar contraste.
+press_branding.assets.usage_guidance.for_dark_backgrounds: Para fundos escuros
+press_branding.assets.usage_guidance.for_light_backgrounds: Para fundos claros
+press_branding.assets.usage_guidance.full_logo_description: Nosso logo completo, incluindo o wordmark. Use como representação principal da nossa marca.
+press_branding.assets.usage_guidance.light_surface_guidance: Para texto, ícones em superfícies claras e para criar profundidade.
+press_branding.assets.usage_guidance.symbol_description: Nosso símbolo isolado. Use só quando a nossa marca estiver bem visível ou já for bem reconhecida no contexto.
+press_branding.colors.blue_da_ba_dee: Blue Da Ba Dee
+press_branding.colors.white: Branco
+press_branding.colors.black: Preto
+press_branding.contact.story_prompt: Tem uma história sobre o Fluxer? Adoraríamos ouvir.
+press_branding.contact.response_time: Normalmente respondemos em até 24 horas.
+pricing_and_tiers.billing.forever: Pra sempre
+pricing_and_tiers.billing.most_popular: Mais popular
+pricing_and_tiers.billing.per_forever: /pra sempre
+pricing_and_tiers.billing.per_month: /mês
+pricing_and_tiers.billing.per_year_full: /ano
+pricing_and_tiers.billing.per_year_short: /ano
+pricing_and_tiers.billing.save_percent: Economize 17%
+pricing_and_tiers.free.comparison_label: Grátis vs Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 'Tudo do Grátis, mais:'
+pricing_and_tiers.free.full_access_to_all_features: Acesso total a todos os recursos
+pricing_and_tiers.free.label: Grátis
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: 'Observação: os benefícios de Plutonium e Visionary só valem na instância oficial Fluxer.app, não em instâncias de terceiros ou auto-hospedadas.'
+pricing_and_tiers.plutonium.feature_highlights: Uploads de 500 MB, mensagens de 4.000 caracteres, 300 favoritos, 50 pacotes de emojis e muito mais.
+pricing_and_tiers.plutonium.features.bio_character_limit: Limite de caracteres da bio
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: Escolha sua própria tag de 4 dígitos tipo #0001, #1337, ou #9999 pra tornar seu nome de usuário verdadeiramente único.
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: Tag de nome de usuário personalizada com 4 dígitos
+pricing_and_tiers.plutonium.features.custom_username_tag: Tag de usuário personalizada
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: Fundos de vídeo
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: Pacotes de emojis e figurinhas
+pricing_and_tiers.plutonium.features.file_upload_size: Tamanho de upload de arquivo
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: Acesso global a emojis e figurinhas
+pricing_and_tiers.plutonium.features.message_character_limit: Limite de caracteres por mensagem
+pricing_and_tiers.plutonium.features.message_scheduling: Agendamento de mensagens
+pricing_and_tiers.plutonium.features.per_community_profiles: Perfis por comunidade
+pricing_and_tiers.plutonium.features.saved_media: Mídia salva
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: Webhooks e suporte a bots
+pricing_and_tiers.plutonium.get_more_with_plutonium: Ganhe mais com o Fluxer Plutonium
+pricing_and_tiers.plutonium.get_plutonium: Obter Plutonium
+pricing_and_tiers.plutonium.higher_limits_and_early_access: Limites maiores, recursos exclusivos e acesso antecipado a novas atualizações
+pricing_and_tiers.plutonium.higher_limits_everywhere: Limites maiores em tudo
+pricing_and_tiers.plutonium.show_off_status_badge: Mostre seu status Plutonium com um badge exclusivo no seu perfil.
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: 'Faça upgrade pro Plutonium por $4.99/mo: tags de usuário personalizadas, perfis por comunidade, agendamento de mensagens, streaming em 4K, uploads de 500 MB e mais recursos exclusivos.'
+pricing_and_tiers.visionary.badge.numbered_badge: Badge numerado mostrando seu status Visionary
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: Badge numerado (1–{0}) mostrando seu status Visionary
+pricing_and_tiers.visionary.bundle_label: Plutonium e Operator Pass vitalícios com Visionary – vagas limitadas
+pricing_and_tiers.visionary.communities_with_team_access: Comunidades Visionary e Operators com acesso ao time
+pricing_and_tiers.visionary.get_visionary: Obter Visionary
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: Garanta Plutonium vitalício no Fluxer.app mais um Operator Pass para auto-hospedagem. Pague {0} uma única vez. Disponível até 1 de outubro de 2026 ou até que todas as vagas sejam preenchidas.
+pricing_and_tiers.visionary.lifetime_operator_pass: Operator Pass vitalício
+pricing_and_tiers.visionary.lifetime_plutonium: Plutonium vitalício
+pricing_and_tiers.visionary.limited_offer_note: 'Oferta limitada: Visionary inclui Operator Pass'
+pricing_and_tiers.visionary.limited_slots_label: Visionary – vagas limitadas
+pricing_and_tiers.visionary.one_time_purchase.label: Compra única
+pricing_and_tiers.visionary.one_time_purchase.promise: Compra única, acesso vitalício
+pricing_and_tiers.visionary.purchase_flow: Compre Visionary direto no app depois de criar sua conta. A data da compra e o número do pedido vão aparecer no seu perfil (dá pra esconder nas configurações de privacidade).
+pricing_and_tiers.visionary.slots_left.generic: '{0} de {1} vagas restantes'
+pricing_and_tiers.visionary.slots_left.visionary_bundle: Só {0} de {1} vagas vitalícias Visionary restantes – Plutonium e Operator Pass vitalícios
+pricing_and_tiers.visionary.slots_left.visionary_only: '{0} vagas Visionary restantes'
+product_positioning.free_and_open_source: O Fluxer é gratuito e de código aberto. Qualquer pessoa pode hospedar por conta própria de graça.
+product_positioning.intro: O Fluxer é uma plataforma gratuita e de código aberto de mensagens instantâneas e VoIP, feita pra amigos, grupos e comunidades.
+product_positioning.open_source.fully_open_source_agplv3: Totalmente de código aberto (AGPLv3)
+product_positioning.open_source.label: Código aberto
+product_positioning.open_source.license: Código aberto (AGPL-3.0)
+product_positioning.self_hosting.connect_from_any_client: Conecte de qualquer cliente
+product_positioning.self_hosting.free_self_hosting: Auto-hospedagem grátis
+product_positioning.self_hosting.host_your_own_instance: Hospede sua própria instância
+product_positioning.self_hosting.label: Auto-hospedagem
+product_positioning.self_hosting.operator_pass.access_to_operators_community: Acesso à comunidade Operators do Fluxer
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: Quando a oferta acabar, o Operator Pass continua disponível separadamente.
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: 'O Operator Pass é opcional: pague por suporte e acesso à comunidade de Operators.'
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: Suporte prioritário e acesso à comunidade Operators para auto-hospedagem
+product_positioning.self_hosting.run_backend_on_your_hardware: Rode o backend do Fluxer no seu próprio hardware e conecte com nossos apps.
+product_positioning.self_hosting.switch_between_instances: Alterne entre várias instâncias
+security.found_security_issue: Achou um problema de segurança?
+security.report_vulnerabilities: Reporte vulnerabilidades e ajude a manter a plataforma segura.
+security.responsible_disclosure_note: A gente agradece a divulgação responsável pela nossa página de bug bounty de segurança. Oferecemos códigos de Plutonium e badges de Bug Hunter conforme a gravidade.
+security.security_bug_bounty: Bug bounty de segurança
+security.security_reports: Relatórios de segurança
+security.testers_access_from_reports: Relatórios aprovados dão acesso ao Fluxer Testers, onde você pode ganhar pontos para códigos de Plutonium e o badge de Bug Hunter.
+social_and_feeds.bluesky.follow_us: Siga a gente no Bluesky
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: RSS do Bluesky
+social_and_feeds.follow_fluxer: Siga @fluxer.app
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: RSS do blog
+social_and_feeds.rss.fluxer_blog_rss: RSS do blog do Fluxer
+social_and_feeds.rss.label: Feed RSS
+social_and_feeds.stay_updated_cta: Fique por dentro das novidades, do status do serviço e do que está rolando. Você também pode assinar nosso

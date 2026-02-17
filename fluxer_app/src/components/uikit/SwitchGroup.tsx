@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Switch} from '@app/components/form/Switch';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import styles from '@app/components/uikit/SwitchGroup.module.css';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {Switch} from '~/components/form/Switch';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import styles from './SwitchGroup.module.css';
 
 interface SwitchGroupItemProps {
 	label: React.ReactNode;

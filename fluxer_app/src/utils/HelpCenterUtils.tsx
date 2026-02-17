@@ -17,10 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Routes} from '~/Routes';
-import * as LocaleUtils from '~/utils/LocaleUtils';
+import type {HelpCenterArticleSlug} from '@app/constants/HelpCenterConstants';
+import {Routes} from '@app/Routes';
 
-export function getURL(articleId: string): string {
-	const locale = LocaleUtils.getCurrentLocale().toLowerCase();
-	return `${Routes.help()}/${locale}/articles/${articleId}`;
+export function getURL(slug: HelpCenterArticleSlug): string {
+	return `${Routes.help()}/${slug}`;
 }

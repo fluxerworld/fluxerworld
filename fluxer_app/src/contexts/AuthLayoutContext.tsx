@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import type {GuildSplashCardAlignmentValue} from '~/Constants';
+import type {GuildSplashCardAlignmentValue} from '@fluxer/constants/src/GuildConstants';
+import React, {useContext} from 'react';
 
 interface AuthLayoutContextType {
 	setSplashUrl: (url: string | null) => void;
@@ -29,7 +29,7 @@ interface AuthLayoutContextType {
 export const AuthLayoutContext = React.createContext<AuthLayoutContextType | null>(null);
 
 export const useAuthLayoutContext = () => {
-	const context = React.useContext(AuthLayoutContext);
+	const context = useContext(AuthLayoutContext);
 	if (!context) {
 		throw new Error('useAuthLayoutContext must be used within AuthLayoutProvider');
 	}

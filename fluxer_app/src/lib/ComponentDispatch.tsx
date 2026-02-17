@@ -17,6 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
 import EventEmitter from 'eventemitter3';
 
 export type ComponentActionType =
@@ -58,6 +59,7 @@ type ComponentDispatchEvents = {
 
 class Dispatch extends EventEmitter<ComponentDispatchEvents> {
 	private _savedDispatches: Partial<Record<ComponentActionType, Array<unknown>>> = {};
+	private logger = new Logger('ComponentDispatch');
 
 	safeDispatch(type: ComponentActionType, args?: unknown) {
 		if (!this.hasSubscribers(type)) {
@@ -105,7 +107,7 @@ class Dispatch extends EventEmitter<ComponentDispatchEvents> {
 
 	subscribe(type: ComponentActionType, callback: (...args: Array<unknown>) => void): () => void {
 		if (this.listeners(type).includes(callback)) {
-			console.warn('ComponentDispatch.subscribe: Attempting to add a duplicate listener', type);
+			this.logger.warn('ComponentDispatch.subscribe: Attempting to add a duplicate listener', type);
 			return () => {
 				this.unsubscribe(type, callback);
 			};

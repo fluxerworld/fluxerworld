@@ -17,33 +17,42 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import {VoiceParticipantBottomSheet} from '@app/components/bottomsheets/VoiceParticipantBottomSheet';
+import {PreloadableUserPopout} from '@app/components/channel/PreloadableUserPopout';
+import {LongPressable} from '@app/components/LongPressable';
+import channelItemSurfaceStyles from '@app/components/layout/ChannelItemSurface.module.css';
+import {DND_TYPES} from '@app/components/layout/types/DndTypes';
+import styles from '@app/components/layout/VoiceParticipantItem.module.css';
+import {VoiceStateIcons} from '@app/components/layout/VoiceStateIcons';
+import {AvatarWithPresence} from '@app/components/uikit/avatars/AvatarWithPresence';
+import {VoiceParticipantContextMenu} from '@app/components/uikit/context_menu/VoiceParticipantContextMenu';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {getStreamKey} from '@app/components/voice/StreamKeys';
+import {StreamWatchHoverPopout} from '@app/components/voice/StreamWatchHoverPopout';
+import {useStreamWatchState} from '@app/components/voice/useStreamWatchState';
+import {isVoiceParticipantActuallySpeaking} from '@app/components/voice/VoiceParticipantSpeakingUtils';
+import {useContextMenuHoverState} from '@app/hooks/useContextMenuHoverState';
+import {useStreamWatchDoubleClick} from '@app/hooks/useStreamWatchDoubleClick';
+import type {UserRecord} from '@app/records/UserRecord';
+import LocalVoiceStateStore from '@app/stores/LocalVoiceStateStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import type {VoiceState} from '@app/types/gateway/GatewayVoiceTypes';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {ME} from '@fluxer/constants/src/AppConstants';
+import {Permissions} from '@fluxer/constants/src/ChannelConstants';
 import {useLingui} from '@lingui/react/macro';
 import {DesktopIcon, DeviceMobileIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React, {useCallback, useMemo, useState} from 'react';
+import type React from 'react';
+import {useCallback, useMemo, useRef, useState} from 'react';
 import type {ConnectableElement} from 'react-dnd';
 import {useDrag} from 'react-dnd';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import {Permissions} from '~/Constants';
-import {VoiceParticipantBottomSheet} from '~/components/bottomsheets/VoiceParticipantBottomSheet';
-import {PreloadableUserPopout} from '~/components/channel/PreloadableUserPopout';
-import {LongPressable} from '~/components/LongPressable';
-import {AvatarWithPresence} from '~/components/uikit/avatars/AvatarWithPresence';
-import {VoiceParticipantContextMenu} from '~/components/uikit/ContextMenu/VoiceParticipantContextMenu';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip';
-import type {UserRecord} from '~/records/UserRecord';
-import LocalVoiceStateStore from '~/stores/LocalVoiceStateStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import PermissionStore from '~/stores/PermissionStore';
-import type {VoiceState} from '~/stores/voice/MediaEngineFacade';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import channelItemSurfaceStyles from './ChannelItemSurface.module.css';
-import {DND_TYPES} from './types/dnd';
-import styles from './VoiceParticipantItem.module.css';
-import {VoiceStateIcons} from './VoiceStateIcons';
 
 export const VoiceParticipantItem = observer(function VoiceParticipantItem({
 	user,
@@ -77,6 +86,9 @@ export const VoiceParticipantItem = observer(function VoiceParticipantItem({
 	const localSelfStream = LocalVoiceStateStore.selfStream;
 	const isLocalParticipant = isCurrentUser || isCurrentUserConnection;
 
+	const rowRef = useRef<HTMLDivElement>(null);
+	const isContextMenuOpen = useContextMenuHoverState(rowRef);
+
 	const [{isDragging}, dragRef] = useDrag(
 		() => ({
 			type: DND_TYPES.VOICE_PARTICIPANT,
@@ -96,6 +108,7 @@ export const VoiceParticipantItem = observer(function VoiceParticipantItem({
 	const dragConnectorRef = useCallback(
 		(node: ConnectableElement | null) => {
 			dragRef(node);
+			rowRef.current = node as HTMLDivElement | null;
 		},
 		[dragRef],
 	);
@@ -104,20 +117,54 @@ export const VoiceParticipantItem = observer(function VoiceParticipantItem({
 	const isSelfDeafened = voiceState?.self_deaf ?? false;
 	const isGuildMuted = voiceState?.mute ?? false;
 	const isGuildDeafened = voiceState?.deaf ?? false;
-	const isActuallySpeaking = isSpeaking && !isSelfMuted && !isGuildMuted;
+	const isActuallySpeaking = isVoiceParticipantActuallySpeaking({
+		isSpeaking,
+		voiceState,
+		isMicrophoneEnabled: participant?.isMicrophoneEnabled ?? !isSelfMuted,
+	});
 
 	const remoteCameraOn = voiceState?.self_video ?? (participant ? participant.isCameraEnabled : false);
 	const remoteLive = voiceState?.self_stream ?? (participant ? participant.isScreenShareEnabled : false);
 	const displayCameraOn = !!(remoteCameraOn || (isLocalParticipant ? localSelfVideo : false));
 	const displayLive = !!(remoteLive || (isLocalParticipant ? localSelfStream : false));
+	const streamKey = useMemo(
+		() => getStreamKey(guildId, currentChannelId, connectionId),
+		[guildId, currentChannelId, connectionId],
+	);
+	const showStreamHover = displayLive && Boolean(connectionId);
 	const hasVoiceStateIcons =
 		displayCameraOn || displayLive || isSelfMuted || isSelfDeafened || isGuildMuted || isGuildDeafened;
+
+	const streamWatchStateArgs = useMemo(
+		() => ({streamKey, guildId, channelId: currentChannelId}),
+		[streamKey, guildId, currentChannelId],
+	);
+	const {startWatching} = useStreamWatchState(streamWatchStateArgs);
+
+	const streamParticipantIdentity = useMemo(
+		() => (connectionId ? `user_${user.id}_${connectionId}` : null),
+		[user.id, connectionId],
+	);
+
+	const handleNavigateToWatch = useCallback(() => {
+		if (currentChannelId) {
+			NavigationActionCreators.selectChannel(guildId ?? ME, currentChannelId);
+		}
+	}, [guildId, currentChannelId]);
+
+	const {onClick: handleClick, onDoubleClick: handleDoubleClick} = useStreamWatchDoubleClick({
+		streamParticipantIdentity: showStreamHover ? streamParticipantIdentity : null,
+		guildId,
+		channelId: currentChannelId,
+		startWatching,
+		onNavigateToWatch: handleNavigateToWatch,
+	});
 
 	const handleContextMenu = useCallback(
 		(event: React.MouseEvent) => {
 			event.preventDefault();
 			event.stopPropagation();
-			const participantName = NicknameUtils.getNickname(user, guildId, currentChannelId) || user.username;
+			const participantName = NicknameUtils.getNickname(user, guildId, currentChannelId ?? undefined) || user.username;
 			ContextMenuActionCreators.openFromEvent(event, ({onClose}) => (
 				<VoiceParticipantContextMenu
 					user={user}
@@ -132,11 +179,11 @@ export const VoiceParticipantItem = observer(function VoiceParticipantItem({
 		[user, guildId, connectionId, currentChannelId],
 	);
 
-	const handleProfilePopoutOpen = React.useCallback(() => {
+	const handleProfilePopoutOpen = useCallback(() => {
 		setIsProfilePopoutOpen(true);
 	}, []);
 
-	const handleProfilePopoutClose = React.useCallback(() => {
+	const handleProfilePopoutClose = useCallback(() => {
 		setIsProfilePopoutOpen(false);
 	}, []);
 
@@ -144,7 +191,7 @@ export const VoiceParticipantItem = observer(function VoiceParticipantItem({
 	const unknownDeviceFallback = useMemo(() => t`Unknown Device`, []);
 	const displayName = isGroupedItem
 		? voiceState?.connection_id || unknownDeviceFallback
-		: NicknameUtils.getNickname(user, guildId, currentChannelId);
+		: NicknameUtils.getNickname(user, guildId, currentChannelId ?? undefined);
 	const openProfileAriaLabel = !isGroupedItem ? t`Open profile for ${displayName}` : undefined;
 
 	const row = (
@@ -157,8 +204,11 @@ export const VoiceParticipantItem = observer(function VoiceParticipantItem({
 					isDragging && styles.participantRowDragging,
 					isCurrentUserConnection && !isActuallySpeaking && styles.participantRowCurrentConnection,
 					isProfilePopoutOpen && styles.participantRowPopoutOpen,
+					isContextMenuOpen && styles.participantRowContextMenuActive,
 				)}
+				onClick={handleClick}
 				onContextMenu={handleContextMenu}
+				onDoubleClick={handleDoubleClick}
 				onLongPress={() => {
 					if (isMobileLayout) setMenuOpen(true);
 				}}
@@ -221,10 +271,21 @@ export const VoiceParticipantItem = observer(function VoiceParticipantItem({
 		</FocusRing>
 	);
 
+	const rowWithHover = (
+		<StreamWatchHoverPopout
+			enabled={showStreamHover}
+			streamKey={streamKey}
+			guildId={guildId}
+			channelId={currentChannelId}
+		>
+			{row}
+		</StreamWatchHoverPopout>
+	);
+
 	return (
 		<>
 			{isGroupedItem ? (
-				row
+				rowWithHover
 			) : (
 				<PreloadableUserPopout
 					user={user}
@@ -236,7 +297,7 @@ export const VoiceParticipantItem = observer(function VoiceParticipantItem({
 					onPopoutOpen={handleProfilePopoutOpen}
 					onPopoutClose={handleProfilePopoutClose}
 				>
-					{row}
+					{rowWithHover}
 				</PreloadableUserPopout>
 			)}
 

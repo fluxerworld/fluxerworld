@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/modals/components/Slate.module.css';
+import {Button} from '@app/components/uikit/button/Button';
 import type {Icon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {Button} from '~/components/uikit/Button/Button';
-import styles from './Slate.module.css';
 
 interface SlateProps {
 	icon: Icon;

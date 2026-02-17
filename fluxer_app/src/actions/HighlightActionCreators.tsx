@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import AutocompleteStore from '~/stores/AutocompleteStore';
+import AutocompleteStore from '@app/stores/AutocompleteStore';
 
-export const highlightChannel = (channelId: string): void => {
+export function highlightChannel(channelId: string): void {
 	AutocompleteStore.highlightChannel(channelId);
-};
+}
 
-export const clearChannelHighlight = (): void => {
+export function clearChannelHighlight(): void {
 	AutocompleteStore.highlightChannelClear();
-};
+}

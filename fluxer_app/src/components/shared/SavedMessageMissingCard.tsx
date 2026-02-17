@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import previewStyles from '@app/components/shared/MessagePreview.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
 import {useLingui} from '@lingui/react/macro';
 import {WarningCircleIcon} from '@phosphor-icons/react';
-import previewStyles from '~/components/shared/MessagePreview.module.css';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
 
 interface SavedMessageMissingCardProps {
 	entryId: string;

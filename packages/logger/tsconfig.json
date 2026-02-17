@@ -1,0 +1,6 @@
+{
+	"extends": "../../tsconfigs/package.json",
+	"compilerOptions": {},
+	"include": ["src/**/*"],
+	"exclude": ["src/mock.tsx"]
+}

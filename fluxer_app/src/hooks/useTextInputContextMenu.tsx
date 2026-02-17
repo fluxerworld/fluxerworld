@@ -17,10 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import {TextareaContextMenu} from '~/components/channel/textarea/TextareaContextMenu';
-import {getElectronAPI, isElectron} from '~/utils/NativeUtils';
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import {
+	TextareaContextMenu,
+	type TextareaContextMenuEditFlags,
+} from '@app/components/channel/textarea/TextareaContextMenu';
+import {getElectronAPI, isElectron} from '@app/utils/NativeUtils';
+import type React from 'react';
+import type {AbstractView} from 'react';
+import {useEffect, useMemo} from 'react';
+
+function toAbstractView(view: Window | null): AbstractView | null {
+	if (view === null) return null;
+	return view;
+}
 
 const DISALLOWED_INPUT_TYPES = new Set([
 	'button',
@@ -45,7 +55,7 @@ const createSyntheticEvent = (
 	targetElement?: HTMLElement | null,
 	currentTargetElement?: HTMLElement | null,
 ): React.MouseEvent<HTMLElement> => {
-	const view = (event.view ?? null) as unknown as React.MouseEvent<HTMLElement>['view'];
+	const view = toAbstractView(event.view) ?? window;
 	return {
 		preventDefault: () => {},
 		stopPropagation: () => {},
@@ -106,7 +116,7 @@ const getEditableTarget = (node: Element | null): HTMLElement | null => {
 	}
 
 	const input = node.closest('input') as HTMLInputElement | null;
-	if (input && !DISALLOWED_INPUT_TYPES.has((input.type ?? 'text').toLowerCase())) {
+	if (input && !DISALLOWED_INPUT_TYPES.has((input['type'] ?? 'text').toLowerCase())) {
 		return input;
 	}
 
@@ -123,32 +133,32 @@ const openTextareaContextMenu = (
 };
 
 export const useTextInputContextMenu = () => {
-	const nativeShim = React.useMemo(() => isElectron(), []);
+	const nativeShim = useMemo(() => isElectron(), []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!nativeShim) return;
 
 		const electronAPI = getElectronAPI();
 		if (!electronAPI || !electronAPI.onTextareaContextMenu) return;
 
 		return electronAPI.onTextareaContextMenu((params) => {
-			const targetNode = document.elementFromPoint(params.x, params.y);
+			const targetNode = document.elementFromPoint(params['x'], params['y']);
 			const editable = getEditableTarget(targetNode);
 			if (!editable) return;
 
 			const nativeEvent = new MouseEvent('contextmenu', {
-				clientX: params.x,
-				clientY: params.y,
-				screenX: params.x,
-				screenY: params.y,
+				clientX: params['x'],
+				clientY: params['y'],
+				screenX: params['x'],
+				screenY: params['y'],
 				bubbles: true,
 				cancelable: true,
 			});
 
 			openTextareaContextMenu(createSyntheticEvent(nativeEvent, editable, editable), {
-				misspelledWord: params.misspelledWord,
+				misspelledWord: params.misspelledWord ?? undefined,
 				suggestions: params.suggestions,
-				editFlags: params.editFlags,
+				editFlags: params.editFlags as TextareaContextMenuEditFlags | undefined,
 			});
 		});
 	}, [nativeShim]);

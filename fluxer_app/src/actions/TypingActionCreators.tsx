@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import TypingStore from '~/stores/TypingStore';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import TypingStore from '@app/stores/TypingStore';
 
 const logger = new Logger('Typing');
 
-export const sendTyping = async (channelId: string): Promise<void> => {
+export async function sendTyping(channelId: string): Promise<void> {
 	try {
 		logger.debug(`Sending typing indicator to channel ${channelId}`);
 		await http.post({url: Endpoints.CHANNEL_TYPING(channelId)});
@@ -32,14 +32,14 @@ export const sendTyping = async (channelId: string): Promise<void> => {
 	} catch (error) {
 		logger.error(`Failed to send typing indicator to channel ${channelId}:`, error);
 	}
-};
+}
 
-export const startTyping = (channelId: string, userId: string): void => {
+export function startTyping(channelId: string, userId: string): void {
 	logger.debug(`Starting typing indicator for user ${userId} in channel ${channelId}`);
 	TypingStore.startTyping(channelId, userId);
-};
+}
 
-export const stopTyping = (channelId: string, userId: string): void => {
+export function stopTyping(channelId: string, userId: string): void {
 	logger.debug(`Stopping typing indicator for user ${userId} in channel ${channelId}`);
 	TypingStore.stopTyping(channelId, userId);
-};
+}

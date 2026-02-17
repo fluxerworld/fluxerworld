@@ -17,13 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {ModalRender} from '@app/actions/ModalRender';
+import {ChannelSettingsModal} from '@app/components/modals/ChannelSettingsModal';
+import {GuildSettingsModal} from '@app/components/modals/GuildSettingsModal';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
+import {Logger} from '@app/lib/Logger';
+import ModalStore from '@app/stores/ModalStore';
 import lodash from 'lodash';
 import type React from 'react';
-import {ChannelSettingsModal} from '~/components/modals/ChannelSettingsModal';
-import {GuildSettingsModal} from '~/components/modals/GuildSettingsModal';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import {Logger} from '~/lib/Logger';
-import ModalStore from '~/stores/ModalStore';
 
 const logger = new Logger('Modal');
 
@@ -33,18 +34,11 @@ const isBackgroundModal = (element: React.ReactElement): boolean => {
 	return BACKGROUND_MODAL_TYPES.some((type) => element.type === type);
 };
 
-declare const ModalRenderBrand: unique symbol;
-
-export interface ModalRender {
-	(): React.ReactElement;
-	[ModalRenderBrand]: true;
-}
-
 export function modal(render: () => React.ReactElement): ModalRender {
 	return render as ModalRender;
 }
 
-export const push = (modal: ModalRender): void => {
+export function push(modal: ModalRender): void {
 	const renderedModal = modal();
 	const isBackground = isBackgroundModal(renderedModal);
 
@@ -64,9 +58,9 @@ export const push = (modal: ModalRender): void => {
 	const key = lodash.uniqueId('modal');
 	logger.debug(`Pushing modal: ${key} (background=${isBackground})`);
 	ModalStore.push(modal, key, {isBackground});
-};
+}
 
-export const pushWithKey = (modal: ModalRender, key: string): void => {
+export function pushWithKey(modal: ModalRender, key: string): void {
 	const renderedModal = modal();
 	const isBackground = isBackgroundModal(renderedModal);
 
@@ -91,24 +85,29 @@ export const pushWithKey = (modal: ModalRender, key: string): void => {
 
 	logger.debug(`Pushing modal with key: ${key} (background=${isBackground})`);
 	ModalStore.push(modal, key, {isBackground});
-};
+}
 
-export const update = (key: string, updater: (currentModal: ModalRender) => ModalRender): void => {
+export function update(key: string, updater: (currentModal: ModalRender) => ModalRender): void {
 	logger.debug(`Updating modal with key: ${key}`);
 	ModalStore.update(key, updater);
-};
+}
 
-export const pop = (): void => {
+export function pop(): void {
 	logger.debug('Popping most recent modal');
 	ModalStore.pop();
-};
+}
 
-export const popWithKey = (key: string): void => {
+export function popWithKey(key: string): void {
 	logger.debug(`Popping modal with key: ${key}`);
 	ModalStore.pop(key);
-};
+}
 
-export const popAll = (): void => {
+export function popByType<T>(component: React.ComponentType<T>): void {
+	logger.debug(`Popping modal by type: ${component.displayName ?? component.name ?? 'unknown'}`);
+	ModalStore.popByType(component);
+}
+
+export function popAll(): void {
 	logger.debug('Popping all modals');
 	ModalStore.popAll();
-};
+}

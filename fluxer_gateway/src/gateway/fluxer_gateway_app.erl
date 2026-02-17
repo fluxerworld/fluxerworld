@@ -19,36 +19,25 @@
 -behaviour(application).
 -export([start/2, stop/1]).
 
+-spec start(application:start_type(), term()) -> {ok, pid()} | {error, term()}.
 start(_StartType, _StartArgs) ->
     fluxer_gateway_env:load(),
-
-    WsPort = fluxer_gateway_env:get(ws_port),
-    RpcPort = fluxer_gateway_env:get(rpc_port),
-
+    otel_metrics:init(),
+    Port = fluxer_gateway_env:get(port),
     Dispatch = cowboy_router:compile([
         {'_', [
             {<<"/_health">>, health_handler, []},
+            {<<"/_rpc">>, gateway_rpc_http_handler, []},
+            {<<"/_admin/reload">>, hot_reload_handler, []},
             {<<"/">>, gateway_handler, []}
         ]}
     ]),
-
-    {ok, _} = cowboy:start_clear(http, [{port, WsPort}], #{
+    {ok, _} = cowboy:start_clear(http, [{port, Port}], #{
         env => #{dispatch => Dispatch},
         max_frame_size => 4096
     }),
-
-    RpcDispatch = cowboy_router:compile([
-        {'_', [
-            {<<"/_rpc">>, gateway_rpc_http_handler, []},
-            {<<"/_admin/reload">>, hot_reload_handler, []}
-        ]}
-    ]),
-
-    {ok, _} = cowboy:start_clear(rpc_http, [{port, RpcPort}], #{
-        env => #{dispatch => RpcDispatch}
-    }),
-
     fluxer_gateway_sup:start_link().
 
+-spec stop(term()) -> ok.
 stop(_State) ->
     ok.

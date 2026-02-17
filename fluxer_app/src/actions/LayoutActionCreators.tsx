@@ -17,17 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Logger} from '~/lib/Logger';
-import MemberListStore from '~/stores/MemberListStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
+import {Logger} from '@app/lib/Logger';
+import MemberListStore from '@app/stores/MemberListStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
 
 const logger = new Logger('Layout');
 
-export const updateMobileLayoutState = (navExpanded: boolean, chatExpanded: boolean): void => {
+export function updateMobileLayoutState(navExpanded: boolean, chatExpanded: boolean): void {
 	logger.debug(`Updating mobile layout state: nav=${navExpanded}, chat=${chatExpanded}`);
 	MobileLayoutStore.updateState({navExpanded, chatExpanded});
-};
+}
 
-export const toggleMembers = (_isOpen: boolean): void => {
+export function toggleMembers(_isOpen: boolean): void {
 	MemberListStore.toggleMembers();
-};
+}

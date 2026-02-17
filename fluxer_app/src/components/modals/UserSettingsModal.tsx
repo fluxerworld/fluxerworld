@@ -17,26 +17,28 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as UnsavedChangesActionCreators from '@app/actions/UnsavedChangesActionCreators';
+import {DesktopSettingsView} from '@app/components/modals/components/DesktopSettingsView';
+import {MobileSettingsView} from '@app/components/modals/components/MobileSettingsView';
+import {useMobileNavigation} from '@app/components/modals/hooks/useMobileNavigation';
+import {SettingsContentKeyProvider} from '@app/components/modals/hooks/useSettingsContentKey';
+import * as Modal from '@app/components/modals/Modal';
+import {SettingsModalContainer} from '@app/components/modals/shared/SettingsModalLayout';
+import type {UserSettingsSubtabType} from '@app/components/modals/utils/SettingsConstants';
+import {getSettingsTabs} from '@app/components/modals/utils/SettingsConstants';
+import type {UserSettingsTabType} from '@app/components/modals/utils/SettingsSectionRegistry';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import DeveloperModeStore from '@app/stores/DeveloperModeStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import UnsavedChangesStore from '@app/stores/UnsavedChangesStore';
+import {isMobileExperienceEnabled} from '@app/utils/MobileExperience';
+import {hasManagedTrait} from '@app/utils/traits/UserTraits';
+import {ManagedTraits} from '@fluxer/constants/src/ManagedTraits';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as UnsavedChangesActionCreators from '~/actions/UnsavedChangesActionCreators';
-import * as Modal from '~/components/modals/Modal';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import DeveloperModeStore from '~/stores/DeveloperModeStore';
-import FeatureFlagStore from '~/stores/FeatureFlagStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import SelectedGuildStore from '~/stores/SelectedGuildStore';
-import UnsavedChangesStore from '~/stores/UnsavedChangesStore';
-import {isMobileExperienceEnabled} from '~/utils/mobileExperience';
-import {DesktopSettingsView} from './components/DesktopSettingsView';
-import {MobileSettingsView} from './components/MobileSettingsView';
-import {useMobileNavigation} from './hooks/useMobileNavigation';
-import {SettingsContentKeyProvider} from './hooks/useSettingsContentKey';
-import {SettingsModalContainer} from './shared/SettingsModalLayout';
-import type {UserSettingsSubtabType, UserSettingsTabType} from './utils/settingsConstants';
-import {getSettingsTabs} from './utils/settingsConstants';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 
 interface UserSettingsModalProps {
 	initialTab?: UserSettingsTabType;
@@ -46,14 +48,14 @@ interface UserSettingsModalProps {
 
 export const UserSettingsModal: React.FC<UserSettingsModalProps> = observer(
 	({initialTab, initialSubtab, initialGuildId}) => {
-		const {t} = useLingui();
-		const [selectedTab, setSelectedTab] = React.useState<UserSettingsTabType>(initialTab || 'my_profile');
+		const {t, i18n} = useLingui();
+		const [selectedTab, setSelectedTab] = useState<UserSettingsTabType>(initialTab || 'my_profile');
 
 		const isMobileExperience = isMobileExperienceEnabled();
 
-		const settingsTabs = React.useMemo(() => getSettingsTabs(t), [t]);
+		const settingsTabs = useMemo(() => getSettingsTabs(i18n), [i18n]);
 
-		const mobileInitialTab = React.useMemo(() => {
+		const mobileInitialTab = useMemo(() => {
 			if (!isMobileExperience || !initialTab) return;
 			const targetTab = settingsTabs.find((tab) => tab.type === initialTab);
 			if (!targetTab) return;
@@ -65,10 +67,9 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = observer(
 
 		const unsavedChangesStore = UnsavedChangesStore;
 		const isDeveloper = DeveloperModeStore.isDeveloper;
-		const selectedGuildId = SelectedGuildStore.selectedGuildId;
-		const hasExpressionPackAccess = FeatureFlagStore.isExpressionPacksEnabled(selectedGuildId ?? undefined);
+		const hasExpressionPackAccess = hasManagedTrait(ManagedTraits.EXPRESSION_PACKS);
 
-		const groupedSettingsTabs = React.useMemo(() => {
+		const groupedSettingsTabs = useMemo(() => {
 			const tabsToGroup = settingsTabs.filter((tab) => {
 				if (!isDeveloper && tab.category === 'staff_only') {
 					return false;
@@ -91,7 +92,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = observer(
 			);
 		}, [isDeveloper, hasExpressionPackAccess, settingsTabs]);
 
-		const currentTab = React.useMemo(() => {
+		const currentTab = useMemo(() => {
 			if (!isMobile) {
 				return settingsTabs.find((tab) => tab.type === selectedTab);
 			}
@@ -99,7 +100,7 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = observer(
 			return settingsTabs.find((tab) => tab.type === mobileNav.currentView?.tab);
 		}, [isMobile, selectedTab, mobileNav.isRootView, mobileNav.currentView, settingsTabs]);
 
-		const handleMobileBack = React.useCallback(() => {
+		const handleMobileBack = useCallback(() => {
 			if (mobileNav.isRootView) {
 				ModalActionCreators.pop();
 			} else {
@@ -107,14 +108,14 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = observer(
 			}
 		}, [mobileNav]);
 
-		const handleTabSelect = React.useCallback(
+		const handleTabSelect = useCallback(
 			(tabType: string, title: string) => {
-				mobileNav.navigateTo(tabType as any, title);
+				mobileNav.navigateTo(tabType as UserSettingsTabType, title);
 			},
 			[mobileNav],
 		);
 
-		const handleClose = React.useCallback(() => {
+		const handleClose = useCallback(() => {
 			const checkTabId = selectedTab;
 			if (checkTabId && unsavedChangesStore.unsavedChanges[checkTabId]) {
 				UnsavedChangesActionCreators.triggerFlashEffect(checkTabId);
@@ -123,15 +124,15 @@ export const UserSettingsModal: React.FC<UserSettingsModalProps> = observer(
 			ModalActionCreators.pop();
 		}, [selectedTab, unsavedChangesStore.unsavedChanges]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (!hasExpressionPackAccess && selectedTab === 'expression_packs') {
 				setSelectedTab('my_profile');
 			}
 		}, [hasExpressionPackAccess, selectedTab]);
 
-		React.useEffect(() => {
-			const unsubscribe = ComponentDispatch.subscribe('USER_SETTINGS_TAB_SELECT', (args?: any) => {
-				const {tab} = args || {};
+		useEffect(() => {
+			const unsubscribe = ComponentDispatch.subscribe('USER_SETTINGS_TAB_SELECT', (args?: unknown) => {
+				const {tab} = (args ?? {}) as {tab?: string};
 				if (tab && typeof tab === 'string') {
 					if (isMobile) {
 						const targetTab = settingsTabs.find((t) => t.type === tab);

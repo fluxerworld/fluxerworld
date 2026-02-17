@@ -17,18 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export interface GuildRole {
-	readonly id: string;
-	readonly name: string;
-	readonly color: number;
-	readonly position: number;
-	readonly hoist_position?: number | null;
-	readonly permissions: string;
-	readonly hoist: boolean;
-	readonly mentionable: boolean;
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import type {GuildRole} from '@fluxer/schema/src/domains/guild/GuildRoleSchemas';
+
+interface GuildRoleRecordOptions {
+	instanceId?: string;
 }
 
 export class GuildRoleRecord {
+	readonly instanceId: string;
 	readonly id: string;
 	readonly guildId: string;
 	readonly name: string;
@@ -39,7 +36,8 @@ export class GuildRoleRecord {
 	readonly hoist: boolean;
 	readonly mentionable: boolean;
 
-	constructor(guildId: string, guildRole: GuildRole) {
+	constructor(guildId: string, guildRole: GuildRole, options?: GuildRoleRecordOptions) {
+		this.instanceId = options?.instanceId ?? RuntimeConfigStore.localInstanceDomain;
 		this.id = guildRole.id;
 		this.guildId = guildId;
 		this.name = guildRole.name;
@@ -56,16 +54,20 @@ export class GuildRoleRecord {
 	}
 
 	withUpdates(updates: Partial<GuildRole>): GuildRoleRecord {
-		return new GuildRoleRecord(this.guildId, {
-			id: this.id,
-			name: updates.name ?? this.name,
-			color: updates.color ?? this.color,
-			position: updates.position ?? this.position,
-			hoist_position: updates.hoist_position !== undefined ? updates.hoist_position : this.hoistPosition,
-			permissions: updates.permissions ?? this.permissions.toString(),
-			hoist: updates.hoist ?? this.hoist,
-			mentionable: updates.mentionable ?? this.mentionable,
-		});
+		return new GuildRoleRecord(
+			this.guildId,
+			{
+				id: this.id,
+				name: updates.name ?? this.name,
+				color: updates.color ?? this.color,
+				position: updates.position ?? this.position,
+				hoist_position: updates.hoist_position !== undefined ? updates.hoist_position : this.hoistPosition,
+				permissions: updates.permissions ?? this.permissions.toString(),
+				hoist: updates.hoist ?? this.hoist,
+				mentionable: updates.mentionable ?? this.mentionable,
+			},
+			{instanceId: this.instanceId},
+		);
 	}
 
 	get isEveryone(): boolean {
@@ -74,6 +76,7 @@ export class GuildRoleRecord {
 
 	equals(other: GuildRoleRecord): boolean {
 		return (
+			this.instanceId === other.instanceId &&
 			this.id === other.id &&
 			this.guildId === other.guildId &&
 			this.name === other.name &&

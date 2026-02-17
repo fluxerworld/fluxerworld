@@ -17,20 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
-import {observer} from 'mobx-react-lite';
-import {useEffect, useState} from 'react';
-import {useForm} from 'react-hook-form';
-import {components, type OptionProps, type SingleValueProps} from 'react-select';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as UserActionCreators from '~/actions/UserActionCreators';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import {Select} from '~/components/form/Select';
-import * as Modal from '~/components/modals/Modal';
-import styles from '~/components/modals/PhoneAddModal.module.css';
-import {Button} from '~/components/uikit/Button/Button';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as UserActionCreators from '@app/actions/UserActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import {Select} from '@app/components/form/Select';
+import * as Modal from '@app/components/modals/Modal';
+import styles from '@app/components/modals/PhoneAddModal.module.css';
+import {Button} from '@app/components/uikit/button/Button';
 import {
 	COUNTRY_CODES,
 	type CountryCode,
@@ -38,10 +33,15 @@ import {
 	getCountryName,
 	getDefaultCountry,
 	getE164PhoneNumber,
-} from '~/data/countryCodes';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import * as EmojiUtils from '~/utils/EmojiUtils';
-import * as LocaleUtils from '~/utils/LocaleUtils';
+} from '@app/data/CountryCodes';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import * as EmojiUtils from '@app/utils/EmojiUtils';
+import * as LocaleUtils from '@app/utils/LocaleUtils';
+import {Trans, useLingui} from '@lingui/react/macro';
+import {observer} from 'mobx-react-lite';
+import {useEffect, useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {components, type FilterOptionOption, type OptionProps, type SingleValueProps} from 'react-select';
 
 interface PhoneFormInputs {
 	phoneNumber: string;
@@ -103,7 +103,6 @@ export const PhoneAddModal = observer(() => {
 	const [formattedPhone, setFormattedPhone] = useState('');
 	const phoneForm = useForm<PhoneFormInputs>();
 	const codeForm = useForm<CodeFormInputs>();
-
 	useEffect(() => {
 		const formatted = formatPhoneNumber(phoneNumber, selectedCountry);
 		setFormattedPhone(formatted);
@@ -150,8 +149,8 @@ export const PhoneAddModal = observer(() => {
 		return (
 			<Modal.Root size="small" centered>
 				<Form form={phoneForm} onSubmit={handlePhoneSubmit} aria-label={t`Add phone number form`}>
-					<Modal.Header title={t`Add phone number`} />
-					<Modal.Content className={styles.content}>
+					<Modal.Header title={t`Add Phone Number`} />
+					<Modal.Content contentClassName={styles.content}>
 						<div className={styles.formContent}>
 							<div className={styles.selectWrapper}>
 								<Select
@@ -166,9 +165,12 @@ export const PhoneAddModal = observer(() => {
 										}
 									}}
 									options={countryOptions}
-									components={{Option: CountryOption as any, SingleValue: SingleValue as any}}
+									components={{
+										Option: CountryOption as React.ComponentType<OptionProps<CountrySelectOption>>,
+										SingleValue: SingleValue as React.ComponentType<SingleValueProps<CountrySelectOption>>,
+									}}
 									placeholder={t`Search countries...`}
-									filterOption={(option: any, inputValue: string) => {
+									filterOption={(option: FilterOptionOption<CountrySelectOption>, inputValue: string) => {
 										const searchTerm = inputValue.toLowerCase();
 										const countryName = getCountryName(option.data.country.code, locale);
 										return (
@@ -182,12 +184,12 @@ export const PhoneAddModal = observer(() => {
 
 							<Input
 								{...phoneForm.register('phoneNumber')}
-								autoFocus={true}
 								autoComplete="tel"
+								autoFocus={true}
 								value={formattedPhone}
 								onChange={handlePhoneInput}
 								error={phoneForm.formState.errors.phoneNumber?.message}
-								label={t`Phone number`}
+								label={t`Phone Number`}
 								placeholder={selectedCountry.format || '##########'}
 								required={true}
 								footer={
@@ -214,14 +216,14 @@ export const PhoneAddModal = observer(() => {
 	return (
 		<Modal.Root size="small" centered>
 			<Form form={codeForm} onSubmit={handleCodeSubmit} aria-label={t`Verify phone number form`}>
-				<Modal.Header title={t`Verify phone number`} />
-				<Modal.Content className={styles.content}>
+				<Modal.Header title={t`Verify Phone Number`} />
+				<Modal.Content contentClassName={styles.content}>
 					<Input
 						{...codeForm.register('code')}
-						autoFocus={true}
 						autoComplete="one-time-code"
+						autoFocus={true}
 						error={codeForm.formState.errors.code?.message}
-						label={t`Verification code`}
+						label={t`Verification Code`}
 						required={true}
 						footer={
 							<p className={styles.footerText}>

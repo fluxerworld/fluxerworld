@@ -83,8 +83,7 @@
 }
 
 .userInfo:hover::before,
-.userInfo.active::before,
-.userInfo:focus-visible::before {
+.userInfo.active::before {
 	background-color: color-mix(in srgb, var(--text-primary) 3%, transparent);
 }
 
@@ -167,8 +166,7 @@
 }
 
 .forceHover .defaultState,
-.userInfo:hover .hoverRoll .defaultState,
-.userInfo:focus-visible .hoverRoll .defaultState {
+.userInfo:hover .hoverRoll .defaultState {
 	transform: translate3d(0, 107%, 0);
 	opacity: 0;
 	user-select: none;
@@ -176,10 +174,22 @@
 }
 
 .forceHover .hovered,
-.userInfo:hover .hoverRoll .hovered,
-.userInfo:focus-visible .hoverRoll .hovered {
+.userInfo:hover .hoverRoll .hovered {
 	transform: translate3d(0, 0, 0);
 	opacity: 1;
+}
+
+@media (pointer: coarse), (max-width: 767px) {
+	.hoverRoll .defaultState,
+	.hoverRoll .hovered {
+		transform: none;
+		opacity: 1;
+		position: static;
+	}
+
+	.hoverRoll .hovered {
+		display: none;
+	}
 }
 
 .controlsContainer {
@@ -201,21 +211,14 @@
 	border: none;
 	border-radius: var(--radius-md);
 	cursor: pointer;
-	transition:
-		background-color var(--transition-fast),
-		color var(--transition-fast),
-		transform var(--transition-fast);
 	position: relative;
 	padding: 0;
 }
 
-.controlButton:hover {
+.controlButton:hover,
+.controlButton.contextMenuHover:not(.active):not(.disabled) {
 	background-color: color-mix(in srgb, var(--control-button-normal-text) 10%, transparent);
 	color: var(--control-button-hover-text);
-}
-
-.controlButton:active {
-	transform: scale(0.95);
 }
 
 .controlButton.active {
@@ -236,10 +239,6 @@
 .controlButton.disabled:hover {
 	background-color: color-mix(in srgb, var(--control-button-danger-text) 15%, transparent);
 	color: var(--control-button-danger-text);
-}
-
-.controlButton.disabled:active {
-	transform: none;
 }
 
 .controlIcon {

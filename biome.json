@@ -40,7 +40,8 @@
 			"quoteStyle": "single"
 		},
 		"parser": {
-			"cssModules": true
+			"cssModules": true,
+			"tailwindDirectives": true
 		}
 	},
 	"linter": {
@@ -49,7 +50,8 @@
 			"recommended": true,
 			"complexity": {
 				"noForEach": "off",
-				"noImportantStyles": "off"
+				"noImportantStyles": "off",
+				"useLiteralKeys": "off"
 			},
 			"correctness": {
 				"noUndeclaredVariables": "error",
@@ -61,6 +63,7 @@
 				"noArrayIndexKey": "off",
 				"noAssignInExpressions": "off",
 				"noExplicitAny": "off",
+				"noThenProperty": "off",
 				"noDoubleEquals": {
 					"level": "error",
 					"options": {
@@ -103,7 +106,7 @@
 				"noAutofocus": "warn",
 				"noAccessKey": "warn",
 				"useAriaActivedescendantWithTabindex": "error",
-				"noSvgWithoutTitle": "warn"
+				"noSvgWithoutTitle": "off"
 			},
 			"nursery": {
 				"useSortedClasses": "error"
@@ -121,6 +124,7 @@
 			"**",
 			"!**/.git",
 			"!**/app.css",
+			"!fluxer_admin/public/static/app.css",
 			"!**/build",
 			"fluxer_app/scripts/build",
 			"!**/dist",
@@ -132,7 +136,10 @@
 			"!**/*.html",
 			"!**/*.module.css.d.ts",
 			"!**/fluxer_app/src/components/uikit/SVGMasks.tsx",
-			"!fluxer_static"
+			"!fluxer_marketing/public/static/app.css",
+			"!packages/marketing/public/static/app.css",
+			"!fluxer_static",
+			"!fluxer_docs/api-reference/openapi.json"
 		],
 		"ignoreUnknown": true
 	}

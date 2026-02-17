@@ -17,19 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import styles from '@app/components/modals/tabs/KeybindsTab.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import KeybindManager from '@app/lib/KeybindManager';
+import NativePermissionStore from '@app/stores/NativePermissionStore';
+import {openNativePermissionSettings, requestNativePermission} from '@app/utils/NativePermissions';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {Button} from '~/components/uikit/Button/Button';
-import KeybindManager from '~/lib/KeybindManager';
-import NativePermissionStore from '~/stores/NativePermissionStore';
-import {openNativePermissionSettings, requestNativePermission} from '~/utils/NativePermissions';
-import styles from '../KeybindsTab.module.css';
+import type React from 'react';
+import {useState} from 'react';
 
 export const InputMonitoringSection: React.FC = observer(() => {
 	const {t} = useLingui();
-	const [requesting, setRequesting] = React.useState(false);
+	const [requesting, setRequesting] = useState(false);
 
 	const status = NativePermissionStore.inputMonitoringStatus;
 
@@ -52,7 +53,11 @@ export const InputMonitoringSection: React.FC = observer(() => {
 		}
 	};
 
-	const statusLabel = status === 'denied' ? t`Not granted` : status === 'not-determined' ? t`Not granted` : t`Granted`;
+	const statusLabel = (() => {
+		if (status === 'denied') return t`Not granted`;
+		if (status === 'not-determined') return t`Not granted`;
+		return t`Granted`;
+	})();
 
 	return (
 		<div className={styles.permissionCard}>

@@ -17,19 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as UserSettingsActionCreators from '@app/actions/UserSettingsActionCreators';
+import {SettingsSection} from '@app/components/modals/shared/SettingsSection';
+import {SettingsTabContainer, SettingsTabContent} from '@app/components/modals/shared/SettingsTabLayout';
+import {Notifications} from '@app/components/modals/tabs/notifications_tab/Notifications';
+import {PushSettings} from '@app/components/modals/tabs/notifications_tab/PushSettings';
+import {Sounds} from '@app/components/modals/tabs/notifications_tab/Sounds';
+import {TextToSpeech} from '@app/components/modals/tabs/notifications_tab/TextToSpeech';
+import {useSoundSettings} from '@app/components/modals/tabs/notifications_tab/useSoundSettings';
+import NotificationStore from '@app/stores/NotificationStore';
+import SoundStore from '@app/stores/SoundStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import * as UserSettingsActionCreators from '~/actions/UserSettingsActionCreators';
-import {SettingsSection} from '~/components/modals/shared/SettingsSection';
-import {SettingsTabContainer, SettingsTabContent} from '~/components/modals/shared/SettingsTabLayout';
-import NotificationStore from '~/stores/NotificationStore';
-import SoundStore from '~/stores/SoundStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import {Notifications} from './NotificationsTab/Notifications';
-import {PushSettings} from './NotificationsTab/PushSettings';
-import {Sounds} from './NotificationsTab/Sounds';
-import {useSoundSettings} from './NotificationsTab/useSoundSettings';
 
 const NotificationsTab: React.FC = observer(() => {
 	const {t} = useLingui();
@@ -39,7 +40,7 @@ const NotificationsTab: React.FC = observer(() => {
 	const {afkTimeout} = UserSettingsStore;
 
 	const {
-		hasPremium,
+		hasCustomNotificationSounds,
 		soundTypeLabels,
 		customSounds,
 		handleToggleAllSounds,
@@ -70,7 +71,7 @@ const NotificationsTab: React.FC = observer(() => {
 				<SettingsSection id="sounds" title={t`Sounds`}>
 					<Sounds
 						soundSettings={soundSettings}
-						hasPremium={hasPremium}
+						hasCustomNotificationSounds={hasCustomNotificationSounds}
 						soundTypeLabels={soundTypeLabels}
 						customSounds={customSounds}
 						onToggleAllSounds={handleToggleAllSounds}
@@ -81,6 +82,14 @@ const NotificationsTab: React.FC = observer(() => {
 						onUploadClick={handleUploadClick}
 						onCustomSoundDelete={handleCustomSoundDelete}
 					/>
+				</SettingsSection>
+
+				<SettingsSection
+					id="text-to-speech"
+					title={t`Text-to-speech`}
+					description={t`Control speech commands and narration for incoming content.`}
+				>
+					<TextToSpeech />
 				</SettingsSection>
 
 				<SettingsSection id="push" title={t`Push Settings`}>

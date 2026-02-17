@@ -17,24 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
-import {observer} from 'mobx-react-lite';
-import {Controller, useForm} from 'react-hook-form';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {ChannelTypes} from '~/Constants';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import styles from '~/components/modals/ChannelCreateModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {RadioGroup} from '~/components/uikit/RadioGroup/RadioGroup';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import styles from '@app/components/modals/ChannelCreateModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {RadioGroup} from '@app/components/uikit/radio_group/RadioGroup';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
 import {
 	channelTypeOptions,
 	createChannel,
 	type FormInputs,
 	getDefaultValues,
-} from '~/utils/modals/ChannelCreateModalUtils';
+} from '@app/utils/modals/ChannelCreateModalUtils';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import {useLingui} from '@lingui/react/macro';
+import {observer} from 'mobx-react-lite';
+import {Controller, useForm} from 'react-hook-form';
 
 export const ChannelCreateModal = observer(({guildId, parentId}: {guildId: string; parentId?: string}) => {
 	const {t} = useLingui();
@@ -56,7 +56,7 @@ export const ChannelCreateModal = observer(({guildId, parentId}: {guildId: strin
 		<Modal.Root size="small" centered>
 			<Form form={form} onSubmit={handleSubmit}>
 				<Modal.Header title={t`Create Channel`} />
-				<Modal.Content className={styles.content}>
+				<Modal.Content contentClassName={styles.content}>
 					<div className={styles.channelTypeSection}>
 						<div className={styles.channelTypeLabel}>{t`Channel Type`}</div>
 						<Controller
@@ -74,8 +74,8 @@ export const ChannelCreateModal = observer(({guildId, parentId}: {guildId: strin
 					</div>
 					<Input
 						{...form.register('name')}
-						autoFocus={true}
 						autoComplete="off"
+						autoFocus={true}
 						error={form.formState.errors.name?.message}
 						label={t`Name`}
 						maxLength={100}

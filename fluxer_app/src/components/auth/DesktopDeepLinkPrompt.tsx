@@ -17,15 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/auth/DesktopDeepLinkPrompt.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {Platform} from '@app/lib/Platform';
+import {Routes} from '@app/Routes';
+import {buildAppProtocolUrl} from '@app/utils/AppProtocol';
+import {checkDesktopAvailable, navigateInDesktop} from '@app/utils/DesktopRpcClient';
+import {isDesktop, openExternalUrl} from '@app/utils/NativeUtils';
 import {Trans} from '@lingui/react/macro';
 import {ArrowSquareOutIcon} from '@phosphor-icons/react';
 import type React from 'react';
 import {useEffect, useState} from 'react';
-import {Routes} from '~/Routes';
-import {checkDesktopAvailable, navigateInDesktop} from '~/utils/DesktopRpcClient';
-import {isDesktop} from '~/utils/NativeUtils';
-import {Button} from '../uikit/Button/Button';
-import styles from './DesktopDeepLinkPrompt.module.css';
 
 interface DesktopDeepLinkPromptProps {
 	code: string;
@@ -37,9 +39,12 @@ export const DesktopDeepLinkPrompt: React.FC<DesktopDeepLinkPromptProps> = ({cod
 	const [isLoading, setIsLoading] = useState(false);
 	const [desktopAvailable, setDesktopAvailable] = useState<boolean | null>(null);
 	const [error, setError] = useState<string | null>(null);
+	const isMobileBrowser = Platform.isMobileBrowser;
+	const useProtocolLaunch = kind === 'invite';
+	const shouldProbeDesktopAvailability = !useProtocolLaunch;
 
 	useEffect(() => {
-		if (isDesktop()) return;
+		if (isDesktop() || !shouldProbeDesktopAvailability) return;
 
 		let cancelled = false;
 		checkDesktopAvailable().then(({available}) => {
@@ -50,11 +55,11 @@ export const DesktopDeepLinkPrompt: React.FC<DesktopDeepLinkPromptProps> = ({cod
 		return () => {
 			cancelled = true;
 		};
-	}, []);
+	}, [shouldProbeDesktopAvailability]);
 
-	if (isDesktop()) return null;
+	if (isDesktop() || isMobileBrowser) return null;
 
-	if (desktopAvailable !== true) return null;
+	if (shouldProbeDesktopAvailability && desktopAvailable !== true) return null;
 
 	const getPath = (): string => {
 		switch (kind) {
@@ -72,6 +77,17 @@ export const DesktopDeepLinkPrompt: React.FC<DesktopDeepLinkPromptProps> = ({cod
 	const handleOpen = async () => {
 		setIsLoading(true);
 		setError(null);
+
+		if (useProtocolLaunch) {
+			try {
+				await openExternalUrl(buildAppProtocolUrl(path));
+			} catch {
+				setError('Failed to open in desktop app');
+			} finally {
+				setIsLoading(false);
+			}
+			return;
+		}
 
 		const result = await navigateInDesktop(path);
 

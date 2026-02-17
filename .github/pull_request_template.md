@@ -2,9 +2,9 @@
 
 <!-- A few bullets is perfect: what changed, why it changed, and anything reviewers should pay attention to. -->
 
-- **What:** 
-- **Why:** 
-- **Notes for reviewers:** 
+- **What:**
+- **Why:**
+- **Notes for reviewers:**
 
 ## How to verify
 
@@ -16,18 +16,16 @@
 
 ## Tests
 
-<!-- List what you ran, or explain why tests weren’t added/changed. -->
+<!-- List what you ran, or explain why tests weren't added/changed. -->
 
-- [ ] Added/updated tests (where it makes sense)
-- [ ] Unit tests:
-- [ ] Integration tests:
+- [ ] Added/updated unit tests (where it makes sense)
 - [ ] Manual verification:
 
 ## Checklist
 
 - [ ] PR targets `canary`
 - [ ] PR title follows Conventional Commits (mostly lowercase)
-- [ ] CI is green (or I’m actively addressing failures)
+- [ ] CI is green (or I'm actively addressing failures)
 - [ ] CLA signed (the bot will guide you on first PR)
 
 ## Screenshots / recordings (UI changes)

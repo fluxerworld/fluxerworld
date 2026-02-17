@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {GuildStickerRecord} from '~/records/GuildStickerRecord';
-import ChannelStickerStore from '~/stores/ChannelStickerStore';
+import type {GuildStickerRecord} from '@app/records/GuildStickerRecord';
+import ChannelStickerStore from '@app/stores/ChannelStickerStore';
 
 export function setPendingSticker(channelId: string, sticker: GuildStickerRecord): void {
 	ChannelStickerStore.setPendingSticker(channelId, sticker);

@@ -1,0 +1,47 @@
+{
+	"captcha_provider": {
+		"type": "object",
+		"description": "Configuration for a specific CAPTCHA provider.",
+		"additionalProperties": false,
+		"properties": {
+			"site_key": {
+				"type": "string",
+				"description": "Public site key.",
+				"default": ""
+			},
+			"secret_key": {
+				"type": "string",
+				"description": "Secret key for server-side verification.",
+				"default": ""
+			}
+		}
+	},
+	"captcha_integration": {
+		"type": "object",
+		"description": "CAPTCHA service integration.",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"description": "Enable CAPTCHA verification.",
+				"default": false
+			},
+			"provider": {
+				"type": "string",
+				"description": "Selected CAPTCHA provider.",
+				"enum": ["hcaptcha", "turnstile", "none"],
+				"default": "none"
+			},
+			"hcaptcha": {
+				"description": "hCaptcha settings.",
+				"$ref": "#/$defs/captcha_provider",
+				"default": {}
+			},
+			"turnstile": {
+				"description": "Cloudflare Turnstile settings.",
+				"$ref": "#/$defs/captcha_provider",
+				"default": {}
+			}
+		}
+	}
+}

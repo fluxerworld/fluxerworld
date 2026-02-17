@@ -1,0 +1,23 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "WEBHOOKS_UPDATE",
+	"description": "Sent when a guild channel webhook is created, updated, or deleted. Indicates that webhooks for the channel should be re-fetched.",
+	"scope": "guild",
+	"dispatchedBy": [
+		"POST /channels/:channel_id/webhooks",
+		"PATCH /webhooks/:webhook_id",
+		"DELETE /webhooks/:webhook_id",
+		"PATCH /webhooks/:webhook_id/:token",
+		"DELETE /webhooks/:webhook_id/:token"
+	],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID whose webhooks were updated"
+			}
+		},
+		"required": ["channel_id"]
+	}
+}

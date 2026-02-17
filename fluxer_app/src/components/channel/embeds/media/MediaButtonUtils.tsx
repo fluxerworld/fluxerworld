@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {canDeleteAttachmentUtil} from '~/components/channel/messageActionUtils';
-import type {MessageRecord} from '~/records/MessageRecord';
-import AccessibilityStore from '~/stores/AccessibilityStore';
+import {canDeleteAttachmentUtil} from '@app/components/channel/MessageActionUtils';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
 
 export interface MediaButtonVisibilityOptions {
 	disableDelete?: boolean;

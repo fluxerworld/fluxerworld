@@ -1,0 +1,370 @@
+account_disabled_suspicious:
+  subject: Tvůj účet Fluxer byl dočasně deaktivován
+  body: |-
+    Ahoj {username},
+
+    Tvůj účet Fluxer jsme dočasně deaktivovali, protože jsme zaznamenali podezřelou aktivitu.
+
+    {reason, select,
+      null {}
+      other {Důvod: {reason}}
+    }
+
+    Pro obnovení přístupu ke svému účtu si musíš resetovat heslo:
+
+    {forgotUrl}
+
+    Jakmile heslo resetuješ, budeš se moct znovu přihlásit.
+
+    Pokud si myslíš, že je to omyl, ozvi se prosím na naši podporu.
+
+    – Bezpečnostní tým Fluxeru
+account_scheduled_deletion:
+  subject: Tvůj účet Fluxer bude smazán
+  body: |-
+    Ahoj {username},
+
+    Tvůj účet Fluxer byl označen k trvalému smazání, protože jsi porušil/a naše podmínky používání nebo pravidla komunity.
+
+    Datum plánovaného smazání: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Důvod: {reason}}
+    }
+
+    Jde o závažné opatření. Data k účtu budou v uvedeném termínu nenávratně smazána.
+
+    Projdi si prosím:
+    - Podmínky používání: {termsUrl}
+    - Pravidla komunity: {guidelinesUrl}
+
+    Odvolání:
+    Pokud se domníváš, že je toto rozhodnutí chybné nebo neopodstatněné, můžeš do 60 dnů podat odvolání na appeals@fluxer.app, a to z této e-mailové adresy.
+
+    V odvolání prosím:
+    - Jasně popiš, proč si myslíš, že je rozhodnutí chybné nebo neopodstatněné
+    - Přilož, pokud je to možné, relevantní důkazy nebo dodatečný kontext
+
+    Člen bezpečnostního týmu Fluxeru odvolání posoudí a může plánované smazání pozastavit až do vydání konečného rozhodnutí.
+
+    – Bezpečnostní tým Fluxeru
+account_temp_banned:
+  subject: Tvůj účet Fluxer byl dočasně pozastaven
+  body: |-
+    Ahoj {username},
+
+    Tvůj účet Fluxer byl dočasně pozastaven, protože jsi porušil/a naše podmínky používání nebo pravidla komunity.
+
+    Doba trvání: {durationHours, plural,
+      one {# hodina}
+      few {# hodiny}
+      other {# hodin}
+    }
+    Pozastaveno do: {bannedUntil, date, full} {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {Důvod: {reason}}
+    }
+
+    Po tuto dobu se ke svému účtu nedostaneš.
+
+    Projdi si prosím:
+    - Podmínky používání: {termsUrl}
+    - Pravidla komunity: {guidelinesUrl}
+
+    Pokud se domníváš, že je toto rozhodnutí chybné nebo neopodstatněné, můžeš podat odvolání na appeals@fluxer.app, a to z této e-mailové adresy. Jasně popiš, proč si myslíš, že je rozhodnutí chybné. Odvolání prověříme a ozveme se s výsledkem.
+
+    – Bezpečnostní tým Fluxeru
+donation_confirmation:
+  subject: Děkujeme za příspěvek na Fluxer
+  body: |-
+    Ahoj,
+
+    Děkujeme za příspěvek na Fluxer! Tvůj {interval, select,
+      month {opakovaný příspěvek}
+      year {opakovaný příspěvek}
+      other {jednorázový příspěvek}
+    } byl úspěšně {interval, select,
+      month {nastaven}
+      year {nastaven}
+      other {zpracován}
+    }.
+
+    Podrobnosti příspěvku:
+    Částka: {amount} {currency} {interval, select,
+      month {měsíčně}
+      year {ročně}
+      other {}
+    }
+
+    Stripe ti brzy zašle samostatný e-mail s účtenkou a fakturou ve formátu PDF. Obsahuje všechny platební údaje a lze ji použít pro daňové účely.
+
+    Kdykoli si můžeš prohlédnout historii příspěvků, stáhnout faktury{interval, select,
+      month { a spravovat nebo zrušit předplatné}
+      year { a spravovat nebo zrušit předplatné}
+      other { a spravovat budoucí příspěvky}
+    } pomocí tohoto odkazu:
+
+    {manageUrl}
+
+    Tvá podpora pomáhá Fluxeru fungovat. Děkujeme!
+
+    – tým Fluxeru
+donation_magic_link:
+  subject: Spravuj své příspěvky na Fluxer
+  body: |-
+    Ahoj,
+
+    Klikni na odkaz níže, abys získal/a přístup do portálu pro dárce:
+
+    {manageUrl}
+
+    V portálu můžeš spravovat předplatné, stahovat faktury a prohlížet si historii příspěvků.
+
+    Tento odkaz vyprší {expiresAt, date, full} v {expiresAt, time, short}.
+
+    Pokud sis to nevyžádal/a, můžeš tento e-mail bezpečně ignorovat.
+
+    – tým Fluxeru
+dsa_report_verification:
+  subject: Ověř si e-mail pro DSA hlášení
+  body: |-
+    Ahoj,
+
+    Použij kód níže pro odeslání hlášení podle Digital Services Act (DSA) na Fluxeru:
+
+    {code}
+
+    Tento kód vyprší dne {expiresAt, date, full} v {expiresAt, time, short}.
+
+    Pokud sis to nevyžádal/a, můžeš tento e-mail ignorovat.
+
+    – Bezpečnostní tým Fluxeru
+email_change_new:
+  subject: Ověř si nový e-mail u Fluxeru
+  body: |-
+    Ahoj {username},
+
+    Zadej tento kód v aplikaci a potvrď svůj nový e-mail u Fluxeru:
+
+    {code}
+
+    Tento kód vyprší dne {expiresAt, date, full} v {expiresAt, time, short}.
+
+    Pokud sis to nevyžádal/a, můžeš tento e-mail ignorovat.
+
+    – Tým Fluxeru
+email_change_original:
+  subject: Potvrď změnu e-mailu u Fluxeru
+  body: |-
+    Ahoj {username},
+
+    Dostali jsme žádost o změnu e-mailové adresy u tvého účtu Fluxer.
+
+    Pro potvrzení změny zadej tento kód v aplikaci:
+
+    {code}
+
+    Tento kód vyprší dne {expiresAt, date, full} v {expiresAt, time, short}.
+
+    Pokud sis to nevyžádal/a, hned si zabezpeč svůj účet.
+
+    – Tým Fluxeru
+email_change_revert:
+  subject: E-mail u tvého účtu Fluxer byl změněn
+  body: |-
+    Ahoj {username},
+
+    E-mailová adresa u tvého účtu Fluxer byla změněna na {newEmail}.
+
+    Pokud jsi to byl/a ty, nemusíš nic dělat. Pokud ne, můžeš změnu vrátit zpět a zabezpečit účet přes tento odkaz:
+
+    {revertUrl}
+
+    Tím se obnoví původní e-mailová adresa, odhlásíš se všude, odeberou se propojená telefonní čísla, vypne se vícefaktorové ověřování (MFA) a budeš muset nastavit nové heslo.
+
+    – Bezpečnostní tým Fluxeru
+email_verification:
+  subject: Ověř si e-mailovou adresu u Fluxeru
+  body: |-
+    Ahoj {username},
+
+    Ověř prosím e-mailovou adresu u svého účtu Fluxer kliknutím na odkaz níže:
+
+    {verifyUrl}
+
+    Pokud sis účet Fluxer nezakládal/a, můžeš tento e-mail bez obav ignorovat.
+
+    Tento odkaz je platný 24 hodin.
+
+    – Tým Fluxeru
+gift_chargeback_notification:
+  subject: Výhody z uplatněného dárkového kódu byly odebrány
+  body: |-
+    Ahoj {username},
+
+    Dárkový kód, který jsi uplatnil/a, byl původně zaplacen někým jiným. Tato platba byla později vrácena (chargeback).
+
+    Proto jsme odebrali výhody, které byly k tvému účtu přidány při uplatnění dárkového kódu.
+
+    Pokud si myslíš, že je to omyl, kontaktuj prosím naši podporu a připoj všechny podrobnosti, které máš o kódu a čase uplatnění.
+
+    – Tým Fluxeru
+harvest_completed:
+  subject: Tvůj export dat z Fluxeru je připraven ke stažení
+  body: |-
+    Ahoj {username},
+
+    Tvůj export dat je připraven.
+
+    Odkaz ke stažení:
+    {downloadUrl}
+
+    Zahrnuté zprávy: {totalMessages, number}
+    Velikost souboru: {fileSizeMB, number} MB
+
+    Tento odkaz vyprší dne {expiresAt, date, full} v {expiresAt, time, short}.
+
+    Pokud jsi o tento export nežádal/a ty, hned si změň heslo a kontaktuj naši podporu.
+
+    – Tým Fluxeru
+inactivity_warning:
+  subject: Tvůj účet Fluxer bude smazán kvůli neaktivitě
+  body: |-
+    Ahoj {username},
+
+    Na tvém účtu Fluxer jsme od {lastActiveDate, date, full} nezaznamenali žádnou aktivitu.
+
+    Pokud se nepřihlásíš nejpozději do {deletionDate, date, full} {deletionDate, time, short}, bude tvůj účet kvůli neaktivitě trvale smazán.
+
+    Přihlášení:
+    {loginUrl}
+
+    Pokud jsi Fluxer používal/a nedávno, hned kontaktuj naši podporu.
+
+    – Tým Fluxeru
+ip_authorization:
+  subject: Povol přihlášení z nové IP adresy
+  body: |-
+    Ahoj {username},
+
+    Zaznamenali jsme pokus o přihlášení k tvému účtu Fluxer z nové IP adresy:
+
+    IP adresa: {ipAddress}
+    Poloha: {location}
+
+    Pokud jsi to byl/a ty, potvrď tuto IP adresu kliknutím na odkaz níže:
+
+    {authUrl}
+
+    Pokud ses o přihlášení nepokoušel/a ty, hned si změň heslo.
+
+    Tento odkaz pro potvrzení je platný 30 minut.
+
+    – Tým Fluxeru
+password_change_verification:
+  subject: Potvrď změnu hesla u Fluxeru
+  body: |-
+    Ahoj {username},
+
+    Dostali jsme žádost o změnu hesla u tvého účtu Fluxer.
+
+    Pro potvrzení této změny zadej tento kód v aplikaci:
+
+    {code}
+
+    Tento kód vyprší dne {expiresAt, date, full} v {expiresAt, time, short}.
+
+    Pokud sis to nevyžádal/a, je možné, že někdo má přístup k tvému účtu. Hned si změň heslo a zapni dvoufaktorové ověřování.
+
+    – Tým Fluxeru
+password_reset:
+  subject: Reset hesla u Fluxeru
+  body: |-
+    Ahoj {username},
+
+    Požádal/a jsi o reset hesla u Fluxeru. Nové heslo si nastav přes odkaz níže:
+
+    {resetUrl}
+
+    Pokud sis reset nevyžádal/a, můžeš tento e-mail bez obav ignorovat.
+
+    Tento odkaz je platný 1 hodinu.
+
+    – Tým Fluxeru
+registration_approved:
+  subject: Tvoje registrace do Fluxeru byla schválena
+  body: |-
+    Ahoj {username},
+
+    Dobrá zpráva – tvoje registrace do Fluxeru byla schválena.
+
+    Teď se můžeš přihlásit do aplikace Fluxer tady:
+    {channelsUrl}
+
+    Vítej v komunitě Fluxeru.
+
+    – Tým Fluxeru
+report_resolved:
+  subject: Tvoje hlášení na Fluxeru bylo zkontrolováno
+  body: |-
+    Ahoj {username},
+
+    Tvoje hlášení (ID: {reportId}) prověřil náš bezpečnostní tým.
+
+    Odpověď od bezpečnostního týmu:
+    {publicComment}
+
+    Díky, že pomáháš udržet Fluxer bezpečný pro všechny. Všechna hlášení bereme vážně a vážíme si tvého příspěvku komunitě.
+
+    Pokud máš k výsledku dotazy nebo připomínky, napiš na safety@fluxer.app.
+
+    – Bezpečnostní tým Fluxeru
+scheduled_deletion_notification:
+  subject: Tvůj účet Fluxer bude smazán
+  body: |-
+    Ahoj {username},
+
+    Tvůj účet Fluxer byl označen k trvalému smazání.
+
+    Datum plánovaného smazání: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Důvod: {reason}}
+    }
+
+    Jde o závažné opatření. Data k účtu budou v uvedeném termínu nenávratně smazána.
+
+    Pokud se domníváš, že je toto rozhodnutí chybné, můžeš podat odvolání na appeals@fluxer.app, a to z této e-mailové adresy.
+
+    – Bezpečnostní tým Fluxeru
+self_deletion_scheduled:
+  subject: Smazání tvého účtu Fluxer je naplánované
+  body: |-
+    Ahoj {username},
+
+    Požádal/a jsi o smazání svého účtu Fluxer. Tvůj účet bude trvale smazán dne:
+
+    {deletionDate, date, full} {deletionDate, time, short}
+
+    Pokud sis to nevyžádal/a, přihlas se ke svému účtu a smazání zruš. Doporučujeme také změnit heslo, aby byl účet lépe zabezpečený.
+
+    – Tým Fluxeru
+unban_notification:
+  subject: Pozastavení tvého účtu Fluxer bylo zrušeno
+  body: |-
+    Ahoj {username},
+
+    Dobrá zpráva – pozastavení tvého účtu Fluxer bylo zrušeno.
+
+    {reason, select,
+      null {}
+      other {Důvod: {reason}}
+    }
+
+    Teď se můžeš znovu přihlásit a pokračovat v používání Fluxeru.
+
+    – Bezpečnostní tým Fluxeru

@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {PlutoniumContent} from '@app/components/modals/components/PlutoniumContent';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {PlutoniumContent} from '../components/PlutoniumContent';
 
 const PlutoniumTab: React.FC = observer(() => {
 	return <PlutoniumContent />;

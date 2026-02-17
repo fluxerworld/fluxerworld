@@ -17,179 +17,169 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/voice/VoiceGridLayout.module.css';
 import type {TrackReferenceOrPlaceholder} from '@livekit/components-react';
 import {isTrackReference, ParticipantContext, TrackRefContext} from '@livekit/components-react';
+import {clsx} from 'clsx';
 import type React from 'react';
-import {useEffect, useRef, useState} from 'react';
+import {useLayoutEffect, useMemo, useRef, useState} from 'react';
 
 interface VoiceGridLayoutProps {
 	tracks: Array<TrackReferenceOrPlaceholder>;
 	children: React.ReactElement;
+	onOverflowChange?: (isOverflowing: boolean) => void;
+	edgeToEdge?: boolean;
+	compact?: boolean;
 }
 
-interface GridDimensions {
-	tileWidth: number;
-	tileHeight: number;
-	cols: number;
-	rows: number;
+interface GridStyle extends React.CSSProperties {
+	'--voice-grid-single-tile-width'?: string;
 }
 
-function calculateGridDimensions(
-	containerWidth: number,
-	containerHeight: number,
-	tileCount: number,
-	gap: number = 12,
-): GridDimensions {
-	if (tileCount === 0) {
-		return {tileWidth: 0, tileHeight: 0, cols: 1, rows: 1};
+const OVERFLOW_ENTER_HYSTERESIS_PX = 2;
+const OVERFLOW_EXIT_HYSTERESIS_PX = 6;
+const TILE_ASPECT_RATIO = 16 / 9;
+
+function resolveOverflowWithHysteresis(overflowDelta: number, wasOverflowing: boolean): boolean {
+	if (wasOverflowing) {
+		return overflowDelta > -OVERFLOW_EXIT_HYSTERESIS_PX;
 	}
 
-	if (tileCount === 1) {
-		const containerAspect = containerWidth / containerHeight;
-		const targetAspect = 16 / 9;
-
-		let width: number;
-		let height: number;
-
-		if (containerAspect > targetAspect) {
-			height = containerHeight;
-			width = height * targetAspect;
-		} else {
-			width = containerWidth;
-			height = width / targetAspect;
-		}
-
-		return {
-			tileWidth: width,
-			tileHeight: height,
-			cols: 1,
-			rows: 1,
-		};
-	}
-
-	if (tileCount === 2) {
-		const containerAspect = containerWidth / containerHeight;
-		const ultraWideThreshold = 32 / 9;
-
-		if (containerAspect > ultraWideThreshold) {
-			return calculateOptimalTileSize(containerWidth, containerHeight, 2, 1, gap);
-		} else {
-			return calculateOptimalTileSize(containerWidth, containerHeight, 1, 2, gap);
-		}
-	}
-
-	let bestDimensions: GridDimensions | null = null;
-	let maxTileSize = 0;
-
-	for (let cols = 1; cols <= tileCount; cols++) {
-		const rows = Math.ceil(tileCount / cols);
-
-		const dimensions = calculateOptimalTileSize(containerWidth, containerHeight, cols, rows, gap);
-		const tileSize = dimensions.tileWidth * dimensions.tileHeight;
-
-		if (tileSize > maxTileSize) {
-			maxTileSize = tileSize;
-			bestDimensions = dimensions;
-		}
-	}
-
-	return bestDimensions || {tileWidth: 0, tileHeight: 0, cols: 1, rows: 1};
+	return overflowDelta > OVERFLOW_ENTER_HYSTERESIS_PX;
 }
 
-function calculateOptimalTileSize(
-	containerWidth: number,
-	containerHeight: number,
-	cols: number,
-	rows: number,
-	gap: number,
-): GridDimensions {
-	const availableWidth = containerWidth - gap * (cols - 1);
-	const availableHeight = containerHeight - gap * (rows - 1);
-
-	let tileWidth = availableWidth / cols;
-	let tileHeight = tileWidth * (9 / 16);
-
-	const totalHeight = tileHeight * rows + gap * (rows - 1);
-
-	if (totalHeight > containerHeight) {
-		tileHeight = availableHeight / rows;
-		tileWidth = tileHeight * (16 / 9);
-	}
-
-	return {
-		tileWidth,
-		tileHeight,
-		cols,
-		rows,
-	};
-}
-
-export function VoiceGridLayout({tracks, children}: VoiceGridLayoutProps) {
+export function VoiceGridLayout({
+	tracks,
+	children,
+	onOverflowChange,
+	edgeToEdge = false,
+	compact = false,
+}: VoiceGridLayoutProps) {
 	const containerRef = useRef<HTMLDivElement>(null);
-	const [dimensions, setDimensions] = useState<GridDimensions>({
-		tileWidth: 0,
-		tileHeight: 0,
-		cols: 1,
-		rows: 1,
-	});
+	const gridRef = useRef<HTMLDivElement>(null);
+	const [isOverflowing, setIsOverflowing] = useState(false);
+	const [singleTileWidthPx, setSingleTileWidthPx] = useState<number | null>(null);
+	const overflowStateRef = useRef(false);
+	const gridStyle = useMemo<GridStyle | undefined>(() => {
+		if (tracks.length !== 1 || singleTileWidthPx == null) {
+			return undefined;
+		}
+		return {
+			'--voice-grid-single-tile-width': `${Math.round(singleTileWidthPx)}px`,
+		};
+	}, [singleTileWidthPx, tracks.length]);
 
-	useEffect(() => {
-		if (typeof ResizeObserver === 'undefined') return;
+	useLayoutEffect(() => {
+		if (tracks.length <= 1) {
+			overflowStateRef.current = false;
+			setIsOverflowing(false);
+			return;
+		}
 
 		const container = containerRef.current;
-		if (!container) return;
+		const grid = gridRef.current;
+		if (!container || !grid) return;
+		const containerNode = container;
+		const gridNode = grid;
 
-		const updateDimensions = () => {
-			const rect = container.getBoundingClientRect();
-			const tileCount = tracks.length;
-			const newDimensions = calculateGridDimensions(rect.width, rect.height, tileCount);
-			setDimensions(newDimensions);
-		};
+		function recompute() {
+			const overflowDelta = gridNode.scrollHeight - containerNode.clientHeight;
+			const nextOverflow = resolveOverflowWithHysteresis(overflowDelta, overflowStateRef.current);
+			overflowStateRef.current = nextOverflow;
+			setIsOverflowing((previous) => (previous === nextOverflow ? previous : nextOverflow));
+		}
 
-		updateDimensions();
+		if (typeof ResizeObserver === 'undefined') {
+			recompute();
+			return;
+		}
 
-		const resizeObserver = new ResizeObserver(() => {
-			updateDimensions();
+		const observer = new ResizeObserver(() => {
+			recompute();
 		});
-
-		resizeObserver.observe(container);
+		observer.observe(containerNode);
+		observer.observe(gridNode);
+		recompute();
 
 		return () => {
-			resizeObserver.disconnect();
+			observer.disconnect();
 		};
 	}, [tracks.length]);
+
+	useLayoutEffect(() => {
+		if (tracks.length !== 1) {
+			setSingleTileWidthPx(null);
+			return;
+		}
+
+		const container = containerRef.current;
+		const grid = gridRef.current;
+		if (!container || !grid) return;
+		const containerNode = container;
+		const gridNode = grid;
+
+		function recomputeSingleTileWidth() {
+			const containerWidth = containerNode.clientWidth;
+			const containerHeight = containerNode.clientHeight;
+			if (containerWidth <= 0 || containerHeight <= 0) return;
+
+			const computed = window.getComputedStyle(gridNode);
+			const sidePadding = Number.parseFloat(computed.getPropertyValue('--voice-grid-side-padding')) || 12;
+			const verticalPadding = Number.parseFloat(computed.getPropertyValue('--voice-grid-vertical-padding')) || 14;
+			const availableWidth = Math.max(0, containerWidth - sidePadding * 2);
+			const availableHeight = Math.max(0, containerHeight - verticalPadding * 2);
+			const nextWidth = Math.max(0, Math.min(availableWidth, availableHeight * TILE_ASPECT_RATIO));
+			setSingleTileWidthPx((previousWidth) => {
+				if (previousWidth != null && Math.abs(previousWidth - nextWidth) < 0.5) {
+					return previousWidth;
+				}
+				return nextWidth;
+			});
+		}
+
+		if (typeof ResizeObserver === 'undefined') {
+			recomputeSingleTileWidth();
+			return;
+		}
+
+		const observer = new ResizeObserver(() => {
+			recomputeSingleTileWidth();
+		});
+		observer.observe(containerNode);
+		observer.observe(gridNode);
+		recomputeSingleTileWidth();
+
+		return () => {
+			observer.disconnect();
+		};
+	}, [tracks.length]);
+
+	useLayoutEffect(() => {
+		onOverflowChange?.(isOverflowing);
+	}, [isOverflowing, onOverflowChange]);
 
 	return (
 		<div
 			ref={containerRef}
-			style={{
-				width: '100%',
-				height: '100%',
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				position: 'relative',
-			}}
+			className={clsx(
+				styles.gridViewport,
+				isOverflowing && styles.gridViewportOverflowing,
+				compact && styles.gridViewportCompact,
+			)}
+			data-edge-to-edge={edgeToEdge ? 'true' : undefined}
 		>
-			<div
-				style={{
-					display: 'grid',
-					gridTemplateColumns: `repeat(${dimensions.cols}, ${dimensions.tileWidth}px)`,
-					gridTemplateRows: `repeat(${dimensions.rows}, ${dimensions.tileHeight}px)`,
-					gap: '12px',
-					justifyContent: 'center',
-					alignContent: 'center',
-				}}
-			>
+			<div ref={gridRef} className={styles.grid} data-tile-count={tracks.length} style={gridStyle}>
 				{tracks.map((trackRef, index) => {
 					const key = isTrackReference(trackRef)
 						? `${trackRef.participant.identity}-${trackRef.source}`
 						: `placeholder-${trackRef.participant.identity}-${index}`;
 
 					return (
-						<TrackRefContext.Provider key={key} value={trackRef}>
-							<ParticipantContext.Provider value={trackRef.participant}>{children}</ParticipantContext.Provider>
-						</TrackRefContext.Provider>
+						<div key={key} className={styles.gridItem}>
+							<TrackRefContext.Provider value={trackRef}>
+								<ParticipantContext.Provider value={trackRef.participant}>{children}</ParticipantContext.Provider>
+							</TrackRefContext.Provider>
+						</div>
 					);
 				})}
 			</div>

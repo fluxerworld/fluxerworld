@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {GuildStickerRecord} from '@app/records/GuildStickerRecord';
 import {makeAutoObservable, observable} from 'mobx';
-import type {GuildStickerRecord} from '~/records/GuildStickerRecord';
 
 class ChannelStickerStore {
 	pendingStickers: Map<string, GuildStickerRecord> = observable.map();

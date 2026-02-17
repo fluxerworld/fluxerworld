@@ -1,0 +1,25 @@
+diff --git a/dist/lib/types.d.ts b/dist/lib/types.d.ts
+index 884e1b7aae635d658d47444f29095374e2b539b1..f0a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7e8f9a0 100644
+--- a/dist/lib/types.d.ts
++++ b/dist/lib/types.d.ts
+@@ -1,10 +1,18 @@
+-import { ComponentPropsWithoutRef, RefAttributes } from 'react';
++import { CSSProperties, RefAttributes, MouseEventHandler } from 'react';
+ export type IconWeight = "thin" | "light" | "regular" | "bold" | "fill" | "duotone";
+-export interface IconProps extends ComponentPropsWithoutRef<"svg">, RefAttributes<SVGSVGElement> {
++export interface IconProps extends RefAttributes<SVGSVGElement> {
+     alt?: string;
+     color?: string;
+     size?: string | number;
+     weight?: IconWeight;
+     mirrored?: boolean;
++    className?: string;
++    style?: CSSProperties;
++    id?: string;
++    onClick?: MouseEventHandler<SVGSVGElement>;
++    'aria-hidden'?: boolean | 'true' | 'false';
++    'aria-label'?: string;
++    width?: string | number;
++    height?: string | number;
+ }
+ export type Icon = React.ForwardRefExoticComponent<IconProps>;

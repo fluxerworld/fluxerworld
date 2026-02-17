@@ -328,3 +328,32 @@
 	margin-left: -16px;
 	margin-right: -16px;
 }
+
+.dropIndicatorLeft::before {
+	content: '';
+	position: absolute;
+	top: 8px;
+	bottom: 8px;
+	left: 0;
+	width: 2px;
+	background: var(--brand-primary-light);
+	border-radius: 1px;
+	z-index: 1;
+}
+
+.dropIndicatorRight::after {
+	content: '';
+	position: absolute;
+	top: 8px;
+	bottom: 8px;
+	right: 0;
+	width: 2px;
+	background: var(--brand-primary-light);
+	border-radius: 1px;
+	z-index: 1;
+}
+
+:global(.theme-light) .dropIndicatorLeft::before,
+:global(.theme-light) .dropIndicatorRight::after {
+	background: var(--brand-primary);
+}

@@ -19,18 +19,33 @@
 
 -export([execute/2]).
 
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+-endif.
+
+-spec execute(binary(), map()) -> term().
 execute(Method, Params) ->
-    case Method of
-        <<"guild.", _/binary>> ->
-            gateway_rpc_guild:execute_method(Method, Params);
-        <<"presence.", _/binary>> ->
-            gateway_rpc_presence:execute_method(Method, Params);
-        <<"push.", _/binary>> ->
-            gateway_rpc_push:execute_method(Method, Params);
-        <<"call.", _/binary>> ->
-            gateway_rpc_call:execute_method(Method, Params);
-        <<"process.", _/binary>> ->
-            gateway_rpc_misc:execute_method(Method, Params);
-        _ ->
-            throw({error, <<"Unknown method: ", Method/binary>>})
-    end.
+    route_method(Method, Params).
+
+-spec route_method(binary(), map()) -> term().
+route_method(<<"guild.", _/binary>> = Method, Params) ->
+    gateway_rpc_guild:execute_method(Method, Params);
+route_method(<<"presence.", _/binary>> = Method, Params) ->
+    gateway_rpc_presence:execute_method(Method, Params);
+route_method(<<"push.", _/binary>> = Method, Params) ->
+    gateway_rpc_push:execute_method(Method, Params);
+route_method(<<"call.", _/binary>> = Method, Params) ->
+    gateway_rpc_call:execute_method(Method, Params);
+route_method(<<"voice.", _/binary>> = Method, Params) ->
+    gateway_rpc_voice:execute_method(Method, Params);
+route_method(<<"process.", _/binary>> = Method, Params) ->
+    gateway_rpc_misc:execute_method(Method, Params);
+route_method(Method, _Params) ->
+    throw({error, <<"Unknown method: ", Method/binary>>}).
+
+-ifdef(TEST).
+
+route_method_guild_test() ->
+    ?assertThrow({error, _}, route_method(<<"unknown.method">>, #{})).
+
+-endif.

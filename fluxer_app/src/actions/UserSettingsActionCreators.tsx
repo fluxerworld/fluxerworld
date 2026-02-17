@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {UserSettings} from '~/stores/UserSettingsStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
+import type {UserSettings} from '@app/stores/UserSettingsStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
 
-export const update = async (settings: Partial<UserSettings>): Promise<void> => {
+export async function update(settings: Partial<UserSettings>): Promise<void> {
 	await UserSettingsStore.saveSettings(settings);
-};
+}

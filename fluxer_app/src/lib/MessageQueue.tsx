@@ -17,39 +17,44 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {I18n} from '@lingui/core';
-import {msg} from '@lingui/core/macro';
-import * as DraftActionCreators from '~/actions/DraftActionCreators';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as SlowmodeActionCreators from '~/actions/SlowmodeActionCreators';
-import {APIErrorCodes} from '~/Constants';
-import {FeatureTemporarilyDisabledModal} from '~/components/alerts/FeatureTemporarilyDisabledModal';
-import {FileSizeTooLargeModal} from '~/components/alerts/FileSizeTooLargeModal';
-import {MessageEditFailedModal} from '~/components/alerts/MessageEditFailedModal';
-import {MessageEditTooQuickModal} from '~/components/alerts/MessageEditTooQuickModal';
-import {MessageSendFailedModal} from '~/components/alerts/MessageSendFailedModal';
-import {MessageSendTooQuickModal} from '~/components/alerts/MessageSendTooQuickModal';
-import {NSFWContentRejectedModal} from '~/components/alerts/NSFWContentRejectedModal';
-import {SlowmodeRateLimitedModal} from '~/components/alerts/SlowmodeRateLimitedModal';
-import {Endpoints} from '~/Endpoints';
-import i18n from '~/i18n';
-import {CloudUpload} from '~/lib/CloudUpload';
-import http, {type HttpError, type HttpResponse} from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import {Queue, type QueueEntry} from '~/lib/Queue';
-import type {AllowedMentions, Message, MessageStickerItem} from '~/records/MessageRecord';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import {createSystemMessage} from '~/utils/CommandUtils';
-import {prepareAttachmentsForNonce} from '~/utils/MessageAttachmentUtils';
+import * as DraftActionCreators from '@app/actions/DraftActionCreators';
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as SlowmodeActionCreators from '@app/actions/SlowmodeActionCreators';
+import {FeatureTemporarilyDisabledModal} from '@app/components/alerts/FeatureTemporarilyDisabledModal';
+import {FileSizeTooLargeModal} from '@app/components/alerts/FileSizeTooLargeModal';
+import {MessageEditFailedModal} from '@app/components/alerts/MessageEditFailedModal';
+import {MessageEditTooQuickModal} from '@app/components/alerts/MessageEditTooQuickModal';
+import {MessageSendFailedModal} from '@app/components/alerts/MessageSendFailedModal';
+import {MessageSendTooQuickModal} from '@app/components/alerts/MessageSendTooQuickModal';
+import {NSFWContentRejectedModal} from '@app/components/alerts/NSFWContentRejectedModal';
+import {SlowmodeRateLimitedModal} from '@app/components/alerts/SlowmodeRateLimitedModal';
+import {Endpoints} from '@app/Endpoints';
+import i18n from '@app/I18n';
+import {CloudUpload} from '@app/lib/CloudUpload';
+import http, {type HttpResponse} from '@app/lib/HttpClient';
+import type {HttpError} from '@app/lib/HttpError';
+import {Logger} from '@app/lib/Logger';
+import {Queue, type QueueEntry} from '@app/lib/Queue';
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import {createSystemMessage} from '@app/utils/CommandUtils';
+import {prepareAttachmentsForNonce} from '@app/utils/MessageAttachmentUtils';
 import {
 	type ApiAttachmentMetadata,
 	buildMessageCreateRequest,
 	type MessageCreateRequest,
 	type MessageEditRequest,
-	type MessageReference,
-} from '~/utils/MessageRequestUtils';
+} from '@app/utils/MessageRequestUtils';
+import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
+import type {
+	AllowedMentions,
+	Message,
+	MessageReference,
+	MessageStickerItem,
+} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
+import type {I18n} from '@lingui/core';
+import {msg} from '@lingui/core/macro';
 
 const logger = new Logger('MessageQueue');
 
@@ -128,8 +133,15 @@ function isDMRestrictedError(error: HttpError): boolean {
 	return getApiErrorBody(error)?.code === APIErrorCodes.CANNOT_SEND_MESSAGES_TO_USER;
 }
 
-function isUnclaimedAccountError(error: HttpError): boolean {
-	return getApiErrorBody(error)?.code === APIErrorCodes.UNCLAIMED_ACCOUNT_RESTRICTED;
+function getUnclaimedAccountErrorCode(error: HttpError): string | undefined {
+	const code = getApiErrorBody(error)?.code;
+	if (
+		code === APIErrorCodes.UNCLAIMED_ACCOUNT_CANNOT_SEND_MESSAGES ||
+		code === APIErrorCodes.UNCLAIMED_ACCOUNT_CANNOT_SEND_DIRECT_MESSAGES
+	) {
+		return code;
+	}
+	return undefined;
 }
 
 class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | undefined> {
@@ -148,14 +160,15 @@ class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | un
 	drain(
 		message: MessageQueuePayload,
 		completed: (err: RetryError | null, result?: HttpResponse<Message>, error?: unknown) => void,
-	): void {
+	): Promise<unknown> | undefined {
 		if (isSendPayload(message)) {
-			this.handleSend(message, completed);
+			return this.handleSend(message, completed);
 		} else if (isEditPayload(message)) {
-			this.handleEdit(message, completed);
+			return this.handleEdit(message, completed);
 		} else {
 			logger.error('Unknown message type, completing with null');
 			completed(null, undefined, new Error('Unknown message queue payload'));
+			return undefined;
 		}
 	}
 
@@ -192,55 +205,59 @@ class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | un
 	): Promise<void> {
 		const {channelId, nonce, hasAttachments} = payload;
 
-		try {
-			await this.applyDevDelay();
+		await this.applyDevDelay();
 
-			if (DeveloperOptionsStore.forceFailMessageSends) {
-				throw new Error('Forced message send failure');
-			}
+		if (DeveloperOptionsStore.forceFailMessageSends) {
+			const forcedError = new Error('Forced message send failure');
+			logger.error(`Failed to send message to channel ${channelId}:`, forcedError);
+			this.handleSendError(channelId, nonce, forcedError as HttpError, i18n, payload.hasAttachments);
+			completed(null, undefined, forcedError);
+			return;
+		}
 
-			let attachments: Array<ApiAttachmentMetadata> | undefined;
-			let files: Array<File> | undefined;
+		let attachments: Array<ApiAttachmentMetadata> | undefined;
+		let files: Array<File> | undefined;
 
-			if (hasAttachments) {
-				const result = await prepareAttachmentsForNonce(nonce, payload.favoriteMemeId);
-				attachments = result.attachments;
-				files = result.files;
-			}
+		if (hasAttachments) {
+			const result = await prepareAttachmentsForNonce(nonce, payload.favoriteMemeId);
+			attachments = result.attachments;
+			files = result.files;
+		}
 
-			const requestBody = buildMessageCreateRequest({
-				content: payload.content,
-				nonce,
-				attachments,
-				allowedMentions: payload.allowedMentions,
-				messageReference: payload.messageReference,
-				flags: payload.flags,
-				favoriteMemeId: payload.favoriteMemeId,
-				stickers: payload.stickers,
-				tts: payload.tts,
-			});
+		const requestBody = buildMessageCreateRequest({
+			content: payload.content,
+			nonce,
+			attachments,
+			allowedMentions: payload.allowedMentions,
+			messageReference: payload.messageReference,
+			flags: payload.flags,
+			favoriteMemeId: payload.favoriteMemeId,
+			stickers: payload.stickers,
+			tts: payload.tts,
+		});
 
-			logger.debug(`Sending message to channel ${channelId}`);
+		logger.debug(`Sending message to channel ${channelId}`);
 
-			const response = await this.sendMessageRequest(channelId, nonce, requestBody, files);
+		const outcome = await this.attemptMessageSend(channelId, nonce, requestBody, files);
 
+		if (outcome.status === 'success') {
 			logger.debug(`Successfully sent message to channel ${channelId}`);
 
 			if (hasAttachments) {
 				CloudUpload.removeMessageUpload(nonce);
 			}
 
-			completed(null, response);
-		} catch (error) {
-			const httpError = error as HttpError;
-			logger.error(`Failed to send message to channel ${channelId}:`, error);
+			completed(null, outcome.response);
+			return;
+		}
 
-			if (isRateLimitError(httpError)) {
-				this.handleSendRateLimit(httpError, completed);
-			} else {
-				this.handleSendError(channelId, nonce, httpError, i18n, payload.hasAttachments);
-				completed(null, undefined, httpError);
-			}
+		logger.error(`Failed to send message to channel ${channelId}:`, outcome.error);
+
+		if (outcome.status === 'rateLimit') {
+			this.handleSendRateLimit(outcome.error, completed);
+		} else {
+			this.handleSendError(channelId, nonce, outcome.error, i18n, payload.hasAttachments);
+			completed(null, undefined, outcome.error);
 		}
 	}
 
@@ -285,10 +302,10 @@ class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | un
 		nonce?: string,
 	): Promise<HttpResponse<Message>> {
 		const formData = new FormData();
-		formData.append('payload_json', JSON.stringify(requestBody));
+		formData['append']('payload_json', JSON.stringify(requestBody));
 
 		files.forEach((file, index) => {
-			formData.append(`files[${index}]`, file);
+			formData['append'](`files[${index}]`, file);
 		});
 
 		return http.post<Message>({
@@ -305,6 +322,36 @@ class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | un
 					}
 				: undefined,
 		});
+	}
+
+	private async attemptMessageSend(
+		channelId: string,
+		nonce: string,
+		requestBody: MessageCreateRequest,
+		files?: Array<File>,
+	): Promise<
+		| {status: 'success'; response: HttpResponse<Message>}
+		| {status: 'rateLimit'; error: HttpError}
+		| {status: 'failure'; error: HttpError}
+	> {
+		try {
+			const response = await this.sendMessageRequest(channelId, nonce, requestBody, files);
+			return {status: 'success', response};
+		} catch (error) {
+			return this.buildSendOutcome(error);
+		}
+	}
+
+	private buildSendOutcome(
+		error: unknown,
+	): {status: 'rateLimit'; error: HttpError} | {status: 'failure'; error: HttpError} {
+		const httpError = error as HttpError;
+
+		if (isRateLimitError(httpError)) {
+			return {status: 'rateLimit', error: httpError};
+		}
+
+		return {status: 'failure', error: httpError};
 	}
 
 	private handleSendRateLimit(
@@ -343,10 +390,13 @@ class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | un
 			return;
 		}
 
-		if (isUnclaimedAccountError(error)) {
+		const unclaimedErrorCode = getUnclaimedAccountErrorCode(error);
+		if (unclaimedErrorCode) {
 			const systemMessage = createSystemMessage(
 				channelId,
-				i18n._(msg`Your message could not be delivered. You need to claim your account to send direct messages.`),
+				unclaimedErrorCode === APIErrorCodes.UNCLAIMED_ACCOUNT_CANNOT_SEND_DIRECT_MESSAGES
+					? i18n._(msg`Your message could not be delivered. You need to claim your account to send direct messages.`)
+					: i18n._(msg`Your message could not be delivered. You need to claim your account to send messages.`),
 			);
 			MessageActionCreators.createOptimistic(channelId, systemMessage.toJSON());
 			return;

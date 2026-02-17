@@ -19,6 +19,7 @@
 
 -export([execute_method/2]).
 
+-spec execute_method(binary(), map()) -> true.
 execute_method(<<"push.sync_user_guild_settings">>, #{
     <<"user_id">> := UserIdBin,
     <<"guild_id">> := GuildIdBin,

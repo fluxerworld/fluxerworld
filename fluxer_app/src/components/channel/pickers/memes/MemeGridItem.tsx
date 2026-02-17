@@ -17,26 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as FavoriteMemeActionCreators from '@app/actions/FavoriteMemeActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import gifStyles from '@app/components/channel/GifPicker.module.css';
+import {useGifVideoPool} from '@app/components/channel/GifVideoPool';
+import styles from '@app/components/channel/MemesPicker.module.css';
+import {formatDuration, getFileExtension} from '@app/components/channel/pickers/memes/MediaFormat';
+import {usePooledVideo} from '@app/components/channel/pickers/shared/usePooledVideo';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {EditFavoriteMemeModal} from '@app/components/modals/EditFavoriteMemeModal';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import type {FavoriteMemeRecord} from '@app/records/FavoriteMemeRecord';
+import MemesPickerStore from '@app/stores/MemesPickerStore';
 import {useLingui} from '@lingui/react/macro';
 import {MusicNoteIcon, PencilSimpleIcon, TrashIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as FavoriteMemeActionCreators from '~/actions/FavoriteMemeActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import gifStyles from '~/components/channel/GifPicker.module.css';
-import {useGifVideoPool} from '~/components/channel/GifVideoPool';
-import styles from '~/components/channel/MemesPicker.module.css';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {EditFavoriteMemeModal} from '~/components/modals/EditFavoriteMemeModal';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import type {FavoriteMemeRecord} from '~/records/FavoriteMemeRecord';
-import MemesPickerStore from '~/stores/MemesPickerStore';
-import {usePooledVideo} from '../shared/usePooledVideo';
-import {formatDuration, getFileExtension} from './mediaFormat';
+import type React from 'react';
+import {useRef} from 'react';
 
 const GifIndicator = observer(() => (
 	<div className={styles.gifBadge} aria-hidden="true">
@@ -68,7 +69,7 @@ export const MemeGridItem = observer(
 		itemKey?: string;
 	}) => {
 		const {t, i18n} = useLingui();
-		const videoContainerRef = React.useRef<HTMLDivElement>(null);
+		const videoContainerRef = useRef<HTMLDivElement>(null);
 		const videoPool = useGifVideoPool();
 
 		const isAudio = meme.contentType.startsWith('audio/');
@@ -180,8 +181,7 @@ export const MemeGridItem = observer(
 							<button
 								type="button"
 								onClick={handleDelete}
-								className={gifStyles.favoriteButton}
-								style={{backgroundColor: 'var(--status-danger)', color: 'white'}}
+								className={clsx(gifStyles.favoriteButton, gifStyles.favoriteButtonDanger)}
 								aria-label={t`Delete saved media`}
 							>
 								<TrashIcon className={gifStyles.favoriteButtonIcon} weight="fill" />

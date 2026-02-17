@@ -1,0 +1,278 @@
+name: release server
+
+on:
+  push:
+    branches: [canary]
+    paths:
+      - packages/**
+      - fluxer_server/**
+      - fluxer_gateway/**
+      - pnpm-lock.yaml
+      - .github/workflows/release-server.yaml
+
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: Release channel
+        type: choice
+        options: [stable, nightly]
+        default: nightly
+        required: false
+
+      ref:
+        description: Git ref (branch, tag, or commit SHA)
+        type: string
+        default: ''
+        required: false
+
+      version:
+        description: Stable version (e.g. 1.0.0). Defaults to 0.0.<run_number>
+        type: string
+        required: false
+
+      build_server:
+        description: Build Fluxer Server
+        type: boolean
+        default: true
+        required: false
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: release-server-${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.channel) || 'nightly' }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME_SERVER: ${{ github.repository_owner }}/fluxer-server
+  CHANNEL: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.channel) || 'nightly' }}
+  SOURCE_REF: >-
+    ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.ref)
+      || ((github.event_name == 'workflow_dispatch' && github.event.inputs.channel == 'stable') && 'main')
+      || 'canary' }}
+
+jobs:
+  meta:
+    name: resolve build metadata
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
+
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      channel: ${{ steps.meta.outputs.channel }}
+      source_ref: ${{ steps.meta.outputs.source_ref }}
+      sha_short: ${{ steps.meta.outputs.sha_short }}
+      timestamp: ${{ steps.meta.outputs.timestamp }}
+      date: ${{ steps.meta.outputs.date }}
+      build_number: ${{ steps.meta.outputs.build_number }}
+      build_server: ${{ steps.should_build.outputs.server }}
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ env.SOURCE_REF }}
+
+      - name: metadata
+        id: meta
+        run: >-
+          python3 scripts/ci/workflows/release_server.py
+          --step metadata
+          --version-input "${{ github.event.inputs.version }}"
+          --channel "${{ env.CHANNEL }}"
+          --source-ref "${{ env.SOURCE_REF }}"
+
+      - name: determine build targets
+        id: should_build
+        run: >-
+          python3 scripts/ci/workflows/release_server.py
+          --step determine_build_targets
+          --event-name "${{ github.event_name }}"
+          --build-server-input "${{ github.event.inputs.build_server }}"
+
+  build-server:
+    name: build fluxer server
+    needs: meta
+    if: needs.meta.outputs.build_server == 'true'
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
+
+    outputs:
+      image_tags: ${{ steps.docker_meta.outputs.tags }}
+      image_digest: ${{ steps.build.outputs.digest }}
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.meta.outputs.source_ref }}
+
+      - name: set up buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: login
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: docker metadata
+        id: docker_meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_SERVER }}
+          tags: |
+            type=raw,value=nightly,enable=${{ needs.meta.outputs.channel == 'nightly' }}
+            type=raw,value=nightly-${{ needs.meta.outputs.date }},enable=${{ needs.meta.outputs.channel == 'nightly' }}
+            type=raw,value=sha-${{ needs.meta.outputs.sha_short }},enable=${{ needs.meta.outputs.channel == 'nightly' }}
+            type=raw,value=stable,enable=${{ needs.meta.outputs.channel == 'stable' }}
+            type=raw,value=latest,enable=${{ needs.meta.outputs.channel == 'stable' }}
+            type=raw,value=v${{ needs.meta.outputs.version }},enable=${{ needs.meta.outputs.channel == 'stable' }}
+            type=semver,pattern={{version}},value=${{ needs.meta.outputs.version }},enable=${{ needs.meta.outputs.channel == 'stable' && !startsWith(needs.meta.outputs.version, '0.0.') }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ needs.meta.outputs.version }},enable=${{ needs.meta.outputs.channel == 'stable' && !startsWith(needs.meta.outputs.version, '0.0.') }}
+
+      - name: build and push
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: fluxer_server/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: |
+            ${{ steps.docker_meta.outputs.labels }}
+            org.opencontainers.image.version=v${{ needs.meta.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ needs.meta.outputs.timestamp }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            dev.fluxer.build.channel=${{ needs.meta.outputs.channel }}
+            dev.fluxer.build.number=${{ needs.meta.outputs.build_number }}
+            dev.fluxer.build.sha=${{ github.sha }}
+            dev.fluxer.build.short_sha=${{ needs.meta.outputs.sha_short }}
+            dev.fluxer.build.date=${{ needs.meta.outputs.date }}
+          build-args: |
+            BUILD_SHA=${{ github.sha }}
+            BUILD_NUMBER=${{ needs.meta.outputs.build_number }}
+            BUILD_TIMESTAMP=${{ needs.meta.outputs.timestamp }}
+            RELEASE_CHANNEL=${{ needs.meta.outputs.channel }}
+          cache-from: type=gha,scope=server-${{ needs.meta.outputs.channel }}
+          cache-to: type=gha,mode=max,scope=server-${{ needs.meta.outputs.channel }}
+          provenance: true
+          sbom: true
+
+      - name: attest
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_SERVER }}
+          subject-digest: ${{ steps.build.outputs.digest }}
+          push-to-registry: true
+
+  create-release:
+    name: create release
+    needs: [meta, build-server]
+    if: |
+      always() &&
+      needs.meta.outputs.version != '' &&
+      (needs.build-server.result == 'success' || needs.build-server.result == 'skipped')
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.meta.outputs.source_ref }}
+
+      - name: stable release
+        if: needs.meta.outputs.channel == 'stable'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ needs.meta.outputs.version }}
+          name: Fluxer Server v${{ needs.meta.outputs.version }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          body: |
+            Fluxer Server
+
+            Pull:
+            ```bash
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_SERVER }}:v${{ needs.meta.outputs.version }}
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_SERVER }}:latest
+            ```
+
+            Build:
+            - version: v${{ needs.meta.outputs.version }}
+            - build: ${{ needs.meta.outputs.build_number }}
+            - sha: ${{ github.sha }}
+            - time: ${{ needs.meta.outputs.timestamp }}
+            - channel: stable
+
+            Docs: https://docs.fluxer.app/self-hosting
+
+      - name: nightly release
+        if: needs.meta.outputs.channel == 'nightly'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: nightly-${{ needs.meta.outputs.date }}-${{ needs.meta.outputs.sha_short }}
+          name: Nightly build ${{ needs.meta.outputs.date }} (${{ needs.meta.outputs.sha_short }})
+          draft: false
+          prerelease: true
+          generate_release_notes: true
+          body: |
+            Nightly Fluxer Server image from canary.
+
+            Pull:
+            ```bash
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_SERVER }}:nightly
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_SERVER }}:nightly-${{ needs.meta.outputs.date }}
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME_SERVER }}:sha-${{ needs.meta.outputs.sha_short }}
+            ```
+
+            Build:
+            - version: v${{ needs.meta.outputs.version }}
+            - build: ${{ needs.meta.outputs.build_number }}
+            - sha: ${{ github.sha }}
+            - time: ${{ needs.meta.outputs.timestamp }}
+            - channel: nightly
+            - branch: canary
+
+  release-summary:
+    name: release summary
+    needs: [meta, build-server]
+    if: always()
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: scripts/ci
+          sparse-checkout-cone-mode: false
+
+      - name: summary
+        run: >-
+          python3 scripts/ci/workflows/release_server.py
+          --step summary
+          --build-result "${{ needs.build-server.result }}"
+          --channel "${{ needs.meta.outputs.channel }}"
+          --version "${{ needs.meta.outputs.version }}"
+          --build-number "${{ needs.meta.outputs.build_number }}"
+          --sha-short "${{ needs.meta.outputs.sha_short }}"
+          --timestamp "${{ needs.meta.outputs.timestamp }}"
+          --date-ymd "${{ needs.meta.outputs.date }}"
+          --source-ref "${{ needs.meta.outputs.source_ref }}"
+          --image-tags "${{ needs.build-server.outputs.image_tags }}"
+          --image-digest "${{ needs.build-server.outputs.image_digest }}"
+          --registry "${{ env.REGISTRY }}"
+          --image-name-server "${{ env.IMAGE_NAME_SERVER }}"

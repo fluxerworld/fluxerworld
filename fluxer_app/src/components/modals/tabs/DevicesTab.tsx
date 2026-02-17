@@ -17,36 +17,37 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthSessionActionCreators from '@app/actions/AuthSessionActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {Slate} from '@app/components/modals/components/Slate';
+import {DeviceRevokeModal} from '@app/components/modals/DeviceRevokeModal';
+import {
+	SettingsTabContainer,
+	SettingsTabContent,
+	SettingsTabHeader,
+} from '@app/components/modals/shared/SettingsTabLayout';
+import styles from '@app/components/modals/tabs/DevicesTab.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import type {AuthSessionRecord} from '@app/records/AuthSessionRecord';
+import AuthSessionStore from '@app/stores/AuthSessionStore';
+import {formatShortRelativeTime} from '@fluxer/date_utils/src/DateDuration';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {
 	CheckIcon,
 	CheckSquareIcon,
 	DeviceMobileIcon,
 	MonitorIcon,
-	NetworkSlashIcon,
 	SquareIcon,
+	WifiSlashIcon,
 	XIcon,
 } from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as AuthSessionActionCreators from '~/actions/AuthSessionActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {DeviceRevokeModal} from '~/components/modals/DeviceRevokeModal';
-import {
-	SettingsTabContainer,
-	SettingsTabContent,
-	SettingsTabHeader,
-} from '~/components/modals/shared/SettingsTabLayout';
-import {Button} from '~/components/uikit/Button/Button';
-import {Spinner} from '~/components/uikit/Spinner';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import type {AuthSessionRecord} from '~/records/AuthSessionRecord';
-import AuthSessionStore from '~/stores/AuthSessionStore';
-import * as DateUtils from '~/utils/DateUtils';
-import {Slate} from '../components/Slate';
-import styles from './DevicesTab.module.css';
+import type React from 'react';
+import {useEffect, useState} from 'react';
 
 const MOBILE_DEVICE_REGEX = /iOS|Android|Windows Phone|BlackBerry|Mobile/i;
 
@@ -123,7 +124,7 @@ const AuthSession: React.FC<AuthSessionProps> = observer(
 								{!isCurrent && hasLocation && <span aria-hidden className={styles.locationSeparator} />}
 								{!isCurrent && (
 									<span className={styles.lastUsed}>
-										{DateUtils.getShortRelativeDateString(authSession.approxLastUsedAt ?? new Date(0))}
+										{formatShortRelativeTime(authSession.approxLastUsedAt ?? new Date(0))}
 									</span>
 								)}
 							</div>
@@ -141,7 +142,7 @@ const AuthSession: React.FC<AuthSessionProps> = observer(
 								}
 								className={styles.revokeButton}
 							>
-								<XIcon className={styles.revokeIcon} weight="regular" />
+								<XIcon className={styles.revokeIcon} weight="bold" />
 							</button>
 						</Tooltip>
 					)}
@@ -159,11 +160,11 @@ const DevicesTab: React.FC = observer(() => {
 	const authSessions = AuthSessionStore.authSessions;
 	const fetchStatus = AuthSessionStore.fetchStatus;
 	const otherDevices = authSessions.filter((authSession) => authSession.id !== authSessionIdHash);
-	const [selectionMode, setSelectionMode] = React.useState(false);
-	const [selectedDevices, setSelectedDevices] = React.useState(new Set<string>());
-	const [lastToggledIndex, setLastToggledIndex] = React.useState(-1);
+	const [selectionMode, setSelectionMode] = useState(false);
+	const [selectedDevices, setSelectedDevices] = useState(new Set<string>());
+	const [lastToggledIndex, setLastToggledIndex] = useState(-1);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		AuthSessionActionCreators.fetch();
 	}, []);
 
@@ -228,8 +229,8 @@ const DevicesTab: React.FC = observer(() => {
 	if (fetchStatus === 'error' || !currentSession) {
 		return (
 			<Slate
-				icon={NetworkSlashIcon}
-				title={t`Network error`}
+				icon={WifiSlashIcon}
+				title={t`Network Error`}
 				description={t`We're having trouble connecting to the space-time continuum. Please check your connection and try again.`}
 				buttonText={t`Retry`}
 				onClick={() => AuthSessionActionCreators.fetch()}
@@ -273,7 +274,7 @@ const DevicesTab: React.FC = observer(() => {
 												className={styles.actionButton}
 											>
 												{selectionMode ? (
-													<XIcon weight="regular" className={styles.actionIcon} />
+													<XIcon weight="bold" className={styles.actionIcon} />
 												) : (
 													<CheckSquareIcon className={styles.actionIcon} />
 												)}

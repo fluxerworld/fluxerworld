@@ -47,6 +47,16 @@
 	color: var(--text-primary);
 }
 
+.participantButtonContextMenuActive {
+	background-color: var(--background-modifier-hover);
+	color: var(--text-primary);
+}
+
+.participantButton[data-popout-open] {
+	background-color: var(--background-modifier-hover);
+	color: var(--text-primary);
+}
+
 .avatarAndName {
 	display: flex;
 	flex: 1;
@@ -77,10 +87,18 @@
 	color: var(--text-primary);
 }
 
-.deviceCount {
+.deviceCountButton {
 	flex-shrink: 0;
+	border: none;
+	background: transparent;
+	padding: 0;
 	font-size: 0.75rem;
-	color: var(--text-secondary);
+	color: var(--text-link);
+	cursor: pointer;
+}
+
+.deviceCountButton:hover {
+	text-decoration: underline;
 }
 
 .iconsAndToggle {
@@ -88,44 +106,6 @@
 	display: flex;
 	align-items: center;
 	gap: 0.25rem;
-}
-
-.toggleButton {
-	display: inline-flex;
-	height: 1.5rem;
-	width: 1.5rem;
-	align-items: center;
-	justify-content: center;
-	border-radius: var(--radius-full);
-	border: none;
-	background-color: transparent;
-	padding: 0;
-	cursor: pointer;
-}
-
-.toggleButton:hover {
-	background-color: var(--background-modifier-hover);
-}
-
-.toggleButton:focus {
-	outline: none;
-}
-
-.toggleButton:focus-visible {
-	box-shadow: 0 0 0 2px color-mix(in srgb, var(--brand-primary) 50%, transparent);
-}
-
-.toggleIcon {
-	height: 1rem;
-	width: 1rem;
-	color: var(--text-secondary);
-	transition-property: transform;
-	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-	transition-duration: 200ms;
-}
-
-.toggleIconCollapsed {
-	transform: rotate(-90deg);
 }
 
 .devicesContainer {

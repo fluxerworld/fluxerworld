@@ -1,0 +1,124 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.stackAvatar {
+	border-radius: 9999px;
+	transition:
+		box-shadow 120ms ease,
+		outline-color 120ms ease;
+	box-shadow: 0 0 0 0 transparent;
+}
+
+.stackAvatarSpeaking {
+	box-shadow: 0 0 0 3px var(--voice-status-success);
+}
+
+.wrapContainer {
+	--voice-participant-avatar-size: 64px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	align-content: center;
+	justify-content: center;
+	gap: 0.75rem;
+	width: 100%;
+	max-width: 100%;
+	min-height: 0;
+}
+
+.wrapAvatar {
+	width: var(--voice-participant-avatar-size);
+	height: var(--voice-participant-avatar-size);
+	flex: 0 0 var(--voice-participant-avatar-size);
+}
+
+.remainingCount {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	border: var(--avatar-outline, 2px) solid var(--background-tertiary);
+	background: var(--background-modifier-selected);
+	color: var(--text-secondary);
+	font-size: var(--font-size-xs);
+	font-weight: 500;
+	width: var(--avatar-size);
+	height: var(--avatar-size);
+	grid-row: 1;
+	position: relative;
+	z-index: 1;
+	cursor: pointer;
+}
+
+.popoutContainer {
+	display: flex;
+	flex-direction: column;
+	min-width: 180px;
+	max-width: 280px;
+	max-height: 320px;
+	background-color: var(--background-floating);
+	border: 1px solid var(--background-modifier-accent);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-lg);
+	overflow: hidden;
+}
+
+.popoutList {
+	overflow-y: auto;
+	overflow-x: hidden;
+	padding: 4px;
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.popoutRow {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 6px 8px;
+	border-radius: var(--radius-sm);
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	width: 100%;
+	text-align: left;
+	transition: background-color 100ms ease;
+}
+
+.popoutRow:hover {
+	background-color: var(--background-modifier-hover);
+}
+
+.popoutRowAvatar {
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.popoutRowName {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 0.875rem;
+	color: var(--text-primary);
+}

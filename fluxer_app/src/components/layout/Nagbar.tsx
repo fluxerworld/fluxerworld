@@ -17,13 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/Nagbar.module.css';
+import {NativeDragRegion} from '@app/components/layout/NativeDragRegion';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {useLingui} from '@lingui/react/macro';
 import {XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {NativeDragRegion} from '~/components/layout/NativeDragRegion';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import styles from './Nagbar.module.css';
 
 interface NagbarProps {
 	isMobile: boolean;
@@ -36,6 +37,7 @@ interface NagbarProps {
 
 export const Nagbar = observer(
 	({isMobile, backgroundColor, textColor, children, onDismiss, dismissible = false}: NagbarProps) => {
+		const {t} = useLingui();
 		const showDismissButton = dismissible && onDismiss && !isMobile;
 
 		return (
@@ -60,10 +62,10 @@ export const Nagbar = observer(
 							type="button"
 							className={styles.dismissButton}
 							style={{color: textColor}}
-							aria-label="Close"
+							aria-label={t`Close`}
 							onClick={onDismiss}
 						>
-							<XIcon weight="regular" className={styles.dismissIcon} />
+							<XIcon weight="bold" className={styles.dismissIcon} />
 						</button>
 					</FocusRing>
 				)}

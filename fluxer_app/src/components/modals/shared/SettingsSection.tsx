@@ -17,10 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/modals/shared/SettingsSection.module.css';
+import {isSectionIdValid} from '@app/components/modals/utils/SettingsSectionRegistry';
+import {Accordion} from '@app/components/uikit/accordion/Accordion';
 import {clsx} from 'clsx';
 import type React from 'react';
-import {Accordion} from '~/components/uikit/Accordion/Accordion';
-import styles from './SettingsSection.module.css';
+import {useEffect} from 'react';
 
 export interface SettingsSectionProps {
 	id: string;
@@ -41,6 +43,14 @@ export const SettingsSection: React.FC<SettingsSectionProps> = ({
 	children,
 	className,
 }) => {
+	useEffect(() => {
+		if (import.meta.env.DEV && !isSectionIdValid(id)) {
+			console.warn(
+				`[SettingsSection] Unknown section ID "${id}" - ensure it's registered in SettingsSectionRegistry.tsx`,
+			);
+		}
+	}, [id]);
+
 	if (isAdvanced) {
 		return (
 			<Accordion

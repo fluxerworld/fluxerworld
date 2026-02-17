@@ -31,5 +31,5 @@
 	font-weight: 600;
 	font-size: 0.875rem;
 	line-height: 1;
-	color: white;
+	color: var(--text-on-brand-primary);
 }

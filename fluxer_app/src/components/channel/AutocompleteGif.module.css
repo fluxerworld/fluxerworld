@@ -34,14 +34,26 @@
 }
 
 .heading {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 	font-weight: 500;
 	font-size: 14px;
 	color: var(--text-primary);
 }
 
+.attribution {
+	height: 16px;
+	width: auto;
+	color: var(--text-tertiary);
+}
+
 .scroller {
 	display: flex;
 	flex-direction: row;
+}
+
+.scroller > div {
 	gap: 4px;
 }
 
@@ -61,10 +73,18 @@
 }
 
 .gifButton:hover {
-	border-color: var(--brand-primary);
+	border-color: var(--brand-primary-light);
 }
 
 .gifButtonSelected {
+	border-color: var(--brand-primary-light);
+}
+
+:global(.theme-light) .gifButton:hover {
+	border-color: var(--brand-primary);
+}
+
+:global(.theme-light) .gifButtonSelected {
 	border-color: var(--brand-primary);
 }
 

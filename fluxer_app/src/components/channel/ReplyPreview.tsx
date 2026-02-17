@@ -17,28 +17,37 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {PreloadableUserPopout} from '@app/components/channel/PreloadableUserPopout';
+import {Avatar} from '@app/components/uikit/Avatar';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {SafeMarkdown} from '@app/lib/markdown';
+import {MarkdownContext} from '@app/lib/markdown/renderers/RendererTypes';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import MessageReferenceStore, {MessageReferenceState} from '@app/stores/MessageReferenceStore';
+import markupStyles from '@app/styles/Markup.module.css';
+import styles from '@app/styles/Message.module.css';
+import {goToMessage} from '@app/utils/MessageNavigator';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
 import {useLingui} from '@lingui/react/macro';
 import {ArrowBendUpLeftIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {PreloadableUserPopout} from '~/components/channel/PreloadableUserPopout';
-import {Avatar} from '~/components/uikit/Avatar';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {SafeMarkdown} from '~/lib/markdown';
-import {MarkdownContext} from '~/lib/markdown/renderers';
-import type {MessageRecord} from '~/records/MessageRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import MessageReferenceStore, {MessageReferenceState} from '~/stores/MessageReferenceStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import markupStyles from '~/styles/Markup.module.css';
-import styles from '~/styles/Message.module.css';
-import {goToMessage} from '~/utils/MessageNavigator';
-import * as NicknameUtils from '~/utils/NicknameUtils';
+import {useCallback} from 'react';
 
 export const ReplyPreview = observer(
-	({message, channelId, animateEmoji}: {message: MessageRecord; channelId: string; animateEmoji: boolean}) => {
+	({
+		message,
+		channelId,
+		animateEmoji,
+		messageDisplayCompact,
+	}: {
+		message: MessageRecord;
+		channelId: string;
+		animateEmoji: boolean;
+		messageDisplayCompact: boolean;
+	}) => {
 		const {t} = useLingui();
 
 		const {message: referencedMessage, state: messageState} = MessageReferenceStore.getMessageReference(
@@ -47,9 +56,8 @@ export const ReplyPreview = observer(
 		);
 
 		const guildId = ChannelStore.getChannel(channelId)!.guildId;
-		const messageDisplayCompact = UserSettingsStore.getMessageDisplayCompact();
 
-		const jumpToRepliedMessage = React.useCallback(() => {
+		const jumpToRepliedMessage = useCallback(() => {
 			if (message.messageReference?.message_id) {
 				goToMessage(message.channelId, message.messageReference.message_id);
 			}
@@ -80,6 +88,7 @@ export const ReplyPreview = observer(
 					<PreloadableUserPopout
 						user={referencedMessage.author}
 						isWebhook={referencedMessage.webhookId != null}
+						webhookId={referencedMessage.webhookId ?? undefined}
 						guildId={guildId}
 						channelId={channelId}
 					>
@@ -101,6 +110,7 @@ export const ReplyPreview = observer(
 				<PreloadableUserPopout
 					user={referencedMessage.author}
 					isWebhook={referencedMessage.webhookId != null}
+					webhookId={referencedMessage.webhookId ?? undefined}
 					guildId={guildId}
 					channelId={channelId}
 				>

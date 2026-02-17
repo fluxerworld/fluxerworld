@@ -44,8 +44,7 @@
 	pointer-events: none;
 }
 
-.clickable:hover .hoverOverlay,
-.clickable:has(:focus-visible) .hoverOverlay {
+.clickable:hover .hoverOverlay {
 	opacity: 0.4;
 }
 

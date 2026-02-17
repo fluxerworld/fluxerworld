@@ -17,29 +17,31 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
+import styles from '@app/components/invites/InviteListItem.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useInviteCountdown} from '@app/hooks/useInviteCountdown';
+import ChannelStore from '@app/stores/ChannelStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import UserStore from '@app/stores/UserStore';
+import {isGuildInvite} from '@app/types/InviteTypes';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import * as DateUtils from '@app/utils/DateUtils';
+import {stopPropagationOnEnterSpace} from '@app/utils/KeyboardUtils';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import {formatShortRelativeTime} from '@fluxer/date_utils/src/DateDuration';
+import type {Invite} from '@fluxer/schema/src/domains/invite/InviteSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {ClipboardIcon, XIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import {ChannelTypes} from '~/Constants';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useInviteCountdown} from '~/hooks/useInviteCountdown';
-import type {Invite} from '~/records/MessageRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import UserStore from '~/stores/UserStore';
-import {isGuildInvite} from '~/types/InviteTypes';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import * as DateUtils from '~/utils/DateUtils';
-import {stopPropagationOnEnterSpace} from '~/utils/KeyboardUtils';
-import styles from './InviteListItem.module.css';
+import type React from 'react';
+import {useMemo} from 'react';
 
-export const InviteListHeader: React.FC<{showChannel?: boolean; showCreatedDate?: boolean}> = observer(
-	({showChannel = false, showCreatedDate = false}) => {
+export const InviteListHeader = observer(
+	({showChannel = false, showCreatedDate = false}: {showChannel?: boolean; showCreatedDate?: boolean}) => {
 		return (
 			<div className={showChannel ? styles.header : styles.headerWithoutChannel}>
 				<div className={styles.headerColumn}>
@@ -67,7 +69,8 @@ export const InviteListItem: React.FC<{
 	onRevoke: (code: string) => void;
 	showChannel?: boolean;
 	showCreatedDate?: boolean;
-}> = observer(({invite, onRevoke, showChannel = false, showCreatedDate = false}) => {
+	onMobilePress?: (invite: Invite) => void;
+}> = observer(({invite, onRevoke, showChannel = false, showCreatedDate = false, onMobilePress}) => {
 	const {t, i18n} = useLingui();
 	const {countdown, isMonospace} = useInviteCountdown(invite.expires_at);
 	const inviter = UserStore.getUser(invite.inviter?.id || '');
@@ -81,7 +84,7 @@ export const InviteListItem: React.FC<{
 	const channel = showChannel ? channelFromStore : null;
 	const category = showChannel && channelFromStore?.parentId ? categoryFromStore : null;
 
-	const usesText = React.useMemo(() => {
+	const usesText = useMemo(() => {
 		if (!guildInvite) {
 			return '0';
 		}
@@ -93,18 +96,18 @@ export const InviteListItem: React.FC<{
 		return String(currentUses);
 	}, [guildInvite]);
 
-	const dateDisplay = React.useMemo(() => {
+	const dateDisplay = useMemo(() => {
 		if (showCreatedDate) {
 			if (!guildInvite?.created_at) {
 				return '';
 			}
 			const createdDate = new Date(guildInvite.created_at);
-			return DateUtils.getShortRelativeDateString(createdDate) || '';
+			return formatShortRelativeTime(createdDate) || '';
 		}
 		return countdown || t`Never`;
 	}, [showCreatedDate, guildInvite, countdown]);
 
-	const dateTooltip = React.useMemo(() => {
+	const dateTooltip = useMemo(() => {
 		if (showCreatedDate) {
 			if (!guildInvite?.created_at) {
 				return null;
@@ -124,6 +127,10 @@ export const InviteListItem: React.FC<{
 
 	const handleRowClick = () => {
 		if (isMobile) {
+			if (onMobilePress) {
+				onMobilePress(invite);
+				return;
+			}
 			TextCopyActionCreators.copy(i18n, `${RuntimeConfigStore.inviteEndpoint}/${invite.code}`);
 		}
 	};

@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {PackDashboardResponse, PackSummary} from '~/types/PackTypes';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import type {PackDashboardResponse, PackSummaryResponse} from '@fluxer/schema/src/domains/pack/PackSchemas';
 
 const logger = new Logger('Packs');
 
-export const list = async (): Promise<PackDashboardResponse> => {
+export async function list(): Promise<PackDashboardResponse> {
 	try {
 		logger.debug('Requesting pack dashboard');
 		const response = await http.get<PackDashboardResponse>({url: Endpoints.PACKS});
@@ -33,16 +33,16 @@ export const list = async (): Promise<PackDashboardResponse> => {
 		logger.error('Failed to fetch pack dashboard:', error);
 		throw error;
 	}
-};
+}
 
-export const create = async (
+export async function create(
 	type: 'emoji' | 'sticker',
 	name: string,
 	description?: string | null,
-): Promise<PackSummary> => {
+): Promise<PackSummaryResponse> {
 	try {
 		logger.debug(`Creating ${type} pack ${name}`);
-		const response = await http.post<PackSummary>({
+		const response = await http.post<PackSummaryResponse>({
 			url: Endpoints.PACK_CREATE(type),
 			body: {name, description: description ?? null},
 		});
@@ -51,23 +51,23 @@ export const create = async (
 		logger.error(`Failed to create ${type} pack:`, error);
 		throw error;
 	}
-};
+}
 
-export const update = async (
+export async function update(
 	packId: string,
 	data: {name?: string; description?: string | null},
-): Promise<PackSummary> => {
+): Promise<PackSummaryResponse> {
 	try {
 		logger.debug(`Updating pack ${packId}`);
-		const response = await http.patch<PackSummary>({url: Endpoints.PACK(packId), body: data});
+		const response = await http.patch<PackSummaryResponse>({url: Endpoints.PACK(packId), body: data});
 		return response.body;
 	} catch (error) {
 		logger.error(`Failed to update pack ${packId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const remove = async (packId: string): Promise<void> => {
+export async function remove(packId: string): Promise<void> {
 	try {
 		logger.debug(`Deleting pack ${packId}`);
 		await http.delete({url: Endpoints.PACK(packId)});
@@ -75,9 +75,9 @@ export const remove = async (packId: string): Promise<void> => {
 		logger.error(`Failed to delete pack ${packId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const install = async (packId: string): Promise<void> => {
+export async function install(packId: string): Promise<void> {
 	try {
 		logger.debug(`Installing pack ${packId}`);
 		await http.post({url: Endpoints.PACK_INSTALL(packId)});
@@ -85,9 +85,9 @@ export const install = async (packId: string): Promise<void> => {
 		logger.error(`Failed to install pack ${packId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const uninstall = async (packId: string): Promise<void> => {
+export async function uninstall(packId: string): Promise<void> {
 	try {
 		logger.debug(`Uninstalling pack ${packId}`);
 		await http.delete({url: Endpoints.PACK_INSTALL(packId)});
@@ -95,4 +95,4 @@ export const uninstall = async (packId: string): Promise<void> => {
 		logger.error(`Failed to uninstall pack ${packId}:`, error);
 		throw error;
 	}
-};
+}

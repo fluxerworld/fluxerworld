@@ -17,26 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useListNavigation} from '@floating-ui/react';
+import styles from '@app/components/modals/shared/AddOverridePopout.module.css';
+import {DEFAULT_ROLE_COLOR_HEX, getRoleColor} from '@app/components/modals/shared/PermissionComponents';
+import {Avatar} from '@app/components/uikit/Avatar';
+import {
+	SearchableListPopout,
+	type SearchableListPopoutItem,
+	type SearchableListPopoutSection,
+} from '@app/components/uikit/popout/searchable_list_popout/SearchableListPopout';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
 import {Trans, useLingui} from '@lingui/react/macro';
-import {MagnifyingGlassIcon} from '@phosphor-icons/react';
-import {matchSorter} from 'match-sorter';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {Input} from '~/components/form/Input';
-import {Avatar} from '~/components/uikit/Avatar';
-import {Scroller} from '~/components/uikit/Scroller';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import styles from './AddOverridePopout.module.css';
-import {DEFAULT_ROLE_COLOR_HEX, getRoleColor} from './PermissionComponents';
+import type React from 'react';
+import {useMemo} from 'react';
 
 interface AddOverridePopoutProps {
 	guildId: string;
 	existingOverwriteIds: Set<string>;
 	onSelect: (id: string, type: 0 | 1, name: string) => void;
 	onClose: () => void;
-	context: any;
 }
 
 export const AddOverridePopout: React.FC<AddOverridePopoutProps> = observer(function AddOverridePopout({
@@ -44,21 +44,18 @@ export const AddOverridePopout: React.FC<AddOverridePopoutProps> = observer(func
 	existingOverwriteIds,
 	onSelect,
 	onClose,
-	context,
 }) {
 	const {t} = useLingui();
-	const [searchQuery, setSearchQuery] = React.useState('');
-	const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
 	const guild = GuildStore.getGuild(guildId);
 
-	const roles = React.useMemo(() => {
+	const roles = useMemo(() => {
 		if (!guild) return [];
 		return Object.values(guild.roles)
 			.filter((role) => !existingOverwriteIds.has(role.id))
 			.sort((a, b) => b.position - a.position);
 	}, [guild, existingOverwriteIds]);
 
-	const members = React.useMemo(() => {
+	const members = useMemo(() => {
 		if (!guild) return [];
 		const allMembers = GuildMemberStore.getMembers(guildId);
 		return Array.from(allMembers.values())
@@ -66,143 +63,85 @@ export const AddOverridePopout: React.FC<AddOverridePopoutProps> = observer(func
 			.slice(0, 15);
 	}, [guild, guildId, existingOverwriteIds]);
 
-	const filteredRoles = React.useMemo(() => {
-		if (!searchQuery) return roles;
-		return matchSorter(roles, searchQuery, {keys: ['name']});
-	}, [roles, searchQuery]);
+	const roleItems = useMemo<Array<SearchableListPopoutItem>>(() => {
+		return roles.map((role) => ({
+			id: `role-${role.id}`,
+			ariaLabel: role.name,
+			searchValues: [role.name],
+			onSelect: () => {
+				onSelect(role.id, 0, role.name);
+				onClose();
+			},
+			render: () => (
+				<>
+					<div
+						className={styles.roleIndicator}
+						style={{
+							backgroundColor: role.color === 0 ? DEFAULT_ROLE_COLOR_HEX : getRoleColor(role.color),
+						}}
+					/>
+					<span className={styles.itemLabel}>{role.name}</span>
+				</>
+			),
+		}));
+	}, [onClose, onSelect, roles]);
 
-	const filteredMembers = React.useMemo(() => {
-		if (!searchQuery) return members;
-		return matchSorter(members, searchQuery, {
-			keys: [(item) => item.user.username],
-		});
-	}, [members, searchQuery]);
+	const memberItems = useMemo<Array<SearchableListPopoutItem>>(() => {
+		return members.map((member) => ({
+			id: `member-${member.user.id}`,
+			ariaLabel: member.user.username,
+			searchValues: [member.user.username],
+			onSelect: () => {
+				onSelect(member.user.id, 1, member.user.username);
+				onClose();
+			},
+			render: () => (
+				<>
+					<Avatar user={member.user} size={12} className={styles.avatar} guildId={guildId} />
+					<span className={styles.itemLabel}>{member.user.username}</span>
+				</>
+			),
+		}));
+	}, [guildId, members, onClose, onSelect]);
 
-	const listItems = React.useMemo(() => {
-		const items: Array<{type: 'role' | 'member'; id: string; name: string; data: any}> = [];
-
-		filteredRoles.forEach((role) => {
-			items.push({type: 'role', id: role.id, name: role.name, data: role});
-		});
-
-		filteredMembers.forEach((member) => {
-			items.push({type: 'member', id: member.user.id, name: member.user.username, data: member});
-		});
-
-		return items;
-	}, [filteredRoles, filteredMembers]);
-
-	const listRef = React.useRef<Array<HTMLElement | null>>([]);
-
-	useListNavigation(context, {
-		listRef,
-		activeIndex,
-		onNavigate: setActiveIndex,
-		loop: true,
-	});
-
-	const handleSelect = React.useCallback(
-		(item: (typeof listItems)[number]) => {
-			if (item.type === 'role') {
-				onSelect(item.id, 0, item.name);
-			} else {
-				onSelect(item.id, 1, item.name);
-			}
-			onClose();
-		},
-		[onSelect, onClose],
-	);
-
-	React.useEffect(() => {
-		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.key === 'Enter' && activeIndex !== null && listItems[activeIndex]) {
-				e.preventDefault();
-				handleSelect(listItems[activeIndex]);
-			}
-		};
-
-		window.addEventListener('keydown', handleKeyDown);
-		return () => window.removeEventListener('keydown', handleKeyDown);
-	}, [activeIndex, listItems, handleSelect]);
+	const sections = useMemo<Array<SearchableListPopoutSection>>(() => {
+		const nextSections: Array<SearchableListPopoutSection> = [];
+		if (roleItems.length > 0) {
+			nextSections.push({
+				id: 'roles',
+				heading: <Trans>Roles</Trans>,
+				items: roleItems,
+			});
+		}
+		if (memberItems.length > 0) {
+			nextSections.push({
+				id: 'members',
+				heading: (
+					<>
+						<Trans>Members</Trans> {members.length >= 15 && <Trans>(max 15 shown)</Trans>}
+					</>
+				),
+				items: memberItems,
+			});
+		}
+		return nextSections;
+	}, [memberItems, members.length, roleItems]);
 
 	return (
-		<div className={styles.popoutContainer}>
-			<div className={styles.searchContainer}>
-				<Input
-					type="text"
-					placeholder={t`Search roles or members...`}
-					value={searchQuery}
-					onChange={(e) => setSearchQuery(e.target.value)}
-					leftIcon={<MagnifyingGlassIcon size={16} weight="bold" />}
-				/>
-			</div>
-
-			<Scroller className={styles.scroller} key="add-override-popout-scroller">
-				{filteredRoles.length > 0 && (
-					<div className={styles.section}>
-						<div className={styles.sectionHeader}>
-							<Trans>Roles</Trans>
-						</div>
-						{filteredRoles.map((role, index) => {
-							const itemIndex = index;
-							const isActive = activeIndex === itemIndex;
-
-							return (
-								<button
-									key={role.id}
-									ref={(node) => {
-										listRef.current[itemIndex] = node;
-									}}
-									type="button"
-									className={`${styles.itemButton} ${isActive ? styles.itemButtonActive : styles.itemButtonInactive}`}
-									onClick={() => handleSelect(listItems[itemIndex])}
-								>
-									<div
-										className={styles.roleIndicator}
-										style={{
-											backgroundColor: role.color === 0 ? DEFAULT_ROLE_COLOR_HEX : getRoleColor(role.color),
-										}}
-									/>
-									<span className={styles.itemLabel}>{role.name}</span>
-								</button>
-							);
-						})}
-					</div>
-				)}
-
-				{filteredMembers.length > 0 && (
-					<div>
-						<div className={styles.sectionHeader}>
-							<Trans>Members</Trans> {members.length >= 15 && <Trans>(max 15 shown)</Trans>}
-						</div>
-						{filteredMembers.map((member, index) => {
-							const itemIndex = filteredRoles.length + index;
-							const isActive = activeIndex === itemIndex;
-
-							return (
-								<button
-									key={member.user.id}
-									ref={(node) => {
-										listRef.current[itemIndex] = node;
-									}}
-									type="button"
-									className={`${styles.itemButton} ${isActive ? styles.itemButtonActive : styles.itemButtonInactive}`}
-									onClick={() => handleSelect(listItems[itemIndex])}
-								>
-									<Avatar user={member.user} size={12} className={styles.avatar} guildId={guildId} />
-									<span className={styles.itemLabel}>{member.user.username}</span>
-								</button>
-							);
-						})}
-					</div>
-				)}
-
-				{filteredRoles.length === 0 && filteredMembers.length === 0 && (
-					<div className={styles.emptyState}>
-						<Trans>No results found</Trans>
-					</div>
-				)}
-			</Scroller>
-		</div>
+		<SearchableListPopout
+			className={styles.popoutContainer}
+			searchClassName={styles.searchContainer}
+			scrollerClassName={styles.scroller}
+			sectionClassName={styles.section}
+			sectionHeadingClassName={styles.sectionHeader}
+			optionClassName={styles.itemButton}
+			emptyStateClassName={styles.emptyState}
+			placeholder={t`Search roles or members...`}
+			searchInputAriaLabel={t`Search roles or members`}
+			listAriaLabel={t`Roles and members`}
+			noResultsLabel={<Trans>No results found</Trans>}
+			sections={sections}
+			onRequestClose={onClose}
+		/>
 	);
 });

@@ -17,193 +17,35 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {MessageFlags, MessageStates, MessageTypes} from '~/Constants';
-import type {GuildMember} from '~/records/GuildMemberRecord';
-import type {UserPartial} from '~/records/UserRecord';
-import {UserRecord} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-import UserStore from '~/stores/UserStore';
-import type {Invite as InviteType} from '~/types/InviteTypes';
-import * as GiftCodeUtils from '~/utils/giftCodeUtils';
-import * as InviteUtils from '~/utils/InviteUtils';
-import {emojiEquals, type ReactionEmoji} from '~/utils/ReactionUtils';
-import * as ThemeUtils from '~/utils/ThemeUtils';
-
-export type Invite = InviteType;
-
-export interface EmbedAuthor {
-	name: string;
-	url?: string;
-	icon_url?: string;
-	proxy_icon_url?: string;
-}
-
-export interface EmbedFooter {
-	text: string;
-	icon_url?: string;
-	proxy_icon_url?: string;
-}
-
-export interface EmbedMedia {
-	url: string;
-	proxy_url?: string;
-	content_type?: string;
-	content_hash?: string | null;
-	width?: number;
-	height?: number;
-	placeholder?: string;
-	flags: number;
-	description?: string;
-	duration?: number;
-	nsfw?: boolean;
-}
-
-export interface EmbedField {
-	name: string;
-	value: string;
-	inline: boolean;
-}
-
-export interface MessageEmbed {
-	id: string;
-	type: string;
-	url?: string;
-	title?: string;
-	color?: number;
-	timestamp?: string;
-	description?: string;
-	author?: EmbedAuthor;
-	image?: EmbedMedia;
-	thumbnail?: EmbedMedia;
-	footer?: EmbedFooter;
-	fields?: ReadonlyArray<EmbedField>;
-	provider?: EmbedAuthor;
-	video?: EmbedMedia;
-	audio?: EmbedMedia;
-	flags?: number;
-}
-
-export interface MessageReference {
-	message_id: string;
-	channel_id: string;
-	guild_id?: string;
-	type?: number;
-}
-
-export interface MessageReaction {
-	emoji: ReactionEmoji;
-	count: number;
-	me?: true;
-	me_burst?: boolean;
-	count_details?: {
-		burst: number;
-		normal: number;
-	};
-}
-
-export interface MessageAttachment {
-	id: string;
-	filename: string;
-	title?: string;
-	description?: string;
-	caption?: string;
-	content_type?: string;
-	size: number;
-	url: string | null;
-	proxy_url: string | null;
-	width?: number;
-	height?: number;
-	placeholder?: string;
-	placeholder_version?: number;
-	flags: number;
-	duration_secs?: number;
-	duration?: number;
-	waveform?: string;
-	content_hash?: string | null;
-	nsfw?: boolean;
-	expires_at?: string | null;
-	expired?: boolean;
-}
-
-export interface MessageCall {
-	participants: Array<string>;
-	ended_timestamp?: string | null;
-}
-
-export interface MessageSnapshot {
-	type: number;
-	content: string;
-	embeds?: ReadonlyArray<MessageEmbed>;
-	attachments?: ReadonlyArray<MessageAttachment>;
-	timestamp: string;
-}
-
-export interface MessageStickerItem {
-	id: string;
-	name: string;
-	format_type: number;
-}
-
-export interface ChannelMention {
-	id: string;
-	guild_id: string;
-	type: number;
-	name: string;
-	parent_id?: string | null;
-}
-
-export interface AllowedMentions {
-	parse?: ReadonlyArray<'roles' | 'users' | 'everyone'>;
-	roles?: ReadonlyArray<string>;
-	users?: ReadonlyArray<string>;
-	replied_user?: boolean;
-}
-
-export interface MessageMention extends UserPartial {
-	member?: Omit<GuildMember, 'user'>;
-}
-
-export type Message = Readonly<{
-	id: string;
-	channel_id: string;
-	guild_id?: string;
-	author: UserPartial;
-	member?: Omit<GuildMember, 'user'>;
-	webhook_id?: string;
-	application_id?: string;
-	type: number;
-	flags: number;
-	pinned: boolean;
-	tts?: boolean;
-	mention_everyone: boolean;
-	content: string;
-	timestamp: string;
-	edited_timestamp?: string;
-	mentions?: ReadonlyArray<MessageMention>;
-	mention_roles?: ReadonlyArray<string>;
-	mention_channels?: ReadonlyArray<ChannelMention>;
-	embeds?: ReadonlyArray<MessageEmbed>;
-	attachments?: ReadonlyArray<MessageAttachment>;
-	stickers?: ReadonlyArray<MessageStickerItem>;
-	reactions?: ReadonlyArray<MessageReaction>;
-	message_reference?: MessageReference;
-	referenced_message?: Message | null;
-	message_snapshots?: ReadonlyArray<MessageSnapshot>;
-	call?: MessageCall | null;
-	state?: string;
-	nonce?: string;
-	blocked?: boolean;
-	loggingName?: string;
-	_allowedMentions?: AllowedMentions;
-	_favoriteMemeId?: string;
-}>;
+import {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import UserStore from '@app/stores/UserStore';
+import * as GiftCodeUtils from '@app/utils/GiftCodeUtils';
+import * as InviteUtils from '@app/utils/InviteUtils';
+import {emojiEquals} from '@app/utils/ReactionUtils';
+import * as ThemeUtils from '@app/utils/ThemeUtils';
+import {MessageFlags, MessageStates, MessageTypes} from '@fluxer/constants/src/ChannelConstants';
+import type {MessageEmbed} from '@fluxer/schema/src/domains/message/EmbedSchemas';
+import type {
+	AllowedMentions,
+	ChannelMention,
+	Message,
+	MessageAttachment,
+	MessageCall,
+	MessageReaction,
+	MessageReference,
+	MessageSnapshot,
+	MessageStickerItem,
+	ReactionEmoji,
+} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 
 interface TransformedMessageCall {
-	participants: Array<string>;
+	participants: ReadonlyArray<string>;
 	endedTimestamp: Date | null;
 }
 
@@ -249,15 +91,16 @@ const getOrCreateEmbedId = (embed: Omit<MessageEmbed, 'id'>): string => {
 
 interface MessageRecordOptions {
 	skipUserCache?: boolean;
+	instanceId?: string;
 }
 
 export class MessageRecord {
+	readonly instanceId: string;
 	readonly id: string;
 	readonly channelId: string;
 	readonly guildId?: string;
 	readonly author: UserRecord;
 	readonly webhookId?: string;
-	readonly applicationId?: string;
 	readonly type: number;
 	readonly flags: number;
 	readonly pinned: boolean;
@@ -290,23 +133,31 @@ export class MessageRecord {
 	readonly stickers?: ReadonlyArray<MessageStickerItem>;
 
 	constructor(message: Message, options?: MessageRecordOptions) {
+		this.instanceId = options?.instanceId ?? RuntimeConfigStore.localInstanceDomain;
+
+		const shouldCacheAuthor = !message.webhook_id;
 		if (!options?.skipUserCache) {
-			UserStore.cacheUsers([message.author, ...(message.mentions ?? [])]);
+			const authorsToCache = [...(shouldCacheAuthor ? [message.author] : []), ...(message.mentions ?? [])].filter(
+				Boolean,
+			);
+			if (authorsToCache.length > 0) {
+				UserStore.cacheUsers(authorsToCache);
+			}
 		}
 
 		const isBlocked = RelationshipStore.isBlocked(message.author.id);
 
 		if (message.webhook_id) {
-			this.author = new UserRecord(message.author);
+			this.author = new UserRecord(message.author, {instanceId: this.instanceId});
 		} else {
-			this.author = UserStore.getUser(message.author.id) || new UserRecord(message.author);
+			this.author =
+				UserStore.getUser(message.author.id) || new UserRecord(message.author, {instanceId: this.instanceId});
 		}
 
 		this.id = message.id;
 		this.channelId = message.channel_id;
 		this.guildId = message.guild_id;
 		this.webhookId = message.webhook_id;
-		this.applicationId = message.application_id;
 		this.type = message.type;
 		this.flags = message.flags;
 		this.pinned = message.pinned;
@@ -371,6 +222,10 @@ export class MessageRecord {
 		);
 	}
 
+	isClientSystemMessage(): boolean {
+		return this.type === MessageTypes.CLIENT_SYSTEM;
+	}
+
 	isSystemMessage(): boolean {
 		return !this.isUserMessage();
 	}
@@ -411,7 +266,6 @@ export class MessageRecord {
 				guild_id: updates.guild_id ?? this.guildId,
 				author: updates.author ?? this.author.toJSON(),
 				webhook_id: updates.webhook_id ?? this.webhookId,
-				application_id: updates.application_id ?? this.applicationId,
 				type: updates.type ?? this.type,
 				flags: updates.flags ?? this.flags,
 				pinned: updates.pinned ?? this.pinned,
@@ -435,7 +289,7 @@ export class MessageRecord {
 				blocked: updates.blocked ?? this.blocked,
 				loggingName: updates.loggingName ?? this.loggingName,
 			},
-			{skipUserCache: true},
+			{skipUserCache: true, instanceId: this.instanceId},
 		);
 	}
 
@@ -502,6 +356,7 @@ export class MessageRecord {
 	equals(other: MessageRecord): boolean {
 		if (this === other) return true;
 
+		if (this.instanceId !== other.instanceId) return false;
 		if (this.id !== other.id) return false;
 		if (this.channelId !== other.channelId) return false;
 		if (this.guildId !== other.guildId) return false;
@@ -514,7 +369,6 @@ export class MessageRecord {
 		if (this.nonce !== other.nonce) return false;
 		if (this.blocked !== other.blocked) return false;
 		if (this.webhookId !== other.webhookId) return false;
-		if (this.applicationId !== other.applicationId) return false;
 		if (this.loggingName !== other.loggingName) return false;
 
 		if (this.timestamp.getTime() !== other.timestamp.getTime()) return false;
@@ -574,7 +428,7 @@ export class MessageRecord {
 		for (let i = 0; i < this.stickerItems.length; i++) {
 			const s1 = this.stickerItems[i];
 			const s2 = other.stickerItems[i];
-			if (s1.id !== s2.id || s1.name !== s2.name || s1.format_type !== s2.format_type) {
+			if (s1.id !== s2.id || s1.name !== s2.name || s1.animated !== s2.animated) {
 				return false;
 			}
 		}
@@ -655,7 +509,6 @@ export class MessageRecord {
 			guild_id: this.guildId,
 			author: this.author.toJSON(),
 			webhook_id: this.webhookId,
-			application_id: this.applicationId,
 			type: this.type,
 			flags: this.flags,
 			pinned: this.pinned,

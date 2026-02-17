@@ -17,13 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import AppStorage from '@app/lib/AppStorage';
+import {makePersistent} from '@app/lib/MobXPersistence';
 import {makeAutoObservable} from 'mobx';
-import AppStorage from '~/lib/AppStorage';
-import {makePersistent} from '~/lib/MobXPersistence';
 
 export type DeveloperOptionsState = Readonly<{
 	bypassSplashScreen: boolean;
-	forceFailUploads: boolean;
 	forceFailMessageSends: boolean;
 	forceRenderPlaceholders: boolean;
 	forceEmbedSkeletons: boolean;
@@ -80,8 +79,6 @@ export type DeveloperOptionsState = Readonly<{
 	forceNoAttachFiles: boolean;
 	mockSlowmodeActive: boolean;
 	mockSlowmodeRemaining: number;
-	mockVisionarySoldOut: boolean;
-	mockVisionaryRemaining: number | null;
 	mockGiftInventory: boolean | null;
 	mockGiftDurationMonths: number | null;
 	mockGiftRedeemed: boolean | null;
@@ -101,7 +98,6 @@ type MutableDeveloperOptionsState = {
 
 class DeveloperOptionsStore implements DeveloperOptionsState {
 	bypassSplashScreen = false;
-	forceFailUploads = false;
 	forceFailMessageSends = false;
 	forceRenderPlaceholders = false;
 	forceEmbedSkeletons = false;
@@ -167,9 +163,6 @@ class DeveloperOptionsStore implements DeveloperOptionsState {
 		}
 	> = {};
 
-	mockVisionarySoldOut = false;
-	mockVisionaryRemaining: number | null = null;
-
 	mockGiftInventory: boolean | null = null;
 	mockGiftDurationMonths: number | null = 12;
 	mockGiftRedeemed: boolean | null = null;
@@ -183,7 +176,6 @@ class DeveloperOptionsStore implements DeveloperOptionsState {
 	private async initPersistence(): Promise<void> {
 		await makePersistent(this, 'DeveloperOptionsStore', [
 			'bypassSplashScreen',
-			'forceFailUploads',
 			'forceFailMessageSends',
 			'forceRenderPlaceholders',
 			'forceEmbedSkeletons',
@@ -233,8 +225,6 @@ class DeveloperOptionsStore implements DeveloperOptionsState {
 			'forceNoAttachFiles',
 			'mockSlowmodeActive',
 			'mockSlowmodeRemaining',
-			'mockVisionarySoldOut',
-			'mockVisionaryRemaining',
 			'mockGiftInventory',
 			'mockGiftDurationMonths',
 			'mockGiftRedeemed',

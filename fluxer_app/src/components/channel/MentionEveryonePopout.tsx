@@ -17,11 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/MentionEveryonePopout.module.css';
+import {getCurrentLocale} from '@app/utils/LocaleUtils';
+import {formatNumber} from '@fluxer/number_utils/src/NumberFormatting';
+import type {MessageDescriptor} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {WarningIcon} from '@phosphor-icons/react';
-import React from 'react';
-import styles from './MentionEveryonePopout.module.css';
+import {useCallback, useEffect} from 'react';
 
 interface MentionEveryonePopoutProps {
 	mentionType: '@everyone' | '@here' | 'role';
@@ -36,7 +39,7 @@ const isMac = () => /Mac|iPod|iPhone|iPad/.test(navigator.platform);
 export const getMentionTitle = (
 	mentionType: MentionEveryonePopoutProps['mentionType'],
 	roleName?: string,
-	t?: (msg: import('@lingui/core').MessageDescriptor) => string,
+	t?: (msg: MessageDescriptor) => string,
 ) => {
 	if (mentionType === 'role') {
 		return <Trans>Mention {roleName ?? t?.(msg`this role`) ?? 'this role'}?</Trans>;
@@ -51,12 +54,12 @@ export const getMentionDescription = (
 	mentionType: MentionEveryonePopoutProps['mentionType'],
 	memberCount: number,
 	roleName?: string,
-	t?: (msg: import('@lingui/core').MessageDescriptor) => string,
+	t?: (msg: MessageDescriptor) => string,
 ) => {
 	if (mentionType === 'role') {
 		return (
 			<Trans>
-				This will notify <strong>{memberCount.toLocaleString()}</strong> members with the{' '}
+				This will notify <strong>{formatNumber(memberCount, getCurrentLocale())}</strong> members with the{' '}
 				<span className={styles.roleName}>{roleName ?? t?.(msg`mentioned role`) ?? 'mentioned role'}</span> in this
 				channel. Are you sure you want to do this?
 			</Trans>
@@ -65,15 +68,15 @@ export const getMentionDescription = (
 	if (mentionType === '@everyone') {
 		return (
 			<Trans>
-				This will notify <strong>{memberCount.toLocaleString()}</strong> members in this channel. Are you sure you want
-				to do this?
+				This will notify <strong>{formatNumber(memberCount, getCurrentLocale())}</strong> members in this channel. Are
+				you sure you want to do this?
 			</Trans>
 		);
 	}
 	return (
 		<Trans>
-			This will notify up to <strong>{memberCount.toLocaleString()}</strong> online members in this channel. Are you
-			sure you want to do this?
+			This will notify up to <strong>{formatNumber(memberCount, getCurrentLocale())}</strong> online members in this
+			channel. Are you sure you want to do this?
 		</Trans>
 	);
 };
@@ -86,7 +89,7 @@ export const MentionEveryonePopout = ({
 	roleName,
 }: MentionEveryonePopoutProps) => {
 	const {t} = useLingui();
-	const handleKeyDown = React.useCallback(
+	const handleKeyDown = useCallback(
 		(event: KeyboardEvent) => {
 			if (event.key === 'Escape') {
 				event.preventDefault();
@@ -104,7 +107,7 @@ export const MentionEveryonePopout = ({
 		[onCancel, onConfirm],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		document.addEventListener('keydown', handleKeyDown, true);
 		return () => document.removeEventListener('keydown', handleKeyDown, true);
 	}, [handleKeyDown]);

@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {GenericErrorModal} from '@app/components/alerts/GenericErrorModal';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {GenericErrorModal} from './GenericErrorModal';
 
 export const RoleCreateFailedModal = observer(() => {
 	const {t} = useLingui();
 	return (
-		<GenericErrorModal title={t`Failed to create role`} message={t`We couldn't create a new role at this time.`} />
+		<GenericErrorModal title={t`Failed to Create Role`} message={t`We couldn't create a new role at this time.`} />
 	);
 });

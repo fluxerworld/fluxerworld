@@ -17,15 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import {type CloudAttachment, CloudUpload, type MessageUpload} from '~/lib/CloudUpload';
+import {type CloudAttachment, CloudUpload, type MessageUpload} from '@app/lib/CloudUpload';
+import {useEffect, useState} from 'react';
 
 export function useTextareaAttachments(channelId: string): ReadonlyArray<CloudAttachment> {
-	const [attachments, setAttachments] = React.useState<ReadonlyArray<CloudAttachment>>(() =>
+	const [attachments, setAttachments] = useState<ReadonlyArray<CloudAttachment>>(() =>
 		CloudUpload.getTextareaAttachments(channelId),
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const subscription = CloudUpload.attachments$(channelId).subscribe(setAttachments);
 		return () => subscription.unsubscribe();
 	}, [channelId]);
@@ -34,11 +34,11 @@ export function useTextareaAttachments(channelId: string): ReadonlyArray<CloudAt
 }
 
 export function useMessageUpload(nonce: string): MessageUpload | null {
-	const [upload, setUpload] = React.useState<MessageUpload | null>(() =>
+	const [upload, setUpload] = useState<MessageUpload | null>(() =>
 		nonce ? CloudUpload.getMessageUpload(nonce) : null,
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!nonce) {
 			setUpload(null);
 			return;

@@ -60,6 +60,7 @@
 
 -type purge_mode() :: none | soft | hard.
 -type reload_opts() :: #{purge => purge_mode()}.
+-type reload_result() :: map().
 
 -spec reload_module(atom()) -> {ok, map()} | {error, term()}.
 reload_module(Module) when is_atom(Module) ->
@@ -79,11 +80,11 @@ reload_module(Module) when is_atom(Module) ->
             end
     end.
 
--spec reload_modules([atom()]) -> {ok, [map()]}.
+-spec reload_modules([atom()]) -> {ok, [reload_result()]}.
 reload_modules(Modules) when is_list(Modules) ->
     reload_modules(Modules, #{purge => soft}).
 
--spec reload_modules([atom()], reload_opts()) -> {ok, [map()]}.
+-spec reload_modules([atom()], reload_opts()) -> {ok, [reload_result()]}.
 reload_modules(Modules, Opts) when is_list(Modules), is_map(Opts) ->
     Purge = maps:get(purge, Opts, soft),
     Results = lists:map(
@@ -94,7 +95,7 @@ reload_modules(Modules, Opts) when is_list(Modules), is_map(Opts) ->
     ),
     {ok, Results}.
 
--spec reload_beams([{atom(), binary()}], reload_opts()) -> {ok, [map()]}.
+-spec reload_beams([{atom(), binary()}], reload_opts()) -> {ok, [reload_result()]}.
 reload_beams(Pairs, Opts) when is_list(Pairs), is_map(Opts) ->
     Purge = maps:get(purge, Opts, soft),
     Results =
@@ -106,11 +107,11 @@ reload_beams(Pairs, Opts) when is_list(Pairs), is_map(Opts) ->
         ),
     {ok, Results}.
 
--spec reload_all_changed() -> {ok, [map()]}.
+-spec reload_all_changed() -> {ok, [reload_result()]}.
 reload_all_changed() ->
     reload_all_changed(soft).
 
--spec reload_all_changed(purge_mode()) -> {ok, [map()]}.
+-spec reload_all_changed(purge_mode()) -> {ok, [reload_result()]}.
 reload_all_changed(Purge) ->
     ChangedModules = get_changed_modules(),
     reload_modules(ChangedModules, #{purge => Purge}).
@@ -141,6 +142,7 @@ get_module_info(Module) when is_atom(Module) ->
             }}
     end.
 
+-spec reload_one(atom(), purge_mode()) -> reload_result().
 reload_one(Module, Purge) ->
     case is_critical_module(Module) of
         true ->
@@ -149,6 +151,7 @@ reload_one(Module, Purge) ->
             do_reload_one(Module, Purge)
     end.
 
+-spec reload_one_beam(atom(), binary(), purge_mode()) -> reload_result().
 reload_one_beam(Module, BeamBin, Purge) ->
     case is_critical_module(Module) of
         true ->
@@ -157,19 +160,21 @@ reload_one_beam(Module, BeamBin, Purge) ->
             do_reload_one_beam(Module, BeamBin, Purge)
     end.
 
+-spec do_reload_one(atom(), purge_mode()) -> reload_result().
 do_reload_one(Module, Purge) ->
     OldLoadedMd5 = loaded_md5(Module),
     OldBeamPath = code:which(Module),
     OldDiskMd5 = disk_md5(OldBeamPath),
-
     ok = maybe_purge_before_load(Module, Purge),
-
     case code:load_file(Module) of
         {module, Module} ->
             NewLoadedMd5 = loaded_md5(Module),
             NewBeamPath = code:which(Module),
             NewDiskMd5 = disk_md5(NewBeamPath),
-            Verified = (NewLoadedMd5 =/= undefined) andalso (NewDiskMd5 =/= undefined) andalso (NewLoadedMd5 =:= NewDiskMd5),
+            Verified =
+                (NewLoadedMd5 =/= undefined) andalso
+                    (NewDiskMd5 =/= undefined) andalso
+                    (NewLoadedMd5 =:= NewDiskMd5),
             {PurgedOld, LingeringCount} = maybe_purge_old_after_load(Module, Purge),
             #{
                 module => Module,
@@ -195,9 +200,9 @@ do_reload_one(Module, Purge) ->
             }
     end.
 
+-spec do_reload_one_beam(atom(), binary(), purge_mode()) -> reload_result().
 do_reload_one_beam(Module, BeamBin, Purge) ->
     OldLoadedMd5 = loaded_md5(Module),
-
     ExpectedMd5 =
         case beam_lib:md5(BeamBin) of
             {ok, {Module, Md5}} ->
@@ -207,9 +212,7 @@ do_reload_one_beam(Module, BeamBin, Purge) ->
             _ ->
                 erlang:error(invalid_beam)
         end,
-
     ok = maybe_purge_before_load(Module, Purge),
-
     Filename = atom_to_list(Module) ++ ".beam(hot)",
     case code:load_binary(Module, Filename, BeamBin) of
         {module, Module} ->
@@ -239,6 +242,7 @@ do_reload_one_beam(Module, BeamBin, Purge) ->
             }
     end.
 
+-spec maybe_purge_before_load(atom(), purge_mode()) -> ok.
 maybe_purge_before_load(_Module, none) ->
     ok;
 maybe_purge_before_load(_Module, soft) ->
@@ -247,16 +251,28 @@ maybe_purge_before_load(Module, hard) ->
     _ = code:purge(Module),
     ok.
 
+-spec maybe_purge_old_after_load(atom(), purge_mode()) -> {boolean(), non_neg_integer()}.
 maybe_purge_old_after_load(_Module, none) ->
     {false, 0};
 maybe_purge_old_after_load(Module, hard) ->
     _ = code:soft_purge(Module),
     Purged = code:purge(Module),
-    {Purged, case Purged of true -> 0; false -> count_lingering(Module) end};
+    LingeringCount =
+        case Purged of
+            true -> 0;
+            false -> count_lingering(Module)
+        end,
+    {Purged, LingeringCount};
 maybe_purge_old_after_load(Module, soft) ->
     Purged = wait_soft_purge(Module, 40, 50),
-    {Purged, case Purged of true -> 0; false -> count_lingering(Module) end}.
+    LingeringCount =
+        case Purged of
+            true -> 0;
+            false -> count_lingering(Module)
+        end,
+    {Purged, LingeringCount}.
 
+-spec wait_soft_purge(atom(), non_neg_integer(), pos_integer()) -> boolean().
 wait_soft_purge(_Module, 0, _SleepMs) ->
     false;
 wait_soft_purge(Module, N, SleepMs) ->
@@ -264,10 +280,13 @@ wait_soft_purge(Module, N, SleepMs) ->
         true ->
             true;
         false ->
-            receive after SleepMs -> ok end,
+            receive
+            after SleepMs -> ok
+            end,
             wait_soft_purge(Module, N - 1, SleepMs)
     end.
 
+-spec count_lingering(atom()) -> non_neg_integer().
 count_lingering(Module) ->
     lists:foldl(
         fun(Pid, Acc) ->
@@ -280,21 +299,26 @@ count_lingering(Module) ->
         processes()
     ).
 
+-spec get_changed_modules() -> [atom()].
 get_changed_modules() ->
     Modified = code:modified_modules(),
     [M || M <- Modified, is_fluxer_module(M), not is_critical_module(M)].
 
+-spec is_critical_module(atom()) -> boolean().
 is_critical_module(Module) ->
     lists:member(Module, ?CRITICAL_MODULES).
 
+-spec is_fluxer_module(atom()) -> boolean().
 is_fluxer_module(Module) ->
     ModuleStr = atom_to_list(Module),
     lists:prefix("fluxer_", ModuleStr) orelse
         lists:prefix("gateway", ModuleStr) orelse
+        lists:prefix("gateway_http_", ModuleStr) orelse
         lists:prefix("session", ModuleStr) orelse
         lists:prefix("guild", ModuleStr) orelse
         lists:prefix("presence", ModuleStr) orelse
         lists:prefix("push", ModuleStr) orelse
+        lists:prefix("push_dispatcher", ModuleStr) orelse
         lists:prefix("call", ModuleStr) orelse
         lists:prefix("health", ModuleStr) orelse
         lists:prefix("hot_reload", ModuleStr) orelse
@@ -311,9 +335,13 @@ is_fluxer_module(Module) ->
         lists:prefix("map_utils", ModuleStr) orelse
         lists:prefix("type_conv", ModuleStr) orelse
         lists:prefix("utils", ModuleStr) orelse
+        lists:prefix("snowflake_", ModuleStr) orelse
         lists:prefix("user_utils", ModuleStr) orelse
-        lists:prefix("custom_status", ModuleStr).
+        lists:prefix("custom_status", ModuleStr) orelse
+        lists:prefix("otel_", ModuleStr) orelse
+        lists:prefix("event_", ModuleStr).
 
+-spec loaded_md5(atom()) -> binary() | undefined.
 loaded_md5(Module) ->
     try
         Module:module_info(md5)
@@ -321,6 +349,7 @@ loaded_md5(Module) ->
         _:_ -> undefined
     end.
 
+-spec disk_md5(string() | atom()) -> binary() | undefined.
 disk_md5(Path) when is_list(Path) ->
     case beam_lib:md5(Path) of
         {ok, {_M, Md5}} -> Md5;
@@ -329,11 +358,13 @@ disk_md5(Path) when is_list(Path) ->
 disk_md5(_) ->
     undefined.
 
+-spec hex_or_null(binary() | undefined) -> binary() | null.
 hex_or_null(undefined) ->
     null;
 hex_or_null(Bin) when is_binary(Bin) ->
     binary:encode_hex(Bin, lowercase).
 
+-spec get_loaded_time(atom()) -> term().
 get_loaded_time(Module) ->
     try
         case Module:module_info(compile) of
@@ -346,6 +377,7 @@ get_loaded_time(Module) ->
         _:_ -> undefined
     end.
 
+-spec get_disk_time(string() | atom()) -> calendar:datetime() | undefined.
 get_disk_time(BeamPath) when is_list(BeamPath) ->
     case file:read_file_info(BeamPath) of
         {ok, FileInfo} ->

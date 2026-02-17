@@ -1,5 +1,0 @@
-{
-	"title": "Events",
-	"pages": ["overview", "gateway", "gateway-events"],
-	"defaultOpen": true
-}

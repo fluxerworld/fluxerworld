@@ -17,23 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {Switch} from '@app/components/form/Switch';
+import {KeybindRecorder} from '@app/components/keybinds/KeybindRecorder';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {InputMonitoringSection} from '@app/components/modals/tabs/components/InputMonitoringSection';
+import styles from '@app/components/modals/tabs/KeybindsTab.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {IS_DEV} from '@app/lib/Env';
+import KeybindManager from '@app/lib/KeybindManager';
+import KeybindStore, {getDefaultKeybind, type KeybindConfig, type KeyCombo} from '@app/stores/KeybindStore';
+import NativePermissionStore from '@app/stores/NativePermissionStore';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {DownloadSimpleIcon, InfoIcon} from '@phosphor-icons/react';
 import clsx from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {Switch} from '~/components/form/Switch';
-import {KeybindRecorder} from '~/components/keybinds/KeybindRecorder';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {Button} from '~/components/uikit/Button/Button';
-import {IS_DEV} from '~/lib/env';
-import KeybindManager from '~/lib/KeybindManager';
-import KeybindStore, {getDefaultKeybind, type KeybindConfig, type KeyCombo} from '~/stores/KeybindStore';
-import NativePermissionStore from '~/stores/NativePermissionStore';
-import {InputMonitoringSection} from './components/InputMonitoringSection';
-import styles from './KeybindsTab.module.css';
+import type React from 'react';
+import {useEffect, useState} from 'react';
 
 const KeybindRow = observer(
 	({entry, isNativeDesktop}: {entry: KeybindConfig & {combo: KeyCombo}; isNativeDesktop: boolean}) => {
@@ -133,12 +134,12 @@ const KeybindsTab: React.FC = observer(() => {
 		{id: 'system', title: t`System`},
 	];
 
-	const [devDesktopOverride, setDevDesktopOverride] = React.useState(false);
+	const [devDesktopOverride, setDevDesktopOverride] = useState(false);
 	const isNativeDesktop = IS_DEV
 		? NativePermissionStore.isDesktop || devDesktopOverride
 		: NativePermissionStore.isDesktop;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		KeybindManager.suspend();
 		return () => {
 			KeybindManager.resume();

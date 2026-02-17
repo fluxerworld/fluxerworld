@@ -29,40 +29,35 @@
     compute_list_id/1
 ]).
 
--record(member_storage, {
-    members_table :: ets:tid(),
-    display_name_index :: gb_trees:tree()
-}).
-
--type storage() :: #member_storage{}.
+-type storage() :: #{
+    members_table := ets:tid(),
+    display_name_index := gb_trees:tree({binary(), user_id()}, user_id())
+}.
 -type user_id() :: integer().
 -type member() :: map().
+-type index_key() :: {binary(), user_id()}.
 
 -export_type([storage/0]).
 
--ifdef(TEST).
--include_lib("eunit/include/eunit.hrl").
--endif.
-
 -spec new() -> storage().
 new() ->
-    MembersTable = ets:new(members, [set, private]),
+    MembersTable = ets:new(members, [set, private, {read_concurrency, true}]),
     DisplayNameIndex = gb_trees:empty(),
-    #member_storage{
-        members_table = MembersTable,
-        display_name_index = DisplayNameIndex
+    #{
+        members_table => MembersTable,
+        display_name_index => DisplayNameIndex
     }.
 
 -spec insert_member(member(), storage()) -> storage().
 insert_member(Member, Storage) ->
-    UserId = extract_user_id(Member),
-    case UserId of
+    case extract_user_id(Member) of
         undefined ->
             Storage;
-        _ ->
+        UserId ->
             OldMember = get_member(UserId, Storage),
             Storage1 = remove_from_index(OldMember, Storage),
-            ets:insert(Storage1#member_storage.members_table, {UserId, Member}),
+            #{members_table := MembersTable} = Storage1,
+            ets:insert(MembersTable, {UserId, Member}),
             add_to_index(UserId, Member, Storage1)
     end.
 
@@ -73,13 +68,15 @@ remove_member(UserId, Storage) ->
             Storage;
         Member ->
             Storage1 = remove_from_index(Member, Storage),
-            ets:delete(Storage1#member_storage.members_table, UserId),
+            #{members_table := MembersTable} = Storage1,
+            ets:delete(MembersTable, UserId),
             Storage1
     end.
 
 -spec get_member(user_id(), storage()) -> member() | undefined.
 get_member(UserId, Storage) ->
-    case ets:lookup(Storage#member_storage.members_table, UserId) of
+    #{members_table := MembersTable} = Storage,
+    case ets:lookup(MembersTable, UserId) of
         [{UserId, Member}] -> Member;
         [] -> undefined
     end.
@@ -100,41 +97,46 @@ get_members_by_ids(UserIds, Storage) ->
 search_members(Query, Limit, Storage) when is_binary(Query), Limit > 0 ->
     NormalizedQuery = normalize_display_name(Query),
     case NormalizedQuery of
-        <<>> ->
-            [];
-        _ ->
-            search_by_prefix(NormalizedQuery, Limit, Storage)
+        <<>> -> [];
+        _ -> search_by_prefix(NormalizedQuery, Limit, Storage)
     end;
 search_members(_, _, _) ->
     [].
 
 -spec get_range(non_neg_integer(), non_neg_integer(), storage()) -> [member()].
 get_range(Offset, Limit, Storage) when is_integer(Offset), is_integer(Limit), Limit > 0 ->
-    Index = Storage#member_storage.display_name_index,
-    case gb_trees:size(Index) of
-        Size when Offset >= Size ->
-            [];
-        Size ->
-            AllKeys = gb_trees:keys(Index),
-            EndIdx = min(Offset + Limit, Size),
-            SelectedKeys = lists:sublist(AllKeys, Offset + 1, EndIdx - Offset),
-            lists:filtermap(
-                fun(Key) ->
-                    UserId = gb_trees:get(Key, Index),
-                    case get_member(UserId, Storage) of
-                        undefined -> false;
-                        Member -> {true, Member}
-                    end
-                end,
-                SelectedKeys
-            )
+    #{display_name_index := Index} = Storage,
+    Size = gb_trees:size(Index),
+    case Offset >= Size of
+        true -> [];
+        false -> get_range_from_index(Offset, Limit, Size, Index, Storage)
     end;
 get_range(_, _, _) ->
     [].
 
+-spec get_range_from_index(
+    non_neg_integer(), non_neg_integer(), non_neg_integer(), gb_trees:tree(), storage()
+) ->
+    [member()].
+get_range_from_index(Offset, Limit, Size, Index, Storage) ->
+    AllKeys = gb_trees:keys(Index),
+    EndIdx = min(Offset + Limit, Size),
+    SelectedKeys = lists:sublist(AllKeys, Offset + 1, EndIdx - Offset),
+    lists:filtermap(
+        fun(Key) ->
+            UserId = gb_trees:get(Key, Index),
+            case get_member(UserId, Storage) of
+                undefined -> false;
+                Member -> {true, Member}
+            end
+        end,
+        SelectedKeys
+    ).
+
 -spec count(storage()) -> non_neg_integer().
 count(Storage) ->
-    ets:info(Storage#member_storage.members_table, size).
+    #{members_table := MembersTable} = Storage,
+    ets:info(MembersTable, size).
 
 -spec compute_list_id([user_id()]) -> integer().
 compute_list_id(UserIds) ->
@@ -155,19 +157,17 @@ extract_user_id(_) ->
 
 -spec get_display_name(member()) -> binary().
 get_display_name(Member) when is_map(Member) ->
-    Nick = maps:get(<<"nick">>, Member, undefined),
-    case Nick of
-        undefined ->
-            User = maps:get(<<"user">>, Member, #{}),
-            GlobalName = maps:get(<<"global_name">>, User, undefined),
-            case GlobalName of
-                undefined ->
-                    maps:get(<<"username">>, User, <<>>);
-                _ ->
-                    GlobalName
-            end;
-        _ ->
-            Nick
+    case maps:get(<<"nick">>, Member, undefined) of
+        undefined -> get_display_name_from_user(Member);
+        Nick -> Nick
+    end.
+
+-spec get_display_name_from_user(member()) -> binary().
+get_display_name_from_user(Member) ->
+    User = maps:get(<<"user">>, Member, #{}),
+    case maps:get(<<"global_name">>, User, undefined) of
+        undefined -> maps:get(<<"username">>, User, <<>>);
+        GlobalName -> GlobalName
     end.
 
 -spec normalize_display_name(binary()) -> binary().
@@ -180,9 +180,9 @@ add_to_index(UserId, Member, Storage) ->
     DisplayName = get_display_name(Member),
     NormalizedName = normalize_display_name(DisplayName),
     Key = make_index_key(NormalizedName, UserId),
-    Index = Storage#member_storage.display_name_index,
+    #{display_name_index := Index} = Storage,
     NewIndex = gb_trees:enter(Key, UserId, Index),
-    Storage#member_storage{display_name_index = NewIndex}.
+    Storage#{display_name_index => NewIndex}.
 
 -spec remove_from_index(member() | undefined, storage()) -> storage().
 remove_from_index(undefined, Storage) ->
@@ -192,41 +192,46 @@ remove_from_index(Member, Storage) ->
     DisplayName = get_display_name(Member),
     NormalizedName = normalize_display_name(DisplayName),
     Key = make_index_key(NormalizedName, UserId),
-    Index = Storage#member_storage.display_name_index,
+    #{display_name_index := Index} = Storage,
     case gb_trees:is_defined(Key, Index) of
         true ->
             NewIndex = gb_trees:delete(Key, Index),
-            Storage#member_storage{display_name_index = NewIndex};
+            Storage#{display_name_index => NewIndex};
         false ->
             Storage
     end.
 
--spec make_index_key(binary(), user_id()) -> {binary(), user_id()}.
+-spec make_index_key(binary(), user_id()) -> index_key().
 make_index_key(NormalizedName, UserId) ->
     {NormalizedName, UserId}.
 
 -spec search_by_prefix(binary(), non_neg_integer(), storage()) -> [member()].
 search_by_prefix(Prefix, Limit, Storage) ->
-    Index = Storage#member_storage.display_name_index,
+    #{display_name_index := Index} = Storage,
     AllKeys = gb_trees:keys(Index),
-    Matches = lists:filtermap(
-        fun({Name, UserId}) ->
-            PrefixLen = byte_size(Prefix),
-            case Name of
-                <<Prefix:PrefixLen/binary, _/binary>> ->
-                    case get_member(UserId, Storage) of
-                        undefined -> false;
-                        Member -> {true, Member}
-                    end;
-                _ ->
-                    false
-            end
-        end,
-        AllKeys
-    ),
+    PrefixLen = byte_size(Prefix),
+    Matches = find_prefix_matches(AllKeys, Prefix, PrefixLen, Storage, []),
     lists:sublist(Matches, Limit).
 
+-spec find_prefix_matches([index_key()], binary(), non_neg_integer(), storage(), [member()]) ->
+    [member()].
+find_prefix_matches([], _Prefix, _PrefixLen, _Storage, Acc) ->
+    lists:reverse(Acc);
+find_prefix_matches([{Name, UserId} | Rest], Prefix, PrefixLen, Storage, Acc) ->
+    case Name of
+        <<Prefix:PrefixLen/binary, _/binary>> ->
+            case get_member(UserId, Storage) of
+                undefined ->
+                    find_prefix_matches(Rest, Prefix, PrefixLen, Storage, Acc);
+                Member ->
+                    find_prefix_matches(Rest, Prefix, PrefixLen, Storage, [Member | Acc])
+            end;
+        _ ->
+            find_prefix_matches(Rest, Prefix, PrefixLen, Storage, Acc)
+    end.
+
 -ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
 
 new_creates_empty_storage_test() ->
     Storage = new(),
@@ -309,10 +314,15 @@ display_name_username_fallback_test() ->
     },
     ?assertEqual(<<"user">>, get_display_name(Member)).
 
-compute_list_id_test() ->
+compute_list_id_deterministic_test() ->
     Id1 = compute_list_id([1, 2, 3]),
     Id2 = compute_list_id([3, 2, 1]),
     ?assertEqual(Id1, Id2).
+
+compute_list_id_different_for_different_lists_test() ->
+    Id1 = compute_list_id([1, 2, 3]),
+    Id2 = compute_list_id([1, 2, 4]),
+    ?assertNotEqual(Id1, Id2).
 
 get_range_test() ->
     Storage = new(),
@@ -324,5 +334,47 @@ get_range_test() ->
     Storage3 = insert_member(Member3, Storage2),
     Results = get_range(1, 2, Storage3),
     ?assertEqual(2, length(Results)).
+
+get_range_offset_beyond_size_test() ->
+    Storage = new(),
+    Member1 = #{<<"user">> => #{<<"id">> => <<"1">>, <<"username">> => <<"alice">>}},
+    Storage1 = insert_member(Member1, Storage),
+    Results = get_range(10, 5, Storage1),
+    ?assertEqual([], Results).
+
+search_members_empty_query_test() ->
+    Storage = new(),
+    Member1 = #{<<"user">> => #{<<"id">> => <<"1">>, <<"username">> => <<"alice">>}},
+    Storage1 = insert_member(Member1, Storage),
+    Results = search_members(<<>>, 10, Storage1),
+    ?assertEqual([], Results).
+
+search_members_limit_test() ->
+    Storage = new(),
+    Member1 = #{<<"user">> => #{<<"id">> => <<"1">>, <<"username">> => <<"aaa">>}},
+    Member2 = #{<<"user">> => #{<<"id">> => <<"2">>, <<"username">> => <<"aab">>}},
+    Member3 = #{<<"user">> => #{<<"id">> => <<"3">>, <<"username">> => <<"aac">>}},
+    Storage1 = insert_member(Member1, Storage),
+    Storage2 = insert_member(Member2, Storage1),
+    Storage3 = insert_member(Member3, Storage2),
+    Results = search_members(<<"aa">>, 2, Storage3),
+    ?assertEqual(2, length(Results)).
+
+normalize_display_name_test() ->
+    ?assertEqual(<<"hello">>, normalize_display_name(<<"HELLO">>)),
+    ?assertEqual(<<"hello">>, normalize_display_name(<<"Hello">>)),
+    ?assertEqual(<<"hello">>, normalize_display_name(<<"hello">>)).
+
+insert_member_updates_index_test() ->
+    Storage = new(),
+    Member1 = #{<<"user">> => #{<<"id">> => <<"1">>, <<"username">> => <<"alice">>}},
+    Storage1 = insert_member(Member1, Storage),
+    Member2 = #{<<"user">> => #{<<"id">> => <<"1">>, <<"username">> => <<"bob">>}},
+    Storage2 = insert_member(Member2, Storage1),
+    ?assertEqual(1, count(Storage2)),
+    AliceResults = search_members(<<"alice">>, 10, Storage2),
+    ?assertEqual(0, length(AliceResults)),
+    BobResults = search_members(<<"bob">>, 10, Storage2),
+    ?assertEqual(1, length(BobResults)).
 
 -endif.

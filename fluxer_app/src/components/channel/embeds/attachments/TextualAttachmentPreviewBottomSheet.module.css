@@ -1,0 +1,101 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.container {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 0;
+}
+
+.codeContainer {
+	flex: 1;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.codeSurface {
+	height: 100%;
+	max-height: none;
+	min-height: 0;
+}
+
+.footer {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 0.625rem;
+	padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px));
+	border-top: 1px solid var(--border-color);
+	background-color: var(--background-secondary);
+}
+
+.fileSection {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+	flex: 1;
+}
+
+.fileMeta {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	gap: 0.175rem;
+}
+
+.fileName {
+	font-size: 0.8125rem;
+	line-height: 1.25;
+	color: var(--text-primary);
+	font-weight: 500;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.fileSize {
+	font-size: 0.75rem;
+	color: var(--text-tertiary);
+}
+
+.footerActions {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+	flex-shrink: 0;
+}
+
+.actionButton {
+	border: none;
+	background: transparent;
+	color: var(--text-secondary);
+	width: 2.25rem;
+	height: 2.25rem;
+	border-radius: 0.5rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.actionButton:active {
+	background-color: var(--background-modifier-hover);
+	color: var(--text-primary);
+}

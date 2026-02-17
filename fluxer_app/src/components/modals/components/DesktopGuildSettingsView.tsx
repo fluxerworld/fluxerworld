@@ -17,34 +17,39 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
-import {ArrowLeftIcon, ArrowRightIcon, TrashIcon} from '@phosphor-icons/react';
-import {AnimatePresence, motion} from 'framer-motion';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {GuildDeleteModal} from '~/components/modals/GuildDeleteModal';
-import {Button} from '~/components/uikit/Button/Button';
-import type {GuildRecord} from '~/records/GuildRecord';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import EmojiStickerLayoutStore from '~/stores/EmojiStickerLayoutStore';
-import GuildMemberLayoutStore from '~/stores/GuildMemberLayoutStore';
-import SettingsSidebarStore from '~/stores/SettingsSidebarStore';
-import {SettingsModalHeader} from '../components/SettingsModalHeader';
-import styles from '../GuildSettingsModal.module.css';
-import {useUnsavedChangesFlash} from '../hooks/useUnsavedChangesFlash';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {SettingsModalHeader} from '@app/components/modals/components/SettingsModalHeader';
+import {GuildDeleteModal} from '@app/components/modals/GuildDeleteModal';
+import styles from '@app/components/modals/GuildSettingsModal.module.css';
+import {useUnsavedChangesFlash} from '@app/components/modals/hooks/useUnsavedChangesFlash';
 import {
 	SettingsModalDesktopContent,
 	SettingsModalDesktopScroll,
 	SettingsModalDesktopSidebar,
 	SettingsModalSidebarCategory,
 	SettingsModalSidebarCategoryTitle,
+	SettingsModalSidebarFooter,
 	SettingsModalSidebarItem,
 	SettingsModalSidebarNav,
-} from '../shared/SettingsModalLayout';
-import type {GuildSettingsTab, GuildSettingsTabType} from '../utils/guildSettingsConstants';
+} from '@app/components/modals/shared/SettingsModalLayout';
+import type {GuildSettingsTab, GuildSettingsTabType} from '@app/components/modals/utils/GuildSettingsConstants';
+import {Button} from '@app/components/uikit/button/Button';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import EmojiStickerLayoutStore from '@app/stores/EmojiStickerLayoutStore';
+import GuildMemberLayoutStore from '@app/stores/GuildMemberLayoutStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import SettingsSidebarStore from '@app/stores/SettingsSidebarStore';
+import {openMessageHistoryThresholdSettings} from '@app/utils/modals/guild_tabs/GuildOverviewTabUtils';
+import {Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {useLingui} from '@lingui/react/macro';
+import {ArrowLeftIcon, ArrowRightIcon, TrashIcon} from '@phosphor-icons/react';
+import {AnimatePresence, motion} from 'framer-motion';
+import {observer} from 'mobx-react-lite';
+import type React from 'react';
+import {useCallback, useMemo, useRef} from 'react';
 
 interface DesktopGuildSettingsViewProps {
 	guild: GuildRecord;
@@ -64,14 +69,15 @@ export const DesktopGuildSettingsView: React.FC<DesktopGuildSettingsViewProps> =
 			user_management: t`User Management`,
 		};
 		const prefersReducedMotion = AccessibilityStore.useReducedMotion;
-		const contentRef = React.useRef<HTMLDivElement>(null);
-		const focusContentPanel = React.useCallback(() => {
+		const contentRef = useRef<HTMLDivElement>(null);
+		const focusContentPanel = useCallback(() => {
 			contentRef.current?.focus();
 		}, []);
 
-		const guildOverrideOwnerId = React.useMemo(() => `guild-roles-${guild.id}`, [guild.id]);
+		const guildOverrideOwnerId = useMemo(() => `guild-roles-${guild.id}`, [guild.id]);
+		const canManageGuild = PermissionStore.can(Permissions.MANAGE_GUILD, {guildId: guild.id});
 
-		const handleTabSelect = React.useCallback(
+		const handleTabSelect = useCallback(
 			(tabType: GuildSettingsTabType) => {
 				if (checkUnsavedChanges()) return;
 				if (
@@ -86,12 +92,12 @@ export const DesktopGuildSettingsView: React.FC<DesktopGuildSettingsViewProps> =
 			[checkUnsavedChanges, onTabSelect, guildOverrideOwnerId],
 		);
 
-		const handleDeleteGuild = React.useCallback(() => {
+		const handleDeleteGuild = useCallback(() => {
 			if (checkUnsavedChanges()) return;
 			ModalActionCreators.push(modal(() => <GuildDeleteModal guildId={guild.id} />));
 		}, [guild.id, checkUnsavedChanges]);
 
-		const handleClose = React.useCallback(() => {
+		const handleClose = useCallback(() => {
 			if (checkUnsavedChanges()) return;
 			ModalActionCreators.pop();
 		}, [checkUnsavedChanges]);
@@ -99,7 +105,7 @@ export const DesktopGuildSettingsView: React.FC<DesktopGuildSettingsViewProps> =
 		const useOverride = SettingsSidebarStore.useOverride;
 		const activeTabPanelId = selectedTab ? `guild-settings-tabpanel-${selectedTab}` : undefined;
 		const activeTabId = selectedTab ? `guild-settings-tab-${selectedTab}` : undefined;
-		const hasSelectedTabInSidebar = React.useMemo(() => {
+		const hasSelectedTabInSidebar = useMemo(() => {
 			if (!selectedTab || useOverride) {
 				return false;
 			}
@@ -109,7 +115,7 @@ export const DesktopGuildSettingsView: React.FC<DesktopGuildSettingsViewProps> =
 		const stickerViewMode = EmojiStickerLayoutStore.getStickerViewMode();
 		const memberViewMode = GuildMemberLayoutStore.getViewMode();
 
-		const scrollKey = React.useMemo(() => {
+		const scrollKey = useMemo(() => {
 			const baseKey = `guild-settings-${guild.id}-${selectedTab ?? 'none'}`;
 			switch (selectedTab) {
 				case 'emoji':
@@ -209,6 +215,18 @@ export const DesktopGuildSettingsView: React.FC<DesktopGuildSettingsViewProps> =
 							)}
 						</AnimatePresence>
 					</SettingsModalSidebarNav>
+					{selectedTab === 'roles' && canManageGuild && SettingsSidebarStore.useOverride && (
+						<SettingsModalSidebarFooter>
+							<Button
+								variant="secondary"
+								small={true}
+								fitContainer={true}
+								onClick={() => openMessageHistoryThresholdSettings(guild.id)}
+							>
+								{t`Message History Threshold`}
+							</Button>
+						</SettingsModalSidebarFooter>
+					)}
 				</SettingsModalDesktopSidebar>
 				<SettingsModalDesktopContent ref={contentRef} tabpanelId={activeTabPanelId} labelledBy={activeTabId}>
 					<SettingsModalHeader

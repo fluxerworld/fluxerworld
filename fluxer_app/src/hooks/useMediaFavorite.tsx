@@ -17,15 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as FavoriteMemeActionCreators from '@app/actions/FavoriteMemeActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {AddFavoriteMemeModal} from '@app/components/modals/AddFavoriteMemeModal';
+import FavoriteMemeStore from '@app/stores/FavoriteMemeStore';
+import * as FavoriteMemeUtils from '@app/utils/FavoriteMemeUtils';
 import {useLingui} from '@lingui/react/macro';
 import {autorun} from 'mobx';
 import {useCallback, useSyncExternalStore} from 'react';
-import * as FavoriteMemeActionCreators from '~/actions/FavoriteMemeActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {AddFavoriteMemeModal} from '~/components/modals/AddFavoriteMemeModal';
-import FavoriteMemeStore from '~/stores/FavoriteMemeStore';
-import * as FavoriteMemeUtils from '~/utils/FavoriteMemeUtils';
 
 interface UseMediaFavoriteParams {
 	channelId?: string;
@@ -36,7 +36,8 @@ interface UseMediaFavoriteParams {
 	defaultAltText?: string;
 	contentHash?: string | null;
 	isGifv?: boolean;
-	tenorId?: string | null;
+	klipySlug?: string | null;
+	tenorSlugId?: string | null;
 }
 
 interface UseMediaFavoriteReturn {
@@ -53,7 +54,8 @@ export function useMediaFavorite({
 	defaultName,
 	defaultAltText,
 	contentHash,
-	tenorId,
+	klipySlug,
+	tenorSlugId,
 }: UseMediaFavoriteParams): UseMediaFavoriteReturn {
 	const {i18n} = useLingui();
 
@@ -65,7 +67,7 @@ export function useMediaFavorite({
 		() => FavoriteMemeStore.memes,
 	);
 
-	const isFavorited = FavoriteMemeUtils.isFavorited(memes, {contentHash, tenorId});
+	const isFavorited = FavoriteMemeUtils.isFavorited(memes, {contentHash, klipySlug, tenorSlugId});
 
 	const canFavorite = !!(channelId && messageId && (attachmentId || embedIndex !== undefined));
 
@@ -76,7 +78,7 @@ export function useMediaFavorite({
 			if (!canFavorite) return;
 
 			if (isFavorited) {
-				const meme = FavoriteMemeUtils.findFavoritedMeme(memes, {contentHash, tenorId});
+				const meme = FavoriteMemeUtils.findFavoritedMeme(memes, {contentHash, klipySlug, tenorSlugId});
 				if (!meme) return;
 				await FavoriteMemeActionCreators.deleteFavoriteMeme(i18n, meme.id);
 			} else {
@@ -98,7 +100,8 @@ export function useMediaFavorite({
 			canFavorite,
 			isFavorited,
 			contentHash,
-			tenorId,
+			klipySlug,
+			tenorSlugId,
 			memes,
 			channelId,
 			messageId,

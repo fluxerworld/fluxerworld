@@ -17,38 +17,40 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import type {PriceIds} from '@app/actions/PremiumActionCreators';
+import * as PremiumActionCreators from '@app/actions/PremiumActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {HttpError} from '@app/lib/HttpError';
+import {Logger} from '@app/lib/Logger';
+import {openExternalUrl} from '@app/utils/NativeUtils';
+import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
 import {useLingui} from '@lingui/react/macro';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import type {PriceIds} from '~/actions/PremiumActionCreators';
-import * as PremiumActionCreators from '~/actions/PremiumActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {APIErrorCodes} from '~/Constants';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {HttpError} from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import {openExternalUrl} from '~/utils/NativeUtils';
+import {useCallback, useState} from 'react';
 
 const logger = new Logger('useCheckoutActions');
 
-type Plan = 'monthly' | 'yearly' | 'visionary' | 'gift1Month' | 'gift1Year' | 'giftVisionary';
+type Plan = 'monthly' | 'yearly' | 'gift_1_month' | 'gift_1_year';
 
 export const useCheckoutActions = (priceIds: PriceIds | null, isGiftSubscription: boolean, mobileEnabled: boolean) => {
 	const {t} = useLingui();
-	const [loadingCheckout, setLoadingCheckout] = React.useState(false);
+	const [loadingCheckout, setLoadingCheckout] = useState(false);
 
-	const handleCheckoutError = React.useCallback(
+	const handleCheckoutError = useCallback(
 		(error: unknown) => {
 			logger.error('Failed to create checkout session', error);
 
 			if (error instanceof HttpError) {
-				const errorCode = (error.body as any)?.code as string | undefined;
-				if (errorCode === APIErrorCodes.PREMIUM_PURCHASE_BLOCKED) {
-					ToastActionCreators.error(
-						t`You're already Lifetime. Starting a new subscription isn't allowed. You can still buy gifts for others.`,
-					);
-					return;
+				const body = error.body;
+				if (body && typeof body === 'object' && 'code' in body && typeof body.code === 'string') {
+					if (body.code === APIErrorCodes.PREMIUM_PURCHASE_BLOCKED) {
+						ToastActionCreators.error(
+							t`You're already Lifetime. Starting a new subscription isn't allowed. You can still buy gifts for others.`,
+						);
+						return;
+					}
 				}
 			}
 
@@ -57,7 +59,7 @@ export const useCheckoutActions = (priceIds: PriceIds | null, isGiftSubscription
 		[t],
 	);
 
-	const handleSelectPlan = React.useCallback(
+	const handleSelectPlan = useCallback(
 		async (plan: Plan) => {
 			if (loadingCheckout) return;
 
@@ -65,7 +67,7 @@ export const useCheckoutActions = (priceIds: PriceIds | null, isGiftSubscription
 
 			if (isGiftSubscription && (plan === 'monthly' || plan === 'yearly')) {
 				ToastActionCreators.error(
-					t`You're currently on a gift subscription. It won't renew. You can redeem more gift codes to extend it, or upgrade to Visionary now. Recurring subscriptions can be started after your gift time ends.`,
+					t`You're currently on a gift subscription. It won't renew. You can redeem more gift codes to extend it. Recurring subscriptions can be started after your gift time ends.`,
 				);
 				return;
 			}
@@ -77,12 +79,10 @@ export const useCheckoutActions = (priceIds: PriceIds | null, isGiftSubscription
 			}
 
 			const planConfig: Record<Plan, {id: string | null; gift?: boolean}> = {
-				monthly: {id: priceIds.monthly},
-				yearly: {id: priceIds.yearly},
-				visionary: {id: priceIds.visionary},
-				gift1Month: {id: priceIds.gift1Month, gift: true},
-				gift1Year: {id: priceIds.gift1Year, gift: true},
-				giftVisionary: {id: priceIds.giftVisionary, gift: true},
+				monthly: {id: priceIds.monthly ?? null},
+				yearly: {id: priceIds.yearly ?? null},
+				gift_1_month: {id: priceIds.gift_1_month ?? null, gift: true},
+				gift_1_year: {id: priceIds.gift_1_year ?? null, gift: true},
 			};
 
 			const selected = planConfig[plan];

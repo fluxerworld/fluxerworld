@@ -17,7 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import React, {useCallback, useContext, useMemo, useState} from 'react';
 
 interface SettingsContentKeyContextValue {
 	contentKey: string | null;
@@ -28,17 +28,17 @@ interface SettingsContentKeyContextValue {
 const SettingsContentKeyContext = React.createContext<SettingsContentKeyContextValue | null>(null);
 
 export const SettingsContentKeyProvider: React.FC<{children: React.ReactNode}> = ({children}) => {
-	const [contentKey, setContentKey] = React.useState<string | null>(null);
+	const [contentKey, setContentKey] = useState<string | null>(null);
 
-	const handleSetContentKey = React.useCallback((key: string | null) => {
+	const handleSetContentKey = useCallback((key: string | null) => {
 		setContentKey(key);
 	}, []);
 
-	const resetContentKey = React.useCallback(() => {
+	const resetContentKey = useCallback(() => {
 		setContentKey(null);
 	}, []);
 
-	const value = React.useMemo(
+	const value = useMemo(
 		() => ({
 			contentKey,
 			setContentKey: handleSetContentKey,
@@ -51,7 +51,7 @@ export const SettingsContentKeyProvider: React.FC<{children: React.ReactNode}> =
 };
 
 export const useSettingsContentKey = (): SettingsContentKeyContextValue => {
-	const context = React.useContext(SettingsContentKeyContext);
+	const context = useContext(SettingsContentKeyContext);
 
 	if (!context) {
 		return {

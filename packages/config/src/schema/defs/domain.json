@@ -1,0 +1,120 @@
+{
+	"domain": {
+		"type": "object",
+		"description": "Configuration for domains and ports used to construct public URLs.",
+		"additionalProperties": false,
+		"required": ["base_domain"],
+		"properties": {
+			"base_domain": {
+				"type": "string",
+				"description": "The primary domain name (e.g., example.com, localhost)."
+			},
+			"public_scheme": {
+				"type": "string",
+				"description": "The URL scheme for public endpoints.",
+				"enum": ["http", "https"],
+				"default": "http"
+			},
+			"internal_scheme": {
+				"type": "string",
+				"description": "The URL scheme for internal endpoints.",
+				"enum": ["http", "https"],
+				"default": "http"
+			},
+			"public_port": {
+				"type": "number",
+				"description": "The public-facing port number.",
+				"default": 8088
+			},
+			"internal_port": {
+				"type": "number",
+				"description": "The internal port number.",
+				"default": 8088
+			},
+			"static_cdn_domain": {
+				"type": "string",
+				"description": "Separate domain for static CDN assets (optional).",
+				"default": "fluxerstatic.com"
+			},
+			"invite_domain": {
+				"type": "string",
+				"description": "Domain for short invite links (optional).",
+				"default": ""
+			},
+			"gift_domain": {
+				"type": "string",
+				"description": "Domain for gift links (optional).",
+				"default": ""
+			}
+		}
+	},
+	"endpoint_overrides": {
+		"type": "object",
+		"description": "Explicit overrides for service endpoints. Use these if derived URLs are incorrect.",
+		"additionalProperties": false,
+		"properties": {
+			"api": {
+				"type": "string",
+				"description": "Full URL override for the API endpoint."
+			},
+			"api_client": {
+				"type": "string",
+				"description": "Full URL override for the client-facing API endpoint."
+			},
+			"app": {
+				"type": "string",
+				"description": "Full URL override for the Web App endpoint."
+			},
+			"gateway": {
+				"type": "string",
+				"description": "Full URL override for the Gateway (WebSocket) endpoint."
+			},
+			"media": {
+				"type": "string",
+				"description": "Full URL override for the Media endpoint."
+			},
+			"static_cdn": {
+				"type": "string",
+				"description": "Full URL override for the Static CDN endpoint."
+			},
+			"admin": {
+				"type": "string",
+				"description": "Full URL override for the Admin Panel endpoint."
+			},
+			"marketing": {
+				"type": "string",
+				"description": "Full URL override for the Marketing Site endpoint."
+			},
+			"invite": {
+				"type": "string",
+				"description": "Full URL override for Invite links."
+			},
+			"gift": {
+				"type": "string",
+				"description": "Full URL override for Gift links."
+			}
+		}
+	},
+	"internal": {
+		"type": "object",
+		"description": "Direct internal endpoints for backend services. In monolith mode these are served via paths on the main server.",
+		"additionalProperties": false,
+		"properties": {
+			"kv": {
+				"type": "string",
+				"description": "Internal Valkey/Redis URL for key-value operations.",
+				"default": "redis://localhost:6379/0"
+			},
+			"queue": {
+				"type": "string",
+				"description": "Internal URL for the Queue service.",
+				"default": "http://localhost:8088/queue"
+			},
+			"media_proxy": {
+				"type": "string",
+				"description": "Internal URL for the Media Proxy service.",
+				"default": "http://localhost:8088/media"
+			}
+		}
+	}
+}

@@ -17,26 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/SlowmodeIndicator.module.css';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {MS_PER_SECOND, SECONDS_PER_HOUR, SECONDS_PER_MINUTE} from '@fluxer/date_utils/src/DateConstants';
 import {Trans} from '@lingui/react/macro';
 import {ClockIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-
-import styles from './SlowmodeIndicator.module.css';
 
 interface SlowmodeIndicatorProps {
 	slowmodeRemaining: number;
+	isImmune: boolean;
 }
 
-export const SlowmodeIndicator = observer(({slowmodeRemaining}: SlowmodeIndicatorProps) => {
-	if (slowmodeRemaining <= 0) {
+export const SlowmodeIndicator = observer(({slowmodeRemaining, isImmune}: SlowmodeIndicatorProps) => {
+	if (slowmodeRemaining <= 0 && !isImmune) {
 		return null;
 	}
 
 	const formatTime = (ms: number): string => {
-		const totalSeconds = Math.ceil(ms / 1000);
-		const hours = Math.floor(totalSeconds / 3600);
-		const minutes = Math.floor((totalSeconds % 3600) / 60);
+		const totalSeconds = Math.ceil(ms / MS_PER_SECOND);
+		const hours = Math.floor(totalSeconds / SECONDS_PER_HOUR);
+		const minutes = Math.floor((totalSeconds % SECONDS_PER_HOUR) / SECONDS_PER_MINUTE);
 		const seconds = totalSeconds % 60;
 
 		if (hours > 0) {
@@ -46,11 +47,23 @@ export const SlowmodeIndicator = observer(({slowmodeRemaining}: SlowmodeIndicato
 		return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 	};
 
+	const tooltipText = isImmune ? (
+		<Trans>Slowmode is enabled, but you are immune.</Trans>
+	) : (
+		<Trans>You are in slowmode. Please wait before sending another message.</Trans>
+	);
+
 	return (
-		<Tooltip text={() => <Trans>You are in slowmode. Please wait before sending another message.</Trans>}>
+		<Tooltip text={() => tooltipText}>
 			<div className={styles.container}>
 				<ClockIcon size={12} weight="fill" />
-				<span className={styles.time}>{formatTime(slowmodeRemaining)}</span>
+				{slowmodeRemaining > 0 ? (
+					<span className={styles.time}>{formatTime(slowmodeRemaining)}</span>
+				) : (
+					<span className={styles.label}>
+						<Trans>Slowmode</Trans>
+					</span>
+				)}
 			</div>
 		</Tooltip>
 	);

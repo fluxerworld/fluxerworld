@@ -17,20 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans} from '@lingui/react/macro';
-import {clsx} from 'clsx';
-import {observer} from 'mobx-react-lite';
-import {useState} from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import styles from '~/components/modals/ChannelDeleteModal.module.css';
-import confirmStyles from '~/components/modals/ConfirmModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
 import {
 	type ChannelDeleteModalProps,
 	deleteChannel,
 	getChannelDeleteInfo,
-} from '~/utils/modals/ChannelDeleteModalUtils';
+} from '@app/utils/modals/ChannelDeleteModalUtils';
+import {Trans} from '@lingui/react/macro';
+import {observer} from 'mobx-react-lite';
+import {useState} from 'react';
 
 export const ChannelDeleteModal = observer(({channelId}: ChannelDeleteModalProps) => {
 	const deleteInfo = getChannelDeleteInfo(channelId);
@@ -54,18 +51,20 @@ export const ChannelDeleteModal = observer(({channelId}: ChannelDeleteModalProps
 	return (
 		<Modal.Root size="small" centered>
 			<Modal.Header title={title} />
-			<Modal.Content className={confirmStyles.content}>
-				<p className={clsx(styles.message, confirmStyles.descriptionText)}>
-					{isCategory ? (
-						<Trans>
-							Are you sure you want to delete <strong>{channel.name}</strong>? This cannot be undone.
-						</Trans>
-					) : (
-						<Trans>
-							Are you sure you want to delete <strong>{channel.name}</strong>? This cannot be undone.
-						</Trans>
-					)}
-				</p>
+			<Modal.Content>
+				<Modal.ContentLayout>
+					<Modal.Description>
+						{isCategory ? (
+							<Trans>
+								Are you sure you want to delete <strong>{channel.name}</strong>? This cannot be undone.
+							</Trans>
+						) : (
+							<Trans>
+								Are you sure you want to delete <strong>{channel.name}</strong>? This cannot be undone.
+							</Trans>
+						)}
+					</Modal.Description>
+				</Modal.ContentLayout>
 			</Modal.Content>
 			<Modal.Footer>
 				<Button onClick={ModalActionCreators.pop} variant="secondary">

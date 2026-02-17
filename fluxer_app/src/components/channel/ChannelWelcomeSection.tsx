@@ -17,23 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/ChannelWelcomeSection.module.css';
+import {DMWelcomeSection} from '@app/components/channel/direct_message/DMWelcomeSection';
+import {GroupDMWelcomeSection} from '@app/components/channel/direct_message/GroupDMWelcomeSection';
+import {PersonalNotesWelcomeSection} from '@app/components/channel/direct_message/PersonalNotesWelcomeSection';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import UserStore from '@app/stores/UserStore';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import {Trans} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import {ChannelTypes} from '~/Constants';
-import styles from '~/components/channel/ChannelWelcomeSection.module.css';
-import {DMWelcomeSection} from '~/components/channel/dm/DMWelcomeSection';
-import {GroupDMWelcomeSection} from '~/components/channel/dm/GroupDMWelcomeSection';
-import {PersonalNotesWelcomeSection} from '~/components/channel/dm/PersonalNotesWelcomeSection';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import UserStore from '~/stores/UserStore';
-import * as ChannelUtils from '~/utils/ChannelUtils';
 
-export const ChannelWelcomeSection = observer(({channel}: {channel: ChannelRecord}) => {
+interface ChannelWelcomeSectionProps {
+	channel: ChannelRecord;
+}
+
+export const ChannelWelcomeSection = observer(({channel}: ChannelWelcomeSectionProps) => {
 	const recipient = UserStore.getUser(channel.recipientIds[0]);
 
 	if (channel.type === ChannelTypes.DM && recipient) {
-		return <DMWelcomeSection userId={recipient.id} />;
+		return <DMWelcomeSection userId={recipient.id} channel={channel} />;
 	}
 
 	if (channel.type === ChannelTypes.DM_PERSONAL_NOTES && recipient) {

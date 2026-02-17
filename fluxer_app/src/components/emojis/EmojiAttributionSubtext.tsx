@@ -17,14 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {GuildIcon} from '@app/components/popouts/GuildIcon';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import GuildListStore from '@app/stores/GuildListStore';
+import GuildStore from '@app/stores/GuildStore';
+import type {Guild} from '@fluxer/schema/src/domains/guild/GuildResponseSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {SealCheckIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import {GuildIcon} from '~/components/popouts/GuildIcon';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import type {Guild, GuildRecord} from '~/records/GuildRecord';
-import GuildListStore from '~/stores/GuildListStore';
-import GuildStore from '~/stores/GuildStore';
 
 type EmojiAttributionType = 'default' | 'custom_invite_required' | 'custom_unknown' | 'custom_guild';
 type EmojiGuild = Guild | GuildRecord;

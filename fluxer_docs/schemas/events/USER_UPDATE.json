@@ -1,0 +1,11 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "USER_UPDATE",
+	"description": "Properties about the current user changed.",
+	"scope": "presence",
+	"dispatchedBy": ["PATCH /users/@me", "PATCH /users/@me/profile"],
+	"payload": {
+		"$ref": "UserPrivateResponse",
+		"description": "The updated user object"
+	}
+}

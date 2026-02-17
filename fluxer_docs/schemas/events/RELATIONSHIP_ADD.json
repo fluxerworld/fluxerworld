@@ -1,0 +1,15 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "RELATIONSHIP_ADD",
+	"description": "Sent when a user relationship is added (friend request sent/received, blocked).",
+	"scope": "presence",
+	"dispatchedBy": [
+		"PUT /users/@me/relationships/:user_id",
+		"POST /users/@me/relationships",
+		"POST /users/@me/relationships/:user_id"
+	],
+	"payload": {
+		"$ref": "RelationshipResponse",
+		"description": "The relationship object"
+	}
+}

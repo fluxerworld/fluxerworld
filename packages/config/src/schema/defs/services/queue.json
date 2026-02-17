@@ -1,0 +1,79 @@
+{
+	"queue_service": {
+		"type": "object",
+		"description": "Configuration for the Job Queue service.",
+		"additionalProperties": false,
+		"properties": {
+			"port": {
+				"type": "number",
+				"description": "Port to listen on.",
+				"default": 8080
+			},
+			"host": {
+				"type": "string",
+				"description": "Network interface to bind to.",
+				"default": "0.0.0.0"
+			},
+			"data_dir": {
+				"type": "string",
+				"description": "Filesystem path to store queue data.",
+				"default": "./data/queue"
+			},
+			"default_visibility_timeout_ms": {
+				"type": "number",
+				"description": "Default time in milliseconds a message remains invisible after being received.",
+				"default": 30000
+			},
+			"snapshot_every_ms": {
+				"type": "number",
+				"description": "Interval in milliseconds to take queue snapshots.",
+				"default": 60000
+			},
+			"snapshot_after_ops": {
+				"type": "number",
+				"description": "Number of operations after which to take a queue snapshot.",
+				"default": 10000
+			},
+			"snapshot_zstd_level": {
+				"type": "number",
+				"description": "Zstd compression level for snapshots (1-22).",
+				"minimum": 1,
+				"maximum": 22,
+				"default": 3
+			},
+			"visibility_timeout_backoff_ms": {
+				"type": "number",
+				"description": "Backoff duration in milliseconds for visibility timeouts.",
+				"default": 1000
+			},
+			"max_receive_batch": {
+				"type": "number",
+				"description": "Maximum number of messages to retrieve in a single batch.",
+				"default": 10
+			},
+			"command_buffer": {
+				"type": "number",
+				"description": "Size of the internal command buffer.",
+				"default": 1000
+			},
+			"export_timeout": {
+				"type": "number",
+				"description": "Timeout in milliseconds for data export operations.",
+				"default": 30000
+			},
+			"concurrency": {
+				"type": "number",
+				"description": "Number of concurrent worker threads.",
+				"default": 2
+			},
+			"rate_limit": {
+				"description": "Rate limiting configuration for the Queue service.",
+				"$ref": "#/$defs/rate_limit"
+			},
+			"secret": {
+				"type": "string",
+				"description": "Authentication secret for the Queue service."
+			}
+		}
+	}
+}

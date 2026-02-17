@@ -17,11 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {HttpResponse} from '@app/lib/HttpClient';
+import type {HttpError} from '@app/lib/HttpError';
+import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import type {FieldValues, Path, UseFormReturn} from 'react-hook-form';
-import {APIErrorCodes} from '~/Constants';
-import type {HttpError, HttpResponse} from '~/lib/HttpClient';
 
 interface ValidationError {
 	path: string;
@@ -34,27 +35,92 @@ interface APIErrorResponse {
 	errors?: Array<ValidationError>;
 }
 
-export const handleError = <T extends FieldValues>(
+interface HandleErrorOptions<T extends FieldValues> {
+	pathMap?: Partial<Record<string, Path<T>>>;
+}
+
+function collectFormPaths(value: unknown, prefix: string, paths: Set<string>): void {
+	if (Array.isArray(value)) {
+		paths.add(prefix);
+		for (let i = 0; i < value.length; i++) {
+			collectFormPaths(value[i], `${prefix}.${i}`, paths);
+		}
+		return;
+	}
+
+	if (value && typeof value === 'object') {
+		for (const [key, child] of Object.entries(value)) {
+			const next = prefix ? `${prefix}.${key}` : key;
+			paths.add(next);
+			collectFormPaths(child, next, paths);
+		}
+		return;
+	}
+
+	if (prefix) {
+		paths.add(prefix);
+	}
+}
+
+function toCamelCaseSegment(value: string): string {
+	return value.replace(/_([a-z])/g, (_match, char: string) => char.toUpperCase());
+}
+
+function toCamelCasePath(path: string): string {
+	if (!path.includes('_') && !path.includes('.')) {
+		return path;
+	}
+	return path
+		.split('.')
+		.map((segment) => (/^\d+$/.test(segment) ? segment : toCamelCaseSegment(segment)))
+		.join('.');
+}
+
+export function handleError<T extends FieldValues>(
 	i18n: I18n,
 	form: UseFormReturn<T>,
 	error: HttpResponse<unknown> | HttpError,
 	defaultPath: Path<T>,
-) => {
+	options?: HandleErrorOptions<T>,
+) {
 	if ('body' in error && error.body) {
 		const errorData = error.body as APIErrorResponse;
 
 		if (errorData.code === APIErrorCodes.INVALID_FORM_BODY && errorData.errors?.length) {
-			const formFields = Object.keys(form.getValues()) as Array<Path<T>>;
+			const formPaths = new Set<string>();
+			collectFormPaths(form.getValues(), '', formPaths);
+
+			const resolvedMessages = new Map<string, string>();
+			const unknownMessages: Array<string> = [];
 
 			for (const validationError of errorData.errors) {
-				const path = validationError.path as Path<T>;
+				const rawPath = validationError.path;
 				const message = validationError.message;
 
-				if (formFields.includes(path)) {
-					form.setError(path, {type: 'server', message});
+				const mappedPath = options?.pathMap?.[rawPath];
+				const candidates = [mappedPath ? String(mappedPath) : null, rawPath, toCamelCasePath(rawPath)].filter(
+					Boolean,
+				) as Array<string>;
+
+				const resolvedPath = candidates.find((candidate) => formPaths.has(candidate)) ?? null;
+				if (resolvedPath) {
+					const existing = resolvedMessages.get(resolvedPath);
+					resolvedMessages.set(resolvedPath, existing ? `${existing} ${message}` : message);
 				} else {
-					form.setError(defaultPath, {type: 'server', message});
+					unknownMessages.push(message);
 				}
+			}
+
+			if (unknownMessages.length > 0) {
+				const uniqueUnknown = Array.from(new Set(unknownMessages));
+				const unknownCombined = uniqueUnknown.join(' ');
+				const defaultKey = String(defaultPath);
+				const existing = resolvedMessages.get(defaultKey);
+				resolvedMessages.set(defaultKey, existing ? `${existing} ${unknownCombined}` : unknownCombined);
+			}
+
+			for (const [path, message] of resolvedMessages) {
+				form.setError(path as Path<T>, {type: 'server', message});
 			}
 		} else if (errorData.message) {
 			form.setError(defaultPath, {type: 'server', message: errorData.message});
@@ -66,4 +132,4 @@ export const handleError = <T extends FieldValues>(
 		type: 'server',
 		message: i18n._(msg`An unexpected error occurred. Please try again.`),
 	});
-};
+}

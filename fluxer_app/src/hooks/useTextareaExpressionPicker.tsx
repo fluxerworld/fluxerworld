@@ -17,21 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ExpressionPickerActionCreators from '@app/actions/ExpressionPickerActionCreators';
+import * as PopoutActionCreators from '@app/actions/PopoutActionCreators';
+import type {ExpressionPickerTabType} from '@app/components/popouts/ExpressionPickerPopout';
+import {ExpressionPickerPopout} from '@app/components/popouts/ExpressionPickerPopout';
+import {openPopout} from '@app/components/uikit/popout/Popout';
+import ExpressionPickerStore from '@app/stores/ExpressionPickerStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import PopoutStore from '@app/stores/PopoutStore';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
 import {autorun} from 'mobx';
-import React from 'react';
-import * as ExpressionPickerActionCreators from '~/actions/ExpressionPickerActionCreators';
-import * as PopoutActionCreators from '~/actions/PopoutActionCreators';
-import type {ExpressionPickerTabType} from '~/components/popouts/ExpressionPickerPopout';
-import {ExpressionPickerPopout} from '~/components/popouts/ExpressionPickerPopout';
-import {openPopout} from '~/components/uikit/Popout/Popout';
-import type {Emoji} from '~/stores/EmojiStore';
-import ExpressionPickerStore from '~/stores/ExpressionPickerStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import PopoutStore from '~/stores/PopoutStore';
+import type React from 'react';
+import {useCallback, useEffect, useState, useSyncExternalStore} from 'react';
 
 interface UseTextareaExpressionPickerOptions {
 	channelId: string;
-	onEmojiSelect: (emoji: Emoji, shiftKey?: boolean) => void;
+	onEmojiSelect: (emoji: FlatEmoji, shiftKey?: boolean) => void;
 	expressionPickerTriggerRef: React.RefObject<HTMLButtonElement | null>;
 	invisibleExpressionPickerTriggerRef: React.RefObject<HTMLDivElement | null>;
 	textareaRef: React.RefObject<HTMLElement | null>;
@@ -44,8 +45,8 @@ export const useTextareaExpressionPicker = ({
 	invisibleExpressionPickerTriggerRef,
 	textareaRef,
 }: UseTextareaExpressionPickerOptions) => {
-	const [expressionPickerOpen, setExpressionPickerOpen] = React.useState(false);
-	const selectedTab = React.useSyncExternalStore(
+	const [expressionPickerOpen, setExpressionPickerOpen] = useState(false);
+	const selectedTab = useSyncExternalStore(
 		(listener) => {
 			const dispose = autorun(listener);
 			return () => dispose();
@@ -54,16 +55,16 @@ export const useTextareaExpressionPicker = ({
 	);
 	const mobileLayout = MobileLayoutStore;
 
-	const getExpressionPickerPopoutKey = React.useCallback(() => `expression-picker-${channelId}`, [channelId]);
+	const getExpressionPickerPopoutKey = useCallback(() => `expression-picker-${channelId}`, [channelId]);
 
-	const closeExpressionPicker = React.useCallback(() => {
+	const closeExpressionPicker = useCallback(() => {
 		const popoutKey = getExpressionPickerPopoutKey();
 		PopoutActionCreators.close(popoutKey);
 		ExpressionPickerActionCreators.close();
 		setExpressionPickerOpen(false);
 	}, [getExpressionPickerPopoutKey]);
 
-	const openExpressionPicker = React.useCallback(
+	const openExpressionPicker = useCallback(
 		(tab: ExpressionPickerTabType) => {
 			const triggerElement = expressionPickerTriggerRef.current || invisibleExpressionPickerTriggerRef.current;
 			if (!triggerElement) return;
@@ -112,7 +113,7 @@ export const useTextareaExpressionPicker = ({
 		],
 	);
 
-	const handleExpressionPickerTabToggle = React.useCallback(
+	const handleExpressionPickerTabToggle = useCallback(
 		(tab: ExpressionPickerTabType) => {
 			if (mobileLayout.enabled) {
 				ExpressionPickerActionCreators.open(channelId, tab);
@@ -135,7 +136,7 @@ export const useTextareaExpressionPicker = ({
 		[mobileLayout.enabled, channelId, getExpressionPickerPopoutKey, closeExpressionPicker, openExpressionPicker],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (mobileLayout.enabled) return;
 
 		const dispose = autorun(() => {
@@ -156,7 +157,7 @@ export const useTextareaExpressionPicker = ({
 		return () => dispose();
 	}, [channelId, getExpressionPickerPopoutKey, openExpressionPicker, closeExpressionPicker, mobileLayout.enabled]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const handleGlobalKeyDown = (event: KeyboardEvent) => {
 			if (!event.ctrlKey && !event.metaKey) return;
 			if (event.shiftKey || event.altKey) return;

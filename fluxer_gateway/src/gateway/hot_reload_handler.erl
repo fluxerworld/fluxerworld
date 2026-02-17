@@ -23,6 +23,9 @@
 -define(MAX_MODULES, 600).
 -define(MAX_BODY_BYTES, 26214400).
 
+-type purge_mode() :: none | soft | hard.
+
+-spec init(cowboy_req:req(), term()) -> {ok, cowboy_req:req(), term()}.
 init(Req0, State) ->
     case cowboy_req:method(Req0) of
         <<"POST">> ->
@@ -32,6 +35,7 @@ init(Req0, State) ->
             {ok, Req, State}
     end.
 
+-spec handle_post(cowboy_req:req(), term()) -> {ok, cowboy_req:req(), term()}.
 handle_post(Req0, State) ->
     case authorize(Req0) of
         ok ->
@@ -45,52 +49,75 @@ handle_post(Req0, State) ->
             {ok, Req1, State}
     end.
 
+-spec authorize(cowboy_req:req()) -> ok | {error, cowboy_req:req()}.
 authorize(Req0) ->
     case cowboy_req:header(<<"authorization">>, Req0) of
         undefined ->
             Req = cowboy_req:reply(
                 401,
                 ?JSON_HEADERS,
-                jsx:encode(#{<<"error">> => <<"Unauthorized">>}),
+                json:encode(#{<<"error">> => <<"Unauthorized">>}),
                 Req0
             ),
             {error, Req};
         AuthHeader ->
-            case os:getenv("GATEWAY_ADMIN_SECRET") of
-                false ->
-                    Req = cowboy_req:reply(
-                        500,
-                        ?JSON_HEADERS,
-                        jsx:encode(#{<<"error">> => <<"GATEWAY_ADMIN_SECRET not configured">>}),
-                        Req0
-                    ),
-                    {error, Req};
-                Secret ->
-                    Expected = <<"Bearer ", (list_to_binary(Secret))/binary>>,
-                    case AuthHeader of
-                        Expected ->
-                            ok;
-                        _ ->
-                            Req = cowboy_req:reply(
-                                401,
-                                ?JSON_HEADERS,
-                                jsx:encode(#{<<"error">> => <<"Unauthorized">>}),
-                                Req0
-                            ),
-                            {error, Req}
-                    end
-            end
+            authorize_with_secret(AuthHeader, Req0)
     end.
 
+-spec authorize_with_secret(binary(), cowboy_req:req()) -> ok | {error, cowboy_req:req()}.
+authorize_with_secret(AuthHeader, Req0) ->
+    case fluxer_gateway_env:get(admin_reload_secret) of
+        undefined ->
+            Req = cowboy_req:reply(
+                500,
+                ?JSON_HEADERS,
+                json:encode(#{<<"error">> => <<"admin reload secret not configured">>}),
+                Req0
+            ),
+            {error, Req};
+        Secret when is_binary(Secret) ->
+            check_auth_header(AuthHeader, <<"Bearer ", Secret/binary>>, Req0);
+        Secret when is_list(Secret) ->
+            check_auth_header(AuthHeader, <<"Bearer ", (list_to_binary(Secret))/binary>>, Req0)
+    end.
+
+-spec check_auth_header(binary(), binary(), cowboy_req:req()) -> ok | {error, cowboy_req:req()}.
+check_auth_header(AuthHeader, Expected, Req0) ->
+    case secure_compare(AuthHeader, Expected) of
+        true ->
+            ok;
+        false ->
+            Req = cowboy_req:reply(
+                401,
+                ?JSON_HEADERS,
+                json:encode(#{<<"error">> => <<"Unauthorized">>}),
+                Req0
+            ),
+            {error, Req}
+    end.
+
+-spec secure_compare(binary(), binary()) -> boolean().
+secure_compare(Left, Right) when is_binary(Left), is_binary(Right) ->
+    case byte_size(Left) =:= byte_size(Right) of
+        true ->
+            crypto:hash_equals(Left, Right);
+        false ->
+            false
+    end.
+
+-spec read_body(cowboy_req:req()) ->
+    {ok, map(), cowboy_req:req()} | {error, pos_integer(), map(), cowboy_req:req()}.
 read_body(Req0) ->
     case cowboy_req:body_length(Req0) of
         Length when is_integer(Length), Length > ?MAX_BODY_BYTES ->
             {error, 413, #{<<"error">> => <<"Request body too large">>}, Req0};
         _ ->
-            read_body(Req0, <<>>)
+            read_body_chunks(Req0, <<>>)
     end.
 
-read_body(Req0, Acc) ->
+-spec read_body_chunks(cowboy_req:req(), binary()) ->
+    {ok, map(), cowboy_req:req()} | {error, pos_integer(), map(), cowboy_req:req()}.
+read_body_chunks(Req0, Acc) ->
     case cowboy_req:read_body(Req0, #{length => 1048576}) of
         {ok, Body, Req1} ->
             FullBody = <<Acc/binary, Body/binary>>,
@@ -101,14 +128,16 @@ read_body(Req0, Acc) ->
                 true ->
                     {error, 413, #{<<"error">> => <<"Request body too large">>}, Req1};
                 false ->
-                    read_body(Req1, NewAcc)
+                    read_body_chunks(Req1, NewAcc)
             end
     end.
 
+-spec decode_body(binary(), cowboy_req:req()) ->
+    {ok, map(), cowboy_req:req()} | {error, pos_integer(), map(), cowboy_req:req()}.
 decode_body(<<>>, Req0) ->
     {ok, #{}, Req0};
 decode_body(Body, Req0) ->
-    case catch jsx:decode(Body, [return_maps]) of
+    case catch json:decode(Body) of
         {'EXIT', _Reason} ->
             {error, 400, #{<<"error">> => <<"Invalid JSON payload">>}, Req0};
         Decoded when is_map(Decoded) ->
@@ -117,6 +146,7 @@ decode_body(Body, Req0) ->
             {error, 400, #{<<"error">> => <<"Invalid request body">>}, Req0}
     end.
 
+-spec handle_reload(map(), cowboy_req:req(), term()) -> {ok, cowboy_req:req(), term()}.
 handle_reload(Params, Req0, State) ->
     try
         Purge = parse_purge(maps:get(<<"purge">>, Params, <<"soft">>)),
@@ -124,14 +154,7 @@ handle_reload(Params, Req0, State) ->
             undefined ->
                 handle_modules_reload(Params, Purge, Req0, State);
             Beams when is_list(Beams) ->
-                case length(Beams) =< ?MAX_MODULES of
-                    true ->
-                        Pairs = decode_beams(Beams),
-                        {ok, Results} = hot_reload:reload_beams(Pairs, #{purge => Purge}),
-                        respond(200, #{<<"results">> => Results}, Req0, State);
-                    false ->
-                        respond(400, #{<<"error">> => <<"Too many modules">>}, Req0, State)
-                end;
+                handle_beams_reload(Beams, Purge, Req0, State);
             _ ->
                 respond(400, #{<<"error">> => <<"beams must be an array">>}, Req0, State)
         end
@@ -142,11 +165,24 @@ handle_reload(Params, Req0, State) ->
             respond(400, #{<<"error">> => <<"Invalid module name or beam payload">>}, Req0, State);
         error:{beam_module_mismatch, _, _} ->
             respond(400, #{<<"error">> => <<"Invalid module name or beam payload">>}, Req0, State);
-        _:Reason ->
-            logger:error("hot_reload_handler: Error during reload: ~p", [Reason]),
+        _:_Reason ->
             respond(500, #{<<"error">> => <<"Internal error">>}, Req0, State)
     end.
 
+-spec handle_beams_reload([map()], purge_mode(), cowboy_req:req(), term()) ->
+    {ok, cowboy_req:req(), term()}.
+handle_beams_reload(Beams, Purge, Req0, State) ->
+    case length(Beams) =< ?MAX_MODULES of
+        true ->
+            Pairs = decode_beams(Beams),
+            {ok, Results} = hot_reload:reload_beams(Pairs, #{purge => Purge}),
+            respond(200, #{<<"results">> => Results}, Req0, State);
+        false ->
+            respond(400, #{<<"error">> => <<"Too many modules">>}, Req0, State)
+    end.
+
+-spec handle_modules_reload(map(), purge_mode(), cowboy_req:req(), term()) ->
+    {ok, cowboy_req:req(), term()}.
 handle_modules_reload(Params, Purge, Req0, State) ->
     case maps:get(<<"modules">>, Params, []) of
         [] ->
@@ -165,6 +201,7 @@ handle_modules_reload(Params, Purge, Req0, State) ->
             respond(400, #{<<"error">> => <<"modules must be an array">>}, Req0, State)
     end.
 
+-spec decode_beams([map()]) -> [{atom(), binary()}].
 decode_beams(Beams) ->
     lists:map(
         fun(Elem) ->
@@ -187,6 +224,7 @@ decode_beams(Beams) ->
         Beams
     ).
 
+-spec to_binary(binary() | list()) -> binary().
 to_binary(B) when is_binary(B) ->
     B;
 to_binary(L) when is_list(L) ->
@@ -194,6 +232,7 @@ to_binary(L) when is_list(L) ->
 to_binary(_) ->
     erlang:error(badarg).
 
+-spec parse_purge(binary() | atom()) -> purge_mode().
 parse_purge(<<"none">>) -> none;
 parse_purge(<<"soft">>) -> soft;
 parse_purge(<<"hard">>) -> hard;
@@ -202,6 +241,7 @@ parse_purge(soft) -> soft;
 parse_purge(hard) -> hard;
 parse_purge(_) -> soft.
 
+-spec to_module_atom(binary() | list()) -> atom().
 to_module_atom(B) when is_binary(B) ->
     case is_allowed_module_name(B) of
         true -> erlang:binary_to_atom(B, utf8);
@@ -212,10 +252,12 @@ to_module_atom(L) when is_list(L) ->
 to_module_atom(_) ->
     erlang:error(badarg).
 
+-spec is_allowed_module_name(binary()) -> boolean().
 is_allowed_module_name(Bin) when is_binary(Bin) ->
     byte_size(Bin) > 0 andalso byte_size(Bin) < 128 andalso
         is_safe_chars(Bin) andalso has_allowed_prefix(Bin).
 
+-spec is_safe_chars(binary()) -> boolean().
 is_safe_chars(Bin) ->
     lists:all(
         fun(C) ->
@@ -226,14 +268,17 @@ is_safe_chars(Bin) ->
         binary_to_list(Bin)
     ).
 
+-spec has_allowed_prefix(binary()) -> boolean().
 has_allowed_prefix(Bin) ->
     Prefixes = [
         <<"fluxer_">>,
         <<"gateway">>,
+        <<"gateway_http_">>,
         <<"session">>,
         <<"guild">>,
         <<"presence">>,
         <<"push">>,
+        <<"push_dispatcher">>,
         <<"call">>,
         <<"health">>,
         <<"hot_reload">>,
@@ -251,7 +296,10 @@ has_allowed_prefix(Bin) ->
         <<"type_conv">>,
         <<"utils">>,
         <<"user_utils">>,
-        <<"custom_status">>
+        <<"snowflake_">>,
+        <<"custom_status">>,
+        <<"otel_">>,
+        <<"event_">>
     ],
     lists:any(
         fun(P) ->
@@ -261,6 +309,7 @@ has_allowed_prefix(Bin) ->
         Prefixes
     ).
 
+-spec respond(pos_integer(), map(), cowboy_req:req(), term()) -> {ok, cowboy_req:req(), term()}.
 respond(Status, Body, Req0, State) ->
-    Req = cowboy_req:reply(Status, ?JSON_HEADERS, jsx:encode(Body), Req0),
+    Req = cowboy_req:reply(Status, ?JSON_HEADERS, json:encode(Body), Req0),
     {ok, Req, State}.

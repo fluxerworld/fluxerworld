@@ -1,0 +1,74 @@
+{
+	"name": "@fluxer/worker",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./WorkerFactory": {
+			"import": "./src/runtime/WorkerFactory.tsx",
+			"types": "./src/runtime/WorkerFactory.tsx"
+		},
+		"./WorkerContext": {
+			"import": "./src/context/WorkerContext.tsx",
+			"types": "./src/context/WorkerContext.tsx"
+		},
+		"./WorkerTask": {
+			"import": "./src/contracts/WorkerTask.tsx",
+			"types": "./src/contracts/WorkerTask.tsx"
+		},
+		"./IWorkerService": {
+			"import": "./src/contracts/IWorkerService.tsx",
+			"types": "./src/contracts/IWorkerService.tsx"
+		},
+		"./WorkerTypes": {
+			"import": "./src/contracts/WorkerTypes.tsx",
+			"types": "./src/contracts/WorkerTypes.tsx"
+		},
+		"./IQueueProvider": {
+			"import": "./src/providers/IQueueProvider.tsx",
+			"types": "./src/providers/IQueueProvider.tsx"
+		},
+		"./HttpWorkerQueue": {
+			"import": "./src/providers/HttpWorkerQueue.tsx",
+			"types": "./src/providers/HttpWorkerQueue.tsx"
+		},
+		"./QueueProviderFactory": {
+			"import": "./src/providers/QueueProviderFactory.tsx",
+			"types": "./src/providers/QueueProviderFactory.tsx"
+		},
+		"./WorkerRunner": {
+			"import": "./src/runtime/WorkerRunner.tsx",
+			"types": "./src/runtime/WorkerRunner.tsx"
+		},
+		"./WorkerService": {
+			"import": "./src/services/WorkerService.tsx",
+			"types": "./src/services/WorkerService.tsx"
+		},
+		"./DirectQueueProvider": {
+			"import": "./src/providers/DirectQueueProvider.tsx",
+			"types": "./src/providers/DirectQueueProvider.tsx"
+		},
+		"./WorkerMetricsCollector": {
+			"import": "./src/services/WorkerMetricsCollector.tsx",
+			"types": "./src/services/WorkerMetricsCollector.tsx"
+		},
+		"./WorkerTaskRegistry": {
+			"import": "./src/runtime/WorkerTaskRegistry.tsx",
+			"types": "./src/runtime/WorkerTaskRegistry.tsx"
+		},
+		"./*": "./*"
+	},
+	"scripts": {
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@fluxer/constants": "workspace:*",
+		"@fluxer/logger": "workspace:*",
+		"@fluxer/queue": "workspace:*",
+		"itty-time": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@typescript/native-preview": "catalog:"
+	}
+}

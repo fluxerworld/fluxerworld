@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
+import {makePersistent} from '@app/lib/MobXPersistence';
 import {makeAutoObservable, reaction} from 'mobx';
-import {Logger} from '~/lib/Logger';
-import {makePersistent} from '~/lib/MobXPersistence';
 
 const logger = new Logger('MemberListStore');
 

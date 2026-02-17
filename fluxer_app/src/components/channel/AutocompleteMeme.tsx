@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {type AutocompleteOption, isMeme} from '@app/components/channel/Autocomplete';
+import styles from '@app/components/channel/AutocompleteEmoji.module.css';
+import {AutocompleteItem} from '@app/components/channel/AutocompleteItem';
 import {MusicNoteIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {type AutocompleteOption, isMeme} from './Autocomplete';
-import styles from './AutocompleteEmoji.module.css';
-import {AutocompleteItem} from './AutocompleteItem';
 
 export const AutocompleteMeme = observer(
 	({

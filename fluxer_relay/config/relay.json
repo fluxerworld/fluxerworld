@@ -1,0 +1,24 @@
+{
+	"$schema": "../../packages/config/src/ConfigSchema.json",
+	"services": {
+		"relay": {
+			"port": 8090,
+			"upstream_api_host": "localhost:8080",
+			"upstream_gateway_host": "localhost:8081",
+			"upstream_use_tls": false,
+			"max_connections_per_instance": 1000,
+			"connection_timeout_ms": 30000,
+			"idle_timeout_ms": 120000,
+			"allowed_origins": [],
+			"logger_level": "info"
+		}
+	},
+	"federation": {
+		"instance_domain": "localhost"
+	},
+	"telemetry": {
+		"enabled": false,
+		"otlp_endpoint": "",
+		"service_name": "fluxer-relay"
+	}
+}

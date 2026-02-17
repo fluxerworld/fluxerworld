@@ -1,0 +1,21 @@
+.badge {
+	height: 1rem;
+	width: 1rem;
+	flex-shrink: 0;
+	color: var(--text-primary);
+}
+
+.badgeLarge {
+	height: 1.15rem;
+	width: 1.15rem;
+	flex-shrink: 0;
+	color: var(--text-primary);
+}
+
+.badgeBanner {
+	height: 1rem;
+	width: 1rem;
+	flex-shrink: 0;
+	color: white;
+	filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.9));
+}

@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/modals/components/ComparisonCheckRow.module.css';
 import {CheckIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import styles from './ComparisonCheckRow.module.css';
 
 export const ComparisonCheckRow = observer(
 	({feature, freeHas, plutoniumHas}: {feature: string; freeHas: boolean; plutoniumHas: boolean}) => (

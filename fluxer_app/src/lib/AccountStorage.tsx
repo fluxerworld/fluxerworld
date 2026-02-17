@@ -17,8 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Logger} from '~/lib/Logger';
-import type {RuntimeConfigSnapshot} from '~/stores/RuntimeConfigStore';
+import {Logger} from '@app/lib/Logger';
+import type {RuntimeConfigSnapshot} from '@app/stores/RuntimeConfigStore';
+import type {LimitConfigSnapshot} from '@fluxer/limits/src/LimitTypes';
+
+function createEmptyLimitConfig(): LimitConfigSnapshot {
+	return {
+		version: 1,
+		traitDefinitions: [],
+		rules: [],
+	};
+}
 
 const logger = new Logger('AccountStorage');
 
@@ -84,7 +93,7 @@ function stableNow(): number {
 }
 
 async function withTimeout<T>(promise: Promise<T>, ms: number, label: string): Promise<T> {
-	let timer: any = null;
+	let timer: NodeJS.Timeout | null = null;
 
 	try {
 		const timeout = new Promise<T>((_resolve, reject) => {
@@ -92,7 +101,7 @@ async function withTimeout<T>(promise: Promise<T>, ms: number, label: string): P
 		});
 		return await Promise.race([promise, timeout]);
 	} finally {
-		if (timer) {
+		if (timer !== null) {
 			clearTimeout(timer);
 		}
 	}
@@ -286,18 +295,30 @@ class AccountStorage {
 			apiPublicEndpoint: instance.apiPublicEndpoint,
 			gatewayEndpoint: instance.gatewayEndpoint,
 			mediaEndpoint: instance.mediaEndpoint,
-			cdnEndpoint: instance.cdnEndpoint,
+			staticCdnEndpoint: instance.staticCdnEndpoint,
 			marketingEndpoint: instance.marketingEndpoint,
 			adminEndpoint: instance.adminEndpoint,
 			inviteEndpoint: instance.inviteEndpoint,
 			giftEndpoint: instance.giftEndpoint,
 			webAppEndpoint: instance.webAppEndpoint,
+			gifProvider: instance.gifProvider,
 			captchaProvider: instance.captchaProvider,
 			hcaptchaSiteKey: instance.hcaptchaSiteKey,
 			turnstileSiteKey: instance.turnstileSiteKey,
 			apiCodeVersion: instance.apiCodeVersion,
 			features: {...instance.features},
+			sso: instance.sso,
 			publicPushVapidKey: instance.publicPushVapidKey,
+			sentryDsn: instance.sentryDsn ?? '',
+			sentryProxyPath: instance.sentryProxyPath ?? '',
+			sentryReportHost: instance.sentryReportHost ?? '',
+			sentryProjectId: instance.sentryProjectId ?? '',
+			sentryPublicKey: instance.sentryPublicKey ?? '',
+			limits:
+				instance.limits !== undefined && instance.limits !== null
+					? JSON.parse(JSON.stringify(instance.limits))
+					: createEmptyLimitConfig(),
+			relayDirectoryUrl: instance.relayDirectoryUrl ?? null,
 		};
 	}
 

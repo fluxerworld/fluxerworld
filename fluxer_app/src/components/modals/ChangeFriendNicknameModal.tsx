@@ -17,12 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as RelationshipActionCreators from '@app/actions/RelationshipActionCreators';
+import {BaseChangeNicknameModal} from '@app/components/modals/BaseChangeNicknameModal';
+import type {UserRecord} from '@app/records/UserRecord';
+import RelationshipStore from '@app/stores/RelationshipStore';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as RelationshipActionCreators from '~/actions/RelationshipActionCreators';
-import {BaseChangeNicknameModal} from '~/components/modals/BaseChangeNicknameModal';
-import type {UserRecord} from '~/records/UserRecord';
-import RelationshipStore from '~/stores/RelationshipStore';
+import type React from 'react';
+import {useCallback} from 'react';
 
 interface ChangeFriendNicknameModalProps {
 	user: UserRecord;
@@ -32,7 +33,7 @@ export const ChangeFriendNicknameModal: React.FC<ChangeFriendNicknameModalProps>
 	const relationship = RelationshipStore.getRelationship(user.id);
 	const currentNick = relationship?.nickname ?? '';
 
-	const handleSave = React.useCallback(
+	const handleSave = useCallback(
 		async (nick: string | null) => {
 			await RelationshipActionCreators.updateFriendNickname(user.id, nick);
 		},

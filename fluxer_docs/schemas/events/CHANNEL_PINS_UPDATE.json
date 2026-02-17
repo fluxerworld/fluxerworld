@@ -1,0 +1,23 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "CHANNEL_PINS_UPDATE",
+	"description": "Sent when a message is pinned or unpinned.",
+	"scope": "channel",
+	"scopeNote": "Guild channels dispatch to guild scope; DMs dispatch to presence scope",
+	"dispatchedBy": ["PUT /channels/:channel_id/pins/:message_id", "DELETE /channels/:channel_id/pins/:message_id"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID"
+			},
+			"last_pin_timestamp": {
+				"type": ["string", "null"],
+				"format": "date-time",
+				"description": "ISO 8601 timestamp of the last pinned message, or null if no pins remain"
+			}
+		},
+		"required": ["channel_id", "last_pin_timestamp"]
+	}
+}

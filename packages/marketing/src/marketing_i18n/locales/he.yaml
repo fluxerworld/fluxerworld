@@ -1,0 +1,440 @@
+app.communities.community: קהילה
+app.communities.community_support: תמיכה בקהילה
+app.communities.featured_in_discovery: מומלץ בגילוי
+app.communities.moderation.actions_and_tools: פעולות וכלי ניהול
+app.communities.moderation.report_people_or_communities: דווחו על אנשים או קהילות כדי שנשמור על Fluxer בטוח לכולם.
+app.communities.moderation.tools: כלי ניהול
+app.communities.roles_permissions_audit.audit_logs: יומני ביקורת לשקיפות
+app.communities.roles_permissions_audit.granular_roles_and_permissions: תפקידים והרשאות ברמת פירוט גבוהה
+app.communities.roles_permissions_audit.keep_running_smoothly: שמרו על הקהילה שלכם עובדת חלק עם תפקידים, הרשאות ויומנים.
+app.communities.title: קהילות
+app.communities.verification.label: אימות קהילה
+app.communities.verification.value_statement: הקהילה שלכם מקבלת סטטוס מאומת בשביל אותנטיות ואמון.
+app.communities.verification.verified_community: קהילה מאומתת
+app.customization.animated_profile.animated_avatars_and_banners: אווטארים ובאנרים מונפשים
+app.customization.animated_profile.stand_out_animated_profile: בלטו עם תמונות פרופיל ובאנרים מונפשים כדי להראות את האופי שלכם.
+app.customization.app_icon_badges: ראו את מספר התגים על אייקון האפליקציה.
+app.customization.compact_mode: מצב קומפקטי ואפשרויות תצוגה
+app.customization.custom_css_themes: ערכות נושא CSS מותאמות
+app.customization.custom_sounds.entrance_sounds: צלילי כניסה מותאמים
+app.customization.custom_sounds.notification_sounds: צלילי התראות מותאמים
+app.customization.custom_sounds.set_personalized_join_sounds: קבעו צלילים אישיים כשאתם מצטרפים לערוצי קול כדי שכולם ישימו לב שאתם כאן.
+app.customization.custom_sounds.upload_custom_notification_sounds: העלו והשתמשו בצלילי התראה משלכם כדי להתאים את חוויית Fluxer שלכם.
+app.customization.custom_themes: ערכות נושא מותאמות
+app.customization.global_emoji_and_sticker_access: גישה גלובלית לאימוג'י ומדבקות
+app.customization.saved_media_and_css: הוסיפו אימוג'י מותאמים, שמרו מדיה להמשך, ותנו לאפליקציה סטייל עם CSS מותאם.
+app.customization.title: התאמה אישית
+app.customization.upload_custom_emojis_and_stickers: העלו אימוג'י ומדבקות משלכם
+app.customization.use_animated_emojis: השתמשו באימוג'י מונפשים
+app.messaging.description: שלחו הודעות פרטיות לחברים, דברו בקבוצות, או בנו קהילות עם ערוצים.
+app.messaging.features.bookmarked_messages: הודעות מסומנות
+app.messaging.features.file_sharing: שתפו קבצים וצפו בתצוגה מקדימה של קישורים
+app.messaging.features.full_markdown_support: תמיכה מלאה ב-Markdown בהודעות
+app.messaging.features.message_scheduling.description: תזמנו הודעות שיישלחו בזמן עתידי. בלי מכונת זמן.
+app.messaging.features.organised_channels_for_communities: ערוצים מסודרים לקהילות
+app.messaging.features.private_dms_and_group_chats: הודעות פרטיות וקבוצות
+app.messaging.features.save_media: שמרו תמונות, סרטונים, GIFים ואודיו
+app.messaging.features.search.filter_options: סינון לפי משתמשים, תאריכים ועוד
+app.messaging.features.search.find_old_messages: מצאו הודעות ישנות או קפצו בין קהילות וערוצים תוך שניות.
+app.messaging.features.search.label: חיפוש בהיסטוריית הודעות
+app.messaging.features.search.quick_switcher_shortcuts: מחליף מהיר עם קיצורי מקלדת
+app.messaging.features.search.search_and_quick_switcher: חיפוש ומחליף מהיר
+app.messaging.title: הודעות
+app.open.open_fluxer: פתחו את Fluxer
+app.open.open_web_app: פתחו את אפליקציית הווב
+app.profiles_identity.custom_identity: זהות מותאמת אישית
+app.profiles_identity.customise_per_community: התאימו את הפרופיל שלכם אחרת בכל קהילה שאתם חלק ממנה.
+app.profiles_identity.manage_friends_and_block_users: נהלו חברים וחסמו משתמשים
+app.voice_and_video.features.mute_controls: השתקה, השתקה מלאה ושליטה במצלמה
+app.voice_and_video.features.noise_suppression: דיכוי רעשים וביטול הד
+app.voice_and_video.features.screen_sharing: שיתוף מסך מובנה
+app.voice_and_video.features.stream_4k_60fps: הזרימו עד 4K בפתרון 60 fps כדי שאחרים יוכלו לראות אתכם בבהירות מדהימה.
+app.voice_and_video.features.up_to_4k_video_quality: איכות וידאו עד 4K
+app.voice_and_video.features.video_backgrounds.description: שמרו עד 15 רקעי וידאו לשיחות. לא צריך יותר לחטט בתיקיית Downloads.
+app.voice_and_video.features.video_quality: איכות וידאו
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.video_quality_premium: עד 4K/60fps
+app.voice_and_video.hop_in_a_call: קפצו לשיחה עם חברים או שתפו מסך כדי לעבוד יחד.
+app.voice_and_video.title: קול ווידאו
+beta_and_access.beta_label: בטא
+beta_and_access.early_access.be_first_to_try: היו הראשונים לנסות תכונות חדשות לפני שהן יוצאות לכולם.
+beta_and_access.early_access.label: גישה מוקדמת
+beta_and_access.featured_benefit_line: כל הבסיס שאתם מצפים לו, ועוד כמה דברים שלא.
+beta_and_access.public_beta: בטא פתוחה
+beta_and_access.registration_limited_during_beta: אנחנו מגבילים הרשמות בזמן הבטא. אחרי שנכנסתם, תוכלו לתת לחברים קוד כדי לדלג על התור.
+beta_and_access.try_without_email: נסו את Fluxer בלי אימייל בתוך 30 שניות
+community_funding_and_roles.focused_on_product: כרגע אנחנו מתמקדים בלשחרר מוצר מעולה ולשמור את Fluxer עצמאי וממומן בעצמו.
+community_funding_and_roles.future_paid_roles_heading: העתיד של תפקידים בתשלום
+community_funding_and_roles.future_paid_roles_note: אנחנו עדיין בונים את העסק סביב Fluxer ועדיין לא מוכנים לתפקידים בתשלום.
+community_funding_and_roles.non_paid_recurring_role: תפקיד ללא תשלום לתורמים קבועים שעוזרים לעצב את Fluxer יחד עם צוות הליבה.
+community_funding_and_roles.sustainability_note: בעזרת התמיכה שלכם, אנחנו מקווים להפוך את פלטפורמת התקשורת העצמאית הזו לבר-קיימא ולהתחיל להציע תפקידים בתשלום בעתיד.
+company_and_resources.blog: בלוג
+company_and_resources.careers.careers_at_fluxer: קריירה ב-Fluxer
+company_and_resources.careers.label: קריירה
+company_and_resources.careers.share_a_bit_about_yourself: ספרו קצת על עצמכם ואיך תרצו לתרום, ושלחו מייל ל-careers@fluxer.app
+company_and_resources.community_team.fluxer_community_team: צוות הקהילה של Fluxer
+company_and_resources.community_team.share_feedback_report_bugs: שתפו פידבק, דווחו על באגים, ועזרו להפוך את Fluxer למקום נעים לכולם.
+company_and_resources.company: חברה
+company_and_resources.company_info: מידע על החברה
+company_and_resources.connect: צרו קשר
+company_and_resources.docs: תיעוד
+company_and_resources.help.get_help: קבלו עזרה
+company_and_resources.help.help_center: מרכז עזרה
+company_and_resources.help.label: עזרה
+company_and_resources.press.label: עיתונות
+company_and_resources.press.press_contact: יצירת קשר לעיתונות
+company_and_resources.product: מוצר
+company_and_resources.resources: משאבים
+company_and_resources.source_and_contribution.code_issues_docs_reviews: קוד, תקלות, תיעוד וביקורות
+company_and_resources.source_and_contribution.contribute_code: תרומת קוד
+company_and_resources.source_and_contribution.contribute_on_github: תרמו ב-GitHub
+company_and_resources.source_and_contribution.fix_bugs_ship_features: תקנו באגים, הוסיפו תכונות, או תשייפו את החוויה במאגר הראשי שלנו.
+company_and_resources.source_and_contribution.fluxer_built_in_open: Fluxer נבנה באור פתוח. בחרו את המסלול שמתאים לאיך שאתם אוהבים לעזור.
+company_and_resources.source_and_contribution.get_involved: הצטרפו לעשייה
+company_and_resources.source_and_contribution.source_code: קוד מקור
+company_and_resources.source_and_contribution.translation.help_translate: עזרו לתרגם את Fluxer ואת התיעוד שלו כדי שזה ירגיש טבעי בכל מקום.
+company_and_resources.source_and_contribution.translation.label: תרגום ולוקליזציה
+company_and_resources.source_and_contribution.translation.llm_translation_note: כל התרגומים כרגע נוצרים על ידי מודל שפה, עם מינימום עריכה אנושית. נשמח שאנשים אמיתיים יעזרו לנו לעשות לוקליזציה ל-Fluxer לשפה שלכם. בשביל זה, שלחו מייל ל-i18n@fluxer.app ונשמח לקבל את התרומות שלכם.
+company_and_resources.source_and_contribution.translation.localization_label: לוקליזציה
+company_and_resources.source_and_contribution.view_repository: צפו במאגר
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: רוצים לעזור לבנות את Fluxer?
+company_and_resources.source_and_contribution.ways_to_contribute: דרכים לתרום
+donations.business: עסקי
+donations.donate.action: תרומה
+donations.donate.label: תרמו ל-Fluxer
+donations.donate.description: תמוך ב-Fluxer בתרומה חד-פעמית או חוזרת
+donations.donation_disclaimer: תרומות הן מתנות מרצון ולא מקנות לכם מוצר, שירות, בעלות או זכויות מיוחדות. אם אתם מחפשים תכונות פרימיום, בדקו את {0}.
+donations.individual: פרטי
+donations.individual_vs_business.answer: שני סוגי התרומות תומכים באותה מטרה באותה מידה. ההבדל היחיד הוא שתרומה עסקית מאפשרת לכם לציין מספר עוסק (אם רלוונטי) ולקבל חשבונית PDF בסיום, מה שיכול לעזור להנהלת החשבונות של החברה.
+donations.individual_vs_business.question: מה ההבדל בין פרטי לעסקי?
+donations.infrastructure_costs_detail: התרומה שלכם עוזרת לממן את עלויות התשתית של Fluxer, כולל שרתים, רוחב פס, אחסון ופיתוח מתמשך של תכונות חדשות. זה עוזר לנו לשמור על הפלטפורמה ולשפר אותה לכולם.
+donations.minimum_donation: 'מינימום תרומה: $5 / €5'
+donations.mobile_roadmap_sponsorship: תמכו במפת הדרכים למובייל
+donations.send_one_time_gift: שלחו תרומה חד-פעמית
+donations.support_future_development: תמכו בפיתוח עתידי
+donations.support_message: עזרו לנו לבנות פלטפורמת תקשורת עצמאית. התרומה שלכם מממנת את התשתית והפיתוח של הפלטפורמה.
+donations.tax_deductible.answer: התרומות ל-Fluxer אינן מוכרות כרגע לצרכי מס, אך הן מממנות ישירות את התשתית שלנו ואת הפיתוח המתמשך.
+donations.tax_deductible.question: האם התרומה שלי מוכרת לצרכי מס?
+donations.what_it_supports: מה התרומה שלי מממנת?
+donations.why_support: עזרו לנו לבנות פלטפורמת תקשורת מסוג אחר – קוד פתוח, ממומנת קהילה, ונבנית באכפתיות.
+donations.recurring: חוזר
+donations.return_question: האם אני מקבל משהו בתמורה?
+donations.form.email: אימייל
+donations.form.email_placeholder: sheli@email.com
+donations.form.amount: סכום
+donations.form.amount_other: אחר
+donations.form.amount_placeholder: הזינו סכום (5-1000)
+donations.form.billing: חיוב
+donations.form.donation_type: סוג התרומה
+donations.form.one_time: חד-פעמי
+donations.form.or_label: או
+donations.form.monthly: חודשי
+donations.form.yearly: שנתי
+donations.form.currency: מטבע
+donations.form.processing: מעבד...
+donations.form.send_link: שלח קישור
+donations.form.sending: שולח...
+donations.errors.active_subscription_exists: יש לכם כבר תרומה חוזרת פעילה. כדי להתחיל תרומה חוזרת שונה, אנא בטלו תחילה את התרומה הנוכחית דרך פורטל הלקוחות. תוכלו לתרום תרומה חד-פעמית במקום זאת.
+donations.errors.invalid_email: אנא הזינו כתובת אימייל תקינה
+donations.errors.invalid_amount: הסכום חייב להיות בין 5 ל-1000
+donations.errors.generic: משהו השתבש. נסו שוב.
+donations.errors.network: שגיאת רשת. נסו שוב.
+donations.manage.title: ניהול התרומות שלכם
+donations.manage.description: הזינו את האימייל שלכם כדי לקבל קישור לפורטל התורמים שלכם, שם תוכלו לנהל מנויים, להוריד חשבוניות ולצפות בהיסטוריית התרומות שלכם.
+donations.manage.success: אם קיים חשבון עבור כתובת הדוא"ל הזו, תקבלו בקרוב קישור לניהול.
+donations.success.title: תודה!
+donations.success.description: תודה על התמיכה שלכם!
+donations.success.message: תודה על התרומה שלכם! אנחנו מאוד מעריכים את התמיכה שלכם.
+donations.success.email_notice: תקבלו בקרוב אימייל אישור עם פרטי התרומה שלכם וקישור לפורטל התורמים שלכם.
+donations.success.back_to_donate: חזרה לעמוד תרומות
+download.download: הורדה
+download.download_app_or_open_in_browser: הורידו את האפליקציה או פתחו את Fluxer בדפדפן כדי להתחיל להתחבר לקהילות שלכם.
+download.download_fluxer: הורידו את Fluxer
+download.download_for_prefix: הורדה ל-
+download.open_in_browser: פתחו בדפדפן
+download.screenshots_courtesy_of: 'צילומי המסך באדיבות '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: הנחיות קהילה
+footer.company_information: מידע על החברה
+footer.connect: צרו קשר
+footer.donate: תרומה
+footer.download: הורדה
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (חברה בערבון מוגבל שוודית: 559537-3993)'
+footer.help_support_an_independent_communication: תמכו בפלטפורמת תקשורת עצמאית. התרומה שלכם מממנת את התשתיות והפיתוח של הפלטפורמה.
+footer.partners: שותפים
+footer.plutonium_tier: מסלול Plutonium
+footer.policies: מדיניות
+footer.press: עיתונות
+footer.privacy_policy: מדיניות פרטיות
+footer.report_a_bug: דווחו על באג
+footer.roadmap: מפת דרכים
+footer.rss_feed: פיד RSS
+footer.security_bug_bounty: תכנית תגמול על באגים באבטחה
+footer.source_code: קוד מקור
+footer.terms_of_service: תנאי שימוש
+general.all: הכל
+general.coming_soon.label: בקרוב
+general.coming_soon.whats_available_today: מה זמין היום
+general.last_updated: עודכן לאחרונה
+general.made_in_sweden: תוצרת שוודיה
+general.not_available: לא זמין
+general.or: או
+general.tagline: אפליקציית צ'אט ששמה אותך קודם
+languages.change_language: החלפת שפה
+languages.choose_your_language: בחרו את השפה שלכם
+languages.language_label: שפה
+languages.list.arabic: ערבית
+languages.list.bulgarian: בולגרית
+languages.list.chinese_simplified: סינית (מפושטת)
+languages.list.chinese_traditional: סינית (מסורתית)
+languages.list.croatian: קרואטית
+languages.list.czech: צ'כית
+languages.list.danish: דנית
+languages.list.dutch: הולנדית
+languages.list.english: אנגלית
+languages.list.english_us: 'אנגלית (ארה"ב)'
+languages.list.finnish: פינית
+languages.list.french: צרפתית
+languages.list.german: גרמנית
+languages.list.greek: יוונית
+languages.list.hebrew: עברית
+languages.list.hindi: הינדי
+languages.list.hungarian: הונגרית
+languages.list.indonesian: אינדונזית
+languages.list.italian: איטלקית
+languages.list.japanese: יפנית
+languages.list.korean: קוריאנית
+languages.list.lithuanian: ליטאית
+languages.list.norwegian: נורווגית
+languages.list.polish: פולנית
+languages.list.portuguese_brazil: פורטוגזית (ברזיל)
+languages.list.romanian: רומנית
+languages.list.russian: רוסית
+languages.list.spanish_latin_america: ספרדית (אמריקה הלטינית)
+languages.list.spanish_spain: ספרדית (ספרד)
+languages.list.swedish: שוודית
+languages.list.thai: תאית
+languages.list.turkish: טורקית
+languages.list.ukrainian: אוקראינית
+languages.list.vietnamese: וייטנאמית
+launch.description: למדו על המפתח מאחורי Fluxer, יעדי הפרויקט, טכנולוגיות בשימוש, ומה מגיע בהמשך.
+launch.heading: הסיפור מאחורי Fluxer
+launch.read_more: קראו את פוסט ההשקה
+launch.view_full_roadmap: צפו במפת הדרכים המלאה
+misc_labels.design_and_branding: עיצוב ומיתוג
+misc_labels.direct_team_support: תמיכה ישירה מהצוות
+misc_labels.exclusive_communities: קהילות בלעדיות
+misc_labels.exclusive_features: תכונות בלעדיות
+misc_labels.feature: תכונה
+misc_labels.get_updates: קבלו עדכונים, ראו תכונות שמגיעות בקרוב, דברו על רעיונות, ושוחחו עם הצוות.
+misc_labels.join_and_spread_word: הצטרפו והפיצו את הבשורה
+misc_labels.join_fluxer_community_contribute: הצטרפו לקהילת Fluxer ועזרו לבנות את עתיד התקשורת דרך קוד פתוח ותרומות מהקהילה.
+misc_labels.join_fluxer_hq: הצטרפו ל-Fluxer HQ
+misc_labels.join_multiple_devices: הצטרפו מכמה מכשירים בו-זמנית
+misc_labels.join_team_behind_fluxer: הצטרפו לצוות שמאחורי Fluxer
+misc_labels.learn_more: למדו עוד
+misc_labels.product_hunt_badge_title: Fluxer - פלטפורמת מסרים מידיים ו-VoIP בקוד פתוח בסגנון Discord | פוסט מוביל ב-Product Hunt
+misc_labels.profile_badge: תג פרופיל
+misc_labels.read_the_guide: קראו את המדריך
+misc_labels.ready_to_get_started: מוכנים להתחיל?
+misc_labels.register_now: הירשמו עכשיו
+misc_labels.related_policies: מדיניות רלוונטיות
+misc_labels.report_bugs: דווחו על באגים
+misc_labels.software_development: פיתוח תוכנה
+misc_labels.trust_and_safety: אמון ובטיחות
+misc_labels.unique_profile_badge: תג פרופיל ייחודי
+misc_labels.unlimited_users: משתמשים ללא הגבלה
+navigation.close: סגור
+navigation.close_navigation_menu: סגור את תפריט הניווט
+navigation.copy_link_to_section: העתק קישור לסעיף
+navigation.go_home: חזרה לדף הבית
+navigation.on_this_page: בעמוד הזה
+navigation.page_not_found.description: הדף הזה לא קיים, אבל יש עוד המון מה לגלות.
+navigation.page_not_found.title: הדף לא נמצא
+navigation.press.download_assets_intro: הורידו את הלוגואים שלנו, הכירו את צבעי המותג, וצרו קשר עם צוות העיתונות שלנו.
+navigation.press.download_fluxer_assets: הורידו לוגואים ונכסי מותג של Fluxer, וצרו קשר עם צוות העיתונות שלנו
+navigation.press.press_and_brand_assets: עיתונות ונכסי מותג
+partner_program.become_partner.apply_email: הגישו בקשה ב-partners@fluxer.app
+partner_program.become_partner.call_to_action: הצטרפו כשותפים
+partner_program.become_partner.heading: להיות שותף Fluxer
+partner_program.become_partner.if_youre_a_creator_or: אם אתם יוצרי תוכן או מנהלים קהילה גדולה, נשמח לשמוע מכם.
+partner_program.become_partner.learn_about_partners: הכירו את השותפים
+partner_program.become_partner.learn_more: למדו עוד
+partner_program.become_partner.ready_prompt: מוכנים להצטרף כשותפים?
+partner_program.description: הטבות בלעדיות ליוצרי תוכן ולבעלי קהילות גדולות.
+partner_program.label: שותפים
+partner_program.perks.creator_monetization.description: גישה מוקדמת לתכונות מונטיזציה ליוצרים עם עמלות נמוכות יותר מאשר למי שלא שותף.
+partner_program.perks.creator_monetization.label: מונטיזציה ליוצרים
+partner_program.perks.custom_vanity_url.description: קבלו כתובת vanity בלעדית כמו fluxer.gg/yourcommunity.
+partner_program.perks.custom_vanity_url.label: כתובת vanity מותאמת
+partner_program.perks.direct_team_access.description: הצטרפו לקהילת השותפים הבלעדית עם גישה ישירה לצוות Fluxer.
+partner_program.perks.direct_team_access.label: גישה ישירה לצוות
+partner_program.perks.discovery_visibility: קבלו יותר נראות על ידי הבלטה בגילוי קהילות.
+partner_program.perks.exclusive_merch.description: קבלו סוואג ומוצרים ממותגים בלעדיים שמיועדים רק לשותפים.
+partner_program.perks.exclusive_merch.label: מוצרים ממותגים בלעדיים
+partner_program.perks.free_plutonium.description: קבלו Plutonium בחינם לחשבון שלכם כדי ליהנות מכל התכונות הפרימיום.
+partner_program.perks.free_plutonium.label: Plutonium בחינם
+partner_program.perks.increased_limits.description: הקהילה שלכם מקבלת מגבלות מוגדלות כשאתם צריכים.
+partner_program.perks.increased_limits.label: מגבלות מוגדלות
+partner_program.perks.partner_badge.description: הציגו תג שותף בלעדי בפרופיל כדי לבלוט.
+partner_program.perks.partner_badge.label: תג שותף
+partner_program.perks.vip_voice_servers.description: גישה לשרתי קול VIP שמיועדים בלעדית לקהילות שותפות.
+partner_program.perks.vip_voice_servers.label: ערוצי קול VIP
+partner_program.requirements.audience_description: תיאור קצר של הקהל שלכם ומה אתם עושים
+partner_program.requirements.links_to_content: קישורים לתוכן או לקהילה שלכם (YouTube, Twitch, Discord וכו')
+partner_program.requirements.name_and_username: השם שלכם ושם המשתמש בפלטפורמה
+partner_program.requirements.usage_plan: איך אתם מתכננים להשתמש ב-Fluxer עם הקהילה שלכם
+partner_program.who_its_for: 'יוצרי תוכן ובעלי קהילות: פתחו לעצמכם הטבות בלעדיות כולל Plutonium בחינם, תג שותף, כתובות vanity מותאמות ועוד.'
+partner_program.perks.heading: הטבות שותפים
+partner_program.perks.see_perks: צפו בהטבות
+partner_program.apply.instructions: שלחו לנו אימייל עם המידע הבא כדי להגיש בקשה לתוכנית השותפים של Fluxer.
+partner_program.apply.response_time: אנחנו בודקים את כל הבקשות ונשיב לכם תוך מספר ימים.
+platform_support.desktop.available_on_desktop_and_web: זמין במחשב שלכם וגם ברשת
+platform_support.desktop.download_desktop_intro: הורידו את Fluxer ל-Windows, macOS ול-Linux. אפליקציות מובייל בדרך.
+platform_support.desktop.interface_label: ממשק Fluxer למחשב
+platform_support.desktop.label: מחשב
+platform_support.desktop.use_desktop_client_mobile_soon: השתמשו באפליקציית המחשב (מובייל בקרוב)
+platform_support.mobile.install_as_app.add_to_home: הוסיפו את Fluxer למסך הבית כדי להסתיר את ממשק הדפדפן.
+platform_support.mobile.install_as_app.done_desktop: סיימנו! עכשיו אפשר לפתוח את Fluxer כאילו זו תוכנה רגילה.
+platform_support.mobile.install_as_app.done_mobile: סיימנו! עכשיו אפשר לפתוח את Fluxer ממסך הבית.
+platform_support.mobile.install_as_app.guides.in_chrome: ' ב-Chrome'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: ' ב-Chrome או בדפדפן אחר שתומך ב-PWA'
+platform_support.mobile.install_as_app.guides.in_safari: ' ב-Safari'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: מדריך התקנת PWA ל-{name}
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: 'לחצו על "Add to home screen"'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: 'לחצו על "Add" בפינה הימנית העליונה'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: 'לחצו על "Install app"'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: לחצו על כפתור ההתקנה (חץ כלפי מטה על המסך) בשורת הכתובת
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: 'לחצו על "Install" בחלון הקופץ שמופיע'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: 'לחצו על כפתור "More" (⋮) בפינה הימנית העליונה'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: לחצו על כפתור השיתוף (מלבן עם חץ כלפי מעלה)
+platform_support.mobile.install_as_app.install_fluxer_as_app: התקינו את Fluxer כאפליקציה
+platform_support.mobile.install_as_app.title: איך מתקינים כאפליקציה
+platform_support.mobile.interface_label: ממשק Fluxer במובייל
+platform_support.mobile.mobile_apps_underway: אפליקציות מובייל כבר בעבודה
+platform_support.mobile.mobile_browser_explainer: אנחנו בונים אפליקציות ל-iOS ולאנדרואיד. עד שהן יהיו מוכנות, Fluxer עובד בדפדפן במובייל, והשקענו הרבה כדי שזה ירגיש כמה שיותר כמו אפליקציה.
+platform_support.mobile.not_full_replacement_yet: זה עדיין לא תחליף מלא לאפליקציית המחשב, ועדיין חסרים כמה דברים שמצפים מאפליקציית צ'אט במובייל.
+platform_support.mobile.push_notifications: קבלו התראות פוש כשאתם מחוץ לאפליקציה.
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS ו-iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: בחרו הפצת Linux
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: הורדה ל-macOS
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: הורדה ל-Windows
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: צבעי המותג
+press_branding.assets.full_color: גרסה צבעונית מלאה
+press_branding.assets.label: לוגו
+press_branding.assets.logo_variants.black_logo: לוגו שחור
+press_branding.assets.logo_variants.color_logo: לוגו צבעוני
+press_branding.assets.logo_variants.white_logo: לוגו לבן
+press_branding.assets.palette_description: פלטת הצבעים שלנו שנבחרה בקפידה ומייצגת את המותג Fluxer.
+press_branding.assets.premium_quality: איכות פרימיום
+press_branding.assets.primary_brand_color_description: צבע המותג הראשי שלנו. השתמשו בו לאלמנטים מרכזיים והדגשים.
+press_branding.assets.symbol_variants.black_symbol: סמל שחור
+press_branding.assets.symbol_variants.color_symbol: סמל צבעוני
+press_branding.assets.symbol_variants.label: סמל
+press_branding.assets.symbol_variants.white_symbol: סמל לבן
+press_branding.assets.usage_guidance.dark_surface_guidance: לרקעים, טקסט על משטחים כהים, ויצירת ניגודיות.
+press_branding.assets.usage_guidance.for_dark_backgrounds: לרקעים כהים
+press_branding.assets.usage_guidance.for_light_backgrounds: לרקעים בהירים
+press_branding.assets.usage_guidance.full_logo_description: הלוגו המלא שלנו כולל את סימן המילה. השתמשו בו כייצוג הראשי של המותג.
+press_branding.assets.usage_guidance.light_surface_guidance: לטקסט, אייקונים על משטחים בהירים, ויצירת עומק.
+press_branding.assets.usage_guidance.symbol_description: הסמל העצמאי שלנו. השתמשו בו רק כשהמותג שלנו כבר בולט או מבוסס במקום אחר בהקשר.
+press_branding.colors.blue_da_ba_dee: כחול דה בה די
+press_branding.colors.white: לבן
+press_branding.colors.black: שחור
+press_branding.contact.story_prompt: יש לכם סיפור על Fluxer? נשמח לשמוע אותו.
+press_branding.contact.response_time: אנחנו בדרך כלל עונים תוך 24 שעות.
+pricing_and_tiers.billing.forever: לתמיד
+pricing_and_tiers.billing.most_popular: הכי פופולרי
+pricing_and_tiers.billing.per_forever: /לתמיד
+pricing_and_tiers.billing.per_month: /חודש
+pricing_and_tiers.billing.per_year_full: /שנה
+pricing_and_tiers.billing.per_year_short: /שנה
+pricing_and_tiers.billing.save_percent: חסכו 17%
+pricing_and_tiers.free.comparison_label: חינם מול Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 'כל מה שבחינם, וגם:'
+pricing_and_tiers.free.full_access_to_all_features: גישה מלאה לכל התכונות
+pricing_and_tiers.free.label: חינם
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: 'שימו לב: ההטבות של Plutonium ושל Visionary חלות רק על המופע הרשמי ב-Fluxer.app, לא על מופעים צד שלישי או כאלה באירוח עצמי.'
+pricing_and_tiers.plutonium.feature_highlights: העלאות של 500 MB, הודעות עד 4,000 תווים, 300 סימניות, 50 חבילות אימוג'י ועוד הרבה.
+pricing_and_tiers.plutonium.features.bio_character_limit: מגבלת תווים לביו
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: בחרו את התג שלכם כמו #0001, #1337, או #9999 כדי לעשות את שם המשתמש שלכם באמת ייחודי.
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: תג שם משתמש בעל 4 ספרות מותאם
+pricing_and_tiers.plutonium.features.custom_username_tag: תג שם משתמש מותאם
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: רקעים מותאמים לוידאו
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: חבילות אימוג'י ומדבקות
+pricing_and_tiers.plutonium.features.file_upload_size: גודל העלאת קבצים
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: גישה גלובלית לאימוג'י ומדבקות
+pricing_and_tiers.plutonium.features.message_character_limit: מגבלת תווים להודעה
+pricing_and_tiers.plutonium.features.message_scheduling: תזמון הודעות
+pricing_and_tiers.plutonium.features.per_community_profiles: פרופילים לכל קהילה
+pricing_and_tiers.plutonium.features.saved_media: מדיה שמורה
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: webhooks ותמיכה בבוטים
+pricing_and_tiers.plutonium.get_more_with_plutonium: קבלו יותר עם Fluxer Plutonium
+pricing_and_tiers.plutonium.get_plutonium: קבלו Plutonium
+pricing_and_tiers.plutonium.higher_limits_and_early_access: מגבלות גבוהות יותר, תכונות בלעדיות וגישה מוקדמת לעדכונים חדשים
+pricing_and_tiers.plutonium.higher_limits_everywhere: מגבלות גבוהות יותר בכל מקום
+pricing_and_tiers.plutonium.show_off_status_badge: הציגו בגאווה את הסטטוס שלכם ב-Plutonium עם תג בלעדי בפרופיל.
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: 'שדרגו ל-Plutonium ב-$4.99 לחודש: תגיות שם משתמש מותאמות, פרופילים לכל קהילה, תזמון הודעות, סטרימינג 4K, העלאות של 500 MB ועוד תכונות בלעדיות.'
+pricing_and_tiers.visionary.badge.numbered_badge: תג ממוספר שמציג את הסטטוס שלכם כ-Visionary
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: תג ממוספר (1–{0}) שמציג את הסטטוס שלכם כ-Visionary
+pricing_and_tiers.visionary.bundle_label: Plutonium ו-Operator Pass לכל החיים עם Visionary – מספר מקומות מוגבל
+pricing_and_tiers.visionary.communities_with_team_access: קהילות Visionary ו-Operators עם גישה לצוות
+pricing_and_tiers.visionary.get_visionary: קבלו Visionary
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: קבלו Plutonium לכל החיים ב-Fluxer.app וגם Operator Pass לאירוח עצמי. משלמים {0} פעם אחת. זמין עד 1 באוקטובר 2026, או עד שכל המקומות ייתפסו.
+pricing_and_tiers.visionary.lifetime_operator_pass: Operator Pass לכל החיים
+pricing_and_tiers.visionary.lifetime_plutonium: Plutonium לכל החיים
+pricing_and_tiers.visionary.limited_offer_note: 'הצעה מוגבלת: Visionary כולל Operator Pass'
+pricing_and_tiers.visionary.limited_slots_label: Visionary – מספר מקומות מוגבל
+pricing_and_tiers.visionary.one_time_purchase.label: רכישה חד-פעמית
+pricing_and_tiers.visionary.one_time_purchase.promise: רכישה חד-פעמית, גישה לכל החיים
+pricing_and_tiers.visionary.purchase_flow: קנו Visionary ישירות באפליקציה אחרי שתיצרו חשבון. תאריך הרכישה ומספר ההזמנה יוצגו בפרופיל שלכם (אפשר להסתיר בהגדרות פרטיות).
+pricing_and_tiers.visionary.slots_left.generic: '{0} מתוך {1} מקומות נשארו'
+pricing_and_tiers.visionary.slots_left.visionary_bundle: נשארו רק {0} מתוך {1} מקומות Visionary לכל החיים – Plutonium ו-Operator Pass לכל החיים
+pricing_and_tiers.visionary.slots_left.visionary_only: '{0} מקומות Visionary נשארו'
+product_positioning.free_and_open_source: Fluxer חינמית וקוד פתוח. כל אחד יכול לארח בעצמו בחינם.
+product_positioning.intro: Fluxer היא פלטפורמת מסרים מידיים ו-VoIP חינמית וקוד פתוח, שנבנתה לחברים, קבוצות וקהילות.
+product_positioning.open_source.fully_open_source_agplv3: קוד פתוח לחלוטין (AGPLv3)
+product_positioning.open_source.label: קוד פתוח
+product_positioning.open_source.license: קוד פתוח (AGPL-3.0)
+product_positioning.self_hosting.connect_from_any_client: התחברות מכל לקוח
+product_positioning.self_hosting.free_self_hosting: אירוח עצמי בחינם
+product_positioning.self_hosting.host_your_own_instance: אחסנו מופע משלכם
+product_positioning.self_hosting.label: אירוח עצמי
+product_positioning.self_hosting.operator_pass.access_to_operators_community: גישה לקהילת Fluxer Operators
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: אחרי שההצעה נגמרת, Operator Pass נשאר זמין בפני עצמו.
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: 'Operator Pass הוא אופציונלי: משלמים בשביל תמיכה וגישה לקהילת Operators.'
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: תמיכה בעדיפות וגישה לקהילת Operators באירוח עצמי
+product_positioning.self_hosting.run_backend_on_your_hardware: הריצו את השרת של Fluxer על החומרה שלכם והתחברו עם האפליקציות שלנו.
+product_positioning.self_hosting.switch_between_instances: מעבר בין כמה מופעים
+security.found_security_issue: מצאתם בעיית אבטחה?
+security.report_vulnerabilities: דווחו על חולשות ועזרו לנו לשמור על הפלטפורמה מאובטחת.
+security.responsible_disclosure_note: אנחנו מעריכים דיווח אחראי דרך עמוד תכנית התגמול שלנו. אנחנו נותנים קודי Plutonium ותגי Bug Hunter לפי חומרה.
+security.security_bug_bounty: תכנית תגמול על באגים באבטחה
+security.security_reports: דוחות אבטחה
+security.testers_access_from_reports: דוחות שאושרו נותנים גישה ל-Fluxer Testers, שם אפשר לצבור נקודות לקודי Plutonium ולקבל את תג Bug Hunter.
+social_and_feeds.bluesky.follow_us: עקבו אחרינו ב-Bluesky
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: פיד RSS של Bluesky
+social_and_feeds.follow_fluxer: עקבו אחרי @fluxer.app
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: פיד RSS לבלוג
+social_and_feeds.rss.fluxer_blog_rss: פיד RSS של בלוג Fluxer
+social_and_feeds.rss.label: פיד RSS
+social_and_feeds.stay_updated_cta: הישארו מעודכנים בחדשות, סטטוס שירות ומה קורה. אפשר גם להירשם אל

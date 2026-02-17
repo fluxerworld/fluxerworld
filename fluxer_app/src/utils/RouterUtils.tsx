@@ -17,29 +17,32 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Logger} from '~/lib/Logger';
-import {createBrowserHistory, type HistoryAdapter} from '~/lib/router';
+import {Logger} from '@app/lib/Logger';
+import {createBrowserHistory} from '@app/lib/router/History';
+import type {HistoryAdapter} from '@app/lib/router/RouterTypes';
 
 const logger = new Logger('RouterUtils');
 
 export const history: HistoryAdapter | null = createBrowserHistory();
 
-export const transitionTo = (path: string) => {
+export function transitionTo(path: string) {
 	logger.info('transitionTo', path);
 	if (history) {
 		const current = history.getLocation().url.pathname;
 		if (current === path) return;
 		history.push(new URL(path, window.location.origin));
 	}
-};
+}
 
-export const replaceWith = (path: string) => {
+export function replaceWith(path: string) {
 	logger.info('replaceWith', path);
 	if (history) {
 		const current = history.getLocation().url.pathname;
 		if (current === path) return;
 		history.replace(new URL(path, window.location.origin));
 	}
-};
+}
 
-export const getHistory = () => history;
+export function getHistory() {
+	return history;
+}

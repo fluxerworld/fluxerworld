@@ -1,0 +1,14 @@
+{
+	"klipy": {
+		"type": "object",
+		"description": "KLIPY GIF API integration.",
+		"additionalProperties": false,
+		"properties": {
+			"api_key": {
+				"type": "string",
+				"default": "",
+				"description": "KLIPY API Key."
+			}
+		}
+	}
+}

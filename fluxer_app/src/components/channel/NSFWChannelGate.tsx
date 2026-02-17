@@ -17,27 +17,35 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GuildNSFWActionCreators from '@app/actions/GuildNSFWActionCreators';
+import styles from '@app/components/channel/NSFWChannelGate.module.css';
+import {ExternalLink} from '@app/components/common/ExternalLink';
+import {Button} from '@app/components/uikit/button/Button';
+import {HelpCenterArticleSlug} from '@app/constants/HelpCenterConstants';
+import GeoIPStore from '@app/stores/GeoIPStore';
+import {NSFWGateReason} from '@app/stores/GuildNSFWAgreeStore';
+import {getRegionDisplayName} from '@app/utils/GeoUtils';
+import * as HelpCenterUtils from '@app/utils/HelpCenterUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {WarningIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import * as GuildNSFWActionCreators from '~/actions/GuildNSFWActionCreators';
-import {ExternalLink} from '~/components/common/ExternalLink';
-import {Button} from '~/components/uikit/Button/Button';
-import GeoIPStore from '~/stores/GeoIPStore';
-import {NSFWGateReason} from '~/stores/GuildNSFWAgreeStore';
-import {formatRegion} from '~/utils/GeoUtils';
-import * as HelpCenterUtils from '~/utils/HelpCenterUtils';
-import styles from './NSFWChannelGate.module.css';
 
 interface Props {
 	channelId: string;
+	guildId?: string | null;
 	reason: NSFWGateReason;
+	scope: 'channel' | 'guild';
 }
 
-export const NSFWChannelGate = observer(({channelId, reason}: Props) => {
+export const NSFWChannelGate = observer(({channelId, guildId, reason, scope}: Props) => {
 	const {i18n} = useLingui();
-	const handleAgree = () => {
-		GuildNSFWActionCreators.agreeToNSFWChannel(channelId);
+	const handleProceed = () => {
+		if (scope === 'guild' && guildId) {
+			GuildNSFWActionCreators.agreeToGuild(guildId);
+			return;
+		}
+
+		GuildNSFWActionCreators.agreeToChannel(channelId);
 	};
 
 	const renderContent = () => {
@@ -45,7 +53,7 @@ export const NSFWChannelGate = observer(({channelId, reason}: Props) => {
 			case NSFWGateReason.GEO_RESTRICTED: {
 				const countryCode = GeoIPStore.countryCode;
 				const regionCode = GeoIPStore.regionCode;
-				const regionName = formatRegion(i18n, countryCode, regionCode);
+				const regionName = getRegionDisplayName(i18n, countryCode ?? undefined, regionCode ?? undefined);
 
 				return (
 					<>
@@ -54,7 +62,7 @@ export const NSFWChannelGate = observer(({channelId, reason}: Props) => {
 						</h2>
 						<p className={styles.description}>
 							<Trans>
-								Due to age verification laws in {regionName}, you cannot access NSFW content from this region.
+								Due to age verification laws in {regionName}, you cannot access age-restricted content from this region.
 							</Trans>
 						</p>
 					</>
@@ -62,7 +70,21 @@ export const NSFWChannelGate = observer(({channelId, reason}: Props) => {
 			}
 
 			case NSFWGateReason.AGE_RESTRICTED:
-				return (
+				return scope === 'guild' ? (
+					<>
+						<h2 className={styles.title}>
+							<Trans>Age-Restricted Community</Trans>
+						</h2>
+						<p className={styles.description}>
+							<Trans>
+								You must be 18 or older to view this community.{' '}
+								<ExternalLink href={HelpCenterUtils.getURL(HelpCenterArticleSlug.ChangeDateOfBirth)}>
+									Learn more
+								</ExternalLink>
+							</Trans>
+						</p>
+					</>
+				) : (
 					<>
 						<h2 className={styles.title}>
 							<Trans>Age-Restricted Channel</Trans>
@@ -70,25 +92,42 @@ export const NSFWChannelGate = observer(({channelId, reason}: Props) => {
 						<p className={styles.description}>
 							<Trans>
 								You must be 18 or older to view this channel.{' '}
-								<ExternalLink href={HelpCenterUtils.getURL('1426347609450086400')}>Learn more</ExternalLink>
+								<ExternalLink href={HelpCenterUtils.getURL(HelpCenterArticleSlug.ChangeDateOfBirth)}>
+									Learn more
+								</ExternalLink>
 							</Trans>
 						</p>
 					</>
 				);
 			default:
-				return (
+				return scope === 'guild' ? (
+					<>
+						<h2 className={styles.title}>
+							<Trans>Age-Restricted Community</Trans>
+						</h2>
+						<p className={styles.description}>
+							<Trans>
+								This community is marked as age-restricted and may contain content that is not safe for work or that may
+								be inappropriate for some users.
+							</Trans>
+						</p>
+						<Button onClick={handleProceed} variant="danger-primary">
+							<Trans>Proceed</Trans>
+						</Button>
+					</>
+				) : (
 					<>
 						<h2 className={styles.title}>
 							<Trans>NSFW Channel</Trans>
 						</h2>
 						<p className={styles.description}>
 							<Trans>
-								This channel may contain content that is not safe for work or that may be inappropriate for some users.
-								You must be 18 or older to view this channel.
+								This channel is marked as NSFW and may contain content that is not safe for work or that may be
+								inappropriate for some users.
 							</Trans>
 						</p>
-						<Button onClick={handleAgree} variant="danger-primary">
-							<Trans>I am 18 or older</Trans>
+						<Button onClick={handleProceed} variant="danger-primary">
+							<Trans>Proceed</Trans>
 						</Button>
 					</>
 				);

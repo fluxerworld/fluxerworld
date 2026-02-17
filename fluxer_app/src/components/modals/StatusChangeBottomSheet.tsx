@@ -17,22 +17,34 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getStatusTypeLabel} from '@app/AppConstants';
+import * as UserSettingsActionCreators from '@app/actions/UserSettingsActionCreators';
+import {CustomStatusDisplay} from '@app/components/common/custom_status_display/CustomStatusDisplay';
+import {CustomStatusBottomSheet} from '@app/components/modals/CustomStatusBottomSheet';
+import styles from '@app/components/modals/StatusChangeBottomSheet.module.css';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import {StatusIndicator} from '@app/components/uikit/StatusIndicator';
+import {
+	getTimeWindowPresets,
+	minutesToMs,
+	TIME_WINDOW_FOR_LABEL_MESSAGES,
+	type TimeWindowKey,
+	type TimeWindowPreset,
+} from '@app/constants/TimeWindowPresets';
+import {normalizeCustomStatus} from '@app/lib/CustomStatus';
+import DeveloperModeStore from '@app/stores/DeveloperModeStore';
+import PresenceStore from '@app/stores/PresenceStore';
+import StatusExpiryStore from '@app/stores/StatusExpiryStore';
+import UserStore from '@app/stores/UserStore';
+import type {StatusType} from '@fluxer/constants/src/StatusConstants';
+import {StatusTypes} from '@fluxer/constants/src/StatusConstants';
+import type {MessageDescriptor} from '@lingui/core';
+import {msg} from '@lingui/core/macro';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CaretDownIcon, CheckIcon} from '@phosphor-icons/react';
 import clsx from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as UserSettingsActionCreators from '~/actions/UserSettingsActionCreators';
-import {getStatusTypeLabel, type StatusType, StatusTypes} from '~/Constants';
-import {CustomStatusDisplay} from '~/components/common/CustomStatusDisplay/CustomStatusDisplay';
-import {CustomStatusBottomSheet} from '~/components/modals/CustomStatusBottomSheet';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import {StatusIndicator} from '~/components/uikit/StatusIndicator';
-import {normalizeCustomStatus} from '~/lib/customStatus';
-import PresenceStore from '~/stores/PresenceStore';
-import StatusExpiryStore from '~/stores/StatusExpiryStore';
-import UserStore from '~/stores/UserStore';
-import styles from './StatusChangeBottomSheet.module.css';
+import React, {useCallback, useMemo, useState} from 'react';
 
 const STATUS_ORDER = [StatusTypes.ONLINE, StatusTypes.IDLE, StatusTypes.DND, StatusTypes.INVISIBLE] as const;
 
@@ -43,14 +55,25 @@ const STATUS_DESCRIPTIONS: Record<(typeof STATUS_ORDER)[number], React.ReactNode
 	[StatusTypes.INVISIBLE]: <Trans>You&apos;ll appear offline</Trans>,
 };
 
-const EXPIRY_OPTIONS = [
-	{id: 'forever', label: <Trans>Until I change it</Trans>, durationMs: null},
-	{id: '15m', label: <Trans>15 minutes</Trans>, durationMs: 15 * 60 * 1000},
-	{id: '1h', label: <Trans>1 hour</Trans>, durationMs: 60 * 60 * 1000},
-	{id: '8h', label: <Trans>8 hours</Trans>, durationMs: 8 * 60 * 60 * 1000},
-	{id: '24h', label: <Trans>24 hours</Trans>, durationMs: 24 * 60 * 60 * 1000},
-	{id: '3d', label: <Trans>3 days</Trans>, durationMs: 3 * 24 * 60 * 60 * 1000},
-];
+const STATUS_EXPIRY_LABEL_MESSAGES: Record<TimeWindowKey, MessageDescriptor> = {
+	...TIME_WINDOW_FOR_LABEL_MESSAGES,
+	never: msg`Until I change it`,
+};
+
+interface StatusExpiryOption {
+	id: TimeWindowKey;
+	key: TimeWindowKey;
+	label: MessageDescriptor;
+	durationMs: number | null;
+}
+
+const getStatusExpiryOptions = (includeDeveloperOptions: boolean): ReadonlyArray<StatusExpiryOption> =>
+	getTimeWindowPresets({includeDeveloperOptions}).map((preset: TimeWindowPreset) => ({
+		id: preset.key,
+		key: preset.key,
+		label: STATUS_EXPIRY_LABEL_MESSAGES[preset.key],
+		durationMs: minutesToMs(preset.minutes),
+	}));
 
 const STATUS_SHEET_SNAP_POINTS: Array<number> = [0, 0.75, 1];
 
@@ -62,15 +85,16 @@ interface StatusChangeBottomSheetProps {
 interface StatusItemProps {
 	status: StatusType;
 	currentStatus: StatusType;
+	expiryOptions: ReadonlyArray<StatusExpiryOption>;
 	onSelect: (status: StatusType, durationMs: number | null) => void;
 }
 
-const StatusItem = observer(({status, currentStatus, onSelect}: StatusItemProps) => {
+const StatusItem = observer(({status, currentStatus, expiryOptions, onSelect}: StatusItemProps) => {
 	const {i18n} = useLingui();
 	const isSelected = currentStatus === status;
 	const description = STATUS_DESCRIPTIONS[status as keyof typeof STATUS_DESCRIPTIONS];
 	const hasExpiryOptions = status !== StatusTypes.ONLINE;
-	const [showExpiry, setShowExpiry] = React.useState(false);
+	const [showExpiry, setShowExpiry] = useState(false);
 
 	const handleSelect = () => {
 		if (hasExpiryOptions) {
@@ -111,14 +135,14 @@ const StatusItem = observer(({status, currentStatus, onSelect}: StatusItemProps)
 			</button>
 			{showExpiry && (
 				<div className={styles.expiryList}>
-					{EXPIRY_OPTIONS.map((option) => (
+					{expiryOptions.map((option: StatusExpiryOption) => (
 						<button
 							key={option.id}
 							type="button"
 							className={styles.expiryItem}
 							onClick={() => handleExpirySelect(option.durationMs)}
 						>
-							{option.label}
+							{i18n._(option.label)}
 						</button>
 					))}
 				</div>
@@ -138,7 +162,11 @@ const CustomStatusSection = observer(({onOpenEditor}: CustomStatusSectionProps) 
 	const normalizedExisting = normalizeCustomStatus(existingCustomStatus);
 	const hasExistingStatus = Boolean(normalizedExisting);
 
-	const [isSaving, setIsSaving] = React.useState(false);
+	const [isSaving, setIsSaving] = useState(false);
+
+	if (!hasExistingStatus || !normalizedExisting) {
+		return null;
+	}
 
 	const handleClear = async () => {
 		if (isSaving) return;
@@ -159,24 +187,16 @@ const CustomStatusSection = observer(({onOpenEditor}: CustomStatusSectionProps) 
 				</span>
 			</div>
 			<button type="button" className={styles.customStatusButton} onClick={onOpenEditor}>
-				{hasExistingStatus && normalizedExisting ? (
-					<CustomStatusDisplay
-						customStatus={normalizedExisting}
-						showText={true}
-						showTooltip={false}
-						animateOnParentHover
-					/>
-				) : (
-					<span className={styles.customStatusPlaceholder}>
-						<Trans>Set a custom status</Trans>
-					</span>
-				)}
+				<CustomStatusDisplay
+					customStatus={normalizedExisting}
+					showText={true}
+					showTooltip={false}
+					animateOnParentHover
+				/>
 			</button>
-			{hasExistingStatus && (
-				<button type="button" className={styles.clearCustomStatusButton} onClick={handleClear} disabled={isSaving}>
-					<Trans>Clear Custom Status</Trans>
-				</button>
-			)}
+			<button type="button" className={styles.clearCustomStatusButton} onClick={handleClear} disabled={isSaving}>
+				<Trans>Clear Custom Status</Trans>
+			</button>
 		</div>
 	);
 });
@@ -186,9 +206,11 @@ export const StatusChangeBottomSheet = observer(({isOpen, onClose}: StatusChange
 	const currentUser = UserStore.getCurrentUser();
 	const currentUserId = currentUser?.id ?? null;
 	const status = currentUserId ? PresenceStore.getStatus(currentUserId) : StatusTypes.ONLINE;
-	const [customStatusSheetOpen, setCustomStatusSheetOpen] = React.useState(false);
+	const [customStatusSheetOpen, setCustomStatusSheetOpen] = useState(false);
+	const isDeveloper = DeveloperModeStore.isDeveloper;
+	const statusExpiryOptions = useMemo(() => getStatusExpiryOptions(isDeveloper), [isDeveloper]);
 
-	const handleStatusChange = React.useCallback(
+	const handleStatusChange = useCallback(
 		(statusType: StatusType, durationMs: number | null) => {
 			StatusExpiryStore.setActiveStatusExpiry({
 				status: statusType,
@@ -199,11 +221,11 @@ export const StatusChangeBottomSheet = observer(({isOpen, onClose}: StatusChange
 		[onClose],
 	);
 
-	const handleOpenCustomStatusEditor = React.useCallback(() => {
+	const handleOpenCustomStatusEditor = useCallback(() => {
 		setCustomStatusSheetOpen(true);
 	}, []);
 
-	const handleCloseCustomStatusEditor = React.useCallback(() => {
+	const handleCloseCustomStatusEditor = useCallback(() => {
 		setCustomStatusSheetOpen(false);
 	}, []);
 
@@ -228,7 +250,12 @@ export const StatusChangeBottomSheet = observer(({isOpen, onClose}: StatusChange
 						<div className={styles.statusContainer}>
 							{STATUS_ORDER.map((statusType, index, arr) => (
 								<React.Fragment key={statusType}>
-									<StatusItem status={statusType} currentStatus={status} onSelect={handleStatusChange} />
+									<StatusItem
+										status={statusType}
+										currentStatus={status}
+										expiryOptions={statusExpiryOptions}
+										onSelect={handleStatusChange}
+									/>
 									{index < arr.length - 1 && <div className={styles.divider} />}
 								</React.Fragment>
 							))}

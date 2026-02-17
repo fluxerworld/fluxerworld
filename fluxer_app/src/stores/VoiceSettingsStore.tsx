@@ -17,9 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {makePersistent} from '@app/lib/MobXPersistence';
+import {LimitResolver} from '@app/utils/limits/LimitResolverAdapter';
+import {isLimitToggleEnabled} from '@app/utils/limits/LimitUtils';
+import type {UserPrivate} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 import {makeAutoObservable} from 'mobx';
-import {makePersistent} from '~/lib/MobXPersistence';
-import {type UserPrivate, UserRecord} from '~/records/UserRecord';
 
 interface BackgroundImage {
 	id: string;
@@ -48,8 +50,13 @@ type VoiceSettingsUpdate = Partial<{
 	backgroundImages: Array<BackgroundImage>;
 	showGridView: boolean;
 	showMyOwnCamera: boolean;
+	showMyOwnScreenShare: boolean;
 	showNonVideoParticipants: boolean;
 	showParticipantsCarousel: boolean;
+	showVoiceConnectionAvatarStack: boolean;
+	showVoiceConnectionId: boolean;
+	pauseOwnScreenSharePreviewOnUnfocus: boolean;
+	disablePictureInPicturePopout: boolean;
 }>;
 
 class VoiceSettingsStore {
@@ -68,12 +75,43 @@ class VoiceSettingsStore {
 	backgroundImages: Array<BackgroundImage> = [];
 	showGridView = false;
 	showMyOwnCamera = true;
+	showMyOwnScreenShare = true;
 	showNonVideoParticipants = true;
-	showParticipantsCarousel = true;
-	hasPremium = false;
+	showParticipantsCarousel = false;
+	showVoiceConnectionAvatarStack = true;
+	showVoiceConnectionIdPrefV2 = true;
+	pauseOwnScreenSharePreviewOnUnfocusPrefV2 = true;
+	disablePictureInPicturePopout = false;
 
 	constructor() {
-		makeAutoObservable(this, {}, {autoBind: true});
+		makeAutoObservable(
+			this,
+			{
+				getInputDeviceId: false,
+				getOutputDeviceId: false,
+				getVideoDeviceId: false,
+				getInputVolume: false,
+				getOutputVolume: false,
+				getEchoCancellation: false,
+				getNoiseSuppression: false,
+				getAutoGainControl: false,
+				getCameraResolution: false,
+				getScreenshareResolution: false,
+				getVideoFrameRate: false,
+				getBackgroundImageId: false,
+				getBackgroundImages: false,
+				getShowGridView: false,
+				getShowMyOwnCamera: false,
+				getShowMyOwnScreenShare: false,
+				getShowNonVideoParticipants: false,
+				getShowParticipantsCarousel: false,
+				getShowVoiceConnectionAvatarStack: false,
+				getShowVoiceConnectionId: false,
+				getDisablePictureInPicturePopout: false,
+				getPauseOwnScreenSharePreviewOnUnfocus: false,
+			},
+			{autoBind: true},
+		);
 		this.initPersistence();
 	}
 
@@ -94,24 +132,36 @@ class VoiceSettingsStore {
 			'backgroundImages',
 			'showGridView',
 			'showMyOwnCamera',
-			'showNonVideoParticipants',
+			'showMyOwnScreenShare',
 			'showParticipantsCarousel',
+			'showVoiceConnectionAvatarStack',
+			'showVoiceConnectionIdPrefV2',
+			'pauseOwnScreenSharePreviewOnUnfocusPrefV2',
+			'disablePictureInPicturePopout',
 		]);
 	}
 
-	getHasPremium(): boolean {
-		return this.hasPremium;
+	get showVoiceConnectionId(): boolean {
+		return this.showVoiceConnectionIdPrefV2;
 	}
 
-	handleConnectionOpen(user: UserPrivate): void {
-		const wasPremium = this.hasPremium;
-		const userRecord = new UserRecord(user);
-		this.hasPremium = userRecord.isPremium();
+	set showVoiceConnectionId(value: boolean) {
+		this.showVoiceConnectionIdPrefV2 = value;
+	}
 
-		if (!this.hasPremium) {
+	get pauseOwnScreenSharePreviewOnUnfocus(): boolean {
+		return this.pauseOwnScreenSharePreviewOnUnfocusPrefV2;
+	}
+
+	set pauseOwnScreenSharePreviewOnUnfocus(value: boolean) {
+		this.pauseOwnScreenSharePreviewOnUnfocusPrefV2 = value;
+	}
+
+	handleConnectionOpen(_user: UserPrivate): void {
+		const hasHigherVideoQuality = this.hasHigherVideoQuality();
+
+		if (!hasHigherVideoQuality) {
 			this.sanitizePremiumSettings();
-		} else if (!wasPremium && this.hasPremium) {
-			this.applyPremiumDefaults();
 		}
 	}
 
@@ -120,14 +170,10 @@ class VoiceSettingsStore {
 			return;
 		}
 
-		const wasPremium = this.hasPremium;
-		const userRecord = new UserRecord(user as UserPrivate);
-		this.hasPremium = userRecord.isPremium();
+		const hasHigherVideoQuality = this.hasHigherVideoQuality();
 
-		if (wasPremium && !this.hasPremium) {
+		if (!hasHigherVideoQuality) {
 			this.sanitizePremiumSettings();
-		} else if (!wasPremium && this.hasPremium) {
-			this.applyPremiumDefaults();
 		}
 	}
 
@@ -149,14 +195,17 @@ class VoiceSettingsStore {
 		}
 	}
 
-	private applyPremiumDefaults(): void {
-		if (this.cameraResolution === 'medium') {
-			this.cameraResolution = 'high';
-		}
-
-		if (this.screenshareResolution === 'medium') {
-			this.screenshareResolution = 'high';
-		}
+	private hasHigherVideoQuality(): boolean {
+		const featureFlag = isLimitToggleEnabled(
+			{
+				feature_higher_video_quality: LimitResolver.resolve({
+					key: 'feature_higher_video_quality',
+					fallback: 0,
+				}),
+			},
+			'feature_higher_video_quality',
+		);
+		return featureFlag;
 	}
 
 	getInputDeviceId(): string {
@@ -219,12 +268,32 @@ class VoiceSettingsStore {
 		return this.showMyOwnCamera;
 	}
 
+	getShowMyOwnScreenShare(): boolean {
+		return this.showMyOwnScreenShare;
+	}
+
 	getShowNonVideoParticipants(): boolean {
 		return this.showNonVideoParticipants;
 	}
 
 	getShowParticipantsCarousel(): boolean {
 		return this.showParticipantsCarousel;
+	}
+
+	getShowVoiceConnectionAvatarStack(): boolean {
+		return this.showVoiceConnectionAvatarStack;
+	}
+
+	getShowVoiceConnectionId(): boolean {
+		return this.showVoiceConnectionId;
+	}
+
+	getDisablePictureInPicturePopout(): boolean {
+		return this.disablePictureInPicturePopout;
+	}
+
+	getPauseOwnScreenSharePreviewOnUnfocus(): boolean {
+		return this.pauseOwnScreenSharePreviewOnUnfocus;
 	}
 
 	updateSettings(data: VoiceSettingsUpdate): void {
@@ -245,10 +314,18 @@ class VoiceSettingsStore {
 		if (validated.backgroundImages !== undefined) this.backgroundImages = validated.backgroundImages;
 		if (validated.showGridView !== undefined) this.showGridView = validated.showGridView;
 		if (validated.showMyOwnCamera !== undefined) this.showMyOwnCamera = validated.showMyOwnCamera;
+		if (validated.showMyOwnScreenShare !== undefined) this.showMyOwnScreenShare = validated.showMyOwnScreenShare;
 		if (validated.showNonVideoParticipants !== undefined)
 			this.showNonVideoParticipants = validated.showNonVideoParticipants;
 		if (validated.showParticipantsCarousel !== undefined)
 			this.showParticipantsCarousel = validated.showParticipantsCarousel;
+		if (validated.showVoiceConnectionAvatarStack !== undefined)
+			this.showVoiceConnectionAvatarStack = validated.showVoiceConnectionAvatarStack;
+		if (validated.showVoiceConnectionId !== undefined) this.showVoiceConnectionId = validated.showVoiceConnectionId;
+		if (validated.pauseOwnScreenSharePreviewOnUnfocus !== undefined)
+			this.pauseOwnScreenSharePreviewOnUnfocus = validated.pauseOwnScreenSharePreviewOnUnfocus;
+		if (validated.disablePictureInPicturePopout !== undefined)
+			this.disablePictureInPicturePopout = validated.disablePictureInPicturePopout;
 	}
 
 	private validateSettings(data: VoiceSettingsUpdate): VoiceSettingsUpdate {
@@ -263,7 +340,9 @@ class VoiceSettingsStore {
 			cameraResolution = 'medium';
 		}
 
-		if (!this.hasPremium) {
+		const hasHigherQuality = this.hasHigherVideoQuality();
+
+		if (!hasHigherQuality) {
 			if (screenshareResolution === 'high' || screenshareResolution === 'ultra' || screenshareResolution === '4k') {
 				screenshareResolution = 'medium';
 			}
@@ -300,8 +379,14 @@ class VoiceSettingsStore {
 			backgroundImages,
 			showGridView: data.showGridView ?? this.showGridView,
 			showMyOwnCamera: data.showMyOwnCamera ?? this.showMyOwnCamera,
+			showMyOwnScreenShare: data.showMyOwnScreenShare ?? this.showMyOwnScreenShare,
 			showNonVideoParticipants: data.showNonVideoParticipants ?? this.showNonVideoParticipants,
 			showParticipantsCarousel: data.showParticipantsCarousel ?? this.showParticipantsCarousel,
+			showVoiceConnectionAvatarStack: data.showVoiceConnectionAvatarStack ?? this.showVoiceConnectionAvatarStack,
+			showVoiceConnectionId: data.showVoiceConnectionId ?? this.showVoiceConnectionId,
+			pauseOwnScreenSharePreviewOnUnfocus:
+				data.pauseOwnScreenSharePreviewOnUnfocus ?? this.pauseOwnScreenSharePreviewOnUnfocus,
+			disablePictureInPicturePopout: data.disablePictureInPicturePopout ?? this.disablePictureInPicturePopout,
 		};
 	}
 }

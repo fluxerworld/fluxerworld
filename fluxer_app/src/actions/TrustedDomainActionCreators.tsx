@@ -17,12 +17,31 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Logger} from '~/lib/Logger';
-import TrustedDomainStore from '~/stores/TrustedDomainStore';
+import {Logger} from '@app/lib/Logger';
+import TrustedDomainStore from '@app/stores/TrustedDomainStore';
 
 const logger = new Logger('TrustedDomain');
 
-export const addTrustedDomain = (domain: string): void => {
+export async function addTrustedDomain(domain: string): Promise<void> {
 	logger.debug(`Adding trusted domain: ${domain}`);
-	TrustedDomainStore.addTrustedDomain(domain);
-};
+	await TrustedDomainStore.addTrustedDomain(domain);
+}
+
+export async function removeTrustedDomain(domain: string): Promise<void> {
+	logger.debug(`Removing trusted domain: ${domain}`);
+	await TrustedDomainStore.removeTrustedDomain(domain);
+}
+
+export async function clearAllTrustedDomains(): Promise<void> {
+	logger.debug('Clearing all trusted domains');
+	await TrustedDomainStore.clearAllTrustedDomains();
+}
+
+export async function setTrustAllDomains(trustAll: boolean): Promise<void> {
+	logger.debug(`Setting trust all domains: ${trustAll}`);
+	await TrustedDomainStore.setTrustAllDomains(trustAll);
+}
+
+export function checkAndMigrateLegacyData(): void {
+	void TrustedDomainStore.checkAndMigrateLegacyData();
+}

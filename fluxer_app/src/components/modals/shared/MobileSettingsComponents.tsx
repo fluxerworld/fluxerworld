@@ -17,18 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
+import {LongPressable} from '@app/components/LongPressable';
+import headerStyles from '@app/components/modals/components/MobileSettingsView.module.css';
+import styles from '@app/components/modals/shared/MobileSettingsComponents.module.css';
+import type {SettingsSectionConfig} from '@app/components/modals/utils/SettingsSectionRegistry';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {usePressable} from '@app/hooks/usePressable';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import {Trans, useLingui} from '@lingui/react/macro';
 import type {Icon, IconWeight} from '@phosphor-icons/react';
 import {ArrowLeftIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
+import {AnimatePresence, motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {LongPressable} from '~/components/LongPressable';
-import type {SettingsSectionConfig} from '~/components/modals/utils/settingsConstants';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-import {usePressable} from '~/hooks/usePressable';
-import styles from './MobileSettingsComponents.module.css';
+import type React from 'react';
+import {type UIEvent, useEffect, useRef} from 'react';
 
 interface MobileHeaderProps {
 	title: string;
@@ -49,6 +54,85 @@ export const MobileHeader: React.FC<MobileHeaderProps> = observer(({title, onBac
 		</div>
 	);
 });
+
+interface MobileHeaderWithBannerProps {
+	title: string;
+	onBack?: () => void;
+	showBackButton?: boolean;
+	showUnsavedBanner?: boolean;
+	flashBanner?: boolean;
+	tabData?: {
+		onReset?: () => void;
+		onSave?: () => void;
+		isSubmitting?: boolean;
+	};
+}
+
+export const MobileHeaderWithBanner: React.FC<MobileHeaderWithBannerProps> = observer(
+	({title, onBack, showBackButton = true, showUnsavedBanner = false, flashBanner = false, tabData = {}}) => {
+		const {t} = useLingui();
+		const prefersReducedMotion = AccessibilityStore.useReducedMotion;
+		const headerBackground = showUnsavedBanner && flashBanner ? 'var(--status-danger)' : 'var(--background-primary)';
+
+		return (
+			<div
+				className={`safe-area-top ${headerStyles.header}`}
+				style={{
+					transitionDuration: prefersReducedMotion ? '0ms' : '200ms',
+					backgroundColor: headerBackground,
+				}}
+			>
+				<AnimatePresence mode="wait">
+					{showUnsavedBanner ? (
+						<motion.div
+							key="banner"
+							initial={prefersReducedMotion ? {opacity: 1} : {opacity: 0}}
+							animate={{opacity: 1}}
+							exit={prefersReducedMotion ? {opacity: 1} : {opacity: 0}}
+							transition={prefersReducedMotion ? {duration: 0} : {duration: 0.25, ease: 'easeOut'}}
+							className={headerStyles.headerContent}
+						>
+							<div className={headerStyles.bannerTextContainer}>
+								<div
+									className={`${headerStyles.bannerText} ${
+										flashBanner ? headerStyles.bannerTextWhite : headerStyles.bannerTextPrimary
+									}`}
+								>
+									<Trans>Careful! You have unsaved changes.</Trans>
+								</div>
+							</div>
+							<div className={headerStyles.bannerActions}>
+								<Button variant="secondary" small={true} onClick={tabData.onReset}>
+									<Trans>Reset</Trans>
+								</Button>
+								<Button small={true} onClick={tabData.onSave} submitting={tabData.isSubmitting}>
+									<Trans>Save</Trans>
+								</Button>
+							</div>
+						</motion.div>
+					) : (
+						<motion.div
+							key="title"
+							initial={prefersReducedMotion ? {opacity: 1} : {opacity: 0}}
+							animate={{opacity: 1}}
+							exit={prefersReducedMotion ? {opacity: 1} : {opacity: 0}}
+							transition={prefersReducedMotion ? {duration: 0} : {duration: 0.25, ease: 'easeOut'}}
+							className={headerStyles.headerContentRelative}
+						>
+							{showBackButton && onBack && (
+								<button type="button" onClick={onBack} className={headerStyles.backButton} aria-label={t`Go back`}>
+									<ArrowLeftIcon className={headerStyles.icon5} />
+								</button>
+							)}
+							<h1 className={headerStyles.headerTitle}>{title}</h1>
+							<div className={headerStyles.headerSpacer} />
+						</motion.div>
+					)}
+				</AnimatePresence>
+			</div>
+		);
+	},
+);
 
 interface SettingsTab {
 	type: string;
@@ -118,6 +202,8 @@ interface MobileSettingsListProps<T extends SettingsTab> {
 	hiddenCategories?: Array<string>;
 	additionalContent?: React.ReactNode;
 	dangerContent?: React.ReactNode;
+	scrollRef?: React.Ref<ScrollerHandle>;
+	onScroll?: (event: UIEvent<HTMLDivElement>) => void;
 }
 
 export const MobileSettingsList = observer(function MobileSettingsList<T extends SettingsTab>({
@@ -128,6 +214,8 @@ export const MobileSettingsList = observer(function MobileSettingsList<T extends
 	hiddenCategories = [],
 	additionalContent,
 	dangerContent,
+	scrollRef,
+	onScroll,
 }: MobileSettingsListProps<T>) {
 	const categories = Object.entries(groupedTabs);
 	const visibleCategoryIndexes = categories
@@ -138,7 +226,12 @@ export const MobileSettingsList = observer(function MobileSettingsList<T extends
 		: -1;
 
 	return (
-		<Scroller className={styles.settingsList} key="mobile-settings-list-shared-scroller">
+		<Scroller
+			className={styles.settingsList}
+			key="mobile-settings-list-shared-scroller"
+			ref={scrollRef}
+			onScroll={onScroll}
+		>
 			{categories.map(([category, tabs], categoryIndex) => {
 				const shouldHideCategory = hiddenCategories.includes(category);
 				const categoryLabel = categoryLabels[category];
@@ -185,21 +278,27 @@ interface MobileSectionNavProps {
 
 export const MobileSectionNav: React.FC<MobileSectionNavProps> = observer(
 	({sections, activeSectionId, onSectionClick}) => {
-		const scrollerRef = React.useRef<ScrollerHandle | null>(null);
+		const scrollerRef = useRef<ScrollerHandle | null>(null);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (!activeSectionId) return;
 			const node = scrollerRef.current?.getScrollerNode();
 			if (!node) return;
 			const activeButton = node.querySelector(`[data-section-id="${activeSectionId}"]`);
 			if (activeButton instanceof HTMLElement) {
-				activeButton.scrollIntoView({behavior: 'smooth', block: 'nearest', inline: 'center'});
+				activeButton.scrollIntoView({behavior: 'auto', block: 'nearest', inline: 'center'});
 			}
 		}, [activeSectionId]);
 
 		return (
 			<div className={styles.sectionNavContainer}>
-				<Scroller ref={scrollerRef} className={styles.sectionNavScroller} orientation="horizontal" fade={false}>
+				<Scroller
+					key="mobile-settings-section-nav-scroller"
+					ref={scrollerRef}
+					className={styles.sectionNavScroller}
+					orientation="horizontal"
+					fade={false}
+				>
 					<div className={styles.sectionNavContent}>
 						{sections.map((section) => (
 							<FocusRing key={section.id} offset={-2}>

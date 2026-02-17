@@ -1,0 +1,29 @@
+{
+	"ncmec_integration": {
+		"type": "object",
+		"description": "NCMEC CyberTipline integration.",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"default": false,
+				"description": "Enable NCMEC reporting."
+			},
+			"base_url": {
+				"type": "string",
+				"default": "",
+				"description": "Base URL for the CyberTipline Reporting API (e.g., https://report.cybertip.org/ispws)."
+			},
+			"username": {
+				"type": "string",
+				"default": "",
+				"description": "Username for CyberTipline basic authentication."
+			},
+			"password": {
+				"type": "string",
+				"default": "",
+				"description": "Password for CyberTipline basic authentication."
+			}
+		}
+	}
+}

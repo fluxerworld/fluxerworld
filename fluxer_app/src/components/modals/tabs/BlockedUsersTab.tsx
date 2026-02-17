@@ -17,33 +17,40 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as RelationshipActionCreators from '@app/actions/RelationshipActionCreators';
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
+import * as UserProfileActionCreators from '@app/actions/UserProfileActionCreators';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {StatusSlate} from '@app/components/modals/shared/StatusSlate';
+import styles from '@app/components/modals/tabs/BlockedUsersTab.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import UserStore from '@app/stores/UserStore';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CopyIcon, DotsThreeVerticalIcon, IdentificationCardIcon, ProhibitIcon, UserIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as RelationshipActionCreators from '~/actions/RelationshipActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import * as UserProfileActionCreators from '~/actions/UserProfileActionCreators';
-import {RelationshipTypes} from '~/Constants';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {StatusSlate} from '~/components/modals/shared/StatusSlate';
-import styles from '~/components/modals/tabs/BlockedUsersTab.module.css';
-import {Button} from '~/components/uikit/Button/Button';
-import {MenuGroup} from '~/components/uikit/ContextMenu/MenuGroup';
-import {MenuItem} from '~/components/uikit/ContextMenu/MenuItem';
-import {Scroller} from '~/components/uikit/Scroller';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import RelationshipStore from '~/stores/RelationshipStore';
-import UserStore from '~/stores/UserStore';
+import React, {useCallback, useMemo} from 'react';
 
 const BlockedUsersTab: React.FC = observer(() => {
 	const {t, i18n} = useLingui();
 	const relationships = RelationshipStore.getRelationships();
-	const blockedUsers = React.useMemo(() => {
-		return relationships.filter((rel) => rel.type === RelationshipTypes.BLOCKED);
+	const blockedUsers = useMemo(() => {
+		return [...relationships]
+			.filter((rel) => rel.type === RelationshipTypes.BLOCKED)
+			.sort((a, b) => {
+				const userA = UserStore.getUser(a.id);
+				const userB = UserStore.getUser(b.id);
+				if (!userA || !userB) return 0;
+				return NicknameUtils.getNickname(userA).localeCompare(NicknameUtils.getNickname(userB));
+			});
 	}, [relationships]);
 
 	const handleUnblockUser = (userId: string) => {
@@ -65,11 +72,11 @@ const BlockedUsersTab: React.FC = observer(() => {
 		);
 	};
 
-	const handleViewProfile = React.useCallback((userId: string) => {
+	const handleViewProfile = useCallback((userId: string) => {
 		UserProfileActionCreators.openUserProfile(userId);
 	}, []);
 
-	const handleMoreOptionsClick = React.useCallback(
+	const handleMoreOptionsClick = useCallback(
 		(userId: string, event: React.MouseEvent<HTMLButtonElement>) => {
 			const user = UserStore.getUser(userId);
 			if (!user) return;
@@ -135,7 +142,7 @@ const BlockedUsersTab: React.FC = observer(() => {
 				</p>
 			</div>
 			<div className={styles.scrollContainer}>
-				<Scroller className={styles.scrollerPadding} key="blocked-users-scroller">
+				<div className={styles.scrollerPadding}>
 					<div className={styles.userList}>
 						{blockedUsers.map((relationship) => {
 							const user = UserStore.getUser(relationship.id);
@@ -150,7 +157,7 @@ const BlockedUsersTab: React.FC = observer(() => {
 											type="button"
 											className={styles.avatarButton}
 											onClick={() => handleViewProfile(user.id)}
-											aria-label={`View ${user.username}'s profile`}
+											aria-label={t`View ${user.username}'s profile`}
 										>
 											<StatusAwareAvatar user={user} size={40} disablePresence={true} />
 										</button>
@@ -158,7 +165,7 @@ const BlockedUsersTab: React.FC = observer(() => {
 											type="button"
 											className={styles.usernameButton}
 											onClick={() => handleViewProfile(user.id)}
-											aria-label={`View ${user.username}'s profile`}
+											aria-label={t`View ${user.username}'s profile`}
 										>
 											<div className={styles.usernameContainer}>
 												<span className={styles.username}>{user.username}</span>
@@ -183,7 +190,7 @@ const BlockedUsersTab: React.FC = observer(() => {
 							);
 						})}
 					</div>
-				</Scroller>
+				</div>
 			</div>
 		</div>
 	);

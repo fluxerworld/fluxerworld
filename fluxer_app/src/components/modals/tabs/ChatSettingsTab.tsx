@@ -17,15 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {SettingsSection} from '@app/components/modals/shared/SettingsSection';
+import {SettingsTabContainer, SettingsTabContent} from '@app/components/modals/shared/SettingsTabLayout';
+import {DisplayTabContent} from '@app/components/modals/tabs/chat_settings_tab/DisplayTab';
+import {InputTabContent} from '@app/components/modals/tabs/chat_settings_tab/InputTab';
+import {InteractionTabContent} from '@app/components/modals/tabs/chat_settings_tab/InteractionTab';
+import {LinksTabContent} from '@app/components/modals/tabs/chat_settings_tab/LinksTab';
+import {MediaTabContent} from '@app/components/modals/tabs/chat_settings_tab/MediaTab';
+import {SidebarTabContent} from '@app/components/modals/tabs/chat_settings_tab/SidebarTab';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {SettingsSection} from '~/components/modals/shared/SettingsSection';
-import {SettingsTabContainer, SettingsTabContent} from '~/components/modals/shared/SettingsTabLayout';
-import {DisplayTabContent} from './ChatSettingsTab/DisplayTab';
-import {InputTabContent} from './ChatSettingsTab/InputTab';
-import {InteractionTabContent} from './ChatSettingsTab/InteractionTab';
-import {MediaTabContent} from './ChatSettingsTab/MediaTab';
 
 const ChatSettingsTab: React.FC = observer(() => {
 	const {t} = useLingui();
@@ -52,10 +54,24 @@ const ChatSettingsTab: React.FC = observer(() => {
 					id="interaction"
 					title={t`Interaction`}
 					description={t`Configure message interaction settings.`}
-					isAdvanced
-					defaultExpanded={false}
 				>
 					<InteractionTabContent />
+				</SettingsSection>
+
+				<SettingsSection
+					id="links"
+					title={t`External Links`}
+					description={t`Configure how external link warnings are handled.`}
+				>
+					<LinksTabContent />
+				</SettingsSection>
+
+				<SettingsSection
+					id="sidebar"
+					title={t`Sidebar`}
+					description={t`Configure how the community sidebar is displayed.`}
+				>
+					<SidebarTabContent />
 				</SettingsSection>
 			</SettingsTabContent>
 		</SettingsTabContainer>

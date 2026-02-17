@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/BlockedMessageGroups.module.css';
+import {Divider} from '@app/components/channel/Divider';
+import {MessageGroup} from '@app/components/channel/MessageGroup';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import {type ChannelStreamItem, ChannelStreamType} from '@app/utils/MessageGroupingUtils';
 import {useLingui} from '@lingui/react/macro';
-import React from 'react';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
-import {type ChannelStreamItem, ChannelStreamType} from '~/utils/MessageGroupingUtils';
-import styles from './BlockedMessageGroups.module.css';
-import {Divider} from './Divider';
-import {MessageGroup} from './MessageGroup';
+import React, {useCallback, useMemo, useRef} from 'react';
 
 interface BlockedMessageGroupsProps {
 	channel: ChannelRecord;
@@ -64,9 +64,9 @@ const arePropsEqual = (prevProps: BlockedMessageGroupsProps, nextProps: BlockedM
 export const BlockedMessageGroups = React.memo<BlockedMessageGroupsProps>((props) => {
 	const {t} = useLingui();
 	const {messageGroups, channel, compact, revealed, messageGroupSpacing, onReveal} = props;
-	const containerRef = React.useRef<HTMLDivElement>(null);
+	const containerRef = useRef<HTMLDivElement>(null);
 
-	const handleClick = React.useCallback(() => {
+	const handleClick = useCallback(() => {
 		const container = containerRef.current;
 		const scroller = container?.closest('[data-scroller]') as HTMLElement | null;
 
@@ -103,11 +103,11 @@ export const BlockedMessageGroups = React.memo<BlockedMessageGroupsProps>((props
 		}
 	}, [messageGroups, onReveal, revealed]);
 
-	const totalMessageCount = React.useMemo(() => {
+	const totalMessageCount = useMemo(() => {
 		return messageGroups.filter((item) => item.type === ChannelStreamType.MESSAGE).length;
 	}, [messageGroups]);
 
-	const messageNodes = React.useMemo(() => {
+	const messageNodes = useMemo(() => {
 		if (!revealed) return null;
 
 		const nodes: Array<React.ReactNode> = [];

@@ -90,34 +90,6 @@
 	transition: color 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.addRoleButtonPill {
-	display: flex;
-	height: 1.5rem;
-	align-items: center;
-	gap: 0.25rem;
-	border-radius: 4px;
-	border: 1px solid var(--background-header-secondary);
-	background-color: var(--background-primary);
-	padding: 0.25rem 0.5rem 0.25rem 0.25rem;
-	color: var(--text-tertiary);
-	cursor: pointer;
-}
-
-.addRoleButtonPill:hover,
-.addRoleButtonPill.addRoleButtonActive {
-	color: var(--text-primary);
-}
-
-.addRoleButtonActive {
-	color: var(--text-primary);
-}
-
-.addRoleLabel {
-	font-size: 0.75rem;
-	font-weight: 600;
-	white-space: nowrap;
-}
-
 .addRoleButtonIcon {
 	display: flex;
 	height: 1rem;
@@ -137,33 +109,13 @@
 	width: 1rem;
 }
 
-.addRoleButtonMobile {
-	display: flex;
-	align-items: center;
-	gap: 0.5rem;
-	padding: 0.625rem 1rem;
-	border-radius: 0.5rem;
-	background-color: var(--background-secondary-alt);
-	color: var(--text-primary);
-	font-weight: 500;
-	font-size: 0.875rem;
+.noRolesLink {
+	color: var(--text-link);
 	cursor: pointer;
-	width: 100%;
-	margin-top: 0.5rem;
 }
 
-.addRoleButtonMobile:active {
-	background-color: var(--background-tertiary);
-}
-
-.iconSizeMobile {
-	height: 1.25rem;
-	width: 1.25rem;
-	color: var(--text-secondary);
-}
-
-.addRoleLabelMobile {
-	color: var(--text-primary);
+.noRolesLink:hover {
+	text-decoration: underline;
 }
 
 .roleColorIndicator {

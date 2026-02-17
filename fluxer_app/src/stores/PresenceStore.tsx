@@ -17,28 +17,25 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {type CustomStatus, fromGatewayCustomStatus} from '@app/lib/CustomStatus';
+import {CustomStatusEmitter} from '@app/lib/CustomStatusEmitter';
+import {Logger} from '@app/lib/Logger';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import LocalPresenceStore from '@app/stores/LocalPresenceStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import type {GuildReadyData} from '@app/types/gateway/GatewayGuildTypes';
+import type {Presence} from '@app/types/gateway/GatewayPresenceTypes';
+import {ME} from '@fluxer/constants/src/AppConstants';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import type {StatusType} from '@fluxer/constants/src/StatusConstants';
+import {normalizeStatus, StatusTypes} from '@fluxer/constants/src/StatusConstants';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
+import type {UserPrivate} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 import {makeAutoObservable, reaction} from 'mobx';
-import type {StatusType} from '~/Constants';
-import {ChannelTypes, ME, normalizeStatus, RelationshipTypes, StatusTypes} from '~/Constants';
-import {type CustomStatus, fromGatewayCustomStatus, type GatewayCustomStatusPayload} from '~/lib/customStatus';
-import type {GuildReadyData} from '~/records/GuildRecord';
-import type {UserPartial, UserPrivate} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import LocalPresenceStore from '~/stores/LocalPresenceStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-
-export interface Presence {
-	readonly guild_id?: string | null;
-	readonly user: UserPartial;
-	readonly status?: string | null;
-	readonly afk?: boolean;
-	readonly mobile?: boolean;
-	readonly custom_status?: GatewayCustomStatusPayload | null;
-}
 
 interface FlattenedPresence {
 	status: StatusType;
@@ -52,6 +49,7 @@ interface FlattenedPresence {
 type StatusListener = (userId: string, status: StatusType, isMobile: boolean) => void;
 
 class PresenceStore {
+	private logger = new Logger('PresenceStore');
 	private presences = new Map<string, FlattenedPresence>();
 	private customStatuses = new Map<string, CustomStatus | null>();
 
@@ -325,6 +323,7 @@ class PresenceStore {
 			this.customStatuses.set(userId, customStatus);
 			this.updateStatusFromPresence(userId, flattened);
 			this.bumpPresenceVersion();
+			queueMicrotask(() => CustomStatusEmitter.emitPresenceChange(userId));
 			return;
 		}
 
@@ -351,6 +350,7 @@ class PresenceStore {
 
 		this.updateStatusFromPresence(userId, existing);
 		this.bumpPresenceVersion();
+		queueMicrotask(() => CustomStatusEmitter.emitPresenceChange(userId));
 	}
 
 	private handleReadyPresence(presence: Presence, initialGuildIds?: Set<string>, hasMeContext = false): void {
@@ -383,6 +383,7 @@ class PresenceStore {
 		this.customStatuses.set(userId, customStatus);
 		this.updateStatusFromPresence(userId, flattened);
 		this.bumpPresenceVersion();
+		queueMicrotask(() => CustomStatusEmitter.emitPresenceChange(userId));
 	}
 
 	private indexGuildMembers(
@@ -436,6 +437,8 @@ class PresenceStore {
 		if (changed) {
 			this.bumpPresenceVersion();
 		}
+
+		queueMicrotask(() => CustomStatusEmitter.emitPresenceChange(userId));
 	}
 
 	private buildMeContextUserIds(currentUserId: string): Set<string> {
@@ -478,7 +481,7 @@ class PresenceStore {
 			try {
 				listener(userId, status, isMobile);
 			} catch (error) {
-				console.error(`Error in status listener for user ${userId}:`, error);
+				this.logger.error(`Error in status listener for user ${userId}:`, error);
 			}
 		}
 	}

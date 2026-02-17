@@ -18,11 +18,47 @@
 -module(session_voice).
 
 -export([
+    init_voice_queue/0,
+    process_voice_queue/1,
     handle_voice_state_update/2,
-    handle_voice_disconnect/1,
-    handle_voice_token_request/8
+    handle_voice_disconnect/1
 ]).
 
+-type session_state() :: session:session_state().
+-type guild_id() :: session:guild_id().
+-type channel_id() :: session:channel_id().
+-type user_id() :: session:user_id().
+
+-type voice_state_reply() ::
+    {reply, ok, session_state()}
+    | {reply, {error, term(), term()}, session_state()}.
+
+-spec init_voice_queue() -> #{voice_queue := queue:queue(), voice_queue_timer := undefined}.
+init_voice_queue() ->
+    #{voice_queue => queue:new(), voice_queue_timer => undefined}.
+
+-spec process_voice_queue(session_state()) -> session_state().
+process_voice_queue(State) ->
+    VoiceQueue = maps:get(voice_queue, State, queue:new()),
+    case queue:out(VoiceQueue) of
+        {empty, _} ->
+            State;
+        {{value, Item}, NewQueue} ->
+            process_voice_queue_item(Item, maps:put(voice_queue, NewQueue, State))
+    end.
+
+-spec process_voice_queue_item(map(), session_state()) -> session_state().
+process_voice_queue_item(Item, State) ->
+    case maps:get(type, Item, undefined) of
+        voice_state_update ->
+            Data = maps:get(data, Item),
+            {reply, _, NewState} = handle_voice_state_update(Data, State),
+            NewState;
+        _ ->
+            State
+    end.
+
+-spec handle_voice_state_update(map(), session_state()) -> voice_state_reply().
 handle_voice_state_update(Data, State) ->
     GuildIdRaw = maps:get(<<"guild_id">>, Data, null),
     ChannelIdRaw = maps:get(<<"channel_id">>, Data, null),
@@ -31,18 +67,15 @@ handle_voice_state_update(Data, State) ->
     SelfDeaf = maps:get(<<"self_deaf">>, Data, false),
     SelfVideo = maps:get(<<"self_video">>, Data, false),
     SelfStream = maps:get(<<"self_stream">>, Data, false),
-    ViewerStreamKey = maps:get(<<"viewer_stream_key">>, Data, undefined),
+    ViewerStreamKeys = maps:get(<<"viewer_stream_keys">>, Data, undefined),
     IsMobile = maps:get(<<"is_mobile">>, Data, false),
     Latitude = maps:get(<<"latitude">>, Data, null),
     Longitude = maps:get(<<"longitude">>, Data, null),
-
     SessionId = maps:get(id, State),
     UserId = maps:get(user_id, State),
     Guilds = maps:get(guilds, State),
-
     GuildIdResult = validation:validate_optional_snowflake(GuildIdRaw),
     ChannelIdResult = validation:validate_optional_snowflake(ChannelIdRaw),
-
     case {GuildIdResult, ChannelIdResult} of
         {{ok, GuildId}, {ok, ChannelId}} ->
             handle_validated_voice_state_update(
@@ -53,7 +86,7 @@ handle_voice_state_update(Data, State) ->
                 SelfDeaf,
                 SelfVideo,
                 SelfStream,
-                ViewerStreamKey,
+                ViewerStreamKeys,
                 IsMobile,
                 Latitude,
                 Longitude,
@@ -68,6 +101,23 @@ handle_voice_state_update(Data, State) ->
             {reply, Error, State}
     end.
 
+-spec handle_validated_voice_state_update(
+    guild_id() | null,
+    channel_id() | null,
+    binary() | null,
+    boolean(),
+    boolean(),
+    boolean(),
+    boolean(),
+    list() | undefined,
+    boolean(),
+    number() | null,
+    number() | null,
+    binary(),
+    user_id(),
+    map(),
+    session_state()
+) -> voice_state_reply().
 handle_validated_voice_state_update(
     null,
     null,
@@ -76,7 +126,7 @@ handle_validated_voice_state_update(
     _SelfDeaf,
     _SelfVideo,
     _SelfStream,
-    _ViewerStreamKey,
+    _ViewerStreamKeys,
     _IsMobile,
     _Latitude,
     _Longitude,
@@ -94,7 +144,7 @@ handle_validated_voice_state_update(
     _SelfDeaf,
     _SelfVideo,
     _SelfStream,
-    _ViewerStreamKey,
+    _ViewerStreamKeys,
     _IsMobile,
     _Latitude,
     _Longitude,
@@ -112,12 +162,11 @@ handle_validated_voice_state_update(
         self_deaf => false,
         self_video => false,
         self_stream => false,
-        viewer_stream_key => null,
+        viewer_stream_keys => [],
         is_mobile => false,
         latitude => null,
         longitude => null
     },
-
     StateWithSessionPid = maps:put(session_pid, self(), State),
     case dm_voice:voice_state_update(Request, StateWithSessionPid) of
         {reply, #{success := true}, NewState} ->
@@ -134,7 +183,7 @@ handle_validated_voice_state_update(
     SelfDeaf,
     SelfVideo,
     SelfStream,
-    ViewerStreamKey,
+    ViewerStreamKeys,
     IsMobile,
     Latitude,
     Longitude,
@@ -152,12 +201,11 @@ handle_validated_voice_state_update(
         self_deaf => SelfDeaf,
         self_video => SelfVideo,
         self_stream => SelfStream,
-        viewer_stream_key => ViewerStreamKey,
+        viewer_stream_keys => ViewerStreamKeys,
         is_mobile => IsMobile,
         latitude => Latitude,
         longitude => Longitude
     },
-
     StateWithSessionPid = maps:put(session_pid, self(), State),
     case dm_voice:voice_state_update(Request, StateWithSessionPid) of
         {reply, #{success := true, needs_token := true}, NewState} ->
@@ -183,7 +231,7 @@ handle_validated_voice_state_update(
     SelfDeaf,
     SelfVideo,
     SelfStream,
-    ViewerStreamKey,
+    ViewerStreamKeys,
     IsMobile,
     Latitude,
     Longitude,
@@ -194,7 +242,6 @@ handle_validated_voice_state_update(
 ) when is_integer(GuildId) ->
     case maps:get(GuildId, Guilds, undefined) of
         undefined ->
-            logger:warning("[session_voice] Guild not found in session: ~p", [GuildId]),
             {reply, gateway_errors:error(voice_guild_not_found), State};
         {GuildPid, _Ref} when is_pid(GuildPid) ->
             Request = #{
@@ -206,64 +253,35 @@ handle_validated_voice_state_update(
                 self_deaf => SelfDeaf,
                 self_video => SelfVideo,
                 self_stream => SelfStream,
-                viewer_stream_key => ViewerStreamKey,
+                viewer_stream_keys => ViewerStreamKeys,
                 is_mobile => IsMobile,
                 latitude => Latitude,
                 longitude => Longitude
             },
-            logger:debug(
-                "[session_voice] Calling guild process for voice state update: GuildId=~p, ChannelId=~p, ConnectionId=~p",
-                [GuildId, ChannelId, ConnectionId]
-            ),
-            case guild_client:voice_state_update(GuildPid, Request, 12000) of
-                {ok, #{needs_token := true}} ->
-                    logger:debug("[session_voice] Voice state update succeeded, needs token"),
-                    SessionPid = self(),
-                    spawn(fun() ->
-                        handle_voice_token_request(
-                            GuildId,
-                            ChannelId,
-                            UserId,
-                            ConnectionId,
-                            SessionId,
-                            SessionPid,
-                            Latitude,
-                            Longitude
-                        )
-                    end),
-                    {reply, ok, State};
-                {ok, _} ->
-                    logger:debug("[session_voice] Voice state update succeeded"),
-                    {reply, ok, State};
-                {error, timeout} ->
-                    logger:error(
-                        "[session_voice] Voice state update timed out (>12s) for GuildId=~p, ChannelId=~p",
-                        [GuildId, ChannelId]
-                    ),
-                    {reply, gateway_errors:error(timeout), State};
-                {error, noproc} ->
-                    logger:error(
-                        "[session_voice] Guild process not running for GuildId=~p",
-                        [GuildId]
-                    ),
-                    {reply, gateway_errors:error(internal_error), State};
-                {error, Category, ErrorAtom} ->
-                    logger:warning("[session_voice] Voice state update failed: ~p", [ErrorAtom]),
-                    {reply, {error, Category, ErrorAtom}, State}
-            end;
+            queue_guild_voice_state_update(
+                GuildPid,
+                GuildId,
+                ChannelId,
+                UserId,
+                ConnectionId,
+                SessionId,
+                Request,
+                Latitude,
+                Longitude,
+                State
+            );
         _ ->
-            logger:warning("[session_voice] Invalid guild pid in session"),
             {reply, gateway_errors:error(internal_error), State}
     end;
 handle_validated_voice_state_update(
-    GuildId,
-    ChannelId,
-    ConnectionId,
+    _GuildId,
+    _ChannelId,
+    _ConnectionId,
     _SelfMute,
     _SelfDeaf,
     _SelfVideo,
     _SelfStream,
-    _ViewerStreamKey,
+    _ViewerStreamKeys,
     _IsMobile,
     _Latitude,
     _Longitude,
@@ -272,62 +290,170 @@ handle_validated_voice_state_update(
     _Guilds,
     State
 ) ->
-    logger:warning(
-        "[session_voice] Invalid voice state update parameters: GuildId=~p, ChannelId=~p, ConnectionId=~p",
-        [GuildId, ChannelId, ConnectionId]
-    ),
     {reply, gateway_errors:error(validation_invalid_params), State}.
 
-handle_voice_disconnect(State) ->
-    Guilds = maps:get(guilds, State),
-    UserId = maps:get(user_id, State),
-    SessionId = maps:get(id, State),
-    ConnectionId = maps:get(connection_id, State),
-
-    lists:foreach(
-        fun
-            ({_GuildId, {GuildPid, _Ref}}) when is_pid(GuildPid) ->
-                Request = #{
-                    user_id => UserId,
-                    channel_id => null,
-                    session_id => SessionId,
-                    connection_id => ConnectionId,
-                    self_mute => false,
-                    self_deaf => false,
-                    self_video => false,
-                    self_stream => false,
-                    viewer_stream_key => null
-                },
-                _ = guild_client:voice_state_update(GuildPid, Request, 10000);
-            (_) ->
-                ok
-        end,
-        maps:to_list(Guilds)
-    ),
-
-    {reply, #{success := true}, NewState} = dm_voice:disconnect_voice_user(UserId, State),
-    {reply, ok, NewState}.
-
-handle_voice_token_request(
-    GuildId, ChannelId, UserId, ConnectionId, _SessionId, SessionPid, Latitude, Longitude
+-spec queue_guild_voice_state_update(
+    pid(),
+    guild_id(),
+    channel_id() | null,
+    user_id(),
+    binary() | null,
+    binary(),
+    map(),
+    number() | null,
+    number() | null,
+    session_state()
 ) ->
-    Req = voice_utils:build_voice_token_rpc_request(
-        GuildId, ChannelId, UserId, ConnectionId, Latitude, Longitude
-    ),
+    voice_state_reply().
+queue_guild_voice_state_update(
+    GuildPid,
+    GuildId,
+    ChannelId,
+    UserId,
+    ConnectionId,
+    SessionId,
+    Request,
+    Latitude,
+    Longitude,
+    State
+) ->
+    SessionPid = self(),
+    spawn(fun() ->
+        handle_guild_voice_state_update(
+            GuildPid,
+            GuildId,
+            ChannelId,
+            UserId,
+            ConnectionId,
+            SessionId,
+            Request,
+            Latitude,
+            Longitude,
+            SessionPid
+        )
+    end),
+    {reply, ok, State}.
 
-    case rpc_client:call(Req) of
-        {ok, Data} ->
-            Token = maps:get(<<"token">>, Data),
-            Endpoint = maps:get(<<"endpoint">>, Data),
+-spec handle_guild_voice_state_update(
+    pid(),
+    guild_id(),
+    channel_id() | null,
+    user_id(),
+    binary() | null,
+    binary(),
+    map(),
+    number() | null,
+    number() | null,
+    pid()
+) ->
+    ok.
+handle_guild_voice_state_update(
+    GuildPid,
+    GuildId,
+    ChannelId,
+    _UserId,
+    _ConnectionId,
+    _SessionId,
+    Request,
+    _Latitude,
+    _Longitude,
+    SessionPid
+) ->
+    case guild_client:voice_state_update(GuildPid, Request, 12000) of
+        {ok, Reply} when is_map(Reply) ->
+            maybe_dispatch_voice_server_update_from_reply(Reply, GuildId, ChannelId, SessionPid),
+            ok;
+        {error, timeout} ->
+            ok;
+        {error, noproc} ->
+            ok;
+        {error, _Category, _ErrorAtom} ->
+            ok
+    end.
 
+-spec maybe_dispatch_voice_server_update_from_reply(map(), guild_id(), channel_id() | null, pid()) ->
+    ok.
+maybe_dispatch_voice_server_update_from_reply(Reply, GuildId, ChannelId, SessionPid) ->
+    case
+        {
+            maps:get(token, Reply, undefined),
+            maps:get(endpoint, Reply, undefined),
+            maps:get(connection_id, Reply, undefined),
+            ChannelId
+        }
+    of
+        {Token, Endpoint, ConnectionId, ChannelIdValue} when
+            is_binary(Token),
+            is_binary(Endpoint),
+            is_binary(ConnectionId),
+            is_integer(ChannelIdValue),
+            is_pid(SessionPid)
+        ->
             VoiceServerUpdate = #{
                 <<"token">> => Token,
                 <<"endpoint">> => Endpoint,
                 <<"guild_id">> => integer_to_binary(GuildId),
+                <<"channel_id">> => integer_to_binary(ChannelIdValue),
                 <<"connection_id">> => ConnectionId
             },
-
-            gen_server:cast(SessionPid, {dispatch, voice_server_update, VoiceServerUpdate});
-        {error, _Reason} ->
+            gen_server:cast(SessionPid, {dispatch, voice_server_update, VoiceServerUpdate}),
+            ok;
+        _ ->
             ok
     end.
+
+-spec handle_voice_disconnect(session_state()) -> voice_state_reply().
+handle_voice_disconnect(State) ->
+    Guilds = maps:get(guilds, State),
+    UserId = maps:get(user_id, State),
+    SessionId = maps:get(id, State),
+    ConnectionId = maps:get(connection_id, State, null),
+    Request = #{
+        user_id => UserId,
+        channel_id => null,
+        session_id => SessionId,
+        connection_id => ConnectionId,
+        self_mute => false,
+        self_deaf => false,
+        self_video => false,
+        self_stream => false,
+        viewer_stream_keys => []
+    },
+    dispatch_guild_voice_disconnects(Guilds, Request),
+    {reply, #{success := true}, NewState} = dm_voice:disconnect_voice_user(UserId, State),
+    {reply, ok, NewState}.
+
+-spec dispatch_guild_voice_disconnects(map(), map()) -> ok.
+dispatch_guild_voice_disconnects(Guilds, Request) ->
+    lists:foreach(
+        fun
+            ({_GuildId, {GuildPid, _Ref}}) when is_pid(GuildPid) ->
+                spawn(fun() ->
+                    _ = guild_client:voice_state_update(GuildPid, Request, 10000),
+                    ok
+                end),
+                ok;
+            (_) ->
+                ok
+        end,
+        maps:to_list(Guilds)
+    ).
+
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+init_voice_queue_test() ->
+    Result = init_voice_queue(),
+    ?assert(maps:is_key(voice_queue, Result)),
+    ?assert(maps:is_key(voice_queue_timer, Result)),
+    ?assertEqual(undefined, maps:get(voice_queue_timer, Result)),
+    ?assert(queue:is_empty(maps:get(voice_queue, Result))),
+    ok.
+
+process_voice_queue_empty_test() ->
+    State = #{voice_queue => queue:new()},
+    Result = process_voice_queue(State),
+    ?assertEqual(State, Result),
+    ok.
+
+-endif.

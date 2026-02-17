@@ -1,0 +1,24 @@
+[
+    {fluxer_relay, []},
+    {kernel, [
+        {logger_level, info},
+        {logger, [
+            {handler, default, logger_std_h, #{
+                level => info,
+                config => #{
+                    type => standard_io
+                }
+            }}
+        ]},
+        {inet_backend, socket}
+    ]},
+    {sasl, [
+        {errlog_type, error}
+    ]},
+    {lager, [
+        {handlers, [
+            {lager_console_backend, [{level, info}]}
+        ]},
+        {crash_log, false}
+    ]}
+].

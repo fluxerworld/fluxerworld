@@ -17,23 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import * as GiftActionCreators from '@app/actions/GiftActionCreators';
+import {AuthBottomLink} from '@app/components/auth/AuthBottomLink';
+import {AuthErrorState} from '@app/components/auth/AuthErrorState';
+import {AuthLoadingState} from '@app/components/auth/AuthLoadingState';
+import {AuthMinimalRegisterFormCore} from '@app/components/auth/AuthMinimalRegisterFormCore';
+import sharedStyles from '@app/components/auth/AuthPageStyles.module.css';
+import {DesktopDeepLinkPrompt} from '@app/components/auth/DesktopDeepLinkPrompt';
+import {GiftHeader} from '@app/components/auth/GiftHeader';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import {useParams} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import GiftStore from '@app/stores/GiftStore';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {GiftIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import {useCallback, useEffect} from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import * as GiftActionCreators from '~/actions/GiftActionCreators';
-import {AuthBottomLink} from '~/components/auth/AuthBottomLink';
-import {AuthErrorState} from '~/components/auth/AuthErrorState';
-import {AuthLoadingState} from '~/components/auth/AuthLoadingState';
-import {AuthMinimalRegisterFormCore} from '~/components/auth/AuthMinimalRegisterFormCore';
-import sharedStyles from '~/components/auth/AuthPageStyles.module.css';
-import {DesktopDeepLinkPrompt} from '~/components/auth/DesktopDeepLinkPrompt';
-import {GiftHeader} from '~/components/auth/GiftHeader';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import {useParams} from '~/lib/router';
-import {Routes} from '~/Routes';
-import GiftStore from '~/stores/GiftStore';
 
 const GiftRegisterPage = observer(function GiftRegisterPage() {
 	const {t} = useLingui();

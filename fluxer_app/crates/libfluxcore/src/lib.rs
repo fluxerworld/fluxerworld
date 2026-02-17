@@ -17,8 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-pub mod gif;
+pub mod animation;
+pub mod apng;
 pub mod gateway;
+pub mod gif;
+pub mod static_image;
 
-pub use gif::crop_and_rotate_gif;
+pub use animation::is_animated_image;
+pub use apng::crop_and_rotate_apng;
 pub use gateway::decompress_zstd_frame;
+pub use gif::crop_and_rotate_gif;
+pub use static_image::crop_and_rotate_image;

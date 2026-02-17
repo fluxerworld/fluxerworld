@@ -19,19 +19,19 @@
 
 import {sources} from '@rspack/core';
 
-function normalizeEndpoint(cdnEndpoint) {
-	if (!cdnEndpoint) return '';
-	return cdnEndpoint.endsWith('/') ? cdnEndpoint.slice(0, -1) : cdnEndpoint;
+function normalizeEndpoint(staticCdnEndpoint) {
+	if (!staticCdnEndpoint) return '';
+	return staticCdnEndpoint.endsWith('/') ? staticCdnEndpoint.slice(0, -1) : staticCdnEndpoint;
 }
 
-function generateManifest(cdnEndpointRaw) {
-	const cdnEndpoint = normalizeEndpoint(cdnEndpointRaw);
+function generateManifest(staticCdnEndpointRaw) {
+	const staticCdnEndpoint = normalizeEndpoint(staticCdnEndpointRaw);
 
 	const manifest = {
 		name: 'Fluxer',
 		short_name: 'Fluxer',
 		description:
-			'Fluxer is an open-source, independent instant messaging and VoIP platform. Built for friends, groups, and communities.',
+			'Fluxer is a free and open source instant messaging and VoIP platform built for friends, groups, and communities.',
 		start_url: '/',
 		display: 'standalone',
 		orientation: 'portrait-primary',
@@ -42,29 +42,29 @@ function generateManifest(cdnEndpointRaw) {
 		scope: '/',
 		icons: [
 			{
-				src: `${cdnEndpoint}/web/android-chrome-192x192.png`,
+				src: `${staticCdnEndpoint}/web/android-chrome-192x192.png`,
 				sizes: '192x192',
 				type: 'image/png',
 				purpose: 'maskable any',
 			},
 			{
-				src: `${cdnEndpoint}/web/android-chrome-512x512.png`,
+				src: `${staticCdnEndpoint}/web/android-chrome-512x512.png`,
 				sizes: '512x512',
 				type: 'image/png',
 				purpose: 'maskable any',
 			},
 			{
-				src: `${cdnEndpoint}/web/apple-touch-icon.png`,
+				src: `${staticCdnEndpoint}/web/apple-touch-icon.png`,
 				sizes: '180x180',
 				type: 'image/png',
 			},
 			{
-				src: `${cdnEndpoint}/web/favicon-32x32.png`,
+				src: `${staticCdnEndpoint}/web/favicon-32x32.png`,
 				sizes: '32x32',
 				type: 'image/png',
 			},
 			{
-				src: `${cdnEndpoint}/web/favicon-16x16.png`,
+				src: `${staticCdnEndpoint}/web/favicon-16x16.png`,
 				sizes: '16x16',
 				type: 'image/png',
 			},
@@ -74,14 +74,14 @@ function generateManifest(cdnEndpointRaw) {
 	return JSON.stringify(manifest, null, 2);
 }
 
-function generateBrowserConfig(cdnEndpointRaw) {
-	const cdnEndpoint = normalizeEndpoint(cdnEndpointRaw);
+function generateBrowserConfig(staticCdnEndpointRaw) {
+	const staticCdnEndpoint = normalizeEndpoint(staticCdnEndpointRaw);
 
 	return `<?xml version="1.0" encoding="utf-8"?>
 <browserconfig>
   <msapplication>
     <tile>
-      <square150x150logo src="${cdnEndpoint}/web/mstile-150x150.png"/>
+      <square150x150logo src="${staticCdnEndpoint}/web/mstile-150x150.png"/>
       <TileColor>#4641D9</TileColor>
     </tile>
   </msapplication>
@@ -94,7 +94,7 @@ function generateRobotsTxt() {
 
 export class StaticFilesPlugin {
 	constructor(options) {
-		this.cdnEndpoint = options?.cdnEndpoint ?? '';
+		this.staticCdnEndpoint = options?.staticCdnEndpoint ?? '';
 	}
 
 	apply(compiler) {
@@ -105,8 +105,11 @@ export class StaticFilesPlugin {
 					stage: compilation.PROCESS_ASSETS_STAGE_ADDITIONAL,
 				},
 				() => {
-					compilation.emitAsset('manifest.json', new sources.RawSource(generateManifest(this.cdnEndpoint)));
-					compilation.emitAsset('browserconfig.xml', new sources.RawSource(generateBrowserConfig(this.cdnEndpoint)));
+					compilation.emitAsset('manifest.json', new sources.RawSource(generateManifest(this.staticCdnEndpoint)));
+					compilation.emitAsset(
+						'browserconfig.xml',
+						new sources.RawSource(generateBrowserConfig(this.staticCdnEndpoint)),
+					);
 					compilation.emitAsset('robots.txt', new sources.RawSource(generateRobotsTxt()));
 				},
 			);

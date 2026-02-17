@@ -17,20 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/auth/AuthPageStyles.module.css';
+import {GuildBadge} from '@app/components/guild/GuildBadge';
+import {GuildIcon} from '@app/components/popouts/GuildIcon';
+import {Avatar} from '@app/components/uikit/Avatar';
+import {BaseAvatar} from '@app/components/uikit/BaseAvatar';
+import {UserRecord} from '@app/records/UserRecord';
+import {isGroupDmInvite, isGuildInvite, isPackInvite} from '@app/types/InviteTypes';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {getCurrentLocale} from '@app/utils/LocaleUtils';
+import {formatNumber} from '@fluxer/number_utils/src/NumberFormatting';
+import type {GroupDmInvite, GuildInvite, Invite, PackInvite} from '@fluxer/schema/src/domains/invite/InviteSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
-import {SealCheckIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {GuildFeatures} from '~/Constants';
-import {GuildIcon} from '~/components/popouts/GuildIcon';
-import {Avatar} from '~/components/uikit/Avatar';
-import {BaseAvatar} from '~/components/uikit/BaseAvatar';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {UserRecord} from '~/records/UserRecord';
-import type {GroupDmInvite, GuildInvite, Invite, PackInvite} from '~/types/InviteTypes';
-import {isGroupDmInvite, isGuildInvite, isPackInvite} from '~/types/InviteTypes';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import styles from './AuthPageStyles.module.css';
+import {useEffect, useMemo, useState} from 'react';
 
 interface InviteHeaderProps {
 	invite: Invite;
@@ -52,19 +52,25 @@ interface PreviewGuildInviteHeaderProps {
 	guildId: string;
 	guildName: string;
 	guildIcon: string | null;
-	isVerified: boolean;
+	features: ReadonlyArray<string>;
 	presenceCount: number;
 	memberCount: number;
 	previewIconUrl?: string | null;
 	previewName?: string | null;
 }
 
+function formatInviteCount(value: number): string {
+	return formatNumber(value, getCurrentLocale());
+}
+
 export const GuildInviteHeader = observer(function GuildInviteHeader({invite}: GuildInviteHeaderProps) {
 	const {t} = useLingui();
 	const guild = invite.guild;
 	const features = Array.isArray(guild.features) ? guild.features : [...guild.features];
-	const isVerified = features.includes(GuildFeatures.VERIFIED);
+	const presenceCount = invite.presence_count ?? 0;
 	const memberCount = invite.member_count ?? 0;
+	const formattedPresenceCount = formatInviteCount(presenceCount);
+	const formattedMemberCount = formatInviteCount(memberCount);
 
 	return (
 		<div className={styles.entityHeader}>
@@ -77,23 +83,19 @@ export const GuildInviteHeader = observer(function GuildInviteHeader({invite}: G
 				</p>
 				<div className={styles.entityTitleWrapper}>
 					<h2 className={styles.entityTitle}>{guild.name}</h2>
-					{isVerified ? (
-						<Tooltip text={t`Verified Community`} position="top">
-							<SealCheckIcon className={styles.verifiedIcon} />
-						</Tooltip>
-					) : null}
+					<GuildBadge features={features} />
 				</div>
 				<div className={styles.entityStats}>
 					<div className={styles.entityStat}>
 						<div className={styles.onlineDot} />
 						<span className={styles.statText}>
-							<Trans>{invite.presence_count} Online</Trans>
+							<Trans>{formattedPresenceCount} Online</Trans>
 						</span>
 					</div>
 					<div className={styles.entityStat}>
 						<div className={styles.offlineDot} />
 						<span className={styles.statText}>
-							{memberCount === 1 ? t`${memberCount} Member` : t`${memberCount} Members`}
+							{memberCount === 1 ? t`${formattedMemberCount} Member` : t`${formattedMemberCount} Members`}
 						</span>
 					</div>
 				</div>
@@ -107,6 +109,7 @@ export const GroupDMInviteHeader = observer(function GroupDMInviteHeader({invite
 	const inviter = invite.inviter;
 	const avatarUrl = inviter ? AvatarUtils.getUserAvatarURL(inviter, false) : null;
 	const memberCount = invite.member_count ?? 0;
+	const formattedMemberCount = formatInviteCount(memberCount);
 
 	return (
 		<div className={styles.entityHeader}>
@@ -124,7 +127,7 @@ export const GroupDMInviteHeader = observer(function GroupDMInviteHeader({invite
 					<div className={styles.entityStat}>
 						<div className={styles.offlineDot} />
 						<span className={styles.statText}>
-							{memberCount === 1 ? t`${memberCount} Member` : t`${memberCount} Members`}
+							{memberCount === 1 ? t`${formattedMemberCount} Member` : t`${formattedMemberCount} Members`}
 						</span>
 					</div>
 				</div>
@@ -136,7 +139,7 @@ export const GroupDMInviteHeader = observer(function GroupDMInviteHeader({invite
 export const PackInviteHeader = observer(function PackInviteHeader({invite}: PackInviteHeaderProps) {
 	const {t} = useLingui();
 	const pack = invite.pack;
-	const creatorRecord = React.useMemo(() => new UserRecord(pack.creator), [pack.creator]);
+	const creatorRecord = useMemo(() => new UserRecord(pack.creator), [pack.creator]);
 	const packKindLabel = pack.type === 'emoji' ? t`Emoji pack` : t`Sticker pack`;
 	const inviterTag = invite.inviter ? `${invite.inviter.username}#${invite.inviter.discriminator}` : null;
 
@@ -183,7 +186,7 @@ export const PreviewGuildInviteHeader = observer(function PreviewGuildInviteHead
 	guildId,
 	guildName,
 	guildIcon,
-	isVerified,
+	features,
 	presenceCount,
 	memberCount,
 	previewIconUrl,
@@ -191,9 +194,11 @@ export const PreviewGuildInviteHeader = observer(function PreviewGuildInviteHead
 }: PreviewGuildInviteHeaderProps) {
 	const {t} = useLingui();
 	const displayName = previewName ?? guildName;
-	const [hasPreviewIconError, setPreviewIconError] = React.useState(false);
+	const formattedPresenceCount = formatInviteCount(presenceCount);
+	const formattedMemberCount = formatInviteCount(memberCount);
+	const [hasPreviewIconError, setPreviewIconError] = useState(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setPreviewIconError(false);
 	}, [previewIconUrl]);
 
@@ -222,23 +227,19 @@ export const PreviewGuildInviteHeader = observer(function PreviewGuildInviteHead
 				</p>
 				<div className={styles.entityTitleWrapper}>
 					<h2 className={styles.entityTitle}>{displayName}</h2>
-					{isVerified ? (
-						<Tooltip text={t`Verified Community`} position="top">
-							<SealCheckIcon className={styles.verifiedIcon} />
-						</Tooltip>
-					) : null}
+					<GuildBadge features={features} />
 				</div>
 				<div className={styles.entityStats}>
 					<div className={styles.entityStat}>
 						<div className={styles.onlineDot} />
 						<span className={styles.statText}>
-							<Trans>{presenceCount} Online</Trans>
+							<Trans>{formattedPresenceCount} Online</Trans>
 						</span>
 					</div>
 					<div className={styles.entityStat}>
 						<div className={styles.offlineDot} />
 						<span className={styles.statText}>
-							{memberCount === 1 ? t`${memberCount} Member` : t`${memberCount} Members`}
+							{memberCount === 1 ? t`${formattedMemberCount} Member` : t`${formattedMemberCount} Members`}
 						</span>
 					</div>
 				</div>

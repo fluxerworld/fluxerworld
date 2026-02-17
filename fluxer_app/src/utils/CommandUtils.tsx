@@ -17,19 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as GuildActionCreators from '~/actions/GuildActionCreators';
-import * as GuildMemberActionCreators from '~/actions/GuildMemberActionCreators';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import * as PrivateChannelActionCreators from '~/actions/PrivateChannelActionCreators';
-import {FLUXERBOT_ID, MessageStates, MessageTypes} from '~/Constants';
-import {MessageRecord} from '~/records/MessageRecord';
-import {UserRecord} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import UserStore from '~/stores/UserStore';
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
+import * as GuildActionCreators from '@app/actions/GuildActionCreators';
+import * as GuildMemberActionCreators from '@app/actions/GuildMemberActionCreators';
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import * as PrivateChannelActionCreators from '@app/actions/PrivateChannelActionCreators';
+import {Logger} from '@app/lib/Logger';
+import {MessageRecord} from '@app/records/MessageRecord';
+import {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import UserStore from '@app/stores/UserStore';
+import {FLUXERBOT_ID} from '@fluxer/constants/src/AppConstants';
+import {MessageStates, MessageTypes} from '@fluxer/constants/src/ChannelConstants';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
 
 const USER_MENTION_REGEX = /<@!?(\d+)>/;
+const logger = new Logger('CommandUtils');
 
 type ParsedCommand =
 	| {type: 'nick'; nickname: string}
@@ -167,7 +170,9 @@ export function createSystemMessage(channelId: string, content: string): Message
 		id: FLUXERBOT_ID,
 		username: 'Fluxerbot',
 		discriminator: '0000',
+		global_name: null,
 		avatar: null,
+		avatar_color: null,
 		bot: true,
 		system: true,
 		flags: 0,
@@ -242,18 +247,10 @@ export async function executeCommand(command: ParsedCommand, channelId: string, 
 		}
 
 		case 'msg': {
+			let dmChannelId: string;
 			try {
-				const dmChannelId = await PrivateChannelActionCreators.ensureDMChannel(command.userId);
-
-				await MessageActionCreators.send(dmChannelId, {
-					content: command.message,
-					nonce: SnowflakeUtils.fromTimestamp(Date.now()),
-					hasAttachments: false,
-					flags: 0,
-				});
-
-				await PrivateChannelActionCreators.openDMChannel(command.userId);
-			} catch (_error) {
+				dmChannelId = await PrivateChannelActionCreators.ensureDMChannel(command.userId);
+			} catch {
 				const user = UserStore.getUser(command.userId);
 				const username = user?.username || 'user';
 
@@ -263,6 +260,22 @@ export async function executeCommand(command: ParsedCommand, channelId: string, 
 				);
 
 				MessageActionCreators.createOptimistic(channelId, systemMessage.toJSON());
+				break;
+			}
+
+			try {
+				const result = await MessageActionCreators.send(dmChannelId, {
+					content: command.message,
+					nonce: SnowflakeUtils.fromTimestamp(Date.now()),
+					hasAttachments: false,
+					flags: 0,
+				});
+
+				if (result) {
+					await PrivateChannelActionCreators.openDMChannel(command.userId);
+				}
+			} catch (error) {
+				logger.error('Failed to dispatch /msg command DM', error);
 			}
 			break;
 		}

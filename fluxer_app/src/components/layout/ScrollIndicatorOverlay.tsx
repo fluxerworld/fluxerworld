@@ -17,17 +17,28 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/ScrollIndicatorOverlay.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
 import {clsx} from 'clsx';
 import {AnimatePresence, motion} from 'framer-motion';
-import React from 'react';
-import styles from './ScrollIndicatorOverlay.module.css';
+import type React from 'react';
+import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
 
 export type ScrollIndicatorSeverity = 'mention' | 'unread';
 
-export interface ScrollEdgeIndicator {
+interface ScrollEdgeIndicator {
 	element: HTMLElement;
 	severity: ScrollIndicatorSeverity;
+	distance: number;
 	id?: string;
+}
+
+type ScrollIndicatorDirection = 'top' | 'bottom';
+
+interface ActiveScrollIndicator {
+	direction: ScrollIndicatorDirection;
+	indicator: ScrollEdgeIndicator;
 }
 
 const severityOrder: Record<ScrollIndicatorSeverity, number> = {
@@ -35,18 +46,68 @@ const severityOrder: Record<ScrollIndicatorSeverity, number> = {
 	unread: 1,
 };
 
+function pickActiveIndicator(
+	topIndicator: ScrollEdgeIndicator | null,
+	bottomIndicator: ScrollEdgeIndicator | null,
+	preferredDirection: ScrollIndicatorDirection | null,
+	previousDirection: ScrollIndicatorDirection | null,
+): ActiveScrollIndicator | null {
+	if (!topIndicator && !bottomIndicator) return null;
+	if (!topIndicator && bottomIndicator) {
+		return {direction: 'bottom', indicator: bottomIndicator};
+	}
+	if (topIndicator && !bottomIndicator) {
+		return {direction: 'top', indicator: topIndicator};
+	}
+
+	if (!topIndicator || !bottomIndicator) return null;
+
+	const topSeverityRank = severityOrder[topIndicator.severity];
+	const bottomSeverityRank = severityOrder[bottomIndicator.severity];
+
+	if (topSeverityRank > bottomSeverityRank) {
+		return {direction: 'top', indicator: topIndicator};
+	}
+	if (bottomSeverityRank > topSeverityRank) {
+		return {direction: 'bottom', indicator: bottomIndicator};
+	}
+
+	if (topIndicator.distance < bottomIndicator.distance) {
+		return {direction: 'top', indicator: topIndicator};
+	}
+	if (bottomIndicator.distance < topIndicator.distance) {
+		return {direction: 'bottom', indicator: bottomIndicator};
+	}
+
+	if (preferredDirection === 'top') {
+		return {direction: 'top', indicator: topIndicator};
+	}
+	if (preferredDirection === 'bottom') {
+		return {direction: 'bottom', indicator: bottomIndicator};
+	}
+
+	if (previousDirection === 'top') {
+		return {direction: 'top', indicator: topIndicator};
+	}
+	if (previousDirection === 'bottom') {
+		return {direction: 'bottom', indicator: bottomIndicator};
+	}
+
+	return {direction: 'top', indicator: topIndicator};
+}
+
 export const useScrollEdgeIndicators = (
 	getScrollContainer: () => HTMLElement | null,
 	dependencies: React.DependencyList = [],
 ) => {
-	const [topIndicator, setTopIndicator] = React.useState<ScrollEdgeIndicator | null>(null);
-	const [bottomIndicator, setBottomIndicator] = React.useState<ScrollEdgeIndicator | null>(null);
+	const [activeIndicator, setActiveIndicator] = useState<ActiveScrollIndicator | null>(null);
+	const preferredDirectionRef = useRef<ScrollIndicatorDirection | null>(null);
+	const lastScrollTopRef = useRef(0);
 
-	const refresh = React.useCallback(() => {
+	const refresh = useCallback(() => {
 		const container = getScrollContainer();
 		if (!container) {
-			setTopIndicator(null);
-			setBottomIndicator(null);
+			setActiveIndicator(null);
 			return;
 		}
 
@@ -73,7 +134,7 @@ export const useScrollEdgeIndicators = (
 					severityOrder[datasetValue] > severityOrder[nextTop.severity] ||
 					(severityOrder[datasetValue] === severityOrder[nextTop.severity] && distance < topDistance)
 				) {
-					nextTop = {element: node, severity: datasetValue, id: nodeId};
+					nextTop = {element: node, severity: datasetValue, distance, id: nodeId};
 					topDistance = distance;
 				}
 			} else if (rect.top >= containerRect.bottom) {
@@ -83,46 +144,59 @@ export const useScrollEdgeIndicators = (
 					severityOrder[datasetValue] > severityOrder[nextBottom.severity] ||
 					(severityOrder[datasetValue] === severityOrder[nextBottom.severity] && distance < bottomDistance)
 				) {
-					nextBottom = {element: node, severity: datasetValue, id: nodeId};
+					nextBottom = {element: node, severity: datasetValue, distance, id: nodeId};
 					bottomDistance = distance;
 				}
 			}
 		}
 
-		setTopIndicator((previous) => {
-			if (previous && nextTop) {
-				if (previous.element === nextTop.element && previous.severity === nextTop.severity) {
-					return previous;
-				}
+		setActiveIndicator((previous) => {
+			const nextActive = pickActiveIndicator(
+				nextTop,
+				nextBottom,
+				preferredDirectionRef.current,
+				previous?.direction ?? null,
+			);
+			if (
+				previous &&
+				nextActive &&
+				previous.direction === nextActive.direction &&
+				previous.indicator.element === nextActive.indicator.element &&
+				previous.indicator.severity === nextActive.indicator.severity
+			) {
+				return previous;
 			}
-			return nextTop;
-		});
-		setBottomIndicator((previous) => {
-			if (previous && nextBottom) {
-				if (previous.element === nextBottom.element && previous.severity === nextBottom.severity) {
-					return previous;
-				}
-			}
-			return nextBottom;
+			return nextActive;
 		});
 	}, [getScrollContainer]);
 
-	React.useLayoutEffect(() => {
+	useLayoutEffect(() => {
 		refresh();
 	}, [refresh, ...dependencies]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const container = getScrollContainer();
 		if (!container) return;
 
-		const handleScroll = () => refresh();
+		lastScrollTopRef.current = container.scrollTop;
+
+		const handleScroll = () => {
+			const currentScrollTop = container.scrollTop;
+			if (currentScrollTop > lastScrollTopRef.current) {
+				preferredDirectionRef.current = 'bottom';
+			} else if (currentScrollTop < lastScrollTopRef.current) {
+				preferredDirectionRef.current = 'top';
+			}
+			lastScrollTopRef.current = currentScrollTop;
+			refresh();
+		};
 		container.addEventListener('scroll', handleScroll, {passive: true});
 		return () => {
 			container.removeEventListener('scroll', handleScroll);
 		};
 	}, [getScrollContainer, refresh]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const handleResize = () => refresh();
 		window.addEventListener('resize', handleResize);
 		return () => {
@@ -130,7 +204,7 @@ export const useScrollEdgeIndicators = (
 		};
 	}, [refresh]);
 
-	return {topIndicator, bottomIndicator, refresh};
+	return {activeIndicator, refresh};
 };
 
 interface FloatingScrollIndicatorProps {
@@ -141,21 +215,44 @@ interface FloatingScrollIndicatorProps {
 }
 
 const FloatingScrollIndicator = ({label, severity, direction, onClick}: FloatingScrollIndicatorProps) => {
-	const offset = direction === 'top' ? -16 : 16;
+	const offset = direction === 'top' ? -24 : 24;
+	const prefersReducedMotion = AccessibilityStore.useReducedMotion;
 
 	return (
-		<motion.button
-			type="button"
-			className={clsx(styles.indicator, severity === 'mention' ? styles.indicatorMention : styles.indicatorBrand)}
-			onClick={onClick}
-			initial={{opacity: 0, y: offset}}
-			animate={{opacity: 1, y: 0}}
-			exit={{opacity: 0, y: offset}}
-			transition={{type: 'spring', stiffness: 500, damping: 20}}
-			aria-label={typeof label === 'string' ? label : undefined}
-		>
-			{label}
-		</motion.button>
+		<FocusRing offset={-2}>
+			<motion.button
+				type="button"
+				className={clsx(styles.indicator, severity === 'mention' ? styles.indicatorMention : styles.indicatorBrand)}
+				onClick={onClick}
+				initial={prefersReducedMotion ? {opacity: 1, y: 0, scale: 1} : {opacity: 0, y: offset, scale: 0.9}}
+				animate={{opacity: 1, y: 0, scale: 1}}
+				exit={
+					prefersReducedMotion
+						? {opacity: 1, y: 0, scale: 1, transition: {duration: 0}}
+						: {
+								opacity: 0,
+								y: offset,
+								scale: direction === 'top' ? 0.9 : 0.95,
+								transition: {duration: 0.15, ease: 'easeIn'},
+							}
+				}
+				transition={
+					prefersReducedMotion
+						? {duration: 0}
+						: {
+								type: 'spring',
+								stiffness: 600,
+								damping: 18,
+								mass: 0.6,
+							}
+				}
+				whileHover={prefersReducedMotion ? undefined : {scale: 1.05}}
+				whileTap={prefersReducedMotion ? undefined : {scale: 0.95}}
+				aria-label={typeof label === 'string' ? label : undefined}
+			>
+				{label}
+			</motion.button>
+		</FocusRing>
 	);
 };
 
@@ -166,32 +263,26 @@ interface ScrollIndicatorOverlayProps {
 }
 
 export const ScrollIndicatorOverlay = ({getScrollContainer, dependencies = [], label}: ScrollIndicatorOverlayProps) => {
-	const {topIndicator, bottomIndicator} = useScrollEdgeIndicators(getScrollContainer, dependencies);
+	const {activeIndicator} = useScrollEdgeIndicators(getScrollContainer, dependencies);
 
-	const scrollIndicatorIntoView = (indicator: ScrollEdgeIndicator | null) => {
-		if (!indicator) return;
+	const scrollIndicatorIntoView = (indicator: ScrollEdgeIndicator) => {
 		indicator.element.scrollIntoView({behavior: 'smooth', block: 'nearest'});
 	};
 
 	return (
 		<div className={styles.scrollIndicatorLayer}>
 			<AnimatePresence initial={false}>
-				{topIndicator && (
-					<div className={clsx(styles.indicatorSlot, styles.indicatorSlotTop)}>
+				{activeIndicator && (
+					<div
+						className={clsx(
+							styles.indicatorSlot,
+							activeIndicator.direction === 'top' ? styles.indicatorSlotTop : styles.indicatorSlotBottom,
+						)}
+					>
 						<FloatingScrollIndicator
-							direction="top"
-							severity={topIndicator.severity}
-							onClick={() => scrollIndicatorIntoView(topIndicator)}
-							label={label}
-						/>
-					</div>
-				)}
-				{bottomIndicator && (
-					<div className={clsx(styles.indicatorSlot, styles.indicatorSlotBottom)}>
-						<FloatingScrollIndicator
-							direction="bottom"
-							severity={bottomIndicator.severity}
-							onClick={() => scrollIndicatorIntoView(bottomIndicator)}
+							direction={activeIndicator.direction}
+							severity={activeIndicator.indicator.severity}
+							onClick={() => scrollIndicatorIntoView(activeIndicator.indicator)}
 							label={label}
 						/>
 					</div>

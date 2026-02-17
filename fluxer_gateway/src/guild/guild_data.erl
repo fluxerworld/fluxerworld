@@ -31,6 +31,7 @@
 -type guild_data_map() :: map().
 -type guild_member() :: map().
 -type channel_list() :: [map()].
+-type user_id() :: integer().
 
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
@@ -45,11 +46,10 @@ get_guild_data(#{user_id := UserId}, State) ->
             Reply = #{guild_data => GuildData},
             {reply, Reply, State};
         _ ->
-            Members = map_utils:ensure_list(maps:get(<<"members">>, Data, [])),
-            case member_in_list(UserId, Members) of
-                false ->
+            case guild_data_index:get_member(UserId, Data) of
+                undefined ->
                     {reply, #{guild_data => null, error_reason => <<"forbidden">>}, State};
-                true ->
+                _ ->
                     GuildData = build_complete_guild_data(Data, State),
                     {reply, #{guild_data => GuildData}, State}
             end
@@ -76,7 +76,7 @@ has_member(#{user_id := UserId}, State) ->
 -spec list_guild_members(map(), guild_state()) -> guild_reply(map()).
 list_guild_members(#{limit := Limit, offset := Offset}, State) ->
     Data = guild_data_map(State),
-    AllMembers = map_utils:ensure_list(maps:get(<<"members">>, Data, [])),
+    AllMembers = guild_data_index:member_list(Data),
     TotalCount = length(AllMembers),
     PaginatedMembers = paginate_members(AllMembers, Limit, Offset),
     {reply, #{members => PaginatedMembers, total => TotalCount}, State}.
@@ -93,19 +93,24 @@ get_first_viewable_text_channel(State) ->
     EveryoneChannelId = find_everyone_viewable_text_channel(Channels, State),
     {reply, #{channel_id => EveryoneChannelId}, State}.
 
--spec get_guild_state(integer(), guild_state()) -> map().
+-spec get_guild_state(user_id(), guild_state()) -> map().
 get_guild_state(UserId, State) ->
     Data = guild_data_map(State),
     GuildId = map_utils:get_integer(State, id, 0),
     AllChannels = channels_from_data(Data),
-    AllMembers = map_utils:ensure_list(maps:get(<<"members">>, Data, [])),
+    AllMembers = guild_data_index:member_values(Data),
     Member = find_member_by_user_id(UserId, State),
     {ViewableChannels, JoinedAt} = derive_member_view(UserId, Member, State, AllChannels),
     OnlineCount = guild_member_list:get_online_count(State),
-    OwnMemberList = case Member of
-        undefined -> [];
-        M -> [M]
-    end,
+    OwnMemberList =
+        case Member of
+            undefined -> [];
+            M -> [M]
+        end,
+    VoiceStates = guild_voice:get_voice_states_list(State),
+    VoiceMembers = voice_members_from_states(VoiceStates, AllMembers),
+    Members = merge_members(OwnMemberList, VoiceMembers),
+    MemberCount = maps:get(member_count, State, length(AllMembers)),
     #{
         <<"id">> => integer_to_binary(GuildId),
         <<"properties">> => maps:get(<<"guild">>, Data, #{}),
@@ -113,11 +118,11 @@ get_guild_state(UserId, State) ->
         <<"channels">> => ViewableChannels,
         <<"emojis">> => maps:get(<<"emojis">>, Data, []),
         <<"stickers">> => maps:get(<<"stickers">>, Data, []),
-        <<"members">> => OwnMemberList,
-        <<"member_count">> => length(AllMembers),
+        <<"members">> => Members,
+        <<"member_count">> => MemberCount,
         <<"online_count">> => OnlineCount,
         <<"presences">> => [],
-        <<"voice_states">> => guild_voice:get_voice_states_list(State),
+        <<"voice_states">> => VoiceStates,
         <<"joined_at">> => JoinedAt
     }.
 
@@ -140,6 +145,7 @@ find_everyone_viewable_text_channel(Channels, State) ->
         map_utils:ensure_list(Channels)
     ).
 
+-spec find_member_by_user_id(user_id(), guild_state()) -> guild_member() | undefined.
 find_member_by_user_id(UserId, State) ->
     guild_permissions:find_member_by_user_id(UserId, State).
 
@@ -164,19 +170,7 @@ channels_from_state(State) ->
 
 -spec channels_from_data(guild_data_map()) -> channel_list().
 channels_from_data(Data) ->
-    map_utils:ensure_list(maps:get(<<"channels">>, Data, [])).
-
--spec member_in_list(integer(), [guild_member()]) -> boolean().
-member_in_list(UserId, Members) ->
-    lists:any(fun(Member) -> member_matches(UserId, Member) end, Members).
-
--spec member_matches(integer(), guild_member()) -> boolean().
-member_matches(UserId, Member) ->
-    MemberUser = map_utils:ensure_map(maps:get(<<"user">>, Member, #{})),
-    case map_utils:get_integer(MemberUser, <<"id">>, undefined) of
-        undefined -> false;
-        Id -> Id =:= UserId
-    end.
+    guild_data_index:channel_list(Data).
 
 -spec paginate_members([guild_member()], non_neg_integer(), non_neg_integer()) -> [guild_member()].
 paginate_members(Members, Limit, Offset) ->
@@ -191,7 +185,7 @@ paginate_members(Members, Limit, Offset) ->
             end
     end.
 
--spec derive_member_view(integer(), guild_member() | undefined, guild_state(), channel_list()) ->
+-spec derive_member_view(user_id(), guild_member() | undefined, guild_state(), channel_list()) ->
     {channel_list(), term()}.
 derive_member_view(_UserId, undefined, _State, _Channels) ->
     {[], null};
@@ -210,7 +204,63 @@ derive_member_view(UserId, Member, State, Channels) ->
     JoinedAt = maps:get(<<"joined_at">>, Member, null),
     {Filtered, JoinedAt}.
 
--spec role_permissions_for_id(list(), integer()) -> integer().
+-spec voice_members_from_states([map()], [guild_member()]) -> [guild_member()].
+voice_members_from_states(VoiceStates, Members) ->
+    MemberIndex = build_member_index(Members),
+    lists:filtermap(
+        fun(VoiceState) ->
+            case voice_state_utils:voice_state_user_id(VoiceState) of
+                undefined ->
+                    false;
+                UserId ->
+                    case maps:get(UserId, MemberIndex, undefined) of
+                        undefined -> false;
+                        Member -> {true, Member}
+                    end
+            end
+        end,
+        VoiceStates
+    ).
+
+-spec build_member_index([guild_member()]) -> #{integer() => guild_member()}.
+build_member_index(Members) ->
+    lists:foldl(
+        fun(Member, Acc) ->
+            case member_user_id(Member) of
+                undefined -> Acc;
+                UserId -> maps:put(UserId, Member, Acc)
+            end
+        end,
+        #{},
+        Members
+    ).
+
+-spec merge_members([guild_member()], [guild_member()]) -> [guild_member()].
+merge_members(Primary, Secondary) ->
+    {Merged, _} =
+        lists:foldl(
+            fun(Member, {Acc, Seen}) ->
+                case member_user_id(Member) of
+                    undefined ->
+                        {Acc, Seen};
+                    UserId ->
+                        case sets:is_element(UserId, Seen) of
+                            true -> {Acc, Seen};
+                            false -> {[Member | Acc], sets:add_element(UserId, Seen)}
+                        end
+                end
+            end,
+            {[], sets:new()},
+            Primary ++ Secondary
+        ),
+    lists:reverse(Merged).
+
+-spec member_user_id(guild_member()) -> integer() | undefined.
+member_user_id(Member) ->
+    MemberUser = map_utils:ensure_map(maps:get(<<"user">>, Member, #{})),
+    map_utils:get_integer(MemberUser, <<"id">>, undefined).
+
+-spec role_permissions_for_id([map()], integer()) -> integer().
 role_permissions_for_id(Roles, GuildId) ->
     lists:foldl(
         fun(Role, Acc) ->
@@ -229,6 +279,10 @@ select_first_viewable(Channel, GuildId, BasePerms) ->
     ChannelId = map_utils:get_integer(Channel, <<"id">>, undefined),
     select_first_viewable(ChannelType, ChannelId, Channel, GuildId, BasePerms).
 
+-spec select_first_viewable(
+    integer() | undefined, integer() | undefined, map(), integer(), integer()
+) ->
+    integer() | null.
 select_first_viewable(0, ChannelId, Channel, GuildId, BasePerms) when is_integer(ChannelId) ->
     case (BasePerms band constants:administrator_permission()) =/= 0 of
         true ->
@@ -272,6 +326,13 @@ find_everyone_viewable_text_channel_test() ->
     Channels = maps:get(<<"channels">>, Data),
     ChannelId = find_everyone_viewable_text_channel(Channels, State),
     ?assertEqual(500, ChannelId).
+
+paginate_members_test() ->
+    Members = [#{<<"id">> => 1}, #{<<"id">> => 2}, #{<<"id">> => 3}],
+    ?assertEqual([#{<<"id">> => 1}, #{<<"id">> => 2}], paginate_members(Members, 2, 0)),
+    ?assertEqual([#{<<"id">> => 2}, #{<<"id">> => 3}], paginate_members(Members, 2, 1)),
+    ?assertEqual([#{<<"id">> => 3}], paginate_members(Members, 2, 2)),
+    ?assertEqual([], paginate_members(Members, 2, 5)).
 
 test_state() ->
     GuildId = 100,

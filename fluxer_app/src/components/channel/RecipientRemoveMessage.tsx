@@ -17,17 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/RecipientRemoveMessage.module.css';
+import {SystemMessage} from '@app/components/channel/SystemMessage';
+import {SystemMessageUsername} from '@app/components/channel/SystemMessageUsername';
+import {useSystemMessageData} from '@app/hooks/useSystemMessageData';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import UserStore from '@app/stores/UserStore';
 import {Trans} from '@lingui/react/macro';
 import {UserMinusIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import {SystemMessage} from '~/components/channel/SystemMessage';
-import {SystemMessageUsername} from '~/components/channel/SystemMessageUsername';
-import {useSystemMessageData} from '~/hooks/useSystemMessageData';
-import type {MessageRecord} from '~/records/MessageRecord';
-import UserStore from '~/stores/UserStore';
-import styles from './RecipientRemoveMessage.module.css';
 
-export const RecipientRemoveMessage = observer(({message}: {message: MessageRecord}) => {
+interface RecipientRemoveMessageProps {
+	message: MessageRecord;
+}
+
+export const RecipientRemoveMessage = observer(({message}: RecipientRemoveMessageProps) => {
 	const {author, channel, guild} = useSystemMessageData(message);
 
 	const removedUserId = message.mentions.length > 0 ? message.mentions[0].id : null;

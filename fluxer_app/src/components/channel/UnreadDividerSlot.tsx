@@ -17,19 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import dividerStyles from '@app/components/channel/Divider.module.css';
+import styles from '@app/components/channel/Messages.module.css';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import dividerStyles from './Divider.module.css';
-import styles from './Messages.module.css';
 
 type UnreadDividerSlotProps =
 	| {beforeId: string; afterId?: never; visible: boolean}
 	| {afterId: string; beforeId?: never; visible: boolean};
 
 export const UnreadDividerSlot = observer(function UnreadDividerSlot(props: UnreadDividerSlotProps) {
-	const data: Record<string, string> = {'data-divider-slot': 'unread'};
-	if ('beforeId' in props && props.beforeId !== undefined) data['data-before-id'] = props.beforeId;
-	if ('afterId' in props && props.afterId !== undefined) data['data-after-id'] = props.afterId;
+	const dataAttributes = {
+		'data-divider-slot': 'unread',
+		'data-before-id': 'beforeId' in props && props.beforeId !== undefined ? props.beforeId : undefined,
+		'data-after-id': 'afterId' in props && props.afterId !== undefined ? props.afterId : undefined,
+	} as const;
 
 	return (
 		<div
@@ -37,7 +39,7 @@ export const UnreadDividerSlot = observer(function UnreadDividerSlot(props: Unre
 			aria-hidden="true"
 			id={props.visible ? 'new-messages-bar' : undefined}
 			data-visible={props.visible ? '1' : undefined}
-			{...(data as any)}
+			{...dataAttributes}
 		>
 			<div className={dividerStyles.unreadContainer}>
 				<div className={dividerStyles.unreadLine} />

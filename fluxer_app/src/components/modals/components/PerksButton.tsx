@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/modals/components/PerksButton.module.css';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import styles from './PerksButton.module.css';
 
 export const PerksButton: React.FC<{
 	onClick: () => void;

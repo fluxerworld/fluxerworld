@@ -17,25 +17,31 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {ScreenRecordingPermissionDeniedModal} from '@app/components/alerts/ScreenRecordingPermissionDeniedModal';
+import {ScreenShareSourceModal} from '@app/components/modals/ScreenShareSourceModal';
+import {Logger} from '@app/lib/Logger';
+import MediaPermissionStore from '@app/stores/MediaPermissionStore';
+import type {DesktopSource, DisplayMediaRequestInfo} from '@app/types/electron.d';
+import {checkNativePermission} from '@app/utils/NativePermissions';
+import {getElectronAPI, isNativeMacOS} from '@app/utils/NativeUtils';
 import {useEffect} from 'react';
-import type {DesktopSource, DisplayMediaRequestInfo} from '~/../src-electron/common/types';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ScreenRecordingPermissionDeniedModal} from '~/components/alerts/ScreenRecordingPermissionDeniedModal';
-import {ScreenShareSourceModal} from '~/components/modals/ScreenShareSourceModal';
-import {Logger} from '~/lib/Logger';
-import MediaPermissionStore from '~/stores/MediaPermissionStore';
-import {checkNativePermission} from '~/utils/NativePermissions';
-import {getElectronAPI, isNativeMacOS} from '~/utils/NativeUtils';
 
 const logger = new Logger('ElectronScreenSharePicker');
 const DESKTOP_SOURCE_TYPES: Array<'screen' | 'window'> = ['screen', 'window'];
 
 const SCREEN_SHARE_SELECTION_TIMEOUT_MS = 55_000;
 
+interface PromptDesktopSourceSelectionOptions {
+	audioRequested: boolean;
+	supportsLoopbackAudio?: boolean;
+	supportsSystemAudioCapture?: boolean;
+}
+
 const promptDesktopSourceSelection = (
 	sources: Array<DesktopSource>,
-	audioRequested: boolean,
+	options: PromptDesktopSourceSelectionOptions,
 ): Promise<string | null> => {
 	return new Promise((resolve) => {
 		let resolved = false;
@@ -60,7 +66,13 @@ const promptDesktopSourceSelection = (
 
 		ModalActionCreators.push(
 			modal(() => (
-				<ScreenShareSourceModal sources={sources} audioRequested={audioRequested} onSelect={handleSelection} />
+				<ScreenShareSourceModal
+					sources={sources}
+					audioRequested={options.audioRequested}
+					supportsLoopbackAudio={options.supportsLoopbackAudio}
+					supportsSystemAudioCapture={options.supportsSystemAudioCapture}
+					onSelect={handleSelection}
+				/>
 			)),
 		);
 	});
@@ -70,7 +82,7 @@ export const useElectronScreenSharePicker = (): void => {
 	useEffect(() => {
 		const electronApi = getElectronAPI();
 		if (!electronApi || !electronApi.onDisplayMediaRequested) {
-			logger.info('[useEffect] Screen share picker unavailable (missing platform handler)');
+			logger.info('Screen share picker unavailable (missing platform handler)');
 			return;
 		}
 
@@ -81,14 +93,26 @@ export const useElectronScreenSharePicker = (): void => {
 				electronApi.selectDisplayMediaSource(requestId, null, false);
 				return;
 			}
+			if (!info.videoRequested) {
+				logger.warn('Rejecting display media request without a video stream', {
+					requestId,
+					audioRequested: info.audioRequested,
+				});
+				electronApi.selectDisplayMediaSource(requestId, null, false);
+				return;
+			}
 
 			handlingRequest = true;
 
 			try {
+				const supportsLoopbackAudio = info.supportsLoopbackAudio ?? false;
+				const supportsSystemAudioCapture = info.supportsSystemAudioCapture ?? false;
+				const canIncludeAudio = info.audioRequested && (supportsLoopbackAudio || supportsSystemAudioCapture);
+
 				if (isNativeMacOS()) {
 					const permission = await checkNativePermission('screen');
 					if (permission === 'denied') {
-						logger.warn('[handleRequest] Screen recording permission denied');
+						logger.warn('Screen recording permission denied');
 						if (!MediaPermissionStore.isScreenRecordingExplicitlyDenied()) {
 							MediaPermissionStore.markScreenRecordingExplicitlyDenied();
 							ModalActionCreators.push(modal(() => <ScreenRecordingPermissionDeniedModal />));
@@ -98,17 +122,25 @@ export const useElectronScreenSharePicker = (): void => {
 					}
 				}
 
-				const sources = await electronApi.getDesktopSources(DESKTOP_SOURCE_TYPES);
+				const sources = await electronApi.getDesktopSources(DESKTOP_SOURCE_TYPES, requestId);
 				if (sources.length === 0) {
-					logger.warn('[handleRequest] No desktop sources available');
+					logger.warn('No desktop sources available');
 					electronApi.selectDisplayMediaSource(requestId, null, false);
 					return;
 				}
+				if (sources.length === 1) {
+					electronApi.selectDisplayMediaSource(requestId, sources[0].id, canIncludeAudio);
+					return;
+				}
 
-				const selectedSourceId = await promptDesktopSourceSelection(sources, info.audioRequested);
-				electronApi.selectDisplayMediaSource(requestId, selectedSourceId, info.audioRequested);
+				const selectedSourceId = await promptDesktopSourceSelection(sources, {
+					audioRequested: info.audioRequested,
+					supportsLoopbackAudio,
+					supportsSystemAudioCapture,
+				});
+				electronApi.selectDisplayMediaSource(requestId, selectedSourceId, canIncludeAudio);
 			} catch (error) {
-				logger.error('[handleRequest] Failed to handle display media request', error);
+				logger.error('Failed to handle display media request', error);
 				electronApi.selectDisplayMediaSource(requestId, null, false);
 			} finally {
 				handlingRequest = false;

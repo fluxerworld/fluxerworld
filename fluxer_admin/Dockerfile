@@ -1,48 +1,85 @@
-ARG BUILD_TIMESTAMP=0
-FROM erlang:27.1.1.0-alpine AS builder
-
-COPY --from=ghcr.io/gleam-lang/gleam:nightly-erlang /bin/gleam /bin/gleam
-
-RUN apk add --no-cache git curl
-
-WORKDIR /app
-
-COPY gleam.toml manifest.toml ./
-COPY src ./src
-COPY priv ./priv
-COPY tailwind.css ./
-
-RUN gleam deps download
-RUN gleam export erlang-shipment
-
-ARG TAILWIND_VERSION=v4.1.17
-RUN ARCH=$(uname -m) && \
-	if [ "$ARCH" = "x86_64" ]; then \
-	TAILWIND_ARCH="x64"; \
-	elif [ "$ARCH" = "aarch64" ]; then \
-	TAILWIND_ARCH="arm64"; \
-	else \
-	TAILWIND_ARCH="x64"; \
-	fi && \
-	echo "Downloading Tailwind CSS $TAILWIND_VERSION for Alpine Linux: linux-$TAILWIND_ARCH-musl" && \
-	curl -sSLf -o /tmp/tailwindcss "https://github.com/tailwindlabs/tailwindcss/releases/download/${TAILWIND_VERSION}/tailwindcss-linux-${TAILWIND_ARCH}-musl" && \
-	chmod +x /tmp/tailwindcss && \
-	/tmp/tailwindcss -i ./tailwind.css -o ./priv/static/app.css --minify
-
-FROM erlang:27.1.1.0-alpine
-
+ARG BUILD_SHA
+ARG BUILD_NUMBER
 ARG BUILD_TIMESTAMP
+ARG RELEASE_CHANNEL=nightly
 
-RUN apk add --no-cache openssl ncurses-libs curl
+FROM node:24-bookworm-slim AS base
 
-WORKDIR /app
+WORKDIR /usr/src/app
 
-COPY --from=builder /app/build/erlang-shipment /app
-COPY --from=builder /app/priv ./priv
+RUN corepack enable && corepack prepare pnpm@10.26.0 --activate
+
+FROM base AS deps
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY patches/ ./patches/
+COPY packages/ ./packages/
+COPY fluxer_admin/package.json ./fluxer_admin/
+
+RUN pnpm install --frozen-lockfile
+
+FROM deps AS build
+
+COPY tsconfigs /usr/src/app/tsconfigs
+COPY fluxer_admin/tsconfig.json ./fluxer_admin/
+COPY fluxer_admin/src ./fluxer_admin/src
+COPY fluxer_admin/public ./fluxer_admin/public
+
+WORKDIR /usr/src/app/fluxer_admin
+RUN pnpm --filter @fluxer/config generate
+RUN pnpm build:css
+
+FROM base AS prod-deps
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY patches/ ./patches/
+COPY packages/ ./packages/
+COPY fluxer_admin/package.json ./fluxer_admin/
+
+RUN pnpm install --frozen-lockfile --prod
+
+COPY --from=build /usr/src/app/packages/admin/public /usr/src/app/packages/admin/public
+
+FROM node:24-bookworm-slim
+
+ARG BUILD_SHA
+ARG BUILD_NUMBER
+ARG BUILD_TIMESTAMP
+ARG RELEASE_CHANNEL
+
+WORKDIR /usr/src/app/fluxer_admin
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	curl && \
+	rm -rf /var/lib/apt/lists/*
+
+RUN corepack enable && corepack prepare pnpm@10.26.0 --activate
+
+COPY --from=prod-deps /usr/src/app/node_modules /usr/src/app/node_modules
+COPY --from=prod-deps /usr/src/app/fluxer_admin/node_modules ./node_modules
+COPY --from=prod-deps /usr/src/app/packages /usr/src/app/packages
+COPY --from=build /usr/src/app/packages/config/src/ConfigSchema.json /usr/src/app/packages/config/src/ConfigSchema.json
+COPY --from=build /usr/src/app/packages/config/src/MasterZodSchema.generated.tsx /usr/src/app/packages/config/src/MasterZodSchema.generated.tsx
+COPY tsconfigs /usr/src/app/tsconfigs
+COPY --from=build /usr/src/app/fluxer_admin/tsconfig.json ./tsconfig.json
+COPY --from=build /usr/src/app/fluxer_admin/src ./src
+COPY --from=build /usr/src/app/fluxer_admin/public ./public
+COPY fluxer_admin/package.json ./
+
+RUN mkdir -p /usr/src/app/.cache/corepack && \
+	chown -R nobody:nogroup /usr/src/app
+
+ENV HOME=/usr/src/app
+ENV COREPACK_HOME=/usr/src/app/.cache/corepack
+ENV NODE_ENV=production
+ENV FLUXER_ADMIN_PORT=8080
+ENV BUILD_SHA=${BUILD_SHA}
+ENV BUILD_NUMBER=${BUILD_NUMBER}
+ENV BUILD_TIMESTAMP=${BUILD_TIMESTAMP}
+ENV RELEASE_CHANNEL=${RELEASE_CHANNEL}
+
+USER nobody
 
 EXPOSE 8080
 
-ENV PORT=8080
-ENV BUILD_TIMESTAMP=${BUILD_TIMESTAMP}
-
-CMD ["/app/entrypoint.sh", "run"]
+CMD ["pnpm", "start"]

@@ -17,30 +17,31 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as PackInviteActionCreators from '@app/actions/PackInviteActionCreators';
+import {Select, type SelectOption} from '@app/components/form/Select';
+import {Switch} from '@app/components/form/Switch';
+import * as Modal from '@app/components/modals/Modal';
+import styles from '@app/components/modals/PackInviteModal.module.css';
+import {CopyLinkSection} from '@app/components/modals/shared/CopyLinkSection';
+import {Button} from '@app/components/uikit/button/Button';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import {useCopyLinkHandler} from '@app/utils/CopyLinkHandlers';
+import type {PackType} from '@fluxer/schema/src/domains/pack/PackSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as PackInviteActionCreators from '~/actions/PackInviteActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import {Select, type SelectOption} from '~/components/form/Select';
-import {Switch} from '~/components/form/Switch';
-import * as Modal from '~/components/modals/Modal';
-import {CopyLinkSection} from '~/components/modals/shared/CopyLinkSection';
-import {Button} from '~/components/uikit/Button/Button';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import styles from './PackInviteModal.module.css';
+import {useId, useMemo, useState} from 'react';
 
 interface PackInviteModalProps {
 	packId: string;
-	type: 'emoji' | 'sticker';
+	type: PackType;
 	onCreated?: () => void;
 }
 
 export const PackInviteModal = observer(({packId, type, onCreated}: PackInviteModalProps) => {
-	const {t, i18n} = useLingui();
+	const {t} = useLingui();
 
-	const MAX_AGE_OPTIONS: Array<SelectOption<string>> = React.useMemo(
+	const MAX_AGE_OPTIONS: Array<SelectOption<string>> = useMemo(
 		() => [
 			{value: '0', label: t`Never`},
 			{value: '1800', label: t`30 minutes`},
@@ -53,7 +54,7 @@ export const PackInviteModal = observer(({packId, type, onCreated}: PackInviteMo
 		[t],
 	);
 
-	const MAX_USES_OPTIONS: Array<SelectOption<string>> = React.useMemo(
+	const MAX_USES_OPTIONS: Array<SelectOption<string>> = useMemo(
 		() => [
 			{value: '0', label: t`Unlimited`},
 			{value: '1', label: t`1 use`},
@@ -66,14 +67,13 @@ export const PackInviteModal = observer(({packId, type, onCreated}: PackInviteMo
 		[t],
 	);
 
-	const [maxAge, setMaxAge] = React.useState('0');
-	const [maxUses, setMaxUses] = React.useState('0');
-	const [unique, setUnique] = React.useState(false);
-	const [inviteCode, setInviteCode] = React.useState<string | null>(null);
-	const [copied, setCopied] = React.useState(false);
-	const [isCreating, setIsCreating] = React.useState(false);
-	const maxAgeSelectId = React.useId();
-	const maxUsesSelectId = React.useId();
+	const [maxAge, setMaxAge] = useState('0');
+	const [maxUses, setMaxUses] = useState('0');
+	const [unique, setUnique] = useState(false);
+	const [inviteCode, setInviteCode] = useState<string | null>(null);
+	const [isCreating, setIsCreating] = useState(false);
+	const maxAgeSelectId = useId();
+	const maxUsesSelectId = useId();
 
 	const title = type === 'emoji' ? t`Emoji Pack Invite` : t`Sticker Pack Invite`;
 	const description =
@@ -93,19 +93,13 @@ export const PackInviteModal = observer(({packId, type, onCreated}: PackInviteMo
 				unique,
 			});
 			setInviteCode(metadata.code);
-			setCopied(false);
 			onCreated?.();
 		} finally {
 			setIsCreating(false);
 		}
 	};
 
-	const handleCopy = async () => {
-		if (!inviteUrl) return;
-		await TextCopyActionCreators.copy(i18n, inviteUrl, true);
-		setCopied(true);
-		setTimeout(() => setCopied(false), 2000);
-	};
+	const handleCopy = useCopyLinkHandler(inviteUrl, true);
 
 	return (
 		<Modal.Root size="small" onClose={() => ModalActionCreators.pop()}>
@@ -149,7 +143,6 @@ export const PackInviteModal = observer(({packId, type, onCreated}: PackInviteMo
 						label={<Trans>Share this link</Trans>}
 						value={inviteUrl}
 						onCopy={handleCopy}
-						copied={copied}
 						placeholder={`${RuntimeConfigStore.inviteEndpoint}/...`}
 					/>
 				)}

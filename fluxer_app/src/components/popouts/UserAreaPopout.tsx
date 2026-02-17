@@ -17,6 +17,56 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getStatusTypeLabel} from '@app/AppConstants';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as PopoutActionCreators from '@app/actions/PopoutActionCreators';
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
+import {getAccountAvatarUrl} from '@app/components/accounts/AccountListItem';
+import AccountSwitcherModal from '@app/components/accounts/AccountSwitcherModal';
+import {CustomStatusDisplay} from '@app/components/common/custom_status_display/CustomStatusDisplay';
+import {CustomStatusModal} from '@app/components/modals/CustomStatusModal';
+import {UserProfileModal} from '@app/components/modals/UserProfileModal';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
+import styles from '@app/components/popouts/UserAreaPopout.module.css';
+import {UserProfileBadges} from '@app/components/popouts/UserProfileBadges';
+import userProfilePopoutStyles from '@app/components/popouts/UserProfilePopout.module.css';
+import {UserProfilePreviewBio} from '@app/components/popouts/UserProfileShared';
+import {ProfileCardBanner} from '@app/components/profile/profile_card/ProfileCardBanner';
+import {ProfileCardContent} from '@app/components/profile/profile_card/ProfileCardContent';
+import {ProfileCardFooter} from '@app/components/profile/profile_card/ProfileCardFooter';
+import {ProfileCardLayout} from '@app/components/profile/profile_card/ProfileCardLayout';
+import {ProfileCardUserInfo} from '@app/components/profile/profile_card/ProfileCardUserInfo';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import FocusRingScope from '@app/components/uikit/focus_ring/FocusRingScope';
+import {MockAvatar} from '@app/components/uikit/MockAvatar';
+import {Popout} from '@app/components/uikit/popout/Popout';
+import {StatusIndicator} from '@app/components/uikit/StatusIndicator';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {
+	getFiniteTimeWindowPresets,
+	minutesToMs,
+	TIME_WINDOW_FOR_LABEL_MESSAGES,
+	type TimeWindowKey,
+	type TimeWindowPreset,
+} from '@app/constants/TimeWindowPresets';
+import {useAutoplayExpandedProfileAnimations} from '@app/hooks/useAutoplayExpandedProfileAnimations';
+import {normalizeCustomStatus} from '@app/lib/CustomStatus';
+import type {Account} from '@app/lib/SessionManager';
+import DeveloperModeStore from '@app/stores/DeveloperModeStore';
+import PresenceStore from '@app/stores/PresenceStore';
+import StatusExpiryStore from '@app/stores/StatusExpiryStore';
+import UserProfileStore from '@app/stores/UserProfileStore';
+import UserStore from '@app/stores/UserStore';
+import {getUserAccentColor} from '@app/utils/AccentColorUtils';
+import {useAccountSwitcherLogic} from '@app/utils/accounts/AccountSwitcherModalUtils';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import * as ProfileDisplayUtils from '@app/utils/ProfileDisplayUtils';
+import {createMockProfile} from '@app/utils/ProfileUtils';
+import {MEDIA_PROXY_PROFILE_BANNER_SIZE_POPOUT} from '@fluxer/constants/src/MediaProxyAssetSizes';
+import {StatusTypes} from '@fluxer/constants/src/StatusConstants';
+import type {MessageDescriptor} from '@lingui/core';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {
 	CaretRightIcon,
@@ -30,57 +80,16 @@ import {
 } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as PopoutActionCreators from '~/actions/PopoutActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import {DEFAULT_ACCENT_COLOR, getStatusTypeLabel, StatusTypes} from '~/Constants';
-import {getAccountAvatarUrl} from '~/components/accounts/AccountListItem';
-import AccountSwitcherModal from '~/components/accounts/AccountSwitcherModal';
-import {CustomStatusDisplay} from '~/components/common/CustomStatusDisplay/CustomStatusDisplay';
-import {CustomStatusModal} from '~/components/modals/CustomStatusModal';
-import {UserProfileModal} from '~/components/modals/UserProfileModal';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import styles from '~/components/popouts/UserAreaPopout.module.css';
-import {UserProfileBadges} from '~/components/popouts/UserProfileBadges';
-import userProfilePopoutStyles from '~/components/popouts/UserProfilePopout.module.css';
-import {UserProfileBio} from '~/components/popouts/UserProfileShared';
-import {ProfileCardBanner} from '~/components/profile/ProfileCard/ProfileCardBanner';
-import {ProfileCardContent} from '~/components/profile/ProfileCard/ProfileCardContent';
-import {ProfileCardFooter} from '~/components/profile/ProfileCard/ProfileCardFooter';
-import {ProfileCardLayout} from '~/components/profile/ProfileCard/ProfileCardLayout';
-import {ProfileCardUserInfo} from '~/components/profile/ProfileCard/ProfileCardUserInfo';
-import {Button} from '~/components/uikit/Button/Button';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import FocusRingScope from '~/components/uikit/FocusRing/FocusRingScope';
-import {MockAvatar} from '~/components/uikit/MockAvatar';
-import {Popout} from '~/components/uikit/Popout/Popout';
-import {StatusIndicator} from '~/components/uikit/StatusIndicator';
-import {Tooltip} from '~/components/uikit/Tooltip';
-import {useAutoplayExpandedProfileAnimations} from '~/hooks/useAutoplayExpandedProfileAnimations';
-import {normalizeCustomStatus} from '~/lib/customStatus';
-import type {AccountSummary} from '~/stores/AccountManager';
-import PresenceStore from '~/stores/PresenceStore';
-import StatusExpiryStore from '~/stores/StatusExpiryStore';
-import UserProfileStore from '~/stores/UserProfileStore';
-import UserStore from '~/stores/UserStore';
-import {useAccountSwitcherLogic} from '~/utils/accounts/AccountSwitcherModalUtils';
-import * as ColorUtils from '~/utils/ColorUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import * as ProfileDisplayUtils from '~/utils/ProfileDisplayUtils';
-import {createMockProfile} from '~/utils/ProfileUtils';
+import React, {useCallback, useMemo, useRef} from 'react';
 
 const STATUS_ORDER = [StatusTypes.ONLINE, StatusTypes.IDLE, StatusTypes.DND, StatusTypes.INVISIBLE];
 
-const EXPIRY_OPTIONS = [
-	{id: '15m', label: <Trans>For 15 minutes</Trans>, durationMs: 15 * 60 * 1000},
-	{id: '1h', label: <Trans>For 1 Hour</Trans>, durationMs: 60 * 60 * 1000},
-	{id: '8h', label: <Trans>For 8 Hours</Trans>, durationMs: 8 * 60 * 60 * 1000},
-	{id: '24h', label: <Trans>For 24 Hours</Trans>, durationMs: 24 * 60 * 60 * 1000},
-	{id: '3d', label: <Trans>For 3 days</Trans>, durationMs: 3 * 24 * 60 * 60 * 1000},
-	{id: 'forever', label: <Trans>Forever</Trans>, durationMs: null},
-];
+interface UserStatusExpiryOption {
+	id: TimeWindowKey;
+	key: TimeWindowKey;
+	label: MessageDescriptor;
+	durationMs: number | null;
+}
 
 const STATUS_DESCRIPTIONS: Record<(typeof STATUS_ORDER)[number], React.ReactNode | null> = {
 	[StatusTypes.ONLINE]: null,
@@ -96,6 +105,17 @@ interface StatusMenuProps {
 
 const StatusMenu = observer(({onSelectStatus, onClose}: StatusMenuProps) => {
 	const {i18n} = useLingui();
+	const isDeveloper = DeveloperModeStore.isDeveloper;
+	const statusExpiryOptions = useMemo<ReadonlyArray<UserStatusExpiryOption>>(
+		() =>
+			getFiniteTimeWindowPresets({includeDeveloperOptions: isDeveloper}).map((preset: TimeWindowPreset) => ({
+				id: preset.key,
+				key: preset.key,
+				label: TIME_WINDOW_FOR_LABEL_MESSAGES[preset.key as Exclude<TimeWindowKey, 'never'>],
+				durationMs: minutesToMs(preset.minutes),
+			})),
+		[isDeveloper],
+	);
 
 	const handleSelect = (status: (typeof STATUS_ORDER)[number], durationMs: number | null) => {
 		onSelectStatus(status, durationMs);
@@ -142,7 +162,7 @@ const StatusMenu = observer(({onSelectStatus, onClose}: StatusMenuProps) => {
 						animationType="none"
 						render={({onClose: closeExpiry}) => (
 							<div className={styles.expiryPopup}>
-								{EXPIRY_OPTIONS.map((option) => (
+								{statusExpiryOptions.map((option: UserStatusExpiryOption) => (
 									<FocusRing key={option.id} offset={-2}>
 										<button
 											type="button"
@@ -152,7 +172,7 @@ const StatusMenu = observer(({onSelectStatus, onClose}: StatusMenuProps) => {
 												closeExpiry();
 											}}
 										>
-											<span className={styles.expiryLabel}>{option.label}</span>
+											<span className={styles.expiryLabel}>{i18n._(option.label)}</span>
 										</button>
 									</FocusRing>
 								))}
@@ -201,7 +221,7 @@ const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProps>(
 ActionButton.displayName = 'ActionButton';
 
 interface SwitchAccountsMenuProps {
-	accounts: Array<AccountSummary>;
+	accounts: Array<Account>;
 	currentAccountId: string | null;
 	onSelect: (userId: string) => void;
 	onManage: () => void;
@@ -283,12 +303,12 @@ export const UserAreaPopout = observer(() => {
 	const currentUserId = currentUser?.id ?? null;
 	const status = currentUserId ? PresenceStore.getStatus(currentUserId) : StatusTypes.ONLINE;
 
-	const openEditProfile = React.useCallback(() => {
+	const openEditProfile = useCallback(() => {
 		ModalActionCreators.push(modal(() => <UserSettingsModal initialTab="my_profile" />));
 		PopoutActionCreators.close();
 	}, []);
 
-	const openUserProfile = React.useCallback(() => {
+	const openUserProfile = useCallback(() => {
 		if (!currentUserId) {
 			return;
 		}
@@ -296,50 +316,47 @@ export const UserAreaPopout = observer(() => {
 		PopoutActionCreators.close();
 	}, [currentUserId]);
 
-	const openCustomStatus = React.useCallback(() => {
+	const openCustomStatus = useCallback(() => {
 		ModalActionCreators.push(modal(() => <CustomStatusModal />));
 		PopoutActionCreators.close();
 	}, []);
 
-	const handleStatusChange = React.useCallback(
-		(statusType: (typeof STATUS_ORDER)[number], durationMs: number | null) => {
-			StatusExpiryStore.setActiveStatusExpiry({
-				status: statusType,
-				durationMs,
-			});
-		},
-		[],
-	);
+	const handleStatusChange = useCallback((statusType: (typeof STATUS_ORDER)[number], durationMs: number | null) => {
+		StatusExpiryStore.setActiveStatusExpiry({
+			status: statusType,
+			durationMs,
+		});
+	}, []);
 
-	const handleCopyUserId = React.useCallback(() => {
+	const handleCopyUserId = useCallback(() => {
 		if (!currentUserId) {
 			return;
 		}
 		TextCopyActionCreators.copy(i18n, currentUserId);
 	}, [currentUserId, i18n]);
 
-	const handleCopyUserTag = React.useCallback(() => {
+	const handleCopyUserTag = useCallback(() => {
 		if (!currentUser) {
 			return;
 		}
 		TextCopyActionCreators.copy(i18n, currentUser.tag);
 	}, [currentUser, i18n]);
 
-	const openManageAccounts = React.useCallback(() => {
+	const openManageAccounts = useCallback(() => {
 		ModalActionCreators.push(modal(() => <AccountSwitcherModal />));
 		PopoutActionCreators.close();
 	}, []);
 
-	const profile = React.useMemo(() => {
+	const profile = useMemo(() => {
 		if (!currentUser) {
 			return null;
 		}
 		return UserProfileStore.getProfile(currentUser.id) ?? createMockProfile(currentUser);
 	}, [currentUserId, currentUser]);
 
-	const profileData = React.useMemo(() => profile?.getEffectiveProfile() ?? null, [profile]);
+	const profileData = useMemo(() => profile?.getEffectiveProfile() ?? null, [profile]);
 
-	const profileContext = React.useMemo<ProfileDisplayUtils.ProfileDisplayContext | null>(() => {
+	const profileContext = useMemo<ProfileDisplayUtils.ProfileDisplayContext | null>(() => {
 		if (!currentUser || !profile) {
 			return null;
 		}
@@ -352,7 +369,7 @@ export const UserAreaPopout = observer(() => {
 		};
 	}, [currentUser, profile]);
 
-	const {avatarUrl, hoverAvatarUrl} = React.useMemo(() => {
+	const {avatarUrl, hoverAvatarUrl} = useMemo(() => {
 		if (!profileContext) {
 			return {avatarUrl: null, hoverAvatarUrl: null};
 		}
@@ -360,25 +377,27 @@ export const UserAreaPopout = observer(() => {
 	}, [profileContext]);
 
 	const shouldAutoplayProfileAnimations = useAutoplayExpandedProfileAnimations();
-	const bannerUrl = React.useMemo(() => {
+	const bannerUrl = useMemo(() => {
 		if (!profileContext) {
 			return null;
 		}
-		return ProfileDisplayUtils.getProfileBannerUrl(profileContext, undefined, shouldAutoplayProfileAnimations) as
-			| string
-			| null;
+		return ProfileDisplayUtils.getProfileBannerUrl(
+			profileContext,
+			undefined,
+			shouldAutoplayProfileAnimations,
+			MEDIA_PROXY_PROFILE_BANNER_SIZE_POPOUT,
+		) as string | null;
 	}, [profileContext, shouldAutoplayProfileAnimations]);
 
-	const rawAccentColor = profileData?.accent_color ?? null;
-	const accentColorHex = typeof rawAccentColor === 'number' ? ColorUtils.int2hex(rawAccentColor) : rawAccentColor;
-	const borderColor = accentColorHex || DEFAULT_ACCENT_COLOR;
-	const bannerColor = accentColorHex || DEFAULT_ACCENT_COLOR;
+	const accentColor = getUserAccentColor(currentUser, profileData?.accent_color);
+	const borderColor = accentColor;
+	const bannerColor = accentColor;
 
 	const displayName = currentUser ? NicknameUtils.getNickname(currentUser) : '';
 	const customStatus = currentUserId ? PresenceStore.getCustomStatus(currentUserId) : null;
 	const hasCustomStatus = Boolean(normalizeCustomStatus(customStatus));
 
-	const popoutContainerRef = React.useRef<HTMLDivElement | null>(null);
+	const popoutContainerRef = useRef<HTMLDivElement | null>(null);
 
 	if (!currentUser || !profile) {
 		return null;
@@ -448,7 +467,7 @@ export const UserAreaPopout = observer(() => {
 							)}
 						</div>
 
-						<UserProfileBio profile={profile} profileData={profileData} />
+						<UserProfilePreviewBio profile={profile} profileData={profileData} onShowMore={openUserProfile} />
 					</ProfileCardContent>
 
 					<ProfileCardFooter>

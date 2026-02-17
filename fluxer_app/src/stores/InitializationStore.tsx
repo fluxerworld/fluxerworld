@@ -17,6 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {ValueOf} from '@fluxer/constants/src/ValueOf';
 import {action, makeAutoObservable} from 'mobx';
 
 const InitializationState = {
@@ -26,7 +27,7 @@ const InitializationState = {
 	ERROR: 'ERROR',
 } as const;
 
-type InitializationState = (typeof InitializationState)[keyof typeof InitializationState];
+type InitializationState = ValueOf<typeof InitializationState>;
 
 class InitializationStore {
 	state: InitializationState = InitializationState.LOADING;

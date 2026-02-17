@@ -17,6 +17,30 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as FavoriteMemeActionCreators from '@app/actions/FavoriteMemeActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import styles from '@app/components/channel/GifPicker.module.css';
+import memeStyles from '@app/components/channel/MemesPicker.module.css';
+import {PickerEmptyState} from '@app/components/channel/shared/PickerEmptyState';
+import {PickerSearchInput} from '@app/components/channel/shared/PickerSearchInput';
+import {LongPressable} from '@app/components/LongPressable';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {EditFavoriteMemeModal} from '@app/components/modals/EditFavoriteMemeModal';
+import {
+	ExpressionPickerHeaderPortal,
+	useExpressionPickerHeaderPortal,
+} from '@app/components/popouts/ExpressionPickerPopout';
+import {DeleteIcon, EditIcon} from '@app/components/uikit/context_menu/ContextMenuIcons';
+import {MenuBottomSheet, type MenuItemType} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useSearchInputAutofocus} from '@app/hooks/useSearchInputAutofocus';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import type {FavoriteMemeRecord} from '@app/records/FavoriteMemeRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import FavoriteMemeStore from '@app/stores/FavoriteMemeStore';
+import {formatDuration as formatDurationBase} from '@fluxer/date_utils/src/DateDuration';
 import {useLingui} from '@lingui/react/macro';
 import {GifIcon, ImageIcon, MusicNoteIcon, SmileySadIcon, VideoCameraIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
@@ -25,28 +49,6 @@ import {matchSorter} from 'match-sorter';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import * as FavoriteMemeActionCreators from '~/actions/FavoriteMemeActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import styles from '~/components/channel/GifPicker.module.css';
-import {PickerEmptyState} from '~/components/channel/shared/PickerEmptyState';
-import {PickerSearchInput} from '~/components/channel/shared/PickerSearchInput';
-import {LongPressable} from '~/components/LongPressable';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {EditFavoriteMemeModal} from '~/components/modals/EditFavoriteMemeModal';
-import {
-	ExpressionPickerHeaderPortal,
-	useExpressionPickerHeaderPortal,
-} from '~/components/popouts/ExpressionPickerPopout';
-import {DeleteIcon, EditIcon} from '~/components/uikit/ContextMenu/ContextMenuIcons';
-import {MenuBottomSheet, type MenuItemType} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useSearchInputAutofocus} from '~/hooks/useSearchInputAutofocus';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import type {FavoriteMemeRecord} from '~/records/FavoriteMemeRecord';
-import FavoriteMemeStore from '~/stores/FavoriteMemeStore';
-import memeStyles from './MemesPicker.module.css';
 
 type ContentType = 'all' | 'image' | 'video' | 'audio' | 'gif';
 
@@ -58,15 +60,7 @@ interface FilterOption {
 
 const formatDuration = (seconds: number | null | undefined): string => {
 	if (!seconds || seconds <= 0) return '0:00';
-
-	const hours = Math.floor(seconds / 3600);
-	const minutes = Math.floor((seconds % 3600) / 60);
-	const secs = Math.floor(seconds % 60);
-
-	if (hours > 0) {
-		return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-	}
-	return `${minutes}:${secs.toString().padStart(2, '0')}`;
+	return formatDurationBase(seconds);
 };
 
 const getFileExtension = (filename: string, contentType: string): string => {
@@ -275,7 +269,7 @@ export const MobileMemesPicker = observer(({onClose}: MobileMemesPickerProps = {
 					<div className={memeStyles.centeredContent}>
 						<PickerEmptyState
 							icon={SmileySadIcon}
-							title={t`No results`}
+							title={t`No Results`}
 							description={t`Try a different search term or filter`}
 						/>
 					</div>
@@ -402,7 +396,13 @@ const GridItem = observer(
 				role="button"
 				tabIndex={0}
 			>
-				<motion.div className={memeStyles.fullSize} initial={{opacity: 0}} animate={{opacity: 1}} exit={{opacity: 0}}>
+				<motion.div
+					className={memeStyles.fullSize}
+					initial={AccessibilityStore.useReducedMotion ? {opacity: 1} : {opacity: 0}}
+					animate={{opacity: 1}}
+					exit={AccessibilityStore.useReducedMotion ? {opacity: 1} : {opacity: 0}}
+					transition={{duration: AccessibilityStore.useReducedMotion ? 0 : 0.2}}
+				>
 					{isGifv && <GifIndicator />}
 					<div ref={mediaRef} className={styles.gifMediaContainer}>
 						{isVisible && !isAudio && isVideo && (

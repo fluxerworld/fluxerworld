@@ -17,31 +17,32 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {AuthBackground} from '@app/components/auth/AuthBackground';
+import {AuthBottomLink} from '@app/components/auth/AuthBottomLink';
+import {AuthCardContainer} from '@app/components/auth/AuthCardContainer';
+import authPageStyles from '@app/components/auth/AuthPageStyles.module.css';
+import {PreviewGuildInviteHeader} from '@app/components/auth/InviteHeader';
+import {MockMinimalRegisterForm} from '@app/components/auth/MockMinimalRegisterForm';
+import authLayoutStyles from '@app/components/layout/AuthLayout.module.css';
+import styles from '@app/components/modals/InvitePagePreviewModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {CardAlignmentControls} from '@app/components/uikit/card_alignment_controls/CardAlignmentControls';
+import {useAuthBackground} from '@app/hooks/useAuthBackground';
+import foodPatternUrl from '@app/images/i-like-food.svg';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import PresenceStore from '@app/stores/PresenceStore';
+import WindowStore from '@app/stores/WindowStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import type {GuildSplashCardAlignmentValue} from '@fluxer/constants/src/GuildConstants';
+import {GuildSplashCardAlignment} from '@fluxer/constants/src/GuildConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
 import clsx from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import type {GuildSplashCardAlignmentValue} from '~/Constants';
-import {GuildFeatures, GuildSplashCardAlignment} from '~/Constants';
-import {AuthBackground} from '~/components/auth/AuthBackground';
-import {AuthBottomLink} from '~/components/auth/AuthBottomLink';
-import {AuthCardContainer} from '~/components/auth/AuthCardContainer';
-import authPageStyles from '~/components/auth/AuthPageStyles.module.css';
-import {PreviewGuildInviteHeader} from '~/components/auth/InviteHeader';
-import {MockMinimalRegisterForm} from '~/components/auth/MockMinimalRegisterForm';
-import authLayoutStyles from '~/components/layout/AuthLayout.module.css';
-import {Button} from '~/components/uikit/Button/Button';
-import {CardAlignmentControls} from '~/components/uikit/CardAlignmentControls/CardAlignmentControls';
-import {useAuthBackground} from '~/hooks/useAuthBackground';
-import foodPatternUrl from '~/images/i-like-food.svg';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import PresenceStore from '~/stores/PresenceStore';
-import WindowStore from '~/stores/WindowStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import styles from './InvitePagePreviewModal.module.css';
-import * as Modal from './Modal';
+import type React from 'react';
+import {useCallback, useMemo, useState} from 'react';
 
 interface InvitePagePreviewModalProps {
 	guildId: string;
@@ -59,10 +60,10 @@ export const InvitePagePreviewModal: React.FC<InvitePagePreviewModalProps> = obs
 		const {t} = useLingui();
 		const guild = GuildStore.getGuild(guildId);
 		const initialAlignment = previewSplashAlignment ?? guild?.splashCardAlignment ?? GuildSplashCardAlignment.CENTER;
-		const [localAlignment, setLocalAlignment] = React.useState<GuildSplashCardAlignmentValue>(initialAlignment);
+		const [localAlignment, setLocalAlignment] = useState<GuildSplashCardAlignmentValue>(initialAlignment);
 		const alignmentControlsEnabled = WindowStore.windowSize.width >= ALIGNMENT_MIN_WIDTH;
 
-		const splashUrl = React.useMemo(() => {
+		const splashUrl = useMemo(() => {
 			if (previewSplashUrl) return previewSplashUrl;
 			if (guild?.splash) {
 				return AvatarUtils.getGuildSplashURL({id: guild.id, splash: guild.splash}, 4096);
@@ -73,11 +74,11 @@ export const InvitePagePreviewModal: React.FC<InvitePagePreviewModalProps> = obs
 		const {patternReady, splashLoaded, splashDimensions} = useAuthBackground(splashUrl, foodPatternUrl);
 		const shouldShowSplash = Boolean(splashUrl && splashDimensions);
 
-		const handleClose = React.useCallback(() => {
+		const handleClose = useCallback(() => {
 			ModalActionCreators.pop();
 		}, []);
 
-		const handleAlignmentChange = React.useCallback(
+		const handleAlignmentChange = useCallback(
 			(alignment: GuildSplashCardAlignmentValue) => {
 				setLocalAlignment(alignment);
 				onAlignmentChange?.(alignment);
@@ -89,7 +90,7 @@ export const InvitePagePreviewModal: React.FC<InvitePagePreviewModalProps> = obs
 
 		const splashAlignment = localAlignment;
 
-		const isVerified = guild.features.has(GuildFeatures.VERIFIED);
+		const guildFeatures = Array.from(guild.features);
 		const presenceCount = PresenceStore.getPresenceCount(guildId);
 		const memberCount = GuildMemberStore.getMemberCount(guildId);
 
@@ -149,7 +150,7 @@ export const InvitePagePreviewModal: React.FC<InvitePagePreviewModalProps> = obs
 											guildId={guild.id}
 											guildName={guild.name}
 											guildIcon={guild.icon}
-											isVerified={isVerified}
+											features={guildFeatures}
 											presenceCount={presenceCount}
 											memberCount={memberCount}
 											previewIconUrl={previewIconUrl}

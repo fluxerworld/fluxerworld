@@ -17,31 +17,33 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ChannelPinActionCreators from '@app/actions/ChannelPinsActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {Message} from '@app/components/channel/Message';
+import {LongPressable} from '@app/components/LongPressable';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import previewStyles from '@app/components/shared/MessagePreview.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {MenuBottomSheet} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {useMessageListKeyboardNavigation} from '@app/hooks/useMessageListKeyboardNavigation';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import ChannelPinsStore from '@app/stores/ChannelPinsStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import ReadStateStore from '@app/stores/ReadStateStore';
+import {goToMessage} from '@app/utils/MessageNavigator';
+import {ChannelTypes, MessagePreviewContext, Permissions} from '@fluxer/constants/src/ChannelConstants';
 import {useLingui} from '@lingui/react/macro';
 import {FlagCheckeredIcon, PushPinSlashIcon, SparkleIcon, XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ChannelPinActionCreators from '~/actions/ChannelPinsActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ChannelTypes, MessagePreviewContext, Permissions} from '~/Constants';
-import {Message} from '~/components/channel/Message';
-import {LongPressable} from '~/components/LongPressable';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {MenuBottomSheet} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Spinner} from '~/components/uikit/Spinner';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
-import ChannelPinsStore from '~/stores/ChannelPinsStore';
-import ChannelStore from '~/stores/ChannelStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import PermissionStore from '~/stores/PermissionStore';
-import ReadStateStore from '~/stores/ReadStateStore';
-import {goToMessage} from '~/utils/MessageNavigator';
-import previewStyles from './MessagePreview.module.css';
+import type React from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 
 interface ChannelPinsContentProps {
 	channel: ChannelRecord;
@@ -57,20 +59,25 @@ export const ChannelPinsContent = observer(({channel, onJump}: ChannelPinsConten
 	const isDMChannel = channel.type === ChannelTypes.DM || channel.type === ChannelTypes.GROUP_DM;
 	const canUnpin = isDMChannel || PermissionStore.can(Permissions.MANAGE_MESSAGES, channel);
 	const mobileLayout = MobileLayoutStore;
-	const [menuOpen, setMenuOpen] = React.useState(false);
-	const [selectedMessage, setSelectedMessage] = React.useState<MessageRecord | null>(null);
+	const scrollerRef = useRef<ScrollerHandle | null>(null);
+	const [menuOpen, setMenuOpen] = useState(false);
+	const [selectedMessage, setSelectedMessage] = useState<MessageRecord | null>(null);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!fetched && !isLoading) {
 			ChannelPinActionCreators.fetch(channel.id);
 		}
 	}, [fetched, isLoading, channel.id]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		ReadStateStore.ackPins(channel.id);
 	}, [channel.id]);
 
-	const handleScroll = React.useCallback(
+	useMessageListKeyboardNavigation({
+		containerRef: scrollerRef,
+	});
+
+	const handleScroll = useCallback(
 		(event: React.UIEvent<HTMLDivElement>) => {
 			const target = event.currentTarget;
 			const scrollPercentage = (target.scrollTop + target.offsetHeight) / target.scrollHeight;
@@ -110,7 +117,7 @@ export const ChannelPinsContent = observer(({channel, onJump}: ChannelPinsConten
 					className={previewStyles.actionIconButton}
 					onClick={(event) => handleUnpin(message, event)}
 				>
-					<XIcon weight="regular" className={previewStyles.actionIcon} />
+					<XIcon weight="bold" className={previewStyles.actionIcon} />
 				</button>
 			</FocusRing>
 		);
@@ -130,6 +137,14 @@ export const ChannelPinsContent = observer(({channel, onJump}: ChannelPinsConten
 	const endStateDescription = channel.guildId
 		? t`Members with the "Pin Messages" permission can pin messages for everyone to see.`
 		: t`You can pin messages in this conversation for everyone to see.`;
+
+	if (!fetched) {
+		return (
+			<div className={previewStyles.emptyState}>
+				<Spinner />
+			</div>
+		);
+	}
 
 	if (pinnedPins.length === 0) {
 		return (
@@ -153,7 +168,7 @@ export const ChannelPinsContent = observer(({channel, onJump}: ChannelPinsConten
 				className={clsx(previewStyles.scroller, mobileLayout.enabled && previewStyles.scrollerMobile)}
 				key="channel-pins-scroller"
 				onScroll={handleScroll}
-				reserveScrollbarTrack
+				ref={scrollerRef}
 			>
 				{mobileLayout.enabled && <div className={previewStyles.topSpacer} />}
 				{pinnedPins.slice().map(({message}) => {

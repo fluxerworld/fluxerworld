@@ -17,57 +17,60 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {I18n} from '@lingui/core';
-import {msg} from '@lingui/core/macro';
-import {matchSorter, rankings} from 'match-sorter';
-import {action, makeAutoObservable, reaction, runInAction} from 'mobx';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {
-	ChannelTypes,
-	FAVORITES_GUILD_ID,
-	type QuickSwitcherResultType,
-	QuickSwitcherResultTypes,
-	RelationshipTypes,
-	ThemeTypes,
-} from '~/Constants';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ThemePreferenceActionCreators from '@app/actions/ThemePreferenceActionCreators';
 import {
 	getSettingsSubtabs,
 	getSettingsTabs,
 	type SettingsSubtab,
 	type SettingsTab,
-} from '~/components/modals/utils/settingsConstants';
-import {QuickSwitcherModal} from '~/components/quick-switcher/QuickSwitcherModal';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {GuildRecord} from '~/records/GuildRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import ChannelStore from '~/stores/ChannelStore';
-import DeveloperModeStore from '~/stores/DeveloperModeStore';
-import FavoritesStore from '~/stores/FavoritesStore';
-import FeatureFlagStore from '~/stores/FeatureFlagStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import MemberSearchStore, {type SearchContext, type TransformedMember} from '~/stores/MemberSearchStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import NavigationStore from '~/stores/NavigationStore';
-import ReadStateStore from '~/stores/ReadStateStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-import SelectedChannelStore from '~/stores/SelectedChannelStore';
-import SelectedGuildStore from '~/stores/SelectedGuildStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import UserStore from '~/stores/UserStore';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import {parseChannelUrl} from '~/utils/DeepLinkUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
+} from '@app/components/modals/utils/SettingsConstants';
+import {QuickSwitcherModal} from '@app/components/quick_switcher/QuickSwitcherModal';
+import {Logger} from '@app/lib/Logger';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import DeveloperModeStore from '@app/stores/DeveloperModeStore';
+import FavoritesStore from '@app/stores/FavoritesStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import MemberSearchStore, {type SearchContext, type TransformedMember} from '@app/stores/MemberSearchStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import NavigationStore from '@app/stores/NavigationStore';
+import ReadStateStore from '@app/stores/ReadStateStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
+import SelectedGuildStore from '@app/stores/SelectedGuildStore';
+import ThemeStore from '@app/stores/ThemeStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import UserStore from '@app/stores/UserStore';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import {parseChannelUrl} from '@app/utils/DeepLinkUtils';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {hasManagedTrait} from '@app/utils/traits/UserTraits';
+import {FAVORITES_GUILD_ID} from '@fluxer/constants/src/AppConstants';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import {ManagedTraits} from '@fluxer/constants/src/ManagedTraits';
+import type {QuickSwitcherResultType} from '@fluxer/constants/src/QuickSwitcherConstants';
+import {QuickSwitcherResultTypes} from '@fluxer/constants/src/QuickSwitcherConstants';
+import {RelationshipTypes, ThemeTypes} from '@fluxer/constants/src/UserConstants';
+import {DAYS_PER_WEEK, MS_PER_DAY} from '@fluxer/date_utils/src/DateConstants';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
+import type {I18n} from '@lingui/core';
+import {msg} from '@lingui/core/macro';
+import {matchSorter, rankings} from 'match-sorter';
+import {action, makeAutoObservable, reaction, runInAction} from 'mobx';
 
 const MAX_GENERAL_RESULTS = 5;
 const MAX_QUERY_MODE_RESULTS = 20;
 const MAX_RECENT_RESULTS = 8;
-const UNREAD_SORT_WEIGHT_BOOST = 7 * 24 * 60 * 60 * 1000;
-const QUICK_SWITCHER_MODAL_KEY = 'quick-switcher';
+const MAX_UNREAD_RESULTS = 8;
+const UNREAD_SORT_WEIGHT_BOOST = DAYS_PER_WEEK * MS_PER_DAY;
+const QUICK_SWITCHER_MODAL_KEY = 'quick_switcher';
 const MEMBER_SEARCH_LIMIT = 25;
 
 type QuickSwitcherQueryMode =
@@ -79,6 +82,12 @@ type QuickSwitcherQueryMode =
 	| typeof QuickSwitcherResultTypes.SETTINGS
 	| typeof QuickSwitcherResultTypes.QUICK_ACTION
 	| typeof QuickSwitcherResultTypes.LINK;
+
+interface ComputeResultsForQueryResult {
+	queryMode: QuickSwitcherQueryMode | null;
+	results: Array<QuickSwitcherResult>;
+	selectedIndex: number;
+}
 
 export interface HeaderResult {
 	type: typeof QuickSwitcherResultTypes.HEADER;
@@ -250,6 +259,7 @@ export interface CandidateSets {
 }
 
 class QuickSwitcherStore {
+	private logger = new Logger('QuickSwitcherStore');
 	isOpen = false;
 	query = '';
 	queryMode: QuickSwitcherQueryMode | null = null;
@@ -337,7 +347,7 @@ class QuickSwitcherStore {
 			this.results = results;
 			this.selectedIndex = selectedIndex;
 		} catch (error) {
-			console.error('Quick switcher failed to precompute results', error);
+			this.logger.error('Quick switcher failed to precompute results', error);
 			this.results = [];
 			this.selectedIndex = -1;
 		}
@@ -411,7 +421,7 @@ class QuickSwitcherStore {
 			return;
 		}
 
-		const rawSearch = query.slice(1).trim();
+		const rawSearch = query['slice'](1).trim();
 		if (rawSearch.length === 0) {
 			if (this.memberSearchContext) {
 				this.memberSearchContext.clearQuery();
@@ -500,7 +510,7 @@ class QuickSwitcherStore {
 		this.selectedIndex = selectedIndex;
 	}
 
-	private computeResultsForQuery(query: string) {
+	private computeResultsForQuery(query: string): ComputeResultsForQueryResult {
 		const sets = this.buildCandidateSets();
 
 		const channelPath = parseChannelUrl(query);
@@ -526,17 +536,17 @@ class QuickSwitcherStore {
 			};
 		}
 
-		if (query.trim().length === 0) {
+		if (query['trim']().length === 0) {
 			const results = this.generateDefaultResults(sets);
 			return {
-				queryMode: null as QuickSwitcherQueryMode | null,
+				queryMode: null,
 				results,
 				selectedIndex: this.getFirstSelectableIndex(results),
 			};
 		}
 
 		const queryMode = this.getQueryMode(query);
-		const rawSearch = queryMode ? query.slice(1) : query;
+		const rawSearch = queryMode ? query['slice'](1) : query;
 		const trimmedSearch = rawSearch.trim();
 
 		let results: Array<QuickSwitcherResult>;
@@ -840,9 +850,9 @@ class QuickSwitcherStore {
 
 		const settingsCandidates: Array<SettingsCandidate> = [];
 
-		const hasExpressionPackAccess = FeatureFlagStore.isExpressionPacksEnabled(selectedGuildId ?? undefined);
+		const hasExpressionPackAccess = hasManagedTrait(ManagedTraits.EXPRESSION_PACKS);
 
-		const accessibleTabs = getSettingsTabs((msg) => this.i18n!._(msg)).filter((tab) => {
+		const accessibleTabs = getSettingsTabs(this.i18n!).filter((tab) => {
 			if (!DeveloperModeStore.isDeveloper && tab.category === 'staff_only') {
 				return false;
 			}
@@ -865,7 +875,7 @@ class QuickSwitcherStore {
 			});
 		}
 
-		for (const subtab of getSettingsSubtabs((msg) => this.i18n!._(msg))) {
+		for (const subtab of getSettingsSubtabs(this.i18n!)) {
 			const parentTab = accessibleTabs.find((t) => t.type === subtab.parentTab);
 			if (!parentTab) continue;
 
@@ -889,9 +899,9 @@ class QuickSwitcherStore {
 			title: this.i18n._(msg`Toggle Theme`),
 			subtitle: this.i18n._(msg`Switch between Light and Dark mode`),
 			action: () => {
-				const currentTheme = UserSettingsStore.getTheme();
+				const currentTheme = ThemeStore.effectiveTheme;
 				const newTheme = currentTheme === ThemeTypes.DARK ? ThemeTypes.LIGHT : ThemeTypes.DARK;
-				UserSettingsStore.saveSettings({theme: newTheme});
+				ThemePreferenceActionCreators.updateThemePreference(newTheme);
 			},
 			searchValues: ['theme', 'light', 'dark', 'mode', 'switch', 'toggle'],
 			sortWeight: 0,
@@ -972,8 +982,7 @@ class QuickSwitcherStore {
 
 		const recentVisits = SelectedChannelStore.recentChannelVisits;
 		const excludedIds = this.getExcludedChannelIds();
-
-		const recentResults: Array<QuickSwitcherExecutableResult> = [];
+		const recentEntries: Array<{channelId: string; result: QuickSwitcherExecutableResult}> = [];
 
 		for (const visit of recentVisits) {
 			if (excludedIds.has(visit.channelId)) continue;
@@ -981,17 +990,43 @@ class QuickSwitcherStore {
 			if (!channel) continue;
 			const result = this.createResultFromChannel(channel, sets, visit.guildId);
 			if (result) {
-				recentResults.push(result);
+				recentEntries.push({channelId: visit.channelId, result});
 			}
 		}
 
-		const recentSliced = recentResults.slice(0, MAX_RECENT_RESULTS);
+		const recentSlicedEntries = recentEntries.slice(0, MAX_RECENT_RESULTS);
+		const recentSliced = recentSlicedEntries.map(({result}) => result);
+		const recentChannelIds = new Set(recentSlicedEntries.map(({channelId}) => channelId));
+		const unreadResults = this.generateUnreadResults(sets, recentChannelIds);
+		return [...recentSliced, ...unreadResults];
+	}
 
-		if (recentSliced.length === 0) {
-			return [];
+	private generateUnreadResults(
+		sets: CandidateSets,
+		additionalExcludedChannelIds: ReadonlySet<string>,
+	): Array<QuickSwitcherExecutableResult> {
+		const excludedIds = this.getExcludedChannelIds();
+		const unreadChannels = ChannelStore.allChannels
+			.filter((channel) => {
+				if (excludedIds.has(channel.id) || additionalExcludedChannelIds.has(channel.id)) {
+					return false;
+				}
+				const unreadCount = ReadStateStore.getUnreadCount(channel.id);
+				const mentionCount = ReadStateStore.getMentionCount(channel.id);
+				return unreadCount > 0 || mentionCount > 0;
+			})
+			.sort((a, b) => this.getChannelRecency(b) - this.getChannelRecency(a))
+			.slice(0, MAX_UNREAD_RESULTS);
+
+		const results: Array<QuickSwitcherExecutableResult> = [];
+		for (const channel of unreadChannels) {
+			const result = this.createResultFromChannel(channel, sets);
+			if (result) {
+				results.push(result);
+			}
 		}
 
-		return [this.createHeaderResult('recent', this.i18n._(msg`Recently visited`)), ...recentSliced];
+		return results;
 	}
 
 	private generateQueryModeResults(

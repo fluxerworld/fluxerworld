@@ -17,64 +17,52 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import * as ReadStateActionCreators from '@app/actions/ReadStateActionCreators';
+import {renderChannelStream} from '@app/components/channel/ChannelMessageStream';
+import {ChannelWelcomeSection} from '@app/components/channel/ChannelWelcomeSection';
+import styles from '@app/components/channel/Messages.module.css';
+import {NewMessagesBar} from '@app/components/channel/NewMessagesBar';
+import ScrollFillerSkeleton from '@app/components/channel/ScrollFillerSkeleton';
+import {UploadManager} from '@app/components/channel/UploadManager';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {useMessageListKeyboardNavigation} from '@app/hooks/useMessageListKeyboardNavigation';
+import {ChannelMessages} from '@app/lib/ChannelMessages';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {parseAndRenderToPlaintext} from '@app/lib/markdown/Plaintext';
+import {getParserFlagsForContext} from '@app/lib/markdown/renderers';
+import {MarkdownContext} from '@app/lib/markdown/renderers/RendererTypes';
+import {usePlaceholderSpecs} from '@app/lib/PlaceholderSpecs';
+import {useScrollManager} from '@app/lib/ScrollManager';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import GuildVerificationStore from '@app/stores/GuildVerificationStore';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
+import MessageEditStore from '@app/stores/MessageEditStore';
+import MessageFocusStore from '@app/stores/MessageFocusStore';
+import MessageStore from '@app/stores/MessageStore';
+import ModalStore from '@app/stores/ModalStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import ReadStateStore from '@app/stores/ReadStateStore';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import UserStore from '@app/stores/UserStore';
+import WindowStore from '@app/stores/WindowStore';
+import {type ChannelStreamItem, createChannelStream} from '@app/utils/MessageGroupingUtils';
+import {buildMessageSelectionCopyText} from '@app/utils/MessageSelectionCopyUtils';
+import {Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {MAX_MESSAGES_PER_CHANNEL} from '@fluxer/constants/src/LimitConstants';
+import {extractTimestamp} from '@fluxer/snowflake/src/SnowflakeUtils';
 import {useLingui} from '@lingui/react/macro';
 import {runInAction} from 'mobx';
 import {observer, useLocalObservable} from 'mobx-react-lite';
 import type React from 'react';
 import {useCallback, useEffect, useLayoutEffect, useMemo, useRef} from 'react';
-import * as ChannelPinsActionCreators from '~/actions/ChannelPinsActionCreators';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ReadStateActionCreators from '~/actions/ReadStateActionCreators';
-import * as SavedMessageActionCreators from '~/actions/SavedMessageActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import {MAX_MESSAGES_PER_CHANNEL, MessageTypes, Permissions} from '~/Constants';
-import {BlockedMessageGroups} from '~/components/channel/BlockedMessageGroups';
-import {ChannelWelcomeSection} from '~/components/channel/ChannelWelcomeSection';
-import {Divider} from '~/components/channel/Divider';
-import {MessageGroup} from '~/components/channel/MessageGroup';
-import {triggerAddReaction} from '~/components/channel/messageActionUtils';
-import ScrollFillerSkeleton from '~/components/channel/ScrollFillerSkeleton';
-import {UploadManager} from '~/components/channel/UploadManager';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {ForwardModal} from '~/components/modals/ForwardModal';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Spinner} from '~/components/uikit/Spinner';
-import type {ChannelMessages} from '~/lib/ChannelMessages';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import {usePlaceholderSpecs} from '~/lib/PlaceholderSpecs';
-import {useScrollManager} from '~/lib/ScrollManager';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import GuildVerificationStore from '~/stores/GuildVerificationStore';
-import KeyboardModeStore from '~/stores/KeyboardModeStore';
-import MessageEditStore from '~/stores/MessageEditStore';
-import MessageStore from '~/stores/MessageStore';
-import ModalStore from '~/stores/ModalStore';
-import PermissionStore from '~/stores/PermissionStore';
-import ReadStateStore from '~/stores/ReadStateStore';
-import SavedMessagesStore from '~/stores/SavedMessagesStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import UserStore from '~/stores/UserStore';
-import WindowStore from '~/stores/WindowStore';
-import {type ChannelStreamItem, ChannelStreamType, createChannelStream} from '~/utils/MessageGroupingUtils';
-import {buildMessageJumpLink} from '~/utils/messageLinkUtils';
-import SnowflakeUtils from '~/utils/SnowflakeUtil';
-import styles from './Messages.module.css';
-import {NewMessagesBar} from './NewMessagesBar';
 
-const isSystemMessage = (message: MessageRecord | undefined): boolean => {
-	if (!message) return false;
-	return message.type !== MessageTypes.DEFAULT && message.type !== MessageTypes.REPLY;
-};
-
-type MessageGroupKind = 'system' | 'regular';
-
-const getMessageGroupKind = (message: MessageRecord | undefined): MessageGroupKind => {
-	return isSystemMessage(message) ? 'system' : 'regular';
-};
+const MESSAGE_COPY_PARSER_FLAGS = getParserFlagsForContext(MarkdownContext.STANDARD_WITHOUT_JUMBO);
 
 function checkPermissions(channel: ChannelRecord) {
 	const canSendMessages = PermissionStore.can(Permissions.SEND_MESSAGES, channel);
@@ -87,7 +75,31 @@ function checkPermissions(channel: ChannelRecord) {
 	return {canSendMessages, canChat, canAttachFiles, canManageMessages};
 }
 
-const readFromStores = (channelId: string) => {
+interface MessagesStoreSnapshot {
+	unreadCount: number;
+	oldestUnreadMessageId: string | null;
+	visualUnreadMessageId: string | null;
+	ackMessageId: string | null;
+	lastReadStateMessageId: string | null;
+	messages: ChannelMessages;
+	messageVersion: number;
+	revealedMessageId: string | null;
+	permissionVersion: number;
+	messageGroupSpacing: number;
+	fontSize: number;
+	messageDisplayCompact: boolean;
+	editingMessageId: string | null;
+	currentUser: UserRecord | undefined;
+	isEstimated: boolean;
+	isManualAck: boolean;
+}
+
+interface MessagesProps {
+	channel: ChannelRecord;
+	onBottomBarVisibilityChange?: (visible: boolean) => void;
+}
+
+const readFromStores = (channelId: string): MessagesStoreSnapshot => {
 	const messages = MessageStore.getMessages(channelId);
 
 	return {
@@ -100,7 +112,6 @@ const readFromStores = (channelId: string) => {
 		messageVersion: messages.version,
 		revealedMessageId: messages.revealedMessageId,
 		permissionVersion: PermissionStore.version,
-		showMessageDividers: AccessibilityStore.showMessageDividers,
 		messageGroupSpacing: AccessibilityStore.messageGroupSpacingValue,
 		fontSize: AccessibilityStore.fontSize,
 		messageDisplayCompact: UserSettingsStore.getMessageDisplayCompact(),
@@ -111,27 +122,33 @@ const readFromStores = (channelId: string) => {
 	};
 };
 
-function shallowEqual<T extends Record<string, unknown>>(a: T, b: T): boolean {
+function shallowEqual<T extends object>(a: T, b: T): boolean {
 	const aKeys = Object.keys(a);
 	if (aKeys.length !== Object.keys(b).length) return false;
 	for (const key of aKeys) {
-		if (a[key] !== b[key]) return false;
+		if ((a as Record<string, unknown>)[key] !== (b as Record<string, unknown>)[key]) return false;
 	}
 	return true;
 }
 
-export const Messages = observer(function Messages({channel}: {channel: ChannelRecord}) {
-	const {t, i18n} = useLingui();
-
+export const Messages = observer(function Messages({channel, onBottomBarVisibilityChange}: MessagesProps) {
+	const {i18n} = useLingui();
 	const messagesWrapperRef = useRef<HTMLDivElement | null>(null);
-	const lastStoreSnapshotRef = useRef<ReturnType<typeof readFromStores> | null>(null);
+	const scrollerInnerRef = useRef<HTMLDivElement | null>(null);
+	const lastStoreSnapshotRef = useRef<MessagesStoreSnapshot | null>(null);
+	const recoveryFetchChannelIdRef = useRef<string | null>(null);
 
-	const state = useLocalObservable(() => {
+	interface MessageState extends MessagesStoreSnapshot {
+		highlightedMessageId: string | null;
+		isAtBottom: boolean;
+	}
+
+	const state = useLocalObservable<MessageState>(() => {
 		const initial = readFromStores(channel.id);
 		lastStoreSnapshotRef.current = initial;
 		return {
 			...initial,
-			highlightedMessageId: null as string | null,
+			highlightedMessageId: null,
 			isAtBottom: false,
 		};
 	});
@@ -139,8 +156,14 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 	const windowId = WindowStore.windowId;
 	const isWindowFocused = WindowStore.isFocused();
 	const isModalOpen = ModalStore.hasModalOpen();
-	const keyboardModeEnabled = KeyboardModeStore.keyboardModeEnabled;
-	const placeholderSpecs = usePlaceholderSpecs(state.messageDisplayCompact, state.messageGroupSpacing, state.fontSize);
+	const isGatewayConnected = GatewayConnectionStore.isConnected;
+	const selectedChannelId = SelectedChannelStore.currentChannelId;
+	const placeholderSpecs = usePlaceholderSpecs(
+		state.messageDisplayCompact,
+		state.messageGroupSpacing,
+		state.fontSize,
+		channel.id,
+	);
 	const safeMessages = state.messages ?? MessageStore.getMessages(channel.id);
 
 	const canAutoAck = !state.isManualAck && isWindowFocused && !isModalOpen;
@@ -175,6 +198,13 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 		}
 	}, [state.messageGroupSpacing]);
 
+	useEffect(() => {
+		ChannelMessages.retainChannel(channel.id);
+		return () => {
+			ChannelMessages.releaseRetainedChannel(channel.id);
+		};
+	}, [channel.id]);
+
 	const jumpHighlightTimeoutRef = useRef<number | null>(null);
 	const lastJumpSequenceIdRef = useRef<number | null>(null);
 
@@ -199,11 +229,10 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 			}
 
 			if (KeyboardModeStore.keyboardModeEnabled) {
-				const focusedMessageId = (document.activeElement as HTMLElement)
-					?.closest?.('[data-message-id]')
-					?.getAttribute('data-message-id');
+				const focusedMessageId = MessageFocusStore.focusedMessageId;
+				const focusedChannelId = MessageFocusStore.focusedChannelId;
 				const editedMessageId = targetNode.getAttribute('data-message-id');
-				if (focusedMessageId && focusedMessageId === editedMessageId) {
+				if (focusedChannelId === channel.id && focusedMessageId && editedMessageId === focusedMessageId) {
 					return;
 				}
 			}
@@ -219,9 +248,10 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 					padding: 80,
 					animate: false,
 				});
+				scrollManager.handleScroll();
 			}
 		},
-		[scrollManager],
+		[scrollManager, channel.id],
 	);
 
 	const onReveal = useCallback(
@@ -257,6 +287,46 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 		void MessageActionCreators.fetchMessages(channel.id, null, null, MAX_MESSAGES_PER_CHANNEL);
 	}, [channel.id]);
 
+	const onCopySelectedMessages = useCallback(
+		(event: React.ClipboardEvent<HTMLDivElement>) => {
+			if (state.messageDisplayCompact) {
+				return;
+			}
+
+			const scrollerInnerNode = scrollerInnerRef.current;
+			if (!scrollerInnerNode || !event.clipboardData) {
+				return;
+			}
+
+			const selection = scrollerInnerNode.ownerDocument.defaultView?.getSelection() ?? null;
+			const clipboardText = buildMessageSelectionCopyText({
+				rootElement: scrollerInnerNode,
+				selection,
+				getMessagePlaintext: (messageId: string) => {
+					const message = MessageStore.getMessage(channel.id, messageId);
+					if (!message || !message.isUserMessage()) {
+						return null;
+					}
+
+					return parseAndRenderToPlaintext(message.content, MESSAGE_COPY_PARSER_FLAGS, {
+						channelId: channel.id,
+						preserveMarkdown: false,
+						includeEmojiNames: true,
+						i18n,
+					});
+				},
+			});
+
+			if (!clipboardText) {
+				return;
+			}
+
+			event.preventDefault();
+			event.clipboardData.setData('text/plain', clipboardText);
+		},
+		[state.messageDisplayCompact, channel.id, i18n],
+	);
+
 	useEffect(() => {
 		const storeUnsubs = [
 			MessageStore.subscribe(updateFromStores),
@@ -278,13 +348,7 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 		const onLayoutResized = (payload?: unknown) => {
 			const data = payload as {channelId?: string; heightDelta?: number} | undefined;
 			if (data?.channelId && data.channelId !== channel.id) return;
-
-			const heightDelta = data?.heightDelta;
-			const handledLayoutShift = typeof heightDelta === 'number' ? scrollManager.applyLayoutShift(heightDelta) : false;
-
-			if (!handledLayoutShift) {
-				scrollManager.handleScroll();
-			}
+			scrollManager.handleLayoutResized(data?.heightDelta);
 		};
 
 		const onFocusBottommostMessage = (payload?: unknown) => {
@@ -351,232 +415,72 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 	}, [channel.id, updateFromStores, onScrollToPresent, onScrollToPresentAndAck, scrollManager]);
 
 	useEffect(() => {
-		if (!keyboardModeEnabled) return;
+		const editingMessageId = state.editingMessageId;
 
-		const messageNodesCache = {nodes: [] as Array<HTMLElement>, ts: 0};
+		if (editingMessageId) {
+			scrollManager.enterEditMode();
+		} else {
+			scrollManager.exitEditMode();
+		}
+	}, [state.editingMessageId, scrollManager]);
 
-		const getMessageElements = (): Array<HTMLElement> => {
-			const now = Date.now();
-			if (messageNodesCache.nodes.length && now - messageNodesCache.ts < 120) {
-				return messageNodesCache.nodes;
+	useEffect(() => {
+		const messages = state.messages;
+		if (
+			!messages ||
+			messages.ready ||
+			messages.loadingMore ||
+			messages.error ||
+			messages.length > 0 ||
+			!isGatewayConnected ||
+			selectedChannelId !== channel.id
+		) {
+			if (recoveryFetchChannelIdRef.current === channel.id) {
+				recoveryFetchChannelIdRef.current = null;
 			}
-			const doc = scrollManager.ref.current?.getScrollerNode()?.ownerDocument ?? document;
-			messageNodesCache.nodes = Array.from(
-				doc?.querySelectorAll<HTMLElement>(`[data-channel-id="${channel.id}"][data-message-id]`) ?? [],
-			);
-			messageNodesCache.ts = now;
-			return messageNodesCache.nodes;
-		};
+			return;
+		}
 
-		const getFocusedMessageId = (target: EventTarget | null): string | null => {
-			const el = (target as HTMLElement | null)?.closest?.('[data-message-id][data-channel-id]');
-			return (el as HTMLElement | null)?.dataset?.messageId ?? null;
-		};
+		if (recoveryFetchChannelIdRef.current === channel.id) {
+			return;
+		}
 
-		const focusByDelta = (delta: number) => {
-			const nodes = getMessageElements();
-			if (!nodes.length) return;
-			const activeId = getFocusedMessageId(document.activeElement);
-			let idx = nodes.findIndex((n) => n.dataset.messageId === activeId);
-			if (idx === -1) {
-				idx = delta > 0 ? -1 : nodes.length;
+		recoveryFetchChannelIdRef.current = channel.id;
+		void MessageActionCreators.fetchMessages(channel.id, null, null, MAX_MESSAGES_PER_CHANNEL).finally(() => {
+			if (recoveryFetchChannelIdRef.current === channel.id) {
+				recoveryFetchChannelIdRef.current = null;
 			}
-			const nextIdx = idx + delta;
-
-			if (nextIdx < 0) {
-				if (state.messages?.hasMoreBefore && !state.messages.loadingMore) {
-					scrollManager.loadMoreForKeyboardNavigation(false);
-				}
-				return;
-			}
-			if (nextIdx >= nodes.length) {
-				if (state.messages?.hasMoreAfter && !state.messages.loadingMore) {
-					scrollManager.loadMoreForKeyboardNavigation(true);
-				}
-				return;
-			}
-
-			const nextId = nodes[nextIdx]?.dataset?.messageId;
-			if (nextId) {
-				scrollManager.focusMessage(nextId);
-			}
-		};
-
-		const handleMessageAction = (event: KeyboardEvent) => {
-			if (!keyboardModeEnabled) return;
-
-			const activeElement = document.activeElement;
-			if (activeElement instanceof HTMLTextAreaElement || activeElement instanceof HTMLInputElement) {
-				return;
-			}
-
-			const targetMessageId = getFocusedMessageId(event.target);
-			if (!targetMessageId) return;
-
-			const message = MessageStore.getMessage(channel.id, targetMessageId);
-			const key = event.key;
-
-			switch (true) {
-				case key === 'ArrowUp': {
-					event.preventDefault();
-					focusByDelta(-1);
-					return;
-				}
-				case key === 'ArrowDown': {
-					event.preventDefault();
-					focusByDelta(1);
-					return;
-				}
-				case key === 'e': {
-					if (message?.isCurrentUserAuthor()) {
-						MessageActionCreators.startEdit(channel.id, targetMessageId, message.content ?? '');
-						event.preventDefault();
-					}
-					return;
-				}
-				case key === 'Backspace' || key === 'Delete': {
-					if (message) {
-						event.preventDefault();
-						ModalActionCreators.push(
-							modal(() => (
-								<ConfirmModal
-									title={t`Delete Message`}
-									description={t`This will create a rift in the space-time continuum and cannot be undone.`}
-									message={message}
-									primaryText={t`Delete`}
-									onPrimary={() => MessageActionCreators.remove(channel.id, targetMessageId)}
-								/>
-							)),
-						);
-					}
-					return;
-				}
-				case key === 'p': {
-					if (message) {
-						if (message.pinned) {
-							void ChannelPinsActionCreators.unpin(channel.id, targetMessageId);
-						} else {
-							void ChannelPinsActionCreators.pin(channel.id, targetMessageId);
-						}
-						event.preventDefault();
-					}
-					return;
-				}
-				case key === '+': {
-					triggerAddReaction(targetMessageId);
-					event.preventDefault();
-					return;
-				}
-				case key === 'r' && !event.shiftKey: {
-					MessageActionCreators.startReply(channel.id, targetMessageId, true);
-					event.preventDefault();
-					return;
-				}
-				case key === 'R' && event.shiftKey: {
-					MessageActionCreators.startReply(channel.id, targetMessageId, false);
-					event.preventDefault();
-					return;
-				}
-				case key === 'f': {
-					event.preventDefault();
-					if (!message) return;
-					ModalActionCreators.push(modal(() => <ForwardModal message={message} />));
-					return;
-				}
-				case (key === 'c' || key === 'C') && (event.metaKey || event.ctrlKey): {
-					if (message?.content) {
-						void TextCopyActionCreators.copy(i18n, message.content, false);
-						event.preventDefault();
-					}
-					return;
-				}
-				case key === 'Enter' && event.altKey: {
-					ReadStateActionCreators.markAsUnread(channel.id, targetMessageId).catch(() => {});
-					event.preventDefault();
-					return;
-				}
-				case key === 'c' && !event.metaKey && !event.ctrlKey: {
-					if (message?.content) {
-						void TextCopyActionCreators.copy(i18n, message.content, false);
-						event.preventDefault();
-					}
-					return;
-				}
-				case key === 'b': {
-					if (message) {
-						const isSaved = SavedMessagesStore.isSaved(message.id);
-						if (isSaved) {
-							void SavedMessageActionCreators.remove(i18n, message.id);
-						} else {
-							void SavedMessageActionCreators.create(i18n, channel.id, message.id);
-						}
-						event.preventDefault();
-					}
-					return;
-				}
-				case key === 'd': {
-					if (message) {
-						event.preventDefault();
-						ModalActionCreators.push(
-							modal(() => (
-								<ConfirmModal
-									title={t`Delete Message`}
-									description={t`This will create a rift in the space-time continuum and cannot be undone.`}
-									message={message}
-									primaryText={t`Delete`}
-									onPrimary={() => MessageActionCreators.remove(channel.id, targetMessageId)}
-								/>
-							)),
-						);
-					}
-					return;
-				}
-				case key === 'm': {
-					ReadStateActionCreators.markAsUnread(channel.id, targetMessageId).catch(() => {});
-					event.preventDefault();
-					return;
-				}
-				case key === 'l': {
-					if (message) {
-						const jumpLink = buildMessageJumpLink({
-							guildId: channel.guildId,
-							channelId: channel.id,
-							messageId: message.id,
-						});
-						void TextCopyActionCreators.copy(i18n, jumpLink, false);
-						event.preventDefault();
-					}
-					return;
-				}
-				case key === 's': {
-					if (message) {
-						void MessageActionCreators.toggleSuppressEmbeds(channel.id, message.id, message.flags);
-						event.preventDefault();
-					}
-					return;
-				}
-				case key === 'Escape': {
-					ComponentDispatch.dispatch('FOCUS_TEXTAREA', {channelId: channel.id});
-					event.preventDefault();
-					return;
-				}
-				default:
-					return;
-			}
-		};
-
-		window.addEventListener('keydown', handleMessageAction, true);
-		return () => {
-			window.removeEventListener('keydown', handleMessageAction, true);
-		};
+		});
 	}, [
 		channel.id,
-		keyboardModeEnabled,
-		scrollManager,
-		state.messages?.hasMoreAfter,
-		state.messages?.hasMoreBefore,
+		isGatewayConnected,
+		selectedChannelId,
+		state.messages?.ready,
 		state.messages?.loadingMore,
+		state.messages?.error,
+		state.messageVersion,
 	]);
+
+	useMessageListKeyboardNavigation({
+		containerRef: scrollManager.ref,
+		channelId: channel.id,
+		onFocusMessage: (messageId) => {
+			scrollManager.focusMessage(messageId);
+		},
+		onLoadMoreBefore: () => {
+			scrollManager.loadMoreForKeyboardNavigation(false);
+		},
+		onLoadMoreAfter: () => {
+			scrollManager.loadMoreForKeyboardNavigation(true);
+		},
+		hasMoreBefore: state.messages?.hasMoreBefore ?? false,
+		hasMoreAfter: state.messages?.hasMoreAfter ?? false,
+		isLoadingMore: state.messages?.loadingMore ?? false,
+		onEscape: () => {
+			ComponentDispatch.dispatch('FOCUS_TEXTAREA', {channelId: channel.id});
+		},
+		allowWhenInactive: true,
+	});
 
 	useLayoutEffect(() => {
 		const messages = state.messages;
@@ -649,7 +553,6 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 			channel,
 			highlightedMessageId: state.highlightedMessageId,
 			messageDisplayCompact: state.messageDisplayCompact,
-			showMessageDividers: state.showMessageDividers,
 			messageGroupSpacing: state.messageGroupSpacing,
 			revealedMessageId: state.revealedMessageId,
 			onMessageEdit,
@@ -661,23 +564,35 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 		channel,
 		state.highlightedMessageId,
 		state.messageDisplayCompact,
-		state.showMessageDividers,
 		state.messageGroupSpacing,
 		state.revealedMessageId,
 		onMessageEdit,
 		onReveal,
 	]);
 
-	const jumpToPresentBar =
-		state.messages?.ready && state.messages.hasMoreAfter ? (
-			<JumpToPresentBar
-				loadingMore={state.messages.loadingMore}
-				jumpedToPresent={state.messages.jumpedToPresent}
-				onJumpToPresent={onScrollToPresent}
-			/>
-		) : null;
+	const hasJumpToPresentBar = Boolean(state.messages?.ready && state.messages.hasMoreAfter);
+	const hasLoadErrorBar = Boolean(state.messages?.error);
+	const hasBottomBar = hasJumpToPresentBar || hasLoadErrorBar;
 
-	const loadErrorBar = state.messages?.error ? (
+	useEffect(() => {
+		onBottomBarVisibilityChange?.(hasBottomBar);
+	}, [hasBottomBar, onBottomBarVisibilityChange]);
+
+	useEffect(() => {
+		return () => {
+			onBottomBarVisibilityChange?.(false);
+		};
+	}, [onBottomBarVisibilityChange]);
+
+	const jumpToPresentBar = hasJumpToPresentBar ? (
+		<JumpToPresentBar
+			loadingMore={state.messages.loadingMore}
+			jumpedToPresent={state.messages.jumpedToPresent}
+			onJumpToPresent={onScrollToPresent}
+		/>
+	) : null;
+
+	const loadErrorBar = hasLoadErrorBar ? (
 		<LoadErrorBar loading={state.messages.loadingMore} onRetry={onRetryLoadMessages} />
 	) : null;
 
@@ -686,9 +601,7 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 	const topBar = showNewMessagesBar ? (
 		<NewMessagesBar
 			unreadCount={state.unreadCount}
-			oldestUnreadTimestamp={
-				state.oldestUnreadMessageId ? SnowflakeUtils.extractTimestamp(state.oldestUnreadMessageId) : 0
-			}
+			oldestUnreadTimestamp={state.oldestUnreadMessageId ? extractTimestamp(state.oldestUnreadMessageId) : 0}
 			isEstimated={state.isEstimated}
 			onJumpToNewMessages={onScrollToPresentAndAck}
 		/>
@@ -717,7 +630,6 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 			{topBar}
 			<div className={styles.scrollerContainer}>
 				<Scroller
-					className={state.isAtBottom ? styles.nativeAnchor : undefined}
 					fade={false}
 					scrollbar="regular"
 					hideThumbWhenWindowBlurred
@@ -727,7 +639,9 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 					key={`scroller-${channel.id}`}
 				>
 					<div className={styles.scrollerContent}>
-						<div className={styles.scrollerInner}>{scrollerInner}</div>
+						<div className={styles.scrollerInner} ref={scrollerInnerRef} onCopy={onCopySelectedMessages}>
+							{scrollerInner}
+						</div>
 					</div>
 				</Scroller>
 			</div>
@@ -735,157 +649,6 @@ export const Messages = observer(function Messages({channel}: {channel: ChannelR
 		</div>
 	);
 });
-
-function renderChannelStream(props: {
-	channelStream: Array<ChannelStreamItem>;
-	messages: ChannelMessages;
-	channel: ChannelRecord;
-	highlightedMessageId: string | null;
-	messageDisplayCompact: boolean;
-	showMessageDividers: boolean;
-	messageGroupSpacing: number;
-	revealedMessageId: string | null;
-	onMessageEdit: (target: HTMLElement) => void;
-	onReveal: (messageId: string | null) => void;
-}): Array<React.ReactNode> {
-	const {
-		channelStream,
-		channel,
-		highlightedMessageId,
-		messageDisplayCompact,
-		showMessageDividers,
-		messageGroupSpacing,
-		revealedMessageId,
-		onMessageEdit,
-		onReveal,
-	} = props;
-
-	const nodes: Array<React.ReactNode> = [];
-
-	let pendingMessages: Array<MessageRecord> = [];
-	let pendingStreamItems: Array<ChannelStreamItem> = [];
-	let pendingGroupId: string | undefined;
-	let pendingFlashKey: number | undefined;
-	let lastRenderedGroupKind: MessageGroupKind | null = null;
-	let spacerCounter = 0;
-
-	const pushSpacerIfNeeded = (nextKind: MessageGroupKind, keyBase: string, nextMessageHasUnreadDivider = false) => {
-		if (showMessageDividers || messageGroupSpacing <= 0 || lastRenderedGroupKind == null) return;
-		if (nextMessageHasUnreadDivider) return;
-
-		const bothSystem = lastRenderedGroupKind === 'system' && nextKind === 'system';
-		const spacerClass = bothSystem ? styles.groupSpacerHalf : styles.groupSpacer;
-
-		nodes.push(<div key={`group-spacer-${keyBase}-${spacerCounter++}`} className={spacerClass} aria-hidden="true" />);
-	};
-
-	const flushPendingGroup = () => {
-		if (pendingMessages.length === 0) return;
-
-		const groupKey = pendingGroupId ?? pendingMessages[0].id;
-		const groupKind = getMessageGroupKind(pendingMessages[0]);
-		const streamItemsMap = new Map(pendingStreamItems.map((item) => [(item.content as MessageRecord).id, item]));
-		const firstMessageHasUnreadDivider = streamItemsMap.get(pendingMessages[0].id)?.showUnreadDividerBefore ?? false;
-		pushSpacerIfNeeded(groupKind, groupKey, firstMessageHasUnreadDivider);
-
-		const getUnreadDividerVisibility = (messageId: string, position: 'before' | 'after') => {
-			if (position === 'before') {
-				const streamItem = streamItemsMap.get(messageId);
-				const visible = streamItem?.showUnreadDividerBefore ?? false;
-				return visible;
-			}
-			return false;
-		};
-
-		nodes.push(
-			<MessageGroup
-				key={groupKey}
-				messages={pendingMessages}
-				channel={channel}
-				onEdit={onMessageEdit}
-				highlightedMessageId={highlightedMessageId}
-				messageDisplayCompact={messageDisplayCompact}
-				flashKey={pendingFlashKey}
-				getUnreadDividerVisibility={getUnreadDividerVisibility}
-				idPrefix="chat-messages"
-			/>,
-		);
-
-		lastRenderedGroupKind = groupKind;
-		pendingMessages = [];
-		pendingStreamItems = [];
-		pendingGroupId = undefined;
-		pendingFlashKey = undefined;
-	};
-
-	for (let i = 0; i < channelStream.length; i++) {
-		const item = channelStream[i];
-
-		if (item.type !== ChannelStreamType.MESSAGE) {
-			flushPendingGroup();
-
-			if (item.type === ChannelStreamType.DIVIDER) {
-				const isUnread = item.unreadId != null;
-				const isDateDivider = !!item.content;
-				const dividerSpacing = isDateDivider ? 16 : 0;
-				nodes.push(
-					<Divider
-						key={item.contentKey || `divider-${i}`}
-						spacing={dividerSpacing}
-						red={isUnread}
-						isDate={isDateDivider}
-						id={isUnread ? 'new-messages-bar' : undefined}
-					>
-						{item.content as string}
-					</Divider>,
-				);
-				lastRenderedGroupKind = null;
-				continue;
-			}
-
-			if (item.type === ChannelStreamType.MESSAGE_GROUP_BLOCKED) {
-				pushSpacerIfNeeded('regular', item.key ?? `blocked-${i}`);
-				nodes.push(
-					<BlockedMessageGroups
-						key={item.key}
-						revealed={item.key === revealedMessageId}
-						messageGroups={item.content as Array<ChannelStreamItem>}
-						onReveal={onReveal}
-						compact={messageDisplayCompact}
-						channel={channel}
-						messageGroupSpacing={messageGroupSpacing}
-					/>,
-				);
-				lastRenderedGroupKind = 'regular';
-				continue;
-			}
-
-			continue;
-		}
-
-		const message = item.content as MessageRecord;
-		const itemGroupId = item.groupId ?? message.id;
-
-		if (pendingGroupId && pendingGroupId !== itemGroupId) {
-			flushPendingGroup();
-		}
-
-		if (!pendingGroupId) {
-			pendingGroupId = itemGroupId;
-		}
-
-		pendingMessages.push(message);
-		pendingStreamItems.push(item);
-
-		if (item.flashKey != null) {
-			pendingFlashKey = item.flashKey;
-		}
-	}
-
-	flushPendingGroup();
-
-	return nodes;
-}
 
 const getBottomBarStyle = (background: string): React.CSSProperties => ({
 	borderRadius: '0.5rem 0.5rem 0 0',

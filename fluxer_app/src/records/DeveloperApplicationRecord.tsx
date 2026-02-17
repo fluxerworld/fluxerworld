@@ -25,6 +25,7 @@ export interface DeveloperApplicationBot {
 	bio?: string | null;
 	token?: string;
 	banner?: string | null;
+	flags?: number;
 }
 
 export interface DeveloperApplication {
@@ -64,6 +65,7 @@ export class DeveloperApplicationRecord implements DeveloperApplication {
 				bio: application.bot.bio ?? null,
 				token: application.bot.token,
 				banner: application.bot.banner ?? null,
+				flags: application.bot.flags,
 			};
 		}
 	}
@@ -89,7 +91,12 @@ export class DeveloperApplicationRecord implements DeveloperApplication {
 			bot_public: this.bot_public,
 			bot_require_code_grant: this.bot_require_code_grant,
 			client_secret: this.client_secret,
-			bot: this.bot ? {...this.bot} : undefined,
+			bot: this.bot
+				? {
+						...this.bot,
+						flags: this.bot.flags,
+					}
+				: undefined,
 		};
 	}
 }

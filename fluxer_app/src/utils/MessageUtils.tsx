@@ -17,17 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {MessageRecord} from '~/records/MessageRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import UserGuildSettingsStore from '~/stores/UserGuildSettingsStore';
+import {Logger} from '@app/lib/Logger';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import UserGuildSettingsStore from '@app/stores/UserGuildSettingsStore';
 
-export const isMentioned = (user: UserRecord, message: MessageRecord): boolean => {
+const logger = new Logger('MessageUtils');
+
+export function isMentioned(user: UserRecord, message: MessageRecord): boolean {
 	const channel = ChannelStore.getChannel(message.channelId);
 	if (channel == null) {
-		console.warn(`${message.channelId} does not exist!`);
+		logger.warn(`${message.channelId} does not exist!`);
 		return false;
 	}
 	const suppressEveryone = UserGuildSettingsStore.isSuppressEveryoneEnabled(channel.guildId ?? null);
@@ -50,4 +53,4 @@ export const isMentioned = (user: UserRecord, message: MessageRecord): boolean =
 		return false;
 	}
 	return message.mentionRoles.some((roleId) => guildMember.roles.has(roleId));
-};
+}

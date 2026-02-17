@@ -1,0 +1,37 @@
+{
+	"sms_integration": {
+		"type": "object",
+		"description": "SMS service integration.",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"description": "Enable SMS sending.",
+				"default": false
+			},
+			"account_sid": {
+				"type": "string",
+				"description": "Twilio account SID."
+			},
+			"auth_token": {
+				"type": "string",
+				"description": "Twilio auth token."
+			},
+			"verify_service_sid": {
+				"type": "string",
+				"description": "Twilio Verify service SID."
+			}
+		},
+		"if": {
+			"required": ["enabled"],
+			"properties": {
+				"enabled": {
+					"const": true
+				}
+			}
+		},
+		"then": {
+			"required": ["account_sid", "auth_token", "verify_service_sid"]
+		}
+	}
+}

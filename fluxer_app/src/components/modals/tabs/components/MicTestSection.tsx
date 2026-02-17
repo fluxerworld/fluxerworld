@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/modals/tabs/components/MicTestSection.module.css';
+import {useMicTest} from '@app/components/modals/tabs/hooks/useMicTest';
+import {Button} from '@app/components/uikit/button/Button';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {Button} from '~/components/uikit/Button/Button';
-import {useMicTest} from '../hooks/useMicTest';
-import styles from './MicTestSection.module.css';
 
 interface MicTestSectionProps {
 	settings: {

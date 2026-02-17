@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {PlutoniumContent} from '@app/components/modals/components/PlutoniumContent';
+import * as Modal from '@app/components/modals/Modal';
+import styles from '@app/components/modals/PremiumModal.module.css';
+import {type PremiumModalProps, usePremiumModalLogic} from '@app/utils/modals/PremiumModalUtils';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import * as Modal from '~/components/modals/Modal';
-import {type PremiumModalProps, usePremiumModalLogic} from '~/utils/modals/PremiumModalUtils';
-import {PlutoniumContent} from './components/PlutoniumContent';
-import styles from './PremiumModal.module.css';
 
-export const PremiumModal = observer(({defaultGiftMode = false}: PremiumModalProps) => {
+export const PremiumModal = observer(({defaultGiftMode}: PremiumModalProps) => {
 	const modalLogic = usePremiumModalLogic({
 		defaultGiftMode,
 	});

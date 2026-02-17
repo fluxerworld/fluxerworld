@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {PackInviteMetadata} from '~/types/PackTypes';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import type {PackInviteMetadataResponse} from '@fluxer/schema/src/domains/invite/InviteSchemas';
 
 const logger = new Logger('PackInvites');
 
@@ -31,10 +31,10 @@ export interface CreatePackInviteParams {
 	unique?: boolean;
 }
 
-export const createInvite = async (params: CreatePackInviteParams): Promise<PackInviteMetadata> => {
+export async function createInvite(params: CreatePackInviteParams): Promise<PackInviteMetadataResponse> {
 	try {
 		logger.debug(`Creating invite for pack ${params.packId}`);
-		const response = await http.post<PackInviteMetadata>({
+		const response = await http.post<PackInviteMetadataResponse>({
 			url: Endpoints.PACK_INVITES(params.packId),
 			body: {
 				max_uses: params.maxUses ?? 0,
@@ -47,4 +47,4 @@ export const createInvite = async (params: CreatePackInviteParams): Promise<Pack
 		logger.error(`Failed to create invite for pack ${params.packId}:`, error);
 		throw error;
 	}
-};
+}

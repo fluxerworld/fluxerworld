@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/auth/AuthCardContainer.module.css';
+import authLayoutStyles from '@app/components/layout/AuthLayout.module.css';
+import FluxerLogo from '@app/images/fluxer-logo-color.svg?react';
+import FluxerWordmark from '@app/images/fluxer-wordmark.svg?react';
 import clsx from 'clsx';
 import type {ReactNode} from 'react';
-import authLayoutStyles from '~/components/layout/AuthLayout.module.css';
-import FluxerLogo from '~/images/fluxer-logo-color.svg?react';
-import FluxerWordmark from '~/images/fluxer-wordmark.svg?react';
-import styles from './AuthCardContainer.module.css';
 
-export interface AuthCardContainerProps {
+interface AuthCardContainerProps {
 	showLogoSide?: boolean;
 	children: ReactNode;
 	isInert?: boolean;

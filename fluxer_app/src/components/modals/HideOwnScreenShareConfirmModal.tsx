@@ -1,0 +1,70 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as VoiceSettingsActionCreators from '@app/actions/VoiceSettingsActionCreators';
+import styles from '@app/components/modals/HideOwnCameraConfirmModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import VoicePromptsStore from '@app/stores/VoicePromptsStore';
+import {Trans, useLingui} from '@lingui/react/macro';
+import {observer} from 'mobx-react-lite';
+import {useRef, useState} from 'react';
+
+export const HideOwnScreenShareConfirmModal = observer(() => {
+	const {t} = useLingui();
+	const [dontAskAgain, setDontAskAgain] = useState(false);
+	const initialFocusRef = useRef<HTMLButtonElement | null>(null);
+
+	const handleConfirm = () => {
+		if (dontAskAgain) VoicePromptsStore.setSkipHideOwnScreenShareConfirm(true);
+		VoiceSettingsActionCreators.update({showMyOwnScreenShare: false});
+		ModalActionCreators.pop();
+	};
+
+	const handleCancel = () => {
+		ModalActionCreators.pop();
+	};
+
+	return (
+		<Modal.Root size="small" centered initialFocusRef={initialFocusRef}>
+			<Modal.Header title={<Trans>Hide Your Own Screen Share?</Trans>} />
+			<Modal.Content>
+				<p className={styles.description}>
+					<Trans>
+						Turning this off only hides your screen share from your own view. Others in the call can still see your
+						screen.
+					</Trans>
+				</p>
+				<div className={styles.checkboxContainer}>
+					<Checkbox checked={dontAskAgain} onChange={(checked) => setDontAskAgain(checked)} size="small">
+						<span className={styles.checkboxLabel}>
+							<Trans>Don't ask me again</Trans>
+						</span>
+					</Checkbox>
+				</div>
+			</Modal.Content>
+			<Modal.Footer>
+				<Button variant="secondary" onClick={handleCancel}>{t`Cancel`}</Button>
+				<Button variant="primary" onClick={handleConfirm} ref={initialFocusRef}>{t`Hide`}</Button>
+			</Modal.Footer>
+		</Modal.Root>
+	);
+});

@@ -17,50 +17,66 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as UserSettingsActionCreators from '@app/actions/UserSettingsActionCreators';
+import {Input} from '@app/components/form/Input';
+import {Select, type SelectOption} from '@app/components/form/Select';
+import styles from '@app/components/modals/CustomStatusModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {ExpressionPickerPopout} from '@app/components/popouts/ExpressionPickerPopout';
+import {ProfilePreview} from '@app/components/profile/ProfilePreview';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Popout} from '@app/components/uikit/popout/Popout';
+import {
+	DEFAULT_TIME_WINDOW_KEY,
+	getTimeWindowPresets,
+	TIME_WINDOW_LABEL_MESSAGES,
+	type TimeWindowKey,
+	type TimeWindowPreset,
+} from '@app/constants/TimeWindowPresets';
+import {type CustomStatus, normalizeCustomStatus} from '@app/lib/CustomStatus';
+import DeveloperModeStore from '@app/stores/DeveloperModeStore';
+import EmojiStore from '@app/stores/EmojiStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import UserStore from '@app/stores/UserStore';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
+import {getEmojiURL, shouldUseNativeEmoji} from '@app/utils/EmojiUtils';
+import {getCurrentLocale} from '@app/utils/LocaleUtils';
+import {getSkinTonedSurrogate} from '@app/utils/SkinToneUtils';
+import {getDaysBetween} from '@fluxer/date_utils/src/DateComparison';
+import {getFormattedFullDate, getFormattedTime} from '@fluxer/date_utils/src/DateFormatting';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {SmileyIcon, XIcon} from '@phosphor-icons/react';
 import clsx from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as UserSettingsActionCreators from '~/actions/UserSettingsActionCreators';
-import {Input} from '~/components/form/Input';
-import {Select, type SelectOption} from '~/components/form/Select';
-import * as Modal from '~/components/modals/Modal';
-import {ExpressionPickerPopout} from '~/components/popouts/ExpressionPickerPopout';
-import {ProfilePreview} from '~/components/profile/ProfilePreview';
-import {Button} from '~/components/uikit/Button/Button';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Popout} from '~/components/uikit/Popout/Popout';
-import {type CustomStatus, normalizeCustomStatus} from '~/lib/customStatus';
-import type {Emoji} from '~/stores/EmojiStore';
-import EmojiStore from '~/stores/EmojiStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import UserStore from '~/stores/UserStore';
-import {getEmojiURL, shouldUseNativeEmoji} from '~/utils/EmojiUtils';
-import styles from './CustomStatusModal.module.css';
+import type React from 'react';
+import {useCallback, useMemo, useRef, useState} from 'react';
 
 const MS_PER_MINUTE = 60 * 1000;
-const MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 interface TimeLabel {
 	dayLabel: string;
 	timeString: string;
 }
 
-type ExpirationKey = '24h' | '4h' | '1h' | '30m' | 'never';
+interface ExpirationPreset {
+	key: TimeWindowKey;
+	label: string;
+	minutes: number | null;
+}
 
 interface ExpirationOption {
-	key: ExpirationKey;
+	key: TimeWindowKey;
 	minutes: number | null;
 	expiresAt: string | null;
 	relativeLabel: TimeLabel | null;
 	label: string;
 }
 
-const DEFAULT_EXPIRATION_KEY: ExpirationKey = '24h';
+const DEFAULT_EXPIRATION_KEY: TimeWindowKey = DEFAULT_TIME_WINDOW_KEY;
 
 const getPopoutClose = (renderProps: unknown): (() => void) => {
 	const props = renderProps as {
@@ -91,13 +107,10 @@ const formatLabelWithRelative = (label: string, relative: TimeLabel | null): Rea
 };
 
 const getDayDifference = (reference: Date, target: Date): number => {
-	const referenceDayStart = new Date(reference.getFullYear(), reference.getMonth(), reference.getDate());
-	const targetDayStart = new Date(target.getFullYear(), target.getMonth(), target.getDate());
-	return Math.round((targetDayStart.getTime() - referenceDayStart.getTime()) / MS_PER_DAY);
+	return getDaysBetween(target, reference);
 };
 
-const formatTimeString = (date: Date): string =>
-	date.toLocaleTimeString(undefined, {hour: '2-digit', minute: '2-digit', hourCycle: 'h23'});
+const formatTimeString = (date: Date): string => getFormattedTime(date, getCurrentLocale(), false);
 
 const formatRelativeDayTimeLabel = (i18n: I18n, reference: Date, target: Date): TimeLabel => {
 	const dayOffset = getDayDifference(reference, target);
@@ -106,11 +119,7 @@ const formatRelativeDayTimeLabel = (i18n: I18n, reference: Date, target: Date): 
 	if (dayOffset === 0) return {dayLabel: i18n._(msg`today`), timeString};
 	if (dayOffset === 1) return {dayLabel: i18n._(msg`tomorrow`), timeString};
 
-	const dayLabel = target.toLocaleDateString(undefined, {
-		weekday: 'short',
-		month: 'short',
-		day: 'numeric',
-	});
+	const dayLabel = getFormattedFullDate(target, getCurrentLocale());
 	return {dayLabel, timeString};
 };
 
@@ -132,28 +141,28 @@ export const CustomStatusModal = observer(() => {
 	const {i18n} = useLingui();
 	const initialStatus = normalizeCustomStatus(UserSettingsStore.customStatus);
 	const currentUser = UserStore.getCurrentUser();
+	const isDeveloper = DeveloperModeStore.isDeveloper;
 
-	const [statusText, setStatusText] = React.useState(initialStatus?.text ?? '');
-	const [emojiId, setEmojiId] = React.useState<string | null>(initialStatus?.emojiId ?? null);
-	const [emojiName, setEmojiName] = React.useState<string | null>(initialStatus?.emojiName ?? null);
-	const mountedAt = React.useMemo(() => new Date(), []);
-	const [emojiPickerOpen, setEmojiPickerOpen] = React.useState(false);
-	const emojiButtonRef = React.useRef<HTMLButtonElement | null>(null);
+	const [statusText, setStatusText] = useState(initialStatus?.text ?? '');
+	const [emojiId, setEmojiId] = useState<string | null>(initialStatus?.emojiId ?? null);
+	const [emojiName, setEmojiName] = useState<string | null>(initialStatus?.emojiName ?? null);
+	const mountedAt = useMemo(() => new Date(), []);
+	const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
+	const emojiButtonRef = useRef<HTMLButtonElement | null>(null);
 
-	const expirationPresets = React.useMemo(
-		() => [
-			{key: '24h' as const, label: i18n._(msg`24 hours`), minutes: 24 * 60},
-			{key: '4h' as const, label: i18n._(msg`4 hours`), minutes: 4 * 60},
-			{key: '1h' as const, label: i18n._(msg`1 hour`), minutes: 60},
-			{key: '30m' as const, label: i18n._(msg`30 minutes`), minutes: 30},
-			{key: 'never' as const, label: i18n._(msg`Don't clear`), minutes: null},
-		],
-		[i18n],
+	const expirationPresets = useMemo(
+		() =>
+			getTimeWindowPresets({includeDeveloperOptions: isDeveloper}).map((preset: TimeWindowPreset) => ({
+				key: preset.key,
+				label: i18n._(TIME_WINDOW_LABEL_MESSAGES[preset.key]),
+				minutes: preset.minutes,
+			})),
+		[i18n, isDeveloper],
 	);
 
-	const expirationOptions = React.useMemo<Array<ExpirationOption>>(
+	const expirationOptions = useMemo<Array<ExpirationOption>>(
 		() =>
-			expirationPresets.map((preset) => {
+			expirationPresets.map((preset: ExpirationPreset) => {
 				if (preset.minutes == null) {
 					return {...preset, expiresAt: null, relativeLabel: null};
 				}
@@ -169,44 +178,45 @@ export const CustomStatusModal = observer(() => {
 		[mountedAt, i18n, expirationPresets],
 	);
 
-	const expirationLabelMap = React.useMemo<Record<ExpirationKey, TimeLabel | null>>(() => {
-		return expirationOptions.reduce<Record<ExpirationKey, TimeLabel | null>>(
+	const expirationLabelMap = useMemo<Record<TimeWindowKey, TimeLabel | null>>(() => {
+		return expirationOptions.reduce<Record<TimeWindowKey, TimeLabel | null>>(
 			(acc, option) => {
 				acc[option.key] = option.relativeLabel;
 				return acc;
 			},
-			{} as Record<ExpirationKey, TimeLabel | null>,
+			{} as Record<TimeWindowKey, TimeLabel | null>,
 		);
 	}, [expirationOptions]);
 
-	const selectOptions = React.useMemo<Array<SelectOption<ExpirationKey>>>(() => {
+	const selectOptions = useMemo<Array<SelectOption<TimeWindowKey>>>(() => {
 		return expirationOptions.map((option) => ({value: option.key, label: option.label}));
 	}, [expirationOptions]);
 
-	const [selectedExpiration, setSelectedExpiration] = React.useState<ExpirationKey>(DEFAULT_EXPIRATION_KEY);
-	const [expiresAt, setExpiresAt] = React.useState<string | null>(() => {
-		return expirationOptions.find((option) => option.key === DEFAULT_EXPIRATION_KEY)?.expiresAt ?? null;
-	});
-	const [isSaving, setIsSaving] = React.useState(false);
+	const [selectedExpiration, setSelectedExpiration] = useState<TimeWindowKey>(DEFAULT_EXPIRATION_KEY);
+	const [isSaving, setIsSaving] = useState(false);
 
-	const draftStatus = React.useMemo(
-		() => buildDraftStatus({text: statusText.trim(), emojiId, emojiName, expiresAt}),
-		[statusText, emojiId, emojiName, expiresAt],
+	const draftStatus = useMemo(
+		() => buildDraftStatus({text: statusText.trim(), emojiId, emojiName, expiresAt: null}),
+		[statusText, emojiId, emojiName],
 	);
 
-	const handleExpirationChange = (value: ExpirationKey) => {
-		const option = expirationOptions.find((entry) => entry.key === value);
+	const getExpiresAtForSave = useCallback((): string | null => {
+		const option = expirationOptions.find((entry) => entry.key === selectedExpiration);
+		if (!option?.minutes) return null;
+		return new Date(Date.now() + option.minutes * MS_PER_MINUTE).toISOString();
+	}, [expirationOptions, selectedExpiration]);
+
+	const handleExpirationChange = (value: TimeWindowKey) => {
 		setSelectedExpiration(value);
-		setExpiresAt(option?.expiresAt ?? null);
 	};
 
-	const handleEmojiSelect = React.useCallback((emoji: Emoji) => {
+	const handleEmojiSelect = useCallback((emoji: FlatEmoji) => {
 		if (emoji.id) {
 			setEmojiId(emoji.id);
 			setEmojiName(emoji.name);
 		} else {
 			setEmojiId(null);
-			setEmojiName(emoji.surrogates ?? emoji.name);
+			setEmojiName(getSkinTonedSurrogate(emoji));
 		}
 	}, []);
 
@@ -215,7 +225,13 @@ export const CustomStatusModal = observer(() => {
 
 		setIsSaving(true);
 		try {
-			await UserSettingsActionCreators.update({customStatus: draftStatus});
+			const statusToSave = buildDraftStatus({
+				text: statusText.trim(),
+				emojiId,
+				emojiName,
+				expiresAt: getExpiresAtForSave(),
+			});
+			await UserSettingsActionCreators.update({customStatus: statusToSave});
 			ModalActionCreators.pop();
 		} finally {
 			setIsSaving(false);

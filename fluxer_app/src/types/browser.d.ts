@@ -53,7 +53,6 @@ export interface ExtendedHTMLVideoElement extends HTMLVideoElement {
 }
 
 export interface ExtendedWindow extends Window {
-	showSaveFilePicker?: (options: SaveFilePickerOptions) => Promise<FileSystemFileHandle>;
-	requestIdleCallback?: (callback: IdleRequestCallback, options?: IdleRequestOptions) => number;
+	showSaveFilePicker?: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>;
 	[key: string]: unknown;
 }

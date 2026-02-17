@@ -17,23 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Endpoints} from '@app/Endpoints';
+import HttpClient from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import CallInitiatorStore from '@app/stores/CallInitiatorStore';
+import CallStateStore from '@app/stores/CallStateStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import GeoIPStore from '@app/stores/GeoIPStore';
+import RtcRegionsStore from '@app/stores/RtcRegionsStore';
+import SoundStore from '@app/stores/SoundStore';
+import UserStore from '@app/stores/UserStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import type {RtcRegionResponse} from '@fluxer/schema/src/domains/channel/ChannelSchemas';
 import {reaction} from 'mobx';
-import {Endpoints} from '~/Endpoints';
-import HttpClient from '~/lib/HttpClient';
-import CallInitiatorStore from '~/stores/CallInitiatorStore';
-import CallStateStore from '~/stores/CallStateStore';
-import ChannelStore from '~/stores/ChannelStore';
-import GeoIPStore from '~/stores/GeoIPStore';
-import SoundStore from '~/stores/SoundStore';
-import UserStore from '~/stores/UserStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import {SoundType} from '~/utils/SoundUtils';
 
 interface PendingRing {
 	channelId: string;
 	recipients: Array<string>;
 	dispose: () => void;
 }
+
+const logger = new Logger('CallActionCreators');
 
 let pendingRing: PendingRing | null = null;
 
@@ -86,7 +90,7 @@ function setupPendingRing(channelId: string, recipients: Array<string>): void {
 		({connected, currentChannelId}) => {
 			if (connected && currentChannelId === channelId && pendingRing?.channelId === channelId) {
 				void ringCallRecipients(channelId, pendingRing.recipients).catch((error) => {
-					console.error('Failed to ring call recipients:', error);
+					logger.error('Failed to ring call recipients:', error);
 				});
 				clearPendingRing();
 			}
@@ -107,7 +111,12 @@ export function startCall(channelId: string, silent = false): void {
 
 	CallInitiatorStore.markInitiated(channelId, recipients);
 
-	if (!silent) {
+	if (silent) {
+		clearPendingRing();
+		void ringCallRecipients(channelId, []).catch((error) => {
+			logger.error('Failed to start silent call:', error);
+		});
+	} else {
 		setupPendingRing(channelId, recipients);
 	}
 
@@ -121,7 +130,6 @@ export function joinCall(channelId: string): void {
 	}
 	CallStateStore.clearPendingRinging(channelId, [currentUser.id]);
 	SoundStore.stopIncomingRing();
-	SoundStore.playSound(SoundType.UserJoin);
 	void MediaEngineStore.connectToVoiceChannel(null, channelId);
 }
 
@@ -147,7 +155,7 @@ export async function leaveCall(channelId: string): Promise<void> {
 		try {
 			await stopRingingCallRecipients(channelId, toStop);
 		} catch (error) {
-			console.error('Failed to stop ringing pending recipients:', error);
+			logger.error('Failed to stop ringing pending recipients:', error);
 		}
 	}
 
@@ -167,7 +175,7 @@ export function rejectCall(channelId: string): void {
 		void MediaEngineStore.disconnectFromVoiceChannel('user');
 	}
 	void stopRingingCallRecipients(channelId).catch((error) => {
-		console.error('Failed to stop ringing:', error);
+		logger.error('Failed to stop ringing:', error);
 	});
 	SoundStore.stopIncomingRing();
 	CallInitiatorStore.clearChannel(channelId);
@@ -180,7 +188,20 @@ export function ignoreCall(channelId: string): void {
 	}
 	CallStateStore.clearPendingRinging(channelId, [currentUser.id]);
 	void stopRingingCallRecipients(channelId, [currentUser.id]).catch((error) => {
-		console.error('Failed to stop ringing:', error);
+		logger.error('Failed to stop ringing:', error);
 	});
 	SoundStore.stopIncomingRing();
+}
+
+export async function fetchCallRegions(channelId: string): Promise<Array<RtcRegionResponse>> {
+	const channel = ChannelStore.getChannel(channelId);
+	if (channel?.isPrivate()) {
+		return RtcRegionsStore.getRegions();
+	}
+	const response = await HttpClient.get<Array<RtcRegionResponse>>({url: Endpoints.CHANNEL_RTC_REGIONS(channelId)});
+	return response.body ?? [];
+}
+
+export async function updateCallRegion(channelId: string, region: string | null): Promise<void> {
+	await HttpClient.patch(Endpoints.CHANNEL_CALL(channelId), {region});
 }

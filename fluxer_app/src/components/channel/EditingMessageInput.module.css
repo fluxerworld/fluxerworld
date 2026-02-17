@@ -51,3 +51,14 @@
 	background-color: var(--text-chat-muted);
 	vertical-align: middle;
 }
+
+.flexColumnContainer {
+	display: flex;
+	flex-direction: column;
+}
+
+.hiddenSpan {
+	position: absolute;
+	visibility: hidden;
+	pointer-events: none;
+}

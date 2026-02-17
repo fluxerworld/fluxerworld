@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
+import {useCallback} from 'react';
 
 interface RateLimitedConfirmModalProps {
 	title: string;
@@ -32,7 +32,7 @@ export const RateLimitedConfirmModal = observer(({title, retryAfter, onRetry}: R
 	const {t} = useLingui();
 	const hasRetryAfter = retryAfter != null;
 
-	const formatRateLimitTime = React.useCallback(
+	const formatRateLimitTime = useCallback(
 		(totalSeconds: number): string => {
 			if (totalSeconds < 60) {
 				return totalSeconds === 1 ? t`${totalSeconds} second` : t`${totalSeconds} seconds`;

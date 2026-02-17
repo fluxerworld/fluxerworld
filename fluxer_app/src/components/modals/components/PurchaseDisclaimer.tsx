@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ExternalLink} from '@app/components/common/ExternalLink';
+import styles from '@app/components/modals/components/PurchaseDisclaimer.module.css';
+import {Routes} from '@app/Routes';
 import {Trans} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import {ExternalLink} from '~/components/common/ExternalLink';
-import {Routes} from '~/Routes';
-import styles from './PurchaseDisclaimer.module.css';
 
 export const PurchaseDisclaimer = observer(
 	({isPremium = false, align = 'center'}: {isPremium?: boolean; align?: 'left' | 'center'}) => (

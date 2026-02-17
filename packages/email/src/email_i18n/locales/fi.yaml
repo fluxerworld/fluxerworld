@@ -1,0 +1,369 @@
+account_disabled_suspicious:
+  subject: Fluxer-tilisi on tilapäisesti lukittu
+  body: |-
+    Hei {username},
+
+    Fluxer-tilisi on tilapäisesti lukittu epäilyttävän toiminnan vuoksi.
+
+    {reason, select,
+      null {}
+      other {Syy: {reason}}
+    }
+
+    Pääset takaisin tilillesi vaihtamalla salasanasi:
+
+    {forgotUrl}
+
+    Kun olet vaihtanut salasanan, voit kirjautua sisään uudelleen.
+
+    Jos uskot, että kyseessä on virhe, ota yhteyttä tukitiimiimme.
+
+    – Fluxerin turvallisuustiimi
+account_scheduled_deletion:
+  subject: Fluxer-tilisi poistetaan pysyvästi
+  body: |-
+    Hei {username},
+
+    Fluxer-tilisi on ajastettu poistettavaksi pysyvästi, koska olet rikkonut käyttöehtojamme tai yhteisön sääntöjä.
+
+    Poistopäivä: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Syy: {reason}}
+    }
+
+    Tämä on vakava toimenpide. Tilisi tiedot poistetaan pysyvästi ilmoitettuna ajankohtana.
+
+    Tarkista:
+    - Käyttöehdot: {termsUrl}
+    - Yhteisön säännöt: {guidelinesUrl}
+
+    Valitus:
+    Jos uskot, että päätös on väärä tai perusteeton, voit tehdä valituksen 60 päivän kuluessa. Lähetä valitus osoitteeseen appeals@fluxer.app tästä sähköpostiosoitteesta.
+
+    Valituksessa:
+    - Kerro selkeästi, miksi uskot päätöksen olevan väärä tai perusteeton
+    - Liitä mukaan mahdollinen lisätieto ja todisteet
+
+    Fluxerin turvallisuustiimin jäsen käsittelee valituksesi ja voi keskeyttää poiston, kunnes lopullinen päätös on tehty.
+
+    – Fluxerin turvallisuustiimi
+account_temp_banned:
+  subject: Fluxer-tilillesi on asetettu tilapäinen käyttökielto
+  body: |-
+    Hei {username},
+
+    Fluxer-tilillesi on asetettu tilapäinen käyttökielto, koska olet rikkonut käyttöehtojamme tai yhteisön sääntöjä.
+
+    Kesto: {durationHours, plural,
+      =1 {1 tunti}
+      other {# tuntia}
+    }
+    Käyttökielto voimassa asti: {bannedUntil, date, full} {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {Syy: {reason}}
+    }
+
+    Tänä aikana et pääse tilillesi.
+
+    Tarkista:
+    - Käyttöehdot: {termsUrl}
+    - Yhteisön säännöt: {guidelinesUrl}
+
+    Jos uskot, että päätös on väärä tai perusteeton, voit tehdä valituksen osoitteeseen appeals@fluxer.app tästä sähköpostiosoitteesta. Kerro selkeästi, miksi uskot päätöksen olevan väärä. Käsittelemme valituksesi ja vastaamme lopullisella päätöksellämme.
+
+    – Fluxerin turvallisuustiimi
+donation_confirmation:
+  subject: Kiitos Fluxer-lahjoituksestasi
+  body: |-
+    Hei,
+
+    Kiitos lahjoituksestasi Fluxerille! {interval, select,
+      month {Toistuva lahjoituksesi}
+      year {Toistuva lahjoituksesi}
+      other {Kertamaksusi}
+    } on {interval, select,
+      month {otettu käyttöön}
+      year {otettu käyttöön}
+      other {käsitelty}
+    } onnistuneesti.
+
+    Lahjoituksen tiedot:
+    Summa: {amount} {currency} {interval, select,
+      month {kuukaudessa}
+      year {vuodessa}
+      other {}
+    }
+
+    Stripe lähettää sinulle erillisen kuitin laskusi PDF-versiona pian. Se sisältää kaikki maksutiedot ja sitä voi käyttää verotuksessa.
+
+    Voit tarkastella lahjoitushistoriaasi, ladata laskuja, {interval, select,
+      month {ja hallita tai peruuttaa tilauksen}
+      year {ja hallita tai peruuttaa tilauksen}
+      other {ja hallita tulevia lahjoituksia}
+    } milloin tahansa tämän linkin kautta:
+
+    {manageUrl}
+
+    Tukesi pitää Fluxerin toiminnassa. Kiitos!
+
+    – Fluxer-tiimi
+donation_magic_link:
+  subject: Hallinnoi Fluxer-lahjoituksiasi
+  body: |-
+    Hei,
+
+    Napsauta alla olevaa linkkiä päästäksesi lahjoittajaporttaaliin:
+
+    {manageUrl}
+
+    Portaalissa voit hallita tilauksia, ladata laskuja ja tarkastella lahjoitushistoriaasi.
+
+    Tämä linkki vanhenee {expiresAt, date, full} klo {expiresAt, time, short}.
+
+    Jos et pyytänyt tätä linkkiä, voit turvallisesti jättää tämän viestin huomiotta.
+
+    – Fluxer-tiimi
+dsa_report_verification:
+  subject: Vahvista sähköpostiosoitteesi DSA-ilmoitusta varten
+  body: |-
+    Hei,
+
+    Käytä alla olevaa koodia lähettääksesi Digital Services Actin (DSA) mukaisen ilmoituksen Fluxerissa:
+
+    {code}
+
+    Koodi vanhenee {expiresAt, date, full} klo {expiresAt, time, short}.
+
+    Jos et pyytänyt tätä, voit jättää tämän viestin huomiotta.
+
+    – Fluxerin turvallisuustiimi
+email_change_new:
+  subject: Vahvista uusi Fluxer-sähköpostiosoitteesi
+  body: |-
+    Hei {username},
+
+    Syötä tämä koodi sovellukseen vahvistaaksesi uuden Fluxer-sähköpostiosoitteesi:
+
+    {code}
+
+    Koodi vanhenee {expiresAt, date, full} klo {expiresAt, time, short}.
+
+    Jos et pyytänyt tätä, voit jättää tämän viestin huomiotta.
+
+    – Fluxer-tiimi
+email_change_original:
+  subject: Vahvista Fluxer-sähköpostiosoitteen vaihto
+  body: |-
+    Hei {username},
+
+    Saimme pyynnön vaihtaa Fluxer-tilisi sähköpostiosoitteen.
+
+    Vahvista vaihto syöttämällä tämä koodi sovellukseen:
+
+    {code}
+
+    Koodi vanhenee {expiresAt, date, full} klo {expiresAt, time, short}.
+
+    Jos et pyytänyt tätä, suojaa tilisi heti.
+
+    – Fluxer-tiimi
+email_change_revert:
+  subject: Fluxer-sähköpostiosoitteesi vaihdettiin
+  body: |-
+    Hei {username},
+
+    Fluxer-tilisi sähköpostiosoite vaihdettiin osoitteeseen {newEmail}.
+
+    Jos teit muutoksen itse, sinun ei tarvitse tehdä mitään. Jos et, voit perua muutoksen ja suojata tilisi tämän linkin kautta:
+
+    {revertUrl}
+
+    Tämä palauttaa aiemman sähköpostiosoitteesi, kirjaa sinut ulos kaikilta laitteilta, poistaa liitetyt puhelinnumerot, poistaa monivaiheisen tunnistautumisen käytöstä ja edellyttää uuden salasanan asettamista.
+
+    – Fluxerin turvallisuustiimi
+email_verification:
+  subject: Vahvista Fluxer-sähköpostiosoitteesi
+  body: |-
+    Hei {username},
+
+    Vahvista Fluxer-tilisi sähköpostiosoite klikkaamalla alla olevaa linkkiä:
+
+    {verifyUrl}
+
+    Jos et luonut Fluxer-tiliä, voit huoletta jättää tämän viestin huomiotta.
+
+    Linkki on voimassa 24 tuntia.
+
+    – Fluxer-tiimi
+gift_chargeback_notification:
+  subject: Lunastamasi lahjan edut on poistettu
+  body: |-
+    Hei {username},
+
+    Lunastamasi lahjakoodi oli alun perin jonkun toisen maksama. Maksu on sittemmin peruttu (chargeback).
+
+    Tämän vuoksi poistimme edut, jotka lisättiin tilillesi, kun lunastit lahjan.
+
+    Jos uskot, että kyseessä on virhe, ota yhteyttä tukitiimiimme ja liitä mukaan kaikki tiedot, jotka sinulla on lahjakoodista ja siitä, milloin lunastit sen.
+
+    – Fluxer-tiimi
+harvest_completed:
+  subject: Fluxer-tietojesi vienti on valmis ladattavaksi
+  body: |-
+    Hei {username},
+
+    Tietojesi vienti on valmis.
+
+    Latauslinkki:
+    {downloadUrl}
+
+    Mukana viestejä: {totalMessages, number}
+    Tiedoston koko: {fileSizeMB, number} MB
+
+    Linkki vanhenee {expiresAt, date, full} klo {expiresAt, time, short}.
+
+    Jos et pyytänyt tätä vientiä, vaihda salasanasi heti ja ota yhteyttä tukitiimiimme.
+
+    – Fluxer-tiimi
+inactivity_warning:
+  subject: Fluxer-tilisi poistetaan käyttämättömyyden vuoksi
+  body: |-
+    Hei {username},
+
+    Emme ole havainneet toimintaa Fluxer-tililläsi sitten {lastActiveDate, date, full}.
+
+    Jos et kirjaudu sisään viimeistään {deletionDate, date, full} klo {deletionDate, time, short}, tilisi poistetaan pysyvästi käyttämättömyyden vuoksi.
+
+    Kirjaudu sisään täällä:
+    {loginUrl}
+
+    Jos olet käyttänyt Fluxeria hiljattain, ota yhteyttä tukitiimiimme heti.
+
+    – Fluxer-tiimi
+ip_authorization:
+  subject: Hyväksy kirjautuminen uudesta IP-osoitteesta
+  body: |-
+    Hei {username},
+
+    Huomasimme kirjautumisyrityksen Fluxer-tilillesi uudesta IP-osoitteesta:
+
+    IP-osoite: {ipAddress}
+    Sijainti: {location}
+
+    Jos tämä olit sinä, hyväksy tämä IP-osoite klikkaamalla alla olevaa linkkiä:
+
+    {authUrl}
+
+    Jos et yrittänyt kirjautua, vaihda salasanasi heti.
+
+    Tämä vahvistuslinkki on voimassa 30 minuuttia.
+
+    – Fluxer-tiimi
+password_change_verification:
+  subject: Vahvista Fluxer-salasanan vaihto
+  body: |-
+    Hei {username},
+
+    Saimme pyynnön vaihtaa Fluxer-tilisi salasanan.
+
+    Vahvista vaihto syöttämällä tämä koodi sovellukseen:
+
+    {code}
+
+    Koodi vanhenee {expiresAt, date, full} klo {expiresAt, time, short}.
+
+    Jos et pyytänyt tätä, jonkun saattaa olla pääsy tilillesi. Vaihda salasanasi heti ja ota käyttöön monivaiheinen tunnistautuminen.
+
+    – Fluxer-tiimi
+password_reset:
+  subject: Nollaa Fluxer-salasanasi
+  body: |-
+    Hei {username},
+
+    Pyysit Fluxer-salasanan nollausta. Aseta uusi salasana alla olevasta linkistä:
+
+    {resetUrl}
+
+    Jos et pyytänyt tätä, voit huoletta jättää tämän viestin huomiotta.
+
+    Linkki on voimassa 1 tunnin.
+
+    – Fluxer-tiimi
+registration_approved:
+  subject: Fluxer-rekisteröintisi on hyväksytty
+  body: |-
+    Hei {username},
+
+    Hyviä uutisia: Fluxer-rekisteröintisi on hyväksytty.
+
+    Voit nyt kirjautua Fluxer-sovellukseen täällä:
+    {channelsUrl}
+
+    Tervetuloa Fluxer-yhteisöön.
+
+    – Fluxer-tiimi
+report_resolved:
+  subject: Fluxer-ilmoituksesi on käsitelty
+  body: |-
+    Hei {username},
+
+    Turvallisuustiimimme on käsitellyt ilmoituksesi (ID: {reportId}).
+
+    Turvallisuustiimin vastaus:
+    {publicComment}
+
+    Kiitos, että autat pitämään Fluxerin turvallisena kaikille. Suhtaudumme kaikkiin ilmoituksiin vakavasti ja arvostamme panostasi yhteisöön.
+
+    Jos sinulla on kysyttävää tai huolia tästä lopputuloksesta, ota yhteyttä osoitteeseen safety@fluxer.app.
+
+    – Fluxerin turvallisuustiimi
+scheduled_deletion_notification:
+  subject: Fluxer-tilisi poistetaan pysyvästi
+  body: |-
+    Hei {username},
+
+    Fluxer-tilisi on ajastettu poistettavaksi pysyvästi.
+
+    Poistopäivä: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Syy: {reason}}
+    }
+
+    Tämä on vakava toimenpide. Tilisi tiedot poistetaan pysyvästi ilmoitettuna ajankohtana.
+
+    Jos uskot, että päätös on väärä, voit tehdä valituksen osoitteeseen appeals@fluxer.app tästä sähköpostiosoitteesta.
+
+    – Fluxerin turvallisuustiimi
+self_deletion_scheduled:
+  subject: Fluxer-tilisi poisto on ajastettu
+  body: |-
+    Hei {username},
+
+    Pyysit Fluxer-tilisi poistamista. Tilisi poistetaan pysyvästi seuraavana ajankohtana:
+
+    {deletionDate, date, full} klo {deletionDate, time, short}
+
+    Jos et pyytänyt tätä, kirjaudu sisään tilillesi peruuttaaksesi poiston. Suosittelemme myös vaihtamaan salasanasi tilisi suojaamiseksi.
+
+    – Fluxer-tiimi
+unban_notification:
+  subject: Fluxer-tilisi käyttökielto on poistettu
+  body: |-
+    Hei {username},
+
+    Hyviä uutisia: Fluxer-tilisi käyttökielto on poistettu.
+
+    {reason, select,
+      null {}
+      other {Syy: {reason}}
+    }
+
+    Voit nyt kirjautua takaisin tilillesi ja jatkaa Fluxerin käyttöä normaalisti.
+
+    – Fluxerin turvallisuustiimi

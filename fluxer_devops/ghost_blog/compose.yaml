@@ -1,0 +1,86 @@
+services:
+  ghost-blog-mysql:
+    image: mysql:8.0
+    hostname: ghost-blog-mysql
+    env_file:
+      - /etc/fluxer/ghost-blog.env
+    environment:
+      - MYSQL_DATABASE=ghost
+    volumes:
+      - ghost_blog_mysql:/var/lib/mysql
+    networks:
+      - fluxer-shared
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+    healthcheck:
+      test: ['CMD', 'mysqladmin', 'ping', '-h', 'localhost']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  ghost-blog:
+    image: ghost:5-alpine
+    hostname: ghost-blog
+    env_file:
+      - /etc/fluxer/ghost-blog.env
+    environment:
+      - url=https://blog.fluxer.app
+      - database__client=mysql
+      - database__connection__host=ghost-blog-mysql
+      - database__connection__database=ghost
+      - database__pool__min=0
+      - database__pool__acquireTimeoutMillis=60000
+      - database__connection__connectTimeout=60000
+    volumes:
+      - ghost_blog_content:/var/lib/ghost/content
+    networks:
+      - fluxer-shared
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '2'
+          memory: 1G
+      labels:
+        - 'caddy=blog.fluxer.app'
+        - 'caddy.reverse_proxy={{upstreams 2368}}'
+        - 'caddy.header.Strict-Transport-Security="max-age=31536000; includeSubDomains; preload"'
+        - 'caddy.header.X-Xss-Protection="1; mode=block"'
+        - 'caddy.header.X-Content-Type-Options=nosniff'
+        - 'caddy.header.Referrer-Policy=strict-origin-when-cross-origin'
+        - 'caddy.header.X-Frame-Options=SAMEORIGIN'
+    healthcheck:
+      test:
+        [
+          'CMD',
+          'node',
+          '-e',
+          "require('http').get('http://127.0.0.1:2368/', r => process.exit(r.statusCode < 400 ? 0 : 1)).on('error', () => process.exit(1))",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 120s
+
+networks:
+  fluxer-shared:
+    external: true
+
+volumes:
+  ghost_blog_mysql:
+    driver: local
+  ghost_blog_content:
+    driver: local

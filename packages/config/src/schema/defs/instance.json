@@ -1,0 +1,147 @@
+{
+	"instance": {
+		"type": "object",
+		"description": "Specific settings for this Fluxer instance.",
+		"additionalProperties": false,
+		"properties": {
+			"deployment_mode": {
+				"type": "string",
+				"description": "Deployment mode. 'monolith' runs all services in one process (fluxer_server). 'microservices' requires separate processes/ports.",
+				"enum": ["monolith", "microservices"],
+				"default": "monolith"
+			},
+			"self_hosted": {
+				"type": "boolean",
+				"default": true,
+				"description": "Indicates if this is a self-hosted instance."
+			},
+			"auto_join_invite_code": {
+				"type": "string",
+				"default": "",
+				"description": "Invite code to auto-join users to a guild upon registration."
+			},
+			"visionaries_guild_id": {
+				"type": "string",
+				"default": "",
+				"description": "Guild ID for Visionary members."
+			},
+			"operators_guild_id": {
+				"type": "string",
+				"default": "",
+				"description": "Guild ID for Operators."
+			},
+			"private_key_path": {
+				"type": "string",
+				"default": "",
+				"description": "Path to the x25519 private key for E2E encryption (generated on first startup if missing)."
+			}
+		}
+	},
+	"federation": {
+		"type": "object",
+		"description": "Federation configuration for connecting with other Fluxer instances.",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"default": false,
+				"description": "Enable federation with other Fluxer instances."
+			}
+		}
+	},
+	"csam": {
+		"type": "object",
+		"description": "CSAM compliance configuration.",
+		"additionalProperties": false,
+		"properties": {
+			"evidence_retention_days": {
+				"type": "number",
+				"default": 730,
+				"description": "Days to retain evidence."
+			},
+			"job_retention_days": {
+				"type": "number",
+				"default": 365,
+				"description": "Days to retain reporting jobs."
+			},
+			"cleanup_batch_size": {
+				"type": "number",
+				"default": 100,
+				"description": "Batch size for cleanup operations."
+			},
+			"queue": {
+				"type": "object",
+				"description": "CSAM scan queue configuration.",
+				"additionalProperties": false,
+				"properties": {
+					"timeout_ms": {
+						"type": "number",
+						"default": 30000,
+						"description": "Maximum time to wait for a scan result (ms)."
+					},
+					"max_entries_per_batch": {
+						"type": "number",
+						"default": 5,
+						"description": "Maximum queue entries to process per consumer run."
+					},
+					"consumer_lock_ttl_seconds": {
+						"type": "number",
+						"default": 5,
+						"description": "TTL for consumer lock (seconds)."
+					}
+				}
+			}
+		}
+	},
+	"dev": {
+		"type": "object",
+		"description": "Development environment flags.",
+		"additionalProperties": false,
+		"properties": {
+			"relax_registration_rate_limits": {
+				"type": "boolean",
+				"default": false,
+				"description": "Relax rate limits for registration."
+			},
+			"disable_rate_limits": {
+				"type": "boolean",
+				"default": false,
+				"description": "Disable all rate limits."
+			},
+			"test_mode_enabled": {
+				"type": "boolean",
+				"default": false,
+				"description": "Enable test mode behaviors."
+			},
+			"test_harness_token": {
+				"type": "string",
+				"default": "",
+				"description": "Token for the test harness."
+			}
+		}
+	},
+	"geoip": {
+		"type": "object",
+		"description": "GeoIP database settings.",
+		"additionalProperties": false,
+		"properties": {
+			"maxmind_db_path": {
+				"type": "string",
+				"default": "",
+				"description": "Path to MaxMind GeoIP database."
+			}
+		}
+	},
+	"proxy": {
+		"type": "object",
+		"description": "Proxy configuration.",
+		"additionalProperties": false,
+		"properties": {
+			"trust_cf_connecting_ip": {
+				"type": "boolean",
+				"default": false,
+				"description": "Trust Cloudflare's CF-Connecting-IP header."
+			}
+		}
+	}
+}

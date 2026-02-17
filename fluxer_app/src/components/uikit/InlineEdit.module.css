@@ -45,10 +45,6 @@
 	outline: none;
 }
 
-.idleButton:focus {
-	outline: none;
-}
-
 .idleButton:active {
 	background: none;
 }

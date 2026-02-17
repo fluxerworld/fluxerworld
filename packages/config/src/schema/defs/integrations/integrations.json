@@ -1,0 +1,65 @@
+{
+	"integrations": {
+		"type": "object",
+		"description": "Collection of all external service integrations.",
+		"additionalProperties": false,
+		"properties": {
+			"email": {
+				"$ref": "#/$defs/email_integration",
+				"default": {}
+			},
+			"sms": {
+				"$ref": "#/$defs/sms_integration",
+				"default": {}
+			},
+			"captcha": {
+				"$ref": "#/$defs/captcha_integration",
+				"default": {}
+			},
+			"voice": {
+				"$ref": "#/$defs/voice_integration",
+				"default": {}
+			},
+			"search": {
+				"$ref": "#/$defs/search_integration",
+				"default": {}
+			},
+			"stripe": {
+				"$ref": "#/$defs/stripe_integration",
+				"default": {}
+			},
+			"photo_dna": {
+				"$ref": "#/$defs/photo_dna_integration",
+				"default": {}
+			},
+			"ncmec": {
+				"$ref": "#/$defs/ncmec_integration",
+				"default": {}
+			},
+			"clamav": {
+				"$ref": "#/$defs/clamav_integration",
+				"default": {}
+			},
+			"gif": {
+				"$ref": "#/$defs/gif",
+				"default": {}
+			},
+			"klipy": {
+				"$ref": "#/$defs/klipy",
+				"default": {}
+			},
+			"tenor": {
+				"$ref": "#/$defs/tenor",
+				"default": {}
+			},
+			"youtube": {
+				"$ref": "#/$defs/youtube",
+				"default": {}
+			},
+			"cloudflare": {
+				"$ref": "#/$defs/cloudflare",
+				"default": {}
+			}
+		}
+	}
+}

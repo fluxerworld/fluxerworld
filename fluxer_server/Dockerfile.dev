@@ -1,0 +1,45 @@
+FROM erlang:28-slim AS gateway-build
+
+ARG LOGGER_LEVEL=info
+
+WORKDIR /usr/src/app/gateway
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	git \
+	curl \
+	make \
+	gcc \
+	g++ \
+	libc6-dev \
+	ca-certificates \
+	gettext-base \
+	&& rm -rf /var/lib/apt/lists/*
+
+RUN curl -fsSL https://github.com/erlang/rebar3/releases/download/3.24.0/rebar3 -o /usr/local/bin/rebar3 && \
+	chmod +x /usr/local/bin/rebar3
+
+COPY fluxer_gateway/rebar.config fluxer_gateway/rebar.lock* ./
+RUN rebar3 compile --deps_only
+
+COPY fluxer_gateway/. ./fluxer_gateway
+RUN LOGGER_LEVEL=${LOGGER_LEVEL} envsubst '${LOGGER_LEVEL}' < fluxer_gateway/config/vm.args.template > fluxer_gateway/config/vm.args && \
+	LOGGER_LEVEL=${LOGGER_LEVEL} envsubst '${LOGGER_LEVEL}' < fluxer_gateway/config/sys.config.template > fluxer_gateway/config/sys.config && \
+	(cd fluxer_gateway && rebar3 as prod release)
+
+FROM node:24-trixie-slim
+
+WORKDIR /workspace
+
+RUN corepack enable && corepack prepare pnpm@10.26.0 --activate
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+	curl \
+	python3 \
+	make \
+	g++ \
+	ca-certificates \
+	&& rm -rf /var/lib/apt/lists/*
+
+COPY --from=gateway-build /usr/src/app/gateway/fluxer_gateway/_build/prod/rel/fluxer_gateway /opt/fluxer_gateway
+
+RUN mkdir -p /opt/data

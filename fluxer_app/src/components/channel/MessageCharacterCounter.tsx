@@ -17,21 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as PremiumModalActionCreators from '@app/actions/PremiumModalActionCreators';
+import styles from '@app/components/channel/MessageCharacterCounter.module.css';
+import {CharacterCounter} from '@app/components/uikit/character_counter/CharacterCounter';
 import {observer} from 'mobx-react-lite';
-import * as PremiumModalActionCreators from '~/actions/PremiumModalActionCreators';
-import {MAX_MESSAGE_LENGTH_PREMIUM} from '~/Constants';
-import styles from '~/components/channel/MessageCharacterCounter.module.css';
-import {CharacterCounter} from '~/components/uikit/CharacterCounter/CharacterCounter';
 
 interface MessageCharacterCounterProps {
 	currentLength: number;
 	maxLength: number;
-	isPremium: boolean;
+	canUpgrade: boolean;
+	premiumMaxLength: number;
 	threshold?: number;
 }
 
 export const MessageCharacterCounter = observer(
-	({currentLength, maxLength, isPremium, threshold = 0.8}: MessageCharacterCounterProps) => {
+	({currentLength, maxLength, canUpgrade, premiumMaxLength, threshold = 0.8}: MessageCharacterCounterProps) => {
 		if (currentLength <= maxLength * threshold) {
 			return null;
 		}
@@ -41,8 +41,8 @@ export const MessageCharacterCounter = observer(
 				<CharacterCounter
 					currentLength={currentLength}
 					maxLength={maxLength}
-					isPremium={isPremium}
-					premiumMaxLength={MAX_MESSAGE_LENGTH_PREMIUM}
+					canUpgrade={canUpgrade}
+					premiumMaxLength={premiumMaxLength}
 					onUpgradeClick={() => PremiumModalActionCreators.open()}
 				/>
 			</div>

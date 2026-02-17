@@ -17,18 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import styles from '@app/components/auth/AuthPageStyles.module.css';
+import {DateOfBirthField} from '@app/components/auth/DateOfBirthField';
+import FormField from '@app/components/auth/FormField';
+import {type MissingField, SubmitTooltip, shouldDisableSubmit} from '@app/components/auth/SubmitTooltip';
+import {ExternalLink} from '@app/components/common/ExternalLink';
+import {Button} from '@app/components/uikit/button/Button';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import {
+	type AuthRegisterFormDraft,
+	EMPTY_AUTH_REGISTER_FORM_DRAFT,
+	useAuthRegisterDraftContext,
+} from '@app/contexts/AuthRegisterDraftContext';
+import {useAuthForm} from '@app/hooks/useAuthForm';
+import {useLocation} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
 import {Trans, useLingui} from '@lingui/react/macro';
-import {useId, useMemo, useState} from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import {DateOfBirthField} from '~/components/auth/DateOfBirthField';
-import FormField from '~/components/auth/FormField';
-import {type MissingField, SubmitTooltip, shouldDisableSubmit} from '~/components/auth/SubmitTooltip';
-import {ExternalLink} from '~/components/common/ExternalLink';
-import {Button} from '~/components/uikit/Button/Button';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import {useAuthForm} from '~/hooks/useAuthForm';
-import {Routes} from '~/Routes';
-import styles from './AuthPageStyles.module.css';
+import {useCallback, useId, useMemo, useRef, useState} from 'react';
 
 interface AuthMinimalRegisterFormCoreProps {
 	submitLabel: React.ReactNode;
@@ -46,16 +52,80 @@ export function AuthMinimalRegisterFormCore({
 	extraContent,
 }: AuthMinimalRegisterFormCoreProps) {
 	const {t} = useLingui();
+	const location = useLocation();
+	const draftKey = `register:${location.pathname}${location.search}`;
+	const {getRegisterFormDraft, setRegisterFormDraft, clearRegisterFormDraft} = useAuthRegisterDraftContext();
 	const globalNameId = useId();
 
-	const [selectedMonth, setSelectedMonth] = useState('');
-	const [selectedDay, setSelectedDay] = useState('');
-	const [selectedYear, setSelectedYear] = useState('');
-	const [consent, setConsent] = useState(false);
+	const initialDraft = useMemo<AuthRegisterFormDraft>(() => {
+		const persistedDraft = getRegisterFormDraft(draftKey);
+		if (!persistedDraft) {
+			return EMPTY_AUTH_REGISTER_FORM_DRAFT;
+		}
+		return {
+			...persistedDraft,
+			formValues: {...persistedDraft.formValues},
+		};
+	}, [draftKey, getRegisterFormDraft]);
+	const draftRef = useRef<AuthRegisterFormDraft>({
+		...initialDraft,
+		formValues: {...initialDraft.formValues},
+	});
+
+	const [selectedMonth, setSelectedMonthState] = useState(initialDraft.selectedMonth);
+	const [selectedDay, setSelectedDayState] = useState(initialDraft.selectedDay);
+	const [selectedYear, setSelectedYearState] = useState(initialDraft.selectedYear);
+	const [consent, setConsentState] = useState(initialDraft.consent);
 
 	const initialValues: Record<string, string> = {
-		global_name: '',
+		global_name: initialDraft.formValues.global_name ?? '',
 	};
+
+	const persistDraft = useCallback(
+		(partialDraft: Partial<AuthRegisterFormDraft>) => {
+			const currentDraft = draftRef.current;
+			const nextDraft: AuthRegisterFormDraft = {
+				...currentDraft,
+				...partialDraft,
+				formValues: partialDraft.formValues ? {...partialDraft.formValues} : currentDraft.formValues,
+			};
+			draftRef.current = nextDraft;
+			setRegisterFormDraft(draftKey, nextDraft);
+		},
+		[draftKey, setRegisterFormDraft],
+	);
+
+	const handleMonthChange = useCallback(
+		(month: string) => {
+			setSelectedMonthState(month);
+			persistDraft({selectedMonth: month});
+		},
+		[persistDraft],
+	);
+
+	const handleDayChange = useCallback(
+		(day: string) => {
+			setSelectedDayState(day);
+			persistDraft({selectedDay: day});
+		},
+		[persistDraft],
+	);
+
+	const handleYearChange = useCallback(
+		(year: string) => {
+			setSelectedYearState(year);
+			persistDraft({selectedYear: year});
+		},
+		[persistDraft],
+	);
+
+	const handleConsentChange = useCallback(
+		(nextConsent: boolean) => {
+			setConsentState(nextConsent);
+			persistDraft({consent: nextConsent});
+		},
+		[persistDraft],
+	);
 
 	const handleRegisterSubmit = async (values: Record<string, string>) => {
 		const dateOfBirth =
@@ -65,7 +135,6 @@ export function AuthMinimalRegisterFormCore({
 
 		const response = await AuthenticationActionCreators.register({
 			global_name: values.global_name || undefined,
-			beta_code: '',
 			date_of_birth: dateOfBirth,
 			consent,
 			invite_code: inviteCode,
@@ -79,6 +148,7 @@ export function AuthMinimalRegisterFormCore({
 				userId: response.user_id,
 			});
 		}
+		clearRegisterFormDraft(draftKey);
 	};
 
 	const {form, isLoading, fieldErrors} = useAuthForm({
@@ -87,10 +157,22 @@ export function AuthMinimalRegisterFormCore({
 		redirectPath,
 		firstFieldName: 'global_name',
 	});
+
+	const setDraftedFormValue = useCallback(
+		(fieldName: string, value: string) => {
+			form.setValue(fieldName, value);
+			const nextFormValues = {
+				...draftRef.current.formValues,
+				[fieldName]: value,
+			};
+			persistDraft({formValues: nextFormValues});
+		},
+		[form, persistDraft],
+	);
 	const missingFields = useMemo(() => {
 		const missing: Array<MissingField> = [];
 		if (!selectedMonth || !selectedDay || !selectedYear) {
-			missing.push({key: 'date_of_birth', label: t`Date of birth`});
+			missing.push({key: 'date_of_birth', label: t`Date of Birth`});
 		}
 		return missing;
 	}, [selectedMonth, selectedDay, selectedYear]);
@@ -103,10 +185,10 @@ export function AuthMinimalRegisterFormCore({
 				id={globalNameId}
 				name="global_name"
 				type="text"
-				label={t`Display name (optional)`}
+				label={t`Display Name (Optional)`}
 				placeholder={t`What should people call you?`}
 				value={globalNameValue}
-				onChange={(value) => form.setValue('global_name', value)}
+				onChange={(value) => setDraftedFormValue('global_name', value)}
 				error={form.getError('global_name') || fieldErrors?.global_name}
 			/>
 
@@ -114,16 +196,16 @@ export function AuthMinimalRegisterFormCore({
 				selectedMonth={selectedMonth}
 				selectedDay={selectedDay}
 				selectedYear={selectedYear}
-				onMonthChange={setSelectedMonth}
-				onDayChange={setSelectedDay}
-				onYearChange={setSelectedYear}
+				onMonthChange={handleMonthChange}
+				onDayChange={handleDayChange}
+				onYearChange={handleYearChange}
 				error={fieldErrors?.date_of_birth}
 			/>
 
 			{extraContent}
 
 			<div className={styles.consentRow}>
-				<Checkbox checked={consent} onChange={setConsent}>
+				<Checkbox checked={consent} onChange={handleConsentChange}>
 					<span className={styles.consentLabel}>
 						<Trans>I agree to the</Trans>{' '}
 						<ExternalLink href={Routes.terms()} className={styles.policyLink}>

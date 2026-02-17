@@ -17,13 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import mediaStyles from '@app/components/channel/embeds/media/MediaContainer.module.css';
+import {LongPressable} from '@app/components/LongPressable';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
 import {useLingui} from '@lingui/react/macro';
 import {DownloadSimpleIcon, StarIcon, TrashIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import {forwardRef, type ReactNode} from 'react';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import mediaStyles from './MediaContainer.module.css';
 
 const MIN_SIZE_FOR_OVERLAYS = 120;
 
@@ -33,6 +35,8 @@ export const shouldShowOverlays = (renderedWidth?: number, renderedHeight?: numb
 	}
 	return renderedWidth >= MIN_SIZE_FOR_OVERLAYS && renderedHeight >= MIN_SIZE_FOR_OVERLAYS;
 };
+
+type LongPressEvent = React.PointerEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>;
 
 interface MediaContainerProps {
 	children: ReactNode;
@@ -48,6 +52,7 @@ interface MediaContainerProps {
 	onContextMenu?: (e: React.MouseEvent) => void;
 	onMouseEnter?: (e: React.MouseEvent) => void;
 	onMouseLeave?: (e: React.MouseEvent) => void;
+	onLongPress?: (e: LongPressEvent) => void;
 	renderedWidth?: number;
 	renderedHeight?: number;
 	forceShowFavoriteButton?: boolean;
@@ -70,6 +75,7 @@ export const MediaContainer = observer(
 				onContextMenu,
 				onMouseEnter,
 				onMouseLeave,
+				onLongPress,
 				renderedWidth,
 				renderedHeight,
 				forceShowFavoriteButton = false,
@@ -77,6 +83,7 @@ export const MediaContainer = observer(
 			ref,
 		) => {
 			const {t} = useLingui();
+			const isMobileLayout = MobileLayoutStore.isMobileLayout();
 
 			const handleDownloadClick = (e: React.MouseEvent) => {
 				e.stopPropagation();
@@ -99,16 +106,10 @@ export const MediaContainer = observer(
 
 			const hasAnyButton = shouldShowFavorite || shouldShowDownload || shouldShowDelete;
 
-			return (
-				// biome-ignore lint/a11y/noStaticElementInteractions: This container wraps interactive media elements
-				<div
-					ref={ref}
-					className={clsx(mediaStyles.mediaContainer, className)}
-					style={style}
-					onContextMenu={onContextMenu}
-					onMouseEnter={onMouseEnter}
-					onMouseLeave={onMouseLeave}
-				>
+			const useLongPress = isMobileLayout && onLongPress;
+
+			const content = (
+				<>
 					{hasAnyButton && (
 						<div className={mediaStyles.mediaHoverAction}>
 							{shouldShowDelete && onDeleteClick && (
@@ -150,6 +151,36 @@ export const MediaContainer = observer(
 						</div>
 					)}
 					{children}
+				</>
+			);
+
+			if (useLongPress) {
+				return (
+					<LongPressable
+						ref={ref}
+						className={clsx(mediaStyles.mediaContainer, className)}
+						style={style}
+						onContextMenu={onContextMenu}
+						onMouseEnter={onMouseEnter}
+						onMouseLeave={onMouseLeave}
+						onLongPress={onLongPress}
+					>
+						{content}
+					</LongPressable>
+				);
+			}
+
+			return (
+				// biome-ignore lint/a11y/noStaticElementInteractions: This container wraps interactive media elements
+				<div
+					ref={ref}
+					className={clsx(mediaStyles.mediaContainer, className)}
+					style={style}
+					onContextMenu={onContextMenu}
+					onMouseEnter={onMouseEnter}
+					onMouseLeave={onMouseLeave}
+				>
+					{content}
 				</div>
 			);
 		},

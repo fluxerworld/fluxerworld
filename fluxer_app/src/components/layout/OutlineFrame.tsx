@@ -17,10 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {FrameContext, type FrameSides} from '@app/components/layout/FrameContext';
+import styles from '@app/components/layout/OutlineFrame.module.css';
 import {clsx} from 'clsx';
-import React from 'react';
-import {FrameContext, type FrameSides} from './FrameContext';
-import styles from './OutlineFrame.module.css';
+import type React from 'react';
+import {useMemo} from 'react';
 
 interface OutlineFrameProps {
 	sidebarDivider?: boolean;
@@ -41,7 +42,7 @@ export const OutlineFrame: React.FC<OutlineFrameProps> = ({
 	children,
 	className,
 }) => {
-	const ctxSides = React.useMemo<FrameSides>(() => {
+	const ctxSides = useMemo<FrameSides>(() => {
 		return {
 			top: !hideTopBorder,
 			right: true,
@@ -52,7 +53,7 @@ export const OutlineFrame: React.FC<OutlineFrameProps> = ({
 	}, [hideTopBorder, sides]);
 
 	const showTopBorder = ctxSides.top !== false;
-	const frameStyle = React.useMemo<React.CSSProperties>(() => {
+	const frameStyle = useMemo<React.CSSProperties>(() => {
 		return {
 			borderLeft: ctxSides.left === false ? 'none' : undefined,
 			borderRight: ctxSides.right === false ? 'none' : undefined,

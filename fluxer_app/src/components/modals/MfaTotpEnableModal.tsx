@@ -17,25 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MfaActionCreators from '@app/actions/MfaActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import {BackupCodesModal} from '@app/components/modals/BackupCodesModal';
+import styles from '@app/components/modals/MfaTotpEnableModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {QRCodeCanvas} from '@app/components/uikit/QRCodeCanvas';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import UserStore from '@app/stores/UserStore';
+import * as MfaUtils from '@app/utils/MfaUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import {useState} from 'react';
 import {useForm} from 'react-hook-form';
-import * as MfaActionCreators from '~/actions/MfaActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import {BackupCodesModal} from '~/components/modals/BackupCodesModal';
-import confirmStyles from '~/components/modals/ConfirmModal.module.css';
-import styles from '~/components/modals/MfaTotpEnableModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {QRCodeCanvas} from '~/components/uikit/QRCodeCanvas';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import UserStore from '~/stores/UserStore';
-import * as MfaUtils from '~/utils/MfaUtils';
 
 interface FormInputs {
 	code: string;
@@ -45,7 +44,7 @@ export const MfaTotpEnableModal = observer(() => {
 	const {t} = useLingui();
 	const user = UserStore.getCurrentUser()!;
 	const form = useForm<FormInputs>();
-	const [secret] = React.useState(() => MfaUtils.generateTotpSecret());
+	const [secret] = useState(() => MfaUtils.generateTotpSecret());
 
 	const onSubmit = async (data: FormInputs) => {
 		const backupCodes = await MfaActionCreators.enableMfaTotp(
@@ -69,33 +68,35 @@ export const MfaTotpEnableModal = observer(() => {
 	return (
 		<Modal.Root size="small" centered>
 			<Form form={form} onSubmit={handleSubmit} aria-label={t`Enable two-factor authentication form`}>
-				<Modal.Header title={t`Setup authenticator app`} />
-				<Modal.Content className={confirmStyles.content}>
-					<div className={styles.qrContainer}>
-						<QRCodeCanvas data={MfaUtils.encodeTotpSecretAsURL(user.email!, secret)} />
-						<div className={styles.instructionsContainer}>
-							<div>
-								<Trans>
-									Scan the QR code with your authenticator app to generate codes for two-factor authentication.
-								</Trans>
+				<Modal.Header title={t`Setup Authenticator App`} />
+				<Modal.Content>
+					<Modal.ContentLayout>
+						<div className={styles.qrContainer}>
+							<QRCodeCanvas data={MfaUtils.encodeTotpSecretAsURL(user.email!, secret)} />
+							<div className={styles.instructionsContainer}>
+								<div>
+									<Trans>
+										Scan the QR code with your authenticator app to generate codes for two-factor authentication.
+									</Trans>
+								</div>
+								<pre className={styles.secretText}>{secret}</pre>
 							</div>
-							<pre className={styles.secretText}>{secret}</pre>
 						</div>
-					</div>
 
-					<Input
-						{...form.register('code')}
-						autoFocus={true}
-						autoComplete="one-time-code"
-						error={form.formState.errors.code?.message}
-						label={t`Code`}
-						required={true}
-						footer={
-							<p className={styles.footer}>
-								<Trans>Enter the 6-digit code from your authenticator app.</Trans>
-							</p>
-						}
-					/>
+						<Input
+							{...form.register('code')}
+							autoComplete="one-time-code"
+							autoFocus={true}
+							error={form.formState.errors.code?.message}
+							label={t`Code`}
+							required={true}
+							footer={
+								<Modal.Description>
+									<Trans>Enter the 6-digit code from your authenticator app.</Trans>
+								</Modal.Description>
+							}
+						/>
+					</Modal.ContentLayout>
 				</Modal.Content>
 				<Modal.Footer>
 					<Button onClick={ModalActionCreators.pop} variant="secondary">

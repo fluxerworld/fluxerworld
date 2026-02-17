@@ -17,14 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/GifPicker.module.css';
+import type {GifPickerStore} from '@app/components/channel/pickers/gif/GifPickerStore';
+import {PickerSearchInput} from '@app/components/channel/shared/PickerSearchInput';
+import pickerSearchInputStyles from '@app/components/channel/shared/PickerSearchInput.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import PoweredByKlipySvg from '@app/images/powered-by-klipy.svg?react';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
 import {useLingui} from '@lingui/react/macro';
 import {ArrowLeftIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import styles from '~/components/channel/GifPicker.module.css';
-import {PickerSearchInput} from '~/components/channel/shared/PickerSearchInput';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import type {GifPickerStore} from './GifPickerStore';
 
 export const GifPickerHeader = observer(
 	({
@@ -35,6 +38,7 @@ export const GifPickerHeader = observer(
 		inputRef: React.RefObject<HTMLInputElement | null> | React.RefObject<HTMLInputElement>;
 	}) => {
 		const {t} = useLingui();
+		const isKlipy = RuntimeConfigStore.gifProvider === 'klipy';
 
 		if (store.view !== 'default') {
 			const title = store.view === 'trending' ? t`Trending GIFs` : t`GIFs`;
@@ -63,11 +67,12 @@ export const GifPickerHeader = observer(
 			<PickerSearchInput
 				value={store.searchTerm}
 				onChange={store.setSearchTerm}
-				placeholder={t`Find the GIF of your dreams`}
+				placeholder={isKlipy ? t`Search KLIPY` : t`Search Tenor`}
 				inputRef={inputRef}
 				showBackButton={!!store.searchTerm.trim()}
 				onBackButtonClick={() => store.setSearchTerm('')}
 				onKeyDown={handleKeyDown}
+				rightCustomElement={isKlipy ? <PoweredByKlipySvg className={pickerSearchInputStyles.poweredByKlipy} /> : null}
 			/>
 		);
 	},

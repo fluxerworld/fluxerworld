@@ -17,21 +17,34 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/NagbarContent.module.css';
+import {Trans} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import type React from 'react';
-import styles from './NagbarContent.module.css';
 
 interface NagbarContentProps {
 	message: React.ReactNode;
 	actions?: React.ReactNode;
 	isMobile: boolean;
+	onDismiss?: () => void;
 }
 
-export const NagbarContent = ({message, actions, isMobile}: NagbarContentProps) => {
+export const NagbarContent = ({message, actions, isMobile, onDismiss}: NagbarContentProps) => {
+	const showMobileDismiss = isMobile && onDismiss;
+
 	return (
 		<div className={clsx(styles.container, isMobile && styles.containerMobile)}>
 			<p className={styles.message}>{message}</p>
-			{actions && <div className={clsx(styles.actions, isMobile && styles.actionsMobile)}>{actions}</div>}
+			{(actions || showMobileDismiss) && (
+				<div className={clsx(styles.actions, isMobile && styles.actionsMobile)}>
+					{showMobileDismiss && (
+						<button type="button" className={styles.dismissButton} onClick={onDismiss}>
+							<Trans>Dismiss</Trans>
+						</button>
+					)}
+					{actions}
+				</div>
+			)}
 		</div>
 	);
 };

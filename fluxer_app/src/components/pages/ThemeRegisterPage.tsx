@@ -17,23 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import * as ThemeActionCreators from '@app/actions/ThemeActionCreators';
+import {AuthBottomLink} from '@app/components/auth/AuthBottomLink';
+import {AuthErrorState} from '@app/components/auth/AuthErrorState';
+import {AuthLoadingState} from '@app/components/auth/AuthLoadingState';
+import {AuthMinimalRegisterFormCore} from '@app/components/auth/AuthMinimalRegisterFormCore';
+import {AuthPageHeader} from '@app/components/auth/AuthPageHeader';
+import sharedStyles from '@app/components/auth/AuthPageStyles.module.css';
+import {DesktopDeepLinkPrompt} from '@app/components/auth/DesktopDeepLinkPrompt';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import {useThemeExists} from '@app/hooks/useThemeExists';
+import {useParams} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {PaletteIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import {useCallback} from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import * as ThemeActionCreators from '~/actions/ThemeActionCreators';
-import {AuthBottomLink} from '~/components/auth/AuthBottomLink';
-import {AuthErrorState} from '~/components/auth/AuthErrorState';
-import {AuthLoadingState} from '~/components/auth/AuthLoadingState';
-import {AuthMinimalRegisterFormCore} from '~/components/auth/AuthMinimalRegisterFormCore';
-import {AuthPageHeader} from '~/components/auth/AuthPageHeader';
-import sharedStyles from '~/components/auth/AuthPageStyles.module.css';
-import {DesktopDeepLinkPrompt} from '~/components/auth/DesktopDeepLinkPrompt';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import {useThemeExists} from '~/hooks/useThemeExists';
-import {useParams} from '~/lib/router';
-import {Routes} from '~/Routes';
 
 const ThemeRegisterPage = observer(function ThemeRegisterPage() {
 	const {t, i18n} = useLingui();
@@ -77,7 +77,7 @@ const ThemeRegisterPage = observer(function ThemeRegisterPage() {
 					</div>
 				}
 				title={t`You've got CSS!`}
-				subtitle={t`Shared theme`}
+				subtitle={t`Shared Theme`}
 			/>
 
 			<AuthMinimalRegisterFormCore

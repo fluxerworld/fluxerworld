@@ -1,0 +1,440 @@
+app.communities.community: คอมมูนิตี้
+app.communities.community_support: การสนับสนุนคอมมูนิตี้
+app.communities.featured_in_discovery: แนะนำในหน้าค้นพบ
+app.communities.moderation.actions_and_tools: การดำเนินการและเครื่องมือดูแล
+app.communities.moderation.report_people_or_communities: รายงานคนหรือคอมมูนิตี้เพื่อให้ Fluxer ปลอดภัยสำหรับทุกคน
+app.communities.moderation.tools: เครื่องมือดูแล
+app.communities.roles_permissions_audit.audit_logs: บันทึกการตรวจสอบเพื่อความโปร่งใส
+app.communities.roles_permissions_audit.granular_roles_and_permissions: บทบาทและสิทธิ์แบบละเอียด
+app.communities.roles_permissions_audit.keep_running_smoothly: ให้คอมมูนิตี้รันได้ลื่นๆ ด้วยบทบาท สิทธิ์ และบันทึกต่างๆ
+app.communities.title: คอมมูนิตี้
+app.communities.verification.label: ยืนยันคอมมูนิตี้
+app.communities.verification.value_statement: คอมมูนิตี้ของคุณจะได้สถานะยืนยัน เพื่อความน่าเชื่อถือและความไว้ใจ
+app.communities.verification.verified_community: คอมมูนิตี้ที่ยืนยันแล้ว
+app.customization.animated_profile.animated_avatars_and_banners: อวาตาร์และแบนเนอร์แบบเคลื่อนไหว
+app.customization.animated_profile.stand_out_animated_profile: เด่นขึ้นด้วยรูปโปรไฟล์และแบนเนอร์แบบเคลื่อนไหว เพื่อบอกความเป็นคุณ
+app.customization.app_icon_badges: ดูจำนวนแบดจ์บนไอคอนแอป
+app.customization.compact_mode: โหมดกระชับและตัวเลือกการแสดงผล
+app.customization.custom_css_themes: ธีม CSS แบบกำหนดเอง
+app.customization.custom_sounds.entrance_sounds: เสียงเข้าห้องแบบกำหนดเอง
+app.customization.custom_sounds.notification_sounds: เสียงแจ้งเตือนแบบกำหนดเอง
+app.customization.custom_sounds.set_personalized_join_sounds: ตั้งเสียงเฉพาะตัวตอนเข้าช่องเสียง ให้คนรู้ว่าคุณมาแล้ว
+app.customization.custom_sounds.upload_custom_notification_sounds: อัปโหลดและใช้เสียงแจ้งเตือนของคุณเอง เพื่อปรับประสบการณ์ Fluxer ให้เป็นแบบคุณ
+app.customization.custom_themes: ธีมแบบกำหนดเอง
+app.customization.global_emoji_and_sticker_access: ใช้อีโมจิและสติกเกอร์ได้ทั่วทั้งแอป
+app.customization.saved_media_and_css: เพิ่มอีโมจิแบบกำหนดเอง บันทึกสื่อไว้ดูทีหลัง และปรับสไตล์แอปด้วย CSS แบบกำหนดเอง
+app.customization.title: ปรับแต่ง
+app.customization.upload_custom_emojis_and_stickers: อัปโหลดอีโมจิและสติกเกอร์ของตัวเอง
+app.customization.use_animated_emojis: ใช้อีโมจิแบบเคลื่อนไหว
+app.messaging.description: DM หาเพื่อน แชตเป็นกลุ่ม หรือสร้างคอมมูนิตี้ด้วยแชนเนล
+app.messaging.features.bookmarked_messages: ข้อความที่คั่นไว้
+app.messaging.features.file_sharing: แชร์ไฟล์และพรีวิวลิงก์
+app.messaging.features.full_markdown_support: รองรับ Markdown เต็มรูปแบบในข้อความ
+app.messaging.features.message_scheduling.description: ตั้งให้ส่งข้อความในอนาคตตามเวลาที่ต้องการได้ ไม่ต้องมี DeLorean ก็ไหว
+app.messaging.features.organised_channels_for_communities: แชนเนลที่จัดระเบียบสำหรับคอมมูนิตี้
+app.messaging.features.private_dms_and_group_chats: DM ส่วนตัวและแชตกลุ่ม
+app.messaging.features.save_media: บันทึกภาพ วิดีโอ GIF และเสียง
+app.messaging.features.search.filter_options: กรองตามผู้ใช้ วันที่ และอื่นๆ
+app.messaging.features.search.find_old_messages: หาข้อความเก่าๆ หรือสลับไปมาระหว่างคอมมูนิตี้และแชนเนลได้ในไม่กี่วินาที
+app.messaging.features.search.label: ค้นหาประวัติข้อความ
+app.messaging.features.search.quick_switcher_shortcuts: ตัวสลับแบบเร็วพร้อมคีย์ลัด
+app.messaging.features.search.search_and_quick_switcher: ค้นหาและตัวสลับแบบเร็ว
+app.messaging.title: ข้อความ
+app.open.open_fluxer: เปิด Fluxer
+app.open.open_web_app: เปิดเว็บแอป
+app.profiles_identity.custom_identity: ตัวตนแบบกำหนดเอง
+app.profiles_identity.customise_per_community: ปรับโปรไฟล์ให้ต่างกันในแต่ละคอมมูนิตี้ที่คุณอยู่ได้
+app.profiles_identity.manage_friends_and_block_users: จัดการเพื่อนและบล็อกผู้ใช้
+app.voice_and_video.features.mute_controls: ปิดไมค์ ปิดเสียง และควบคุมกล้อง
+app.voice_and_video.features.noise_suppression: ลดเสียงรบกวนและตัดเสียงสะท้อน
+app.voice_and_video.features.screen_sharing: แชร์หน้าจอในตัว
+app.voice_and_video.features.stream_4k_60fps: สตรีมความละเอียด 4K ที่ 60 fps เพื่อให้คนอื่นเห็นคุณอย่างชัดเจนและสวยงาม
+app.voice_and_video.features.video_backgrounds.description: เก็บพื้นหลังวิดีโอสำหรับการโทรได้สูงสุด 15 แบบ ไม่ต้องคุ้ยโฟลเดอร์ Downloads อีกต่อไป
+app.voice_and_video.features.video_quality: คุณภาพวิดีโอ
+app.voice_and_video.features.up_to_4k_video_quality: คุณภาพวิดีโอสูงสุด 4K
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.video_quality_premium: สูงสุด 4K/60fps
+app.voice_and_video.hop_in_a_call: กระโดดเข้าโทรกับเพื่อน หรือแชร์หน้าจอเพื่อทำงานร่วมกัน
+app.voice_and_video.title: เสียงและวิดีโอ
+beta_and_access.beta_label: เบต้า
+beta_and_access.early_access.be_first_to_try: เป็นคนแรกๆ ที่ได้ลองฟีเจอร์ใหม่ก่อนปล่อยให้ทุกคนใช้
+beta_and_access.early_access.label: เข้าถึงก่อน
+beta_and_access.featured_benefit_line: ครบทุกอย่างที่คุณคาดหวัง แถมมีอีกนิดที่คุณอาจไม่คิดว่าจะมี
+beta_and_access.public_beta: เบต้าสาธารณะ
+beta_and_access.registration_limited_during_beta: ช่วงเบต้าเราจะจำกัดการสมัคร พอคุณเข้าได้แล้ว คุณจะให้โค้ดเพื่อนเพื่อข้ามคิวได้
+beta_and_access.try_without_email: ลอง Fluxer แบบไม่ใช้อีเมลได้ใน 30 วินาที
+community_funding_and_roles.focused_on_product: ตอนนี้เรามุ่งกับการปล่อยของให้เป็นโปรดักต์ที่ดี และทำให้ Fluxer เป็นอิสระแบบบูตสแตรป
+community_funding_and_roles.future_paid_roles_heading: อนาคตของบทบาทแบบมีค่าตอบแทน
+community_funding_and_roles.future_paid_roles_note: เรายังอยู่ระหว่างสร้างธุรกิจรอบๆ Fluxer และยังไม่พร้อมสำหรับบทบาทแบบมีค่าตอบแทน
+community_funding_and_roles.non_paid_recurring_role: บทบาทแบบไม่จ่าย ที่มอบให้กับผู้ร่วมพัฒนาที่ช่วยอย่างต่อเนื่อง และช่วยกำหนดทิศทาง Fluxer ไปกับทีมหลัก
+community_funding_and_roles.sustainability_note: ด้วยการสนับสนุนจากคุณ เราหวังว่าจะทำให้แพลตฟอร์มสื่อสารอิสระนี้ยั่งยืน และเริ่มเปิดบทบาทแบบมีค่าตอบแทนได้ในอนาคต
+company_and_resources.blog: บล็อก
+company_and_resources.careers.careers_at_fluxer: ร่วมงานกับ Fluxer
+company_and_resources.careers.label: ร่วมงานกับเรา
+company_and_resources.careers.share_a_bit_about_yourself: เล่าเกี่ยวกับตัวคุณสักหน่อย และอยากช่วยแบบไหนได้บ้าง โดยอีเมลไปที่ careers@fluxer.app
+company_and_resources.community_team.fluxer_community_team: ทีมคอมมูนิตี้ Fluxer
+company_and_resources.community_team.share_feedback_report_bugs: ส่งฟีดแบ็ก รายงานบั๊ก และช่วยให้ Fluxer เป็นที่ต้อนรับสำหรับทุกคน
+company_and_resources.company: บริษัท
+company_and_resources.company_info: ข้อมูลบริษัท
+company_and_resources.connect: ติดต่อ
+company_and_resources.docs: เอกสาร
+company_and_resources.help.get_help: ขอความช่วยเหลือ
+company_and_resources.help.help_center: ศูนย์ช่วยเหลือ
+company_and_resources.help.label: ช่วยเหลือ
+company_and_resources.press.label: สื่อ
+company_and_resources.press.press_contact: ติดต่อฝ่ายสื่อ
+company_and_resources.product: ผลิตภัณฑ์
+company_and_resources.resources: แหล่งข้อมูล
+company_and_resources.source_and_contribution.code_issues_docs_reviews: โค้ด อิชชู เอกสาร และรีวิว
+company_and_resources.source_and_contribution.contribute_code: ร่วมเขียนโค้ด
+company_and_resources.source_and_contribution.contribute_on_github: ร่วมบน GitHub
+company_and_resources.source_and_contribution.fix_bugs_ship_features: แก้บั๊ก ปล่อยฟีเจอร์ใหม่ หรือขัดเกลาประสบการณ์ในรีโปหลักของเรา
+company_and_resources.source_and_contribution.fluxer_built_in_open: Fluxer สร้างแบบเปิด เลือกทางที่เข้ากับสไตล์การช่วยของคุณได้เลย
+company_and_resources.source_and_contribution.get_involved: มีส่วนร่วม
+company_and_resources.source_and_contribution.source_code: ซอร์สโค้ด
+company_and_resources.source_and_contribution.translation.help_translate: ช่วยแปล Fluxer และเอกสารให้รู้สึกเป็นภาษาท้องถิ่นจริงๆ ในทุกที่
+company_and_resources.source_and_contribution.translation.label: แปลและทำโลคัลไลซ์
+company_and_resources.source_and_contribution.translation.llm_translation_note: ตอนนี้คำแปลทั้งหมดสร้างด้วย LLM และแทบไม่ได้ผ่านการตรวจทานโดยคนจริง เราอยากได้คนมาช่วยโลคัลไลซ์ Fluxer เป็นภาษาของคุณ ถ้าสนใจอีเมลมาที่ i18n@fluxer.app แล้วเรายินดีรับผลงานจากคุณ
+company_and_resources.source_and_contribution.translation.localization_label: โลคัลไลซ์
+company_and_resources.source_and_contribution.view_repository: ดูรีโพซิทอรี
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: อยากช่วยสร้าง Fluxer ไหม
+company_and_resources.source_and_contribution.ways_to_contribute: วิธีร่วมช่วย
+donations.business: ธุรกิจ
+donations.donate.action: บริจาค
+donations.donate.label: บริจาคให้ Fluxer
+donations.donate.description: สนับสนุน Fluxer ด้วยการบริจาคครั้งเดียวหรือแบบประจำ
+donations.donation_disclaimer: การบริจาคเป็นของขวัญโดยสมัครใจ และไม่ได้ทำให้คุณได้รับสินค้า บริการ ความเป็นเจ้าของ หรือสิทธิพิเศษใดๆ ถ้าคุณมองหาฟีเจอร์พรีเมียม ลองดูที่ {0}
+donations.individual: บุคคล
+donations.individual_vs_business.answer: ทั้งสองแบบช่วยสนับสนุนเป้าหมายเดียวกันเท่ากัน ความต่างมีแค่ว่าแบบธุรกิจให้คุณระบุเลขประจำตัวผู้เสียภาษีได้ (ถ้ามี) และจะได้ใบแจ้งหนี้ PDF หลังชำระเสร็จ ซึ่งช่วยเรื่องบัญชีบริษัทได้
+donations.individual_vs_business.question: บริจาคแบบบุคคลกับธุรกิจต่างกันยังไง
+donations.infrastructure_costs_detail: เงินบริจาคของคุณช่วยค่าโครงสร้างพื้นฐานของ Fluxer เช่น เซิร์ฟเวอร์ แบนด์วิดท์ พื้นที่เก็บข้อมูล และการพัฒนาฟีเจอร์ใหม่ๆ อย่างต่อเนื่อง ช่วยให้เราดูแลและพัฒนาแพลตฟอร์มให้ดีขึ้นสำหรับทุกคน
+donations.minimum_donation: 'บริจาคขั้นต่ำ: $5 / €5'
+donations.mobile_roadmap_sponsorship: เป็นสปอนเซอร์โรดแมปมือถือ
+donations.send_one_time_gift: ให้ของขวัญครั้งเดียว
+donations.support_future_development: สนับสนุนการพัฒนาต่อไป
+donations.support_message: ช่วยเราสร้างแพลตฟอร์มสื่อสารที่เป็นอิสระ เงินบริจาคของคุณจะช่วยดูแลโครงสร้างพื้นฐานและการพัฒนา
+donations.tax_deductible.answer: การบริจาคให้ Fluxer ไม่สามารถลดหย่อนภาษีได้ในปัจจุบัน แต่เงินที่คุณบริจาคจะเข้าสนับสนุนโครงสร้างพื้นฐานและการพัฒนาอย่างต่อเนื่องของเราโดยตรง
+donations.tax_deductible.question: บริจาคแล้วลดหย่อนภาษีได้ไหม
+donations.what_it_supports: เงินบริจาคของฉันช่วยอะไรบ้าง
+donations.why_support: ช่วยเราสร้างแพลตฟอร์มสื่อสารอีกแบบ – โอเพนซอร์ส ทุนจากชุมชน และทำอย่างตั้งใจ
+donations.recurring: แบบต่อเนื่อง
+donations.return_question: ฉันจะได้อะไรตอบแทนไหม
+donations.form.email: อีเมล
+donations.form.email_placeholder: email@ของคุณ.com
+donations.form.amount: จำนวนเงิน
+donations.form.amount_other: จำนวนอื่น
+donations.form.amount_placeholder: ใส่จำนวนเงิน (5-1000)
+donations.form.billing: การวางบิล
+donations.form.donation_type: ประเภทการบริจาค
+donations.form.one_time: ครั้งเดียว
+donations.form.or_label: หรือ
+donations.form.monthly: รายเดือน
+donations.form.yearly: รายปี
+donations.form.currency: สกุลเงิน
+donations.form.processing: กำลังประมวลผล...
+donations.form.send_link: ส่งลิงก์
+donations.form.sending: กำลังส่ง...
+donations.errors.active_subscription_exists: คุณมีการบริจาคแบบต่อเนื่องที่ใช้งานอยู่แล้ว ถ้าต้องการเริ่มการบริจาคแบบต่อเนื่องอื่น กรุณายกเลิกการบริจาคปัจจุบันก่อนผ่านพอร์ทัลลูกค้า คุณสามารถบริจาคแบบครั้งเดียวแทนได้
+donations.errors.invalid_email: กรุณาใส่อีเมลที่ถูกต้อง
+donations.errors.invalid_amount: จำนวนเงินต้องอยู่ระหว่าง 5 ถึง 1000
+donations.errors.generic: เกิดข้อผิดพลาด โปรดลองอีกครั้ง
+donations.errors.network: เครือข่ายมีปัญหา โปรดลองอีกครั้ง
+donations.manage.title: จัดการการบริจาคของคุณ
+donations.manage.description: ใส่อีเมลเพื่อรับลิงก์ไปยังพอร์ทัลผู้บริจาคของคุณ ที่นั่นคุณสามารถจัดการการสมัครสมาชิก ดาวน์โหลดใบแจ้งหนี้ และดูประวัติการบริจาคได้
+donations.manage.success: หากมีบัญชีสำหรับอีเมลนี้ คุณจะได้รับลิงก์จัดการในไม่ช้า
+donations.success.title: ขอบคุณ!
+donations.success.description: ขอบคุณสำหรับการสนับสนุน!
+donations.success.message: ขอบคุณสำหรับการบริจาคของคุณ! เราขอบคุณการสนับสนุนของคุณจริงๆ
+donations.success.email_notice: คุณจะได้รับอีเมลยืนยันพร้อมรายละเอียดการบริจาคและลิงก์ไปยังพอร์ทัลผู้บริจาคของคุณในไม่ช้า
+donations.success.back_to_donate: กลับไปหน้าบริจาค
+download.download: ดาวน์โหลด
+download.download_app_or_open_in_browser: ดาวน์โหลดแอปหรือเปิด Fluxer ในเบราว์เซอร์เพื่อเริ่มเชื่อมต่อกับคอมมูนิตี้ของคุณ
+download.download_fluxer: ดาวน์โหลด Fluxer
+download.download_for_prefix: 'ดาวน์โหลดสำหรับ '
+download.open_in_browser: เปิดในเบราว์เซอร์
+download.screenshots_courtesy_of: 'ภาพหน้าจอจาก '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: แนวทางคอมมูนิตี้
+footer.company_information: ข้อมูลบริษัท
+footer.connect: ติดต่อ
+footer.donate: บริจาค
+footer.download: ดาวน์โหลด
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (บริษัทจำกัดของสวีเดน: 559537-3993)'
+footer.help_support_an_independent_communication: สนับสนุนแพลตฟอร์มการสื่อสารที่เป็นอิสระ การบริจาคของคุณช่วยเงินสำหรับโครงสร้างพื้นฐานและการพัฒนาของแพลตฟอร์ม
+footer.partners: พาร์ทเนอร์
+footer.plutonium_tier: แพ็ก Plutonium
+footer.policies: นโยบาย
+footer.press: สื่อ
+footer.privacy_policy: นโยบายความเป็นส่วนตัว
+footer.report_a_bug: รายงานบั๊ก
+footer.roadmap: โรดแมป
+footer.rss_feed: ฟีด RSS
+footer.security_bug_bounty: โปรแกรมรางวัลบั๊กด้านความปลอดภัย
+footer.source_code: ซอร์สโค้ด
+footer.terms_of_service: ข้อกำหนดการให้บริการ
+general.all: ทั้งหมด
+general.coming_soon.label: เร็วๆ นี้
+general.coming_soon.whats_available_today: ตอนนี้ใช้อะไรได้บ้าง
+general.last_updated: อัปเดตล่าสุด
+general.made_in_sweden: ทำในสวีเดน
+general.not_available: ยังไม่พร้อมใช้งาน
+general.or: หรือ
+general.tagline: แชตแอปที่ให้คุณมาก่อน
+languages.change_language: เปลี่ยนภาษา
+languages.choose_your_language: เลือกภาษาของคุณ
+languages.language_label: ภาษา
+languages.list.arabic: อาหรับ
+languages.list.bulgarian: บัลแกเรีย
+languages.list.chinese_simplified: จีน (ตัวย่อ)
+languages.list.chinese_traditional: จีน (ตัวเต็ม)
+languages.list.croatian: โครเอเชีย
+languages.list.czech: เช็ก
+languages.list.danish: เดนมาร์ก
+languages.list.dutch: ดัตช์
+languages.list.english: อังกฤษ
+languages.list.english_us: อังกฤษ (สหรัฐฯ)
+languages.list.finnish: ฟินแลนด์
+languages.list.french: ฝรั่งเศส
+languages.list.german: เยอรมัน
+languages.list.greek: กรีก
+languages.list.hebrew: ฮีบรู
+languages.list.hindi: ฮินดี
+languages.list.hungarian: ฮังการี
+languages.list.indonesian: อินโดนีเซีย
+languages.list.italian: อิตาลี
+languages.list.japanese: ญี่ปุ่น
+languages.list.korean: เกาหลี
+languages.list.lithuanian: ลิทัวเนีย
+languages.list.norwegian: นอร์เวย์
+languages.list.polish: โปแลนด์
+languages.list.portuguese_brazil: โปรตุเกส (บราซิล)
+languages.list.romanian: โรมาเนีย
+languages.list.russian: รัสเซีย
+languages.list.spanish_latin_america: สเปน (ละตินอเมริกา)
+languages.list.spanish_spain: สเปน (สเปน)
+languages.list.swedish: สวีเดน
+languages.list.thai: ไทย
+languages.list.turkish: ตุรกี
+languages.list.ukrainian: ยูเครน
+languages.list.vietnamese: เวียดนาม
+launch.description: เรียนรู้เกี่ยวกับนักพัฒนาเบื้องหลัง Fluxer เป้าหมายของโปรเจกต์ เทคสแต็ก และสิ่งที่จะมาถัดไป
+launch.heading: เรื่องราวเบื้องหลัง Fluxer
+launch.read_more: อ่านโพสต์เปิดตัว
+launch.view_full_roadmap: ดูโรดแมปทั้งหมด
+misc_labels.design_and_branding: ดีไซน์และแบรนด์
+misc_labels.direct_team_support: ซัพพอร์ตจากทีมโดยตรง
+misc_labels.exclusive_communities: คอมมูนิตี้พิเศษ
+misc_labels.exclusive_features: ฟีเจอร์พิเศษ
+misc_labels.feature: ฟีเจอร์
+misc_labels.get_updates: รับอัปเดต ดูฟีเจอร์ที่จะมา พูดคุยไอเดีย และแชตกับทีม
+misc_labels.join_and_spread_word: เข้าร่วมแล้วช่วยบอกต่อ
+misc_labels.join_fluxer_community_contribute: เข้าร่วมคอมมูนิตี้ Fluxer และช่วยสร้างอนาคตของการสื่อสารผ่านโอเพนซอร์สและการมีส่วนร่วมจากชุมชน
+misc_labels.join_fluxer_hq: เข้าร่วม Fluxer HQ
+misc_labels.join_multiple_devices: เข้าร่วมได้พร้อมกันหลายอุปกรณ์
+misc_labels.join_team_behind_fluxer: เข้าร่วมทีมเบื้องหลัง Fluxer
+misc_labels.learn_more: ดูรายละเอียด
+misc_labels.product_hunt_badge_title: Fluxer - แพลตฟอร์มแชตทันทีและ VoIP แบบโอเพนซอร์สคล้าย Discord | โพสต์อันดับต้นๆ ใน Product Hunt
+misc_labels.profile_badge: แบดจ์โปรไฟล์
+misc_labels.read_the_guide: อ่านคู่มือ
+misc_labels.ready_to_get_started: พร้อมเริ่มแล้วหรือยัง
+misc_labels.register_now: สมัครเลย
+misc_labels.related_policies: นโยบายที่เกี่ยวข้อง
+misc_labels.report_bugs: รายงานบั๊ก
+misc_labels.software_development: พัฒนาซอฟต์แวร์
+misc_labels.trust_and_safety: ความไว้วางใจและความปลอดภัย
+misc_labels.unique_profile_badge: แบดจ์โปรไฟล์แบบไม่ซ้ำ
+misc_labels.unlimited_users: ผู้ใช้ไม่จำกัด
+navigation.close: ปิด
+navigation.close_navigation_menu: ปิดเมนูนำทาง
+navigation.copy_link_to_section: คัดลอกลิงก์ไปยังส่วนนี้
+navigation.go_home: กลับหน้าแรก
+navigation.on_this_page: ในหน้านี้
+navigation.page_not_found.description: หน้านี้ไม่มีอยู่ แต่ยังมีอะไรให้สำรวจอีกเยอะนะ
+navigation.page_not_found.title: ไม่พบหน้านี้
+navigation.press.download_assets_intro: ดาวน์โหลดโลโก้ ดูสีแบรนด์ของเรา และติดต่อทีมสื่อของเรา
+navigation.press.download_fluxer_assets: ดาวน์โหลดโลโก้ Fluxer ไฟล์แบรนด์ และติดต่อทีมสื่อของเรา
+navigation.press.press_and_brand_assets: สื่อและไฟล์แบรนด์
+partner_program.become_partner.apply_email: สมัครที่ partners@fluxer.app
+partner_program.become_partner.call_to_action: เป็นพาร์ทเนอร์
+partner_program.become_partner.heading: เป็น Fluxer Partner
+partner_program.become_partner.if_youre_a_creator_or: ถ้าคุณเป็นครีเอเตอร์หรือดูแลคอมมูนิตี้ใหญ่ๆ เราอยากคุยด้วย
+partner_program.become_partner.learn_about_partners: ทำความรู้จักพาร์ทเนอร์
+partner_program.become_partner.learn_more: ดูรายละเอียด
+partner_program.become_partner.ready_prompt: พร้อมจะเป็นพาร์ทเนอร์แล้วหรือยัง
+partner_program.description: สิทธิพิเศษเฉพาะสำหรับครีเอเตอร์และเจ้าของคอมมูนิตี้ขนาดใหญ่
+partner_program.label: พาร์ทเนอร์
+partner_program.perks.creator_monetization.description: ได้ลองฟีเจอร์สร้างรายได้ก่อนใคร พร้อมค่าธรรมเนียมแพลตฟอร์มที่ต่ำกว่าคนที่ไม่ใช่พาร์ทเนอร์
+partner_program.perks.creator_monetization.label: การสร้างรายได้ของครีเอเตอร์
+partner_program.perks.custom_vanity_url.description: รับ URL วานิตี้พิเศษ เช่น fluxer.gg/yourcommunity
+partner_program.perks.custom_vanity_url.label: URL วานิตี้แบบกำหนดเอง
+partner_program.perks.direct_team_access.description: เข้าร่วมคอมมูนิตี้พาร์ทเนอร์แบบเอ็กซ์คลูซีฟ ที่คุยกับทีม Fluxer ได้โดยตรง
+partner_program.perks.direct_team_access.label: เข้าถึงทีมโดยตรง
+partner_program.perks.discovery_visibility: เพิ่มการมองเห็นด้วยการถูกแนะนำในหน้าค้นพบ
+partner_program.perks.exclusive_merch.description: รับของที่ระลึกและสวากเฉพาะพาร์ทเนอร์ Fluxer เท่านั้น
+partner_program.perks.exclusive_merch.label: ของที่ระลึกพิเศษ
+partner_program.perks.free_plutonium.description: รับ Plutonium ฟรีสำหรับบัญชีของคุณ เพื่อใช้ฟีเจอร์พรีเมียมทั้งหมด
+partner_program.perks.free_plutonium.label: Plutonium ฟรี
+partner_program.perks.increased_limits.description: คอมมูนิตี้ของคุณจะได้ลิมิตที่สูงขึ้นเมื่อจำเป็น
+partner_program.perks.increased_limits.label: ลิมิตเพิ่มขึ้น
+partner_program.perks.partner_badge.description: แสดงแบดจ์พาร์ทเนอร์แบบพิเศษบนโปรไฟล์ เพื่อให้โดดเด่น
+partner_program.perks.partner_badge.label: แบดจ์พาร์ทเนอร์
+partner_program.perks.vip_voice_servers.description: เข้าถึงเซิร์ฟเวอร์เสียง VIP ที่สำรองไว้ให้คอมมูนิตี้พาร์ทเนอร์เท่านั้น
+partner_program.perks.vip_voice_servers.label: ช่องเสียง VIP
+partner_program.requirements.audience_description: อธิบายสั้นๆ ว่ากลุ่มผู้ชมของคุณเป็นใคร และคุณทำอะไร
+partner_program.requirements.links_to_content: ลิงก์ผลงานหรือคอมมูนิตี้ของคุณ (YouTube, Twitch, Discord ฯลฯ)
+partner_program.requirements.name_and_username: ชื่อของคุณและชื่อผู้ใช้บนแพลตฟอร์ม
+partner_program.requirements.usage_plan: คุณวางแผนใช้ Fluxer กับคอมมูนิตี้ของคุณอย่างไร
+partner_program.who_its_for: 'ครีเอเตอร์และเจ้าของคอมมูนิตี้: ปลดล็อกสิทธิพิเศษ เช่น Plutonium ฟรี แบดจ์พาร์ทเนอร์ URL วานิตี้แบบกำหนดเอง และอีกมากมาย'
+partner_program.perks.heading: สิทธิพิเศษของพาร์ทเนอร์
+partner_program.perks.see_perks: ดูสิทธิพิเศษ
+partner_program.apply.instructions: ส่งอีเมลพร้อมข้อมูลต่อไปนี้มาให้เราเพื่อสมัครโปรแกรมพาร์ทเนอร์ Fluxer
+partner_program.apply.response_time: เราจะพิจารณาใบสมัครทั้งหมดและติดต่อกลับภายในไม่กี่วัน
+platform_support.desktop.available_on_desktop_and_web: ใช้ได้บนเดสก์ท็อปและบนเว็บ
+platform_support.desktop.download_desktop_intro: ดาวน์โหลด Fluxer สำหรับ Windows, macOS และ Linux ตอนนี้ ส่วนแอปมือถือกำลังทำอยู่
+platform_support.desktop.interface_label: อินเทอร์เฟซ Fluxer บนเดสก์ท็อป
+platform_support.desktop.label: เดสก์ท็อป
+platform_support.desktop.use_desktop_client_mobile_soon: ใช้ไคลเอนต์เดสก์ท็อป (มือถือมาเร็วๆ นี้)
+platform_support.mobile.install_as_app.add_to_home: เพิ่ม Fluxer ไปที่หน้าจอหลักเพื่อซ่อน UI ของเบราว์เซอร์
+platform_support.mobile.install_as_app.done_desktop: เสร็จแล้ว! ตอนนี้คุณเปิด Fluxer ได้เหมือนโปรแกรมปกติเลย
+platform_support.mobile.install_as_app.done_mobile: เสร็จแล้ว! ตอนนี้คุณเปิด Fluxer จากหน้าจอหลักได้เลย
+platform_support.mobile.install_as_app.guides.in_chrome: ' ใน Chrome'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: ' ใน Chrome หรือเบราว์เซอร์อื่นที่รองรับ PWA'
+platform_support.mobile.install_as_app.guides.in_safari: ' ใน Safari'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: คู่มือติดตั้ง PWA สำหรับ {name}
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: 'กด "เพิ่มไปที่หน้าจอหลัก"'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: 'กด "เพิ่ม" มุมขวาบน'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: 'กด "ติดตั้งแอป"'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: กดปุ่มติดตั้ง (ลูกศรชี้ลงบนหน้าจอ) ในแถบที่อยู่
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: 'กด "ติดตั้ง" ในป๊อปอัปที่ขึ้นมา'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: 'กดปุ่ม "เพิ่มเติม" (⋮) มุมขวาบน'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: กดปุ่มแชร์ (สี่เหลี่ยมกับลูกศรชี้ขึ้น)
+platform_support.mobile.install_as_app.install_fluxer_as_app: ติดตั้ง Fluxer เป็นแอป
+platform_support.mobile.install_as_app.title: วิธีติดตั้งเป็นแอป
+platform_support.mobile.interface_label: อินเทอร์เฟซ Fluxer บนมือถือ
+platform_support.mobile.mobile_apps_underway: แอปมือถือกำลังพัฒนาอยู่
+platform_support.mobile.mobile_browser_explainer: เรากำลังทำแอปสำหรับ iOS และ Android ระหว่างนี้ Fluxer ใช้ผ่านเบราว์เซอร์มือถือได้ และเราลงแรงเยอะเพื่อให้มันรู้สึกเหมือนแอปให้มากที่สุด
+platform_support.mobile.not_full_replacement_yet: ตอนนี้ยังแทนแอปเดสก์ท็อปได้ไม่เต็มที่ และบางอย่างที่คาดหวังจากแชตแอปบนมือถือยังขาดอยู่
+platform_support.mobile.push_notifications: รับการแจ้งเตือนแบบพุชตอนคุณไม่ได้อยู่ในแอป
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS และ iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: เลือกดิสโทร Linux
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: ดาวน์โหลดสำหรับ macOS
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: ดาวน์โหลดสำหรับ Windows
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: สีแบรนด์
+press_branding.assets.full_color: เวอร์ชันสีเต็ม
+press_branding.assets.label: โลโก้
+press_branding.assets.logo_variants.black_logo: โลโก้สีดำ
+press_branding.assets.logo_variants.color_logo: โลโก้สี
+press_branding.assets.logo_variants.white_logo: โลโก้สีขาว
+press_branding.assets.palette_description: พาเลตสีที่เราคัดสรรมาอย่างตั้งใจ เพื่อเป็นตัวแทนของแบรนด์ Fluxer
+press_branding.assets.premium_quality: คุณภาพพรีเมียม
+press_branding.assets.primary_brand_color_description: สีหลักของแบรนด์ ใช้กับองค์ประกอบสำคัญและแอ็กเซนต์
+press_branding.assets.symbol_variants.black_symbol: สัญลักษณ์สีดำ
+press_branding.assets.symbol_variants.color_symbol: สัญลักษณ์สี
+press_branding.assets.symbol_variants.label: สัญลักษณ์
+press_branding.assets.symbol_variants.white_symbol: สัญลักษณ์สีขาว
+press_branding.assets.usage_guidance.dark_surface_guidance: ใช้กับพื้นหลัง ข้อความบนพื้นผิวเข้ม และเพื่อสร้างคอนทราสต์
+press_branding.assets.usage_guidance.for_dark_backgrounds: สำหรับพื้นหลังเข้ม
+press_branding.assets.usage_guidance.for_light_backgrounds: สำหรับพื้นหลังสว่าง
+press_branding.assets.usage_guidance.full_logo_description: โลโก้เต็มที่รวมเวิร์ดมาร์ก ใช้นี่เป็นตัวแทนหลักของแบรนด์
+press_branding.assets.usage_guidance.light_surface_guidance: ใช้กับข้อความ ไอคอนบนพื้นผิวสว่าง และเพื่อสร้างมิติ
+press_branding.assets.usage_guidance.symbol_description: สัญลักษณ์เดี่ยว ใช้เฉพาะเมื่อแบรนด์ของเราเห็นชัดหรือเป็นที่รู้จักอยู่แล้วในบริบทนั้น
+press_branding.colors.blue_da_ba_dee: Blue Da Ba Dee
+press_branding.colors.white: ขาว
+press_branding.colors.black: ดำ
+press_branding.contact.story_prompt: มีเรื่องราวเกี่ยวกับ Fluxer ไหม เราอยากฟังจากคุณ
+press_branding.contact.response_time: โดยปกติเราจะตอบกลับภายใน 24 ชั่วโมง
+pricing_and_tiers.billing.forever: ตลอดไป
+pricing_and_tiers.billing.most_popular: ยอดนิยม
+pricing_and_tiers.billing.per_forever: /ตลอดไป
+pricing_and_tiers.billing.per_month: /เดือน
+pricing_and_tiers.billing.per_year_full: /ปี
+pricing_and_tiers.billing.per_year_short: /ปี
+pricing_and_tiers.billing.save_percent: ประหยัด 17%
+pricing_and_tiers.free.comparison_label: ฟรี vs Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 'ทุกอย่างในแพ็กฟรี และยังได้เพิ่มอีก:'
+pricing_and_tiers.free.full_access_to_all_features: เข้าถึงทุกฟีเจอร์ได้เต็มรูปแบบ
+pricing_and_tiers.free.label: ฟรี
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: 'หมายเหตุ: สิทธิประโยชน์ Plutonium และ Visionary ใช้ได้เฉพาะบนอินสแตนซ์ทางการ Fluxer.app เท่านั้น ไม่รวมอินสแตนซ์ของบุคคลที่สามหรือแบบโฮสต์เอง'
+pricing_and_tiers.plutonium.feature_highlights: อัปโหลด 500 MB ข้อความยาว 4,000 ตัวอักษร บุ๊กมาร์ก 300 รายการ แพ็กอีโมจิ 50 แพ็ก และอีกมากมาย
+pricing_and_tiers.plutonium.features.bio_character_limit: ลิมิตตัวอักษรใน bio
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: เลือกแท็ก 4 หลักของคุณเองเช่น #0001, #1337, หรือ #9999 เพื่อให้ชื่อผู้ใช้ของคุณไม่ซ้ำใคร
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: แท็กชื่อผู้ใช้ 4 หลักแบบกำหนดเอง
+pricing_and_tiers.plutonium.features.custom_username_tag: แท็กชื่อผู้ใช้แบบกำหนดเอง
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: พื้นหลังวิดีโอ
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: แพ็กอีโมจิและสติกเกอร์
+pricing_and_tiers.plutonium.features.file_upload_size: ขนาดไฟล์อัปโหลด
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: ใช้อีโมจิและสติกเกอร์ได้ทั่วทั้งแอป
+pricing_and_tiers.plutonium.features.message_character_limit: ลิมิตตัวอักษรต่อข้อความ
+pricing_and_tiers.plutonium.features.message_scheduling: ตั้งเวลาส่งข้อความ
+pricing_and_tiers.plutonium.features.per_community_profiles: โปรไฟล์แยกตามคอมมูนิตี้
+pricing_and_tiers.plutonium.features.saved_media: สื่อที่บันทึกไว้
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: รองรับเว็บฮุคและบอท
+pricing_and_tiers.plutonium.get_more_with_plutonium: ได้มากขึ้นกับ Fluxer Plutonium
+pricing_and_tiers.plutonium.get_plutonium: รับ Plutonium
+pricing_and_tiers.plutonium.higher_limits_and_early_access: ลิมิตสูงขึ้น ฟีเจอร์พิเศษ และได้ลองอัปเดตก่อนใคร
+pricing_and_tiers.plutonium.higher_limits_everywhere: ลิมิตสูงขึ้นทุกที่
+pricing_and_tiers.plutonium.show_off_status_badge: อวดสถานะ Plutonium ด้วยแบดจ์พิเศษบนโปรไฟล์ของคุณ
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: 'อัปเกรดเป็น Plutonium แค่ $4.99/เดือน: แท็กชื่อผู้ใช้แบบกำหนดเอง โปรไฟล์แยกตามคอมมูนิตี้ ตั้งเวลาส่งข้อความ สตรีม 4K อัปโหลด 500 MB และฟีเจอร์พิเศษอีกเพียบ'
+pricing_and_tiers.visionary.badge.numbered_badge: แบดจ์มีหมายเลข แสดงสถานะ Visionary ของคุณ
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: แบดจ์มีหมายเลข (1–{0}) แสดงสถานะ Visionary ของคุณ
+pricing_and_tiers.visionary.bundle_label: Visionary – ได้ Plutonium และ Operator Pass ตลอดชีพ (โควตาจำกัด)
+pricing_and_tiers.visionary.communities_with_team_access: คอมมูนิตี้ Visionary และ Operators พร้อมสิทธิ์เข้าถึงทีม
+pricing_and_tiers.visionary.get_visionary: รับ Visionary
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: รับ Plutonium ตลอดชีพบน Fluxer.app พร้อม Operator Pass สำหรับโฮสต์เอง จ่ายครั้งเดียว {0} ใช้ได้จนถึงวันที่ 1 ตุลาคม 2026 หรือจนกว่าที่นั่งทั้งหมดจะถูกจอง
+pricing_and_tiers.visionary.lifetime_operator_pass: Operator Pass ตลอดชีพ
+pricing_and_tiers.visionary.lifetime_plutonium: Plutonium ตลอดชีพ
+pricing_and_tiers.visionary.limited_offer_note: 'ข้อเสนอจำกัด: Visionary รวม Operator Pass'
+pricing_and_tiers.visionary.limited_slots_label: Visionary – โควตาจำกัด
+pricing_and_tiers.visionary.one_time_purchase.label: จ่ายครั้งเดียว
+pricing_and_tiers.visionary.one_time_purchase.promise: จ่ายครั้งเดียว ใช้ได้ตลอดชีพ
+pricing_and_tiers.visionary.purchase_flow: ซื้อ Visionary ได้ในแอปหลังสร้างบัญชี วันที่ซื้อและเลขออร์เดอร์จะแสดงบนโปรไฟล์ (ซ่อนได้ในการตั้งค่าความเป็นส่วนตัว)
+pricing_and_tiers.visionary.slots_left.generic: เหลือ {0} จาก {1} ช่อง
+pricing_and_tiers.visionary.slots_left.visionary_bundle: เหลือ Visionary ตลอดชีพแค่ {0} จาก {1} ช่อง – ได้ Plutonium และ Operator Pass ตลอดชีพ
+pricing_and_tiers.visionary.slots_left.visionary_only: เหลือโควตา Visionary {0} ช่อง
+product_positioning.free_and_open_source: Fluxer ฟรีและโอเพนซอร์ส ทุกคนโฮสต์เองได้ฟรี
+product_positioning.intro: Fluxer คือแพลตฟอร์มแชตทันทีและ VoIP แบบฟรีและโอเพนซอร์ส สร้างมาเพื่อเพื่อน กลุ่ม และคอมมูนิตี้
+product_positioning.open_source.fully_open_source_agplv3: โอเพนซอร์สเต็มรูปแบบ (AGPLv3)
+product_positioning.open_source.label: โอเพนซอร์ส
+product_positioning.open_source.license: โอเพนซอร์ส (AGPL-3.0)
+product_positioning.self_hosting.connect_from_any_client: เชื่อมต่อได้จากทุกไคลเอนต์
+product_positioning.self_hosting.free_self_hosting: โฮสต์เองได้ฟรี
+product_positioning.self_hosting.host_your_own_instance: โฮสต์อินสแตนซ์ของคุณเอง
+product_positioning.self_hosting.label: โฮสต์เอง
+product_positioning.self_hosting.operator_pass.access_to_operators_community: เข้าถึงคอมมูนิตี้ Fluxer Operators
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: หลังโปรโมชันจบ Operator Pass ยังซื้อแยกได้ตามปกติ
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: 'Operator Pass เป็นตัวเลือกเสริม: จ่ายเพื่อรับการซัพพอร์ตและเข้าถึงคอมมูนิตี้ Operators'
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: การซัพพอร์ตแบบลำดับความสำคัญและสิทธิ์เข้าถึงคอมมูนิตี้ Operators สำหรับสายโฮสต์เอง
+product_positioning.self_hosting.run_backend_on_your_hardware: รันแบ็กเอนด์ของ Fluxer บนฮาร์ดแวร์ของคุณเอง แล้วเชื่อมต่อด้วยแอปของเรา
+product_positioning.self_hosting.switch_between_instances: สลับไปมาระหว่างหลายอินสแตนซ์ได้
+security.found_security_issue: เจอปัญหาด้านความปลอดภัยใช่ไหม
+security.report_vulnerabilities: รายงานช่องโหว่และช่วยให้แพลตฟอร์มปลอดภัย
+security.responsible_disclosure_note: ขอบคุณสำหรับการเปิดเผยอย่างรับผิดชอบผ่านหน้าโปรแกรมรางวัลบั๊กของเรา เรามอบโค้ด Plutonium และแบดจ์ Bug Hunter ตามความรุนแรง
+security.security_bug_bounty: โปรแกรมรางวัลบั๊กด้านความปลอดภัย
+security.security_reports: รายงานความปลอดภัย
+security.testers_access_from_reports: รายงานที่ได้รับอนุมัติจะได้สิทธิ์เข้า Fluxer Testers ซึ่งคุณสะสมแต้มเพื่อรับโค้ด Plutonium และแบดจ์ Bug Hunter ได้
+social_and_feeds.bluesky.follow_us: ติดตามเราบน Bluesky
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: ฟีด RSS ของ Bluesky
+social_and_feeds.follow_fluxer: ติดตาม @fluxer.app
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: ฟีด RSS ของบล็อก
+social_and_feeds.rss.fluxer_blog_rss: ฟีด RSS บล็อก Fluxer
+social_and_feeds.rss.label: ฟีด RSS
+social_and_feeds.stay_updated_cta: ติดตามข่าว สถานะบริการ และเรื่องที่กำลังเกิดขึ้นได้ที่นี่ หรือจะสมัครรับ

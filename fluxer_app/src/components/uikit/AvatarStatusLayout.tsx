@@ -17,9 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {getStatusGeometry} from '~/components/uikit/AvatarStatusGeometry';
-
-const TYPING_WIDTH_MULTIPLIER = 1.8;
+import {getStatusGeometry} from '@app/components/uikit/AvatarStatusGeometry';
+import {TYPING_BRIDGE_RIGHT_SHIFT_RATIO, TYPING_WIDTH_MULTIPLIER} from '@app/components/uikit/TypingConstants';
 
 export interface AvatarStatusLayout {
 	supportsStatus: boolean;
@@ -75,13 +74,16 @@ export function getAvatarStatusLayout(size: number, isMobile: boolean = false): 
 	const typingCutoutWidth = typingWidth;
 	const typingCutoutHeight = typingHeight;
 
-	const typingCutoutCx = cutoutCx + statusSize / 2 - typingWidth / 2;
+	const typingExtension = Math.max(0, typingWidth - statusSize);
+	const typingBridgeShift = typingExtension * TYPING_BRIDGE_RIGHT_SHIFT_RATIO;
+
+	const typingCutoutCx = cutoutCx + statusSize / 2 - typingWidth / 2 + typingBridgeShift;
 	const typingCutoutCy = cutoutCy;
 	const typingCutoutRx = geom.radius;
 
 	const innerStatusRight = size - cutoutCx - statusSize / 2;
 	const innerStatusBottom = size - cutoutCy - statusHeight / 2;
-	const innerTypingRight = innerStatusRight;
+	const innerTypingRight = innerStatusRight - typingBridgeShift;
 	const innerTypingBottom = size - cutoutCy - typingHeight / 2;
 
 	const statusRight = innerStatusRight;

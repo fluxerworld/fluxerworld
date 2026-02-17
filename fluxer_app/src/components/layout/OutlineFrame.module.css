@@ -24,7 +24,7 @@
 	border: 1px solid var(--user-area-divider-color);
 	border-top: none;
 	border-top-left-radius: var(--outline-radius, 0px);
-	background: transparent;
+	background: var(--background-secondary-lighter);
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;

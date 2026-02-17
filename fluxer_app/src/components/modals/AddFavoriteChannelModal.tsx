@@ -17,26 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {Input} from '@app/components/form/Input';
+import {Select, type SelectOption} from '@app/components/form/Select';
+import styles from '@app/components/modals/AddFavoriteChannelModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import selectorStyles from '@app/components/modals/shared/SelectorModalStyles.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import {Scroller} from '@app/components/uikit/Scroller';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import FavoritesStore from '@app/stores/FavoritesStore';
+import GuildStore from '@app/stores/GuildStore';
+import UserGuildSettingsStore from '@app/stores/UserGuildSettingsStore';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import {useLingui} from '@lingui/react/macro';
 import {MagnifyingGlassIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {ChannelTypes} from '~/Constants';
-import {Input} from '~/components/form/Input';
-import {Select, type SelectOption} from '~/components/form/Select';
-import styles from '~/components/modals/AddFavoriteChannelModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import selectorStyles from '~/components/modals/shared/SelectorModalStyles.module.css';
-import {Button} from '~/components/uikit/Button/Button';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import {Scroller} from '~/components/uikit/Scroller';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import FavoritesStore from '~/stores/FavoritesStore';
-import GuildStore from '~/stores/GuildStore';
-import UserGuildSettingsStore from '~/stores/UserGuildSettingsStore';
-import * as ChannelUtils from '~/utils/ChannelUtils';
+import React, {useMemo, useState} from 'react';
 
 interface ChannelWithCategory {
 	channel: ChannelRecord;
@@ -48,11 +48,11 @@ export const AddFavoriteChannelModal = observer(({categoryId}: {categoryId?: str
 	const guilds = GuildStore.getGuilds();
 	const firstGuildId = guilds.length > 0 ? guilds[0].id : null;
 
-	const [selectedGuildId, setSelectedGuildId] = React.useState<string | null>(firstGuildId);
-	const [hideMutedChannels, setHideMutedChannels] = React.useState(false);
-	const [searchQuery, setSearchQuery] = React.useState('');
+	const [selectedGuildId, setSelectedGuildId] = useState<string | null>(firstGuildId);
+	const [hideMutedChannels, setHideMutedChannels] = useState(false);
+	const [searchQuery, setSearchQuery] = useState('');
 
-	const guildOptions: Array<SelectOption<string>> = React.useMemo(
+	const guildOptions: Array<SelectOption<string>> = useMemo(
 		() =>
 			guilds.map((guild) => ({
 				value: guild.id,
@@ -63,7 +63,7 @@ export const AddFavoriteChannelModal = observer(({categoryId}: {categoryId?: str
 
 	const selectedGuild = selectedGuildId ? GuildStore.getGuild(selectedGuildId) : null;
 
-	const channels = React.useMemo(() => {
+	const channels = useMemo(() => {
 		if (!selectedGuild) return [];
 
 		const guildChannels = ChannelStore.getGuildChannels(selectedGuild.id);
@@ -71,7 +71,11 @@ export const AddFavoriteChannelModal = observer(({categoryId}: {categoryId?: str
 		const query = searchQuery.toLowerCase().trim();
 
 		for (const channel of guildChannels) {
-			if (channel.type !== ChannelTypes.GUILD_TEXT && channel.type !== ChannelTypes.GUILD_VOICE) {
+			if (
+				channel.type !== ChannelTypes.GUILD_TEXT &&
+				channel.type !== ChannelTypes.GUILD_VOICE &&
+				channel.type !== ChannelTypes.GUILD_LINK
+			) {
 				continue;
 			}
 
@@ -128,67 +132,69 @@ export const AddFavoriteChannelModal = observer(({categoryId}: {categoryId?: str
 					/>
 				</div>
 			</Modal.Header>
-			<Modal.Content className={styles.content}>
-				<div className={styles.selectContainer}>
-					<Select
-						label={t`Select a Community`}
-						value={selectedGuildId ?? ''}
-						options={guildOptions}
-						onChange={(value) => setSelectedGuildId(value || null)}
-						placeholder={t`Choose a community...`}
-					/>
-				</div>
+			<Modal.Content>
+				<Modal.ContentLayout>
+					<div className={styles.selectContainer}>
+						<Select
+							label={t`Select a Community`}
+							value={selectedGuildId ?? ''}
+							options={guildOptions}
+							onChange={(value) => setSelectedGuildId(value || null)}
+							placeholder={t`Choose a community...`}
+						/>
+					</div>
 
-				{selectedGuild && (
-					<>
-						<Checkbox
-							className={styles.checkboxRow}
-							checked={hideMutedChannels}
-							onChange={(checked) => setHideMutedChannels(checked)}
-						>
-							<span className={styles.checkboxText}>{t`Hide muted channels`}</span>
-						</Checkbox>
+					{selectedGuild && (
+						<>
+							<Checkbox
+								className={styles.checkboxRow}
+								checked={hideMutedChannels}
+								onChange={(checked) => setHideMutedChannels(checked)}
+							>
+								<span className={styles.checkboxText}>{t`Hide muted channels`}</span>
+							</Checkbox>
 
-						<Scroller className={styles.scrollerContainer} key="add-favorite-channel-scroller">
-							<div className={styles.channelList}>
-								{channels.length === 0 ? (
-									<div className={styles.emptyState}>{t`No channels available`}</div>
-								) : (
-									channels.map(({channel, categoryName}, index) => {
-										const prevCategoryName = index > 0 ? channels[index - 1].categoryName : null;
-										const showCategoryHeader = categoryName !== prevCategoryName;
-										const isAlreadyFavorite = !!FavoritesStore.getChannel(channel.id);
+							<Scroller className={styles.scrollerContainer} key="add-favorite-channel-scroller">
+								<div className={styles.channelList}>
+									{channels.length === 0 ? (
+										<div className={styles.emptyState}>{t`No channels available`}</div>
+									) : (
+										channels.map(({channel, categoryName}, index) => {
+											const prevCategoryName = index > 0 ? channels[index - 1].categoryName : null;
+											const showCategoryHeader = categoryName !== prevCategoryName;
+											const isAlreadyFavorite = !!FavoritesStore.getChannel(channel.id);
 
-										return (
-											<React.Fragment key={channel.id}>
-												{showCategoryHeader && (
-													<div className={styles.categoryHeader}>{categoryName || t`Uncategorized`}</div>
-												)}
-												<div className={styles.channelRow}>
-													<div className={styles.channelIconContainer}>
-														{ChannelUtils.getIcon(channel, {
-															className: styles.channelIcon,
-														})}
+											return (
+												<React.Fragment key={channel.id}>
+													{showCategoryHeader && (
+														<div className={styles.categoryHeader}>{categoryName || t`Uncategorized`}</div>
+													)}
+													<div className={styles.channelRow}>
+														<div className={styles.channelIconContainer}>
+															{ChannelUtils.getIcon(channel, {
+																className: styles.channelIcon,
+															})}
+														</div>
+														<span className={styles.channelName}>{channel.name}</span>
+														<div className={styles.channelActions}>
+															<Button
+																variant={isAlreadyFavorite ? 'secondary' : 'primary'}
+																small={true}
+																onClick={() => handleToggleChannel(channel.id)}
+															>
+																{isAlreadyFavorite ? t`Remove` : t`Add`}
+															</Button>
+														</div>
 													</div>
-													<span className={styles.channelName}>{channel.name}</span>
-													<div className={styles.channelActions}>
-														<Button
-															variant={isAlreadyFavorite ? 'secondary' : 'primary'}
-															small={true}
-															onClick={() => handleToggleChannel(channel.id)}
-														>
-															{isAlreadyFavorite ? t`Remove` : t`Add`}
-														</Button>
-													</div>
-												</div>
-											</React.Fragment>
-										);
-									})
-								)}
-							</div>
-						</Scroller>
-					</>
-				)}
+												</React.Fragment>
+											);
+										})
+									)}
+								</div>
+							</Scroller>
+						</>
+					)}
+				</Modal.ContentLayout>
 			</Modal.Content>
 			<Modal.Footer>
 				<Button onClick={ModalActionCreators.pop}>{t`Close`}</Button>

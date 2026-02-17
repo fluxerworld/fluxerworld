@@ -17,66 +17,52 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getStatusTypeLabel} from '@app/AppConstants';
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as VoiceStateActionCreators from '@app/actions/VoiceStateActionCreators';
+import {CustomStatusDisplay} from '@app/components/common/custom_status_display/CustomStatusDisplay';
+import styles from '@app/components/layout/UserArea.module.css';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
+import {UserAreaPopout} from '@app/components/popouts/UserAreaPopout';
+import {SettingsContextMenu} from '@app/components/uikit/context_menu/SettingsContextMenu';
+import {FocusRingWrapper} from '@app/components/uikit/FocusRingWrapper';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {TooltipWithKeybind} from '@app/components/uikit/keybind_hint/KeybindHint';
+import {Popout} from '@app/components/uikit/popout/Popout';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {VoiceConnectionStatus} from '@app/components/voice/VoiceConnectionStatus';
+import {VoiceInputSettingsMenu, VoiceOutputSettingsMenu} from '@app/components/voice/VoiceSettingsMenus';
+import {useContextMenuHoverState} from '@app/hooks/useContextMenuHoverState';
+import {useMediaDevices} from '@app/hooks/useMediaDevices';
+import {usePopout} from '@app/hooks/usePopout';
+import type {UserRecord} from '@app/records/UserRecord';
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import KeybindStore from '@app/stores/KeybindStore';
+import LocalVoiceStateStore from '@app/stores/LocalVoiceStateStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import PresenceStore from '@app/stores/PresenceStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import {formatKeyCombo} from '@app/utils/KeybindUtils';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
 import {useLingui} from '@lingui/react/macro';
 import {GearIcon, MicrophoneIcon, MicrophoneSlashIcon, SpeakerHighIcon, SpeakerSlashIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import {useLayoutEffect, useRef} from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as VoiceStateActionCreators from '~/actions/VoiceStateActionCreators';
-import {getStatusTypeLabel} from '~/Constants';
-import {CustomStatusDisplay} from '~/components/common/CustomStatusDisplay/CustomStatusDisplay';
-import styles from '~/components/layout/UserArea.module.css';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import {UserAreaPopout} from '~/components/popouts/UserAreaPopout';
-import {SettingsContextMenu} from '~/components/uikit/ContextMenu/SettingsContextMenu';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {FocusRingWrapper} from '~/components/uikit/FocusRingWrapper';
-import {TooltipWithKeybind} from '~/components/uikit/KeybindHint/KeybindHint';
-import {Popout} from '~/components/uikit/Popout/Popout';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {VoiceConnectionStatus} from '~/components/voice/VoiceConnectionStatus';
-import {VoiceInputSettingsMenu, VoiceOutputSettingsMenu} from '~/components/voice/VoiceSettingsMenus';
-import {useMediaDevices} from '~/hooks/useMediaDevices';
-import {usePopout} from '~/hooks/usePopout';
-import type {UserRecord} from '~/records/UserRecord';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import KeybindStore from '~/stores/KeybindStore';
-import LocalVoiceStateStore from '~/stores/LocalVoiceStateStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import PresenceStore from '~/stores/PresenceStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import {formatKeyCombo} from '~/utils/KeybindUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
 
 const VOICE_CONNECTION_HEIGHT_VARIABLE = '--layout-voice-connection-height';
 
-const UserAreaWithRoom = observer(function UserAreaWithRoom({user}: {user: UserRecord}) {
-	const connectedGuildId = MediaEngineStore.guildId;
-	const voiceState = MediaEngineStore.getVoiceState(connectedGuildId);
-	const localSelfMute = LocalVoiceStateStore.selfMute;
-	const localSelfDeaf = LocalVoiceStateStore.selfDeaf;
-
-	const isMuted = voiceState ? voiceState.self_mute : localSelfMute;
-	const isDeafened = voiceState ? voiceState.self_deaf : localSelfDeaf;
-	const isGuildMuted = voiceState?.mute ?? false;
-	const isGuildDeafened = voiceState?.deaf ?? false;
-	const muteReason = MediaEngineStore.getMuteReason(voiceState);
-
-	return (
-		<UserAreaInner
-			user={user}
-			isMuted={isMuted}
-			isDeafened={isDeafened}
-			isGuildMuted={isGuildMuted}
-			isGuildDeafened={isGuildDeafened}
-			muteReason={muteReason}
-		/>
-	);
-});
+interface UserAreaInnerProps {
+	user: UserRecord;
+	isMuted: boolean;
+	isDeafened: boolean;
+	isGuildMuted?: boolean;
+	isGuildDeafened?: boolean;
+	muteReason?: 'guild' | 'push_to_talk' | 'self' | null;
+}
 
 const UserAreaInner = observer(
 	({
@@ -86,20 +72,22 @@ const UserAreaInner = observer(
 		isGuildMuted = false,
 		isGuildDeafened = false,
 		muteReason = null,
-	}: {
-		user: UserRecord;
-		isMuted: boolean;
-		isDeafened: boolean;
-		isGuildMuted?: boolean;
-		isGuildDeafened?: boolean;
-		muteReason?: 'guild' | 'push_to_talk' | 'self' | null;
-	}) => {
+	}: UserAreaInnerProps) => {
 		const {t, i18n} = useLingui();
 		const {isOpen, openProps} = usePopout('user-area');
 		const status = PresenceStore.getStatus(user.id);
 		const customStatus = PresenceStore.getCustomStatus(user.id);
 		const {inputDevices, outputDevices} = useMediaDevices();
 		const voiceConnectionRef = useRef<HTMLDivElement | null>(null);
+		const micButtonRef = useRef<HTMLButtonElement | null>(null);
+		const micRingRef = useRef<HTMLDivElement | null>(null);
+		const speakerButtonRef = useRef<HTMLButtonElement | null>(null);
+		const speakerRingRef = useRef<HTMLDivElement | null>(null);
+		const settingsButtonRef = useRef<HTMLButtonElement | null>(null);
+
+		const micContextMenuOpen = useContextMenuHoverState(micButtonRef);
+		const speakerContextMenuOpen = useContextMenuHoverState(speakerButtonRef);
+		const settingsContextMenuOpen = useContextMenuHoverState(settingsButtonRef);
 
 		const handleMicContextMenu = (event: React.MouseEvent) => {
 			event.preventDefault();
@@ -121,12 +109,9 @@ const UserAreaInner = observer(
 			ModalActionCreators.push(modal(() => <UserSettingsModal />));
 		};
 
-		const storeConnectedGuildId = MediaEngineStore.guildId;
 		const storeConnectedChannelId = MediaEngineStore.channelId;
 		const forceShowVoiceConnection = DeveloperOptionsStore.forceShowVoiceConnection;
-		const hasVoiceConnection =
-			!MobileLayoutStore.enabled &&
-			(forceShowVoiceConnection || (!!storeConnectedGuildId && !!storeConnectedChannelId));
+		const hasVoiceConnection = !MobileLayoutStore.enabled && (forceShowVoiceConnection || !!storeConnectedChannelId);
 
 		useLayoutEffect(() => {
 			const root = document.documentElement;
@@ -157,6 +142,25 @@ const UserAreaInner = observer(
 		const pushToTalkHint = formatKeyCombo(pushToTalkCombo);
 		const effectiveMuted = muteReason !== null || isMuted;
 
+		const micTooltipLabel = (() => {
+			if (isGuildMuted) return t`Community Muted`;
+			if (muteReason === 'push_to_talk') return t`Push-to-talk enabled — hold ${pushToTalkHint} to speak`;
+			if (effectiveMuted) return t`Unmute`;
+			return t`Mute`;
+		})();
+
+		const micAriaLabel = (() => {
+			if (isGuildMuted) return t`Community Muted`;
+			if (effectiveMuted) return t`Unmute`;
+			return t`Mute`;
+		})();
+
+		const speakerLabel = (() => {
+			if (isGuildDeafened) return t`Community Deafened`;
+			if (isDeafened) return t`Undeafen`;
+			return t`Deafen`;
+		})();
+
 		return (
 			<div className={wrapperClassName}>
 				{hasVoiceConnection && (
@@ -170,7 +174,7 @@ const UserAreaInner = observer(
 				)}
 				{!hasVoiceConnection && <div className={styles.separator} aria-hidden />}
 				<div className={styles.userAreaContainer}>
-					<Popout {...openProps} render={() => <UserAreaPopout />} position="top">
+					<Popout {...openProps} render={() => <UserAreaPopout />} position="top" offsetMainAxis={12}>
 						<FocusRingWrapper focusRingOffset={-2}>
 							<div className={clsx(styles.userInfo, isOpen && styles.active)} role="button" tabIndex={0}>
 								<StatusAwareAvatar user={user} size={36} />
@@ -202,29 +206,20 @@ const UserAreaInner = observer(
 					<div className={styles.controlsContainer}>
 						<Tooltip
 							text={() => (
-								<TooltipWithKeybind
-									label={
-										isGuildMuted
-											? t`Community Muted`
-											: muteReason === 'push_to_talk'
-												? t`Push-to-talk enabled — hold ${pushToTalkHint} to speak`
-												: effectiveMuted
-													? t`Unmute`
-													: t`Mute`
-									}
-									action={isGuildMuted ? undefined : 'toggle_mute'}
-								/>
+								<TooltipWithKeybind label={micTooltipLabel} action={isGuildMuted ? undefined : 'toggle_mute'} />
 							)}
 						>
-							<FocusRing offset={-2} enabled={!isGuildMuted}>
-								<div>
+							<FocusRing offset={-2} enabled={!isGuildMuted} focusTarget={micButtonRef} ringTarget={micRingRef}>
+								<div ref={micRingRef}>
 									<button
+										ref={micButtonRef}
 										type="button"
-										aria-label={isGuildMuted ? t`Community Muted` : effectiveMuted ? t`Unmute` : t`Mute`}
+										aria-label={micAriaLabel}
 										className={clsx(
 											styles.controlButton,
 											(effectiveMuted || isGuildMuted) && styles.active,
 											isGuildMuted && styles.disabled,
+											micContextMenuOpen && styles.contextMenuHover,
 										)}
 										onClick={isGuildMuted ? undefined : () => VoiceStateActionCreators.toggleSelfMute(null)}
 										onContextMenu={handleMicContextMenu}
@@ -241,21 +236,25 @@ const UserAreaInner = observer(
 						</Tooltip>
 						<Tooltip
 							text={() => (
-								<TooltipWithKeybind
-									label={isGuildDeafened ? t`Community Deafened` : isDeafened ? t`Undeafen` : t`Deafen`}
-									action={isGuildDeafened ? undefined : 'toggle_deafen'}
-								/>
+								<TooltipWithKeybind label={speakerLabel} action={isGuildDeafened ? undefined : 'toggle_deafen'} />
 							)}
 						>
-							<FocusRing offset={-2} enabled={!isGuildDeafened}>
-								<div>
+							<FocusRing
+								offset={-2}
+								enabled={!isGuildDeafened}
+								focusTarget={speakerButtonRef}
+								ringTarget={speakerRingRef}
+							>
+								<div ref={speakerRingRef}>
 									<button
+										ref={speakerButtonRef}
 										type="button"
-										aria-label={isGuildDeafened ? t`Community Deafened` : isDeafened ? t`Undeafen` : t`Deafen`}
+										aria-label={speakerLabel}
 										className={clsx(
 											styles.controlButton,
 											(isDeafened || isGuildDeafened) && styles.active,
 											isGuildDeafened && styles.disabled,
+											speakerContextMenuOpen && styles.contextMenuHover,
 										)}
 										onClick={isGuildDeafened ? undefined : () => VoiceStateActionCreators.toggleSelfDeaf(null)}
 										onContextMenu={handleSpeakerContextMenu}
@@ -273,9 +272,10 @@ const UserAreaInner = observer(
 						<Tooltip text={() => <TooltipWithKeybind label={t`User Settings`} action="toggle_settings" />}>
 							<FocusRing offset={-2}>
 								<button
+									ref={settingsButtonRef}
 									type="button"
 									aria-label={t`User Settings`}
-									className={styles.controlButton}
+									className={clsx(styles.controlButton, settingsContextMenuOpen && styles.contextMenuHover)}
 									onClick={handleSettingsClick}
 									onContextMenu={(event) => {
 										event.preventDefault();
@@ -297,7 +297,6 @@ const UserAreaInner = observer(
 );
 
 export const UserArea = observer(function UserArea({user}: {user: UserRecord}) {
-	const room = MediaEngineStore.room;
 	const connectedGuildId = MediaEngineStore.guildId;
 	const voiceState = MediaEngineStore.getVoiceState(connectedGuildId);
 	const localSelfMute = LocalVoiceStateStore.selfMute;
@@ -308,12 +307,20 @@ export const UserArea = observer(function UserArea({user}: {user: UserRecord}) {
 		return null;
 	}
 
-	if (room) {
-		return <UserAreaWithRoom user={user} />;
-	}
-
 	const isMuted = voiceState ? voiceState.self_mute : localSelfMute;
 	const isDeafened = voiceState ? voiceState.self_deaf : localSelfDeaf;
+	const isGuildMuted = voiceState?.mute ?? false;
+	const isGuildDeafened = voiceState?.deaf ?? false;
+	const muteReason = MediaEngineStore.getMuteReason(voiceState);
 
-	return <UserAreaInner user={user} isMuted={isMuted} isDeafened={isDeafened} />;
+	return (
+		<UserAreaInner
+			user={user}
+			isMuted={isMuted}
+			isDeafened={isDeafened}
+			isGuildMuted={isGuildMuted}
+			isGuildDeafened={isGuildDeafened}
+			muteReason={muteReason}
+		/>
+	);
 });

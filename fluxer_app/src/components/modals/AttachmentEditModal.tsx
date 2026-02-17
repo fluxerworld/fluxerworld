@@ -17,22 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input, Textarea} from '@app/components/form/Input';
+import {Switch} from '@app/components/form/Switch';
+import styles from '@app/components/modals/AttachmentEditModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {useCursorAtEnd} from '@app/hooks/useCursorAtEnd';
+import {type CloudAttachment, CloudUpload} from '@app/lib/CloudUpload';
+import {MessageAttachmentFlags} from '@fluxer/constants/src/ChannelConstants';
+import {MAX_ATTACHMENT_ALT_TEXT_LENGTH} from '@fluxer/constants/src/LimitConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
+import {useCallback, useMemo} from 'react';
 import {useForm} from 'react-hook-form';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {MessageAttachmentFlags} from '~/Constants';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import {Switch} from '~/components/form/Switch';
-import styles from '~/components/modals/AttachmentEditModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {type CloudAttachment, CloudUpload} from '~/lib/CloudUpload';
 
 interface FormInputs {
 	filename: string;
 	spoiler: boolean;
+	description: string;
 }
 
 export const AttachmentEditModal = observer(
@@ -44,30 +48,50 @@ export const AttachmentEditModal = observer(
 			defaultValues: {
 				filename: attachment.filename,
 				spoiler: defaultSpoiler,
+				description: attachment.description ?? '',
 			},
 		});
 
-		const onSubmit = async (data: FormInputs) => {
-			const nextFlags = data.spoiler
-				? attachment.flags | MessageAttachmentFlags.IS_SPOILER
-				: attachment.flags & ~MessageAttachmentFlags.IS_SPOILER;
+		const filenameRef = useCursorAtEnd<HTMLInputElement>();
 
-			CloudUpload.updateAttachment(channelId, attachment.id, {
-				filename: data.filename,
-				flags: nextFlags,
-				spoiler: data.spoiler,
-			});
+		const isAltTextSupported = useMemo(() => {
+			const mimeType = attachment.file.type.toLowerCase();
+			return mimeType.startsWith('image/') || mimeType.startsWith('video/');
+		}, [attachment.file.type]);
 
-			ModalActionCreators.pop();
-		};
+		const onSubmit = useCallback(
+			async (data: FormInputs) => {
+				const nextFlags = data.spoiler
+					? attachment.flags | MessageAttachmentFlags.IS_SPOILER
+					: attachment.flags & ~MessageAttachmentFlags.IS_SPOILER;
+				const nextDescription = data.description.trim();
+				const updates: Partial<CloudAttachment> = {
+					filename: data.filename,
+					flags: nextFlags,
+					spoiler: data.spoiler,
+				};
+
+				if (isAltTextSupported) {
+					updates.description = nextDescription.length > 0 ? nextDescription : undefined;
+				}
+
+				CloudUpload.updateAttachment(channelId, attachment.id, updates);
+				ModalActionCreators.pop();
+			},
+			[attachment, channelId, isAltTextSupported],
+		);
 
 		return (
 			<Modal.Root size="small" centered>
-				<Form form={form} onSubmit={onSubmit} aria-label={t`Edit attachment form`}>
-					<Modal.Header title={attachment.filename} />
-					<Modal.Content className={styles.content}>
+				<Form form={form} onSubmit={onSubmit}>
+					<Modal.Header title={t`Edit Attachment`} onClose={ModalActionCreators.pop} />
+					<Modal.Content contentClassName={styles.content}>
 						<Input
 							{...form.register('filename')}
+							ref={(el) => {
+								filenameRef(el);
+								form.register('filename').ref(el);
+							}}
 							autoFocus={true}
 							label={t`Filename`}
 							minLength={1}
@@ -76,8 +100,19 @@ export const AttachmentEditModal = observer(
 							type="text"
 							spellCheck={false}
 						/>
+						{isAltTextSupported ? (
+							<Textarea
+								{...form.register('description')}
+								label={t`Alt Text Description`}
+								placeholder={t`Describe this media for screen readers`}
+								minRows={3}
+								maxRows={8}
+								showCharacterCount={true}
+								maxLength={MAX_ATTACHMENT_ALT_TEXT_LENGTH}
+							/>
+						) : null}
 						<Switch
-							label={t`Mark as spoiler`}
+							label={t`Mark as Spoiler`}
 							value={form.watch('spoiler')}
 							onChange={(value) => form.setValue('spoiler', value)}
 						/>

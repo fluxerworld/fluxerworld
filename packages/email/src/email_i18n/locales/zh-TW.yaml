@@ -1,0 +1,369 @@
+account_disabled_suspicious:
+  subject: 你的 Fluxer 帳號已暫時停用
+  body: |-
+    你好 {username}，
+
+    我們偵測到可疑活動，因此已暫時停用你的 Fluxer 帳號。
+
+    {reason, select,
+      null {}
+      other {原因：{reason}}
+    }
+
+    若要重新取得帳號存取權，請先重設密碼：
+
+    {forgotUrl}
+
+    完成後，你就能再次登入。
+
+    如果你認為這是誤判，請聯絡我們的支援團隊。
+
+    – Fluxer 安全團隊
+account_scheduled_deletion:
+  subject: 你的 Fluxer 帳號將被永久刪除
+  body: |-
+    你好 {username}，
+
+    由於違反服務條款或社群守則，你的 Fluxer 帳號已排程永久刪除。
+
+    預計刪除時間：{deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {原因：{reason}}
+    }
+
+    這是嚴重的處置措施。你的帳號資料會在預定時間永久刪除。
+
+    請參閱：
+    - 服務條款：{termsUrl}
+    - 社群守則：{guidelinesUrl}
+
+    提出申訴：
+    如果你認為這項處置不正確或缺乏依據，你可以在 60 天內提出申訴。請使用這個電子郵件地址寄信至 appeals@fluxer.app。
+
+    申訴內容請包含：
+    - 清楚說明你為什麼認為這項處置不正確或缺乏依據
+    - 任何相關證據或補充背景（如有）
+
+    Fluxer 安全團隊會審查你的申訴，並可能在做出最終決定前暫緩刪除流程。
+
+    – Fluxer 安全團隊
+account_temp_banned:
+  subject: 你的 Fluxer 帳號已暫時停權
+  body: |-
+    你好 {username}，
+
+    由於違反服務條款或社群守則，你的 Fluxer 帳號已暫時停權。
+
+    停權時間：{durationHours, plural,
+      =1 {1 小時}
+      other {# 小時}
+    }
+    停權至：{bannedUntil, date, full} {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {原因：{reason}}
+    }
+
+    在停權期間，你將無法使用你的帳號。
+
+    請參閱：
+    - 服務條款：{termsUrl}
+    - 社群守則：{guidelinesUrl}
+
+    如果你認為這項處置不正確或缺乏依據，你可以使用這個電子郵件地址寄信至 appeals@fluxer.app 提出申訴。請清楚說明你認為判定有誤的原因，我們會審查並回覆處理結果。
+
+    – Fluxer 安全團隊
+donation_confirmation:
+  subject: 感謝您對 Fluxer 的捐贈
+  body: |-
+    你好，
+
+    感謝你對 Fluxer 的捐贈！你的{interval, select,
+      month {定期捐贈}
+      year {定期捐贈}
+      other {單筆捐贈}
+    }已{interval, select,
+      month {成功設定}
+      year {成功設定}
+      other {成功處理}
+    }。
+
+    捐贈詳情：
+    金額：{amount} {currency} {interval, select,
+      month {每月}
+      year {每年}
+      other {}
+    }
+
+    Stripe 會另外寄送一封附有收據和發票 PDF 的郵件給你。裡面包含所有付款詳情，可用於報稅。
+
+    你可以隨時使用此連結查看捐贈歷程、下載發票、{interval, select,
+      month {以及管理或取消訂閱}
+      year {以及管理或取消訂閱}
+      other {以及管理未來的捐贈}
+    }：
+
+    {manageUrl}
+
+    感謝你的支持，讓 Fluxer 得以運作！
+
+    – Fluxer 團隊
+donation_magic_link:
+  subject: 管理你的 Fluxer 捐獻
+  body: |-
+    你好，
+
+    請點擊以下連結前往你的捐款者入口網站：
+
+    {manageUrl}
+
+    在入口網站中，你可以管理訂閱、下載發票以及查看捐贈歷程。
+
+    此連結將於 {expiresAt, date, full} {expiresAt, time, short} 失效。
+
+    如果你沒有提出申請，可以放心忽略這封信。
+
+    – Fluxer 團隊
+dsa_report_verification:
+  subject: 驗證你的 DSA 檢舉電子郵件
+  body: |-
+    你好，
+
+    請使用以下驗證碼，在 Fluxer 提交你的《數位服務法》（DSA）檢舉：
+
+    {code}
+
+    此驗證碼將於 {expiresAt, date, full} {expiresAt, time, short} 失效。
+
+    如果你沒有提出申請，可以直接忽略這封信。
+
+    – Fluxer 安全團隊
+email_change_new:
+  subject: 驗證你的新 Fluxer 電子郵件地址
+  body: |-
+    你好 {username}，
+
+    請在 App 內輸入這組驗證碼，以驗證你的新 Fluxer 電子郵件地址：
+
+    {code}
+
+    此驗證碼將於 {expiresAt, date, full} {expiresAt, time, short} 失效。
+
+    如果你沒有提出申請，可以直接忽略這封信。
+
+    – Fluxer 團隊
+email_change_original:
+  subject: 確認變更你的 Fluxer 電子郵件地址
+  body: |-
+    你好 {username}，
+
+    我們收到一項申請，要求變更你 Fluxer 帳號的電子郵件地址。
+
+    要確認這項變更，請在 App 內輸入這組驗證碼：
+
+    {code}
+
+    此驗證碼將於 {expiresAt, date, full} {expiresAt, time, short} 失效。
+
+    如果你沒有提出申請，請立刻加強保護你的帳號。
+
+    – Fluxer 團隊
+email_change_revert:
+  subject: 你的 Fluxer 電子郵件地址已變更
+  body: |-
+    你好 {username}，
+
+    你的 Fluxer 帳號電子郵件地址已變更為 {newEmail}。
+
+    如果是你本人操作，不需要做任何事。如果不是你操作，你可以使用以下連結還原變更並保護帳號：
+
+    {revertUrl}
+
+    這會將你的電子郵件地址還原為原本的，並讓你在所有裝置登出、移除已綁定的電話號碼、停用多重要素驗證（MFA），且需要你設定新密碼。
+
+    – Fluxer 安全團隊
+email_verification:
+  subject: 驗證你的 Fluxer 電子郵件地址
+  body: |-
+    你好 {username}，
+
+    請點擊下方連結，驗證你的 Fluxer 帳號電子郵件地址：
+
+    {verifyUrl}
+
+    如果你沒有註冊 Fluxer 帳號，可以放心忽略這封信。
+
+    此連結將於 24 小時後失效。
+
+    – Fluxer 團隊
+gift_chargeback_notification:
+  subject: 你兌換的禮物權益已被移除
+  body: |-
+    你好 {username}，
+
+    你兌換的一組禮物兌換碼最初由其他人付款購買，但該筆付款之後已被撤銷（拒付）。
+
+    因此，我們已移除你在兌換該禮物時加入到帳號中的權益。
+
+    如果你認為這是誤判，請聯絡我們的支援團隊，並提供你掌握的任何資訊，包括禮物兌換碼以及你兌換的時間。
+
+    – Fluxer 團隊
+harvest_completed:
+  subject: 你的 Fluxer 資料匯出已可下載
+  body: |-
+    你好 {username}，
+
+    你的資料匯出已準備就緒。
+
+    下載連結：
+    {downloadUrl}
+
+    包含的訊息數：{totalMessages, number}
+    檔案大小：{fileSizeMB, number} MB
+
+    此連結將於 {expiresAt, date, full} {expiresAt, time, short} 失效。
+
+    如果你沒有申請這次匯出，請立即更改密碼並聯絡我們的支援團隊。
+
+    – Fluxer 團隊
+inactivity_warning:
+  subject: 你的 Fluxer 帳號將因長時間未使用而被刪除
+  body: |-
+    你好 {username}，
+
+    自 {lastActiveDate, date, full} 起，我們未在你的 Fluxer 帳號上看到任何活動。
+
+    如果你未在 {deletionDate, date, full} {deletionDate, time, short} 前登入，你的帳號將因長時間未使用而被永久刪除。
+
+    請在此登入：
+    {loginUrl}
+
+    如果你最近有使用 Fluxer，請立即聯絡我們的支援團隊。
+
+    – Fluxer 團隊
+ip_authorization:
+  subject: 授權來自新 IP 位址的登入
+  body: |-
+    你好 {username}，
+
+    我們偵測到有人嘗試從新的 IP 位址登入你的 Fluxer 帳號：
+
+    IP 位址：{ipAddress}
+    位置：{location}
+
+    如果是你本人操作，請點擊下方連結授權此 IP 位址：
+
+    {authUrl}
+
+    如果你沒有嘗試登入，請立刻更改密碼。
+
+    此授權連結將於 30 分鐘後失效。
+
+    – Fluxer 團隊
+password_change_verification:
+  subject: 確認你的 Fluxer 密碼變更
+  body: |-
+    你好 {username}，
+
+    我們收到一項申請，要求變更你 Fluxer 帳號的密碼。
+
+    要確認這項變更，請在 App 內輸入這組驗證碼：
+
+    {code}
+
+    此驗證碼將於 {expiresAt} 失效。
+
+    如果你沒有提出申請，可能有其他人存取了你的帳號。請立即更改密碼並啟用雙重要素驗證。
+
+    – Fluxer 團隊
+password_reset:
+  subject: 重設你的 Fluxer 密碼
+  body: |-
+    你好 {username}，
+
+    我們收到你提出的 Fluxer 密碼重設申請。請使用下方連結設定新密碼：
+
+    {resetUrl}
+
+    如果你沒有提出申請，可以放心忽略這封信。
+
+    此連結將於 1 小時後失效。
+
+    – Fluxer 團隊
+registration_approved:
+  subject: 你的 Fluxer 註冊已通過審核
+  body: |-
+    你好 {username}，
+
+    好消息：你的 Fluxer 註冊已通過審核。
+
+    你現在可以在這裡登入 Fluxer App：
+    {channelsUrl}
+
+    歡迎加入 Fluxer 社群。
+
+    – Fluxer 團隊
+report_resolved:
+  subject: 你的 Fluxer 檢舉已完成審查
+  body: |-
+    你好 {username}，
+
+    你的檢舉（ID：{reportId}）已由我們的安全團隊完成審查。
+
+    安全團隊回覆：
+    {publicComment}
+
+    感謝你一起讓 Fluxer 對所有人更安全。我們會認真看待每一則檢舉，也很感謝你為社群付出的心力。
+
+    如果你對此結果有任何問題或疑慮，請聯絡 safety@fluxer.app。
+
+    – Fluxer 安全團隊
+scheduled_deletion_notification:
+  subject: 你的 Fluxer 帳號將被永久刪除
+  body: |-
+    你好 {username}，
+
+    你的 Fluxer 帳號已排程永久刪除。
+
+    預計刪除時間：{deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {原因：{reason}}
+    }
+
+    這是嚴重的處置措施。你的帳號資料會在預定時間永久刪除。
+
+    如果你認為這項處置不正確，你可以使用這個電子郵件地址寄信至 appeals@fluxer.app 提出申訴。
+
+    – Fluxer 安全團隊
+self_deletion_scheduled:
+  subject: 你的 Fluxer 帳號刪除已排程
+  body: |-
+    你好 {username}，
+
+    我們已收到你提出的 Fluxer 帳號刪除申請。你的帳號已排程在以下時間永久刪除：
+
+    {deletionDate, date, full} {deletionDate, time, short}
+
+    如果這不是你本人提出的申請，請登入你的帳號以取消刪除。我們也建議你更改密碼，以加強帳號安全。
+
+    – Fluxer 團隊
+unban_notification:
+  subject: 你的 Fluxer 帳號已解除停權
+  body: |-
+    你好 {username}，
+
+    好消息！你的 Fluxer 帳號已解除停權。
+
+    {reason, select,
+      null {}
+      other {原因：{reason}}
+    }
+
+    你現在可以重新登入並繼續使用 Fluxer。
+
+    – Fluxer 安全團隊

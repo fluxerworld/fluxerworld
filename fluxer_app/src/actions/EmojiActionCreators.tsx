@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Logger} from '~/lib/Logger';
-import EmojiStore from '~/stores/EmojiStore';
+import {Logger} from '@app/lib/Logger';
+import EmojiStore from '@app/stores/EmojiStore';
 
 const logger = new Logger('Emoji');
 
-export const setSkinTone = (skinTone: string): void => {
+export function setSkinTone(skinTone: string): void {
 	logger.debug(`Setting emoji skin tone: ${skinTone}`);
 	EmojiStore.setSkinTone(skinTone);
-};
+}

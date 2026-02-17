@@ -1,0 +1,1264 @@
+---
+title: 'Guilds'
+description: 'Guilds object schemas from the Fluxer API.'
+---
+
+<a id="auditlogactiontype"></a>
+
+## AuditLogActionType
+
+The type of action that occurred
+
+**Related endpoints**
+
+- [`GET /guilds/{guild_id}/audit-logs`](/api-reference/guilds/list-guild-audit-logs)
+
+| Value | Description |
+|-------|-------------|
+| `1` | Guild settings were updated |
+| `10` | Channel was created |
+| `11` | Channel was updated |
+| `12` | Channel was deleted |
+| `13` | Permission overwrite was created |
+| `14` | Permission overwrite was updated |
+| `15` | Permission overwrite was deleted |
+| `20` | Member was kicked |
+| `21` | Members were pruned |
+| `22` | Member was banned |
+| `23` | Member ban was removed |
+| `24` | Member was updated |
+| `25` | Member roles were updated |
+| `26` | Member was moved to a different voice channel |
+| `27` | Member was disconnected from a voice channel |
+| `28` | Bot was added to the guild |
+| `30` | Role was created |
+| `31` | Role was updated |
+| `32` | Role was deleted |
+| `40` | Invite was created |
+| `41` | Invite was updated |
+| `42` | Invite was deleted |
+| `50` | Webhook was created |
+| `51` | Webhook was updated |
+| `52` | Webhook was deleted |
+| `60` | Emoji was created |
+| `61` | Emoji was updated |
+| `62` | Emoji was deleted |
+| `90` | Sticker was created |
+| `91` | Sticker was updated |
+| `92` | Sticker was deleted |
+| `72` | Message was deleted |
+| `73` | Messages were bulk deleted |
+| `74` | Message was pinned |
+| `75` | Message was unpinned |
+
+<a id="auditlogchangeschema"></a>
+
+## AuditLogChangeSchema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| key | string | The field that changed |
+| new_value? | string \| number \| boolean \| string[] \| number[] \| [AuditLogChangeSchemaNewValueOneOf5](#auditlogchangeschemanewvalueoneof5) \| null | Value after the change |
+| old_value? | string \| number \| boolean \| string[] \| number[] \| [AuditLogChangeSchemaNewValueOneOf5](#auditlogchangeschemanewvalueoneof5) \| null | Value before the change |
+
+<a id="auditlogwebhookresponse"></a>
+
+## AuditLogWebhookResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| avatar_hash? | ?string | The hash of the webhook avatar |
+| channel_id? | ?[SnowflakeType](#snowflaketype) | The channel ID this webhook posts to |
+| guild_id? | ?[SnowflakeType](#snowflaketype) | The guild ID this webhook belongs to |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this webhook |
+| name | string | The name of the webhook |
+| type | [WebhookType](#webhooktype) |  |
+
+<a id="channelcreaterequest"></a>
+
+## ChannelCreateRequest
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/channels`](/api-reference/guilds/create-guild-channel)
+
+Type: [ChannelCreateTextRequest](#channelcreatetextrequest) \| [ChannelCreateVoiceRequest](#channelcreatevoicerequest) \| [ChannelCreateCategoryRequest](#channelcreatecategoryrequest) \| [ChannelCreateLinkRequest](#channelcreatelinkrequest)
+
+<a id="channelpositionupdaterequest"></a>
+
+## ChannelPositionUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /guilds/{guild_id}/channels`](/api-reference/guilds/update-channel-positions)
+
+Type: [ChannelPositionUpdateRequestItem](#channelpositionupdaterequestitem)[]
+
+<a id="defaultmessagenotifications"></a>
+
+## DefaultMessageNotifications
+
+Default notification level for new members
+
+| Value | Description |
+|-------|-------------|
+| `0` | Notify on all messages |
+| `1` | Notify only on mentions |
+
+<a id="enabledtogglerequest"></a>
+
+## EnabledToggleRequest
+
+**Related endpoints**
+
+- [`PATCH /guilds/{guild_id}/detached-banner`](/api-reference/guilds/toggle-detached-banner)
+- [`PATCH /guilds/{guild_id}/text-channel-flexible-names`](/api-reference/guilds/toggle-text-channel-flexible-names)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| enabled | boolean | Whether to enable or disable the feature |
+
+<a id="guildadminresponse"></a>
+
+## GuildAdminResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| banner | ?string | The hash of the guild banner |
+| features | [GuildFeatureSchema](#guildfeatureschema)[] | Array of guild feature flags |
+| icon | ?string | The hash of the guild icon |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this guild |
+| member_count | integer (int32) | The number of members in the guild |
+| name | string | The name of the guild |
+| owner_id | [SnowflakeType](#snowflaketype) | The ID of the guild owner |
+
+<a id="guildassetitemschema"></a>
+
+## GuildAssetItemSchema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| animated | boolean |  |
+| creator_id | [SnowflakeType](#snowflaketype) |  |
+| id | [SnowflakeType](#snowflaketype) |  |
+| media_url | string |  |
+| name | string |  |
+
+<a id="guildauditlogentryresponse"></a>
+
+## GuildAuditLogEntryResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| action_type | [AuditLogActionType](#auditlogactiontype) |  |
+| changes? | [AuditLogChangeSchema](#auditlogchangeschema)[] | Changes made to the target |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this audit log entry |
+| options? | [GuildAuditLogEntryResponseOptions](#guildauditlogentryresponseoptions) | Additional options depending on action type |
+| reason? | string | The reason provided for the action |
+| target_id? | ?string | The ID of the affected entity (user, channel, role, invite code, etc.) |
+| user_id? | ?[SnowflakeType](#snowflaketype) | The user ID of the user who performed the action |
+
+<a id="guildauditloglistresponse"></a>
+
+## GuildAuditLogListResponse
+
+**Related endpoints**
+
+- [`GET /guilds/{guild_id}/audit-logs`](/api-reference/guilds/list-guild-audit-logs)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| audit_log_entries | [GuildAuditLogEntryResponse](#guildauditlogentryresponse)[] | Array of audit log entries |
+| users | [UserPartialResponse](#userpartialresponse)[] | Users referenced in the audit log entries |
+| webhooks | [AuditLogWebhookResponse](#auditlogwebhookresponse)[] | Webhooks referenced in the audit log entries |
+
+<a id="guildbancreaterequest"></a>
+
+## GuildBanCreateRequest
+
+**Related endpoints**
+
+- [`PUT /guilds/{guild_id}/bans/{user_id}`](/api-reference/guilds/ban-guild-member)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| ban_duration_seconds? | integer (int53) | Duration of the ban in seconds (0 for permanent, or a valid temporary duration) |
+| delete_message_days? | integer (int32) | Number of days of messages to delete from the banned user (0-7) |
+| reason? | ?string | The reason for the ban (max 512 characters) |
+
+<a id="guildbanresponse"></a>
+
+## GuildBanResponse
+
+**Related endpoints**
+
+- [`GET /guilds/{guild_id}/bans`](/api-reference/guilds/list-guild-bans)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| banned_at | string (date-time) | ISO8601 timestamp of when the ban was issued |
+| expires_at? | ?string (date-time) | ISO8601 timestamp of when the ban expires (null if permanent) |
+| moderator_id | [SnowflakeType](#snowflaketype) | The ID of the moderator who issued the ban |
+| reason? | ?string | The reason for the ban |
+| user | [UserPartialResponse](#userpartialresponse) |  |
+
+<a id="guildcreaterequest"></a>
+
+## GuildCreateRequest
+
+**Related endpoints**
+
+- [`POST /guilds`](/api-reference/guilds/create-guild)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| empty_features? | boolean | Whether to create the guild without default features |
+| icon? | ?[Base64ImageType](#base64imagetype) | Base64-encoded image data for the guild icon |
+| name | string | The name of the guild (1-100 characters) |
+
+<a id="guilddeleterequest"></a>
+
+## GuildDeleteRequest
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/delete`](/api-reference/guilds/delete-guild)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| mfa_code? | string | MFA verification code from authenticator app or SMS |
+| mfa_method? | [GuildUpdateRequestMfaMethod](#guildupdaterequestmfamethod) | MFA method to use for verification |
+| password? | [PasswordType](#passwordtype) |  |
+| webauthn_challenge? | string | WebAuthn challenge string |
+| webauthn_response? | JSON value | WebAuthn authentication response |
+
+<a id="guildemojibulkcreaterequest"></a>
+
+## GuildEmojiBulkCreateRequest
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/emojis/bulk`](/api-reference/guilds/bulk-create-guild-emojis)
+- [`POST /packs/emojis/{pack_id}/bulk`](/api-reference/packs/bulk-create-pack-emojis)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| emojis | [GuildEmojiCreateRequest](#guildemojicreaterequest)[] | Array of emoji objects to create (1-50 emojis per batch) |
+
+<a id="guildemojibulkcreateresponse"></a>
+
+## GuildEmojiBulkCreateResponse
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/emojis/bulk`](/api-reference/guilds/bulk-create-guild-emojis)
+- [`POST /packs/emojis/{pack_id}/bulk`](/api-reference/packs/bulk-create-pack-emojis)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| failed | [GuildEmojiBulkCreateResponseFailedItem](#guildemojibulkcreateresponsefaileditem)[] | Emojis that failed to create |
+| success | [GuildEmojiResponse](#guildemojiresponse)[] | Successfully created emojis |
+
+<a id="guildemojicreaterequest"></a>
+
+## GuildEmojiCreateRequest
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/emojis`](/api-reference/guilds/create-guild-emoji)
+- [`POST /packs/emojis/{pack_id}`](/api-reference/packs/create-pack-emoji)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| image | [Base64ImageType](#base64imagetype) |  |
+| name | string | The name of the emoji (2-32 characters, alphanumeric and underscores only) |
+
+<a id="guildemojiresponse"></a>
+
+## GuildEmojiResponse
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/emojis`](/api-reference/guilds/create-guild-emoji)
+- [`POST /packs/emojis/{pack_id}`](/api-reference/packs/create-pack-emoji)
+- [`PATCH /guilds/{guild_id}/emojis/{emoji_id}`](/api-reference/guilds/update-guild-emoji)
+- [`PATCH /packs/emojis/{pack_id}/{emoji_id}`](/api-reference/packs/update-pack-emoji)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| animated | boolean | Whether this emoji is animated |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this emoji |
+| name | string | The name of the emoji |
+
+<a id="guildemojiupdaterequest"></a>
+
+## GuildEmojiUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /guilds/{guild_id}/emojis/{emoji_id}`](/api-reference/guilds/update-guild-emoji)
+- [`PATCH /packs/emojis/{pack_id}/{emoji_id}`](/api-reference/packs/update-pack-emoji)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| name | string | The name of the emoji (2-32 characters, alphanumeric and underscores only) |
+
+<a id="guildemojiwithuserlistresponse"></a>
+
+## GuildEmojiWithUserListResponse
+
+**Related endpoints**
+
+- [`GET /guilds/{guild_id}/emojis`](/api-reference/guilds/list-guild-emojis)
+- [`GET /packs/emojis/{pack_id}`](/api-reference/packs/list-pack-emojis)
+
+Type: [GuildEmojiWithUserResponse](#guildemojiwithuserresponse)[]
+
+<a id="guildemojiwithuserresponse"></a>
+
+## GuildEmojiWithUserResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| animated | boolean | Whether this emoji is animated |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this emoji |
+| name | string | The name of the emoji |
+| user | [UserPartialResponse](#userpartialresponse) |  |
+
+<a id="guildexplicitcontentfilter"></a>
+
+## GuildExplicitContentFilter
+
+Level of content filtering for explicit media
+
+| Value | Description |
+|-------|-------------|
+| `0` | Media content will not be scanned |
+| `1` | Media content from members without roles will be scanned |
+| `2` | Media content from all members will be scanned |
+
+<a id="guildfeatureschema"></a>
+
+## GuildFeatureSchema
+
+A guild feature flag
+
+| Value | Description |
+|-------|-------------|
+| `ANIMATED_ICON` | Guild can have an animated icon |
+| `ANIMATED_BANNER` | Guild can have an animated banner |
+| `BANNER` | Guild can have a banner |
+| `DETACHED_BANNER` | Guild banner is detached from splash |
+| `INVITE_SPLASH` | Guild can have an invite splash |
+| `INVITES_DISABLED` | Guild has invites disabled |
+| `TEXT_CHANNEL_FLEXIBLE_NAMES` | Guild allows flexible text channel names |
+| `MORE_EMOJI` | Guild has increased emoji slots |
+| `MORE_STICKERS` | Guild has increased sticker slots |
+| `UNLIMITED_EMOJI` | Guild has unlimited emoji slots |
+| `UNLIMITED_STICKERS` | Guild has unlimited sticker slots |
+| `EXPRESSION_PURGE_ALLOWED` | Guild allows purging expressions |
+| `VANITY_URL` | Guild can have a vanity URL |
+| `VERIFIED` | Guild is verified |
+| `VIP_VOICE` | Guild has VIP voice features |
+| `UNAVAILABLE_FOR_EVERYONE` | Guild is unavailable for everyone |
+| `UNAVAILABLE_FOR_EVERYONE_BUT_STAFF` | Guild is unavailable except for staff |
+| `VISIONARY` | Guild is a visionary guild |
+| `OPERATOR` | Guild is an operator guild |
+| `LARGE_GUILD_OVERRIDE` | Guild has large guild overrides enabled |
+| `VERY_LARGE_GUILD` | Guild has increased member capacity enabled |
+| `MT_MESSAGE_SCHEDULING` | Guild has managed message scheduling |
+| `MT_EXPRESSION_PACKS` | Guild has managed expression packs |
+
+<a id="guildfolderflags"></a>
+
+## GuildFolderFlags
+
+Bitfield for guild folder display behaviour
+
+Type: Bitflags32
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| SHOW_ICON_WHEN_COLLAPSED | `1` | Show the selected icon instead of guild previews when the folder is collapsed |
+
+<a id="guildinvitemetadataresponse"></a>
+
+## GuildInviteMetadataResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel | [ChannelPartialResponse](#channelpartialresponse) |  |
+| code | string | The unique invite code |
+| created_at | string (date-time) | ISO8601 timestamp of when the invite was created |
+| expires_at? | ?string (date-time) | ISO8601 timestamp of when the invite expires |
+| guild | [GuildInviteMetadataResponseGuild](#guildinvitemetadataresponseguild) | The guild this invite is for |
+| inviter? | ?[UserPartialResponse](#userpartialresponse) | The user who created the invite |
+| max_age | integer (int32) | The duration in seconds before the invite expires |
+| max_uses | integer (int32) | The maximum number of times this invite can be used |
+| member_count | integer (int32) | The approximate total member count of the guild |
+| presence_count | integer (int32) | The approximate online member count of the guild |
+| temporary | boolean | Whether the invite grants temporary membership |
+| type | enum&lt;`0`&gt; | The type of invite (guild) |
+| uses | integer (int32) | The number of times this invite has been used |
+
+<a id="guildinviteresponse"></a>
+
+## GuildInviteResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel | [ChannelPartialResponse](#channelpartialresponse) |  |
+| code | string | The unique invite code |
+| expires_at? | ?string (date-time) | ISO8601 timestamp of when the invite expires |
+| guild | [GuildInviteMetadataResponseGuild](#guildinvitemetadataresponseguild) | The guild this invite is for |
+| inviter? | ?[UserPartialResponse](#userpartialresponse) | The user who created the invite |
+| member_count | integer (int32) | The approximate total member count of the guild |
+| presence_count | integer (int32) | The approximate online member count of the guild |
+| temporary | boolean | Whether the invite grants temporary membership |
+| type | enum&lt;`0`&gt; | The type of invite (guild) |
+
+<a id="guildmemberprofileflags"></a>
+
+## GuildMemberProfileFlags
+
+Member profile flags
+
+Type: Bitflags32
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| AVATAR_UNSET | `1` | Guild member avatar is unset |
+| BANNER_UNSET | `2` | Guild member banner is unset |
+
+<a id="guildmemberresponse"></a>
+
+## GuildMemberResponse
+
+**Related endpoints**
+
+- [`GET /guilds/{guild_id}/members`](/api-reference/guilds/list-guild-members)
+- [`GET /guilds/{guild_id}/members/{user_id}`](/api-reference/guilds/get-guild-member-by-user-id)
+- [`GET /guilds/{guild_id}/members/@me`](/api-reference/guilds/get-current-user-guild-member)
+- [`PATCH /guilds/{guild_id}/members/{user_id}`](/api-reference/guilds/update-guild-member)
+- [`PATCH /guilds/{guild_id}/members/@me`](/api-reference/guilds/update-current-user-guild-member)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| accent_color? | ?[Int32Type](#int32type) | The accent colour of the member guild profile as an integer |
+| avatar? | ?string | The hash of the member guild-specific avatar |
+| banner? | ?string | The hash of the member guild-specific banner |
+| communication_disabled_until? | ?string (date-time) | ISO8601 timestamp until which the member is timed out |
+| deaf | boolean | Whether the member is deafened in voice channels |
+| joined_at | string (date-time) | ISO8601 timestamp of when the user joined the guild |
+| mute | boolean | Whether the member is muted in voice channels |
+| nick? | ?string | The nickname of the member in this guild |
+| profile_flags? | ?[GuildMemberProfileFlags](#guildmemberprofileflags) |  |
+| roles | [SnowflakeType](#snowflaketype)[] | Array of role IDs the member has |
+| user | [UserPartialResponse](#userpartialresponse) |  |
+
+<a id="guildmembersearchrequest"></a>
+
+## GuildMemberSearchRequest
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/members-search`](/api-reference/guilds/search-guild-members)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| is_bot? | boolean | Filter by bot status |
+| join_source_type? | integer (int53)[] | Filter by join source types |
+| joined_at_gte? | integer (int53) | Filter members who joined at or after this unix timestamp |
+| joined_at_lte? | integer (int53) | Filter members who joined at or before this unix timestamp |
+| limit? | integer (int32) | Maximum number of results to return |
+| offset? | integer (int64) | Number of results to skip for pagination |
+| query? | string | Text to search for in usernames, global names, and nicknames |
+| role_ids? | [SnowflakeType](#snowflaketype)[] | Filter by role IDs (member must have all specified roles) |
+| sort_by? | [GuildMemberSearchRequestSortBy](#guildmembersearchrequestsortby) | Sort results by field |
+| sort_order? | [SearchAuditLogsRequestSortOrder](#searchauditlogsrequestsortorder) | Sort order |
+| source_invite_code? | string[] | Filter by invite codes used to join |
+| user_created_at_gte? | integer (int53) | Filter members whose account was created at or after this unix timestamp |
+| user_created_at_lte? | integer (int53) | Filter members whose account was created at or before this unix timestamp |
+
+<a id="guildmembersearchresponse"></a>
+
+## GuildMemberSearchResponse
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/members-search`](/api-reference/guilds/search-guild-members)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) | Guild ID |
+| indexing | boolean | Whether the guild members are currently being indexed |
+| members | [GuildMemberSearchResult](#guildmembersearchresult)[] | Matching members |
+| page_result_count | integer (int53) | Number of results in this page |
+| total_result_count | integer (int53) | Total number of matching results |
+
+<a id="guildmembersearchresult"></a>
+
+## GuildMemberSearchResult
+
+| Field | Type | Description |
+|-------|------|-------------|
+| discriminator | string | Zero-padded 4-digit discriminator |
+| global_name | ?string | Global display name |
+| guild_id | [SnowflakeType](#snowflaketype) | Guild ID |
+| id | [SnowflakeType](#snowflaketype) | Composite ID (guildId:userId) |
+| is_bot | boolean | Whether the user is a bot |
+| joined_at | number | Unix timestamp of when the member joined |
+| nickname | ?string | Guild nickname |
+| role_ids | [SnowflakeType](#snowflaketype)[] | Role IDs |
+| supplemental | [GuildMemberSearchResultSupplemental](#guildmembersearchresultsupplemental) | Supplemental members-search-only metadata that is not part of the base guild member payload |
+| user_id | [SnowflakeType](#snowflaketype) | User ID |
+| username | string | Username |
+
+<a id="guildmemberupdaterequest"></a>
+
+## GuildMemberUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /guilds/{guild_id}/members/{user_id}`](/api-reference/guilds/update-guild-member)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| accent_color? | ?integer (int32) | The accent color for the member guild profile as an integer |
+| avatar? | ?[Base64ImageType](#base64imagetype) | Base64-encoded image data for the member guild avatar |
+| banner? | ?[Base64ImageType](#base64imagetype) | Base64-encoded image data for the member guild banner |
+| bio? | ?string | The member guild profile bio (1-320 characters) |
+| channel_id? | ?[SnowflakeType](#snowflaketype) | The voice channel ID to move the member to |
+| communication_disabled_until? | ?string (date-time) | ISO8601 timestamp until which the member is timed out |
+| connection_id? | ?[SnowflakeType](#snowflaketype) | The voice connection ID for the member |
+| deaf? | boolean | Whether the member is deafened in voice channels |
+| mute? | boolean | Whether the member is muted in voice channels |
+| nick? | ?string | The nickname to set for the member (1-32 characters) |
+| profile_flags? | ?[GuildMemberProfileFlags](#guildmemberprofileflags) |  |
+| pronouns? | ?string | The member guild profile pronouns (1-40 characters) |
+| roles? | [SnowflakeType](#snowflaketype)[] | Array of role IDs to assign to the member (max 100) |
+| timeout_reason? | ?string | The reason for timing out the member (1-512 characters) |
+
+<a id="guildmfalevel"></a>
+
+## GuildMFALevel
+
+Required MFA level for moderation actions
+
+| Value | Description |
+|-------|-------------|
+| `0` | Guild has no MFA requirement |
+| `1` | Guild requires 2FA for moderation actions |
+
+<a id="guildoperations"></a>
+
+## GuildOperations
+
+Bitmask of disabled guild operations
+
+Type: Bitflags32
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| PUSH_NOTIFICATIONS | `1` | Allow push notifications for this guild |
+| EVERYONE_MENTIONS | `2` | Allow @everyone mentions in this guild |
+| TYPING_EVENTS | `4` | Enable typing indicator events |
+| INSTANT_INVITES | `8` | Allow creation of instant invites |
+| SEND_MESSAGE | `16` | Allow sending messages in the guild |
+| REACTIONS | `32` | Allow adding reactions to messages |
+| MEMBER_LIST_UPDATES | `64` | Enable member list update events |
+
+<a id="guildreportcategoryenum"></a>
+
+## GuildReportCategoryEnum
+
+Category of the guild report
+
+| Value | Description |
+|-------|-------------|
+| `harassment` | Guild facilitates harassment, bullying, or intimidation |
+| `hate_speech` | Guild promotes hatred against protected groups |
+| `extremist_community` | Guild promotes extremist or terrorist ideologies |
+| `illegal_activity` | Guild promotes or facilitates illegal activities |
+| `child_safety` | Guild endangers minors or hosts child abuse content |
+| `raid_coordination` | Guild coordinates attacks on other communities |
+| `spam` | Guild used for spamming or bulk messaging |
+| `malware_distribution` | Guild distributes malware or malicious software |
+| `other` | Other violations not covered by specific categories |
+
+<a id="guildresponse"></a>
+
+## GuildResponse
+
+**Related endpoints**
+
+- [`GET /guilds/{guild_id}`](/api-reference/guilds/get-guild-information)
+- [`GET /users/@me/guilds`](/api-reference/guilds/list-current-user-guilds)
+- [`POST /guilds`](/api-reference/guilds/create-guild)
+- [`POST /guilds/{guild_id}/transfer-ownership`](/api-reference/guilds/transfer-guild-ownership)
+- [`PATCH /guilds/{guild_id}`](/api-reference/guilds/update-guild-settings)
+- [`PATCH /guilds/{guild_id}/detached-banner`](/api-reference/guilds/toggle-detached-banner)
+- [`PATCH /guilds/{guild_id}/text-channel-flexible-names`](/api-reference/guilds/toggle-text-channel-flexible-names)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| afk_channel_id? | ?[SnowflakeType](#snowflaketype) | The ID of the AFK voice channel |
+| afk_timeout | integer (int32) | AFK timeout in seconds before moving users to the AFK channel |
+| banner? | ?string | The hash of the guild banner |
+| banner_height? | ?[Int32Type](#int32type) | The height of the guild banner in pixels |
+| banner_width? | ?[Int32Type](#int32type) | The width of the guild banner in pixels |
+| default_message_notifications | [DefaultMessageNotifications](#defaultmessagenotifications) | Default notification level for new members |
+| disabled_operations | [GuildOperations](#guildoperations) |  |
+| embed_splash? | ?string | The hash of the embedded invite splash |
+| embed_splash_height? | ?[Int32Type](#int32type) | The height of the embedded invite splash in pixels |
+| embed_splash_width? | ?[Int32Type](#int32type) | The width of the embedded invite splash in pixels |
+| explicit_content_filter | [GuildExplicitContentFilter](#guildexplicitcontentfilter) | Level of content filtering for explicit media |
+| features | [GuildFeatureSchema](#guildfeatureschema)[] | Array of guild feature flags |
+| icon? | ?string | The hash of the guild icon |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this guild |
+| message_history_cutoff? | ?string (date-time) | ISO8601 timestamp controlling how far back members without Read Message History can access messages. When null, no historical access is allowed. |
+| mfa_level | [GuildMFALevel](#guildmfalevel) | Required MFA level for moderation actions |
+| name | string | The name of the guild |
+| nsfw_level | [NSFWLevel](#nsfwlevel) | The NSFW level of the guild |
+| owner_id | [SnowflakeType](#snowflaketype) | The ID of the guild owner |
+| permissions? | ?string (int64) |  |
+| rules_channel_id? | ?[SnowflakeType](#snowflaketype) | The ID of the rules channel |
+| splash? | ?string | The hash of the guild splash screen |
+| splash_card_alignment | enum&lt;`0`, `1`, `2`&gt; | The alignment of the splash card |
+| splash_height? | ?[Int32Type](#int32type) | The height of the guild splash in pixels |
+| splash_width? | ?[Int32Type](#int32type) | The width of the guild splash in pixels |
+| system_channel_flags | [SystemChannelFlags](#systemchannelflags) |  |
+| system_channel_id? | ?[SnowflakeType](#snowflaketype) | The ID of the channel where system messages are sent |
+| vanity_url_code? | ?string | The vanity URL code for the guild |
+| verification_level | [GuildVerificationLevel](#guildverificationlevel) | Required verification level for members to participate |
+
+<a id="guildrolecreaterequest"></a>
+
+## GuildRoleCreateRequest
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/roles`](/api-reference/guilds/create-guild-role)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| color? | integer (int32) | The color of the role as an integer (default: 0) |
+| name | string | The name of the role (1-100 characters) |
+| permissions? | [UnsignedInt64Type](#unsignedint64type) |  |
+
+<a id="guildrolehoistpositionitem"></a>
+
+## GuildRoleHoistPositionItem
+
+| Field | Type | Description |
+|-------|------|-------------|
+| hoist_position | integer (int53) | The new hoist position for the role |
+| id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="guildrolehoistpositionsrequest"></a>
+
+## GuildRoleHoistPositionsRequest
+
+**Related endpoints**
+
+- [`PATCH /guilds/{guild_id}/roles/hoist-positions`](/api-reference/guilds/update-role-hoist-positions)
+
+Type: [GuildRoleHoistPositionItem](#guildrolehoistpositionitem)[]
+
+<a id="guildrolepositionitem"></a>
+
+## GuildRolePositionItem
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | [SnowflakeType](#snowflaketype) |  |
+| position? | integer (int53) | The new position for the role |
+
+<a id="guildrolepositionsrequest"></a>
+
+## GuildRolePositionsRequest
+
+**Related endpoints**
+
+- [`PATCH /guilds/{guild_id}/roles`](/api-reference/guilds/update-role-positions)
+
+Type: [GuildRolePositionItem](#guildrolepositionitem)[]
+
+<a id="guildroleresponse"></a>
+
+## GuildRoleResponse
+
+**Related endpoints**
+
+- [`GET /guilds/{guild_id}/roles`](/api-reference/guilds/list-guild-roles)
+- [`POST /guilds/{guild_id}/roles`](/api-reference/guilds/create-guild-role)
+- [`PATCH /guilds/{guild_id}/roles/{role_id}`](/api-reference/guilds/update-guild-role)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| color | integer (int32) | The colour of the role as an integer |
+| hoist | boolean | Whether this role is displayed separately in the member list |
+| hoist_position? | ?[Int32Type](#int32type) | The position of the role in the hoisted member list |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this role |
+| mentionable | boolean | Whether this role can be mentioned by anyone |
+| name | string | The name of the role |
+| permissions | string (int64) | The permissions bitfield for the role |
+| position | integer (int32) | The position of the role in the role hierarchy |
+| unicode_emoji? | ?string | The unicode emoji for this role |
+
+<a id="guildroleupdaterequest"></a>
+
+## GuildRoleUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /guilds/{guild_id}/roles/{role_id}`](/api-reference/guilds/update-guild-role)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| color? | integer (int32) | The color of the role as an integer |
+| hoist? | boolean | Whether the role should be displayed separately in the member list |
+| hoist_position? | ?integer (int53) | The position of the role in the hoisted member list |
+| mentionable? | boolean | Whether the role can be mentioned by anyone |
+| name? | string | The name of the role (1-100 characters) |
+| permissions? | [UnsignedInt64Type](#unsignedint64type) |  |
+
+<a id="guildstickerbulkcreaterequest"></a>
+
+## GuildStickerBulkCreateRequest
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/stickers/bulk`](/api-reference/guilds/bulk-create-guild-stickers)
+- [`POST /packs/stickers/{pack_id}/bulk`](/api-reference/packs/bulk-create-pack-stickers)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| stickers | [GuildStickerCreateRequest](#guildstickercreaterequest)[] | Array of sticker objects to create (1-50 stickers per batch) |
+
+<a id="guildstickerbulkcreateresponse"></a>
+
+## GuildStickerBulkCreateResponse
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/stickers/bulk`](/api-reference/guilds/bulk-create-guild-stickers)
+- [`POST /packs/stickers/{pack_id}/bulk`](/api-reference/packs/bulk-create-pack-stickers)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| failed | [GuildEmojiBulkCreateResponseFailedItem](#guildemojibulkcreateresponsefaileditem)[] | Stickers that failed to create |
+| success | [GuildStickerResponse](#guildstickerresponse)[] | Successfully created stickers |
+
+<a id="guildstickercreaterequest"></a>
+
+## GuildStickerCreateRequest
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/stickers`](/api-reference/guilds/create-guild-sticker)
+- [`POST /packs/stickers/{pack_id}`](/api-reference/packs/create-pack-sticker)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| description? | ?string | Description of the sticker (1-500 characters) |
+| image | [Base64ImageType](#base64imagetype) |  |
+| name | string | The name of the sticker (2-30 characters) |
+| tags? | string[] | Array of autocomplete/suggestion tags (max 10 tags, each 1-30 characters) |
+
+<a id="guildstickerresponse"></a>
+
+## GuildStickerResponse
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/stickers`](/api-reference/guilds/create-guild-sticker)
+- [`POST /packs/stickers/{pack_id}`](/api-reference/packs/create-pack-sticker)
+- [`PATCH /guilds/{guild_id}/stickers/{sticker_id}`](/api-reference/guilds/update-guild-sticker)
+- [`PATCH /packs/stickers/{pack_id}/{sticker_id}`](/api-reference/packs/update-pack-sticker)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| animated | boolean | Whether this sticker is animated |
+| description | string | The description of the sticker |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this sticker |
+| name | string | The name of the sticker |
+| tags | string[] | Autocomplete/suggestion tags for the sticker |
+
+<a id="guildstickerupdaterequest"></a>
+
+## GuildStickerUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /guilds/{guild_id}/stickers/{sticker_id}`](/api-reference/guilds/update-guild-sticker)
+- [`PATCH /packs/stickers/{pack_id}/{sticker_id}`](/api-reference/packs/update-pack-sticker)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| description? | ?string | Description of the sticker (1-500 characters) |
+| name | string | The name of the sticker (2-30 characters) |
+| tags? | string[] | Array of autocomplete/suggestion tags (max 10 tags, each 1-30 characters) |
+
+<a id="guildstickerwithuserlistresponse"></a>
+
+## GuildStickerWithUserListResponse
+
+**Related endpoints**
+
+- [`GET /guilds/{guild_id}/stickers`](/api-reference/guilds/list-guild-stickers)
+- [`GET /packs/stickers/{pack_id}`](/api-reference/packs/list-pack-stickers)
+
+Type: [GuildStickerWithUserResponse](#guildstickerwithuserresponse)[]
+
+<a id="guildstickerwithuserresponse"></a>
+
+## GuildStickerWithUserResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| animated | boolean | Whether this sticker is animated |
+| description | string | The description of the sticker |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this sticker |
+| name | string | The name of the sticker |
+| tags | string[] | Autocomplete/suggestion tags for the sticker |
+| user | [UserPartialResponse](#userpartialresponse) |  |
+
+<a id="guildtransferownershiprequest"></a>
+
+## GuildTransferOwnershipRequest
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/transfer-ownership`](/api-reference/guilds/transfer-guild-ownership)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| new_owner_id | [SnowflakeType](#snowflaketype) |  |
+| password? | [PasswordType](#passwordtype) |  |
+
+<a id="guildupdaterequest"></a>
+
+## GuildUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /guilds/{guild_id}`](/api-reference/guilds/update-guild-settings)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| afk_channel_id? | ?[SnowflakeType](#snowflaketype) | The ID of the AFK voice channel |
+| afk_timeout? | integer (int32) | AFK timeout in seconds (60-3600) before moving users to the AFK channel |
+| banner? | ?[Base64ImageType](#base64imagetype) | Base64-encoded image data for the guild banner |
+| default_message_notifications? | [DefaultMessageNotifications](#defaultmessagenotifications) | Default notification level for new members |
+| embed_splash? | ?[Base64ImageType](#base64imagetype) | Base64-encoded image data for the embedded invite splash |
+| explicit_content_filter? | [GuildExplicitContentFilter](#guildexplicitcontentfilter) | Level of content filtering for explicit media |
+| features? | string[] | Array of guild feature strings |
+| icon? | ?[Base64ImageType](#base64imagetype) | Base64-encoded image data for the guild icon |
+| message_history_cutoff? | ?string (date-time) | ISO8601 timestamp controlling how far back members without Read Message History can access messages. Set to null to disable historical access. |
+| mfa_code? | string | MFA verification code from authenticator app or SMS |
+| mfa_level? | [GuildMFALevel](#guildmfalevel) | Required MFA level for moderation actions |
+| mfa_method? | [GuildUpdateRequestMfaMethod](#guildupdaterequestmfamethod) | MFA method to use for verification |
+| name? | string | The name of the guild (1-100 characters) |
+| nsfw_level? | [NSFWLevel](#nsfwlevel) | The NSFW level of the guild |
+| password? | [PasswordType](#passwordtype) |  |
+| splash? | ?[Base64ImageType](#base64imagetype) | Base64-encoded image data for the guild splash screen |
+| splash_card_alignment? | [GuildUpdateRequestSplashCardAlignment](#guildupdaterequestsplashcardalignment) | Alignment of the splash card (center, left, or right) |
+| system_channel_flags? | [SystemChannelFlags](#systemchannelflags) |  |
+| system_channel_id? | ?[SnowflakeType](#snowflaketype) | The ID of the channel where system messages are sent |
+| verification_level? | [GuildVerificationLevel](#guildverificationlevel) | Required verification level for members to participate |
+| webauthn_challenge? | string | WebAuthn challenge string |
+| webauthn_response? | JSON value | WebAuthn authentication response |
+
+<a id="guildvanityurlresponse"></a>
+
+## GuildVanityURLResponse
+
+**Related endpoints**
+
+- [`GET /guilds/{guild_id}/vanity-url`](/api-reference/guilds/get-guild-vanity-url)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code? | ?string | The vanity URL code for the guild |
+| uses | integer (int32) | The number of times this vanity URL has been used |
+
+<a id="guildvanityurlupdaterequest"></a>
+
+## GuildVanityURLUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /guilds/{guild_id}/vanity-url`](/api-reference/guilds/update-guild-vanity-url)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code? | ?string | The new vanity URL code (2-32 characters, alphanumeric and hyphens) |
+
+<a id="guildvanityurlupdateresponse"></a>
+
+## GuildVanityURLUpdateResponse
+
+**Related endpoints**
+
+- [`PATCH /guilds/{guild_id}/vanity-url`](/api-reference/guilds/update-guild-vanity-url)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | The new vanity URL code |
+
+<a id="guildverificationlevel"></a>
+
+## GuildVerificationLevel
+
+Required verification level for members
+
+| Value | Description |
+|-------|-------------|
+| `0` | Unrestricted |
+| `1` | Must have verified email |
+| `2` | Registered for more than 5 minutes |
+| `3` | Member of the server for more than 10 minutes |
+| `4` | Must have a verified phone number |
+
+<a id="int32type"></a>
+
+## Int32Type
+
+**Related endpoints**
+
+- [`GET /guilds/{guild_id}/audit-logs`](/api-reference/guilds/list-guild-audit-logs)
+
+Type: integer (int32)
+
+<a id="joinsourcetype"></a>
+
+## JoinSourceType
+
+How the member joined the guild
+
+| Value | Description |
+|-------|-------------|
+| `0` | Member created the guild |
+| `1` | Member joined via an instant invite |
+| `2` | Member joined via the vanity URL |
+| `3` | Member was added via a bot invite |
+| `4` | Member was force-added by a platform administrator |
+
+<a id="myguildmemberupdaterequest"></a>
+
+## MyGuildMemberUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /guilds/{guild_id}/members/@me`](/api-reference/guilds/update-current-user-guild-member)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| accent_color? | ?integer (int32) | The accent color for the member guild profile as an integer |
+| avatar? | ?[Base64ImageType](#base64imagetype) | Base64-encoded image data for the member guild avatar |
+| banner? | ?[Base64ImageType](#base64imagetype) | Base64-encoded image data for the member guild banner |
+| bio? | ?string | The member guild profile bio (1-320 characters) |
+| channel_id? | ?[SnowflakeType](#snowflaketype) | The voice channel ID to move the member to |
+| communication_disabled_until? | ?string (date-time) | ISO8601 timestamp until which the member is timed out |
+| connection_id? | ?[SnowflakeType](#snowflaketype) | The voice connection ID for the member |
+| deaf? | boolean | Whether the member is deafened in voice channels |
+| mute? | boolean | Whether the member is muted in voice channels |
+| nick? | ?string | The nickname to set for the member (1-32 characters) |
+| profile_flags? | ?[GuildMemberProfileFlags](#guildmemberprofileflags) |  |
+| pronouns? | ?string | The member guild profile pronouns (1-40 characters) |
+| timeout_reason? | ?string | The reason for timing out the member (1-512 characters) |
+
+<a id="nsfwlevel"></a>
+
+## NSFWLevel
+
+The NSFW level of the guild
+
+| Value | Description |
+|-------|-------------|
+| `0` | Default NSFW level |
+| `1` | Guild has explicit content |
+| `2` | Guild is safe |
+| `3` | Guild is age-restricted |
+
+<a id="snowflaketype"></a>
+
+## SnowflakeType
+
+**Related endpoints**
+
+- [`GET /admin/guilds/{guild_id}/emojis`](/api-reference/admin/list-guild-emojis)
+- [`GET /admin/guilds/{guild_id}/stickers`](/api-reference/admin/list-guild-stickers)
+- [`GET /admin/system-dm-jobs`](/api-reference/admin/list-system-dm-jobs)
+- [`GET /channels/{channel_id}`](/api-reference/channels/fetch-a-channel)
+- [`GET /channels/{channel_id}/call`](/api-reference/channels/get-call-eligibility-status)
+- [`GET /channels/{channel_id}/invites`](/api-reference/invites/list-channel-invites)
+- [`GET /channels/{channel_id}/messages`](/api-reference/channels/list-messages-in-a-channel)
+- [`GET /channels/{channel_id}/messages/{message_id}`](/api-reference/channels/fetch-a-message)
+- [`GET /channels/{channel_id}/messages/{message_id}/reactions/{emoji}`](/api-reference/channels/list-users-who-reacted-with-emoji)
+- [`GET /channels/{channel_id}/messages/pins`](/api-reference/channels/list-pinned-messages)
+- [`GET /channels/{channel_id}/rtc-regions`](/api-reference/channels/list-rtc-regions)
+- [`GET /channels/{channel_id}/webhooks`](/api-reference/webhooks/list-channel-webhooks)
+- [`GET /guilds/{guild_id}`](/api-reference/guilds/get-guild-information)
+- [`GET /guilds/{guild_id}/audit-logs`](/api-reference/guilds/list-guild-audit-logs)
+- [`GET /guilds/{guild_id}/bans`](/api-reference/guilds/list-guild-bans)
+- [`GET /guilds/{guild_id}/channels`](/api-reference/guilds/list-guild-channels)
+- [`GET /guilds/{guild_id}/discovery`](/api-reference/discovery/get-discovery-status)
+- [`GET /guilds/{guild_id}/emojis`](/api-reference/guilds/list-guild-emojis)
+- [`GET /guilds/{guild_id}/invites`](/api-reference/invites/list-guild-invites)
+- [`GET /guilds/{guild_id}/members`](/api-reference/guilds/list-guild-members)
+- [`GET /guilds/{guild_id}/members/{user_id}`](/api-reference/guilds/get-guild-member-by-user-id)
+- [`GET /guilds/{guild_id}/members/@me`](/api-reference/guilds/get-current-user-guild-member)
+- [`GET /guilds/{guild_id}/roles`](/api-reference/guilds/list-guild-roles)
+- [`GET /guilds/{guild_id}/stickers`](/api-reference/guilds/list-guild-stickers)
+- [`GET /guilds/{guild_id}/vanity-url`](/api-reference/guilds/get-guild-vanity-url)
+- [`GET /guilds/{guild_id}/webhooks`](/api-reference/webhooks/list-guild-webhooks)
+- [`GET /packs/{pack_id}/invites`](/api-reference/invites/list-pack-invites)
+- [`GET /packs/emojis/{pack_id}`](/api-reference/packs/list-pack-emojis)
+- [`GET /packs/stickers/{pack_id}`](/api-reference/packs/list-pack-stickers)
+- [`GET /users/{target_id}/profile`](/api-reference/users/get-user-profile)
+- [`GET /users/{user_id}`](/api-reference/users/get-user-by-id)
+- [`GET /users/@me/guilds`](/api-reference/guilds/list-current-user-guilds)
+- [`GET /users/@me/mentions`](/api-reference/users/list-mentions-for-current-user)
+- [`GET /webhooks/{webhook_id}`](/api-reference/webhooks/get-webhook)
+- [`GET /webhooks/{webhook_id}/{token}`](/api-reference/webhooks/get-webhook-with-token)
+- [`POST /admin/discovery/applications/{guild_id}/approve`](/api-reference/admin/approve-discovery-application)
+- [`POST /admin/discovery/applications/{guild_id}/reject`](/api-reference/admin/reject-discovery-application)
+- [`POST /admin/discovery/guilds/{guild_id}/remove`](/api-reference/admin/remove-guild-from-discovery)
+- [`POST /channels/{channel_id}/call/end`](/api-reference/channels/end-call-session)
+- [`POST /channels/{channel_id}/call/ring`](/api-reference/channels/ring-call-recipients)
+- [`POST /channels/{channel_id}/call/stop-ringing`](/api-reference/channels/stop-ringing-call-recipients)
+- [`POST /channels/{channel_id}/invites`](/api-reference/invites/create-channel-invite)
+- [`POST /channels/{channel_id}/messages`](/api-reference/channels/send-a-message)
+- [`POST /channels/{channel_id}/messages/{message_id}/ack`](/api-reference/channels/acknowledge-a-message)
+- [`POST /channels/{channel_id}/messages/{message_id}/memes`](/api-reference/saved-media/create-meme-from-message)
+- [`POST /channels/{channel_id}/messages/bulk-delete`](/api-reference/channels/bulk-delete-messages)
+- [`POST /channels/{channel_id}/messages/schedule`](/api-reference/channels/schedule-a-message-to-send-later)
+- [`POST /channels/{channel_id}/pins/ack`](/api-reference/channels/acknowledge-new-pin-notifications)
+- [`POST /channels/{channel_id}/typing`](/api-reference/channels/indicate-typing-activity)
+- [`POST /channels/{channel_id}/webhooks`](/api-reference/webhooks/create-webhook)
+- [`POST /discovery/guilds/{guild_id}/join`](/api-reference/discovery/join-a-discoverable-guild)
+- [`POST /guilds/{guild_id}/channels`](/api-reference/guilds/create-guild-channel)
+- [`POST /guilds/{guild_id}/delete`](/api-reference/guilds/delete-guild)
+- [`POST /guilds/{guild_id}/discovery`](/api-reference/discovery/apply-for-guild-discovery)
+- [`POST /guilds/{guild_id}/emojis`](/api-reference/guilds/create-guild-emoji)
+- [`POST /guilds/{guild_id}/emojis/bulk`](/api-reference/guilds/bulk-create-guild-emojis)
+- [`POST /guilds/{guild_id}/members-search`](/api-reference/guilds/search-guild-members)
+- [`POST /guilds/{guild_id}/roles`](/api-reference/guilds/create-guild-role)
+- [`POST /guilds/{guild_id}/stickers`](/api-reference/guilds/create-guild-sticker)
+- [`POST /guilds/{guild_id}/stickers/bulk`](/api-reference/guilds/bulk-create-guild-stickers)
+- [`POST /guilds/{guild_id}/transfer-ownership`](/api-reference/guilds/transfer-guild-ownership)
+- [`POST /packs/{pack_id}/install`](/api-reference/packs/install-pack)
+- [`POST /packs/{pack_id}/invites`](/api-reference/invites/create-pack-invite)
+- [`POST /packs/emojis/{pack_id}`](/api-reference/packs/create-pack-emoji)
+- [`POST /packs/emojis/{pack_id}/bulk`](/api-reference/packs/bulk-create-pack-emojis)
+- [`POST /packs/stickers/{pack_id}`](/api-reference/packs/create-pack-sticker)
+- [`POST /packs/stickers/{pack_id}/bulk`](/api-reference/packs/bulk-create-pack-stickers)
+- [`POST /users/@me/relationships/{user_id}`](/api-reference/users/send-friend-request)
+- [`POST /webhooks/{webhook_id}/{token}`](/api-reference/webhooks/execute-webhook)
+- [`POST /webhooks/{webhook_id}/{token}/github`](/api-reference/webhooks/execute-github-webhook)
+- [`POST /webhooks/{webhook_id}/{token}/sentry`](/api-reference/webhooks/execute-sentry-webhook)
+- [`POST /webhooks/{webhook_id}/{token}/slack`](/api-reference/webhooks/execute-slack-webhook)
+- [`PUT /channels/{channel_id}/messages/{message_id}/reactions/{emoji}/@me`](/api-reference/channels/add-reaction-to-message)
+- [`PUT /channels/{channel_id}/permissions/{overwrite_id}`](/api-reference/channels/set-permission-overwrite-for-channel)
+- [`PUT /channels/{channel_id}/pins/{message_id}`](/api-reference/channels/pin-a-message)
+- [`PUT /channels/{channel_id}/recipients/{user_id}`](/api-reference/channels/add-recipient-to-group-dm)
+- [`PUT /guilds/{guild_id}/bans/{user_id}`](/api-reference/guilds/ban-guild-member)
+- [`PUT /guilds/{guild_id}/members/{user_id}/roles/{role_id}`](/api-reference/guilds/add-role-to-guild-member)
+- [`PUT /users/@me/channels/{channel_id}/pin`](/api-reference/users/pin-direct-message-channel)
+- [`PUT /users/@me/relationships/{user_id}`](/api-reference/users/accept-or-update-friend-request)
+- [`PATCH /channels/{channel_id}`](/api-reference/channels/update-channel-settings)
+- [`PATCH /channels/{channel_id}/call`](/api-reference/channels/update-call-region)
+- [`PATCH /channels/{channel_id}/messages/{message_id}`](/api-reference/channels/edit-a-message)
+- [`PATCH /guilds/{guild_id}`](/api-reference/guilds/update-guild-settings)
+- [`PATCH /guilds/{guild_id}/channels`](/api-reference/guilds/update-channel-positions)
+- [`PATCH /guilds/{guild_id}/detached-banner`](/api-reference/guilds/toggle-detached-banner)
+- [`PATCH /guilds/{guild_id}/discovery`](/api-reference/discovery/edit-discovery-application)
+- [`PATCH /guilds/{guild_id}/emojis/{emoji_id}`](/api-reference/guilds/update-guild-emoji)
+- [`PATCH /guilds/{guild_id}/members/{user_id}`](/api-reference/guilds/update-guild-member)
+- [`PATCH /guilds/{guild_id}/members/@me`](/api-reference/guilds/update-current-user-guild-member)
+- [`PATCH /guilds/{guild_id}/roles`](/api-reference/guilds/update-role-positions)
+- [`PATCH /guilds/{guild_id}/roles/{role_id}`](/api-reference/guilds/update-guild-role)
+- [`PATCH /guilds/{guild_id}/roles/hoist-positions`](/api-reference/guilds/update-role-hoist-positions)
+- [`PATCH /guilds/{guild_id}/stickers/{sticker_id}`](/api-reference/guilds/update-guild-sticker)
+- [`PATCH /guilds/{guild_id}/text-channel-flexible-names`](/api-reference/guilds/toggle-text-channel-flexible-names)
+- [`PATCH /guilds/{guild_id}/vanity-url`](/api-reference/guilds/update-guild-vanity-url)
+- [`PATCH /packs/{pack_id}`](/api-reference/packs/update-pack)
+- [`PATCH /packs/emojis/{pack_id}/{emoji_id}`](/api-reference/packs/update-pack-emoji)
+- [`PATCH /packs/stickers/{pack_id}/{sticker_id}`](/api-reference/packs/update-pack-sticker)
+- [`PATCH /users/@me/guilds/{guild_id}/settings`](/api-reference/users/update-guild-settings-for-user)
+- [`PATCH /users/@me/relationships/{user_id}`](/api-reference/users/update-relationship-nickname)
+- [`PATCH /webhooks/{webhook_id}`](/api-reference/webhooks/update-webhook)
+- [`PATCH /webhooks/{webhook_id}/{token}`](/api-reference/webhooks/update-webhook-with-token)
+- [`DELETE /channels/{channel_id}`](/api-reference/channels/delete-a-channel)
+- [`DELETE /channels/{channel_id}/messages/{message_id}`](/api-reference/channels/delete-a-message)
+- [`DELETE /channels/{channel_id}/messages/{message_id}/attachments/{attachment_id}`](/api-reference/channels/delete-a-message-attachment)
+- [`DELETE /channels/{channel_id}/messages/{message_id}/reactions`](/api-reference/channels/remove-all-reactions-from-message)
+- [`DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji}`](/api-reference/channels/remove-all-reactions-with-emoji)
+- [`DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji}/{target_id}`](/api-reference/channels/remove-reaction-from-message)
+- [`DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji}/@me`](/api-reference/channels/remove-own-reaction-from-message)
+- [`DELETE /channels/{channel_id}/messages/ack`](/api-reference/channels/clear-channel-read-state)
+- [`DELETE /channels/{channel_id}/permissions/{overwrite_id}`](/api-reference/channels/delete-permission-overwrite)
+- [`DELETE /channels/{channel_id}/pins/{message_id}`](/api-reference/channels/unpin-a-message)
+- [`DELETE /channels/{channel_id}/recipients/{user_id}`](/api-reference/channels/remove-recipient-from-group-dm)
+- [`DELETE /guilds/{guild_id}/bans/{user_id}`](/api-reference/guilds/unban-guild-member)
+- [`DELETE /guilds/{guild_id}/discovery`](/api-reference/discovery/withdraw-discovery-application)
+- [`DELETE /guilds/{guild_id}/emojis/{emoji_id}`](/api-reference/guilds/delete-guild-emoji)
+- [`DELETE /guilds/{guild_id}/members/{user_id}`](/api-reference/guilds/remove-guild-member)
+- [`DELETE /guilds/{guild_id}/members/{user_id}/roles/{role_id}`](/api-reference/guilds/remove-role-from-guild-member)
+- [`DELETE /guilds/{guild_id}/roles/{role_id}`](/api-reference/guilds/delete-guild-role)
+- [`DELETE /guilds/{guild_id}/roles/hoist-positions`](/api-reference/guilds/reset-role-hoist-positions)
+- [`DELETE /guilds/{guild_id}/stickers/{sticker_id}`](/api-reference/guilds/delete-guild-sticker)
+- [`DELETE /packs/{pack_id}`](/api-reference/packs/delete-pack)
+- [`DELETE /packs/{pack_id}/install`](/api-reference/packs/uninstall-pack)
+- [`DELETE /packs/emojis/{pack_id}/{emoji_id}`](/api-reference/packs/delete-pack-emoji)
+- [`DELETE /packs/stickers/{pack_id}/{sticker_id}`](/api-reference/packs/delete-pack-sticker)
+- [`DELETE /users/@me/channels/{channel_id}/pin`](/api-reference/users/unpin-direct-message-channel)
+- [`DELETE /users/@me/guilds/{guild_id}`](/api-reference/guilds/leave-guild)
+- [`DELETE /users/@me/mentions/{message_id}`](/api-reference/users/delete-mention)
+- [`DELETE /users/@me/relationships/{user_id}`](/api-reference/users/remove-relationship)
+- [`DELETE /users/@me/saved-messages/{message_id}`](/api-reference/users/unsave-message)
+- [`DELETE /webhooks/{webhook_id}`](/api-reference/webhooks/delete-webhook)
+- [`DELETE /webhooks/{webhook_id}/{token}`](/api-reference/webhooks/delete-webhook-with-token)
+
+Type: [SnowflakeType](#snowflaketype)
+
+<a id="systemchannelflags"></a>
+
+## SystemChannelFlags
+
+System channel message flags
+
+Type: Bitflags32
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| SUPPRESS_JOIN_NOTIFICATIONS | `1` | Suppress member join notifications in system channel |
+
+<a id="guildupdaterequestsplashcardalignment"></a>
+
+## GuildUpdateRequestSplashCardAlignment
+
+Alignment of the splash card (center, left, or right)
+
+| Value | Description |
+|-------|-------------|
+| `0` | Splash card is centred |
+| `1` | Splash card is aligned to the left |
+| `2` | Splash card is aligned to the right |
+
+<a id="guildupdaterequestmfamethod"></a>
+
+## GuildUpdateRequestMfaMethod
+
+MFA method to use for verification
+
+| Value | Description |
+|-------|-------------|
+| `totp` | Time-based one-time password authentication via authenticator app |
+| `sms` | One-time password sent via text message |
+| `webauthn` | Security key or biometric authentication |
+
+<a id="guildmembersearchrequestsortby"></a>
+
+## GuildMemberSearchRequestSortBy
+
+Sort results by field
+
+| Value | Description |
+|-------|-------------|
+| `joinedAt` | - |
+| `relevance` | - |
+
+<a id="auditlogchangeschemanewvalueoneof5"></a>
+
+## AuditLogChangeSchemaNewValueOneOf5
+
+Value after the change
+
+| Field | Type | Description |
+|-------|------|-------------|
+| added | string[] |  |
+| removed | string[] |  |
+
+<a id="channelpositionupdaterequestitem"></a>
+
+## ChannelPositionUpdateRequestItem
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | [SnowflakeType](#snowflaketype) |  |
+| lock_permissions? | boolean | Whether to sync permissions with the new parent |
+| parent_id? | ?[SnowflakeType](#snowflaketype) | New parent category ID |
+| position? | integer (int64) | New position for the channel |
+
+<a id="guildauditlogentryresponseoptions"></a>
+
+## GuildAuditLogEntryResponseOptions
+
+Additional options depending on action type
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id? | [SnowflakeType](#snowflaketype) | Channel ID for relevant actions |
+| count? | number | Count of items affected |
+| delete_member_days? | string | Number of days of messages to delete on member ban |
+| id? | [SnowflakeType](#snowflaketype) | ID of the affected entity |
+| integration_type? | number | Type of integration |
+| inviter_id? | [SnowflakeType](#snowflaketype) | ID of the user who created the invite |
+| max_age? | number | Maximum age of the invite in seconds |
+| max_uses? | number | Maximum number of uses for the invite |
+| members_removed? | number | Number of members removed |
+| message_id? | [SnowflakeType](#snowflaketype) | Message ID for relevant actions |
+| role_name? | string | Name of the role |
+| temporary? | boolean | Whether the invite grants temporary membership |
+| type? | number | Type identifier |
+| uses? | number | Number of times the invite has been used |
+
+<a id="guildemojibulkcreateresponsefaileditem"></a>
+
+## GuildEmojiBulkCreateResponseFailedItem
+
+Emojis that failed to create
+
+| Field | Type | Description |
+|-------|------|-------------|
+| error | string | The error message explaining why the emoji failed to create |
+| name | string | The name of the emoji that failed to create |
+
+<a id="guildinvitemetadataresponseguild"></a>
+
+## GuildInviteMetadataResponseGuild
+
+The guild this invite is for
+
+| Field | Type | Description |
+|-------|------|-------------|
+| banner? | ?string | The hash of the guild banner |
+| banner_height? | ?[Int32Type](#int32type) | The height of the guild banner in pixels |
+| banner_width? | ?[Int32Type](#int32type) | The width of the guild banner in pixels |
+| embed_splash? | ?string | The hash of the embedded invite splash |
+| embed_splash_height? | ?[Int32Type](#int32type) | The height of the embedded invite splash in pixels |
+| embed_splash_width? | ?[Int32Type](#int32type) | The width of the embedded invite splash in pixels |
+| features | [GuildFeatureSchema](#guildfeatureschema)[] | Array of guild feature flags |
+| icon? | ?string | The hash of the guild icon |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this guild |
+| name | string | The name of the guild |
+| splash? | ?string | The hash of the guild splash screen |
+| splash_card_alignment | enum&lt;`0`, `1`, `2`&gt; | The alignment of the splash card |
+| splash_height? | ?[Int32Type](#int32type) | The height of the guild splash in pixels |
+| splash_width? | ?[Int32Type](#int32type) | The width of the guild splash in pixels |
+
+<a id="guildmembersearchresultsupplemental"></a>
+
+## GuildMemberSearchResultSupplemental
+
+Supplemental members-search-only metadata that is not part of the base guild member payload
+
+| Field | Type | Description |
+|-------|------|-------------|
+| inviter_id | ?[SnowflakeType](#snowflaketype) | User ID of the member who sent the invite |
+| join_source_type? | ?[JoinSourceType](#joinsourcetype) | How the member joined |
+| source_invite_code | ?string | Invite code used to join |
+

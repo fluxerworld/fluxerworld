@@ -17,17 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {FriendSelector} from '@app/components/common/FriendSelector';
+import {Input} from '@app/components/form/Input';
+import inviteStyles from '@app/components/modals/InviteModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {CopyLinkSection} from '@app/components/modals/shared/CopyLinkSection';
+import selectorStyles from '@app/components/modals/shared/SelectorModalStyles.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {useAddFriendsToGroupModalLogic} from '@app/utils/modals/AddFriendsToGroupModalUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {MagnifyingGlassIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import {FriendSelector} from '~/components/common/FriendSelector';
-import {Input} from '~/components/form/Input';
-import inviteStyles from '~/components/modals/InviteModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {CopyLinkSection} from '~/components/modals/shared/CopyLinkSection';
-import selectorStyles from '~/components/modals/shared/SelectorModalStyles.module.css';
-import {Button} from '~/components/uikit/Button/Button';
-import {useAddFriendsToGroupModalLogic} from '~/utils/modals/AddFriendsToGroupModalUtils';
 
 interface AddFriendsToGroupModalProps {
 	channelId: string;
@@ -85,7 +85,6 @@ export const AddFriendsToGroupModal = observer((props: AddFriendsToGroupModalPro
 					label={<Trans>or send an invite to a friend:</Trans>}
 					value={modalLogic.inviteLink ?? ''}
 					onCopy={modalLogic.inviteLink ? modalLogic.handleGenerateOrCopyInvite : undefined}
-					copied={modalLogic.inviteLinkCopied}
 					copyDisabled={modalLogic.isGeneratingInvite}
 					inputProps={{placeholder: t`Generate invite link`}}
 					rightElement={

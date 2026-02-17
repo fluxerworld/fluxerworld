@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {GenericErrorModal} from '@app/components/alerts/GenericErrorModal';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {GenericErrorModal} from './GenericErrorModal';
 
 export const VoiceChannelFullModal = observer(() => {
 	const {t} = useLingui();

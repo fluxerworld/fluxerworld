@@ -17,24 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ExpressionPickerActionCreators from '@app/actions/ExpressionPickerActionCreators';
+import * as GifActionCreators from '@app/actions/GifActionCreators';
+import styles from '@app/components/channel/GifPicker.module.css';
+import {GifPickerGridItem} from '@app/components/channel/pickers/gif/GifPickerGridItem';
+import type {GifPickerStore} from '@app/components/channel/pickers/gif/GifPickerStore';
+import type {GifPickerGridItemData} from '@app/components/channel/pickers/gif/GifPickerTypes';
+import {computeMasonryColumns} from '@app/components/channel/pickers/shared/ComputeColumns';
+import {MasonryVirtualGrid} from '@app/components/channel/pickers/shared/MasonryVirtualGrid';
+import FavoriteMemeStore from '@app/stores/FavoriteMemeStore';
+import QuickSwitcherStore from '@app/stores/QuickSwitcherStore';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import * as KlipyUtils from '@app/utils/KlipyUtils';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ExpressionPickerActionCreators from '~/actions/ExpressionPickerActionCreators';
-import * as TenorActionCreators from '~/actions/TenorActionCreators';
-import styles from '~/components/channel/GifPicker.module.css';
-import FavoriteMemeStore from '~/stores/FavoriteMemeStore';
-import QuickSwitcherStore from '~/stores/QuickSwitcherStore';
-import {computeMasonryColumns} from '../shared/computeColumns';
-import {MasonryVirtualGrid} from '../shared/MasonryVirtualGrid';
-import {GifPickerGridItem} from './GifPickerGridItem';
-import type {GifPickerStore} from './GifPickerStore';
-import type {GifGridItem} from './types';
+import {useCallback, useMemo} from 'react';
 
 const CATEGORY_TILE_WIDTH = 200;
 const CATEGORY_TILE_HEIGHT = 96;
 
-function buildSkeletonItems(count: number): Array<GifGridItem> {
+function buildSkeletonItems(count: number): Array<GifPickerGridItemData> {
 	return Array.from({length: count}, (_, i) => ({
 		type: 'skeleton',
 		key: `skeleton-${i}`,
@@ -47,7 +49,7 @@ export const GifPickerGrid = observer(
 	({
 		store,
 		onClose,
-		autoSendTenorGifs,
+		autoSendKlipyGifs,
 		gifAutoPlay,
 		viewportWidth,
 		viewportHeight,
@@ -55,7 +57,7 @@ export const GifPickerGrid = observer(
 	}: {
 		store: GifPickerStore;
 		onClose?: () => void;
-		autoSendTenorGifs: boolean;
+		autoSendKlipyGifs: boolean;
 		gifAutoPlay: boolean;
 		viewportWidth: number;
 		viewportHeight: number;
@@ -68,7 +70,7 @@ export const GifPickerGrid = observer(
 		const favoriteMemes = FavoriteMemeStore.memes;
 		const favoriteMemesVersion = favoriteMemes.length;
 
-		const data: Array<GifGridItem> = React.useMemo(() => {
+		const data: Array<GifPickerGridItemData> = useMemo(() => {
 			if (store.isShowingFeatured) {
 				const gifvMemes = favoriteMemes.filter(
 					(meme) => meme.contentType.includes('gif') || meme.contentType.startsWith('video/'),
@@ -77,7 +79,7 @@ export const GifPickerGrid = observer(
 				const randomFavoriteMeme =
 					gifvMemes.length > 0 ? gifvMemes[Math.floor(Math.random() * gifvMemes.length)] : undefined;
 
-				const items: Array<GifGridItem> = [
+				const items: Array<GifPickerGridItemData> = [
 					{
 						type: 'category',
 						categoryKind: 'favorites',
@@ -95,7 +97,7 @@ export const GifPickerGrid = observer(
 						key: 'trending',
 						id: 'trending',
 						title: t`Trending GIFs`,
-						previewUrl: store.featured.gifs[0]?.url ?? '',
+						previewUrl: store.featured.gifs[0]?.src ?? store.featured.gifs[0]?.url ?? '',
 						previewProxySrc: store.featured.gifs[0]?.proxy_src ?? store.featured.gifs[0]?.src ?? '',
 						width: CATEGORY_TILE_WIDTH,
 						height: CATEGORY_TILE_HEIGHT,
@@ -135,12 +137,9 @@ export const GifPickerGrid = observer(
 			favoriteMemes,
 		]);
 
-		const itemKeys = React.useMemo(
-			() => data.filter((item) => item.type !== 'skeleton').map((item) => item.key),
-			[data],
-		);
+		const itemKeys = useMemo(() => data.filter((item) => item.type !== 'skeleton').map((item) => item.key), [data]);
 
-		const handleSelectByKey = React.useCallback(
+		const handleSelectByKey = useCallback(
 			(itemKey: string) => {
 				const item = data.find((i) => i.key === itemKey);
 				if (!item || item.type === 'skeleton') return;
@@ -157,9 +156,11 @@ export const GifPickerGrid = observer(
 				}
 
 				const {gif} = item;
-				if (!gif.id) return;
+				const shareId =
+					RuntimeConfigStore.gifProvider === 'klipy' ? (KlipyUtils.extractKlipySlug(gif.url) ?? gif.id) : gif.id;
+				if (!shareId) return;
 
-				TenorActionCreators.registerShare(gif.id, store.searchTerm);
+				GifActionCreators.registerShare(shareId, store.searchTerm);
 			},
 			[data, store],
 		);
@@ -218,7 +219,7 @@ export const GifPickerGrid = observer(
 						coords={coords}
 						isFocused={isFocused}
 						onClose={onClose}
-						autoSendTenorGifs={autoSendTenorGifs}
+						autoSendKlipyGifs={autoSendKlipyGifs}
 						gifAutoPlay={gifAutoPlay}
 						searchTerm={store.searchTerm}
 						onShowTrending={store.goToTrending}

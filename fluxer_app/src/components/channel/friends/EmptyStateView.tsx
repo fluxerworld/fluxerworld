@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/friends/EmptyStateView.module.css';
 import {UsersThreeIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import styles from './EmptyStateView.module.css';
 
 export const EmptyStateView = observer(({title, subtitle}: {title: string; subtitle: string}) => (
 	<div className={styles.container}>

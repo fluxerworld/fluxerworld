@@ -17,14 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
+import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import UserStore from '@app/stores/UserStore';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {makeAutoObservable} from 'mobx';
-import {RelationshipTypes} from '~/Constants';
-import type {GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {GuildRecord} from '~/records/GuildRecord';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-import UserStore from '~/stores/UserStore';
+
+export enum MemberSearchActionTypes {
+	UPDATE_USERS = 'UPDATE_USERS',
+	USER_RESULTS = 'USER_RESULTS',
+	QUERY_SET = 'QUERY_SET',
+	QUERY_CLEAR = 'QUERY_CLEAR',
+}
 
 export enum MemberSearchWorkerMessageTypes {
 	UPDATE_USERS = 'UPDATE_USERS',
@@ -254,6 +262,7 @@ export class SearchContext {
 }
 
 class MemberSearchStore {
+	private logger = new Logger('MemberSearchStore');
 	private initialized: boolean = false;
 	private readonly inFlightFetches = new Map<string, Promise<void>>();
 
@@ -269,13 +278,13 @@ class MemberSearchStore {
 		this.initialized = true;
 
 		try {
-			worker = new Worker(new URL('../workers/MemberSearch.worker.ts', import.meta.url), {
+			worker = new Worker(new URL('../workers/MemberSearch.Worker.tsx', import.meta.url), {
 				type: 'module',
 			});
 
 			this.sendInitialMembers();
 		} catch (err) {
-			console.error('[MemberSearchStore] Failed to initialize worker:', err);
+			this.logger.error('Failed to initialize worker:', err);
 		}
 	}
 
@@ -421,7 +430,7 @@ class MemberSearchStore {
 	}
 
 	async fetchMembersInBackground(query: string, guildIds: Array<string>, priorityGuildId?: string): Promise<void> {
-		const trimmed = query.trim();
+		const trimmed = query['trim']();
 		if (!trimmed) {
 			return;
 		}
@@ -478,7 +487,7 @@ class MemberSearchStore {
 				updateMembers(transformedMembers);
 			}
 		} catch (error) {
-			console.error('[MemberSearchStore] fetchFromGuild failed:', error);
+			this.logger.error('fetchFromGuild failed:', error);
 		}
 	}
 }

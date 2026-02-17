@@ -17,18 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/uikit/avatars/AvatarWithPresence.module.css';
+import type {UserRecord} from '@app/records/UserRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {MicrophoneSlashIcon, SpeakerSlashIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import type {UserRecord} from '~/records/UserRecord';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import styles from './AvatarWithPresence.module.css';
 
 interface Props {
 	user: UserRecord;
 	size: number;
 	speaking?: boolean;
+	muted?: boolean;
+	deafened?: boolean;
 	className?: string;
 	title?: string;
 	borderClassName?: string;
@@ -39,6 +42,8 @@ export const AvatarWithPresence: React.FC<Props> = observer(function AvatarWithP
 	user,
 	size,
 	speaking,
+	muted,
+	deafened,
 	className,
 	title,
 	borderClassName,
@@ -51,6 +56,7 @@ export const AvatarWithPresence: React.FC<Props> = observer(function AvatarWithP
 					guildId,
 					userId: user.id,
 					avatar: guildMember.avatar,
+					memberAvatar: guildMember.avatar,
 					animated: false,
 				}) ?? AvatarUtils.getUserAvatarURL(user, false))
 			: AvatarUtils.getUserAvatarURL(user, false);
@@ -64,6 +70,19 @@ export const AvatarWithPresence: React.FC<Props> = observer(function AvatarWithP
 			<div className={clsx(styles.imageWrapper, speaking && styles.imageWrapperSpeaking)}>
 				<img src={src} alt={user.username} draggable={false} loading="lazy" decoding="async" className={styles.image} />
 			</div>
+			{(muted || deafened) && (
+				<div className={styles.voiceIndicators} aria-hidden>
+					{deafened ? (
+						<span className={styles.deafenIndicator}>
+							<SpeakerSlashIcon weight="fill" className={styles.voiceIndicatorIcon} />
+						</span>
+					) : (
+						<span className={styles.muteIndicator}>
+							<MicrophoneSlashIcon weight="fill" className={styles.voiceIndicatorIcon} />
+						</span>
+					)}
+				</div>
+			)}
 		</div>
 	);
 });

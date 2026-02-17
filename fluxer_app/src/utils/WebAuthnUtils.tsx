@@ -17,20 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {
-	AuthenticationResponseJSON,
-	PublicKeyCredentialCreationOptionsJSON,
-	PublicKeyCredentialRequestOptionsJSON,
-	RegistrationResponseJSON,
+import {Platform} from '@app/lib/Platform';
+import {getElectronAPI} from '@app/utils/NativeUtils';
+import {
+	type AuthenticationResponseJSON,
+	browserSupportsWebAuthn,
+	type PublicKeyCredentialCreationOptionsJSON,
+	type PublicKeyCredentialRequestOptionsJSON,
+	type RegistrationResponseJSON,
+	startAuthentication,
+	startRegistration,
 } from '@simplewebauthn/browser';
-import {browserSupportsWebAuthn, startAuthentication, startRegistration} from '@simplewebauthn/browser';
-import {Platform} from '~/lib/Platform';
-import {getElectronAPI} from '~/utils/NativeUtils';
 
 export async function assertWebAuthnSupported(): Promise<void> {
 	if (Platform.isElectron) {
 		const electronApi = getElectronAPI();
-		const nativeSupported = electronApi && (await electronApi.passkeyIsSupported());
+		const nativeSupported = electronApi && (await electronApi.passkeyIsSupported?.());
 		if (nativeSupported) {
 			return;
 		}
@@ -51,8 +53,8 @@ export async function performRegistration(
 	await assertWebAuthnSupported();
 	if (Platform.isElectron) {
 		const electronApi = getElectronAPI();
-		const nativeSupported = electronApi && (await electronApi.passkeyIsSupported());
-		if (nativeSupported) {
+		const nativeSupported = electronApi && (await electronApi.passkeyIsSupported?.());
+		if (nativeSupported && electronApi.passkeyRegister) {
 			return electronApi.passkeyRegister(options);
 		}
 	}
@@ -66,8 +68,8 @@ export async function performAuthentication(
 	await assertWebAuthnSupported();
 	if (Platform.isElectron) {
 		const electronApi = getElectronAPI();
-		const nativeSupported = electronApi && (await electronApi.passkeyIsSupported());
-		if (nativeSupported) {
+		const nativeSupported = electronApi && (await electronApi.passkeyIsSupported?.());
+		if (nativeSupported && electronApi.passkeyAuthenticate) {
 			return electronApi.passkeyAuthenticate(options);
 		}
 	}

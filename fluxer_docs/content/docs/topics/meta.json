@@ -1,5 +1,0 @@
-{
-	"title": "Topics",
-	"pages": ["opcodes-status-codes", "permissions", "rate-limits", "voice"],
-	"defaultOpen": true
-}

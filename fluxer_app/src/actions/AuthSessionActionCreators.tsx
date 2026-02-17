@@ -17,20 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {AuthSession} from '~/records/AuthSessionRecord';
-import AuthSessionStore from '~/stores/AuthSessionStore';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import AuthSessionStore from '@app/stores/AuthSessionStore';
+import type {AuthSessionResponse} from '@fluxer/schema/src/domains/auth/AuthSchemas';
 
 const logger = new Logger('AuthSessionsService');
 
-export const fetch = async (): Promise<void> => {
+export async function fetch(): Promise<void> {
 	logger.debug('Fetching authentication sessions');
 	AuthSessionStore.fetchPending();
 
 	try {
-		const response = await http.get<Array<AuthSession>>({url: Endpoints.AUTH_SESSIONS, retries: 2});
+		const response = await http.get<Array<AuthSessionResponse>>({url: Endpoints.AUTH_SESSIONS, retries: 2});
 		const sessions = response.body ?? [];
 		logger.info(`Fetched ${sessions.length} authentication sessions`);
 		AuthSessionStore.fetchSuccess(sessions);
@@ -39,9 +39,9 @@ export const fetch = async (): Promise<void> => {
 		AuthSessionStore.fetchError();
 		throw error;
 	}
-};
+}
 
-export const logout = async (sessionIdHashes: Array<string>): Promise<void> => {
+export async function logout(sessionIdHashes: Array<string>): Promise<void> {
 	if (!sessionIdHashes.length) {
 		logger.warn('Attempted to logout with empty session list');
 		return;
@@ -62,4 +62,4 @@ export const logout = async (sessionIdHashes: Array<string>): Promise<void> => {
 		AuthSessionStore.logoutError();
 		throw error;
 	}
-};
+}

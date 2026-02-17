@@ -1,0 +1,369 @@
+account_disabled_suspicious:
+  subject: Tu cuenta de Fluxer se ha desactivado temporalmente
+  body: |-
+    Hola {username},
+
+    Hemos desactivado temporalmente tu cuenta de Fluxer porque hemos detectado actividad sospechosa.
+
+    {reason, select,
+      null {}
+      other {Motivo: {reason}}
+    }
+
+    Para recuperar el acceso a tu cuenta, tendrás que restablecer tu contraseña:
+
+    {forgotUrl}
+
+    Cuando la restablezcas, podrás volver a iniciar sesión.
+
+    Si crees que esto se ha hecho por error, ponte en contacto con nuestro equipo de soporte.
+
+    – Equipo de seguridad de Fluxer
+account_scheduled_deletion:
+  subject: Tu cuenta de Fluxer se eliminará de forma permanente
+  body: |-
+    Hola {username},
+
+    Tu cuenta de Fluxer se ha programado para su eliminación permanente por infracciones de nuestras condiciones del servicio o de las directrices de la comunidad.
+
+    Fecha de eliminación: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Motivo: {reason}}
+    }
+
+    Esta es una medida seria. Los datos de tu cuenta se eliminarán de forma permanente en la fecha indicada.
+
+    Revisa:
+    - Condiciones del servicio: {termsUrl}
+    - Directrices de la comunidad: {guidelinesUrl}
+
+    Presentar una apelación:
+    Si crees que esta decisión es incorrecta o injustificada, tienes 60 días para presentar una apelación. Envía un correo a appeals@fluxer.app desde esta misma dirección de correo electrónico.
+
+    En tu apelación:
+    - Explica claramente por qué crees que la decisión es incorrecta o injustificada
+    - Aporta, si es posible, pruebas o contexto relevantes
+
+    Una persona del equipo de seguridad de Fluxer revisará tu apelación y puede pausar la eliminación prevista hasta que se tome una decisión final.
+
+    – Equipo de seguridad de Fluxer
+account_temp_banned:
+  subject: Tu cuenta de Fluxer se ha suspendido temporalmente
+  body: |-
+    Hola {username},
+
+    Tu cuenta de Fluxer se ha suspendido temporalmente por infringir nuestras condiciones del servicio o las directrices de la comunidad.
+
+    Duración: {durationHours, plural,
+      =1 {1 hora}
+      other {# horas}
+    }
+    Suspendida hasta: {bannedUntil, date, full} {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {Motivo: {reason}}
+    }
+
+    Durante este periodo no podrás acceder a tu cuenta.
+
+    Revisa:
+    - Condiciones del servicio: {termsUrl}
+    - Directrices de la comunidad: {guidelinesUrl}
+
+    Si crees que esta decisión es incorrecta o injustificada, puedes presentar una apelación: envía un correo a appeals@fluxer.app desde esta misma dirección de correo electrónico. Explica claramente por qué crees que la decisión es incorrecta. Revisaremos tu apelación y te responderemos con nuestra decisión.
+
+    – Equipo de seguridad de Fluxer
+donation_confirmation:
+  subject: Gracias por tu donación a Fluxer
+  body: |-
+    Hola,
+
+    ¡Gracias por tu donación a Fluxer! Tu {interval, select,
+      month {donación recurrente}
+      year {donación recurrente}
+      other {donación única}
+    } se ha {interval, select,
+      month {configurado}
+      year {configurado}
+      other {procesado}
+    } correctamente.
+
+    Detalles de la donación:
+    Cantidad: {amount} {currency} {interval, select,
+      month {al mes}
+      year {al año}
+      other {}
+    }
+
+    Stripe te enviará por separado un recibo por correo electrónico con tu factura en PDF en breve. Incluye todos los detalles del pago y puede usarse para fines fiscales.
+
+    Puedes consultar tu historial de donaciones, descargar facturas, {interval, select,
+      month {y gestionar o cancelar tu suscripción}
+      year {y gestionar o cancelar tu suscripción}
+      other {y gestionar futuras donaciones}
+    } en cualquier momento mediante este enlace:
+
+    {manageUrl}
+
+    Tu apoyo ayuda a mantener Fluxer funcionando. ¡Gracias!
+
+    – Equipo de Fluxer
+donation_magic_link:
+  subject: Gestiona tus donaciones a Fluxer
+  body: |-
+    Hola,
+
+    Haz clic en el enlace de abajo para acceder a tu portal de donante:
+
+    {manageUrl}
+
+    En el portal, puedes gestionar suscripciones, descargar facturas y consultar tu historial de donaciones.
+
+    Este enlace caduca el {expiresAt, date, full} a las {expiresAt, time, short}.
+
+    Si no has solicitado este enlace, puedes ignorar este correo electrónico sin problema.
+
+    – Equipo de Fluxer
+dsa_report_verification:
+  subject: Verifica tu correo electrónico para una notificación de la DSA
+  body: |-
+    Hola,
+
+    Usa el código de verificación de abajo para enviar tu notificación en virtud del Reglamento de Servicios Digitales (DSA) en Fluxer:
+
+    {code}
+
+    Este código caduca el {expiresAt, date, full} a las {expiresAt, time, short}.
+
+    Si no lo has solicitado, puedes ignorar este correo electrónico.
+
+    – Equipo de seguridad de Fluxer
+email_change_new:
+  subject: Verifica tu nuevo correo electrónico de Fluxer
+  body: |-
+    Hola {username},
+
+    Introduce este código en la app para verificar tu nuevo correo electrónico de Fluxer:
+
+    {code}
+
+    Este código caduca el {expiresAt, date, full} a las {expiresAt, time, short}.
+
+    Si no lo has solicitado, puedes ignorar este correo electrónico.
+
+    – Equipo de Fluxer
+email_change_original:
+  subject: Confirma el cambio de correo electrónico de tu cuenta de Fluxer
+  body: |-
+    Hola {username},
+
+    Hemos recibido una solicitud para cambiar el correo electrónico de tu cuenta de Fluxer.
+
+    Para confirmar el cambio, introduce este código en la app:
+
+    {code}
+
+    Este código caduca el {expiresAt, date, full} a las {expiresAt, time, short}.
+
+    Si no has solicitado esto, protege tu cuenta cuanto antes.
+
+    – Equipo de Fluxer
+email_change_revert:
+  subject: Se ha cambiado el correo electrónico de tu cuenta de Fluxer
+  body: |-
+    Hola {username},
+
+    El correo electrónico de tu cuenta de Fluxer se ha cambiado a {newEmail}.
+
+    Si has sido tú, no tienes que hacer nada. Si no, puedes deshacer el cambio y proteger tu cuenta con este enlace:
+
+    {revertUrl}
+
+    Esto restaurará tu correo electrónico anterior, cerrará la sesión en todos tus dispositivos, eliminará los números de teléfono vinculados, desactivará la autenticación multifactor y te pedirá que establezcas una nueva contraseña.
+
+    – Equipo de seguridad de Fluxer
+email_verification:
+  subject: Verifica tu correo electrónico de Fluxer
+  body: |-
+    Hola {username},
+
+    Verifica el correo electrónico de tu cuenta de Fluxer haciendo clic en el enlace de abajo:
+
+    {verifyUrl}
+
+    Si no has creado una cuenta de Fluxer, puedes ignorar este correo electrónico con tranquilidad.
+
+    Este enlace es válido durante 24 horas.
+
+    – Equipo de Fluxer
+gift_chargeback_notification:
+  subject: Se han eliminado las ventajas de tu regalo canjeado
+  body: |-
+    Hola {username},
+
+    Un código de regalo que canjeaste fue pagado originalmente por otra persona. Ese pago se ha revertido mediante un retroceso de cargo (chargeback).
+
+    Por eso, hemos eliminado las ventajas que se añadieron a tu cuenta cuando canjeaste el regalo.
+
+    Si crees que esto es un error, ponte en contacto con nuestro equipo de soporte e incluye cualquier detalle que tengas sobre el código de regalo y cuándo lo canjeaste.
+
+    – Equipo de Fluxer
+harvest_completed:
+  subject: Tu exportación de datos de Fluxer está lista para descargar
+  body: |-
+    Hola {username},
+
+    Tu exportación de datos está lista.
+
+    Enlace de descarga:
+    {downloadUrl}
+
+    Mensajes incluidos: {totalMessages, number}
+    Tamaño del archivo: {fileSizeMB, number} MB
+
+    Este enlace caduca el {expiresAt, date, full} a las {expiresAt, time, short}.
+
+    Si no has solicitado esta exportación, cambia tu contraseña cuanto antes y ponte en contacto con nuestro equipo de soporte.
+
+    – Equipo de Fluxer
+inactivity_warning:
+  subject: Tu cuenta de Fluxer se eliminará por inactividad
+  body: |-
+    Hola {username},
+
+    No hemos visto actividad en tu cuenta de Fluxer desde {lastActiveDate, date, full}.
+
+    Si no inicias sesión antes del {deletionDate, date, full} a las {deletionDate, time, short}, tu cuenta se eliminará de forma permanente por inactividad.
+
+    Inicia sesión aquí:
+    {loginUrl}
+
+    Si has usado Fluxer recientemente, ponte en contacto con nuestro equipo de soporte cuanto antes.
+
+    – Equipo de Fluxer
+ip_authorization:
+  subject: Autoriza el inicio de sesión desde una nueva dirección IP
+  body: |-
+    Hola {username},
+
+    Hemos detectado un intento de inicio de sesión en tu cuenta de Fluxer desde una nueva dirección IP:
+
+    Dirección IP: {ipAddress}
+    Ubicación: {location}
+
+    Si has sido tú, autoriza esta dirección IP con el enlace de abajo:
+
+    {authUrl}
+
+    Si no has intentado iniciar sesión, cambia tu contraseña cuanto antes.
+
+    Este enlace caduca en 30 minutos.
+
+    – Equipo de Fluxer
+password_change_verification:
+  subject: Confirma el cambio de contraseña de tu cuenta de Fluxer
+  body: |-
+    Hola {username},
+
+    Hemos recibido una solicitud para cambiar la contraseña de tu cuenta de Fluxer.
+
+    Para confirmar el cambio, introduce este código en la app:
+
+    {code}
+
+    Este código caduca el {expiresAt}.
+
+    Si no has solicitado esto, puede que alguien tenga acceso a tu cuenta. Cambia tu contraseña cuanto antes y activa la autenticación de dos factores.
+
+    – Equipo de Fluxer
+password_reset:
+  subject: Restablece tu contraseña de Fluxer
+  body: |-
+    Hola {username},
+
+    Has solicitado restablecer tu contraseña de Fluxer. Usa el enlace de abajo para establecer una nueva:
+
+    {resetUrl}
+
+    Si no has solicitado esto, puedes ignorar este correo electrónico con tranquilidad.
+
+    Este enlace es válido durante 1 hora.
+
+    – Equipo de Fluxer
+registration_approved:
+  subject: Tu registro en Fluxer se ha aprobado
+  body: |-
+    Hola {username},
+
+    Buenas noticias: tu registro en Fluxer se ha aprobado.
+
+    Ya puedes iniciar sesión en la app de Fluxer aquí:
+    {channelsUrl}
+
+    Te damos la bienvenida a la comunidad de Fluxer.
+
+    – Equipo de Fluxer
+report_resolved:
+  subject: Hemos revisado tu notificación
+  body: |-
+    Hola {username},
+
+    Nuestro equipo de seguridad ha revisado tu notificación (ID: {reportId}).
+
+    Respuesta del equipo de seguridad:
+    {publicComment}
+
+    Gracias por ayudar a que Fluxer sea un lugar más seguro para todo el mundo. Nos tomamos todas las notificaciones en serio y agradecemos tu aportación a la comunidad.
+
+    Si tienes preguntas o dudas sobre este resultado, escribe a safety@fluxer.app.
+
+    – Equipo de seguridad de Fluxer
+scheduled_deletion_notification:
+  subject: Tu cuenta de Fluxer se eliminará de forma permanente
+  body: |-
+    Hola {username},
+
+    Tu cuenta de Fluxer se ha programado para su eliminación permanente.
+
+    Fecha de eliminación: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Motivo: {reason}}
+    }
+
+    Esta es una medida seria. Los datos de tu cuenta se eliminarán de forma permanente en la fecha indicada.
+
+    Si crees que esta decisión es incorrecta, puedes presentar una apelación: envía un correo a appeals@fluxer.app desde esta misma dirección de correo electrónico.
+
+    – Equipo de seguridad de Fluxer
+self_deletion_scheduled:
+  subject: La eliminación de tu cuenta de Fluxer está programada
+  body: |-
+    Hola {username},
+
+    Has solicitado eliminar tu cuenta de Fluxer. Tu cuenta se eliminará de forma permanente el:
+
+    {deletionDate, date, full} a las {deletionDate, time, short}
+
+    Si no has solicitado esto, inicia sesión en tu cuenta para cancelar la eliminación. También recomendamos cambiar tu contraseña para proteger tu cuenta.
+
+    – Equipo de Fluxer
+unban_notification:
+  subject: Se ha levantado la suspensión de tu cuenta de Fluxer
+  body: |-
+    Hola {username},
+
+    Buenas noticias: se ha levantado la suspensión de tu cuenta de Fluxer.
+
+    {reason, select,
+      null {}
+      other {Motivo: {reason}}
+    }
+
+    Ya puedes volver a iniciar sesión y seguir usando Fluxer con normalidad.
+
+    – Equipo de seguridad de Fluxer

@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {WebhookRecord} from '@app/records/WebhookRecord';
+import type {Webhook} from '@fluxer/schema/src/domains/webhook/WebhookSchemas';
 import {makeAutoObservable} from 'mobx';
-import type {Webhook} from '~/records/WebhookRecord';
-import {WebhookRecord} from '~/records/WebhookRecord';
 
 type FetchStatus = 'idle' | 'pending' | 'success' | 'error';
 

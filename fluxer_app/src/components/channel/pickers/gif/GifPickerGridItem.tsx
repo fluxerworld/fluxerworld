@@ -17,29 +17,43 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ExpressionPickerActionCreators from '@app/actions/ExpressionPickerActionCreators';
+import * as FavoriteMemeActionCreators from '@app/actions/FavoriteMemeActionCreators';
+import * as GifActionCreators from '@app/actions/GifActionCreators';
+import styles from '@app/components/channel/GifPicker.module.css';
+import {useGifVideoPool} from '@app/components/channel/GifVideoPool';
+import type {GifPickerGridItemData} from '@app/components/channel/pickers/gif/GifPickerTypes';
+import {usePooledVideo} from '@app/components/channel/pickers/shared/usePooledVideo';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import FavoriteMemeStore from '@app/stores/FavoriteMemeStore';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import * as FavoriteMemeUtils from '@app/utils/FavoriteMemeUtils';
+import * as KlipyUtils from '@app/utils/KlipyUtils';
+import * as TenorUtils from '@app/utils/TenorUtils';
 import {useLingui} from '@lingui/react/macro';
 import {StarIcon, TrendUpIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
-import React from 'react';
-import * as ExpressionPickerActionCreators from '~/actions/ExpressionPickerActionCreators';
-import * as FavoriteMemeActionCreators from '~/actions/FavoriteMemeActionCreators';
-import * as TenorActionCreators from '~/actions/TenorActionCreators';
-import styles from '~/components/channel/GifPicker.module.css';
-import {useGifVideoPool} from '~/components/channel/GifVideoPool';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import FavoriteMemeStore from '~/stores/FavoriteMemeStore';
-import messageStyles from '~/styles/Message.module.css';
-import * as FavoriteMemeUtils from '~/utils/FavoriteMemeUtils';
-import {usePooledVideo} from '../shared/usePooledVideo';
-import type {GifGridItem} from './types';
+import type React from 'react';
+import {useCallback, useRef, useState} from 'react';
 
-export const GifPickerGridItem = React.memo(function GifPickerGridItem({
+const VIDEO_FILE_EXTENSION_REGEX = /\.(mp4|webm|mov|m4v)(?:$|\?)/iu;
+
+function isVideoSourceUrl(value: string): boolean {
+	try {
+		const url = new URL(value);
+		return VIDEO_FILE_EXTENSION_REGEX.test(url.pathname);
+	} catch {
+		return VIDEO_FILE_EXTENSION_REGEX.test(value);
+	}
+}
+
+export function GifPickerGridItem({
 	item,
 	coords,
 	onClose,
-	autoSendTenorGifs,
+	autoSendKlipyGifs,
 	gifAutoPlay,
 	searchTerm,
 	onShowTrending,
@@ -47,7 +61,7 @@ export const GifPickerGridItem = React.memo(function GifPickerGridItem({
 	isFocused = false,
 	itemKey,
 }: {
-	item: GifGridItem;
+	item: GifPickerGridItemData;
 	coords: {
 		position: 'absolute' | 'sticky';
 		left?: number;
@@ -57,7 +71,7 @@ export const GifPickerGridItem = React.memo(function GifPickerGridItem({
 		height: number;
 	};
 	onClose?: () => void;
-	autoSendTenorGifs: boolean;
+	autoSendKlipyGifs: boolean;
 	gifAutoPlay: boolean;
 	searchTerm: string;
 	onShowTrending: () => void;
@@ -66,65 +80,114 @@ export const GifPickerGridItem = React.memo(function GifPickerGridItem({
 	itemKey?: string;
 }) {
 	const {t, i18n} = useLingui();
-	const [isFavoritePending, setIsFavoritePending] = React.useState(false);
+	const [isFavoritePending, setIsFavoritePending] = useState(false);
 
 	const videoPool = useGifVideoPool();
-	const videoContainerRef = React.useRef<HTMLDivElement>(null);
+	const videoContainerRef = useRef<HTMLDivElement>(null);
 
 	const isSkeleton = item.type === 'skeleton';
 
-	const proxySrc = item.type === 'gif' ? item.gif.proxy_src : item.type === 'category' ? item.previewProxySrc : null;
+	const proxySrc = (() => {
+		if (item.type === 'gif') return item.gif.proxy_src;
+		if (item.type === 'category') return item.previewProxySrc;
+		return null;
+	})();
+	const mediaSourceUrl = (() => {
+		if (item.type === 'gif') return item.gif.src;
+		if (item.type === 'category') return item.previewUrl;
+		return null;
+	})();
+	const usesVideoElement = !isSkeleton && mediaSourceUrl !== null && isVideoSourceUrl(mediaSourceUrl);
 
 	const videoRef = usePooledVideo({
-		src: isSkeleton ? null : proxySrc,
+		src: usesVideoElement ? proxySrc : null,
 		containerRef: videoContainerRef,
 		videoPool,
 		autoPlay: gifAutoPlay,
-		enabled: !isSkeleton,
+		enabled: usesVideoElement,
 	});
 
-	const playOnHover = React.useCallback(() => {
-		if (gifAutoPlay) return;
-		videoRef.current?.play().catch(() => {});
-	}, [gifAutoPlay, videoRef]);
+	const playOnHover = useCallback(
+		(event: React.PointerEvent<HTMLDivElement>) => {
+			if (event.pointerType !== 'mouse') return;
+			videoRef.current?.play().catch(() => {});
+		},
+		[videoRef],
+	);
 
-	const stopOnHoverEnd = React.useCallback(() => {
-		if (gifAutoPlay) return;
-		const v = videoRef.current;
-		if (!v) return;
-		v.pause();
-		try {
-			v.currentTime = 0;
-		} catch {}
-	}, [gifAutoPlay, videoRef]);
+	const stopOnHoverEnd = useCallback(
+		(event: React.PointerEvent<HTMLDivElement>) => {
+			if (event.pointerType !== 'mouse') return;
+			const v = videoRef.current;
+			if (!v) return;
+			v.pause();
+			try {
+				v.currentTime = 0;
+			} catch {}
+		},
+		[videoRef],
+	);
 
-	const handleClick = (event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
-		if (isSkeleton) return;
+	const handleClick = useCallback(
+		(event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>) => {
+			if (isSkeleton) return;
 
-		if (item.type === 'category') {
-			if (item.id === 'favorites') {
-				ExpressionPickerActionCreators.setTab('memes');
-			} else if (item.id === 'trending') {
-				onShowTrending();
-			} else {
-				onSearchCategory(item.id);
+			if (item.type === 'category') {
+				if (item.id === 'favorites') {
+					ExpressionPickerActionCreators.setTab('memes');
+				} else if (item.id === 'trending') {
+					onShowTrending();
+				} else {
+					onSearchCategory(item.id);
+				}
+				return;
 			}
-			return;
-		}
 
-		const gif = item.gif;
-		if (!gif.id) return;
+			const gif = item.gif;
+			const provider = RuntimeConfigStore.gifProvider;
+			const shareId = provider === 'klipy' ? (KlipyUtils.extractKlipySlug(gif.url) ?? gif.id) : gif.id;
+			if (!shareId) return;
 
-		TenorActionCreators.registerShare(gif.id, searchTerm);
-		const shiftKey = 'shiftKey' in event ? event.shiftKey : false;
+			GifActionCreators.registerShare(shareId, searchTerm);
+			const shiftKey = 'shiftKey' in event ? event.shiftKey : false;
 
-		ComponentDispatch.dispatch('GIF_SELECT', {
-			gif,
-			autoSend: autoSendTenorGifs && !shiftKey,
-		});
+			const shareUrl =
+				provider === 'klipy'
+					? KlipyUtils.resolveKlipyShareUrl({
+							url: gif.url,
+							fallbackSlug: shareId,
+						})
+					: gif.url;
 
-		if (!shiftKey) onClose?.();
-	};
+			ComponentDispatch.dispatch('GIF_SELECT', {
+				gif: {
+					...gif,
+					id: shareId,
+					url: shareUrl,
+				},
+				autoSend: autoSendKlipyGifs && !shiftKey,
+			});
+
+			if (!shiftKey) onClose?.();
+		},
+		[autoSendKlipyGifs, isSkeleton, item, onClose, onSearchCategory, onShowTrending, searchTerm],
+	);
+
+	const handleKeyDown = useCallback(
+		(event: React.KeyboardEvent<HTMLDivElement>) => {
+			if (event.key !== 'Enter' && event.key !== ' ') return;
+			event.preventDefault();
+			handleClick(event);
+		},
+		[handleClick],
+	);
+
+	const hoverPlaybackHandlers = gifAutoPlay
+		? null
+		: {
+				onPointerEnter: playOnHover,
+				onPointerLeave: stopOnHoverEnd,
+			};
 
 	if (isSkeleton) {
 		return (
@@ -157,14 +220,17 @@ export const GifPickerGridItem = React.memo(function GifPickerGridItem({
 				tabIndex={0}
 				className={clsx(styles.gridItem, categoryClassName, isFocused && styles.gridItemFocused)}
 				onClick={handleClick}
-				onKeyDown={(event) => event.key === 'Enter' && handleClick(event)}
-				onMouseEnter={playOnHover}
-				onMouseLeave={stopOnHoverEnd}
+				onKeyDown={handleKeyDown}
 				style={coords}
 				data-grid-item={itemKey}
+				{...(hoverPlaybackHandlers ?? {})}
 			>
 				<div className={styles.gifMediaContainer}>
-					<div ref={videoContainerRef} className={styles.gifVideoContainer} />
+					{usesVideoElement ? (
+						<div ref={videoContainerRef} className={styles.gifVideoContainer} />
+					) : (
+						<img className={styles.gif} src={proxySrc ?? ''} alt="" loading="lazy" />
+					)}
 				</div>
 				<div className={styles.gridItemBackdrop} />
 				<div className={styles.gridItemCategoryTitle}>
@@ -176,8 +242,15 @@ export const GifPickerGridItem = React.memo(function GifPickerGridItem({
 	}
 
 	const gif = item.gif;
+	const provider = RuntimeConfigStore.gifProvider;
+	const normalizedKlipySlug = provider === 'klipy' ? (KlipyUtils.extractKlipySlug(gif.url) ?? gif.id) : null;
+	const tenorSlugId = provider === 'tenor' ? TenorUtils.extractTenorSlugId(gif.url) : null;
 	const favoriteMemes = FavoriteMemeStore.memes;
-	const isFavorited = FavoriteMemeUtils.isFavoritedByTenorId(favoriteMemes, gif.id);
+	const isFavorited =
+		provider === 'klipy'
+			? FavoriteMemeUtils.isFavoritedByKlipySlug(favoriteMemes, normalizedKlipySlug) ||
+				(normalizedKlipySlug !== gif.id && FavoriteMemeUtils.isFavoritedByKlipySlug(favoriteMemes, gif.id))
+			: FavoriteMemeUtils.isFavoritedByTenorSlugId(favoriteMemes, tenorSlugId);
 
 	const handleFavoriteClick = async (e: React.MouseEvent) => {
 		e.stopPropagation();
@@ -186,7 +259,13 @@ export const GifPickerGridItem = React.memo(function GifPickerGridItem({
 		setIsFavoritePending(true);
 		try {
 			if (isFavorited) {
-				const meme = FavoriteMemeUtils.findFavoritedMeme(favoriteMemes, {tenorId: gif.id});
+				const meme =
+					provider === 'klipy'
+						? (FavoriteMemeUtils.findFavoritedMeme(favoriteMemes, {klipySlug: normalizedKlipySlug}) ??
+							(normalizedKlipySlug !== gif.id
+								? FavoriteMemeUtils.findFavoritedMeme(favoriteMemes, {klipySlug: gif.id})
+								: null))
+						: FavoriteMemeUtils.findFavoritedMeme(favoriteMemes, {tenorSlugId});
 				if (meme) {
 					await FavoriteMemeActionCreators.deleteFavoriteMeme(i18n, meme.id);
 				}
@@ -200,7 +279,8 @@ export const GifPickerGridItem = React.memo(function GifPickerGridItem({
 				await FavoriteMemeActionCreators.createFavoriteMemeFromUrl(i18n, {
 					url: gif.proxy_src,
 					name: defaultName || gif.title,
-					tenorId: gif.id,
+					klipySlug: provider === 'klipy' ? (normalizedKlipySlug ?? undefined) : undefined,
+					tenorSlugId: provider === 'tenor' ? (tenorSlugId ?? undefined) : undefined,
 				});
 			}
 		} finally {
@@ -208,60 +288,67 @@ export const GifPickerGridItem = React.memo(function GifPickerGridItem({
 		}
 	};
 
+	const favoriteTooltipText = (() => {
+		if (isFavoritePending) return t`Updating favorites…`;
+		if (isFavorited) return t`Remove from favorites`;
+		return t`Add to favorites`;
+	})();
+
 	return (
-		<div
-			role="button"
-			tabIndex={0}
-			className={clsx(
-				styles.gridItem,
-				styles.gridItemGif,
-				isFocused && styles.gridItemFocused,
-				isFavoritePending && styles.gridItemFavoritePending,
-			)}
-			onClick={handleClick}
-			onKeyDown={(event) => event.key === 'Enter' && handleClick(event)}
-			onMouseEnter={playOnHover}
-			onMouseLeave={stopOnHoverEnd}
-			style={coords}
-			data-grid-item={itemKey}
-		>
-			<div className={styles.gifMediaContainer}>
-				<div ref={videoContainerRef} className={styles.gifVideoContainer} />
-			</div>
+		<FocusRing offset={-2}>
+			<div
+				role="button"
+				tabIndex={0}
+				className={clsx(
+					styles.gridItem,
+					styles.gridItemGif,
+					styles.gridItemGifPicker,
+					isFocused && styles.gridItemFocused,
+					isFavoritePending && styles.gridItemFavoritePending,
+				)}
+				onClick={handleClick}
+				onKeyDown={handleKeyDown}
+				style={coords}
+				data-grid-item={itemKey}
+				{...(hoverPlaybackHandlers ?? {})}
+			>
+				<div className={styles.gifMediaContainer}>
+					{usesVideoElement ? (
+						<div ref={videoContainerRef} className={styles.gifVideoContainer} />
+					) : (
+						<img className={styles.gif} src={proxySrc ?? ''} alt="" loading="lazy" />
+					)}
+				</div>
 
-			<div className={styles.gridItemBackdrop} />
+				<div className={styles.gridItemBackdrop} />
 
-			<div className={clsx(messageStyles.hoverAction, styles.hoverActionButtons)}>
-				<Tooltip
-					text={
-						isFavoritePending ? t`Updating favorites…` : isFavorited ? t`Remove from favorites` : t`Add to favorites`
-					}
-					position="top"
-				>
-					<FocusRing offset={-2}>
-						<button
-							type="button"
-							onMouseDown={(e) => e.preventDefault()}
-							onClick={handleFavoriteClick}
-							className={clsx(styles.favoriteButton, isFavorited && styles.favoriteButtonActive)}
-							aria-label={isFavorited ? t`Remove from favorites` : t`Add to favorites`}
-							aria-busy={isFavoritePending}
-							aria-pressed={isFavorited}
-							disabled={isFavoritePending}
-						>
-							{isFavoritePending ? (
-								<span className={styles.favoriteButtonSpinner} aria-hidden="true" />
-							) : (
-								<StarIcon
-									size={18}
-									weight={isFavorited ? 'fill' : 'bold'}
-									className={isFavorited ? styles.favoriteButtonActiveIcon : styles.favoriteButtonIcon}
-								/>
-							)}
-						</button>
-					</FocusRing>
-				</Tooltip>
+				<div className={styles.hoverActionButtons}>
+					<Tooltip text={favoriteTooltipText} position="top">
+						<FocusRing offset={-2}>
+							<button
+								type="button"
+								onMouseDown={(e) => e.preventDefault()}
+								onClick={handleFavoriteClick}
+								className={clsx(styles.favoriteButton, isFavorited && styles.favoriteButtonActive)}
+								aria-label={isFavorited ? t`Remove from favorites` : t`Add to favorites`}
+								aria-busy={isFavoritePending}
+								aria-pressed={isFavorited}
+								disabled={isFavoritePending}
+							>
+								{isFavoritePending ? (
+									<span className={styles.favoriteButtonSpinner} aria-hidden="true" />
+								) : (
+									<StarIcon
+										size={18}
+										weight={isFavorited ? 'fill' : 'bold'}
+										className={isFavorited ? styles.favoriteButtonActiveIcon : styles.favoriteButtonIcon}
+									/>
+								)}
+							</button>
+						</FocusRing>
+					</Tooltip>
+				</div>
 			</div>
-		</div>
+		</FocusRing>
 	);
-});
+}

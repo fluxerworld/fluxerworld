@@ -17,29 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {PricingCard} from '@app/components/modals/components/PricingCard';
+import gridStyles from '@app/components/modals/components/PricingGrid.module.css';
+import {PurchaseDisclaimer} from '@app/components/modals/components/PurchaseDisclaimer';
+import styles from '@app/components/modals/components/plutonium/PricingSection.module.css';
+import {PurchaseDisabledWrapper} from '@app/components/modals/components/plutonium/PurchaseDisabledWrapper';
+import {ToggleButton} from '@app/components/modals/components/ToggleButton';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {ArrowDownIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import type {VisionarySlots} from '~/actions/PremiumActionCreators';
-import {PricingCard} from '../PricingCard';
-import gridStyles from '../PricingGrid.module.css';
-import {PurchaseDisclaimer} from '../PurchaseDisclaimer';
-import {ToggleButton} from '../ToggleButton';
-import styles from './PricingSection.module.css';
-import {PurchaseDisabledWrapper} from './PurchaseDisabledWrapper';
 
 interface PricingSectionProps {
 	isGiftMode: boolean;
 	setIsGiftMode: (value: boolean) => void;
 	monthlyPrice: string;
 	yearlyPrice: string;
-	visionaryPrice: string;
-	visionarySlots: VisionarySlots | null;
 	loadingCheckout: boolean;
-	loadingSlots: boolean;
-	isVisionarySoldOut: boolean;
-	handleSelectPlan: (plan: 'monthly' | 'yearly' | 'visionary' | 'gift1Month' | 'gift1Year' | 'giftVisionary') => void;
+	handleSelectPlan: (plan: 'monthly' | 'yearly' | 'gift_1_month' | 'gift_1_year') => void;
 	purchaseDisabled?: boolean;
 	purchaseDisabledTooltip?: React.ReactNode;
 }
@@ -50,11 +45,7 @@ export const PricingSection: React.FC<PricingSectionProps> = observer(
 		setIsGiftMode,
 		monthlyPrice,
 		yearlyPrice,
-		visionaryPrice,
-		visionarySlots,
 		loadingCheckout,
-		loadingSlots,
-		isVisionarySoldOut,
 		handleSelectPlan,
 		purchaseDisabled = false,
 		purchaseDisabledTooltip,
@@ -70,7 +61,7 @@ export const PricingSection: React.FC<PricingSectionProps> = observer(
 				</div>
 
 				<div className={gridStyles.gridWrapper}>
-					<div className={gridStyles.gridThreeColumns}>
+					<div className={gridStyles.gridTwoColumns}>
 						{!isGiftMode ? (
 							<>
 								<PurchaseDisabledWrapper disabled={purchaseDisabled} tooltipText={tooltipText}>
@@ -79,7 +70,7 @@ export const PricingSection: React.FC<PricingSectionProps> = observer(
 										price={monthlyPrice}
 										period={t`per month`}
 										onSelect={() => handleSelectPlan('monthly')}
-										isLoading={loadingCheckout || loadingSlots}
+										isLoading={loadingCheckout}
 										disabled={purchaseDisabled}
 									/>
 								</PurchaseDisabledWrapper>
@@ -92,20 +83,8 @@ export const PricingSection: React.FC<PricingSectionProps> = observer(
 										isPopular
 										onSelect={() => handleSelectPlan('yearly')}
 										buttonText={t`Upgrade Now`}
-										isLoading={loadingCheckout || loadingSlots}
+										isLoading={loadingCheckout}
 										disabled={purchaseDisabled}
-									/>
-								</PurchaseDisabledWrapper>
-								<PurchaseDisabledWrapper disabled={purchaseDisabled || isVisionarySoldOut} tooltipText={tooltipText}>
-									<PricingCard
-										title={t`Visionary`}
-										price={visionaryPrice}
-										period={t`one-time, lifetime`}
-										remainingSlots={loadingSlots ? undefined : visionarySlots?.remaining}
-										onSelect={() => handleSelectPlan('visionary')}
-										isLoading={loadingCheckout || loadingSlots}
-										disabled={purchaseDisabled || isVisionarySoldOut}
-										soldOut={isVisionarySoldOut}
 									/>
 								</PurchaseDisabledWrapper>
 							</>
@@ -117,9 +96,9 @@ export const PricingSection: React.FC<PricingSectionProps> = observer(
 										price={yearlyPrice}
 										period={t`one-time purchase`}
 										badge={t`Save 17%`}
-										onSelect={() => handleSelectPlan('gift1Year')}
+										onSelect={() => handleSelectPlan('gift_1_year')}
 										buttonText={t`Buy Gift`}
-										isLoading={loadingCheckout || loadingSlots}
+										isLoading={loadingCheckout}
 										disabled={purchaseDisabled}
 									/>
 								</PurchaseDisabledWrapper>
@@ -129,23 +108,10 @@ export const PricingSection: React.FC<PricingSectionProps> = observer(
 										price={monthlyPrice}
 										period={t`one-time purchase`}
 										isPopular
-										onSelect={() => handleSelectPlan('gift1Month')}
+										onSelect={() => handleSelectPlan('gift_1_month')}
 										buttonText={t`Buy Gift`}
-										isLoading={loadingCheckout || loadingSlots}
+										isLoading={loadingCheckout}
 										disabled={purchaseDisabled}
-									/>
-								</PurchaseDisabledWrapper>
-								<PurchaseDisabledWrapper disabled={purchaseDisabled || isVisionarySoldOut} tooltipText={tooltipText}>
-									<PricingCard
-										title={t`Visionary Gift`}
-										price={visionaryPrice}
-										period={t`one-time, lifetime`}
-										remainingSlots={loadingSlots ? undefined : visionarySlots?.remaining}
-										onSelect={() => handleSelectPlan('giftVisionary')}
-										buttonText={t`Buy Gift`}
-										isLoading={loadingCheckout || loadingSlots}
-										disabled={purchaseDisabled || isVisionarySoldOut}
-										soldOut={isVisionarySoldOut}
 									/>
 								</PurchaseDisabledWrapper>
 							</>

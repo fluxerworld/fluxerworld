@@ -17,21 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import SoundStore from '~/stores/SoundStore';
-import type {SoundType} from '~/utils/SoundUtils';
+import SoundStore from '@app/stores/SoundStore';
+import type {SoundType} from '@app/utils/SoundUtils';
 
-export const playSound = (sound: SoundType, loop = false): void => {
+export function playSound(sound: SoundType, loop?: boolean): void {
 	SoundStore.playSound(sound, loop);
-};
+}
 
-export const stopAllSounds = (): void => {
+export function stopAllSounds(): void {
 	SoundStore.stopAllSounds();
-};
+}
 
-export const updateSoundSettings = (settings: {
+export function updateSoundSettings(settings: {
 	allSoundsDisabled?: boolean;
 	soundType?: SoundType;
 	enabled?: boolean;
-}): void => {
+}): void {
 	SoundStore.updateSettings(settings);
-};
+}

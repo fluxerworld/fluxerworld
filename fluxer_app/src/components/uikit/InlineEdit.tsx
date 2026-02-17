@@ -17,11 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import styles from '@app/components/uikit/InlineEdit.module.css';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import styles from './InlineEdit.module.css';
+import type React from 'react';
+import {useEffect, useMemo, useRef, useState} from 'react';
 
 interface InlineEditProps {
 	value: string;
@@ -60,19 +61,19 @@ export const InlineEdit: React.FC<InlineEditProps> = observer((props) => {
 		allowEmpty = false,
 	} = props;
 
-	const [mode, setMode] = React.useState<Mode>('idle');
-	const [draft, setDraft] = React.useState<string>(value);
-	const [error, setError] = React.useState<string | null>(null);
+	const [mode, setMode] = useState<Mode>('idle');
+	const [draft, setDraft] = useState<string>(value);
+	const [error, setError] = useState<string | null>(null);
 
-	const editableRef = React.useRef<HTMLDivElement | null>(null);
+	const editableRef = useRef<HTMLDivElement | null>(null);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (mode === 'idle') {
 			setDraft(value);
 		}
 	}, [value, mode]);
 
-	const fieldStyle = React.useMemo<React.CSSProperties | undefined>(() => {
+	const fieldStyle = useMemo<React.CSSProperties | undefined>(() => {
 		if (!width) return undefined;
 		return {
 			minWidth: typeof width === 'number' ? `${width}px` : width,
@@ -93,7 +94,7 @@ export const InlineEdit: React.FC<InlineEditProps> = observer((props) => {
 		setMode('editing');
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (mode !== 'editing') return;
 		const el = editableRef.current;
 		if (!el) return;
@@ -138,8 +139,8 @@ export const InlineEdit: React.FC<InlineEditProps> = observer((props) => {
 		try {
 			await Promise.resolve(onSave(next));
 			setMode('idle');
-		} catch (e: any) {
-			setError(e?.message || 'SAVE_FAILED');
+		} catch (e: unknown) {
+			setError(e instanceof Error ? e.message : 'SAVE_FAILED');
 			setMode('editing');
 		}
 	};

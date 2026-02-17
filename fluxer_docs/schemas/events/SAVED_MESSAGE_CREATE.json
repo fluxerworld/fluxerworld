@@ -1,0 +1,11 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "SAVED_MESSAGE_CREATE",
+	"description": "A message was saved to the user's saved messages.",
+	"scope": "presence",
+	"dispatchedBy": ["POST /users/@me/saved-messages"],
+	"payload": {
+		"$ref": "MessageResponse",
+		"description": "The saved message"
+	}
+}

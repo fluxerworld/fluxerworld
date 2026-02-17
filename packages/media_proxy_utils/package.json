@@ -1,0 +1,40 @@
+{
+	"name": "@fluxer/media_proxy_utils",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": {
+			"import": "./src/MediaProxyUtils.tsx",
+			"types": "./src/MediaProxyUtils.tsx"
+		},
+		"./src/MediaProxyUtils": {
+			"import": "./src/MediaProxyUtils.tsx",
+			"types": "./src/MediaProxyUtils.tsx"
+		},
+		"./src/ExternalMediaProxyUrlBuilder": {
+			"import": "./src/ExternalMediaProxyUrlBuilder.tsx",
+			"types": "./src/ExternalMediaProxyUrlBuilder.tsx"
+		},
+		"./src/ExternalMediaProxyPathCodec": {
+			"import": "./src/ExternalMediaProxyPathCodec.tsx",
+			"types": "./src/ExternalMediaProxyPathCodec.tsx"
+		},
+		"./src/MediaProxySigner": {
+			"import": "./src/MediaProxySigner.tsx",
+			"types": "./src/MediaProxySigner.tsx"
+		},
+		"./*": "./*"
+	},
+	"main": "./src/MediaProxyUtils.tsx",
+	"types": "./src/MediaProxyUtils.tsx",
+	"scripts": {
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@types/node": "catalog:"
+	},
+	"devDependencies": {
+		"@typescript/native-preview": "catalog:"
+	}
+}

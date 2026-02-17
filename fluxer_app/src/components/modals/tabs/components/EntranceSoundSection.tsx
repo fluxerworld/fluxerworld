@@ -17,47 +17,61 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as PremiumModalActionCreators from '@app/actions/PremiumModalActionCreators';
+import styles from '@app/components/modals/tabs/components/EntranceSoundSection.module.css';
+import {useEntranceSound} from '@app/components/modals/tabs/hooks/useEntranceSound';
+import {Button} from '@app/components/uikit/button/Button';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {LimitResolver} from '@app/utils/limits/LimitResolverAdapter';
+import {isLimitToggleEnabled} from '@app/utils/limits/LimitUtils';
+import {shouldShowPremiumFeatures} from '@app/utils/PremiumUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CrownIcon, SpeakerHighIcon, TrashIcon, UploadIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import * as PremiumModalActionCreators from '~/actions/PremiumModalActionCreators';
-import {Button} from '~/components/uikit/Button/Button';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useEntranceSound} from '../hooks/useEntranceSound';
-import styles from './EntranceSoundSection.module.css';
+import {useMemo} from 'react';
 
-interface EntranceSoundSectionProps {
-	hasPremium: boolean;
-}
-
-export const EntranceSoundSection: React.FC<EntranceSoundSectionProps> = observer(({hasPremium}) => {
+export const EntranceSoundSection: React.FC = observer(() => {
+	const hasVoiceEntranceSounds = useMemo(
+		() =>
+			isLimitToggleEnabled(
+				{feature_voice_entrance_sounds: LimitResolver.resolve({key: 'feature_voice_entrance_sounds', fallback: 0})},
+				'feature_voice_entrance_sounds',
+			),
+		[],
+	);
 	const {t} = useLingui();
-	const {entranceSound, isPreviewing, remove, preview, openUploadDialog} = useEntranceSound(hasPremium);
+	const {entranceSound, isPreviewing, remove, preview, openUploadDialog} = useEntranceSound();
 
 	return (
 		<div>
 			<div className={styles.label}>
 				<Trans>Entrance Sound</Trans>
 			</div>
-			{!hasPremium ? (
-				<div className={styles.premiumCard}>
-					<div className={styles.premiumCardHeader}>
-						<CrownIcon weight="fill" size={18} className={styles.premiumCardIcon} />
-						<span className={styles.premiumCardTitle}>
-							<Trans>Custom Entrance Sounds with Plutonium</Trans>
-						</span>
+			{!hasVoiceEntranceSounds ? (
+				shouldShowPremiumFeatures() ? (
+					<div className={styles.premiumCard}>
+						<div className={styles.premiumCardHeader}>
+							<CrownIcon weight="fill" size={18} className={styles.premiumCardIcon} />
+							<span className={styles.premiumCardTitle}>
+								<Trans>Custom Entrance Sounds with Plutonium</Trans>
+							</span>
+						</div>
+						<p className={styles.premiumCardDescription}>
+							<Trans>
+								Upload a custom sound that plays automatically when you join a voice channel. Maximum duration: 5.2
+								seconds. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM (max 2MB).
+							</Trans>
+						</p>
+						<Button variant="secondary" small={true} onClick={() => PremiumModalActionCreators.open()}>
+							<Trans>Get Plutonium</Trans>
+						</Button>
 					</div>
+				) : (
 					<p className={styles.premiumCardDescription}>
-						<Trans>
-							Upload a custom sound that plays automatically when you join a voice channel. Maximum duration: 5.2
-							seconds. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM (max 2MB).
-						</Trans>
+						<Trans>Custom entrance sounds are not enabled on this instance.</Trans>
 					</p>
-					<Button variant="secondary" small={true} onClick={() => PremiumModalActionCreators.open()}>
-						<Trans>Get Plutonium</Trans>
-					</Button>
-				</div>
+				)
 			) : (
 				<div className={styles.content}>
 					<div className={styles.hint}>

@@ -1,0 +1,87 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.container {
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+}
+
+.linkButton {
+	background: none;
+	border: none;
+	color: var(--text-strong);
+	text-align: left;
+	text-decoration: underline;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+}
+
+.helperCallout {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+	padding: 0.75rem 1rem;
+	border: 1px solid var(--border-color);
+	border-radius: var(--radius-md);
+	background: var(--background-modifier-accent);
+	align-self: flex-start;
+}
+
+.helperIcon {
+	flex-shrink: 0;
+	color: var(--text-tertiary);
+}
+
+.helperText {
+	margin: 0;
+	font-size: 0.875rem;
+	line-height: 1.5rem;
+	color: var(--text-secondary);
+}
+
+.narrationSection {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+}
+
+.narrationHeader {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.narrationTitle {
+	margin: 0;
+	font-size: 1rem;
+	font-weight: 600;
+	line-height: 1.3;
+	color: var(--text-primary);
+}
+
+.narrationDescription {
+	margin: 0;
+	font-size: 0.8125rem;
+	line-height: 1.4;
+	color: var(--text-tertiary);
+}

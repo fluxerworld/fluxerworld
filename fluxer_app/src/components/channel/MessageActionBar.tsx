@@ -17,59 +17,64 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
-
-import {ArrowsClockwiseIcon, DotsThreeIcon} from '@phosphor-icons/react';
-import {clsx} from 'clsx';
-import {autorun} from 'mobx';
-import {observer} from 'mobx-react-lite';
-import React, {useSyncExternalStore} from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as PopoutActionCreators from '~/actions/PopoutActionCreators';
-import {MessageStates} from '~/Constants';
-import styles from '~/components/channel/MessageActionBar.module.css';
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as PopoutActionCreators from '@app/actions/PopoutActionCreators';
+import styles from '@app/components/channel/MessageActionBar.module.css';
 import {
 	createMessageActionHandlers,
+	isClientSystemMessage,
 	isEmbedsSuppressed,
 	triggerAddReaction,
 	useMessagePermissions,
-} from '~/components/channel/messageActionUtils';
-import {MessageDebugModal} from '~/components/debug/MessageDebugModal';
-import {EmojiPickerPopout} from '~/components/popouts/EmojiPickerPopout';
+} from '@app/components/channel/MessageActionUtils';
+import {MessageDebugModal} from '@app/components/debug/MessageDebugModal';
+import {EmojiPickerPopout} from '@app/components/popouts/EmojiPickerPopout';
 import {
 	AddReactionIcon,
 	BookmarkIcon,
 	CopyIdIcon,
 	CopyLinkIcon,
-	CopyTextIcon,
-	DebugIcon,
+	CopyMessageTextIcon,
+	DebugMessageIcon,
 	DeleteIcon,
-	EditIcon,
+	EditMessageIcon,
 	ForwardIcon,
 	MarkAsUnreadIcon,
+	MoreIcon,
 	PinIcon,
 	ReplyIcon,
+	RetryIcon,
 	SuppressEmbedsIcon,
-} from '~/components/uikit/ContextMenu/ContextMenuIcons';
-import {MenuGroup} from '~/components/uikit/ContextMenu/MenuGroup';
-import {MenuItem} from '~/components/uikit/ContextMenu/MenuItem';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Popout} from '~/components/uikit/Popout/Popout';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import type {MessageRecord} from '~/records/MessageRecord';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import ContextMenuStore, {isContextMenuNodeTarget} from '~/stores/ContextMenuStore';
-import EmojiPickerStore from '~/stores/EmojiPickerStore';
-import EmojiStore, {type Emoji} from '~/stores/EmojiStore';
-import KeyboardModeStore from '~/stores/KeyboardModeStore';
-import SavedMessagesStore from '~/stores/SavedMessagesStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import messageStyles from '~/styles/Message.module.css';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import {shouldUseNativeEmoji} from '~/utils/EmojiUtils';
+} from '@app/components/uikit/context_menu/ContextMenuIcons';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {KeybindHint} from '@app/components/uikit/keybind_hint/KeybindHint';
+import {Popout} from '@app/components/uikit/popout/Popout';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useContextMenuHoverState} from '@app/hooks/useContextMenuHoverState';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import ContextMenuStore from '@app/stores/ContextMenuStore';
+import EmojiPickerStore from '@app/stores/EmojiPickerStore';
+import EmojiStore from '@app/stores/EmojiStore';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
+import SavedMessagesStore from '@app/stores/SavedMessagesStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import messageStyles from '@app/styles/Message.module.css';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {shouldUseNativeEmoji} from '@app/utils/EmojiUtils';
+import {getEmojiDisplayData} from '@app/utils/SkinToneUtils';
+import {MessageStates} from '@fluxer/constants/src/ChannelConstants';
+import {useLingui} from '@lingui/react/macro';
+import {clsx} from 'clsx';
+import {autorun} from 'mobx';
+import {observer} from 'mobx-react-lite';
+import React, {useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore} from 'react';
 
 const shiftKeyManager = (() => {
 	let isShiftPressed = false;
@@ -122,7 +127,7 @@ const shiftKeyManager = (() => {
 })();
 
 const quickReactionManager = (() => {
-	let cache: Array<Emoji> | null = null;
+	let cache: Array<FlatEmoji> | null = null;
 	const listeners = new Set<() => void>();
 
 	const recompute = () => {
@@ -140,26 +145,27 @@ const quickReactionManager = (() => {
 		}
 		recompute();
 	});
+	ComponentDispatch.subscribe('EMOJI_PICKER_RERENDER', recompute);
 
 	return {
 		subscribe(listener: () => void) {
 			listeners.add(listener);
 			return () => listeners.delete(listener);
 		},
-		getSnapshot(): Array<Emoji> {
+		getSnapshot(): Array<FlatEmoji> {
 			if (!cache) {
 				recompute();
 			}
 			return cache ?? [];
 		},
-		getServerSnapshot(): Array<Emoji> {
+		getServerSnapshot(): Array<FlatEmoji> {
 			return [];
 		},
 	};
 })();
 
 const useShiftKey = (enabled: boolean) => {
-	const subscribe = React.useCallback(
+	const subscribe = useCallback(
 		(listener: () => void) => {
 			if (!enabled) {
 				return () => undefined;
@@ -169,7 +175,7 @@ const useShiftKey = (enabled: boolean) => {
 		[enabled],
 	);
 
-	const getSnapshot = React.useCallback(() => {
+	const getSnapshot = useCallback(() => {
 		return enabled ? shiftKeyManager.getSnapshot() : false;
 	}, [enabled]);
 
@@ -188,11 +194,19 @@ interface MessageActionBarButtonProps {
 
 const MessageActionBarButton = React.forwardRef<HTMLButtonElement, MessageActionBarButtonProps>(
 	({label, icon, onClick, onPointerDownCapture, danger, isActive, dataAction}, ref) => {
-		const handleClick = (event: React.MouseEvent | React.KeyboardEvent) => {
-			event.preventDefault();
-			event.stopPropagation();
-			onClick?.(event);
-		};
+		const handleClick = useCallback(
+			(event: React.MouseEvent | React.KeyboardEvent) => {
+				event.preventDefault();
+				event.stopPropagation();
+				onClick?.(event);
+			},
+			[onClick],
+		);
+
+		const buttonClassName = useMemo(
+			() => clsx(styles.button, danger && styles.danger, isActive && styles.active),
+			[danger, isActive],
+		);
 
 		return (
 			<Tooltip text={label}>
@@ -203,7 +217,7 @@ const MessageActionBarButton = React.forwardRef<HTMLButtonElement, MessageAction
 						aria-label={label}
 						onClick={handleClick}
 						onPointerDownCapture={onPointerDownCapture}
-						className={clsx(styles.button, danger && styles.danger, isActive && styles.active)}
+						className={buttonClassName}
 						data-action={dataAction}
 					>
 						<div className={styles.actionBarIcon}>{icon}</div>
@@ -217,59 +231,77 @@ const MessageActionBarButton = React.forwardRef<HTMLButtonElement, MessageAction
 MessageActionBarButton.displayName = 'MessageActionBarButton';
 
 interface QuickReactionButtonProps {
-	emoji: Emoji;
-	onReact: (emoji: Emoji) => void;
+	emoji: FlatEmoji;
+	onReact: (emoji: FlatEmoji) => void;
 }
 
-const QuickReactionButton = React.forwardRef<HTMLButtonElement, QuickReactionButtonProps>(({emoji, onReact}, ref) => {
-	const {t} = useLingui();
-	const [isHovered, setIsHovered] = React.useState(false);
+const QuickReactionButton = observer(
+	React.forwardRef<HTMLButtonElement, QuickReactionButtonProps>(({emoji, onReact}, ref) => {
+		const {t} = useLingui();
+		const [isHovered, setIsHovered] = useState(false);
 
-	const handleClick = (event: React.MouseEvent | React.KeyboardEvent) => {
-		event.preventDefault();
-		event.stopPropagation();
-		onReact(emoji);
-	};
+		const {surrogates: displaySurrogates, url: displayUrl} = getEmojiDisplayData(emoji);
 
-	const emojiNameWithColons = `:${emoji.name}:`;
-	const isUnicodeEmoji = !emoji.guildId && !emoji.id;
-	const useNativeRendering = shouldUseNativeEmoji && isUnicodeEmoji;
+		const handleClick = useCallback(
+			(event: React.MouseEvent | React.KeyboardEvent) => {
+				event.preventDefault();
+				event.stopPropagation();
+				onReact(emoji);
+			},
+			[emoji, onReact],
+		);
 
-	const shouldShowAnimated = emoji.animated && isHovered;
-	const emojiSrc =
-		emoji.animated && emoji.id && !useNativeRendering
-			? AvatarUtils.getEmojiURL({id: emoji.id, animated: shouldShowAnimated})
-			: (emoji.url ?? '');
+		const handleMouseEnter = useCallback(() => setIsHovered(true), []);
+		const handleMouseLeave = useCallback(() => setIsHovered(false), []);
 
-	return (
-		<Tooltip
-			text={() => (
+		const emojiNameWithColons = useMemo(() => `:${emoji.name}:`, [emoji.name]);
+		const isUnicodeEmoji = useMemo(() => !emoji.guildId && !emoji.id, [emoji.guildId, emoji.id]);
+		const useNativeRendering = useMemo(() => shouldUseNativeEmoji && isUnicodeEmoji, [isUnicodeEmoji]);
+
+		const shouldShowAnimated = useMemo(() => emoji.animated && isHovered, [emoji.animated, isHovered]);
+		const emojiSrc = useMemo(
+			() =>
+				emoji.animated && emoji.id && !useNativeRendering
+					? AvatarUtils.getEmojiURL({id: emoji.id, animated: shouldShowAnimated})
+					: (displayUrl ?? ''),
+			[emoji.animated, emoji.id, displayUrl, useNativeRendering, shouldShowAnimated],
+		);
+
+		const tooltipContent = useCallback(
+			() => (
 				<div className={styles.tooltipContent}>
 					<span>{emojiNameWithColons}</span>
 					<span className={styles.tooltipHint}>{t`Click to react`}</span>
 				</div>
-			)}
-		>
-			<FocusRing>
-				<button
-					type="button"
-					ref={ref}
-					aria-label={`React with ${emojiNameWithColons}`}
-					onClick={handleClick}
-					onMouseEnter={() => setIsHovered(true)}
-					onMouseLeave={() => setIsHovered(false)}
-					className={styles.button}
-				>
-					{useNativeRendering ? (
-						<span className={styles.emojiImage}>{emoji.surrogates}</span>
-					) : (
-						<img src={emojiSrc} alt={emoji.name} className={styles.emojiImage} />
-					)}
-				</button>
-			</FocusRing>
-		</Tooltip>
-	);
-});
+			),
+			[emojiNameWithColons, t],
+		);
+
+		const ariaLabel = useMemo(() => `React with ${emojiNameWithColons}`, [emojiNameWithColons]);
+
+		return (
+			<Tooltip text={tooltipContent}>
+				<FocusRing>
+					<button
+						type="button"
+						ref={ref}
+						aria-label={ariaLabel}
+						onClick={handleClick}
+						onMouseEnter={handleMouseEnter}
+						onMouseLeave={handleMouseLeave}
+						className={styles.button}
+					>
+						{useNativeRendering ? (
+							<span className={styles.emojiImage}>{displaySurrogates}</span>
+						) : (
+							<img src={emojiSrc} alt={emoji.name} className={styles.emojiImage} />
+						)}
+					</button>
+				</FocusRing>
+			</Tooltip>
+		);
+	}),
+);
 
 QuickReactionButton.displayName = 'QuickReactionButton';
 
@@ -290,15 +322,15 @@ interface MessageActionBarCoreProps {
 	onPopoutToggle?: (isOpen: boolean) => void;
 }
 
-const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
+export const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 	({message, handleDelete, permissions, isSaved, developerMode, isHovering = false, onPopoutToggle}) => {
-		const {t} = useLingui();
-		const [emojiPickerOpen, setEmojiPickerOpen] = React.useState(false);
-		const [contextMenuOpen, setContextMenuOpen] = React.useState(false);
-		const [moreMenuOpen, setMoreMenuOpen] = React.useState(false);
-		const moreOptionsButtonRef = React.useRef<HTMLButtonElement>(null);
-		const emojiPickerButtonRef = React.useRef<HTMLButtonElement>(null);
-		const actionBarRef = React.useRef<HTMLDivElement>(null);
+		const {t, i18n} = useLingui();
+		const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
+		const moreOptionsButtonRef = useRef<HTMLButtonElement>(null);
+		const emojiPickerButtonRef = useRef<HTMLButtonElement>(null);
+		const actionBarRef = useRef<HTMLDivElement>(null);
+		const contextMenuOpen = useContextMenuHoverState(actionBarRef);
+		const moreMenuOpen = useContextMenuHoverState(moreOptionsButtonRef);
 
 		const showMessageActionBar = AccessibilityStore.showMessageActionBar;
 		const showQuickReactions = AccessibilityStore.showMessageActionBarQuickReactions;
@@ -320,8 +352,9 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 			canPinMessage,
 			shouldRenderSuppressEmbeds,
 		} = permissions;
+		const supportsInteractiveActions = useMemo(() => !isClientSystemMessage(message), [message]);
 
-		const handlers = createMessageActionHandlers(message);
+		const handlers = useMemo(() => createMessageActionHandlers(message, {i18n}), [message, i18n]);
 
 		const quickReactionEmojis = useSyncExternalStore(
 			quickReactionManager.subscribe,
@@ -329,14 +362,14 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 			quickReactionManager.getServerSnapshot,
 		);
 
-		const blurEmojiPickerTrigger = React.useCallback(() => {
+		const blurEmojiPickerTrigger = useCallback(() => {
 			if (keyboardModeEnabled) {
 				return;
 			}
 			requestAnimationFrame(() => emojiPickerButtonRef.current?.blur());
 		}, [keyboardModeEnabled]);
 
-		const handleEmojiPickerToggle = React.useCallback(
+		const handleEmojiPickerToggle = useCallback(
 			(open: boolean) => {
 				setEmojiPickerOpen(open);
 				onPopoutToggle?.(open);
@@ -347,10 +380,10 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 			[onPopoutToggle, blurEmojiPickerTrigger],
 		);
 
-		const handleEmojiPickerOpen = React.useCallback(() => handleEmojiPickerToggle(true), [handleEmojiPickerToggle]);
-		const handleEmojiPickerClose = React.useCallback(() => handleEmojiPickerToggle(false), [handleEmojiPickerToggle]);
+		const handleEmojiPickerOpen = useCallback(() => handleEmojiPickerToggle(true), [handleEmojiPickerToggle]);
+		const handleEmojiPickerClose = useCallback(() => handleEmojiPickerToggle(false), [handleEmojiPickerToggle]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			return () => {
 				if (emojiPickerOpen) {
 					onPopoutToggle?.(false);
@@ -358,36 +391,16 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 			};
 		}, [emojiPickerOpen, onPopoutToggle]);
 
-		const handleDebugClick = React.useCallback(() => {
+		const handleDebugClick = useCallback(() => {
 			ModalActionCreators.push(modal(() => <MessageDebugModal title={t`Message Debug`} message={message} />));
-		}, [message]);
+		}, [message, t]);
 
-		React.useEffect(() => {
-			const disposer = autorun(() => {
-				const contextMenu = ContextMenuStore.contextMenu;
-				const contextMenuTarget = contextMenu?.target?.target ?? null;
-				const actionBarElement = actionBarRef.current;
-				const isOpen =
-					Boolean(contextMenu) &&
-					isContextMenuNodeTarget(contextMenuTarget) &&
-					Boolean(actionBarElement?.contains(contextMenuTarget));
-				setContextMenuOpen(!!isOpen);
-
-				const isMoreOpen =
-					!!contextMenu && !!moreOptionsButtonRef.current && contextMenu.target.target === moreOptionsButtonRef.current;
-
-				setMoreMenuOpen(isMoreOpen);
-			});
-
-			return () => disposer();
-		}, []);
-
-		React.useEffect(() => {
+		useEffect(() => {
 			const unsubscribe = ComponentDispatch.subscribe('EMOJI_PICKER_OPEN', (payload?: unknown) => {
 				const data = (payload ?? {}) as {messageId?: string};
 				if (data.messageId === message.id && emojiPickerButtonRef.current) {
 					PopoutActionCreators.open({
-						key: `emoji-picker-${message.id}`,
+						key: `emoji_picker-${message.id}`,
 						position: 'left-start',
 						render: ({onClose}) => (
 							<EmojiPickerPopout
@@ -397,6 +410,7 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 							/>
 						),
 						target: emojiPickerButtonRef.current,
+						shouldAutoUpdate: false,
 						animationType: 'none',
 						onOpen: () => handleEmojiPickerToggle(true),
 						onClose: () => handleEmojiPickerToggle(false),
@@ -407,7 +421,7 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 			return () => unsubscribe();
 		}, [message.id, message.channelId, handlers.handleEmojiSelect, handleEmojiPickerToggle]);
 
-		const handleMoreOptionsPointerDown = React.useCallback((event: React.PointerEvent) => {
+		const handleMoreOptionsPointerDown = useCallback((event: React.PointerEvent) => {
 			const contextMenu = ContextMenuStore.contextMenu;
 			const isOpen = !!contextMenu && contextMenu.target.target === moreOptionsButtonRef.current;
 
@@ -418,7 +432,7 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 			}
 		}, []);
 
-		const openMoreOptionsMenu = React.useCallback(
+		const openMoreOptionsMenu = useCallback(
 			(event: React.MouseEvent | React.KeyboardEvent) => {
 				if (!showMessageActionBar) {
 					return;
@@ -442,10 +456,10 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 								<MenuItem
 									icon={<AddReactionIcon />}
 									onClick={() => {
-										triggerAddReaction(message.id);
+										triggerAddReaction(message);
 										props.onClose();
 									}}
-									shortcut="+"
+									shortcut={<KeybindHint action="add_reaction" />}
 								>
 									{t`Add Reaction`}
 								</MenuItem>
@@ -453,38 +467,38 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 
 							{message.isUserMessage() && !message.messageSnapshots && canEditMessage && (
 								<MenuItem
-									icon={<EditIcon />}
+									icon={<EditMessageIcon />}
 									onClick={() => {
 										handlers.handleEditMessage();
 										props.onClose();
 									}}
-									shortcut="e"
+									shortcut={<KeybindHint action="edit_message" />}
 								>
 									{t`Edit Message`}
 								</MenuItem>
 							)}
 
-							{message.isUserMessage() && canSendMessages && (
+							{message.isUserMessage() && supportsInteractiveActions && canSendMessages && (
 								<MenuItem
 									icon={<ReplyIcon />}
 									onClick={() => {
 										handlers.handleReply();
 										props.onClose();
 									}}
-									shortcut="r"
+									shortcut={<KeybindHint action="reply_message" />}
 								>
 									{t`Reply`}
 								</MenuItem>
 							)}
 
-							{message.isUserMessage() && (
+							{message.isUserMessage() && supportsInteractiveActions && (
 								<MenuItem
 									icon={<ForwardIcon />}
 									onClick={() => {
 										handlers.handleForward();
 										props.onClose();
 									}}
-									shortcut="f"
+									shortcut={<KeybindHint action="forward_message" />}
 								>
 									{t`Forward`}
 								</MenuItem>
@@ -500,13 +514,13 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 											handlers.handlePinMessage();
 											props.onClose();
 										}}
-										shortcut="p"
+										shortcut={<KeybindHint action="pin_message" />}
 									>
 										{message.pinned ? t`Unpin Message` : t`Pin Message`}
 									</MenuItem>
 								)}
 
-								{message.isUserMessage() && (
+								{message.isUserMessage() && supportsInteractiveActions && (
 									<MenuItem
 										icon={<BookmarkIcon filled={isSaved} />}
 										onClick={() => {
@@ -525,7 +539,7 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 										handlers.handleMarkAsUnread();
 										props.onClose();
 									}}
-									shortcut="u"
+									shortcut={<KeybindHint action="mark_unread" />}
 								>
 									{t`Mark as Unread`}
 								</MenuItem>
@@ -545,12 +559,12 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 
 								{message.content && (
 									<MenuItem
-										icon={<CopyTextIcon />}
+										icon={<CopyMessageTextIcon />}
 										onClick={() => {
 											handlers.handleCopyMessage();
 											props.onClose();
 										}}
-										shortcut="c"
+										shortcut={<KeybindHint action="copy_text" />}
 									>
 										{t`Copy Text`}
 									</MenuItem>
@@ -559,16 +573,18 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 						)}
 
 						<MenuGroup>
-							<MenuItem
-								icon={<CopyLinkIcon />}
-								onClick={() => {
-									handlers.handleCopyMessageLink();
-									props.onClose();
-								}}
-								shortcut="l"
-							>
-								{t`Copy Message Link`}
-							</MenuItem>
+							{supportsInteractiveActions && (
+								<MenuItem
+									icon={<CopyLinkIcon />}
+									onClick={() => {
+										handlers.handleCopyMessageLink();
+										props.onClose();
+									}}
+									shortcut="l"
+								>
+									{t`Copy Message Link`}
+								</MenuItem>
+							)}
 
 							<MenuItem
 								icon={<CopyIdIcon />}
@@ -582,7 +598,7 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 
 							{developerMode && (
 								<MenuItem
-									icon={<DebugIcon />}
+									icon={<DebugMessageIcon />}
 									onClick={() => {
 										handleDebugClick();
 										props.onClose();
@@ -603,7 +619,7 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 										props.onClose();
 									}}
 									danger
-									shortcut="d"
+									shortcut={<KeybindHint action="delete_message" />}
 								>
 									{t`Delete Message`}
 								</MenuItem>
@@ -621,6 +637,7 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 				developerMode,
 				canDeleteMessage,
 				message,
+				supportsInteractiveActions,
 				handlers,
 				handleDelete,
 				isSaved,
@@ -643,7 +660,7 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 						(onlyMoreButton ? (
 							<MessageActionBarButton
 								ref={moreOptionsButtonRef}
-								icon={<DotsThreeIcon size={20} weight="bold" />}
+								icon={<MoreIcon size={20} />}
 								label={t`More`}
 								onPointerDownCapture={handleMoreOptionsPointerDown}
 								onClick={openMoreOptionsMenu}
@@ -662,7 +679,7 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 									<>
 										{developerMode && (
 											<MessageActionBarButton
-												icon={<DebugIcon size={20} />}
+												icon={<DebugMessageIcon size={20} />}
 												label={t`Debug Message`}
 												onClick={handleDebugClick}
 											/>
@@ -674,15 +691,17 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 											onClick={handlers.handleCopyMessageId}
 										/>
 
-										<MessageActionBarButton
-											icon={<CopyLinkIcon size={20} />}
-											label={t`Copy Message Link`}
-											onClick={handlers.handleCopyMessageLink}
-										/>
+										{supportsInteractiveActions && (
+											<MessageActionBarButton
+												icon={<CopyLinkIcon size={20} />}
+												label={t`Copy Message Link`}
+												onClick={handlers.handleCopyMessageLink}
+											/>
+										)}
 
 										{message.content && (
 											<MessageActionBarButton
-												icon={<CopyTextIcon size={20} />}
+												icon={<CopyMessageTextIcon size={20} />}
 												label={t`Copy Text`}
 												onClick={handlers.handleCopyMessage}
 											/>
@@ -702,7 +721,7 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 											onClick={handlers.handleMarkAsUnread}
 										/>
 
-										{message.isUserMessage() && (
+										{message.isUserMessage() && supportsInteractiveActions && (
 											<MessageActionBarButton
 												icon={<BookmarkIcon size={20} filled={isSaved} />}
 												label={isSaved ? t`Remove Bookmark` : t`Bookmark Message`}
@@ -730,7 +749,8 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 											/>
 										)}
 										position="left-start"
-										uniqueId={`emoji-picker-actionbar-${message.id}`}
+										uniqueId={`emoji_picker-actionbar-${message.id}`}
+										shouldAutoUpdate={false}
 										animationType="none"
 										onOpen={handleEmojiPickerOpen}
 										onClose={handleEmojiPickerClose}
@@ -747,13 +767,13 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 
 								{message.isUserMessage() && !message.messageSnapshots && canEditMessage && (
 									<MessageActionBarButton
-										icon={<EditIcon size={20} />}
+										icon={<EditMessageIcon size={20} />}
 										label={t`Edit Message`}
 										onClick={handlers.handleEditMessage}
 									/>
 								)}
 
-								{message.isUserMessage() && canSendMessages && (
+								{message.isUserMessage() && supportsInteractiveActions && canSendMessages && (
 									<MessageActionBarButton
 										icon={<ReplyIcon size={20} />}
 										label={t`Reply`}
@@ -761,7 +781,7 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 									/>
 								)}
 
-								{message.isUserMessage() && (
+								{message.isUserMessage() && supportsInteractiveActions && (
 									<MessageActionBarButton
 										icon={<ForwardIcon size={20} />}
 										label={t`Forward`}
@@ -772,7 +792,7 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 								{(!showFullActions || !canDeleteMessage) && (
 									<MessageActionBarButton
 										ref={moreOptionsButtonRef}
-										icon={<DotsThreeIcon size={20} weight="bold" />}
+										icon={<MoreIcon size={20} />}
 										label={t`More`}
 										onPointerDownCapture={handleMoreOptionsPointerDown}
 										onClick={openMoreOptionsMenu}
@@ -794,7 +814,7 @@ const MessageActionBarCore: React.FC<MessageActionBarCoreProps> = observer(
 					{message.state === MessageStates.FAILED && (
 						<>
 							<MessageActionBarButton
-								icon={<ArrowsClockwiseIcon size={20} weight="fill" />}
+								icon={<RetryIcon size={20} />}
 								label={t`Retry`}
 								onClick={handlers.handleRetryMessage}
 							/>
@@ -828,6 +848,10 @@ export const MessageActionBar = observer(
 		const developerMode = UserSettingsStore.developerMode;
 		const permissions = useMessagePermissions(message);
 
+		if (!permissions) {
+			return null;
+		}
+
 		return (
 			<MessageActionBarCore
 				message={message}
@@ -841,5 +865,3 @@ export const MessageActionBar = observer(
 		);
 	},
 );
-
-export {MessageActionBarCore};

@@ -17,16 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {GenericErrorModal} from '@app/components/alerts/GenericErrorModal';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {GenericErrorModal} from './GenericErrorModal';
 
 export const ChannelPermissionsUpdateFailedModal = observer(() => {
 	const {t} = useLingui();
 
 	return (
 		<GenericErrorModal
-			title={t`Failed to update channel permissions`}
+			title={t`Failed to Update Channel Permissions`}
 			message={t`We couldn't save your channel permission changes at this time.`}
 		/>
 	);

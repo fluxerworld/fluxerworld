@@ -17,39 +17,41 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import * as PrivateChannelActionCreators from '@app/actions/PrivateChannelActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {Input} from '@app/components/form/Input';
+import * as Modal from '@app/components/modals/Modal';
+import styles from '@app/components/modals/ShareThemeModal.module.css';
+import {CopyLinkSection} from '@app/components/modals/shared/CopyLinkSection';
+import type {RecipientItem} from '@app/components/modals/shared/RecipientList';
+import {RecipientList, useRecipientItems} from '@app/components/modals/shared/RecipientList';
+import selectorStyles from '@app/components/modals/shared/SelectorModalStyles.module.css';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {Endpoints} from '@app/Endpoints';
+import HttpClient from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import {Routes} from '@app/Routes';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import {useCopyLinkHandler} from '@app/utils/CopyLinkHandlers';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {MagnifyingGlassIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import * as PrivateChannelActionCreators from '~/actions/PrivateChannelActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {Input} from '~/components/form/Input';
-import * as Modal from '~/components/modals/Modal';
-import {CopyLinkSection} from '~/components/modals/shared/CopyLinkSection';
-import type {RecipientItem} from '~/components/modals/shared/RecipientList';
-import {RecipientList, useRecipientItems} from '~/components/modals/shared/RecipientList';
-import selectorStyles from '~/components/modals/shared/SelectorModalStyles.module.css';
-import {Spinner} from '~/components/uikit/Spinner';
-import {Endpoints} from '~/Endpoints';
-import HttpClient from '~/lib/HttpClient';
-import {Routes} from '~/Routes';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
-import styles from './ShareThemeModal.module.css';
+import {useEffect, useState} from 'react';
+
+const logger = new Logger('ShareThemeModal');
 
 export const ShareThemeModal = observer(({themeCss}: {themeCss: string}) => {
-	const {t, i18n} = useLingui();
-	const [themeUrl, setThemeUrl] = React.useState<string | null>(null);
-	const [loading, setLoading] = React.useState(true);
-	const [copied, setCopied] = React.useState(false);
-	const [sentTo, setSentTo] = React.useState(new Map<string, boolean>());
-	const [sendingTo, setSendingTo] = React.useState(new Set<string>());
+	const {t} = useLingui();
+	const [themeUrl, setThemeUrl] = useState<string | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [sentTo, setSentTo] = useState(new Map<string, boolean>());
+	const [sendingTo, setSendingTo] = useState(new Set<string>());
 	const recipients = useRecipientItems();
-	const [searchQuery, setSearchQuery] = React.useState('');
+	const [searchQuery, setSearchQuery] = useState('');
 
-	React.useEffect(() => {
+	useEffect(() => {
 		let cancelled = false;
 
 		const createShareLink = async () => {
@@ -74,7 +76,7 @@ export const ShareThemeModal = observer(({themeCss}: {themeCss: string}) => {
 				const origin = RuntimeConfigStore.webAppBaseUrl;
 				setThemeUrl(`${origin.replace(/\/$/, '')}${Routes.theme(themeId)}`);
 			} catch (error) {
-				console.error('Failed to create theme share link:', error);
+				logger.error('Failed to create theme share link:', error);
 				if (!cancelled) {
 					ToastActionCreators.error(t`Failed to generate theme link.`);
 				}
@@ -92,12 +94,7 @@ export const ShareThemeModal = observer(({themeCss}: {themeCss: string}) => {
 		};
 	}, [themeCss, RuntimeConfigStore.webAppBaseUrl]);
 
-	const handleCopy = async () => {
-		if (!themeUrl) return;
-		await TextCopyActionCreators.copy(i18n, themeUrl, true);
-		setCopied(true);
-		setTimeout(() => setCopied(false), 2000);
-	};
+	const handleCopy = useCopyLinkHandler(themeUrl, true);
 
 	const handleSendTheme = async (item: RecipientItem) => {
 		if (!themeUrl) return;
@@ -105,26 +102,26 @@ export const ShareThemeModal = observer(({themeCss}: {themeCss: string}) => {
 		const userId = item.type === 'group_dm' ? item.id : item.user.id;
 
 		setSendingTo((prev) => new Set(prev).add(userId));
-		try {
-			let targetChannelId: string;
-			if (item.channelId) {
-				targetChannelId = item.channelId;
-			} else {
-				targetChannelId = await PrivateChannelActionCreators.ensureDMChannel(item.user.id);
-			}
 
-			await MessageActionCreators.send(targetChannelId, {
+		let targetChannelId: string;
+		if (item.channelId) {
+			targetChannelId = item.channelId;
+		} else {
+			targetChannelId = await PrivateChannelActionCreators.ensureDMChannel(item.user.id);
+		}
+
+		try {
+			const result = await MessageActionCreators.send(targetChannelId, {
 				content: `${t`Check out my custom theme!`}\n${themeUrl}`,
 				nonce: SnowflakeUtils.fromTimestamp(Date.now()),
 			});
 
-			setSentTo((prev) => new Map(prev).set(userId, true));
+			if (result) {
+				setSentTo((prev) => new Map(prev).set(userId, true));
+			}
 		} catch (error) {
-			console.error('Failed to send theme:', error);
-			ToastActionCreators.createToast({
-				type: 'error',
-				children: <Trans>Failed to send theme</Trans>,
-			});
+			logger.error('Failed to send theme link:', error);
+			ToastActionCreators.error(t`Failed to send theme link. Please try again.`);
 		} finally {
 			setSendingTo((prev) => {
 				const next = new Set(prev);
@@ -173,7 +170,6 @@ export const ShareThemeModal = observer(({themeCss}: {themeCss: string}) => {
 					label={<Trans>Or copy the link:</Trans>}
 					value={themeUrl || ''}
 					onCopy={handleCopy}
-					copied={copied}
 					onInputClick={(e) => e.currentTarget.select()}
 				/>
 			</Modal.Footer>

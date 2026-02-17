@@ -50,7 +50,7 @@
 
 @media (hover: hover) and (pointer: fine) {
 	.sectionHeader:hover .sectionTitle {
-		color: var(--text-link);
+		color: var(--text-primary);
 	}
 }
 

@@ -17,10 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/styles/Typing.module.css';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type {CSSProperties} from 'react';
-import styles from '~/styles/Typing.module.css';
+import {useMemo} from 'react';
 
 interface TypingProps {
 	className?: string;
@@ -32,14 +33,14 @@ interface TypingProps {
 export const Typing = observer(
 	({className, size = 40, style, color = 'var(--typing-indicator-color, var(--text-chat))'}: TypingProps) => {
 		const {t} = useLingui();
-		const scale = size / 40;
-		const x = 3.75 * scale;
-		const y = 7.5 * scale;
-		const width = 17.5 * scale;
-		const height = 5 * scale;
+		const scale = useMemo(() => size / 40, [size]);
+		const x = useMemo(() => 3.75 * scale, [scale]);
+		const y = useMemo(() => 7.5 * scale, [scale]);
+		const width = useMemo(() => 17.5 * scale, [scale]);
+		const height = useMemo(() => 5 * scale, [scale]);
 		const viewBoxWidth = 20;
 		const viewBoxHeight = 5;
-		const mergedStyle = {...(style || {}), color};
+		const mergedStyle = useMemo(() => ({...(style || {}), color}), [style, color]);
 
 		return (
 			<svg

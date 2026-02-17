@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/modals/shared/EmptySlate.module.css';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import styles from './EmptySlate.module.css';
 
 interface EmptySlateProps {
 	Icon: React.ComponentType<React.ComponentProps<'svg'>>;

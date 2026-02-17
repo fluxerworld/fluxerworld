@@ -17,23 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as SavedMessageActionCreators from '@app/actions/SavedMessageActionCreators';
+import {MessageListPage} from '@app/components/pages/MessageListPage';
+import styles from '@app/components/pages/SavedMessagesPage.module.css';
+import previewStyles from '@app/components/shared/MessagePreview.module.css';
+import {SavedMessageMissingCard} from '@app/components/shared/SavedMessageMissingCard';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import SavedMessagesStore from '@app/stores/SavedMessagesStore';
 import {useLingui} from '@lingui/react/macro';
 import {BookmarkSimpleIcon, XIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as SavedMessageActionCreators from '~/actions/SavedMessageActionCreators';
-import {MessageListPage} from '~/components/pages/MessageListPage';
-import previewStyles from '~/components/shared/MessagePreview.module.css';
-import {SavedMessageMissingCard} from '~/components/shared/SavedMessageMissingCard';
-import type {MessageRecord} from '~/records/MessageRecord';
-import SavedMessagesStore from '~/stores/SavedMessagesStore';
-import styles from './SavedMessagesPage.module.css';
+import {useEffect} from 'react';
 
 export const SavedMessagesPage = observer(() => {
 	const {t, i18n} = useLingui();
 	const {savedMessages, missingSavedMessages, fetched} = SavedMessagesStore;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!fetched) {
 			SavedMessageActionCreators.fetch();
 		}
@@ -45,7 +45,7 @@ export const SavedMessagesPage = observer(() => {
 			className={previewStyles.actionIconButton}
 			onClick={() => SavedMessageActionCreators.remove(i18n, message.id)}
 		>
-			<XIcon weight="regular" className={previewStyles.actionIcon} />
+			<XIcon weight="bold" className={previewStyles.actionIcon} />
 		</button>
 	);
 

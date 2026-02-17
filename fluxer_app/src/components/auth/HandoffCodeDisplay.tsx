@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
+import styles from '@app/components/auth/HandoffCodeDisplay.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import i18n from '@app/I18n';
 import {Trans} from '@lingui/react/macro';
 import {CheckCircleIcon, ClipboardIcon} from '@phosphor-icons/react';
 import {useCallback, useState} from 'react';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import {Button} from '~/components/uikit/Button/Button';
-import i18n from '~/i18n';
-import styles from './HandoffCodeDisplay.module.css';
 
 interface HandoffCodeDisplayProps {
 	code: string | null;

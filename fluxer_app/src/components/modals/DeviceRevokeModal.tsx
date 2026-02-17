@@ -17,20 +17,29 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthSessionActionCreators from '@app/actions/AuthSessionActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {Form} from '@app/components/form/Form';
+import {FormErrorText} from '@app/components/form/FormErrorText';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useForm} from 'react-hook-form';
-import * as AuthSessionActionCreators from '~/actions/AuthSessionActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {Form} from '~/components/form/Form';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
 
-export const DeviceRevokeModal = observer(({sessionIdHashes}: {sessionIdHashes: Array<string>}) => {
+interface DeviceRevokeModalProps {
+	sessionIdHashes: Array<string>;
+}
+
+interface FormInputs {
+	form: string;
+}
+
+export const DeviceRevokeModal = observer(({sessionIdHashes}: DeviceRevokeModalProps) => {
 	const {t} = useLingui();
-	const form = useForm();
+	const form = useForm<FormInputs>();
 	const sessionCount = sessionIdHashes.length;
 
 	const title =
@@ -57,8 +66,13 @@ export const DeviceRevokeModal = observer(({sessionIdHashes}: {sessionIdHashes: 
 			<Form form={form} onSubmit={handleSubmit}>
 				<Modal.Header title={title} />
 				<Modal.Content>
-					This will log out the selected {sessionCount === 1 ? t`device` : t`devices`} from your account. You will need
-					to log in again on those {sessionCount === 1 ? t`device` : t`devices`}.
+					<Modal.ContentLayout>
+						<Modal.Description>
+							This will log out the selected {sessionCount === 1 ? t`device` : t`devices`} from your account. You will
+							need to log in again on those {sessionCount === 1 ? t`device` : t`devices`}.
+						</Modal.Description>
+						<FormErrorText message={form.formState.errors.form?.message} />
+					</Modal.ContentLayout>
 				</Modal.Content>
 				<Modal.Footer>
 					<Button onClick={ModalActionCreators.pop} variant="secondary">

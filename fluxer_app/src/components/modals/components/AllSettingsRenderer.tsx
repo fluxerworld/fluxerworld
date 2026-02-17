@@ -17,41 +17,41 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import './SettingsSearchHighlight.css';
-
+import '@app/components/modals/components/SettingsSearchHighlight.css';
+import styles from '@app/components/modals/components/AllSettingsRenderer.module.css';
+import AdvancedTab from '@app/components/modals/tabs/AdvancedTab';
+import AuthorizedAppsTab from '@app/components/modals/tabs/AuthorizedAppsTab';
+import {AccessibilityInlineContent} from '@app/components/modals/tabs/accessibility_tab/Inline';
+import {AccountSecurityInlineTab} from '@app/components/modals/tabs/account_security_tab/Inline';
+import {AppearanceInlineContent} from '@app/components/modals/tabs/appearance_tab/Inline';
+import ApplicationsTab from '@app/components/modals/tabs/applications_tab';
+import BlockedUsersTab from '@app/components/modals/tabs/BlockedUsersTab';
+import {ChatSettingsInlineContent} from '@app/components/modals/tabs/chat_settings_tab/Inline';
+import {ComponentGalleryInlineTab} from '@app/components/modals/tabs/component_gallery_tab/Inline';
+import DevicesTab from '@app/components/modals/tabs/DevicesTab';
+import {DeveloperOptionsInlineContent} from '@app/components/modals/tabs/developer_options_tab/Inline';
+import ExpressionPacksTab from '@app/components/modals/tabs/ExpressionPacksTab';
+import GiftInventoryTab from '@app/components/modals/tabs/GiftInventoryTab';
+import KeybindsTab from '@app/components/modals/tabs/KeybindsTab';
+import LanguageTab from '@app/components/modals/tabs/LanguageTab';
+import LimitsConfigTab from '@app/components/modals/tabs/LimitsConfigTab';
+import LinkedAccountsTab from '@app/components/modals/tabs/LinkedAccountsTab';
+import MyProfileTab from '@app/components/modals/tabs/MyProfileTab';
+import {NotificationsInlineContent} from '@app/components/modals/tabs/notifications_tab/Inline';
+import PlutoniumTab from '@app/components/modals/tabs/PlutoniumTab';
+import {PrivacySafetyInlineContent} from '@app/components/modals/tabs/privacy_safety_tab/Inline';
+import {VoiceVideoInlineContent} from '@app/components/modals/tabs/voice_video_tab/Inline';
+import {getSettingsTabComponent} from '@app/components/modals/utils/DesktopSettingsTabs';
+import type {SettingsTab} from '@app/components/modals/utils/SettingsConstants';
+import type {SettingsSearchResult} from '@app/components/modals/utils/SettingsSearchIndex';
+import type {SearchableSettingItem, UserSettingsTabType} from '@app/components/modals/utils/SettingsSectionRegistry';
+import DeveloperModeStore from '@app/stores/DeveloperModeStore';
+import {clearHighlights, createRangesForSection, setHighlightRanges} from '@app/utils/CSSHighlightSearch';
 import {Trans} from '@lingui/react/macro';
 import {CaretRightIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import DeveloperModeStore from '~/stores/DeveloperModeStore';
-import {clearHighlights, createRangesForSection, setHighlightRanges} from '~/utils/CSSHighlightSearch';
-import {AccessibilityInlineTab} from '../tabs/AccessibilityTab/Inline';
-import {AccountSecurityInlineTab} from '../tabs/AccountSecurityTab/Inline';
-import AdvancedTab from '../tabs/AdvancedTab';
-import {AppearanceInlineTab} from '../tabs/AppearanceTab/Inline';
-import ApplicationsTab from '../tabs/ApplicationsTab';
-import AuthorizedAppsTab from '../tabs/AuthorizedAppsTab';
-import BetaCodesTab from '../tabs/BetaCodesTab';
-import BlockedUsersTab from '../tabs/BlockedUsersTab';
-import {ChatSettingsInlineTab} from '../tabs/ChatSettingsTab/Inline';
-import {ComponentGalleryInlineTab} from '../tabs/ComponentGalleryTab/Inline';
-import {DeveloperOptionsInlineTab} from '../tabs/DeveloperOptionsTab/Inline';
-import DevicesTab from '../tabs/DevicesTab';
-import ExpressionPacksTab from '../tabs/ExpressionPacksTab';
-import FeatureFlagsTab from '../tabs/FeatureFlagsTab';
-import GiftInventoryTab from '../tabs/GiftInventoryTab';
-import KeybindsTab from '../tabs/KeybindsTab';
-import LanguageTab from '../tabs/LanguageTab';
-import MyProfileTab from '../tabs/MyProfileTab';
-import {NotificationsInlineTab} from '../tabs/NotificationsTab/Inline';
-import PlutoniumTab from '../tabs/PlutoniumTab';
-import {PrivacySafetyInlineTab} from '../tabs/PrivacySafetyTab/Inline';
-import {VoiceVideoInlineTab} from '../tabs/VoiceVideoTab/Inline';
-import {getSettingsTabComponent} from '../utils/desktopSettingsTabs';
-import type {SettingsTab, UserSettingsTabType} from '../utils/settingsConstants';
-import type {SearchableSettingItem, SettingsSearchResult} from '../utils/settingsSearchIndex';
-import styles from './AllSettingsRenderer.module.css';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 
 interface AllSettingsRendererProps {
 	searchQuery: string;
@@ -72,26 +72,26 @@ interface SettingsSectionProps {
 const INLINE_TAB_COMPONENTS: Partial<Record<UserSettingsTabType, React.ComponentType<Record<string, unknown>>>> = {
 	my_profile: MyProfileTab,
 	account_security: AccountSecurityInlineTab,
-	beta_codes: BetaCodesTab,
 	plutonium: PlutoniumTab,
 	gift_inventory: GiftInventoryTab,
 	expression_packs: ExpressionPacksTab,
-	privacy_safety: PrivacySafetyInlineTab,
+	privacy_safety: PrivacySafetyInlineContent,
 	authorized_apps: AuthorizedAppsTab,
 	blocked_users: BlockedUsersTab,
 	devices: DevicesTab,
-	appearance: AppearanceInlineTab,
-	accessibility: AccessibilityInlineTab,
-	chat_settings: ChatSettingsInlineTab,
-	voice_video: VoiceVideoInlineTab,
-	notifications: NotificationsInlineTab,
+	appearance: AppearanceInlineContent,
+	accessibility: AccessibilityInlineContent,
+	chat_settings: ChatSettingsInlineContent,
+	voice_video: VoiceVideoInlineContent,
+	notifications: NotificationsInlineContent,
 	language: LanguageTab,
 	advanced: AdvancedTab,
 	applications: ApplicationsTab,
 	keybinds: KeybindsTab,
-	developer_options: DeveloperOptionsInlineTab,
+	developer_options: DeveloperOptionsInlineContent,
 	component_gallery: ComponentGalleryInlineTab,
-	feature_flags: FeatureFlagsTab,
+	limits_config: LimitsConfigTab,
+	linked_accounts: LinkedAccountsTab,
 };
 
 const getInlineTabComponent = (tab: SettingsTab): React.ComponentType<Record<string, unknown>> | null => {
@@ -101,9 +101,9 @@ const getInlineTabComponent = (tab: SettingsTab): React.ComponentType<Record<str
 
 const SettingsSection: React.FC<SettingsSectionProps> = observer(
 	({tab, matchedItems, initialGuildId, isExpanded, onToggleExpand}) => {
-		const contentRef = React.useRef<HTMLDivElement>(null);
+		const contentRef = useRef<HTMLDivElement>(null);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (contentRef.current) {
 				contentRef.current.setAttribute('data-settings-section', tab.type);
 			}
@@ -159,20 +159,20 @@ const SettingsSection: React.FC<SettingsSectionProps> = observer(
 
 export const AllSettingsRenderer: React.FC<AllSettingsRendererProps> = observer(
 	({searchQuery, searchResults, initialGuildId}) => {
-		const containerRef = React.useRef<HTMLDivElement>(null);
-		const [expandedTabs, setExpandedTabs] = React.useState<Set<UserSettingsTabType>>(new Set());
-		const previousQueryRef = React.useRef<string>('');
+		const containerRef = useRef<HTMLDivElement>(null);
+		const [expandedTabs, setExpandedTabs] = useState<Set<UserSettingsTabType>>(new Set());
+		const previousQueryRef = useRef<string>('');
 
 		const isSearchActive = searchQuery.trim().length > 0;
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (searchQuery !== previousQueryRef.current) {
 				setExpandedTabs(new Set(searchResults.map((r) => r.tab.type)));
 				previousQueryRef.current = searchQuery;
 			}
 		}, [searchQuery, searchResults]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (!searchQuery.trim() || !containerRef.current) {
 				clearHighlights();
 				return;
@@ -199,7 +199,7 @@ export const AllSettingsRenderer: React.FC<AllSettingsRendererProps> = observer(
 			return () => clearTimeout(timer);
 		}, [searchQuery, expandedTabs]);
 
-		const handleToggleExpand = React.useCallback((tabType: UserSettingsTabType) => {
+		const handleToggleExpand = useCallback((tabType: UserSettingsTabType) => {
 			setExpandedTabs((prev) => {
 				const next = new Set(prev);
 				if (next.has(tabType)) {

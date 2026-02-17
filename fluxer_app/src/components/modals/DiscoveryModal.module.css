@@ -1,0 +1,138 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.hero {
+	position: relative;
+	flex: 0 0 auto;
+	overflow: hidden;
+}
+
+.heroBackground {
+	position: absolute;
+	inset: 0;
+	background-color: var(--brand-primary);
+	pointer-events: none;
+}
+
+.heroPattern {
+	position: absolute;
+	inset: 0;
+	background-size: 260px 260px;
+	background-repeat: repeat;
+	opacity: 0.06;
+	filter: invert(1);
+	background-color: transparent;
+	pointer-events: none;
+}
+
+.heroContent {
+	position: relative;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--spacing-4);
+	padding: var(--spacing-10) var(--spacing-6) var(--spacing-5);
+}
+
+.heroTitle {
+	margin: 0;
+	font-size: 1.75rem;
+	font-weight: 700;
+	color: white;
+	text-align: center;
+}
+
+.heroControls {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: var(--spacing-3);
+	width: 100%;
+	max-width: 560px;
+}
+
+.searchInput {
+	width: 100%;
+}
+
+.categories {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: var(--spacing-2);
+}
+
+.categoryChip {
+	display: inline-flex;
+	align-items: center;
+	padding: 0.375rem 0.75rem;
+	border-radius: var(--radius-full);
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	background: rgba(255, 255, 255, 0.1);
+	color: rgba(255, 255, 255, 0.85);
+	font-size: 0.8125rem;
+	font-weight: 500;
+	cursor: pointer;
+	white-space: nowrap;
+	transition:
+		background-color 0.1s ease,
+		color 0.1s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.categoryChip:hover {
+		background: rgba(255, 255, 255, 0.2);
+		color: white;
+	}
+}
+
+.categoryChipActive {
+	composes: categoryChip;
+	background: white;
+	border-color: white;
+	color: var(--brand-primary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+	.categoryChipActive:hover {
+		background: rgba(255, 255, 255, 0.9);
+		color: var(--brand-primary);
+	}
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: var(--spacing-4);
+	padding-bottom: var(--spacing-5);
+}
+
+.loadingState {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: var(--spacing-10) 0;
+}
+
+.loadMore {
+	display: flex;
+	justify-content: center;
+	padding: var(--spacing-4) 0;
+}

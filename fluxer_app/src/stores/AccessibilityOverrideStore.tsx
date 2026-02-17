@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
+import {makePersistent} from '@app/lib/MobXPersistence';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import UserSettingsStore, {type UserSettings} from '@app/stores/UserSettingsStore';
+import {StickerAnimationOptions} from '@fluxer/constants/src/UserConstants';
 import {makeAutoObservable, reaction, runInAction} from 'mobx';
-import {StickerAnimationOptions} from '~/Constants';
-import {Logger} from '~/lib/Logger';
-import {makePersistent} from '~/lib/MobXPersistence';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import UserSettingsStore, {type UserSettings} from '~/stores/UserSettingsStore';
 
 const logger = new Logger('AccessibilityOverrideStore');
 
@@ -183,6 +183,29 @@ class AccessibilityOverrideStore {
 			default:
 				return false;
 		}
+	}
+
+	get effectiveGifAutoPlay(): boolean {
+		if (this.isOverriddenByReducedMotion('gif_auto_play')) {
+			return false;
+		}
+		return UserSettingsStore.getGifAutoPlay();
+	}
+
+	get effectiveAnimateEmoji(): boolean {
+		if (this.isOverriddenByReducedMotion('animate_emoji')) {
+			return false;
+		}
+		return UserSettingsStore.getAnimateEmoji();
+	}
+
+	get effectiveAnimateStickers(): number {
+		if (this.isOverriddenByReducedMotion('animate_stickers')) {
+			if (UserSettingsStore.getAnimateStickers() === StickerAnimationOptions.ALWAYS_ANIMATE) {
+				return StickerAnimationOptions.ANIMATE_ON_INTERACTION;
+			}
+		}
+		return UserSettingsStore.getAnimateStickers();
 	}
 }
 

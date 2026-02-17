@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
+import {makePersistent} from '@app/lib/MobXPersistence';
 import {makeAutoObservable} from 'mobx';
-import {Logger} from '~/lib/Logger';
-import {makePersistent} from '~/lib/MobXPersistence';
 
 const logger = new Logger('InboxStore');
 
-export type InboxTab = 'bookmarks' | 'mentions' | 'scheduled';
+export type InboxTab = 'bookmarks' | 'mentions' | 'scheduled' | 'unreadChannels';
 
 class InboxStore {
 	selectedTab: InboxTab = 'bookmarks';

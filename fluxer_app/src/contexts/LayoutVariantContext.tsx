@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import React, {useContext} from 'react';
 
-export type LayoutVariant = 'app' | 'auth';
+export type LayoutVariant = 'app' | 'auth' | 'call';
 
 interface LayoutVariantContextValue {
 	variant: LayoutVariant;
@@ -35,6 +35,6 @@ const LayoutVariantContext = React.createContext<LayoutVariantContextValue>(defa
 
 export const LayoutVariantProvider = LayoutVariantContext.Provider;
 
-export const useLayoutVariant = () => React.useContext(LayoutVariantContext).variant;
+export const useLayoutVariant = () => useContext(LayoutVariantContext).variant;
 
-export const useSetLayoutVariant = () => React.useContext(LayoutVariantContext).setVariant;
+export const useSetLayoutVariant = () => useContext(LayoutVariantContext).setVariant;

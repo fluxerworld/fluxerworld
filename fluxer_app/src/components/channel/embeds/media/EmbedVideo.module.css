@@ -41,7 +41,8 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	pointer-events: none;
+	pointer-events: auto;
+	cursor: pointer;
 	z-index: 1;
 }
 
@@ -106,6 +107,12 @@
 	overflow: hidden;
 }
 
+.videoPlayerWrapper {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
 .videoPlayerBlock {
 	display: block;
 	width: 100%;
@@ -117,4 +124,35 @@
 	width: 100%;
 	height: 100%;
 	border-radius: 0;
+}
+
+.inlineVideo {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	background-color: #000;
+}
+
+.inlineMuteButton {
+	position: absolute;
+	bottom: 8px;
+	left: 8px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border: none;
+	border-radius: var(--radius-full);
+	background-color: rgba(0, 0, 0, 0.6);
+	color: var(--text-on-brand-primary);
+	cursor: pointer;
+	z-index: 2;
+	transition: background-color 150ms ease;
+}
+
+.inlineMuteButton:hover {
+	background-color: rgba(0, 0, 0, 0.8);
 }

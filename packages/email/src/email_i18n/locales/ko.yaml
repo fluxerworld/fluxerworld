@@ -1,0 +1,369 @@
+account_disabled_suspicious:
+  subject: Fluxer 계정이 일시적으로 비활성화됐어요
+  body: |-
+    안녕하세요 {username}님,
+
+    수상한 활동이 감지되어 Fluxer 계정이 일시적으로 비활성화됐어요.
+
+    {reason, select,
+      null {}
+      other {사유: {reason}}
+    }
+
+    계정에 다시 접속하려면 비밀번호를 재설정해야 해요:
+
+    {forgotUrl}
+
+    비밀번호를 재설정하면 다시 로그인할 수 있어요.
+
+    이 조치가 실수라고 생각되면 지원팀에 문의해 주세요.
+
+    – Fluxer 안전팀
+account_scheduled_deletion:
+  subject: Fluxer 계정이 삭제 예정이에요
+  body: |-
+    안녕하세요 {username}님,
+
+    서비스 이용약관 또는 커뮤니티 가이드라인 위반으로 인해 Fluxer 계정이 영구 삭제되도록 예약됐어요.
+
+    삭제 예정일: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {사유: {reason}}
+    }
+
+    이는 중요한 제재 조치예요. 예약된 날짜에 계정 데이터가 영구적으로 삭제돼요.
+
+    아래 내용을 확인해 주세요:
+    - 서비스 이용약관: {termsUrl}
+    - 커뮤니티 가이드라인: {guidelinesUrl}
+
+    이의 제기 안내:
+    이 제재 결정이 잘못됐거나 정당하지 않다고 생각되면, 이 이메일 주소에서 appeals@fluxer.app으로 60일 이내에 이의 제기를 제출할 수 있어요.
+
+    이의 제기에는 아래 내용을 포함해 주세요:
+    - 왜 이 결정이 잘못됐거나 정당하지 않다고 생각하는지 명확히 설명해 주세요.
+    - 관련 증거 또는 추가 맥락이 있다면 함께 첨부해 주세요.
+
+    Fluxer 안전팀 담당자가 이의 제기를 검토하며, 최종 결정이 내려질 때까지 예정된 삭제가 보류될 수도 있어요.
+
+    – Fluxer 안전팀
+account_temp_banned:
+  subject: Fluxer 계정이 일시적으로 정지됐어요
+  body: |-
+    안녕하세요 {username}님,
+
+    서비스 이용약관 또는 커뮤니티 가이드라인 위반으로 인해 Fluxer 계정이 일시적으로 정지됐어요.
+
+    정지 기간: {durationHours, plural,
+      =1 {1시간}
+      other {#시간}
+    }
+    정지 해제 예정: {bannedUntil, date, full} {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {사유: {reason}}
+    }
+
+    정지 기간 동안에는 계정에 접속할 수 없어요.
+
+    아래 내용을 확인해 주세요:
+    - 서비스 이용약관: {termsUrl}
+    - 커뮤니티 가이드라인: {guidelinesUrl}
+
+    이 제재 결정이 잘못됐거나 정당하지 않다고 생각되면, 이 이메일 주소에서 appeals@fluxer.app으로 이의 제기를 제출할 수 있어요. 왜 결정이 잘못됐다고 생각하는지 명확히 적어 주세요. 검토 후 결과를 안내해 드릴게요.
+
+    – Fluxer 안전팀
+donation_confirmation:
+  subject: Fluxer에 기부해주셔서 감사합니다
+  body: |-
+    안녕하세요,
+
+    Fluxer에 기부해주셔서 감사합니다! {interval, select,
+      month {정기 기부}
+      year {정기 기부}
+      other {일회성 기부}
+    }가 {interval, select,
+      month {성공적으로 설정됐습니다}
+      year {성공적으로 설정됐습니다}
+      other {성공적으로 처리됐습니다}
+    }.
+
+    기부 세부정보:
+    금액: {amount} {currency} {interval, select,
+      month {월간}
+      year {연간}
+      other {}
+    }
+
+    Stripe에서 곧 영수증과 인보이스 PDF가 포함된 별도의 이메일을 보내드릴 예정이에요. 여기에는 모든 결제 세부정보가 포함되어 있으며 세금 목적으로도 사용할 수 있어요.
+
+    아래 링크를 사용해 언제든지 기부 내역 확인, 인보이스 다운로드, {interval, select,
+      month {구독 관리 또는 취소}
+      year {구독 관리 또는 취소}
+      other {향후 기부 관리}
+    }를 할 수 있습니다:
+
+    {manageUrl}
+
+    Fluxer를 지원해주셔서 감사합니다!
+
+    – Fluxer 팀
+donation_magic_link:
+  subject: Fluxer 기부를 관리해 주세요
+  body: |-
+    안녕하세요,
+
+    아래 링크를 클릭해 기부자 포털에 접속해 주세요:
+
+    {manageUrl}
+
+    포털에서 구독 관리, 인보이스 다운로드, 기부 내역 확인이 가능해요.
+
+    이 링크는 {expiresAt, date, full} {expiresAt, time, short}에 만료돼요.
+
+    본인이 요청하지 않았다면 이 이메일은 무시해도 돼요.
+
+    – Fluxer 팀
+dsa_report_verification:
+  subject: DSA 신고를 위해 이메일을 인증해 주세요
+  body: |-
+    안녕하세요,
+
+    아래 인증 코드를 사용해 Fluxer에서 디지털서비스법(DSA) 신고를 제출해 주세요:
+
+    {code}
+
+    이 코드는 {expiresAt, date, full} {expiresAt, time, short}에 만료돼요.
+
+    본인이 요청한 게 아니라면 이 이메일은 무시해도 돼요.
+
+    – Fluxer 안전팀
+email_change_new:
+  subject: 새 Fluxer 이메일을 인증해 주세요
+  body: |-
+    안녕하세요 {username}님,
+
+    새 Fluxer 이메일을 인증하려면 앱에서 아래 코드를 입력해 주세요:
+
+    {code}
+
+    이 코드는 {expiresAt, date, full} {expiresAt, time, short}에 만료돼요.
+
+    본인이 요청한 게 아니라면 이 이메일은 무시해도 돼요.
+
+    – Fluxer 팀
+email_change_original:
+  subject: Fluxer 이메일 변경을 확인해 주세요
+  body: |-
+    안녕하세요 {username}님,
+
+    Fluxer 계정의 이메일 주소를 변경해 달라는 요청이 접수됐어요.
+
+    변경을 확인하려면 앱에서 아래 코드를 입력해 주세요:
+
+    {code}
+
+    이 코드는 {expiresAt, date, full} {expiresAt, time, short}에 만료돼요.
+
+    본인이 요청한 게 아니라면 계정을 즉시 안전하게 조치해 주세요.
+
+    – Fluxer 팀
+email_change_revert:
+  subject: Fluxer 이메일이 변경됐어요
+  body: |-
+    안녕하세요 {username}님,
+
+    Fluxer 계정 이메일이 {newEmail}(으)로 변경됐어요.
+
+    본인이 변경한 거라면 별도 조치가 필요 없어요. 본인이 아니라면 아래 링크에서 변경을 되돌리고 계정을 보호할 수 있어요:
+
+    {revertUrl}
+
+    이 작업을 하면 이전 이메일로 복구되고, 모든 기기에서 로그아웃되며, 연결된 전화번호가 제거되고, MFA가 비활성화되며, 새 비밀번호 설정이 필요해요.
+
+    – Fluxer 안전팀
+email_verification:
+  subject: Fluxer 이메일 주소를 인증해 주세요
+  body: |-
+    안녕하세요 {username}님,
+
+    아래 링크를 클릭해 Fluxer 계정의 이메일 주소를 인증해 주세요:
+
+    {verifyUrl}
+
+    Fluxer 계정을 만든 적이 없다면 이 이메일은 무시해도 돼요.
+
+    이 링크는 24시간 후 만료돼요.
+
+    – Fluxer 팀
+gift_chargeback_notification:
+  subject: 사용한 선물의 혜택이 제거됐어요
+  body: |-
+    안녕하세요 {username}님,
+
+    {username}님이 사용하신 선물 코드의 결제는 원래 다른 사람이 했어요. 그런데 해당 결제가 나중에 취소됐어요(차지백).
+
+    그래서 선물을 사용할 때 계정에 추가됐던 혜택을 제거했어요.
+
+    이 조치가 실수라고 생각되면 지원팀에 문의해 주세요. 선물 코드와 사용한 시점 등 가능한 정보를 함께 알려 주시면 도움이 돼요.
+
+    – Fluxer 팀
+harvest_completed:
+  subject: Fluxer 데이터 내보내기를 다운로드할 수 있어요
+  body: |-
+    안녕하세요 {username}님,
+
+    데이터 내보내기가 준비됐어요.
+
+    다운로드 링크:
+    {downloadUrl}
+
+    포함된 메시지 수: {totalMessages, number}
+    파일 크기: {fileSizeMB, number} MB
+
+    이 링크는 {expiresAt, date, full} {expiresAt, time, short}에 만료돼요.
+
+    본인이 이 내보내기를 요청하지 않았다면 비밀번호를 즉시 변경하고 지원팀에 문의해 주세요.
+
+    – Fluxer 팀
+inactivity_warning:
+  subject: 비활동으로 인해 Fluxer 계정이 삭제될 예정이에요
+  body: |-
+    안녕하세요 {username}님,
+
+    {lastActiveDate, date, full} 이후로 Fluxer 계정에서 활동이 확인되지 않았어요.
+
+    {deletionDate, date, full} {deletionDate, time, short}까지 로그인하지 않으면, 비활동으로 인해 계정이 영구 삭제돼요.
+
+    여기에서 로그인하세요:
+    {loginUrl}
+
+    최근에 Fluxer를 사용했다면 즉시 지원팀에 문의해 주세요.
+
+    – Fluxer 팀
+ip_authorization:
+  subject: 새 IP 주소에서의 로그인을 승인해 주세요
+  body: |-
+    안녕하세요 {username}님,
+
+    새 IP 주소에서 Fluxer 계정으로 로그인 시도가 감지됐어요:
+
+    IP 주소: {ipAddress}
+    위치: {location}
+
+    본인이 시도한 거라면 아래 링크를 클릭해 이 IP 주소를 승인해 주세요:
+
+    {authUrl}
+
+    본인이 아니라면 비밀번호를 즉시 변경해 주세요.
+
+    이 승인 링크는 30분 후 만료돼요.
+
+    – Fluxer 팀
+password_change_verification:
+  subject: Fluxer 비밀번호 변경을 확인해 주세요
+  body: |-
+    안녕하세요 {username}님,
+
+    Fluxer 계정의 비밀번호를 변경해 달라는 요청이 접수됐어요.
+
+    변경을 확인하려면 앱에서 아래 코드를 입력해 주세요:
+
+    {code}
+
+    이 코드는 {expiresAt}에 만료돼요.
+
+    본인이 요청한 게 아니라면 누군가 계정에 접근했을 수 있어요. 즉시 비밀번호를 변경하고 2단계 인증을 활성화해 주세요.
+
+    – Fluxer 팀
+password_reset:
+  subject: Fluxer 비밀번호를 재설정해 주세요
+  body: |-
+    안녕하세요 {username}님,
+
+    Fluxer 비밀번호 재설정을 요청하셨어요. 아래 링크에서 새 비밀번호를 설정해 주세요:
+
+    {resetUrl}
+
+    본인이 요청한 게 아니라면 이 이메일은 무시해도 돼요.
+
+    이 링크는 1시간 후 만료돼요.
+
+    – Fluxer 팀
+registration_approved:
+  subject: Fluxer 가입이 승인됐어요
+  body: |-
+    안녕하세요 {username}님,
+
+    좋은 소식이에요. Fluxer 가입이 승인됐어요.
+
+    이제 아래 링크에서 Fluxer 앱에 로그인할 수 있어요:
+    {channelsUrl}
+
+    Fluxer 커뮤니티에 오신 걸 환영해요.
+
+    – Fluxer 팀
+report_resolved:
+  subject: Fluxer 신고가 검토됐어요
+  body: |-
+    안녕하세요 {username}님,
+
+    신고하신 건(신고 ID: {reportId})을 안전팀이 검토했어요.
+
+    안전팀 답변:
+    {publicComment}
+
+    Fluxer를 더 안전하게 만드는 데 도움을 주셔서 고마워요. 모든 신고를 신중하게 검토하고 있으며, 커뮤니티에 기여해 주신 점에 감사드려요.
+
+    이번 결과에 대해 질문이나 우려가 있으면 safety@fluxer.app으로 문의해 주세요.
+
+    – Fluxer 안전팀
+scheduled_deletion_notification:
+  subject: Fluxer 계정이 삭제 예정이에요
+  body: |-
+    안녕하세요 {username}님,
+
+    Fluxer 계정이 영구 삭제되도록 예약됐어요.
+
+    삭제 예정일: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {사유: {reason}}
+    }
+
+    이는 중요한 제재 조치예요. 예약된 날짜에 계정 데이터가 영구적으로 삭제돼요.
+
+    이 제재 결정이 잘못됐다고 생각되면, 이 이메일 주소에서 appeals@fluxer.app으로 이의 제기를 제출할 수 있어요.
+
+    – Fluxer 안전팀
+self_deletion_scheduled:
+  subject: Fluxer 계정 삭제가 예약됐어요
+  body: |-
+    안녕하세요 {username}님,
+
+    Fluxer 계정 삭제를 요청하셨어요. 계정은 아래 일정에 영구 삭제될 예정이에요:
+
+    {deletionDate, date, full} {deletionDate, time, short}
+
+    본인이 요청한 게 아니라면 계정에 로그인해 삭제를 취소해 주세요. 계정 보호를 위해 비밀번호를 변경하는 것도 권장해요.
+
+    – Fluxer 팀
+unban_notification:
+  subject: Fluxer 계정 정지가 해제됐어요
+  body: |-
+    안녕하세요 {username}님,
+
+    좋은 소식이에요. Fluxer 계정 정지가 해제됐어요.
+
+    {reason, select,
+      null {}
+      other {사유: {reason}}
+    }
+
+    이제 다시 로그인해서 Fluxer를 계속 이용할 수 있어요.
+
+    – Fluxer 안전팀

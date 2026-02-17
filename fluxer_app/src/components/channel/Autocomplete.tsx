@@ -17,66 +17,33 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {Gif} from '@app/actions/GifActionCreators';
+import styles from '@app/components/channel/Autocomplete.module.css';
+import {AutocompleteChannel} from '@app/components/channel/AutocompleteChannel';
+import {AutocompleteCommand} from '@app/components/channel/AutocompleteCommand';
+import {AutocompleteEmoji} from '@app/components/channel/AutocompleteEmoji';
+import {AutocompleteGif} from '@app/components/channel/AutocompleteGif';
+import {AutocompleteMeme} from '@app/components/channel/AutocompleteMeme';
+import {AutocompleteMention} from '@app/components/channel/AutocompleteMention';
+import {AutocompleteSticker} from '@app/components/channel/AutocompleteSticker';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import type {Command} from '@app/hooks/useCommands';
+import {useListNavigation} from '@app/hooks/useListNavigation';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {FavoriteMemeRecord} from '@app/records/FavoriteMemeRecord';
+import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import type {GuildRoleRecord} from '@app/records/GuildRoleRecord';
+import type {GuildStickerRecord} from '@app/records/GuildStickerRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
 import {autoUpdate, FloatingPortal, flip, offset, size, useFloating} from '@floating-ui/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import type {TenorGif} from '~/actions/TenorActionCreators';
-import {Permissions} from '~/Constants';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-import {useListNavigation} from '~/hooks/useListNavigation';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {FavoriteMemeRecord} from '~/records/FavoriteMemeRecord';
-import type {GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {GuildRoleRecord} from '~/records/GuildRoleRecord';
-import type {GuildStickerRecord} from '~/records/GuildStickerRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import type {Emoji} from '~/stores/EmojiStore';
-import styles from './Autocomplete.module.css';
-import {AutocompleteChannel} from './AutocompleteChannel';
-import {AutocompleteCommand} from './AutocompleteCommand';
-import {AutocompleteEmoji} from './AutocompleteEmoji';
-import {AutocompleteGif} from './AutocompleteGif';
-import {AutocompleteMeme} from './AutocompleteMeme';
-import {AutocompleteMention} from './AutocompleteMention';
-import {AutocompleteSticker} from './AutocompleteSticker';
-
-export type AutocompleteType = 'mention' | 'channel' | 'emoji' | 'command' | 'meme' | 'gif' | 'sticker';
-
-interface SimpleCommand {
-	type: 'simple';
-	name: string;
-	content: string;
-}
+import type React from 'react';
+import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
 
 type ScrollerWithScrollableElement = ScrollerHandle & {
 	getScrollableElement?: () => HTMLElement | null;
 };
-
-interface ActionCommand {
-	type: 'action';
-	name: string;
-	permission?: bigint;
-	requiresGuild?: boolean;
-}
-
-export type Command = SimpleCommand | ActionCommand;
-
-export const COMMANDS: Array<Command> = [
-	{type: 'simple', name: '/shrug', content: '¯\\_(ツ)_/¯'},
-	{type: 'simple', name: '/tableflip', content: '(╯°□°)╯︵ ┻━┻'},
-	{type: 'simple', name: '/unflip', content: '┬─┬ ノ( ゜-゜ノ)'},
-	{type: 'action', name: '/me'},
-	{type: 'action', name: '/spoiler'},
-	{type: 'action', name: '/tts', permission: Permissions.SEND_TTS_MESSAGES},
-	{type: 'action', name: '/nick', permission: Permissions.CHANGE_NICKNAME, requiresGuild: true},
-	{type: 'action', name: '/kick', permission: Permissions.KICK_MEMBERS, requiresGuild: true},
-	{type: 'action', name: '/ban', permission: Permissions.BAN_MEMBERS, requiresGuild: true},
-	{type: 'action', name: '/msg'},
-	{type: 'action', name: '/saved'},
-	{type: 'action', name: '/sticker'},
-	{type: 'action', name: '/gif'},
-	{type: 'action', name: '/tenor'},
-];
 
 export type AutocompleteOption =
 	| {type: 'mention'; kind: 'member'; member: GuildMemberRecord}
@@ -84,11 +51,13 @@ export type AutocompleteOption =
 	| {type: 'mention'; kind: 'role'; role: GuildRoleRecord}
 	| {type: 'mention'; kind: '@everyone' | '@here'}
 	| {type: 'channel'; channel: ChannelRecord}
-	| {type: 'emoji'; emoji: Emoji}
+	| {type: 'emoji'; emoji: FlatEmoji}
 	| {type: 'command'; command: Command}
 	| {type: 'meme'; meme: FavoriteMemeRecord}
-	| {type: 'gif'; gif: TenorGif}
+	| {type: 'gif'; gif: Gif}
 	| {type: 'sticker'; sticker: GuildStickerRecord};
+
+export type AutocompleteType = 'mention' | 'channel' | 'emoji' | 'command' | 'meme' | 'gif' | 'sticker';
 
 export const isMentionMember = (
 	o: AutocompleteOption,
@@ -101,10 +70,10 @@ export const isSpecialMention = (o: AutocompleteOption): o is {type: 'mention'; 
 	o.type === 'mention' && (o.kind === '@everyone' || o.kind === '@here');
 export const isChannel = (o: AutocompleteOption): o is {type: 'channel'; channel: ChannelRecord} =>
 	o.type === 'channel';
-export const isEmoji = (o: AutocompleteOption): o is {type: 'emoji'; emoji: Emoji} => o.type === 'emoji';
+export const isEmoji = (o: AutocompleteOption): o is {type: 'emoji'; emoji: FlatEmoji} => o.type === 'emoji';
 export const isCommand = (o: AutocompleteOption): o is {type: 'command'; command: Command} => o.type === 'command';
 export const isMeme = (o: AutocompleteOption): o is {type: 'meme'; meme: FavoriteMemeRecord} => o.type === 'meme';
-export const isGif = (o: AutocompleteOption): o is {type: 'gif'; gif: TenorGif} => o.type === 'gif';
+export const isGif = (o: AutocompleteOption): o is {type: 'gif'; gif: Gif} => o.type === 'gif';
 export const isSticker = (o: AutocompleteOption): o is {type: 'sticker'; sticker: GuildStickerRecord} =>
 	o.type === 'sticker';
 
@@ -144,9 +113,9 @@ export const Autocomplete = observer(
 
 		const keyboardFocusIndex = externalSelectedIndex ?? internalKeyboardFocusIndex;
 
-		const [referenceState, setReferenceState] = React.useState<HTMLElement | null>(referenceElement ?? null);
+		const [referenceState, setReferenceState] = useState<HTMLElement | null>(referenceElement ?? null);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			setReferenceState(referenceElement ?? null);
 		}, [referenceElement]);
 
@@ -169,18 +138,18 @@ export const Autocomplete = observer(
 			],
 		});
 
-		const scrollerRef = React.useRef<ScrollerHandle>(null);
-		const rowRefs = React.useRef<Array<HTMLButtonElement | null>>([]);
+		const scrollerRef = useRef<ScrollerHandle>(null);
+		const rowRefs = useRef<Array<HTMLButtonElement | null>>([]);
 
 		if (rowRefs.current.length !== options.length) {
 			rowRefs.current = Array(options.length).fill(null);
 		}
 
-		React.useEffect(() => {
+		useEffect(() => {
 			reset();
 		}, [options.length, reset]);
 
-		const handleKeyDown = React.useCallback(
+		const handleKeyDown = useCallback(
 			(event: React.KeyboardEvent) => {
 				switch (event.key) {
 					case 'ArrowDown': {
@@ -262,7 +231,7 @@ export const Autocomplete = observer(
 			node.scrollIntoView({block: 'nearest'});
 		}
 
-		React.useLayoutEffect(() => {
+		useLayoutEffect(() => {
 			const node = rowRefs.current[keyboardFocusIndex] ?? null;
 			if (!node) return;
 
@@ -290,12 +259,7 @@ export const Autocomplete = observer(
 							rowRefs={rowRefs}
 						/>
 					) : (
-						<Scroller
-							ref={scrollerRef}
-							className={styles.scroller}
-							key="autocomplete-scroller"
-							reserveScrollbarTrack={false}
-						>
+						<Scroller ref={scrollerRef} className={styles.scroller} key="autocomplete-scroller">
 							{type === 'mention' ? (
 								<AutocompleteMention
 									onSelect={onSelect}

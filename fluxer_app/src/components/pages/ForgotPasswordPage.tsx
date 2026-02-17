@@ -17,16 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import {AuthRouterLink} from '@app/components/auth/AuthRouterLink';
+import FormField from '@app/components/auth/FormField';
+import styles from '@app/components/pages/ForgotPasswordPage.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import {useForm} from '@app/hooks/useForm';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useEffect, useId, useState} from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import {AuthRouterLink} from '~/components/auth/AuthRouterLink';
-import FormField from '~/components/auth/FormField';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import {useForm} from '~/hooks/useForm';
-import styles from './ForgotPasswordPage.module.css';
 
 const ForgotPasswordPage = observer(function ForgotPasswordPage() {
 	const {t} = useLingui();

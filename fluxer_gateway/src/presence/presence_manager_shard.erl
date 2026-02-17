@@ -20,6 +20,9 @@
 
 -include_lib("fluxer_gateway/include/timeout_config.hrl").
 
+-define(PID_CACHE_TABLE, presence_pid_cache).
+-define(CACHE_TTL_MS, 300000).
+
 -export([start_link/1]).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
@@ -168,6 +171,7 @@ do_start_or_lookup(Request, State) ->
                                     NewPresences = maps:put(
                                         UserId, {RegisteredPid, Ref}, CleanPresences
                                     ),
+                                    update_cache(UserId, RegisteredPid),
                                     {reply, {ok, RegisteredPid}, State#{
                                         presences := NewPresences
                                     }};
@@ -182,6 +186,7 @@ do_start_or_lookup(Request, State) ->
                 _ExistingPid ->
                     case process_registry:lookup_or_monitor(PresenceName, UserId, Presences) of
                         {ok, Pid, _Ref, NewPresences} ->
+                            update_cache(UserId, Pid),
                             {reply, {ok, Pid}, State#{presences := NewPresences}};
                         {error, not_found} ->
                             {reply, {error, process_disappeared}, State}
@@ -201,12 +206,14 @@ lookup_presence(UserId, State) ->
                 {ok, Pid, Ref, NewPresences0} ->
                     CleanPresences = maps:remove(PresenceName, NewPresences0),
                     FinalPresences = maps:put(UserId, {Pid, Ref}, CleanPresences),
+                    update_cache(UserId, Pid),
                     {ok, Pid, State#{presences := FinalPresences}};
                 {error, not_found} ->
                     {error, not_found, State}
             end
     end.
 
+-spec terminate_sessions_for_user(user_id(), state()) -> {ok, state()}.
 terminate_sessions_for_user(UserId, State) ->
     Presences = maps:get(presences, State),
     case maps:get(UserId, Presences, undefined) of
@@ -219,9 +226,31 @@ terminate_sessions_for_user(UserId, State) ->
                 {ok, Pid, Ref, NewPresences0} ->
                     CleanPresences = maps:remove(PresenceName, NewPresences0),
                     FinalPresences = maps:put(UserId, {Pid, Ref}, CleanPresences),
+                    update_cache(UserId, Pid),
                     gen_server:cast(Pid, {terminate_all_sessions}),
                     {ok, State#{presences := FinalPresences}};
                 {error, not_found} ->
                     {ok, State}
             end
     end.
+
+-spec update_cache(user_id(), pid()) -> ok.
+update_cache(UserId, Pid) ->
+    Timestamp = erlang:monotonic_time(millisecond),
+    try
+        ets:insert(?PID_CACHE_TABLE, {UserId, Pid, Timestamp}),
+        ok
+    catch
+        _:_ -> ok
+    end.
+
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+init_returns_empty_presences_test() ->
+    {ok, State} = init(#{shard_index => 0}),
+    ?assertEqual(#{}, maps:get(presences, State)).
+
+update_cache_handles_missing_table_test() ->
+    ?assertEqual(ok, update_cache(999, self())).
+-endif.

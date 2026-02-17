@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/pages/PremiumCallbackPage.module.css';
+import {useLocation} from '@app/lib/router/React';
 import {Trans} from '@lingui/react/macro';
 import {CheckCircleIcon, XCircleIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import {useLocation} from '~/lib/router';
-import styles from './PremiumCallbackPage.module.css';
 
 const PremiumCallbackPage = observer(() => {
 	const location = useLocation();
@@ -53,10 +53,10 @@ const PremiumCallbackPage = observer(() => {
 					<XCircleIcon className={styles.errorIcon} weight="fill" />
 					<div className={styles.content}>
 						<h1 className={styles.title}>
-							<Trans>Payment Cancelled</Trans>
+							<Trans>Payment Canceled</Trans>
 						</h1>
 						<p className={styles.description}>
-							<Trans>Your payment was cancelled. You can now close this tab and return to the app.</Trans>
+							<Trans>Your payment was canceled. You can now close this tab and return to the app.</Trans>
 						</p>
 					</div>
 				</>

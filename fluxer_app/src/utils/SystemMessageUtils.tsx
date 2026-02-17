@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import UserStore from '@app/stores/UserStore';
+import {MessageTypes} from '@fluxer/constants/src/ChannelConstants';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import React from 'react';
-import {MessageTypes} from '~/Constants';
-import UserStore from '~/stores/UserStore';
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
 
 interface StringifyableMessage {
 	id: string;

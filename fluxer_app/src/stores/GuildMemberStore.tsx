@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import type {GuildReadyData} from '@app/types/gateway/GatewayGuildTypes';
+import type {GuildMemberData} from '@fluxer/schema/src/domains/guild/GuildMemberSchemas';
 import {makeAutoObservable} from 'mobx';
-import {type GuildMember, GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {GuildReadyData} from '~/records/GuildRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ConnectionStore from '~/stores/ConnectionStore';
 
 type Members = Record<string, GuildMemberRecord>;
 
@@ -91,10 +91,13 @@ class GuildMemberStore {
 			return;
 		}
 
-		const ownMember = guild.members.find((m) => m.user.id === AuthenticationStore.currentUserId);
+		const members: Members = {};
+		for (const member of guild.members) {
+			members[member.user.id] = new GuildMemberRecord(guild.id, member);
+		}
 		this.members = {
 			...this.members,
-			[guild.id]: ownMember ? {[ownMember.user.id]: new GuildMemberRecord(guild.id, ownMember)} : {},
+			[guild.id]: members,
 		};
 	}
 
@@ -102,7 +105,7 @@ class GuildMemberStore {
 		this.members = Object.fromEntries(Object.entries(this.members).filter(([id]) => id !== guildId));
 	}
 
-	handleMemberAdd(guildId: string, member: GuildMember): void {
+	handleMemberAdd(guildId: string, member: GuildMemberData): void {
 		this.members = {
 			...this.members,
 			[guildId]: {
@@ -157,7 +160,7 @@ class GuildMemberStore {
 
 	handleMembersChunk(params: {
 		guildId: string;
-		members: Array<GuildMember>;
+		members: Array<GuildMemberData>;
 		chunkIndex: number;
 		chunkCount: number;
 		nonce?: string;
@@ -201,6 +204,7 @@ class GuildMemberStore {
 			query?: string;
 			limit?: number;
 			userIds?: Array<string>;
+			presences?: boolean;
 		},
 	): Promise<Array<GuildMemberRecord>> {
 		const nonce = generateMemberNonce();
@@ -214,16 +218,18 @@ class GuildMemberStore {
 				expectedChunks: 1,
 			});
 
-			const socket = ConnectionStore.socket;
+			const socket = GatewayConnectionStore.socket;
 			const requestOptions: {
 				guildId: string;
 				nonce: string;
 				query?: string;
 				limit?: number;
 				userIds?: Array<string>;
+				presences?: boolean;
 			} = {
 				guildId,
 				nonce,
+				presences: options?.presences ?? true,
 			};
 
 			if (options?.query) {

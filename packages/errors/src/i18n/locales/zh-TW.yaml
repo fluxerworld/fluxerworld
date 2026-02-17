@@ -1,0 +1,497 @@
+account.already_verified: 你的帳號已經驗證過了。
+account.communication_disabled: 發言功能已停用。
+account.disabled: 這個帳號已停用。
+account.email_verification_required_for_guild: 你需要先驗證電子郵件，才能在這個伺服器發訊息。
+account.guild_verification_required: 需要完成伺服器驗證。
+account.ip_authorization_required: 需要進行 IP 授權。
+account.locked_suspicious_activity: 因為可疑活動，你的帳號已被鎖定。
+account.phone_required_for_guild: 你需要先新增手機號碼，才能在這個伺服器發訊息。
+account.scheduled_for_deletion: 這個帳號已排程刪除。
+account.session_timeout: 工作階段逾時了。重新整理頁面後再登入一次。
+account.session_token_mismatch: Session token 不一致。
+account.suspended_permanently: 這個帳號已被永久停權。
+account.suspended_temporarily: 這個帳號已被暫時停權。
+account.too_new_for_guild: 你的帳號太新了，還不能在這個伺服器發訊息。
+account.unauthorized: 未授權。
+admin_and_system.acls_must_be_non_empty: ACLs 不能為空。
+admin_and_system.admin_api_key_not_found: 找不到管理員 API 金鑰。
+admin_and_system.audit_log_indexing: 稽核紀錄正在建立索引。請稍候片刻後再試。
+admin_and_system.channel_indexing: 頻道正在建立索引。請稍候片刻後再試。
+admin_and_system.creation_failed: 我們沒能建立該資源。請再試一次。
+admin_and_system.deletion_failed: 我們沒能刪除該資源。請再試一次。
+admin_and_system.decryption_failed: 我們沒能解密訊息。加密金鑰可能無效或已損毀。
+admin_and_system.empty_encrypted_body: 加密內容為空。
+admin_and_system.encryption_failed: 我們沒能加密訊息。加密金鑰可能無效或已損毀。
+admin_and_system.general_error: 好像出了點問題。請稍後再試。
+admin_and_system.invalid_acls_format: ACL 格式無效。
+admin_and_system.invalid_api_origin: API 來源無效。
+admin_and_system.invalid_audit_log_reason: 稽核紀錄原因無效。
+admin_and_system.invalid_bot_flag: bot 旗標無效。
+admin_and_system.invalid_decrypted_json: 解密後的 JSON 無效。
+admin_and_system.invalid_ephemeral_key: 暫時金鑰無效。
+admin_and_system.invalid_flags_format: 旗標格式無效。
+admin_and_system.invalid_form_body: 表單本文無效。
+admin_and_system.invalid_format: 提供的值格式無效。
+admin_and_system.invalid_integer_format: 整數格式無效。
+admin_and_system.invalid_iv: 初始化向量無效。
+admin_and_system.invalid_suspicious_flags_format: 可疑旗標格式無效。
+admin_and_system.invalid_system_flag: 系統旗標無效。
+admin_and_system.invalid_timeout_value: 逾時值無效。
+admin_and_system.invalid_timestamp: 時間戳記無效。
+admin_and_system.invalid_timezone_identifier: 時區識別碼無效。
+admin_and_system.missing_acl: 缺少 ACL。
+admin_and_system.missing_ephemeral_key: 缺少暫時金鑰。
+admin_and_system.missing_iv: 缺少初始化向量。
+admin_and_system.must_be_iso_timestamp: 必須是有效的 ISO 時間戳記。
+admin_and_system.processing_failed: 我們沒能處理該要求。請再試一次。
+admin_and_system.response_validation_failed: '回應驗證失敗: {errors}。'
+admin_and_system.test_harness_disabled: 測試工具已停用。
+admin_and_system.test_harness_forbidden: 禁止使用測試工具。
+admin_and_system.unknown_suspicious_flag: 未知的可疑旗標。
+admin_and_system.update_failed: 我們沒能更新該資源。請再試一次。
+admin_and_system.user_must_be_bot_for_system_user: 使用者必須是機器人才能標記為系統使用者。
+attachments_and_uploads.attachment_fields_required: '`attachment_id`、`channel_id`、`message_id` 和 `expires_at` 為必填。'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`、`channel_id` 和 `message_id` 必須是有效的整數。'
+attachments_and_uploads.cannot_edit_attachment_metadata: 擁有 MANAGE_MESSAGES 權限的使用者只能編輯附件描述，無法編輯其他中繼資料。
+attachments_and_uploads.attachment_metadata_without_files: 附件中繼資料包含檔名，但沒有上傳任何檔案。
+attachments_and_uploads.attachment_must_be_image: 附件 "{filename}" 必須是圖片檔 (png、jpg、jpeg、webp 或 gif)。
+attachments_and_uploads.attachment_not_found_in_message: 在訊息中找不到 ID 為 {attachmentId} 的附件。
+attachments_and_uploads.attachments_metadata_required_when_uploading: 上傳檔案時必須提供 attachments 中繼資料陣列。
+attachments_and_uploads.attachments_not_allowed_for_message: 這則訊息不允許附加附件。
+attachments_and_uploads.cannot_reference_attachments_without_attachments: 沒有提供附件時，不能引用附件。
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: 不允許重複的附件 ID。
+attachments_and_uploads.duplicate_file_index: '重複的檔案索引: {index}。'
+attachments_and_uploads.failed_to_parse_multipart_form_data: 我們沒能解析 multipart form data。請確認所有欄位名稱和檔名格式都正確。
+attachments_and_uploads.failed_to_parse_multipart_payload: 我們沒能解析 multipart payload。
+attachments_and_uploads.failed_to_upload_image: 我們沒能上傳圖片。請再試一次。
+attachments_and_uploads.file_index_exceeds_maximum: 檔案索引 {index} 超過允許的最大索引 {maxIndex}。
+attachments_and_uploads.file_not_found_for_scanning: 找不到要掃描的檔案。
+attachments_and_uploads.file_not_found: 找不到檔案。
+attachments_and_uploads.file_size_too_large: 檔案太大。檔案大小上限為 {maxSize}。
+attachments_and_uploads.filename_empty_after_normalization: 檔名正規化後不能是空的。
+attachments_and_uploads.filename_invalid_characters: 檔名包含無效字元。
+attachments_and_uploads.filename_length_invalid: 檔名長度必須在 {min} 到 {max} 個字元之間。
+attachments_and_uploads.filename_mismatch_for_attachment: '附件 {attachmentId} 的檔名不一致: 中繼資料指定 "{expectedFilename}"，但實際不相符。'
+attachments_and_uploads.image_size_exceeds_limit: 圖片大小超過 {maxSize} 位元組。
+attachments_and_uploads.invalid_file_field_name: '檔案欄位名稱無效: {key}。預期格式為 `files[N]`，其中 N 是數字。'
+attachments_and_uploads.invalid_image_data: 圖片資料無效。
+attachments_and_uploads.invalid_image_format: '圖片格式無效。支援的副檔名: {supportedExtensions}。'
+attachments_and_uploads.invalid_json_in_payload_json: '`payload_json` 裡的 JSON 無效。'
+attachments_and_uploads.multiple_files_for_index_not_allowed: 索引為 {index} 不能對應多個檔案。
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: 沒有為 ID 為 {attachmentId} 的附件中繼資料上傳檔案。
+attachments_and_uploads.no_file_uploaded_for_attachment: 沒有為 ID 為 {attachmentId} 的附件上傳檔案。
+attachments_and_uploads.no_metadata_for_file: 沒有提供 ID 為 {fileId} 的檔案中繼資料。
+attachments_and_uploads.no_valid_media_in_message: 在訊息中找不到有效的媒體。
+attachments_and_uploads.payload_json_required_for_multipart: '`payload_json` 欄位是 multipart 訊息必填。'
+attachments_and_uploads.preview_must_be_jpeg: 預覽圖必須是 JPEG。
+attachments_and_uploads.referenced_attachment_not_found: 在訊息附件中找不到參照的附件 "{filename}"。
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` 必須是有效的整數。'
+attachments_and_uploads.too_many_files: 檔案太多。最多允許 {maxFiles} 個檔案。
+attachments_and_uploads.unknown_image_format: 未知的圖片格式。
+attachments_and_uploads.unresolved_attachment_url: 偵測到未解析的 `attachment://` URL。這應該在 embed 處理前就先解析。
+attachments_and_uploads.uploaded_attachment_not_found: 找不到已上傳的附件 {filename}。
+auth_and_oauth.application_not_owned: 你不擁有這個應用程式。
+auth_and_oauth.bot_already_in_guild: 這個 bot 已經在 guild 裡了。
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Bot 使用者不能建立 auth session。
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Bot 使用者不能使用 auth 端點。
+auth_and_oauth.handoff_code_expired: handoff code 已過期。
+auth_and_oauth.handoff_code_invalid: handoff code 無效。
+auth_and_oauth.http_get_authorize_not_supported: 不支援 GET /oauth2/authorize。請改用 POST /oauth2/authorize/consent。
+auth_and_oauth.invalid_client_secret: 用戶端密鑰無效。
+auth_and_oauth.invalid_client: 用戶端無效。
+auth_and_oauth.invalid_code: 授權碼無效。
+auth_and_oauth.invalid_grant: grant 無效。
+auth_and_oauth.invalid_or_expired_authorization_ticket: 授權票證無效或已過期。
+auth_and_oauth.invalid_or_expired_authorization_token: 授權權杖無效或已過期。
+auth_and_oauth.invalid_or_expired_ticket: 票證無效或已過期。
+auth_and_oauth.invalid_proof_token: Invalid proof token.
+auth_and_oauth.invalid_redirect_uri: 重新導向 URI 無效。
+auth_and_oauth.invalid_request: 請求無效。
+auth_and_oauth.invalid_scope: 權限範圍無效。
+auth_and_oauth.invalid_sudo_token: sudo token 無效。
+auth_and_oauth.invalid_token_admin_api_key: 管理員 API 金鑰無效。
+auth_and_oauth.missing_authorization: 缺少授權資訊。
+auth_and_oauth.missing_client_secret: 缺少用戶端密鑰。
+auth_and_oauth.missing_redirect_uri: 缺少重新導向 URI。
+auth_and_oauth.must_start_session_before_sending_messages: 發送訊息前你得先開始一個 session。
+auth_and_oauth.oauth_admin_scope_required: OAuth2 token 需要 admin scope 才能存取管理端點。
+auth_and_oauth.oauth_fields_missing: 缺少 OAuth 欄位。
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: 非 bot scope 必須提供 redirect URI。
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: 非 bot scope 的 response type 必須是 code。
+auth_and_oauth.sudo_mode_required: 需要 sudo 模式。
+auth_and_oauth.unknown_application: 不明的應用程式。
+auth_and_oauth.unsupported_response_type: 不支援的回應類型。
+auth_and_registration.current_password_incorrect: 目前密碼不正確。
+auth_and_registration.password_is_too_common: 你的密碼太常見了。請選擇一個更獨特的密碼。
+auth_and_registration.password_not_set: 密碼尚未設定。
+bots.bot_application_not_found: 找不到機器人應用程式。
+bots.bot_discriminator_cannot_be_changed: 無法變更機器人識別符。
+bots.bot_is_private: 這個機器人是私有的。
+bots.bot_user_generation_failed: 機器人使用者產生失敗。
+bots.bot_user_not_found: 找不到機器人使用者。
+bots.invalid_response_type_for_non_bot: 非 bot scope 的 response type 必須是 code。
+bots.not_a_bot_application: 這個應用程式不是機器人。
+calls_and_voice.call_already_exists: 通話已存在。
+calls_and_voice.cannot_modify_voice_state: 你不能修改語音狀態。
+calls_and_voice.invalid_or_restricted_rtc_region: 'RTC 區域無效或受限制: {region}。'
+calls_and_voice.invalid_rtc_region: 'RTC 區域無效: {region}。可用區域: {availableRegions}。'
+calls_and_voice.invalid_stream_key_format: 串流金鑰格式無效。
+calls_and_voice.invalid_stream_thumbnail_payload: 串流縮圖 payload 無效。
+calls_and_voice.no_active_call: 沒有進行中的通話。
+calls_and_voice.stream_key_channel_mismatch: 串流金鑰與頻道不一致。
+calls_and_voice.stream_key_scope_mismatch: 串流金鑰 scope 不一致。
+calls_and_voice.stream_thumbnail_payload_empty: 串流縮圖 payload 是空的。
+calls_and_voice.unknown_voice_region: 未知的語音區域。
+calls_and_voice.unknown_voice_server: 未知的語音伺服器。
+calls_and_voice.voice_message_duration_exceeds_limit: 語音訊息時長不能超過 {maxDuration} 秒。
+calls_and_voice.voice_message_duration_required: 語音訊息附件必須提供時長。
+calls_and_voice.voice_message_waveform_required: 語音訊息附件必須包含波形資料。
+calls_and_voice.voice_messages_require_single_attachment: 語音訊息必須剛好包含一個附件。
+captcha.invalid: Captcha 驗證失敗。
+captcha.required: 需要完成 Captcha 驗證。
+connections.already_exists: 這個類型的連線已存在且識別碼相同。
+connections.bluesky_oauth_callback_failed: 我們無法完成 Bluesky 連線。請再試一次。
+connections.bluesky_oauth_not_enabled: 此伺服器未啟用 Bluesky 連線。
+connections.bluesky_oauth_session_expired: 你的 Bluesky 工作階段已過期。請重新連接你的帳號。
+connections.bluesky_oauth_state_invalid: 授權要求已過期或無效。請再試一次。
+connections.invalid_identifier: 連線識別碼無效。
+connections.invalid_type: 不支援這種連線類型。
+connections.initiation_token_invalid: 連線初始化權杖無效或已過期。
+connections.limit_reached: 你已達到最多 {limit} 個連線的上限。
+connections.not_found: 未知的連線。
+connections.verification_failed: 連線驗證失敗。請確保驗證權杖已正確放置。
+channels_and_guilds.afk_channel_must_be_in_guild: AFK 頻道必須在這個伺服器裡。
+channels_and_guilds.afk_channel_must_be_voice: AFK 頻道必須是語音頻道。
+channels_and_guilds.all_channels_must_belong_to_guild: 所有頻道都必須屬於這個伺服器。
+channels_and_guilds.animated_guild_banner_requires_feature: 動態伺服器橫幅需要 ANIMATED_BANNER 功能。
+channels_and_guilds.cannot_execute_on_dm: 這個操作不能在私訊裡執行。
+channels_and_guilds.cannot_transfer_ownership_to_bot: 伺服器擁有權無法轉移給機器人。
+channels_and_guilds.cannot_leave_guild_as_owner: 你是伺服器擁有者，不能直接退出。請先轉移擁有權或刪除伺服器。
+channels_and_guilds.cannot_position_channel_relative_to_itself: 你不能把頻道移到它自己或它的子項之下。
+channels_and_guilds.cannot_report_own_guild: 你不能檢舉自己的伺服器。
+channels_and_guilds.categories_cannot_have_parent_channel: 分類頻道不能有父頻道。
+channels_and_guilds.categories_cannot_have_parents: 分類頻道不能有父層。
+channels_and_guilds.channel_id_required: '`channel_id` 為必填。'
+channels_and_guilds.channel_must_be_dm_or_group_dm: 頻道必須是私訊或群組私訊。
+channels_and_guilds.channel_must_be_voice: 頻道必須是語音頻道。
+channels_and_guilds.channel_not_found: 找不到頻道。
+channels_and_guilds.context_channel_or_guild_required: 需要提供上下文的頻道或伺服器 ID。
+channels_and_guilds.guild_banner_requires_feature: 伺服器橫幅需要 BANNER 功能。
+channels_and_guilds.guild_id_must_match_referenced_message: 伺服器 ID 必須和取得參照訊息的頻道所屬伺服器一致。
+channels_and_guilds.invalid_channel_id: '頻道 ID 無效: {channelId}。'
+channels_and_guilds.invalid_channel_type_for_call: 這種頻道類型不能用來通話。
+channels_and_guilds.invalid_channel_type: 頻道類型無效。
+channels_and_guilds.invalid_channel: 頻道無效。
+channels_and_guilds.invalid_parent_channel: 父頻道無效。
+channels_and_guilds.invite_splash_requires_feature: 邀請封面需要 INVITE_SPLASH 功能。
+channels_and_guilds.invites_disabled: 邀請已停用。
+channels_and_guilds.max_group_dm_recipients_reached: 你已達到最多 {count} 個群組私訊 {count, plural, one {收件者} other {收件者}} 的上限。
+channels_and_guilds.max_group_dms_reached: 你已達到最多 {count} 個 {count, plural, one {群組私訊} other {群組私訊}} 的上限。
+channels_and_guilds.max_guild_channels_reached: 你已達到最多 {count} 個伺服器 {count, plural, one {頻道} other {頻道}} 的上限。
+channels_and_guilds.max_guild_members_reached: 你已達到最多 {count} 個伺服器 {count, plural, one {成員} other {成員}} 的上限。
+channels_and_guilds.max_guild_roles_reached: 你已達到最多 {count} 個伺服器 {count, plural, one {身分組} other {身分組}} 的上限。
+channels_and_guilds.max_guilds_reached: 你已達到最多 {count} 個 {count, plural, one {伺服器} other {伺服器}} 的上限。
+channels_and_guilds.message_history_cutoff_before_guild_creation: 訊息歷史切點不能早於社群建立的時間。
+channels_and_guilds.message_history_cutoff_in_future: 訊息歷史切點不能設在未來。
+channels_and_guilds.parent_channel_not_in_guild: 父頻道不在這個伺服器裡。
+channels_and_guilds.parent_must_be_category: 父層必須是分類。
+channels_and_guilds.preceding_channel_must_share_parent: 前一個頻道必須和被移動的頻道同一個父層。
+channels_and_guilds.preceding_channel_not_in_guild: 前一個頻道不在這個伺服器裡。
+channels_and_guilds.system_channel_must_be_in_guild: 系統頻道必須在這個伺服器裡。
+channels_and_guilds.system_channel_must_be_text: 系統頻道必須是文字頻道。
+channels_and_guilds.temporary_invite_requires_presence: 臨時邀請需要在線狀態。
+channels_and_guilds.vanity_url_requires_feature: 自訂網址需要 VANITY_URL 功能。
+channels_and_guilds.voice_channel_full: 語音頻道已滿。
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: 在同一個分類裡，語音頻道不能排在文字頻道上面。
+colors.color_value_too_high: 顏色值不能超過 0xffffff。
+colors.color_value_too_low: 顏色值至少要是 0x000000。
+content_and_safety.content_blocked: 這段內容已被安全系統攔下。
+content_and_safety.csam_scan_failed: CSAM 掃描失敗。
+content_and_safety.csam_scan_parse_error: CSAM 掃描解析錯誤。
+content_and_safety.csam_scan_subscription_error: CSAM 掃描訂閱錯誤。
+content_and_safety.csam_scan_timeout: CSAM 掃描逾時。
+content_and_safety.explicit_content_cannot_be_sent: 不能傳送露骨內容。
+content_and_safety.ncmec_already_submitted: 這段內容已經提交給 NCMEC 了。
+content_and_safety.ncmec_submission_failed: 我們沒能把回報提交給 NCMEC。請稍後再試。
+content_and_safety.nsfw_age_restricted: NSFW 內容有年齡限制。
+discovery.already_applied: 這個社群已經申請過探索功能了。
+discovery.application_already_reviewed: 這份探索申請已經審核過了。
+discovery.application_not_found: 找不到探索申請。
+discovery.description_required: 加入探索列表需要提供描述。
+discovery.insufficient_members: 這個社群的成員數量未達探索功能的最低要求。
+discovery.invalid_category: 探索分類無效。
+discovery.not_discoverable: 這個社群未列於探索列表中。
+donation.amount_invalid: 捐贈金額無效。
+donation.donor_not_found: 找不到捐贈者。
+donation.magic_link_expired: 魔法連結已過期。
+donation.magic_link_invalid: 魔法連結無效。
+donation.magic_link_used: 魔法連結已被使用。
+email.email_already_in_use: 這個電子郵件已被使用。
+email.email_required: 需要提供電子郵件。
+email.email_service_not_testable: 電子郵件服務無法測試。
+email.invalid_format: 電子郵件格式不正確。
+email.invalid_or_expired_reset_token: 密碼重設 token 無效或已過期。
+email.invalid_or_expired_revert_token: 恢復 token 無效或已過期。
+email.invalid_or_expired_verification_token: 驗證 token 無效或已過期。
+email.invalid_or_password: 電子郵件或密碼錯誤。
+email.invalid_token: 電子郵件 token 無效。
+email.invalid_verification_code: 驗證碼無效。
+email.length_invalid: 電子郵件地址長度必須在 {min} 到 {max} 個字元之間。
+email.must_be_changed_via_token: 電子郵件必須透過 token 更改。
+email.must_change_via_token: 必須透過 `email_token` 才能更改電子郵件。
+email.must_have_email_to_change_it: 要更改電子郵件，你必須先有一個電子郵件地址。
+email.new_email_must_be_different: 新電子郵件必須與你現在的電子郵件不同。
+email.no_new_email_requested: 沒有要求更換新電子郵件。
+email.no_original_email_on_record: 系統沒有記錄原本的電子郵件。
+email.original_email_already_verified: 原本的電子郵件已經驗證過了。
+email.original_email_must_be_verified_first: 必須先驗證原本的電子郵件。
+email.original_verification_not_required: 這個流程不需要原本的驗證。
+email.token_expired: 電子郵件 token 已過期。
+email.user_has_no_email_address: 這個使用者沒有電子郵件地址。
+email.user_is_not_pending_verification: 這個使用者不在待驗證狀態。
+email.verification_code_expired: 驗證碼已過期。
+email.verification_code_not_issued: 尚未發行驗證碼。
+embeds.embed_index_out_of_bounds: 嵌入索引 {embedIndex} 超出範圍 (這則訊息有 {embedCount} 個嵌入)。
+embeds.embed_splash_requires_feature: 嵌入封面需要 INVITE_SPLASH 功能。
+embeds.embeds_exceed_max_characters: 所有嵌入加總不得超過 {maxCharacters} 個字元。
+embeds.too_many_embeds: 嵌入太多了。最多只能有 {maxEmbeds} 個嵌入。
+feature_flags.feature_not_available_self_hosted: 自託管實例不支援此功能。
+feature_flags.feature_temporarily_disabled: 這個功能暫時停用。
+friends_and_dms.already_friends: 你已經跟這個使用者是好友了。
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: 建立私密頻道至少需要一個收件者。
+friends_and_dms.at_least_one_recipient_required: 至少需要一個收件者。
+friends_and_dms.bots_cannot_send_friend_requests: Bot 不能送出好友邀請。
+friends_and_dms.cannot_add_yourself_to_group_dm: 你不能把自己加到群組私訊。
+friends_and_dms.cannot_dm_yourself: 你不能私訊自己。
+friends_and_dms.cannot_send_friend_request_to_blocked_user: 你不能對已封鎖的使用者送出好友邀請。
+friends_and_dms.cannot_send_friend_request_to_self: 你不能對自己送出好友邀請。
+friends_and_dms.cannot_send_messages_to_user: 你不能傳訊息給這個使用者。
+friends_and_dms.duplicate_recipients_not_allowed: 不允許重複的收件者。
+friends_and_dms.friend_request_blocked: 該使用者目前不接受好友邀請。
+friends_and_dms.not_friends: 你跟這個使用者不是好友。
+friends_and_dms.recipient_ids_cannot_be_empty: 收件者 ID 不能是空的。
+friends_and_dms.recipient_ids_must_be_strings: 收件者 ID 必須是字串。
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: 收件者 ID 必須是有效的 snowflake。
+harvest.expired: Harvest 已過期。
+harvest.failed: Harvest 失敗。
+harvest.not_ready: Harvest 還沒準備好。
+harvest.on_cooldown: Harvest 還在冷卻中。
+harvest.unknown: 未知的 Harvest。
+http.bad_gateway: 不良的閘道。
+http.bad_request: 要求不正確。
+http.conflict: 衝突。
+http.forbidden: 禁止。
+http.gateway_timeout: 閘道逾時。
+http.gone: 已移除。
+http.internal_server_error: 內部伺服器錯誤。
+http.method_not_allowed: 不允許使用的方法。
+http.not_found: 找不到。
+http.not_implemented: 未實現。
+http.service_unavailable: 服務無法使用。
+http.validation_error: 驗證失敗。
+invites_and_beta.invalid_or_already_used_beta_code: Beta code 無效或已被使用。
+invites_and_beta.max_beta_codes_reached: 你已達到最多 {count} 個 beta {count, plural, one {code} other {code}} 的上限。
+invites_and_beta.unknown_beta_code: 未知的 beta code。
+invites_and_gifts.gift_code_already_redeemed: 禮物碼已兌換。
+invites_and_gifts.stripe_gift_redemption_in_progress: 禮物碼正在兌換中，稍等一下再試。
+invites_and_gifts.unknown_gift_code: 未知的禮物碼。
+invites_and_packs.emoji_requires_access: 你需要有該表情符號所在伺服器的存取權或已安裝的 pack，才能使用它。
+invites_and_packs.invalid_pack_type: pack 類型無效。
+invites_and_packs.max_animated_emojis_reached: 你已達到最多 {count} 個動態 {count, plural, one {表情符號} other {表情符號}} 的上限。
+invites_and_packs.max_emojis_reached: 你已達到最多 {count} 個 {count, plural, one {表情符號} other {表情符號}} 的上限。
+invites_and_packs.max_pack_expressions_reached: 你已達到最多 {count} 個 pack {count, plural, one {expression} other {expression}} 的上限。
+invites_and_packs.max_packs_reached: 你已達到最多 {count} 個 {count, plural, one {pack} other {pack}} 的上限。
+invites_and_packs.pack_access_denied: 沒有 pack 的存取權。
+limits.at_least_one_entry_required: 至少需要一個項目。
+limits.base64_length_invalid: Base64 字串長度必須在 {min} 到 {maxLength} 個字元之間。
+limits.bucket_required: '`bucket` 為必填。'
+limits.cannot_shrink_reserved_slots: 你不能縮減保留名額。
+limits.cannot_specify_before_and_after: 你不能同時指定 `before` 和 `after`。
+limits.content_exceeds_max_length: 文字不得超過 {maxLength} 個字元。
+limits.integer_out_of_int64_range: 整數值超出有效的 int64 範圍。
+limits.rows_required: '`rows` 為必填。'
+limits.string_length_exact: 字串長度必須剛好是 {length} 個字元。
+limits.string_length_invalid: 字串長度必須在 {min} 到 {max} 個字元之間。
+limits.timeout_cannot_exceed_365_days: 逾時不能超過 {maxDays} {maxDays, plural, one {天} other {天}}。
+limits.value_must_be_integer_in_range: '`{name}` 的值必須是 {minValue} 到 {maxValue} 之間的整數。'
+limits.value_too_small: 值太小。
+media_and_memes.favorite_meme_name_required: 需要提供最愛迷因名稱。
+media_and_memes.favorite_meme_not_found: 找不到最愛迷因。
+media_and_memes.max_favorite_memes_reached: 你已達到最多 {count} 個最愛 {count, plural, one {迷因} other {迷因}} 的上限。
+media_and_memes.media_already_in_favorites: 這個媒體已經在你的最愛迷因裡了。
+media_and_memes.media_metadata_error: 媒體中繼資料錯誤。
+media_and_memes.unknown_favorite_meme: 未知的最愛迷因。
+messages.cannot_delete_more_than_100: 你一次最多只能刪除 {max} {max, plural, one {則訊息} other {則訊息}}。
+messages.cannot_edit_others_message: 你不能編輯別人的訊息。
+messages.cannot_preload_more_than_100_channels: 你一次最多只能預加載 {max} {max, plural, one {個頻道} other {個頻道}}。
+messages.cannot_reply_to_system_message: 你不能回覆系統訊息。
+messages.cannot_send_empty_message: 你不能送出空白訊息。
+messages.forward_messages_cannot_include_extra_content: 轉傳的訊息不能附加內容、嵌入、附件或貼圖。
+messages.forward_reference_requires_channel_and_message: 轉傳訊息參照必須包含 `channel_id` 和 `message_id`。
+messages.invalid_message_data: 訊息資料無效。
+messages.invalid_scheduled_message_payload: 排程訊息的 payload 無效。
+messages.message_ids_cannot_be_empty: '`message_ids` 不能是空的。'
+messages.messages_array_required: '`messages` 陣列必填，而且不能為空。'
+messages.messages_with_snapshots_cannot_be_edited: 含有快照的訊息不能編輯。
+messages.scheduled_messages_max_30_days: 排程訊息最多只能排到 30 天後。
+messages.scheduled_send_datetime_invalid: 排程送出的日期或時間無效。
+messages.scheduled_time_must_be_future: 排程時間必須在未來。
+messages.voice_messages_attachment_must_be_audio: 語音訊息附件必須是音訊檔。
+messages.voice_messages_cannot_have_content: 語音訊息不能有文字內容。
+messages.voice_messages_cannot_have_embeds: 語音訊息不能有嵌入。
+messages.voice_messages_cannot_have_favorite_memes: 語音訊息不能有最愛迷因。
+messages.voice_messages_cannot_have_stickers: 語音訊息不能有貼圖。
+mfa_and_passkeys.invalid_mfa_code: MFA 驗證碼無效。
+mfa_and_passkeys.invalid_webauthn_authentication_counter: WebAuthn 驗證計數器無效。
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: 你必須先在帳號上啟用雙重驗證，才能要求主持人啟用。
+mfa_and_passkeys.invalid_webauthn_credential_counter: WebAuthn 憑證計數器無效。
+mfa_and_passkeys.invalid_webauthn_credential: WebAuthn 憑證無效。
+mfa_and_passkeys.invalid_webauthn_public_key_format: WebAuthn 公鑰格式無效。
+mfa_and_passkeys.no_passkeys_registered: 沒有註冊任何 passkey。
+mfa_and_passkeys.passkey_authentication_failed: Passkey 驗證失敗。
+mfa_and_passkeys.passkeys_disabled: Passkey 已停用。
+mfa_and_passkeys.two_factor_not_enabled: 你還沒啟用雙重驗證。
+mfa_and_passkeys.two_factor_required: 需要雙重驗證。
+mfa_and_passkeys.unknown_webauthn_credential: 未知的 WebAuthn 憑證。
+mfa_and_passkeys.webauthn_credential_limit_reached: 你已達到最多 {count} 個 WebAuthn {count, plural, one {憑證} other {憑證}} 的上限。
+misc_limits.max_bookmarks_reached: 你已達到最多 {count} 個 {count, plural, one {書籤} other {書籤}} 的上限。
+misc_limits.max_category_channels_reached: 你已達到最多 {count} 個分類 {count, plural, one {頻道} other {頻道}} 的上限。
+misc_limits.max_friends_reached: 你已達到最多 {count} 個 {count, plural, one {好友} other {好友}} 的上限。
+misc_limits.max_invites_reached: 你已達到最多 {count} 個 {count, plural, one {邀請} other {邀請}} 的上限。
+misc_limits.max_pins_per_channel_reached: 你已達到每個頻道最多 {count} 個 {count, plural, one {釘選} other {釘選}} 的上限。
+misc.cannot_send_messages_in_non_text_channel: 你不能在非文字頻道發訊息。
+misc.cannot_send_messages_in_this_guild_without_email_verification: 你需要先驗證電子郵件，才能在這個伺服器發訊息。
+misc.invalid_job_id: Job ID 無效。
+misc.invalid_permissions_integer: 權限必須是有效的整數。
+misc.invalid_permissions_negative: 權限不能是負數。
+misc.invalid_request_generic: 請求無效。
+misc.invalid_snowflake: snowflake 無效。
+misc.job_already_processed: Job 已處理過了。
+misc.job_id_required: 需要 Job ID。
+misc.job_not_found: 找不到 Job。
+misc.max_files_exceeded: 檔案太多了。最多只能有 {maxFiles} 個檔案。
+misc.must_have_bot_to_mark_system_user: 要標記為系統使用者，使用者必須是 bot。
+moderation_and_reports.cannot_report_own_message: 你不能檢舉自己的訊息。
+moderation_and_reports.cannot_report_yourself: 你不能檢舉自己。
+moderation_and_reports.invalid_dsa_report_target: DSA 檢舉目標無效。
+moderation_and_reports.invalid_dsa_ticket: DSA ticket 無效。
+moderation_and_reports.invalid_dsa_verification_code: DSA 驗證碼無效。
+moderation_and_reports.report_already_resolved: 檢舉已處理完成。
+moderation_and_reports.report_banned: 檢舉功能已被停用。
+moderation_and_reports.unknown_report: 未知的檢舉。
+moderation_and_reports.user_is_not_banned: 這個使用者沒有被封禁。
+names_and_normalization.channel_name_empty_after_normalization: 頻道名稱正規化後不能是空的。
+names_and_normalization.name_empty_after_normalization: 名稱正規化後不能是空的。
+permissions.missing_access: 沒有存取權限。
+permissions.missing_permissions: 缺少權限。
+permissions.not_owner_of_admin_api_key: 你沒有權限修改這把管理員 API 金鑰。
+permissions.user_banned_from_guild: 這個使用者已在此伺服器被封鎖。
+permissions.user_ip_banned_from_guild: 這個使用者的 IP 已在此伺服器被封鎖。
+permissions.user_not_in_channel: 這個使用者不在這個頻道。
+permissions.user_not_in_voice: 這個使用者不在語音中。
+permissions.user_owns_guilds: 這個使用者還擁有伺服器。
+phone.invalid_number: 手機號碼無效。
+phone.number_already_used: 這個手機號碼已被使用。
+phone.number_format_required: 手機號碼必須是 E.164 格式 (例如 +1234567890)。
+phone.phone_required_for_sms_mfa: 啟用簡訊 MFA 需要手機號碼。
+phone.sms_mfa_not_enabled: 簡訊 MFA 尚未啟用。
+phone.sms_mfa_requires_totp: 簡訊 MFA 需要 TOTP。
+phone.sms_verification_unavailable: 簡訊驗證暫時無法使用，請稍後再試。
+phone.verification_code_invalid: 手機驗證碼無效。
+phone.verification_required: 需要手機驗證。
+premium_and_plans.animated_avatars_require_premium: 動態頭像需要 Premium。
+premium_and_plans.banners_require_premium: 橫幅需要 Premium。
+premium_and_plans.bio_requires_premium_for_length: 超過 {maxLength} 個字元的簡介需要 Premium。
+premium_and_plans.cannot_redeem_plutonium_with_visionary: 你不能用 Visionary 兌換 Plutonium。
+premium_and_plans.custom_emojis_outside_source_require_premium: 沒有 Premium 的話，你不能在來源伺服器之外使用自訂表情符號。
+premium_and_plans.custom_stickers_in_dms_require_premium: 沒有 Premium 的話，你不能在私訊使用自訂貼圖。
+premium_and_plans.custom_stickers_outside_source_require_premium: 沒有 Premium 的話，你不能在來源伺服器之外使用自訂貼圖。
+premium_and_plans.discriminator_change_requires_premium: 更改辨識碼需要 Premium。
+premium_and_plans.no_active_subscription: 沒有有效的訂閱。
+premium_and_plans.no_visionary_slots_available: 目前沒有可用的 Visionary 名額。
+premium_and_plans.premium_required_for_custom_emoji: 使用自訂表情符號需要 Premium。
+premium_and_plans.visionary_required_for_bot_discriminator: 你必須訂閱 Visionary 終身方案才能自訂機器人辨識碼。
+premium_and_plans.visionary_required_for_discriminator: 你必須訂閱 Visionary 終身方案才能用那個辨識碼。
+rate_limits.accent_color_changed_too_often: 你最近更改強調色太頻繁了。請在 {minutes} 分鐘後再試一次。
+rate_limits.avatar_changed_too_often: 你最近更換頭像太頻繁了。請在 {minutes} 分鐘後再試一次。
+rate_limits.banner_changed_too_often: 你最近更換橫幅太頻繁了。請在 {minutes} 分鐘後再試一次。
+rate_limits.bio_changed_too_often: 你最近更改簡介太頻繁了。請在 {minutes} 分鐘後再試一次。
+rate_limits.ip_authorization_resend_cooldown: IP 授權重新發送還在冷卻中。
+rate_limits.ip_authorization_resend_limit_exceeded: IP 授權重新發送次數已達上限。
+rate_limits.phone_rate_limit_exceeded: 手機相關操作觸發頻率限制。
+rate_limits.pronouns_changed_too_often: 你最近更改代名詞太頻繁了。請在 {minutes} 分鐘後再試一次。
+rate_limits.rate_limited: 你觸發了頻率限制。
+rate_limits.slowmode_rate_limited: 慢速模式觸發頻率限制。
+rate_limits.username_changed_too_often: 你最近更改使用者名稱太頻繁了。請在 {minutes} 分鐘後再試一次。
+roles.cannot_reorder_everyone_role: 你不能重新排序 @everyone 身分組。
+roles.cannot_set_everyone_hoist: 你不能把 @everyone 身分組設為獨立顯示。
+roles.cannot_use_same_role_as_preceding: 你不能把身分組設成跟前一個一樣。
+roles.invalid_role_id: '身分組 ID 無效: {roleId}。'
+roles.parse_and_users_or_roles_cannot_be_used_together: 你不能同時使用 `parse` 與 `allowed_mentions.users` 或 `allowed_mentions.roles`。
+roles.preceding_role_not_in_guild: 前一個身分組不在這個伺服器裡。
+stickers_and_emojis.custom_emoji_not_found: 找不到自訂表情符號。
+stickers_and_emojis.custom_sticker_not_found: 找不到自訂貼圖。
+stickers_and_emojis.emoji_requires_guild_or_pack_access: 沒有該表情符號所在伺服器的存取權或已安裝的 pack，你就無法使用它。
+stickers_and_emojis.max_reactions_reached: 你已達到最多 {count} 個 {count, plural, one {反應} other {反應}} 的上限。
+stickers_and_emojis.max_stickers_reached: 你已達到最多 {count} 個 {count, plural, one {貼圖} other {貼圖}} 的上限。
+stickers_and_emojis.not_valid_unicode_emoji: 不是有效的 Unicode 表情符號。
+stickers_and_emojis.unknown_emoji: 未知的表情符號。
+stickers_and_emojis.unknown_sticker: 未知的貼圖。
+stripe.error: Stripe 錯誤。
+stripe.invalid_product_configuration: 產品設定無效。
+stripe.invalid_product_selection: 產品選擇無效。
+stripe.no_active_subscription_found: 找不到有效的訂閱。
+stripe.no_purchase_history_customer_portal_unavailable: 找不到購買紀錄，無法使用客戶入口網站。
+stripe.no_subscription_found: 找不到訂閱。
+stripe.payment_not_available: 付款處理暫時無法使用。
+stripe.subscription_already_canceling: 訂閱已設定在週期結束時取消。
+stripe.subscription_not_canceling: 訂閱尚未設定在週期結束時取消。
+stripe.subscription_period_end_missing: 缺少 subscription current_period_end。
+stripe.webhook_not_available: Webhook 處理暫時無法使用。
+stripe.webhook_signature_invalid: Stripe webhook 簽章無效。
+stripe.webhook_signature_missing: 缺少 Stripe webhook 簽章。
+tickets.ticket_already_completed: 這張 ticket 已經完成了。
+tos_and_age.date_of_birth_format_invalid: 出生日期格式無效。
+tos_and_age.must_agree_to_tos_and_privacy: 你必須同意服務條款與隱私權政策。
+tos_and_age.must_be_minimum_age: 你必須年滿 {minAge} 歲才能建立帳號。
+unknown_entities.unknown_application: 未知的應用程式。
+unknown_entities.unknown_channel: 未知的頻道。
+unknown_entities.unknown_guild: 未知的伺服器。
+unknown_entities.unknown_invite: 未知的邀請。
+unknown_entities.unknown_member: 未知的成員。
+unknown_entities.unknown_message: 未知的訊息。
+unknown_entities.unknown_pack: 未知的 pack。
+unknown_entities.unknown_role: 未知的身分組。
+unknown_entities.unknown_user_flag: 未知的使用者旗標。
+unknown_entities.unknown_user: 未知的使用者。
+urls.invalid_url_format: URL 格式無效。
+urls.invalid_url_or_attachment_reference: URL 格式無效，或附件參照無效。
+urls.url_length_invalid: URL 長度必須在 {min} 到 {max} 個字元之間。
+usernames_and_tags.discriminator_invalid_format: 辨識碼必須是 {min}–{max} 位數字。
+usernames_and_tags.discriminator_out_of_range: 辨識碼必須介於 {min} 到 {max}。
+usernames_and_tags.discriminator_required: 需要辨識碼。
+usernames_and_tags.display_name_length_invalid: 顯示名稱長度必須在 {min} 到 {max} 個字元之間。
+usernames_and_tags.display_name_reserved_terms: 顯示名稱不能包含 "system message"。
+usernames_and_tags.display_name_reserved_value: 顯示名稱不能是 "everyone" 或 "here"。
+usernames_and_tags.global_name_length_invalid: 全域名稱長度必須在 {min} 到 {max} 個字元之間。
+usernames_and_tags.global_name_reserved_value: 全域名稱不能是 "everyone" 或 "here"。
+usernames_and_tags.tag_already_taken: 這個標籤已被占用。
+usernames_and_tags.too_many_users_with_this_username: 使用這個使用者名稱的人太多了。
+usernames_and_tags.too_many_users_with_username_try_different: 使用這個使用者名稱的人太多了。換一個試試看。
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: 未領取的帳號只能透過 token 設定電子郵件。
+usernames_and_tags.username_invalid_characters: 使用者名稱只能包含拉丁字母 (a-z, A-Z)、數字 (0-9) 和底線 (_) 。
+usernames_and_tags.username_length_invalid: 使用者名稱長度必須在 {min} 到 {max} 個字元之間。
+usernames_and_tags.username_not_available: 這個使用者名稱無法使用。
+usernames_and_tags.username_reserved_terms: 使用者名稱不能包含 "fluxer" 或 "system message"。
+usernames_and_tags.username_reserved_value: 使用者名稱不能是 "everyone" 或 "here"。
+vanity_urls.vanity_url_already_taken: 這個自訂網址已被使用。
+vanity_urls.vanity_url_code_already_taken: 自訂網址代碼已被使用。
+vanity_urls.vanity_url_code_cannot_contain_fluxer: 自訂網址代碼不能包含 "fluxer"。
+vanity_urls.vanity_url_code_length_invalid: 自訂網址代碼長度必須在 {min} 到 {max} 個字元之間。
+vanity_urls.vanity_url_invalid_characters: 自訂網址只能包含小寫字母 (a-z)、數字 (0-9) 和連字號 (-)。
+webhooks.cannot_modify_system_webhook: 你不能修改系統 webhook。
+webhooks.max_webhooks_per_channel_reached: 你已達到每個頻道最多 {count} 個 {count, plural, one {webhook} other {webhook}} 的上限。
+webhooks.max_webhooks_per_guild_reached: 你已達到每個伺服器最多 {count} 個 {count, plural, one {webhook} other {webhook}} 的上限。
+webhooks.max_webhooks_reached: 你已達到最多 {count} 個 {count, plural, one {webhook} other {webhook}} 的上限。
+webhooks.unknown_webhook: 未知的 webhook。
+webhooks.webhook_name_length_invalid: Webhook 名稱長度必須在 {min} 到 {max} 個字元之間。

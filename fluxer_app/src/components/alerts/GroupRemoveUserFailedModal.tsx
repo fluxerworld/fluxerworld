@@ -17,17 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {GenericErrorModal} from '@app/components/alerts/GenericErrorModal';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type {ReactElement} from 'react';
-import {GenericErrorModal} from './GenericErrorModal';
 
-export const GroupRemoveUserFailedModal: React.FC<{username?: string}> = observer(({username}) => {
+interface GroupRemoveUserFailedModalProps {
+	username: string;
+}
+
+export const GroupRemoveUserFailedModal = observer(({username}: GroupRemoveUserFailedModalProps) => {
 	const {t} = useLingui();
 	const message: ReactElement = (
 		<Trans>
 			We couldn't remove the user from the group at this time. <strong>{username}</strong> is still in the group.
 		</Trans>
 	);
-	return <GenericErrorModal title={t`Failed to remove from group`} message={message} />;
+	return <GenericErrorModal title={t`Failed to Remove from Group`} message={message} />;
 });

@@ -17,21 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import styles from '@app/components/modals/BaseChangeNicknameModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {useCursorAtEnd} from '@app/hooks/useCursorAtEnd';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {XIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import type React from 'react';
+import {useCallback} from 'react';
 import {useForm} from 'react-hook-form';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import styles from '~/components/modals/BaseChangeNicknameModal.module.css';
-import confirmStyles from '~/components/modals/ConfirmModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
 
 interface FormInputs {
 	nick: string;
@@ -52,7 +53,9 @@ export const BaseChangeNicknameModal: React.FC<BaseChangeNicknameModalProps> = o
 			},
 		});
 
-		const onSubmit = React.useCallback(
+		const nickRef = useCursorAtEnd<HTMLInputElement>();
+
+		const onSubmit = useCallback(
 			async (data: FormInputs) => {
 				const nick = data.nick.trim() || null;
 
@@ -80,35 +83,41 @@ export const BaseChangeNicknameModal: React.FC<BaseChangeNicknameModalProps> = o
 			<Modal.Root size="small" centered>
 				<Form form={form} onSubmit={handleSubmit} aria-label={t`Change nickname form`}>
 					<Modal.Header title={t`Change Nickname`} />
-					<Modal.Content className={confirmStyles.content}>
-						<Input
-							{...form.register('nick', {
-								maxLength: {
-									value: 32,
-									message: t`Nickname must not exceed 32 characters`,
-								},
-							})}
-							autoFocus={true}
-							type="text"
-							label={t`Nickname`}
-							placeholder={displayName}
-							maxLength={32}
-							error={form.formState.errors.nick?.message}
-							rightElement={
-								nickValue ? (
-									<FocusRing offset={-2}>
-										<button
-											type="button"
-											className={styles.clearButton}
-											onClick={() => form.setValue('nick', '')}
-											aria-label={t`Clear nickname`}
-										>
-											<XIcon size={16} weight="bold" />
-										</button>
-									</FocusRing>
-								) : undefined
-							}
-						/>
+					<Modal.Content>
+						<Modal.ContentLayout>
+							<Input
+								{...form.register('nick', {
+									maxLength: {
+										value: 32,
+										message: t`Nickname must not exceed 32 characters`,
+									},
+								})}
+								ref={(el) => {
+									nickRef(el);
+									form.register('nick').ref(el);
+								}}
+								autoFocus={true}
+								type="text"
+								label={t`Nickname`}
+								placeholder={displayName}
+								maxLength={32}
+								error={form.formState.errors.nick?.message}
+								rightElement={
+									nickValue ? (
+										<FocusRing offset={-2}>
+											<button
+												type="button"
+												className={styles.clearButton}
+												onClick={() => form.setValue('nick', '')}
+												aria-label={t`Clear nickname`}
+											>
+												<XIcon size={16} weight="bold" />
+											</button>
+										</FocusRing>
+									) : undefined
+								}
+							/>
+						</Modal.ContentLayout>
 					</Modal.Content>
 					<Modal.Footer>
 						<Button type="submit" submitting={isSubmitting}>

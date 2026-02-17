@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/embeds/media/GifIndicator.module.css';
 import {observer} from 'mobx-react-lite';
 import type {FC} from 'react';
-import styles from './GifIndicator.module.css';
 
 export const GifIndicator: FC = observer(() => (
 	<div className={styles.indicator} aria-hidden="true">

@@ -1,0 +1,23 @@
+{
+	"server_service": {
+		"type": "object",
+		"description": "Configuration for the main Fluxer Server.",
+		"additionalProperties": false,
+		"properties": {
+			"host": {
+				"type": "string",
+				"description": "Network interface to bind to.",
+				"default": "0.0.0.0"
+			},
+			"port": {
+				"type": "number",
+				"description": "Port to listen on.",
+				"default": 8772
+			},
+			"static_dir": {
+				"type": "string",
+				"description": "Path to static assets directory for the web app. Required in production."
+			}
+		}
+	}
+}

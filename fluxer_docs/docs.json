@@ -1,0 +1,154 @@
+{
+	"$schema": "https://mintlify.com/docs.json",
+	"theme": "maple",
+	"name": "Fluxer",
+	"colors": {
+		"primary": "#5865F2",
+		"light": "#7289DA",
+		"dark": "#4752C4"
+	},
+	"favicon": "favicon.png",
+	"navigation": {
+		"tabs": [
+			{
+				"tab": "Guides",
+				"groups": [
+					{
+						"group": "Getting started",
+						"pages": ["index", "quickstart", "introduction/authentication"]
+					},
+					{
+						"group": "Gateway",
+						"pages": [
+							"gateway/overview",
+							"gateway/connection_lifecycle",
+							"gateway/opcodes",
+							"gateway/close_codes",
+							"gateway/events"
+						]
+					},
+					{
+						"group": "Topics",
+						"pages": [
+							"topics/snowflakes",
+							"topics/error_codes",
+							"topics/audit_log",
+							"topics/rate_limits",
+							"topics/permissions",
+							"topics/voice",
+							"topics/media_proxy",
+							"topics/oauth2"
+						]
+					},
+					{
+						"group": "Resources",
+						"pages": [
+							"resources/overview",
+							"resources/users",
+							"resources/guilds",
+							"resources/channels",
+							"resources/invites",
+							"resources/webhooks",
+							"resources/oauth2",
+							"resources/billing",
+							"resources/premium",
+							"resources/gifts",
+							"resources/gateway",
+							"resources/auth",
+							"resources/instance",
+							"resources/admin",
+							"resources/search",
+							"resources/themes",
+							"resources/packs",
+							"resources/klipy",
+							"resources/saved_media",
+							"resources/reports",
+							"resources/read_states",
+							"resources/media_proxy",
+							"resources/common"
+						]
+					},
+					{
+						"group": "Self-hosting",
+						"pages": [
+							"self_hosting/overview",
+							"self_hosting/quickstart",
+							"self_hosting/configuration",
+							"self_hosting/architecture",
+							"self_hosting/voice",
+							"self_hosting/upgrading"
+						]
+					}
+				]
+			},
+			{
+				"tab": "API reference",
+				"openapi": "api-reference/openapi.json"
+			},
+			{
+				"tab": "Media Proxy API",
+				"openapi": "media-proxy-api/openapi.json"
+			},
+			{
+				"tab": "Relay Directory API",
+				"openapi": "relay-api/openapi.json"
+			}
+		],
+		"global": {
+			"anchors": [
+				{
+					"anchor": "Blog",
+					"icon": "pencil",
+					"href": "https://blog.fluxer.app"
+				},
+				{
+					"anchor": "Help center",
+					"icon": "life-ring",
+					"href": "https://fluxer.app/help"
+				},
+				{
+					"anchor": "Donate",
+					"icon": "heart",
+					"href": "https://fluxer.app/donate"
+				},
+				{
+					"anchor": "Source code",
+					"icon": "github",
+					"href": "https://github.com/fluxerapp/fluxer"
+				},
+				{
+					"anchor": "Security",
+					"icon": "shield-check",
+					"href": "https://fluxer.app/security"
+				},
+				{
+					"anchor": "Bluesky",
+					"icon": "butterfly",
+					"href": "https://bsky.app/profile/fluxer.app"
+				}
+			]
+		}
+	},
+	"navbar": {
+		"links": [
+			{
+				"label": "Support",
+				"href": "mailto:developers@fluxer.app"
+			}
+		],
+		"primary": {
+			"type": "button",
+			"label": "Open Fluxer",
+			"href": "https://web.fluxer.app/channels/@me"
+		}
+	},
+	"logo": {
+		"light": "https://fluxerstatic.com/marketing/branding/logo-color.svg",
+		"dark": "https://fluxerstatic.com/marketing/branding/logo-white.svg"
+	},
+	"footer": {
+		"socials": {
+			"github": "https://github.com/fluxerapp/fluxer"
+		}
+	}
+}

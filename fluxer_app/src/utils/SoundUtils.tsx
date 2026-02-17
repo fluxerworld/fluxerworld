@@ -17,23 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import cameraOffSound from '~/sounds/camera-off.mp3';
-import cameraOnSound from '~/sounds/camera-on.mp3';
-import deafSound from '~/sounds/deaf.mp3';
-import incomingRingSound from '~/sounds/incoming-ring.mp3';
-import messageSound from '~/sounds/message.mp3';
-import muteSound from '~/sounds/mute.mp3';
-import streamSound from '~/sounds/stream-start.mp3';
-import streamStopSound from '~/sounds/stream-stop.mp3';
-import undeafSound from '~/sounds/undeaf.mp3';
-import unmuteSound from '~/sounds/unmute.mp3';
-import userJoinSound from '~/sounds/user-join.mp3';
-import userLeaveSound from '~/sounds/user-leave.mp3';
-import userMoveSound from '~/sounds/user-move.mp3';
-import viewerJoinSound from '~/sounds/viewer-join.mp3';
-import viewerLeaveSound from '~/sounds/viewer-leave.mp3';
-import voiceDisconnectSound from '~/sounds/voice-disconnect.mp3';
-import * as CustomSoundDB from '~/utils/CustomSoundDB';
+import {Logger} from '@app/lib/Logger';
+import cameraOffSound from '@app/sounds/camera-off.mp3';
+import cameraOnSound from '@app/sounds/camera-on.mp3';
+import deafSound from '@app/sounds/deaf.mp3';
+import incomingRingSound from '@app/sounds/incoming-ring.mp3';
+import messageSound from '@app/sounds/message.mp3';
+import muteSound from '@app/sounds/mute.mp3';
+import streamSound from '@app/sounds/stream-start.mp3';
+import streamStopSound from '@app/sounds/stream-stop.mp3';
+import undeafSound from '@app/sounds/undeaf.mp3';
+import unmuteSound from '@app/sounds/unmute.mp3';
+import userJoinSound from '@app/sounds/user-join.mp3';
+import userLeaveSound from '@app/sounds/user-leave.mp3';
+import userMoveSound from '@app/sounds/user-move.mp3';
+import viewerJoinSound from '@app/sounds/viewer-join.mp3';
+import viewerLeaveSound from '@app/sounds/viewer-leave.mp3';
+import voiceDisconnectSound from '@app/sounds/voice-disconnect.mp3';
+import * as CustomSoundDB from '@app/utils/CustomSoundDB';
+import type {ValueOf} from '@fluxer/constants/src/ValueOf';
+
+const logger = new Logger('SoundUtils');
 
 const MAX_EFFECTIVE_VOLUME = 0.4;
 const MASTER_HEADROOM = 0.8;
@@ -60,7 +64,7 @@ export const SoundType = {
 	ScreenShareStop: 'screen-share-stop',
 } as const;
 
-export type SoundType = (typeof SoundType)[keyof typeof SoundType];
+export type SoundType = ValueOf<typeof SoundType>;
 
 const SOUND_FILES: Record<SoundType, string> = {
 	[SoundType.Deaf]: deafSound,
@@ -188,7 +192,18 @@ const createAudioElement = (src: string): HTMLAudioElement => {
 	return audio;
 };
 
-export const playSound = async (type: SoundType, loop = false, volume = 0.4): Promise<HTMLAudioElement | null> => {
+const isAutoplayBlockedError = (error: unknown): boolean => {
+	if (!error || typeof error !== 'object') return false;
+	const name = (error as {name?: string}).name;
+	return name === 'NotAllowedError' || name === 'AbortError';
+};
+
+export async function playSound(
+	type: SoundType,
+	loop = false,
+	volume = 0.4,
+	onAutoplayBlocked?: () => void,
+): Promise<HTMLAudioElement | null> {
 	const activeSound = activeSounds.get(type);
 	if (loop && activeSound && !activeSound.audio.paused) {
 		return null;
@@ -196,6 +211,11 @@ export const playSound = async (type: SoundType, loop = false, volume = 0.4): Pr
 
 	try {
 		const ctx = await resumeAudioContextIfNeeded();
+		if (ctx.state === 'suspended') {
+			logger.debug('Audio context still suspended; skipping sound', {type});
+			onAutoplayBlocked?.();
+			return null;
+		}
 
 		const soundUrl = await getSoundUrl(type);
 		const audio = createAudioElement(soundUrl);
@@ -212,18 +232,27 @@ export const playSound = async (type: SoundType, loop = false, volume = 0.4): Pr
 		const effectiveVolume = clamp(volume, 0, MAX_EFFECTIVE_VOLUME);
 		fadeIn(gainNode, effectiveVolume);
 
-		const playPromise = audio.play();
-		if (playPromise) {
-			playPromise.catch((error) => {
-				console.warn(`Failed to play sound ${type}:`, error);
-			});
-		}
-
 		const instance: AudioInstance = {
 			audio,
 			gainNode,
 			sourceNode,
 		};
+
+		const playPromise = audio.play();
+		if (playPromise) {
+			try {
+				await playPromise;
+			} catch (error) {
+				if (isAutoplayBlockedError(error)) {
+					logger.debug('Autoplay blocked; dropping sound', {type});
+					onAutoplayBlocked?.();
+				} else {
+					logger.warn(`Failed to play sound ${type}:`, error);
+				}
+				disconnectNodes(sourceNode, gainNode);
+				return null;
+			}
+		}
 
 		if (loop) {
 			activeSounds.set(type, instance);
@@ -246,12 +275,12 @@ export const playSound = async (type: SoundType, loop = false, volume = 0.4): Pr
 
 		return audio;
 	} catch (error) {
-		console.warn(`Failed to initialize or play sound ${type}:`, error);
+		logger.warn(`Failed to initialize or play sound ${type}:`, error);
 		return null;
 	}
-};
+}
 
-export const clearCustomSoundCache = (type?: SoundType): void => {
+export function clearCustomSoundCache(type?: SoundType): void {
 	if (type) {
 		const cachedUrl = customSoundCache.get(type);
 		if (cachedUrl) {
@@ -265,9 +294,9 @@ export const clearCustomSoundCache = (type?: SoundType): void => {
 		URL.revokeObjectURL(url);
 	});
 	customSoundCache.clear();
-};
+}
 
-export const stopSound = async (type: SoundType): Promise<void> => {
+export async function stopSound(type: SoundType): Promise<void> {
 	const activeSound = activeSounds.get(type);
 	if (!activeSound) return;
 
@@ -284,9 +313,9 @@ export const stopSound = async (type: SoundType): Promise<void> => {
 	disconnectNodes(sourceNode, gainNode);
 
 	activeSounds.delete(type);
-};
+}
 
-export const stopAllSounds = async (): Promise<void> => {
+export async function stopAllSounds(): Promise<void> {
 	const stopPromises: Array<Promise<void>> = [];
 
 	activeSounds.forEach((_, type) => {
@@ -311,4 +340,4 @@ export const stopAllSounds = async (): Promise<void> => {
 	activePreviewSounds.clear();
 
 	await Promise.all(stopPromises);
-};
+}

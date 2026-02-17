@@ -1,0 +1,16 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "CHANNEL_UPDATE",
+	"description": "Sent when a channel is updated.",
+	"scope": "channel",
+	"scopeNote": "Guild channels dispatch to guild scope; DMs dispatch to presence scope",
+	"dispatchedBy": [
+		"PATCH /channels/:channel_id",
+		"PUT /channels/:channel_id/permissions/:overwrite_id",
+		"DELETE /channels/:channel_id/permissions/:overwrite_id"
+	],
+	"payload": {
+		"$ref": "ChannelResponse",
+		"description": "The updated channel object"
+	}
+}

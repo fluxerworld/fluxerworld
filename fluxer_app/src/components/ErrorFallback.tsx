@@ -17,29 +17,47 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import errorFallbackStyles from '@app/components/ErrorFallback.module.css';
+import {FluxerIcon} from '@app/components/icons/FluxerIcon';
+import {NativeTitlebar} from '@app/components/layout/NativeTitlebar';
+import {Button} from '@app/components/uikit/button/Button';
+import {useNativePlatform} from '@app/hooks/useNativePlatform';
+import AppStorage from '@app/lib/AppStorage';
+import {Logger} from '@app/lib/Logger';
+import {ensureLatestAssets} from '@app/lib/Versioning';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import LayerManager from '@app/stores/LayerManager';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import errorFallbackStyles from '~/components/ErrorFallback.module.css';
-import {FluxerIcon} from '~/components/icons/FluxerIcon';
-import {NativeTitlebar} from '~/components/layout/NativeTitlebar';
-import {Button} from '~/components/uikit/Button/Button';
-import {useNativePlatform} from '~/hooks/useNativePlatform';
-import AppStorage from '~/lib/AppStorage';
-import {ensureLatestAssets} from '~/lib/versioning';
+import type React from 'react';
+import {useCallback, useEffect, useState} from 'react';
 
 interface ErrorFallbackProps {
 	error?: Error;
 	reset?: () => void;
 }
 
+const logger = new Logger('ErrorFallback');
+const PRESERVED_RESET_STORAGE_KEYS = ['DraftStore'] as const;
+
 export const ErrorFallback: React.FC<ErrorFallbackProps> = observer(() => {
 	const {platform, isNative, isMacOS} = useNativePlatform();
-	const [updateAvailable, setUpdateAvailable] = React.useState(false);
-	const [isUpdating, setIsUpdating] = React.useState(false);
-	const [checkingForUpdates, setCheckingForUpdates] = React.useState(true);
+	const [updateAvailable, setUpdateAvailable] = useState(false);
+	const [isUpdating, setIsUpdating] = useState(false);
+	const [checkingForUpdates, setCheckingForUpdates] = useState(true);
 
-	React.useEffect(() => {
+	useEffect(() => {
+		try {
+			GatewayConnectionStore.logout();
+			LayerManager.closeAll();
+			MediaEngineStore.cleanup();
+		} catch (error) {
+			logger.error('Failed to clean up runtime state on crash screen', error);
+		}
+	}, []);
+
+	useEffect(() => {
 		let isMounted = true;
 
 		const run = async () => {
@@ -49,7 +67,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = observer(() => {
 					setUpdateAvailable(updateFound);
 				}
 			} catch (error) {
-				console.error('[ErrorFallback] Failed to check for updates:', error);
+				logger.error('Failed to check for updates:', error);
 			} finally {
 				if (isMounted) {
 					setCheckingForUpdates(false);
@@ -64,7 +82,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = observer(() => {
 		};
 	}, []);
 
-	const handleUpdate = React.useCallback(async () => {
+	const handleUpdate = useCallback(async () => {
 		setIsUpdating(true);
 		try {
 			const {updateFound} = await ensureLatestAssets({force: true});
@@ -73,7 +91,7 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = observer(() => {
 				window.location.reload();
 			}
 		} catch (error) {
-			console.error('[ErrorFallback] Failed to apply update:', error);
+			logger.error('Failed to apply update:', error);
 			setIsUpdating(false);
 		}
 	}, []);
@@ -99,19 +117,14 @@ export const ErrorFallback: React.FC<ErrorFallbackProps> = observer(() => {
 			<div className={errorFallbackStyles.errorFallbackActions}>
 				<Button
 					onClick={updateAvailable ? handleUpdate : () => location.reload()}
-					disabled={checkingForUpdates || isUpdating}
+					disabled={checkingForUpdates}
+					submitting={isUpdating}
 				>
-					{isUpdating ? (
-						<Trans>Updating...</Trans>
-					) : checkingForUpdates || updateAvailable ? (
-						<Trans>Update app</Trans>
-					) : (
-						<Trans>Reload app</Trans>
-					)}
+					{checkingForUpdates || updateAvailable ? <Trans>Update app</Trans> : <Trans>Reload app</Trans>}
 				</Button>
 				<Button
 					onClick={() => {
-						AppStorage.clear();
+						AppStorage.clearExcept(PRESERVED_RESET_STORAGE_KEYS);
 						location.reload();
 					}}
 					variant="danger-primary"

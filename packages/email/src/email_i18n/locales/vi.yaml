@@ -1,0 +1,369 @@
+account_disabled_suspicious:
+  subject: Tài khoản Fluxer của bạn đã tạm thời bị khóa
+  body: |-
+    Chào {username},
+
+    Chúng tôi đã tạm thời khóa tài khoản Fluxer của bạn vì phát hiện hoạt động đáng ngờ.
+
+    {reason, select,
+      null {}
+      other {Lý do: {reason}}
+    }
+
+    Để truy cập lại tài khoản, bạn cần đặt lại mật khẩu:
+
+    {forgotUrl}
+
+    Sau khi đặt lại mật khẩu, bạn có thể đăng nhập lại.
+
+    Nếu bạn cho rằng đây là nhầm lẫn, vui lòng liên hệ bộ phận hỗ trợ của chúng tôi.
+
+    – Đội an toàn Fluxer
+account_scheduled_deletion:
+  subject: Tài khoản Fluxer của bạn sẽ bị xóa vĩnh viễn
+  body: |-
+    Chào {username},
+
+    Chúng tôi đã lên lịch xóa vĩnh viễn tài khoản Fluxer của bạn do vi phạm điều khoản dịch vụ hoặc quy định cộng đồng.
+
+    Thời điểm xóa dự kiến: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Lý do: {reason}}
+    }
+
+    Đây là biện pháp xử lý nghiêm túc. Dữ liệu tài khoản của bạn sẽ bị xóa vĩnh viễn vào thời điểm đã lên lịch.
+
+    Vui lòng xem lại:
+    - Điều khoản dịch vụ: {termsUrl}
+    - Quy định cộng đồng: {guidelinesUrl}
+
+    Khiếu nại:
+    Nếu bạn cho rằng quyết định này là sai hoặc không chính đáng, bạn có 60 ngày để gửi khiếu nại tới appeals@fluxer.app, và cần gửi từ chính địa chỉ e-mail này.
+
+    Trong đơn khiếu nại, vui lòng:
+    - Giải thích rõ vì sao bạn cho rằng quyết định là sai hoặc không chính đáng
+    - Cung cấp bằng chứng hoặc thông tin bổ sung liên quan (nếu có)
+
+    Một thành viên trong đội an toàn Fluxer sẽ xem xét khiếu nại của bạn và có thể tạm dừng việc xóa tài khoản cho đến khi có quyết định cuối cùng.
+
+    – Đội an toàn Fluxer
+account_temp_banned:
+  subject: Tài khoản Fluxer của bạn đã tạm thời bị đình chỉ
+  body: |-
+    Chào {username},
+
+    Chúng tôi đã tạm thời đình chỉ tài khoản Fluxer của bạn do vi phạm điều khoản dịch vụ hoặc quy định cộng đồng.
+
+    Thời hạn: {durationHours, plural,
+      =1 {1 giờ}
+      other {# giờ}
+    }
+    Đình chỉ đến: {bannedUntil, date, full} {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {Lý do: {reason}}
+    }
+
+    Trong thời gian này, bạn sẽ không thể truy cập tài khoản.
+
+    Vui lòng xem lại:
+    - Điều khoản dịch vụ: {termsUrl}
+    - Quy định cộng đồng: {guidelinesUrl}
+
+    Nếu bạn cho rằng quyết định này là sai hoặc không chính đáng, bạn có thể gửi khiếu nại tới appeals@fluxer.app, và cần gửi từ chính địa chỉ e-mail này. Vui lòng giải thích rõ vì sao bạn cho rằng quyết định là sai. Chúng tôi sẽ xem xét và phản hồi kết quả.
+
+    – Đội an toàn Fluxer
+donation_confirmation:
+  subject: Cảm ơn về khoản quyên góp của bạn cho Fluxer
+  body: |-
+    Xin chào,
+
+    Cảm ơn bạn đã quyên góp cho Fluxer! {interval, select,
+      month {Khoản quyên góp định kỳ}
+      year {Khoản quyên góp định kỳ}
+      other {Khoản quyên góp một lần}
+    } của bạn đã được {interval, select,
+      month {thiết lập}
+      year {thiết lập}
+      other {xử lý}
+    } thành công.
+
+    Chi tiết quyên góp:
+    Số tiền: {amount} {currency} {interval, select,
+      month {mỗi tháng}
+      year {mỗi năm}
+      other {}
+    }
+
+    Stripe sẽ gửi cho bạn một email riêng kèm biên lai và tệp PDF hóa đơn trong thời gian ngắn. Trong đó bao gồm tất cả chi tiết thanh toán và có thể được sử dụng cho mục đích thuế.
+
+    Bạn có thể xem lịch sử quyên góp, tải xuống hóa đơn, {interval, select,
+      month {và quản lý hoặc hủy đăng ký}
+      year {và quản lý hoặc hủy đăng ký}
+      other {và quản lý các khoản quyên góp trong tương lai}
+    } bất kỳ lúc nào bằng liên kết này:
+
+    {manageUrl}
+
+    Sự hỗ trợ của bạn giúp Fluxer duy trì hoạt động. Cảm ơn bạn!
+
+    – Đội ngũ Fluxer
+donation_magic_link:
+  subject: Quản lý khoản quyên góp của bạn cho Fluxer
+  body: |-
+    Xin chào,
+
+    Nhấp vào liên kết bên dưới để truy cập cổng thông tin dành cho nhà tài trợ:
+
+    {manageUrl}
+
+    Trong cổng thông tin, bạn có thể quản lý đăng ký, tải xuống hóa đơn và xem lịch sử quyên góp.
+
+    Liên kết này sẽ hết hạn lúc {expiresAt, date, full} {expiresAt, time, short}.
+
+    Nếu bạn không yêu cầu liên kết này, bạn có thể bỏ qua email này một cách an toàn.
+
+    – Đội ngũ Fluxer
+dsa_report_verification:
+  subject: Xác minh e-mail để gửi báo cáo DSA
+  body: |-
+    Chào bạn,
+
+    Sử dụng mã dưới đây để gửi báo cáo theo Digital Services Act (DSA) trên Fluxer:
+
+    {code}
+
+    Mã này sẽ hết hạn lúc {expiresAt, date, full} {expiresAt, time, short}.
+
+    Nếu bạn không yêu cầu, bạn có thể bỏ qua e-mail này.
+
+    – Đội an toàn Fluxer
+email_change_new:
+  subject: Xác minh e-mail Fluxer mới của bạn
+  body: |-
+    Chào {username},
+
+    Nhập mã này trong ứng dụng để xác minh e-mail Fluxer mới của bạn:
+
+    {code}
+
+    Mã này sẽ hết hạn lúc {expiresAt, date, full} {expiresAt, time, short}.
+
+    Nếu bạn không yêu cầu, bạn có thể bỏ qua e-mail này.
+
+    – Đội ngũ Fluxer
+email_change_original:
+  subject: Xác nhận thay đổi e-mail Fluxer của bạn
+  body: |-
+    Chào {username},
+
+    Chúng tôi vừa nhận được yêu cầu thay đổi địa chỉ e-mail trên tài khoản Fluxer của bạn.
+
+    Để xác nhận thay đổi này, vui lòng nhập mã sau trong ứng dụng:
+
+    {code}
+
+    Mã này sẽ hết hạn lúc {expiresAt, date, full} {expiresAt, time, short}.
+
+    Nếu bạn không yêu cầu, vui lòng bảo vệ tài khoản của bạn ngay lập tức.
+
+    – Đội ngũ Fluxer
+email_change_revert:
+  subject: Địa chỉ e-mail Fluxer của bạn đã được thay đổi
+  body: |-
+    Chào {username},
+
+    Địa chỉ e-mail trên tài khoản Fluxer của bạn đã được thay đổi thành {newEmail}.
+
+    Nếu chính bạn thực hiện thay đổi này, bạn không cần làm gì cả. Nếu không phải bạn, bạn có thể hoàn tác thay đổi và bảo vệ tài khoản qua liên kết dưới đây:
+
+    {revertUrl}
+
+    Liên kết này sẽ khôi phục địa chỉ e-mail cũ, đăng xuất bạn khỏi tất cả thiết bị, gỡ bỏ các số điện thoại đã liên kết, tắt xác thực đa yếu tố (MFA) và yêu cầu bạn đặt mật khẩu mới.
+
+    – Đội an toàn Fluxer
+email_verification:
+  subject: Xác minh địa chỉ e-mail Fluxer của bạn
+  body: |-
+    Chào {username},
+
+    Vui lòng xác minh địa chỉ e-mail cho tài khoản Fluxer của bạn bằng cách bấm vào liên kết dưới đây:
+
+    {verifyUrl}
+
+    Nếu bạn không tạo tài khoản Fluxer, bạn có thể bỏ qua e-mail này một cách an toàn.
+
+    Liên kết này có hiệu lực trong 24 giờ.
+
+    – Đội ngũ Fluxer
+gift_chargeback_notification:
+  subject: Quyền lợi từ quà tặng bạn đã đổi đã bị gỡ bỏ
+  body: |-
+    Chào {username},
+
+    Một mã quà tặng bạn đã đổi trước đó được thanh toán bởi một người khác. Khoản thanh toán này sau đó đã bị hoàn tiền (chargeback).
+
+    Vì vậy, chúng tôi đã gỡ bỏ các quyền lợi đã được thêm vào tài khoản của bạn khi bạn đổi quà tặng.
+
+    Nếu bạn cho rằng đây là nhầm lẫn, vui lòng liên hệ bộ phận hỗ trợ và cung cấp mọi thông tin bạn có về mã quà tặng và thời điểm bạn đã đổi.
+
+    – Đội ngũ Fluxer
+harvest_completed:
+  subject: Bản xuất dữ liệu Fluxer của bạn đã sẵn sàng để tải xuống
+  body: |-
+    Chào {username},
+
+    Bản xuất dữ liệu của bạn đã sẵn sàng.
+
+    Liên kết tải xuống:
+    {downloadUrl}
+
+    Số tin nhắn bao gồm: {totalMessages, number}
+    Dung lượng tệp: {fileSizeMB, number} MB
+
+    Liên kết này sẽ hết hạn lúc {expiresAt, date, full} {expiresAt, time, short}.
+
+    Nếu bạn không yêu cầu bản xuất dữ liệu này, vui lòng đổi mật khẩu ngay lập tức và liên hệ bộ phận hỗ trợ của chúng tôi.
+
+    – Đội ngũ Fluxer
+inactivity_warning:
+  subject: Tài khoản Fluxer của bạn sẽ bị xóa do không hoạt động
+  body: |-
+    Chào {username},
+
+    Chúng tôi không thấy hoạt động nào trên tài khoản Fluxer của bạn kể từ {lastActiveDate, date, full}.
+
+    Nếu bạn không đăng nhập trước {deletionDate, date, full} lúc {deletionDate, time, short}, tài khoản của bạn sẽ bị xóa vĩnh viễn do không hoạt động.
+
+    Đăng nhập tại đây:
+    {loginUrl}
+
+    Nếu bạn đã sử dụng Fluxer gần đây, vui lòng liên hệ bộ phận hỗ trợ của chúng tôi ngay lập tức.
+
+    – Đội ngũ Fluxer
+ip_authorization:
+  subject: Xác nhận đăng nhập từ địa chỉ IP mới
+  body: |-
+    Chào {username},
+
+    Chúng tôi phát hiện một lần thử đăng nhập vào tài khoản Fluxer của bạn từ một địa chỉ IP mới:
+
+    Địa chỉ IP: {ipAddress}
+    Vị trí: {location}
+
+    Nếu là bạn, vui lòng xác nhận cho phép địa chỉ IP này qua liên kết dưới đây:
+
+    {authUrl}
+
+    Nếu không phải bạn thử đăng nhập, vui lòng đổi mật khẩu ngay lập tức.
+
+    Liên kết xác nhận này có hiệu lực trong 30 phút.
+
+    – Đội ngũ Fluxer
+password_change_verification:
+  subject: Xác nhận thay đổi mật khẩu Fluxer của bạn
+  body: |-
+    Chào {username},
+
+    Chúng tôi đã nhận được yêu cầu thay đổi mật khẩu trên tài khoản Fluxer của bạn.
+
+    Để xác nhận thay đổi này, vui lòng nhập mã sau trong ứng dụng:
+
+    {code}
+
+    Mã này sẽ hết hạn lúc {expiresAt}.
+
+    Nếu bạn không yêu cầu điều này, ai đó có thể đã truy cập vào tài khoản của bạn. Hãy đổi mật khẩu ngay lập tức và bật xác thực đa yếu tố.
+
+    – Đội ngũ Fluxer
+password_reset:
+  subject: Đặt lại mật khẩu Fluxer của bạn
+  body: |-
+    Chào {username},
+
+    Chúng tôi đã nhận được yêu cầu đặt lại mật khẩu Fluxer của bạn. Vui lòng sử dụng liên kết dưới đây để đặt mật khẩu mới:
+
+    {resetUrl}
+
+    Nếu bạn không yêu cầu đặt lại mật khẩu, bạn có thể bỏ qua e-mail này một cách an toàn.
+
+    Liên kết này có hiệu lực trong 1 giờ.
+
+    – Đội ngũ Fluxer
+registration_approved:
+  subject: Đăng ký Fluxer của bạn đã được duyệt
+  body: |-
+    Chào {username},
+
+    Tin vui: Đăng ký Fluxer của bạn đã được duyệt.
+
+    Bây giờ bạn có thể đăng nhập vào ứng dụng Fluxer tại:
+    {channelsUrl}
+
+    Chào mừng bạn đến với cộng đồng Fluxer.
+
+    – Đội ngũ Fluxer
+report_resolved:
+  subject: Báo cáo Fluxer của bạn đã được xem xét
+  body: |-
+    Chào {username},
+
+    Báo cáo của bạn (ID: {reportId}) đã được đội an toàn của chúng tôi xem xét.
+
+    Phản hồi từ đội an toàn:
+    {publicComment}
+
+    Cảm ơn bạn đã giúp Fluxer an toàn hơn cho mọi người. Chúng tôi xem xét nghiêm túc mọi báo cáo và đánh giá cao đóng góp của bạn cho cộng đồng.
+
+    Nếu bạn có bất kỳ câu hỏi hoặc lo ngại nào về kết quả này, vui lòng liên hệ safety@fluxer.app.
+
+    – Đội an toàn Fluxer
+scheduled_deletion_notification:
+  subject: Tài khoản Fluxer của bạn sẽ bị xóa vĩnh viễn
+  body: |-
+    Chào {username},
+
+    Chúng tôi đã lên lịch xóa vĩnh viễn tài khoản Fluxer của bạn.
+
+    Thời điểm xóa dự kiến: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Lý do: {reason}}
+    }
+
+    Đây là biện pháp xử lý nghiêm túc. Dữ liệu tài khoản của bạn sẽ bị xóa vĩnh viễn vào thời điểm đã lên lịch.
+
+    Nếu bạn cho rằng quyết định này là sai, bạn có thể gửi khiếu nại tới appeals@fluxer.app, và cần gửi từ chính địa chỉ e-mail này.
+
+    – Đội an toàn Fluxer
+self_deletion_scheduled:
+  subject: Yêu cầu xóa tài khoản Fluxer của bạn đã được lên lịch
+  body: |-
+    Chào {username},
+
+    Chúng tôi đã nhận được yêu cầu xóa tài khoản Fluxer của bạn. Tài khoản của bạn sẽ bị xóa vĩnh viễn vào:
+
+    {deletionDate, date, full} lúc {deletionDate, time, short}
+
+    Nếu bạn không yêu cầu việc này, vui lòng đăng nhập vào tài khoản để hủy xóa. Chúng tôi cũng khuyến nghị bạn đổi mật khẩu để bảo vệ tài khoản.
+
+    – Đội ngũ Fluxer
+unban_notification:
+  subject: Tài khoản Fluxer của bạn đã được mở khóa
+  body: |-
+    Chào {username},
+
+    Tin vui: Lệnh đình chỉ tài khoản Fluxer của bạn đã được gỡ bỏ.
+
+    {reason, select,
+      null {}
+      other {Lý do: {reason}}
+    }
+
+    Bây giờ bạn có thể đăng nhập lại và tiếp tục sử dụng Fluxer như bình thường.
+
+    – Đội an toàn Fluxer

@@ -1,0 +1,27 @@
+{
+	"name": "fluxer_admin",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build:css": "pnpm --filter @fluxer/admin build:css",
+		"build:css:watch": "pnpm --filter @fluxer/admin build:css:watch",
+		"dev": "tsx watch --clear-screen=false src/index.tsx",
+		"start": "tsx src/index.tsx",
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@fluxer/admin": "workspace:*",
+		"@fluxer/config": "workspace:*",
+		"@fluxer/constants": "workspace:*",
+		"@fluxer/hono": "workspace:*",
+		"@fluxer/initialization": "workspace:*",
+		"@fluxer/logger": "workspace:*",
+		"tsx": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@typescript/native-preview": "catalog:",
+		"tailwindcss": "catalog:"
+	},
+	"packageManager": "pnpm@10.29.3"
+}

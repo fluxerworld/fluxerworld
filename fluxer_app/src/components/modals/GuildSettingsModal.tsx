@@ -17,24 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as UnsavedChangesActionCreators from '@app/actions/UnsavedChangesActionCreators';
+import {DesktopGuildSettingsView} from '@app/components/modals/components/DesktopGuildSettingsView';
+import {MobileGuildSettingsView} from '@app/components/modals/components/MobileGuildSettingsView';
+import {useMobileNavigation} from '@app/components/modals/hooks/useMobileNavigation';
+import * as Modal from '@app/components/modals/Modal';
+import {SettingsModalContainer} from '@app/components/modals/shared/SettingsModalLayout';
+import {type GuildSettingsTabType, getGuildSettingsTabs} from '@app/components/modals/utils/GuildSettingsConstants';
+import {Routes} from '@app/Routes';
+import GuildSettingsModalStore from '@app/stores/GuildSettingsModalStore';
+import GuildStore from '@app/stores/GuildStore';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import UnsavedChangesStore from '@app/stores/UnsavedChangesStore';
+import {isMobileExperienceEnabled} from '@app/utils/MobileExperience';
+import * as RouterUtils from '@app/utils/RouterUtils';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as UnsavedChangesActionCreators from '~/actions/UnsavedChangesActionCreators';
-import * as Modal from '~/components/modals/Modal';
-import GuildSettingsModalStore from '~/stores/GuildSettingsModalStore';
-import GuildStore from '~/stores/GuildStore';
-import ConnectionStore from '~/stores/gateway/ConnectionStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import PermissionStore from '~/stores/PermissionStore';
-import UnsavedChangesStore from '~/stores/UnsavedChangesStore';
-import {isMobileExperienceEnabled} from '~/utils/mobileExperience';
-import {DesktopGuildSettingsView} from './components/DesktopGuildSettingsView';
-import {MobileGuildSettingsView} from './components/MobileGuildSettingsView';
-import {useMobileNavigation} from './hooks/useMobileNavigation';
-import {SettingsModalContainer} from './shared/SettingsModalLayout';
-import {type GuildSettingsTabType, getGuildSettingsTabs} from './utils/guildSettingsConstants';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 
 interface GuildSettingsModalProps {
 	guildId: string;
@@ -44,12 +47,12 @@ interface GuildSettingsModalProps {
 
 export const GuildSettingsModal: React.FC<GuildSettingsModalProps> = observer(
 	({guildId, initialTab: initialTabProp, initialMobileTab}) => {
-		const {t} = useLingui();
+		const {t, i18n} = useLingui();
 		const guild = GuildStore.getGuild(guildId);
-		const [selectedTab, setSelectedTab] = React.useState<GuildSettingsTabType>(initialTabProp ?? 'overview');
+		const [selectedTab, setSelectedTab] = useState<GuildSettingsTabType>(initialTabProp ?? 'overview');
 
-		const availableTabs = React.useMemo(() => {
-			const guildSettingsTabs = getGuildSettingsTabs(t);
+		const availableTabs = useMemo(() => {
+			const guildSettingsTabs = getGuildSettingsTabs(i18n);
 			if (!guild) return guildSettingsTabs;
 
 			return guildSettingsTabs.filter((tab) => {
@@ -61,11 +64,11 @@ export const GuildSettingsModal: React.FC<GuildSettingsModalProps> = observer(
 				}
 				return true;
 			});
-		}, [guild, guildId, t]);
+		}, [guild, guildId, i18n]);
 
 		const isMobileExperience = isMobileExperienceEnabled();
 
-		const initialMobileTabObject = React.useMemo(() => {
+		const initialMobileTabObject = useMemo(() => {
 			if (!isMobileExperience || !initialMobileTab) return;
 			const targetTab = availableTabs.find((tab) => tab.type === initialMobileTab);
 			if (!targetTab) return;
@@ -79,24 +82,25 @@ export const GuildSettingsModal: React.FC<GuildSettingsModalProps> = observer(
 		const {enabled: isMobile} = MobileLayoutStore;
 
 		const unsavedChangesStore = UnsavedChangesStore;
+		const currentMobileTab = mobileNav.currentView?.tab;
 
-		React.useEffect(() => {
-			ConnectionStore.syncGuildIfNeeded(guildId, 'guild-settings-modal');
+		useEffect(() => {
+			GatewayConnectionStore.syncGuildIfNeeded(guildId, 'guild-settings-modal');
 		}, [guildId]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (!guild) {
-				ModalActionCreators.pop();
+				ModalActionCreators.popByType(GuildSettingsModal);
 			}
 		}, [guild]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (availableTabs.length > 0 && !availableTabs.find((tab) => tab.type === selectedTab)) {
 				setSelectedTab(availableTabs[0].type);
 			}
 		}, [availableTabs, selectedTab]);
 
-		const groupedSettingsTabs = React.useMemo(() => {
+		const groupedSettingsTabs = useMemo(() => {
 			return availableTabs.reduce(
 				(acc, tab) => {
 					if (!acc[tab.category]) {
@@ -109,7 +113,7 @@ export const GuildSettingsModal: React.FC<GuildSettingsModalProps> = observer(
 			);
 		}, [availableTabs]);
 
-		const currentTab = React.useMemo(() => {
+		const currentTab = useMemo(() => {
 			if (!isMobile) {
 				return availableTabs.find((tab) => tab.type === selectedTab);
 			}
@@ -117,7 +121,7 @@ export const GuildSettingsModal: React.FC<GuildSettingsModalProps> = observer(
 			return availableTabs.find((tab) => tab.type === mobileNav.currentView?.tab);
 		}, [isMobile, selectedTab, mobileNav.isRootView, mobileNav.currentView, availableTabs]);
 
-		const handleMobileBack = React.useCallback(() => {
+		const handleMobileBack = useCallback(() => {
 			if (mobileNav.isRootView) {
 				ModalActionCreators.pop();
 			} else {
@@ -125,23 +129,40 @@ export const GuildSettingsModal: React.FC<GuildSettingsModalProps> = observer(
 			}
 		}, [mobileNav]);
 
-		const handleTabSelect = React.useCallback(
-			(tabType: string, title: string) => {
-				mobileNav.navigateTo(tabType as GuildSettingsTabType, title);
+		const handleDesktopTabSelect = useCallback(
+			(tabType: GuildSettingsTabType) => {
+				if (tabType === 'members') {
+					ModalActionCreators.pop();
+					RouterUtils.transitionTo(Routes.guildMembers(guildId));
+					return;
+				}
+				setSelectedTab(tabType);
 			},
-			[mobileNav],
+			[guildId],
 		);
 
-		const handleClose = React.useCallback(() => {
-			const checkTabId = selectedTab;
+		const handleTabSelect = useCallback(
+			(tabType: string, title: string) => {
+				if (tabType === 'members') {
+					ModalActionCreators.pop();
+					RouterUtils.transitionTo(Routes.guildMembers(guildId));
+					return;
+				}
+				mobileNav.navigateTo(tabType as GuildSettingsTabType, title);
+			},
+			[mobileNav, guildId],
+		);
+
+		const handleClose = useCallback(() => {
+			const checkTabId = isMobile ? currentMobileTab : selectedTab;
 			if (checkTabId && unsavedChangesStore.unsavedChanges[checkTabId]) {
 				UnsavedChangesActionCreators.triggerFlashEffect(checkTabId);
 				return;
 			}
 			ModalActionCreators.pop();
-		}, [selectedTab, unsavedChangesStore.unsavedChanges]);
+		}, [currentMobileTab, isMobile, selectedTab, unsavedChangesStore.unsavedChanges]);
 
-		const handleExternalNavigate = React.useCallback(
+		const handleExternalNavigate = useCallback(
 			(targetTab: GuildSettingsTabType) => {
 				const tabMeta = availableTabs.find((tab) => tab.type === targetTab);
 				if (!tabMeta) return;
@@ -157,7 +178,7 @@ export const GuildSettingsModal: React.FC<GuildSettingsModalProps> = observer(
 			[availableTabs, isMobile, mobileIsRootView, mobileNavigateTo, mobileResetToRoot],
 		);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			GuildSettingsModalStore.register({guildId, navigate: handleExternalNavigate});
 			return () => {
 				GuildSettingsModalStore.unregister(guildId);
@@ -187,7 +208,7 @@ export const GuildSettingsModal: React.FC<GuildSettingsModalProps> = observer(
 							groupedSettingsTabs={groupedSettingsTabs}
 							currentTab={currentTab}
 							selectedTab={selectedTab}
-							onTabSelect={setSelectedTab}
+							onTabSelect={handleDesktopTabSelect}
 						/>
 					)}
 				</SettingsModalContainer>

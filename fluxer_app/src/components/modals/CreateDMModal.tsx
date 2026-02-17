@@ -17,25 +17,25 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {FriendSelector} from '@app/components/common/FriendSelector';
+import {Input} from '@app/components/form/Input';
+import {DuplicateGroupConfirmModal} from '@app/components/modals/DuplicateGroupConfirmModal';
+import * as Modal from '@app/components/modals/Modal';
+import selectorStyles from '@app/components/modals/shared/SelectorModalStyles.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {type CreateDMModalProps, useCreateDMModalLogic} from '@app/utils/modals/CreateDMModalUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {MagnifyingGlassIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {FriendSelector} from '~/components/common/FriendSelector';
-import {Input} from '~/components/form/Input';
-import {DuplicateGroupConfirmModal} from '~/components/modals/DuplicateGroupConfirmModal';
-import * as Modal from '~/components/modals/Modal';
-import selectorStyles from '~/components/modals/shared/SelectorModalStyles.module.css';
-import {Button} from '~/components/uikit/Button/Button';
-import {type CreateDMModalProps, useCreateDMModalLogic} from '~/utils/modals/CreateDMModalUtils';
+import {useCallback} from 'react';
 
 export const CreateDMModal = observer((props: CreateDMModalProps) => {
 	const {t} = useLingui();
 	const modalLogic = useCreateDMModalLogic(props);
 
-	const handleCreate = React.useCallback(async () => {
+	const handleCreate = useCallback(async () => {
 		const result = await modalLogic.handleCreate();
 		if (result && result.duplicates.length > 0) {
 			ModalActionCreators.push(

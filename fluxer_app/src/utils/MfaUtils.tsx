@@ -17,32 +17,44 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-const getRandomBytes = (size = 10) => crypto.getRandomValues(new Uint8Array(size));
+const TOTP_ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
 
-const encodeTotpKey = (bin: Uint8Array) => {
-	const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
-	let bits = '';
-	for (const byte of bin) {
-		bits += byte.toString(2).padStart(8, '0');
-	}
-
-	let base32 = '';
-	for (let i = 0; i < bits.length; i += 5) {
-		const chunk = bits.substring(i, i + 5).padEnd(5, '0');
-		base32 += alphabet[Number.parseInt(chunk, 2)];
-	}
-
-	return base32
-		.toLowerCase()
-		.replace(/(.{4})/g, '$1 ')
-		.trim();
+const getRandomBytes = (length = 20): Uint8Array => {
+	const bytes = new Uint8Array(length);
+	crypto.getRandomValues(bytes);
+	return bytes;
 };
 
-export const generateTotpSecret = () => encodeTotpKey(getRandomBytes());
+const encodeTotpKey = (bytes: Uint8Array): string => {
+	let bits = 0;
+	let value = 0;
+	let output = '';
+	for (const byte of bytes) {
+		value = (value << 8) | byte;
+		bits += 8;
+		while (bits >= 5) {
+			output += TOTP_ALPHABET[(value >>> (bits - 5)) & 31];
+			bits -= 5;
+		}
+	}
+	if (bits > 0) {
+		output += TOTP_ALPHABET[(value << (5 - bits)) & 31];
+	}
+	return output;
+};
 
-export const encodeTotpSecret = (secret: string) => secret.replace(/[\s._-]+/g, '').toUpperCase();
+export function generateTotpSecret() {
+	return encodeTotpKey(getRandomBytes());
+}
 
-export const encodeTotpSecretAsURL = (accountName: string, secret: string, issuer = 'Fluxer') =>
-	`otpauth://totp/${encodeURIComponent(issuer)}:${encodeURIComponent(accountName)}\
-?secret=${encodeTotpSecret(secret)}\
-&issuer=${encodeURIComponent(issuer)}`;
+export function encodeTotpSecret(secret: string) {
+	return secret.replace(/[\s._-]+/g, '').toUpperCase();
+}
+
+export function encodeTotpSecretAsURL(accountName: string, secret: string, issuer = 'Fluxer') {
+	const url = new URL('otpauth://totp');
+	url.pathname = `/${encodeURIComponent(issuer)}:${encodeURIComponent(accountName)}`;
+	url.searchParams.set('secret', encodeTotpSecret(secret));
+	url.searchParams.set('issuer', issuer);
+	return url.toString();
+}

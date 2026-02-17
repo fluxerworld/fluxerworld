@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/MemesPicker.module.css';
+import {PickerSearchInput} from '@app/components/channel/shared/PickerSearchInput';
 import {useLingui} from '@lingui/react/macro';
 import {GifIcon, ImageIcon, MusicNoteIcon, VideoCameraIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import type React from 'react';
-import styles from '~/components/channel/MemesPicker.module.css';
-import {PickerSearchInput} from '~/components/channel/shared/PickerSearchInput';
 
 export type ContentType = 'all' | 'image' | 'video' | 'audio' | 'gif';
 

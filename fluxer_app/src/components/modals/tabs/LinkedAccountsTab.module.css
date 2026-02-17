@@ -1,0 +1,168 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.spinnerWrapper {
+	align-items: center;
+	display: flex;
+	height: 100%;
+	justify-content: center;
+}
+
+.emptyState {
+	align-items: center;
+	display: flex;
+	justify-content: center;
+	padding: var(--spacing-8) var(--spacing-4);
+}
+
+.platformRow {
+	align-items: center;
+	display: flex;
+	gap: var(--spacing-3);
+	margin-bottom: var(--spacing-4);
+}
+
+.platformIconButton {
+	align-items: center;
+	background: white;
+	border: none;
+	border-radius: 6px;
+	color: var(--text-secondary);
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	padding: 6px;
+}
+
+.domainIcon {
+	color: #000;
+}
+
+.connectionsList {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-1);
+}
+
+.card {
+	align-items: center;
+	background-color: var(--background-textarea);
+	border: 1px solid var(--background-modifier-accent);
+	border-radius: var(--radius-xl);
+	box-shadow: var(--shadow-sm);
+	display: flex;
+	gap: 6px;
+	min-height: 80px;
+	padding: var(--spacing-3);
+	position: relative;
+	transition:
+		background-color var(--transition-fast),
+		border-color var(--transition-fast),
+		transform var(--transition-fast);
+}
+
+.cardDragging {
+	opacity: 0.4;
+}
+
+.cardDragHandle {
+	align-items: center;
+	color: var(--text-tertiary);
+	cursor: grab;
+	display: flex;
+	flex-shrink: 0;
+}
+
+.cardDragHandle:active {
+	cursor: grabbing;
+}
+
+.cardIconSquircle {
+	align-items: center;
+	background: white;
+	border-radius: 6px;
+	color: var(--text-secondary);
+	display: flex;
+	flex-shrink: 0;
+	justify-content: center;
+	padding: 4px;
+}
+
+.cardInfo {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.cardName {
+	color: var(--text-primary);
+	font-size: 0.875rem;
+	font-weight: 600;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.cardNameRow {
+	align-items: center;
+	display: flex;
+	gap: 4px;
+	min-width: 0;
+}
+
+.verificationBadge {
+	align-items: center;
+	cursor: default;
+	display: flex;
+	flex-shrink: 0;
+}
+
+.cardActions {
+	align-items: center;
+	display: flex;
+	flex-shrink: 0;
+	gap: var(--spacing-1);
+	opacity: 1;
+}
+
+.actionButton {
+	align-items: center;
+	background: transparent;
+	border: none;
+	border-radius: var(--radius-sm);
+	color: var(--text-tertiary);
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	padding: var(--spacing-1);
+}
+
+.actionButton:hover {
+	background: var(--background-modifier-selected);
+	color: var(--text-primary);
+}
+
+.dropIndicatorTop {
+	border-top: 2px solid var(--brand-primary);
+}
+
+.dropIndicatorBottom {
+	border-bottom: 2px solid var(--brand-primary);
+}

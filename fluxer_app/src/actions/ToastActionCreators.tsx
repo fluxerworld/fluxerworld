@@ -17,21 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {ToastProps} from '~/components/uikit/Toast';
-import ToastStore from '~/stores/ToastStore';
+import type {ToastProps} from '@app/components/uikit/toast';
+import ToastStore from '@app/stores/ToastStore';
 
-export const createToast = (data: ToastProps): string => {
+export function createToast(data: ToastProps): string {
 	return ToastStore.createToast(data);
-};
+}
 
-export const destroyToast = (id: string): void => {
+export function destroyToast(id: string): void {
 	ToastStore.destroyToast(id);
-};
+}
 
-export const success = (message: string): string => {
+export function success(message: string): string {
 	return ToastStore.success(message);
-};
+}
 
-export const error = (message: string): string => {
+export function error(message: string): string {
 	return ToastStore.error(message);
-};
+}

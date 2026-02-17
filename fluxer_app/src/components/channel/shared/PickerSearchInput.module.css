@@ -64,3 +64,19 @@
 .clearButton:hover {
 	color: var(--text-primary);
 }
+
+.rightElementContainer {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-2);
+}
+
+.poweredByKlipy {
+	height: 16px;
+	width: auto;
+	color: var(--text-primary-muted);
+	font-size: 12px;
+	line-height: 16px;
+	white-space: nowrap;
+	flex-shrink: 0;
+}

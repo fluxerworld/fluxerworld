@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/modals/components/plutonium/SectionHeader.module.css';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import styles from './SectionHeader.module.css';
 
 interface SectionHeaderProps {
 	title: React.ReactNode;

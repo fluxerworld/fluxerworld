@@ -211,6 +211,11 @@
 	font-size: 0.875rem;
 }
 
+.customStatusButton:hover .customStatusPlaceholder,
+.customStatusButton:active .customStatusPlaceholder {
+	text-decoration: underline;
+}
+
 .clearCustomStatusButton {
 	display: flex;
 	align-items: center;

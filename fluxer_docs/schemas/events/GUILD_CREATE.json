@@ -1,0 +1,38 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "GUILD_CREATE",
+	"description": "Sent when a guild becomes available, when the user joins a new guild, or for lazy-loading of unavailable guilds.",
+	"scope": "guild",
+	"dispatchedBy": ["POST /guilds", "POST /invites/:invite_code", "gateway"],
+	"payload": {
+		"$ref": "GuildResponse",
+		"description": "The guild object with additional fields for full state",
+		"additionalProperties": {
+			"channels": {
+				"type": "array",
+				"items": {"$ref": "ChannelResponse"},
+				"description": "Channels in the guild"
+			},
+			"members": {
+				"type": "array",
+				"items": {"$ref": "GuildMemberResponse"},
+				"description": "Members in the guild (user field contains only id for deduplication)"
+			},
+			"presences": {
+				"type": "array",
+				"items": {"$ref": "PresenceResponse"},
+				"description": "Presences of online members"
+			},
+			"voice_states": {
+				"type": "array",
+				"items": {"$ref": "VoiceStateResponse"},
+				"description": "Voice states of members in voice channels"
+			},
+			"joined_at": {
+				"type": "string",
+				"format": "date-time",
+				"description": "When the current user joined the guild"
+			}
+		}
+	}
+}

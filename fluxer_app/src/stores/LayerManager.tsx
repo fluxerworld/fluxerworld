@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as PopoutActionCreators from '~/actions/PopoutActionCreators';
-import type {PopoutKey} from '~/components/uikit/Popout';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as PopoutActionCreators from '@app/actions/PopoutActionCreators';
+import type {PopoutKey} from '@app/components/uikit/popout';
 
 type LayerType = 'modal' | 'popout' | 'contextmenu';
 

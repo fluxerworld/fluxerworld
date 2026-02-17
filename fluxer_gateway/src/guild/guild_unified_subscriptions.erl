@@ -23,95 +23,88 @@
 -include_lib("eunit/include/eunit.hrl").
 -endif.
 
--spec handle_subscriptions(map(), pid(), map()) -> ok.
+-type session_state() :: map().
+-type session_id() :: binary() | undefined.
+
+-spec handle_subscriptions(map(), pid(), session_state()) -> ok.
 handle_subscriptions(Data, SocketPid, SessionState) ->
     Subscriptions = maps:get(<<"subscriptions">>, Data, #{}),
     Guilds = maps:get(guilds, SessionState, #{}),
     SessionId = maps:get(id, SessionState, undefined),
-
-    logger:debug("[guild_unified_subscriptions] Processing ~p guild subscriptions for session ~p", [
-        map_size(Subscriptions), SessionId
-    ]),
-
     maps:foreach(
         fun(GuildIdBin, GuildSubData) ->
-            process_guild_subscription(GuildIdBin, GuildSubData, Guilds, SessionId, SocketPid, SessionState)
+            process_guild_subscription(
+                GuildIdBin, GuildSubData, Guilds, SessionId, SocketPid, SessionState
+            )
         end,
         Subscriptions
     ),
     ok.
 
--spec process_guild_subscription(binary(), map(), map(), binary() | undefined, pid(), map()) -> ok.
+-spec process_guild_subscription(binary(), map(), map(), session_id(), pid(), session_state()) ->
+    ok.
 process_guild_subscription(GuildIdBin, GuildSubData, Guilds, SessionId, SocketPid, SessionState) ->
     case validation:validate_snowflake(<<"guild_id">>, GuildIdBin) of
         {ok, GuildId} ->
             case maps:get(GuildId, Guilds, undefined) of
                 {GuildPid, _Ref} when is_pid(GuildPid) ->
-                    process_guild_sub_options(GuildId, GuildPid, GuildSubData, SessionId, SocketPid, SessionState);
+                    process_guild_sub_options(
+                        GuildId, GuildPid, GuildSubData, SessionId, SocketPid, SessionState
+                    );
                 undefined ->
-                    logger:warning("[guild_unified_subscriptions] Guild ~p not found in session state", [GuildId]),
                     ok;
                 _ ->
                     ok
             end;
-        {error, _, Reason} ->
-            logger:warning("[guild_unified_subscriptions] Invalid guild_id ~p: ~p", [GuildIdBin, Reason]),
+        {error, _, _} ->
             ok
     end.
 
--spec process_guild_sub_options(integer(), pid(), map(), binary() | undefined, pid(), map()) -> ok.
+-spec process_guild_sub_options(integer(), pid(), map(), session_id(), pid(), session_state()) ->
+    ok.
 process_guild_sub_options(GuildId, GuildPid, GuildSubData, SessionId, SocketPid, SessionState) ->
     WasActive = not session_passive:is_passive(GuildId, SessionState),
     ActiveChanged = process_active_flag(GuildSubData, GuildPid, SessionId, WasActive),
-
     process_sync_flag(GuildSubData, GuildId, GuildPid, SessionId, ActiveChanged),
-
     process_member_list_channels(GuildSubData, GuildId, GuildPid, SessionId, SocketPid),
-
     process_member_subscriptions(GuildSubData, GuildPid, SessionId),
-
     process_typing_flag(GuildSubData, GuildPid, SessionId),
-
     ok.
 
--spec process_active_flag(map(), pid(), binary() | undefined, boolean()) -> boolean().
+-spec process_active_flag(map(), pid(), session_id(), boolean()) -> boolean().
 process_active_flag(GuildSubData, GuildPid, SessionId, WasActive) ->
     case maps:get(<<"active">>, GuildSubData, undefined) of
         undefined ->
             false;
         true ->
             gen_server:cast(GuildPid, {set_session_active, SessionId}),
-            logger:debug("[guild_unified_subscriptions] Set session ~p active", [SessionId]),
             not WasActive;
         false ->
             gen_server:cast(GuildPid, {set_session_passive, SessionId}),
-            logger:debug("[guild_unified_subscriptions] Set session ~p passive", [SessionId]),
             WasActive
     end.
 
--spec process_sync_flag(map(), integer(), pid(), binary() | undefined, boolean()) -> ok.
-process_sync_flag(GuildSubData, GuildId, GuildPid, SessionId, ActiveChanged) ->
+-spec process_sync_flag(map(), integer(), pid(), session_id(), boolean()) -> ok.
+process_sync_flag(GuildSubData, _GuildId, GuildPid, SessionId, ActiveChanged) ->
     ShouldSync = maps:get(<<"sync">>, GuildSubData, false) =:= true orelse ActiveChanged,
     case ShouldSync of
         true ->
-            guild_sync:send_guild_sync(GuildPid, SessionId),
-            logger:debug("[guild_unified_subscriptions] Sent guild sync for guild ~p", [GuildId]);
+            guild_sync:send_guild_sync(GuildPid, SessionId);
         false ->
             ok
     end.
 
--spec process_member_list_channels(map(), integer(), pid(), binary() | undefined, pid()) -> ok.
+-spec process_member_list_channels(map(), integer(), pid(), session_id(), pid()) -> ok.
 process_member_list_channels(GuildSubData, GuildId, GuildPid, SessionId, SocketPid) ->
     case maps:get(<<"member_list_channels">>, GuildSubData, undefined) of
         undefined ->
             ok;
         MemberListChannels when is_map(MemberListChannels) ->
-            logger:debug("[guild_unified_subscriptions] Processing ~p member list channels for guild ~p", [
-                map_size(MemberListChannels), GuildId
-            ]),
             maps:foreach(
                 fun(ChannelIdBin, Ranges) ->
-                    process_channel_lazy_subscribe(ChannelIdBin, Ranges, GuildId, GuildPid, SessionId, SocketPid)
+                    process_channel_lazy_subscribe(
+                        ChannelIdBin, Ranges, GuildId, GuildPid, SessionId, SocketPid
+                    )
                 end,
                 MemberListChannels
             );
@@ -119,28 +112,29 @@ process_member_list_channels(GuildSubData, GuildId, GuildPid, SessionId, SocketP
             ok
     end.
 
--spec process_channel_lazy_subscribe(binary(), list(), integer(), pid(), binary() | undefined, pid()) -> ok.
+-spec process_channel_lazy_subscribe(binary(), list(), integer(), pid(), session_id(), pid()) -> ok.
 process_channel_lazy_subscribe(ChannelIdBin, Ranges, _GuildId, GuildPid, SessionId, _SocketPid) ->
     case validation:validate_snowflake(<<"channel_id">>, ChannelIdBin) of
         {ok, ChannelId} ->
             ParsedRanges = parse_ranges(Ranges),
-            logger:debug("[guild_unified_subscriptions] Lazy subscribe channel ~p with ranges ~p", [
-                ChannelId, ParsedRanges
-            ]),
-            case gen_server:call(GuildPid, {lazy_subscribe, #{
-                session_id => SessionId,
-                channel_id => ChannelId,
-                ranges => ParsedRanges
-            }}, 10000) of
+            case
+                gen_server:call(
+                    GuildPid,
+                    {lazy_subscribe, #{
+                        session_id => SessionId,
+                        channel_id => ChannelId,
+                        ranges => ParsedRanges
+                    }},
+                    10000
+                )
+            of
                 ok ->
                     ok;
-                Error ->
-                    logger:error("[guild_unified_subscriptions] lazy_subscribe failed for channel ~p: ~p", [
-                        ChannelId, Error
-                    ])
+                _Error ->
+                    ok
             end;
-        {error, _, Reason} ->
-            logger:warning("[guild_unified_subscriptions] Invalid channel_id ~p: ~p", [ChannelIdBin, Reason])
+        {error, _, _} ->
+            ok
     end,
     ok.
 
@@ -160,16 +154,13 @@ parse_ranges(Ranges) when is_list(Ranges) ->
 parse_ranges(_) ->
     [].
 
--spec process_member_subscriptions(map(), pid(), binary() | undefined) -> ok.
+-spec process_member_subscriptions(map(), pid(), session_id()) -> ok.
 process_member_subscriptions(GuildSubData, GuildPid, SessionId) ->
     case maps:get(<<"members">>, GuildSubData, undefined) of
         undefined ->
             ok;
         Members when is_list(Members) ->
             MemberIds = parse_member_ids(Members),
-            logger:debug("[guild_unified_subscriptions] Updating member subscriptions with ~p members", [
-                length(MemberIds)
-            ]),
             gen_server:cast(GuildPid, {update_member_subscriptions, SessionId, MemberIds});
         _ ->
             ok
@@ -189,16 +180,13 @@ parse_member_ids(Members) when is_list(Members) ->
 parse_member_ids(_) ->
     [].
 
--spec process_typing_flag(map(), pid(), binary() | undefined) -> ok.
+-spec process_typing_flag(map(), pid(), session_id()) -> ok.
 process_typing_flag(GuildSubData, GuildPid, SessionId) ->
     case maps:get(<<"typing">>, GuildSubData, undefined) of
         undefined ->
             ok;
         TypingFlag when is_boolean(TypingFlag) ->
-            gen_server:cast(GuildPid, {set_session_typing_override, SessionId, TypingFlag}),
-            logger:debug("[guild_unified_subscriptions] Set typing override to ~p for session ~p", [
-                TypingFlag, SessionId
-            ]);
+            gen_server:cast(GuildPid, {set_session_typing_override, SessionId, TypingFlag});
         _ ->
             ok
     end.

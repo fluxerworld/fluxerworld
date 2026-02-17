@@ -17,48 +17,45 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {IS_DEV} from '@app/lib/Env';
+import {Logger} from '@app/lib/Logger';
+import {makePersistent, stopPersistent} from '@app/lib/MobXPersistence';
+import {parseAndRenderToPlaintext} from '@app/lib/markdown/Plaintext';
+import {getParserFlagsForContext} from '@app/lib/markdown/renderers';
+import {MarkdownContext} from '@app/lib/markdown/renderers/RendererTypes';
+import {Routes} from '@app/Routes';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import {MessageRecord} from '@app/records/MessageRecord';
+import type {Relationship} from '@app/records/RelationshipRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import * as PushSubscriptionService from '@app/services/push/PushSubscriptionService';
+import AccountManager from '@app/stores/AccountManager';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import FriendsTabStore from '@app/stores/FriendsTabStore';
+import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
+import GuildStore from '@app/stores/GuildStore';
+import LocalPresenceStore from '@app/stores/LocalPresenceStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
+import UserGuildSettingsStore from '@app/stores/UserGuildSettingsStore';
+import UserStore from '@app/stores/UserStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import * as MessageUtils from '@app/utils/MessageUtils';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import * as NotificationUtils from '@app/utils/NotificationUtils';
+import {isInstalledPwa} from '@app/utils/PwaUtils';
+import {SystemMessageUtils} from '@app/utils/SystemMessageUtils';
+import {FAVORITES_GUILD_ID as ME} from '@fluxer/constants/src/AppConstants';
+import {ChannelTypes, MessageFlags, MessageTypes} from '@fluxer/constants/src/ChannelConstants';
+import {MessageNotifications} from '@fluxer/constants/src/NotificationConstants';
+import {StatusTypes} from '@fluxer/constants/src/StatusConstants';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {LRUCache} from 'lru-cache';
 import {makeAutoObservable, reaction, runInAction} from 'mobx';
-import {
-	ChannelTypes,
-	ME,
-	MessageFlags,
-	MessageNotifications,
-	MessageTypes,
-	RelationshipTypes,
-	StatusTypes,
-} from '~/Constants';
-import {IS_DEV} from '~/lib/env';
-import {Logger} from '~/lib/Logger';
-import {makePersistent, stopPersistent} from '~/lib/MobXPersistence';
-import {parseAndRenderToPlaintext} from '~/lib/markdown/plaintext';
-import {getParserFlagsForContext, MarkdownContext} from '~/lib/markdown/renderers';
-import {Routes} from '~/Routes';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {Message} from '~/records/MessageRecord';
-import {MessageRecord} from '~/records/MessageRecord';
-import type {Relationship} from '~/records/RelationshipRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import * as PushSubscriptionService from '~/services/push/PushSubscriptionService';
-import AccountManager from '~/stores/AccountManager';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildStore from '~/stores/GuildStore';
-import LocalPresenceStore from '~/stores/LocalPresenceStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-import SelectedChannelStore from '~/stores/SelectedChannelStore';
-import UserGuildSettingsStore from '~/stores/UserGuildSettingsStore';
-import UserStore from '~/stores/UserStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import * as MessageUtils from '~/utils/MessageUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import * as NotificationUtils from '~/utils/NotificationUtils';
-import {isInstalledPwa} from '~/utils/PwaUtils';
-import {SystemMessageUtils} from '~/utils/SystemMessageUtils';
-import FriendsTabStore from './FriendsTabStore';
-import GuildNSFWAgreeStore from './GuildNSFWAgreeStore';
 
 const logger = new Logger('NotificationStore');
 const shouldManagePushSubscriptions = (): boolean => isInstalledPwa();
@@ -280,7 +277,7 @@ class NotificationStore {
 			return null;
 		}
 
-		if (channel.isNSFW() && GuildNSFWAgreeStore.shouldShowGate(channel.id)) {
+		if (GuildNSFWAgreeStore.shouldShowGate({channelId: channel.id, guildId: channel.guildId ?? null})) {
 			return null;
 		}
 
@@ -470,7 +467,12 @@ class NotificationStore {
 		notificationTracker.clearChannel(channelId);
 	}
 
-	handleRelationshipNotification(relationship: Relationship): void {
+	handleRelationshipNotification(
+		relationship: Relationship,
+		options?: {
+			event?: 'add' | 'update';
+		},
+	): void {
 		if (!this.i18n) {
 			throw new Error('NotificationStore: i18n not initialized');
 		}
@@ -489,6 +491,10 @@ class NotificationStore {
 
 		const cacheKey = `relationship_${relationship.type}_${user.id}`;
 		if (this.notifiedMessageIds.has(cacheKey)) {
+			return;
+		}
+
+		if (options?.event === 'update') {
 			return;
 		}
 

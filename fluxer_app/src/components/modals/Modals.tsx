@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {MediaViewerModal} from '@app/components/modals/MediaViewerModal';
+import styles from '@app/components/modals/Modals.module.css';
+import {UserProfileMobileSheet} from '@app/components/modals/UserProfileMobileSheet';
+import ModalStore from '@app/stores/ModalStore';
+import {ModalStackContext} from '@app/utils/modals/ModalUtils';
 import {AnimatePresence} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
-import {MediaViewerModal} from '~/components/modals/MediaViewerModal';
-import styles from '~/components/modals/Modals.module.css';
-import {UserProfileMobileSheet} from '~/components/modals/UserProfileMobileSheet';
-import ModalStore from '~/stores/ModalStore';
-import {ModalStackContext} from '~/utils/modals/ModalUtils';
 
 export const Modals = observer(() => {
 	const orderedModals = ModalStore.orderedModals;
@@ -34,8 +34,8 @@ export const Modals = observer(() => {
 			<UserProfileMobileSheet />
 
 			<AnimatePresence>
-				{orderedModals.map(({key, modal, stackIndex, isVisible, needsBackdrop}) => (
-					<ModalStackContext.Provider key={key} value={{stackIndex, isVisible, needsBackdrop}}>
+				{orderedModals.map(({key, modal, stackIndex, isVisible, needsBackdrop, isTopmost}) => (
+					<ModalStackContext.Provider key={key} value={{stackIndex, isVisible, needsBackdrop, isTopmost}}>
 						{modal()}
 					</ModalStackContext.Provider>
 				))}

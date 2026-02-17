@@ -1,0 +1,11 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "USER_GUILD_SETTINGS_UPDATE",
+	"description": "User guild settings have been updated.",
+	"scope": "presence",
+	"dispatchedBy": ["PATCH /users/@me/guilds/:guild_id/settings"],
+	"payload": {
+		"$ref": "UserGuildSettingsResponse",
+		"description": "The updated guild settings for the user"
+	}
+}

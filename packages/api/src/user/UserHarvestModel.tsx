@@ -1,0 +1,109 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import type {UserID} from '@fluxer/api/src/BrandedTypes';
+import type {UserHarvestRow} from '@fluxer/api/src/database/types/UserTypes';
+import type {HarvestStatusResponseSchema} from '@fluxer/schema/src/domains/user/UserHarvestSchemas';
+import type {z} from 'zod';
+
+export class UserHarvest {
+	userId: UserID;
+	harvestId: bigint;
+	requestedAt: Date;
+	startedAt: Date | null;
+	completedAt: Date | null;
+	failedAt: Date | null;
+	storageKey: string | null;
+	fileSize: bigint | null;
+	progressPercent: number;
+	progressStep: string | null;
+	errorMessage: string | null;
+	downloadUrlExpiresAt: Date | null;
+
+	constructor(row: UserHarvestRow) {
+		this.userId = row.user_id;
+		this.harvestId = row.harvest_id;
+		this.requestedAt = row.requested_at;
+		this.startedAt = row.started_at ?? null;
+		this.completedAt = row.completed_at ?? null;
+		this.failedAt = row.failed_at ?? null;
+		this.storageKey = row.storage_key ?? null;
+		this.fileSize = row.file_size ?? null;
+		this.progressPercent = row.progress_percent;
+		this.progressStep = row.progress_step ?? null;
+		this.errorMessage = row.error_message ?? null;
+		this.downloadUrlExpiresAt = row.download_url_expires_at ?? null;
+	}
+
+	toRow(): UserHarvestRow {
+		return {
+			user_id: this.userId,
+			harvest_id: this.harvestId,
+			requested_at: this.requestedAt,
+			started_at: this.startedAt,
+			completed_at: this.completedAt,
+			failed_at: this.failedAt,
+			storage_key: this.storageKey,
+			file_size: this.fileSize,
+			progress_percent: this.progressPercent,
+			progress_step: this.progressStep,
+			error_message: this.errorMessage,
+			download_url_expires_at: this.downloadUrlExpiresAt,
+		};
+	}
+
+	toResponse(): {
+		harvest_id: string;
+		status: 'pending' | 'processing' | 'completed' | 'failed';
+		created_at: string;
+		started_at: string | null;
+		completed_at: string | null;
+		failed_at: string | null;
+		file_size: string | null;
+		progress_percent: number;
+		progress_step: string | null;
+		error_message: string | null;
+		download_url_expires_at: string | null;
+		expires_at: string | null;
+	} {
+		return {
+			harvest_id: this.harvestId.toString(),
+			status: this.getStatus(),
+			created_at: this.requestedAt.toISOString(),
+			started_at: this.startedAt?.toISOString() ?? null,
+			completed_at: this.completedAt?.toISOString() ?? null,
+			failed_at: this.failedAt?.toISOString() ?? null,
+			file_size: this.fileSize?.toString() ?? null,
+			progress_percent: this.progressPercent,
+			progress_step: this.progressStep,
+			error_message: this.errorMessage,
+			download_url_expires_at: this.downloadUrlExpiresAt?.toISOString() ?? null,
+			expires_at: this.downloadUrlExpiresAt?.toISOString() ?? null,
+		};
+	}
+
+	getStatus(): 'pending' | 'processing' | 'completed' | 'failed' {
+		if (this.failedAt) return 'failed';
+		if (this.completedAt) return 'completed';
+		if (this.startedAt) return 'processing';
+		return 'pending';
+	}
+}
+
+export type UserHarvestResponse = z.infer<typeof HarvestStatusResponseSchema>;

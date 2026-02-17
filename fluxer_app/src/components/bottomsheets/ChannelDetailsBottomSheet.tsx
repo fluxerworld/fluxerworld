@@ -17,130 +17,140 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
-
+import * as ChannelActionCreators from '@app/actions/ChannelActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as PrivateChannelActionCreators from '@app/actions/PrivateChannelActionCreators';
+import * as ReadStateActionCreators from '@app/actions/ReadStateActionCreators';
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as UserGuildSettingsActionCreators from '@app/actions/UserGuildSettingsActionCreators';
+import * as UserProfileActionCreators from '@app/actions/UserProfileActionCreators';
+import {DMCloseFailedModal} from '@app/components/alerts/DMCloseFailedModal';
+import styles from '@app/components/bottomsheets/ChannelDetailsBottomSheet.module.css';
+import {ChannelSearchBottomSheet} from '@app/components/bottomsheets/ChannelSearchBottomSheet';
+import {MuteDurationSheet} from '@app/components/bottomsheets/MuteDurationSheet';
+import {createMuteConfig} from '@app/components/channel/MuteOptions';
+import {PreloadableUserPopout} from '@app/components/channel/PreloadableUserPopout';
+import {MemberListUnavailableFallback} from '@app/components/channel/shared/MemberListUnavailableFallback';
+import {UserTag} from '@app/components/channel/UserTag';
+import {CustomStatusDisplay} from '@app/components/common/custom_status_display/CustomStatusDisplay';
+import {GroupDMAvatar} from '@app/components/common/GroupDMAvatar';
+import {ChannelDebugModal} from '@app/components/debug/ChannelDebugModal';
+import {UserDebugModal} from '@app/components/debug/UserDebugModal';
+import {LongPressable} from '@app/components/LongPressable';
+import {AddFriendsToGroupModal} from '@app/components/modals/AddFriendsToGroupModal';
+import {ChannelSettingsModal} from '@app/components/modals/ChannelSettingsModal';
+import {ChannelTopicModal} from '@app/components/modals/ChannelTopicModal';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {CreateDMModal} from '@app/components/modals/CreateDMModal';
+import {EditGroupModal} from '@app/components/modals/EditGroupModal';
+import {GroupInvitesModal} from '@app/components/modals/GroupInvitesModal';
+import {GuildNotificationSettingsModal} from '@app/components/modals/GuildNotificationSettingsModal';
+import {GuildMemberActionsSheet} from '@app/components/modals/guild_tabs/GuildMemberActionsSheet';
+import {InviteModal} from '@app/components/modals/InviteModal';
+import {ChannelPinsContent} from '@app/components/shared/ChannelPinsContent';
 import {
-	BellIcon,
-	BugIcon,
-	CaretDownIcon,
-	CaretRightIcon,
-	CaretUpIcon,
-	ChatCircleIcon,
-	CheckIcon,
-	CrownIcon,
-	DotsThreeVerticalIcon,
-	GearIcon,
-	MagnifyingGlassIcon,
-	PencilIcon,
-	PushPinIcon,
-	SignOutIcon,
-	StarIcon,
-	TicketIcon,
-	UserPlusIcon,
-	UsersIcon,
-	XIcon,
-} from '@phosphor-icons/react';
-
-import clsx from 'clsx';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-
-import * as ChannelActionCreators from '~/actions/ChannelActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as PrivateChannelActionCreators from '~/actions/PrivateChannelActionCreators';
-import * as ReadStateActionCreators from '~/actions/ReadStateActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as UserGuildSettingsActionCreators from '~/actions/UserGuildSettingsActionCreators';
-import * as UserProfileActionCreators from '~/actions/UserProfileActionCreators';
-
-import {ChannelTypes, isOfflineStatus, ME, MessageNotifications, Permissions} from '~/Constants';
-
-import {DMCloseFailedModal} from '~/components/alerts/DMCloseFailedModal';
-import {ChannelSearchBottomSheet} from '~/components/bottomsheets/ChannelSearchBottomSheet';
-import {createMuteConfig, getMuteDurationOptions} from '~/components/channel/muteOptions';
-import {PreloadableUserPopout} from '~/components/channel/PreloadableUserPopout';
-import {UserTag} from '~/components/channel/UserTag';
-import {CustomStatusDisplay} from '~/components/common/CustomStatusDisplay/CustomStatusDisplay';
-import {GroupDMAvatar} from '~/components/common/GroupDMAvatar';
-import {ChannelDebugModal} from '~/components/debug/ChannelDebugModal';
-import {UserDebugModal} from '~/components/debug/UserDebugModal';
-import {LongPressable} from '~/components/LongPressable';
-import {AddFriendsToGroupModal} from '~/components/modals/AddFriendsToGroupModal';
-import {ChannelSettingsModal} from '~/components/modals/ChannelSettingsModal';
-import {ChannelTopicModal} from '~/components/modals/ChannelTopicModal';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {CreateDMModal} from '~/components/modals/CreateDMModal';
-import {EditGroupModal} from '~/components/modals/EditGroupModal';
-import {GroupInvitesModal} from '~/components/modals/GroupInvitesModal';
-import {GuildNotificationSettingsModal} from '~/components/modals/GuildNotificationSettingsModal';
-import {GuildMemberActionsSheet} from '~/components/modals/guildTabs/GuildMemberActionsSheet';
-import {InviteModal} from '~/components/modals/InviteModal';
-import {ChannelPinsContent} from '~/components/shared/ChannelPinsContent';
-import {
+	ChevronRightIcon,
+	CloseDMIcon,
+	CollapseChevronIcon,
 	CopyIdIcon,
 	CopyLinkIcon,
+	DebugMessageIcon,
 	DeleteIcon,
 	EditIcon,
+	ExpandChevronIcon,
+	FavoriteIcon,
 	InviteIcon,
+	InvitesIcon,
+	LeaveIcon,
 	MarkAsReadIcon,
-} from '~/components/uikit/ContextMenu/ContextMenuIcons';
+	MembersIcon,
+	MoreOptionsVerticalIcon,
+	MuteIcon,
+	NewGroupIcon,
+	NotificationSettingsIcon,
+	OwnerCrownIcon,
+	PinIcon,
+	SearchIcon,
+	SettingsIcon,
+} from '@app/components/uikit/context_menu/ContextMenuIcons';
+import type {MenuGroupType, MenuItemType, MenuRadioType} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {MenuBottomSheet} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import * as Sheet from '@app/components/uikit/sheet/Sheet';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useLeaveGroup} from '@app/hooks/useLeaveGroup';
+import {useMemberListCustomStatus} from '@app/hooks/useMemberListCustomStatus';
+import {useMemberListPresence} from '@app/hooks/useMemberListPresence';
+import {useMemberListSubscription} from '@app/hooks/useMemberListSubscription';
+import {usePressable} from '@app/hooks/usePressable';
+import {Logger} from '@app/lib/Logger';
+import {SafeMarkdown} from '@app/lib/markdown';
+import {MarkdownContext} from '@app/lib/markdown/renderers/RendererTypes';
+import {Routes} from '@app/Routes';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import FavoritesStore from '@app/stores/FavoritesStore';
+import GuildStore from '@app/stores/GuildStore';
+import MemberSidebarStore from '@app/stores/MemberSidebarStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import ReadStateStore from '@app/stores/ReadStateStore';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
+import TypingStore from '@app/stores/TypingStore';
+import UserGuildSettingsStore from '@app/stores/UserGuildSettingsStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import UserStore from '@app/stores/UserStore';
+import markupStyles from '@app/styles/Markup.module.css';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import {getMutedText, getNotificationSettingsLabel} from '@app/utils/ContextMenuUtils';
+import {isGroupDmFull} from '@app/utils/GroupDmUtils';
+import * as InviteUtils from '@app/utils/InviteUtils';
 import {
-	MenuBottomSheet,
-	type MenuGroupType,
-	type MenuItemType,
-	type MenuRadioType,
-} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import {Scroller} from '~/components/uikit/Scroller';
-import * as Sheet from '~/components/uikit/Sheet/Sheet';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
+	buildMemberListLayout,
+	getRowIndexRangeForMemberIndexRange,
+	getTotalMemberCount,
+} from '@app/utils/MemberListLayout';
+import * as MemberListUtils from '@app/utils/MemberListUtils';
+import {buildChannelLink} from '@app/utils/MessageLinkUtils';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import {ME} from '@fluxer/constants/src/AppConstants';
+import {ChannelTypes, Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {GuildOperations} from '@fluxer/constants/src/GuildConstants';
+import {MessageNotifications} from '@fluxer/constants/src/NotificationConstants';
+import {isOfflineStatus} from '@fluxer/constants/src/StatusConstants';
+import {Trans, useLingui} from '@lingui/react/macro';
+import clsx from 'clsx';
+import {observer} from 'mobx-react-lite';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
-import {useLeaveGroup} from '~/hooks/useLeaveGroup';
-import {useMemberListSubscription} from '~/hooks/useMemberListSubscription';
-import {usePressable} from '~/hooks/usePressable';
-
-import {SafeMarkdown} from '~/lib/markdown';
-import {MarkdownContext} from '~/lib/markdown/renderers';
-
-import {Routes} from '~/Routes';
-
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {GuildRecord} from '~/records/GuildRecord';
-import type {UserRecord} from '~/records/UserRecord';
-
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import FavoritesStore from '~/stores/FavoritesStore';
-import GuildStore from '~/stores/GuildStore';
-import MemberSidebarStore from '~/stores/MemberSidebarStore';
-import PermissionStore from '~/stores/PermissionStore';
-import PresenceStore from '~/stores/PresenceStore';
-import ReadStateStore from '~/stores/ReadStateStore';
-import SelectedChannelStore from '~/stores/SelectedChannelStore';
-import TypingStore from '~/stores/TypingStore';
-import UserGuildSettingsStore from '~/stores/UserGuildSettingsStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import UserStore from '~/stores/UserStore';
-
-import markupStyles from '~/styles/Markup.module.css';
-
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import {getMutedText, getNotificationSettingsLabel} from '~/utils/ContextMenuUtils';
-import {MAX_GROUP_DM_RECIPIENTS} from '~/utils/groupDmUtils';
-import * as InviteUtils from '~/utils/InviteUtils';
-import * as MemberListUtils from '~/utils/MemberListUtils';
-import {buildChannelLink} from '~/utils/messageLinkUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import * as RouterUtils from '~/utils/RouterUtils';
-
-import styles from './ChannelDetailsBottomSheet.module.css';
+const logger = new Logger('ChannelDetailsBottomSheet');
 
 const MEMBER_ITEM_HEIGHT = 56;
 const INITIAL_MEMBER_RANGE: [number, number] = [0, 99];
 const SCROLL_BUFFER = 50;
+
+function isScrollableOverflow(value: string): boolean {
+	return value === 'auto' || value === 'scroll' || value === 'overlay';
+}
+
+function findScrollableParent(node: HTMLElement | null): HTMLElement | null {
+	let currentNode = node?.parentElement ?? null;
+	while (currentNode) {
+		const computedStyle = window.getComputedStyle(currentNode);
+		if (isScrollableOverflow(computedStyle.overflowY) || isScrollableOverflow(computedStyle.overflow)) {
+			return currentNode;
+		}
+		currentNode = currentNode.parentElement;
+	}
+	return null;
+}
 
 const SkeletonMemberItem = () => (
 	<div className={styles.skeletonItem}>
@@ -208,9 +218,20 @@ const MobileMemberListItem = observer(
 	}) => {
 		const {t} = useLingui();
 		const isTyping = TypingStore.isTyping(channelId, member.user.id);
-		const status = PresenceStore.getStatus(member.user.id);
+		const status = useMemberListPresence({
+			guildId: guild.id,
+			channelId,
+			userId: member.user.id,
+			enabled: true,
+		});
+		const memberListCustomStatus = useMemberListCustomStatus({
+			guildId: guild.id,
+			channelId,
+			userId: member.user.id,
+			enabled: true,
+		});
 
-		const handleLongPress = React.useCallback(() => {
+		const handleLongPress = useCallback(() => {
 			onLongPress?.(member);
 		}, [member, onLongPress]);
 
@@ -227,6 +248,7 @@ const MobileMemberListItem = observer(
 						isTyping={isTyping}
 						showOffline={member.user.id === AuthenticationStore.currentUserId || isTyping}
 						guildId={guild.id}
+						status={status}
 					/>
 					<div className={styles.memberContent}>
 						<div className={styles.memberNameRow}>
@@ -236,7 +258,7 @@ const MobileMemberListItem = observer(
 							{guild.isOwner(member.user.id) && (
 								<div className={styles.crownContainer}>
 									<Tooltip text={t`Community Owner`}>
-										<CrownIcon className={styles.crownIcon} />
+										<OwnerCrownIcon className={styles.crownIcon} />
 									</Tooltip>
 								</div>
 							)}
@@ -244,6 +266,7 @@ const MobileMemberListItem = observer(
 						</div>
 						{!member.user.bot && (
 							<CustomStatusDisplay
+								customStatus={memberListCustomStatus}
 								userId={member.user.id}
 								className={styles.memberCustomStatus}
 								showText={true}
@@ -327,35 +350,101 @@ const LazyGuildMemberList = observer(
 		onMemberLongPress?: (member: GuildMemberRecord) => void;
 		enabled?: boolean;
 	}) => {
-		const [subscribedRange, setSubscribedRange] = React.useState<[number, number]>(INITIAL_MEMBER_RANGE);
+		const subscribedRangeRef = useRef<[number, number]>(INITIAL_MEMBER_RANGE);
+		const listContainerRef = useRef<HTMLDivElement | null>(null);
+		const scrollAnimationFrameRef = useRef<number | null>(null);
+		const memberListUpdatesDisabled = (guild.disabledOperations & GuildOperations.MEMBER_LIST_UPDATES) !== 0;
 
 		const {subscribe} = useMemberListSubscription({
 			guildId: guild.id,
 			channelId: channel.id,
-			enabled,
+			enabled: enabled && !memberListUpdatesDisabled,
 			allowInitialUnfocusedLoad: true,
 		});
 
 		const memberListState = MemberSidebarStore.getList(guild.id, channel.id);
 		const isLoading = !memberListState || memberListState.items.size === 0;
+		const memberCount = memberListState?.memberCount ?? 0;
+		const groups = memberListState?.groups ?? [];
+		const layouts = useMemo(() => buildMemberListLayout(groups), [groups]);
+		const totalMembers = useMemo(() => Math.max(memberCount, getTotalMemberCount(groups)), [groups, memberCount]);
 
-		const handleScroll = React.useCallback(
-			(event: React.UIEvent<HTMLDivElement>) => {
-				const target = event.currentTarget;
-				const scrollTop = target.scrollTop;
-				const clientHeight = target.clientHeight;
+		const updateSubscribedRange = useCallback(
+			(scrollTop: number, clientHeight: number) => {
+				const startMemberIndex = Math.max(0, Math.floor(scrollTop / MEMBER_ITEM_HEIGHT) - SCROLL_BUFFER);
+				const endMemberIndex = Math.max(
+					INITIAL_MEMBER_RANGE[1],
+					Math.ceil((scrollTop + clientHeight) / MEMBER_ITEM_HEIGHT) + SCROLL_BUFFER,
+				);
 
-				const startIndex = Math.max(0, Math.floor(scrollTop / MEMBER_ITEM_HEIGHT) - SCROLL_BUFFER);
-				const endIndex = Math.ceil((scrollTop + clientHeight) / MEMBER_ITEM_HEIGHT) + SCROLL_BUFFER;
-
-				if (startIndex !== subscribedRange[0] || endIndex !== subscribedRange[1]) {
-					const newRange: [number, number] = [startIndex, endIndex];
-					setSubscribedRange(newRange);
-					subscribe([newRange]);
+				let nextRange: [number, number] = [startMemberIndex, endMemberIndex];
+				if (totalMembers > 0) {
+					const maxMemberIndex = totalMembers - 1;
+					const clampedStart = Math.min(startMemberIndex, maxMemberIndex);
+					const clampedEnd = Math.min(Math.max(clampedStart, endMemberIndex), maxMemberIndex);
+					const rowRange = getRowIndexRangeForMemberIndexRange(layouts, clampedStart, clampedEnd);
+					nextRange = rowRange ?? [clampedStart, clampedEnd];
 				}
+
+				const [previousStart, previousEnd] = subscribedRangeRef.current;
+				if (nextRange[0] === previousStart && nextRange[1] === previousEnd) {
+					return;
+				}
+
+				subscribedRangeRef.current = nextRange;
+				subscribe([nextRange]);
 			},
-			[subscribedRange, subscribe],
+			[layouts, subscribe, totalMembers],
 		);
+
+		useEffect(() => {
+			if (!enabled || memberListUpdatesDisabled) {
+				return;
+			}
+
+			const listContainer = listContainerRef.current;
+			if (!listContainer) {
+				return;
+			}
+
+			const scrollParent = findScrollableParent(listContainer);
+			if (!scrollParent) {
+				return;
+			}
+
+			const processScroll = () => {
+				scrollAnimationFrameRef.current = null;
+				updateSubscribedRange(scrollParent.scrollTop, scrollParent.clientHeight);
+			};
+
+			const handleScroll = () => {
+				if (scrollAnimationFrameRef.current !== null) {
+					return;
+				}
+				scrollAnimationFrameRef.current = window.requestAnimationFrame(processScroll);
+			};
+
+			handleScroll();
+			scrollParent.addEventListener('scroll', handleScroll, {passive: true});
+			window.addEventListener('resize', handleScroll);
+
+			return () => {
+				scrollParent.removeEventListener('scroll', handleScroll);
+				window.removeEventListener('resize', handleScroll);
+				if (scrollAnimationFrameRef.current !== null) {
+					window.cancelAnimationFrame(scrollAnimationFrameRef.current);
+					scrollAnimationFrameRef.current = null;
+				}
+			};
+		}, [enabled, memberListUpdatesDisabled, updateSubscribedRange]);
+
+		if (memberListUpdatesDisabled) {
+			return (
+				<div className={styles.memberListFallbackContainer}>
+					<MemberListUnavailableFallback className={styles.memberListFallback} />
+				</div>
+			);
+		}
 
 		if (isLoading) {
 			return (
@@ -376,30 +465,35 @@ const LazyGuildMemberList = observer(
 		}
 
 		const groupedItems: Map<string, Array<GuildMemberRecord>> = new Map();
-		const groups = memberListState.groups;
 		const seenMemberIds = new Set<string>();
+		const groupById = new Map(groups.map((group) => [group.id, group]));
 
-		for (const group of groups) {
-			groupedItems.set(group.id, []);
-		}
-
-		let currentGroup: string | null = null;
-		const sortedItems = Array.from(memberListState.items.entries()).sort(([a], [b]) => a - b);
-		for (const [, item] of sortedItems) {
-			if (item.type === 'group') {
-				currentGroup = (item.data as {id: string}).id;
-			} else if (item.type === 'member' && currentGroup) {
+		for (const layout of layouts) {
+			const members: Array<GuildMemberRecord> = [];
+			for (let index = layout.memberStartIndex; index <= layout.memberEndIndex; index++) {
+				const item = memberListState.items.get(index);
+				if (!item) {
+					continue;
+				}
 				const member = item.data as GuildMemberRecord;
 				if (!seenMemberIds.has(member.user.id)) {
 					seenMemberIds.add(member.user.id);
-					groupedItems.get(currentGroup)?.push(member);
+					members.push(member);
 				}
+			}
+			const group = groupById.get(layout.id);
+			if (group) {
+				groupedItems.set(group.id, members);
 			}
 		}
 
 		return (
-			<div className={styles.memberListContent} onScroll={handleScroll}>
-				{groups.map((group) => {
+			<div className={styles.memberListContent} ref={listContainerRef}>
+				{layouts.map((layout) => {
+					const group = groupById.get(layout.id);
+					if (!group) {
+						return null;
+					}
 					const members = groupedItems.get(group.id) ?? [];
 					if (members.length === 0) {
 						return null;
@@ -441,24 +535,24 @@ const GuildMemberList = observer(
 export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps> = observer(
 	({isOpen, onClose, channel, initialTab = 'members', openSearchImmediately = false}) => {
 		const {t, i18n} = useLingui();
-		const [activeTab, setActiveTab] = React.useState<ChannelDetailsTab>(initialTab);
-		const [muteSheetOpen, setMuteSheetOpen] = React.useState(false);
-		const [searchSheetOpen, setSearchSheetOpen] = React.useState(false);
-		const [isTopicExpanded, setIsTopicExpanded] = React.useState(false);
-		const [moreOptionsSheetOpen, setMoreOptionsSheetOpen] = React.useState(false);
-		const [notificationSheetOpen, setNotificationSheetOpen] = React.useState(false);
-		const [activeMemberSheet, setActiveMemberSheet] = React.useState<{
+		const [activeTab, setActiveTab] = useState<ChannelDetailsTab>(initialTab);
+		const [muteSheetOpen, setMuteSheetOpen] = useState(false);
+		const [searchSheetOpen, setSearchSheetOpen] = useState(false);
+		const [isTopicExpanded, setIsTopicExpanded] = useState(false);
+		const [moreOptionsSheetOpen, setMoreOptionsSheetOpen] = useState(false);
+		const [notificationSheetOpen, setNotificationSheetOpen] = useState(false);
+		const [activeMemberSheet, setActiveMemberSheet] = useState<{
 			member: GuildMemberRecord;
 			user: UserRecord;
 		} | null>(null);
 
 		const leaveGroup = useLeaveGroup();
 
-		React.useEffect(() => {
+		useEffect(() => {
 			setActiveTab(initialTab);
 		}, [initialTab]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (openSearchImmediately && isOpen) {
 				setSearchSheetOpen(true);
 			}
@@ -481,7 +575,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 
 		const isGroupDMOwner = channel.type === ChannelTypes.GROUP_DM && channel.ownerId === currentUserId;
 
-		const channelTypeLabel = React.useMemo(() => {
+		const channelTypeLabel = useMemo(() => {
 			switch (channel.type) {
 				case ChannelTypes.GUILD_TEXT:
 					return t`Text Channel`;
@@ -505,6 +599,12 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 
 		const developerMode = UserSettingsStore.developerMode;
 
+		const moreOptionsTitle = (() => {
+			if (isGroupDM) return t`Group Settings`;
+			if (isDM) return t`DM Settings`;
+			return t`Channel Settings`;
+		})();
+
 		const handleSearchClick = () => {
 			setSearchSheetOpen(true);
 		};
@@ -525,17 +625,17 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 			setNotificationSheetOpen(false);
 		};
 
-		const handleMarkAsRead = React.useCallback(() => {
+		const handleMarkAsRead = useCallback(() => {
 			ReadStateActionCreators.ack(channel.id, true, true);
 			ToastActionCreators.createToast({type: 'success', children: t`Marked as read`});
 		}, [channel.id]);
 
-		const handleInvite = React.useCallback(() => {
+		const handleInvite = useCallback(() => {
 			ModalActionCreators.push(modal(() => <InviteModal channelId={channel.id} />));
 			onClose();
 		}, [channel.id, onClose]);
 
-		const handleCopyLink = React.useCallback(() => {
+		const handleCopyLink = useCallback(() => {
 			const channelLink = buildChannelLink({
 				guildId: channel.guildId,
 				channelId: channel.id,
@@ -544,12 +644,12 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 			ToastActionCreators.createToast({type: 'success', children: t`Link copied to clipboard`});
 		}, [channel.id, channel.guildId, i18n]);
 
-		const handleCopyId = React.useCallback(() => {
+		const handleCopyId = useCallback(() => {
 			TextCopyActionCreators.copy(i18n, channel.id);
 			ToastActionCreators.createToast({type: 'success', children: t`Channel ID copied to clipboard`});
 		}, [channel.id, i18n]);
 
-		const handleToggleFavorite = React.useCallback(() => {
+		const handleToggleFavorite = useCallback(() => {
 			if (isFavorited) {
 				FavoritesStore.removeChannel(channel.id);
 				ToastActionCreators.createToast({type: 'success', children: t`Removed from favorites`});
@@ -559,19 +659,19 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 			}
 		}, [channel.id, channel.guildId, isFavorited]);
 
-		const handleDebugChannel = React.useCallback(() => {
+		const handleDebugChannel = useCallback(() => {
 			const channelName = channel.name ?? t`Channel`;
 			ModalActionCreators.push(modal(() => <ChannelDebugModal title={channelName} channel={channel} />));
 			onClose();
 		}, [channel, onClose]);
 
-		const handleDebugUser = React.useCallback(() => {
+		const handleDebugUser = useCallback(() => {
 			if (!recipient) return;
 			ModalActionCreators.push(modal(() => <UserDebugModal title={recipient.username} user={recipient} />));
 			onClose();
 		}, [recipient, onClose]);
 
-		const handlePinDM = React.useCallback(async () => {
+		const handlePinDM = useCallback(async () => {
 			handleMoreOptionsClose();
 			try {
 				await PrivateChannelActionCreators.pinDmChannel(channel.id);
@@ -580,7 +680,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 					children: isGroupDM ? t`Pinned group` : t`Pinned DM`,
 				});
 			} catch (error) {
-				console.error('Failed to pin:', error);
+				logger.error('Failed to pin:', error);
 				ToastActionCreators.createToast({
 					type: 'error',
 					children: isGroupDM ? t`Failed to pin group` : t`Failed to pin DM`,
@@ -588,7 +688,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 			}
 		}, [channel.id, isGroupDM]);
 
-		const handleUnpinDM = React.useCallback(async () => {
+		const handleUnpinDM = useCallback(async () => {
 			handleMoreOptionsClose();
 			try {
 				await PrivateChannelActionCreators.unpinDmChannel(channel.id);
@@ -597,7 +697,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 					children: isGroupDM ? t`Unpinned group` : t`Unpinned DM`,
 				});
 			} catch (error) {
-				console.error('Failed to unpin:', error);
+				logger.error('Failed to unpin:', error);
 				ToastActionCreators.createToast({
 					type: 'error',
 					children: isGroupDM ? t`Failed to unpin group` : t`Failed to unpin DM`,
@@ -605,7 +705,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 			}
 		}, [channel.id, isGroupDM]);
 
-		const handleCloseDM = React.useCallback(() => {
+		const handleCloseDM = useCallback(() => {
 			handleMoreOptionsClose();
 			onClose();
 			ModalActionCreators.push(
@@ -627,8 +727,10 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 									children: t`DM closed`,
 								});
 							} catch (error) {
-								console.error('Failed to close DM:', error);
-								ModalActionCreators.push(modal(() => <DMCloseFailedModal />));
+								logger.error('Failed to close DM:', error);
+								window.setTimeout(() => {
+									ModalActionCreators.push(modal(() => <DMCloseFailedModal />));
+								}, 0);
 							}
 						}}
 					/>
@@ -636,42 +738,42 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 			);
 		}, [channel.id, recipient, onClose]);
 
-		const handleLeaveGroup = React.useCallback(() => {
+		const handleLeaveGroup = useCallback(() => {
 			handleMoreOptionsClose();
 			onClose();
 			leaveGroup(channel.id);
 		}, [channel.id, onClose, leaveGroup]);
 
-		const handleEditGroup = React.useCallback(() => {
+		const handleEditGroup = useCallback(() => {
 			handleMoreOptionsClose();
 			onClose();
 			ModalActionCreators.push(modal(() => <EditGroupModal channelId={channel.id} />));
 		}, [channel.id, onClose]);
 
-		const handleShowInvites = React.useCallback(() => {
+		const handleShowInvites = useCallback(() => {
 			handleMoreOptionsClose();
 			onClose();
 			ModalActionCreators.push(modal(() => <GroupInvitesModal channelId={channel.id} />));
 		}, [channel.id, onClose]);
 
-		const handleOpenAddFriendsToGroup = React.useCallback(() => {
+		const handleOpenAddFriendsToGroup = useCallback(() => {
 			handleMoreOptionsClose();
 			onClose();
 			ModalActionCreators.push(modal(() => <AddFriendsToGroupModal channelId={channel.id} />));
 		}, [channel.id, onClose]);
 
-		const handleCopyUserId = React.useCallback(() => {
+		const handleCopyUserId = useCallback(() => {
 			if (!recipient) return;
 			TextCopyActionCreators.copy(i18n, recipient.id);
 			ToastActionCreators.createToast({type: 'success', children: t`User ID copied to clipboard`});
 		}, [recipient, i18n]);
 
-		const handleEditChannel = React.useCallback(() => {
+		const handleEditChannel = useCallback(() => {
 			ModalActionCreators.push(modal(() => <ChannelSettingsModal channelId={channel.id} />));
 			onClose();
 		}, [channel.id, onClose]);
 
-		const handleDeleteChannel = React.useCallback(() => {
+		const handleDeleteChannel = useCallback(() => {
 			onClose();
 			const channelType = channel.type === ChannelTypes.GUILD_VOICE ? t`Voice Channel` : t`Text Channel`;
 			ModalActionCreators.push(
@@ -689,7 +791,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 									children: t`Channel deleted`,
 								});
 							} catch (error) {
-								console.error('Failed to delete channel:', error);
+								logger.error('Failed to delete channel:', error);
 								ToastActionCreators.createToast({
 									type: 'error',
 									children: t`Failed to delete channel`,
@@ -701,12 +803,12 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 			);
 		}, [channel.id, channel.name, channel.type, onClose]);
 
-		const handleOpenGuildNotificationSettings = React.useCallback(() => {
+		const handleOpenGuildNotificationSettings = useCallback(() => {
 			if (!guildId) return;
 			ModalActionCreators.push(modal(() => <GuildNotificationSettingsModal guildId={guildId} />));
 		}, [guildId]);
 
-		const handleOpenCreateGroupModal = React.useCallback(() => {
+		const handleOpenCreateGroupModal = useCallback(() => {
 			const duplicateExcludeChannelId = channel.type === ChannelTypes.GROUP_DM ? channel.id : undefined;
 			ModalActionCreators.push(
 				modal(() => (
@@ -718,7 +820,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 			);
 		}, [channel.id, channel.recipientIds, channel.type]);
 
-		const handleNotificationLevelChange = React.useCallback(
+		const handleNotificationLevelChange = useCallback(
 			(level: number) => {
 				if (!guildId) return;
 				if (level === MessageNotifications.INHERIT) {
@@ -739,11 +841,40 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 			[guildId, channel.id],
 		);
 
-		const handleMemberLongPress = React.useCallback((member: GuildMemberRecord) => {
+		const handleMute = useCallback(
+			(duration: number | null) => {
+				UserGuildSettingsActionCreators.updateChannelOverride(
+					settingsGuildId,
+					channel.id,
+					{
+						muted: true,
+						mute_config: createMuteConfig(duration),
+					},
+					{persistImmediately: true},
+				);
+				setMuteSheetOpen(false);
+			},
+			[settingsGuildId, channel.id],
+		);
+
+		const handleUnmute = useCallback(() => {
+			UserGuildSettingsActionCreators.updateChannelOverride(
+				settingsGuildId,
+				channel.id,
+				{
+					muted: false,
+					mute_config: null,
+				},
+				{persistImmediately: true},
+			);
+			setMuteSheetOpen(false);
+		}, [settingsGuildId, channel.id]);
+
+		const handleMemberLongPress = useCallback((member: GuildMemberRecord) => {
 			setActiveMemberSheet({member, user: member.user});
 		}, []);
 
-		const handleCloseMemberSheet = React.useCallback(() => {
+		const handleCloseMemberSheet = useCallback(() => {
 			setActiveMemberSheet(null);
 		}, []);
 
@@ -772,7 +903,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 				<Sheet.Root isOpen={isOpen} onClose={onClose} snapPoints={[0, 1]} initialSnap={1}>
 					<Sheet.Handle />
 					<Sheet.Content padding="none">
-						<Scroller className={styles.mainScroller}>
+						<Scroller key="channel-details-scroller" className={styles.mainScroller}>
 							<div className={styles.channelInfoSection}>
 								<Sheet.CloseButton onClick={onClose} className={styles.closeButton} />
 								<div className={styles.channelInfoContainer}>
@@ -801,7 +932,9 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 											<>
 												<h2 className={styles.channelInfoTitle}>{ChannelUtils.getDMDisplayName(channel)}</h2>
 												<p className={styles.channelInfoSubtitle}>
-													{t`Group DM · ${channel.recipientIds.length + 1} members`}
+													{channel.recipientIds.length + 1 === 1
+														? t`Group DM · 1 member`
+														: t`Group DM · ${channel.recipientIds.length + 1} members`}
 												</p>
 											</>
 										) : isPersonalNotes ? (
@@ -865,9 +998,9 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 												className={styles.topicExpandButton}
 											>
 												{isTopicExpanded ? (
-													<CaretUpIcon className={styles.iconSmall} weight="bold" />
+													<CollapseChevronIcon className={styles.iconSmall} />
 												) : (
-													<CaretDownIcon className={styles.iconSmall} weight="bold" />
+													<ExpandChevronIcon className={styles.iconSmall} />
 												)}
 											</button>
 										</div>
@@ -878,20 +1011,16 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 							<div className={styles.quickActionsRow}>
 								<div className={styles.quickActionsScroll}>
 									<QuickActionButton
-										icon={<BellIcon weight={isMuted ? 'regular' : 'fill'} size={20} />}
+										icon={<MuteIcon size={20} />}
 										label={isMuted ? t`Unmute` : t`Mute`}
 										onClick={handleBellClick}
 										isActive={isMuted}
 									/>
 
-									<QuickActionButton
-										icon={<MagnifyingGlassIcon weight="bold" size={20} />}
-										label={t`Search`}
-										onClick={handleSearchClick}
-									/>
+									<QuickActionButton icon={<SearchIcon size={20} />} label={t`Search`} onClick={handleSearchClick} />
 
 									<QuickActionButton
-										icon={<DotsThreeVerticalIcon weight="bold" size={20} />}
+										icon={<MoreOptionsVerticalIcon size={20} />}
 										label={t`More`}
 										onClick={handleCogClick}
 									/>
@@ -905,7 +1034,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 									className={`${styles.tabButton} ${activeTab === 'members' ? styles.tabButtonActive : styles.tabButtonInactive}`}
 									style={activeTab === 'members' ? {borderBottomColor: 'var(--brand-primary-light)'} : undefined}
 								>
-									<UsersIcon className={styles.tabIcon} />
+									<MembersIcon className={styles.tabIcon} />
 									<Trans>Members</Trans>
 								</button>
 								<button
@@ -914,11 +1043,10 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 									className={`${styles.tabButton} ${activeTab === 'pins' ? styles.tabButtonActive : styles.tabButtonInactive}`}
 									style={activeTab === 'pins' ? {borderBottomColor: 'var(--brand-primary-light)'} : undefined}
 								>
-									<PushPinIcon className={styles.tabIcon} />
+									<PinIcon className={styles.tabIcon} />
 									<Trans>Pins</Trans>
 								</button>
 							</div>
-
 							<div className={styles.contentArea}>
 								{activeTab === 'members' && (
 									<div className={styles.membersTabContent}>
@@ -927,7 +1055,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 												{isDM && recipient && (
 													<button type="button" className={styles.newGroupButton} onClick={handleOpenCreateGroupModal}>
 														<div className={styles.newGroupIconContainer}>
-															<ChatCircleIcon className={`${styles.iconMedium} ${styles.newGroupIconWhite}`} />
+															<NewGroupIcon className={`${styles.iconMedium} ${styles.newGroupIconWhite}`} />
 														</div>
 														<div className={styles.newGroupContent}>
 															<p className={styles.newGroupTitle}>
@@ -937,66 +1065,57 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 																<Trans>Create a new group with {recipient.username}</Trans>
 															</p>
 														</div>
-														<CaretRightIcon className={styles.iconMedium} weight="bold" />
+														<ChevronRightIcon className={styles.iconMedium} />
 													</button>
 												)}
 
-												<div className={styles.membersHeader}>
-													<Trans>Members</Trans> — {dmMemberGroups.reduce((total, group) => total + group.count, 0)}
-												</div>
-												<div className={styles.membersListContainer}>
-													{dmMemberGroups.map((group) => (
-														<div key={group.id} className={styles.memberGroupContainer}>
-															<div className={styles.memberGroupHeader}>
-																{group.displayName} — {group.count}
-															</div>
-															<div className={styles.memberGroupList}>
-																{group.users.map((user, index) => {
-																	const isCurrentUser = user.id === currentUser?.id;
-																	const isOwner = isGroupDM && channel.ownerId === user.id;
-
-																	const handleUserClick = () => {
-																		UserProfileActionCreators.openUserProfile(user.id);
-																	};
-
-																	return (
-																		<React.Fragment key={user.id}>
-																			<button
-																				type="button"
-																				onClick={handleUserClick}
-																				className={styles.memberItemButton}
-																			>
-																				<StatusAwareAvatar user={user} size={40} />
-																				<div className={styles.memberItemContent}>
-																					<span className={styles.memberItemName}>
-																						{user.username}
-																						{isCurrentUser && (
-																							<span className={styles.memberItemYou}>
-																								{' '}
-																								<Trans>(you)</Trans>
-																							</span>
-																						)}
-																					</span>
-																					{(user.bot || isOwner) && (
-																						<div className={styles.memberItemTags}>
-																							{user.bot && <UserTag system={user.system} />}
-																							{isOwner && (
-																								<Tooltip text={t`Group Owner`}>
-																									<CrownIcon className={styles.ownerCrown} weight="fill" />
-																								</Tooltip>
-																							)}
-																						</div>
-																					)}
-																				</div>
-																			</button>
-																			{index < group.users.length - 1 && <div className={styles.memberItemDivider} />}
-																		</React.Fragment>
-																	);
-																})}
-															</div>
+												{dmMemberGroups.map((group) => (
+													<div key={group.id} className={styles.memberGroupContainer}>
+														<div className={styles.memberGroupHeader}>
+															{group.displayName} — {group.count}
 														</div>
-													))}
-												</div>
+														<div className={styles.memberGroupList}>
+															{group.users.map((user, index) => {
+																const isCurrentUser = user.id === currentUser?.id;
+																const isOwner = isGroupDM && channel.ownerId === user.id;
+
+																const handleUserClick = () => {
+																	UserProfileActionCreators.openUserProfile(user.id);
+																};
+
+																return (
+																	<React.Fragment key={user.id}>
+																		<button type="button" onClick={handleUserClick} className={styles.memberItemButton}>
+																			<StatusAwareAvatar user={user} size={40} />
+																			<div className={styles.memberItemContent}>
+																				<span className={styles.memberItemName}>
+																					{user.username}
+																					{isCurrentUser && (
+																						<span className={styles.memberItemYou}>
+																							{' '}
+																							<Trans>(you)</Trans>
+																						</span>
+																					)}
+																				</span>
+																				{(user.bot || isOwner) && (
+																					<div className={styles.memberItemTags}>
+																						{user.bot && <UserTag system={user.system} />}
+																						{isOwner && (
+																							<Tooltip text={t`Group Owner`}>
+																								<OwnerCrownIcon className={styles.ownerCrown} />
+																							</Tooltip>
+																						)}
+																					</div>
+																				)}
+																			</div>
+																		</button>
+																		{index < group.users.length - 1 && <div className={styles.memberItemDivider} />}
+																	</React.Fragment>
+																);
+															})}
+														</div>
+													</div>
+												))}
 											</div>
 										)}
 										{isGuildChannel && guild && (
@@ -1019,102 +1138,23 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 					</Sheet.Content>
 				</Sheet.Root>
 
-				<Sheet.Root isOpen={muteSheetOpen} onClose={() => setMuteSheetOpen(false)} snapPoints={[0, 1]} initialSnap={1}>
-					<Sheet.Handle />
-					<Sheet.Header trailing={<Sheet.CloseButton onClick={() => setMuteSheetOpen(false)} />}>
-						<Sheet.Title>
-							{(() => {
-								if (isMuted) {
-									if (isGuildChannel) {
-										return t`Unmute Channel`;
-									}
-									return t`Unmute Conversation`;
-								}
-								if (isGuildChannel) {
-									return t`Mute Channel`;
-								}
-								return t`Mute Conversation`;
-							})()}
-						</Sheet.Title>
-					</Sheet.Header>
-					<Sheet.Content padding="none">
-						<div className={styles.muteSheetContainer}>
-							<div className={styles.muteSheetContent}>
-								{isMuted && mutedText ? (
-									<>
-										<div className={styles.muteStatusBanner}>
-											<p className={styles.muteStatusText}>
-												<Trans>Currently: {mutedText}</Trans>
-											</p>
-										</div>
-										<div className={styles.muteOptionsContainer}>
-											<button
-												type="button"
-												onClick={() => {
-													UserGuildSettingsActionCreators.updateChannelOverride(
-														settingsGuildId,
-														channel.id,
-														{
-															muted: false,
-															mute_config: null,
-														},
-														{persistImmediately: true},
-													);
-													setMuteSheetOpen(false);
-												}}
-												className={styles.muteOptionButton}
-											>
-												<span className={styles.muteOptionLabel}>
-													<Trans>Unmute</Trans>
-												</span>
-											</button>
-										</div>
-									</>
-								) : (
-									<div className={styles.muteOptionsContainer}>
-										{getMuteDurationOptions(t).map((option, index, array) => {
-											const isSelected =
-												isMuted &&
-												((option.value === null && !muteConfig?.end_time) ||
-													(option.value !== null && muteConfig?.selected_time_window === option.value));
-
-											return (
-												<React.Fragment key={option.label}>
-													<button
-														type="button"
-														onClick={() => {
-															UserGuildSettingsActionCreators.updateChannelOverride(
-																settingsGuildId,
-																channel.id,
-																{
-																	muted: true,
-																	mute_config: createMuteConfig(option.value),
-																},
-																{persistImmediately: true},
-															);
-															setMuteSheetOpen(false);
-														}}
-														className={styles.muteOptionButton}
-													>
-														<span className={styles.muteOptionLabel}>{option.label}</span>
-														{isSelected && <CheckIcon className={styles.iconMedium} weight="bold" />}
-													</button>
-													{index < array.length - 1 && <div className={styles.muteOptionDivider} />}
-												</React.Fragment>
-											);
-										})}
-									</div>
-								)}
-							</div>
-						</div>
-					</Sheet.Content>
-				</Sheet.Root>
+				<MuteDurationSheet
+					isOpen={muteSheetOpen}
+					onClose={() => setMuteSheetOpen(false)}
+					isMuted={isMuted}
+					mutedText={mutedText}
+					muteConfig={muteConfig}
+					muteTitle={isGuildChannel ? t`Mute Channel` : t`Mute Conversation`}
+					unmuteTitle={isGuildChannel ? t`Unmute Channel` : t`Unmute Conversation`}
+					onMute={handleMute}
+					onUnmute={handleUnmute}
+				/>
 
 				<MenuBottomSheet
 					isOpen={moreOptionsSheetOpen}
 					onClose={handleMoreOptionsClose}
-					title={isGroupDM ? t`Group Settings` : isDM ? t`DM Settings` : t`Channel Settings`}
-					groups={React.useMemo(() => {
+					title={moreOptionsTitle}
+					groups={useMemo(() => {
 						const groups: Array<MenuGroupType> = [];
 						const hasUnread = ReadStateStore.hasUnread(channel.id);
 
@@ -1123,7 +1163,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 						if (showFavorites && !isPersonalNotes) {
 							commonItems.push({
 								id: 'favorite',
-								icon: <StarIcon weight={isFavorited ? 'fill' : 'regular'} size={20} />,
+								icon: <FavoriteIcon filled={isFavorited} size={20} />,
 								label: isFavorited ? t`Remove from Favorites` : t`Add to Favorites`,
 								onClick: () => {
 									handleToggleFavorite();
@@ -1146,13 +1186,13 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 								channel.isPinned
 									? {
 											id: 'unpin',
-											icon: <PushPinIcon weight="fill" size={20} />,
+											icon: <PinIcon size={20} />,
 											label: isGroupDM ? t`Unpin Group DM` : t`Unpin DM`,
 											onClick: handleUnpinDM,
 										}
 									: {
 											id: 'pin',
-											icon: <PushPinIcon weight="fill" size={20} />,
+											icon: <PinIcon size={20} />,
 											label: isGroupDM ? t`Pin Group DM` : t`Pin DM`,
 											onClick: handlePinDM,
 										},
@@ -1180,7 +1220,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 								},
 								{
 									id: 'notification-settings',
-									icon: <BellIcon weight="fill" size={20} />,
+									icon: <NotificationSettingsIcon size={20} />,
 									label: t`Notification Settings`,
 									onClick: () => {
 										handleMoreOptionsClose();
@@ -1198,16 +1238,16 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 							const groupItems: Array<MenuItemType> = [
 								{
 									id: 'edit-group',
-									icon: <PencilIcon weight="fill" size={20} />,
+									icon: <EditIcon size={20} />,
 									label: t`Edit Group`,
 									onClick: handleEditGroup,
 								},
 							];
 
-							if (channel.recipientIds.length + 1 < MAX_GROUP_DM_RECIPIENTS) {
+							if (!isGroupDmFull(channel)) {
 								groupItems.push({
 									id: 'add-friends',
-									icon: <UserPlusIcon weight="fill" size={20} />,
+									icon: <InviteIcon size={20} />,
 									label: t`Add Friends to Group`,
 									onClick: () => {
 										handleMoreOptionsClose();
@@ -1219,7 +1259,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 							if (isGroupDMOwner) {
 								groupItems.push({
 									id: 'invites',
-									icon: <TicketIcon weight="fill" size={20} />,
+									icon: <InvitesIcon size={20} />,
 									label: t`Invites`,
 									onClick: handleShowInvites,
 								});
@@ -1259,7 +1299,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 								items: [
 									{
 										id: 'close-dm',
-										icon: <XIcon weight="bold" size={20} />,
+										icon: <CloseDMIcon size={20} />,
 										label: t`Close DM`,
 										onClick: handleCloseDM,
 										danger: true,
@@ -1273,7 +1313,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 								items: [
 									{
 										id: 'leave-group',
-										icon: <SignOutIcon weight="fill" size={20} />,
+										icon: <LeaveIcon size={20} />,
 										label: t`Leave Group`,
 										onClick: handleLeaveGroup,
 										danger: true,
@@ -1287,7 +1327,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 						if (developerMode) {
 							miscItems.push({
 								id: 'debug-channel',
-								icon: <BugIcon weight="fill" size={20} />,
+								icon: <DebugMessageIcon size={20} />,
 								label: t`Debug Channel`,
 								onClick: handleDebugChannel,
 							});
@@ -1295,7 +1335,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 							if (isDM && recipient) {
 								miscItems.push({
 									id: 'debug-user',
-									icon: <BugIcon weight="fill" size={20} />,
+									icon: <DebugMessageIcon size={20} />,
 									label: t`Debug User`,
 									onClick: handleDebugUser,
 								});
@@ -1363,7 +1403,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 					isOpen={notificationSheetOpen}
 					onClose={handleNotificationClose}
 					title={t`Notification Settings`}
-					groups={React.useMemo((): Array<MenuGroupType> => {
+					groups={useMemo((): Array<MenuGroupType> => {
 						const categoryId = channel.parentId;
 						const hasCategory = categoryId != null;
 
@@ -1418,7 +1458,7 @@ export const ChannelDetailsBottomSheet: React.FC<ChannelDetailsBottomSheetProps>
 								items: [
 									{
 										id: 'open-guild-settings',
-										icon: <GearIcon weight="bold" size={20} />,
+										icon: <SettingsIcon size={20} />,
 										label: t`Open Community Notification Settings`,
 										onClick: handleOpenGuildNotificationSettings,
 									},

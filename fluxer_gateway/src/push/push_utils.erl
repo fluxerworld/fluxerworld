@@ -31,6 +31,7 @@
     parse_timestamp/1
 ]).
 
+-spec construct_avatar_url(binary(), binary()) -> binary().
 construct_avatar_url(UserId, Hash) ->
     MediaProxyBin = media_proxy_endpoint_binary(),
     iolist_to_binary([
@@ -42,6 +43,7 @@ construct_avatar_url(UserId, Hash) ->
         <<".png">>
     ]).
 
+-spec get_default_avatar_url(binary()) -> binary().
 get_default_avatar_url(UserId) ->
     Index = avatar_index(UserId),
     iolist_to_binary([
@@ -50,12 +52,14 @@ get_default_avatar_url(UserId) ->
         <<".png">>
     ]).
 
+-spec avatar_index(binary()) -> non_neg_integer().
 avatar_index(UserId) ->
     case catch binary_to_integer(UserId) of
         {'EXIT', _} -> 0;
         Value -> wrap_avatar_index(Value)
     end.
 
+-spec wrap_avatar_index(integer()) -> non_neg_integer().
 wrap_avatar_index(Value) ->
     Rem = Value rem 6,
     case Rem < 0 of
@@ -63,6 +67,7 @@ wrap_avatar_index(Value) ->
         false -> Rem
     end.
 
+-spec media_proxy_endpoint_binary() -> binary().
 media_proxy_endpoint_binary() ->
     case fluxer_gateway_env:get(media_proxy_endpoint) of
         undefined ->
@@ -71,11 +76,13 @@ media_proxy_endpoint_binary() ->
             value_to_binary(Endpoint)
     end.
 
+-spec value_to_binary(binary() | list()) -> binary().
 value_to_binary(Value) when is_binary(Value) ->
     Value;
 value_to_binary(Value) when is_list(Value) ->
     list_to_binary(Value).
 
+-spec extract_origin(binary()) -> binary().
 extract_origin(Url) ->
     case binary:split(Url, <<"://">>) of
         [Protocol, Rest] ->
@@ -87,17 +94,15 @@ extract_origin(Url) ->
             Url
     end.
 
+-spec generate_vapid_token(map(), binary(), binary()) -> binary().
 generate_vapid_token(Claims, PublicKeyB64Url, PrivateKeyB64Url) ->
-    logger:debug("[push] Generating VAPID token", []),
     try
         application:ensure_all_started(crypto),
         application:ensure_all_started(public_key),
         application:ensure_all_started(jose),
-
         PrivRaw =
             case base64url_decode(PrivateKeyB64Url) of
                 error ->
-                    logger:error("[push] Failed to decode private key: ~p", [PrivateKeyB64Url]),
                     erlang:error(invalid_private_key);
                 PrivDecoded ->
                     PrivDecoded
@@ -105,16 +110,12 @@ generate_vapid_token(Claims, PublicKeyB64Url, PrivateKeyB64Url) ->
         PubRaw =
             case base64url_decode(PublicKeyB64Url) of
                 error ->
-                    logger:error("[push] Failed to decode public key: ~p", [PublicKeyB64Url]),
                     erlang:error(invalid_public_key);
                 PubDecoded ->
                     PubDecoded
             end,
-
         <<4, X:32/binary, Y:32/binary>> = PubRaw,
-
         B64 = fun(Bin) -> base64url_encode(Bin) end,
-
         JWKMap = #{
             <<"kty">> => <<"EC">>,
             <<"crv">> => <<"P-256">>,
@@ -122,79 +123,64 @@ generate_vapid_token(Claims, PublicKeyB64Url, PrivateKeyB64Url) ->
             <<"x">> => B64(X),
             <<"y">> => B64(Y)
         },
-
         JWK0 = jose_jwk:from_map(JWKMap),
         JWK =
             case JWK0 of
                 {JW, _Fields} -> JW;
                 JW -> JW
             end,
-
         Header = #{<<"alg">> => <<"ES256">>, <<"typ">> => <<"JWT">>},
-
         JWS = jose_jwt:sign(JWK, Header, Claims),
-
         Compact0 = jose_jws:compact(JWS),
         CompactBin =
             case Compact0 of
                 {_Meta, Bin} when is_binary(Bin) -> Bin;
                 Other ->
-                    logger:error("[push] Unexpected compact return: ~p", [Other]),
                     erlang:error({unexpected_compact_return, Other})
             end,
-
-        logger:debug("[push] Generated VAPID token successfully"),
         CompactBin
     catch
-        C:R:Stack ->
-            logger:error("[push] VAPID token generation failed: ~p:~p~n~p", [C, R, Stack]),
+        C:R:_Stack ->
             erlang:error({vapid_token_generation_failed, C, R})
     end.
 
+-spec base64url_encode(binary()) -> binary().
 base64url_encode(Data) ->
     jose_base64url:encode(Data).
 
+-spec base64url_decode(binary()) -> binary() | error.
 base64url_decode(Data) ->
     case jose_base64url:decode(Data) of
         {ok, Decoded} -> Decoded;
         error -> error
     end.
 
+-spec encrypt_payload(binary(), binary(), binary(), non_neg_integer()) ->
+    {ok, binary()} | {error, term()}.
 encrypt_payload(Message, PeerPubB64, AuthSecretB64, RecordSize0) ->
     try
-        logger:debug(
-            "[push] Encrypting payload with p256dh key size: ~p, auth key size: ~p",
-            [byte_size(PeerPubB64), byte_size(AuthSecretB64)]
-        ),
         PeerPub = decode_subscription_key(PeerPubB64),
         AuthSecret = decode_subscription_key(AuthSecretB64),
-
         RecordSize =
             case RecordSize0 of
                 0 -> 4096;
                 _ -> RecordSize0
             end,
         RecordLen = RecordSize - 16,
-
         Salt = crypto:strong_rand_bytes(16),
         {LocalPub, LocalPriv} = crypto:generate_key(ecdh, prime256v1),
-
         <<4, _/binary>> = PeerPub,
         Secret = crypto:compute_key(ecdh, PeerPub, LocalPriv, prime256v1),
-
         PRKInfo = <<"WebPush: info", 0, PeerPub/binary, LocalPub/binary>>,
         IKM = hkdf_expand(Secret, AuthSecret, PRKInfo, 32),
-
         CEKInfo = <<"Content-Encoding: aes128gcm", 0>>,
         NonceInfo = <<"Content-Encoding: nonce", 0>>,
         CEK = hkdf_expand(IKM, Salt, CEKInfo, 16),
         Nonce = hkdf_expand(IKM, Salt, NonceInfo, 12),
-
         HeaderLen = 16 + 4 + 1 + byte_size(LocalPub),
         Data0 = <<Message/binary, 16#02>>,
         Required = RecordLen - HeaderLen,
         Data0Len = byte_size(Data0),
-
         case Data0Len =< Required of
             false ->
                 {error, max_pad_exceeded};
@@ -220,11 +206,11 @@ encrypt_payload(Message, PeerPubB64, AuthSecretB64, RecordSize0) ->
                 {ok, Body}
         end
     catch
-        C:R:Stack ->
-            logger:error("[push] Encryption failed: ~p:~p~nStack: ~p", [C, R, Stack]),
+        _C:_R:_Stack ->
             {error, encryption_failed}
     end.
 
+-spec decode_subscription_key(binary()) -> binary().
 decode_subscription_key(B64) when is_binary(B64) ->
     Padded =
         case byte_size(B64) rem 4 of
@@ -242,16 +228,20 @@ decode_subscription_key(B64) when is_binary(B64) ->
             end
     end.
 
+-spec hkdf_expand(binary(), binary(), binary(), pos_integer()) -> binary().
 hkdf_expand(IKM, Salt, Info, Length) ->
     PRK = crypto:mac(hmac, sha256, Salt, IKM),
     hkdf_expand_loop(PRK, Info, Length, 1, <<>>, <<>>).
 
+-spec hkdf_expand_loop(binary(), binary(), pos_integer(), pos_integer(), binary(), binary()) ->
+    binary().
 hkdf_expand_loop(_PRK, _Info, Length, _I, _Tprev, Acc) when byte_size(Acc) >= Length ->
     binary:part(Acc, 0, Length);
 hkdf_expand_loop(PRK, Info, Length, I, Tprev, Acc) ->
     T = crypto:mac(hmac, sha256, PRK, <<Tprev/binary, Info/binary, I:8/integer>>),
     hkdf_expand_loop(PRK, Info, Length, I + 1, T, <<Acc/binary, T/binary>>).
 
+-spec parse_timestamp(binary() | term()) -> integer() | undefined.
 parse_timestamp(Str) when is_binary(Str) ->
     try
         binary_to_integer(Str)
@@ -260,3 +250,57 @@ parse_timestamp(Str) when is_binary(Str) ->
     end;
 parse_timestamp(_) ->
     undefined.
+
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+extract_origin_test() ->
+    ?assertEqual(
+        <<"https://example.com">>, extract_origin(<<"https://example.com/path/to/resource">>)
+    ),
+    ?assertEqual(<<"http://localhost:8080">>, extract_origin(<<"http://localhost:8080/api">>)),
+    ?assertEqual(<<"invalid">>, extract_origin(<<"invalid">>)).
+
+get_default_avatar_url_test() ->
+    Url = get_default_avatar_url(<<"123">>),
+    ?assert(is_binary(Url)),
+    ?assertMatch(<<"https://fluxerstatic.com/avatars/", _/binary>>, Url).
+
+avatar_index_test() ->
+    ?assertEqual(0, avatar_index(<<"0">>)),
+    ?assertEqual(1, avatar_index(<<"1">>)),
+    ?assertEqual(2, avatar_index(<<"2">>)),
+    ?assertEqual(0, avatar_index(<<"6">>)),
+    ?assertEqual(0, avatar_index(<<"invalid">>)).
+
+wrap_avatar_index_test() ->
+    ?assertEqual(0, wrap_avatar_index(0)),
+    ?assertEqual(1, wrap_avatar_index(1)),
+    ?assertEqual(0, wrap_avatar_index(6)),
+    ?assertEqual(1, wrap_avatar_index(7)).
+
+parse_timestamp_valid_test() ->
+    ?assertEqual(123456789, parse_timestamp(<<"123456789">>)),
+    ?assertEqual(0, parse_timestamp(<<"0">>)).
+
+parse_timestamp_invalid_test() ->
+    ?assertEqual(undefined, parse_timestamp(<<"not_a_number">>)),
+    ?assertEqual(undefined, parse_timestamp(123)),
+    ?assertEqual(undefined, parse_timestamp(undefined)).
+
+base64url_encode_test() ->
+    Encoded = base64url_encode(<<"test">>),
+    ?assert(is_binary(Encoded)).
+
+base64url_decode_test() ->
+    Encoded = base64url_encode(<<"test">>),
+    ?assertEqual(<<"test">>, base64url_decode(Encoded)).
+
+hkdf_expand_test() ->
+    IKM = crypto:strong_rand_bytes(32),
+    Salt = crypto:strong_rand_bytes(16),
+    Info = <<"test info">>,
+    Result = hkdf_expand(IKM, Salt, Info, 32),
+    ?assertEqual(32, byte_size(Result)).
+
+-endif.

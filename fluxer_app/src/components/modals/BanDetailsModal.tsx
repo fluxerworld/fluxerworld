@@ -17,18 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {GuildBan} from '@app/actions/GuildActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import styles from '@app/components/modals/BanDetailsModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Avatar} from '@app/components/uikit/Avatar';
+import {Button} from '@app/components/uikit/button/Button';
+import UserStore from '@app/stores/UserStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import * as DateUtils from '@app/utils/DateUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import type {GuildBan} from '~/actions/GuildActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as Modal from '~/components/modals/Modal';
-import {Avatar} from '~/components/uikit/Avatar';
-import {Button} from '~/components/uikit/Button/Button';
-import UserStore from '~/stores/UserStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import * as DateUtils from '~/utils/DateUtils';
-import styles from './BanDetailsModal.module.css';
+import type React from 'react';
+import {useCallback, useState} from 'react';
 
 interface BanDetailsModalProps {
 	ban: GuildBan;
@@ -39,10 +40,10 @@ export const BanDetailsModal: React.FC<BanDetailsModalProps> = observer(({ban, o
 	const {t} = useLingui();
 	const moderator = UserStore.getUser(ban.moderator_id);
 	const avatarUrl = AvatarUtils.getUserAvatarURL(ban.user, false);
-	const [isRevoking, setIsRevoking] = React.useState(false);
+	const [isRevoking, setIsRevoking] = useState(false);
 	const userTag = ban.user.tag ?? `${ban.user.username}#${(ban.user.discriminator ?? '').padStart(4, '0')}`;
 
-	const handleRevoke = React.useCallback(async () => {
+	const handleRevoke = useCallback(async () => {
 		if (!onRevoke) return;
 		setIsRevoking(true);
 		try {
@@ -57,7 +58,7 @@ export const BanDetailsModal: React.FC<BanDetailsModalProps> = observer(({ban, o
 		<Modal.Root size="small" centered>
 			<Modal.Header title={t`Ban Details`} />
 			<Modal.Content>
-				<div className={styles.container}>
+				<Modal.ContentLayout>
 					<div className={styles.userSection}>
 						{avatarUrl ? (
 							<img src={avatarUrl} alt="" className={styles.avatar} />
@@ -118,7 +119,7 @@ export const BanDetailsModal: React.FC<BanDetailsModalProps> = observer(({ban, o
 							</span>
 						</div>
 					</div>
-				</div>
+				</Modal.ContentLayout>
 			</Modal.Content>
 			<Modal.Footer>
 				<Button variant="secondary" onClick={() => ModalActionCreators.pop()}>

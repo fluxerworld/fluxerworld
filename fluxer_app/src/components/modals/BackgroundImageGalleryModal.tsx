@@ -17,7 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as PremiumModalActionCreators from '@app/actions/PremiumModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as VoiceSettingsActionCreators from '@app/actions/VoiceSettingsActionCreators';
+import styles from '@app/components/modals/BackgroundImageGalleryModal.module.css';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {Logger} from '@app/lib/Logger';
+import VoiceSettingsStore, {BLUR_BACKGROUND_ID, NONE_BACKGROUND_ID} from '@app/stores/VoiceSettingsStore';
+import * as BackgroundImageDB from '@app/utils/BackgroundImageDB';
+import {openFilePicker} from '@app/utils/FilePickerUtils';
+import {LimitResolver} from '@app/utils/limits/LimitResolverAdapter';
+import {shouldShowPremiumFeatures} from '@app/utils/PremiumUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
+import type {IconProps} from '@phosphor-icons/react';
 import {
 	ArrowsClockwiseIcon,
 	CheckIcon,
@@ -29,24 +49,9 @@ import {
 	WarningCircleIcon,
 } from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as PremiumModalActionCreators from '~/actions/PremiumModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as VoiceSettingsActionCreators from '~/actions/VoiceSettingsActionCreators';
-import styles from '~/components/modals/BackgroundImageGalleryModal.module.css';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {MenuItem} from '~/components/uikit/ContextMenu/MenuItem';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import UserStore from '~/stores/UserStore';
-import VoiceSettingsStore, {BLUR_BACKGROUND_ID, NONE_BACKGROUND_ID} from '~/stores/VoiceSettingsStore';
-import * as BackgroundImageDB from '~/utils/BackgroundImageDB';
-import {openFilePicker} from '~/utils/FilePickerUtils';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+
+const logger = new Logger('BackgroundImageGalleryModal');
 
 interface BackgroundImage {
 	id: string;
@@ -57,38 +62,11 @@ interface BuiltInBackground {
 	id: string;
 	type: 'none' | 'blur' | 'upload';
 	name: string;
-	icon: React.ComponentType<any>;
+	icon: React.ComponentType<IconProps>;
 	description: string;
 }
 
 type BackgroundItemType = BuiltInBackground | BackgroundImage;
-
-const getBuiltInBackgrounds = (isReplace: boolean): ReadonlyArray<BuiltInBackground> => {
-	const {t} = useLingui();
-	return [
-		{
-			id: NONE_BACKGROUND_ID,
-			type: 'none',
-			name: t`No Background`,
-			icon: EyeSlashIcon,
-			description: t`Show your actual background`,
-		},
-		{
-			id: BLUR_BACKGROUND_ID,
-			type: 'blur',
-			name: t`Blur`,
-			icon: SparkleIcon,
-			description: t`Blur your background`,
-		},
-		{
-			id: 'upload',
-			type: 'upload',
-			name: isReplace ? t`Replace` : t`Upload`,
-			icon: PlusIcon,
-			description: isReplace ? t`Replace your custom background` : t`Add a custom background`,
-		},
-	];
-};
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
 const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4'];
@@ -106,11 +84,11 @@ const BackgroundItem: React.FC<BackgroundItemProps> = React.memo(
 		const {t} = useLingui();
 		const isBuiltIn = 'type' in background;
 		const Icon = isBuiltIn ? background.icon : undefined;
-		const [imageUrl, setImageUrl] = React.useState<string | null>(null);
-		const [isLoading, setIsLoading] = React.useState(!isBuiltIn);
-		const [hasError, setHasError] = React.useState(false);
+		const [imageUrl, setImageUrl] = useState<string | null>(null);
+		const [isLoading, setIsLoading] = useState(!isBuiltIn);
+		const [hasError, setHasError] = useState(false);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (isBuiltIn) return;
 			let objectUrl: string | null = null;
 			setIsLoading(true);
@@ -122,7 +100,7 @@ const BackgroundItem: React.FC<BackgroundItemProps> = React.memo(
 					setIsLoading(false);
 				})
 				.catch((error) => {
-					console.error('Failed to load background image:', error);
+					logger.error('Failed to load background image:', error);
 					setHasError(true);
 					setIsLoading(false);
 				});
@@ -134,11 +112,11 @@ const BackgroundItem: React.FC<BackgroundItemProps> = React.memo(
 			};
 		}, [isBuiltIn, background.id]);
 
-		const handleClick = React.useCallback(() => {
+		const handleClick = useCallback(() => {
 			onSelect(background);
 		}, [background, onSelect]);
 
-		const handleKeyDown = React.useCallback(
+		const handleKeyDown = useCallback(
 			(e: React.KeyboardEvent) => {
 				if (e.key === 'Enter' || e.key === ' ') {
 					e.preventDefault();
@@ -148,7 +126,7 @@ const BackgroundItem: React.FC<BackgroundItemProps> = React.memo(
 			[background, onSelect],
 		);
 
-		const handleContextMenu = React.useCallback(
+		const handleContextMenu = useCallback(
 			(e: React.MouseEvent) => {
 				if (!isBuiltIn) {
 					onContextMenu?.(e, background as BackgroundImage);
@@ -157,7 +135,7 @@ const BackgroundItem: React.FC<BackgroundItemProps> = React.memo(
 			[isBuiltIn, background, onContextMenu],
 		);
 
-		const handleDelete = React.useCallback(
+		const handleDelete = useCallback(
 			(e: React.MouseEvent) => {
 				e.preventDefault();
 				e.stopPropagation();
@@ -168,7 +146,7 @@ const BackgroundItem: React.FC<BackgroundItemProps> = React.memo(
 			[isBuiltIn, background, onDelete],
 		);
 
-		const handleRetry = React.useCallback(() => {
+		const handleRetry = useCallback(() => {
 			setHasError(false);
 			setIsLoading(true);
 			BackgroundImageDB.getBackgroundImageURL(background.id)
@@ -177,7 +155,7 @@ const BackgroundItem: React.FC<BackgroundItemProps> = React.memo(
 					setIsLoading(false);
 				})
 				.catch((error) => {
-					console.error('Failed to load background image:', error);
+					logger.error('Failed to load background image:', error);
 					setHasError(true);
 					setIsLoading(false);
 				});
@@ -234,7 +212,7 @@ const BackgroundItem: React.FC<BackgroundItemProps> = React.memo(
 								</FocusRing>
 							</div>
 						) : imageUrl ? (
-							<img src={imageUrl} alt="Background" className={styles.backgroundImage} />
+							<img src={imageUrl} alt={t`Background`} className={styles.backgroundImage} />
 						) : null}
 						<div className={styles.imageOverlay} />
 						{!isBuiltIn && onDelete && !isLoading && !hasError && (
@@ -268,34 +246,57 @@ BackgroundItem.displayName = 'BackgroundItem';
 
 const BackgroundImageGalleryModal: React.FC = observer(() => {
 	const {t} = useLingui();
-	const user = UserStore.currentUser;
 	const voiceSettings = VoiceSettingsStore;
 	const {backgroundImageId, backgroundImages = []} = voiceSettings;
 
-	const isMountedRef = React.useRef(true);
-	const [isDragging, setIsDragging] = React.useState(false);
-	const dragCounterRef = React.useRef(0);
+	const isMountedRef = useRef(true);
+	const [isDragging, setIsDragging] = useState(false);
+	const dragCounterRef = useRef(0);
 
-	const hasPremium = React.useMemo(() => user?.isPremium?.() ?? false, [user]);
-	const maxBackgroundImages = hasPremium ? 15 : 1;
+	const maxBackgroundImages = useMemo(() => LimitResolver.resolve({key: 'max_custom_backgrounds', fallback: 1}), []);
 	const canAddMoreImages = backgroundImages.length < maxBackgroundImages;
 	const backgroundCount = backgroundImages.length;
 
-	const shouldShowReplace = !hasPremium && backgroundImages.length >= 1;
-	const builtInBackgrounds = React.useMemo(() => getBuiltInBackgrounds(shouldShowReplace), [shouldShowReplace]);
+	const shouldShowReplace = maxBackgroundImages === 1 && backgroundImages.length >= 1;
+	const builtInBackgrounds = useMemo(
+		(): ReadonlyArray<BuiltInBackground> => [
+			{
+				id: NONE_BACKGROUND_ID,
+				type: 'none',
+				name: t`No Background`,
+				icon: EyeSlashIcon,
+				description: t`Show your actual background`,
+			},
+			{
+				id: BLUR_BACKGROUND_ID,
+				type: 'blur',
+				name: t`Blur`,
+				icon: SparkleIcon,
+				description: t`Blur your background`,
+			},
+			{
+				id: 'upload',
+				type: 'upload',
+				name: shouldShowReplace ? t`Replace` : t`Upload`,
+				icon: PlusIcon,
+				description: shouldShowReplace ? t`Replace your custom background` : t`Add a custom background`,
+			},
+		],
+		[shouldShowReplace],
+	);
 
-	const sortedImages = React.useMemo(
+	const sortedImages = useMemo(
 		() => [...backgroundImages].sort((a, b) => b.createdAt - a.createdAt),
 		[backgroundImages],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		return () => {
 			isMountedRef.current = false;
 		};
 	}, []);
 
-	const processFileUpload = React.useCallback(
+	const processFileUpload = useCallback(
 		async (file: File | null) => {
 			if (!file) return;
 
@@ -327,7 +328,7 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 					let updatedImages = [...backgroundImages];
 					let oldImageToDelete: string | null = null;
 
-					if (!hasPremium && backgroundImages.length >= 1) {
+					if (backgroundImages.length >= maxBackgroundImages) {
 						const oldImage = backgroundImages[0];
 						oldImageToDelete = oldImage.id;
 						updatedImages = [];
@@ -342,7 +343,7 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 
 					if (oldImageToDelete) {
 						BackgroundImageDB.deleteBackgroundImage(oldImageToDelete).catch((error) => {
-							console.error('Failed to delete old background image:', error);
+							logger.error('Failed to delete old background image:', error);
 						});
 					}
 
@@ -356,19 +357,19 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 					ModalActionCreators.pop();
 				}
 			} catch (error) {
-				console.error('File upload failed:', error);
+				logger.error('File upload failed:', error);
 				ToastActionCreators.createToast({
 					type: 'error',
 					children: t`Failed to upload background image. Please try again.`,
 				});
 			}
 		},
-		[backgroundImages, hasPremium],
+		[backgroundImages, maxBackgroundImages],
 	);
 
-	const handleUploadClick = React.useCallback(
+	const handleUploadClick = useCallback(
 		(showReplaceWarning: boolean = false) => {
-			if (!canAddMoreImages && hasPremium) {
+			if (!canAddMoreImages) {
 				ToastActionCreators.createToast({
 					type: 'error',
 					children: t`You've reached the maximum of ${maxBackgroundImages} backgrounds. Remove one to add a new background.`,
@@ -381,7 +382,7 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 				await processFileUpload(file ?? null);
 			};
 
-			if (showReplaceWarning && !hasPremium && backgroundImages.length >= 1) {
+			if (showReplaceWarning && backgroundImages.length >= maxBackgroundImages) {
 				ModalActionCreators.push(
 					modal(() => (
 						<ConfirmModal
@@ -403,10 +404,10 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 
 			void pickAndProcess();
 		},
-		[canAddMoreImages, hasPremium, maxBackgroundImages, backgroundImages.length, processFileUpload],
+		[canAddMoreImages, maxBackgroundImages, backgroundImages.length, processFileUpload],
 	);
 
-	const handleBackgroundSelect = React.useCallback(
+	const handleBackgroundSelect = useCallback(
 		(background: BackgroundItemType) => {
 			if ('type' in background) {
 				if (background.type === 'upload') {
@@ -428,14 +429,14 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 		[handleUploadClick],
 	);
 
-	const handleRemoveImage = React.useCallback(
+	const handleRemoveImage = useCallback(
 		async (image: BackgroundImage) => {
 			try {
 				await BackgroundImageDB.deleteBackgroundImage(image.id);
 
 				const updatedImages = backgroundImages.filter((img) => img.id !== image.id);
 
-				const updates: any = {
+				const updates: {backgroundImages: Array<BackgroundImage>; backgroundImageId?: string} = {
 					backgroundImages: updatedImages,
 				};
 
@@ -450,7 +451,7 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 					children: t`Background image removed.`,
 				});
 			} catch (error) {
-				console.error('Failed to delete background image:', error);
+				logger.error('Failed to delete background image:', error);
 				ToastActionCreators.createToast({
 					type: 'error',
 					children: t`Failed to remove background image. Please try again.`,
@@ -460,7 +461,7 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 		[backgroundImageId, backgroundImages],
 	);
 
-	const handleBackgroundContextMenu = React.useCallback(
+	const handleBackgroundContextMenu = useCallback(
 		(event: React.MouseEvent, image: BackgroundImage) => {
 			event.preventDefault();
 			event.stopPropagation();
@@ -482,7 +483,7 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 		[handleRemoveImage],
 	);
 
-	const handleDrop = React.useCallback(
+	const handleDrop = useCallback(
 		async (e: React.DragEvent) => {
 			e.preventDefault();
 			e.stopPropagation();
@@ -496,7 +497,7 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 		[processFileUpload],
 	);
 
-	const handleDragEnter = React.useCallback((e: React.DragEvent) => {
+	const handleDragEnter = useCallback((e: React.DragEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
 		dragCounterRef.current++;
@@ -505,7 +506,7 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 		}
 	}, []);
 
-	const handleDragLeave = React.useCallback((e: React.DragEvent) => {
+	const handleDragLeave = useCallback((e: React.DragEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
 		dragCounterRef.current--;
@@ -514,7 +515,7 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 		}
 	}, []);
 
-	const handleDragOver = React.useCallback((e: React.DragEvent) => {
+	const handleDragOver = useCallback((e: React.DragEvent) => {
 		e.preventDefault();
 		e.stopPropagation();
 	}, []);
@@ -541,7 +542,7 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 							</div>
 						</div>
 					)}
-					{!hasPremium ? (
+					{maxBackgroundImages === 1 ? (
 						<div className={styles.freeUserContainer}>
 							{sortedImages.length > 0 ? (
 								<div className={styles.customBackgroundWrapper}>
@@ -659,7 +660,7 @@ const BackgroundImageGalleryModal: React.FC = observer(() => {
 						<Trans>Supported: JPG, PNG, GIF, WebP, MP4. Max size: 10MB.</Trans>
 					</div>
 
-					{!hasPremium && (
+					{maxBackgroundImages === 1 && shouldShowPremiumFeatures() && (
 						<div className={styles.premiumUpsell}>
 							<div className={styles.premiumHeader}>
 								<CrownIcon weight="fill" size={18} className={styles.premiumIcon} />

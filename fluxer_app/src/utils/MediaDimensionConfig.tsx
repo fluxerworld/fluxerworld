@@ -17,14 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {MessageFlags} from '~/Constants';
-import type {MessageRecord} from '~/records/MessageRecord';
-import AccessibilityStore, {MediaDimensionSize} from '~/stores/AccessibilityStore';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import AccessibilityStore, {MediaDimensionSize} from '@app/stores/AccessibilityStore';
+import type {MediaDimensions} from '@app/types/BrandedTypes';
+import {MessageFlags} from '@fluxer/constants/src/ChannelConstants';
 
-export interface MediaDimensions {
-	maxWidth: number;
-	maxHeight: number;
-}
+interface MediaDimensionConstraints extends MediaDimensions {}
 
 const DIMENSION_PRESETS = {
 	SMALL: {
@@ -37,20 +35,20 @@ const DIMENSION_PRESETS = {
 	},
 } as const;
 
-export const getAttachmentMediaDimensions = (message?: MessageRecord): MediaDimensions => {
+export function getAttachmentMediaDimensions(message?: MessageRecord): MediaDimensionConstraints {
 	if (message && (message.flags & MessageFlags.COMPACT_ATTACHMENTS) !== 0) {
 		return DIMENSION_PRESETS.SMALL;
 	}
 
 	const size = AccessibilityStore.attachmentMediaDimensionSize;
 	return size === MediaDimensionSize.SMALL ? DIMENSION_PRESETS.SMALL : DIMENSION_PRESETS.LARGE;
-};
+}
 
-export const getEmbedMediaDimensions = (): MediaDimensions => {
+export function getEmbedMediaDimensions(): MediaDimensionConstraints {
 	const size = AccessibilityStore.embedMediaDimensionSize;
 	return size === MediaDimensionSize.SMALL ? DIMENSION_PRESETS.SMALL : DIMENSION_PRESETS.LARGE;
-};
+}
 
-export const getMosaicMediaDimensions = (message?: MessageRecord): MediaDimensions => {
+export function getMosaicMediaDimensions(message?: MessageRecord): MediaDimensionConstraints {
 	return getAttachmentMediaDimensions(message);
-};
+}

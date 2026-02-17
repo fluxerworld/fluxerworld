@@ -1,0 +1,5 @@
+{
+	"extends": "../../tsconfigs/package-hono.json",
+	"compilerOptions": {},
+	"include": ["src/**/*"]
+}

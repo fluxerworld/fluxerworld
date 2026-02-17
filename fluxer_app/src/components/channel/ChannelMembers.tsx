@@ -17,40 +17,43 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/ChannelMembers.module.css';
+import {MemberListContainer} from '@app/components/channel/MemberListContainer';
+import {MemberListItem} from '@app/components/channel/MemberListItem';
+import {OutlineFrame} from '@app/components/layout/OutlineFrame';
+import {resolveMemberListPresence} from '@app/hooks/useMemberListPresence';
+import {useMemberListSubscription} from '@app/hooks/useMemberListSubscription';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import MemberSidebarStore from '@app/stores/MemberSidebarStore';
+import UserStore from '@app/stores/UserStore';
+import type {GroupDMMemberGroup} from '@app/utils/MemberListUtils';
+import * as MemberListUtils from '@app/utils/MemberListUtils';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import {isOfflineStatus} from '@fluxer/constants/src/StatusConstants';
 import {useLingui} from '@lingui/react/macro';
 import clsx from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {ChannelTypes} from '~/Constants';
-import {MemberListContainer} from '~/components/channel/MemberListContainer';
-import {MemberListItem} from '~/components/channel/MemberListItem';
-import {OutlineFrame} from '~/components/layout/OutlineFrame';
-import {useMemberListSubscription} from '~/hooks/useMemberListSubscription';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {GuildRecord} from '~/records/GuildRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import MemberSidebarStore from '~/stores/MemberSidebarStore';
-import UserStore from '~/stores/UserStore';
-import type {GroupDMMemberGroup} from '~/utils/MemberListUtils';
-import * as MemberListUtils from '~/utils/MemberListUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import styles from './ChannelMembers.module.css';
+import type {UIEvent} from 'react';
+import {useCallback, useMemo, useState} from 'react';
 
 const MEMBER_ITEM_HEIGHT = 44;
 const INITIAL_MEMBER_RANGE: [number, number] = [0, 99];
 const SCROLL_BUFFER = 50;
 
-const SkeletonMemberItem = ({index}: {index: number}) => {
-	const seededRandom = (seed: number) => {
-		const x = Math.sin(seed) * 10000;
-		return x - Math.floor(x);
-	};
+function getSeededRandom(seed: number): number {
+	const x = Math.sin(seed) * 10000;
+	return x - Math.floor(x);
+}
 
+function SkeletonMemberItem({index}: {index: number}) {
 	const baseSeed = (index + 1) * 17;
-	const nameWidth = 40 + seededRandom(baseSeed) * 40;
-	const statusWidth = 30 + seededRandom(baseSeed + 1) * 50;
+	const nameWidth = 40 + getSeededRandom(baseSeed) * 40;
+	const statusWidth = 30 + getSeededRandom(baseSeed + 1) * 50;
 
 	return (
 		<div className={styles.skeletonItem}>
@@ -63,7 +66,7 @@ const SkeletonMemberItem = ({index}: {index: number}) => {
 			</div>
 		</div>
 	);
-};
+}
 
 interface GroupDMMemberListGroupProps {
 	group: GroupDMMemberGroup;
@@ -74,7 +77,7 @@ interface GroupDMMemberListGroupProps {
 const GroupDMMemberListGroup = observer(({group, channelId, ownerId}: GroupDMMemberListGroupProps) => (
 	<div className={styles.groupContainer}>
 		<div className={styles.groupHeader}>
-			{group.displayName} — {group.count}
+			{group.displayName} {'\u2014'} {group.count}
 		</div>
 		<div className={styles.membersList}>
 			{group.users.map((user) => (
@@ -94,35 +97,35 @@ const GroupDMMemberListGroup = observer(({group, channelId, ownerId}: GroupDMMem
 interface LazyMemberListGroupProps {
 	guild: GuildRecord;
 	group: {id: string; count: number};
+	groupCount: number;
 	channelId: string;
 	members: Array<GuildMemberRecord>;
 }
 
-const LazyMemberListGroup = observer(({guild, group, channelId, members}: LazyMemberListGroupProps) => {
+const LazyMemberListGroup = observer(({guild, group, groupCount, channelId, members}: LazyMemberListGroupProps) => {
 	const {t} = useLingui();
-	const getGroupName = () => {
-		switch (group.id) {
-			case 'online':
-				return t`Online`;
-			case 'offline':
-				return t`Offline`;
-			default: {
-				const role = guild.getRole(group.id);
-				return role?.name ?? group.id;
-			}
+	const groupName = useMemo(() => {
+		if (group.id === 'online') {
+			return t`Online`;
 		}
-	};
-	const groupName = getGroupName();
+		if (group.id === 'offline') {
+			return t`Offline`;
+		}
+
+		const role = guild.getRole(group.id);
+		return role?.name ?? group.id;
+	}, [group.id, guild, t]);
 
 	return (
 		<div className={styles.groupContainer}>
 			<div className={styles.groupHeader}>
-				{groupName} — {group.count}
+				{groupName} {'\u2014'} {groupCount}
 			</div>
 			<div className={styles.membersList}>
-				{members.map((member: GuildMemberRecord) => {
+				{members.map((member) => {
 					const user = member.user;
 					const userId = user.id;
+
 					return (
 						<MemberListItem
 							key={userId}
@@ -147,8 +150,8 @@ interface LazyMemberListProps {
 	channel: ChannelRecord;
 }
 
-const LazyMemberList = observer(({guild, channel}: LazyMemberListProps) => {
-	const [subscribedRange, setSubscribedRange] = React.useState<[number, number]>(INITIAL_MEMBER_RANGE);
+const LazyMemberList = observer(function LazyMemberList({guild, channel}: LazyMemberListProps) {
+	const [subscribedRange, setSubscribedRange] = useState<[number, number]>(INITIAL_MEMBER_RANGE);
 
 	const {subscribe} = useMemberListSubscription({
 		guildId: guild.id,
@@ -160,8 +163,8 @@ const LazyMemberList = observer(({guild, channel}: LazyMemberListProps) => {
 	const memberListState = MemberSidebarStore.getList(guild.id, channel.id);
 	const isLoading = !memberListState || memberListState.items.size === 0;
 
-	const handleScroll = React.useCallback(
-		(event: React.UIEvent<HTMLDivElement>) => {
+	const handleScroll = useCallback(
+		(event: UIEvent<HTMLDivElement>) => {
 			const target = event.currentTarget;
 			const scrollTop = target.scrollTop;
 			const clientHeight = target.clientHeight;
@@ -170,9 +173,9 @@ const LazyMemberList = observer(({guild, channel}: LazyMemberListProps) => {
 			const endIndex = Math.ceil((scrollTop + clientHeight) / MEMBER_ITEM_HEIGHT) + SCROLL_BUFFER;
 
 			if (startIndex !== subscribedRange[0] || endIndex !== subscribedRange[1]) {
-				const newRange: [number, number] = [startIndex, endIndex];
-				setSubscribedRange(newRange);
-				subscribe([newRange]);
+				const nextRange: [number, number] = [startIndex, endIndex];
+				setSubscribedRange(nextRange);
+				subscribe([nextRange]);
 			}
 		},
 		[subscribedRange, subscribe],
@@ -184,8 +187,8 @@ const LazyMemberList = observer(({guild, channel}: LazyMemberListProps) => {
 				<div className={styles.groupContainer}>
 					<div className={clsx(styles.groupHeader, styles.skeletonHeader, styles.skeleton)} />
 					<div className={styles.membersList}>
-						{Array.from({length: 10}).map((_, i) => (
-							<SkeletonMemberItem key={i} index={i} />
+						{Array.from({length: 10}).map((_, index) => (
+							<SkeletonMemberItem key={index} index={index} />
 						))}
 					</div>
 				</div>
@@ -196,24 +199,87 @@ const LazyMemberList = observer(({guild, channel}: LazyMemberListProps) => {
 	const groupedItems: Map<string, Array<GuildMemberRecord>> = new Map();
 	const groups = memberListState.groups;
 	const seenMemberIds = new Set<string>();
+	const groupCounts = new Map<string, number>();
+	const orderedMembers: Array<GuildMemberRecord> = [];
 
 	for (const group of groups) {
 		groupedItems.set(group.id, []);
+		groupCounts.set(group.id, group.count);
 	}
 
-	let currentGroup: string | null = null;
-	const sortedItems = Array.from(memberListState.items.entries()).sort(([a], [b]) => a - b);
-	for (const [, item] of sortedItems) {
-		if (item.type === 'group') {
-			currentGroup = (item.data as {id: string}).id;
-		} else if (item.type === 'member' && currentGroup) {
-			const member = item.data as GuildMemberRecord;
-			if (!seenMemberIds.has(member.user.id)) {
-				seenMemberIds.add(member.user.id);
-				const members = groupedItems.get(currentGroup);
-				if (members) {
-					members.push(member);
-				}
+	const sortedItems = Array.from(memberListState.items.entries()).sort(([leftIndex], [rightIndex]) => {
+		return leftIndex - rightIndex;
+	});
+	let groupIndex = 0;
+	let groupStartIndex = 0;
+	let groupEndIndex = groups.length > 0 ? groups[0].count - 1 : -1;
+
+	for (const [memberIndex, item] of sortedItems) {
+		while (groupIndex < groups.length && memberIndex > groupEndIndex) {
+			groupStartIndex = groupEndIndex + 1;
+			groupIndex += 1;
+			if (groupIndex < groups.length) {
+				groupEndIndex = groupStartIndex + groups[groupIndex].count - 1;
+			}
+		}
+
+		if (groupIndex >= groups.length) {
+			continue;
+		}
+
+		const member = item.data;
+		const userId = member.user.id;
+
+		if (seenMemberIds.has(userId)) {
+			continue;
+		}
+
+		seenMemberIds.add(userId);
+		orderedMembers.push(member);
+		const members = groupedItems.get(groups[groupIndex].id);
+		if (members) {
+			members.push(member);
+		}
+	}
+
+	const hasPresenceOnlyGroups =
+		groups.length > 0 &&
+		groupedItems.has('online') &&
+		groupedItems.has('offline') &&
+		groups.every((group) => group.id === 'online' || group.id === 'offline');
+	if (hasPresenceOnlyGroups) {
+		const onlineMembers: Array<GuildMemberRecord> = [];
+		const offlineMembers: Array<GuildMemberRecord> = [];
+
+		for (const member of orderedMembers) {
+			const status = resolveMemberListPresence({
+				guildId: guild.id,
+				channelId: channel.id,
+				userId: member.user.id,
+				enabled: true,
+			});
+
+			if (isOfflineStatus(status)) {
+				offlineMembers.push(member);
+			} else {
+				onlineMembers.push(member);
+			}
+		}
+
+		if (groupedItems.has('online')) {
+			groupedItems.set('online', onlineMembers);
+		}
+		if (groupedItems.has('offline')) {
+			groupedItems.set('offline', offlineMembers);
+		}
+
+		const isFullyLoaded = seenMemberIds.size >= memberListState.memberCount;
+		if (isFullyLoaded) {
+			if (groupCounts.has('online')) {
+				groupCounts.set('online', onlineMembers.length);
+			}
+			if (groupCounts.has('offline')) {
+				groupCounts.set('offline', offlineMembers.length);
 			}
 		}
 	}
@@ -222,11 +288,20 @@ const LazyMemberList = observer(({guild, channel}: LazyMemberListProps) => {
 		<MemberListContainer channelId={channel.id} onScroll={handleScroll}>
 			{groups.map((group) => {
 				const members = groupedItems.get(group.id) ?? [];
+				const groupCount = groupCounts.get(group.id) ?? group.count;
 				if (members.length === 0) {
 					return null;
 				}
+
 				return (
-					<LazyMemberListGroup key={group.id} guild={guild} group={group} channelId={channel.id} members={members} />
+					<LazyMemberListGroup
+						key={group.id}
+						guild={guild}
+						group={group}
+						groupCount={groupCount}
+						channelId={channel.id}
+						members={members}
+					/>
 				);
 			})}
 		</MemberListContainer>
@@ -238,13 +313,11 @@ interface ChannelMembersProps {
 	channel: ChannelRecord;
 }
 
-export const ChannelMembers = observer(({guild = null, channel}: ChannelMembersProps) => {
-	const isGroupDM = channel.type === ChannelTypes.GROUP_DM;
-
-	if (isGroupDM) {
+export const ChannelMembers = observer(function ChannelMembers({guild = null, channel}: ChannelMembersProps) {
+	if (channel.type === ChannelTypes.GROUP_DM) {
 		const currentUserId = AuthenticationStore.currentUserId;
 		const allUserIds = currentUserId ? [currentUserId, ...channel.recipientIds] : channel.recipientIds;
-		const users = allUserIds.map((id) => UserStore.getUser(id)).filter((u): u is UserRecord => u !== null);
+		const users = allUserIds.map((id) => UserStore.getUser(id)).filter((user): user is UserRecord => user !== null);
 		const memberGroups = MemberListUtils.getGroupDMMemberGroups(users);
 
 		return (

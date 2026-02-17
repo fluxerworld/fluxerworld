@@ -27,10 +27,16 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: rgb(0 0 0 / 0.7);
+	background-color: var(--voice-overlay-strong);
 	z-index: 10;
-	pointer-events: auto;
+	pointer-events: none;
 	border-radius: var(--radius-lg);
+}
+
+.watchStreamButtons {
+	display: flex;
+	gap: 8px;
+	align-items: center;
 }
 
 .watchStreamButton {
@@ -40,8 +46,9 @@
 	border-radius: 0.375rem;
 	background-color: var(--status-danger);
 	padding: 0.5rem 1rem;
+	font-size: 0.875rem;
 	font-weight: 600;
-	color: white;
+	color: var(--button-danger-text);
 	box-shadow: var(--shadow-sm);
 	cursor: pointer;
 	pointer-events: auto;
@@ -51,22 +58,41 @@
 	background-color: var(--status-danger);
 }
 
-.watchStreamButtonIcon {
-	height: 1rem;
-	width: 1rem;
-}
-
-.liveBadge {
+.liveBadgeContainer {
 	position: absolute;
 	top: 0.5rem;
 	right: 0.5rem;
-	border-radius: 0.25rem;
-	background-color: var(--status-danger);
-	padding: 0.125rem 0.5rem;
-	font-weight: 700;
-	color: white;
-	font-size: 0.75rem;
-	line-height: 1rem;
+	z-index: 11;
+}
+
+.streamEndedOverlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: var(--voice-overlay-strong);
+	z-index: 10;
+	border-radius: var(--radius-lg);
+}
+
+.streamEndedContent {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	text-align: center;
+	padding: 1rem;
+}
+
+.streamEndedTitle {
+	font-size: 1rem;
+	font-weight: 600;
+	color: var(--text-primary);
+}
+
+.streamEndedButton {
+	min-width: 9rem;
 }
 
 .avatarRing {
@@ -75,14 +101,14 @@
 
 .avatarRingSpeaking {
 	border-radius: 9999px;
-	box-shadow: 0 0 0 2px var(--status-online);
+	box-shadow: 0 0 0 3px var(--status-online);
 }
 
 .focusOverlay {
 	position: absolute;
 	inset: 0;
 	border-radius: var(--radius-lg);
-	background-color: rgb(0 0 0 / 0.65);
+	background-color: var(--voice-overlay-soft);
 	z-index: 9;
 	pointer-events: none;
 }
@@ -93,8 +119,8 @@
 	right: 0.5rem;
 	height: 1.5rem;
 	width: 1.5rem;
-	color: white;
-	filter: drop-shadow(0 1px 2px rgb(0 0 0 / 0.5));
+	color: var(--voice-text-strong);
+	filter: drop-shadow(0 1px 2px var(--voice-shadow-strong));
 }
 
 .videoDisabledOverlay {
@@ -104,7 +130,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: rgb(0 0 0 / 0.4);
+	background-color: var(--voice-overlay-strong);
 }
 
 .videoDisabledIcon {
@@ -137,7 +163,7 @@
 	height: 1rem;
 	width: 1rem;
 	flex-shrink: 0;
-	color: white;
+	color: var(--voice-text-strong);
 }
 
 .participantNameText {
@@ -147,28 +173,50 @@
 	font-weight: 500;
 	font-size: 0.875rem;
 	line-height: 1.25rem;
-	color: white;
+	color: var(--voice-text-strong);
 }
 
 .participantConnectionText {
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-	color: rgb(255 255 255 / 0.7);
+	color: var(--voice-text-muted);
 	font-size: 0.75rem;
 	line-height: 1rem;
 }
 
-.menuButton {
+.controlGroup {
+	gap: 0.25rem;
+	padding: 0;
+}
+
+.controlGroup:last-child {
+	aspect-ratio: auto;
+}
+
+.menuButton,
+.streamAudioButton {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.375rem;
+	border-radius: var(--radius-md);
 	cursor: pointer;
 	transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+	color: var(--voice-text-strong);
 }
 
-.menuButton:hover {
-	background-color: rgb(0 0 0 / 0.9);
+.menuButton:hover,
+.streamAudioButton:hover {
+	background-color: var(--voice-surface-4);
 }
 
-.menuButtonIcon {
+.streamAudioButtonMuted {
+	color: var(--status-danger);
+}
+
+.menuButtonIcon,
+.streamAudioIcon {
 	height: 1rem;
 	width: 1rem;
 }
@@ -183,7 +231,7 @@
 	right: -10rem;
 	width: 9.5rem;
 	height: 6rem;
-	background: rgb(0 0 0 / 0.85);
+	background: var(--voice-surface-3);
 	border-radius: var(--radius-md);
 	box-shadow: var(--shadow-lg);
 	display: flex;
@@ -195,56 +243,100 @@
 	z-index: 25;
 }
 
-.previewImage {
+.frozenFrame {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: contain;
+	background-color: var(--voice-surface-0);
+	border-radius: var(--radius-lg);
+}
+
+.screensharePreviewBackground {
+	position: absolute;
+	inset: 0;
 	width: 100%;
 	height: 100%;
 	object-fit: cover;
-	border-radius: var(--radius-sm);
+	border-radius: var(--radius-lg);
+	filter: brightness(0.4);
 }
 
-.previewFallback {
+.screensharePlaceholder {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	background-color: var(--voice-surface-2);
+	border-radius: var(--radius-lg);
+}
+
+.focusedPlaceholderScreenSurface {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	width: 100%;
-	height: 100%;
-	color: rgb(255 255 255 / 0.7);
-	font-size: 0.85rem;
-	text-align: center;
-	padding: 0.5rem;
+	background-color: var(--voice-surface-4);
+	border-radius: var(--radius-lg);
 }
 
-.previewWatchButton {
+.focusedPlaceholderCameraOverlay {
+	position: absolute;
+	inset: 0;
+	background-color: var(--voice-overlay);
+	border-radius: var(--radius-lg);
+	pointer-events: none;
+	z-index: 2;
+}
+
+.focusedPlaceholderIconLayer {
 	position: absolute;
 	inset: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	pointer-events: none;
+	z-index: 3;
 }
 
-.previewWatchButtonInner {
-	pointer-events: auto;
-	display: inline-flex;
-	align-items: center;
-	gap: 0.5rem;
-	background-color: var(--status-danger);
-	color: white;
-	font-weight: 600;
-	padding: 0.4rem 0.75rem;
-	border-radius: var(--radius-sm);
-	box-shadow: var(--shadow-sm);
+.focusedPlaceholderIcon {
+	width: 2.1rem;
+	height: 2.1rem;
+	color: var(--voice-text-strong);
+	filter: drop-shadow(0 2px 8px var(--voice-shadow-strong));
+}
+
+.focusedPlaceholderLiveBadge {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	z-index: 4;
+	pointer-events: none;
+}
+
+.focusedPlaceholderAvatarDimmed {
+	opacity: 0.58;
+	filter: saturate(0.52);
 }
 
 .selfStreamOverlay {
 	position: absolute;
 	inset: 0;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 	z-index: 5;
 	pointer-events: none;
 	border-radius: var(--radius-lg);
+}
+
+.selfStreamOverlay.paused {
+	background-color: var(--voice-overlay-strong);
 }
 
 .selfStreamPreviewActive {
@@ -258,28 +350,107 @@
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	gap: 0.5rem;
-	padding: 1.5rem;
-	background-color: rgb(0 0 0 / 0.75);
-	border-radius: var(--radius-lg);
+	gap: 0.75rem;
 	text-align: center;
+	padding: 1.5rem;
 }
 
 .pausedIcon {
-	height: 2rem;
-	width: 2rem;
-	color: var(--text-secondary);
-}
-
-.pausedText {
-	font-size: 0.875rem;
-	font-weight: 600;
+	height: 3.5rem;
+	width: 3.5rem;
 	color: var(--text-primary);
 }
 
+.pausedText {
+	font-size: 1.25rem;
+	font-weight: 600;
+	color: var(--text-primary);
+	line-height: 1.4;
+}
+
 .pausedSubtext {
-	font-size: 0.75rem;
+	font-size: 0.875rem;
 	color: var(--text-secondary);
+	line-height: 1.4;
+}
+
+.streamingIndicatorOverlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 8;
+	border-radius: var(--radius-lg);
+	overflow: hidden;
+}
+
+.streamingBadge {
+	position: absolute;
+	top: 0.5rem;
+	right: 0.5rem;
+	z-index: 10;
+}
+
+.spectatorBadge {
+	position: absolute;
+	top: 0.5rem;
+	left: 0.5rem;
+	display: flex;
+	align-items: center;
+	gap: 3px;
+	padding: 0.25rem 0.5rem;
+	background-color: var(--voice-surface-4);
+	border-radius: var(--radius-md);
+	color: var(--voice-text-muted);
+	font-size: 0.75rem;
+	font-weight: 500;
+	z-index: 10;
+	opacity: var(--voice-hud-opacity, 1);
+	pointer-events: var(--voice-hud-pointer-events, auto);
+	transition: opacity var(--voice-hud-transition-duration, 180ms)
+		var(--voice-hud-transition-easing, cubic-bezier(0.2, 0, 0, 1));
+}
+
+.spectatorIcon {
+	width: 14px;
+	height: 14px;
+	flex-shrink: 0;
+}
+
+.streamingIndicatorContent {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 0.75rem;
+	z-index: 1;
+}
+
+.streamingIndicatorButton {
+	pointer-events: auto;
+	font-size: 0.875rem;
+	font-weight: 600;
+	padding: 0.5rem 1rem;
+}
+
+.streamingPreviewBackground {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: var(--radius-lg);
+	filter: blur(4px) brightness(0.4);
+}
+
+.streamingPlaceholder {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	background-color: var(--voice-surface-2);
+	border-radius: var(--radius-lg);
 }
 
 .viewersContainer {
@@ -290,7 +461,7 @@
 	align-items: center;
 	gap: 0.5rem;
 	padding: 0.375rem 0.5rem;
-	background-color: rgb(0 0 0 / 0.7);
+	background-color: var(--voice-surface-4);
 	border-radius: var(--radius-md);
 	z-index: 10;
 }
@@ -314,7 +485,7 @@
 	justify-content: center;
 	margin-left: -0.25rem;
 	border-radius: 9999px;
-	border: 2px solid rgb(0 0 0 / 0.7);
+	border: 2px solid var(--voice-surface-4);
 	cursor: pointer;
 }
 
@@ -330,11 +501,35 @@
 	min-width: 24px;
 	padding: 0 0.375rem;
 	margin-left: -0.25rem;
-	background-color: var(--background-tertiary);
+	background-color: var(--voice-surface-4);
 	color: var(--text-secondary);
 	font-size: 0.75rem;
 	font-weight: 600;
 	border-radius: 9999px;
-	border: 2px solid rgb(0 0 0 / 0.7);
+	border: 2px solid var(--voice-surface-4);
 	cursor: pointer;
+}
+
+@container (max-width: 320px) {
+	.participantConnectionText {
+		display: none;
+	}
+}
+
+@container (max-width: 240px) {
+	.participantNameText {
+		font-size: 0.75rem;
+	}
+}
+
+@container (max-width: 210px) {
+	.controlGroup {
+		display: none;
+	}
+}
+
+@container (max-width: 170px) {
+	.participantNameText {
+		display: none;
+	}
 }

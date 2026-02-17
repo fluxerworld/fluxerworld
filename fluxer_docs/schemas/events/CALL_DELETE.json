@@ -1,0 +1,18 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "CALL_DELETE",
+	"description": "Sent when a DM or group DM call ends.",
+	"scope": "presence",
+	"dispatchedBy": ["gateway"],
+	"note": "Dispatched to all recipients when the call terminates (all participants leave or timeout)",
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID of the ended call"
+			}
+		},
+		"required": ["channel_id"]
+	}
+}

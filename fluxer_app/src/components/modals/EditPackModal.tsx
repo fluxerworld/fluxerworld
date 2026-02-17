@@ -17,18 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input, Textarea} from '@app/components/form/Input';
+import styles from '@app/components/modals/CreatePackModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import PackStore from '@app/stores/PackStore';
+import type {PackType} from '@fluxer/schema/src/domains/pack/PackSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import {useCallback} from 'react';
 import {useForm} from 'react-hook-form';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {Form} from '~/components/form/Form';
-import {Input, Textarea} from '~/components/form/Input';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import PackStore from '~/stores/PackStore';
-import styles from './CreatePackModal.module.css';
 
 interface FormInputs {
 	name: string;
@@ -37,7 +38,7 @@ interface FormInputs {
 
 interface EditPackModalProps {
 	packId: string;
-	type: 'emoji' | 'sticker';
+	type: PackType;
 	name: string;
 	description: string | null;
 	onSuccess?: () => void;
@@ -54,7 +55,7 @@ export const EditPackModal = observer(({packId, type, name, description, onSucce
 
 	const title = type === 'emoji' ? t`Edit Emoji Pack` : t`Edit Sticker Pack`;
 
-	const submitHandler = React.useCallback(
+	const submitHandler = useCallback(
 		async (data: FormInputs) => {
 			await PackStore.updatePack(packId, {name: data.name.trim(), description: data.description.trim() || null});
 			onSuccess?.();
@@ -77,7 +78,7 @@ export const EditPackModal = observer(({packId, type, name, description, onSucce
 					<div className={styles.formFields}>
 						<Input
 							id="pack-name"
-							label={t`Pack name`}
+							label={t`Pack Name`}
 							error={form.formState.errors.name?.message}
 							{...form.register('name', {
 								required: t`Pack name is required`,

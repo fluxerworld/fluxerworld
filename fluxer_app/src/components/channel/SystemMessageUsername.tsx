@@ -17,14 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import {PreloadableUserPopout} from '~/components/channel/PreloadableUserPopout';
-import type {GuildRecord} from '~/records/GuildRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import styles from '~/styles/Message.module.css';
-import * as NicknameUtils from '~/utils/NicknameUtils';
+import {PreloadableUserPopout} from '@app/components/channel/PreloadableUserPopout';
+import {useContextMenuHoverState} from '@app/hooks/useContextMenuHoverState';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import styles from '@app/styles/Message.module.css';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {clsx} from 'clsx';
+import React, {useRef} from 'react';
 
 export const SystemMessageUsername = React.forwardRef<
 	HTMLElement,
@@ -34,14 +36,17 @@ export const SystemMessageUsername = React.forwardRef<
 		message: MessageRecord;
 	}
 >(({author, guild, message}, ref) => {
+	const usernameRef = useRef<HTMLSpanElement | null>(null);
+	const contextMenuOpen = useContextMenuHoverState(usernameRef);
 	const member = GuildMemberStore.getMember(guild?.id ?? '', author.id);
 	return (
 		<PreloadableUserPopout ref={ref} user={author} isWebhook={false} guildId={guild?.id} channelId={message.channelId}>
 			<span
-				className={styles.systemMessageLink}
+				className={clsx(styles.systemMessageLink, contextMenuOpen && styles.contextMenuUnderline)}
 				style={{color: member?.getColorString()}}
 				data-user-id={author.id}
 				data-guild-id={guild?.id}
+				ref={usernameRef}
 			>
 				{NicknameUtils.getNickname(author, guild?.id)}
 			</span>

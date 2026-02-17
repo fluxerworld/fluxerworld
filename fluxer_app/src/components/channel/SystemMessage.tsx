@@ -17,17 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {MessageReactions} from '@app/components/channel/MessageReactions';
+import {TimestampWithTooltip} from '@app/components/channel/TimestampWithTooltip';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import styles from '@app/styles/Message.module.css';
+import * as DateUtils from '@app/utils/DateUtils';
 import {useLingui} from '@lingui/react/macro';
 import type {Icon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {MessageReactions} from '~/components/channel/MessageReactions';
-import {TimestampWithTooltip} from '~/components/channel/TimestampWithTooltip';
-import type {MessageRecord} from '~/records/MessageRecord';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import styles from '~/styles/Message.module.css';
-import * as DateUtils from '~/utils/DateUtils';
+import {useMemo} from 'react';
 
 export const SystemMessage = observer(
 	({
@@ -45,9 +46,18 @@ export const SystemMessage = observer(
 	}) => {
 		const {i18n} = useLingui();
 		const messageDisplayCompact = UserSettingsStore.getMessageDisplayCompact();
-		const formattedDate = messageDisplayCompact
-			? DateUtils.getFormattedTime(message.timestamp)
-			: DateUtils.getRelativeDateString(message.timestamp, i18n);
+		const formattedDate = useMemo(
+			() =>
+				messageDisplayCompact
+					? DateUtils.getFormattedTime(message.timestamp)
+					: DateUtils.getRelativeDateString(message.timestamp, i18n),
+			[messageDisplayCompact, message.timestamp, i18n],
+		);
+
+		const showReactions = useMemo(
+			() => UserSettingsStore.getRenderReactions() && message.reactions.length > 0,
+			[message.reactions.length],
+		);
 
 		if (messageDisplayCompact) {
 			return (
@@ -59,8 +69,10 @@ export const SystemMessage = observer(
 						<Icon weight={iconWeight} className={clsx(styles.systemMessageIconSvg, iconClassname)} />
 					</div>
 					<div className={styles.systemMessageContentWrapper}>
-						<div className={styles.systemMessageContent}>{messageContent}</div>
-						{UserSettingsStore.getRenderReactions() && message.reactions.length > 0 && (
+						<div className={styles.systemMessageContent} data-search-highlight-scope="message">
+							{messageContent}
+						</div>
+						{showReactions && (
 							<div className={styles.container}>
 								<MessageReactions message={message} />
 							</div>
@@ -78,7 +90,7 @@ export const SystemMessage = observer(
 				</div>
 				<div className={styles.messageGutterRight} />
 				<div className={styles.systemMessageContent}>
-					{messageContent}{' '}
+					<span data-search-highlight-scope="message">{messageContent}</span>{' '}
 					<TimestampWithTooltip
 						date={message.timestamp}
 						className={clsx(styles.messageTimestamp, styles.systemMessageTimestamp)}
@@ -86,7 +98,7 @@ export const SystemMessage = observer(
 						{formattedDate}
 					</TimestampWithTooltip>
 				</div>
-				{UserSettingsStore.getRenderReactions() && message.reactions.length > 0 && (
+				{showReactions && (
 					<div className={styles.container}>
 						<MessageReactions message={message} />
 					</div>

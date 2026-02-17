@@ -17,23 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import UnsavedChangesStore from '~/stores/UnsavedChangesStore';
+import UnsavedChangesStore from '@app/stores/UnsavedChangesStore';
 
-export const setUnsavedChanges = (tabId: string, hasChanges: boolean): void => {
+export function setUnsavedChanges(tabId: string, hasChanges: boolean): void {
 	UnsavedChangesStore.setUnsavedChanges(tabId, hasChanges);
-};
+}
 
-export const triggerFlashEffect = (tabId: string): void => {
+export function triggerFlashEffect(tabId: string): void {
 	UnsavedChangesStore.triggerFlash(tabId);
-};
+}
 
-export const clearUnsavedChanges = (tabId: string): void => {
+export function clearUnsavedChanges(tabId: string): void {
 	UnsavedChangesStore.clearUnsavedChanges(tabId);
-};
+}
 
-export const setTabData = (
+export function setTabData(
 	tabId: string,
 	data: {onReset?: () => void; onSave?: () => void; isSubmitting?: boolean},
-): void => {
+): void {
 	UnsavedChangesStore.setTabData(tabId, data);
-};
+}

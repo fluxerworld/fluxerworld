@@ -17,18 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import {AuthRouterLink} from '@app/components/auth/AuthRouterLink';
+import FormField from '@app/components/auth/FormField';
+import styles from '@app/components/pages/ResetPasswordPage.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {useAuthForm} from '@app/hooks/useAuthForm';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import {useHashParam} from '@app/hooks/useHashParam';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import {resetPassword as resetPasswordFlow} from '@app/viewmodels/auth/AuthFlow';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useEffect, useId} from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import {AuthRouterLink} from '~/components/auth/AuthRouterLink';
-import FormField from '~/components/auth/FormField';
-import {Button} from '~/components/uikit/Button/Button';
-import {useAuthForm} from '~/hooks/useAuthForm';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import {useHashParam} from '~/hooks/useHashParam';
-import * as RouterUtils from '~/utils/RouterUtils';
-import styles from './ResetPasswordPage.module.css';
 
 const ResetPasswordPage = observer(function ResetPasswordPage() {
 	const {t} = useLingui();
@@ -55,10 +56,21 @@ const ResetPasswordPage = observer(function ResetPasswordPage() {
 				return;
 			}
 
-			const response = await AuthenticationActionCreators.resetPassword(token, values.password);
+			const response = await resetPasswordFlow(token, values.password);
+			if (response.type === 'mfa') {
+				AuthenticationActionCreators.setMfaTicket({
+					ticket: response.challenge.ticket,
+					sms: response.challenge.sms,
+					totp: response.challenge.totp,
+					webauthn: response.challenge.webauthn,
+				});
+				RouterUtils.replaceWith('/login');
+				return;
+			}
+
 			await AuthenticationActionCreators.completeLogin({
-				token: response.token,
-				userId: response.user_id,
+				token: response.payload.token,
+				userId: response.payload.userId,
 			});
 		},
 		firstFieldName: 'password',
@@ -87,7 +99,7 @@ const ResetPasswordPage = observer(function ResetPasswordPage() {
 					type="password"
 					autoComplete="new-password"
 					required
-					label={t`New password`}
+					label={t`New Password`}
 					value={form.getValue('password')}
 					onChange={(value) => form.setValue('password', value)}
 					error={form.getError('password') || fieldErrors?.password}
@@ -99,7 +111,7 @@ const ResetPasswordPage = observer(function ResetPasswordPage() {
 					type="password"
 					autoComplete="new-password"
 					required
-					label={t`Confirm new password`}
+					label={t`Confirm New Password`}
 					value={form.getValue('confirmPassword')}
 					onChange={(value) => form.setValue('confirmPassword', value)}
 					error={form.getError('confirmPassword')}

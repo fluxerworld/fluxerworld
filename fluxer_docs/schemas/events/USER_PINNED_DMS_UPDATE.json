@@ -1,0 +1,12 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "USER_PINNED_DMS_UPDATE",
+	"description": "User pinned DMs have been updated.",
+	"scope": "presence",
+	"dispatchedBy": ["PUT /users/@me/channels/:channel_id/pin", "DELETE /users/@me/channels/:channel_id/pin"],
+	"payload": {
+		"type": "array",
+		"items": {"type": "string"},
+		"description": "Array of pinned channel IDs (snowflakes as strings)"
+	}
+}

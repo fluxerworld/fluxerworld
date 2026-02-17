@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/common/ExternalLink.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {openExternalUrl} from '@app/utils/NativeUtils';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type {AnchorHTMLAttributes, FC, MouseEventHandler} from 'react';
 import {useRef} from 'react';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {openExternalUrl} from '~/utils/NativeUtils';
-import styles from './ExternalLink.module.css';
 
 type ExternalLinkProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
 	href: string;

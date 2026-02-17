@@ -17,26 +17,31 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as MediaViewerActionCreators from '@app/actions/MediaViewerActionCreators';
+import {AltTextBadge} from '@app/components/channel/embeds/AltTextBadge';
+import {deriveDefaultNameFromMessage} from '@app/components/channel/embeds/EmbedUtils';
+import styles from '@app/components/channel/embeds/media/EmbedImage.module.css';
+import {getMediaButtonVisibility} from '@app/components/channel/embeds/media/MediaButtonUtils';
+import {MediaContainer} from '@app/components/channel/embeds/media/MediaContainer';
+import type {BaseMediaProps} from '@app/components/channel/embeds/media/MediaTypes';
+import {NSFWBlurOverlay} from '@app/components/channel/embeds/NSFWBlurOverlay';
+import {MediaActionBottomSheet} from '@app/components/channel/MediaActionBottomSheet';
+import {useMaybeMessageViewContext} from '@app/components/channel/MessageViewContext';
+import {MediaContextMenu} from '@app/components/uikit/context_menu/MediaContextMenu';
+import {useDeleteAttachment} from '@app/hooks/useDeleteAttachment';
+import {useMediaFavorite} from '@app/hooks/useMediaFavorite';
+import {useMediaLoading} from '@app/hooks/useMediaLoading';
+import {useNSFWMedia} from '@app/hooks/useNSFWMedia';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import {createCalculator} from '@app/utils/DimensionUtils';
+import {createSaveHandler} from '@app/utils/FileDownloadUtils';
+import {attachmentsToViewerItems, findViewerItemIndex} from '@app/utils/MediaViewerItemUtils';
+import type {MessageAttachment} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {useLingui} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import {type FC, useCallback} from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as MediaViewerActionCreators from '~/actions/MediaViewerActionCreators';
-import {deriveDefaultNameFromMessage} from '~/components/channel/embeds/EmbedUtils';
-import {getMediaButtonVisibility} from '~/components/channel/embeds/media/MediaButtonUtils';
-import {MediaContainer} from '~/components/channel/embeds/media/MediaContainer';
-import type {BaseMediaProps} from '~/components/channel/embeds/media/MediaTypes';
-import {NSFWBlurOverlay} from '~/components/channel/embeds/NSFWBlurOverlay';
-import {MediaContextMenu} from '~/components/uikit/ContextMenu/MediaContextMenu';
-import {useDeleteAttachment} from '~/hooks/useDeleteAttachment';
-import {useMediaFavorite} from '~/hooks/useMediaFavorite';
-import {useMediaLoading} from '~/hooks/useMediaLoading';
-import {useNSFWMedia} from '~/hooks/useNSFWMedia';
-import type {MessageAttachment, MessageRecord} from '~/records/MessageRecord';
-import {createCalculator} from '~/utils/DimensionUtils';
-import {createSaveHandler} from '~/utils/FileDownloadUtils';
-import styles from './EmbedImage.module.css';
+import {type FC, useCallback, useState} from 'react';
 
 const IMAGE_CONFIG = {
 	MAX_WIDTH: 400,
@@ -59,6 +64,7 @@ interface ImagePreviewHandlerProps {
 	messageId?: string;
 	attachmentId?: string;
 	message?: MessageRecord;
+	animated?: boolean;
 	mediaAttachments?: ReadonlyArray<MessageAttachment>;
 	children: React.ReactNode;
 }
@@ -78,6 +84,7 @@ type EmbedImageProps = React.ImgHTMLAttributes<HTMLImageElement> &
 		alt?: string;
 		mediaAttachments?: ReadonlyArray<MessageAttachment>;
 		isPreview?: boolean;
+		animated?: boolean;
 	};
 
 const ImagePreviewHandler: FC<ImagePreviewHandlerProps> = observer(
@@ -93,6 +100,7 @@ const ImagePreviewHandler: FC<ImagePreviewHandlerProps> = observer(
 		messageId,
 		attachmentId,
 		message,
+		animated,
 		mediaAttachments = [],
 		children,
 	}) => {
@@ -121,19 +129,8 @@ const ImagePreviewHandler: FC<ImagePreviewHandlerProps> = observer(
 				event.stopPropagation();
 
 				if (mediaAttachments.length > 0) {
-					const currentIndex = mediaAttachments.findIndex((a) => a.id === attachmentId);
-
-					const items = mediaAttachments.map((att) => ({
-						src: att.proxy_url ?? att.url ?? '',
-						originalSrc: att.url ?? '',
-						naturalWidth: att.width!,
-						naturalHeight: att.height!,
-						type: 'image' as const,
-						contentHash: att.content_hash,
-						attachmentId: att.id,
-						expiresAt: att.expires_at ?? null,
-						expired: att.expired ?? false,
-					}));
+					const items = attachmentsToViewerItems(mediaAttachments);
+					const currentIndex = findViewerItemIndex(items, attachmentId);
 
 					MediaViewerActionCreators.openMediaViewer(items, currentIndex, {
 						channelId,
@@ -153,6 +150,7 @@ const ImagePreviewHandler: FC<ImagePreviewHandlerProps> = observer(
 								embedIndex,
 								expiresAt: undefined,
 								expired: undefined,
+								animated,
 							},
 						],
 						0,
@@ -218,8 +216,10 @@ export const EmbedImage: FC<EmbedImageProps> = observer(
 		onDelete,
 		mediaAttachments = [],
 		isPreview,
+		animated = false,
 	}) => {
 		const {t} = useLingui();
+		const messageViewContext = useMaybeMessageViewContext();
 		const {loaded, error, thumbHashURL} = useMediaLoading(src, placeholder);
 		const {shouldBlur, gateReason} = useNSFWMedia(nsfw, channelId);
 
@@ -255,7 +255,7 @@ export const EmbedImage: FC<EmbedImageProps> = observer(
 		);
 		const resolvedContainerStyle: React.CSSProperties = {
 			...containerStyle,
-			width: dimensions.width,
+			width: `${dimensions.width}px`,
 			maxWidth: '100%',
 		};
 
@@ -270,6 +270,8 @@ export const EmbedImage: FC<EmbedImageProps> = observer(
 		);
 
 		const handleDeleteClick = useDeleteAttachment(message, attachmentId);
+
+		const [mediaSheetOpen, setMediaSheetOpen] = useState(false);
 
 		const handleContextMenu = useCallback(
 			(e: React.MouseEvent) => {
@@ -296,6 +298,15 @@ export const EmbedImage: FC<EmbedImageProps> = observer(
 			},
 			[message, src, originalSrc, contentHash, attachmentId, embedIndex, alt, defaultName, onDelete, isPreview],
 		);
+
+		const handleLongPress = useCallback(() => {
+			if (!message || isPreview) return;
+			setMediaSheetOpen(true);
+		}, [message, isPreview]);
+
+		const handleCloseMediaSheet = useCallback(() => {
+			setMediaSheetOpen(false);
+		}, []);
 
 		if (shouldBlur) {
 			return (
@@ -332,63 +343,84 @@ export const EmbedImage: FC<EmbedImageProps> = observer(
 		);
 
 		return (
-			<div className={styles.container}>
-				<div className={clsx(styles.rowContainer, isInline && styles.justifyEnd)}>
-					<MediaContainer
-						className={clsx(styles.mediaContainer, styles.cursorPointer)}
-						style={resolvedContainerStyle}
-						showFavoriteButton={showFavoriteButton}
-						isFavorited={isFavorited}
-						onFavoriteClick={handleFavoriteClick}
-						showDownloadButton={showDownloadButton}
-						onDownloadClick={handleDownloadClick}
-						showDeleteButton={showDeleteButton}
-						onDeleteClick={handleDeleteClick}
-						onContextMenu={handleContextMenu}
-						renderedWidth={dimensions.width}
-						renderedHeight={dimensions.height}
-					>
-						<ImagePreviewHandler
-							src={src}
-							originalSrc={originalSrc}
-							naturalWidth={naturalWidth}
-							naturalHeight={naturalHeight}
-							contentHash={contentHash}
-							embedIndex={embedIndex}
-							handlePress={handlePress}
-							channelId={channelId}
-							messageId={messageId}
-							attachmentId={attachmentId}
-							message={message}
-							mediaAttachments={mediaAttachments}
+			<>
+				<div className={styles.container}>
+					<div className={clsx(styles.rowContainer, isInline && styles.justifyEnd)}>
+						<MediaContainer
+							className={clsx(styles.mediaContainer, styles.cursorPointer)}
+							style={resolvedContainerStyle}
+							showFavoriteButton={showFavoriteButton}
+							isFavorited={isFavorited}
+							onFavoriteClick={handleFavoriteClick}
+							showDownloadButton={showDownloadButton}
+							onDownloadClick={handleDownloadClick}
+							showDeleteButton={showDeleteButton}
+							onDeleteClick={handleDeleteClick}
+							onContextMenu={handleContextMenu}
+							onLongPress={handleLongPress}
+							renderedWidth={dimensions.width}
+							renderedHeight={dimensions.height}
 						>
-							<div className={styles.imageInnerContainer}>
-								{shouldRenderPlaceholder && thumbHashURL && (
-									<div className={styles.thumbHashContainer}>
-										<img
-											src={thumbHashURL}
-											className={styles.thumbHashImage}
-											alt={alt ? t`Loading: ${alt}` : t`Loading image`}
-											loading="lazy"
-										/>
-									</div>
-								)}
-								<img
-									alt={alt || t`Image`}
-									src={src}
-									className={clsx(
-										styles.imageElement,
-										shouldRenderPlaceholder ? styles.opacityHidden : styles.opacityVisible,
-										className,
+							<ImagePreviewHandler
+								src={src}
+								originalSrc={originalSrc}
+								naturalWidth={naturalWidth}
+								naturalHeight={naturalHeight}
+								contentHash={contentHash}
+								embedIndex={embedIndex}
+								handlePress={handlePress}
+								channelId={channelId}
+								messageId={messageId}
+								attachmentId={attachmentId}
+								message={message}
+								mediaAttachments={mediaAttachments}
+								animated={animated}
+							>
+								<div className={styles.imageInnerContainer}>
+									{shouldRenderPlaceholder && thumbHashURL && (
+										<div className={styles.thumbHashContainer}>
+											<img
+												src={thumbHashURL}
+												className={styles.thumbHashImage}
+												alt={alt ? t`Loading: ${alt}` : t`Loading image`}
+												loading="lazy"
+											/>
+										</div>
 									)}
-									loading="lazy"
-									tabIndex={-1}
-								/>
-							</div>
-						</ImagePreviewHandler>
-					</MediaContainer>
+									<img
+										alt={alt || t`Image`}
+										src={src}
+										className={clsx(
+											styles.imageElement,
+											shouldRenderPlaceholder ? styles.opacityHidden : styles.opacityVisible,
+											className,
+										)}
+										loading="lazy"
+										tabIndex={-1}
+									/>
+								</div>
+							</ImagePreviewHandler>
+							<AltTextBadge altText={alt} onPopoutToggle={messageViewContext?.onPopoutToggle} />
+						</MediaContainer>
+					</div>
 				</div>
-			</div>
+				{message && (
+					<MediaActionBottomSheet
+						isOpen={mediaSheetOpen}
+						onClose={handleCloseMediaSheet}
+						message={message}
+						originalSrc={originalSrc}
+						proxyURL={src}
+						type={animated ? 'gif' : 'image'}
+						contentHash={contentHash}
+						attachmentId={attachmentId}
+						embedIndex={embedIndex}
+						defaultName={alt || defaultName}
+						defaultAltText={alt}
+						handleDelete={onDelete}
+					/>
+				)}
+			</>
 		);
 	},
 );

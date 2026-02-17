@@ -17,18 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GuildActionCreators from '@app/actions/GuildActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as Modal from '@app/components/modals/Modal';
+import styles from '@app/components/modals/TransferOwnershipModal.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {Logger} from '@app/lib/Logger';
+import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import {isAbortError} from '@app/stores/SudoPromptStore';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as GuildActionCreators from '~/actions/GuildActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import type {GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import {isAbortError} from '~/stores/SudoPromptStore';
-import styles from './TransferOwnershipModal.module.css';
+import type React from 'react';
+import {useState} from 'react';
+
+const logger = new Logger('TransferOwnershipModal');
 
 export const TransferOwnershipModal: React.FC<{
 	guildId: string;
@@ -36,7 +40,7 @@ export const TransferOwnershipModal: React.FC<{
 	targetMember: GuildMemberRecord;
 }> = observer(({guildId, targetUser}) => {
 	const {t} = useLingui();
-	const [isTransferring, setIsTransferring] = React.useState(false);
+	const [isTransferring, setIsTransferring] = useState(false);
 
 	const handleTransfer = async () => {
 		setIsTransferring(true);
@@ -51,7 +55,7 @@ export const TransferOwnershipModal: React.FC<{
 			if (isAbortError(error)) {
 				return;
 			}
-			console.error('Failed to transfer ownership:', error);
+			logger.error('Failed to transfer ownership:', error);
 			ToastActionCreators.createToast({
 				type: 'error',
 				children: <Trans>Failed to transfer ownership. Please try again.</Trans>,

@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
+import MediaPermissionStore from '@app/stores/MediaPermissionStore';
+import {type VoiceDeviceState, voiceDeviceManager} from '@app/utils/VoiceDeviceManager';
 import {makeAutoObservable, runInAction} from 'mobx';
-import {Logger} from '~/lib/Logger';
-import MediaPermissionStore from '~/stores/MediaPermissionStore';
-import {type VoiceDeviceState, voiceDeviceManager} from '~/utils/VoiceDeviceManager';
 
 const logger = new Logger('VoiceDevicePermissionStore');
 
@@ -122,4 +122,3 @@ class VoiceDevicePermissionStore {
 }
 
 export default new VoiceDevicePermissionStore();
-export type {VoiceDeviceState};

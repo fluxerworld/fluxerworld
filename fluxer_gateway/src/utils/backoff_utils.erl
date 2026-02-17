@@ -30,3 +30,29 @@ calculate(Attempt) ->
 calculate(Attempt, MaxMs) ->
     BackoffMs = round(1000 * math:pow(2, Attempt)),
     min(BackoffMs, MaxMs).
+
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+calculate_default_max_test() ->
+    ?assertEqual(1000, calculate(0)),
+    ?assertEqual(2000, calculate(1)),
+    ?assertEqual(4000, calculate(2)),
+    ?assertEqual(8000, calculate(3)),
+    ?assertEqual(16000, calculate(4)),
+    ?assertEqual(30000, calculate(5)),
+    ?assertEqual(30000, calculate(10)).
+
+calculate_custom_max_test() ->
+    ?assertEqual(1000, calculate(0, 5000)),
+    ?assertEqual(2000, calculate(1, 5000)),
+    ?assertEqual(4000, calculate(2, 5000)),
+    ?assertEqual(5000, calculate(3, 5000)),
+    ?assertEqual(5000, calculate(10, 5000)).
+
+calculate_small_max_test() ->
+    ?assertEqual(1000, calculate(0, 1000)),
+    ?assertEqual(1000, calculate(1, 1000)),
+    ?assertEqual(1000, calculate(5, 1000)).
+
+-endif.

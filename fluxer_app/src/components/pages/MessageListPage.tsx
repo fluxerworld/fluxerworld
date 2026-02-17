@@ -17,21 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ChannelHeader} from '@app/components/channel/ChannelHeader';
+import {Message} from '@app/components/channel/Message';
+import styles from '@app/components/pages/MessageListPage.module.css';
+import previewStyles from '@app/components/shared/MessagePreview.module.css';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {useMessageListKeyboardNavigation} from '@app/hooks/useMessageListKeyboardNavigation';
+import {Routes} from '@app/Routes';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import {goToMessage} from '@app/utils/MessageNavigator';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import {MessagePreviewContext} from '@fluxer/constants/src/ChannelConstants';
 import {useLingui} from '@lingui/react/macro';
 import {FlagCheckeredIcon, SparkleIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {MessagePreviewContext} from '~/Constants';
-import {ChannelHeader} from '~/components/channel/ChannelHeader';
-import {Message} from '~/components/channel/Message';
-import previewStyles from '~/components/shared/MessagePreview.module.css';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Routes} from '~/Routes';
-import type {MessageRecord} from '~/records/MessageRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import {goToMessage} from '~/utils/MessageNavigator';
-import * as RouterUtils from '~/utils/RouterUtils';
-import styles from './MessageListPage.module.css';
+import {useRef} from 'react';
 
 interface MessageListPageProps {
 	icon: React.ReactNode;
@@ -56,6 +58,7 @@ export const MessageListPage = observer(
 		renderMissingMessage,
 	}: MessageListPageProps) => {
 		const {t} = useLingui();
+		const scrollerRef = useRef<ScrollerHandle | null>(null);
 		const leftContent = (
 			<div className={styles.header}>
 				{icon}
@@ -63,13 +66,18 @@ export const MessageListPage = observer(
 			</div>
 		);
 
+		useMessageListKeyboardNavigation({
+			containerRef: scrollerRef,
+			allowWhenInactive: true,
+		});
+
 		return (
 			<div className={styles.container}>
 				<ChannelHeader leftContent={leftContent} showPins={false} />
 
 				<div className={styles.content}>
 					{messages.length > 0 ? (
-						<Scroller className={styles.scroller} key="message-list-page-scroller">
+						<Scroller className={styles.scroller} key="message-list-page-scroller" ref={scrollerRef}>
 							{messages.map((message) => {
 								const channel = ChannelStore.getChannel(message.channelId);
 								if (!channel) {

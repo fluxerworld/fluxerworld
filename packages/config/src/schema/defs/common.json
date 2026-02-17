@@ -1,0 +1,19 @@
+{
+	"rate_limit": {
+		"type": "object",
+		"description": "Rate limiting parameters.",
+		"additionalProperties": false,
+		"properties": {
+			"limit": {
+				"type": "number",
+				"description": "Maximum number of requests allowed within the window.",
+				"minimum": 1
+			},
+			"window_ms": {
+				"type": "number",
+				"description": "Time window in milliseconds.",
+				"minimum": 1
+			}
+		}
+	}
+}

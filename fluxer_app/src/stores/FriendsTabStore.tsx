@@ -17,9 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {FriendsTab} from '@app/components/channel/friends/FriendsTypes';
 import {makeAutoObservable} from 'mobx';
-
-export type FriendsTab = 'online' | 'all' | 'pending' | 'add';
 
 class FriendsTabStore {
 	pendingTab: FriendsTab | null = null;

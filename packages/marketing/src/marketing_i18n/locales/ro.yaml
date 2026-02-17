@@ -1,0 +1,440 @@
+app.communities.community: Comunitate
+app.communities.community_support: Suport pentru comunități
+app.communities.featured_in_discovery: Recomandată la descoperire
+app.communities.moderation.actions_and_tools: Acțiuni și instrumente de moderare
+app.communities.moderation.report_people_or_communities: Raportează persoane sau comunități ca să păstrăm Fluxer sigur pentru toată lumea.
+app.communities.moderation.tools: Instrumente de moderare
+app.communities.roles_permissions_audit.audit_logs: Jurnale de audit pentru transparență
+app.communities.roles_permissions_audit.granular_roles_and_permissions: Roluri și permisiuni detaliate
+app.communities.roles_permissions_audit.keep_running_smoothly: Ține comunitatea ta în formă cu roluri, permisiuni și jurnale.
+app.communities.title: Comunități
+app.communities.verification.label: Verificarea comunității
+app.communities.verification.value_statement: Comunitatea ta primește statut verificat pentru autenticitate și încredere.
+app.communities.verification.verified_community: Comunitate verificată
+app.customization.animated_profile.animated_avatars_and_banners: Avatare și bannere animate
+app.customization.animated_profile.stand_out_animated_profile: Ieși în evidență cu poze de profil și bannere animate care îți arată personalitatea.
+app.customization.app_icon_badges: Vezi numărul de notificări pe iconița aplicației.
+app.customization.compact_mode: Mod compact și opțiuni de afișare
+app.customization.custom_css_themes: Teme CSS personalizate
+app.customization.custom_sounds.entrance_sounds: Sunete personalizate de intrare
+app.customization.custom_sounds.notification_sounds: Sunete personalizate de notificare
+app.customization.custom_sounds.set_personalized_join_sounds: Setează sunete personalizate când intri pe canale vocale ca să-ți faci simțită prezența.
+app.customization.custom_sounds.upload_custom_notification_sounds: Încarcă și folosește propriile sunete de notificare pentru a-ți personaliza experiența Fluxer.
+app.customization.custom_themes: Teme personalizate
+app.customization.global_emoji_and_sticker_access: Acces global la emoji și stickere
+app.customization.saved_media_and_css: Adaugă emoji personalizate, salvează media pentru mai târziu și stilizează aplicația cu CSS personalizat.
+app.customization.title: Personalizare
+app.customization.upload_custom_emojis_and_stickers: Încarcă emoji și stickere personalizate
+app.customization.use_animated_emojis: Folosește emoji animate
+app.messaging.description: Scrie-le prietenilor în privat, discută în grupuri sau construiește comunități cu canale.
+app.messaging.features.bookmarked_messages: Mesaje marcate
+app.messaging.features.file_sharing: Partajează fișiere și previzualizează linkuri
+app.messaging.features.full_markdown_support: Suport complet Markdown în mesaje
+app.messaging.features.message_scheduling.description: Programează mesaje să fie trimise la o oră viitoare. Fără DeLorean.
+app.messaging.features.organised_channels_for_communities: Canale organizate pentru comunități
+app.messaging.features.private_dms_and_group_chats: Mesaje private și chat-uri de grup
+app.messaging.features.save_media: Salvează imagini, videoclipuri, GIF-uri și audio
+app.messaging.features.search.filter_options: Filtrează după utilizatori, date și altele
+app.messaging.features.search.find_old_messages: Găsește mesaje vechi sau sari între comunități și canale în câteva secunde.
+app.messaging.features.search.label: Caută în istoricul mesajelor
+app.messaging.features.search.quick_switcher_shortcuts: Comutator rapid cu scurtături de la tastatură
+app.messaging.features.search.search_and_quick_switcher: Căutare și comutator rapid
+app.messaging.title: Mesaje
+app.open.open_fluxer: Deschide Fluxer
+app.open.open_web_app: Deschide aplicația web
+app.profiles_identity.custom_identity: Identitate personalizată
+app.profiles_identity.customise_per_community: Personalizează-ți profilul diferit pentru fiecare comunitate din care faci parte.
+app.profiles_identity.manage_friends_and_block_users: Gestionează prieteni și blochează utilizatori
+app.voice_and_video.features.mute_controls: Controale de mute, deafen și cameră
+app.voice_and_video.features.noise_suppression: Reducere zgomot și anulare ecou
+app.voice_and_video.features.screen_sharing: Partajare ecran integrată
+app.voice_and_video.features.stream_4k_60fps: Difuzează până la o rezoluție 4K la 60 fps pentru ca alții să te vadă în claritate uimitoare.
+app.voice_and_video.features.up_to_4k_video_quality: Calitate video până la 4K
+app.voice_and_video.features.video_backgrounds.description: Salvează până la 15 fundaluri video pentru apeluri. Gata cu căutatul prin folderul Downloads.
+app.voice_and_video.features.video_quality: Calitate video
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.video_quality_premium: Până la 4K/60fps
+app.voice_and_video.hop_in_a_call: Intră rapid într-un apel cu prietenii sau partajează ecranul ca să lucrați împreună.
+app.voice_and_video.title: Voce și video
+beta_and_access.beta_label: Beta
+beta_and_access.early_access.be_first_to_try: Fii printre primii care încearcă funcții noi înainte să fie lansate pentru toată lumea.
+beta_and_access.early_access.label: Acces timpuriu
+beta_and_access.featured_benefit_line: Toate lucrurile de bază pe care le aștepți, plus câteva surprize.
+beta_and_access.public_beta: Beta public
+beta_and_access.registration_limited_during_beta: Limităm înregistrările în perioada beta. Odată ce ai acces, poți oferi prietenilor un cod ca să sară peste coadă.
+beta_and_access.try_without_email: Încearcă Fluxer fără email în 30 de secunde
+community_funding_and_roles.focused_on_product: În acest moment ne concentrăm pe livrarea unui produs excelent și pe menținerea Fluxer independent și autofinanțat.
+community_funding_and_roles.future_paid_roles_heading: Viitorul rolurilor plătite
+community_funding_and_roles.future_paid_roles_note: Încă construim modelul de business pentru Fluxer și nu suntem pregătiți pentru roluri plătite.
+community_funding_and_roles.non_paid_recurring_role: Un rol neplătit pentru contribuitori recurenți care ajută la modelarea Fluxer alături de echipa de bază.
+community_funding_and_roles.sustainability_note: Cu sprijinul tău, sperăm să facem această platformă independentă sustenabilă și să oferim roluri plătite în viitor.
+company_and_resources.blog: Blog
+company_and_resources.careers.careers_at_fluxer: Cariere la Fluxer
+company_and_resources.careers.label: Cariere
+company_and_resources.careers.share_a_bit_about_yourself: Spune-ne câte ceva despre tine și cum ai vrea să contribui trimițând un email la careers@fluxer.app
+company_and_resources.community_team.fluxer_community_team: Echipa comunității Fluxer
+company_and_resources.community_team.share_feedback_report_bugs: Oferă feedback, raportează bug-uri și ajută-ne să facem Fluxer primitor pentru toată lumea.
+company_and_resources.company: Companie
+company_and_resources.company_info: Informații despre companie
+company_and_resources.connect: Conectează-te
+company_and_resources.docs: Documentație
+company_and_resources.help.get_help: Primește ajutor
+company_and_resources.help.help_center: Centru de ajutor
+company_and_resources.help.label: Ajutor
+company_and_resources.press.label: Presă
+company_and_resources.press.press_contact: Contact presă
+company_and_resources.product: Produs
+company_and_resources.resources: Resurse
+company_and_resources.source_and_contribution.code_issues_docs_reviews: Cod, probleme, documentație și review-uri
+company_and_resources.source_and_contribution.contribute_code: Contribuie cu cod
+company_and_resources.source_and_contribution.contribute_on_github: Contribuie pe GitHub
+company_and_resources.source_and_contribution.fix_bugs_ship_features: Rezolvă bug-uri, lansează funcții sau îmbunătățește experiența în repo-ul principal.
+company_and_resources.source_and_contribution.fluxer_built_in_open: Fluxer este construit la vedere. Alege calea care ți se potrivește.
+company_and_resources.source_and_contribution.get_involved: Implică-te
+company_and_resources.source_and_contribution.source_code: Cod sursă
+company_and_resources.source_and_contribution.translation.help_translate: Ajută la traducerea Fluxer și a documentației ca să se simtă nativ peste tot.
+company_and_resources.source_and_contribution.translation.label: Traducere și localizare
+company_and_resources.source_and_contribution.translation.llm_translation_note: Toate traducerile sunt momentan generate cu LLM, cu minimă revizie umană. Ne-ar plăcea să avem oameni reali care să ne ajute să localizăm Fluxer în limba ta. Pentru asta, scrie-ne la i18n@fluxer.app.
+company_and_resources.source_and_contribution.translation.localization_label: Localizare
+company_and_resources.source_and_contribution.view_repository: Vezi repository-ul
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: Vrei să ajuți la construirea Fluxer?
+company_and_resources.source_and_contribution.ways_to_contribute: Moduri de a contribui
+donations.business: Companie
+donations.donate.action: Donează
+donations.donate.label: Donează către Fluxer
+donations.donate.description: Susține Fluxer cu o donație unică sau recurentă
+donations.donation_disclaimer: Donațiile sunt cadouri voluntare și nu îți oferă niciun produs, serviciu, drept de proprietate sau beneficii speciale. Dacă vrei funcții premium, vezi {0}.
+donations.individual: Persoană fizică
+donations.individual_vs_business.answer: Ambele tipuri de donații susțin aceeași cauză. Diferența este că donațiile de tip Companie permit specificarea unui cod fiscal și primirea unei facturi PDF, utile pentru contabilitate.
+donations.individual_vs_business.question: Care este diferența dintre Persoană fizică și Companie?
+donations.infrastructure_costs_detail: Donația ta ajută la acoperirea costurilor de infrastructură Fluxer, inclusiv servere, bandă, stocare și dezvoltarea continuă de funcții noi.
+donations.minimum_donation: 'Donație minimă: 5 $ / 5 €'
+donations.mobile_roadmap_sponsorship: Sponsorizează roadmap-ul pentru mobil
+donations.send_one_time_gift: Trimite un cadou unic
+donations.support_future_development: Susține dezvoltarea viitoare
+donations.support_message: Ajută-ne să construim o platformă de comunicare independentă. Donația ta finanțează infrastructura și dezvoltarea platformei.
+donations.tax_deductible.answer: Donațiile către Fluxer nu sunt deductibile fiscal în prezent, dar finanțează direct infrastructura și dezvoltarea continuă a platformei.
+donations.tax_deductible.question: Donația mea este deductibilă fiscal?
+donations.what_it_supports: Ce susține donația mea?
+donations.why_support: Ajută-ne să construim un alt tip de platformă de comunicare – open source, susținută de comunitate și construită cu grijă.
+donations.recurring: Recurent
+donations.return_question: Primesc ceva în schimb?
+donations.form.email: Email
+donations.form.email_placeholder: adresa@ta.com
+donations.form.amount: Sumă
+donations.form.amount_other: Altă sumă
+donations.form.amount_placeholder: Introdu suma (5-1000)
+donations.form.billing: Facturare
+donations.form.donation_type: Tip de donație
+donations.form.one_time: O singură dată
+donations.form.or_label: Sau
+donations.form.monthly: Lunar
+donations.form.yearly: Anual
+donations.form.currency: Monedă
+donations.form.processing: Se procesează...
+donations.form.send_link: Trimite linkul
+donations.form.sending: Se trimite...
+donations.errors.active_subscription_exists: Ai deja o donație recurentă activă. Pentru a începe o altă donație recurentă, anulează mai întâi pe cea actuală folosind portalul pentru clienți. Poți face o donație unică în schimb.
+donations.errors.invalid_email: Introdu o adresă de email validă
+donations.errors.invalid_amount: Suma trebuie să fie între 5 și 1000
+donations.errors.generic: Ceva nu a mers bine. Te rog încearcă din nou.
+donations.errors.network: Eroare de rețea. Te rog încearcă din nou.
+donations.manage.title: Gestionează-ți donațiile
+donations.manage.description: Introdu email-ul pentru a primi un link către portalul tău de donator, unde poți gestiona abonamentele, descărca facturi și vedea istoricul donațiilor.
+donations.manage.success: Dacă există un cont pentru acel email, vei primi în curând un link de gestionare.
+donations.success.title: Mulțumim!
+donations.success.description: Mulțumim pentru sprijinul tău!
+donations.success.message: Mulțumim pentru donația ta! Apreciem foarte mult sprijinul tău.
+donations.success.email_notice: Vei primi în curând un email de confirmare cu detaliile donației și un link către portalul tău de donator.
+donations.success.back_to_donate: Înapoi la Donează
+download.download: Descarcă
+download.download_app_or_open_in_browser: Descarcă aplicația sau deschide Fluxer în browser ca să începi să te conectezi cu comunitățile tale.
+download.download_fluxer: Descarcă Fluxer
+download.download_for_prefix: 'Descarcă pentru '
+download.open_in_browser: Deschide în browser
+download.screenshots_courtesy_of: 'Capturi de ecran oferite de '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: Reguli ale comunității
+footer.company_information: Informații despre companie
+footer.connect: Conectează-te
+footer.donate: Donează
+footer.download: Descarcă
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (societate cu răspundere limitată suedeză: 559537-3993)'
+footer.help_support_an_independent_communication: Susține o platformă de comunicare independentă. Donația ta finanțează infrastructura și dezvoltarea platformei.
+footer.partners: Parteneri
+footer.plutonium_tier: Nivel Plutonium
+footer.policies: Politici
+footer.press: Presă
+footer.privacy_policy: Politica de confidențialitate
+footer.report_a_bug: Raportează un bug
+footer.roadmap: Roadmap
+footer.rss_feed: Feed RSS
+footer.security_bug_bounty: Bug bounty de securitate
+footer.source_code: Cod sursă
+footer.terms_of_service: Termeni de utilizare
+general.all: toate
+general.coming_soon.label: În curând
+general.coming_soon.whats_available_today: Ce este disponibil azi
+general.last_updated: Ultima actualizare
+general.made_in_sweden: Creat în Suedia
+general.not_available: Indisponibil
+general.or: sau
+general.tagline: O aplicație de chat care te pune pe tine pe primul loc
+languages.change_language: Schimbă limba
+languages.choose_your_language: Alege limba
+languages.language_label: Limbă
+languages.list.arabic: Arabă
+languages.list.bulgarian: Bulgară
+languages.list.chinese_simplified: Chineză (simplificată)
+languages.list.chinese_traditional: Chineză (tradițională)
+languages.list.croatian: Croată
+languages.list.czech: Cehă
+languages.list.danish: Daneză
+languages.list.dutch: Olandeză
+languages.list.english: Engleză
+languages.list.english_us: Engleză (SUA)
+languages.list.finnish: Finlandeză
+languages.list.french: Franceză
+languages.list.german: Germană
+languages.list.greek: Greacă
+languages.list.hebrew: Ebraică
+languages.list.hindi: Hindi
+languages.list.hungarian: Maghiară
+languages.list.indonesian: Indoneziană
+languages.list.italian: Italiană
+languages.list.japanese: Japoneză
+languages.list.korean: Coreeană
+languages.list.lithuanian: Lituaniană
+languages.list.norwegian: Norvegiană
+languages.list.polish: Poloneză
+languages.list.portuguese_brazil: Portugheză (Brazilia)
+languages.list.romanian: Română
+languages.list.russian: Rusă
+languages.list.spanish_latin_america: Spaniolă (America Latină)
+languages.list.spanish_spain: Spaniolă (Spania)
+languages.list.swedish: Suedeză
+languages.list.thai: Tailandeză
+languages.list.turkish: Turcă
+languages.list.ukrainian: Ucraineană
+languages.list.vietnamese: Vietnameză
+launch.description: Află despre dezvoltatorul din spatele Fluxer, obiectivele proiectului, stack-ul tehnic și ce urmează.
+launch.heading: Povestea din spatele Fluxer
+launch.read_more: Citește articolul de lansare
+launch.view_full_roadmap: Vezi roadmap-ul complet
+misc_labels.design_and_branding: Design și branding
+misc_labels.direct_team_support: Suport direct de la echipă
+misc_labels.exclusive_communities: Comunități exclusive
+misc_labels.exclusive_features: Funcții exclusive
+misc_labels.feature: Funcție
+misc_labels.get_updates: Primește actualizări, vezi funcțiile viitoare, discută sugestii și vorbește cu echipa.
+misc_labels.join_and_spread_word: Alătură-te și dă vestea mai departe
+misc_labels.join_fluxer_community_contribute: Alătură-te comunității Fluxer și ajută la construirea viitorului comunicării prin open source.
+misc_labels.join_fluxer_hq: Alătură-te Fluxer HQ
+misc_labels.join_multiple_devices: Conectează-te de pe mai multe dispozitive
+misc_labels.join_team_behind_fluxer: Alătură-te echipei din spatele Fluxer
+misc_labels.learn_more: Află mai multe
+misc_labels.product_hunt_badge_title: Fluxer – platformă open source de mesagerie instant și VoIP, tip Discord | Top post Product Hunt
+misc_labels.profile_badge: Insignă de profil
+misc_labels.read_the_guide: Citește ghidul
+misc_labels.ready_to_get_started: Gata să începi?
+misc_labels.register_now: Înregistrează-te acum
+misc_labels.related_policies: Politici asociate
+misc_labels.report_bugs: Raportează bug-uri
+misc_labels.software_development: Dezvoltare software
+misc_labels.trust_and_safety: Încredere și siguranță
+misc_labels.unique_profile_badge: Insignă de profil unică
+misc_labels.unlimited_users: Utilizatori nelimitați
+navigation.close: Închide
+navigation.close_navigation_menu: Închide meniul de navigare
+navigation.copy_link_to_section: Copiază linkul către secțiune
+navigation.go_home: Mergi acasă
+navigation.on_this_page: Pe această pagină
+navigation.page_not_found.description: Pagina asta nu există. Dar mai sunt multe de descoperit.
+navigation.page_not_found.title: Pagina nu a fost găsită
+navigation.press.download_assets_intro: Descarcă logo-urile noastre, află despre culorile de brand și ia legătura cu echipa de presă.
+navigation.press.download_fluxer_assets: Descarcă logo-urile Fluxer, materialele de brand și ia legătura cu echipa noastră de presă
+navigation.press.press_and_brand_assets: Presă și materiale de brand
+partner_program.become_partner.apply_email: Aplică la partners@fluxer.app
+partner_program.become_partner.call_to_action: Devino partener
+partner_program.become_partner.heading: Devino partener Fluxer
+partner_program.become_partner.if_youre_a_creator_or: Dacă ești creator sau conduci o comunitate mare, ne-ar plăcea să auzim de la tine.
+partner_program.become_partner.learn_about_partners: Află despre parteneri
+partner_program.become_partner.learn_more: Află mai multe
+partner_program.become_partner.ready_prompt: Ești gata să devii partener?
+partner_program.description: Beneficii și avantaje exclusive pentru creatori de conținut și proprietari de comunități mari.
+partner_program.label: Parteneri
+partner_program.perks.creator_monetization.description: Acces timpuriu la funcții de monetizare, cu comisioane mai mici decât pentru neparteneri.
+partner_program.perks.creator_monetization.label: Monetizare pentru creatori
+partner_program.perks.custom_vanity_url.description: Primești un URL personalizat exclusiv, de tipul fluxer.gg/comunitateata.
+partner_program.perks.custom_vanity_url.label: URL personalizat
+partner_program.perks.direct_team_access.description: Intră în comunitatea exclusivă de parteneri cu acces direct la echipa Fluxer.
+partner_program.perks.direct_team_access.label: Acces direct la echipă
+partner_program.perks.discovery_visibility: Vizibilitate crescută prin apariția în secțiunea de descoperire.
+partner_program.perks.exclusive_merch.description: Primești produse și swag Fluxer exclusiv pentru parteneri.
+partner_program.perks.exclusive_merch.label: Merch exclusiv
+partner_program.perks.free_plutonium.description: Primești Plutonium gratuit pentru contul tău, cu acces la toate funcțiile premium.
+partner_program.perks.free_plutonium.label: Plutonium gratuit
+partner_program.perks.increased_limits.description: Comunitatea ta primește limite mai mari când ai nevoie.
+partner_program.perks.increased_limits.label: Limite mărite
+partner_program.perks.partner_badge.description: Afișează o insignă exclusivă de partener pe profil ca să ieși în evidență.
+partner_program.perks.partner_badge.label: Insignă de partener
+partner_program.perks.vip_voice_servers.description: Acces la servere vocale VIP rezervate exclusiv comunităților partenere.
+partner_program.perks.vip_voice_servers.label: Canale vocale VIP
+partner_program.requirements.audience_description: Descriere scurtă a audienței tale și ce faci
+partner_program.requirements.links_to_content: Linkuri către conținutul sau comunitatea ta (YouTube, Twitch, Discord etc.)
+partner_program.requirements.name_and_username: Numele tău și numele de utilizator pe platformă
+partner_program.requirements.usage_plan: Cum plănuiești să folosești Fluxer cu comunitatea ta
+partner_program.who_its_for: 'Creatori de conținut și proprietari de comunități: deblochează beneficii exclusive precum Plutonium gratuit, insignă de partener, URL-uri personalizate și multe altele.'
+partner_program.perks.heading: Beneficii pentru parteneri
+partner_program.perks.see_perks: Vezi beneficiile
+partner_program.apply.instructions: Trimite-ne un email cu următoarele informații pentru a aplica la Programul de Parteneriat Fluxer.
+partner_program.apply.response_time: Analizăm toate aplicațiile și vom reveni către tine în câteva zile.
+platform_support.desktop.available_on_desktop_and_web: Disponibil pe desktop și pe web
+platform_support.desktop.download_desktop_intro: Descarcă Fluxer pentru Windows, macOS și Linux. Aplicațiile mobile sunt în lucru.
+platform_support.desktop.interface_label: Interfață desktop Fluxer
+platform_support.desktop.label: Desktop
+platform_support.desktop.use_desktop_client_mobile_soon: Folosește clientul desktop (mobilul vine în curând)
+platform_support.mobile.install_as_app.add_to_home: Adaugă Fluxer pe ecranul principal ca să ascunzi interfața browserului.
+platform_support.mobile.install_as_app.done_desktop: Gata! Acum poți deschide Fluxer ca pe un program normal.
+platform_support.mobile.install_as_app.done_mobile: Gata! Acum poți deschide Fluxer direct de pe ecranul principal.
+platform_support.mobile.install_as_app.guides.in_chrome: ' în Chrome'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: ' în Chrome sau alt browser cu suport PWA'
+platform_support.mobile.install_as_app.guides.in_safari: ' în Safari'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: Ghid de instalare PWA pentru {name}
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: 'Apasă pe "Adaugă pe ecranul principal"'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: 'Apasă pe "Adaugă" în colțul dreapta sus'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: 'Apasă pe "Instalează aplicația"'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: Apasă butonul de instalare (săgeata în jos pe monitor) din bara de adrese
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: 'Apasă pe "Instalează" în fereastra care apare'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: 'Apasă butonul "Mai multe" (⋮) din colțul dreapta sus'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: Apasă butonul de partajare (dreptunghi cu săgeată în sus)
+platform_support.mobile.install_as_app.install_fluxer_as_app: Instalează Fluxer ca aplicație
+platform_support.mobile.install_as_app.title: Cum să instalezi ca aplicație
+platform_support.mobile.interface_label: Interfață mobilă Fluxer
+platform_support.mobile.mobile_apps_underway: Aplicațiile mobile sunt în dezvoltare
+platform_support.mobile.mobile_browser_explainer: Construim aplicații pentru iOS și Android. Până sunt gata, Fluxer merge în browserul mobil și am muncit mult să se simtă cât mai mult ca o aplicație.
+platform_support.mobile.not_full_replacement_yet: Nu este încă un înlocuitor complet pentru aplicația desktop și lipsesc unele lucruri așteptate de la o aplicație de chat mobilă.
+platform_support.mobile.push_notifications: Primește notificări push când nu ești în aplicație.
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS și iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: Alege distribuția Linux
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: Descarcă pentru macOS
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: Descarcă pentru Windows
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: Culori de brand
+press_branding.assets.full_color: Versiune color
+press_branding.assets.label: Logo
+press_branding.assets.logo_variants.black_logo: Logo negru
+press_branding.assets.logo_variants.color_logo: Logo color
+press_branding.assets.logo_variants.white_logo: Logo alb
+press_branding.assets.palette_description: Paleta noastră atent aleasă care reprezintă brandul Fluxer.
+press_branding.assets.premium_quality: Calitate premium
+press_branding.assets.primary_brand_color_description: Culoarea principală de brand. Folosește-o pentru elemente cheie și accente.
+press_branding.assets.symbol_variants.black_symbol: Simbol negru
+press_branding.assets.symbol_variants.color_symbol: Simbol color
+press_branding.assets.symbol_variants.label: Simbol
+press_branding.assets.symbol_variants.white_symbol: Simbol alb
+press_branding.assets.usage_guidance.dark_surface_guidance: Pentru fundaluri, text pe suprafețe închise și contrast.
+press_branding.assets.usage_guidance.for_dark_backgrounds: Pentru fundaluri închise
+press_branding.assets.usage_guidance.for_light_backgrounds: Pentru fundaluri deschise
+press_branding.assets.usage_guidance.full_logo_description: Logo-ul complet, inclusiv wordmark-ul. Folosește-l ca reprezentare principală a brandului.
+press_branding.assets.usage_guidance.light_surface_guidance: Pentru text, iconițe pe suprafețe deschise și profunzime.
+press_branding.assets.usage_guidance.symbol_description: Simbolul nostru independent. Folosește-l doar când brandul este clar vizibil sau bine cunoscut în context.
+press_branding.colors.blue_da_ba_dee: Blue Da Ba Dee
+press_branding.colors.white: Alb
+press_branding.colors.black: Negru
+press_branding.contact.story_prompt: Ai o poveste despre Fluxer? Ne-ar plăcea să auzim de la tine.
+press_branding.contact.response_time: De obicei răspundem în 24 de ore.
+pricing_and_tiers.billing.forever: Pentru totdeauna
+pricing_and_tiers.billing.most_popular: Cel mai popular
+pricing_and_tiers.billing.per_forever: /pentru totdeauna
+pricing_and_tiers.billing.per_month: /lună
+pricing_and_tiers.billing.per_year_full: /an
+pricing_and_tiers.billing.per_year_short: /an
+pricing_and_tiers.billing.save_percent: Economisești 17%
+pricing_and_tiers.free.comparison_label: Gratuit vs Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 'Tot ce e în Gratuit, plus:'
+pricing_and_tiers.free.full_access_to_all_features: Acces complet la toate funcțiile
+pricing_and_tiers.free.label: Gratuit
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: 'Notă: beneficiile Plutonium și Visionary se aplică doar instanței oficiale Fluxer.app, nu instanțelor terțe sau self-hosted.'
+pricing_and_tiers.plutonium.feature_highlights: Upload-uri de 500 MB, mesaje de 4.000 de caractere, 300 de bookmark-uri, 50 de pachete de emoji și multe altele.
+pricing_and_tiers.plutonium.features.bio_character_limit: Limită de caractere pentru bio
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: Alege propriul tău tag cu 4 cifre ca #0001, #1337 sau #9999 pentru a-ți face numele de utilizator cu adevărat unic.
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: Tag personalizat cu 4 cifre pentru nume de utilizator
+pricing_and_tiers.plutonium.features.custom_username_tag: Etichetă personalizată a numelui de utilizator
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: Fundaluri video
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: Pachete de emoji și stickere
+pricing_and_tiers.plutonium.features.file_upload_size: Dimensiune upload fișiere
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: Acces global la emoji și stickere
+pricing_and_tiers.plutonium.features.message_character_limit: Limită de caractere pentru mesaje
+pricing_and_tiers.plutonium.features.message_scheduling: Programarea mesajelor
+pricing_and_tiers.plutonium.features.per_community_profiles: Profiluri per comunitate
+pricing_and_tiers.plutonium.features.saved_media: Media salvată
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: Webhook-uri și suport pentru boți
+pricing_and_tiers.plutonium.get_more_with_plutonium: Obține mai mult cu Fluxer Plutonium
+pricing_and_tiers.plutonium.get_plutonium: Obține Plutonium
+pricing_and_tiers.plutonium.higher_limits_and_early_access: Limite mai mari, funcții exclusive și acces timpuriu la noutăți
+pricing_and_tiers.plutonium.higher_limits_everywhere: Limite mai mari peste tot
+pricing_and_tiers.plutonium.show_off_status_badge: Arată-ți statutul Plutonium cu o insignă exclusivă pe profil.
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: 'Treci la Plutonium pentru 4,99 $/lună: tag personalizat de utilizator, profiluri per comunitate, programarea mesajelor, streaming 4K, upload-uri de 500 MB și multe altele.'
+pricing_and_tiers.visionary.badge.numbered_badge: Insignă numerotată care arată statutul tău Visionary
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: Insignă numerotată (1–{0}) care arată statutul tău Visionary
+pricing_and_tiers.visionary.bundle_label: Plutonium și Operator Pass pe viață cu Visionary – locuri limitate
+pricing_and_tiers.visionary.communities_with_team_access: Comunități Visionary și Operators cu acces la echipă
+pricing_and_tiers.visionary.get_visionary: Obține Visionary
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: Obține Plutonium pe viață pe Fluxer.app plus un Operator Pass pentru găzduire proprie. Plătești {0} o singură dată. Disponibil până la 1 octombrie 2026 sau până când toate locurile sunt ocupate.
+pricing_and_tiers.visionary.lifetime_operator_pass: Operator Pass pe viață
+pricing_and_tiers.visionary.lifetime_plutonium: Plutonium pe viață
+pricing_and_tiers.visionary.limited_offer_note: 'Ofertă limitată: Visionary include Operator Pass'
+pricing_and_tiers.visionary.limited_slots_label: Visionary – locuri limitate
+pricing_and_tiers.visionary.one_time_purchase.label: Achiziție unică
+pricing_and_tiers.visionary.one_time_purchase.promise: Plătești o singură dată, acces pe viață
+pricing_and_tiers.visionary.purchase_flow: Cumpără Visionary direct din aplicație după ce îți creezi contul. Data achiziției și numărul comenzii vor fi afișate pe profilul tău (pot fi ascunse din setările de confidențialitate).
+pricing_and_tiers.visionary.slots_left.generic: '{0} din {1} locuri rămase'
+pricing_and_tiers.visionary.slots_left.visionary_bundle: Doar {0} din {1} locuri Visionary pe viață rămase – Plutonium și Operator Pass pe viață
+pricing_and_tiers.visionary.slots_left.visionary_only: '{0} locuri Visionary rămase'
+product_positioning.free_and_open_source: Fluxer este gratuit și open source. Oricine poate să-l găzduiască singur, gratis.
+product_positioning.intro: Fluxer este o platformă gratuită și open source de mesagerie instant și VoIP, creată pentru prieteni, grupuri și comunități.
+product_positioning.open_source.label: Open source
+product_positioning.open_source.license: Open source (AGPL-3.0)
+product_positioning.open_source.fully_open_source_agplv3: Complet open source (AGPLv3)
+product_positioning.self_hosting.connect_from_any_client: Conectează-te din orice client
+product_positioning.self_hosting.free_self_hosting: Găzduire proprie gratuită
+product_positioning.self_hosting.host_your_own_instance: Găzduiește-ți propria instanță
+product_positioning.self_hosting.label: Găzduire proprie
+product_positioning.self_hosting.operator_pass.access_to_operators_community: Acces la comunitatea Fluxer Operators
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: După ce oferta se termină, Operator Pass rămâne disponibil separat.
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: 'Operator Pass este opțional: plătești pentru suport și acces la comunitate.'
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: Suport prioritar și acces la comunitatea Operators pentru găzduire proprie
+product_positioning.self_hosting.run_backend_on_your_hardware: Rulează backend-ul Fluxer pe propriul hardware și conectează-te cu aplicațiile noastre.
+product_positioning.self_hosting.switch_between_instances: Comută între mai multe instanțe
+security.found_security_issue: Ai găsit o problemă de securitate?
+security.report_vulnerabilities: Raportează vulnerabilități și ajută-ne să păstrăm platforma sigură.
+security.responsible_disclosure_note: Apreciem divulgarea responsabilă prin pagina noastră de bug bounty. Oferim coduri Plutonium și insigne Bug Hunter în funcție de severitate.
+security.security_bug_bounty: Bug bounty de securitate
+security.security_reports: Rapoarte de securitate
+security.testers_access_from_reports: Rapoartele aprobate oferă acces la Fluxer Testers, unde poți câștiga puncte pentru coduri Plutonium și insigna Bug Hunter.
+social_and_feeds.bluesky.follow_us: Urmărește-ne pe Bluesky
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: Feed RSS Bluesky
+social_and_feeds.follow_fluxer: Urmărește @fluxer.app
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: Feed RSS blog
+social_and_feeds.rss.fluxer_blog_rss: RSS blog Fluxer
+social_and_feeds.rss.label: Feed RSS
+social_and_feeds.stay_updated_cta: Rămâi la curent cu noutăți, statusul serviciului și ce se întâmplă. Te poți abona și la

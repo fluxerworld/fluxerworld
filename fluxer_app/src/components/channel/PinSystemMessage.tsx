@@ -17,30 +17,34 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {SystemMessage} from '@app/components/channel/SystemMessage';
+import {SystemMessageUsername} from '@app/components/channel/SystemMessageUsername';
+import {useSystemMessageData} from '@app/hooks/useSystemMessageData';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import styles from '@app/styles/Message.module.css';
+import {goToMessage} from '@app/utils/MessageNavigator';
 import {Trans} from '@lingui/react/macro';
 import {PushPinIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {SystemMessage} from '~/components/channel/SystemMessage';
-import {SystemMessageUsername} from '~/components/channel/SystemMessageUsername';
-import {useSystemMessageData} from '~/hooks/useSystemMessageData';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import type {MessageRecord} from '~/records/MessageRecord';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import styles from '~/styles/Message.module.css';
-import {goToMessage} from '~/utils/MessageNavigator';
+import {useCallback} from 'react';
 
-export const PinSystemMessage = observer(({message}: {message: MessageRecord}) => {
+interface PinSystemMessageProps {
+	message: MessageRecord;
+}
+
+export const PinSystemMessage = observer(({message}: PinSystemMessageProps) => {
 	const {author, channel, guild} = useSystemMessageData(message);
 	const mobileLayout = MobileLayoutStore;
 
-	const jumpToMessage = React.useCallback(() => {
+	const jumpToMessage = useCallback(() => {
 		if (message.messageReference?.message_id) {
 			goToMessage(message.channelId, message.messageReference.message_id);
 		}
 	}, [message.channelId, message.messageReference?.message_id]);
 
-	const openPins = React.useCallback(() => {
+	const openPins = useCallback(() => {
 		if (mobileLayout.enabled) {
 			ComponentDispatch.dispatch('CHANNEL_DETAILS_OPEN', {
 				initialTab: 'pins',

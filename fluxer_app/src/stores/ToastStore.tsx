@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {ToastProps} from '@app/components/uikit/toast';
+import {Logger} from '@app/lib/Logger';
 import {makeAutoObservable, observable} from 'mobx';
-import type {ToastProps} from '~/components/uikit/Toast';
-import {Logger} from '~/lib/Logger';
 
 const logger = new Logger('ToastStore');
 

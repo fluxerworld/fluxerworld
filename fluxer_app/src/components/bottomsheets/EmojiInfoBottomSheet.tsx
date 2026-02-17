@@ -17,17 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/bottomsheets/EmojiInfoBottomSheet.module.css';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import UnicodeEmojis from '@app/lib/UnicodeEmojis';
+import EmojiStore from '@app/stores/EmojiStore';
+import GuildStore from '@app/stores/GuildStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import * as EmojiUtils from '@app/utils/EmojiUtils';
+import {shouldUseNativeEmoji} from '@app/utils/EmojiUtils';
+import {setUrlQueryParams} from '@app/utils/UrlUtils';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import UnicodeEmojis from '~/lib/UnicodeEmojis';
-import EmojiStore from '~/stores/EmojiStore';
-import GuildStore from '~/stores/GuildStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import * as EmojiUtils from '~/utils/EmojiUtils';
-import {shouldUseNativeEmoji} from '~/utils/EmojiUtils';
-import styles from './EmojiInfoBottomSheet.module.css';
+import type React from 'react';
+import {useMemo} from 'react';
 
 interface EmojiInfoData {
 	id?: string;
@@ -62,10 +64,10 @@ const EmojiInfoBottomSheetContent: React.FC<EmojiInfoBottomSheetContentProps> = 
 	const guildId = emojiRecord?.guildId;
 	const guild = guildId ? GuildStore.getGuild(guildId) : null;
 
-	const emojiUrl = React.useMemo(() => {
+	const emojiUrl = useMemo(() => {
 		if (isCustomEmoji) {
 			const url = AvatarUtils.getEmojiURL({id: emoji.id!, animated: emoji.animated ?? false});
-			return `${url}?size=240&quality=lossless`;
+			return setUrlQueryParams(url, {size: 240, quality: 'lossless'});
 		}
 		if (shouldUseNativeEmoji) {
 			return null;

@@ -1,0 +1,497 @@
+account.already_verified: Kontoen din er allerede verifisert.
+account.communication_disabled: Du kan ikke kommunisere akkurat nå.
+account.disabled: Denne kontoen er deaktivert.
+account.email_verification_required_for_guild: Du må verifisere e-posten din for å kunne sende meldinger på denne serveren.
+account.guild_verification_required: Serververifisering kreves.
+account.ip_authorization_required: IP-autorisasjon kreves.
+account.locked_suspicious_activity: Kontoen din er låst på grunn av mistenkelig aktivitet.
+account.phone_required_for_guild: Du må legge til et telefonnummer for å kunne sende meldinger på denne serveren.
+account.scheduled_for_deletion: Denne kontoen er planlagt sletta.
+account.session_timeout: Økta gikk ut. Oppdater sida og logg inn på nytt.
+account.session_token_mismatch: Økt-token stemmer ikke.
+account.suspended_permanently: Denne kontoen er permanent utestengt.
+account.suspended_temporarily: Denne kontoen er midlertidig utestengt.
+account.too_new_for_guild: Kontoen din er for ny til å kunne sende meldinger på denne serveren.
+account.unauthorized: Ikke autorisert.
+admin_and_system.acls_must_be_non_empty: ACL-er kan ikke være tomme.
+admin_and_system.admin_api_key_not_found: Fant ikke admin API-nøkkelen.
+admin_and_system.audit_log_indexing: Audit logs indekseres. Prøv igjen om et øyeblikk.
+admin_and_system.channel_indexing: Kanaler indekseres. Prøv igjen om et øyeblikk.
+admin_and_system.creation_failed: Vi klarte ikke å opprette ressursen. Prøv igjen.
+admin_and_system.deletion_failed: Vi klarte ikke å slette ressursen. Prøv igjen.
+admin_and_system.decryption_failed: Vi klarte ikke å dekryptere meldinga. Krypteringsnøklene kan være ugyldige eller ødelagte.
+admin_and_system.empty_encrypted_body: Tom kryptert tekst.
+admin_and_system.encryption_failed: Vi klarte ikke å kryptere meldinga. Krypteringsnøklene kan være ugyldige eller ødelagte.
+admin_and_system.general_error: Noe gikk galt. Prøv igjen senere.
+admin_and_system.invalid_acls_format: Ugyldig ACL-format.
+admin_and_system.invalid_api_origin: Ugyldig API-origin.
+admin_and_system.invalid_audit_log_reason: Ugyldig grunn for audit log.
+admin_and_system.invalid_bot_flag: Ugyldig bot-flagg.
+admin_and_system.invalid_decrypted_json: Ugyldig dekryptert JSON.
+admin_and_system.invalid_ephemeral_key: Ugyldig ephemeral key.
+admin_and_system.invalid_flags_format: Ugyldig flags-format.
+admin_and_system.invalid_form_body: Ugyldig form body.
+admin_and_system.invalid_format: Den oppgitte verdien har ugyldig format.
+admin_and_system.invalid_integer_format: Ugyldig heltallsformat.
+admin_and_system.invalid_iv: Ugyldig initialiseringsvektor.
+admin_and_system.invalid_suspicious_flags_format: Ugyldig format for mistenkelige flagg.
+admin_and_system.invalid_system_flag: Ugyldig systemflagg.
+admin_and_system.invalid_timeout_value: Ugyldig timeout-verdi.
+admin_and_system.invalid_timestamp: Ugyldig tidsstempel.
+admin_and_system.invalid_timezone_identifier: Ugyldig tidssone-ID.
+admin_and_system.missing_acl: Mangler ACL.
+admin_and_system.missing_ephemeral_key: Mangler ephemeral key.
+admin_and_system.missing_iv: Mangler initialiseringsvektor.
+admin_and_system.must_be_iso_timestamp: Må være et gyldig ISO-tidsstempel.
+admin_and_system.processing_failed: Vi klarte ikke å behandle forespørselen. Prøv igjen.
+admin_and_system.response_validation_failed: 'Validering av svar feila: {errors}.'
+admin_and_system.test_harness_disabled: Test harness er deaktivert.
+admin_and_system.test_harness_forbidden: Test harness er ikke tillatt.
+admin_and_system.unknown_suspicious_flag: Ukjent mistenkelig flagg.
+admin_and_system.update_failed: Vi klarte ikke å oppdatere ressursen. Prøv igjen.
+admin_and_system.user_must_be_bot_for_system_user: Brukeren må være en bot for å bli markert som systembruker.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id`, og `expires_at` er påkrevd.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` og `message_id` må være gyldige heltall.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Brukere med MANAGE_MESSAGES kan bare redigere vedleggsbeskrivelser, ikke andre metadata.
+attachments_and_uploads.attachment_metadata_without_files: Vedleggsmetadata inneholder et filnavn, men ingen filer ble lasta opp.
+attachments_and_uploads.attachment_must_be_image: Vedlegget "{filename}" må være en bildefil (png, jpg, jpeg, webp eller gif).
+attachments_and_uploads.attachment_not_found_in_message: Fant ikke vedlegg med ID {attachmentId} i meldinga.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Vedleggmetadata-arrayen er påkrevd når du laster opp filer.
+attachments_and_uploads.attachments_not_allowed_for_message: Vedlegg er ikke tillatt for denne meldinga.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Du kan ikke referere vedlegg når ingen vedlegg er oppgitt.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Dupliserte vedleggs-IDer er ikke tillatt.
+attachments_and_uploads.duplicate_file_index: 'Duplisert filindeks: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Vi klarte ikke å lese multipart form data. Sjekk at alle feltnavn og filnavn er riktig formatert.
+attachments_and_uploads.failed_to_parse_multipart_payload: Vi klarte ikke å lese multipart payload.
+attachments_and_uploads.failed_to_upload_image: Vi klarte ikke å laste opp bildet. Prøv igjen.
+attachments_and_uploads.file_index_exceeds_maximum: Filindeks {index} overstiger maks tillatt indeks på {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Fant ikke fila for skanning.
+attachments_and_uploads.file_not_found: Fant ikke fila.
+attachments_and_uploads.file_size_too_large: Filstørrelsen er for stor. Maksimal filstørrelse er {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Filnavnet kan ikke være tomt etter normalisering.
+attachments_and_uploads.filename_invalid_characters: Filnavnet inneholder ugyldige tegn.
+attachments_and_uploads.filename_length_invalid: Filnavnet må være mellom {min} og {max} tegn.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Filnavn stemmer ikke for vedlegg {attachmentId}: metadata sier "{expectedFilename}", men det matcher ikke.'
+attachments_and_uploads.image_size_exceeds_limit: Bildestørrelsen overstiger {maxSize} byte.
+attachments_and_uploads.invalid_file_field_name: 'Ugyldig filfeltnavn: {key}. Forventa format: `files[N]` der N er et tall.'
+attachments_and_uploads.invalid_image_data: Ugyldige bildedata.
+attachments_and_uploads.invalid_image_format: 'Ugyldig bildeformat. Støtta filtyper: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: Ugyldig JSON i `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Flere filer for indeks {index} er ikke tillatt.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Ingen fil ble lasta opp for vedleggsmetadata med ID {attachmentId}.
+attachments_and_uploads.no_file_uploaded_for_attachment: Ingen fil ble lasta opp for vedlegg med ID {attachmentId}.
+attachments_and_uploads.no_metadata_for_file: Ingen metadata ble oppgitt for fil med ID {fileId}.
+attachments_and_uploads.no_valid_media_in_message: Ingen gyldig media ble funnet i meldinga.
+attachments_and_uploads.payload_json_required_for_multipart: '`payload_json`-feltet er påkrevd for multipart-meldinger.'
+attachments_and_uploads.preview_must_be_jpeg: Forhåndsvisning må være JPEG.
+attachments_and_uploads.referenced_attachment_not_found: Fant ikke referert vedlegg "{filename}" i vedleggene til meldinga.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` må være et gyldig heltall.'
+attachments_and_uploads.too_many_files: For mange filer. Maksimalt {maxFiles} {maxFiles, plural, one {fil} other {filer}} er tillatt.
+attachments_and_uploads.unknown_image_format: Ukjent bildeformat.
+attachments_and_uploads.unresolved_attachment_url: Uoppløsta `attachment://`-URL oppdaga. Dette skulle vært løst før embed-behandling.
+attachments_and_uploads.uploaded_attachment_not_found: Fant ikke opplasta vedlegg {filename}.
+auth_and_oauth.application_not_owned: Du eier ikke denne applikasjonen.
+auth_and_oauth.bot_already_in_guild: Denne boten er allerede i guilden.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Bot-brukere kan ikke opprette auth-økter.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Bot-brukere kan ikke bruke auth-endepunkter.
+auth_and_oauth.handoff_code_expired: Handoff-koden er utløpt.
+auth_and_oauth.handoff_code_invalid: Ugyldig handoff-kode.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize støttes ikke. Bruk POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Ugyldig klienthemmelighet.
+auth_and_oauth.invalid_client: Ugyldig klient.
+auth_and_oauth.invalid_code: Ugyldig kode.
+auth_and_oauth.invalid_grant: Autorisasjonsgivelsen er ugyldig, utløpt eller har blitt tilbakekalt.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Autorisasjonsbilletten er ugyldig eller utløpt.
+auth_and_oauth.invalid_or_expired_authorization_token: Autorisasjonstoken er ugyldig eller utløpt.
+auth_and_oauth.invalid_or_expired_ticket: Billetten er ugyldig eller utløpt.
+auth_and_oauth.invalid_proof_token: Ugyldig proof token.
+auth_and_oauth.invalid_redirect_uri: Ugyldig redirect URI.
+auth_and_oauth.invalid_request: Ugyldig forespørsel.
+auth_and_oauth.invalid_scope: Den forespurte scopen støttes ikke, eller du har ikke tillatelse til å be om den.
+auth_and_oauth.invalid_sudo_token: Ugyldig sudo-token.
+auth_and_oauth.invalid_token_admin_api_key: Ugyldig admin API-nøkkel.
+auth_and_oauth.missing_authorization: Mangler eller ugyldig autorisasjonshode.
+auth_and_oauth.missing_client_secret: Mangler klienthemmelighet.
+auth_and_oauth.missing_redirect_uri: Mangler redirect URI.
+auth_and_oauth.must_start_session_before_sending_messages: Du må starte en økt før du kan sende meldinger.
+auth_and_oauth.oauth_admin_scope_required: OAuth2-token krever admin-scope for å få tilgang til admin-endepunkter.
+auth_and_oauth.oauth_fields_missing: Mangler OAuth-felter.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Redirect URI kreves for non-bot scopes.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Response type må være code for non-bot scopes.
+auth_and_oauth.sudo_mode_required: Sudo-modus kreves.
+auth_and_oauth.unknown_application: Ukjent applikasjon.
+auth_and_oauth.unsupported_response_type: Ustøtta response type.
+auth_and_registration.current_password_incorrect: Nåværende passord er feil.
+auth_and_registration.password_is_too_common: Passordet ditt er for vanlig. Velg et mer unikt passord.
+auth_and_registration.password_not_set: Passord er ikke satt.
+bots.bot_application_not_found: Bot-applikasjonen ble ikke funnet.
+bots.bot_discriminator_cannot_be_changed: Botdiskriminator kan ikke endres.
+bots.bot_is_private: Denne boten er privat.
+bots.bot_user_generation_failed: Generering av bot-bruker feila.
+bots.bot_user_not_found: Bot-brukeren ble ikke funnet.
+bots.invalid_response_type_for_non_bot: Response type må være code for non-bot scopes.
+bots.not_a_bot_application: Denne applikasjonen er ikke en bot.
+calls_and_voice.call_already_exists: En samtale pågår allerede i denne kanalen.
+calls_and_voice.cannot_modify_voice_state: Du kan ikke endre voice state.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Ugyldig eller begrensa RTC-region: {region}.'
+calls_and_voice.invalid_rtc_region: 'Ugyldig RTC-region: {region}. Tilgjengelige regioner: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Ugyldig stream key-format.
+calls_and_voice.invalid_stream_thumbnail_payload: Ugyldig stream thumbnail-payload.
+calls_and_voice.no_active_call: Ingen aktiv samtale.
+calls_and_voice.stream_key_channel_mismatch: Stream key stemmer ikke med kanal.
+calls_and_voice.stream_key_scope_mismatch: Stream key stemmer ikke med scope.
+calls_and_voice.stream_thumbnail_payload_empty: Stream thumbnail-payloaden er tom.
+calls_and_voice.unknown_voice_region: Ukjent voice-region.
+calls_and_voice.unknown_voice_server: Ukjent voice-server.
+calls_and_voice.voice_message_duration_exceeds_limit: Talemeldingsvarighet kan ikke overstige {maxDuration} {maxDuration, plural, one {sekund} other {sekunder}}.
+calls_and_voice.voice_message_duration_required: Vedlegg til talemeldinger må oppgi varighet.
+calls_and_voice.voice_message_waveform_required: Vedlegg til talemeldinger må ha waveform-data.
+calls_and_voice.voice_messages_require_single_attachment: Talemeldinger må ha nøyaktig ett vedlegg.
+captcha.invalid: Ugyldig captcha.
+captcha.required: Captcha kreves.
+channels_and_guilds.afk_channel_must_be_in_guild: AFK-kanalen må være i serveren.
+channels_and_guilds.afk_channel_must_be_voice: AFK-kanalen må være en talekanal.
+channels_and_guilds.all_channels_must_belong_to_guild: Alle kanaler må tilhøre denne serveren.
+channels_and_guilds.animated_guild_banner_requires_feature: Animert serverbanner krever ANIMATED_BANNER-funksjonen.
+channels_and_guilds.cannot_execute_on_dm: Denne handlinga kan ikke utføres i en DM.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Eierskapet til serveren kan ikke overføres til en bot.
+channels_and_guilds.cannot_leave_guild_as_owner: Du kan ikke forlate en server du eier. Overfør eierskapet eller slett serveren i stedet.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Du kan ikke plassere en kanal i forhold til seg selv eller underkanalene dens.
+channels_and_guilds.cannot_report_own_guild: Du kan ikke rapportere din egen server.
+channels_and_guilds.categories_cannot_have_parent_channel: Kategorier kan ikke ha en overordnet kanal.
+channels_and_guilds.categories_cannot_have_parents: Kategorier kan ikke ha overordnede kanaler.
+channels_and_guilds.channel_id_required: '`channel_id` er påkrevd.'
+channels_and_guilds.channel_must_be_dm_or_group_dm: Kanalen må være en DM eller en gruppe-DM.
+channels_and_guilds.channel_must_be_voice: Kanalen må være en talekanal.
+channels_and_guilds.channel_not_found: Fant ikke kanalen.
+channels_and_guilds.context_channel_or_guild_required: En kontekstkanal eller server-ID er påkrevd.
+channels_and_guilds.guild_banner_requires_feature: Serverbanner krever BANNER-funksjonen.
+channels_and_guilds.guild_id_must_match_referenced_message: Server-ID må matche kanalen der den refererte meldinga ble henta fra.
+channels_and_guilds.invalid_channel_id: 'Ugyldig kanal-ID: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Samtaler kan bare lages i direktemeldinger eller gruppe-DM.
+channels_and_guilds.invalid_channel_type: Ugyldig kanaltype.
+channels_and_guilds.invalid_channel: Ugyldig kanal.
+channels_and_guilds.invalid_parent_channel: Ugyldig overordnet kanal.
+channels_and_guilds.invite_splash_requires_feature: Invite splash krever INVITE_SPLASH-funksjonen.
+channels_and_guilds.invites_disabled: Invitasjoner er deaktivert.
+channels_and_guilds.max_group_dm_recipients_reached: Du har nådd maksimalt {count} gruppe-DM {count, plural, one {deltaker} other {deltakere}}.
+channels_and_guilds.max_group_dms_reached: Du har nådd maksimalt {count} gruppe-{count, plural, one {DM} other {DM}}.
+channels_and_guilds.max_guild_channels_reached: Du har nådd maksimalt {count} server-{count, plural, one {kanal} other {kanaler}}.
+channels_and_guilds.max_guild_members_reached: Du har nådd maksimalt {count} server-{count, plural, one {medlem} other {medlemmer}}.
+channels_and_guilds.max_guild_roles_reached: Du har nådd maksimalt {count} server-{count, plural, one {rolle} other {roller}}.
+channels_and_guilds.max_guilds_reached: Du har nådd maksimalt {count} {count, plural, one {server} other {servere}}.
+channels_and_guilds.message_history_cutoff_before_guild_creation: Meldingshistorien kan ikke være fra før fellesskapet ble oppretta.
+channels_and_guilds.message_history_cutoff_in_future: Meldingshistorien kan ikke være i framtida.
+channels_and_guilds.parent_channel_not_in_guild: Overordnet kanal finnes ikke i serveren.
+channels_and_guilds.parent_must_be_category: Overordnet må være en kategori.
+channels_and_guilds.preceding_channel_must_share_parent: Kanalen før må ha samme overordnede som kanalen du flytter.
+channels_and_guilds.preceding_channel_not_in_guild: Kanalen før finnes ikke i serveren.
+channels_and_guilds.system_channel_must_be_in_guild: Systemkanalen må være i serveren.
+channels_and_guilds.system_channel_must_be_text: Systemkanalen må være en tekstkanal.
+channels_and_guilds.temporary_invite_requires_presence: Midlertidig invitasjon krever presence.
+channels_and_guilds.vanity_url_requires_feature: Vanity URL krever VANITY_URL-funksjonen.
+channels_and_guilds.voice_channel_full: Talekanalen er full.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Talekanaler kan ikke ligge over tekstkanaler i samme kategori.
+colors.color_value_too_high: Fargeverdien kan ikke være høyere enn 0xffffff.
+colors.color_value_too_low: Fargeverdien må være minst 0x000000.
+connections.already_exists: En tilkobling av denne typen med denne identifikatoren finnes allerede.
+connections.bluesky_oauth_callback_failed: Vi klarte ikke å fullføre Bluesky-tilkoblingen. Prøv igjen.
+connections.bluesky_oauth_not_enabled: Bluesky-tilkoblinger er ikke aktivert på denne serveren.
+connections.bluesky_oauth_session_expired: Bluesky-økten din har utløpt. Koble til kontoen din på nytt.
+connections.bluesky_oauth_state_invalid: Autorisasjonsforespørselen har utløpt eller er ugyldig. Prøv igjen.
+connections.invalid_identifier: Tilkoblings-identifikatoren er ugyldig.
+connections.invalid_type: Tilkoblingstypen støttes ikke.
+connections.initiation_token_invalid: Tilkoblingsinitieringskallet er ugyldig eller utløpt.
+connections.limit_reached: Du har nådd maksimalt antall tilkoblinger ({limit}).
+connections.not_found: Ukjent tilkobling.
+connections.verification_failed: Tilkoblings verifisering feila. Sørg for at verifikasjonstokenet er riktig plassert.
+content_and_safety.content_blocked: Dette innholdet ble blokkert av sikkerhetssystemene.
+content_and_safety.csam_scan_failed: CSAM-skanningen fant en feil. Prøv å laste opp igjen senere.
+content_and_safety.csam_scan_parse_error: CSAM-skanningen returnerte et ugyldig svar. Prøv å laste opp igjen senere.
+content_and_safety.csam_scan_subscription_error: CSAM-skanningtjenesten er midlertidig utilgjengelig. Prøv å laste opp igjen senere.
+content_and_safety.csam_scan_timeout: CSAM-skanningen tok for lang tid. Prøv å laste opp igjen.
+content_and_safety.explicit_content_cannot_be_sent: Eksplisitt innhold kan ikke sendes.
+content_and_safety.ncmec_already_submitted: Dette innholdet er allerede sendt inn til NCMEC.
+content_and_safety.ncmec_submission_failed: Vi klarte ikke å sende inn rapporten til NCMEC. Prøv igjen senere.
+content_and_safety.nsfw_age_restricted: NSFW-innhold har aldersgrense.
+discovery.already_applied: Dette fellesskapet har allerede søkt om oppføring i oppdagelse.
+discovery.application_already_reviewed: Denne oppdagelsessøknaden er allerede gjennomgått.
+discovery.application_not_found: Fant ikke oppdagelsessøknaden.
+discovery.description_required: En beskrivelse er påkrevd for oppføring i oppdagelse.
+discovery.insufficient_members: Dette fellesskapet oppfyller ikke minimumskravet for antall medlemmer for oppdagelse.
+discovery.invalid_category: Ugyldig oppdagelseskategori.
+discovery.not_discoverable: Dette fellesskapet er ikke oppført i oppdagelse.
+donation.amount_invalid: Donasjonsbeløpet er ugyldig.
+donation.donor_not_found: Giveren ikke funnet.
+donation.magic_link_expired: Magisk lenke har gått ut.
+donation.magic_link_invalid: Magisk lenke er ugyldig.
+donation.magic_link_used: Magisk lenke er allerede brukt.
+email.email_already_in_use: E-postadressa er allerede i bruk.
+email.email_required: E-post er påkrevd.
+email.email_service_not_testable: E-posttjenesten er midlertidig utilgjengelig. Prøv igjen senere.
+email.invalid_format: Ugyldig e-postadresseformat.
+email.invalid_or_expired_reset_token: Ugyldig eller utløpt passordtilbakestilling-token.
+email.invalid_or_expired_revert_token: Ugyldig eller utløpt revert token.
+email.invalid_or_expired_verification_token: Ugyldig eller utløpt verifikasjonstoken.
+email.invalid_or_password: Ugyldig e-post eller passord.
+email.invalid_token: Ugyldig e-posttoken.
+email.invalid_verification_code: Ugyldig verifikasjonskode.
+email.length_invalid: E-postadressa må være mellom {min} og {max} tegn.
+email.must_be_changed_via_token: E-post må endres via token.
+email.must_change_via_token: E-post må endres via `email_token`.
+email.must_have_email_to_change_it: Du må ha en e-postadresse for å endre den.
+email.new_email_must_be_different: Ny e-post må være annerledes enn din nåværende e-post.
+email.no_new_email_requested: Ingen ny e-post ble forespurt.
+email.no_original_email_on_record: Ingen original e-post er registrert.
+email.original_email_already_verified: Den opprinnelige e-posten er allerede verifisert.
+email.original_email_must_be_verified_first: Den opprinnelige e-posten må verifiseres først.
+email.original_verification_not_required: Original verifisering er ikke nødvendig i denne flyten.
+email.token_expired: E-posttokenet er utløpt.
+email.user_has_no_email_address: Denne brukeren har ingen e-postadresse.
+email.user_is_not_pending_verification: Denne brukeren venter ikke på verifisering.
+email.verification_code_expired: Verifikasjonskoden har utløpt.
+email.verification_code_not_issued: Ingen verifikasjonskode har blitt utstedt.
+embeds.embed_index_out_of_bounds: Embed-indeks {embedIndex} er utenfor grensa (meldinga har {embedCount} {embedCount, plural, one {embed} other {embeds}}).
+embeds.embed_splash_requires_feature: Embed splash krever INVITE_SPLASH-funksjonen.
+embeds.embeds_exceed_max_characters: Embeds må ikke overstige {maxCharacters} {maxCharacters, plural, one {tegn} other {tegn}} totalt.
+embeds.too_many_embeds: For mange embeds. Maks {maxEmbeds} {maxEmbeds, plural, one {embed} other {embeds}} er tillatt.
+feature_flags.feature_not_available_self_hosted: Denne funksjonen er ikke tilgjengelig på selvstyrt instanser.
+feature_flags.feature_temporarily_disabled: Denne funksjonen er midlertidig deaktivert.
+friends_and_dms.already_friends: Dere er allerede venner.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Minst én mottaker kreves for å opprette private kanaler.
+friends_and_dms.at_least_one_recipient_required: Minst én mottaker er påkrevd.
+friends_and_dms.bots_cannot_send_friend_requests: Boter kan ikke sende venneforespørsler.
+friends_and_dms.cannot_add_yourself_to_group_dm: Du kan ikke legge til deg selv i en gruppe-DM.
+friends_and_dms.cannot_dm_yourself: Du kan ikke sende DM til deg selv.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Du kan ikke sende venneforespørsel til en blokkert bruker.
+friends_and_dms.cannot_send_friend_request_to_self: Du kan ikke sende venneforespørsel til deg selv.
+friends_and_dms.cannot_send_messages_to_user: Du kan ikke sende meldinger til denne brukeren.
+friends_and_dms.duplicate_recipients_not_allowed: Dupliserte mottakere er ikke tillatt.
+friends_and_dms.friend_request_blocked: Brukeren godtar ikke venneforespørsler for øyeblikket.
+friends_and_dms.not_friends: Dere er ikke venner.
+friends_and_dms.recipient_ids_cannot_be_empty: Mottaker-IDer kan ikke være tomme.
+friends_and_dms.recipient_ids_must_be_strings: Mottaker-IDer må være strenger.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Mottaker-IDer må være gyldige snowflakes.
+harvest.expired: Dataeksportforespørselen har utløpt. Prøv å be om ny eksport.
+harvest.failed: Dataeksportforespørselen feila. Prøv igjen.
+harvest.not_ready: Dataeksporten din blir fremdeles klargjort. Sjekk igjen om noen øyeblikk.
+harvest.on_cooldown: Du kan bare be om dataeksport en gang hver sjuende dag.
+harvest.unknown: Ukjent harvest.
+http.bad_gateway: Feil gateway.
+http.bad_request: Ugyldig forespørsel.
+http.conflict: Konflikt.
+http.forbidden: Forbudt.
+http.gateway_timeout: Gateway timeout.
+http.gone: Borte.
+http.internal_server_error: Intern serverfeil.
+http.method_not_allowed: Metode ikke tillatt.
+http.not_found: Ikke funnet.
+http.not_implemented: Ikke implementert.
+http.service_unavailable: Tjenesten er ikke tilgjengelig.
+http.validation_error: Validering feila.
+invites_and_beta.invalid_or_already_used_beta_code: Ugyldig eller allerede brukt beta-kode.
+invites_and_beta.max_beta_codes_reached: Du har nådd maksimalt {count} beta {count, plural, one {kode} other {koder}}.
+invites_and_beta.unknown_beta_code: Ukjent beta-kode.
+invites_and_gifts.gift_code_already_redeemed: Gavekoden er allerede løst inn.
+invites_and_gifts.stripe_gift_redemption_in_progress: Innløsing av gavekode pågår. Prøv igjen om et øyeblikk.
+invites_and_gifts.unknown_gift_code: Ukjent gavekode.
+invites_and_packs.emoji_requires_access: Du kan ikke bruke denne emojien uten tilgang til serveren eller installert pakke.
+invites_and_packs.invalid_pack_type: Ugyldig pakketype.
+invites_and_packs.max_animated_emojis_reached: Du har nådd maksimalt {count} animert {count, plural, one {emoji} other {emojis}}.
+invites_and_packs.max_emojis_reached: Du har nådd maksimalt {count} {count, plural, one {emoji} other {emojis}}.
+invites_and_packs.max_pack_expressions_reached: Du har nådd maksimalt {count} pakke-{count, plural, one {uttrykk} other {uttrykk}}.
+invites_and_packs.max_packs_reached: Du har nådd maksimalt {count} {{count, plural, one {pakke} other {pakker}}}.
+invites_and_packs.pack_access_denied: Du har ikke tillatelse til å få tilgang til denne pakken.
+limits.at_least_one_entry_required: Minst én oppføring er påkrevd.
+limits.base64_length_invalid: Base64-strenglengden må være mellom {min} og {maxLength} tegn.
+limits.bucket_required: '`bucket` er påkrevd.'
+limits.cannot_shrink_reserved_slots: Du kan ikke redusere reserverte plasser.
+limits.cannot_specify_before_and_after: Du kan ikke oppgi både `before` og `after`.
+limits.content_exceeds_max_length: Teksten kan ikke være lengre enn {maxLength} {maxLength, plural, one {tegn} other {tegn}}.
+limits.integer_out_of_int64_range: Heltallsverdien er utenfor det gyldige int64-området.
+limits.rows_required: '`rows` er påkrevd.'
+limits.string_length_exact: Strengen må være nøyaktig {length} tegn.
+limits.string_length_invalid: Strenglengde må være mellom {min} og {max} tegn.
+limits.timeout_cannot_exceed_365_days: Timeout kan ikke være lengre enn {maxDays} {maxDays, plural, one {dag} other {dager}} fra nå.
+limits.value_must_be_integer_in_range: Verdien for `{name}` må være et heltall mellom {minValue} og {maxValue}.
+limits.value_too_small: Verdien er for lav.
+media_and_memes.favorite_meme_name_required: Navn på favorittmem er påkrevd.
+media_and_memes.favorite_meme_not_found: Fant ikke favorittmemet.
+media_and_memes.max_favorite_memes_reached: Du har nådd maksimalt {count} favoritt-{count, plural, one {meme} other {memer}}.
+media_and_memes.media_already_in_favorites: Dette mediet er allerede i favorittmemene dine.
+media_and_memes.media_metadata_error: Feil i mediemetadata.
+media_and_memes.unknown_favorite_meme: Ukjent favorittmem.
+messages.cannot_delete_more_than_100: Du kan ikke slette mer enn {max} {max, plural, one {melding} other {meldinger}} samtidig.
+messages.cannot_edit_others_message: Du kan ikke redigere en annen brukers melding.
+messages.cannot_preload_more_than_100_channels: Du kan ikke forhåndsinnleste mer enn {max} {max, plural, one {kanal} other {kanaler}} samtidig.
+messages.cannot_reply_to_system_message: Du kan ikke svare på en systemmelding.
+messages.cannot_send_empty_message: Du kan ikke sende en tom melding.
+messages.forward_messages_cannot_include_extra_content: Videresendte meldinger kan ikke inneholde innhold, embeds, vedlegg eller klistremerker.
+messages.forward_reference_requires_channel_and_message: Referansen for videresending må inneholde `channel_id` og `message_id`.
+messages.invalid_message_data: Ugyldige meldingsdata.
+messages.invalid_scheduled_message_payload: Ugyldig payload for planlagt melding.
+messages.message_ids_cannot_be_empty: '`message_ids` kan ikke være tom.'
+messages.messages_array_required: '`messages`-arrayen er påkrevd og kan ikke være tom.'
+messages.messages_with_snapshots_cannot_be_edited: Meldinger med snapshots kan ikke redigeres.
+messages.scheduled_messages_max_30_days: Planlagte meldinger kan være maksimalt 30 dager fram i tida.
+messages.scheduled_send_datetime_invalid: Ugyldig dato eller tidspunkt for planlagt sending.
+messages.scheduled_time_must_be_future: Planlagt tidspunkt må være i framtida.
+messages.voice_messages_attachment_must_be_audio: Talemeldingsvedlegg må være lydfiler.
+messages.voice_messages_cannot_have_content: Talemeldinger kan ikke ha tekstinnhold.
+messages.voice_messages_cannot_have_embeds: Talemeldinger kan ikke ha embeds.
+messages.voice_messages_cannot_have_favorite_memes: Talemeldinger kan ikke ha favorittmemer.
+messages.voice_messages_cannot_have_stickers: Talemeldinger kan ikke ha klistremerker.
+mfa_and_passkeys.invalid_mfa_code: Ugyldig MFA-kode.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Ugyldig WebAuthn-autentiseringsteller.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Ugyldig WebAuthn-credential-teller.
+mfa_and_passkeys.invalid_webauthn_credential: Klarte ikke å bekrefte WebAuthn-credential.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Ugyldig WebAuthn public key-format.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Du må aktivere 2FA på kontoen din før du krever det for moderatorer.
+mfa_and_passkeys.no_passkeys_registered: Ingen passkeys er registrert.
+mfa_and_passkeys.passkey_authentication_failed: Passkey-autentisering feila.
+mfa_and_passkeys.passkeys_disabled: Passkeys er deaktivert.
+mfa_and_passkeys.two_factor_not_enabled: Tofaktorautentisering er ikke aktivert.
+mfa_and_passkeys.two_factor_required: Tofaktorautentisering kreves.
+mfa_and_passkeys.unknown_webauthn_credential: Ukjent WebAuthn-credential.
+mfa_and_passkeys.webauthn_credential_limit_reached: Du har nådd maksimalt {count} WebAuthn {{count, plural, one {credential} other {credentials}}}.
+misc_limits.max_bookmarks_reached: Du har nådd maksimalt {count} {{count, plural, one {bokmerke} other {bokmerker}}}.
+misc_limits.max_category_channels_reached: Du har nådd maksimalt {count} kategori {{count, plural, one {kanal} other {kanaler}}}.
+misc_limits.max_friends_reached: Du har nådd maksimalt {count} {{count, plural, one {venn} other {venner}}}.
+misc_limits.max_invites_reached: Du har nådd maksimalt {count} {{count, plural, one {invitasjon} other {invitasjoner}}}.
+misc_limits.max_pins_per_channel_reached: Du har nådd maksimalt {count} {{count, plural, one {pin} other {pins}}} per kanal.
+misc.cannot_send_messages_in_non_text_channel: Du kan ikke sende meldinger i en ikke-tekstkanal.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Du må verifisere e-posten din for å kunne sende meldinger på denne serveren.
+misc.invalid_job_id: Ugyldig jobb-ID.
+misc.invalid_permissions_integer: Tillatelser må være et gyldig heltall.
+misc.invalid_permissions_negative: Tillatelser kan ikke være negative.
+misc.invalid_request_generic: Ugyldig forespørsel.
+misc.invalid_snowflake: Ugyldig snowflake.
+misc.job_already_processed: Jobben er allerede behandla.
+misc.job_id_required: Jobb-ID er påkrevd.
+misc.job_not_found: Fant ikke jobben.
+misc.max_files_exceeded: For mange filer. Maksimalt {maxFiles} {{maxFiles, plural, one {fil} other {filer}}} er tillatt.
+misc.must_have_bot_to_mark_system_user: Brukeren må være en bot for å bli markert som systembruker.
+moderation_and_reports.cannot_report_own_message: Du kan ikke rapportere din egen melding.
+moderation_and_reports.cannot_report_yourself: Du kan ikke rapportere deg selv.
+moderation_and_reports.invalid_dsa_report_target: Ugyldig DSA-rapportmål.
+moderation_and_reports.invalid_dsa_ticket: Ugyldig DSA-ticket.
+moderation_and_reports.invalid_dsa_verification_code: Ugyldig DSA-verifiseringskode.
+moderation_and_reports.report_already_resolved: Rapporten er allerede løst.
+moderation_and_reports.report_banned: Du er utestengt fra å sende inn rapporter.
+moderation_and_reports.unknown_report: Ukjent rapport.
+moderation_and_reports.user_is_not_banned: Denne brukeren er ikke utestengt.
+names_and_normalization.channel_name_empty_after_normalization: Kanalnavnet kan ikke være tomt etter normalisering.
+names_and_normalization.name_empty_after_normalization: Navnet kan ikke være tomt etter normalisering.
+permissions.missing_access: Du har ikke tilgang til denne ressursen eller funksjonen.
+permissions.missing_permissions: Du har ikke tillatelsene som kreves for å utføre denne handlinga.
+permissions.not_owner_of_admin_api_key: Du har ikke tillatelse til å endre denne admin API-nøkkelen.
+permissions.user_banned_from_guild: Denne brukeren er utestengt fra denne serveren.
+permissions.user_ip_banned_from_guild: IP-adressa til denne brukeren er utestengt fra denne serveren.
+permissions.user_not_in_channel: Denne brukeren er ikke i denne kanalen.
+permissions.user_not_in_voice: Denne brukeren er ikke i voice.
+permissions.user_owns_guilds: Denne brukeren eier servere.
+phone.invalid_number: Ugyldig telefonnummer.
+phone.number_already_used: Telefonnummeret er allerede i bruk.
+phone.number_format_required: Telefonnummeret må være i E.164-format (for eksempel, +1234567890).
+phone.phone_required_for_sms_mfa: Et telefonnummer kreves for SMS-MFA.
+phone.sms_mfa_not_enabled: SMS-MFA er ikke aktivert.
+phone.sms_mfa_requires_totp: SMS-MFA krever TOTP.
+phone.sms_verification_unavailable: SMS-verifisering er midlertidig utilgjengelig. Prøv igjen senere.
+phone.verification_code_invalid: Ugyldig telefonverifiseringskode.
+phone.verification_required: Telefonverifisering kreves.
+premium_and_plans.animated_avatars_require_premium: Animerte avatarer krever Premium.
+premium_and_plans.banners_require_premium: Bannere krever Premium.
+premium_and_plans.bio_requires_premium_for_length: En bio lengre enn {maxLength} tegn krever Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Du kan ikke løse inn Plutonium med Visionary.
+premium_and_plans.custom_emojis_outside_source_require_premium: Du kan ikke bruke tilpassa emojier utenfor kildeserverne deres uten Premium.
+premium_and_plans.custom_stickers_in_dms_require_premium: Du kan ikke bruke tilpassa klistremerker i DMer uten Premium.
+premium_and_plans.custom_stickers_outside_source_require_premium: Du kan ikke bruke tilpassa klistremerker utenfor kildeserverne deres uten Premium.
+premium_and_plans.discriminator_change_requires_premium: Å endre discriminator krever Premium.
+premium_and_plans.no_active_subscription: Ingen aktiv abonnement.
+premium_and_plans.no_visionary_slots_available: Ingen Visionary-plasser er tilgjengelige.
+premium_and_plans.premium_required_for_custom_emoji: Premium kreves for å bruke en tilpassa emoji.
+premium_and_plans.visionary_required_for_bot_discriminator: Du må være på Visionary livstidsplanen for å tilpasse bot-discriminators.
+premium_and_plans.visionary_required_for_discriminator: Du må være på Visionary livstidsplanen for å bruke den discriminatoren.
+rate_limits.accent_color_changed_too_often: Du har endra aksentfargen litt for ofte i det siste. Prøv igjen om {minutes} {minutes, plural, one {minutt} other {minutter}}.
+rate_limits.avatar_changed_too_often: Du har endra avataren litt for ofte i det siste. Prøv igjen om {minutes} {minutes, plural, one {minutt} other {minutter}}.
+rate_limits.banner_changed_too_often: Du har endra banneret litt for ofte i det siste. Prøv igjen om {minutes} {minutes, plural, one {minutt} other {minutter}}.
+rate_limits.bio_changed_too_often: Du har endra bioen litt for ofte i det siste. Prøv igjen om {minutes} {minutes, plural, one {minutt} other {minutter}}.
+rate_limits.ip_authorization_resend_cooldown: IP-autorisasjons-gjensending er på nedkjøling.
+rate_limits.ip_authorization_resend_limit_exceeded: Grensa for IP-autorisasjons-gjensending er overskredet.
+rate_limits.phone_rate_limit_exceeded: Telefonratetaket er overskredet.
+rate_limits.pronouns_changed_too_often: Du har endra pronomena dine litt for ofte i det siste. Prøv igjen om {minutes} {minutes, plural, one {minutt} other {minutter}}.
+rate_limits.rate_limited: Du gjør dette for ofte akkurat nå.
+rate_limits.slowmode_rate_limited: Du har nådd grensa for sakte modus.
+rate_limits.username_changed_too_often: Du har endra brukernavnet litt for ofte i det siste. Prøv igjen om {minutes} {minutes, plural, one {minutt} other {minutter}}.
+roles.cannot_reorder_everyone_role: Du kan ikke endre rekkefølgen på @everyone-rollen.
+roles.cannot_set_everyone_hoist: Du kan ikke sette hoist-posisjon for @everyone-rollen.
+roles.cannot_use_same_role_as_preceding: Du kan ikke bruke samme rolle som rolla før.
+roles.invalid_role_id: 'Ugyldig rolle-ID: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Du kan ikke bruke `parse` sammen med `allowed_mentions.users` eller `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Rolla før finnes ikke i serveren.
+stickers_and_emojis.custom_emoji_not_found: Fant ikke tilpassa emoji.
+stickers_and_emojis.custom_sticker_not_found: Fant ikke tilpassa klistremerke.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Du kan ikke bruke denne emojien uten tilgang til serveren eller installert pakke.
+stickers_and_emojis.max_reactions_reached: Du har nådd maksimalt {{count, plural, one {reaksjon} other {reaksjoner}}}.
+stickers_and_emojis.max_stickers_reached: Du har nådd maksimalt {{count, plural, one {klistremerke} other {klistremerker}}}.
+stickers_and_emojis.not_valid_unicode_emoji: Ikke en gyldig Unicode-emoji.
+stickers_and_emojis.unknown_emoji: Ukjent emoji.
+stickers_and_emojis.unknown_sticker: Ukjent klistremerke.
+stripe.error: Betalingsbehandling møtte en feil. Prøv igjen eller kontakt support.
+stripe.invalid_product_configuration: Ugyldig produktoppsett.
+stripe.invalid_product_selection: Ugyldig produktvalg.
+stripe.no_active_subscription_found: Fant ingen aktivt abonnement.
+stripe.no_purchase_history_customer_portal_unavailable: Fant ingen kjøpshistorikk. Kundeportalen er ikke tilgjengelig.
+stripe.no_subscription_found: Fant ingen abonnement.
+stripe.payment_not_available: Betalingsbehandling er midlertidig utilgjengelig. Prøv igjen senere.
+stripe.subscription_already_canceling: Abonnementet er allerede satt til å avsluttes ved periodens slutt.
+stripe.subscription_not_canceling: Abonnementet er ikke satt til å avsluttes.
+stripe.subscription_period_end_missing: Abonnementets current_period_end mangler.
+stripe.webhook_not_available: Webhook-behandling er ikke tilgjengelig.
+stripe.webhook_signature_invalid: Webhook-signaturen fra Stripe er ugyldig.
+stripe.webhook_signature_missing: Webhook-signaturen fra Stripe mangler.
+tickets.ticket_already_completed: Denne ticketen er allerede fullført.
+tos_and_age.date_of_birth_format_invalid: Ugyldig datoformat for fødselsdato.
+tos_and_age.must_agree_to_tos_and_privacy: Du må godta vilkårene for tjenesten og personvernreglene.
+tos_and_age.must_be_minimum_age: Du må være minst {minAge} {{minAge, plural, one {år} other {år}}} gammel for å opprette en konto.
+unknown_entities.unknown_application: Applikasjonen ble ikke funnet.
+unknown_entities.unknown_channel: Kanalen ble ikke funnet.
+unknown_entities.unknown_guild: Serveren ble ikke funnet.
+unknown_entities.unknown_invite: Invitasjonen ble ikke funnet eller er ikke lenger gyldig.
+unknown_entities.unknown_member: Medlemmet ble ikke funnet i denne serveren.
+unknown_entities.unknown_message: Meldinga ble ikke funnet.
+unknown_entities.unknown_pack: Pakken ble ikke funnet.
+unknown_entities.unknown_role: Rollen ble ikke funnet.
+unknown_entities.unknown_user_flag: Det spesifiserte brukerflaget blir ikke gjenkjent.
+unknown_entities.unknown_user: Brukeren ble ikke funnet.
+urls.invalid_url_format: Ugyldig URL-format.
+urls.invalid_url_or_attachment_reference: Ugyldig URL-format eller vedleggsreferanse.
+urls.url_length_invalid: URL-en må være mellom {min} og {max} tegn.
+usernames_and_tags.discriminator_invalid_format: Discriminator må være {min}–{max} sifre.
+usernames_and_tags.discriminator_out_of_range: Discriminator må være mellom {min} og {max}.
+usernames_and_tags.discriminator_required: Discriminator er påkrevd.
+usernames_and_tags.display_name_length_invalid: Visningsnavnet må være mellom {min} og {max} tegn.
+usernames_and_tags.display_name_reserved_terms: Visningsnavnet kan ikke inneholde "system message".
+usernames_and_tags.display_name_reserved_value: Visningsnavnet kan ikke være "everyone" eller "here".
+usernames_and_tags.global_name_length_invalid: Globalt navn må være mellom {min} og {max} tegn.
+usernames_and_tags.global_name_reserved_value: Globalt navn kan ikke være "everyone" eller "here".
+usernames_and_tags.tag_already_taken: Denne taggen er allerede tatt.
+usernames_and_tags.too_many_users_with_this_username: Det er for mange brukere med dette brukernavnet.
+usernames_and_tags.too_many_users_with_username_try_different: Det er for mange brukere med dette brukernavnet. Prøv et annet.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Ukravde kontoer kan bare sette e-post via token.
+usernames_and_tags.username_invalid_characters: Brukernavnet kan bare inneholde latinske bokstaver (a-z, A-Z), tall (0-9) og understrek (_).
+usernames_and_tags.username_length_invalid: Brukernavnet må være mellom {min} og {max} tegn.
+usernames_and_tags.username_not_available: Dette brukernavnet er ikke tilgjengelig.
+usernames_and_tags.username_reserved_terms: Brukernavnet kan ikke inneholde "fluxer" eller "system message".
+usernames_and_tags.username_reserved_value: Brukernavnet kan ikke være "everyone" eller "here".
+vanity_urls.vanity_url_already_taken: Denne vanity-URL-en er allerede tatt.
+vanity_urls.vanity_url_code_already_taken: Denne vanity-URL-koden er allerede tatt.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Vanity-URL-koden kan ikke inneholde "fluxer".
+vanity_urls.vanity_url_code_length_invalid: Vanity-URL-koden må være mellom {min} og {max} tegn.
+vanity_urls.vanity_url_invalid_characters: Vanity-URL-en kan bare inneholde små bokstaver (a-z), sifre (0-9) og bindestrek (-).
+webhooks.cannot_modify_system_webhook: Du kan ikke redigere systemwebhooks.
+webhooks.max_webhooks_per_channel_reached: Du har nådd maksimalt antall på {count} {count, plural, one {webhook} other {webhooks}} per kanal.
+webhooks.max_webhooks_per_guild_reached: Du har nådd maksimalt antall på {count} {count, plural, one {webhook} other {webhooks}} per server.
+webhooks.max_webhooks_reached: Du har nådd maksimalt antall på {count} {count, plural, one {webhook} other {webhooks}}.
+webhooks.unknown_webhook: Ukjent webhook.
+webhooks.webhook_name_length_invalid: Webhook-navnet må være mellom {min} og {max} tegn.

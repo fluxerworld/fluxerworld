@@ -17,7 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {marketingUrl} from '~/utils/UrlUtils';
+import {marketingUrl} from '@app/utils/UrlUtils';
 
 export const Routes = {
 	HOME: '/',
@@ -28,7 +28,7 @@ export const Routes = {
 	VERIFY_EMAIL: '/verify',
 	AUTHORIZE_IP: '/authorize-ip',
 	EMAIL_REVERT: '/wasntme',
-	PENDING_VERIFICATION: '/pending',
+	PENDING: '/pending',
 	OAUTH_AUTHORIZE: '/oauth2/authorize',
 
 	INVITE_REGISTER: '/invite/:code',
@@ -46,6 +46,7 @@ export const Routes = {
 	YOU: '/you',
 	REPORT: '/report',
 	PREMIUM_CALLBACK: '/premium-callback',
+	CONNECTION_CALLBACK: '/connection-callback',
 
 	terms: () => marketingUrl('terms'),
 	privacy: () => marketingUrl('privacy'),
@@ -54,11 +55,12 @@ export const Routes = {
 	partners: () => marketingUrl('partners'),
 	bugs: () => marketingUrl('bugs'),
 	plutonium: () => marketingUrl('plutonium'),
-	plutoniumVisionary: () => marketingUrl('plutonium#visionary'),
 	help: () => marketingUrl('help'),
+	helpArticle: (slug: string) => marketingUrl(`help/${slug}`),
 
 	dmChannel: (channelId: string) => `/channels/@me/${channelId}`,
 	favoritesChannel: (channelId: string) => `/channels/@favorites/${channelId}`,
+	guildMembers: (guildId: string) => `/channels/${guildId}/members`,
 	guildChannel: (guildId: string, channelId?: string) =>
 		channelId ? `/channels/${guildId}/${channelId}` : `/channels/${guildId}`,
 	channelMessage: (guildId: string, channelId: string, messageId: string) =>

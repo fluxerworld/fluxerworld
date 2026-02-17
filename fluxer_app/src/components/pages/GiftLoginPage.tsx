@@ -17,30 +17,31 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import * as GiftActionCreators from '@app/actions/GiftActionCreators';
+import {fetchWithCoalescing, type Gift} from '@app/actions/GiftActionCreators';
+import {AuthErrorState} from '@app/components/auth/AuthErrorState';
+import {AuthLoadingState} from '@app/components/auth/AuthLoadingState';
+import {AuthLoginLayout} from '@app/components/auth/AuthLoginLayout';
+import {AuthRouterLink} from '@app/components/auth/AuthRouterLink';
+import {useDesktopHandoffFlow} from '@app/components/auth/auth_login_core/useDesktopHandoffFlow';
+import {DesktopDeepLinkPrompt} from '@app/components/auth/DesktopDeepLinkPrompt';
+import {GiftHeader} from '@app/components/auth/GiftHeader';
+import {HandoffCodeDisplay} from '@app/components/auth/HandoffCodeDisplay';
+import MfaScreen from '@app/components/auth/MfaScreen';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import {useLocation, useParams} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import AccountManager from '@app/stores/AccountManager';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import GiftStore from '@app/stores/GiftStore';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import {setPathQueryParams} from '@app/utils/UrlUtils';
+import type {LoginSuccessPayload} from '@app/viewmodels/auth/AuthFlow';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {GiftIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import {useCallback, useEffect, useMemo} from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import * as GiftActionCreators from '~/actions/GiftActionCreators';
-import {fetchWithCoalescing, type Gift} from '~/actions/GiftActionCreators';
-import {AuthErrorState} from '~/components/auth/AuthErrorState';
-import {AuthLoadingState} from '~/components/auth/AuthLoadingState';
-import {useDesktopHandoffFlow} from '~/components/auth/AuthLoginCore/useDesktopHandoffFlow';
-import {AuthLoginLayout} from '~/components/auth/AuthLoginLayout';
-import {AuthRouterLink} from '~/components/auth/AuthRouterLink';
-import {DesktopDeepLinkPrompt} from '~/components/auth/DesktopDeepLinkPrompt';
-import {GiftHeader} from '~/components/auth/GiftHeader';
-import {HandoffCodeDisplay} from '~/components/auth/HandoffCodeDisplay';
-import MfaScreen from '~/components/auth/MfaScreen';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import type {LoginSuccessPayload} from '~/hooks/useLoginFlow';
-import {useLocation, useParams} from '~/lib/router';
-import {Routes} from '~/Routes';
-import AccountManager from '~/stores/AccountManager';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import GiftStore from '~/stores/GiftStore';
-import * as RouterUtils from '~/utils/RouterUtils';
 
 interface GiftLoginPageProps {
 	code: string;
@@ -51,14 +52,14 @@ const GiftLoginPage = observer(function GiftLoginPage({code, gift}: GiftLoginPag
 	const location = useLocation();
 	const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
 
-	const rawRedirect = params.get('redirect_to');
-	const isDesktopHandoff = params.get('desktop_handoff') === '1';
+	const rawRedirect = params['get']('redirect_to');
+	const isDesktopHandoff = params['get']('desktop_handoff') === '1';
+	const registerSearch = rawRedirect ? {redirect_to: rawRedirect} : undefined;
 	const redirectPath = useMemo(() => {
-		const urlParams = new URLSearchParams();
-		if (rawRedirect) {
-			urlParams.set('redirect_to', rawRedirect);
+		if (!rawRedirect) {
+			return '/';
 		}
-		return `/${urlParams.toString() ? `?${urlParams.toString()}` : ''}`;
+		return setPathQueryParams('/', {redirect_to: rawRedirect});
 	}, [rawRedirect]);
 
 	const handleLoginComplete = useCallback(() => {
@@ -77,7 +78,7 @@ const GiftLoginPage = observer(function GiftLoginPage({code, gift}: GiftLoginPag
 			}
 			showTitle={false}
 			registerLink={
-				<AuthRouterLink to={Routes.giftRegister(code)} search={{redirect_to: rawRedirect || undefined}}>
+				<AuthRouterLink to={Routes.giftRegister(code)} search={registerSearch}>
 					<Trans>Register</Trans>
 				</AuthRouterLink>
 			}
@@ -90,8 +91,8 @@ const GiftLoginPageMFA = observer(function GiftLoginPageMFA() {
 	const location = useLocation();
 	const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
 
-	const isDesktopHandoff = params.get('desktop_handoff') === '1';
-	const rawRedirect = params.get('redirect_to');
+	const isDesktopHandoff = params['get']('desktop_handoff') === '1';
+	const rawRedirect = params['get']('redirect_to');
 	const redirectTo = isDesktopHandoff ? undefined : rawRedirect || '/';
 	const {code} = useParams() as {code: string};
 

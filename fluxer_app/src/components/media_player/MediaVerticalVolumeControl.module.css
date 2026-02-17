@@ -1,0 +1,121 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.container {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.muteButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	padding: 0;
+	border: none;
+	background: transparent;
+	color: var(--text-secondary);
+	cursor: pointer;
+	transition:
+		opacity 150ms ease,
+		background-color 150ms ease;
+	outline: none;
+	border-radius: var(--radius-sm, 4px);
+	flex-shrink: 0;
+}
+
+.muteButton:hover {
+	color: var(--text-primary);
+	background-color: var(--background-modifier-hover);
+}
+
+.popout {
+	padding: 8px 0;
+	background-color: var(--background-secondary);
+	border: 1px solid var(--background-modifier-accent);
+	border-radius: var(--radius-md, 6px);
+	box-shadow:
+		0 4px 12px rgba(0, 0, 0, 0.3),
+		0 1px 4px rgba(0, 0, 0, 0.2);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	pointer-events: auto;
+}
+
+.sliderTrackWrapper {
+	position: relative;
+	width: 20px;
+	height: 80px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	touch-action: none;
+}
+
+.sliderTrack {
+	position: absolute;
+	width: 4px;
+	height: 100%;
+	background-color: var(--background-modifier-accent);
+	border-radius: var(--radius-full);
+	overflow: hidden;
+}
+
+.sliderFill {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	background-color: var(--brand-primary-light);
+	border-radius: var(--radius-full);
+	transition: background-color 150ms ease;
+}
+
+:global(.theme-light) .sliderFill {
+	background-color: var(--brand-primary);
+}
+
+.sliderThumb {
+	position: absolute;
+	width: 12px;
+	height: 12px;
+	background-color: var(--brand-primary-light);
+	border-radius: 50%;
+	left: 50%;
+	transform: translate(-50%, 50%);
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+	pointer-events: none;
+	transition:
+		transform 150ms ease,
+		background-color 150ms ease;
+}
+
+:global(.theme-light) .sliderThumb {
+	background-color: var(--brand-primary);
+}
+
+.isDragging .sliderThumb {
+	transform: translate(-50%, 50%) scale(1.15);
+}

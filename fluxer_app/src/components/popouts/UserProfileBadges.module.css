@@ -36,7 +36,7 @@
 	right: 10px;
 	z-index: 10;
 	display: flex;
-	gap: 8px;
+	gap: 4px;
 	border-radius: 6px;
 	padding: 4px;
 	background: color-mix(in srgb, var(--background-secondary) 80%, transparent);
@@ -54,7 +54,7 @@
 }
 
 .virtualBadge {
-	display: flex;
+	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	padding-top: 1px;
@@ -63,6 +63,7 @@
 	color: #4641d9;
 	line-height: 1;
 	letter-spacing: 0.05em;
+	white-space: nowrap;
 	text-decoration: none;
 	touch-action: manipulation;
 	user-select: none;
@@ -72,34 +73,34 @@
 
 .virtualBadgeMobile {
 	height: 28px;
-	width: 28px;
+	min-width: 28px;
 	font-size: 18px;
 	line-height: 24px;
 }
 
 .virtualBadgeDesktop {
 	height: 20px;
-	width: 20px;
+	min-width: 20px;
 	font-size: 14px;
 	line-height: 20px;
 }
 
 .virtualBadge:hover,
-.virtualBadge:focus,
 .virtualBadge:active {
 	text-decoration: none;
 }
 
 .link {
+	place-self: anchor-center;
 	cursor: pointer;
 	touch-action: manipulation;
 	user-select: none;
 	-webkit-user-select: none;
+	-webkit-tap-highlight-color: transparent;
 	text-decoration: none;
 }
 
 .link:hover,
-.link:focus,
 .link:active {
 	text-decoration: none;
 }

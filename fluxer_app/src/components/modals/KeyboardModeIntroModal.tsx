@@ -17,23 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import styles from '@app/components/modals/KeyboardModeIntroModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
+import {SHIFT_KEY_SYMBOL} from '@app/utils/KeyboardUtils';
+import {isNativeMacOS} from '@app/utils/NativeUtils';
 import {useLingui} from '@lingui/react/macro';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import KeyboardModeStore from '~/stores/KeyboardModeStore';
-import {SHIFT_KEY_SYMBOL} from '~/utils/KeyboardUtils';
-import {isNativeMacOS} from '~/utils/NativeUtils';
-import styles from './KeyboardModeIntroModal.module.css';
+import {useCallback, useRef} from 'react';
 
-export const KeyboardModeIntroModal: React.FC = () => {
+export function KeyboardModeIntroModal() {
 	const {t} = useLingui();
-	const initialFocusRef = React.useRef<HTMLButtonElement | null>(null);
+	const initialFocusRef = useRef<HTMLButtonElement | null>(null);
 	const title = t`Keyboard Mode`;
 	const commandKeyLabel = isNativeMacOS() ? '⌘' : 'Ctrl';
 
-	const handleClose = React.useCallback(() => {
+	const handleClose = useCallback(() => {
 		KeyboardModeStore.dismissIntro();
 		ModalActionCreators.pop();
 	}, []);
@@ -41,7 +41,7 @@ export const KeyboardModeIntroModal: React.FC = () => {
 	return (
 		<Modal.Root size="small" centered initialFocusRef={initialFocusRef}>
 			<Modal.Header title={title} />
-			<Modal.Content className={styles.content}>
+			<Modal.Content contentClassName={styles.content}>
 				<p className={styles.description}>
 					{t`You just pressed Tab. Keyboard Mode is now on so you can navigate Fluxer without a mouse.`}
 				</p>
@@ -82,4 +82,4 @@ export const KeyboardModeIntroModal: React.FC = () => {
 			</Modal.Footer>
 		</Modal.Root>
 	);
-};
+}

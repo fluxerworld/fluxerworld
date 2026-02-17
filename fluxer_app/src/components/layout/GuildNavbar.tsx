@@ -17,33 +17,33 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as UserGuildSettingsActionCreators from '@app/actions/UserGuildSettingsActionCreators';
+import {TopNagbarContext} from '@app/components/layout/app_layout/TopNagbarContext';
+import {ChannelListContent} from '@app/components/layout/ChannelListContent';
+import {GuildHeader} from '@app/components/layout/GuildHeader';
+import {GuildSidebar} from '@app/components/layout/GuildSidebar';
+import {useNativePlatform} from '@app/hooks/useNativePlatform';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import {useMotionValue} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import {useContext, useEffect, useMemo} from 'react';
 import {useHotkeys} from 'react-hotkeys-hook';
-import * as UserGuildSettingsActionCreators from '~/actions/UserGuildSettingsActionCreators';
-import {ChannelTypes} from '~/Constants';
-import {useNativePlatform} from '~/hooks/useNativePlatform';
-import type {GuildRecord} from '~/records/GuildRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import {TopNagbarContext} from './app-layout/TopNagbarContext';
-import {ChannelListContent} from './ChannelListContent';
-import {GuildHeader} from './GuildHeader';
-import {GuildSidebar} from './GuildSidebar';
 
 export const GuildNavbar = observer(({guild}: {guild: GuildRecord}) => {
 	const scrollY = useMotionValue(0);
 	const {isNative, isWindows, isLinux} = useNativePlatform();
-	const hasTopNagbar = React.useContext(TopNagbarContext);
+	const hasTopNagbar = useContext(TopNagbarContext);
 	const shouldRoundTopLeft = isNative && (isWindows || isLinux) && !hasTopNagbar;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		scrollY.set(0);
 	}, [guild.id, scrollY]);
 
 	const channels = ChannelStore.getGuildChannels(guild.id);
 
-	const categoryIds = React.useMemo(() => {
+	const categoryIds = useMemo(() => {
 		return channels.filter((ch) => ch.type === ChannelTypes.GUILD_CATEGORY).map((ch) => ch.id);
 	}, [channels]);
 

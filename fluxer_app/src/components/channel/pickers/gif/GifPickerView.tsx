@@ -17,43 +17,43 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
-import {SmileySadIcon} from '@phosphor-icons/react';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import styles from '~/components/channel/GifPicker.module.css';
-import {useGifVideoPool} from '~/components/channel/GifVideoPool';
-import {PickerEmptyState} from '~/components/channel/shared/PickerEmptyState';
+import styles from '@app/components/channel/GifPicker.module.css';
+import {useGifVideoPool} from '@app/components/channel/GifVideoPool';
+import type {GifPickerProps} from '@app/components/channel/pickers/gif/GifPicker';
+import {GifPickerGrid} from '@app/components/channel/pickers/gif/GifPickerGrid';
+import {GifPickerHeader} from '@app/components/channel/pickers/gif/GifPickerHeader';
+import {GifPickerStore} from '@app/components/channel/pickers/gif/GifPickerStore';
+import {useScrollerViewport} from '@app/components/channel/pickers/shared/useScrollerViewport';
+import {PickerEmptyState} from '@app/components/channel/shared/PickerEmptyState';
 import {
 	ExpressionPickerHeaderPortal,
 	useExpressionPickerHeaderPortal,
-} from '~/components/popouts/ExpressionPickerPopout';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-import {Spinner} from '~/components/uikit/Spinner';
-import {useSearchInputAutofocus} from '~/hooks/useSearchInputAutofocus';
-import {useWindowFocusVideoControl} from '~/hooks/useWindowFocusVideoControl';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import {useScrollerViewport} from '../shared/useScrollerViewport';
-import type {GifPickerProps} from './GifPicker';
-import {GifPickerGrid} from './GifPickerGrid';
-import {GifPickerHeader} from './GifPickerHeader';
-import {GifPickerStore} from './GifPickerStore';
+} from '@app/components/popouts/ExpressionPickerPopout';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {useSearchInputAutofocus} from '@app/hooks/useSearchInputAutofocus';
+import {useWindowFocusVideoControl} from '@app/hooks/useWindowFocusVideoControl';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import {useLingui} from '@lingui/react/macro';
+import {SmileySadIcon} from '@phosphor-icons/react';
+import {observer} from 'mobx-react-lite';
+import {useEffect, useRef} from 'react';
 
 export const GifPickerView = observer(({onClose}: GifPickerProps = {}) => {
 	const {t} = useLingui();
-	const storeRef = React.useRef<GifPickerStore | null>(null);
+	const storeRef = useRef<GifPickerStore | null>(null);
 	if (!storeRef.current) storeRef.current = new GifPickerStore();
 	const store = storeRef.current;
 
 	const headerPortalContext = useExpressionPickerHeaderPortal();
 	const hasPortal = Boolean(headerPortalContext?.headerPortalElement);
 
-	const autoSendTenorGifs = AccessibilityStore.autoSendTenorGifs;
+	const autoSendKlipyGifs = AccessibilityStore.autoSendKlipyGifs;
 	const gifAutoPlay = true;
 	const videoPool = useGifVideoPool();
 
-	const scrollerRef = React.useRef<ScrollerHandle>(null);
-	const searchInputRef = React.useRef<HTMLInputElement>(null);
+	const scrollerRef = useRef<ScrollerHandle>(null);
+	const searchInputRef = useRef<HTMLInputElement>(null);
 
 	useSearchInputAutofocus(searchInputRef);
 
@@ -61,16 +61,16 @@ export const GifPickerView = observer(({onClose}: GifPickerProps = {}) => {
 
 	useWindowFocusVideoControl({scrollerRef, videoPool, gifAutoPlay});
 
-	React.useEffect(() => {
+	useEffect(() => {
 		store.ensureFeaturedLoaded();
 		return () => store.dispose();
 	}, [store]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		scrollToTop();
 	}, [store.view, scrollToTop]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (
 			(!store.loading && store.shouldRenderSearchResults) ||
 			(!store.searchTerm.trim() && !store.shouldRenderSearchResults)
@@ -105,7 +105,7 @@ export const GifPickerView = observer(({onClose}: GifPickerProps = {}) => {
 				<div className={styles.gifPickerMain}>
 					<PickerEmptyState
 						icon={SmileySadIcon}
-						title={t`No search results`}
+						title={t`No Search Results`}
 						description={t`Try another search term`}
 					/>
 				</div>
@@ -125,14 +125,14 @@ export const GifPickerView = observer(({onClose}: GifPickerProps = {}) => {
 						onScroll={handleScroll}
 						onResize={handleResize}
 						fade={false}
+						key="gif-picker-grid-scroller"
 						style={{height: '100%', width: '100%'}}
-						reserveScrollbarTrack={false}
 					>
 						{viewportSize.width > 0 && viewportSize.height > 0 && (
 							<GifPickerGrid
 								store={store}
 								onClose={onClose}
-								autoSendTenorGifs={autoSendTenorGifs}
+								autoSendKlipyGifs={autoSendKlipyGifs}
 								gifAutoPlay={gifAutoPlay}
 								viewportWidth={viewportSize.width}
 								viewportHeight={viewportSize.height}

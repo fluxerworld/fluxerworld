@@ -1,0 +1,185 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.voiceButtonWrapper {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.holdTooltip {
+	background-color: var(--brand-primary);
+	color: var(--text-on-brand-primary);
+	font-size: 0.75rem;
+	font-weight: 600;
+	padding: 6px 10px;
+	border-radius: 999px;
+	white-space: nowrap;
+	box-shadow: 0 6px 14px rgba(0, 0, 0, 0.2);
+	pointer-events: none;
+	z-index: 2001;
+}
+
+.recordingOverlay {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 2000;
+	background-color: var(--brand-primary);
+	padding-bottom: env(safe-area-inset-bottom, 0px);
+	box-shadow: 0 -8px 20px rgba(0, 0, 0, 0.25);
+	box-sizing: border-box;
+}
+
+.overlayInner {
+	width: 100%;
+	min-width: 0;
+	box-sizing: border-box;
+}
+
+.recordingControls {
+	position: relative;
+	overflow: visible;
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.recordingBar {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	background-color: color-mix(in srgb, #000 85%, var(--brand-primary) 15%);
+	color: #fff;
+	border-radius: 999px;
+	padding: 10px 12px;
+	height: 36px;
+}
+
+.recordingDot {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	background-color: var(--accent-danger, #ef4444);
+	box-shadow: 0 0 0 2px color-mix(in srgb, var(--accent-danger, #ef4444) 40%, transparent);
+	flex-shrink: 0;
+}
+
+.timer {
+	font-variant-numeric: tabular-nums;
+	font-size: 0.875rem;
+	font-weight: 600;
+	flex-shrink: 0;
+}
+
+.waveform {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 3px;
+	flex: 1;
+	height: 24px;
+	overflow: hidden;
+}
+
+.waveformBar {
+	flex: 0 0 3px;
+	width: 3px;
+	min-height: 6px;
+	background-color: #fff;
+	border-radius: 999px;
+	opacity: 0.85;
+}
+
+.iconButton {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	border: none;
+	cursor: pointer;
+	flex-shrink: 0;
+}
+
+.iconButton svg {
+	width: 20px;
+	height: 20px;
+}
+
+.iconButton:disabled {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.trashButton {
+	background-color: color-mix(in srgb, #000 85%, var(--brand-primary) 15%);
+	color: #fff;
+}
+
+.sendButton {
+	background-color: #fff;
+	color: #000;
+}
+
+.lockIndicatorWrapper {
+	position: relative;
+	flex-shrink: 0;
+	display: flex;
+	align-items: center;
+	height: 36px;
+}
+
+.lockIndicator {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 2px;
+	padding: 6px 6px 4px;
+	border-radius: 12px;
+	background-color: #000;
+	color: #fff;
+	box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+	pointer-events: none;
+	z-index: 2001;
+}
+
+.lockIndicatorLocked {
+	background-color: #fff;
+	color: var(--accent-success, #16a34a);
+}
+
+.lockIndicatorIcon {
+	width: 18px;
+	height: 18px;
+}
+
+.lockIndicatorCaret {
+	width: 16px;
+	height: 16px;
+	margin-top: -2px;
+}

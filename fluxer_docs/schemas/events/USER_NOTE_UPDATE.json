@@ -1,0 +1,21 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "USER_NOTE_UPDATE",
+	"description": "User note for a target user has been updated.",
+	"scope": "presence",
+	"dispatchedBy": ["PUT /users/@me/notes/:user_id"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"id": {
+				"type": "string",
+				"description": "User ID the note is about"
+			},
+			"note": {
+				"type": "string",
+				"description": "The note content"
+			}
+		},
+		"required": ["id", "note"]
+	}
+}

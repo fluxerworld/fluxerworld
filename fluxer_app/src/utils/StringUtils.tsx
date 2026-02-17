@@ -17,7 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export const getInitialsFromName = (name: string) => {
+export function getInitialsFromName(name: string) {
 	const trimmed = name.trim();
 	if (!trimmed) {
 		return '';
@@ -31,4 +31,4 @@ export const getInitialsFromName = (name: string) => {
 	const initials = words.map((word) => Array.from(word)[0]).filter(Boolean);
 
 	return initials.join('');
-};
+}

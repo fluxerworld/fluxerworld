@@ -17,26 +17,29 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import {AccountSelector} from '@app/components/accounts/AccountSelector';
+import {AuthRouterLink} from '@app/components/auth/AuthRouterLink';
+import AuthLoginEmailPasswordForm from '@app/components/auth/auth_login_core/AuthLoginEmailPasswordForm';
+import AuthLoginPasskeyActions, {AuthLoginDivider} from '@app/components/auth/auth_login_core/AuthLoginPasskeyActions';
+import {useDesktopHandoffFlow} from '@app/components/auth/auth_login_core/useDesktopHandoffFlow';
+import DesktopHandoffAccountSelector from '@app/components/auth/DesktopHandoffAccountSelector';
+import {HandoffCodeDisplay} from '@app/components/auth/HandoffCodeDisplay';
+import IpAuthorizationScreen from '@app/components/auth/IpAuthorizationScreen';
+import styles from '@app/components/pages/LoginPage.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {useLoginFormController} from '@app/hooks/useLoginFlow';
+import {IS_DEV} from '@app/lib/Env';
+import {type Account, SessionExpiredError} from '@app/lib/SessionManager';
+import AccountManager from '@app/stores/AccountManager';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import {isDesktop} from '@app/utils/NativeUtils';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import {type IpAuthorizationChallenge, type LoginSuccessPayload, startSsoLogin} from '@app/viewmodels/auth/AuthFlow';
 import {Trans, useLingui} from '@lingui/react/macro';
 import clsx from 'clsx';
 import {observer} from 'mobx-react-lite';
 import {cloneElement, type ReactElement, type ReactNode, useCallback, useEffect, useMemo, useState} from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import {AccountSelector} from '~/components/accounts/AccountSelector';
-import AuthLoginEmailPasswordForm from '~/components/auth/AuthLoginCore/AuthLoginEmailPasswordForm';
-import AuthLoginPasskeyActions, {AuthLoginDivider} from '~/components/auth/AuthLoginCore/AuthLoginPasskeyActions';
-import {useDesktopHandoffFlow} from '~/components/auth/AuthLoginCore/useDesktopHandoffFlow';
-import {AuthRouterLink} from '~/components/auth/AuthRouterLink';
-import DesktopHandoffAccountSelector from '~/components/auth/DesktopHandoffAccountSelector';
-import {HandoffCodeDisplay} from '~/components/auth/HandoffCodeDisplay';
-import IpAuthorizationScreen from '~/components/auth/IpAuthorizationScreen';
-import styles from '~/components/pages/LoginPage.module.css';
-import {type IpAuthorizationChallenge, type LoginSuccessPayload, useLoginFormController} from '~/hooks/useLoginFlow';
-import {IS_DEV} from '~/lib/env';
-import {SessionExpiredError} from '~/lib/SessionManager';
-import AccountManager, {type AccountSummary} from '~/stores/AccountManager';
-import {isDesktop} from '~/utils/NativeUtils';
-import * as RouterUtils from '~/utils/RouterUtils';
 
 interface AuthLoginLayoutProps {
 	redirectPath?: string;
@@ -51,7 +54,7 @@ interface AuthLoginLayoutProps {
 	initialEmail?: string;
 }
 
-const AuthLoginLayout = observer(function AuthLoginLayout({
+export const AuthLoginLayout = observer(function AuthLoginLayout({
 	redirectPath,
 	inviteCode,
 	desktopHandoff = false,
@@ -67,6 +70,10 @@ const AuthLoginLayout = observer(function AuthLoginLayout({
 	const currentUserId = AccountManager.currentUserId;
 	const accounts = AccountManager.orderedAccounts;
 	const hasStoredAccounts = accounts.length > 0;
+	const ssoConfig = RuntimeConfigStore.sso;
+	const isSsoEnforced = Boolean(ssoConfig?.enforced);
+	const ssoDisplayName = ssoConfig?.display_name ?? 'Single Sign-On';
+	const [isStartingSso, setIsStartingSso] = useState(false);
 
 	const handoffAccounts =
 		desktopHandoff && excludeCurrentUser ? accounts.filter((a) => a.userId !== currentUserId) : accounts;
@@ -84,7 +91,7 @@ const AuthLoginLayout = observer(function AuthLoginLayout({
 	const [switchError, setSwitchError] = useState<string | null>(null);
 	const [prefillEmail, setPrefillEmail] = useState<string | null>(() => initialEmail ?? null);
 
-	const showLoginFormForAccount = useCallback((account: AccountSummary, message?: string | null) => {
+	const showLoginFormForAccount = useCallback((account: Account, message?: string | null) => {
 		setShowAccountSelector(false);
 		setSwitchError(message ?? null);
 		setPrefillEmail(account.userData?.email ?? null);
@@ -143,7 +150,7 @@ const AuthLoginLayout = observer(function AuthLoginLayout({
 	}, [form, prefillEmail]);
 
 	const handleSelectExistingAccount = useCallback(
-		async (account: AccountSummary) => {
+		async (account: Account) => {
 			const identifier = account.userData?.email ?? account.userData?.username ?? account.userId;
 			const expiredMessage = t`Session expired for ${identifier}. Please log in again.`;
 
@@ -177,6 +184,21 @@ const AuthLoginLayout = observer(function AuthLoginLayout({
 		setPrefillEmail(null);
 	}, []);
 
+	const handleStartSso = useCallback(async () => {
+		if (!ssoConfig?.enabled) return;
+		try {
+			setIsStartingSso(true);
+			const {authorizationUrl} = await startSsoLogin({
+				redirectTo: redirectPath,
+			});
+			window.location.assign(authorizationUrl);
+		} catch (error) {
+			setSwitchError(error instanceof Error ? error.message : t`Failed to start SSO`);
+		} finally {
+			setIsStartingSso(false);
+		}
+	}, [ssoConfig?.enabled, redirectPath, t]);
+
 	const styledRegisterLink = useMemo(() => {
 		const {className: linkClassName} = registerLink.props as {className?: string};
 		return cloneElement(registerLink, {
@@ -190,6 +212,21 @@ const AuthLoginLayout = observer(function AuthLoginLayout({
 				excludeCurrentUser={excludeCurrentUser}
 				onSelectNewAccount={handoff.switchToLogin}
 			/>
+		);
+	}
+
+	if (isSsoEnforced) {
+		return (
+			<div className={styles.loginContainer}>
+				<h1 className={styles.title}>{ssoDisplayName}</h1>
+				<p className={styles.ssoSubtitle}>
+					<Trans>Sign in with your organization's single sign-on provider.</Trans>
+				</p>
+				<Button fitContainer onClick={handleStartSso} submitting={isStartingSso} type="button">
+					<Trans>Continue with SSO</Trans>
+				</Button>
+				{switchError && <div className={styles.loginNotice}>{switchError}</div>}
+			</div>
 		);
 	}
 
@@ -237,6 +274,21 @@ const AuthLoginLayout = observer(function AuthLoginLayout({
 
 			{!showAccountSelector && switchError ? <div className={styles.loginNotice}>{switchError}</div> : null}
 
+			{ssoConfig?.enabled ? (
+				<div className={styles.ssoBlock}>
+					<Button fitContainer onClick={handleStartSso} submitting={isStartingSso} type="button">
+						<Trans>Continue with SSO</Trans>
+					</Button>
+					<div className={styles.ssoSubtitle}>
+						{ssoConfig.enforced ? (
+							<Trans>SSO is required to access this workspace.</Trans>
+						) : (
+							<Trans>Prefer using SSO? Continue with {ssoDisplayName}.</Trans>
+						)}
+					</div>
+				</div>
+			) : null}
+
 			<AuthLoginEmailPasswordForm
 				form={form}
 				isLoading={isLoading}
@@ -268,7 +320,7 @@ const AuthLoginLayout = observer(function AuthLoginLayout({
 				onPasskeyLogin={handlePasskeyLogin}
 				showBrowserOption={showBrowserPasskey}
 				onBrowserLogin={handlePasskeyBrowserLogin}
-				browserLabel={<Trans>Log in via browser or custom instance</Trans>}
+				browserLabel={<Trans>Log in via browser</Trans>}
 			/>
 
 			<div className={styles.footer}>
@@ -282,5 +334,3 @@ const AuthLoginLayout = observer(function AuthLoginLayout({
 		</>
 	);
 });
-
-export {AuthLoginLayout};

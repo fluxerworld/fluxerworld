@@ -17,28 +17,29 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import i18n from '@app/I18n';
+import UnicodeEmojis from '@app/lib/UnicodeEmojis';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import MessageReactionsStore from '@app/stores/MessageReactionsStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import type {UnicodeEmoji} from '@app/types/EmojiTypes';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import * as EmojiUtils from '@app/utils/EmojiUtils';
+import {shouldUseNativeEmoji} from '@app/utils/EmojiUtils';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {getSkinTonedSurrogate} from '@app/utils/SkinToneUtils';
+import {setUrlQueryParams} from '@app/utils/UrlUtils';
 import {msg} from '@lingui/core/macro';
-import i18n from '~/i18n';
-import type {UnicodeEmoji} from '~/lib/UnicodeEmojis';
-import UnicodeEmojis from '~/lib/UnicodeEmojis';
-import type {MessageRecord} from '~/records/MessageRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import MessageReactionsStore from '~/stores/MessageReactionsStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import * as EmojiUtils from '~/utils/EmojiUtils';
-import {shouldUseNativeEmoji} from '~/utils/EmojiUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-
-export type {UnicodeEmoji} from '~/lib/UnicodeEmojis';
 
 export interface ReactionEmoji {
-	id?: string;
+	id?: string | null;
 	name: string;
 	animated?: boolean;
+	url?: string | null;
 }
 
-export const getReactionTooltip = (message: MessageRecord, emoji: ReactionEmoji) => {
+export function getReactionTooltip(message: MessageRecord, emoji: ReactionEmoji) {
 	const channel = ChannelStore.getChannel(message.channelId)!;
 	const guildId = channel.guildId;
 	const users = MessageReactionsStore.getReactions(message.id, emoji)
@@ -83,29 +84,38 @@ export const getReactionTooltip = (message: MessageRecord, emoji: ReactionEmoji)
 	return othersCount === 1
 		? i18n._(msg`${emojiName} reacted by ${othersCount} other`)
 		: i18n._(msg`${emojiName} reacted by ${othersCount} others`);
-};
+}
 
 const isCustomEmoji = (emoji: UnicodeEmoji | ReactionEmoji): emoji is ReactionEmoji =>
 	'id' in emoji && emoji.id != null;
 
-export const toReactionEmoji = (emoji: UnicodeEmoji | ReactionEmoji) =>
-	isCustomEmoji(emoji) ? emoji : {name: emoji.surrogates};
+export function toReactionEmoji(emoji: UnicodeEmoji | ReactionEmoji): ReactionEmoji {
+	if (isCustomEmoji(emoji)) {
+		return emoji;
+	}
+	return {name: getSkinTonedSurrogate(emoji)};
+}
 
-export const emojiEquals = (reactionEmoji: ReactionEmoji, emoji: UnicodeEmoji | ReactionEmoji) =>
-	isCustomEmoji(emoji) ? emoji.id === reactionEmoji.id : reactionEmoji.id == null && emoji.name === reactionEmoji.name;
+export function emojiEquals(reactionEmoji: ReactionEmoji, emoji: UnicodeEmoji | ReactionEmoji) {
+	return isCustomEmoji(emoji)
+		? emoji.id === reactionEmoji.id
+		: reactionEmoji.id == null && emoji.name === reactionEmoji.name;
+}
 
-export const getReactionKey = (messageId: string, emoji: ReactionEmoji) =>
-	`${messageId}:${emoji.name}:${emoji.id || ''}`;
+export function getReactionKey(messageId: string, emoji: ReactionEmoji) {
+	return `${messageId}:${emoji.name}:${emoji.id || ''}`;
+}
 
-export const getEmojiName = (emoji: ReactionEmoji): string =>
-	emoji.id == null ? UnicodeEmojis.getSurrogateName(emoji.name) || emoji.name : `:${emoji.name}:`;
+export function getEmojiName(emoji: ReactionEmoji): string {
+	return emoji.id == null ? UnicodeEmojis.getSurrogateName(emoji.name) || emoji.name : `:${emoji.name}:`;
+}
 
-export const getEmojiNameWithColons = (emoji: ReactionEmoji): string => {
+export function getEmojiNameWithColons(emoji: ReactionEmoji): string {
 	const name = emoji.id == null ? UnicodeEmojis.getSurrogateName(emoji.name) || emoji.name : emoji.name;
 	return `:${name}:`;
-};
+}
 
-export const useEmojiURL = ({
+export function useEmojiURL({
 	emoji,
 	isHovering = false,
 	size = 128,
@@ -115,17 +125,10 @@ export const useEmojiURL = ({
 	isHovering?: boolean;
 	size?: number;
 	forceAnimate?: boolean;
-}): string | null => {
+}): string | null {
 	const {animateEmoji} = UserSettingsStore;
 
-	let shouldAnimate = false;
-	if (forceAnimate) {
-		shouldAnimate = emoji.animated ?? false;
-	} else if (animateEmoji) {
-		shouldAnimate = emoji.animated ?? false;
-	} else if (emoji.animated) {
-		shouldAnimate = isHovering;
-	}
+	const shouldAnimate = forceAnimate || animateEmoji || isHovering;
 
 	if (emoji.id == null) {
 		if (shouldUseNativeEmoji) {
@@ -135,5 +138,5 @@ export const useEmojiURL = ({
 	}
 
 	const url = AvatarUtils.getEmojiURL({id: emoji.id, animated: shouldAnimate});
-	return `${url}?size=${size}&quality=lossless`;
-};
+	return setUrlQueryParams(url, {size, quality: 'lossless'});
+}

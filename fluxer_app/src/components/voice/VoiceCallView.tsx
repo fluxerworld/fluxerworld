@@ -17,6 +17,41 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as PiPActionCreators from '@app/actions/PiPActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import channelHeaderStyles from '@app/components/channel/ChannelHeader.module.css';
+import {ChannelHeaderIcon} from '@app/components/channel/channel_header_components/ChannelHeaderIcon';
+import {InboxButton} from '@app/components/channel/channel_header_components/UtilityButtons';
+import {NativeDragRegion} from '@app/components/layout/NativeDragRegion';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {CompactVoiceCallView} from '@app/components/voice/CompactVoiceCallView';
+import {StreamFocusHeaderInfo} from '@app/components/voice/StreamFocusHeaderInfo';
+import {StreamInfoPill} from '@app/components/voice/StreamInfoPill';
+import {getStreamKey} from '@app/components/voice/StreamKeys';
+import {useStreamSpectators} from '@app/components/voice/useStreamSpectators';
+import {useStreamTrackInfo} from '@app/components/voice/useStreamTrackInfo';
+import {useVoiceCallAppFullscreen} from '@app/components/voice/useVoiceCallAppFullscreen';
+import {useVoiceCallTracksAndLayout} from '@app/components/voice/useVoiceCallTracksAndLayout';
+import {VoiceCallLayoutContent} from '@app/components/voice/VoiceCallLayoutContent';
+import styles from '@app/components/voice/VoiceCallView.module.css';
+import {VoiceControlBar} from '@app/components/voice/VoiceControlBar';
+import {parseVoiceParticipantIdentity} from '@app/components/voice/VoiceParticipantSpeakingUtils';
+import {VoiceStatsOverlay} from '@app/components/voice/VoiceStatsOverlay';
+import {Logger} from '@app/lib/Logger';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import ContextMenuStore, {isContextMenuNodeTarget} from '@app/stores/ContextMenuStore';
+import FavoritesStore from '@app/stores/FavoritesStore';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import PiPStore from '@app/stores/PiPStore';
+import PopoutStore from '@app/stores/PopoutStore';
+import UserStore from '@app/stores/UserStore';
+import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
 import {
 	FloatingFocusManager,
 	flip,
@@ -28,62 +63,34 @@ import {
 	useInteractions,
 	useRole,
 } from '@floating-ui/react';
+import {ME} from '@fluxer/constants/src/AppConstants';
 import {useLingui} from '@lingui/react/macro';
-import type {TrackReferenceOrPlaceholder} from '@livekit/components-react';
-import {
-	CarouselLayout,
-	ParticipantContext,
-	TrackRefContext,
-	useConnectionState,
-	useParticipants,
-} from '@livekit/components-react';
+import {type TrackReferenceOrPlaceholder, useConnectionState, useParticipants} from '@livekit/components-react';
 import {
 	ArrowLeftIcon,
-	ArrowsOutIcon,
-	CaretDownIcon,
-	CaretUpIcon,
 	ChartBarIcon,
+	CornersInIcon,
+	CornersOutIcon,
 	ListIcon,
 	PhoneIcon,
 	StarIcon,
-	XIcon,
 } from '@phosphor-icons/react';
 import {clsx} from 'clsx';
-import {ConnectionState, type Participant} from 'livekit-client';
+import {ConnectionState, Track} from 'livekit-client';
 import {observer} from 'mobx-react-lite';
-import React, {forwardRef, useCallback, useMemo, useRef, useState} from 'react';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {ME} from '~/Constants';
-import {ChannelHeaderIcon} from '~/components/channel/ChannelHeader/ChannelHeaderIcon';
-import {InboxButton} from '~/components/channel/ChannelHeader/UtilityButtons';
-import {NativeDragRegion} from '~/components/layout/NativeDragRegion';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import ContextMenuStore, {isContextMenuNodeTarget} from '~/stores/ContextMenuStore';
-import FavoritesStore from '~/stores/FavoritesStore';
-import KeyboardModeStore from '~/stores/KeyboardModeStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import PopoutStore from '~/stores/PopoutStore';
-import VoiceSettingsStore from '~/stores/VoiceSettingsStore';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import channelHeaderStyles from '../channel/ChannelHeader.module.css';
-import {CompactVoiceCallView} from './CompactVoiceCallView';
-import {useVoiceCallTracksAndLayout} from './useVoiceCallTracksAndLayout';
-import styles from './VoiceCallView.module.css';
-import {VoiceControlBar} from './VoiceControlBar';
-import {VoiceGridLayout} from './VoiceGridLayout';
-import {VoiceParticipantTile} from './VoiceParticipantTile';
-import {VoiceStatsOverlay} from './VoiceStatsOverlay';
+import type React from 'react';
+import {forwardRef, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+
+const logger = new Logger('VoiceCallView');
+const VOICE_HUD_IDLE_TIMEOUT_MS = 3000;
 
 interface VoiceCallViewProps {
 	channel: ChannelRecord;
+	fullscreenRequestNonce?: number;
 }
 
-function useConnectionStateText(connectionState: ConnectionState, t: any) {
+function useConnectionStateText(connectionState: ConnectionState) {
+	const {t} = useLingui();
 	return useMemo(() => {
 		switch (connectionState) {
 			case ConnectionState.Connecting:
@@ -98,383 +105,451 @@ function useConnectionStateText(connectionState: ConnectionState, t: any) {
 	}, [connectionState, t]);
 }
 
-function useFullscreen(containerRef: React.RefObject<HTMLElement | null>) {
-	const [isFullscreen, setIsFullscreen] = useState(false);
+const VoiceCallViewInner = observer(
+	({channel, fullscreenRequestNonce}: {channel: ChannelRecord; fullscreenRequestNonce?: number}) => {
+		const {t} = useLingui();
+		const containerRef = useRef<HTMLDivElement>(null);
+		const hudPointerTimeoutRef = useRef<number | null>(null);
+		const previousFullscreenRequestNonceRef = useRef<number | undefined>(undefined);
 
-	const toggleFullscreen = useCallback(() => {
-		const el = containerRef.current;
-		if (!el) return;
+		const isMobile = MobileLayoutStore.isMobileLayout();
+		const pipContent = PiPStore.getContent();
+		const pipOpen = PiPStore.getIsOpen();
+		const {keyboardModeEnabled} = KeyboardModeStore;
+		const disablePiP = VoiceSettingsStore.disablePictureInPicturePopout || PiPStore.getSessionDisable();
 
-		if (document.fullscreenElement) {
-			document.exitFullscreen().catch(() => {});
-			return;
-		}
+		const [isStatsOpen, setIsStatsOpen] = useState(false);
+		const [isCallSheetOpen, setIsCallSheetOpen] = useState(false);
+		const [isSpectatorsPopoutOpen, setIsSpectatorsPopoutOpen] = useState(false);
+		const {
+			isFullscreen: isVoiceCallAppFullscreen,
+			supportsFullscreen: supportsVoiceCallAppFullscreen,
+			enterFullscreen: enterVoiceCallAppFullscreen,
+			toggleFullscreen: toggleVoiceCallAppFullscreen,
+		} = useVoiceCallAppFullscreen({containerRef});
+		const [isPointerHudActive, setIsPointerHudActive] = useState(false);
 
-		el.requestFullscreen().catch(() => {});
-	}, [containerRef]);
+		const participants = useParticipants();
+		const participantCount = participants.length;
+		const connectionState = useConnectionState();
+		const connectionStateText = useConnectionStateText(connectionState);
 
-	React.useEffect(() => {
-		const onChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
-		document.addEventListener('fullscreenchange', onChange);
-		return () => document.removeEventListener('fullscreenchange', onChange);
-	}, []);
+		const isInboxPopoutOpen = PopoutStore.isOpen('inbox');
+		const isFavorited = channel ? Boolean(FavoritesStore.getChannel(channel.id)) : false;
 
-	return {isFullscreen, toggleFullscreen};
-}
+		const isAnyContextMenuOpen = useMemo(() => {
+			const cm = ContextMenuStore.contextMenu;
+			const target = cm?.target?.target ?? null;
+			const container = containerRef.current;
+			if (!cm || !container || !isContextMenuNodeTarget(target)) return false;
+			return Boolean(container.contains(target));
+		}, [ContextMenuStore.contextMenu]);
+		const isChromePinned = isAnyContextMenuOpen || isInboxPopoutOpen || isStatsOpen || isSpectatorsPopoutOpen;
 
-const VoiceCallViewInner = observer(({channel}: {channel: ChannelRecord}) => {
-	const {t} = useLingui();
-	const containerRef = useRef<HTMLDivElement>(null);
+		const {
+			layoutMode,
+			pinnedParticipantIdentity,
+			hasScreenShare,
+			cameraTracksAll,
+			screenShareTracks,
+			filteredCameraTracks,
+			focusMainTrack,
+			carouselTracks,
+			pipTrack,
+		} = useVoiceCallTracksAndLayout({channel});
+		const mainContentClassName = clsx(
+			styles.mainContent,
+			!isMobile && layoutMode === 'focus' && styles.mainContentFocusFullscreen,
+		);
 
-	const isMobile = MobileLayoutStore.isMobileLayout();
-	const {keyboardModeEnabled} = KeyboardModeStore;
+		const isFocusedOnScreenShare = layoutMode === 'focus' && focusMainTrack?.source === Track.Source.ScreenShare;
 
-	const [isStatsOpen, setIsStatsOpen] = useState(false);
-	const [isCallSheetOpen, setIsCallSheetOpen] = useState(false);
+		const focusedStreamInfo = useMemo(() => {
+			if (!isFocusedOnScreenShare || !focusMainTrack) return null;
+			const parsedIdentity = parseVoiceParticipantIdentity(focusMainTrack.participant.identity);
+			if (!parsedIdentity.userId || !parsedIdentity.connectionId) return null;
+			return {userId: parsedIdentity.userId, connectionId: parsedIdentity.connectionId};
+		}, [isFocusedOnScreenShare, focusMainTrack]);
 
-	const participants = useParticipants();
-	const participantCount = participants.length;
-	const connectionState = useConnectionState();
-	const connectionStateText = useConnectionStateText(connectionState, t);
+		const focusedStreamerUser = focusedStreamInfo ? UserStore.getUser(focusedStreamInfo.userId) : null;
 
-	const isInboxPopoutOpen = PopoutStore.isOpen('inbox');
-	const isFavorited = channel ? Boolean(FavoritesStore.getChannel(channel.id)) : false;
+		const focusedStreamKey = useMemo(() => {
+			if (!focusedStreamInfo) return '';
+			return getStreamKey(channel.guildId, channel.id, focusedStreamInfo.connectionId);
+		}, [focusedStreamInfo, channel.guildId, channel.id]);
 
-	const isAnyContextMenuOpen = useMemo(() => {
-		const cm = ContextMenuStore.contextMenu;
-		const target = cm?.target?.target ?? null;
-		const container = containerRef.current;
-		if (!cm || !container || !isContextMenuNodeTarget(target)) return false;
-		return Boolean(container.contains(target));
-	}, [ContextMenuStore.contextMenu]);
-
-	const {isFullscreen, toggleFullscreen} = useFullscreen(containerRef);
-
-	const {
-		layoutMode,
-		pinnedParticipantIdentity,
-		hasScreenShare,
-		screenShareTracks,
-		filteredCameraTracks,
-		focusMainTrack,
-		carouselTracks,
-	} = useVoiceCallTracksAndLayout({channel});
-
-	const showParticipantsCarousel = VoiceSettingsStore.getShowParticipantsCarousel();
-
-	const {
-		refs: statsRefs,
-		floatingStyles: statsFloatingStyles,
-		context: statsContext,
-	} = useFloating({
-		open: isStatsOpen,
-		onOpenChange: setIsStatsOpen,
-		placement: 'bottom-end',
-		middleware: [offset(8), flip(), shift({padding: 8})],
-	});
-
-	const {getReferenceProps: getStatsReferenceProps, getFloatingProps: getStatsFloatingProps} = useInteractions([
-		useClick(statsContext),
-		useDismiss(statsContext),
-		useRole(statsContext),
-	]);
-	const statsFloatingProps = isMobile ? {} : getStatsFloatingProps();
-
-	React.useEffect(() => {
-		if (!isMobile && isCallSheetOpen) {
-			setIsCallSheetOpen(false);
-		}
-	}, [isCallSheetOpen, isMobile]);
-
-	const handleBackClick = useCallback(() => window.history.back(), []);
-
-	const handleToggleFavorite = useCallback(() => {
-		if (!channel) return;
-
-		if (isFavorited) {
-			FavoritesStore.removeChannel(channel.id);
-			ToastActionCreators.createToast({type: 'success', children: t`Channel removed from favorites`});
-			return;
-		}
-
-		FavoritesStore.addChannel(channel.id, channel.guildId ?? ME);
-		ToastActionCreators.createToast({type: 'success', children: t`Channel added to favorites`});
-	}, [channel, isFavorited]);
-
-	const handleToggleCarousel = useCallback(() => {
-		VoiceSettingsStore.updateSettings({
-			showParticipantsCarousel: !showParticipantsCarousel,
-		});
-	}, [showParticipantsCarousel]);
-
-	const handleOpenCallSheet = useCallback(() => setIsCallSheetOpen(true), []);
-	const handleCloseCallSheet = useCallback(() => setIsCallSheetOpen(false), []);
-
-	const FavoriteIcon = useMemo(() => {
-		const Icon = forwardRef<SVGSVGElement, React.ComponentProps<typeof StarIcon>>((props, ref) => (
-			<StarIcon ref={ref} weight={isFavorited ? 'fill' : 'bold'} {...props} />
-		));
-		Icon.displayName = 'FavoriteIcon';
-		return Icon;
-	}, [isFavorited]);
-
-	const focusLayoutNode = useMemo(() => {
-		if (!focusMainTrack && carouselTracks.length === 0) {
+		const focusedStreamerDisplayName = useMemo(() => {
+			if (!focusedStreamerUser) return '';
 			return (
-				<div className={styles.gridLayoutWrapper}>
-					<VoiceGridLayout tracks={filteredCameraTracks}>
-						<VoiceParticipantTile guildId={channel.guildId} channelId={channel.id} />
-					</VoiceGridLayout>
-				</div>
+				NicknameUtils.getNickname(focusedStreamerUser, channel.guildId, channel.id) ||
+				focusedStreamerUser.username ||
+				''
 			);
-		}
+		}, [focusedStreamerUser, channel.guildId, channel.id]);
 
-		const hasCarousel = carouselTracks.length > 0;
+		const {viewerUsers: spectatorUsers, spectatorEntries} = useStreamSpectators(focusedStreamKey);
+		const focusedTrackInfo = useStreamTrackInfo(isFocusedOnScreenShare ? (focusMainTrack ?? null) : null);
+		const handleSpectatorsPopoutOpenChange = useCallback((open: boolean) => {
+			setIsSpectatorsPopoutOpen(open);
+		}, []);
+
+		const {
+			refs: statsRefs,
+			floatingStyles: statsFloatingStyles,
+			context: statsContext,
+		} = useFloating({
+			open: isStatsOpen,
+			onOpenChange: setIsStatsOpen,
+			placement: 'bottom-end',
+			middleware: [offset(8), flip(), shift({padding: 8})],
+		});
+
+		const {getReferenceProps: getStatsReferenceProps, getFloatingProps: getStatsFloatingProps} = useInteractions([
+			useClick(statsContext),
+			useDismiss(statsContext),
+			useRole(statsContext),
+		]);
+		const statsFloatingProps = isMobile ? {} : getStatsFloatingProps();
+
+		useEffect(() => {
+			if (!isMobile && isCallSheetOpen) {
+				setIsCallSheetOpen(false);
+			}
+		}, [isCallSheetOpen, isMobile]);
+
+		const handleBackClick = useCallback(() => window.history.back(), []);
+
+		const clearHudPointerTimeout = useCallback(() => {
+			if (hudPointerTimeoutRef.current == null) return;
+			window.clearTimeout(hudPointerTimeoutRef.current);
+			hudPointerTimeoutRef.current = null;
+		}, []);
+
+		const scheduleHudIdleState = useCallback(() => {
+			clearHudPointerTimeout();
+			hudPointerTimeoutRef.current = window.setTimeout(() => {
+				hudPointerTimeoutRef.current = null;
+				setIsPointerHudActive(false);
+			}, VOICE_HUD_IDLE_TIMEOUT_MS);
+		}, [clearHudPointerTimeout]);
+
+		const handleVoiceRootPointerActivity = useCallback(
+			(event: React.PointerEvent<HTMLDivElement>) => {
+				if (event.pointerType === 'touch') return;
+				setIsPointerHudActive(true);
+				scheduleHudIdleState();
+			},
+			[scheduleHudIdleState],
+		);
+
+		const handleVoiceRootPointerLeave = useCallback(
+			(event: React.PointerEvent<HTMLDivElement>) => {
+				if (event.pointerType === 'touch') return;
+				clearHudPointerTimeout();
+				setIsPointerHudActive(false);
+			},
+			[clearHudPointerTimeout],
+		);
+
+		useEffect(() => {
+			return () => {
+				clearHudPointerTimeout();
+			};
+		}, [clearHudPointerTimeout]);
+
+		const handleToggleFavorite = useCallback(() => {
+			if (!channel) return;
+
+			if (isFavorited) {
+				FavoritesStore.removeChannel(channel.id);
+				ToastActionCreators.createToast({type: 'success', children: t`Channel removed from favorites`});
+				return;
+			}
+
+			FavoritesStore.addChannel(channel.id, channel.guildId ?? ME);
+			ToastActionCreators.createToast({type: 'success', children: t`Channel added to favorites`});
+		}, [channel, isFavorited]);
+
+		const handleOpenCallSheet = useCallback(() => setIsCallSheetOpen(true), []);
+		const handleCloseCallSheet = useCallback(() => setIsCallSheetOpen(false), []);
+		const handleToggleVoiceCallAppFullscreen = useCallback(() => {
+			void toggleVoiceCallAppFullscreen();
+		}, [toggleVoiceCallAppFullscreen]);
+		const fullscreenButtonLabel = isVoiceCallAppFullscreen ? t`Exit fullscreen` : t`Enter fullscreen`;
+		const FullscreenButtonIcon = useMemo(() => {
+			const BaseIcon = isVoiceCallAppFullscreen ? CornersInIcon : CornersOutIcon;
+			const BoldIcon = forwardRef<SVGSVGElement, React.ComponentProps<typeof BaseIcon>>((props, ref) => (
+				<BaseIcon ref={ref} weight="bold" {...props} />
+			));
+			BoldIcon.displayName = 'FullscreenButtonIcon';
+			return BoldIcon;
+		}, [isVoiceCallAppFullscreen]);
+
+		useEffect(() => {
+			if (fullscreenRequestNonce == null) return;
+			if (previousFullscreenRequestNonceRef.current === fullscreenRequestNonce) return;
+			previousFullscreenRequestNonceRef.current = fullscreenRequestNonce;
+			void enterVoiceCallAppFullscreen();
+		}, [enterVoiceCallAppFullscreen, fullscreenRequestNonce]);
+
+		const openPiPForTrack = useCallback(
+			(trackRef: TrackReferenceOrPlaceholder) => {
+				const identity = trackRef?.participant?.identity ?? '';
+				if (!identity) {
+					logger.error('PiP open aborted because track reference is missing', {
+						trackRef,
+						disablePiP,
+					});
+					return;
+				}
+
+				if (disablePiP) {
+					logger.debug('PiP open aborted because picture-in-picture is disabled');
+					return;
+				}
+
+				const parsedIdentity = parseVoiceParticipantIdentity(identity);
+				if (!parsedIdentity.userId || !parsedIdentity.connectionId) {
+					logger.error('PiP open aborted because participant identity is malformed', {
+						identity,
+						trackRef,
+					});
+					return;
+				}
+
+				const contentType = trackRef.source === Track.Source.ScreenShare ? 'stream' : 'camera';
+				PiPActionCreators.openPiP({
+					type: contentType,
+					participantIdentity: identity,
+					channelId: channel.id,
+					guildId: channel.guildId ?? null,
+					connectionId: parsedIdentity.connectionId,
+					userId: parsedIdentity.userId,
+				});
+			},
+			[channel.id, channel.guildId, disablePiP],
+		);
+
+		const pipSnapshotRef = useRef<{pipTrack: TrackReferenceOrPlaceholder | null}>({
+			pipTrack,
+		});
+
+		useEffect(() => {
+			pipSnapshotRef.current = {pipTrack};
+		}, [pipTrack]);
+
+		useEffect(() => {
+			return () => {
+				if (isMobile) return;
+				if (disablePiP) return;
+				const snapshot = pipSnapshotRef.current;
+				if (!snapshot.pipTrack) return;
+				openPiPForTrack(snapshot.pipTrack);
+			};
+		}, [disablePiP, isMobile, openPiPForTrack]);
+
+		useEffect(() => {
+			if (pipOpen && pipContent?.channelId === channel.id) {
+				PiPActionCreators.closePiP();
+			}
+		}, [pipOpen, pipContent, channel.id]);
+
+		const FavoriteIcon = useMemo(() => {
+			const Icon = forwardRef<SVGSVGElement, React.ComponentProps<typeof StarIcon>>((props, ref) => (
+				<StarIcon ref={ref} weight={isFavorited ? 'fill' : 'bold'} {...props} />
+			));
+			Icon.displayName = 'FavoriteIcon';
+			return Icon;
+		}, [isFavorited]);
+
+		const statsReferencePropsRaw = getStatsReferenceProps();
+		const {ref: _statsRef, onClick: statsOnClickRaw, ...statsReferenceProps} = statsReferencePropsRaw;
+		const statsOnClick = statsOnClickRaw as React.MouseEventHandler<HTMLButtonElement> | undefined;
+
 		return (
 			<div
+				ref={containerRef}
+				data-voice-call-root
 				className={clsx(
-					styles.focusLayoutContent,
-					!hasCarousel && styles.noCarousel,
-					hasCarousel && !showParticipantsCarousel && styles.carouselCollapsed,
+					styles.root,
+					styles.voiceRoot,
+					isVoiceCallAppFullscreen && styles.voiceCallFullscreen,
+					isPointerHudActive && styles.pointerActive,
+					isChromePinned && styles.contextMenuActive,
+					keyboardModeEnabled && styles.keyboardModeActive,
 				)}
+				onPointerEnter={handleVoiceRootPointerActivity}
+				onPointerMove={handleVoiceRootPointerActivity}
+				onPointerDown={handleVoiceRootPointerActivity}
+				onPointerLeave={handleVoiceRootPointerLeave}
 			>
-				<div className={styles.focusLayoutMainWrapper}>
-					{focusMainTrack && (
-						<div className={styles.focusLayoutMain}>
-							<TrackRefContext.Provider value={focusMainTrack as TrackReferenceOrPlaceholder}>
-								<ParticipantContext.Provider
-									value={(focusMainTrack as TrackReferenceOrPlaceholder).participant as Participant}
-								>
-									<VoiceParticipantTile
-										guildId={channel.guildId}
-										channelId={channel.id}
-										isPinned={
-											(focusMainTrack as TrackReferenceOrPlaceholder).participant.identity === pinnedParticipantIdentity
-										}
-										showFocusIndicator={false}
-									/>
-								</ParticipantContext.Provider>
-							</TrackRefContext.Provider>
-						</div>
-					)}
-				</div>
+				<output className={styles.srOnly} aria-live="polite" aria-atomic="true">
+					{participantCount === 1
+						? t`${participantCount} participant in call`
+						: t`${participantCount} participants in call`}
+				</output>
 
-				{carouselTracks.length > 0 && (
-					<div className={styles.carouselToggleWrap}>
-						<Tooltip text={showParticipantsCarousel ? t`Hide Participants` : t`Show Participants`} position="bottom">
-							<FocusRing offset={-2} ringClassName={styles.carouselToggleFocusRing}>
-								<button
-									type="button"
-									aria-label={showParticipantsCarousel ? t`Hide participants` : t`Show participants`}
-									className={styles.carouselToggle}
-									onClick={handleToggleCarousel}
-								>
-									{showParticipantsCarousel ? (
-										<CaretDownIcon weight="bold" className={styles.iconMedium} />
-									) : (
-										<CaretUpIcon weight="bold" className={styles.iconMedium} />
-									)}
+				<NativeDragRegion className={clsx(channelHeaderStyles.headerContainer, styles.voiceChrome, styles.voiceHeader)}>
+					<div className={channelHeaderStyles.headerLeftSection}>
+						{isMobile ? (
+							<FocusRing offset={-2}>
+								<button type="button" className={channelHeaderStyles.backButton} onClick={handleBackClick}>
+									<ArrowLeftIcon className={channelHeaderStyles.backIconBold} weight="bold" />
 								</button>
 							</FocusRing>
-						</Tooltip>
-					</div>
-				)}
+						) : (
+							<FocusRing offset={-2}>
+								<button type="button" className={channelHeaderStyles.backButtonDesktop} onClick={handleBackClick}>
+									<ListIcon className={channelHeaderStyles.backIcon} />
+								</button>
+							</FocusRing>
+						)}
 
-				{carouselTracks.length > 0 && showParticipantsCarousel && (
-					<div className={styles.carouselWrapper}>
-						<Scroller
-							orientation="horizontal"
-							fade
-							className={styles.scrollerFullWidth}
-							key="voice-call-carousel-scroller"
-						>
-							<div className={styles.carouselInner}>
-								<CarouselLayout tracks={carouselTracks}>
-									<VoiceParticipantTile guildId={channel.guildId} channelId={channel.id} showFocusIndicator />
-								</CarouselLayout>
+						<div className={channelHeaderStyles.leftContentContainer}>
+							<div className={channelHeaderStyles.channelInfoContainer}>
+								{ChannelUtils.getIcon(channel, {className: channelHeaderStyles.channelIcon})}
+								<span className={channelHeaderStyles.channelName}>{channel.name ?? ''}</span>
 							</div>
-						</Scroller>
-					</div>
-				)}
-			</div>
-		);
-	}, [
-		focusMainTrack,
-		carouselTracks,
-		filteredCameraTracks,
-		channel.guildId,
-		channel.id,
-		pinnedParticipantIdentity,
-		showParticipantsCarousel,
-		handleToggleCarousel,
-	]);
 
-	const gridLayoutNode = useMemo(() => {
-		if (hasScreenShare) {
-			const gridTracks = [...screenShareTracks, ...filteredCameraTracks];
-			return (
-				<div className={styles.gridLayoutWrapper}>
-					<div className={styles.screenshareGridLayout}>
-						<VoiceGridLayout tracks={gridTracks}>
-							<VoiceParticipantTile guildId={channel.guildId} channelId={channel.id} />
-						</VoiceGridLayout>
-					</div>
-				</div>
-			);
-		}
-
-		return (
-			<div className={styles.gridLayoutWrapper}>
-				<VoiceGridLayout tracks={filteredCameraTracks}>
-					<VoiceParticipantTile guildId={channel.guildId} channelId={channel.id} />
-				</VoiceGridLayout>
-			</div>
-		);
-	}, [hasScreenShare, screenShareTracks, filteredCameraTracks, channel.guildId, channel.id]);
-
-	const mainContentNode = useMemo(() => {
-		switch (layoutMode) {
-			case 'focus':
-				return focusLayoutNode;
-			default:
-				return gridLayoutNode;
-		}
-	}, [layoutMode, focusLayoutNode, gridLayoutNode]);
-
-	const statsReferencePropsRaw = getStatsReferenceProps();
-	const {ref: _statsRef, onClick: statsOnClickRaw, ...statsReferenceProps} = statsReferencePropsRaw;
-	const statsOnClick = statsOnClickRaw as React.MouseEventHandler<HTMLButtonElement> | undefined;
-
-	return (
-		<div
-			ref={containerRef}
-			className={clsx(
-				styles.root,
-				styles.voiceRoot,
-				(isAnyContextMenuOpen || isInboxPopoutOpen || isStatsOpen) && styles.contextMenuActive,
-				keyboardModeEnabled && styles.keyboardModeActive,
-			)}
-		>
-			<output className={styles.srOnly} aria-live="polite" aria-atomic="true">
-				{participantCount === 1
-					? t`${participantCount} participant in call`
-					: t`${participantCount} participants in call`}
-			</output>
-
-			<NativeDragRegion className={clsx(channelHeaderStyles.headerContainer, styles.voiceChrome, styles.voiceHeader)}>
-				<div className={channelHeaderStyles.headerLeftSection}>
-					{isMobile ? (
-						<FocusRing offset={-2}>
-							<button type="button" className={channelHeaderStyles.backButton} onClick={handleBackClick}>
-								<ArrowLeftIcon className={channelHeaderStyles.backIconBold} weight="bold" />
-							</button>
-						</FocusRing>
-					) : (
-						<FocusRing offset={-2}>
-							<button type="button" className={channelHeaderStyles.backButtonDesktop} onClick={handleBackClick}>
-								<ListIcon className={channelHeaderStyles.backIcon} />
-							</button>
-						</FocusRing>
-					)}
-
-					<div className={channelHeaderStyles.leftContentContainer}>
-						<div className={channelHeaderStyles.channelInfoContainer}>
-							{ChannelUtils.getIcon(channel, {className: channelHeaderStyles.channelIcon})}
-							<span className={channelHeaderStyles.channelName}>{channel.name ?? ''}</span>
+							{isFocusedOnScreenShare && focusedStreamerUser && (
+								<StreamFocusHeaderInfo
+									streamerUser={focusedStreamerUser}
+									streamerDisplayName={focusedStreamerDisplayName}
+									viewerUsers={spectatorUsers}
+									spectatorEntries={spectatorEntries}
+									guildId={channel.guildId ?? undefined}
+									channelId={channel.id}
+									onOpenChange={handleSpectatorsPopoutOpenChange}
+								/>
+							)}
 						</div>
 					</div>
+
+					<div className={channelHeaderStyles.headerRightSection}>
+						{isFocusedOnScreenShare && focusedTrackInfo && (
+							<div className={styles.headerStreamInfo}>
+								<StreamInfoPill info={focusedTrackInfo} />
+							</div>
+						)}
+
+						{channel && !isMobile && AccessibilityStore.showFavorites && (
+							<ChannelHeaderIcon
+								icon={FavoriteIcon}
+								label={isFavorited ? t`Remove from Favorites` : t`Add to Favorites`}
+								isSelected={isFavorited}
+								onClick={handleToggleFavorite}
+							/>
+						)}
+
+						{connectionStateText && (
+							<div
+								className={clsx(
+									styles.connectionStatusContainer,
+									connectionState === ConnectionState.Connecting && styles.statusConnecting,
+									connectionState === ConnectionState.Reconnecting && styles.statusReconnecting,
+									connectionState === ConnectionState.Disconnected && styles.statusDisconnected,
+									connectionState === ConnectionState.Connected && styles.statusConnected,
+								)}
+							>
+								<div className={styles.connectionStatusDot} />
+								{connectionStateText}
+							</div>
+						)}
+
+						<ChannelHeaderIcon
+							ref={statsRefs.setReference}
+							icon={ChartBarIcon}
+							label={t`Connection Stats`}
+							isSelected={isStatsOpen}
+							onClick={statsOnClick}
+							aria-expanded={isStatsOpen}
+							{...statsReferenceProps}
+						/>
+
+						{isMobile && (
+							<ChannelHeaderIcon icon={PhoneIcon} label={t`View call controls`} onClick={handleOpenCallSheet} />
+						)}
+
+						{!isMobile && <InboxButton />}
+					</div>
+				</NativeDragRegion>
+
+				<div className={mainContentClassName}>
+					<VoiceCallLayoutContent
+						channel={channel}
+						layoutMode={layoutMode}
+						focusMainTrack={focusMainTrack}
+						carouselTracks={carouselTracks}
+						cameraTracksAll={cameraTracksAll}
+						filteredCameraTracks={filteredCameraTracks}
+						screenShareTracks={screenShareTracks}
+						hasScreenShare={hasScreenShare}
+						pinnedParticipantIdentity={pinnedParticipantIdentity}
+					/>
 				</div>
 
-				<div className={channelHeaderStyles.headerRightSection}>
-					{channel && !isMobile && AccessibilityStore.showFavorites && (
+				<div className={clsx(styles.controlBarContainer, styles.voiceChrome)}>
+					<VoiceControlBar />
+				</div>
+
+				<div className={clsx(styles.fullscreenButtonWrap, styles.voiceChrome)}>
+					{supportsVoiceCallAppFullscreen && (
 						<ChannelHeaderIcon
-							icon={FavoriteIcon}
-							label={isFavorited ? t`Remove from Favorites` : t`Add to Favorites`}
-							isSelected={isFavorited}
-							onClick={handleToggleFavorite}
+							icon={FullscreenButtonIcon}
+							label={fullscreenButtonLabel}
+							isSelected={isVoiceCallAppFullscreen}
+							onClick={handleToggleVoiceCallAppFullscreen}
 						/>
 					)}
-
-					{connectionStateText && (
-						<div
-							className={clsx(
-								styles.connectionStatusContainer,
-								connectionState === ConnectionState.Connecting && styles.statusConnecting,
-								connectionState === ConnectionState.Reconnecting && styles.statusReconnecting,
-								connectionState === ConnectionState.Disconnected && styles.statusDisconnected,
-								connectionState === ConnectionState.Connected && styles.statusConnected,
-							)}
-						>
-							<div className={styles.connectionStatusDot} />
-							{connectionStateText}
-						</div>
-					)}
-
-					<ChannelHeaderIcon
-						ref={statsRefs.setReference}
-						icon={ChartBarIcon}
-						label={t`Connection Stats`}
-						isSelected={isStatsOpen}
-						onClick={statsOnClick}
-						aria-expanded={isStatsOpen}
-						{...statsReferenceProps}
-					/>
-
-					{isMobile && (
-						<ChannelHeaderIcon icon={PhoneIcon} label={t`View call controls`} onClick={handleOpenCallSheet} />
-					)}
-
-					<ChannelHeaderIcon
-						icon={isFullscreen ? XIcon : ArrowsOutIcon}
-						label={isFullscreen ? t`Exit Fullscreen` : t`Fullscreen`}
-						isSelected={isFullscreen}
-						onClick={toggleFullscreen}
-					/>
-
-					{!isMobile && <InboxButton />}
 				</div>
-			</NativeDragRegion>
 
-			<div className={styles.mainContent}>{mainContentNode}</div>
-
-			<div className={clsx(styles.controlBarContainer, styles.voiceChrome)}>
-				<VoiceControlBar />
-			</div>
-
-			{isStatsOpen &&
-				(isMobile ? (
-					<BottomSheet
-						isOpen={isStatsOpen}
-						onClose={() => setIsStatsOpen(false)}
-						title={t`Connection Stats`}
-						snapPoints={[0.3, 0.65, 0.9]}
-					>
-						<VoiceStatsOverlay onClose={() => setIsStatsOpen(false)} />
-					</BottomSheet>
-				) : (
-					<FloatingFocusManager context={statsContext} modal={false}>
-						<div ref={statsRefs.setFloating} style={{...statsFloatingStyles, zIndex: 30}} {...statsFloatingProps}>
+				{isStatsOpen &&
+					(isMobile ? (
+						<BottomSheet
+							isOpen={isStatsOpen}
+							onClose={() => setIsStatsOpen(false)}
+							title={t`Connection Stats`}
+							snapPoints={[0.3, 0.65, 0.9]}
+						>
 							<VoiceStatsOverlay onClose={() => setIsStatsOpen(false)} />
+						</BottomSheet>
+					) : (
+						<FloatingFocusManager context={statsContext} modal={false}>
+							<div ref={statsRefs.setFloating} style={{...statsFloatingStyles, zIndex: 30}} {...statsFloatingProps}>
+								<VoiceStatsOverlay onClose={() => setIsStatsOpen(false)} />
+							</div>
+						</FloatingFocusManager>
+					))}
+
+				{isMobile && (
+					<BottomSheet
+						isOpen={isCallSheetOpen}
+						onClose={handleCloseCallSheet}
+						title={channel.name ?? t`Voice call`}
+						snapPoints={[0.35, 0.65, 0.95]}
+						disablePadding
+						surface="primary"
+					>
+						<div className={styles.voiceCallSheetContent}>
+							<CompactVoiceCallView channel={channel} className={styles.voiceCallSheetCompact} />
 						</div>
-					</FloatingFocusManager>
-				))}
+					</BottomSheet>
+				)}
+			</div>
+		);
+	},
+);
 
-			{isMobile && (
-				<BottomSheet
-					isOpen={isCallSheetOpen}
-					onClose={handleCloseCallSheet}
-					title={channel.name ?? t`Voice call`}
-					snapPoints={[0.35, 0.65, 0.95]}
-					disablePadding
-					surface="primary"
-				>
-					<div className={styles.voiceCallSheetContent}>
-						<CompactVoiceCallView channel={channel} className={styles.voiceCallSheetCompact} />
-					</div>
-				</BottomSheet>
-			)}
-		</div>
-	);
+function hasValidRoomForVoiceCallView(channel: ChannelRecord): boolean {
+	const room = MediaEngineStore.room;
+	if (!room) return false;
+	const normalizedGuildId = channel.guildId ?? null;
+	return MediaEngineStore.channelId === channel.id && (MediaEngineStore.guildId ?? null) === normalizedGuildId;
+}
+
+export const VoiceCallView = observer(({channel, fullscreenRequestNonce}: VoiceCallViewProps) => {
+	if (!hasValidRoomForVoiceCallView(channel)) {
+		return null;
+	}
+	return <VoiceCallViewInner channel={channel} fullscreenRequestNonce={fullscreenRequestNonce} />;
 });
-
-export const VoiceCallView = observer(({channel}: VoiceCallViewProps) => <VoiceCallViewInner channel={channel} />);

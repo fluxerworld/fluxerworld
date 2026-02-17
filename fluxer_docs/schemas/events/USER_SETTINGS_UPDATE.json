@@ -1,0 +1,11 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "USER_SETTINGS_UPDATE",
+	"description": "User settings have been updated.",
+	"scope": "presence",
+	"dispatchedBy": ["PATCH /users/@me/settings"],
+	"payload": {
+		"$ref": "UserSettingsResponse",
+		"description": "The updated user settings"
+	}
+}

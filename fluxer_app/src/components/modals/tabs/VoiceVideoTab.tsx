@@ -17,15 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {SettingsSection} from '@app/components/modals/shared/SettingsSection';
+import {SettingsTabContainer, SettingsTabContent} from '@app/components/modals/shared/SettingsTabLayout';
+import {VideoTab} from '@app/components/modals/tabs/VideoTab';
+import {VoiceTab} from '@app/components/modals/tabs/VoiceTab';
+import UserStore from '@app/stores/UserStore';
+import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {SettingsSection} from '~/components/modals/shared/SettingsSection';
-import {SettingsTabContainer, SettingsTabContent} from '~/components/modals/shared/SettingsTabLayout';
-import UserStore from '~/stores/UserStore';
-import VoiceSettingsStore from '~/stores/VoiceSettingsStore';
-import {VideoTab} from './VideoTab';
-import {VoiceTab} from './VoiceTab';
 
 const VoiceVideoTab: React.FC = observer(() => {
 	const {t} = useLingui();

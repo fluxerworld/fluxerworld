@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {Popout, PopoutKey} from '@app/components/uikit/popout';
+import {Logger} from '@app/lib/Logger';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
 import {makeAutoObservable, runInAction} from 'mobx';
-import type {Popout, PopoutKey} from '~/components/uikit/Popout';
-import {Logger} from '~/lib/Logger';
-import KeyboardModeStore from './KeyboardModeStore';
 
 const logger = new Logger('PopoutStore');
 

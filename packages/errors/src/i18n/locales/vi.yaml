@@ -1,0 +1,497 @@
+account.already_verified: Tài khoản của bạn đã được xác minh rồi.
+account.communication_disabled: Tính năng liên lạc đã bị tắt.
+account.disabled: Tài khoản này đã bị vô hiệu hoá.
+account.email_verification_required_for_guild: Bạn cần xác minh email để gửi tin nhắn trong máy chủ này.
+account.guild_verification_required: Cần xác minh máy chủ.
+account.ip_authorization_required: Cần xác thực IP.
+account.locked_suspicious_activity: Tài khoản của bạn bị khoá do hoạt động đáng ngờ.
+account.phone_required_for_guild: Bạn cần thêm số điện thoại để gửi tin nhắn trong máy chủ này.
+account.scheduled_for_deletion: Tài khoản này đã được lên lịch xoá.
+account.session_timeout: Phiên đã hết hạn. Hãy tải lại trang và đăng nhập lại.
+account.session_token_mismatch: Token phiên không khớp.
+account.suspended_permanently: Tài khoản này đã bị treo vĩnh viễn.
+account.suspended_temporarily: Tài khoản này đang bị treo tạm thời.
+account.too_new_for_guild: Tài khoản của bạn còn quá mới để gửi tin nhắn trong máy chủ này.
+account.unauthorized: Không có quyền truy cập.
+admin_and_system.acls_must_be_non_empty: ACLs không được rỗng.
+admin_and_system.admin_api_key_not_found: Không tìm thấy admin API key.
+admin_and_system.audit_log_indexing: Đang lập chỉ mục nhật ký kiểm toán. Vui lòng thử lại sau một chút.
+admin_and_system.channel_indexing: Đang lập chỉ mục kênh. Vui lòng thử lại sau một chút.
+admin_and_system.creation_failed: Không thể tạo tài nguyên. Vui lòng thử lại.
+admin_and_system.deletion_failed: Không thể xoá tài nguyên. Vui lòng thử lại.
+admin_and_system.decryption_failed: Không thể giải mã tin nhắn. Các khoá mã hoá có thể không hợp lệ hoặc bị hỏng.
+admin_and_system.empty_encrypted_body: Phần thân được mã hoá trống rỗng.
+admin_and_system.encryption_failed: Không thể mã hoá tin nhắn. Các khoá mã hoá có thể không hợp lệ hoặc bị hỏng.
+admin_and_system.general_error: Đã có sự cố xảy ra. Vui lòng thử lại sau.
+admin_and_system.invalid_acls_format: Định dạng ACL không hợp lệ.
+admin_and_system.invalid_api_origin: Nguồn gốc API không hợp lệ.
+admin_and_system.invalid_audit_log_reason: Lý do nhật ký kiểm toán không hợp lệ.
+admin_and_system.invalid_bot_flag: Cờ bot không hợp lệ.
+admin_and_system.invalid_decrypted_json: JSON được giải mã không hợp lệ.
+admin_and_system.invalid_ephemeral_key: Khoá tạm thời không hợp lệ.
+admin_and_system.invalid_flags_format: Định dạng cờ không hợp lệ.
+admin_and_system.invalid_form_body: Phần thân biểu mẫu không hợp lệ.
+admin_and_system.invalid_format: Giá trị được cung cấp có định dạng không hợp lệ.
+admin_and_system.invalid_integer_format: Định dạng số nguyên không hợp lệ.
+admin_and_system.invalid_iv: Vectơ khởi tạo không hợp lệ.
+admin_and_system.invalid_suspicious_flags_format: Định dạng cờ đáng ngờ không hợp lệ.
+admin_and_system.invalid_system_flag: Cờ hệ thống không hợp lệ.
+admin_and_system.invalid_timeout_value: Giá trị thời gian chờ không hợp lệ.
+admin_and_system.invalid_timestamp: Dấu thời gian không hợp lệ.
+admin_and_system.invalid_timezone_identifier: Định danh múi giờ không hợp lệ.
+admin_and_system.missing_acl: Thiếu ACL.
+admin_and_system.missing_ephemeral_key: Thiếu khoá tạm thời.
+admin_and_system.missing_iv: Thiếu vectơ khởi tạo.
+admin_and_system.must_be_iso_timestamp: Phải là dấu thời gian ISO hợp lệ.
+admin_and_system.processing_failed: Không thể xử lý yêu cầu. Vui lòng thử lại.
+admin_and_system.response_validation_failed: 'Xác thực phản hồi thất bại: {errors}.'
+admin_and_system.test_harness_disabled: Thiết bị kiểm thử bị tắt.
+admin_and_system.test_harness_forbidden: Thiết bị kiểm thử bị cấm.
+admin_and_system.unknown_suspicious_flag: Cờ đáng ngờ không xác định.
+admin_and_system.update_failed: Không thể cập nhật tài nguyên. Vui lòng thử lại.
+admin_and_system.user_must_be_bot_for_system_user: Người dùng phải là bot để được đánh dấu là người dùng hệ thống.
+attachments_and_uploads.attachment_fields_required: Cần có `attachment_id`, `channel_id`, `message_id`, và `expires_at`.
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id`, và `message_id` phải là số nguyên hợp lệ.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Người dùng có quyền MANAGE_MESSAGES chỉ có thể chỉnh sửa mô tả attachment, không thể sửa metadata khác.
+attachments_and_uploads.attachment_metadata_without_files: Metadata attachment có filename, nhưng không có tệp nào được tải lên.
+attachments_and_uploads.attachment_must_be_image: Attachment "{filename}" phải là tệp ảnh (png, jpg, jpeg, webp, hoặc gif).
+attachments_and_uploads.attachment_not_found_in_message: Không tìm thấy attachment có ID {attachmentId} trong tin nhắn.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Khi tải tệp lên, cần mảng metadata attachments.
+attachments_and_uploads.attachments_not_allowed_for_message: Tin nhắn này không cho phép đính kèm tệp.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Bạn không thể tham chiếu attachment khi không cung cấp attachment nào.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Không cho phép trùng attachment ID.
+attachments_and_uploads.duplicate_file_index: 'Trùng file index: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Không thể phân tích multipart form data. Kiểm tra lại tên trường và filename có đúng định dạng không.
+attachments_and_uploads.failed_to_parse_multipart_payload: Không thể phân tích multipart payload.
+attachments_and_uploads.failed_to_upload_image: Không thể tải ảnh lên. Thử lại nhé.
+attachments_and_uploads.file_index_exceeds_maximum: File index {index} vượt quá mức tối đa {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Không tìm thấy tệp để quét.
+attachments_and_uploads.file_not_found: Không tìm thấy tệp.
+attachments_and_uploads.file_size_too_large: Dung lượng tệp quá lớn. Kích thước tệp tối đa là {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Tên tệp không được rỗng sau khi chuẩn hoá.
+attachments_and_uploads.filename_invalid_characters: Tên tệp có ký tự không hợp lệ.
+attachments_and_uploads.filename_length_invalid: Tên tệp phải dài từ {min} đến {max} ký tự.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Tên tệp không khớp cho attachment {attachmentId}: metadata là "{expectedFilename}", nhưng không trùng.'
+attachments_and_uploads.image_size_exceeds_limit: Dung lượng ảnh vượt quá {maxSize} byte.
+attachments_and_uploads.invalid_file_field_name: 'Tên trường tệp không hợp lệ: {key}. Định dạng đúng: `files[N]` với N là một số.'
+attachments_and_uploads.invalid_image_data: Dữ liệu ảnh không hợp lệ.
+attachments_and_uploads.invalid_image_format: 'Định dạng ảnh không hợp lệ. Phần mở rộng hỗ trợ: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: JSON trong `payload_json` không hợp lệ.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Không cho phép nhiều tệp cho index {index}.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Chưa có tệp nào được tải lên cho metadata attachment có ID {attachmentId}.
+attachments_and_uploads.no_file_uploaded_for_attachment: Chưa có tệp nào được tải lên cho attachment có ID {attachmentId}.
+attachments_and_uploads.no_metadata_for_file: Không có metadata cho tệp có ID {fileId}.
+attachments_and_uploads.no_valid_media_in_message: Không tìm thấy media hợp lệ trong tin nhắn.
+attachments_and_uploads.payload_json_required_for_multipart: Cần trường `payload_json` cho multipart messages.
+attachments_and_uploads.preview_must_be_jpeg: Preview phải là JPEG.
+attachments_and_uploads.referenced_attachment_not_found: Không tìm thấy attachment được tham chiếu "{filename}" trong các attachment của tin nhắn.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` phải là số nguyên hợp lệ.'
+attachments_and_uploads.too_many_files: Quá nhiều tệp. Tối đa {maxFiles} {maxFiles, plural, one {tệp} other {tệp}}.
+attachments_and_uploads.unknown_image_format: Định dạng ảnh không xác định.
+attachments_and_uploads.unresolved_attachment_url: Phát hiện URL `attachment://` chưa được resolve. Lẽ ra nó phải được resolve trước khi xử lý embed.
+attachments_and_uploads.uploaded_attachment_not_found: Không tìm thấy attachment đã tải lên "{filename}".
+auth_and_oauth.application_not_owned: Bạn không sở hữu ứng dụng này.
+auth_and_oauth.bot_already_in_guild: Bot này đã ở trong guild rồi.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Tài khoản bot không thể tạo auth session.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Tài khoản bot không thể dùng các auth endpoint.
+auth_and_oauth.handoff_code_expired: Handoff code đã hết hạn.
+auth_and_oauth.handoff_code_invalid: Handoff code không hợp lệ.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize không được hỗ trợ. Hãy dùng POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Client secret không hợp lệ.
+auth_and_oauth.invalid_client: Client không hợp lệ.
+auth_and_oauth.invalid_code: Code không hợp lệ.
+auth_and_oauth.invalid_grant: Grant không hợp lệ.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Authorization ticket không hợp lệ hoặc đã hết hạn.
+auth_and_oauth.invalid_or_expired_authorization_token: Authorization token không hợp lệ hoặc đã hết hạn.
+auth_and_oauth.invalid_or_expired_ticket: Ticket không hợp lệ hoặc đã hết hạn.
+auth_and_oauth.invalid_proof_token: Proof token không hợp lệ.
+auth_and_oauth.invalid_redirect_uri: Redirect URI không hợp lệ.
+auth_and_oauth.invalid_request: Yêu cầu không hợp lệ.
+auth_and_oauth.invalid_scope: Scope không hợp lệ.
+auth_and_oauth.invalid_sudo_token: Sudo token không hợp lệ.
+auth_and_oauth.invalid_token_admin_api_key: Admin API key không hợp lệ.
+auth_and_oauth.missing_authorization: Thiếu thông tin uỷ quyền.
+auth_and_oauth.missing_client_secret: Thiếu client secret.
+auth_and_oauth.missing_redirect_uri: Thiếu redirect URI.
+auth_and_oauth.must_start_session_before_sending_messages: Bạn phải bắt đầu một phiên trước khi gửi tin nhắn.
+auth_and_oauth.oauth_admin_scope_required: Token OAuth2 cần admin scope để truy cập các endpoint admin.
+auth_and_oauth.oauth_fields_missing: Thiếu trường OAuth.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Cần redirect URI cho scope không phải bot.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Response type phải là code cho scope không phải bot.
+auth_and_oauth.sudo_mode_required: Cần bật sudo mode.
+auth_and_oauth.unknown_application: Ứng dụng không xác định.
+auth_and_oauth.unsupported_response_type: Response type không được hỗ trợ.
+auth_and_registration.current_password_incorrect: Mật khẩu hiện tại không đúng.
+auth_and_registration.password_is_too_common: Mật khẩu của bạn quá phổ biến. Vui lòng chọn mật khẩu độc đáo hơn.
+auth_and_registration.password_not_set: Chưa đặt mật khẩu.
+bots.bot_application_not_found: Ứng dụng bot không được tìm thấy.
+bots.bot_discriminator_cannot_be_changed: Không thể thay đổi số phân biệt của bot.
+bots.bot_is_private: Bot này là riêng tư.
+bots.bot_user_generation_failed: Tạo người dùng bot thất bại.
+bots.bot_user_not_found: Người dùng bot không được tìm thấy.
+bots.invalid_response_type_for_non_bot: Response type phải là code cho scope không phải bot.
+bots.not_a_bot_application: Ứng dụng này không phải là bot.
+calls_and_voice.call_already_exists: Cuộc gọi đã tồn tại.
+calls_and_voice.cannot_modify_voice_state: Bạn không thể thay đổi trạng thái voice.
+calls_and_voice.invalid_or_restricted_rtc_region: 'RTC region không hợp lệ hoặc bị hạn chế: {region}.'
+calls_and_voice.invalid_rtc_region: 'RTC region không hợp lệ: {region}. Các vùng khả dụng: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Định dạng stream key không hợp lệ.
+calls_and_voice.invalid_stream_thumbnail_payload: Payload thumbnail của stream không hợp lệ.
+calls_and_voice.no_active_call: Không có cuộc gọi nào đang hoạt động.
+calls_and_voice.stream_key_channel_mismatch: Stream key không khớp kênh.
+calls_and_voice.stream_key_scope_mismatch: Stream key không khớp scope.
+calls_and_voice.stream_thumbnail_payload_empty: Payload thumbnail của stream đang rỗng.
+calls_and_voice.unknown_voice_region: Vùng voice không xác định.
+calls_and_voice.unknown_voice_server: Máy chủ voice không xác định.
+calls_and_voice.voice_message_duration_exceeds_limit: Thời lượng tin nhắn thoại không được vượt quá {maxDuration} giây.
+calls_and_voice.voice_message_duration_required: Attachment tin nhắn thoại phải có thời lượng.
+calls_and_voice.voice_message_waveform_required: Attachment tin nhắn thoại phải có dữ liệu waveform.
+calls_and_voice.voice_messages_require_single_attachment: Tin nhắn thoại phải có đúng một tệp đính kèm.
+captcha.invalid: Captcha không hợp lệ.
+captcha.required: Cần captcha.
+channels_and_guilds.afk_channel_must_be_in_guild: Kênh AFK phải nằm trong máy chủ.
+channels_and_guilds.afk_channel_must_be_voice: Kênh AFK phải là kênh thoại.
+channels_and_guilds.all_channels_must_belong_to_guild: Tất cả kênh phải thuộc về máy chủ này.
+channels_and_guilds.animated_guild_banner_requires_feature: Banner máy chủ động yêu cầu tính năng ANIMATED_BANNER.
+channels_and_guilds.cannot_execute_on_dm: Không thể thực hiện hành động này trong DM.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Quyền sở hữu máy chủ không thể được chuyển cho bot.
+channels_and_guilds.cannot_leave_guild_as_owner: Bạn không thể rời máy chủ khi đang là chủ. Hãy chuyển quyền sở hữu hoặc xoá máy chủ.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Bạn không thể đặt vị trí kênh so với chính nó hoặc các kênh con của nó.
+channels_and_guilds.cannot_report_own_guild: Bạn không thể báo cáo máy chủ của chính mình.
+channels_and_guilds.categories_cannot_have_parent_channel: Category không thể có kênh cha.
+channels_and_guilds.categories_cannot_have_parents: Category không thể có cha.
+channels_and_guilds.channel_id_required: Cần `channel_id`.
+channels_and_guilds.channel_must_be_dm_or_group_dm: Kênh phải là DM hoặc DM nhóm.
+channels_and_guilds.channel_must_be_voice: Kênh phải là kênh thoại.
+channels_and_guilds.channel_not_found: Không tìm thấy kênh.
+channels_and_guilds.context_channel_or_guild_required: Cần kênh ngữ cảnh hoặc ID máy chủ.
+channels_and_guilds.guild_banner_requires_feature: Banner máy chủ yêu cầu tính năng BANNER.
+channels_and_guilds.guild_id_must_match_referenced_message: Guild ID phải khớp với kênh chứa tin nhắn tham chiếu đã được lấy.
+channels_and_guilds.invalid_channel_id: 'ID kênh không hợp lệ: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Loại kênh không phù hợp cho cuộc gọi.
+channels_and_guilds.invalid_channel_type: Loại kênh không hợp lệ.
+channels_and_guilds.invalid_channel: Kênh không hợp lệ.
+channels_and_guilds.invalid_parent_channel: Kênh cha không hợp lệ.
+channels_and_guilds.invite_splash_requires_feature: Invite splash yêu cầu tính năng INVITE_SPLASH.
+channels_and_guilds.invites_disabled: Lời mời đã bị tắt.
+channels_and_guilds.max_group_dm_recipients_reached: 'Bạn đã đạt giới hạn tối đa là {count} người nhận {count, plural, one {trong DM nhóm} other {trong DM nhóm}}.'
+channels_and_guilds.max_group_dms_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {DM nhóm} other {DM nhóm}}.'
+channels_and_guilds.max_guild_channels_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {kênh} other {kênh}} của máy chủ.'
+channels_and_guilds.max_guild_members_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {thành viên} other {thành viên}} của máy chủ.'
+channels_and_guilds.max_guild_roles_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {vai trò} other {vai trò}} của máy chủ.'
+channels_and_guilds.max_guilds_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {máy chủ} other {máy chủ}}.'
+channels_and_guilds.message_history_cutoff_before_guild_creation: Giới hạn lịch sử tin nhắn không thể trước khi cộng đồng được tạo.
+channels_and_guilds.message_history_cutoff_in_future: Giới hạn lịch sử tin nhắn không thể ở trong tương lai.
+channels_and_guilds.parent_channel_not_in_guild: Kênh cha không có trong máy chủ.
+channels_and_guilds.parent_must_be_category: Kênh cha phải là category.
+channels_and_guilds.preceding_channel_must_share_parent: Kênh đứng trước phải chung kênh cha với kênh được di chuyển.
+channels_and_guilds.preceding_channel_not_in_guild: Kênh đứng trước không có trong máy chủ.
+channels_and_guilds.system_channel_must_be_in_guild: Kênh hệ thống phải nằm trong máy chủ.
+channels_and_guilds.system_channel_must_be_text: Kênh hệ thống phải là kênh văn bản.
+channels_and_guilds.temporary_invite_requires_presence: Lời mời tạm thời yêu cầu trạng thái hiện diện.
+channels_and_guilds.vanity_url_requires_feature: Vanity URL yêu cầu tính năng VANITY_URL.
+channels_and_guilds.voice_channel_full: Kênh thoại đã đầy.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Kênh thoại không thể nằm trên kênh văn bản trong cùng một category.
+colors.color_value_too_high: Giá trị màu không được vượt quá 0xffffff.
+colors.color_value_too_low: Giá trị màu phải ít nhất là 0x000000.
+connections.already_exists: Một kết nối loại này với định danh này đã tồn tại.
+connections.bluesky_oauth_callback_failed: Chúng tôi không thể hoàn thành kết nối Bluesky. Vui lòng thử lại.
+connections.bluesky_oauth_not_enabled: Các kết nối Bluesky không được bật trên máy chủ này.
+connections.bluesky_oauth_session_expired: Phiên Bluesky của bạn đã hết hạn. Vui lòng kết nối lại tài khoản của bạn.
+connections.bluesky_oauth_state_invalid: Yêu cầu uỷ quyền đã hết hạn hoặc không hợp lệ. Vui lòng thử lại.
+connections.invalid_identifier: Định danh kết nối không hợp lệ.
+connections.initiation_token_invalid: Token khởi tạo kết nối không hợp lệ hoặc đã hết hạn.
+connections.invalid_type: Loại kết nối không được hỗ trợ.
+connections.limit_reached: 'Bạn đã đạt giới hạn tối đa là {limit} kết nối.'
+connections.not_found: Kết nối không xác định.
+connections.verification_failed: Xác minh kết nối thất bại. Hãy chắc chắn rằng mã token xác minh được đặt đúng vị trí.
+content_and_safety.content_blocked: Nội dung này đã bị chặn bởi hệ thống an toàn.
+content_and_safety.csam_scan_failed: Quét CSAM thất bại.
+content_and_safety.csam_scan_parse_error: Lỗi phân tích quét CSAM.
+content_and_safety.csam_scan_subscription_error: Lỗi đăng ký quét CSAM.
+content_and_safety.csam_scan_timeout: Quét CSAM hết thời gian.
+content_and_safety.explicit_content_cannot_be_sent: Không thể gửi nội dung nhạy cảm.
+content_and_safety.ncmec_already_submitted: Nội dung này đã được gửi lên NCMEC rồi.
+content_and_safety.ncmec_submission_failed: Không thể gửi báo cáo lên NCMEC. Thử lại sau nhé.
+content_and_safety.nsfw_age_restricted: Nội dung NSFW bị giới hạn độ tuổi.
+discovery.already_applied: Cộng đồng này đã nộp đơn đăng ký khám phá rồi.
+discovery.application_already_reviewed: Đơn đăng ký khám phá này đã được xem xét rồi.
+discovery.application_not_found: Không tìm thấy đơn đăng ký khám phá.
+discovery.description_required: Cần có mô tả để đăng ký danh sách khám phá.
+discovery.insufficient_members: Cộng đồng này chưa đáp ứng số lượng thành viên tối thiểu để tham gia khám phá.
+discovery.invalid_category: Danh mục khám phá không hợp lệ.
+discovery.not_discoverable: Cộng đồng này không có trong danh sách khám phá.
+donation.amount_invalid: Số tiền quyên góp không hợp lệ.
+donation.donor_not_found: Không tìm thấy nhà tài trợ.
+donation.magic_link_expired: Liên kết kỳ diệu đã hết hạn.
+donation.magic_link_invalid: Liên kết kỳ diệu không hợp lệ.
+donation.magic_link_used: Liên kết kỳ diệu đã được sử dụng.
+email.email_already_in_use: Email này đã được sử dụng.
+email.email_required: Cần có email.
+email.email_service_not_testable: Không thể test dịch vụ email.
+email.invalid_format: Định dạng email không hợp lệ.
+email.invalid_or_expired_reset_token: Token đặt lại mật khẩu không hợp lệ hoặc đã hết hạn.
+email.invalid_or_expired_revert_token: Token hoàn tác không hợp lệ hoặc đã hết hạn.
+email.invalid_or_expired_verification_token: Token xác minh không hợp lệ hoặc đã hết hạn.
+email.invalid_or_password: Email hoặc mật khẩu không đúng.
+email.invalid_token: Email token không hợp lệ.
+email.invalid_verification_code: Mã xác minh không đúng.
+email.length_invalid: Địa chỉ email phải dài từ {min} đến {max} ký tự.
+email.must_be_changed_via_token: Email phải được đổi qua token.
+email.must_change_via_token: Email phải được đổi qua `email_token`.
+email.must_have_email_to_change_it: Bạn phải có địa chỉ email để thay đổi nó.
+email.new_email_must_be_different: Email mới phải khác với email hiện tại của bạn.
+email.no_new_email_requested: Không có yêu cầu email mới.
+email.no_original_email_on_record: Không có email gốc được lưu.
+email.original_email_already_verified: Email gốc đã được xác minh rồi.
+email.original_email_must_be_verified_first: Email gốc phải được xác minh trước.
+email.original_verification_not_required: Luồng này không cần xác minh email gốc.
+email.token_expired: Email token đã hết hạn.
+email.user_has_no_email_address: Người dùng này không có địa chỉ email.
+email.user_is_not_pending_verification: Người dùng này không đang chờ xác minh.
+email.verification_code_expired: Mã xác minh đã hết hạn.
+email.verification_code_not_issued: Chưa có mã xác minh nào được cấp.
+embeds.embed_index_out_of_bounds: Embed index {embedIndex} nằm ngoài phạm vi (tin nhắn có {embedCount} {embedCount, plural, one {embed} other {embeds}}).
+embeds.embed_splash_requires_feature: Embed splash yêu cầu tính năng INVITE_SPLASH.
+embeds.embeds_exceed_max_characters: Tổng nội dung embed không được vượt quá {maxCharacters} {maxCharacters, plural, one {ký tự} other {ký tự}}.
+embeds.too_many_embeds: Quá nhiều embed. Tối đa {maxEmbeds} {maxEmbeds, plural, one {embed} other {embeds}}.
+feature_flags.feature_not_available_self_hosted: Tính năng này không khả dụng trên các phiên bản tự lưu trữ.
+feature_flags.feature_temporarily_disabled: Tính năng này tạm thời bị tắt.
+friends_and_dms.already_friends: Bạn đã là bạn với người này rồi.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Cần ít nhất một người nhận để tạo kênh riêng.
+friends_and_dms.at_least_one_recipient_required: Cần ít nhất một người nhận.
+friends_and_dms.bots_cannot_send_friend_requests: Bot không thể gửi yêu cầu kết bạn.
+friends_and_dms.cannot_add_yourself_to_group_dm: Bạn không thể tự thêm mình vào DM nhóm.
+friends_and_dms.cannot_dm_yourself: Bạn không thể DM chính mình.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Bạn không thể gửi yêu cầu kết bạn cho người bạn đã chặn.
+friends_and_dms.cannot_send_friend_request_to_self: Bạn không thể gửi yêu cầu kết bạn cho chính mình.
+friends_and_dms.cannot_send_messages_to_user: Bạn không thể gửi tin nhắn cho người dùng này.
+friends_and_dms.duplicate_recipients_not_allowed: Không cho phép trùng người nhận.
+friends_and_dms.friend_request_blocked: Người dùng này hiện không chấp nhận yêu cầu kết bạn.
+friends_and_dms.not_friends: Bạn không phải bạn với người này.
+friends_and_dms.recipient_ids_cannot_be_empty: Recipient ID không được để trống.
+friends_and_dms.recipient_ids_must_be_strings: Recipient ID phải là chuỗi.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Recipient ID phải là snowflake hợp lệ.
+harvest.expired: Harvest đã hết hạn.
+harvest.failed: Harvest thất bại.
+harvest.not_ready: Harvest chưa sẵn sàng.
+harvest.on_cooldown: Harvest đang trong thời gian chờ.
+harvest.unknown: Harvest không xác định.
+http.bad_gateway: Bad gateway.
+http.bad_request: Yêu cầu không hợp lệ.
+http.conflict: Xung đột.
+http.forbidden: Bị cấm.
+http.gateway_timeout: Gateway timeout.
+http.gone: Đã bị xoá.
+http.internal_server_error: Lỗi máy chủ nội bộ.
+http.method_not_allowed: Phương thức không được phép.
+http.not_found: Không tìm thấy.
+http.not_implemented: Chưa triển khai.
+http.service_unavailable: Dịch vụ không khả dụng.
+http.validation_error: Xác thực thất bại.
+invites_and_beta.invalid_or_already_used_beta_code: Beta code không hợp lệ hoặc đã được sử dụng.
+invites_and_beta.max_beta_codes_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {mã beta} other {mã beta}}.'
+invites_and_beta.unknown_beta_code: Beta code không xác định.
+invites_and_gifts.gift_code_already_redeemed: Gift code đã được đổi rồi.
+invites_and_gifts.stripe_gift_redemption_in_progress: Đang xử lý đổi gift code. Thử lại sau một chút nhé.
+invites_and_gifts.unknown_gift_code: Gift code không xác định.
+invites_and_packs.emoji_requires_access: Bạn không thể dùng emoji này nếu không có quyền vào máy chủ của nó hoặc cài pack.
+invites_and_packs.invalid_pack_type: Loại pack không hợp lệ.
+invites_and_packs.max_animated_emojis_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {emoji động} other {emoji động}}.'
+invites_and_packs.max_emojis_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {emoji} other {emoji}}.'
+invites_and_packs.max_pack_expressions_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {expression} other {expression}} trong pack.'
+invites_and_packs.max_packs_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {pack} other {pack}}.'
+invites_and_packs.pack_access_denied: Bạn không có quyền truy cập pack.
+limits.at_least_one_entry_required: Cần ít nhất một mục.
+limits.base64_length_invalid: Độ dài chuỗi Base64 phải nằm trong khoảng {min} đến {maxLength} ký tự.
+limits.bucket_required: Cần `bucket`.
+limits.cannot_shrink_reserved_slots: Bạn không thể giảm số slot đã được giữ.
+limits.cannot_specify_before_and_after: Bạn không thể chỉ định cả `before` và `after`.
+limits.content_exceeds_max_length: Văn bản không được vượt quá {maxLength} {maxLength, plural, one {ký tự} other {ký tự}}.
+limits.integer_out_of_int64_range: Giá trị số nguyên nằm ngoài phạm vi int64 hợp lệ.
+limits.rows_required: Cần `rows`.
+limits.string_length_exact: Chuỗi phải đúng {length} ký tự.
+limits.string_length_invalid: Độ dài chuỗi phải nằm trong khoảng {min} đến {max} ký tự.
+limits.timeout_cannot_exceed_365_days: Thời gian chờ không thể dài hơn {maxDays} {maxDays, plural, one {ngày} other {ngày}} kể từ bây giờ.
+limits.value_must_be_integer_in_range: Giá trị cho `{name}` phải là số nguyên từ {minValue} đến {maxValue}.
+limits.value_too_small: Giá trị quá nhỏ.
+media_and_memes.favorite_meme_name_required: Cần tên meme yêu thích.
+media_and_memes.favorite_meme_not_found: Không tìm thấy meme yêu thích.
+media_and_memes.max_favorite_memes_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {meme yêu thích} other {meme yêu thích}}.'
+media_and_memes.media_already_in_favorites: Media này đã có trong meme yêu thích của bạn rồi.
+media_and_memes.media_metadata_error: Lỗi metadata media.
+media_and_memes.unknown_favorite_meme: Meme yêu thích không xác định.
+messages.cannot_delete_more_than_100: Bạn không thể xoá hơn {max} {max, plural, one {tin nhắn} other {tin nhắn}} một lúc.
+messages.cannot_edit_others_message: Bạn không thể sửa tin nhắn của người khác.
+messages.cannot_preload_more_than_100_channels: Bạn không thể tải trước hơn {max} {max, plural, one {kênh} other {kênh}} một lúc.
+messages.cannot_reply_to_system_message: Bạn không thể trả lời tin nhắn hệ thống.
+messages.cannot_send_empty_message: Bạn không thể gửi tin nhắn trống.
+messages.forward_messages_cannot_include_extra_content: Tin nhắn chuyển tiếp không được kèm nội dung, embed, tệp đính kèm, hoặc sticker.
+messages.forward_reference_requires_channel_and_message: Tham chiếu chuyển tiếp phải có `channel_id` và `message_id`.
+messages.invalid_message_data: Dữ liệu tin nhắn không hợp lệ.
+messages.invalid_scheduled_message_payload: Payload tin nhắn đặt lịch không hợp lệ.
+messages.message_ids_cannot_be_empty: '`message_ids` không được để trống.'
+messages.messages_array_required: Cần mảng `messages` và mảng này không được rỗng.
+messages.messages_with_snapshots_cannot_be_edited: Tin nhắn có snapshot không thể chỉnh sửa.
+messages.scheduled_messages_max_30_days: Tin nhắn đặt lịch có thể dài nhất 30 ngày trong tương lai.
+messages.scheduled_send_datetime_invalid: Ngày hoặc giờ đặt lịch gửi không hợp lệ.
+messages.scheduled_time_must_be_future: Thời gian đặt lịch phải ở tương lai.
+messages.voice_messages_attachment_must_be_audio: Attachment tin nhắn thoại phải là tệp âm thanh.
+messages.voice_messages_cannot_have_content: Tin nhắn thoại không thể có nội dung văn bản.
+messages.voice_messages_cannot_have_embeds: Tin nhắn thoại không thể có embed.
+messages.voice_messages_cannot_have_favorite_memes: Tin nhắn thoại không thể có meme yêu thích.
+messages.voice_messages_cannot_have_stickers: Tin nhắn thoại không thể có sticker.
+mfa_and_passkeys.invalid_mfa_code: Mã MFA không đúng.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: WebAuthn authentication counter không hợp lệ.
+mfa_and_passkeys.invalid_webauthn_credential_counter: WebAuthn credential counter không hợp lệ.
+mfa_and_passkeys.invalid_webauthn_credential: WebAuthn credential không hợp lệ.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Định dạng WebAuthn public key không hợp lệ.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Bạn phải bật 2FA trên tài khoản của mình trước khi yêu cầu điều đó từ các moderator.
+mfa_and_passkeys.no_passkeys_registered: Chưa đăng ký passkey nào.
+mfa_and_passkeys.passkey_authentication_failed: Xác thực bằng passkey thất bại.
+mfa_and_passkeys.passkeys_disabled: Passkey đang bị tắt.
+mfa_and_passkeys.two_factor_not_enabled: Xác thực hai bước chưa được bật.
+mfa_and_passkeys.two_factor_required: Cần bật xác thực hai bước.
+mfa_and_passkeys.unknown_webauthn_credential: WebAuthn credential không xác định.
+mfa_and_passkeys.webauthn_credential_limit_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {WebAuthn credential} other {WebAuthn credential}}.'
+misc_limits.max_bookmarks_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {dấu trang} other {dấu trang}}.'
+misc_limits.max_category_channels_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {kênh} other {kênh}} trong category.'
+misc_limits.max_friends_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {bạn bè} other {bạn bè}}.'
+misc_limits.max_invites_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {lời mời} other {lời mời}}.'
+misc_limits.max_pins_per_channel_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {ghim} other {ghim}} cho mỗi kênh.'
+misc.cannot_send_messages_in_non_text_channel: Bạn không thể gửi tin nhắn trong kênh không phải kênh văn bản.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Bạn cần xác minh email để gửi tin nhắn trong máy chủ này.
+misc.invalid_job_id: Job ID không hợp lệ.
+misc.invalid_permissions_integer: Permissions phải là số nguyên hợp lệ.
+misc.invalid_permissions_negative: Permissions không được là số âm.
+misc.invalid_request_generic: Yêu cầu không hợp lệ.
+misc.invalid_snowflake: Snowflake không hợp lệ.
+misc.job_already_processed: Job đã được xử lý rồi.
+misc.job_id_required: Cần Job ID.
+misc.job_not_found: Không tìm thấy job.
+misc.max_files_exceeded: Quá nhiều tệp. Tối đa {maxFiles} {maxFiles, plural, one {tệp} other {tệp}}.
+misc.must_have_bot_to_mark_system_user: Người dùng phải là bot để được đánh dấu là system user.
+moderation_and_reports.cannot_report_own_message: Bạn không thể báo cáo tin nhắn của chính mình.
+moderation_and_reports.cannot_report_yourself: Bạn không thể tự báo cáo mình.
+moderation_and_reports.invalid_dsa_report_target: Đối tượng báo cáo DSA không hợp lệ.
+moderation_and_reports.invalid_dsa_ticket: DSA ticket không hợp lệ.
+moderation_and_reports.invalid_dsa_verification_code: Mã xác minh DSA không hợp lệ.
+moderation_and_reports.report_already_resolved: Báo cáo đã được xử lý.
+moderation_and_reports.report_banned: Báo cáo bị cấm.
+moderation_and_reports.unknown_report: Báo cáo không xác định.
+moderation_and_reports.user_is_not_banned: Người dùng này không bị cấm.
+names_and_normalization.channel_name_empty_after_normalization: Tên kênh không được rỗng sau khi chuẩn hoá.
+names_and_normalization.name_empty_after_normalization: Tên không được rỗng sau khi chuẩn hoá.
+permissions.missing_access: Không có quyền truy cập.
+permissions.missing_permissions: Thiếu quyền.
+permissions.not_owner_of_admin_api_key: Bạn không có quyền chỉnh sửa admin API key này.
+permissions.user_banned_from_guild: Người dùng này bị cấm trong máy chủ này.
+permissions.user_ip_banned_from_guild: IP của người dùng này bị cấm trong máy chủ này.
+permissions.user_not_in_channel: Người dùng này không ở trong kênh này.
+permissions.user_not_in_voice: Người dùng này không ở trong kênh thoại.
+permissions.user_owns_guilds: Người dùng này đang sở hữu máy chủ.
+phone.invalid_number: Số điện thoại không hợp lệ.
+phone.number_already_used: Số điện thoại này đã được dùng.
+phone.number_format_required: 'Số điện thoại phải theo chuẩn E.164 (ví dụ: +1234567890).'
+phone.phone_required_for_sms_mfa: Cần số điện thoại để dùng MFA qua SMS.
+phone.sms_mfa_not_enabled: MFA qua SMS chưa được bật.
+phone.sms_mfa_requires_totp: MFA qua SMS yêu cầu TOTP.
+phone.sms_verification_unavailable: Xác minh qua SMS tạm thời không khả dụng. Thử lại sau nhé.
+phone.verification_code_invalid: Mã xác minh điện thoại không đúng.
+phone.verification_required: Cần xác minh số điện thoại.
+premium_and_plans.animated_avatars_require_premium: Avatar động yêu cầu Premium.
+premium_and_plans.banners_require_premium: Banner yêu cầu Premium.
+premium_and_plans.bio_requires_premium_for_length: Bio dài hơn {maxLength} ký tự yêu cầu Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Bạn không thể đổi Plutonium với gói Visionary.
+premium_and_plans.custom_emojis_outside_source_require_premium: Bạn không thể dùng emoji tuỳ chỉnh ngoài máy chủ gốc nếu không có Premium.
+premium_and_plans.custom_stickers_in_dms_require_premium: Bạn không thể dùng sticker tuỳ chỉnh trong DM nếu không có Premium.
+premium_and_plans.custom_stickers_outside_source_require_premium: Bạn không thể dùng sticker tuỳ chỉnh ngoài máy chủ gốc nếu không có Premium.
+premium_and_plans.discriminator_change_requires_premium: Đổi discriminator yêu cầu Premium.
+premium_and_plans.no_active_subscription: Không có gói đăng ký đang hoạt động.
+premium_and_plans.no_visionary_slots_available: Hiện không còn slot Visionary.
+premium_and_plans.premium_required_for_custom_emoji: Cần Premium để dùng emoji tuỳ chỉnh.
+premium_and_plans.visionary_required_for_bot_discriminator: Bạn phải dùng gói trọn đời Visionary để tuỳ chỉnh discriminator cho bot.
+premium_and_plans.visionary_required_for_discriminator: Bạn phải dùng gói trọn đời Visionary để dùng discriminator đó.
+rate_limits.accent_color_changed_too_often: Bạn đã đổi màu giao diện quá nhiều lần gần đây. Thử lại sau {minutes} {minutes, plural, one {phút} other {phút}}.
+rate_limits.avatar_changed_too_often: Bạn đã đổi avatar quá nhiều lần gần đây. Thử lại sau {minutes} {minutes, plural, one {phút} other {phút}}.
+rate_limits.banner_changed_too_often: Bạn đã đổi banner quá nhiều lần gần đây. Thử lại sau {minutes} {minutes, plural, one {phút} other {phút}}.
+rate_limits.bio_changed_too_often: Bạn đã đổi bio quá nhiều lần gần đây. Thử lại sau {minutes} {minutes, plural, one {phút} other {phút}}.
+rate_limits.ip_authorization_resend_cooldown: Gửi lại xác thực IP đang trong thời gian chờ.
+rate_limits.ip_authorization_resend_limit_exceeded: Bạn đã vượt quá giới hạn gửi lại xác thực IP.
+rate_limits.phone_rate_limit_exceeded: Bạn đã vượt quá giới hạn thao tác qua số điện thoại.
+rate_limits.pronouns_changed_too_often: Bạn đã đổi đại từ quá nhiều lần gần đây. Thử lại sau {minutes} {minutes, plural, one {phút} other {phút}}.
+rate_limits.rate_limited: Bạn đang bị giới hạn tốc độ.
+rate_limits.slowmode_rate_limited: Bạn đang bị giới hạn do chế độ chậm.
+rate_limits.username_changed_too_often: Bạn đã đổi tên người dùng quá nhiều lần gần đây. Thử lại sau {minutes} {minutes, plural, one {phút} other {phút}}.
+roles.cannot_reorder_everyone_role: Bạn không thể sắp xếp lại vai trò @everyone.
+roles.cannot_set_everyone_hoist: Bạn không thể bật hiển thị riêng cho vai trò @everyone.
+roles.cannot_use_same_role_as_preceding: Bạn không thể dùng cùng một vai trò như vai trò đứng trước.
+roles.invalid_role_id: 'ID vai trò không hợp lệ: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Bạn không thể dùng `parse` cùng với `allowed_mentions.users` hoặc `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Vai trò đứng trước không có trong máy chủ.
+stickers_and_emojis.custom_emoji_not_found: Không tìm thấy custom emoji.
+stickers_and_emojis.custom_sticker_not_found: Không tìm thấy custom sticker.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Bạn không thể dùng emoji này nếu không có quyền vào máy chủ của nó hoặc cài pack.
+stickers_and_emojis.max_reactions_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {reaction} other {reaction}}.'
+stickers_and_emojis.max_stickers_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {sticker} other {sticker}}.'
+stickers_and_emojis.not_valid_unicode_emoji: Không phải Unicode emoji hợp lệ.
+stickers_and_emojis.unknown_emoji: Emoji không xác định.
+stickers_and_emojis.unknown_sticker: Sticker không xác định.
+stripe.error: Lỗi Stripe.
+stripe.invalid_product_configuration: Cấu hình sản phẩm không hợp lệ.
+stripe.invalid_product_selection: Chọn sản phẩm không hợp lệ.
+stripe.no_active_subscription_found: Không tìm thấy gói đăng ký đang hoạt động.
+stripe.no_purchase_history_customer_portal_unavailable: Không có lịch sử mua hàng. Customer portal không khả dụng.
+stripe.no_subscription_found: Không tìm thấy gói đăng ký.
+stripe.payment_not_available: Xử lý thanh toán không khả dụng.
+stripe.subscription_already_canceling: Gói đăng ký đã được đặt huỷ vào cuối kỳ.
+stripe.subscription_not_canceling: Gói đăng ký chưa được đặt huỷ.
+stripe.subscription_period_end_missing: Thiếu subscription current_period_end.
+stripe.webhook_not_available: Xử lý webhook không khả dụng.
+stripe.webhook_signature_invalid: Chữ ký webhook Stripe không hợp lệ.
+stripe.webhook_signature_missing: Thiếu chữ ký webhook Stripe.
+tickets.ticket_already_completed: Ticket này đã hoàn thành rồi.
+tos_and_age.date_of_birth_format_invalid: Định dạng ngày sinh không hợp lệ.
+tos_and_age.must_agree_to_tos_and_privacy: Bạn phải đồng ý với Điều khoản dịch vụ và Chính sách quyền riêng tư.
+tos_and_age.must_be_minimum_age: Bạn phải đủ ít nhất {minAge} {minAge, plural, one {năm} other {năm}} tuổi để tạo tài khoản.
+unknown_entities.unknown_application: Ứng dụng không xác định.
+unknown_entities.unknown_channel: Kênh không xác định.
+unknown_entities.unknown_guild: Máy chủ không xác định.
+unknown_entities.unknown_invite: Lời mời không xác định.
+unknown_entities.unknown_member: Thành viên không xác định.
+unknown_entities.unknown_message: Tin nhắn không xác định.
+unknown_entities.unknown_pack: Pack không xác định.
+unknown_entities.unknown_role: Vai trò không xác định.
+unknown_entities.unknown_user_flag: User flag không xác định.
+unknown_entities.unknown_user: Người dùng không xác định.
+urls.invalid_url_format: Định dạng URL không hợp lệ.
+urls.invalid_url_or_attachment_reference: Định dạng URL hoặc tham chiếu attachment không hợp lệ.
+urls.url_length_invalid: URL phải dài từ {min} đến {max} ký tự.
+usernames_and_tags.discriminator_invalid_format: Discriminator phải là {min}–{max} chữ số.
+usernames_and_tags.discriminator_out_of_range: Discriminator phải nằm trong khoảng {min} đến {max}.
+usernames_and_tags.discriminator_required: Cần discriminator.
+usernames_and_tags.display_name_length_invalid: Tên hiển thị phải dài từ {min} đến {max} ký tự.
+usernames_and_tags.display_name_reserved_terms: Tên hiển thị không được chứa "system message".
+usernames_and_tags.display_name_reserved_value: Tên hiển thị không thể là "everyone" hoặc "here".
+usernames_and_tags.global_name_length_invalid: Tên toàn cục phải dài từ {min} đến {max} ký tự.
+usernames_and_tags.global_name_reserved_value: Tên toàn cục không thể là "everyone" hoặc "here".
+usernames_and_tags.tag_already_taken: Tag này đã có người dùng.
+usernames_and_tags.too_many_users_with_this_username: Có quá nhiều người dùng với tên này.
+usernames_and_tags.too_many_users_with_username_try_different: Có quá nhiều người dùng với tên này. Thử tên khác nhé.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Tài khoản chưa xác nhận chỉ có thể đặt email qua token.
+usernames_and_tags.username_invalid_characters: Tên người dùng chỉ được chứa chữ Latin (a-z, A-Z), số (0-9), và dấu gạch dưới (_).
+usernames_and_tags.username_length_invalid: Tên người dùng phải dài từ {min} đến {max} ký tự.
+usernames_and_tags.username_not_available: Tên người dùng này không khả dụng.
+usernames_and_tags.username_reserved_terms: Tên người dùng không được chứa "fluxer" hoặc "system message".
+usernames_and_tags.username_reserved_value: Tên người dùng không thể là "everyone" hoặc "here".
+vanity_urls.vanity_url_already_taken: Vanity URL này đã có người dùng.
+vanity_urls.vanity_url_code_already_taken: Mã vanity URL này đã có người dùng.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Mã vanity URL không được chứa "fluxer".
+vanity_urls.vanity_url_code_length_invalid: Mã vanity URL phải dài từ {min} đến {max} ký tự.
+vanity_urls.vanity_url_invalid_characters: Vanity URL chỉ được chứa chữ thường (a-z), số (0-9), và dấu gạch ngang (-).
+webhooks.cannot_modify_system_webhook: Bạn không thể chỉnh sửa tin nhắn hệ thống.
+webhooks.max_webhooks_per_channel_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {webhook} other {webhook}} cho mỗi kênh.'
+webhooks.max_webhooks_per_guild_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {webhook} other {webhook}} cho mỗi máy chủ.'
+webhooks.max_webhooks_reached: 'Bạn đã đạt giới hạn tối đa là {count} {count, plural, one {webhook} other {webhook}}.'
+webhooks.unknown_webhook: Webhook không xác định.
+webhooks.webhook_name_length_invalid: Tên webhook phải dài từ {min} đến {max} ký tự.

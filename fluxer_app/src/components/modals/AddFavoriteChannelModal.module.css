@@ -17,13 +17,6 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-.content {
-	display: flex;
-	flex-direction: column;
-	gap: 16px;
-	padding-bottom: 16px;
-}
-
 .footer {
 	align-items: center;
 	display: flex;

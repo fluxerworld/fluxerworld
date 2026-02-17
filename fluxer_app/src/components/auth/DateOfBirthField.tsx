@@ -17,42 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/auth/DateOfBirthField.module.css';
+import {Select} from '@app/components/form/Select';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {PASSWORD_MANAGER_IGNORE_ATTRIBUTES} from '@app/lib/PasswordManagerAutocomplete';
+import {getCurrentLocale} from '@app/utils/LocaleUtils';
+import {isMobileExperienceEnabled} from '@app/utils/MobileExperience';
+import {getDateFieldOrder, getMonthNames} from '@fluxer/date_utils/src/DateIntrospection';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useMemo} from 'react';
-import {Select} from '~/components/form/Select';
-import {getCurrentLocale} from '~/utils/LocaleUtils';
-import styles from './DateOfBirthField.module.css';
 
 type DateFieldType = 'month' | 'day' | 'year';
-
-function isMobileWebBrowser(): boolean {
-	return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-}
-
-function getDateFieldOrder(locale: string): Array<DateFieldType> {
-	const formatter = new Intl.DateTimeFormat(locale, {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-	});
-
-	const parts = formatter.formatToParts(new Date(2000, 0, 1));
-	const order: Array<DateFieldType> = [];
-
-	for (const part of parts) {
-		if (part.type === 'month' && !order.includes('month')) {
-			order.push('month');
-		} else if (part.type === 'day' && !order.includes('day')) {
-			order.push('day');
-		} else if (part.type === 'year' && !order.includes('year')) {
-			order.push('year');
-		}
-	}
-
-	return order;
-}
 
 interface DateOfBirthFieldProps {
 	selectedMonth: string;
@@ -122,16 +99,19 @@ function NativeDatePicker({
 				</legend>
 			</div>
 			<div className={styles.inputsContainer}>
-				<input
-					type="date"
-					className={styles.nativeDateInput}
-					value={dateValue}
-					onChange={handleDateChange}
-					min={minDate}
-					max={maxDate}
-					placeholder={dateOfBirthPlaceholder}
-					aria-invalid={!!error || undefined}
-				/>
+				<FocusRing offset={-2}>
+					<input
+						type="date"
+						{...PASSWORD_MANAGER_IGNORE_ATTRIBUTES}
+						className={styles.nativeDateInput}
+						value={dateValue}
+						onChange={handleDateChange}
+						min={minDate}
+						max={maxDate}
+						placeholder={dateOfBirthPlaceholder}
+						aria-invalid={!!error || undefined}
+					/>
+				</FocusRing>
 				{error && <span className={styles.errorText}>{error}</span>}
 			</div>
 		</fieldset>
@@ -159,12 +139,11 @@ export const DateOfBirthField = observer(function DateOfBirthField({
 		const currentDate = new Date();
 		const currentYear = currentDate.getFullYear();
 
+		const monthNames = getMonthNames(locale);
 		const allMonths = Array.from({length: 12}, (_, index) => {
-			const monthDate = new Date(2000, index, 1);
-			const monthName = new Intl.DateTimeFormat(locale, {month: 'long'}).format(monthDate);
 			return {
 				value: String(index + 1),
-				label: monthName,
+				label: monthNames[index],
 			};
 		});
 
@@ -195,7 +174,7 @@ export const DateOfBirthField = observer(function DateOfBirthField({
 		};
 	}, [selectedYear, selectedMonth, locale]);
 
-	if (isMobileWebBrowser()) {
+	if (isMobileExperienceEnabled()) {
 		return (
 			<NativeDatePicker
 				selectedMonth={selectedMonth}

@@ -17,20 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import styles from '@app/components/channel/ReplyBar.module.css';
+import wrapperStyles from '@app/components/channel/textarea/InputWrapper.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import GuildStore from '@app/stores/GuildStore';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {AtIcon, XCircleIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import GuildStore from '~/stores/GuildStore';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import styles from './ReplyBar.module.css';
-import wrapperStyles from './textarea/InputWrapper.module.css';
 
 interface ReplyBarProps {
 	replyingMessageObject: MessageRecord;

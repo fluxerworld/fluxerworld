@@ -1,0 +1,93 @@
+services:
+  weblate-postgres:
+    image: postgres:17-alpine
+    hostname: weblate-postgres
+    env_file:
+      - /etc/fluxer/weblate.env
+    volumes:
+      - weblate_postgres:/var/lib/postgresql/data
+    networks:
+      - fluxer-shared
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U weblate -d weblate']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  weblate:
+    image: weblate/weblate:latest
+    hostname: weblate
+    env_file:
+      - /etc/fluxer/weblate.env
+    volumes:
+      - weblate_data:/app/data
+      - weblate_cache:/app/cache
+    networks:
+      - fluxer-shared
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+      labels:
+        - 'caddy=i18n.fluxer.app'
+        - 'caddy.reverse_proxy={{upstreams 8080}}'
+        - 'caddy.header.Strict-Transport-Security="max-age=31536000; includeSubDomains; preload"'
+        - 'caddy.header.X-Xss-Protection="1; mode=block"'
+        - 'caddy.header.X-Content-Type-Options=nosniff'
+        - 'caddy.header.Referrer-Policy=strict-origin-when-cross-origin'
+        - 'caddy.header.X-Frame-Options=DENY'
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1:8080/ >/dev/null || exit 1']
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  weblate-worker:
+    image: weblate/weblate:latest
+    hostname: weblate-worker
+    env_file:
+      - /etc/fluxer/weblate.env
+    environment:
+      - WEBLATE_SERVICE=celery
+    networks:
+      - fluxer-shared
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+
+networks:
+  fluxer-shared:
+    external: true
+
+volumes:
+  weblate_postgres:
+    driver: local
+  weblate_data:
+    driver: local
+  weblate_cache:
+    driver: local

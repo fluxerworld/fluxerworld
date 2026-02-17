@@ -17,12 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {GuildRecord} from '@app/records/GuildRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import UserStore from '@app/stores/UserStore';
+import {GuildOperations, GuildVerificationLevel} from '@fluxer/constants/src/GuildConstants';
+import type {ValueOf} from '@fluxer/constants/src/ValueOf';
 import {makeAutoObservable} from 'mobx';
-import {GuildOperations, GuildVerificationLevel} from '~/Constants';
-import type {GuildRecord} from '~/records/GuildRecord';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import UserStore from '~/stores/UserStore';
 
 const FIVE_MINUTES_MS = 5 * 60 * 1000;
 const TEN_MINUTES_MS = 10 * 60 * 1000;
@@ -37,7 +38,7 @@ export const VerificationFailureReason = {
 	TIMED_OUT: 'TIMED_OUT',
 } as const;
 
-export type VerificationFailureReason = (typeof VerificationFailureReason)[keyof typeof VerificationFailureReason];
+export type VerificationFailureReason = ValueOf<typeof VerificationFailureReason>;
 
 interface VerificationStatus {
 	canAccess: boolean;

@@ -19,15 +19,15 @@
 
 -export([check_voice_permissions_and_limits/6]).
 
--type guild_state() :: map().
--type voice_state_map() :: #{binary() => map()}.
--type channel() :: map().
+-import(utils, [parse_iso8601_to_unix_ms/1]).
 
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
 -endif.
 
--import(utils, [parse_iso8601_to_unix_ms/1]).
+-type guild_state() :: map().
+-type voice_state_map() :: #{binary() => map()}.
+-type channel() :: map().
 
 -spec check_voice_permissions_and_limits(
     integer(), integer(), channel(), voice_state_map(), guild_state(), boolean()
@@ -45,8 +45,10 @@ check_voice_permissions_and_limits(UserId, ChannelIdValue, Channel, VoiceStates,
                     case
                         channel_has_capacity(UserId, ChannelIdValue, Channel, VoiceStates, IsUpdate)
                     of
-                        true -> {ok, allowed};
-                        false -> gateway_errors:error(voice_channel_full)
+                        true ->
+                            {ok, allowed};
+                        false ->
+                            gateway_errors:error(voice_channel_full)
                     end
             end
     end.
@@ -57,18 +59,26 @@ has_view_and_connect_perms(UserId, ChannelIdValue, State) ->
         true ->
             true;
         false ->
-            Permissions = resolve_permissions(UserId, ChannelIdValue, State),
-            ViewPerm = constants:view_channel_permission(),
-            ConnectPerm = constants:connect_permission(),
-            (Permissions band ViewPerm) =:= ViewPerm andalso
-                (Permissions band ConnectPerm) =:= ConnectPerm
+            case guild_virtual_channel_access:is_move_pending(UserId, ChannelIdValue, State) of
+                true ->
+                    true;
+                false ->
+                    Permissions = resolve_permissions(UserId, ChannelIdValue, State),
+                    ViewPerm = constants:view_channel_permission(),
+                    ConnectPerm = constants:connect_permission(),
+                    HasView = (Permissions band ViewPerm) =:= ViewPerm,
+                    HasConnect = (Permissions band ConnectPerm) =:= ConnectPerm,
+                    HasView andalso HasConnect
+            end
     end.
 
 -spec channel_has_capacity(integer(), integer(), channel(), voice_state_map(), boolean()) ->
     boolean().
 channel_has_capacity(UserId, ChannelIdValue, Channel, VoiceStates, IsUpdate) ->
     UserLimit = maps:get(<<"user_limit">>, Channel, 0),
-    case UserLimit of
+    AnyCameraActive = any_camera_active_in_channel(ChannelIdValue, VoiceStates),
+    EffectiveLimit = effective_user_limit(UserLimit, AnyCameraActive),
+    case EffectiveLimit of
         0 ->
             true;
         Limit when Limit > 0 ->
@@ -85,6 +95,26 @@ channel_has_capacity(UserId, ChannelIdValue, Channel, VoiceStates, IsUpdate) ->
             true
     end.
 
+-spec any_camera_active_in_channel(integer(), voice_state_map()) -> boolean().
+any_camera_active_in_channel(ChannelIdValue, VoiceStates) ->
+    lists:any(
+        fun({_ConnId, VS}) ->
+            case map_utils:get_integer(VS, <<"channel_id">>, undefined) of
+                ChannelIdValue ->
+                    maps:get(<<"self_video">>, VS, false) =:= true;
+                _ ->
+                    false
+            end
+        end,
+        maps:to_list(VoiceStates)
+    ).
+
+-spec effective_user_limit(integer(), boolean()) -> integer().
+effective_user_limit(0, false) -> 0;
+effective_user_limit(0, true) -> 25;
+effective_user_limit(Limit, false) -> Limit;
+effective_user_limit(Limit, true) -> min(Limit, 25).
+
 -spec is_member_timed_out(integer(), guild_state()) -> boolean().
 is_member_timed_out(UserId, State) ->
     case guild_permissions:find_member_by_user_id(UserId, State) of
@@ -98,13 +128,11 @@ is_member_timed_out(UserId, State) ->
                 undefined ->
                     false;
                 Value when is_integer(Value) ->
-                    Value > erlang:system_time(millisecond);
-                _ ->
-                    false
+                    Value > erlang:system_time(millisecond)
             end
     end.
 
--spec users_in_channel(integer(), voice_state_map()) -> sets:set().
+-spec users_in_channel(integer(), voice_state_map()) -> sets:set(integer()).
 users_in_channel(ChannelIdValue, VoiceStates0) ->
     VoiceStates = voice_state_utils:ensure_voice_states(VoiceStates0),
     maps:fold(
@@ -160,6 +188,18 @@ voice_permissions_existing_user_update_test() ->
         1, 10, #{<<"user_limit">> => 2}, VoiceStates, State, true
     ),
     ?assertEqual({ok, allowed}, Result).
+
+users_in_channel_test() ->
+    VoiceStates = #{
+        <<"conn1">> => #{<<"channel_id">> => <<"10">>, <<"user_id">> => <<"1">>},
+        <<"conn2">> => #{<<"channel_id">> => <<"10">>, <<"user_id">> => <<"2">>},
+        <<"conn3">> => #{<<"channel_id">> => <<"20">>, <<"user_id">> => <<"3">>}
+    },
+    Result = users_in_channel(10, VoiceStates),
+    ?assertEqual(2, sets:size(Result)),
+    ?assert(sets:is_element(1, Result)),
+    ?assert(sets:is_element(2, Result)),
+    ?assertNot(sets:is_element(3, Result)).
 
 required_voice_perms() ->
     constants:view_channel_permission() bor constants:connect_permission().

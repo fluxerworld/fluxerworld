@@ -17,30 +17,30 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import {AuthLoginLayout} from '@app/components/auth/AuthLoginLayout';
+import {AuthRouterLink} from '@app/components/auth/AuthRouterLink';
+import {useDesktopHandoffFlow} from '@app/components/auth/auth_login_core/useDesktopHandoffFlow';
+import {HandoffCodeDisplay} from '@app/components/auth/HandoffCodeDisplay';
+import MfaScreen from '@app/components/auth/MfaScreen';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import {useLocation} from '@app/lib/router/React';
+import AccountManager from '@app/stores/AccountManager';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import type {LoginSuccessPayload} from '@app/viewmodels/auth/AuthFlow';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useCallback, useMemo} from 'react';
-
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import {useDesktopHandoffFlow} from '~/components/auth/AuthLoginCore/useDesktopHandoffFlow';
-import {AuthLoginLayout} from '~/components/auth/AuthLoginLayout';
-import {AuthRouterLink} from '~/components/auth/AuthRouterLink';
-import {HandoffCodeDisplay} from '~/components/auth/HandoffCodeDisplay';
-import MfaScreen from '~/components/auth/MfaScreen';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import type {LoginSuccessPayload} from '~/hooks/useLoginFlow';
-import {useLocation} from '~/lib/router';
-import AccountManager from '~/stores/AccountManager';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import * as RouterUtils from '~/utils/RouterUtils';
 
 const LoginPage = observer(function LoginPage() {
 	const location = useLocation();
 	const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
 
-	const rawRedirect = params.get('redirect_to');
-	const isDesktopHandoff = params.get('desktop_handoff') === '1';
-	const initialEmail = params.get('email') ?? undefined;
+	const rawRedirect = params['get']('redirect_to');
+	const isDesktopHandoff = params['get']('desktop_handoff') === '1';
+	const initialEmail = params['get']('email') ?? undefined;
+	const registerSearch = rawRedirect ? {redirect_to: rawRedirect} : undefined;
 
 	const redirectPath = isDesktopHandoff ? undefined : rawRedirect || '/';
 
@@ -51,7 +51,7 @@ const LoginPage = observer(function LoginPage() {
 			excludeCurrentUser={false}
 			initialEmail={initialEmail}
 			registerLink={
-				<AuthRouterLink to="/register" search={{redirect_to: rawRedirect || undefined}}>
+				<AuthRouterLink to="/register" search={registerSearch}>
 					<Trans>Register</Trans>
 				</AuthRouterLink>
 			}
@@ -63,8 +63,8 @@ const LoginPageMFA = observer(function LoginPageMFA() {
 	const location = useLocation();
 	const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
 
-	const isDesktopHandoff = params.get('desktop_handoff') === '1';
-	const rawRedirect = params.get('redirect_to');
+	const isDesktopHandoff = params['get']('desktop_handoff') === '1';
+	const rawRedirect = params['get']('redirect_to');
 
 	const redirectTo = isDesktopHandoff ? undefined : rawRedirect || '/';
 

@@ -17,43 +17,41 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getOAuth2ScopeDescription} from '@app/AppConstants';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import type {OAuth2Authorization} from '@app/actions/OAuth2AuthorizationActionCreators';
+import * as OAuth2AuthorizationActionCreators from '@app/actions/OAuth2AuthorizationActionCreators';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {StatusSlate} from '@app/components/modals/shared/StatusSlate';
+import styles from '@app/components/modals/tabs/AuthorizedAppsTab.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {getUserAvatarURL} from '@app/utils/AvatarUtils';
+import {getCurrentLocale} from '@app/utils/LocaleUtils';
+import type {OAuth2Scope} from '@fluxer/constants/src/OAuth2Constants';
+import {getFormattedShortDate} from '@fluxer/date_utils/src/DateFormatting';
 import {t} from '@lingui/core/macro';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {AppWindowIcon, CaretDownIcon, NetworkSlashIcon} from '@phosphor-icons/react';
 import clsx from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import type {OAuth2Authorization} from '~/actions/OAuth2AuthorizationActionCreators';
-import * as OAuth2AuthorizationActionCreators from '~/actions/OAuth2AuthorizationActionCreators';
-import {getOAuth2ScopeDescription, type OAuth2Scope} from '~/Constants';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {StatusSlate} from '~/components/modals/shared/StatusSlate';
-import {Button} from '~/components/uikit/Button/Button';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Spinner} from '~/components/uikit/Spinner';
-import {getUserAvatarURL} from '~/utils/AvatarUtils';
-import styles from './AuthorizedAppsTab.module.css';
+import {useCallback, useEffect, useState} from 'react';
 
 const formatDate = (dateString: string): string => {
-	const date = new Date(dateString);
-	return date.toLocaleDateString(undefined, {
-		year: 'numeric',
-		month: 'short',
-		day: 'numeric',
-	});
+	return getFormattedShortDate(dateString, getCurrentLocale());
 };
 
 const AuthorizedAppsTab = observer(function AuthorizedAppsTab() {
 	const {i18n} = useLingui();
 
-	const [authorizations, setAuthorizations] = React.useState<Array<OAuth2Authorization>>([]);
-	const [loading, setLoading] = React.useState(true);
-	const [error, setError] = React.useState<string | null>(null);
-	const [expandedIds, setExpandedIds] = React.useState<Set<string>>(new Set());
+	const [authorizations, setAuthorizations] = useState<Array<OAuth2Authorization>>([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState<string | null>(null);
+	const [expandedIds, setExpandedIds] = useState<Set<string>>(new Set());
 
-	const toggleExpanded = React.useCallback((appId: string) => {
+	const toggleExpanded = useCallback((appId: string) => {
 		setExpandedIds((prev) => {
 			const next = new Set(prev);
 			if (next.has(appId)) {
@@ -65,7 +63,7 @@ const AuthorizedAppsTab = observer(function AuthorizedAppsTab() {
 		});
 	}, []);
 
-	const loadAuthorizations = React.useCallback(async () => {
+	const loadAuthorizations = useCallback(async () => {
 		setLoading(true);
 		setError(null);
 
@@ -73,17 +71,17 @@ const AuthorizedAppsTab = observer(function AuthorizedAppsTab() {
 			const data = await OAuth2AuthorizationActionCreators.listAuthorizations();
 			setAuthorizations(data);
 		} catch (_err) {
-			setError(t`Failed to load authorized applications`);
+			setError(t`Failed to Load Authorized Applications`);
 		} finally {
 			setLoading(false);
 		}
 	}, []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		loadAuthorizations();
 	}, [loadAuthorizations]);
 
-	const handleDeauthorize = React.useCallback((authorization: OAuth2Authorization) => {
+	const handleDeauthorize = useCallback((authorization: OAuth2Authorization) => {
 		const appName = authorization.application.name;
 
 		ModalActionCreators.push(
@@ -114,7 +112,7 @@ const AuthorizedAppsTab = observer(function AuthorizedAppsTab() {
 		return (
 			<StatusSlate
 				Icon={NetworkSlashIcon}
-				title={t`Failed to load authorized applications`}
+				title={t`Failed to Load Authorized Applications`}
 				description={error}
 				actions={[
 					{
@@ -150,7 +148,7 @@ const AuthorizedAppsTab = observer(function AuthorizedAppsTab() {
 			</div>
 
 			<div className={styles.scrollContainer}>
-				<Scroller className={styles.scrollerPadding}>
+				<div className={styles.scrollerPadding}>
 					<div className={styles.appList}>
 						{authorizations.map((authorization) => {
 							const iconUrl = authorization.application.icon
@@ -165,38 +163,40 @@ const AuthorizedAppsTab = observer(function AuthorizedAppsTab() {
 
 							return (
 								<div key={authorization.application.id} className={styles.appCard}>
-									<button
-										type="button"
-										className={styles.headerButton}
-										onClick={() => toggleExpanded(authorization.application.id)}
-										aria-expanded={isExpanded}
-									>
-										<div className={styles.left}>
-											<div className={styles.appAvatar} aria-hidden>
-												{iconUrl ? (
-													<img src={iconUrl} alt={authorization.application.name} className={styles.appAvatarImage} />
-												) : (
-													<AppWindowIcon className={styles.appAvatarPlaceholder} />
-												)}
+									<FocusRing offset={-2}>
+										<button
+											type="button"
+											className={styles.headerButton}
+											onClick={() => toggleExpanded(authorization.application.id)}
+											aria-expanded={isExpanded}
+										>
+											<div className={styles.left}>
+												<div className={styles.appAvatar} aria-hidden>
+													{iconUrl ? (
+														<img src={iconUrl} alt={authorization.application.name} className={styles.appAvatarImage} />
+													) : (
+														<AppWindowIcon className={styles.appAvatarPlaceholder} />
+													)}
+												</div>
+
+												<div className={styles.textBlock}>
+													<div className={styles.titleRow}>
+														<span className={styles.appName}>{authorization.application.name}</span>
+													</div>
+													<div className={styles.metaRow}>
+														<span className={styles.metaText}>
+															<Trans>Authorized on {authorizedOn}</Trans>
+														</span>
+													</div>
+												</div>
 											</div>
 
-											<div className={styles.textBlock}>
-												<div className={styles.titleRow}>
-													<span className={styles.appName}>{authorization.application.name}</span>
-												</div>
-												<div className={styles.metaRow}>
-													<span className={styles.metaText}>
-														<Trans>Authorized on {authorizedOn}</Trans>
-													</span>
-												</div>
-											</div>
-										</div>
-
-										<CaretDownIcon
-											weight="bold"
-											className={clsx(styles.chevron, isExpanded && styles.chevronExpanded)}
-										/>
-									</button>
+											<CaretDownIcon
+												weight="bold"
+												className={clsx(styles.chevron, isExpanded && styles.chevronExpanded)}
+											/>
+										</button>
+									</FocusRing>
 
 									{isExpanded && (
 										<div className={styles.details}>
@@ -230,7 +230,7 @@ const AuthorizedAppsTab = observer(function AuthorizedAppsTab() {
 							);
 						})}
 					</div>
-				</Scroller>
+				</div>
 			</div>
 		</div>
 	);

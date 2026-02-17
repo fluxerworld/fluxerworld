@@ -17,20 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ImageCropModal} from '@app/components/modals/ImageCropModal';
+import type {ValueOf} from '@fluxer/constants/src/ValueOf';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {ImageCropModal} from '~/components/modals/ImageCropModal';
 
-export enum AssetType {
-	AVATAR = 'avatar',
-	GUILD_ICON = 'guild_icon',
-	CHANNEL_ICON = 'channel_icon',
-	GUILD_BANNER = 'guild_banner',
-	PROFILE_BANNER = 'profile_banner',
-	SPLASH = 'splash',
-	EMBED_SPLASH = 'embed_splash',
-}
+export const AssetType = {
+	AVATAR: 'avatar',
+	GUILD_ICON: 'guild_icon',
+	CHANNEL_ICON: 'channel_icon',
+	GUILD_BANNER: 'guild_banner',
+	PROFILE_BANNER: 'profile_banner',
+	SPLASH: 'splash',
+	EMBED_SPLASH: 'embed_splash',
+} as const;
+
+export type AssetType = ValueOf<typeof AssetType>;
 
 interface AssetConfig {
 	aspectRatio: number;

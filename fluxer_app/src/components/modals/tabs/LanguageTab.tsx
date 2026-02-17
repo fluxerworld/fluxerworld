@@ -17,23 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AccessibilityActionCreators from '@app/actions/AccessibilityActionCreators';
+import * as UserSettingsActionCreators from '@app/actions/UserSettingsActionCreators';
+import {Switch} from '@app/components/form/Switch';
+import {SettingsTabContainer, SettingsTabSection} from '@app/components/modals/shared/SettingsTabLayout';
+import styles from '@app/components/modals/tabs/LanguageTab.module.css';
+import type {RadioOption} from '@app/components/uikit/radio_group/RadioGroup';
+import {RadioGroup} from '@app/components/uikit/radio_group/RadioGroup';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import * as EmojiUtils from '@app/utils/EmojiUtils';
+import * as LocaleUtils from '@app/utils/LocaleUtils';
+import * as NativeUtils from '@app/utils/NativeUtils';
+import {TimeFormatTypes} from '@fluxer/constants/src/UserConstants';
+import {getFormattedTime} from '@fluxer/date_utils/src/DateFormatting';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import * as AccessibilityActionCreators from '~/actions/AccessibilityActionCreators';
-import * as UserSettingsActionCreators from '~/actions/UserSettingsActionCreators';
-import {TimeFormatTypes} from '~/Constants';
-import {Switch} from '~/components/form/Switch';
-import {SettingsTabContainer, SettingsTabSection} from '~/components/modals/shared/SettingsTabLayout';
-import type {RadioOption} from '~/components/uikit/RadioGroup/RadioGroup';
-import {RadioGroup} from '~/components/uikit/RadioGroup/RadioGroup';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import * as EmojiUtils from '~/utils/EmojiUtils';
-import * as LocaleUtils from '~/utils/LocaleUtils';
-import * as NativeUtils from '~/utils/NativeUtils';
-import styles from './LanguageTab.module.css';
 
 const LanguageTab = observer(() => {
 	const {t} = useLingui();
@@ -44,7 +45,7 @@ const LanguageTab = observer(() => {
 
 	const getAutoTimeFormatDescription = () => {
 		const appLocale = UserSettingsStore.getLocale();
-		const browserLocale = typeof navigator !== 'undefined' ? navigator.language : appLocale;
+		const browserLocale = navigator.language;
 		const effectiveLocale = AccessibilityStore.useBrowserLocaleForTimeFormat ? browserLocale : appLocale;
 
 		const localeUses12Hour = (locale: string): boolean => {
@@ -73,11 +74,7 @@ const LanguageTab = observer(() => {
 
 		const uses12Hour = localeUses12Hour(effectiveLocale);
 		const sampleDate = new Date(2025, 0, 1, 14, 30, 0);
-		const format = sampleDate.toLocaleString(effectiveLocale, {
-			hour: 'numeric',
-			minute: 'numeric',
-			hour12: uses12Hour,
-		});
+		const format = getFormattedTime(sampleDate, effectiveLocale, uses12Hour);
 
 		if (AccessibilityStore.useBrowserLocaleForTimeFormat) {
 			return isDesktop
@@ -91,13 +88,13 @@ const LanguageTab = observer(() => {
 	const get12HourExample = () => {
 		const locale = UserSettingsStore.getLocale();
 		const sampleDate = new Date(2025, 0, 1, 14, 30, 0);
-		return sampleDate.toLocaleString(locale, {hour: 'numeric', minute: 'numeric', hour12: true});
+		return getFormattedTime(sampleDate, locale, true);
 	};
 
 	const get24HourExample = () => {
 		const locale = UserSettingsStore.getLocale();
 		const sampleDate = new Date(2025, 0, 1, 14, 30, 0);
-		return sampleDate.toLocaleString(locale, {hour: 'numeric', minute: 'numeric', hour12: false});
+		return getFormattedTime(sampleDate, locale, false);
 	};
 
 	const timeFormatOptions: ReadonlyArray<RadioOption<number>> = [

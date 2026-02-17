@@ -17,18 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {GuildRecord} from '@app/records/GuildRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildStore from '@app/stores/GuildStore';
+import UserStore from '@app/stores/UserStore';
+import * as PermissionUtils from '@app/utils/PermissionUtils';
+import type {ChannelId, GuildId, UserId} from '@fluxer/schema/src/branded/WireIds';
+import type {Channel} from '@fluxer/schema/src/domains/channel/ChannelSchemas';
+import type {Guild} from '@fluxer/schema/src/domains/guild/GuildResponseSchemas';
 import {makeAutoObservable, observable, reaction} from 'mobx';
-import type {Channel} from '~/records/ChannelRecord';
-import type {Guild, GuildRecord} from '~/records/GuildRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildStore from '~/stores/GuildStore';
-import UserStore from '~/stores/UserStore';
-import * as PermissionUtils from '~/utils/PermissionUtils';
-
-type ChannelId = string;
-type GuildId = string;
-type UserId = string;
 
 const isChannelLike = (value: unknown): value is Channel => {
 	return Boolean(value && typeof value === 'object' && 'type' in value && 'id' in value);
@@ -48,36 +46,33 @@ class PermissionStore {
 		makeAutoObservable(this, {}, {autoBind: true});
 	}
 
-	getChannelPermissions(channelId: ChannelId): bigint | undefined {
-		return this.channelPermissions.get(channelId);
+	getChannelPermissions(channelId: string): bigint | undefined {
+		return this.channelPermissions.get(channelId as ChannelId);
 	}
 
-	getGuildPermissions(guildId: GuildId): bigint | undefined {
-		return this.guildPermissions.get(guildId);
+	getGuildPermissions(guildId: string): bigint | undefined {
+		return this.guildPermissions.get(guildId as GuildId);
 	}
 
-	getGuildVersion(guildId: GuildId): number | undefined {
-		return this.guildVersions.get(guildId);
+	getGuildVersion(guildId: string): number | undefined {
+		return this.guildVersions.get(guildId as GuildId);
 	}
 
 	get version(): number {
 		return this.globalVersion;
 	}
 
-	can(
-		permission: bigint,
-		context: Channel | Guild | GuildRecord | {channelId?: ChannelId; guildId?: GuildId},
-	): boolean {
+	can(permission: bigint, context: Channel | Guild | GuildRecord | {channelId?: string; guildId?: string}): boolean {
 		let permissions = PermissionUtils.NONE;
 
 		if (isChannelLike(context)) {
-			permissions = this.channelPermissions.get(context.id) ?? PermissionUtils.NONE;
+			permissions = this.channelPermissions.get(context.id as ChannelId) ?? PermissionUtils.NONE;
 		} else if (isGuildLike(context)) {
-			permissions = this.guildPermissions.get(context.id) ?? PermissionUtils.NONE;
+			permissions = this.guildPermissions.get(context.id as GuildId) ?? PermissionUtils.NONE;
 		} else if (context.channelId) {
-			permissions = this.channelPermissions.get(context.channelId) ?? PermissionUtils.NONE;
+			permissions = this.channelPermissions.get(context.channelId as ChannelId) ?? PermissionUtils.NONE;
 		} else if (context.guildId) {
-			permissions = this.guildPermissions.get(context.guildId) ?? PermissionUtils.NONE;
+			permissions = this.guildPermissions.get(context.guildId as GuildId) ?? PermissionUtils.NONE;
 		}
 
 		return (permissions & permission) === permission;
@@ -129,7 +124,7 @@ class PermissionStore {
 		this.handleGuildMemberUpdate(userId);
 	}
 
-	handleChannelUpdate(channelId: ChannelId): void {
+	handleChannelUpdate(channelId: string): void {
 		const channel = ChannelStore.getChannel(channelId);
 		if (!channel) {
 			return;
@@ -138,27 +133,33 @@ class PermissionStore {
 		const currentUser = UserStore.currentUser;
 		if (!currentUser) return;
 
-		this.channelPermissions.set(channel.id, PermissionUtils.computePermissions(currentUser, channel.toJSON()));
+		this.channelPermissions.set(
+			channel.id as ChannelId,
+			PermissionUtils.computePermissions(currentUser, channel.toJSON()),
+		);
 		this.bumpGuildVersion(channel.guildId);
 	}
 
-	handleChannelDelete(channelId: ChannelId, guildId?: GuildId): void {
-		this.channelPermissions.delete(channelId);
+	handleChannelDelete(channelId: string, guildId?: string): void {
+		this.channelPermissions.delete(channelId as ChannelId);
 		this.bumpGuildVersion(guildId);
 	}
 
-	handleGuildRole(guildId: GuildId): void {
+	handleGuildRole(guildId: string): void {
 		const currentUser = UserStore.currentUser;
 		if (!currentUser) return;
 
 		const guild = GuildStore.getGuild(guildId);
 		if (!guild) return;
 
-		this.guildPermissions.set(guildId, PermissionUtils.computePermissions(currentUser, guild.toJSON()));
+		this.guildPermissions.set(guildId as GuildId, PermissionUtils.computePermissions(currentUser, guild.toJSON()));
 
 		for (const channel of ChannelStore.channels) {
 			if (channel.guildId === guildId) {
-				this.channelPermissions.set(channel.id, PermissionUtils.computePermissions(currentUser, channel.toJSON()));
+				this.channelPermissions.set(
+					channel.id as ChannelId,
+					PermissionUtils.computePermissions(currentUser, channel.toJSON()),
+				);
 			}
 		}
 
@@ -179,20 +180,23 @@ class PermissionStore {
 		this.channelPermissions.clear();
 
 		for (const guild of GuildStore.getGuilds()) {
-			this.guildPermissions.set(guild.id, PermissionUtils.computePermissions(user, guild.toJSON()));
+			this.guildPermissions.set(guild.id as GuildId, PermissionUtils.computePermissions(user, guild.toJSON()));
 			this.bumpGuildVersion(guild.id);
 		}
 
 		for (const channel of ChannelStore.channels) {
 			if (Object.keys(channel.permissionOverwrites).length === 0) {
 				if (channel.guildId != null) {
-					const guildPerms = this.guildPermissions.get(channel.guildId) ?? PermissionUtils.NONE;
-					this.channelPermissions.set(channel.id, guildPerms);
+					const guildPerms = this.guildPermissions.get(channel.guildId as GuildId) ?? PermissionUtils.NONE;
+					this.channelPermissions.set(channel.id as ChannelId, guildPerms);
 				} else {
-					this.channelPermissions.set(channel.id, PermissionUtils.NONE);
+					this.channelPermissions.set(channel.id as ChannelId, PermissionUtils.NONE);
 				}
 			} else {
-				this.channelPermissions.set(channel.id, PermissionUtils.computePermissions(user, channel.toJSON()));
+				this.channelPermissions.set(
+					channel.id as ChannelId,
+					PermissionUtils.computePermissions(user, channel.toJSON()),
+				);
 			}
 
 			this.bumpGuildVersion(channel.guildId);
@@ -205,10 +209,10 @@ class PermissionStore {
 		this.globalVersion += 1;
 	}
 
-	private bumpGuildVersion(guildId?: GuildId | null): void {
+	private bumpGuildVersion(guildId?: string | null): void {
 		if (!guildId) return;
-		const current = this.guildVersions.get(guildId) ?? 0;
-		this.guildVersions.set(guildId, current + 1);
+		const current = this.guildVersions.get(guildId as GuildId) ?? 0;
+		this.guildVersions.set(guildId as GuildId, current + 1);
 		this.bumpGlobalVersion();
 	}
 

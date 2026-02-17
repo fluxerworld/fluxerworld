@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/embeds/media/MediaButtons.module.css';
 import {observer} from 'mobx-react-lite';
 import type {FC, ReactNode} from 'react';
-import styles from './MediaButtons.module.css';
 
 interface OverlayPlayButtonProps {
 	onClick: (event: React.MouseEvent) => void;

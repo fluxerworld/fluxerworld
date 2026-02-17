@@ -17,10 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {UserRecord} from '@app/records/UserRecord';
+import UserStore from '@app/stores/UserStore';
+import {getReactionKey, type ReactionEmoji} from '@app/utils/ReactionUtils';
+import type {UserPartial} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 import {makeAutoObservable} from 'mobx';
-import {type UserPartial, UserRecord} from '~/records/UserRecord';
-import UserStore from '~/stores/UserStore';
-import {getReactionKey, type ReactionEmoji} from '~/utils/ReactionUtils';
 
 type ReactionUsers = Record<string, UserRecord>;
 

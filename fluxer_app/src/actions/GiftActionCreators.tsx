@@ -17,21 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {GenericErrorModal} from '@app/components/alerts/GenericErrorModal';
+import {GiftAcceptModal} from '@app/components/modals/GiftAcceptModal';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {HttpError} from '@app/lib/HttpError';
+import {Logger} from '@app/lib/Logger';
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import GiftStore from '@app/stores/GiftStore';
+import UserStore from '@app/stores/UserStore';
+import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
+import {MS_PER_DAY} from '@fluxer/date_utils/src/DateConstants';
+import type {UserPartial} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {APIErrorCodes} from '~/Constants';
-import {GenericErrorModal} from '~/components/alerts/GenericErrorModal';
-import {GiftAcceptModal} from '~/components/modals/GiftAcceptModal';
-import {Endpoints} from '~/Endpoints';
-import http, {HttpError} from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {UserPartial} from '~/records/UserRecord';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import GiftStore from '~/stores/GiftStore';
-import UserStore from '~/stores/UserStore';
 
 interface ApiErrorResponse {
 	code?: string;
@@ -57,7 +59,7 @@ export interface GiftMetadata {
 	redeemed_by: UserPartial | null;
 }
 
-export const fetch = async (code: string): Promise<Gift> => {
+export async function fetch(code: string): Promise<Gift> {
 	try {
 		const response = await http.get<Gift>({url: Endpoints.GIFT(code)});
 		const gift = response.body;
@@ -72,21 +74,21 @@ export const fetch = async (code: string): Promise<Gift> => {
 
 		throw error;
 	}
-};
+}
 
-export const fetchWithCoalescing = async (code: string): Promise<Gift> => {
+export async function fetchWithCoalescing(code: string): Promise<Gift> {
 	return GiftStore.fetchGift(code);
-};
+}
 
-export const openAcceptModal = async (code: string): Promise<void> => {
+export async function openAcceptModal(code: string): Promise<void> {
 	void fetchWithCoalescing(code).catch(() => {});
 	ModalActionCreators.pushWithKey(
 		modal(() => <GiftAcceptModal code={code} />),
 		`gift-accept-${code}`,
 	);
-};
+}
 
-export const redeem = async (i18n: I18n, code: string): Promise<void> => {
+export async function redeem(i18n: I18n, code: string): Promise<void> {
 	try {
 		await http.post({url: Endpoints.GIFT_REDEEM(code)});
 		logger.info('Gift redeemed', {code});
@@ -167,9 +169,9 @@ export const redeem = async (i18n: I18n, code: string): Promise<void> => {
 
 		throw error;
 	}
-};
+}
 
-export const fetchUserGifts = async (): Promise<Array<GiftMetadata>> => {
+export async function fetchUserGifts(): Promise<Array<GiftMetadata>> {
 	if (DeveloperOptionsStore.mockGiftInventory) {
 		const currentUser = UserStore.getCurrentUser();
 		const userPartial: UserPartial = currentUser
@@ -177,20 +179,24 @@ export const fetchUserGifts = async (): Promise<Array<GiftMetadata>> => {
 					id: currentUser.id,
 					username: currentUser.username,
 					discriminator: currentUser.discriminator,
+					global_name: currentUser.globalName,
 					avatar: currentUser.avatar,
+					avatar_color: currentUser.avatarColor ?? null,
 					flags: currentUser.flags,
 				}
 			: {
 					id: '000000000000000000',
 					username: 'MockUser',
 					discriminator: '0000',
+					global_name: null,
 					avatar: null,
+					avatar_color: null,
 					flags: 0,
 				};
 
 		const now = new Date();
-		const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-		const twoDaysAgo = new Date(now.getTime() - 2 * 24 * 60 * 60 * 1000);
+		const sevenDaysAgo = new Date(now.getTime() - 7 * MS_PER_DAY);
+		const twoDaysAgo = new Date(now.getTime() - 2 * MS_PER_DAY);
 
 		const durationMonths = DeveloperOptionsStore.mockGiftDurationMonths ?? 12;
 		const isRedeemed = DeveloperOptionsStore.mockGiftRedeemed ?? false;
@@ -217,4 +223,4 @@ export const fetchUserGifts = async (): Promise<Array<GiftMetadata>> => {
 		logger.error('User gifts fetch failed', error);
 		throw error;
 	}
-};
+}

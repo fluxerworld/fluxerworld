@@ -17,34 +17,39 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as MediaViewerActionCreators from '@app/actions/MediaViewerActionCreators';
+import {AltTextBadge} from '@app/components/channel/embeds/AltTextBadge';
+import {deriveDefaultNameFromMessage} from '@app/components/channel/embeds/EmbedUtils';
+import styles from '@app/components/channel/embeds/media/EmbedVideo.module.css';
+import {OverlayPlayButton} from '@app/components/channel/embeds/media/MediaButtons';
+import {getMediaButtonVisibility} from '@app/components/channel/embeds/media/MediaButtonUtils';
+import {MediaContainer} from '@app/components/channel/embeds/media/MediaContainer';
+import type {BaseMediaProps} from '@app/components/channel/embeds/media/MediaTypes';
+import {NSFWBlurOverlay} from '@app/components/channel/embeds/NSFWBlurOverlay';
+import {useMaybeMessageViewContext} from '@app/components/channel/MessageViewContext';
+import {VideoPlayer} from '@app/components/media_player/components/VideoPlayer';
+import {MediaContextMenu} from '@app/components/uikit/context_menu/MediaContextMenu';
+import {useDeleteAttachment} from '@app/hooks/useDeleteAttachment';
+import {useMediaFavorite} from '@app/hooks/useMediaFavorite';
+import {useNSFWMedia} from '@app/hooks/useNSFWMedia';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import VideoVolumeStore from '@app/stores/VideoVolumeStore';
+import {createCalculator} from '@app/utils/DimensionUtils';
+import {createSaveHandler} from '@app/utils/FileDownloadUtils';
+import * as ImageCacheUtils from '@app/utils/ImageCacheUtils';
+import {buildMediaProxyURL} from '@app/utils/MediaProxyUtils';
+import {attachmentsToViewerItems, findViewerItemIndex} from '@app/utils/MediaViewerItemUtils';
+import type {MessageAttachment} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {useLingui} from '@lingui/react/macro';
-import {PlayIcon} from '@phosphor-icons/react';
+import {PlayIcon, SpeakerHighIcon, SpeakerXIcon} from '@phosphor-icons/react';
 import {AnimatePresence, motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
 import type {FC} from 'react';
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {thumbHashToDataURL} from 'thumbhash';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as MediaViewerActionCreators from '~/actions/MediaViewerActionCreators';
-import {deriveDefaultNameFromMessage} from '~/components/channel/embeds/EmbedUtils';
-import {OverlayPlayButton} from '~/components/channel/embeds/media/MediaButtons';
-import {getMediaButtonVisibility} from '~/components/channel/embeds/media/MediaButtonUtils';
-import {MediaContainer} from '~/components/channel/embeds/media/MediaContainer';
-import type {BaseMediaProps} from '~/components/channel/embeds/media/MediaTypes';
-import {NSFWBlurOverlay} from '~/components/channel/embeds/NSFWBlurOverlay';
-import {VideoPlayer} from '~/components/media-player/components/VideoPlayer';
-import {MediaContextMenu} from '~/components/uikit/ContextMenu/MediaContextMenu';
-import {useDeleteAttachment} from '~/hooks/useDeleteAttachment';
-import {useMediaFavorite} from '~/hooks/useMediaFavorite';
-import {useNSFWMedia} from '~/hooks/useNSFWMedia';
-import type {MessageAttachment} from '~/records/MessageRecord';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import {createCalculator} from '~/utils/DimensionUtils';
-import {createSaveHandler} from '~/utils/FileDownloadUtils';
-import * as ImageCacheUtils from '~/utils/ImageCacheUtils';
-import {buildMediaProxyURL} from '~/utils/MediaProxyUtils';
-import styles from './EmbedVideo.module.css';
 
 const VIDEO_CONFIG = {
 	MAX_WIDTH: 400,
@@ -61,6 +66,7 @@ type EmbedVideoProps = BaseMediaProps & {
 	height: number;
 	placeholder?: string;
 	title?: string;
+	alt?: string;
 	duration?: number;
 	embedUrl?: string;
 	fillContainer?: boolean;
@@ -73,18 +79,22 @@ const MobileVideoOverlay: FC<{
 	posterSrc: string | null;
 	posterLoaded: boolean;
 	onTap: () => void;
+	onPlayInline: () => void;
 	title?: string;
-}> = observer(({thumbHashURL, posterSrc, posterLoaded, onTap, title}) => {
+	alt?: string;
+	onPopoutToggle?: (open: boolean) => void;
+}> = observer(({thumbHashURL, posterSrc, posterLoaded, onTap, onPlayInline, title, alt, onPopoutToggle}) => {
 	const {t} = useLingui();
 	return (
-		<button type="button" className={styles.videoOverlay} onClick={onTap} aria-label={t`Play video`}>
+		// biome-ignore lint/a11y/noStaticElementInteractions: presentation overlay handles tap to play
+		<div className={styles.videoOverlay} onClick={onTap} role="presentation">
 			<AnimatePresence>
 				{thumbHashURL && !posterLoaded && (
 					<motion.img
 						key="placeholder"
 						initial={{opacity: 1}}
 						exit={{opacity: 0}}
-						transition={{duration: 0.2}}
+						transition={{duration: AccessibilityStore.useReducedMotion ? 0 : 0.2}}
 						src={thumbHashURL}
 						alt={title ? t`Thumbnail for ${title}` : t`Video thumbnail`}
 						className={styles.thumbnailPlaceholder}
@@ -100,10 +110,30 @@ const MobileVideoOverlay: FC<{
 				/>
 			)}
 
-			<div className={styles.playButtonWrapper}>
-				<OverlayPlayButton onClick={onTap} icon={<PlayIcon size={28} aria-hidden="true" />} ariaLabel={t`Play video`} />
+			<div
+				className={styles.playButtonWrapper}
+				onClick={(e) => {
+					e.stopPropagation();
+					onPlayInline();
+				}}
+				onKeyDown={(e) => {
+					if (e.key === 'Enter' || e.key === ' ') {
+						e.stopPropagation();
+						onPlayInline();
+					}
+				}}
+				role="button"
+				tabIndex={0}
+			>
+				<OverlayPlayButton
+					onClick={onPlayInline}
+					icon={<PlayIcon size={28} aria-hidden="true" />}
+					ariaLabel={t`Play video`}
+				/>
 			</div>
-		</button>
+
+			<AltTextBadge altText={alt} onPopoutToggle={onPopoutToggle} />
+		</div>
 	);
 });
 
@@ -114,6 +144,7 @@ const EmbedVideo: FC<EmbedVideoProps> = observer(
 		height,
 		placeholder,
 		title,
+		alt,
 		duration,
 		nsfw,
 		channelId,
@@ -128,11 +159,16 @@ const EmbedVideo: FC<EmbedVideoProps> = observer(
 		mediaAttachments = [],
 		isPreview,
 	}) => {
+		const {t} = useLingui();
 		const {enabled: isMobile} = MobileLayoutStore;
+		const messageViewContext = useMaybeMessageViewContext();
 		const effectiveSrc = buildMediaProxyURL(src);
 		const isBlob = src.startsWith('blob:');
 		const posterSrc = isBlob ? null : buildMediaProxyURL(src, {format: 'webp'});
 		const [posterLoaded, setPosterLoaded] = useState(posterSrc ? ImageCacheUtils.hasImage(posterSrc) : false);
+		const [hasPlayed, setHasPlayed] = useState(false);
+		const [isPlayingInline, setIsPlayingInline] = useState(false);
+		const inlineVideoRef = useRef<HTMLVideoElement>(null);
 
 		const {shouldBlur, gateReason} = useNSFWMedia(nsfw, channelId);
 
@@ -209,37 +245,122 @@ const EmbedVideo: FC<EmbedVideoProps> = observer(
 		}, [posterSrc]);
 
 		const handleMobileTap = useCallback(() => {
-			const currentIndex = mediaAttachments.findIndex((a) => a.id === attachmentId);
+			const videoItems = attachmentsToViewerItems(mediaAttachments, {filterType: 'video'});
 
-			const videoItems = mediaAttachments
-				.filter((att) => att.content_type?.startsWith('video/'))
-				.map((att) => ({
-					src: buildMediaProxyURL(att.proxy_url ?? att.url ?? ''),
-					originalSrc: att.url ?? '',
-					naturalWidth: att.width || 0,
-					naturalHeight: att.height || 0,
-					type: 'video' as const,
-					contentHash: att.content_hash,
-					attachmentId: att.id,
-					embedIndex: undefined,
-					filename: att.filename,
-					fileSize: att.size,
-					duration: att.duration,
-					expiresAt: att.expires_at ?? null,
-					expired: att.expired ?? false,
-				}));
+			if (videoItems.length > 0) {
+				const currentIndex = findViewerItemIndex(videoItems, attachmentId);
+				MediaViewerActionCreators.openMediaViewer(videoItems, currentIndex, {
+					channelId,
+					messageId,
+					message,
+				});
+			} else {
+				MediaViewerActionCreators.openMediaViewer(
+					[
+						{
+							src: effectiveSrc,
+							originalSrc: embedUrl || src,
+							naturalWidth: width,
+							naturalHeight: height,
+							type: 'video' as const,
+							contentHash,
+							embedIndex,
+							duration,
+						},
+					],
+					0,
+					{channelId, messageId, message},
+				);
+			}
+		}, [
+			channelId,
+			messageId,
+			message,
+			mediaAttachments,
+			attachmentId,
+			effectiveSrc,
+			embedUrl,
+			src,
+			width,
+			height,
+			contentHash,
+			embedIndex,
+			duration,
+		]);
 
-			MediaViewerActionCreators.openMediaViewer(videoItems, currentIndex, {
-				channelId,
-				messageId,
-				message,
+		const handlePlayInline = useCallback(() => {
+			setIsPlayingInline(true);
+		}, []);
+
+		const handleInlineVideoTap = useCallback(() => {
+			const video = inlineVideoRef.current;
+			const currentTime = video?.currentTime ?? 0;
+			if (video) {
+				video.pause();
+			}
+
+			const videoItems = attachmentsToViewerItems(mediaAttachments, {
+				filterType: 'video',
+				initialTimeForId: attachmentId ? {attachmentId, time: currentTime} : undefined,
 			});
-		}, [channelId, messageId, message, mediaAttachments, attachmentId]);
+
+			if (videoItems.length > 0) {
+				const currentIndex = findViewerItemIndex(videoItems, attachmentId);
+				MediaViewerActionCreators.openMediaViewer(videoItems, currentIndex, {
+					channelId,
+					messageId,
+					message,
+				});
+			} else {
+				MediaViewerActionCreators.openMediaViewer(
+					[
+						{
+							src: effectiveSrc,
+							originalSrc: embedUrl || src,
+							naturalWidth: width,
+							naturalHeight: height,
+							type: 'video' as const,
+							contentHash,
+							embedIndex,
+							duration,
+							initialTime: currentTime,
+						},
+					],
+					0,
+					{channelId, messageId, message},
+				);
+			}
+
+			setIsPlayingInline(false);
+		}, [
+			channelId,
+			messageId,
+			message,
+			mediaAttachments,
+			attachmentId,
+			effectiveSrc,
+			embedUrl,
+			src,
+			width,
+			height,
+			contentHash,
+			embedIndex,
+			duration,
+		]);
+
+		const handleInlineVideoEnded = useCallback(() => {
+			setIsPlayingInline(false);
+		}, []);
+
+		const handleToggleMute = useCallback((e: React.MouseEvent) => {
+			e.stopPropagation();
+			VideoVolumeStore.toggleMute();
+		}, []);
 
 		const containerStyles: React.CSSProperties = isMobile
 			? {
 					aspectRatio,
-					width: '100%',
+					width: `${dimensions.width}px`,
 					maxWidth: '100%',
 				}
 			: fillContainer
@@ -248,7 +369,7 @@ const EmbedVideo: FC<EmbedVideoProps> = observer(
 						height: '100%',
 					}
 				: {
-						width: dimensions.width,
+						width: `${dimensions.width}px`,
 						maxWidth: '100%',
 						aspectRatio,
 					};
@@ -267,6 +388,10 @@ const EmbedVideo: FC<EmbedVideoProps> = observer(
 				</div>
 			);
 		}
+
+		const handleInitialPlay = useCallback(() => {
+			setHasPlayed(true);
+		}, []);
 
 		const {showFavoriteButton, showDownloadButton, showDeleteButton} = getMediaButtonVisibility(
 			canFavorite,
@@ -292,13 +417,43 @@ const EmbedVideo: FC<EmbedVideoProps> = observer(
 					renderedHeight={dimensions.height}
 				>
 					<div className={styles.mobileContainer}>
-						<MobileVideoOverlay
-							thumbHashURL={thumbHashUrl}
-							posterSrc={posterSrc}
-							posterLoaded={posterLoaded}
-							onTap={handleMobileTap}
-							title={title}
-						/>
+						{isPlayingInline ? (
+							<>
+								<video
+									ref={inlineVideoRef}
+									className={styles.inlineVideo}
+									src={effectiveSrc}
+									autoPlay
+									playsInline
+									muted={VideoVolumeStore.isMuted}
+									onClick={handleInlineVideoTap}
+									onEnded={handleInlineVideoEnded}
+								/>
+								<button
+									type="button"
+									className={styles.inlineMuteButton}
+									onClick={handleToggleMute}
+									aria-label={VideoVolumeStore.isMuted ? t`Unmute` : t`Mute`}
+								>
+									{VideoVolumeStore.isMuted ? (
+										<SpeakerXIcon size={16} weight="fill" />
+									) : (
+										<SpeakerHighIcon size={16} weight="fill" />
+									)}
+								</button>
+							</>
+						) : (
+							<MobileVideoOverlay
+								thumbHashURL={thumbHashUrl}
+								posterSrc={posterSrc}
+								posterLoaded={posterLoaded}
+								onTap={handleMobileTap}
+								onPlayInline={handlePlayInline}
+								title={title}
+								alt={alt}
+								onPopoutToggle={messageViewContext?.onPopoutToggle}
+							/>
+						)}
 					</div>
 				</MediaContainer>
 			);
@@ -319,16 +474,20 @@ const EmbedVideo: FC<EmbedVideoProps> = observer(
 				renderedWidth={dimensions.width}
 				renderedHeight={dimensions.height}
 			>
-				<VideoPlayer
-					src={effectiveSrc}
-					poster={posterSrc || undefined}
-					placeholder={placeholder}
-					duration={duration}
-					width={dimensions.width}
-					height={dimensions.height}
-					fillContainer={fillContainer}
-					className={fillContainer ? styles.videoPlayerFill : styles.videoPlayerBlock}
-				/>
+				<div className={styles.videoPlayerWrapper}>
+					<VideoPlayer
+						src={effectiveSrc}
+						poster={posterSrc || undefined}
+						placeholder={placeholder}
+						duration={duration}
+						width={dimensions.width}
+						height={dimensions.height}
+						fillContainer={fillContainer}
+						className={fillContainer ? styles.videoPlayerFill : styles.videoPlayerBlock}
+						onInitialPlay={handleInitialPlay}
+					/>
+					{!hasPlayed && <AltTextBadge altText={alt} onPopoutToggle={messageViewContext?.onPopoutToggle} />}
+				</div>
 			</MediaContainer>
 		);
 	},

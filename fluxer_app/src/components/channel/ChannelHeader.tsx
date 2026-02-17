@@ -17,6 +17,65 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as CallActionCreators from '@app/actions/CallActionCreators';
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as FavoritesActionCreators from '@app/actions/FavoritesActionCreators';
+import * as LayoutActionCreators from '@app/actions/LayoutActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as UserProfileActionCreators from '@app/actions/UserProfileActionCreators';
+import {ChannelDetailsBottomSheet} from '@app/components/bottomsheets/ChannelDetailsBottomSheet';
+import styles from '@app/components/channel/ChannelHeader.module.css';
+import {useChannelHeaderData} from '@app/components/channel/channel_header/useChannelHeaderData';
+import {CallButtons} from '@app/components/channel/channel_header_components/CallButtons';
+import {ChannelHeaderIcon} from '@app/components/channel/channel_header_components/ChannelHeaderIcon';
+import {ChannelNotificationSettingsButton} from '@app/components/channel/channel_header_components/ChannelNotificationSettingsButton';
+import {ChannelPinsButton} from '@app/components/channel/channel_header_components/ChannelPinsButton';
+import {UpdaterIcon} from '@app/components/channel/channel_header_components/UpdaterIcon';
+import {InboxButton} from '@app/components/channel/channel_header_components/UtilityButtons';
+import {useChannelSearchState} from '@app/components/channel/channel_view/useChannelSearchState';
+import {MessageSearchBar} from '@app/components/channel/message_search_bar/MessageSearchBar';
+import {UserTag} from '@app/components/channel/UserTag';
+import {GroupDMAvatar} from '@app/components/common/GroupDMAvatar';
+import {NativeDragRegion} from '@app/components/layout/NativeDragRegion';
+import {AddFriendsToGroupModal} from '@app/components/modals/AddFriendsToGroupModal';
+import {ChannelTopicModal} from '@app/components/modals/ChannelTopicModal';
+import {CreateDMModal} from '@app/components/modals/CreateDMModal';
+import {EditGroupModal} from '@app/components/modals/EditGroupModal';
+import {ChannelContextMenu} from '@app/components/uikit/context_menu/ChannelContextMenu';
+import {DMContextMenu} from '@app/components/uikit/context_menu/DMContextMenu';
+import {GroupDMContextMenu} from '@app/components/uikit/context_menu/GroupDMContextMenu';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useCanFitMemberList} from '@app/hooks/useMemberListVisible';
+import {useTextOverflow} from '@app/hooks/useTextOverflow';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {SafeMarkdown} from '@app/lib/markdown';
+import {MarkdownContext} from '@app/lib/markdown/renderers/RendererTypes';
+import {useLocation} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import CallStateStore from '@app/stores/CallStateStore';
+import FavoritesStore from '@app/stores/FavoritesStore';
+import MemberListStore from '@app/stores/MemberListStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import markupStyles from '@app/styles/Markup.module.css';
+import * as CallUtils from '@app/utils/CallUtils';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import {isGroupDmFull} from '@app/utils/GroupDmUtils';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import type {SearchSegment} from '@app/utils/SearchSegmentManager';
+import {ME} from '@fluxer/constants/src/AppConstants';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {useLingui} from '@lingui/react/macro';
 import {
 	ArrowLeftIcon,
@@ -33,66 +92,15 @@ import {
 } from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as CallActionCreators from '~/actions/CallActionCreators';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as FavoritesActionCreators from '~/actions/FavoritesActionCreators';
-import * as LayoutActionCreators from '~/actions/LayoutActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as UserProfileActionCreators from '~/actions/UserProfileActionCreators';
-import {ChannelTypes, ME, RelationshipTypes} from '~/Constants';
-import {ChannelDetailsBottomSheet} from '~/components/bottomsheets/ChannelDetailsBottomSheet';
-import {MessageSearchBar} from '~/components/channel/MessageSearchBar';
-import {GroupDMAvatar} from '~/components/common/GroupDMAvatar';
-import {NativeDragRegion} from '~/components/layout/NativeDragRegion';
-import {AddFriendsToGroupModal} from '~/components/modals/AddFriendsToGroupModal';
-import {ChannelTopicModal} from '~/components/modals/ChannelTopicModal';
-import {CreateDMModal} from '~/components/modals/CreateDMModal';
-import {EditGroupModal} from '~/components/modals/EditGroupModal';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import {useCanFitMemberList} from '~/hooks/useMemberListVisible';
-import {useTextOverflow} from '~/hooks/useTextOverflow';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import {SafeMarkdown} from '~/lib/markdown';
-import {MarkdownContext} from '~/lib/markdown/renderers';
-import {useLocation} from '~/lib/router/react';
-import {Routes} from '~/Routes';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import CallStateStore from '~/stores/CallStateStore';
-import FavoritesStore from '~/stores/FavoritesStore';
-import MemberListStore from '~/stores/MemberListStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import markupStyles from '~/styles/Markup.module.css';
-import * as CallUtils from '~/utils/CallUtils';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import {MAX_GROUP_DM_RECIPIENTS} from '~/utils/groupDmUtils';
-import * as RouterUtils from '~/utils/RouterUtils';
-import type {SearchSegment} from '~/utils/SearchSegmentManager';
-import {UserTag} from '../channel/UserTag';
-import {ChannelContextMenu} from '../uikit/ContextMenu/ChannelContextMenu';
-import {MenuGroup} from '../uikit/ContextMenu/MenuGroup';
-import {MenuItem} from '../uikit/ContextMenu/MenuItem';
-import {Tooltip} from '../uikit/Tooltip/Tooltip';
-import {CallButtons} from './ChannelHeader/CallButtons';
-import {ChannelHeaderIcon} from './ChannelHeader/ChannelHeaderIcon';
-import {ChannelNotificationSettingsButton} from './ChannelHeader/ChannelNotificationSettingsButton';
-import {ChannelPinsButton} from './ChannelHeader/ChannelPinsButton';
-import {UpdaterIcon} from './ChannelHeader/UpdaterIcon';
-import {InboxButton} from './ChannelHeader/UtilityButtons';
-import styles from './ChannelHeader.module.css';
-import {useChannelHeaderData} from './channel-header/useChannelHeaderData';
+import type React from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 
 const {VoiceCallButton, VideoCallButton} = CallButtons;
 
 interface ChannelHeaderProps {
 	channel?: ChannelRecord;
 	leftContent?: React.ReactNode;
+	voiceCallHeaderSupplement?: React.ReactNode;
 	showMembersToggle?: boolean;
 	showPins?: boolean;
 	onSearchSubmit?: (query: string, segments: Array<SearchSegment>) => void;
@@ -105,6 +113,7 @@ export const ChannelHeader = observer(
 	({
 		channel,
 		leftContent,
+		voiceCallHeaderSupplement = null,
 		showMembersToggle = false,
 		showPins = true,
 		onSearchSubmit,
@@ -129,24 +138,31 @@ export const ChannelHeader = observer(
 		const isVoiceHeaderActive = isVoiceCallActive || forceVoiceCallStyle;
 		const canFitMemberList = useCanFitMemberList();
 
-		const [channelDetailsOpen, setChannelDetailsOpen] = React.useState(false);
-		const [openSearchImmediately, setOpenSearchImmediately] = React.useState(false);
-		const [initialTab, setInitialTab] = React.useState<'members' | 'pins'>('members');
-		const [searchQuery, setSearchQuery] = React.useState('');
-		const [searchSegments, setSearchSegments] = React.useState<Array<SearchSegment>>([]);
-		const latestSearchQueryRef = React.useRef('');
-		const latestSearchSegmentsRef = React.useRef<Array<SearchSegment>>([]);
-		const topicButtonRef = React.useRef<HTMLDivElement>(null);
-		const [isTopicOverflowing, setIsTopicOverflowing] = React.useState(false);
-		React.useEffect(() => {
+		const [channelDetailsOpen, setChannelDetailsOpen] = useState(false);
+		const [openSearchImmediately, setOpenSearchImmediately] = useState(false);
+		const [initialTab, setInitialTab] = useState<'members' | 'pins'>('members');
+		const {
+			searchQuery,
+			searchSegments,
+			isSearchActive,
+			handleSearchInputChange: updateSearchInput,
+			handleSearchSubmit: submitSearch,
+			handleSearchClose: closeSearch,
+		} = useChannelSearchState(channel);
+		const latestSearchQueryRef = useRef('');
+		const latestSearchSegmentsRef = useRef<Array<SearchSegment>>([]);
+		const topicButtonRef = useRef<HTMLDivElement>(null);
+		const [isTopicOverflowing, setIsTopicOverflowing] = useState(false);
+		useEffect(() => {
 			latestSearchQueryRef.current = searchQuery;
 			latestSearchSegmentsRef.current = searchSegments;
 		}, [searchQuery, searchSegments]);
-		const searchInputRef = React.useRef<HTMLInputElement>(null);
+		const searchInputRef = useRef<HTMLInputElement>(null);
+		const isSearchResultsVisible = isSearchResultsOpen ?? isSearchActive;
 
-		const dmNameRef = React.useRef<HTMLSpanElement>(null);
-		const groupDMNameRef = React.useRef<HTMLSpanElement>(null);
-		const guildChannelNameRef = React.useRef<HTMLSpanElement>(null);
+		const dmNameRef = useRef<HTMLSpanElement>(null);
+		const groupDMNameRef = useRef<HTMLSpanElement>(null);
+		const guildChannelNameRef = useRef<HTMLSpanElement>(null);
 
 		const isDMNameOverflowing = useTextOverflow(dmNameRef);
 		const isGroupDMNameOverflowing = useTextOverflow(groupDMNameRef);
@@ -163,11 +179,47 @@ export const ChannelHeader = observer(
 			groupDMName,
 			channelName,
 		} = useChannelHeaderData(channel);
-		const isBotDMRecipient = isDM && recipient?.bot;
+		const isBotDMRecipient = isDM && (recipient?.bot || recipient?.system);
 
 		const isFavorited = channel && !isPersonalNotes ? !!FavoritesStore.getChannel(channel.id) : false;
 
-		const handleOpenCreateGroupDM = React.useCallback(() => {
+		const handleSearchInputChange = useCallback(
+			(query: string, segments: Array<SearchSegment>) => {
+				updateSearchInput(query, segments);
+				latestSearchQueryRef.current = query;
+				latestSearchSegmentsRef.current = segments;
+			},
+			[updateSearchInput],
+		);
+
+		const handleSearchSubmit = useCallback(() => {
+			const query = latestSearchQueryRef.current;
+			if (!query.trim()) {
+				return;
+			}
+
+			if (onSearchSubmit) {
+				onSearchSubmit(query, latestSearchSegmentsRef.current);
+				return;
+			}
+
+			submitSearch(query, latestSearchSegmentsRef.current);
+		}, [onSearchSubmit, submitSearch]);
+
+		const handleSearchClose = useCallback(() => {
+			updateSearchInput('', []);
+			latestSearchQueryRef.current = '';
+			latestSearchSegmentsRef.current = [];
+
+			if (onSearchClose) {
+				onSearchClose();
+				return;
+			}
+
+			closeSearch();
+		}, [updateSearchInput, onSearchClose, closeSearch]);
+
+		const handleOpenCreateGroupDM = useCallback(() => {
 			if (!channel) return;
 			const initialRecipientIds = Array.from(channel.recipientIds);
 			const excludeChannelId = channel.type === ChannelTypes.GROUP_DM ? channel.id : undefined;
@@ -178,21 +230,21 @@ export const ChannelHeader = observer(
 			);
 		}, [channel]);
 
-		const handleOpenEditGroup = React.useCallback(() => {
+		const handleOpenEditGroup = useCallback(() => {
 			if (!channel) return;
 			ModalActionCreators.push(modal(() => <EditGroupModal channelId={channel.id} />));
 		}, [channel]);
-		const handleOpenAddFriendsToGroup = React.useCallback(() => {
+		const handleOpenAddFriendsToGroup = useCallback(() => {
 			if (!channel) return;
 			ModalActionCreators.push(modal(() => <AddFriendsToGroupModal channelId={channel.id} />));
 		}, [channel]);
 
-		const handleToggleMembers = React.useCallback(() => {
+		const handleToggleMembers = useCallback(() => {
 			if (!canFitMemberList) return;
 			LayoutActionCreators.toggleMembers(!isMembersOpen);
 		}, [isMembersOpen, canFitMemberList]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			const handleChannelDetailsOpen = (payload?: unknown) => {
 				const {initialTab} = (payload ?? {}) as {initialTab?: 'members' | 'pins'};
 				setInitialTab(initialTab || 'members');
@@ -203,7 +255,7 @@ export const ChannelHeader = observer(
 			return ComponentDispatch.subscribe('CHANNEL_DETAILS_OPEN', handleChannelDetailsOpen);
 		}, []);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (!showMembersToggle) return;
 			return ComponentDispatch.subscribe('CHANNEL_MEMBER_LIST_TOGGLE', () => {
 				if (canFitMemberList) {
@@ -212,7 +264,7 @@ export const ChannelHeader = observer(
 			});
 		}, [showMembersToggle, canFitMemberList, isMembersOpen]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (!channel?.topic) {
 				setIsTopicOverflowing(false);
 				return;
@@ -236,18 +288,18 @@ export const ChannelHeader = observer(
 			};
 		}, [channel?.topic]);
 
-		const handleOpenUserProfile = React.useCallback(() => {
+		const handleOpenUserProfile = useCallback(() => {
 			if (!recipient) return;
 			UserProfileActionCreators.openUserProfile(recipient.id);
 		}, [recipient]);
 
-		const handleBackClick = React.useCallback(() => {
+		const handleBackClick = useCallback(() => {
 			if (isDM || isGroupDM || isPersonalNotes) {
 				RouterUtils.transitionTo(Routes.ME);
 			} else if (Routes.isFavoritesRoute(location.pathname)) {
 				RouterUtils.transitionTo(Routes.FAVORITES);
 			} else if (isGuildChannel && channel?.guildId) {
-				RouterUtils.transitionTo(Routes.guildChannel(channel.guildId));
+				NavigationActionCreators.selectChannel(channel.guildId);
 			} else {
 				window.history.back();
 			}
@@ -265,7 +317,7 @@ export const ChannelHeader = observer(
 			setChannelDetailsOpen(true);
 		};
 
-		const handleContextMenu = React.useCallback(
+		const handleContextMenu = useCallback(
 			(event: React.MouseEvent) => {
 				if (channel && isGuildChannel) {
 					event.preventDefault();
@@ -278,7 +330,25 @@ export const ChannelHeader = observer(
 			[channel, isGuildChannel],
 		);
 
-		const handleMobileVoiceCall = React.useCallback(
+		const handleUserContextMenu = useCallback(
+			(event: React.MouseEvent) => {
+				if (!channel) return;
+				event.preventDefault();
+				event.stopPropagation();
+				if (isGroupDM) {
+					ContextMenuActionCreators.openFromEvent(event, ({onClose}) => (
+						<GroupDMContextMenu channel={channel} onClose={onClose} />
+					));
+				} else if (isDM && recipient) {
+					ContextMenuActionCreators.openFromEvent(event, ({onClose}) => (
+						<DMContextMenu channel={channel} recipient={recipient} onClose={onClose} />
+					));
+				}
+			},
+			[channel, isDM, isGroupDM, recipient],
+		);
+
+		const handleMobileVoiceCall = useCallback(
 			async (event: React.MouseEvent) => {
 				if (!channel) return;
 				const isConnected = MediaEngineStore.connected;
@@ -297,7 +367,7 @@ export const ChannelHeader = observer(
 			[channel],
 		);
 
-		const handleMobileVideoCall = React.useCallback(
+		const handleMobileVideoCall = useCallback(
 			async (event: React.MouseEvent) => {
 				if (!channel) return;
 				const isConnected = MediaEngineStore.connected;
@@ -316,7 +386,7 @@ export const ChannelHeader = observer(
 			[channel],
 		);
 
-		const handleToggleFavorite = React.useCallback(() => {
+		const handleToggleFavorite = useCallback(() => {
 			if (!channel || isPersonalNotes) return;
 
 			if (isFavorited) {
@@ -328,7 +398,7 @@ export const ChannelHeader = observer(
 			}
 		}, [channel, isPersonalNotes, isFavorited]);
 
-		const handleFavoriteContextMenu = React.useCallback(
+		const handleFavoriteContextMenu = useCallback(
 			(event: React.MouseEvent) => {
 				event.preventDefault();
 				event.stopPropagation();
@@ -351,7 +421,7 @@ export const ChannelHeader = observer(
 			[t],
 		);
 
-		const isGroupDMFull = channel ? channel.recipientIds.length + 1 >= MAX_GROUP_DM_RECIPIENTS : false;
+		const isGroupDMFull = isGroupDmFull(channel);
 		const isFriendDM =
 			isDM &&
 			recipient &&
@@ -426,7 +496,12 @@ export const ChannelHeader = observer(
 										</FocusRing>
 									) : isDM && recipient ? (
 										<FocusRing offset={-2}>
-											<button type="button" className={styles.desktopButton} onClick={handleOpenUserProfile}>
+											<button
+												type="button"
+												className={styles.desktopButton}
+												onClick={handleOpenUserProfile}
+												onContextMenu={handleUserContextMenu}
+											>
 												<StatusAwareAvatar user={recipient} size={32} showOffline={true} />
 												<span className={styles.dmNameWrapper}>
 													<Tooltip text={isDMNameOverflowing ? directMessageName : ''}>
@@ -451,10 +526,11 @@ export const ChannelHeader = observer(
 										) : (
 											<FocusRing offset={-2}>
 												<div
-													className={styles.groupDMHeaderTrigger}
+													className={styles.groupDmHeaderTrigger}
 													role="button"
 													tabIndex={0}
 													onClick={handleOpenEditGroup}
+													onContextMenu={handleUserContextMenu}
 													onKeyDown={(event) => {
 														if (event.key === 'Enter' || event.key === ' ') {
 															event.preventDefault();
@@ -462,20 +538,20 @@ export const ChannelHeader = observer(
 														}
 													}}
 												>
-													<div className={styles.groupDMHeaderInner}>
+													<div className={styles.groupDmHeaderInner}>
 														<GroupDMAvatar channel={channel} size={32} />
 														<div className={styles.dmNameWrapper}>
 															<Tooltip text={isGroupDMNameOverflowing && groupDMName ? groupDMName : ''}>
 																<span
 																	ref={groupDMNameRef}
-																	className={clsx(styles.channelName, styles.groupDMChannelName)}
+																	className={clsx(styles.channelName, styles.groupDmChannelName)}
 																>
 																	{groupDMName}
 																</span>
 															</Tooltip>
 														</div>
 													</div>
-													<PencilIcon className={styles.groupDMEditIcon} size={16} weight="bold" />
+													<PencilIcon className={styles.groupDmEditIcon} size={16} weight="bold" />
 												</div>
 											</FocusRing>
 										)
@@ -524,6 +600,7 @@ export const ChannelHeader = observer(
 																	content={channel.topic}
 																	options={{
 																		context: MarkdownContext.RESTRICTED_INLINE_REPLY,
+																		disableInteractions: true,
 																		channelId: channel.id,
 																	}}
 																/>
@@ -535,6 +612,9 @@ export const ChannelHeader = observer(
 										</div>
 									)
 								) : null}
+								{voiceCallHeaderSupplement && (
+									<div className={styles.voiceCallHeaderSupplement}>{voiceCallHeaderSupplement}</div>
+								)}
 							</div>
 						</div>
 
@@ -655,28 +735,13 @@ export const ChannelHeader = observer(
 										<MessageSearchBar
 											channel={channel}
 											value={searchQuery}
-											onChange={(query, segments) => {
-												setSearchQuery(query);
-												setSearchSegments(segments);
-												latestSearchQueryRef.current = query;
-												latestSearchSegmentsRef.current = segments;
-											}}
-											onSearch={() => {
-												const q = latestSearchQueryRef.current;
-												if (q.trim()) {
-													onSearchSubmit?.(q, latestSearchSegmentsRef.current);
-												}
-											}}
-											onClear={() => {
-												setSearchQuery('');
-												setSearchSegments([]);
-												latestSearchQueryRef.current = '';
-												latestSearchSegmentsRef.current = [];
-												onSearchClose?.();
-											}}
-											isResultsOpen={Boolean(isSearchResultsOpen)}
-											onCloseResults={() => onSearchClose?.()}
+											onChange={handleSearchInputChange}
+											onSearch={handleSearchSubmit}
+											onClear={handleSearchClose}
+											isResultsOpen={Boolean(isSearchResultsVisible)}
+											onCloseResults={handleSearchClose}
 											inputRefExternal={searchInputRef}
+											highContrast={isVoiceHeaderActive}
 										/>
 									</div>
 								</FocusRing>

@@ -17,53 +17,30 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import type {PriceIdsResponse} from '@fluxer/schema/src/domains/premium/PremiumSchemas';
 
 const logger = new Logger('Premium');
 
-export interface VisionarySlots {
-	total: number;
-	remaining: number;
-}
+export type PriceIds = PriceIdsResponse;
 
-export interface PriceIds {
-	monthly: string | null;
-	yearly: string | null;
-	visionary: string | null;
-	giftVisionary: string | null;
-	gift1Month: string | null;
-	gift1Year: string | null;
-	currency: 'USD' | 'EUR';
-}
-
-export const fetchVisionarySlots = async (): Promise<VisionarySlots> => {
+export async function fetchPriceIds(countryCode?: string): Promise<PriceIds> {
 	try {
-		const response = await http.get<VisionarySlots>(Endpoints.PREMIUM_VISIONARY_SLOTS);
-		logger.debug('Visionary slots fetched', response.body);
-		return response.body;
-	} catch (error) {
-		logger.error('Visionary slots fetch failed', error);
-		throw error;
-	}
-};
-
-export const fetchPriceIds = async (countryCode?: string): Promise<PriceIds> => {
-	try {
-		const url = countryCode
-			? `${Endpoints.PREMIUM_PRICE_IDS}?country_code=${encodeURIComponent(countryCode)}`
-			: Endpoints.PREMIUM_PRICE_IDS;
-		const response = await http.get<PriceIds>(url);
+		const response = await http.get<PriceIds>({
+			url: Endpoints.PREMIUM_PRICE_IDS,
+			query: countryCode ? {country_code: countryCode} : undefined,
+		});
 		logger.debug('Price IDs fetched', response.body);
 		return response.body;
 	} catch (error) {
 		logger.error('Price IDs fetch failed', error);
 		throw error;
 	}
-};
+}
 
-export const createCustomerPortalSession = async (): Promise<string> => {
+export async function createCustomerPortalSession(): Promise<string> {
 	try {
 		const response = await http.post<{url: string}>(Endpoints.PREMIUM_CUSTOMER_PORTAL);
 		logger.info('Customer portal session created');
@@ -72,9 +49,9 @@ export const createCustomerPortalSession = async (): Promise<string> => {
 		logger.error('Customer portal session creation failed', error);
 		throw error;
 	}
-};
+}
 
-export const createCheckoutSession = async (priceId: string, isGift: boolean = false): Promise<string> => {
+export async function createCheckoutSession(priceId: string, isGift: boolean = false): Promise<string> {
 	try {
 		const url = isGift ? Endpoints.STRIPE_CHECKOUT_GIFT : Endpoints.STRIPE_CHECKOUT_SUBSCRIPTION;
 		const response = await http.post<{url: string}>(url, {price_id: priceId});
@@ -84,9 +61,9 @@ export const createCheckoutSession = async (priceId: string, isGift: boolean = f
 		logger.error('Checkout session creation failed', error);
 		throw error;
 	}
-};
+}
 
-export const cancelSubscriptionAtPeriodEnd = async (): Promise<void> => {
+export async function cancelSubscriptionAtPeriodEnd(): Promise<void> {
 	try {
 		await http.post({url: Endpoints.PREMIUM_CANCEL_SUBSCRIPTION});
 		logger.info('Subscription set to cancel at period end');
@@ -94,9 +71,9 @@ export const cancelSubscriptionAtPeriodEnd = async (): Promise<void> => {
 		logger.error('Failed to cancel subscription at period end', error);
 		throw error;
 	}
-};
+}
 
-export const reactivateSubscription = async (): Promise<void> => {
+export async function reactivateSubscription(): Promise<void> {
 	try {
 		await http.post({url: Endpoints.PREMIUM_REACTIVATE_SUBSCRIPTION});
 		logger.info('Subscription reactivated');
@@ -104,9 +81,9 @@ export const reactivateSubscription = async (): Promise<void> => {
 		logger.error('Failed to reactivate subscription', error);
 		throw error;
 	}
-};
+}
 
-export const rejoinVisionaryGuild = async (): Promise<void> => {
+export async function rejoinVisionaryGuild(): Promise<void> {
 	try {
 		await http.post({url: Endpoints.PREMIUM_VISIONARY_REJOIN});
 		logger.info('Visionary guild rejoin requested');
@@ -114,9 +91,9 @@ export const rejoinVisionaryGuild = async (): Promise<void> => {
 		logger.error('Failed to rejoin Visionary guild', error);
 		throw error;
 	}
-};
+}
 
-export const rejoinOperatorGuild = async (): Promise<void> => {
+export async function rejoinOperatorGuild(): Promise<void> {
 	try {
 		await http.post({url: Endpoints.PREMIUM_OPERATOR_REJOIN});
 		logger.info('Operator guild rejoin requested');
@@ -124,4 +101,4 @@ export const rejoinOperatorGuild = async (): Promise<void> => {
 		logger.error('Failed to rejoin Operator guild', error);
 		throw error;
 	}
-};
+}

@@ -17,7 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
 
 export type FavoriteMeme = Readonly<{
 	id: string;
@@ -35,7 +35,8 @@ export type FavoriteMeme = Readonly<{
 	duration: number | null;
 	is_gifv: boolean;
 	url: string;
-	tenor_id: string | null;
+	klipy_slug: string | null;
+	tenor_slug_id: string | null;
 }>;
 
 export class FavoriteMemeRecord {
@@ -54,7 +55,8 @@ export class FavoriteMemeRecord {
 	readonly duration: number | null;
 	readonly isGifv: boolean;
 	readonly url: string;
-	readonly tenorId: string | null;
+	readonly klipySlug: string | null;
+	readonly tenorSlugId: string | null;
 
 	constructor(meme: FavoriteMeme) {
 		this.id = meme.id;
@@ -72,7 +74,8 @@ export class FavoriteMemeRecord {
 		this.duration = meme.duration;
 		this.isGifv = meme.is_gifv;
 		this.url = meme.url;
-		this.tenorId = meme.tenor_id;
+		this.klipySlug = meme.klipy_slug;
+		this.tenorSlugId = meme.tenor_slug_id;
 	}
 
 	get createdAtTimestamp(): number {
@@ -120,7 +123,8 @@ export class FavoriteMemeRecord {
 			this.duration === other.duration &&
 			this.isGifv === other.isGifv &&
 			this.url === other.url &&
-			this.tenorId === other.tenorId
+			this.klipySlug === other.klipySlug &&
+			this.tenorSlugId === other.tenorSlugId
 		);
 	}
 
@@ -141,7 +145,8 @@ export class FavoriteMemeRecord {
 			duration: this.duration,
 			is_gifv: this.isGifv,
 			url: this.url,
-			tenor_id: this.tenorId,
+			klipy_slug: this.klipySlug,
+			tenor_slug_id: this.tenorSlugId,
 		};
 	}
 }

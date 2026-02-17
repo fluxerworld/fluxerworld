@@ -17,12 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {MessageFlags, MessageTypes} from '~/Constants';
-import type {ChannelMessages} from '~/lib/ChannelMessages';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
-import * as DateUtils from '~/utils/DateUtils';
-import SnowflakeUtils from '~/utils/SnowflakeUtil';
+import type {ChannelMessages} from '@app/lib/ChannelMessages';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import * as DateUtils from '@app/utils/DateUtils';
+import {MessageFlags, MessageTypes} from '@fluxer/constants/src/ChannelConstants';
+import type {ValueOf} from '@fluxer/constants/src/ValueOf';
+import {isSameDay as isSameDayBase} from '@fluxer/date_utils/src/DateComparison';
+import {extractTimestamp} from '@fluxer/snowflake/src/SnowflakeUtils';
 
 export const ChannelStreamType = {
 	MESSAGE: 'MESSAGE',
@@ -32,7 +34,7 @@ export const ChannelStreamType = {
 	DIVIDER: 'DIVIDER',
 } as const;
 
-export type ChannelStreamType = (typeof ChannelStreamType)[keyof typeof ChannelStreamType];
+export type ChannelStreamType = ValueOf<typeof ChannelStreamType>;
 
 export interface ChannelStreamItem {
 	type: ChannelStreamType;
@@ -63,16 +65,18 @@ export function isNewMessageGroup(
 		return true;
 	}
 
-	const isCurrentUserContent = currentMessage.isUserMessage();
-	const isPrevUserContent = prevMessage.isUserMessage();
-	const isCurrentSystemMessage = !isCurrentUserContent;
-	const isPrevSystemMessage = !isPrevUserContent;
-
-	if (isCurrentSystemMessage && isPrevSystemMessage) {
-		return false;
+	const currentIsDisplaySystem =
+		currentMessage.type !== MessageTypes.DEFAULT && currentMessage.type !== MessageTypes.REPLY;
+	const prevIsDisplaySystem = prevMessage.type !== MessageTypes.DEFAULT && prevMessage.type !== MessageTypes.REPLY;
+	if (currentIsDisplaySystem !== prevIsDisplaySystem) {
+		return true;
 	}
 
-	if (currentMessage.type !== prevMessage.type && !(isCurrentUserContent && isPrevUserContent)) {
+	const isCurrentUserContent = currentMessage.isUserMessage();
+	const isPrevUserContent = prevMessage.isUserMessage();
+
+	const bothDisplaySystem = currentIsDisplaySystem && prevIsDisplaySystem;
+	if (!bothDisplaySystem && currentMessage.type !== prevMessage.type && !(isCurrentUserContent && isPrevUserContent)) {
 		return true;
 	}
 
@@ -88,7 +92,7 @@ export function isNewMessageGroup(
 		return true;
 	}
 
-	if (!DateUtils.isSameDay(prevMessage.timestamp, currentMessage.timestamp)) {
+	if (!isSameDayBase(prevMessage.timestamp, currentMessage.timestamp)) {
 		return true;
 	}
 
@@ -141,9 +145,7 @@ export function createChannelStream(props: {
 	let groupId: string | undefined;
 	let lastMessageInGroup: MessageRecord | undefined;
 
-	let unreadTimestamp: number | null = oldestUnreadMessageId
-		? SnowflakeUtils.extractTimestamp(oldestUnreadMessageId)
-		: null;
+	let unreadTimestamp: number | null = oldestUnreadMessageId ? extractTimestamp(oldestUnreadMessageId) : null;
 
 	messages.forEach((message): boolean | undefined => {
 		const dateString = DateUtils.getFormattedFullDate(message.timestamp);
@@ -157,6 +159,10 @@ export function createChannelStream(props: {
 		}
 
 		const lastItem = stream[stream.length - 1];
+		const previousWasCollapsedGroup =
+			lastItem?.type === ChannelStreamType.MESSAGE_GROUP_BLOCKED ||
+			lastItem?.type === ChannelStreamType.MESSAGE_GROUP_IGNORED ||
+			lastItem?.type === ChannelStreamType.MESSAGE_GROUP_SPAMMER;
 		let collapsedGroupItem: ChannelStreamItem | null = null;
 		let lastInCollapsedGroup: ChannelStreamItem | undefined;
 
@@ -189,7 +195,7 @@ export function createChannelStream(props: {
 				}
 			}
 			unreadTimestamp = null;
-		} else if (unreadTimestamp != null && SnowflakeUtils.extractTimestamp(message.id) > unreadTimestamp) {
+		} else if (unreadTimestamp != null && extractTimestamp(message.id) > unreadTimestamp) {
 			shouldShowUnreadDividerBefore = true;
 			unreadTimestamp = null;
 		}
@@ -198,6 +204,8 @@ export function createChannelStream(props: {
 
 		if (collapsedGroupItem && lastInCollapsedGroup && lastInCollapsedGroup.type === ChannelStreamType.MESSAGE) {
 			prevMessageForGrouping = lastInCollapsedGroup.content as MessageRecord;
+		} else if (previousWasCollapsedGroup && collapsedGroupItem == null) {
+			prevMessageForGrouping = undefined;
 		} else if (lastItem?.type === ChannelStreamType.MESSAGE) {
 			prevMessageForGrouping = lastMessageInGroup ?? (lastItem.content as MessageRecord);
 		} else {

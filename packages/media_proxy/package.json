@@ -1,0 +1,46 @@
+{
+	"name": "@fluxer/media_proxy",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./src/App.tsx",
+		"./src/types/*": "./src/types/*.tsx",
+		"./src/utils/*": "./src/utils/*.tsx",
+		"./*": "./*"
+	},
+	"main": "./src/App.tsx",
+	"types": "./src/App.tsx",
+	"scripts": {
+		"test": "vitest run",
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@aws-sdk/client-s3": "catalog:",
+		"@fluxer/constants": "workspace:*",
+		"@fluxer/errors": "workspace:*",
+		"@fluxer/hono": "workspace:*",
+		"@fluxer/hono_types": "workspace:*",
+		"@fluxer/http_client": "workspace:*",
+		"@fluxer/logger": "workspace:*",
+		"@fluxer/media_proxy_utils": "workspace:*",
+		"@fluxer/mime_utils": "workspace:*",
+		"@fluxer/rate_limit": "workspace:*",
+		"@fluxer/schema": "workspace:*",
+		"@fluxer/sentry": "workspace:*",
+		"hono": "catalog:",
+		"magic-bytes.js": "catalog:",
+		"onnxruntime-node": "catalog:",
+		"sharp": "catalog:",
+		"tempy": "catalog:",
+		"thumbhash": "catalog:",
+		"valibot": "catalog:"
+	},
+	"devDependencies": {
+		"@opentelemetry/api": "catalog:",
+		"@types/node": "catalog:",
+		"@typescript/native-preview": "catalog:",
+		"vite-tsconfig-paths": "catalog:",
+		"vitest": "catalog:"
+	}
+}

@@ -17,32 +17,33 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {GiftMetadata} from '@app/actions/GiftActionCreators';
+import * as GiftActionCreators from '@app/actions/GiftActionCreators';
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as UserActionCreators from '@app/actions/UserActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import {openClaimAccountModal} from '@app/components/modals/ClaimAccountModal';
+import {StatusSlate} from '@app/components/modals/shared/StatusSlate';
+import styles from '@app/components/modals/tabs/GiftInventoryTab.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {Logger} from '@app/lib/Logger';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import UserStore from '@app/stores/UserStore';
+import {getFormattedShortDate} from '@app/utils/DateUtils';
+import {getGiftDurationText} from '@app/utils/GiftUtils';
+import {UserPremiumTypes} from '@fluxer/constants/src/UserConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CaretDownIcon, CheckIcon, CopyIcon, GiftIcon, NetworkSlashIcon, WarningCircleIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import type React from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import type {GiftMetadata} from '~/actions/GiftActionCreators';
-import * as GiftActionCreators from '~/actions/GiftActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as UserActionCreators from '~/actions/UserActionCreators';
-import {UserPremiumTypes} from '~/Constants';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
-import {StatusSlate} from '~/components/modals/shared/StatusSlate';
-import {Button} from '~/components/uikit/Button/Button';
-import {Spinner} from '~/components/uikit/Spinner';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import {Logger} from '~/lib/Logger';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import UserStore from '~/stores/UserStore';
-import {getFormattedShortDate} from '~/utils/DateUtils';
-import {getGiftDurationText} from '~/utils/giftUtils';
-import styles from './GiftInventoryTab.module.css';
 
 const logger = new Logger('GiftInventoryTab');
 
@@ -60,8 +61,8 @@ interface GiftCardProps {
 const GiftCard: React.FC<GiftCardProps> = observer(({gift, isExpanded, onToggle, onRedeemSuccess}) => {
 	const {t, i18n} = useLingui();
 	const currentUser = UserStore.currentUser;
-	const [copied, setCopied] = React.useState(false);
-	const [redeeming, setRedeeming] = React.useState(false);
+	const [copied, setCopied] = useState(false);
+	const [redeeming, setRedeeming] = useState(false);
 
 	const giftUrl = `${RuntimeConfigStore.giftEndpoint}/${gift.code}`;
 	const isLifetime = currentUser?.isPremium() && currentUser.premiumType === UserPremiumTypes.LIFETIME;
@@ -98,7 +99,7 @@ const GiftCard: React.FC<GiftCardProps> = observer(({gift, isExpanded, onToggle,
 		}
 	};
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const currentUser = UserStore.getCurrentUser();
 		if (currentUser?.hasUnreadGiftInventory) {
 			UserActionCreators.update({has_unread_gift_inventory: false});
@@ -177,15 +178,15 @@ const GiftCard: React.FC<GiftCardProps> = observer(({gift, isExpanded, onToggle,
 
 const GiftInventoryTab: React.FC = observer(() => {
 	const {t, i18n} = useLingui();
-	const [gifts, setGifts] = React.useState<Array<GiftMetadata>>([]);
-	const [loading, setLoading] = React.useState(true);
-	const [error, setError] = React.useState(false);
-	const [expandedGiftId, setExpandedGiftId] = React.useState<string | null>(null);
+	const [gifts, setGifts] = useState<Array<GiftMetadata>>([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(false);
+	const [expandedGiftId, setExpandedGiftId] = useState<string | null>(null);
 	const isUnclaimed = !(UserStore.currentUser?.isClaimed() ?? false);
 
 	const giftCodeForm = useForm<GiftCodeFormInputs>({defaultValues: {code: ''}});
 
-	const handleGiftCodeSubmit = React.useCallback(
+	const handleGiftCodeSubmit = useCallback(
 		async (data: GiftCodeFormInputs) => {
 			const trimmedCode = data.code.trim();
 			if (!trimmedCode) return;
@@ -202,7 +203,7 @@ const GiftInventoryTab: React.FC = observer(() => {
 		defaultErrorField: 'code',
 	});
 
-	const fetchGifts = React.useCallback(async () => {
+	const fetchGifts = useCallback(async () => {
 		if (isUnclaimed) {
 			setLoading(false);
 			return;
@@ -219,7 +220,7 @@ const GiftInventoryTab: React.FC = observer(() => {
 		}
 	}, [isUnclaimed]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		fetchGifts();
 	}, [fetchGifts]);
 
@@ -316,7 +317,7 @@ const GiftInventoryTab: React.FC = observer(() => {
 			{error && (
 				<StatusSlate
 					Icon={NetworkSlashIcon}
-					title={t`Failed to load gift inventory`}
+					title={t`Failed to Load Gift Inventory`}
 					description={t`Please try again later.`}
 					actions={[
 						{

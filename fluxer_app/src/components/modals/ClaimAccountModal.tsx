@@ -17,39 +17,41 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as UserActionCreators from '@app/actions/UserActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import styles from '@app/components/modals/ClaimAccountModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import type {HttpError} from '@app/lib/HttpError';
+import ModalStore from '@app/stores/ModalStore';
+import * as FormUtils from '@app/utils/FormUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useEffect, useMemo, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as UserActionCreators from '~/actions/UserActionCreators';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import styles from '~/components/modals/ClaimAccountModal.module.css';
-import confirmStyles from '~/components/modals/ConfirmModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import ModalStore from '~/stores/ModalStore';
 
 interface FormInputs {
 	email: string;
 	newPassword: string;
+	verificationCode: string;
 }
 
 type Stage = 'collect' | 'verify';
 
 export const ClaimAccountModal = observer(() => {
-	const {t} = useLingui();
-	const form = useForm<FormInputs>({defaultValues: {email: '', newPassword: ''}});
+	const {t, i18n} = useLingui();
+	const form = useForm<FormInputs>({
+		defaultValues: {email: '', newPassword: '', verificationCode: ''},
+	});
 	const [stage, setStage] = useState<Stage>('collect');
 	const [ticket, setTicket] = useState<string | null>(null);
 	const [originalProof, setOriginalProof] = useState<string | null>(null);
-	const [verificationCode, setVerificationCode] = useState<string>('');
 	const [resendNewAt, setResendNewAt] = useState<Date | null>(null);
-	const [verificationError, setVerificationError] = useState<string | null>(null);
 	const [submittingAction, setSubmittingAction] = useState<boolean>(false);
 	const [now, setNow] = useState<number>(Date.now());
 
@@ -65,7 +67,6 @@ export const ClaimAccountModal = observer(() => {
 	}, [resendNewAt, now]);
 
 	const startEmailTokenFlow = async (data: FormInputs) => {
-		setVerificationError(null);
 		let activeTicket = ticket;
 		let activeProof = originalProof;
 		if (!activeTicket || !activeProof) {
@@ -85,31 +86,27 @@ export const ClaimAccountModal = observer(() => {
 
 		const result = await UserActionCreators.requestEmailChangeNew(activeTicket!, data.email, activeProof);
 		setResendNewAt(result.resend_available_at ? new Date(result.resend_available_at) : null);
-		setVerificationCode('');
+		form.setValue('verificationCode', '');
+		form.clearErrors('verificationCode');
 		setStage('verify');
 		ToastActionCreators.createToast({type: 'success', children: t`Verification code sent`});
 	};
 
-	const handleVerifyNew = async () => {
+	const handleVerifyNew = async (data: FormInputs) => {
 		if (!ticket || !originalProof) return;
-		const passwordValid = await form.trigger('newPassword');
-		if (!passwordValid) {
-			return;
-		}
 		setSubmittingAction(true);
-		setVerificationError(null);
 		try {
-			const {email_token} = await UserActionCreators.verifyEmailChangeNew(ticket, verificationCode, originalProof);
+			const {email_token} = await UserActionCreators.verifyEmailChangeNew(ticket, data.verificationCode, originalProof);
 			await UserActionCreators.update({
 				email_token,
-				new_password: form.getValues('newPassword'),
+				new_password: data.newPassword,
 			});
 			ToastActionCreators.createToast({type: 'success', children: t`Account claimed successfully`});
 			ModalActionCreators.pop();
-		} catch (error: any) {
-			const message = error?.message ?? t`Invalid or expired code`;
-			setVerificationError(message);
-			ToastActionCreators.createToast({type: 'error', children: message});
+		} catch (error: unknown) {
+			FormUtils.handleError(i18n, form, error as HttpError, 'verificationCode', {
+				pathMap: {new_password: 'newPassword'},
+			});
 		} finally {
 			setSubmittingAction(false);
 		}
@@ -118,15 +115,12 @@ export const ClaimAccountModal = observer(() => {
 	const handleResendNew = async () => {
 		if (!ticket || !canResendNew) return;
 		setSubmittingAction(true);
-		setVerificationError(null);
 		try {
 			await UserActionCreators.resendEmailChangeNew(ticket);
 			setResendNewAt(new Date(Date.now() + 30 * 1000));
 			ToastActionCreators.createToast({type: 'success', children: t`Code resent`});
-		} catch (error: any) {
-			const message = error?.message ?? t`Unable to resend code right now`;
-			setVerificationError(message);
-			ToastActionCreators.createToast({type: 'error', children: message});
+		} catch (error: unknown) {
+			FormUtils.handleError(i18n, form, error as HttpError, 'verificationCode');
 		} finally {
 			setSubmittingAction(false);
 		}
@@ -140,41 +134,43 @@ export const ClaimAccountModal = observer(() => {
 
 	return (
 		<Modal.Root size="small" centered>
-			<Modal.Header title={t`Claim your account`} />
+			<Modal.Header title={t`Claim Your Account`} />
 			{stage === 'collect' ? (
 				<Form form={form} onSubmit={handleSubmit}>
-					<Modal.Content className={styles.content}>
-						<p className={confirmStyles.descriptionText}>
-							<Trans>
-								Claim your account by adding an email and password. We will send a verification code to confirm your
-								email before finishing.
-							</Trans>
-						</p>
-						<div className={confirmStyles.inputContainer}>
-							<Input
-								{...form.register('email')}
-								autoComplete="email"
-								autoFocus={true}
-								error={form.formState.errors.email?.message}
-								label={t`Email`}
-								maxLength={256}
-								minLength={1}
-								placeholder={t`marty@example.com`}
-								required={true}
-								type="email"
-							/>
-							<Input
-								{...form.register('newPassword')}
-								autoComplete="new-password"
-								error={form.formState.errors.newPassword?.message}
-								label={t`Password`}
-								maxLength={128}
-								minLength={8}
-								placeholder={'•'.repeat(32)}
-								required={true}
-								type="password"
-							/>
-						</div>
+					<Modal.Content>
+						<Modal.ContentLayout>
+							<Modal.Description>
+								<Trans>
+									Claim your account by adding an email and password. We will send a verification code to confirm your
+									email before finishing.
+								</Trans>
+							</Modal.Description>
+							<Modal.InputGroup>
+								<Input
+									{...form.register('email')}
+									autoComplete="email"
+									autoFocus={true}
+									error={form.formState.errors.email?.message}
+									label={t`Email`}
+									maxLength={256}
+									minLength={1}
+									placeholder={t`marty@example.com`}
+									required={true}
+									type="email"
+								/>
+								<Input
+									{...form.register('newPassword')}
+									autoComplete="new-password"
+									error={form.formState.errors.newPassword?.message}
+									label={t`Password`}
+									maxLength={128}
+									minLength={8}
+									placeholder={'•'.repeat(32)}
+									required={true}
+									type="password"
+								/>
+							</Modal.InputGroup>
+						</Modal.ContentLayout>
 					</Modal.Content>
 					<Modal.Footer className={styles.footer}>
 						<Button onClick={ModalActionCreators.pop} variant="secondary">
@@ -186,48 +182,50 @@ export const ClaimAccountModal = observer(() => {
 					</Modal.Footer>
 				</Form>
 			) : (
-				<>
-					<Modal.Content className={styles.content}>
-						<p className={confirmStyles.descriptionText}>
-							<Trans>
-								Enter the code we sent to your email to verify it. Your password will be set once the code is confirmed.
-							</Trans>
-						</p>
-						<div className={confirmStyles.inputContainer}>
-							<Input
-								value={verificationCode}
-								onChange={(event) => setVerificationCode(event.target.value)}
-								autoFocus={true}
-								label={t`Verification code`}
-								placeholder="XXXX-XXXX"
-								required={true}
-								error={verificationError ?? undefined}
-							/>
-							<Input
-								{...form.register('newPassword')}
-								autoComplete="new-password"
-								error={form.formState.errors.newPassword?.message}
-								label={t`Password`}
-								maxLength={128}
-								minLength={8}
-								placeholder={'•'.repeat(32)}
-								required={true}
-								type="password"
-							/>
-						</div>
+				<Form form={form} onSubmit={handleVerifyNew}>
+					<Modal.Content>
+						<Modal.ContentLayout>
+							<Modal.Description>
+								<Trans>
+									Enter the code we sent to your email to verify it. Your password will be set once the code is
+									confirmed.
+								</Trans>
+							</Modal.Description>
+							<Modal.InputGroup>
+								<Input
+									{...form.register('verificationCode')}
+									autoFocus={true}
+									label={t`Verification Code`}
+									placeholder="XXXX-XXXX"
+									required={true}
+									error={form.formState.errors.verificationCode?.message}
+								/>
+								<Input
+									{...form.register('newPassword')}
+									autoComplete="new-password"
+									error={form.formState.errors.newPassword?.message}
+									label={t`Password`}
+									maxLength={128}
+									minLength={8}
+									placeholder={'•'.repeat(32)}
+									required={true}
+									type="password"
+								/>
+							</Modal.InputGroup>
+						</Modal.ContentLayout>
 					</Modal.Content>
 					<Modal.Footer className={styles.footer}>
-						<Button onClick={ModalActionCreators.pop} variant="secondary">
+						<Button onClick={ModalActionCreators.pop} variant="secondary" type="button">
 							<Trans>Cancel</Trans>
 						</Button>
-						<Button onClick={handleResendNew} disabled={!canResendNew || submittingAction}>
+						<Button type="button" onClick={handleResendNew} disabled={!canResendNew || submittingAction}>
 							{canResendNew ? <Trans>Resend</Trans> : <Trans>Resend ({resendSecondsRemaining}s)</Trans>}
 						</Button>
-						<Button onClick={handleVerifyNew} submitting={submittingAction}>
+						<Button type="submit" submitting={submittingAction}>
 							<Trans>Claim Account</Trans>
 						</Button>
 					</Modal.Footer>
-				</>
+				</Form>
 			)}
 		</Modal.Root>
 	);

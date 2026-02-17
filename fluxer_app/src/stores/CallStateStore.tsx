@@ -17,10 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import VoiceStateManager from '@app/stores/voice/VoiceStateManager';
+import type {CallVoiceState} from '@app/types/gateway/GatewayVoiceTypes';
+import {ME} from '@fluxer/constants/src/AppConstants';
 import {makeAutoObservable, observable} from 'mobx';
-import {ME} from '~/Constants';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import VoiceStateManager from '~/stores/voice/VoiceStateManager';
+
+export enum CallMode {
+	MINIMUM = 'MINIMUM',
+	NORMAL = 'NORMAL',
+	FULL_SCREEN = 'FULL_SCREEN',
+}
 
 export enum CallLayout {
 	MINIMUM = 'MINIMUM',
@@ -28,22 +35,12 @@ export enum CallLayout {
 	FULL_SCREEN = 'FULL_SCREEN',
 }
 
-interface VoiceState {
-	user_id: string;
-	channel_id?: string | null;
-	session_id?: string;
-	self_mute?: boolean;
-	self_deaf?: boolean;
-	self_video?: boolean;
-	self_stream?: boolean;
-}
-
 export interface GatewayCallData {
 	channel_id: string;
 	message_id?: string;
 	region?: string;
 	ringing?: Array<string>;
-	voice_states?: Array<VoiceState>;
+	voice_states?: Array<CallVoiceState>;
 }
 
 export interface Call {
@@ -60,7 +57,20 @@ class CallStateStore {
 	private pendingRinging = observable.map<string, Set<string>>();
 
 	constructor() {
-		makeAutoObservable(this, {}, {autoBind: true});
+		makeAutoObservable(
+			this,
+			{
+				getCall: false,
+				getActiveCalls: false,
+				hasActiveCall: false,
+				isCallActive: false,
+				getCallLayout: false,
+				getMessageId: false,
+				getParticipants: false,
+				isUserPendingRinging: false,
+			},
+			{autoBind: true},
+		);
 	}
 
 	getCall(channelId: string): Call | undefined {
@@ -150,24 +160,27 @@ class CallStateStore {
 	handleCallCreate(data: {channelId: string; call?: GatewayCallData}): void {
 		if (!data.call) return;
 
+		const existingCall = this.calls.get(data.channelId);
+		if (existingCall) {
+			this.handleCallUpdate(data.call);
+			return;
+		}
+
 		const {ringing = [], message_id, region, voice_states = []} = data.call;
 		const normalizedRinging = this.normalizeUserIds(ringing);
 		const participants = this.extractParticipantsFromVoiceStates(voice_states);
-
-		const existingCall = this.calls.get(data.channelId);
-		const layout = existingCall?.layout ?? CallLayout.MINIMUM;
 
 		const call: Call = {
 			channelId: data.channelId,
 			messageId: message_id ?? null,
 			region: region ?? null,
 			ringing: normalizedRinging,
-			layout,
+			layout: CallLayout.MINIMUM,
 			participants,
 		};
 
 		this.calls.set(data.channelId, call);
-		this.recordIncomingRinging(data.channelId, normalizedRinging);
+		this.setPendingRinging(data.channelId, normalizedRinging);
 	}
 
 	handleCallUpdate(data: GatewayCallData): void {
@@ -180,8 +193,8 @@ class CallStateStore {
 			return;
 		}
 
-		const normalizedRinging = this.normalizeUserIds(ringing);
 		const hasRingingPayload = ringing !== undefined;
+		const normalizedRinging = hasRingingPayload ? this.normalizeUserIds(ringing) : call.ringing;
 		const hasVoiceStatesPayload = voice_states !== undefined;
 		const participants = hasVoiceStatesPayload
 			? this.extractParticipantsFromVoiceStates(voice_states)
@@ -189,43 +202,74 @@ class CallStateStore {
 
 		const updatedCall: Call = {
 			...call,
-			ringing: hasRingingPayload ? normalizedRinging : call.ringing,
+			ringing: normalizedRinging,
 			messageId: message_id !== undefined ? message_id : call.messageId,
 			region: region !== undefined ? region : call.region,
 			participants,
 		};
 
-		this.calls.set(channel_id, updatedCall);
+		if (!this.isCallSnapshotEqual(call, updatedCall)) {
+			this.calls.set(channel_id, updatedCall);
+		}
 		if (hasRingingPayload) {
-			if (normalizedRinging.length > 0) {
-				this.recordIncomingRinging(channel_id, normalizedRinging);
-			} else {
-				this.clearPendingRinging(channel_id);
-			}
+			this.setPendingRinging(channel_id, normalizedRinging);
 		}
 	}
 
 	private normalizeUserIds(userIds?: Array<string>): Array<string> {
 		if (!userIds || userIds.length === 0) return [];
-		return userIds.map(String).filter(Boolean);
+		const normalized = userIds.map(String).filter(Boolean);
+		return Array.from(new Set(normalized)).sort();
 	}
 
-	private extractParticipantsFromVoiceStates(voiceStates?: Array<VoiceState>): Array<string> {
+	private extractParticipantsFromVoiceStates(voiceStates?: Array<CallVoiceState>): Array<string> {
 		if (!voiceStates || voiceStates.length === 0) return [];
-		return voiceStates.map((state) => state.user_id).filter((id): id is string => Boolean(id));
+		const participants = voiceStates.map((state) => state.user_id).filter((id): id is string => Boolean(id));
+		return Array.from(new Set(participants)).sort();
 	}
 
-	private recordIncomingRinging(channelId: string, userIds: Array<string>): void {
-		if (userIds.length === 0) return;
-
+	private setPendingRinging(channelId: string, userIds: Array<string>): void {
+		const nextSet = new Set(userIds);
 		const existing = this.pendingRinging.get(channelId);
-		const nextSet = existing ? new Set(existing) : new Set<string>();
-		for (const id of userIds) {
-			nextSet.add(id);
+		if (existing && this.areSetsEqual(existing, nextSet)) {
+			return;
+		}
+
+		if (nextSet.size === 0) {
+			this.pendingRinging.delete(channelId);
+			this.syncCallRinging(channelId, new Set());
+			return;
 		}
 
 		this.pendingRinging.set(channelId, nextSet);
 		this.syncCallRinging(channelId, nextSet);
+	}
+
+	private isCallSnapshotEqual(a: Call, b: Call): boolean {
+		return (
+			a.channelId === b.channelId &&
+			a.messageId === b.messageId &&
+			a.region === b.region &&
+			a.layout === b.layout &&
+			this.areArraysEqual(a.ringing, b.ringing) &&
+			this.areArraysEqual(a.participants, b.participants)
+		);
+	}
+
+	private areArraysEqual(a: Array<string>, b: Array<string>): boolean {
+		if (a.length !== b.length) return false;
+		for (let i = 0; i < a.length; i += 1) {
+			if (a[i] !== b[i]) return false;
+		}
+		return true;
+	}
+
+	private areSetsEqual(a: Set<string>, b: Set<string>): boolean {
+		if (a.size !== b.size) return false;
+		for (const value of a) {
+			if (!b.has(value)) return false;
+		}
+		return true;
 	}
 
 	private syncCallRinging(channelId: string, ringSet?: Set<string>): void {

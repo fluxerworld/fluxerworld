@@ -17,16 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/embeds/NSFWBlurOverlay.module.css';
+import {ExternalLink} from '@app/components/common/ExternalLink';
+import {HelpCenterArticleSlug} from '@app/constants/HelpCenterConstants';
+import GeoIPStore from '@app/stores/GeoIPStore';
+import {NSFWGateReason} from '@app/stores/GuildNSFWAgreeStore';
+import {getRegionDisplayName} from '@app/utils/GeoUtils';
+import * as HelpCenterUtils from '@app/utils/HelpCenterUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {WarningCircleIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import type {FC} from 'react';
-import {ExternalLink} from '~/components/common/ExternalLink';
-import GeoIPStore from '~/stores/GeoIPStore';
-import {NSFWGateReason} from '~/stores/GuildNSFWAgreeStore';
-import {formatRegion} from '~/utils/GeoUtils';
-import * as HelpCenterUtils from '~/utils/HelpCenterUtils';
-import styles from './NSFWBlurOverlay.module.css';
 
 interface NSFWBlurOverlayProps {
 	reason: NSFWGateReason;
@@ -37,7 +38,7 @@ export const NSFWBlurOverlay: FC<NSFWBlurOverlayProps> = observer(({reason}) => 
 	const getMessage = () => {
 		const countryCode = GeoIPStore.countryCode;
 		const regionCode = GeoIPStore.regionCode;
-		const regionName = formatRegion(i18n, countryCode, regionCode);
+		const regionName = getRegionDisplayName(i18n, countryCode ?? undefined, regionCode ?? undefined);
 
 		switch (reason) {
 			case NSFWGateReason.GEO_RESTRICTED:
@@ -48,7 +49,9 @@ export const NSFWBlurOverlay: FC<NSFWBlurOverlayProps> = observer(({reason}) => 
 				return (
 					<Trans>
 						You must be 18 or older to view this content.{' '}
-						<ExternalLink href={HelpCenterUtils.getURL('1426347609450086400')}>Learn more</ExternalLink>
+						<ExternalLink href={HelpCenterUtils.getURL(HelpCenterArticleSlug.ChangeDateOfBirth)}>
+							Learn more
+						</ExternalLink>
 					</Trans>
 				);
 			default:

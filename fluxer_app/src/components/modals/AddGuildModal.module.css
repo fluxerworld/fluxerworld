@@ -54,11 +54,6 @@
 
 .actionButton:hover {
 	background: var(--background-secondary-alt);
-	border-color: var(--brand-primary-light);
-}
-
-:global(.theme-light) .actionButton:hover {
-	border-color: var(--brand-primary);
 }
 
 .actionIcon {
@@ -198,4 +193,13 @@
 .guidelines {
 	color: var(--text-primary-muted);
 	font-size: 12px;
+}
+
+.guidelinesLink {
+	color: var(--text-link);
+	text-decoration: none;
+}
+
+.guidelinesLink:hover {
+	text-decoration: underline;
 }

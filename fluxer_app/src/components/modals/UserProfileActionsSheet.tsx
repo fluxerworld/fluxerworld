@@ -17,6 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as RelationshipActionCreators from '@app/actions/RelationshipActionCreators';
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
+import {BanMemberModal} from '@app/components/modals/BanMemberModal';
+import {ChangeNicknameModal} from '@app/components/modals/ChangeNicknameModal';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {KickMemberModal} from '@app/components/modals/KickMemberModal';
+import {TransferOwnershipModal} from '@app/components/modals/TransferOwnershipModal';
+import styles from '@app/components/modals/UserProfileActionsSheet.module.css';
+import {MenuBottomSheet, type MenuGroupType} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {useRoleHierarchy} from '@app/hooks/useRoleHierarchy';
+import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import {Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {useLingui} from '@lingui/react/macro';
 import {
 	CopyIcon,
@@ -31,26 +52,6 @@ import {
 	UserMinusIcon,
 } from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as RelationshipActionCreators from '~/actions/RelationshipActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import {Permissions, RelationshipTypes} from '~/Constants';
-import {BanMemberModal} from '~/components/modals/BanMemberModal';
-import {ChangeNicknameModal} from '~/components/modals/ChangeNicknameModal';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {KickMemberModal} from '~/components/modals/KickMemberModal';
-import {TransferOwnershipModal} from '~/components/modals/TransferOwnershipModal';
-import {MenuBottomSheet, type MenuGroupType} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import {useRoleHierarchy} from '~/hooks/useRoleHierarchy';
-import type {GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import PermissionStore from '~/stores/PermissionStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-import styles from './UserProfileActionsSheet.module.css';
 
 interface UserProfileActionsSheetProps {
 	isOpen: boolean;

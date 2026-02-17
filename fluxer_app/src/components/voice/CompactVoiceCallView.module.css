@@ -20,8 +20,12 @@
 .container {
 	display: flex;
 	flex-direction: column;
-	background-color: var(--background-secondary);
+	background-color: var(--voice-surface-0);
 	min-width: 0;
+	position: relative;
+	overflow-x: hidden;
+	overflow-y: hidden;
+	min-height: 0;
 }
 
 .containerNoHeader {
@@ -33,7 +37,7 @@
 	height: 56px;
 	align-items: center;
 	justify-content: space-between;
-	border-bottom: 1px solid var(--background-modifier-accent);
+	border-bottom: 1px solid var(--voice-surface-5);
 	padding-left: 1rem;
 	padding-right: 1rem;
 }
@@ -56,17 +60,17 @@
 	height: 8px;
 	width: 8px;
 	border-radius: 9999px;
-	background-color: rgb(34 197 94);
+	background-color: var(--voice-status-success);
 	animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 	flex-shrink: 0;
 }
 
 .statusContainer[data-state='Connecting'] .statusDot,
 .statusContainer[data-state='Reconnecting'] .statusDot {
-	background-color: rgb(245 158 11);
+	background-color: var(--voice-status-warning);
 }
 .statusContainer[data-state='Disconnected'] .statusDot {
-	background-color: rgb(239 68 68);
+	background-color: var(--voice-status-danger);
 }
 
 @keyframes pulse {
@@ -102,14 +106,14 @@
 	align-items: center;
 	justify-content: center;
 	border-radius: 6px;
-	background-color: var(--background-modifier-hover);
+	background-color: var(--voice-surface-3);
 	color: var(--text-primary);
 	transition: background-color 150ms ease;
 	cursor: pointer;
 }
 
 .expandButton:hover {
-	background-color: var(--background-modifier-selected);
+	background-color: var(--voice-surface-4);
 }
 
 .videoSection {
@@ -119,35 +123,39 @@
 
 .videoContainer {
 	display: flex;
+	flex-direction: column;
 	gap: 0.5rem;
-	overflow-x: auto;
+	overflow-x: hidden;
+	overflow-y: auto;
 	padding-bottom: 0.25rem;
 	scrollbar-width: thin;
 
-	scroll-snap-type: x mandatory;
+	scroll-snap-type: y mandatory;
 	-webkit-overflow-scrolling: touch;
 }
 
 .videoTile {
 	height: 128px;
-	width: 192px;
+	width: 100%;
+	max-width: 320px;
 	flex: 0 0 auto;
 	overflow: hidden;
 	border-radius: 10px;
-	background-color: var(--background-tertiary);
+	background-color: var(--voice-surface-2);
 
 	scroll-snap-align: start;
 }
 
 .moreVideos {
 	height: 128px;
-	width: 192px;
+	width: 100%;
+	max-width: 320px;
 	flex: 0 0 auto;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border-radius: 10px;
-	background-color: var(--background-tertiary);
+	background-color: var(--voice-surface-2);
 
 	scroll-snap-align: start;
 }
@@ -159,8 +167,172 @@
 }
 
 .controlBarSection {
-	padding: 0.5rem;
-	background-color: #000;
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	padding: 0 1rem calc(0.75rem + env(safe-area-inset-bottom, 0px));
+	z-index: 12;
+	pointer-events: none;
+}
+
+.controlBarInner {
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 100%;
+	pointer-events: auto;
+}
+
+.fullscreenButtonWrap {
+	position: absolute;
+	right: 0.75rem;
+	bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+	z-index: 13;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.fullscreenButtonWrap button {
+	background-color: var(--voice-surface-4);
+	color: var(--voice-text-strong);
+}
+
+.fullscreenButtonWrap button:hover {
+	background-color: var(--voice-surface-5);
+}
+
+.contentArea {
+	flex: 1 1 auto;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	position: relative;
+	z-index: 1;
+}
+
+.contentAreaAvatarsOnly {
+	padding: calc(1.25rem + env(safe-area-inset-top, 0px)) calc(1.25rem + env(safe-area-inset-right, 0px))
+		calc(1.25rem + env(safe-area-inset-bottom, 0px)) calc(1.25rem + env(safe-area-inset-left, 0px));
+}
+
+.audioAvatarLayout {
+	flex: 1 1 auto;
+	min-height: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0.25rem 0.5rem;
+}
+
+.audioAvatarList {
+	max-width: min(100%, 34rem);
+	width: 100%;
+}
+
+.layoutHost {
+	flex: 1 1 auto;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+	--voice-call-horizontal-padding: 0;
+	container-type: size;
+	overflow: hidden;
+}
+
+.floatingPiPLayer {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	z-index: 11;
+}
+
+.floatingPiPSurface {
+	position: absolute;
+	width: min(42%, 340px);
+	min-width: min(180px, calc(100% - 24px));
+	max-width: calc(100% - 24px);
+	aspect-ratio: 16 / 9;
+	border-radius: 12px;
+	overflow: hidden;
+	background-color: var(--voice-surface-0);
+	box-shadow: 0 10px 28px var(--voice-shadow-medium);
+	pointer-events: auto;
+}
+
+.floatingPiPSurfaceDragging {
+	cursor: grabbing;
+}
+
+.floatingPiPDragHandle {
+	position: absolute;
+	top: 0.25rem;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: none;
+	background-color: transparent;
+	padding: 0.25rem;
+	cursor: grab;
+	z-index: 2;
+}
+
+.floatingPiPDragHandlePill {
+	width: 26px;
+	height: 4px;
+	border-radius: 9999px;
+	background-color: var(--voice-overlay-light-bold);
+}
+
+.floatingPiPContent {
+	position: absolute;
+	inset: 0;
+}
+
+.floatingPiPContent :global(.lkParticipantTile),
+.floatingPiPContent :global(.lkParticipantTile::after),
+.floatingPiPContent :global(.lkParticipantPlaceholder),
+.floatingPiPContent :global(.lkParticipantTile video) {
+	border-radius: 12px;
+}
+
+.resizeHandle {
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 16px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: ns-resize;
+	z-index: 14;
+	touch-action: none;
+}
+
+.resizePill {
+	width: 36px;
+	height: 4px;
+	border-radius: 9999px;
+	background-color: var(--voice-overlay-light-strong);
+	opacity: 0.7;
+	transition: opacity 150ms ease;
+}
+
+.resizeHandle:hover .resizePill {
+	opacity: 1;
+}
+
+.containerResizing {
+	user-select: none;
 }
 
 .iconSmall {

@@ -17,27 +17,29 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getStatusTypeLabel} from '@app/AppConstants';
+import * as LayoutActionCreators from '@app/actions/LayoutActionCreators';
+import * as PrivateChannelActionCreators from '@app/actions/PrivateChannelActionCreators';
+import * as QuickSwitcherActionCreators from '@app/actions/QuickSwitcherActionCreators';
+import * as UserProfileActionCreators from '@app/actions/UserProfileActionCreators';
+import {LongPressable} from '@app/components/LongPressable';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import i18n from '@app/I18n';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import PresenceStore from '@app/stores/PresenceStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import UserStore from '@app/stores/UserStore';
+import styles from '@app/utils/friends/FriendsListUtils.module.css';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {msg} from '@lingui/core/macro';
 import {CaretRightIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as LayoutActionCreators from '~/actions/LayoutActionCreators';
-import * as PrivateChannelActionCreators from '~/actions/PrivateChannelActionCreators';
-import * as QuickSwitcherActionCreators from '~/actions/QuickSwitcherActionCreators';
-import * as UserProfileActionCreators from '~/actions/UserProfileActionCreators';
-import {getStatusTypeLabel, RelationshipTypes} from '~/Constants';
-import {LongPressable} from '~/components/LongPressable';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Scroller} from '~/components/uikit/Scroller';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import i18n from '~/i18n';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import PresenceStore from '~/stores/PresenceStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-import UserStore from '~/stores/UserStore';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import styles from './FriendsListUtils.module.css';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 
 interface FriendGroup {
 	letter: string;
@@ -56,7 +58,7 @@ interface FriendsListContentProps {
 }
 
 const useFriendGroups = (friendIds: Array<string>, searchQuery: string) => {
-	return React.useMemo(() => {
+	return useMemo(() => {
 		const filtered = friendIds.filter((userId) => {
 			const user = UserStore.getUser(userId);
 			if (!user) return false;
@@ -103,7 +105,7 @@ const FriendItem = observer(({userId}: {userId: string}) => {
 	const user = UserStore.getUser(userId);
 	const status = PresenceStore.getStatus(userId);
 
-	const handleClick = React.useCallback(async () => {
+	const handleClick = useCallback(async () => {
 		try {
 			await PrivateChannelActionCreators.openDMChannel(userId);
 			if (MobileLayoutStore.isMobileLayout()) {
@@ -113,7 +115,7 @@ const FriendItem = observer(({userId}: {userId: string}) => {
 		} catch {}
 	}, [userId]);
 
-	const handleLongPress = React.useCallback(() => {
+	const handleLongPress = useCallback(() => {
 		UserProfileActionCreators.openUserProfile(userId);
 	}, [userId]);
 
@@ -143,7 +145,7 @@ const FriendItem = observer(({userId}: {userId: string}) => {
 
 export const FriendsListContent: React.FC<FriendsListContentProps> = observer(
 	({className, searchQuery, onTotalCountChange, variant}) => {
-		const [internalSearchQuery, _setInternalSearchQuery] = React.useState('');
+		const [internalSearchQuery, _setInternalSearchQuery] = useState('');
 		const query = searchQuery ?? internalSearchQuery;
 		const relationships = RelationshipStore.getRelationships();
 		const friendIds = relationships
@@ -153,7 +155,7 @@ export const FriendsListContent: React.FC<FriendsListContentProps> = observer(
 		const groupedFriends = useFriendGroups(friendIds, query);
 		const totalCount = groupedFriends.reduce((sum, group) => sum + group.friendIds.length, 0);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			onTotalCountChange?.(totalCount);
 		}, [onTotalCountChange, totalCount]);
 
@@ -201,5 +203,3 @@ export const FriendsListContent: React.FC<FriendsListContentProps> = observer(
 		);
 	},
 );
-
-export type {FriendsListContentProps};

@@ -1,0 +1,22 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "GUILD_ROLE_UPDATE_BULK",
+	"description": "Sent when multiple guild roles are updated (e.g. reordering or hoist position changes).",
+	"scope": "guild",
+	"dispatchedBy": [
+		"PATCH /guilds/:guild_id/roles",
+		"PATCH /guilds/:guild_id/roles/hoist-positions",
+		"DELETE /guilds/:guild_id/roles/hoist-positions"
+	],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"roles": {
+				"type": "array",
+				"items": {"$ref": "GuildRoleResponse"},
+				"description": "The updated roles"
+			}
+		},
+		"required": ["roles"]
+	}
+}

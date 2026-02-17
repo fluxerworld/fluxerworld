@@ -1,0 +1,23 @@
+---
+title: 'Close codes'
+description: 'WebSocket close codes used by the Fluxer gateway.'
+---
+
+When the gateway closes a connection, it sends a close code indicating why. Some close codes are recoverable (the client should reconnect), while others are not.
+
+## Close code reference
+
+| Code | Name | Description | Reconnect |
+|------|------|-------------|----------|
+| `4000` | `UNKNOWN_ERROR` | Unknown error occurred | Yes |
+| `4001` | `UNKNOWN_OPCODE` | Sent an invalid gateway opcode | Yes |
+| `4002` | `DECODE_ERROR` | Sent an invalid payload | Yes |
+| `4003` | `NOT_AUTHENTICATED` | Sent a payload before identifying | Yes |
+| `4004` | `AUTHENTICATION_FAILED` | Account token is invalid | No |
+| `4005` | `ALREADY_AUTHENTICATED` | Sent more than one identify payload | Yes |
+| `4007` | `INVALID_SEQ` | Sent an invalid sequence when resuming | Yes |
+| `4008` | `RATE_LIMITED` | Sending payloads too quickly | Yes |
+| `4009` | `SESSION_TIMEOUT` | Session timed out; reconnect and start a new one | Yes |
+| `4010` | `INVALID_SHARD` | Sent an invalid shard when identifying | No |
+| `4011` | `SHARDING_REQUIRED` | Session would have handled too many guilds; sharding is required | No |
+| `4012` | `INVALID_API_VERSION` | Sent an invalid gateway version | No |

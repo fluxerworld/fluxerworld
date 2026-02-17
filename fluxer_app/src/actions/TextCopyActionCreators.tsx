@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {Logger} from '@app/lib/Logger';
+import {getElectronAPI, isDesktop} from '@app/utils/NativeUtils';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {Logger} from '~/lib/Logger';
-import {getElectronAPI, isDesktop} from '~/utils/NativeUtils';
 
 const logger = new Logger('Clipboard');
 
@@ -54,7 +54,7 @@ const writeWithFallback = async (text: string): Promise<void> => {
 	throw new Error('No clipboard API available');
 };
 
-export const copy = async (i18n: I18n, text: string, suppressToast = false): Promise<boolean> => {
+export async function copy(i18n: I18n, text: string, suppressToast = false): Promise<boolean> {
 	try {
 		logger.debug('Copying text to clipboard');
 		if (!isDesktop()) {
@@ -73,4 +73,4 @@ export const copy = async (i18n: I18n, text: string, suppressToast = false): Pro
 		}
 		return false;
 	}
-};
+}

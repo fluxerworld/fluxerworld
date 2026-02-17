@@ -1,0 +1,497 @@
+account.already_verified: Акаунтът ти вече е потвърден.
+account.communication_disabled: Комуникацията е изключена.
+account.disabled: Този акаунт е деактивиран.
+account.email_verification_required_for_guild: Трябва да потвърдиш имейла си, за да пращаш съобщения в този сървър.
+account.guild_verification_required: Нужна е верификация на сървъра.
+account.ip_authorization_required: Нужна е IP оторизация.
+account.locked_suspicious_activity: Акаунтът ти е заключен заради подозрителна активност.
+account.phone_required_for_guild: Трябва да добавиш телефонен номер, за да пращаш съобщения в този сървър.
+account.scheduled_for_deletion: Този акаунт е насрочен за изтриване.
+account.session_timeout: Сесията изтече. Обнови страницата и влез пак.
+account.session_token_mismatch: Несъответствие на токена на сесията.
+account.suspended_permanently: Този акаунт е спрян завинаги.
+account.suspended_temporarily: Този акаунт е временно спрян.
+account.too_new_for_guild: Акаунтът ти е твърде нов, за да пращаш съобщения в този сървър.
+account.unauthorized: Нямаш достъп.
+admin_and_system.acls_must_be_non_empty: ACLs не трябва да са празни.
+admin_and_system.admin_api_key_not_found: Админ API ключът не е намерен.
+admin_and_system.audit_log_indexing: Audit логовете се индексират. Моля, опитай отново след момент.
+admin_and_system.channel_indexing: Каналите се индексират. Моля, опитай отново след момент.
+admin_and_system.creation_failed: Не успяхме да създадем ресурса. Моля, опитай пак.
+admin_and_system.deletion_failed: Не успяхме да изтрием ресурса. Моля, опитай пак.
+admin_and_system.decryption_failed: Не успяхме да дешифрираме съобщението. Ключовете за шифриране може да са невалидни или повредени.
+admin_and_system.empty_encrypted_body: Шифрирано съдържание е празно.
+admin_and_system.encryption_failed: Не успяхме да шифрираме съобщението. Ключовете за шифриране може да са невалидни или повредени.
+admin_and_system.general_error: Нещо се обърка. Моля, опитай пак по-късно.
+admin_and_system.invalid_acls_format: Невалиден формат на ACLs.
+admin_and_system.invalid_api_origin: Невалиден API origin.
+admin_and_system.invalid_audit_log_reason: Невалидна причина за audit log.
+admin_and_system.invalid_bot_flag: Невалиден bot flag.
+admin_and_system.invalid_decrypted_json: Невалиден дешифриран JSON.
+admin_and_system.invalid_ephemeral_key: Невалиден ephemeral ключ.
+admin_and_system.invalid_flags_format: Невалиден формат на flags.
+admin_and_system.invalid_form_body: Невалидно тяло на формата.
+admin_and_system.invalid_format: Предоставената стойност е в невалиден формат.
+admin_and_system.invalid_integer_format: Невалиден формат на цяло число.
+admin_and_system.invalid_iv: Невалиден инициализационен вектор.
+admin_and_system.invalid_suspicious_flags_format: Невалиден формат на suspicious flags.
+admin_and_system.invalid_system_flag: Невалиден system flag.
+admin_and_system.invalid_timeout_value: Невалидна стойност за timeout.
+admin_and_system.invalid_timestamp: Невалиден timestamp.
+admin_and_system.invalid_timezone_identifier: Невалиден идентификатор за часова зона.
+admin_and_system.missing_acl: Липсва ACL.
+admin_and_system.missing_ephemeral_key: Липсва ephemeral ключ.
+admin_and_system.missing_iv: Липсва инициализационен вектор.
+admin_and_system.must_be_iso_timestamp: Трябва да е валиден ISO timestamp.
+admin_and_system.processing_failed: Не успяхме да обработим заявката. Моля, опитай пак.
+admin_and_system.response_validation_failed: 'Проверката на отговора се провали: {errors}.'
+admin_and_system.test_harness_disabled: Test harness е изключен.
+admin_and_system.test_harness_forbidden: Test harness е забранен.
+admin_and_system.unknown_suspicious_flag: Непознат suspicious flag.
+admin_and_system.update_failed: Не успяхме да обновим ресурса. Моля, опитай пак.
+admin_and_system.user_must_be_bot_for_system_user: Потребителят трябва да е бот, за да бъде маркиран като системен потребител.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` и `expires_at` са задължителни.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` и `message_id` трябва да са валидни цели числа.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Потребителите с MANAGE_MESSAGES могат да редактират само описанията на прикачените файлове, не и други metadata.
+attachments_and_uploads.attachment_metadata_without_files: Подадена е metadata за прикачен файл с име, но не са качени файлове.
+attachments_and_uploads.attachment_must_be_image: Прикаченият файл "{filename}" трябва да е изображение (png, jpg, jpeg, webp или gif).
+attachments_and_uploads.attachment_not_found_in_message: Прикачен файл с ID {attachmentId} не беше намерен в съобщението.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Масивът с metadata за прикачените файлове е задължителен при качване на файлове.
+attachments_and_uploads.attachments_not_allowed_for_message: Прикачени файлове не се позволяват за това съобщение.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Не можеш да реферираш прикачени файлове, ако не са подадени прикачени файлове.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Не се позволяват дублирани attachment ID-та.
+attachments_and_uploads.duplicate_file_index: 'Дублиран file index: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Не успяхме да прочетем multipart form data. Провери дали имената на полетата и файловете са форматирани правилно.
+attachments_and_uploads.failed_to_parse_multipart_payload: Не успяхме да прочетем multipart payload.
+attachments_and_uploads.failed_to_upload_image: Не успяхме да качим изображението. Опитай пак.
+attachments_and_uploads.file_index_exceeds_maximum: File index {index} надвишава максимално позволения индекс {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Файлът не е намерен за сканиране.
+attachments_and_uploads.file_not_found: Файлът не е намерен.
+attachments_and_uploads.file_size_too_large: Файлът е твърде голям. Максимален размер е {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Името на файла не може да е празно след нормализация.
+attachments_and_uploads.filename_invalid_characters: Името на файла съдържа невалидни символи.
+attachments_and_uploads.filename_length_invalid: Името на файла трябва да е между {min} и {max} знака.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Несъответствие на името на файла за прикачен файл {attachmentId}: в metadata е "{expectedFilename}", но не съвпада.'
+attachments_and_uploads.image_size_exceeds_limit: Размерът на изображението надвишава {maxSize} байта.
+attachments_and_uploads.invalid_file_field_name: 'Невалидно име на file поле: {key}. Очакван формат: `files[N]`, където N е число.'
+attachments_and_uploads.invalid_image_data: Невалидни данни за изображение.
+attachments_and_uploads.invalid_image_format: 'Невалиден формат на изображение. Поддържани разширения: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: Невалиден JSON в `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Не се позволяват няколко файла за индекс {index}.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Не е качен файл за metadata на прикачен файл с ID {attachmentId}.
+attachments_and_uploads.no_file_uploaded_for_attachment: Не е качен файл за прикачения файл с ID {attachmentId}.
+attachments_and_uploads.no_metadata_for_file: Не е подадена metadata за файл с ID {fileId}.
+attachments_and_uploads.no_valid_media_in_message: В съобщението не беше намерена валидна медия.
+attachments_and_uploads.payload_json_required_for_multipart: '`payload_json` полето е задължително за multipart съобщения.'
+attachments_and_uploads.preview_must_be_jpeg: Preview-то трябва да е JPEG.
+attachments_and_uploads.referenced_attachment_not_found: Реферираният прикачен файл "{filename}" не беше намерен сред прикачените файлове към съобщението.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` трябва да е валидно цяло число.'
+attachments_and_uploads.too_many_files: Твърде много файлове. Позволени са най-много {maxFiles} {maxFiles, plural, one {файл} other {файла}}.
+attachments_and_uploads.unknown_image_format: Непознат формат на изображение.
+attachments_and_uploads.unresolved_attachment_url: Открит е неразрешен `attachment://` URL. Това е трябвало да се разреши преди обработката на вгражданията.
+attachments_and_uploads.uploaded_attachment_not_found: Каченият прикачен файл {filename} не беше намерен.
+auth_and_oauth.application_not_owned: Не си собственик на това приложение.
+auth_and_oauth.bot_already_in_guild: Този бот вече е в гилдията.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Ботовете не могат да създават auth сесии.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Ботовете не могат да ползват auth endpoint-и.
+auth_and_oauth.handoff_code_expired: Handoff кодът изтече.
+auth_and_oauth.handoff_code_invalid: Невалиден handoff код.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize не се поддържа. Ползвай POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Невалиден client secret.
+auth_and_oauth.invalid_client: Невалиден клиент.
+auth_and_oauth.invalid_code: Невалиден код.
+auth_and_oauth.invalid_grant: Оторизационният грант е невалиден, изтекъл е или е отозван.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Невалиден или изтекъл authorization ticket.
+auth_and_oauth.invalid_or_expired_authorization_token: Невалиден или изтекъл токен за оторизация.
+auth_and_oauth.invalid_or_expired_ticket: Невалиден или изтекъл ticket.
+auth_and_oauth.invalid_proof_token: Невалиден proof токен.
+auth_and_oauth.invalid_redirect_uri: Невалиден redirect URI.
+auth_and_oauth.invalid_request: Невалидна заявка.
+auth_and_oauth.invalid_scope: Поискания scope не се поддържа или нямаш разрешение да го поискаш.
+auth_and_oauth.invalid_sudo_token: Невалиден sudo токен.
+auth_and_oauth.invalid_token_admin_api_key: Невалиден админ API ключ.
+auth_and_oauth.missing_authorization: Липсва или е невалиден оторизационния хедър.
+auth_and_oauth.missing_client_secret: Липсва client secret.
+auth_and_oauth.missing_redirect_uri: Липсва redirect URI.
+auth_and_oauth.must_start_session_before_sending_messages: Трябва да стартираш сесия, преди да пращаш съобщения.
+auth_and_oauth.oauth_admin_scope_required: OAuth2 токените изискват admin scope, за да имат достъп до админ endpoint-и.
+auth_and_oauth.oauth_fields_missing: Липсват OAuth полета.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Redirect URI е задължителен за non-bot scopes.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Response type трябва да е code за non-bot scopes.
+auth_and_oauth.sudo_mode_required: Нужен е sudo режим.
+auth_and_oauth.unknown_application: Непознато приложение.
+auth_and_oauth.unsupported_response_type: Неподдържан response type.
+auth_and_registration.current_password_incorrect: Текущата парола е грешна.
+auth_and_registration.password_is_too_common: Паролата ти е твърде често ползвана. Избери по-уникална парола.
+auth_and_registration.password_not_set: Паролата не е зададена.
+bots.bot_application_not_found: Приложението на ботът не беше намерено.
+bots.bot_discriminator_cannot_be_changed: Дискриминаторът на бота не може да бъде променен.
+bots.bot_is_private: Този бот е приватен.
+bots.bot_user_generation_failed: Неуспешно генериране на потребител на ботът.
+bots.bot_user_not_found: Потребителят на ботът не беше намерен.
+bots.invalid_response_type_for_non_bot: Response type трябва да е code за non-bot scopes.
+bots.not_a_bot_application: Това приложение не е бот.
+calls_and_voice.call_already_exists: Обаждане вече е в ход в този канал.
+calls_and_voice.cannot_modify_voice_state: Не можеш да променяш voice състоянието.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Невалиден или ограничен RTC регион: {region}.'
+calls_and_voice.invalid_rtc_region: 'Невалиден RTC регион: {region}. Налични региони: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Невалиден формат на stream key.
+calls_and_voice.invalid_stream_thumbnail_payload: Невалиден payload за stream thumbnail.
+calls_and_voice.no_active_call: Няма активно обаждане.
+calls_and_voice.stream_key_channel_mismatch: Stream key не съвпада с канала.
+calls_and_voice.stream_key_scope_mismatch: Stream key scope не съвпада.
+calls_and_voice.stream_thumbnail_payload_empty: Payload-ът за stream thumbnail е празен.
+calls_and_voice.unknown_voice_region: Непознат voice регион.
+calls_and_voice.unknown_voice_server: Непознат voice сървър.
+calls_and_voice.voice_message_duration_exceeds_limit: Продължителността на гласово съобщение не може да надвишава {maxDuration} {maxDuration, plural, one {секунда} other {секунди}}.
+calls_and_voice.voice_message_duration_required: Прикачените файлове на гласови съобщения трябва да посочват продължителност.
+calls_and_voice.voice_message_waveform_required: Прикачените файлове на гласови съобщения трябва да включват waveform данни.
+calls_and_voice.voice_messages_require_single_attachment: Гласовите съобщения трябва да имат точно един прикачен файл.
+captcha.invalid: Невалидна captcha.
+captcha.required: Трябва да минеш captcha.
+channels_and_guilds.afk_channel_must_be_in_guild: AFK каналът трябва да е в този сървър.
+channels_and_guilds.afk_channel_must_be_voice: AFK каналът трябва да е voice канал.
+channels_and_guilds.all_channels_must_belong_to_guild: Всички канали трябва да принадлежат на този сървър.
+channels_and_guilds.animated_guild_banner_requires_feature: Анимираният банер на сървъра изисква функцията ANIMATED_BANNER.
+channels_and_guilds.cannot_execute_on_dm: Това действие не може да се изпълни в личен чат.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Собствеността на сървъра не може да бъде прехвърлена на бот.
+channels_and_guilds.cannot_leave_guild_as_owner: Не можеш да напуснеш сървъра като собственик. Прехвърли собствеността или изтрий сървъра.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Не можеш да позиционираш канал спрямо самия него или спрямо негови наследници.
+channels_and_guilds.cannot_report_own_guild: Не можеш да докладваш собствения си сървър.
+channels_and_guilds.categories_cannot_have_parent_channel: Категориите не могат да имат родителски канал.
+channels_and_guilds.categories_cannot_have_parents: Категориите не могат да имат родители.
+channels_and_guilds.channel_id_required: '`channel_id` е задължително.'
+channels_and_guilds.channel_must_be_dm_or_group_dm: Каналът трябва да е личен чат или групов личен чат.
+channels_and_guilds.channel_must_be_voice: Каналът трябва да е voice канал.
+channels_and_guilds.channel_not_found: Каналът не е намерен.
+channels_and_guilds.context_channel_or_guild_required: Нужен е контекстен канал или ID на сървър.
+channels_and_guilds.guild_banner_requires_feature: Банерът на сървъра изисква функцията BANNER.
+channels_and_guilds.guild_id_must_match_referenced_message: Guild ID трябва да съвпада с канала, от който е взето референтното съобщение.
+channels_and_guilds.invalid_channel_id: 'Невалиден channel ID: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Обаждания могат да се правят само в лични съобщения или групови лични съобщения.
+channels_and_guilds.invalid_channel_type: Невалиден тип канал.
+channels_and_guilds.invalid_channel: Невалиден канал.
+channels_and_guilds.invalid_parent_channel: Невалиден родителски канал.
+channels_and_guilds.invite_splash_requires_feature: Invite splash изисква функцията INVITE_SPLASH.
+channels_and_guilds.invites_disabled: Поканите са изключени.
+channels_and_guilds.max_group_dm_recipients_reached: 'Достигнал си максималния брой участници в групов личен чат: {count}.'
+channels_and_guilds.max_group_dms_reached: 'Достигнал си максималния брой групови лични чатове: {count}.'
+channels_and_guilds.max_guild_channels_reached: 'Достигнал си максималния брой канали в сървъра: {count}.'
+channels_and_guilds.max_guild_members_reached: 'Достигнал си максималния брой членове в сървъра: {count}.'
+channels_and_guilds.max_guild_roles_reached: 'Достигнал си максималния брой роли в сървъра: {count}.'
+channels_and_guilds.max_guilds_reached: 'Достигнал си максималния брой сървъри: {count}.'
+channels_and_guilds.message_history_cutoff_before_guild_creation: Отсичането на историята на съобщенията не може да е преди създаването на общността.
+channels_and_guilds.message_history_cutoff_in_future: Отсичането на историята на съобщенията не може да е в бъдещето.
+channels_and_guilds.parent_channel_not_in_guild: Родителският канал не присъства в сървъра.
+channels_and_guilds.parent_must_be_category: Родителят трябва да е категория.
+channels_and_guilds.preceding_channel_must_share_parent: Предходният канал трябва да е със същия родител като преместения канал.
+channels_and_guilds.preceding_channel_not_in_guild: Предходният канал не присъства в сървъра.
+channels_and_guilds.system_channel_must_be_in_guild: Системният канал трябва да е в този сървър.
+channels_and_guilds.system_channel_must_be_text: Системният канал трябва да е текстов канал.
+channels_and_guilds.temporary_invite_requires_presence: Временната покана изисква присъствие.
+channels_and_guilds.vanity_url_requires_feature: Vanity URL изисква функцията VANITY_URL.
+channels_and_guilds.voice_channel_full: Voice каналът е пълен.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Voice каналите не могат да са над текстовите канали в една и съща категория.
+colors.color_value_too_high: Стойността на цвета не трябва да надвишава 0xffffff.
+colors.color_value_too_low: Стойността на цвета трябва да е поне 0x000000.
+content_and_safety.content_blocked: Това съдържание беше блокирано от системите за безопасност.
+content_and_safety.csam_scan_failed: Сканирането на безопасност на съдържанието имаше грешка. Моля, опитай да качиш пак по-късно.
+content_and_safety.csam_scan_parse_error: Сканирането на безопасност на съдържанието върна невалиден отговор. Моля, опитай да качиш пак по-късно.
+content_and_safety.csam_scan_subscription_error: Услугата за сканиране на безопасност на съдържанието временно е недостъпна. Моля, опитай да качиш пак по-късно.
+content_and_safety.csam_scan_timeout: Сканирането на безопасност на съдържанието отне твърде дълго. Моля, опитай да качиш отново.
+content_and_safety.explicit_content_cannot_be_sent: Не можеш да изпращаш открито сексуално съдържание.
+content_and_safety.ncmec_already_submitted: Това съдържание вече е изпратено към NCMEC.
+content_and_safety.ncmec_submission_failed: Не успяхме да изпратим сигнала към NCMEC. Опитай пак по-късно.
+content_and_safety.nsfw_age_restricted: NSFW съдържанието е ограничено по възраст.
+connections.bluesky_oauth_callback_failed: Не успяхме да завършим свързването с Bluesky. Моля, опитай пак.
+connections.bluesky_oauth_not_enabled: Свързванията с Bluesky не са включени на този сървър.
+connections.bluesky_oauth_session_expired: Твоята сесия на Bluesky е изтекла. Моля, преконектирай си акаунта.
+connections.bluesky_oauth_state_invalid: Заявката за оторизация е изтекла или е невалидна. Моля, опитай пак.
+connections.already_exists: Съединението от този тип с този идентификатор вече съществува.
+connections.invalid_identifier: Идентификаторът на съединението е невалиден.
+connections.initiation_token_invalid: Токенът за инициирането на свързване е невалиден или е изтекъл.
+connections.invalid_type: Типът на съединението не се поддържа.
+connections.limit_reached: 'Достигнал си максималния брой съединения ({limit}).'
+connections.not_found: Неизвестно съединение.
+connections.verification_failed: Потвърждението на съединението не успя. Убеди се, че кодът за потвърждение е поставен правилно.
+discovery.already_applied: Тази общност вече е кандидатствала за открития.
+discovery.application_already_reviewed: Тази заявка за открития вече е разгледана.
+discovery.application_not_found: Заявката за открития не беше намерена.
+discovery.description_required: Описание е задължително за списъка с открития.
+discovery.insufficient_members: Тази общност не отговаря на минималния брой членове за открития.
+discovery.invalid_category: Невалидна категория за открития.
+discovery.not_discoverable: Тази общност не е включена в откритията.
+donation.amount_invalid: Суммата на дарението е невалидна.
+donation.donor_not_found: Дарителят не е намерен.
+donation.magic_link_expired: Магическата връзка е изтекла.
+donation.magic_link_invalid: Магическата връзка е невалидна.
+donation.magic_link_used: Магическата връзка вече е използвана.
+email.email_already_in_use: Имейлът вече се използва.
+email.email_required: Имейлът е задължителен.
+email.email_service_not_testable: Имейл услугата временно е недостъпна. Моля, опитай пак по-късно.
+email.invalid_format: Невалиден формат на имейл адрес.
+email.invalid_or_expired_reset_token: Невалиден или изтекъл токен за нулиране на парола.
+email.invalid_or_expired_revert_token: Невалиден или изтекъл токен за връщане.
+email.invalid_or_expired_verification_token: Невалиден или изтекъл токен за потвърждение.
+email.invalid_or_password: Грешен имейл или парола.
+email.invalid_token: Невалиден имейл токен.
+email.invalid_verification_code: Невалиден код за потвърждение.
+email.length_invalid: Имейл адресът трябва да е между {min} и {max} знака.
+email.must_be_changed_via_token: Имейлът трябва да се смени чрез токен.
+email.must_change_via_token: Имейлът трябва да се смени чрез `email_token`.
+email.must_have_email_to_change_it: Трябва да имаш имейл адрес, за да го смениш.
+email.new_email_must_be_different: Новият имейл трябва да е различен от текущия ти имейл.
+email.no_new_email_requested: Не е заявен нов имейл.
+email.no_original_email_on_record: Няма записан първоначален имейл.
+email.original_email_already_verified: Първоначалният имейл вече е потвърден.
+email.original_email_must_be_verified_first: Първо трябва да потвърдиш първоначалния имейл.
+email.original_verification_not_required: Потвърждение на първоначалния имейл не е нужно за този процес.
+email.token_expired: Имейл токенът изтече.
+email.user_has_no_email_address: Този потребител няма имейл адрес.
+email.user_is_not_pending_verification: Този потребител не чака потвърждение.
+email.verification_code_expired: Кодът за потвърждение е изтекъл.
+email.verification_code_not_issued: Не е издаден код за потвърждение.
+embeds.embed_index_out_of_bounds: Индексът на вграждането {embedIndex} е извън обхват (съобщението има {embedCount} {embedCount, plural, one {вграждане} other {вграждания}}).
+embeds.embed_splash_requires_feature: Embed splash изисква функцията INVITE_SPLASH.
+embeds.embeds_exceed_max_characters: Вгражданията не трябва да надвишават общо {maxCharacters} {maxCharacters, plural, one {знак} other {знака}}.
+embeds.too_many_embeds: Твърде много вграждания. Позволени са най-много {maxEmbeds} {maxEmbeds, plural, one {вграждане} other {вграждания}}.
+feature_flags.feature_not_available_self_hosted: Тази функция не е налична на саморазместени инстанции.
+feature_flags.feature_temporarily_disabled: Тази функция е временно изключена.
+friends_and_dms.already_friends: Вече сте приятели с този потребител.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Нужен е поне един получател, за да се създадат лични канали.
+friends_and_dms.at_least_one_recipient_required: Нужен е поне един получател.
+friends_and_dms.bots_cannot_send_friend_requests: Ботовете не могат да пращат заявки за приятелство.
+friends_and_dms.cannot_add_yourself_to_group_dm: Не можеш да добавиш себе си в групов личен чат.
+friends_and_dms.cannot_dm_yourself: Не можеш да си пишеш на себе си.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Не можеш да пратиш заявка за приятелство на блокиран потребител.
+friends_and_dms.cannot_send_friend_request_to_self: Не можеш да пратиш заявка за приятелство на себе си.
+friends_and_dms.cannot_send_messages_to_user: Не можеш да пращаш съобщения на този потребител.
+friends_and_dms.duplicate_recipients_not_allowed: Не се позволяват дублирани получатели.
+friends_and_dms.friend_request_blocked: Потребителят в момента не приема заявки за приятелство.
+friends_and_dms.not_friends: Не сте приятели с този потребител.
+friends_and_dms.recipient_ids_cannot_be_empty: Recipient IDs не могат да са празни.
+friends_and_dms.recipient_ids_must_be_strings: Recipient IDs трябва да са низове.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Recipient IDs трябва да са валидни snowflake идентификатори.
+harvest.expired: Заявката ти за експорт на данни е изтекла. Моля, поиски нов експорт.
+harvest.failed: Заявката ти за експорт на данни се провали. Моля, опитай пак.
+harvest.not_ready: Експортът ти на данни все още се подготвя. Моля, проверй отново след няколко момента.
+harvest.on_cooldown: Можеш да поискаш експорт на данни само веднъж всеки 7 дни.
+harvest.unknown: Непознат harvest.
+http.bad_gateway: Лош gateway.
+http.bad_request: Лошо искане.
+http.conflict: Конфликт.
+http.forbidden: Забранено.
+http.gateway_timeout: Gateway timeout.
+http.gone: Изчезнало.
+http.internal_server_error: Вътрешна грешка на сървъра.
+http.method_not_allowed: Методът не е разрешен.
+http.not_found: Не намерено.
+http.not_implemented: Не е реализирано.
+http.service_unavailable: Услугата е недостъпна.
+http.validation_error: Валидирането се провали.
+invites_and_beta.invalid_or_already_used_beta_code: Невалиден или вече използван бета код.
+invites_and_beta.max_beta_codes_reached: Достигнал си максималния брой бета {count, plural, one {код} other {кодове}}.
+invites_and_beta.unknown_beta_code: Непознат бета код.
+invites_and_gifts.gift_code_already_redeemed: Кодът за подарък вече е осребрен.
+invites_and_gifts.stripe_gift_redemption_in_progress: Осребряването на кода за подарък е в процес. Опитай пак след малко.
+invites_and_gifts.unknown_gift_code: Непознат код за подарък.
+invites_and_packs.emoji_requires_access: Не можеш да ползваш това емоджи без достъп до сървъра му или без инсталиран пакет.
+invites_and_packs.invalid_pack_type: Невалиден тип пакет.
+invites_and_packs.max_animated_emojis_reached: 'Достигнал си максималния брой анимирани емоджита: {count}.'
+invites_and_packs.max_emojis_reached: 'Достигнал си максималния брой емоджита: {count}.'
+invites_and_packs.max_pack_expressions_reached: 'Достигнал си максималния брой изрази в пакетите: {count}.'
+invites_and_packs.max_packs_reached: 'Достигнал си максималния брой пакети: {count}.'
+invites_and_packs.pack_access_denied: Нямаш разрешение да осъществиш достъп до този пакет.
+limits.at_least_one_entry_required: Нужен е поне един запис.
+limits.base64_length_invalid: Дължината на base64 низа трябва да е между {min} и {maxLength} знака.
+limits.bucket_required: '`bucket` е задължително.'
+limits.cannot_shrink_reserved_slots: Не можеш да намалиш запазените слотове.
+limits.cannot_specify_before_and_after: Не можеш да зададеш едновременно `before` и `after`.
+limits.content_exceeds_max_length: Текстът не трябва да надвишава {maxLength} {maxLength, plural, one {знак} other {знака}}.
+limits.integer_out_of_int64_range: Целочисленото значение е извън валидния диапазон на int64.
+limits.rows_required: '`rows` е задължително.'
+limits.timeout_cannot_exceed_365_days: Timeout не може да бъде по-дълъг от {maxDays} {maxDays, plural, one {ден} other {дни}} от сега.
+limits.string_length_exact: Низът трябва да е точно {length} знака.
+limits.string_length_invalid: Дължината на низа трябва да е между {min} и {max} знака.
+limits.value_must_be_integer_in_range: Стойността за `{name}` трябва да е цяло число между {minValue} и {maxValue}.
+limits.value_too_small: Стойността е твърде малка.
+media_and_memes.favorite_meme_name_required: Името на любимия мем е задължително.
+media_and_memes.favorite_meme_not_found: Любимият мем не беше намерен.
+media_and_memes.max_favorite_memes_reached: 'Достигнал си максималния брой любими мемове: {count}.'
+media_and_memes.media_already_in_favorites: Този файл вече е в любимите ти мемове.
+media_and_memes.media_metadata_error: Грешка в metadata на медия.
+media_and_memes.unknown_favorite_meme: Непознат любим мем.
+messages.cannot_delete_more_than_100: Не можеш да изтриеш повече от {max} {max, plural, one {съобщение} other {съобщения}} наведнъж.
+messages.cannot_edit_others_message: Не можеш да редактираш чуждо съобщение.
+messages.cannot_preload_more_than_100_channels: Не можеш да зареди предварително повече от {max} {max, plural, one {канал} other {канала}} наведнъж.
+messages.cannot_reply_to_system_message: Не можеш да отговориш на системно съобщение.
+messages.cannot_send_empty_message: Не можеш да пратиш празно съобщение.
+messages.forward_messages_cannot_include_extra_content: Препратените съобщения не могат да включват допълнително съдържание, вграждания, прикачени файлове или стикери.
+messages.forward_reference_requires_channel_and_message: Препратката към съобщение трябва да включва `channel_id` и `message_id`.
+messages.invalid_message_data: Невалидни данни за съобщение.
+messages.invalid_scheduled_message_payload: Невалиден payload за планирано съобщение.
+messages.message_ids_cannot_be_empty: '`message_ids` не може да е празно.'
+messages.messages_array_required: '`messages` масивът е задължителен и не трябва да е празен.'
+messages.messages_with_snapshots_cannot_be_edited: Съобщенията със snapshots не могат да се редактират.
+messages.scheduled_messages_max_30_days: Планираните съобщения могат да бъдат най-много 30 дни в бъдещето.
+messages.scheduled_send_datetime_invalid: Невалидни дата или час за планирано изпращане.
+messages.scheduled_time_must_be_future: Планираното време трябва да е в бъдещето.
+messages.voice_messages_attachment_must_be_audio: Прикачени файлове на гласови съобщения трябва да са аудио файлове.
+messages.voice_messages_cannot_have_content: Гласовите съобщения не могат да имат текстово съдържание.
+messages.voice_messages_cannot_have_embeds: Гласовите съобщения не могат да имат вграждания.
+messages.voice_messages_cannot_have_favorite_memes: Гласовите съобщения не могат да имат любими мемове.
+messages.voice_messages_cannot_have_stickers: Гласовите съобщения не могат да имат стикери.
+mfa_and_passkeys.invalid_mfa_code: Невалиден MFA код.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Невалиден WebAuthn authentication counter.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Трябва да включиш 2FA на твоя акаунт, преди да го наложиш за модератори.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Невалиден WebAuthn credential counter.
+mfa_and_passkeys.invalid_webauthn_credential: Невалидно WebAuthn удостоверение.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Невалиден формат на WebAuthn публичен ключ.
+mfa_and_passkeys.no_passkeys_registered: Няма регистрирани passkey-ове.
+mfa_and_passkeys.passkey_authentication_failed: Неуспешна passkey автентикация.
+mfa_and_passkeys.passkeys_disabled: Passkey-овете са изключени.
+mfa_and_passkeys.two_factor_not_enabled: Двуфакторната автентикация не е включена.
+mfa_and_passkeys.two_factor_required: Нужна е двуфакторна автентикация.
+mfa_and_passkeys.unknown_webauthn_credential: Непознато WebAuthn удостоверение.
+mfa_and_passkeys.webauthn_credential_limit_reached: Достигнал си лимита за {count} WebAuthn {count, plural, one {удостоверение} other {удостоверения}}.
+misc_limits.max_bookmarks_reached: 'Достигнал си максималния брой отметки: {count}.'
+misc_limits.max_category_channels_reached: 'Достигнал си максималния брой category канали: {count}.'
+misc_limits.max_friends_reached: 'Достигнал си максималния брой приятели: {count}.'
+misc_limits.max_invites_reached: 'Достигнал си максималния брой покани: {count}.'
+misc_limits.max_pins_per_channel_reached: 'Достигнал си максималния брой pinned съобщения за канал: {count}.'
+misc.cannot_send_messages_in_non_text_channel: Не можеш да пращаш съобщения в нетекстов канал.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Трябва да потвърдиш имейла си, за да пращаш съобщения в този сървър.
+misc.invalid_job_id: Невалиден job ID.
+misc.invalid_permissions_integer: Permissions трябва да са валидно цяло число.
+misc.invalid_permissions_negative: Permissions не могат да са отрицателни.
+misc.invalid_request_generic: Невалидна заявка.
+misc.invalid_snowflake: Невалиден snowflake идентификатор.
+misc.job_already_processed: Job-ът вече е обработен.
+misc.job_id_required: Job ID е задължително.
+misc.job_not_found: Job-ът не е намерен.
+misc.max_files_exceeded: Твърде много файлове. Позволени са най-много {maxFiles} {maxFiles, plural, one {файл} other {файла}}.
+misc.must_have_bot_to_mark_system_user: Потребителят трябва да е бот, за да бъде маркиран като системен потребител.
+moderation_and_reports.cannot_report_own_message: Не можеш да докладваш собственото си съобщение.
+moderation_and_reports.cannot_report_yourself: Не можеш да докладваш себе си.
+moderation_and_reports.invalid_dsa_report_target: Невалидна цел за DSA сигнал.
+moderation_and_reports.invalid_dsa_ticket: Невалиден DSA ticket.
+moderation_and_reports.invalid_dsa_verification_code: Невалиден DSA код за потвърждение.
+moderation_and_reports.report_already_resolved: Сигналът вече е приключен.
+moderation_and_reports.report_banned: Баннат си от подаването на сигнали.
+moderation_and_reports.unknown_report: Непознат сигнал.
+moderation_and_reports.user_is_not_banned: Този потребител не е баннат.
+names_and_normalization.channel_name_empty_after_normalization: Името на канала не може да и е празно след нормализация.
+names_and_normalization.name_empty_after_normalization: Името не може да е празно след нормализация.
+permissions.missing_access: Нямаш достъп до този ресурс или функция.
+permissions.missing_permissions: Нямаш разрешенията, нужни за извършване на това действие.
+permissions.not_owner_of_admin_api_key: Нямаш право да променяш този админ API ключ.
+permissions.user_banned_from_guild: Този потребител е баннат в този сървър.
+permissions.user_ip_banned_from_guild: IP адресът на този потребител е баннат в този сървър.
+permissions.user_not_in_channel: Този потребител не е в този канал.
+permissions.user_not_in_voice: Този потребител не е във voice.
+permissions.user_owns_guilds: Този потребител е собственик на сървъри.
+phone.invalid_number: Невалиден телефонен номер.
+phone.number_already_used: Телефонният номер вече се използва.
+phone.number_format_required: Телефонният номер трябва да е във формат E.164 (например +1234567890).
+phone.phone_required_for_sms_mfa: За SMS MFA е нужен телефонен номер.
+phone.sms_mfa_not_enabled: SMS MFA не е включено.
+phone.sms_mfa_requires_totp: SMS MFA изисква TOTP.
+phone.sms_verification_unavailable: SMS потвърждението временно не е налично. Опитай пак по-късно.
+phone.verification_code_invalid: Невалиден код за потвърждение по телефон.
+phone.verification_required: Нужно е потвърждение по телефон.
+premium_and_plans.animated_avatars_require_premium: Анимираните аватари изискват Premium.
+premium_and_plans.banners_require_premium: Банерите изискват Premium.
+premium_and_plans.bio_requires_premium_for_length: Био дължина над {maxLength} знака изисква Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Не можеш да осребриш Plutonium с Visionary.
+premium_and_plans.custom_emojis_outside_source_require_premium: Не можеш да ползваш персонализирани емоджита извън изходните им сървъри без Premium.
+premium_and_plans.custom_stickers_in_dms_require_premium: Не можеш да ползваш персонализирани стикери в лични съобщения без Premium.
+premium_and_plans.custom_stickers_outside_source_require_premium: Не можеш да ползваш персонализирани стикери извън изходните им сървъри без Premium.
+premium_and_plans.discriminator_change_requires_premium: Смяната на дискриминатора изисква Premium.
+premium_and_plans.no_active_subscription: Нямаш активен абонамент.
+premium_and_plans.no_visionary_slots_available: Няма свободни места за Visionary.
+premium_and_plans.premium_required_for_custom_emoji: За персонализирано емоджи ти трябва Premium.
+premium_and_plans.visionary_required_for_bot_discriminator: Трябва да си на доживотния план Visionary, за да персонализираш дискриминаторите на ботове.
+premium_and_plans.visionary_required_for_discriminator: Трябва да си на доживотния план Visionary, за да ползваш този дискриминатор.
+rate_limits.accent_color_changed_too_often: Смени си акцентния цвят твърде често напоследък. Опитай пак след {minutes} {minutes, plural, one {минута} other {минути}}.
+rate_limits.avatar_changed_too_often: Смени си аватара твърде често напоследък. Опитай пак след {minutes} {minutes, plural, one {минута} other {минути}}.
+rate_limits.banner_changed_too_often: Смени си банера твърде често напоследък. Опитай пак след {minutes} {minutes, plural, one {минута} other {минути}}.
+rate_limits.bio_changed_too_often: Смени си биото твърде често напоследък. Опитай пак след {minutes} {minutes, plural, one {минута} other {минути}}.
+rate_limits.ip_authorization_resend_cooldown: Има изчакване за повторно изпращане на IP оторизация.
+rate_limits.ip_authorization_resend_limit_exceeded: Надхвърли лимита за повторно изпращане на IP оторизация.
+rate_limits.phone_rate_limit_exceeded: Надхвърли лимита за телефонни заявки.
+rate_limits.pronouns_changed_too_often: Смени си местоименията твърде често напоследък. Опитай пак след {minutes} {minutes, plural, one {минута} other {минути}}.
+rate_limits.rate_limited: Надхвърли лимита за заявки.
+rate_limits.slowmode_rate_limited: В бавен режим си. Опитай пак след малко.
+rate_limits.username_changed_too_often: Смени си потребителското име твърде често напоследък. Опитай пак след {minutes} {minutes, plural, one {минута} other {минути}}.
+roles.cannot_reorder_everyone_role: Не можеш да пренареждаш ролята @everyone.
+roles.cannot_set_everyone_hoist: Не можеш да зададеш hoist позиция за ролята @everyone.
+roles.cannot_use_same_role_as_preceding: Не можеш да ползваш същата роля като предходната роля.
+roles.invalid_role_id: 'Невалиден role ID: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Не можеш да ползваш `parse` заедно с `allowed_mentions.users` или `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Предходната роля не присъства в сървъра.
+stickers_and_emojis.custom_emoji_not_found: Персонализираното емоджи не беше намерено.
+stickers_and_emojis.custom_sticker_not_found: Персонализираният стикер не беше намерен.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Не можеш да ползваш това емоджи без достъп до сървъра му или без инсталиран пакет.
+stickers_and_emojis.max_reactions_reached: 'Достигнал си максималния брой реакции: {count}.'
+stickers_and_emojis.max_stickers_reached: 'Достигнал си максималния брой стикери: {count}.'
+stickers_and_emojis.not_valid_unicode_emoji: Невалидно Unicode емоджи.
+stickers_and_emojis.unknown_emoji: Непознато емоджи.
+stickers_and_emojis.unknown_sticker: Непознат стикер.
+stripe.error: Обработката на плащанията имаше грешка. Моля, опитай пак или се свържи със поддръжката.
+stripe.invalid_product_configuration: Невалидна конфигурация на продукт.
+stripe.invalid_product_selection: Невалиден избор на продукт.
+stripe.no_active_subscription_found: Не е намерен активен абонамент.
+stripe.no_purchase_history_customer_portal_unavailable: Няма история на покупки. Клиентският портал не е наличен.
+stripe.no_subscription_found: Не е намерен абонамент.
+stripe.payment_not_available: Обработката на плащания временно е недостъпна. Моля, опитай пак по-късно.
+stripe.subscription_already_canceling: Абонаментът вече е настроен да се прекрати в края на периода.
+stripe.subscription_not_canceling: Абонаментът не е настроен да се прекрати.
+stripe.subscription_period_end_missing: Липсва subscription current_period_end.
+stripe.webhook_not_available: Обработката на webhook-и не е налична.
+stripe.webhook_signature_invalid: Подписът на Stripe webhook-а е невалиден.
+stripe.webhook_signature_missing: Липсва подпис на Stripe webhook-а.
+tickets.ticket_already_completed: Този тикет вече е приключен.
+tos_and_age.date_of_birth_format_invalid: Невалиден формат на дата на раждане.
+tos_and_age.must_agree_to_tos_and_privacy: Трябва да приемеш условията за ползване и политиката за поверителност.
+tos_and_age.must_be_minimum_age: Трябва да си поне на {minAge} {minAge, plural, one {година} other {години}}, за да създадеш акаунт.
+unknown_entities.unknown_application: Приложението не беше намерено.
+unknown_entities.unknown_channel: Каналът не беше намерен.
+unknown_entities.unknown_guild: Сървърът не беше намерен.
+unknown_entities.unknown_invite: Поканата не беше намерена или вече не е валидна.
+unknown_entities.unknown_member: Членът не беше намерен в този сървър.
+unknown_entities.unknown_message: Съобщението не беше намерено.
+unknown_entities.unknown_pack: Пакетът не беше намерен.
+unknown_entities.unknown_role: Ролята не беше намерена.
+unknown_entities.unknown_user_flag: Посочения user flag не е признат.
+unknown_entities.unknown_user: Потребителят не беше намерен.
+urls.invalid_url_format: Невалиден формат на URL.
+urls.invalid_url_or_attachment_reference: Невалиден формат на URL или референция към прикачен файл.
+urls.url_length_invalid: URL трябва да е между {min} и {max} знака.
+usernames_and_tags.discriminator_invalid_format: Дискриминаторът трябва да е {min}–{max} цифри.
+usernames_and_tags.discriminator_out_of_range: Дискриминаторът трябва да е между {min} и {max}.
+usernames_and_tags.discriminator_required: Дискриминаторът е задължителен.
+usernames_and_tags.display_name_length_invalid: Показваното име трябва да е между {min} и {max} знака.
+usernames_and_tags.display_name_reserved_terms: Показваното име не може да съдържа "system message".
+usernames_and_tags.display_name_reserved_value: Показваното име не може да е "everyone" или "here".
+usernames_and_tags.global_name_length_invalid: Глобалното име трябва да е между {min} и {max} знака.
+usernames_and_tags.global_name_reserved_value: Глобалното име не може да е "everyone" или "here".
+usernames_and_tags.tag_already_taken: Този таг вече е зает.
+usernames_and_tags.too_many_users_with_this_username: Има твърде много потребители с това потребителско име.
+usernames_and_tags.too_many_users_with_username_try_different: Има твърде много потребители с това потребителско име. Пробвай с друго.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Неактивирани акаунти могат да зададат имейл само чрез токен.
+usernames_and_tags.username_invalid_characters: Потребителското име може да съдържа само латински букви (a–z, A–Z), цифри (0–9) и долни черти (_).
+usernames_and_tags.username_length_invalid: Потребителското име трябва да е между {min} и {max} знака.
+usernames_and_tags.username_not_available: Това потребителско име не е налично.
+usernames_and_tags.username_reserved_terms: Потребителското име не може да съдържа "fluxer" или "system message".
+usernames_and_tags.username_reserved_value: Потребителското име не може да е "everyone" или "here".
+vanity_urls.vanity_url_already_taken: Този vanity URL вече е зает.
+vanity_urls.vanity_url_code_already_taken: Този vanity URL код вече е зает.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Vanity URL кодът не може да съдържа "fluxer".
+vanity_urls.vanity_url_code_length_invalid: Vanity URL кодът трябва да е между {min} и {max} знака.
+vanity_urls.vanity_url_invalid_characters: Vanity URL може да съдържа само малки латински букви (a–z), цифри (0–9) и тирета (-).
+webhooks.cannot_modify_system_webhook: Не можеш да редактираш системни съобщения.
+webhooks.max_webhooks_per_channel_reached: Достигнал си максималния брой {count} {count, plural, one {webhook} other {webhooks}} за канал.
+webhooks.max_webhooks_per_guild_reached: Достигнал си максималния брой {count} {count, plural, one {webhook} other {webhooks}} за сървър.
+webhooks.max_webhooks_reached: Достигнал си максималния брой {count} {count, plural, one {webhook} other {webhooks}}.
+webhooks.unknown_webhook: Непознат webhook.
+webhooks.webhook_name_length_invalid: Името на webhook-а трябва да е между {min} и {max} знака.

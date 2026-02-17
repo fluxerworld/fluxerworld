@@ -17,24 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import styles from '@app/components/auth/BrowserLoginHandoffModal.module.css';
+import {Input} from '@app/components/form/Input';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import {getElectronAPI, openExternalUrl} from '@app/utils/NativeUtils';
 import {msg} from '@lingui/core/macro';
 import {Trans, useLingui} from '@lingui/react/macro';
-import {ArrowSquareOutIcon, CheckCircleIcon} from '@phosphor-icons/react';
+import {ArrowSquareOutIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {Input} from '~/components/form/Input';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {IS_DEV} from '~/lib/env';
-import HttpClient from '~/lib/HttpClient';
-import RuntimeConfigStore, {describeApiEndpoint, type InstanceDiscoveryResponse} from '~/stores/RuntimeConfigStore';
-import {isDesktop, openExternalUrl} from '~/utils/NativeUtils';
-
-import styles from './BrowserLoginHandoffModal.module.css';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 interface LoginSuccessPayload {
 	token: string;
@@ -47,34 +44,8 @@ interface BrowserLoginHandoffModalProps {
 	prefillEmail?: string;
 }
 
-interface ValidatedInstance {
-	apiEndpoint: string;
-	webAppUrl: string;
-}
-
-type ModalView = 'main' | 'instance';
-
 const CODE_LENGTH = 8;
 const VALID_CODE_PATTERN = /^[A-Za-z0-9]{8}$/;
-
-const normalizeEndpoint = (input: string): string => {
-	const trimmed = input.trim();
-	if (!trimmed) {
-		throw new Error('API endpoint is required');
-	}
-
-	let candidate = trimmed;
-	if (!/^[a-zA-Z][a-zA-Z0-9+\-.]*:\/\//.test(candidate)) {
-		candidate = `https://${candidate}`;
-	}
-
-	const url = new URL(candidate);
-	if (url.pathname === '' || url.pathname === '/') {
-		url.pathname = '/api';
-	}
-	url.pathname = url.pathname.replace(/\/+$/, '');
-	return url.toString();
-};
 
 const formatCodeForDisplay = (raw: string): string => {
 	const cleaned = raw
@@ -95,24 +66,46 @@ const extractRawCode = (formatted: string): string => {
 		.slice(0, CODE_LENGTH);
 };
 
+function normalizeInstanceOrigin(raw: string): string {
+	const trimmed = raw.trim();
+	if (!trimmed) {
+		throw new Error('Instance URL is required');
+	}
+
+	const candidate = /^[a-zA-Z][a-zA-Z0-9+\-.]*:\/\//.test(trimmed) ? trimmed : `https://${trimmed}`;
+
+	const url = new URL(candidate);
+	if (url.protocol !== 'https:' && url.protocol !== 'http:') {
+		throw new Error('Instance URL must use http or https');
+	}
+
+	return url.origin;
+}
+
 const BrowserLoginHandoffModal = observer(
 	({onSuccess, targetWebAppUrl, prefillEmail}: BrowserLoginHandoffModalProps) => {
 		const {i18n} = useLingui();
 
-		const [view, setView] = React.useState<ModalView>('main');
-		const [code, setCode] = React.useState('');
-		const [isSubmitting, setIsSubmitting] = React.useState(false);
-		const [error, setError] = React.useState<string | null>(null);
-		const inputRef = React.useRef<HTMLInputElement | null>(null);
+		const electronApi = getElectronAPI();
+		const switchInstanceUrl = electronApi?.switchInstanceUrl;
+		const canSwitchInstanceUrl = typeof switchInstanceUrl === 'function';
 
-		const [customInstance, setCustomInstance] = React.useState('');
-		const [instanceValidating, setInstanceValidating] = React.useState(false);
-		const [instanceError, setInstanceError] = React.useState<string | null>(null);
-		const [validatedInstance, setValidatedInstance] = React.useState<ValidatedInstance | null>(null);
+		const currentWebAppUrl = RuntimeConfigStore.webAppBaseUrl;
+		const [instanceUrl, setInstanceUrl] = useState(() => targetWebAppUrl ?? currentWebAppUrl);
+		const [instanceUrlError, setInstanceUrlError] = useState<string | null>(null);
 
-		const showInstanceOption = IS_DEV || isDesktop();
+		const [code, setCode] = useState('');
+		const [isSubmitting, setIsSubmitting] = useState(false);
+		const [error, setError] = useState<string | null>(null);
+		const inputRef = useRef<HTMLInputElement | null>(null);
+		const switchingInstanceRef = useRef(false);
 
-		const handleSubmit = React.useCallback(
+		const instanceUrlHelper = useMemo(
+			() => (canSwitchInstanceUrl ? i18n._(msg`The URL of the Fluxer instance you want to sign in to.`) : null),
+			[canSwitchInstanceUrl, i18n],
+		);
+
+		const handleSubmit = useCallback(
 			async (rawCode: string) => {
 				if (!VALID_CODE_PATTERN.test(rawCode)) {
 					return;
@@ -120,15 +113,42 @@ const BrowserLoginHandoffModal = observer(
 
 				setIsSubmitting(true);
 				setError(null);
+				setInstanceUrlError(null);
 
 				try {
-					const customApiEndpoint = validatedInstance?.apiEndpoint;
-					const result = await AuthenticationActionCreators.pollDesktopHandoffStatus(rawCode, customApiEndpoint);
+					if (canSwitchInstanceUrl) {
+						const trimmedInstanceUrl = instanceUrl.trim();
+						if (trimmedInstanceUrl) {
+							let instanceOrigin: string;
+							try {
+								instanceOrigin = normalizeInstanceOrigin(trimmedInstanceUrl);
+							} catch {
+								setInstanceUrlError(
+									i18n._(msg`Invalid instance URL. Try something like "example.com" or "https://example.com".`),
+								);
+								return;
+							}
+
+							if (instanceOrigin !== window.location.origin) {
+								try {
+									switchingInstanceRef.current = true;
+									await switchInstanceUrl({
+										instanceUrl: instanceOrigin,
+										desktopHandoffCode: rawCode,
+									});
+								} catch (switchError) {
+									switchingInstanceRef.current = false;
+									const detail = switchError instanceof Error ? switchError.message : String(switchError);
+									setInstanceUrlError(detail);
+								}
+								return;
+							}
+						}
+					}
+
+					const result = await AuthenticationActionCreators.pollDesktopHandoffStatus(rawCode);
 
 					if (result.status === 'completed' && result.token && result.user_id) {
-						if (customApiEndpoint) {
-							await RuntimeConfigStore.connectToEndpoint(customApiEndpoint);
-						}
 						await onSuccess({token: result.token, userId: result.user_id});
 						ModalActionCreators.pop();
 						return;
@@ -143,17 +163,25 @@ const BrowserLoginHandoffModal = observer(
 					const message = err instanceof Error ? err.message : String(err);
 					setError(message);
 				} finally {
-					setIsSubmitting(false);
+					if (!switchingInstanceRef.current) {
+						setIsSubmitting(false);
+					}
 				}
 			},
-			[i18n, onSuccess, validatedInstance],
+			[canSwitchInstanceUrl, i18n, instanceUrl, onSuccess, switchInstanceUrl],
 		);
 
-		const handleCodeChange = React.useCallback(
+		const handleInstanceUrlChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+			setInstanceUrl(e.target.value);
+			setInstanceUrlError(null);
+		}, []);
+
+		const handleCodeChange = useCallback(
 			(e: React.ChangeEvent<HTMLInputElement>) => {
 				const rawCode = extractRawCode(e.target.value);
 				setCode(rawCode);
 				setError(null);
+				setInstanceUrlError(null);
 
 				if (VALID_CODE_PATTERN.test(rawCode)) {
 					void handleSubmit(rawCode);
@@ -162,125 +190,60 @@ const BrowserLoginHandoffModal = observer(
 			[handleSubmit],
 		);
 
-		const handleOpenBrowser = React.useCallback(async () => {
-			const currentWebAppUrl = RuntimeConfigStore.webAppBaseUrl;
-			const baseUrl = validatedInstance?.webAppUrl || targetWebAppUrl || currentWebAppUrl;
+		const handleOpenBrowser = useCallback(async () => {
+			const fallbackUrl = targetWebAppUrl || currentWebAppUrl;
+			let baseUrl = fallbackUrl;
 
-			const params = new URLSearchParams({desktop_handoff: '1'});
+			if (canSwitchInstanceUrl && instanceUrl.trim()) {
+				try {
+					baseUrl = normalizeInstanceOrigin(instanceUrl);
+				} catch {
+					setInstanceUrlError(
+						i18n._(msg`Invalid instance URL. Try something like "example.com" or "https://example.com".`),
+					);
+					return;
+				}
+			}
+
+			const loginUrl = new URL('/login', baseUrl);
+			loginUrl.searchParams.set('desktop_handoff', '1');
 			if (prefillEmail) {
-				params.set('email', prefillEmail);
+				loginUrl.searchParams.set('email', prefillEmail);
 			}
 
-			const url = `${baseUrl}/login?${params.toString()}`;
-			await openExternalUrl(url);
-		}, [prefillEmail, targetWebAppUrl, validatedInstance]);
+			await openExternalUrl(loginUrl.toString());
+		}, [canSwitchInstanceUrl, currentWebAppUrl, i18n, instanceUrl, prefillEmail, targetWebAppUrl]);
 
-		const handleShowInstanceView = React.useCallback(() => {
-			setView('instance');
+		useEffect(() => {
+			inputRef.current?.focus();
 		}, []);
-
-		const handleBackToMain = React.useCallback(() => {
-			setView('main');
-			setInstanceError(null);
-		}, []);
-
-		const handleSaveInstance = React.useCallback(async () => {
-			if (!customInstance.trim()) {
-				setInstanceError(i18n._(msg`Please enter an API endpoint.`));
-				return;
-			}
-
-			setInstanceValidating(true);
-			setInstanceError(null);
-
-			try {
-				const apiEndpoint = normalizeEndpoint(customInstance);
-				const instanceUrl = `${apiEndpoint}/instance`;
-
-				const response = await HttpClient.get<InstanceDiscoveryResponse>({url: instanceUrl});
-
-				if (!response.ok) {
-					const status = String(response.status);
-					throw new Error(i18n._(msg`Failed to reach instance (${status})`));
-				}
-
-				const instance = response.body;
-				if (!instance.endpoints?.webapp) {
-					throw new Error(i18n._(msg`Invalid instance response: missing webapp URL.`));
-				}
-
-				const webAppUrl = instance.endpoints.webapp.replace(/\/$/, '');
-				setValidatedInstance({apiEndpoint, webAppUrl});
-				setView('main');
-			} catch (err) {
-				const message = err instanceof Error ? err.message : String(err);
-				setInstanceError(message);
-			} finally {
-				setInstanceValidating(false);
-			}
-		}, [customInstance, i18n]);
-
-		const handleClearInstance = React.useCallback(() => {
-			setValidatedInstance(null);
-			setCustomInstance('');
-			setInstanceError(null);
-		}, []);
-
-		React.useEffect(() => {
-			if (view === 'main') {
-				inputRef.current?.focus();
-			}
-		}, [view]);
-
-		if (view === 'instance') {
-			return (
-				<Modal.Root size="small" centered onClose={ModalActionCreators.pop}>
-					<Modal.Header title={i18n._(msg`Custom instance`)} />
-					<Modal.Content className={styles.content}>
-						<Input
-							label={i18n._(msg`API Endpoint`)}
-							type="url"
-							placeholder="https://api.example.com"
-							value={customInstance}
-							onChange={(e) => {
-								setCustomInstance(e.target.value);
-								setInstanceError(null);
-							}}
-							error={instanceError ?? undefined}
-							disabled={instanceValidating}
-							footer={
-								!instanceError ? (
-									<p className={styles.inputHelper}>
-										<Trans>Enter the API endpoint of the Fluxer instance you want to connect to.</Trans>
-									</p>
-								) : null
-							}
-							autoFocus
-						/>
-					</Modal.Content>
-					<Modal.Footer>
-						<Button variant="secondary" onClick={handleBackToMain} disabled={instanceValidating}>
-							<Trans>Back</Trans>
-						</Button>
-						<Button
-							variant="primary"
-							onClick={handleSaveInstance}
-							disabled={instanceValidating || !customInstance.trim()}
-						>
-							{instanceValidating ? <Trans>Checking...</Trans> : <Trans>Save</Trans>}
-						</Button>
-					</Modal.Footer>
-				</Modal.Root>
-			);
-		}
 
 		return (
 			<Modal.Root size="small" centered onClose={ModalActionCreators.pop}>
 				<Modal.Header title={i18n._(msg`Add account`)} />
-				<Modal.Content className={styles.content}>
+				<Modal.Content contentClassName={styles.content}>
 					<p className={styles.description}>
 						<Trans>Log in using your browser, then enter the code shown to add the account.</Trans>
 					</p>
+
+					{canSwitchInstanceUrl ? (
+						<div className={styles.codeInputSection}>
+							<Input
+								label={i18n._(msg`Instance URL`)}
+								value={instanceUrl}
+								onChange={handleInstanceUrlChange}
+								error={instanceUrlError ?? undefined}
+								disabled={isSubmitting}
+								autoComplete="url"
+								placeholder="example.com"
+								footer={
+									instanceUrlHelper && !instanceUrlError ? (
+										<p className={styles.inputHelper}>{instanceUrlHelper}</p>
+									) : null
+								}
+							/>
+						</div>
+					) : null}
 
 					<div className={styles.codeInputSection}>
 						<Input
@@ -293,22 +256,6 @@ const BrowserLoginHandoffModal = observer(
 							autoComplete="off"
 						/>
 					</div>
-
-					{validatedInstance ? (
-						<div className={styles.instanceBadge}>
-							<CheckCircleIcon size={14} weight="fill" className={styles.instanceBadgeIcon} />
-							<span className={styles.instanceBadgeText}>
-								<Trans>Using {describeApiEndpoint(validatedInstance.apiEndpoint)}</Trans>
-							</span>
-							<button type="button" className={styles.instanceBadgeClear} onClick={handleClearInstance}>
-								<Trans>Clear</Trans>
-							</button>
-						</div>
-					) : showInstanceOption ? (
-						<button type="button" className={styles.instanceLink} onClick={handleShowInstanceView}>
-							<Trans>I want to use a custom Fluxer instance</Trans>
-						</button>
-					) : null}
 
 					{prefillEmail ? (
 						<p className={styles.prefillHint}>

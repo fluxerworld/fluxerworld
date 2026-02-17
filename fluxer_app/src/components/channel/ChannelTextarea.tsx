@@ -17,99 +17,111 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
-
-import {PlusCircleIcon} from '@phosphor-icons/react';
-
-import {clsx} from 'clsx';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as DraftActionCreators from '~/actions/DraftActionCreators';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as PopoutActionCreators from '~/actions/PopoutActionCreators';
-import * as ScheduledMessageActionCreators from '~/actions/ScheduledMessageActionCreators';
-
-import {MAX_MESSAGE_LENGTH_NON_PREMIUM, Permissions} from '~/Constants';
-
-import {TooManyAttachmentsModal} from '~/components/alerts/TooManyAttachmentsModal';
-import {Autocomplete} from '~/components/channel/Autocomplete';
-import {ChannelAttachmentArea} from '~/components/channel/ChannelAttachmentArea';
-import {ChannelStickersArea} from '~/components/channel/ChannelStickersArea';
-import {EditBar} from '~/components/channel/EditBar';
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as DraftActionCreators from '@app/actions/DraftActionCreators';
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as PopoutActionCreators from '@app/actions/PopoutActionCreators';
+import * as ScheduledMessageActionCreators from '@app/actions/ScheduledMessageActionCreators';
+import {TooManyAttachmentsModal} from '@app/components/alerts/TooManyAttachmentsModal';
+import {Autocomplete} from '@app/components/channel/Autocomplete';
+import {ChannelAttachmentArea} from '@app/components/channel/ChannelAttachmentArea';
+import {ChannelStickersArea} from '@app/components/channel/ChannelStickersArea';
+import {EditBar} from '@app/components/channel/EditBar';
 import {
 	getMentionDescription,
 	getMentionTitle,
 	MentionEveryonePopout,
-} from '~/components/channel/MentionEveryonePopout';
-import {MessageCharacterCounter} from '~/components/channel/MessageCharacterCounter';
-import {ReplyBar} from '~/components/channel/ReplyBar';
-import {ScheduledMessageEditBar} from '~/components/channel/ScheduledMessageEditBar';
-import {MessageInputButtonsContextMenu} from '~/components/channel/textarea/MessageInputButtonsContextMenu';
-import {TextareaButton} from '~/components/channel/textarea/TextareaButton';
-import {TextareaButtons} from '~/components/channel/textarea/TextareaButtons';
-import {TextareaInputField} from '~/components/channel/textarea/TextareaInputField';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {ExpressionPickerSheet} from '~/components/modals/ExpressionPickerSheet';
-import {ScheduleMessageModal} from '~/components/modals/ScheduleMessageModal';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {openPopout} from '~/components/uikit/Popout/Popout';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-
-import {useTextareaAttachments} from '~/hooks/useCloudUpload';
-import {doesEventMatchShortcut, MARKDOWN_FORMATTING_SHORTCUTS, useMarkdownKeybinds} from '~/hooks/useMarkdownKeybinds';
-import {useMessageSubmission} from '~/hooks/useMessageSubmission';
-import {useSlowmode} from '~/hooks/useSlowmode';
-import {useTextareaAutocomplete} from '~/hooks/useTextareaAutocomplete';
-import {useTextareaDraftAndTyping} from '~/hooks/useTextareaDraftAndTyping';
-import {useTextareaEditing} from '~/hooks/useTextareaEditing';
-import {useTextareaEmojiPicker} from '~/hooks/useTextareaEmojiPicker';
-import {useTextareaExpressionHandlers} from '~/hooks/useTextareaExpressionHandlers';
-import {useTextareaExpressionPicker} from '~/hooks/useTextareaExpressionPicker';
-import {useTextareaKeyboard} from '~/hooks/useTextareaKeyboard';
-import {useTextareaPaste} from '~/hooks/useTextareaPaste';
-import {useTextareaSegments} from '~/hooks/useTextareaSegments';
-import {type MentionConfirmationInfo, useTextareaSubmit} from '~/hooks/useTextareaSubmit';
-
-import {CloudUpload} from '~/lib/CloudUpload';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import {safeFocus} from '~/lib/InputFocusManager';
-
-import type {ChannelRecord} from '~/records/ChannelRecord';
-
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import ChannelStickerStore from '~/stores/ChannelStickerStore';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import DraftStore from '~/stores/DraftStore';
-import FeatureFlagStore from '~/stores/FeatureFlagStore';
-import KeyboardModeStore from '~/stores/KeyboardModeStore';
-import MessageEditMobileStore from '~/stores/MessageEditMobileStore';
-import MessageEditStore from '~/stores/MessageEditStore';
-import MessageReplyStore from '~/stores/MessageReplyStore';
-import MessageStore from '~/stores/MessageStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import PermissionStore from '~/stores/PermissionStore';
-import ScheduledMessageEditorStore from '~/stores/ScheduledMessageEditorStore';
-import SelectedGuildStore from '~/stores/SelectedGuildStore';
-import UserStore from '~/stores/UserStore';
-
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import {openFilePicker} from '~/utils/FilePickerUtils';
-import * as FileUploadUtils from '~/utils/FileUploadUtils';
-import {normalizeMessageContent} from '~/utils/MessageRequestUtils';
-import * as MessageSubmitUtils from '~/utils/MessageSubmitUtils';
-import * as PlaceholderUtils from '~/utils/PlaceholderUtils';
-
-import wrapperStyles from './textarea/InputWrapper.module.css';
-import styles from './textarea/TextareaInput.module.css';
+} from '@app/components/channel/MentionEveryonePopout';
+import {MessageCharacterCounter} from '@app/components/channel/MessageCharacterCounter';
+import {ReplyBar} from '@app/components/channel/ReplyBar';
+import {ScheduledMessageEditBar} from '@app/components/channel/ScheduledMessageEditBar';
+import wrapperStyles from '@app/components/channel/textarea/InputWrapper.module.css';
+import {MobileTextareaLayout} from '@app/components/channel/textarea/MobileTextareaLayout';
+import {MobileTextareaPlusBottomSheet} from '@app/components/channel/textarea/MobileTextareaPlusBottomSheet';
+import {TextareaButton} from '@app/components/channel/textarea/TextareaButton';
+import {TextareaButtons} from '@app/components/channel/textarea/TextareaButtons';
+import styles from '@app/components/channel/textarea/TextareaInput.module.css';
+import {TextareaInputField} from '@app/components/channel/textarea/TextareaInputField';
+import {TextareaPlusMenu} from '@app/components/channel/textarea/TextareaPlusMenu';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {ExpressionPickerSheet} from '@app/components/modals/ExpressionPickerSheet';
+import {ScheduleMessageModal} from '@app/components/modals/ScheduleMessageModal';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {openPopout} from '@app/components/uikit/popout/Popout';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {useTextareaAttachments} from '@app/hooks/useCloudUpload';
+import {useContextMenuHoverState} from '@app/hooks/useContextMenuHoverState';
+import {
+	doesEventMatchShortcut,
+	MARKDOWN_FORMATTING_SHORTCUTS,
+	useMarkdownKeybinds,
+} from '@app/hooks/useMarkdownKeybinds';
+import {type SendMessageFunction, useMessageSubmission} from '@app/hooks/useMessageSubmission';
+import {useSlowmode} from '@app/hooks/useSlowmode';
+import {useTextareaAutocomplete} from '@app/hooks/useTextareaAutocomplete';
+import {useTextareaDraftAndTyping} from '@app/hooks/useTextareaDraftAndTyping';
+import {useTextareaEditing} from '@app/hooks/useTextareaEditing';
+import {useTextareaEmojiPicker} from '@app/hooks/useTextareaEmojiPicker';
+import {useTextareaExpressionHandlers} from '@app/hooks/useTextareaExpressionHandlers';
+import {useTextareaExpressionPicker} from '@app/hooks/useTextareaExpressionPicker';
+import {useTextareaKeyboard} from '@app/hooks/useTextareaKeyboard';
+import {useTextareaPaste} from '@app/hooks/useTextareaPaste';
+import {useTextareaSegments} from '@app/hooks/useTextareaSegments';
+import {type MentionConfirmationInfo, useTextareaSubmit} from '@app/hooks/useTextareaSubmit';
+import {CloudUpload} from '@app/lib/CloudUpload';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {safeFocus} from '@app/lib/InputFocusManager';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import ChannelStickerStore from '@app/stores/ChannelStickerStore';
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import DraftStore from '@app/stores/DraftStore';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
+import MessageEditMobileStore from '@app/stores/MessageEditMobileStore';
+import MessageEditStore from '@app/stores/MessageEditStore';
+import MessageReplyStore from '@app/stores/MessageReplyStore';
+import MessageStore from '@app/stores/MessageStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import ScheduledMessageEditorStore from '@app/stores/ScheduledMessageEditorStore';
+import UserStore from '@app/stores/UserStore';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import {openFilePicker} from '@app/utils/FilePickerUtils';
+import * as FileUploadUtils from '@app/utils/FileUploadUtils';
+import {Limits} from '@app/utils/limits/UserLimits';
+import {normalizeMessageContent} from '@app/utils/MessageRequestUtils';
+import * as MessageSubmitUtils from '@app/utils/MessageSubmitUtils';
+import * as PlaceholderUtils from '@app/utils/PlaceholderUtils';
+import {hasManagedTrait} from '@app/utils/traits/UserTraits';
+import {Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {
+	MAX_ATTACHMENTS_PER_MESSAGE,
+	MAX_MESSAGE_LENGTH_NON_PREMIUM,
+	MAX_MESSAGE_LENGTH_PREMIUM,
+} from '@fluxer/constants/src/LimitConstants';
+import {ManagedTraits} from '@fluxer/constants/src/ManagedTraits';
+import {useLingui} from '@lingui/react/macro';
+import {PlusCircleIcon} from '@phosphor-icons/react';
+import {clsx} from 'clsx';
+import {observer} from 'mobx-react-lite';
+import type React from 'react';
+import {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
 
 function readBorderBoxBlockSize(entry: ResizeObserverEntry): number {
-	const bbs: any = (entry as any).borderBoxSize;
-	if (Array.isArray(bbs) && bbs[0] && typeof bbs[0].blockSize === 'number') return bbs[0].blockSize;
-	if (bbs && typeof bbs.blockSize === 'number') return bbs.blockSize;
+	const borderBoxSize = (
+		entry as ResizeObserverEntry & {borderBoxSize?: ReadonlyArray<{blockSize: number}> | {blockSize: number}}
+	).borderBoxSize;
+
+	if (Array.isArray(borderBoxSize) && borderBoxSize[0] && typeof borderBoxSize[0].blockSize === 'number') {
+		return borderBoxSize[0].blockSize;
+	}
+
+	if (borderBoxSize && 'blockSize' in borderBoxSize && typeof borderBoxSize.blockSize === 'number') {
+		return borderBoxSize.blockSize;
+	}
+
 	return (entry.target as HTMLElement).getBoundingClientRect().height;
 }
 
@@ -119,42 +131,44 @@ const ChannelTextareaContent = observer(
 		draft,
 		disabled,
 		canAttachFiles,
+		canSendFavoriteMemeId,
 	}: {
 		channel: ChannelRecord;
 		draft: string | null;
 		disabled: boolean;
 		canAttachFiles: boolean;
+		canSendFavoriteMemeId: boolean;
 	}) => {
 		const {t, i18n} = useLingui();
-		const [isFocused, setIsFocused] = React.useState(false);
-		const [isInputAreaFocused, setIsInputAreaFocused] = React.useState(false);
-		const [value, setValue] = React.useState('');
-		const [showAllButtons, setShowAllButtons] = React.useState(true);
-		const [containerWidth, setContainerWidth] = React.useState(0);
-		const [pendingMentionConfirmation, setPendingMentionConfirmation] = React.useState<MentionConfirmationInfo | null>(
-			null,
-		);
-		const mentionPopoutKey = React.useMemo(() => `mention-everyone-${channel.id}`, [channel.id]);
-		const mentionModalKey = React.useMemo(() => `mention-everyone-modal-${channel.id}`, [channel.id]);
-		const [isScheduleModalOpen, setIsScheduleModalOpen] = React.useState(false);
+		const [isFocused, setIsFocused] = useState(false);
+		const [isInputAreaFocused, setIsInputAreaFocused] = useState(false);
+		const [value, setValue] = useState('');
+		const [showAllButtons, setShowAllButtons] = useState(true);
+		const [pendingMentionConfirmation, setPendingMentionConfirmation] = useState<MentionConfirmationInfo | null>(null);
+		const mentionPopoutKey = useMemo(() => `mention-everyone-${channel.id}`, [channel.id]);
+		const mentionModalKey = useMemo(() => `mention-everyone-modal-${channel.id}`, [channel.id]);
+		const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false);
+		const [mobilePlusSheetOpen, setMobilePlusSheetOpen] = useState(false);
 
-		const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-		const expressionPickerTriggerRef = React.useRef<HTMLButtonElement>(null);
-		const invisibleExpressionPickerTriggerRef = React.useRef<HTMLDivElement>(null);
-		const containerRef = React.useRef<HTMLDivElement>(null);
-		const scrollerRef = React.useRef<ScrollerHandle>(null);
+		const textareaRef = useRef<HTMLTextAreaElement>(null);
+		const expressionPickerTriggerRef = useRef<HTMLButtonElement>(null);
+		const invisibleExpressionPickerTriggerRef = useRef<HTMLDivElement>(null);
+		const containerRef = useRef<HTMLDivElement>(null);
+		const scrollerRef = useRef<ScrollerHandle>(null);
+		const plusButtonRef = useRef<HTMLButtonElement | null>(null);
 		useMarkdownKeybinds(isFocused);
+		const plusContextMenuOpen = useContextMenuHoverState(plusButtonRef);
 
-		const textareaHeightRef = React.useRef<number>(0);
-		const handleTextareaHeightChange = React.useCallback((height: number) => {
+		const textareaHeightRef = useRef<number>(0);
+		const handleTextareaHeightChange = useCallback((height: number) => {
 			textareaHeightRef.current = height;
 		}, []);
 
-		const inputBoxHeightRef = React.useRef<number | null>(null);
-		const pendingLayoutDeltaRef = React.useRef(0);
-		const flushScheduledRef = React.useRef(false);
+		const inputBoxHeightRef = useRef<number | null>(null);
+		const pendingLayoutDeltaRef = useRef(0);
+		const flushScheduledRef = useRef(false);
 
-		React.useLayoutEffect(() => {
+		useLayoutEffect(() => {
 			const el = containerRef.current;
 			if (!el || typeof ResizeObserver === 'undefined') return;
 
@@ -167,7 +181,6 @@ const ChannelTextareaContent = observer(
 				const delta = pendingLayoutDeltaRef.current;
 				pendingLayoutDeltaRef.current = 0;
 				if (!delta) return;
-				if (delta <= 0) return;
 
 				ComponentDispatch.dispatch('LAYOUT_RESIZED', {
 					channelId: channel.id,
@@ -203,12 +216,10 @@ const ChannelTextareaContent = observer(
 			return () => ro.disconnect();
 		}, [channel.id]);
 
-		const showGiftButton = AccessibilityStore.showGiftButton;
 		const showGifButton = AccessibilityStore.showGifButton;
 		const showMemesButton = AccessibilityStore.showMemesButton;
 		const showStickersButton = AccessibilityStore.showStickersButton;
 		const showEmojiButton = AccessibilityStore.showEmojiButton;
-		const showUploadButton = AccessibilityStore.showUploadButton;
 		const showMessageSendButton = AccessibilityStore.showMessageSendButton;
 		const editingMessageId = MessageEditStore.getEditingMessageId(channel.id);
 		const editingMobileMessageId = MessageEditMobileStore.getEditingMobileMessageId(channel.id);
@@ -218,6 +229,8 @@ const ChannelTextareaContent = observer(
 		const editingMessage = editingMobileMessageId ? MessageStore.getMessage(channel.id, editingMobileMessageId) : null;
 		const currentUser = UserStore.getCurrentUser();
 		const maxMessageLength = currentUser?.maxMessageLength ?? MAX_MESSAGE_LENGTH_NON_PREMIUM;
+		const premiumMaxLength = Limits.getPremiumValue('max_message_length', MAX_MESSAGE_LENGTH_PREMIUM);
+		const maxAttachments = currentUser?.maxAttachmentsPerMessage ?? MAX_ATTACHMENTS_PER_MESSAGE;
 
 		const uploadAttachments = useTextareaAttachments(channel.id);
 		const {isSlowmodeActive} = useSlowmode(channel);
@@ -226,15 +239,14 @@ const ChannelTextareaContent = observer(
 		const {handleEmojiSelect} = useTextareaEmojiPicker({
 			setValue,
 			textareaRef,
-			insertSegment,
+			segmentManagerRef,
 			previousValueRef,
 			channelId: channel.id,
 		});
 		const scheduledMessageEditorState = ScheduledMessageEditorStore.getEditingState();
 		const isEditingScheduledMessage = ScheduledMessageEditorStore.isEditingChannel(channel.id);
 		const editingScheduledMessage = isEditingScheduledMessage ? scheduledMessageEditorState : null;
-		const selectedGuildId = SelectedGuildStore.selectedGuildId;
-		const hasMessageSchedulingAccess = FeatureFlagStore.isMessageSchedulingEnabled(selectedGuildId ?? undefined);
+		const hasMessageSchedulingAccess = hasManagedTrait(ManagedTraits.MESSAGE_SCHEDULING);
 
 		const {sendMessage, sendOptimisticMessage} = useMessageSubmission({
 			channel,
@@ -243,15 +255,15 @@ const ChannelTextareaContent = observer(
 			clearSegments,
 		});
 
-		const handleCancelScheduledEdit = React.useCallback(() => {
+		const handleCancelScheduledEdit = useCallback(() => {
 			ScheduledMessageEditorStore.stopEditing();
 			DraftActionCreators.deleteDraft(channel.id);
 			setValue('');
 			clearSegments();
 		}, [channel.id, clearSegments, setValue]);
 
-		const handleSendMessage = React.useCallback(
-			(...args: Parameters<typeof sendMessage>) => {
+		const handleSendMessage: SendMessageFunction = useCallback(
+			(...args) => {
 				setValue('');
 				clearSegments();
 				sendMessage(...args);
@@ -259,23 +271,23 @@ const ChannelTextareaContent = observer(
 			[sendMessage, clearSegments],
 		);
 
-		const handleMentionConfirmationNeeded = React.useCallback((info: MentionConfirmationInfo) => {
+		const handleMentionConfirmationNeeded = useCallback((info: MentionConfirmationInfo) => {
 			setPendingMentionConfirmation(info);
 		}, []);
 
-		const handleMentionConfirm = React.useCallback(() => {
+		const handleMentionConfirm = useCallback(() => {
 			if (pendingMentionConfirmation) {
 				handleSendMessage(pendingMentionConfirmation.content, false, pendingMentionConfirmation.tts);
 				setPendingMentionConfirmation(null);
 			}
 		}, [pendingMentionConfirmation, handleSendMessage]);
 
-		const handleMentionCancel = React.useCallback(() => {
+		const handleMentionCancel = useCallback(() => {
 			setPendingMentionConfirmation(null);
 			textareaRef.current?.focus();
 		}, []);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (!pendingMentionConfirmation) {
 				PopoutActionCreators.close(mentionPopoutKey);
 				ModalActionCreators.popWithKey(mentionModalKey);
@@ -380,7 +392,7 @@ const ChannelTextareaContent = observer(
 			previousValueRef,
 		});
 
-		React.useEffect(() => {
+		useEffect(() => {
 			ComponentDispatch.safeDispatch('TEXTAREA_AUTOCOMPLETE_CHANGED', {
 				channelId: channel.id,
 				open: isAutocompleteAttached,
@@ -391,22 +403,48 @@ const ChannelTextareaContent = observer(
 		const hasScheduleContent = trimmedMessageContent.length > 0 || uploadAttachments.length > 0;
 		const canScheduleMessage = hasMessageSchedulingAccess && !disabled && hasScheduleContent;
 
+		const handlePasteExceedsLimit = useCallback(
+			async (pastedText: string) => {
+				const result = await FileUploadUtils.convertTextToFile(
+					channel.id,
+					pastedText,
+					uploadAttachments.length,
+					maxAttachments,
+				);
+
+				if (!result.success && result.error === 'too_many_attachments') {
+					ModalActionCreators.push(modal(() => <TooManyAttachmentsModal />));
+				}
+			},
+			[channel.id, uploadAttachments.length, maxAttachments],
+		);
+
 		useTextareaPaste({
 			channel,
 			textareaRef,
 			segmentManagerRef,
 			setValue,
 			previousValueRef,
+			maxMessageLength,
+			onPasteExceedsLimit: canAttachFiles ? handlePasteExceedsLimit : undefined,
 		});
 
-		const handleOpenScheduleModal = React.useCallback(() => {
+		const handleOpenScheduleModal = useCallback(() => {
 			if (!hasMessageSchedulingAccess) {
 				return;
 			}
 			setIsScheduleModalOpen(true);
 		}, [hasMessageSchedulingAccess]);
 
-		const handleScheduleSubmit = React.useCallback(
+		const handleOpenMobilePlusSheet = useCallback(() => {
+			setMobilePlusSheetOpen(true);
+		}, []);
+
+		const handleCloseMobilePlusSheet = useCallback(() => {
+			setMobilePlusSheetOpen(false);
+		}, []);
+
+		const handleScheduleSubmit = useCallback(
 			async (scheduledLocalAt: string, timezone: string) => {
 				const actualContent = displayToActual(value).trim();
 				if (!actualContent && uploadAttachments.length === 0) {
@@ -460,17 +498,50 @@ const ChannelTextareaContent = observer(
 		);
 
 		const handleFileButtonClick = async () => {
+			if (disabled || !canAttachFiles) {
+				return;
+			}
+
 			const files = await openFilePicker({multiple: true});
-			const result = await FileUploadUtils.handleFileUpload(channel.id, files, uploadAttachments.length);
+			const result = await FileUploadUtils.handleFileUpload(
+				channel.id,
+				files,
+				uploadAttachments.length,
+				maxAttachments,
+			);
 
 			if (!result.success && result.error === 'too_many_attachments') {
 				ModalActionCreators.push(modal(() => <TooManyAttachmentsModal />));
 			}
 		};
 
+		const handleUploadMessageAsFile = useCallback(async () => {
+			if (disabled || !canAttachFiles) {
+				return;
+			}
+
+			const result = await FileUploadUtils.convertTextToFile(
+				channel.id,
+				value,
+				uploadAttachments.length,
+				maxAttachments,
+			);
+
+			if (!result.success) {
+				if (result.error === 'too_many_attachments') {
+					ModalActionCreators.push(modal(() => <TooManyAttachmentsModal />));
+				}
+				return;
+			}
+
+			setValue('');
+			DraftActionCreators.deleteDraft(channel.id);
+		}, [disabled, canAttachFiles, value, channel.id, uploadAttachments.length, maxAttachments]);
+
 		useTextareaExpressionHandlers({
 			setValue,
 			textareaRef,
+			canSendFavoriteMemeId,
 			insertSegment,
 			previousValueRef,
 			sendOptimisticMessage,
@@ -501,9 +572,7 @@ const ChannelTextareaContent = observer(
 		const hasAttachments = uploadAttachments.length > 0;
 		const showAttachments = hasAttachments;
 		const showStickers = hasPendingSticker;
-		const isComposing = !!value.trim() || hasAttachments || hasPendingSticker;
-		const isOverCharacterLimit = value.length > maxMessageLength;
-		const shouldShowMobileGiftButton = mobileLayout.enabled && showGiftButton && containerWidth > 540;
+		const isOverCharacterLimit = trimmedMessageContent.length > maxMessageLength;
 
 		const {onSubmit} = useTextareaSubmit({
 			channelId: channel.id,
@@ -522,7 +591,7 @@ const ChannelTextareaContent = observer(
 			i18n: i18n,
 		});
 
-		const handleEscapeKey = React.useCallback(
+		const handleEscapeKey = useCallback(
 			(event: React.KeyboardEvent<HTMLTextAreaElement>) => {
 				if (event.key !== 'Escape') return;
 
@@ -565,7 +634,7 @@ const ChannelTextareaContent = observer(
 			],
 		);
 
-		const handleFormattingShortcut = React.useCallback(
+		const handleFormattingShortcut = useCallback(
 			(event: React.KeyboardEvent<HTMLTextAreaElement>) => {
 				for (const {combo: shortcutCombo, wrapper} of MARKDOWN_FORMATTING_SHORTCUTS) {
 					if (!doesEventMatchShortcut(event, shortcutCombo)) {
@@ -636,7 +705,7 @@ const ChannelTextareaContent = observer(
 			[handleTextChange, previousValueRef, setValue, textareaRef, value],
 		);
 
-		const handleTextareaKeyDown = React.useCallback(
+		const handleTextareaKeyDown = useCallback(
 			(event: React.KeyboardEvent<HTMLTextAreaElement>) => {
 				handleFormattingShortcut(event);
 				handleEscapeKey(event);
@@ -644,7 +713,7 @@ const ChannelTextareaContent = observer(
 			[handleFormattingShortcut, handleEscapeKey],
 		);
 
-		const handleSubmit = React.useCallback(() => {
+		const handleSubmit = useCallback(() => {
 			if (isOverCharacterLimit || isEditingScheduledMessage) {
 				return;
 			}
@@ -686,7 +755,7 @@ const ChannelTextareaContent = observer(
 						Number.MAX_SAFE_INTEGER,
 					);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			const unsubscribe = ComponentDispatch.subscribe('FOCUS_TEXTAREA', (payload?: unknown) => {
 				const {channelId, enterKeyboardMode} = (payload ?? {}) as {channelId?: string; enterKeyboardMode?: boolean};
 				if (channelId && channelId !== channel.id) return;
@@ -704,17 +773,17 @@ const ChannelTextareaContent = observer(
 			return unsubscribe;
 		}, [channel.id]);
 
-		React.useEffect(() => {
-			if (!canAttachFiles) return;
+		useEffect(() => {
+			if (!canAttachFiles || disabled) return;
 			const unsubscribe = ComponentDispatch.subscribe('TEXTAREA_UPLOAD_FILE', (payload?: unknown) => {
 				const {channelId} = (payload ?? {}) as {channelId?: string};
 				if (channelId && channelId !== channel.id) return;
 				handleFileButtonClick();
 			});
 			return unsubscribe;
-		}, [channel.id, canAttachFiles]);
+		}, [channel.id, canAttachFiles, disabled]);
 
-		React.useLayoutEffect(() => {
+		useLayoutEffect(() => {
 			if (!containerRef.current) return;
 
 			let lastWidth = -1;
@@ -728,7 +797,6 @@ const ChannelTextareaContent = observer(
 
 				const shouldShowAll = containerWidthLocal > 500;
 				setShowAllButtons(shouldShowAll);
-				setContainerWidth(containerWidthLocal);
 			};
 
 			const resizeObserver = new ResizeObserver(checkButtonVisibility);
@@ -740,21 +808,37 @@ const ChannelTextareaContent = observer(
 			};
 		}, [mobileLayout.enabled]);
 
-		const handleCancelEdit = React.useCallback(() => {
+		const handleCancelEdit = useCallback(() => {
 			setValue('');
 			clearSegments();
 		}, [clearSegments]);
 
-		const handleMessageInputButtonContextMenu = React.useCallback(
+		const handlePlusMenuClick = useCallback(
 			(event: React.MouseEvent) => {
 				event.preventDefault();
 				event.stopPropagation();
 
-				ContextMenuActionCreators.openFromEvent(event, () => (
-					<MessageInputButtonsContextMenu canSchedule={canScheduleMessage} onSchedule={handleOpenScheduleModal} />
+				ContextMenuActionCreators.openFromElementTopLeft(event, () => (
+					<TextareaPlusMenu
+						onUploadFile={handleFileButtonClick}
+						onSchedule={handleOpenScheduleModal}
+						canSchedule={canScheduleMessage}
+						canAttachFiles={canAttachFiles}
+						canSendMessages={!disabled}
+						textareaValue={value}
+						onUploadAsFile={handleUploadMessageAsFile}
+					/>
 				));
 			},
-			[canScheduleMessage, handleOpenScheduleModal],
+			[
+				canAttachFiles,
+				canScheduleMessage,
+				disabled,
+				handleFileButtonClick,
+				handleOpenScheduleModal,
+				value,
+				handleUploadMessageAsFile,
+			],
 		);
 
 		const hasStackedSections = Boolean(
@@ -807,116 +891,161 @@ const ChannelTextareaContent = observer(
 							wrapperStyles.box,
 							wrapperStyles.wrapperSides,
 							styles.textareaOuter,
+							mobileLayout.enabled && styles.textareaOuterMobile,
 							hasStackedSections ? wrapperStyles.roundedBottom : wrapperStyles.roundedAll,
 							wrapperStyles.bottomSpacing,
 							disabled && wrapperStyles.disabled,
+							!mobileLayout.enabled && styles.textareaOuterMinHeight,
 						)}
-						style={{minHeight: 'var(--input-container-min-height)'}}
 					>
 						{showAttachments && renderSection(<ChannelAttachmentArea channelId={channel.id} />)}
 						{showStickers &&
 							renderSection(<ChannelStickersArea channelId={channel.id} hasAttachments={hasAttachments} />)}
 
-						{renderSection(
-							<div className={clsx(styles.mainWrapperDense, disabled && wrapperStyles.disabled)}>
-								{!disabled && showUploadButton && canAttachFiles && (
-									<div className={clsx(styles.uploadButtonColumn, styles.sideButtonPadding)}>
-										<TextareaButton
-											icon={PlusCircleIcon}
-											label={t`Upload file`}
-											onClick={handleFileButtonClick}
-											onContextMenu={handleMessageInputButtonContextMenu}
-											keybindAction="upload_file"
-										/>
-									</div>
-								)}
-
-								<div className={styles.contentAreaDense}>
-									<Scroller ref={scrollerRef} fade={true} className={styles.scroller} key="channel-textarea-scroller">
-										<div style={{display: 'flex', flexDirection: 'column'}}>
-											<TextareaInputField
-												channelId={channel.id}
-												disabled={disabled}
-												isMobile={mobileLayout.enabled}
-												value={value}
-												placeholder={placeholderText}
-												textareaRef={textareaRef}
-												isFocused={isFocused}
-												isAutocompleteAttached={isAutocompleteAttached}
-												autocompleteOptions={autocompleteOptions}
-												selectedIndex={selectedIndex}
-												onFocus={() => {
-													setIsFocused(true);
-													setIsInputAreaFocused(true);
-												}}
-												onBlur={() => {
-													setIsFocused(false);
-													setIsInputAreaFocused(false);
-												}}
-												onChange={(newValue) => {
-													handleTextChange(newValue, previousValueRef.current);
-													setValue(newValue);
-												}}
-												onHeightChange={handleTextareaHeightChange}
-												onCursorMove={onCursorMove}
-												onArrowUp={handleArrowUp}
-												onEnter={handleSubmit}
-												onAutocompleteSelect={handleSelect}
-												setSelectedIndex={setSelectedIndex}
-												onKeyDown={handleTextareaKeyDown}
+						{mobileLayout.enabled
+							? renderSection(
+									<MobileTextareaLayout
+										disabled={disabled}
+										canAttachFiles={canAttachFiles}
+										value={value}
+										placeholderText={placeholderText}
+										textareaRef={textareaRef}
+										scrollerRef={scrollerRef}
+										isFocused={isFocused}
+										isAutocompleteAttached={isAutocompleteAttached}
+										autocompleteOptions={autocompleteOptions}
+										selectedIndex={selectedIndex}
+										channelId={channel.id}
+										isSlowmodeActive={isSlowmodeActive}
+										isOverCharacterLimit={isOverCharacterLimit}
+										hasContent={trimmedMessageContent.length > 0}
+										hasAttachments={uploadAttachments.length > 0}
+										hasPendingSticker={hasPendingSticker}
+										isEditingScheduledMessage={isEditingScheduledMessage}
+										onFocus={() => {
+											setIsFocused(true);
+											setIsInputAreaFocused(true);
+										}}
+										onBlur={() => {
+											setIsFocused(false);
+											setIsInputAreaFocused(false);
+										}}
+										onChange={(newValue) => {
+											handleTextChange(newValue, previousValueRef.current);
+											setValue(newValue);
+										}}
+										onHeightChange={handleTextareaHeightChange}
+										onCursorMove={onCursorMove}
+										onArrowUp={handleArrowUp}
+										onSubmit={handleSubmit}
+										onAutocompleteSelect={handleSelect}
+										setSelectedIndex={setSelectedIndex}
+										onKeyDown={handleTextareaKeyDown}
+										onPlusClick={handleOpenMobilePlusSheet}
+										onEmojiClick={() => handleExpressionPickerTabToggle('emojis')}
+									/>,
+								)
+							: renderSection(
+									<div className={clsx(styles.mainWrapperDense, disabled && wrapperStyles.disabled)}>
+										<div className={clsx(styles.uploadButtonColumn, styles.sideButtonPadding)}>
+											<TextareaButton
+												icon={PlusCircleIcon}
+												label={t`Open menu`}
+												onClick={handlePlusMenuClick}
+												forceHover={plusContextMenuOpen}
+												ref={plusButtonRef}
 											/>
 										</div>
-									</Scroller>
-								</div>
 
-								<TextareaButtons
-									disabled={disabled}
-									showAllButtons={showAllButtons}
-									showUploadButton={showUploadButton}
-									showGiftButton={showGiftButton}
-									showGifButton={showGifButton}
-									showMemesButton={showMemesButton}
-									showStickersButton={showStickersButton}
-									showEmojiButton={showEmojiButton}
-									showMessageSendButton={showMessageSendButton}
-									expressionPickerOpen={expressionPickerOpen}
-									selectedTab={selectedTab}
-									isMobile={mobileLayout.enabled}
-									shouldShowMobileGiftButton={shouldShowMobileGiftButton}
-									isComposing={isComposing}
-									isSlowmodeActive={isSlowmodeActive}
-									isOverLimit={isOverCharacterLimit}
-									hasContent={!!value.trim()}
-									hasAttachments={uploadAttachments.length > 0}
-									expressionPickerTriggerRef={expressionPickerTriggerRef}
-									invisibleExpressionPickerTriggerRef={invisibleExpressionPickerTriggerRef}
-									onExpressionPickerToggle={handleExpressionPickerTabToggle}
-									onSubmit={handleSubmit}
-									disableSendButton={isEditingScheduledMessage}
-									onContextMenu={handleMessageInputButtonContextMenu}
-								/>
-								{isScheduleModalOpen && hasMessageSchedulingAccess && (
-									<ScheduleMessageModal
-										onClose={() => setIsScheduleModalOpen(false)}
-										onSubmit={handleScheduleSubmit}
-										initialScheduledLocalAt={editingScheduledMessage?.scheduledLocalAt}
-										initialTimezone={editingScheduledMessage?.timezone}
-										title={isEditingScheduledMessage ? t`Reschedule Message` : undefined}
-										submitLabel={isEditingScheduledMessage ? t`Update` : undefined}
-										helpText={
-											isEditingScheduledMessage
-												? t`This will modify the existing scheduled message rather than sending immediately.`
-												: undefined
-										}
-									/>
+										<div className={styles.contentAreaDense}>
+											<Scroller
+												ref={scrollerRef}
+												fade={true}
+												className={styles.scroller}
+												key="channel-textarea-scroller"
+											>
+												<div className={styles.flexColumn}>
+													<TextareaInputField
+														channelId={channel.id}
+														disabled={disabled}
+														isMobile={mobileLayout.enabled}
+														value={value}
+														placeholder={placeholderText}
+														textareaRef={textareaRef}
+														isFocused={isFocused}
+														isAutocompleteAttached={isAutocompleteAttached}
+														autocompleteOptions={autocompleteOptions}
+														selectedIndex={selectedIndex}
+														onFocus={() => {
+															setIsFocused(true);
+															setIsInputAreaFocused(true);
+														}}
+														onBlur={() => {
+															setIsFocused(false);
+															setIsInputAreaFocused(false);
+														}}
+														onChange={(newValue) => {
+															handleTextChange(newValue, previousValueRef.current);
+															setValue(newValue);
+														}}
+														onHeightChange={handleTextareaHeightChange}
+														onCursorMove={onCursorMove}
+														onArrowUp={handleArrowUp}
+														onEnter={handleSubmit}
+														onAutocompleteSelect={handleSelect}
+														setSelectedIndex={setSelectedIndex}
+														onKeyDown={handleTextareaKeyDown}
+													/>
+												</div>
+											</Scroller>
+										</div>
+
+										<TextareaButtons
+											disabled={disabled}
+											showAllButtons={showAllButtons}
+											showGifButton={showGifButton}
+											showMemesButton={showMemesButton}
+											showStickersButton={showStickersButton}
+											showEmojiButton={showEmojiButton}
+											showMessageSendButton={showMessageSendButton}
+											showVoiceMessageButton={false}
+											expressionPickerOpen={expressionPickerOpen}
+											selectedTab={selectedTab}
+											isMobile={mobileLayout.enabled}
+											isSlowmodeActive={isSlowmodeActive}
+											isOverLimit={isOverCharacterLimit}
+											hasContent={trimmedMessageContent.length > 0}
+											hasAttachments={uploadAttachments.length > 0}
+											expressionPickerTriggerRef={expressionPickerTriggerRef}
+											invisibleExpressionPickerTriggerRef={invisibleExpressionPickerTriggerRef}
+											onExpressionPickerToggle={handleExpressionPickerTabToggle}
+											onSubmit={handleSubmit}
+											disableSendButton={isEditingScheduledMessage}
+											channelId={channel.id}
+										/>
+										{isScheduleModalOpen && hasMessageSchedulingAccess && (
+											<ScheduleMessageModal
+												onClose={() => setIsScheduleModalOpen(false)}
+												onSubmit={handleScheduleSubmit}
+												initialScheduledLocalAt={editingScheduledMessage?.scheduledLocalAt}
+												initialTimezone={editingScheduledMessage?.timezone}
+												title={isEditingScheduledMessage ? t`Reschedule Message` : undefined}
+												submitLabel={isEditingScheduledMessage ? t`Update` : undefined}
+												helpText={
+													isEditingScheduledMessage
+														? t`This will modify the existing scheduled message rather than sending immediately.`
+														: undefined
+												}
+											/>
+										)}
+									</div>,
 								)}
-							</div>,
-						)}
 
 						<MessageCharacterCounter
-							currentLength={value.length}
+							currentLength={trimmedMessageContent.length}
 							maxLength={maxMessageLength}
-							isPremium={currentUser?.isPremium() ?? false}
+							canUpgrade={maxMessageLength < premiumMaxLength}
+							premiumMaxLength={premiumMaxLength}
 						/>
 
 						{isAutocompleteAttached && (
@@ -935,12 +1064,21 @@ const ChannelTextareaContent = observer(
 				</FocusRing>
 
 				{mobileLayout.enabled && (
-					<ExpressionPickerSheet
-						isOpen={expressionPickerOpen}
-						onClose={() => setExpressionPickerOpen(false)}
-						channelId={channel.id}
-						onEmojiSelect={handleEmojiSelect}
-					/>
+					<>
+						<ExpressionPickerSheet
+							isOpen={expressionPickerOpen}
+							onClose={() => setExpressionPickerOpen(false)}
+							channelId={channel.id}
+							onEmojiSelect={handleEmojiSelect}
+						/>
+						<MobileTextareaPlusBottomSheet
+							isOpen={mobilePlusSheetOpen}
+							onClose={handleCloseMobilePlusSheet}
+							onUploadFile={handleFileButtonClick}
+							textareaValue={value}
+							onUploadAsFile={handleUploadMessageAsFile}
+						/>
+					</>
 				)}
 			</>
 		);
@@ -958,6 +1096,8 @@ export const ChannelTextarea = observer(({channel}: {channel: ChannelRecord}) =>
 	const canAttachFiles = channel.isPrivate()
 		? !forceNoAttachFiles
 		: !forceNoAttachFiles && PermissionStore.can(Permissions.ATTACH_FILES, channel);
+	const canEmbedLinks = channel.isPrivate() ? true : PermissionStore.can(Permissions.EMBED_LINKS, channel);
+	const canSendFavoriteMemeId = canAttachFiles && canEmbedLinks;
 
 	return (
 		<ChannelTextareaContent
@@ -965,6 +1105,7 @@ export const ChannelTextarea = observer(({channel}: {channel: ChannelRecord}) =>
 			channel={channel}
 			disabled={disabled}
 			canAttachFiles={canAttachFiles}
+			canSendFavoriteMemeId={canSendFavoriteMemeId}
 			draft={draft}
 		/>
 	);

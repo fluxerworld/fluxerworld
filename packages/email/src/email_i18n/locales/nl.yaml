@@ -1,0 +1,369 @@
+account_disabled_suspicious:
+  subject: Je Fluxer-account is tijdelijk uitgeschakeld
+  body: |-
+    Hoi {username},
+
+    We hebben je Fluxer-account tijdelijk uitgeschakeld omdat we verdachte activiteit hebben vastgesteld.
+
+    {reason, select,
+      null {}
+      other {Reden: {reason}}
+    }
+
+    Om weer toegang te krijgen tot je account, moet je je wachtwoord opnieuw instellen:
+
+    {forgotUrl}
+
+    Daarna kun je weer inloggen.
+
+    Denk je dat dit een vergissing is? Neem dan contact op met onze support.
+
+    – Fluxer Safety-team
+account_scheduled_deletion:
+  subject: Je Fluxer-account wordt definitief verwijderd
+  body: |-
+    Hoi {username},
+
+    Je Fluxer-account staat gepland voor definitieve verwijdering omdat je onze gebruiksvoorwaarden of communityrichtlijnen hebt geschonden.
+
+    Geplande verwijderdatum: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Reden: {reason}}
+    }
+
+    Dit is een ernstige maatregel. Je accountgegevens worden op de geplande datum definitief verwijderd.
+
+    Lees ook:
+    - Gebruiksvoorwaarden: {termsUrl}
+    - Communityrichtlijnen: {guidelinesUrl}
+
+    Bezwaar maken:
+    Als je denkt dat deze beslissing onjuist of onterecht is, kun je binnen 60 dagen bezwaar indienen. Stuur je bezwaar naar appeals@fluxer.app, en gebruik daarbij dit e-mailadres.
+
+    Vermeld in je bezwaar:
+    - Waarom je vindt dat de beslissing onjuist of onterecht is
+    - Relevante context of bewijs, als je dat hebt
+
+    Een medewerker van het Fluxer Safety-team beoordeelt je bezwaar en kan de geplande verwijdering pauzeren totdat er een definitieve beslissing is genomen.
+
+    – Fluxer Safety-team
+account_temp_banned:
+  subject: Je Fluxer-account is tijdelijk geschorst
+  body: |-
+    Hoi {username},
+
+    Je Fluxer-account is tijdelijk geschorst omdat je onze gebruiksvoorwaarden of communityrichtlijnen hebt geschonden.
+
+    Duur: {durationHours, plural,
+      =1 {1 uur}
+      other {# uur}
+    }
+    Geschorst tot: {bannedUntil, date, full} {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {Reden: {reason}}
+    }
+
+    Tijdens deze periode heb je geen toegang tot je account.
+
+    Lees ook:
+    - Gebruiksvoorwaarden: {termsUrl}
+    - Communityrichtlijnen: {guidelinesUrl}
+
+    Denk je dat deze beslissing onjuist of onterecht is? Dan kun je bezwaar indienen via appeals@fluxer.app, en gebruik daarbij dit e-mailadres. Leg duidelijk uit waarom je vindt dat de beslissing niet klopt. We bekijken je bezwaar en laten je weten wat we besluiten.
+
+    – Fluxer Safety-team
+donation_confirmation:
+  subject: Bedankt voor je donatie aan Fluxer
+  body: |-
+    Hallo,
+
+    Bedankt voor je donatie aan Fluxer! Je {interval, select,
+      month {terugkerende donatie}
+      year {terugkerende donatie}
+      other {eenmalige donatie}
+    } is {interval, select,
+      month {succesvol ingesteld}
+      year {succesvol ingesteld}
+      other {succesvol verwerkt}
+    }.
+
+    Donatiegegevens:
+    Bedrag: {amount} {currency} {interval, select,
+      month {per maand}
+      year {per jaar}
+      other {}
+    }
+
+    Stripe stuurt je binnenkort een aparte ontvangstbevestiging met je factuur-PDF. Hierin staan alle betalingsgegevens en deze kan voor fiscale doeleinden worden gebruikt.
+
+    Je kunt op elk moment je donatiegeschiedenis bekijken, facturen downloaden {interval, select,
+      month {en je abonnement beheren of annuleren}
+      year {en je abonnement beheren of annuleren}
+      other {en toekomstige donaties beheren}
+    } met deze link:
+
+    {manageUrl}
+
+    Jouw steun helpt om Fluxer draaiende te houden. Bedankt!
+
+    – Fluxer-team
+donation_magic_link:
+  subject: Beheer je Fluxer-donaties
+  body: |-
+    Hallo,
+
+    Klik op de link hieronder om toegang te krijgen tot je donorportaal:
+
+    {manageUrl}
+
+    In het portaal kun je abonnementen beheren, facturen downloaden en je donatiegeschiedenis bekijken.
+
+    Deze link verloopt op {expiresAt, date, full} om {expiresAt, time, short}.
+
+    Heb je deze link niet aangevraagd? Dan kun je deze e-mail gewoon negeren.
+
+    – Fluxer-team
+dsa_report_verification:
+  subject: Bevestig je e-mailadres voor een DSA-melding
+  body: |-
+    Hoi,
+
+    Gebruik de code hieronder om je melding onder de Digital Services Act (DSA) bij Fluxer in te dienen:
+
+    {code}
+
+    Deze code verloopt op {expiresAt, date, full} om {expiresAt, time, short}.
+
+    Heb je dit niet aangevraagd? Dan kun je deze e-mail negeren.
+
+    – Fluxer Safety-team
+email_change_new:
+  subject: Bevestig je nieuwe Fluxer-e-mailadres
+  body: |-
+    Hoi {username},
+
+    Vul deze code in de app in om je nieuwe Fluxer-e-mailadres te bevestigen:
+
+    {code}
+
+    Deze code verloopt op {expiresAt, date, full} om {expiresAt, time, short}.
+
+    Heb je dit niet aangevraagd? Dan kun je deze e-mail negeren.
+
+    – Fluxer-team
+email_change_original:
+  subject: Bevestig de wijziging van je Fluxer-e-mailadres
+  body: |-
+    Hoi {username},
+
+    We hebben een verzoek ontvangen om het e-mailadres van je Fluxer-account te wijzigen.
+
+    Om deze wijziging te bevestigen, voer je deze code in de app in:
+
+    {code}
+
+    Deze code verloopt op {expiresAt, date, full} om {expiresAt, time, short}.
+
+    Heb je dit niet aangevraagd? Beveilig je account dan meteen.
+
+    – Fluxer-team
+email_change_revert:
+  subject: Je Fluxer-e-mailadres is gewijzigd
+  body: |-
+    Hoi {username},
+
+    Het e-mailadres van je Fluxer-account is gewijzigd naar {newEmail}.
+
+    Heb jij dit gedaan? Dan hoef je niets te doen. Was jij dit niet? Dan kun je de wijziging terugdraaien en je account beveiligen via deze link:
+
+    {revertUrl}
+
+    Daarmee herstellen we je vorige e-mailadres, word je overal uitgelogd, verwijderen we gekoppelde telefoonnummers, zetten we MFA uit en moet je een nieuw wachtwoord instellen.
+
+    – Fluxer Safety-team
+email_verification:
+  subject: Bevestig je Fluxer-e-mailadres
+  body: |-
+    Hoi {username},
+
+    Bevestig het e-mailadres van je Fluxer-account door op de link hieronder te klikken:
+
+    {verifyUrl}
+
+    Heb je geen Fluxer-account aangemaakt? Dan kun je deze e-mail gewoon negeren.
+
+    Deze link is 24 uur geldig.
+
+    – Fluxer-team
+gift_chargeback_notification:
+  subject: De voordelen van je ingewisselde cadeau zijn verwijderd
+  body: |-
+    Hoi {username},
+
+    Een cadeaucode die je hebt ingewisseld, is oorspronkelijk betaald door iemand anders. Die betaling is inmiddels teruggedraaid (chargeback).
+
+    Daarom hebben we de voordelen verwijderd die aan je account zijn toegevoegd toen je het cadeau inwisselde.
+
+    Denk je dat dit een vergissing is? Neem dan contact op met onze support en vermeld alle details die je hebt over de cadeaucode en wanneer je die hebt ingewisseld.
+
+    – Fluxer-team
+harvest_completed:
+  subject: Je Fluxer-data-export staat klaar om te downloaden
+  body: |-
+    Hoi {username},
+
+    Je data-export staat klaar.
+
+    Downloadlink:
+    {downloadUrl}
+
+    Aantal berichten: {totalMessages, number}
+    Bestandsgrootte: {fileSizeMB, number} MB
+
+    Deze link verloopt op {expiresAt, date, full} om {expiresAt, time, short}.
+
+    Heb je deze export niet aangevraagd? Wijzig dan meteen je wachtwoord en neem contact op met onze support.
+
+    – Fluxer-team
+inactivity_warning:
+  subject: Je Fluxer-account wordt verwijderd vanwege inactiviteit
+  body: |-
+    Hoi {username},
+
+    We hebben geen activiteit gezien op je Fluxer-account sinds {lastActiveDate, date, full}.
+
+    Als je niet uiterlijk op {deletionDate, date, full} om {deletionDate, time, short} inlogt, wordt je account definitief verwijderd vanwege inactiviteit.
+
+    Log hier in:
+    {loginUrl}
+
+    Heb je Fluxer onlangs nog gebruikt? Neem dan meteen contact op met onze support.
+
+    – Fluxer-team
+ip_authorization:
+  subject: Bevestig inloggen vanaf een nieuw IP-adres
+  body: |-
+    Hoi {username},
+
+    We hebben een poging gezien om in te loggen op je Fluxer-account vanaf een nieuw IP-adres:
+
+    IP-adres: {ipAddress}
+    Locatie: {location}
+
+    Was jij dit? Bevestig dit IP-adres dan via de link hieronder:
+
+    {authUrl}
+
+    Was jij dit niet? Wijzig dan meteen je wachtwoord.
+
+    Deze bevestigingslink is 30 minuten geldig.
+
+    – Fluxer-team
+password_change_verification:
+  subject: Bevestig de wijziging van je Fluxer-wachtwoord
+  body: |-
+    Hoi {username},
+
+    We hebben een verzoek ontvangen om het wachtwoord van je Fluxer-account te wijzigen.
+
+    Om deze wijziging te bevestigen, voer je deze code in de app in:
+
+    {code}
+
+    Deze code verloopt op {expiresAt}.
+
+    Heb je dit niet aangevraagd? Dan heeft iemand mogelijk toegang tot je account. Wijzig je wachtwoord onmiddellijk en schakel tweefactorauthenticatie in.
+
+    – Fluxer-team
+password_reset:
+  subject: Stel je Fluxer-wachtwoord opnieuw in
+  body: |-
+    Hoi {username},
+
+    Je hebt gevraagd om je Fluxer-wachtwoord opnieuw in te stellen. Gebruik de link hieronder om een nieuw wachtwoord te kiezen:
+
+    {resetUrl}
+
+    Heb je dit niet aangevraagd? Dan kun je deze e-mail gewoon negeren.
+
+    Deze link is 1 uur geldig.
+
+    – Fluxer-team
+registration_approved:
+  subject: Je Fluxer-registratie is goedgekeurd
+  body: |-
+    Hoi {username},
+
+    Goed nieuws: je Fluxer-registratie is goedgekeurd.
+
+    Je kunt nu inloggen in de Fluxer-app via:
+    {channelsUrl}
+
+    Welkom bij de Fluxer-community.
+
+    – Fluxer-team
+report_resolved:
+  subject: Je melding is beoordeeld
+  body: |-
+    Hoi {username},
+
+    Je melding (ID: {reportId}) is beoordeeld door ons Safety-team.
+
+    Reactie van het Safety-team:
+    {publicComment}
+
+    Bedankt dat je helpt om Fluxer veilig te houden voor iedereen. We nemen alle meldingen serieus en waarderen je bijdrage aan de community.
+
+    Heb je vragen of zorgen over deze uitkomst? Neem dan contact op via safety@fluxer.app.
+
+    – Fluxer Safety-team
+scheduled_deletion_notification:
+  subject: Je Fluxer-account wordt definitief verwijderd
+  body: |-
+    Hoi {username},
+
+    Je Fluxer-account staat gepland voor definitieve verwijdering.
+
+    Geplande verwijderdatum: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Reden: {reason}}
+    }
+
+    Dit is een ernstige maatregel. Je accountgegevens worden op de geplande datum definitief verwijderd.
+
+    Denk je dat deze beslissing onjuist is? Dan kun je bezwaar indienen via appeals@fluxer.app, en gebruik daarbij dit e-mailadres.
+
+    – Fluxer Safety-team
+self_deletion_scheduled:
+  subject: De verwijdering van je Fluxer-account staat gepland
+  body: |-
+    Hoi {username},
+
+    Je hebt gevraagd om je Fluxer-account te verwijderen. Je account wordt definitief verwijderd op:
+
+    {deletionDate, date, full} om {deletionDate, time, short}
+
+    Heb je dit niet aangevraagd? Log dan in op je account om de verwijdering te annuleren. We raden ook aan om je wachtwoord te wijzigen om je account te beveiligen.
+
+    – Fluxer-team
+unban_notification:
+  subject: De schorsing van je Fluxer-account is opgeheven
+  body: |-
+    Hoi {username},
+
+    Goed nieuws: de schorsing van je Fluxer-account is opgeheven.
+
+    {reason, select,
+      null {}
+      other {Reden: {reason}}
+    }
+
+    Je kunt nu weer inloggen en Fluxer blijven gebruiken.
+
+    – Fluxer Safety-team

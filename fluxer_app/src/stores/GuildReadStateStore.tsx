@@ -17,19 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildStore from '@app/stores/GuildStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import ReadStateStore from '@app/stores/ReadStateStore';
+import UserGuildSettingsStore from '@app/stores/UserGuildSettingsStore';
+import {ME} from '@fluxer/constants/src/AppConstants';
+import {ChannelTypes, Permissions} from '@fluxer/constants/src/ChannelConstants';
+import type {ChannelId, GuildId} from '@fluxer/schema/src/branded/WireIds';
 import {makeAutoObservable, observable, reaction, runInAction} from 'mobx';
-import {ChannelTypes, ME, Permissions} from '~/Constants';
-import ChannelStore from './ChannelStore';
-import GuildStore from './GuildStore';
-import PermissionStore from './PermissionStore';
-import ReadStateStore from './ReadStateStore';
-import UserGuildSettingsStore from './UserGuildSettingsStore';
-
-type GuildId = string;
-type ChannelId = string;
 
 const PRIVATE_CHANNEL_SENTINEL = ME;
-const CAN_READ_PERMISSIONS = Permissions.VIEW_CHANNEL | Permissions.READ_MESSAGE_HISTORY;
+const CAN_READ_PERMISSIONS = Permissions.VIEW_CHANNEL;
 
 class GuildReadState {
 	unread = observable.box(false);
@@ -138,12 +137,12 @@ class GuildReadStateStore {
 
 				const byGuild = new Map<GuildId | null, Array<ChannelId>>();
 				for (const {channelId, guildId} of changes) {
-					let list = byGuild.get(guildId);
+					let list = byGuild.get(guildId as GuildId | null);
 					if (list == null) {
 						list = [];
-						byGuild.set(guildId, list);
+						byGuild.set(guildId as GuildId | null, list);
 					}
-					list.push(channelId);
+					list.push(channelId as ChannelId);
 				}
 
 				for (const [guildId, ids] of byGuild.entries()) {
@@ -161,12 +160,12 @@ class GuildReadStateStore {
 		return this.updateCounter;
 	}
 
-	private getOrCreate(guildId: GuildId | null): GuildReadState {
+	private getOrCreate(guildId: string | null): GuildReadState {
 		const id = guildId ?? PRIVATE_CHANNEL_SENTINEL;
-		let state = this.guildStates.get(id);
+		let state = this.guildStates.get(id as GuildId);
 		if (state == null) {
 			state = new GuildReadState();
-			this.guildStates.set(id, state);
+			this.guildStates.set(id as GuildId, state);
 		}
 		return state;
 	}
@@ -175,13 +174,13 @@ class GuildReadStateStore {
 		this.updateCounter++;
 	}
 
-	private incrementSentinel(guildId: GuildId | null): void {
+	private incrementSentinel(guildId: string | null): void {
 		const state = this.getOrCreate(guildId);
 		state.incrementSentinel();
 		this.notifyChange();
 	}
 
-	private recomputeChannels(guildId: GuildId | null, channelIds: Array<ChannelId>): boolean {
+	private recomputeChannels(guildId: string | null, channelIds: Array<ChannelId>): boolean {
 		const id = guildId ?? PRIVATE_CHANNEL_SENTINEL;
 		const prevState = this.getOrCreate(id);
 		const newState = prevState.clone();
@@ -245,7 +244,7 @@ class GuildReadStateStore {
 
 			if (
 				oldUnreadChannel != null &&
-				!channelIds.includes(oldUnreadChannel.id) &&
+				!channelIds.includes(oldUnreadChannel.id as ChannelId) &&
 				ReadStateStore.hasUnread(oldUnreadChannel.id) &&
 				canContributeToGuildUnread(oldUnreadChannel, 0)
 			) {
@@ -256,7 +255,7 @@ class GuildReadStateStore {
 		return this.commitState(id, newState, prevState);
 	}
 
-	private recomputeAll(guildId: GuildId | null, skipIfMuted = false): boolean {
+	private recomputeAll(guildId: string | null, skipIfMuted = false): boolean {
 		const id = guildId ?? PRIVATE_CHANNEL_SENTINEL;
 		const newState = new GuildReadState();
 
@@ -268,12 +267,12 @@ class GuildReadStateStore {
 
 				if (mentionCount > 0 && canContribute) {
 					newState.mentionCount.set(newState.mentionCount.get() + mentionCount);
-					newState.mentionChannels.add(channel.id);
+					newState.mentionChannels.add(channel.id as ChannelId);
 				}
 
 				if (!newState.unread.get() && ReadStateStore.hasUnread(channel.id) && canContributeToGuildUnread(channel, 0)) {
 					newState.unread.set(true);
-					newState.unreadChannelId.set(channel.id);
+					newState.unreadChannelId.set(channel.id as ChannelId);
 				}
 			}
 		} else {
@@ -289,8 +288,8 @@ class GuildReadStateStore {
 			for (const channel of channels) {
 				const isChannelMuted =
 					isGuildMuted ||
-					mutedChannels.has(channel.id) ||
-					(channel.parentId != null && mutedChannels.has(channel.parentId));
+					mutedChannels.has(channel.id as ChannelId) ||
+					(channel.parentId != null && mutedChannels.has(channel.parentId as ChannelId));
 
 				const mentionCount = ReadStateStore.getMentionCount(channel.id);
 				const hasUnread = ReadStateStore.hasUnread(channel.id);
@@ -306,12 +305,12 @@ class GuildReadStateStore {
 				if ((shouldShowUnread || hasMention) && canContributeToGuildUnread(channel, mentionCount)) {
 					if (shouldShowUnread) {
 						newState.unread.set(true);
-						newState.unreadChannelId.set(channel.id);
+						newState.unreadChannelId.set(channel.id as ChannelId);
 					}
 
 					if (hasMention) {
 						newState.mentionCount.set(newState.mentionCount.get() + mentionCount);
-						newState.mentionChannels.add(channel.id);
+						newState.mentionChannels.add(channel.id as ChannelId);
 					}
 				}
 			}
@@ -331,13 +330,13 @@ class GuildReadStateStore {
 		}
 
 		runInAction(() => {
-			this.guildStates.set(guildId, newState);
+			this.guildStates.set(guildId as GuildId, newState);
 
 			if (guildId !== PRIVATE_CHANNEL_SENTINEL) {
 				if (newState.unread.get()) {
-					this.unreadGuilds.add(guildId);
+					this.unreadGuilds.add(guildId as GuildId);
 				} else {
-					this.unreadGuilds.delete(guildId);
+					this.unreadGuilds.delete(guildId as GuildId);
 				}
 			}
 
@@ -369,13 +368,13 @@ class GuildReadStateStore {
 		return this.unreadGuilds.size > 0;
 	}
 
-	hasUnread(guildId: GuildId): boolean {
-		return this.unreadGuilds.has(guildId);
+	hasUnread(guildId: string): boolean {
+		return this.unreadGuilds.has(guildId as GuildId);
 	}
 
-	getMentionCount(guildId: GuildId | null): number {
+	getMentionCount(guildId: string | null): number {
 		const id = guildId ?? PRIVATE_CHANNEL_SENTINEL;
-		const state = this.guildStates.get(id);
+		const state = this.guildStates.get(id as GuildId);
 		return state?.mentionCount.get() ?? 0;
 	}
 
@@ -389,21 +388,21 @@ class GuildReadStateStore {
 	}
 
 	getPrivateChannelMentionCount(): number {
-		const state = this.guildStates.get(PRIVATE_CHANNEL_SENTINEL);
+		const state = this.guildStates.get(PRIVATE_CHANNEL_SENTINEL as GuildId);
 		return state?.mentionCount.get() ?? 0;
 	}
 
-	getMentionCountForPrivateChannel(channelId: ChannelId): number {
+	getMentionCountForPrivateChannel(channelId: string): number {
 		return ReadStateStore.getMentionCount(channelId);
 	}
 
-	getGuildChangeSentinel(guildId: GuildId | null): number {
+	getGuildChangeSentinel(guildId: string | null): number {
 		const id = guildId ?? PRIVATE_CHANNEL_SENTINEL;
-		const state = this.guildStates.get(id);
+		const state = this.guildStates.get(id as GuildId);
 		return state?.sentinel.get() ?? 0;
 	}
 
-	getGuildHasUnreadIgnoreMuted(guildId: GuildId): boolean {
+	getGuildHasUnreadIgnoreMuted(guildId: string): boolean {
 		const channels = ChannelStore.getGuildChannels(guildId);
 
 		for (const channel of channels) {
@@ -433,37 +432,37 @@ class GuildReadStateStore {
 		this.notifyChange();
 	}
 
-	handleGuildCreate(action: {guild: {id: GuildId}}): void {
+	handleGuildCreate(action: {guild: {id: string}}): void {
 		this.recomputeAll(action.guild.id);
 	}
 
-	handleGuildDelete(action: {guild: {id: GuildId}}): void {
-		this.guildStates.delete(action.guild.id);
-		this.unreadGuilds.delete(action.guild.id);
+	handleGuildDelete(action: {guild: {id: string}}): void {
+		this.guildStates.delete(action.guild.id as GuildId);
+		this.unreadGuilds.delete(action.guild.id as GuildId);
 		this.notifyChange();
 	}
 
-	handleChannelUpdate(action: {channel: {id: ChannelId; guildId?: GuildId}}): void {
-		this.recomputeChannels(action.channel.guildId ?? null, [action.channel.id]);
+	handleChannelUpdate(action: {channel: {id: string; guildId?: string}}): void {
+		this.recomputeChannels(action.channel.guildId ?? null, [action.channel.id as ChannelId]);
 	}
 
-	handleGenericUpdate(channelId: ChannelId): void {
+	handleGenericUpdate(channelId: string): void {
 		const channel = ChannelStore.getChannel(channelId);
 		if (channel == null) return;
-		this.recomputeChannels(channel.guildId ?? null, [channelId]);
+		this.recomputeChannels(channel.guildId ?? null, [channelId as ChannelId]);
 	}
 
-	handleBulkChannelUpdate(action: {channels: Array<{id: ChannelId; guildId?: GuildId}>}): void {
+	handleBulkChannelUpdate(action: {channels: Array<{id: string; guildId?: string}>}): void {
 		const byGuild = new Map<GuildId | null, Array<ChannelId>>();
 
 		for (const channel of action.channels) {
 			const guildId = channel.guildId ?? null;
-			let channels = byGuild.get(guildId);
+			let channels = byGuild.get(guildId as GuildId | null);
 			if (channels == null) {
 				channels = [];
-				byGuild.set(guildId, channels);
+				byGuild.set(guildId as GuildId | null, channels);
 			}
-			channels.push(channel.id);
+			channels.push(channel.id as ChannelId);
 		}
 
 		for (const [guildId, channelIds] of byGuild.entries()) {
@@ -471,7 +470,7 @@ class GuildReadStateStore {
 		}
 	}
 
-	handleGuildSettingsUpdate(action: {guildId: GuildId}): void {
+	handleGuildSettingsUpdate(action: {guildId: string}): void {
 		this.recomputeAll(action.guildId);
 	}
 
@@ -494,7 +493,7 @@ class GuildReadStateStore {
 	handleChannelDelete(channelId: string): void {
 		const channel = ChannelStore.getChannel(channelId);
 		if (channel == null) return;
-		this.recomputeChannels(channel.guildId ?? null, [channelId]);
+		this.recomputeChannels(channel.guildId ?? null, [channelId as ChannelId]);
 	}
 
 	handleUserGuildSettingsUpdate(): void {

@@ -17,17 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {MessageRecord} from '@app/records/MessageRecord';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
+import type {JumpType} from '@fluxer/constants/src/JumpConstants';
+import {JumpTypes} from '@fluxer/constants/src/JumpConstants';
 import {
-	JumpTypes,
 	MAX_LOADED_MESSAGES,
 	MAX_MESSAGE_CACHE_SIZE,
 	MAX_MESSAGES_PER_CHANNEL,
 	TRUNCATED_MESSAGE_VIEW_SIZE,
-} from '~/Constants';
-import {type Message, MessageRecord} from '~/records/MessageRecord';
-
-type MessageId = string;
-type ChannelId = string;
+} from '@fluxer/constants/src/LimitConstants';
+import type {MessageId} from '@fluxer/schema/src/branded/WireIds';
+import type {MessageEmbed} from '@fluxer/schema/src/domains/message/EmbedSchemas';
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 
 const IS_MOBILE_CLIENT = /Mobi|Android/i.test(navigator.userAgent);
 
@@ -37,7 +39,7 @@ export interface JumpOptions {
 	present?: boolean;
 	flash?: boolean;
 	returnMessageId?: MessageId | null;
-	jumpType?: JumpTypes;
+	jumpType?: JumpType;
 }
 
 interface LoadCompleteOptions {
@@ -50,12 +52,33 @@ interface LoadCompleteOptions {
 	cached?: boolean;
 }
 
+function normalizeEmbedForComparison(embed: MessageEmbed): Omit<MessageEmbed, 'id'> {
+	const {id: _id, children, ...rest} = embed;
+
+	return {
+		...rest,
+		...(children
+			? {
+					children: children.map((child) => normalizeEmbedForComparison(child)),
+				}
+			: {}),
+	};
+}
+
+function normalizeEmbedsForComparison(embeds?: ReadonlyArray<MessageEmbed>): string {
+	if (!embeds || embeds.length === 0) {
+		return '[]';
+	}
+
+	return JSON.stringify(embeds.map((embed) => normalizeEmbedForComparison(embed)));
+}
+
 function shouldUseIncoming(existing: MessageRecord, incoming: Message): boolean {
 	const previousEdit = existing.editedTimestamp != null ? +existing.editedTimestamp : 0;
 	const nextEdit = incoming.edited_timestamp != null ? +new Date(incoming.edited_timestamp) : 0;
 
 	if (nextEdit > previousEdit) return true;
-	if (existing.embeds.length < (incoming.embeds?.length ?? 0)) return true;
+	if (normalizeEmbedsForComparison(existing.embeds) !== normalizeEmbedsForComparison(incoming.embeds)) return true;
 	if (existing.content !== incoming.content) return true;
 
 	return false;
@@ -72,7 +95,7 @@ function hydrateMessage(channelMessages: ChannelMessages, raw: Message): Message
 class MessageBufferSegment {
 	private readonly fromOlderSide: boolean;
 	private items: Array<MessageRecord> = [];
-	private keyedById: Record<MessageId, MessageRecord> = {};
+	private keyedById: Record<string, MessageRecord> = {};
 	private reachedBoundary = false;
 
 	constructor(fromOlderSide: boolean) {
@@ -109,21 +132,21 @@ class MessageBufferSegment {
 		this.reachedBoundary = false;
 	}
 
-	has(id: MessageId): boolean {
+	has(id: string): boolean {
 		return this.keyedById[id] != null;
 	}
 
-	get(id: MessageId): MessageRecord | undefined {
+	get(id: string): MessageRecord | undefined {
 		return this.keyedById[id];
 	}
 
-	remove(id: MessageId): void {
+	remove(id: string): void {
 		if (!this.keyedById[id]) return;
 		delete this.keyedById[id];
 		this.items = this.items.filter((m) => m.id !== id);
 	}
 
-	removeMany(ids: Array<MessageId>): void {
+	removeMany(ids: Array<string>): void {
 		if (!ids.length) return;
 
 		for (const id of ids) {
@@ -133,7 +156,7 @@ class MessageBufferSegment {
 		this.items = this.items.filter((m) => !ids.includes(m.id));
 	}
 
-	replace(previousId: MessageId, next: MessageRecord): void {
+	replace(previousId: string, next: MessageRecord): void {
 		const existing = this.keyedById[previousId];
 		if (!existing) return;
 
@@ -144,7 +167,7 @@ class MessageBufferSegment {
 		if (idx >= 0) this.items[idx] = next;
 	}
 
-	update(id: MessageId, updater: (m: MessageRecord) => MessageRecord): void {
+	update(id: string, updater: (m: MessageRecord) => MessageRecord): void {
 		const current = this.keyedById[id];
 		if (!current) return;
 
@@ -220,51 +243,52 @@ class MessageBufferSegment {
 }
 
 export class ChannelMessages {
-	private static readonly channelCache = new Map<ChannelId, ChannelMessages>();
+	private static readonly channelCache = new Map<string, ChannelMessages>();
 	private static readonly maxChannelsInMemory = 50;
-	private static accessSequence: Array<ChannelId> = [];
+	private static readonly retainedChannelIds = new Set<string>();
+	private static accessSequence: Array<string> = [];
 
-	readonly channelId: ChannelId;
+	readonly channelId: string;
 
 	ready = false;
 
-	jumpType: JumpTypes = JumpTypes.ANIMATED;
-	jumpTargetId: MessageId | null = null;
+	jumpType: JumpType = JumpTypes.ANIMATED;
+	jumpTargetId: string | null = null;
 	jumpTargetOffset = 0;
 	jumpSequenceId = 1;
 	jumped = false;
 	jumpedToPresent = false;
 	jumpFlash = true;
-	jumpReturnTargetId: MessageId | null = null;
+	jumpReturnTargetId: string | null = null;
 
 	hasMoreBefore = true;
 	hasMoreAfter = false;
 	loadingMore = false;
-	revealedMessageId: MessageId | null = null;
+	revealedMessageId: string | null = null;
 	cached = false;
 	error = false;
 	version = 0;
 
 	private messageList: Array<MessageRecord> = [];
-	private messageIndex: Record<MessageId, MessageRecord> = {};
+	private messageIndex: Record<string, MessageRecord> = {};
 	private beforeBuffer: MessageBufferSegment;
 	private afterBuffer: MessageBufferSegment;
 
-	static forEach(callback: (messages: ChannelMessages, channelId: ChannelId) => void): void {
+	static forEach(callback: (messages: ChannelMessages, channelId: string) => void): void {
 		for (const [id, messages] of ChannelMessages.channelCache) {
 			callback(messages, id);
 		}
 	}
 
-	static get(channelId: ChannelId): ChannelMessages | undefined {
+	static get(channelId: string): ChannelMessages | undefined {
 		return ChannelMessages.channelCache.get(channelId);
 	}
 
-	static hasPresent(channelId: ChannelId): boolean {
+	static hasPresent(channelId: string): boolean {
 		return ChannelMessages.get(channelId)?.hasPresent() ?? false;
 	}
 
-	static getOrCreate(channelId: ChannelId): ChannelMessages {
+	static getOrCreate(channelId: string): ChannelMessages {
 		let instance = ChannelMessages.channelCache.get(channelId);
 
 		if (!instance) {
@@ -277,13 +301,25 @@ export class ChannelMessages {
 		return instance;
 	}
 
-	static clear(channelId: ChannelId): void {
+	static clear(channelId: string): void {
 		ChannelMessages.channelCache.delete(channelId);
+		ChannelMessages.retainedChannelIds.delete(channelId);
 		const idx = ChannelMessages.accessSequence.indexOf(channelId);
 		if (idx >= 0) ChannelMessages.accessSequence.splice(idx, 1);
 	}
 
-	static clearCache(channelId: ChannelId): void {
+	static retainChannel(channelId: string): void {
+		ChannelMessages.retainedChannelIds.add(channelId);
+		if (ChannelMessages.channelCache.has(channelId)) {
+			ChannelMessages.markTouched(channelId);
+		}
+	}
+
+	static releaseRetainedChannel(channelId: string): void {
+		ChannelMessages.retainedChannelIds.delete(channelId);
+	}
+
+	static clearCache(channelId: string): void {
 		const instance = ChannelMessages.channelCache.get(channelId);
 		if (!instance) return;
 
@@ -302,7 +338,7 @@ export class ChannelMessages {
 		ChannelMessages.channelCache.set(instance.channelId, instance);
 	}
 
-	private static markTouched(channelId: ChannelId): void {
+	private static markTouched(channelId: string): void {
 		const existingIndex = ChannelMessages.accessSequence.indexOf(channelId);
 		if (existingIndex >= 0) {
 			ChannelMessages.accessSequence.splice(existingIndex, 1);
@@ -310,16 +346,53 @@ export class ChannelMessages {
 		ChannelMessages.accessSequence.push(channelId);
 	}
 
+	private static sanitizeAccessSequence(): void {
+		const seen = new Set<string>();
+		ChannelMessages.accessSequence = ChannelMessages.accessSequence.filter((channelId) => {
+			if (!ChannelMessages.channelCache.has(channelId)) return false;
+			if (seen.has(channelId)) return false;
+			seen.add(channelId);
+			return true;
+		});
+	}
+
 	private static evictIfNeeded(): void {
+		ChannelMessages.sanitizeAccessSequence();
+
 		while (ChannelMessages.channelCache.size > ChannelMessages.maxChannelsInMemory) {
-			const oldest = ChannelMessages.accessSequence.shift();
-			if (oldest) {
-				ChannelMessages.channelCache.delete(oldest);
+			const selectedChannelId = SelectedChannelStore.currentChannelId;
+			const isProtectedChannel = (channelId: string) =>
+				channelId === selectedChannelId || ChannelMessages.retainedChannelIds.has(channelId);
+			const evictionCandidateIndex = ChannelMessages.accessSequence.findIndex(
+				(channelId) => !isProtectedChannel(channelId),
+			);
+
+			if (evictionCandidateIndex >= 0) {
+				const [evictionCandidate] = ChannelMessages.accessSequence.splice(evictionCandidateIndex, 1);
+				if (evictionCandidate) {
+					ChannelMessages.channelCache.delete(evictionCandidate);
+				}
+				continue;
+			}
+
+			let didEvict = false;
+			for (const channelId of ChannelMessages.channelCache.keys()) {
+				if (isProtectedChannel(channelId)) {
+					continue;
+				}
+
+				ChannelMessages.channelCache.delete(channelId);
+				didEvict = true;
+				break;
+			}
+
+			if (!didEvict) {
+				break;
 			}
 		}
 	}
 
-	constructor(channelId: ChannelId) {
+	constructor(channelId: string) {
 		this.channelId = channelId;
 		this.beforeBuffer = new MessageBufferSegment(true);
 		this.afterBuffer = new MessageBufferSegment(false);
@@ -405,7 +478,7 @@ export class ChannelMessages {
 		return this.messageList[this.messageList.length - 1];
 	}
 
-	get(id: MessageId, checkBuffers = false): MessageRecord | undefined {
+	get(id: string, checkBuffers = false): MessageRecord | undefined {
 		const local = this.messageIndex[id];
 		if (local || !checkBuffers) return local;
 		return this.beforeBuffer.get(id) ?? this.afterBuffer.get(id);
@@ -415,7 +488,7 @@ export class ChannelMessages {
 		return this.messageList[index];
 	}
 
-	getAfter(id: MessageId): MessageRecord | null {
+	getAfter(id: string): MessageRecord | null {
 		const current = this.get(id);
 		if (!current) return null;
 
@@ -425,13 +498,13 @@ export class ChannelMessages {
 		return this.messageList[idx + 1] ?? null;
 	}
 
-	has(id: MessageId, checkBuffers = true): boolean {
+	has(id: string, checkBuffers = true): boolean {
 		if (this.messageIndex[id]) return true;
 		if (!checkBuffers) return false;
 		return this.beforeBuffer.has(id) || this.afterBuffer.has(id);
 	}
 
-	indexOf(id: MessageId): number {
+	indexOf(id: string): number {
 		return this.messageList.findIndex((m) => m.id === id);
 	}
 
@@ -439,7 +512,7 @@ export class ChannelMessages {
 		return (this.afterBuffer.size > 0 && this.afterBuffer.isBoundary) || !this.hasMoreAfter;
 	}
 
-	hasBeforeCached(beforeId: MessageId): boolean {
+	hasBeforeCached(beforeId: string): boolean {
 		if (this.messageList.length === 0 || this.beforeBuffer.size === 0) {
 			return false;
 		}
@@ -447,7 +520,7 @@ export class ChannelMessages {
 		return Boolean(first && first.id === beforeId);
 	}
 
-	hasAfterCached(afterId: MessageId): boolean {
+	hasAfterCached(afterId: string): boolean {
 		if (this.messageList.length === 0 || this.afterBuffer.size === 0) {
 			return false;
 		}
@@ -455,7 +528,7 @@ export class ChannelMessages {
 		return Boolean(last && last.id === afterId);
 	}
 
-	update(id: MessageId, updater: (m: MessageRecord) => MessageRecord): ChannelMessages {
+	update(id: string, updater: (m: MessageRecord) => MessageRecord): ChannelMessages {
 		const current = this.messageIndex[id];
 
 		if (!current) {
@@ -477,7 +550,7 @@ export class ChannelMessages {
 		}, true);
 	}
 
-	replace(previousId: MessageId, next: MessageRecord): ChannelMessages {
+	replace(previousId: string, next: MessageRecord): ChannelMessages {
 		const current = this.messageIndex[previousId];
 
 		if (!current) {
@@ -499,7 +572,7 @@ export class ChannelMessages {
 		}, true);
 	}
 
-	remove(id: MessageId): ChannelMessages {
+	remove(id: string): ChannelMessages {
 		return this.cloneAnd((draft) => {
 			delete draft.messageIndex[id];
 			draft.messageList = draft.messageList.filter((m) => m.id !== id);
@@ -508,7 +581,7 @@ export class ChannelMessages {
 		}, true);
 	}
 
-	removeMany(ids: Array<MessageId>): ChannelMessages {
+	removeMany(ids: Array<string>): ChannelMessages {
 		if (!ids.some((id) => this.has(id))) return this;
 
 		return this.cloneAnd((draft) => {
@@ -611,11 +684,11 @@ export class ChannelMessages {
 	}
 
 	jumpToMessage(
-		messageId: MessageId,
+		messageId: string,
 		flash = true,
 		offset?: number,
 		returnTargetId?: MessageId | null,
-		jumpType?: JumpTypes,
+		jumpType?: JumpType,
 	): ChannelMessages {
 		return this.cloneAnd((draft) => {
 			draft.jumped = true;
@@ -763,14 +836,22 @@ export class ChannelMessages {
 
 		for (const msg of incoming) {
 			const existing = this.messageIndex[msg.id];
-			this.messageIndex[msg.id] = msg;
 
 			if (existing) {
 				const idx = this.messageList.indexOf(existing);
 				if (idx >= 0) this.messageList[idx] = msg;
-			} else {
-				newItems.push(msg);
+				this.messageIndex[msg.id] = msg;
+				continue;
 			}
+
+			if (this.beforeBuffer.has(msg.id)) {
+				this.beforeBuffer.remove(msg.id);
+			} else if (this.afterBuffer.has(msg.id)) {
+				this.afterBuffer.remove(msg.id);
+			}
+
+			this.messageIndex[msg.id] = msg;
+			newItems.push(msg);
 		}
 
 		if (clearSideBuffer) {

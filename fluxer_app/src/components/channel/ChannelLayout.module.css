@@ -19,12 +19,14 @@
 
 .channelLayoutContainer {
 	display: grid;
-	grid-template-rows: 1fr;
+	grid-template-rows: minmax(0, 1fr);
 	height: 100%;
 	min-height: 0;
 	width: 100%;
+	max-width: 100%;
 	min-width: 0;
 	background-color: var(--background-tertiary);
+	overflow: hidden;
 }
 
 .channelNotFoundContainer {

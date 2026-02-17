@@ -1,0 +1,259 @@
+name: release relay
+
+on:
+  push:
+    branches: [canary]
+    paths:
+      - fluxer_relay/**
+      - .github/workflows/release-relay.yaml
+
+  workflow_dispatch:
+    inputs:
+      channel:
+        description: Release channel
+        type: choice
+        options: [stable, nightly]
+        default: nightly
+        required: false
+
+      ref:
+        description: Git ref (branch, tag, or commit SHA)
+        type: string
+        default: ''
+        required: false
+
+      version:
+        description: Stable version (e.g. 1.0.0). Defaults to 0.0.<run_number>
+        type: string
+        required: false
+
+permissions:
+  contents: write
+  packages: write
+  id-token: write
+  attestations: write
+
+concurrency:
+  group: release-relay-${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.channel) || 'nightly' }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: bash
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository_owner }}/fluxer-relay
+  CHANNEL: ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.channel) || 'nightly' }}
+  SOURCE_REF: >-
+    ${{ (github.event_name == 'workflow_dispatch' && github.event.inputs.ref)
+      || ((github.event_name == 'workflow_dispatch' && github.event.inputs.channel == 'stable') && 'main')
+      || 'canary' }}
+
+jobs:
+  meta:
+    name: resolve build metadata
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
+
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      channel: ${{ steps.meta.outputs.channel }}
+      source_ref: ${{ steps.meta.outputs.source_ref }}
+      sha_short: ${{ steps.meta.outputs.sha_short }}
+      timestamp: ${{ steps.meta.outputs.timestamp }}
+      date: ${{ steps.meta.outputs.date }}
+      build_number: ${{ steps.meta.outputs.build_number }}
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ env.SOURCE_REF }}
+
+      - name: metadata
+        id: meta
+        run: >-
+          python3 scripts/ci/workflows/release_relay.py
+          --step metadata
+          --version-input "${{ github.event.inputs.version }}"
+          --channel "${{ env.CHANNEL }}"
+          --source-ref "${{ env.SOURCE_REF }}"
+
+  build:
+    name: build fluxer relay
+    needs: meta
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
+
+    outputs:
+      image_tags: ${{ steps.docker_meta.outputs.tags }}
+      image_digest: ${{ steps.build.outputs.digest }}
+
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.meta.outputs.source_ref }}
+
+      - name: set up buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: login
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: docker metadata
+        id: docker_meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          tags: |
+            type=raw,value=nightly,enable=${{ needs.meta.outputs.channel == 'nightly' }}
+            type=raw,value=nightly-${{ needs.meta.outputs.date }},enable=${{ needs.meta.outputs.channel == 'nightly' }}
+            type=raw,value=sha-${{ needs.meta.outputs.sha_short }},enable=${{ needs.meta.outputs.channel == 'nightly' }}
+            type=raw,value=stable,enable=${{ needs.meta.outputs.channel == 'stable' }}
+            type=raw,value=latest,enable=${{ needs.meta.outputs.channel == 'stable' }}
+            type=raw,value=v${{ needs.meta.outputs.version }},enable=${{ needs.meta.outputs.channel == 'stable' }}
+            type=semver,pattern={{version}},value=${{ needs.meta.outputs.version }},enable=${{ needs.meta.outputs.channel == 'stable' && !startsWith(needs.meta.outputs.version, '0.0.') }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ needs.meta.outputs.version }},enable=${{ needs.meta.outputs.channel == 'stable' && !startsWith(needs.meta.outputs.version, '0.0.') }}
+
+      - name: build and push
+        id: build
+        uses: docker/build-push-action@v6
+        with:
+          context: fluxer_relay
+          file: fluxer_relay/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: |
+            ${{ steps.docker_meta.outputs.labels }}
+            org.opencontainers.image.version=v${{ needs.meta.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.created=${{ needs.meta.outputs.timestamp }}
+            org.opencontainers.image.source=${{ github.server_url }}/${{ github.repository }}
+            dev.fluxer.build.channel=${{ needs.meta.outputs.channel }}
+            dev.fluxer.build.number=${{ needs.meta.outputs.build_number }}
+            dev.fluxer.build.sha=${{ github.sha }}
+            dev.fluxer.build.short_sha=${{ needs.meta.outputs.sha_short }}
+            dev.fluxer.build.date=${{ needs.meta.outputs.date }}
+          build-args: |
+            BUILD_SHA=${{ github.sha }}
+            BUILD_NUMBER=${{ needs.meta.outputs.build_number }}
+            BUILD_TIMESTAMP=${{ needs.meta.outputs.timestamp }}
+            RELEASE_CHANNEL=${{ needs.meta.outputs.channel }}
+          cache-from: type=gha,scope=relay-${{ needs.meta.outputs.channel }}
+          cache-to: type=gha,mode=max,scope=relay-${{ needs.meta.outputs.channel }}
+          provenance: true
+          sbom: true
+
+      - name: attest
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          subject-digest: ${{ steps.build.outputs.digest }}
+          push-to-registry: true
+
+  create-release:
+    name: create release
+    needs: [meta, build]
+    if: |
+      always() &&
+      needs.meta.outputs.version != '' &&
+      needs.build.result == 'success'
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
+    steps:
+      - name: checkout
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ needs.meta.outputs.source_ref }}
+
+      - name: stable release
+        if: needs.meta.outputs.channel == 'stable'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: relay-v${{ needs.meta.outputs.version }}
+          name: Fluxer Relay v${{ needs.meta.outputs.version }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true
+          body: |
+            Fluxer Relay
+
+            Pull:
+            ```bash
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:v${{ needs.meta.outputs.version }}
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+            ```
+
+            Build:
+            - version: v${{ needs.meta.outputs.version }}
+            - build: ${{ needs.meta.outputs.build_number }}
+            - sha: ${{ github.sha }}
+            - time: ${{ needs.meta.outputs.timestamp }}
+            - channel: stable
+
+            Docs: https://docs.fluxer.app/federation
+
+      - name: nightly release
+        if: needs.meta.outputs.channel == 'nightly'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: relay-nightly-${{ needs.meta.outputs.date }}-${{ needs.meta.outputs.sha_short }}
+          name: Relay nightly ${{ needs.meta.outputs.date }} (${{ needs.meta.outputs.sha_short }})
+          draft: false
+          prerelease: true
+          generate_release_notes: true
+          body: |
+            Nightly Fluxer Relay image from canary.
+
+            Pull:
+            ```bash
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:nightly
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:nightly-${{ needs.meta.outputs.date }}
+            docker pull ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:sha-${{ needs.meta.outputs.sha_short }}
+            ```
+
+            Build:
+            - version: v${{ needs.meta.outputs.version }}
+            - build: ${{ needs.meta.outputs.build_number }}
+            - sha: ${{ github.sha }}
+            - time: ${{ needs.meta.outputs.timestamp }}
+            - channel: nightly
+            - branch: canary
+
+  release-summary:
+    name: release summary
+    needs: [meta, build]
+    if: always()
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          sparse-checkout: scripts/ci
+          sparse-checkout-cone-mode: false
+
+      - name: summary
+        run: >-
+          python3 scripts/ci/workflows/release_relay.py
+          --step summary
+          --build-result "${{ needs.build.result }}"
+          --channel "${{ needs.meta.outputs.channel }}"
+          --version "${{ needs.meta.outputs.version }}"
+          --build-number "${{ needs.meta.outputs.build_number }}"
+          --sha-short "${{ needs.meta.outputs.sha_short }}"
+          --timestamp "${{ needs.meta.outputs.timestamp }}"
+          --date-ymd "${{ needs.meta.outputs.date }}"
+          --source-ref "${{ needs.meta.outputs.source_ref }}"
+          --image-tags "${{ needs.build.outputs.image_tags }}"
+          --image-digest "${{ needs.build.outputs.image_digest }}"
+          --registry "${{ env.REGISTRY }}"
+          --image-name "${{ env.IMAGE_NAME }}"

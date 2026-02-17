@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as HighlightActionCreators from '@app/actions/HighlightActionCreators';
+import {type AutocompleteOption, isChannel} from '@app/components/channel/Autocomplete';
+import styles from '@app/components/channel/textarea/TextareaInput.module.css';
+import type {ScrollerHandle} from '@app/components/uikit/Scroller';
+import {useTextareaAutofocus} from '@app/hooks/useTextareaAutofocus';
+import {TextareaAutosize} from '@app/lib/TextareaAutosize';
 import {clsx} from 'clsx';
 import React from 'react';
-import * as HighlightActionCreators from '~/actions/HighlightActionCreators';
-import {type AutocompleteOption, isChannel} from '~/components/channel/Autocomplete';
-import type {ScrollerHandle} from '~/components/uikit/Scroller';
-import {useTextareaAutofocus} from '~/hooks/useTextareaAutofocus';
-import {TextareaAutosize} from '~/lib/TextareaAutosize';
-import styles from './TextareaInput.module.css';
 
 interface TextareaInputFieldProps {
 	channelId: string;
@@ -38,7 +38,7 @@ interface TextareaInputFieldProps {
 	shouldStickToBottomRef?: React.MutableRefObject<boolean>;
 	isFocused?: boolean;
 	isAutocompleteAttached: boolean;
-	autocompleteOptions: Array<any>;
+	autocompleteOptions: Array<AutocompleteOption>;
 	selectedIndex: number;
 	onFocus: () => void;
 	onBlur: () => void;
@@ -51,6 +51,7 @@ interface TextareaInputFieldProps {
 	setSelectedIndex: React.Dispatch<React.SetStateAction<number>>;
 	className?: string;
 	onKeyDown?: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void;
+	onContextMenu?: (event: React.MouseEvent<HTMLTextAreaElement>) => void;
 }
 
 export const TextareaInputField = React.forwardRef<HTMLTextAreaElement, TextareaInputFieldProps>(
@@ -75,6 +76,7 @@ export const TextareaInputField = React.forwardRef<HTMLTextAreaElement, Textarea
 			setSelectedIndex,
 			className,
 			onKeyDown,
+			onContextMenu,
 		},
 		_ref,
 	) => {
@@ -132,6 +134,7 @@ export const TextareaInputField = React.forwardRef<HTMLTextAreaElement, Textarea
 				onFocus={onFocus}
 				onHeightChange={(h) => onHeightChange(h)}
 				onKeyDown={handleKeyDown}
+				onContextMenu={onContextMenu}
 				placeholder={placeholder}
 				ref={textareaRef}
 				value={value}

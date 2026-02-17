@@ -19,7 +19,7 @@
 
 import {makeAutoObservable} from 'mobx';
 
-interface TabData {
+export interface TabData {
 	onReset?: () => void;
 	onSave?: () => void;
 	isSubmitting?: boolean;

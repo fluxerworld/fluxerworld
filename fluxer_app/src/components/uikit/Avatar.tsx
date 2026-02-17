@@ -17,17 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getStatusTypeLabel} from '@app/AppConstants';
+import {BaseAvatar} from '@app/components/uikit/BaseAvatar';
+import {useHover} from '@app/hooks/useHover';
+import {useMergeRefs} from '@app/hooks/useMergeRefs';
+import type {UserRecord} from '@app/records/UserRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import * as ImageCacheUtils from '@app/utils/ImageCacheUtils';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React, {type CSSProperties} from 'react';
-import {getStatusTypeLabel} from '~/Constants';
-import {BaseAvatar} from '~/components/uikit/BaseAvatar';
-import {useHover} from '~/hooks/useHover';
-import {useMergeRefs} from '~/hooks/useMergeRefs';
-import type {UserRecord} from '~/records/UserRecord';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import * as ImageCacheUtils from '~/utils/ImageCacheUtils';
+import React, {type CSSProperties, useEffect, useMemo, useState} from 'react';
 
 interface AvatarProps {
 	user: UserRecord;
@@ -69,7 +69,7 @@ const AvatarComponent = React.forwardRef<HTMLDivElement, AvatarProps>(
 		const {i18n} = useLingui();
 		const guildMember = GuildMemberStore.getMember(guildId || '', user.id);
 
-		const avatarUrl = React.useMemo(() => {
+		const avatarUrl = useMemo(() => {
 			if (customAvatarUrl !== undefined) return customAvatarUrl;
 
 			if (guildId && guildMember?.avatar) {
@@ -77,6 +77,7 @@ const AvatarComponent = React.forwardRef<HTMLDivElement, AvatarProps>(
 					guildId,
 					userId: user.id,
 					avatar: guildMember.avatar,
+					memberAvatar: guildMember.avatar,
 					animated: false,
 				});
 			}
@@ -84,7 +85,7 @@ const AvatarComponent = React.forwardRef<HTMLDivElement, AvatarProps>(
 			return AvatarUtils.getUserAvatarURL(user, false);
 		}, [user, customAvatarUrl, guildId, guildMember]);
 
-		const hoverAvatarUrl = React.useMemo(() => {
+		const hoverAvatarUrl = useMemo(() => {
 			if (customHoverAvatarUrl !== undefined) return customHoverAvatarUrl;
 
 			if (guildId && guildMember?.avatar) {
@@ -92,6 +93,7 @@ const AvatarComponent = React.forwardRef<HTMLDivElement, AvatarProps>(
 					guildId,
 					userId: user.id,
 					avatar: guildMember.avatar,
+					memberAvatar: guildMember.avatar,
 					animated: true,
 				});
 			}
@@ -102,18 +104,18 @@ const AvatarComponent = React.forwardRef<HTMLDivElement, AvatarProps>(
 		const statusLabel = status != null ? getStatusTypeLabel(i18n, status) : null;
 
 		const [hoverRef, isHovering] = useHover();
-		const [isStaticLoaded, setIsStaticLoaded] = React.useState(ImageCacheUtils.hasImage(avatarUrl));
-		const [isAnimatedLoaded, setIsAnimatedLoaded] = React.useState(ImageCacheUtils.hasImage(hoverAvatarUrl));
-		const [shouldPlayAnimated, setShouldPlayAnimated] = React.useState(false);
+		const [isStaticLoaded, setIsStaticLoaded] = useState(ImageCacheUtils.hasImage(avatarUrl));
+		const [isAnimatedLoaded, setIsAnimatedLoaded] = useState(ImageCacheUtils.hasImage(hoverAvatarUrl));
+		const [shouldPlayAnimated, setShouldPlayAnimated] = useState(false);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			ImageCacheUtils.loadImage(avatarUrl, () => setIsStaticLoaded(true));
 			if (isHovering || forceAnimate) {
 				ImageCacheUtils.loadImage(hoverAvatarUrl, () => setIsAnimatedLoaded(true));
 			}
 		}, [avatarUrl, hoverAvatarUrl, isHovering, forceAnimate]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			setShouldPlayAnimated((isHovering || forceAnimate) && isAnimatedLoaded);
 		}, [isHovering, forceAnimate, isAnimatedLoaded]);
 

@@ -17,14 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import styles from '@app/components/common/ExpiryFootnote.module.css';
+import {ExpiryFootnoteContextMenu} from '@app/components/common/ExpiryFootnoteContextMenu';
+import {HelpCenterArticleSlug} from '@app/constants/HelpCenterConstants';
+import {getFormattedShortDate} from '@app/utils/DateUtils';
+import * as HelpCenterUtils from '@app/utils/HelpCenterUtils';
 import {useLingui} from '@lingui/react/macro';
 import clsx from 'clsx';
-import type {FC} from 'react';
-import {getFormattedShortDate} from '~/utils/DateUtils';
-import * as HelpCenterUtils from '~/utils/HelpCenterUtils';
-import styles from './ExpiryFootnote.module.css';
+import {type FC, type MouseEvent, useCallback} from 'react';
 
-export interface ExpiryFootnoteProps {
+interface ExpiryFootnoteProps {
 	expiresAt: Date | null;
 	isExpired: boolean;
 	label?: string;
@@ -34,7 +37,11 @@ export interface ExpiryFootnoteProps {
 
 export const ExpiryFootnote: FC<ExpiryFootnoteProps> = ({expiresAt, isExpired, label, className, inline = false}) => {
 	const {t} = useLingui();
-	const helpUrl = HelpCenterUtils.getURL('1447193503661555712');
+	const helpUrl = HelpCenterUtils.getURL(HelpCenterArticleSlug.AttachmentExpiry);
+
+	const handleContextMenu = useCallback((event: MouseEvent<HTMLAnchorElement>) => {
+		ContextMenuActionCreators.openFromEvent(event, () => <ExpiryFootnoteContextMenu />);
+	}, []);
 
 	let resolved = label;
 	if (!resolved) {
@@ -50,6 +57,7 @@ export const ExpiryFootnote: FC<ExpiryFootnoteProps> = ({expiresAt, isExpired, l
 		<a
 			className={clsx(inline ? styles.inlineFootnote : styles.footnote, className)}
 			href={helpUrl}
+			onContextMenu={handleContextMenu}
 			target="_blank"
 			rel="noreferrer"
 		>

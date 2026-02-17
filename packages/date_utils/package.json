@@ -1,0 +1,20 @@
+{
+	"name": "@fluxer/date_utils",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./*": "./*"
+	},
+	"scripts": {
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@fluxer/constants": "workspace:*",
+		"@fluxer/markdown_parser": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@typescript/native-preview": "catalog:"
+	}
+}

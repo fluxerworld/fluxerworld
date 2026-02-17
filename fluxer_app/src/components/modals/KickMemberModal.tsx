@@ -17,13 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GuildMemberActionCreators from '@app/actions/GuildMemberActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {Logger} from '@app/lib/Logger';
+import type {UserRecord} from '@app/records/UserRecord';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import * as GuildMemberActionCreators from '~/actions/GuildMemberActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import type {UserRecord} from '~/records/UserRecord';
+
+const logger = new Logger('KickMemberModal');
 
 export const KickMemberModal: React.FC<{guildId: string; targetUser: UserRecord}> = observer(
 	({guildId, targetUser}) => {
@@ -36,7 +39,7 @@ export const KickMemberModal: React.FC<{guildId: string; targetUser: UserRecord}
 					children: <Trans>Successfully kicked {targetUser.tag} from the community</Trans>,
 				});
 			} catch (error) {
-				console.error('Failed to kick member:', error);
+				logger.error('Failed to kick member:', error);
 				ToastActionCreators.createToast({
 					type: 'error',
 					children: <Trans>Failed to kick member. Please try again.</Trans>,

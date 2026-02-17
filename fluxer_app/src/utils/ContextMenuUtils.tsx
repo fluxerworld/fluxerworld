@@ -17,17 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import {GuildMemberContextMenu} from '@app/components/uikit/context_menu/GuildMemberContextMenu';
+import {UserContextMenu} from '@app/components/uikit/context_menu/UserContextMenu';
+import i18n from '@app/I18n';
+import type {MuteConfig} from '@app/records/UserGuildSettingsRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import UserStore from '@app/stores/UserStore';
+import {isLegacyDocument} from '@app/types/Browser';
+import {getFormattedDateTime} from '@app/utils/DateUtils';
 import {msg} from '@lingui/core/macro';
 import type React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import {GuildMemberContextMenu} from '~/components/uikit/ContextMenu/GuildMemberContextMenu';
-import {UserContextMenu} from '~/components/uikit/ContextMenu/UserContextMenu';
-import i18n from '~/i18n';
-import type {MuteConfig} from '~/records/UserGuildSettingsRecord';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import UserStore from '~/stores/UserStore';
-import {isLegacyDocument} from '~/types/browser';
-import {getFormattedDateTime} from '~/utils/DateUtils';
+import type {AbstractView} from 'react';
+
+function toAbstractView(view: Window | null): AbstractView | null {
+	if (view === null) return null;
+	return view;
+}
 
 function getSelectionText(): string {
 	let text = '';
@@ -69,7 +75,7 @@ export function handleContextMenu(e: MouseEvent): void {
 
 			const isGuildMember = guildId ? GuildMemberStore.getMember(guildId, user.id) : null;
 
-			const view = (e.view ?? null) as unknown as React.MouseEvent<HTMLElement>['view'];
+			const view = toAbstractView(e.view) ?? window;
 			const reactEvent = {
 				nativeEvent: e,
 				currentTarget: target,

@@ -17,25 +17,25 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import gifStyles from '@app/components/channel/GifPicker.module.css';
+import {useGifVideoPool} from '@app/components/channel/GifVideoPool';
+import {MemesGrid} from '@app/components/channel/pickers/memes/MemesGrid';
+import type {MemesPickerProps} from '@app/components/channel/pickers/memes/MemesPicker';
+import {type ContentType, MemesPickerHeader} from '@app/components/channel/pickers/memes/MemesPickerHeader';
+import {useScrollerViewport} from '@app/components/channel/pickers/shared/useScrollerViewport';
+import {PickerEmptyState} from '@app/components/channel/shared/PickerEmptyState';
+import {ExpressionPickerHeaderPortal} from '@app/components/popouts/ExpressionPickerPopout';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {useSearchInputAutofocus} from '@app/hooks/useSearchInputAutofocus';
+import {useWindowFocusVideoControl} from '@app/hooks/useWindowFocusVideoControl';
+import FavoriteMemeStore from '@app/stores/FavoriteMemeStore';
+import MemesPickerStore from '@app/stores/MemesPickerStore';
 import {useLingui} from '@lingui/react/macro';
 import {SmileySadIcon} from '@phosphor-icons/react';
 import {matchSorter} from 'match-sorter';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import gifStyles from '~/components/channel/GifPicker.module.css';
-import {useGifVideoPool} from '~/components/channel/GifVideoPool';
-import {PickerEmptyState} from '~/components/channel/shared/PickerEmptyState';
-import {ExpressionPickerHeaderPortal} from '~/components/popouts/ExpressionPickerPopout';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-import {Spinner} from '~/components/uikit/Spinner';
-import {useSearchInputAutofocus} from '~/hooks/useSearchInputAutofocus';
-import {useWindowFocusVideoControl} from '~/hooks/useWindowFocusVideoControl';
-import FavoriteMemeStore from '~/stores/FavoriteMemeStore';
-import MemesPickerStore from '~/stores/MemesPickerStore';
-import {useScrollerViewport} from '../shared/useScrollerViewport';
-import {MemesGrid} from './MemesGrid';
-import type {MemesPickerProps} from './MemesPicker';
-import {type ContentType, MemesPickerHeader} from './MemesPickerHeader';
+import {useEffect, useMemo, useRef, useState} from 'react';
 
 interface MemesPickerState {
 	searchTerm: string;
@@ -49,7 +49,7 @@ const initialState: MemesPickerState = {
 
 export const MemesPickerView = observer(({onClose}: MemesPickerProps = {}) => {
 	const {t} = useLingui();
-	const [state, setState] = React.useState<MemesPickerState>(initialState);
+	const [state, setState] = useState<MemesPickerState>(initialState);
 
 	const favoriteMemes = FavoriteMemeStore.memes;
 	const fetched = FavoriteMemeStore.fetched;
@@ -58,8 +58,8 @@ export const MemesPickerView = observer(({onClose}: MemesPickerProps = {}) => {
 	const gifAutoPlay = true;
 	const videoPool = useGifVideoPool();
 
-	const scrollerRef = React.useRef<ScrollerHandle>(null);
-	const searchInputRef = React.useRef<HTMLInputElement>(null);
+	const scrollerRef = useRef<ScrollerHandle>(null);
+	const searchInputRef = useRef<HTMLInputElement>(null);
 
 	useSearchInputAutofocus(searchInputRef);
 
@@ -67,11 +67,11 @@ export const MemesPickerView = observer(({onClose}: MemesPickerProps = {}) => {
 
 	useWindowFocusVideoControl({scrollerRef, videoPool, gifAutoPlay});
 
-	React.useEffect(() => {
+	useEffect(() => {
 		scrollToTop();
 	}, [state.selectedFilter, state.searchTerm, scrollToTop]);
 
-	const filteredMemes = React.useMemo(() => {
+	const filteredMemes = useMemo(() => {
 		let memes = [...favoriteMemes];
 
 		if (state.selectedFilter !== 'all') {
@@ -156,7 +156,7 @@ export const MemesPickerView = observer(({onClose}: MemesPickerProps = {}) => {
 				<div className={gifStyles.gifPickerMain}>
 					<PickerEmptyState
 						icon={SmileySadIcon}
-						title={t`No results`}
+						title={t`No Results`}
 						description={t`Try a different search term or filter`}
 					/>
 				</div>
@@ -176,8 +176,8 @@ export const MemesPickerView = observer(({onClose}: MemesPickerProps = {}) => {
 						onScroll={handleScroll}
 						onResize={handleResize}
 						fade={false}
+						key="memes-picker-grid-scroller"
 						style={{height: '100%', width: '100%'}}
-						reserveScrollbarTrack={false}
 					>
 						{viewportSize.width > 0 && viewportSize.height > 0 && (
 							<MemesGrid

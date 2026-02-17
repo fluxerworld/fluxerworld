@@ -17,6 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {NSFWIcon} from '@app/components/icons/NSFWIcon';
+import i18n from '@app/I18n';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import ChannelDisplayNameStore from '@app/stores/ChannelDisplayNameStore';
+import UserStore from '@app/stores/UserStore';
+import {compareChannelPosition} from '@app/utils/ChannelShared';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {FLUXERBOT_ID} from '@fluxer/constants/src/AppConstants';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import {msg} from '@lingui/core/macro';
 import {
 	CaretDownIcon,
@@ -26,18 +35,12 @@ import {
 	NotePencilIcon,
 	SpeakerHighIcon,
 } from '@phosphor-icons/react';
-import {ChannelTypes} from '~/Constants';
-import {NSFWIcon} from '~/components/icons/NSFWIcon';
-import i18n from '~/i18n';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import ChannelDisplayNameStore from '~/stores/ChannelDisplayNameStore';
-import UserStore from '~/stores/UserStore';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import {compareChannelPosition} from './channelShared';
 
-export const compareChannels = (a: ChannelRecord, b: ChannelRecord): number => compareChannelPosition(a, b);
+export function compareChannels(a: ChannelRecord, b: ChannelRecord): number {
+	return compareChannelPosition(a, b);
+}
 
-export const getIcon = (channel: {type: number; nsfw?: boolean}, props: IconProps = {}) => {
+export function getIcon(channel: {type: number; nsfw?: boolean}, props: IconProps = {}) {
 	if (channel.type === ChannelTypes.GUILD_TEXT && channel.nsfw) {
 		return <NSFWIcon {...props} />;
 	}
@@ -54,9 +57,9 @@ export const getIcon = (channel: {type: number; nsfw?: boolean}, props: IconProp
 		default:
 			return <HashIcon weight="bold" {...props} />;
 	}
-};
+}
 
-export const getName = (channel: ChannelRecord) => {
+export function getName(channel: ChannelRecord) {
 	let baseName: string;
 	switch (channel.type) {
 		case ChannelTypes.GUILD_VOICE:
@@ -78,7 +81,7 @@ export const getName = (channel: ChannelRecord) => {
 	}
 
 	return baseName;
-};
+}
 
 const getDirectMessageDisplayName = (channel: ChannelRecord): string => {
 	if (channel.recipientIds.length === 0) {
@@ -99,7 +102,7 @@ const getGroupDMDisplayName = (channel: ChannelRecord): string => {
 	return ChannelDisplayNameStore.getDisplayName(channel.id) ?? i18n._(msg`Unnamed Group`);
 };
 
-export const getDMDisplayName = (channel: ChannelRecord): string => {
+export function getDMDisplayName(channel: ChannelRecord): string {
 	switch (channel.type) {
 		case ChannelTypes.DM_PERSONAL_NOTES:
 			return i18n._(msg`Personal Notes`);
@@ -110,4 +113,8 @@ export const getDMDisplayName = (channel: ChannelRecord): string => {
 		default:
 			return channel.name || i18n._(msg`Unknown Channel`);
 	}
-};
+}
+
+export function isSystemDmChannel(channel: ChannelRecord): boolean {
+	return channel.type === ChannelTypes.DM && channel.recipientIds.includes(FLUXERBOT_ID);
+}

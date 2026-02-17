@@ -17,12 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {HttpError} from '@app/lib/HttpError';
+import {Logger} from '@app/lib/Logger';
+import {MessageRecord} from '@app/records/MessageRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
+import MessageStore from '@app/stores/MessageStore';
+import type {ValueOf} from '@fluxer/constants/src/ValueOf';
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {makeAutoObservable} from 'mobx';
-import {Endpoints} from '~/Endpoints';
-import http, {HttpError} from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import {type Message, MessageRecord} from '~/records/MessageRecord';
-import MessageStore from '~/stores/MessageStore';
 
 const logger = new Logger('MessageReferenceStore');
 
@@ -31,11 +36,13 @@ export const MessageReferenceState = {
 	NOT_LOADED: 'NOT_LOADED',
 	DELETED: 'DELETED',
 } as const;
-export type MessageReferenceState = (typeof MessageReferenceState)[keyof typeof MessageReferenceState];
+export type MessageReferenceState = ValueOf<typeof MessageReferenceState>;
 
 class MessageReferenceStore {
 	deletedMessageIds = new Set<string>();
 	cachedMessages = new Map<string, MessageRecord>();
+	private referenceCount = new Map<string, Set<string>>();
+	private referencingMessages = new Map<string, {channelId: string; messageId: string}>();
 
 	constructor() {
 		makeAutoObservable(this, {}, {autoBind: true});
@@ -45,14 +52,40 @@ class MessageReferenceStore {
 		return `${channelId}:${messageId}`;
 	}
 
+	private addReference(refChannelId: string, refMessageId: string, referencingMessageId: string): void {
+		const key = this.getKey(refChannelId, refMessageId);
+		let refs = this.referenceCount.get(key);
+		if (!refs) {
+			refs = new Set<string>();
+			this.referenceCount.set(key, refs);
+		}
+		refs.add(referencingMessageId);
+		this.referencingMessages.set(referencingMessageId, {channelId: refChannelId, messageId: refMessageId});
+	}
+
+	private removeReference(refChannelId: string, refMessageId: string, referencingMessageId: string): void {
+		const key = this.getKey(refChannelId, refMessageId);
+		const refs = this.referenceCount.get(key);
+		if (refs) {
+			refs.delete(referencingMessageId);
+			if (refs.size === 0) {
+				this.referenceCount.delete(key);
+				this.cachedMessages.delete(key);
+			}
+		}
+		this.referencingMessages.delete(referencingMessageId);
+	}
+
 	handleMessageCreate(message: Message, _optimistic: boolean): void {
 		if (message.referenced_message) {
 			const refChannelId = message.message_reference?.channel_id ?? message.channel_id;
-			const key = this.getKey(refChannelId, message.referenced_message.id);
-			if (!this.cachedMessages.has(key) && !MessageStore.getMessage(refChannelId, message.referenced_message.id)) {
+			const refMessageId = message.referenced_message.id;
+			const key = this.getKey(refChannelId, refMessageId);
+			if (!this.cachedMessages.has(key)) {
 				const referencedMessageRecord = new MessageRecord(message.referenced_message);
 				this.cachedMessages.set(key, referencedMessageRecord);
 			}
+			this.addReference(refChannelId, refMessageId, message.id);
 		}
 	}
 
@@ -60,6 +93,12 @@ class MessageReferenceStore {
 		const key = this.getKey(channelId, messageId);
 		this.deletedMessageIds.add(key);
 		this.cachedMessages.delete(key);
+		this.referenceCount.delete(key);
+
+		const referencedBy = this.referencingMessages.get(messageId);
+		if (referencedBy) {
+			this.removeReference(referencedBy.channelId, referencedBy.messageId, messageId);
+		}
 	}
 
 	handleMessageDeleteBulk(channelId: string, messageIds: Array<string>): void {
@@ -67,6 +106,12 @@ class MessageReferenceStore {
 			const key = this.getKey(channelId, messageId);
 			this.deletedMessageIds.add(key);
 			this.cachedMessages.delete(key);
+			this.referenceCount.delete(key);
+
+			const referencedBy = this.referencingMessages.get(messageId);
+			if (referencedBy) {
+				this.removeReference(referencedBy.channelId, referencedBy.messageId, messageId);
+			}
 		}
 	}
 
@@ -74,11 +119,13 @@ class MessageReferenceStore {
 		for (const message of messages) {
 			if (message.referenced_message) {
 				const refChannelId = message.message_reference?.channel_id ?? channelId;
-				const key = this.getKey(refChannelId, message.referenced_message.id);
-				if (!this.cachedMessages.has(key) && !MessageStore.getMessage(refChannelId, message.referenced_message.id)) {
+				const refMessageId = message.referenced_message.id;
+				const key = this.getKey(refChannelId, refMessageId);
+				if (!this.cachedMessages.has(key)) {
 					const referencedMessageRecord = new MessageRecord(message.referenced_message);
 					this.cachedMessages.set(key, referencedMessageRecord);
 				}
+				this.addReference(refChannelId, refMessageId, message.id);
 			}
 		}
 
@@ -87,6 +134,7 @@ class MessageReferenceStore {
 			.map((message) => ({
 				channelId: message.message_reference!.channel_id ?? channelId,
 				messageId: message.message_reference!.message_id,
+				referencingMessageId: message.id,
 			}))
 			.filter(
 				({channelId: refChannelId, messageId}) =>
@@ -95,11 +143,13 @@ class MessageReferenceStore {
 					!this.cachedMessages.has(this.getKey(refChannelId, messageId)),
 			);
 
-		if (potentiallyMissingMessageIds.length > 0) {
-			this.fetchMissingMessages(potentiallyMissingMessageIds);
+		for (const {channelId: refChannelId, messageId, referencingMessageId} of potentiallyMissingMessageIds) {
+			this.addReference(refChannelId, messageId, referencingMessageId);
 		}
 
-		this.cleanupCachedMessages(channelId, messages);
+		if (potentiallyMissingMessageIds.length > 0) {
+			this.fetchMissingMessages(potentiallyMissingMessageIds.map(({channelId, messageId}) => ({channelId, messageId})));
+		}
 	}
 
 	handleChannelDelete(channelId: string): void {
@@ -109,11 +159,53 @@ class MessageReferenceStore {
 	handleConnectionOpen(): void {
 		this.deletedMessageIds.clear();
 		this.cachedMessages.clear();
+		this.referenceCount.clear();
+		this.referencingMessages.clear();
+	}
+
+	handleMessageUpdate(message: Message): void {
+		const previousRef = this.referencingMessages.get(message.id);
+		const newRefChannelId = message.message_reference?.channel_id ?? message.channel_id;
+		const newRefMessageId = message.referenced_message?.id;
+
+		if (previousRef) {
+			const previousKey = this.getKey(previousRef.channelId, previousRef.messageId);
+			const newKey = newRefMessageId ? this.getKey(newRefChannelId, newRefMessageId) : null;
+			if (previousKey !== newKey) {
+				this.removeReference(previousRef.channelId, previousRef.messageId, message.id);
+			}
+		}
+
+		if (message.referenced_message) {
+			const refMessageId = message.referenced_message.id;
+			const key = this.getKey(newRefChannelId, refMessageId);
+			if (!this.cachedMessages.has(key)) {
+				const referencedMessageRecord = new MessageRecord(message.referenced_message);
+				this.cachedMessages.set(key, referencedMessageRecord);
+			}
+			this.addReference(newRefChannelId, refMessageId, message.id);
+		}
 	}
 
 	private fetchMissingMessages(refs: Array<{channelId: string; messageId: string}>): void {
+		const allowedRefs = refs.filter(({channelId}) => {
+			const channel = ChannelStore.getChannel(channelId);
+			if (!channel) {
+				// Be conservative: if we can't resolve the channel, don't fetch message content.
+				return false;
+			}
+			if (channel.isPrivate()) {
+				return true;
+			}
+			return !GuildNSFWAgreeStore.shouldShowGate({channelId: channel.id, guildId: channel.guildId ?? null});
+		});
+
+		if (allowedRefs.length === 0) {
+			return;
+		}
+
 		Promise.allSettled(
-			refs.map(({channelId, messageId}) =>
+			allowedRefs.map(({channelId, messageId}) =>
 				http
 					.get<Message>({
 						url: Endpoints.CHANNEL_MESSAGE(channelId, messageId),
@@ -131,13 +223,7 @@ class MessageReferenceStore {
 	private handleMessageFetchSuccess(channelId: string, messageId: string, message: Message): void {
 		const messageRecord = new MessageRecord(message);
 		const key = this.getKey(channelId, messageId);
-
 		this.cachedMessages.set(key, messageRecord);
-
-		if (MessageStore.getMessage(channelId, messageId)) {
-			this.cachedMessages.delete(key);
-			this.deletedMessageIds.delete(key);
-		}
 	}
 
 	private handleMessageFetchError(channelId: string, messageId: string, error: unknown): void {
@@ -148,19 +234,6 @@ class MessageReferenceStore {
 			this.cachedMessages.delete(key);
 		} else {
 			logger.error(`Failed to fetch message ${messageId}`, error);
-		}
-	}
-
-	private cleanupCachedMessages(channelId: string, messages: Array<Message>): void {
-		for (const message of messages) {
-			const messageId = message.message_reference?.message_id;
-			if (!messageId) continue;
-
-			const key = this.getKey(channelId, messageId);
-			if (MessageStore.getMessage(channelId, messageId)) {
-				this.cachedMessages.delete(key);
-				this.deletedMessageIds.delete(key);
-			}
 		}
 	}
 
@@ -176,6 +249,18 @@ class MessageReferenceStore {
 		for (const key of Array.from(this.cachedMessages.keys())) {
 			if (key.startsWith(channelPrefix)) {
 				this.cachedMessages.delete(key);
+			}
+		}
+
+		for (const key of Array.from(this.referenceCount.keys())) {
+			if (key.startsWith(channelPrefix)) {
+				this.referenceCount.delete(key);
+			}
+		}
+
+		for (const [messageId, ref] of Array.from(this.referencingMessages.entries())) {
+			if (ref.channelId === channelId) {
+				this.referencingMessages.delete(messageId);
 			}
 		}
 	}

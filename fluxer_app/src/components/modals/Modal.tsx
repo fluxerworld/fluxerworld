@@ -17,22 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {FloatingFocusManager, FloatingOverlay, FloatingPortal, useFloating} from '@floating-ui/react';
-import {useLingui} from '@lingui/react/macro';
-import {XIcon} from '@phosphor-icons/react';
-import {clsx} from 'clsx';
-import {motion} from 'framer-motion';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as PopoutActionCreators from '~/actions/PopoutActionCreators';
-import styles from '~/components/modals/Modal.module.css';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import FocusRingManager from '~/components/uikit/FocusRing/FocusRingManager';
-import FocusRingScope from '~/components/uikit/FocusRing/FocusRingScope';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-import KeyboardModeStore from '~/stores/KeyboardModeStore';
-import {getBackdropZIndexForStack, getZIndexForStack} from '~/stores/ModalStore';
-import OverlayStackStore from '~/stores/OverlayStackStore';
+import * as PopoutActionCreators from '@app/actions/PopoutActionCreators';
+import styles from '@app/components/modals/Modal.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import FocusRingManager from '@app/components/uikit/focus_ring/FocusRingManager';
+import FocusRingScope from '@app/components/uikit/focus_ring/FocusRingScope';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
+import {getBackdropZIndexForStack, getZIndexForStack} from '@app/stores/ModalStore';
+import OverlayStackStore from '@app/stores/OverlayStackStore';
 import {
 	type HeaderProps,
 	type ModalContextValue,
@@ -42,12 +35,19 @@ import {
 	useHeaderLogic,
 	useModalLogic,
 	useScreenReaderLabelLogic,
-} from '~/utils/modals/ModalUtils';
+} from '@app/utils/modals/ModalUtils';
+import {FloatingFocusManager, FloatingOverlay, FloatingPortal, useFloating} from '@floating-ui/react';
+import {useLingui} from '@lingui/react/macro';
+import {XIcon} from '@phosphor-icons/react';
+import {clsx} from 'clsx';
+import {motion} from 'framer-motion';
+import {observer} from 'mobx-react-lite';
+import React, {useCallback, useContext, useEffect, useMemo, useRef, useState} from 'react';
 
 const ModalContext = React.createContext<ModalContextValue | null>(null);
 
 const useModalContext = () => {
-	const context = React.useContext(ModalContext);
+	const context = useContext(ModalContext);
 	if (!context) {
 		throw new Error('Modal components must be used within a Modal.Root');
 	}
@@ -70,13 +70,13 @@ const RootComponent = React.forwardRef<HTMLDivElement, ModalProps>(
 		},
 		ref,
 	) => {
-		const modalSurfaceRef = React.useRef<HTMLDivElement | null>(null);
-		const backdropContaminatedRef = React.useRef<boolean>(false);
-		const [labelRegistry, setLabelRegistry] = React.useState<Partial<Record<'header' | 'screen-reader', string>>>({});
+		const modalSurfaceRef = useRef<HTMLDivElement | null>(null);
+		const backdropContaminatedRef = useRef<boolean>(false);
+		const [labelRegistry, setLabelRegistry] = useState<Partial<Record<'header' | 'screen-reader', string>>>({});
 		const {refs, context} = useFloating({
 			open: true,
 		});
-		const {stackIndex, isVisible, needsBackdrop} = React.useContext(ModalStackContext);
+		const {stackIndex, isVisible, needsBackdrop, isTopmost} = useContext(ModalStackContext);
 
 		const {
 			isMobile,
@@ -95,18 +95,18 @@ const RootComponent = React.forwardRef<HTMLDivElement, ModalProps>(
 
 		const isFirstModal = stackIndex === 0;
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (!isFirstModal) {
 				return;
 			}
 			PopoutActionCreators.closeAll();
 		}, [isFirstModal]);
 
-		const setModalSurfaceWrapperRef = React.useCallback((node: HTMLDivElement | null) => {
+		const setModalSurfaceWrapperRef = useCallback((node: HTMLDivElement | null) => {
 			modalSurfaceRef.current = node;
 		}, []);
 
-		const setMotionElementRef = React.useCallback(
+		const setMotionElementRef = useCallback(
 			(node: HTMLDivElement | null) => {
 				if (typeof ref === 'function') {
 					ref(node);
@@ -137,19 +137,19 @@ const RootComponent = React.forwardRef<HTMLDivElement, ModalProps>(
 
 		const animations = isFullscreenOnMobile ? mobileFullscreenAnimations : defaultAnimations;
 
-		const handleBackdropMouseDown = React.useCallback((event: React.MouseEvent) => {
+		const handleBackdropMouseDown = useCallback((event: React.MouseEvent) => {
 			if (event.target !== event.currentTarget) {
 				backdropContaminatedRef.current = true;
 			}
 		}, []);
 
-		const handleBackdropMouseUp = React.useCallback(() => {
+		const handleBackdropMouseUp = useCallback(() => {
 			setTimeout(() => {
 				backdropContaminatedRef.current = false;
 			}, 0);
 		}, []);
 
-		const handleBackdropClickEvent = React.useCallback(
+		const handleBackdropClickEvent = useCallback(
 			(event: React.MouseEvent) => {
 				if (event.target === event.currentTarget) {
 					event.preventDefault();
@@ -170,16 +170,16 @@ const RootComponent = React.forwardRef<HTMLDivElement, ModalProps>(
 			[onClose, handleBackdropClick],
 		);
 
-		const handleAnimationStart = React.useCallback(() => {
+		const handleAnimationStart = useCallback(() => {
 			FocusRingManager.setRingsEnabled(false);
 		}, []);
 
-		const handleAnimationComplete = React.useCallback(() => {
+		const handleAnimationComplete = useCallback(() => {
 			FocusRingManager.setRingsEnabled(KeyboardModeStore.keyboardModeEnabled);
 			onAnimationComplete?.();
 		}, [onAnimationComplete]);
 
-		const enhancedModalContextValue = React.useMemo(() => {
+		const enhancedModalContextValue = useMemo(() => {
 			const originalRegisterLabel = modalContextValue.registerLabel;
 
 			return {
@@ -191,7 +191,7 @@ const RootComponent = React.forwardRef<HTMLDivElement, ModalProps>(
 			};
 		}, [modalContextValue]);
 
-		const labelledBy = React.useMemo(() => {
+		const labelledBy = useMemo(() => {
 			const ids = Object.values(labelRegistry).filter(Boolean);
 			return ids.length > 0 ? ids.join(' ') : undefined;
 		}, [labelRegistry]);
@@ -200,9 +200,9 @@ const RootComponent = React.forwardRef<HTMLDivElement, ModalProps>(
 			/iPhone|iPad|iPod/.test(navigator.userAgent) ||
 			(navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 
-		const [acquiredZIndex, setAcquiredZIndex] = React.useState<number | null>(null);
+		const [acquiredZIndex, setAcquiredZIndex] = useState<number | null>(null);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			const zIndex = OverlayStackStore.acquire();
 			setAcquiredZIndex(zIndex);
 			return () => {
@@ -213,18 +213,22 @@ const RootComponent = React.forwardRef<HTMLDivElement, ModalProps>(
 		const modalZIndex = acquiredZIndex ?? getZIndexForStack(stackIndex);
 		const backdropZIndex = acquiredZIndex != null ? acquiredZIndex - 1 : getBackdropZIndexForStack(stackIndex);
 
-		const overlayStyle = React.useMemo(
-			() => ({
-				zIndex: modalZIndex,
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				inset: 0,
-			}),
-			[modalZIndex],
+		const isInteractive = isVisible && isTopmost;
+
+		const overlayStyle = useMemo(
+			() =>
+				({
+					zIndex: modalZIndex,
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					inset: 0,
+					pointerEvents: isInteractive ? 'auto' : 'none',
+				}) as const,
+			[isInteractive, modalZIndex],
 		);
 
-		const layerVisibilityStyle = React.useMemo(() => {
+		const layerVisibilityStyle = useMemo(() => {
 			const visibility: React.CSSProperties['visibility'] = isVisible ? 'visible' : 'hidden';
 			return {
 				opacity: isVisible ? 1 : 0,
@@ -239,7 +243,7 @@ const RootComponent = React.forwardRef<HTMLDivElement, ModalProps>(
 
 		return (
 			<FloatingPortal>
-				{needsBackdrop && (
+				{needsBackdrop && isVisible && (
 					<motion.div
 						className={styles.modalBackdrop}
 						style={{zIndex: backdropZIndex}}
@@ -248,7 +252,7 @@ const RootComponent = React.forwardRef<HTMLDivElement, ModalProps>(
 						exit={{opacity: 0}}
 						transition={
 							prefersReducedMotion || isInstantTransition
-								? {duration: 0.05}
+								? {duration: 0}
 								: shouldInstantBackdrop
 									? {duration: 0.15}
 									: {duration: 0.2}
@@ -256,9 +260,9 @@ const RootComponent = React.forwardRef<HTMLDivElement, ModalProps>(
 					/>
 				)}
 				<FloatingOverlay
-					lockScroll={!isIOS}
+					lockScroll={!isIOS && isInteractive}
 					className="modal-backdrop"
-					aria-hidden={!isVisible}
+					aria-hidden={!isInteractive}
 					style={overlayStyle}
 					onMouseDown={handleBackdropMouseDown}
 					onMouseUp={handleBackdropMouseUp}
@@ -266,12 +270,11 @@ const RootComponent = React.forwardRef<HTMLDivElement, ModalProps>(
 				>
 					{isCenteredOnMobile && (
 						<motion.div
-							className="modal-backdrop-centered"
-							initial={{opacity: 0}}
+							className={clsx(styles.backdropCentered, styles.positionAbsoluteInsetZero)}
+							initial={prefersReducedMotion ? {opacity: 1} : {opacity: 0}}
 							animate={{opacity: 1}}
-							exit={{opacity: 0}}
-							transition={{duration: 0.15}}
-							style={{position: 'absolute', inset: 0, pointerEvents: 'none'}}
+							exit={prefersReducedMotion ? {opacity: 1} : {opacity: 0}}
+							transition={{duration: prefersReducedMotion ? 0 : 0.15}}
 						/>
 					)}
 					{backdropSlot ? <div className={styles.backdropSlot}>{backdropSlot}</div> : null}
@@ -287,9 +290,13 @@ const RootComponent = React.forwardRef<HTMLDivElement, ModalProps>(
 						<FloatingFocusManager
 							context={context}
 							initialFocus={initialFocusRef}
-							outsideElementsInert
-							visuallyHiddenDismiss
+							disabled={!isInteractive}
+							outsideElementsInert={isInteractive}
+							visuallyHiddenDismiss={isInteractive}
 							getInsideElements={() => {
+								if (!isInteractive) {
+									return [];
+								}
 								const inside: Array<Element> = [];
 								document.querySelectorAll('iframe[src*="hcaptcha"], .h-captcha').forEach((el) => inside.push(el));
 								const popoutsRoot = document.querySelector('[data-popouts-root]');
@@ -314,14 +321,14 @@ const RootComponent = React.forwardRef<HTMLDivElement, ModalProps>(
 										<motion.div
 											className={clsx(
 												styles.root,
-												isFullscreenOnMobile ? styles.fullscreen : styles[size],
+												isFullscreenOnMobile ? styles.fullscreen : styles[size as keyof typeof styles],
 												isCenteredOnMobile && styles.centeredOnMobile,
 												className,
 											)}
 											{...animations}
 											transition={
 												prefersReducedMotion || transitionPreset === 'instant'
-													? {duration: 0.05}
+													? {duration: 0}
 													: isFullscreenOnMobile
 														? {duration: 0.15}
 														: {
@@ -364,7 +371,7 @@ export const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
 		});
 
 		return (
-			<div className={clsx(styles.layout, styles.header, styles[variant])} ref={ref} {...props}>
+			<div className={clsx(styles.layout, styles.header, styles[variant as keyof typeof styles])} ref={ref} {...props}>
 				<div className={styles.headerInner}>
 					<div className={styles.headerText}>
 						{icon}
@@ -373,7 +380,7 @@ export const Header = React.forwardRef<HTMLDivElement, HeaderProps>(
 					{!hideCloseButton && (
 						<FocusRing offset={-2}>
 							<button type="button" aria-label={t`Close`} onClick={handleClose}>
-								<XIcon weight="regular" width={24} height={24} />
+								<XIcon weight="bold" width={24} height={24} />
 							</button>
 						</FocusRing>
 					)}
@@ -393,12 +400,11 @@ type ContentProps = React.ComponentPropsWithoutRef<typeof Scroller> & {
 };
 
 export const Content = React.forwardRef<ScrollerHandle, ContentProps>(
-	({children, className, padding = 'default', reserveScrollbarTrack = false, ...props}, ref) => (
+	({children, className, padding = 'default', ...props}, ref) => (
 		<Scroller
 			className={clsx(styles.content, padding === 'none' && styles.contentNoPadding, className)}
 			ref={ref}
 			key="modal-content-scroller"
-			reserveScrollbarTrack={reserveScrollbarTrack}
 			{...props}
 		>
 			{children}
@@ -455,7 +461,7 @@ export const InsetCloseButton = React.forwardRef<HTMLButtonElement, InsetCloseBu
 						className={clsx(styles.insetCloseButton, className)}
 						{...props}
 					>
-						<XIcon weight="regular" width={22} height={22} />
+						<XIcon weight="bold" width={22} height={22} />
 					</button>
 				</FocusRing>
 			</div>
@@ -465,4 +471,58 @@ export const InsetCloseButton = React.forwardRef<HTMLButtonElement, InsetCloseBu
 
 InsetCloseButton.displayName = 'ModalInsetCloseButton';
 
-export type {ModalProps};
+interface ContentLayoutProps {
+	children: React.ReactNode;
+	className?: string;
+}
+
+export const ContentLayout = React.forwardRef<HTMLDivElement, ContentLayoutProps>(
+	({children, className, ...props}, ref) => (
+		<div className={clsx(styles.contentLayout, className)} ref={ref} {...props}>
+			{children}
+		</div>
+	),
+);
+
+ContentLayout.displayName = 'ModalContentLayout';
+
+interface DescriptionProps {
+	children: React.ReactNode;
+	className?: string;
+}
+
+export const Description = React.forwardRef<HTMLDivElement, DescriptionProps>(
+	({children, className, ...props}, ref) => (
+		<div className={clsx(styles.description, className)} ref={ref} {...props}>
+			{children}
+		</div>
+	),
+);
+
+Description.displayName = 'ModalDescription';
+
+interface InputGroupProps {
+	children: React.ReactNode;
+	className?: string;
+}
+
+export const InputGroup = React.forwardRef<HTMLDivElement, InputGroupProps>(({children, className, ...props}, ref) => (
+	<div className={clsx(styles.inputGroup, className)} ref={ref} {...props}>
+		{children}
+	</div>
+));
+
+InputGroup.displayName = 'ModalInputGroup';
+
+interface FormFooterProps {
+	children: React.ReactNode;
+	className?: string;
+}
+
+export const FormFooter = React.forwardRef<HTMLDivElement, FormFooterProps>(({children, className, ...props}, ref) => (
+	<div className={clsx(styles.layout, styles.formFooter, className)} ref={ref} {...props}>
+		{children}
+	</div>
+));
+
+FormFooter.displayName = 'ModalFormFooter';

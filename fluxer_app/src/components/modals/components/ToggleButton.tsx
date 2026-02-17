@@ -17,20 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/modals/components/ToggleButton.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import styles from './ToggleButton.module.css';
 
-export const ToggleButton: React.FC<{active: boolean; onClick: () => void; label: string}> = observer(
+export const ToggleButton: React.FC<{active: boolean; onClick: () => void; label: React.ReactNode}> = observer(
 	({active, onClick, label}) => (
-		<button
-			type="button"
-			aria-pressed={active}
-			className={clsx(styles.button, active ? styles.active : styles.inactive)}
-			onClick={onClick}
-		>
-			{label}
-		</button>
+		<FocusRing offset={-2}>
+			<button
+				type="button"
+				aria-pressed={active}
+				className={clsx(styles.button, active ? styles.active : styles.inactive)}
+				onClick={onClick}
+			>
+				{label}
+			</button>
+		</FocusRing>
 	),
 );

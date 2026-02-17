@@ -1,0 +1,1108 @@
+---
+title: 'Channels'
+description: 'Channels object schemas from the Fluxer API.'
+---
+
+<a id="bulkdeletemessagesrequest"></a>
+
+## BulkDeleteMessagesRequest
+
+**Related endpoints**
+
+- [`POST /channels/{channel_id}/messages/bulk-delete`](/api-reference/channels/bulk-delete-messages)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| message_ids | [SnowflakeType](#snowflaketype)[] | Array of message IDs to delete |
+
+<a id="calleligibilityresponse"></a>
+
+## CallEligibilityResponse
+
+**Related endpoints**
+
+- [`GET /channels/{channel_id}/call`](/api-reference/channels/get-call-eligibility-status)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| ringable | boolean | Whether the current user can ring this call |
+| silent | boolean | Whether the call should be joined silently |
+
+<a id="callringbodyschema"></a>
+
+## CallRingBodySchema
+
+**Related endpoints**
+
+- [`POST /channels/{channel_id}/call/ring`](/api-reference/channels/ring-call-recipients)
+- [`POST /channels/{channel_id}/call/stop-ringing`](/api-reference/channels/stop-ringing-call-recipients)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| recipients? | [SnowflakeType](#snowflaketype)[] | User IDs to ring for the call |
+
+<a id="callupdatebodyschema"></a>
+
+## CallUpdateBodySchema
+
+**Related endpoints**
+
+- [`PATCH /channels/{channel_id}/call`](/api-reference/channels/update-call-region)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| region? | ?string | The preferred voice region for the call (1-64 characters). Omit or set to null for automatic region selection. |
+
+<a id="channelcreatecategoryrequest"></a>
+
+## ChannelCreateCategoryRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bitrate? | ?integer (int32) | Voice channel bitrate in bits per second (8000-320000) |
+| name | string | The name of the category |
+| nsfw? | boolean | Whether the channel is marked as NSFW |
+| parent_id? | ?[SnowflakeType](#snowflaketype) | ID of the parent category for this channel |
+| permission_overwrites? | [ChannelOverwriteRequest](#channeloverwriterequest)[] | Permission overwrites for roles and members |
+| topic? | ?string | The channel topic (1-1024 characters) |
+| type | [ChannelUpdateCategoryRequestType](#channelupdatecategoryrequesttype) |  |
+| url? | ?string | External URL for link channels |
+| user_limit? | ?integer (int32) | Maximum users allowed in voice channel (0-99, 0 means unlimited) |
+
+<a id="channelcreatelinkrequest"></a>
+
+## ChannelCreateLinkRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bitrate? | ?integer (int32) | Voice channel bitrate in bits per second (8000-320000) |
+| name | string | The name of the channel |
+| nsfw? | boolean | Whether the channel is marked as NSFW |
+| parent_id? | ?[SnowflakeType](#snowflaketype) | ID of the parent category for this channel |
+| permission_overwrites? | [ChannelOverwriteRequest](#channeloverwriterequest)[] | Permission overwrites for roles and members |
+| topic? | ?string | The channel topic (1-1024 characters) |
+| type | [ChannelUpdateLinkRequestType](#channelupdatelinkrequesttype) |  |
+| url? | ?string | External URL for link channels |
+| user_limit? | ?integer (int32) | Maximum users allowed in voice channel (0-99, 0 means unlimited) |
+
+<a id="channelcreatetextrequest"></a>
+
+## ChannelCreateTextRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bitrate? | ?integer (int32) | Voice channel bitrate in bits per second (8000-320000) |
+| name | string | The name of the channel |
+| nsfw? | boolean | Whether the channel is marked as NSFW |
+| parent_id? | ?[SnowflakeType](#snowflaketype) | ID of the parent category for this channel |
+| permission_overwrites? | [ChannelOverwriteRequest](#channeloverwriterequest)[] | Permission overwrites for roles and members |
+| topic? | ?string | The channel topic (1-1024 characters) |
+| type | [ChannelUpdateTextRequestType](#channelupdatetextrequesttype) |  |
+| url? | ?string | External URL for link channels |
+| user_limit? | ?integer (int32) | Maximum users allowed in voice channel (0-99, 0 means unlimited) |
+
+<a id="channelcreatevoicerequest"></a>
+
+## ChannelCreateVoiceRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bitrate? | ?integer (int32) | Voice channel bitrate in bits per second (8000-320000) |
+| name | string | The name of the channel |
+| nsfw? | boolean | Whether the channel is marked as NSFW |
+| parent_id? | ?[SnowflakeType](#snowflaketype) | ID of the parent category for this channel |
+| permission_overwrites? | [ChannelOverwriteRequest](#channeloverwriterequest)[] | Permission overwrites for roles and members |
+| topic? | ?string | The channel topic (1-1024 characters) |
+| type | [ChannelUpdateVoiceRequestType](#channelupdatevoicerequesttype) |  |
+| url? | ?string | External URL for link channels |
+| user_limit? | ?integer (int32) | Maximum users allowed in voice channel (0-99, 0 means unlimited) |
+
+<a id="channelnicknameoverrides"></a>
+
+## ChannelNicknameOverrides
+
+User nickname overrides (user ID to nickname mapping)
+
+Type: map&lt;string, string \| null&gt;
+
+<a id="channeloverwriterequest"></a>
+
+## ChannelOverwriteRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allow? | [UnsignedInt64Type](#unsignedint64type) |  |
+| deny? | [UnsignedInt64Type](#unsignedint64type) |  |
+| id | [SnowflakeType](#snowflaketype) |  |
+| type | [ChannelOverwriteRequestType](#channeloverwriterequesttype) | The type of overwrite (0 = role, 1 = member) |
+
+<a id="channeloverwriteresponse"></a>
+
+## ChannelOverwriteResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allow | string (int64) | The bitwise value of allowed permissions |
+| deny | string (int64) | The bitwise value of denied permissions |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for the role or user this overwrite applies to |
+| type | enum&lt;`0`, `1`&gt; | The type of entity the overwrite applies to |
+
+<a id="channelpartialrecipientresponse"></a>
+
+## ChannelPartialRecipientResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| username | string | The username of the recipient |
+
+<a id="channelpartialresponse"></a>
+
+## ChannelPartialResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | [SnowflakeType](#snowflaketype) | The unique identifier (snowflake) for this channel |
+| name? | ?string | The name of the channel |
+| recipients? | [ChannelPartialRecipientResponse](#channelpartialrecipientresponse)[] | The recipients of the DM channel |
+| type | integer (int32) | The type of the channel |
+
+<a id="channelpinmessageresponse"></a>
+
+## ChannelPinMessageResponse
+
+The pinned message
+
+| Field | Type | Description |
+|-------|------|-------------|
+| attachments? | ?[MessageAttachmentResponse](#messageattachmentresponse)[] | The files attached to the message |
+| author | [UserPartialResponse](#userpartialresponse) |  |
+| call? | ?[MessageCallResponse](#messagecallresponse) | Call information if this message represents a call |
+| channel_id | [SnowflakeType](#snowflaketype) | The ID of the channel this message was sent in |
+| content | string | The text content of the message |
+| edited_timestamp? | ?string (date-time) | The ISO 8601 timestamp of when the message was last edited |
+| embeds? | ?[MessageEmbedResponse](#messageembedresponse)[] | The embeds attached to the message |
+| flags | [MessageFlags](#messageflags) |  |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier (snowflake) for this message |
+| mention_everyone | boolean | Whether the message mentions @everyone |
+| mention_roles? | ?[SnowflakeType](#snowflaketype)[] | The role IDs mentioned in the message |
+| mentions? | ?[UserPartialResponse](#userpartialresponse)[] | The users mentioned in the message |
+| message_reference? | ?[MessageReferenceResponse](#messagereferenceresponse) | Reference data for replies or forwards |
+| message_snapshots? | ?[MessageSnapshotResponse](#messagesnapshotresponse)[] | Snapshots of forwarded messages |
+| nonce? | ?string | A client-provided value for message deduplication |
+| pinned | boolean | Whether the message is pinned |
+| stickers? | ?[MessageStickerResponse](#messagestickerresponse)[] | The stickers sent with the message |
+| timestamp | string (date-time) | The ISO 8601 timestamp of when the message was created |
+| tts? | boolean | Whether the message was sent as text-to-speech |
+| type | [MessageResponseSchemaType](#messageresponseschematype) | The type of message |
+| webhook_id? | ?[SnowflakeType](#snowflaketype) | The ID of the webhook that sent this message |
+
+<a id="channelpinresponse"></a>
+
+## ChannelPinResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| message | [ChannelPinMessageResponse](#channelpinmessageresponse) |  |
+| pinned_at | string (date-time) | The ISO 8601 timestamp of when the message was pinned |
+
+<a id="channelpinsresponse"></a>
+
+## ChannelPinsResponse
+
+**Related endpoints**
+
+- [`GET /channels/{channel_id}/messages/pins`](/api-reference/channels/list-pinned-messages)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| has_more | boolean | Whether more pins can be fetched with pagination |
+| items | [ChannelPinResponse](#channelpinresponse)[] | Pinned messages in this channel |
+
+<a id="channelresponse"></a>
+
+## ChannelResponse
+
+**Related endpoints**
+
+- [`GET /channels/{channel_id}`](/api-reference/channels/fetch-a-channel)
+- [`GET /guilds/{guild_id}/channels`](/api-reference/guilds/list-guild-channels)
+- [`GET /users/@me/channels`](/api-reference/users/list-private-channels)
+- [`POST /guilds/{guild_id}/channels`](/api-reference/guilds/create-guild-channel)
+- [`POST /users/@me/channels`](/api-reference/users/create-private-channel)
+- [`PATCH /channels/{channel_id}`](/api-reference/channels/update-channel-settings)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bitrate? | ?[Int32Type](#int32type) | The bitrate of the voice channel in bits per second |
+| guild_id? | [SnowflakeType](#snowflaketype) |  |
+| icon? | ?string | The icon hash of the channel (for group DMs) |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier (snowflake) for this channel |
+| last_message_id? | ?[SnowflakeType](#snowflaketype) | The ID of the last message sent in this channel |
+| last_pin_timestamp? | ?string (date-time) | The ISO 8601 timestamp of when the last pinned message was pinned |
+| name? | string | The name of the channel |
+| nicks? | map&lt;string, string&gt; | Custom nicknames for users in this channel (for group DMs) |
+| nsfw? | boolean | Whether the channel is marked as NSFW |
+| owner_id? | ?[SnowflakeType](#snowflaketype) | The ID of the owner of the channel (for group DMs) |
+| parent_id? | ?[SnowflakeType](#snowflaketype) | The ID of the parent category for this channel |
+| permission_overwrites? | [ChannelOverwriteResponse](#channeloverwriteresponse)[] | The permission overwrites for this channel |
+| position? | [Int32Type](#int32type) |  |
+| rate_limit_per_user? | [Int32Type](#int32type) |  |
+| recipients? | [UserPartialResponse](#userpartialresponse)[] | The recipients of the DM channel |
+| rtc_region? | ?[SnowflakeType](#snowflaketype) | The voice region ID for the voice channel |
+| topic? | ?string | The topic of the channel |
+| type | integer (int32) | The type of the channel |
+| url? | ?string (uri) | The URL associated with the channel |
+| user_limit? | ?[Int32Type](#int32type) | The maximum number of users allowed in the voice channel |
+
+<a id="channelupdatecategoryrequest"></a>
+
+## ChannelUpdateCategoryRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bitrate? | ?integer (int32) | Voice channel bitrate in bits per second (8000-320000) |
+| icon? | ?[Base64ImageType](#base64imagetype) | Base64-encoded icon image for group DM channels |
+| name? | ?string | The name of the category |
+| nicks? | [ChannelNicknameOverrides](#channelnicknameoverrides) |  |
+| nsfw? | ?boolean | Whether the channel is marked as NSFW |
+| owner_id? | ?[SnowflakeType](#snowflaketype) | ID of the new owner for group DM channels |
+| parent_id? | ?[SnowflakeType](#snowflaketype) | ID of the parent category for this channel |
+| permission_overwrites? | [ChannelOverwriteRequest](#channeloverwriterequest)[] | Permission overwrites for roles and members |
+| rate_limit_per_user? | ?integer (int32) | Slowmode delay in seconds (0-21600) |
+| rtc_region? | ?[SnowflakeType](#snowflaketype) | Voice region ID for the voice channel (1-64 characters) |
+| topic? | ?string | The channel topic (1-1024 characters) |
+| type | [ChannelUpdateCategoryRequestType](#channelupdatecategoryrequesttype) |  |
+| url? | ?string | External URL for link channels |
+| user_limit? | ?integer (int32) | Maximum users allowed in voice channel (0-99, 0 means unlimited) |
+
+<a id="channelupdategroupdmrequest"></a>
+
+## ChannelUpdateGroupDmRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| icon? | ?[Base64ImageType](#base64imagetype) | Base64-encoded icon image for the group DM |
+| name? | ?string | The name of the group DM |
+| nicks? | ?[ChannelNicknameOverrides](#channelnicknameoverrides) | Custom nicknames for users in this group DM |
+| owner_id? | ?[SnowflakeType](#snowflaketype) | ID of the new owner of the group DM |
+| type | [ChannelUpdateGroupDmRequestType](#channelupdategroupdmrequesttype) |  |
+
+<a id="channelupdatelinkrequest"></a>
+
+## ChannelUpdateLinkRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bitrate? | ?integer (int32) | Voice channel bitrate in bits per second (8000-320000) |
+| icon? | ?[Base64ImageType](#base64imagetype) | Base64-encoded icon image for group DM channels |
+| name? | ?string | The name of the channel |
+| nicks? | [ChannelNicknameOverrides](#channelnicknameoverrides) |  |
+| nsfw? | ?boolean | Whether the channel is marked as NSFW |
+| owner_id? | ?[SnowflakeType](#snowflaketype) | ID of the new owner for group DM channels |
+| parent_id? | ?[SnowflakeType](#snowflaketype) | ID of the parent category for this channel |
+| permission_overwrites? | [ChannelOverwriteRequest](#channeloverwriterequest)[] | Permission overwrites for roles and members |
+| rate_limit_per_user? | ?integer (int32) | Slowmode delay in seconds (0-21600) |
+| rtc_region? | ?[SnowflakeType](#snowflaketype) | Voice region ID for the voice channel (1-64 characters) |
+| topic? | ?string | The channel topic (1-1024 characters) |
+| type | [ChannelUpdateLinkRequestType](#channelupdatelinkrequesttype) |  |
+| url? | ?string | External URL for link channels |
+| user_limit? | ?integer (int32) | Maximum users allowed in voice channel (0-99, 0 means unlimited) |
+
+<a id="channelupdaterequest"></a>
+
+## ChannelUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /channels/{channel_id}`](/api-reference/channels/update-channel-settings)
+
+Type: [ChannelUpdateTextRequest](#channelupdatetextrequest) \| [ChannelUpdateVoiceRequest](#channelupdatevoicerequest) \| [ChannelUpdateCategoryRequest](#channelupdatecategoryrequest) \| [ChannelUpdateLinkRequest](#channelupdatelinkrequest) \| [ChannelUpdateGroupDmRequest](#channelupdategroupdmrequest)
+
+<a id="channelupdatetextrequest"></a>
+
+## ChannelUpdateTextRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bitrate? | ?integer (int32) | Voice channel bitrate in bits per second (8000-320000) |
+| icon? | ?[Base64ImageType](#base64imagetype) | Base64-encoded icon image for group DM channels |
+| name? | ?string | The name of the channel |
+| nicks? | [ChannelNicknameOverrides](#channelnicknameoverrides) |  |
+| nsfw? | ?boolean | Whether the channel is marked as NSFW |
+| owner_id? | ?[SnowflakeType](#snowflaketype) | ID of the new owner for group DM channels |
+| parent_id? | ?[SnowflakeType](#snowflaketype) | ID of the parent category for this channel |
+| permission_overwrites? | [ChannelOverwriteRequest](#channeloverwriterequest)[] | Permission overwrites for roles and members |
+| rate_limit_per_user? | ?integer (int32) | Slowmode delay in seconds (0-21600) |
+| rtc_region? | ?[SnowflakeType](#snowflaketype) | Voice region ID for the voice channel (1-64 characters) |
+| topic? | ?string | The channel topic (1-1024 characters) |
+| type | [ChannelUpdateTextRequestType](#channelupdatetextrequesttype) |  |
+| url? | ?string | External URL for link channels |
+| user_limit? | ?integer (int32) | Maximum users allowed in voice channel (0-99, 0 means unlimited) |
+
+<a id="channelupdatevoicerequest"></a>
+
+## ChannelUpdateVoiceRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bitrate? | ?integer (int32) | Voice channel bitrate in bits per second (8000-320000) |
+| icon? | ?[Base64ImageType](#base64imagetype) | Base64-encoded icon image for group DM channels |
+| name? | ?string | The name of the channel |
+| nicks? | [ChannelNicknameOverrides](#channelnicknameoverrides) |  |
+| nsfw? | ?boolean | Whether the channel is marked as NSFW |
+| owner_id? | ?[SnowflakeType](#snowflaketype) | ID of the new owner for group DM channels |
+| parent_id? | ?[SnowflakeType](#snowflaketype) | ID of the parent category for this channel |
+| permission_overwrites? | [ChannelOverwriteRequest](#channeloverwriterequest)[] | Permission overwrites for roles and members |
+| rate_limit_per_user? | ?integer (int32) | Slowmode delay in seconds (0-21600) |
+| rtc_region? | ?[SnowflakeType](#snowflaketype) | Voice region ID for the voice channel (1-64 characters) |
+| topic? | ?string | The channel topic (1-1024 characters) |
+| type | [ChannelUpdateVoiceRequestType](#channelupdatevoicerequesttype) |  |
+| url? | ?string | External URL for link channels |
+| user_limit? | ?integer (int32) | Maximum users allowed in voice channel (0-99, 0 means unlimited) |
+
+<a id="embedauthorresponse"></a>
+
+## EmbedAuthorResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| icon_url? | ?string (uri) | The URL of the author icon |
+| name | string | The name of the author |
+| proxy_icon_url? | ?string (uri) | The proxied URL of the author icon |
+| url? | ?string (uri) | The URL of the author |
+
+<a id="embedfieldresponse"></a>
+
+## EmbedFieldResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| inline | boolean | Whether the field should be displayed inline |
+| name | string | The name of the field |
+| value | string | The value of the field |
+
+<a id="embedfooterresponse"></a>
+
+## EmbedFooterResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| icon_url? | ?string (uri) | The URL of the footer icon |
+| proxy_icon_url? | ?string (uri) | The proxied URL of the footer icon |
+| text | string | The footer text |
+
+<a id="embedmediaflags"></a>
+
+## EmbedMediaFlags
+
+The bitwise flags for this media
+
+Type: Bitflags32
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| CONTAINS_EXPLICIT_MEDIA | `16` | Embed media contains explicit content |
+| IS_ANIMATED | `32` | Embed media is animated |
+
+<a id="embedmediaresponse"></a>
+
+## EmbedMediaResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| content_hash? | ?string | The hash of the media content |
+| content_type? | ?string | The MIME type of the media |
+| description? | ?string | The description of the media |
+| duration? | ?[Int32Type](#int32type) | The duration of the media in seconds |
+| flags | [EmbedMediaFlags](#embedmediaflags) |  |
+| height? | ?[Int32Type](#int32type) | The height of the media in pixels |
+| placeholder? | ?string | The base64 encoded placeholder image for lazy loading |
+| proxy_url? | ?string (uri) | The proxied URL of the media |
+| url | string | The URL of the media |
+| width? | ?[Int32Type](#int32type) | The width of the media in pixels |
+
+<a id="groupdmaddpermissionflags"></a>
+
+## GroupDmAddPermissionFlags
+
+Group DM add permissions
+
+Type: Bitflags32
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| FRIENDS_OF_FRIENDS | `1` | Allow friends of friends to add user to group DMs |
+| GUILD_MEMBERS | `2` | Allow guild members to add user to group DMs |
+| EVERYONE | `4` | Allow everyone to add user to group DMs |
+| FRIENDS_ONLY | `8` | Allow only friends to add user to group DMs |
+| NOBODY | `16` | Block everyone from adding user to group DMs |
+
+<a id="groupdminvitemetadataresponse"></a>
+
+## GroupDmInviteMetadataResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel | [ChannelPartialResponse](#channelpartialresponse) |  |
+| code | string | The unique invite code |
+| created_at | string (date-time) | ISO8601 timestamp of when the invite was created |
+| expires_at? | ?string (date-time) | ISO8601 timestamp of when the invite expires |
+| inviter? | ?[UserPartialResponse](#userpartialresponse) | The user who created the invite |
+| max_uses | integer (int32) | The maximum number of times this invite can be used |
+| member_count | integer (int32) | The current member count of the group DM |
+| temporary | boolean | Whether the invite grants temporary membership |
+| type | enum&lt;`1`&gt; | The type of invite (group DM) |
+| uses | integer (int32) | The number of times this invite has been used |
+
+<a id="groupdminviteresponse"></a>
+
+## GroupDmInviteResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel | [ChannelPartialResponse](#channelpartialresponse) |  |
+| code | string | The unique invite code |
+| expires_at? | ?string (date-time) | ISO8601 timestamp of when the invite expires |
+| inviter? | ?[UserPartialResponse](#userpartialresponse) | The user who created the invite |
+| member_count | integer (int32) | The current member count of the group DM |
+| temporary | boolean | Whether the invite grants temporary membership |
+| type | enum&lt;`1`&gt; | The type of invite (group DM) |
+
+<a id="messageackrequest"></a>
+
+## MessageAckRequest
+
+**Related endpoints**
+
+- [`POST /channels/{channel_id}/messages/{message_id}/ack`](/api-reference/channels/acknowledge-a-message)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| manual? | boolean | Whether this is a manual acknowledgement |
+| mention_count? | [Int32Type](#int32type) |  |
+
+<a id="messageattachmentflags"></a>
+
+## MessageAttachmentFlags
+
+Attachment flags
+
+Type: Bitflags32
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| IS_SPOILER | `8` | Attachment is marked as a spoiler |
+| CONTAINS_EXPLICIT_MEDIA | `16` | Attachment contains explicit media content |
+| IS_ANIMATED | `32` | Attachment is animated |
+
+<a id="messageattachmentresponse"></a>
+
+## MessageAttachmentResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| content_hash? | ?string | The hash of the attachment content |
+| content_type? | ?string | The MIME type of the attachment |
+| description? | ?string | The description of the attachment |
+| duration? | ?[Int32Type](#int32type) | The duration of the media in seconds |
+| expired? | ?boolean | Whether the attachment URL has expired |
+| expires_at? | ?string | The ISO 8601 timestamp when the attachment URL expires |
+| filename | string | The name of the attached file |
+| flags | [MessageAttachmentFlags](#messageattachmentflags) |  |
+| height? | ?[Int32Type](#int32type) | The height of the attachment in pixels (for images/videos) |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this attachment |
+| nsfw? | ?boolean | Whether the attachment is flagged as NSFW |
+| placeholder? | ?string | The base64 encoded placeholder image for lazy loading |
+| proxy_url? | ?string | The proxied URL of the attachment |
+| size | integer (int32) | The size of the attachment in bytes |
+| title? | ?string | The title of the attachment |
+| url? | ?string | The URL of the attachment |
+| waveform? | ?string | The base64 encoded audio waveform data |
+| width? | ?[Int32Type](#int32type) | The width of the attachment in pixels (for images/videos) |
+
+<a id="messageauthortype"></a>
+
+## MessageAuthorType
+
+The type of author who sent the message
+
+| Value | Description |
+|-------|-------------|
+| `user` | A regular user account |
+| `bot` | An automated bot account |
+| `webhook` | A webhook-generated message |
+
+<a id="messagebaseresponseschema"></a>
+
+## MessageBaseResponseSchema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| attachments? | ?[MessageAttachmentResponse](#messageattachmentresponse)[] | The files attached to the message |
+| author | [UserPartialResponse](#userpartialresponse) |  |
+| call? | ?[MessageCallResponse](#messagecallresponse) | Call information if this message represents a call |
+| channel_id | [SnowflakeType](#snowflaketype) | The ID of the channel this message was sent in |
+| content | string | The text content of the message |
+| edited_timestamp? | ?string (date-time) | The ISO 8601 timestamp of when the message was last edited |
+| embeds? | ?[MessageEmbedResponse](#messageembedresponse)[] | The embeds attached to the message |
+| flags | [MessageFlags](#messageflags) |  |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier (snowflake) for this message |
+| mention_everyone | boolean | Whether the message mentions @everyone |
+| mention_roles? | ?[SnowflakeType](#snowflaketype)[] | The role IDs mentioned in the message |
+| mentions? | ?[UserPartialResponse](#userpartialresponse)[] | The users mentioned in the message |
+| message_reference? | ?[MessageReferenceResponse](#messagereferenceresponse) | Reference data for replies or forwards |
+| message_snapshots? | ?[MessageSnapshotResponse](#messagesnapshotresponse)[] | Snapshots of forwarded messages |
+| nonce? | ?string | A client-provided value for message deduplication |
+| pinned | boolean | Whether the message is pinned |
+| reactions? | ?[MessageReactionResponse](#messagereactionresponse)[] | The reactions on the message |
+| stickers? | ?[MessageStickerResponse](#messagestickerresponse)[] | The stickers sent with the message |
+| timestamp | string (date-time) | The ISO 8601 timestamp of when the message was created |
+| tts? | boolean | Whether the message was sent as text-to-speech |
+| type | [MessageResponseSchemaType](#messageresponseschematype) | The type of message |
+| webhook_id? | ?[SnowflakeType](#snowflaketype) | The ID of the webhook that sent this message |
+
+<a id="messagecallresponse"></a>
+
+## MessageCallResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| ended_timestamp? | ?string (date-time) | The ISO 8601 timestamp of when the call ended |
+| participants | [SnowflakeType](#snowflaketype)[] | The user IDs of participants in the call |
+
+<a id="messagecontenttype"></a>
+
+## MessageContentType
+
+The type of content contained in a message
+
+| Value | Description |
+|-------|-------------|
+| `image` | Message contains an image attachment |
+| `sound` | Message contains an audio attachment |
+| `video` | Message contains a video attachment |
+| `file` | Message contains a file attachment |
+| `sticker` | Message contains a sticker |
+| `embed` | Message contains an embed |
+| `link` | Message contains a URL link |
+| `poll` | Message contains a poll |
+| `snapshot` | Message contains a forwarded message snapshot |
+
+<a id="messageembedchildresponse"></a>
+
+## MessageEmbedChildResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| audio? | ?[EmbedMediaResponse](#embedmediaresponse) | The audio of the embed |
+| author? | ?[EmbedAuthorResponse](#embedauthorresponse) | The author information of the embed |
+| color? | ?[Int32Type](#int32type) | The color code of the embed sidebar |
+| description? | ?string | The description of the embed |
+| fields? | ?[EmbedFieldResponse](#embedfieldresponse)[] | The fields of the embed |
+| footer? | ?[EmbedFooterResponse](#embedfooterresponse) | The footer of the embed |
+| image? | ?[EmbedMediaResponse](#embedmediaresponse) | The image of the embed |
+| nsfw? | ?boolean | Whether the embed is flagged as NSFW |
+| provider? | ?[EmbedAuthorResponse](#embedauthorresponse) | The provider of the embed (e.g., YouTube, Twitter) |
+| thumbnail? | ?[EmbedMediaResponse](#embedmediaresponse) | The thumbnail of the embed |
+| timestamp? | ?string (date-time) | The ISO 8601 timestamp of the embed content |
+| title? | ?string | The title of the embed |
+| type | string | The type of embed (e.g., rich, image, video, gifv, article, link) |
+| url? | ?string (uri) | The URL of the embed |
+| video? | ?[EmbedMediaResponse](#embedmediaresponse) | The video of the embed |
+
+<a id="messageembedresponse"></a>
+
+## MessageEmbedResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| audio? | ?[EmbedMediaResponse](#embedmediaresponse) | The audio of the embed |
+| author? | ?[EmbedAuthorResponse](#embedauthorresponse) | The author information of the embed |
+| children? | ?[MessageEmbedChildResponse](#messageembedchildresponse)[] | Internal nested embeds generated by unfurlers |
+| color? | ?[Int32Type](#int32type) | The color code of the embed sidebar |
+| description? | ?string | The description of the embed |
+| fields? | ?[EmbedFieldResponse](#embedfieldresponse)[] | The fields of the embed |
+| footer? | ?[EmbedFooterResponse](#embedfooterresponse) | The footer of the embed |
+| image? | ?[EmbedMediaResponse](#embedmediaresponse) | The image of the embed |
+| nsfw? | ?boolean | Whether the embed is flagged as NSFW |
+| provider? | ?[EmbedAuthorResponse](#embedauthorresponse) | The provider of the embed (e.g., YouTube, Twitter) |
+| thumbnail? | ?[EmbedMediaResponse](#embedmediaresponse) | The thumbnail of the embed |
+| timestamp? | ?string (date-time) | The ISO 8601 timestamp of the embed content |
+| title? | ?string | The title of the embed |
+| type | string | The type of embed (e.g., rich, image, video, gifv, article, link) |
+| url? | ?string (uri) | The URL of the embed |
+| video? | ?[EmbedMediaResponse](#embedmediaresponse) | The video of the embed |
+
+<a id="messageembedtype"></a>
+
+## MessageEmbedType
+
+The type of embed content
+
+| Value | Description |
+|-------|-------------|
+| `image` | An image embed from a linked URL |
+| `video` | A video embed from a linked URL |
+| `sound` | An audio embed from a linked URL |
+| `article` | An article or webpage embed with metadata |
+
+<a id="messageflags"></a>
+
+## MessageFlags
+
+Message flags bitfield
+
+Type: Bitflags32
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| SUPPRESS_EMBEDS | `4` | Do not include embeds when serialising this message |
+| SUPPRESS_NOTIFICATIONS | `4096` | This message will not trigger push or desktop notifications |
+| VOICE_MESSAGE | `8192` | This message is a voice message |
+| COMPACT_ATTACHMENTS | `131072` | Display attachments in a compact format |
+
+<a id="messagereactionresponse"></a>
+
+## MessageReactionResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| count | integer (int32) | The total number of times this reaction has been used |
+| emoji | [MessageReactionResponseEmoji](#messagereactionresponseemoji) | The emoji used for the reaction |
+| me? | ?enum&lt;`true`&gt; | Whether the current user has reacted with this emoji |
+
+<a id="messagereferenceresponse"></a>
+
+## MessageReferenceResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | [SnowflakeType](#snowflaketype) | The ID of the channel containing the referenced message |
+| guild_id? | ?[SnowflakeType](#snowflaketype) | The ID of the guild containing the referenced message |
+| message_id | [SnowflakeType](#snowflaketype) | The ID of the referenced message |
+| type | [MessageReferenceType](#messagereferencetype) |  |
+
+<a id="messagereferencetype"></a>
+
+## MessageReferenceType
+
+The type of message reference
+
+| Value | Description |
+|-------|-------------|
+| `0` | Default reference (reply) |
+| `1` | Forwarded message reference |
+
+<a id="messagereportcategoryenum"></a>
+
+## MessageReportCategoryEnum
+
+Category of the message report
+
+| Value | Description |
+|-------|-------------|
+| `harassment` | Content that harasses, bullies, or intimidates users |
+| `hate_speech` | Content promoting hatred against protected groups |
+| `violent_content` | Content depicting or promoting violence |
+| `spam` | Unsolicited bulk messages or promotional content |
+| `nsfw_violation` | Adult content posted outside age-restricted channels |
+| `illegal_activity` | Content promoting or facilitating illegal activities |
+| `doxxing` | Content revealing private personal information |
+| `self_harm` | Content promoting self-harm or suicide |
+| `child_safety` | Content that endangers minors or depicts child abuse |
+| `malicious_links` | Links to malware, phishing, or other malicious sites |
+| `impersonation` | Content falsely claiming to be another person or entity |
+| `other` | Other violations not covered by specific categories |
+
+<a id="messageresponseschema"></a>
+
+## MessageResponseSchema
+
+**Related endpoints**
+
+- [`GET /channels/{channel_id}/messages`](/api-reference/channels/list-messages-in-a-channel)
+- [`GET /channels/{channel_id}/messages/{message_id}`](/api-reference/channels/fetch-a-message)
+- [`POST /channels/{channel_id}/messages`](/api-reference/channels/send-a-message)
+- [`POST /webhooks/{webhook_id}/{token}`](/api-reference/webhooks/execute-webhook)
+- [`PATCH /channels/{channel_id}/messages/{message_id}`](/api-reference/channels/edit-a-message)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| attachments? | ?[MessageAttachmentResponse](#messageattachmentresponse)[] | The files attached to the message |
+| author | [UserPartialResponse](#userpartialresponse) |  |
+| call? | ?[MessageCallResponse](#messagecallresponse) | Call information if this message represents a call |
+| channel_id | [SnowflakeType](#snowflaketype) | The ID of the channel this message was sent in |
+| content | string | The text content of the message |
+| edited_timestamp? | ?string (date-time) | The ISO 8601 timestamp of when the message was last edited |
+| embeds? | ?[MessageEmbedResponse](#messageembedresponse)[] | The embeds attached to the message |
+| flags | [MessageFlags](#messageflags) |  |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier (snowflake) for this message |
+| mention_everyone | boolean | Whether the message mentions @everyone |
+| mention_roles? | ?[SnowflakeType](#snowflaketype)[] | The role IDs mentioned in the message |
+| mentions? | ?[UserPartialResponse](#userpartialresponse)[] | The users mentioned in the message |
+| message_reference? | ?[MessageReferenceResponse](#messagereferenceresponse) | Reference data for replies or forwards |
+| message_snapshots? | ?[MessageSnapshotResponse](#messagesnapshotresponse)[] | Snapshots of forwarded messages |
+| nonce? | ?string | A client-provided value for message deduplication |
+| pinned | boolean | Whether the message is pinned |
+| reactions? | ?[MessageReactionResponse](#messagereactionresponse)[] | The reactions on the message |
+| referenced_message? | ?[MessageBaseResponseSchema](#messagebaseresponseschema) | The message that this message is replying to or forwarding |
+| stickers? | ?[MessageStickerResponse](#messagestickerresponse)[] | The stickers sent with the message |
+| timestamp | string (date-time) | The ISO 8601 timestamp of when the message was created |
+| tts? | boolean | Whether the message was sent as text-to-speech |
+| type | [MessageResponseSchemaType](#messageresponseschematype) | The type of message |
+| webhook_id? | ?[SnowflakeType](#snowflaketype) | The ID of the webhook that sent this message |
+
+<a id="messagesearchindexingresponse"></a>
+
+## MessageSearchIndexingResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| indexing | enum&lt;`true`&gt; | Indicates that one or more channels are being indexed |
+
+<a id="messagesearchresultsresponse"></a>
+
+## MessageSearchResultsResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| hits_per_page | integer (int32) | The maximum number of messages returned per page |
+| messages | [MessageBaseResponseSchema](#messagebaseresponseschema)[] | The messages matching the search query |
+| page | integer (int32) | The current page number |
+| total | integer (int32) | The total number of messages matching the search |
+
+<a id="messagesearchscope"></a>
+
+## MessageSearchScope
+
+Search scope for message searches
+
+| Value | Description |
+|-------|-------------|
+| `current` | Search only in the current channel or community context |
+| `open_dms` | Search across all DMs you currently have open |
+| `all_dms` | Search across all DMs you've ever been in |
+| `all_guilds` | Search across all Communities you're currently in |
+| `all` | Search across all DMs you've ever been in and all Communities you're currently in |
+| `open_dms_and_all_guilds` | Search across all DMs you currently have open and all Communities you're currently in |
+
+<a id="messageshredstatusnotfoundresponse"></a>
+
+## MessageShredStatusNotFoundResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| status | enum&lt;`not_found`&gt; |  |
+
+<a id="messageshredstatusprogressresponse"></a>
+
+## MessageShredStatusProgressResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| completed_at? | string |  |
+| error? | string |  |
+| failed_at? | string |  |
+| processed | [Int32Type](#int32type) |  |
+| requested | [Int32Type](#int32type) |  |
+| skipped | [Int32Type](#int32type) |  |
+| started_at? | string |  |
+| status | [MessageShredStatusProgressResponseStatus](#messageshredstatusprogressresponsestatus) | Current message shred job status |
+| total | [Int32Type](#int32type) |  |
+
+<a id="messagesnapshotresponse"></a>
+
+## MessageSnapshotResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| attachments? | ?[MessageAttachmentResponse](#messageattachmentresponse)[] | The attachments included in the snapshot |
+| content? | ?string | The text content of the snapshot |
+| edited_timestamp? | ?string (date-time) | The ISO 8601 timestamp of when the original message was last edited |
+| embeds? | ?[MessageEmbedResponse](#messageembedresponse)[] | The embeds included in the snapshot |
+| flags | [MessageFlags](#messageflags) |  |
+| mention_roles? | ?[SnowflakeType](#snowflaketype)[] | The role IDs mentioned in the snapshot |
+| mentions? | ?[SnowflakeType](#snowflaketype)[] | The user IDs mentioned in the snapshot |
+| stickers? | ?[MessageStickerResponse](#messagestickerresponse)[] | The stickers included in the snapshot |
+| timestamp | string (date-time) | The ISO 8601 timestamp of when the original message was created |
+| type | [MessageResponseSchemaType](#messageresponseschematype) | The type of message |
+
+<a id="messagesortfield"></a>
+
+## MessageSortField
+
+The field to sort search results by
+
+| Value | Description |
+|-------|-------------|
+| `timestamp` | Sort results by message timestamp |
+| `relevance` | Sort results by search relevance score |
+
+<a id="messagesortorder"></a>
+
+## MessageSortOrder
+
+The order to sort search results
+
+| Value | Description |
+|-------|-------------|
+| `asc` | Sort in ascending order (oldest/lowest first) |
+| `desc` | Sort in descending order (newest/highest first) |
+
+<a id="messagestickerresponse"></a>
+
+## MessageStickerResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| animated | boolean | Whether the sticker is animated |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier of the sticker |
+| name | string | The name of the sticker |
+
+<a id="permissionoverwritecreaterequest"></a>
+
+## PermissionOverwriteCreateRequest
+
+**Related endpoints**
+
+- [`PUT /channels/{channel_id}/permissions/{overwrite_id}`](/api-reference/channels/set-permission-overwrite-for-channel)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allow? | [UnsignedInt64Type](#unsignedint64type) |  |
+| deny? | [UnsignedInt64Type](#unsignedint64type) |  |
+| type | enum&lt;`0`, `1`&gt; | The type of overwrite (0 = role, 1 = member) |
+
+<a id="reactionuserslistresponse"></a>
+
+## ReactionUsersListResponse
+
+**Related endpoints**
+
+- [`GET /channels/{channel_id}/messages/{message_id}/reactions/{emoji}`](/api-reference/channels/list-users-who-reacted-with-emoji)
+
+Type: [UserPartialResponse](#userpartialresponse)[]
+
+<a id="rtcregionresponse"></a>
+
+## RtcRegionResponse
+
+**Related endpoints**
+
+- [`GET /channels/{channel_id}/rtc-regions`](/api-reference/channels/list-rtc-regions)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| emoji | string | The emoji associated with this RTC region |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this RTC region |
+| name | string | The display name of the RTC region |
+
+<a id="scheduledmessageallowedmentionsschema"></a>
+
+## ScheduledMessageAllowedMentionsSchema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| parse? | [ScheduledMessageAllowedMentionsSchemaParse](#scheduledmessageallowedmentionsschemaparse)[] | Types of mentions to parse from content |
+| replied_user? | boolean | Whether to mention the author of the replied message |
+| roles? | [SnowflakeType](#snowflaketype)[] | Array of role IDs to mention |
+| users? | [SnowflakeType](#snowflaketype)[] | Array of user IDs to mention |
+
+<a id="scheduledmessagereferenceschema"></a>
+
+## ScheduledMessageReferenceSchema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id? | [SnowflakeType](#snowflaketype) |  |
+| guild_id? | [SnowflakeType](#snowflaketype) |  |
+| message_id | [SnowflakeType](#snowflaketype) | ID of the message being referenced |
+| type? | [MessageReferenceType](#messagereferencetype) | The type of message reference |
+
+<a id="streampreviewuploadbodyschema"></a>
+
+## StreamPreviewUploadBodySchema
+
+**Related endpoints**
+
+- [`POST /streams/{stream_key}/preview`](/api-reference/channels/upload-stream-preview-image)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | [SnowflakeType](#snowflaketype) |  |
+| content_type? | string | MIME type of the thumbnail image |
+| thumbnail | string | Base64-encoded thumbnail image data |
+
+<a id="streamupdatebodyschema"></a>
+
+## StreamUpdateBodySchema
+
+**Related endpoints**
+
+- [`PATCH /streams/{stream_key}/stream`](/api-reference/channels/update-stream-region)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| region? | string | The preferred voice region for the stream (1-64 characters) |
+
+<a id="voiceregionadminresponse"></a>
+
+## VoiceRegionAdminResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allowed_guild_ids | [SnowflakeType](#snowflaketype)[] | Guild IDs explicitly allowed to use this region |
+| allowed_user_ids | [SnowflakeType](#snowflaketype)[] | User IDs explicitly allowed to use this region |
+| created_at | ?string | ISO 8601 timestamp when the region was created |
+| emoji | string | Emoji representing the region |
+| id | [SnowflakeType](#snowflaketype) | Unique identifier for the voice region |
+| is_default | boolean | Whether this is the default region |
+| latitude | number | Geographic latitude coordinate |
+| longitude | number | Geographic longitude coordinate |
+| name | string | Display name of the voice region |
+| required_guild_features | string[] | Guild features required to use this region |
+| updated_at | ?string | ISO 8601 timestamp when the region was last updated |
+| vip_only | boolean | Whether this region is restricted to VIP users |
+
+<a id="voiceregionwithserversresponse"></a>
+
+## VoiceRegionWithServersResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allowed_guild_ids | [SnowflakeType](#snowflaketype)[] | Guild IDs explicitly allowed to use this region |
+| allowed_user_ids | [SnowflakeType](#snowflaketype)[] | User IDs explicitly allowed to use this region |
+| created_at | ?string | ISO 8601 timestamp when the region was created |
+| emoji | string | Emoji representing the region |
+| id | [SnowflakeType](#snowflaketype) | Unique identifier for the voice region |
+| is_default | boolean | Whether this is the default region |
+| latitude | number | Geographic latitude coordinate |
+| longitude | number | Geographic longitude coordinate |
+| name | string | Display name of the voice region |
+| required_guild_features | string[] | Guild features required to use this region |
+| servers? | [VoiceServerAdminResponse](#voiceserveradminresponse)[] | Voice servers in this region |
+| updated_at | ?string | ISO 8601 timestamp when the region was last updated |
+| vip_only | boolean | Whether this region is restricted to VIP users |
+
+<a id="voiceserveradminresponse"></a>
+
+## VoiceServerAdminResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allowed_guild_ids | [SnowflakeType](#snowflaketype)[] | Guild IDs explicitly allowed to use this server |
+| allowed_user_ids | [SnowflakeType](#snowflaketype)[] | User IDs explicitly allowed to use this server |
+| created_at | ?string | ISO 8601 timestamp when the server was created |
+| endpoint | string (uri) | Client signal WebSocket endpoint URL for the voice server |
+| is_active | boolean | Whether the server is currently active |
+| region_id | [SnowflakeType](#snowflaketype) | ID of the region this server belongs to |
+| required_guild_features | string[] | Guild features required to use this server |
+| server_id | [SnowflakeType](#snowflaketype) | Unique identifier for the voice server |
+| updated_at | ?string | ISO 8601 timestamp when the server was last updated |
+| vip_only | boolean | Whether this server is restricted to VIP users |
+
+<a id="messageshredstatusprogressresponsestatus"></a>
+
+## MessageShredStatusProgressResponseStatus
+
+Current message shred job status
+
+| Value | Description |
+|-------|-------------|
+| `in_progress` | Shredding is currently running |
+| `completed` | Shredding completed successfully |
+| `failed` | Shredding failed |
+
+<a id="channelupdatetextrequesttype"></a>
+
+## ChannelUpdateTextRequestType
+
+| Value | Description |
+|-------|-------------|
+| `0` | Channel type (text channel) |
+
+<a id="channeloverwriterequesttype"></a>
+
+## ChannelOverwriteRequestType
+
+The type of overwrite (0 = role, 1 = member)
+
+| Value | Description |
+|-------|-------------|
+| `0` | - |
+| `1` | - |
+
+<a id="channelupdatevoicerequesttype"></a>
+
+## ChannelUpdateVoiceRequestType
+
+| Value | Description |
+|-------|-------------|
+| `2` | Channel type (voice channel) |
+
+<a id="channelupdatecategoryrequesttype"></a>
+
+## ChannelUpdateCategoryRequestType
+
+| Value | Description |
+|-------|-------------|
+| `4` | Channel type (category) |
+
+<a id="channelupdatelinkrequesttype"></a>
+
+## ChannelUpdateLinkRequestType
+
+| Value | Description |
+|-------|-------------|
+| `998` | Channel type (link channel) |
+
+<a id="channelupdategroupdmrequesttype"></a>
+
+## ChannelUpdateGroupDmRequestType
+
+| Value | Description |
+|-------|-------------|
+| `3` | Channel type (group DM) |
+
+<a id="messageresponseschematype"></a>
+
+## MessageResponseSchemaType
+
+The type of message
+
+| Value | Description |
+|-------|-------------|
+| `0` | A regular message |
+| `1` | A system message indicating a user was added to the conversation |
+| `2` | A system message indicating a user was removed from the conversation |
+| `3` | A message representing a call |
+| `4` | A system message indicating the channel name changed |
+| `5` | A system message indicating the channel icon changed |
+| `6` | A system message indicating a message was pinned |
+| `7` | A system message indicating a user joined |
+| `19` | A reply message |
+
+<a id="messagereactionresponseemoji"></a>
+
+## MessageReactionResponseEmoji
+
+The emoji used for the reaction
+
+| Field | Type | Description |
+|-------|------|-------------|
+| animated? | ?boolean | Whether the emoji is animated |
+| id? | ?[SnowflakeType](#snowflaketype) | The ID of the custom emoji (null for Unicode emojis) |
+| name | string | The name of the emoji (or Unicode character for standard emojis) |
+
+<a id="scheduledmessageallowedmentionsschemaparse"></a>
+
+## ScheduledMessageAllowedMentionsSchemaParse
+
+Types of mentions to parse from content
+
+| Value | Description |
+|-------|-------------|
+| `users` | Parse user mentions from the message content |
+| `roles` | Parse role mentions from the message content |
+| `everyone` | Parse @everyone and @here mentions from the message content |
+

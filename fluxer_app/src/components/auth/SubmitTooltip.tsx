@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/auth/SubmitTooltip.module.css';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
 import type {MessageDescriptor} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {useLingui} from '@lingui/react/macro';
 import type {ReactNode} from 'react';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import styles from './SubmitTooltip.module.css';
 
 export interface MissingField {
 	key: string;

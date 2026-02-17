@@ -17,13 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import {GuildStickerRecord} from '@app/records/GuildStickerRecord';
+import {patchGuildStickerCacheFromGateway} from '@app/stores/GuildExpressionTabCache';
+import StickerPickerStore from '@app/stores/StickerPickerStore';
+import type {GuildReadyData} from '@app/types/gateway/GatewayGuildTypes';
+import type {GuildSticker} from '@fluxer/schema/src/domains/guild/GuildEmojiSchemas';
+import {sortBySnowflakeDesc} from '@fluxer/snowflake/src/SnowflakeUtils';
 import {makeAutoObservable} from 'mobx';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {GuildReadyData} from '~/records/GuildRecord';
-import {type GuildSticker, GuildStickerRecord} from '~/records/GuildStickerRecord';
-import {patchGuildStickerCacheFromGateway} from '~/stores/GuildExpressionTabCache';
-import StickerPickerStore from '~/stores/StickerPickerStore';
-import {sortBySnowflakeDesc} from '~/utils/SnowflakeUtils';
 
 interface GuildStickerContext {
 	stickers: Array<GuildStickerRecord>;
@@ -130,6 +132,8 @@ class StickerStore {
 				}
 			}
 		}
+
+		ComponentDispatch.dispatch('STICKER_PICKER_RERENDER');
 	}
 
 	handleGuildUpdate(guild: GuildStickersPayload): void {
@@ -153,6 +157,7 @@ class StickerStore {
 		}
 
 		this.guildStickers.delete(guildId);
+		ComponentDispatch.dispatch('STICKER_PICKER_RERENDER');
 	}
 
 	private updateGuildStickers(guildId: string, guildStickers: ReadonlyArray<GuildSticker>): void {
@@ -170,6 +175,8 @@ class StickerStore {
 		for (const sticker of sortedStickers) {
 			this.stickerById.set(sticker.id, sticker);
 		}
+
+		ComponentDispatch.dispatch('STICKER_PICKER_RERENDER');
 	}
 
 	private sortByFrecency(stickers: ReadonlyArray<GuildStickerRecord>): ReadonlyArray<GuildStickerRecord> {

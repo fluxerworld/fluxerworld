@@ -17,19 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ME} from '~/Constants';
-import {UserProfileModal} from '~/components/modals/UserProfileModal';
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import {type Profile, ProfileRecord} from '~/records/ProfileRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import UserProfileMobileStore from '~/stores/UserProfileMobileStore';
-import UserProfileStore from '~/stores/UserProfileStore';
-import UserStore from '~/stores/UserStore';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {UserProfileModal} from '@app/components/modals/UserProfileModal';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import {type Profile, ProfileRecord} from '@app/records/ProfileRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import UserProfileMobileStore from '@app/stores/UserProfileMobileStore';
+import UserProfileStore from '@app/stores/UserProfileStore';
+import UserStore from '@app/stores/UserStore';
+import {ME} from '@fluxer/constants/src/AppConstants';
 
 const logger = new Logger('UserProfiles');
 
@@ -39,7 +39,7 @@ function buildKey(userId: string, guildId?: string): string {
 	return `${userId}:${guildId ?? ME}`;
 }
 
-export const fetch = async (userId: string, guildId?: string, force = false): Promise<ProfileRecord> => {
+export async function fetch(userId: string, guildId?: string, force = false): Promise<ProfileRecord> {
 	try {
 		const key = buildKey(userId, guildId);
 
@@ -98,9 +98,9 @@ export const fetch = async (userId: string, guildId?: string, force = false): Pr
 		logger.error(`Failed to fetch profile for user ${userId}${guildId ? ` in guild ${guildId}` : ''}:`, error);
 		throw error;
 	}
-};
+}
 
-export const invalidate = (userId: string, guildId?: string): void => {
+export function invalidate(userId: string, guildId?: string): void {
 	const scope = guildId ? ` in guild ${guildId}` : '';
 	logger.debug(`Invalidating cached profile for user ${userId}${scope}`);
 	try {
@@ -109,9 +109,9 @@ export const invalidate = (userId: string, guildId?: string): void => {
 	} catch (err) {
 		logger.warn('Failed to invalidate cached profile:', err);
 	}
-};
+}
 
-export const clearCurrentUserProfiles = (): void => {
+export function clearCurrentUserProfiles(): void {
 	logger.debug('Clearing cached profiles for current user');
 	try {
 		UserProfileStore.handleProfilesClear();
@@ -126,9 +126,9 @@ export const clearCurrentUserProfiles = (): void => {
 	} catch (err) {
 		logger.warn('Failed to clear current user profiles:', err);
 	}
-};
+}
 
-export const openUserProfile = (userId: string, guildId?: string, autoFocusNote?: boolean): void => {
+export function openUserProfile(userId: string, guildId?: string, autoFocusNote?: boolean): void {
 	if (MobileLayoutStore.enabled) {
 		UserProfileMobileStore.open(userId, guildId, autoFocusNote);
 	} else {
@@ -136,4 +136,4 @@ export const openUserProfile = (userId: string, guildId?: string, autoFocusNote?
 			modal(() => <UserProfileModal userId={userId} guildId={guildId} autoFocusNote={autoFocusNote} />),
 		);
 	}
-};
+}

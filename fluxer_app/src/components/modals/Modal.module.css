@@ -45,6 +45,18 @@
 	overflow: hidden;
 }
 
+.positionAbsoluteInsetZero {
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+}
+
+.backdropCentered {
+	background: rgba(0, 0, 0, 0.35);
+	backdrop-filter: blur(8px);
+	-webkit-backdrop-filter: blur(8px);
+}
+
 .focusLock {
 	display: flex;
 	flex-direction: column;
@@ -155,7 +167,8 @@
 	border-radius: 8px;
 	box-shadow:
 		0 0 0 1px hsla(223, 7%, 20%, 0.08),
-		0 16px 40px hsla(0, 0%, 0%, 0.16);
+		0 8px 24px -4px rgba(0, 0, 0, 0.25),
+		0 20px 48px -8px rgba(0, 0, 0, 0.2);
 	overflow: hidden;
 	pointer-events: all;
 	will-change: transform, opacity;
@@ -188,12 +201,13 @@
 }
 
 .root.fullscreen {
+	position: relative;
 	flex: 1 1 auto;
-	height: 100%;
+	height: calc(100% - 2px);
 	min-height: 0;
-	max-height: var(--fullscreen-available-height);
-	width: 100%;
-	max-width: clamp(960px, 96vw, 1400px);
+	max-height: calc(var(--fullscreen-available-height) - 2px);
+	width: calc(100% - 2px);
+	max-width: calc(clamp(960px, 96vw, 1400px) - 2px);
 	border: 1px solid var(--background-header-secondary);
 	border-radius: clamp(8px, 1vw, 12px);
 	box-sizing: border-box;
@@ -201,10 +215,13 @@
 	background: var(--background-secondary);
 	box-shadow:
 		0 0 0 1px hsla(223, 7%, 20%, 0.08),
-		0 16px 40px hsla(0, 0%, 0%, 0.16);
+		0 8px 24px -4px rgba(0, 0, 0, 0.25),
+		0 20px 48px -8px rgba(0, 0, 0, 0.2);
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
+	inset: 1px;
+	margin: auto;
 }
 
 .layerFullscreenMobile .root.fullscreen {
@@ -393,7 +410,7 @@
 }
 
 .headerInner button:active {
-	transform: scale(0.95);
+	opacity: 0.8;
 }
 
 .content {
@@ -441,9 +458,7 @@
 	backdrop-filter: blur(10px);
 	color: var(--text-primary);
 	cursor: pointer;
-	box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
 	transition:
-		transform 0.12s ease,
 		opacity 0.12s ease,
 		background-color 0.12s ease,
 		border-color 0.12s ease;
@@ -456,11 +471,43 @@
 	border-color: color-mix(in srgb, var(--background-modifier-accent) 95%, transparent);
 }
 
-.insetCloseButton:active {
-	transform: scale(0.96);
-}
-
 .insetCloseButton:disabled {
 	opacity: 0.55;
 	cursor: default;
+}
+
+.contentLayout {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	padding-bottom: 16px;
+}
+
+.description {
+	display: block;
+	color: var(--text-primary-muted);
+	font-size: 14px;
+	line-height: 1.4;
+}
+
+.inputGroup {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-4);
+}
+
+.formFooter {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+	gap: 8px;
+}
+
+.formFooter > * {
+	flex: 1;
+	min-width: fit-content;
+}
+
+.centeredOnMobile .formFooter {
+	flex-direction: column-reverse;
 }

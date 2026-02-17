@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/modals/components/plutonium/PurchaseHistorySection.module.css';
+import {Button} from '@app/components/uikit/button/Button';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {Button} from '~/components/uikit/Button/Button';
-import styles from './PurchaseHistorySection.module.css';
 
 interface PurchaseHistorySectionProps {
 	loadingPortal: boolean;

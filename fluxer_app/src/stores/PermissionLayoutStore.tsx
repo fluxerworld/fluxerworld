@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {makePersistent} from '@app/lib/MobXPersistence';
 import {makeAutoObservable} from 'mobx';
-import {makePersistent} from '~/lib/MobXPersistence';
 
 export enum PermissionLayoutMode {
 	COMFY = 'comfy',

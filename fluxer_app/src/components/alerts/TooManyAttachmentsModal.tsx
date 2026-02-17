@@ -17,17 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import UserStore from '@app/stores/UserStore';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {MAX_ATTACHMENTS_PER_MESSAGE} from '~/Constants';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
 
 export const TooManyAttachmentsModal = observer(() => {
 	const {t} = useLingui();
+	const currentUser = UserStore.currentUser;
+	const maxAttachments = currentUser?.maxAttachmentsPerMessage ?? 10;
+
 	return (
 		<ConfirmModal
 			title={t`Whoa, this is heavy`}
-			description={t`You can only upload ${MAX_ATTACHMENTS_PER_MESSAGE} files at a time. Try again with fewer files.`}
+			description={
+				maxAttachments === 1
+					? t`You can only upload 1 file at a time. Try again with fewer files.`
+					: t`You can only upload ${maxAttachments} files at a time. Try again with fewer files.`
+			}
 			primaryText={t`Understood`}
 			onPrimary={() => {}}
 		/>

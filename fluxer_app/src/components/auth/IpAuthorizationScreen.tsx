@@ -17,15 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import styles from '@app/components/auth/IpAuthorizationScreen.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {Logger} from '@app/lib/Logger';
+import type {IpAuthorizationChallenge} from '@app/viewmodels/auth/AuthFlow';
 import {Trans} from '@lingui/react/macro';
 import {EnvelopeSimpleIcon, WarningCircleIcon} from '@phosphor-icons/react';
 import {useCallback, useEffect, useRef, useState} from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import {Button} from '~/components/uikit/Button/Button';
-import type {IpAuthorizationChallenge} from '~/hooks/useLoginFlow';
-import styles from './IpAuthorizationScreen.module.css';
 
-type ConnectionState = 'connecting' | 'connected' | 'error';
+type PollingState = 'polling' | 'error';
 
 interface IpAuthorizationScreenProps {
 	challenge: IpAuthorizationChallenge;
@@ -33,79 +34,67 @@ interface IpAuthorizationScreenProps {
 	onBack?: () => void;
 }
 
-const MAX_RETRY_ATTEMPTS = 3;
-const RETRY_DELAY_MS = 2000;
+const POLL_INTERVAL_MS = 2000;
+const MAX_POLL_ERRORS = 3;
+
+const logger = new Logger('IpAuthorizationScreen');
 
 const IpAuthorizationScreen = ({challenge, onAuthorized, onBack}: IpAuthorizationScreenProps) => {
 	const [resendUsed, setResendUsed] = useState(false);
 	const [resendIn, setResendIn] = useState(challenge.resendAvailableIn);
-	const [connectionState, setConnectionState] = useState<ConnectionState>('connecting');
-	const [retryCount, setRetryCount] = useState(0);
+	const [pollingState, setPollingState] = useState<PollingState>('polling');
 	const onAuthorizedRef = useRef(onAuthorized);
 	onAuthorizedRef.current = onAuthorized;
 
 	useEffect(() => {
 		setResendUsed(false);
 		setResendIn(challenge.resendAvailableIn);
-		setConnectionState('connecting');
-		setRetryCount(0);
+		setPollingState('polling');
 	}, [challenge]);
 
 	useEffect(() => {
-		let es: EventSource | null = null;
-		let retryTimeout: ReturnType<typeof setTimeout> | null = null;
+		let pollTimeout: ReturnType<typeof setTimeout> | null = null;
 		let isMounted = true;
+		let consecutiveErrors = 0;
 
-		const connect = () => {
+		const poll = async () => {
 			if (!isMounted) return;
 
-			es = AuthenticationActionCreators.subscribeToIpAuthorization(challenge.ticket);
+			try {
+				const result = await AuthenticationActionCreators.pollIpAuthorization(challenge.ticket);
 
-			es.onopen = () => {
-				if (isMounted) {
-					setConnectionState('connected');
-					setRetryCount(0);
-				}
-			};
-
-			es.onmessage = async (event) => {
-				if (!event.data) return;
-				try {
-					const data = JSON.parse(event.data);
-					if (data?.token && data?.user_id) {
-						es?.close();
-						await onAuthorizedRef.current({token: data.token, userId: data.user_id});
-					}
-				} catch {}
-			};
-
-			es.onerror = () => {
-				es?.close();
 				if (!isMounted) return;
 
-				setRetryCount((prev) => {
-					const newCount = prev + 1;
-					if (newCount < MAX_RETRY_ATTEMPTS) {
-						setConnectionState('connecting');
-						retryTimeout = setTimeout(connect, RETRY_DELAY_MS);
-					} else {
-						setConnectionState('error');
-					}
-					return newCount;
-				});
-			};
+				if (result.completed && result.token && result.user_id) {
+					await onAuthorizedRef.current({token: result.token, userId: result.user_id});
+					return;
+				}
+
+				consecutiveErrors = 0;
+				pollTimeout = setTimeout(poll, POLL_INTERVAL_MS);
+			} catch (error) {
+				if (!isMounted) return;
+
+				consecutiveErrors++;
+
+				if (consecutiveErrors >= MAX_POLL_ERRORS) {
+					setPollingState('error');
+					logger.error('Failed to poll IP authorization after max retries', error);
+				} else {
+					pollTimeout = setTimeout(poll, POLL_INTERVAL_MS);
+				}
+			}
 		};
 
-		connect();
+		poll();
 
 		return () => {
 			isMounted = false;
-			es?.close();
-			if (retryTimeout) {
-				clearTimeout(retryTimeout);
+			if (pollTimeout) {
+				clearTimeout(pollTimeout);
 			}
 		};
-	}, [challenge.ticket]);
+	}, [challenge.ticket, pollingState]);
 
 	useEffect(() => {
 		if (resendIn <= 0) return;
@@ -122,42 +111,36 @@ const IpAuthorizationScreen = ({challenge, onAuthorized, onBack}: IpAuthorizatio
 			setResendUsed(true);
 			setResendIn(30);
 		} catch (error) {
-			console.error('Failed to resend IP authorization email', error);
+			logger.error('Failed to resend IP authorization email', error);
 		}
 	}, [challenge.ticket, resendIn, resendUsed]);
 
-	const handleRetryConnection = useCallback(() => {
-		setRetryCount(0);
-		setConnectionState('connecting');
+	const handleRetry = useCallback(() => {
+		setPollingState('polling');
 	}, []);
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.icon}>
-				{connectionState === 'error' ? (
+				{pollingState === 'error' ? (
 					<WarningCircleIcon size={48} weight="fill" />
 				) : (
 					<EnvelopeSimpleIcon size={48} weight="fill" />
 				)}
 			</div>
 			<h1 className={styles.title}>
-				{connectionState === 'error' ? <Trans>Connection lost</Trans> : <Trans>Check your email</Trans>}
+				{pollingState === 'error' ? <Trans>Connection lost</Trans> : <Trans>Check your email</Trans>}
 			</h1>
 			<p className={styles.description}>
-				{connectionState === 'error' ? (
+				{pollingState === 'error' ? (
 					<Trans>We lost the connection while waiting for authorization. Please try again.</Trans>
 				) : (
 					<Trans>We emailed a link to authorize this login. Please open your inbox for {challenge.email}.</Trans>
 				)}
 			</p>
-			{connectionState === 'connecting' && retryCount > 0 && (
-				<p className={styles.retryingText}>
-					<Trans>Reconnecting...</Trans>
-				</p>
-			)}
 			<div className={styles.actions}>
-				{connectionState === 'error' ? (
-					<Button variant="primary" onClick={handleRetryConnection}>
+				{pollingState === 'error' ? (
+					<Button variant="primary" onClick={handleRetry}>
 						<Trans>Retry</Trans>
 					</Button>
 				) : (

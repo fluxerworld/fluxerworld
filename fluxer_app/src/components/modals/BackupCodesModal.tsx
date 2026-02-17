@@ -17,27 +17,31 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
+import styles from '@app/components/modals/BackupCodesModal.module.css';
+import {BackupCodesRegenerateModal} from '@app/components/modals/BackupCodesRegenerateModal';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import UserStore from '@app/stores/UserStore';
+import type {BackupCode} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CheckIcon, ClipboardIcon, DownloadIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import styles from '~/components/modals/BackupCodesModal.module.css';
-import {BackupCodesRegenerateModal} from '~/components/modals/BackupCodesRegenerateModal';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import type {BackupCode} from '~/records/UserRecord';
-import UserStore from '~/stores/UserStore';
 
-export const BackupCodesModal = observer(({backupCodes}: {backupCodes: Array<BackupCode>}) => {
+interface BackupCodesModalProps {
+	backupCodes: ReadonlyArray<BackupCode>;
+}
+
+export const BackupCodesModal = observer(({backupCodes}: BackupCodesModalProps) => {
 	const {t, i18n} = useLingui();
 	const user = UserStore.getCurrentUser()!;
 
 	return (
 		<Modal.Root size="small" centered>
-			<Modal.Header title={t`Backup codes`} />
-			<Modal.Content className={styles.content}>
+			<Modal.Header title={t`Backup Codes`} />
+			<Modal.Content contentClassName={styles.content}>
 				<p className={styles.description}>
 					<Trans>Use these codes to access your account if you lose your authenticator app.</Trans>
 				</p>

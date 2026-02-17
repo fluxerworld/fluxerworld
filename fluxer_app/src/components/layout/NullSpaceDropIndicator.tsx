@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/NullSpaceDropIndicator.module.css';
+import {DND_TYPES, type DragItem, type DropResult} from '@app/components/layout/types/DndTypes';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import {useCallback} from 'react';
 import type {ConnectableElement} from 'react-dnd';
 import {useDrop} from 'react-dnd';
-import styles from './NullSpaceDropIndicator.module.css';
-import {DND_TYPES, type DragItem, type DropResult} from './types/dnd';
 
 interface NullSpaceDropIndicatorProps {
 	isDraggingAnything: boolean;
@@ -52,7 +52,7 @@ export const NullSpaceDropIndicator = observer(
 			[onChannelDrop, variant],
 		);
 
-		const dropConnectorRef = React.useCallback(
+		const dropConnectorRef = useCallback(
 			(node: ConnectableElement | null) => {
 				dropRef(node);
 			},

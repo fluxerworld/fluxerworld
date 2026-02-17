@@ -17,17 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {NativeDragRegion} from '@app/components/layout/NativeDragRegion';
+import styles from '@app/components/modals/components/SettingsModalHeader.module.css';
+import {settingsModalStyles} from '@app/components/modals/shared/SettingsModalLayout';
+import {Button} from '@app/components/uikit/button/Button';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {AnimatePresence, motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {NativeDragRegion} from '~/components/layout/NativeDragRegion';
-import {Button} from '~/components/uikit/Button/Button';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import {settingsModalStyles} from '../shared/SettingsModalLayout';
-import styles from './SettingsModalHeader.module.css';
 
 interface SettingsModalHeaderProps {
 	title: string;
@@ -96,7 +96,7 @@ export const SettingsModalHeader: React.FC<SettingsModalHeaderProps> = observer(
 						>
 							<h1 className={styles.title}>{title}</h1>
 							<button type="button" aria-label={t`Close`} onClick={onClose} className={settingsModalStyles.closeButton}>
-								<XIcon weight="regular" className={styles.icon} />
+								<XIcon weight="bold" className={styles.icon} />
 							</button>
 						</motion.div>
 					)}

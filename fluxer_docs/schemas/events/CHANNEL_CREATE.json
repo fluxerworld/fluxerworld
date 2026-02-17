@@ -1,0 +1,17 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "CHANNEL_CREATE",
+	"description": "Sent when a new channel is created or opened for a user.",
+	"scope": "channel",
+	"scopeNote": "Guild channels dispatch to guild scope; DMs dispatch to presence scope for each recipient",
+	"dispatchedBy": [
+		"POST /guilds/:guild_id/channels",
+		"POST /users/@me/channels",
+		"PUT /channels/:channel_id/recipients/:user_id",
+		"POST /invites/:invite_code (group DM invites)"
+	],
+	"payload": {
+		"$ref": "ChannelResponse",
+		"description": "The created or opened channel object"
+	}
+}

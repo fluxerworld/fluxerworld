@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {Gift} from '@app/actions/GiftActionCreators';
+import * as GiftActionCreators from '@app/actions/GiftActionCreators';
 import {makeAutoObservable, observable, runInAction} from 'mobx';
-import type {Gift} from '~/actions/GiftActionCreators';
-import * as GiftActionCreators from '~/actions/GiftActionCreators';
 
 interface GiftState {
 	loading: boolean;

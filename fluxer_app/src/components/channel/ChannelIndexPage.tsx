@@ -17,11 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import {DMChannelView} from '@app/components/channel/channel_view/DMChannelView';
+import {GuildChannelView} from '@app/components/channel/channel_view/GuildChannelView';
+import {useLocation, useParams} from '@app/lib/router/React';
+import ChannelStore from '@app/stores/ChannelStore';
+import {FAVORITES_GUILD_ID} from '@fluxer/constants/src/AppConstants';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import {observer} from 'mobx-react-lite';
-import {DMChannelView} from '~/components/channel/channel-view/DMChannelView';
-import {GuildChannelView} from '~/components/channel/channel-view/GuildChannelView';
-import {useLocation, useParams} from '~/lib/router';
-import ChannelStore from '~/stores/ChannelStore';
+import {useEffect} from 'react';
 
 export const ChannelIndexPage = observer(() => {
 	const location = useLocation();
@@ -42,6 +46,27 @@ export const ChannelIndexPage = observer(() => {
 	const channel = ChannelStore.getChannel(channelId);
 	const isInFavorites = location.pathname.startsWith('/channels/@favorites');
 	const derivedGuildId = isInFavorites ? channel?.guildId : routeGuildId || channel?.guildId;
+
+	useEffect(() => {
+		if (!channel) {
+			return;
+		}
+
+		if (channel.type !== ChannelTypes.GUILD_CATEGORY && channel.type !== ChannelTypes.GUILD_LINK) {
+			return;
+		}
+
+		const fallbackGuildId = routeGuildId ?? (isInFavorites ? FAVORITES_GUILD_ID : undefined);
+		if (!fallbackGuildId) {
+			return;
+		}
+
+		NavigationActionCreators.selectChannel(fallbackGuildId, undefined, undefined, 'replace');
+	}, [channel, routeGuildId, isInFavorites]);
+
+	if (channel && (channel.type === ChannelTypes.GUILD_CATEGORY || channel.type === ChannelTypes.GUILD_LINK)) {
+		return null;
+	}
 
 	if (channel?.isPrivate()) {
 		return <DMChannelView channelId={channelId} />;

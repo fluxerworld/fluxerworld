@@ -17,35 +17,45 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {isLinkWrappedInAngleBrackets} from '~/utils/linkSuppressionUtils';
-import * as RegexUtils from '~/utils/RegexUtils';
+import {isLinkWrappedInAngleBrackets} from '@app/utils/LinkSuppressionUtils';
+import * as RegexUtils from '@app/utils/RegexUtils';
 
 export interface CodeLinkConfig {
-	shortHost: string;
+	urlBase: string;
 	path: string;
 }
 
 const patternCache = new Map<string, RegExp>();
 
 function createPattern(config: CodeLinkConfig): RegExp {
-	const cacheKey = `${config.shortHost}:${config.path}`;
+	const cacheKey = `${config.urlBase}:${config.path}`;
 
 	let pattern = patternCache.get(cacheKey);
 	if (pattern) {
 		return pattern;
 	}
 
-	pattern = new RegExp(
-		[
-			'(?:https?:\\/\\/)?',
-			'(?:',
-			`${RegexUtils.escapeRegex(config.shortHost)}(?:\\/#)?\\/(?!${config.path}\\/)([a-zA-Z0-9\\-]{2,32})(?![a-zA-Z0-9\\-])`,
-			'|',
-			`${RegexUtils.escapeRegex(location.host)}(?:\\/#)?\\/${config.path}\\/([a-zA-Z0-9\\-]{2,32})(?![a-zA-Z0-9\\-])`,
-			')',
-		].join(''),
-		'gi',
+	const slashIndex = config.urlBase.indexOf('/');
+	const urlBaseIncludesPath = slashIndex !== -1;
+	const branches: Array<string> = [];
+
+	if (urlBaseIncludesPath) {
+		const host = config.urlBase.slice(0, slashIndex);
+		const path = config.urlBase.slice(slashIndex);
+		branches.push(
+			`${RegexUtils.escapeRegex(host)}(?:\\/#)?${RegexUtils.escapeRegex(path)}\\/([a-zA-Z0-9\\-]{2,32})(?![a-zA-Z0-9\\-])`,
+		);
+	} else {
+		branches.push(
+			`${RegexUtils.escapeRegex(config.urlBase)}(?:\\/#)?\\/(?!${config.path}\\/)([a-zA-Z0-9\\-]{2,32})(?![a-zA-Z0-9\\-])`,
+		);
+	}
+
+	branches.push(
+		`${RegexUtils.escapeRegex(location.host)}(?:\\/#)?\\/${config.path}\\/([a-zA-Z0-9\\-]{2,32})(?![a-zA-Z0-9\\-])`,
 	);
+
+	pattern = new RegExp(['(?:https?:\\/\\/)?', '(?:', branches.join('|'), ')'].join(''), 'gi');
 
 	patternCache.set(cacheKey, pattern);
 	return pattern;

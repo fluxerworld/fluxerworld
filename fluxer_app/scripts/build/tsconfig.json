@@ -10,11 +10,15 @@
 		"resolveJsonModule": true,
 		"isolatedModules": true,
 		"verbatimModuleSyntax": true,
+		"jsx": "preserve",
 		"esModuleInterop": true,
 		"allowSyntheticDefaultImports": true,
 		"strict": true,
 		"skipLibCheck": true,
-		"forceConsistentCasingInFileNames": true
+		"forceConsistentCasingInFileNames": true,
+		"paths": {
+			"@app_scripts/*": ["./../*"]
+		}
 	},
-	"include": ["./**/*.ts"]
+	"include": ["./**/*.ts", "./**/*.tsx"]
 }

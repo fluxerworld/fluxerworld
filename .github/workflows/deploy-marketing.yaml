@@ -16,12 +16,12 @@ on:
           - stable
           - canary
         default: stable
-        description: Channel to deploy
+        description: Release channel to deploy
       ref:
         type: string
         required: false
         default: ''
-        description: Optional git ref to deploy (defaults to main/canary based on channel)
+        description: Optional git ref (defaults to the triggering branch)
 
 concurrency:
   group: deploy-fluxer-marketing-${{ github.event_name == 'workflow_dispatch' && inputs.channel || (github.ref_name == 'canary' && 'canary') || 'stable' }}
@@ -36,46 +36,35 @@ jobs:
     with:
       github_event_name: ${{ github.event_name }}
       github_ref_name: ${{ github.ref_name }}
-      github_ref: ${{ github.ref }}
       workflow_dispatch_channel: ${{ github.event_name == 'workflow_dispatch' && inputs.channel || '' }}
-      workflow_dispatch_ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || '' }}
 
   deploy:
     name: Deploy marketing
     needs: channel-vars
-    runs-on: blacksmith-2vcpu-ubuntu-2404
-    timeout-minutes: 10
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
     env:
       CHANNEL: ${{ needs.channel-vars.outputs.channel }}
       IS_CANARY: ${{ needs.channel-vars.outputs.is_canary }}
-      SOURCE_REF: ${{ needs.channel-vars.outputs.source_ref }}
       STACK_SUFFIX: ${{ needs.channel-vars.outputs.stack_suffix }}
       STACK: ${{ format('fluxer-marketing{0}', needs.channel-vars.outputs.stack_suffix) }}
       IMAGE_NAME: ${{ format('fluxer-marketing{0}', needs.channel-vars.outputs.stack_suffix) }}
       CACHE_SCOPE: ${{ format('deploy-fluxer-marketing{0}', needs.channel-vars.outputs.stack_suffix) }}
       APP_REPLICAS: ${{ needs.channel-vars.outputs.is_canary == 'true' && 1 || 2 }}
-      API_PUBLIC_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://api.canary.fluxer.app' || 'https://api.fluxer.app' }}
-      API_HOST: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'fluxer-api-canary_app:8080' || 'fluxer-api_app:8080' }}
-      APP_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://web.canary.fluxer.app' || 'https://web.fluxer.app' }}
-      MARKETING_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://canary.fluxer.app' || 'https://fluxer.app' }}
       CADDY_DOMAIN: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'canary.fluxer.app' || 'fluxer.app' }}
       RELEASE_CHANNEL: ${{ needs.channel-vars.outputs.channel }}
 
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ env.SOURCE_REF }}
+          ref: ${{ inputs.ref || '' }}
           fetch-depth: 0
 
       - name: Record deploy commit
-        run: |-
-          set -euo pipefail
-          sha=$(git rev-parse HEAD)
-          echo "Deploying commit ${sha}"
-          printf 'DEPLOY_SHA=%s\n' "$sha" >> "$GITHUB_ENV"
+        run: python3 scripts/ci/workflows/deploy_marketing.py --step record_deploy_commit
 
       - name: Set build timestamp
-        run: echo "BUILD_TIMESTAMP=$(date -u +%s)" >> "$GITHUB_ENV"
+        run: python3 scripts/ci/workflows/deploy_marketing.py --step set_build_timestamp
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -89,7 +78,7 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v6
         with:
-          context: fluxer_marketing
+          context: .
           file: fluxer_marketing/Dockerfile
           tags: ${{ env.IMAGE_NAME }}:${{ env.DEPLOY_SHA }}
           load: true
@@ -97,18 +86,16 @@ jobs:
           cache-from: type=gha,scope=${{ env.CACHE_SCOPE }}
           cache-to: type=gha,mode=max,scope=${{ env.CACHE_SCOPE }}
           build-args: |
+            BUILD_SHA=${{ env.DEPLOY_SHA }}
+            BUILD_NUMBER=${{ github.run_number }}
             BUILD_TIMESTAMP=${{ env.BUILD_TIMESTAMP }}
+            RELEASE_CHANNEL=${{ env.RELEASE_CHANNEL }}
         env:
           DOCKER_BUILD_SUMMARY: false
           DOCKER_BUILD_RECORD_UPLOAD: false
 
       - name: Install docker-pussh
-        run: |-
-          set -euo pipefail
-          mkdir -p ~/.docker/cli-plugins
-          curl -fsSL https://raw.githubusercontent.com/psviderski/unregistry/v0.3.1/docker-pussh \
-            -o ~/.docker/cli-plugins/docker-pussh
-          chmod +x ~/.docker/cli-plugins/docker-pussh
+        run: python3 scripts/ci/workflows/deploy_marketing.py --step install_docker_pussh
 
       - name: Set up SSH agent
         uses: webfactory/ssh-agent@v0.9.1
@@ -116,10 +103,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_SERVER }}
 
       - name: Add server to known hosts
-        run: |-
-          set -euo pipefail
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+        run: python3 scripts/ci/workflows/deploy_marketing.py --step add_known_hosts --server-ip ${{ secrets.SERVER_IP }}
 
       - name: Push image and deploy
         env:
@@ -127,114 +111,7 @@ jobs:
           SERVER: ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}
           STACK: ${{ env.STACK }}
           IS_CANARY: ${{ env.IS_CANARY }}
-          API_PUBLIC_ENDPOINT: ${{ env.API_PUBLIC_ENDPOINT }}
-          API_HOST: ${{ env.API_HOST }}
-          APP_ENDPOINT: ${{ env.APP_ENDPOINT }}
-          MARKETING_ENDPOINT: ${{ env.MARKETING_ENDPOINT }}
           CADDY_DOMAIN: ${{ env.CADDY_DOMAIN }}
           RELEASE_CHANNEL: ${{ env.RELEASE_CHANNEL }}
           APP_REPLICAS: ${{ env.APP_REPLICAS }}
-        run: |-
-          set -euo pipefail
-          docker pussh "${IMAGE_TAG}" "${SERVER}"
-
-          ssh "${SERVER}" \
-            "IMAGE_TAG=${IMAGE_TAG} STACK=${STACK} IS_CANARY=${IS_CANARY} API_PUBLIC_ENDPOINT=${API_PUBLIC_ENDPOINT} API_HOST=${API_HOST} APP_ENDPOINT=${APP_ENDPOINT} MARKETING_ENDPOINT=${MARKETING_ENDPOINT} CADDY_DOMAIN=${CADDY_DOMAIN} RELEASE_CHANNEL=${RELEASE_CHANNEL} APP_REPLICAS=${APP_REPLICAS} bash" << 'EOF'
-          set -euo pipefail
-
-          sudo mkdir -p "/opt/${STACK}"
-          sudo chown -R "${USER}:${USER}" "/opt/${STACK}"
-          cd "/opt/${STACK}"
-
-          cat > compose.yaml << COMPOSEEOF
-          services:
-            app:
-              image: ${IMAGE_TAG}
-              env_file:
-                - /etc/fluxer/fluxer.env
-              environment:
-                - FLUXER_API_PUBLIC_ENDPOINT=${API_PUBLIC_ENDPOINT}
-                - FLUXER_API_HOST=${API_HOST}
-                - FLUXER_APP_ENDPOINT=${APP_ENDPOINT}
-                - FLUXER_CDN_ENDPOINT=https://fluxerstatic.com
-                - FLUXER_MARKETING_ENDPOINT=${MARKETING_ENDPOINT}
-                - FLUXER_MARKETING_PORT=8080
-                - FLUXER_PATH_MARKETING=/
-                - RELEASE_CHANNEL=${RELEASE_CHANNEL}
-                - FLUXER_METRICS_HOST=fluxer-metrics_app:8080
-              deploy:
-                replicas: ${APP_REPLICAS}
-                restart_policy:
-                  condition: on-failure
-                  delay: 5s
-                  max_attempts: 3
-                update_config:
-                  parallelism: 1
-                  delay: 10s
-                  order: start-first
-                rollback_config:
-                  parallelism: 1
-                  delay: 10s
-                labels:
-                  caddy: "${CADDY_DOMAIN}"
-                  caddy.reverse_proxy: "{{upstreams 8080}}"
-                  caddy.header.Strict-Transport-Security: "max-age=31536000; includeSubDomains; preload"
-                  caddy.header.X-Xss-Protection: "1; mode=block"
-                  caddy.header.X-Content-Type-Options: "nosniff"
-                  caddy.header.Referrer-Policy: "strict-origin-when-cross-origin"
-                  caddy.header.X-Frame-Options: "DENY"
-          COMPOSEEOF
-
-          if [[ "${IS_CANARY}" == "true" ]]; then
-            cat >> compose.yaml << 'COMPOSEEOF'
-                  caddy.header.X-Robots-Tag: "noindex, nofollow, nosnippet, noimageindex"
-                  caddy.@channels.path: "/channels /channels/*"
-                  caddy.redir: "@channels https://web.canary.fluxer.app{uri}"
-          COMPOSEEOF
-          else
-            cat >> compose.yaml << 'COMPOSEEOF'
-                  caddy.redir_0: "/channels/* https://web.fluxer.app{uri}"
-                  caddy.redir_1: "/channels https://web.fluxer.app{uri}"
-                  caddy.redir_2: "/delete-my-account https://fluxer.app/help/articles/1445724566704881664 302"
-                  caddy.redir_3: "/delete-my-data https://fluxer.app/help/articles/1445730947679911936 302"
-                  caddy.redir_4: "/export-my-data https://fluxer.app/help/articles/1445731738851475456 302"
-                  caddy.redir_5: "/bugs https://fluxer.app/help/articles/1447264362996695040 302"
-                  caddy_1: "www.fluxer.app"
-                  caddy_1.redir: "https://fluxer.app{uri}"
-                  caddy_3: "fluxer.gg"
-                  caddy_3.redir: "https://web.fluxer.app/invite{uri}"
-                  caddy_4: "fluxer.gift"
-                  caddy_4.redir: "https://web.fluxer.app/gift{uri}"
-                  caddy_5: "fluxerapp.com"
-                  caddy_5.redir: "https://fluxer.app{uri}"
-                  caddy_6: "www.fluxerapp.com"
-                  caddy_6.redir: "https://fluxer.app{uri}"
-                  caddy_7: "fluxer.dev"
-                  caddy_7.redir: "https://docs.fluxer.app{uri}"
-                  caddy_8: "www.fluxer.dev"
-                  caddy_8.redir: "https://docs.fluxer.app{uri}"
-          COMPOSEEOF
-          fi
-
-          cat >> compose.yaml << 'COMPOSEEOF'
-              networks:
-                - fluxer-shared
-              healthcheck:
-                test: ['CMD', 'curl', '-f', 'http://localhost:8080/']
-                interval: 30s
-                timeout: 10s
-                retries: 3
-                start_period: 40s
-
-          networks:
-            fluxer-shared:
-              external: true
-          COMPOSEEOF
-
-          docker stack deploy \
-            --with-registry-auth \
-            --detach=false \
-            --resolve-image never \
-            -c compose.yaml \
-            "${STACK}"
-          EOF
+        run: python3 scripts/ci/workflows/deploy_marketing.py --step push_and_deploy

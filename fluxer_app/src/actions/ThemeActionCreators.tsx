@@ -17,24 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AccessibilityActionCreators from '@app/actions/AccessibilityActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {ThemeAcceptModal} from '@app/components/modals/ThemeAcceptModal';
+import {Logger} from '@app/lib/Logger';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
-import * as AccessibilityActionCreators from '~/actions/AccessibilityActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {ThemeAcceptModal} from '~/components/modals/ThemeAcceptModal';
-import {Logger} from '~/lib/Logger';
-import type {ThemeData} from '~/stores/ThemeStore';
-import ThemeStore from '~/stores/ThemeStore';
 
 const logger = new Logger('Themes');
 
-export const fetchWithCoalescing = async (themeId: string): Promise<ThemeData> => {
-	return ThemeStore.fetchTheme(themeId);
-};
-
-export const applyTheme = (css: string, i18n: I18n): void => {
+export function applyTheme(css: string, i18n: I18n): void {
 	try {
 		AccessibilityActionCreators.update({customThemeCss: css});
 		ToastActionCreators.success(i18n._(msg`Imported theme has been applied.`));
@@ -43,18 +37,16 @@ export const applyTheme = (css: string, i18n: I18n): void => {
 		ToastActionCreators.error(i18n._(msg`We couldn't apply this theme.`));
 		throw error;
 	}
-};
+}
 
-export const openAcceptModal = (themeId: string | undefined, i18n: I18n): void => {
+export function openAcceptModal(themeId: string | undefined, i18n: I18n): void {
 	if (!themeId) {
 		ToastActionCreators.error(i18n._(msg`This theme link is missing data.`));
 		return;
 	}
 
-	void fetchWithCoalescing(themeId).catch(() => {});
-
 	ModalActionCreators.pushWithKey(
 		modal(() => <ThemeAcceptModal themeId={themeId} />),
 		`theme-accept-${themeId}`,
 	);
-};
+}

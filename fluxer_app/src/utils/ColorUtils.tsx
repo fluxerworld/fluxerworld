@@ -17,16 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-const pad2 = (s: string) => (s.length === 1 ? `0${s}` : s);
+const pad2 = (value: string): string => (value.length === 1 ? `0${value}` : value);
 
-export const int2hex = (colorInt: number) => {
+export function int2hex(colorInt: number) {
 	const r = (colorInt >> 16) & 0xff;
 	const g = (colorInt >> 8) & 0xff;
 	const b = colorInt & 0xff;
 	return `#${pad2(r.toString(16))}${pad2(g.toString(16))}${pad2(b.toString(16))}`;
-};
+}
 
-export const int2rgba = (colorInt: number, alpha?: number) => {
+export function int2rgba(colorInt: number, alpha?: number) {
 	if (alpha == null) {
 		alpha = ((colorInt >> 24) & 0xff) / 255;
 	}
@@ -36,9 +36,9 @@ export const int2rgba = (colorInt: number, alpha?: number) => {
 	const b = colorInt & 0xff;
 
 	return `rgba(${r}, ${g}, ${b}, ${alpha})`;
-};
+}
 
-export const int2rgb = (colorInt: number) => {
+export function int2rgb(colorInt: number) {
 	if (colorInt === 0) {
 		return 'rgb(219, 222, 225)';
 	}
@@ -46,9 +46,9 @@ export const int2rgb = (colorInt: number) => {
 	const g = (colorInt >> 8) & 0xff;
 	const b = colorInt & 0xff;
 	return `rgb(${r}, ${g}, ${b})`;
-};
+}
 
-export const getBestContrastColor = (colorInt: number): 'black' | 'white' => {
+export function getBestContrastColor(colorInt: number): 'black' | 'white' {
 	if (colorInt === 0) {
 		return 'black';
 	}
@@ -68,4 +68,40 @@ export const getBestContrastColor = (colorInt: number): 'black' | 'white' => {
 	const luminance = 0.2126 * rLinear + 0.7152 * gLinear + 0.0722 * bLinear;
 
 	return luminance > 0.5 ? 'black' : 'white';
-};
+}
+
+export const AVATAR_BACKGROUND_DIM_AMOUNT = 0.12;
+
+function clampChannel(value: number): number {
+	return Math.max(0, Math.min(255, Math.round(value)));
+}
+
+function dimHexColor(color: string, amount: number): string | null {
+	const match = /^#([0-9a-f]{6})$/i.exec(color.trim());
+	if (!match) return null;
+
+	const hex = match[1];
+	const r = Number.parseInt(hex.slice(0, 2), 16);
+	const g = Number.parseInt(hex.slice(2, 4), 16);
+	const b = Number.parseInt(hex.slice(4, 6), 16);
+
+	const factor = 1 - amount;
+	return `rgb(${clampChannel(r * factor)}, ${clampChannel(g * factor)}, ${clampChannel(b * factor)})`;
+}
+
+function dimRgbColor(color: string, amount: number): string | null {
+	const match = /^rgb\(\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*,\s*([0-9]{1,3})\s*\)$/i.exec(color.trim());
+	if (!match) return null;
+
+	const r = Number(match[1]);
+	const g = Number(match[2]);
+	const b = Number(match[3]);
+
+	const factor = 1 - amount;
+	return `rgb(${clampChannel(r * factor)}, ${clampChannel(g * factor)}, ${clampChannel(b * factor)})`;
+}
+
+export function dimColor(color: string, amount = AVATAR_BACKGROUND_DIM_AMOUNT): string {
+	const clampedAmount = Math.max(0, Math.min(1, amount));
+	return dimHexColor(color, clampedAmount) ?? dimRgbColor(color, clampedAmount) ?? color;
+}

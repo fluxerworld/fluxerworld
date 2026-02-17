@@ -17,9 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/form/Select.module.css';
+import {SelectBottomSheet} from '@app/components/form/SelectBottomSheet';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {PASSWORD_MANAGER_IGNORE_ATTRIBUTES} from '@app/lib/PasswordManagerAutocomplete';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import {getSelectStyles} from '@app/utils/SelectUtils';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import type React from 'react';
+import {useCallback, useEffect, useId, useMemo, useRef, useState} from 'react';
 import ReactSelect, {
 	type ActionMeta,
 	type ControlProps,
@@ -33,25 +40,20 @@ import ReactSelect, {
 	type Props as ReactSelectPropsConfig,
 	components as reactSelectComponents,
 } from 'react-select';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import {getSelectStyles} from '~/utils/SelectUtils';
-import styles from './Select.module.css';
-import {SelectBottomSheet} from './SelectBottomSheet';
 
 type Primitive = string | number | null;
 
-export type SelectOption<V extends Primitive = string> = {
+export interface SelectOption<V extends Primitive = string> {
 	value: V;
 	label: string;
 	isDisabled?: boolean;
-};
+}
 
-type SelectGroup<V extends Primitive> = GroupBase<SelectOption<V>>;
-type ReactSelectProps<V extends Primitive, IsMulti extends boolean> = ReactSelectPropsConfig<
-	SelectOption<V>,
+type SelectGroup<V extends Primitive, O extends SelectOption<V>> = GroupBase<O>;
+type ReactSelectProps<V extends Primitive, IsMulti extends boolean, O extends SelectOption<V>> = ReactSelectPropsConfig<
+	O,
 	IsMulti,
-	SelectGroup<V>
+	SelectGroup<V, O>
 >;
 
 interface SelectProps<
@@ -76,16 +78,17 @@ interface SelectProps<
 	openMenuOnFocus?: boolean;
 	closeMenuOnSelect?: boolean;
 	autoSelectExactMatch?: boolean;
-	components?: ReactSelectProps<V, IsMulti>['components'];
+	components?: ReactSelectProps<V, IsMulti, O>['components'];
 	isLoading?: boolean;
 	isClearable?: boolean;
-	filterOption?: ReactSelectProps<V, IsMulti>['filterOption'];
+	filterOption?: ReactSelectProps<V, IsMulti, O>['filterOption'];
 	isMulti?: IsMulti;
-	menuPlacement?: ReactSelectProps<V, IsMulti>['menuPlacement'];
-	menuShouldScrollIntoView?: ReactSelectProps<V, IsMulti>['menuShouldScrollIntoView'];
+	menuPlacement?: ReactSelectProps<V, IsMulti, O>['menuPlacement'];
+	menuShouldScrollIntoView?: ReactSelectProps<V, IsMulti, O>['menuShouldScrollIntoView'];
 	maxMenuHeight?: number;
 	renderOption?: (option: O, isSelected: boolean) => React.ReactNode;
 	renderValue?: (option: IsMulti extends true ? Array<O> : O | null) => React.ReactNode;
+	density?: 'default' | 'compact' | 'compactOverlay';
 }
 
 const SelectDesktop = observer(function SelectDesktop<
@@ -120,16 +123,17 @@ const SelectDesktop = observer(function SelectDesktop<
 	maxMenuHeight: maxMenuHeightProp,
 	renderOption,
 	renderValue,
+	density = 'default',
 }: SelectProps<V, IsMulti, O>) {
-	const generatedId = React.useId();
+	const generatedId = useId();
 	const inputId = id ?? generatedId;
-	const controlRef = React.useRef<HTMLDivElement | null>(null);
-	const inputRef = React.useRef<HTMLInputElement | null>(null);
-	const menuListRef = React.useRef<HTMLDivElement | null>(null);
-	const [calculatedMenuPlacement, setCalculatedMenuPlacement] = React.useState<MenuPlacement>('auto');
-	const [calculatedMaxHeight, setCalculatedMaxHeight] = React.useState<number>(300);
+	const controlRef = useRef<HTMLDivElement | null>(null);
+	const inputRef = useRef<HTMLInputElement | null>(null);
+	const menuListRef = useRef<HTMLDivElement | null>(null);
+	const [calculatedMenuPlacement, setCalculatedMenuPlacement] = useState<MenuPlacement>('auto');
+	const [calculatedMaxHeight, setCalculatedMaxHeight] = useState<number>(300);
 
-	const selectedOption = React.useMemo(() => {
+	const selectedOption = useMemo(() => {
 		if (isMulti) {
 			if (!Array.isArray(value)) return [];
 			return options.filter((option) => (value as Array<V>).includes(option.value));
@@ -137,16 +141,13 @@ const SelectDesktop = observer(function SelectDesktop<
 		return options.find((option) => option.value === value) || null;
 	}, [isMulti, options, value]);
 
-	const handleChange = (
-		newValue: OnChangeValue<SelectOption<V>, IsMulti>,
-		_actionMeta: ActionMeta<SelectOption<V>>,
-	) => {
+	const handleChange = (newValue: OnChangeValue<O, IsMulti>, _actionMeta: ActionMeta<O>) => {
 		if (isMulti) {
-			const vals = (newValue as MultiValue<SelectOption<V>>).map((o) => o.value);
+			const vals = (newValue as MultiValue<O>).map((o) => o.value);
 			(onChange as (value: Array<V>) => void)(vals);
 		} else {
 			if (newValue) {
-				(onChange as (value: V) => void)((newValue as SelectOption<V>).value);
+				(onChange as (value: V) => void)((newValue as O).value);
 			}
 		}
 	};
@@ -201,11 +202,11 @@ const SelectDesktop = observer(function SelectDesktop<
 		}
 	};
 
-	const mergedComponents = React.useMemo(() => {
-		const Control = (controlProps: ControlProps<SelectOption<V>, IsMulti>) => (
+	const mergedComponents = useMemo(() => {
+		const Control = (controlProps: ControlProps<O, IsMulti>) => (
 			<reactSelectComponents.Control
 				{...controlProps}
-				innerRef={(node) => {
+				innerRef={(node: HTMLDivElement | null) => {
 					controlRef.current = node;
 					const ref = controlProps.innerRef;
 					if (typeof ref === 'function') ref(node);
@@ -214,10 +215,11 @@ const SelectDesktop = observer(function SelectDesktop<
 			/>
 		);
 
-		const Input = (inputProps: InputProps<SelectOption<V>, IsMulti>) => (
+		const Input = (inputProps: InputProps<O, IsMulti>) => (
 			<reactSelectComponents.Input
 				{...inputProps}
-				innerRef={(node) => {
+				{...PASSWORD_MANAGER_IGNORE_ATTRIBUTES}
+				innerRef={(node: HTMLInputElement | null) => {
 					inputRef.current = node;
 					const ref = inputProps.innerRef;
 					if (typeof ref === 'function') ref(node);
@@ -227,12 +229,12 @@ const SelectDesktop = observer(function SelectDesktop<
 		);
 
 		const MenuListComponent = componentsProp?.MenuList ?? reactSelectComponents.MenuList;
-		const MenuList = (menuListProps: MenuListProps<SelectOption<V>, IsMulti, SelectGroup<V>>) => {
+		const MenuList = (menuListProps: MenuListProps<O, IsMulti, SelectGroup<V, O>>) => {
 			const {innerRef, ...restProps} = menuListProps;
 			return (
 				<MenuListComponent
 					{...restProps}
-					innerRef={(node) => {
+					innerRef={(node: HTMLDivElement | null) => {
 						menuListRef.current = node;
 						if (typeof innerRef === 'function') {
 							innerRef(node);
@@ -245,7 +247,7 @@ const SelectDesktop = observer(function SelectDesktop<
 		};
 
 		const OptionComponent = componentsProp?.Option ?? reactSelectComponents.Option;
-		const Option = (optionProps: OptionProps<SelectOption<V>, IsMulti, SelectGroup<V>>) => {
+		const Option = (optionProps: OptionProps<O, IsMulti, SelectGroup<V, O>>) => {
 			const {innerProps, ...restProps} = optionProps;
 			const {onMouseMove: _onMouseMove, onMouseOver: _onMouseOver, ...innerPropsWithoutHover} = innerProps;
 			return <OptionComponent {...restProps} innerProps={innerPropsWithoutHover} />;
@@ -260,7 +262,7 @@ const SelectDesktop = observer(function SelectDesktop<
 		};
 	}, [componentsProp]);
 
-	const updateMenuPlacement = React.useCallback(() => {
+	const updateMenuPlacement = useCallback(() => {
 		const controlNode = controlRef.current;
 		if (!controlNode) return;
 
@@ -276,7 +278,7 @@ const SelectDesktop = observer(function SelectDesktop<
 		setCalculatedMaxHeight(Math.max(180, Math.min(availableSpace, 300)));
 	}, []);
 
-	const handleDocumentScroll = React.useCallback(
+	const handleDocumentScroll = useCallback(
 		(event: Event) => {
 			if (menuListRef.current && event.target instanceof Node && menuListRef.current.contains(event.target)) {
 				return;
@@ -286,7 +288,7 @@ const SelectDesktop = observer(function SelectDesktop<
 		[updateMenuPlacement],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		updateMenuPlacement();
 		const handleResize = () => updateMenuPlacement();
 		window.addEventListener('resize', handleResize);
@@ -297,7 +299,7 @@ const SelectDesktop = observer(function SelectDesktop<
 		};
 	}, [updateMenuPlacement, handleDocumentScroll]);
 
-	const handleMenuOpen = React.useCallback(() => {
+	const handleMenuOpen = useCallback(() => {
 		updateMenuPlacement();
 	}, [updateMenuPlacement]);
 
@@ -310,14 +312,14 @@ const SelectDesktop = observer(function SelectDesktop<
 			)}
 			<div className={className}>
 				<FocusRing focusTarget={inputRef} ringTarget={controlRef} offset={-2} enabled={!disabled} within={true}>
-					<ReactSelect<SelectOption<V>, IsMulti>
+					<ReactSelect<O, IsMulti>
 						inputId={inputId}
-						value={selectedOption as SelectOption<V> | Array<SelectOption<V>> | null}
+						value={selectedOption as O | Array<O> | null}
 						options={options}
 						onChange={handleChange}
 						isDisabled={disabled}
 						placeholder={placeholder}
-						styles={getSelectStyles<SelectOption<V>, IsMulti>(!!error)}
+						styles={getSelectStyles<O, IsMulti>(!!error, density)}
 						isSearchable={isSearchable}
 						tabIndex={tabIndex}
 						tabSelectsValue={tabSelectsValue}
@@ -336,7 +338,7 @@ const SelectDesktop = observer(function SelectDesktop<
 						onBlur={handleBlur}
 						isMulti={isMulti}
 						onMenuOpen={handleMenuOpen}
-						formatOptionLabel={(option, {context}) => {
+						formatOptionLabel={(option: O, {context}: {context: 'menu' | 'value'}) => {
 							const isSelected = Array.isArray(selectedOption)
 								? selectedOption.some((o) => o.value === option.value)
 								: selectedOption?.value === option.value;

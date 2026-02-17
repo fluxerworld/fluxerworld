@@ -18,37 +18,26 @@ permissions:
 jobs:
   migrate:
     name: Run database migrations
-    runs-on: blacksmith-2vcpu-ubuntu-2404
-    timeout-minutes: 10
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v6
 
-      - name: Set up Rust
-        uses: dtolnay/rust-toolchain@stable
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
 
-      - name: Cache Rust dependencies
-        uses: actions/cache@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            scripts/cassandra-migrate/target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('scripts/cassandra-migrate/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
+          node-version: 24
+          cache: pnpm
+          cache-dependency-path: pnpm-lock.yaml
 
-      - name: Build migration tool
-        run: |
-          set -euo pipefail
-          cd scripts/cassandra-migrate
-          cargo build --release
+      - name: Install dependencies
+        run: python3 scripts/ci/workflows/migrate_cassandra.py --step install_dependencies
 
       - name: Validate migrations
-        run: |
-          set -euo pipefail
-          ./scripts/cassandra-migrate/target/release/cassandra-migrate check
+        run: python3 scripts/ci/workflows/migrate_cassandra.py --step validate_migrations
 
       - name: Set up SSH agent
         uses: webfactory/ssh-agent@v0.9.1
@@ -56,70 +45,23 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_SERVER }}
 
       - name: Add server to known hosts
-        run: |
-          set -euo pipefail
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+        run: python3 scripts/ci/workflows/migrate_cassandra.py --step add_known_hosts --server-ip ${{ secrets.SERVER_IP }}
 
       - name: Set up SSH tunnel for Cassandra
-        run: |
-          set -euo pipefail
-          nohup ssh -N -o ConnectTimeout=30 -o ServerAliveInterval=10 -o ServerAliveCountMax=30 -o ExitOnForwardFailure=yes -L 9042:localhost:9042 ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} > /tmp/ssh-tunnel.log 2>&1 &
-          SSH_TUNNEL_PID=$!
-          printf 'SSH_TUNNEL_PID=%s\n' "$SSH_TUNNEL_PID" >> "$GITHUB_ENV"
-
-          for i in {1..30}; do
-            if timeout 1 bash -c "echo > /dev/tcp/localhost/9042" 2>/dev/null; then
-              echo "SSH tunnel established"
-              break
-            elif command -v ss >/dev/null 2>&1 && ss -tln | grep -q ":9042 "; then
-              echo "SSH tunnel established"
-              break
-            elif command -v netstat >/dev/null 2>&1 && netstat -tln | grep -q ":9042 "; then
-              echo "SSH tunnel established"
-              break
-            fi
-            if [ $i -eq 30 ]; then
-              cat /tmp/ssh-tunnel.log || true
-              exit 1
-            fi
-            sleep 1
-          done
-
-          ps -p $SSH_TUNNEL_PID > /dev/null || exit 1
+        run: python3 scripts/ci/workflows/migrate_cassandra.py --step setup_tunnel --server-user ${{ secrets.SERVER_USER }} --server-ip ${{ secrets.SERVER_IP }}
 
       - name: Test Cassandra connection
         env:
           CASSANDRA_USERNAME: ${{ secrets.CASSANDRA_USERNAME }}
           CASSANDRA_PASSWORD: ${{ secrets.CASSANDRA_PASSWORD }}
-        run: |
-          set -euo pipefail
-          ./scripts/cassandra-migrate/target/release/cassandra-migrate \
-            --host localhost \
-            --port 9042 \
-            --username "${CASSANDRA_USERNAME}" \
-            --password "${CASSANDRA_PASSWORD}" \
-            test
+        run: python3 scripts/ci/workflows/migrate_cassandra.py --step test_connection
 
       - name: Run migrations
         env:
           CASSANDRA_USERNAME: ${{ secrets.CASSANDRA_USERNAME }}
           CASSANDRA_PASSWORD: ${{ secrets.CASSANDRA_PASSWORD }}
-        run: |
-          set -euo pipefail
-          ./scripts/cassandra-migrate/target/release/cassandra-migrate \
-            --host localhost \
-            --port 9042 \
-            --username "${CASSANDRA_USERNAME}" \
-            --password "${CASSANDRA_PASSWORD}" \
-            up
+        run: python3 scripts/ci/workflows/migrate_cassandra.py --step run_migrations
 
       - name: Close SSH tunnel
         if: always()
-        run: |
-          set -euo pipefail
-          if [ -n "${SSH_TUNNEL_PID:-}" ]; then
-            kill "$SSH_TUNNEL_PID" 2>/dev/null || true
-          fi
-          pkill -f "ssh.*9042:localhost:9042" || true
-          rm -f /tmp/ssh-tunnel.log || true
+        run: python3 scripts/ci/workflows/migrate_cassandra.py --step close_tunnel

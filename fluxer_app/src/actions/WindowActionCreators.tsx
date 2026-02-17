@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import GuildReadStateStore from '~/stores/GuildReadStateStore';
-import IdleStore from '~/stores/IdleStore';
-import NotificationStore from '~/stores/NotificationStore';
-import WindowStore from '~/stores/WindowStore';
+import GuildReadStateStore from '@app/stores/GuildReadStateStore';
+import IdleStore from '@app/stores/IdleStore';
+import NotificationStore from '@app/stores/NotificationStore';
+import WindowStore from '@app/stores/WindowStore';
 
-export const focus = (focused: boolean): void => {
+export function focused(focused: boolean): void {
 	WindowStore.setFocused(focused);
 	GuildReadStateStore.handleWindowFocus();
 	NotificationStore.handleWindowFocus({focused});
@@ -30,12 +30,12 @@ export const focus = (focused: boolean): void => {
 	if (focused) {
 		IdleStore.recordActivity();
 	}
-};
+}
 
-export const resized = (): void => {
+export function resized(): void {
 	WindowStore.updateWindowSize();
-};
+}
 
-export const visibilityChanged = (visible: boolean): void => {
+export function visibilityChanged(visible: boolean): void {
 	WindowStore.setVisible(visible);
-};
+}

@@ -17,35 +17,36 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import * as InviteActionCreators from '@app/actions/InviteActionCreators';
+import {AuthErrorState} from '@app/components/auth/AuthErrorState';
+import {AuthLoadingState} from '@app/components/auth/AuthLoadingState';
+import {AuthLoginLayout} from '@app/components/auth/AuthLoginLayout';
+import sharedStyles from '@app/components/auth/AuthPageStyles.module.css';
+import {AuthRouterLink} from '@app/components/auth/AuthRouterLink';
+import {useDesktopHandoffFlow} from '@app/components/auth/auth_login_core/useDesktopHandoffFlow';
+import {DesktopDeepLinkPrompt} from '@app/components/auth/DesktopDeepLinkPrompt';
+import {HandoffCodeDisplay} from '@app/components/auth/HandoffCodeDisplay';
+import {GuildInviteHeader, InviteHeader} from '@app/components/auth/InviteHeader';
+import MfaScreen from '@app/components/auth/MfaScreen';
+import {Button} from '@app/components/uikit/button/Button';
+import {useAuthLayoutContext} from '@app/contexts/AuthLayoutContext';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import {useLocation, useParams} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import AccountManager from '@app/stores/AccountManager';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import InviteStore from '@app/stores/InviteStore';
+import {isGroupDmInvite, isGuildInvite} from '@app/types/InviteTypes';
+import {getGuildSplashURL} from '@app/utils/AvatarUtils';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import {setPathQueryParams} from '@app/utils/UrlUtils';
+import type {LoginSuccessPayload} from '@app/viewmodels/auth/AuthFlow';
+import {GuildFeatures, GuildSplashCardAlignment} from '@fluxer/constants/src/GuildConstants';
+import type {Invite} from '@fluxer/schema/src/domains/invite/InviteSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useCallback, useEffect, useMemo} from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import * as InviteActionCreators from '~/actions/InviteActionCreators';
-import {GuildFeatures, GuildSplashCardAlignment} from '~/Constants';
-import {AuthErrorState} from '~/components/auth/AuthErrorState';
-import {AuthLoadingState} from '~/components/auth/AuthLoadingState';
-import {useDesktopHandoffFlow} from '~/components/auth/AuthLoginCore/useDesktopHandoffFlow';
-import {AuthLoginLayout} from '~/components/auth/AuthLoginLayout';
-import sharedStyles from '~/components/auth/AuthPageStyles.module.css';
-import {AuthRouterLink} from '~/components/auth/AuthRouterLink';
-import {DesktopDeepLinkPrompt} from '~/components/auth/DesktopDeepLinkPrompt';
-import {HandoffCodeDisplay} from '~/components/auth/HandoffCodeDisplay';
-import {GuildInviteHeader, InviteHeader} from '~/components/auth/InviteHeader';
-import MfaScreen from '~/components/auth/MfaScreen';
-import {Button} from '~/components/uikit/Button/Button';
-import {useAuthLayoutContext} from '~/contexts/AuthLayoutContext';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import type {LoginSuccessPayload} from '~/hooks/useLoginFlow';
-import {useLocation, useParams} from '~/lib/router';
-import {Routes} from '~/Routes';
-import type {Invite} from '~/records/MessageRecord';
-import AccountManager from '~/stores/AccountManager';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import InviteStore from '~/stores/InviteStore';
-import {isGroupDmInvite, isGuildInvite} from '~/types/InviteTypes';
-import {getGuildSplashURL} from '~/utils/AvatarUtils';
-import * as RouterUtils from '~/utils/RouterUtils';
 
 interface InviteLoginPageProps {
 	code: string;
@@ -56,15 +57,11 @@ const InviteLoginPage = observer(function InviteLoginPage({code, invite}: Invite
 	const location = useLocation();
 	const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
 
-	const rawRedirect = params.get('redirect_to');
-	const isDesktopHandoff = params.get('desktop_handoff') === '1';
+	const rawRedirect = params['get']('redirect_to');
+	const isDesktopHandoff = params['get']('desktop_handoff') === '1';
+	const registerSearch = rawRedirect ? {redirect_to: rawRedirect} : undefined;
 	const redirectPath = useMemo(() => {
-		const urlParams = new URLSearchParams();
-		urlParams.set('invite', code);
-		if (rawRedirect) {
-			urlParams.set('redirect_to', rawRedirect);
-		}
-		return `/${urlParams.toString() ? `?${urlParams.toString()}` : ''}`;
+		return setPathQueryParams('/', {invite: code, redirect_to: rawRedirect});
 	}, [code, rawRedirect]);
 
 	return (
@@ -80,7 +77,7 @@ const InviteLoginPage = observer(function InviteLoginPage({code, invite}: Invite
 			}
 			showTitle={false}
 			registerLink={
-				<AuthRouterLink to={Routes.inviteRegister(code)} search={{redirect_to: rawRedirect || undefined}}>
+				<AuthRouterLink to={Routes.inviteRegister(code)} search={registerSearch}>
 					<Trans>Register</Trans>
 				</AuthRouterLink>
 			}
@@ -92,8 +89,8 @@ const InviteLoginPageMFA = observer(function InviteLoginPageMFA() {
 	const location = useLocation();
 	const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
 
-	const isDesktopHandoff = params.get('desktop_handoff') === '1';
-	const rawRedirect = params.get('redirect_to');
+	const isDesktopHandoff = params['get']('desktop_handoff') === '1';
+	const rawRedirect = params['get']('redirect_to');
 	const redirectTo = isDesktopHandoff ? undefined : rawRedirect || '/';
 
 	const mfaTicket = AuthenticationStore.currentMfaTicket;

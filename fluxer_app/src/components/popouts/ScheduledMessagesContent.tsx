@@ -17,28 +17,30 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ScheduledMessageActionCreators from '@app/actions/ScheduledMessageActionCreators';
+import styles from '@app/components/popouts/ScheduledMessagesContent.module.css';
+import previewStyles from '@app/components/shared/MessagePreview.module.css';
+import {Scroller} from '@app/components/uikit/Scroller';
+import ScheduledMessagesStore from '@app/stores/ScheduledMessagesStore';
+import {getCurrentLocale} from '@app/utils/LocaleUtils';
+import {formatScheduledMessage} from '@fluxer/date_utils/src/DateFormatting';
 import {useLingui} from '@lingui/react/macro';
 import {FlagCheckeredIcon, WarningCircleIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ScheduledMessageActionCreators from '~/actions/ScheduledMessageActionCreators';
-import previewStyles from '~/components/shared/MessagePreview.module.css';
-import {Scroller} from '~/components/uikit/Scroller';
-import ScheduledMessagesStore from '~/stores/ScheduledMessagesStore';
-import styles from './ScheduledMessagesContent.module.css';
+import {useCallback, useEffect, useState} from 'react';
 
 export const ScheduledMessagesContent = observer(() => {
 	const {t, i18n} = useLingui();
 	const {scheduledMessages, fetched, fetching} = ScheduledMessagesStore;
-	const [cancellingId, setCancellingId] = React.useState<string | null>(null);
+	const [cancellingId, setCancellingId] = useState<string | null>(null);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!fetched && !fetching) {
 			ScheduledMessageActionCreators.fetchScheduledMessages();
 		}
 	}, [fetched, fetching]);
 
-	const handleCancel = React.useCallback(
+	const handleCancel = useCallback(
 		async (messageId: string) => {
 			setCancellingId(messageId);
 			try {
@@ -72,19 +74,14 @@ export const ScheduledMessagesContent = observer(() => {
 
 	const formatScheduledAt = (message: (typeof scheduledMessages)[number]) => {
 		try {
-			const formatter = new Intl.DateTimeFormat(undefined, {
-				dateStyle: 'medium',
-				timeStyle: 'short',
-				timeZone: message.timezone,
-			});
-			return formatter.format(message.scheduledAt);
+			return formatScheduledMessage(message.scheduledAt, getCurrentLocale(), message.timezone);
 		} catch {
 			return `${message.scheduledLocalAt} (${message.timezone})`;
 		}
 	};
 
 	return (
-		<Scroller className={previewStyles.scroller} key="scheduled-messages-scroller" reserveScrollbarTrack>
+		<Scroller className={previewStyles.scroller} key="scheduled-messages-scroller">
 			{scheduledMessages.map((message) => (
 				<div key={message.id} className={previewStyles.previewCard}>
 					<div className={styles.cardHeader}>

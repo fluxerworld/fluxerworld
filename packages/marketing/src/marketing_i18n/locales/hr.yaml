@@ -1,0 +1,440 @@
+app.communities.community: Zajednica
+app.communities.community_support: Podrška za zajednice
+app.communities.featured_in_discovery: Istaknuto u otkrivanju
+app.communities.moderation.actions_and_tools: Moderatorske radnje i alati
+app.communities.moderation.report_people_or_communities: Prijavi osobe ili zajednice da Fluxer ostane siguran za sve.
+app.communities.moderation.tools: Alati za moderiranje
+app.communities.roles_permissions_audit.audit_logs: Dnevnici aktivnosti za transparentnost
+app.communities.roles_permissions_audit.granular_roles_and_permissions: Detaljne uloge i dopuštenja
+app.communities.roles_permissions_audit.keep_running_smoothly: Neka ti zajednica radi glatko uz uloge, dopuštenja i dnevnike.
+app.communities.title: Zajednice
+app.communities.verification.label: Verifikacija zajednice
+app.communities.verification.value_statement: Tvoja zajednica dobiva verificirani status za autentičnost i povjerenje.
+app.communities.verification.verified_community: Verificirana zajednica
+app.customization.animated_profile.animated_avatars_and_banners: Animirani avatari i banneri
+app.customization.animated_profile.stand_out_animated_profile: Istakni se animiranim slikama profila i bannerima da pokažeš svoj stil.
+app.customization.app_icon_badges: Vidi broj obavijesti na ikoni aplikacije.
+app.customization.compact_mode: Kompaktni način i opcije prikaza
+app.customization.custom_css_themes: Prilagođene CSS teme
+app.customization.custom_sounds.entrance_sounds: Prilagođeni zvukovi ulaska
+app.customization.custom_sounds.notification_sounds: Prilagođeni zvukovi obavijesti
+app.customization.custom_sounds.set_personalized_join_sounds: Postavi personalizirane zvukove kad se priključiš glasovnim kanalima da se zna da si tu.
+app.customization.custom_sounds.upload_custom_notification_sounds: Učitaj i koristi vlastite zvukove obavijesti da Fluxer bude baš tvoj.
+app.customization.custom_themes: Prilagođene teme
+app.customization.global_emoji_and_sticker_access: Globalni pristup emojijima i naljepnicama
+app.customization.saved_media_and_css: Dodaj vlastite emojije, spremi medije za kasnije i uredi izgled aplikacije s prilagođenim CSS-om.
+app.customization.title: Prilagodba
+app.customization.upload_custom_emojis_and_stickers: Učitaj vlastite emojije i naljepnice
+app.customization.use_animated_emojis: Koristi animirane emojije
+app.messaging.description: Šalji privatne poruke prijateljima, čavrljaj u grupama ili gradi zajednice uz kanale.
+app.messaging.features.bookmarked_messages: Označene poruke
+app.messaging.features.file_sharing: Dijeli datoteke i pregledavaj linkove
+app.messaging.features.full_markdown_support: Puna podrška za Markdown u porukama
+app.messaging.features.message_scheduling.description: Zakazuj poruke da se pošalju u određeno vrijeme. DeLorean nije potreban.
+app.messaging.features.organised_channels_for_communities: Organizirani kanali za zajednice
+app.messaging.features.private_dms_and_group_chats: Privatne poruke i grupni chatovi
+app.messaging.features.save_media: Spremi slike, videozapise, GIF-ove i audio
+app.messaging.features.search.filter_options: Filtriraj po korisnicima, datumima i još toga
+app.messaging.features.search.find_old_messages: Pronađi stare poruke ili skači između zajednica i kanala u par sekundi.
+app.messaging.features.search.label: Pretraži povijest poruka
+app.messaging.features.search.quick_switcher_shortcuts: Brzi prebacivač s tipkovničkim prečacima
+app.messaging.features.search.search_and_quick_switcher: Pretraga i brzi prebacivač
+app.messaging.title: Poruke
+app.open.open_fluxer: Otvori Fluxer
+app.open.open_web_app: Otvori web aplikaciju
+app.profiles_identity.custom_identity: Prilagođeni identitet
+app.profiles_identity.customise_per_community: Prilagodi profil drugačije za svaku zajednicu u kojoj si.
+app.profiles_identity.manage_friends_and_block_users: Upravljaj prijateljima i blokiraj korisnike
+app.voice_and_video.features.mute_controls: Utišavanje, oglušivanje i kontrole kamere
+app.voice_and_video.features.noise_suppression: Potiskivanje buke i uklanjanje jeke
+app.voice_and_video.features.screen_sharing: Ugrađeno dijeljenje ekrana
+app.voice_and_video.features.stream_4k_60fps: Streimuiraj do rezolucije 4K na 60 fps da te drugi mogu vidjeti s krasnom jasnoćom.
+app.voice_and_video.features.video_backgrounds.description: Spremi do 15 video pozadina za pozive. Više nema kopanja po mapi Preuzimanja.
+app.voice_and_video.features.up_to_4k_video_quality: Kvaliteta videa do 4K
+app.voice_and_video.features.video_quality: Kvaliteta videa
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.video_quality_premium: Do 4K/60fps
+app.voice_and_video.hop_in_a_call: Uskoči u poziv s ekipom ili podijeli ekran da radite zajedno.
+app.voice_and_video.title: Glas i video
+beta_and_access.beta_label: Beta
+beta_and_access.early_access.be_first_to_try: Budi među prvima koji isprobaju nove značajke prije nego što dođu svima.
+beta_and_access.early_access.label: Rani pristup
+beta_and_access.featured_benefit_line: Sve osnove koje očekuješ, plus nekoliko stvari koje ne očekuješ.
+beta_and_access.public_beta: Javna beta
+beta_and_access.registration_limited_during_beta: Tijekom bete ograničavamo registracije. Kad uđeš, možeš prijateljima dati kod da preskoče red.
+beta_and_access.try_without_email: Isprobaj Fluxer bez e-maila za 30 sekundi
+community_funding_and_roles.focused_on_product: Trenutno smo fokusirani na isporuku odličnog proizvoda i na to da Fluxer ostane neovisan i samofinanciran.
+community_funding_and_roles.future_paid_roles_heading: Budućnost plaćenih uloga
+community_funding_and_roles.future_paid_roles_note: Još gradimo poslovnu stranu Fluxera i još nismo spremni za plaćene uloge.
+community_funding_and_roles.non_paid_recurring_role: Neplaćena uloga za redovite suradnike koji pomažu oblikovati Fluxer uz glavni tim.
+community_funding_and_roles.sustainability_note: Uz tvoju podršku nadamo se da ćemo ovu neovisnu komunikacijsku platformu učiniti održivom i u budućnosti početi nuditi plaćene uloge.
+company_and_resources.blog: Blog
+company_and_resources.careers.careers_at_fluxer: Karijere u Fluxeru
+company_and_resources.careers.label: Karijere
+company_and_resources.careers.share_a_bit_about_yourself: Napiši nam nešto o sebi i kako bi želio doprinijeti – pošalji mail na careers@fluxer.app
+company_and_resources.community_team.fluxer_community_team: Fluxer community tim
+company_and_resources.community_team.share_feedback_report_bugs: Pošalji povratne informacije, prijavi bugove i pomozi da Fluxer bude ugodan svima.
+company_and_resources.company: Tvrtka
+company_and_resources.company_info: Informacije o tvrtki
+company_and_resources.connect: Poveži se
+company_and_resources.docs: Dokumenti
+company_and_resources.help.get_help: Potraži pomoć
+company_and_resources.help.help_center: Centar za pomoć
+company_and_resources.help.label: Pomoć
+company_and_resources.press.label: Mediji
+company_and_resources.press.press_contact: Kontakt za medije
+company_and_resources.product: Proizvod
+company_and_resources.resources: Resursi
+company_and_resources.source_and_contribution.code_issues_docs_reviews: Kod, issue-ovi, dokumentacija i recenzije
+company_and_resources.source_and_contribution.contribute_code: Doprinesi kodom
+company_and_resources.source_and_contribution.contribute_on_github: Doprinesi na GitHubu
+company_and_resources.source_and_contribution.fix_bugs_ship_features: Ispravi bugove, isporuči značajke ili ispoliraj iskustvo u našem glavnom repozitoriju.
+company_and_resources.source_and_contribution.fluxer_built_in_open: Fluxer se gradi javno. Odaberi put koji ti najviše odgovara.
+company_and_resources.source_and_contribution.get_involved: Uključi se
+company_and_resources.source_and_contribution.source_code: Izvorni kod
+company_and_resources.source_and_contribution.translation.help_translate: Pomozi prevesti Fluxer i njegovu dokumentaciju da svugdje zvuči kao doma.
+company_and_resources.source_and_contribution.translation.label: Prijevod i lokalizacija
+company_and_resources.source_and_contribution.translation.llm_translation_note: Svi prijevodi su trenutno LLM-generirani uz minimalnu ljudsku reviziju. Voljeli bismo da nam stvarni ljudi pomognu lokalizirati Fluxer na tvoj jezik. Ako želiš doprinijeti, javi se na i18n@fluxer.app i rado ćemo prihvatiti tvoj doprinos.
+company_and_resources.source_and_contribution.translation.localization_label: Lokalizacija
+company_and_resources.source_and_contribution.view_repository: Pogledaj repozitorij
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: Želiš pomoći graditi Fluxer?
+company_and_resources.source_and_contribution.ways_to_contribute: Načini doprinosa
+donations.business: Tvrtka
+donations.donate.action: Doniraj
+donations.donate.label: Doniraj Fluxeru
+donations.donate.description: Podržite Fluxer s jednokratnom ili ponavljajućom donacijom
+donations.donation_disclaimer: Donacije su dobrovoljni darovi i ne daju ti proizvod, uslugu, vlasništvo ni posebna prava. Ako tražiš premium značajke, pogledaj {0}.
+donations.individual: Pojedinac
+donations.individual_vs_business.answer: Obje vrste donacija jednako podržavaju isti cilj. Razlika je samo u tome što kod poslovnih donacija možeš navesti porezni ID (ako je primjenjivo) i dobiti PDF račun nakon završetka, što može pomoći u knjigovodstvu.
+donations.individual_vs_business.question: Koja je razlika između Pojedinca i Tvrtke?
+donations.infrastructure_costs_detail: Tvoja donacija pomaže pokriti Fluxerove troškove infrastrukture, uključujući servere, propusnost, pohranu i kontinuirani razvoj novih značajki. Pomaže nam održavati i poboljšavati platformu za sve.
+donations.minimum_donation: 'Minimalna donacija: $5 / €5'
+donations.mobile_roadmap_sponsorship: Sponzoriraj plan razvoja za mobilne aplikacije
+donations.send_one_time_gift: Pošalji jednokratni dar
+donations.support_future_development: Podrži budući razvoj
+donations.support_message: Pomozi nam izgraditi neovisnu komunikacijsku platformu. Tvoja donacija financira infrastrukturu i razvoj.
+donations.tax_deductible.answer: Donacije za Fluxer trenutačno nisu porezno odbitne, ali izravno financiraju našu infrastrukturu i kontinuirani razvoj.
+donations.tax_deductible.question: Je li moja donacija porezno odbitna?
+donations.what_it_supports: Što moja donacija podržava?
+donations.why_support: Pomozi nam izgraditi drugačiju komunikacijsku platformu – open source, financiranu od zajednice i rađenu s pažnjom.
+donations.recurring: Ponavljajuće
+donations.return_question: Dobit ću li nešto zauzvrat?
+donations.form.email: Email
+donations.form.email_placeholder: tvoj@email.com
+donations.form.amount: Iznos
+donations.form.amount_other: Drugo
+donations.form.amount_placeholder: Unesi iznos (5-1000)
+donations.form.billing: Naplata
+donations.form.donation_type: Vrsta donacije
+donations.form.one_time: Jednokratno
+donations.form.or_label: Ili
+donations.form.monthly: Mjesečno
+donations.form.yearly: Godišnje
+donations.form.currency: Valuta
+donations.form.processing: Obrađuje se...
+donations.form.send_link: Pošalji link
+donations.form.sending: Šalje se...
+donations.errors.active_subscription_exists: Već imaš aktivnu ponavljajuću donaciju. Da započneš drugu ponavljajuću donaciju, molimo te da prvo otkažeš trenutnu putem portala za korisnike. Možeš umjesto toga napraviti jednokratnu donaciju.
+donations.errors.invalid_email: Molimo unesi valjanu email adresu
+donations.errors.invalid_amount: Iznos mora biti između 5 i 1000
+donations.errors.generic: Nešto je pošlo po zlu. Pokušaj ponovno.
+donations.errors.network: Mrežna greška. Pokušaj ponovno.
+donations.manage.title: Upravljaj svojim donacijama
+donations.manage.description: Unesi svoj email da dobiješ link na portal za donatore, gdje možeš upravljati pretplatama, preuzeti račune i pregledati povijest donacija.
+donations.manage.success: Ako postoji račun za taj email, uskoro ćeš dobiti link za upravljanje.
+donations.success.title: Hvala ti!
+donations.success.description: Hvala ti na podršci!
+donations.success.message: Hvala ti na donaciji! Jako cijenimo tvoju podršku.
+donations.success.email_notice: Uskoro ćeš primiti email s potvrdom s detaljima o donaciji i linkom na portal za donatore.
+donations.success.back_to_donate: Natrag na Doniraj
+download.download: Preuzmi
+download.download_app_or_open_in_browser: Preuzmi aplikaciju ili otvori Fluxer u pregledniku i kreni povezivati se sa svojim zajednicama.
+download.download_fluxer: Preuzmi Fluxer
+download.download_for_prefix: 'Preuzmi za '
+download.open_in_browser: Otvori u pregledniku
+download.screenshots_courtesy_of: 'Snimke zaslona ljubazno ustupljene od '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: Smjernice zajednice
+footer.company_information: Podaci o tvrtki
+footer.connect: Poveži se
+footer.donate: Doniraj
+footer.download: Preuzmi
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (švedsko društvo s ograničenom odgovornošću: 559537-3993)'
+footer.help_support_an_independent_communication: Podrži neovisnu komunikacijsku platformu. Tvoja donacija financira infrastrukturu i razvoj platforme.
+footer.partners: Partneri
+footer.plutonium_tier: Plutonium razina
+footer.policies: Politike
+footer.press: Mediji
+footer.privacy_policy: Pravila privatnosti
+footer.report_a_bug: Prijavi bug
+footer.roadmap: Plan razvoja
+footer.rss_feed: RSS feed
+footer.security_bug_bounty: Nagrada za sigurnosne bugove
+footer.source_code: Izvorni kod
+footer.terms_of_service: Uvjeti korištenja
+general.all: sve
+general.coming_soon.label: Uskoro
+general.coming_soon.whats_available_today: Što je dostupno danas
+general.last_updated: Zadnji put ažurirano
+general.made_in_sweden: Napravljeno u Švedskoj
+general.not_available: Nije dostupno
+general.or: ili
+general.tagline: Chat aplikacija koja te stavlja na prvo mjesto
+languages.change_language: Promijeni jezik
+languages.choose_your_language: Odaberi jezik
+languages.language_label: Jezik
+languages.list.arabic: Arapski
+languages.list.bulgarian: Bugarski
+languages.list.chinese_simplified: Kineski (pojednostavljeni)
+languages.list.chinese_traditional: Kineski (tradicionalni)
+languages.list.croatian: Hrvatski
+languages.list.czech: Češki
+languages.list.danish: Danski
+languages.list.dutch: Nizozemski
+languages.list.english: Engleski
+languages.list.english_us: Engleski (SAD)
+languages.list.finnish: Finski
+languages.list.french: Francuski
+languages.list.german: Njemački
+languages.list.greek: Grčki
+languages.list.hebrew: Hebrejski
+languages.list.hindi: Hindi
+languages.list.hungarian: Mađarski
+languages.list.indonesian: Indonezijski
+languages.list.italian: Talijanski
+languages.list.japanese: Japanski
+languages.list.korean: Korejski
+languages.list.lithuanian: Litavski
+languages.list.norwegian: Norveški
+languages.list.polish: Poljski
+languages.list.portuguese_brazil: Portugalski (Brazil)
+languages.list.romanian: Rumunjski
+languages.list.russian: Ruski
+languages.list.spanish_latin_america: Španjolski (Latinska Amerika)
+languages.list.spanish_spain: Španjolski (Španjolska)
+languages.list.swedish: Švedski
+languages.list.thai: Tajlandski
+languages.list.turkish: Turski
+languages.list.ukrainian: Ukrajinski
+languages.list.vietnamese: Vijetnamski
+launch.description: Saznaj više o developeru iza Fluxera, ciljevima projekta, tehnološkom stacku i što dolazi sljedeće.
+launch.heading: Priča iza Fluxera
+launch.read_more: Pročitaj launch objavu na blogu
+launch.view_full_roadmap: Pogledaj cijeli plan razvoja
+misc_labels.design_and_branding: Dizajn i brendiranje
+misc_labels.direct_team_support: Izravna podrška tima
+misc_labels.exclusive_communities: Ekskluzivne zajednice
+misc_labels.exclusive_features: Ekskluzivne značajke
+misc_labels.feature: Značajka
+misc_labels.get_updates: Dobivaj novosti, pogledaj nadolazeće značajke, raspravi prijedloge i pričaj s timom.
+misc_labels.join_and_spread_word: Pridruži se i proširi priču
+misc_labels.join_fluxer_community_contribute: Pridruži se Fluxer zajednici i pomozi graditi budućnost komunikacije kroz open source i doprinos zajednice.
+misc_labels.join_fluxer_hq: Pridruži se Fluxer HQ
+misc_labels.join_multiple_devices: Pridruži se s više uređaja odjednom
+misc_labels.join_team_behind_fluxer: Pridruži se timu iza Fluxera
+misc_labels.learn_more: Saznaj više
+misc_labels.product_hunt_badge_title: Fluxer – open source Discord-slična platforma za instant poruke i VoIP | Product Hunt top post
+misc_labels.profile_badge: Značka profila
+misc_labels.read_the_guide: Pročitaj vodič
+misc_labels.ready_to_get_started: Krećemo?
+misc_labels.register_now: Registriraj se
+misc_labels.related_policies: Povezane politike
+misc_labels.report_bugs: Prijavi bugove
+misc_labels.software_development: Razvoj softvera
+misc_labels.trust_and_safety: Povjerenje i sigurnost
+misc_labels.unique_profile_badge: Jedinstvena značka profila
+misc_labels.unlimited_users: Neograničeno korisnika
+navigation.close: Zatvori
+navigation.close_navigation_menu: Zatvori navigacijski izbornik
+navigation.copy_link_to_section: Kopiraj link na odjeljak
+navigation.go_home: Idi na početnu
+navigation.on_this_page: Na ovoj stranici
+navigation.page_not_found.description: Ova stranica ne postoji. Ali ima još puno toga za istražiti.
+navigation.page_not_found.title: Stranica nije pronađena
+navigation.press.download_assets_intro: Preuzmi naše logotipe, saznaj više o bojama brenda i javi se našem PR timu.
+navigation.press.download_fluxer_assets: Preuzmi Fluxer logotipe i materijale brenda i javi se našem PR timu
+navigation.press.press_and_brand_assets: Mediji i materijali brenda
+partner_program.become_partner.apply_email: Prijavi se na partners@fluxer.app
+partner_program.become_partner.call_to_action: Postani partner
+partner_program.become_partner.heading: Postani Fluxer partner
+partner_program.become_partner.if_youre_a_creator_or: Ako si kreator ili vodiš veliku zajednicu, rado ćemo te čuti.
+partner_program.become_partner.learn_about_partners: Saznaj više o partnerima
+partner_program.become_partner.learn_more: Saznaj više
+partner_program.become_partner.ready_prompt: Želiš postati partner?
+partner_program.description: Ekskluzivne pogodnosti za kreatore sadržaja i vlasnike velikih zajednica.
+partner_program.label: Partneri
+partner_program.perks.creator_monetization.description: Rani pristup značajkama monetizacije uz niže naknade nego kod ne-partnera.
+partner_program.perks.creator_monetization.label: Monetizacija za kreatore
+partner_program.perks.custom_vanity_url.description: Dobij ekskluzivni vanity URL poput fluxer.gg/tvojazajednica.
+partner_program.perks.custom_vanity_url.label: Prilagođeni vanity URL
+partner_program.perks.direct_team_access.description: Pridruži se ekskluzivnoj Partners zajednici s izravnim pristupom Fluxer timu.
+partner_program.perks.direct_team_access.label: Izravan pristup timu
+partner_program.perks.discovery_visibility: Dobij veću vidljivost kroz isticanje u otkrivanju zajednica.
+partner_program.perks.exclusive_merch.description: Dobij ekskluzivni Fluxer Partner merch i swag.
+partner_program.perks.exclusive_merch.label: Ekskluzivni merch
+partner_program.perks.free_plutonium.description: Dobij besplatan Plutonium na svom računu i koristi sve premium značajke.
+partner_program.perks.free_plutonium.label: Besplatan Plutonium
+partner_program.perks.increased_limits.description: Tvoja zajednica dobiva veće limite kad ti zatrebaju.
+partner_program.perks.increased_limits.label: Povećani limiti
+partner_program.perks.partner_badge.description: Prikaži ekskluzivnu Partner značku na profilu da se istakneš.
+partner_program.perks.partner_badge.label: Partner značka
+partner_program.perks.vip_voice_servers.description: Pristup VIP glasovnim serverima rezerviranim samo za partnerske zajednice.
+partner_program.perks.vip_voice_servers.label: VIP glasovni kanali
+partner_program.requirements.audience_description: Kratak opis tvoje publike i čime se baviš
+partner_program.requirements.links_to_content: Linkovi na tvoj sadržaj ili zajednicu (YouTube, Twitch, Discord itd.)
+partner_program.requirements.name_and_username: Tvoje ime i korisničko ime na platformi
+partner_program.requirements.usage_plan: Kako planiraš koristiti Fluxer sa svojom zajednicom
+partner_program.who_its_for: 'Kreatori sadržaja i vlasnici zajednica: otključaj ekskluzivne pogodnosti, uključujući besplatan Plutonium, Partner značku, prilagođene vanity URL-ove i još toga.'
+partner_program.perks.heading: Pogodnosti za partnere
+partner_program.perks.see_perks: Pogledaj pogodnosti
+partner_program.apply.instructions: Pošalji nam email sa sljedećim informacijama da se prijaviš u Fluxer Partner Program.
+partner_program.apply.response_time: Pregledavamo sve prijave i javit ćemo ti se u roku od nekoliko dana.
+platform_support.desktop.available_on_desktop_and_web: Dostupno na računalu i na webu
+platform_support.desktop.download_desktop_intro: Preuzmi Fluxer za Windows, macOS i Linux. Mobilne aplikacije su u izradi.
+platform_support.desktop.interface_label: Fluxer desktop sučelje
+platform_support.desktop.label: Desktop
+platform_support.desktop.use_desktop_client_mobile_soon: Koristi desktop klijent (mobilno uskoro)
+platform_support.mobile.install_as_app.add_to_home: Dodaj Fluxer na početni zaslon da sakriješ sučelje preglednika.
+platform_support.mobile.install_as_app.done_desktop: Gotovo! Sad možeš otvoriti Fluxer kao običan program.
+platform_support.mobile.install_as_app.done_mobile: Gotovo! Sad možeš otvoriti Fluxer s početnog zaslona.
+platform_support.mobile.install_as_app.guides.in_chrome: ' u Chromeu'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: ' u Chromeu ili drugom pregledniku koji podržava PWA'
+platform_support.mobile.install_as_app.guides.in_safari: ' u Safariju'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: Vodič za instalaciju PWA-a za {name}
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: 'Pritisni "Dodaj na početni zaslon"'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: 'Pritisni "Dodaj" u gornjem desnom kutu'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: 'Pritisni "Instaliraj aplikaciju"'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: Pritisni gumb za instalaciju (strelica prema dolje na monitoru) u adresnoj traci
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: 'Pritisni "Instaliraj" u skočnom prozoru koji se pojavi'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: 'Pritisni gumb "Više" (⋮) u gornjem desnom kutu'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: Pritisni gumb za dijeljenje (pravokutnik sa strelicom prema gore)
+platform_support.mobile.install_as_app.install_fluxer_as_app: Instaliraj Fluxer kao aplikaciju
+platform_support.mobile.install_as_app.title: Kako instalirati kao aplikaciju
+platform_support.mobile.interface_label: Fluxer mobilno sučelje
+platform_support.mobile.mobile_apps_underway: Mobilne aplikacije su u izradi
+platform_support.mobile.mobile_browser_explainer: Radimo aplikacije za iOS i Android. Dok ne budu spremne, Fluxer radi u mobilnom pregledniku, a uložili smo puno truda da se osjeća što više kao prava aplikacija.
+platform_support.mobile.not_full_replacement_yet: Ovo još nije potpuna zamjena za desktop aplikaciju, a neke stvari koje očekuješ od mobilnog chata još nedostaju.
+platform_support.mobile.push_notifications: Dobivaj push obavijesti kad nisi u aplikaciji.
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS i iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: Odaberi Linux distribuciju
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: Preuzmi za macOS
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: Preuzmi za Windows
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: Boje brenda
+press_branding.assets.full_color: Puna boja
+press_branding.assets.label: Logo
+press_branding.assets.logo_variants.black_logo: Crni logo
+press_branding.assets.logo_variants.color_logo: Logo u boji
+press_branding.assets.logo_variants.white_logo: Bijeli logo
+press_branding.assets.palette_description: Naša pažljivo odabrana paleta boja koja predstavlja Fluxer brend.
+press_branding.assets.premium_quality: Premium kvaliteta
+press_branding.assets.primary_brand_color_description: Naša primarna boja brenda. Koristi je za ključne elemente brenda i naglaske.
+press_branding.assets.symbol_variants.black_symbol: Crni simbol
+press_branding.assets.symbol_variants.color_symbol: Simbol u boji
+press_branding.assets.symbol_variants.label: Simbol
+press_branding.assets.symbol_variants.white_symbol: Bijeli simbol
+press_branding.assets.usage_guidance.dark_surface_guidance: Za pozadine, tekst na tamnim površinama i stvaranje kontrasta.
+press_branding.assets.usage_guidance.for_dark_backgrounds: Za tamne pozadine
+press_branding.assets.usage_guidance.for_light_backgrounds: Za svijetle pozadine
+press_branding.assets.usage_guidance.full_logo_description: Naš puni logo s wordmarkom. Koristi ga kao primarni prikaz brenda.
+press_branding.assets.usage_guidance.light_surface_guidance: Za tekst, ikone na svijetlim površinama i stvaranje dubine.
+press_branding.assets.usage_guidance.symbol_description: Naš samostalni simbol. Koristi ga samo kad je brend jasno vidljiv ili već dobro uspostavljen u kontekstu.
+press_branding.colors.blue_da_ba_dee: Blue Da Ba Dee
+press_branding.colors.white: Bijela
+press_branding.colors.black: Crna
+press_branding.contact.story_prompt: Imaš priču o Fluxeru? Voljeli bismo je čuti.
+press_branding.contact.response_time: Obično odgovaramo u roku od 24 sata.
+pricing_and_tiers.billing.forever: Zauvijek
+pricing_and_tiers.billing.most_popular: Najpopularnije
+pricing_and_tiers.billing.per_forever: /zauvijek
+pricing_and_tiers.billing.per_month: /mj
+pricing_and_tiers.billing.per_year_full: /godina
+pricing_and_tiers.billing.per_year_short: /god
+pricing_and_tiers.billing.save_percent: Uštedi 17%
+pricing_and_tiers.free.comparison_label: Besplatno vs Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 'Sve iz besplatnog, plus:'
+pricing_and_tiers.free.full_access_to_all_features: Puni pristup svim značajkama
+pricing_and_tiers.free.label: Besplatno
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: 'Napomena: Plutonium i Visionary pogodnosti vrijede samo na službenoj instanci Fluxer.app, ne na trećim stranama ili self-hostanim instancama.'
+pricing_and_tiers.plutonium.feature_highlights: Uploadovi do 500 MB, poruke do 4,000 znakova, 300 oznaka, 50 paketa emojija i još puno toga.
+pricing_and_tiers.plutonium.features.bio_character_limit: Limit znakova u biografiji
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: Odaberi vlastitu 4-znamenkastu oznaku kao #0001, #1337, ili #9999 kako bi svoje korisničko ime bio doista jedinstveno.
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: Prilagođena 4-znamenkasta oznaka korisničkog imena
+pricing_and_tiers.plutonium.features.custom_username_tag: Prilagođena oznaka korisničkog imena
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: Video pozadine
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: Paketi emojija i naljepnica
+pricing_and_tiers.plutonium.features.file_upload_size: Veličina uploada
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: Globalni pristup emojijima i naljepnicama
+pricing_and_tiers.plutonium.features.message_character_limit: Limit znakova u poruci
+pricing_and_tiers.plutonium.features.message_scheduling: Zakazivanje poruka
+pricing_and_tiers.plutonium.features.per_community_profiles: Profili po zajednici
+pricing_and_tiers.plutonium.features.saved_media: Spremljeni mediji
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: Podrška za webhooks i botove
+pricing_and_tiers.plutonium.get_more_with_plutonium: Dobij više uz Fluxer Plutonium
+pricing_and_tiers.plutonium.get_plutonium: Uzmi Plutonium
+pricing_and_tiers.plutonium.higher_limits_and_early_access: Veći limiti, ekskluzivne značajke i rani pristup novostima
+pricing_and_tiers.plutonium.higher_limits_everywhere: Veći limiti svugdje
+pricing_and_tiers.plutonium.show_off_status_badge: Pokaži svoj Plutonium status ekskluzivnom značkom na profilu.
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: 'Nadogradi na Plutonium za $4.99/mj: prilagođene oznake korisničkog imena, profili po zajednici, zakazivanje poruka, 4K streaming, uploadovi do 500 MB i još ekskluzivnih značajki.'
+pricing_and_tiers.visionary.badge.numbered_badge: Numerirana značka koja pokazuje tvoj Visionary status
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: Numerirana značka (1–{0}) koja pokazuje tvoj Visionary status
+pricing_and_tiers.visionary.bundle_label: Doživotni Plutonium i Operator Pass uz Visionary – ograničen broj mjesta
+pricing_and_tiers.visionary.communities_with_team_access: Visionary i Operators zajednice s pristupom timu
+pricing_and_tiers.visionary.get_visionary: Uzmi Visionary
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: Osiguraj Plutonium doživotno na Fluxer.app plus Operator Pass za samostalni hosting. Plati {0} jednokratno. Dostupno do 1. listopada 2026. ili dok se ne popune sva mjesta.
+pricing_and_tiers.visionary.lifetime_operator_pass: Doživotni Operator Pass
+pricing_and_tiers.visionary.lifetime_plutonium: Doživotni Plutonium
+pricing_and_tiers.visionary.limited_offer_note: 'Ograničena ponuda: Visionary uključuje Operator Pass'
+pricing_and_tiers.visionary.limited_slots_label: Visionary – ograničen broj mjesta
+pricing_and_tiers.visionary.one_time_purchase.label: Jednokratna kupnja
+pricing_and_tiers.visionary.one_time_purchase.promise: Jednokratna kupnja, doživotni pristup
+pricing_and_tiers.visionary.purchase_flow: Kupi Visionary izravno u aplikaciji nakon što napraviš račun. Datum kupnje i broj narudžbe prikazivat će se na profilu (možeš sakriti u postavkama privatnosti).
+pricing_and_tiers.visionary.slots_left.generic: '{0} od {1} mjesta preostalo'
+pricing_and_tiers.visionary.slots_left.visionary_bundle: Samo {0} od {1} Visionary doživotnih mjesta preostalo – doživotni Plutonium i Operator Pass
+pricing_and_tiers.visionary.slots_left.visionary_only: '{0} Visionary mjesta preostalo'
+product_positioning.free_and_open_source: Fluxer je besplatan i open source. Svatko može besplatno self-hostati.
+product_positioning.intro: Fluxer je besplatna i open source platforma za instant poruke i VoIP, napravljena za prijatelje, grupe i zajednice.
+product_positioning.open_source.fully_open_source_agplv3: Potpuno open source (AGPLv3)
+product_positioning.open_source.label: Open source
+product_positioning.open_source.license: Open source (AGPL-3.0)
+product_positioning.self_hosting.connect_from_any_client: Poveži se s bilo kojeg klijenta
+product_positioning.self_hosting.free_self_hosting: Besplatan samostalni hosting
+product_positioning.self_hosting.host_your_own_instance: Hostaj vlastitu instancu
+product_positioning.self_hosting.label: Samostalni hosting
+product_positioning.self_hosting.operator_pass.access_to_operators_community: Pristup Fluxer Operators zajednici
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: Kad ponuda završi, Operator Pass ostaje dostupan i zasebno.
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: 'Operator Pass je opcionalan: plati za podršku i pristup Operators zajednici.'
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: Prioritetna podrška i pristup Operators zajednici za self-hostanje
+product_positioning.self_hosting.run_backend_on_your_hardware: Pokreni Fluxer backend na svom hardveru i poveži se kroz naše aplikacije.
+product_positioning.self_hosting.switch_between_instances: Prebacuj se između više instanci
+security.found_security_issue: Imaš sigurnosni propust za prijaviti?
+security.report_vulnerabilities: Prijavi ranjivosti i pomozi nam da platforma bude sigurna.
+security.responsible_disclosure_note: Cijenimo odgovorno prijavljivanje kroz našu stranicu za nagrade za sigurnosne bugove. Dijelimo Plutonium kodove i Bug Hunter značke ovisno o ozbiljnosti.
+security.security_bug_bounty: Nagrada za sigurnosne bugove
+security.security_reports: Sigurnosna izvješća
+security.testers_access_from_reports: Odobrena izvješća daju pristup Fluxer Testers, gdje možeš skupljati bodove za Plutonium kodove i Bug Hunter značku.
+social_and_feeds.bluesky.follow_us: Prati nas na Blueskyju
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: Bluesky RSS feed
+social_and_feeds.follow_fluxer: Prati @fluxer.app
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: Blog RSS feed
+social_and_feeds.rss.fluxer_blog_rss: Fluxer blog RSS
+social_and_feeds.rss.label: RSS feed
+social_and_feeds.stay_updated_cta: Ostani u toku s novostima, statusom usluge i svime što se događa. Možeš se i pretplatiti na naš

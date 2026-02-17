@@ -1,0 +1,209 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.filtersScroller {
+	height: 100%;
+	min-height: 0;
+}
+
+.filtersList {
+	display: flex;
+	min-height: 0;
+}
+
+.filtersListHorizontal {
+	flex-direction: row;
+	align-items: stretch;
+	gap: 0.25rem;
+	padding: 0 0.15rem;
+	width: max-content;
+}
+
+.filtersListVertical {
+	flex-direction: column;
+	align-items: flex-end;
+	gap: 0.25rem;
+	padding: 0.35rem 0.35rem 0.45rem 0.35rem;
+}
+
+.filterItem {
+	display: flex;
+	justify-content: center;
+	flex: 0 0 auto;
+}
+
+.filterItemHorizontal {
+	min-width: 56px;
+	width: auto;
+}
+
+.filterItemVertical {
+	width: auto;
+}
+
+.filterButton {
+	width: 100%;
+	padding: 0;
+	border-radius: 0.6rem;
+	background: transparent;
+	border: none;
+	color: inherit;
+	transition:
+		color 0.15s ease,
+		transform 0.15s ease;
+}
+
+.filterButtonIdle {
+	cursor: pointer;
+}
+
+.filterButtonIdle:hover {
+	transform: translateY(-1px);
+}
+
+.filterButtonSelected {
+	box-shadow: 0 0 0 2px var(--background-modifier-accent-focus);
+	background-color: var(--background-modifier-hover);
+	transform: translateY(-1px);
+}
+
+.reactionListPanel {
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	background: var(--background-secondary-lighter);
+	border-radius: 8px;
+	padding: 0.2rem 0;
+	overflow: hidden;
+	border: 1px solid var(--border-color);
+}
+
+.reactorScroller {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	min-height: 0;
+}
+
+.reactorItem {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.55rem 0.85rem;
+	min-height: 44px;
+}
+
+.reactorItemBorder {
+	border-top: 1px solid var(--background-header-secondary);
+}
+
+.reactorInfo {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 0.35rem;
+	overflow: hidden;
+}
+
+.reactorName {
+	font-size: 0.95rem;
+	color: var(--text-chat);
+	font-weight: 600;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	flex: 0 1 auto;
+	min-width: 0;
+	max-width: 100%;
+	margin-top: -2px;
+}
+
+.reactorTag {
+	font-size: 0.75rem;
+	color: var(--text-chat-muted);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	flex: 0 1 auto;
+	min-width: 0;
+}
+
+.removeReactionButton {
+	margin-left: 0.5rem;
+	flex: none;
+	color: var(--text-chat-muted);
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	padding: 0;
+}
+
+.removeReactionButton:hover {
+	color: var(--text-chat);
+}
+
+.removeReactionIcon {
+	height: 1rem;
+	width: 1rem;
+}
+
+.loadingContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	padding: 1rem;
+	gap: 1rem;
+}
+
+.loadingLabel {
+	font-size: 0.85rem;
+	color: var(--text-primary-muted);
+}
+
+.emptyState {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	color: var(--text-primary-muted);
+	font-size: 0.9rem;
+	text-align: center;
+	padding: 1rem;
+}
+
+.emptyStateText {
+	font-size: 0.9rem;
+}
+
+.srOnly {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}

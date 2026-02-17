@@ -1,0 +1,369 @@
+account_disabled_suspicious:
+  subject: Your Fluxer account has been temporarily disabled
+  body: |-
+    Hello {username},
+
+    We temporarily disabled your Fluxer account because we detected suspicious activity.
+
+    {reason, select,
+      null {}
+      other {Reason: {reason}}
+    }
+
+    To regain access to your account, you'll need to reset your password:
+
+    {forgotUrl}
+
+    After you reset your password, you'll be able to log in again.
+
+    If you believe this was done in error, please contact our support team.
+
+    – Fluxer Safety Team
+account_scheduled_deletion:
+  subject: Your Fluxer account will be permanently deleted
+  body: |-
+    Hello {username},
+
+    Your Fluxer account has been scheduled for permanent deletion due to breaches of our Terms of Service or Community Guidelines.
+
+    Scheduled deletion: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Reason: {reason}}
+    }
+
+    This is a serious enforcement action. Your account data will be permanently deleted on the scheduled date.
+
+    Please review:
+    - Terms of Service: {termsUrl}
+    - Community Guidelines: {guidelinesUrl}
+
+    Appeals process:
+    If you believe this enforcement decision was incorrect or unjustified, you have 60 days to submit an appeal. Email appeals@fluxer.app from this email address.
+
+    In your appeal:
+    - Clearly explain why you believe the enforcement decision was incorrect or unjustified
+    - Provide any relevant evidence or context
+
+    A member of the Fluxer Safety Team will review your appeal and may pause the pending deletion until a final decision has been reached.
+
+    – Fluxer Safety Team
+account_temp_banned:
+  subject: Your Fluxer account has been temporarily suspended
+  body: |-
+    Hello {username},
+
+    Your Fluxer account has been temporarily suspended for breaching our Terms of Service or Community Guidelines.
+
+    Duration: {durationHours, plural,
+      =1 {1 hour}
+      other {# hours}
+    }
+    Suspended until: {bannedUntil, date, full} {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {Reason: {reason}}
+    }
+
+    During this time, you won't be able to access your account.
+
+    Please review:
+    - Terms of Service: {termsUrl}
+    - Community Guidelines: {guidelinesUrl}
+
+    If you believe this enforcement decision was incorrect or unjustified, you can submit an appeal. Email appeals@fluxer.app from this email address and clearly explain why you believe the decision was incorrect. We'll review your appeal and respond with our decision.
+
+    – Fluxer Safety Team
+donation_confirmation:
+  subject: Thank you for your Fluxer donation
+  body: |-
+    Hello,
+
+    Thank you for your donation to Fluxer! Your {interval, select,
+      month {recurring donation}
+      year {recurring donation}
+      other {one-time donation}
+    } has been {interval, select,
+      month {set up}
+      year {set up}
+      other {processed}
+    } successfully.
+
+    Donation details:
+    Amount: {amount} {currency} {interval, select,
+      month {per month}
+      year {per year}
+      other {}
+    }
+
+    Stripe will email you a separate receipt with your invoice PDF shortly. This includes all payment details and can be used for tax purposes.
+
+    You can view your donation history, download invoices, {interval, select,
+      month {and manage or cancel your subscription}
+      year {and manage or cancel your subscription}
+      other {and manage future donations}
+    } at any time using this link:
+
+    {manageUrl}
+
+    Your support helps keep Fluxer running. Thank you!
+
+    – Fluxer Team
+donation_magic_link:
+  subject: Manage your Fluxer donations
+  body: |-
+    Hello,
+
+    Click the link below to access your donor portal:
+
+    {manageUrl}
+
+    In the portal, you can manage subscriptions, download invoices, and view your donation history.
+
+    This link expires on {expiresAt, date, full} at {expiresAt, time, short}.
+
+    If you did not request this link, you can safely ignore this email.
+
+    – Fluxer Team
+dsa_report_verification:
+  subject: Verify your email for a DSA report
+  body: |-
+    Hello,
+
+    Use the verification code below to submit your Digital Services Act report on Fluxer:
+
+    {code}
+
+    This code expires on {expiresAt, date, full} at {expiresAt, time, short}.
+
+    If you didn't request this, you can ignore this email.
+
+    – Fluxer Safety Team
+email_change_new:
+  subject: Verify your new Fluxer email
+  body: |-
+    Hello {username},
+
+    Enter this code in the app to verify your new Fluxer email:
+
+    {code}
+
+    This code expires on {expiresAt, date, full} at {expiresAt, time, short}.
+
+    If you didn't request this, you can ignore this email.
+
+    – Fluxer Team
+email_change_original:
+  subject: Confirm your Fluxer email change
+  body: |-
+    Hello {username},
+
+    We received a request to change the email address on your Fluxer account.
+
+    To confirm this change, enter this code in the app:
+
+    {code}
+
+    This code expires on {expiresAt, date, full} at {expiresAt, time, short}.
+
+    If you didn't request this, please secure your account right away.
+
+    – Fluxer Team
+email_change_revert:
+  subject: Your Fluxer email was changed
+  body: |-
+    Hello {username},
+
+    The email address on your Fluxer account was changed to {newEmail}.
+
+    If you made this change, no action is needed. If you didn't, you can revert the change and secure your account using this link:
+
+    {revertUrl}
+
+    This will restore your previous email, sign you out everywhere, remove linked phone numbers, disable MFA, and require you to set a new password.
+
+    – Fluxer Safety Team
+email_verification:
+  subject: Verify your Fluxer email address
+  body: |-
+    Hello {username},
+
+    Please verify the email address for your Fluxer account by clicking the link below:
+
+    {verifyUrl}
+
+    If you didn't create a Fluxer account, you can safely ignore this email.
+
+    This link is valid for 24 hours.
+
+    – Fluxer Team
+gift_chargeback_notification:
+  subject: Perks from your redeemed gift have been removed
+  body: |-
+    Hello {username},
+
+    A gift code you redeemed was originally paid for by someone else. That payment has since been reversed (a chargeback).
+
+    Because of this, we've removed the perks that were added to your account when you redeemed the gift.
+
+    If you think this is a mistake, please contact our support team and include any details you have about the gift code and when you redeemed it.
+
+    – Fluxer Team
+harvest_completed:
+  subject: Your Fluxer data export is ready to download
+  body: |-
+    Hello {username},
+
+    Your data export is ready.
+
+    Download link:
+    {downloadUrl}
+
+    Messages included: {totalMessages, number}
+    File size: {fileSizeMB, number} MB
+
+    This link expires on {expiresAt, date, full} at {expiresAt, time, short}.
+
+    If you didn't request this export, please change your password immediately and contact our support team.
+
+    – Fluxer Team
+inactivity_warning:
+  subject: Your Fluxer account will be deleted due to inactivity
+  body: |-
+    Hello {username},
+
+    We haven't seen any activity on your Fluxer account since {lastActiveDate, date, full}.
+
+    If you don't log in by {deletionDate, date, full} at {deletionDate, time, short}, your account will be permanently deleted due to inactivity.
+
+    Log in here:
+    {loginUrl}
+
+    If you've used Fluxer recently, please contact our support team right away.
+
+    – Fluxer Team
+ip_authorization:
+  subject: Authorise login from a new IP address
+  body: |-
+    Hello {username},
+
+    We detected a login attempt to your Fluxer account from a new IP address:
+
+    IP address: {ipAddress}
+    Location: {location}
+
+    If this was you, please authorise this IP address by clicking the link below:
+
+    {authUrl}
+
+    If you didn't attempt to log in, please change your password right away.
+
+    This link is valid for 30 minutes.
+
+    – Fluxer Team
+password_change_verification:
+  subject: Confirm your Fluxer password change
+  body: |-
+    Hello {username},
+
+    We received a request to change the password on your Fluxer account.
+
+    To confirm this change, enter this code in the app:
+
+    {code}
+
+    This code expires at {expiresAt}.
+
+    If you didn't request this, someone may have access to your account. Change your password immediately and enable two-factor authentication.
+
+    – Fluxer Team
+password_reset:
+  subject: Reset your Fluxer password
+  body: |-
+    Hello {username},
+
+    You requested a Fluxer password reset. Use the link below to set a new password:
+
+    {resetUrl}
+
+    If you didn't request this, you can safely ignore this email.
+
+    This link is valid for 1 hour.
+
+    – Fluxer Team
+registration_approved:
+  subject: Your Fluxer registration has been approved
+  body: |-
+    Hello {username},
+
+    Good news: your Fluxer registration has been approved.
+
+    You can now log in to the Fluxer app here:
+    {channelsUrl}
+
+    Welcome to the Fluxer community.
+
+    – Fluxer Team
+report_resolved:
+  subject: Your Fluxer report has been reviewed
+  body: |-
+    Hello {username},
+
+    Your report (ID: {reportId}) has been reviewed by our Safety Team.
+
+    Response from the Safety Team:
+    {publicComment}
+
+    Thanks for helping keep Fluxer safe for everyone. We take all reports seriously and appreciate your contribution to the community.
+
+    If you have any questions or concerns about this outcome, please contact safety@fluxer.app.
+
+    – Fluxer Safety Team
+scheduled_deletion_notification:
+  subject: Your Fluxer account will be permanently deleted
+  body: |-
+    Hello {username},
+
+    Your Fluxer account has been scheduled for permanent deletion.
+
+    Scheduled deletion: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Reason: {reason}}
+    }
+
+    This is a serious enforcement action. Your account data will be permanently deleted on the scheduled date.
+
+    If you believe this enforcement decision was incorrect, you can submit an appeal. Email appeals@fluxer.app from this email address.
+
+    – Fluxer Safety Team
+self_deletion_scheduled:
+  subject: Your Fluxer account deletion is scheduled
+  body: |-
+    Hello {username},
+
+    You requested to delete your Fluxer account. Your account is scheduled for permanent deletion on:
+
+    {deletionDate, date, full} at {deletionDate, time, short}
+
+    If you didn't request this, sign in to your account to cancel the deletion. We also recommend changing your password to secure your account.
+
+    – Fluxer Team
+unban_notification:
+  subject: Your Fluxer account suspension has been lifted
+  body: |-
+    Hello {username},
+
+    Good news: your Fluxer account suspension has been lifted.
+
+    {reason, select,
+      null {}
+      other {Reason: {reason}}
+    }
+
+    You can now log back in and continue using Fluxer as normal.
+
+    – Fluxer Safety Team

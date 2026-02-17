@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {GenericErrorModal} from '@app/components/alerts/GenericErrorModal';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {GenericErrorModal} from './GenericErrorModal';
 
 export const DMCloseFailedModal = observer(() => {
 	const {t} = useLingui();
 
 	return (
-		<GenericErrorModal title={t`Failed to close DM`} message={t`We couldn't close the direct message at this time.`} />
+		<GenericErrorModal title={t`Failed to Close DM`} message={t`We couldn't close the direct message at this time.`} />
 	);
 });

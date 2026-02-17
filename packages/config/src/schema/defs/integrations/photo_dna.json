@@ -1,0 +1,44 @@
+{
+	"photo_dna_integration": {
+		"type": "object",
+		"description": "PhotoDNA integration for hash matching.",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"default": false,
+				"description": "Enable PhotoDNA."
+			},
+			"hash_service_url": {
+				"type": "string",
+				"default": "",
+				"description": "URL for the hash generation service."
+			},
+			"hash_service_timeout_ms": {
+				"type": "number",
+				"default": 15000,
+				"description": "Timeout for hash generation."
+			},
+			"match_endpoint": {
+				"type": "string",
+				"default": "",
+				"description": "URL for the match service."
+			},
+			"subscription_key": {
+				"type": "string",
+				"default": "",
+				"description": "Subscription key for the match service."
+			},
+			"match_enhance": {
+				"type": "boolean",
+				"default": false,
+				"description": "Enable enhanced matching."
+			},
+			"rate_limit_rps": {
+				"type": "number",
+				"default": 5,
+				"description": "Rate limit requests per second."
+			}
+		}
+	}
+}

@@ -1,0 +1,14 @@
+{
+	"youtube": {
+		"type": "object",
+		"description": "YouTube API integration.",
+		"additionalProperties": false,
+		"properties": {
+			"api_key": {
+				"type": "string",
+				"default": "",
+				"description": "YouTube API Key."
+			}
+		}
+	}
+}

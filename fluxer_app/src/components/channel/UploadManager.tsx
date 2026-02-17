@@ -17,46 +17,57 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {FileSizeTooLargeModal} from '@app/components/alerts/FileSizeTooLargeModal';
+import {TooManyAttachmentsModal} from '@app/components/alerts/TooManyAttachmentsModal';
+import {UploadDropModal} from '@app/components/modals/UploadDropModal';
+import {useSlowmode} from '@app/hooks/useSlowmode';
+import {CloudUpload} from '@app/lib/CloudUpload';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import {MessageRecord} from '@app/records/MessageRecord';
+import ModalStore from '@app/stores/ModalStore';
+import UserStore from '@app/stores/UserStore';
+import {MessageStates, MessageTypes} from '@fluxer/constants/src/ChannelConstants';
+import {MAX_ATTACHMENTS_PER_MESSAGE} from '@fluxer/constants/src/LimitConstants';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {MAX_ATTACHMENTS_PER_MESSAGE, MessageStates, MessageTypes} from '~/Constants';
-import {TooManyAttachmentsModal} from '~/components/alerts/TooManyAttachmentsModal';
-import {UploadDropModal} from '~/components/modals/UploadDropModal';
-import {useSlowmode} from '~/hooks/useSlowmode';
-import {CloudUpload} from '~/lib/CloudUpload';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import {MessageRecord} from '~/records/MessageRecord';
-import ModalStore from '~/stores/ModalStore';
-import UserStore from '~/stores/UserStore';
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
+import {useCallback, useEffect, useRef, useState} from 'react';
 
 const UPLOAD_DROP_MODAL_KEY = 'upload-drop-modal';
 
 export const UploadManager = observer(({channel}: {channel: ChannelRecord}) => {
-	const [isDragging, setIsDragging] = React.useState(false);
-	const [dragCounter, setDragCounter] = React.useState(0);
-	const [isShiftHeld, setIsShiftHeld] = React.useState(false);
+	const [isDragging, setIsDragging] = useState(false);
+	const [dragCounter, setDragCounter] = useState(0);
+	const [isShiftHeld, setIsShiftHeld] = useState(false);
 	const {isSlowmodeActive} = useSlowmode(channel);
-	const pendingFileCountRef = React.useRef(0);
-	const resetDragState = React.useCallback(() => {
+	const pendingFileCountRef = useRef(0);
+	const resetDragState = useCallback(() => {
 		setIsDragging(false);
 		setDragCounter(0);
 		setIsShiftHeld(false);
 		ModalActionCreators.popWithKey(UPLOAD_DROP_MODAL_KEY);
 	}, []);
 
-	const onDrop = React.useCallback(
+	const onDrop = useCallback(
 		async (files: Array<File>, directUpload = false) => {
+			const maxAttachments = UserStore.getCurrentUser()?.maxAttachmentsPerMessage ?? MAX_ATTACHMENTS_PER_MESSAGE;
+
 			if (directUpload && isSlowmodeActive) {
 				directUpload = false;
 			}
 
 			if (directUpload) {
-				if (files.length > MAX_ATTACHMENTS_PER_MESSAGE) {
+				if (files.length > maxAttachments) {
 					ModalActionCreators.push(modal(() => <TooManyAttachmentsModal />));
+					return;
+				}
+
+				const maxFileSize = UserStore.getCurrentUser()?.maxAttachmentFileSize ?? 25 * 1024 * 1024;
+				const oversizedFileCount = files.filter((file) => file.size > maxFileSize).length;
+				if (oversizedFileCount > 0) {
+					ModalActionCreators.push(modal(() => <FileSizeTooLargeModal oversizedFileCount={oversizedFileCount} />));
 					return;
 				}
 
@@ -84,7 +95,7 @@ export const UploadManager = observer(({channel}: {channel: ChannelRecord}) => {
 				const message = new MessageRecord({
 					id: nonce,
 					channel_id: channel.id,
-					author: currentUser,
+					author: currentUser.toJSON(),
 					type: MessageTypes.DEFAULT,
 					flags: 0,
 					pinned: false,
@@ -107,8 +118,15 @@ export const UploadManager = observer(({channel}: {channel: ChannelRecord}) => {
 			} else {
 				const existingAttachments = CloudUpload.getTextareaAttachments(channel.id);
 				const totalCount = existingAttachments.length + pendingFileCountRef.current + files.length;
-				if (totalCount > MAX_ATTACHMENTS_PER_MESSAGE) {
+				if (totalCount > maxAttachments) {
 					ModalActionCreators.push(modal(() => <TooManyAttachmentsModal />));
+					return;
+				}
+
+				const maxFileSize = UserStore.getCurrentUser()?.maxAttachmentFileSize ?? 25 * 1024 * 1024;
+				const oversizedFileCount = files.filter((file) => file.size > maxFileSize).length;
+				if (oversizedFileCount > 0) {
+					ModalActionCreators.push(modal(() => <FileSizeTooLargeModal oversizedFileCount={oversizedFileCount} />));
 					return;
 				}
 
@@ -123,7 +141,7 @@ export const UploadManager = observer(({channel}: {channel: ChannelRecord}) => {
 		[channel.id, isSlowmodeActive],
 	);
 
-	const handlePaste = React.useCallback(
+	const handlePaste = useCallback(
 		(event: ClipboardEvent) => {
 			const items = event.clipboardData?.items;
 			if (!items) {
@@ -148,7 +166,7 @@ export const UploadManager = observer(({channel}: {channel: ChannelRecord}) => {
 		[onDrop],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const handleDragEnter = (event: DragEvent) => {
 			event.preventDefault();
 			if (ModalStore.hasModalOpen() && !ModalStore.hasModal(UPLOAD_DROP_MODAL_KEY)) {
@@ -214,13 +232,13 @@ export const UploadManager = observer(({channel}: {channel: ChannelRecord}) => {
 		};
 	}, [onDrop, handlePaste, isDragging, isSlowmodeActive, resetDragState]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (dragCounter === 0) {
 			setIsDragging(false);
 		}
 	}, [dragCounter]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (isDragging) {
 			ModalActionCreators.pushWithKey(
 				modal(() => (

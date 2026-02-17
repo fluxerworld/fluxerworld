@@ -88,19 +88,13 @@
 	color: var(--text-secondary);
 }
 
-.tabButton:focus-visible {
-	outline: none;
-	box-shadow: 0 0 0 2px var(--border-focus, var(--brand-primary));
-}
-
 .tabActive {
 	background-color: var(--background-primary);
 	color: var(--text-primary);
 	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
-.tabInactive:hover,
-.tabInactive:focus-visible {
+.tabInactive:hover {
 	color: var(--text-primary);
 }
 

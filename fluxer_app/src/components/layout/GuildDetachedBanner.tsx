@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/GuildDetachedBanner.module.css';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {GuildFeatures} from '@fluxer/constants/src/GuildConstants';
 import {useMemo} from 'react';
-import {GuildFeatures} from '~/Constants';
-import type {GuildRecord} from '~/records/GuildRecord';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import styles from './GuildDetachedBanner.module.css';
 
 const MAX_VIEWPORT_HEIGHT_FRACTION = 0.3;
 const DEFAULT_BANNER_HEIGHT = 240;

@@ -1,0 +1,440 @@
+app.communities.community: Спільнота
+app.communities.community_support: Підтримка спільнот
+app.communities.featured_in_discovery: Рекомендовано в огляді
+app.communities.moderation.actions_and_tools: Дії та інструменти модерації
+app.communities.moderation.report_people_or_communities: Скаржся на користувачів або спільноти, щоб Fluxer залишався безпечним для всіх.
+app.communities.moderation.tools: Інструменти модерації
+app.communities.roles_permissions_audit.audit_logs: Журнали аудиту для прозорості
+app.communities.roles_permissions_audit.granular_roles_and_permissions: Гнучкі ролі та дозволи
+app.communities.roles_permissions_audit.keep_running_smoothly: Підтримуй порядок у спільноті з ролями, дозволами та логами.
+app.communities.title: Спільноти
+app.communities.verification.label: Верифікація спільноти
+app.communities.verification.value_statement: Твоя спільнота отримує верифікований статус для довіри та автентичності.
+app.communities.verification.verified_community: Верифікована спільнота
+app.customization.animated_profile.animated_avatars_and_banners: Анімовані аватари та банери
+app.customization.animated_profile.stand_out_animated_profile: Виділяйся з анімованими аватарками та банерами, що показують твою індивідуальність.
+app.customization.app_icon_badges: Показ лічильника сповіщень на іконці додатка.
+app.customization.compact_mode: Компактний режим і параметри відображення
+app.customization.custom_css_themes: Теми з власним CSS
+app.customization.custom_sounds.entrance_sounds: Кастомні звуки входу
+app.customization.custom_sounds.notification_sounds: Кастомні звуки сповіщень
+app.customization.custom_sounds.set_personalized_join_sounds: Налаштуй персональні звуки входу в голосові канали, щоб усі знали, що ти тут.
+app.customization.custom_sounds.upload_custom_notification_sounds: Завантажуй і використовуй власні звуки сповіщень для персоналізації Fluxer.
+app.customization.custom_themes: Кастомні теми
+app.customization.global_emoji_and_sticker_access: Глобальний доступ до емодзі та стікерів
+app.customization.saved_media_and_css: Додавай власні емодзі, зберігай медіа на потім і стилізуй додаток через CSS.
+app.customization.title: Налаштування
+app.customization.upload_custom_emojis_and_stickers: Завантажуй власні емодзі та стікери
+app.customization.use_animated_emojis: Використовуй анімовані емодзі
+app.messaging.description: Пиши друзям у приват, спілкуйся в групах або створюй спільноти з каналами.
+app.messaging.features.bookmarked_messages: Закладки на повідомлення
+app.messaging.features.file_sharing: Обмін файлами та попередній перегляд посилань
+app.messaging.features.full_markdown_support: Повна підтримка Markdown у повідомленнях
+app.messaging.features.message_scheduling.description: Плануй відправлення повідомлень на конкретний час у майбутньому. DeLorean не потрібен.
+app.messaging.features.organised_channels_for_communities: Впорядковані канали для спільнот
+app.messaging.features.private_dms_and_group_chats: Приватні повідомлення та групові чати
+app.messaging.features.save_media: Зберігай зображення, відео, GIF і аудіо
+app.messaging.features.search.filter_options: Фільтри за користувачами, датами та іншим
+app.messaging.features.search.find_old_messages: Знаходь старі повідомлення або миттєво переходь між спільнотами й каналами.
+app.messaging.features.search.label: Пошук в історії повідомлень
+app.messaging.features.search.quick_switcher_shortcuts: Швидкий перемикач з клавіатурними скороченнями
+app.messaging.features.search.search_and_quick_switcher: Пошук і швидкий перемикач
+app.messaging.title: Повідомлення
+app.open.open_fluxer: Відкрити Fluxer
+app.open.open_web_app: Відкрити веб-додаток
+app.profiles_identity.custom_identity: Власна ідентичність
+app.profiles_identity.customise_per_community: Налаштовуй профіль по-різному для кожної спільноти, де ти є.
+app.profiles_identity.manage_friends_and_block_users: Керуй друзями та блокуйте користувачів
+app.voice_and_video.features.mute_controls: Керування мікрофоном, звуком і камерою
+app.voice_and_video.features.noise_suppression: Придушення шуму та ехокомпенсація
+app.voice_and_video.features.screen_sharing: Вбудований шерінг екрана
+app.voice_and_video.features.stream_4k_60fps: Стримь відео до 4K розрізняння з частотою 60 кадрів/сек, щоб інші могли бачити тебе в приголомшливій чіткості.
+app.voice_and_video.features.up_to_4k_video_quality: До 4K якості відео
+app.voice_and_video.features.video_backgrounds.description: Зберігай до 15 відеофонів для дзвінків. Більше ніяких пошуків у папці Downloads.
+app.voice_and_video.features.video_quality: Якість відео
+app.voice_and_video.features.video_quality_free: 720p/30 кадрів/сек
+app.voice_and_video.features.video_quality_premium: До 4K/60fps
+app.voice_and_video.hop_in_a_call: Заходь у дзвінок з друзями або ділися екраном для спільної роботи.
+app.voice_and_video.title: Голос і відео
+beta_and_access.beta_label: Бета
+beta_and_access.early_access.be_first_to_try: Будь першим, хто тестує нові фічі до їхнього релізу для всіх.
+beta_and_access.early_access.label: Ранній доступ
+beta_and_access.featured_benefit_line: Усі базові можливості, які ти очікуєш, плюс кілька неочікуваних.
+beta_and_access.public_beta: Публічна бета
+beta_and_access.registration_limited_during_beta: Під час бети ми обмежуємо реєстрацію. Коли ти всередині, зможеш ділитися кодами з друзями, щоб пропустити чергу.
+beta_and_access.try_without_email: Спробуй Fluxer без email за 30 секунд
+community_funding_and_roles.focused_on_product: Наразі ми зосереджені на створенні крутого продукту та збереженні незалежності Fluxer.
+community_funding_and_roles.future_paid_roles_heading: Майбутнє оплачуваних ролей
+community_funding_and_roles.future_paid_roles_note: Ми ще будуємо бізнес навколо Fluxer і поки не готові до оплачуваних ролей.
+community_funding_and_roles.non_paid_recurring_role: Неоплачувана роль для регулярних контрибʼюторів, які допомагають формувати Fluxer разом з основною командою.
+community_funding_and_roles.sustainability_note: З твоєю підтримкою ми сподіваємося зробити цю незалежну платформу сталою та з часом запропонувати оплачувані ролі.
+company_and_resources.blog: Блог
+company_and_resources.careers.careers_at_fluxer: Карʼєра в Fluxer
+company_and_resources.careers.label: Карʼєра
+company_and_resources.careers.share_a_bit_about_yourself: Розкажи трохи про себе та як ти хочеш долучитися, написавши на careers@fluxer.app
+company_and_resources.community_team.fluxer_community_team: Команда спільноти Fluxer
+company_and_resources.community_team.share_feedback_report_bugs: Ділися фідбеком, повідомляй про баги та допомагай робити Fluxer комфортним для всіх.
+company_and_resources.company: Компанія
+company_and_resources.company_info: Про компанію
+company_and_resources.connect: Звʼязок
+company_and_resources.docs: Документація
+company_and_resources.help.get_help: Отримати допомогу
+company_and_resources.help.help_center: Центр допомоги
+company_and_resources.help.label: Допомога
+company_and_resources.press.label: Преса
+company_and_resources.press.press_contact: Контакт для преси
+company_and_resources.product: Продукт
+company_and_resources.resources: Ресурси
+company_and_resources.source_and_contribution.code_issues_docs_reviews: Код, задачі, документація та ревʼю
+company_and_resources.source_and_contribution.contribute_code: Контрибʼют коду
+company_and_resources.source_and_contribution.contribute_on_github: Контрибʼют на GitHub
+company_and_resources.source_and_contribution.fix_bugs_ship_features: Фіксь баги, додавай фічі або поліруй досвід у нашому основному репо.
+company_and_resources.source_and_contribution.fluxer_built_in_open: Fluxer створюється відкрито. Обирай шлях, який підходить саме тобі.
+company_and_resources.source_and_contribution.get_involved: Долучитися
+company_and_resources.source_and_contribution.source_code: Вихідний код
+company_and_resources.source_and_contribution.translation.help_translate: Допоможи перекласти Fluxer і документацію, щоб усе виглядало нативно всюди.
+company_and_resources.source_and_contribution.translation.label: Переклад і локалізація
+company_and_resources.source_and_contribution.translation.llm_translation_note: Усі переклади наразі згенеровані LLM з мінімальною людською перевіркою. Ми будемо раді реальним людям, які допоможуть локалізувати Fluxer твоєю мовою. Напиши на i18n@fluxer.app, і ми з радістю приймемо твій внесок.
+company_and_resources.source_and_contribution.translation.localization_label: Локалізація
+company_and_resources.source_and_contribution.view_repository: Переглянути репозиторій
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: Хочеш допомогти будувати Fluxer?
+company_and_resources.source_and_contribution.ways_to_contribute: Способи долучитися
+donations.business: Бізнес
+donations.donate.action: Підтримати
+donations.donate.label: Підтримати Fluxer
+donations.donate.description: Підтримайте Fluxer одноразовим або повторюваним пожертвуванням
+donations.donation_disclaimer: Пожертви є добровільними й не надають жодних продуктів, послуг, прав власності чи особливих привілеїв. Якщо шукаєш преміум-функції, зазирни в {0}.
+donations.individual: Фізична особа
+donations.individual_vs_business.answer: Обидва типи пожертв однаково підтримують проєкт. Різниця лише в тому, що бізнес-пожертви дозволяють вказати податковий номер (за потреби) і отримати PDF-рахунок для бухгалтерії.
+donations.individual_vs_business.question: У чому різниця між Фізичною особою та Бізнесом?
+donations.infrastructure_costs_detail: Твій внесок допомагає покривати витрати на інфраструктуру Fluxer, включно з серверами, трафіком, зберіганням даних і постійною розробкою нових функцій. Це допомагає підтримувати та покращувати платформу для всіх.
+donations.minimum_donation: 'Мінімальний внесок: $5 / €5'
+donations.mobile_roadmap_sponsorship: Підтримати роадмап мобільних додатків
+donations.send_one_time_gift: Надіслати разовий внесок
+donations.support_future_development: Підтримати майбутній розвиток
+donations.support_message: Допоможи нам створювати незалежну платформу для спілкування. Твій внесок фінансує інфраструктуру та розробку.
+donations.tax_deductible.answer: Пожертви Fluxer наразі не підлягають податковому вирахуванню, але вони напряму фінансують нашу інфраструктуру та постійний розвиток.
+donations.tax_deductible.question: Чи є мій внесок податково вираховуваним?
+donations.what_it_supports: На що йде мій внесок?
+donations.why_support: Допоможи нам створити інший тип платформи для спілкування – з відкритим кодом, фінансовану спільнотою та зроблену з турботою.
+donations.recurring: Регулярний
+donations.return_question: Чи отримаю я щось натомість?
+donations.form.email: Email
+donations.form.email_placeholder: ваш@email.com
+donations.form.amount: Сума
+donations.form.amount_other: Інша сума
+donations.form.amount_placeholder: Введи суму (5-1000)
+donations.form.billing: Виставлення рахунку
+donations.form.donation_type: Тип пожертвування
+donations.form.one_time: Один раз
+donations.form.or_label: Або
+donations.form.monthly: Щомісяця
+donations.form.yearly: Щороку
+donations.form.currency: Валюта
+donations.form.processing: Обробка...
+donations.form.send_link: Надіслати посилання
+donations.form.sending: Надсилання...
+donations.errors.active_subscription_exists: У тебе вже є активна регулярна пожертва. Щоб почати іншу регулярну пожертву, спершу скасуй поточну через клієнтський портал. Замість цього можеш зробити разову пожертву.
+donations.errors.invalid_email: Будь ласка, введи правильну адресу email
+donations.errors.invalid_amount: Сума має бути від 5 до 1000
+donations.errors.generic: Щось пішло не так. Спробуй ще раз.
+donations.errors.network: Помилка мережі. Спробуй ще раз.
+donations.manage.title: Керування пожертвами
+donations.manage.description: Введи email, щоб отримати посилання на портал донора, де можна керувати підписками, завантажувати рахунки та переглядати історію пожертв.
+donations.manage.success: Якщо для цього email існує акаунт, незабаром ти отримаєш посилання для керування.
+donations.success.title: Дякуємо!
+donations.success.description: Дякуємо за твою підтримку!
+donations.success.message: Дякуємо за твою пожертву! Ми дуже цінуємо твою підтримку.
+donations.success.email_notice: Незабаром ти отримаєш email із підтвердженням з деталями пожертви та посиланням на портал донора.
+donations.success.back_to_donate: Повернутися до пожертв
+download.download: Завантажити
+download.download_app_or_open_in_browser: Завантаж додаток або відкрий Fluxer у браузері, щоб почати спілкуватися зі своїми спільнотами.
+download.download_fluxer: Завантажити Fluxer
+download.download_for_prefix: 'Завантажити для '
+download.open_in_browser: Відкрити у браузері
+download.screenshots_courtesy_of: 'Скріншоти надані '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: Правила спільноти
+footer.company_information: Інформація про компанію
+footer.connect: Звʼязок
+footer.donate: Підтримати
+footer.download: Завантажити
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (шведська компанія з обмеженою відповідальністю: 559537-3993)'
+footer.help_support_an_independent_communication: Підтримай незалежну платформу для спілкування. Твій внесок фінансує інфраструктуру та розвиток платформи.
+footer.partners: Партнери
+footer.plutonium_tier: Рівень Plutonium
+footer.policies: Політики
+footer.press: Преса
+footer.privacy_policy: Політика конфіденційності
+footer.report_a_bug: Повідомити про баг
+footer.roadmap: Роадмап
+footer.rss_feed: RSS фід
+footer.security_bug_bounty: Баунті за баги безпеки
+footer.source_code: Вихідний код
+footer.terms_of_service: Умови використання
+general.all: усе
+general.coming_soon.label: Скоро
+general.coming_soon.whats_available_today: Що доступно вже зараз
+general.last_updated: Останнє оновлення
+general.made_in_sweden: Зроблено у Швеції
+general.not_available: Недоступно
+general.or: або
+general.tagline: Чат-додаток, який ставить тебе на перше місце
+languages.change_language: Змінити мову
+languages.choose_your_language: Обери мову
+languages.language_label: Мова
+languages.list.arabic: Арабська
+languages.list.bulgarian: Болгарська
+languages.list.chinese_simplified: Китайська (спрощена)
+languages.list.chinese_traditional: Китайська (традиційна)
+languages.list.croatian: Хорватська
+languages.list.czech: Чеська
+languages.list.danish: Данська
+languages.list.dutch: Нідерландська
+languages.list.english: Англійська
+languages.list.english_us: Англійська (США)
+languages.list.finnish: Фінська
+languages.list.french: Французька
+languages.list.german: Німецька
+languages.list.greek: Грецька
+languages.list.hebrew: Іврит
+languages.list.hindi: Гінді
+languages.list.hungarian: Угорська
+languages.list.indonesian: Індонезійська
+languages.list.italian: Італійська
+languages.list.japanese: Японська
+languages.list.korean: Корейська
+languages.list.lithuanian: Литовська
+languages.list.norwegian: Норвезька
+languages.list.polish: Польська
+languages.list.portuguese_brazil: Португальська (Бразилія)
+languages.list.romanian: Румунська
+languages.list.russian: Російська
+languages.list.spanish_latin_america: Іспанська (Латинська Америка)
+languages.list.spanish_spain: Іспанська (Іспанія)
+languages.list.swedish: Шведська
+languages.list.thai: Тайська
+languages.list.turkish: Турецька
+languages.list.ukrainian: Українська
+languages.list.vietnamese: Вʼєтнамська
+launch.description: Дізнайся про розробника Fluxer, цілі проєкту, техстек та що далі.
+launch.heading: Історія Fluxer
+launch.read_more: Прочитати запусковий пост
+launch.view_full_roadmap: Переглянути повний роадмап
+misc_labels.design_and_branding: Дизайн і брендинг
+misc_labels.direct_team_support: Пряма підтримка від команди
+misc_labels.exclusive_communities: Ексклюзивні спільноти
+misc_labels.exclusive_features: Ексклюзивні функції
+misc_labels.feature: Функція
+misc_labels.get_updates: Отримуй оновлення, дивись майбутні функції, обговорюй ідеї та спілкуйся з командою.
+misc_labels.join_and_spread_word: Долучайся та поширюй
+misc_labels.join_fluxer_community_contribute: Долучайся до спільноти Fluxer і допомагай будувати майбутнє спілкування через відкритий код і внески спільноти.
+misc_labels.join_fluxer_hq: Приєднатися до Fluxer HQ
+misc_labels.join_multiple_devices: Підключайся з кількох пристроїв одночасно
+misc_labels.join_team_behind_fluxer: Приєднатися до команди Fluxer
+misc_labels.learn_more: Дізнатися більше
+misc_labels.product_hunt_badge_title: Fluxer - платформа миттєвих повідомлень і VoIP з відкритим кодом | Топ-пост Product Hunt
+misc_labels.profile_badge: Бейдж профілю
+misc_labels.read_the_guide: Прочитати гід
+misc_labels.ready_to_get_started: Готовий почати?
+misc_labels.register_now: Зареєструватися зараз
+misc_labels.related_policies: Повʼязані політики
+misc_labels.report_bugs: Повідомити про баги
+misc_labels.software_development: Розробка ПЗ
+misc_labels.trust_and_safety: Довіра та безпека
+misc_labels.unique_profile_badge: Унікальний бейдж профілю
+misc_labels.unlimited_users: Необмежена кількість користувачів
+navigation.close: Закрити
+navigation.close_navigation_menu: Закрити меню навігації
+navigation.copy_link_to_section: Скопіювати посилання на розділ
+navigation.go_home: На головну
+navigation.on_this_page: На цій сторінці
+navigation.page_not_found.description: Цієї сторінки не існує. Але попереду ще багато цікавого.
+navigation.page_not_found.title: Сторінку не знайдено
+navigation.press.download_assets_intro: Завантажуйте наші логотипи, дізнавайтеся про бренд-кольори та звʼязуйтеся з нашою прес-командою.
+navigation.press.download_fluxer_assets: Завантажуйте логотипи Fluxer, бренд-матеріали та звʼязуйтеся з нашою прес-командою
+navigation.press.press_and_brand_assets: Преса та бренд-матеріали
+partner_program.become_partner.apply_email: Подай заявку на partners@fluxer.app
+partner_program.become_partner.call_to_action: Стати партнером
+partner_program.become_partner.heading: Стати партнером Fluxer
+partner_program.become_partner.if_youre_a_creator_or: Якщо ти контент-креатор або керуєш великою спільнотою, будемо раді почути тебе.
+partner_program.become_partner.learn_about_partners: Про партнерів
+partner_program.become_partner.learn_more: Дізнатися більше
+partner_program.become_partner.ready_prompt: Готовий стати партнером?
+partner_program.description: Ексклюзивні бонуси та переваги для контент-креаторів і власників великих спільнот.
+partner_program.label: Партнери
+partner_program.perks.creator_monetization.description: Ранній доступ до інструментів монетизації з нижчими комісіями, ніж у непартнерів.
+partner_program.perks.creator_monetization.label: Монетизація для креаторів
+partner_program.perks.custom_vanity_url.description: Отримай ексклюзивний URL на кшталт fluxer.gg/yourcommunity.
+partner_program.perks.custom_vanity_url.label: Кастомний vanity URL
+partner_program.perks.direct_team_access.description: Приєднуйся до закритої спільноти партнерів з прямим доступом до команди Fluxer.
+partner_program.perks.direct_team_access.label: Прямий доступ до команди
+partner_program.perks.discovery_visibility: Отримай більше видимості завдяки рекомендаціям в огляді спільнот.
+partner_program.perks.exclusive_merch.description: Отримай ексклюзивний мерч і сувеніри лише для партнерів Fluxer.
+partner_program.perks.exclusive_merch.label: Ексклюзивний мерч
+partner_program.perks.free_plutonium.description: Отримай Plutonium безкоштовно для доступу до всіх преміум-функцій.
+partner_program.perks.free_plutonium.label: Безкоштовний Plutonium
+partner_program.perks.increased_limits.description: Твоя спільнота отримує підвищені ліміти, коли це потрібно.
+partner_program.perks.increased_limits.label: Підвищені ліміти
+partner_program.perks.partner_badge.description: Показуй ексклюзивний партнерський бейдж у профілі, щоб виділятися.
+partner_program.perks.partner_badge.label: Партнерський бейдж
+partner_program.perks.vip_voice_servers.description: Доступ до VIP голосових серверів виключно для партнерських спільнот.
+partner_program.perks.vip_voice_servers.label: VIP голосові канали
+partner_program.requirements.audience_description: Короткий опис твоєї аудиторії та діяльності
+partner_program.requirements.links_to_content: Посилання на контент або спільноту (YouTube, Twitch, Discord тощо)
+partner_program.requirements.name_and_username: Твоє імʼя та нік на платформі
+partner_program.requirements.usage_plan: Як ти плануєш використовувати Fluxer зі своєю спільнотою
+partner_program.who_its_for: Контент-креатори та власники спільнот – відкрий ексклюзивні бонуси, включно з безкоштовним Plutonium, партнерським бейджем, кастомними vanity URL та іншим.
+partner_program.perks.heading: Переваги партнерів
+partner_program.perks.see_perks: Переглянути переваги
+partner_program.apply.instructions: Надішли нам email з наступною інформацією, щоб подати заявку на партнерську програму Fluxer.
+partner_program.apply.response_time: Ми розглядаємо всі заявки й відповімо протягом кількох днів.
+platform_support.desktop.available_on_desktop_and_web: Доступно на компʼютері та у вебі
+platform_support.desktop.download_desktop_intro: Завантажуй Fluxer для Windows, macOS і Linux. Мобільні додатки вже в роботі.
+platform_support.desktop.interface_label: Десктопний інтерфейс Fluxer
+platform_support.desktop.label: Десктоп
+platform_support.desktop.use_desktop_client_mobile_soon: Користуйся десктоп-клієнтом (мобільний скоро)
+platform_support.mobile.install_as_app.add_to_home: Додай Fluxer на головний екран, щоб сховати інтерфейс браузера.
+platform_support.mobile.install_as_app.done_desktop: Готово! Тепер ти можеш відкривати Fluxer як звичайну програму.
+platform_support.mobile.install_as_app.done_mobile: Готово! Тепер ти можеш відкривати Fluxer з головного екрана.
+platform_support.mobile.install_as_app.guides.in_chrome: ' у Chrome'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: ' у Chrome або іншому браузері з підтримкою PWA'
+platform_support.mobile.install_as_app.guides.in_safari: ' у Safari'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: Гід зі встановлення PWA для {name}
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: 'Натисни "Додати на головний екран"'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: 'Натисни "Додати" у верхньому правому куті'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: 'Натисни "Встановити додаток"'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: Натисни кнопку встановлення (стрілка вниз на моніторі) в адресному рядку
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: 'Натисни "Встановити" у спливаючому вікні'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: 'Натисни кнопку "Більше" (⋮) у верхньому правому куті'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: Натисни кнопку поширення (прямокутник зі стрілкою вгору)
+platform_support.mobile.install_as_app.install_fluxer_as_app: Встановити Fluxer як додаток
+platform_support.mobile.install_as_app.title: Як встановити як додаток
+platform_support.mobile.interface_label: Мобільний інтерфейс Fluxer
+platform_support.mobile.mobile_apps_underway: Мобільні додатки в розробці
+platform_support.mobile.mobile_browser_explainer: Ми створюємо додатки для iOS і Android. Поки вони не готові, Fluxer працює в мобільному браузері, і ми зробили все, щоб це відчувалося максимально як додаток.
+platform_support.mobile.not_full_replacement_yet: Поки що це не повна заміна десктопного додатка, і деяких звичних мобільних функцій ще бракує.
+platform_support.mobile.push_notifications: Отримуй push-сповіщення, коли ти не в додатку.
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS та iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: Обрати дистрибутив Linux
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: Завантажити для macOS
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: Завантажити для Windows
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: Бренд-кольори
+press_branding.assets.full_color: Повнокольорова версія
+press_branding.assets.label: Логотип
+press_branding.assets.logo_variants.black_logo: Чорний логотип
+press_branding.assets.logo_variants.color_logo: Кольоровий логотип
+press_branding.assets.logo_variants.white_logo: Білий логотип
+press_branding.assets.palette_description: Ретельно підібрана палітра, що представляє бренд Fluxer.
+press_branding.assets.premium_quality: Преміум-якість
+press_branding.assets.primary_brand_color_description: Наш основний бренд-колір. Використовуй його для ключових елементів і акцентів.
+press_branding.assets.symbol_variants.black_symbol: Чорний символ
+press_branding.assets.symbol_variants.color_symbol: Кольоровий символ
+press_branding.assets.symbol_variants.label: Символ
+press_branding.assets.symbol_variants.white_symbol: Білий символ
+press_branding.assets.usage_guidance.dark_surface_guidance: Для фонів, тексту на темних поверхнях і створення контрасту.
+press_branding.assets.usage_guidance.for_dark_backgrounds: Для темних фонів
+press_branding.assets.usage_guidance.for_light_backgrounds: Для світлих фонів
+press_branding.assets.usage_guidance.full_logo_description: Повний логотип зі словесним знаком. Використовуй його як основне представлення бренду.
+press_branding.assets.usage_guidance.light_surface_guidance: Для тексту, іконок на світлих поверхнях і створення глибини.
+press_branding.assets.usage_guidance.symbol_description: Окремий символ. Використовуй лише коли бренд уже чітко впізнаваний у контексті.
+press_branding.colors.blue_da_ba_dee: Blue Da Ba Dee
+press_branding.colors.white: Білий
+press_branding.colors.black: Чорний
+press_branding.contact.story_prompt: Є історія про Fluxer? Ми будемо раді почути від тебе.
+press_branding.contact.response_time: Зазвичай ми відповідаємо протягом 24 годин.
+pricing_and_tiers.billing.forever: Назавжди
+pricing_and_tiers.billing.most_popular: Найпопулярніше
+pricing_and_tiers.billing.per_forever: /назавжди
+pricing_and_tiers.billing.per_month: /міс
+pricing_and_tiers.billing.per_year_full: /рік
+pricing_and_tiers.billing.per_year_short: /рік
+pricing_and_tiers.billing.save_percent: Зеконом 17%
+pricing_and_tiers.free.comparison_label: Безкоштовно vs Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 'Усе з Безкоштовно, плюс:'
+pricing_and_tiers.free.full_access_to_all_features: Повний доступ до всіх функцій
+pricing_and_tiers.free.label: Безкоштовно
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: 'Примітка: переваги Plutonium і Visionary діють лише на офіційному інстансі Fluxer.app, а не на сторонніх чи самохостингових.'
+pricing_and_tiers.plutonium.feature_highlights: Завантаження до 500 МБ, повідомлення до 4 000 символів, 300 закладок, 50 паків емодзі та багато іншого.
+pricing_and_tiers.plutonium.features.bio_character_limit: Ліміт символів у біо
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: Обери власний 4-цифровий тег типу #0001, #1337 або #9999, щоб зробити свій нікнейм дійсно унікальним.
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: Кастомний 4-цифровий тег імені
+pricing_and_tiers.plutonium.features.custom_username_tag: Кастомний тег імені
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: Кастомні відеофони
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: Паки емодзі та стікерів
+pricing_and_tiers.plutonium.features.file_upload_size: Розмір завантаження файлів
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: Глобальний доступ до емодзі та стікерів
+pricing_and_tiers.plutonium.features.message_character_limit: Ліміт символів у повідомленні
+pricing_and_tiers.plutonium.features.message_scheduling: Планування повідомлень
+pricing_and_tiers.plutonium.features.per_community_profiles: Профілі для кожної спільноти
+pricing_and_tiers.plutonium.features.saved_media: Збережені медіа
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: Підтримка вебхуків і ботів
+pricing_and_tiers.plutonium.get_more_with_plutonium: Отримай більше з Fluxer Plutonium
+pricing_and_tiers.plutonium.get_plutonium: Отримати Plutonium
+pricing_and_tiers.plutonium.higher_limits_and_early_access: Вищі ліміти, ексклюзивні фічі та ранній доступ до оновлень
+pricing_and_tiers.plutonium.higher_limits_everywhere: Вищі ліміти всюди
+pricing_and_tiers.plutonium.show_off_status_badge: Покажи свій статус Plutonium з ексклюзивним бейджем у профілі.
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: Оновися до Plutonium за $4.99/міс – кастомні теги імен, профілі для спільнот, планування повідомлень, стрімінг 4K, завантаження до 500 МБ і багато іншого.
+pricing_and_tiers.visionary.badge.numbered_badge: Нумерований бейдж зі статусом Visionary
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: Нумерований бейдж (1–{0}) зі статусом Visionary
+pricing_and_tiers.visionary.bundle_label: Plutonium і Operator Pass назавжди з Visionary – обмежено
+pricing_and_tiers.visionary.communities_with_team_access: Спільноти Visionary та Operators з доступом до команди
+pricing_and_tiers.visionary.get_visionary: Отримати Visionary
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: Отримай Plutonium назавжди на Fluxer.app плюс Operator Pass для самохостингу. Разовий платіж {0}. Доступно до 1 жовтня 2026 року або поки не будуть зайняті всі місця.
+pricing_and_tiers.visionary.lifetime_operator_pass: Operator Pass назавжди
+pricing_and_tiers.visionary.lifetime_plutonium: Plutonium назавжди
+pricing_and_tiers.visionary.limited_offer_note: 'Обмежена пропозиція: Visionary включає Operator Pass'
+pricing_and_tiers.visionary.limited_slots_label: Visionary – обмежена кількість
+pricing_and_tiers.visionary.one_time_purchase.label: Разова покупка
+pricing_and_tiers.visionary.one_time_purchase.promise: Разова покупка, доступ назавжди
+pricing_and_tiers.visionary.purchase_flow: Придбай Visionary прямо в додатку після створення акаунта. Дата покупки та номер замовлення відображатимуться у профілі (можна приховати в налаштуваннях приватності).
+pricing_and_tiers.visionary.slots_left.generic: Залишилось {0} з {1} місць
+pricing_and_tiers.visionary.slots_left.visionary_bundle: Лише {0} з {1} місць Visionary – Plutonium і Operator Pass назавжди
+pricing_and_tiers.visionary.slots_left.visionary_only: Залишилось {0} місць Visionary
+product_positioning.free_and_open_source: Fluxer безкоштовний і з відкритим кодом. Кожен може безкоштовно хостити власний інстанс.
+product_positioning.intro: Fluxer – це безкоштовна платформа миттєвих повідомлень і VoIP з відкритим кодом для друзів, груп і спільнот.
+product_positioning.open_source.fully_open_source_agplv3: Повністю з відкритим кодом (AGPLv3)
+product_positioning.open_source.label: Відкритий код
+product_positioning.open_source.license: Відкритий код (AGPL-3.0)
+product_positioning.self_hosting.connect_from_any_client: Підключайся з будь-якого клієнта
+product_positioning.self_hosting.free_self_hosting: Безкоштовний самохостинг
+product_positioning.self_hosting.host_your_own_instance: Хости власний інстанс
+product_positioning.self_hosting.label: Самохостинг
+product_positioning.self_hosting.operator_pass.access_to_operators_community: Доступ до спільноти Fluxer Operators
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: Після завершення пропозиції Operator Pass залишиться доступним окремо.
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: Operator Pass необовʼязковий – це оплата за підтримку та доступ до спільноти.
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: Пріоритетна підтримка та доступ до спільноти Operators для самохостингу
+product_positioning.self_hosting.run_backend_on_your_hardware: Запускай бекенд Fluxer на своєму залізі та підключайся через наші додатки.
+product_positioning.self_hosting.switch_between_instances: Перемикайся між кількома інстансами
+security.found_security_issue: Знайшов проблему з безпекою?
+security.report_vulnerabilities: Повідомляй про вразливості та допомагай нам зберігати платформу безпечною.
+security.responsible_disclosure_note: Ми цінуємо відповідальне розкриття через сторінку баунті. За серйозність надаємо коди Plutonium і бейджі Bug Hunter.
+security.security_bug_bounty: Баунті за баги безпеки
+security.security_reports: Звіти з безпеки
+security.testers_access_from_reports: Схвалені звіти відкривають доступ до Fluxer Testers, де можна заробляти бали за коди Plutonium і бейдж Bug Hunter.
+social_and_feeds.bluesky.follow_us: Слідкуй за нами в Bluesky
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: RSS фід Bluesky
+social_and_feeds.follow_fluxer: Слідкуй за @fluxer.app
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: RSS фід блогу
+social_and_feeds.rss.fluxer_blog_rss: RSS блогу Fluxer
+social_and_feeds.rss.label: RSS фід
+social_and_feeds.stay_updated_cta: Будь у курсі новин, статусу сервісу та всього, що відбувається. Також ти можеш підписатися на наш

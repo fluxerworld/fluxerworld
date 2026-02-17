@@ -17,20 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import AppStorage from '@app/lib/AppStorage';
+import type {GatewayCustomStatusPayload} from '@app/lib/CustomStatus';
+import {ExponentialBackoff} from '@app/lib/ExponentialBackoff';
+import {type CompressionType, GatewayCompression} from '@app/lib/GatewayCompression';
+import {Logger} from '@app/lib/Logger';
+import relayClient from '@app/lib/RelayClient';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import GeoIPStore from '@app/stores/GeoIPStore';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import LayerManager from '@app/stores/LayerManager';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import type {GatewayErrorCode} from '@fluxer/constants/src/GatewayConstants';
+import {GatewayCloseCodes, GatewayOpcodes} from '@fluxer/constants/src/GatewayConstants';
+import type {ValueOf} from '@fluxer/constants/src/ValueOf';
 import EventEmitter from 'eventemitter3';
-import type {GatewayErrorCode} from '~/Constants';
-import {GatewayCloseCodes, GatewayOpcodes} from '~/Constants';
-import AppStorage from '~/lib/AppStorage';
-import type {GatewayCustomStatusPayload} from '~/lib/customStatus';
-import {ExponentialBackoff} from '~/lib/ExponentialBackoff';
-import {type CompressionType, GatewayDecompressor} from '~/lib/GatewayCompression';
-import {Logger} from '~/lib/Logger';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ConnectionStore from '~/stores/ConnectionStore';
-import GeoIPStore from '~/stores/GeoIPStore';
-import LayerManager from '~/stores/LayerManager';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
 
 const GATEWAY_TIMEOUTS = {
 	HeartbeatAck: 15000,
@@ -40,13 +43,15 @@ const GATEWAY_TIMEOUTS = {
 	Hello: 20000,
 } as const;
 
+const PRESERVED_RESET_STORAGE_KEYS = ['DraftStore'] as const;
+
 export const GatewayState = {
 	Disconnected: 'DISCONNECTED',
 	Connecting: 'CONNECTING',
 	Connected: 'CONNECTED',
 	Reconnecting: 'RECONNECTING',
 } as const;
-export type GatewayState = (typeof GatewayState)[keyof typeof GatewayState];
+export type GatewayState = ValueOf<typeof GatewayState>;
 
 export interface GatewayPayload {
 	op: number;
@@ -101,6 +106,7 @@ export interface GatewaySocketEvents {
 	resumed: () => void;
 	disconnect: (event: {code: number; reason: string; wasClean: boolean}) => void;
 	error: (error: Error | Event | CloseEvent) => void;
+	fatalError: (error: Error) => void;
 	gatewayError: (error: GatewayErrorData) => void;
 	message: (payload: GatewayPayload) => void;
 	dispatch: (type: string, data: unknown) => void;
@@ -133,7 +139,9 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 	private invalidSessionTimeoutId: number | null = null;
 	private isUserInitiatedDisconnect = false;
 	private shouldReconnectImmediately = false;
-	private payloadDecompressor: GatewayDecompressor | null = null;
+	private deferredEmitQueue: Array<() => void> = [];
+	private deferredEmitTimeoutId: number | null = null;
+	private payloadDecompressor: GatewayCompression | null = null;
 
 	constructor(
 		private readonly gatewayUrlBase: string,
@@ -147,6 +155,26 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 			minDelay: GATEWAY_TIMEOUTS.MinReconnect,
 			maxDelay: GATEWAY_TIMEOUTS.MaxReconnect,
 		});
+	}
+
+	private emitDeferred<K extends keyof GatewaySocketEvents>(
+		event: K,
+		...args: Parameters<GatewaySocketEvents[K]>
+	): void {
+		this.deferredEmitQueue.push(() => {
+			(this.emit as (event: K, ...args: Parameters<GatewaySocketEvents[K]>) => boolean)(event, ...args);
+		});
+
+		if (this.deferredEmitTimeoutId != null) return;
+
+		this.deferredEmitTimeoutId = window.setTimeout(() => {
+			this.deferredEmitTimeoutId = null;
+			const queue = this.deferredEmitQueue;
+			this.deferredEmitQueue = [];
+			for (const emitFn of queue) {
+				emitFn();
+			}
+		}, 0);
 	}
 
 	connect(): void {
@@ -226,7 +254,7 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 
 	handleNetworkStatusChange(online: boolean): void {
 		this.log.info(`Network status: ${online ? 'online' : 'offline'}`);
-		this.emit('networkStatusChange', online);
+		this.emitDeferred('networkStatusChange', online);
 
 		if (online) {
 			if (this.connectionState === GatewayState.Disconnected || this.connectionState === GatewayState.Reconnecting) {
@@ -264,7 +292,7 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 		self_deaf: boolean;
 		self_video: boolean;
 		self_stream: boolean;
-		viewer_stream_key?: string | null;
+		viewer_stream_keys?: Array<string>;
 		connection_id: string | null;
 	}): void {
 		const isMobileLayout = MobileLayoutStore.isMobileLayout();
@@ -274,7 +302,7 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 			op: GatewayOpcodes.VOICE_STATE_UPDATE,
 			d: {
 				...params,
-				connection_id: params.connection_id || MediaEngineStore.connectionId,
+				connection_id: params['connection_id'] || MediaEngineStore.connectionId,
 				is_mobile: isMobileLayout,
 				latitude: latitude ?? undefined,
 				longitude: longitude ?? undefined,
@@ -295,12 +323,12 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 		this.sendPayload({
 			op: GatewayOpcodes.REQUEST_GUILD_MEMBERS,
 			d: {
-				guild_id: params.guildId,
-				...(params.query !== undefined && {query: params.query}),
-				...(params.limit !== undefined && {limit: params.limit}),
-				...(params.userIds !== undefined && {user_ids: [...new Set(params.userIds)]}),
-				...(params.presences !== undefined && {presences: params.presences}),
-				...(params.nonce !== undefined && {nonce: params.nonce}),
+				guild_id: params['guildId'],
+				...(params['query'] !== undefined && {query: params['query']}),
+				...(params['limit'] !== undefined && {limit: params['limit']}),
+				...(params['userIds'] !== undefined && {user_ids: [...new Set(params['userIds'])]}),
+				...(params['presences'] !== undefined && {presences: params['presences']}),
+				...(params['nonce'] !== undefined && {nonce: params['nonce']}),
 			},
 		});
 	}
@@ -352,32 +380,38 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 	private openSocket(): void {
 		this.teardownSocket();
 
-		const url = this.buildGatewayUrl();
-		this.log.debug(`Opening WebSocket connection to ${url}`);
+		this.buildGatewayUrl()
+			.then((url) => {
+				this.log.debug(`Opening WebSocket connection to ${url}`);
 
-		try {
-			this.socket = new WebSocket(url);
+				try {
+					this.socket = new WebSocket(url);
 
-			const compression: CompressionType = this.options.compression ?? 'zstd-stream';
-			if (compression !== 'none') {
-				this.socket.binaryType = 'arraybuffer';
-				this.payloadDecompressor = new GatewayDecompressor(compression);
-			} else {
-				this.socket.binaryType = 'blob';
-				this.payloadDecompressor = null;
-			}
+					const compression: CompressionType = this.options.compression ?? 'zstd-stream';
+					if (compression !== 'none') {
+						this.socket.binaryType = 'arraybuffer';
+						this.payloadDecompressor = new GatewayCompression(compression);
+					} else {
+						this.socket.binaryType = 'blob';
+						this.payloadDecompressor = null;
+					}
 
-			this.socket.addEventListener('open', this.handleSocketOpen);
-			this.socket.addEventListener('message', this.handleSocketMessage);
-			this.socket.addEventListener('close', this.handleSocketClose);
-			this.socket.addEventListener('error', this.handleSocketError);
+					this.socket.addEventListener('open', this.handleSocketOpen);
+					this.socket.addEventListener('message', this.handleSocketMessage);
+					this.socket.addEventListener('close', this.handleSocketClose);
+					this.socket.addEventListener('error', this.handleSocketError);
 
-			this.startHelloTimeout();
-			this.emit('connecting');
-		} catch (error) {
-			this.log.error('Failed to create WebSocket', error);
-			this.handleConnectionFailure();
-		}
+					this.startHelloTimeout();
+					this.emitDeferred('connecting');
+				} catch (error) {
+					this.log.error('Failed to create WebSocket', error);
+					this.handleConnectionFailure();
+				}
+			})
+			.catch((error) => {
+				this.log.error('Failed to build gateway URL', error);
+				this.handleConnectionFailure();
+			});
 	}
 
 	private teardownSocket(): void {
@@ -406,7 +440,7 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 
 	private handleSocketOpen = (): void => {
 		this.log.info('WebSocket connection established');
-		this.emit('connected');
+		this.emitDeferred('connected');
 	};
 
 	private handleSocketMessage = async (event: MessageEvent): Promise<void> => {
@@ -428,25 +462,13 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 			}
 
 			this.routeGatewayPayload(payload);
-			this.emit('message', payload);
+			this.emitDeferred('message', payload);
 		} catch (error) {
-			this.log.error('Error while handling gateway message', error);
-
-			if (this.options.compression && this.options.compression !== 'none') {
-				this.log.warn(`Decompression failed (compression=${this.options.compression}), retrying without compression`);
-				this.options.compression = 'none';
-
-				if (this.payloadDecompressor) {
-					this.payloadDecompressor.destroy();
-					this.payloadDecompressor = null;
-				}
-
-				this.shouldReconnectImmediately = true;
-				this.disconnect(GatewayCloseCodes.DECODE_ERROR, 'Message decode error', true);
-				return;
-			}
-
-			this.disconnect(GatewayCloseCodes.DECODE_ERROR, 'Message decode error');
+			const fatalError = error instanceof Error ? error : new Error(String(error));
+			this.log.fatal('Fatal gateway decode/parsing error', fatalError);
+			this.disconnect(GatewayCloseCodes.DECODE_ERROR, 'Fatal message decode error', false);
+			this.emit('fatalError', fatalError);
+			throw fatalError;
 		}
 	};
 
@@ -481,13 +503,7 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 			this.invalidSessionTimeoutId = null;
 		}
 
-		const compressionChanged = this.maybeAdjustCompression(event);
-		if (compressionChanged) {
-			this.shouldReconnectImmediately = true;
-			this.resetBackoffInternal();
-		}
-
-		this.emit('disconnect', {
+		this.emitDeferred('disconnect', {
 			code: event.code,
 			reason: event.reason,
 			wasClean: event.wasClean,
@@ -507,27 +523,9 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 
 	private handleSocketError = (event: Event): void => {
 		this.log.error('WebSocket error', event);
-		this.emit('error', event);
-
-		if (this.connectionState !== GatewayState.Reconnecting) {
-			this.handleConnectionFailure();
-		}
+		this.emitDeferred('error', event);
+		this.handleConnectionFailure();
 	};
-
-	private maybeAdjustCompression(event: CloseEvent): boolean {
-		if (event.code !== GatewayCloseCodes.DECODE_ERROR) return false;
-		const normalizedReason = (event.reason || '').toLowerCase();
-		if (!normalizedReason.includes('encode failed') && !normalizedReason.includes('compression failed')) return false;
-
-		const currentCompression = this.options.compression ?? 'none';
-		if (currentCompression === 'zstd-stream') {
-			this.log.warn('Disabling gateway compression due to encode failure');
-			this.options.compression = 'none';
-			return true;
-		}
-
-		return false;
-	}
 
 	private routeGatewayPayload(payload: GatewayPayload): void {
 		switch (payload.op) {
@@ -561,7 +559,7 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 			case GatewayOpcodes.GATEWAY_ERROR: {
 				const errorData = payload.d as GatewayErrorData;
 				this.log.warn(`Gateway error received [${errorData.code}] ${errorData.message}`);
-				this.emit('gatewayError', errorData);
+				this.emitDeferred('gatewayError', errorData);
 				break;
 			}
 		}
@@ -577,7 +575,7 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 				this.resetBackoffInternal();
 				this.updateState(GatewayState.Connected);
 				this.log.info(`Gateway READY, session=${this.activeSessionId}`);
-				this.emit('ready', payload.d);
+				this.emitDeferred('ready', payload.d);
 				break;
 			}
 
@@ -585,11 +583,11 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 				this.updateState(GatewayState.Connected);
 				this.resetBackoffInternal();
 				this.log.info('Gateway session resumed');
-				this.emit('resumed');
+				this.emitDeferred('resumed');
 				break;
 		}
 
-		this.emit('dispatch', payload.t, payload.d);
+		this.emitDeferred('dispatch', payload.t, payload.d);
 	}
 
 	private handleHelloPayload(payload: GatewayPayload): void {
@@ -760,7 +758,7 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 
 		this.awaitingHeartbeatAck = true;
 		this.lastHeartbeatSentAt = Date.now();
-		this.emit('heartbeat', this.lastSequenceNumber);
+		this.emitDeferred('heartbeat', this.lastSequenceNumber);
 
 		if (serverRequested && this.heartbeatAckTimeoutId != null) {
 			clearTimeout(this.heartbeatAckTimeoutId);
@@ -794,7 +792,7 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 		}
 
 		this.log.debug('Heartbeat acknowledgment received');
-		this.emit('heartbeatAck');
+		this.emitDeferred('heartbeatAck');
 	}
 
 	private handleHeartbeatFailure(): void {
@@ -904,7 +902,7 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 
 		this.helloTimeoutId = window.setTimeout(() => {
 			this.log.warn('HELLO not received in time');
-			this.disconnect(4000, 'Hello timeout');
+			this.disconnect(4000, 'Hello timeout', true);
 		}, GATEWAY_TIMEOUTS.Hello);
 	}
 
@@ -915,14 +913,41 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 		}
 	}
 
-	private buildGatewayUrl(): string {
+	private async buildGatewayUrl(): Promise<string> {
 		const url = new URL(this.gatewayUrlBase);
 		url.searchParams.set('v', this.options.apiVersion.toString());
 		url.searchParams.set('encoding', 'json');
 		const compression: CompressionType = this.options.compression ?? 'zstd-stream';
 		url.searchParams.set('compress', compression);
 		const built = url.toString();
+
+		if (this.isRelayModeEnabled()) {
+			return this.buildRelayGatewayUrl(built);
+		}
+
 		return this.gatewayUrlWrapper ? this.gatewayUrlWrapper(built) : built;
+	}
+
+	private isRelayModeEnabled(): boolean {
+		return RuntimeConfigStore.relayDirectoryUrl != null;
+	}
+
+	private async buildRelayGatewayUrl(targetGatewayUrl: string): Promise<string> {
+		const relay = await relayClient.selectRelay();
+		const relayWsUrl = new URL(relay.url);
+
+		relayWsUrl.protocol = relayWsUrl.protocol === 'https:' ? 'wss:' : 'ws:';
+		relayWsUrl.pathname = '/gateway/proxy';
+
+		const targetUrl = new URL(targetGatewayUrl);
+		const targetInstance = targetUrl.hostname;
+
+		relayWsUrl.searchParams.set('target', targetGatewayUrl);
+		relayWsUrl.searchParams.set('instance', targetInstance);
+
+		this.log.info('Building relay gateway URL:', relayWsUrl.toString(), 'for target:', targetGatewayUrl);
+
+		return relayWsUrl.toString();
 	}
 
 	private sendPayload(payload: GatewayPayload): boolean {
@@ -949,16 +974,16 @@ export class GatewaySocket extends EventEmitter<GatewaySocketEvents> {
 		this.connectionState = nextState;
 
 		this.log.info(`Gateway state ${previous} -> ${nextState}`);
-		this.emit('stateChange', nextState, previous);
+		this.emitDeferred('stateChange', nextState, previous);
 	}
 
 	private handleAuthFailure(): void {
 		this.log.error('Authentication failed: clearing client state and logging out');
 		this.updateState(GatewayState.Disconnected);
 
-		AppStorage.clear();
+		AppStorage.clearExcept(PRESERVED_RESET_STORAGE_KEYS);
 		LayerManager.closeAll();
-		ConnectionStore.logout();
+		GatewayConnectionStore.logout();
 		AuthenticationStore.handleConnectionClosed({code: 4004});
 	}
 }

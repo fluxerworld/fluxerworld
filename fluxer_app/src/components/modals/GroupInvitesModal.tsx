@@ -17,36 +17,39 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as InviteActionCreators from '@app/actions/InviteActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {InviteRevokeFailedModal} from '@app/components/alerts/InviteRevokeFailedModal';
+import {InvitesLoadFailedModal} from '@app/components/alerts/InvitesLoadFailedModal';
+import {InviteDateToggle} from '@app/components/invites/InviteDateToggle';
+import {InviteListHeader, InviteListItem} from '@app/components/invites/InviteListItem';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import styles from '@app/components/modals/GroupInvitesModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {Logger} from '@app/lib/Logger';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import type {Invite} from '@fluxer/schema/src/domains/invite/InviteSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as InviteActionCreators from '~/actions/InviteActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {InviteRevokeFailedModal} from '~/components/alerts/InviteRevokeFailedModal';
-import {InvitesLoadFailedModal} from '~/components/alerts/InvitesLoadFailedModal';
-import {InviteDateToggle} from '~/components/invites/InviteDateToggle';
-import {InviteListHeader, InviteListItem} from '~/components/invites/InviteListItem';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import * as Modal from '~/components/modals/Modal';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Spinner} from '~/components/uikit/Spinner';
-import type {Invite} from '~/records/MessageRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ChannelStore from '~/stores/ChannelStore';
-import styles from './GroupInvitesModal.module.css';
+import {useCallback, useEffect, useState} from 'react';
+
+const logger = new Logger('GroupInvitesModal');
 
 export const GroupInvitesModal = observer(({channelId}: {channelId: string}) => {
 	const {t} = useLingui();
 	const channel = ChannelStore.getChannel(channelId);
 	const isOwner = channel?.ownerId === AuthenticationStore.currentUserId;
 
-	const [invites, setInvites] = React.useState<Array<Invite>>([]);
-	const [fetchStatus, setFetchStatus] = React.useState<'idle' | 'pending' | 'success' | 'error'>('idle');
-	const [showCreatedDate, setShowCreatedDate] = React.useState(false);
+	const [invites, setInvites] = useState<Array<Invite>>([]);
+	const [fetchStatus, setFetchStatus] = useState<'idle' | 'pending' | 'success' | 'error'>('idle');
+	const [showCreatedDate, setShowCreatedDate] = useState(false);
 
-	const loadInvites = React.useCallback(async () => {
+	const loadInvites = useCallback(async () => {
 		if (!isOwner) return;
 		try {
 			setFetchStatus('pending');
@@ -54,24 +57,24 @@ export const GroupInvitesModal = observer(({channelId}: {channelId: string}) => 
 			setInvites(data);
 			setFetchStatus('success');
 		} catch (error) {
-			console.error('Failed to load invites:', error);
+			logger.error('Failed to load invites:', error);
 			setFetchStatus('error');
 			ModalActionCreators.push(modal(() => <InvitesLoadFailedModal />));
 		}
 	}, [channelId, isOwner]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (isOwner && fetchStatus === 'idle') {
 			loadInvites();
 		}
 	}, [fetchStatus, loadInvites, isOwner]);
 
-	const handleRevoke = React.useCallback(
+	const handleRevoke = useCallback(
 		(code: string) => {
 			ModalActionCreators.push(
 				modal(() => (
 					<ConfirmModal
-						title={t`Revoke invite`}
+						title={t`Revoke Invite`}
 						description={t`Are you sure you want to revoke this invite? This action cannot be undone.`}
 						primaryText={t`Revoke`}
 						onPrimary={async () => {
@@ -83,8 +86,10 @@ export const GroupInvitesModal = observer(({channelId}: {channelId: string}) => 
 								});
 								await loadInvites();
 							} catch (error) {
-								console.error('Failed to revoke invite:', error);
-								ModalActionCreators.push(modal(() => <InviteRevokeFailedModal />));
+								logger.error('Failed to revoke invite:', error);
+								window.setTimeout(() => {
+									ModalActionCreators.push(modal(() => <InviteRevokeFailedModal />));
+								}, 0);
 							}
 						}}
 					/>

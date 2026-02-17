@@ -17,16 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Link as RouterLink} from '@app/lib/router/React';
 import type {ReactNode} from 'react';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Link as RouterLink} from '~/lib/router';
 
 interface AuthRouterLinkProps {
 	ringOffset?: number;
 	children?: ReactNode;
 	className?: string;
 	to: string;
-	search?: Record<string, string | undefined>;
+	search?: Record<string, string>;
 }
 
 export function AuthRouterLink({ringOffset = -2, children, className, to, search}: AuthRouterLinkProps) {

@@ -1,0 +1,191 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.container {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	width: 100%;
+}
+
+.inputContainer {
+	position: relative;
+	width: 100%;
+}
+
+.inputActions {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.statusSpinner {
+	width: 18px;
+	height: 18px;
+}
+
+.statusSuccess {
+	color: var(--status-positive);
+}
+
+.statusError {
+	color: var(--status-danger);
+}
+
+.dropdownToggle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: var(--text-tertiary);
+	border-radius: 4px;
+	transition:
+		color 0.15s ease,
+		background-color 0.15s ease;
+}
+
+.dropdownToggle:hover:not(:disabled) {
+	color: var(--text-primary);
+	background-color: var(--background-modifier-hover);
+}
+
+.dropdownToggle:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.caretIcon {
+	transition: transform 0.2s ease;
+}
+
+.caretIconOpen {
+	transform: rotate(180deg);
+}
+
+.dropdown {
+	position: absolute;
+	top: 100%;
+	left: 0;
+	right: 0;
+	z-index: 100;
+	margin-top: 4px;
+	background-color: var(--background-secondary);
+	border: 1px solid var(--background-modifier-accent);
+	border-radius: 8px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+	overflow: hidden;
+}
+
+.dropdownHeader {
+	padding: 8px 12px;
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--text-tertiary);
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	border-bottom: 1px solid var(--background-modifier-accent);
+}
+
+.dropdownList {
+	list-style: none;
+	margin: 0;
+	padding: 4px;
+}
+
+.dropdownItem {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	width: 100%;
+	padding: 8px;
+	background: none;
+	border: none;
+	border-radius: 4px;
+	cursor: pointer;
+	text-align: left;
+	color: var(--text-primary);
+	transition: background-color 0.15s ease;
+}
+
+.dropdownItem:hover {
+	background-color: var(--background-modifier-hover);
+}
+
+.instanceIcon {
+	flex-shrink: 0;
+	color: var(--text-tertiary);
+}
+
+.instanceDomain {
+	flex: 1;
+	font-size: 0.875rem;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.instanceName {
+	font-size: 0.75rem;
+	color: var(--text-secondary);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.removeButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding: 4px;
+	background: none;
+	border: none;
+	cursor: pointer;
+	color: var(--text-tertiary);
+	border-radius: 4px;
+	opacity: 0;
+	transition:
+		opacity 0.15s ease,
+		color 0.15s ease,
+		background-color 0.15s ease;
+}
+
+.dropdownItem:hover .removeButton {
+	opacity: 1;
+}
+
+.removeButton:hover {
+	color: var(--status-danger);
+	background-color: var(--background-modifier-hover);
+}
+
+.errorMessage {
+	padding: 8px 12px;
+	border-radius: 6px;
+	background-color: hsla(0, calc(100% * var(--saturation-factor, 1)), 50%, 0.1);
+	border: 1px solid hsla(0, calc(100% * var(--saturation-factor, 1)), 50%, 0.2);
+	font-size: 0.8125rem;
+	color: var(--status-danger);
+}
+
+.connectButton {
+	align-self: flex-start;
+}

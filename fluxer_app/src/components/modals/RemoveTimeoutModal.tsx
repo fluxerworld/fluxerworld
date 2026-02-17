@@ -17,15 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GuildMemberActionCreators from '@app/actions/GuildMemberActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {Logger} from '@app/lib/Logger';
+import type {UserRecord} from '@app/records/UserRecord';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as GuildMemberActionCreators from '~/actions/GuildMemberActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import type {UserRecord} from '~/records/UserRecord';
+import type React from 'react';
+import {useState} from 'react';
+import styles from './RemoveTimeoutModal.module.css';
+
+const logger = new Logger('RemoveTimeoutModal');
 
 interface RemoveTimeoutModalProps {
 	guildId: string;
@@ -34,7 +39,7 @@ interface RemoveTimeoutModalProps {
 
 export const RemoveTimeoutModal: React.FC<RemoveTimeoutModalProps> = observer(({guildId, targetUser}) => {
 	const {t} = useLingui();
-	const [isSubmitting, setIsSubmitting] = React.useState(false);
+	const [isSubmitting, setIsSubmitting] = useState(false);
 
 	const handleRemove = async () => {
 		setIsSubmitting(true);
@@ -46,7 +51,7 @@ export const RemoveTimeoutModal: React.FC<RemoveTimeoutModalProps> = observer(({
 			});
 			ModalActionCreators.pop();
 		} catch (error) {
-			console.error('Failed to remove timeout:', error);
+			logger.error('Failed to remove timeout:', error);
 			ToastActionCreators.createToast({
 				type: 'error',
 				children: <Trans>Failed to remove timeout. Please try again.</Trans>,
@@ -60,7 +65,7 @@ export const RemoveTimeoutModal: React.FC<RemoveTimeoutModalProps> = observer(({
 		<Modal.Root size="small" centered>
 			<Modal.Header title={t`Remove Timeout`} />
 			<Modal.Content>
-				<p style={{margin: 0}}>
+				<p className={styles.description}>
 					<Trans>
 						Removing the timeout will allow <strong>{targetUser.tag}</strong> to send messages, react, and join voice
 						channels again.

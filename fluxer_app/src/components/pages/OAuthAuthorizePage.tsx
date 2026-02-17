@@ -17,33 +17,39 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getOAuth2ScopeDescription} from '@app/AppConstants';
+import {modal} from '@app/actions/ModalActionCreators';
+import AccountSwitcherModal from '@app/components/accounts/AccountSwitcherModal';
+import {Select} from '@app/components/form/Select';
+import {Switch} from '@app/components/form/Switch';
+import {createGuildSelectComponents, type GuildSelectOption} from '@app/components/modals/shared/GuildSelectComponents';
+import styles from '@app/components/pages/OAuthAuthorizePage.module.css';
+import {BaseAvatar} from '@app/components/uikit/BaseAvatar';
+import {Button} from '@app/components/uikit/button/Button';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useAuthLayoutContext} from '@app/contexts/AuthLayoutContext';
+import {Endpoints} from '@app/Endpoints';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import FluxerWordmarkMonochrome from '@app/images/fluxer-logo-wordmark-monochrome.svg?react';
+import http from '@app/lib/HttpClient';
+import {HttpError} from '@app/lib/HttpError';
+import {Logger} from '@app/lib/Logger';
+import UserStore from '@app/stores/UserStore';
+import {getApiErrorCode, getApiErrorMessage} from '@app/utils/ApiErrorUtils';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {formatBotPermissionsQuery, getAllBotPermissions} from '@app/utils/PermissionUtils';
+import {Permissions} from '@fluxer/constants/src/ChannelConstants';
+import type {OAuth2Scope} from '@fluxer/constants/src/OAuth2Constants';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CheckCircleIcon} from '@phosphor-icons/react';
 import clsx from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {modal} from '~/actions/ModalActionCreators';
-import {getOAuth2ScopeDescription, type OAuth2Scope, Permissions} from '~/Constants';
-import AccountSwitcherModal from '~/components/accounts/AccountSwitcherModal';
-import {Select} from '~/components/form/Select';
-import {Switch} from '~/components/form/Switch';
-import {createGuildSelectComponents, type GuildSelectOption} from '~/components/modals/shared/GuildSelectComponents';
-import {BaseAvatar} from '~/components/uikit/BaseAvatar';
-import {Button} from '~/components/uikit/Button/Button';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Spinner} from '~/components/uikit/Spinner';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useAuthLayoutContext} from '~/contexts/AuthLayoutContext';
-import {Endpoints} from '~/Endpoints';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import FluxerWordmarkMonochrome from '~/images/fluxer-logo-wordmark-monochrome.svg?react';
-import http, {HttpError} from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import UserStore from '~/stores/UserStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import {formatBotPermissionsQuery, getAllBotPermissions} from '~/utils/PermissionUtils';
-import styles from './OAuthAuthorizePage.module.css';
+import type React from 'react';
+import {useCallback, useEffect, useLayoutEffect, useMemo, useState} from 'react';
 
 const logger = new Logger('OAuthAuthorizePage');
 
@@ -65,15 +71,15 @@ type FlowStep = 'scopes' | 'permissions';
 const OAuthAuthorizePage: React.FC = observer(() => {
 	const {t, i18n} = useLingui();
 
-	const [loading, setLoading] = React.useState(true);
-	const [submitting, setSubmitting] = React.useState<'approve' | 'deny' | null>(null);
-	const [error, setError] = React.useState<string | null>(null);
-	const [authParams, setAuthParams] = React.useState<AuthorizeParams | null>(null);
-	const [selectedScopes, setSelectedScopes] = React.useState<Set<string> | null>(null);
-	const [selectedPermissions, setSelectedPermissions] = React.useState<Set<string> | null>(null);
-	const [currentStep, setCurrentStep] = React.useState<FlowStep>('scopes');
-	const [successState, setSuccessState] = React.useState<{guildName?: string | null} | null>(null);
-	const [publicApp, setPublicApp] = React.useState<{
+	const [loading, setLoading] = useState(true);
+	const [submitting, setSubmitting] = useState<'approve' | 'deny' | null>(null);
+	const [error, setError] = useState<string | null>(null);
+	const [authParams, setAuthParams] = useState<AuthorizeParams | null>(null);
+	const [selectedScopes, setSelectedScopes] = useState<Set<string> | null>(null);
+	const [selectedPermissions, setSelectedPermissions] = useState<Set<string> | null>(null);
+	const [currentStep, setCurrentStep] = useState<FlowStep>('scopes');
+	const [successState, setSuccessState] = useState<{guildName?: string | null} | null>(null);
+	const [publicApp, setPublicApp] = useState<{
 		id: string;
 		name: string;
 		icon: string | null;
@@ -87,10 +93,10 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 			username?: string | null;
 		} | null;
 	} | null>(null);
-	const [selectedGuildId, setSelectedGuildId] = React.useState<string | null>(null);
-	const [guildsLoading, setGuildsLoading] = React.useState(false);
-	const [guildsError, setGuildsError] = React.useState<string | null>(null);
-	const [guilds, setGuilds] = React.useState<Array<{
+	const [selectedGuildId, setSelectedGuildId] = useState<string | null>(null);
+	const [guildsLoading, setGuildsLoading] = useState(false);
+	const [guildsError, setGuildsError] = useState<string | null>(null);
+	const [guilds, setGuilds] = useState<Array<{
 		id: string;
 		name: string | null;
 		icon: string | null;
@@ -101,23 +107,23 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 
 	useFluxerDocumentTitle(t`Authorize Application`);
 
-	React.useLayoutEffect(() => {
+	useLayoutEffect(() => {
 		setShowLogoSide(false);
 		return () => setShowLogoSide(true);
 	}, [setShowLogoSide]);
 
-	const openAccountSwitcher = React.useCallback(() => {
+	const openAccountSwitcher = useCallback(() => {
 		modal(() => <AccountSwitcherModal />);
 	}, []);
 
-	const getScopeDescription = React.useCallback(
+	const getScopeDescription = useCallback(
 		(scope: string) => {
 			return getOAuth2ScopeDescription(i18n, scope as OAuth2Scope) ?? scope;
 		},
 		[i18n],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const qp = new URLSearchParams(window.location.search);
 		setLoading(true);
 
@@ -175,19 +181,19 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		}
 	}, []);
 
-	const scopes = React.useMemo(() => {
+	const scopes = useMemo(() => {
 		if (!authParams?.scope) return [];
 		return authParams.scope.split(/\s+/).filter(Boolean);
 	}, [authParams]);
 
-	const botPermissionOptions = React.useMemo(() => getAllBotPermissions(i18n), [i18n]);
+	const botPermissionOptions = useMemo(() => getAllBotPermissions(i18n), [i18n]);
 
-	const hasBotScope = React.useMemo(() => scopes.includes('bot'), [scopes]);
-	const isBotOnly = React.useMemo(() => {
+	const hasBotScope = useMemo(() => scopes.includes('bot'), [scopes]);
+	const isBotOnly = useMemo(() => {
 		return scopes.length === 1 && scopes[0] === 'bot';
 	}, [scopes]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!hasBotScope) return;
 
 		let cancelled = false;
@@ -207,14 +213,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 			} catch (e) {
 				if (cancelled) return;
 				logger.error('Failed to fetch user guilds', e);
-				const message =
-					e instanceof HttpError &&
-					e.body &&
-					typeof e.body === 'object' &&
-					'message' in e.body &&
-					typeof (e.body as {message?: unknown}).message === 'string'
-						? (e.body as {message: string}).message
-						: t`Failed to load your communities.`;
+				const message = getApiErrorMessage(e) ?? t`Failed to load your communities.`;
 				setGuildsError(message);
 				setGuilds([]);
 			} finally {
@@ -231,7 +230,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		};
 	}, [hasBotScope]);
 
-	const guildsWithPermissions = React.useMemo(() => {
+	const guildsWithPermissions = useMemo(() => {
 		if (!guilds) return [];
 		return guilds.map((guild) => {
 			let permissionsValue = 0n;
@@ -252,7 +251,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		});
 	}, [guilds]);
 
-	const guildOptions: Array<GuildSelectOption> = React.useMemo(
+	const guildOptions: Array<GuildSelectOption> = useMemo(
 		() =>
 			guildsWithPermissions.map((guild) => ({
 				value: guild.id,
@@ -263,16 +262,13 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		[guildsWithPermissions],
 	);
 
-	const guildLabelMap = React.useMemo(() => {
+	const guildLabelMap = useMemo(() => {
 		return new Map(guildOptions.map((option) => [option.value, option.label]));
 	}, [guildOptions]);
 
-	const manageableGuildOptions = React.useMemo(
-		() => guildOptions.filter((option) => !option.isDisabled),
-		[guildOptions],
-	);
+	const manageableGuildOptions = useMemo(() => guildOptions.filter((option) => !option.isDisabled), [guildOptions]);
 
-	const requestedPermissionKeys = React.useMemo(() => {
+	const requestedPermissionKeys = useMemo(() => {
 		if (!authParams?.permissions) return [];
 		try {
 			const bitfield = BigInt(authParams.permissions);
@@ -288,19 +284,19 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		}
 	}, [authParams?.permissions, botPermissionOptions]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (selectedScopes === null && scopes.length > 0) {
 			setSelectedScopes(new Set(scopes));
 		}
 	}, [scopes, selectedScopes]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (selectedPermissions === null && requestedPermissionKeys.length > 0) {
 			setSelectedPermissions(new Set(requestedPermissionKeys));
 		}
 	}, [requestedPermissionKeys, selectedPermissions]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!hasBotScope) return;
 
 		if (authParams?.guildId) {
@@ -313,7 +309,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		}
 	}, [authParams?.guildId, hasBotScope, manageableGuildOptions]);
 
-	const toggleScope = React.useCallback((scope: string) => {
+	const toggleScope = useCallback((scope: string) => {
 		if (scope === 'bot') return;
 		setSelectedScopes((prev) => {
 			const next = new Set(prev ?? []);
@@ -326,7 +322,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		});
 	}, []);
 
-	const togglePermission = React.useCallback((permissionId: string) => {
+	const togglePermission = useCallback((permissionId: string) => {
 		setSelectedPermissions((prev) => {
 			const next = new Set(prev ?? []);
 			if (next.has(permissionId)) {
@@ -338,9 +334,9 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		});
 	}, []);
 
-	const selectedScopeList = React.useMemo(() => Array.from(selectedScopes ?? []), [selectedScopes]);
+	const selectedScopeList = useMemo(() => Array.from(selectedScopes ?? []), [selectedScopes]);
 
-	const validationError = React.useMemo(() => {
+	const validationError = useMemo(() => {
 		if (!authParams) return null;
 		if (!isBotOnly && !authParams.redirectUri) {
 			return t`A redirect_uri is required when the bot scope is not the only scope.`;
@@ -356,7 +352,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 
 	const currentUser = UserStore.currentUser;
 
-	const redirectHostname = React.useMemo(() => {
+	const redirectHostname = useMemo(() => {
 		if (!authParams?.redirectUri) return null;
 		try {
 			return new URL(authParams.redirectUri).hostname;
@@ -366,7 +362,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		}
 	}, [authParams?.redirectUri]);
 
-	const botInviteWithoutRedirect = React.useMemo(
+	const botInviteWithoutRedirect = useMemo(
 		() => hasBotScope && !authParams?.redirectUri,
 		[authParams?.redirectUri, hasBotScope],
 	);
@@ -374,7 +370,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 	const appName = publicApp?.name?.trim();
 	const clientLabel = appName || t`This application`;
 
-	const appAvatarUrl = React.useMemo<string | null>(() => {
+	const appAvatarUrl = useMemo<string | null>(() => {
 		if (!publicApp?.id || !publicApp.icon) {
 			return null;
 		}
@@ -384,38 +380,38 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 
 	const appInitial = clientLabel.charAt(0).toUpperCase();
 
-	const formattedPermissions = React.useMemo(() => {
+	const formattedPermissions = useMemo(() => {
 		if (!hasBotScope || !authParams?.permissions) return authParams?.permissions ?? undefined;
 		return formatBotPermissionsQuery(Array.from(selectedPermissions ?? []));
 	}, [authParams?.permissions, hasBotScope, selectedPermissions]);
 
-	const scopesAdjusted = React.useMemo(() => {
+	const scopesAdjusted = useMemo(() => {
 		if (selectedScopes === null) return false;
 		return scopes.length > 0 && selectedScopes.size < scopes.length;
 	}, [scopes, selectedScopes]);
 
-	const permissionsAdjusted = React.useMemo(() => {
+	const permissionsAdjusted = useMemo(() => {
 		if (selectedPermissions === null) return false;
 		return requestedPermissionKeys.length > 0 && selectedPermissions.size < requestedPermissionKeys.length;
 	}, [requestedPermissionKeys, selectedPermissions]);
 
-	const requestsAdmin = React.useMemo(() => {
+	const requestsAdmin = useMemo(() => {
 		return requestedPermissionKeys.some((perm) => perm === 'ADMINISTRATOR');
 	}, [requestedPermissionKeys]);
 
-	const needsPermissionsStep = React.useMemo(() => {
+	const needsPermissionsStep = useMemo(() => {
 		return hasBotScope && requestedPermissionKeys.length > 0;
 	}, [hasBotScope, requestedPermissionKeys]);
 
-	const goToPermissions = React.useCallback(() => {
+	const goToPermissions = useCallback(() => {
 		setCurrentStep('permissions');
 	}, []);
 
-	const goBack = React.useCallback(() => {
+	const goBack = useCallback(() => {
 		setCurrentStep('scopes');
 	}, []);
 
-	const guildSelectComponents = React.useMemo(
+	const guildSelectComponents = useMemo(
 		() =>
 			createGuildSelectComponents<GuildSelectOption>({
 				styles: {
@@ -432,18 +428,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		[],
 	);
 
-	const getErrorCode = React.useCallback((err: unknown): string | undefined => {
-		if (err instanceof HttpError) {
-			const body = err.body;
-			if (body && typeof body === 'object' && 'code' in body) {
-				const {code} = body as {code?: unknown};
-				return typeof code === 'string' ? code : undefined;
-			}
-		}
-		return undefined;
-	}, []);
-
-	const onAuthorize = React.useCallback(async () => {
+	const onAuthorize = useCallback(async () => {
 		if (!authParams) return;
 		setSubmitting('approve');
 
@@ -488,18 +473,11 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 			setSubmitting(null);
 
 			const httpError = e instanceof HttpError ? e : null;
-			const errorCode = getErrorCode(e);
+			const errorCode = getApiErrorCode(e);
 
 			if (httpError?.status === 400 && errorCode === 'BOT_ALREADY_IN_GUILD') {
-				const message =
-					typeof httpError.body === 'object' &&
-					httpError.body &&
-					'message' in httpError.body &&
-					typeof (httpError.body as {message?: unknown}).message === 'string'
-						? (httpError.body as {message?: string}).message
-						: null;
-
-				setError(message ?? t`Bot is already in this guild.`);
+				const message = getApiErrorMessage(httpError);
+				setError(message ?? t`Bot is already in this community.`);
 				return;
 			}
 
@@ -509,7 +487,6 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		authParams,
 		botInviteWithoutRedirect,
 		formattedPermissions,
-		getErrorCode,
 		guildLabelMap,
 		hasBotScope,
 		scopes,
@@ -517,7 +494,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		selectedScopeList,
 	]);
 
-	const onCancel = React.useCallback(() => {
+	const onCancel = useCallback(() => {
 		if (!authParams) return;
 		setSubmitting('deny');
 
@@ -535,7 +512,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		}
 	}, [authParams]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!loading && authParams?.prompt === 'none' && !submitting && !successState) {
 			void onAuthorize();
 		}
@@ -635,7 +612,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 				<div className={styles.sectionDivider} />
 
 				<div className={styles.permissionScrollContainer}>
-					<Scroller className={styles.permissionScroller}>
+					<Scroller key="oauth-permissions-scroller" className={styles.permissionScroller}>
 						<div className={styles.permissionList}>
 							{requestedPermissionKeys.map((perm) => {
 								const option = botPermissionOptions.find((opt) => opt.id === perm);
@@ -819,9 +796,11 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 							</div>
 						</div>
 
-						<button type="button" className={styles.switchAccountLink} onClick={openAccountSwitcher}>
-							<Trans>Switch account</Trans>
-						</button>
+						<FocusRing offset={-2}>
+							<button type="button" className={styles.switchAccountLink} onClick={openAccountSwitcher}>
+								<Trans>Switch account</Trans>
+							</button>
+						</FocusRing>
 					</div>
 
 					<div className={styles.sectionDivider} />

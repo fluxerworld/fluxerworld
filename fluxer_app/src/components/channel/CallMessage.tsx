@@ -17,7 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {MessageDescriptor} from '@lingui/core';
+import * as CallActionCreators from '@app/actions/CallActionCreators';
+import styles from '@app/components/channel/CallMessage.module.css';
+import {useCallHeaderState} from '@app/components/channel/channel_view/useCallHeaderState';
+import {SystemMessage} from '@app/components/channel/SystemMessage';
+import {SystemMessageUsername} from '@app/components/channel/SystemMessageUsername';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {useSystemMessageData} from '@app/hooks/useSystemMessageData';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import {getCurrentLocale} from '@app/utils/LocaleUtils';
+import {formatListWithConfig} from '@fluxer/list_utils/src/ListFormatting';
+import {formatNumber} from '@fluxer/number_utils/src/NumberFormatting';
+import type {I18n, MessageDescriptor} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {PhoneIcon} from '@phosphor-icons/react';
@@ -25,17 +38,6 @@ import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useCallback} from 'react';
-
-import * as CallActionCreators from '~/actions/CallActionCreators';
-import {useCallHeaderState} from '~/components/channel/channel-view/useCallHeaderState';
-import {SystemMessage} from '~/components/channel/SystemMessage';
-import {SystemMessageUsername} from '~/components/channel/SystemMessageUsername';
-import {useSystemMessageData} from '~/hooks/useSystemMessageData';
-import i18n from '~/i18n';
-import type {MessageRecord} from '~/records/MessageRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import styles from './CallMessage.module.css';
 
 type DurationUnit = 'year' | 'month' | 'week' | 'day' | 'hour' | 'minute';
 
@@ -48,14 +50,9 @@ const DURATION_UNITS: Array<{unit: DurationUnit; minutes: number}> = [
 	{unit: 'minute', minutes: 1},
 ];
 
-const LIST_FORMATTER =
-	typeof Intl !== 'undefined' && typeof Intl.ListFormat !== 'undefined'
-		? new Intl.ListFormat(undefined, {style: 'long', type: 'conjunction'})
-		: null;
-
 const formatLocalizedNumber = (value: number): string => {
-	const locale = i18n.locale ?? 'en-US';
-	return new Intl.NumberFormat(locale).format(value);
+	const locale = getCurrentLocale();
+	return formatNumber(value, locale);
 };
 
 const replaceCountPlaceholder = (text: string, count: number): string => {
@@ -74,17 +71,17 @@ const DURATION_UNIT_LABELS: Record<DurationUnit, {singular: MessageDescriptor; p
 	minute: {singular: msg`a minute`, plural: msg`# minutes`},
 };
 
-const formatDurationUnit = (t: (message: MessageDescriptor) => string, value: number, unit: DurationUnit): string => {
+const formatDurationUnit = (i18n: I18n, value: number, unit: DurationUnit): string => {
 	const descriptors = DURATION_UNIT_LABELS[unit] ?? DURATION_UNIT_LABELS.minute;
 	const descriptor = value === 1 ? descriptors.singular : descriptors.plural;
-	return replaceCountPlaceholder(t(descriptor), value);
+	return replaceCountPlaceholder(i18n._(descriptor), value);
 };
 
 const FEW_SECONDS_DESCRIPTOR = msg`a few seconds`;
 
-const formatCallDuration = (t: (message: MessageDescriptor) => string, durationSeconds: number): string => {
+const formatCallDuration = (i18n: I18n, durationSeconds: number): string => {
 	if (durationSeconds < 60) {
-		return t(FEW_SECONDS_DESCRIPTOR);
+		return i18n._(FEW_SECONDS_DESCRIPTOR);
 	}
 
 	const roundedMinutes = Math.max(1, Math.ceil(durationSeconds / 60));
@@ -95,22 +92,19 @@ const formatCallDuration = (t: (message: MessageDescriptor) => string, durationS
 		if (remainingMinutes < minutes) continue;
 		const count = Math.floor(remainingMinutes / minutes);
 		remainingMinutes -= count * minutes;
-		parts.push(formatDurationUnit(t, count, unit));
+		parts.push(formatDurationUnit(i18n, count, unit));
 	}
 
 	if (parts.length === 0) {
-		return t(DURATION_UNIT_LABELS.minute.singular);
+		return i18n._(DURATION_UNIT_LABELS.minute.singular);
 	}
 
-	if (!LIST_FORMATTER || parts.length === 1) {
-		return parts.join(' ');
-	}
-
-	return LIST_FORMATTER.format(parts);
+	const locale = getCurrentLocale();
+	return formatListWithConfig(parts, {locale, style: 'long', type: 'conjunction'});
 };
 
 export const CallMessage = observer(({message}: {message: MessageRecord}) => {
-	const {t} = useLingui();
+	const {t, i18n} = useLingui();
 	const {author, channel, guild} = useSystemMessageData(message);
 	const currentUserId = AuthenticationStore.currentUserId;
 	const callData = message.call;
@@ -138,7 +132,7 @@ export const CallMessage = observer(({message}: {message: MessageRecord}) => {
 	const isMissedCall = callEnded && !includesCurrentUser && !authorIsCurrentUser;
 	const durationText =
 		callEnded && callData.endedTimestamp
-			? formatCallDuration(t, Math.max(0, (callData.endedTimestamp.getTime() - message.timestamp.getTime()) / 1000))
+			? formatCallDuration(i18n, Math.max(0, (callData.endedTimestamp.getTime() - message.timestamp.getTime()) / 1000))
 			: t`a few seconds`;
 
 	let messageContent: React.ReactNode;
@@ -153,17 +147,11 @@ export const CallMessage = observer(({message}: {message: MessageRecord}) => {
 						<span className={styles.separator} aria-hidden="true">
 							&nbsp;—&nbsp;
 						</span>
-						{/* biome-ignore lint/a11y/useValidAnchor: this is fine */}
-						<a
-							className={styles.callLink}
-							href="#"
-							onClick={(event) => {
-								event.preventDefault();
-								handleJoinCall();
-							}}
-						>
-							{t`Join the call`}
-						</a>
+						<FocusRing offset={-2}>
+							<button type="button" className={styles.callLink} onClick={handleJoinCall}>
+								{t`Join the call`}
+							</button>
+						</FocusRing>
 					</>
 				)}
 			</>

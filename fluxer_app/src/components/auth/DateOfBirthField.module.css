@@ -112,11 +112,6 @@
 	background-color: var(--background-modifier-hover);
 }
 
-.nativeDateInput:focus {
-	outline: none;
-	border-color: var(--background-modifier-accent-focus);
-}
-
 .nativeDateInput[aria-invalid='true'] {
 	border-color: var(--status-danger);
 }

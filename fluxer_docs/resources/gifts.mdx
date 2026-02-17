@@ -1,0 +1,20 @@
+---
+title: 'Gifts'
+description: 'Gifts object schemas from the Fluxer API.'
+---
+
+<a id="giftcoderesponse"></a>
+
+## GiftCodeResponse
+
+**Related endpoints**
+
+- [`GET /gifts/{code}`](/api-reference/gifts/get-gift-code)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | The unique gift code string |
+| created_by? | ?[UserPartialResponse](#userpartialresponse) | The user who created the gift code |
+| duration_months | integer (int53) | Duration of the subscription gift in months |
+| redeemed | boolean | Whether the gift code has been redeemed |
+

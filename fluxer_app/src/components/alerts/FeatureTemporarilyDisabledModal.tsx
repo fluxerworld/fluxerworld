@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
 
 export const FeatureTemporarilyDisabledModal = observer(() => {
 	const {t} = useLingui();

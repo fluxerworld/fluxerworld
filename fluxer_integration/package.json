@@ -1,0 +1,25 @@
+{
+	"name": "@fluxer/integration",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"integration": "./scripts/run_integration.sh",
+		"server:logs": "./scripts/server_logs.sh",
+		"server:start": "./scripts/server_start.sh",
+		"server:stop": "./scripts/server_stop.sh",
+		"test": "vitest run",
+		"test:ui": "vitest --ui",
+		"test:watch": "vitest"
+	},
+	"dependencies": {
+		"@fluxer/constants": "workspace:*",
+		"ws": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@types/ws": "catalog:",
+		"vite-tsconfig-paths": "catalog:",
+		"vitest": "catalog:"
+	}
+}

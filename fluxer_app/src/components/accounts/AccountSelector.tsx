@@ -17,25 +17,28 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {AccountRow} from '@app/components/accounts/AccountRow';
+import styles from '@app/components/accounts/AccountSelector.module.css';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {Button} from '@app/components/uikit/button/Button';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {Logger} from '@app/lib/Logger';
+import type {Account} from '@app/lib/SessionManager';
+import AccountManager from '@app/stores/AccountManager';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {PlusIcon, SignOutIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {Button} from '~/components/uikit/Button/Button';
-import {MenuGroup} from '~/components/uikit/ContextMenu/MenuGroup';
-import {MenuItem} from '~/components/uikit/ContextMenu/MenuItem';
-import {Scroller} from '~/components/uikit/Scroller';
-import AccountManager, {type AccountSummary} from '~/stores/AccountManager';
-import {AccountRow} from './AccountRow';
-import styles from './AccountSelector.module.css';
+import type React from 'react';
+import {useCallback} from 'react';
 
 interface AccountSelectorProps {
-	accounts: Array<AccountSummary>;
+	accounts: Array<Account>;
 	currentAccountId?: string | null;
 	title?: React.ReactNode;
 	description?: React.ReactNode;
@@ -44,10 +47,12 @@ interface AccountSelectorProps {
 	showInstance?: boolean;
 	clickableRows?: boolean;
 	addButtonLabel?: React.ReactNode;
-	onSelectAccount: (account: AccountSummary) => void;
+	onSelectAccount: (account: Account) => void;
 	onAddAccount?: () => void;
 	scrollerKey?: string;
 }
+
+const logger = new Logger('AccountSelector');
 
 export const AccountSelector = observer(
 	({
@@ -69,8 +74,8 @@ export const AccountSelector = observer(
 		const defaultDescription = <Trans>Select an account to continue, or add a different one.</Trans>;
 		const hasMultipleAccounts = accounts.length > 1;
 
-		const openSignOutConfirm = React.useCallback(
-			(account: AccountSummary) => {
+		const openSignOutConfirm = useCallback(
+			(account: Account) => {
 				const displayName = account.userData?.username ?? account.userId;
 
 				ModalActionCreators.push(
@@ -90,7 +95,7 @@ export const AccountSelector = observer(
 								try {
 									await AccountManager.removeStoredAccount(account.userId);
 								} catch (error) {
-									console.error('Failed to remove account', error);
+									logger.error('Failed to remove account', error);
 									ToastActionCreators.error(t`We couldn't remove that account. Please try again.`);
 								}
 							}}
@@ -101,8 +106,8 @@ export const AccountSelector = observer(
 			[hasMultipleAccounts, t],
 		);
 
-		const openMenu = React.useCallback(
-			(account: AccountSummary) => (event: React.MouseEvent<HTMLButtonElement>) => {
+		const openMenu = useCallback(
+			(account: Account) => (event: React.MouseEvent<HTMLButtonElement>) => {
 				event.preventDefault();
 				event.stopPropagation();
 				ContextMenuActionCreators.openFromEvent(event, (props) => (

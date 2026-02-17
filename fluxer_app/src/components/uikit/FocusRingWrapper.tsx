@@ -17,13 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {useMergeRefs} from '@app/hooks/useMergeRefs';
+import {elementSupportsRef} from '@app/utils/React';
 import {clsx} from 'clsx';
 import React from 'react';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {useMergeRefs} from '~/hooks/useMergeRefs';
-import {elementSupportsRef} from '~/utils/react';
 
-export type FocusRingWrapperProps<T extends HTMLElement> = {
+export interface FocusRingWrapperProps<T extends HTMLElement>
+	extends Omit<React.HTMLAttributes<T>, 'children' | 'className'> {
 	children: React.ReactElement;
 	focusRingOffset?: number;
 	focusRingEnabled?: boolean;
@@ -31,7 +32,8 @@ export type FocusRingWrapperProps<T extends HTMLElement> = {
 	focusRingClassName?: string;
 	focusClassName?: string;
 	focusWithinClassName?: string;
-} & React.HTMLAttributes<T>;
+	className?: string;
+}
 
 export const FocusRingWrapper = React.forwardRef<HTMLElement, FocusRingWrapperProps<HTMLElement>>(
 	(

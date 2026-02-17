@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {SearchMachineState} from '@app/components/channel/SearchResultsUtils';
+import {cloneMachineState} from '@app/components/channel/SearchResultsUtils';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import SelectedGuildStore from '@app/stores/SelectedGuildStore';
+import type {SearchSegment} from '@app/utils/SearchSegmentManager';
+import type {MessageSearchScope} from '@app/utils/SearchUtils';
+import {ME} from '@fluxer/constants/src/AppConstants';
 import {makeAutoObservable, observable} from 'mobx';
-import {ME} from '~/Constants';
-import type {SearchMachineState} from '~/components/channel/SearchResultsUtils';
-import {cloneMachineState} from '~/components/channel/SearchResultsUtils';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import SelectedGuildStore from '~/stores/SelectedGuildStore';
-import type {SearchSegment} from '~/utils/SearchSegmentManager';
-import type {MessageSearchScope} from '~/utils/SearchUtils';
 
 class ChannelSearchContext {
 	searchQuery: string = '';
@@ -120,10 +120,10 @@ class ChannelSearchStore {
 	}
 }
 
-export const getChannelSearchContextId = (
+export function getChannelSearchContextId(
 	channel?: ChannelRecord | null,
 	selectedGuildId?: string | null,
-): string | null => {
+): string | null {
 	if (!channel) {
 		return null;
 	}
@@ -136,6 +136,6 @@ export const getChannelSearchContextId = (
 	}
 
 	return channel.guildId ?? resolvedGuildId ?? channel.id;
-};
+}
 
 export default new ChannelSearchStore();

@@ -1,0 +1,32 @@
+{
+	"admin_service": {
+		"type": "object",
+		"description": "Configuration for the Admin Panel service.",
+		"additionalProperties": false,
+		"required": ["secret_key_base", "oauth_client_secret"],
+		"properties": {
+			"port": {
+				"type": "number",
+				"description": "Port to listen on.",
+				"default": 3001
+			},
+			"secret_key_base": {
+				"type": "string",
+				"description": "Base secret key for signing admin session tokens."
+			},
+			"base_path": {
+				"type": "string",
+				"description": "URL base path for the admin interface.",
+				"default": "/admin"
+			},
+			"oauth_client_secret": {
+				"type": "string",
+				"description": "OAuth Client Secret for admin authentication."
+			},
+			"rate_limit": {
+				"description": "Rate limiting configuration for the Admin service.",
+				"$ref": "#/$defs/rate_limit"
+			}
+		}
+	}
+}

@@ -1,0 +1,2169 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Fluxer Config",
+	"type": "object",
+	"required": [
+		"env",
+		"domain",
+		"database",
+		"services",
+		"gateway",
+		"auth"
+	],
+	"if": {
+		"required": [
+			"instance"
+		],
+		"properties": {
+			"instance": {
+				"required": [
+					"deployment_mode"
+				],
+				"properties": {
+					"deployment_mode": {
+						"const": "microservices"
+					}
+				}
+			}
+		}
+	},
+	"then": {
+		"required": [
+			"internal"
+		],
+		"properties": {
+			"services": {
+				"required": [
+					"app_proxy"
+				],
+				"properties": {
+					"s3": {
+						"required": [
+							"port"
+						]
+					},
+					"queue": {
+						"required": [
+							"port"
+						]
+					},
+					"media_proxy": {
+						"required": [
+							"port"
+						]
+					},
+					"admin": {
+						"required": [
+							"port"
+						]
+					},
+					"marketing": {
+						"required": [
+							"port"
+						]
+					},
+					"api": {
+						"required": [
+							"port"
+						]
+					},
+					"app_proxy": {
+						"required": [
+							"port"
+						]
+					},
+					"gateway": {
+						"required": [
+							"port"
+						]
+					},
+					"server": {
+						"required": [
+							"port"
+						]
+					}
+				}
+			}
+		}
+	},
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "Optional reference to this JSON Schema for tooling support."
+		},
+		"env": {
+			"type": "string",
+			"description": "Runtime environment for the application. Controls behavior such as logging verbosity, error details, and optimization levels.",
+			"enum": [
+				"development",
+				"production",
+				"test"
+			]
+		},
+		"domain": {
+			"description": "Global domain and port configuration used to derive public endpoints for all services.",
+			"$ref": "#/$defs/domain"
+		},
+		"endpoint_overrides": {
+			"description": "Manual overrides for specific public endpoints. If set, these take precedence over automatically derived URLs.",
+			"$ref": "#/$defs/endpoint_overrides"
+		},
+		"internal": {
+			"description": "Internal network endpoints for service-to-service communication. Only required for microservices mode.",
+			"$ref": "#/$defs/internal",
+			"default": {}
+		},
+		"database": {
+			"description": "Primary database configuration. Selects the backend (Cassandra vs SQLite) and provides connection details.",
+			"$ref": "#/$defs/database"
+		},
+		"s3": {
+			"description": "S3-compatible object storage configuration.",
+			"$ref": "#/$defs/s3"
+		},
+		"services": {
+			"description": "Configuration for individual Fluxer services.",
+			"$ref": "#/$defs/services"
+		},
+		"gateway": {
+			"description": "Configuration for the real-time Gateway service connection.",
+			"$ref": "#/$defs/gateway_connection"
+		},
+		"auth": {
+			"description": "Authentication and security settings.",
+			"$ref": "#/$defs/auth"
+		},
+		"cookie": {
+			"description": "HTTP cookie settings.",
+			"$ref": "#/$defs/cookie",
+			"default": {}
+		},
+		"integrations": {
+			"description": "Third-party service integrations.",
+			"$ref": "#/$defs/integrations",
+			"default": {}
+		},
+		"instance": {
+			"description": "Instance-specific settings and policies.",
+			"$ref": "#/$defs/instance",
+			"default": {}
+		},
+		"csam": {
+			"description": "CSAM (Child Sexual Abuse Material) detection and reporting policies.",
+			"$ref": "#/$defs/csam",
+			"default": {}
+		},
+		"dev": {
+			"description": "Development-only overrides and flags. These should generally be disabled in production.",
+			"$ref": "#/$defs/dev",
+			"default": {}
+		},
+		"geoip": {
+			"description": "GeoIP database configuration.",
+			"$ref": "#/$defs/geoip",
+			"default": {}
+		},
+		"proxy": {
+			"description": "Reverse proxy and IP resolution settings.",
+			"$ref": "#/$defs/proxy",
+			"default": {}
+		},
+		"attachment_decay_enabled": {
+			"type": "boolean",
+			"description": "Whether to automatically delete old attachments.",
+			"default": true
+		},
+		"deletion_grace_period_hours": {
+			"type": "number",
+			"description": "Grace period in hours before soft-deleted items are permanently removed.",
+			"default": 72
+		},
+		"inactivity_deletion_threshold_days": {
+			"type": "number",
+			"description": "Days of inactivity after which data may be subject to deletion.",
+			"default": 365
+		},
+		"alerts": {
+			"description": "System alerting configuration.",
+			"$ref": "#/$defs/alerts"
+		},
+		"telemetry": {
+			"description": "OpenTelemetry configuration.",
+			"$ref": "#/$defs/telemetry",
+			"default": {}
+		},
+		"sentry": {
+			"description": "Sentry error reporting configuration.",
+			"$ref": "#/$defs/sentry",
+			"default": {}
+		},
+		"app_public": {
+			"description": "Public client-side configuration exposed to the frontend.",
+			"$ref": "#/$defs/app_public",
+			"default": {}
+		},
+		"federation": {
+			"description": "Federation configuration for connecting with other Fluxer instances.",
+			"$ref": "#/$defs/federation",
+			"default": {}
+		}
+	},
+	"$defs": {
+		"passkeys": {
+			"type": "object",
+			"description": "WebAuthn/Passkeys relying party settings.",
+			"properties": {
+				"rp_name": {
+					"type": "string",
+					"description": "Relying Party name displayed to users.",
+					"default": "Fluxer"
+				},
+				"rp_id": {
+					"type": "string",
+					"description": "Relying Party ID (domain) for WebAuthn credentials.",
+					"default": "fluxer.app"
+				},
+				"additional_allowed_origins": {
+					"type": "array",
+					"description": "List of allowed origins for WebAuthn registration/authentication.",
+					"items": {
+						"type": "string"
+					},
+					"default": [
+						"https://web.fluxer.app",
+						"https://web.canary.fluxer.app"
+					]
+				}
+			}
+		},
+		"bluesky_key": {
+			"type": "object",
+			"required": [
+				"kid"
+			],
+			"properties": {
+				"kid": {
+					"type": "string",
+					"description": "JSON Web Key ID used when signing private key JWTs."
+				},
+				"private_key": {
+					"type": "string",
+					"description": "PEM-encoded private key used to authenticate to the Bluesky token endpoint."
+				},
+				"private_key_path": {
+					"type": "string",
+					"description": "Absolute filesystem path to a PEM private key file. Must be an absolute path because services may run from different working directories. Use this instead of private_key to avoid embedding the key in the config."
+				}
+			},
+			"anyOf": [
+				{
+					"required": [
+						"private_key"
+					]
+				},
+				{
+					"required": [
+						"private_key_path"
+					]
+				}
+			]
+		},
+		"bluesky": {
+			"type": "object",
+			"description": "Bluesky OAuth client configuration.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"description": "Whether Bluesky OAuth connections are enabled.",
+					"default": true
+				},
+				"client_name": {
+					"type": "string",
+					"description": "Human-readable client name exposed to Bluesky.",
+					"default": "Fluxer"
+				},
+				"client_uri": {
+					"type": "string",
+					"description": "URI describing the client application.",
+					"default": ""
+				},
+				"logo_uri": {
+					"type": "string",
+					"description": "Optional logo presented during authorization.",
+					"default": "https://fluxerstatic.com/web/apple-touch-icon.png"
+				},
+				"tos_uri": {
+					"type": "string",
+					"description": "Terms of service URI exposed to Bluesky.",
+					"default": "https://fluxer.app/terms"
+				},
+				"policy_uri": {
+					"type": "string",
+					"description": "Privacy policy URI exposed to Bluesky.",
+					"default": "https://fluxer.app/privacy"
+				},
+				"keys": {
+					"type": "array",
+					"description": "Key definitions used to sign private key JWT assertions.",
+					"items": {
+						"$ref": "#/$defs/bluesky_key"
+					},
+					"default": []
+				}
+			},
+			"default": {
+				"enabled": true,
+				"client_name": "Fluxer",
+				"client_uri": "",
+				"logo_uri": "https://fluxerstatic.com/web/apple-touch-icon.png",
+				"tos_uri": "https://fluxer.app/terms",
+				"policy_uri": "https://fluxer.app/privacy",
+				"keys": []
+			}
+		},
+		"vapid": {
+			"type": "object",
+			"description": "VAPID keys for Web Push notifications.",
+			"required": [
+				"public_key",
+				"private_key"
+			],
+			"properties": {
+				"public_key": {
+					"type": "string",
+					"description": "VAPID Public Key."
+				},
+				"private_key": {
+					"type": "string",
+					"description": "VAPID Private Key."
+				},
+				"email": {
+					"type": "string",
+					"description": "Contact email included in push service requests.",
+					"default": ""
+				}
+			}
+		},
+		"auth": {
+			"type": "object",
+			"description": "Global authentication configuration.",
+			"required": [
+				"vapid",
+				"sudo_mode_secret",
+				"connection_initiation_secret"
+			],
+			"properties": {
+				"sudo_mode_secret": {
+					"type": "string",
+					"description": "Secret key for verifying sudo mode tokens."
+				},
+				"connection_initiation_secret": {
+					"type": "string",
+					"description": "Secret key for signing connection initiation tokens."
+				},
+				"passkeys": {
+					"description": "Passkey configuration.",
+					"$ref": "#/$defs/passkeys",
+					"default": {}
+				},
+				"vapid": {
+					"description": "Web Push VAPID configuration.",
+					"$ref": "#/$defs/vapid"
+				},
+				"bluesky": {
+					"description": "Bluesky OAuth client configuration.",
+					"$ref": "#/$defs/bluesky",
+					"default": {
+						"enabled": true,
+						"client_name": "Fluxer",
+						"client_uri": "",
+						"logo_uri": "https://fluxerstatic.com/web/apple-touch-icon.png",
+						"tos_uri": "https://fluxer.app/terms",
+						"policy_uri": "https://fluxer.app/privacy",
+						"keys": []
+					}
+				}
+			}
+		},
+		"cookie": {
+			"type": "object",
+			"description": "Session cookie configuration.",
+			"properties": {
+				"domain": {
+					"type": "string",
+					"description": "Domain attribute for cookies. Leave empty for host-only.",
+					"default": ""
+				},
+				"secure": {
+					"type": "boolean",
+					"description": "If true, sets the Secure flag on cookies.",
+					"default": false
+				}
+			}
+		},
+		"gateway_connection": {
+			"type": "object",
+			"description": "Configuration for backend services to call the Gateway via RPC.",
+			"required": [
+				"rpc_secret"
+			],
+			"properties": {
+				"rpc_endpoint": {
+					"type": "string",
+					"description": "Gateway RPC endpoint URL (e.g. http://gateway:8080).",
+					"default": "http://127.0.0.1:8088"
+				},
+				"rpc_secret": {
+					"type": "string",
+					"description": "Shared secret for authenticating RPC calls to the Gateway."
+				}
+			}
+		},
+		"rate_limit": {
+			"type": "object",
+			"description": "Rate limiting parameters.",
+			"properties": {
+				"limit": {
+					"type": "number",
+					"description": "Maximum number of requests allowed within the window.",
+					"minimum": 1
+				},
+				"window_ms": {
+					"type": "number",
+					"description": "Time window in milliseconds.",
+					"minimum": 1
+				}
+			}
+		},
+		"cassandra": {
+			"type": "object",
+			"description": "Cassandra connection details.",
+			"required": [
+				"hosts",
+				"keyspace",
+				"local_dc",
+				"username",
+				"password"
+			],
+			"properties": {
+				"hosts": {
+					"type": "array",
+					"description": "Array of Cassandra contact points (hostnames or IPs).",
+					"items": {
+						"type": "string"
+					}
+				},
+				"keyspace": {
+					"type": "string",
+					"description": "Cassandra keyspace name."
+				},
+				"local_dc": {
+					"type": "string",
+					"description": "Local Data Center name for topology awareness."
+				},
+				"username": {
+					"type": "string",
+					"description": "Cassandra authentication username."
+				},
+				"password": {
+					"type": "string",
+					"description": "Cassandra authentication password."
+				}
+			}
+		},
+		"database": {
+			"type": "object",
+			"description": "Database backend selection and configuration.",
+			"required": [
+				"backend"
+			],
+			"properties": {
+				"backend": {
+					"type": "string",
+					"description": "Selected database backend. 'sqlite' is for dev/single-node, 'cassandra' for production.",
+					"enum": [
+						"cassandra",
+						"sqlite"
+					]
+				},
+				"cassandra": {
+					"description": "Configuration settings for Cassandra backend.",
+					"$ref": "#/$defs/cassandra"
+				},
+				"sqlite_path": {
+					"type": "string",
+					"description": "Filesystem path to the SQLite database file.",
+					"default": "./data/fluxer.db"
+				}
+			}
+		},
+		"s3_buckets": {
+			"type": "object",
+			"description": "Configuration of specific S3 bucket names.",
+			"properties": {
+				"cdn": {
+					"type": "string",
+					"description": "Bucket for CDN assets.",
+					"default": "fluxer"
+				},
+				"uploads": {
+					"type": "string",
+					"description": "Bucket for user uploads.",
+					"default": "fluxer-uploads"
+				},
+				"downloads": {
+					"type": "string",
+					"description": "Bucket for downloads.",
+					"default": "fluxer-downloads"
+				},
+				"reports": {
+					"type": "string",
+					"description": "Bucket for report data.",
+					"default": "fluxer-reports"
+				},
+				"harvests": {
+					"type": "string",
+					"description": "Bucket for data harvests.",
+					"default": "fluxer-harvests"
+				},
+				"static": {
+					"type": "string",
+					"description": "Bucket for static site assets.",
+					"default": "fluxer-static"
+				}
+			}
+		},
+		"s3": {
+			"type": "object",
+			"description": "S3 connection configuration.",
+			"required": [
+				"access_key_id",
+				"secret_access_key"
+			],
+			"properties": {
+				"endpoint": {
+					"type": "string",
+					"description": "S3 service endpoint URL.",
+					"default": "http://localhost:3900"
+				},
+				"presigned_url_base": {
+					"type": "string",
+					"description": "Base URL for presigned download URLs. If not set, defaults to the endpoint value. Set this to a public URL when the endpoint is internal."
+				},
+				"region": {
+					"type": "string",
+					"description": "S3 region.",
+					"default": "local"
+				},
+				"access_key_id": {
+					"type": "string",
+					"description": "S3 Access Key ID."
+				},
+				"secret_access_key": {
+					"type": "string",
+					"description": "S3 Secret Access Key."
+				},
+				"buckets": {
+					"description": "Mapping of logical buckets to actual S3 bucket names.",
+					"$ref": "#/$defs/s3_buckets",
+					"default": {}
+				}
+			}
+		},
+		"domain": {
+			"type": "object",
+			"description": "Configuration for domains and ports used to construct public URLs.",
+			"required": [
+				"base_domain"
+			],
+			"properties": {
+				"base_domain": {
+					"type": "string",
+					"description": "The primary domain name (e.g., example.com, localhost)."
+				},
+				"public_scheme": {
+					"type": "string",
+					"description": "The URL scheme for public endpoints.",
+					"enum": [
+						"http",
+						"https"
+					],
+					"default": "http"
+				},
+				"internal_scheme": {
+					"type": "string",
+					"description": "The URL scheme for internal endpoints.",
+					"enum": [
+						"http",
+						"https"
+					],
+					"default": "http"
+				},
+				"public_port": {
+					"type": "number",
+					"description": "The public-facing port number.",
+					"default": 8088
+				},
+				"internal_port": {
+					"type": "number",
+					"description": "The internal port number.",
+					"default": 8088
+				},
+				"static_cdn_domain": {
+					"type": "string",
+					"description": "Separate domain for static CDN assets (optional).",
+					"default": "fluxerstatic.com"
+				},
+				"invite_domain": {
+					"type": "string",
+					"description": "Domain for short invite links (optional).",
+					"default": ""
+				},
+				"gift_domain": {
+					"type": "string",
+					"description": "Domain for gift links (optional).",
+					"default": ""
+				}
+			}
+		},
+		"endpoint_overrides": {
+			"type": "object",
+			"description": "Explicit overrides for service endpoints. Use these if derived URLs are incorrect.",
+			"properties": {
+				"api": {
+					"type": "string",
+					"description": "Full URL override for the API endpoint."
+				},
+				"api_client": {
+					"type": "string",
+					"description": "Full URL override for the client-facing API endpoint."
+				},
+				"app": {
+					"type": "string",
+					"description": "Full URL override for the Web App endpoint."
+				},
+				"gateway": {
+					"type": "string",
+					"description": "Full URL override for the Gateway (WebSocket) endpoint."
+				},
+				"media": {
+					"type": "string",
+					"description": "Full URL override for the Media endpoint."
+				},
+				"static_cdn": {
+					"type": "string",
+					"description": "Full URL override for the Static CDN endpoint."
+				},
+				"admin": {
+					"type": "string",
+					"description": "Full URL override for the Admin Panel endpoint."
+				},
+				"marketing": {
+					"type": "string",
+					"description": "Full URL override for the Marketing Site endpoint."
+				},
+				"invite": {
+					"type": "string",
+					"description": "Full URL override for Invite links."
+				},
+				"gift": {
+					"type": "string",
+					"description": "Full URL override for Gift links."
+				}
+			}
+		},
+		"internal": {
+			"type": "object",
+			"description": "Direct internal endpoints for backend services. In monolith mode these are served via paths on the main server.",
+			"properties": {
+				"kv": {
+					"type": "string",
+					"description": "Internal Valkey/Redis URL for key-value operations.",
+					"default": "redis://localhost:6379/0"
+				},
+				"queue": {
+					"type": "string",
+					"description": "Internal URL for the Queue service.",
+					"default": "http://localhost:8088/queue"
+				},
+				"media_proxy": {
+					"type": "string",
+					"description": "Internal URL for the Media Proxy service.",
+					"default": "http://localhost:8088/media"
+				}
+			}
+		},
+		"instance": {
+			"type": "object",
+			"description": "Specific settings for this Fluxer instance.",
+			"properties": {
+				"deployment_mode": {
+					"type": "string",
+					"description": "Deployment mode. 'monolith' runs all services in one process (fluxer_server). 'microservices' requires separate processes/ports.",
+					"enum": [
+						"monolith",
+						"microservices"
+					],
+					"default": "monolith"
+				},
+				"self_hosted": {
+					"type": "boolean",
+					"default": true,
+					"description": "Indicates if this is a self-hosted instance."
+				},
+				"auto_join_invite_code": {
+					"type": "string",
+					"default": "",
+					"description": "Invite code to auto-join users to a guild upon registration."
+				},
+				"visionaries_guild_id": {
+					"type": "string",
+					"default": "",
+					"description": "Guild ID for Visionary members."
+				},
+				"operators_guild_id": {
+					"type": "string",
+					"default": "",
+					"description": "Guild ID for Operators."
+				},
+				"private_key_path": {
+					"type": "string",
+					"default": "",
+					"description": "Path to the x25519 private key for E2E encryption (generated on first startup if missing)."
+				}
+			}
+		},
+		"federation": {
+			"type": "object",
+			"description": "Federation configuration for connecting with other Fluxer instances.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": false,
+					"description": "Enable federation with other Fluxer instances."
+				}
+			}
+		},
+		"csam": {
+			"type": "object",
+			"description": "CSAM compliance configuration.",
+			"properties": {
+				"evidence_retention_days": {
+					"type": "number",
+					"default": 730,
+					"description": "Days to retain evidence."
+				},
+				"job_retention_days": {
+					"type": "number",
+					"default": 365,
+					"description": "Days to retain reporting jobs."
+				},
+				"cleanup_batch_size": {
+					"type": "number",
+					"default": 100,
+					"description": "Batch size for cleanup operations."
+				},
+				"queue": {
+					"type": "object",
+					"description": "CSAM scan queue configuration.",
+					"properties": {
+						"timeout_ms": {
+							"type": "number",
+							"default": 30000,
+							"description": "Maximum time to wait for a scan result (ms)."
+						},
+						"max_entries_per_batch": {
+							"type": "number",
+							"default": 5,
+							"description": "Maximum queue entries to process per consumer run."
+						},
+						"consumer_lock_ttl_seconds": {
+							"type": "number",
+							"default": 5,
+							"description": "TTL for consumer lock (seconds)."
+						}
+					}
+				}
+			}
+		},
+		"dev": {
+			"type": "object",
+			"description": "Development environment flags.",
+			"properties": {
+				"relax_registration_rate_limits": {
+					"type": "boolean",
+					"default": false,
+					"description": "Relax rate limits for registration."
+				},
+				"disable_rate_limits": {
+					"type": "boolean",
+					"default": false,
+					"description": "Disable all rate limits."
+				},
+				"test_mode_enabled": {
+					"type": "boolean",
+					"default": false,
+					"description": "Enable test mode behaviors."
+				},
+				"test_harness_token": {
+					"type": "string",
+					"default": "",
+					"description": "Token for the test harness."
+				}
+			}
+		},
+		"geoip": {
+			"type": "object",
+			"description": "GeoIP database settings.",
+			"properties": {
+				"maxmind_db_path": {
+					"type": "string",
+					"default": "",
+					"description": "Path to MaxMind GeoIP database."
+				}
+			}
+		},
+		"proxy": {
+			"type": "object",
+			"description": "Proxy configuration.",
+			"properties": {
+				"trust_cf_connecting_ip": {
+					"type": "boolean",
+					"default": false,
+					"description": "Trust Cloudflare's CF-Connecting-IP header."
+				}
+			}
+		},
+		"captcha_provider": {
+			"type": "object",
+			"description": "Configuration for a specific CAPTCHA provider.",
+			"properties": {
+				"site_key": {
+					"type": "string",
+					"description": "Public site key.",
+					"default": ""
+				},
+				"secret_key": {
+					"type": "string",
+					"description": "Secret key for server-side verification.",
+					"default": ""
+				}
+			}
+		},
+		"captcha_integration": {
+			"type": "object",
+			"description": "CAPTCHA service integration.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"description": "Enable CAPTCHA verification.",
+					"default": false
+				},
+				"provider": {
+					"type": "string",
+					"description": "Selected CAPTCHA provider.",
+					"enum": [
+						"hcaptcha",
+						"turnstile",
+						"none"
+					],
+					"default": "none"
+				},
+				"hcaptcha": {
+					"description": "hCaptcha settings.",
+					"$ref": "#/$defs/captcha_provider",
+					"default": {}
+				},
+				"turnstile": {
+					"description": "Cloudflare Turnstile settings.",
+					"$ref": "#/$defs/captcha_provider",
+					"default": {}
+				}
+			}
+		},
+		"clamav_integration": {
+			"type": "object",
+			"description": "ClamAV antivirus integration.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": false,
+					"description": "Enable ClamAV scanning."
+				},
+				"host": {
+					"type": "string",
+					"default": "clamav",
+					"description": "ClamAV host."
+				},
+				"port": {
+					"type": "number",
+					"default": 3310,
+					"description": "ClamAV port."
+				},
+				"fail_open": {
+					"type": "boolean",
+					"default": true,
+					"description": "If true, allow files if scanning fails."
+				}
+			}
+		},
+		"cloudflare": {
+			"type": "object",
+			"description": "Cloudflare integration.",
+			"properties": {
+				"purge_enabled": {
+					"type": "boolean",
+					"default": false,
+					"description": "Enable automatic cache purging."
+				},
+				"zone_id": {
+					"type": "string",
+					"default": "",
+					"description": "Cloudflare Zone ID."
+				},
+				"api_token": {
+					"type": "string",
+					"default": "",
+					"description": "Cloudflare API token for cache purge."
+				}
+			}
+		},
+		"csam_integration": {
+			"type": "object",
+			"description": "Unified CSAM scanning integration configuration supporting multiple providers.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": false,
+					"description": "Enable CSAM scanning."
+				},
+				"provider": {
+					"type": "string",
+					"enum": [
+						"photo_dna",
+						"arachnid_shield"
+					],
+					"default": "photo_dna",
+					"description": "The CSAM scanning provider to use."
+				},
+				"photo_dna": {
+					"type": "object",
+					"description": "PhotoDNA provider configuration.",
+					"properties": {
+						"hash_service_url": {
+							"type": "string",
+							"default": "",
+							"description": "URL for the hash generation service."
+						},
+						"hash_service_timeout_ms": {
+							"type": "number",
+							"default": 15000,
+							"description": "Timeout for hash generation in milliseconds."
+						},
+						"match_endpoint": {
+							"type": "string",
+							"default": "",
+							"description": "URL for the PhotoDNA match service."
+						},
+						"subscription_key": {
+							"type": "string",
+							"default": "",
+							"description": "Subscription key for the match service."
+						},
+						"match_enhance": {
+							"type": "boolean",
+							"default": false,
+							"description": "Enable enhanced matching."
+						},
+						"rate_limit_rps": {
+							"type": "number",
+							"default": 5,
+							"description": "Rate limit requests per second."
+						}
+					}
+				},
+				"arachnid_shield": {
+					"type": "object",
+					"description": "Arachnid Shield provider configuration.",
+					"properties": {
+						"endpoint": {
+							"type": "string",
+							"default": "https://shield.projectarachnid.com/v1/media",
+							"description": "Arachnid Shield API endpoint."
+						},
+						"username": {
+							"type": "string",
+							"default": "",
+							"description": "Basic auth username."
+						},
+						"password": {
+							"type": "string",
+							"default": "",
+							"description": "Basic auth password."
+						},
+						"timeout_ms": {
+							"type": "number",
+							"default": 30000,
+							"description": "Request timeout in milliseconds."
+						},
+						"max_retries": {
+							"type": "number",
+							"default": 3,
+							"description": "Maximum number of retry attempts."
+						},
+						"retry_backoff_ms": {
+							"type": "number",
+							"default": 1000,
+							"description": "Base backoff time for retries in milliseconds."
+						}
+					}
+				}
+			}
+		},
+		"smtp_email": {
+			"type": "object",
+			"description": "SMTP transport configuration for email delivery.",
+			"required": [
+				"host",
+				"port",
+				"username",
+				"password"
+			],
+			"properties": {
+				"host": {
+					"type": "string",
+					"description": "SMTP server hostname."
+				},
+				"port": {
+					"type": "number",
+					"description": "SMTP port number.",
+					"default": 587
+				},
+				"username": {
+					"type": "string",
+					"description": "SMTP authentication username."
+				},
+				"password": {
+					"type": "string",
+					"description": "SMTP authentication password."
+				},
+				"secure": {
+					"type": "boolean",
+					"description": "Use TLS when connecting to the SMTP server.",
+					"default": true
+				}
+			}
+		},
+		"email_integration": {
+			"type": "object",
+			"description": "Email delivery service integration.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"description": "Enable email sending.",
+					"default": false
+				},
+				"provider": {
+					"type": "string",
+					"description": "Email provider selection.",
+					"enum": [
+						"smtp",
+						"none"
+					],
+					"default": "none"
+				},
+				"webhook_secret": {
+					"type": "string",
+					"description": "SendGrid signed event webhook public key (PEM or base64-encoded DER)."
+				},
+				"from_email": {
+					"type": "string",
+					"description": "Default sender email address.",
+					"default": ""
+				},
+				"from_name": {
+					"type": "string",
+					"description": "Default sender name.",
+					"default": "Fluxer"
+				},
+				"smtp": {
+					"$ref": "#/$defs/smtp_email"
+				}
+			},
+			"if": {
+				"required": [
+					"enabled",
+					"provider"
+				],
+				"properties": {
+					"enabled": {
+						"const": true
+					},
+					"provider": {
+						"const": "smtp"
+					}
+				}
+			},
+			"then": {
+				"required": [
+					"smtp"
+				]
+			}
+		},
+		"gif": {
+			"type": "object",
+			"description": "GIF provider selection for the client-facing GIF picker.",
+			"properties": {
+				"provider": {
+					"type": "string",
+					"enum": [
+						"klipy",
+						"tenor"
+					],
+					"default": "klipy",
+					"description": "GIF provider to use for GIF search and sharing."
+				}
+			}
+		},
+		"integrations": {
+			"type": "object",
+			"description": "Collection of all external service integrations.",
+			"properties": {
+				"email": {
+					"$ref": "#/$defs/email_integration",
+					"default": {}
+				},
+				"sms": {
+					"$ref": "#/$defs/sms_integration",
+					"default": {}
+				},
+				"captcha": {
+					"$ref": "#/$defs/captcha_integration",
+					"default": {}
+				},
+				"voice": {
+					"$ref": "#/$defs/voice_integration",
+					"default": {}
+				},
+				"search": {
+					"$ref": "#/$defs/search_integration",
+					"default": {}
+				},
+				"stripe": {
+					"$ref": "#/$defs/stripe_integration",
+					"default": {}
+				},
+				"photo_dna": {
+					"$ref": "#/$defs/photo_dna_integration",
+					"default": {}
+				},
+				"ncmec": {
+					"$ref": "#/$defs/ncmec_integration",
+					"default": {}
+				},
+				"clamav": {
+					"$ref": "#/$defs/clamav_integration",
+					"default": {}
+				},
+				"gif": {
+					"$ref": "#/$defs/gif",
+					"default": {}
+				},
+				"klipy": {
+					"$ref": "#/$defs/klipy",
+					"default": {}
+				},
+				"tenor": {
+					"$ref": "#/$defs/tenor",
+					"default": {}
+				},
+				"youtube": {
+					"$ref": "#/$defs/youtube",
+					"default": {}
+				},
+				"cloudflare": {
+					"$ref": "#/$defs/cloudflare",
+					"default": {}
+				}
+			}
+		},
+		"klipy": {
+			"type": "object",
+			"description": "KLIPY GIF API integration.",
+			"properties": {
+				"api_key": {
+					"type": "string",
+					"default": "",
+					"description": "KLIPY API Key."
+				}
+			}
+		},
+		"ncmec_integration": {
+			"type": "object",
+			"description": "NCMEC CyberTipline integration.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": false,
+					"description": "Enable NCMEC reporting."
+				},
+				"base_url": {
+					"type": "string",
+					"default": "",
+					"description": "Base URL for the CyberTipline Reporting API (e.g., https://report.cybertip.org/ispws)."
+				},
+				"username": {
+					"type": "string",
+					"default": "",
+					"description": "Username for CyberTipline basic authentication."
+				},
+				"password": {
+					"type": "string",
+					"default": "",
+					"description": "Password for CyberTipline basic authentication."
+				}
+			}
+		},
+		"photo_dna_integration": {
+			"type": "object",
+			"description": "PhotoDNA integration for hash matching.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": false,
+					"description": "Enable PhotoDNA."
+				},
+				"hash_service_url": {
+					"type": "string",
+					"default": "",
+					"description": "URL for the hash generation service."
+				},
+				"hash_service_timeout_ms": {
+					"type": "number",
+					"default": 15000,
+					"description": "Timeout for hash generation."
+				},
+				"match_endpoint": {
+					"type": "string",
+					"default": "",
+					"description": "URL for the match service."
+				},
+				"subscription_key": {
+					"type": "string",
+					"default": "",
+					"description": "Subscription key for the match service."
+				},
+				"match_enhance": {
+					"type": "boolean",
+					"default": false,
+					"description": "Enable enhanced matching."
+				},
+				"rate_limit_rps": {
+					"type": "number",
+					"default": 5,
+					"description": "Rate limit requests per second."
+				}
+			}
+		},
+		"search_integration": {
+			"type": "object",
+			"description": "Search engine integration (Meilisearch). Fluxer always uses Meilisearch for indexing and querying.",
+			"properties": {
+				"url": {
+					"type": "string",
+					"description": "Meilisearch HTTP API URL.",
+					"default": "http://127.0.0.1:7700"
+				},
+				"api_key": {
+					"type": "string",
+					"description": "Meilisearch API key used by the API for index management and writes. Use a key with access to documents and settings."
+				}
+			},
+			"required": [
+				"url",
+				"api_key"
+			]
+		},
+		"sms_integration": {
+			"type": "object",
+			"description": "SMS service integration.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"description": "Enable SMS sending.",
+					"default": false
+				},
+				"account_sid": {
+					"type": "string",
+					"description": "Twilio account SID."
+				},
+				"auth_token": {
+					"type": "string",
+					"description": "Twilio auth token."
+				},
+				"verify_service_sid": {
+					"type": "string",
+					"description": "Twilio Verify service SID."
+				}
+			},
+			"if": {
+				"required": [
+					"enabled"
+				],
+				"properties": {
+					"enabled": {
+						"const": true
+					}
+				}
+			},
+			"then": {
+				"required": [
+					"account_sid",
+					"auth_token",
+					"verify_service_sid"
+				]
+			}
+		},
+		"stripe_prices": {
+			"type": "object",
+			"description": "Stripe Price IDs for subscription products.",
+			"properties": {
+				"monthly_usd": {
+					"type": "string",
+					"description": "Monthly subscription USD price ID.",
+					"default": ""
+				},
+				"monthly_eur": {
+					"type": "string",
+					"description": "Monthly subscription EUR price ID.",
+					"default": ""
+				},
+				"yearly_usd": {
+					"type": "string",
+					"description": "Yearly subscription USD price ID.",
+					"default": ""
+				},
+				"yearly_eur": {
+					"type": "string",
+					"description": "Yearly subscription EUR price ID.",
+					"default": ""
+				},
+				"visionary_usd": {
+					"type": "string",
+					"description": "Visionary tier USD price ID.",
+					"default": ""
+				},
+				"visionary_eur": {
+					"type": "string",
+					"description": "Visionary tier EUR price ID.",
+					"default": ""
+				},
+				"gift_visionary_usd": {
+					"type": "string",
+					"description": "Gift Visionary USD price ID.",
+					"default": ""
+				},
+				"gift_visionary_eur": {
+					"type": "string",
+					"description": "Gift Visionary EUR price ID.",
+					"default": ""
+				},
+				"gift_1_month_usd": {
+					"type": "string",
+					"description": "Gift 1 Month USD price ID.",
+					"default": ""
+				},
+				"gift_1_month_eur": {
+					"type": "string",
+					"description": "Gift 1 Month EUR price ID.",
+					"default": ""
+				},
+				"gift_1_year_usd": {
+					"type": "string",
+					"description": "Gift 1 Year USD price ID.",
+					"default": ""
+				},
+				"gift_1_year_eur": {
+					"type": "string",
+					"description": "Gift 1 Year EUR price ID.",
+					"default": ""
+				}
+			}
+		},
+		"stripe_integration": {
+			"type": "object",
+			"description": "Stripe payments integration.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"description": "Enable Stripe payments.",
+					"default": false
+				},
+				"secret_key": {
+					"type": "string",
+					"description": "Stripe Secret Key."
+				},
+				"webhook_secret": {
+					"type": "string",
+					"description": "Stripe Webhook Signing Secret."
+				},
+				"prices": {
+					"description": "Stripe Price ID configuration.",
+					"$ref": "#/$defs/stripe_prices"
+				}
+			},
+			"if": {
+				"required": [
+					"enabled"
+				],
+				"properties": {
+					"enabled": {
+						"const": true
+					}
+				}
+			},
+			"then": {
+				"required": [
+					"secret_key",
+					"webhook_secret"
+				]
+			}
+		},
+		"tenor": {
+			"type": "object",
+			"description": "Tenor GIF API integration.",
+			"properties": {
+				"api_key": {
+					"type": "string",
+					"default": "",
+					"description": "Tenor API key."
+				}
+			}
+		},
+		"voice_integration": {
+			"type": "object",
+			"description": "Real-time voice/video integration (LiveKit).",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"description": "Enable voice/video features.",
+					"default": false
+				},
+				"api_key": {
+					"type": "string",
+					"description": "LiveKit API Key used for config-driven default_region bootstrap. Optional when voice topology is managed in the admin panel."
+				},
+				"api_secret": {
+					"type": "string",
+					"description": "LiveKit API Secret used for config-driven default_region bootstrap. Optional when voice topology is managed in the admin panel."
+				},
+				"webhook_url": {
+					"type": "string",
+					"description": "URL for LiveKit webhooks.",
+					"default": ""
+				},
+				"url": {
+					"type": "string",
+					"description": "LiveKit Server URL (client signal endpoint for WebSocket connections).",
+					"default": ""
+				},
+				"default_region": {
+					"type": "object",
+					"description": "Default voice region to create on startup if none exist. When provided, automatically creates this region and a server pointing to the configured LiveKit URL.",
+					"properties": {
+						"id": {
+							"type": "string",
+							"description": "Unique identifier for the region (e.g. 'default', 'eu-west')."
+						},
+						"name": {
+							"type": "string",
+							"description": "Display name for the region."
+						},
+						"emoji": {
+							"type": "string",
+							"description": "Emoji icon for the region (e.g. '🌐', '🇪🇺')."
+						},
+						"latitude": {
+							"type": "number",
+							"description": "Latitude coordinate for the region."
+						},
+						"longitude": {
+							"type": "number",
+							"description": "Longitude coordinate for the region."
+						}
+					},
+					"required": [
+						"id",
+						"name",
+						"emoji",
+						"latitude",
+						"longitude"
+					]
+				}
+			},
+			"if": {
+				"required": [
+					"enabled",
+					"default_region"
+				],
+				"properties": {
+					"enabled": {
+						"const": true
+					}
+				}
+			},
+			"then": {
+				"required": [
+					"api_key",
+					"api_secret"
+				]
+			}
+		},
+		"youtube": {
+			"type": "object",
+			"description": "YouTube API integration.",
+			"properties": {
+				"api_key": {
+					"type": "string",
+					"default": "",
+					"description": "YouTube API Key."
+				}
+			}
+		},
+		"admin_service": {
+			"type": "object",
+			"description": "Configuration for the Admin Panel service.",
+			"required": [
+				"secret_key_base",
+				"oauth_client_secret"
+			],
+			"properties": {
+				"port": {
+					"type": "number",
+					"description": "Port to listen on.",
+					"default": 3001
+				},
+				"secret_key_base": {
+					"type": "string",
+					"description": "Base secret key for signing admin session tokens."
+				},
+				"base_path": {
+					"type": "string",
+					"description": "URL base path for the admin interface.",
+					"default": "/admin"
+				},
+				"oauth_client_secret": {
+					"type": "string",
+					"description": "OAuth Client Secret for admin authentication."
+				},
+				"rate_limit": {
+					"description": "Rate limiting configuration for the Admin service.",
+					"$ref": "#/$defs/rate_limit"
+				}
+			}
+		},
+		"api_service": {
+			"type": "object",
+			"description": "Configuration for the main API service.",
+			"properties": {
+				"port": {
+					"type": "number",
+					"description": "Port to listen on.",
+					"default": 8080
+				},
+				"host": {
+					"type": "string",
+					"description": "Network interface to bind to.",
+					"default": "0.0.0.0"
+				},
+				"unfurl_ignored_hosts": {
+					"type": "array",
+					"description": "List of hostnames or IPs to ignore when unfurling URLs.",
+					"items": {
+						"type": "string"
+					},
+					"default": [
+						"localhost",
+						"127.0.0.1"
+					]
+				}
+			}
+		},
+		"app_proxy_kv": {
+			"type": "object",
+			"description": "Valkey/Redis settings for the App Proxy.",
+			"required": [
+				"url"
+			],
+			"properties": {
+				"url": {
+					"type": "string",
+					"description": "Full URL to Valkey/Redis."
+				},
+				"timeout_ms": {
+					"type": "number",
+					"description": "Request timeout for Valkey/Redis in milliseconds.",
+					"default": 5000
+				}
+			}
+		},
+		"app_proxy_sentry_rate_limit": {
+			"type": "object",
+			"description": "Rate limiting for Sentry error reporting requests.",
+			"properties": {
+				"limit": {
+					"type": "number",
+					"description": "Number of Sentry requests allowed per window.",
+					"default": 100
+				},
+				"window_ms": {
+					"type": "number",
+					"description": "Time window for Sentry rate limiting in milliseconds.",
+					"default": 1000
+				}
+			}
+		},
+		"app_proxy_rate_limit": {
+			"type": "object",
+			"description": "Rate limit settings for the App Proxy.",
+			"properties": {
+				"sentry": {
+					"description": "Sentry reporting rate limit configuration.",
+					"$ref": "#/$defs/app_proxy_sentry_rate_limit",
+					"default": {}
+				}
+			}
+		},
+		"app_proxy_service": {
+			"type": "object",
+			"description": "Configuration for the App Proxy service (frontend server).",
+			"required": [
+				"sentry_report_host",
+				"sentry_dsn"
+			],
+			"properties": {
+				"port": {
+					"type": "number",
+					"description": "Port to listen on.",
+					"default": 8773
+				},
+				"static_cdn_endpoint": {
+					"type": "string",
+					"description": "URL endpoint for serving static assets via CDN.",
+					"default": ""
+				},
+				"sentry_proxy_path": {
+					"type": "string",
+					"description": "URL path for proxying Sentry requests.",
+					"default": "/error-reporting-proxy"
+				},
+				"sentry_report_host": {
+					"type": "string",
+					"description": "Hostname to which Sentry reports should be sent."
+				},
+				"sentry_dsn": {
+					"type": "string",
+					"description": "Sentry DSN (Data Source Name) for frontend error tracking."
+				},
+				"assets_dir": {
+					"type": "string",
+					"description": "Filesystem directory containing static assets.",
+					"default": "./assets"
+				},
+				"kv": {
+					"description": "Valkey/Redis configuration for the proxy.",
+					"$ref": "#/$defs/app_proxy_kv"
+				},
+				"rate_limit": {
+					"description": "Rate limiting configuration for the App Proxy.",
+					"$ref": "#/$defs/app_proxy_rate_limit",
+					"default": {}
+				}
+			}
+		},
+		"gateway_service": {
+			"type": "object",
+			"description": "Configuration for the Gateway service (WebSocket).",
+			"required": [
+				"api_host",
+				"admin_reload_secret",
+				"media_proxy_endpoint"
+			],
+			"properties": {
+				"port": {
+					"type": "number",
+					"description": "Port to listen on.",
+					"default": 8771
+				},
+				"rpc_tcp_port": {
+					"type": "number",
+					"description": "Port for API-to-Gateway internal RPC over TCP.",
+					"default": 8772
+				},
+				"api_host": {
+					"type": "string",
+					"description": "Host/Port of the API service to communicate with."
+				},
+				"api_canary_host": {
+					"type": "string",
+					"description": "Host/Port of the Canary API service (optional).",
+					"default": ""
+				},
+				"admin_reload_secret": {
+					"type": "string",
+					"description": "Secret used to trigger code hot-swapping/reloads."
+				},
+				"identify_rate_limit_enabled": {
+					"type": "boolean",
+					"description": "Enable rate limiting for Gateway IDENTIFY opcodes.",
+					"default": false
+				},
+				"push_enabled": {
+					"type": "boolean",
+					"description": "Enable push notification delivery.",
+					"default": true
+				},
+				"push_user_guild_settings_cache_mb": {
+					"type": "number",
+					"description": "Memory cache size (MB) for user guild settings.",
+					"default": 1024
+				},
+				"push_subscriptions_cache_mb": {
+					"type": "number",
+					"description": "Memory cache size (MB) for push subscriptions.",
+					"default": 1024
+				},
+				"push_blocked_ids_cache_mb": {
+					"type": "number",
+					"description": "Memory cache size (MB) for blocked user IDs.",
+					"default": 1024
+				},
+				"push_badge_counts_cache_mb": {
+					"type": "number",
+					"description": "Memory cache size (MB) for badge counts.",
+					"default": 256
+				},
+				"push_badge_counts_cache_ttl_seconds": {
+					"type": "number",
+					"description": "TTL in seconds for badge counts cache.",
+					"default": 60
+				},
+				"media_proxy_endpoint": {
+					"type": "string",
+					"description": "Endpoint URL of the Media Proxy service."
+				},
+				"logger_level": {
+					"type": "string",
+					"description": "Logging level (e.g., debug, info, warn, error).",
+					"default": "info"
+				},
+				"release_node": {
+					"type": "string",
+					"description": "Erlang node name for the release.",
+					"default": "fluxer_gateway@gateway"
+				},
+				"gateway_metrics_enabled": {
+					"type": "boolean",
+					"description": "Enable collection of gateway metrics.",
+					"default": false
+				},
+				"gateway_metrics_report_interval_ms": {
+					"type": "number",
+					"description": "Interval in milliseconds to report gateway metrics.",
+					"default": 30000
+				},
+				"presence_cache_shards": {
+					"type": "number",
+					"description": "Number of shards for presence cache.",
+					"default": 1
+				},
+				"presence_bus_shards": {
+					"type": "number",
+					"description": "Number of shards for presence message bus.",
+					"default": 1
+				},
+				"presence_shards": {
+					"type": "number",
+					"description": "Number of shards for presence handling.",
+					"default": 1
+				},
+				"guild_shards": {
+					"type": "number",
+					"description": "Number of shards for guild handling.",
+					"default": 1
+				}
+			}
+		},
+		"marketing_service": {
+			"type": "object",
+			"description": "Configuration for the Marketing site service.",
+			"required": [
+				"secret_key_base"
+			],
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"description": "Whether to enable the Marketing service within fluxer_server.",
+					"default": false
+				},
+				"port": {
+					"type": "number",
+					"description": "Port to listen on.",
+					"default": 8774
+				},
+				"host": {
+					"type": "string",
+					"description": "Network interface to bind to.",
+					"default": "0.0.0.0"
+				},
+				"secret_key_base": {
+					"type": "string",
+					"description": "Base secret key for marketing site sessions/tokens."
+				},
+				"base_path": {
+					"type": "string",
+					"description": "URL base path for the marketing site.",
+					"default": "/marketing"
+				}
+			}
+		},
+		"media_proxy_service": {
+			"type": "object",
+			"description": "Configuration for the Media Proxy service.",
+			"required": [
+				"secret_key"
+			],
+			"properties": {
+				"host": {
+					"type": "string",
+					"description": "Network interface to bind to.",
+					"default": "0.0.0.0"
+				},
+				"port": {
+					"type": "number",
+					"description": "Port to listen on.",
+					"default": 8080
+				},
+				"secret_key": {
+					"type": "string",
+					"description": "Secret key used to sign and verify media URLs."
+				},
+				"require_cloudflare_edge": {
+					"type": "boolean",
+					"description": "If true, strictly requires requests to originate from Cloudflare edge IPs.",
+					"default": false
+				},
+				"static_mode": {
+					"type": "boolean",
+					"description": "If true, enables serving static files directly.",
+					"default": false
+				},
+				"rate_limit": {
+					"description": "Rate limiting configuration for the Media Proxy.",
+					"$ref": "#/$defs/rate_limit"
+				}
+			}
+		},
+		"queue_service": {
+			"type": "object",
+			"description": "Configuration for the Job Queue service.",
+			"properties": {
+				"port": {
+					"type": "number",
+					"description": "Port to listen on.",
+					"default": 8080
+				},
+				"host": {
+					"type": "string",
+					"description": "Network interface to bind to.",
+					"default": "0.0.0.0"
+				},
+				"data_dir": {
+					"type": "string",
+					"description": "Filesystem path to store queue data.",
+					"default": "./data/queue"
+				},
+				"default_visibility_timeout_ms": {
+					"type": "number",
+					"description": "Default time in milliseconds a message remains invisible after being received.",
+					"default": 30000
+				},
+				"snapshot_every_ms": {
+					"type": "number",
+					"description": "Interval in milliseconds to take queue snapshots.",
+					"default": 60000
+				},
+				"snapshot_after_ops": {
+					"type": "number",
+					"description": "Number of operations after which to take a queue snapshot.",
+					"default": 10000
+				},
+				"snapshot_zstd_level": {
+					"type": "number",
+					"description": "Zstd compression level for snapshots (1-22).",
+					"minimum": 1,
+					"maximum": 22,
+					"default": 3
+				},
+				"visibility_timeout_backoff_ms": {
+					"type": "number",
+					"description": "Backoff duration in milliseconds for visibility timeouts.",
+					"default": 1000
+				},
+				"max_receive_batch": {
+					"type": "number",
+					"description": "Maximum number of messages to retrieve in a single batch.",
+					"default": 10
+				},
+				"command_buffer": {
+					"type": "number",
+					"description": "Size of the internal command buffer.",
+					"default": 1000
+				},
+				"export_timeout": {
+					"type": "number",
+					"description": "Timeout in milliseconds for data export operations.",
+					"default": 30000
+				},
+				"concurrency": {
+					"type": "number",
+					"description": "Number of concurrent worker threads.",
+					"default": 2
+				},
+				"rate_limit": {
+					"description": "Rate limiting configuration for the Queue service.",
+					"$ref": "#/$defs/rate_limit"
+				},
+				"secret": {
+					"type": "string",
+					"description": "Authentication secret for the Queue service."
+				}
+			}
+		},
+		"s3_service": {
+			"type": "object",
+			"description": "Configuration for the S3-compatible storage service.",
+			"properties": {
+				"port": {
+					"type": "number",
+					"description": "Port to listen on.",
+					"default": 3900
+				},
+				"host": {
+					"type": "string",
+					"description": "Network interface to bind to.",
+					"default": "0.0.0.0"
+				},
+				"data_dir": {
+					"type": "string",
+					"description": "Filesystem path to store S3 data objects.",
+					"default": "./data/s3"
+				},
+				"export_timeout": {
+					"type": "number",
+					"description": "Timeout in milliseconds for data export operations.",
+					"default": 30000
+				},
+				"rate_limit": {
+					"description": "Rate limiting configuration for the S3 service.",
+					"$ref": "#/$defs/rate_limit"
+				}
+			}
+		},
+		"server_service": {
+			"type": "object",
+			"description": "Configuration for the main Fluxer Server.",
+			"properties": {
+				"host": {
+					"type": "string",
+					"description": "Network interface to bind to.",
+					"default": "0.0.0.0"
+				},
+				"port": {
+					"type": "number",
+					"description": "Port to listen on.",
+					"default": 8772
+				},
+				"static_dir": {
+					"type": "string",
+					"description": "Path to static assets directory for the web app. Required in production."
+				}
+			}
+		},
+		"services": {
+			"type": "object",
+			"description": "Container for all service-specific configurations.",
+			"required": [
+				"media_proxy",
+				"admin",
+				"gateway"
+			],
+			"properties": {
+				"s3": {
+					"$ref": "#/$defs/s3_service",
+					"default": {}
+				},
+				"queue": {
+					"$ref": "#/$defs/queue_service",
+					"default": {}
+				},
+				"media_proxy": {
+					"$ref": "#/$defs/media_proxy_service"
+				},
+				"admin": {
+					"$ref": "#/$defs/admin_service"
+				},
+				"marketing": {
+					"$ref": "#/$defs/marketing_service"
+				},
+				"api": {
+					"$ref": "#/$defs/api_service",
+					"default": {}
+				},
+				"app_proxy": {
+					"$ref": "#/$defs/app_proxy_service"
+				},
+				"gateway": {
+					"$ref": "#/$defs/gateway_service"
+				},
+				"server": {
+					"$ref": "#/$defs/server_service",
+					"default": {}
+				}
+			}
+		},
+		"alerts": {
+			"type": "object",
+			"description": "Alerting settings.",
+			"properties": {
+				"webhook_url": {
+					"type": "string",
+					"default": "",
+					"description": "Webhook URL for system alerts."
+				}
+			}
+		},
+		"telemetry": {
+			"type": "object",
+			"description": "OpenTelemetry observability settings.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": false,
+					"description": "Enable OpenTelemetry."
+				},
+				"otlp_endpoint": {
+					"type": "string",
+					"default": "",
+					"description": "OTLP collector endpoint."
+				},
+				"api_key": {
+					"type": "string",
+					"default": "",
+					"description": "API Key for telemetry service."
+				},
+				"service_name": {
+					"type": "string",
+					"default": "fluxer",
+					"description": "Service name reported to telemetry."
+				},
+				"environment": {
+					"type": "string",
+					"default": "development",
+					"description": "Environment name (dev, prod, etc)."
+				},
+				"trace_sampling_ratio": {
+					"type": "number",
+					"minimum": 0,
+					"maximum": 1,
+					"default": 1,
+					"description": "Sampling ratio for traces (0.0 to 1.0)."
+				},
+				"export_timeout": {
+					"type": "number",
+					"minimum": 1,
+					"default": 30000,
+					"description": "Timeout in milliseconds for exporting telemetry data."
+				},
+				"metric_export_interval_ms": {
+					"type": "number",
+					"minimum": 1,
+					"default": 60000,
+					"description": "Interval in milliseconds between metric exports."
+				},
+				"ignore_incoming_paths": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": [
+						"/_health"
+					],
+					"description": "HTTP paths to exclude from tracing."
+				}
+			}
+		},
+		"sentry": {
+			"type": "object",
+			"description": "Sentry configuration.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"default": false,
+					"description": "Enable Sentry reporting."
+				},
+				"dsn": {
+					"type": "string",
+					"default": "",
+					"description": "Sentry DSN."
+				}
+			}
+		},
+		"app_public": {
+			"type": "object",
+			"description": "Public configuration exposed to the frontend application.",
+			"properties": {
+				"api_version": {
+					"type": "number",
+					"default": 1,
+					"description": "API Version."
+				},
+				"bootstrap_api_endpoint": {
+					"type": "string",
+					"default": "",
+					"description": "Bootstrap API endpoint."
+				},
+				"bootstrap_api_public_endpoint": {
+					"type": "string",
+					"default": "",
+					"description": "Public Bootstrap API endpoint."
+				},
+				"sentry_dsn": {
+					"type": "string",
+					"default": "",
+					"description": "Frontend Sentry DSN."
+				},
+				"sentry_proxy_path": {
+					"type": "string",
+					"default": "/error-reporting-proxy",
+					"description": "Path to proxy Sentry requests."
+				},
+				"sentry_report_host": {
+					"type": "string",
+					"default": "",
+					"description": "Host for Sentry reporting."
+				},
+				"sentry_project_id": {
+					"type": "string",
+					"default": "",
+					"description": "Sentry Project ID."
+				},
+				"sentry_public_key": {
+					"type": "string",
+					"default": "",
+					"description": "Sentry Public Key."
+				}
+			}
+		}
+	}
+}

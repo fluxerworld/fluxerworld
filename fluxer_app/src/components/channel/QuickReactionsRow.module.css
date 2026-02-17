@@ -1,0 +1,55 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.row {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding: 4px 6px 6px;
+}
+
+.button {
+	all: unset;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1;
+	aspect-ratio: 1;
+	border-radius: 8px;
+	cursor: pointer;
+	background-color: var(--background-modifier-hover);
+	transition: background-color 0.1s ease;
+}
+
+.button:hover,
+.button:is([data-highlighted], [data-hovered], [data-focused], [data-focus-visible]) {
+	background-color: var(--background-modifier-selected);
+}
+
+.emojiImg {
+	width: 24px;
+	height: 24px;
+	object-fit: contain;
+}
+
+.emojiNative {
+	font-size: 24px;
+	line-height: 1;
+	font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', sans-serif;
+}

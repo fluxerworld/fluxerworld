@@ -17,19 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {AuthBottomLink} from '@app/components/auth/AuthBottomLink';
+import sharedStyles from '@app/components/auth/AuthPageStyles.module.css';
+import {AuthRegisterFormCore} from '@app/components/auth/AuthRegisterFormCore';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import {useLocation} from '@app/lib/router/React';
+import {setPathQueryParams} from '@app/utils/UrlUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {AuthBottomLink} from '~/components/auth/AuthBottomLink';
-import sharedStyles from '~/components/auth/AuthPageStyles.module.css';
-import {AuthRegisterFormCore} from '~/components/auth/AuthRegisterFormCore';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import {useLocation} from '~/lib/router';
 
 const RegisterPageContent = observer(function RegisterPageContent() {
 	const location = useLocation();
 	const params = new URLSearchParams(location.search);
-	const rawRedirect = params.get('redirect_to');
+	const rawRedirect = params['get']('redirect_to');
 	const redirectTo = rawRedirect || '/';
+	const loginPath = rawRedirect ? setPathQueryParams('/login', {redirect_to: rawRedirect}) : '/login';
 
 	return (
 		<>
@@ -42,18 +44,14 @@ const RegisterPageContent = observer(function RegisterPageContent() {
 					fields={{
 						showEmail: true,
 						showPassword: true,
+						showPasswordConfirmation: true,
 						showUsernameValidation: true,
-						showBetaCodeHint: true,
-						requireBetaCode: false,
 					}}
 					submitLabel={<Trans>Create account</Trans>}
 					redirectPath={redirectTo}
 				/>
 
-				<AuthBottomLink
-					variant="login"
-					to={`/login${rawRedirect ? `?redirect_to=${encodeURIComponent(rawRedirect)}` : ''}`}
-				/>
+				<AuthBottomLink variant="login" to={loginPath} />
 			</div>
 		</>
 	);

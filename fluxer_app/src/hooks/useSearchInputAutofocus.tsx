@@ -17,10 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import {isTextInputKeyEvent} from '~/lib/isTextInputKeyEvent';
-import ModalStore from '~/stores/ModalStore';
-import QuickSwitcherStore from '~/stores/QuickSwitcherStore';
+import {shouldDisableAutofocusOnMobile} from '@app/lib/AutofocusUtils';
+import {isTextInputKeyEvent} from '@app/lib/IsTextInputKeyEvent';
+import ModalStore from '@app/stores/ModalStore';
+import QuickSwitcherStore from '@app/stores/QuickSwitcherStore';
+import {useEffect} from 'react';
 
 const MODAL_KEYBOARD_SELECTOR = '[role="dialog"], .modal-backdrop';
 
@@ -40,7 +41,11 @@ interface SearchInputRef {
 }
 
 export const useSearchInputAutofocus = (inputRef: SearchInputRef) => {
-	React.useEffect(() => {
+	useEffect(() => {
+		if (shouldDisableAutofocusOnMobile()) {
+			return;
+		}
+
 		const shouldBlockDueToModal = (): boolean => {
 			if (!ModalStore.hasModalOpen()) {
 				return false;

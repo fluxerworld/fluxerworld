@@ -27,6 +27,7 @@
 
 .modalRoot {
 	border: none;
+	height: 780px;
 }
 
 .userInfo {
@@ -60,16 +61,25 @@
 	min-width: 0;
 }
 
+.profileDataWarning {
+	width: 100%;
+}
+
 .nameRow {
 	display: flex;
 	align-items: center;
 	gap: 0.35rem;
+	min-width: 0;
 }
 
 .userName {
-	display: inline;
-	white-space: normal;
-	word-break: break-all;
+	display: block;
+	flex: 1 1 auto;
+	min-width: 0;
+	max-width: 100%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	vertical-align: middle;
 	font-weight: 600;
 	font-size: 24px;
@@ -86,6 +96,10 @@
 .usernameRow {
 	display: flex;
 	align-items: center;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
 	font-size: 14px;
 	color: var(--text-tertiary);
 	line-height: 18px;
@@ -169,11 +183,11 @@
 
 .profileContent {
 	display: flex;
-	height: 100%;
 	flex-direction: column;
 	gap: 20px;
 	padding: 16px;
 	padding-top: 0;
+	min-width: 0;
 }
 
 .profileContentHeader {
@@ -240,7 +254,9 @@
 	z-index: 1;
 	margin: 16px;
 	display: flex;
-	height: 100%;
+	flex: 1 1 auto;
+	min-height: 0;
+	min-width: 0;
 	flex-direction: column;
 	gap: 12px;
 	overflow: hidden;
@@ -249,24 +265,33 @@
 .profileContentWrapper {
 	flex: 1;
 	min-height: 0;
-	overflow: auto;
+	min-width: 0;
+	overflow: hidden;
+	display: flex;
+	flex-direction: column;
 	border-radius: 6px;
 	background-color: var(--background-primary);
 }
 
 .scrollerFullHeight {
 	height: 100%;
+	min-height: 0;
+	min-width: 0;
 }
 
 .modalContainer {
 	display: flex;
-	height: 780px;
-	width: 600px;
+	flex: 1 1 auto;
+	height: 100%;
+	min-height: 0;
+	min-width: 0;
+	width: 100%;
 	flex-direction: column;
 	overflow: hidden;
 	border-radius: 6px;
 	border-width: 4px;
 	border-style: solid;
+	box-sizing: border-box;
 	background-color: var(--background-primary);
 	position: relative;
 }
@@ -350,7 +375,6 @@
 }
 
 .mutualMenuButton:hover .mutualMenuIcon,
-.mutualMenuButton:focus-visible .mutualMenuIcon,
 .mutualMenuButtonActive .mutualMenuIcon {
 	color: var(--text-primary);
 }

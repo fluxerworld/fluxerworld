@@ -1,0 +1,180 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 8px 0 6px;
+}
+
+.headerLeft {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+	flex: 1 1 auto;
+}
+
+.textContainer {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	gap: 0;
+}
+
+.nameRow {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+}
+
+.channelIcon {
+	width: 16px;
+	height: 16px;
+	color: var(--text-primary-muted);
+	flex-shrink: 0;
+	margin-right: -4px;
+}
+
+.nameButton {
+	background: none;
+	border: none;
+	padding: 0;
+	margin: 0;
+	text-align: left;
+	cursor: pointer;
+	min-width: 0;
+}
+
+.nameText {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	font-size: 0.95rem;
+	font-weight: 700;
+	color: var(--text-primary);
+}
+
+.nameButton:hover .nameText {
+	text-decoration: underline;
+}
+
+.subtext {
+	font-size: 0.75rem;
+	line-height: 1rem;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.subtextMuted {
+	color: var(--text-primary-muted);
+	font-weight: 400;
+}
+
+.subtextPrimary {
+	color: var(--text-primary);
+	font-weight: 400;
+}
+
+.subtextBreadcrumb {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+}
+
+.subtextChevron {
+	width: 12px;
+	height: 12px;
+	color: var(--text-primary-muted);
+}
+
+.headerActions {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex: 0 0 auto;
+}
+
+.avatar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 0 0 auto;
+	border-radius: 30%;
+	overflow: hidden;
+	background-color: var(--background-tertiary);
+	background-position: center;
+	background-size: cover;
+	color: var(--text-primary);
+}
+
+.initials {
+	font-weight: 700;
+	font-size: 0.85rem;
+	letter-spacing: 0.04em;
+	text-transform: uppercase;
+}
+
+.avatar[data-initials-length='medium'] .initials {
+	font-size: 0.75rem;
+	letter-spacing: 0.02em;
+}
+
+.avatar[data-initials-length='long'] .initials {
+	font-size: 0.65rem;
+	letter-spacing: 0;
+}
+
+.fallbackIcon {
+	width: 60%;
+	height: 60%;
+}
+
+.focusRingTight {
+	border-radius: 4px;
+}
+
+.headerIconButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	background-color: var(--background-secondary);
+	color: var(--text-primary-muted);
+	cursor: pointer;
+	transition:
+		color 0.15s ease,
+		background-color 0.15s ease;
+}
+
+.headerIconButton:hover {
+	color: var(--text-primary);
+	background-color: var(--background-modifier-hover);
+}
+
+.headerIcon {
+	width: 16px;
+	height: 16px;
+}

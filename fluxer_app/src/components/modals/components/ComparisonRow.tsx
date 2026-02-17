@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/modals/components/ComparisonRow.module.css';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import styles from './ComparisonRow.module.css';
 
 export const ComparisonRow = observer(
 	({

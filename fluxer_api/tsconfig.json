@@ -1,19 +1,10 @@
 {
+	"extends": "../tsconfigs/hono-service.json",
 	"compilerOptions": {
-		"exactOptionalPropertyTypes": false,
-		"lib": ["ESNext"],
-		"module": "ESNext",
-		"moduleResolution": "Bundler",
-		"resolveJsonModule": true,
-		"noEmit": true,
-		"noPropertyAccessFromIndexSignature": false,
-		"noUncheckedIndexedAccess": false,
 		"paths": {
-			"~/*": ["./src/*"]
-		},
-		"target": "ESNext",
-		"typeRoots": ["./node_modules/@types"]
+			"@app/*": ["./src/*"],
+			"@fluxer/*": ["./../packages/*", "./../packages/*/src/index.tsx"]
+		}
 	},
-	"extends": ["@tsconfig/strictest/tsconfig", "@tsconfig/node22/tsconfig"],
-	"include": ["src/**/*"]
+	"include": ["src/**/*", "scripts/**/*"]
 }

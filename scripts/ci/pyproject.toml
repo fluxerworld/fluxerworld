@@ -1,0 +1,18 @@
+[project]
+name = "fluxer_ci"
+version = "0.0.0"
+requires-python = ">=3.12"
+dependencies = []
+
+[dependency-groups]
+dev = [
+  "pytest==8.3.4",
+]
+
+[tool.pytest.ini_options]
+testpaths = [
+  "tests",
+]
+pythonpath = [
+  ".",
+]

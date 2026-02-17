@@ -17,50 +17,44 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as MediaViewerActionCreators from '@app/actions/MediaViewerActionCreators';
+import {AltTextBadge} from '@app/components/channel/embeds/AltTextBadge';
+import embedStyles from '@app/components/channel/embeds/Embed.module.css';
+import {deriveDefaultNameFromMessage} from '@app/components/channel/embeds/EmbedUtils';
+import styles from '@app/components/channel/embeds/media/EmbedGifv.module.css';
+import {GifIndicator} from '@app/components/channel/embeds/media/GifIndicator';
+import {getMediaButtonVisibility} from '@app/components/channel/embeds/media/MediaButtonUtils';
+import {MediaContainer, shouldShowOverlays} from '@app/components/channel/embeds/media/MediaContainer';
+import type {BaseMediaProps} from '@app/components/channel/embeds/media/MediaTypes';
+import {NSFWBlurOverlay} from '@app/components/channel/embeds/NSFWBlurOverlay';
+import {useMaybeMessageViewContext} from '@app/components/channel/MessageViewContext';
+import {MediaContextMenu} from '@app/components/uikit/context_menu/MediaContextMenu';
+import {useDeleteAttachment} from '@app/hooks/useDeleteAttachment';
+import {useMediaFavorite} from '@app/hooks/useMediaFavorite';
+import {useMediaLoading} from '@app/hooks/useMediaLoading';
+import {useNSFWMedia} from '@app/hooks/useNSFWMedia';
+import KlipyWatermarkSvg from '@app/images/klipy-watermark.svg?react';
+import FocusManager from '@app/lib/FocusManager';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import MediaViewerStore from '@app/stores/MediaViewerStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import {createCalculator} from '@app/utils/DimensionUtils';
+import {createSaveHandler} from '@app/utils/FileDownloadUtils';
+import {getEmbedMediaDimensions} from '@app/utils/MediaDimensionConfig';
+import {buildMediaProxyURL, stripMediaProxyParams} from '@app/utils/MediaProxyUtils';
 import {useLingui} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import {type FC, useCallback, useEffect, useRef} from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as MediaViewerActionCreators from '~/actions/MediaViewerActionCreators';
-import embedStyles from '~/components/channel/embeds/Embed.module.css';
-import {deriveDefaultNameFromMessage} from '~/components/channel/embeds/EmbedUtils';
-import {GifIndicator} from '~/components/channel/embeds/media/GifIndicator';
-import {getMediaButtonVisibility} from '~/components/channel/embeds/media/MediaButtonUtils';
-import {MediaContainer, shouldShowOverlays} from '~/components/channel/embeds/media/MediaContainer';
-import type {BaseMediaProps} from '~/components/channel/embeds/media/MediaTypes';
-import {NSFWBlurOverlay} from '~/components/channel/embeds/NSFWBlurOverlay';
-import {MediaContextMenu} from '~/components/uikit/ContextMenu/MediaContextMenu';
-import {useDeleteAttachment} from '~/hooks/useDeleteAttachment';
-import {useMediaFavorite} from '~/hooks/useMediaFavorite';
-import {useMediaLoading} from '~/hooks/useMediaLoading';
-import {useNSFWMedia} from '~/hooks/useNSFWMedia';
-import FocusManager from '~/lib/FocusManager';
-import type {MessageRecord} from '~/records/MessageRecord';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import MediaViewerStore from '~/stores/MediaViewerStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import {createCalculator} from '~/utils/DimensionUtils';
-import {createSaveHandler} from '~/utils/FileDownloadUtils';
-import {buildMediaProxyURL, stripMediaProxyParams} from '~/utils/MediaProxyUtils';
-import styles from './EmbedGifv.module.css';
-
-const MEDIA_CONFIG = {
-	MAX_WIDTH: 400,
-	MAX_HEIGHT: 300,
-} as const;
-
-const mediaCalculator = createCalculator({
-	maxWidth: MEDIA_CONFIG.MAX_WIDTH,
-	maxHeight: MEDIA_CONFIG.MAX_HEIGHT,
-	responsive: true,
-});
+import {type FC, useCallback, useEffect, useMemo, useRef} from 'react';
 
 type GifvEmbedProps = BaseMediaProps & {
 	embedURL: string;
 	naturalWidth: number;
 	naturalHeight: number;
 	placeholder?: string;
+	alt?: string | null;
 };
 
 interface VideoConfig {
@@ -70,6 +64,19 @@ interface VideoConfig {
 	playsInline?: boolean;
 	controls?: boolean;
 	preload?: 'none' | 'metadata' | 'auto';
+}
+
+function useEmbedMediaCalculator() {
+	const embedDimensions = getEmbedMediaDimensions();
+	return useMemo(
+		() =>
+			createCalculator({
+				maxWidth: embedDimensions.maxWidth,
+				maxHeight: embedDimensions.maxHeight,
+				responsive: true,
+			}),
+		[embedDimensions.maxHeight, embedDimensions.maxWidth],
+	);
 }
 
 const useImagePreview = ({
@@ -84,6 +91,7 @@ const useImagePreview = ({
 	embedIndex,
 	contentHash,
 	message,
+	providerName,
 }: {
 	proxyUrl: string;
 	embedUrl: string;
@@ -96,6 +104,7 @@ const useImagePreview = ({
 	embedIndex?: number;
 	contentHash?: string | null;
 	message?: MessageRecord;
+	providerName?: string;
 }) => {
 	return useCallback(
 		(event: React.MouseEvent | React.KeyboardEvent) => {
@@ -116,6 +125,8 @@ const useImagePreview = ({
 						contentHash,
 						attachmentId,
 						embedIndex,
+						animated: true,
+						providerName,
 					},
 				],
 				0,
@@ -138,6 +149,7 @@ const useImagePreview = ({
 			embedIndex,
 			contentHash,
 			message,
+			providerName,
 		],
 	);
 };
@@ -208,6 +220,7 @@ const ImagePreviewHandler: FC<ImagePreviewHandlerProps> = observer(
 							contentHash,
 							attachmentId,
 							embedIndex,
+							animated: true,
 						},
 					],
 					0,
@@ -234,13 +247,17 @@ const ImagePreviewHandler: FC<ImagePreviewHandlerProps> = observer(
 			],
 		);
 
-		const altText = type === 'gifv' ? t`Animated GIF Video` : type === 'gif' ? t`Animated GIF` : t`Image`;
+		const ariaLabel = (() => {
+			if (type === 'gifv') return t`Open animated GIF video in full view`;
+			if (type === 'gif') return t`Open animated GIF in full view`;
+			return t`Open image in full view`;
+		})();
 
 		return (
 			<button
 				type="button"
 				className={styles.imagePreviewHandler}
-				aria-label={t`Open ${altText} in full view`}
+				aria-label={ariaLabel}
 				onClick={openImagePreview}
 				onKeyDown={openImagePreview}
 			>
@@ -256,11 +273,13 @@ export const EmbedGifv: FC<
 		videoURL: string;
 		videoConfig?: VideoConfig;
 		isPreview?: boolean;
+		providerName?: string;
 	}
 > = observer(
 	({
 		embedURL,
 		videoProxyURL,
+		alt,
 		naturalWidth,
 		naturalHeight,
 		placeholder,
@@ -274,8 +293,11 @@ export const EmbedGifv: FC<
 		contentHash,
 		onDelete,
 		isPreview,
+		providerName,
 	}) => {
 		const {t} = useLingui();
+		const messageViewContext = useMaybeMessageViewContext();
+		const mediaCalculator = useEmbedMediaCalculator();
 		const {loaded, error, thumbHashURL} = useMediaLoading(
 			buildMediaProxyURL(videoProxyURL, {format: 'webp'}),
 			placeholder,
@@ -291,13 +313,14 @@ export const EmbedGifv: FC<
 			url: embedURL,
 			proxyUrl: videoProxyURL,
 		});
+		const effectiveDefaultName = alt?.trim() ? alt.trim() : defaultName || 'GIF';
 
 		const {toggleFavorite, isFavorited, canFavorite} = useMediaFavorite({
 			channelId,
 			messageId,
 			attachmentId,
 			embedIndex,
-			defaultName: defaultName || 'GIF',
+			defaultName: effectiveDefaultName,
 			contentHash,
 			isGifv: true,
 		});
@@ -317,6 +340,7 @@ export const EmbedGifv: FC<
 			embedIndex,
 			contentHash,
 			message,
+			providerName,
 		});
 
 		const handleDeleteClick = useDeleteAttachment(message, attachmentId);
@@ -344,13 +368,14 @@ export const EmbedGifv: FC<
 						type="gifv"
 						contentHash={contentHash}
 						attachmentId={attachmentId}
-						defaultName={defaultName}
+						defaultName={effectiveDefaultName}
+						defaultAltText={alt ?? undefined}
 						onClose={onClose}
 						onDelete={onDelete || (() => {})}
 					/>
 				));
 			},
-			[message, embedURL, videoProxyURL, contentHash, attachmentId, defaultName, onDelete, isPreview],
+			[message, embedURL, videoProxyURL, contentHash, attachmentId, effectiveDefaultName, alt, onDelete, isPreview],
 		);
 
 		useEffect(() => {
@@ -390,7 +415,6 @@ export const EmbedGifv: FC<
 			};
 			const handleMouseLeave = () => {
 				video.pause();
-				video.currentTime = 0;
 			};
 
 			container.addEventListener('mouseenter', handleMouseEnter);
@@ -458,12 +482,16 @@ export const EmbedGifv: FC<
 		const showGifIndicator =
 			AccessibilityStore.showGifIndicator && shouldShowOverlays(dimensions.width, dimensions.height);
 
-		const {width, aspectRatio} = style;
+		const {width} = style;
+		const aspectRatio =
+			dimensions.width > 0 && dimensions.height > 0 ? `${dimensions.width} / ${dimensions.height}` : '';
 		const containerStyle = {
-			'--embed-width': `${width}px`,
+			'--embed-aspect-ratio': aspectRatio || 'auto',
+			'--embed-height': `${dimensions.height}px`,
+			'--embed-width': typeof width === 'number' ? `${width}px` : `${dimensions.width}px`,
 			maxWidth: '100%',
-			width,
-			aspectRatio,
+			width: `${dimensions.width}px`,
+			...(aspectRatio ? {aspectRatio} : {}),
 		} as React.CSSProperties;
 
 		return (
@@ -484,6 +512,11 @@ export const EmbedGifv: FC<
 				forceShowFavoriteButton={true}
 			>
 				{showGifIndicator && <GifIndicator />}
+				{providerName === 'KLIPY' && (
+					<div className={styles.klipyWatermark}>
+						<KlipyWatermarkSvg />
+					</div>
+				)}
 				<ImagePreviewHandler
 					src={videoProxyURL}
 					originalSrc={embedURL}
@@ -492,14 +525,14 @@ export const EmbedGifv: FC<
 					type="gifv"
 					handlePress={openImagePreview}
 				>
-					<div className={styles.videoWrapper} style={aspectRatio ? {aspectRatio} : undefined}>
+					<div className={styles.videoWrapper}>
 						{(!loaded || error) && thumbHashURL && (
 							<img src={thumbHashURL} className={styles.thumbHashPlaceholder} alt={t`Loading placeholder`} />
 						)}
 						<video
 							className={clsx(
 								styles.videoElement,
-								!loaded || error ? styles.videoOpacityHidden : styles.videoOpacityVisible,
+								!loaded && !error ? styles.videoOpacityHidden : styles.videoOpacityVisible,
 							)}
 							controls={videoConfig?.controls ?? false}
 							playsInline={videoConfig?.playsInline ?? true}
@@ -510,10 +543,14 @@ export const EmbedGifv: FC<
 							src={videoProxyURL}
 							ref={videoRef}
 							aria-label={t`Animated GIF video`}
+							data-embed-media="gifv"
 							tabIndex={-1}
+							width={dimensions.width}
+							height={dimensions.height}
 						/>
 					</div>
 				</ImagePreviewHandler>
+				<AltTextBadge altText={alt} onPopoutToggle={messageViewContext?.onPopoutToggle} />
 			</MediaContainer>
 		);
 	},
@@ -523,6 +560,7 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 	({
 		embedURL,
 		proxyURL,
+		alt,
 		naturalWidth,
 		naturalHeight,
 		placeholder,
@@ -537,12 +575,15 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 		isPreview,
 	}) => {
 		const {t} = useLingui();
+		const messageViewContext = useMaybeMessageViewContext();
+		const mediaCalculator = useEmbedMediaCalculator();
 		const {dimensions} = mediaCalculator.calculate({width: naturalWidth, height: naturalHeight}, {forceScale: true});
 		const {width: displayWidth, height: displayHeight} = dimensions;
 
 		const baseProxyURL = stripMediaProxyParams(proxyURL);
 
 		const optimizedAnimatedURL = buildMediaProxyURL(baseProxyURL, {
+			format: 'webp',
 			width: Math.round(displayWidth * 2),
 			height: Math.round(displayHeight * 2),
 			animated: true,
@@ -568,13 +609,14 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 			url: embedURL,
 			proxyUrl: proxyURL,
 		});
+		const effectiveDefaultName = alt?.trim() ? alt.trim() : defaultName || 'GIF';
 
 		const {toggleFavorite, isFavorited, canFavorite} = useMediaFavorite({
 			channelId,
 			messageId,
 			attachmentId,
 			embedIndex,
-			defaultName: defaultName || 'GIF',
+			defaultName: effectiveDefaultName,
 			contentHash,
 		});
 
@@ -619,13 +661,14 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 						type="gif"
 						contentHash={contentHash}
 						attachmentId={attachmentId}
-						defaultName={defaultName}
+						defaultName={effectiveDefaultName}
+						defaultAltText={alt ?? undefined}
 						onClose={onClose}
 						onDelete={onDelete || (() => {})}
 					/>
 				));
 			},
-			[message, embedURL, proxyURL, contentHash, attachmentId, defaultName, onDelete, isPreview],
+			[message, embedURL, proxyURL, contentHash, attachmentId, effectiveDefaultName, alt, onDelete, isPreview],
 		);
 
 		useEffect(() => {
@@ -709,12 +752,18 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 		const showGifIndicator =
 			AccessibilityStore.showGifIndicator && shouldShowOverlays(renderedDimensions.width, renderedDimensions.height);
 
-		const {width, aspectRatio} = style;
+		const {width} = style;
+		const aspectRatio =
+			renderedDimensions.width > 0 && renderedDimensions.height > 0
+				? `${renderedDimensions.width} / ${renderedDimensions.height}`
+				: '';
 		const containerStyle = {
-			'--embed-width': `${width}px`,
+			'--embed-aspect-ratio': aspectRatio || 'auto',
+			'--embed-height': `${renderedDimensions.height}px`,
+			'--embed-width': typeof width === 'number' ? `${width}px` : `${renderedDimensions.width}px`,
 			maxWidth: '100%',
-			width,
-			aspectRatio,
+			width: `${renderedDimensions.width}px`,
+			...(aspectRatio ? {aspectRatio} : {}),
 		} as React.CSSProperties;
 
 		return (
@@ -749,7 +798,7 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 					contentHash={contentHash}
 					message={message}
 				>
-					<div className={styles.videoWrapper} style={aspectRatio ? {aspectRatio} : undefined}>
+					<div className={styles.videoWrapper}>
 						{(!loaded || error) && thumbHashURL && (
 							<img src={thumbHashURL} className={styles.thumbHashPlaceholder} alt={t`Loading placeholder`} />
 						)}
@@ -759,13 +808,17 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 							src={gifAutoPlay ? optimizedAnimatedURL : optimizedStaticURL}
 							className={clsx(
 								styles.videoElement,
-								!loaded || error ? styles.videoOpacityHidden : styles.videoOpacityVisible,
+								!loaded && !error ? styles.videoOpacityHidden : styles.videoOpacityVisible,
 							)}
+							data-embed-media="gif"
 							loading="lazy"
 							tabIndex={-1}
+							width={renderedDimensions.width}
+							height={renderedDimensions.height}
 						/>
 					</div>
 				</ImagePreviewHandler>
+				<AltTextBadge altText={alt} onPopoutToggle={messageViewContext?.onPopoutToggle} />
 			</MediaContainer>
 		);
 	},

@@ -1,0 +1,382 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.container {
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: calc(var(--z-index-modal) + 1);
+	width: 320px;
+	aspect-ratio: 16 / 9;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow:
+		0 8px 32px var(--voice-shadow-strong),
+		0 2px 8px var(--voice-shadow-soft);
+	cursor: grab;
+	user-select: none;
+	touch-action: none;
+	background-color: var(--voice-surface-2, var(--background-secondary-alt));
+	will-change: transform;
+}
+
+.container:active {
+	cursor: grabbing;
+}
+
+.containerResizing {
+	cursor: nwse-resize;
+}
+
+.videoWrapper {
+	position: absolute;
+	inset: 0;
+	overflow: hidden;
+	border-radius: inherit;
+}
+
+.avatarPlaceholder {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: inherit;
+}
+
+.videoWrapper video {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: inherit;
+}
+
+.screenShareVideo video {
+	object-fit: contain;
+	background-color: var(--voice-surface-0, var(--background-primary));
+}
+
+.hoverOverlay {
+	position: absolute;
+	inset: 0;
+	z-index: 2;
+	pointer-events: none;
+	opacity: 0;
+	transition: opacity 0.2s ease;
+}
+
+.container:hover .hoverOverlay {
+	opacity: 1;
+}
+
+.containerInteractionActive .hoverOverlay {
+	opacity: 1;
+}
+
+.headerGradient {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 48px;
+	background: linear-gradient(to bottom, var(--voice-overlay-strong) 0%, transparent 100%);
+	display: flex;
+	align-items: flex-start;
+	padding: 8px 10px;
+	pointer-events: auto;
+}
+
+.headerContent {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	min-width: 0;
+	width: 100%;
+}
+
+.headerLeft {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+}
+
+.returnToCallButton {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	max-width: 100%;
+	color: var(--voice-text-strong);
+	cursor: pointer;
+	background: none;
+	border: none;
+	padding: 0;
+	border-bottom: 1px solid transparent;
+	transition: border-color 150ms;
+}
+
+.returnToCallButton:hover {
+	border-bottom-color: currentColor;
+}
+
+.returnToCallIcon {
+	width: 14px;
+	height: 14px;
+	flex-shrink: 0;
+}
+
+.returnToCallLabel {
+	font-size: 0.8125rem;
+	font-weight: 600;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	line-height: 1.2;
+}
+
+.closeButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	border-radius: 4px;
+	color: var(--voice-text-strong);
+	cursor: pointer;
+	flex-shrink: 0;
+	transition: background-color 150ms;
+}
+
+.closeButton:hover {
+	background-color: var(--voice-overlay-light);
+}
+
+.footerGradient {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 48px;
+	background: linear-gradient(to top, var(--voice-overlay-strong) 0%, transparent 100%);
+	display: flex;
+	align-items: flex-end;
+	padding: 8px 10px;
+	pointer-events: auto;
+}
+
+.footerContent {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 100%;
+	min-width: 0;
+	gap: 8px;
+}
+
+.footerLeft {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+	flex: 1 1 0;
+}
+
+.streamerName {
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--voice-text-strong);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.footerRight {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-shrink: 0;
+}
+
+.spectatorBadge {
+	display: flex;
+	align-items: center;
+	gap: 3px;
+	color: var(--voice-text-muted);
+	font-size: 0.75rem;
+	font-weight: 500;
+}
+
+.spectatorIcon {
+	width: 14px;
+	height: 14px;
+}
+
+.actionButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	cursor: pointer;
+	transition: background-color 150ms;
+	color: var(--voice-text-strong);
+}
+
+.actionButton:hover {
+	background-color: var(--voice-overlay-light);
+}
+
+.disconnectButton {
+	color: var(--voice-text-strong);
+}
+
+.disconnectButton:hover {
+	background-color: var(--voice-overlay-light);
+}
+
+.actionIcon {
+	width: 16px;
+	height: 16px;
+}
+
+.frozenFrame {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	border-radius: inherit;
+}
+
+.previewPausedOverlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 6px;
+	background-color: var(--voice-overlay-soft);
+	color: var(--voice-text-strong);
+	text-align: center;
+	padding: 0 16px;
+	z-index: 3;
+	pointer-events: none;
+}
+
+.previewPausedIcon {
+	width: 18px;
+	height: 18px;
+}
+
+.previewPausedTextWrap {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+}
+
+.previewPausedText {
+	font-size: 0.8125rem;
+	font-weight: 600;
+}
+
+.previewPausedSubtext {
+	font-size: 0.75rem;
+	color: var(--voice-text-muted);
+}
+
+.resizeHandleTop,
+.resizeHandleBottom,
+.resizeHandleLeft,
+.resizeHandleRight {
+	position: absolute;
+	border: none;
+	background: transparent;
+	z-index: 4;
+	pointer-events: auto;
+}
+
+.resizeHandleTop {
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 1rem;
+	cursor: n-resize;
+}
+
+.resizeHandleBottom {
+	bottom: 0;
+	left: 0;
+	right: 0;
+	height: 1rem;
+	cursor: s-resize;
+}
+
+.resizeHandleLeft {
+	top: 0;
+	left: 0;
+	bottom: 0;
+	width: 1rem;
+	cursor: w-resize;
+}
+
+.resizeHandleRight {
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 1rem;
+	cursor: e-resize;
+}
+
+.resizeHandleTopLeft,
+.resizeHandleTopRight,
+.resizeHandleBottomLeft,
+.resizeHandleBottomRight {
+	position: absolute;
+	width: 1rem;
+	height: 1rem;
+	border: none;
+	background: transparent;
+	z-index: 4;
+	pointer-events: auto;
+}
+
+.resizeHandleTopLeft {
+	top: 0;
+	left: 0;
+	cursor: nw-resize;
+}
+
+.resizeHandleTopRight {
+	top: 0;
+	right: 0;
+	cursor: ne-resize;
+}
+
+.resizeHandleBottomLeft {
+	bottom: 0;
+	left: 0;
+	cursor: sw-resize;
+}
+
+.resizeHandleBottomRight {
+	right: 0;
+	bottom: 0;
+	cursor: se-resize;
+}

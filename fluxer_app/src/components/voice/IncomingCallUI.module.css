@@ -31,7 +31,7 @@
 	border-radius: var(--radius-xl);
 	border: 1px solid color-mix(in srgb, var(--background-modifier-accent) 65%, transparent);
 	background: color-mix(in srgb, var(--background-primary) 90%, transparent);
-	box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 12px 30px var(--voice-shadow-soft);
 	backdrop-filter: blur(20px);
 	overflow: hidden;
 }

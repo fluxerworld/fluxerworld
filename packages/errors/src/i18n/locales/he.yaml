@@ -1,0 +1,497 @@
+account.already_verified: החשבון שלך כבר מאומת.
+account.communication_disabled: התקשורת מושבתת.
+account.disabled: החשבון הזה הושבת.
+account.email_verification_required_for_guild: צריך לאמת את האימייל כדי לשלוח הודעות בשרת הזה.
+account.guild_verification_required: נדרש אימות בשרת.
+account.ip_authorization_required: נדרש אימות IP.
+account.locked_suspicious_activity: החשבון שלך ננעל בגלל פעילות חשודה.
+account.phone_required_for_guild: צריך להוסיף מספר טלפון כדי לשלוח הודעות בשרת הזה.
+account.scheduled_for_deletion: החשבון הזה מתוזמן למחיקה.
+account.session_timeout: החיבור פג תוקף. רעננו את הדף והתחברו שוב.
+account.session_token_mismatch: אסימון הסשן לא תואם.
+account.suspended_permanently: החשבון שלך הושעה לצמיתות.
+account.suspended_temporarily: החשבון שלך הושעה זמנית.
+account.too_new_for_guild: החשבון שלך חדש מדי כדי לשלוח הודעות בשרת הזה.
+account.unauthorized: אין הרשאה.
+admin_and_system.acls_must_be_non_empty: ACLs חייבים להיות לא ריקים.
+admin_and_system.admin_api_key_not_found: מפתח ה-API האדמיני לא נמצא.
+admin_and_system.audit_log_indexing: יומן הביקורת בעריכה. נא לנסות שוב בעוד רגע.
+admin_and_system.channel_indexing: הערוצים בעריכה. נא לנסות שוב בעוד רגע.
+admin_and_system.creation_failed: לא הצלחנו ליצור את המשאב. נא לנסות שוב.
+admin_and_system.deletion_failed: לא הצלחנו למחוק את המשאב. נא לנסות שוב.
+admin_and_system.decryption_failed: לא הצלחנו לפענח את ההודעה. מפתחות ההצפנה עשויים להיות לא חוקיים או פגומים.
+admin_and_system.empty_encrypted_body: גוף מוצפן ריק.
+admin_and_system.encryption_failed: לא הצלחנו להצפין את ההודעה. מפתחות ההצפנה עשויים להיות לא חוקיים או פגומים.
+admin_and_system.general_error: משהו השתבש. נא לנסות שוב מאוחר יותר.
+admin_and_system.invalid_acls_format: פורמט רשימות בקרת גישה לא תקין.
+admin_and_system.invalid_api_origin: מקור ה-API לא תקין.
+admin_and_system.invalid_audit_log_reason: סיבת יומן הביקורת לא תקינה.
+admin_and_system.invalid_bot_flag: דגל הבוט לא תקין.
+admin_and_system.invalid_decrypted_json: JSON מפוענח לא תקין.
+admin_and_system.invalid_ephemeral_key: מפתח זמני לא תקין.
+admin_and_system.invalid_flags_format: פורמט הדגלים לא תקין.
+admin_and_system.invalid_form_body: גוף הטופס לא תקין.
+admin_and_system.invalid_format: הערך המסופק בפורמט לא תקין.
+admin_and_system.invalid_integer_format: פורמט המספר השלם לא תקין.
+admin_and_system.invalid_iv: וקטור ההאתחול לא תקין.
+admin_and_system.invalid_suspicious_flags_format: פורמט דגלים חשודים לא תקין.
+admin_and_system.invalid_system_flag: דגל המערכת לא תקין.
+admin_and_system.invalid_timeout_value: ערך ה-timeout לא תקין.
+admin_and_system.invalid_timestamp: חותמת הזמן לא תקינה.
+admin_and_system.invalid_timezone_identifier: מזהה אזור הזמן לא תקין.
+admin_and_system.missing_acl: רשימת בקרת גישה חסרה.
+admin_and_system.missing_ephemeral_key: מפתח זמני חסר.
+admin_and_system.missing_iv: וקטור האתחול חסר.
+admin_and_system.must_be_iso_timestamp: חייב להיות חותמת זמן ISO תקינה.
+admin_and_system.processing_failed: לא הצלחנו לעבד את הבקשה. נא לנסות שוב.
+admin_and_system.response_validation_failed: 'אימות התגובה נכשל: {errors}.'
+admin_and_system.test_harness_disabled: ניסיון בדיקה מושבת.
+admin_and_system.test_harness_forbidden: ניסיון בדיקה אסור.
+admin_and_system.unknown_suspicious_flag: דגל חשוד לא מוכר.
+admin_and_system.update_failed: לא הצלחנו לעדכן את המשאב. נא לנסות שוב.
+admin_and_system.user_must_be_bot_for_system_user: משתמש חייב להיות בוט כדי לסמן אותו כמשתמש מערכת.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id`, and `expires_at` are required.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id`, and `message_id` must be valid integers.'
+attachments_and_uploads.cannot_edit_attachment_metadata: משתמשים עם MANAGE_MESSAGES יכולים לערוך רק תיאורי קבצים מצורפים, לא מטא-דאטה אחרת.
+attachments_and_uploads.attachment_metadata_without_files: מטא-דאטה של קובץ מצורף כללה שם קובץ, אבל לא הועלו קבצים.
+attachments_and_uploads.attachment_must_be_image: הקובץ המצורף "{filename}" חייב להיות קובץ תמונה (png, jpg, jpeg, webp או gif).
+attachments_and_uploads.attachment_not_found_in_message: הקובץ המצורף עם המזהה {attachmentId} לא נמצא בהודעה.
+attachments_and_uploads.attachments_metadata_required_when_uploading: נדרש מערך מטא-דאטה של קבצים מצורפים בעת העלאת קבצים.
+attachments_and_uploads.attachments_not_allowed_for_message: Attachments aren't allowed for this message.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: אי אפשר להתייחס לקבצים מצורפים כשלא סופקו קבצים מצורפים.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: לא מותרות כפילויות של מזהי קבצים מצורפים.
+attachments_and_uploads.duplicate_file_index: 'אינדקס קובץ כפול: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: לא הצלחנו לפרש את נתוני הטופס multipart. בדקו שכל שמות השדות ושמות הקבצים בפורמט תקין.
+attachments_and_uploads.failed_to_parse_multipart_payload: לא הצלחנו לפרש את ה-payload של multipart.
+attachments_and_uploads.failed_to_upload_image: לא הצלחנו להעלות את התמונה. נסו שוב.
+attachments_and_uploads.file_index_exceeds_maximum: אינדקס הקובץ {index} חורג מהמקסימום המותר, {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: הקובץ לא נמצא לסריקה.
+attachments_and_uploads.file_not_found: הקובץ לא נמצא.
+attachments_and_uploads.file_size_too_large: גודל הקובץ גדול מדי. גודל הקובץ המקסימלי הוא {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: שם הקובץ לא יכול להיות ריק אחרי נרמול.
+attachments_and_uploads.filename_invalid_characters: שם הקובץ מכיל תווים לא תקינים.
+attachments_and_uploads.filename_length_invalid: שם הקובץ חייב להיות בין {min} ל-{max} תווים.
+attachments_and_uploads.filename_mismatch_for_attachment: 'שם הקובץ לא תואם עבור קובץ מצורף {attachmentId}: במטא-דאטה מצוין "{expectedFilename}", אבל זה לא תואם.'
+attachments_and_uploads.image_size_exceeds_limit: גודל התמונה חורג מ-{maxSize} בייטים.
+attachments_and_uploads.invalid_file_field_name: 'שם שדה קובץ לא תקין: {key}. הפורמט הצפוי: `files[N]` כש-N הוא מספר.'
+attachments_and_uploads.invalid_image_data: נתוני תמונה לא תקינים.
+attachments_and_uploads.invalid_image_format: 'פורמט תמונה לא תקין. סיומות נתמכות: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: JSON לא תקין בתוך `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: לא מותר להעלות כמה קבצים עבור האינדקס {index}.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: לא הועלה קובץ עבור מטא-דאטה של קובץ מצורף עם המזהה {attachmentId}.
+attachments_and_uploads.no_file_uploaded_for_attachment: לא הועלה קובץ עבור קובץ מצורף עם המזהה {attachmentId}.
+attachments_and_uploads.no_metadata_for_file: לא סופקה מטא-דאטה עבור קובץ עם המזהה {fileId}.
+attachments_and_uploads.no_valid_media_in_message: No valid media was found in the message.
+attachments_and_uploads.payload_json_required_for_multipart: נדרש השדה `payload_json` להודעות multipart.
+attachments_and_uploads.preview_must_be_jpeg: ה-preview חייב להיות JPEG.
+attachments_and_uploads.referenced_attachment_not_found: הקובץ המצורף שאליו מתייחסים "{filename}" לא נמצא בקבצים המצורפים של ההודעה.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` must be a valid integer.'
+attachments_and_uploads.too_many_files: Too many files. Maximum {maxFiles} {maxFiles, plural, one {file} other {files}} allowed.
+attachments_and_uploads.unknown_image_format: פורמט תמונה לא מוכר.
+attachments_and_uploads.unresolved_attachment_url: זוהתה כתובת `attachment://` שלא נפתרה. זה היה אמור להיפתר לפני עיבוד embed.
+attachments_and_uploads.uploaded_attachment_not_found: הקובץ המצורף שהועלה {filename} לא נמצא.
+auth_and_oauth.application_not_owned: אתה לא בעלים של האפליקציה הזו.
+auth_and_oauth.bot_already_in_guild: הבוט הזה כבר בגילדה.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: משתמשי בוט לא יכולים ליצור סשנים של אימות.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: משתמשי בוט לא יכולים להשתמש ב-endpoints של אימות.
+auth_and_oauth.handoff_code_expired: תוקף קוד handoff פג.
+auth_and_oauth.handoff_code_invalid: קוד handoff לא תקין.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize לא נתמך. השתמשו ב-POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: סוד לקוח לא תקין.
+auth_and_oauth.invalid_client: לקוח לא תקין.
+auth_and_oauth.invalid_code: קוד לא תקין.
+auth_and_oauth.invalid_grant: grant לא תקין.
+auth_and_oauth.invalid_or_expired_authorization_ticket: כרטיס אישור לא תקין או שפג תוקפו.
+auth_and_oauth.invalid_or_expired_authorization_token: אסימון אישור לא תקין או שפג תוקפו.
+auth_and_oauth.invalid_or_expired_ticket: כרטיס לא תקין או שפג תוקפו.
+auth_and_oauth.invalid_proof_token: Invalid proof token.
+auth_and_oauth.invalid_redirect_uri: כתובת redirect URI לא תקינה.
+auth_and_oauth.invalid_request: בקשה לא תקינה.
+auth_and_oauth.invalid_scope: scope לא תקין.
+auth_and_oauth.invalid_sudo_token: אסימון sudo לא תקין.
+auth_and_oauth.invalid_token_admin_api_key: מפתח ה-API האדמיני לא תקין.
+auth_and_oauth.missing_authorization: חסר אישור.
+auth_and_oauth.missing_client_secret: חסר סוד לקוח.
+auth_and_oauth.missing_redirect_uri: חסרה כתובת redirect URI.
+auth_and_oauth.must_start_session_before_sending_messages: צריך להתחיל סשן לפני שליחת הודעות.
+auth_and_oauth.oauth_admin_scope_required: אסימוני OAuth2 דורשים scope אדמין כדי לגשת ל-endpoints של אדמין.
+auth_and_oauth.oauth_fields_missing: חסרים שדות OAuth.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: נדרש redirect URI עבור scopes שאינם של בוט.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: סוג התגובה חייב להיות code עבור scopes שאינם של בוט.
+auth_and_oauth.sudo_mode_required: נדרש מצב sudo.
+auth_and_oauth.unknown_application: אפליקציה לא ידועה.
+auth_and_oauth.unsupported_response_type: סוג תגובה לא נתמך.
+auth_and_registration.current_password_incorrect: הסיסמה הנוכחית שגויה.
+auth_and_registration.password_is_too_common: Your password is too common. Please choose a more unique password.
+auth_and_registration.password_not_set: Password isn't set.
+bots.bot_application_not_found: אפליקציית הבוט לא נמצאה.
+bots.bot_discriminator_cannot_be_changed: לא ניתן לשנות את המזהה של הבוט.
+bots.bot_is_private: הבוט הזה פרטי.
+bots.bot_user_generation_failed: יצירת משתמש הבוט נכשלה.
+bots.bot_user_not_found: משתמש הבוט לא נמצא.
+bots.invalid_response_type_for_non_bot: סוג התגובה חייב להיות code עבור scopes שאינם של בוט.
+bots.not_a_bot_application: האפליקציה הזו איננה בוט.
+calls_and_voice.call_already_exists: השיחה כבר קיימת.
+calls_and_voice.cannot_modify_voice_state: אי אפשר לשנות מצב קולי.
+calls_and_voice.invalid_or_restricted_rtc_region: 'אזור RTC לא תקין או מוגבל: {region}.'
+calls_and_voice.invalid_rtc_region: 'אזור RTC לא תקין: {region}. אזורים זמינים: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: פורמט מפתח stream לא תקין.
+calls_and_voice.invalid_stream_thumbnail_payload: payload של thumbnail ל-stream לא תקין.
+calls_and_voice.no_active_call: אין שיחה פעילה.
+calls_and_voice.stream_key_channel_mismatch: מפתח stream לא תואם לערוץ.
+calls_and_voice.stream_key_scope_mismatch: scope של מפתח stream לא תואם.
+calls_and_voice.stream_thumbnail_payload_empty: ה-payload של thumbnail ל-stream ריק.
+calls_and_voice.unknown_voice_region: אזור קול לא מוכר.
+calls_and_voice.unknown_voice_server: שרת קול לא מוכר.
+calls_and_voice.voice_message_duration_exceeds_limit: משך ההודעה הקולית לא יכול לחרוג מ-{maxDuration} שניות.
+calls_and_voice.voice_message_duration_required: קבצים מצורפים של הודעה קולית חייבים לציין משך.
+calls_and_voice.voice_message_waveform_required: קבצים מצורפים של הודעה קולית חייבים לכלול נתוני waveform.
+calls_and_voice.voice_messages_require_single_attachment: הודעות קוליות חייבות לכלול בדיוק קובץ מצורף אחד.
+captcha.invalid: captcha לא תקין.
+captcha.required: צריך להשלים captcha.
+channels_and_guilds.afk_channel_must_be_in_guild: ערוץ ה-AFK חייב להיות בשרת הזה.
+channels_and_guilds.afk_channel_must_be_voice: ערוץ ה-AFK חייב להיות ערוץ קולי.
+channels_and_guilds.all_channels_must_belong_to_guild: כל הערוצים חייבים להשתייך לשרת הזה.
+channels_and_guilds.animated_guild_banner_requires_feature: באנר שרת מונפש דורש את הפיצ'ר ANIMATED_BANNER.
+channels_and_guilds.cannot_execute_on_dm: אי אפשר לבצע את הפעולה הזו ב-DM.
+channels_and_guilds.cannot_transfer_ownership_to_bot: לא ניתן להעביר בעלות על השרת לבוט.
+channels_and_guilds.cannot_leave_guild_as_owner: אי אפשר לעזוב שרת כבעלים. העבירו בעלות או מחקו את השרת במקום.
+channels_and_guilds.cannot_position_channel_relative_to_itself: אי אפשר למקם ערוץ ביחס לעצמו או לצאצאים שלו.
+channels_and_guilds.cannot_report_own_guild: אי אפשר לדווח על השרת שלך.
+channels_and_guilds.categories_cannot_have_parent_channel: לקטגוריות לא יכול להיות ערוץ הורה.
+channels_and_guilds.categories_cannot_have_parents: לקטגוריות לא יכולים להיות הורים.
+channels_and_guilds.channel_id_required: נדרש `channel_id`.
+channels_and_guilds.channel_must_be_dm_or_group_dm: הערוץ חייב להיות DM או DM קבוצתי.
+channels_and_guilds.channel_must_be_voice: הערוץ חייב להיות ערוץ קולי.
+channels_and_guilds.channel_not_found: הערוץ לא נמצא.
+channels_and_guilds.context_channel_or_guild_required: נדרש ערוץ הקשר או מזהה שרת.
+channels_and_guilds.guild_banner_requires_feature: באנר שרת דורש את הפיצ'ר BANNER.
+channels_and_guilds.guild_id_must_match_referenced_message: מזהה השרת חייב להתאים לערוץ שממנו נשלפה ההודעה שאליה מתייחסים.
+channels_and_guilds.invalid_channel_id: 'מזהה ערוץ לא תקין: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: סוג ערוץ לא מתאים לשיחה.
+channels_and_guilds.invalid_channel_type: סוג ערוץ לא תקין.
+channels_and_guilds.invalid_channel: ערוץ לא תקין.
+channels_and_guilds.invalid_parent_channel: Invalid parent channel.
+channels_and_guilds.invite_splash_requires_feature: Invite splash דורש את הפיצ'ר INVITE_SPLASH.
+channels_and_guilds.invites_disabled: הזמנות מושבתות.
+channels_and_guilds.max_group_dm_recipients_reached: הגעת למספר המקסימלי של {count} {count, plural, one {משתתף ב-DM קבוצתי} other {משתתפים ב-DM קבוצתי}}.
+channels_and_guilds.max_group_dms_reached: הגעת למספר המקסימלי של {count} {count, plural, one {DM קבוצתי} other {DM קבוצתיים}}.
+channels_and_guilds.max_guild_channels_reached: הגעת למספר המקסימלי של {count} {count, plural, one {ערוץ בשרת} other {ערוצים בשרת}}.
+channels_and_guilds.max_guild_members_reached: הגעת למספר המקסימלי של {count} {count, plural, one {חבר בשרת} other {חברים בשרת}}.
+channels_and_guilds.max_guild_roles_reached: הגעת למספר המקסימלי של {count} {count, plural, one {תפקיד בשרת} other {תפקידים בשרת}}.
+channels_and_guilds.max_guilds_reached: הגעת למספר המקסימלי של {count} {count, plural, one {שרת} other {שרתים}}.
+channels_and_guilds.message_history_cutoff_before_guild_creation: חיתוך היסטוריית הודעות לא יכול להיות לפני שהקהילה נוצרה.
+channels_and_guilds.message_history_cutoff_in_future: חיתוך היסטוריית הודעות לא יכול להיות בעתיד.
+channels_and_guilds.parent_channel_not_in_guild: ערוץ ההורה לא נמצא בשרת.
+channels_and_guilds.parent_must_be_category: ההורה חייב להיות קטגוריה.
+channels_and_guilds.preceding_channel_must_share_parent: הערוץ שלפני חייב לשתף את אותו הורה כמו הערוץ שהוזז.
+channels_and_guilds.preceding_channel_not_in_guild: הערוץ שלפני לא נמצא בשרת.
+channels_and_guilds.system_channel_must_be_in_guild: ערוץ המערכת חייב להיות בשרת הזה.
+channels_and_guilds.system_channel_must_be_text: ערוץ המערכת חייב להיות ערוץ טקסט.
+channels_and_guilds.temporary_invite_requires_presence: הזמנה זמנית דורשת נוכחות.
+channels_and_guilds.vanity_url_requires_feature: Vanity URL דורש את הפיצ'ר VANITY_URL.
+channels_and_guilds.voice_channel_full: הערוץ הקולי מלא.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: אי אפשר למקם ערוצים קוליים מעל ערוצי טקסט בתוך אותה קטגוריה.
+colors.color_value_too_high: ערך הצבע לא יכול לחרוג מ-0xffffff.
+colors.color_value_too_low: ערך הצבע חייב להיות לפחות 0x000000.
+content_and_safety.content_blocked: התוכן הזה נחסם על ידי מערכות הבטיחות.
+content_and_safety.csam_scan_failed: סריקת CSAM נכשלה.
+content_and_safety.csam_scan_parse_error: שגיאת פרסור סריקת CSAM.
+content_and_safety.csam_scan_subscription_error: שגיאת מנוי סריקת CSAM.
+content_and_safety.csam_scan_timeout: סריקת CSAM פגה בתוקף.
+content_and_safety.explicit_content_cannot_be_sent: אי אפשר לשלוח תוכן מיני מפורש.
+content_and_safety.ncmec_already_submitted: התוכן הזה כבר נשלח ל-NCMEC.
+content_and_safety.ncmec_submission_failed: לא הצלחנו לשלוח את הדיווח ל-NCMEC. נסו שוב מאוחר יותר.
+content_and_safety.nsfw_age_restricted: תוכן NSFW מוגבל לגיל.
+connections.already_exists: כבר קיימת חיבור מסוג זה עם מזהה זה.
+connections.bluesky_oauth_callback_failed: לא הצלחנו להשלים את חיבור Bluesky. נא לנסות שוב.
+connections.bluesky_oauth_not_enabled: חיבורי Bluesky לא מופעלים בשרת הזה.
+connections.bluesky_oauth_session_expired: הסשן של Bluesky שלך פג תוקף. נא לחבר מחדש את החשבון שלך.
+connections.bluesky_oauth_state_invalid: בקשת ההרשאה פגה בתוקף או לא תקינה. נא לנסות שוב.
+connections.invalid_identifier: מזהה החיבור לא תקין.
+connections.invalid_type: סוג החיבור לא נתמך.
+connections.initiation_token_invalid: אסימון תחילת החיבור לא תקין או פג תוקפו.
+connections.limit_reached: הגעת למספר המקסימלי של {limit} {limit, plural, one {חיבור} other {חיבורים}}.
+connections.not_found: חיבור לא מוכר.
+connections.verification_failed: אימות החיבור נכשל. ודא שאסימון האימות מוצב בצורה נכונה.
+discovery.already_applied: הקהילה הזו כבר הגישה בקשה לגילוי.
+discovery.application_already_reviewed: בקשת הגילוי הזו כבר נבדקה.
+discovery.application_not_found: בקשת הגילוי לא נמצאה.
+discovery.description_required: נדרש תיאור לרישום בגילוי.
+discovery.insufficient_members: הקהילה הזו לא עומדת במספר המינימלי של חברים לגילוי.
+discovery.invalid_category: קטגוריית גילוי לא תקינה.
+discovery.not_discoverable: הקהילה הזו לא מופיעה ברשימת הגילוי.
+donation.amount_invalid: סכום התרומה שגוי.
+donation.donor_not_found: התורם לא נמצא.
+donation.magic_link_expired: הקישור הקסום פג תוקף.
+donation.magic_link_invalid: הקישור הקסום שגוי.
+donation.magic_link_used: הקישור הקסום כבר נוצל.
+email.email_already_in_use: Email is already in use.
+email.email_required: Email is required.
+email.email_service_not_testable: אי אפשר לבדוק את שירות האימייל.
+email.invalid_format: פורמט כתובת האימייל לא תקין.
+email.invalid_or_expired_reset_token: Invalid or expired password reset token.
+email.invalid_or_expired_revert_token: Invalid or expired revert token.
+email.invalid_or_expired_verification_token: Invalid or expired verification token.
+email.invalid_or_password: אימייל או סיסמה שגויים.
+email.invalid_token: Invalid email token.
+email.invalid_verification_code: Invalid verification code.
+email.length_invalid: כתובת האימייל חייבת להיות בין {min} ל-{max} תווים.
+email.must_be_changed_via_token: Email must be changed via token.
+email.must_change_via_token: אפשר לשנות אימייל רק דרך `email_token`.
+email.must_have_email_to_change_it: You must have an email address to change it.
+email.new_email_must_be_different: New email must be different from your current email.
+email.no_new_email_requested: לא ביקשת אימייל חדש.
+email.no_original_email_on_record: אין אימייל מקורי ברשומה.
+email.original_email_already_verified: האימייל המקורי כבר מאומת.
+email.original_email_must_be_verified_first: צריך לאמת קודם את האימייל המקורי.
+email.original_verification_not_required: בזרימה הזו לא צריך אימות מקורי.
+email.token_expired: תוקף אסימון האימייל פג.
+email.user_has_no_email_address: למשתמש הזה אין כתובת אימייל.
+email.user_is_not_pending_verification: This user isn't pending verification.
+email.verification_code_expired: Verification code has expired.
+email.verification_code_not_issued: No verification code has been issued.
+embeds.embed_index_out_of_bounds: אינדקס ה-embed {embedIndex} מחוץ לטווח (להודעה יש {embedCount} {embedCount, plural, one {embed} other {embeds}}).
+embeds.embed_splash_requires_feature: Embed splash דורש את הפיצ'ר INVITE_SPLASH.
+embeds.embeds_exceed_max_characters: סך ה-embeds לא יכול לחרוג מ-{maxCharacters} {maxCharacters, plural, one {תו} other {תווים}}.
+embeds.too_many_embeds: יותר מדי embeds. מותר עד {maxEmbeds} {maxEmbeds, plural, one {embed} other {embeds}}.
+feature_flags.feature_not_available_self_hosted: הפיצ'ר הזה לא זמין במופעים בעצמית.
+feature_flags.feature_temporarily_disabled: הפיצ'ר הזה מושבת זמנית.
+friends_and_dms.already_friends: אתם כבר חברים עם המשתמש הזה.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: צריך לפחות נמען אחד כדי ליצור ערוצים פרטיים.
+friends_and_dms.at_least_one_recipient_required: At least one recipient is required.
+friends_and_dms.bots_cannot_send_friend_requests: בוטים לא יכולים לשלוח בקשות חברות.
+friends_and_dms.cannot_add_yourself_to_group_dm: אי אפשר להוסיף את עצמך ל-DM קבוצתי.
+friends_and_dms.cannot_dm_yourself: אי אפשר לשלוח DM לעצמך.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: אי אפשר לשלוח בקשת חברות למשתמש שחסמת.
+friends_and_dms.cannot_send_friend_request_to_self: אי אפשר לשלוח בקשת חברות לעצמך.
+friends_and_dms.cannot_send_messages_to_user: אי אפשר לשלוח הודעות למשתמש הזה.
+friends_and_dms.duplicate_recipients_not_allowed: לא מותרות כפילויות של נמענים.
+friends_and_dms.friend_request_blocked: המשתמש לא מקבל בקשות חברות כרגע.
+friends_and_dms.not_friends: אתם לא חברים עם המשתמש הזה.
+friends_and_dms.recipient_ids_cannot_be_empty: מזהי הנמענים לא יכולים להיות ריקים.
+friends_and_dms.recipient_ids_must_be_strings: מזהי הנמענים חייבים להיות מחרוזות.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: מזהי הנמענים חייבים להיות snowflakes תקינים.
+harvest.expired: תוקף ה-Harvest פג.
+harvest.failed: ה-Harvest נכשל.
+harvest.not_ready: ה-Harvest עוד לא מוכן.
+harvest.on_cooldown: ה-Harvest בהמתנה.
+harvest.unknown: Harvest לא מוכר.
+http.bad_gateway: שרת השער התגובה לא טוב.
+http.bad_request: בקשה לא טובה.
+http.conflict: סכסוך.
+http.forbidden: אסור.
+http.gateway_timeout: תם הזמן של שרת השער.
+http.gone: איבד.
+http.internal_server_error: שגיאת שרת פנימית.
+http.method_not_allowed: שיטה לא מותרת.
+http.not_found: לא נמצא.
+http.not_implemented: לא יושם.
+http.service_unavailable: השירות אינו זמין.
+http.validation_error: אימות נכשל.
+invites_and_beta.invalid_or_already_used_beta_code: Invalid or already used beta code.
+invites_and_beta.max_beta_codes_reached: הגעת למספר המקסימלי של {count} {count, plural, one {קוד בטא} other {קודי בטא}}.
+invites_and_beta.unknown_beta_code: קוד בטא לא מוכר.
+invites_and_gifts.gift_code_already_redeemed: קוד המתנה כבר מומש.
+invites_and_gifts.stripe_gift_redemption_in_progress: מימוש קוד המתנה מתבצע עכשיו. נסו שוב בעוד רגע.
+invites_and_gifts.unknown_gift_code: קוד מתנה לא מוכר.
+invites_and_packs.emoji_requires_access: אי אפשר להשתמש באימוג'י הזה בלי גישה לשרת שלו או ל-pack שהותקן.
+invites_and_packs.invalid_pack_type: סוג pack לא תקין.
+invites_and_packs.max_animated_emojis_reached: הגעת למספר המקסימלי של {count} {count, plural, one {אימוג'י מונפש} other {אימוג'ים מונפשים}}.
+invites_and_packs.max_emojis_reached: הגעת למספר המקסימלי של {count} {count, plural, one {אימוג'י} other {אימוג'ים}}.
+invites_and_packs.max_pack_expressions_reached: הגעת למספר המקסימלי של {count} {count, plural, one {Expression ב-pack} other {expressions ב-pack}}.
+invites_and_packs.max_packs_reached: הגעת למספר המקסימלי של {count} {count, plural, one {pack} other {packs}}.
+invites_and_packs.pack_access_denied: אין גישה ל-pack.
+limits.at_least_one_entry_required: נדרש לפחות ערך אחד.
+limits.base64_length_invalid: אורך מחרוזת Base64 חייב להיות בין {min} ל-{maxLength} תווים.
+limits.bucket_required: נדרש `bucket`.
+limits.cannot_shrink_reserved_slots: אי אפשר להקטין slots שמורים.
+limits.cannot_specify_before_and_after: אי אפשר לציין גם `before` וגם `after`.
+limits.content_exceeds_max_length: הטקסט לא יכול לחרוג מ-{maxLength} {maxLength, plural, one {תו} other {תווים}}.
+limits.integer_out_of_int64_range: ערך המספר השלם הוא מחוץ לטווח int64 תקין.
+limits.rows_required: נדרש `rows`.
+limits.string_length_exact: המחרוזת חייבת להיות בדיוק {length} תווים.
+limits.string_length_invalid: אורך המחרוזת חייב להיות בין {min} ל-{max} תווים.
+limits.timeout_cannot_exceed_365_days: Timeout אי אפשר להיות יותר מ-{maxDays} {maxDays, plural, one {יום} other {ימים}} מעכשיו.
+limits.value_must_be_integer_in_range: הערך עבור `{name}` חייב להיות מספר שלם בין {minValue} ל-{maxValue}.
+limits.value_too_small: הערך קטן מדי.
+media_and_memes.favorite_meme_name_required: נדרש שם למם מועדף.
+media_and_memes.favorite_meme_not_found: המם המועדף לא נמצא.
+media_and_memes.max_favorite_memes_reached: הגעת למספר המקסימלי של {count} {count, plural, one {מם מועדף} other {ממים מועדפים}}.
+media_and_memes.media_already_in_favorites: המדיה הזו כבר נמצאת בממים המועדפים שלך.
+media_and_memes.media_metadata_error: שגיאה במטא-דאטה של המדיה.
+media_and_memes.unknown_favorite_meme: מם מועדף לא מוכר.
+messages.cannot_delete_more_than_100: אי אפשר למחוק יותר מ-{max} {max, plural, one {הודעה} other {הודעות}} בבת אחת.
+messages.cannot_edit_others_message: אי אפשר לערוך הודעה של משתמש אחר.
+messages.cannot_preload_more_than_100_channels: אי אפשר לטעון מראש יותר מ-{max} {max, plural, one {ערוץ} other {ערוצים}} בבת אחת.
+messages.cannot_reply_to_system_message: אי אפשר להגיב להודעת מערכת.
+messages.cannot_send_empty_message: אי אפשר לשלוח הודעה ריקה.
+messages.forward_messages_cannot_include_extra_content: הודעות מועברות לא יכולות לכלול תוכן נוסף, embeds, קבצים מצורפים או מדבקות.
+messages.forward_reference_requires_channel_and_message: הפניית הודעה להעברה חייבת לכלול `channel_id` ו-`message_id`.
+messages.scheduled_messages_max_30_days: הודעות מתוזמנות יכולות להיות לכל היותר 30 ימים בעתיד.
+messages.invalid_message_data: נתוני הודעה לא תקינים.
+messages.invalid_scheduled_message_payload: payload של הודעה מתוזמנת לא תקין.
+messages.message_ids_cannot_be_empty: '`message_ids` לא יכול להיות ריק.'
+messages.messages_array_required: נדרש מערך `messages` והוא לא יכול להיות ריק.
+messages.messages_with_snapshots_cannot_be_edited: אי אפשר לערוך הודעות עם snapshots.
+messages.scheduled_send_datetime_invalid: תאריך או שעה לא תקינים לשליחה מתוזמנת.
+messages.scheduled_time_must_be_future: זמן השליחה חייב להיות בעתיד.
+messages.voice_messages_attachment_must_be_audio: Voice message attachments must be audio files.
+messages.voice_messages_cannot_have_content: Voice messages can't have text content.
+messages.voice_messages_cannot_have_embeds: Voice messages can't have embeds.
+messages.voice_messages_cannot_have_favorite_memes: Voice messages can't have favorite memes.
+messages.voice_messages_cannot_have_stickers: Voice messages can't have stickers.
+mfa_and_passkeys.invalid_mfa_code: קוד MFA לא תקין.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: מונה אימות WebAuthn לא תקין.
+mfa_and_passkeys.invalid_webauthn_credential_counter: מונה פרטי WebAuthn לא תקין.
+mfa_and_passkeys.invalid_webauthn_credential: פרטי WebAuthn לא תקינים.
+mfa_and_passkeys.invalid_webauthn_public_key_format: פורמט המפתח הציבורי של WebAuthn לא תקין.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: צריך להפעיל 2FA בחשבון שלך לפני שדורשים זה ממנהלים.
+mfa_and_passkeys.no_passkeys_registered: לא רשומים passkeys.
+mfa_and_passkeys.passkey_authentication_failed: אימות passkey נכשל.
+mfa_and_passkeys.passkeys_disabled: Passkeys מושבתים.
+mfa_and_passkeys.two_factor_not_enabled: אימות דו-שלבי לא מופעל.
+mfa_and_passkeys.two_factor_required: נדרש אימות דו-שלבי.
+mfa_and_passkeys.unknown_webauthn_credential: פרטי WebAuthn לא מוכרים.
+mfa_and_passkeys.webauthn_credential_limit_reached: הגעת למספר המקסימלי של {count} {count, plural, one {פרטי WebAuthn} other {פרטי WebAuthn}}.
+misc_limits.max_bookmarks_reached: הגעת למספר המקסימלי של {count} {count, plural, one {סימנייה} other {סימניות}}.
+misc_limits.max_category_channels_reached: הגעת למספר המקסימלי של {count} {count, plural, one {ערוץ בקטגוריה} other {ערוצים בקטגוריה}}.
+misc_limits.max_friends_reached: הגעת למספר המקסימלי של {count} {count, plural, one {חבר} other {חברים}}.
+misc_limits.max_invites_reached: הגעת למספר המקסימלי של {count} {count, plural, one {הזמנה} other {הזמנות}}.
+misc_limits.max_pins_per_channel_reached: הגעת למספר המקסימלי של {count} {count, plural, one {הודעה נעוצה} other {הודעות נעוצות}} בערוץ.
+misc.cannot_send_messages_in_non_text_channel: אי אפשר לשלוח הודעות בערוץ שאינו טקסט.
+misc.cannot_send_messages_in_this_guild_without_email_verification: צריך לאמת את האימייל כדי לשלוח הודעות בשרת הזה.
+misc.invalid_job_id: מזהה job לא תקין.
+misc.invalid_permissions_integer: הרשאות חייבות להיות מספר שלם תקין.
+misc.invalid_permissions_negative: הרשאות חייבות להיות לא שליליות.
+misc.invalid_request_generic: בקשה לא תקינה.
+misc.invalid_snowflake: snowflake לא תקין.
+misc.job_already_processed: ה-job כבר עובד.
+misc.job_id_required: נדרש מזהה job.
+misc.job_not_found: ה-job לא נמצא.
+misc.max_files_exceeded: יותר מדי קבצים. מותר עד {maxFiles} {maxFiles, plural, one {קובץ} other {קבצים}}.
+misc.must_have_bot_to_mark_system_user: המשתמש חייב להיות בוט כדי לסמן אותו כמשתמש מערכת.
+moderation_and_reports.cannot_report_own_message: אי אפשר לדווח על ההודעה שלך.
+moderation_and_reports.cannot_report_yourself: אי אפשר לדווח על עצמך.
+moderation_and_reports.invalid_dsa_report_target: יעד דיווח DSA לא תקין.
+moderation_and_reports.invalid_dsa_ticket: כרטיס DSA לא תקין.
+moderation_and_reports.invalid_dsa_verification_code: קוד אימות DSA לא תקין.
+moderation_and_reports.report_already_resolved: הדיווח כבר נפתר.
+moderation_and_reports.report_banned: דיווח נחסם.
+moderation_and_reports.unknown_report: דיווח לא מוכר.
+moderation_and_reports.user_is_not_banned: This user isn't banned.
+names_and_normalization.channel_name_empty_after_normalization: שם הערוץ לא יכול להיות ריק אחרי נרמול.
+names_and_normalization.name_empty_after_normalization: השם לא יכול להיות ריק אחרי נרמול.
+permissions.missing_access: אין גישה.
+permissions.missing_permissions: אין הרשאות.
+permissions.not_owner_of_admin_api_key: אין לך הרשאה לשנות את מפתח ה-API האדמיני הזה.
+permissions.user_banned_from_guild: המשתמש הזה חסום בשרת הזה.
+permissions.user_ip_banned_from_guild: כתובת ה-IP של המשתמש הזה חסומה בשרת הזה.
+permissions.user_not_in_channel: המשתמש הזה לא בערוץ הזה.
+permissions.user_not_in_voice: המשתמש הזה לא בשיחה קולית.
+permissions.user_owns_guilds: המשתמש הזה בעלים של שרתים.
+phone.invalid_number: מספר טלפון לא תקין.
+phone.number_already_used: מספר הטלפון הזה כבר בשימוש.
+phone.number_format_required: מספר הטלפון חייב להיות בפורמט E.164 (לדוגמה, +1234567890).
+phone.phone_required_for_sms_mfa: צריך מספר טלפון בשביל MFA ב-SMS.
+phone.sms_mfa_not_enabled: MFA ב-SMS לא מופעל.
+phone.sms_mfa_requires_totp: MFA ב-SMS דורש TOTP.
+phone.sms_verification_unavailable: אימות SMS לא זמין כרגע. נסו שוב מאוחר יותר.
+phone.verification_code_invalid: קוד אימות טלפון לא תקין.
+phone.verification_required: נדרש אימות טלפון.
+premium_and_plans.animated_avatars_require_premium: אוואטרים מונפשים דורשים Premium.
+premium_and_plans.banners_require_premium: באנרים דורשים Premium.
+premium_and_plans.bio_requires_premium_for_length: A bio longer than {maxLength} characters requires Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: אי אפשר לממש Plutonium עם Visionary.
+premium_and_plans.custom_emojis_outside_source_require_premium: אי אפשר להשתמש באימוג'ים מותאמים אישית מחוץ לשרת המקור שלהם בלי Premium.
+premium_and_plans.custom_stickers_in_dms_require_premium: אי אפשר להשתמש במדבקות מותאמות אישית ב-DM בלי Premium.
+premium_and_plans.custom_stickers_outside_source_require_premium: אי אפשר להשתמש במדבקות מותאמות אישית מחוץ לשרת המקור שלהן בלי Premium.
+premium_and_plans.discriminator_change_requires_premium: שינוי ה-discriminator דורש Premium.
+premium_and_plans.no_active_subscription: אין מנוי פעיל.
+premium_and_plans.no_visionary_slots_available: אין מקומות פנויים ל-Visionary.
+premium_and_plans.premium_required_for_custom_emoji: צריך Premium כדי להשתמש באימוג'י מותאם אישית.
+premium_and_plans.visionary_required_for_bot_discriminator: צריך להיות בתכנית Visionary לכל החיים כדי להתאים אישית discriminators לבוטים.
+premium_and_plans.visionary_required_for_discriminator: צריך להיות בתכנית Visionary לכל החיים כדי להשתמש ב-discriminator הזה.
+rate_limits.accent_color_changed_too_often: שינית את צבע המבטא יותר מדי פעמים לאחרונה. אפשר לנסות שוב בעוד {minutes} {minutes, plural, one {דקה} other {דקות}}.
+rate_limits.avatar_changed_too_often: שינית את האוואטר יותר מדי פעמים לאחרונה. אפשר לנסות שוב בעוד {minutes} {minutes, plural, one {דקה} other {דקות}}.
+rate_limits.banner_changed_too_often: שינית את הבאנר יותר מדי פעמים לאחרונה. אפשר לנסות שוב בעוד {minutes} {minutes, plural, one {דקה} other {דקות}}.
+rate_limits.bio_changed_too_often: שינית את הביו יותר מדי פעמים לאחרונה. אפשר לנסות שוב בעוד {minutes} {minutes, plural, one {דקה} other {דקות}}.
+rate_limits.ip_authorization_resend_cooldown: אי אפשר לשלוח שוב אימות IP עדיין, צריך לחכות.
+rate_limits.ip_authorization_resend_limit_exceeded: חרגת ממגבלת שליחת אימות IP מחדש.
+rate_limits.phone_rate_limit_exceeded: חרגת ממגבלת הבקשות בטלפון.
+rate_limits.pronouns_changed_too_often: שינית את כינויי הגוף יותר מדי פעמים לאחרונה. אפשר לנסות שוב בעוד {minutes} {minutes, plural, one {דקה} other {דקות}}.
+rate_limits.rate_limited: הגעת למגבלת הבקשות.
+rate_limits.slowmode_rate_limited: הגעת למגבלת מצב איטי.
+rate_limits.username_changed_too_often: שינית את שם המשתמש יותר מדי פעמים לאחרונה. אפשר לנסות שוב בעוד {minutes} {minutes, plural, one {דקה} other {דקות}}.
+roles.cannot_reorder_everyone_role: אי אפשר לשנות את הסדר של התפקיד @everyone.
+roles.cannot_set_everyone_hoist: אי אפשר להגדיר hoist עבור התפקיד @everyone.
+roles.cannot_use_same_role_as_preceding: אי אפשר להשתמש באותו תפקיד כמו התפקיד שלפניו.
+roles.invalid_role_id: 'מזהה תפקיד לא תקין: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: You can't use `parse` together with `allowed_mentions.users` or `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: התפקיד שלפני לא נמצא בשרת.
+stickers_and_emojis.custom_emoji_not_found: אימוג'י מותאם אישית לא נמצא.
+stickers_and_emojis.custom_sticker_not_found: מדבקה מותאמת אישית לא נמצאה.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: You can't use this emoji without access to its guild or installed pack.
+stickers_and_emojis.max_reactions_reached: הגעת למספר המקסימלי של {count} {count, plural, one {תגובה} other {תגובות}}.
+stickers_and_emojis.max_stickers_reached: הגעת למספר המקסימלי של {count} {count, plural, one {מדבקה} other {מדבקות}}.
+stickers_and_emojis.not_valid_unicode_emoji: זה לא אימוג'י Unicode תקין.
+stickers_and_emojis.unknown_emoji: אימוג'י לא מוכר.
+stickers_and_emojis.unknown_sticker: מדבקה לא מוכרת.
+stripe.error: שגיאת Stripe.
+stripe.invalid_product_configuration: הגדרת מוצר לא תקינה.
+stripe.invalid_product_selection: בחירת מוצר לא תקינה.
+stripe.no_active_subscription_found: לא נמצא מנוי פעיל.
+stripe.no_purchase_history_customer_portal_unavailable: לא נמצאה היסטוריית רכישות. פורטל הלקוחות לא זמין.
+stripe.no_subscription_found: לא נמצא מנוי.
+stripe.payment_not_available: עיבוד תשלומים לא זמין.
+stripe.subscription_already_canceling: המנוי כבר מוגדר לביטול בסוף התקופה.
+stripe.subscription_not_canceling: המנוי לא מוגדר לביטול.
+stripe.subscription_period_end_missing: חסר השדה subscription current_period_end.
+stripe.webhook_not_available: עיבוד webhooks לא זמין.
+stripe.webhook_signature_invalid: חתימת ה-webhook של Stripe לא תקינה.
+stripe.webhook_signature_missing: חסרה חתימת webhook של Stripe.
+tickets.ticket_already_completed: הכרטיס הזה כבר הושלם.
+tos_and_age.date_of_birth_format_invalid: פורמט תאריך הלידה לא תקין.
+tos_and_age.must_agree_to_tos_and_privacy: צריך להסכים לתנאי השימוש ולמדיניות הפרטיות.
+tos_and_age.must_be_minimum_age: צריך להיות בני {minAge} {minAge, plural, one {שנה} other {שנים}} לפחות כדי ליצור חשבון.
+unknown_entities.unknown_application: אפליקציה לא ידועה.
+unknown_entities.unknown_channel: ערוץ לא מוכר.
+unknown_entities.unknown_guild: שרת לא מוכר.
+unknown_entities.unknown_invite: הזמנה לא מוכרת.
+unknown_entities.unknown_member: חבר לא מוכר.
+unknown_entities.unknown_message: הודעה לא מוכרת.
+unknown_entities.unknown_pack: pack לא מוכר.
+unknown_entities.unknown_role: תפקיד לא מוכר.
+unknown_entities.unknown_user_flag: user flag לא מוכר.
+unknown_entities.unknown_user: משתמש לא מוכר.
+urls.invalid_url_format: פורמט URL לא תקין.
+urls.invalid_url_or_attachment_reference: פורמט URL לא תקין או הפניה לקובץ מצורף לא תקינה.
+urls.url_length_invalid: URL חייב להיות בין {min} ל-{max} תווים.
+usernames_and_tags.discriminator_invalid_format: discriminator חייב להיות {min}–{max} ספרות.
+usernames_and_tags.discriminator_out_of_range: discriminator חייב להיות בין {min} ל-{max}.
+usernames_and_tags.discriminator_required: נדרש discriminator.
+usernames_and_tags.display_name_length_invalid: שם התצוגה חייב להיות בין {min} ל-{max} תווים.
+usernames_and_tags.display_name_reserved_terms: שם התצוגה לא יכול להכיל "system message".
+usernames_and_tags.display_name_reserved_value: שם התצוגה לא יכול להיות "everyone" או "here".
+usernames_and_tags.global_name_length_invalid: Global name must be between {min} and {max} characters.
+usernames_and_tags.global_name_reserved_value: Global name can't be "everyone" or "here".
+usernames_and_tags.tag_already_taken: התג הזה כבר תפוס.
+usernames_and_tags.too_many_users_with_this_username: יש יותר מדי משתמשים עם שם המשתמש הזה.
+usernames_and_tags.too_many_users_with_username_try_different: יש יותר מדי משתמשים עם שם המשתמש הזה. נסו שם משתמש אחר.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Unclaimed accounts can only set email via token.
+usernames_and_tags.username_invalid_characters: שם המשתמש יכול לכלול רק אותיות לטיניות (a-z, A-Z), ספרות (0-9) וקווים תחתונים (_).
+usernames_and_tags.username_length_invalid: שם המשתמש חייב להיות בין {min} ל-{max} תווים.
+usernames_and_tags.username_not_available: שם המשתמש הזה לא זמין.
+usernames_and_tags.username_reserved_terms: שם המשתמש לא יכול להכיל "fluxer" או "system message".
+usernames_and_tags.username_reserved_value: שם המשתמש לא יכול להיות "everyone" או "here".
+vanity_urls.vanity_url_already_taken: ה-Vanity URL הזה כבר תפוס.
+vanity_urls.vanity_url_code_already_taken: קוד ה-Vanity URL כבר תפוס.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: קוד ה-Vanity URL לא יכול להכיל "fluxer".
+vanity_urls.vanity_url_code_length_invalid: קוד ה-Vanity URL חייב להיות בין {min} ל-{max} תווים.
+vanity_urls.vanity_url_invalid_characters: ה-Vanity URL יכול לכלול רק אותיות קטנות (a-z), ספרות (0-9) ומקפים (-).
+webhooks.cannot_modify_system_webhook: אי אפשר לערוך הודעות של המערכת.
+webhooks.max_webhooks_per_channel_reached: הגעת למספר המקסימלי של {count} {count, plural, one {webhook} other {webhooks}} לכל ערוץ.
+webhooks.max_webhooks_per_guild_reached: הגעת למספר המקסימלי של {count} {count, plural, one {webhook} other {webhooks}} לכל שרת.
+webhooks.max_webhooks_reached: הגעת למספר המקסימלי של {count} {count, plural, one {webhook} other {webhooks}}.
+webhooks.unknown_webhook: Webhook לא מוכר.
+webhooks.webhook_name_length_invalid: שם ה-webhook חייב להיות בין {min} ל-{max} תווים.

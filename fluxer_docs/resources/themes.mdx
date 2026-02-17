@@ -1,0 +1,29 @@
+---
+title: 'Themes'
+description: 'Themes object schemas from the Fluxer API.'
+---
+
+<a id="themecreaterequest"></a>
+
+## ThemeCreateRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/themes`](/api-reference/themes/create-theme)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| css | string | CSS text to store and share |
+
+<a id="themecreateresponse"></a>
+
+## ThemeCreateResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/themes`](/api-reference/themes/create-theme)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for the created theme |
+

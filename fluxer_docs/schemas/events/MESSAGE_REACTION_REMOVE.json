@@ -1,0 +1,50 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "MESSAGE_REACTION_REMOVE",
+	"description": "Sent when a user removes a reaction from a message.",
+	"scope": "channel",
+	"scopeNote": "Guild channels dispatch to guild scope; DMs dispatch to presence scope.",
+	"dispatchedBy": [
+		"DELETE /channels/:channel_id/messages/:message_id/reactions/:emoji/@me",
+		"DELETE /channels/:channel_id/messages/:message_id/reactions/:emoji/:user_id"
+	],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID"
+			},
+			"message_id": {
+				"type": "string",
+				"description": "Message ID"
+			},
+			"emoji": {
+				"type": "object",
+				"properties": {
+					"id": {"type": "string", "description": "Emoji ID (only present for custom emoji)"},
+					"name": {"type": "string", "description": "Emoji name (unicode character or custom emoji name)"}
+				},
+				"required": ["name"],
+				"description": "The emoji that was removed"
+			},
+			"user_id": {
+				"type": "string",
+				"description": "ID of the user whose reaction was removed"
+			},
+			"session_id": {
+				"type": "string",
+				"description": "Session ID of the user whose reaction was removed"
+			},
+			"guild_id": {
+				"type": "string",
+				"description": "Guild ID (only present for guild channels)"
+			},
+			"member": {
+				"$ref": "GuildMemberResponse",
+				"description": "Guild member object (only present for guild channels)"
+			}
+		},
+		"required": ["channel_id", "message_id", "emoji", "user_id"]
+	}
+}

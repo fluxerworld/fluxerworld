@@ -17,16 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
 
 export const ScreenShareUnsupportedModal = observer(() => {
 	const {t} = useLingui();
 
 	return (
 		<ConfirmModal
-			title={t`Screen Sharing Not Supported`}
+			title={t`Screen sharing not supported`}
 			description={t`Screen sharing is not supported on this device or browser. This feature requires a desktop browser that supports screen sharing, such as Chrome, Firefox, or Edge on Windows, macOS, or Linux.`}
 			primaryText={t`Understood`}
 			onPrimary={() => {}}

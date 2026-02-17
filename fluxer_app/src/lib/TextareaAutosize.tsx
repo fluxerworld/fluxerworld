@@ -18,6 +18,7 @@
  */
 
 import * as React from 'react';
+import {useCallback, useEffect, useLayoutEffect, useMemo, useRef} from 'react';
 
 export interface TextareaAutosizeProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
 	minRows?: number;
@@ -68,8 +69,7 @@ function normalizeValueForMeasurement(value: string): string {
 	return parts.join('\n');
 }
 
-function ensureMeasureEl(): HTMLTextAreaElement | null {
-	if (typeof document === 'undefined') return null;
+function ensureMeasureEl(): HTMLTextAreaElement {
 	const el = document.createElement('textarea');
 	el.setAttribute('aria-hidden', 'true');
 	el.tabIndex = -1;
@@ -85,6 +85,10 @@ function ensureMeasureEl(): HTMLTextAreaElement | null {
 	return el;
 }
 
+function getCSSProperty(style: CSSStyleDeclaration, prop: string): string {
+	return style.getPropertyValue(prop) || (style[prop as keyof CSSStyleDeclaration] as string) || '';
+}
+
 function syncMeasureStyles(target: HTMLTextAreaElement, measure: HTMLTextAreaElement) {
 	const cs = window.getComputedStyle(target);
 
@@ -98,13 +102,13 @@ function syncMeasureStyles(target: HTMLTextAreaElement, measure: HTMLTextAreaEle
 	measure.style.fontStyle = cs.fontStyle;
 	measure.style.letterSpacing = cs.letterSpacing;
 	measure.style.textTransform = cs.textTransform;
-	measure.style.textRendering = cs.textRendering as any;
+	measure.style.textRendering = getCSSProperty(cs, 'textRendering');
 
 	measure.style.lineHeight = cs.lineHeight;
 	measure.style.whiteSpace = cs.whiteSpace;
 	measure.style.wordBreak = cs.wordBreak;
-	measure.style.overflowWrap = (cs as any).overflowWrap ?? 'normal';
-	measure.style.tabSize = (cs as any).tabSize ?? '8';
+	measure.style.overflowWrap = getCSSProperty(cs, 'overflowWrap') || 'normal';
+	measure.style.tabSize = getCSSProperty(cs, 'tabSize') || '8';
 
 	measure.style.paddingTop = cs.paddingTop;
 	measure.style.paddingBottom = cs.paddingBottom;
@@ -128,22 +132,22 @@ function syncMeasureStyles(target: HTMLTextAreaElement, measure: HTMLTextAreaEle
 }
 
 export const TextareaAutosize = React.forwardRef<HTMLTextAreaElement, TextareaAutosizeProps>((props, forwardedRef) => {
-	const {minRows: minRowsProp, maxRows, style, onHeightChange, rows, onInput, ...rest} = props;
+	const {minRows: minRowsProp, maxRows, style, onHeightChange, rows, onInput, onPaste, ...rest} = props;
 
 	const resolvedRows = rows ?? 1;
 	const minRows = minRowsProp ?? (typeof resolvedRows === 'number' ? resolvedRows : undefined);
 
 	const nativeFieldSizing = supportsFieldSizingContent();
 
-	const elRef = React.useRef<HTMLTextAreaElement | null>(null);
-	const measureRef = React.useRef<HTMLTextAreaElement | null>(null);
+	const elRef = useRef<HTMLTextAreaElement | null>(null);
+	const measureRef = useRef<HTMLTextAreaElement | null>(null);
 
-	const onHeightChangeRef = React.useRef(onHeightChange);
-	const lastWidthRef = React.useRef<number | null>(null);
-	const lastEmittedHeightRef = React.useRef<number | null>(null);
-	const resizeScheduledRef = React.useRef(false);
+	const onHeightChangeRef = useRef(onHeightChange);
+	const lastWidthRef = useRef<number | null>(null);
+	const lastEmittedHeightRef = useRef<number | null>(null);
+	const resizeScheduledRef = useRef(false);
 
-	const setRef = React.useCallback(
+	const setRef = useCallback(
 		(node: HTMLTextAreaElement | null) => {
 			elRef.current = node;
 			if (typeof forwardedRef === 'function') forwardedRef(node);
@@ -152,11 +156,11 @@ export const TextareaAutosize = React.forwardRef<HTMLTextAreaElement, TextareaAu
 		[forwardedRef],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		onHeightChangeRef.current = onHeightChange;
 	}, [onHeightChange]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (nativeFieldSizing) return;
 		const measure = ensureMeasureEl();
 		measureRef.current = measure;
@@ -166,7 +170,7 @@ export const TextareaAutosize = React.forwardRef<HTMLTextAreaElement, TextareaAu
 		};
 	}, [nativeFieldSizing]);
 
-	const emitHeightIfChanged = React.useCallback(() => {
+	const emitHeightIfChanged = useCallback(() => {
 		const el = elRef.current;
 		if (!el) return;
 
@@ -180,7 +184,7 @@ export const TextareaAutosize = React.forwardRef<HTMLTextAreaElement, TextareaAu
 		}
 	}, []);
 
-	React.useLayoutEffect(() => {
+	useLayoutEffect(() => {
 		const el = elRef.current;
 		if (!el || (minRows == null && maxRows == null)) return;
 
@@ -190,7 +194,7 @@ export const TextareaAutosize = React.forwardRef<HTMLTextAreaElement, TextareaAu
 		if (maxHeight != null) el.style.maxHeight = `${maxHeight}px`;
 	}, [minRows, maxRows]);
 
-	const resize = React.useCallback(() => {
+	const resize = useCallback(() => {
 		const el = elRef.current;
 		if (!el) return;
 
@@ -230,7 +234,7 @@ export const TextareaAutosize = React.forwardRef<HTMLTextAreaElement, TextareaAu
 		}
 	}, [emitHeightIfChanged, maxRows, minRows, nativeFieldSizing]);
 
-	const scheduleResize = React.useCallback(() => {
+	const scheduleResize = useCallback(() => {
 		if (resizeScheduledRef.current) return;
 		resizeScheduledRef.current = true;
 
@@ -240,7 +244,7 @@ export const TextareaAutosize = React.forwardRef<HTMLTextAreaElement, TextareaAu
 		});
 	}, [resize]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const el = elRef.current;
 		if (!el || typeof ResizeObserver === 'undefined') return;
 
@@ -248,7 +252,8 @@ export const TextareaAutosize = React.forwardRef<HTMLTextAreaElement, TextareaAu
 			const entry = entries[0];
 			if (!entry) return;
 
-			const width = (entry as any).borderBoxSize?.[0]?.inlineSize ?? el.getBoundingClientRect().width;
+			const borderBoxSize = entry.borderBoxSize;
+			const width = borderBoxSize?.[0]?.inlineSize ?? el.getBoundingClientRect().width;
 
 			if (width !== lastWidthRef.current) {
 				lastWidthRef.current = width;
@@ -265,7 +270,7 @@ export const TextareaAutosize = React.forwardRef<HTMLTextAreaElement, TextareaAu
 		return () => ro.disconnect();
 	}, [emitHeightIfChanged, nativeFieldSizing, scheduleResize]);
 
-	const computedStyle = React.useMemo(
+	const computedStyle = useMemo(
 		(): React.CSSProperties => ({
 			overflow: maxRows ? 'auto' : 'hidden',
 			...style,
@@ -273,19 +278,42 @@ export const TextareaAutosize = React.forwardRef<HTMLTextAreaElement, TextareaAu
 		[maxRows, style],
 	);
 
-	const handleInput = React.useCallback(
-		(event: React.FormEvent<HTMLTextAreaElement>) => {
+	const handleInput = useCallback(
+		(event: React.InputEvent<HTMLTextAreaElement>) => {
 			scheduleResize();
 			onInput?.(event);
 		},
 		[onInput, scheduleResize],
 	);
 
-	React.useLayoutEffect(() => {
+	const handlePaste = useCallback(
+		(event: React.ClipboardEvent<HTMLTextAreaElement>) => {
+			onPaste?.(event);
+			if (!event.defaultPrevented) {
+				const pastedText = event.clipboardData?.getData('text/plain');
+				if (pastedText?.includes('\t')) {
+					event.preventDefault();
+					document.execCommand('insertText', false, pastedText.replace(/\t/g, '    '));
+				}
+			}
+		},
+		[onPaste],
+	);
+
+	useLayoutEffect(() => {
 		scheduleResize();
 	}, [scheduleResize, props.value, props.defaultValue, rows, minRows, maxRows, nativeFieldSizing]);
 
-	return <textarea {...rest} ref={setRef} rows={resolvedRows} style={computedStyle} onInput={handleInput} />;
+	return (
+		<textarea
+			{...rest}
+			ref={setRef}
+			rows={resolvedRows}
+			style={computedStyle}
+			onInput={handleInput}
+			onPaste={handlePaste}
+		/>
+	);
 });
 
 TextareaAutosize.displayName = 'TextareaAutosize';

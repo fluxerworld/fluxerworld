@@ -17,24 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Logger} from '~/lib/Logger';
-import DimensionStore from '~/stores/DimensionStore';
+import {Logger} from '@app/lib/Logger';
+import DimensionStore from '@app/stores/DimensionStore';
 
 const logger = new Logger('DimensionActions');
 
-type GuildId = string;
-
-export const updateChannelListScroll = (guildId: GuildId, scrollTop: number): void => {
+export function updateChannelListScroll(guildId: string, scrollTop: number): void {
 	logger.debug(`Updating channel list scroll: guildId=${guildId}, scrollTop=${scrollTop}`);
 	DimensionStore.updateGuildDimensions(guildId, scrollTop, undefined);
-};
+}
 
-export const clearChannelListScrollTo = (guildId: GuildId): void => {
+export function clearChannelListScrollTo(guildId: string): void {
 	logger.debug(`Clearing channel list scroll target: guildId=${guildId}`);
 	DimensionStore.updateGuildDimensions(guildId, undefined, null);
-};
+}
 
-export const updateGuildListScroll = (scrollTop: number): void => {
+export function updateGuildListScroll(scrollTop: number): void {
 	logger.debug(`Updating guild list scroll: scrollTop=${scrollTop}`);
 	DimensionStore.updateGuildListDimensions(scrollTop);
-};
+}

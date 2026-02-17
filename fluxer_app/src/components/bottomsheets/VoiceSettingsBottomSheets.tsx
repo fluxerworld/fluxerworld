@@ -17,32 +17,32 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as VoiceCallLayoutActionCreators from '@app/actions/VoiceCallLayoutActionCreators';
+import * as VoiceSettingsActionCreators from '@app/actions/VoiceSettingsActionCreators';
+import * as VoiceStateActionCreators from '@app/actions/VoiceStateActionCreators';
+import sharedStyles from '@app/components/bottomsheets/shared.module.css';
+import {CameraPreviewModalInRoom} from '@app/components/modals/CameraPreviewModal';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
 import {
-	GearIcon,
-	GridFourIcon,
-	MicrophoneIcon,
-	SpeakerHighIcon,
-	SpeakerSimpleSlashIcon,
-	SpeakerSlashIcon,
-	UsersIcon,
-	VideoIcon,
-} from '@phosphor-icons/react';
+	DeafenIcon,
+	EchoCancellationIcon,
+	GridViewIcon,
+	InputDeviceIcon,
+	MembersIcon,
+	OutputDeviceIcon,
+	SettingsIcon,
+	VideoSettingsIcon,
+} from '@app/components/uikit/context_menu/ContextMenuIcons';
+import type {MenuGroupType} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {MenuBottomSheet} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import VoiceCallLayoutStore from '@app/stores/VoiceCallLayoutStore';
+import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as VoiceCallLayoutActionCreators from '~/actions/VoiceCallLayoutActionCreators';
-import * as VoiceSettingsActionCreators from '~/actions/VoiceSettingsActionCreators';
-import * as VoiceStateActionCreators from '~/actions/VoiceStateActionCreators';
-import {CameraPreviewModalInRoom} from '~/components/modals/CameraPreviewModal';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import type {MenuGroupType} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import {MenuBottomSheet} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import VoiceCallLayoutStore from '~/stores/VoiceCallLayoutStore';
-import VoiceSettingsStore from '~/stores/VoiceSettingsStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import sharedStyles from './shared.module.css';
 
 interface VoiceAudioSettingsBottomSheetProps {
 	isOpen: boolean;
@@ -70,7 +70,7 @@ export const VoiceAudioSettingsBottomSheet: React.FC<VoiceAudioSettingsBottomShe
 
 		const deviceItems = [
 			{
-				icon: <MicrophoneIcon weight="fill" className={sharedStyles.icon} />,
+				icon: <InputDeviceIcon className={sharedStyles.icon} />,
 				label: t`Input Device`,
 				onClick: () => {
 					onClose();
@@ -78,7 +78,7 @@ export const VoiceAudioSettingsBottomSheet: React.FC<VoiceAudioSettingsBottomShe
 				},
 			},
 			{
-				icon: <SpeakerHighIcon weight="fill" className={sharedStyles.icon} />,
+				icon: <OutputDeviceIcon className={sharedStyles.icon} />,
 				label: t`Output Device`,
 				onClick: () => {
 					onClose();
@@ -122,21 +122,21 @@ export const VoiceAudioSettingsBottomSheet: React.FC<VoiceAudioSettingsBottomShe
 
 		const processingItems = [
 			{
-				icon: <SpeakerSimpleSlashIcon weight="fill" className={sharedStyles.icon} />,
+				icon: <EchoCancellationIcon className={sharedStyles.icon} />,
 				label: t`Echo Cancellation`,
 				onClick: () => {
 					VoiceSettingsActionCreators.update({echoCancellation: !voiceSettings.echoCancellation});
 				},
 			},
 			{
-				icon: <SpeakerSimpleSlashIcon weight="fill" className={sharedStyles.icon} />,
+				icon: <EchoCancellationIcon className={sharedStyles.icon} />,
 				label: t`Noise Suppression`,
 				onClick: () => {
 					VoiceSettingsActionCreators.update({noiseSuppression: !voiceSettings.noiseSuppression});
 				},
 			},
 			{
-				icon: <MicrophoneIcon weight="fill" className={sharedStyles.icon} />,
+				icon: <InputDeviceIcon className={sharedStyles.icon} />,
 				label: t`Auto Gain Control`,
 				onClick: () => {
 					VoiceSettingsActionCreators.update({autoGainControl: !voiceSettings.autoGainControl});
@@ -151,7 +151,7 @@ export const VoiceAudioSettingsBottomSheet: React.FC<VoiceAudioSettingsBottomShe
 		menuGroups.push({
 			items: [
 				{
-					icon: <SpeakerSlashIcon weight="fill" className={sharedStyles.icon} />,
+					icon: <DeafenIcon className={sharedStyles.icon} />,
 					label: isDeafened ? t`Undeafen` : t`Deafen`,
 					onClick: handleToggleDeafen,
 				},
@@ -161,7 +161,7 @@ export const VoiceAudioSettingsBottomSheet: React.FC<VoiceAudioSettingsBottomShe
 		menuGroups.push({
 			items: [
 				{
-					icon: <GearIcon weight="fill" className={sharedStyles.icon} />,
+					icon: <SettingsIcon className={sharedStyles.icon} />,
 					label: t`Voice Settings`,
 					onClick: handleOpenVoiceSettings,
 				},
@@ -195,7 +195,7 @@ export const VoiceCameraSettingsBottomSheet: React.FC<VoiceCameraSettingsBottomS
 
 		const cameraItems = [
 			{
-				icon: <VideoIcon weight="fill" className={sharedStyles.icon} />,
+				icon: <VideoSettingsIcon className={sharedStyles.icon} />,
 				label: t`Camera Device`,
 				onClick: () => {
 					onClose();
@@ -210,7 +210,7 @@ export const VoiceCameraSettingsBottomSheet: React.FC<VoiceCameraSettingsBottomS
 
 		const cameraActions = [
 			{
-				icon: <VideoIcon weight="fill" className={sharedStyles.icon} />,
+				icon: <VideoSettingsIcon className={sharedStyles.icon} />,
 				label: t`Preview Camera`,
 				onClick: handlePreviewCamera,
 			},
@@ -223,7 +223,7 @@ export const VoiceCameraSettingsBottomSheet: React.FC<VoiceCameraSettingsBottomS
 		menuGroups.push({
 			items: [
 				{
-					icon: <GearIcon weight="fill" className={sharedStyles.icon} />,
+					icon: <SettingsIcon className={sharedStyles.icon} />,
 					label: t`Video Settings`,
 					onClick: handleOpenVideoSettings,
 				},
@@ -254,7 +254,7 @@ export const VoiceMoreOptionsBottomSheet: React.FC<VoiceMoreOptionsBottomSheetPr
 
 	const displayItems = [
 		{
-			icon: <GridFourIcon weight="fill" className={sharedStyles.icon} />,
+			icon: <GridViewIcon className={sharedStyles.icon} />,
 			label: t`Grid View`,
 			onClick: () => {
 				handleToggleGrid();
@@ -262,14 +262,14 @@ export const VoiceMoreOptionsBottomSheet: React.FC<VoiceMoreOptionsBottomSheetPr
 			},
 		},
 		{
-			icon: <UsersIcon weight="fill" className={sharedStyles.icon} />,
+			icon: <MembersIcon className={sharedStyles.icon} />,
 			label: t`Show My Own Camera`,
 			onClick: () => {
 				VoiceSettingsActionCreators.update({showMyOwnCamera: !voiceSettings.showMyOwnCamera});
 			},
 		},
 		{
-			icon: <UsersIcon weight="fill" className={sharedStyles.icon} />,
+			icon: <MembersIcon className={sharedStyles.icon} />,
 			label: t`Show Non-Video Participants`,
 			onClick: () => {
 				VoiceSettingsActionCreators.update({showNonVideoParticipants: !voiceSettings.showNonVideoParticipants});
@@ -284,7 +284,7 @@ export const VoiceMoreOptionsBottomSheet: React.FC<VoiceMoreOptionsBottomSheetPr
 	menuGroups.push({
 		items: [
 			{
-				icon: <GearIcon weight="fill" className={sharedStyles.icon} />,
+				icon: <SettingsIcon className={sharedStyles.icon} />,
 				label: t`Voice & Video Settings`,
 				onClick: () => {
 					onClose();

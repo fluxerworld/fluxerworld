@@ -1,0 +1,17 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "SAVED_MESSAGE_DELETE",
+	"description": "A saved message was deleted from the user's saved messages.",
+	"scope": "presence",
+	"dispatchedBy": ["DELETE /users/@me/saved-messages/:message_id"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"message_id": {
+				"type": "string",
+				"description": "ID of the deleted saved message"
+			}
+		},
+		"required": ["message_id"]
+	}
+}

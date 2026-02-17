@@ -17,21 +17,25 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GuildStickerActionCreators from '@app/actions/GuildStickerActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {Form} from '@app/components/form/Form';
+import styles from '@app/components/modals/EditGuildStickerModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {StickerFormFields} from '@app/components/modals/sticker_form/StickerFormFields';
+import {StickerPreview} from '@app/components/modals/sticker_form/StickerPreview';
+import {Button} from '@app/components/uikit/button/Button';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import {useStickerAnimation} from '@app/hooks/useStickerAnimation';
+import {Logger} from '@app/lib/Logger';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import type {GuildStickerWithUser} from '@fluxer/schema/src/domains/guild/GuildEmojiSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import {useCallback} from 'react';
 import {useForm} from 'react-hook-form';
-import * as GuildStickerActionCreators from '~/actions/GuildStickerActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {Form} from '~/components/form/Form';
-import styles from '~/components/modals/EditGuildStickerModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {StickerFormFields} from '~/components/modals/sticker-form/StickerFormFields';
-import {StickerPreview} from '~/components/modals/sticker-form/StickerPreview';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import {type GuildStickerWithUser, isStickerAnimated} from '~/records/GuildStickerRecord';
-import * as AvatarUtils from '~/utils/AvatarUtils';
+
+const logger = new Logger('EditGuildStickerModal');
 
 interface EditGuildStickerModalProps {
 	guildId: string;
@@ -51,6 +55,7 @@ export const EditGuildStickerModal = observer(function EditGuildStickerModal({
 	onUpdate,
 }: EditGuildStickerModalProps) {
 	const {t} = useLingui();
+	const {shouldAnimate} = useStickerAnimation();
 	const form = useForm<FormInputs>({
 		defaultValues: {
 			name: sticker.name,
@@ -59,7 +64,7 @@ export const EditGuildStickerModal = observer(function EditGuildStickerModal({
 		},
 	});
 
-	const onSubmit = React.useCallback(
+	const onSubmit = useCallback(
 		async (data: FormInputs) => {
 			try {
 				await GuildStickerActionCreators.update(guildId, sticker.id, {
@@ -70,10 +75,10 @@ export const EditGuildStickerModal = observer(function EditGuildStickerModal({
 
 				onUpdate();
 				ModalActionCreators.pop();
-			} catch (error: any) {
-				console.error('Failed to update sticker:', error);
+			} catch (error: unknown) {
+				logger.error('Failed to update sticker:', error);
 				form.setError('name', {
-					message: error.message || t`Failed to update sticker`,
+					message: error instanceof Error ? error.message : t`Failed to update sticker`,
 				});
 			}
 		},
@@ -88,7 +93,7 @@ export const EditGuildStickerModal = observer(function EditGuildStickerModal({
 
 	const stickerUrl = AvatarUtils.getStickerURL({
 		id: sticker.id,
-		animated: isStickerAnimated(sticker),
+		animated: shouldAnimate,
 		size: 320,
 	});
 

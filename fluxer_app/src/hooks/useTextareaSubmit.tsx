@@ -17,24 +17,33 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as DraftActionCreators from '@app/actions/DraftActionCreators';
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import {Logger} from '@app/lib/Logger';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import EmojiStore from '@app/stores/EmojiStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import MessageStore from '@app/stores/MessageStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import PresenceStore from '@app/stores/PresenceStore';
+import * as CommandUtils from '@app/utils/CommandUtils';
+import {checkEmojiAvailabilityWithGuildFallback} from '@app/utils/ExpressionPermissionUtils';
+import * as ReplaceCommandUtils from '@app/utils/ReplaceCommandUtils';
+import {TypingUtils} from '@app/utils/TypingUtils';
+import {Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {StatusTypes} from '@fluxer/constants/src/StatusConstants';
 import type {I18n} from '@lingui/core';
-import React from 'react';
-import * as DraftActionCreators from '~/actions/DraftActionCreators';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import {Permissions, StatusTypes} from '~/Constants';
-import type {MessageRecord} from '~/records/MessageRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import MessageStore from '~/stores/MessageStore';
-import PermissionStore from '~/stores/PermissionStore';
-import PresenceStore from '~/stores/PresenceStore';
-import * as CommandUtils from '~/utils/CommandUtils';
-import * as ReplaceCommandUtils from '~/utils/ReplaceCommandUtils';
-import {TypingUtils} from '~/utils/TypingUtils';
+import type React from 'react';
+import {useCallback} from 'react';
+
+const logger = new Logger('useTextareaSubmit');
 
 const MENTION_EVERYONE_THRESHOLD = import.meta.env.DEV ? 0 : 50;
 const ROLE_MENTION_PATTERN = /<@&(\d+)>/g;
+const CUSTOM_EMOJI_MARKDOWN_PATTERN = /<a?:[a-zA-Z0-9_+-]{2,}:([0-9]+)>/g;
 type MentionType = '@everyone' | '@here' | 'role';
 const mentionTypePriority: Record<MentionType, number> = {
 	'@everyone': 3,
@@ -84,7 +93,7 @@ export const useTextareaSubmit = ({
 	onMentionConfirmationNeeded,
 	i18n,
 }: UseTextareaSubmitOptions) => {
-	const checkMentionConfirmation = React.useCallback(
+	const checkMentionConfirmation = useCallback(
 		(content: string, tts?: boolean): boolean => {
 			if (!guildId || !onMentionConfirmationNeeded) {
 				return false;
@@ -211,7 +220,37 @@ export const useTextareaSubmit = ({
 		[channelId, guildId, onMentionConfirmationNeeded],
 	);
 
-	const onSubmit = React.useCallback(async () => {
+	const ttsCommandEnabled = AccessibilityStore.enableTTSCommand;
+	const checkCustomEmojiAvailability = useCallback(
+		(content: string): boolean => {
+			const channel = ChannelStore.getChannel(channelId) ?? null;
+			CUSTOM_EMOJI_MARKDOWN_PATTERN.lastIndex = 0;
+
+			let match: RegExpExecArray | null = null;
+			while ((match = CUSTOM_EMOJI_MARKDOWN_PATTERN.exec(content))) {
+				const emojiId = match[1];
+				const emoji = EmojiStore.getEmojiById(emojiId);
+				if (!emoji) {
+					continue;
+				}
+
+				const availability = checkEmojiAvailabilityWithGuildFallback(i18n, emoji, channel, guildId);
+				if (availability.canUse) {
+					continue;
+				}
+
+				if (availability.lockReason) {
+					const errorMessage = CommandUtils.createSystemMessage(channelId, availability.lockReason);
+					MessageActionCreators.createOptimistic(channelId, errorMessage.toJSON());
+				}
+				return true;
+			}
+			return false;
+		},
+		[channelId, guildId, i18n],
+	);
+
+	const onSubmit = useCallback(async () => {
 		if (isSlowmodeActive && !editingMessage) {
 			return;
 		}
@@ -224,13 +263,23 @@ export const useTextareaSubmit = ({
 					message: editingMessage,
 					onDelete: () => MessageActionCreators.stopEditMobile(channelId),
 				});
-			} else {
-				MessageActionCreators.edit(channelId, editingMessage.id, actualContent).then(() => {
-					MessageActionCreators.stopEditMobile(channelId);
-				});
+				setValue('');
+				clearSegments();
+				return;
 			}
-			setValue('');
-			clearSegments();
+
+			if (checkCustomEmojiAvailability(actualContent)) {
+				return;
+			}
+
+			MessageActionCreators.edit(channelId, editingMessage.id, actualContent).then((result) => {
+				if (result) {
+					MessageActionCreators.stopEditMobile(channelId);
+					setValue('');
+					clearSegments();
+				}
+			});
+
 			return;
 		}
 
@@ -249,20 +298,31 @@ export const useTextareaSubmit = ({
 			}
 			setValue('');
 			clearSegments();
+			DraftActionCreators.deleteDraft(channelId);
+			TypingUtils.clear(channelId);
 			return;
 		}
 
 		if (CommandUtils.isCommand(actualContent)) {
 			const parsedCommand = CommandUtils.parseCommand(actualContent);
 			if (parsedCommand.type !== 'unknown') {
-				if (parsedCommand.type === 'me' || parsedCommand.type === 'spoiler') {
+				if (!ttsCommandEnabled && parsedCommand.type === 'tts') {
+				} else if (parsedCommand.type === 'me' || parsedCommand.type === 'spoiler') {
 					const transformedContent = CommandUtils.transformWrappingCommands(actualContent);
+					if (checkCustomEmojiAvailability(transformedContent)) {
+						return;
+					}
 					if (!checkMentionConfirmation(transformedContent)) {
 						handleSendMessage(transformedContent, false);
+						return;
 					}
 				} else if (parsedCommand.type === 'tts') {
+					if (checkCustomEmojiAvailability(parsedCommand.content)) {
+						return;
+					}
 					if (!checkMentionConfirmation(parsedCommand.content, true)) {
 						handleSendMessage(parsedCommand.content, false, true);
+						return;
 					}
 				} else {
 					try {
@@ -274,17 +334,22 @@ export const useTextareaSubmit = ({
 						if (parsedCommand.type !== 'msg') {
 							MessageActionCreators.stopReply(channelId);
 						}
+						return;
 					} catch (error) {
-						console.error('Failed to execute command:', error);
+						logger.error('Failed to execute command', error);
 						const errorMessage = CommandUtils.createSystemMessage(
 							channelId,
 							`Failed to execute command: ${error instanceof Error ? error.message : 'Unknown error'}`,
 						);
 						MessageActionCreators.createOptimistic(channelId, errorMessage.toJSON());
+						return;
 					}
 				}
-				return;
 			}
+		}
+
+		if (checkCustomEmojiAvailability(actualContent)) {
+			return;
 		}
 
 		if (!checkMentionConfirmation(actualContent)) {
@@ -303,7 +368,9 @@ export const useTextareaSubmit = ({
 		handleSendMessage,
 		hasPendingSticker,
 		setValue,
+		checkCustomEmojiAvailability,
 		checkMentionConfirmation,
+		ttsCommandEnabled,
 	]);
 
 	return {onSubmit};

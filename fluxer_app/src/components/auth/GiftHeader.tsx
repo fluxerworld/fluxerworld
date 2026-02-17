@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {Gift} from '@app/actions/GiftActionCreators';
+import styles from '@app/components/auth/AuthPageStyles.module.css';
+import {getPremiumGiftDurationText} from '@app/utils/GiftUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {GiftIcon} from '@phosphor-icons/react';
-import type {Gift} from '~/actions/GiftActionCreators';
-import {getPremiumGiftDurationText} from '~/utils/giftUtils';
-import styles from './AuthPageStyles.module.css';
 
 interface GiftHeaderProps {
 	gift: Gift;

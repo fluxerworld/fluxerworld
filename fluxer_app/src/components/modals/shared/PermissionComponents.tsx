@@ -17,24 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Switch as UISwitch} from '@app/components/form/Switch';
+import styles from '@app/components/modals/shared/PermissionComponents.module.css';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {WarningAlert} from '@app/components/uikit/warning_alert/WarningAlert';
+import PermissionLayoutStore from '@app/stores/PermissionLayoutStore';
+import type * as PermissionUtils from '@app/utils/PermissionUtils';
+import {useLingui} from '@lingui/react/macro';
 import {CheckIcon, MinusIcon, XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {Switch as UISwitch} from '~/components/form/Switch';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {WarningAlert} from '~/components/uikit/WarningAlert/WarningAlert';
-import PermissionLayoutStore from '~/stores/PermissionLayoutStore';
-import type * as PermissionUtils from '~/utils/PermissionUtils';
-import styles from './PermissionComponents.module.css';
 
-export type PermissionState = 'ALLOW' | 'NEUTRAL' | 'DENY';
-
-export const getPermissionState = (permission: bigint, allow: bigint, deny: bigint): PermissionState => {
+export type PermissionState = 'ALLOW' | 'DENY' | 'NEUTRAL';
+export function getPermissionState(permission: bigint, allow: bigint, deny: bigint): PermissionState {
 	if ((deny & permission) === permission) return 'DENY';
 	if ((allow & permission) === permission) return 'ALLOW';
 	return 'NEUTRAL';
-};
+}
 
 export const PermissionStateButtons: React.FC<{
 	currentState?: PermissionState;
@@ -42,6 +42,7 @@ export const PermissionStateButtons: React.FC<{
 	disabled: boolean;
 	showActiveState?: boolean;
 }> = observer(({currentState, onStateChange, disabled, showActiveState = true}) => {
+	const {t} = useLingui();
 	const getButtonClasses = (state: PermissionState) => {
 		const isActive = showActiveState && currentState === state;
 		const classes = [styles.stateButton, disabled ? styles.stateButtonDisabled : styles.stateButtonEnabled];
@@ -68,7 +69,7 @@ export const PermissionStateButtons: React.FC<{
 				className={getButtonClasses('DENY')}
 				onClick={() => !disabled && onStateChange('DENY')}
 				disabled={disabled}
-				title="Deny"
+				title={t`Deny`}
 			>
 				<XIcon weight="bold" size={16} />
 			</button>
@@ -78,7 +79,7 @@ export const PermissionStateButtons: React.FC<{
 				className={getButtonClasses('NEUTRAL')}
 				onClick={() => !disabled && onStateChange('NEUTRAL')}
 				disabled={disabled}
-				title="Neutral (inherit)"
+				title={t`Neutral (Inherit)`}
 			>
 				<MinusIcon weight="bold" size={16} />
 			</button>
@@ -88,13 +89,28 @@ export const PermissionStateButtons: React.FC<{
 				className={getButtonClasses('ALLOW')}
 				onClick={() => !disabled && onStateChange('ALLOW')}
 				disabled={disabled}
-				title="Allow"
+				title={t`Allow`}
 			>
 				<CheckIcon weight="bold" size={16} />
 			</button>
 		</div>
 	);
 });
+
+export const PermissionHelpLink: React.FC<{onClick: () => void; children: React.ReactNode}> = ({onClick, children}) => {
+	return (
+		<button
+			type="button"
+			className={styles.permissionHelpLink}
+			onClick={(event) => {
+				event.stopPropagation();
+				onClick();
+			}}
+		>
+			{children}
+		</button>
+	);
+};
 
 const PermissionOverwriteToggle: React.FC<{
 	title: string;
@@ -106,9 +122,11 @@ const PermissionOverwriteToggle: React.FC<{
 	disabled: boolean;
 	disabledReason?: string;
 	warning?: string;
-}> = observer(({title, description, permission, allow, deny, onChange, disabled, disabledReason, warning}) => {
+	extra?: React.ReactNode;
+}> = observer(({title, description, permission, allow, deny, onChange, disabled, disabledReason, warning, extra}) => {
 	const state = getPermissionState(permission, allow, deny);
 	const buttons = <PermissionStateButtons currentState={state} onStateChange={onChange} disabled={disabled} />;
+	const buttonsTooltipTrigger = <div className={styles.tooltipTriggerInline}>{buttons}</div>;
 	const showDescription = PermissionLayoutStore.isComfy;
 
 	return (
@@ -123,10 +141,11 @@ const PermissionOverwriteToggle: React.FC<{
 					{title}
 				</div>
 				{showDescription && description && <p className={styles.overwriteToggleDescription}>{description}</p>}
+				{extra}
 				{warning && <WarningAlert className={styles.permissionWarning}>{warning}</WarningAlert>}
 			</div>
 			<div className={styles.overwriteToggleActions}>
-				{disabled && disabledReason ? <Tooltip text={disabledReason}>{buttons}</Tooltip> : buttons}
+				{disabled && disabledReason ? <Tooltip text={disabledReason}>{buttonsTooltipTrigger}</Tooltip> : buttons}
 			</div>
 		</div>
 	);
@@ -140,9 +159,20 @@ export const PermissionOverwriteCategory: React.FC<{
 	disabled: boolean;
 	getPermissionDisabledReason?: (permission: bigint) => string | undefined;
 	getPermissionWarning?: (permission: bigint) => string | undefined;
+	getPermissionExtra?: (permission: bigint, state: PermissionState) => React.ReactNode;
 	isFirst?: boolean;
 }> = observer(
-	({spec, allow, deny, onPermissionChange, disabled, getPermissionDisabledReason, getPermissionWarning, isFirst}) => {
+	({
+		spec,
+		allow,
+		deny,
+		onPermissionChange,
+		disabled,
+		getPermissionDisabledReason,
+		getPermissionWarning,
+		getPermissionExtra,
+		isFirst,
+	}) => {
 		return (
 			<div className={styles.categoryContainer}>
 				{!isFirst && <div className={styles.categoryDivider} />}
@@ -158,6 +188,8 @@ export const PermissionOverwriteCategory: React.FC<{
 						const permDisabledReason = getPermissionDisabledReason?.(perm.flag);
 						const isPermDisabled = disabled || permDisabledReason !== undefined;
 						const permWarning = getPermissionWarning?.(perm.flag);
+						const permState = getPermissionState(perm.flag, allow, deny);
+						const permExtra = getPermissionExtra?.(perm.flag, permState);
 						return (
 							<PermissionOverwriteToggle
 								key={perm.flag.toString()}
@@ -170,6 +202,7 @@ export const PermissionOverwriteCategory: React.FC<{
 								disabled={isPermDisabled}
 								disabledReason={permDisabledReason}
 								warning={permWarning}
+								extra={permExtra}
 							/>
 						);
 					})}
@@ -188,28 +221,33 @@ const PermissionRoleToggle: React.FC<{
 	disabled: boolean;
 	disabledReason?: string;
 	warning?: string;
-}> = observer(({title, description, permission, rolePermissions, onToggle, disabled, disabledReason, warning}) => {
-	const enabled = (rolePermissions & permission) === permission;
-	const showDescription = PermissionLayoutStore.isComfy;
+	extra?: React.ReactNode;
+}> = observer(
+	({title, description, permission, rolePermissions, onToggle, disabled, disabledReason, warning, extra}) => {
+		const enabled = (rolePermissions & permission) === permission;
+		const showDescription = PermissionLayoutStore.isComfy;
 
-	const switchEl = (
-		<UISwitch
-			label={title}
-			description={showDescription ? description : undefined}
-			value={enabled}
-			onChange={() => onToggle(permission)}
-			disabled={disabled}
-			compact={PermissionLayoutStore.isDense}
-		/>
-	);
+		const switchEl = (
+			<UISwitch
+				label={title}
+				description={showDescription ? description : undefined}
+				value={enabled}
+				onChange={() => onToggle(permission)}
+				disabled={disabled}
+				compact={PermissionLayoutStore.isDense}
+			/>
+		);
+		const switchTooltipTrigger = <div className={styles.tooltipTriggerBlock}>{switchEl}</div>;
 
-	return (
-		<div className={clsx(styles.roleToggle, PermissionLayoutStore.isDense && styles.roleToggleDense)}>
-			{disabled && disabledReason ? <Tooltip text={disabledReason}>{switchEl}</Tooltip> : switchEl}
-			{warning && <WarningAlert className={styles.permissionWarning}>{warning}</WarningAlert>}
-		</div>
-	);
-});
+		return (
+			<div className={clsx(styles.roleToggle, PermissionLayoutStore.isDense && styles.roleToggleDense)}>
+				{disabled && disabledReason ? <Tooltip text={disabledReason}>{switchTooltipTrigger}</Tooltip> : switchEl}
+				{extra}
+				{warning && <WarningAlert className={styles.permissionWarning}>{warning}</WarningAlert>}
+			</div>
+		);
+	},
+);
 
 export const PermissionRoleCategory: React.FC<{
 	spec: PermissionUtils.PermissionSpec;
@@ -218,6 +256,7 @@ export const PermissionRoleCategory: React.FC<{
 	disabled: boolean;
 	getPermissionDisabledReason?: (permission: bigint) => string | undefined;
 	getPermissionWarning?: (permission: bigint) => string | undefined;
+	getPermissionExtra?: (permission: bigint, enabled: boolean) => React.ReactNode;
 	isFirst?: boolean;
 }> = observer(
 	({
@@ -227,6 +266,7 @@ export const PermissionRoleCategory: React.FC<{
 		disabled,
 		getPermissionDisabledReason,
 		getPermissionWarning,
+		getPermissionExtra,
 		isFirst,
 	}) => {
 		return (
@@ -244,6 +284,8 @@ export const PermissionRoleCategory: React.FC<{
 						const permDisabledReason = getPermissionDisabledReason?.(perm.flag);
 						const isPermDisabled = disabled || permDisabledReason !== undefined;
 						const permWarning = getPermissionWarning?.(perm.flag);
+						const permEnabled = (rolePermissions & perm.flag) === perm.flag;
+						const permExtra = getPermissionExtra?.(perm.flag, permEnabled);
 						return (
 							<PermissionRoleToggle
 								key={perm.flag.toString()}
@@ -255,6 +297,7 @@ export const PermissionRoleCategory: React.FC<{
 								disabled={isPermDisabled}
 								disabledReason={permDisabledReason}
 								warning={permWarning}
+								extra={permExtra}
 							/>
 						);
 					})}

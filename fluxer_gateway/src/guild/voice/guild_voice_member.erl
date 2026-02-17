@@ -40,7 +40,6 @@ update_member_voice(Request, State) ->
     #{user_id := UserId, mute := Mute, deaf := Deaf} = Request,
     VoiceStates = voice_state_utils:voice_states(State),
     GuildId = map_utils:get_integer(State, id, 0),
-
     case find_member_by_user_id(UserId, State) of
         undefined ->
             {reply, gateway_errors:error(voice_member_not_found), State};
@@ -48,7 +47,6 @@ update_member_voice(Request, State) ->
             UpdatedMember = set_member_voice_flags(Member, Mute, Deaf),
             StateWithUpdatedMember = store_member(UpdatedMember, State),
             UserVoiceStates = user_voice_states(UserId, VoiceStates),
-
             case maps:size(UserVoiceStates) of
                 0 ->
                     {reply, #{success => true}, StateWithUpdatedMember};
@@ -64,43 +62,22 @@ update_member_voice(Request, State) ->
             end
     end.
 
+-spec find_member_by_user_id(integer(), guild_state()) -> member() | undefined.
 find_member_by_user_id(UserId, State) ->
     guild_permissions:find_member_by_user_id(UserId, State).
 
+-spec find_channel_by_id(integer(), guild_state()) -> map() | undefined.
 find_channel_by_id(ChannelId, State) ->
     guild_permissions:find_channel_by_id(ChannelId, State).
 
+-spec enforce_participant_state_in_livekit(integer(), integer(), integer(), boolean(), boolean()) ->
+    ok.
 enforce_participant_state_in_livekit(GuildId, ChannelId, UserId, Mute, Deaf) ->
     Req = voice_utils:build_update_participant_rpc_request(GuildId, ChannelId, UserId, Mute, Deaf),
     case rpc_client:call(Req) of
         {ok, _Data} ->
-            logger:debug(
-                "[guild_voice_member] Enforced participant state in LiveKit ~p",
-                [
-                    [
-                        {guildId, GuildId},
-                        {channelId, ChannelId},
-                        {userId, UserId},
-                        {mute, Mute},
-                        {deaf, Deaf}
-                    ]
-                ]
-            ),
             ok;
-        {error, Reason} ->
-            logger:warning(
-                "[guild_voice_member] Failed to enforce participant state in LiveKit ~p",
-                [
-                    [
-                        {guildId, GuildId},
-                        {channelId, ChannelId},
-                        {userId, UserId},
-                        {mute, Mute},
-                        {deaf, Deaf},
-                        {error, Reason}
-                    ]
-                ]
-            ),
+        {error, _Reason} ->
             ok
     end.
 
@@ -108,16 +85,10 @@ enforce_participant_state_in_livekit(GuildId, ChannelId, UserId, Mute, Deaf) ->
 guild_data(State) ->
     map_utils:ensure_map(map_utils:get_safe(State, data, #{})).
 
--spec guild_members(guild_state()) -> [member()].
-guild_members(State) ->
-    map_utils:ensure_list(maps:get(<<"members">>, guild_data(State), [])).
-
 -spec member_user_id(member()) -> integer() | undefined.
 member_user_id(Member) when is_map(Member) ->
     User = map_utils:ensure_map(maps:get(<<"user">>, Member, #{})),
-    map_utils:get_integer(User, <<"id">>, undefined);
-member_user_id(_) ->
-    undefined.
+    map_utils:get_integer(User, <<"id">>, undefined).
 
 -spec set_member_voice_flags(member(), boolean(), boolean()) -> member().
 set_member_voice_flags(Member, Mute, Deaf) ->
@@ -128,19 +99,9 @@ store_member(Member, State) ->
     case member_user_id(Member) of
         undefined ->
             State;
-        TargetId ->
+        _TargetId ->
             Data = guild_data(State),
-            Members = guild_members(State),
-            UpdatedMembers = lists:map(
-                fun(Current) ->
-                    case member_user_id(Current) of
-                        TargetId -> Member;
-                        _ -> Current
-                    end
-                end,
-                Members
-            ),
-            UpdatedData = maps:put(<<"members">>, UpdatedMembers, Data),
+            UpdatedData = guild_data_index:put_member(Member, Data),
             maps:put(data, UpdatedData, State)
     end.
 
@@ -246,9 +207,17 @@ update_member_voice_updates_voice_states_test() ->
         ?assert(false)
     end.
 
+update_member_voice_member_not_found_test() ->
+    State = voice_member_test_state(#{}),
+    Request = #{user_id => 999, mute => true, deaf => false},
+    {reply, Error, _} = update_member_voice(Request, State),
+    ?assertEqual({error, not_found, voice_member_not_found}, Error).
+
 voice_member_test_state(Overrides) ->
     BaseData = #{
-        <<"members">> => [member_fixture(10)]
+        <<"members">> => #{
+            10 => member_fixture(10)
+        }
     },
     BaseState = #{
         id => 42,

@@ -17,12 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {KeyboardModeIntroModal} from '@app/components/modals/KeyboardModeIntroModal';
+import {Logger} from '@app/lib/Logger';
+import {makePersistent} from '@app/lib/MobXPersistence';
+import {registerKeyboardModeRestoreCallback, registerKeyboardModeStateResolver} from '@app/stores/ModalStore';
 import {makeAutoObservable, runInAction} from 'mobx';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {KeyboardModeIntroModal} from '~/components/modals/KeyboardModeIntroModal';
-import {Logger} from '~/lib/Logger';
-import {makePersistent} from '~/lib/MobXPersistence';
 
 const logger = new Logger('KeyboardModeStore');
 
@@ -45,7 +44,9 @@ class KeyboardModeStore {
 
 		if (showIntro && !this.introSeen) {
 			this.introSeen = true;
-			ModalActionCreators.push(modal(() => <KeyboardModeIntroModal />));
+			void import('@app/actions/ModalActionCreators').then(({modal, push}) => {
+				push(modal(() => <KeyboardModeIntroModal />));
+			});
 		}
 	}
 
@@ -65,4 +66,8 @@ class KeyboardModeStore {
 	}
 }
 
-export default new KeyboardModeStore();
+const keyboardModeStore = new KeyboardModeStore();
+registerKeyboardModeStateResolver(() => keyboardModeStore.keyboardModeEnabled);
+registerKeyboardModeRestoreCallback((showIntro) => keyboardModeStore.enterKeyboardMode(showIntro));
+
+export default keyboardModeStore;

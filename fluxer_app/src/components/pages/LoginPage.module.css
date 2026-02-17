@@ -26,6 +26,12 @@
 	color: var(--text-primary);
 }
 
+.loginContainer {
+	max-width: 420px;
+	margin: 3rem auto;
+	padding: 0 1rem;
+}
+
 .loginNotice {
 	margin: 0 0 1rem;
 	padding: 0.75rem 1rem;
@@ -59,6 +65,41 @@
 .link:hover {
 	color: var(--text-primary);
 	text-decoration: underline;
+}
+
+.ssoBlock {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	margin-bottom: 1.25rem;
+}
+
+.primaryButton {
+	width: 100%;
+	padding: 0.75rem 1rem;
+	border-radius: 10px;
+	border: none;
+	background: var(--accent-primary);
+	color: var(--text-on-accent);
+	font-weight: 600;
+	font-size: 0.95rem;
+	cursor: pointer;
+	transition: background 120ms ease;
+}
+
+.primaryButton:disabled {
+	opacity: 0.7;
+	cursor: not-allowed;
+}
+
+.primaryButton:hover:not(:disabled) {
+	background: var(--accent-primary-strong);
+}
+
+.ssoSubtitle {
+	font-size: 0.875rem;
+	color: var(--text-secondary);
+	text-align: center;
 }
 
 .instanceToggle {
@@ -353,4 +394,57 @@
 	color: var(--status-danger);
 	margin: 1rem 0;
 	text-align: center;
+}
+
+.ssoCallbackActions {
+	display: flex;
+	gap: 0.75rem;
+	justify-content: center;
+	margin-top: 1.5rem;
+}
+
+.ssoRetryButton {
+	padding: 0.75rem 1.5rem;
+	border-radius: 10px;
+	border: none;
+	background: var(--accent-primary);
+	color: var(--text-on-accent);
+	font-weight: 600;
+	font-size: 0.95rem;
+	cursor: pointer;
+	transition: background 120ms ease;
+}
+
+.ssoRetryButton:hover {
+	background: var(--accent-primary-strong);
+}
+
+.ssoBackButton {
+	padding: 0.75rem 1.5rem;
+	border-radius: 10px;
+	border: 1px solid var(--background-modifier-accent);
+	background: var(--background-secondary);
+	color: var(--text-primary);
+	font-weight: 600;
+	font-size: 0.95rem;
+	cursor: pointer;
+	transition: background 120ms ease;
+}
+
+.ssoBackButton:hover {
+	background: var(--background-tertiary);
+}
+
+.ssoProcessingHint {
+	margin-top: 1rem;
+	text-align: center;
+	font-size: 0.875rem;
+	color: var(--text-tertiary);
+}
+
+.instanceSection {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	margin-bottom: 1.5rem;
 }

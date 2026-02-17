@@ -30,7 +30,15 @@
     inc_resume_failure/0,
     inc_identify_rate_limited/0,
     record_rpc_latency/1,
-    inc_websocket_close/1
+    inc_websocket_close/1,
+    inc_fanout/1,
+    inc_guild_event_dispatched/2,
+    inc_member_list_broadcast/0,
+    inc_session_sync/0,
+    inc_push_notification_sent/0,
+    record_push_notification_time/1,
+    inc_guild_state_change/1,
+    inc_channel_event_fanout/2
 ]).
 
 -type state() :: #{
@@ -43,7 +51,16 @@
     resume_success := non_neg_integer(),
     resume_failure := non_neg_integer(),
     identify_rate_limited := non_neg_integer(),
-    rpc_latencies := [non_neg_integer()]
+    rpc_latencies := [non_neg_integer()],
+    fanout_success := non_neg_integer(),
+    fanout_failure := non_neg_integer(),
+    guild_events_dispatched := #{atom() | binary() => non_neg_integer()},
+    member_list_broadcasts := non_neg_integer(),
+    session_syncs := non_neg_integer(),
+    push_notifications_sent := non_neg_integer(),
+    push_notification_times := [non_neg_integer()],
+    guild_state_changes := #{term() => non_neg_integer()},
+    channel_events_fanout := #{term() => non_neg_integer()}
 }.
 
 -define(DEFAULT_REPORT_INTERVAL_MS, 30000).
@@ -66,15 +83,22 @@ init([]) ->
         resume_success => 0,
         resume_failure => 0,
         identify_rate_limited => 0,
-        rpc_latencies => []
+        rpc_latencies => [],
+        fanout_success => 0,
+        fanout_failure => 0,
+        guild_events_dispatched => #{},
+        member_list_broadcasts => 0,
+        session_syncs => 0,
+        push_notifications_sent => 0,
+        push_notification_times => [],
+        guild_state_changes => #{},
+        channel_events_fanout => #{}
     },
     case Enabled of
         true ->
-            logger:info("[gateway_metrics_collector] starting with ~p ms interval", [ReportInterval]),
             TimerRef = schedule_collection(ReportInterval),
             {ok, BaseState#{timer_ref := TimerRef}};
         false ->
-            logger:info("[gateway_metrics_collector] disabled"),
             {ok, BaseState}
     end.
 
@@ -99,11 +123,43 @@ handle_cast(inc_identify_rate_limited, #{identify_rate_limited := IdentifyRateLi
     {noreply, State#{identify_rate_limited := IdentifyRateLimited + 1}};
 handle_cast({record_rpc_latency, LatencyMs}, #{rpc_latencies := Latencies} = State) ->
     MaxLatencies = 1000,
-    NewLatencies = case length(Latencies) >= MaxLatencies of
-        true -> [LatencyMs | lists:sublist(Latencies, MaxLatencies - 1)];
-        false -> [LatencyMs | Latencies]
-    end,
+    NewLatencies =
+        case length(Latencies) >= MaxLatencies of
+            true -> [LatencyMs | lists:sublist(Latencies, MaxLatencies - 1)];
+            false -> [LatencyMs | Latencies]
+        end,
     {noreply, State#{rpc_latencies := NewLatencies}};
+handle_cast(
+    {inc_fanout, Success},
+    #{fanout_success := FanoutSuccess, fanout_failure := FanoutFailure} = State
+) ->
+    case Success of
+        1 -> {noreply, State#{fanout_success := FanoutSuccess + 1}};
+        _ -> {noreply, State#{fanout_failure := FanoutFailure + 1}}
+    end;
+handle_cast({inc_guild_event_dispatched, EventType}, #{guild_events_dispatched := Events} = State) ->
+    Count = maps:get(EventType, Events, 0),
+    {noreply, State#{guild_events_dispatched := maps:put(EventType, Count + 1, Events)}};
+handle_cast(inc_member_list_broadcast, #{member_list_broadcasts := Broadcasts} = State) ->
+    {noreply, State#{member_list_broadcasts := Broadcasts + 1}};
+handle_cast(inc_session_sync, #{session_syncs := Syncs} = State) ->
+    {noreply, State#{session_syncs := Syncs + 1}};
+handle_cast(inc_push_notification_sent, #{push_notifications_sent := Sent} = State) ->
+    {noreply, State#{push_notifications_sent := Sent + 1}};
+handle_cast({record_push_notification_time, TimeMs}, #{push_notification_times := Times} = State) ->
+    MaxTimes = 1000,
+    NewTimes =
+        case length(Times) >= MaxTimes of
+            true -> [TimeMs | lists:sublist(Times, MaxTimes - 1)];
+            false -> [TimeMs | Times]
+        end,
+    {noreply, State#{push_notification_times := NewTimes}};
+handle_cast({inc_guild_state_change, ChangeType}, #{guild_state_changes := Changes} = State) ->
+    Count = maps:get(ChangeType, Changes, 0),
+    {noreply, State#{guild_state_changes := maps:put(ChangeType, Count + 1, Changes)}};
+handle_cast({inc_channel_event_fanout, EventType}, #{channel_events_fanout := Events} = State) ->
+    Count = maps:get(EventType, Events, 0),
+    {noreply, State#{channel_events_fanout := maps:put(EventType, Count + 1, Events)}};
 handle_cast(_Msg, State) ->
     {noreply, State}.
 
@@ -120,7 +176,16 @@ handle_info(collect_and_report, #{report_interval_ms := Interval} = State) ->
         resume_success := 0,
         resume_failure := 0,
         identify_rate_limited := 0,
-        rpc_latencies := []
+        rpc_latencies := [],
+        fanout_success := 0,
+        fanout_failure := 0,
+        guild_events_dispatched => #{},
+        member_list_broadcasts => 0,
+        session_syncs => 0,
+        push_notifications_sent => 0,
+        push_notification_times => [],
+        guild_state_changes => #{},
+        channel_events_fanout => #{}
     },
     {noreply, ResetState};
 handle_info(_Info, State) ->
@@ -135,9 +200,13 @@ terminate(_Reason, #{timer_ref := TimerRef}) ->
     ok.
 
 -spec code_change(term(), state() | tuple(), term()) -> {ok, state()}.
-code_change(_OldVsn, {state, ReportIntervalMs, TimerRef, Connections, Disconnections,
-                      HeartbeatSuccess, HeartbeatFailure, ResumeSuccess, ResumeFailure,
-                      IdentifyRateLimited, RpcLatencies}, _Extra) ->
+code_change(
+    _OldVsn,
+    {state, ReportIntervalMs, TimerRef, Connections, Disconnections, HeartbeatSuccess,
+        HeartbeatFailure, ResumeSuccess, ResumeFailure, IdentifyRateLimited, RpcLatencies,
+        FanoutSuccess, FanoutFailure},
+    _Extra
+) ->
     {ok, #{
         report_interval_ms => ReportIntervalMs,
         timer_ref => TimerRef,
@@ -148,7 +217,9 @@ code_change(_OldVsn, {state, ReportIntervalMs, TimerRef, Connections, Disconnect
         resume_success => ResumeSuccess,
         resume_failure => ResumeFailure,
         identify_rate_limited => IdentifyRateLimited,
-        rpc_latencies => RpcLatencies
+        rpc_latencies => RpcLatencies,
+        fanout_success => FanoutSuccess,
+        fanout_failure => FanoutFailure
     }};
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
@@ -161,7 +232,7 @@ schedule_collection(IntervalMs) ->
 get_enabled() ->
     case fluxer_gateway_env:get(gateway_metrics_enabled) of
         false -> false;
-        _ -> metrics_client:is_enabled()
+        _ -> true
     end.
 
 -spec get_report_interval() -> pos_integer().
@@ -173,20 +244,15 @@ get_report_interval() ->
 
 -spec collect_and_report_metrics(state()) -> ok.
 collect_and_report_metrics(State) ->
-    Gauges = lists:flatten([
-        collect_process_counts(),
-        collect_mailbox_sizes(),
-        collect_memory_stats(),
-        collect_system_stats(),
-        collect_event_metrics(State)
-    ]),
-    case Gauges of
-        [] -> ok;
-        _ -> metrics_client:batch(Gauges)
-    end.
+    record_process_counts(),
+    record_mailbox_sizes(),
+    record_memory_stats(),
+    record_system_stats(),
+    record_event_metrics(State),
+    ok.
 
--spec collect_event_metrics(state()) -> [map()].
-collect_event_metrics(State) ->
+-spec record_event_metrics(state()) -> ok.
+record_event_metrics(State) ->
     #{
         rpc_latencies := RpcLatencies,
         connections := Connections,
@@ -195,24 +261,44 @@ collect_event_metrics(State) ->
         heartbeat_failure := HeartbeatFailure,
         resume_success := ResumeSuccess,
         resume_failure := ResumeFailure,
-        identify_rate_limited := IdentifyRateLimited
+        identify_rate_limited := IdentifyRateLimited,
+        fanout_success := FanoutSuccess,
+        fanout_failure := FanoutFailure,
+        guild_events_dispatched := GuildEvents,
+        member_list_broadcasts := MemberListBroadcasts,
+        session_syncs := SessionSyncs,
+        push_notifications_sent := PushNotificationsSent,
+        push_notification_times := PushNotificationTimes,
+        guild_state_changes := GuildStateChanges,
+        channel_events_fanout := ChannelEventsFanout
     } = State,
-    RpcLatencyStats = calculate_latency_stats(RpcLatencies),
-    lists:flatten([
-        [gauge(<<"gateway.websocket.connections">>, Connections)],
-        [gauge(<<"gateway.websocket.disconnections">>, Disconnections)],
-        [gauge(<<"gateway.heartbeat.success">>, HeartbeatSuccess)],
-        [gauge(<<"gateway.heartbeat.failure">>, HeartbeatFailure)],
-        [gauge(<<"gateway.resume.success">>, ResumeSuccess)],
-        [gauge(<<"gateway.resume.failure">>, ResumeFailure)],
-        [gauge(<<"gateway.identify.rate_limited">>, IdentifyRateLimited)],
-        RpcLatencyStats
-    ]).
+    otel_metrics:counter(<<"gateway.websocket.connections">>, Connections, #{}),
+    otel_metrics:counter(<<"gateway.websocket.disconnections">>, Disconnections, #{}),
+    otel_metrics:counter(<<"gateway.heartbeat.success">>, HeartbeatSuccess, #{}),
+    otel_metrics:counter(<<"gateway.heartbeat.failure">>, HeartbeatFailure, #{}),
+    otel_metrics:counter(<<"gateway.resume.success">>, ResumeSuccess, #{}),
+    otel_metrics:counter(<<"gateway.resume.failure">>, ResumeFailure, #{}),
+    otel_metrics:counter(<<"gateway.identify.rate_limited">>, IdentifyRateLimited, #{}),
+    otel_metrics:counter(<<"gateway.websocket.fanout.success">>, FanoutSuccess, #{}),
+    otel_metrics:counter(<<"gateway.websocket.fanout.failure">>, FanoutFailure, #{}),
+    report_rpc_latency_stats(RpcLatencies),
+    otel_metrics:counter(<<"gateway.rpc.latency.count">>, length(RpcLatencies), #{}),
 
--spec calculate_latency_stats([non_neg_integer()]) -> [map()].
-calculate_latency_stats([]) ->
-    [];
-calculate_latency_stats(Latencies) ->
+    report_guild_event_metrics(GuildEvents),
+    otel_metrics:counter(<<"gateway.guild.member_list.broadcasts">>, MemberListBroadcasts, #{}),
+    otel_metrics:counter(<<"gateway.guild.session.syncs">>, SessionSyncs, #{}),
+    otel_metrics:counter(
+        <<"gateway.guild.push_notifications.sent">>, PushNotificationsSent, #{}
+    ),
+    report_push_notification_time_stats(PushNotificationTimes),
+    report_guild_state_change_metrics(GuildStateChanges),
+    report_channel_event_fanout_metrics(ChannelEventsFanout),
+    ok.
+
+-spec report_rpc_latency_stats([non_neg_integer()]) -> ok.
+report_rpc_latency_stats([]) ->
+    ok;
+report_rpc_latency_stats(Latencies) ->
     Sorted = lists:sort(Latencies),
     Count = length(Sorted),
     Sum = lists:sum(Sorted),
@@ -222,15 +308,14 @@ calculate_latency_stats(Latencies) ->
     P50 = percentile(Sorted, 50),
     P95 = percentile(Sorted, 95),
     P99 = percentile(Sorted, 99),
-    [
-        gauge(<<"gateway.rpc.latency.avg">>, Avg),
-        gauge(<<"gateway.rpc.latency.min">>, Min),
-        gauge(<<"gateway.rpc.latency.max">>, Max),
-        gauge(<<"gateway.rpc.latency.p50">>, P50),
-        gauge(<<"gateway.rpc.latency.p95">>, P95),
-        gauge(<<"gateway.rpc.latency.p99">>, P99),
-        gauge(<<"gateway.rpc.latency.count">>, Count)
-    ].
+    otel_metrics:gauge(<<"gateway.rpc.latency.avg">>, Avg, #{}),
+    otel_metrics:gauge(<<"gateway.rpc.latency.min">>, Min, #{}),
+    otel_metrics:gauge(<<"gateway.rpc.latency.max">>, Max, #{}),
+    otel_metrics:gauge(<<"gateway.rpc.latency.p50">>, P50, #{}),
+    otel_metrics:gauge(<<"gateway.rpc.latency.p95">>, P95, #{}),
+    otel_metrics:gauge(<<"gateway.rpc.latency.p99">>, P99, #{}),
+    otel_metrics:gauge(<<"gateway.rpc.latency.sample.count">>, Count, #{}),
+    ok.
 
 -spec percentile([number()], number()) -> number().
 percentile(SortedList, Percent) ->
@@ -238,18 +323,13 @@ percentile(SortedList, Percent) ->
     Index = max(1, min(Len, round(Len * Percent / 100))),
     lists:nth(Index, SortedList).
 
--spec collect_process_counts() -> [map()].
-collect_process_counts() ->
-    SessionCount = get_manager_count(session_manager),
-    GuildCount = get_manager_count(guild_manager),
-    PresenceCount = get_manager_count(presence_manager),
-    CallCount = get_manager_count(call_manager),
-    [
-        gauge(<<"gateway.sessions.count">>, SessionCount),
-        gauge(<<"gateway.guilds.count">>, GuildCount),
-        gauge(<<"gateway.presences.count">>, PresenceCount),
-        gauge(<<"gateway.calls.count">>, CallCount)
-    ].
+-spec record_process_counts() -> ok.
+record_process_counts() ->
+    otel_metrics:gauge(<<"gateway.sessions.count">>, get_manager_count(session_manager), #{}),
+    otel_metrics:gauge(<<"gateway.guilds.count">>, get_manager_count(guild_manager), #{}),
+    otel_metrics:gauge(<<"gateway.presences.count">>, get_manager_count(presence_manager), #{}),
+    otel_metrics:gauge(<<"gateway.calls.count">>, get_manager_count(call_manager), #{}),
+    ok.
 
 -spec get_manager_count(atom()) -> non_neg_integer().
 get_manager_count(Manager) ->
@@ -259,8 +339,8 @@ get_manager_count(Manager) ->
         _ -> 0
     end.
 
--spec collect_mailbox_sizes() -> [map()].
-collect_mailbox_sizes() ->
+-spec record_mailbox_sizes() -> ok.
+record_mailbox_sizes() ->
     Managers = [
         {session_manager, <<"gateway.mailbox.session_manager">>},
         {guild_manager, <<"gateway.mailbox.guild_manager">>},
@@ -270,24 +350,33 @@ collect_mailbox_sizes() ->
         {presence_cache, <<"gateway.mailbox.presence_cache">>},
         {presence_bus, <<"gateway.mailbox.presence_bus">>}
     ],
-    MailboxMetrics = lists:filtermap(fun({Manager, MetricName}) ->
-        case get_mailbox_size(Manager) of
-            undefined -> false;
-            Size -> {true, gauge(MetricName, Size)}
-        end
-    end, Managers),
-    TotalMailbox = lists:foldl(fun({Manager, _}, Acc) ->
-        case get_mailbox_size(Manager) of
-            undefined -> Acc;
-            Size -> Acc + Size
-        end
-    end, 0, Managers),
-    [gauge(<<"gateway.mailbox.total">>, TotalMailbox) | MailboxMetrics].
+    lists:foreach(
+        fun({Manager, MetricName}) ->
+            case get_mailbox_size(Manager) of
+                undefined -> ok;
+                Size -> otel_metrics:gauge(MetricName, Size, #{})
+            end
+        end,
+        Managers
+    ),
+    TotalMailbox = lists:foldl(
+        fun({Manager, _}, Acc) ->
+            case get_mailbox_size(Manager) of
+                undefined -> Acc;
+                Size -> Acc + Size
+            end
+        end,
+        0,
+        Managers
+    ),
+    otel_metrics:gauge(<<"gateway.mailbox.total">>, TotalMailbox, #{}),
+    ok.
 
 -spec get_mailbox_size(atom()) -> non_neg_integer() | undefined.
 get_mailbox_size(Manager) ->
     case whereis(Manager) of
-        undefined -> undefined;
+        undefined ->
+            undefined;
         Pid ->
             case erlang:process_info(Pid, message_queue_len) of
                 {message_queue_len, Size} -> Size;
@@ -295,19 +384,15 @@ get_mailbox_size(Manager) ->
             end
     end.
 
--spec collect_memory_stats() -> [map()].
-collect_memory_stats() ->
-    PresenceCacheMemory = get_presence_cache_memory(),
-    PushMemory = get_push_process_memory(),
-    GuildMemoryStats = collect_guild_memory_stats(),
-    lists:flatten([
-        [gauge(<<"gateway.memory.presence_cache">>, PresenceCacheMemory)],
-        [gauge(<<"gateway.memory.push">>, PushMemory)],
-        GuildMemoryStats
-    ]).
+-spec record_memory_stats() -> ok.
+record_memory_stats() ->
+    otel_metrics:gauge(<<"gateway.memory.presence_cache">>, get_presence_cache_memory(), #{}),
+    otel_metrics:gauge(<<"gateway.memory.push">>, get_push_process_memory(), #{}),
+    record_guild_memory_stats(),
+    ok.
 
--spec collect_guild_memory_stats() -> [map()].
-collect_guild_memory_stats() ->
+-spec record_guild_memory_stats() -> ok.
+record_guild_memory_stats() ->
     case catch process_memory_stats:get_guild_memory_stats(10000) of
         GuildStats when is_list(GuildStats), length(GuildStats) > 0 ->
             Memories = [maps:get(memory, G, 0) || G <- GuildStats],
@@ -316,15 +401,14 @@ collect_guild_memory_stats() ->
             AvgMemory = TotalMemory / GuildCount,
             MaxMemory = lists:max(Memories),
             MinMemory = lists:min(Memories),
-            [
-                gauge(<<"gateway.memory.guilds.total">>, TotalMemory),
-                gauge(<<"gateway.memory.guilds.count">>, GuildCount),
-                gauge(<<"gateway.memory.guilds.avg">>, AvgMemory),
-                gauge(<<"gateway.memory.guilds.max">>, MaxMemory),
-                gauge(<<"gateway.memory.guilds.min">>, MinMemory)
-            ];
+            otel_metrics:gauge(<<"gateway.memory.guilds.total">>, TotalMemory, #{}),
+            otel_metrics:gauge(<<"gateway.memory.guilds.count">>, GuildCount, #{}),
+            otel_metrics:gauge(<<"gateway.memory.guilds.avg">>, AvgMemory, #{}),
+            otel_metrics:gauge(<<"gateway.memory.guilds.max">>, MaxMemory, #{}),
+            otel_metrics:gauge(<<"gateway.memory.guilds.min">>, MinMemory, #{}),
+            ok;
         _ ->
-            []
+            ok
     end.
 
 -spec get_presence_cache_memory() -> non_neg_integer().
@@ -337,7 +421,8 @@ get_presence_cache_memory() ->
 -spec get_push_process_memory() -> non_neg_integer().
 get_push_process_memory() ->
     case whereis(push) of
-        undefined -> 0;
+        undefined ->
+            0;
         Pid ->
             case erlang:process_info(Pid, memory) of
                 {memory, Bytes} -> Bytes;
@@ -345,16 +430,14 @@ get_push_process_memory() ->
             end
     end.
 
--spec collect_system_stats() -> [map()].
-collect_system_stats() ->
+-spec record_system_stats() -> ok.
+record_system_stats() ->
     {TotalMemory, ProcessMemory, SystemMemory} = get_memory_info(),
-    ProcessCount = erlang:system_info(process_count),
-    [
-        gauge(<<"gateway.memory.total">>, TotalMemory),
-        gauge(<<"gateway.memory.processes">>, ProcessMemory),
-        gauge(<<"gateway.memory.system">>, SystemMemory),
-        gauge(<<"gateway.process_count">>, ProcessCount)
-    ].
+    otel_metrics:gauge(<<"gateway.memory.total">>, TotalMemory, #{}),
+    otel_metrics:gauge(<<"gateway.memory.processes">>, ProcessMemory, #{}),
+    otel_metrics:gauge(<<"gateway.memory.system">>, SystemMemory, #{}),
+    otel_metrics:gauge(<<"gateway.process_count">>, erlang:system_info(process_count), #{}),
+    ok.
 
 -spec get_memory_info() -> {non_neg_integer(), non_neg_integer(), non_neg_integer()}.
 get_memory_info() ->
@@ -363,15 +446,6 @@ get_memory_info() ->
     Processes = proplists:get_value(processes, MemData, 0),
     System = proplists:get_value(system, MemData, 0),
     {Total, Processes, System}.
-
--spec gauge(binary(), number()) -> map().
-gauge(Name, Value) ->
-    #{
-        type => gauge,
-        name => Name,
-        dimensions => #{},
-        value => Value
-    }.
 
 -spec inc_connections() -> ok.
 inc_connections() ->
@@ -405,7 +479,159 @@ inc_identify_rate_limited() ->
 record_rpc_latency(LatencyMs) ->
     gen_server:cast(?MODULE, {record_rpc_latency, LatencyMs}).
 
--spec inc_websocket_close(atom()) -> ok.
+-spec inc_websocket_close(term()) -> ok.
 inc_websocket_close(Reason) ->
-    ReasonBin = atom_to_binary(Reason, utf8),
-    metrics_client:counter(<<"gateway.websocket.close">>, #{<<"reason">> => ReasonBin}).
+    ReasonBin = metric_label_to_binary(Reason),
+    otel_metrics:counter(<<"gateway.websocket.close">>, 1, #{<<"reason">> => ReasonBin}),
+    ok.
+
+-spec inc_fanout(non_neg_integer()) -> ok.
+inc_fanout(Success) when Success =:= 1; Success =:= 0 ->
+    gen_server:cast(?MODULE, {inc_fanout, Success}).
+
+-spec inc_guild_event_dispatched(atom() | binary(), 0..1) -> ok.
+inc_guild_event_dispatched(EventType, Success)
+    when Success =:= 0; Success =:= 1 ->
+    OutcomeBin =
+        case Success of
+            1 -> <<"success">>;
+            0 -> <<"failure">>
+        end,
+    otel_metrics:counter(<<"gateway.guild.events.dispatched">>, 1, #{
+        <<"event_type">> => event_type_to_binary(EventType),
+        <<"outcome">> => OutcomeBin
+    }),
+    gen_server:cast(?MODULE, {inc_guild_event_dispatched, EventType}).
+
+-spec inc_member_list_broadcast() -> ok.
+inc_member_list_broadcast() ->
+    gen_server:cast(?MODULE, inc_member_list_broadcast).
+
+-spec inc_session_sync() -> ok.
+inc_session_sync() ->
+    gen_server:cast(?MODULE, inc_session_sync).
+
+-spec inc_push_notification_sent() -> ok.
+inc_push_notification_sent() ->
+    gen_server:cast(?MODULE, inc_push_notification_sent).
+
+-spec record_push_notification_time(non_neg_integer()) -> ok.
+record_push_notification_time(TimeMs) ->
+    otel_metrics:histogram(<<"gateway.guild.push_notifications.time">>, TimeMs, #{}),
+    gen_server:cast(?MODULE, {record_push_notification_time, TimeMs}).
+
+-spec inc_guild_state_change(term()) -> ok.
+inc_guild_state_change(ChangeType) ->
+    otel_metrics:counter(<<"gateway.guild.state_changes">>, 1, #{
+        <<"change_type">> => metric_label_to_binary(ChangeType)
+    }),
+    gen_server:cast(?MODULE, {inc_guild_state_change, ChangeType}).
+
+-spec inc_channel_event_fanout(term(), 0..1) -> ok.
+inc_channel_event_fanout(EventType, Success) when Success =:= 0; Success =:= 1 ->
+    OutcomeBin =
+        case Success of
+            1 -> <<"success">>;
+            0 -> <<"failure">>
+        end,
+    otel_metrics:counter(<<"gateway.channel.events.fanout">>, 1, #{
+        <<"event_type">> => event_type_to_binary(EventType),
+        <<"outcome">> => OutcomeBin
+    }),
+    gen_server:cast(?MODULE, {inc_channel_event_fanout, EventType}).
+
+-spec report_guild_event_metrics(#{atom() | binary() => non_neg_integer()}) -> ok.
+report_guild_event_metrics(Events) when map_size(Events) =:= 0 ->
+    ok;
+report_guild_event_metrics(Events) ->
+    maps:foreach(
+        fun(EventType, Count) ->
+            otel_metrics:counter(<<"gateway.guild.events.dispatched">>, Count, #{
+                <<"event_type">> => event_type_to_binary(EventType)
+            })
+        end,
+        Events
+    ),
+    ok.
+
+-spec report_push_notification_time_stats([non_neg_integer()]) -> ok.
+report_push_notification_time_stats([]) ->
+    ok;
+report_push_notification_time_stats(Times) ->
+    Sorted = lists:sort(Times),
+    Count = length(Sorted),
+    Sum = lists:sum(Sorted),
+    Avg = Sum / Count,
+    Min = hd(Sorted),
+    Max = lists:last(Sorted),
+    P50 = percentile(Sorted, 50),
+    P95 = percentile(Sorted, 95),
+    P99 = percentile(Sorted, 99),
+    otel_metrics:gauge(<<"gateway.guild.push_notifications.time.avg">>, Avg, #{}),
+    otel_metrics:gauge(<<"gateway.guild.push_notifications.time.min">>, Min, #{}),
+    otel_metrics:gauge(<<"gateway.guild.push_notifications.time.max">>, Max, #{}),
+    otel_metrics:gauge(<<"gateway.guild.push_notifications.time.p50">>, P50, #{}),
+    otel_metrics:gauge(<<"gateway.guild.push_notifications.time.p95">>, P95, #{}),
+    otel_metrics:gauge(<<"gateway.guild.push_notifications.time.p99">>, P99, #{}),
+    otel_metrics:gauge(<<"gateway.guild.push_notifications.time.count">>, Count, #{}),
+    ok.
+
+-spec report_guild_state_change_metrics(#{term() => non_neg_integer()}) -> ok.
+report_guild_state_change_metrics(Changes) when map_size(Changes) =:= 0 ->
+    ok;
+report_guild_state_change_metrics(Changes) ->
+    maps:foreach(
+        fun(ChangeType, Count) ->
+            otel_metrics:counter(<<"gateway.guild.state_changes">>, Count, #{
+                <<"change_type">> => metric_label_to_binary(ChangeType)
+            })
+        end,
+        Changes
+    ),
+    ok.
+
+-spec report_channel_event_fanout_metrics(#{term() => non_neg_integer()}) -> ok.
+report_channel_event_fanout_metrics(Events) when map_size(Events) =:= 0 ->
+    ok;
+report_channel_event_fanout_metrics(Events) ->
+    maps:foreach(
+        fun(EventType, Count) ->
+            otel_metrics:counter(<<"gateway.channel.events.fanout">>, Count, #{
+                <<"event_type">> => event_type_to_binary(EventType)
+            })
+        end,
+        Events
+    ),
+    ok.
+
+-spec event_type_to_binary(term()) -> binary().
+event_type_to_binary(EventType) when is_atom(EventType) ->
+    atom_to_binary(EventType, utf8);
+event_type_to_binary(EventType) when is_binary(EventType) ->
+    EventType;
+event_type_to_binary(EventType) ->
+    metric_label_to_binary(EventType).
+
+-spec metric_label_to_binary(term()) -> binary().
+metric_label_to_binary(Value) when is_binary(Value) ->
+    Value;
+metric_label_to_binary(Value) when is_atom(Value) ->
+    atom_to_binary(Value, utf8);
+metric_label_to_binary(Value) when is_integer(Value) ->
+    integer_to_binary(Value);
+metric_label_to_binary(Value) when is_float(Value) ->
+    float_to_binary(Value, [compact]);
+metric_label_to_binary(Value) when is_list(Value) ->
+    try
+        unicode:characters_to_binary(Value)
+    catch
+        _:_ ->
+            <<"invalid">>
+    end;
+metric_label_to_binary(Value) ->
+    try
+        unicode:characters_to_binary(io_lib:format("~p", [Value]))
+    catch
+        _:_ ->
+            <<"invalid">>
+    end.

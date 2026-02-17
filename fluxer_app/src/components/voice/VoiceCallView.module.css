@@ -41,15 +41,21 @@
 :global(.lk-carousel) {
 	--grid-gap: 0.5rem;
 	display: flex;
+	flex-direction: column;
 	gap: var(--grid-gap);
-	overflow: visible;
+	overflow-x: hidden;
+	overflow-y: auto;
 	scrollbar-width: thin;
 	padding: var(--grid-gap);
+	padding-top: 0;
+	padding-bottom: 0;
 	min-width: 0;
+	width: 100%;
 	flex-shrink: 1;
 }
 
 :global(.lk-carousel::-webkit-scrollbar) {
+	width: 6px;
 	height: 6px;
 }
 
@@ -66,14 +72,65 @@
 	background: var(--scrollbar-thumb-bg-hover);
 }
 
+:global(:root) {
+	--voice-surface-0: var(--background-primary);
+	--voice-surface-1: var(--background-secondary);
+	--voice-surface-2: var(--background-secondary-alt);
+	--voice-surface-3: var(--background-tertiary);
+	--voice-surface-4: var(--background-header-secondary);
+	--voice-surface-5: var(--background-header-primary-hover);
+	--voice-overlay-base: color-mix(in srgb, black 72%, var(--background-primary));
+	--voice-overlay-strong: color-mix(in srgb, var(--voice-overlay-base) 78%, transparent);
+	--voice-overlay: color-mix(in srgb, var(--voice-overlay-base) 62%, transparent);
+	--voice-overlay-soft: color-mix(in srgb, var(--voice-overlay-base) 46%, transparent);
+	--voice-overlay-subtle: color-mix(in srgb, var(--voice-overlay-base) 32%, transparent);
+	--voice-overlay-light: color-mix(in srgb, var(--voice-text-strong) 12%, transparent);
+	--voice-overlay-light-strong: color-mix(in srgb, var(--voice-text-strong) 20%, transparent);
+	--voice-overlay-light-bold: color-mix(in srgb, var(--voice-text-strong) 48%, transparent);
+	--voice-text-strong: var(--text-primary);
+	--voice-text-muted: var(--text-secondary);
+	--voice-text-subtle: var(--text-tertiary);
+	--voice-shadow-base: color-mix(in srgb, var(--background-primary) 12%, black);
+	--voice-shadow-strong: color-mix(in srgb, var(--voice-shadow-base) 40%, transparent);
+	--voice-shadow-medium: color-mix(in srgb, var(--voice-shadow-base) 30%, transparent);
+	--voice-shadow-soft: color-mix(in srgb, var(--voice-shadow-base) 20%, transparent);
+	--voice-status-success: var(--status-online);
+	--voice-status-success-bg: color-mix(in srgb, var(--voice-status-success) 20%, transparent);
+	--voice-status-success-bg-solid: color-mix(in srgb, var(--voice-status-success) 20%, var(--voice-surface-2));
+	--voice-status-success-bg-strong: color-mix(in srgb, var(--voice-status-success) 30%, transparent);
+	--voice-status-success-bg-strong-solid: color-mix(in srgb, var(--voice-status-success) 30%, var(--voice-surface-2));
+	--voice-status-warning: var(--status-warning);
+	--voice-status-warning-alt: var(--status-idle);
+	--voice-status-caution: var(--alert-caution-color);
+	--voice-status-warning-bg: color-mix(in srgb, var(--voice-status-warning-alt) 20%, transparent);
+	--voice-status-danger: var(--status-danger);
+	--voice-status-danger-bg: color-mix(in srgb, var(--voice-status-danger) 20%, transparent);
+	--voice-status-danger-bg-solid: color-mix(in srgb, var(--voice-status-danger) 20%, var(--voice-surface-2));
+	--voice-status-danger-bg-strong: color-mix(in srgb, var(--voice-status-danger) 30%, transparent);
+	--voice-status-danger-bg-strong-solid: color-mix(in srgb, var(--voice-status-danger) 30%, var(--voice-surface-2));
+	--voice-header-gradient: linear-gradient(
+		to bottom,
+		var(--voice-overlay-strong) 0%,
+		var(--voice-overlay) 46%,
+		transparent 100%
+	);
+	--voice-footer-gradient: linear-gradient(
+		to top,
+		var(--voice-overlay-strong) 0%,
+		var(--voice-overlay-soft) 46%,
+		transparent 100%
+	);
+}
+
 .lkParticipantTile {
-	--speaking-indicator-width: 2.5px;
+	--speaking-indicator-width: 3.5px;
 	position: relative;
 	display: flex;
 	flex-direction: column;
+	container-type: size;
 	overflow: hidden;
 	border-radius: 12px;
-	background-color: var(--background-tertiary);
+	background-color: var(--voice-surface-2);
 	width: 100%;
 	aspect-ratio: 16 / 9;
 	max-width: 100%;
@@ -81,10 +138,11 @@
 
 :global(.lk-carousel) .lkParticipantTile {
 	flex-shrink: 0;
-	width: 280px;
+	width: min(100%, 360px);
 	height: auto;
-	min-width: 280px;
+	min-width: 0;
 	aspect-ratio: 16 / 9;
+	margin-inline: auto;
 }
 
 .lkParticipantTile::after {
@@ -92,7 +150,7 @@
 	position: absolute;
 	inset: 0;
 	border-radius: var(--radius-lg);
-	border: 0px solid #22c55e;
+	border: 0px solid var(--voice-status-success);
 	transition-property: border;
 	transition-delay: 0.5s;
 	transition-duration: 0.4s;
@@ -116,6 +174,10 @@
 	border-radius: var(--radius-lg);
 }
 
+.lkParticipantTile[data-source='screen_share'] {
+	background-color: var(--voice-surface-0);
+}
+
 .lkParticipantTile[data-source='screen_share'] video {
 	object-fit: contain;
 }
@@ -126,7 +188,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background-color: var(--background-tertiary);
+	background-color: var(--voice-surface-3);
 	opacity: 0;
 	transition: opacity 0.2s ease-in-out;
 	pointer-events: none;
@@ -156,55 +218,32 @@
 	line-height: 1;
 	z-index: 10;
 	min-width: 0;
-	opacity: 1;
 }
 
-.participantName,
-.participantConn {
-	display: inline-block;
+.participantMetadataLabel {
+	--participant-metadata-max-width: 34ch;
+	display: none;
+	align-items: center;
+	gap: 0;
 	overflow: hidden;
 	white-space: nowrap;
-	opacity: 0;
-	max-width: 0;
+	max-width: var(--participant-metadata-max-width);
 	margin-left: 0;
 }
 
-:global(.window-focused) .voiceRoot:hover .participantName,
-:global(.window-focused) .voiceRoot:focus-within .participantName {
-	opacity: 1;
-	max-width: 24ch;
+.participantName {
 	margin-left: 0.375rem;
 }
 
-.voiceRoot.contextMenuActive .participantName {
-	opacity: 1;
-	max-width: 24ch;
-	margin-left: 0.375rem;
-}
-
-.voiceRoot.keyboardModeActive .participantName {
-	opacity: 1;
-	max-width: 24ch;
-	margin-left: 0.375rem;
-}
-
-:global(.window-focused) .voiceRoot:hover .participantConn,
-:global(.window-focused) .voiceRoot:focus-within .participantConn {
-	opacity: 1;
-	max-width: 10ch;
+.participantConn {
 	margin-left: 0.25rem;
 }
 
-.voiceRoot.contextMenuActive .participantConn {
-	opacity: 1;
-	max-width: 10ch;
-	margin-left: 0.25rem;
-}
-
-.voiceRoot.keyboardModeActive .participantConn {
-	opacity: 1;
-	max-width: 10ch;
-	margin-left: 0.25rem;
+:global(.window-focused) .voiceRoot.pointerActive .participantMetadataLabel,
+:global(.window-focused) .voiceRoot:focus-within .participantMetadataLabel,
+.voiceRoot.contextMenuActive .participantMetadataLabel,
+.voiceRoot.keyboardModeActive .participantMetadataLabel {
+	display: inline-flex;
 }
 
 .lkParticipantMetadataItem {
@@ -212,9 +251,9 @@
 	align-items: center;
 	gap: 0;
 	padding: 0.375rem 0.5rem;
-	background-color: rgba(0, 0, 0, 0.7);
+	background-color: var(--voice-surface-1);
 	border-radius: var(--radius-md);
-	color: white;
+	color: var(--voice-text-strong);
 	font-size: 0.875rem;
 	font-weight: 500;
 	min-width: 0;
@@ -238,26 +277,20 @@
 	min-width: 0;
 }
 
-.lkParticipantMetadataItem:last-child {
+.lkParticipantMetadataControls {
 	flex-shrink: 0;
-	padding: 0.375rem;
-	aspect-ratio: 1;
+	padding: 0;
 }
 
-.lkParticipantTile .lkParticipantMetadataItem:last-child {
+.lkParticipantTile .lkParticipantMetadataControls {
 	opacity: 0;
+	pointer-events: none;
 }
 
-.lkParticipantTile:hover .lkParticipantMetadataItem:last-child {
+.lkParticipantTile:hover .lkParticipantMetadataControls,
+.lkParticipantTile:focus-within .lkParticipantMetadataControls {
 	opacity: 1;
-}
-
-.tileContextMenuActive .lkParticipantMetadataItem:last-child {
-	opacity: 1 !important;
-}
-
-.voiceRoot.keyboardModeActive .lkParticipantTile .lkParticipantMetadataItem:last-child {
-	opacity: 1;
+	pointer-events: auto;
 }
 
 .lkFocusToggle {
@@ -265,9 +298,9 @@
 	top: 0.5rem;
 	right: 0.5rem;
 	padding: 0.375rem;
-	background-color: rgba(0, 0, 0, 0.7);
+	background-color: var(--voice-surface-1);
 	border-radius: var(--radius-md);
-	color: white;
+	color: var(--voice-text-strong);
 	opacity: 0;
 	border: none;
 	cursor: pointer;
@@ -275,12 +308,13 @@
 }
 
 .lkFocusToggle:hover {
-	background-color: rgba(0, 0, 0, 0.9);
+	background-color: var(--voice-surface-2);
 }
 
 .lkParticipantTile:hover .lkFocusToggle,
 .lkParticipantTile:focus-within .lkFocusToggle {
 	opacity: 1;
+	pointer-events: auto;
 }
 
 .gridLayoutWrapper {
@@ -288,9 +322,15 @@
 	align-items: center;
 	justify-content: center;
 	width: 100%;
+	min-height: 100%;
 	height: 100%;
-	overflow: hidden;
+	overflow: visible;
 	padding: 1rem;
+	box-sizing: border-box;
+}
+
+.gridLayoutWrapperCompact {
+	padding: 0.4rem 0.65rem 0.65rem;
 }
 
 .focusLayoutContainer {
@@ -301,119 +341,258 @@
 	min-height: 0;
 }
 
+.focusLayoutScroller {
+	flex: 1 1 auto;
+	display: flex;
+	width: 100%;
+	min-width: 0;
+	min-height: 0;
+}
+
+.focusLayoutScrollerContent {
+	width: 100%;
+	min-width: 0;
+	min-height: 0;
+}
+
+.gridLayoutScroller {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	min-width: 0;
+	min-height: 0;
+}
+
+.gridLayoutStaticViewport {
+	overflow: hidden;
+}
+
+.gridLayoutScrollerContent {
+	width: 100%;
+	min-width: 0;
+	min-height: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+.gridLayoutScrollBody {
+	min-height: 100%;
+	height: 100%;
+	flex: 1 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 100%;
+}
+
+.gridLayoutScrollBodyOverflow {
+	justify-content: flex-start;
+}
+
+.gridLayoutScrollBodyCompact {
+	min-height: 100%;
+}
+
+.focusLayoutScrollBody {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	width: 100%;
+	gap: 1rem;
+	padding-bottom: 0;
+}
+
+.focusExpandedScrollBody {
+	min-height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	justify-content: flex-start;
+	width: 100%;
+	gap: 0.75rem;
+	padding-bottom: 1rem;
+}
+
+.focusExpandedMainSection {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	padding-top: 0.125rem;
+	flex: 0 0 auto;
+}
+
+.focusExpandedMainGridViewport {
+	width: min(100%, calc(var(--focus-expanded-main-max-height) * 16 / 9));
+	max-width: 1520px;
+	aspect-ratio: 16 / 9;
+	min-height: 180px;
+	max-height: var(--focus-expanded-main-max-height);
+	overflow: hidden;
+}
+
+.focusExpandedMainGridViewport > * {
+	width: 100%;
+	height: 100%;
+}
+
+.focusExpandedToggleRow {
+	width: min(96%, 1680px);
+	max-width: 1680px;
+	margin-inline: auto;
+	display: flex;
+	justify-content: center;
+	padding-top: 0.125rem;
+	padding-bottom: 0.25rem;
+	flex: 0 0 auto;
+}
+
 .carouselWrapper {
 	flex: 0 0 auto;
 	min-width: 0;
-	overflow: visible;
+	overflow: hidden;
 	position: relative;
 	width: 100%;
-	max-width: 1600px;
+	max-width: 100%;
+	max-height: var(--carousel-row-height);
+	margin-left: 0;
+	margin-right: 0;
 }
 
 .carouselWrapper :global(.lk-carousel) {
-	display: inline-flex;
+	display: flex;
 	flex: 0 0 auto;
-	margin-left: auto;
-	margin-right: auto;
-	padding-top: 0;
-	padding-bottom: 0;
+	flex-direction: column;
+	width: 100%;
+	min-width: 0;
+	justify-content: flex-start;
+	align-items: stretch;
 	gap: 0.5rem;
 }
 
 .carouselInner {
 	display: flex;
-	justify-content: center;
+	justify-content: flex-start;
 	width: 100%;
-}
-
-.carouselWrapper :global(.scrollerWrap) {
-	flex: 1 1 auto;
 	min-width: 0;
-	width: 100%;
-	max-width: 100%;
-}
-
-.carouselWrapper :global(.scroller) {
-	flex: 1 1 auto;
-	min-width: 0;
-	width: 100%;
-	max-width: 100%;
 }
 
 .carouselToggleWrap {
-	flex: 0 0 auto;
-	width: 100%;
+	position: absolute;
+	left: 50%;
+	bottom: 0.5rem;
+	transform: translateX(-50%);
+	width: auto;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin-top: 0.25rem;
-	opacity: 0;
-	pointer-events: none;
-}
-
-:global(.window-focused) .voiceRoot:hover .carouselToggleWrap {
-	opacity: 1;
-	pointer-events: auto;
-}
-
-:global(.window-focused) .voiceRoot:focus-within .carouselToggleWrap {
-	opacity: 1;
-	pointer-events: auto;
-}
-
-.voiceRoot.contextMenuActive .carouselToggleWrap {
-	opacity: 1;
-	pointer-events: auto;
-}
-
-.voiceRoot.keyboardModeActive .carouselToggleWrap {
-	opacity: 1;
-	pointer-events: auto;
+	margin: 0;
+	padding: 0;
+	z-index: 60;
 }
 
 .carouselToggle {
-	width: 32px;
-	height: 32px;
-	padding: 4px;
-	display: flex;
+	width: 44px;
+	height: 44px;
+	min-width: 44px;
+	min-height: 44px;
+	padding: 0.5rem;
+	position: relative;
+	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	background-color: var(--background-modifier-hover);
+	background-color: var(--voice-surface-4);
 	color: var(--text-primary);
 	border-radius: 50%;
 	cursor: pointer;
-	border: 1px solid var(--background-modifier-active);
+	border: 1px solid var(--voice-overlay-light);
+	box-shadow: 0 4px 16px var(--voice-shadow-strong);
+	z-index: 1;
 }
 
 .carouselToggle:hover {
-	background-color: var(--background-modifier-selected);
+	background-color: var(--voice-surface-5);
 }
 
 .focusLayoutMainWrapper {
 	position: relative;
-	flex: 0 0 auto;
+	flex: 1 1 auto;
+	min-height: 0;
 	width: 100%;
-	max-width: 1600px;
+	max-width: 100%;
 	display: flex;
-	justify-content: center;
 	align-items: center;
+	justify-content: center;
+}
+
+.focusMiniGridSection {
+	width: min(96%, 1680px);
+	max-width: 1680px;
+	margin-inline: auto;
+	padding: 0 clamp(0.5rem, 1.2vw, 1.25rem) 1rem;
+	box-sizing: border-box;
+	flex: 0 0 auto;
+}
+
+.focusMiniGrid {
+	--focus-mini-columns: 1;
+	--focus-mini-grid-gap: 0.75rem;
+	--focus-mini-tile-max-width: 380px;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: flex-start;
+	width: 100%;
+	gap: var(--focus-mini-grid-gap);
+}
+
+.focusMiniGridTile {
+	width: min(
+		calc((100% - (var(--focus-mini-columns) - 1) * var(--focus-mini-grid-gap)) / var(--focus-mini-columns)),
+		var(--focus-mini-tile-max-width)
+	);
+	max-width: min(
+		calc((100% - (var(--focus-mini-columns) - 1) * var(--focus-mini-grid-gap)) / var(--focus-mini-columns)),
+		var(--focus-mini-tile-max-width)
+	);
+	min-width: 0;
+	flex: 0 0 auto;
+	flex-shrink: 0;
+}
+
+.focusMiniGridTile .lkParticipantTile {
+	width: 100%;
+	height: auto;
+	aspect-ratio: 16 / 9;
 }
 
 .focusLayoutMain {
 	position: relative;
-
-	--available-height: calc(100cqh - var(--carousel-row-height) - var(--toggle-row-height) - var(--content-padding));
-	width: min(100%, 1600px, calc(var(--available-height) * 16 / 9));
-	aspect-ratio: 16 / 9;
+	--focus-main-aspect-ratio-value: 1.7777777778;
+	width: 100%;
+	max-width: none;
+	height: auto;
+	max-height: min(76dvh, calc(100cqh - 3rem));
+	aspect-ratio: var(--focus-main-aspect-ratio-value);
 	overflow: hidden;
+	z-index: 1;
+	margin-inline: auto;
 }
 
-.focusLayoutContent.carouselCollapsed .focusLayoutMain {
-	--available-height: calc(100cqh - var(--toggle-row-height) - var(--content-padding));
+.focusLayoutContent.carouselCollapsed .focusLayoutMain .lkParticipantTile {
+	border-radius: 0;
 }
 
-.focusLayoutContent.noCarousel .focusLayoutMain {
-	--available-height: calc(100cqh - var(--content-padding));
+.focusLayoutContent.carouselCollapsed .focusLayoutMain .lkParticipantTile::after {
+	border-radius: 0;
+}
+
+.focusLayoutContent.carouselCollapsed .focusLayoutMain .lkParticipantTile video {
+	border-radius: 0;
+}
+
+.focusLayoutContent.carouselCollapsed .focusLayoutMain .lkParticipantPlaceholder {
+	border-radius: 0;
 }
 
 .focusLayoutMain .lkParticipantTile {
@@ -421,7 +600,7 @@
 	inset: 0;
 	width: 100%;
 	height: 100%;
-	border-radius: 12px;
+	border-radius: 0;
 }
 
 .focusLayoutMain .lkParticipantTile[data-source='screen_share'] {
@@ -429,7 +608,7 @@
 }
 
 .focusLayoutMain .lkParticipantTile::after {
-	border-radius: var(--radius-lg);
+	border-radius: 0;
 }
 
 .focusLayoutMain .lkParticipantTile[data-source='screen_share']::after {
@@ -437,8 +616,8 @@
 }
 
 .focusLayoutMain .lkParticipantTile video {
-	border-radius: inherit;
-	object-fit: cover;
+	border-radius: 0;
+	object-fit: contain;
 	width: 100%;
 	height: 100%;
 }
@@ -449,11 +628,15 @@
 }
 
 .focusLayoutMain .lkParticipantPlaceholder {
-	border-radius: var(--radius-lg);
+	border-radius: 0;
 }
 
 .focusLayoutMain .lkParticipantTile[data-source='screen_share'] .lkParticipantPlaceholder {
 	border-radius: 0;
+}
+
+.lkParticipantTile[data-source='screen_share'] .lkParticipantPlaceholder {
+	background-color: var(--voice-surface-0) !important;
 }
 
 .focusLayoutContent {
@@ -461,54 +644,204 @@
 	width: 100%;
 	height: 100%;
 	max-height: 100%;
-	padding: 1rem;
+	padding: 1rem 0;
 	overflow: hidden;
 	display: flex;
 	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+	align-items: stretch;
+	justify-content: flex-start;
 	gap: 0;
 	box-sizing: border-box;
 	container-type: size;
 
 	--carousel-row-height: 180px;
-	--toggle-row-height: 40px;
 	--content-padding: 2rem;
+	--focus-mini-row-reserved-height: 170px;
+	--focus-expanded-main-max-height: min(46dvh, calc(100cqh - 18rem));
+}
+
+.focusLayoutContentCompact {
+	padding: 0;
+	--carousel-row-height: 104px;
+	--content-padding: 0.5rem;
+	--focus-mini-row-reserved-height: 116px;
+	--focus-expanded-main-max-height: min(82dvh, calc(100cqh - 5rem));
+}
+
+.focusLayoutContentCompact .focusLayoutScrollBody {
+	gap: 0.5rem;
+}
+
+.focusLayoutContentCompact .focusLayoutMainWrapper {
+	padding-inline: 0;
+}
+
+.focusLayoutContentCompact .focusLayoutMain {
+	width: 100%;
+	max-width: 100%;
+	max-height: min(90dvh, calc(100cqh - 0.5rem));
+	border-radius: 0;
+}
+
+.focusLayoutContentCompact .focusLayoutMain .lkParticipantTile,
+.focusLayoutContentCompact .focusLayoutMain .lkParticipantTile::after,
+.focusLayoutContentCompact .focusLayoutMain .lkParticipantPlaceholder,
+.focusLayoutContentCompact .focusLayoutMain .lkParticipantTile video {
+	border-radius: 0;
+}
+
+.focusLayoutContentCompact .focusMiniGrid {
+	--focus-mini-grid-gap: 0.5rem;
+	--focus-mini-tile-max-width: 212px;
+}
+
+.focusLayoutContentCompact .focusMiniGridSection {
+	width: 100%;
+	padding: 0 0.5rem 0.5rem;
+}
+
+.focusLayoutContentNoParticipants {
+	overflow: hidden;
+}
+
+.focusLayoutContentNoParticipants .focusLayoutScrollBody {
+	height: 100%;
+}
+
+.focusLayoutContentNoParticipants .focusLayoutMain {
+	max-height: 100%;
+}
+
+.focusLayoutContentCompact.focusLayoutContentNoParticipants .focusLayoutMain {
+	max-height: 100%;
+}
+
+.focusLayoutParticipantsExpanded .focusLayoutMain {
+	max-height: min(68dvh, calc(100cqh - 8rem));
+}
+
+.focusLayoutParticipantsExpanded .focusLayoutScroller {
+	min-height: 0;
+}
+
+.focusLayoutContentFullscreen {
+	padding: 0.5rem 0;
+	--content-padding: 0;
+}
+
+.focusLayoutContentFullscreen .focusLayoutMainWrapper {
+	max-width: none;
+	width: 100%;
+}
+
+.focusLayoutContentFullscreen .focusLayoutMain {
+	margin-inline: auto;
+}
+
+@container (min-width: 620px) {
+	.focusMiniGrid {
+		--focus-mini-columns: 2;
+	}
+}
+
+@container (min-width: 760px) {
+	.focusMiniGrid {
+		--focus-mini-columns: 3;
+	}
+}
+
+@container (min-width: 1040px) {
+	.focusMiniGrid {
+		--focus-mini-columns: 4;
+	}
+}
+
+.focusLayoutContent.carouselCollapsed .carouselToggleWrap {
+	position: absolute;
+	bottom: 1.25rem;
+	left: 50%;
+	transform: translateX(-50%);
+	width: auto;
+	margin: 0;
+	padding: 0;
+	z-index: 60;
+	pointer-events: auto;
+}
+
+.focusLayoutContent.carouselCollapsed.focusLayoutContentFullscreen {
+	padding-top: 0.5rem;
+	padding-bottom: 4rem;
+}
+
+.voiceCallFullscreen {
+	position: fixed;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 39999;
+	background-color: var(--voice-surface-0);
 }
 
 .voiceRoot {
 	position: relative;
+	--voice-hud-opacity: 0;
+	--voice-hud-pointer-events: none;
+	--voice-hud-transition-duration: 0ms;
+	--voice-hud-transition-easing: cubic-bezier(0.2, 0, 0, 1);
 }
 
-.voiceChrome {
-	opacity: 0;
-	pointer-events: none;
+.voiceRoot.forceHudVisible {
+	--voice-hud-opacity: 1;
+	--voice-hud-pointer-events: auto;
+}
+
+:global(.window-focused) .voiceRoot.pointerActive,
+:global(.window-focused) .voiceRoot:focus-within,
+.voiceRoot.contextMenuActive,
+.voiceRoot.keyboardModeActive {
+	--voice-hud-opacity: 1;
+	--voice-hud-pointer-events: auto;
+}
+
+.voiceRoot
+	:where(
+		.voiceChrome,
+		.carouselToggleWrap,
+		.lkParticipantMetadata,
+		.lkParticipantTile .lkParticipantMetadataControls,
+		.lkParticipantTile .lkFocusToggle
+	) {
+	opacity: var(--voice-hud-opacity);
+	pointer-events: var(--voice-hud-pointer-events);
+	transition: opacity var(--voice-hud-transition-duration) var(--voice-hud-transition-easing);
+}
+
+.voiceRoot .lkParticipantTile:is(:hover, :focus-within) .lkParticipantMetadataControls,
+.voiceRoot .lkParticipantTile:is(:hover, :focus-within) .lkFocusToggle {
+	opacity: var(--voice-hud-opacity);
+	pointer-events: var(--voice-hud-pointer-events);
+}
+
+.tileContextMenuActive {
+	--voice-hud-opacity: 1;
+	--voice-hud-pointer-events: auto;
 }
 
 .voiceHeader {
 	background: transparent !important;
 	border-bottom: none !important;
 	box-shadow: none !important;
+	position: relative;
+	isolation: isolate;
 }
 
-:global(.window-focused) .voiceRoot:hover .voiceChrome {
-	opacity: 1;
-	pointer-events: auto;
-}
-
-:global(.window-focused) .voiceRoot:focus-within .voiceChrome {
-	opacity: 1;
-	pointer-events: auto;
-}
-
-.voiceRoot.contextMenuActive .voiceChrome {
-	opacity: 1;
-	pointer-events: auto;
-}
-
-.voiceRoot.keyboardModeActive .voiceChrome {
-	opacity: 1;
-	pointer-events: auto;
+.voiceHeader::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: var(--voice-header-gradient);
+	pointer-events: none;
+	z-index: -1;
 }
 
 :global(.lk-pagination-indicator) {
@@ -518,7 +851,7 @@
 	transform: translateX(-50%);
 	display: flex;
 	gap: 6px;
-	background: rgba(0, 0, 0, 0.4);
+	background: var(--voice-surface-1);
 	border-radius: 9999px;
 	padding: 4px 8px;
 }
@@ -527,11 +860,11 @@
 	width: 6px;
 	height: 6px;
 	border-radius: 9999px;
-	background: rgba(255, 255, 255, 0.5);
+	background: var(--voice-overlay-light-bold);
 }
 
 :global(.lk-pagination-indicator > span[data-lk-active]) {
-	background: rgba(255, 255, 255, 0.9);
+	background: var(--voice-text-strong);
 }
 
 :global(.lk-pagination-control) {
@@ -539,13 +872,13 @@
 	left: 50%;
 	bottom: 0.75rem;
 	transform: translateX(-50%);
-	background: rgba(0, 0, 0, 0.6);
+	background: var(--voice-surface-1);
 	border-radius: 9999px;
 	padding: 4px 8px;
 	display: flex;
 	align-items: center;
 	gap: 8px;
-	color: white;
+	color: var(--voice-text-strong);
 	pointer-events: auto;
 }
 
@@ -555,6 +888,7 @@
 
 @media (max-width: 768px) {
 	.mainContent {
+		--voice-call-horizontal-padding: 1rem;
 		padding-left: 1rem;
 		padding-right: 1rem;
 		justify-content: flex-start;
@@ -571,6 +905,15 @@
 		max-width: 100%;
 	}
 
+	.focusMiniGrid {
+		--focus-mini-tile-size: clamp(var(--focus-mini-tile-min-width), 24vw, var(--focus-mini-tile-max-width));
+		--focus-mini-grid-gap: 0.5rem;
+	}
+
+	.focusMiniGridTile {
+		max-width: var(--focus-mini-tile-max-width);
+	}
+
 	.gridLayoutWrapper {
 		padding-top: 0;
 		padding-bottom: 0;
@@ -579,23 +922,27 @@
 	.focusLayoutContent {
 		--carousel-row-height: 140px;
 		--content-padding: 1.5rem;
+		--focus-mini-row-reserved-height: 132px;
 	}
 
 	.carouselToggleWrap {
-		opacity: 1;
-		pointer-events: auto;
 		margin-top: 0.5rem;
 	}
 
-	.voiceChrome {
-		opacity: 1;
-		pointer-events: auto;
+	.voiceRoot {
+		--voice-hud-opacity: 1;
+		--voice-hud-pointer-events: auto;
 	}
 
 	.controlBarContainer {
 		--voice-control-horizontal-padding: 1rem;
-		--voice-control-top-padding: 1rem;
-		--voice-control-bottom-padding: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+		--voice-control-top-padding: 1.25rem;
+		--voice-control-bottom-padding: calc(1rem + env(safe-area-inset-bottom, 0px));
+	}
+
+	.fullscreenButtonWrap {
+		bottom: calc(1.5rem + env(safe-area-inset-bottom, 0px));
+		right: 1rem;
 	}
 }
 
@@ -622,7 +969,7 @@
 		'footer';
 	height: 100%;
 	width: 100%;
-	background-color: var(--background-primary);
+	background-color: #000;
 }
 
 .chrome {
@@ -633,11 +980,20 @@
 	height: 64px;
 	align-items: center;
 	justify-content: space-between;
-	background: var(--background-secondary);
+	background: transparent;
 	padding-left: 1rem;
 	padding-right: 1rem;
 	border-top: none;
 	box-shadow: none;
+}
+
+.chrome::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: var(--voice-header-gradient);
+	pointer-events: none;
+	z-index: -1;
 }
 
 .chromeMobile {
@@ -728,23 +1084,23 @@
 }
 
 .statusConnecting {
-	background-color: rgb(234 179 8 / 0.2);
-	color: rgb(245 158 11);
+	background-color: var(--voice-status-warning-bg);
+	color: var(--voice-status-warning);
 }
 
 .statusReconnecting {
-	background-color: rgb(234 179 8 / 0.2);
-	color: rgb(245 158 11);
+	background-color: var(--voice-status-warning-bg);
+	color: var(--voice-status-warning);
 }
 
 .statusDisconnected {
-	background-color: rgb(239 68 68 / 0.2);
-	color: rgb(239 68 68);
+	background-color: var(--voice-status-danger-bg);
+	color: var(--voice-status-danger);
 }
 
 .statusConnected {
-	background-color: rgb(34 197 94 / 0.2);
-	color: rgb(34 197 94);
+	background-color: var(--voice-status-success-bg);
+	color: var(--voice-status-success);
 }
 
 .connectionStatusDot {
@@ -794,12 +1150,22 @@
 	justify-content: center;
 	align-items: center;
 	height: 100%;
-	overflow: hidden;
-	padding-left: clamp(1rem, 8vw, 14rem);
-	padding-right: clamp(1rem, 8vw, 14rem);
+	overflow-x: hidden;
+	overflow-y: hidden;
+	--voice-call-horizontal-padding: clamp(1rem, 8vw, 14rem);
+	padding-left: var(--voice-call-horizontal-padding);
+	padding-right: var(--voice-call-horizontal-padding);
 	min-height: 0;
 	min-width: 0;
 	container-type: size;
+}
+
+.mainContentFocusFullscreen {
+	--voice-call-horizontal-padding: 0;
+	position: relative;
+	inset: auto;
+	height: 100%;
+	z-index: 1;
 }
 
 .controlBarContainer {
@@ -808,10 +1174,10 @@
 	z-index: 30;
 	display: flex;
 	justify-content: center;
-	background: var(--background-primary);
+	background: transparent;
 	--voice-control-horizontal-padding: 1.5rem;
-	--voice-control-top-padding: 1.5rem;
-	--voice-control-bottom-padding: calc(1rem + env(safe-area-inset-bottom, 0px));
+	--voice-control-top-padding: 1.75rem;
+	--voice-control-bottom-padding: calc(1.25rem + env(safe-area-inset-bottom, 0px));
 	padding-left: var(--voice-control-horizontal-padding);
 	padding-right: var(--voice-control-horizontal-padding);
 	padding-top: var(--voice-control-top-padding);
@@ -825,14 +1191,34 @@
 	top: 0;
 	left: 0;
 	right: 0;
-	height: 30px;
-	background: linear-gradient(to top, var(--background-primary) 0%, transparent 100%);
+	height: 64px;
+	background: var(--voice-footer-gradient);
 	pointer-events: none;
 	transform: translateY(-100%);
 }
 
 .controlBarContainer > * {
 	pointer-events: auto;
+}
+
+.fullscreenButtonWrap {
+	position: absolute;
+	right: clamp(1rem, 2vw, 2rem);
+	bottom: calc(1.75rem + env(safe-area-inset-bottom, 0px));
+	z-index: 35;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: auto;
+}
+
+.fullscreenButtonWrap button {
+	background-color: var(--voice-surface-4);
+	color: var(--voice-text-strong);
+}
+
+.fullscreenButtonWrap button:hover {
+	background-color: var(--voice-surface-5);
 }
 
 .srOnly {
@@ -882,4 +1268,54 @@
 	min-height: 0;
 	border-radius: var(--radius-lg);
 	overflow: hidden;
+}
+
+.streamFocusInfo {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	min-width: 0;
+	flex-shrink: 1;
+	overflow: visible;
+}
+
+.streamFocusTopicDivider {
+	margin-left: 0 !important;
+	margin-right: 0 !important;
+	opacity: 0.5;
+}
+
+.streamFocusStreamer {
+	display: flex;
+	align-items: center;
+	gap: 0.375rem;
+	min-width: 0;
+	flex-shrink: 1;
+	overflow: visible;
+}
+
+.streamFocusStreamerName {
+	font-size: 0.875rem;
+	line-height: 1.25rem;
+	font-weight: 500;
+	color: var(--voice-call-header-text, var(--text-primary));
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.streamFocusSpectators {
+	display: flex;
+	align-items: center;
+	gap: 0.25rem;
+	flex-shrink: 0;
+	cursor: pointer;
+}
+
+.headerStreamInfo {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	flex-shrink: 0;
+	margin-right: 4px;
 }

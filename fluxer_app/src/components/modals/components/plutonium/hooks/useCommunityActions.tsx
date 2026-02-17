@@ -17,21 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import * as PremiumActionCreators from '@app/actions/PremiumActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import {Logger} from '@app/lib/Logger';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import ContextMenuStore from '@app/stores/ContextMenuStore';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import {useLingui} from '@lingui/react/macro';
 import {autorun} from 'mobx';
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as PremiumActionCreators from '~/actions/PremiumActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {ChannelTypes} from '~/Constants';
-import {MenuItem} from '~/components/uikit/ContextMenu/MenuItem';
-import {Logger} from '~/lib/Logger';
-import {Routes} from '~/Routes';
-import type {GuildRecord} from '~/records/GuildRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import ContextMenuStore from '~/stores/ContextMenuStore';
-import * as RouterUtils from '~/utils/RouterUtils';
+import type React from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 
 const logger = new Logger('useCommunityActions');
 
@@ -40,19 +40,19 @@ export const useCommunityActions = (
 	operatorGuild: GuildRecord | undefined,
 ) => {
 	const {t} = useLingui();
-	const [loadingRejoinCommunity, setLoadingRejoinCommunity] = React.useState(false);
-	const [isCommunityMenuOpen, setIsCommunityMenuOpen] = React.useState(false);
-	const communityButtonRef = React.useRef<HTMLButtonElement | null>(null);
+	const [loadingRejoinCommunity, setLoadingRejoinCommunity] = useState(false);
+	const [isCommunityMenuOpen, setIsCommunityMenuOpen] = useState(false);
+	const communityButtonRef = useRef<HTMLButtonElement | null>(null);
 
 	const hasVisionaryGuild = Boolean(visionaryGuild);
 	const hasOperatorGuild = Boolean(operatorGuild);
 
-	const getFirstViewableChannel = React.useCallback((guildId: string) => {
+	const getFirstViewableChannel = useCallback((guildId: string) => {
 		const channels = ChannelStore.getGuildChannels(guildId);
 		return channels.find((channel) => channel.type === ChannelTypes.GUILD_TEXT);
 	}, []);
 
-	const handleRejoinCommunity = React.useCallback(
+	const handleRejoinCommunity = useCallback(
 		async (type: 'visionary' | 'operator') => {
 			setLoadingRejoinCommunity(true);
 			try {
@@ -65,7 +65,7 @@ export const useCommunityActions = (
 				if (guild) {
 					const firstChannel = getFirstViewableChannel(guild.id);
 					ModalActionCreators.popAll();
-					RouterUtils.transitionTo(Routes.guildChannel(guild.id, firstChannel?.id));
+					NavigationActionCreators.selectChannel(guild.id, firstChannel?.id);
 				}
 			} catch (error) {
 				logger.error(`Failed to rejoin ${type} guild`, error);
@@ -81,7 +81,7 @@ export const useCommunityActions = (
 		[visionaryGuild, operatorGuild, getFirstViewableChannel, t],
 	);
 
-	const handleCommunityButtonPointerDown = React.useCallback((event: React.PointerEvent) => {
+	const handleCommunityButtonPointerDown = useCallback((event: React.PointerEvent) => {
 		const contextMenu = ContextMenuStore.contextMenu;
 		const isOpen = !!contextMenu && contextMenu.target.target === communityButtonRef.current;
 		if (isOpen) {
@@ -91,7 +91,7 @@ export const useCommunityActions = (
 		}
 	}, []);
 
-	const handleCommunityButtonClick = React.useCallback(
+	const handleCommunityButtonClick = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>) => {
 			const contextMenu = ContextMenuStore.contextMenu;
 			const isOpen = !!contextMenu && contextMenu.target.target === event.currentTarget;
@@ -106,7 +106,7 @@ export const useCommunityActions = (
 							if (hasVisionaryGuild && visionaryGuild) {
 								const firstChannel = getFirstViewableChannel(visionaryGuild.id);
 								ModalActionCreators.popAll();
-								RouterUtils.transitionTo(Routes.guildChannel(visionaryGuild.id, firstChannel?.id));
+								NavigationActionCreators.selectChannel(visionaryGuild.id, firstChannel?.id);
 							} else {
 								handleRejoinCommunity('visionary');
 							}
@@ -120,7 +120,7 @@ export const useCommunityActions = (
 							if (hasOperatorGuild && operatorGuild) {
 								const firstChannel = getFirstViewableChannel(operatorGuild.id);
 								ModalActionCreators.popAll();
-								RouterUtils.transitionTo(Routes.guildChannel(operatorGuild.id, firstChannel?.id));
+								NavigationActionCreators.selectChannel(operatorGuild.id, firstChannel?.id);
 							} else {
 								handleRejoinCommunity('operator');
 							}
@@ -142,7 +142,7 @@ export const useCommunityActions = (
 		],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const handleContextMenuChange = () => {
 			const contextMenu = ContextMenuStore.contextMenu;
 			const isOpen =

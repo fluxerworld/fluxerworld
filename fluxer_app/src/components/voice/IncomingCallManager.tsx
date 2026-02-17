@@ -17,35 +17,36 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {AnimatePresence} from 'framer-motion';
-import {observer} from 'mobx-react-lite';
-import type React from 'react';
-import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {createPortal} from 'react-dom';
-import * as CallActionCreators from '~/actions/CallActionCreators';
-import {IncomingCallUI} from '~/components/voice/IncomingCallUI';
-import AppStorage from '~/lib/AppStorage';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import CallStateStore from '~/stores/CallStateStore';
-import ChannelStore from '~/stores/ChannelStore';
-import MockIncomingCallStore from '~/stores/MockIncomingCallStore';
-import SelectedChannelStore from '~/stores/SelectedChannelStore';
-import SoundStore from '~/stores/SoundStore';
-import UserStore from '~/stores/UserStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
+import * as CallActionCreators from '@app/actions/CallActionCreators';
 import {
 	INCOMING_CALL_OVERLAY_HEIGHT,
 	INCOMING_CALL_OVERLAY_OFFSET,
 	INCOMING_CALL_OVERLAY_STORAGE_KEY,
 	INCOMING_CALL_OVERLAY_WIDTH,
-} from './IncomingCallOverlayConstants';
-import {useIncomingCallPortalRoot} from './IncomingCallPortal';
+} from '@app/components/voice/IncomingCallOverlayConstants';
+import {useIncomingCallPortalRoot} from '@app/components/voice/IncomingCallPortal';
+import {IncomingCallUI} from '@app/components/voice/IncomingCallUI';
+import AppStorage from '@app/lib/AppStorage';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import CallInitiatorStore from '@app/stores/CallInitiatorStore';
+import CallStateStore from '@app/stores/CallStateStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import MockIncomingCallStore from '@app/stores/MockIncomingCallStore';
+import SoundStore from '@app/stores/SoundStore';
+import UserStore from '@app/stores/UserStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import {AnimatePresence} from 'framer-motion';
+import {observer} from 'mobx-react-lite';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {createPortal} from 'react-dom';
 
 interface PopoutModel {
 	channelId: string;
-	initiatorUserId: string;
+	initiatorUserId: string | null;
 	mockChannel?: ChannelRecord;
 	mockInitiator?: UserRecord;
 }
@@ -87,6 +88,24 @@ function clampPositionToWindow(position: Position, windowSize: WindowSize): Posi
 	};
 }
 
+function resolveInitiatorUserId(
+	channel: ChannelRecord | null,
+	ringing: Array<string>,
+	currentUserId: string | null,
+): string | null {
+	if (channel?.type === ChannelTypes.DM && currentUserId) {
+		const otherRecipient = channel.recipientIds.find((id) => id !== currentUserId);
+		return otherRecipient ?? ringing[0] ?? null;
+	}
+
+	if (ringing.length > 0) {
+		const nonCurrent = currentUserId ? ringing.find((id) => id !== currentUserId) : undefined;
+		return nonCurrent ?? ringing[0] ?? null;
+	}
+
+	return null;
+}
+
 function setsEqual(a: Set<string>, b: Set<string>) {
 	if (a.size !== b.size) return false;
 	for (const v of a) if (!b.has(v)) return false;
@@ -97,7 +116,6 @@ export const IncomingCallManager: React.FC = observer(function IncomingCallManag
 	const calls = CallStateStore.getActiveCalls();
 	const mockCall = MockIncomingCallStore.mockCall;
 	const portalRoot = useIncomingCallPortalRoot();
-	const selectedChannelId = SelectedChannelStore.currentChannelId;
 	const currentUserId = AuthenticationStore.currentUserId;
 
 	const [activePopouts, setActivePopouts] = useState<Set<string>>(() => new Set());
@@ -121,16 +139,17 @@ export const IncomingCallManager: React.FC = observer(function IncomingCallManag
 		for (const call of calls) {
 			const isRingingForCurrentUser =
 				Boolean(currentUserId && CallStateStore.isUserPendingRinging(call.channelId, currentUserId)) &&
-				!isInCurrentCall(call.channelId);
+				!isInCurrentCall(call.channelId) &&
+				!CallInitiatorStore.hasInitiated(call.channelId);
 			if (isRingingForCurrentUser) {
 				hasRinging = true;
 			}
 
-			const shouldShow = isRingingForCurrentUser && selectedChannelId !== call.channelId;
+			const shouldShow = isRingingForCurrentUser;
 			if (!shouldShow) continue;
 
-			const initiatorUserId = call.ringing[0];
-			if (!initiatorUserId) continue;
+			const channel = ChannelStore.getChannel(call.channelId) ?? null;
+			const initiatorUserId = resolveInitiatorUserId(channel, call.ringing, currentUserId);
 
 			nextIds.add(call.channelId);
 			models.push({
@@ -155,7 +174,7 @@ export const IncomingCallManager: React.FC = observer(function IncomingCallManag
 			popoutModels: models,
 			hasRingingCalls: hasRinging,
 		};
-	}, [calls, currentUserId, isInCurrentCall, mockCall, selectedChannelId]);
+	}, [calls, currentUserId, isInCurrentCall, mockCall]);
 
 	useEffect(() => {
 		setActivePopouts((prev) => (setsEqual(prev, nextPopoutIds) ? prev : nextPopoutIds));

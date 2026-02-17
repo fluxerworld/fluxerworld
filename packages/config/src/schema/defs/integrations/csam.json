@@ -1,0 +1,94 @@
+{
+	"csam_integration": {
+		"type": "object",
+		"description": "Unified CSAM scanning integration configuration supporting multiple providers.",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"default": false,
+				"description": "Enable CSAM scanning."
+			},
+			"provider": {
+				"type": "string",
+				"enum": ["photo_dna", "arachnid_shield"],
+				"default": "photo_dna",
+				"description": "The CSAM scanning provider to use."
+			},
+			"photo_dna": {
+				"type": "object",
+				"description": "PhotoDNA provider configuration.",
+				"additionalProperties": false,
+				"properties": {
+					"hash_service_url": {
+						"type": "string",
+						"default": "",
+						"description": "URL for the hash generation service."
+					},
+					"hash_service_timeout_ms": {
+						"type": "number",
+						"default": 15000,
+						"description": "Timeout for hash generation in milliseconds."
+					},
+					"match_endpoint": {
+						"type": "string",
+						"default": "",
+						"description": "URL for the PhotoDNA match service."
+					},
+					"subscription_key": {
+						"type": "string",
+						"default": "",
+						"description": "Subscription key for the match service."
+					},
+					"match_enhance": {
+						"type": "boolean",
+						"default": false,
+						"description": "Enable enhanced matching."
+					},
+					"rate_limit_rps": {
+						"type": "number",
+						"default": 5,
+						"description": "Rate limit requests per second."
+					}
+				}
+			},
+			"arachnid_shield": {
+				"type": "object",
+				"description": "Arachnid Shield provider configuration.",
+				"additionalProperties": false,
+				"properties": {
+					"endpoint": {
+						"type": "string",
+						"default": "https://shield.projectarachnid.com/v1/media",
+						"description": "Arachnid Shield API endpoint."
+					},
+					"username": {
+						"type": "string",
+						"default": "",
+						"description": "Basic auth username."
+					},
+					"password": {
+						"type": "string",
+						"default": "",
+						"description": "Basic auth password."
+					},
+					"timeout_ms": {
+						"type": "number",
+						"default": 30000,
+						"description": "Request timeout in milliseconds."
+					},
+					"max_retries": {
+						"type": "number",
+						"default": 3,
+						"description": "Maximum number of retry attempts."
+					},
+					"retry_backoff_ms": {
+						"type": "number",
+						"default": 1000,
+						"description": "Base backoff time for retries in milliseconds."
+					}
+				}
+			}
+		}
+	}
+}

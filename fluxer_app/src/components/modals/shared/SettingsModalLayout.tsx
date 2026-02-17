@@ -17,18 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/modals/shared/SettingsModalLayout.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import {
+	type SettingsModalSidebarItemProps,
+	useSettingsModalSidebarItemLogic,
+} from '@app/utils/modals/SettingsModalLayoutUtils';
 import {useLingui} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-import {
-	type SettingsModalContextValue,
-	type SettingsModalSidebarItemProps,
-	useSettingsModalSidebarItemLogic,
-} from '~/utils/modals/SettingsModalLayoutUtils';
-import styles from './SettingsModalLayout.module.css';
+import React, {useContext, useEffect, useId, useMemo, useRef, useState} from 'react';
+
+interface SettingsModalContextValue {
+	fullscreen: boolean;
+}
 
 const SettingsModalContext = React.createContext<SettingsModalContextValue>({
 	fullscreen: false,
@@ -36,7 +40,7 @@ const SettingsModalContext = React.createContext<SettingsModalContextValue>({
 
 export const SettingsModalContainer: React.FC<{children: React.ReactNode; fullscreen?: boolean}> = observer(
 	({children, fullscreen = false}) => {
-		const contextValue = React.useMemo(() => ({fullscreen}), [fullscreen]);
+		const contextValue = useMemo(() => ({fullscreen}), [fullscreen]);
 		return (
 			<SettingsModalContext.Provider value={contextValue}>
 				<div className={clsx(styles.container, {[styles.containerFullscreen]: fullscreen})}>{children}</div>
@@ -88,9 +92,9 @@ interface SettingsModalDesktopScrollProps {
 
 export const SettingsModalDesktopScroll: React.FC<SettingsModalDesktopScrollProps> = observer(
 	({children, scrollKey, scrollerRef}) => {
-		const internalRef = React.useRef<ScrollerHandle | null>(null);
+		const internalRef = useRef<ScrollerHandle | null>(null);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (scrollerRef && internalRef.current) {
 				const node = internalRef.current.getScrollerNode();
 				(scrollerRef as React.MutableRefObject<HTMLElement | null>).current = node;
@@ -136,7 +140,7 @@ interface SettingsModalSidebarNavProps {
 export const SettingsModalSidebarNav: React.FC<SettingsModalSidebarNavProps> = observer(
 	({children, header, hasSelectedTabInView = true, footer}) => {
 		const {t} = useLingui();
-		const tablistContextValue = React.useMemo(() => ({hasSelectedTabInView}), [hasSelectedTabInView]);
+		const tablistContextValue = useMemo(() => ({hasSelectedTabInView}), [hasSelectedTabInView]);
 
 		return (
 			<SidebarTablistContext.Provider value={tablistContextValue}>
@@ -157,8 +161,8 @@ export const SettingsModalSidebarNav: React.FC<SettingsModalSidebarNavProps> = o
 );
 
 export const SettingsModalSidebarCategory: React.FC<{children: React.ReactNode}> = observer(({children}) => {
-	const [titleId, setTitleId] = React.useState<string | null>(null);
-	const contextValue = React.useMemo<SidebarCategoryContextValue>(() => ({setTitleId}), []);
+	const [titleId, setTitleId] = useState<string | null>(null);
+	const contextValue = useMemo<SidebarCategoryContextValue>(() => ({setTitleId}), []);
 	return (
 		<SidebarCategoryContext.Provider value={contextValue}>
 			<section className={styles.sidebarCategory} aria-labelledby={titleId ?? undefined}>
@@ -169,9 +173,9 @@ export const SettingsModalSidebarCategory: React.FC<{children: React.ReactNode}>
 });
 
 export const SettingsModalSidebarCategoryTitle: React.FC<{children: React.ReactNode}> = observer(({children}) => {
-	const context = React.useContext(SidebarCategoryContext);
-	const titleId = React.useId();
-	React.useEffect(() => {
+	const context = useContext(SidebarCategoryContext);
+	const titleId = useId();
+	useEffect(() => {
 		context?.setTitleId(titleId);
 		return () => context?.setTitleId(null);
 	}, [context, titleId]);
@@ -195,8 +199,8 @@ export const SettingsModalSidebarItem: React.FC<SettingsModalSidebarItemProps> =
 		id,
 		controlsId,
 	}) => {
-		const ref = React.useRef<HTMLButtonElement>(null);
-		const {hasSelectedTabInView} = React.useContext(SidebarTablistContext);
+		const ref = useRef<HTMLButtonElement>(null);
+		const {hasSelectedTabInView} = useContext(SidebarTablistContext);
 
 		const {tabIndex, handleKeyDown} = useSettingsModalSidebarItemLogic({
 			selected,
@@ -283,7 +287,55 @@ export interface SettingsModalSidebarSubItemsProps {
 }
 
 export const SettingsModalSidebarSubItems: React.FC<SettingsModalSidebarSubItemsProps> = observer(({children}) => {
-	return <div className={styles.sidebarSubItems}>{children}</div>;
+	const containerRef = useRef<HTMLDivElement>(null);
+	const childrenArray = React.Children.toArray(children);
+	const reducedMotion = AccessibilityStore.useReducedMotion;
+
+	const activeIndex = childrenArray.findIndex((child) => {
+		if (!React.isValidElement(child)) return false;
+		const element = child as React.ReactElement<{isActive?: boolean}>;
+		return element.props?.isActive === true;
+	});
+
+	const hasActive = activeIndex !== -1;
+
+	useEffect(() => {
+		if (!containerRef.current || !hasActive) return;
+
+		const container = containerRef.current;
+		const childElements = Array.from(container.children) as Array<HTMLElement>;
+		const activeElement = childElements[activeIndex] as HTMLElement;
+
+		if (!activeElement) return;
+
+		const containerRect = container.getBoundingClientRect();
+		const activeRect = activeElement.getBoundingClientRect();
+
+		const top = activeRect.top - containerRect.top;
+		const height = activeRect.height;
+
+		container.style.setProperty('--active-top', `${top}px`);
+		container.style.setProperty('--active-height', `${height}px`);
+	}, [activeIndex, hasActive, children]);
+
+	return (
+		<div
+			ref={containerRef}
+			className={styles.sidebarSubItems}
+			data-has-active={hasActive}
+			data-reduced-motion={reducedMotion}
+			style={
+				hasActive
+					? ({
+							'--active-top': '0px',
+							'--active-height': '0px',
+						} as React.CSSProperties)
+					: undefined
+			}
+		>
+			{children}
+		</div>
+	);
 });
 
 export const settingsModalStyles = styles;

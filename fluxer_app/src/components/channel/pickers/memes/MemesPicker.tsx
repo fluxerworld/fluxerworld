@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {GifVideoPoolProvider} from '~/components/channel/GifVideoPool';
-import {MemesPickerView} from './MemesPickerView';
+import {GifVideoPoolProvider} from '@app/components/channel/GifVideoPool';
+import {MemesPickerView} from '@app/components/channel/pickers/memes/MemesPickerView';
 
 export interface MemesPickerProps {
 	onClose?: () => void;

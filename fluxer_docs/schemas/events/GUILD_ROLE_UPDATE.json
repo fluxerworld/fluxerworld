@@ -1,0 +1,17 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "GUILD_ROLE_UPDATE",
+	"description": "Sent when a guild role is updated.",
+	"scope": "guild",
+	"dispatchedBy": ["PATCH /guilds/:guild_id/roles/:role_id"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"role": {
+				"$ref": "GuildRoleResponse",
+				"description": "The updated role"
+			}
+		},
+		"required": ["role"]
+	}
+}

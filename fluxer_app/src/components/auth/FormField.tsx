@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Input} from '@app/components/form/Input';
 import {observer} from 'mobx-react-lite';
-import {Input} from '~/components/form/Input';
 
 interface FormFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange'> {
 	name: string;

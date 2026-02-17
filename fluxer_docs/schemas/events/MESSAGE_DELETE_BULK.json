@@ -1,0 +1,23 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "MESSAGE_DELETE_BULK",
+	"description": "Sent when multiple messages are deleted at once.",
+	"scope": "channel",
+	"scopeNote": "Guild channels dispatch to guild scope; DMs dispatch to presence scope",
+	"dispatchedBy": ["POST /channels/:channel_id/messages/bulk-delete", "internal:bulk_delete_user_messages"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"ids": {
+				"type": "array",
+				"items": {"type": "string"},
+				"description": "IDs of the deleted messages"
+			},
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID"
+			}
+		},
+		"required": ["ids", "channel_id"]
+	}
+}

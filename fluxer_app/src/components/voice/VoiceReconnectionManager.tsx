@@ -17,21 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {AudioPlaybackPermissionModal} from '@app/components/modals/AudioPlaybackPermissionModal';
+import {Logger} from '@app/lib/Logger';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
 import {useAudioPlayback} from '@livekit/components-react';
 import type {Room} from 'livekit-client';
 import {observer} from 'mobx-react-lite';
 import {useEffect, useRef} from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {AudioPlaybackPermissionModal} from '~/components/modals/AudioPlaybackPermissionModal';
-import {Logger} from '~/lib/Logger';
-import ConnectionStore from '~/stores/ConnectionStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
 
 const logger = new Logger('VoiceReconnectionManager');
 
 const AutoReconnectHandler = observer(() => {
-	const socket = ConnectionStore.socket;
+	const socket = GatewayConnectionStore.socket;
 	const hasAttemptedReconnection = useRef(false);
 
 	useEffect(() => {

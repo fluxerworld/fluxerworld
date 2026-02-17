@@ -17,26 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {StickerFormatTypes} from '~/Constants';
-import type {UserPartial} from '~/records/UserRecord';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-
-export type GuildSticker = Readonly<{
-	id: string;
-	name: string;
-	description: string;
-	tags: Array<string>;
-	format_type: number;
-	user?: UserPartial;
-}>;
-
-export interface GuildStickerWithUser extends GuildSticker {
-	user?: UserPartial;
-}
-
-export function isStickerAnimated(sticker: GuildSticker) {
-	return sticker.format_type === StickerFormatTypes.GIF;
-}
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import type {GuildSticker} from '@fluxer/schema/src/domains/guild/GuildEmojiSchemas';
+import type {UserPartial} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 
 export class GuildStickerRecord {
 	readonly id: string;
@@ -45,7 +28,7 @@ export class GuildStickerRecord {
 	readonly description: string;
 	readonly tags: ReadonlyArray<string>;
 	readonly url: string;
-	readonly formatType: number;
+	readonly animated: boolean;
 	readonly user?: UserPartial;
 
 	constructor(guildId: string, data: GuildSticker) {
@@ -56,15 +39,11 @@ export class GuildStickerRecord {
 		this.tags = Object.freeze([...data.tags]);
 		this.url = AvatarUtils.getStickerURL({
 			id: data.id,
-			animated: isStickerAnimated(data),
+			animated: data.animated,
 			size: 320,
 		});
-		this.formatType = data.format_type;
+		this.animated = data.animated;
 		this.user = data.user;
-	}
-
-	isAnimated() {
-		return isStickerAnimated(this.toJSON());
 	}
 
 	withUpdates(updates: Partial<GuildSticker>): GuildStickerRecord {
@@ -73,7 +52,7 @@ export class GuildStickerRecord {
 			name: updates.name ?? this.name,
 			description: updates.description ?? this.description,
 			tags: updates.tags ?? [...this.tags],
-			format_type: updates.format_type ?? this.formatType,
+			animated: updates.animated ?? this.animated,
 			user: updates.user ?? this.user,
 		});
 	}
@@ -85,7 +64,7 @@ export class GuildStickerRecord {
 			this.name === other.name &&
 			this.description === other.description &&
 			JSON.stringify(this.tags) === JSON.stringify(other.tags) &&
-			this.formatType === other.formatType &&
+			this.animated === other.animated &&
 			this.user?.id === other.user?.id
 		);
 	}
@@ -96,7 +75,7 @@ export class GuildStickerRecord {
 			name: this.name,
 			description: this.description,
 			tags: [...this.tags],
-			format_type: this.formatType,
+			animated: this.animated,
 			user: this.user,
 		};
 	}

@@ -17,23 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {GuildStickerWithUser} from '~/records/GuildStickerRecord';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import type {GuildStickerWithUser} from '@fluxer/schema/src/domains/guild/GuildEmojiSchemas';
 
 const logger = new Logger('Stickers');
 
-export const sanitizeStickerName = (fileName: string): string => {
+export function sanitizeStickerName(fileName: string): string {
 	const name =
 		fileName
 			.split('.')
 			.shift()
 			?.replace(/[^a-zA-Z0-9_]/g, '') ?? '';
 	return name.padEnd(2, '_').slice(0, 30);
-};
+}
 
-export const list = async (guildId: string): Promise<ReadonlyArray<GuildStickerWithUser>> => {
+export async function list(guildId: string): Promise<ReadonlyArray<GuildStickerWithUser>> {
 	try {
 		const response = await http.get<ReadonlyArray<GuildStickerWithUser>>({url: Endpoints.GUILD_STICKERS(guildId)});
 		const stickers = response.body;
@@ -43,12 +43,12 @@ export const list = async (guildId: string): Promise<ReadonlyArray<GuildStickerW
 		logger.error(`Failed to list stickers for guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const create = async (
+export async function create(
 	guildId: string,
 	sticker: {name: string; description: string; tags: Array<string>; image: string},
-): Promise<void> => {
+): Promise<void> {
 	try {
 		await http.post({url: Endpoints.GUILD_STICKERS(guildId), body: sticker});
 		logger.debug(`Created sticker ${sticker.name} in guild ${guildId}`);
@@ -56,13 +56,13 @@ export const create = async (
 		logger.error(`Failed to create sticker ${sticker.name} in guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const update = async (
+export async function update(
 	guildId: string,
 	stickerId: string,
 	data: {name?: string; description?: string; tags?: Array<string>},
-): Promise<void> => {
+): Promise<void> {
 	try {
 		await http.patch({url: Endpoints.GUILD_STICKER(guildId, stickerId), body: data});
 		logger.debug(`Updated sticker ${stickerId} in guild ${guildId}`);
@@ -70,15 +70,17 @@ export const update = async (
 		logger.error(`Failed to update sticker ${stickerId} in guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const remove = async (guildId: string, stickerId: string, purge = false): Promise<void> => {
+export async function remove(guildId: string, stickerId: string, purge = false): Promise<void> {
 	try {
-		const query = purge ? '?purge=true' : '';
-		await http.delete({url: `${Endpoints.GUILD_STICKER(guildId, stickerId)}${query}`});
+		await http.delete({
+			url: Endpoints.GUILD_STICKER(guildId, stickerId),
+			query: purge ? {purge: true} : undefined,
+		});
 		logger.debug(`Removed sticker ${stickerId} from guild ${guildId}`);
 	} catch (error) {
 		logger.error(`Failed to remove sticker ${stickerId} from guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}

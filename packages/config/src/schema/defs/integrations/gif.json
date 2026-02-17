@@ -1,0 +1,15 @@
+{
+	"gif": {
+		"type": "object",
+		"description": "GIF provider selection for the client-facing GIF picker.",
+		"additionalProperties": false,
+		"properties": {
+			"provider": {
+				"type": "string",
+				"enum": ["klipy", "tenor"],
+				"default": "klipy",
+				"description": "GIF provider to use for GIF search and sharing."
+			}
+		}
+	}
+}

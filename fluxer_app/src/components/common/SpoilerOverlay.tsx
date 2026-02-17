@@ -17,10 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/common/SpoilerOverlay.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
 import {useLingui} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import type {FC, ReactNode} from 'react';
-import styles from './SpoilerOverlay.module.css';
 
 interface SpoilerOverlayProps {
 	hidden: boolean;
@@ -41,9 +42,11 @@ export const SpoilerOverlay: FC<SpoilerOverlayProps> = ({hidden, onReveal, child
 				{children}
 			</div>
 			{hidden && (
-				<button type="button" className={styles.overlayButton} onClick={onReveal} aria-label={ariaLabel}>
-					<span className={styles.overlayLabel}>{label ?? t`Spoiler`}</span>
-				</button>
+				<FocusRing offset={-2}>
+					<button type="button" className={styles.overlayButton} onClick={onReveal} aria-label={ariaLabel}>
+						<span className={styles.overlayLabel}>{label ?? t`Spoiler`}</span>
+					</button>
+				</FocusRing>
 			)}
 		</div>
 	);

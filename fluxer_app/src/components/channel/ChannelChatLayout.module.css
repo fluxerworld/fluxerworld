@@ -22,6 +22,8 @@
 	flex-direction: column;
 	height: 100%;
 	min-height: 0;
+	width: 100%;
+	max-width: 100%;
 	min-width: 0;
 	overflow: hidden;
 	background-color: var(--background-secondary-lighter);
@@ -89,4 +91,8 @@
 	padding: 0;
 	overflow: hidden;
 	background-color: var(--background-secondary-lighter);
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
+	contain: inline-size layout;
 }

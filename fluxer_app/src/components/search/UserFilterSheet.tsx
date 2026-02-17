@@ -17,23 +17,25 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/search/UserFilterSheet.module.css';
+import {Avatar} from '@app/components/uikit/Avatar';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import {Button} from '@app/components/uikit/button/Button';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {PASSWORD_MANAGER_IGNORE_ATTRIBUTES} from '@app/lib/PasswordManagerAutocomplete';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import UserStore from '@app/stores/UserStore';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CheckIcon, MagnifyingGlassIcon, XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {matchSorter} from 'match-sorter';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {Avatar} from '~/components/uikit/Avatar';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import {Button} from '~/components/uikit/Button/Button';
-import {Scroller} from '~/components/uikit/Scroller';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import UserStore from '~/stores/UserStore';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import styles from './UserFilterSheet.module.css';
+import type React from 'react';
+import {useEffect, useMemo, useState} from 'react';
 
 interface UserFilterSheetProps {
 	isOpen: boolean;
@@ -47,15 +49,15 @@ interface UserFilterSheetProps {
 export const UserFilterSheet: React.FC<UserFilterSheetProps> = observer(
 	({isOpen, onClose, channel, selectedUserIds, onUsersChange, title}) => {
 		const {t} = useLingui();
-		const [searchTerm, setSearchTerm] = React.useState('');
+		const [searchTerm, setSearchTerm] = useState('');
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (isOpen) {
 				setSearchTerm('');
 			}
 		}, [isOpen]);
 
-		const availableUsers = React.useMemo((): Array<UserRecord> => {
+		const availableUsers = useMemo((): Array<UserRecord> => {
 			if (channel.guildId) {
 				const members = GuildMemberStore.getMembers(channel.guildId);
 				return members.map((m) => m.user);
@@ -63,7 +65,7 @@ export const UserFilterSheet: React.FC<UserFilterSheetProps> = observer(
 			return channel.recipientIds.map((id) => UserStore.getUser(id)).filter((u): u is UserRecord => u !== null);
 		}, [channel.guildId, channel.recipientIds]);
 
-		const filteredUsers = React.useMemo(() => {
+		const filteredUsers = useMemo(() => {
 			if (!searchTerm.trim()) {
 				return availableUsers.slice(0, 50);
 			}
@@ -100,19 +102,20 @@ export const UserFilterSheet: React.FC<UserFilterSheetProps> = observer(
 								placeholder={t`Search users`}
 								value={searchTerm}
 								onChange={(e) => setSearchTerm(e.target.value)}
+								{...PASSWORD_MANAGER_IGNORE_ATTRIBUTES}
 								autoComplete="off"
 								autoCorrect="off"
 								autoCapitalize="off"
 							/>
 							{searchTerm.length > 0 && (
 								<button type="button" className={styles.clearButton} onClick={() => setSearchTerm('')}>
-									<XIcon size={18} weight="regular" />
+									<XIcon size={18} weight="bold" />
 								</button>
 							)}
 						</div>
 					</div>
 
-					<Scroller className={styles.scroller} fade={false}>
+					<Scroller key="user-filter-scroller" className={styles.scroller} fade={false}>
 						<div className={styles.listContent}>
 							{filteredUsers.length === 0 ? (
 								<div className={styles.emptyState}>

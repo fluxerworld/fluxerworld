@@ -1,0 +1,9 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "./tsconfigs/base.json",
+	"compilerOptions": {
+		"noEmit": true
+	},
+	"files": [],
+	"exclude": ["node_modules", "dist", "coverage"]
+}

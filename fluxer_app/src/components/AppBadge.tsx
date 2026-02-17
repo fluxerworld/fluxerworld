@@ -17,29 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {updateDocumentTitleBadge} from '@app/hooks/useFluxerDocumentTitle';
+import {Logger} from '@app/lib/Logger';
+import GuildReadStateStore from '@app/stores/GuildReadStateStore';
+import NotificationStore from '@app/stores/NotificationStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import {getElectronAPI} from '@app/utils/NativeUtils';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import Favico from 'favico.js';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useEffect} from 'react';
-import {RelationshipTypes} from '~/Constants';
-import {updateDocumentTitleBadge} from '~/hooks/useFluxerDocumentTitle';
-import {Logger} from '~/lib/Logger';
-import GuildReadStateStore from '~/stores/GuildReadStateStore';
-import NotificationStore from '~/stores/NotificationStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-import {getElectronAPI} from '~/utils/NativeUtils';
-
-declare global {
-	interface Navigator {
-		setAppBadge?: (contents?: number) => Promise<void>;
-		clearAppBadge?: () => Promise<void>;
-	}
-}
 
 const logger = new Logger('AppBadge');
 
 const UNREAD_INDICATOR = -1;
-type BadgeValue = number;
 
 let favico: Favico | null = null;
 
@@ -55,9 +47,9 @@ const initFavico = (): Favico | null => {
 	}
 };
 
-const setElectronBadge = (badge: BadgeValue): void => {
+const setElectronBadge = (badge: number): void => {
 	const electronApi = getElectronAPI();
-	if (!electronApi) return;
+	if (!electronApi?.setBadgeCount) return;
 
 	const electronBadge = badge > 0 ? badge : 0;
 	try {
@@ -67,7 +59,7 @@ const setElectronBadge = (badge: BadgeValue): void => {
 	}
 };
 
-const setFaviconBadge = (badge: BadgeValue): void => {
+const setFaviconBadge = (badge: number): void => {
 	const fav = initFavico();
 	if (!fav) return;
 
@@ -82,7 +74,7 @@ const setFaviconBadge = (badge: BadgeValue): void => {
 	}
 };
 
-const setPwaBadge = (badge: BadgeValue): void => {
+const setPwaBadge = (badge: number): void => {
 	if (!navigator.setAppBadge || !navigator.clearAppBadge) {
 		return;
 	}
@@ -100,7 +92,7 @@ const setPwaBadge = (badge: BadgeValue): void => {
 	}
 };
 
-const setBadge = (badge: BadgeValue): void => {
+const setBadge = (badge: number): void => {
 	setElectronBadge(badge);
 	setFaviconBadge(badge);
 	setPwaBadge(badge);
@@ -119,7 +111,7 @@ export const AppBadge: React.FC = observer(() => {
 
 	const totalCount = mentionCount + pendingCount;
 
-	let badge: BadgeValue = 0;
+	let badge: number = 0;
 	if (totalCount > 0) {
 		badge = totalCount;
 	} else if (hasUnread && unreadMessageBadgeEnabled) {

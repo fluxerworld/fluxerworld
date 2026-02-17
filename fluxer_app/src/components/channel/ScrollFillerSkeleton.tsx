@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/ScrollFillerSkeleton.module.css';
 import {observer} from 'mobx-react-lite';
 import {forwardRef, useMemo} from 'react';
-import styles from './ScrollFillerSkeleton.module.css';
 
 interface Props {
 	messages: Array<number>;

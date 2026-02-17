@@ -45,9 +45,8 @@ publish(UserId, Payload) when is_integer(UserId) ->
 -spec init(list()) -> {ok, state()}.
 init([]) ->
     process_flag(trap_exit, true),
-    {ShardCount, Source} = determine_shard_count(presence_bus_shards),
+    {ShardCount, _Source} = determine_shard_count(presence_bus_shards),
     Shards = start_shards(ShardCount, #{}),
-    maybe_log_shard_source(presence_bus, ShardCount, Source),
     {ok, #{shards => Shards, shard_count => ShardCount}}.
 
 -spec handle_call(term(), gen_server:from(), state()) -> {reply, term(), state()}.
@@ -60,8 +59,7 @@ handle_call({unsubscribe, UserId, Pid}, _From, State) ->
 handle_call({publish, UserId, Payload}, _From, State) ->
     {Reply, NewState} = forward_call(UserId, {publish, UserId, Payload}, State),
     {reply, Reply, NewState};
-handle_call(Request, _From, State) ->
-    logger:warning("[presence_bus] unknown request ~p", [Request]),
+handle_call(_Request, _From, State) ->
     {reply, ok, State}.
 
 -spec handle_cast(term(), state()) -> {noreply, state()}.
@@ -69,21 +67,19 @@ handle_cast(_Msg, State) ->
     {noreply, State}.
 
 -spec handle_info(term(), state()) -> {noreply, state()}.
-handle_info({'DOWN', Ref, process, _Pid, Reason}, State) ->
+handle_info({'DOWN', Ref, process, _Pid, _Reason}, State) ->
     Shards = maps:get(shards, State),
     case find_shard_by_ref(Ref, Shards) of
         {ok, Index} ->
-            logger:warning("[presence_bus] shard ~p crashed: ~p", [Index, Reason]),
             {_Shard, NewState} = restart_shard(Index, State),
             {noreply, NewState};
         not_found ->
             {noreply, State}
     end;
-handle_info({'EXIT', Pid, Reason}, State) ->
+handle_info({'EXIT', Pid, _Reason}, State) ->
     Shards = maps:get(shards, State),
     case find_shard_by_pid(Pid, Shards) of
         {ok, Index} ->
-            logger:warning("[presence_bus] shard ~p exited: ~p", [Index, Reason]),
             {_Shard, NewState} = restart_shard(Index, State),
             {noreply, NewState};
         not_found ->
@@ -132,17 +128,6 @@ default_shard_count() ->
     ],
     lists:max([C || C <- Candidates, is_integer(C), C > 0] ++ [1]).
 
--spec maybe_log_shard_source(atom(), pos_integer(), configured | auto) -> ok.
-maybe_log_shard_source(Name, Count, configured) ->
-    logger:info("[~p] starting with ~p shards (configured)", [Name, Count]),
-    ok;
-maybe_log_shard_source(Name, Count, auto) ->
-    logger:info(
-        "[~p] starting with ~p shards (auto, set FLUXER_GATEWAY_PRESENCE_BUS_SHARDS for cross-node consistency)",
-        [Name, Count]
-    ),
-    ok.
-
 -spec start_shards(pos_integer(), #{}) -> #{non_neg_integer() => shard()}.
 start_shards(Count, Acc) ->
     lists:foldl(
@@ -150,8 +135,7 @@ start_shards(Count, Acc) ->
             case start_shard(Index) of
                 {ok, Shard} ->
                     maps:put(Index, Shard, MapAcc);
-                {error, Reason} ->
-                    logger:warning("[presence_bus] failed to start shard ~p: ~p", [Index, Reason]),
+                {error, _Reason} ->
                     MapAcc
             end
         end,
@@ -176,8 +160,7 @@ restart_shard(Index, State) ->
             Shards = maps:get(shards, State),
             Updated = State#{shards := maps:put(Index, Shard, Shards)},
             {Shard, Updated};
-        {error, Reason} ->
-            logger:error("[presence_bus] failed to restart shard ~p: ~p", [Index, Reason]),
+        {error, _Reason} ->
             Dummy = #{pid => spawn(fun() -> exit(normal) end), ref => make_ref()},
             {Dummy, State}
     end.
@@ -283,6 +266,21 @@ unsubscribe_stops_delivery_test() ->
         ok
     end,
     ?assertEqual(ok, gen_server:stop(Pid)).
+
+select_shard_test() ->
+    ?assert(select_shard(100, 4) >= 0),
+    ?assert(select_shard(100, 4) < 4).
+
+find_shard_by_ref_test() ->
+    Ref1 = make_ref(),
+    Shards = #{0 => #{pid => self(), ref => Ref1}},
+    ?assertEqual({ok, 0}, find_shard_by_ref(Ref1, Shards)),
+    ?assertEqual(not_found, find_shard_by_ref(make_ref(), Shards)).
+
+find_shard_by_pid_test() ->
+    Shards = #{0 => #{pid => self(), ref => make_ref()}},
+    ?assertEqual({ok, 0}, find_shard_by_pid(self(), Shards)),
+    ?assertEqual(not_found, find_shard_by_pid(spawn(fun() -> ok end), Shards)).
 
 maybe_start_for_test() ->
     case whereis(?MODULE) of

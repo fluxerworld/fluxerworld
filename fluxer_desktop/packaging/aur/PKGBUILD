@@ -1,0 +1,51 @@
+# Maintainer: Fluxer Contributors <developers@fluxer.app>
+pkgname=fluxer-bin
+pkgver=PLACEHOLDER_VERSION
+pkgrel=1
+pkgdesc='Instant messaging and VoIP application'
+arch=('x86_64' 'aarch64')
+url='https://fluxer.app'
+license=('AGPL-3.0-or-later')
+depends=('gtk3' 'libnotify' 'nss' 'libxss' 'libxtst' 'xdg-utils'
+         'at-spi2-core' 'util-linux-libs' 'libsecret' 'libappindicator-gtk3')
+optdepends=('libpipewire: screen sharing via PipeWire')
+provides=('fluxer')
+conflicts=('fluxer')
+options=('!strip' '!debug')
+
+_filename_x86_64="fluxer-stable-${pkgver}-x86_64.tar.gz"
+_filename_aarch64="fluxer-stable-${pkgver}-aarch64.tar.gz"
+
+source_x86_64=("${_filename_x86_64}::https://api.fluxer.app/dl/desktop/stable/linux/x64/${pkgver}/tar_gz")
+source_aarch64=("${_filename_aarch64}::https://api.fluxer.app/dl/desktop/stable/linux/arm64/${pkgver}/tar_gz")
+sha256sums_x86_64=('PLACEHOLDER_SHA256_X64')
+sha256sums_aarch64=('PLACEHOLDER_SHA256_ARM64')
+
+package() {
+    install -d "${pkgdir}/opt/fluxer"
+    cp -r "${srcdir}/"* "${pkgdir}/opt/fluxer/"
+    chmod +x "${pkgdir}/opt/fluxer/fluxer"
+
+    install -d "${pkgdir}/usr/bin"
+    ln -s /opt/fluxer/fluxer "${pkgdir}/usr/bin/fluxer"
+
+    install -Dm644 /dev/stdin "${pkgdir}/usr/share/applications/fluxer.desktop" <<EOF
+[Desktop Entry]
+Name=Fluxer
+Comment=Instant messaging and VoIP application
+Exec=/opt/fluxer/fluxer %U
+Icon=fluxer
+Type=Application
+Categories=Network;InstantMessaging;
+StartupWMClass=fluxer
+MimeType=x-scheme-handler/fluxer;
+Terminal=false
+EOF
+
+    for size in 16 32 48 64 128 256 512; do
+        if [ -f "${srcdir}/resources/icons/${size}x${size}.png" ]; then
+            install -Dm644 "${srcdir}/resources/icons/${size}x${size}.png" \
+                "${pkgdir}/usr/share/icons/hicolor/${size}x${size}/apps/fluxer.png"
+        fi
+    done
+}

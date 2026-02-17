@@ -17,16 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {useCursorAtEnd} from '@app/hooks/useCursorAtEnd';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useForm} from 'react-hook-form';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import styles from '~/components/modals/ConfirmModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
 
 interface FormInputs {
 	name: string;
@@ -40,6 +40,8 @@ export const RenameChannelModal = observer(
 				name: currentName,
 			},
 		});
+
+		const nameRef = useCursorAtEnd<HTMLInputElement>();
 
 		const onSubmit = async (data: FormInputs) => {
 			onSave(data.name);
@@ -56,16 +58,22 @@ export const RenameChannelModal = observer(
 			<Modal.Root size="small" centered>
 				<Form form={form} onSubmit={handleSubmit} aria-label={t`Rename channel form`}>
 					<Modal.Header title={t`Change Nickname`} />
-					<Modal.Content className={styles.content}>
-						<Input
-							{...form.register('name')}
-							autoFocus={true}
-							autoComplete="off"
-							error={form.formState.errors.name?.message}
-							label={t`Nickname`}
-							maxLength={100}
-							placeholder={t`Channel nickname`}
-						/>
+					<Modal.Content>
+						<Modal.ContentLayout>
+							<Input
+								{...form.register('name')}
+								ref={(el) => {
+									nameRef(el);
+									form.register('name').ref(el);
+								}}
+								autoFocus={true}
+								autoComplete="off"
+								error={form.formState.errors.name?.message}
+								label={t`Nickname`}
+								maxLength={100}
+								placeholder={t`Channel nickname`}
+							/>
+						</Modal.ContentLayout>
 					</Modal.Content>
 					<Modal.Footer>
 						<Button onClick={ModalActionCreators.pop} variant="secondary">

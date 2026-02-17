@@ -17,14 +17,101 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ComparisonCheckRow} from '@app/components/modals/components/ComparisonCheckRow';
+import {ComparisonRow} from '@app/components/modals/components/ComparisonRow';
+import styles from '@app/components/modals/components/FeatureComparisonTable.module.css';
+import {formatFileSize} from '@app/utils/FileUtils';
+import {Limits} from '@app/utils/limits/UserLimits';
+import {
+	isBooleanPerk,
+	isNumericPerk,
+	isTextPerk,
+	PLUTONIUM_PERKS,
+	type PlutoniumPerk,
+} from '@fluxer/constants/src/PlutoniumPerks';
+import {formatNumber} from '@fluxer/number_utils/src/NumberFormatting';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {ComparisonCheckRow} from './ComparisonCheckRow';
-import {ComparisonRow} from './ComparisonRow';
-import styles from './FeatureComparisonTable.module.css';
+import {useMemo} from 'react';
 
-export const FeatureComparisonTable = observer(({formatter}: {formatter: Intl.NumberFormat}) => {
-	const {t} = useLingui();
+export const FeatureComparisonTable = observer(() => {
+	const {t, i18n} = useLingui();
+	const locale = i18n.locale;
+
+	const perkLabels = useMemo(
+		() => ({
+			custom_4_digit_username_tag: t`Custom 4-digit username tag`,
+			per_community_profiles: t`Per-community profiles`,
+			message_scheduling: t`Message scheduling`,
+			profile_badge: t`Profile badge`,
+			custom_video_backgrounds: t`Custom video backgrounds`,
+			entrance_sounds: t`Entrance sounds`,
+			notification_sounds: t`Notification sounds`,
+			communities: t`Communities`,
+			message_character_limit: t`Message character limit`,
+			bookmarked_messages: t`Bookmarked messages`,
+			file_upload_size: t`File upload size`,
+			emoji_sticker_packs: t`Emoji & sticker packs`,
+			saved_media: t`Saved media`,
+			use_animated_emojis: t`Use animated emojis`,
+			global_emoji_sticker_access: t`Global emoji & sticker access`,
+			video_quality: t`Video quality`,
+			animated_avatars_and_banners: t`Animated avatars & banners`,
+			early_access: t`Early access to new features`,
+			custom_themes: t`Custom themes`,
+			video_quality_free: t`720p/30fps`,
+			video_quality_premium: t`Up to 4K/60fps`,
+		}),
+		[t],
+	);
+
+	const availablePerks = useMemo(() => PLUTONIUM_PERKS.filter((perk) => perk.status === 'available'), []);
+
+	const formatPerkValue = (perk: PlutoniumPerk, value: number, isPremium: boolean): string => {
+		if (!isNumericPerk(perk)) return String(value);
+
+		const resolvedValue = perk.limitKey
+			? isPremium
+				? Limits.getPremiumValue(perk.limitKey, value)
+				: Limits.getFreeValue(perk.limitKey, value)
+			: value;
+
+		if (perk.unit === 'bytes') {
+			return formatFileSize(resolvedValue);
+		}
+		return formatNumber(resolvedValue, locale);
+	};
+
+	const renderPerkRow = (perk: PlutoniumPerk) => {
+		const label = perkLabels[perk.i18nKey as keyof typeof perkLabels] || perk.i18nKey;
+
+		if (isBooleanPerk(perk)) {
+			return (
+				<ComparisonCheckRow key={perk.id} feature={label} freeHas={perk.freeValue} plutoniumHas={perk.plutoniumValue} />
+			);
+		}
+
+		if (isNumericPerk(perk)) {
+			return (
+				<ComparisonRow
+					key={perk.id}
+					feature={label}
+					freeValue={formatPerkValue(perk, perk.freeValue, false)}
+					plutoniumValue={formatPerkValue(perk, perk.plutoniumValue, true)}
+				/>
+			);
+		}
+
+		if (isTextPerk(perk)) {
+			const freeLabel = perkLabels[perk.freeValueI18nKey as keyof typeof perkLabels] || perk.freeValueI18nKey;
+			const premiumLabel =
+				perkLabels[perk.plutoniumValueI18nKey as keyof typeof perkLabels] || perk.plutoniumValueI18nKey;
+			return <ComparisonRow key={perk.id} feature={label} freeValue={freeLabel} plutoniumValue={premiumLabel} />;
+		}
+
+		return null;
+	};
+
 	return (
 		<div className={styles.table}>
 			<div className={styles.header}>
@@ -43,49 +130,7 @@ export const FeatureComparisonTable = observer(({formatter}: {formatter: Intl.Nu
 				</div>
 			</div>
 
-			<div className={styles.rows}>
-				<ComparisonCheckRow feature={t`Custom 4-digit username tag`} freeHas={false} plutoniumHas={true} />
-				<ComparisonCheckRow feature={t`Per-community profiles`} freeHas={false} plutoniumHas={true} />
-				<ComparisonCheckRow feature={t`Profile badge`} freeHas={false} plutoniumHas={true} />
-				<ComparisonRow
-					feature={t`Custom video backgrounds`}
-					freeValue={formatter.format(1)}
-					plutoniumValue={formatter.format(15)}
-				/>
-				<ComparisonCheckRow feature={t`Custom entrance sounds`} freeHas={false} plutoniumHas={true} />
-				<ComparisonCheckRow feature={t`Custom notification sounds`} freeHas={false} plutoniumHas={true} />
-				<ComparisonRow
-					feature={t`Communities`}
-					freeValue={formatter.format(100)}
-					plutoniumValue={formatter.format(200)}
-				/>
-				<ComparisonRow
-					feature={t`Message character limit`}
-					freeValue={formatter.format(2000)}
-					plutoniumValue={formatter.format(4000)}
-				/>
-				<ComparisonRow
-					feature={t`Bookmarked messages`}
-					freeValue={formatter.format(50)}
-					plutoniumValue={formatter.format(300)}
-				/>
-				<ComparisonRow
-					feature={t`Bio character limit`}
-					freeValue={formatter.format(160)}
-					plutoniumValue={formatter.format(320)}
-				/>
-				<ComparisonRow feature={t`File upload size`} freeValue={t`25 MB`} plutoniumValue={t`500 MB`} />
-				<ComparisonRow
-					feature={t`Saved media`}
-					freeValue={formatter.format(50)}
-					plutoniumValue={formatter.format(500)}
-				/>
-				<ComparisonCheckRow feature={t`Use animated emojis`} freeHas={true} plutoniumHas={true} />
-				<ComparisonCheckRow feature={t`Global emoji & sticker access`} freeHas={false} plutoniumHas={true} />
-				<ComparisonRow feature={t`Video quality`} freeValue={t`720p/30fps`} plutoniumValue={t`Up to 4K/60fps`} />
-				<ComparisonCheckRow feature={t`Animated avatars & banners`} freeHas={false} plutoniumHas={true} />
-				<ComparisonCheckRow feature={t`Early access to new features`} freeHas={false} plutoniumHas={true} />
-			</div>
+			<div className={styles.rows}>{availablePerks.map(renderPerkRow)}</div>
 		</div>
 	);
 });

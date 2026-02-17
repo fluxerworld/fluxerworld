@@ -1,0 +1,26 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "INVITE_DELETE",
+	"description": "Sent when an invite to a channel is deleted.",
+	"scope": "guild",
+	"scopeNote": "Guild scope for guild invites (MANAGE_CHANNELS permission required), presence scope for group DM invites (sent to all recipients)",
+	"dispatchedBy": ["DELETE /invites/:invite_code"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"code": {
+				"type": "string",
+				"description": "The invite code that was deleted"
+			},
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID the invite was for (present for guild and group DM invites)"
+			},
+			"guild_id": {
+				"type": "string",
+				"description": "Guild ID (present for guild invites only)"
+			}
+		},
+		"required": ["code"]
+	}
+}

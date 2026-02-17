@@ -25,11 +25,14 @@
     get_items_in_range/3,
     handle_member_update/3,
     build_sync_response/4,
+    member_list_delta/4,
+    member_list_snapshot/2,
     get_online_count/1,
     broadcast_member_list_updates/3,
     broadcast_all_member_list_updates/1,
     broadcast_member_list_updates_for_channel/2,
-    normalize_ranges/1
+    normalize_ranges/1,
+    get_members_cursor/2
 ]).
 
 -ifdef(TEST).
@@ -43,13 +46,19 @@
 -type group_item() :: map().
 -type list_item() :: member_item() | group_item().
 -type user_id() :: integer().
+-type channel_id() :: integer().
 
 -define(MAX_RANGE_END, 100000).
 
 -spec validate_range(range()) -> range() | invalid.
-validate_range({Start, End}) when is_integer(Start), is_integer(End),
-                                   Start >= 0, End >= 0, Start =< End,
-                                   End =< ?MAX_RANGE_END ->
+validate_range({Start, End}) when
+    is_integer(Start),
+    is_integer(End),
+    Start >= 0,
+    End >= 0,
+    Start =< End,
+    End =< ?MAX_RANGE_END
+->
     {Start, End};
 validate_range(_) ->
     invalid.
@@ -77,27 +86,39 @@ merge_overlapping_ranges([{S1, E1}, {S2, E2} | Rest]) when S2 =< E1 + 1 ->
 merge_overlapping_ranges([Range | Rest]) ->
     [Range | merge_overlapping_ranges(Rest)].
 
--spec calculate_list_id(integer(), guild_state()) -> list_id().
-calculate_list_id(ChannelId, _State) when is_integer(ChannelId), ChannelId > 0 ->
-    integer_to_binary(ChannelId);
+-spec calculate_list_id(channel_id(), guild_state()) -> list_id().
+calculate_list_id(ChannelId, State) when is_integer(ChannelId), ChannelId > 0 ->
+    Data = maps:get(data, State, #{}),
+    Channels = map_utils:ensure_list(maps:get(<<"channels">>, Data, [])),
+    ChannelIdBin = integer_to_binary(ChannelId),
+    ChannelExists = lists:any(
+        fun(Ch) -> maps:get(<<"id">>, Ch, undefined) =:= ChannelIdBin end, Channels
+    ),
+    case ChannelExists of
+        true -> ChannelIdBin;
+        false -> <<"0">>
+    end;
 calculate_list_id(_, _) ->
     <<"0">>.
 
 -spec get_member_groups(list_id(), guild_state()) -> [group_item()].
 get_member_groups(ListId, State) ->
     Data = maps:get(data, State, #{}),
-    Members = map_utils:ensure_list(maps:get(<<"members">>, Data, [])),
+    Members = guild_data_index:member_values(Data),
     Roles = map_utils:ensure_list(maps:get(<<"roles">>, Data, [])),
     GuildId = maps:get(id, State, 0),
     HoistedRoles = get_hoisted_roles_sorted(Roles, GuildId),
     FilteredMembers = filter_members_for_list(ListId, Members, State),
     {OnlineMembers, OfflineMembers} = partition_members_by_online(FilteredMembers, State),
     RoleGroups = build_role_groups(HoistedRoles, OnlineMembers),
-    OnlineGroup = #{<<"id">> => <<"online">>, <<"count">> => count_ungrouped_online(OnlineMembers, HoistedRoles)},
+    OnlineGroup = #{
+        <<"id">> => <<"online">>, <<"count">> => count_ungrouped_online(OnlineMembers, HoistedRoles)
+    },
     OfflineGroup = #{<<"id">> => <<"offline">>, <<"count">> => length(OfflineMembers)},
     RoleGroups ++ [OnlineGroup, OfflineGroup].
 
--spec subscribe_ranges(binary(), list_id(), [range()], guild_state()) -> {guild_state(), boolean(), [range()]}.
+-spec subscribe_ranges(binary(), list_id(), [range()], guild_state()) ->
+    {guild_state(), boolean(), [range()]}.
 subscribe_ranges(SessionId, ListId, Ranges, State) ->
     NormalizedRanges = normalize_ranges(Ranges),
     Subscriptions = maps:get(member_list_subscriptions, State, #{}),
@@ -205,8 +226,9 @@ build_sync_response(GuildId, ListId, Ranges, State) ->
 -spec get_online_count(guild_state()) -> non_neg_integer().
 get_online_count(State) ->
     Data = maps:get(data, State, #{}),
-    Members = map_utils:ensure_list(maps:get(<<"members">>, Data, [])),
-    {OnlineMembers, _} = partition_members_by_online(Members, State),
+    Members = guild_data_index:member_values(Data),
+    EligibleMembers = filter_members_for_list(<<"0">>, Members, State),
+    {OnlineMembers, _} = partition_members_by_online(EligibleMembers, State),
     length(OnlineMembers).
 
 -spec broadcast_member_list_updates(user_id(), guild_state(), guild_state()) -> ok.
@@ -226,7 +248,9 @@ broadcast_member_list_updates(_UserId, OldState, UpdatedState) ->
                         <<"groups">> => Groups,
                         <<"ops">> => Ops
                     },
-                    send_member_list_update_to_sessions(ListId, ListSubs, Sessions, Payload, UpdatedState);
+                    send_member_list_update_to_sessions(
+                        ListId, ListSubs, Sessions, Payload, UpdatedState
+                    );
                 _ ->
                     ok
             end
@@ -246,7 +270,9 @@ send_member_list_update_to_sessions(ListId, ListSubs, Sessions, Payload, State) 
                         true ->
                             case session_can_view_channel(SessionData, ChannelId, State) of
                                 true ->
-                                    gen_server:cast(SessionPid, {dispatch, guild_member_list_update, Payload});
+                                    gen_server:cast(
+                                        SessionPid, {dispatch, guild_member_list_update, Payload}
+                                    );
                                 false ->
                                     ok
                             end;
@@ -260,7 +286,7 @@ send_member_list_update_to_sessions(ListId, ListSubs, Sessions, Payload, State) 
         ListSubs
     ).
 
- -spec member_list_delta(list_id(), guild_state(), guild_state(), user_id()) ->
+-spec member_list_delta(list_id(), guild_state(), guild_state(), user_id()) ->
     {non_neg_integer(), non_neg_integer(), [group_item()], [list_item()], boolean()}.
 member_list_delta(ListId, OldState, UpdatedState, UserId) ->
     {OldCount, OldOnline, OldGroups, OldItems} = member_list_snapshot(ListId, OldState),
@@ -270,10 +296,14 @@ member_list_delta(ListId, OldState, UpdatedState, UserId) ->
             {MemberCount, OnlineCount, Groups, Ops, true};
         {false, _} ->
             Ops = diff_items_to_ops(OldItems, Items),
-            Changed = Ops =/= [] orelse OldCount =/= MemberCount orelse OldOnline =/= OnlineCount orelse OldGroups =/= Groups,
+            Changed =
+                Ops =/= [] orelse OldCount =/= MemberCount orelse OldOnline =/= OnlineCount orelse
+                    OldGroups =/= Groups,
             {MemberCount, OnlineCount, Groups, Ops, Changed}
     end.
 
+-spec presence_move_ops(user_id(), guild_state(), guild_state(), [list_item()], [list_item()]) ->
+    {boolean(), [map()]}.
 presence_move_ops(UserId, OldState, UpdatedState, OldItems, NewItems) ->
     case presence_status_changed(UserId, OldState, UpdatedState) of
         false ->
@@ -295,6 +325,7 @@ presence_move_ops(UserId, OldState, UpdatedState, OldItems, NewItems) ->
             end
     end.
 
+-spec presence_status_changed(user_id(), guild_state(), guild_state()) -> boolean().
 presence_status_changed(UserId, OldState, UpdatedState) ->
     OldPresence = resolve_presence_for_user(OldState, UserId),
     NewPresence = resolve_presence_for_user(UpdatedState, UserId),
@@ -302,9 +333,13 @@ presence_status_changed(UserId, OldState, UpdatedState) ->
     NewStatus = maps:get(<<"status">>, NewPresence, <<"offline">>),
     OldStatus =/= NewStatus.
 
+-spec find_member_entry(user_id(), [list_item()]) ->
+    {ok, non_neg_integer(), list_item()} | {error, not_found}.
 find_member_entry(UserId, Items) ->
     find_member_entry(UserId, Items, 0).
 
+-spec find_member_entry(user_id(), [list_item()], non_neg_integer()) ->
+    {ok, non_neg_integer(), list_item()} | {error, not_found}.
 find_member_entry(_UserId, [], _Index) ->
     {error, not_found};
 find_member_entry(UserId, [Item | Rest], Index) ->
@@ -318,6 +353,7 @@ find_member_entry(UserId, [Item | Rest], Index) ->
             end
     end.
 
+-spec adjusted_insert_index(non_neg_integer(), non_neg_integer()) -> non_neg_integer().
 adjusted_insert_index(OldIdx, NewIdx) when NewIdx > OldIdx ->
     NewIdx - 1;
 adjusted_insert_index(_OldIdx, NewIdx) ->
@@ -345,9 +381,16 @@ broadcast_all_member_list_updates(State) ->
                     case maps:get(SessionId, Sessions, undefined) of
                         SessionData when is_map(SessionData) ->
                             SessionPid = maps:get(pid, SessionData, undefined),
-                            case {is_pid(SessionPid), session_can_view_channel(SessionData, ChannelId, State)} of
+                            case
+                                {
+                                    is_pid(SessionPid),
+                                    session_can_view_channel(SessionData, ChannelId, State)
+                                }
+                            of
                                 {true, true} ->
-                                    SyncResponse = build_sync_response(GuildId, ListId, Ranges, State),
+                                    SyncResponse = build_sync_response(
+                                        GuildId, ListId, Ranges, State
+                                    ),
                                     gen_server:cast(
                                         SessionPid,
                                         {dispatch, guild_member_list_update, SyncResponse}
@@ -366,7 +409,7 @@ broadcast_all_member_list_updates(State) ->
     ),
     ok.
 
--spec broadcast_member_list_updates_for_channel(integer(), guild_state()) -> ok.
+-spec broadcast_member_list_updates_for_channel(channel_id(), guild_state()) -> ok.
 broadcast_member_list_updates_for_channel(ChannelId, State) ->
     GuildId = maps:get(id, State, 0),
     ListId = calculate_list_id(ChannelId, State),
@@ -381,13 +424,23 @@ broadcast_member_list_updates_for_channel(ChannelId, State) ->
                     case maps:get(SessionId, Sessions, undefined) of
                         SessionData when is_map(SessionData) ->
                             SessionPid = maps:get(pid, SessionData, undefined),
-                            case {is_pid(SessionPid), session_can_view_channel(SessionData, ChannelId, State)} of
+                            case
+                                {
+                                    is_pid(SessionPid),
+                                    session_can_view_channel(SessionData, ChannelId, State)
+                                }
+                            of
                                 {true, true} ->
-                                    SyncResponse = build_sync_response(GuildId, ListId, Ranges, State),
-                                    SyncResponseWithChannel = maps:put(<<"channel_id">>, integer_to_binary(ChannelId), SyncResponse),
+                                    SyncResponse = build_sync_response(
+                                        GuildId, ListId, Ranges, State
+                                    ),
+                                    SyncResponseWithChannel = maps:put(
+                                        <<"channel_id">>, integer_to_binary(ChannelId), SyncResponse
+                                    ),
                                     gen_server:cast(
                                         SessionPid,
-                                        {dispatch, guild_member_list_update, SyncResponseWithChannel}
+                                        {dispatch, guild_member_list_update,
+                                            SyncResponseWithChannel}
                                     );
                                 _ ->
                                     ok
@@ -445,14 +498,33 @@ filter_members_for_list(ListId, Members, State) ->
             )
     end.
 
+-spec connected_session_user_ids(guild_state()) -> sets:set().
+connected_session_user_ids(State) ->
+    Sessions = maps:get(sessions, State, #{}),
+    maps:fold(
+        fun(_SessionId, SessionData, Acc) ->
+            case maps:get(user_id, SessionData, undefined) of
+                UserId when is_integer(UserId), UserId > 0 ->
+                    sets:add_element(UserId, Acc);
+                _ ->
+                    Acc
+            end
+        end,
+        sets:new(),
+        Sessions
+    ).
+
 -spec partition_members_by_online([map()], guild_state()) -> {[map()], [map()]}.
 partition_members_by_online(Members, State) ->
+    ConnectedUserIds = connected_session_user_ids(State),
     lists:partition(
         fun(Member) ->
             UserId = get_member_user_id(Member),
             Presence = resolve_presence_for_user(State, UserId),
             Status = maps:get(<<"status">>, Presence, <<"offline">>),
-            Status =/= <<"offline">> andalso Status =/= <<"invisible">>
+            IsConnected = sets:is_element(UserId, ConnectedUserIds),
+            IsOnlineStatus = Status =/= <<"offline">> andalso Status =/= <<"invisible">>,
+            IsConnected andalso IsOnlineStatus
         end,
         Members
     ).
@@ -471,15 +543,17 @@ build_role_groups(HoistedRoles, OnlineMembers) ->
 -spec count_members_with_top_role(integer(), [map()], [map()]) -> non_neg_integer().
 count_members_with_top_role(RoleId, Members, HoistedRoles) ->
     HoistedRoleIds = [map_utils:get_integer(R, <<"id">>, 0) || R <- HoistedRoles],
-    length(lists:filter(
-        fun(Member) ->
-            MemberRoles = map_utils:ensure_list(maps:get(<<"roles">>, Member, [])),
-            MemberRoleIds = [type_conv:to_integer(R) || R <- MemberRoles],
-            TopHoisted = find_top_hoisted_role(MemberRoleIds, HoistedRoleIds),
-            TopHoisted =:= RoleId
-        end,
-        Members
-    )).
+    length(
+        lists:filter(
+            fun(Member) ->
+                MemberRoles = map_utils:ensure_list(maps:get(<<"roles">>, Member, [])),
+                MemberRoleIds = [type_conv:to_integer(R) || R <- MemberRoles],
+                TopHoisted = find_top_hoisted_role(MemberRoleIds, HoistedRoleIds),
+                TopHoisted =:= RoleId
+            end,
+            Members
+        )
+    ).
 
 -spec find_top_hoisted_role([integer()], [integer()]) -> integer() | undefined.
 find_top_hoisted_role(MemberRoleIds, HoistedRoleIds) ->
@@ -491,20 +565,22 @@ find_top_hoisted_role(MemberRoleIds, HoistedRoleIds) ->
 -spec count_ungrouped_online([map()], [map()]) -> non_neg_integer().
 count_ungrouped_online(OnlineMembers, HoistedRoles) ->
     HoistedRoleIds = [map_utils:get_integer(R, <<"id">>, 0) || R <- HoistedRoles],
-    length(lists:filter(
-        fun(Member) ->
-            MemberRoles = map_utils:ensure_list(maps:get(<<"roles">>, Member, [])),
-            MemberRoleIds = [type_conv:to_integer(R) || R <- MemberRoles],
-            TopHoisted = find_top_hoisted_role(MemberRoleIds, HoistedRoleIds),
-            TopHoisted =:= undefined
-        end,
-        OnlineMembers
-    )).
+    length(
+        lists:filter(
+            fun(Member) ->
+                MemberRoles = map_utils:ensure_list(maps:get(<<"roles">>, Member, [])),
+                MemberRoleIds = [type_conv:to_integer(R) || R <- MemberRoles],
+                TopHoisted = find_top_hoisted_role(MemberRoleIds, HoistedRoleIds),
+                TopHoisted =:= undefined
+            end,
+            OnlineMembers
+        )
+    ).
 
 -spec get_sorted_members_for_list(list_id(), guild_state()) -> [map()].
 get_sorted_members_for_list(ListId, State) ->
     Data = maps:get(data, State, #{}),
-    Members = map_utils:ensure_list(maps:get(<<"members">>, Data, [])),
+    Members = guild_data_index:member_values(Data),
     FilteredMembers = filter_members_for_list(ListId, Members, State),
     lists:sort(
         fun(A, B) ->
@@ -519,11 +595,18 @@ get_member_user_id(Member) ->
     map_utils:get_integer(User, <<"id">>, 0).
 
 -spec normalize_name(term()) -> binary().
-normalize_name(undefined) -> <<>>;
-normalize_name(null) -> <<>>;
-normalize_name(<<_/binary>> = B) -> B;
+normalize_name(undefined) ->
+    <<>>;
+normalize_name(null) ->
+    <<>>;
+normalize_name(<<_/binary>> = B) ->
+    B;
 normalize_name(L) when is_list(L) ->
-    try unicode:characters_to_binary(L) catch _:_ -> <<>> end;
+    try
+        unicode:characters_to_binary(L)
+    catch
+        _:_ -> <<>>
+    end;
 normalize_name(I) when is_integer(I) ->
     integer_to_binary(I);
 normalize_name(_) ->
@@ -560,11 +643,13 @@ casefold_binary(Value) ->
         _:_ -> Bin
     end.
 
+-spec add_presence_to_member(map(), guild_state()) -> map().
 add_presence_to_member(Member, State) ->
     UserId = get_member_user_id(Member),
     Presence = resolve_presence_for_user(State, UserId),
     maps:put(<<"presence">>, Presence, Member).
 
+-spec default_presence() -> map().
 default_presence() ->
     #{
         <<"status">> => <<"offline">>,
@@ -572,20 +657,10 @@ default_presence() ->
         <<"afk">> => false
     }.
 
+-spec resolve_presence_for_user(guild_state(), user_id()) -> map().
 resolve_presence_for_user(State, UserId) ->
-    Presences = maps:get(presences, State, #{}),
-    case maps:get(UserId, Presences, undefined) of
-        undefined -> fetch_presence_from_cache(UserId);
-        Presence -> Presence
-    end.
-
-fetch_presence_from_cache(UserId) ->
-    try presence_cache:get(UserId) of
-        {ok, Presence} -> Presence;
-        _ -> default_presence()
-    catch
-        exit:{noproc, _} -> default_presence()
-    end.
+    MemberPresence = maps:get(member_presence, State, #{}),
+    maps:get(UserId, MemberPresence, default_presence()).
 
 -spec build_member_list_items([group_item()], [map()], guild_state()) -> [list_item()].
 build_member_list_items(Groups, Members, State) ->
@@ -609,9 +684,21 @@ build_member_list_items(Groups, Members, State) ->
                         end,
                         OnlineMembers
                     ),
-                    [GroupHeader | [#{<<"member">> => add_presence_to_member(M, State)} || M <- UngroupedOnline]];
+                    [
+                        GroupHeader
+                        | [
+                            #{<<"member">> => add_presence_to_member(M, State)}
+                         || M <- UngroupedOnline
+                        ]
+                    ];
                 <<"offline">> ->
-                    [GroupHeader | [#{<<"member">> => add_presence_to_member(M, State)} || M <- OfflineMembers]];
+                    [
+                        GroupHeader
+                        | [
+                            #{<<"member">> => add_presence_to_member(M, State)}
+                         || M <- OfflineMembers
+                        ]
+                    ];
                 RoleIdBin ->
                     RoleId = type_conv:to_integer(RoleIdBin),
                     RoleMembers = lists:filter(
@@ -622,7 +709,10 @@ build_member_list_items(Groups, Members, State) ->
                         end,
                         OnlineMembers
                     ),
-                    [GroupHeader | [#{<<"member">> => add_presence_to_member(M, State)} || M <- RoleMembers]]
+                    [
+                        GroupHeader
+                        | [#{<<"member">> => add_presence_to_member(M, State)} || M <- RoleMembers]
+                    ]
             end
         end,
         Groups
@@ -636,7 +726,7 @@ slice_items(Items, Start, End) ->
         false -> lists:sublist(Items, Start + 1, SafeEnd - Start + 1)
     end.
 
--spec member_in_list(integer(), [map()]) -> boolean().
+-spec member_in_list(user_id(), [map()]) -> boolean().
 member_in_list(UserId, Members) ->
     lists:any(fun(M) -> get_member_user_id(M) =:= UserId end, Members).
 
@@ -650,50 +740,83 @@ full_sync_ops(ListId, State) ->
     SortedMembers = get_sorted_members_for_list(ListId, State),
     Items = build_full_items(ListId, State, SortedMembers),
     case length(Items) of
-        0 -> [];
+        0 ->
+            [];
         N ->
-            [#{
-                <<"op">> => <<"SYNC">>,
-                <<"range">> => [0, N - 1],
-                <<"items">> => Items
-            }]
+            [
+                #{
+                    <<"op">> => <<"SYNC">>,
+                    <<"range">> => [0, N - 1],
+                    <<"items">> => Items
+                }
+            ]
     end.
 
--spec upsert_member_in_state(integer(), map(), guild_state()) -> {map() | undefined, map(), guild_state()}.
+-spec get_members_cursor(map(), guild_state()) -> {reply, map(), guild_state()}.
+get_members_cursor(Request, State) ->
+    Limit = maps:get(<<"limit">>, Request, 1),
+    AfterId = maps:get(<<"after">>, Request, undefined),
+    SortedMembers = sort_members_by_user_id(State),
+    FilteredMembers = filter_members_after(SortedMembers, AfterId),
+    ResponseMembers = take_first(FilteredMembers, Limit),
+    {reply,
+        #{
+            members => ResponseMembers,
+            total => length(SortedMembers)
+        },
+        State}.
+
+-spec take_first([map()], integer()) -> [map()].
+take_first(_Members, Limit) when Limit =< 0 ->
+    [];
+take_first(Members, Limit) ->
+    Count = min(Limit, length(Members)),
+    case Count of
+        0 -> [];
+        _ -> lists:sublist(Members, 1, Count)
+    end.
+
+-spec filter_members_after([map()], integer() | undefined) -> [map()].
+filter_members_after(Members, undefined) ->
+    Members;
+filter_members_after(Members, AfterId) ->
+    lists:dropwhile(
+        fun(Member) ->
+            get_member_user_id(Member) =< AfterId
+        end,
+        Members
+    ).
+
+-spec sort_members_by_user_id(guild_state()) -> [map()].
+sort_members_by_user_id(State) ->
+    Data = maps:get(data, State, #{}),
+    Members = guild_data_index:member_values(Data),
+    lists:sort(
+        fun(A, B) ->
+            get_member_user_id(A) =< get_member_user_id(B)
+        end,
+        Members
+    ).
+
+-spec upsert_member_in_state(user_id(), map(), guild_state()) ->
+    {map() | undefined, map(), guild_state()}.
 upsert_member_in_state(UserId, MemberUpdate, State) ->
     Data = maps:get(data, State, #{}),
-    Members0 = map_utils:ensure_list(maps:get(<<"members">>, Data, [])),
-    {Found, CurrentMember} = find_member_by_user_id(UserId, Members0),
+    Members0 = guild_data_index:member_map(Data),
+    CurrentMember = maps:get(UserId, Members0, undefined),
     UpdatedMember =
-        case Found of
-            true -> deep_merge_member(CurrentMember, MemberUpdate);
-            false -> MemberUpdate
+        case CurrentMember of
+            undefined -> MemberUpdate;
+            _ -> deep_merge_member(CurrentMember, MemberUpdate)
         end,
-    Members1 =
-        case Found of
-            true ->
-                lists:map(
-                    fun(M) ->
-                        case get_member_user_id(M) =:= UserId of
-                            true -> UpdatedMember;
-                            false -> M
-                        end
-                    end,
-                    Members0
-                );
-            false ->
-                Members0 ++ [UpdatedMember]
-        end,
-    Data1 = maps:put(<<"members">>, Members1, Data),
+    Members1 = maps:put(UserId, UpdatedMember, Members0),
+    Data1 = guild_data_index:put_member_map(Members1, Data),
     NewState = maps:put(data, Data1, State),
-    {case Found of true -> CurrentMember; false -> undefined end, UpdatedMember, NewState}.
-
--spec find_member_by_user_id(integer(), [map()]) -> {boolean(), map()} | {false, undefined}.
-find_member_by_user_id(UserId, Members) ->
-    case lists:search(fun(M) -> get_member_user_id(M) =:= UserId end, Members) of
-        {value, M} -> {true, M};
-        false -> {false, undefined}
-    end.
+    {
+        CurrentMember,
+        UpdatedMember,
+        NewState
+    }.
 
 -spec deep_merge_member(map(), map()) -> map().
 deep_merge_member(CurrentMember, MemberUpdate) ->
@@ -741,13 +864,16 @@ diff_items_to_ops(OldItems, NewItems) ->
 -spec full_sync_from_items([list_item()]) -> [map()].
 full_sync_from_items(Items) ->
     case length(Items) of
-        0 -> [];
+        0 ->
+            [];
         N ->
-            [#{
-                <<"op">> => <<"SYNC">>,
-                <<"range">> => [0, N - 1],
-                <<"items">> => Items
-            }]
+            [
+                #{
+                    <<"op">> => <<"SYNC">>,
+                    <<"range">> => [0, N - 1],
+                    <<"items">> => Items
+                }
+            ]
     end.
 
 -spec item_keys([list_item()]) -> [term()].
@@ -777,11 +903,14 @@ updates_for_changed_items(OldItems, NewItems) ->
                     true ->
                         Acc;
                     false ->
-                        [#{
-                            <<"op">> => <<"UPDATE">>,
-                            <<"index">> => Idx,
-                            <<"item">> => NewItem
-                        } | Acc]
+                        [
+                            #{
+                                <<"op">> => <<"UPDATE">>,
+                                <<"index">> => Idx,
+                                <<"item">> => NewItem
+                            }
+                            | Acc
+                        ]
                 end
             end,
             [],
@@ -792,6 +921,9 @@ updates_for_changed_items(OldItems, NewItems) ->
 -spec zip_with_index([term()], [term()]) -> [{non_neg_integer(), term(), term()}].
 zip_with_index(A, B) ->
     zip_with_index(A, B, 0, []).
+
+-spec zip_with_index([term()], [term()], non_neg_integer(), [{non_neg_integer(), term(), term()}]) ->
+    [{non_neg_integer(), term(), term()}].
 zip_with_index([], [], _I, Acc) ->
     lists:reverse(Acc);
 zip_with_index([HA | TA], [HB | TB], I, Acc) ->
@@ -802,6 +934,11 @@ zip_with_index(_, _, _I, Acc) ->
 -spec mismatch_span([term()], [term()]) -> none | {non_neg_integer(), non_neg_integer()}.
 mismatch_span(A, B) ->
     mismatch_span(A, B, 0, none).
+
+-spec mismatch_span(
+    [term()], [term()], non_neg_integer(), none | {non_neg_integer(), non_neg_integer()}
+) ->
+    none | {non_neg_integer(), non_neg_integer()}.
 mismatch_span([], [], _I, none) ->
     none;
 mismatch_span([], [], _I, {S, E}) ->
@@ -831,7 +968,8 @@ sync_range_op(Start, End, NewItems) ->
         <<"items">> => slice_items(NewItems, Start, End)
     }.
 
--spec try_pure_insert_delete([list_item()], [list_item()], [term()], [term()]) -> {ok, [map()]} | error.
+-spec try_pure_insert_delete([list_item()], [list_item()], [term()], [term()]) ->
+    {ok, [map()]} | error.
 try_pure_insert_delete(OldItems, NewItems, OldKeys, NewKeys) ->
     LenOld = length(OldKeys),
     LenNew = length(NewKeys),
@@ -872,6 +1010,8 @@ try_pure_insert_delete(OldItems, NewItems, OldKeys, NewKeys) ->
 -spec first_mismatch_index([term()], [term()]) -> non_neg_integer().
 first_mismatch_index(A, B) ->
     first_mismatch_index(A, B, 0).
+
+-spec first_mismatch_index([term()], [term()], non_neg_integer()) -> non_neg_integer().
 first_mismatch_index([], _B, I) ->
     I;
 first_mismatch_index(_A, [], I) ->
@@ -896,6 +1036,8 @@ delete_many(List, Index, Count) ->
 -spec insert_ops(non_neg_integer(), [list_item()]) -> [map()].
 insert_ops(StartIdx, Items) ->
     insert_ops(StartIdx, Items, 0, []).
+
+-spec insert_ops(non_neg_integer(), [list_item()], non_neg_integer(), [map()]) -> [map()].
 insert_ops(_StartIdx, [], _Offset, Acc) ->
     lists:reverse(Acc);
 insert_ops(StartIdx, [Item | Rest], Offset, Acc) ->
@@ -920,18 +1062,23 @@ delete_ops(Idx, Count) ->
         lists:seq(1, Count)
     ).
 
--spec session_can_view_channel(map(), integer(), guild_state()) -> boolean().
-session_can_view_channel(_SessionData, ChannelId, _State) when not is_integer(ChannelId); ChannelId =< 0 ->
+-spec session_can_view_channel(map(), channel_id(), guild_state()) -> boolean().
+session_can_view_channel(_SessionData, ChannelId, _State) when
+    not is_integer(ChannelId); ChannelId =< 0
+->
     false;
 session_can_view_channel(SessionData, ChannelId, State) ->
-    case maps:get(user_id, SessionData, undefined) of
-        UserId when is_integer(UserId) ->
+    case {maps:get(user_id, SessionData, undefined), maps:get(viewable_channels, SessionData, undefined)} of
+        {UserId, ViewableChannels} when is_integer(UserId), is_map(ViewableChannels) ->
+            maps:is_key(ChannelId, ViewableChannels) orelse
+                guild_permissions:can_view_channel(UserId, ChannelId, undefined, State);
+        {UserId, _} when is_integer(UserId) ->
             guild_permissions:can_view_channel(UserId, ChannelId, undefined, State);
         _ ->
             false
     end.
 
--spec list_id_channel_id(list_id()) -> integer().
+-spec list_id_channel_id(list_id()) -> channel_id().
 list_id_channel_id(ListId) when is_binary(ListId) ->
     case type_conv:to_integer(ListId) of
         undefined -> 0;
@@ -965,6 +1112,16 @@ list_id_channel_id_parses_binary_test() ->
 
 list_id_channel_id_invalid_value_test() ->
     ?assertEqual(0, list_id_channel_id(<<"abc">>)).
+
+session_can_view_channel_uses_cached_visibility_test() ->
+    SessionData = #{user_id => 12, viewable_channels => #{500 => true}},
+    State = #{data => #{<<"members">> => #{}}},
+    ?assertEqual(true, session_can_view_channel(SessionData, 500, State)).
+
+session_can_view_channel_rejects_when_cache_misses_and_user_missing_test() ->
+    SessionData = #{user_id => 99, viewable_channels => #{}},
+    State = #{data => #{<<"members">> => #{}}},
+    ?assertEqual(false, session_can_view_channel(SessionData, 500, State)).
 
 subscribe_ranges_test() ->
     State = #{member_list_subscriptions => #{}},
@@ -1023,5 +1180,65 @@ validate_range_invalid_negative_test() ->
 
 validate_range_invalid_too_large_test() ->
     ?assertEqual(invalid, validate_range({0, 100001})).
+
+get_members_cursor_returns_atom_keys_test() ->
+    Member1 = #{<<"user">> => #{<<"id">> => <<"2">>}},
+    Member2 = #{<<"user">> => #{<<"id">> => <<"1">>}},
+    State = #{data => #{<<"members">> => [Member1, Member2]}},
+    {reply, Reply, _NewState} = get_members_cursor(#{<<"limit">> => 1}, State),
+    ?assert(maps:is_key(members, Reply)),
+    ?assert(maps:is_key(total, Reply)),
+    ?assertNot(maps:is_key(<<"members">>, Reply)),
+    ?assertNot(maps:is_key(<<"total">>, Reply)).
+
+get_online_count_ignores_members_without_connected_session_test() ->
+    Members = [
+        #{<<"user">> => #{<<"id">> => <<"1">>}},
+        #{<<"user">> => #{<<"id">> => <<"2">>}}
+    ],
+    State = #{
+        data => #{<<"members">> => Members},
+        sessions => #{<<"s1">> => #{user_id => 1}},
+        member_presence => #{
+            1 => #{<<"status">> => <<"online">>},
+            2 => #{<<"status">> => <<"online">>}
+        }
+    },
+    ?assertEqual(1, get_online_count(State)).
+
+filter_members_for_list_keeps_members_without_connected_session_test() ->
+    Members = [
+        #{<<"user">> => #{<<"id">> => <<"1">>}},
+        #{<<"user">> => #{<<"id">> => <<"2">>}}
+    ],
+    State = #{
+        sessions => #{<<"s1">> => #{user_id => 1}},
+        data => #{<<"channels">> => []}
+    },
+    FilteredMembers = filter_members_for_list(<<"0">>, Members, State),
+    ?assertEqual([1, 2], [get_member_user_id(Member) || Member <- FilteredMembers]).
+
+get_member_groups_counts_members_without_connected_session_as_offline_test() ->
+    Members = [
+        #{<<"user">> => #{<<"id">> => <<"1">>}},
+        #{<<"user">> => #{<<"id">> => <<"2">>}}
+    ],
+    State = #{
+        id => 123,
+        data => #{
+            <<"members">> => Members,
+            <<"roles">> => []
+        },
+        sessions => #{<<"s1">> => #{user_id => 1}},
+        member_presence => #{
+            1 => #{<<"status">> => <<"online">>},
+            2 => #{<<"status">> => <<"online">>}
+        }
+    },
+    Groups = get_member_groups(<<"0">>, State),
+    OnlineGroup = lists:nth(1, Groups),
+    OfflineGroup = lists:nth(2, Groups),
+    ?assertEqual(1, maps:get(<<"count">>, OnlineGroup)),
+    ?assertEqual(1, maps:get(<<"count">>, OfflineGroup)).
 
 -endif.

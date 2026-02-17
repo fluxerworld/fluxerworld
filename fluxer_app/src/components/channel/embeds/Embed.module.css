@@ -19,10 +19,12 @@
 
 .embed {
 	position: relative;
-	display: grid;
-	max-width: max-content;
+	display: inline-grid;
+	inline-size: fit-content;
+	max-inline-size: 100%;
+	max-width: 100%;
 	box-sizing: border-box;
-	border-radius: 6px;
+	border-radius: 8px;
 }
 
 .embedFull {
@@ -244,40 +246,170 @@
 }
 
 .embedGifvContainer {
-	width: 100%;
-	max-width: var(--embed-width);
+	/* width/max-width handled by inline styles to avoid fit-content circularity */
 }
 
 .container {
+	display: inline-flex;
+	align-items: flex-start;
+	max-width: 100%;
+}
+
+.mediaFrame {
 	position: relative;
 	display: inline-block;
+	inline-size: fit-content;
+	max-inline-size: min(100%, var(--message-media-max-width, 550px));
 	max-width: 100%;
 }
 
 .suppressButton {
-	position: absolute;
-	right: -2rem;
-	top: 0.25rem;
-	z-index: 10;
+	order: 2;
 	display: flex;
 	height: 1.5rem;
 	width: 1.5rem;
 	align-items: center;
 	justify-content: center;
+	align-self: flex-start;
+	margin-top: 0.25rem;
+	margin-left: 0.375rem;
 	color: var(--text-tertiary);
 	transition: color 150ms ease;
 	border: none;
 	background: transparent;
 	cursor: pointer;
 	padding: 0;
+	flex-shrink: 0;
+}
+
+.mediaSuppressButton {
+	position: absolute;
+	top: 0.25rem;
+	left: 100%;
+	margin-left: 0.375rem;
+	margin-top: 0;
+	z-index: 12;
+}
+
+.container > :not(.suppressButton) {
+	order: 1;
 }
 
 .suppressButton:hover {
 	color: var(--status-danger);
 }
 
-@media (max-width: 640px) {
-	.embedGifvContainer {
-		max-width: min(100%, var(--embed-width));
-	}
+.blueskyMediaEngagement {
+	display: inline-flex;
+	flex-direction: column;
+	align-items: flex-start;
+	align-self: flex-start;
+	width: fit-content;
+	max-width: 100%;
+}
+
+.blueskyMediaEngagement .embedMedia {
+	width: 100%;
+	max-width: 100%;
+}
+
+.blueskyGalleryMedia {
+	width: 100%;
+}
+
+.blueskyGalleryMedia .embedMedia {
+	width: 100%;
+}
+
+.blueskyMediaEngagement .blueskyEngagement {
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.blueskyNestedEmbedContainer {
+	width: 100%;
+	margin-top: 8px;
+}
+
+.blueskyNestedEmbed {
+	--bluesky-nested-scale: 0.9;
+	--bluesky-nested-avatar-size: calc(24px * var(--bluesky-nested-scale));
+	--bluesky-nested-avatar-gap: calc(8px * var(--bluesky-nested-scale));
+	width: 100%;
+	border: 1px solid var(--background-modifier-accent);
+	border-radius: 6px;
+	background: transparent;
+	box-shadow: none;
+}
+
+.blueskyNestedEmbed .grid {
+	padding: calc(12px * var(--bluesky-nested-scale)) calc(12px * var(--bluesky-nested-scale))
+		calc(14px * var(--bluesky-nested-scale)) calc(12px * var(--bluesky-nested-scale));
+}
+
+.blueskyNestedEmbed .embedContent {
+	gap: calc(8px * var(--bluesky-nested-scale));
+}
+
+.blueskyNestedEmbed .embedContent > *:first-child {
+	margin-top: calc(4px * var(--bluesky-nested-scale));
+}
+
+.blueskyNestedEmbed .embedProvider {
+	font-size: calc(0.75rem * var(--bluesky-nested-scale));
+	line-height: calc(1rem * var(--bluesky-nested-scale));
+}
+
+.blueskyNestedEmbed .embedAuthorName,
+.blueskyNestedEmbed .embedAuthorNameLink {
+	font-size: calc(0.875rem * var(--bluesky-nested-scale));
+	line-height: calc(1.125rem * var(--bluesky-nested-scale));
+}
+
+.blueskyNestedEmbed .embedAuthorIcon {
+	width: var(--bluesky-nested-avatar-size);
+	height: var(--bluesky-nested-avatar-size);
+	margin-right: var(--bluesky-nested-avatar-gap);
+}
+
+.blueskyNestedEmbed .embedDescription {
+	font-size: calc(0.875rem * var(--bluesky-nested-scale));
+	line-height: calc(1.125rem * var(--bluesky-nested-scale));
+}
+
+.blueskyNestedEmbed .embedMedia {
+	margin-top: calc(4px * var(--bluesky-nested-scale));
+}
+
+.blueskyNestedMediaEngagement {
+	width: 100%;
+	max-width: 100%;
+	align-items: stretch;
+}
+
+.blueskyNestedMediaEngagement .embedMedia {
+	width: 100%;
+}
+
+.blueskyEngagement {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	gap: 8px 16px;
+	border-top: 1px solid var(--background-modifier-hover);
+	padding-top: 12px;
+}
+
+.blueskyEngagementItem {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	font-size: 0.875rem;
+	line-height: 1.125rem;
+	color: var(--text-tertiary);
+}
+
+.blueskyEngagementItem strong {
+	color: var(--text-primary);
+	font-weight: 600;
 }

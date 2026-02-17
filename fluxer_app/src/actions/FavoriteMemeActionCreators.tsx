@@ -17,30 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {MaxFavoriteMemesModal} from '@app/components/alerts/MaxFavoriteMemesModal';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import type {FavoriteMeme} from '@app/records/FavoriteMemeRecord';
+import FavoriteMemeStore from '@app/stores/FavoriteMemeStore';
+import {getApiErrorCode} from '@app/utils/ApiErrorUtils';
+import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
+import {ME} from '@fluxer/constants/src/AppConstants';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {APIErrorCodes, ME} from '~/Constants';
-import {MaxFavoriteMemesModal} from '~/components/alerts/MaxFavoriteMemesModal';
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {FavoriteMeme} from '~/records/FavoriteMemeRecord';
-import FavoriteMemeStore from '~/stores/FavoriteMemeStore';
 
 const logger = new Logger('FavoriteMemes');
 
-const getApiErrorCode = (error: unknown): string | undefined => {
-	if (typeof error === 'object' && error !== null && 'code' in error) {
-		const {code} = error as {code?: unknown};
-		return typeof code === 'string' ? code : undefined;
-	}
-	return undefined;
-};
-
-export const createFavoriteMeme = async (
+export async function createFavoriteMeme(
 	i18n: I18n,
 	{
 		channelId,
@@ -59,7 +53,7 @@ export const createFavoriteMeme = async (
 		altText?: string;
 		tags?: Array<string>;
 	},
-): Promise<void> => {
+): Promise<void> {
 	try {
 		await http.post<FavoriteMeme>(Endpoints.CHANNEL_MESSAGE_FAVORITE_MEMES(channelId, messageId), {
 			attachment_id: attachmentId,
@@ -84,31 +78,34 @@ export const createFavoriteMeme = async (
 
 		throw error;
 	}
-};
+}
 
-export const createFavoriteMemeFromUrl = async (
+export async function createFavoriteMemeFromUrl(
 	i18n: I18n,
 	{
 		url,
 		name,
 		altText,
 		tags,
-		tenorId,
+		klipySlug,
+		tenorSlugId,
 	}: {
 		url: string;
 		name: string;
 		altText?: string;
 		tags?: Array<string>;
-		tenorId?: string;
+		klipySlug?: string;
+		tenorSlugId?: string;
 	},
-): Promise<void> => {
+): Promise<void> {
 	try {
 		await http.post<FavoriteMeme>(Endpoints.USER_FAVORITE_MEMES(ME), {
 			url,
 			name,
 			alt_text: altText,
 			tags,
-			tenor_id: tenorId,
+			klipy_slug: klipySlug,
+			tenor_slug_id: tenorSlugId,
 		});
 
 		ToastActionCreators.createToast({
@@ -126,9 +123,9 @@ export const createFavoriteMemeFromUrl = async (
 
 		throw error;
 	}
-};
+}
 
-export const updateFavoriteMeme = async (
+export async function updateFavoriteMeme(
 	i18n: I18n,
 	{
 		memeId,
@@ -141,7 +138,7 @@ export const updateFavoriteMeme = async (
 		altText?: string | null;
 		tags?: Array<string>;
 	},
-): Promise<void> => {
+): Promise<void> {
 	try {
 		const response = await http.patch<FavoriteMeme>(Endpoints.USER_FAVORITE_MEME(ME, memeId), {
 			name,
@@ -160,9 +157,9 @@ export const updateFavoriteMeme = async (
 		logger.error(`Failed to update favorite meme ${memeId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const deleteFavoriteMeme = async (i18n: I18n, memeId: string): Promise<void> => {
+export async function deleteFavoriteMeme(i18n: I18n, memeId: string): Promise<void> {
 	try {
 		await http.delete({url: Endpoints.USER_FAVORITE_MEME(ME, memeId)});
 
@@ -177,4 +174,4 @@ export const deleteFavoriteMeme = async (i18n: I18n, memeId: string): Promise<vo
 		logger.error(`Failed to delete favorite meme ${memeId}:`, error);
 		throw error;
 	}
-};
+}

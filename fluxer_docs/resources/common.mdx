@@ -1,0 +1,644 @@
+---
+title: 'Common'
+description: 'Common object schemas from the Fluxer API.'
+---
+
+<a id="base64imagetype"></a>
+
+## Base64ImageType
+
+Base64-encoded image data
+
+Type: string (byte)
+
+<a id="blueskyauthorizerequest"></a>
+
+## BlueskyAuthorizeRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/connections/bluesky/authorize`](/api-reference/connections/start-bluesky-oauth-flow)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| handle | string | The Bluesky handle to connect (e.g. alice.bsky.social) |
+
+<a id="blueskyauthorizeresponse"></a>
+
+## BlueskyAuthorizeResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/connections/bluesky/authorize`](/api-reference/connections/start-bluesky-oauth-flow)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| authorize_url | string | The URL to redirect the user to for Bluesky authorisation |
+
+<a id="connectionlistresponse"></a>
+
+## ConnectionListResponse
+
+**Related endpoints**
+
+- [`GET /users/@me/connections`](/api-reference/connections/list-user-connections)
+
+Type: [ConnectionResponse](#connectionresponse)[]
+
+<a id="connectionresponse"></a>
+
+## ConnectionResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/connections/{type}/{connection_id}/verify`](/api-reference/connections/verify-connection)
+- [`POST /users/@me/connections/verify`](/api-reference/connections/verify-and-create-connection)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this connection |
+| name | string | The display name of the connection (handle or domain) |
+| sort_order | integer (int32) | The display order of this connection |
+| type | enum&lt;`bsky`, `domain`&gt; | The type of connection |
+| verified | boolean | Whether the connection has been verified |
+| visibility_flags | integer (int32) | Bitfield controlling who can see this connection |
+
+<a id="connectionverificationresponse"></a>
+
+## ConnectionVerificationResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/connections`](/api-reference/connections/initiate-connection)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | [SnowflakeType](#snowflaketype) | The connection identifier (handle or domain) |
+| initiation_token | string | Signed token the client sends back at verify time |
+| instructions | string | Human-readable instructions for completing verification |
+| token | string | The verification token to place in DNS or profile |
+| type | enum&lt;`bsky`, `domain`&gt; | The type of connection being verified |
+
+<a id="createconnectionrequest"></a>
+
+## CreateConnectionRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/connections`](/api-reference/connections/initiate-connection)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| identifier | [SnowflakeType](#snowflaketype) | The connection identifier (handle or domain) |
+| type | enum&lt;`bsky`, `domain`&gt; | The type of connection to create |
+| visibility_flags? | [Int32Type](#int32type) |  |
+
+<a id="discoveryapplicationpatchrequest"></a>
+
+## DiscoveryApplicationPatchRequest
+
+**Related endpoints**
+
+- [`PATCH /guilds/{guild_id}/discovery`](/api-reference/discovery/edit-discovery-application)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| category_id? | integer (int32) | Updated discovery category ID |
+| description? | string | Updated description for discovery listing |
+
+<a id="discoveryapplicationrequest"></a>
+
+## DiscoveryApplicationRequest
+
+**Related endpoints**
+
+- [`POST /guilds/{guild_id}/discovery`](/api-reference/discovery/apply-for-guild-discovery)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| category_id | integer (int32) | Discovery category ID |
+| description | string | Description for discovery listing |
+
+<a id="discoverycategorylistresponse"></a>
+
+## DiscoveryCategoryListResponse
+
+**Related endpoints**
+
+- [`GET /discovery/categories`](/api-reference/discovery/list-discovery-categories)
+
+Type: [DiscoveryCategoryResponse](#discoverycategoryresponse)[]
+
+<a id="discoverycategoryresponse"></a>
+
+## DiscoveryCategoryResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | number | Category ID |
+| name | string | Category display name |
+
+<a id="discoveryguildlistresponse"></a>
+
+## DiscoveryGuildListResponse
+
+**Related endpoints**
+
+- [`GET /discovery/guilds`](/api-reference/discovery/search-discoverable-guilds)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guilds | [DiscoveryGuildResponse](#discoveryguildresponse)[] | Discovery guild results |
+| total | number | Total number of matching guilds |
+
+<a id="discoveryguildresponse"></a>
+
+## DiscoveryGuildResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| category_id | number | Discovery category ID |
+| description? | ?string | Discovery description |
+| features | string[] | Guild feature flags |
+| icon? | ?string | Guild icon hash |
+| id | [SnowflakeType](#snowflaketype) | Guild ID |
+| member_count | number | Approximate member count |
+| name | string | Guild name |
+| online_count | number | Approximate online member count |
+| verification_level | number | Verification level |
+
+<a id="donationcheckoutrequest"></a>
+
+## DonationCheckoutRequest
+
+**Related endpoints**
+
+- [`POST /donations/checkout`](/api-reference/donations/create-donation-checkout-session)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| amount_cents | integer (int32) | Donation amount in cents (500-100000) |
+| currency | [DonationCheckoutRequestCurrency](#donationcheckoutrequestcurrency) | Currency for the donation |
+| email | string (email) | Donor email address |
+| interval | ?[DonationCheckoutRequestInterval](#donationcheckoutrequestinterval) | Billing interval (null for one-time donation) |
+
+<a id="donationcheckoutresponse"></a>
+
+## DonationCheckoutResponse
+
+**Related endpoints**
+
+- [`POST /donations/checkout`](/api-reference/donations/create-donation-checkout-session)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| url | string (uri) | Stripe checkout URL to redirect the user to |
+
+<a id="donationrequestlinkrequest"></a>
+
+## DonationRequestLinkRequest
+
+**Related endpoints**
+
+- [`POST /donations/request-link`](/api-reference/donations/request-donation-management-link)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| email | string (email) | Email address to send the magic link to |
+
+<a id="emailtype"></a>
+
+## EmailType
+
+Type: string (email)
+
+<a id="int64stringtype"></a>
+
+## Int64StringType
+
+Type: string (int64)
+
+<a id="int64type"></a>
+
+## Int64Type
+
+Type: string (int64)
+
+<a id="ipbanlistentryschema"></a>
+
+## IpBanListEntrySchema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| ip | string | Banned IPv4/IPv6 address or CIDR range |
+| reverse_dns | ?string | Reverse DNS hostname for the IP, if available |
+
+<a id="passwordtype"></a>
+
+## PasswordType
+
+Type: string
+
+<a id="phonenumbertype"></a>
+
+## PhoneNumberType
+
+Type: string
+
+<a id="renderspoilers"></a>
+
+## RenderSpoilers
+
+Spoiler rendering preference
+
+| Value | Description |
+|-------|-------------|
+| `0` | Always reveal spoiler content |
+| `1` | Reveal spoiler content on click |
+| `2` | Reveal spoiler content if moderator |
+
+<a id="reorderconnectionsrequest"></a>
+
+## ReorderConnectionsRequest
+
+**Related endpoints**
+
+- [`PATCH /users/@me/connections/reorder`](/api-reference/connections/reorder-connections)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| connection_ids | [SnowflakeType](#snowflaketype)[] | Ordered list of connection IDs defining the new display order |
+
+<a id="tenorcategorytagresponse"></a>
+
+## TenorCategoryTagResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| name | string | The category search term |
+| proxy_src | string | Proxied URL to the category preview image |
+| src | string | URL to the category preview image |
+
+<a id="tenorfeaturedresponse"></a>
+
+## TenorFeaturedResponse
+
+**Related endpoints**
+
+- [`GET /tenor/featured`](/api-reference/tenor/get-featured-tenor-gifs)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| categories | [TenorCategoryTagResponse](#tenorcategorytagresponse)[] | Array of GIF categories |
+| gifs | [TenorGifResponse](#tenorgifresponse)[] | Array of featured GIFs |
+
+<a id="tenorgifresponse"></a>
+
+## TenorGifResponse
+
+**Related endpoints**
+
+- [`GET /tenor/search`](/api-reference/tenor/search-tenor-gifs)
+- [`GET /tenor/trending-gifs`](/api-reference/tenor/get-trending-tenor-gifs)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| height | integer (int32) | Height of the GIF in pixels |
+| id | [SnowflakeType](#snowflaketype) | The unique Tenor result id |
+| proxy_src | string | Proxied URL to the GIF media file |
+| src | string | Direct URL to the GIF media file |
+| title | string | The title/description of the GIF |
+| url | string | The Tenor page URL for the GIF |
+| width | integer (int32) | Width of the GIF in pixels |
+
+<a id="tenorregistersharerequest"></a>
+
+## TenorRegisterShareRequest
+
+**Related endpoints**
+
+- [`POST /tenor/register-share`](/api-reference/tenor/register-tenor-gif-share)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | [SnowflakeType](#snowflaketype) | The Tenor result id |
+| locale? | [Locale](#locale) |  |
+| q? | ?string | The search query used to find the GIF |
+
+<a id="timeformattypes"></a>
+
+## TimeFormatTypes
+
+Time format preference
+
+| Value | Description |
+|-------|-------------|
+| `0` | Automatically detect time format based on locale |
+| `1` | Use 12-hour time format (AM/PM) |
+| `2` | Use 24-hour time format |
+
+<a id="unsignedint64type"></a>
+
+## UnsignedInt64Type
+
+Type: string (int64)
+
+<a id="updateconnectionrequest"></a>
+
+## UpdateConnectionRequest
+
+**Related endpoints**
+
+- [`PATCH /users/@me/connections/{type}/{connection_id}`](/api-reference/connections/update-connection)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| sort_order? | [Int32Type](#int32type) |  |
+| visibility_flags? | [Int32Type](#int32type) |  |
+
+<a id="validationerrorcodeschema"></a>
+
+## ValidationErrorCodeSchema
+
+Error codes for field validation issues
+
+| Value | Description |
+|-------|-------------|
+| `ACCENT_COLOR_CHANGED_TOO_MANY_TIMES` | Accent colour has been changed too many times recently |
+| `ACCOUNT_ALREADY_VERIFIED` | Account is already verified |
+| `AFK_CHANNEL_MUST_BE_IN_GUILD` | AFK channel must be in the same guild |
+| `AFK_CHANNEL_MUST_BE_VOICE` | AFK channel must be a voice channel |
+| `ALL_CHANNELS_MUST_BELONG_TO_GUILD` | All channels must belong to the same guild |
+| `ANIMATED_AVATARS_REQUIRE_PREMIUM` | Animated avatars require premium |
+| `ANIMATED_GUILD_BANNER_REQUIRES_FEATURE` | Animated guild banners require the feature to be enabled |
+| `AT_LEAST_ONE_ENTRY_IS_REQUIRED` | At least one entry is required |
+| `AT_LEAST_ONE_RECIPIENT_REQUIRED` | At least one recipient is required |
+| `ATTACHMENT_FIELDS_REQUIRED` | Attachment fields are required |
+| `ATTACHMENT_ID_NOT_FOUND_IN_MESSAGE` | Attachment ID was not found in the message |
+| `ATTACHMENT_IDS_MUST_BE_VALID_INTEGERS` | Attachment IDs must be valid integers |
+| `ATTACHMENT_METADATA_WITHOUT_FILES` | Attachment metadata provided without files |
+| `ATTACHMENT_MUST_BE_IMAGE` | Attachment must be an image |
+| `ATTACHMENTS_METADATA_REQUIRED_WHEN_UPLOADING` | Attachments metadata is required when uploading files |
+| `ATTACHMENTS_NOT_ALLOWED_FOR_MESSAGE` | Attachments are not allowed for this message type |
+| `AVATAR_CHANGED_TOO_MANY_TIMES` | Avatar has been changed too many times recently |
+| `BANNER_CHANGED_TOO_MANY_TIMES` | Banner has been changed too many times recently |
+| `BANNERS_REQUIRE_PREMIUM` | Banners require premium |
+| `BASE64_LENGTH_INVALID` | Invalid base64 length |
+| `BIO_CHANGED_TOO_MANY_TIMES` | Bio has been changed too many times recently |
+| `BUCKET_IS_REQUIRED` | Bucket is required |
+| `CANNOT_ADD_YOURSELF_TO_GROUP_DM` | Cannot add yourself to a group DM |
+| `CANNOT_DELETE_MORE_THAN_100_MESSAGES` | Cannot delete more than 100 messages at once |
+| `CANNOT_DM_YOURSELF` | Cannot send a direct message to yourself |
+| `CANNOT_EDIT_ATTACHMENT_METADATA` | Users with MANAGE_MESSAGES can only edit attachment descriptions, not other metadata |
+| `CANNOT_LEAVE_GUILD_AS_OWNER` | Cannot leave guild as the owner |
+| `CANNOT_POSITION_CHANNEL_RELATIVE_TO_ITSELF` | Cannot position channel relative to itself |
+| `CANNOT_PRELOAD_MORE_THAN_100_CHANNELS` | Cannot preload more than 100 channels |
+| `CANNOT_REFERENCE_ATTACHMENTS_WITHOUT_ATTACHMENTS` | Cannot reference attachments without providing attachments |
+| `CANNOT_REORDER_EVERYONE_ROLE` | Cannot reorder the everyone role |
+| `CANNOT_REPLY_TO_SYSTEM_MESSAGE` | Cannot reply to a system message |
+| `CANNOT_SET_HOIST_FOR_EVERYONE_ROLE` | Cannot set hoist for the everyone role |
+| `CANNOT_SPECIFY_BOTH_BEFORE_AND_AFTER` | Cannot specify both before and after parameters |
+| `CANNOT_USE_SAME_ROLE_AS_PRECEDING` | Cannot use the same role as preceding |
+| `CATEGORIES_CANNOT_HAVE_PARENT_CHANNEL` | Categories cannot have a parent channel |
+| `CATEGORIES_CANNOT_HAVE_PARENTS` | Categories cannot have parents |
+| `CHANGING_DISCRIMINATOR_REQUIRES_PREMIUM` | Changing discriminator requires premium |
+| `CHANNEL_DOES_NOT_EXIST` | Channel does not exist |
+| `CHANNEL_ID_IS_REQUIRED` | Channel ID is required |
+| `CHANNEL_MUST_BE_DM_OR_GROUP_DM` | Channel must be a DM or group DM |
+| `CHANNEL_MUST_BE_VOICE` | Channel must be a voice channel |
+| `CHANNEL_NAME_EMPTY_AFTER_NORMALIZATION` | Channel name is empty after normalisation |
+| `CHANNEL_NOT_FOUND` | Channel was not found |
+| `COLOR_VALUE_TOO_HIGH` | Colour value is too high |
+| `COLOR_VALUE_TOO_LOW` | Colour value is too low |
+| `CONTENT_EXCEEDS_MAX_LENGTH` | Content exceeds maximum length |
+| `CONTEXT_CHANNEL_OR_GUILD_ID_REQUIRED` | Context channel or guild ID is required |
+| `CUSTOM_EMOJI_NOT_FOUND` | Custom emoji was not found |
+| `CUSTOM_EMOJIS_REQUIRE_PREMIUM_OUTSIDE_SOURCE` | Custom emojis require premium when used outside their source |
+| `CUSTOM_STICKER_NOT_FOUND` | Custom sticker was not found |
+| `CUSTOM_STICKERS_IN_DMS_REQUIRE_PREMIUM` | Custom stickers in DMs require premium |
+| `CUSTOM_STICKERS_REQUIRE_PREMIUM_OUTSIDE_SOURCE` | Custom stickers require premium when used outside their source |
+| `DISCRIMINATOR_INVALID_FORMAT` | Discriminator has an invalid format |
+| `DISCRIMINATOR_OUT_OF_RANGE` | Discriminator is out of valid range |
+| `DUPLICATE_ATTACHMENT_IDS_NOT_ALLOWED` | Duplicate attachment IDs are not allowed |
+| `DUPLICATE_FILE_INDEX` | Duplicate file index |
+| `DUPLICATE_RECIPIENTS_NOT_ALLOWED` | Duplicate recipients are not allowed |
+| `VOICE_MESSAGES_ATTACHMENT_MUST_BE_AUDIO` | Voice message attachment must be audio |
+| `VOICE_MESSAGES_ATTACHMENT_WAVEFORM_REQUIRED` | Voice message attachment waveform is required |
+| `VOICE_MESSAGES_ATTACHMENT_DURATION_REQUIRED` | Voice message attachment duration is required |
+| `VOICE_MESSAGES_CANNOT_HAVE_CONTENT` | Voice messages cannot have content |
+| `VOICE_MESSAGES_CANNOT_HAVE_EMBEDS` | Voice messages cannot have embeds |
+| `VOICE_MESSAGES_CANNOT_HAVE_FAVORITE_MEMES` | Voice messages cannot have favourite memes |
+| `VOICE_MESSAGES_CANNOT_HAVE_STICKERS` | Voice messages cannot have stickers |
+| `VOICE_MESSAGES_DURATION_EXCEEDS_LIMIT` | Voice message duration exceeds limit |
+| `VOICE_MESSAGES_REQUIRE_SINGLE_ATTACHMENT` | Voice messages require a single attachment |
+| `EMAIL_ALREADY_IN_USE` | Email address is already in use |
+| `EMAIL_IS_REQUIRED` | Email address is required |
+| `EMAIL_LENGTH_INVALID` | Email address length is invalid |
+| `EMAIL_MUST_BE_CHANGED_VIA_TOKEN` | Email must be changed via verification token |
+| `EMAIL_TOKEN_EXPIRED` | Email verification token has expired |
+| `EMBED_INDEX_OUT_OF_BOUNDS` | Embed index is out of bounds |
+| `EMBED_SPLASH_REQUIRES_FEATURE` | Embed splash requires the feature to be enabled |
+| `EMBEDS_EXCEED_MAX_CHARACTERS` | Embeds exceed maximum character count |
+| `EMOJI_REQUIRES_GUILD_OR_PACK_ACCESS` | Emoji requires guild or pack access |
+| `FAILED_TO_PARSE_MULTIPART_FORM_DATA` | Failed to parse multipart form data |
+| `FAILED_TO_PARSE_MULTIPART_PAYLOAD` | Failed to parse multipart payload |
+| `FAILED_TO_UPLOAD_IMAGE` | Failed to upload image |
+| `FAVORITE_MEME_NAME_REQUIRED` | Favourite meme name is required |
+| `FAVORITE_MEME_NOT_FOUND` | Favourite meme was not found |
+| `FILE_INDEX_EXCEEDS_MAXIMUM` | File index exceeds maximum |
+| `FILE_NOT_FOUND_FOR_SCANNING` | File not found for scanning |
+| `FILE_NOT_FOUND` | File was not found |
+| `FILENAME_EMPTY_AFTER_NORMALIZATION` | Filename is empty after normalisation |
+| `FILENAME_INVALID_CHARACTERS` | Filename contains invalid characters |
+| `FILENAME_LENGTH_INVALID` | Filename length is invalid |
+| `FILENAME_MISMATCH_FOR_ATTACHMENT` | Filename mismatch for attachment |
+| `FORWARD_MESSAGES_CANNOT_CONTAIN_CONTENT` | Forward messages cannot contain content |
+| `FORWARD_REFERENCE_REQUIRES_CHANNEL_AND_MESSAGE` | Forward reference requires channel and message |
+| `GLOBAL_NAME_CANNOT_CONTAIN_RESERVED_TERMS` | Display name cannot contain reserved terms |
+| `GLOBAL_NAME_LENGTH_INVALID` | Display name length is invalid |
+| `GLOBAL_NAME_RESERVED_VALUE` | Display name is a reserved value |
+| `GUILD_BANNER_REQUIRES_FEATURE` | Guild banner requires the feature to be enabled |
+| `GUILD_ID_MUST_MATCH_REFERENCED_MESSAGE` | Guild ID must match referenced message |
+| `IMAGE_SIZE_EXCEEDS_LIMIT` | Image size exceeds limit |
+| `INTEGER_OUT_OF_INT64_RANGE` | Integer is out of 64-bit range |
+| `SNOWFLAKE_OUT_OF_RANGE` | Snowflake is out of valid range |
+| `INVALID_AUDIT_LOG_REASON` | Invalid audit log reason |
+| `INVALID_BASE64_FORMAT` | Invalid base64 format |
+| `INVALID_CHANNEL_ID` | Invalid channel ID |
+| `INVALID_CHANNEL` | Invalid channel |
+| `INVALID_CODE` | Invalid code |
+| `INVALID_CURRENT_PASSWORD` | Invalid current password |
+| `INVALID_DATE_OF_BIRTH_FORMAT` | Invalid date of birth format |
+| `INVALID_DATETIME_FOR_SCHEDULED_SEND` | Invalid datetime for scheduled send |
+| `INVALID_EMAIL_ADDRESS` | Invalid email address |
+| `INVALID_EMAIL_FORMAT` | Invalid email format |
+| `INVALID_EMAIL_LOCAL_PART` | Invalid email local part |
+| `INVALID_EMAIL_OR_PASSWORD` | Invalid email or password |
+| `INVALID_EMAIL_TOKEN` | Invalid email verification token |
+| `INVALID_FILE_FIELD_NAME` | Invalid file field name |
+| `INVALID_FORMAT` | Invalid format |
+| `INVALID_IMAGE_DATA` | Invalid image data |
+| `INVALID_IMAGE_FORMAT` | Invalid image format |
+| `INVALID_INTEGER_FORMAT` | Invalid integer format |
+| `INVALID_SNOWFLAKE_FORMAT` | Invalid snowflake format |
+| `INVALID_ISO_TIMESTAMP` | Invalid ISO timestamp |
+| `INVALID_JOB_ID` | Invalid job ID |
+| `INVALID_JSON_IN_PAYLOAD_JSON` | Invalid JSON in payload_json field |
+| `INVALID_MESSAGE_DATA` | Invalid message data |
+| `INVALID_MFA_CODE` | Invalid MFA code |
+| `INVALID_OR_EXPIRED_AUTHORIZATION_TICKET` | Invalid or expired authorisation ticket |
+| `INVALID_OR_EXPIRED_AUTHORIZATION_TOKEN` | Invalid or expired authorisation token |
+| `INVALID_OR_EXPIRED_RESET_TOKEN` | Invalid or expired password reset token |
+| `INVALID_OR_EXPIRED_REVERT_TOKEN` | Invalid or expired revert token |
+| `INVALID_OR_EXPIRED_TICKET` | Invalid or expired ticket |
+| `INVALID_OR_EXPIRED_VERIFICATION_TOKEN` | Invalid or expired verification token |
+| `INVALID_OR_RESTRICTED_RTC_REGION` | Invalid or restricted RTC region |
+| `INVALID_PARENT_CHANNEL` | Invalid parent channel |
+| `INVALID_PASSWORD` | Invalid password |
+| `INVALID_PROOF_TOKEN` | Invalid proof token |
+| `INVALID_ROLE_ID` | Invalid role ID |
+| `INVALID_RTC_REGION` | Invalid RTC region |
+| `INVALID_SCHEDULED_MESSAGE_PAYLOAD` | Invalid scheduled message payload |
+| `INVALID_SNOWFLAKE` | Invalid snowflake |
+| `INVALID_TIMEOUT_VALUE` | Invalid timeout value |
+| `INVALID_TIMEZONE_IDENTIFIER` | Invalid timezone identifier |
+| `INVALID_URL_FORMAT` | Invalid URL format |
+| `INVALID_URL_OR_ATTACHMENT_FORMAT` | Invalid URL or attachment format |
+| `INVALID_VERIFICATION_CODE` | Invalid verification code |
+| `INVITE_SPLASH_REQUIRES_FEATURE` | Invite splash requires the feature to be enabled |
+| `JOB_ID_IS_REQUIRED` | Job ID is required |
+| `JOB_IS_ALREADY_PROCESSED` | Job has already been processed |
+| `JOB_NOT_FOUND` | Job was not found |
+| `MEDIA_ALREADY_IN_FAVORITE_MEMES` | Media is already in favourite memes |
+| `MESSAGE_HISTORY_CUTOFF_BEFORE_GUILD_CREATION` | Message history cutoff cannot be before the guild was created |
+| `MESSAGE_HISTORY_CUTOFF_IN_FUTURE` | Message history cutoff cannot be in the future |
+| `MESSAGE_IDS_CANNOT_BE_EMPTY` | Message IDs cannot be empty |
+| `MESSAGES_ARRAY_REQUIRED_AND_NOT_EMPTY` | Messages array is required and cannot be empty |
+| `MESSAGES_WITH_SNAPSHOTS_CANNOT_BE_EDITED` | Messages with snapshots cannot be edited |
+| `MESSAGE_TOTAL_ATTACHMENT_SIZE_TOO_LARGE` | Total attachment size exceeds the maximum allowed |
+| `MULTIPLE_FILES_FOR_INDEX_NOT_ALLOWED` | Multiple files for the same index are not allowed |
+| `MUST_AGREE_TO_TOS_AND_PRIVACY_POLICY` | Must agree to terms of service and privacy policy |
+| `MUST_BE_MINIMUM_AGE` | Must be minimum age to use this service |
+| `MUST_ENABLE_2FA_BEFORE_REQUIRING_FOR_MODS` | Must enable 2FA before requiring it for moderators |
+| `MUST_HAVE_EMAIL_TO_CHANGE_IT` | Must have an email to change it |
+| `MUST_START_SESSION_BEFORE_SENDING` | Must start session before sending |
+| `NAME_EMPTY_AFTER_NORMALIZATION` | Name is empty after normalisation |
+| `NEW_EMAIL_MUST_BE_DIFFERENT` | New email must be different from current email |
+| `NO_FILE_FOR_ATTACHMENT_METADATA` | No file provided for attachment metadata |
+| `NO_FILE_FOR_ATTACHMENT` | No file provided for attachment |
+| `NO_METADATA_FOR_FILE` | No metadata provided for file |
+| `NO_NEW_EMAIL_REQUESTED` | No new email has been requested |
+| `NO_ORIGINAL_EMAIL_ON_RECORD` | No original email on record |
+| `NO_VALID_MEDIA_IN_MESSAGE` | No valid media in message |
+| `NOT_A_VALID_UNICODE_EMOJI` | Not a valid Unicode emoji |
+| `ORIGINAL_EMAIL_ALREADY_VERIFIED` | Original email is already verified |
+| `ORIGINAL_EMAIL_MUST_BE_VERIFIED_FIRST` | Original email must be verified first |
+| `ORIGINAL_VERIFICATION_NOT_REQUIRED` | Original verification is not required |
+| `PARENT_CHANNEL_NOT_IN_GUILD` | Parent channel is not in the guild |
+| `PARENT_MUST_BE_CATEGORY` | Parent channel must be a category |
+| `PARSE_AND_USERS_OR_ROLES_CANNOT_BE_USED_TOGETHER` | Parse and users/roles cannot be used together |
+| `PASSWORD_IS_TOO_COMMON` | Password is too common |
+| `PASSWORD_LENGTH_INVALID` | Password length is invalid |
+| `PASSWORD_NOT_SET` | Password is not set |
+| `PAYLOAD_JSON_REQUIRED_FOR_MULTIPART` | payload_json is required for multipart requests |
+| `PHONE_NUMBER_INVALID_FORMAT` | Phone number has an invalid format |
+| `PRECEDING_CHANNEL_MUST_SHARE_PARENT` | Preceding channel must share the same parent |
+| `PRECEDING_CHANNEL_NOT_IN_GUILD` | Preceding channel is not in the guild |
+| `PRECEDING_ROLE_NOT_IN_GUILD` | Preceding role is not in the guild |
+| `PREMIUM_REQUIRED_FOR_CUSTOM_EMOJI` | Premium is required for custom emoji |
+| `PRONOUNS_CHANGED_TOO_MANY_TIMES` | Pronouns have been changed too many times recently |
+| `RECIPIENT_IDS_CANNOT_BE_EMPTY` | Recipient IDs cannot be empty |
+| `RECIPIENT_IDS_MUST_BE_STRINGS` | Recipient IDs must be strings |
+| `RECIPIENT_IDS_MUST_BE_VALID_SNOWFLAKES` | Recipient IDs must be valid snowflakes |
+| `REFERENCED_ATTACHMENT_NOT_FOUND` | Referenced attachment was not found |
+| `ROWS_IS_REQUIRED` | Rows field is required |
+| `SCHEDULED_MESSAGES_MAX_30_DAYS` | Scheduled messages must be within 30 days |
+| `SCHEDULED_TIME_MUST_BE_FUTURE` | Scheduled time must be in the future |
+| `SESSION_TIMEOUT` | Session has timed out |
+| `SIZE_BYTES_MUST_BE_VALID_INTEGER` | Size in bytes must be a valid integer |
+| `STRING_LENGTH_EXACT` | String must be exactly the required length |
+| `STRING_LENGTH_INVALID` | String length is invalid |
+| `SYSTEM_CHANNEL_MUST_BE_IN_GUILD` | System channel must be in the guild |
+| `SYSTEM_CHANNEL_MUST_BE_TEXT` | System channel must be a text channel |
+| `TAG_ALREADY_TAKEN` | Tag is already taken |
+| `THIS_VANITY_URL_IS_ALREADY_TAKEN` | This vanity URL is already taken |
+| `TICKET_ALREADY_COMPLETED` | Ticket has already been completed |
+| `TIMEOUT_CANNOT_EXCEED_365_DAYS` | Timeout cannot exceed 365 days |
+| `TOO_MANY_EMBEDS` | Too many embeds |
+| `TOO_MANY_FILES` | Too many files |
+| `TOO_MANY_USERS_WITH_THIS_USERNAME` | Too many users with this username |
+| `TOO_MANY_USERS_WITH_USERNAME_TRY_DIFFERENT` | Too many users with this username, try a different one |
+| `UNCLAIMED_ACCOUNTS_CAN_ONLY_SET_EMAIL_VIA_TOKEN` | Unclaimed accounts can only set email via verification token |
+| `UNKNOWN_IMAGE_FORMAT` | Unknown image format |
+| `UNRESOLVED_ATTACHMENT_URL` | Unresolved attachment URL |
+| `UPLOADED_ATTACHMENT_NOT_FOUND` | Uploaded attachment was not found |
+| `URL_LENGTH_INVALID` | URL length is invalid |
+| `USER_DOES_NOT_HAVE_AN_EMAIL_ADDRESS` | User does not have an email address |
+| `USER_IS_NOT_BANNED` | User is not banned |
+| `USER_MUST_BE_A_BOT_TO_BE_MARKED_AS_A_SYSTEM_USER` | User must be a bot to be marked as a system user |
+| `USER_NOT_IN_CHANNEL` | User is not in the channel |
+| `USERNAME_CANNOT_CONTAIN_RESERVED_TERMS` | Username cannot contain reserved terms |
+| `USERNAME_CHANGED_TOO_MANY_TIMES` | Username has been changed too many times recently |
+| `USERNAME_INVALID_CHARACTERS` | Username contains invalid characters |
+| `USERNAME_LENGTH_INVALID` | Username length is invalid |
+| `USERNAME_RESERVED_VALUE` | Username is a reserved value |
+| `VALUE_MUST_BE_INTEGER_IN_RANGE` | Value must be an integer in the valid range |
+| `VALUE_TOO_SMALL` | Value is too small |
+| `VANITY_URL_CODE_ALREADY_TAKEN` | Vanity URL code is already taken |
+| `VANITY_URL_CODE_CANNOT_CONTAIN_FLUXER` | Vanity URL code cannot contain fluxer |
+| `VANITY_URL_CODE_LENGTH_INVALID` | Vanity URL code length is invalid |
+| `VANITY_URL_INVALID_CHARACTERS` | Vanity URL contains invalid characters |
+| `VANITY_URL_REQUIRES_FEATURE` | Vanity URL requires the feature to be enabled |
+| `VERIFICATION_CODE_EXPIRED` | Verification code has expired |
+| `VERIFICATION_CODE_NOT_ISSUED` | Verification code was not issued |
+| `VISIONARY_REQUIRED_FOR_BOT_DISCRIMINATOR` | Visionary subscription required for bot discriminator |
+| `VISIONARY_REQUIRED_FOR_DISCRIMINATOR` | Visionary subscription required for discriminator |
+| `BOT_DISCRIMINATOR_CANNOT_BE_CHANGED` | Bot discriminator cannot be changed |
+| `VOICE_CHANNELS_CANNOT_BE_ABOVE_TEXT_CHANNELS` | Voice channels cannot be positioned above text channels |
+| `WEBHOOK_NAME_LENGTH_INVALID` | Webhook name length is invalid |
+
+<a id="validationerroritem"></a>
+
+## ValidationErrorItem
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code? | [ValidationErrorCodeSchema](#validationerrorcodeschema) |  |
+| message | string | A human-readable description of the validation issue |
+| path | string | The field path where the validation error occurred |
+
+<a id="verifyandcreateconnectionrequest"></a>
+
+## VerifyAndCreateConnectionRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/connections/verify`](/api-reference/connections/verify-and-create-connection)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| initiation_token | string | The signed initiation token returned from the create endpoint |
+| visibility_flags? | [Int32Type](#int32type) |  |
+
+<a id="donationcheckoutrequestcurrency"></a>
+
+## DonationCheckoutRequestCurrency
+
+Currency for the donation
+
+| Value | Description |
+|-------|-------------|
+| `usd` | - |
+| `eur` | - |
+
+<a id="donationcheckoutrequestinterval"></a>
+
+## DonationCheckoutRequestInterval
+
+Billing interval (null for one-time donation)
+
+| Value | Description |
+|-------|-------------|
+| `month` | - |
+| `year` | - |
+

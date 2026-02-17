@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {makePersistent} from '@app/lib/MobXPersistence';
+import ChannelStore from '@app/stores/ChannelStore';
+import UserGuildSettingsStore from '@app/stores/UserGuildSettingsStore';
 import {makeAutoObservable} from 'mobx';
-import {makePersistent} from '~/lib/MobXPersistence';
-import ChannelStore from './ChannelStore';
-import UserGuildSettingsStore from './UserGuildSettingsStore';
 
 export interface FavoriteChannel {
 	channelId: string;

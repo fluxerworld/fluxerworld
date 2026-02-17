@@ -17,21 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import FocusRingScope from '@app/components/uikit/focus_ring/FocusRingScope';
+import styles from '@app/components/uikit/Scroller.module.css';
+import {ScrollerTrack} from '@app/components/uikit/scroller/ScrollerTrack';
+import {useScrollerThumb} from '@app/components/uikit/scroller/useScrollerThumb';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
 import {clsx} from 'clsx';
 import {
 	type CSSProperties,
 	forwardRef,
+	type HTMLAttributes,
 	type KeyboardEvent,
 	type MouseEvent as ReactMouseEvent,
 	type ReactNode,
+	type WheelEvent as ReactWheelEvent,
 	type UIEvent,
 	useCallback,
 	useEffect,
 	useImperativeHandle,
 	useRef,
+	useState,
 } from 'react';
-import FocusRingScope from '~/components/uikit/FocusRing/FocusRingScope';
-import styles from './Scroller.module.css';
 
 export interface ScrollerState {
 	scrollTop: number;
@@ -74,17 +80,24 @@ export interface ScrollerHandle {
 
 type ScrollAxis = 'vertical' | 'horizontal';
 type ScrollOverflow = 'scroll' | 'auto' | 'hidden';
+type ScrollbarTrackMode = 'overlay' | 'reserve';
 
-interface ScrollerProps {
+interface ScrollerProps
+	extends Omit<
+		HTMLAttributes<HTMLDivElement>,
+		'children' | 'className' | 'style' | 'onScroll' | 'onKeyDown' | 'onMouseLeave'
+	> {
 	children: ReactNode;
 	className?: string;
+	contentClassName?: string;
 	dir?: 'ltr' | 'rtl';
 	orientation?: ScrollAxis;
 	overflow?: ScrollOverflow;
 	fade?: boolean;
 	scrollbar?: 'thin' | 'regular';
+	showTrack?: boolean;
 	hideThumbWhenWindowBlurred?: boolean;
-	reserveScrollbarTrack?: boolean;
+	scrollbarTrackMode?: ScrollbarTrackMode;
 	style?: CSSProperties;
 	onScroll?: (event: UIEvent<HTMLDivElement>) => void;
 	onKeyDown?: (event: KeyboardEvent<HTMLDivElement>) => void;
@@ -121,13 +134,13 @@ function measureElementOffset(element: HTMLElement, axis: ScrollAxis, container:
 	return scrollPos + delta;
 }
 
-type SpringConfig = {
+interface SpringConfig {
 	stiffness: number;
 	damping: number;
 	mass: number;
 	precision: number;
 	maxDurationMs: number;
-};
+}
 
 const DEFAULT_SPRING: SpringConfig = {
 	stiffness: 520,
@@ -138,32 +151,47 @@ const DEFAULT_SPRING: SpringConfig = {
 };
 
 function prefersReducedMotion(): boolean {
-	return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches ?? false;
+	return AccessibilityStore.useReducedMotion;
 }
 
 export const Scroller = forwardRef<ScrollerHandle, ScrollerProps>(function Scroller(
 	{
 		children,
 		className,
+		contentClassName,
 		dir = 'ltr',
 		orientation = 'vertical',
 		overflow = 'auto',
 		fade = true,
 		scrollbar = 'thin',
+		showTrack = true,
 		hideThumbWhenWindowBlurred = false,
-		reserveScrollbarTrack = true,
+		scrollbarTrackMode = 'overlay',
 		style,
 		onScroll,
 		onKeyDown,
 		onMouseLeave,
 		onResize,
+		...rest
 	},
 	forwardedRef,
 ) {
 	const scrollRef = useRef<HTMLDivElement>(null);
+	const contentRef = useRef<HTMLDivElement>(null);
 	const rootRef = useRef<HTMLDivElement>(null);
 	const scrollTimeoutRef = useRef<number>(0);
+	const thumbRefreshRafRef = useRef<number | null>(null);
 	const onResizeRef = useRef(onResize);
+	const [isHovered, setIsHovered] = useState(false);
+	const [isScrolling, setIsScrolling] = useState(false);
+	const [isWindowBlurred, setIsWindowBlurred] = useState(false);
+	const minThumbSize = scrollbar === 'regular' ? 40 : 24;
+	const {isDragging, refreshThumbState, thumbState, onThumbPointerDown, onTrackPointerDown} = useScrollerThumb({
+		orientation,
+		overflow,
+		minThumbSize,
+		scrollRef,
+	});
 	onResizeRef.current = onResize;
 
 	const animRef = useRef<{
@@ -185,6 +213,24 @@ export const Scroller = forwardRef<ScrollerHandle, ScrollerProps>(function Scrol
 		}
 		animRef.current = null;
 	}, []);
+
+	const cancelScheduledThumbRefresh = useCallback(() => {
+		if (thumbRefreshRafRef.current != null) {
+			cancelAnimationFrame(thumbRefreshRafRef.current);
+			thumbRefreshRafRef.current = null;
+		}
+	}, []);
+
+	const scheduleThumbRefresh = useCallback(() => {
+		if (thumbRefreshRafRef.current != null) {
+			return;
+		}
+
+		thumbRefreshRafRef.current = requestAnimationFrame(() => {
+			thumbRefreshRafRef.current = null;
+			refreshThumbState();
+		});
+	}, [refreshThumbState]);
 
 	const getMaxScroll = useCallback(
 		(node: HTMLDivElement): number => {
@@ -280,19 +326,19 @@ export const Scroller = forwardRef<ScrollerHandle, ScrollerProps>(function Scrol
 	);
 
 	useEffect(() => {
-		if (!onResizeRef.current) return;
-
 		const containerEl = rootRef.current;
-		const contentEl = scrollRef.current;
+		const contentEl = contentRef.current;
 		if (!containerEl || !contentEl) return;
 
 		const containerObserver = new ResizeObserver((entries) => {
+			scheduleThumbRefresh();
 			for (const entry of entries) {
 				onResizeRef.current?.(entry, 'container');
 			}
 		});
 
 		const contentObserver = new ResizeObserver((entries) => {
+			scheduleThumbRefresh();
 			for (const entry of entries) {
 				onResizeRef.current?.(entry, 'content');
 			}
@@ -300,26 +346,63 @@ export const Scroller = forwardRef<ScrollerHandle, ScrollerProps>(function Scrol
 
 		containerObserver.observe(containerEl);
 		contentObserver.observe(contentEl);
+		refreshThumbState();
 
 		return () => {
+			cancelScheduledThumbRefresh();
 			containerObserver.disconnect();
 			contentObserver.disconnect();
 		};
-	}, []);
+	}, [cancelScheduledThumbRefresh, refreshThumbState, scheduleThumbRefresh]);
+
+	useEffect(() => {
+		const contentEl = contentRef.current;
+		if (!contentEl) {
+			return;
+		}
+
+		const observer = new MutationObserver(() => {
+			scheduleThumbRefresh();
+		});
+
+		observer.observe(contentEl, {
+			childList: true,
+			subtree: true,
+			characterData: true,
+		});
+
+		return () => {
+			observer.disconnect();
+		};
+	}, [scheduleThumbRefresh]);
+
+	useEffect(() => {
+		refreshThumbState();
+		scheduleThumbRefresh();
+		return cancelScheduledThumbRefresh;
+	}, [cancelScheduledThumbRefresh, refreshThumbState, scheduleThumbRefresh]);
 
 	useEffect(() => {
 		return () => cancelAnimation();
 	}, [cancelAnimation]);
 
 	useEffect(() => {
-		if (!hideThumbWhenWindowBlurred) return;
-
-		const el = scrollRef.current;
-		if (!el) return;
-
-		const update = () => {
-			el.classList.toggle(styles.windowBlurred, !document.hasFocus());
+		return () => {
+			window.clearTimeout(scrollTimeoutRef.current);
 		};
+	}, []);
+
+	useEffect(() => {
+		return cancelScheduledThumbRefresh;
+	}, [cancelScheduledThumbRefresh]);
+
+	useEffect(() => {
+		if (!hideThumbWhenWindowBlurred) {
+			setIsWindowBlurred(false);
+			return;
+		}
+
+		const update = () => setIsWindowBlurred(!document.hasFocus());
 
 		update();
 		window.addEventListener('blur', update);
@@ -496,18 +579,42 @@ export const Scroller = forwardRef<ScrollerHandle, ScrollerProps>(function Scrol
 	const handleScroll = useCallback(
 		(event: UIEvent<HTMLDivElement>) => {
 			if (fade) {
-				const el = scrollRef.current;
-				if (el) {
-					el.classList.add(styles.scrolling);
-					window.clearTimeout(scrollTimeoutRef.current);
-					scrollTimeoutRef.current = window.setTimeout(() => {
-						el.classList.remove(styles.scrolling);
-					}, 1000);
-				}
+				setIsScrolling(true);
+				window.clearTimeout(scrollTimeoutRef.current);
+				scrollTimeoutRef.current = window.setTimeout(() => {
+					setIsScrolling(false);
+				}, 1000);
 			}
+			refreshThumbState();
 			onScroll?.(event);
 		},
-		[fade, onScroll],
+		[fade, onScroll, refreshThumbState],
+	);
+
+	const handleTrackWheel = useCallback(
+		(event: ReactWheelEvent<HTMLDivElement>) => {
+			const scrollElement = scrollRef.current;
+			if (!scrollElement) return;
+
+			if (orientation === 'vertical') {
+				scrollElement.scrollTop += event.deltaY;
+			} else {
+				scrollElement.scrollLeft += event.deltaX || event.deltaY;
+			}
+		},
+		[orientation, scrollRef],
+	);
+
+	const handleMouseEnter = useCallback(() => {
+		setIsHovered(true);
+	}, []);
+
+	const handleMouseLeaveInternal = useCallback(
+		(event: ReactMouseEvent<HTMLDivElement>) => {
+			setIsHovered(false);
+			onMouseLeave?.(event);
+		},
+		[onMouseLeave],
 	);
 
 	const scrollerStyle: CSSProperties = {
@@ -515,20 +622,31 @@ export const Scroller = forwardRef<ScrollerHandle, ScrollerProps>(function Scrol
 		overflowY: orientation === 'vertical' ? overflow : 'hidden',
 		overflowX: orientation === 'horizontal' ? overflow : 'hidden',
 	};
+	const shouldReserveTrackSpace = scrollbarTrackMode === 'reserve';
 
 	const containerClassName = clsx(styles.scrollerWrap, {
 		[styles.horizontal]: orientation === 'horizontal',
 		[styles.regular]: scrollbar === 'regular',
-		[styles.noScrollbarReserve]: !reserveScrollbarTrack,
+		[styles.scrollbarReserve]: shouldReserveTrackSpace,
 	});
 
 	const scrollerClassName = clsx(styles.scroller, className, {
-		[styles.fade]: fade,
 		[styles.regular]: scrollbar === 'regular',
+		[styles.dragging]: isDragging,
 	});
 
+	const hasTrack = showTrack && thumbState.hasTrack;
+	const isTrackVisible =
+		hasTrack && (!hideThumbWhenWindowBlurred || !isWindowBlurred) && (!fade || isHovered || isScrolling || isDragging);
+
 	return (
-		<div className={containerClassName} ref={rootRef}>
+		<div
+			role="group"
+			className={containerClassName}
+			ref={rootRef}
+			onMouseEnter={handleMouseEnter}
+			onMouseLeave={handleMouseLeaveInternal}
+		>
 			<FocusRingScope containerRef={rootRef}>
 				{/* biome-ignore lint/a11y/noStaticElementInteractions: this is fine */}
 				<div
@@ -538,10 +656,24 @@ export const Scroller = forwardRef<ScrollerHandle, ScrollerProps>(function Scrol
 					dir={dir}
 					onScroll={handleScroll}
 					onKeyDown={onKeyDown}
-					onMouseLeave={onMouseLeave}
+					{...rest}
 				>
-					<div className={styles.scrollerChildren}>{children}</div>
+					<div className={clsx(styles.scrollerChildren, contentClassName)} ref={contentRef}>
+						{children}
+					</div>
 				</div>
+				<ScrollerTrack
+					orientation={orientation}
+					scrollbar={scrollbar}
+					hasTrack={hasTrack}
+					isVisible={isTrackVisible}
+					isDragging={isDragging}
+					thumbOffset={thumbState.thumbOffset}
+					thumbSize={thumbState.thumbSize}
+					onTrackPointerDown={onTrackPointerDown}
+					onThumbPointerDown={onThumbPointerDown}
+					onWheel={handleTrackWheel}
+				/>
 			</FocusRingScope>
 		</div>
 	);

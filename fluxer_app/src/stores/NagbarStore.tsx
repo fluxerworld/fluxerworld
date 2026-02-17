@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {makePersistent} from '@app/lib/MobXPersistence';
 import {makeAutoObservable} from 'mobx';
-import {makePersistent} from '~/lib/MobXPersistence';
 
 export interface NagbarSettings {
 	iosInstallDismissed: boolean;
@@ -34,6 +34,7 @@ export interface NagbarSettings {
 	pendingBulkDeletionDismissed: Record<string, boolean>;
 	invitesDisabledDismissed: Record<string, boolean>;
 	guildMembershipCtaDismissed: boolean;
+	visionaryMfaDismissed: boolean;
 	claimAccountModalShownThisSession: boolean;
 	forceOffline: boolean;
 	forceEmailVerification: boolean;
@@ -51,6 +52,7 @@ export interface NagbarSettings {
 	forceDesktopDownload: boolean;
 	forceMobileDownload: boolean;
 	forceGuildMembershipCta: boolean;
+	forceVisionaryMfa: boolean;
 	forceHideOffline: boolean;
 	forceHideEmailVerification: boolean;
 	forceHideIOSInstall: boolean;
@@ -67,6 +69,7 @@ export interface NagbarSettings {
 	forceHideDesktopDownload: boolean;
 	forceHideMobileDownload: boolean;
 	forceHideGuildMembershipCta: boolean;
+	forceHideVisionaryMfa: boolean;
 }
 
 export type NagbarToggleKey = Exclude<
@@ -88,6 +91,7 @@ export class NagbarStore implements NagbarSettings {
 	pendingBulkDeletionDismissed: Record<string, boolean> = {};
 	invitesDisabledDismissed: Record<string, boolean> = {};
 	guildMembershipCtaDismissed = false;
+	visionaryMfaDismissed = false;
 	claimAccountModalShownThisSession = false;
 	forceOffline = false;
 	forceEmailVerification = false;
@@ -105,6 +109,7 @@ export class NagbarStore implements NagbarSettings {
 	forceDesktopDownload = false;
 	forceMobileDownload = false;
 	forceGuildMembershipCta = false;
+	forceVisionaryMfa = false;
 
 	forceHideOffline = false;
 	forceHideEmailVerification = false;
@@ -122,6 +127,7 @@ export class NagbarStore implements NagbarSettings {
 	forceHideDesktopDownload = false;
 	forceHideMobileDownload = false;
 	forceHideGuildMembershipCta = false;
+	forceHideVisionaryMfa = false;
 
 	constructor() {
 		makeAutoObservable(this, {}, {autoBind: true});
@@ -143,6 +149,7 @@ export class NagbarStore implements NagbarSettings {
 			'pendingBulkDeletionDismissed',
 			'invitesDisabledDismissed',
 			'guildMembershipCtaDismissed',
+			'visionaryMfaDismissed',
 		]);
 	}
 
@@ -316,6 +323,7 @@ export class NagbarStore implements NagbarSettings {
 		this.pendingBulkDeletionDismissed = {};
 		this.invitesDisabledDismissed = {};
 		this.guildMembershipCtaDismissed = false;
+		this.visionaryMfaDismissed = false;
 		this.claimAccountModalShownThisSession = false;
 
 		this.forceOffline = false;
@@ -334,6 +342,7 @@ export class NagbarStore implements NagbarSettings {
 		this.forceDesktopDownload = false;
 		this.forceMobileDownload = false;
 		this.forceGuildMembershipCta = false;
+		this.forceVisionaryMfa = false;
 
 		this.forceHideOffline = false;
 		this.forceHideEmailVerification = false;
@@ -351,6 +360,7 @@ export class NagbarStore implements NagbarSettings {
 		this.forceHideDesktopDownload = false;
 		this.forceHideMobileDownload = false;
 		this.forceHideGuildMembershipCta = false;
+		this.forceHideVisionaryMfa = false;
 	}
 
 	handleGuildUpdate(action: {

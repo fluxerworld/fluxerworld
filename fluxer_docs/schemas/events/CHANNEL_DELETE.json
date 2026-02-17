@@ -1,0 +1,12 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "CHANNEL_DELETE",
+	"description": "Sent when a channel is deleted or closed for a user.",
+	"scope": "channel",
+	"scopeNote": "Guild channels dispatch to guild scope; DMs dispatch to presence scope for each recipient",
+	"dispatchedBy": ["DELETE /channels/:channel_id", "DELETE /channels/:channel_id/recipients/:user_id"],
+	"payload": {
+		"$ref": "ChannelResponse",
+		"description": "The deleted or closed channel object"
+	}
+}

@@ -17,11 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/invites/InviteDateToggle.module.css';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import styles from './InviteDateToggle.module.css';
+import type React from 'react';
+import {useCallback} from 'react';
 
 interface InviteDateToggleProps {
 	showCreatedDate: boolean;
@@ -29,7 +30,7 @@ interface InviteDateToggleProps {
 }
 
 export const InviteDateToggle: React.FC<InviteDateToggleProps> = observer(({showCreatedDate, onToggle}) => {
-	const handleChange = React.useCallback(
+	const handleChange = useCallback(
 		(isChecked: boolean) => {
 			onToggle(isChecked);
 		},

@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import ModalStore from '~/stores/ModalStore';
-import PopoutStore from '~/stores/PopoutStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import ModalStore from '@app/stores/ModalStore';
+import PopoutStore from '@app/stores/PopoutStore';
 
 export type FocusableElementType = HTMLInputElement | HTMLTextAreaElement | HTMLDivElement;
 
@@ -88,11 +88,14 @@ class InputFocusManager {
 
 export const inputFocusManager = InputFocusManager.getInstance();
 
-export const isInputFocused = (excludingElement?: FocusableElementType) =>
-	inputFocusManager.isInputFocused(excludingElement);
+export function isInputFocused(excludingElement?: FocusableElementType) {
+	return inputFocusManager.isInputFocused(excludingElement);
+}
 
-export const canFocusTextarea = (textareaElement?: FocusableElementType) =>
-	inputFocusManager.canFocusTextarea(textareaElement);
+export function canFocusTextarea(textareaElement?: FocusableElementType) {
+	return inputFocusManager.canFocusTextarea(textareaElement);
+}
 
-export const safeFocus = (element: FocusableElementType, force?: boolean) =>
-	inputFocusManager.safeFocus(element, force);
+export function safeFocus(element: FocusableElementType, force?: boolean) {
+	return inputFocusManager.safeFocus(element, force);
+}

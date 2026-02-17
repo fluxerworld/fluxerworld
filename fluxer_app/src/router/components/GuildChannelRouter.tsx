@@ -17,72 +17,72 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import {GuildLayout} from '@app/components/layout/GuildLayout';
+import {useLocation} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import ChannelStore from '@app/stores/ChannelStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
+import {compareChannelPosition, filterViewableChannels} from '@app/utils/ChannelShared';
+import {ME} from '@fluxer/constants/src/AppConstants';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {ME} from '~/Constants';
-import {GuildLayout} from '~/components/layout/GuildLayout';
-import {useLocation} from '~/lib/router';
-import {Routes} from '~/Routes';
-import ChannelStore from '~/stores/ChannelStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import SelectedChannelStore from '~/stores/SelectedChannelStore';
-import {compareChannelPosition, filterViewableChannels} from '~/utils/channelShared';
-import * as RouterUtils from '~/utils/RouterUtils';
+import type React from 'react';
+import {useEffect} from 'react';
 
-export const GuildChannelRouter: React.FC<{guildId: string; children?: React.ReactNode}> = observer(
-	({guildId, children}) => {
-		const location = useLocation();
+export const GuildChannelRouter = observer<{guildId: string; children: React.ReactNode}>(({guildId, children}) => {
+	const location = useLocation();
 
-		React.useEffect(() => {
-			if (guildId === ME || location.pathname === Routes.ME) {
-				return;
-			}
+	useEffect(() => {
+		if (guildId === ME || location.pathname === Routes.ME) {
+			return;
+		}
 
-			if (MobileLayoutStore.enabled) {
-				return;
-			}
+		if (MobileLayoutStore.enabled) {
+			return;
+		}
 
-			if (location.pathname.startsWith('/channels/') && !location.pathname.startsWith(Routes.ME)) {
-				if (location.pathname.split('/').length === 3) {
-					const pathSegments = location.pathname.split('/');
-					const currentGuildId = pathSegments[2];
+		if (location.pathname.startsWith('/channels/') && !location.pathname.startsWith(Routes.ME)) {
+			if (location.pathname.split('/').length === 3) {
+				const pathSegments = location.pathname.split('/');
+				const currentGuildId = pathSegments[2];
 
-					if (currentGuildId !== guildId) {
-						return;
-					}
+				if (currentGuildId !== guildId) {
+					return;
+				}
 
-					const selectedChannelId = SelectedChannelStore.selectedChannelIds.get(guildId);
+				const selectedChannelId = SelectedChannelStore.selectedChannelIds.get(guildId);
 
-					if (selectedChannelId) {
-						const channel = ChannelStore.getChannel(selectedChannelId);
-						if (channel && channel.guildId === guildId) {
-							RouterUtils.replaceWith(Routes.guildChannel(guildId, selectedChannelId));
-						} else {
-							const channels = ChannelStore.getGuildChannels(guildId);
-							const viewableChannels = filterViewableChannels(channels).sort(compareChannelPosition);
-
-							if (viewableChannels.length > 0) {
-								const firstChannel = viewableChannels[0];
-								RouterUtils.replaceWith(Routes.guildChannel(guildId, firstChannel.id));
-							}
-						}
+				if (selectedChannelId) {
+					const channel = ChannelStore.getChannel(selectedChannelId);
+					const isViewableChannel = channel ? filterViewableChannels([channel]).length > 0 : false;
+					if (channel && channel.guildId === guildId && isViewableChannel) {
+						NavigationActionCreators.selectChannel(guildId, selectedChannelId, undefined, 'replace');
 					} else {
 						const channels = ChannelStore.getGuildChannels(guildId);
 						const viewableChannels = filterViewableChannels(channels).sort(compareChannelPosition);
 
 						if (viewableChannels.length > 0) {
 							const firstChannel = viewableChannels[0];
-							RouterUtils.replaceWith(Routes.guildChannel(guildId, firstChannel.id));
+							NavigationActionCreators.selectChannel(guildId, firstChannel.id, undefined, 'replace');
 						}
+					}
+				} else {
+					const channels = ChannelStore.getGuildChannels(guildId);
+					const viewableChannels = filterViewableChannels(channels).sort(compareChannelPosition);
+
+					if (viewableChannels.length > 0) {
+						const firstChannel = viewableChannels[0];
+						NavigationActionCreators.selectChannel(guildId, firstChannel.id, undefined, 'replace');
 					}
 				}
 			}
-		}, [guildId, location.pathname, MobileLayoutStore.enabled]);
-
-		if (guildId === ME || location.pathname === Routes.ME) {
-			return null;
 		}
+	}, [guildId, location.pathname, MobileLayoutStore.enabled]);
 
-		return <GuildLayout>{children}</GuildLayout>;
-	},
-);
+	if (guildId === ME || location.pathname === Routes.ME) {
+		return null;
+	}
+
+	return <GuildLayout>{children}</GuildLayout>;
+});

@@ -1,0 +1,63 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.invisibleTrigger {
+	position: absolute;
+	pointer-events: none;
+	opacity: 0;
+	width: 0;
+	height: 0;
+}
+
+.mobileGiftWrapper {
+	overflow: hidden;
+	display: flex;
+	align-items: stretch;
+}
+
+.holdButtonWrapper {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 4px;
+	touch-action: none;
+}
+
+.holdButton {
+	touch-action: none;
+}
+
+.holdButtonRecording {
+	box-shadow: 0 0 0 2px rgba(252, 95, 105, 0.35);
+}
+
+.holdIndicator {
+	font-size: 10px;
+	text-transform: uppercase;
+	color: var(--text-muted);
+}
+
+.holdIndicatorRecording {
+	color: var(--accent-danger);
+}
+
+.holdIndicatorError {
+	color: var(--accent-danger);
+	font-weight: 600;
+}

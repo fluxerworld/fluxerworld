@@ -1,0 +1,31 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "MESSAGE_REACTION_REMOVE_EMOJI",
+	"description": "Sent when all reactions for a specific emoji are removed from a message.",
+	"scope": "channel",
+	"scopeNote": "Guild channels dispatch to guild scope; DMs dispatch to presence scope.",
+	"dispatchedBy": ["DELETE /channels/:channel_id/messages/:message_id/reactions/:emoji"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID"
+			},
+			"message_id": {
+				"type": "string",
+				"description": "Message ID"
+			},
+			"emoji": {
+				"type": "object",
+				"properties": {
+					"id": {"type": "string", "description": "Emoji ID (only present for custom emoji)"},
+					"name": {"type": "string", "description": "Emoji name (unicode character or custom emoji name)"}
+				},
+				"required": ["name"],
+				"description": "The emoji that was removed"
+			}
+		},
+		"required": ["channel_id", "message_id", "emoji"]
+	}
+}

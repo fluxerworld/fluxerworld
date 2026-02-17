@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {openClaimAccountModal} from '@app/components/modals/ClaimAccountModal';
+import {Button} from '@app/components/uikit/button/Button';
+import {WarningAlert} from '@app/components/uikit/warning_alert/WarningAlert';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
-import {Button} from '~/components/uikit/Button/Button';
-import {WarningAlert} from '~/components/uikit/WarningAlert/WarningAlert';
 
 export const UnclaimedAccountAlert = observer(() => {
 	return (

@@ -1,0 +1,11 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "GUILD_MEMBER_ADD",
+	"description": "Sent when a new user joins a guild.",
+	"scope": "guild",
+	"dispatchedBy": ["POST /invites/:invite_code", "PUT /guilds/:guild_id/members/:user_id"],
+	"payload": {
+		"$ref": "GuildMemberResponse",
+		"description": "The guild member object"
+	}
+}

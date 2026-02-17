@@ -18,6 +18,7 @@
  */
 
 .imagePreviewHandler {
+	display: block;
 	height: 100%;
 	width: 100%;
 	appearance: none;
@@ -63,6 +64,7 @@
 
 .mediaContainer {
 	display: grid;
+	max-width: 100%;
 	cursor: pointer;
 	border-radius: var(--media-border-radius, 0);
 	border: none;
@@ -72,13 +74,19 @@
 
 .videoWrapper {
 	position: relative;
-	height: 100%;
 	width: 100%;
+	max-width: 100%;
+	min-height: 1px;
+	min-width: 0;
+	aspect-ratio: var(--embed-aspect-ratio, auto);
 }
 
 .videoElement {
-	height: 100%;
+	display: block;
 	width: 100%;
+	height: auto;
+	max-height: 100%;
+	max-width: 100%;
 	border-radius: var(--media-border-radius, 0);
 	transition: opacity 200ms ease;
 	object-fit: contain;
@@ -91,4 +99,18 @@
 
 .videoOpacityVisible {
 	opacity: 1;
+}
+
+.klipyWatermark {
+	position: absolute;
+	bottom: 0.5rem;
+	left: 0.5rem;
+	z-index: 5;
+	pointer-events: none;
+	opacity: 0;
+}
+
+.klipyWatermark svg {
+	height: 12px;
+	width: auto;
 }

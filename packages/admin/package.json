@@ -1,0 +1,41 @@
+{
+	"name": "@fluxer/admin",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./*": "./*"
+	},
+	"scripts": {
+		"build:css": "tailwindcss -i ./src/styles/app.css -o ./public/static/app.css --minify",
+		"build:css:watch": "tailwindcss -i ./src/styles/app.css -o ./public/static/app.css --watch=always",
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@fluxer/cache": "workspace:*",
+		"@fluxer/constants": "workspace:*",
+		"@fluxer/date_utils": "workspace:*",
+		"@fluxer/errors": "workspace:*",
+		"@fluxer/hono": "workspace:*",
+		"@fluxer/hono_types": "workspace:*",
+		"@fluxer/kv_client": "workspace:*",
+		"@fluxer/logger": "workspace:*",
+		"@fluxer/number_utils": "workspace:*",
+		"@fluxer/oauth2": "workspace:*",
+		"@fluxer/rate_limit": "workspace:*",
+		"@fluxer/schema": "workspace:*",
+		"@fluxer/sentry": "workspace:*",
+		"@fluxer/snowflake": "workspace:*",
+		"@fluxer/ui": "workspace:*",
+		"@hono/node-server": "catalog:",
+		"clsx": "catalog:",
+		"hono": "catalog:",
+		"zod": "catalog:"
+	},
+	"devDependencies": {
+		"@tailwindcss/cli": "catalog:",
+		"@types/node": "catalog:",
+		"@typescript/native-preview": "catalog:",
+		"tailwindcss": "catalog:"
+	}
+}

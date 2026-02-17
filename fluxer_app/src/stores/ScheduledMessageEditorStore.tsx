@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {ScheduledMessagePayload, ScheduledMessageRecord} from '@app/records/ScheduledMessageRecord';
 import {makeAutoObservable} from 'mobx';
-import type {ScheduledMessagePayload, ScheduledMessageRecord} from '~/records/ScheduledMessageRecord';
 
 interface ScheduledMessageEditState {
 	scheduledMessageId: string;

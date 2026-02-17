@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {type FavoriteMeme, FavoriteMemeRecord} from '@app/records/FavoriteMemeRecord';
 import {makeAutoObservable} from 'mobx';
-import {type FavoriteMeme, FavoriteMemeRecord} from '~/records/FavoriteMemeRecord';
 
 class FavoriteMemeStore {
 	memes: ReadonlyArray<FavoriteMemeRecord> = [];

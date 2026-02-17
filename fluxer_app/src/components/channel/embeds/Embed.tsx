@@ -17,56 +17,63 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {AttachmentMosaic} from '@app/components/channel/embeds/attachments/AttachmentMosaic';
+import styles from '@app/components/channel/embeds/Embed.module.css';
+import EmbedAudio from '@app/components/channel/embeds/media/EmbedAudio';
+import {EmbedGif, EmbedGifv} from '@app/components/channel/embeds/media/EmbedGifv';
+import {EmbedImage} from '@app/components/channel/embeds/media/EmbedImage';
+import EmbedVideo from '@app/components/channel/embeds/media/EmbedVideo';
+import {EmbedYouTube} from '@app/components/channel/embeds/media/EmbedYouTube';
+import {SpoilerOverlay} from '@app/components/common/SpoilerOverlay';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {ExternalLinkWarningModal} from '@app/components/modals/ExternalLinkWarningModal';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Logger} from '@app/lib/Logger';
+import {SafeMarkdown} from '@app/lib/markdown';
+import {MarkdownContext} from '@app/lib/markdown/renderers/RendererTypes';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildStore from '@app/stores/GuildStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import TrustedDomainStore from '@app/stores/TrustedDomainStore';
+import markupStyles from '@app/styles/Markup.module.css';
+import messageStyles from '@app/styles/Message.module.css';
+import * as ColorUtils from '@app/utils/ColorUtils';
+import * as DateUtils from '@app/utils/DateUtils';
+import {createCalculator} from '@app/utils/DimensionUtils';
+import {getEmbedMediaDimensions} from '@app/utils/MediaDimensionConfig';
+import {buildMediaProxyURL} from '@app/utils/MediaProxyUtils';
+import {extractSpoileredUrls, useSpoilerState} from '@app/utils/SpoilerUtils';
+import {MessageAttachmentFlags, MessageEmbedTypes, Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {GuildOperations} from '@fluxer/constants/src/GuildConstants';
+import type {
+	EmbedAuthor,
+	EmbedField,
+	EmbedFooter,
+	EmbedMedia,
+	MessageEmbed,
+} from '@fluxer/schema/src/domains/message/EmbedSchemas';
+import type {MessageAttachment} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {type FC, useCallback, useMemo} from 'react';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {GuildOperations, MessageAttachmentFlags, MessageEmbedTypes, Permissions} from '~/Constants';
-import {AttachmentMosaic} from '~/components/channel/embeds/attachments/AttachmentMosaic';
-import EmbedAudio from '~/components/channel/embeds/media/EmbedAudio';
-import {EmbedGif, EmbedGifv} from '~/components/channel/embeds/media/EmbedGifv';
-import {EmbedImage} from '~/components/channel/embeds/media/EmbedImage';
-import EmbedVideo from '~/components/channel/embeds/media/EmbedVideo';
-import {EmbedYouTube} from '~/components/channel/embeds/media/EmbedYouTube';
-import {SpoilerOverlay} from '~/components/common/SpoilerOverlay';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {ExternalLinkWarningModal} from '~/components/modals/ExternalLinkWarningModal';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {SafeMarkdown} from '~/lib/markdown';
-import {MarkdownContext} from '~/lib/markdown/renderers';
-import type {
-	EmbedAuthor as EmbedAuthorData,
-	EmbedField as EmbedFieldType,
-	EmbedFooter as EmbedFooterData,
-	EmbedMedia,
-	MessageAttachment,
-	MessageEmbed,
-	MessageRecord,
-} from '~/records/MessageRecord';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildStore from '~/stores/GuildStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import PermissionStore from '~/stores/PermissionStore';
-import TrustedDomainStore from '~/stores/TrustedDomainStore';
-import mosaicStyles from '~/styles/AttachmentMosaic.module.css';
-import markupStyles from '~/styles/Markup.module.css';
-import messageStyles from '~/styles/Message.module.css';
-import * as ColorUtils from '~/utils/ColorUtils';
-import * as DateUtils from '~/utils/DateUtils';
-import {createCalculator} from '~/utils/DimensionUtils';
-import {getEmbedMediaDimensions} from '~/utils/MediaDimensionConfig';
-import {buildMediaProxyURL} from '~/utils/MediaProxyUtils';
-import {extractSpoileredUrls, useSpoilerState} from '~/utils/SpoilerUtils';
-import styles from './Embed.module.css';
+
+const logger = new Logger('Embed');
 
 const THUMBNAIL_SIZE = 80;
 const MAX_GALLERY_MEDIA = 10;
+const EMBED_PADDING_X = 12;
+const EMBED_LEFT_BORDER_WIDTH = 4;
+const EMBED_RIGHT_BORDER_WIDTH = 1;
+const EMBED_MEDIA_CHROME_WIDTH = EMBED_PADDING_X * 2 + EMBED_LEFT_BORDER_WIDTH + EMBED_RIGHT_BORDER_WIDTH;
 
 interface EmbedProps {
 	embed: MessageEmbed;
@@ -213,12 +220,54 @@ const buildGalleryAttachments = (
 		placeholder: media.placeholder ?? undefined,
 		placeholder_version: undefined,
 		flags: media.flags,
-		duration_secs: media.duration ? Math.round(media.duration) : undefined,
 		duration: media.duration,
 		waveform: undefined,
 		content_hash: media.content_hash ?? undefined,
 		nsfw: media.nsfw,
 	}));
+};
+
+const collectGalleryImages = ({
+	embed,
+	embedIndex,
+	embedList,
+}: {
+	embed: MessageEmbed;
+	embedIndex?: number;
+	embedList: ReadonlyArray<MessageEmbed>;
+}): Array<Required<EmbedMedia>> => {
+	const normalizedUrl = normalizeUrl(embed.url);
+	if (embedIndex === undefined || !normalizedUrl) return [];
+
+	const images: Array<Required<EmbedMedia>> = [];
+	const seenMediaKeys = new Set<string>();
+
+	const tryAddMedia = (media?: Required<EmbedMedia>) => {
+		if (!media || images.length >= MAX_GALLERY_MEDIA) return;
+
+		const mediaKey = media.content_hash ?? media.url;
+		if (seenMediaKeys.has(mediaKey)) return;
+		seenMediaKeys.add(mediaKey);
+		images.push(media);
+	};
+
+	const collectMedia = (candidate?: MessageEmbed) => {
+		if (!candidate) return;
+		if (normalizeUrl(candidate.url) !== normalizedUrl) return;
+		const candidateMedia = isValidMedia(candidate.image)
+			? candidate.image
+			: isValidMedia(candidate.thumbnail)
+				? candidate.thumbnail
+				: undefined;
+		tryAddMedia(candidateMedia);
+	};
+
+	for (let i = embedIndex; i < embedList.length && images.length < MAX_GALLERY_MEDIA; i++) {
+		const candidate = embedList[i];
+		collectMedia(candidate);
+	}
+
+	return images;
 };
 
 const getBorderColor = (color: number | undefined) => {
@@ -239,10 +288,10 @@ const LinkComponent: FC<LinkComponentProps> = observer(({url, children, classNam
 			const isTrusted = TrustedDomainStore.isTrustedDomain(parsed.hostname);
 			if (!isTrusted) {
 				e.preventDefault();
-				ModalActionCreators.push(modal(() => <ExternalLinkWarningModal url={url} hostname={parsed.hostname} />));
+				ModalActionCreators.push(modal(() => <ExternalLinkWarningModal url={url} />));
 			}
 		} catch (_error) {
-			console.warn('Invalid URL in embed link:', url);
+			logger.warn('Invalid URL in embed link:', url);
 		}
 	};
 
@@ -261,7 +310,7 @@ const LinkComponent: FC<LinkComponentProps> = observer(({url, children, classNam
 	);
 });
 
-const EmbedProvider: FC<{provider?: EmbedAuthorData}> = observer(({provider}) => {
+const EmbedProvider: FC<{provider?: EmbedAuthor}> = observer(({provider}) => {
 	if (!provider) return null;
 
 	return (
@@ -271,7 +320,7 @@ const EmbedProvider: FC<{provider?: EmbedAuthorData}> = observer(({provider}) =>
 	);
 });
 
-const EmbedAuthor: FC<{author?: EmbedAuthorData}> = observer(({author}) => {
+const EmbedAuthorComponent: FC<{author?: EmbedAuthor}> = observer(({author}) => {
 	if (!author) return null;
 
 	return (
@@ -335,12 +384,12 @@ const EmbedDescription: FC<{
 	);
 });
 
-const EmbedFields: FC<{fields: Array<EmbedFieldType>}> = observer(({fields}) => {
+const EmbedFields: FC<{fields: Array<EmbedField>}> = observer(({fields}) => {
 	if (!fields?.length) return null;
 
-	const groupFields = (fields: Array<EmbedFieldType>): Array<Array<EmbedFieldType>> => {
-		const groupedFields: Array<Array<EmbedFieldType>> = [];
-		let currentGroup: Array<EmbedFieldType> = [];
+	const groupFields = (fields: Array<EmbedField>): Array<Array<EmbedField>> => {
+		const groupedFields: Array<Array<EmbedField>> = [];
+		let currentGroup: Array<EmbedField> = [];
 		const MAX_INLINE_PER_ROW = 3;
 
 		for (const field of fields) {
@@ -396,9 +445,9 @@ const EmbedFields: FC<{fields: Array<EmbedFieldType>}> = observer(({fields}) => 
 	);
 });
 
-const EmbedFooter: FC<{
+const EmbedFooterComponent: FC<{
 	timestamp?: Date;
-	footer?: EmbedFooterData;
+	footer?: EmbedFooter;
 }> = observer(({timestamp, footer}) => {
 	const {i18n} = useLingui();
 	const formattedTimestamp = timestamp ? DateUtils.getRelativeDateString(timestamp, i18n) : undefined;
@@ -459,6 +508,7 @@ const EmbedMediaRenderer: FC<{
 					height={height}
 					placeholder={video.placeholder}
 					title={embed.title}
+					alt={video.description ?? undefined}
 					duration={video.duration}
 					nsfw={isMediaNSFW(video)}
 					channelId={message.channelId}
@@ -477,6 +527,7 @@ const EmbedMediaRenderer: FC<{
 	if (isValidMedia(image)) {
 		const {width, height} = calculateMediaDimensions(image);
 		const isGif = image.content_type === 'image/gif' || image.url.toLowerCase().endsWith('.gif');
+		const imageIsAnimated = (image.flags & MessageAttachmentFlags.IS_ANIMATED) === MessageAttachmentFlags.IS_ANIMATED;
 
 		if (isGif) {
 			return (
@@ -487,6 +538,7 @@ const EmbedMediaRenderer: FC<{
 						naturalWidth={image.width}
 						naturalHeight={image.height}
 						placeholder={image.placeholder}
+						alt={image.description ?? embed.description ?? undefined}
 						nsfw={isMediaNSFW(image)}
 						channelId={message.channelId}
 						messageId={message.id}
@@ -519,6 +571,8 @@ const EmbedMediaRenderer: FC<{
 					embedIndex={embedIndex}
 					onDelete={onDelete}
 					isPreview={isPreview}
+					animated={imageIsAnimated}
+					alt={image.description ?? undefined}
 				/>
 			</FocusRing>
 		);
@@ -527,6 +581,8 @@ const EmbedMediaRenderer: FC<{
 	if (isValidMedia(thumbnail)) {
 		const {width, height} = calculateMediaDimensions(thumbnail);
 		const isGif = thumbnail.content_type === 'image/gif' || thumbnail.url.toLowerCase().endsWith('.gif');
+		const thumbnailIsAnimated =
+			(thumbnail.flags & MessageAttachmentFlags.IS_ANIMATED) === MessageAttachmentFlags.IS_ANIMATED;
 
 		if (isGif) {
 			return (
@@ -537,6 +593,7 @@ const EmbedMediaRenderer: FC<{
 						naturalWidth={thumbnail.width}
 						naturalHeight={thumbnail.height}
 						placeholder={thumbnail.placeholder}
+						alt={thumbnail.description ?? embed.description ?? undefined}
 						nsfw={isMediaNSFW(thumbnail)}
 						channelId={message.channelId}
 						messageId={message.id}
@@ -567,6 +624,8 @@ const EmbedMediaRenderer: FC<{
 					contentHash={thumbnail.content_hash}
 					embedIndex={embedIndex}
 					onDelete={onDelete}
+					animated={thumbnailIsAnimated}
+					alt={thumbnail.description ?? undefined}
 				/>
 			</FocusRing>
 		);
@@ -581,68 +640,41 @@ const RichEmbed: FC<EmbedProps> = observer(({embed, message, embedIndex, context
 	const hasImage = isValidMedia(embed.image);
 	const hasThumbnail = isValidMedia(embed.thumbnail);
 	const hasAnyMedia = hasVideo || hasImage || hasThumbnail;
-	const normalizedUrl = useMemo(() => normalizeUrl(embed.url), [embed.url]);
 	const galleryImages = useMemo<Array<Required<EmbedMedia>>>(() => {
-		if (embedIndex === undefined || !normalizedUrl) return [];
-
-		const images: Array<Required<EmbedMedia>> = [];
-
-		const tryAddMedia = (media?: Required<EmbedMedia>) => {
-			if (!media || images.length >= MAX_GALLERY_MEDIA) return;
-			images.push(media);
-		};
-
-		const collectMedia = (candidate?: MessageEmbed) => {
-			if (!candidate) return;
-			const candidateMedia = isValidMedia(candidate.image)
-				? candidate.image
-				: isValidMedia(candidate.thumbnail)
-					? candidate.thumbnail
-					: undefined;
-			tryAddMedia(candidateMedia);
-		};
-
-		collectMedia(embed);
-
-		for (let i = embedIndex + 1; i < embedList.length && images.length < MAX_GALLERY_MEDIA; i++) {
-			const candidate = embedList[i];
-			if (!candidate) continue;
-			if (normalizeUrl(candidate.url) !== normalizedUrl) break;
-			collectMedia(candidate);
-		}
-
-		return images;
-	}, [embed, embedIndex, contextualEmbeds, message.embeds, normalizedUrl]);
+		return collectGalleryImages({embed, embedIndex, embedList});
+	}, [embed, embedIndex, contextualEmbeds, message.embeds]);
 	const showGallery = galleryImages.length > 1 || (!hasAnyMedia && galleryImages.length > 0);
 	const galleryAttachments = useMemo(
 		() => (showGallery ? buildGalleryAttachments(galleryImages, embed, embedIndex) : undefined),
 		[galleryImages, embed, embedIndex, showGallery],
 	);
+	const shouldRenderMedia = hasAnyMedia || showGallery;
 	const isInlineThumbnail = !hasVideo && hasThumbnail && shouldRenderAsInlineThumbnail(embed.thumbnail);
 	const shouldRenderInlineThumbnail = isInlineThumbnail && !showGallery;
 	const isYouTubeEmbed = embed.provider?.url && new URL(embed.provider.url).hostname === 'www.youtube.com';
-	const useNarrowWidth = hasAnyMedia && !shouldRenderInlineThumbnail;
+	const useNarrowWidth = shouldRenderMedia && !shouldRenderInlineThumbnail;
 
 	return (
 		<article
 			className={clsx(styles.embed, styles.embedFull, markupStyles.markup)}
+			data-search-highlight-scope="message"
 			style={{
 				borderLeft: `4px solid ${getBorderColor(embed.color)}`,
-				maxWidth: useNarrowWidth ? '432px' : '516px',
+				maxWidth: useNarrowWidth ? 'min(100%, 432px)' : 'min(100%, 516px)',
 			}}
 		>
 			<div className={styles.gridContainer}>
 				<div className={clsx(styles.grid, shouldRenderInlineThumbnail && styles.hasThumbnail)}>
 					<div className={styles.embedContent}>
 						<EmbedProvider provider={embed.provider} />
-						<EmbedAuthor author={embed.author} />
+						<EmbedAuthorComponent author={embed.author} />
 						<EmbedTitle title={embed.title} url={embed.url} />
 						{!isYouTubeEmbed && (
 							<EmbedDescription description={embed.description} messageId={message.id} channelId={message.channelId} />
 						)}
 						<EmbedFields fields={embed.fields?.slice() ?? []} />
 
-						{!shouldRenderInlineThumbnail && hasAnyMedia && (
+						{!shouldRenderInlineThumbnail && shouldRenderMedia && (
 							<div className={clsx(styles.embedMedia)}>
 								{showGallery && galleryAttachments ? (
 									<AttachmentMosaic
@@ -665,7 +697,7 @@ const RichEmbed: FC<EmbedProps> = observer(({embed, message, embedIndex, context
 
 						{embed.footer && (
 							<div className={styles.embedFooter}>
-								<EmbedFooter
+								<EmbedFooterComponent
 									footer={embed.footer}
 									timestamp={embed.timestamp ? new Date(embed.timestamp) : undefined}
 								/>
@@ -700,6 +732,7 @@ const RichEmbed: FC<EmbedProps> = observer(({embed, message, embedIndex, context
 									embedIndex={embedIndex}
 									onDelete={onDelete}
 									isPreview={isPreview}
+									alt={embed.thumbnail!.description ?? undefined}
 								/>
 							</FocusRing>
 						</div>
@@ -709,6 +742,207 @@ const RichEmbed: FC<EmbedProps> = observer(({embed, message, embedIndex, context
 		</article>
 	);
 });
+
+const BlueskyEngagementRow: FC<{fields?: Array<EmbedField>}> = observer(({fields}) => {
+	const {t} = useLingui();
+	const isSingularCount = useCallback((count: string): boolean => {
+		const normalised = count.replace(/[\s,]/g, '');
+		if (normalised.length === 0) return false;
+
+		const parsed = Number(normalised);
+		return Number.isFinite(parsed) && parsed === 1;
+	}, []);
+	const getMetricLabel = useCallback(
+		(metric: 'repost' | 'quote' | 'like' | 'save', count: string): string => {
+			const singular = isSingularCount(count);
+			switch (metric) {
+				case 'repost':
+					return singular ? t`repost` : t`reposts`;
+				case 'quote':
+					return singular ? t`quote` : t`quotes`;
+				case 'like':
+					return singular ? t`like` : t`likes`;
+				case 'save':
+					return singular ? t`save` : t`saves`;
+			}
+		},
+		[isSingularCount, t],
+	);
+
+	const engagementItems = useMemo(() => {
+		const map = new Map<string, string>();
+		for (const field of fields ?? []) {
+			map.set(field.name, field.value);
+		}
+
+		const shouldRenderCount = (count?: string): count is string => {
+			if (!count) return false;
+			const trimmed = count.trim();
+			if (trimmed.length === 0) return false;
+			return !/^0(?:\.0+)?$/.test(trimmed);
+		};
+
+		const items: Array<{metric: 'repost' | 'quote' | 'like' | 'save'; count: string}> = [];
+		const repostCount = map.get('repostCount');
+		const quoteCount = map.get('quoteCount');
+		const likeCount = map.get('likeCount');
+		const bookmarkCount = map.get('bookmarkCount') ?? map.get('saveCount');
+		if (shouldRenderCount(repostCount)) items.push({metric: 'repost', count: repostCount});
+		if (shouldRenderCount(quoteCount)) items.push({metric: 'quote', count: quoteCount});
+		if (shouldRenderCount(likeCount)) items.push({metric: 'like', count: likeCount});
+		if (shouldRenderCount(bookmarkCount)) items.push({metric: 'save', count: bookmarkCount});
+		return items;
+	}, [fields]);
+
+	if (engagementItems.length === 0) return null;
+
+	return (
+		<div className={styles.blueskyEngagement}>
+			{engagementItems.map(({metric, count}) => (
+				<div key={metric} className={styles.blueskyEngagementItem}>
+					<strong>{count}</strong> {getMetricLabel(metric, count)}
+				</div>
+			))}
+		</div>
+	);
+});
+
+interface BlueskyEmbedProps extends EmbedProps {
+	isNested?: boolean;
+}
+
+const BlueskyEmbed: FC<BlueskyEmbedProps> = observer(
+	({embed, message, embedIndex, contextualEmbeds, onDelete, isPreview, isNested = false}) => {
+		const embedList = isNested ? [embed] : (contextualEmbeds ?? message.embeds);
+		const hasVideo = isValidMedia(embed.video);
+		const hasImage = isValidMedia(embed.image);
+		const hasThumbnail = isValidMedia(embed.thumbnail);
+		const hasAnyMedia = hasVideo || hasImage || hasThumbnail;
+		const galleryImages = useMemo<Array<Required<EmbedMedia>>>(() => {
+			return collectGalleryImages({embed, embedIndex, embedList});
+		}, [embed, embedIndex, embedList]);
+		const showGallery = galleryImages.length > 1 || (!hasAnyMedia && galleryImages.length > 0);
+		const galleryAttachments = useMemo(
+			() => (showGallery ? buildGalleryAttachments(galleryImages, embed, embedIndex) : undefined),
+			[galleryImages, embed, embedIndex, showGallery],
+		);
+		const shouldRenderMedia = hasAnyMedia || showGallery;
+		const blueskyMediaMaxWidth = useMemo(() => {
+			if (showGallery || isNested) return undefined;
+
+			const primaryMedia = hasVideo ? embed.video : hasImage ? embed.image : hasThumbnail ? embed.thumbnail : undefined;
+			if (!primaryMedia || !isValidMedia(primaryMedia)) return undefined;
+
+			return calculateMediaDimensions(primaryMedia).width;
+		}, [embed.video, embed.image, embed.thumbnail, hasVideo, hasImage, hasThumbnail, isNested, showGallery]);
+		const blueskyMediaContainerStyle = useMemo(() => {
+			if (blueskyMediaMaxWidth === undefined) return undefined;
+
+			return {width: `min(100%, ${blueskyMediaMaxWidth}px)`, maxWidth: `min(100%, ${blueskyMediaMaxWidth}px)`};
+		}, [blueskyMediaMaxWidth]);
+		const useNarrowWidth = shouldRenderMedia;
+		const nestedChildEmbed = useMemo(() => {
+			if (isNested) return undefined;
+			const candidate = embed.children?.[0];
+			if (!candidate) return undefined;
+			if (candidate.type !== MessageEmbedTypes.BLUESKY) return undefined;
+			return candidate;
+		}, [embed.children, isNested]);
+
+		const renderNestedChild = () => {
+			if (!nestedChildEmbed) {
+				return null;
+			}
+
+			return (
+				<div className={styles.blueskyNestedEmbedContainer}>
+					<BlueskyEmbed
+						embed={nestedChildEmbed}
+						message={message}
+						onDelete={onDelete}
+						isPreview={isPreview}
+						isNested={true}
+					/>
+				</div>
+			);
+		};
+
+		return (
+			<article
+				className={clsx(styles.embed, markupStyles.markup, isNested ? styles.blueskyNestedEmbed : styles.embedFull)}
+				data-search-highlight-scope="message"
+				style={{
+					...(isNested
+						? {
+								maxWidth: '100%',
+								width: '100%',
+							}
+						: {
+								borderLeft: `4px solid ${getBorderColor(embed.color)}`,
+								maxWidth:
+									blueskyMediaMaxWidth !== undefined
+										? `min(100%, ${blueskyMediaMaxWidth + EMBED_MEDIA_CHROME_WIDTH}px)`
+										: useNarrowWidth
+											? 'min(100%, 432px)'
+											: 'min(100%, 516px)',
+							}),
+				}}
+			>
+				<div className={styles.gridContainer}>
+					<div className={styles.grid}>
+						<div className={styles.embedContent}>
+							<EmbedProvider provider={embed.provider} />
+							<EmbedAuthorComponent author={embed.author} />
+							{!isNested && <EmbedTitle title={embed.title} url={embed.url} />}
+							<EmbedDescription description={embed.description} messageId={message.id} channelId={message.channelId} />
+
+							{shouldRenderMedia ? (
+								<div
+									className={clsx(
+										styles.blueskyMediaEngagement,
+										isNested && styles.blueskyNestedMediaEngagement,
+										showGallery && styles.blueskyGalleryMedia,
+									)}
+									style={blueskyMediaContainerStyle}
+								>
+									<div className={clsx(styles.embedMedia)}>
+										{showGallery && galleryAttachments ? (
+											<AttachmentMosaic
+												attachments={galleryAttachments}
+												message={message}
+												hideExpiryFootnote={true}
+												isPreview={isPreview}
+											/>
+										) : (
+											<EmbedMediaRenderer
+												embed={embed}
+												message={message}
+												embedIndex={embedIndex}
+												onDelete={onDelete}
+												isPreview={isPreview}
+											/>
+										)}
+									</div>
+									{renderNestedChild()}
+								</div>
+							) : (
+								renderNestedChild()
+							)}
+
+							{!isNested && (
+								<EmbedFooterComponent
+									footer={embed.footer}
+									timestamp={embed.timestamp ? new Date(embed.timestamp) : undefined}
+								/>
+							)}
+							{!isNested && <BlueskyEngagementRow fields={embed.fields?.slice()} />}
+						</div>
+					</div>
+				</div>
+			</article>
+		);
+	},
+);
 
 export const Embed: FC<EmbedProps> = observer(({embed, message, embedIndex, contextualEmbeds, onDelete, isPreview}) => {
 	const {t} = useLingui();
@@ -792,6 +1026,33 @@ export const Embed: FC<EmbedProps> = observer(({embed, message, embedIndex, cont
 			node
 		);
 
+	const renderSuppressButton = (extraClassName?: string) => {
+		if (!showSuppressButton) {
+			return null;
+		}
+
+		return (
+			<button
+				type="button"
+				onClick={handleSuppressEmbeds}
+				className={clsx(messageStyles.hoverAction, styles.suppressButton, extraClassName)}
+				aria-label={t`Suppress embeds`}
+			>
+				<XIcon size={16} weight="bold" />
+			</button>
+		);
+	};
+
+	const wrapMediaOnlyEmbed = (mediaContent: React.ReactNode) =>
+		wrapSpoiler(
+			<div className={styles.container} data-search-highlight-scope="message">
+				<div className={styles.mediaFrame}>
+					{renderSuppressButton(styles.mediaSuppressButton)}
+					{mediaContent}
+				</div>
+			</div>,
+		);
+
 	if (isDuplicateEmbed) {
 		return null;
 	}
@@ -802,112 +1063,60 @@ export const Embed: FC<EmbedProps> = observer(({embed, message, embedIndex, cont
 		embed.author ||
 		embed.footer ||
 		embed.fields?.length ||
-		(embed.provider &&
-			!(
-				embed.type === MessageEmbedTypes.GIFV &&
-				embed.provider.url &&
-				new URL(embed.provider.url).hostname === 'tenor.com'
-			))
+		(embed.provider && embed.type !== MessageEmbedTypes.GIFV)
 	);
 
 	if (!hasRichContent) {
 		if (embed.type === MessageEmbedTypes.AUDIO && embed.audio?.proxy_url) {
-			return wrapSpoiler(
-				<div className={styles.container}>
-					{showSuppressButton && (
-						<button
-							type="button"
-							onClick={handleSuppressEmbeds}
-							className={clsx(messageStyles.hoverAction, styles.suppressButton)}
-							aria-label={t`Suppress embeds`}
-						>
-							<XIcon size={16} weight="bold" />
-						</button>
-					)}
-					<div className={mosaicStyles.mosaicContainer}>
-						<div className={mosaicStyles.oneByOneGrid}>
-							<FocusRing within ringClassName={mediaFocusRingClass}>
-								<EmbedAudio
-									src={embed.audio.proxy_url}
-									title={embed.title}
-									duration={embed.audio.duration}
-									embedUrl={embed.url}
-									channelId={message.channelId}
-									messageId={message.id}
-									message={message}
-									contentHash={embed.audio.content_hash}
-									embedIndex={embedIndex}
-									onDelete={onDelete}
-									isPreview={isPreview}
-								/>
-							</FocusRing>
-						</div>
-					</div>
-				</div>,
+			return wrapMediaOnlyEmbed(
+				<FocusRing within ringClassName={mediaFocusRingClass}>
+					<EmbedAudio
+						src={embed.audio.proxy_url}
+						title={embed.title}
+						duration={embed.audio.duration}
+						embedUrl={embed.url}
+						channelId={message.channelId}
+						messageId={message.id}
+						message={message}
+						contentHash={embed.audio.content_hash}
+						embedIndex={embedIndex}
+						onDelete={onDelete}
+						isPreview={isPreview}
+					/>
+				</FocusRing>,
 			);
 		}
 
 		if (embed.type === MessageEmbedTypes.VIDEO && isValidMedia(embed.video)) {
 			if (embed.provider?.url && new URL(embed.provider.url).hostname === 'www.youtube.com') {
-				return wrapSpoiler(
-					<div className={styles.container}>
-						{showSuppressButton && (
-							<button
-								type="button"
-								onClick={handleSuppressEmbeds}
-								className={clsx(messageStyles.hoverAction, styles.suppressButton)}
-								aria-label={t`Suppress embeds`}
-							>
-								<XIcon size={16} weight="bold" />
-							</button>
-						)}
-						<div className={mosaicStyles.mosaicContainer}>
-							<div className={mosaicStyles.oneByOneGrid}>
-								<FocusRing within ringClassName={mediaFocusRingClass}>
-									<EmbedYouTube embed={embed} />
-								</FocusRing>
-							</div>
-						</div>
-					</div>,
+				return wrapMediaOnlyEmbed(
+					<FocusRing within ringClassName={mediaFocusRingClass}>
+						<EmbedYouTube embed={embed} />
+					</FocusRing>,
 				);
 			}
 
 			const {width, height} = calculateMediaDimensions(embed.video);
-			return wrapSpoiler(
-				<div className={styles.container}>
-					{showSuppressButton && (
-						<button
-							type="button"
-							onClick={handleSuppressEmbeds}
-							className={clsx(messageStyles.hoverAction, styles.suppressButton)}
-							aria-label={t`Suppress embeds`}
-						>
-							<XIcon size={16} weight="bold" />
-						</button>
-					)}
-					<div className={mosaicStyles.mosaicContainer}>
-						<div className={mosaicStyles.oneByOneGrid}>
-							<FocusRing within ringClassName={mediaFocusRingClass}>
-								<EmbedVideo
-									src={embed.video.proxy_url}
-									width={width}
-									height={height}
-									placeholder={embed.video.placeholder}
-									title={embed.title}
-									duration={embed.video.duration}
-									nsfw={isMediaNSFW(embed.video)}
-									channelId={message.channelId}
-									messageId={message.id}
-									embedUrl={embed.url}
-									message={message}
-									contentHash={embed.video.content_hash}
-									embedIndex={embedIndex}
-									onDelete={onDelete}
-								/>
-							</FocusRing>
-						</div>
-					</div>
-				</div>,
+			return wrapMediaOnlyEmbed(
+				<FocusRing within ringClassName={mediaFocusRingClass}>
+					<EmbedVideo
+						src={embed.video.proxy_url}
+						width={width}
+						height={height}
+						placeholder={embed.video.placeholder}
+						title={embed.title}
+						alt={embed.video.description ?? undefined}
+						duration={embed.video.duration}
+						nsfw={isMediaNSFW(embed.video)}
+						channelId={message.channelId}
+						messageId={message.id}
+						embedUrl={embed.url}
+						message={message}
+						contentHash={embed.video.content_hash}
+						embedIndex={embedIndex}
+						onDelete={onDelete}
+					/>
+				</FocusRing>,
 			);
 		}
 
@@ -918,75 +1127,46 @@ export const Embed: FC<EmbedProps> = observer(({embed, message, embedIndex, cont
 			(thumbnail.flags & MessageAttachmentFlags.IS_ANIMATED) === MessageAttachmentFlags.IS_ANIMATED
 		) {
 			const {width, height} = calculateMediaDimensions(thumbnail);
-			return wrapSpoiler(
-				<div className={styles.container}>
-					{showSuppressButton && (
-						<button
-							type="button"
-							onClick={handleSuppressEmbeds}
-							className={clsx(messageStyles.hoverAction, styles.suppressButton)}
-							aria-label={t`Suppress embeds`}
-						>
-							<XIcon size={16} weight="bold" />
-						</button>
-					)}
-					<div className={mosaicStyles.mosaicContainer}>
-						<div className={mosaicStyles.oneByOneGrid}>
-							<FocusRing within ringClassName={mediaFocusRingClass}>
-								<EmbedGif
-									embedURL={thumbnail.url}
-									proxyURL={getOptimizedMediaURL(thumbnail.proxy_url, width, height)}
-									naturalWidth={thumbnail.width}
-									naturalHeight={thumbnail.height}
-									placeholder={thumbnail.placeholder}
-									channelId={message.channelId}
-									messageId={message.id}
-									message={message}
-									contentHash={thumbnail.content_hash}
-									embedIndex={embedIndex}
-									onDelete={onDelete}
-								/>
-							</FocusRing>
-						</div>
-					</div>
-				</div>,
+			return wrapMediaOnlyEmbed(
+				<FocusRing within ringClassName={mediaFocusRingClass}>
+					<EmbedGif
+						embedURL={thumbnail.url}
+						proxyURL={getOptimizedMediaURL(thumbnail.proxy_url, width, height)}
+						naturalWidth={thumbnail.width}
+						naturalHeight={thumbnail.height}
+						placeholder={thumbnail.placeholder}
+						alt={thumbnail.description ?? embed.description ?? undefined}
+						channelId={message.channelId}
+						messageId={message.id}
+						message={message}
+						contentHash={thumbnail.content_hash}
+						embedIndex={embedIndex}
+						onDelete={onDelete}
+					/>
+				</FocusRing>,
 			);
 		}
 
 		if (embed.type === MessageEmbedTypes.GIFV && isValidMedia(embed.video) && isValidMedia(thumbnail) && embed.url) {
-			return wrapSpoiler(
-				<div className={styles.container}>
-					{showSuppressButton && (
-						<button
-							type="button"
-							onClick={handleSuppressEmbeds}
-							className={clsx(messageStyles.hoverAction, styles.suppressButton)}
-							aria-label={t`Suppress embeds`}
-						>
-							<XIcon size={16} weight="bold" />
-						</button>
-					)}
-					<div className={mosaicStyles.mosaicContainer}>
-						<div className={mosaicStyles.oneByOneGrid}>
-							<FocusRing within ringClassName={mediaFocusRingClass}>
-								<EmbedGifv
-									embedURL={embed.url}
-									videoProxyURL={embed.video.proxy_url}
-									videoURL={embed.video.url}
-									naturalWidth={thumbnail.width}
-									naturalHeight={thumbnail.height}
-									placeholder={thumbnail.placeholder}
-									channelId={message.channelId}
-									messageId={message.id}
-									message={message}
-									contentHash={embed.video.content_hash}
-									embedIndex={embedIndex}
-									onDelete={onDelete}
-								/>
-							</FocusRing>
-						</div>
-					</div>
-				</div>,
+			return wrapMediaOnlyEmbed(
+				<FocusRing within ringClassName={mediaFocusRingClass}>
+					<EmbedGifv
+						embedURL={embed.url}
+						videoProxyURL={embed.video.proxy_url}
+						videoURL={embed.video.url}
+						naturalWidth={thumbnail.width}
+						naturalHeight={thumbnail.height}
+						placeholder={thumbnail.placeholder}
+						alt={embed.video.description ?? thumbnail.description ?? embed.description ?? undefined}
+						channelId={message.channelId}
+						messageId={message.id}
+						message={message}
+						contentHash={embed.video.content_hash}
+						embedIndex={embedIndex}
+						onDelete={onDelete}
+						providerName={embed.provider?.name}
+					/>
+				</FocusRing>,
 			);
 		}
 
@@ -995,78 +1175,47 @@ export const Embed: FC<EmbedProps> = observer(({embed, message, embedIndex, cont
 			const isGif = thumbnail.content_type === 'image/gif' || thumbnail.url.toLowerCase().endsWith('.gif');
 
 			if (isGif) {
-				return wrapSpoiler(
-					<div className={styles.container}>
-						{showSuppressButton && (
-							<button
-								type="button"
-								onClick={handleSuppressEmbeds}
-								className={clsx(messageStyles.hoverAction, styles.suppressButton)}
-								aria-label={t`Suppress embeds`}
-							>
-								<XIcon size={16} weight="bold" />
-							</button>
-						)}
-						<div className={mosaicStyles.mosaicContainer}>
-							<div className={mosaicStyles.oneByOneGrid}>
-								<FocusRing within ringClassName={mediaFocusRingClass}>
-									<EmbedGif
-										embedURL={thumbnail.url}
-										proxyURL={thumbnail.proxy_url}
-										naturalWidth={thumbnail.width}
-										naturalHeight={thumbnail.height}
-										placeholder={thumbnail.placeholder}
-										nsfw={isMediaNSFW(thumbnail)}
-										channelId={message.channelId}
-										messageId={message.id}
-										message={message}
-										contentHash={thumbnail.content_hash}
-										embedIndex={embedIndex}
-										onDelete={onDelete}
-									/>
-								</FocusRing>
-							</div>
-						</div>
-					</div>,
+				return wrapMediaOnlyEmbed(
+					<FocusRing within ringClassName={mediaFocusRingClass}>
+						<EmbedGif
+							embedURL={thumbnail.url}
+							proxyURL={thumbnail.proxy_url}
+							naturalWidth={thumbnail.width}
+							naturalHeight={thumbnail.height}
+							placeholder={thumbnail.placeholder}
+							alt={thumbnail.description ?? embed.description ?? undefined}
+							nsfw={isMediaNSFW(thumbnail)}
+							channelId={message.channelId}
+							messageId={message.id}
+							message={message}
+							contentHash={thumbnail.content_hash}
+							embedIndex={embedIndex}
+							onDelete={onDelete}
+						/>
+					</FocusRing>,
 				);
 			}
 
-			return wrapSpoiler(
-				<div className={styles.container}>
-					{showSuppressButton && (
-						<button
-							type="button"
-							onClick={handleSuppressEmbeds}
-							className={clsx(messageStyles.hoverAction, styles.suppressButton)}
-							aria-label={t`Suppress embeds`}
-						>
-							<XIcon size={16} weight="bold" />
-						</button>
-					)}
-					<div className={mosaicStyles.mosaicContainer}>
-						<div className={mosaicStyles.oneByOneGrid}>
-							<FocusRing within ringClassName={mediaFocusRingClass}>
-								<EmbedImage
-									src={getOptimizedMediaURL(thumbnail.proxy_url, width, height)}
-									originalSrc={thumbnail.url}
-									naturalWidth={thumbnail.width}
-									naturalHeight={thumbnail.height}
-									width={width}
-									height={height}
-									placeholder={thumbnail.placeholder}
-									constrain={true}
-									nsfw={isMediaNSFW(thumbnail)}
-									channelId={message.channelId}
-									messageId={message.id}
-									message={message}
-									contentHash={thumbnail.content_hash}
-									embedIndex={embedIndex}
-									onDelete={onDelete}
-								/>
-							</FocusRing>
-						</div>
-					</div>
-				</div>,
+			return wrapMediaOnlyEmbed(
+				<FocusRing within ringClassName={mediaFocusRingClass}>
+					<EmbedImage
+						src={getOptimizedMediaURL(thumbnail.proxy_url, width, height)}
+						originalSrc={thumbnail.url}
+						naturalWidth={thumbnail.width}
+						naturalHeight={thumbnail.height}
+						width={width}
+						height={height}
+						placeholder={thumbnail.placeholder}
+						constrain={true}
+						nsfw={isMediaNSFW(thumbnail)}
+						channelId={message.channelId}
+						messageId={message.id}
+						message={message}
+						contentHash={thumbnail.content_hash}
+						embedIndex={embedIndex}
+						onDelete={onDelete}
+					/>
+				</FocusRing>,
 			);
 		}
 
@@ -1074,7 +1223,7 @@ export const Embed: FC<EmbedProps> = observer(({embed, message, embedIndex, cont
 	}
 
 	return wrapSpoiler(
-		<div className={styles.container}>
+		<div className={styles.container} data-search-highlight-scope="message">
 			{showSuppressButton && (
 				<button
 					type="button"
@@ -1085,14 +1234,25 @@ export const Embed: FC<EmbedProps> = observer(({embed, message, embedIndex, cont
 					<XIcon size={16} weight="bold" />
 				</button>
 			)}
-			<RichEmbed
-				embed={embed}
-				message={message}
-				embedIndex={embedIndex}
-				contextualEmbeds={contextualEmbeds}
-				onDelete={onDelete}
-				isPreview={isPreview}
-			/>
+			{embed.type === MessageEmbedTypes.BLUESKY ? (
+				<BlueskyEmbed
+					embed={embed}
+					message={message}
+					embedIndex={embedIndex}
+					contextualEmbeds={contextualEmbeds}
+					onDelete={onDelete}
+					isPreview={isPreview}
+				/>
+			) : (
+				<RichEmbed
+					embed={embed}
+					message={message}
+					embedIndex={embedIndex}
+					contextualEmbeds={contextualEmbeds}
+					onDelete={onDelete}
+					isPreview={isPreview}
+				/>
+			)}
 		</div>,
 	);
 });

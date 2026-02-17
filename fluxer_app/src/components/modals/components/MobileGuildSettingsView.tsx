@@ -17,21 +17,29 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import styles from '@app/components/modals/components/MobileGuildSettingsView.module.css';
+import {GuildDeleteModal} from '@app/components/modals/GuildDeleteModal';
+import type {MobileNavigationState} from '@app/components/modals/hooks/useMobileNavigation';
+import {useUnsavedChangesFlash} from '@app/components/modals/hooks/useUnsavedChangesFlash';
+import {
+	MobileHeader,
+	MobileHeaderWithBanner,
+	MobileSettingsDangerItem,
+	MobileSettingsList,
+} from '@app/components/modals/shared/MobileSettingsComponents';
+import userSettingsStyles from '@app/components/modals/UserSettingsModal.module.css';
+import type {GuildSettingsTab, GuildSettingsTabType} from '@app/components/modals/utils/GuildSettingsConstants';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
 import {useLingui} from '@lingui/react/macro';
 import {TrashIcon} from '@phosphor-icons/react';
 import {AnimatePresence, motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {GuildDeleteModal} from '~/components/modals/GuildDeleteModal';
-import {Scroller} from '~/components/uikit/Scroller';
-import type {GuildRecord} from '~/records/GuildRecord';
-import type {MobileNavigationState} from '../hooks/useMobileNavigation';
-import {MobileHeader, MobileSettingsDangerItem, MobileSettingsList} from '../shared/MobileSettingsComponents';
-import userSettingsStyles from '../UserSettingsModal.module.css';
-import type {GuildSettingsTab, GuildSettingsTabType} from '../utils/guildSettingsConstants';
-import styles from './MobileGuildSettingsView.module.css';
+import type React from 'react';
+import {type UIEvent, useCallback, useEffect, useRef} from 'react';
 
 interface MobileGuildSettingsViewProps {
 	guild: GuildRecord;
@@ -69,17 +77,48 @@ const headerFadeVariants = {
 export const MobileGuildSettingsView: React.FC<MobileGuildSettingsViewProps> = observer(
 	({guild, groupedSettingsTabs, currentTab, mobileNav, onBack, onTabSelect}) => {
 		const {t} = useLingui();
+		const reducedMotion = AccessibilityStore.useReducedMotion;
+		const currentTabId = mobileNav.currentView?.tab;
+		const {showUnsavedBanner, flashBanner, tabData, checkUnsavedChanges} = useUnsavedChangesFlash(currentTabId);
 
 		const CATEGORY_LABELS = {
 			user_management: t`User Management`,
 		};
 
-		const handleDeleteGuild = React.useCallback(() => {
+		const handleDeleteGuild = useCallback(() => {
 			ModalActionCreators.push(modal(() => <GuildDeleteModal guildId={guild.id} />));
 		}, [guild.id]);
 
+		const handleBack = useCallback(() => {
+			if (checkUnsavedChanges()) return;
+			onBack();
+		}, [checkUnsavedChanges, onBack]);
+
+		const handleTabSelect = useCallback(
+			(tabType: string, title: string) => {
+				if (checkUnsavedChanges()) return;
+				onTabSelect(tabType, title);
+			},
+			[checkUnsavedChanges, onTabSelect],
+		);
+
 		const showMobileList = mobileNav.isRootView;
 		const showMobileContent = !mobileNav.isRootView;
+
+		const listScrollPositionRef = useRef(0);
+		const listScrollerRef = useRef<ScrollerHandle | null>(null);
+		const handleListScroll = useCallback((event: UIEvent<HTMLDivElement>) => {
+			listScrollPositionRef.current = event.currentTarget.scrollTop;
+		}, []);
+
+		useEffect(() => {
+			if (!showMobileList) return;
+			const scroller = listScrollerRef.current;
+			if (!scroller) return;
+			const target = listScrollPositionRef.current;
+			if (target === 0) return;
+			scroller.scrollTo({to: target, animate: false});
+		}, [showMobileList]);
 
 		const dangerAction = (
 			<MobileSettingsDangerItem icon={TrashIcon} label={t`Delete Community`} onClick={handleDeleteGuild} />
@@ -92,34 +131,34 @@ export const MobileGuildSettingsView: React.FC<MobileGuildSettingsViewProps> = o
 						{showMobileList && (
 							<motion.div
 								key="mobile-list-header"
-								variants={headerFadeVariants}
+								variants={reducedMotion ? undefined : headerFadeVariants}
 								initial="center"
 								animate="center"
-								exit="exit"
-								transition={{
-									duration: 0.08,
-									ease: 'easeInOut',
-								}}
+								exit={reducedMotion ? 'center' : 'exit'}
+								transition={{duration: reducedMotion ? 0 : 0.08, ease: 'easeInOut'}}
 								className={userSettingsStyles.mobileHeaderContent}
 							>
-								<MobileHeader title={guild.name} onBack={onBack} />
+								<MobileHeader title={guild.name} onBack={handleBack} />
 							</motion.div>
 						)}
 
 						{showMobileContent && currentTab && (
 							<motion.div
 								key={`mobile-content-header-${mobileNav.currentView?.tab}`}
-								variants={headerFadeVariants}
-								initial="enter"
+								variants={reducedMotion ? undefined : headerFadeVariants}
+								initial={reducedMotion ? 'center' : 'enter'}
 								animate="center"
-								exit="exit"
-								transition={{
-									duration: 0.08,
-									ease: 'easeInOut',
-								}}
+								exit={reducedMotion ? 'center' : 'exit'}
+								transition={{duration: reducedMotion ? 0 : 0.08, ease: 'easeInOut'}}
 								className={userSettingsStyles.mobileHeaderContent}
 							>
-								<MobileHeader title={mobileNav.currentView?.title || currentTab.label} onBack={onBack} />
+								<MobileHeaderWithBanner
+									title={mobileNav.currentView?.title || currentTab.label}
+									onBack={handleBack}
+									showUnsavedBanner={showUnsavedBanner}
+									flashBanner={flashBanner}
+									tabData={tabData}
+								/>
 							</motion.div>
 						)}
 					</AnimatePresence>
@@ -131,23 +170,22 @@ export const MobileGuildSettingsView: React.FC<MobileGuildSettingsViewProps> = o
 							<motion.div
 								key="mobile-list-content"
 								custom={mobileNav.direction}
-								variants={contentFadeVariants}
+								variants={reducedMotion ? undefined : contentFadeVariants}
 								initial="center"
 								animate="center"
-								exit="exit"
-								transition={{
-									duration: 0.15,
-									ease: 'easeInOut',
-								}}
+								exit={reducedMotion ? 'center' : 'exit'}
+								transition={{duration: reducedMotion ? 0 : 0.15, ease: 'easeInOut'}}
 								className={userSettingsStyles.mobileContentPane}
 								style={{willChange: 'transform'}}
 							>
 								<MobileSettingsList
 									groupedTabs={groupedSettingsTabs}
-									onTabSelect={onTabSelect}
+									onTabSelect={handleTabSelect}
 									categoryLabels={CATEGORY_LABELS}
 									hiddenCategories={['guild_settings']}
 									dangerContent={dangerAction}
+									scrollRef={listScrollerRef}
+									onScroll={handleListScroll}
 								/>
 							</motion.div>
 						)}
@@ -156,14 +194,11 @@ export const MobileGuildSettingsView: React.FC<MobileGuildSettingsViewProps> = o
 							<motion.div
 								key={`mobile-content-${mobileNav.currentView?.tab}`}
 								custom={mobileNav.direction}
-								variants={contentFadeVariants}
-								initial="enter"
+								variants={reducedMotion ? undefined : contentFadeVariants}
+								initial={reducedMotion ? 'center' : 'enter'}
 								animate="center"
-								exit="exit"
-								transition={{
-									duration: 0.15,
-									ease: 'easeInOut',
-								}}
+								exit={reducedMotion ? 'center' : 'exit'}
+								transition={{duration: reducedMotion ? 0 : 0.15, ease: 'easeInOut'}}
 								className={userSettingsStyles.mobileContentPane}
 								style={{willChange: 'transform'}}
 							>

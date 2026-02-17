@@ -17,32 +17,32 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import NagbarStore, {type NagbarToggleKey} from '~/stores/NagbarStore';
+import NagbarStore, {type NagbarToggleKey} from '@app/stores/NagbarStore';
 
-export const dismissNagbar = (nagbarType: NagbarToggleKey): void => {
+export function dismissNagbar(nagbarType: NagbarToggleKey): void {
 	NagbarStore.dismiss(nagbarType);
-};
+}
 
-export const dismissInvitesDisabledNagbar = (guildId: string): void => {
+export function dismissInvitesDisabledNagbar(guildId: string): void {
 	NagbarStore.dismissInvitesDisabled(guildId);
-};
+}
 
-export const resetNagbar = (nagbarType: NagbarToggleKey): void => {
+export function resetNagbar(nagbarType: NagbarToggleKey): void {
 	NagbarStore.reset(nagbarType);
-};
+}
 
-export const resetAllNagbars = (): void => {
+export function resetAllNagbars(): void {
 	NagbarStore.resetAll();
-};
+}
 
-export const setForceHideNagbar = (key: NagbarToggleKey, value: boolean): void => {
+export function setForceHideNagbar(key: NagbarToggleKey, value: boolean): void {
 	NagbarStore.setFlag(key, value);
-};
+}
 
-export const dismissPendingBulkDeletionNagbar = (scheduleKey: string): void => {
+export function dismissPendingBulkDeletionNagbar(scheduleKey: string): void {
 	NagbarStore.dismissPendingBulkDeletion(scheduleKey);
-};
+}
 
-export const clearPendingBulkDeletionNagbarDismissal = (scheduleKey: string): void => {
+export function clearPendingBulkDeletionNagbarDismissal(scheduleKey: string): void {
 	NagbarStore.clearPendingBulkDeletionDismissed(scheduleKey);
-};
+}

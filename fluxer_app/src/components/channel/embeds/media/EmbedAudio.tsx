@@ -17,28 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import {deriveDefaultNameFromMessage} from '@app/components/channel/embeds/EmbedUtils';
+import styles from '@app/components/channel/embeds/media/EmbedAudio.module.css';
+import {getMediaButtonVisibility} from '@app/components/channel/embeds/media/MediaButtonUtils';
+import type {BaseMediaProps} from '@app/components/channel/embeds/media/MediaTypes';
+import {InlineAudioPlayer} from '@app/components/media_player/components/InlineAudioPlayer';
+import {MediaContextMenu} from '@app/components/uikit/context_menu/MediaContextMenu';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useDeleteAttachment} from '@app/hooks/useDeleteAttachment';
+import {useMediaFavorite} from '@app/hooks/useMediaFavorite';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import messageStyles from '@app/styles/Message.module.css';
+import {createSaveHandler} from '@app/utils/FileDownloadUtils';
+import {buildMediaProxyURL} from '@app/utils/MediaProxyUtils';
+import type {MessageAttachment} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {useLingui} from '@lingui/react/macro';
-import {FileAudioIcon, PlayIcon, TrashIcon} from '@phosphor-icons/react';
+import {TrashIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import {type FC, useCallback, useEffect, useRef, useState} from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as MediaViewerActionCreators from '~/actions/MediaViewerActionCreators';
-import {deriveDefaultNameFromMessage, splitFilename} from '~/components/channel/embeds/EmbedUtils';
-import {getMediaButtonVisibility} from '~/components/channel/embeds/media/MediaButtonUtils';
-import type {BaseMediaProps} from '~/components/channel/embeds/media/MediaTypes';
-import {InlineAudioPlayer} from '~/components/media-player/components/InlineAudioPlayer';
-import {MediaContextMenu} from '~/components/uikit/ContextMenu/MediaContextMenu';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useDeleteAttachment} from '~/hooks/useDeleteAttachment';
-import {useMediaFavorite} from '~/hooks/useMediaFavorite';
-import type {MessageAttachment} from '~/records/MessageRecord';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import messageStyles from '~/styles/Message.module.css';
-import {createSaveHandler} from '~/utils/FileDownloadUtils';
-import {formatFileSize} from '~/utils/FileUtils';
-import {buildMediaProxyURL} from '~/utils/MediaProxyUtils';
-import styles from './EmbedAudio.module.css';
+import {type FC, useCallback} from 'react';
 
 type EmbedAudioProps = BaseMediaProps & {
 	src: string;
@@ -68,8 +66,6 @@ const EmbedAudio: FC<EmbedAudioProps> = observer(
 	}) => {
 		const {t} = useLingui();
 		const effectiveSrc = buildMediaProxyURL(src);
-		const audioRef = useRef<HTMLAudioElement>(null);
-		const [duration, setDuration] = useState(apiDuration || 0);
 		const {enabled: isMobile} = MobileLayoutStore;
 
 		const defaultName =
@@ -111,72 +107,16 @@ const EmbedAudio: FC<EmbedAudioProps> = observer(
 			[message, src, contentHash, attachmentId, defaultName, onDelete, isPreview],
 		);
 
-		useEffect(() => {
-			if (apiDuration) return;
-
-			const audio = audioRef.current;
-			if (!audio) return;
-
-			const handleLoadedMetadata = () => {
-				setDuration(audio.duration);
-			};
-
-			audio.addEventListener('loadedmetadata', handleLoadedMetadata);
-
-			if (audio.readyState === 0) {
-				audio.load();
-			}
-
-			return () => {
-				audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
-			};
-		}, [apiDuration]);
-
-		const handlePlayClick = (e: React.MouseEvent) => {
-			e.preventDefault();
-			e.stopPropagation();
-
-			MediaViewerActionCreators.openMediaViewer(
-				[
-					{
-						src: effectiveSrc,
-						originalSrc: embedUrl || src,
-						naturalWidth: 0,
-						naturalHeight: 0,
-						type: 'audio',
-						contentHash,
-						attachmentId,
-						embedIndex,
-						filename: title || defaultName,
-						fileSize,
-						duration,
-					},
-				],
-				0,
-				{
-					channelId,
-					messageId,
-					message,
-				},
-			);
-		};
-
-		const handleDownload = (e: React.MouseEvent) => {
-			e.preventDefault();
-			e.stopPropagation();
-			createSaveHandler(src, 'audio')();
-		};
+		const handleDownload = useCallback(
+			(e: React.MouseEvent) => {
+				e.preventDefault();
+				e.stopPropagation();
+				createSaveHandler(src, 'audio')();
+			},
+			[src],
+		);
 
 		const handleDeleteClick = useDeleteAttachment(message, attachmentId);
-
-		const formatTime = (time: number) => {
-			if (!Number.isFinite(time)) return '0:00';
-			const minutes = Math.floor(time / 60);
-			const seconds = Math.floor(time % 60);
-			return `${minutes}:${seconds.toString().padStart(2, '0')}`;
-		};
-
-		const {name: fileName, extension: fileExtension} = splitFilename(defaultName);
 
 		const containerStyles: React.CSSProperties = isMobile
 			? {
@@ -187,8 +127,9 @@ const EmbedAudio: FC<EmbedAudioProps> = observer(
 				}
 			: {
 					display: 'grid',
-					width: '400px',
-					maxWidth: '400px',
+					width: '100%',
+					maxWidth: 'min(100%, 400px)',
+					minWidth: 'min(400px, 100%)',
 				};
 
 		const {showDeleteButton, showDownloadButton} = getMediaButtonVisibility(
@@ -197,36 +138,6 @@ const EmbedAudio: FC<EmbedAudioProps> = observer(
 			attachmentId,
 			{disableDelete: !!isPreview},
 		);
-
-		if (isMobile) {
-			return (
-				<div style={containerStyles} className={styles.container}>
-					{/* biome-ignore lint/a11y/useMediaCaption: Audio embed doesn't require captions */}
-					<audio ref={audioRef} src={effectiveSrc} preload="none" aria-label={title || t`Embedded audio`} />
-					<button
-						type="button"
-						onClick={handlePlayClick}
-						onContextMenu={handleContextMenu}
-						className={styles.mobilePlayButton}
-						aria-label={t`Play audio`}
-					>
-						<div className={styles.mobileIconContainer}>
-							<FileAudioIcon size={32} />
-						</div>
-						<div className={styles.fileInfoContainer}>
-							<p className={styles.fileName}>
-								<span className={styles.fileNameTruncate}>{fileName}</span>
-								<span className={styles.fileExtension}>{fileExtension}</span>
-							</p>
-							<p className={styles.fileSize}>{fileSize ? formatFileSize(fileSize) : formatTime(duration)}</p>
-						</div>
-						<div className={styles.mobilePlayIconContainer}>
-							<PlayIcon size={20} weight="fill" />
-						</div>
-					</button>
-				</div>
-			);
-		}
 
 		return (
 			<div style={containerStyles} className={styles.container}>
@@ -246,7 +157,8 @@ const EmbedAudio: FC<EmbedAudioProps> = observer(
 					src={effectiveSrc}
 					title={defaultName}
 					fileSize={fileSize}
-					duration={apiDuration || duration}
+					duration={apiDuration}
+					isMobile={isMobile}
 					isFavorited={isFavorited}
 					canFavorite={canFavorite}
 					onFavoriteClick={handleFavoriteClick}

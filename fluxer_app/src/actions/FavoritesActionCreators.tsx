@@ -17,15 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AccessibilityActionCreators from '@app/actions/AccessibilityActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {Trans} from '@lingui/react/macro';
-import * as AccessibilityActionCreators from '~/actions/AccessibilityActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
 
-export const confirmHideFavorites = (onConfirm: (() => void) | undefined, i18n: I18n): void => {
+export function confirmHideFavorites(onConfirm: (() => void) | undefined, i18n: I18n): void {
 	ModalActionCreators.push(
 		modal(() => (
 			<ConfirmModal
@@ -48,4 +48,4 @@ export const confirmHideFavorites = (onConfirm: (() => void) | undefined, i18n: 
 			/>
 		)),
 	);
-};
+}

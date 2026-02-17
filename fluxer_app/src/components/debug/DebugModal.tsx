@@ -17,19 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/debug/DebugModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {type TabItem, Tabs} from '@app/components/uikit/tabs/Tabs';
+import {Logger} from '@app/lib/Logger';
+import {CodeBlockRenderer} from '@app/lib/markdown/renderers/common/CodeElements';
+import {MarkdownContext} from '@app/lib/markdown/renderers/RendererTypes';
+import markupStyles from '@app/styles/Markup.module.css';
+import {NodeType} from '@fluxer/markdown_parser/src/types/Enums';
+import type {CodeBlockNode} from '@fluxer/markdown_parser/src/types/Nodes';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useMemo, useState} from 'react';
-import * as Modal from '~/components/modals/Modal';
-import {type TabItem, Tabs} from '~/components/uikit/Tabs/Tabs';
-import {NodeType} from '~/lib/markdown/parser/types/enums';
-import type {CodeBlockNode} from '~/lib/markdown/parser/types/nodes';
-import {MarkdownContext} from '~/lib/markdown/renderers';
-import {CodeBlockRenderer} from '~/lib/markdown/renderers/common/code-elements';
-import markupStyles from '~/styles/Markup.module.css';
-import styles from './DebugModal.module.css';
 
 export interface DebugTab {
 	id: string;
@@ -46,6 +47,8 @@ interface DebugModalProps {
 	defaultTab?: string;
 }
 
+const logger = new Logger('DebugModal');
+
 export const DebugModal: React.FC<DebugModalProps> = observer(({title, tabs, defaultTab}) => {
 	const {i18n} = useLingui();
 	const [activeTabId, setActiveTabId] = useState<string>(defaultTab ?? tabs[0]?.id ?? '');
@@ -59,7 +62,7 @@ export const DebugModal: React.FC<DebugModalProps> = observer(({title, tabs, def
 			try {
 				return activeTab.serialize(activeTab.data);
 			} catch (error) {
-				console.error('Failed to serialize debug tab data via custom serializer:', error);
+				logger.error('Failed to serialize debug tab data via custom serializer:', error);
 				return 'Unable to serialize data';
 			}
 		}
@@ -75,7 +78,7 @@ export const DebugModal: React.FC<DebugModalProps> = observer(({title, tabs, def
 		try {
 			return JSON.stringify(activeTab.data, null, 2);
 		} catch (error) {
-			console.error('Failed to stringify debug tab data:', error);
+			logger.error('Failed to stringify debug tab data:', error);
 			return 'Unable to serialize data';
 		}
 	}, [activeTab]);

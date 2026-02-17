@@ -17,22 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GuildActionCreators from '@app/actions/GuildActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {Input} from '@app/components/form/Input';
+import {Select as FormSelect} from '@app/components/form/Select';
+import styles from '@app/components/modals/BanMemberModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {RadioGroup} from '@app/components/uikit/radio_group/RadioGroup';
+import {Logger} from '@app/lib/Logger';
+import type {UserRecord} from '@app/records/UserRecord';
+import bannedMp4 from '@app/videos/banned.mp4';
+import bannedPng from '@app/videos/banned.png';
+import bannedWebm from '@app/videos/banned.webm';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as GuildActionCreators from '~/actions/GuildActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {Input} from '~/components/form/Input';
-import {Select as FormSelect} from '~/components/form/Select';
-import styles from '~/components/modals/BanMemberModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {RadioGroup} from '~/components/uikit/RadioGroup/RadioGroup';
-import type {UserRecord} from '~/records/UserRecord';
-import bannedMp4 from '~/videos/banned.mp4';
-import bannedPng from '~/videos/banned.png';
-import bannedWebm from '~/videos/banned.webm';
+import type React from 'react';
+import {useCallback, useState} from 'react';
+
+const logger = new Logger('BanMemberModal');
 
 interface SelectOption {
 	value: number;
@@ -41,12 +45,12 @@ interface SelectOption {
 
 export const BanMemberModal: React.FC<{guildId: string; targetUser: UserRecord}> = observer(({guildId, targetUser}) => {
 	const {t} = useLingui();
-	const [reason, setReason] = React.useState('');
-	const [deleteMessageDays, setDeleteMessageDays] = React.useState<number>(1);
-	const [banDuration, setBanDuration] = React.useState<number>(0);
-	const [isBanning, setIsBanning] = React.useState(false);
+	const [reason, setReason] = useState('');
+	const [deleteMessageDays, setDeleteMessageDays] = useState<number>(1);
+	const [banDuration, setBanDuration] = useState<number>(0);
+	const [isBanning, setIsBanning] = useState(false);
 
-	const getBanDurationOptions = React.useCallback(
+	const getBanDurationOptions = useCallback(
 		(): ReadonlyArray<SelectOption> => [
 			{value: 0, label: t`Permanent`},
 			{value: 60 * 60, label: t`1 hour`},
@@ -73,7 +77,7 @@ export const BanMemberModal: React.FC<{guildId: string; targetUser: UserRecord}>
 			});
 			ModalActionCreators.pop();
 		} catch (error) {
-			console.error('Failed to ban member:', error);
+			logger.error('Failed to ban member:', error);
 			ToastActionCreators.createToast({
 				type: 'error',
 				children: <Trans>Failed to ban member. Please try again.</Trans>,
@@ -92,7 +96,7 @@ export const BanMemberModal: React.FC<{guildId: string; targetUser: UserRecord}>
 					<video autoPlay loop className={styles.video}>
 						<source src={bannedWebm} type="video/webm" />
 						<source src={bannedMp4} type="video/mp4" />
-						<img src={bannedPng} alt="Banned" />
+						<img src={bannedPng} alt={t`Banned`} />
 					</video>
 
 					<div>
@@ -125,7 +129,7 @@ export const BanMemberModal: React.FC<{guildId: string; targetUser: UserRecord}>
 
 					<Input
 						type="text"
-						label={t`Reason (optional)`}
+						label={t`Reason (Optional)`}
 						value={reason}
 						onChange={(e) => setReason(e.target.value)}
 						placeholder={t`Enter a reason for the ban...`}

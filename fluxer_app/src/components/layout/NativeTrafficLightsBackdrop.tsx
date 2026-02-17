@@ -17,12 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/NativeTrafficLightsBackdrop.module.css';
+import type {LayoutVariant} from '@app/contexts/LayoutVariantContext';
 import {clsx} from 'clsx';
 import type React from 'react';
-import styles from './NativeTrafficLightsBackdrop.module.css';
 
 interface NativeTrafficLightsBackdropProps {
-	variant?: 'app' | 'auth';
+	variant?: LayoutVariant;
 	className?: string;
 }
 
@@ -30,10 +31,6 @@ export const NativeTrafficLightsBackdrop: React.FC<NativeTrafficLightsBackdropPr
 	variant = 'app',
 	className,
 }) => {
-	return (
-		<div
-			aria-hidden="true"
-			className={clsx(styles.backdropBase, variant === 'auth' ? styles.backdropAuth : styles.backdropApp, className)}
-		/>
-	);
+	const backdropStyle = variant === 'auth' ? styles.backdropAuth : styles.backdropApp;
+	return <div aria-hidden="true" className={clsx(styles.backdropBase, backdropStyle, className)} />;
 };

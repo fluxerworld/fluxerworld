@@ -1,0 +1,49 @@
+---
+title: 'Permissions'
+description: 'Reference for permission bitfields used by Fluxer guilds and channels.'
+---
+
+Permissions in Fluxer are stored as a bitfield, represented as a string containing the permission integer. Each permission is a bit position that can be set or unset. To check if a user has a permission, perform a bitwise AND operation between the user's permission value and the permission flag.
+
+## Permission flags
+
+The following table lists all available permission flags, their values, and descriptions.
+
+| Permission | Value | Description |
+|------------|-------|-------------|
+| `CREATE_INSTANT_INVITE` | `0x1` | Allows creation of instant invites |
+| `KICK_MEMBERS` | `0x2` | Allows kicking members from the guild |
+| `BAN_MEMBERS` | `0x4` | Allows banning members from the guild |
+| `ADMINISTRATOR` | `0x8` | Grants all permissions and bypasses channel permission overwrites |
+| `MANAGE_CHANNELS` | `0x10` | Allows management and editing of channels |
+| `MANAGE_GUILD` | `0x20` | Allows management and editing of the guild |
+| `ADD_REACTIONS` | `0x40` | Allows adding reactions to messages |
+| `VIEW_AUDIT_LOG` | `0x80` | Allows viewing of the audit log |
+| `PRIORITY_SPEAKER` | `0x100` | Allows using priority speaker in a voice channel |
+| `STREAM` | `0x200` | Allows the user to go live |
+| `VIEW_CHANNEL` | `0x400` | Allows viewing a channel |
+| `SEND_MESSAGES` | `0x800` | Allows sending messages in a channel |
+| `SEND_TTS_MESSAGES` | `0x1000` | Allows sending text-to-speech messages |
+| `MANAGE_MESSAGES` | `0x2000` | Allows for deleting and pinning messages |
+| `EMBED_LINKS` | `0x4000` | Links sent will have an embed automatically |
+| `ATTACH_FILES` | `0x8000` | Allows uploading files |
+| `READ_MESSAGE_HISTORY` | `0x10000` | Allows reading message history |
+| `MENTION_EVERYONE` | `0x20000` | Allows using @everyone and @here mentions |
+| `USE_EXTERNAL_EMOJIS` | `0x40000` | Allows using emojis from other guilds |
+| `CONNECT` | `0x100000` | Allows connecting to a voice channel |
+| `SPEAK` | `0x200000` | Allows speaking in a voice channel |
+| `MUTE_MEMBERS` | `0x400000` | Allows muting members in voice channels |
+| `DEAFEN_MEMBERS` | `0x800000` | Allows deafening members in voice channels |
+| `MOVE_MEMBERS` | `0x1000000` | Allows moving members between voice channels |
+| `USE_VAD` | `0x2000000` | Allows using voice activity detection |
+| `CHANGE_NICKNAME` | `0x4000000` | Allows changing own nickname |
+| `MANAGE_NICKNAMES` | `0x8000000` | Allows changing other members nicknames |
+| `MANAGE_ROLES` | `0x10000000` | Allows management and editing of roles |
+| `MANAGE_WEBHOOKS` | `0x20000000` | Allows management and editing of webhooks |
+| `MANAGE_EXPRESSIONS` | `0x40000000` | Allows management of guild expressions |
+| `USE_EXTERNAL_STICKERS` | `0x2000000000` | Allows using stickers from other guilds |
+| `MODERATE_MEMBERS` | `0x10000000000` | Allows timing out users |
+| `CREATE_EXPRESSIONS` | `0x80000000000` | Allows creating guild expressions |
+| `PIN_MESSAGES` | `0x8000000000000` | Allows pinning messages |
+| `BYPASS_SLOWMODE` | `0x10000000000000` | Allows bypassing slowmode |
+| `UPDATE_RTC_REGION` | `0x20000000000000` | Allows updating the voice region |

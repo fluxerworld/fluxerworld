@@ -1,0 +1,62 @@
+name: deploy relay
+
+on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        type: string
+        required: false
+        default: ''
+        description: Optional git ref (defaults to the triggering branch)
+  push:
+    branches:
+      - canary
+    paths:
+      - 'fluxer_relay/**'
+
+concurrency:
+  group: deploy-relay
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy (hot patch)
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ inputs.ref || '' }}
+          sparse-checkout: |
+            fluxer_relay
+            scripts/ci
+
+      - name: Set up Erlang
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: '28'
+          rebar3-version: '3.24.0'
+
+      - name: Compile
+        run: python3 scripts/ci/workflows/deploy_relay.py --step compile
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_SERVER }}
+
+      - name: Add server to known hosts
+        run: python3 scripts/ci/workflows/deploy_relay.py --step add_known_hosts --server-ip ${{ secrets.SERVER_IP }}
+
+      - name: Record deploy commit
+        run: python3 scripts/ci/workflows/deploy_relay.py --step record_deploy_commit
+
+      - name: Deploy
+        env:
+          SERVER: ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}
+          RELAY_ADMIN_SECRET: ${{ secrets.RELAY_ADMIN_SECRET }}
+        run: python3 scripts/ci/workflows/deploy_relay.py --step deploy

@@ -17,7 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 
 class ElementPool<T> {
 	private _elements: Array<T>;
@@ -59,7 +59,7 @@ interface PooledVideo {
 const GifVideoPoolContext = React.createContext<PooledVideo | null>(null);
 
 export const GifVideoPoolProvider = ({children}: {children: React.ReactNode}) => {
-	const [videoPool] = React.useState<PooledVideo>(() => {
+	const [videoPool] = useState<PooledVideo>(() => {
 		const basePool = new ElementPool<HTMLVideoElement>(
 			() => {
 				const video = document.createElement('video');
@@ -209,7 +209,7 @@ export const GifVideoPoolProvider = ({children}: {children: React.ReactNode}) =>
 		};
 	});
 
-	React.useEffect(() => {
+	useEffect(() => {
 		return () => {
 			videoPool.clearPool();
 		};
@@ -219,7 +219,7 @@ export const GifVideoPoolProvider = ({children}: {children: React.ReactNode}) =>
 };
 
 export const useGifVideoPool = (): PooledVideo => {
-	const pool = React.useContext(GifVideoPoolContext);
+	const pool = useContext(GifVideoPoolContext);
 	if (!pool) {
 		throw new Error('useGifVideoPool must be used within GifVideoPoolProvider');
 	}

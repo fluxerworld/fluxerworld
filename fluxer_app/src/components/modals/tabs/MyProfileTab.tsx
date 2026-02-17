@@ -17,48 +17,55 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {useForm} from 'react-hook-form';
-import * as GuildMemberActionCreators from '~/actions/GuildMemberActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as UnsavedChangesActionCreators from '~/actions/UnsavedChangesActionCreators';
-import * as UserActionCreators from '~/actions/UserActionCreators';
-import * as UserProfileActionCreators from '~/actions/UserProfileActionCreators';
-import {GuildMemberProfileFlags, UserPremiumTypes} from '~/Constants';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import {ExpressionPickerSheet} from '~/components/modals/ExpressionPickerSheet';
+import * as GuildMemberActionCreators from '@app/actions/GuildMemberActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as UnsavedChangesActionCreators from '@app/actions/UnsavedChangesActionCreators';
+import * as UserActionCreators from '@app/actions/UserActionCreators';
+import * as UserProfileActionCreators from '@app/actions/UserProfileActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import {UnclaimedAccountAlert} from '@app/components/modals/components/UnclaimedAccountAlert';
+import {ExpressionPickerSheet} from '@app/components/modals/ExpressionPickerSheet';
 import {
 	SettingsTabContainer,
 	SettingsTabHeader,
 	SettingsTabSection,
-} from '~/components/modals/shared/SettingsTabLayout';
-import {ProfilePreview} from '~/components/profile/ProfilePreview';
-import {Spinner} from '~/components/uikit/Spinner';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import {useTextareaAutocomplete} from '~/hooks/useTextareaAutocomplete';
-import {useTextareaEmojiPicker} from '~/hooks/useTextareaEmojiPicker';
-import {useTextareaPaste} from '~/hooks/useTextareaPaste';
-import {useTextareaSegments} from '~/hooks/useTextareaSegments';
-import type {ProfileRecord} from '~/records/ProfileRecord';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import UnsavedChangesStore from '~/stores/UnsavedChangesStore';
-import UserStore from '~/stores/UserStore';
-import {applyMarkdownSegments, convertMarkdownToSegments} from '~/utils/MarkdownToSegmentUtils';
-import {UnclaimedAccountAlert} from '../components/UnclaimedAccountAlert';
-import {AccentColorPicker} from './MyProfileTab/AccentColorPicker';
-import {type AvatarMode, AvatarUploader} from './MyProfileTab/AvatarUploader';
-import {type BannerMode, BannerUploader} from './MyProfileTab/BannerUploader';
-import {BioEditor} from './MyProfileTab/BioEditor';
-import {PerGuildPremiumUpsell} from './MyProfileTab/PerGuildPremiumUpsell';
-import {PremiumBadgeSettings} from './MyProfileTab/PremiumBadgeSettings';
-import {ProfileTypeSelector} from './MyProfileTab/ProfileTypeSelector';
-import {UsernameSection} from './MyProfileTab/UsernameSection';
-import styles from './MyProfileTab.module.css';
+} from '@app/components/modals/shared/SettingsTabLayout';
+import styles from '@app/components/modals/tabs/MyProfileTab.module.css';
+import {AccentColorPicker} from '@app/components/modals/tabs/my_profile_tab/AccentColorPicker';
+import {type AvatarMode, AvatarUploader} from '@app/components/modals/tabs/my_profile_tab/AvatarUploader';
+import {type BannerMode, BannerUploader} from '@app/components/modals/tabs/my_profile_tab/BannerUploader';
+import {BioEditor} from '@app/components/modals/tabs/my_profile_tab/BioEditor';
+import {PerGuildPremiumUpsell} from '@app/components/modals/tabs/my_profile_tab/PerGuildPremiumUpsell';
+import {PremiumBadgeSettings} from '@app/components/modals/tabs/my_profile_tab/PremiumBadgeSettings';
+import {ProfileTypeSelector} from '@app/components/modals/tabs/my_profile_tab/ProfileTypeSelector';
+import {UsernameSection} from '@app/components/modals/tabs/my_profile_tab/UsernameSection';
+import {ProfilePreview} from '@app/components/profile/ProfilePreview';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import {useTextareaAutocomplete} from '@app/hooks/useTextareaAutocomplete';
+import {useTextareaEmojiPicker} from '@app/hooks/useTextareaEmojiPicker';
+import {useTextareaPaste} from '@app/hooks/useTextareaPaste';
+import {useTextareaSegments} from '@app/hooks/useTextareaSegments';
+import {Logger} from '@app/lib/Logger';
+import type {ProfileRecord} from '@app/records/ProfileRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import UnsavedChangesStore from '@app/stores/UnsavedChangesStore';
+import UserStore from '@app/stores/UserStore';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
+import {LimitResolver} from '@app/utils/limits/LimitResolverAdapter';
+import {isLimitToggleEnabled} from '@app/utils/limits/LimitUtils';
+import {applyMarkdownSegments, convertMarkdownToSegments} from '@app/utils/MarkdownToSegmentUtils';
+import {GuildMemberProfileFlags} from '@fluxer/constants/src/GuildConstants';
+import {UserPremiumTypes} from '@fluxer/constants/src/UserConstants';
+import {useLingui} from '@lingui/react/macro';
+import {observer} from 'mobx-react-lite';
+import {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
+import {useForm} from 'react-hook-form';
+
+const logger = new Logger('MyProfileTab');
 
 interface FormInputs {
 	avatar?: string | null;
@@ -77,13 +84,6 @@ interface FormInputs {
 const MY_PROFILE_TAB_ID = 'my_profile';
 const AUTOCOMPLETE_Z_INDEX = 10001;
 
-const convertNumberToHexColor = (color: number | string | null | undefined): string | null => {
-	if (color === null || color === undefined) return null;
-	if (color === 0) return null;
-	if (typeof color === 'string') return color;
-	return `#${color.toString(16).padStart(6, '0')}`;
-};
-
 const MyProfileTabComponent = observer(function MyProfileTabComponent({
 	initialGuildId,
 }: {
@@ -93,35 +93,41 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 	const user = UserStore.currentUser;
 	const unsavedChangesStore = UnsavedChangesStore;
 	const mobileLayout = MobileLayoutStore;
-	const [selectedGuildId, setSelectedGuildId] = React.useState<string | null>(initialGuildId || null);
+	const [selectedGuildId, setSelectedGuildId] = useState<string | null>(initialGuildId || null);
 	const guildMember = GuildMemberStore.getMember(selectedGuildId || '', user?.id || '');
-	const [isLoadingProfile, setIsLoadingProfile] = React.useState(false);
-	const [profileData, setProfileData] = React.useState<ProfileRecord | null>(null);
-	const [hasClearedAvatar, setHasClearedAvatar] = React.useState(false);
-	const [previewAvatarUrl, setPreviewAvatarUrl] = React.useState<string | null>(null);
-	const [hasClearedBanner, setHasClearedBanner] = React.useState(false);
-	const [previewBannerUrl, setPreviewBannerUrl] = React.useState<string | null>(null);
-	const bioTextareaRef = React.useRef<HTMLTextAreaElement | null>(null);
+	const [isLoadingProfile, setIsLoadingProfile] = useState(false);
+	const [profileData, setProfileData] = useState<ProfileRecord | null>(null);
+	const [hasClearedAvatar, setHasClearedAvatar] = useState(false);
+	const [previewAvatarUrl, setPreviewAvatarUrl] = useState<string | null>(null);
+	const [hasClearedBanner, setHasClearedBanner] = useState(false);
+	const [previewBannerUrl, setPreviewBannerUrl] = useState<string | null>(null);
+	const bioTextareaRef = useRef<HTMLTextAreaElement | null>(null);
 
 	const isPerGuildProfile = selectedGuildId !== null;
 
-	const {segmentManagerRef, previousValueRef, displayToActual, insertSegment, handleTextChange} = useTextareaSegments();
+	const {segmentManagerRef, previousValueRef, displayToActual, handleTextChange} = useTextareaSegments();
 
-	const [bioValue, setBioValue] = React.useState('');
-	const [isBioInitialized, setIsBioInitialized] = React.useState(false);
-	const originalBioRef = React.useRef('');
-	const [hasCustomAvatar, setHasCustomAvatar] = React.useState(false);
-	const [hasCustomBanner, setHasCustomBanner] = React.useState(false);
-	const [avatarMode, setAvatarMode] = React.useState<AvatarMode>('inherit');
-	const [bannerMode, setBannerMode] = React.useState<BannerMode>('inherit');
-	const [initialAvatarMode, setInitialAvatarMode] = React.useState<AvatarMode>('inherit');
-	const [initialBannerMode, setInitialBannerMode] = React.useState<BannerMode>('inherit');
+	const [bioValue, setBioValue] = useState('');
+	const [isBioInitialized, setIsBioInitialized] = useState(false);
+	const originalBioRef = useRef('');
+	const [hasCustomAvatar, setHasCustomAvatar] = useState(false);
+	const [hasCustomBanner, setHasCustomBanner] = useState(false);
+	const [avatarMode, setAvatarMode] = useState<AvatarMode>('inherit');
+	const [bannerMode, setBannerMode] = useState<BannerMode>('inherit');
+	const [initialAvatarMode, setInitialAvatarMode] = useState<AvatarMode>('inherit');
+	const [initialBannerMode, setInitialBannerMode] = useState<BannerMode>('inherit');
+
+	const handleBioExceedsLimit = useCallback(() => {
+		ToastActionCreators.error(t`Your profile bio is too long.`);
+	}, [t]);
 
 	const {handleEmojiSelect} = useTextareaEmojiPicker({
 		setValue: setBioValue,
 		textareaRef: bioTextareaRef,
-		insertSegment,
+		segmentManagerRef,
 		previousValueRef,
+		maxActualLength: user?.maxBioLength,
+		onExceedMaxLength: handleBioExceedsLimit,
 	});
 
 	const {
@@ -141,6 +147,8 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		segmentManagerRef,
 		previousValueRef,
 		allowedTriggers: ['emoji'],
+		maxActualLength: user?.maxBioLength,
+		onExceedMaxLength: handleBioExceedsLimit,
 	});
 
 	useTextareaPaste({
@@ -149,14 +157,16 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		segmentManagerRef,
 		setValue: setBioValue,
 		previousValueRef,
+		maxMessageLength: user?.maxBioLength,
+		onPasteExceedsLimit: () => handleBioExceedsLimit(),
 	});
 
-	const [bioExpressionPickerOpen, setBioExpressionPickerOpen] = React.useState(false);
-	const bioContainerRef = React.useRef<HTMLDivElement | null>(null);
+	const [bioExpressionPickerOpen, setBioExpressionPickerOpen] = useState(false);
+	const bioContainerRef = useRef<HTMLDivElement | null>(null);
 
 	const flashTrigger = unsavedChangesStore.flashTriggers[MY_PROFILE_TAB_ID] || 0;
-	const [lastFlashTrigger, setLastFlashTrigger] = React.useState(0);
-	const [ariaAnnouncement, setAriaAnnouncement] = React.useState('');
+	const [lastFlashTrigger, setLastFlashTrigger] = useState(0);
+	const [ariaAnnouncement, setAriaAnnouncement] = useState('');
 
 	const form = useForm<FormInputs>({
 		defaultValues: {
@@ -172,7 +182,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		},
 	});
 
-	const updateBioFromMarkdown = React.useCallback(
+	const updateBioFromMarkdown = useCallback(
 		(markdownBio: string) => {
 			segmentManagerRef.current.clear();
 			const displayBio = markdownBio
@@ -185,7 +195,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		[selectedGuildId, segmentManagerRef, previousValueRef],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!user?.id) return;
 
 		if (!selectedGuildId) {
@@ -200,7 +210,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 				const profile = await UserProfileActionCreators.fetch(user.id, selectedGuildId);
 				setProfileData(profile);
 			} catch (error) {
-				console.error('Failed to fetch profile:', error);
+				logger.error('Failed to fetch profile', error);
 			} finally {
 				setIsLoadingProfile(false);
 			}
@@ -209,7 +219,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		fetchProfile();
 	}, [selectedGuildId, user?.id]);
 
-	React.useLayoutEffect(() => {
+	useLayoutEffect(() => {
 		if (isPerGuildProfile && profileData?.guildMemberProfile && user) {
 			const guildProfile = profileData.guildMemberProfile;
 			const markdownBio = guildProfile.bio ?? null;
@@ -286,14 +296,25 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		isFormDirty || previewAvatarUrl || hasClearedAvatar || previewBannerUrl || hasClearedBanner || hasModeChanges,
 	);
 
-	const hasPremium = React.useMemo(() => user?.isPremium() ?? false, [user]);
+	const hasPremium = useMemo(() => user?.isPremium() ?? false, [user]);
+	const hasPerGuildProfiles = useMemo(
+		() =>
+			isLimitToggleEnabled(
+				{feature_per_guild_profiles: LimitResolver.resolve({key: 'feature_per_guild_profiles', fallback: 0})},
+				'feature_per_guild_profiles',
+			),
+		[],
+	);
 
-	React.useEffect(() => {
+	const actualBio = useMemo(() => displayToActual(bioValue), [bioValue, displayToActual]);
+	const maxBioActualLength = user?.maxBioLength ?? 0;
+	const bioDisplayMaxLength = Math.max(0, bioValue.length + (maxBioActualLength - actualBio.length));
+
+	useEffect(() => {
 		if (!isBioInitialized) {
 			return;
 		}
 
-		const actualBio = displayToActual(bioValue);
 		const isDirty = actualBio.trim() !== originalBioRef.current.trim();
 
 		form.setValue('bio', actualBio, {shouldDirty: isDirty, shouldTouch: false});
@@ -302,17 +323,20 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 			const currentValues = form.getValues();
 			form.reset({...currentValues, bio: originalBioRef.current}, {keepValues: true});
 		}
-	}, [bioValue, displayToActual, form, isBioInitialized]);
+	}, [actualBio, form, isBioInitialized]);
 
-	const handleBioEmojiSelect = React.useCallback(
-		(emoji: any) => {
-			handleEmojiSelect(emoji);
-			setBioExpressionPickerOpen(false);
+	const handleBioEmojiSelect = useCallback(
+		(emoji: FlatEmoji, shiftKey?: boolean) => {
+			const didInsert = handleEmojiSelect(emoji, shiftKey);
+			if (didInsert && !shiftKey) {
+				setBioExpressionPickerOpen(false);
+			}
+			return didInsert;
 		},
 		[handleEmojiSelect],
 	);
 
-	const onSubmit = React.useCallback(
+	const onSubmit = useCallback(
 		async (data: FormInputs) => {
 			if (isPerGuildProfile && selectedGuildId && user) {
 				const globalAccentColor = typeof user.accentColor === 'number' ? user.accentColor : null;
@@ -425,7 +449,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		defaultErrorField: 'bio',
 	});
 
-	const handleReset = React.useCallback(() => {
+	const handleReset = useCallback(() => {
 		if (isPerGuildProfile && profileData?.guildMemberProfile && user) {
 			const guildProfile = profileData.guildMemberProfile;
 			const markdownBio = guildProfile.bio ?? null;
@@ -483,7 +507,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		initialBannerMode,
 	]);
 
-	const handlePremiumBadgeToggle = React.useCallback(
+	const handlePremiumBadgeToggle = useCallback(
 		(field: keyof FormInputs, value: boolean) => {
 			form.setValue(field, value, {shouldDirty: true});
 			if (field === 'premium_badge_masked' && value) {
@@ -493,7 +517,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		[form],
 	);
 
-	const handleAvatarChange = React.useCallback(
+	const handleAvatarChange = useCallback(
 		(base64: string) => {
 			form.setValue('avatar', base64);
 			setPreviewAvatarUrl(base64);
@@ -507,7 +531,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		[form, isPerGuildProfile],
 	);
 
-	const handleAvatarClear = React.useCallback(() => {
+	const handleAvatarClear = useCallback(() => {
 		form.setValue('avatar', null);
 		setPreviewAvatarUrl(null);
 		setHasClearedAvatar(true);
@@ -516,7 +540,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		}
 	}, [form, isPerGuildProfile]);
 
-	const handleBannerChange = React.useCallback(
+	const handleBannerChange = useCallback(
 		(base64: string) => {
 			form.setValue('banner', base64);
 			setPreviewBannerUrl(base64);
@@ -530,7 +554,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		[form, isPerGuildProfile],
 	);
 
-	const handleBannerClear = React.useCallback(() => {
+	const handleBannerClear = useCallback(() => {
 		form.setValue('banner', null);
 		setPreviewBannerUrl(null);
 		setHasClearedBanner(true);
@@ -539,7 +563,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		}
 	}, [form, isPerGuildProfile]);
 
-	const handleAvatarModeChange = React.useCallback(
+	const handleAvatarModeChange = useCallback(
 		(mode: AvatarMode) => {
 			setAvatarMode(mode);
 			if (mode === 'inherit' || mode === 'unset') {
@@ -556,7 +580,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		[form],
 	);
 
-	const handleBannerModeChange = React.useCallback(
+	const handleBannerModeChange = useCallback(
 		(mode: BannerMode) => {
 			setBannerMode(mode);
 			if (mode === 'inherit' || mode === 'unset') {
@@ -573,11 +597,11 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		[form],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		UnsavedChangesActionCreators.setUnsavedChanges(MY_PROFILE_TAB_ID, hasUnsavedChanges);
 	}, [hasUnsavedChanges]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		UnsavedChangesActionCreators.setTabData(MY_PROFILE_TAB_ID, {
 			onReset: handleReset,
 			onSave: handleSave,
@@ -585,7 +609,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		});
 	}, [handleReset, handleSave, form.formState.isSubmitting]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (flashTrigger > lastFlashTrigger) {
 			setLastFlashTrigger(flashTrigger);
 			setAriaAnnouncement(
@@ -597,7 +621,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 		}
 	}, [flashTrigger, lastFlashTrigger]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		return () => {
 			UnsavedChangesActionCreators.clearUnsavedChanges(MY_PROFILE_TAB_ID);
 		};
@@ -648,9 +672,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 						) : (
 							<div className={styles.contentLayout}>
 								<div className={styles.formColumn}>
-									{!isPerGuildProfile && (
-										<UsernameSection isClaimed={isClaimed} hasPremium={hasPremium} discriminator={user.discriminator} />
-									)}
+									{!isPerGuildProfile && <UsernameSection isClaimed={isClaimed} discriminator={user.discriminator} />}
 
 									{isPerGuildProfile && (
 										<div>
@@ -693,15 +715,14 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 										/>
 									</div>
 
-									{isPerGuildProfile && !hasPremium && <PerGuildPremiumUpsell />}
+									{isPerGuildProfile && !hasPerGuildProfiles && <PerGuildPremiumUpsell />}
 
 									<div>
 										<AvatarUploader
 											hasAvatar={hasAvatar && !hasClearedAvatar}
 											onAvatarChange={handleAvatarChange}
 											onAvatarClear={handleAvatarClear}
-											disabled={isPerGuildProfile && !hasPremium}
-											hasPremium={hasPremium}
+											disabled={isPerGuildProfile && !hasPerGuildProfiles}
 											isPerGuildProfile={isPerGuildProfile}
 											errorMessage={form.formState.errors.avatar?.message}
 											avatarMode={avatarMode}
@@ -714,8 +735,7 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 											hasBanner={hasBanner && !hasClearedBanner}
 											onBannerChange={handleBannerChange}
 											onBannerClear={handleBannerClear}
-											disabled={isPerGuildProfile && !hasPremium}
-											hasPremium={hasPremium}
+											disabled={isPerGuildProfile && !hasPerGuildProfiles}
 											isPerGuildProfile={isPerGuildProfile}
 											errorMessage={form.formState.errors.banner?.message}
 											bannerMode={bannerMode}
@@ -723,18 +743,18 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 										/>
 									</div>
 
-									<div className={isPerGuildProfile && !hasPremium ? styles.opacityHalf : ''}>
+									<div className={isPerGuildProfile && !hasPerGuildProfiles ? styles.opacityHalf : ''}>
 										<AccentColorPicker
 											value={form.watch('accent_color') ?? 0}
 											onChange={(value: number) =>
 												form.setValue('accent_color', value === 0 ? null : value, {shouldDirty: true})
 											}
-											disabled={isPerGuildProfile && !hasPremium}
+											disabled={isPerGuildProfile && !hasPerGuildProfiles}
 											errorMessage={form.formState.errors.accent_color?.message}
 										/>
 									</div>
 
-									<div className={isPerGuildProfile && !hasPremium ? styles.opacityHalf : ''}>
+									<div className={isPerGuildProfile && !hasPerGuildProfiles ? styles.opacityHalf : ''}>
 										<BioEditor
 											value={bioValue}
 											onChange={(newValue: string) => {
@@ -747,10 +767,10 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 													? convertMarkdownToSegments(user.bio, selectedGuildId).displayText
 													: t`Doc, I'm from the future. I came here in a time machine that you invented. Now, I need your help to get back to the year 1985.`
 											}
-											maxLength={user.maxBioLength}
-											disabled={isPerGuildProfile && !hasPremium}
-											hasPremium={hasPremium}
-											isPerGuildProfile={isPerGuildProfile}
+											displayMaxLength={bioDisplayMaxLength}
+											actualLength={actualBio.length}
+											actualMaxLength={maxBioActualLength}
+											disabled={isPerGuildProfile && !hasPerGuildProfiles}
 											isMobile={mobileLayout.enabled}
 											errorMessage={form.formState.errors.bio?.message}
 											textareaRef={bioTextareaRef}
@@ -777,9 +797,9 @@ const MyProfileTabComponent = observer(function MyProfileTabComponent({
 										previewBannerUrl={previewBannerUrl}
 										hasClearedAvatar={hasClearedAvatar}
 										hasClearedBanner={hasClearedBanner}
-										previewBio={displayToActual(bioValue)}
+										previewBio={actualBio}
 										previewPronouns={form.watch('pronouns')}
-										previewAccentColor={convertNumberToHexColor(form.watch('accent_color'))}
+										previewAccentColor={form.watch('accent_color')}
 										previewGlobalName={!isPerGuildProfile ? form.watch('global_name') : undefined}
 										previewNick={isPerGuildProfile ? form.watch('nick') : undefined}
 										guildId={selectedGuildId}

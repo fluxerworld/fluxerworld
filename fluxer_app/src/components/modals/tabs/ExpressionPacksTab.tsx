@@ -17,30 +17,34 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
-import {StickerIcon} from '@phosphor-icons/react';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {CreatePackModal} from '~/components/modals/CreatePackModal';
-import {EditPackModal} from '~/components/modals/EditPackModal';
-import {PackInviteModal} from '~/components/modals/PackInviteModal';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {CreatePackModal} from '@app/components/modals/CreatePackModal';
+import {EditPackModal} from '@app/components/modals/EditPackModal';
+import {PackInviteModal} from '@app/components/modals/PackInviteModal';
 import {
 	SettingsTabContainer,
 	SettingsTabHeader,
 	SettingsTabSection,
-} from '~/components/modals/shared/SettingsTabLayout';
-import {StatusSlate} from '~/components/modals/shared/StatusSlate';
-import {Button} from '~/components/uikit/Button/Button';
-import {Spinner} from '~/components/uikit/Spinner';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import PackStore from '~/stores/PackStore';
-import UserStore from '~/stores/UserStore';
-import type {PackSummary} from '~/types/PackTypes';
-import {getFormattedShortDate} from '~/utils/DateUtils';
-import styles from './ExpressionPacksTab.module.css';
+} from '@app/components/modals/shared/SettingsTabLayout';
+import {StatusSlate} from '@app/components/modals/shared/StatusSlate';
+import styles from '@app/components/modals/tabs/ExpressionPacksTab.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import PackStore from '@app/stores/PackStore';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import UserStore from '@app/stores/UserStore';
+import {getFormattedShortDate} from '@app/utils/DateUtils';
+import {LimitResolver} from '@app/utils/limits/LimitResolverAdapter';
+import {isLimitToggleEnabled} from '@app/utils/limits/LimitUtils';
+import type {PackSummaryResponse} from '@fluxer/schema/src/domains/pack/PackSchemas';
+import {Trans, useLingui} from '@lingui/react/macro';
+import {StickerIcon} from '@phosphor-icons/react';
+import {observer} from 'mobx-react-lite';
+import type React from 'react';
+import {useEffect, useMemo, useState} from 'react';
 
 const PACK_TYPES: Array<{key: 'emoji' | 'sticker'; label: string}> = [
 	{key: 'emoji', label: 'Emoji packs'},
@@ -53,7 +57,7 @@ const formatLimit = (value: number): string => {
 };
 
 const PackCard: React.FC<{
-	pack: PackSummary;
+	pack: PackSummaryResponse;
 	onUninstall?: () => void;
 	onEdit?: () => void;
 	onInvite?: () => void;
@@ -100,17 +104,41 @@ const PackCard: React.FC<{
 const ExpressionPacksTab: React.FC = observer(() => {
 	const {t} = useLingui();
 	const currentUser = UserStore.currentUser;
-	const hasPremium = currentUser?.isPremium() ?? false;
-	const [loaded, setLoaded] = React.useState(false);
+	const hasGlobalExpressions = useMemo(
+		() =>
+			isLimitToggleEnabled(
+				{feature_global_expressions: LimitResolver.resolve({key: 'feature_global_expressions', fallback: 0})},
+				'feature_global_expressions',
+			),
+		[],
+	);
+	const [loaded, setLoaded] = useState(false);
 
-	React.useEffect(() => {
-		if (!hasPremium || loaded) return;
+	useEffect(() => {
+		if (!hasGlobalExpressions || loaded) return;
 		PackStore.fetch().finally(() => setLoaded(true));
-	}, [hasPremium, loaded]);
+	}, [hasGlobalExpressions, loaded]);
 
 	if (!currentUser) return null;
 
-	if (!hasPremium) {
+	if (!hasGlobalExpressions && RuntimeConfigStore.isSelfHosted()) {
+		return (
+			<div className={styles.emptyState}>
+				<StatusSlate
+					Icon={StickerIcon}
+					title={<Trans>Expression Packs</Trans>}
+					description={
+						<Trans>
+							Expression packs are not enabled on this instance. Contact your instance administrator for more
+							information.
+						</Trans>
+					}
+				/>
+			</div>
+		);
+	}
+
+	if (!hasGlobalExpressions) {
 		return (
 			<div className={styles.emptyState}>
 				<StatusSlate
@@ -153,7 +181,7 @@ const ExpressionPacksTab: React.FC = observer(() => {
 		ModalActionCreators.push(modal(() => <CreatePackModal type={type} onSuccess={() => PackStore.fetch()} />));
 	};
 
-	const handleOpenEdit = (pack: PackSummary) => {
+	const handleOpenEdit = (pack: PackSummaryResponse) => {
 		ModalActionCreators.push(
 			modal(() => (
 				<EditPackModal
@@ -167,7 +195,7 @@ const ExpressionPacksTab: React.FC = observer(() => {
 		);
 	};
 
-	const handleOpenInvite = (pack: PackSummary) => {
+	const handleOpenInvite = (pack: PackSummaryResponse) => {
 		ModalActionCreators.push(
 			modal(() => <PackInviteModal packId={pack.id} type={pack.type} onCreated={() => PackStore.fetch()} />),
 		);
@@ -177,7 +205,7 @@ const ExpressionPacksTab: React.FC = observer(() => {
 		ModalActionCreators.push(
 			modal(() => (
 				<ConfirmModal
-					title={t`Delete pack`}
+					title={t`Delete Pack`}
 					description={t`Are you sure you want to delete this pack? This cannot be undone.`}
 					primaryText={t`Delete`}
 					primaryVariant="danger-primary"
@@ -193,7 +221,7 @@ const ExpressionPacksTab: React.FC = observer(() => {
 		ModalActionCreators.push(
 			modal(() => (
 				<ConfirmModal
-					title={t`Remove pack`}
+					title={t`Remove Pack`}
 					description={t`Removing the pack will uninstall it from your account.`}
 					primaryText={t`Remove`}
 					onPrimary={async () => {

@@ -1,0 +1,369 @@
+account_disabled_suspicious:
+  subject: Fluxer hesabın geçici olarak devre dışı bırakıldı
+  body: |-
+    Merhaba {username},
+
+    Şüpheli etkinlik tespit ettiğimiz için Fluxer hesabını geçici olarak devre dışı bıraktık.
+
+    {reason, select,
+      null {}
+      other {Neden: {reason}}
+    }
+
+    Hesabına yeniden erişmek için şifreni sıfırlaman gerekiyor:
+
+    {forgotUrl}
+
+    Şifreni sıfırladıktan sonra tekrar giriş yapabilirsin.
+
+    Bunun bir hata olduğunu düşünüyorsan destek ekibimizle iletişime geç.
+
+    – Fluxer Güvenlik Ekibi
+account_scheduled_deletion:
+  subject: Fluxer hesabın kalıcı olarak silinecek
+  body: |-
+    Merhaba {username},
+
+    Fluxer hesabın, hizmet şartlarımızı veya topluluk kurallarımızı ihlal ettiğin için kalıcı olarak silinmek üzere planlandı.
+
+    Planlanan silinme tarihi: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Neden: {reason}}
+    }
+
+    Bu ciddi bir yaptırımdır. Hesap verilerin, planlanan tarihte kalıcı olarak silinecek.
+
+    Lütfen şunları gözden geçir:
+    - Hizmet şartları: {termsUrl}
+    - Topluluk kuralları: {guidelinesUrl}
+
+    İtiraz süreci:
+    Bu yaptırım kararının hatalı veya haksız olduğunu düşünüyorsan, bu e-posta adresinden appeals@fluxer.app adresine 60 gün içinde itiraz edebilirsin.
+
+    İtirazında lütfen:
+    - Kararın neden hatalı veya haksız olduğunu net bir şekilde açıkla
+    - Varsa ilgili kanıtları veya ek bağlamı paylaş
+
+    Fluxer Güvenlik Ekibinden bir üye itirazını inceleyecek ve nihai karar verilene kadar planlanan silme işlemini durdurabilir.
+
+    – Fluxer Güvenlik Ekibi
+account_temp_banned:
+  subject: Fluxer hesabın geçici olarak askıya alındı
+  body: |-
+    Merhaba {username},
+
+    Fluxer hesabın, hizmet şartlarımızı veya topluluk kurallarımızı ihlal ettiğin için geçici olarak askıya alındı.
+
+    Süre: {durationHours, plural,
+      =1 {1 saat}
+      other {# saat}
+    }
+    Askıya alınma bitişi: {bannedUntil, date, full} {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {Neden: {reason}}
+    }
+
+    Bu süre boyunca hesabına erişemezsin.
+
+    Lütfen şunları gözden geçir:
+    - Hizmet şartları: {termsUrl}
+    - Topluluk kuralları: {guidelinesUrl}
+
+    Bu yaptırım kararının hatalı veya haksız olduğunu düşünüyorsan, bu e-posta adresinden appeals@fluxer.app adresine itiraz edebilirsin. Lütfen kararın neden hatalı olduğunu açıkça yaz. İtirazını inceleyip kararımızı sana bildireceğiz.
+
+    – Fluxer Güvenlik Ekibi
+donation_confirmation:
+  subject: Fluxer bağışınız için teşekkürler
+  body: |-
+    Merhaba,
+
+    Fluxer'a bağışınız için teşekkürler! {interval, select,
+      month {Düzenli bağışınız}
+      year {Düzenli bağışınız}
+      other {Tek seferlik bağışınız}
+    } başarıyla {interval, select,
+      month {kuruldu}
+      year {kuruldu}
+      other {işleme alındı}
+    }.
+
+    Bağış detayları:
+    Tutar: {amount} {currency} {interval, select,
+      month {aylık}
+      year {yıllık}
+      other {}
+    }
+
+    Stripe kısa süre içinde fatura PDF'inizi içeren ayrı bir makbuz gönderecek. Bu, tüm ödeme detaylarını içerir ve vergi amaçlarıyla kullanılabilir.
+
+    Bağış geçmişinizi görüntüleyebilir, faturaları indirebilir, {interval, select,
+      month {ve aboneliğinizi yönetebilir veya iptal edebilirsiniz}
+      year {ve aboneliğinizi yönetebilir veya iptal edebilirsiniz}
+      other {ve gelecekteki bağışları yönetebilirsiniz}
+    } bu bağlantıyı kullanarak istediğiniz zaman:
+
+    {manageUrl}
+
+    Desteğiniz Fluxer'in çalışmasını sağlıyor. Teşekkürler!
+
+    – Fluxer Ekibi
+donation_magic_link:
+  subject: Fluxer bağışlarını yönet
+  body: |-
+    Merhaba,
+
+    Bağışçı portalına erişmek için aşağıdaki bağlantıya tıkla:
+
+    {manageUrl}
+
+    Portalda abonelikleri yönetebilir, faturaları indirebilir ve bağış geçmişini görüntüleyebilirsin.
+
+    Bu bağlantı {expiresAt, date, full} tarihinde {expiresAt, time, short} saatinde geçersiz olur.
+
+    Bunu sen istemediysen bu e-postayı yok sayabilirsin.
+
+    – Fluxer Ekibi
+dsa_report_verification:
+  subject: DSA bildirimi için e-posta adresini doğrula
+  body: |-
+    Merhaba,
+
+    Fluxer'da Dijital Hizmetler Yasası (DSA) kapsamında bildirim gönderebilmek için aşağıdaki doğrulama kodunu kullan:
+
+    {code}
+
+    Bu kod {expiresAt, date, full} tarihinde {expiresAt, time, short} saatinde geçersiz olur.
+
+    Bunu sen istemediysen bu e-postayı yok sayabilirsin.
+
+    – Fluxer Güvenlik Ekibi
+email_change_new:
+  subject: Yeni Fluxer e-posta adresini doğrula
+  body: |-
+    Merhaba {username},
+
+    Yeni Fluxer e-posta adresini doğrulamak için uygulamada bu kodu gir:
+
+    {code}
+
+    Bu kod {expiresAt, date, full} tarihinde {expiresAt, time, short} saatinde geçersiz olur.
+
+    Bunu sen istemediysen bu e-postayı yok sayabilirsin.
+
+    – Fluxer Ekibi
+email_change_original:
+  subject: Fluxer e-posta değişikliğini onayla
+  body: |-
+    Merhaba {username},
+
+    Fluxer hesabındaki e-posta adresini değiştirmek için bir istek aldık.
+
+    Bu değişikliği onaylamak için uygulamada şu kodu gir:
+
+    {code}
+
+    Bu kod {expiresAt, date, full} tarihinde {expiresAt, time, short} saatinde geçersiz olur.
+
+    Bunu sen istemediysen hesabını hemen güvene al.
+
+    – Fluxer Ekibi
+email_change_revert:
+  subject: Fluxer e-posta adresin değiştirildi
+  body: |-
+    Merhaba {username},
+
+    Fluxer hesabının e-posta adresi {newEmail} olarak değiştirildi.
+
+    Bu değişikliği sen yaptıysan bir şey yapmana gerek yok. Yapmadıysan, aşağıdaki bağlantıyı kullanarak değişikliği geri alabilir ve hesabını güvene alabilirsin:
+
+    {revertUrl}
+
+    Bu işlem önceki e-posta adresini geri yükler, seni tüm cihazlardan çıkış yaptırır, bağlı telefon numaralarını kaldırır, çok faktörlü kimlik doğrulamayı (MFA) devre dışı bırakır ve yeni bir şifre belirlemeni zorunlu kılar.
+
+    – Fluxer Güvenlik Ekibi
+email_verification:
+  subject: Fluxer e-posta adresini doğrula
+  body: |-
+    Merhaba {username},
+
+    Fluxer hesabının e-posta adresini doğrulamak için aşağıdaki bağlantıya tıkla:
+
+    {verifyUrl}
+
+    Fluxer hesabını sen açmadıysan bu e-postayı güvenle yok sayabilirsin.
+
+    Bu bağlantı 24 saat boyunca geçerlidir.
+
+    – Fluxer Ekibi
+gift_chargeback_notification:
+  subject: Hediye kodundan kazandığın avantajlar kaldırıldı
+  body: |-
+    Merhaba {username},
+
+    Kullandığın bir hediye kodu aslında başka biri tarafından satın alınmıştı. Bu ödeme daha sonra geri alındı (chargeback).
+
+    Bu nedenle, hediyeyi kullandığında hesabına eklenen avantajları kaldırdık.
+
+    Bunun bir hata olduğunu düşünüyorsan, destek ekibimizle iletişime geç ve hediye kodu ile ne zaman kullandığına dair elindeki tüm detayları paylaş.
+
+    – Fluxer Ekibi
+harvest_completed:
+  subject: Fluxer veri dışa aktarımın indirilmeye hazır
+  body: |-
+    Merhaba {username},
+
+    Veri dışa aktarımın hazır.
+
+    İndirme bağlantısı:
+    {downloadUrl}
+
+    İçerilen mesaj sayısı: {totalMessages, number}
+    Dosya boyutu: {fileSizeMB, number} MB
+
+    Bu bağlantı {expiresAt, date, full} tarihinde {expiresAt, time, short} saatinde geçersiz olur.
+
+    Bu dışa aktarımı sen istemediysen şifreni hemen değiştir ve destek ekibimizle iletişime geç.
+
+    – Fluxer Ekibi
+inactivity_warning:
+  subject: Hareketsizlik nedeniyle Fluxer hesabın silinecek
+  body: |-
+    Merhaba {username},
+
+    {lastActiveDate, date, full} tarihinden beri Fluxer hesabında herhangi bir etkinlik görmedik.
+
+    {deletionDate, date, full} tarihinde {deletionDate, time, short} saatine kadar giriş yapmazsan, hesabın hareketsizlik nedeniyle kalıcı olarak silinecek.
+
+    Buradan giriş yap:
+    {loginUrl}
+
+    Fluxer'i yakın zamanda kullandıysan, hemen destek ekibimizle iletişime geç.
+
+    – Fluxer Ekibi
+ip_authorization:
+  subject: Yeni bir IP adresinden girişi onayla
+  body: |-
+    Merhaba {username},
+
+    Fluxer hesabına yeni bir IP adresinden giriş denemesi tespit ettik:
+
+    IP adresi: {ipAddress}
+    Konum: {location}
+
+    Bu senin girişinse, aşağıdaki bağlantıyı kullanarak bu IP adresini onayla:
+
+    {authUrl}
+
+    Giriş yapmayı sen denemediysen şifreni hemen değiştir.
+
+    Bu onay bağlantısı 30 dakika boyunca geçerlidir.
+
+    – Fluxer Ekibi
+password_change_verification:
+  subject: Fluxer şifre değişikliğini onayla
+  body: |-
+    Merhaba {username},
+
+    Fluxer hesabındaki şifreyi değiştirmek için bir istek aldık.
+
+    Bu değişikliği onaylamak için uygulamada şu kodu gir:
+
+    {code}
+
+    Bu kod {expiresAt, date, full} tarihinde {expiresAt, time, short} saatinde geçersiz olur.
+
+    Bunu sen istemediysen, birisi hesabına erişmiş olabilir. Hemen şifreni değiştir ve iki faktörlü kimlik doğrulamayı etkinleştir.
+
+    – Fluxer Ekibi
+password_reset:
+  subject: Fluxer şifreni sıfırla
+  body: |-
+    Merhaba {username},
+
+    Fluxer şifreni sıfırlamak için bir istekte bulundun. Yeni bir şifre belirlemek için aşağıdaki bağlantıyı kullan:
+
+    {resetUrl}
+
+    Bu şifre sıfırlamayı sen istemediysen bu e-postayı güvenle yok sayabilirsin.
+
+    Bu bağlantı 1 saat boyunca geçerlidir.
+
+    – Fluxer Ekibi
+registration_approved:
+  subject: Fluxer kaydın onaylandı
+  body: |-
+    Merhaba {username},
+
+    Güzel haber: Fluxer kaydın onaylandı.
+
+    Artık Fluxer uygulamasına şu adresten giriş yapabilirsin:
+    {channelsUrl}
+
+    Fluxer topluluğuna hoş geldin.
+
+    – Fluxer Ekibi
+report_resolved:
+  subject: Fluxer bildirimin değerlendirildi
+  body: |-
+    Merhaba {username},
+
+    Bildirimin (ID: {reportId}) Fluxer Güvenlik Ekibi tarafından değerlendirildi.
+
+    Güvenlik ekibinin yanıtı:
+    {publicComment}
+
+    Fluxer'i herkes için güvenli tutmamıza yardımcı olduğun için teşekkürler. Tüm bildirimleri ciddiye alıyoruz ve topluluğa yaptığın katkıyı takdir ediyoruz.
+
+    Bu sonuç hakkında soruların ya da endişelerin varsa safety@fluxer.app adresinden bize ulaş.
+
+    – Fluxer Güvenlik Ekibi
+scheduled_deletion_notification:
+  subject: Fluxer hesabın kalıcı olarak silinecek
+  body: |-
+    Merhaba {username},
+
+    Fluxer hesabın kalıcı olarak silinmek üzere planlandı.
+
+    Planlanan silinme tarihi: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Neden: {reason}}
+    }
+
+    Bu ciddi bir yaptırımdır. Hesap verilerin, planlanan tarihte kalıcı olarak silinecek.
+
+    Bu yaptırım kararının hatalı olduğunu düşünüyorsan, bu e-posta adresinden appeals@fluxer.app adresine itiraz edebilirsin.
+
+    – Fluxer Güvenlik Ekibi
+self_deletion_scheduled:
+  subject: Fluxer hesabının silinmesi planlandı
+  body: |-
+    Merhaba {username},
+
+    Fluxer hesabını silmek istediğini belirttin. Hesabın şu tarihte kalıcı olarak silinecek:
+
+    {deletionDate, date, full} tarihinde {deletionDate, time, short} saatinde
+
+    Bunu sen istemediysen, silme işlemini iptal etmek için hesabına giriş yap. Hesabını güvende tutmak için şifreni değiştirmeni de öneririz.
+
+    – Fluxer Ekibi
+unban_notification:
+  subject: Fluxer hesabının askısı kaldırıldı
+  body: |-
+    Merhaba {username},
+
+    Güzel haber: Fluxer hesabının askısı kaldırıldı.
+
+    {reason, select,
+      null {}
+      other {Neden: {reason}}
+    }
+
+    Artık hesabına tekrar giriş yapıp Fluxer'i kullanmaya devam edebilirsin.
+
+    – Fluxer Güvenlik Ekibi

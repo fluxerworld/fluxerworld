@@ -1,0 +1,71 @@
+{
+	"voice_integration": {
+		"type": "object",
+		"description": "Real-time voice/video integration (LiveKit).",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"description": "Enable voice/video features.",
+				"default": false
+			},
+			"api_key": {
+				"type": "string",
+				"description": "LiveKit API Key used for config-driven default_region bootstrap. Optional when voice topology is managed in the admin panel."
+			},
+			"api_secret": {
+				"type": "string",
+				"description": "LiveKit API Secret used for config-driven default_region bootstrap. Optional when voice topology is managed in the admin panel."
+			},
+			"webhook_url": {
+				"type": "string",
+				"description": "URL for LiveKit webhooks.",
+				"default": ""
+			},
+			"url": {
+				"type": "string",
+				"description": "LiveKit Server URL (client signal endpoint for WebSocket connections).",
+				"default": ""
+			},
+			"default_region": {
+				"type": "object",
+				"description": "Default voice region to create on startup if none exist. When provided, automatically creates this region and a server pointing to the configured LiveKit URL.",
+				"additionalProperties": false,
+				"properties": {
+					"id": {
+						"type": "string",
+						"description": "Unique identifier for the region (e.g. 'default', 'eu-west')."
+					},
+					"name": {
+						"type": "string",
+						"description": "Display name for the region."
+					},
+					"emoji": {
+						"type": "string",
+						"description": "Emoji icon for the region (e.g. '🌐', '🇪🇺')."
+					},
+					"latitude": {
+						"type": "number",
+						"description": "Latitude coordinate for the region."
+					},
+					"longitude": {
+						"type": "number",
+						"description": "Longitude coordinate for the region."
+					}
+				},
+				"required": ["id", "name", "emoji", "latitude", "longitude"]
+			}
+		},
+		"if": {
+			"required": ["enabled", "default_region"],
+			"properties": {
+				"enabled": {
+					"const": true
+				}
+			}
+		},
+		"then": {
+			"required": ["api_key", "api_secret"]
+		}
+	}
+}

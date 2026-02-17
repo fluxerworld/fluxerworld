@@ -1,0 +1,115 @@
+---
+title: 'Klipy'
+description: 'Klipy object schemas from the Fluxer API.'
+---
+
+<a id="klipycategorytagresponse"></a>
+
+## KlipyCategoryTagResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| name | string | The category/tag name |
+| proxy_src | string | Proxied URL to the category preview image |
+| src | string | URL to the category preview image |
+
+<a id="klipyfeaturedresponse"></a>
+
+## KlipyFeaturedResponse
+
+**Related endpoints**
+
+- [`GET /klipy/featured`](/api-reference/klipy/get-featured-klipy-gifs)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| categories | [KlipyCategoryTagResponse](#klipycategorytagresponse)[] | Array of clip categories |
+| gifs | [KlipyGifResponse](#klipygifresponse)[] | Array of featured/trending clips |
+
+<a id="klipygifresponse"></a>
+
+## KlipyGifResponse
+
+**Related endpoints**
+
+- [`GET /klipy/search`](/api-reference/klipy/search-klipy-gifs)
+- [`GET /klipy/trending-gifs`](/api-reference/klipy/get-trending-klipy-gifs)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| height | integer (int32) | Height of the clip in pixels |
+| id | [SnowflakeType](#snowflaketype) | The unique Klipy clip slug |
+| proxy_src | string | Proxied URL to the clip media file |
+| src | string | Direct URL to the clip media file |
+| title | string | The title/description of the clip |
+| url | string | The Klipy page URL for the clip |
+| width | integer (int32) | Width of the clip in pixels |
+
+<a id="klipyregistersharerequest"></a>
+
+## KlipyRegisterShareRequest
+
+**Related endpoints**
+
+- [`POST /klipy/register-share`](/api-reference/klipy/register-klipy-gif-share)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | [SnowflakeType](#snowflaketype) | The Klipy clip slug |
+| locale? | [Locale](#locale) |  |
+| q? | ?string | The search query used to find the clip |
+
+<a id="locale"></a>
+
+## Locale
+
+The locale code for the user interface language
+
+**Related endpoints**
+
+- [`GET /klipy/featured`](/api-reference/klipy/get-featured-klipy-gifs)
+- [`GET /klipy/search`](/api-reference/klipy/search-klipy-gifs)
+- [`GET /klipy/suggest`](/api-reference/klipy/get-klipy-search-suggestions)
+- [`GET /klipy/trending-gifs`](/api-reference/klipy/get-trending-klipy-gifs)
+- [`GET /tenor/featured`](/api-reference/tenor/get-featured-tenor-gifs)
+- [`GET /tenor/search`](/api-reference/tenor/search-tenor-gifs)
+- [`GET /tenor/suggest`](/api-reference/tenor/get-tenor-search-suggestions)
+- [`GET /tenor/trending-gifs`](/api-reference/tenor/get-trending-tenor-gifs)
+
+| Value | Description |
+|-------|-------------|
+| `ar` | Arabic |
+| `bg` | Bulgarian |
+| `cs` | Czech |
+| `da` | Danish |
+| `de` | German |
+| `el` | Greek |
+| `en-GB` | English (United Kingdom) |
+| `en-US` | English (United States) |
+| `es-ES` | Spanish (Spain) |
+| `es-419` | Spanish (Latin America) |
+| `fi` | Finnish |
+| `fr` | French |
+| `he` | Hebrew |
+| `hi` | Hindi |
+| `hr` | Croatian |
+| `hu` | Hungarian |
+| `id` | Indonesian |
+| `it` | Italian |
+| `ja` | Japanese |
+| `ko` | Korean |
+| `lt` | Lithuanian |
+| `nl` | Dutch |
+| `no` | Norwegian |
+| `pl` | Polish |
+| `pt-BR` | Portuguese (Brazil) |
+| `ro` | Romanian |
+| `ru` | Russian |
+| `sv-SE` | Swedish |
+| `th` | Thai |
+| `tr` | Turkish |
+| `uk` | Ukrainian |
+| `vi` | Vietnamese |
+| `zh-CN` | Chinese (Simplified) |
+| `zh-TW` | Chinese (Traditional) |
+

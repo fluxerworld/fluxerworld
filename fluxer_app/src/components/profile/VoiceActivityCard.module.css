@@ -1,0 +1,196 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.card {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+	padding: 12px 14px;
+	border-radius: var(--radius-md, 6px);
+	background-color: var(--background-secondary);
+	border: 1px solid var(--border-subtle, rgba(255, 255, 255, 0.04));
+	width: 100%;
+	align-self: stretch;
+	box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.headerContextGroup {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+}
+
+.headerRow {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 8px;
+}
+
+.headerLeft {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	flex: 1;
+}
+
+.activityLabel {
+	font-size: 12px;
+	font-weight: 600;
+	color: var(--text-primary);
+	text-transform: uppercase;
+	letter-spacing: 0.02em;
+}
+
+.streamingLabel {
+	color: var(--status-danger);
+}
+
+.contextButton {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	min-width: 0;
+	border: none;
+	padding: 0;
+	background: transparent;
+	cursor: pointer;
+	text-align: left;
+	outline: none;
+}
+
+.contextButton:hover .contextChannelName {
+	color: var(--text-primary);
+}
+
+.contextIcon {
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+	color: var(--text-tertiary);
+}
+
+.actionIcon {
+	width: 16px;
+	height: 16px;
+	flex-shrink: 0;
+	color: currentColor;
+}
+
+.contextGuildIcon {
+	border-radius: 50%;
+	flex-shrink: 0;
+}
+
+.contextChevron {
+	width: 12px;
+	height: 12px;
+	flex-shrink: 0;
+	color: var(--text-tertiary);
+}
+
+.contextChannelName {
+	font-size: 13px;
+	color: var(--text-primary-muted);
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	min-width: 0;
+}
+
+.contextDmAvatar {
+	flex-shrink: 0;
+}
+
+.participantsAvatarStack {
+	flex-shrink: 0;
+	padding-right: 4px;
+}
+
+.previewContainer {
+	width: 100%;
+	border-radius: var(--radius-sm, 4px);
+	overflow: hidden;
+	position: relative;
+	aspect-ratio: 16 / 9;
+	height: auto;
+	background-color: var(--background-tertiary);
+	cursor: pointer;
+}
+
+.previewSubmitting {
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+.previewContainer:hover .previewHoverOverlay {
+	background-color: var(--voice-overlay, rgba(0, 0, 0, 0.55));
+	opacity: 1;
+}
+
+.previewImage {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	filter: brightness(0.6);
+}
+
+.previewFallback {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--text-primary-muted);
+	font-size: 0.8rem;
+}
+
+.previewHoverOverlay {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0);
+	opacity: 0;
+	transition:
+		opacity 0.15s ease,
+		background-color 0.15s ease;
+	pointer-events: none;
+	z-index: 1;
+}
+
+.previewHoverText {
+	color: var(--voice-text-strong, var(--white));
+	font-size: 0.8rem;
+	font-weight: 600;
+	text-shadow: 0 1px 3px var(--voice-shadow-strong, rgba(0, 0, 0, 0.4));
+}
+
+.actionRow {
+	display: flex;
+}
+
+.actionButton {
+	width: 100%;
+	justify-content: center;
+}

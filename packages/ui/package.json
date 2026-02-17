@@ -1,0 +1,22 @@
+{
+	"name": "@fluxer/ui",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./*": "./*"
+	},
+	"scripts": {
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@fluxer/constants": "workspace:*",
+		"@fluxer/hono": "workspace:*",
+		"@fluxer/snowflake": "workspace:*",
+		"hono": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@typescript/native-preview": "catalog:"
+	}
+}

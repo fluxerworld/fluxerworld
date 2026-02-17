@@ -17,7 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
 
 export function shouldShowPremiumFeatures(): boolean {
 	return !RuntimeConfigStore.isSelfHosted();

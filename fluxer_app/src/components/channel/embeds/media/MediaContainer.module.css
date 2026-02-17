@@ -86,7 +86,7 @@
 }
 
 .deleteButton:hover .actionIcon {
-	color: white;
+	color: var(--text-on-brand-primary);
 }
 
 .deleteButton:active {
@@ -103,5 +103,5 @@
 }
 
 .favoriteButtonActive .actionIcon {
-	color: white;
+	color: var(--text-on-brand-primary);
 }

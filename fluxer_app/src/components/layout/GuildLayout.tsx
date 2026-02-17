@@ -17,39 +17,40 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GuildActionCreators from '@app/actions/GuildActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as NagbarActionCreators from '@app/actions/NagbarActionCreators';
+import {TopNagbarContext} from '@app/components/layout/app_layout/TopNagbarContext';
+import styles from '@app/components/layout/GuildLayout.module.css';
+import {GuildNavbar} from '@app/components/layout/GuildNavbar';
+import {GuildNavbarSkeleton} from '@app/components/layout/GuildNavbarSkeleton';
+import {Nagbar} from '@app/components/layout/Nagbar';
+import {NagbarButton} from '@app/components/layout/NagbarButton';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {useParams} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildAvailabilityStore from '@app/stores/GuildAvailabilityStore';
+import GuildStore from '@app/stores/GuildStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import NagbarStore from '@app/stores/NagbarStore';
+import NavigationStore from '@app/stores/NavigationStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
+import UserStore from '@app/stores/UserStore';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import * as InviteUtils from '@app/utils/InviteUtils';
+import {openExternalUrl} from '@app/utils/NativeUtils';
+import {adminUrl} from '@app/utils/UrlUtils';
+import {ChannelTypes, Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {GuildFeatures} from '@fluxer/constants/src/GuildConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {type Icon, NetworkSlashIcon, SmileySadIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as GuildActionCreators from '~/actions/GuildActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as NagbarActionCreators from '~/actions/NagbarActionCreators';
-import * as NavigationActionCreators from '~/actions/NavigationActionCreators';
-import {ChannelTypes, GuildFeatures, Permissions} from '~/Constants';
-import {GuildNavbar} from '~/components/layout/GuildNavbar';
-import {GuildNavbarSkeleton} from '~/components/layout/GuildNavbarSkeleton';
-import {Nagbar} from '~/components/layout/Nagbar';
-import {NagbarButton} from '~/components/layout/NagbarButton';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import {useParams} from '~/lib/router';
-import {Routes} from '~/Routes';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildAvailabilityStore from '~/stores/GuildAvailabilityStore';
-import GuildStore from '~/stores/GuildStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import NagbarStore from '~/stores/NagbarStore';
-import PermissionStore from '~/stores/PermissionStore';
-import SelectedChannelStore from '~/stores/SelectedChannelStore';
-import UserStore from '~/stores/UserStore';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import * as InviteUtils from '~/utils/InviteUtils';
-import {openExternalUrl} from '~/utils/NativeUtils';
-import * as RouterUtils from '~/utils/RouterUtils';
-import {adminUrl} from '~/utils/UrlUtils';
-import {TopNagbarContext} from './app-layout/TopNagbarContext';
-import styles from './GuildLayout.module.css';
+import type React from 'react';
+import {useContext, useEffect, useMemo, useRef} from 'react';
 
 const InvitesDisabledNagbar = observer(({isMobile, guildId}: {isMobile: boolean; guildId: string}) => {
 	const {t} = useLingui();
@@ -121,7 +122,9 @@ const StaffOnlyGuildNagbar = observer(({isMobile, guildId}: {isMobile: boolean; 
 	if (!guild) return null;
 
 	const handleManageFeatures = () => {
-		void openExternalUrl(adminUrl(`guilds/${guildId}?tab=features`));
+		const featuresUrl = new URL(adminUrl(`guilds/${guildId}`));
+		featuresUrl.searchParams.set('tab', 'features');
+		void openExternalUrl(featuresUrl.toString());
 	};
 
 	return (
@@ -134,7 +137,7 @@ const StaffOnlyGuildNagbar = observer(({isMobile, guildId}: {isMobile: boolean; 
 				</p>
 				<div className={isMobile ? styles.nagbarActions : styles.nagbarActionsDesktop}>
 					<NagbarButton isMobile={isMobile} onClick={handleManageFeatures}>
-						<Trans>Manage Guild Features</Trans>
+						<Trans>Manage Community Features</Trans>
 					</NagbarButton>
 				</div>
 			</div>
@@ -164,7 +167,7 @@ const GuildUnavailable = observer(function GuildUnavailable({
 
 export const GuildLayout = observer(({children}: {children: React.ReactNode}) => {
 	const {t} = useLingui();
-	const {guildId, channelId, messageId} = useParams() as {guildId: string; channelId?: string; messageId?: string};
+	const {guildId, channelId} = useParams() as {guildId: string; channelId?: string};
 	const mobileLayout = MobileLayoutStore;
 	const guild = GuildStore.getGuild(guildId);
 	const unavailableGuilds = GuildAvailabilityStore.unavailableGuilds;
@@ -181,7 +184,7 @@ export const GuildLayout = observer(({children}: {children: React.ReactNode}) =>
 	const guildUnavailable = guildId && (unavailableGuilds.has(guildId) || guild?.unavailable);
 	const guildNotFound = !guildUnavailable && !guild;
 
-	const firstAccessibleTextChannel = React.useMemo(() => {
+	const firstAccessibleTextChannel = useMemo(() => {
 		if (!guild) return null;
 
 		const textChannels = channels
@@ -191,7 +194,7 @@ export const GuildLayout = observer(({children}: {children: React.ReactNode}) =>
 		return textChannels.length > 0 ? textChannels[0] : null;
 	}, [guild, channels]);
 
-	const shouldShowInvitesDisabled = React.useMemo(() => {
+	const shouldShowInvitesDisabled = useMemo(() => {
 		if (!selectedChannelId) return false;
 		if (!channel?.guildId) return false;
 		if (!guild) return false;
@@ -224,7 +227,7 @@ export const GuildLayout = observer(({children}: {children: React.ReactNode}) =>
 		user,
 	]);
 
-	const shouldShowStaffOnlyGuild = React.useMemo(() => {
+	const shouldShowStaffOnlyGuild = useMemo(() => {
 		if (!selectedChannelId) return false;
 		if (!channel?.guildId) return false;
 		if (!guild) return false;
@@ -236,45 +239,27 @@ export const GuildLayout = observer(({children}: {children: React.ReactNode}) =>
 
 	const hasGuildNagbars = shouldShowStaffOnlyGuild || shouldShowInvitesDisabled;
 	const nagbarCount = (shouldShowStaffOnlyGuild ? 1 : 0) + (shouldShowInvitesDisabled ? 1 : 0);
-	const prevNagbarCount = React.useRef<number>(nagbarCount);
-	const hasTopNagbarAbove = React.useContext(TopNagbarContext);
+	const prevNagbarCount = useRef<number>(nagbarCount);
+	const hasTopNagbarAbove = useContext(TopNagbarContext);
 	const nagbarContextValue = hasTopNagbarAbove || hasGuildNagbars;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (prevNagbarCount.current !== nagbarCount) {
 			prevNagbarCount.current = nagbarCount;
 			ComponentDispatch.dispatch('LAYOUT_RESIZED');
 		}
 	}, [nagbarCount]);
 
-	React.useEffect(() => {
-		if (!guildId) {
-			NavigationActionCreators.deselectGuild();
-			return;
-		}
-		NavigationActionCreators.selectGuild(guildId);
-		return () => {
-			NavigationActionCreators.deselectGuild();
-		};
-	}, [guildId]);
-
-	React.useEffect(() => {
-		if (!guildId) return;
-		if (channelId) {
-			NavigationActionCreators.selectChannel(guildId, channelId, messageId);
-		}
-	}, [guildId, channelId, messageId]);
-
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!guild || !channelId || guildUnavailable || guildNotFound) return;
 
 		const currentChannel = ChannelStore.getChannel(channelId);
-		const currentPath = RouterUtils.getHistory()?.location.pathname ?? '';
+		const currentPath = NavigationStore.pathname;
 		const expectedPath = Routes.guildChannel(guildId, channelId);
 
 		if (currentPath === expectedPath && !currentChannel) {
 			if (firstAccessibleTextChannel) {
-				RouterUtils.replaceWith(Routes.guildChannel(guildId, firstAccessibleTextChannel.id));
+				NavigationStore.navigateToGuild(guildId, firstAccessibleTextChannel.id, undefined, 'replace');
 			}
 		}
 	}, [guild, guildId, channelId, firstAccessibleTextChannel, guildUnavailable, guildNotFound]);
@@ -301,7 +286,7 @@ export const GuildLayout = observer(({children}: {children: React.ReactNode}) =>
 								{guildUnavailable ? (
 									<GuildUnavailable
 										icon={NetworkSlashIcon}
-										title={t`Community temporarily unavailable`}
+										title={t`Community Temporarily Unavailable`}
 										description={t`We fluxed up! Hang tight, we're working on it.`}
 									/>
 								) : (
@@ -342,7 +327,7 @@ export const GuildLayout = observer(({children}: {children: React.ReactNode}) =>
 						<div className={styles.guildMainContent}>
 							<GuildUnavailable
 								icon={NetworkSlashIcon}
-								title={t`Community temporarily unavailable`}
+								title={t`Community Temporarily Unavailable`}
 								description={t`We fluxed up! Hang tight, we're working on it.`}
 							/>
 						</div>
@@ -382,7 +367,7 @@ export const GuildLayout = observer(({children}: {children: React.ReactNode}) =>
 						<div className={styles.guildMainContent}>
 							<GuildUnavailable
 								icon={SmileySadIcon}
-								title={t`No accessible channels`}
+								title={t`No Accessible Channels`}
 								description={t`You don't have access to any channels in this community.`}
 							/>
 						</div>

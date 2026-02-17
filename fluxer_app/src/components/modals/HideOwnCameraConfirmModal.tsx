@@ -17,21 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as VoiceSettingsActionCreators from '@app/actions/VoiceSettingsActionCreators';
+import styles from '@app/components/modals/HideOwnCameraConfirmModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import VoicePromptsStore from '@app/stores/VoicePromptsStore';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as VoiceSettingsActionCreators from '~/actions/VoiceSettingsActionCreators';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import VoicePromptsStore from '~/stores/VoicePromptsStore';
-import styles from './HideOwnCameraConfirmModal.module.css';
+import {useRef, useState} from 'react';
 
-export const HideOwnCameraConfirmModal: React.FC = observer(() => {
+export const HideOwnCameraConfirmModal = observer(() => {
 	const {t} = useLingui();
-	const [dontAskAgain, setDontAskAgain] = React.useState(false);
-	const initialFocusRef = React.useRef<HTMLButtonElement | null>(null);
+	const [dontAskAgain, setDontAskAgain] = useState(false);
+	const initialFocusRef = useRef<HTMLButtonElement | null>(null);
 
 	const handleConfirm = () => {
 		if (dontAskAgain) VoicePromptsStore.setSkipHideOwnCameraConfirm(true);
@@ -45,7 +45,7 @@ export const HideOwnCameraConfirmModal: React.FC = observer(() => {
 
 	return (
 		<Modal.Root size="small" centered initialFocusRef={initialFocusRef}>
-			<Modal.Header title={<Trans>Hide your own camera?</Trans>} />
+			<Modal.Header title={<Trans>Hide Your Own Camera?</Trans>} />
 			<Modal.Content>
 				<p className={styles.description}>
 					<Trans>

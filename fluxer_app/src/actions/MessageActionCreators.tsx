@@ -17,44 +17,62 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {I18n} from '@lingui/core';
-import {msg} from '@lingui/core/macro';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ReadStateActionCreators from '~/actions/ReadStateActionCreators';
-import {APIErrorCodes, type JumpTypes, MAX_MESSAGES_PER_CHANNEL, MessageFlags} from '~/Constants';
-import {FeatureTemporarilyDisabledModal} from '~/components/alerts/FeatureTemporarilyDisabledModal';
-import {MessageDeleteFailedModal} from '~/components/alerts/MessageDeleteFailedModal';
-import {MessageDeleteTooQuickModal} from '~/components/alerts/MessageDeleteTooQuickModal';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {Endpoints} from '~/Endpoints';
-import type {JumpOptions} from '~/lib/ChannelMessages';
-import http, {HttpError} from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import MessageQueue from '~/lib/MessageQueue';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import * as ReadStateActionCreators from '@app/actions/ReadStateActionCreators';
+import {FeatureTemporarilyDisabledModal} from '@app/components/alerts/FeatureTemporarilyDisabledModal';
+import {MessageDeleteFailedModal} from '@app/components/alerts/MessageDeleteFailedModal';
+import {MessageDeleteTooQuickModal} from '@app/components/alerts/MessageDeleteTooQuickModal';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {Endpoints} from '@app/Endpoints';
+import type {JumpOptions} from '@app/lib/ChannelMessages';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import http from '@app/lib/HttpClient';
+import {HttpError} from '@app/lib/HttpError';
+import {Logger} from '@app/lib/Logger';
+import MessageQueue from '@app/lib/MessageQueue';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
+import MessageEditMobileStore from '@app/stores/MessageEditMobileStore';
+import MessageEditStore from '@app/stores/MessageEditStore';
+import MessageReferenceStore from '@app/stores/MessageReferenceStore';
+import MessageReplyStore from '@app/stores/MessageReplyStore';
+import MessageStore from '@app/stores/MessageStore';
+import ReadStateStore from '@app/stores/ReadStateStore';
+import {getApiErrorCode} from '@app/utils/ApiErrorUtils';
+import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
+import {MessageFlags} from '@fluxer/constants/src/ChannelConstants';
+import type {JumpType} from '@fluxer/constants/src/JumpConstants';
+import {MAX_MESSAGES_PER_CHANNEL} from '@fluxer/constants/src/LimitConstants';
+import type {MessageId} from '@fluxer/schema/src/branded/WireIds';
 import type {
 	AllowedMentions,
 	Message,
-	MessageRecord,
 	MessageReference,
 	MessageStickerItem,
-} from '~/records/MessageRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ChannelStore from '~/stores/ChannelStore';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import MessageEditMobileStore from '~/stores/MessageEditMobileStore';
-import MessageEditStore from '~/stores/MessageEditStore';
-import MessageReferenceStore from '~/stores/MessageReferenceStore';
-import MessageReplyStore from '~/stores/MessageReplyStore';
-import MessageStore from '~/stores/MessageStore';
-import ReadStateStore from '~/stores/ReadStateStore';
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
+} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
+import type {I18n} from '@lingui/core';
+import {msg} from '@lingui/core/macro';
 
 const logger = new Logger('MessageActionCreators');
 
 const pendingDeletePromises = new Map<string, Promise<void>>();
 const pendingFetchPromises = new Map<string, Promise<Array<Message>>>();
+
+function shouldBlockMessageFetch(channelId: string): boolean {
+	const channel = ChannelStore.getChannel(channelId);
+	if (!channel || channel.isPrivate()) {
+		return false;
+	}
+
+	return GuildNSFWAgreeStore.shouldShowGate({channelId: channel.id, guildId: channel.guildId ?? null});
+}
 
 function makeFetchKey(
 	channelId: string,
@@ -113,7 +131,9 @@ interface SendMessageParams {
 	tts?: boolean;
 }
 
-export const jumpToPresent = (channelId: string, limit = MAX_MESSAGES_PER_CHANNEL): void => {
+export function jumpToPresent(channelId: string, limit = MAX_MESSAGES_PER_CHANNEL): void {
+	NavigationActionCreators.clearMessageIdForChannel(channelId);
+
 	logger.debug(`Jumping to present in channel ${channelId}`);
 	ReadStateActionCreators.clearStickyUnread(channelId);
 
@@ -126,26 +146,26 @@ export const jumpToPresent = (channelId: string, limit = MAX_MESSAGES_PER_CHANNE
 	} else {
 		fetchMessages(channelId, null, null, limit, jump);
 	}
-};
+}
 
-export const jumpToMessage = (
+export function jumpToMessage(
 	channelId: string,
 	messageId: string,
 	flash = true,
 	offset?: number,
 	returnTargetId?: string,
-	jumpType?: JumpTypes,
-): void => {
+	jumpType?: JumpType,
+): void {
 	logger.debug(`Jumping to message ${messageId} in channel ${channelId}`);
 
 	fetchMessages(channelId, null, null, MAX_MESSAGES_PER_CHANNEL, {
-		messageId,
+		messageId: messageId as MessageId,
 		flash,
 		offset,
-		returnMessageId: returnTargetId,
+		returnMessageId: returnTargetId as MessageId | null | undefined,
 		jumpType,
 	});
-};
+}
 
 const tryFetchMessagesCached = (
 	channelId: string,
@@ -170,18 +190,24 @@ const tryFetchMessagesCached = (
 	return false;
 };
 
-export const fetchMessages = async (
+export async function fetchMessages(
 	channelId: string,
 	before: string | null,
 	after: string | null,
 	limit: number,
 	jump?: JumpOptions,
-): Promise<Array<Message>> => {
+): Promise<Array<Message>> {
 	const key = makeFetchKey(channelId, before, after, limit, jump);
 	const inFlight = pendingFetchPromises.get(key);
 	if (inFlight) {
 		logger.debug(`Using in-flight fetchMessages for channel ${channelId} (deduped)`);
 		return inFlight;
+	}
+
+	if (shouldBlockMessageFetch(channelId)) {
+		logger.debug(`Skipping message fetch for gated channel ${channelId}`);
+		MessageStore.handleLoadMessagesBlocked({channelId});
+		return [];
 	}
 
 	if (tryFetchMessagesCached(channelId, before, after, limit, jump)) {
@@ -271,10 +297,10 @@ export const fetchMessages = async (
 	pendingFetchPromises.set(key, promise);
 	promise.finally(() => pendingFetchPromises.delete(key));
 	return promise;
-};
+}
 
-export const send = async (channelId: string, params: SendMessageParams): Promise<Message> => {
-	const promise = new Promise<Message>((resolve, reject) => {
+export function send(channelId: string, params: SendMessageParams): Promise<Message | null> {
+	return new Promise<Message | null>((resolve) => {
 		logger.debug(`Enqueueing message for channel ${channelId}`);
 
 		MessageQueue.enqueue(
@@ -296,28 +322,18 @@ export const send = async (channelId: string, params: SendMessageParams): Promis
 					logger.debug(`Message sent successfully in channel ${channelId}`);
 					resolve(result.body);
 				} else {
-					const reason = error ?? new Error('Message send failed');
-					logger.error(`Message send failed in channel ${channelId}`, reason);
-					reject(reason);
+					if (error) {
+						logger.debug(`Message send failed in channel ${channelId}`, error);
+					}
+					resolve(null);
 				}
 			},
 		);
 	});
+}
 
-	promise.catch((error) => {
-		logger.error(`Unhandled message send rejection in channel ${channelId}`, error);
-	});
-
-	return promise;
-};
-
-export const edit = async (
-	channelId: string,
-	messageId: string,
-	content?: string,
-	flags?: number,
-): Promise<Message> => {
-	const promise = new Promise<Message>((resolve, reject) => {
+export function edit(channelId: string, messageId: string, content?: string, flags?: number): Promise<Message | null> {
+	return new Promise<Message | null>((resolve) => {
 		logger.debug(`Enqueueing edit for message ${messageId} in channel ${channelId}`);
 
 		MessageQueue.enqueue(
@@ -333,22 +349,17 @@ export const edit = async (
 					logger.debug(`Message edited successfully: ${messageId} in channel ${channelId}`);
 					resolve(result.body);
 				} else {
-					const reason = error ?? new Error('Message edit failed');
-					logger.error(`Message edit failed: ${messageId} in channel ${channelId}`, reason);
-					reject(reason);
+					if (error) {
+						logger.debug(`Message edit failed: ${messageId} in channel ${channelId}`, error);
+					}
+					resolve(null);
 				}
 			},
 		);
 	});
+}
 
-	promise.catch((error) => {
-		logger.error(`Unhandled message edit rejection for ${messageId} in channel ${channelId}`, error);
-	});
-
-	return promise;
-};
-
-export const remove = async (channelId: string, messageId: string): Promise<void> => {
+export async function remove(channelId: string, messageId: string): Promise<void> {
 	const pendingPromise = pendingDeletePromises.get(messageId);
 	if (pendingPromise) {
 		logger.debug(`Using in-flight delete request for message ${messageId}`);
@@ -364,9 +375,8 @@ export const remove = async (channelId: string, messageId: string): Promise<void
 			logger.error(`Failed to delete message ${messageId} in channel ${channelId}:`, error);
 
 			if (error instanceof HttpError) {
-				const {status, body} = error;
-				const errorCode =
-					typeof body === 'object' && body != null && 'code' in body ? (body as {code?: string}).code : undefined;
+				const {status} = error;
+				const errorCode = getApiErrorCode(error);
 
 				if (status === 429) {
 					ModalActionCreators.push(modal(() => <MessageDeleteTooQuickModal />));
@@ -389,14 +399,14 @@ export const remove = async (channelId: string, messageId: string): Promise<void
 
 	pendingDeletePromises.set(messageId, deletePromise);
 	return deletePromise;
-};
+}
 
 interface ShowDeleteConfirmationOptions {
 	message: MessageRecord;
 	onDelete?: () => void;
 }
 
-export const showDeleteConfirmation = (i18n: I18n, {message, onDelete}: ShowDeleteConfirmationOptions): void => {
+export function showDeleteConfirmation(i18n: I18n, {message, onDelete}: ShowDeleteConfirmationOptions): void {
 	ModalActionCreators.push(
 		modal(() => (
 			<ConfirmModal
@@ -411,92 +421,100 @@ export const showDeleteConfirmation = (i18n: I18n, {message, onDelete}: ShowDele
 			/>
 		)),
 	);
-};
+}
 
-export const deleteLocal = (channelId: string, messageId: string): void => {
+export function deleteLocal(channelId: string, messageId: string): void {
 	logger.debug(`Deleting message ${messageId} locally in channel ${channelId}`);
 	MessageStore.handleMessageDelete({id: messageId, channelId});
-};
+}
 
-export const revealMessage = (channelId: string, messageId: string | null): void => {
+export function revealMessage(channelId: string, messageId: string | null): void {
 	logger.debug(`Revealing message ${messageId} in channel ${channelId}`);
 	MessageStore.handleMessageReveal({channelId, messageId});
-};
+}
 
-export const startReply = (channelId: string, messageId: string, mentioning: boolean): void => {
+export function startReply(channelId: string, messageId: string, mentioning: boolean): void {
 	logger.debug(`Starting reply to message ${messageId} in channel ${channelId}, mentioning=${mentioning}`);
 	MessageReplyStore.startReply(channelId, messageId, mentioning);
-};
+	ComponentDispatch.dispatch('FOCUS_TEXTAREA', {channelId});
+}
 
-export const stopReply = (channelId: string): void => {
+export function stopReply(channelId: string): void {
 	logger.debug(`Stopping reply in channel ${channelId}`);
 	MessageReplyStore.stopReply(channelId);
-};
+}
 
-export const setReplyMentioning = (channelId: string, mentioning: boolean): void => {
+export function setReplyMentioning(channelId: string, mentioning: boolean): void {
 	logger.debug(`Setting reply mentioning in channel ${channelId}: ${mentioning}`);
 	MessageReplyStore.setMentioning(channelId, mentioning);
-};
+}
 
-export const startEdit = (channelId: string, messageId: string, initialContent: string): void => {
+export function startEdit(channelId: string, messageId: string, initialContent: string): void {
 	logger.debug(`Starting edit for message ${messageId} in channel ${channelId}`);
-	MessageEditStore.startEditing(channelId, messageId, initialContent);
-};
+	const draftContent = MessageEditStore.getDraftContent(messageId);
+	const contentToUse = draftContent ?? initialContent;
+	MessageEditStore.startEditing(channelId, messageId, contentToUse);
+}
 
-export const stopEdit = (channelId: string): void => {
+export function stopEdit(channelId: string): void {
 	logger.debug(`Stopping edit in channel ${channelId}`);
 	MessageEditStore.stopEditing(channelId);
-};
+}
 
-export const startEditMobile = (channelId: string, messageId: string): void => {
+export function startEditMobile(channelId: string, messageId: string): void {
 	logger.debug(`Starting mobile edit for message ${messageId} in channel ${channelId}`);
 	MessageEditMobileStore.startEditingMobile(channelId, messageId);
-};
+}
 
-export const stopEditMobile = (channelId: string): void => {
+export function stopEditMobile(channelId: string): void {
 	logger.debug(`Stopping mobile edit in channel ${channelId}`);
 	MessageEditMobileStore.stopEditingMobile(channelId);
-};
+}
 
-export const createOptimistic = (channelId: string, message: Message): void => {
+export function createOptimistic(channelId: string, message: Message): void {
 	logger.debug(`Creating optimistic message in channel ${channelId}`);
 	MessageStore.handleIncomingMessage({channelId, message});
-};
+}
 
-export const deleteOptimistic = (channelId: string, messageId: string): void => {
+export function deleteOptimistic(channelId: string, messageId: string): void {
 	logger.debug(`Deleting optimistic message ${messageId} in channel ${channelId}`);
 	MessageStore.handleMessageDelete({channelId, id: messageId});
-};
+}
 
-export const sendError = (channelId: string, nonce: string): void => {
+export function sendError(channelId: string, nonce: string): void {
 	logger.debug(`Message send error for nonce ${nonce} in channel ${channelId}`);
 	MessageStore.handleSendFailed({channelId, nonce});
-};
+}
 
-export const editOptimistic = (
+export function retryLocal(channelId: string, messageId: string): void {
+	logger.debug(`Retrying optimistic message ${messageId} in channel ${channelId}`);
+	MessageStore.handleSendRetry({channelId, messageId});
+}
+
+export function editOptimistic(
 	channelId: string,
 	messageId: string,
 	content: string,
-): {originalContent: string; originalEditedTimestamp: string | null} | null => {
+): {originalContent: string; originalEditedTimestamp: string | null} | null {
 	logger.debug(`Applying optimistic edit for message ${messageId} in channel ${channelId}`);
 	return MessageStore.handleOptimisticEdit({channelId, messageId, content});
-};
+}
 
-export const editRollback = (
+export function editRollback(
 	channelId: string,
 	messageId: string,
 	originalContent: string,
 	originalEditedTimestamp: string | null,
-): void => {
+): void {
 	logger.debug(`Rolling back edit for message ${messageId} in channel ${channelId}`);
 	MessageStore.handleEditRollback({channelId, messageId, originalContent, originalEditedTimestamp});
-};
+}
 
-export const forward = async (
+export async function forward(
 	channelIds: Array<string>,
 	messageReference: {message_id: string; channel_id: string; guild_id?: string | null},
 	optionalMessage?: string,
-): Promise<void> => {
+): Promise<void> {
 	logger.debug(`Forwarding message ${messageReference.message_id} to ${channelIds.length} channels`);
 
 	try {
@@ -527,13 +545,9 @@ export const forward = async (
 		logger.error('Failed to forward message:', error);
 		throw error;
 	}
-};
+}
 
-export const toggleSuppressEmbeds = async (
-	channelId: string,
-	messageId: string,
-	currentFlags: number,
-): Promise<void> => {
+export async function toggleSuppressEmbeds(channelId: string, messageId: string, currentFlags: number): Promise<void> {
 	try {
 		const isSuppressed = (currentFlags & MessageFlags.SUPPRESS_EMBEDS) === MessageFlags.SUPPRESS_EMBEDS;
 		const newFlags = isSuppressed
@@ -552,9 +566,9 @@ export const toggleSuppressEmbeds = async (
 		logger.error('Failed to toggle suppress embeds:', error);
 		throw error;
 	}
-};
+}
 
-export const deleteAttachment = async (channelId: string, messageId: string, attachmentId: string): Promise<void> => {
+export async function deleteAttachment(channelId: string, messageId: string, attachmentId: string): Promise<void> {
 	try {
 		logger.debug(`Deleting attachment ${attachmentId} from message ${messageId}`);
 
@@ -567,4 +581,4 @@ export const deleteAttachment = async (channelId: string, messageId: string, att
 		logger.error('Failed to delete attachment:', error);
 		throw error;
 	}
-};
+}

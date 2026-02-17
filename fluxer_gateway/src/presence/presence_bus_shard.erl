@@ -60,16 +60,11 @@ handle_cast(_Msg, State) ->
     {noreply, State}.
 
 -spec handle_info(term(), state()) -> {noreply, state()}.
-handle_info({'EXIT', PgPid, Reason}, State) ->
+handle_info({'EXIT', PgPid, _Reason}, State) ->
     StoredPgPid = maps:get(pg_pid, State),
     case PgPid =:= StoredPgPid of
         true ->
             Scope = maps:get(scope, State),
-            ShardIndex = maps:get(shard_index, State),
-            logger:warning(
-                "[presence_bus_shard ~p] pg process exited: ~p; restarting scope",
-                [ShardIndex, Reason]
-            ),
             case ensure_pg_scope(Scope) of
                 {ok, NewPgPid} ->
                     {noreply, State#{pg_pid := NewPgPid}};
@@ -98,8 +93,7 @@ do_subscribe(Scope, UserId, Pid) ->
     case catch pg:join(Scope, Group, Pid) of
         ok ->
             ok;
-        {'EXIT', Reason} ->
-            logger:warning("[presence_bus_shard] failed to join group ~p: ~p", [Group, Reason]),
+        {'EXIT', _Reason} ->
             ok;
         _ ->
             ok
@@ -111,8 +105,7 @@ do_unsubscribe(Scope, UserId, Pid) ->
     case catch pg:leave(Scope, Group, Pid) of
         ok ->
             ok;
-        {'EXIT', Reason} ->
-            logger:warning("[presence_bus_shard] failed to leave group ~p: ~p", [Group, Reason]),
+        {'EXIT', _Reason} ->
             ok;
         _ ->
             ok
@@ -157,3 +150,11 @@ ensure_pg_scope(Scope) ->
 -spec scope_name(non_neg_integer()) -> atom().
 scope_name(Index) ->
     list_to_atom(atom_to_list(?SCOPE_PREFIX) ++ "_" ++ integer_to_list(Index)).
+
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+scope_name_test() ->
+    ?assertEqual(presence_bus_0, scope_name(0)),
+    ?assertEqual(presence_bus_42, scope_name(42)).
+-endif.

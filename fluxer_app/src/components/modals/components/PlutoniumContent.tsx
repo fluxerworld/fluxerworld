@@ -17,62 +17,62 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
-import {CrownIcon, NetworkSlashIcon} from '@phosphor-icons/react';
+import {FeatureComparisonTable} from '@app/components/modals/components/FeatureComparisonTable';
+import styles from '@app/components/modals/components/PlutoniumContent.module.css';
+import {PurchaseDisclaimer} from '@app/components/modals/components/PurchaseDisclaimer';
+import {BottomCTASection} from '@app/components/modals/components/plutonium/BottomCTASection';
+import {GiftInventoryBanner} from '@app/components/modals/components/plutonium/GiftInventoryBanner';
+import {GiftSection} from '@app/components/modals/components/plutonium/GiftSection';
+import {useCheckoutActions} from '@app/components/modals/components/plutonium/hooks/useCheckoutActions';
+import {useCommunityActions} from '@app/components/modals/components/plutonium/hooks/useCommunityActions';
+import {usePremiumData} from '@app/components/modals/components/plutonium/hooks/usePremiumData';
+import {useSubscriptionActions} from '@app/components/modals/components/plutonium/hooks/useSubscriptionActions';
+import {useSubscriptionStatus} from '@app/components/modals/components/plutonium/hooks/useSubscriptionStatus';
+import {PlutoniumUpsellBanner} from '@app/components/modals/components/plutonium/PlutoniumUpsellBanner';
+import {PricingSection} from '@app/components/modals/components/plutonium/PricingSection';
+import {PurchaseHistorySection} from '@app/components/modals/components/plutonium/PurchaseHistorySection';
+import {SectionHeader} from '@app/components/modals/components/plutonium/SectionHeader';
+import {SubscriptionCard} from '@app/components/modals/components/plutonium/SubscriptionCard';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import GeoIPStore from '@app/stores/GeoIPStore';
+import GuildStore from '@app/stores/GuildStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import UserStore from '@app/stores/UserStore';
+import * as LocaleUtils from '@app/utils/LocaleUtils';
+import {getFormattedPrice, PricingTier} from '@app/utils/PricingUtils';
+import {GuildFeatures} from '@fluxer/constants/src/GuildConstants';
+import {Trans} from '@lingui/react/macro';
+import {CrownIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {GuildFeatures} from '~/Constants';
-import {Spinner} from '~/components/uikit/Spinner';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import GeoIPStore from '~/stores/GeoIPStore';
-import GuildStore from '~/stores/GuildStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import UserStore from '~/stores/UserStore';
-import * as LocaleUtils from '~/utils/LocaleUtils';
-import {getFormattedPrice, PricingTier} from '~/utils/PricingUtils';
-import {FeatureComparisonTable} from './FeatureComparisonTable';
-import styles from './PlutoniumContent.module.css';
-import {PurchaseDisclaimer} from './PurchaseDisclaimer';
-import {BottomCTASection} from './plutonium/BottomCTASection';
-import {GiftInventoryBanner} from './plutonium/GiftInventoryBanner';
-import {GiftSection} from './plutonium/GiftSection';
-import {useCheckoutActions} from './plutonium/hooks/useCheckoutActions';
-import {useCommunityActions} from './plutonium/hooks/useCommunityActions';
-import {usePremiumData} from './plutonium/hooks/usePremiumData';
-import {useSubscriptionActions} from './plutonium/hooks/useSubscriptionActions';
-import {useSubscriptionStatus} from './plutonium/hooks/useSubscriptionStatus';
-import {PlutoniumUpsellBanner} from './plutonium/PlutoniumUpsellBanner';
-import {PricingSection} from './plutonium/PricingSection';
-import {PurchaseHistorySection} from './plutonium/PurchaseHistorySection';
-import {SectionHeader} from './plutonium/SectionHeader';
-import {SubscriptionCard} from './plutonium/SubscriptionCard';
-import {VisionarySection} from './plutonium/VisionarySection';
-import {Slate} from './Slate';
+import type React from 'react';
+import {useCallback, useMemo, useRef, useState} from 'react';
 
-export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(({defaultGiftMode = false}) => {
-	const {t} = useLingui();
+interface PlutoniumContentProps {
+	defaultGiftMode?: boolean;
+}
+
+export const PlutoniumContent = observer(({defaultGiftMode = false}: PlutoniumContentProps) => {
 	const currentUser = UserStore.currentUser;
 	const locale = LocaleUtils.getCurrentLocale();
-	const formatter = new Intl.NumberFormat(locale);
 	const mobileLayoutState = MobileLayoutStore;
 
-	const [isGiftMode, setIsGiftMode] = React.useState(defaultGiftMode);
-	const giftSectionRef = React.useRef<HTMLDivElement | null>(null);
-	const perksSectionRef = React.useRef<HTMLDivElement | null>(null);
+	const [isGiftMode, setIsGiftMode] = useState(defaultGiftMode);
+	const giftSectionRef = useRef<HTMLDivElement | null>(null);
+	const perksSectionRef = useRef<HTMLDivElement | null>(null);
 
 	const countryCode = GeoIPStore.countryCode;
 	const guilds = GuildStore.getGuilds();
 
-	const visionaryGuild = React.useMemo(() => {
+	const visionaryGuild = useMemo(() => {
 		return guilds.find((guild) => guild.features.has(GuildFeatures.VISIONARY));
 	}, [guilds]);
 
-	const operatorGuild = React.useMemo(() => {
+	const operatorGuild = useMemo(() => {
 		return guilds.find((guild) => guild.features.has(GuildFeatures.OPERATOR));
 	}, [guilds]);
 
 	const subscriptionStatus = useSubscriptionStatus(currentUser);
-	const {visionarySlots, priceIds, loadingSlots, slotsError, isVisionarySoldOut} = usePremiumData(countryCode);
+	const {priceIds} = usePremiumData(countryCode);
 	const {
 		loadingPortal,
 		loadingCancel,
@@ -97,23 +97,22 @@ export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(
 	const isClaimed = currentUser?.isClaimed() ?? false;
 	const purchaseDisabled = !isClaimed;
 	const purchaseDisabledTooltip = <Trans>Claim your account to purchase Fluxer Plutonium.</Trans>;
-	const handleSelectPlanGuarded = React.useCallback(
-		(plan: 'monthly' | 'yearly' | 'visionary' | 'gift1Month' | 'gift1Year' | 'giftVisionary') => {
+	const handleSelectPlanGuarded = useCallback(
+		(plan: 'monthly' | 'yearly' | 'gift_1_month' | 'gift_1_year') => {
 			if (purchaseDisabled) return;
 			handleSelectPlan(plan);
 		},
 		[handleSelectPlan, purchaseDisabled],
 	);
 
-	const monthlyPrice = React.useMemo(() => getFormattedPrice(PricingTier.Monthly, countryCode), [countryCode]);
-	const yearlyPrice = React.useMemo(() => getFormattedPrice(PricingTier.Yearly, countryCode), [countryCode]);
-	const visionaryPrice = React.useMemo(() => getFormattedPrice(PricingTier.Visionary, countryCode), [countryCode]);
+	const monthlyPrice = useMemo(() => getFormattedPrice(PricingTier.Monthly, countryCode), [countryCode]);
+	const yearlyPrice = useMemo(() => getFormattedPrice(PricingTier.Yearly, countryCode), [countryCode]);
 
-	const scrollToPerks = React.useCallback(() => {
-		perksSectionRef.current?.scrollIntoView({behavior: 'smooth', block: 'start'});
+	const scrollToPerks = useCallback(() => {
+		perksSectionRef.current?.scrollIntoView({behavior: 'auto', block: 'start'});
 	}, []);
 
-	const handlePerksKeyDown = React.useCallback(
+	const handlePerksKeyDown = useCallback(
 		(event: React.KeyboardEvent<HTMLSpanElement>) => {
 			if (event.key === 'Enter' || event.key === ' ') {
 				event.preventDefault();
@@ -123,7 +122,7 @@ export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(
 		[scrollToPerks],
 	);
 
-	const navigateToRedeemGift = React.useCallback(() => {
+	const navigateToRedeemGift = useCallback(() => {
 		ComponentDispatch.dispatch('USER_SETTINGS_TAB_SELECT', {tab: 'gift_inventory'});
 	}, []);
 
@@ -138,42 +137,15 @@ export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(
 					giftSectionRef={giftSectionRef}
 					monthlyPrice={monthlyPrice}
 					yearlyPrice={yearlyPrice}
-					visionaryPrice={visionaryPrice}
-					visionarySlots={visionarySlots}
 					loadingCheckout={loadingCheckout}
-					loadingSlots={loadingSlots}
-					isVisionarySoldOut={isVisionarySoldOut}
 					handleSelectPlan={handleSelectPlan}
 				/>
-
-				{loadingSlots ? (
-					<div className={styles.spinnerContainer} aria-live="polite">
-						<Spinner />
-					</div>
-				) : slotsError ? (
-					<Slate
-						icon={NetworkSlashIcon}
-						title={t`Network error`}
-						description={t`Failed to load Visionary information. Please try again later.`}
-					/>
-				) : !isVisionarySoldOut ? (
-					<VisionarySection
-						visionarySlots={visionarySlots}
-						formatter={formatter}
-						isVisionary={subscriptionStatus.isVisionary}
-						isPremium={subscriptionStatus.isPremium}
-						isGiftSubscription={subscriptionStatus.isGiftSubscription}
-						loadingCheckout={loadingCheckout}
-						loadingSlots={loadingSlots}
-						handleSelectPlan={handleSelectPlan}
-					/>
-				) : null}
 
 				<div ref={perksSectionRef}>
 					<section className={styles.perksSection}>
 						<SectionHeader title={<Trans>Free vs Plutonium</Trans>} />
 						<div className={styles.comparisonTableContainer}>
-							<FeatureComparisonTable formatter={formatter} />
+							<FeatureComparisonTable />
 						</div>
 					</section>
 				</div>
@@ -218,21 +190,17 @@ export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(
 						subscriptionCardColorClass={subscriptionStatus.subscriptionCardColorClass}
 						subscriptionStatusColor={subscriptionStatus.subscriptionStatusColor}
 						hasEverPurchased={subscriptionStatus.hasEverPurchased}
-						isVisionarySoldOut={isVisionarySoldOut}
 						shouldUseCancelQuickAction={subscriptionStatus.shouldUseCancelQuickAction}
 						shouldUseReactivateQuickAction={subscriptionStatus.shouldUseReactivateQuickAction}
 						loadingPortal={loadingPortal}
 						loadingCancel={loadingCancel}
 						loadingReactivate={loadingReactivate}
 						loadingRejoinCommunity={loadingRejoinCommunity}
-						loadingCheckout={loadingCheckout}
-						loadingSlots={loadingSlots}
 						isCommunityMenuOpen={isCommunityMenuOpen}
 						communityButtonRef={communityButtonRef}
 						scrollToPerks={scrollToPerks}
 						handlePerksKeyDown={handlePerksKeyDown}
 						navigateToRedeemGift={navigateToRedeemGift}
-						handleSelectPlan={handleSelectPlanGuarded}
 						handleOpenCustomerPortal={handleOpenCustomerPortal}
 						handleReactivateSubscription={handleReactivateSubscription}
 						handleCancelSubscription={handleCancelSubscription}
@@ -253,11 +221,7 @@ export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(
 					setIsGiftMode={setIsGiftMode}
 					monthlyPrice={monthlyPrice}
 					yearlyPrice={yearlyPrice}
-					visionaryPrice={visionaryPrice}
-					visionarySlots={visionarySlots}
 					loadingCheckout={loadingCheckout}
-					loadingSlots={loadingSlots}
-					isVisionarySoldOut={isVisionarySoldOut}
 					handleSelectPlan={handleSelectPlanGuarded}
 					purchaseDisabled={purchaseDisabled}
 					purchaseDisabledTooltip={purchaseDisabledTooltip}
@@ -267,47 +231,18 @@ export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(
 					giftSectionRef={giftSectionRef}
 					monthlyPrice={monthlyPrice}
 					yearlyPrice={yearlyPrice}
-					visionaryPrice={visionaryPrice}
-					visionarySlots={visionarySlots}
 					loadingCheckout={loadingCheckout}
-					loadingSlots={loadingSlots}
-					isVisionarySoldOut={isVisionarySoldOut}
 					handleSelectPlan={handleSelectPlanGuarded}
 					purchaseDisabled={purchaseDisabled}
 					purchaseDisabledTooltip={purchaseDisabledTooltip}
 				/>
 			)}
 
-			{loadingSlots ? (
-				<div className={styles.spinnerContainer} aria-live="polite">
-					<Spinner />
-				</div>
-			) : slotsError ? (
-				<Slate
-					icon={NetworkSlashIcon}
-					title={t`Network error`}
-					description={t`Failed to load Visionary information. Please try again later.`}
-				/>
-			) : !isVisionarySoldOut ? (
-				<VisionarySection
-					visionarySlots={visionarySlots}
-					formatter={formatter}
-					isVisionary={subscriptionStatus.isVisionary}
-					isPremium={subscriptionStatus.isPremium}
-					isGiftSubscription={subscriptionStatus.isGiftSubscription}
-					loadingCheckout={loadingCheckout}
-					loadingSlots={loadingSlots}
-					handleSelectPlan={handleSelectPlanGuarded}
-					purchaseDisabled={purchaseDisabled}
-					purchaseDisabledTooltip={purchaseDisabledTooltip}
-				/>
-			) : null}
-
 			<div ref={perksSectionRef}>
 				<section className={styles.perksSection}>
 					<SectionHeader title={<Trans>Free vs Plutonium</Trans>} />
 					<div className={styles.comparisonTableContainer}>
-						<FeatureComparisonTable formatter={formatter} />
+						<FeatureComparisonTable />
 					</div>
 				</section>
 			</div>
@@ -317,10 +252,7 @@ export const PlutoniumContent: React.FC<{defaultGiftMode?: boolean}> = observer(
 					isGiftMode={isGiftMode}
 					monthlyPrice={monthlyPrice}
 					yearlyPrice={yearlyPrice}
-					visionaryPrice={visionaryPrice}
 					loadingCheckout={loadingCheckout}
-					loadingSlots={loadingSlots}
-					isVisionarySoldOut={isVisionarySoldOut}
 					handleSelectPlan={handleSelectPlanGuarded}
 					purchaseDisabled={purchaseDisabled}
 					purchaseDisabledTooltip={purchaseDisabledTooltip}

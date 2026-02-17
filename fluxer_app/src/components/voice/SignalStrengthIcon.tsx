@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/voice/SignalStrengthIcon.module.css';
 import {useLingui} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import {useEffect, useMemo, useState} from 'react';
-import styles from './SignalStrengthIcon.module.css';
 
 interface Props {
 	latency: number | null;

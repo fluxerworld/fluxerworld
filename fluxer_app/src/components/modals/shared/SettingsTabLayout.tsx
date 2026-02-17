@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import sectionStyles from '@app/components/modals/shared/SettingsSection.module.css';
+import styles from '@app/components/modals/shared/SettingsTabLayout.module.css';
 import {clsx} from 'clsx';
 import type React from 'react';
-import sectionStyles from './SettingsSection.module.css';
-import styles from './SettingsTabLayout.module.css';
 
 interface SettingsTabContainerProps {
 	children: React.ReactNode;

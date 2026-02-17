@@ -17,19 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as UserProfileActionCreators from '~/actions/UserProfileActionCreators';
-import {LongPressable} from '~/components/LongPressable';
-import {GuildMemberActionsSheet} from '~/components/modals/guildTabs/GuildMemberActionsSheet';
-import {UserProfilePopout} from '~/components/popouts/UserProfilePopout';
-import {GuildMemberContextMenu} from '~/components/uikit/ContextMenu/GuildMemberContextMenu';
-import {UserContextMenu} from '~/components/uikit/ContextMenu/UserContextMenu';
-import type {PopoutPosition} from '~/components/uikit/Popout';
-import {Popout} from '~/components/uikit/Popout/Popout';
-import type {UserRecord} from '~/records/UserRecord';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as UserProfileActionCreators from '@app/actions/UserProfileActionCreators';
+import {LongPressable} from '@app/components/LongPressable';
+import {GuildMemberActionsSheet} from '@app/components/modals/guild_tabs/GuildMemberActionsSheet';
+import {UserProfilePopout} from '@app/components/popouts/UserProfilePopout';
+import {GuildMemberContextMenu} from '@app/components/uikit/context_menu/GuildMemberContextMenu';
+import {UserContextMenu} from '@app/components/uikit/context_menu/UserContextMenu';
+import {WebhookContextMenu} from '@app/components/uikit/context_menu/WebhookContextMenu';
+import type {PopoutPosition} from '@app/components/uikit/popout';
+import {Popout} from '@app/components/uikit/popout/Popout';
+import type {UserRecord} from '@app/records/UserRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import React, {useCallback, useState} from 'react';
 
 type PreloadableChildProps = React.HTMLAttributes<HTMLElement> & React.RefAttributes<HTMLElement>;
 
@@ -38,10 +39,12 @@ export const PreloadableUserPopout = React.forwardRef<
 	{
 		user: UserRecord;
 		isWebhook: boolean;
+		webhookId?: string;
 		guildId?: string;
 		channelId?: string;
 		children: React.ReactNode;
 		position?: PopoutPosition;
+		tooltip?: string | (() => React.ReactNode);
 		disableContextMenu?: boolean;
 		disableBackdrop?: boolean;
 		onPopoutOpen?: () => void;
@@ -53,10 +56,12 @@ export const PreloadableUserPopout = React.forwardRef<
 		{
 			user,
 			isWebhook,
+			webhookId,
 			guildId,
 			channelId,
 			children,
 			position = 'right-start',
+			tooltip,
 			disableContextMenu = false,
 			disableBackdrop = false,
 			onPopoutOpen,
@@ -66,19 +71,36 @@ export const PreloadableUserPopout = React.forwardRef<
 		ref,
 	) => {
 		const mobileLayout = MobileLayoutStore;
-		const [showActionsSheet, setShowActionsSheet] = React.useState(false);
+		const [showActionsSheet, setShowActionsSheet] = useState(false);
+		const child = React.Children.only(children) as React.ReactElement<PreloadableChildProps>;
 
 		const member = guildId ? GuildMemberStore.getMember(guildId, user.id) : null;
 
-		const handleMobileClick = React.useCallback(() => {
+		const handleMobileClick = useCallback(() => {
 			if (isWebhook) return;
 
 			UserProfileActionCreators.openUserProfile(user.id, guildId);
 		}, [user.id, guildId, isWebhook]);
 
-		const handleContextMenu = React.useCallback(
+		const handleWebhookContextMenu = useCallback(
 			(event: React.MouseEvent<Element>) => {
-				if (isWebhook) return;
+				if (!webhookId) return;
+				event.preventDefault();
+				event.stopPropagation();
+
+				ContextMenuActionCreators.openFromEvent(event, ({onClose}) => (
+					<WebhookContextMenu webhookId={webhookId} onClose={onClose} />
+				));
+			},
+			[webhookId],
+		);
+
+		const handleContextMenu = useCallback(
+			(event: React.MouseEvent<Element>) => {
+				if (isWebhook) {
+					handleWebhookContextMenu(event);
+					return;
+				}
 
 				event.preventDefault();
 				event.stopPropagation();
@@ -93,20 +115,34 @@ export const PreloadableUserPopout = React.forwardRef<
 					),
 				);
 			},
-			[user, guildId, channelId, isWebhook],
+			[user, guildId, channelId, isWebhook, handleWebhookContextMenu],
 		);
 
-		const handleLongPress = React.useCallback(() => {
+		const handleLongPress = useCallback(() => {
 			if (isWebhook) return;
 			setShowActionsSheet(true);
 		}, [isWebhook]);
 
-		const handleCloseActionsSheet = React.useCallback(() => {
+		const handleCloseActionsSheet = useCallback(() => {
 			setShowActionsSheet(false);
 		}, []);
 
+		if (isWebhook) {
+			const {onContextMenu: originalOnContextMenu} = child.props;
+			return React.cloneElement(child, {
+				ref,
+				onContextMenu: (event: React.MouseEvent<HTMLElement>) => {
+					if (originalOnContextMenu) {
+						(originalOnContextMenu as React.MouseEventHandler<HTMLElement>)(event);
+					}
+					if (!disableContextMenu) {
+						handleWebhookContextMenu(event);
+					}
+				},
+			});
+		}
+
 		if (mobileLayout.enabled) {
-			const child = React.Children.only(children) as React.ReactElement<PreloadableChildProps>;
 			const {onClick: originalOnClick, onContextMenu: originalOnContextMenu} = child.props;
 
 			const clonedChild = React.cloneElement(child, {
@@ -156,13 +192,14 @@ export const PreloadableUserPopout = React.forwardRef<
 					<UserProfilePopout popoutKey={popoutKey} user={user} isWebhook={isWebhook} guildId={guildId} />
 				)}
 				position={position}
+				tooltip={tooltip}
 				disableBackdrop={disableBackdrop}
 				onOpen={onPopoutOpen}
 				onClose={onPopoutClose}
 			>
 				{disableContextMenu
 					? children
-					: React.cloneElement(React.Children.only(children) as React.ReactElement<PreloadableChildProps>, {
+					: React.cloneElement(child, {
 							onContextMenu: handleContextMenu,
 						})}
 			</Popout>

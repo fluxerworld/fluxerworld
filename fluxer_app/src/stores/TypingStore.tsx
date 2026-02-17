@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {action, makeAutoObservable} from 'mobx';
-import type {Message} from '~/records/MessageRecord';
 
 type TypingUser = Readonly<{
 	timeout: NodeJS.Timeout;

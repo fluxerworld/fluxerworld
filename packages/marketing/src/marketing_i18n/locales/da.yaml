@@ -1,0 +1,440 @@
+app.communities.community: Fællesskab
+app.communities.community_support: Support til fællesskaber
+app.communities.featured_in_discovery: Fremhævet i opdagelse
+app.communities.moderation.actions_and_tools: Moderationshandlinger og værktøjer
+app.communities.moderation.report_people_or_communities: Anmeld personer eller fællesskaber, så vi kan holde Fluxer sikkert for alle.
+app.communities.moderation.tools: Moderationsværktøjer
+app.communities.roles_permissions_audit.audit_logs: Audit-logs for gennemsigtighed
+app.communities.roles_permissions_audit.granular_roles_and_permissions: Finmaskede roller og tilladelser
+app.communities.roles_permissions_audit.keep_running_smoothly: Hold dit fællesskab kørende problemfrit med roller, tilladelser og logs.
+app.communities.title: Fællesskaber
+app.communities.verification.label: Verificering af fællesskab
+app.communities.verification.value_statement: Dit fællesskab får verificeret status for ægthed og tillid.
+app.communities.verification.verified_community: Verificeret fællesskab
+app.customization.animated_profile.animated_avatars_and_banners: Animerede avatars og bannere
+app.customization.animated_profile.stand_out_animated_profile: Skil dig ud med animerede profilbilleder og bannere, så du kan vise din stil.
+app.customization.app_icon_badges: Se badge-tællere på app-ikonet.
+app.customization.compact_mode: Kompakt tilstand og visningsindstillinger
+app.customization.custom_css_themes: Tilpassede CSS-temaer
+app.customization.custom_sounds.entrance_sounds: Tilpassede indgangslyde
+app.customization.custom_sounds.notification_sounds: Tilpassede notifikationslyde
+app.customization.custom_sounds.set_personalized_join_sounds: Sæt personlige lyde på, når du går ind i voice-kanaler, så alle kan høre, du er kommet.
+app.customization.custom_sounds.upload_custom_notification_sounds: Upload og brug dine egne notifikationslyde, så du kan gøre Fluxer mere personlig.
+app.customization.custom_themes: Tilpassede temaer
+app.customization.global_emoji_and_sticker_access: Global adgang til emojis og stickers
+app.customization.saved_media_and_css: Tilføj egne emojis, gem medier til senere og styl appen med tilpasset CSS.
+app.customization.title: Tilpasning
+app.customization.upload_custom_emojis_and_stickers: Upload egne emojis og stickers
+app.customization.use_animated_emojis: Brug animerede emojis
+app.messaging.description: DM dine venner, chat i grupper eller byg fællesskaber med kanaler.
+app.messaging.features.bookmarked_messages: Bogmærkede beskeder
+app.messaging.features.file_sharing: Del filer og forhåndsvis links
+app.messaging.features.full_markdown_support: Fuld Markdown-understøttelse i beskeder
+app.messaging.features.message_scheduling.description: Planlæg beskeder til at blive sendt på et bestemt tidspunkt i fremtiden. Ingen DeLorean nødvendig.
+app.messaging.features.organised_channels_for_communities: Organiserede kanaler til fællesskaber
+app.messaging.features.private_dms_and_group_chats: Private DM'er og gruppechats
+app.messaging.features.save_media: Gem billeder, videoer, GIF'er og lyd
+app.messaging.features.search.filter_options: Filtrér efter brugere, datoer og mere
+app.messaging.features.search.find_old_messages: Find gamle beskeder eller hop mellem fællesskaber og kanaler på få sekunder.
+app.messaging.features.search.label: Søg i beskedhistorik
+app.messaging.features.search.quick_switcher_shortcuts: Hurtigskifter med tastaturgenveje
+app.messaging.features.search.search_and_quick_switcher: Søg og hurtigskifter
+app.messaging.title: Beskeder
+app.open.open_fluxer: Åbn Fluxer
+app.open.open_web_app: Åbn webappen
+app.profiles_identity.custom_identity: Tilpasset identitet
+app.profiles_identity.customise_per_community: Tilpas din profil forskelligt for hvert fællesskab, du er med i.
+app.profiles_identity.manage_friends_and_block_users: Administrer venner og blokér brugere
+app.voice_and_video.features.mute_controls: Mute-, deafen- og kamerakontrol
+app.voice_and_video.features.noise_suppression: Støjreduktion og ekkoannullering
+app.voice_and_video.features.screen_sharing: Indbygget skærmdeling
+app.voice_and_video.features.stream_4k_60fps: Stream op til 4K-opløsning med 60 fps, så andre kan se dig i fantastisk klarhed.
+app.voice_and_video.features.up_to_4k_video_quality: Op til 4K videokvalitet
+app.voice_and_video.features.video_backgrounds.description: Gem op til 15 videobaggrunde til opkald. Slut med at rode rundt i Downloads-mappen.
+app.voice_and_video.features.video_quality: Videokvalitet
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.video_quality_premium: Op til 4K/60fps
+app.voice_and_video.hop_in_a_call: Hop på et opkald med venner eller del din skærm, så I kan arbejde sammen.
+app.voice_and_video.title: Tale og video
+beta_and_access.beta_label: Beta
+beta_and_access.early_access.be_first_to_try: Vær den første til at prøve nye features, før de bliver rullet ud til alle.
+beta_and_access.early_access.label: Tidlig adgang
+beta_and_access.featured_benefit_line: Alt det basale, du forventer, plus et par ting, du ikke gør.
+beta_and_access.public_beta: Offentlig beta
+beta_and_access.registration_limited_during_beta: Vi begrænser registreringer under beta. Når du er inde, kan du give venner en kode, så de kan springe køen over.
+beta_and_access.try_without_email: Prøv Fluxer uden email på 30 sekunder
+community_funding_and_roles.focused_on_product: Lige nu fokuserer vi på at shippe et fedt produkt og holde Fluxer uafhængigt og bootstrappet.
+community_funding_and_roles.future_paid_roles_heading: Fremtiden for betalte roller
+community_funding_and_roles.future_paid_roles_note: Vi er stadig i gang med at bygge forretningen omkring Fluxer og er ikke helt klar til betalte roller endnu.
+community_funding_and_roles.non_paid_recurring_role: En ulønnet rolle til faste bidragydere, der hjælper med at forme Fluxer sammen med core teamet.
+community_funding_and_roles.sustainability_note: Med din støtte håber vi at gøre den her uafhængige kommunikationsplatform bæredygtig og begynde at tilbyde betalte roller i fremtiden.
+company_and_resources.blog: Blog
+company_and_resources.careers.careers_at_fluxer: Jobs hos Fluxer
+company_and_resources.careers.label: Job
+company_and_resources.careers.share_a_bit_about_yourself: Fortæl lidt om dig selv og hvordan du gerne vil bidrage ved at sende en mail til careers@fluxer.app
+company_and_resources.community_team.fluxer_community_team: Fluxer community-teamet
+company_and_resources.community_team.share_feedback_report_bugs: Del feedback, anmeld bugs, og hjælp med at gøre Fluxer imødekommende for alle.
+company_and_resources.company: Virksomhed
+company_and_resources.company_info: Virksomhedsinfo
+company_and_resources.connect: Kontakt
+company_and_resources.docs: Dokumentation
+company_and_resources.help.get_help: Få hjælp
+company_and_resources.help.help_center: Hjælpecenter
+company_and_resources.help.label: Hjælp
+company_and_resources.press.label: Presse
+company_and_resources.press.press_contact: Pressekontakt
+company_and_resources.product: Produkt
+company_and_resources.resources: Ressourcer
+company_and_resources.source_and_contribution.code_issues_docs_reviews: Kode, issues, docs og reviews
+company_and_resources.source_and_contribution.contribute_code: Bidrag med kode
+company_and_resources.source_and_contribution.contribute_on_github: Bidrag på GitHub
+company_and_resources.source_and_contribution.fix_bugs_ship_features: Ret bugs, udgiv nye features eller finpuds oplevelsen i vores hovedrepo.
+company_and_resources.source_and_contribution.fluxer_built_in_open: Fluxer bliver bygget i det åbne. Vælg den vej, der passer til, hvordan du helst vil hjælpe.
+company_and_resources.source_and_contribution.get_involved: Vær med
+company_and_resources.source_and_contribution.source_code: Kildekode
+company_and_resources.source_and_contribution.translation.help_translate: Hjælp med at oversætte Fluxer og docs, så det føles helt naturligt overalt.
+company_and_resources.source_and_contribution.translation.label: Oversættelse og lokalisering
+company_and_resources.source_and_contribution.translation.llm_translation_note: Alle oversættelser er lige nu LLM-genererede med minimal menneskelig gennemgang. Vi vil gerne have rigtige mennesker til at hjælpe os med at lokalisere Fluxer til dit sprog. Skriv til i18n@fluxer.app, så tager vi gerne imod dine bidrag.
+company_and_resources.source_and_contribution.translation.localization_label: Lokalisering
+company_and_resources.source_and_contribution.view_repository: Se repoet
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: Vil du hjælpe med at bygge Fluxer?
+company_and_resources.source_and_contribution.ways_to_contribute: Måder at bidrage på
+donations.business: Virksomhed
+donations.donate.action: Donér
+donations.donate.label: Donér til Fluxer
+donations.donate.description: Støt Fluxer med et engangs- eller gentaget donation
+donations.donation_disclaimer: Donationer er frivillige gaver og giver dig ikke noget produkt, nogen service, ejerskab eller særlige rettigheder. Hvis du leder efter premium features, så tjek {0}.
+donations.individual: Privat
+donations.individual_vs_business.answer: Begge donationstyper støtter samme sag lige meget. Den eneste forskel er, at Virksomhed-donationer lader dig angive et CVR-nummer (hvis relevant) og få en PDF-faktura, når det er afsluttet, hvilket kan være praktisk til regnskab.
+donations.individual_vs_business.question: Hvad er forskellen på Privat og Virksomhed?
+donations.infrastructure_costs_detail: Din donation hjælper med at betale for Fluxers infrastruktur, bl.a. servere, båndbredde, lagring og løbende udvikling af nye features. Den hjælper os med at vedligeholde og forbedre platformen for alle.
+donations.minimum_donation: 'Minimumsdonation: $5 / €5'
+donations.mobile_roadmap_sponsorship: Sponsorér roadmap'et for mobil
+donations.send_one_time_gift: Send en engangsgave
+donations.support_future_development: Støt fremtidig udvikling
+donations.support_message: Hjælp os med at bygge en uafhængig kommunikationsplatform. Din donation betaler for platformens infrastruktur og udvikling.
+donations.tax_deductible.answer: Donationer til Fluxer er i øjeblikket ikke fradragsberettigede i skat, men de finansierer direkte vores infrastruktur og løbende udvikling.
+donations.tax_deductible.question: Kan jeg trække donationen fra i skat?
+donations.what_it_supports: Hvad støtter min donation?
+donations.why_support: Hjælp os med at bygge en anden slags kommunikationsplatform – open source, community-finansieret og bygget med omhu.
+donations.recurring: Tilbagevendende
+donations.return_question: Får jeg noget igen?
+donations.form.email: Email
+donations.form.email_placeholder: your@email.com
+donations.form.amount: Beløb
+donations.form.amount_other: Andet
+donations.form.amount_placeholder: Indtast beløb (5-1000)
+donations.form.billing: Fakturering
+donations.form.donation_type: Donationstype
+donations.form.one_time: Engangs
+donations.form.or_label: Eller
+donations.form.monthly: Månedligt
+donations.form.yearly: Årligt
+donations.form.currency: Valuta
+donations.form.processing: Behandler...
+donations.form.send_link: Send link
+donations.form.sending: Sender...
+donations.errors.active_subscription_exists: Du har allerede en aktiv tilbagevendende donation. For at starte en anden tilbagevendende donation skal du først annullere den nuværende via kundeportalen. Du kan i stedet lave en engangsdonation.
+donations.errors.invalid_email: Indtast venligst en gyldig emailadresse
+donations.errors.invalid_amount: Beløbet skal være mellem 5 og 1000
+donations.errors.generic: Noget gik galt. Prøv igen.
+donations.errors.network: Netværksfejl. Prøv igen.
+donations.manage.title: Administrer dine donationer
+donations.manage.description: Indtast din email for at modtage et link til din donorportal, hvor du kan administrere abonnementer, downloade fakturaer og se din donationshistorik.
+donations.manage.success: Hvis der findes en konto til den email, modtager du snart et administrationslink.
+donations.success.title: Tak!
+donations.success.description: Tak for din støtte!
+donations.success.message: Tak for din donation! Vi sætter virkelig pris på din støtte.
+donations.success.email_notice: Du modtager snart en bekræftelsesmail med detaljer om din donation og et link til din donorportal.
+donations.success.back_to_donate: Tilbage til donationer
+download.download: Download
+download.download_app_or_open_in_browser: Download appen eller åbn Fluxer i din browser for at komme i gang med at forbinde dig med dine fællesskaber.
+download.download_fluxer: Download Fluxer
+download.download_for_prefix: 'Download til '
+download.open_in_browser: Åbn i browseren
+download.screenshots_courtesy_of: 'Skærmbilleder med venlig tilladelse fra '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: Community-retningslinjer
+footer.company_information: Virksomhedsoplysninger
+footer.connect: Kontakt
+footer.donate: Donér
+footer.download: Download
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (svensk aktieselskab: 559537-3993)'
+footer.help_support_an_independent_communication: Støt en uafhængig kommunikationsplatform. Din donation finansierer platformens infrastruktur og udvikling.
+footer.partners: Partnere
+footer.plutonium_tier: Plutonium-niveau
+footer.policies: Politikker
+footer.press: Presse
+footer.privacy_policy: Privatlivspolitik
+footer.report_a_bug: Anmeld en bug
+footer.roadmap: Roadmap
+footer.rss_feed: RSS-feed
+footer.security_bug_bounty: Sikkerheds-bug bounty
+footer.source_code: Kildekode
+footer.terms_of_service: Vilkår for brug
+general.all: alle
+general.coming_soon.label: Kommer snart
+general.coming_soon.whats_available_today: Hvad kan du få i dag
+general.last_updated: Sidst opdateret
+general.made_in_sweden: Lavet i Sverige
+general.not_available: Ikke tilgængelig
+general.or: eller
+general.tagline: En chatapp, der sætter dig først
+languages.change_language: Skift sprog
+languages.choose_your_language: Vælg dit sprog
+languages.language_label: Sprog
+languages.list.arabic: Arabisk
+languages.list.bulgarian: Bulgarsk
+languages.list.chinese_simplified: Kinesisk (forenklet)
+languages.list.chinese_traditional: Kinesisk (traditionelt)
+languages.list.croatian: Kroatisk
+languages.list.czech: Tjekkisk
+languages.list.danish: Dansk
+languages.list.dutch: Hollandsk
+languages.list.english: Engelsk
+languages.list.english_us: Engelsk (USA)
+languages.list.finnish: Finsk
+languages.list.french: Fransk
+languages.list.german: Tysk
+languages.list.greek: Græsk
+languages.list.hebrew: Hebraisk
+languages.list.hindi: Hindi
+languages.list.hungarian: Ungarsk
+languages.list.indonesian: Indonesisk
+languages.list.italian: Italiensk
+languages.list.japanese: Japansk
+languages.list.korean: Koreansk
+languages.list.lithuanian: Litauisk
+languages.list.norwegian: Norsk
+languages.list.polish: Polsk
+languages.list.portuguese_brazil: Portugisisk (Brasilien)
+languages.list.romanian: Rumænsk
+languages.list.russian: Russisk
+languages.list.spanish_latin_america: Spansk (Latinamerika)
+languages.list.spanish_spain: Spansk (Spanien)
+languages.list.swedish: Svensk
+languages.list.thai: Thai
+languages.list.turkish: Tyrkisk
+languages.list.ukrainian: Ukrainsk
+languages.list.vietnamese: Vietnamesisk
+launch.description: Lær om udvikteren bag Fluxer, projektets mål, tech stacken og hvad der kommer næste.
+launch.heading: Historien bag Fluxer
+launch.read_more: Læs launch-blogindlægget
+launch.view_full_roadmap: Se hele roadmap'et
+misc_labels.design_and_branding: Design og branding
+misc_labels.direct_team_support: Direkte teamsupport
+misc_labels.exclusive_communities: Eksklusive communities
+misc_labels.exclusive_features: Eksklusive features
+misc_labels.feature: Feature
+misc_labels.get_updates: Få opdateringer, se kommende features, diskutér forslag og chat med teamet.
+misc_labels.join_and_spread_word: Kom med og spred ordet
+misc_labels.join_fluxer_community_contribute: Bliv en del af Fluxer-communityet og hjælp med at bygge fremtidens kommunikation gennem open source og community-bidrag.
+misc_labels.join_fluxer_hq: Bliv en del af Fluxer HQ
+misc_labels.join_multiple_devices: Log ind på flere enheder samtidig
+misc_labels.join_team_behind_fluxer: Bliv en del af teamet bag Fluxer
+misc_labels.learn_more: Læs mere
+misc_labels.product_hunt_badge_title: Fluxer - Open source Discord-lignende instant messaging- og VoIP-platform | Product Hunt topindlæg
+misc_labels.profile_badge: Profilbadge
+misc_labels.read_the_guide: Læs guiden
+misc_labels.ready_to_get_started: Klar til at komme i gang?
+misc_labels.register_now: Registrér nu
+misc_labels.related_policies: Relaterede politikker
+misc_labels.report_bugs: Anmeld bugs
+misc_labels.software_development: Softwareudvikling
+misc_labels.trust_and_safety: Tillid og sikkerhed
+misc_labels.unique_profile_badge: Unikt profilbadge
+misc_labels.unlimited_users: Ubegrænsede brugere
+navigation.close: Luk
+navigation.close_navigation_menu: Luk navigationsmenuen
+navigation.copy_link_to_section: Kopiér link til afsnit
+navigation.go_home: Til forsiden
+navigation.on_this_page: På denne side
+navigation.page_not_found.description: Denne side findes ikke. Men der er masser mere at gå på opdagelse i.
+navigation.page_not_found.title: Siden blev ikke fundet
+navigation.press.download_assets_intro: Download vores logoer, lær vores brandfarver at kende, og kontakt vores presseteam.
+navigation.press.download_fluxer_assets: Download Fluxer-logoer og brandmateriale, og kontakt vores presseteam
+navigation.press.press_and_brand_assets: Presse og brandmateriale
+partner_program.become_partner.apply_email: Ansøg på partners@fluxer.app
+partner_program.become_partner.call_to_action: Bliv partner
+partner_program.become_partner.heading: Bliv Fluxer-partner
+partner_program.become_partner.if_youre_a_creator_or: Hvis du er creator eller driver et stort fællesskab, vil vi gerne høre fra dig.
+partner_program.become_partner.learn_about_partners: Læs om partnere
+partner_program.become_partner.learn_more: Læs mere
+partner_program.become_partner.ready_prompt: Klar til at blive partner?
+partner_program.description: Eksklusive fordele for content creators og ejere af store fællesskaber.
+partner_program.label: Partnere
+partner_program.perks.creator_monetization.description: Tidlig adgang til creator-monetiseringsfeatures med lavere platformgebyrer end for ikke-partnere.
+partner_program.perks.creator_monetization.label: Creator-monetisering
+partner_program.perks.custom_vanity_url.description: Få en eksklusiv vanity-URL som fluxer.gg/ditfællesskab.
+partner_program.perks.custom_vanity_url.label: Tilpasset vanity-URL
+partner_program.perks.direct_team_access.description: Bliv en del af den eksklusive Partners-community med direkte adgang til Fluxer-teamet.
+partner_program.perks.direct_team_access.label: Direkte adgang til teamet
+partner_program.perks.discovery_visibility: Få mere synlighed ved at blive fremhævet i community-opdagelse.
+partner_program.perks.exclusive_merch.description: Få eksklusivt Fluxer Partner-only merch og swag.
+partner_program.perks.exclusive_merch.label: Eksklusivt merch
+partner_program.perks.free_plutonium.description: Få gratis Plutonium på din konto og få alle premium features.
+partner_program.perks.free_plutonium.label: Gratis Plutonium
+partner_program.perks.increased_limits.description: Dit fællesskab får højere grænser, når du har brug for det.
+partner_program.perks.increased_limits.label: Højere grænser
+partner_program.perks.partner_badge.description: Vis et eksklusivt Partner-badge på din profil, så du skiller dig ud.
+partner_program.perks.partner_badge.label: Partner-badge
+partner_program.perks.vip_voice_servers.description: Adgang til VIP voice-servere, der kun er for partnerfællesskaber.
+partner_program.perks.vip_voice_servers.label: VIP stemmekanaler
+partner_program.requirements.audience_description: Kort beskrivelse af dit publikum og det, du laver
+partner_program.requirements.links_to_content: Links til dit indhold eller dit fællesskab (YouTube, Twitch, Discord osv.)
+partner_program.requirements.name_and_username: Dit navn og brugernavn på platformen
+partner_program.requirements.usage_plan: Hvordan du planlægger at bruge Fluxer med dit fællesskab
+partner_program.who_its_for: '"Content creators og fællesskabsejere: få eksklusive fordele, bl.a. gratis Plutonium, et Partner-badge, egne vanity-URL''er og meget mere."'
+partner_program.perks.heading: Partner-fordele
+partner_program.perks.see_perks: Se fordele
+partner_program.apply.instructions: Send os en email med følgende oplysninger for at ansøge om Fluxer Partner Programme.
+partner_program.apply.response_time: Vi gennemgår alle ansøgninger og vender tilbage til dig inden for et par dage.
+platform_support.desktop.available_on_desktop_and_web: Tilgængelig på din computer og på nettet
+platform_support.desktop.download_desktop_intro: Download Fluxer til Windows, macOS og Linux. Mobilapps er på vej.
+platform_support.desktop.interface_label: Fluxer desktopgrænseflade
+platform_support.desktop.label: Desktop
+platform_support.desktop.use_desktop_client_mobile_soon: Brug desktopklienten (mobil kommer snart)
+platform_support.mobile.install_as_app.add_to_home: Tilføj Fluxer til din hjemmeskærm for at skjule browserens UI.
+platform_support.mobile.install_as_app.done_desktop: Færdig! Nu kan du åbne Fluxer, som var det et normalt program.
+platform_support.mobile.install_as_app.done_mobile: Færdig! Nu kan du åbne Fluxer fra din hjemmeskærm.
+platform_support.mobile.install_as_app.guides.in_chrome: ' i Chrome'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: ' i Chrome eller en anden browser med PWA-understøttelse'
+platform_support.mobile.install_as_app.guides.in_safari: ' i Safari'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: PWA-installationsguide til {name}
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: 'Tryk på "Tilføj til hjemmeskærm"'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: 'Tryk på "Tilføj" øverst til højre'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: 'Tryk på "Installer app"'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: Tryk på install-knappen (pil ned på en skærm) i adresselinjen
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: 'Tryk på "Installer" i pop op-vinduet, der dukker op'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: 'Tryk på knappen "Mere" (⋮) øverst til højre'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: Tryk på del-knappen (rektangel med pil op)
+platform_support.mobile.install_as_app.install_fluxer_as_app: Installer Fluxer som en app
+platform_support.mobile.install_as_app.title: Sådan installerer du som en app
+platform_support.mobile.interface_label: Fluxer mobilgrænseflade
+platform_support.mobile.mobile_apps_underway: Mobilapps er i gang
+platform_support.mobile.mobile_browser_explainer: Vi bygger apps til iOS og Android. Indtil de er klar, virker Fluxer i din mobilbrowser, og vi har lagt mange kræfter i, at det føles så app-agtigt som muligt.
+platform_support.mobile.not_full_replacement_yet: Det er ikke en fuld erstatning for desktopappen endnu, og nogle ting, du forventer af en mobil chatapp, mangler stadig.
+platform_support.mobile.push_notifications: Få push-notifikationer, når du ikke er i appen.
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS og iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: Vælg Linux-distribution
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: Download til macOS
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: Download til Windows
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: Brandfarver
+press_branding.assets.full_color: Fuldfarveversion
+press_branding.assets.label: Logo
+press_branding.assets.logo_variants.black_logo: Sort logo
+press_branding.assets.logo_variants.color_logo: Farvelogo
+press_branding.assets.logo_variants.white_logo: Hvidt logo
+press_branding.assets.palette_description: Vores nøje udvalgte farvepalette, der repræsenterer Fluxer-brandet.
+press_branding.assets.premium_quality: Premiumkvalitet
+press_branding.assets.primary_brand_color_description: Vores primære brandfarve. Brug den til vigtige brandelementer og accents.
+press_branding.assets.symbol_variants.black_symbol: Sort symbol
+press_branding.assets.symbol_variants.color_symbol: Farvesymbol
+press_branding.assets.symbol_variants.label: Symbol
+press_branding.assets.symbol_variants.white_symbol: Hvidt symbol
+press_branding.assets.usage_guidance.dark_surface_guidance: Til baggrunde, tekst på mørke flader og til at skabe kontrast.
+press_branding.assets.usage_guidance.for_dark_backgrounds: Til mørke baggrunde
+press_branding.assets.usage_guidance.for_light_backgrounds: Til lyse baggrunde
+press_branding.assets.usage_guidance.full_logo_description: Vores fulde logo inkl. wordmark. Brug det som den primære repræsentation af vores brand.
+press_branding.assets.usage_guidance.light_surface_guidance: Til tekst, ikoner på lyse flader og til at skabe dybde.
+press_branding.assets.usage_guidance.symbol_description: Vores selvstændige symbol. Brug det kun, når vores brand allerede er tydeligt synligt eller godt etableret i sammenhængen.
+press_branding.colors.blue_da_ba_dee: Blue Da Ba Dee
+press_branding.colors.white: Hvid
+press_branding.colors.black: Sort
+press_branding.contact.story_prompt: Har du en story om Fluxer? Vi vil gerne høre fra dig.
+press_branding.contact.response_time: Vi svarer typisk inden for 24 timer.
+pricing_and_tiers.billing.forever: For altid
+pricing_and_tiers.billing.most_popular: Mest populær
+pricing_and_tiers.billing.per_forever: /for altid
+pricing_and_tiers.billing.per_month: /md
+pricing_and_tiers.billing.per_year_full: /år
+pricing_and_tiers.billing.per_year_short: /år
+pricing_and_tiers.billing.save_percent: Spar 17%
+pricing_and_tiers.free.comparison_label: Gratis vs Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 'Alt i Gratis, plus:'
+pricing_and_tiers.free.full_access_to_all_features: Fuld adgang til alle features
+pricing_and_tiers.free.label: Gratis
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: 'Bemærk: Plutonium- og Visionary-fordele gælder kun for den officielle Fluxer.app-instans, ikke tredjeparts- eller selvhostede instanser.'
+pricing_and_tiers.plutonium.feature_highlights: 500 MB uploads, beskeder på 4.000 tegn, 300 bogmærker, 50 emojipakker og meget mere.
+pricing_and_tiers.plutonium.features.bio_character_limit: Tegnbegrænsning for bio
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: Vælg dine egne 4-cifre tag som #0001, #1337 eller #9999 for at gøre dit brugernavn virkelig unikt.
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: Tilpasset 4-cifre brugernavnstag
+pricing_and_tiers.plutonium.features.custom_username_tag: Tilpasset brugernavnstag
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: Tilpassede videobaggrunde
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: Emoji- og stickerpakker
+pricing_and_tiers.plutonium.features.file_upload_size: Filuploadstørrelse
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: Global adgang til emojis og stickers
+pricing_and_tiers.plutonium.features.message_character_limit: Tegnbegrænsning for beskeder
+pricing_and_tiers.plutonium.features.message_scheduling: Planlægning af beskeder
+pricing_and_tiers.plutonium.features.per_community_profiles: Profiler pr. fællesskab
+pricing_and_tiers.plutonium.features.saved_media: Gemte medier
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: Webhooks og bot-understøttelse
+pricing_and_tiers.plutonium.get_more_with_plutonium: Få mere med Fluxer Plutonium
+pricing_and_tiers.plutonium.get_plutonium: Få Plutonium
+pricing_and_tiers.plutonium.higher_limits_and_early_access: Højere grænser, eksklusive features og tidlig adgang til nye opdateringer
+pricing_and_tiers.plutonium.higher_limits_everywhere: Højere grænser overalt
+pricing_and_tiers.plutonium.show_off_status_badge: Vis din Plutonium-status med et eksklusivt badge på din profil.
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: 'Opgrader til Plutonium for $4.99/md: tilpassede brugernavnstags, profiler pr. fællesskab, planlægning af beskeder, 4K-streaming, 500 MB uploads og flere eksklusive features.'
+pricing_and_tiers.visionary.badge.numbered_badge: Nummereret badge, der viser din Visionary-status
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: Nummereret badge (1–{0}) der viser din Visionary-status
+pricing_and_tiers.visionary.bundle_label: Plutonium og Operator Pass for livet med Visionary – begrænsede pladser
+pricing_and_tiers.visionary.communities_with_team_access: Visionary- og Operators-communities med adgang til teamet
+pricing_and_tiers.visionary.get_visionary: Få Visionary
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: Få Plutonium for livet på Fluxer.app plus et Operator Pass til selvhosting. Betal {0} én gang. Tilgængeligt indtil 1. oktober 2026 eller når alle pladser er taget.
+pricing_and_tiers.visionary.lifetime_operator_pass: Operator Pass for livet
+pricing_and_tiers.visionary.lifetime_plutonium: Plutonium for livet
+pricing_and_tiers.visionary.limited_offer_note: 'Begrænset tilbud: Visionary inkluderer Operator Pass'
+pricing_and_tiers.visionary.limited_slots_label: Visionary – begrænsede pladser
+pricing_and_tiers.visionary.one_time_purchase.label: Engangskøb
+pricing_and_tiers.visionary.one_time_purchase.promise: Engangskøb, adgang for livet
+pricing_and_tiers.visionary.purchase_flow: Køb Visionary direkte i appen, når du har oprettet din konto. Din købsdato og dit ordrenummer vises på din profil (kan skjules i privatindstillinger).
+pricing_and_tiers.visionary.slots_left.generic: '{0} af {1} pladser tilbage'
+pricing_and_tiers.visionary.slots_left.visionary_bundle: Kun {0} af {1} Visionary-pladser tilbage – Plutonium og Operator Pass for livet
+pricing_and_tiers.visionary.slots_left.visionary_only: '{0} Visionary-pladser tilbage'
+product_positioning.free_and_open_source: Fluxer er gratis og open source. Alle kan selvhoste gratis.
+product_positioning.intro: Fluxer er en gratis og open source platform til instant messaging og VoIP, bygget til venner, grupper og fællesskaber.
+product_positioning.open_source.fully_open_source_agplv3: Fuldt open source (AGPLv3)
+product_positioning.open_source.label: Open source
+product_positioning.open_source.license: Open source (AGPL-3.0)
+product_positioning.self_hosting.connect_from_any_client: Forbind fra enhver klient
+product_positioning.self_hosting.free_self_hosting: Gratis selvhosting
+product_positioning.self_hosting.host_your_own_instance: Host din egen instans
+product_positioning.self_hosting.label: Selvhosting
+product_positioning.self_hosting.operator_pass.access_to_operators_community: Adgang til Fluxer Operators-communityet
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: Når tilbuddet slutter, kan Operator Pass stadig købes for sig selv.
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: 'Operator Pass er valgfrit: betal for support og adgang til Operators-communityet.'
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: Prioriteret support og adgang til Operators-communityet til selvhosting
+product_positioning.self_hosting.run_backend_on_your_hardware: Kør Fluxer-backenden på dit eget hardware og forbind via vores apps.
+product_positioning.self_hosting.switch_between_instances: Skift mellem flere instanser
+security.found_security_issue: Har du fundet et sikkerhedsproblem?
+security.report_vulnerabilities: Anmeld sårbarheder og hjælp os med at holde platformen sikker.
+security.responsible_disclosure_note: Vi sætter pris på ansvarlig disclosure via vores bug bounty-side. Vi giver Plutonium-koder og Bug Hunter-badges afhængigt af alvorlighed.
+security.security_bug_bounty: Sikkerheds-bug bounty
+security.security_reports: Sikkerhedsrapporter
+security.testers_access_from_reports: Godkendte rapporter giver adgang til Fluxer Testers, hvor du kan optjene point til Plutonium-koder og Bug Hunter-badget.
+social_and_feeds.bluesky.follow_us: Følg os på Bluesky
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: Bluesky RSS-feed
+social_and_feeds.follow_fluxer: Følg @fluxer.app
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: Blog RSS-feed
+social_and_feeds.rss.fluxer_blog_rss: Fluxer blog RSS
+social_and_feeds.rss.label: RSS-feed
+social_and_feeds.stay_updated_cta: Hold dig opdateret på nyheder, driftsstatus og hvad der sker. Du kan også abonnere på vores

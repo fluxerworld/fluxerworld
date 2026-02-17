@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
 import {makeAutoObservable, runInAction} from 'mobx';
-import ConnectionStore from '~/stores/ConnectionStore';
 
 const MEMBER_SUBSCRIPTION_MAX_SIZE = 100;
 const MEMBER_SUBSCRIPTION_TTL_MS = 5 * 60 * 1000;
@@ -128,16 +128,21 @@ class MemberPresenceSubscriptionStore {
 
 	clearGuild(guildId: string): void {
 		const hadSubscriptions = this.subscriptions.has(guildId);
+		const wasActiveGuild = this.activeGuildId === guildId;
 		this.subscriptions.delete(guildId);
 
 		if (hadSubscriptions) {
 			this.syncToGatewayImmediate(guildId);
 			this.bumpVersion();
 		}
+		if (wasActiveGuild) {
+			this.activeGuildId = null;
+			this.syncActiveFlagImmediate(guildId, false);
+		}
 	}
 
 	clearAll(): void {
-		const socket = ConnectionStore.socket;
+		const socket = GatewayConnectionStore.socket;
 		const guildIds = Array.from(this.subscriptions.keys());
 		const previousActive = this.activeGuildId;
 
@@ -250,7 +255,7 @@ class MemberPresenceSubscriptionStore {
 	}
 
 	private syncActiveFlagImmediate(guildId: string, active: boolean): void {
-		const socket = ConnectionStore.socket;
+		const socket = GatewayConnectionStore.socket;
 		if (!socket) return;
 		socket.updateGuildSubscriptions({
 			subscriptions: {
@@ -260,21 +265,17 @@ class MemberPresenceSubscriptionStore {
 	}
 
 	private syncToGatewayImmediate(guildId: string): void {
-		const socket = ConnectionStore.socket;
+		const socket = GatewayConnectionStore.socket;
 		if (!socket) {
 			return;
 		}
 
 		const guildSubs = this.subscriptions.get(guildId);
-		const members = guildSubs ? Array.from(guildSubs.keys()) : [];
-		const payload: {members: Array<string>; active?: boolean} = {members};
-		if (this.activeGuildId === guildId) {
-			payload.active = true;
-		}
+		const members = guildSubs ? Array.from(guildSubs.keys()).sort() : [];
 
 		socket.updateGuildSubscriptions({
 			subscriptions: {
-				[guildId]: payload,
+				[guildId]: {members},
 			},
 		});
 	}

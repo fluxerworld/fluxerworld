@@ -17,19 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {UserPartial} from '~/records/UserRecord';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-
-export type GuildEmoji = Readonly<{
-	id: string;
-	name: string;
-	animated: boolean;
-	user?: UserPartial;
-}>;
-
-export interface GuildEmojiWithUser extends GuildEmoji {
-	user?: UserPartial;
-}
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import type {GuildEmoji} from '@fluxer/schema/src/domains/guild/GuildEmojiSchemas';
+import type {UserPartial} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 
 export class GuildEmojiRecord {
 	readonly id: string;

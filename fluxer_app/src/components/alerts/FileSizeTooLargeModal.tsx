@@ -17,22 +17,54 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
+import * as PremiumModalActionCreators from '@app/actions/PremiumModalActionCreators';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import UserStore from '@app/stores/UserStore';
+import {formatFileSize} from '@app/utils/FileUtils';
+import {Limits} from '@app/utils/limits/UserLimits';
+import {shouldShowPremiumFeatures} from '@app/utils/PremiumUtils';
+import {ATTACHMENT_MAX_SIZE_PREMIUM} from '@fluxer/constants/src/LimitConstants';
+import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import * as PremiumModalActionCreators from '~/actions/PremiumModalActionCreators';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import UserStore from '~/stores/UserStore';
+import {useCallback} from 'react';
 
-export const FileSizeTooLargeModal = observer(() => {
+interface FileSizeTooLargeModalProps {
+	oversizedFileCount?: number;
+}
+
+export const FileSizeTooLargeModal = observer(({oversizedFileCount}: FileSizeTooLargeModalProps) => {
 	const {t} = useLingui();
 	const user = UserStore.currentUser;
-	const hasPremium = user?.isPremium() ?? false;
+	const showPremium = shouldShowPremiumFeatures();
+	const maxAttachmentFileSize = user?.maxAttachmentFileSize ?? 25 * 1024 * 1024;
+	const premiumMaxAttachmentFileSize = Limits.getPremiumValue('max_attachment_file_size', ATTACHMENT_MAX_SIZE_PREMIUM);
+	const canUpgradeAttachmentLimit = maxAttachmentFileSize < premiumMaxAttachmentFileSize;
+	const maxSizeFormatted = formatFileSize(maxAttachmentFileSize);
+	const hasKnownOversizedFileCount = oversizedFileCount != null;
+	const hasMultipleOversizedFiles = (oversizedFileCount ?? 0) > 1;
+	const handleGetPlutoniumClick = useCallback(() => {
+		window.setTimeout(() => {
+			PremiumModalActionCreators.open();
+		}, 0);
+	}, []);
 
-	if (hasPremium) {
+	const baseDescription = hasKnownOversizedFileCount
+		? hasMultipleOversizedFiles
+			? t`Some files you're trying to upload exceed the maximum size limit of ${maxSizeFormatted} per file.`
+			: t`The file you're trying to upload exceeds the maximum size limit of ${maxSizeFormatted}.`
+		: t`One or more files you're trying to upload exceed the maximum size limit of ${maxSizeFormatted} per file.`;
+
+	if (!showPremium || !canUpgradeAttachmentLimit) {
 		return (
 			<ConfirmModal
 				title={t`File size too large`}
-				description={t`The file you're trying to upload exceeds the maximum size limit of 500 MB for Plutonium subscribers.`}
+				description={
+					!showPremium ? (
+						<Trans>{baseDescription} This limit is configured by your instance administrator.</Trans>
+					) : (
+						baseDescription
+					)
+				}
 				primaryText={t`Understood`}
 				onPrimary={() => {}}
 			/>
@@ -41,11 +73,17 @@ export const FileSizeTooLargeModal = observer(() => {
 
 	return (
 		<ConfirmModal
-			title={t`File Size Limit Exceeded`}
-			description={t`The file you're trying to upload exceeds the maximum size limit of 25 MB for non-subscribers. With Plutonium, you can upload files up to 500 MB, use animated avatars and banners, write longer bios, and unlock many other premium features.`}
+			title={t`File size limit exceeded`}
+			description={
+				<Trans>
+					{baseDescription} With Plutonium, your per-file upload limit increases to{' '}
+					{formatFileSize(premiumMaxAttachmentFileSize)}, plus animated avatars, longer messages, and many other premium
+					features.
+				</Trans>
+			}
 			primaryText={t`Get Plutonium`}
 			primaryVariant="primary"
-			onPrimary={() => PremiumModalActionCreators.open()}
+			onPrimary={handleGetPlutoniumClick}
 			secondaryText={t`Cancel`}
 		/>
 	);

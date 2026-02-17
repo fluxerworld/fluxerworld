@@ -17,18 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {Logger} from '@app/lib/Logger';
+import NotificationStore from '@app/stores/NotificationStore';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {Trans} from '@lingui/react/macro';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {Logger} from '~/lib/Logger';
-import NotificationStore from '~/stores/NotificationStore';
 
 const logger = new Logger('Notification');
 
-export const permissionDenied = (i18n: I18n, suppressModal = false): void => {
+export function permissionDenied(i18n: I18n, suppressModal = false): void {
 	logger.debug('Notification permission denied');
 	NotificationStore.handleNotificationPermissionDenied();
 
@@ -53,13 +53,13 @@ export const permissionDenied = (i18n: I18n, suppressModal = false): void => {
 			/>
 		)),
 	);
-};
+}
 
-export const permissionGranted = (): void => {
+export function permissionGranted(): void {
 	logger.debug('Notification permission granted');
 	NotificationStore.handleNotificationPermissionGranted();
-};
+}
 
-export const toggleUnreadMessageBadge = (enabled: boolean): void => {
+export function toggleUnreadMessageBadge(enabled: boolean): void {
 	NotificationStore.handleNotificationSoundToggle(enabled);
-};
+}

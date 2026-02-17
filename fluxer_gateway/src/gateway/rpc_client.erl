@@ -27,59 +27,86 @@
 
 -type rpc_request() :: map().
 -type rpc_response() :: {ok, map()} | {error, term()}.
+-type rpc_options() :: map().
 
 -spec call(rpc_request()) -> rpc_response().
 call(Request) ->
     call(Request, #{}).
 
--spec call(rpc_request(), map()) -> rpc_response().
+-spec call(rpc_request(), rpc_options()) -> rpc_response().
 call(Request, _Options) ->
     Url = get_rpc_url(),
     Headers = get_rpc_headers(),
-    Body = jsx:encode(Request),
-
-    case
-        hackney:request(post, Url, Headers, Body, [{recv_timeout, 30000}, {connect_timeout, 5000}])
-    of
-        {ok, 200, _RespHeaders, ClientRef} ->
-            case hackney:body(ClientRef) of
-                {ok, RespBody} ->
-                    Response = jsx:decode(RespBody, [return_maps]),
-                    Data = maps:get(<<"data">>, Response, #{}),
-                    {ok, Data};
-                {error, Reason} ->
-                    logger:error("[rpc_client] Failed to read response body: ~p", [Reason]),
-                    {error, {body_read_failed, Reason}}
-            end;
-        {ok, StatusCode, _RespHeaders, ClientRef} ->
-            case hackney:body(ClientRef) of
-                {ok, RespBody} ->
-                    hackney:close(ClientRef),
-                    logger:error("[rpc_client] RPC request failed with status ~p: ~s", [
-                        StatusCode, RespBody
-                    ]),
-                    {error, {http_error, StatusCode, RespBody}};
-                {error, Reason} ->
-                    hackney:close(ClientRef),
-                    logger:error(
-                        "[rpc_client] Failed to read error response body (status ~p): ~p", [
-                            StatusCode, Reason
-                        ]
-                    ),
-                    {error, {http_error, StatusCode, body_read_failed}}
-            end;
+    Body = json:encode(Request),
+    case gateway_http_client:request(rpc, post, Url, Headers, Body) of
+        {ok, 200, _RespHeaders, RespBody} ->
+            handle_success_response(RespBody);
+        {ok, StatusCode, _RespHeaders, RespBody} ->
+            handle_error_response(StatusCode, RespBody);
         {error, Reason} ->
-            logger:error("[rpc_client] RPC request failed: ~p", [Reason]),
             {error, Reason}
     end.
 
+-spec handle_success_response(binary()) -> rpc_response().
+handle_success_response(RespBody) ->
+    Response = json:decode(RespBody),
+    Data = maps:get(<<"data">>, Response, #{}),
+    {ok, Data}.
+
+-spec handle_error_response(pos_integer(), binary()) -> {error, term()}.
+handle_error_response(StatusCode, RespBody) ->
+    {error, {http_error, StatusCode, RespBody}}.
+
+-spec get_rpc_url() -> string().
 get_rpc_url() ->
     ApiHost = fluxer_gateway_env:get(api_host),
     get_rpc_url(ApiHost).
 
+-spec get_rpc_url(string() | binary()) -> string().
 get_rpc_url(ApiHost) ->
-    "http://" ++ ApiHost ++ "/_rpc".
+    BaseUrl = api_host_base_url(ApiHost),
+    BaseUrl ++ "/_rpc".
 
+-spec api_host_base_url(string() | binary()) -> string().
+api_host_base_url(ApiHost) ->
+    HostString = ensure_string(ApiHost),
+    Normalized = normalize_api_host(HostString),
+    strip_trailing_slash(Normalized).
+
+-spec ensure_string(binary() | string()) -> string().
+ensure_string(Value) when is_binary(Value) ->
+    binary_to_list(Value);
+ensure_string(Value) when is_list(Value) ->
+    Value.
+
+-spec normalize_api_host(string()) -> string().
+normalize_api_host(Host) ->
+    Lower = string:lowercase(Host),
+    case {has_protocol_prefix(Lower, "http://"), has_protocol_prefix(Lower, "https://")} of
+        {true, _} -> Host;
+        {_, true} -> Host;
+        _ -> "http://" ++ Host
+    end.
+
+-spec has_protocol_prefix(string(), string()) -> boolean().
+has_protocol_prefix(Str, Prefix) ->
+    case string:prefix(Str, Prefix) of
+        nomatch -> false;
+        _ -> true
+    end.
+
+-spec strip_trailing_slash(string()) -> string().
+strip_trailing_slash([]) ->
+    "";
+strip_trailing_slash(Url) ->
+    case lists:last(Url) of
+        $/ -> strip_trailing_slash(lists:droplast(Url));
+        _ -> Url
+    end.
+
+-spec get_rpc_headers() -> [{binary() | string(), binary() | string()}].
 get_rpc_headers() ->
     RpcSecretKey = fluxer_gateway_env:get(rpc_secret_key),
-    [{<<"Authorization">>, <<"Bearer ", RpcSecretKey/binary>>}].
+    AuthHeader = {<<"Authorization">>, <<"Bearer ", RpcSecretKey/binary>>},
+    InitialHeaders = [AuthHeader],
+    gateway_tracing:inject_rpc_headers(InitialHeaders).

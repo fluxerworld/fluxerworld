@@ -17,6 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/search/SortModeSheet.module.css';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import type {ChannelSearchSortMode} from '@app/hooks/useChannelSearch';
 import type {MessageDescriptor} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {useLingui} from '@lingui/react/macro';
@@ -24,9 +27,6 @@ import type {IconProps} from '@phosphor-icons/react';
 import {CheckIcon, ClockClockwiseIcon, ClockCounterClockwiseIcon, SparkleIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import type React from 'react';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import type {ChannelSearchSortMode} from '~/hooks/useChannelSearch';
-import styles from './SortModeSheet.module.css';
 
 interface SortOption {
 	mode: ChannelSearchSortMode;

@@ -17,17 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import FavoritesStore from '@app/stores/FavoritesStore';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useForm} from 'react-hook-form';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import styles from '~/components/modals/ConfirmModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import FavoritesStore from '~/stores/FavoritesStore';
 
 interface FormInputs {
 	name: string;
@@ -56,18 +55,20 @@ export const CreateFavoriteCategoryModal = observer(() => {
 		<Modal.Root size="small" centered>
 			<Form form={form} onSubmit={handleSubmit} aria-label={t`Create favorite category form`}>
 				<Modal.Header title={t`Create Category`} />
-				<Modal.Content className={styles.content}>
-					<Input
-						{...form.register('name')}
-						autoFocus={true}
-						autoComplete="off"
-						error={form.formState.errors.name?.message}
-						label={t`Category Name`}
-						maxLength={100}
-						minLength={1}
-						placeholder={t`New Category`}
-						required={true}
-					/>
+				<Modal.Content>
+					<Modal.ContentLayout>
+						<Input
+							{...form.register('name')}
+							autoComplete="off"
+							autoFocus={true}
+							error={form.formState.errors.name?.message}
+							label={t`Category Name`}
+							maxLength={100}
+							minLength={1}
+							placeholder={t`New Category`}
+							required={true}
+						/>
+					</Modal.ContentLayout>
 				</Modal.Content>
 				<Modal.Footer>
 					<Button onClick={ModalActionCreators.pop} variant="secondary">

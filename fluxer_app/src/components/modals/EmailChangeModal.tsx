@@ -17,21 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as UserActionCreators from '@app/actions/UserActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import styles from '@app/components/modals/EmailChangeModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import UserStore from '@app/stores/UserStore';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useEffect, useMemo, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as UserActionCreators from '~/actions/UserActionCreators';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import confirmStyles from '~/components/modals/ConfirmModal.module.css';
-import styles from '~/components/modals/EmailChangeModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import UserStore from '~/stores/UserStore';
 
 type Stage = 'intro' | 'verifyOriginal' | 'newEmail' | 'verifyNew';
 
@@ -181,17 +180,19 @@ export const EmailChangeModal = observer(() => {
 
 	return (
 		<Modal.Root size="small" centered>
-			<Modal.Header title={t`Change your email`} />
+			<Modal.Header title={t`Change Your Email`} />
 			{stage === 'intro' && (
 				<>
-					<Modal.Content className={confirmStyles.content}>
-						<p className={confirmStyles.descriptionText}>
-							{isEmailVerified ? (
-								<Trans>We'll verify your current email and then your new email with one-time codes.</Trans>
-							) : (
-								<Trans>We'll verify your new email with a one-time code.</Trans>
-							)}
-						</p>
+					<Modal.Content>
+						<Modal.ContentLayout>
+							<Modal.Description>
+								{isEmailVerified ? (
+									<Trans>We'll verify your current email and then your new email with one-time codes.</Trans>
+								) : (
+									<Trans>We'll verify your new email with a one-time code.</Trans>
+								)}
+							</Modal.Description>
+						</Modal.ContentLayout>
 					</Modal.Content>
 					<Modal.Footer className={styles.footer}>
 						<Button onClick={ModalActionCreators.pop} variant="secondary">
@@ -206,21 +207,23 @@ export const EmailChangeModal = observer(() => {
 
 			{stage === 'verifyOriginal' && (
 				<>
-					<Modal.Content className={confirmStyles.content}>
-						<p className={confirmStyles.descriptionText}>
-							<Trans>Enter the code sent to your current email.</Trans>
-						</p>
-						<div className={styles.inputContainer}>
-							<Input
-								value={originalCode}
-								onChange={(event: React.ChangeEvent<HTMLInputElement>) => setOriginalCode(event.target.value)}
-								autoFocus={true}
-								label={t`Verification code`}
-								placeholder="XXXX-XXXX"
-								required={true}
-								error={originalCodeError ?? undefined}
-							/>
-						</div>
+					<Modal.Content>
+						<Modal.ContentLayout>
+							<Modal.Description>
+								<Trans>Enter the code sent to your current email.</Trans>
+							</Modal.Description>
+							<Modal.InputGroup>
+								<Input
+									autoFocus={true}
+									value={originalCode}
+									onChange={(event: React.ChangeEvent<HTMLInputElement>) => setOriginalCode(event.target.value)}
+									label={t`Verification Code`}
+									placeholder="XXXX-XXXX"
+									required={true}
+									error={originalCodeError ?? undefined}
+								/>
+							</Modal.InputGroup>
+						</Modal.ContentLayout>
 					</Modal.Content>
 					<Modal.Footer className={styles.footer}>
 						<Button onClick={ModalActionCreators.pop} variant="secondary">
@@ -238,24 +241,26 @@ export const EmailChangeModal = observer(() => {
 
 			{stage === 'newEmail' && (
 				<Form form={newEmailForm} onSubmit={handleNewEmailSubmit} aria-label={t`New email form`}>
-					<Modal.Content className={confirmStyles.content}>
-						<p className={confirmStyles.descriptionText}>
-							<Trans>Enter the new email you want to use. We'll send a code there next.</Trans>
-						</p>
-						<div className={styles.inputContainer}>
-							<Input
-								{...newEmailForm.register('email')}
-								autoComplete="email"
-								autoFocus={true}
-								error={newEmailForm.formState.errors.email?.message}
-								label={t`New email`}
-								maxLength={256}
-								minLength={1}
-								placeholder={t`marty@example.com`}
-								required={true}
-								type="email"
-							/>
-						</div>
+					<Modal.Content>
+						<Modal.ContentLayout>
+							<Modal.Description>
+								<Trans>Enter the new email you want to use. We'll send a code there next.</Trans>
+							</Modal.Description>
+							<Modal.InputGroup>
+								<Input
+									{...newEmailForm.register('email')}
+									autoComplete="email"
+									autoFocus={true}
+									error={newEmailForm.formState.errors.email?.message}
+									label={t`New Email`}
+									maxLength={256}
+									minLength={1}
+									placeholder={t`marty@example.com`}
+									required={true}
+									type="email"
+								/>
+							</Modal.InputGroup>
+						</Modal.ContentLayout>
 					</Modal.Content>
 					<Modal.Footer className={styles.footer}>
 						<Button onClick={ModalActionCreators.pop} variant="secondary">
@@ -270,21 +275,23 @@ export const EmailChangeModal = observer(() => {
 
 			{stage === 'verifyNew' && (
 				<>
-					<Modal.Content className={confirmStyles.content}>
-						<p className={confirmStyles.descriptionText}>
-							<Trans>Enter the code we emailed to your new address.</Trans>
-						</p>
-						<div className={styles.inputContainer}>
-							<Input
-								value={newCode}
-								onChange={(event: React.ChangeEvent<HTMLInputElement>) => setNewCode(event.target.value)}
-								autoFocus={true}
-								label={t`Verification code`}
-								placeholder="XXXX-XXXX"
-								required={true}
-								error={newCodeError ?? undefined}
-							/>
-						</div>
+					<Modal.Content>
+						<Modal.ContentLayout>
+							<Modal.Description>
+								<Trans>Enter the code we emailed to your new address.</Trans>
+							</Modal.Description>
+							<Modal.InputGroup>
+								<Input
+									autoFocus={true}
+									value={newCode}
+									onChange={(event: React.ChangeEvent<HTMLInputElement>) => setNewCode(event.target.value)}
+									label={t`Verification Code`}
+									placeholder="XXXX-XXXX"
+									required={true}
+									error={newCodeError ?? undefined}
+								/>
+							</Modal.InputGroup>
+						</Modal.ContentLayout>
 					</Modal.Content>
 					<Modal.Footer className={styles.footer}>
 						<Button onClick={ModalActionCreators.pop} variant="secondary">

@@ -17,87 +17,54 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-declare module '*.svg?react' {
-	import type {FunctionComponent, SVGProps} from 'react';
-	const content: FunctionComponent<SVGProps<SVGSVGElement> & {title?: string}>;
-	export default content;
+import type {FunctionComponent, SVGProps} from 'react';
+import type {Messages} from '@lingui/core';
+
+declare module '*.po' {
+	export const messages: Messages;
 }
 
 declare module '*.svg' {
-	const content: string;
-	export default content;
+	const url: string;
+	export default url;
 }
 
-declare module '*.css' {
-	const content: never;
-	export default content;
-}
-
-declare module '*.png' {
-	const content: string;
-	export default content;
-}
-
-declare module '*.jpg' {
-	const content: string;
-	export default content;
-}
-
-declare module '*.jpeg' {
-	const content: string;
-	export default content;
-}
-
-declare module '*.gif' {
-	const content: string;
-	export default content;
-}
-
-declare module '*.webp' {
-	const content: string;
-	export default content;
-}
-
-declare module '*.mp3' {
-	const content: string;
-	export default content;
-}
-
-declare module '*.wav' {
-	const content: string;
-	export default content;
-}
-
-declare module '*.ogg' {
-	const content: string;
-	export default content;
+declare module '*.svg?react' {
+	const ReactComponent: FunctionComponent<SVGProps<SVGSVGElement>>;
+	export default ReactComponent;
 }
 
 declare module '*.mp4' {
-	const content: string;
-	export default content;
+	const url: string;
+	export default url;
 }
 
 declare module '*.webm' {
-	const content: string;
-	export default content;
+	const url: string;
+	export default url;
 }
 
-declare module '*?worker' {
-	const workerConstructor: {
-		new (): Worker;
-	};
-	export default workerConstructor;
+declare module '*.png' {
+	const url: string;
+	export default url;
 }
 
-declare module '*?sharedworker' {
-	const sharedWorkerConstructor: {
-		new (): SharedWorker;
-	};
-	export default sharedWorkerConstructor;
+declare module '*.jpg' {
+	const url: string;
+	export default url;
 }
 
-declare module '*.po' {
-	import type {Messages} from '@lingui/core';
-	export const messages: Messages;
+declare module '*.jpeg' {
+	const url: string;
+	export default url;
+}
+
+declare module '*.gif' {
+	const url: string;
+	export default url;
+}
+
+declare module '*.webp' {
+	const url: string;
+	export default url;
 }

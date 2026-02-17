@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {UserRecord} from '@app/records/UserRecord';
+import UserStore from '@app/stores/UserStore';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {action, makeAutoObservable, reaction} from 'mobx';
-import {ChannelTypes} from '~/Constants';
-import type {UserRecord} from '~/records/UserRecord';
-import UserStore from '~/stores/UserStore';
 
 interface ChannelSnapshot {
 	readonly id: string;

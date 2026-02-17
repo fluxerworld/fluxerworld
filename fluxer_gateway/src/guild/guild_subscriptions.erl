@@ -77,10 +77,8 @@ unsubscribe_session(SessionId, State) ->
 update_subscriptions(SessionId, NewMemberIds, State) ->
     CurrentlySubscribed = get_user_ids_for_session(SessionId, State),
     NewMemberIdSet = sets:from_list(NewMemberIds),
-
     ToRemove = sets:subtract(CurrentlySubscribed, NewMemberIdSet),
     ToAdd = sets:subtract(NewMemberIdSet, CurrentlySubscribed),
-
     State1 = sets:fold(
         fun(UserId, AccState) ->
             unsubscribe(SessionId, UserId, AccState)
@@ -88,7 +86,6 @@ update_subscriptions(SessionId, NewMemberIds, State) ->
         State,
         ToRemove
     ),
-
     sets:fold(
         fun(UserId, AccState) ->
             subscribe(SessionId, UserId, AccState)
@@ -181,5 +178,12 @@ update_subscriptions_test() ->
     ?assertNot(is_subscribed(<<"session1">>, 100, State3)),
     ?assert(is_subscribed(<<"session1">>, 200, State3)),
     ?assert(is_subscribed(<<"session1">>, 300, State3)).
+
+get_user_ids_for_session_test() ->
+    State0 = init_state(),
+    State1 = subscribe(<<"session1">>, 100, State0),
+    State2 = subscribe(<<"session1">>, 200, State1),
+    UserIds = get_user_ids_for_session(<<"session1">>, State2),
+    ?assertEqual([100, 200], lists:sort(sets:to_list(UserIds))).
 
 -endif.

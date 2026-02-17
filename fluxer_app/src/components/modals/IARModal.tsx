@@ -17,28 +17,36 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as IARActionCreators from '~/actions/IARActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {MessagePreviewContext} from '~/Constants';
-import {Message} from '~/components/channel/Message';
-import {Textarea} from '~/components/form/Input';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {RadioGroup} from '~/components/uikit/RadioGroup/RadioGroup';
+import * as IARActionCreators from '@app/actions/IARActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {Message} from '@app/components/channel/Message';
+import {Textarea} from '@app/components/form/Input';
+import {Select, type SelectOption} from '@app/components/form/Select';
+import styles from '@app/components/modals/IARModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
 import {
 	getGuildViolationCategories,
 	getMessageViolationCategories,
 	getUserViolationCategories,
-} from '~/constants/IARConstants';
-import type {GuildRecord} from '~/records/GuildRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import styles from './IARModal.module.css';
+} from '@app/constants/IARConstants';
+import {Logger} from '@app/lib/Logger';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import {MessagePreviewContext} from '@fluxer/constants/src/ChannelConstants';
+import {Trans, useLingui} from '@lingui/react/macro';
+import {observer} from 'mobx-react-lite';
+import type React from 'react';
+import {useCallback, useMemo, useState} from 'react';
+
+interface ViolationSelectOption extends SelectOption<string> {
+	desc: string;
+}
+
+const logger = new Logger('IARModal');
 
 export type IARContext =
 	| {
@@ -61,22 +69,47 @@ interface IARModalProps {
 
 export const IARModal: React.FC<IARModalProps> = observer(({context}) => {
 	const {t, i18n} = useLingui();
-	const [selectedCategory, setSelectedCategory] = React.useState<string>('');
-	const [additionalInfo, setAdditionalInfo] = React.useState('');
-	const [submitting, setSubmitting] = React.useState(false);
+	const [selectedCategory, setSelectedCategory] = useState<string>('');
+	const [additionalInfo, setAdditionalInfo] = useState('');
+	const [submitting, setSubmitting] = useState(false);
 
-	const categories = React.useMemo(() => {
+	const categoryOptions = useMemo((): Array<ViolationSelectOption> => {
+		let categories: Array<{value: string; name: string; desc: string}>;
 		switch (context.type) {
 			case 'message':
-				return getMessageViolationCategories(i18n);
+				categories = getMessageViolationCategories(i18n);
+				break;
 			case 'user':
-				return getUserViolationCategories(i18n);
+				categories = getUserViolationCategories(i18n);
+				break;
 			case 'guild':
-				return getGuildViolationCategories(i18n);
+				categories = getGuildViolationCategories(i18n);
+				break;
 		}
+		return categories.map((cat) => ({value: cat.value, label: cat.name, desc: cat.desc}));
 	}, [context.type, i18n]);
 
-	const title = React.useMemo(() => {
+	const renderOption = useCallback(
+		(option: ViolationSelectOption, isSelected: boolean) => (
+			<div className={styles.optionContent}>
+				<div className={styles.optionName}>{option.label}</div>
+				<div className={isSelected ? styles.optionDescSelected : styles.optionDesc}>{option.desc}</div>
+			</div>
+		),
+		[],
+	);
+
+	const renderValue = useCallback((option: ViolationSelectOption | null) => {
+		if (!option) return null;
+		return (
+			<div className={styles.valueContent}>
+				<div className={styles.valueName}>{option.label}</div>
+				<div className={styles.valueDesc}>{option.desc}</div>
+			</div>
+		);
+	}, []);
+
+	const title = useMemo(() => {
 		switch (context.type) {
 			case 'message':
 				return t`Report Message`;
@@ -87,15 +120,15 @@ export const IARModal: React.FC<IARModalProps> = observer(({context}) => {
 		}
 	}, [context.type]);
 
-	const handleCategoryChange = React.useCallback((value: string) => {
+	const handleCategoryChange = useCallback((value: string) => {
 		setSelectedCategory(value);
 	}, []);
 
-	const handleAdditionalInfoChange = React.useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+	const handleAdditionalInfoChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setAdditionalInfo(e.target.value);
 	}, []);
 
-	const handleSubmit = React.useCallback(async () => {
+	const handleSubmit = useCallback(async () => {
 		if (!selectedCategory) {
 			ToastActionCreators.createToast({
 				type: 'error',
@@ -129,7 +162,7 @@ export const IARModal: React.FC<IARModalProps> = observer(({context}) => {
 			});
 			ModalActionCreators.pop();
 		} catch (error) {
-			console.error('Failed to submit report:', error);
+			logger.error('Failed to submit report:', error);
 			ToastActionCreators.createToast({
 				type: 'error',
 				children: <Trans>Failed to submit report. Please try again.</Trans>,
@@ -182,7 +215,7 @@ export const IARModal: React.FC<IARModalProps> = observer(({context}) => {
 		<Modal.Root size="small" centered>
 			<Modal.Header title={title} />
 			<Modal.Content>
-				<div className={styles.container}>
+				<Modal.ContentLayout>
 					<p className={styles.description}>
 						<Trans>
 							Thank you for helping keep Fluxer safe. Reports are reviewed by our Safety Team. False reports may result
@@ -191,13 +224,17 @@ export const IARModal: React.FC<IARModalProps> = observer(({context}) => {
 					</p>
 					{renderPreview()}
 					<div className={styles.categorySection}>
-						<div className={styles.categoryLabel}>{t`Why are you reporting this?`}</div>
-						<RadioGroup
-							value={selectedCategory || null}
-							options={categories}
+						<Select<string, false, ViolationSelectOption>
+							label={t`Why are you reporting this?`}
+							value={selectedCategory}
+							options={categoryOptions}
 							onChange={handleCategoryChange}
 							disabled={submitting}
-							aria-label={t`Violation category selection`}
+							placeholder={t`Select a reason...`}
+							renderOption={renderOption}
+							renderValue={renderValue}
+							isSearchable={false}
+							className={styles.categorySelect}
 						/>
 					</div>
 					<Textarea
@@ -211,7 +248,7 @@ export const IARModal: React.FC<IARModalProps> = observer(({context}) => {
 						showCharacterCount={true}
 						disabled={submitting}
 					/>
-				</div>
+				</Modal.ContentLayout>
 			</Modal.Content>
 			<Modal.Footer>
 				<Button variant="secondary" onClick={() => ModalActionCreators.pop()} disabled={submitting}>

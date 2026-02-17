@@ -19,74 +19,39 @@
 -behaviour(supervisor).
 -export([start_link/0, init/1]).
 
+-spec start_link() -> {ok, pid()} | {error, term()}.
 start_link() ->
     supervisor:start_link({local, ?MODULE}, ?MODULE, []).
 
+-spec init([]) -> {ok, {supervisor:sup_flags(), [supervisor:child_spec()]}}.
 init([]) ->
-    SessionManager = #{
-        id => session_manager,
-        start => {session_manager, start_link, []},
+    SupFlags = #{
+        strategy => one_for_one,
+        intensity => 5,
+        period => 10
+    },
+    Children = [
+        child_spec(gateway_http_client, gateway_http_client),
+        child_spec(gateway_rpc_tcp_server, gateway_rpc_tcp_server),
+        child_spec(session_manager, session_manager),
+        child_spec(presence_cache, presence_cache),
+        child_spec(presence_bus, presence_bus),
+        child_spec(presence_manager, presence_manager),
+        child_spec(guild_crash_logger, guild_crash_logger),
+        child_spec(guild_manager, guild_manager),
+        child_spec(call_manager, call_manager),
+        child_spec(push_dispatcher, push_dispatcher),
+        child_spec(push, push),
+        child_spec(gateway_metrics_collector, gateway_metrics_collector)
+    ],
+    {ok, {SupFlags, Children}}.
+
+-spec child_spec(atom(), module()) -> supervisor:child_spec().
+child_spec(Id, Module) ->
+    #{
+        id => Id,
+        start => {Module, start_link, []},
         restart => permanent,
         shutdown => 5000,
         type => worker
-    },
-    PresenceManager = #{
-        id => presence_manager,
-        start => {presence_manager, start_link, []},
-        restart => permanent,
-        shutdown => 5000,
-        type => worker
-    },
-    GuildManager = #{
-        id => guild_manager,
-        start => {guild_manager, start_link, []},
-        restart => permanent,
-        shutdown => 5000,
-        type => worker
-    },
-    Push = #{
-        id => push,
-        start => {push, start_link, []},
-        restart => permanent,
-        shutdown => 5000,
-        type => worker
-    },
-    CallManager = #{
-        id => call_manager,
-        start => {call_manager, start_link, []},
-        restart => permanent,
-        shutdown => 5000,
-        type => worker
-    },
-    PresenceBus = #{
-        id => presence_bus,
-        start => {presence_bus, start_link, []},
-        restart => permanent,
-        shutdown => 5000,
-        type => worker
-    },
-    PresenceCache = #{
-        id => presence_cache,
-        start => {presence_cache, start_link, []},
-        restart => permanent,
-        shutdown => 5000,
-        type => worker
-    },
-    GatewayMetricsCollector = #{
-        id => gateway_metrics_collector,
-        start => {gateway_metrics_collector, start_link, []},
-        restart => permanent,
-        shutdown => 5000,
-        type => worker
-    },
-    {ok,
-        {{one_for_one, 5, 10}, [
-            SessionManager,
-            PresenceCache,
-            PresenceBus,
-            PresenceManager,
-            GuildManager,
-            CallManager,
-            Push,
-            GatewayMetricsCollector
-        ]}}.
+    }.

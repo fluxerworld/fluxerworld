@@ -17,41 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import authStyles from '@app/components/auth/AuthPageStyles.module.css';
+import dobStyles from '@app/components/auth/DateOfBirthField.module.css';
+import {ExternalLink} from '@app/components/common/ExternalLink';
+import inputStyles from '@app/components/form/Input.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import {PASSWORD_MANAGER_IGNORE_ATTRIBUTES} from '@app/lib/PasswordManagerAutocomplete';
+import {Routes} from '@app/Routes';
+import {getCurrentLocale} from '@app/utils/LocaleUtils';
+import {getDateFieldOrder} from '@fluxer/date_utils/src/DateIntrospection';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {useMemo} from 'react';
-import {ExternalLink} from '~/components/common/ExternalLink';
-import inputStyles from '~/components/form/Input.module.css';
-import {Button} from '~/components/uikit/Button/Button';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import {Routes} from '~/Routes';
-import {getCurrentLocale} from '~/utils/LocaleUtils';
-import authStyles from './AuthPageStyles.module.css';
-import dobStyles from './DateOfBirthField.module.css';
 
 type DateFieldType = 'month' | 'day' | 'year';
-
-function getDateFieldOrder(locale: string): Array<DateFieldType> {
-	const formatter = new Intl.DateTimeFormat(locale, {
-		year: 'numeric',
-		month: '2-digit',
-		day: '2-digit',
-	});
-
-	const parts = formatter.formatToParts(new Date(2000, 0, 1));
-	const order: Array<DateFieldType> = [];
-
-	for (const part of parts) {
-		if (part.type === 'month' && !order.includes('month')) {
-			order.push('month');
-		} else if (part.type === 'day' && !order.includes('day')) {
-			order.push('day');
-		} else if (part.type === 'year' && !order.includes('year')) {
-			order.push('year');
-		}
-	}
-
-	return order;
-}
 
 interface MockMinimalRegisterFormProps {
 	submitLabel: React.ReactNode;
@@ -65,17 +44,38 @@ export function MockMinimalRegisterForm({submitLabel}: MockMinimalRegisterFormPr
 	const dateFields: Record<DateFieldType, React.ReactElement> = {
 		month: (
 			<div key="month" className={dobStyles.monthField}>
-				<input type="text" readOnly tabIndex={-1} placeholder={t`Month`} className={inputStyles.input} />
+				<input
+					type="text"
+					{...PASSWORD_MANAGER_IGNORE_ATTRIBUTES}
+					readOnly
+					tabIndex={-1}
+					placeholder={t`Month`}
+					className={inputStyles.input}
+				/>
 			</div>
 		),
 		day: (
 			<div key="day" className={dobStyles.dayField}>
-				<input type="text" readOnly tabIndex={-1} placeholder={t`Day`} className={inputStyles.input} />
+				<input
+					type="text"
+					{...PASSWORD_MANAGER_IGNORE_ATTRIBUTES}
+					readOnly
+					tabIndex={-1}
+					placeholder={t`Day`}
+					className={inputStyles.input}
+				/>
 			</div>
 		),
 		year: (
 			<div key="year" className={dobStyles.yearField}>
-				<input type="text" readOnly tabIndex={-1} placeholder={t`Year`} className={inputStyles.input} />
+				<input
+					type="text"
+					{...PASSWORD_MANAGER_IGNORE_ATTRIBUTES}
+					readOnly
+					tabIndex={-1}
+					placeholder={t`Year`}
+					className={inputStyles.input}
+				/>
 			</div>
 		),
 	};
@@ -93,6 +93,7 @@ export function MockMinimalRegisterForm({submitLabel}: MockMinimalRegisterFormPr
 				<div className={inputStyles.inputGroup}>
 					<input
 						type="text"
+						{...PASSWORD_MANAGER_IGNORE_ATTRIBUTES}
 						readOnly
 						tabIndex={-1}
 						placeholder={t`What should people call you?`}

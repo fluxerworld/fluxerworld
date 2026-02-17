@@ -17,97 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import {getMaxAttachmentFileSize} from '@app/utils/AttachmentUtils';
+import {LimitResolver} from '@app/utils/limits/LimitResolverAdapter';
+import type {LimitKey} from '@fluxer/constants/src/LimitConfigMetadata';
 import {
-	MAX_BIO_LENGTH_NON_PREMIUM,
-	MAX_BIO_LENGTH_PREMIUM,
+	MAX_ATTACHMENTS_PER_MESSAGE,
+	MAX_BIO_LENGTH,
 	MAX_BOOKMARKS_NON_PREMIUM,
-	MAX_BOOKMARKS_PREMIUM,
+	MAX_FAVORITE_MEME_TAGS,
 	MAX_FAVORITE_MEMES_NON_PREMIUM,
-	MAX_FAVORITE_MEMES_PREMIUM,
+	MAX_GROUP_DM_RECIPIENTS,
 	MAX_GUILDS_NON_PREMIUM,
-	MAX_GUILDS_PREMIUM,
 	MAX_MESSAGE_LENGTH_NON_PREMIUM,
-	MAX_MESSAGE_LENGTH_PREMIUM,
-	UserFlags,
-} from '~/Constants';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import {getAttachmentMaxSize} from '~/utils/AttachmentUtils';
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
-
-export type BackupCode = Readonly<{
-	code: string;
-	consumed: boolean;
-}>;
-
-export type UserProfile = Readonly<{
-	bio: string | null;
-	banner: string | null;
-	banner_color?: number | null;
-	pronouns: string | null;
-	accent_color: string | null;
-}>;
-
-export type UserPartial = Readonly<{
-	id: string;
-	username: string;
-	discriminator: string;
-	global_name?: string | null;
-	avatar: string | null;
-	avatar_color?: number | null;
-	bot?: boolean;
-	system?: boolean;
-	flags: number;
-}>;
-
-export type RequiredAction =
-	| 'REQUIRE_VERIFIED_EMAIL'
-	| 'REQUIRE_REVERIFIED_EMAIL'
-	| 'REQUIRE_VERIFIED_PHONE'
-	| 'REQUIRE_REVERIFIED_PHONE'
-	| 'REQUIRE_VERIFIED_EMAIL_OR_VERIFIED_PHONE'
-	| 'REQUIRE_REVERIFIED_EMAIL_OR_VERIFIED_PHONE'
-	| 'REQUIRE_VERIFIED_EMAIL_OR_REVERIFIED_PHONE'
-	| 'REQUIRE_REVERIFIED_EMAIL_OR_REVERIFIED_PHONE';
-
-export type UserPrivate = Readonly<
-	UserPartial &
-		UserProfile & {
-			email: string | null;
-			mfa_enabled: boolean;
-			phone: string | null;
-			authenticator_types: Array<number>;
-			verified: boolean;
-			premium_type: number | null;
-			premium_since: string | null;
-			premium_until: string | null;
-			premium_will_cancel: boolean;
-			premium_billing_cycle: string | null;
-			premium_lifetime_sequence: number | null;
-			premium_badge_hidden: boolean;
-			premium_badge_masked: boolean;
-			premium_badge_timestamp_hidden: boolean;
-			premium_badge_sequence_hidden: boolean;
-			premium_purchase_disabled: boolean;
-			premium_enabled_override: boolean;
-			password_last_changed_at: string | null;
-			required_actions: Array<RequiredAction> | null;
-			nsfw_allowed: boolean;
-			pending_manual_verification: boolean;
-			pending_bulk_message_deletion: {
-				scheduled_at: string;
-				channel_count: number;
-				message_count: number;
-			} | null;
-			has_dismissed_premium_onboarding: boolean;
-			has_ever_purchased: boolean;
-			has_unread_gift_inventory: boolean;
-			unread_gift_inventory_count: number;
-			used_mobile_client: boolean;
-		}
->;
-
-export type User = Readonly<UserPartial & Partial<UserPrivate>>;
+	MAX_PRIVATE_CHANNELS_PER_USER,
+	MAX_RELATIONSHIPS,
+} from '@fluxer/constants/src/LimitConstants';
+import {PublicUserFlags} from '@fluxer/constants/src/UserConstants';
+import type {RequiredAction, User, UserPartial, UserPrivate} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
 
 export type PendingBulkMessageDeletion = Readonly<{
 	scheduledAt: Date;
@@ -115,7 +44,12 @@ export type PendingBulkMessageDeletion = Readonly<{
 	messageCount: number;
 }>;
 
+interface UserRecordOptions {
+	instanceId?: string;
+}
+
 export class UserRecord {
+	readonly instanceId: string;
 	readonly id: string;
 	readonly username: string;
 	readonly discriminator: string;
@@ -126,14 +60,15 @@ export class UserRecord {
 	readonly system: boolean;
 	readonly flags: number;
 	private readonly _email?: string | null;
+	private readonly _emailBounced?: boolean;
 	readonly bio?: string | null;
 	readonly banner?: string | null;
 	readonly bannerColor?: number | null;
 	readonly pronouns?: string | null;
-	readonly accentColor?: string | null;
+	readonly accentColor?: number | null;
 	readonly mfaEnabled?: boolean;
 	readonly phone?: string | null;
-	readonly authenticatorTypes?: Array<number>;
+	readonly authenticatorTypes?: ReadonlyArray<number>;
 	private readonly _verified?: boolean;
 	private readonly _premiumType?: number | null;
 	private readonly _premiumSince?: Date | null;
@@ -149,7 +84,6 @@ export class UserRecord {
 	readonly premiumEnabledOverride?: boolean;
 	readonly passwordLastChangedAt?: Date | null;
 	readonly requiredActions?: Array<RequiredAction> | null;
-	readonly pendingManualVerification?: boolean;
 	readonly pendingBulkMessageDeletion: PendingBulkMessageDeletion | null;
 	private readonly _nsfwAllowed?: boolean;
 	readonly hasDismissedPremiumOnboarding?: boolean;
@@ -157,8 +91,10 @@ export class UserRecord {
 	private readonly _hasUnreadGiftInventory?: boolean;
 	private readonly _unreadGiftInventoryCount?: number;
 	private readonly _usedMobileClient?: boolean;
+	private readonly _traits: ReadonlyArray<string>;
 
-	constructor(user: User) {
+	constructor(user: User, options?: UserRecordOptions) {
+		this.instanceId = options?.instanceId ?? RuntimeConfigStore.localInstanceDomain;
 		this.id = user.id;
 		this.username = user.username;
 		this.discriminator = user.discriminator;
@@ -170,6 +106,7 @@ export class UserRecord {
 		this.flags = user.flags;
 
 		if ('email' in user) this._email = user.email;
+		if ('email_bounced' in user) this._emailBounced = user.email_bounced;
 		if ('bio' in user) this.bio = user.bio;
 		if ('banner' in user) this.banner = user.banner;
 		if ('banner_color' in user) this.bannerColor = user.banner_color;
@@ -195,9 +132,9 @@ export class UserRecord {
 		if ('password_last_changed_at' in user)
 			this.passwordLastChangedAt = user.password_last_changed_at ? new Date(user.password_last_changed_at) : null;
 		if ('required_actions' in user) {
-			this.requiredActions = user.required_actions && user.required_actions.length > 0 ? user.required_actions : null;
+			const actions = user.required_actions;
+			this.requiredActions = actions && actions.length > 0 ? [...actions] : null;
 		}
-		if ('pending_manual_verification' in user) this.pendingManualVerification = user.pending_manual_verification;
 		if ('pending_bulk_message_deletion' in user && user.pending_bulk_message_deletion) {
 			this.pendingBulkMessageDeletion = {
 				scheduledAt: new Date(user.pending_bulk_message_deletion.scheduled_at),
@@ -214,6 +151,11 @@ export class UserRecord {
 		if ('has_unread_gift_inventory' in user) this._hasUnreadGiftInventory = user.has_unread_gift_inventory;
 		if ('unread_gift_inventory_count' in user) this._unreadGiftInventoryCount = user.unread_gift_inventory_count;
 		if ('used_mobile_client' in user) this._usedMobileClient = user.used_mobile_client;
+		if ('traits' in user) {
+			this._traits = Object.freeze((user.traits ?? []).slice());
+		} else {
+			this._traits = [];
+		}
 	}
 
 	get email(): string | null | undefined {
@@ -221,6 +163,10 @@ export class UserRecord {
 			return null;
 		}
 		return this._email;
+	}
+
+	get emailBounced(): boolean | undefined {
+		return this._emailBounced;
 	}
 
 	get verified(): boolean | undefined {
@@ -287,12 +233,15 @@ export class UserRecord {
 		return this._usedMobileClient;
 	}
 
-	withUpdates(updates: Partial<User>): UserRecord {
+	withUpdates(updates: Partial<User>, options?: {clearMissingOptionalFields?: boolean}): UserRecord {
+		const clearMissingOptionalFields = options?.clearMissingOptionalFields ?? false;
 		const baseFields: UserPartial = {
 			id: updates.id ?? this.id,
 			username: updates.username ?? this.username,
 			discriminator: updates.discriminator ?? this.discriminator,
+			global_name: 'global_name' in updates ? (updates.global_name as string | null) : this.globalName,
 			avatar: 'avatar' in updates ? (updates.avatar as string | null) : this.avatar,
+			avatar_color: 'avatar_color' in updates ? (updates.avatar_color as number | null) : (this.avatarColor ?? null),
 			bot: updates.bot ?? this.bot,
 			system: updates.system ?? this.system,
 			flags: updates.flags ?? this.flags,
@@ -311,6 +260,9 @@ export class UserRecord {
 
 		const privateFields: Partial<UserPrivate> = {
 			...(this._email !== undefined || updates.email !== undefined ? {email: updates.email ?? this._email} : {}),
+			...(this._emailBounced !== undefined || updates.email_bounced !== undefined
+				? {email_bounced: updates.email_bounced ?? this._emailBounced}
+				: {}),
 			...(this.bio !== undefined || 'bio' in updates
 				? {bio: 'bio' in updates && updates.bio !== undefined ? (updates.bio as string | null) : this.bio}
 				: {}),
@@ -356,7 +308,7 @@ export class UserRecord {
 				? {
 						accent_color:
 							'accent_color' in updates && updates.accent_color !== undefined
-								? (updates.accent_color as string | null)
+								? (updates.accent_color as number | null)
 								: this.accentColor,
 					}
 				: {}),
@@ -414,21 +366,18 @@ export class UserRecord {
 							updates.password_last_changed_at ?? this.passwordLastChangedAt?.toISOString() ?? null,
 					}
 				: {}),
-			...(this.pendingManualVerification !== undefined || updates.pending_manual_verification !== undefined
-				? {
-						pending_manual_verification: updates.pending_manual_verification ?? this.pendingManualVerification,
-					}
-				: {}),
 			pending_bulk_message_deletion: pendingBulkMessageDeletionValue,
 			...(this.requiredActions !== undefined || 'required_actions' in updates
-				? {
-						required_actions:
-							'required_actions' in updates
-								? updates.required_actions && (updates.required_actions as Array<RequiredAction>).length > 0
+				? 'required_actions' in updates
+					? {
+							required_actions:
+								updates.required_actions && (updates.required_actions as Array<RequiredAction>).length > 0
 									? (updates.required_actions as Array<RequiredAction>)
-									: null
-								: this.requiredActions,
-					}
+									: null,
+						}
+					: clearMissingOptionalFields
+						? {}
+						: {required_actions: this.requiredActions}
 				: {}),
 			...(this._nsfwAllowed !== undefined || updates.nsfw_allowed !== undefined
 				? {nsfw_allowed: updates.nsfw_allowed ?? this._nsfwAllowed}
@@ -451,12 +400,16 @@ export class UserRecord {
 			...(this._usedMobileClient !== undefined || updates.used_mobile_client !== undefined
 				? {used_mobile_client: updates.used_mobile_client ?? this._usedMobileClient}
 				: {}),
+			traits: updates.traits ?? [...this.traits],
 		};
 
-		return new UserRecord({
-			...baseFields,
-			...privateFields,
-		});
+		return new UserRecord(
+			{
+				...baseFields,
+				...privateFields,
+			},
+			{instanceId: this.instanceId},
+		);
 	}
 
 	get displayName(): string {
@@ -471,39 +424,70 @@ export class UserRecord {
 		return new Date(SnowflakeUtils.extractTimestamp(this.id));
 	}
 
+	get traits(): ReadonlyArray<string> {
+		return this._traits;
+	}
+
 	isPremium(): boolean {
-		if (RuntimeConfigStore.isSelfHosted()) {
-			return true;
-		}
 		return this.premiumType != null && this.premiumType > 0;
 	}
 
 	get maxGuilds(): number {
-		return this.isPremium() ? MAX_GUILDS_PREMIUM : MAX_GUILDS_NON_PREMIUM;
+		return this.resolveRuntimeLimit('max_guilds', MAX_GUILDS_NON_PREMIUM);
 	}
 
 	get maxMessageLength(): number {
-		return this.isPremium() ? MAX_MESSAGE_LENGTH_PREMIUM : MAX_MESSAGE_LENGTH_NON_PREMIUM;
+		return this.resolveRuntimeLimit('max_message_length', MAX_MESSAGE_LENGTH_NON_PREMIUM);
 	}
 
-	get maxAttachmentSize(): number {
-		return getAttachmentMaxSize(this.isPremium());
+	get maxAttachmentFileSize(): number {
+		return this.resolveRuntimeLimit('max_attachment_file_size', getMaxAttachmentFileSize());
+	}
+
+	get maxAttachmentsPerMessage(): number {
+		return this.resolveRuntimeLimit('max_attachments_per_message', MAX_ATTACHMENTS_PER_MESSAGE);
 	}
 
 	get maxBioLength(): number {
-		return this.isPremium() ? MAX_BIO_LENGTH_PREMIUM : MAX_BIO_LENGTH_NON_PREMIUM;
+		return this.resolveRuntimeLimit('max_bio_length', MAX_BIO_LENGTH);
 	}
 
 	get maxBookmarks(): number {
-		return this.isPremium() ? MAX_BOOKMARKS_PREMIUM : MAX_BOOKMARKS_NON_PREMIUM;
+		return this.resolveRuntimeLimit('max_bookmarks', MAX_BOOKMARKS_NON_PREMIUM);
 	}
 
 	get maxFavoriteMemes(): number {
-		return this.isPremium() ? MAX_FAVORITE_MEMES_PREMIUM : MAX_FAVORITE_MEMES_NON_PREMIUM;
+		return this.resolveRuntimeLimit('max_favorite_memes', MAX_FAVORITE_MEMES_NON_PREMIUM);
+	}
+
+	get maxFavoriteMemeTags(): number {
+		return this.resolveRuntimeLimit('max_favorite_meme_tags', MAX_FAVORITE_MEME_TAGS);
+	}
+
+	get maxGroupDmRecipients(): number {
+		return this.resolveRuntimeLimit('max_group_dm_recipients', MAX_GROUP_DM_RECIPIENTS);
+	}
+
+	get maxPrivateChannels(): number {
+		return this.resolveRuntimeLimit('max_private_channels_per_user', MAX_PRIVATE_CHANNELS_PER_USER);
+	}
+
+	get maxRelationships(): number {
+		return this.resolveRuntimeLimit('max_relationships', MAX_RELATIONSHIPS);
+	}
+
+	private resolveRuntimeLimit(key: LimitKey, fallback: number): number {
+		return LimitResolver.resolve({
+			key,
+			fallback,
+			context: {
+				traits: this.traits,
+			},
+		});
 	}
 
 	isStaff(): boolean {
-		return (this.flags & UserFlags.STAFF) !== 0;
+		return (this.flags & PublicUserFlags.STAFF) !== 0;
 	}
 
 	isClaimed(): boolean {
@@ -512,6 +496,7 @@ export class UserRecord {
 
 	equals(other: UserRecord): boolean {
 		return (
+			this.instanceId === other.instanceId &&
 			this.id === other.id &&
 			this.username === other.username &&
 			this.discriminator === other.discriminator &&
@@ -521,6 +506,7 @@ export class UserRecord {
 			this.system === other.system &&
 			this.flags === other.flags &&
 			this._email === other._email &&
+			this._emailBounced === other._emailBounced &&
 			this.bio === other.bio &&
 			this.banner === other.banner &&
 			this.bannerColor === other.bannerColor &&
@@ -543,7 +529,6 @@ export class UserRecord {
 			this.premiumEnabledOverride === other.premiumEnabledOverride &&
 			this.passwordLastChangedAt?.getTime() === other.passwordLastChangedAt?.getTime() &&
 			JSON.stringify(this.requiredActions) === JSON.stringify(other.requiredActions) &&
-			this.pendingManualVerification === other.pendingManualVerification &&
 			((this.pendingBulkMessageDeletion === null && other.pendingBulkMessageDeletion === null) ||
 				(this.pendingBulkMessageDeletion != null &&
 					other.pendingBulkMessageDeletion != null &&
@@ -555,7 +540,8 @@ export class UserRecord {
 			this.hasDismissedPremiumOnboarding === other.hasDismissedPremiumOnboarding &&
 			this._hasUnreadGiftInventory === other._hasUnreadGiftInventory &&
 			this._unreadGiftInventoryCount === other._unreadGiftInventoryCount &&
-			this._usedMobileClient === other._usedMobileClient
+			this._usedMobileClient === other._usedMobileClient &&
+			JSON.stringify(this.traits) === JSON.stringify(other.traits)
 		);
 	}
 
@@ -572,6 +558,7 @@ export class UserRecord {
 			discriminator: this.discriminator,
 			global_name: this.globalName,
 			avatar: this.avatar,
+			avatar_color: this.avatarColor ?? null,
 			bot: this.bot,
 			system: this.system,
 			flags: this.flags,
@@ -579,6 +566,7 @@ export class UserRecord {
 
 		const privateFields: Partial<UserPrivate> = {
 			...(this._email !== undefined ? {email: this._email} : {}),
+			...(this._emailBounced !== undefined ? {email_bounced: this._emailBounced} : {}),
 			...(this.bio !== undefined ? {bio: this.bio} : {}),
 			...(this.banner !== undefined ? {banner: this.banner} : {}),
 			...(this.avatarColor !== undefined ? {avatar_color: this.avatarColor} : {}),
@@ -609,9 +597,6 @@ export class UserRecord {
 				? {password_last_changed_at: normalizeDate(this.passwordLastChangedAt)}
 				: {}),
 			...(this.requiredActions !== undefined ? {required_actions: this.requiredActions} : {}),
-			...(this.pendingManualVerification !== undefined
-				? {pending_manual_verification: this.pendingManualVerification}
-				: {}),
 			...(this.pendingBulkMessageDeletion !== undefined
 				? {
 						pending_bulk_message_deletion: this.pendingBulkMessageDeletion
@@ -632,6 +617,7 @@ export class UserRecord {
 				? {unread_gift_inventory_count: this._unreadGiftInventoryCount}
 				: {}),
 			...(this._usedMobileClient !== undefined ? {used_mobile_client: this._usedMobileClient} : {}),
+			traits: [...this.traits],
 		};
 
 		return {

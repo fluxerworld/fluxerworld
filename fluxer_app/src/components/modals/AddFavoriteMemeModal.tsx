@@ -17,18 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as FavoriteMemeActionCreators from '@app/actions/FavoriteMemeActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {Form} from '@app/components/form/Form';
+import * as Modal from '@app/components/modals/Modal';
+import {MemeFormFields} from '@app/components/modals/meme_form/MemeFormFields';
+import {Button} from '@app/components/uikit/button/Button';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import {useCallback} from 'react';
 import {useForm} from 'react-hook-form';
-import * as FavoriteMemeActionCreators from '~/actions/FavoriteMemeActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {Form} from '~/components/form/Form';
-import styles from '~/components/modals/AddFavoriteMemeModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {MemeFormFields} from '~/components/modals/meme-form/MemeFormFields';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
 
 interface AddFavoriteMemeModalProps {
 	channelId: string;
@@ -62,7 +61,7 @@ export const AddFavoriteMemeModal = observer(function AddFavoriteMemeModal({
 		},
 	});
 
-	const onSubmit = React.useCallback(
+	const onSubmit = useCallback(
 		async (data: FormInputs) => {
 			await FavoriteMemeActionCreators.createFavoriteMeme(i18n, {
 				channelId,
@@ -89,9 +88,9 @@ export const AddFavoriteMemeModal = observer(function AddFavoriteMemeModal({
 			<Modal.Header title={t`Add to Saved Media`} />
 			<Modal.Content>
 				<Form form={form} onSubmit={handleSave}>
-					<div className={styles.formContainer}>
+					<Modal.ContentLayout>
 						<MemeFormFields form={form} />
-					</div>
+					</Modal.ContentLayout>
 				</Form>
 			</Modal.Content>
 			<Modal.Footer>

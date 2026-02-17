@@ -17,12 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/uikit/MentionBadge.module.css';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import {getCurrentLocale} from '@app/utils/LocaleUtils';
+import {formatCompactNumber, formatNumber} from '@fluxer/number_utils/src/NumberFormatting';
 import {clsx} from 'clsx';
 import {AnimatePresence, motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import {getCurrentLocale} from '~/utils/LocaleUtils';
-import styles from './MentionBadge.module.css';
 
 const formatMentionCount = (mentionCount: number) => {
 	const locale = getCurrentLocale();
@@ -32,14 +33,10 @@ const formatMentionCount = (mentionCount: number) => {
 	}
 
 	if (mentionCount >= 1000) {
-		const formatter = new Intl.NumberFormat(locale, {
-			notation: 'compact',
-			maximumFractionDigits: 0,
-		});
-		return formatter.format(mentionCount).replace(/\s/g, '');
+		return formatCompactNumber(mentionCount, locale, 0).replace(/\s/g, '');
 	}
 
-	return new Intl.NumberFormat(locale).format(mentionCount);
+	return formatNumber(mentionCount, locale);
 };
 
 interface MentionBadgeProps {
@@ -70,6 +67,7 @@ export const MentionBadgeAnimated = observer(({mentionCount, size = 'medium'}: M
 		<AnimatePresence initial={false} mode="wait">
 			{mentionCount > 0 && (
 				<motion.div
+					className={styles.animatedWrapper}
 					initial={{opacity: 0, scale: 0.85}}
 					animate={{opacity: 1, scale: 1}}
 					exit={{opacity: 0, scale: 0.85}}

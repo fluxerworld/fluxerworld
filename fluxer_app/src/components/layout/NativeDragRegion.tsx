@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/NativeDragRegion.module.css';
 import {clsx} from 'clsx';
 import type {MotionStyle} from 'framer-motion';
 import React from 'react';
-import styles from './NativeDragRegion.module.css';
 
 type ElementType = React.ElementType;
 

@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {GuildSettingsTabType} from '@app/components/modals/utils/GuildSettingsConstants';
 import {makeAutoObservable} from 'mobx';
-import type {GuildSettingsTabType} from '~/components/modals/utils/guildSettingsConstants';
 
 interface NavigationHandler {
 	guildId: string;

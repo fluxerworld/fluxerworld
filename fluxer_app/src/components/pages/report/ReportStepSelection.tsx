@@ -17,20 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans} from '@lingui/react/macro';
+import styles from '@app/components/pages/ReportPage.module.css';
+import type {ReportType} from '@app/components/pages/report/ReportTypes';
+import type {RadioOption} from '@app/components/uikit/radio_group/RadioGroup';
+import {RadioGroup} from '@app/components/uikit/radio_group/RadioGroup';
+import {Trans, useLingui} from '@lingui/react/macro';
 import type React from 'react';
-import type {RadioOption} from '~/components/uikit/RadioGroup/RadioGroup';
-import {RadioGroup} from '~/components/uikit/RadioGroup/RadioGroup';
-import styles from '../ReportPage.module.css';
-import type {ReportType} from './types';
 
-type Props = {
+interface Props {
 	reportTypeOptions: ReadonlyArray<RadioOption<ReportType>>;
 	selectedType: ReportType | null;
 	onSelect: (type: ReportType) => void;
-};
+}
 
 export const ReportStepSelection: React.FC<Props> = ({reportTypeOptions, selectedType, onSelect}) => {
+	const {t} = useLingui();
 	return (
 		<div className={styles.card}>
 			<header className={styles.cardHeader}>
@@ -50,11 +51,9 @@ export const ReportStepSelection: React.FC<Props> = ({reportTypeOptions, selecte
 					options={reportTypeOptions}
 					value={selectedType}
 					onChange={onSelect}
-					aria-label="Report Type"
+					aria-label={t`Report Type`}
 				/>
 			</div>
 		</div>
 	);
 };
-
-export default ReportStepSelection;

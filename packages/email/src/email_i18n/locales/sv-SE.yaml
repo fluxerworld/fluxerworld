@@ -1,0 +1,369 @@
+account_disabled_suspicious:
+  subject: Ditt Fluxer-konto har tillfälligt inaktiverats
+  body: |-
+    Hej {username},
+
+    Vi har tillfälligt inaktiverat ditt Fluxer-konto eftersom vi har upptäckt misstänkt aktivitet.
+
+    {reason, select,
+      null {}
+      other {Orsak: {reason}}
+    }
+
+    För att få tillbaka åtkomsten behöver du återställa ditt lösenord:
+
+    {forgotUrl}
+
+    Därefter kan du logga in igen.
+
+    Om du tror att det här skett av misstag, kontakta vår support.
+
+    – Fluxers säkerhetsteam
+account_scheduled_deletion:
+  subject: Ditt Fluxer-konto kommer att raderas permanent
+  body: |-
+    Hej {username},
+
+    Ditt Fluxer-konto har schemalagts för permanent radering eftersom du har brutit mot våra användarvillkor eller communityregler.
+
+    Planerad radering: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Orsak: {reason}}
+    }
+
+    Det här är en allvarlig åtgärd. Dina kontodata kommer att raderas permanent vid den planerade tidpunkten.
+
+    Läs igenom:
+    - Användarvillkor: {termsUrl}
+    - Communityregler: {guidelinesUrl}
+
+    Överklaga:
+    Om du anser att beslutet är felaktigt eller obefogat kan du överklaga inom 60 dagar. Skicka ett mejl till appeals@fluxer.app från den här e-postadressen.
+
+    I ditt överklagande:
+    - Förklara tydligt varför du anser att beslutet är felaktigt eller obefogat
+    - Bifoga relevanta underlag eller extra sammanhang, om möjligt
+
+    En medlem i Fluxers säkerhetsteam granskar ditt överklagande och kan pausa den planerade raderingen tills ett slutgiltigt beslut har fattats.
+
+    – Fluxers säkerhetsteam
+account_temp_banned:
+  subject: Ditt Fluxer-konto har tillfälligt stängts av
+  body: |-
+    Hej {username},
+
+    Ditt Fluxer-konto har tillfälligt stängts av eftersom du har brutit mot våra användarvillkor eller communityregler.
+
+    Varaktighet: {durationHours, plural,
+      =1 {1 timme}
+      other {# timmar}
+    }
+    Avstängt till: {bannedUntil, date, full} {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {Orsak: {reason}}
+    }
+
+    Under den här tiden kan du inte komma åt ditt konto.
+
+    Läs igenom:
+    - Användarvillkor: {termsUrl}
+    - Communityregler: {guidelinesUrl}
+
+    Om du anser att beslutet är felaktigt eller obefogat kan du överklaga. Skicka ett mejl till appeals@fluxer.app från den här e-postadressen och förklara tydligt varför du anser att beslutet är fel. Vi granskar överklagandet och återkommer med vårt beslut.
+
+    – Fluxers säkerhetsteam
+donation_confirmation:
+  subject: Tack för din donation till Fluxer
+  body: |-
+    Hej,
+
+    Tack för din donation till Fluxer! Din {interval, select,
+      month {återkommande donation}
+      year {återkommande donation}
+      other {engångsdonation}
+    } har {interval, select,
+      month {konfigurerats}
+      year {konfigurerats}
+      other {behandlats}
+    } framgångsrikt.
+
+    Donationsuppgifter:
+    Belopp: {amount} {currency} {interval, select,
+      month {per månad}
+      year {per år}
+      other {}
+    }
+
+    Stripe skickar dig ett separat kvitto med din faktura-PDF inom kort. Det innehåller alla betalningsuppgifter och kan användas för skatteändamål.
+
+    Du kan när som helst se din donationshistorik, ladda ner fakturor {interval, select,
+      month {och hantera eller avbryta din prenumeration}
+      year {och hantera eller avbryta din prenumeration}
+      other {och hantera framtida donationer}
+    } med denna länk:
+
+    {manageUrl}
+
+    Ditt stöd hjälper till att hålla Fluxer igång. Tack!
+
+    – Fluxer-teamet
+donation_magic_link:
+  subject: Hantera dina Fluxer-donationer
+  body: |-
+    Hej,
+
+    Klicka på länken nedan för att komma åt din donorportal:
+
+    {manageUrl}
+
+    I portalen kan du hantera prenumerationer, ladda ner fakturor och se din donationshistorik.
+
+    Länken går ut den {expiresAt, date, full} kl. {expiresAt, time, short}.
+
+    Om du inte begärde denna länk kan du lugnt ignorera det här mejlet.
+
+    – Fluxer-teamet
+dsa_report_verification:
+  subject: Verifiera din e-postadress för en DSA-anmälan
+  body: |-
+    Hej,
+
+    Använd koden nedan för att skicka in din anmälan enligt Digital Services Act (DSA) till Fluxer:
+
+    {code}
+
+    Koden går ut den {expiresAt, date, full} kl. {expiresAt, time, short}.
+
+    Om du inte begärde detta kan du ignorera det här mejlet.
+
+    – Fluxers säkerhetsteam
+email_change_new:
+  subject: Verifiera din nya Fluxer-e-postadress
+  body: |-
+    Hej {username},
+
+    Skriv in koden i appen för att verifiera din nya Fluxer-e-postadress:
+
+    {code}
+
+    Koden går ut den {expiresAt, date, full} kl. {expiresAt, time, short}.
+
+    Om du inte begärde detta kan du ignorera det här mejlet.
+
+    – Fluxer-teamet
+email_change_original:
+  subject: Bekräfta ändringen av din Fluxer-e-postadress
+  body: |-
+    Hej {username},
+
+    Vi har fått en begäran om att ändra e-postadressen för ditt Fluxer-konto.
+
+    För att bekräfta ändringen, skriv in koden i appen:
+
+    {code}
+
+    Koden går ut den {expiresAt, date, full} kl. {expiresAt, time, short}.
+
+    Om du inte begärde detta, säkra ditt konto direkt.
+
+    – Fluxer-teamet
+email_change_revert:
+  subject: E-postadressen för ditt Fluxer-konto har ändrats
+  body: |-
+    Hej {username},
+
+    E-postadressen för ditt Fluxer-konto har ändrats till {newEmail}.
+
+    Om det var du behöver du inte göra något. Om det inte var du kan du ångra ändringen och säkra ditt konto via länken nedan:
+
+    {revertUrl}
+
+    Detta återställer din tidigare e-postadress, loggar ut dig överallt, tar bort kopplade telefonnummer, stänger av MFA och kräver att du väljer ett nytt lösenord.
+
+    – Fluxers säkerhetsteam
+email_verification:
+  subject: Verifiera din Fluxer-e-postadress
+  body: |-
+    Hej {username},
+
+    Verifiera e-postadressen för ditt Fluxer-konto genom att klicka på länken nedan:
+
+    {verifyUrl}
+
+    Om du inte skapade ett Fluxer-konto kan du lugnt ignorera det här mejlet.
+
+    Länken är giltig i 24 timmar.
+
+    – Fluxer-teamet
+gift_chargeback_notification:
+  subject: Förmåner från din inlösta gåva har tagits bort
+  body: |-
+    Hej {username},
+
+    En presentkod som du löste in betalades ursprungligen av någon annan. Betalningen har sedan återförts (chargeback).
+
+    Därför har vi tagit bort de förmåner som lades till på ditt konto när du löste in gåvan.
+
+    Om du tror att detta är ett misstag, kontakta vår support och ange all information du har om presentkoden och när du löste in den.
+
+    – Fluxer-teamet
+harvest_completed:
+  subject: Din Fluxer-dataexport är klar för nedladdning
+  body: |-
+    Hej {username},
+
+    Din dataexport är klar.
+
+    Nedladdningslänk:
+    {downloadUrl}
+
+    Inkluderade meddelanden: {totalMessages, number}
+    Filstorlek: {fileSizeMB, number} MB
+
+    Länken går ut den {expiresAt, date, full} kl. {expiresAt, time, short}.
+
+    Om du inte begärde den här exporten, byt lösenord direkt och kontakta vår support.
+
+    – Fluxer-teamet
+inactivity_warning:
+  subject: Ditt Fluxer-konto kommer att raderas på grund av inaktivitet
+  body: |-
+    Hej {username},
+
+    Vi har inte sett någon aktivitet på ditt Fluxer-konto sedan {lastActiveDate, date, full}.
+
+    Om du inte loggar in senast den {deletionDate, date, full} kl. {deletionDate, time, short} kommer ditt konto att raderas permanent på grund av inaktivitet.
+
+    Logga in här:
+    {loginUrl}
+
+    Om du har använt Fluxer nyligen, kontakta vår support omgående.
+
+    – Fluxer-teamet
+ip_authorization:
+  subject: Bekräfta inloggning från en ny IP-adress
+  body: |-
+    Hej {username},
+
+    Vi har upptäckt ett inloggningsförsök till ditt Fluxer-konto från en ny IP-adress:
+
+    IP-adress: {ipAddress}
+    Plats: {location}
+
+    Om det var du, bekräfta den här IP-adressen via länken nedan:
+
+    {authUrl}
+
+    Om du inte försökte logga in, byt lösenord direkt.
+
+    Länken är giltig i 30 minuter.
+
+    – Fluxer-teamet
+password_change_verification:
+  subject: Bekräfta ändringen av ditt Fluxer-lösenord
+  body: |-
+    Hej {username},
+
+    Vi har fått en begäran om att ändra lösenordet för ditt Fluxer-konto.
+
+    För att bekräfta ändringen, skriv in koden i appen:
+
+    {code}
+
+    Koden går ut den {expiresAt, date, full} kl. {expiresAt, time, short}.
+
+    Om du inte begärde detta kan någon ha tillgång till ditt konto. Byt lösenord direkt och aktivera tvåfaktorsautentisering.
+
+    – Fluxer-teamet
+password_reset:
+  subject: Återställ ditt Fluxer-lösenord
+  body: |-
+    Hej {username},
+
+    Du har begärt att återställa ditt Fluxer-lösenord. Använd länken nedan för att välja ett nytt lösenord:
+
+    {resetUrl}
+
+    Om du inte begärde detta kan du lugnt ignorera det här mejlet.
+
+    Länken är giltig i 1 timme.
+
+    – Fluxer-teamet
+registration_approved:
+  subject: Din Fluxer-registrering har godkänts
+  body: |-
+    Hej {username},
+
+    Goda nyheter: Din Fluxer-registrering har godkänts.
+
+    Du kan nu logga in i Fluxer-appen här:
+    {channelsUrl}
+
+    Välkommen till Fluxer-communityt.
+
+    – Fluxer-teamet
+report_resolved:
+  subject: Din anmälan har granskats
+  body: |-
+    Hej {username},
+
+    Din anmälan (ID: {reportId}) har granskats av vårt säkerhetsteam.
+
+    Svar från säkerhetsteamet:
+    {publicComment}
+
+    Tack för att du hjälper till att göra Fluxer tryggt för alla. Vi tar alla anmälningar på allvar och uppskattar ditt bidrag till communityt.
+
+    Om du har frågor eller funderingar kring beslutet, kontakta safety@fluxer.app.
+
+    – Fluxers säkerhetsteam
+scheduled_deletion_notification:
+  subject: Ditt Fluxer-konto kommer att raderas permanent
+  body: |-
+    Hej {username},
+
+    Ditt Fluxer-konto har schemalagts för permanent radering.
+
+    Planerad radering: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Orsak: {reason}}
+    }
+
+    Det här är en allvarlig åtgärd. Dina kontodata kommer att raderas permanent vid den planerade tidpunkten.
+
+    Om du anser att beslutet är felaktigt kan du överklaga. Skicka ett mejl till appeals@fluxer.app från den här e-postadressen.
+
+    – Fluxers säkerhetsteam
+self_deletion_scheduled:
+  subject: Raderingen av ditt Fluxer-konto är schemalagd
+  body: |-
+    Hej {username},
+
+    Du har begärt att radera ditt Fluxer-konto. Kontot kommer att raderas permanent den:
+
+    {deletionDate, date, full} kl. {deletionDate, time, short}
+
+    Om du inte begärde detta, logga in på ditt konto för att avbryta raderingen. Vi rekommenderar också att du byter lösenord för att säkra ditt konto.
+
+    – Fluxer-teamet
+unban_notification:
+  subject: Avstängningen av ditt Fluxer-konto har hävts
+  body: |-
+    Hej {username},
+
+    Goda nyheter: Avstängningen av ditt Fluxer-konto har hävts.
+
+    {reason, select,
+      null {}
+      other {Orsak: {reason}}
+    }
+
+    Du kan nu logga in igen och fortsätta använda Fluxer som vanligt.
+
+    – Fluxers säkerhetsteam

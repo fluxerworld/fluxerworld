@@ -17,24 +17,49 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {isTrackReference, useTracks} from '@livekit/components-react';
+import * as VoiceCallLayoutActionCreators from '@app/actions/VoiceCallLayoutActionCreators';
+import {parseStreamKey} from '@app/components/voice/StreamKeys';
+import {usePinnedTrackRef} from '@app/components/voice/usePinnedTrackRef';
+import {
+	compareVoiceTrackReferencesWithSnapshot,
+	createVoiceParticipantSortSnapshot,
+	syncVoiceParticipantSortSnapshot,
+} from '@app/components/voice/VoiceParticipantSortUtils';
+import {parseVoiceParticipantIdentity} from '@app/components/voice/VoiceParticipantSpeakingUtils';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import CallMediaPrefsStore from '@app/stores/CallMediaPrefsStore';
+import LocalVoiceStateStore from '@app/stores/LocalVoiceStateStore';
+import UserStore from '@app/stores/UserStore';
+import VoiceCallLayoutStore from '@app/stores/VoiceCallLayoutStore';
+import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import {
+	isTrackReference,
+	type TrackReferenceOrPlaceholder,
+	useParticipants,
+	useTracks,
+} from '@livekit/components-react';
 import {RoomEvent, Track} from 'livekit-client';
-import {useEffect, useMemo} from 'react';
-import * as VoiceCallLayoutActionCreators from '~/actions/VoiceCallLayoutActionCreators';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import CallMediaPrefsStore from '~/stores/CallMediaPrefsStore';
-import UserStore from '~/stores/UserStore';
-import VoiceCallLayoutStore from '~/stores/VoiceCallLayoutStore';
-import VoiceSettingsStore from '~/stores/VoiceSettingsStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import {usePinnedTrackRef} from './usePinnedTrackRef';
+import {useCallback, useEffect, useMemo, useRef} from 'react';
 
 interface UseVoiceCallTracksAndLayoutArgs {
 	channel: ChannelRecord;
 }
 
 export function useVoiceCallTracksAndLayout({channel}: UseVoiceCallTracksAndLayoutArgs) {
-	const {layoutMode, pinnedParticipantIdentity, userOverride} = VoiceCallLayoutStore;
+	const {layoutMode, pinnedParticipantIdentity, pinnedParticipantSource} = VoiceCallLayoutStore;
+	const trackSortSnapshotRef = useRef(createVoiceParticipantSortSnapshot());
+	const compareTracks = useCallback(
+		(left: TrackReferenceOrPlaceholder, right: TrackReferenceOrPlaceholder) =>
+			compareVoiceTrackReferencesWithSnapshot(
+				left,
+				right,
+				trackSortSnapshotRef.current,
+				channel.guildId ?? null,
+				channel.id,
+			),
+		[channel.guildId, channel.id],
+	);
 
 	const tracks = useTracks(
 		[
@@ -56,6 +81,7 @@ export function useVoiceCallTracksAndLayout({channel}: UseVoiceCallTracksAndLayo
 			onlySubscribed: false,
 		},
 	);
+	const participants = useParticipants();
 
 	const {screenShareTracks, cameraTracksAll} = useMemo(() => {
 		const refs = tracks.filter(isTrackReference);
@@ -64,17 +90,91 @@ export function useVoiceCallTracksAndLayout({channel}: UseVoiceCallTracksAndLayo
 		return {screenShareTracks: screens, cameraTracksAll: camerasPlusPlaceholders};
 	}, [tracks]);
 
+	const virtualScreenShareTracks = useMemo<Array<TrackReferenceOrPlaceholder>>(() => {
+		const viewerStreamKeys = LocalVoiceStateStore.getViewerStreamKeys();
+		if (viewerStreamKeys.length === 0) return [];
+
+		const virtualTracks: Array<TrackReferenceOrPlaceholder> = [];
+
+		for (const viewerStreamKey of viewerStreamKeys) {
+			const parsed = parseStreamKey(viewerStreamKey);
+			if (!parsed) continue;
+			if (parsed.channelId !== channel.id) continue;
+
+			const channelGuildId = channel.guildId ?? null;
+			if (parsed.guildId !== channelGuildId) continue;
+
+			const voiceState = MediaEngineStore.getVoiceStateByConnectionId(parsed.connectionId);
+			if (!voiceState?.user_id) continue;
+			if (voiceState.channel_id !== channel.id) continue;
+
+			const identity = `user_${voiceState.user_id}_${parsed.connectionId}`;
+			const alreadyActive = screenShareTracks.some((tr) => tr.participant.identity === identity);
+			if (alreadyActive) continue;
+
+			const participant = participants.find((p) => p.identity === identity);
+			if (!participant) continue;
+
+			virtualTracks.push({participant, source: Track.Source.ScreenShare});
+		}
+
+		return virtualTracks;
+	}, [channel.id, channel.guildId, participants, screenShareTracks]);
+
+	const screenShareTracksWithVirtual = useMemo(
+		() =>
+			virtualScreenShareTracks.length > 0 ? [...screenShareTracks, ...virtualScreenShareTracks] : screenShareTracks,
+		[screenShareTracks, virtualScreenShareTracks],
+	);
+	const trackSnapshotMembers = useMemo(
+		() =>
+			[...cameraTracksAll, ...screenShareTracksWithVirtual].map((trackRef) => {
+				const identity = parseVoiceParticipantIdentity(trackRef.participant.identity);
+				return {
+					participantKey: `${identity.userId}:${identity.connectionId}`,
+					userId: identity.userId,
+				};
+			}),
+		[cameraTracksAll, screenShareTracksWithVirtual],
+	);
+	syncVoiceParticipantSortSnapshot(
+		trackSortSnapshotRef.current,
+		trackSnapshotMembers,
+		channel.guildId ?? null,
+		channel.id,
+	);
+
+	const sortedCameraTracksAll = useMemo(
+		() => [...cameraTracksAll].sort(compareTracks),
+		[cameraTracksAll, compareTracks],
+	);
+
 	const filteredCameraTracks = useMemo(() => {
 		if (VoiceSettingsStore.showNonVideoParticipants) return cameraTracksAll;
 
+		const screenShareParticipantIdentities = new Set(
+			screenShareTracksWithVirtual.map((track) => track.participant.identity),
+		);
+
 		return cameraTracksAll.filter((tr) => {
+			const participantIdentity = tr.participant.identity;
+			if (screenShareParticipantIdentities.has(participantIdentity)) return true;
+
 			if (!isTrackReference(tr)) return false;
 			if (!tr.publication) return false;
 			return !tr.publication.isMuted;
 		});
-	}, [cameraTracksAll, VoiceSettingsStore.showNonVideoParticipants]);
+	}, [cameraTracksAll, screenShareTracksWithVirtual, VoiceSettingsStore.showNonVideoParticipants]);
+	const sortedFilteredCameraTracks = useMemo(
+		() => [...filteredCameraTracks].sort(compareTracks),
+		[filteredCameraTracks, compareTracks],
+	);
+	const sortedScreenShareTracksWithVirtual = useMemo(
+		() => [...screenShareTracksWithVirtual].sort(compareTracks),
+		[screenShareTracksWithVirtual, compareTracks],
+	);
 
-	const hasScreenShare = screenShareTracks.length > 0;
+	const hasScreenShare = sortedScreenShareTracksWithVirtual.length > 0;
 
 	useEffect(() => {
 		const callId = MediaEngineStore.connectionId ?? '';
@@ -95,17 +195,6 @@ export function useVoiceCallTracksAndLayout({channel}: UseVoiceCallTracksAndLayo
 	}, [cameraTracksAll, VoiceSettingsStore.showMyOwnCamera]);
 
 	useEffect(() => {
-		if (userOverride) return;
-
-		const shouldFocus = hasScreenShare || filteredCameraTracks.length > 12;
-		const nextLayout = shouldFocus ? 'focus' : 'grid';
-
-		if (layoutMode !== nextLayout) {
-			VoiceCallLayoutActionCreators.setLayoutMode(nextLayout);
-		}
-	}, [filteredCameraTracks.length, hasScreenShare, layoutMode, userOverride]);
-
-	useEffect(() => {
 		if (!pinnedParticipantIdentity) return;
 		if (cameraTracksAll.length === 0) return;
 
@@ -113,26 +202,34 @@ export function useVoiceCallTracksAndLayout({channel}: UseVoiceCallTracksAndLayo
 		if (!stillExists) VoiceCallLayoutActionCreators.setPinnedParticipant(null);
 	}, [cameraTracksAll, pinnedParticipantIdentity]);
 
-	const {mainTrack: focusMainTrack, carouselTracks} = usePinnedTrackRef({
+	const {
+		mainTrack: focusMainTrack,
+		carouselTracks,
+		pipTrack,
+	} = usePinnedTrackRef({
 		layoutMode,
 		pinnedParticipantIdentity,
-		filteredCameraTracks,
-		cameraTracksAll,
-		screenShareTracks,
+		pinnedParticipantSource,
+		filteredCameraTracks: sortedFilteredCameraTracks,
+		cameraTracksAll: sortedCameraTracksAll,
+		screenShareTracks: sortedScreenShareTracksWithVirtual,
+		compareTracks,
 	});
 
 	return {
 		tracks,
-		screenShareTracks,
-		cameraTracksAll,
-		filteredCameraTracks,
+		screenShareTracks: sortedScreenShareTracksWithVirtual,
+		cameraTracksAll: sortedCameraTracksAll,
+		filteredCameraTracks: sortedFilteredCameraTracks,
 		hasScreenShare,
 
 		layoutMode,
 		pinnedParticipantIdentity,
+		pinnedParticipantSource,
 
 		focusMainTrack,
 		carouselTracks,
+		pipTrack,
 
 		channel,
 	};

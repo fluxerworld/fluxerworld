@@ -17,16 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {PremiumModal} from '~/components/modals/PremiumModal';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {PremiumModal} from '@app/components/modals/PremiumModal';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
 
 interface OpenOptions {
 	defaultGiftMode?: boolean;
 }
 
-export const open = (optionsOrDefaultGiftMode: OpenOptions | boolean = {}): void => {
+export function open(optionsOrDefaultGiftMode: OpenOptions | boolean = {}): void {
 	if (RuntimeConfigStore.isSelfHosted()) {
 		return;
 	}
@@ -37,4 +37,4 @@ export const open = (optionsOrDefaultGiftMode: OpenOptions | boolean = {}): void
 			: optionsOrDefaultGiftMode;
 	const {defaultGiftMode = false} = options;
 	ModalActionCreators.push(modal(() => <PremiumModal defaultGiftMode={defaultGiftMode} />));
-};
+}

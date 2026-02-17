@@ -17,49 +17,54 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import {KeyboardModeListener} from '@app/components/layout/KeyboardModeListener';
+import {MobileBottomNav} from '@app/components/layout/MobileBottomNav';
+import {SplashScreen} from '@app/components/layout/SplashScreen';
+import {Logger} from '@app/lib/Logger';
+import {useLocation} from '@app/lib/router/React';
+import SessionManager from '@app/lib/SessionManager';
+import {Routes} from '@app/Routes';
+import {isAutoRedirectExemptPath} from '@app/router/RouterConstants';
+import * as PushSubscriptionService from '@app/services/push/PushSubscriptionService';
+import AccountManager from '@app/stores/AccountManager';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import InitializationStore from '@app/stores/InitializationStore';
+import LocationStore from '@app/stores/LocationStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import UserStore from '@app/stores/UserStore';
+import {navigateToWithMobileHistory} from '@app/utils/MobileNavigation';
+import {isInstalledPwa} from '@app/utils/PwaUtils';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import {setPathQueryParams} from '@app/utils/UrlUtils';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import {KeyboardModeListener} from '~/components/layout/KeyboardModeListener';
-import {MobileBottomNav} from '~/components/layout/MobileBottomNav';
-import {SplashScreen} from '~/components/layout/SplashScreen';
-import {useLocation} from '~/lib/router';
-import SessionManager from '~/lib/SessionManager';
-import {Routes} from '~/Routes';
-import {isAutoRedirectExemptPath} from '~/router/constants';
-import * as PushSubscriptionService from '~/services/push/PushSubscriptionService';
-import AccountManager from '~/stores/AccountManager';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ConnectionStore from '~/stores/ConnectionStore';
-import InitializationStore from '~/stores/InitializationStore';
-import LocationStore from '~/stores/LocationStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import UserStore from '~/stores/UserStore';
-import {navigateToWithMobileHistory} from '~/utils/MobileNavigation';
-import {isInstalledPwa} from '~/utils/PwaUtils';
-import * as RouterUtils from '~/utils/RouterUtils';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
-const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({children}) => {
+const logger = new Logger('RootComponent');
+
+export const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({children}) => {
 	const location = useLocation();
 	const isAuthenticated = AuthenticationStore.isAuthenticated;
 	const mobileLayoutState = MobileLayoutStore;
-	const [hasRestoredLocation, setHasRestoredLocation] = React.useState(false);
+	const [hasRestoredLocation, setHasRestoredLocation] = useState(false);
 	const currentUser = UserStore.currentUser;
-	const [hasHandledNotificationNav, setHasHandledNotificationNav] = React.useState(false);
-	const [previousMobileLayoutState, setPreviousMobileLayoutState] = React.useState(mobileLayoutState.enabled);
-	const lastMobileHistoryBuildRef = React.useRef<{ts: number; path: string} | null>(null);
-	const lastNotificationNavRef = React.useRef<{ts: number; key: string} | null>(null);
+	const [hasHandledNotificationNav, setHasHandledNotificationNav] = useState(false);
+	const [previousMobileLayoutState, setPreviousMobileLayoutState] = useState(mobileLayoutState.enabled);
+	const lastMobileHistoryBuildRef = useRef<{ts: number; path: string} | null>(null);
+	const lastNotificationNavRef = useRef<{ts: number; key: string} | null>(null);
 	const isLocationStoreHydrated = LocationStore.isHydrated;
 	const canNavigateToProtectedRoutes = InitializationStore.canNavigateToProtectedRoutes;
-	const pendingRedirectRef = React.useRef<string | null>(null);
+	const pendingRedirectRef = useRef<string | null>(null);
 
-	const hasStartedRestoreRef = React.useRef(false);
+	const hasStartedRestoreRef = useRef(false);
 	const pathname = location.pathname;
 	const isDesktopHandoff = location.searchParams.get('desktop_handoff') === '1';
 	const isAutoRedirectExemptRoute = isAutoRedirectExemptPath(pathname);
 	const shouldSkipAutoRedirect = isAutoRedirectExemptRoute || (pathname === Routes.LOGIN && isDesktopHandoff);
 
-	const isAuthRoute = React.useMemo(() => {
+	const isStandaloneRoute = useMemo(() => {
 		return (
 			pathname.startsWith(Routes.LOGIN) ||
 			pathname.startsWith(Routes.REGISTER) ||
@@ -70,16 +75,19 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 			pathname.startsWith(Routes.EMAIL_REVERT) ||
 			pathname.startsWith(Routes.OAUTH_AUTHORIZE) ||
 			pathname.startsWith(Routes.REPORT) ||
+			pathname.startsWith(Routes.PREMIUM_CALLBACK) ||
+			pathname.startsWith(Routes.CONNECTION_CALLBACK) ||
+			pathname === '/__notfound' ||
 			pathname.startsWith('/invite/') ||
 			pathname.startsWith('/gift/') ||
 			pathname.startsWith('/theme/')
 		);
 	}, [pathname]);
 
-	const shouldBypassGateway = isAuthRoute && pathname !== Routes.PENDING_VERIFICATION;
+	const shouldBypassGateway = isStandaloneRoute;
 	const authToken = AuthenticationStore.authToken;
 
-	const normalizeInternalUrl = React.useCallback((rawUrl: string): string => {
+	const normalizeInternalUrl = useCallback((rawUrl: string): string => {
 		try {
 			const u = new URL(rawUrl, window.location.origin);
 			if (u.origin === window.location.origin) {
@@ -91,13 +99,13 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 		}
 	}, []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!SessionManager.isInitialized) return;
 		if (AccountManager.isSwitching) return;
 
 		const isAuth = AuthenticationStore.isAuthenticated;
 
-		if (isAuth && isAuthRoute) return;
+		if (isAuth && isStandaloneRoute) return;
 
 		if (shouldBypassGateway) {
 			if (isAuth) {
@@ -106,8 +114,8 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 				}
 				return;
 			}
-			if (ConnectionStore.isConnected || ConnectionStore.isConnecting || ConnectionStore.socket) {
-				ConnectionStore.logout();
+			if (GatewayConnectionStore.isConnected || GatewayConnectionStore.isConnecting || GatewayConnectionStore.socket) {
+				GatewayConnectionStore.logout();
 			}
 			return;
 		}
@@ -117,7 +125,7 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 			if (!pendingRedirectRef.current) {
 				pendingRedirectRef.current = current;
 			}
-			RouterUtils.replaceWith(`${Routes.LOGIN}?redirect_to=${encodeURIComponent(pendingRedirectRef.current)}`);
+			RouterUtils.replaceWith(setPathQueryParams(Routes.LOGIN, {redirect_to: pendingRedirectRef.current}));
 			return;
 		}
 
@@ -129,15 +137,15 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 		authToken,
 		AccountManager.isSwitching,
 		AuthenticationStore.isAuthenticated,
-		ConnectionStore.isConnected,
-		ConnectionStore.isConnecting,
+		GatewayConnectionStore.isConnected,
+		GatewayConnectionStore.isConnecting,
 		InitializationStore.isLoading,
 		shouldBypassGateway,
 		shouldSkipAutoRedirect,
 		pendingRedirectRef,
 	]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!AuthenticationStore.isAuthenticated) return;
 		const target = pendingRedirectRef.current;
 		if (!target) return;
@@ -150,7 +158,7 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 		pendingRedirectRef.current = null;
 	}, [AuthenticationStore.isAuthenticated, location.pathname]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (
 			!isAuthenticated ||
 			hasRestoredLocation ||
@@ -187,7 +195,7 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 		location.pathname,
 	]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!isAuthenticated || !hasRestoredLocation) return;
 
 		if (previousMobileLayoutState !== mobileLayoutState.enabled) {
@@ -205,7 +213,7 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 		}
 	}, [isAuthenticated, hasRestoredLocation, mobileLayoutState.enabled, previousMobileLayoutState, location.pathname]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const shouldSaveLocation = Routes.isChannelRoute(location.pathname) || Routes.isSpecialPage(location.pathname);
 
 		if (isAuthenticated && shouldSaveLocation) {
@@ -213,7 +221,7 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 		}
 	}, [isAuthenticated, location.pathname]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!isAuthenticated || !hasRestoredLocation) return;
 
 		if (previousMobileLayoutState !== mobileLayoutState.enabled) {
@@ -247,14 +255,14 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 		}
 	}, [isAuthenticated, hasRestoredLocation, mobileLayoutState.enabled, previousMobileLayoutState, location.pathname]);
 
-	const navigateWithHistoryStack = React.useCallback(
+	const navigateWithHistoryStack = useCallback(
 		(url: string) => {
 			navigateToWithMobileHistory(url, mobileLayoutState.enabled);
 		},
 		[mobileLayoutState.enabled],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!isAuthenticated) return;
 
 		const handleNotificationNavigate = (event: MessageEvent) => {
@@ -279,7 +287,7 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 						try {
 							await AccountManager.switchToAccount(targetUserId);
 						} catch (error) {
-							console.error('Failed to switch account for notification', error);
+							logger.error('Failed to switch account for notification', error);
 						}
 					}
 
@@ -307,7 +315,9 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 			if (urlParams.get('fromNotification') === '1') {
 				const newParams = new URLSearchParams(urlParams);
 				newParams.delete('fromNotification');
-				const cleanPath = location.pathname + (newParams.toString() ? `?${newParams.toString()}` : '');
+				const cleanUrl = new URL(location.pathname, window.location.origin);
+				cleanUrl.search = newParams.toString();
+				const cleanPath = `${cleanUrl.pathname}${cleanUrl.search}${cleanUrl.hash}`;
 
 				if (mobileLayoutState.enabled) {
 					navigateWithHistoryStack(cleanPath);
@@ -333,18 +343,6 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 		normalizeInternalUrl,
 	]);
 
-	React.useEffect(() => {
-		if (currentUser?.pendingManualVerification) {
-			if (
-				pathname !== Routes.PENDING_VERIFICATION &&
-				!pathname.startsWith('/login') &&
-				!pathname.startsWith('/register')
-			) {
-				RouterUtils.replaceWith(Routes.PENDING_VERIFICATION);
-			}
-		}
-	}, [currentUser, pathname]);
-
 	const showBottomNav =
 		mobileLayoutState.enabled &&
 		(location.pathname === Routes.ME ||
@@ -365,5 +363,3 @@ const RootComponent: React.FC<{children?: React.ReactNode}> = observer(({childre
 		</>
 	);
 });
-
-export {RootComponent};

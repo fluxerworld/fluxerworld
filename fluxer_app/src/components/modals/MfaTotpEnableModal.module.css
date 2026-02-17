@@ -38,14 +38,3 @@
 	color: var(--text-primary-muted);
 	font-family: var(--font-mono);
 }
-
-.footer {
-	flex-wrap: wrap;
-	font-size: 0.875rem;
-	color: var(--text-primary-muted);
-}
-
-.footer > * {
-	flex: 1;
-	min-width: fit-content;
-}

@@ -23,7 +23,8 @@
 }
 
 .groupHeader {
-	padding-top: 1rem;
+	padding-top: 0.75rem;
+	padding-bottom: 0.25rem;
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
 	font-weight: 600;
@@ -34,6 +35,55 @@
 .membersList {
 	display: flex;
 	flex-direction: column;
+	gap: 2px;
+}
+
+.virtualListContent {
+	position: relative;
+	min-height: 100%;
+}
+
+.virtualRows {
+	display: flex;
+	min-width: 0;
+	flex-direction: column;
+}
+
+.virtualRow {
+	display: flex;
+	align-items: center;
+	height: 42px;
+	min-height: 42px;
+}
+
+.virtualGroupRow {
+	display: flex;
+	align-items: flex-end;
+	gap: 0.375rem;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+	padding-top: 0;
+	padding-bottom: 2px;
+	box-sizing: border-box;
+	color: var(--text-primary-muted);
+	font-size: 0.8125rem;
+	font-weight: 600;
+	line-height: 1rem;
+}
+
+.virtualGroupLabel {
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.virtualGroupSeparator {
+	flex-shrink: 0;
+}
+
+.virtualGroupCount {
+	flex-shrink: 0;
 }
 
 .groupSpacer {
@@ -42,15 +92,20 @@
 
 .skeletonItem {
 	display: grid;
-	height: 42px;
+	height: 34px;
 	min-width: 0;
 	grid-template-columns: 1fr auto;
 	align-items: center;
 	gap: 0.25rem;
 	padding-left: 0.5rem;
 	padding-right: 0.5rem;
-	margin-top: 1px;
-	margin-bottom: 1px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	box-sizing: border-box;
+}
+
+.virtualRow .skeletonItem {
+	height: 34px;
 }
 
 .skeletonContent {

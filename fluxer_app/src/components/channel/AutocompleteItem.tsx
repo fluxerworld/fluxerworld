@@ -17,10 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/AutocompleteItem.module.css';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-
-import styles from './AutocompleteItem.module.css';
 
 export const AutocompleteItem = observer(
 	({

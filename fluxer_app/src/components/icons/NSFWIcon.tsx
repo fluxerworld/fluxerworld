@@ -20,7 +20,7 @@
 import type {IconProps} from '@phosphor-icons/react';
 import React from 'react';
 
-export const NSFWIcon = React.forwardRef<SVGSVGElement, IconProps>(({size = 16, className, ...props}, ref) => (
+export const NSFWIcon = React.forwardRef<SVGSVGElement, IconProps>(({size = 256, className, ...props}, ref) => (
 	<svg
 		ref={ref}
 		width={size}

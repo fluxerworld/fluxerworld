@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/ChannelItemIcon.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {stopPropagationOnEnterSpace} from '@app/utils/KeyboardUtils';
 import type {Icon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {stopPropagationOnEnterSpace} from '~/utils/KeyboardUtils';
-import styles from './ChannelItemIcon.module.css';
 
 interface ChannelItemIconProps {
 	icon: Icon;

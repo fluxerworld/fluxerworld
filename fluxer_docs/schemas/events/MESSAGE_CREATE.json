@@ -1,0 +1,24 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "MESSAGE_CREATE",
+	"description": "Sent when a message is created.",
+	"scope": "channel",
+	"scopeNote": "Guild channels dispatch to guild scope; DMs dispatch to presence scope; personal notes dispatch to presence scope",
+	"dispatchedBy": [
+		"POST /channels/:channel_id/messages",
+		"POST /webhooks/:webhook_id/:token",
+		"POST /webhooks/:webhook_id/:token/github",
+		"POST /webhooks/:webhook_id/:token/slack",
+		"POST /webhooks/:webhook_id/:token/sentry"
+	],
+	"payload": {
+		"$ref": "MessageResponse",
+		"description": "The created message object with additional channel_type field",
+		"additionalProperties": {
+			"channel_type": {
+				"type": "integer",
+				"description": "Type of the channel the message was sent in"
+			}
+		}
+	}
+}

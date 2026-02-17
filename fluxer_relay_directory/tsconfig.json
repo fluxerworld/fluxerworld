@@ -1,0 +1,11 @@
+{
+	"extends": "../tsconfigs/service.json",
+	"compilerOptions": {
+		"paths": {
+			"@app/*": ["./src/*"],
+			"@fluxer/relay_directory/*": ["./src/*"],
+			"@fluxer/*": ["./../packages/*", "./../packages/*/src/index.tsx"]
+		}
+	},
+	"include": ["src/**/*", "scripts/**/*"]
+}

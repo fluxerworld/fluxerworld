@@ -19,6 +19,7 @@
 
 -export([sanitize_mentions/2, build_notification_title/5, build_notification_payload/10]).
 
+-spec sanitize_mentions(binary(), list()) -> binary().
 sanitize_mentions(Content, Mentions) ->
     lists:foldl(
         fun(Mention, Acc) ->
@@ -42,6 +43,10 @@ sanitize_mentions(Content, Mentions) ->
         Mentions
     ).
 
+-spec build_notification_title(
+    binary(), map(), integer(), binary() | undefined, binary() | undefined
+) ->
+    binary().
 build_notification_title(AuthorUsername, MessageData, GuildId, GuildName, ChannelName) ->
     ChannelType = maps:get(<<"channel_type">>, MessageData, 1),
     case GuildId of
@@ -70,6 +75,18 @@ build_notification_title(AuthorUsername, MessageData, GuildId, GuildName, Channe
             end
     end.
 
+-spec build_notification_payload(
+    map(),
+    integer(),
+    integer(),
+    integer(),
+    binary() | undefined,
+    binary() | undefined,
+    binary(),
+    binary(),
+    integer(),
+    non_neg_integer()
+) -> map().
 build_notification_payload(
     MessageData,
     GuildId,
@@ -106,26 +123,91 @@ build_notification_payload(
                         0 -> null;
                         _ -> integer_to_binary(GuildId)
                     end,
-                <<"url">> =>
-                    case GuildId of
-                        0 ->
-                            iolist_to_binary([
-                                <<"/channels/@me/">>,
-                                integer_to_binary(ChannelId),
-                                <<"/">>,
-                                integer_to_binary(MessageId)
-                            ]);
-                        _ ->
-                            iolist_to_binary([
-                                <<"/channels/">>,
-                                integer_to_binary(GuildId),
-                                <<"/">>,
-                                integer_to_binary(ChannelId),
-                                <<"/">>,
-                                integer_to_binary(MessageId)
-                            ])
-                    end,
+                <<"url">> => build_url(GuildId, ChannelId, MessageId),
                 <<"badge_count">> => BadgeValue,
                 <<"target_user_id">> => integer_to_binary(TargetUserId)
             }
     }.
+
+-spec build_url(integer(), integer(), integer()) -> binary().
+build_url(0, ChannelId, MessageId) ->
+    iolist_to_binary([
+        <<"/channels/@me/">>,
+        integer_to_binary(ChannelId),
+        <<"/">>,
+        integer_to_binary(MessageId)
+    ]);
+build_url(GuildId, ChannelId, MessageId) ->
+    iolist_to_binary([
+        <<"/channels/">>,
+        integer_to_binary(GuildId),
+        <<"/">>,
+        integer_to_binary(ChannelId),
+        <<"/">>,
+        integer_to_binary(MessageId)
+    ]).
+
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+sanitize_mentions_test() ->
+    Content = <<"Hello <@123> and <@456>!">>,
+    Mentions = [
+        #{<<"id">> => <<"123">>, <<"username">> => <<"alice">>},
+        #{<<"id">> => <<"456">>, <<"username">> => <<"bob">>}
+    ],
+    Result = sanitize_mentions(Content, Mentions),
+    ?assertEqual(<<"Hello @alice and @bob!">>, Result).
+
+sanitize_mentions_empty_test() ->
+    ?assertEqual(<<"Hello">>, sanitize_mentions(<<"Hello">>, [])).
+
+sanitize_mentions_missing_fields_test() ->
+    Content = <<"Hello <@123>">>,
+    Mentions = [#{<<"id">> => <<"123">>}],
+    ?assertEqual(Content, sanitize_mentions(Content, Mentions)).
+
+build_notification_title_dm_test() ->
+    ?assertEqual(<<"Alice">>, build_notification_title(<<"Alice">>, #{}, 0, undefined, undefined)).
+
+build_notification_title_group_dm_test() ->
+    MessageData = #{<<"channel_type">> => 3},
+    ?assertEqual(
+        <<"Alice (Group DM)">>,
+        build_notification_title(<<"Alice">>, MessageData, 0, undefined, undefined)
+    ).
+
+build_notification_title_guild_test() ->
+    ?assertEqual(
+        <<"Alice (#general, My Server)">>,
+        build_notification_title(<<"Alice">>, #{}, 123, <<"My Server">>, <<"general">>)
+    ).
+
+build_url_dm_test() ->
+    ?assertEqual(<<"/channels/@me/456/789">>, build_url(0, 456, 789)).
+
+build_url_guild_test() ->
+    ?assertEqual(<<"/channels/123/456/789">>, build_url(123, 456, 789)).
+
+build_notification_payload_test() ->
+    MessageData = #{
+        <<"content">> => <<"Hello world">>,
+        <<"mentions">> => []
+    },
+    Result = build_notification_payload(
+        MessageData,
+        123,
+        456,
+        789,
+        <<"Server">>,
+        <<"general">>,
+        <<"Alice">>,
+        <<"http://avatar">>,
+        999,
+        5
+    ),
+    ?assertEqual(<<"Alice (#general, Server)">>, maps:get(<<"title">>, Result)),
+    ?assertEqual(<<"Hello world">>, maps:get(<<"body">>, Result)),
+    ?assertEqual(5, maps:get(<<"badge_count">>, maps:get(<<"data">>, Result))).
+
+-endif.

@@ -17,9 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import {isLinkWrappedInAngleBrackets} from '~/utils/linkSuppressionUtils';
-import * as RegexUtils from '~/utils/RegexUtils';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import {isLinkWrappedInAngleBrackets} from '@app/utils/LinkSuppressionUtils';
+import {buildMediaProxyURL} from '@app/utils/MediaProxyUtils';
+import * as RegexUtils from '@app/utils/RegexUtils';
 
 const THEME_ID_REGEX = '[a-zA-Z0-9-]{2,32}';
 
@@ -84,4 +85,16 @@ export function findThemes(content: string | null): Array<string> {
 export function findTheme(content: string | null): string | null {
 	const matches = matchThemes(content, 1);
 	return matches[0] ?? null;
+}
+
+function buildThemeCssUrl(endpoint: string | null | undefined, themeId: string): string | null {
+	if (!endpoint) return null;
+	const base = endpoint.replace(/\/$/, '');
+	return `${base}/themes/${themeId}.css`;
+}
+
+export function buildThemeCssProxyUrl(endpoint: string | null | undefined, themeId: string): string | null {
+	const rawUrl = buildThemeCssUrl(endpoint, themeId);
+	if (!rawUrl) return null;
+	return buildMediaProxyURL(rawUrl);
 }

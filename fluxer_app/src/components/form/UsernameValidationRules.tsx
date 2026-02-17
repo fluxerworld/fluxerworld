@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/form/UsernameValidationRules.module.css';
 import {Trans} from '@lingui/react/macro';
 import {CheckIcon, XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import styles from './UsernameValidationRules.module.css';
 
 const FLUXER_TAG_REGEX = /^[a-zA-Z0-9_]+$/;
 

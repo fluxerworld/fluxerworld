@@ -1,0 +1,51 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "MESSAGE_REACTION_ADD",
+	"description": "Sent when a user adds a reaction to a message.",
+	"scope": "channel",
+	"scopeNote": "Guild channels dispatch to guild scope; DMs dispatch to presence scope.",
+	"dispatchedBy": ["PUT /channels/:channel_id/messages/:message_id/reactions/:emoji/@me"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID"
+			},
+			"message_id": {
+				"type": "string",
+				"description": "Message ID"
+			},
+			"emoji": {
+				"type": "object",
+				"properties": {
+					"id": {"type": "string", "description": "Emoji ID (only present for custom emoji)"},
+					"name": {"type": "string", "description": "Emoji name (unicode character or custom emoji name)"},
+					"animated": {
+						"type": "boolean",
+						"description": "Whether the emoji is animated (only present for custom emoji)"
+					}
+				},
+				"required": ["name"],
+				"description": "The emoji used"
+			},
+			"user_id": {
+				"type": "string",
+				"description": "ID of the user who reacted"
+			},
+			"session_id": {
+				"type": "string",
+				"description": "Session ID of the user who reacted"
+			},
+			"guild_id": {
+				"type": "string",
+				"description": "Guild ID (only present for guild channels)"
+			},
+			"member": {
+				"$ref": "GuildMemberResponse",
+				"description": "Guild member object (only present for guild channels)"
+			}
+		},
+		"required": ["channel_id", "message_id", "emoji", "user_id"]
+	}
+}

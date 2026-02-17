@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/NagbarButton.module.css';
+import {Button} from '@app/components/uikit/button/Button';
 import {clsx} from 'clsx';
 import type React from 'react';
-import {Button} from '~/components/uikit/Button/Button';
-import styles from './NagbarButton.module.css';
 
 interface NagbarButtonProps {
 	children: React.ReactNode;
@@ -41,7 +41,7 @@ export const NagbarButton = ({
 }: NagbarButtonProps) => {
 	return (
 		<Button
-			variant="inverted-outline"
+			variant="inverted"
 			superCompact={!isMobile}
 			compact={isMobile}
 			fitContent

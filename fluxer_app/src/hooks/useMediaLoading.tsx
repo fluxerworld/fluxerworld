@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import * as ImageCacheUtils from '@app/utils/ImageCacheUtils';
 import {useEffect, useMemo, useState} from 'react';
 import {thumbHashToDataURL} from 'thumbhash';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import * as ImageCacheUtils from '~/utils/ImageCacheUtils';
 
 interface MediaLoadingState {
 	loaded: boolean;

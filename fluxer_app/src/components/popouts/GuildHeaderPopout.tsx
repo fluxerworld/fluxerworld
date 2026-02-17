@@ -17,6 +17,28 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as PopoutActionCreators from '@app/actions/PopoutActionCreators';
+import * as UserGuildSettingsActionCreators from '@app/actions/UserGuildSettingsActionCreators';
+import {CategoryCreateModal} from '@app/components/modals/CategoryCreateModal';
+import {ChannelCreateModal} from '@app/components/modals/ChannelCreateModal';
+import {GuildNotificationSettingsModal} from '@app/components/modals/GuildNotificationSettingsModal';
+import {GuildPrivacySettingsModal} from '@app/components/modals/GuildPrivacySettingsModal';
+import {GuildSettingsModal} from '@app/components/modals/GuildSettingsModal';
+import {InviteModal} from '@app/components/modals/InviteModal';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
+import styles from '@app/components/popouts/GuildHeaderPopout.module.css';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {useLeaveGuild} from '@app/hooks/useLeaveGuild';
+import {useRovingFocusList} from '@app/hooks/useRovingFocusList';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import UserGuildSettingsStore from '@app/stores/UserGuildSettingsStore';
+import * as InviteUtils from '@app/utils/InviteUtils';
+import {Permissions} from '@fluxer/constants/src/ChannelConstants';
 import {useLingui} from '@lingui/react/macro';
 import {
 	BellIcon,
@@ -31,69 +53,50 @@ import {
 } from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as PopoutActionCreators from '~/actions/PopoutActionCreators';
-import * as UserGuildSettingsActionCreators from '~/actions/UserGuildSettingsActionCreators';
-import {Permissions} from '~/Constants';
-import {CategoryCreateModal} from '~/components/modals/CategoryCreateModal';
-import {ChannelCreateModal} from '~/components/modals/ChannelCreateModal';
-import {GuildNotificationSettingsModal} from '~/components/modals/GuildNotificationSettingsModal';
-import {GuildPrivacySettingsModal} from '~/components/modals/GuildPrivacySettingsModal';
-import {GuildSettingsModal} from '~/components/modals/GuildSettingsModal';
-import {InviteModal} from '~/components/modals/InviteModal';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {useLeaveGuild} from '~/hooks/useLeaveGuild';
-import {useRovingFocusList} from '~/hooks/useRovingFocusList';
-import type {GuildRecord} from '~/records/GuildRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import PermissionStore from '~/stores/PermissionStore';
-import UserGuildSettingsStore from '~/stores/UserGuildSettingsStore';
-import * as InviteUtils from '~/utils/InviteUtils';
-import styles from './GuildHeaderPopout.module.css';
+import type React from 'react';
+import {useCallback, useState} from 'react';
 
-const GuildHeaderPopoutItem = observer((props: {title: string; icon: Icon; onClick?: () => void; danger?: boolean}) => {
-	const handleSelect = React.useCallback(() => {
-		PopoutActionCreators.close();
-		props.onClick?.();
-	}, [props]);
+export const GuildHeaderPopoutItem = observer(
+	(props: {title: string; icon: Icon; onClick?: () => void; danger?: boolean}) => {
+		const handleSelect = useCallback(() => {
+			PopoutActionCreators.close();
+			props.onClick?.();
+		}, [props]);
 
-	const handleMouseEnter = React.useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
-		event.currentTarget.focus();
-	}, []);
+		const handleMouseEnter = useCallback((event: React.MouseEvent<HTMLButtonElement>) => {
+			event.currentTarget.focus();
+		}, []);
 
-	return (
-		<FocusRing offset={-2}>
-			<button
-				type="button"
-				className={clsx(styles.itemButton, props.danger && styles.itemDanger)}
-				onClick={handleSelect}
-				onMouseEnter={handleMouseEnter}
-				data-roving-focus="true"
-			>
-				<span>{props.title}</span>
-				<props.icon className={styles.iconMedium} />
-			</button>
-		</FocusRing>
-	);
-});
+		return (
+			<FocusRing offset={-2}>
+				<button
+					type="button"
+					className={clsx(styles.itemButton, props.danger && styles.itemDanger)}
+					onClick={handleSelect}
+					onMouseEnter={handleMouseEnter}
+					data-roving-focus="true"
+				>
+					<span>{props.title}</span>
+					<props.icon className={styles.iconMedium} />
+				</button>
+			</FocusRing>
+		);
+	},
+);
 
-const GuildHeaderPopoutCheckboxItem = observer(
+export const GuildHeaderPopoutCheckboxItem = observer(
 	(props: {title: string; checked: boolean; onChange: (checked: boolean) => void}) => {
-		const [isHovered, setIsHovered] = React.useState(false);
-		const [isFocused, setIsFocused] = React.useState(false);
+		const [isHovered, setIsHovered] = useState(false);
+		const [isFocused, setIsFocused] = useState(false);
 
-		const handleChange = React.useCallback(
+		const handleChange = useCallback(
 			(checked: boolean) => {
 				props.onChange(checked);
 			},
 			[props],
 		);
 
-		const handleClick = React.useCallback(() => {
+		const handleClick = useCallback(() => {
 			props.onChange(!props.checked);
 		}, [props]);
 
@@ -154,7 +157,7 @@ export const GuildHeaderPopout = observer(({guild}: {guild: GuildRecord}) => {
 	const settings = UserGuildSettingsStore.getSettings(guild.id);
 	const hideMutedChannels = settings?.hide_muted_channels ?? false;
 
-	const handleToggleHideMutedChannels = React.useCallback(
+	const handleToggleHideMutedChannels = useCallback(
 		(checked: boolean) => {
 			const currentSettings = UserGuildSettingsStore.getSettings(guild.id);
 			const currentValue = currentSettings?.hide_muted_channels ?? false;

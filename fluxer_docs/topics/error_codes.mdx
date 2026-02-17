@@ -1,0 +1,470 @@
+---
+title: 'Error codes'
+description: 'Reference for API and validation error codes returned by Fluxer.'
+---
+
+When the API returns an error response, it includes a structured error object with a `code` field that identifies the specific error. This page documents all possible error codes.
+
+## API error codes
+
+These error codes are returned in the `code` field of the main error response body.
+
+| Code | Description |
+|------|-------------|
+| `ACCESS_DENIED` | Access to this resource is denied |
+| `ACCOUNT_DISABLED` | This account has been disabled |
+| `ACCOUNT_SCHEDULED_FOR_DELETION` | This account is scheduled for deletion |
+| `ACCOUNT_SUSPENDED_PERMANENTLY` | This account has been permanently suspended |
+| `ACCOUNT_SUSPENDED_TEMPORARILY` | This account has been temporarily suspended |
+| `ACCOUNT_SUSPICIOUS_ACTIVITY` | Suspicious activity detected on this account |
+| `ACCOUNT_TOO_NEW_FOR_GUILD` | Account is too new to join this guild |
+| `ACLS_MUST_BE_NON_EMPTY` | Access control list must not be empty |
+| `ADMIN_API_KEY_NOT_FOUND` | Admin API key was not found |
+| `ALREADY_FRIENDS` | You are already friends with this user |
+| `AUDIT_LOG_INDEXING` | Audit log is currently being indexed |
+| `BOTS_CANNOT_SEND_FRIEND_REQUESTS` | Bots cannot send friend requests |
+| `BOT_USER_AUTH_ENDPOINT_ACCESS_DENIED` | Bot users cannot access this authentication endpoint |
+| `BOT_USER_AUTH_SESSION_CREATION_DENIED` | Bot users cannot create authentication sessions |
+| `CALL_ALREADY_EXISTS` | A call already exists in this channel |
+| `CANNOT_EDIT_OTHER_USER_MESSAGE` | You cannot edit another user message |
+| `CANNOT_EXECUTE_ON_DM` | This action cannot be executed on a DM channel |
+| `CANNOT_MODIFY_SYSTEM_WEBHOOK` | System webhooks cannot be modified |
+| `CANNOT_MODIFY_VOICE_STATE` | Cannot modify voice state |
+| `CANNOT_REDEEM_PLUTONIUM_WITH_VISIONARY` | Cannot redeem plutonium while having Visionary subscription |
+| `CANNOT_REPORT_OWN_GUILD` | You cannot report your own guild |
+| `CANNOT_REPORT_OWN_MESSAGE` | You cannot report your own message |
+| `CANNOT_REPORT_YOURSELF` | You cannot report yourself |
+| `CANNOT_SEND_EMPTY_MESSAGE` | Cannot send an empty message |
+| `CANNOT_SEND_FRIEND_REQUEST_TO_BLOCKED_USER` | Cannot send friend request to a blocked user |
+| `CANNOT_SEND_FRIEND_REQUEST_TO_SELF` | Cannot send friend request to yourself |
+| `CANNOT_SEND_MESSAGES_IN_NON_TEXT_CHANNEL` | Cannot send messages in a non-text channel |
+| `CANNOT_SEND_MESSAGES_TO_USER` | Cannot send messages to this user |
+| `CANNOT_SHRINK_RESERVED_SLOTS` | Cannot shrink reserved slots |
+| `CAPTCHA_REQUIRED` | Captcha verification is required |
+| `CHANNEL_INDEXING` | Channel is currently being indexed |
+| `COMMUNICATION_DISABLED` | You are timed out in this guild |
+| `CONTENT_BLOCKED` | Content was blocked |
+| `CREATION_FAILED` | Resource creation failed |
+| `DELETION_FAILED` | Resource deletion failed |
+| `DISCRIMINATOR_REQUIRED` | A discriminator is required |
+| `EMAIL_SERVICE_NOT_TESTABLE` | Email service is not in testable mode |
+| `EMAIL_VERIFICATION_REQUIRED` | Email verification is required |
+| `EXPLICIT_CONTENT_CANNOT_BE_SENT` | Explicit content cannot be sent in this channel |
+| `FEATURE_TEMPORARILY_DISABLED` | This feature is temporarily disabled |
+| `FILE_SIZE_TOO_LARGE` | File size exceeds the maximum allowed |
+| `FRIEND_REQUEST_BLOCKED` | Friend request was blocked |
+| `GENERAL_ERROR` | A general error occurred |
+| `GIFT_CODE_ALREADY_REDEEMED` | This gift code has already been redeemed |
+| `GUILD_PHONE_VERIFICATION_REQUIRED` | Phone verification is required to join this guild |
+| `GUILD_VERIFICATION_REQUIRED` | Account verification is required to interact in this guild |
+| `HANDOFF_CODE_EXPIRED` | Handoff code has expired |
+| `HARVEST_EXPIRED` | Data harvest request has expired |
+| `HARVEST_FAILED` | Data harvest failed |
+| `HARVEST_NOT_READY` | Data harvest is not yet ready |
+| `HARVEST_ON_COOLDOWN` | Data harvest is on cooldown |
+| `HTTP_GET_AUTHORIZE_NOT_SUPPORTED` | HTTP GET authorize is not supported |
+| `INSTANCE_VERSION_MISMATCH` | Instance version mismatch |
+| `INVALID_ACLS_FORMAT` | Invalid access control list format |
+| `INVALID_API_ORIGIN` | Invalid API origin |
+| `INVALID_AUTH_TOKEN` | Invalid authentication token |
+| `INVALID_BOT_FLAG` | Invalid bot flag |
+| `INVALID_CAPTCHA` | Invalid captcha response |
+| `INVALID_CHANNEL_TYPE_FOR_CALL` | Invalid channel type for call |
+| `INVALID_CHANNEL_TYPE` | Invalid channel type |
+| `INVALID_CLIENT` | Invalid OAuth2 client |
+| `INVALID_CLIENT_SECRET` | Invalid client secret |
+| `INVALID_DSA_REPORT_TARGET` | Invalid DSA report target |
+| `INVALID_DSA_TICKET` | Invalid DSA ticket |
+| `INVALID_DSA_VERIFICATION_CODE` | Invalid DSA verification code |
+| `INVALID_FLAGS_FORMAT` | Invalid flags format |
+| `INVALID_FORM_BODY` | Invalid request body format |
+| `INVALID_GRANT` | Invalid OAuth2 grant |
+| `INVALID_HANDOFF_CODE` | Invalid handoff code |
+| `INVALID_PACK_TYPE` | Invalid pack type |
+| `INVALID_PERMISSIONS_INTEGER` | Invalid permissions value |
+| `INVALID_PERMISSIONS_NEGATIVE` | Permissions value cannot be negative |
+| `INVALID_PHONE_NUMBER` | Invalid phone number |
+| `INVALID_PHONE_VERIFICATION_CODE` | Invalid phone verification code |
+| `INVALID_REDIRECT_URI` | Invalid redirect URI |
+| `INVALID_REQUEST` | Invalid request |
+| `INVALID_RESPONSE_TYPE_FOR_NON_BOT` | Invalid response type for non-bot application |
+| `INVALID_SCOPE` | Invalid OAuth2 scope |
+| `INVALID_STREAM_KEY_FORMAT` | Invalid stream key format |
+| `INVALID_STREAM_THUMBNAIL_PAYLOAD` | Invalid stream thumbnail payload |
+| `INVALID_SUDO_TOKEN` | Invalid sudo token |
+| `INVALID_SUSPICIOUS_FLAGS_FORMAT` | Invalid suspicious flags format |
+| `INVALID_SYSTEM_FLAG` | Invalid system flag |
+| `INVALID_TIMESTAMP` | Invalid timestamp |
+| `INVALID_TOKEN` | Invalid token |
+| `INVALID_WEBAUTHN_AUTHENTICATION_COUNTER` | Invalid WebAuthn authentication counter |
+| `INVALID_WEBAUTHN_CREDENTIAL_COUNTER` | Invalid WebAuthn credential counter |
+| `INVALID_WEBAUTHN_CREDENTIAL` | Invalid WebAuthn credential |
+| `INVALID_WEBAUTHN_PUBLIC_KEY_FORMAT` | Invalid WebAuthn public key format |
+| `INVITES_DISABLED` | Invites are disabled for this guild |
+| `IP_AUTHORIZATION_REQUIRED` | IP address authorization is required |
+| `IP_AUTHORIZATION_RESEND_COOLDOWN` | IP authorization email resend is on cooldown |
+| `IP_AUTHORIZATION_RESEND_LIMIT_EXCEEDED` | IP authorization email resend limit exceeded |
+| `IP_BANNED` | This IP address has been banned |
+| `MAX_ANIMATED_EMOJIS` | Maximum animated emojis limit reached |
+| `MAX_BETA_CODES_REACHED` | Maximum beta codes limit reached |
+| `MAX_BOOKMARKS` | Maximum bookmarks limit reached |
+| `MAX_CATEGORY_CHANNELS` | Maximum category channels limit reached |
+| `MAX_EMOJIS` | Maximum emojis limit reached |
+| `MAX_FAVORITE_MEMES` | Maximum favourite memes limit reached |
+| `MAX_FRIENDS` | Maximum friends limit reached |
+| `MAX_GROUP_DM_RECIPIENTS` | Maximum group DM recipients limit reached |
+| `MAX_GROUP_DMS` | Maximum group DMs limit reached |
+| `MAX_GUILD_CHANNELS` | Maximum guild channels limit reached |
+| `MAX_GUILD_MEMBERS` | Maximum guild members limit reached |
+| `MAX_GUILD_ROLES` | Maximum guild roles limit reached |
+| `MAX_GUILDS` | Maximum guilds limit reached |
+| `MAX_INVITES` | Maximum invites limit reached |
+| `MAX_PACK_EXPRESSIONS` | Maximum pack expressions limit reached |
+| `MAX_PACKS` | Maximum packs limit reached |
+| `MAX_PINS_PER_CHANNEL` | Maximum pins per channel limit reached |
+| `MAX_REACTIONS` | Maximum reactions limit reached |
+| `MAX_STICKERS` | Maximum stickers limit reached |
+| `MAX_WEBHOOKS_PER_CHANNEL` | Maximum webhooks per channel limit reached |
+| `MAX_WEBHOOKS_PER_GUILD` | Maximum webhooks per guild limit reached |
+| `MAX_WEBHOOKS` | Maximum webhooks limit reached |
+| `NCMEC_ALREADY_SUBMITTED` | NCMEC report has already been submitted |
+| `NCMEC_SUBMISSION_FAILED` | NCMEC report submission failed |
+| `MEDIA_METADATA_ERROR` | Error processing media metadata |
+| `MISSING_ACCESS` | Missing access to this resource |
+| `MISSING_ACL` | Missing access control list entry |
+| `MISSING_AUTHORIZATION` | Missing authorization header |
+| `MISSING_CLIENT_SECRET` | Missing client secret |
+| `MISSING_OAUTH_ADMIN_SCOPE` | Missing OAuth admin scope |
+| `MISSING_OAUTH_FIELDS` | Missing required OAuth fields |
+| `MISSING_OAUTH_SCOPE` | Missing required OAuth scope |
+| `MISSING_PERMISSIONS` | Missing required permissions |
+| `MISSING_REDIRECT_URI` | Missing redirect URI |
+| `NO_ACTIVE_CALL` | No active call in this channel |
+| `NO_ACTIVE_SUBSCRIPTION` | No active subscription |
+| `NO_PASSKEYS_REGISTERED` | No passkeys registered for this account |
+| `NO_PENDING_DELETION` | No pending deletion for this account |
+| `NO_USERS_WITH_FLUXERTAG_EXIST` | No users with this Fluxertag exist |
+| `NO_VISIONARY_SLOTS_AVAILABLE` | No Visionary slots available |
+| `NOT_FRIENDS_WITH_USER` | You are not friends with this user |
+| `NOT_OWNER_OF_ADMIN_API_KEY` | You are not the owner of this admin API key |
+| `NSFW_CONTENT_AGE_RESTRICTED` | NSFW content is age restricted |
+| `PACK_ACCESS_DENIED` | Access to this pack is denied |
+| `PASSKEY_AUTHENTICATION_FAILED` | Passkey authentication failed |
+| `PASSKEYS_DISABLED` | Passkeys are disabled |
+| `PHONE_ALREADY_USED` | This phone number is already in use |
+| `PHONE_RATE_LIMIT_EXCEEDED` | Phone verification rate limit exceeded |
+| `PHONE_REQUIRED_FOR_SMS_MFA` | Phone number required for SMS MFA |
+| `PHONE_VERIFICATION_REQUIRED` | Phone verification is required |
+| `PREMIUM_PURCHASE_BLOCKED` | Premium purchase is blocked |
+| `PREVIEW_MUST_BE_JPEG` | Preview image must be JPEG format |
+| `PROCESSING_FAILED` | Processing failed |
+| `RATE_LIMITED` | You are being rate limited |
+| `REDIRECT_URI_REQUIRED_FOR_NON_BOT` | Redirect URI required for non-bot application |
+| `REPORT_ALREADY_RESOLVED` | This report has already been resolved |
+| `REPORT_BANNED` | You are banned from submitting reports |
+| `SESSION_TOKEN_MISMATCH` | Session token mismatch |
+| `SLOWMODE_RATE_LIMITED` | You are being rate limited by slowmode |
+| `SMS_MFA_NOT_ENABLED` | SMS MFA is not enabled |
+| `SMS_MFA_REQUIRES_TOTP` | SMS MFA requires TOTP to be enabled first |
+| `SMS_VERIFICATION_UNAVAILABLE` | SMS verification is unavailable |
+| `SSO_REQUIRED` | Single sign-on is required |
+| `STREAM_KEY_CHANNEL_MISMATCH` | Stream key does not match channel |
+| `STREAM_KEY_SCOPE_MISMATCH` | Stream key scope mismatch |
+| `STREAM_THUMBNAIL_PAYLOAD_EMPTY` | Stream thumbnail payload is empty |
+| `STRIPE_ERROR` | Stripe payment error |
+| `STRIPE_GIFT_REDEMPTION_IN_PROGRESS` | Gift redemption already in progress |
+| `STRIPE_INVALID_PRODUCT` | Invalid Stripe product |
+| `STRIPE_INVALID_PRODUCT_CONFIGURATION` | Invalid Stripe product configuration |
+| `STRIPE_NO_ACTIVE_SUBSCRIPTION` | No active Stripe subscription |
+| `STRIPE_NO_PURCHASE_HISTORY` | No Stripe purchase history |
+| `STRIPE_NO_SUBSCRIPTION` | No Stripe subscription |
+| `STRIPE_PAYMENT_NOT_AVAILABLE` | Stripe payment not available |
+| `STRIPE_SUBSCRIPTION_ALREADY_CANCELING` | Subscription is already being cancelled |
+| `STRIPE_SUBSCRIPTION_NOT_CANCELING` | Subscription is not being cancelled |
+| `STRIPE_SUBSCRIPTION_PERIOD_END_MISSING` | Subscription period end date is missing |
+| `STRIPE_WEBHOOK_NOT_AVAILABLE` | Stripe webhook not available |
+| `STRIPE_WEBHOOK_SIGNATURE_INVALID` | Invalid Stripe webhook signature |
+| `STRIPE_WEBHOOK_SIGNATURE_MISSING` | Missing Stripe webhook signature |
+| `SUDO_MODE_REQUIRED` | Sudo mode is required for this action |
+| `TAG_ALREADY_TAKEN` | This tag is already taken |
+| `TEMPORARY_INVITE_REQUIRES_PRESENCE` | Temporary invite requires presence tracking |
+| `TEST_HARNESS_DISABLED` | Test harness is disabled |
+| `TEST_HARNESS_FORBIDDEN` | Test harness access is forbidden |
+| `TWO_FA_NOT_ENABLED` | Two-factor authentication is not enabled |
+| `TWO_FACTOR_REQUIRED` | Two-factor authentication is required |
+| `UNAUTHORIZED` | Unauthorized |
+| `UNCLAIMED_ACCOUNT_CANNOT_ACCEPT_FRIEND_REQUESTS` | Unclaimed accounts cannot accept friend requests |
+| `UNCLAIMED_ACCOUNT_CANNOT_ADD_REACTIONS` | Unclaimed accounts cannot add reactions |
+| `UNCLAIMED_ACCOUNT_CANNOT_CREATE_APPLICATIONS` | Unclaimed accounts cannot create applications |
+| `UNCLAIMED_ACCOUNT_CANNOT_CREATE_BETA_CODES` | Unclaimed accounts cannot create beta codes |
+| `UNCLAIMED_ACCOUNT_CANNOT_JOIN_GROUP_DMS` | Unclaimed accounts cannot join group DMs |
+| `UNCLAIMED_ACCOUNT_CANNOT_JOIN_ONE_ON_ONE_VOICE_CALLS` | Unclaimed accounts cannot join one-on-one voice calls |
+| `UNCLAIMED_ACCOUNT_CANNOT_JOIN_VOICE_CHANNELS` | Unclaimed accounts cannot join voice channels |
+| `UNCLAIMED_ACCOUNT_CANNOT_MAKE_PURCHASES` | Unclaimed accounts cannot make purchases |
+| `UNCLAIMED_ACCOUNT_CANNOT_SEND_DIRECT_MESSAGES` | Unclaimed accounts cannot send direct messages |
+| `UNCLAIMED_ACCOUNT_CANNOT_SEND_FRIEND_REQUESTS` | Unclaimed accounts cannot send friend requests |
+| `UNCLAIMED_ACCOUNT_CANNOT_SEND_MESSAGES` | Unclaimed accounts cannot send messages |
+| `UNKNOWN_BETA_CODE` | Unknown beta code |
+| `UNKNOWN_CHANNEL` | Unknown channel |
+| `UNKNOWN_EMOJI` | Unknown emoji |
+| `UNKNOWN_FAVORITE_MEME` | Unknown favourite meme |
+| `UNKNOWN_GIFT_CODE` | Unknown gift code |
+| `UNKNOWN_GUILD` | Unknown guild |
+| `UNKNOWN_HARVEST` | Unknown data harvest |
+| `UNKNOWN_INVITE` | Unknown invite |
+| `UNKNOWN_MEMBER` | Unknown member |
+| `UNKNOWN_MESSAGE` | Unknown message |
+| `UNKNOWN_PACK` | Unknown pack |
+| `UNKNOWN_REPORT` | Unknown report |
+| `UNKNOWN_ROLE` | Unknown role |
+| `UNKNOWN_STICKER` | Unknown sticker |
+| `UNKNOWN_SUSPICIOUS_FLAG` | Unknown suspicious flag |
+| `UNKNOWN_USER_FLAG` | Unknown user flag |
+| `UNKNOWN_USER` | Unknown user |
+| `UNKNOWN_VOICE_REGION` | Unknown voice region |
+| `UNKNOWN_VOICE_SERVER` | Unknown voice server |
+| `UNKNOWN_WEBAUTHN_CREDENTIAL` | Unknown WebAuthn credential |
+| `UNKNOWN_WEBHOOK` | Unknown webhook |
+| `UNSUPPORTED_RESPONSE_TYPE` | Unsupported response type |
+| `UPDATE_FAILED` | Resource update failed |
+| `USER_BANNED_FROM_GUILD` | User is banned from this guild |
+| `USER_IP_BANNED_FROM_GUILD` | User IP is banned from this guild |
+| `USER_NOT_IN_VOICE` | User is not in a voice channel |
+| `USER_OWNS_GUILDS` | User owns guilds and cannot perform this action |
+| `VOICE_CHANNEL_FULL` | Voice channel is full |
+| `WEBAUTHN_CREDENTIAL_LIMIT_REACHED` | WebAuthn credential limit reached |
+
+## Validation error codes
+
+These error codes are returned in the `code` field of individual validation error items when request validation fails.
+
+| Code | Description |
+|------|-------------|
+| `ACCENT_COLOR_CHANGED_TOO_MANY_TIMES` | Accent colour has been changed too many times recently |
+| `ACCOUNT_ALREADY_VERIFIED` | Account is already verified |
+| `AFK_CHANNEL_MUST_BE_IN_GUILD` | AFK channel must be in the same guild |
+| `AFK_CHANNEL_MUST_BE_VOICE` | AFK channel must be a voice channel |
+| `ALL_CHANNELS_MUST_BELONG_TO_GUILD` | All channels must belong to the same guild |
+| `ANIMATED_AVATARS_REQUIRE_PREMIUM` | Animated avatars require premium |
+| `ANIMATED_GUILD_BANNER_REQUIRES_FEATURE` | Animated guild banners require the feature to be enabled |
+| `AT_LEAST_ONE_ENTRY_IS_REQUIRED` | At least one entry is required |
+| `AT_LEAST_ONE_RECIPIENT_REQUIRED` | At least one recipient is required |
+| `ATTACHMENT_FIELDS_REQUIRED` | Attachment fields are required |
+| `ATTACHMENT_ID_NOT_FOUND_IN_MESSAGE` | Attachment ID was not found in the message |
+| `ATTACHMENT_IDS_MUST_BE_VALID_INTEGERS` | Attachment IDs must be valid integers |
+| `ATTACHMENT_METADATA_WITHOUT_FILES` | Attachment metadata provided without files |
+| `ATTACHMENT_MUST_BE_IMAGE` | Attachment must be an image |
+| `ATTACHMENTS_METADATA_REQUIRED_WHEN_UPLOADING` | Attachments metadata is required when uploading files |
+| `ATTACHMENTS_NOT_ALLOWED_FOR_MESSAGE` | Attachments are not allowed for this message type |
+| `AVATAR_CHANGED_TOO_MANY_TIMES` | Avatar has been changed too many times recently |
+| `BANNER_CHANGED_TOO_MANY_TIMES` | Banner has been changed too many times recently |
+| `BANNERS_REQUIRE_PREMIUM` | Banners require premium |
+| `BASE64_LENGTH_INVALID` | Invalid base64 length |
+| `BIO_CHANGED_TOO_MANY_TIMES` | Bio has been changed too many times recently |
+| `BUCKET_IS_REQUIRED` | Bucket is required |
+| `CANNOT_ADD_YOURSELF_TO_GROUP_DM` | Cannot add yourself to a group DM |
+| `CANNOT_DELETE_MORE_THAN_100_MESSAGES` | Cannot delete more than 100 messages at once |
+| `CANNOT_DM_YOURSELF` | Cannot send a direct message to yourself |
+| `CANNOT_LEAVE_GUILD_AS_OWNER` | Cannot leave guild as the owner |
+| `CANNOT_POSITION_CHANNEL_RELATIVE_TO_ITSELF` | Cannot position channel relative to itself |
+| `CANNOT_PRELOAD_MORE_THAN_100_CHANNELS` | Cannot preload more than 100 channels |
+| `CANNOT_REFERENCE_ATTACHMENTS_WITHOUT_ATTACHMENTS` | Cannot reference attachments without providing attachments |
+| `CANNOT_REORDER_EVERYONE_ROLE` | Cannot reorder the everyone role |
+| `CANNOT_REPLY_TO_SYSTEM_MESSAGE` | Cannot reply to a system message |
+| `CANNOT_SET_HOIST_FOR_EVERYONE_ROLE` | Cannot set hoist for the everyone role |
+| `CANNOT_SPECIFY_BOTH_BEFORE_AND_AFTER` | Cannot specify both before and after parameters |
+| `CANNOT_USE_SAME_ROLE_AS_PRECEDING` | Cannot use the same role as preceding |
+| `CATEGORIES_CANNOT_HAVE_PARENT_CHANNEL` | Categories cannot have a parent channel |
+| `CATEGORIES_CANNOT_HAVE_PARENTS` | Categories cannot have parents |
+| `CHANGING_DISCRIMINATOR_REQUIRES_PREMIUM` | Changing discriminator requires premium |
+| `CHANNEL_DOES_NOT_EXIST` | Channel does not exist |
+| `CHANNEL_ID_IS_REQUIRED` | Channel ID is required |
+| `CHANNEL_MUST_BE_DM_OR_GROUP_DM` | Channel must be a DM or group DM |
+| `CHANNEL_MUST_BE_VOICE` | Channel must be a voice channel |
+| `CHANNEL_NAME_EMPTY_AFTER_NORMALIZATION` | Channel name is empty after normalisation |
+| `CHANNEL_NOT_FOUND` | Channel was not found |
+| `COLOR_VALUE_TOO_HIGH` | Colour value is too high |
+| `COLOR_VALUE_TOO_LOW` | Colour value is too low |
+| `CONTENT_EXCEEDS_MAX_LENGTH` | Content exceeds maximum length |
+| `CONTEXT_CHANNEL_OR_GUILD_ID_REQUIRED` | Context channel or guild ID is required |
+| `CUSTOM_EMOJI_NOT_FOUND` | Custom emoji was not found |
+| `CUSTOM_EMOJIS_REQUIRE_PREMIUM_OUTSIDE_SOURCE` | Custom emojis require premium when used outside their source |
+| `CUSTOM_STICKER_NOT_FOUND` | Custom sticker was not found |
+| `CUSTOM_STICKERS_IN_DMS_REQUIRE_PREMIUM` | Custom stickers in DMs require premium |
+| `CUSTOM_STICKERS_REQUIRE_PREMIUM_OUTSIDE_SOURCE` | Custom stickers require premium when used outside their source |
+| `DISCRIMINATOR_INVALID_FORMAT` | Discriminator has an invalid format |
+| `DISCRIMINATOR_OUT_OF_RANGE` | Discriminator is out of valid range |
+| `DUPLICATE_ATTACHMENT_IDS_NOT_ALLOWED` | Duplicate attachment IDs are not allowed |
+| `DUPLICATE_FILE_INDEX` | Duplicate file index |
+| `DUPLICATE_RECIPIENTS_NOT_ALLOWED` | Duplicate recipients are not allowed |
+| `VOICE_MESSAGES_ATTACHMENT_MUST_BE_AUDIO` | Voice message attachment must be audio |
+| `VOICE_MESSAGES_ATTACHMENT_WAVEFORM_REQUIRED` | Voice message attachment waveform is required |
+| `VOICE_MESSAGES_ATTACHMENT_DURATION_REQUIRED` | Voice message attachment duration is required |
+| `VOICE_MESSAGES_CANNOT_HAVE_CONTENT` | Voice messages cannot have content |
+| `VOICE_MESSAGES_CANNOT_HAVE_EMBEDS` | Voice messages cannot have embeds |
+| `VOICE_MESSAGES_CANNOT_HAVE_FAVORITE_MEMES` | Voice messages cannot have favourite memes |
+| `VOICE_MESSAGES_CANNOT_HAVE_STICKERS` | Voice messages cannot have stickers |
+| `VOICE_MESSAGES_DURATION_EXCEEDS_LIMIT` | Voice message duration exceeds limit |
+| `VOICE_MESSAGES_REQUIRE_SINGLE_ATTACHMENT` | Voice messages require a single attachment |
+| `EMAIL_ALREADY_IN_USE` | Email address is already in use |
+| `EMAIL_IS_REQUIRED` | Email address is required |
+| `EMAIL_LENGTH_INVALID` | Email address length is invalid |
+| `EMAIL_MUST_BE_CHANGED_VIA_TOKEN` | Email must be changed via verification token |
+| `EMAIL_TOKEN_EXPIRED` | Email verification token has expired |
+| `EMBED_INDEX_OUT_OF_BOUNDS` | Embed index is out of bounds |
+| `EMBED_SPLASH_REQUIRES_FEATURE` | Embed splash requires the feature to be enabled |
+| `EMBEDS_EXCEED_MAX_CHARACTERS` | Embeds exceed maximum character count |
+| `EMOJI_REQUIRES_GUILD_OR_PACK_ACCESS` | Emoji requires guild or pack access |
+| `FAILED_TO_PARSE_MULTIPART_FORM_DATA` | Failed to parse multipart form data |
+| `FAILED_TO_PARSE_MULTIPART_PAYLOAD` | Failed to parse multipart payload |
+| `FAILED_TO_UPLOAD_IMAGE` | Failed to upload image |
+| `FAVORITE_MEME_NAME_REQUIRED` | Favourite meme name is required |
+| `FAVORITE_MEME_NOT_FOUND` | Favourite meme was not found |
+| `FILE_INDEX_EXCEEDS_MAXIMUM` | File index exceeds maximum |
+| `FILE_NOT_FOUND_FOR_SCANNING` | File not found for scanning |
+| `FILE_NOT_FOUND` | File was not found |
+| `FILENAME_EMPTY_AFTER_NORMALIZATION` | Filename is empty after normalisation |
+| `FILENAME_INVALID_CHARACTERS` | Filename contains invalid characters |
+| `FILENAME_LENGTH_INVALID` | Filename length is invalid |
+| `FILENAME_MISMATCH_FOR_ATTACHMENT` | Filename mismatch for attachment |
+| `FORWARD_MESSAGES_CANNOT_CONTAIN_CONTENT` | Forward messages cannot contain content |
+| `FORWARD_REFERENCE_REQUIRES_CHANNEL_AND_MESSAGE` | Forward reference requires channel and message |
+| `GLOBAL_NAME_CANNOT_CONTAIN_RESERVED_TERMS` | Display name cannot contain reserved terms |
+| `GLOBAL_NAME_LENGTH_INVALID` | Display name length is invalid |
+| `GLOBAL_NAME_RESERVED_VALUE` | Display name is a reserved value |
+| `GUILD_BANNER_REQUIRES_FEATURE` | Guild banner requires the feature to be enabled |
+| `GUILD_ID_MUST_MATCH_REFERENCED_MESSAGE` | Guild ID must match referenced message |
+| `IMAGE_SIZE_EXCEEDS_LIMIT` | Image size exceeds limit |
+| `INTEGER_OUT_OF_INT64_RANGE` | Integer is out of 64-bit range |
+| `SNOWFLAKE_OUT_OF_RANGE` | Snowflake is out of valid range |
+| `INVALID_AUDIT_LOG_REASON` | Invalid audit log reason |
+| `INVALID_BASE64_FORMAT` | Invalid base64 format |
+| `INVALID_CHANNEL_ID` | Invalid channel ID |
+| `INVALID_CHANNEL` | Invalid channel |
+| `INVALID_CODE` | Invalid code |
+| `INVALID_DATE_OF_BIRTH_FORMAT` | Invalid date of birth format |
+| `INVALID_DATETIME_FOR_SCHEDULED_SEND` | Invalid datetime for scheduled send |
+| `INVALID_EMAIL_ADDRESS` | Invalid email address |
+| `INVALID_EMAIL_FORMAT` | Invalid email format |
+| `INVALID_EMAIL_LOCAL_PART` | Invalid email local part |
+| `INVALID_EMAIL_OR_PASSWORD` | Invalid email or password |
+| `INVALID_EMAIL_TOKEN` | Invalid email verification token |
+| `INVALID_FILE_FIELD_NAME` | Invalid file field name |
+| `INVALID_FORMAT` | Invalid format |
+| `INVALID_IMAGE_DATA` | Invalid image data |
+| `INVALID_IMAGE_FORMAT` | Invalid image format |
+| `INVALID_INTEGER_FORMAT` | Invalid integer format |
+| `INVALID_SNOWFLAKE_FORMAT` | Invalid snowflake format |
+| `INVALID_ISO_TIMESTAMP` | Invalid ISO timestamp |
+| `INVALID_JOB_ID` | Invalid job ID |
+| `INVALID_JSON_IN_PAYLOAD_JSON` | Invalid JSON in payload_json field |
+| `INVALID_MESSAGE_DATA` | Invalid message data |
+| `INVALID_MFA_CODE` | Invalid MFA code |
+| `INVALID_OR_ALREADY_USED_BETA_CODE` | Invalid or already used beta code |
+| `INVALID_OR_EXPIRED_AUTHORIZATION_TICKET` | Invalid or expired authorisation ticket |
+| `INVALID_OR_EXPIRED_AUTHORIZATION_TOKEN` | Invalid or expired authorisation token |
+| `INVALID_OR_EXPIRED_RESET_TOKEN` | Invalid or expired password reset token |
+| `INVALID_OR_EXPIRED_REVERT_TOKEN` | Invalid or expired revert token |
+| `INVALID_OR_EXPIRED_TICKET` | Invalid or expired ticket |
+| `INVALID_OR_EXPIRED_VERIFICATION_TOKEN` | Invalid or expired verification token |
+| `INVALID_OR_RESTRICTED_RTC_REGION` | Invalid or restricted RTC region |
+| `INVALID_PARENT_CHANNEL` | Invalid parent channel |
+| `INVALID_PASSWORD` | Invalid password |
+| `INVALID_PROOF_TOKEN` | Invalid proof token |
+| `INVALID_ROLE_ID` | Invalid role ID |
+| `INVALID_RTC_REGION` | Invalid RTC region |
+| `INVALID_SCHEDULED_MESSAGE_PAYLOAD` | Invalid scheduled message payload |
+| `INVALID_SNOWFLAKE` | Invalid snowflake |
+| `INVALID_TIMEOUT_VALUE` | Invalid timeout value |
+| `INVALID_TIMEZONE_IDENTIFIER` | Invalid timezone identifier |
+| `INVALID_URL_FORMAT` | Invalid URL format |
+| `INVALID_URL_OR_ATTACHMENT_FORMAT` | Invalid URL or attachment format |
+| `INVALID_VERIFICATION_CODE` | Invalid verification code |
+| `INVITE_SPLASH_REQUIRES_FEATURE` | Invite splash requires the feature to be enabled |
+| `JOB_ID_IS_REQUIRED` | Job ID is required |
+| `JOB_IS_ALREADY_PROCESSED` | Job has already been processed |
+| `JOB_NOT_FOUND` | Job was not found |
+| `MEDIA_ALREADY_IN_FAVORITE_MEMES` | Media is already in favourite memes |
+| `MESSAGE_IDS_CANNOT_BE_EMPTY` | Message IDs cannot be empty |
+| `MESSAGES_ARRAY_REQUIRED_AND_NOT_EMPTY` | Messages array is required and cannot be empty |
+| `MESSAGES_WITH_SNAPSHOTS_CANNOT_BE_EDITED` | Messages with snapshots cannot be edited |
+| `MULTIPLE_FILES_FOR_INDEX_NOT_ALLOWED` | Multiple files for the same index are not allowed |
+| `MUST_AGREE_TO_TOS_AND_PRIVACY_POLICY` | Must agree to terms of service and privacy policy |
+| `MUST_BE_MINIMUM_AGE` | Must be minimum age to use this service |
+| `MUST_ENABLE_2FA_BEFORE_REQUIRING_FOR_MODS` | Must enable 2FA before requiring it for moderators |
+| `MUST_HAVE_EMAIL_TO_CHANGE_IT` | Must have an email to change it |
+| `MUST_START_SESSION_BEFORE_SENDING` | Must start session before sending |
+| `NAME_EMPTY_AFTER_NORMALIZATION` | Name is empty after normalisation |
+| `NEW_EMAIL_MUST_BE_DIFFERENT` | New email must be different from current email |
+| `NO_FILE_FOR_ATTACHMENT_METADATA` | No file provided for attachment metadata |
+| `NO_FILE_FOR_ATTACHMENT` | No file provided for attachment |
+| `NO_METADATA_FOR_FILE` | No metadata provided for file |
+| `NO_NEW_EMAIL_REQUESTED` | No new email has been requested |
+| `NO_ORIGINAL_EMAIL_ON_RECORD` | No original email on record |
+| `NO_VALID_MEDIA_IN_MESSAGE` | No valid media in message |
+| `NOT_A_VALID_UNICODE_EMOJI` | Not a valid Unicode emoji |
+| `ORIGINAL_EMAIL_ALREADY_VERIFIED` | Original email is already verified |
+| `ORIGINAL_EMAIL_MUST_BE_VERIFIED_FIRST` | Original email must be verified first |
+| `ORIGINAL_VERIFICATION_NOT_REQUIRED` | Original verification is not required |
+| `PARENT_CHANNEL_NOT_IN_GUILD` | Parent channel is not in the guild |
+| `PARENT_MUST_BE_CATEGORY` | Parent channel must be a category |
+| `PARSE_AND_USERS_OR_ROLES_CANNOT_BE_USED_TOGETHER` | Parse and users/roles cannot be used together |
+| `PASSWORD_IS_TOO_COMMON` | Password is too common |
+| `PASSWORD_LENGTH_INVALID` | Password length is invalid |
+| `PASSWORD_NOT_SET` | Password is not set |
+| `PAYLOAD_JSON_REQUIRED_FOR_MULTIPART` | payload_json is required for multipart requests |
+| `PHONE_NUMBER_INVALID_FORMAT` | Phone number has an invalid format |
+| `PRECEDING_CHANNEL_MUST_SHARE_PARENT` | Preceding channel must share the same parent |
+| `PRECEDING_CHANNEL_NOT_IN_GUILD` | Preceding channel is not in the guild |
+| `PRECEDING_ROLE_NOT_IN_GUILD` | Preceding role is not in the guild |
+| `PREMIUM_REQUIRED_FOR_CUSTOM_EMOJI` | Premium is required for custom emoji |
+| `PRONOUNS_CHANGED_TOO_MANY_TIMES` | Pronouns have been changed too many times recently |
+| `RECIPIENT_IDS_CANNOT_BE_EMPTY` | Recipient IDs cannot be empty |
+| `RECIPIENT_IDS_MUST_BE_STRINGS` | Recipient IDs must be strings |
+| `RECIPIENT_IDS_MUST_BE_VALID_SNOWFLAKES` | Recipient IDs must be valid snowflakes |
+| `REFERENCED_ATTACHMENT_NOT_FOUND` | Referenced attachment was not found |
+| `ROWS_IS_REQUIRED` | Rows field is required |
+| `SCHEDULED_MESSAGES_MAX_30_DAYS` | Scheduled messages must be within 30 days |
+| `SCHEDULED_TIME_MUST_BE_FUTURE` | Scheduled time must be in the future |
+| `SESSION_TIMEOUT` | Session has timed out |
+| `SIZE_BYTES_MUST_BE_VALID_INTEGER` | Size in bytes must be a valid integer |
+| `STRING_LENGTH_EXACT` | String must be exactly the required length |
+| `STRING_LENGTH_INVALID` | String length is invalid |
+| `SYSTEM_CHANNEL_MUST_BE_IN_GUILD` | System channel must be in the guild |
+| `SYSTEM_CHANNEL_MUST_BE_TEXT` | System channel must be a text channel |
+| `TAG_ALREADY_TAKEN` | Tag is already taken |
+| `THIS_VANITY_URL_IS_ALREADY_TAKEN` | This vanity URL is already taken |
+| `TICKET_ALREADY_COMPLETED` | Ticket has already been completed |
+| `TIMEOUT_CANNOT_EXCEED_365_DAYS` | Timeout cannot exceed 365 days |
+| `TOO_MANY_EMBEDS` | Too many embeds |
+| `TOO_MANY_FILES` | Too many files |
+| `TOO_MANY_USERS_WITH_THIS_USERNAME` | Too many users with this username |
+| `TOO_MANY_USERS_WITH_USERNAME_TRY_DIFFERENT` | Too many users with this username, try a different one |
+| `UNCLAIMED_ACCOUNTS_CAN_ONLY_SET_EMAIL_VIA_TOKEN` | Unclaimed accounts can only set email via verification token |
+| `UNKNOWN_IMAGE_FORMAT` | Unknown image format |
+| `UNRESOLVED_ATTACHMENT_URL` | Unresolved attachment URL |
+| `UPLOADED_ATTACHMENT_NOT_FOUND` | Uploaded attachment was not found |
+| `URL_LENGTH_INVALID` | URL length is invalid |
+| `USER_DOES_NOT_HAVE_AN_EMAIL_ADDRESS` | User does not have an email address |
+| `USER_IS_NOT_BANNED` | User is not banned |
+| `USER_IS_NOT_PENDING_VERIFICATION` | User is not pending verification |
+| `USER_MUST_BE_A_BOT_TO_BE_MARKED_AS_A_SYSTEM_USER` | User must be a bot to be marked as a system user |
+| `USER_NOT_IN_CHANNEL` | User is not in the channel |
+| `USERNAME_CANNOT_CONTAIN_RESERVED_TERMS` | Username cannot contain reserved terms |
+| `USERNAME_CHANGED_TOO_MANY_TIMES` | Username has been changed too many times recently |
+| `USERNAME_INVALID_CHARACTERS` | Username contains invalid characters |
+| `USERNAME_LENGTH_INVALID` | Username length is invalid |
+| `USERNAME_RESERVED_VALUE` | Username is a reserved value |
+| `VALUE_MUST_BE_INTEGER_IN_RANGE` | Value must be an integer in the valid range |
+| `VALUE_TOO_SMALL` | Value is too small |
+| `VANITY_URL_CODE_ALREADY_TAKEN` | Vanity URL code is already taken |
+| `VANITY_URL_CODE_CANNOT_CONTAIN_FLUXER` | Vanity URL code cannot contain fluxer |
+| `VANITY_URL_CODE_LENGTH_INVALID` | Vanity URL code length is invalid |
+| `VANITY_URL_INVALID_CHARACTERS` | Vanity URL contains invalid characters |
+| `VANITY_URL_REQUIRES_FEATURE` | Vanity URL requires the feature to be enabled |
+| `VERIFICATION_CODE_EXPIRED` | Verification code has expired |
+| `VERIFICATION_CODE_NOT_ISSUED` | Verification code was not issued |
+| `VISIONARY_REQUIRED_FOR_BOT_DISCRIMINATOR` | Visionary subscription required for bot discriminator |
+| `VISIONARY_REQUIRED_FOR_DISCRIMINATOR` | Visionary subscription required for discriminator |
+| `VOICE_CHANNELS_CANNOT_BE_ABOVE_TEXT_CHANNELS` | Voice channels cannot be positioned above text channels |
+| `WEBHOOK_NAME_LENGTH_INVALID` | Webhook name length is invalid |

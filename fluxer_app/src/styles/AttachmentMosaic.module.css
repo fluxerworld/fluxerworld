@@ -134,9 +134,9 @@
 
 .oneByOneGrid {
 	width: 100%;
-	max-width: 550px;
-	max-height: 400px;
-	overflow: visible;
+	max-width: min(100%, var(--message-media-max-width, var(--attachment-media-max-width, 550px)));
+	max-height: var(--attachment-media-max-height, 400px);
+	overflow: hidden;
 	position: relative;
 	display: flex;
 }
@@ -195,10 +195,10 @@
 
 .mosaicContainerWrapper {
 	position: relative;
-	overflow: visible;
+	overflow: hidden;
 	display: block;
 	width: 100%;
-	max-width: 550px;
+	max-width: min(100%, var(--message-media-max-width, var(--attachment-media-max-width, 550px)));
 }
 
 .mosaicExpiryBadge {
@@ -325,7 +325,7 @@
 }
 
 .playButton svg {
-	color: white;
+	color: var(--text-on-brand-primary);
 }
 
 .audioPlaceholder {
@@ -362,7 +362,7 @@
 	}
 
 	.oneByOneGrid {
-		max-height: 300px;
+		max-height: min(var(--attachment-media-max-height, 400px), 300px);
 		max-width: 100%;
 	}
 
@@ -392,9 +392,10 @@
 }
 
 .mosaicContainer {
-	height: 100%;
-	max-width: 550px;
+	max-width: min(100%, var(--message-media-max-width, var(--attachment-media-max-width, 550px)));
 	width: 100%;
+	height: auto;
+	overflow: hidden;
 }
 
 .clickableButton {
@@ -415,7 +416,7 @@
 	padding: 4px 8px;
 	font-size: 0.875rem;
 	font-weight: 600;
-	color: white;
+	color: var(--text-on-brand-primary);
 	line-height: 1;
 }
 

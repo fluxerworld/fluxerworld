@@ -1,0 +1,18 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "RELATIONSHIP_REMOVE",
+	"description": "Sent when a user relationship is removed (unfriended, unblocked, request cancelled, or replaced by a block).",
+	"scope": "presence",
+	"dispatchedBy": ["DELETE /users/@me/relationships/:user_id", "PUT /users/@me/relationships/:user_id"],
+	"dispatchedByNote": "Also dispatched via PUT when blocking a user replaces an existing friend or pending relationship",
+	"payload": {
+		"type": "object",
+		"properties": {
+			"id": {
+				"type": "string",
+				"description": "ID of the user whose relationship was removed"
+			}
+		},
+		"required": ["id"]
+	}
+}

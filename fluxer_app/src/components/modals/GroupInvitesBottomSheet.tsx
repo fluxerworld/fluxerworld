@@ -17,25 +17,29 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as InviteActionCreators from '@app/actions/InviteActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {InviteRevokeFailedModal} from '@app/components/alerts/InviteRevokeFailedModal';
+import {InvitesLoadFailedModal} from '@app/components/alerts/InvitesLoadFailedModal';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import styles from '@app/components/modals/GroupInvitesBottomSheet.module.css';
+import {Avatar} from '@app/components/uikit/Avatar';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {Logger} from '@app/lib/Logger';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import UserStore from '@app/stores/UserStore';
+import type {Invite} from '@fluxer/schema/src/domains/invite/InviteSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {ArrowLeftIcon, TrashIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as InviteActionCreators from '~/actions/InviteActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {InviteRevokeFailedModal} from '~/components/alerts/InviteRevokeFailedModal';
-import {InvitesLoadFailedModal} from '~/components/alerts/InvitesLoadFailedModal';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {Avatar} from '~/components/uikit/Avatar';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import type {Invite} from '~/records/MessageRecord';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import UserStore from '~/stores/UserStore';
-import styles from './GroupInvitesBottomSheet.module.css';
+import type React from 'react';
+import {useCallback, useEffect, useState} from 'react';
+
+const logger = new Logger('GroupInvitesBottomSheet');
 
 interface GroupInvitesBottomSheetProps {
 	isOpen: boolean;
@@ -46,34 +50,34 @@ interface GroupInvitesBottomSheetProps {
 export const GroupInvitesBottomSheet: React.FC<GroupInvitesBottomSheetProps> = observer(
 	({isOpen, onClose, channelId}) => {
 		const {t} = useLingui();
-		const [invites, setInvites] = React.useState<Array<Invite> | null>(null);
-		const [isLoading, setIsLoading] = React.useState(true);
+		const [invites, setInvites] = useState<Array<Invite> | null>(null);
+		const [isLoading, setIsLoading] = useState(true);
 
-		const loadInvites = React.useCallback(async () => {
+		const loadInvites = useCallback(async () => {
 			try {
 				setIsLoading(true);
 				const data = await InviteActionCreators.list(channelId);
 				setInvites(data);
 			} catch (error) {
-				console.error('Failed to load invites:', error);
+				logger.error('Failed to load invites:', error);
 				ModalActionCreators.push(modal(() => <InvitesLoadFailedModal />));
 			} finally {
 				setIsLoading(false);
 			}
 		}, [channelId]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (isOpen) {
 				loadInvites();
 			}
 		}, [isOpen, loadInvites]);
 
-		const handleRevoke = React.useCallback(
+		const handleRevoke = useCallback(
 			(code: string) => {
 				ModalActionCreators.push(
 					modal(() => (
 						<ConfirmModal
-							title={t`Revoke invite`}
+							title={t`Revoke Invite`}
 							description={t`Are you sure you want to revoke this invite? This action cannot be undone.`}
 							primaryText={t`Revoke`}
 							onPrimary={async () => {
@@ -85,8 +89,10 @@ export const GroupInvitesBottomSheet: React.FC<GroupInvitesBottomSheetProps> = o
 									});
 									await loadInvites();
 								} catch (error) {
-									console.error('Failed to revoke invite:', error);
-									ModalActionCreators.push(modal(() => <InviteRevokeFailedModal />));
+									logger.error('Failed to revoke invite:', error);
+									window.setTimeout(() => {
+										ModalActionCreators.push(modal(() => <InviteRevokeFailedModal />));
+									}, 0);
 								}
 							}}
 						/>

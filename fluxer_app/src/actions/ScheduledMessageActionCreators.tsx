@@ -17,46 +17,49 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {I18n} from '@lingui/core';
-import {msg} from '@lingui/core/macro';
-import * as DraftActionCreators from '~/actions/DraftActionCreators';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as SlowmodeActionCreators from '~/actions/SlowmodeActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {APIErrorCodes} from '~/Constants';
-import {FeatureTemporarilyDisabledModal} from '~/components/alerts/FeatureTemporarilyDisabledModal';
-import {FileSizeTooLargeModal} from '~/components/alerts/FileSizeTooLargeModal';
-import {MessageSendFailedModal} from '~/components/alerts/MessageSendFailedModal';
-import {MessageSendTooQuickModal} from '~/components/alerts/MessageSendTooQuickModal';
-import {NSFWContentRejectedModal} from '~/components/alerts/NSFWContentRejectedModal';
-import {SlowmodeRateLimitedModal} from '~/components/alerts/SlowmodeRateLimitedModal';
-import {Endpoints} from '~/Endpoints';
-import {CloudUpload} from '~/lib/CloudUpload';
-import http, {type HttpError, type HttpResponse} from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {AllowedMentions} from '~/records/MessageRecord';
-import {
-	type ScheduledAttachment,
-	type ScheduledMessagePayload,
-	ScheduledMessageRecord,
-	type ScheduledMessageResponse,
-} from '~/records/ScheduledMessageRecord';
-import ScheduledMessagesStore from '~/stores/ScheduledMessagesStore';
-import {prepareAttachmentsForNonce} from '~/utils/MessageAttachmentUtils';
+import * as DraftActionCreators from '@app/actions/DraftActionCreators';
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as SlowmodeActionCreators from '@app/actions/SlowmodeActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {FeatureTemporarilyDisabledModal} from '@app/components/alerts/FeatureTemporarilyDisabledModal';
+import {FileSizeTooLargeModal} from '@app/components/alerts/FileSizeTooLargeModal';
+import {MessageSendFailedModal} from '@app/components/alerts/MessageSendFailedModal';
+import {MessageSendTooQuickModal} from '@app/components/alerts/MessageSendTooQuickModal';
+import {NSFWContentRejectedModal} from '@app/components/alerts/NSFWContentRejectedModal';
+import {SlowmodeRateLimitedModal} from '@app/components/alerts/SlowmodeRateLimitedModal';
+import {Endpoints} from '@app/Endpoints';
+import {CloudUpload} from '@app/lib/CloudUpload';
+import http, {type HttpResponse} from '@app/lib/HttpClient';
+import type {HttpError} from '@app/lib/HttpError';
+import {Logger} from '@app/lib/Logger';
+import type {
+	ScheduledAttachment,
+	ScheduledMessagePayload,
+	ScheduledMessageResponse,
+} from '@app/records/ScheduledMessageRecord';
+import {ScheduledMessageRecord} from '@app/records/ScheduledMessageRecord';
+import ScheduledMessagesStore from '@app/stores/ScheduledMessagesStore';
+import {prepareAttachmentsForNonce} from '@app/utils/MessageAttachmentUtils';
 import {
 	type ApiAttachmentMetadata,
 	buildMessageCreateRequest,
 	type MessageCreateRequest,
-	type MessageReference,
-	type MessageStickerItem,
 	type NormalizedMessageContent,
 	normalizeMessageContent,
-} from '~/utils/MessageRequestUtils';
-import * as MessageSubmitUtils from '~/utils/MessageSubmitUtils';
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
-import {TypingUtils} from '~/utils/TypingUtils';
+} from '@app/utils/MessageRequestUtils';
+import * as MessageSubmitUtils from '@app/utils/MessageSubmitUtils';
+import {TypingUtils} from '@app/utils/TypingUtils';
+import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
+import type {
+	AllowedMentions,
+	MessageReference,
+	MessageStickerItem,
+} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
+import type {I18n} from '@lingui/core';
+import {msg} from '@lingui/core/macro';
 
 const logger = new Logger('ScheduledMessages');
 
@@ -113,7 +116,7 @@ function mapScheduledAttachments(
 	}));
 }
 
-export const fetchScheduledMessages = async (): Promise<Array<ScheduledMessageRecord>> => {
+export async function fetchScheduledMessages(): Promise<Array<ScheduledMessageRecord>> {
 	logger.debug('Fetching scheduled messages');
 	ScheduledMessagesStore.fetchStart();
 
@@ -131,9 +134,9 @@ export const fetchScheduledMessages = async (): Promise<Array<ScheduledMessageRe
 		logger.error('Failed to fetch scheduled messages:', error);
 		throw error;
 	}
-};
+}
 
-export const scheduleMessage = async (i18n: I18n, params: ScheduleMessageParams): Promise<ScheduledMessageRecord> => {
+export async function scheduleMessage(i18n: I18n, params: ScheduleMessageParams): Promise<ScheduledMessageRecord> {
 	logger.debug('Scheduling message', params);
 	const nonce = SnowflakeUtils.fromTimestamp(Date.now());
 	const normalized = normalizeMessageContent(params.content, params.favoriteMemeId);
@@ -207,12 +210,12 @@ export const scheduleMessage = async (i18n: I18n, params: ScheduleMessageParams)
 		);
 		throw error;
 	}
-};
+}
 
-export const updateScheduledMessage = async (
+export async function updateScheduledMessage(
 	i18n: I18n,
 	params: UpdateScheduledMessageParams,
-): Promise<ScheduledMessageRecord> => {
+): Promise<ScheduledMessageRecord> {
 	logger.debug('Updating scheduled message', params);
 	const requestBody: ScheduledMessageRequest = {
 		content: params.normalized.content,
@@ -257,9 +260,9 @@ export const updateScheduledMessage = async (
 		logger.error('Failed to update scheduled message', error);
 		throw error;
 	}
-};
+}
 
-export const cancelScheduledMessage = async (i18n: I18n, scheduledMessageId: string): Promise<void> => {
+export async function cancelScheduledMessage(i18n: I18n, scheduledMessageId: string): Promise<void> {
 	logger.debug('Canceling scheduled message', scheduledMessageId);
 	try {
 		await http.delete({url: Endpoints.USER_SCHEDULED_MESSAGE(scheduledMessageId)});
@@ -272,7 +275,7 @@ export const cancelScheduledMessage = async (i18n: I18n, scheduledMessageId: str
 		logger.error('Failed to cancel scheduled message', error);
 		throw error;
 	}
-};
+}
 
 function restoreDraftAfterScheduleFailure(
 	channelId: string,

@@ -17,26 +17,25 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {MessageDescriptor} from '@lingui/core';
+import {Typing} from '@app/components/channel/Typing';
+import styles from '@app/components/channel/TypingUsers.module.css';
+import {AvatarStack} from '@app/components/uikit/avatars/AvatarStack';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import TypingStore from '@app/stores/TypingStore';
+import UserStore from '@app/stores/UserStore';
+import messageStyles from '@app/styles/Message.module.css';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useEffect, useState} from 'react';
-import {Typing} from '~/components/channel/Typing';
-import {Avatar} from '~/components/uikit/Avatar';
-import {AvatarStack} from '~/components/uikit/avatars/AvatarStack';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-import TypingStore from '~/stores/TypingStore';
-import UserStore from '~/stores/UserStore';
-import messageStyles from '~/styles/Message.module.css';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import styles from './TypingUsers.module.css';
 
 const SEVERAL_PEOPLE_DESCRIPTOR = msg`Several people are typing...`;
 const HANDFUL_DESCRIPTOR = msg`A handful of keyboard warriors are assembling...`;
@@ -44,13 +43,10 @@ const SYMPHONY_DESCRIPTOR = msg`A symphony of clacking keys is underway...`;
 const FIESTA_DESCRIPTOR = msg`It's a full-blown typing fiesta in here`;
 const APOCALYPSE_DESCRIPTOR = msg`Whoa, it's a typing apocalypse`;
 
-const getDisplayName = (user: UserRecord, guildId?: string | null) => NicknameUtils.getNickname(user, guildId);
+const getDisplayName = (user: UserRecord, guildId?: string | null) =>
+	NicknameUtils.getNickname(user, guildId ?? undefined);
 
-export const getTypingText = (
-	t: (message: MessageDescriptor) => string,
-	typingUsers: Array<UserRecord>,
-	channel: ChannelRecord,
-) => {
+export const getTypingText = (i18n: I18n, typingUsers: Array<UserRecord>, channel: ChannelRecord) => {
 	const [a, b, c] = typingUsers.map((user) => {
 		const member = GuildMemberStore.getMember(channel.guildId ?? '', user.id);
 		return (
@@ -81,22 +77,22 @@ export const getTypingText = (
 	}
 
 	if (typingUsers.length === 4) {
-		return t(SEVERAL_PEOPLE_DESCRIPTOR);
+		return i18n._(SEVERAL_PEOPLE_DESCRIPTOR);
 	}
 
 	if (typingUsers.length > 4 && typingUsers.length < 10) {
-		return t(HANDFUL_DESCRIPTOR);
+		return i18n._(HANDFUL_DESCRIPTOR);
 	}
 
 	if (typingUsers.length > 9 && typingUsers.length < 15) {
-		return t(SYMPHONY_DESCRIPTOR);
+		return i18n._(SYMPHONY_DESCRIPTOR);
 	}
 
 	if (typingUsers.length > 14 && typingUsers.length < 20) {
-		return t(FIESTA_DESCRIPTOR);
+		return i18n._(FIESTA_DESCRIPTOR);
 	}
 
-	return t(APOCALYPSE_DESCRIPTOR);
+	return i18n._(APOCALYPSE_DESCRIPTOR);
 };
 
 export const usePresentableTypingUsers = (channel: ChannelRecord) => {
@@ -123,7 +119,7 @@ export const TypingUsers = observer(
 		withText?: boolean;
 		showAvatars?: boolean;
 	}) => {
-		const {t} = useLingui();
+		const {i18n} = useLingui();
 		const [isAutocompleteOpen, setIsAutocompleteOpen] = useState(false);
 
 		useEffect(() => {
@@ -159,14 +155,17 @@ export const TypingUsers = observer(
 					{withText && (
 						<>
 							{showAvatars && (
-								<AvatarStack size={12} maxVisible={AVATAR_THRESHOLD} className={messageStyles.typingAvatarContainer}>
-									{typingUsers.map((user) => (
-										<Avatar key={user.id} user={user} size={12} guildId={channel.guildId} />
-									))}
-								</AvatarStack>
+								<AvatarStack
+									size={12}
+									maxVisible={AVATAR_THRESHOLD}
+									className={messageStyles.typingAvatarContainer}
+									users={typingUsers}
+									guildId={channel.guildId}
+									channelId={channel.id}
+								/>
 							)}
 							<span aria-atomic={true} aria-live="polite" className={messageStyles.typingText}>
-								{getTypingText(t, typingUsers, channel)}
+								{getTypingText(i18n, typingUsers, channel)}
 							</span>
 						</>
 					)}

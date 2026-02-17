@@ -1,0 +1,370 @@
+account_disabled_suspicious:
+  subject: Tvoj Fluxer račun je privremeno onemogućen
+  body: |-
+    Bok {username},
+
+    Tvoj Fluxer račun je privremeno onemogućen zbog sumnjive aktivnosti.
+
+    {reason, select,
+      null {}
+      other {Razlog: {reason}}
+    }
+
+    Da bi ponovno imao pristup računu, moraš postaviti novu lozinku:
+
+    {forgotUrl}
+
+    Nakon što postaviš novu lozinku, moći ćeš se ponovno prijaviti.
+
+    Ako smatraš da je ovo greška, javi se našem timu za podršku.
+
+    – Fluxerov tim za sigurnost
+account_scheduled_deletion:
+  subject: Tvoj Fluxer račun bit će trajno obrisan
+  body: |-
+    Bok {username},
+
+    Tvoj Fluxer račun zakazan je za trajno brisanje zbog kršenja naših uvjeta korištenja ili smjernica zajednice.
+
+    Datum brisanja: {deletionDate, date, full} u {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Razlog: {reason}}
+    }
+
+    Ovo je ozbiljna mjera. Podaci tvog računa bit će trajno obrisani na navedeni datum.
+
+    Molimo te da pročitaš:
+    - Uvjeti korištenja: {termsUrl}
+    - Smjernice zajednice: {guidelinesUrl}
+
+    Žalba:
+    Ako smatraš da je ova odluka pogrešna ili neopravdana, možeš u roku od 60 dana podnijeti žalbu. Pošalji je na appeals@fluxer.app, i to s ove e-adrese.
+
+    U žalbi:
+    - Jasno objasni zašto smatraš da je odluka pogrešna ili neopravdana
+    - Priloži relevantne dokaze ili dodatni kontekst, ako je moguće
+
+    Član Fluxerovog tima za sigurnost pregledat će tvoju žalbu i može privremeno zaustaviti brisanje dok ne donesemo konačnu odluku.
+
+    – Fluxerov tim za sigurnost
+account_temp_banned:
+  subject: Tvoj Fluxer račun je privremeno suspendiran
+  body: |-
+    Bok {username},
+
+    Tvoj Fluxer račun je privremeno suspendiran zbog kršenja naših uvjeta korištenja ili smjernica zajednice.
+
+    Trajanje: {durationHours, plural,
+      one {# sat}
+      few {# sata}
+      other {# sati}
+    }
+    Suspendiran do: {bannedUntil, date, full} u {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {Razlog: {reason}}
+    }
+
+    Za to vrijeme nećeš moći pristupiti računu.
+
+    Molimo te da pročitaš:
+    - Uvjeti korištenja: {termsUrl}
+    - Smjernice zajednice: {guidelinesUrl}
+
+    Ako smatraš da je ova odluka pogrešna ili neopravdana, možeš poslati žalbu na appeals@fluxer.app, i to s ove e-adrese. Jasno objasni zašto smatraš da je odluka pogrešna. Pregledat ćemo žalbu i javiti ti našu odluku.
+
+    – Fluxerov tim za sigurnost
+donation_confirmation:
+  subject: Hvala na donaciji za Fluxer
+  body: |-
+    Bok,
+
+    Hvala na donaciji za Fluxer! Tvoja {interval, select,
+      month {ponavljajuća donacija}
+      year {ponavljajuća donacija}
+      other {jednokratna donacija}
+    } uspješno je {interval, select,
+      month {postavljena}
+      year {postavljena}
+      other {obrađena}
+    }.
+
+    Detalji donacije:
+    Iznos: {amount} {currency} {interval, select,
+      month {mjesečno}
+      year {godišnje}
+      other {}
+    }
+
+    Stripe će ti uskoro poslati zasebnu e-poštu s potvrdom i fakturom u PDF formatu. Ona sadrži sve podatke o plaćanju i može se koristiti za porezne svrhe.
+
+    U bilo kojem trenutku možeš pregledati povijest donacija, preuzeti fakture{interval, select,
+      month { te upravljati ili otkazati pretplatu}
+      year { te upravljati ili otkazati pretplatu}
+      other { te upravljati budućim donacijama}
+    } putem ove poveznice:
+
+    {manageUrl}
+
+    Tvoja podrška pomaže Fluxeru da radi. Hvala!
+
+    – Fluxerov tim
+donation_magic_link:
+  subject: Upravljaj svojim donacijama za Fluxer
+  body: |-
+    Bok,
+
+    Klikni na poveznicu ispod da pristupiš portalu za donatore:
+
+    {manageUrl}
+
+    Na portalu možeš upravljati pretplatama, preuzimati fakture i pregledavati povijest donacija.
+
+    Ova poveznica istječe {expiresAt, date, full} u {expiresAt, time, short}.
+
+    Ako to nisi zatražio/la, slobodno ignoriraj ovu e-poštu.
+
+    – Fluxerov tim
+dsa_report_verification:
+  subject: Potvrdi svoju e-adresu za DSA prijavu
+  body: |-
+    Bok,
+
+    Upotrijebi kod ispod da pošalješ svoju prijavu u skladu s Aktom o digitalnim uslugama (DSA) na Fluxeru:
+
+    {code}
+
+    Ovaj kod istječe {expiresAt, date, full} u {expiresAt, time, short}.
+
+    Ako to nisi ti, slobodno ignoriraj ovu e-poruku.
+
+    – Fluxerov tim za sigurnost
+email_change_new:
+  subject: Potvrdi svoju novu Fluxer e-adresu
+  body: |-
+    Bok {username},
+
+    Upiši ovaj kod u aplikaciju da potvrdiš svoju novu Fluxer e-adresu:
+
+    {code}
+
+    Ovaj kod istječe {expiresAt, date, full} u {expiresAt, time, short}.
+
+    Ako to nisi ti, slobodno ignoriraj ovu e-poruku.
+
+    – Fluxerov tim
+email_change_original:
+  subject: Potvrdi promjenu Fluxer e-adrese
+  body: |-
+    Bok {username},
+
+    Dobili smo zahtjev za promjenu e-adrese na tvom Fluxer računu.
+
+    Da potvrdiš promjenu, upiši ovaj kod u aplikaciju:
+
+    {code}
+
+    Ovaj kod istječe {expiresAt, date, full} u {expiresAt, time, short}.
+
+    Ako to nisi ti, odmah osiguraj svoj račun.
+
+    – Fluxerov tim
+email_change_revert:
+  subject: Promijenjena je e-adresa tvog Fluxer računa
+  body: |-
+    Bok {username},
+
+    E-adresa na tvom Fluxer računu promijenjena je u {newEmail}.
+
+    Ako si ti napravio/la ovu promjenu, ne trebaš ništa poduzimati. Ako nisi, možeš poništiti promjenu i osigurati svoj račun putem poveznice:
+
+    {revertUrl}
+
+    Time se vraća tvoja prethodna e-adresa i odjavljuješ se sa svih uređaja. Također se uklanjaju povezani brojevi telefona, isključuje se višefaktorska autentifikacija (MFA) i morat ćeš postaviti novu lozinku.
+
+    – Fluxerov tim za sigurnost
+email_verification:
+  subject: Potvrdi svoju Fluxer e-adresu
+  body: |-
+    Bok {username},
+
+    Potvrdi e-adresu za svoj Fluxer račun klikom na poveznicu ispod:
+
+    {verifyUrl}
+
+    Ako nisi pokušao/la otvoriti Fluxer račun, slobodno ignoriraj ovu e-poruku.
+
+    Ova poveznica vrijedi 24 sata.
+
+    – Fluxerov tim
+gift_chargeback_notification:
+  subject: Uklonjene su pogodnosti iz tvog iskorištenog poklona
+  body: |-
+    Bok {username},
+
+    Poklon-kod koji si iskoristio/la izvorno je platila druga osoba. Ta je uplata u međuvremenu poništena (chargeback).
+
+    Zato smo uklonili pogodnosti koje su dodane na tvoj račun prilikom iskorištavanja poklona.
+
+    Ako smatraš da je ovo greška, kontaktiraj naš tim za podršku i navedi sve detalje koje imaš o poklon-kodu i vremenu iskorištavanja.
+
+    – Fluxerov tim
+harvest_completed:
+  subject: Tvoj izvoz podataka iz Fluxera spreman je za preuzimanje
+  body: |-
+    Bok {username},
+
+    Tvoj izvoz podataka je spreman.
+
+    Poveznica za preuzimanje:
+    {downloadUrl}
+
+    Uključene poruke: {totalMessages, number}
+    Veličina datoteke: {fileSizeMB, number} MB
+
+    Ova poveznica istječe {expiresAt, date, full} u {expiresAt, time, short}.
+
+    Ako nisi zatražio/la ovaj izvoz, odmah promijeni lozinku i kontaktiraj naš tim za podršku.
+
+    – Fluxerov tim
+inactivity_warning:
+  subject: Tvoj Fluxer račun bit će obrisan zbog neaktivnosti
+  body: |-
+    Bok {username},
+
+    Nismo zabilježili nikakvu aktivnost na tvom Fluxer računu od {lastActiveDate, date, full}.
+
+    Ako se ne prijaviš do {deletionDate, date, full} u {deletionDate, time, short}, tvoj račun bit će trajno obrisan zbog neaktivnosti.
+
+    Prijavi se ovdje:
+    {loginUrl}
+
+    Ako si Fluxer koristio/la nedavno, odmah kontaktiraj naš tim za podršku.
+
+    – Fluxerov tim
+ip_authorization:
+  subject: Potvrdi prijavu s nove IP adrese
+  body: |-
+    Bok {username},
+
+    Otkrili smo pokušaj prijave na tvoj Fluxer račun s nove IP adrese:
+
+    IP adresa: {ipAddress}
+    Lokacija: {location}
+
+    Ako je ovo bio tvoj pokušaj prijave, potvrdi ovu IP adresu klikom na poveznicu ispod:
+
+    {authUrl}
+
+    Ako ovo nije bio tvoj pokušaj prijave, odmah promijeni lozinku.
+
+    Ova poveznica za potvrdu vrijedi 30 minuta.
+
+    – Fluxerov tim
+password_change_verification:
+  subject: Potvrdi promjenu Fluxer lozinke
+  body: |-
+    Bok {username},
+
+    Dobili smo zahtjev za promjenu lozinke na tvom Fluxer računu.
+
+    Da potvrdiš promjenu, upiši ovaj kod u aplikaciju:
+
+    {code}
+
+    Ovaj kod istječe {expiresAt, date, full} u {expiresAt, time, short}.
+
+    Ako to nisi ti, netko možda ima pristup tvom računu. Odmah promijeni lozinku i omogući dvofaktorsku autentifikaciju.
+
+    – Fluxerov tim
+password_reset:
+  subject: Ponovno postavi svoju Fluxer lozinku
+  body: |-
+    Bok {username},
+
+    Zatraženo je ponovno postavljanje lozinke za tvoj Fluxer račun. Koristi poveznicu ispod da postaviš novu lozinku:
+
+    {resetUrl}
+
+    Ako to nisi ti, slobodno ignoriraj ovu e-poruku.
+
+    Ova poveznica vrijedi 1 sat.
+
+    – Fluxerov tim
+registration_approved:
+  subject: Tvoja Fluxer registracija je odobrena
+  body: |-
+    Bok {username},
+
+    Dobre vijesti: tvoja Fluxer registracija je odobrena.
+
+    Sada se možeš prijaviti u Fluxer aplikaciju ovdje:
+    {channelsUrl}
+
+    Dobro došao/la u Fluxer zajednicu.
+
+    – Fluxerov tim
+report_resolved:
+  subject: Tvoja Fluxer prijava je pregledana
+  body: |-
+    Bok {username},
+
+    Naš tim za sigurnost pregledao je tvoju prijavu (ID: {reportId}).
+
+    Odgovor tima za sigurnost:
+    {publicComment}
+
+    Hvala što pomažeš da Fluxer bude sigurniji za sve. Sve prijave shvaćamo ozbiljno i cijenimo tvoj doprinos zajednici.
+
+    Ako imaš pitanja ili nedoumice oko ishoda, javi se na safety@fluxer.app.
+
+    – Fluxerov tim za sigurnost
+scheduled_deletion_notification:
+  subject: Tvoj Fluxer račun bit će trajno obrisan
+  body: |-
+    Bok {username},
+
+    Tvoj Fluxer račun zakazan je za trajno brisanje.
+
+    Datum brisanja: {deletionDate, date, full} u {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Razlog: {reason}}
+    }
+
+    Ovo je ozbiljna mjera. Podaci tvog računa bit će trajno obrisani na navedeni datum.
+
+    Ako smatraš da je ova odluka pogrešna, možeš poslati žalbu na appeals@fluxer.app, i to s ove e-adrese.
+
+    – Fluxerov tim za sigurnost
+self_deletion_scheduled:
+  subject: Brisanje tvog Fluxer računa je zakazano
+  body: |-
+    Bok {username},
+
+    Zatraženo je brisanje tvog Fluxer računa. Račun će biti trajno obrisan:
+
+    {deletionDate, date, full} u {deletionDate, time, short}
+
+    Ako to nisi ti zatražio/la, prijavi se na svoj račun kako bi otkazao/la brisanje. Također preporučujemo da promijeniš lozinku kako bi osigurao/la svoj račun.
+
+    – Fluxerov tim
+unban_notification:
+  subject: Suspenzija tvog Fluxer računa je ukinuta
+  body: |-
+    Bok {username},
+
+    Dobre vijesti: suspenzija tvog Fluxer računa je ukinuta.
+
+    {reason, select,
+      null {}
+      other {Razlog: {reason}}
+    }
+
+    Sada se možeš ponovno prijaviti i nastaviti koristiti Fluxer.
+
+    – Fluxerov tim za sigurnost

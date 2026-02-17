@@ -33,11 +33,11 @@ const isCached = (src: string | null): boolean => {
 	return imageCache.has(src);
 };
 
-export const hasImage = (src: string | null): boolean => {
+export function hasImage(src: string | null): boolean {
 	return isCached(src);
-};
+}
 
-export const loadImage = (src: string | null, onLoad: () => void, onError?: () => void): void => {
+export function loadImage(src: string | null, onLoad: () => void, onError?: () => void): void {
 	if (!src) {
 		onError?.();
 		return;
@@ -60,4 +60,4 @@ export const loadImage = (src: string | null, onLoad: () => void, onError?: () =
 	};
 
 	image.src = src;
-};
+}

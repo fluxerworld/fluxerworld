@@ -1,0 +1,16 @@
+{
+	"$schema": "../../packages/config/src/ConfigSchema.json",
+	"server": {
+		"host": "0.0.0.0",
+		"port": 8080
+	},
+	"database": {
+		"path": "./data/relays.db"
+	},
+	"health_check": {
+		"interval_ms": 30000,
+		"timeout_ms": 5000,
+		"unhealthy_threshold": 3
+	},
+	"bootstrap_relays": []
+}

@@ -17,12 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ChannelActionCreators from '@app/actions/ChannelActionCreators';
+import {BaseChangeNicknameModal} from '@app/components/modals/BaseChangeNicknameModal';
+import type {UserRecord} from '@app/records/UserRecord';
+import ChannelStore from '@app/stores/ChannelStore';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ChannelActionCreators from '~/actions/ChannelActionCreators';
-import {BaseChangeNicknameModal} from '~/components/modals/BaseChangeNicknameModal';
-import type {UserRecord} from '~/records/UserRecord';
-import ChannelStore from '~/stores/ChannelStore';
+import type React from 'react';
+import {useCallback} from 'react';
 
 interface ChangeGroupDMNicknameModalProps {
 	channelId: string;
@@ -33,7 +34,7 @@ export const ChangeGroupDMNicknameModal: React.FC<ChangeGroupDMNicknameModalProp
 	const channel = ChannelStore.getChannel(channelId);
 	const currentNick = channel?.nicks?.[user.id] || '';
 
-	const handleSave = React.useCallback(
+	const handleSave = useCallback(
 		async (nick: string | null) => {
 			await ChannelActionCreators.updateGroupDMNickname(channelId, user.id, nick);
 		},

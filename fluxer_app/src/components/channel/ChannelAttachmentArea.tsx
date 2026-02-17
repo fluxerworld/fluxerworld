@@ -17,10 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {DndContext, type DragEndEvent, PointerSensor, useSensor, useSensors} from '@dnd-kit/core';
-import {restrictToHorizontalAxis} from '@dnd-kit/modifiers';
-import {arrayMove, horizontalListSortingStrategy, SortableContext, useSortable} from '@dnd-kit/sortable';
-import {CSS} from '@dnd-kit/utilities';
+import * as MediaViewerActionCreators from '@app/actions/MediaViewerActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import styles from '@app/components/channel/ChannelAttachmentArea.module.css';
+import EmbedVideo from '@app/components/channel/embeds/media/EmbedVideo';
+import {computeHorizontalDropPosition} from '@app/components/layout/dnd/DndDropPosition';
+import {type AttachmentDragItem, type AttachmentDropResult, DND_TYPES} from '@app/components/layout/types/DndTypes';
+import {AttachmentEditModal} from '@app/components/modals/AttachmentEditModal';
+import * as Modal from '@app/components/modals/Modal';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useTextareaAttachments} from '@app/hooks/useCloudUpload';
+import {type CloudAttachment, CloudUpload} from '@app/lib/CloudUpload';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import MessageStore from '@app/stores/MessageStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import {isEmbeddableImageFile} from '@app/utils/EmbeddableImageTypes';
+import {formatFileSize} from '@app/utils/FileUtils';
+import {MessageAttachmentFlags} from '@fluxer/constants/src/ChannelConstants';
 import {useLingui} from '@lingui/react/macro';
 import {
 	EyeIcon,
@@ -37,23 +53,11 @@ import {
 } from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as MediaViewerActionCreators from '~/actions/MediaViewerActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {MessageAttachmentFlags} from '~/Constants';
-import styles from '~/components/channel/ChannelAttachmentArea.module.css';
-import EmbedVideo from '~/components/channel/embeds/media/EmbedVideo';
-import {AttachmentEditModal} from '~/components/modals/AttachmentEditModal';
-import * as Modal from '~/components/modals/Modal';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useTextareaAttachments} from '~/hooks/useCloudUpload';
-import {type CloudAttachment, CloudUpload} from '~/lib/CloudUpload';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import MessageStore from '~/stores/MessageStore';
-import {formatFileSize} from '~/utils/FileUtils';
+import type React from 'react';
+import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
+import type {ConnectableElement} from 'react-dnd';
+import {useDrag, useDrop} from 'react-dnd';
+import {getEmptyImage} from 'react-dnd-html5-backend';
 
 const getFileExtension = (filename: string): string => {
 	const ext = filename.split('.').pop()?.toLowerCase() || '';
@@ -117,12 +121,24 @@ const getFileIcon = (file: File): Icon => {
 	return FileIcon;
 };
 
+const isAttachmentMedia = (attachment: CloudAttachment): boolean => {
+	if (attachment.file.type.startsWith('video/')) {
+		return attachment.previewURL !== null || attachment.thumbnailURL !== null;
+	}
+
+	if (isEmbeddableImageFile(attachment.file)) {
+		return attachment.previewURL !== null;
+	}
+
+	return false;
+};
+
 const VideoPreviewModal = observer(({file, width, height}: {file: File; width: number; height: number}) => {
 	const {t} = useLingui();
 
-	const [blobUrl, setBlobUrl] = React.useState<string | null>(null);
+	const [blobUrl, setBlobUrl] = useState<string | null>(null);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const url = URL.createObjectURL(file);
 		setBlobUrl(url);
 		return () => URL.revokeObjectURL(url);
@@ -145,20 +161,119 @@ const SortableAttachmentItem = observer(
 		attachment,
 		channelId,
 		isSortingList = false,
+		onAttachmentDrop,
+		onDragStateChange,
 	}: {
 		attachment: CloudAttachment;
 		channelId: string;
 		isSortingList?: boolean;
+		onAttachmentDrop?: (item: AttachmentDragItem, result: AttachmentDropResult) => void;
+		onDragStateChange?: (item: AttachmentDragItem | null) => void;
 	}) => {
 		const {t} = useLingui();
+		const itemRef = useRef<HTMLLIElement | null>(null);
+		const mobileLayout = MobileLayoutStore;
 
-		const [spoilerHidden, setSpoilerHidden] = React.useState(true);
-		const {attributes, listeners, setNodeRef, transform, transition, isDragging} = useSortable({
-			id: attachment.id,
-		});
+		const [spoilerHidden, setSpoilerHidden] = useState(true);
+		const [dropIndicator, setDropIndicator] = useState<'left' | 'right' | null>(null);
 		const isSpoiler = (attachment.flags & MessageAttachmentFlags.IS_SPOILER) !== 0;
 
-		React.useEffect(() => {
+		const dragItemData: AttachmentDragItem = {
+			type: DND_TYPES.ATTACHMENT,
+			id: attachment.id,
+			channelId,
+		};
+
+		const [{isDragging}, dragRef, preview] = useDrag(
+			() => ({
+				type: DND_TYPES.ATTACHMENT,
+				item: () => {
+					onDragStateChange?.(dragItemData);
+					return dragItemData;
+				},
+				canDrag: !mobileLayout.enabled,
+				collect: (monitor) => ({isDragging: monitor.isDragging()}),
+				end: () => {
+					onDragStateChange?.(null);
+					setDropIndicator(null);
+				},
+			}),
+			[dragItemData, mobileLayout.enabled, onDragStateChange],
+		);
+
+		const [{isOver}, dropRef] = useDrop(
+			() => ({
+				accept: DND_TYPES.ATTACHMENT,
+				canDrop: (item: AttachmentDragItem) => item.id !== attachment.id,
+				hover: (item: AttachmentDragItem, monitor) => {
+					if (item.id === attachment.id) {
+						setDropIndicator(null);
+						return;
+					}
+					const node = itemRef.current;
+					if (!node) return;
+					const hoverBoundingRect = node.getBoundingClientRect();
+					const clientOffset = monitor.getClientOffset();
+					if (!clientOffset) return;
+					const dropPos = computeHorizontalDropPosition(clientOffset, hoverBoundingRect);
+					setDropIndicator(dropPos === 'before' ? 'left' : 'right');
+				},
+				drop: (item: AttachmentDragItem, monitor): AttachmentDropResult | undefined => {
+					if (!monitor.canDrop()) {
+						setDropIndicator(null);
+						return;
+					}
+					const node = itemRef.current;
+					if (!node) return;
+					const hoverBoundingRect = node.getBoundingClientRect();
+					const clientOffset = monitor.getClientOffset();
+					if (!clientOffset) return;
+					const result: AttachmentDropResult = {
+						targetId: attachment.id,
+						position: computeHorizontalDropPosition(clientOffset, hoverBoundingRect),
+					};
+					onAttachmentDrop?.(item, result);
+					setDropIndicator(null);
+					return result;
+				},
+				collect: (monitor) => ({
+					isOver: monitor.isOver({shallow: true}),
+				}),
+			}),
+			[attachment.id, onAttachmentDrop],
+		);
+
+		useEffect(() => {
+			if (!isOver) setDropIndicator(null);
+		}, [isOver]);
+
+		useEffect(() => {
+			preview(getEmptyImage(), {captureDraggingState: true});
+		}, [preview]);
+
+		const dragConnectorRef = useCallback(
+			(node: ConnectableElement | null) => {
+				dragRef(node);
+			},
+			[dragRef],
+		);
+		const dropConnectorRef = useCallback(
+			(node: ConnectableElement | null) => {
+				dropRef(node);
+			},
+			[dropRef],
+		);
+
+		const setRefs = useCallback(
+			(node: HTMLLIElement | null) => {
+				itemRef.current = node;
+				dragConnectorRef(node);
+				dropConnectorRef(node);
+			},
+			[dragConnectorRef, dropConnectorRef],
+		);
+
+		useEffect(() => {
 			if (isSpoiler) {
 				setSpoilerHidden(true);
 			}
@@ -170,7 +285,7 @@ const SortableAttachmentItem = observer(
 				return;
 			}
 
-			if (attachment.file.type.startsWith('image/')) {
+			if (isEmbeddableImageFile(attachment.file)) {
 				if (!attachment.previewURL) return;
 
 				MediaViewerActionCreators.openMediaViewer(
@@ -197,22 +312,23 @@ const SortableAttachmentItem = observer(
 			width: '200px',
 			height: '200px',
 			position: 'relative',
-			transform: CSS.Transform.toString(transform),
-			transition,
 			opacity: isDragging ? 0.5 : 1,
 			cursor: isDragging ? 'grabbing' : 'default',
 		};
 
-		const isMedia =
-			attachment.previewURL && (attachment.file.type.startsWith('image/') || attachment.file.type.startsWith('video/'));
+		const isMedia = isAttachmentMedia(attachment);
+		const isHiddenSpoiler = isSpoiler && spoilerHidden;
+		const IconComponent = getFileIcon(attachment.file);
 
 		return (
 			<li
-				{...attributes}
-				{...listeners}
-				ref={setNodeRef}
+				ref={setRefs}
 				style={containerStyle}
-				className={styles.upload}
+				className={clsx(
+					styles.upload,
+					dropIndicator === 'left' && styles.dropIndicatorLeft,
+					dropIndicator === 'right' && styles.dropIndicatorRight,
+				)}
 				tabIndex={-1}
 			>
 				<div className={styles.uploadContainer}>
@@ -222,20 +338,20 @@ const SortableAttachmentItem = observer(
 								<div
 									className={clsx(
 										styles.spoilerContainer,
-										isSpoiler && spoilerHidden && styles.hidden,
-										isSpoiler && spoilerHidden && styles.hiddenSpoiler,
+										isHiddenSpoiler && styles.hidden,
+										isHiddenSpoiler && styles.hiddenSpoiler,
 									)}
 								>
-									{isSpoiler && spoilerHidden && (
+									{isHiddenSpoiler && (
 										<div className={clsx(styles.spoilerWarning, styles.obscureWarning)}>{t`Spoiler`}</div>
 									)}
 
-									<div className={styles.spoilerInnerContainer} aria-hidden={spoilerHidden}>
+									<div className={styles.spoilerInnerContainer} aria-hidden={isHiddenSpoiler}>
 										<div className={styles.spoilerWrapper}>
-											{attachment.file.type.startsWith('image/') ? (
-												<ImageThumbnail attachment={attachment} spoiler={isSpoiler && spoilerHidden} />
+											{isEmbeddableImageFile(attachment.file) ? (
+												<ImageThumbnail attachment={attachment} spoiler={isHiddenSpoiler} />
 											) : attachment.file.type.startsWith('video/') ? (
-												<VideoThumbnail attachment={attachment} spoiler={isSpoiler && spoilerHidden} />
+												<VideoThumbnail attachment={attachment} spoiler={isHiddenSpoiler} />
 											) : null}
 											<div className={styles.tags}>
 												{isSpoiler && !spoilerHidden && <span className={styles.altTag}>{t`Spoiler`}</span>}
@@ -247,10 +363,31 @@ const SortableAttachmentItem = observer(
 						</div>
 					) : (
 						<div className={styles.icon}>
-							{(() => {
-								const IconComponent = getFileIcon(attachment.file);
-								return <IconComponent className={styles.iconImage} weight="fill" aria-label={attachment.filename} />;
-							})()}
+							<button type="button" className={styles.clickableMedia} onClick={handleClick}>
+								<div
+									className={clsx(
+										styles.spoilerContainer,
+										isHiddenSpoiler && styles.hidden,
+										isHiddenSpoiler && styles.hiddenSpoiler,
+									)}
+								>
+									{isHiddenSpoiler && (
+										<div className={clsx(styles.spoilerWarning, styles.obscureWarning)}>{t`Spoiler`}</div>
+									)}
+									<div className={styles.spoilerInnerContainer} aria-hidden={isHiddenSpoiler}>
+										<div className={styles.spoilerWrapper}>
+											<IconComponent
+												className={clsx(styles.iconImage, isHiddenSpoiler && styles.spoiler)}
+												weight="fill"
+												aria-label={attachment.filename}
+											/>
+											<div className={styles.tags}>
+												{isSpoiler && !spoilerHidden && <span className={styles.altTag}>{t`Spoiler`}</span>}
+											</div>
+										</div>
+									</div>
+								</div>
+							</button>
 						</div>
 					)}
 
@@ -288,23 +425,35 @@ const SortableAttachmentItem = observer(
 
 export const ChannelAttachmentArea = observer(({channelId}: {channelId: string}) => {
 	const attachments = useTextareaAttachments(channelId);
-	const prevAttachmentsLength = React.useRef<number | null>(null);
-	const wasAtBottomBeforeChange = React.useRef<boolean>(true);
-	const [isDragging, setIsDragging] = React.useState(false);
-	const sensors = useSensors(useSensor(PointerSensor, {activationConstraint: {distance: 8}}));
+	const prevAttachmentsLength = useRef<number | null>(null);
+	const wasAtBottomBeforeChange = useRef<boolean>(true);
+	const [isDragging, setIsDragging] = useState(false);
 
-	const handleDragEnd = (event: DragEndEvent) => {
-		const {active, over} = event;
-		if (over && active.id !== over.id) {
-			const oldIndex = attachments.findIndex((attachment) => attachment.id === active.id);
-			const newIndex = attachments.findIndex((attachment) => attachment.id === over.id);
-			if (oldIndex !== -1 && newIndex !== -1) {
-				const newArray = arrayMove(attachments.slice(), oldIndex, newIndex);
-				CloudUpload.reorderAttachments(channelId, newArray);
-			}
-		}
-		setIsDragging(false);
-	};
+	const handleAttachmentDrop = useCallback(
+		(item: AttachmentDragItem, result: AttachmentDropResult) => {
+			const sourceId = item.id;
+			const targetId = result.targetId;
+			if (sourceId === targetId) return;
+
+			const oldIndex = attachments.findIndex((attachment: CloudAttachment) => attachment.id === sourceId);
+			const targetIndex = attachments.findIndex((attachment: CloudAttachment) => attachment.id === targetId);
+			if (oldIndex === -1 || targetIndex === -1) return;
+
+			let newIndex = result.position === 'after' ? targetIndex + 1 : targetIndex;
+			if (oldIndex < targetIndex && result.position === 'after') newIndex--;
+
+			const newArray = [...attachments];
+			const [movedItem] = newArray.splice(oldIndex, 1);
+			newArray.splice(newIndex, 0, movedItem);
+
+			CloudUpload.reorderAttachments(channelId, newArray);
+		},
+		[attachments, channelId],
+	);
+
+	const handleDragStateChange = useCallback((item: AttachmentDragItem | null) => {
+		setIsDragging(item !== null);
+	}, []);
 
 	if (attachments.length !== prevAttachmentsLength.current) {
 		const scrollerElement = document.querySelector('.scroller-base') as HTMLElement | null;
@@ -315,7 +464,7 @@ export const ChannelAttachmentArea = observer(({channelId}: {channelId: string})
 		}
 	}
 
-	React.useLayoutEffect(() => {
+	useLayoutEffect(() => {
 		const currentLength = attachments.length;
 		const previousLength = prevAttachmentsLength.current;
 
@@ -340,37 +489,27 @@ export const ChannelAttachmentArea = observer(({channelId}: {channelId: string})
 
 	return (
 		<>
-			<DndContext
-				sensors={sensors}
-				modifiers={[restrictToHorizontalAxis]}
-				onDragEnd={handleDragEnd}
-				onDragStart={() => setIsDragging(true)}
-			>
-				<SortableContext
-					items={attachments.map((attachment) => attachment.id)}
-					strategy={horizontalListSortingStrategy}
-				>
-					<Scroller orientation="horizontal" fade={false} className={styles.scroller}>
-						<ul className={styles.channelAttachmentArea}>
-							{attachments.map((attachment) => (
-								<SortableAttachmentItem
-									key={attachment.id}
-									attachment={attachment}
-									channelId={channelId}
-									isSortingList={isDragging}
-								/>
-							))}
-						</ul>
-					</Scroller>
-				</SortableContext>
-			</DndContext>
+			<Scroller key="channel-attachment-scroller" orientation="horizontal" fade={false} className={styles.scroller}>
+				<ul className={styles.channelAttachmentArea}>
+					{attachments.map((attachment: CloudAttachment) => (
+						<SortableAttachmentItem
+							key={attachment.id}
+							attachment={attachment}
+							channelId={channelId}
+							isSortingList={isDragging}
+							onAttachmentDrop={handleAttachmentDrop}
+							onDragStateChange={handleDragStateChange}
+						/>
+					))}
+				</ul>
+			</Scroller>
 			<div className={styles.divider} />
 		</>
 	);
 });
 
 const ImageThumbnail = observer(({attachment, spoiler}: {attachment: CloudAttachment; spoiler: boolean}) => {
-	const [hasError, setHasError] = React.useState(false);
+	const [hasError, setHasError] = useState(false);
 	const src = attachment.previewURL;
 
 	if (hasError || !src) return null;
@@ -387,7 +526,7 @@ const ImageThumbnail = observer(({attachment, spoiler}: {attachment: CloudAttach
 });
 
 const VideoThumbnail = observer(({attachment, spoiler}: {attachment: CloudAttachment; spoiler: boolean}) => {
-	const [hasError, setHasError] = React.useState(false);
+	const [hasError, setHasError] = useState(false);
 	const src = attachment.thumbnailURL || attachment.previewURL;
 
 	if (hasError || !src) return null;

@@ -17,9 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import AppStorage from '~/lib/AppStorage';
-import {IS_DEV} from '~/lib/env';
-import {HttpError} from '~/lib/HttpError';
+import AppStorage from '@app/lib/AppStorage';
+import {IS_DEV} from '@app/lib/Env';
+import {HttpError} from '@app/lib/HttpError';
+import type {ValueOf} from '@fluxer/constants/src/ValueOf';
 
 export const LogLevel = {
 	Trace: 0,
@@ -30,7 +31,7 @@ export const LogLevel = {
 	Fatal: 5,
 	Silent: 6,
 } as const;
-export type LogLevel = (typeof LogLevel)[keyof typeof LogLevel];
+export type LogLevel = ValueOf<typeof LogLevel>;
 
 const LEVEL_NAME_BY_VALUE: Record<number, keyof typeof LogLevel> = {
 	[LogLevel.Trace]: 'Trace',
@@ -70,6 +71,10 @@ export class Logger {
 
 	static refreshGlobalLogLevel(): void {
 		Logger.globalMinLevel = resolveDefaultMinLevel();
+	}
+
+	static create(name: string, minLevelOverride?: LogLevel): Logger {
+		return new Logger(name, minLevelOverride);
 	}
 
 	private getCurrentLogLevel(): LogLevel {

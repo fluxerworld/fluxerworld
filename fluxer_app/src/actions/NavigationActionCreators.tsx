@@ -17,27 +17,66 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Logger} from '~/lib/Logger';
-import MessageStore from '~/stores/MessageStore';
-import NotificationStore from '~/stores/NotificationStore';
-import SelectedChannelStore from '~/stores/SelectedChannelStore';
-import SelectedGuildStore from '~/stores/SelectedGuildStore';
+import {Logger} from '@app/lib/Logger';
+import NavigationStore from '@app/stores/NavigationStore';
+import {FAVORITES_GUILD_ID, ME} from '@fluxer/constants/src/AppConstants';
 
 const logger = new Logger('Navigation');
 
-export const selectChannel = (guildId?: string, channelId?: string | null, messageId?: string): void => {
+type NavigationMode = 'push' | 'replace';
+
+export function selectChannel(
+	guildId?: string,
+	channelId?: string | null,
+	messageId?: string,
+	mode: NavigationMode = 'push',
+): void {
 	logger.debug(`Selecting channel: guildId=${guildId}, channelId=${channelId}, messageId=${messageId}`);
-	MessageStore.handleChannelSelect({guildId, channelId, messageId});
-	NotificationStore.handleChannelSelect({channelId});
-	SelectedChannelStore.selectChannel(guildId, channelId);
-};
 
-export const selectGuild = (guildId: string): void => {
+	if (!guildId || guildId === ME) {
+		NavigationStore.navigateToDM(channelId ?? undefined, messageId, mode);
+	} else if (guildId === FAVORITES_GUILD_ID || guildId === '@favorites') {
+		NavigationStore.navigateToFavorites(channelId ?? undefined, messageId, mode);
+	} else {
+		NavigationStore.navigateToGuild(guildId, channelId ?? undefined, messageId, mode);
+	}
+}
+
+export function selectGuild(guildId: string, channelId?: string, mode: NavigationMode = 'push'): void {
 	logger.debug(`Selecting guild: ${guildId}`);
-	SelectedGuildStore.selectGuild(guildId);
-};
 
-export const deselectGuild = (): void => {
+	if (guildId === ME) {
+		NavigationStore.navigateToDM(channelId, undefined, mode);
+	} else if (guildId === FAVORITES_GUILD_ID || guildId === '@favorites') {
+		NavigationStore.navigateToFavorites(channelId, undefined, mode);
+	} else {
+		NavigationStore.navigateToGuild(guildId, channelId, undefined, mode);
+	}
+}
+
+export function deselectGuild(): void {
 	logger.debug('Deselecting guild');
-	SelectedGuildStore.deselectGuild();
-};
+	NavigationStore.navigateToDM();
+}
+
+export function navigateToMessage(
+	guildId: string | null | undefined,
+	channelId: string,
+	messageId: string,
+	mode: NavigationMode = 'push',
+): void {
+	logger.debug(`Navigating to message: channel=${channelId}, message=${messageId}`);
+
+	if (!guildId || guildId === ME) {
+		NavigationStore.navigateToDM(channelId, messageId, mode);
+	} else if (guildId === FAVORITES_GUILD_ID || guildId === '@favorites') {
+		NavigationStore.navigateToFavorites(channelId, messageId, mode);
+	} else {
+		NavigationStore.navigateToGuild(guildId, channelId, messageId, mode);
+	}
+}
+
+export function clearMessageIdForChannel(channelId: string, mode: NavigationMode = 'replace'): void {
+	logger.debug(`Clearing messageId for channel: ${channelId}`);
+	NavigationStore.clearMessageIdForChannel(channelId, mode);
+}

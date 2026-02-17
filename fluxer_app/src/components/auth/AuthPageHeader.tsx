@@ -17,11 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
-import {SealCheckIcon} from '@phosphor-icons/react';
+import styles from '@app/components/auth/AuthPageStyles.module.css';
+import {GuildBadge} from '@app/components/guild/GuildBadge';
 import type {ReactNode} from 'react';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import styles from './AuthPageStyles.module.css';
 
 interface AuthPageHeaderStatProps {
 	value: string | number;
@@ -32,12 +30,11 @@ interface AuthPageHeaderProps {
 	icon: ReactNode;
 	title: string;
 	subtitle: string;
-	verified?: boolean;
+	features?: ReadonlyArray<string>;
 	stats?: Array<AuthPageHeaderStatProps>;
 }
 
-export function AuthPageHeader({icon, title, subtitle, verified, stats}: AuthPageHeaderProps) {
-	const {t} = useLingui();
+export function AuthPageHeader({icon, title, subtitle, features, stats}: AuthPageHeaderProps) {
 	return (
 		<div className={styles.entityHeader}>
 			{icon}
@@ -45,11 +42,7 @@ export function AuthPageHeader({icon, title, subtitle, verified, stats}: AuthPag
 				<p className={styles.entityText}>{title}</p>
 				<div className={styles.entityTitleWrapper}>
 					<h2 className={styles.entityTitle}>{subtitle}</h2>
-					{verified && (
-						<Tooltip text={t`Verified Community`} position="top">
-							<SealCheckIcon className={styles.verifiedIcon} />
-						</Tooltip>
-					)}
+					{features && <GuildBadge features={features} />}
 				</div>
 				{stats && stats.length > 0 && (
 					<div className={styles.entityStats}>

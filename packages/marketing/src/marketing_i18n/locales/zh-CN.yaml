@@ -1,0 +1,440 @@
+app.communities.community: 社区
+app.communities.community_support: 社区支持
+app.communities.featured_in_discovery: 在发现页精选
+app.communities.moderation.actions_and_tools: 管理操作和工具
+app.communities.moderation.report_people_or_communities: 举报用户或社区，我们一起让 Fluxer 更安全。
+app.communities.moderation.tools: 管理工具
+app.communities.roles_permissions_audit.audit_logs: 审计日志，透明可查
+app.communities.roles_permissions_audit.granular_roles_and_permissions: 精细化角色与权限
+app.communities.roles_permissions_audit.keep_running_smoothly: 用角色、权限和日志让社区稳定运转。
+app.communities.title: 社区
+app.communities.verification.label: 社区认证
+app.communities.verification.value_statement: 让你的社区获得认证标识，更可信、更安心。
+app.communities.verification.verified_community: 已认证社区
+app.customization.animated_profile.animated_avatars_and_banners: 动态头像和横幅
+app.customization.animated_profile.stand_out_animated_profile: 用动态头像和横幅表达个性，更醒目。
+app.customization.app_icon_badges: 在应用图标上显示未读数量。
+app.customization.compact_mode: 紧凑模式和显示选项
+app.customization.custom_css_themes: 自定义 CSS 主题
+app.customization.custom_sounds.entrance_sounds: 自定义进场音效
+app.customization.custom_sounds.notification_sounds: 自定义通知音效
+app.customization.custom_sounds.set_personalized_join_sounds: 进语音频道时播放专属音效，一进来就有存在感。
+app.customization.custom_sounds.upload_custom_notification_sounds: 上传并使用你自己的通知音，让 Fluxer 更像你。
+app.customization.custom_themes: 自定义主题
+app.customization.global_emoji_and_sticker_access: 全局使用表情和贴纸
+app.customization.saved_media_and_css: 添加自定义表情，先把媒体存起来，还能用自定义 CSS 装扮应用。
+app.customization.title: 个性化
+app.customization.upload_custom_emojis_and_stickers: 上传自定义表情和贴纸
+app.customization.use_animated_emojis: 使用动态表情
+app.messaging.description: 给朋友发私信，群聊，或用频道搭建社区。
+app.messaging.features.bookmarked_messages: 收藏的消息
+app.messaging.features.file_sharing: 分享文件并预览链接
+app.messaging.features.full_markdown_support: 消息内完整支持 Markdown
+app.messaging.features.message_scheduling.description: 把消息安排在将来的某个时间发出去。不用时光机也行。
+app.messaging.features.organised_channels_for_communities: 为社区打造的频道分区
+app.messaging.features.private_dms_and_group_chats: 私信和群聊
+app.messaging.features.save_media: 保存图片、视频、GIF 和音频
+app.messaging.features.search.filter_options: 按用户、日期等筛选
+app.messaging.features.search.find_old_messages: 几秒内找到老消息，或在不同社区和频道之间跳转。
+app.messaging.features.search.label: 搜索聊天记录
+app.messaging.features.search.quick_switcher_shortcuts: 支持键盘快捷键的快速切换器
+app.messaging.features.search.search_and_quick_switcher: 搜索与快速切换
+app.messaging.title: 聊天
+app.open.open_fluxer: 打开 Fluxer
+app.open.open_web_app: 打开网页版应用
+app.profiles_identity.custom_identity: 自定义身份
+app.profiles_identity.customise_per_community: 你在不同社区可以用不同的个人资料。
+app.profiles_identity.manage_friends_and_block_users: 管理好友和拉黑用户
+app.voice_and_video.features.mute_controls: 静音、屏蔽声音和摄像头控制
+app.voice_and_video.features.noise_suppression: 降噪和回声消除
+app.voice_and_video.features.screen_sharing: 内置屏幕共享
+app.voice_and_video.features.stream_4k_60fps: 以 60 fps 的 4K 分辨率推流，让其他人能清晰地看到你。
+app.voice_and_video.features.video_backgrounds.description: 通话可保存最多 15 个视频背景。再也不用在下载文件夹里翻半天。
+app.voice_and_video.features.video_quality: 视频画质
+app.voice_and_video.features.up_to_4k_video_quality: 最高 4K 视频画质
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.video_quality_premium: 最高4K/60fps
+app.voice_and_video.hop_in_a_call: 和朋友直接开麦，或共享屏幕一起协作。
+app.voice_and_video.title: 语音和视频
+beta_and_access.beta_label: 测试版
+beta_and_access.early_access.be_first_to_try: 新功能还没全量发布前，你可以先试。
+beta_and_access.early_access.label: 抢先体验
+beta_and_access.featured_benefit_line: 你期待的基础功能都有，还有一些意想不到的惊喜。
+beta_and_access.public_beta: 公测
+beta_and_access.registration_limited_during_beta: 我们在测试期间会限制注册。你进来后，可以给朋友发邀请码，直接跳过排队。
+beta_and_access.try_without_email: 30 秒免邮箱试用 Fluxer
+community_funding_and_roles.focused_on_product: 目前我们专注于把产品做好，同时让 Fluxer 保持独立、自力更生。
+community_funding_and_roles.future_paid_roles_heading: 付费角色的未来
+community_funding_and_roles.future_paid_roles_note: 我们还在搭建 Fluxer 的商业模式，现在还没准备好推出付费角色。
+community_funding_and_roles.non_paid_recurring_role: 面向长期贡献者的非付费角色，你将和核心团队一起塑造 Fluxer。
+community_funding_and_roles.sustainability_note: 有了你的支持，我们希望让这个独立通讯平台可持续发展，并在未来开始提供付费角色。
+company_and_resources.blog: 博客
+company_and_resources.careers.careers_at_fluxer: 加入 Fluxer
+company_and_resources.careers.label: 招聘
+company_and_resources.careers.share_a_bit_about_yourself: 发邮件到 careers@fluxer.app，说说你是谁，以及你想怎么参与。
+company_and_resources.community_team.fluxer_community_team: Fluxer 社区团队
+company_and_resources.community_team.share_feedback_report_bugs: 提建议、报 bug，一起把 Fluxer 做得更友好。
+company_and_resources.company: 公司
+company_and_resources.company_info: 公司信息
+company_and_resources.connect: 联系
+company_and_resources.docs: 文档
+company_and_resources.help.get_help: 获取帮助
+company_and_resources.help.help_center: 帮助中心
+company_and_resources.help.label: 帮助
+company_and_resources.press.label: 媒体
+company_and_resources.press.press_contact: 媒体联系
+company_and_resources.product: 产品
+company_and_resources.resources: 资源
+company_and_resources.source_and_contribution.code_issues_docs_reviews: 代码、issue、文档和评审
+company_and_resources.source_and_contribution.contribute_code: 贡献代码
+company_and_resources.source_and_contribution.contribute_on_github: 在 GitHub 上贡献
+company_and_resources.source_and_contribution.fix_bugs_ship_features: 在主仓库里修 bug、上新功能，或把体验打磨得更好。
+company_and_resources.source_and_contribution.fluxer_built_in_open: Fluxer 公开透明地开发。选一条最适合你的参与方式。
+company_and_resources.source_and_contribution.get_involved: 参与进来
+company_and_resources.source_and_contribution.source_code: 源代码
+company_and_resources.source_and_contribution.translation.help_translate: 帮忙翻译 Fluxer 及其文档，让它在各地都更像母语。
+company_and_resources.source_and_contribution.translation.label: 翻译与本地化
+company_and_resources.source_and_contribution.translation.llm_translation_note: 当前翻译基本由 LLM 生成，人工校对很少。我们很希望有真人帮我们把 Fluxer 本地化到你的语言。想参与的话，发邮件到 i18n@fluxer.app，我们很乐意接收你的贡献。
+company_and_resources.source_and_contribution.translation.localization_label: 本地化
+company_and_resources.source_and_contribution.view_repository: 查看仓库
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: 想一起打造 Fluxer？
+company_and_resources.source_and_contribution.ways_to_contribute: 参与方式
+donations.business: 企业
+donations.donate.action: 捐助
+donations.donate.label: 捐助 Fluxer
+donations.donate.description: 通过一次性或定期捐赠来支持Fluxer
+donations.donation_disclaimer: 捐助是自愿的赠与，不会给你任何产品、服务、所有权或特殊权利。如果你想要高级功能，可以看看 {0}。
+donations.individual: 个人
+donations.individual_vs_business.answer: 两种捐助对项目的支持力度一样。区别只在于企业捐助可以填写税号（如适用），完成后可获取 PDF 发票，方便做账。
+donations.individual_vs_business.question: 个人和企业有什么区别？
+donations.infrastructure_costs_detail: 你的捐助会帮助承担 Fluxer 的基础设施成本，包括服务器、带宽、存储，以及新功能的持续开发，让平台对所有人都更好用。
+donations.minimum_donation: 最低捐助：$5 / €5
+donations.mobile_roadmap_sponsorship: 赞助移动端路线图
+donations.send_one_time_gift: 送出一次性捐助
+donations.support_future_development: 支持后续开发
+donations.support_message: 帮我们打造一个独立的通讯平台。你的捐助将用于平台基础设施和开发。
+donations.tax_deductible.answer: 向 Fluxer 的捐助目前无法享受税务抵扣，但捐助会直接用于我们的基础设施和持续开发。
+donations.tax_deductible.question: 我的捐助可以抵税吗？
+donations.what_it_supports: 我的捐助会支持什么？
+donations.why_support: 帮我们做一个不一样的通讯平台：开源、社区资助、用心打磨。
+donations.recurring: 定期
+donations.return_question: 我会得到什么回报吗？
+donations.form.email: 邮箱
+donations.form.email_placeholder: 你的@邮箱.com
+donations.form.amount: 金额
+donations.form.amount_other: 其他金额
+donations.form.amount_placeholder: 输入金额 (5-1000)
+donations.form.billing: 账单
+donations.form.donation_type: 捐赠类型
+donations.form.one_time: 一次性
+donations.form.or_label: 或
+donations.form.monthly: 每月
+donations.form.yearly: 每年
+donations.form.currency: 货币
+donations.form.processing: 处理中...
+donations.form.send_link: 发送链接
+donations.form.sending: 发送中...
+donations.errors.active_subscription_exists: 你已经有一个活跃的定期捐助了。如果要开始另一个定期捐助,请先通过客户门户取消当前的。你也可以改为一次性捐助。
+donations.errors.invalid_email: 请输入有效的邮箱地址
+donations.errors.invalid_amount: 金额必须在 5 到 1000 之间
+donations.errors.generic: 出了点问题。请再试一次。
+donations.errors.network: 网络错误。请再试一次。
+donations.manage.title: 管理你的捐助
+donations.manage.description: 输入邮箱获取捐助者门户链接，在那里你可以管理订阅、下载发票并查看捐助历史。
+donations.manage.success: 如果该邮箱存在账户，你将很快收到管理链接。
+donations.success.title: 谢谢！
+donations.success.description: 感谢你的支持！
+donations.success.message: 感谢你的捐助！我们真的很感激你的支持。
+donations.success.email_notice: 你很快会收到一封确认邮件，里面有捐助详情和捐助者门户的链接。
+donations.success.back_to_donate: 返回捐助页
+download.download: 下载
+download.download_app_or_open_in_browser: 下载应用或在浏览器中打开 Fluxer，然后开始和你的社区连起来。
+download.download_fluxer: 下载 Fluxer
+download.download_for_prefix: '下载 '
+download.open_in_browser: 在浏览器中打开
+download.screenshots_courtesy_of: '截图来自 '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: 社区准则
+footer.company_information: 公司信息
+footer.connect: 联系
+footer.donate: 捐助
+footer.help_support_an_independent_communication: 支持一个独立的通讯平台。你的捐助将用于平台基础设施和开发。
+footer.download: 下载
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: © Fluxer Platform AB（瑞典有限责任公司：559537-3993）
+footer.partners: 合作伙伴
+footer.plutonium_tier: Plutonium 档位
+footer.policies: 政策
+footer.press: 媒体
+footer.privacy_policy: 隐私政策
+footer.report_a_bug: 报告 bug
+footer.roadmap: 路线图
+footer.rss_feed: RSS 订阅
+footer.security_bug_bounty: 安全漏洞赏金
+footer.source_code: 源代码
+footer.terms_of_service: 服务条款
+general.all: 全部
+general.coming_soon.label: 即将上线
+general.coming_soon.whats_available_today: 现在能用什么
+general.last_updated: 最近更新
+general.made_in_sweden: 瑞典制造
+general.not_available: 暂不可用
+general.or: 或者
+general.tagline: 一款把你放在第一位的聊天应用
+languages.change_language: 切换语言
+languages.choose_your_language: 选择你的语言
+languages.language_label: 语言
+languages.list.arabic: 阿拉伯语
+languages.list.bulgarian: 保加利亚语
+languages.list.chinese_simplified: 简体中文
+languages.list.chinese_traditional: 繁体中文
+languages.list.croatian: 克罗地亚语
+languages.list.czech: 捷克语
+languages.list.danish: 丹麦语
+languages.list.dutch: 荷兰语
+languages.list.english: 英语
+languages.list.english_us: 英语（美国）
+languages.list.finnish: 芬兰语
+languages.list.french: 法语
+languages.list.german: 德语
+languages.list.greek: 希腊语
+languages.list.hebrew: 希伯来语
+languages.list.hindi: 印地语
+languages.list.hungarian: 匈牙利语
+languages.list.indonesian: 印度尼西亚语
+languages.list.italian: 意大利语
+languages.list.japanese: 日语
+languages.list.korean: 韩语
+languages.list.lithuanian: 立陶宛语
+languages.list.norwegian: 挪威语
+languages.list.polish: 波兰语
+languages.list.portuguese_brazil: 葡萄牙语（巴西）
+languages.list.romanian: 罗马尼亚语
+languages.list.russian: 俄语
+languages.list.spanish_latin_america: 西班牙语（拉丁美洲）
+languages.list.spanish_spain: 西班牙语（西班牙）
+languages.list.swedish: 瑞典语
+languages.list.thai: 泰语
+languages.list.turkish: 土耳其语
+languages.list.ukrainian: 乌克兰语
+languages.list.vietnamese: 越南语
+launch.description: 了解 Fluxer 开发者的故事，项目目标、技术栈和未来规划。
+launch.heading: Fluxer 背后的故事
+launch.read_more: 阅读发布博文
+launch.view_full_roadmap: 查看完整路线图
+misc_labels.design_and_branding: 设计与品牌
+misc_labels.direct_team_support: 直通团队支持
+misc_labels.exclusive_communities: 专属社区
+misc_labels.exclusive_features: 专属功能
+misc_labels.feature: 功能
+misc_labels.get_updates: 获取更新、查看即将上线的功能、讨论建议，并和团队聊天。
+misc_labels.join_and_spread_word: 加入并帮忙传播
+misc_labels.join_fluxer_community_contribute: 加入 Fluxer 社区，通过开源和社区贡献一起打造通讯的未来。
+misc_labels.join_fluxer_hq: 加入 Fluxer HQ
+misc_labels.join_multiple_devices: 多设备同时登录
+misc_labels.join_team_behind_fluxer: 加入 Fluxer 背后的团队
+misc_labels.learn_more: 了解更多
+misc_labels.product_hunt_badge_title: Fluxer - 开源的 Discord 风格即时通讯和 VoIP 平台 | Product Hunt 热门帖子
+misc_labels.profile_badge: 资料徽章
+misc_labels.read_the_guide: 阅读指南
+misc_labels.ready_to_get_started: 准备开始了吗？
+misc_labels.register_now: 立即注册
+misc_labels.related_policies: 相关政策
+misc_labels.report_bugs: 报告 bug
+misc_labels.software_development: 软件开发
+misc_labels.trust_and_safety: 信任与安全
+misc_labels.unique_profile_badge: 专属资料徽章
+misc_labels.unlimited_users: 不限用户数
+navigation.close: 关闭
+navigation.close_navigation_menu: 关闭导航菜单
+navigation.copy_link_to_section: 复制本节链接
+navigation.go_home: 回首页
+navigation.on_this_page: 本页内容
+navigation.page_not_found.description: 这个页面不存在。不过还有很多内容等你去逛。
+navigation.page_not_found.title: 页面找不到了
+navigation.press.download_assets_intro: 下载我们的标志，了解品牌颜色，并联系媒体团队。
+navigation.press.download_fluxer_assets: 下载 Fluxer 标志和品牌素材，并联系媒体团队
+navigation.press.press_and_brand_assets: 媒体与品牌素材
+partner_program.become_partner.apply_email: 申请请发邮件到 partners@fluxer.app
+partner_program.become_partner.call_to_action: 成为合作伙伴
+partner_program.become_partner.heading: 成为 Fluxer 合作伙伴
+partner_program.become_partner.if_youre_a_creator_or: 如果你是内容创作者或运营大型社区，我们很想认识你。
+partner_program.become_partner.learn_about_partners: 了解合作伙伴计划
+partner_program.become_partner.learn_more: 了解更多
+partner_program.become_partner.ready_prompt: 准备好成为合作伙伴了吗？
+partner_program.description: 为内容创作者和大型社区主办方提供的专属福利和权益。
+partner_program.label: 合作伙伴
+partner_program.perks.creator_monetization.description: 提前体验创作者变现功能，平台费率比非合作伙伴更低。
+partner_program.perks.creator_monetization.label: 创作者变现
+partner_program.perks.custom_vanity_url.description: 获得专属短链，比如 fluxer.gg/yourcommunity。
+partner_program.perks.custom_vanity_url.label: 自定义短链
+partner_program.perks.direct_team_access.description: 加入合作伙伴专属社区，可直接联系 Fluxer 团队。
+partner_program.perks.direct_team_access.label: 直通团队
+partner_program.perks.discovery_visibility: 在社区发现页获得更多曝光
+partner_program.perks.exclusive_merch.description: 获得合作伙伴限定的 Fluxer 周边和礼品。
+partner_program.perks.exclusive_merch.label: 专属周边
+partner_program.perks.free_plutonium.description: 你的账号可免费获得 Plutonium，体验全部高级功能。
+partner_program.perks.free_plutonium.label: 免费 Plutonium
+partner_program.perks.increased_limits.description: 需要的时候，你的社区可获得更高的限制配额。
+partner_program.perks.increased_limits.label: 上限提升
+partner_program.perks.partner_badge.description: 在个人资料上显示专属合作伙伴徽章，更醒目。
+partner_program.perks.partner_badge.label: 合作伙伴徽章
+partner_program.perks.vip_voice_servers.description: 使用仅为合作伙伴社区保留的 VIP 语音服务器。
+partner_program.perks.vip_voice_servers.label: VIP语音频道
+partner_program.requirements.audience_description: 简要介绍你的受众以及你在做什么
+partner_program.requirements.links_to_content: 你的内容或社区链接（YouTube、Twitch、Discord 等）
+partner_program.requirements.name_and_username: 你的姓名和平台用户名
+partner_program.requirements.usage_plan: 你打算怎么把 Fluxer 用在你的社区里
+partner_program.who_its_for: 面向内容创作者和社区主办方：解锁专属福利，包括免费 Plutonium、合作伙伴徽章、自定义短链等。
+partner_program.perks.heading: 合作伙伴福利
+partner_program.perks.see_perks: 查看福利
+partner_program.apply.instructions: 发邮件给我们，附上以下信息，即可申请 Fluxer 合作伙伴计划。
+partner_program.apply.response_time: 我们会审核所有申请，并在几天内回复你。
+platform_support.desktop.available_on_desktop_and_web: 桌面端可用，网页也能用
+platform_support.desktop.download_desktop_intro: 下载 Fluxer Windows、macOS 和 Linux 版。移动端正在路上。
+platform_support.desktop.interface_label: Fluxer 桌面端界面
+platform_support.desktop.label: 桌面端
+platform_support.desktop.use_desktop_client_mobile_soon: 先用桌面客户端（移动端即将上线）
+platform_support.mobile.install_as_app.add_to_home: 添加到主屏幕，把浏览器的界面藏起来。
+platform_support.mobile.install_as_app.done_desktop: 搞定！现在打开 Fluxer 就跟普通程序一样。
+platform_support.mobile.install_as_app.done_mobile: 搞定！现在你可以从主屏幕直接打开 Fluxer。
+platform_support.mobile.install_as_app.guides.in_chrome: （在 Chrome 中）
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: （在 Chrome 或其他支持 PWA 的浏览器中）
+platform_support.mobile.install_as_app.guides.in_safari: （在 Safari 中）
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: '{name} 的 PWA 安装指南'
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: '点击"添加到主屏幕"'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: '点右上角"添加"'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: '点击"安装应用"'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: 在地址栏点安装按钮（显示器上的向下箭头）
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: '在弹窗里点"安装"'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: '点右上角"更多"（⋮）'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: 点分享按钮（带向上箭头的矩形）
+platform_support.mobile.install_as_app.install_fluxer_as_app: 把 Fluxer 安装成应用
+platform_support.mobile.install_as_app.title: 怎么安装成应用
+platform_support.mobile.interface_label: Fluxer 移动端界面
+platform_support.mobile.mobile_apps_underway: 移动端应用正在开发中
+platform_support.mobile.mobile_browser_explainer: 我们在做 iOS 和 Android 应用。在它们准备好之前，你可以先在手机浏览器里用 Fluxer，我们也尽量把体验做得更像原生应用。
+platform_support.mobile.not_full_replacement_yet: 目前还不能完全替代桌面端，一些你在手机聊天应用里习惯的功能还没补齐。
+platform_support.mobile.push_notifications: 离开应用也能收到推送通知。
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS 和 iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: 选择 Linux 发行版
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: 下载 macOS 版
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: 下载 Windows 版
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: 品牌颜色
+press_branding.assets.full_color: 全彩版本
+press_branding.assets.label: 标志
+press_branding.assets.logo_variants.black_logo: 黑色标志
+press_branding.assets.logo_variants.color_logo: 彩色标志
+press_branding.assets.logo_variants.white_logo: 白色标志
+press_branding.assets.palette_description: 我们精心挑选的配色，代表 Fluxer 的品牌气质。
+press_branding.assets.premium_quality: 高品质
+press_branding.assets.primary_brand_color_description: 主品牌色。用于关键品牌元素和强调点。
+press_branding.assets.symbol_variants.black_symbol: 黑色图标
+press_branding.assets.symbol_variants.color_symbol: 彩色图标
+press_branding.assets.symbol_variants.label: 图标
+press_branding.assets.symbol_variants.white_symbol: 白色图标
+press_branding.assets.usage_guidance.dark_surface_guidance: 用于背景、深色表面上的文字，以及制造对比。
+press_branding.assets.usage_guidance.for_dark_backgrounds: 适用于深色背景
+press_branding.assets.usage_guidance.for_light_backgrounds: 适用于浅色背景
+press_branding.assets.usage_guidance.full_logo_description: 完整标志包含文字标识。这是品牌的主要呈现方式。
+press_branding.assets.usage_guidance.light_surface_guidance: 用于文字、浅色表面上的图标，以及营造层次。
+press_branding.assets.usage_guidance.symbol_description: 独立图标。仅在品牌在上下文中已清晰可见或已充分建立时使用。
+press_branding.colors.blue_da_ba_dee: Blue Da Ba Dee
+press_branding.colors.white: 白色
+press_branding.colors.black: 黑色
+press_branding.contact.story_prompt: 有关于 Fluxer 的故事？我们很想听听。
+press_branding.contact.response_time: 我们通常会在 24 小时内回复。
+pricing_and_tiers.billing.forever: 永久
+pricing_and_tiers.billing.most_popular: 最受欢迎
+pricing_and_tiers.billing.per_forever: /永久
+pricing_and_tiers.billing.per_month: /月
+pricing_and_tiers.billing.per_year_full: /年
+pricing_and_tiers.billing.per_year_short: /年
+pricing_and_tiers.billing.save_percent: 省 17%
+pricing_and_tiers.free.comparison_label: 免费 vs Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 免费版全部内容，另外还有：
+pricing_and_tiers.free.full_access_to_all_features: 全部功能都能用
+pricing_and_tiers.free.label: 免费
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: 注意：Plutonium 和 Visionary 福利仅适用于官方 Fluxer.app 实例，不适用于第三方或自建实例。
+pricing_and_tiers.plutonium.feature_highlights: 500 MB 上传、4,000 字消息、300 条收藏、50 套表情包，还有更多。
+pricing_and_tiers.plutonium.features.bio_character_limit: 简介字符上限
+pricing_and_tiers.plutonium.features.custom_username_tag: 自定义用户名标签
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: 自定义 4 位数用户名标签
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: 选择你自己的 4 位数标签，如 #0001、#1337 或 #9999，让你的用户名真正独一无二。
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: 视频背景
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: 表情和贴纸包
+pricing_and_tiers.plutonium.features.file_upload_size: 文件上传大小
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: 全局使用表情和贴纸
+pricing_and_tiers.plutonium.features.message_character_limit: 消息字符上限
+pricing_and_tiers.plutonium.features.message_scheduling: 定时发送
+pricing_and_tiers.plutonium.features.per_community_profiles: 按社区设置资料
+pricing_and_tiers.plutonium.features.saved_media: 已保存的媒体
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: Webhook 和机器人支持
+pricing_and_tiers.plutonium.get_more_with_plutonium: 开通 Fluxer Plutonium，解锁更多
+pricing_and_tiers.plutonium.get_plutonium: 开通 Plutonium
+pricing_and_tiers.plutonium.higher_limits_and_early_access: 更高上限、专属功能、新更新抢先体验
+pricing_and_tiers.plutonium.higher_limits_everywhere: 各项上限全面提升
+pricing_and_tiers.plutonium.show_off_status_badge: 用专属资料徽章秀出你的 Plutonium 身份。
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: 升级 Plutonium，仅需 $4.99/月：自定义用户名标签、按社区资料、定时消息、4K 推流、500 MB 上传，以及更多专属功能。
+pricing_and_tiers.visionary.badge.numbered_badge: 带编号的徽章，展示你的 Visionary 身份
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: 带编号的徽章（1–{0}），展示你的 Visionary 身份
+pricing_and_tiers.visionary.bundle_label: Visionary 终身 Plutonium + Operator Pass（限量名额）
+pricing_and_tiers.visionary.communities_with_team_access: 可加入 Visionary 和 Operators 社区，并获得团队访问权限
+pricing_and_tiers.visionary.get_visionary: 开通 Visionary
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: 在 Fluxer.app 获得终身 Plutonium，并为自建部署附带 Operator Pass。一次性支付 {0}。截止到 2026 年 10 月 1 日，或名额全部被领取为止。
+pricing_and_tiers.visionary.lifetime_operator_pass: 终身 Operator Pass
+pricing_and_tiers.visionary.lifetime_plutonium: 终身 Plutonium
+pricing_and_tiers.visionary.limited_offer_note: 限时福利：Visionary 包含 Operator Pass
+pricing_and_tiers.visionary.limited_slots_label: Visionary（限量名额）
+pricing_and_tiers.visionary.one_time_purchase.label: 一次性购买
+pricing_and_tiers.visionary.one_time_purchase.promise: 一次性购买，终身使用
+pricing_and_tiers.visionary.purchase_flow: 创建账号后，在应用内直接购买 Visionary。你的购买日期和订单号会显示在个人资料里（可在隐私设置中隐藏）。
+pricing_and_tiers.visionary.slots_left.generic: 还剩 {0}/{1} 个名额
+pricing_and_tiers.visionary.slots_left.visionary_bundle: 只剩 {0}/{1} 个 Visionary 终身名额，包含终身 Plutonium 和 Operator Pass
+pricing_and_tiers.visionary.slots_left.visionary_only: 还剩 {0} 个 Visionary 名额
+product_positioning.free_and_open_source: Fluxer 免费且开源。任何人都能免费自建部署。
+product_positioning.intro: Fluxer 是一个免费开源的即时通讯和 VoIP 平台，为朋友、群组和社区而生。
+product_positioning.open_source.label: 开源
+product_positioning.open_source.license: 开源（AGPL-3.0）
+product_positioning.open_source.fully_open_source_agplv3: 完全开源（AGPLv3）
+product_positioning.self_hosting.connect_from_any_client: 任何客户端都能连
+product_positioning.self_hosting.free_self_hosting: 免费自建部署
+product_positioning.self_hosting.host_your_own_instance: 部署你自己的实例
+product_positioning.self_hosting.label: 自建部署
+product_positioning.self_hosting.operator_pass.access_to_operators_community: 进入 Fluxer Operators 社区
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: 优惠结束后，Operator Pass 仍可单独购买。
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: Operator Pass 是可选项：付费获得支持和社区访问权限。
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: 为自建用户提供优先支持，并可进入 Operators 社区
+product_positioning.self_hosting.run_backend_on_your_hardware: 把 Fluxer 后端跑在你自己的硬件上，再用我们的应用连接。
+product_positioning.self_hosting.switch_between_instances: 在多个实例之间切换
+security.found_security_issue: 发现安全问题？
+security.report_vulnerabilities: 报告漏洞，帮我们一起把平台做得更安全。
+security.responsible_disclosure_note: 感谢你通过安全赏金页面进行负责任披露。我们会根据严重程度提供 Plutonium 兑换码和 Bug Hunter 徽章。
+security.security_bug_bounty: 安全漏洞赏金
+security.security_reports: 安全报告
+security.testers_access_from_reports: 被采纳的报告可获得 Fluxer Testers 访问权限，你可以通过积分兑换 Plutonium 兑换码和 Bug Hunter 徽章。
+social_and_feeds.bluesky.follow_us: 在 Bluesky 上关注我们
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: Bluesky RSS 订阅
+social_and_feeds.follow_fluxer: 关注 @fluxer.app
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: 博客 RSS 订阅
+social_and_feeds.rss.fluxer_blog_rss: Fluxer 博客 RSS
+social_and_feeds.rss.label: RSS 订阅
+social_and_feeds.stay_updated_cta: 关注新闻、服务状态和最新动态。你也可以订阅我们的

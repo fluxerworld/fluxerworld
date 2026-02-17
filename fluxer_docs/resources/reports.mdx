@@ -1,0 +1,196 @@
+---
+title: 'Reports'
+description: 'Reports object schemas from the Fluxer API.'
+---
+
+<a id="dsareportemailsendrequest"></a>
+
+## DsaReportEmailSendRequest
+
+**Related endpoints**
+
+- [`POST /reports/dsa/email/send`](/api-reference/reports/send-dsa-report-email)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| email | [EmailType](#emailtype) |  |
+
+<a id="dsareportemailverifyrequest"></a>
+
+## DsaReportEmailVerifyRequest
+
+**Related endpoints**
+
+- [`POST /reports/dsa/email/verify`](/api-reference/reports/verify-dsa-report-email)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | Verification code received via email |
+| email | [EmailType](#emailtype) |  |
+
+<a id="dsareportguildrequest"></a>
+
+## DsaReportGuildRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| additional_info? | string | Additional context or details about the report |
+| category | [GuildReportCategoryEnum](#guildreportcategoryenum) |  |
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+| invite_code? | string | Invite code used to access the guild |
+| report_type | enum&lt;`guild`&gt; | Type of report |
+| reporter_country_of_residence | enum&lt;`AT`, `BE`, `BG`, `HR`, `CY`, `CZ`, `DK`, `EE`, `FI`, `FR`, `DE`, `GR`, `HU`, `IE`, `IT`, `LV`, `LT`, `LU`, `MT`, `NL`, `PL`, `PT`, `RO`, `SK`, `SI`, `ES`, `SE`&gt; | EU country code of the reporter residence |
+| reporter_fluxer_tag? | string | Fluxer tag of the reporter if they have an account |
+| reporter_full_legal_name | string | Full legal name of the person filing the report |
+| ticket | string | Verification ticket obtained from email verification |
+
+<a id="dsareportmessagerequest"></a>
+
+## DsaReportMessageRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| additional_info? | string | Additional context or details about the report |
+| category | [MessageReportCategoryEnum](#messagereportcategoryenum) |  |
+| message_link | string | Link to the message being reported |
+| report_type | enum&lt;`message`&gt; | Type of report |
+| reported_user_tag? | string | Fluxer tag of the user who sent the message |
+| reporter_country_of_residence | enum&lt;`AT`, `BE`, `BG`, `HR`, `CY`, `CZ`, `DK`, `EE`, `FI`, `FR`, `DE`, `GR`, `HU`, `IE`, `IT`, `LV`, `LT`, `LU`, `MT`, `NL`, `PL`, `PT`, `RO`, `SK`, `SI`, `ES`, `SE`&gt; | EU country code of the reporter residence |
+| reporter_fluxer_tag? | string | Fluxer tag of the reporter if they have an account |
+| reporter_full_legal_name | string | Full legal name of the person filing the report |
+| ticket | string | Verification ticket obtained from email verification |
+
+<a id="dsareportrequest"></a>
+
+## DsaReportRequest
+
+**Related endpoints**
+
+- [`POST /reports/dsa`](/api-reference/reports/create-dsa-report)
+
+Type: [DsaReportMessageRequest](#dsareportmessagerequest) \| [DsaReportUserRequest](#dsareportuserrequest) \| [DsaReportGuildRequest](#dsareportguildrequest)
+
+<a id="dsareportuserrequest"></a>
+
+## DsaReportUserRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| additional_info? | string | Additional context or details about the report |
+| category | [UserReportCategoryEnum](#userreportcategoryenum) |  |
+| report_type | enum&lt;`user`&gt; | Type of report |
+| reporter_country_of_residence | enum&lt;`AT`, `BE`, `BG`, `HR`, `CY`, `CZ`, `DK`, `EE`, `FI`, `FR`, `DE`, `GR`, `HU`, `IE`, `IT`, `LV`, `LT`, `LU`, `MT`, `NL`, `PL`, `PT`, `RO`, `SK`, `SI`, `ES`, `SE`&gt; | EU country code of the reporter residence |
+| reporter_fluxer_tag? | string | Fluxer tag of the reporter if they have an account |
+| reporter_full_legal_name | string | Full legal name of the person filing the report |
+| ticket | string | Verification ticket obtained from email verification |
+| user_id? | [SnowflakeType](#snowflaketype) |  |
+| user_tag? | string | Fluxer tag of the user being reported |
+
+<a id="okresponse"></a>
+
+## OkResponse
+
+**Related endpoints**
+
+- [`POST /reports/dsa/email/send`](/api-reference/reports/send-dsa-report-email)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| ok | boolean | Whether the operation was successful |
+
+<a id="reportguildrequest"></a>
+
+## ReportGuildRequest
+
+**Related endpoints**
+
+- [`POST /reports/guild`](/api-reference/reports/report-guild)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| additional_info? | string | Additional context or details about the report |
+| category | [GuildReportCategoryEnum](#guildreportcategoryenum) |  |
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="reportmessagerequest"></a>
+
+## ReportMessageRequest
+
+**Related endpoints**
+
+- [`POST /reports/message`](/api-reference/reports/report-message)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| additional_info? | string | Additional context or details about the report |
+| category | [MessageReportCategoryEnum](#messagereportcategoryenum) |  |
+| channel_id | [SnowflakeType](#snowflaketype) |  |
+| message_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="reportresponse"></a>
+
+## ReportResponse
+
+**Related endpoints**
+
+- [`POST /reports/dsa`](/api-reference/reports/create-dsa-report)
+- [`POST /reports/guild`](/api-reference/reports/report-guild)
+- [`POST /reports/message`](/api-reference/reports/report-message)
+- [`POST /reports/user`](/api-reference/reports/report-user)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| report_id | [SnowflakeType](#snowflaketype) | The unique identifier for this report |
+| reported_at | string | ISO 8601 timestamp when the report was submitted |
+| status | string | Current status of the report (pending, reviewed, resolved) |
+
+<a id="reportstatus"></a>
+
+## ReportStatus
+
+The status of the report
+
+| Value | Description |
+|-------|-------------|
+| `0` | Report is pending review |
+| `1` | Report has been resolved |
+
+<a id="reporttype"></a>
+
+## ReportType
+
+The type of entity being reported
+
+| Value | Description |
+|-------|-------------|
+| `0` | Report of a message |
+| `1` | Report of a user |
+| `2` | Report of a guild |
+
+<a id="reportuserrequest"></a>
+
+## ReportUserRequest
+
+**Related endpoints**
+
+- [`POST /reports/user`](/api-reference/reports/report-user)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| additional_info? | string | Additional context or details about the report |
+| category | [UserReportCategoryEnum](#userreportcategoryenum) |  |
+| guild_id? | [SnowflakeType](#snowflaketype) |  |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="ticketresponse"></a>
+
+## TicketResponse
+
+**Related endpoints**
+
+- [`POST /reports/dsa/email/verify`](/api-reference/reports/verify-dsa-report-email)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| ticket | string | A temporary ticket token for subsequent operations |
+

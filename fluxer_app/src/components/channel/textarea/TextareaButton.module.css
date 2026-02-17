@@ -34,7 +34,8 @@
 	flex-shrink: 0;
 }
 
-.button:hover:not(:disabled) {
+.button:hover:not(:disabled),
+.button.contextMenuHover:not(:disabled) {
 	color: var(--text-primary);
 }
 

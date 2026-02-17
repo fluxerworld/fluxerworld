@@ -17,10 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Spinner} from '~/components/uikit/Spinner';
-import styles from './AuthPageStyles.module.css';
+import styles from '@app/components/auth/AuthPageStyles.module.css';
+import {Spinner} from '@app/components/uikit/Spinner';
+import type {JSX} from 'react';
 
-export function AuthLoadingState() {
+export function AuthLoadingState(): JSX.Element {
 	return (
 		<div className={styles.loadingContainer}>
 			<Spinner />

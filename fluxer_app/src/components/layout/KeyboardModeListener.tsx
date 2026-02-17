@@ -17,19 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import FocusRingManager from '@app/components/uikit/focus_ring/FocusRingManager';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {useLocation} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import FocusRingManager from '~/components/uikit/FocusRing/FocusRingManager';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import {useLocation} from '~/lib/router';
-import {Routes} from '~/Routes';
-import KeyboardModeStore from '~/stores/KeyboardModeStore';
+import {useEffect, useMemo} from 'react';
 
-export const KeyboardModeListener = observer(function KeyboardModeListener() {
+export const KeyboardModeListener = observer(() => {
 	const keyboardModeEnabled = KeyboardModeStore.keyboardModeEnabled;
 	const location = useLocation();
 
-	const isAuthRoute = React.useMemo(() => {
+	const isAuthRoute = useMemo(() => {
 		const path = location.pathname;
 		return (
 			path.startsWith(Routes.LOGIN) ||
@@ -38,14 +38,13 @@ export const KeyboardModeListener = observer(function KeyboardModeListener() {
 			path.startsWith(Routes.RESET_PASSWORD) ||
 			path.startsWith(Routes.VERIFY_EMAIL) ||
 			path.startsWith(Routes.AUTHORIZE_IP) ||
-			path.startsWith(Routes.PENDING_VERIFICATION) ||
 			path.startsWith(Routes.OAUTH_AUTHORIZE) ||
 			path.startsWith('/invite/') ||
 			path.startsWith('/gift/')
 		);
 	}, [location.pathname]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		let lastWindowFocusTime = document.hasFocus() ? 0 : -Infinity;
 		const REFOCUS_THRESHOLD_MS = 100;
 
@@ -90,7 +89,7 @@ export const KeyboardModeListener = observer(function KeyboardModeListener() {
 		};
 	}, [isAuthRoute]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		FocusRingManager.setRingsEnabled(keyboardModeEnabled);
 	}, [keyboardModeEnabled]);
 

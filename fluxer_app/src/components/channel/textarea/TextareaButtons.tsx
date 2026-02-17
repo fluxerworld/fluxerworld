@@ -17,31 +17,40 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import HoldToRecordButton from '@app/components/channel/textarea/HoldToRecordButton';
+import {TextareaButton} from '@app/components/channel/textarea/TextareaButton';
+import textareaButtonsStyles from '@app/components/channel/textarea/TextareaButtons.module.css';
+import styles from '@app/components/channel/textarea/TextareaInput.module.css';
+import type {ExpressionPickerTabType} from '@app/components/popouts/ExpressionPickerPopout';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import {getReducedMotionProps} from '@app/utils/ReducedMotionAnimation';
 import {useLingui} from '@lingui/react/macro';
-import {GifIcon, GiftIcon, ImageSquareIcon, PaperPlaneRightIcon, SmileyIcon, StickerIcon} from '@phosphor-icons/react';
+import {
+	GifIcon,
+	ImageSquareIcon,
+	MicrophoneIcon,
+	PaperPlaneRightIcon,
+	SmileyIcon,
+	StickerIcon,
+} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {AnimatePresence, motion} from 'framer-motion';
 import React from 'react';
-import * as PremiumModalActionCreators from '~/actions/PremiumModalActionCreators';
-import type {ExpressionPickerTabType} from '~/components/popouts/ExpressionPickerPopout';
-import {TextareaButton} from './TextareaButton';
-import styles from './TextareaInput.module.css';
 
 interface TextareaButtonsProps {
 	disabled: boolean;
 	showAllButtons: boolean;
-	showUploadButton?: boolean;
-	showGiftButton: boolean;
 	showGifButton: boolean;
 	showMemesButton: boolean;
 	showStickersButton: boolean;
 	showEmojiButton: boolean;
 	showMessageSendButton: boolean;
+	showVoiceMessageButton?: boolean;
+	onVoiceMessageClick?: () => void;
+	channelId: string;
 	expressionPickerOpen: boolean;
 	selectedTab: ExpressionPickerTabType;
 	isMobile: boolean;
-	shouldShowMobileGiftButton: boolean;
-	isComposing: boolean;
 	isSlowmodeActive: boolean;
 	isOverLimit: boolean;
 	hasContent: boolean;
@@ -50,7 +59,6 @@ interface TextareaButtonsProps {
 	invisibleExpressionPickerTriggerRef: React.RefObject<HTMLDivElement | null>;
 	onExpressionPickerToggle: (tab: ExpressionPickerTabType) => void;
 	onSubmit: () => void;
-	onContextMenu: (event: React.MouseEvent) => void;
 	disableSendButton?: boolean;
 }
 
@@ -59,17 +67,17 @@ export const TextareaButtons = React.forwardRef<HTMLDivElement, TextareaButtonsP
 		{
 			disabled,
 			showAllButtons,
-			showGiftButton,
 			showGifButton,
 			showMemesButton,
 			showStickersButton,
 			showEmojiButton,
 			showMessageSendButton,
+			showVoiceMessageButton,
+			onVoiceMessageClick,
+			channelId,
 			expressionPickerOpen,
 			selectedTab,
 			isMobile,
-			shouldShowMobileGiftButton,
-			isComposing,
 			isSlowmodeActive,
 			isOverLimit,
 			hasContent,
@@ -78,7 +86,6 @@ export const TextareaButtons = React.forwardRef<HTMLDivElement, TextareaButtonsP
 			invisibleExpressionPickerTriggerRef,
 			onExpressionPickerToggle,
 			onSubmit,
-			onContextMenu,
 			disableSendButton,
 		},
 		ref,
@@ -89,28 +96,30 @@ export const TextareaButtons = React.forwardRef<HTMLDivElement, TextareaButtonsP
 			return null;
 		}
 
+		const buttonSwapMotion = getReducedMotionProps(
+			{
+				initial: {scale: 0.8, opacity: 0},
+				animate: {scale: 1, opacity: 1},
+				exit: {scale: 0.8, opacity: 0},
+				transition: {duration: 0.15, ease: 'easeOut'},
+			},
+			AccessibilityStore.useReducedMotion,
+		);
 		const shouldShowDesktopSendButton = showMessageSendButton;
+		const baseSendDisabled = isSlowmodeActive || isOverLimit || disableSendButton;
+		const sendButtonDisabled = baseSendDisabled || (!hasContent && !hasAttachments);
+		const shouldShowHoldToRecord = isMobile && showVoiceMessageButton && !hasContent && !hasAttachments;
 
 		return (
 			<div className={clsx(styles.buttonContainerDense, styles.sideButtonPadding)} ref={ref}>
 				{!isMobile && showAllButtons && (
 					<>
-						{showGiftButton && (
-							<TextareaButton
-								icon={GiftIcon}
-								label={t`Gift Plutonium`}
-								onClick={() => PremiumModalActionCreators.open(true)}
-								onContextMenu={onContextMenu}
-							/>
-						)}
-
 						{showGifButton && (
 							<TextareaButton
 								icon={GifIcon}
 								label={t`GIFs`}
 								isSelected={expressionPickerOpen && selectedTab === 'gifs'}
 								onClick={() => onExpressionPickerToggle('gifs')}
-								onContextMenu={onContextMenu}
 								data-expression-picker-tab="gifs"
 								keybindAction="toggle_gif_picker"
 							/>
@@ -122,7 +131,6 @@ export const TextareaButtons = React.forwardRef<HTMLDivElement, TextareaButtonsP
 								label={t`Media`}
 								isSelected={expressionPickerOpen && selectedTab === 'memes'}
 								onClick={() => onExpressionPickerToggle('memes')}
-								onContextMenu={onContextMenu}
 								data-expression-picker-tab="memes"
 								keybindAction="toggle_memes_picker"
 							/>
@@ -134,7 +142,6 @@ export const TextareaButtons = React.forwardRef<HTMLDivElement, TextareaButtonsP
 								label={t`Stickers`}
 								isSelected={expressionPickerOpen && selectedTab === 'stickers'}
 								onClick={() => onExpressionPickerToggle('stickers')}
-								onContextMenu={onContextMenu}
 								data-expression-picker-tab="stickers"
 								keybindAction="toggle_sticker_picker"
 							/>
@@ -150,48 +157,38 @@ export const TextareaButtons = React.forwardRef<HTMLDivElement, TextareaButtonsP
 						label={t`Emojis`}
 						isSelected={expressionPickerOpen && selectedTab === 'emojis'}
 						onClick={() => onExpressionPickerToggle('emojis')}
-						onContextMenu={onContextMenu}
 						data-expression-picker-tab="emojis"
 						keybindAction="toggle_emoji_picker"
 					/>
 				)}
 
-				<div
-					ref={invisibleExpressionPickerTriggerRef}
-					style={{position: 'absolute', pointerEvents: 'none', opacity: 0, width: 0, height: 0}}
-				/>
+				<div ref={invisibleExpressionPickerTriggerRef} className={textareaButtonsStyles.invisibleTrigger} />
 
+				{isMobile && showVoiceMessageButton && onVoiceMessageClick && !shouldShowHoldToRecord && (
+					<TextareaButton icon={MicrophoneIcon} label={t`Voice message`} onClick={onVoiceMessageClick} />
+				)}
 				{isMobile && (
-					<AnimatePresence initial={false}>
-						{shouldShowMobileGiftButton && !isComposing && (
-							<motion.div
-								key="mobile-gift"
-								initial={{width: 0, opacity: 0, x: 8}}
-								animate={{width: 'auto', opacity: 1, x: 0}}
-								exit={{width: 0, opacity: 0, x: 8}}
-								transition={{type: 'tween', duration: 0.18}}
-								style={{overflow: 'hidden', display: 'flex', alignItems: 'stretch'}}
-							>
+					<AnimatePresence mode="wait" initial={false}>
+						{shouldShowHoldToRecord ? (
+							<motion.div key="hold-to-record" {...buttonSwapMotion}>
+								<HoldToRecordButton
+									channelId={channelId}
+									disabled={baseSendDisabled}
+									onFallback={onVoiceMessageClick}
+								/>
+							</motion.div>
+						) : (
+							<motion.div key="send-button" {...buttonSwapMotion}>
 								<TextareaButton
-									icon={GiftIcon}
-									label={t`Gift Plutonium`}
-									onClick={() => PremiumModalActionCreators.open(true)}
-									onContextMenu={onContextMenu}
+									disabled={sendButtonDisabled}
+									icon={PaperPlaneRightIcon}
+									label={t`Send Message`}
+									onClick={onSubmit}
+									keybindCombo={{key: 'Enter'}}
 								/>
 							</motion.div>
 						)}
 					</AnimatePresence>
-				)}
-
-				{isMobile && (
-					<TextareaButton
-						disabled={isSlowmodeActive || isOverLimit || (!hasContent && !hasAttachments) || disableSendButton}
-						icon={PaperPlaneRightIcon}
-						label={t`Send Message · Right-click to schedule`}
-						onClick={onSubmit}
-						onContextMenu={onContextMenu}
-						keybindCombo={{key: 'Enter'}}
-					/>
 				)}
 
 				{!isMobile && shouldShowDesktopSendButton && (
@@ -200,9 +197,8 @@ export const TextareaButtons = React.forwardRef<HTMLDivElement, TextareaButtonsP
 						<TextareaButton
 							disabled={isSlowmodeActive || isOverLimit || (!hasContent && !hasAttachments) || disableSendButton}
 							icon={PaperPlaneRightIcon}
-							label={t`Send Message · Right-click to schedule`}
+							label={t`Send Message`}
 							onClick={onSubmit}
-							onContextMenu={onContextMenu}
 							keybindCombo={{key: 'Enter'}}
 						/>
 					</>

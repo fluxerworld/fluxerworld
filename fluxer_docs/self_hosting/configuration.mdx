@@ -1,0 +1,1559 @@
+---
+title: 'Configuration'
+description: 'config.json reference for self-hosted Fluxer.'
+---
+
+## Table of contents
+
+**Root configuration**
+
+- [Root properties](#root-properties)
+
+**Sections**
+
+- [alerts](#alerts)
+- [app_public](#app-public)
+- [auth](#auth)
+- [cookie](#cookie)
+- [csam](#csam)
+- [database](#database)
+- [dev](#dev)
+- [domain](#domain)
+- [endpoint_overrides](#endpoint-overrides)
+- [federation](#federation)
+- [gateway_connection](#gateway-connection)
+- [geoip](#geoip)
+- [instance](#instance)
+- [integrations](#integrations)
+- [internal](#internal)
+- [proxy](#proxy)
+- [s3](#s3)
+- [sentry](#sentry)
+- [services](#services)
+- [telemetry](#telemetry)
+
+## Field notation
+
+Configuration tables use a compact notation:
+
+| Notation | Meaning |
+|----------|----------|
+| `property` | Required property |
+| `property?` | Optional property (may be omitted) |
+
+Default values are shown in the Description column when applicable.
+
+## Root properties
+
+These are the top-level configuration options in your `config.json`.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| $schema? | string | Optional reference to this JSON Schema for tooling support. |
+| alerts? | [alerts](#alerts) | System alerting configuration. |
+| app_public? | [app_public](#app-public) | Public client-side configuration exposed to the frontend. Default: `{}` |
+| attachment_decay_enabled? | boolean | Whether to automatically delete old attachments. Default: `true` |
+| auth | [auth](#auth) | Authentication and security settings. |
+| cookie? | [cookie](#cookie) | HTTP cookie settings. Default: `{}` |
+| csam? | [csam](#csam) | CSAM (Child Sexual Abuse Material) detection and reporting policies. Default: `{}` |
+| database | [database](#database) | Primary database configuration. Selects the backend (Cassandra vs SQLite) and provides connection details. |
+| deletion_grace_period_hours? | number | Grace period in hours before soft-deleted items are permanently removed. Default: `72` |
+| dev? | [dev](#dev) | Development-only overrides and flags. These should generally be disabled in production. Default: `{}` |
+| domain | [domain](#domain) | Global domain and port configuration used to derive public endpoints for all services. |
+| endpoint_overrides? | [endpoint_overrides](#endpoint-overrides) | Manual overrides for specific public endpoints. If set, these take precedence over automatically derived URLs. |
+| env | enum&lt;`development`, `production`, `test`&gt; | Runtime environment for the application. Controls behavior such as logging verbosity, error details, and optimization levels. |
+| federation? | [federation](#federation) | Federation configuration for connecting with other Fluxer instances. Default: `{}` |
+| gateway | [gateway_connection](#gateway-connection) | Configuration for the real-time Gateway service connection. |
+| geoip? | [geoip](#geoip) | GeoIP database configuration. Default: `{}` |
+| inactivity_deletion_threshold_days? | number | Days of inactivity after which data may be subject to deletion. Default: `365` |
+| instance? | [instance](#instance) | Instance-specific settings and policies. Default: `{}` |
+| integrations? | [integrations](#integrations) | Third-party service integrations. Default: `{}` |
+| internal? | [internal](#internal) | Internal network endpoints for service-to-service communication. Only required for microservices mode. Default: `{}` |
+| proxy? | [proxy](#proxy) | Reverse proxy and IP resolution settings. Default: `{}` |
+| s3? | [s3](#s3) | S3-compatible object storage configuration. |
+| sentry? | [sentry](#sentry) | Sentry error reporting configuration. Default: `{}` |
+| services | [services](#services) | Configuration for individual Fluxer services. |
+| telemetry? | [telemetry](#telemetry) | OpenTelemetry configuration. Default: `{}` |
+
+<Note>
+When `instance.deployment_mode` = `microservices`, the following properties are required: `internal`, `services.app_proxy`
+</Note>
+
+---
+
+## alerts
+
+<a id="alerts"></a>
+
+JSON path: `alerts`
+
+Alerting settings.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| webhook_url? | string | Webhook URL for system alerts. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "webhook_url": ""
+}
+```
+</Expandable>
+
+---
+
+## app_public
+
+<a id="app-public"></a>
+
+JSON path: `app_public`
+
+Public configuration exposed to the frontend application.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| api_version? | number | API Version. Default: `1` |
+| bootstrap_api_endpoint? | string | Bootstrap API endpoint. Default: `""` |
+| bootstrap_api_public_endpoint? | string | Public Bootstrap API endpoint. Default: `""` |
+| sentry_dsn? | string | Frontend Sentry DSN. Default: `""` |
+| sentry_project_id? | string | Sentry Project ID. Default: `""` |
+| sentry_proxy_path? | string | Path to proxy Sentry requests. Default: `/error-reporting-proxy` |
+| sentry_public_key? | string | Sentry Public Key. Default: `""` |
+| sentry_report_host? | string | Host for Sentry reporting. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "api_version": 1,
+  "bootstrap_api_endpoint": "",
+  "bootstrap_api_public_endpoint": "",
+  "sentry_dsn": "",
+  "sentry_project_id": "",
+  "sentry_proxy_path": "/error-reporting-proxy",
+  "sentry_public_key": "",
+  "sentry_report_host": ""
+}
+```
+</Expandable>
+
+---
+
+## auth
+
+<a id="auth"></a>
+
+JSON path: `auth`
+
+Global authentication configuration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| bluesky? | [bluesky](#bluesky) | Bluesky OAuth client configuration. Default: `{"enabled":true,"client_name":"Fluxer","client_uri":"","logo_uri":"https://fluxerstatic.com/web/apple-touch-icon.png","tos_uri":"https://fluxer.app/terms","policy_uri":"https://fluxer.app/privacy","keys":[]}` |
+| connection_initiation_secret | string | Secret key for signing connection initiation tokens. |
+| passkeys? | [passkeys](#passkeys) | Passkey configuration. Default: `{}` |
+| sudo_mode_secret | string | Secret key for verifying sudo mode tokens. |
+| vapid | [vapid](#vapid) | Web Push VAPID configuration. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "connection_initiation_secret": "your_connection_initiation_secret",
+  "sudo_mode_secret": "your_sudo_mode_secret"
+}
+```
+</Expandable>
+
+### passkeys
+
+JSON path: `auth.passkeys`
+
+WebAuthn/Passkeys relying party settings.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| additional_allowed_origins? | array&lt;string&gt; | List of allowed origins for WebAuthn registration/authentication. Default: `["https://web.fluxer.app","https://web.canary.fluxer.app"]` |
+| rp_id? | string | Relying Party ID (domain) for WebAuthn credentials. Default: `fluxer.app` |
+| rp_name? | string | Relying Party name displayed to users. Default: `Fluxer` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "additional_allowed_origins": [
+    "https://web.fluxer.app",
+    "https://web.canary.fluxer.app"
+  ],
+  "rp_id": "fluxer.app",
+  "rp_name": "Fluxer"
+}
+```
+</Expandable>
+
+### vapid
+
+JSON path: `auth.vapid`
+
+VAPID keys for Web Push notifications.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| email? | string | Contact email included in push service requests. Default: `""` |
+| private_key | string | VAPID Private Key. |
+| public_key | string | VAPID Public Key. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "private_key": "your_private_key",
+  "public_key": "your_public_key",
+  "email": ""
+}
+```
+</Expandable>
+
+### bluesky
+
+JSON path: `auth.bluesky`
+
+Bluesky OAuth client configuration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| client_name? | string | Human-readable client name exposed to Bluesky. Default: `Fluxer` |
+| client_uri? | string | URI describing the client application. Default: `""` |
+| enabled? | boolean | Whether Bluesky OAuth connections are enabled. Default: `true` |
+| keys? | array&lt;[bluesky_key](#bluesky-key)&gt; | Key definitions used to sign private key JWT assertions. Default: `[]` |
+| logo_uri? | string | Optional logo presented during authorization. Default: `https://fluxerstatic.com/web/apple-touch-icon.png` |
+| policy_uri? | string | Privacy policy URI exposed to Bluesky. Default: `https://fluxer.app/privacy` |
+| tos_uri? | string | Terms of service URI exposed to Bluesky. Default: `https://fluxer.app/terms` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "client_name": "Fluxer",
+  "client_uri": "",
+  "enabled": true,
+  "keys": [],
+  "logo_uri": "https://fluxerstatic.com/web/apple-touch-icon.png",
+  "policy_uri": "https://fluxer.app/privacy",
+  "tos_uri": "https://fluxer.app/terms"
+}
+```
+</Expandable>
+
+---
+
+## cookie
+
+<a id="cookie"></a>
+
+JSON path: `cookie`
+
+Session cookie configuration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| domain? | string | Domain attribute for cookies. Leave empty for host-only. Default: `""` |
+| secure? | boolean | If true, sets the Secure flag on cookies. Default: `false` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "domain": "",
+  "secure": false
+}
+```
+</Expandable>
+
+---
+
+## csam
+
+<a id="csam"></a>
+
+JSON path: `csam`
+
+CSAM compliance configuration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| cleanup_batch_size? | number | Batch size for cleanup operations. Default: `100` |
+| evidence_retention_days? | number | Days to retain evidence. Default: `730` |
+| job_retention_days? | number | Days to retain reporting jobs. Default: `365` |
+| queue? | object | CSAM scan queue configuration. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "cleanup_batch_size": 100,
+  "evidence_retention_days": 730,
+  "job_retention_days": 365
+}
+```
+</Expandable>
+
+#### queue
+
+CSAM scan queue configuration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| consumer_lock_ttl_seconds? | number | TTL for consumer lock (seconds). Default: `5` |
+| max_entries_per_batch? | number | Maximum queue entries to process per consumer run. Default: `5` |
+| timeout_ms? | number | Maximum time to wait for a scan result (ms). Default: `30000` |
+
+---
+
+## database
+
+<a id="database"></a>
+
+JSON path: `database`
+
+Database backend selection and configuration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| backend | enum&lt;`cassandra`, `sqlite`&gt; | Selected database backend. 'sqlite' is for dev/single-node, 'cassandra' for production. |
+| cassandra? | [cassandra](#cassandra) | Configuration settings for Cassandra backend. |
+| sqlite_path? | string | Filesystem path to the SQLite database file. Default: `./data/fluxer.db` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "backend": "cassandra",
+  "sqlite_path": "./data/fluxer.db"
+}
+```
+</Expandable>
+
+### cassandra
+
+JSON path: `database.cassandra`
+
+Cassandra connection details.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| hosts | array&lt;string&gt; | Array of Cassandra contact points (hostnames or IPs). |
+| keyspace | string | Cassandra keyspace name. |
+| local_dc | string | Local Data Center name for topology awareness. |
+| password | string | Cassandra authentication password. |
+| username | string | Cassandra authentication username. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "hosts": [],
+  "keyspace": "your_keyspace",
+  "local_dc": "your_local_dc",
+  "password": "your_password",
+  "username": "your_username"
+}
+```
+</Expandable>
+
+---
+
+## dev
+
+<a id="dev"></a>
+
+JSON path: `dev`
+
+Development environment flags.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| disable_rate_limits? | boolean | Disable all rate limits. Default: `false` |
+| relax_registration_rate_limits? | boolean | Relax rate limits for registration. Default: `false` |
+| test_harness_token? | string | Token for the test harness. Default: `""` |
+| test_mode_enabled? | boolean | Enable test mode behaviors. Default: `false` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "disable_rate_limits": false,
+  "relax_registration_rate_limits": false,
+  "test_harness_token": "",
+  "test_mode_enabled": false
+}
+```
+</Expandable>
+
+---
+
+## domain
+
+<a id="domain"></a>
+
+JSON path: `domain`
+
+Configuration for domains and ports used to construct public URLs.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| base_domain | string | The primary domain name (e.g., example.com, localhost). |
+| gift_domain? | string | Domain for gift links (optional). Default: `""` |
+| internal_port? | number | The internal port number. Default: `8088` |
+| internal_scheme? | enum&lt;`http`, `https`&gt; | The URL scheme for internal endpoints. Default: `http` |
+| invite_domain? | string | Domain for short invite links (optional). Default: `""` |
+| public_port? | number | The public-facing port number. Default: `8088` |
+| public_scheme? | enum&lt;`http`, `https`&gt; | The URL scheme for public endpoints. Default: `http` |
+| static_cdn_domain? | string | Separate domain for static CDN assets (optional). Default: `fluxerstatic.com` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "base_domain": "your_base_domain",
+  "gift_domain": "",
+  "internal_port": 8088,
+  "internal_scheme": "http",
+  "invite_domain": "",
+  "public_port": 8088,
+  "public_scheme": "http",
+  "static_cdn_domain": "fluxerstatic.com"
+}
+```
+</Expandable>
+
+---
+
+## endpoint_overrides
+
+<a id="endpoint-overrides"></a>
+
+JSON path: `endpoint_overrides`
+
+Explicit overrides for service endpoints. Use these if derived URLs are incorrect.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| admin? | string | Full URL override for the Admin Panel endpoint. |
+| api? | string | Full URL override for the API endpoint. |
+| api_client? | string | Full URL override for the client-facing API endpoint. |
+| app? | string | Full URL override for the Web App endpoint. |
+| gateway? | string | Full URL override for the Gateway (WebSocket) endpoint. |
+| gift? | string | Full URL override for Gift links. |
+| invite? | string | Full URL override for Invite links. |
+| marketing? | string | Full URL override for the Marketing Site endpoint. |
+| media? | string | Full URL override for the Media endpoint. |
+| static_cdn? | string | Full URL override for the Static CDN endpoint. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "admin": "",
+  "api": "",
+  "api_client": "",
+  "app": "",
+  "gateway": "",
+  "gift": "",
+  "invite": "",
+  "marketing": "",
+  "media": "",
+  "static_cdn": ""
+}
+```
+</Expandable>
+
+---
+
+## federation
+
+<a id="federation"></a>
+
+JSON path: `federation`
+
+Federation configuration for connecting with other Fluxer instances.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| enabled? | boolean | Enable federation with other Fluxer instances. Default: `false` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "enabled": false
+}
+```
+</Expandable>
+
+---
+
+## gateway_connection
+
+<a id="gateway-connection"></a>
+
+JSON path: `gateway`
+
+Configuration for backend services to call the Gateway via RPC.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| rpc_endpoint? | string | Gateway RPC endpoint URL (e.g. http://gateway:8080). Default: `http://127.0.0.1:8088` |
+| rpc_secret | string | Shared secret for authenticating RPC calls to the Gateway. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "rpc_secret": "your_rpc_secret",
+  "rpc_endpoint": "http://127.0.0.1:8088"
+}
+```
+</Expandable>
+
+---
+
+## geoip
+
+<a id="geoip"></a>
+
+JSON path: `geoip`
+
+GeoIP database settings.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| maxmind_db_path? | string | Path to MaxMind GeoIP database. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "maxmind_db_path": ""
+}
+```
+</Expandable>
+
+---
+
+## instance
+
+<a id="instance"></a>
+
+JSON path: `instance`
+
+Specific settings for this Fluxer instance.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| auto_join_invite_code? | string | Invite code to auto-join users to a guild upon registration. Default: `""` |
+| deployment_mode? | enum&lt;`monolith`, `microservices`&gt; | Deployment mode. 'monolith' runs all services in one process (fluxer_server). 'microservices' requires separate processes/ports. Default: `monolith` |
+| operators_guild_id? | string | Guild ID for Operators. Default: `""` |
+| private_key_path? | string | Path to the x25519 private key for E2E encryption (generated on first startup if missing). Default: `""` |
+| self_hosted? | boolean | Indicates if this is a self-hosted instance. Default: `true` |
+| visionaries_guild_id? | string | Guild ID for Visionary members. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "auto_join_invite_code": "",
+  "deployment_mode": "monolith",
+  "operators_guild_id": "",
+  "private_key_path": "",
+  "self_hosted": true,
+  "visionaries_guild_id": ""
+}
+```
+</Expandable>
+
+---
+
+## integrations
+
+<a id="integrations"></a>
+
+JSON path: `integrations`
+
+Collection of all external service integrations.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| captcha? | [captcha_integration](#captcha-integration) | Default: `{}` |
+| clamav? | [clamav_integration](#clamav-integration) | Default: `{}` |
+| cloudflare? | [cloudflare](#cloudflare) | Default: `{}` |
+| email? | [email_integration](#email-integration) | Default: `{}` |
+| gif? | [gif](#gif) | Default: `{}` |
+| klipy? | [klipy](#klipy) | Default: `{}` |
+| ncmec? | [ncmec_integration](#ncmec-integration) | Default: `{}` |
+| photo_dna? | [photo_dna_integration](#photo-dna-integration) | Default: `{}` |
+| search? | [search_integration](#search-integration) | Default: `{}` |
+| sms? | [sms_integration](#sms-integration) | Default: `{}` |
+| stripe? | [stripe_integration](#stripe-integration) | Default: `{}` |
+| tenor? | [tenor](#tenor) | Default: `{}` |
+| voice? | [voice_integration](#voice-integration) | Default: `{}` |
+| youtube? | [youtube](#youtube) | Default: `{}` |
+
+### email_integration
+
+JSON path: `integrations.email`
+
+Email delivery service integration.
+
+<Note>
+When `enabled` = `true` and `provider` = `smtp`, the following properties are required: `smtp`
+</Note>
+
+| Property | Type | Description |
+|----------|------|-------------|
+| enabled? | boolean | Enable email sending. Default: `false` |
+| from_email? | string | Default sender email address. Default: `""` |
+| from_name? | string | Default sender name. Default: `Fluxer` |
+| provider? | enum&lt;`smtp`, `none`&gt; | Email provider selection. Default: `none` |
+| smtp? | [smtp_email](#smtp-email) |  |
+| webhook_secret? | string | SendGrid signed event webhook public key (PEM or base64-encoded DER). |
+
+<Expandable title="Example JSON">
+```json
+{
+  "enabled": false,
+  "from_email": "",
+  "from_name": "Fluxer",
+  "provider": "none",
+  "webhook_secret": ""
+}
+```
+</Expandable>
+
+### smtp_email
+
+JSON path: `integrations.email.smtp`
+
+SMTP transport configuration for email delivery.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| host | string | SMTP server hostname. |
+| password | string | SMTP authentication password. |
+| port | number | SMTP port number. Default: `587` |
+| secure? | boolean | Use TLS when connecting to the SMTP server. Default: `true` |
+| username | string | SMTP authentication username. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "host": "your_host",
+  "password": "your_password",
+  "port": 587,
+  "username": "your_username",
+  "secure": true
+}
+```
+</Expandable>
+
+### sms_integration
+
+JSON path: `integrations.sms`
+
+SMS service integration.
+
+<Note>
+When `enabled` = `true`, the following properties are required: `account_sid`, `auth_token`, `verify_service_sid`
+</Note>
+
+| Property | Type | Description |
+|----------|------|-------------|
+| account_sid? | string | Twilio account SID. |
+| auth_token? | string | Twilio auth token. |
+| enabled? | boolean | Enable SMS sending. Default: `false` |
+| verify_service_sid? | string | Twilio Verify service SID. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "account_sid": "",
+  "auth_token": "",
+  "enabled": false,
+  "verify_service_sid": ""
+}
+```
+</Expandable>
+
+### captcha_integration
+
+JSON path: `integrations.captcha`
+
+CAPTCHA service integration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| enabled? | boolean | Enable CAPTCHA verification. Default: `false` |
+| hcaptcha? | [captcha_provider](#captcha-provider) | hCaptcha settings. Default: `{}` |
+| provider? | enum&lt;`hcaptcha`, `turnstile`, `none`&gt; | Selected CAPTCHA provider. Default: `none` |
+| turnstile? | [captcha_provider](#captcha-provider) | Cloudflare Turnstile settings. Default: `{}` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "enabled": false,
+  "provider": "none"
+}
+```
+</Expandable>
+
+### captcha_provider
+
+JSON path: `integrations.captcha.hcaptcha`
+
+Configuration for a specific CAPTCHA provider.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| secret_key? | string | Secret key for server-side verification. Default: `""` |
+| site_key? | string | Public site key. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "secret_key": "",
+  "site_key": ""
+}
+```
+</Expandable>
+
+### voice_integration
+
+JSON path: `integrations.voice`
+
+Real-time voice/video integration (LiveKit).
+
+<Note>
+When `enabled` = `true` and `default_region` is present, the following properties are required: `api_key`, `api_secret`
+</Note>
+
+| Property | Type | Description |
+|----------|------|-------------|
+| api_key? | string | LiveKit API Key used for config-driven default_region bootstrap. Optional when voice topology is managed in the admin panel. |
+| api_secret? | string | LiveKit API Secret used for config-driven default_region bootstrap. Optional when voice topology is managed in the admin panel. |
+| default_region? | object | Default voice region to create on startup if none exist. When provided, automatically creates this region and a server pointing to the configured LiveKit URL. |
+| enabled? | boolean | Enable voice/video features. Default: `false` |
+| url? | string | LiveKit Server URL (client signal endpoint for WebSocket connections). Default: `""` |
+| webhook_url? | string | URL for LiveKit webhooks. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "api_key": "",
+  "api_secret": "",
+  "enabled": false,
+  "url": "",
+  "webhook_url": ""
+}
+```
+</Expandable>
+
+#### default_region
+
+Default voice region to create on startup if none exist. When provided, automatically creates this region and a server pointing to the configured LiveKit URL.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| emoji | string | Emoji icon for the region (e.g. '🌐', '🇪🇺'). |
+| id | string | Unique identifier for the region (e.g. 'default', 'eu-west'). |
+| latitude | number | Latitude coordinate for the region. |
+| longitude | number | Longitude coordinate for the region. |
+| name | string | Display name for the region. |
+
+### search_integration
+
+JSON path: `integrations.search`
+
+Search engine integration (Meilisearch). Fluxer always uses Meilisearch for indexing and querying.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| api_key | string | Meilisearch API key used by the API for index management and writes. Use a key with access to documents and settings. |
+| url | string | Meilisearch HTTP API URL. Default: `http://127.0.0.1:7700` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "api_key": "your_api_key",
+  "url": "http://127.0.0.1:7700"
+}
+```
+</Expandable>
+
+### stripe_integration
+
+JSON path: `integrations.stripe`
+
+Stripe payments integration.
+
+<Note>
+When `enabled` = `true`, the following properties are required: `secret_key`, `webhook_secret`
+</Note>
+
+| Property | Type | Description |
+|----------|------|-------------|
+| enabled? | boolean | Enable Stripe payments. Default: `false` |
+| prices? | [stripe_prices](#stripe-prices) | Stripe Price ID configuration. |
+| secret_key? | string | Stripe Secret Key. |
+| webhook_secret? | string | Stripe Webhook Signing Secret. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "enabled": false,
+  "secret_key": "",
+  "webhook_secret": ""
+}
+```
+</Expandable>
+
+### stripe_prices
+
+JSON path: `integrations.stripe.prices`
+
+Stripe Price IDs for subscription products.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| gift_1_month_eur? | string | Gift 1 Month EUR price ID. Default: `""` |
+| gift_1_month_usd? | string | Gift 1 Month USD price ID. Default: `""` |
+| gift_1_year_eur? | string | Gift 1 Year EUR price ID. Default: `""` |
+| gift_1_year_usd? | string | Gift 1 Year USD price ID. Default: `""` |
+| gift_visionary_eur? | string | Gift Visionary EUR price ID. Default: `""` |
+| gift_visionary_usd? | string | Gift Visionary USD price ID. Default: `""` |
+| monthly_eur? | string | Monthly subscription EUR price ID. Default: `""` |
+| monthly_usd? | string | Monthly subscription USD price ID. Default: `""` |
+| visionary_eur? | string | Visionary tier EUR price ID. Default: `""` |
+| visionary_usd? | string | Visionary tier USD price ID. Default: `""` |
+| yearly_eur? | string | Yearly subscription EUR price ID. Default: `""` |
+| yearly_usd? | string | Yearly subscription USD price ID. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "gift_1_month_eur": "",
+  "gift_1_month_usd": "",
+  "gift_1_year_eur": "",
+  "gift_1_year_usd": "",
+  "gift_visionary_eur": "",
+  "gift_visionary_usd": "",
+  "monthly_eur": "",
+  "monthly_usd": "",
+  "visionary_eur": "",
+  "visionary_usd": "",
+  "yearly_eur": "",
+  "yearly_usd": ""
+}
+```
+</Expandable>
+
+### photo_dna_integration
+
+JSON path: `integrations.photo_dna`
+
+PhotoDNA integration for hash matching.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| enabled? | boolean | Enable PhotoDNA. Default: `false` |
+| hash_service_timeout_ms? | number | Timeout for hash generation. Default: `15000` |
+| hash_service_url? | string | URL for the hash generation service. Default: `""` |
+| match_endpoint? | string | URL for the match service. Default: `""` |
+| match_enhance? | boolean | Enable enhanced matching. Default: `false` |
+| rate_limit_rps? | number | Rate limit requests per second. Default: `5` |
+| subscription_key? | string | Subscription key for the match service. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "enabled": false,
+  "hash_service_timeout_ms": 15000,
+  "hash_service_url": "",
+  "match_endpoint": "",
+  "match_enhance": false,
+  "rate_limit_rps": 5,
+  "subscription_key": ""
+}
+```
+</Expandable>
+
+### ncmec_integration
+
+JSON path: `integrations.ncmec`
+
+NCMEC CyberTipline integration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| base_url? | string | Base URL for the CyberTipline Reporting API (e.g., https://report.cybertip.org/ispws). Default: `""` |
+| enabled? | boolean | Enable NCMEC reporting. Default: `false` |
+| password? | string | Password for CyberTipline basic authentication. Default: `""` |
+| username? | string | Username for CyberTipline basic authentication. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "base_url": "",
+  "enabled": false,
+  "password": "",
+  "username": ""
+}
+```
+</Expandable>
+
+### clamav_integration
+
+JSON path: `integrations.clamav`
+
+ClamAV antivirus integration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| enabled? | boolean | Enable ClamAV scanning. Default: `false` |
+| fail_open? | boolean | If true, allow files if scanning fails. Default: `true` |
+| host? | string | ClamAV host. Default: `clamav` |
+| port? | number | ClamAV port. Default: `3310` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "enabled": false,
+  "fail_open": true,
+  "host": "clamav",
+  "port": 3310
+}
+```
+</Expandable>
+
+### gif
+
+JSON path: `integrations.gif`
+
+GIF provider selection for the client-facing GIF picker.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| provider? | enum&lt;`klipy`, `tenor`&gt; | GIF provider to use for GIF search and sharing. Default: `klipy` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "provider": "klipy"
+}
+```
+</Expandable>
+
+### klipy
+
+JSON path: `integrations.klipy`
+
+KLIPY GIF API integration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| api_key? | string | KLIPY API Key. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "api_key": ""
+}
+```
+</Expandable>
+
+### tenor
+
+JSON path: `integrations.tenor`
+
+Tenor GIF API integration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| api_key? | string | Tenor API key. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "api_key": ""
+}
+```
+</Expandable>
+
+### youtube
+
+JSON path: `integrations.youtube`
+
+YouTube API integration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| api_key? | string | YouTube API Key. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "api_key": ""
+}
+```
+</Expandable>
+
+### cloudflare
+
+JSON path: `integrations.cloudflare`
+
+Cloudflare integration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| api_token? | string | Cloudflare API token for cache purge. Default: `""` |
+| purge_enabled? | boolean | Enable automatic cache purging. Default: `false` |
+| zone_id? | string | Cloudflare Zone ID. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "api_token": "",
+  "purge_enabled": false,
+  "zone_id": ""
+}
+```
+</Expandable>
+
+---
+
+## internal
+
+<a id="internal"></a>
+
+JSON path: `internal`
+
+Direct internal endpoints for backend services. In monolith mode these are served via paths on the main server.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| kv? | string | Internal Valkey/Redis URL for key-value operations. Default: `redis://localhost:6379/0` |
+| media_proxy? | string | Internal URL for the Media Proxy service. Default: `http://localhost:8088/media` |
+| queue? | string | Internal URL for the Queue service. Default: `http://localhost:8088/queue` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "kv": "redis://localhost:6379/0",
+  "media_proxy": "http://localhost:8088/media",
+  "queue": "http://localhost:8088/queue"
+}
+```
+</Expandable>
+
+---
+
+## proxy
+
+<a id="proxy"></a>
+
+JSON path: `proxy`
+
+Proxy configuration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| trust_cf_connecting_ip? | boolean | Trust Cloudflare's CF-Connecting-IP header. Default: `false` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "trust_cf_connecting_ip": false
+}
+```
+</Expandable>
+
+---
+
+## s3
+
+<a id="s3"></a>
+
+JSON path: `s3`
+
+S3 connection configuration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| access_key_id | string | S3 Access Key ID. |
+| buckets? | [s3_buckets](#s3-buckets) | Mapping of logical buckets to actual S3 bucket names. Default: `{}` |
+| endpoint? | string | S3 service endpoint URL. Default: `http://localhost:3900` |
+| presigned_url_base? | string | Base URL for presigned download URLs. If not set, defaults to the endpoint value. Set this to a public URL when the endpoint is internal. |
+| region? | string | S3 region. Default: `local` |
+| secret_access_key | string | S3 Secret Access Key. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "access_key_id": "your_access_key_id",
+  "secret_access_key": "your_secret_access_key",
+  "endpoint": "http://localhost:3900",
+  "presigned_url_base": "",
+  "region": "local"
+}
+```
+</Expandable>
+
+### s3_buckets
+
+JSON path: `s3.buckets`
+
+Configuration of specific S3 bucket names.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| cdn? | string | Bucket for CDN assets. Default: `fluxer` |
+| downloads? | string | Bucket for downloads. Default: `fluxer-downloads` |
+| harvests? | string | Bucket for data harvests. Default: `fluxer-harvests` |
+| reports? | string | Bucket for report data. Default: `fluxer-reports` |
+| static? | string | Bucket for static site assets. Default: `fluxer-static` |
+| uploads? | string | Bucket for user uploads. Default: `fluxer-uploads` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "cdn": "fluxer",
+  "downloads": "fluxer-downloads",
+  "harvests": "fluxer-harvests",
+  "reports": "fluxer-reports",
+  "static": "fluxer-static",
+  "uploads": "fluxer-uploads"
+}
+```
+</Expandable>
+
+---
+
+## sentry
+
+<a id="sentry"></a>
+
+JSON path: `sentry`
+
+Sentry configuration.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| dsn? | string | Sentry DSN. Default: `""` |
+| enabled? | boolean | Enable Sentry reporting. Default: `false` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "dsn": "",
+  "enabled": false
+}
+```
+</Expandable>
+
+---
+
+## services
+
+<a id="services"></a>
+
+JSON path: `services`
+
+Container for all service-specific configurations.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| admin | [admin_service](#admin-service) |  |
+| api? | [api_service](#api-service) | Default: `{}` |
+| app_proxy? | [app_proxy_service](#app-proxy-service) |  |
+| gateway | [gateway_service](#gateway-service) |  |
+| marketing? | [marketing_service](#marketing-service) |  |
+| media_proxy | [media_proxy_service](#media-proxy-service) |  |
+| queue? | [queue_service](#queue-service) | Default: `{}` |
+| s3? | [s3_service](#s3-service) | Default: `{}` |
+| server? | [server_service](#server-service) | Default: `{}` |
+
+### s3_service
+
+JSON path: `services.s3`
+
+Configuration for the S3-compatible storage service.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| data_dir? | string | Filesystem path to store S3 data objects. Default: `./data/s3` |
+| export_timeout? | number | Timeout in milliseconds for data export operations. Default: `30000` |
+| host? | string | Network interface to bind to. Default: `0.0.0.0` |
+| port? | number | Port to listen on. Default: `3900` |
+| rate_limit? | [rate_limit](#rate-limit) | Rate limiting configuration for the S3 service. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "data_dir": "./data/s3",
+  "export_timeout": 30000,
+  "host": "0.0.0.0",
+  "port": 3900
+}
+```
+</Expandable>
+
+### rate_limit
+
+JSON path: `services.s3.rate_limit`
+
+Rate limiting parameters.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| limit? | number | Maximum number of requests allowed within the window. |
+| window_ms? | number | Time window in milliseconds. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "limit": 0,
+  "window_ms": 0
+}
+```
+</Expandable>
+
+### queue_service
+
+JSON path: `services.queue`
+
+Configuration for the Job Queue service.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| command_buffer? | number | Size of the internal command buffer. Default: `1000` |
+| concurrency? | number | Number of concurrent worker threads. Default: `2` |
+| data_dir? | string | Filesystem path to store queue data. Default: `./data/queue` |
+| default_visibility_timeout_ms? | number | Default time in milliseconds a message remains invisible after being received. Default: `30000` |
+| export_timeout? | number | Timeout in milliseconds for data export operations. Default: `30000` |
+| host? | string | Network interface to bind to. Default: `0.0.0.0` |
+| max_receive_batch? | number | Maximum number of messages to retrieve in a single batch. Default: `10` |
+| port? | number | Port to listen on. Default: `8080` |
+| rate_limit? | [rate_limit](#rate-limit) | Rate limiting configuration for the Queue service. |
+| secret? | string | Authentication secret for the Queue service. |
+| snapshot_after_ops? | number | Number of operations after which to take a queue snapshot. Default: `10000` |
+| snapshot_every_ms? | number | Interval in milliseconds to take queue snapshots. Default: `60000` |
+| snapshot_zstd_level? | number | Zstd compression level for snapshots (1-22). Default: `3` |
+| visibility_timeout_backoff_ms? | number | Backoff duration in milliseconds for visibility timeouts. Default: `1000` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "command_buffer": 1000,
+  "concurrency": 2,
+  "data_dir": "./data/queue",
+  "default_visibility_timeout_ms": 30000,
+  "export_timeout": 30000,
+  "host": "0.0.0.0",
+  "max_receive_batch": 10,
+  "port": 8080,
+  "secret": "",
+  "snapshot_after_ops": 10000,
+  "snapshot_every_ms": 60000,
+  "snapshot_zstd_level": 3,
+  "visibility_timeout_backoff_ms": 1000
+}
+```
+</Expandable>
+
+### media_proxy_service
+
+JSON path: `services.media_proxy`
+
+Configuration for the Media Proxy service.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| host? | string | Network interface to bind to. Default: `0.0.0.0` |
+| port? | number | Port to listen on. Default: `8080` |
+| rate_limit? | [rate_limit](#rate-limit) | Rate limiting configuration for the Media Proxy. |
+| require_cloudflare_edge? | boolean | If true, strictly requires requests to originate from Cloudflare edge IPs. Default: `false` |
+| secret_key | string | Secret key used to sign and verify media URLs. |
+| static_mode? | boolean | If true, enables serving static files directly. Default: `false` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "secret_key": "your_secret_key",
+  "host": "0.0.0.0",
+  "port": 8080,
+  "require_cloudflare_edge": false,
+  "static_mode": false
+}
+```
+</Expandable>
+
+### admin_service
+
+JSON path: `services.admin`
+
+Configuration for the Admin Panel service.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| base_path? | string | URL base path for the admin interface. Default: `/admin` |
+| oauth_client_secret | string | OAuth Client Secret for admin authentication. |
+| port? | number | Port to listen on. Default: `3001` |
+| rate_limit? | [rate_limit](#rate-limit) | Rate limiting configuration for the Admin service. |
+| secret_key_base | string | Base secret key for signing admin session tokens. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "oauth_client_secret": "your_oauth_client_secret",
+  "secret_key_base": "your_secret_key_base",
+  "base_path": "/admin",
+  "port": 3001
+}
+```
+</Expandable>
+
+### marketing_service
+
+JSON path: `services.marketing`
+
+Configuration for the Marketing site service.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| base_path? | string | URL base path for the marketing site. Default: `/marketing` |
+| enabled? | boolean | Whether to enable the Marketing service within fluxer_server. Default: `false` |
+| host? | string | Network interface to bind to. Default: `0.0.0.0` |
+| port? | number | Port to listen on. Default: `8774` |
+| secret_key_base | string | Base secret key for marketing site sessions/tokens. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "secret_key_base": "your_secret_key_base",
+  "base_path": "/marketing",
+  "enabled": false,
+  "host": "0.0.0.0",
+  "port": 8774
+}
+```
+</Expandable>
+
+### api_service
+
+JSON path: `services.api`
+
+Configuration for the main API service.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| host? | string | Network interface to bind to. Default: `0.0.0.0` |
+| port? | number | Port to listen on. Default: `8080` |
+| unfurl_ignored_hosts? | array&lt;string&gt; | List of hostnames or IPs to ignore when unfurling URLs. Default: `["localhost","127.0.0.1"]` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "host": "0.0.0.0",
+  "port": 8080,
+  "unfurl_ignored_hosts": [
+    "localhost",
+    "127.0.0.1"
+  ]
+}
+```
+</Expandable>
+
+### app_proxy_service
+
+JSON path: `services.app_proxy`
+
+Configuration for the App Proxy service (frontend server).
+
+| Property | Type | Description |
+|----------|------|-------------|
+| assets_dir? | string | Filesystem directory containing static assets. Default: `./assets` |
+| kv? | [app_proxy_kv](#app-proxy-kv) | Valkey/Redis configuration for the proxy. |
+| port? | number | Port to listen on. Default: `8773` |
+| rate_limit? | [app_proxy_rate_limit](#app-proxy-rate-limit) | Rate limiting configuration for the App Proxy. Default: `{}` |
+| sentry_dsn | string | Sentry DSN (Data Source Name) for frontend error tracking. |
+| sentry_proxy_path? | string | URL path for proxying Sentry requests. Default: `/error-reporting-proxy` |
+| sentry_report_host | string | Hostname to which Sentry reports should be sent. |
+| static_cdn_endpoint? | string | URL endpoint for serving static assets via CDN. Default: `""` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "sentry_dsn": "your_sentry_dsn",
+  "sentry_report_host": "your_sentry_report_host",
+  "assets_dir": "./assets",
+  "port": 8773,
+  "sentry_proxy_path": "/error-reporting-proxy",
+  "static_cdn_endpoint": ""
+}
+```
+</Expandable>
+
+### app_proxy_kv
+
+JSON path: `services.app_proxy.kv`
+
+Valkey/Redis settings for the App Proxy.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| timeout_ms? | number | Request timeout for Valkey/Redis in milliseconds. Default: `5000` |
+| url | string | Full URL to Valkey/Redis. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "url": "your_url",
+  "timeout_ms": 5000
+}
+```
+</Expandable>
+
+### app_proxy_rate_limit
+
+JSON path: `services.app_proxy.rate_limit`
+
+Rate limit settings for the App Proxy.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| sentry? | [app_proxy_sentry_rate_limit](#app-proxy-sentry-rate-limit) | Sentry reporting rate limit configuration. Default: `{}` |
+
+### app_proxy_sentry_rate_limit
+
+JSON path: `services.app_proxy.rate_limit.sentry`
+
+Rate limiting for Sentry error reporting requests.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| limit? | number | Number of Sentry requests allowed per window. Default: `100` |
+| window_ms? | number | Time window for Sentry rate limiting in milliseconds. Default: `1000` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "limit": 100,
+  "window_ms": 1000
+}
+```
+</Expandable>
+
+### gateway_service
+
+JSON path: `services.gateway`
+
+Configuration for the Gateway service (WebSocket).
+
+| Property | Type | Description |
+|----------|------|-------------|
+| admin_reload_secret | string | Secret used to trigger code hot-swapping/reloads. |
+| api_canary_host? | string | Host/Port of the Canary API service (optional). Default: `""` |
+| api_host | string | Host/Port of the API service to communicate with. |
+| gateway_metrics_enabled? | boolean | Enable collection of gateway metrics. Default: `false` |
+| gateway_metrics_report_interval_ms? | number | Interval in milliseconds to report gateway metrics. Default: `30000` |
+| guild_shards? | number | Number of shards for guild handling. Default: `1` |
+| identify_rate_limit_enabled? | boolean | Enable rate limiting for Gateway IDENTIFY opcodes. Default: `false` |
+| logger_level? | string | Logging level (e.g., debug, info, warn, error). Default: `info` |
+| media_proxy_endpoint | string | Endpoint URL of the Media Proxy service. |
+| port? | number | Port to listen on. Default: `8771` |
+| presence_bus_shards? | number | Number of shards for presence message bus. Default: `1` |
+| presence_cache_shards? | number | Number of shards for presence cache. Default: `1` |
+| presence_shards? | number | Number of shards for presence handling. Default: `1` |
+| push_badge_counts_cache_mb? | number | Memory cache size (MB) for badge counts. Default: `256` |
+| push_badge_counts_cache_ttl_seconds? | number | TTL in seconds for badge counts cache. Default: `60` |
+| push_blocked_ids_cache_mb? | number | Memory cache size (MB) for blocked user IDs. Default: `1024` |
+| push_enabled? | boolean | Enable push notification delivery. Default: `true` |
+| push_subscriptions_cache_mb? | number | Memory cache size (MB) for push subscriptions. Default: `1024` |
+| push_user_guild_settings_cache_mb? | number | Memory cache size (MB) for user guild settings. Default: `1024` |
+| release_node? | string | Erlang node name for the release. Default: `fluxer_gateway@gateway` |
+| rpc_tcp_port? | number | Port for API-to-Gateway internal RPC over TCP. Default: `8772` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "admin_reload_secret": "your_admin_reload_secret",
+  "api_host": "your_api_host",
+  "media_proxy_endpoint": "your_media_proxy_endpoint",
+  "api_canary_host": "",
+  "gateway_metrics_enabled": false,
+  "gateway_metrics_report_interval_ms": 30000,
+  "guild_shards": 1,
+  "identify_rate_limit_enabled": false,
+  "logger_level": "info",
+  "port": 8771,
+  "presence_bus_shards": 1,
+  "presence_cache_shards": 1,
+  "presence_shards": 1,
+  "push_badge_counts_cache_mb": 256,
+  "push_badge_counts_cache_ttl_seconds": 60,
+  "push_blocked_ids_cache_mb": 1024,
+  "push_enabled": true,
+  "push_subscriptions_cache_mb": 1024,
+  "push_user_guild_settings_cache_mb": 1024,
+  "release_node": "fluxer_gateway@gateway",
+  "rpc_tcp_port": 8772
+}
+```
+</Expandable>
+
+### server_service
+
+JSON path: `services.server`
+
+Configuration for the main Fluxer Server.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| host? | string | Network interface to bind to. Default: `0.0.0.0` |
+| port? | number | Port to listen on. Default: `8772` |
+| static_dir? | string | Path to static assets directory for the web app. Required in production. |
+
+<Expandable title="Example JSON">
+```json
+{
+  "host": "0.0.0.0",
+  "port": 8772,
+  "static_dir": ""
+}
+```
+</Expandable>
+
+---
+
+## telemetry
+
+<a id="telemetry"></a>
+
+JSON path: `telemetry`
+
+OpenTelemetry observability settings.
+
+| Property | Type | Description |
+|----------|------|-------------|
+| api_key? | string | API Key for telemetry service. Default: `""` |
+| enabled? | boolean | Enable OpenTelemetry. Default: `false` |
+| environment? | string | Environment name (dev, prod, etc). Default: `development` |
+| export_timeout? | number | Timeout in milliseconds for exporting telemetry data. Default: `30000` |
+| ignore_incoming_paths? | array&lt;string&gt; | HTTP paths to exclude from tracing. Default: `["/_health"]` |
+| metric_export_interval_ms? | number | Interval in milliseconds between metric exports. Default: `60000` |
+| otlp_endpoint? | string | OTLP collector endpoint. Default: `""` |
+| service_name? | string | Service name reported to telemetry. Default: `fluxer` |
+| trace_sampling_ratio? | number | Sampling ratio for traces (0.0 to 1.0). Default: `1` |
+
+<Expandable title="Example JSON">
+```json
+{
+  "api_key": "",
+  "enabled": false,
+  "environment": "development",
+  "export_timeout": 30000,
+  "ignore_incoming_paths": [
+    "/_health"
+  ],
+  "metric_export_interval_ms": 60000,
+  "otlp_endpoint": "",
+  "service_name": "fluxer",
+  "trace_sampling_ratio": 1
+}
+```
+</Expandable>
+

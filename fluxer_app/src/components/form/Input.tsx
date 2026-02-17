@@ -17,17 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import surfaceStyles from '@app/components/form/FormSurface.module.css';
+import styles from '@app/components/form/Input.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {shouldDisableAutofocusOnMobile} from '@app/lib/AutofocusUtils';
+import {
+	type InputWithPasswordManagerIgnoreAttributes,
+	PASSWORD_MANAGER_IGNORE_ATTRIBUTES,
+	shouldApplyPasswordManagerIgnoreAttributes,
+	type TextareaWithPasswordManagerIgnoreAttributes,
+} from '@app/lib/PasswordManagerAutocomplete';
+import type {TextareaAutosizeProps} from '@app/lib/TextareaAutosize';
+import {TextareaAutosize} from '@app/lib/TextareaAutosize';
+import scrollerStyles from '@app/styles/Scroller.module.css';
 import {useLingui} from '@lingui/react/macro';
 import {EyeIcon, EyeSlashIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import lodash from 'lodash';
-import React, {useState} from 'react';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import type {TextareaAutosizeProps} from '~/lib/TextareaAutosize';
-import {TextareaAutosize} from '~/lib/TextareaAutosize';
-import scrollerStyles from '~/styles/Scroller.module.css';
-import surfaceStyles from './FormSurface.module.css';
-import styles from './Input.module.css';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 
 type FieldSetProps = React.HTMLProps<HTMLFieldSetElement> & {
 	children: React.ReactNode;
@@ -69,7 +76,7 @@ const assignRef = <T,>(ref: React.Ref<T> | undefined, value: T | null): void => 
 };
 
 export interface RenderInputArgs {
-	inputProps: React.InputHTMLAttributes<HTMLInputElement>;
+	inputProps: InputWithPasswordManagerIgnoreAttributes;
 	inputClassName: string;
 	ref: React.Ref<HTMLInputElement>;
 	defaultInput: React.ReactNode;
@@ -108,20 +115,25 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 		forwardedRef,
 	) => {
 		const {t} = useLingui();
+		const disableAutofocus = shouldDisableAutofocusOnMobile();
 		const [showPassword, setShowPassword] = useState(false);
 		const isPasswordType = type === 'password';
-		const resolveInputType = (): string | undefined => {
+		const shouldIgnorePasswordManagers = useMemo(() => shouldApplyPasswordManagerIgnoreAttributes(type), [type]);
+		const resolveInputType = useCallback((): string | undefined => {
 			if (!isPasswordType) return type;
 			return showPassword ? 'text' : 'password';
-		};
-		const inputType = resolveInputType();
-		const hasRightElement = isPasswordType || rightElement || rightIcon;
-		const hasLeftElement = !!leftElement;
-		const hasLeftIcon = !!leftIcon;
-		const inputRef = React.useRef<HTMLInputElement | null>(null);
-		const inputWrapperRef = React.useRef<HTMLDivElement | null>(null);
+		}, [isPasswordType, showPassword, type]);
+		const inputType = useMemo(() => resolveInputType(), [resolveInputType]);
+		const hasRightElement = useMemo(
+			() => isPasswordType || rightElement || rightIcon,
+			[isPasswordType, rightElement, rightIcon],
+		);
+		const hasLeftElement = useMemo(() => !!leftElement, [leftElement]);
+		const hasLeftIcon = useMemo(() => !!leftIcon, [leftIcon]);
+		const inputRef = useRef<HTMLInputElement | null>(null);
+		const inputWrapperRef = useRef<HTMLDivElement | null>(null);
 
-		const setInputRefs = React.useCallback(
+		const setInputRefs = useCallback(
 			(node: HTMLInputElement | null) => {
 				inputRef.current = node;
 				assignRef(forwardedRef, node);
@@ -131,62 +143,104 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
 		const ariaInvalid = !!error;
 		const hasControlledValue = props.value !== undefined;
-		const shouldForceReadOnly = hasControlledValue && typeof props.onChange !== 'function';
+		const shouldForceReadOnly = useMemo(
+			() => hasControlledValue && typeof props.onChange !== 'function',
+			[hasControlledValue, props.onChange],
+		);
 		const normalizedReadOnly = readOnly ?? shouldForceReadOnly;
-		const inputClassName = clsx(
-			surfaceStyles.surface,
-			styles.input,
-			styles.minHeight,
-			hasRightElement && styles.hasRightElement,
-			(hasLeftIcon || hasLeftElement) && styles.hasLeftIcon,
-			hasLeftElement && styles.hasLeftElement,
-			error ? styles.error : styles.focusable,
-			className,
+		const inputClassName = useMemo(
+			() =>
+				clsx(
+					surfaceStyles.surface,
+					styles.input,
+					styles.minHeight,
+					hasRightElement && styles.hasRightElement,
+					(hasLeftIcon || hasLeftElement) && styles.hasLeftIcon,
+					hasLeftElement && styles.hasLeftElement,
+					error ? styles.error : styles.focusable,
+					className,
+				),
+			[hasRightElement, hasLeftIcon, hasLeftElement, error, className],
 		);
 
-		const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
-			...props,
-			disabled,
-			readOnly: normalizedReadOnly,
-			type: inputType,
-			'aria-invalid': ariaInvalid || undefined,
-		};
-
-		const defaultInput = <input {...inputProps} className={inputClassName} ref={setInputRefs} />;
-
-		const renderedInput = renderInput
-			? renderInput({
-					inputProps,
-					inputClassName,
-					ref: setInputRefs,
-					defaultInput,
-				})
-			: defaultInput;
-
-		const inputContent = (
-			<div ref={inputWrapperRef} className={styles.inputWrapper}>
-				{leftElement && <div className={styles.leftElement}>{leftElement}</div>}
-				{leftIcon && !leftElement && <div className={styles.leftIcon}>{leftIcon}</div>}
-				{renderedInput}
-				{isPasswordType && (
-					<button
-						type="button"
-						className={styles.passwordToggle}
-						onClick={() => setShowPassword(!showPassword)}
-						aria-label={showPassword ? t`Hide password` : t`Show password`}
-					>
-						{showPassword ? <EyeSlashIcon size={18} weight="fill" /> : <EyeIcon size={18} weight="fill" />}
-					</button>
-				)}
-				{!isPasswordType && rightIcon && <div className={styles.rightIcon}>{rightIcon}</div>}
-				{!isPasswordType && rightElement && <div className={styles.rightElement}>{rightElement}</div>}
-			</div>
+		const inputProps: InputWithPasswordManagerIgnoreAttributes = useMemo(
+			() => ({
+				...props,
+				...(shouldIgnorePasswordManagers ? PASSWORD_MANAGER_IGNORE_ATTRIBUTES : {}),
+				autoFocus: disableAutofocus ? false : props.autoFocus,
+				disabled,
+				readOnly: normalizedReadOnly,
+				type: inputType,
+				'aria-invalid': ariaInvalid || undefined,
+			}),
+			[props, shouldIgnorePasswordManagers, disableAutofocus, disabled, normalizedReadOnly, inputType, ariaInvalid],
 		);
 
-		const focusDecoratedInput = (
-			<FocusRing focusTarget={inputRef} ringTarget={inputWrapperRef} offset={-2} enabled={!disabled}>
-				{inputContent}
-			</FocusRing>
+		const defaultInput = useMemo(
+			() => <input {...inputProps} className={inputClassName} ref={setInputRefs} />,
+			[inputProps, inputClassName, setInputRefs],
+		);
+
+		const renderedInput = useMemo(
+			() =>
+				renderInput
+					? renderInput({
+							inputProps,
+							inputClassName,
+							ref: setInputRefs,
+							defaultInput,
+						})
+					: defaultInput,
+			[renderInput, inputProps, inputClassName, setInputRefs, defaultInput],
+		);
+
+		const handlePasswordToggle = useCallback(() => {
+			setShowPassword(!showPassword);
+		}, [showPassword]);
+
+		const passwordToggleLabel = useMemo(() => (showPassword ? t`Hide password` : t`Show password`), [showPassword, t]);
+
+		const inputContent = useMemo(
+			() => (
+				<div ref={inputWrapperRef} className={styles.inputWrapper}>
+					{leftElement && <div className={styles.leftElement}>{leftElement}</div>}
+					{leftIcon && !leftElement && <div className={styles.leftIcon}>{leftIcon}</div>}
+					{renderedInput}
+					{isPasswordType && (
+						<button
+							type="button"
+							className={styles.passwordToggle}
+							onClick={handlePasswordToggle}
+							aria-label={passwordToggleLabel}
+						>
+							{showPassword ? <EyeSlashIcon size={18} weight="fill" /> : <EyeIcon size={18} weight="fill" />}
+						</button>
+					)}
+					{!isPasswordType && rightIcon && <div className={styles.rightIcon}>{rightIcon}</div>}
+					{!isPasswordType && rightElement && <div className={styles.rightElement}>{rightElement}</div>}
+				</div>
+			),
+			[
+				inputWrapperRef,
+				leftElement,
+				leftIcon,
+				renderedInput,
+				isPasswordType,
+				handlePasswordToggle,
+				passwordToggleLabel,
+				showPassword,
+				rightIcon,
+				rightElement,
+			],
+		);
+
+		const focusDecoratedInput = useMemo(
+			() => (
+				<FocusRing focusTarget={inputRef} ringTarget={inputWrapperRef} offset={-2} enabled={!disabled}>
+					{inputContent}
+				</FocusRing>
+			),
+			[inputRef, inputWrapperRef, disabled, inputContent],
 		);
 
 		if (!label) {
@@ -257,12 +311,13 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 		},
 		forwardedRef,
 	) => {
-		const currentValue = value || '';
-		const currentLength = String(currentValue).length;
-		const textareaRef = React.useRef<HTMLTextAreaElement | null>(null);
-		const textareaWrapperRef = React.useRef<HTMLDivElement | null>(null);
+		const disableAutofocus = shouldDisableAutofocusOnMobile();
+		const currentValue = useMemo(() => value || '', [value]);
+		const currentLength = useMemo(() => String(currentValue).length, [currentValue]);
+		const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+		const textareaWrapperRef = useRef<HTMLDivElement | null>(null);
 
-		const setTextareaRefs = React.useCallback(
+		const setTextareaRefs = useCallback(
 			(node: HTMLTextAreaElement | null) => {
 				textareaRef.current = node;
 				assignRef(forwardedRef, node);
@@ -270,62 +325,110 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 			[forwardedRef],
 		);
 
-		const sanitizedProps = lodash.omit(props, 'style');
-		const textareaProps = {
-			...sanitizedProps,
-			id,
-			'aria-invalid': !!error,
-			maxRows,
-			minRows,
-			maxLength,
-			value,
-			disabled,
-		};
-
-		const characterCounter = showCharacterCount && maxLength && (
-			<span className={styles.characterCount}>
-				{currentLength}/{maxLength}
-			</span>
+		const sanitizedProps = useMemo(
+			(): TextareaWithPasswordManagerIgnoreAttributes => ({
+				...lodash.omit(props, 'style'),
+				...PASSWORD_MANAGER_IGNORE_ATTRIBUTES,
+				autoFocus: disableAutofocus ? false : props.autoFocus,
+			}),
+			[props, disableAutofocus],
+		);
+		const textareaProps = useMemo(
+			() => ({
+				...sanitizedProps,
+				id,
+				'aria-invalid': !!error,
+				maxRows,
+				minRows,
+				maxLength,
+				value,
+				disabled,
+			}),
+			[sanitizedProps, id, error, maxRows, minRows, maxLength, value, disabled],
 		);
 
-		const labelRight = (
-			<div className={styles.labelContainer} style={{gap: '0.5rem'}}>
-				{!innerActionButton && characterCounter}
-				{actionButton}
-			</div>
+		const characterCounter = useMemo(
+			() =>
+				showCharacterCount &&
+				maxLength && (
+					<span className={styles.characterCount}>
+						{currentLength}/{maxLength}
+					</span>
+				),
+			[showCharacterCount, maxLength, currentLength],
 		);
 
-		const textareaWithActions = innerActionButton ? (
-			<div
-				ref={textareaWrapperRef}
-				className={clsx(styles.textareaWrapper, surfaceStyles.surface, error ? styles.error : styles.focusable)}
-			>
-				<TextareaAutosize
-					{...textareaProps}
-					className={clsx(scrollerStyles.scroller, scrollerStyles.scrollerTextarea, styles.textarea)}
-					ref={setTextareaRefs}
-				/>
-				<div className={styles.textareaActions}>
-					{innerActionButton}
-					{showCharacterCount && maxLength && characterCountTooltip && (
-						<div className={styles.characterCountContainer}>
-							{characterCountTooltip(maxLength - currentLength, maxLength, currentLength)}
-						</div>
-					)}
+		const labelRight = useMemo(
+			() => (
+				<div className={styles.labelContainerWithGap}>
+					{!innerActionButton && characterCounter}
+					{actionButton}
 				</div>
-			</div>
-		) : null;
+			),
+			[innerActionButton, characterCounter, actionButton],
+		);
 
-		const simpleTextarea = !innerActionButton ? (
-			<BaseTextarea
-				{...textareaProps}
-				className={clsx(error ? styles.error : styles.focusable)}
-				ref={setTextareaRefs}
-			/>
-		) : null;
+		const textareaWithActions = useMemo(
+			() =>
+				innerActionButton ? (
+					<div
+						ref={textareaWrapperRef}
+						className={clsx(styles.textareaWrapper, surfaceStyles.surface, error ? styles.error : styles.focusable)}
+					>
+						<TextareaAutosize
+							{...textareaProps}
+							className={clsx(scrollerStyles.scroller, scrollerStyles.scrollerTextarea, styles.textarea)}
+							ref={setTextareaRefs}
+						/>
+						<div className={styles.textareaActions}>
+							{innerActionButton}
+							{showCharacterCount && maxLength && (
+								<div className={styles.characterCountContainer}>
+									{characterCountTooltip ? (
+										characterCountTooltip(maxLength - currentLength, maxLength, currentLength)
+									) : (
+										<span className={styles.characterCount}>
+											{currentLength}/{maxLength}
+										</span>
+									)}
+								</div>
+							)}
+						</div>
+					</div>
+				) : null,
+			[
+				innerActionButton,
+				textareaWrapperRef,
+				error,
+				textareaProps,
+				setTextareaRefs,
+				showCharacterCount,
+				maxLength,
+				characterCountTooltip,
+				currentLength,
+			],
+		);
 
-		const ringTarget = innerActionButton ? textareaWrapperRef : textareaRef;
-		const control = (innerActionButton ? textareaWithActions : simpleTextarea)!;
+		const simpleTextarea = useMemo(
+			() =>
+				!innerActionButton ? (
+					<BaseTextarea
+						{...textareaProps}
+						className={clsx(error ? styles.error : styles.focusable)}
+						ref={setTextareaRefs}
+					/>
+				) : null,
+			[innerActionButton, textareaProps, error, setTextareaRefs],
+		);
+
+		const ringTarget = useMemo(
+			() => (innerActionButton ? textareaWrapperRef : textareaRef),
+			[innerActionButton, textareaWrapperRef, textareaRef],
+		);
+		const control = useMemo(
+			() => (innerActionButton ? textareaWithActions : simpleTextarea)!,
+			[innerActionButton, textareaWithActions, simpleTextarea],
+		);
 
 		return (
 			<FieldSet error={error} footer={footer} label={label} labelRight={labelRight} htmlFor={id}>

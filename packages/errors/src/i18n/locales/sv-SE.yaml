@@ -1,0 +1,497 @@
+account.already_verified: Ditt konto är redan verifierat.
+account.communication_disabled: Kommunikation är avstängd.
+account.disabled: Det här kontot har inaktiverats.
+account.email_verification_required_for_guild: Du måste verifiera din e-post för att kunna skicka meddelanden i den här servern.
+account.guild_verification_required: Serververifiering krävs.
+account.ip_authorization_required: IP-auktorisering krävs.
+account.locked_suspicious_activity: Ditt konto är låst på grund av misstänkt aktivitet.
+account.phone_required_for_guild: Du måste lägga till ett telefonnummer för att kunna skicka meddelanden i den här servern.
+account.scheduled_for_deletion: Det här kontot är schemalagt för radering.
+account.session_timeout: Sessionen gick ut. Uppdatera sidan och logga in igen.
+account.session_token_mismatch: Sessionstoken matchar inte.
+account.suspended_permanently: Det här kontot har stängts av permanent.
+account.suspended_temporarily: Det här kontot har stängts av tillfälligt.
+account.too_new_for_guild: Ditt konto är för nytt för att skicka meddelanden i den här servern.
+account.unauthorized: Obehörig.
+admin_and_system.acls_must_be_non_empty: ACL:er får inte vara tomma.
+admin_and_system.admin_api_key_not_found: Admin-API-nyckeln hittades inte.
+admin_and_system.audit_log_indexing: Audit log-poster indexeras. Försök igen om ett ögonblick.
+admin_and_system.channel_indexing: Kanaler indexeras. Försök igen om ett ögonblick.
+admin_and_system.creation_failed: Vi kunde inte skapa resursen. Försök igen.
+admin_and_system.deletion_failed: Vi kunde inte ta bort resursen. Försök igen.
+admin_and_system.decryption_failed: Vi kunde inte dekryptera meddelandet. Krypteringsnycklarna kan vara ogiltiga eller skadade.
+admin_and_system.empty_encrypted_body: Tom krypterad kropp.
+admin_and_system.encryption_failed: Vi kunde inte kryptera meddelandet. Krypteringsnycklarna kan vara ogiltiga eller skadade.
+admin_and_system.general_error: Något gick fel. Försök igen senare.
+admin_and_system.invalid_acls_format: Ogiltigt ACL-format.
+admin_and_system.invalid_api_origin: Ogiltig API-källadress.
+admin_and_system.invalid_audit_log_reason: Ogiltig anledning för audit log.
+admin_and_system.invalid_bot_flag: Ogiltig bot-flagga.
+admin_and_system.invalid_decrypted_json: Ogiltig dekrypterad JSON.
+admin_and_system.invalid_ephemeral_key: Ogiltig efemär nyckel.
+admin_and_system.invalid_flags_format: Ogiltigt format för flaggor.
+admin_and_system.invalid_form_body: Ogiltig formulärkropp.
+admin_and_system.invalid_format: Det angivna värdet är i ett ogiltigt format.
+admin_and_system.invalid_integer_format: Ogiltigt heltalsformat.
+admin_and_system.invalid_iv: Ogiltig initieringsvektor.
+admin_and_system.invalid_suspicious_flags_format: Ogiltigt format för flaggor för misstänkt aktivitet.
+admin_and_system.invalid_system_flag: Ogiltig systemflagga.
+admin_and_system.invalid_timeout_value: Ogiltigt timeout-värde.
+admin_and_system.invalid_timestamp: Ogiltig tidsstämpel.
+admin_and_system.invalid_timezone_identifier: Ogiltig tidszonidentifierare.
+admin_and_system.missing_acl: ACL saknas.
+admin_and_system.missing_ephemeral_key: Efemär nyckel saknas.
+admin_and_system.missing_iv: Initieringsvektor saknas.
+admin_and_system.must_be_iso_timestamp: Måste vara en giltig ISO-tidsstämpel.
+admin_and_system.processing_failed: Vi kunde inte bearbeta begäran. Försök igen.
+admin_and_system.response_validation_failed: 'Svarsvalidering misslyckades: {errors}.'
+admin_and_system.test_harness_disabled: Testhärnessen är inaktiverad.
+admin_and_system.test_harness_forbidden: Testhärnessen är förbjuden.
+admin_and_system.unknown_suspicious_flag: Okänd flagga för misstänkt aktivitet.
+admin_and_system.update_failed: Vi kunde inte uppdatera resursen. Försök igen.
+admin_and_system.user_must_be_bot_for_system_user: Användaren måste vara en bot för att kunna markeras som systemanvändare.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` och `expires_at` krävs.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` och `message_id` måste vara giltiga heltal.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Användare med MANAGE_MESSAGES kan bara redigera bilagebeskrivningar, inte annan metadata.
+attachments_and_uploads.attachment_metadata_without_files: Bilage-metadata innehöll ett filnamn, men ingen fil laddades upp.
+attachments_and_uploads.attachment_must_be_image: Bilagan "{filename}" måste vara en bildfil (png, jpg, jpeg, webp eller gif).
+attachments_and_uploads.attachment_not_found_in_message: Bilagan med ID {attachmentId} hittades inte i meddelandet.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Arrayen med bilage-metadata krävs när du laddar upp filer.
+attachments_and_uploads.attachments_not_allowed_for_message: Bilagor är inte tillåtna för det här meddelandet.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Du kan inte referera till bilagor när inga bilagor har skickats med.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Dubbla `attachment_id` är inte tillåtna.
+attachments_and_uploads.duplicate_file_index: 'Dubbelt filindex: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Vi kunde inte tolka multipart-formulardatan. Kolla att alla fältnamn och filnamn är korrekt formaterade.
+attachments_and_uploads.failed_to_parse_multipart_payload: Vi kunde inte tolka multipart-payloaden.
+attachments_and_uploads.failed_to_upload_image: Vi kunde inte ladda upp bilden. Försök igen.
+attachments_and_uploads.file_index_exceeds_maximum: Filindex {index} överskrider högsta tillåtna index {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Filen hittades inte för skanning.
+attachments_and_uploads.file_not_found: Filen hittades inte.
+attachments_and_uploads.file_size_too_large: Filstorleken är för stor. Största tillåtna filstorlek är {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Filnamnet får inte bli tomt efter normalisering.
+attachments_and_uploads.filename_invalid_characters: Filnamnet innehåller ogiltiga tecken.
+attachments_and_uploads.filename_length_invalid: Filnamnet måste vara mellan {min} och {max} tecken.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Filnamnet stämmer inte för bilaga {attachmentId}: metadata anger "{expectedFilename}", men det matchar inte.'
+attachments_and_uploads.image_size_exceeds_limit: Bildstorleken överskrider {maxSize} bytes.
+attachments_and_uploads.invalid_file_field_name: 'Ogiltigt filfältnamn: {key}. Förväntat format: `files[N]` där N är ett tal.'
+attachments_and_uploads.invalid_image_data: Ogiltiga bilddata.
+attachments_and_uploads.invalid_image_format: 'Ogiltigt bildformat. Stödda filändelser: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: Ogiltig JSON i `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Flera filer för index {index} är inte tillåtna.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Ingen fil laddades upp för bilagans metadata med ID {attachmentId}.
+attachments_and_uploads.no_file_uploaded_for_attachment: Ingen fil laddades upp för bilagan med ID {attachmentId}.
+attachments_and_uploads.no_metadata_for_file: Ingen metadata angavs för filen med ID {fileId}.
+attachments_and_uploads.no_valid_media_in_message: Ingen giltig media hittades i meddelandet.
+attachments_and_uploads.payload_json_required_for_multipart: '`payload_json` krävs för multipart-meddelanden.'
+attachments_and_uploads.preview_must_be_jpeg: Förhandsvisningen måste vara JPEG.
+attachments_and_uploads.referenced_attachment_not_found: Den refererade bilagan "{filename}" hittades inte bland meddelandets bilagor.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` måste vara ett giltigt heltal.'
+attachments_and_uploads.too_many_files: För många filer. Maximalt {maxFiles} {maxFiles, plural, one {fil} other {filer}} tillåts.
+attachments_and_uploads.unknown_image_format: Okänt bildformat.
+attachments_and_uploads.unresolved_attachment_url: En ouppløst `attachment://`-URL hittades. Den borde ha lösts innan embed-bearbetning.
+attachments_and_uploads.uploaded_attachment_not_found: Den uppladdade bilagan {filename} hittades inte.
+auth_and_oauth.application_not_owned: Du äger inte den här applikationen.
+auth_and_oauth.bot_already_in_guild: Den här botten är redan i guilden.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Botanvändare kan inte skapa auth-sessioner.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Botanvändare kan inte använda auth-endpoints.
+auth_and_oauth.handoff_code_expired: Handoff-koden har gått ut.
+auth_and_oauth.handoff_code_invalid: Ogiltig handoff-kod.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize stöds inte. Använd POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Ogiltig klienthemlighet.
+auth_and_oauth.invalid_client: Ogiltig klient.
+auth_and_oauth.invalid_code: Ogiltig kod.
+auth_and_oauth.invalid_grant: Ogiltig grant.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Ogiltig eller utgången auktoriseringsbiljett.
+auth_and_oauth.invalid_or_expired_authorization_token: Ogiltig eller utgången auktoriseringstoken.
+auth_and_oauth.invalid_or_expired_ticket: Ogiltig eller utgången biljett.
+auth_and_oauth.invalid_proof_token: Ogiltig bevistoken.
+auth_and_oauth.invalid_redirect_uri: Ogiltig omdirigerings-URI.
+auth_and_oauth.invalid_request: Ogiltig begäran.
+auth_and_oauth.invalid_scope: Ogiltigt scope.
+auth_and_oauth.invalid_sudo_token: Ogiltig sudo-token.
+auth_and_oauth.invalid_token_admin_api_key: Ogiltig admin-API-nyckel.
+auth_and_oauth.missing_authorization: Auktorisering saknas.
+auth_and_oauth.missing_client_secret: Klienthemlighet saknas.
+auth_and_oauth.missing_redirect_uri: Omdirigerings-URI saknas.
+auth_and_oauth.must_start_session_before_sending_messages: Du måste starta en session innan du kan skicka meddelanden.
+auth_and_oauth.oauth_admin_scope_required: OAuth2-tokens kräver admin-scope för att komma åt admin-endpoints.
+auth_and_oauth.oauth_fields_missing: OAuth-fält saknas.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Omdirigerings-URI krävs för scopes som inte är bot.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Svarstypen måste vara code för scopes som inte är bot.
+auth_and_oauth.sudo_mode_required: Sudo-läge krävs.
+auth_and_oauth.unknown_application: Okänd applikation.
+auth_and_oauth.unsupported_response_type: Svarstypen stöds inte.
+auth_and_registration.current_password_incorrect: Nuvarande lösenord är felaktigt.
+auth_and_registration.password_is_too_common: Ditt lösenord är för vanligt. Välj ett mer unikt lösenord.
+auth_and_registration.password_not_set: Lösenordet är inte inställt.
+bots.bot_application_not_found: Botappen hittades inte.
+bots.bot_discriminator_cannot_be_changed: Botdiskriminatorn kan inte ändras.
+bots.bot_is_private: Den här botten är privat.
+bots.bot_user_generation_failed: Genereringen av botanvändare misslyckades.
+bots.bot_user_not_found: Botanvändaren hittades inte.
+bots.invalid_response_type_for_non_bot: Svarstypen måste vara code för scopes som inte är bot.
+bots.not_a_bot_application: Det här är inte en botapp.
+calls_and_voice.call_already_exists: Samtalet finns redan.
+calls_and_voice.cannot_modify_voice_state: Du kan inte ändra röststatus.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Ogiltig eller begränsad RTC-region: {region}.'
+calls_and_voice.invalid_rtc_region: 'Ogiltig RTC-region: {region}. Tillgängliga regioner: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Ogiltigt format för stream key.
+calls_and_voice.invalid_stream_thumbnail_payload: Ogiltig payload för stream thumbnail.
+calls_and_voice.no_active_call: Inget aktivt samtal.
+calls_and_voice.stream_key_channel_mismatch: Stream key matchar inte kanalen.
+calls_and_voice.stream_key_scope_mismatch: Stream key matchar inte scopet.
+calls_and_voice.stream_thumbnail_payload_empty: Payloaden för stream thumbnail är tom.
+calls_and_voice.unknown_voice_region: Okänd röstregion.
+calls_and_voice.unknown_voice_server: Okänd röstserver.
+calls_and_voice.voice_message_duration_exceeds_limit: Röstmeddelandets längd får inte överskrida {maxDuration} {maxDuration, plural, one {sekund} other {sekunder}}.
+calls_and_voice.voice_message_duration_required: Bilagor till röstmeddelanden måste ange en varaktighet.
+calls_and_voice.voice_message_waveform_required: Bilagor till röstmeddelanden måste innehålla waveform-data.
+calls_and_voice.voice_messages_require_single_attachment: Röstmeddelanden måste ha exakt en bilaga.
+captcha.invalid: Ogiltig captcha.
+captcha.required: Captcha krävs.
+channels_and_guilds.afk_channel_must_be_in_guild: AFK-kanalen måste vara i den här servern.
+channels_and_guilds.afk_channel_must_be_voice: AFK-kanalen måste vara en röstkanal.
+channels_and_guilds.all_channels_must_belong_to_guild: Alla kanaler måste tillhöra den här servern.
+channels_and_guilds.animated_guild_banner_requires_feature: Animerad serverbanner kräver funktionen ANIMATED_BANNER.
+channels_and_guilds.cannot_execute_on_dm: Den här åtgärden kan inte göras i en DM.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Serverägarskap kan inte överföras till en bot.
+channels_and_guilds.cannot_leave_guild_as_owner: Du kan inte lämna en server som ägare. Överför ägarskapet eller ta bort servern istället.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Du kan inte placera en kanal i förhållande till sig själv eller dess underordnade.
+channels_and_guilds.cannot_report_own_guild: Du kan inte anmäla din egen server.
+channels_and_guilds.categories_cannot_have_parent_channel: Kategorier kan inte ha en föräldrakanal.
+channels_and_guilds.categories_cannot_have_parents: Kategorier kan inte ha föräldrar.
+channels_and_guilds.channel_id_required: '`channel_id` krävs.'
+channels_and_guilds.channel_must_be_dm_or_group_dm: Kanalen måste vara en DM eller grupp-DM.
+channels_and_guilds.channel_must_be_voice: Kanalen måste vara en röstkanal.
+channels_and_guilds.channel_not_found: Kanalen hittades inte.
+channels_and_guilds.context_channel_or_guild_required: Ett kontext-kanal- eller server-ID krävs.
+channels_and_guilds.guild_banner_requires_feature: Serverbanner kräver funktionen BANNER.
+channels_and_guilds.guild_id_must_match_referenced_message: Server-ID:t måste matcha kanalen som det refererade meddelandet hämtades från.
+channels_and_guilds.invalid_channel_id: 'Ogiltigt kanal-ID: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Ogiltig kanaltyp för samtal.
+channels_and_guilds.invalid_channel_type: Ogiltig kanaltyp.
+channels_and_guilds.invalid_channel: Ogiltig kanal.
+channels_and_guilds.invalid_parent_channel: Ogiltig föräldrakanal.
+channels_and_guilds.invite_splash_requires_feature: Invite splash kräver funktionen INVITE_SPLASH.
+channels_and_guilds.invites_disabled: Inbjudningar är avstängda.
+channels_and_guilds.max_group_dm_recipients_reached: Du har nått maximalt antal av {count} grupp-DM {count, plural, one {mottagare} other {mottagare}}.
+channels_and_guilds.max_group_dms_reached: Du har nått maximalt antal av {count} grupp-DM {count, plural, one {DM} other {DM:er}}.
+channels_and_guilds.max_guild_channels_reached: Du har nått maximalt antal av {count} server-kanal {count, plural, one {kanal} other {kanaler}}.
+channels_and_guilds.max_guild_members_reached: Du har nått maximalt antal av {count} server-medlem {count, plural, one {medlem} other {medlemmar}}.
+channels_and_guilds.max_guild_roles_reached: Du har nått maximalt antal av {count} server-roll {count, plural, one {roll} other {roller}}.
+channels_and_guilds.max_guilds_reached: Du har nått maximalt antal av {count} {count, plural, one {server} other {servrar}}.
+channels_and_guilds.message_history_cutoff_before_guild_creation: Meddelandehistoriens gräns kan inte ligga före gemenskapen skapades.
+channels_and_guilds.message_history_cutoff_in_future: Meddelandehistoriens gräns kan inte ligga i framtiden.
+channels_and_guilds.parent_channel_not_in_guild: Den överordnade kanalen finns inte i servern.
+channels_and_guilds.parent_must_be_category: Den överordnade måste vara en kategori.
+channels_and_guilds.preceding_channel_must_share_parent: Föregående kanal måste ha samma överordnade som den flyttade kanalen.
+channels_and_guilds.preceding_channel_not_in_guild: Föregående kanal finns inte i servern.
+channels_and_guilds.system_channel_must_be_in_guild: Systemkanalen måste vara i den här servern.
+channels_and_guilds.system_channel_must_be_text: Systemkanalen måste vara en textkanal.
+channels_and_guilds.temporary_invite_requires_presence: Tillfällig inbjudan kräver närvaro.
+channels_and_guilds.vanity_url_requires_feature: Vanity URL kräver funktionen VANITY_URL.
+channels_and_guilds.voice_channel_full: Röstkanalen är full.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Röstkanaler kan inte placeras ovanför textkanaler i samma kategori.
+colors.color_value_too_high: Färgvärdet får inte vara högre än 0xffffff.
+colors.color_value_too_low: Färgvärdet måste vara minst 0x000000.
+content_and_safety.content_blocked: Det här innehållet blockerades av säkerhetssystemen.
+content_and_safety.csam_scan_failed: CSAM-skanning misslyckades.
+content_and_safety.csam_scan_parse_error: CSAM-skanning parse-fel.
+content_and_safety.csam_scan_subscription_error: CSAM-skanning prenumerationsfel.
+content_and_safety.csam_scan_timeout: CSAM-skanning timeout.
+content_and_safety.explicit_content_cannot_be_sent: Explicit innehåll kan inte skickas.
+content_and_safety.ncmec_already_submitted: Det här innehållet har redan skickats in till NCMEC.
+content_and_safety.ncmec_submission_failed: Vi kunde inte skicka rapporten till NCMEC. Försök igen senare.
+content_and_safety.nsfw_age_restricted: NSFW-innehåll är åldersbegränsat.
+connections.bluesky_oauth_callback_failed: Vi kunde inte slutföra Bluesky-anslutningen. Försök igen.
+connections.bluesky_oauth_not_enabled: Bluesky-anslutningar är inte aktiverade på den här servern.
+connections.bluesky_oauth_session_expired: Din Bluesky-session har gått ut. Anslut ditt konto på nytt.
+connections.bluesky_oauth_state_invalid: Auktoriseringsbegäran har gått ut eller är ogiltig. Försök igen.
+connections.already_exists: En anslutning av denna typ med denna identifierare finns redan.
+connections.invalid_identifier: Anslutningsidentifieraren är ogiltig.
+connections.invalid_type: Anslutningstypen stöds inte.
+connections.initiation_token_invalid: Anslutningsinitierings-tokenen är ogiltig eller har gått ut.
+connections.limit_reached: Du har nått maximalt antal anslutningar ({limit}).
+connections.not_found: Okänd anslutning.
+connections.verification_failed: Anslutningsverifiering misslyckades. Kontrollera att verifieringstokenen är korrekt placerad.
+discovery.already_applied: Den här gemenskapen har redan ansökt om discovery.
+discovery.application_already_reviewed: Den här discovery-ansökan har redan granskats.
+discovery.application_not_found: Discovery-ansökan hittades inte.
+discovery.description_required: En beskrivning krävs för att listas i discovery.
+discovery.insufficient_members: Den här gemenskapen uppfyller inte minimikravet för antal medlemmar för discovery.
+discovery.invalid_category: Ogiltig discovery-kategori.
+discovery.not_discoverable: Den här gemenskapen är inte listad i discovery.
+donation.amount_invalid: Donationsbeloppet är ogiltigt.
+donation.donor_not_found: Donator hittades inte.
+donation.magic_link_expired: Magisk länk har gått ut.
+donation.magic_link_invalid: Magisk länk är ogiltig.
+donation.magic_link_used: Magisk länk har redan använts.
+email.email_already_in_use: E-posten används redan.
+email.email_required: E-post krävs.
+email.email_service_not_testable: E-posttjänsten går inte att testa.
+email.invalid_format: Ogiltigt e-postadressformat.
+email.invalid_or_expired_reset_token: Ogiltig eller utgången återställningstoken för lösenord.
+email.invalid_or_expired_revert_token: Ogiltig eller utgången återställningstoken.
+email.invalid_or_expired_verification_token: Ogiltig eller utgången verifieringstoken.
+email.invalid_or_password: Ogiltig e-post eller lösenord.
+email.invalid_token: Ogiltig e-posttoken.
+email.invalid_verification_code: Ogiltig verifieringskod.
+email.length_invalid: E-postadressen måste vara mellan {min} och {max} tecken.
+email.must_be_changed_via_token: E-post måste ändras via token.
+email.must_change_via_token: E-posten måste ändras via `email_token`.
+email.must_have_email_to_change_it: Du måste ha en e-postadress för att kunna ändra den.
+email.new_email_must_be_different: Ny e-post måste vara annorlunda än din nuvarande e-post.
+email.no_new_email_requested: Ingen ny e-post har begärts.
+email.no_original_email_on_record: Ingen ursprunglig e-post finns registrerad.
+email.original_email_already_verified: Den ursprungliga e-posten är redan verifierad.
+email.original_email_must_be_verified_first: Den ursprungliga e-posten måste verifieras först.
+email.original_verification_not_required: Ursprunglig verifiering krävs inte för det här flödet.
+email.token_expired: E-posttoken har gått ut.
+email.user_has_no_email_address: Den här användaren har ingen e-postadress.
+email.user_is_not_pending_verification: Den här användaren väntar inte på verifiering.
+email.verification_code_expired: Verifieringskoden har gått ut.
+email.verification_code_not_issued: Ingen verifieringskod har utfärdats.
+embeds.embed_index_out_of_bounds: Embed-index {embedIndex} är utanför gränsen (meddelandet har {embedCount} {embedCount, plural, one {inbäddning} other {inbäddningar}}).
+embeds.embed_splash_requires_feature: Embed splash kräver funktionen INVITE_SPLASH.
+embeds.embeds_exceed_max_characters: Embeds får totalt inte vara längre än {maxCharacters} {maxCharacters, plural, one {tecken} other {tecken}}.
+embeds.too_many_embeds: För många embeds. Max {maxEmbeds} {maxEmbeds, plural, one {inbäddning} other {inbäddningar}} tillåts.
+feature_flags.feature_not_available_self_hosted: Den här funktionen är inte tillgänglig för självvärderade instanser.
+feature_flags.feature_temporarily_disabled: Den här funktionen är tillfälligt avstängd.
+friends_and_dms.already_friends: Ni är redan vänner.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Minst en mottagare krävs för att initiera privata kanaler.
+friends_and_dms.at_least_one_recipient_required: Minst en mottagare krävs.
+friends_and_dms.bots_cannot_send_friend_requests: Botar kan inte skicka vänförfrågningar.
+friends_and_dms.cannot_add_yourself_to_group_dm: Du kan inte lägga till dig själv i en grupp-DM.
+friends_and_dms.cannot_dm_yourself: Du kan inte DM:a dig själv.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Du kan inte skicka en vänförfrågan till en blockerad användare.
+friends_and_dms.cannot_send_friend_request_to_self: Du kan inte skicka en vänförfrågan till dig själv.
+friends_and_dms.cannot_send_messages_to_user: Du kan inte skicka meddelanden till den här användaren.
+friends_and_dms.duplicate_recipients_not_allowed: Dubbla mottagare är inte tillåtna.
+friends_and_dms.friend_request_blocked: Användaren accepterar inte vänförfrågningar för tillfället.
+friends_and_dms.not_friends: Ni är inte vänner.
+friends_and_dms.recipient_ids_cannot_be_empty: Mottagar-ID:n får inte vara tomma.
+friends_and_dms.recipient_ids_must_be_strings: Mottagar-ID:n måste vara strängar.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Mottagar-ID:n måste vara giltiga snowflakes.
+harvest.expired: Harvest har gått ut.
+harvest.failed: Harvest misslyckades.
+harvest.not_ready: Harvest är inte redo.
+harvest.on_cooldown: Harvest är på cooldown.
+harvest.unknown: Okänd harvest.
+http.bad_gateway: Felaktig gateway.
+http.bad_request: Felaktig begäran.
+http.conflict: Konflikt.
+http.forbidden: Förbjudet.
+http.gateway_timeout: Gateway-timeout.
+http.gone: Borta.
+http.internal_server_error: Internt serverfel.
+http.method_not_allowed: Metoden är inte tillåten.
+http.not_found: Hittades inte.
+http.not_implemented: Inte implementerat.
+http.service_unavailable: Tjänsten är inte tillgänglig.
+http.validation_error: Validering misslyckades.
+invites_and_beta.invalid_or_already_used_beta_code: Ogiltig eller redan använd beta-kod.
+invites_and_beta.max_beta_codes_reached: Du har nått maximalt antal av {count} beta-kod {count, plural, one {kod} other {koder}}.
+invites_and_beta.unknown_beta_code: Okänd beta-kod.
+invites_and_gifts.gift_code_already_redeemed: Presentkoden är redan inlöst.
+invites_and_gifts.stripe_gift_redemption_in_progress: Inlösen av presentkoden pågår. Försök igen om en liten stund.
+invites_and_gifts.unknown_gift_code: Okänd presentkod.
+invites_and_packs.emoji_requires_access: Du kan inte använda den här emojin utan åtkomst till dess server eller installerade paket.
+invites_and_packs.invalid_pack_type: Ogiltig pakettyp.
+invites_and_packs.max_animated_emojis_reached: Du har nått maximalt antal av {count} animerad {count, plural, one {emoji} other {emoji}}.
+invites_and_packs.max_emojis_reached: Du har nått maximalt antal av {count} {count, plural, one {emoji} other {emoji}}.
+invites_and_packs.max_pack_expressions_reached: Du har nått maximalt antal av {count} paket-uttryck {count, plural, one {uttryck} other {uttryck}}.
+invites_and_packs.max_packs_reached: Du har nått maximalt antal av {count} {count, plural, one {paket} other {paket}}.
+invites_and_packs.pack_access_denied: Åtkomst till paketet nekad.
+limits.at_least_one_entry_required: Minst en post krävs.
+limits.base64_length_invalid: Base64-strängen måste vara mellan {min} och {maxLength} tecken lång.
+limits.bucket_required: '`bucket` krävs.'
+limits.cannot_shrink_reserved_slots: Du kan inte minska reserverade platser.
+limits.cannot_specify_before_and_after: Du kan inte ange både `before` och `after`.
+limits.content_exceeds_max_length: Texten får inte vara längre än {maxLength} {maxLength, plural, one {tecken} other {tecken}}.
+limits.integer_out_of_int64_range: Heltalsvärdet är utanför det giltiga int64-intervallet.
+limits.rows_required: '`rows` krävs.'
+limits.string_length_exact: Strängen måste vara exakt {length} tecken.
+limits.string_length_invalid: Stränglängden måste vara mellan {min} och {max} tecken.
+limits.timeout_cannot_exceed_365_days: Timeout kan inte vara längre än {maxDays} {maxDays, plural, one {dag} other {dagar}} från nu.
+limits.value_must_be_integer_in_range: Värdet för `{name}` måste vara ett heltal mellan {minValue} och {maxValue}.
+limits.value_too_small: Värdet är för litet.
+media_and_memes.favorite_meme_name_required: Namn på favoritmeme krävs.
+media_and_memes.favorite_meme_not_found: Favoritmemen hittades inte.
+media_and_memes.max_favorite_memes_reached: Du har nått maximalt antal av {count} favorit-meme {count, plural, one {meme} other {memes}}.
+media_and_memes.media_already_in_favorites: Det här mediet finns redan bland dina favoritmemes.
+media_and_memes.media_metadata_error: Fel i mediemetadata.
+media_and_memes.unknown_favorite_meme: Okänd favoritmeme.
+messages.cannot_delete_more_than_100: Du kan inte ta bort mer än {max} {max, plural, one {meddelande} other {meddelanden}} åt gången.
+messages.cannot_edit_others_message: Du kan inte redigera någon annans meddelande.
+messages.cannot_preload_more_than_100_channels: Du kan inte förladda mer än {max} {max, plural, one {kanal} other {kanaler}} åt gången.
+messages.cannot_reply_to_system_message: Du kan inte svara på ett systemmeddelande.
+messages.cannot_send_empty_message: Du kan inte skicka ett tomt meddelande.
+messages.forward_messages_cannot_include_extra_content: Vidarebefordrade meddelanden får inte innehålla innehåll, embeds, bilagor eller stickers.
+messages.forward_reference_requires_channel_and_message: Vidarebefordringsreferensen måste innehålla `channel_id` och `message_id`.
+messages.invalid_message_data: Ogiltiga meddelandedata.
+messages.invalid_scheduled_message_payload: Ogiltig payload för schemalagt meddelande.
+messages.message_ids_cannot_be_empty: '`message_ids` får inte vara tom.'
+messages.messages_array_required: '`messages`-arrayen krävs och får inte vara tom.'
+messages.messages_with_snapshots_cannot_be_edited: Meddelanden med snapshots kan inte redigeras.
+messages.scheduled_messages_max_30_days: Schemalagda meddelanden kan vara högst 30 dagar i framtiden.
+messages.scheduled_send_datetime_invalid: Ogiltigt datum eller tid för schemalagd sändning.
+messages.scheduled_time_must_be_future: Schemalagd tid måste ligga i framtiden.
+messages.voice_messages_attachment_must_be_audio: Bilagor till röstmeddelanden måste vara ljudfiler.
+messages.voice_messages_cannot_have_content: Röstmeddelanden kan inte ha textinnehåll.
+messages.voice_messages_cannot_have_embeds: Röstmeddelanden kan inte ha embeds.
+messages.voice_messages_cannot_have_favorite_memes: Röstmeddelanden kan inte ha favoritmemes.
+messages.voice_messages_cannot_have_stickers: Röstmeddelanden kan inte ha stickers.
+mfa_and_passkeys.invalid_mfa_code: Ogiltig MFA-kod.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Ogiltig WebAuthn-autentiseringsräknare.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Ogiltig WebAuthn-credential-räknare.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Du måste aktivera 2FA på ditt konto innan du kan kräva det för moderatorer.
+mfa_and_passkeys.invalid_webauthn_credential: Misslyckades att verifiera WebAuthn-credential.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Ogiltigt format för WebAuthn-public key.
+mfa_and_passkeys.no_passkeys_registered: Inga passkeys är registrerade.
+mfa_and_passkeys.passkey_authentication_failed: Passkey-autentisering misslyckades.
+mfa_and_passkeys.passkeys_disabled: Passkeys är avstängda.
+mfa_and_passkeys.two_factor_not_enabled: Tvåfaktorsautentisering är inte aktiverad.
+mfa_and_passkeys.two_factor_required: Tvåfaktorsautentisering krävs.
+mfa_and_passkeys.unknown_webauthn_credential: Okänd WebAuthn-credential.
+mfa_and_passkeys.webauthn_credential_limit_reached: Du har nått maximalt antal av {count} WebAuthn-credential {count, plural, one {credential} other {credentials}}.
+misc_limits.max_bookmarks_reached: Du har nått maximalt antal av {count} {count, plural, one {bokmärke} other {bokmärken}}.
+misc_limits.max_category_channels_reached: Du har nått maximalt antal av {count} kategori-kanal {count, plural, one {kanal} other {kanaler}}.
+misc_limits.max_friends_reached: Du har nått maximalt antal av {count} {count, plural, one {vän} other {vänner}}.
+misc_limits.max_invites_reached: Du har nått maximalt antal av {count} {count, plural, one {inbjudan} other {inbjudningar}}.
+misc_limits.max_pins_per_channel_reached: Du har nått maximalt antal av {count} {count, plural, one {pin} other {pins}} per kanal.
+misc.cannot_send_messages_in_non_text_channel: Du kan inte skicka meddelanden i en kanal som inte är text.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Du måste verifiera din e-post för att kunna skicka meddelanden i den här servern.
+misc.invalid_job_id: Ogiltigt jobb-ID.
+misc.invalid_permissions_integer: Behörigheter måste vara ett giltigt heltal.
+misc.invalid_permissions_negative: Behörigheter får inte vara negativa.
+misc.invalid_request_generic: Ogiltig begäran.
+misc.invalid_snowflake: Ogiltig snowflake.
+misc.job_already_processed: Jobbet är redan behandlat.
+misc.job_id_required: Jobb-ID krävs.
+misc.job_not_found: Jobbet hittades inte.
+misc.max_files_exceeded: För många filer. Max {maxFiles} {maxFiles, plural, one {fil} other {filer}} tillåts.
+misc.must_have_bot_to_mark_system_user: Användaren måste vara en bot för att kunna markeras som systemanvändare.
+moderation_and_reports.cannot_report_own_message: Du kan inte anmäla ditt eget meddelande.
+moderation_and_reports.cannot_report_yourself: Du kan inte anmäla dig själv.
+moderation_and_reports.invalid_dsa_report_target: Ogiltigt mål för DSA-anmälan.
+moderation_and_reports.invalid_dsa_ticket: Ogiltig DSA-ticket.
+moderation_and_reports.invalid_dsa_verification_code: Ogiltig DSA-verifieringskod.
+moderation_and_reports.report_already_resolved: Anmälan är redan hanterad.
+moderation_and_reports.report_banned: Anmälan är bannad.
+moderation_and_reports.unknown_report: Okänd anmälan.
+moderation_and_reports.user_is_not_banned: Den här användaren är inte bannad.
+names_and_normalization.channel_name_empty_after_normalization: Kanalnamnet får inte bli tomt efter normalisering.
+names_and_normalization.name_empty_after_normalization: Namnet får inte bli tomt efter normalisering.
+permissions.missing_access: Åtkomst saknas.
+permissions.missing_permissions: Behörigheter saknas.
+permissions.not_owner_of_admin_api_key: Du har inte behörighet att ändra den här admin-API-nyckeln.
+permissions.user_banned_from_guild: Den här användaren är bannad från den här servern.
+permissions.user_ip_banned_from_guild: Den här användarens IP är bannat från den här servern.
+permissions.user_not_in_channel: Den här användaren är inte i den här kanalen.
+permissions.user_not_in_voice: Den här användaren är inte i röst.
+permissions.user_owns_guilds: Den här användaren äger servrar.
+phone.invalid_number: Ogiltigt telefonnummer.
+phone.number_already_used: Telefonnumret används redan.
+phone.number_format_required: Telefonnumret måste vara i E.164-format (till exempel +1234567890).
+phone.phone_required_for_sms_mfa: Ett telefonnummer krävs för SMS-MFA.
+phone.sms_mfa_not_enabled: SMS-MFA är inte aktiverat.
+phone.sms_mfa_requires_totp: SMS-MFA kräver TOTP.
+phone.sms_verification_unavailable: SMS-verifiering är tillfälligt otillgänglig. Försök igen senare.
+phone.verification_code_invalid: Ogiltig verifieringskod för telefon.
+phone.verification_required: Telefonverifiering krävs.
+premium_and_plans.animated_avatars_require_premium: Animerade avatarer kräver Premium.
+premium_and_plans.banners_require_premium: Banners kräver Premium.
+premium_and_plans.bio_requires_premium_for_length: En bio längre än {maxLength} tecken kräver Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Du kan inte lösa in Plutonium med Visionary.
+premium_and_plans.custom_emojis_outside_source_require_premium: Du kan inte använda anpassade emojis utanför deras källservrar utan Premium.
+premium_and_plans.custom_stickers_in_dms_require_premium: Du kan inte använda anpassade stickers i DM utan Premium.
+premium_and_plans.custom_stickers_outside_source_require_premium: Du kan inte använda anpassade stickers utanför deras källservrar utan Premium.
+premium_and_plans.discriminator_change_requires_premium: Att byta discriminator kräver Premium.
+premium_and_plans.no_active_subscription: Ingen aktiv prenumeration.
+premium_and_plans.no_visionary_slots_available: Det finns inga Visionary-platser kvar.
+premium_and_plans.premium_required_for_custom_emoji: Premium krävs för att använda en anpassad emoji.
+premium_and_plans.visionary_required_for_bot_discriminator: Du måste ha Visionary-livstidsplanen för att anpassa bot-discriminators.
+premium_and_plans.visionary_required_for_discriminator: Du måste ha Visionary-livstidsplanen för att använda den discriminatorn.
+rate_limits.accent_color_changed_too_often: Du har bytt accentfärg för ofta på sistone. Försök igen om {minutes} {minutes, plural, one {minut} other {minuter}}.
+rate_limits.avatar_changed_too_often: Du har bytt avatar för ofta på sistone. Försök igen om {minutes} {minutes, plural, one {minut} other {minuter}}.
+rate_limits.banner_changed_too_often: Du har bytt banner för ofta på sistone. Försök igen om {minutes} {minutes, plural, one {minut} other {minuter}}.
+rate_limits.bio_changed_too_often: Du har ändrat din bio för ofta på sistone. Försök igen om {minutes} {minutes, plural, one {minut} other {minuter}}.
+rate_limits.ip_authorization_resend_cooldown: Du kan inte skicka om IP-auktorisering än.
+rate_limits.ip_authorization_resend_limit_exceeded: Du har nått gränsen för att skicka om IP-auktorisering.
+rate_limits.phone_rate_limit_exceeded: Du har nått rate limit för telefon.
+rate_limits.pronouns_changed_too_often: Du har ändrat dina pronomen för ofta på sistone. Försök igen om {minutes} {minutes, plural, one {minut} other {minuter}}.
+rate_limits.rate_limited: Du har nått rate limit.
+rate_limits.slowmode_rate_limited: 'Slow mode: du har nått rate limit.'
+rate_limits.username_changed_too_often: Du har ändrat ditt användarnamn för ofta på sistone. Försök igen om {minutes} {minutes, plural, one {minut} other {minuter}}.
+roles.cannot_reorder_everyone_role: Du kan inte ändra ordning på @everyone-rollen.
+roles.cannot_set_everyone_hoist: Du kan inte sätta hoist-position för @everyone-rollen.
+roles.cannot_use_same_role_as_preceding: Du kan inte använda samma roll som den föregående rollen.
+roles.invalid_role_id: 'Ogiltigt roll-ID: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Du kan inte använda `parse` tillsammans med `allowed_mentions.users` eller `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Föregående roll finns inte i servern.
+stickers_and_emojis.custom_emoji_not_found: Den anpassade emojin hittades inte.
+stickers_and_emojis.custom_sticker_not_found: Den anpassade stickern hittades inte.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Du kan inte använda den här emojin utan åtkomst till dess server eller installerade paket.
+stickers_and_emojis.max_reactions_reached: Du har nått maximalt antal av {count} {count, plural, one {reaktion} other {reaktioner}}.
+stickers_and_emojis.max_stickers_reached: Du har nått maximalt antal av {count} {count, plural, one {sticker} other {stickers}}.
+stickers_and_emojis.not_valid_unicode_emoji: Inte en giltig Unicode-emoji.
+stickers_and_emojis.unknown_emoji: Okänd emoji.
+stickers_and_emojis.unknown_sticker: Okänd sticker.
+stripe.error: Stripe-fel.
+stripe.invalid_product_configuration: Ogiltig produktkonfiguration.
+stripe.invalid_product_selection: Ogiltigt produktval.
+stripe.no_active_subscription_found: Ingen aktiv prenumeration hittades.
+stripe.no_purchase_history_customer_portal_unavailable: Ingen köphistorik hittades. Kundportalen är inte tillgänglig.
+stripe.no_subscription_found: Ingen prenumeration hittades.
+stripe.payment_not_available: Betalningshantering är inte tillgänglig.
+stripe.subscription_already_canceling: Prenumerationen är redan inställd på att avslutas vid periodens slut.
+stripe.subscription_not_canceling: Prenumerationen är inte inställd på att avslutas.
+stripe.subscription_period_end_missing: Prenumerationens `current_period_end` saknas.
+stripe.webhook_not_available: Webhook-hantering är inte tillgänglig.
+stripe.webhook_signature_invalid: Webhook-signaturen för Stripe är ogiltig.
+stripe.webhook_signature_missing: Webhook-signaturen för Stripe saknas.
+tickets.ticket_already_completed: Den här ticketen är redan slutförd.
+tos_and_age.date_of_birth_format_invalid: Ogiltigt format för födelsedatum.
+tos_and_age.must_agree_to_tos_and_privacy: Du måste godkänna användarvillkoren och integritetspolicyn.
+tos_and_age.must_be_minimum_age: Du måste vara minst {minAge} {minAge, plural, one {år} other {år}} för att skapa ett konto.
+unknown_entities.unknown_application: Okänd applikation.
+unknown_entities.unknown_channel: Okänd kanal.
+unknown_entities.unknown_guild: Okänd server.
+unknown_entities.unknown_invite: Okänd inbjudan.
+unknown_entities.unknown_member: Okänd medlem.
+unknown_entities.unknown_message: Okänt meddelande.
+unknown_entities.unknown_pack: Okänt paket.
+unknown_entities.unknown_role: Okänd roll.
+unknown_entities.unknown_user_flag: Okänd användarflagga.
+unknown_entities.unknown_user: Okänd användare.
+urls.invalid_url_format: Ogiltigt URL-format.
+urls.invalid_url_or_attachment_reference: Ogiltigt URL-format eller bilagereferens.
+urls.url_length_invalid: URL:en måste vara mellan {min} och {max} tecken.
+usernames_and_tags.discriminator_invalid_format: Discriminator måste vara {min}–{max} siffror.
+usernames_and_tags.discriminator_out_of_range: Discriminator måste vara mellan {min} och {max}.
+usernames_and_tags.discriminator_required: Discriminator krävs.
+usernames_and_tags.display_name_length_invalid: Visningsnamnet måste vara mellan {min} och {max} tecken.
+usernames_and_tags.display_name_reserved_terms: Visningsnamnet får inte innehålla "system message".
+usernames_and_tags.display_name_reserved_value: Visningsnamnet får inte vara "everyone" eller "here".
+usernames_and_tags.global_name_length_invalid: Globalt namn måste vara mellan {min} och {max} tecken.
+usernames_and_tags.global_name_reserved_value: Globalt namn får inte vara "everyone" eller "here".
+usernames_and_tags.tag_already_taken: Den här taggen är redan tagen.
+usernames_and_tags.too_many_users_with_this_username: Det finns för många användare med det här användarnamnet.
+usernames_and_tags.too_many_users_with_username_try_different: Det finns för många användare med det här användarnamnet. Testa ett annat användarnamn.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Okrävda konton kan bara ställa in e-post via token.
+usernames_and_tags.username_invalid_characters: Användarnamnet får bara innehålla latinska bokstäver (a-z, A-Z), siffror (0-9) och understreck (_).
+usernames_and_tags.username_length_invalid: Användarnamnet måste vara mellan {min} och {max} tecken.
+usernames_and_tags.username_not_available: Det här användarnamnet är inte tillgängligt.
+usernames_and_tags.username_reserved_terms: Användarnamnet får inte innehålla "fluxer" eller "system message".
+usernames_and_tags.username_reserved_value: Användarnamnet får inte vara "everyone" eller "here".
+vanity_urls.vanity_url_already_taken: Den här vanity URL:en är redan tagen.
+vanity_urls.vanity_url_code_already_taken: Den här vanity URL-koden är redan tagen.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Vanity URL-koden får inte innehålla "fluxer".
+vanity_urls.vanity_url_code_length_invalid: Vanity URL-koden måste vara mellan {min} och {max} tecken.
+vanity_urls.vanity_url_invalid_characters: Vanity URL:en får bara innehålla små bokstäver (a-z), siffror (0-9) och bindestreck (-).
+webhooks.cannot_modify_system_webhook: Du kan inte redigera systemmeddelanden.
+webhooks.max_webhooks_per_channel_reached: Du har nått maximalt antal av {count} {count, plural, one {webhook} other {webhooks}} per kanal.
+webhooks.max_webhooks_per_guild_reached: Du har nått maximalt antal av {count} {count, plural, one {webhook} other {webhooks}} per server.
+webhooks.max_webhooks_reached: Du har nått maximalt antal av {count} {count, plural, one {webhook} other {webhooks}}.
+webhooks.unknown_webhook: Okänd webhook.
+webhooks.webhook_name_length_invalid: Webhook-namnet måste vara mellan {min} och {max} tecken.

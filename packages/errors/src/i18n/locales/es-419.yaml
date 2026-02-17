@@ -1,0 +1,497 @@
+account.already_verified: Tu cuenta ya está verificada.
+account.communication_disabled: La comunicación está deshabilitada.
+account.disabled: Esta cuenta fue deshabilitada.
+account.email_verification_required_for_guild: Tienes que verificar tu correo para enviar mensajes en este servidor.
+account.guild_verification_required: Se requiere verificación del servidor.
+account.ip_authorization_required: Se requiere autorización de IP.
+account.locked_suspicious_activity: Tu cuenta está bloqueada por actividad sospechosa.
+account.phone_required_for_guild: Tienes que agregar un número de teléfono para enviar mensajes en este servidor.
+account.scheduled_for_deletion: Esta cuenta está programada para eliminarse.
+account.session_timeout: La sesión expiro. Actualiza la página e inicia sesión otra vez.
+account.session_token_mismatch: El token de sesión no coincide.
+account.suspended_permanently: Esta cuenta fue suspendida de forma permanente.
+account.suspended_temporarily: Esta cuenta fue suspendida temporalmente.
+account.too_new_for_guild: Tu cuenta es demasiado nueva para enviar mensajes en este servidor.
+account.unauthorized: No autorizado.
+admin_and_system.acls_must_be_non_empty: Las ACLs no pueden estar vacias.
+admin_and_system.admin_api_key_not_found: No se encontro la clave API de administrador.
+admin_and_system.audit_log_indexing: Los registros de auditoría se están indexando. Intenta de nuevo en un momento.
+admin_and_system.channel_indexing: Los canales se están indexando. Intenta de nuevo en un momento.
+admin_and_system.creation_failed: No pudimos crear el recurso. Intenta de nuevo.
+admin_and_system.deletion_failed: No pudimos eliminar el recurso. Intenta de nuevo.
+admin_and_system.decryption_failed: No pudimos descifrar el mensaje. Las claves de cifrado pueden ser inválidas o estar corrutas.
+admin_and_system.empty_encrypted_body: Cuerpo cifrado vacío.
+admin_and_system.encryption_failed: No pudimos cifrar el mensaje. Las claves de cifrado pueden ser inválidas o estar corrutas.
+admin_and_system.general_error: Algo salió mal. Intenta de nuevo más tarde.
+admin_and_system.invalid_acls_format: Formato de ACL inválido.
+admin_and_system.invalid_api_origin: Origen de API inválido.
+admin_and_system.invalid_audit_log_reason: Motivo de registro de auditoría inválido.
+admin_and_system.invalid_bot_flag: Bandera de bot inválida.
+admin_and_system.invalid_decrypted_json: JSON descifrado inválido.
+admin_and_system.invalid_ephemeral_key: Clave efímera inválida.
+admin_and_system.invalid_flags_format: Formato de banderas inválido.
+admin_and_system.invalid_form_body: Cuerpo del formulario inválido.
+admin_and_system.invalid_format: El valor proporcionado tiene un formato inválido.
+admin_and_system.invalid_integer_format: Formato de entero inválido.
+admin_and_system.invalid_iv: Vector de inicialización inválido.
+admin_and_system.invalid_suspicious_flags_format: Formato de banderas sospechosas inválido.
+admin_and_system.invalid_system_flag: Bandera del sistema inválida.
+admin_and_system.invalid_timeout_value: Valor de tiempo de espera inválido.
+admin_and_system.invalid_timestamp: Marca de tiempo inválida.
+admin_and_system.invalid_timezone_identifier: Identificador de zona horaria inválido.
+admin_and_system.missing_acl: Falta una ACL.
+admin_and_system.missing_ephemeral_key: Falta la clave efímera.
+admin_and_system.missing_iv: Falta el vector de inicialización.
+admin_and_system.must_be_iso_timestamp: Debe ser una marca de tiempo ISO válida.
+admin_and_system.processing_failed: No pudimos procesar la solicitud. Intenta de nuevo.
+admin_and_system.response_validation_failed: 'Error de validación de respuesta: {errors}.'
+admin_and_system.test_harness_disabled: El arnés de prueba está deshabilitado.
+admin_and_system.test_harness_forbidden: El arnés de prueba está prohibido.
+admin_and_system.unknown_suspicious_flag: Bandera sospechosa desconocida.
+admin_and_system.update_failed: No pudimos actualizar el recurso. Intenta de nuevo.
+admin_and_system.user_must_be_bot_for_system_user: El usuario debe ser un bot para marcarse como usuario del sistema.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` y `expires_at` son obligatorios.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` y `message_id` deben ser enteros válidos.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Los usuarios con MANAGE_MESSAGES solo pueden editar descripciones de adjuntos, no otros metadatos.
+attachments_and_uploads.attachment_metadata_without_files: Los metadatos del adjunto incluyen un nombre de archivo, pero no se subio ningun archivo.
+attachments_and_uploads.attachment_must_be_image: El adjunto "{filename}" debe ser una imagen (png, jpg, jpeg, webp o gif).
+attachments_and_uploads.attachment_not_found_in_message: No se encontro el adjunto con ID {attachmentId} en el mensaje.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Se requiere el array de metadatos de adjuntos al subir archivos.
+attachments_and_uploads.attachments_not_allowed_for_message: Los adjuntos no están permitidos para este mensaje.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: No puedes referenciar adjuntos si no se proporcionan adjuntos.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: No se permiten IDs de adjuntos duplicados.
+attachments_and_uploads.duplicate_file_index: 'Indice de archivo duplicado: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: No pudimos procesar el form-data multipart. Revisa que los nombres de los campos y archivos esten bien formateados.
+attachments_and_uploads.failed_to_parse_multipart_payload: No pudimos procesar el payload multipart.
+attachments_and_uploads.failed_to_upload_image: No pudimos subir la imagen. Intenta de nuevo.
+attachments_and_uploads.file_index_exceeds_maximum: El indice de archivo {index} excede el maximo permitido de {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: No se encontro el archivo para escanear.
+attachments_and_uploads.file_not_found: No se encontro el archivo.
+attachments_and_uploads.file_size_too_large: El archivo es demasiado grande. El tamaño máximo permitido es {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: El nombre de archivo no puede quedar vacío despues de normalizar.
+attachments_and_uploads.filename_invalid_characters: El nombre de archivo contiene caracteres inválidos.
+attachments_and_uploads.filename_length_invalid: El nombre de archivo debe tener entre {min} y {max} caracteres.
+attachments_and_uploads.filename_mismatch_for_attachment: 'El nombre de archivo no coincide para el adjunto {attachmentId}: los metadatos indican "{expectedFilename}", pero no coincide.'
+attachments_and_uploads.image_size_exceeds_limit: El tamaño de la imagen excede {maxSize} bytes.
+attachments_and_uploads.invalid_file_field_name: 'Nombre de campo de archivo inválido: {key}. El formato esperado es `files[N]` donde N es un numero.'
+attachments_and_uploads.invalid_image_data: Datos de imagen inválidos.
+attachments_and_uploads.invalid_image_format: 'Formato de imagen inválido. Extensiones compatibles: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: JSON inválido en `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: No se permiten varios archivos para el indice {index}.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: No se subio ningun archivo para los metadatos del adjunto con ID {attachmentId}.
+attachments_and_uploads.no_file_uploaded_for_attachment: No se subio ningun archivo para el adjunto con ID {attachmentId}.
+attachments_and_uploads.no_metadata_for_file: No se proporcionaron metadatos para el archivo con ID {fileId}.
+attachments_and_uploads.no_valid_media_in_message: No se encontró contenido multimedia válido en el mensaje.
+attachments_and_uploads.payload_json_required_for_multipart: Se requiere el campo `payload_json` para mensajes multipart.
+attachments_and_uploads.preview_must_be_jpeg: La vista previa debe ser JPEG.
+attachments_and_uploads.referenced_attachment_not_found: No se encontro el adjunto referenciado "{filename}" en los adjuntos del mensaje.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` debe ser un entero válido.'
+attachments_and_uploads.too_many_files: Demasiados archivos. Se permiten como máximo {maxFiles} {maxFiles, plural, one {archivo} other {archivos}}.
+attachments_and_uploads.unknown_image_format: Formato de imagen desconocido.
+attachments_and_uploads.unresolved_attachment_url: Se detecto una URL `attachment://` sin resolver. Esto debio resolverse antes del procesamiento de embeds.
+attachments_and_uploads.uploaded_attachment_not_found: No se encontro el adjunto subido {filename}.
+auth_and_oauth.application_not_owned: La aplicación no es propiedad tuya.
+auth_and_oauth.bot_already_in_guild: Este bot ya está en el servidor.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Los usuarios bot no pueden crear sesiónes de autenticacion.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Los usuarios bot no pueden usar endpoints de autenticacion.
+auth_and_oauth.handoff_code_expired: El código de handoff expiro.
+auth_and_oauth.handoff_code_invalid: Codigo de handoff inválido.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize no está soportado. Usa POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Secreto de cliente inválido.
+auth_and_oauth.invalid_client: Cliente inválido.
+auth_and_oauth.invalid_code: Codigo inválido.
+auth_and_oauth.invalid_grant: Grant inválido.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Ticket de autorización inválido o expirado.
+auth_and_oauth.invalid_or_expired_authorization_token: Token de autorización inválido o expirado.
+auth_and_oauth.invalid_or_expired_ticket: Ticket inválido o expirado.
+auth_and_oauth.invalid_proof_token: Token de prueba inválido.
+auth_and_oauth.invalid_redirect_uri: URI de redireccion invalida.
+auth_and_oauth.invalid_request: Solicitud invalida.
+auth_and_oauth.invalid_scope: Scope inválido.
+auth_and_oauth.invalid_sudo_token: Token sudo inválido.
+auth_and_oauth.invalid_token_admin_api_key: Clave API de administrador inválida.
+auth_and_oauth.missing_authorization: Falta autorización.
+auth_and_oauth.missing_client_secret: Falta el secreto del cliente.
+auth_and_oauth.missing_redirect_uri: Falta la URI de redireccion.
+auth_and_oauth.must_start_session_before_sending_messages: Tienes que iniciar una sesión antes de enviar mensajes.
+auth_and_oauth.oauth_admin_scope_required: Los tokens de OAuth2 requieren el scope de admin para acceder a endpoints de admin.
+auth_and_oauth.oauth_fields_missing: Faltan campos de OAuth.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: La URI de redireccion es obligatoria para scopes que no sean de bot.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: El tipo de respuesta debe ser `code` para scopes que no sean de bot.
+auth_and_oauth.sudo_mode_required: Se requiere modo sudo.
+auth_and_oauth.unknown_application: Aplicación desconocida.
+auth_and_oauth.unsupported_response_type: Tipo de respuesta no compatible.
+auth_and_registration.current_password_incorrect: La contraseña actual es incorrecta.
+auth_and_registration.password_is_too_common: Tu contraseña es muy común. Por favor, elige una contraseña más única.
+auth_and_registration.password_not_set: La contraseña no está configurada.
+bots.bot_application_not_found: No se encontró la aplicación del bot.
+bots.bot_discriminator_cannot_be_changed: El discriminador del bot no se puede cambiar.
+bots.bot_is_private: Este bot es privado.
+bots.bot_user_generation_failed: Fallo la generación del usuario del bot.
+bots.bot_user_not_found: No se encontró el usuario del bot.
+bots.invalid_response_type_for_non_bot: El tipo de respuesta debe ser `code` para scopes que no sean de bot.
+bots.not_a_bot_application: Esta aplicación no es un bot.
+calls_and_voice.call_already_exists: La llamada ya existe.
+calls_and_voice.cannot_modify_voice_state: No puedes modificar el estado de voz.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Region RTC invalida o restringida: {region}.'
+calls_and_voice.invalid_rtc_region: 'Region RTC invalida: {region}. Regiones disponibles: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Formato de clave de stream inválido.
+calls_and_voice.invalid_stream_thumbnail_payload: Payload de miniatura del stream inválido.
+calls_and_voice.no_active_call: No hay una llamada activa.
+calls_and_voice.stream_key_channel_mismatch: La clave de stream no coincide con el canal.
+calls_and_voice.stream_key_scope_mismatch: La clave de stream no coincide con el scope.
+calls_and_voice.stream_thumbnail_payload_empty: El payload de miniatura del stream está vacío.
+calls_and_voice.unknown_voice_region: Region de voz desconocida.
+calls_and_voice.unknown_voice_server: Servidor de voz desconocido.
+calls_and_voice.voice_message_duration_exceeds_limit: La duracion del mensaje de voz no puede superar {maxDuration} segundos.
+calls_and_voice.voice_message_duration_required: Los adjuntos de mensajes de voz deben indicar una duracion.
+calls_and_voice.voice_message_waveform_required: Los adjuntos de mensajes de voz deben incluir datos de forma de onda.
+calls_and_voice.voice_messages_require_single_attachment: Los mensajes de voz deben tener exactamente un adjunto.
+captcha.invalid: Captcha inválido.
+captcha.required: Se requiere captcha.
+connections.already_exists: Ya existe una conexión de este tipo con este identificador.
+connections.bluesky_oauth_callback_failed: No pudimos completar la conexión a Bluesky. Por favor, intenta de nuevo.
+connections.bluesky_oauth_not_enabled: Las conexiones a Bluesky no están habilitadas en este servidor.
+connections.bluesky_oauth_session_expired: Tu sesión de Bluesky ha expirado. Por favor, reconecta tu cuenta.
+connections.bluesky_oauth_state_invalid: La solicitud de autorización ha expirado o no es válida. Por favor, intenta de nuevo.
+connections.invalid_identifier: El identificador de la conexión es inválido.
+connections.initiation_token_invalid: El token de iniciación de la conexión es inválido o ha expirado.
+connections.invalid_type: El tipo de conexión no es compatible.
+connections.limit_reached: Has alcanzado el máximo de conexiones ({limit}).
+connections.not_found: Conexión desconocida.
+connections.verification_failed: Fallo la verificación de la conexión. Asegúrate de que el token de verificación esté colocado correctamente.
+channels_and_guilds.afk_channel_must_be_in_guild: El canal AFK debe estar en este servidor.
+channels_and_guilds.afk_channel_must_be_voice: El canal AFK debe ser un canal de voz.
+channels_and_guilds.all_channels_must_belong_to_guild: Todos los canales deben pertenecer a este servidor.
+channels_and_guilds.animated_guild_banner_requires_feature: El banner animado del servidor requiere la funcion ANIMATED_BANNER.
+channels_and_guilds.cannot_execute_on_dm: Esta accion no se puede realizar en un MD.
+channels_and_guilds.cannot_transfer_ownership_to_bot: La propiedad del servidor no se puede transferir a un bot.
+channels_and_guilds.cannot_leave_guild_as_owner: No puedes salir del servidor si eres el dueño. Transfiere la propiedad o borra el servidor.
+channels_and_guilds.cannot_position_channel_relative_to_itself: No puedes posicionar un canal con respecto a si mismo o a sus descendientes.
+channels_and_guilds.cannot_report_own_guild: No puedes reportar tu propio servidor.
+channels_and_guilds.categories_cannot_have_parent_channel: Las categorias no pueden tener un canal padre.
+channels_and_guilds.categories_cannot_have_parents: Las categorias no pueden tener padres.
+channels_and_guilds.channel_id_required: Se requiere `channel_id`.
+channels_and_guilds.channel_must_be_dm_or_group_dm: El canal debe ser un MD o un MD grupal.
+channels_and_guilds.channel_must_be_voice: El canal debe ser un canal de voz.
+channels_and_guilds.channel_not_found: No se encontro el canal.
+channels_and_guilds.context_channel_or_guild_required: Se requiere un canal de contexto o un ID de servidor.
+channels_and_guilds.guild_banner_requires_feature: El banner del servidor requiere la funcion BANNER.
+channels_and_guilds.guild_id_must_match_referenced_message: El ID del servidor debe coincidir con el canal desde donde se obtuvo el mensaje referenciado.
+channels_and_guilds.invalid_channel_id: 'ID de canal inválido: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Tipo de canal inválido para llamada.
+channels_and_guilds.invalid_channel_type: Tipo de canal inválido.
+channels_and_guilds.invalid_channel: Canal inválido.
+channels_and_guilds.invalid_parent_channel: Canal padre inválido.
+channels_and_guilds.invite_splash_requires_feature: El splash de invitación requiere la función INVITE_SPLASH.
+channels_and_guilds.invites_disabled: Las invitaciones estan deshabilitadas.
+channels_and_guilds.max_group_dm_recipients_reached: Se alcanzó el máximo de {count} {count, plural, one {destinatario} other {destinatarios}} en MD grupal.
+channels_and_guilds.max_group_dms_reached: Se alcanzó el máximo de {count} {count, plural, one {MD} other {MD}} grupal.
+channels_and_guilds.max_guild_channels_reached: Se alcanzó el máximo de {count} {count, plural, one {canal} other {canales}} del servidor.
+channels_and_guilds.max_guild_members_reached: Se alcanzó el máximo de {count} {count, plural, one {miembro} other {miembros}} del servidor.
+channels_and_guilds.max_guild_roles_reached: Se alcanzó el máximo de {count} {count, plural, one {rol} other {roles}} del servidor.
+channels_and_guilds.max_guilds_reached: Se alcanzó el máximo de {count} {count, plural, one {servidor} other {servidores}}.
+channels_and_guilds.message_history_cutoff_before_guild_creation: El historial de mensajes no puede ser anterior a la creación de la comunidad.
+channels_and_guilds.message_history_cutoff_in_future: El historial de mensajes no puede ser en el futuro.
+channels_and_guilds.parent_channel_not_in_guild: El canal padre no está en el servidor.
+channels_and_guilds.parent_must_be_category: El padre debe ser una categoria.
+channels_and_guilds.preceding_channel_must_share_parent: El canal anterior debe compartir el mismo padre que el canal movido.
+channels_and_guilds.preceding_channel_not_in_guild: El canal anterior no está en el servidor.
+channels_and_guilds.system_channel_must_be_in_guild: El canal del sistema debe estar en este servidor.
+channels_and_guilds.system_channel_must_be_text: El canal del sistema debe ser un canal de texto.
+channels_and_guilds.temporary_invite_requires_presence: La invitacion temporal requiere presencia.
+channels_and_guilds.vanity_url_requires_feature: La URL personalizada requiere la funcion VANITY_URL.
+channels_and_guilds.voice_channel_full: El canal de voz está lleno.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Los canales de voz no pueden colocarse arriba de los canales de texto dentro de la misma categoria.
+colors.color_value_too_high: El valor de color no debe exceder 0xffffff.
+colors.color_value_too_low: El valor de color debe ser al menos 0x000000.
+content_and_safety.content_blocked: Este contenido fue bloqueado por los sistemas de seguridad.
+content_and_safety.csam_scan_failed: Fallo el escaneo CSAM.
+content_and_safety.csam_scan_parse_error: Error de análisis del escaneo CSAM.
+content_and_safety.csam_scan_subscription_error: Error de suscripción del escaneo CSAM.
+content_and_safety.csam_scan_timeout: Tiempo de espera del escaneo CSAM agotado.
+content_and_safety.explicit_content_cannot_be_sent: No se puede enviar contenido explicito.
+content_and_safety.ncmec_already_submitted: Este contenido ya fue enviado a NCMEC.
+content_and_safety.ncmec_submission_failed: No pudimos enviar el reporte a NCMEC. Intenta de nuevo mas tarde.
+content_and_safety.nsfw_age_restricted: El contenido NSFW está restringido por edad.
+discovery.already_applied: Esta comunidad ya aplicó al descubrimiento.
+discovery.application_already_reviewed: Esta solicitud de descubrimiento ya fue revisada.
+discovery.application_not_found: No se encontró la solicitud de descubrimiento.
+discovery.description_required: Se requiere una descripción para el listado en descubrimiento.
+discovery.insufficient_members: Esta comunidad no cumple con el mínimo de miembros para el descubrimiento.
+discovery.invalid_category: Categoría de descubrimiento inválida.
+discovery.not_discoverable: Esta comunidad no está listada en descubrimiento.
+donation.amount_invalid: El monto de la donación es inválido.
+donation.donor_not_found: El donante no fue encontrado.
+donation.magic_link_expired: El enlace mágico ha expirado.
+donation.magic_link_invalid: El enlace mágico es inválido.
+donation.magic_link_used: El enlace mágico ya ha sido utilizado.
+email.email_already_in_use: El correo electrónico ya está en uso.
+email.email_required: El correo electrónico es obligatorio.
+email.email_service_not_testable: No se puede probar el servicio de correo electronico.
+email.invalid_format: Formato de correo electronico inválido.
+email.invalid_or_expired_reset_token: Token de restablecimiento de contraseña inválido o expirado.
+email.invalid_or_expired_revert_token: Token de reversión inválido o expirado.
+email.invalid_or_expired_verification_token: Token de verificación inválido o expirado.
+email.invalid_or_password: Correo electronico o contrasena inválidos.
+email.invalid_token: Token de correo electrónico inválido.
+email.invalid_verification_code: Código de verificación inválido.
+email.length_invalid: La dirección de correo electrónico debe tener entre {min} y {max} caracteres.
+email.must_be_changed_via_token: El correo electrónico debe cambiarse mediante un token.
+email.must_change_via_token: El correo electrónico debe cambiarse mediante `email_token`.
+email.must_have_email_to_change_it: Debes tener una dirección de correo electrónico para cambiarla.
+email.new_email_must_be_different: El nuevo correo electrónico debe ser diferente de tu correo electrónico actual.
+email.no_new_email_requested: No se solicito un nuevo correo electronico.
+email.no_original_email_on_record: No hay un correo electronico original registrado.
+email.original_email_already_verified: El correo electronico original ya está verificado.
+email.original_email_must_be_verified_first: Primero tienes que verificar el correo electronico original.
+email.original_verification_not_required: La verificación original no es obligatoria para este flujo.
+email.token_expired: El token de correo electronico expiro.
+email.user_has_no_email_address: Este usuario no tiene un correo electronico.
+email.user_is_not_pending_verification: Este usuario no está pendiente de verificación.
+email.verification_code_expired: El código de verificación ha expirado.
+email.verification_code_not_issued: No se ha emitido ningún código de verificación.
+embeds.embed_index_out_of_bounds: El indice de incrustacion {embedIndex} está fuera de rango (el mensaje tiene {embedCount} {embedCount, plural, one {incrustacion} other {incrustaciones}}).
+embeds.embed_splash_requires_feature: El splash de incrustacion requiere la funcion INVITE_SPLASH.
+embeds.embeds_exceed_max_characters: Las incrustaciones no deben superar {maxCharacters} {maxCharacters, plural, one {caracter} other {caracteres}} en total.
+embeds.too_many_embeds: Demasiadas incrustaciones. Se permiten como maximo {maxEmbeds} {maxEmbeds, plural, one {incrustacion} other {incrustaciones}}.
+feature_flags.feature_not_available_self_hosted: Esta funcion no está disponible en instancias auto-alojadas.
+feature_flags.feature_temporarily_disabled: Esta funcion está deshabilitada temporalmente.
+friends_and_dms.already_friends: Ya eres amigo de este usuario.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Se requiere al menos un destinatario para inicializar canales privados.
+friends_and_dms.at_least_one_recipient_required: Se requiere al menos un destinatario.
+friends_and_dms.bots_cannot_send_friend_requests: Los bots no pueden enviar solicitudes de amistad.
+friends_and_dms.cannot_add_yourself_to_group_dm: No puedes agregarte a ti mismo a un MD grupal.
+friends_and_dms.cannot_dm_yourself: No puedes enviarte un MD a ti mismo.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: No puedes enviar una solicitud de amistad a un usuario bloqueado.
+friends_and_dms.cannot_send_friend_request_to_self: No puedes enviarte una solicitud de amistad a ti mismo.
+friends_and_dms.cannot_send_messages_to_user: No puedes enviarle mensajes a este usuario.
+friends_and_dms.duplicate_recipients_not_allowed: No se permiten destinatarios duplicados.
+friends_and_dms.friend_request_blocked: El usuario no acepta solicitudes de amistad en este momento.
+friends_and_dms.not_friends: No eres amigo de este usuario.
+friends_and_dms.recipient_ids_cannot_be_empty: Los IDs de destinatario no pueden estar vacíos.
+friends_and_dms.recipient_ids_must_be_strings: Los IDs de destinatario deben ser cadenas de texto.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Los IDs de destinatario deben ser snowflakes válidos.
+harvest.expired: Harvest expiró.
+harvest.failed: Harvest fallo.
+harvest.not_ready: Harvest aun no está listo.
+harvest.on_cooldown: Harvest tiene tiempo de espera.
+harvest.unknown: Harvest desconocido.
+http.bad_gateway: Puerta de enlace incorrecta.
+http.bad_request: Solicitud incorrecta.
+http.conflict: Conflicto.
+http.forbidden: Prohibido.
+http.gateway_timeout: Tiempo de espera de la puerta de enlace agotado.
+http.gone: Desaparecido.
+http.internal_server_error: Error interno del servidor.
+http.method_not_allowed: Método no permitido.
+http.not_found: No encontrado.
+http.not_implemented: No implementado.
+http.service_unavailable: Servicio no disponible.
+http.validation_error: Validación fallida.
+invites_and_beta.invalid_or_already_used_beta_code: Código beta inválido o ya utilizado.
+invites_and_beta.max_beta_codes_reached: Se alcanzó el máximo de {count} {count, plural, one {código} other {códigos}} beta.
+invites_and_beta.unknown_beta_code: Codigo beta desconocido.
+invites_and_gifts.gift_code_already_redeemed: El código de regalo ya fue canjeado.
+invites_and_gifts.stripe_gift_redemption_in_progress: El canje del código de regalo está en proceso. Intenta de nuevo en un momento.
+invites_and_gifts.unknown_gift_code: Codigo de regalo desconocido.
+invites_and_packs.emoji_requires_access: No puedes usar este emoji sin acceso a su servidor o sin tener instalado el pack.
+invites_and_packs.invalid_pack_type: Tipo de pack inválido.
+invites_and_packs.max_animated_emojis_reached: Se alcanzó el máximo de {count} {count, plural, one {emoji} other {emojis}} animado.
+invites_and_packs.max_emojis_reached: Se alcanzó el máximo de {count} {count, plural, one {emoji} other {emojis}}.
+invites_and_packs.max_pack_expressions_reached: Se alcanzó el máximo de {count} {count, plural, one {expresión} other {expresiones}}} del pack.
+invites_and_packs.max_packs_reached: Se alcanzó el máximo de {count} {count, plural, one {pack} other {packs}}.
+invites_and_packs.pack_access_denied: Acceso al pack denegado.
+limits.at_least_one_entry_required: Se requiere al menos una entrada.
+limits.base64_length_invalid: La longitud de la cadena Base64 debe estar entre {min} y {maxLength} caracteres.
+limits.bucket_required: Se requiere `bucket`.
+limits.cannot_shrink_reserved_slots: No puedes reducir los cupos reservados.
+limits.cannot_specify_before_and_after: No puedes especificar `before` y `after` al mismo tiempo.
+limits.content_exceeds_max_length: El texto no debe superar {maxLength} {maxLength, plural, one {caracter} other {caracteres}}.
+limits.integer_out_of_int64_range: El valor entero está fuera del rango válido de int64.
+limits.rows_required: Se requiere `rows`.
+limits.timeout_cannot_exceed_365_days: El tiempo de espera no puede ser superior a {maxDays} {maxDays, plural, one {día} other {días}} desde ahora.
+limits.string_length_exact: La cadena debe tener exactamente {length} caracteres.
+limits.string_length_invalid: La longitud de la cadena debe estar entre {min} y {max} caracteres.
+limits.value_must_be_integer_in_range: El valor de `{name}` debe ser un entero entre {minValue} y {maxValue}.
+limits.value_too_small: El valor es demasiado pequeño.
+media_and_memes.favorite_meme_name_required: Se requiere el nombre del meme favorito.
+media_and_memes.favorite_meme_not_found: No se encontro el meme favorito.
+media_and_memes.max_favorite_memes_reached: Se alcanzó el máximo de {count} {count, plural, one {meme} other {memes}}} favorito.
+media_and_memes.media_already_in_favorites: Este contenido ya está en tus memes favoritos.
+media_and_memes.media_metadata_error: Error de metadatos del contenido.
+media_and_memes.unknown_favorite_meme: Meme favorito desconocido.
+messages.cannot_delete_more_than_100: No puedes eliminar más de {max} {max, plural, one {mensaje} other {mensajes}} a la vez.
+messages.cannot_edit_others_message: No puedes editar el mensaje de otro usuario.
+messages.cannot_preload_more_than_100_channels: No puedes precargar más de {max} {max, plural, one {canal} other {canales}} a la vez.
+messages.cannot_reply_to_system_message: No puedes responder a un mensaje del sistema.
+messages.cannot_send_empty_message: No puedes enviar un mensaje vacío.
+messages.forward_messages_cannot_include_extra_content: Los mensajes reenviados no pueden incluir contenido, embeds, adjuntos ni stickers.
+messages.scheduled_messages_max_30_days: Los mensajes programados pueden estar como máximo 30 días en el futuro.
+messages.forward_reference_requires_channel_and_message: La referencia de reenvio debe incluir `channel_id` y `message_id`.
+messages.invalid_message_data: Datos de mensaje inválidos.
+messages.invalid_scheduled_message_payload: Payload de mensaje programado inválido.
+messages.message_ids_cannot_be_empty: '`message_ids` no puede estar vacío.'
+messages.messages_array_required: El array `messages` es obligatorio y no puede estar vacío.
+messages.messages_with_snapshots_cannot_be_edited: Los mensajes con snapshots no se pueden editar.
+messages.scheduled_send_datetime_invalid: La fecha u hora del envio programado no es valida.
+messages.scheduled_time_must_be_future: La hora programada debe estar en el futuro.
+messages.voice_messages_attachment_must_be_audio: Los adjuntos de mensajes de voz deben ser archivos de audio.
+messages.voice_messages_cannot_have_content: Los mensajes de voz no pueden tener contenido de texto.
+messages.voice_messages_cannot_have_embeds: Los mensajes de voz no pueden tener incrustaciones.
+messages.voice_messages_cannot_have_favorite_memes: Los mensajes de voz no pueden tener memes favoritos.
+messages.voice_messages_cannot_have_stickers: Los mensajes de voz no pueden tener stickers.
+mfa_and_passkeys.invalid_mfa_code: Codigo de MFA inválido.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Contador de autenticacion WebAuthn inválido.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Contador de credencial WebAuthn inválido.
+mfa_and_passkeys.invalid_webauthn_credential: Credencial WebAuthn invalida.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Formato de clave publica WebAuthn inválido.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Primero tienes que habilitar la autenticación de dos factores en tu cuenta antes de requerirla para moderadores.
+mfa_and_passkeys.no_passkeys_registered: No hay llaves de acceso registradas.
+mfa_and_passkeys.passkey_authentication_failed: Fallo la autenticacion con llave de acceso.
+mfa_and_passkeys.passkeys_disabled: Las llaves de acceso estan deshabilitadas.
+mfa_and_passkeys.two_factor_not_enabled: La autenticacion de dos factores no está habilitada.
+mfa_and_passkeys.two_factor_required: Se requiere autenticacion de dos factores.
+mfa_and_passkeys.unknown_webauthn_credential: Credencial WebAuthn desconocida.
+mfa_and_passkeys.webauthn_credential_limit_reached: Se alcanzó el máximo de {count} {count, plural, one {credencial} other {credenciales}}} WebAuthn.
+misc_limits.max_bookmarks_reached: Se alcanzó el máximo de {count} {{count, plural, one {marcador} other {marcadores}}}.
+misc_limits.max_category_channels_reached: Se alcanzó el máximo de {count} {count, plural, one {canal} other {canales}}} por categoría.
+misc_limits.max_friends_reached: Se alcanzó el máximo de {count} {{count, plural, one {amigo} other {amigos}}}.
+misc_limits.max_invites_reached: Se alcanzó el máximo de {count} {{count, plural, one {invitación} other {invitaciones}}}.
+misc_limits.max_pins_per_channel_reached: Se alcanzó el máximo de {count} {{count, plural, one {pin} other {pines}}} por canal.
+misc.cannot_send_messages_in_non_text_channel: No puedes enviar mensajes en un canal que no sea de texto.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Tienes que verificar tu correo para enviar mensajes en este servidor.
+misc.invalid_job_id: ID de job inválido.
+misc.invalid_permissions_integer: Los permisos deben ser un entero valido.
+misc.invalid_permissions_negative: Los permisos no pueden ser negativos.
+misc.invalid_request_generic: Solicitud invalida.
+misc.invalid_snowflake: Snowflake inválido.
+misc.job_already_processed: El job ya fue procesado.
+misc.job_id_required: Se requiere el ID del job.
+misc.job_not_found: No se encontro el job.
+misc.max_files_exceeded: Demasiados archivos. Se permiten como maximo {maxFiles} {maxFiles, plural, one {archivo} other {archivos}}.
+misc.must_have_bot_to_mark_system_user: El usuario debe ser un bot para marcarse como usuario del sistema.
+moderation_and_reports.cannot_report_own_message: No puedes reportar tu propio mensaje.
+moderation_and_reports.cannot_report_yourself: No puedes reportarte a ti mismo.
+moderation_and_reports.invalid_dsa_report_target: Objetivo de reporte DSA inválido.
+moderation_and_reports.invalid_dsa_ticket: Ticket DSA inválido.
+moderation_and_reports.invalid_dsa_verification_code: Codigo de verificación DSA inválido.
+moderation_and_reports.report_already_resolved: El reporte ya está resuelto.
+moderation_and_reports.report_banned: Reporte baneado.
+moderation_and_reports.unknown_report: Reporte desconocido.
+moderation_and_reports.user_is_not_banned: Este usuario no está baneado.
+names_and_normalization.channel_name_empty_after_normalization: El nombre del canal no puede quedar vacío despues de normalizar.
+names_and_normalization.name_empty_after_normalization: El nombre no puede quedar vacío despues de normalizar.
+permissions.missing_access: Falta acceso.
+permissions.missing_permissions: Faltan permisos.
+permissions.not_owner_of_admin_api_key: No tienes permiso para modificar está clave API de administrador.
+permissions.user_banned_from_guild: Este usuario está baneado de este servidor.
+permissions.user_ip_banned_from_guild: La IP de este usuario está baneada de este servidor.
+permissions.user_not_in_channel: Este usuario no está en este canal.
+permissions.user_not_in_voice: Este usuario no está en un canal de voz.
+permissions.user_owns_guilds: Este usuario es dueno de servidores.
+phone.invalid_number: Numero de teléfono inválido.
+phone.number_already_used: Ese número de teléfono ya está en uso.
+phone.number_format_required: El número de teléfono debe estar en formato E.164 (por ejemplo, +1234567890).
+phone.phone_required_for_sms_mfa: Se requiere un número de teléfono para el MFA por SMS.
+phone.sms_mfa_not_enabled: El MFA por SMS no está habilitado.
+phone.sms_mfa_requires_totp: El MFA por SMS requiere TOTP.
+phone.sms_verification_unavailable: La verificación por SMS no está disponible temporalmente. Intenta de nuevo mas tarde.
+phone.verification_code_invalid: Codigo de verificación de teléfono inválido.
+phone.verification_required: Se requiere verificación de teléfono.
+premium_and_plans.animated_avatars_require_premium: Los avatares animados requieren Premium.
+premium_and_plans.banners_require_premium: Los banners requieren Premium.
+premium_and_plans.bio_requires_premium_for_length: Una biografía más larga que {maxLength} caracteres requiere Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: No puedes canjear Plutonium con Visionary.
+premium_and_plans.custom_emojis_outside_source_require_premium: No puedes usar emojis personalizados fuera de sus servidores de origen sin Premium.
+premium_and_plans.custom_stickers_in_dms_require_premium: No puedes usar stickers personalizados en MD sin Premium.
+premium_and_plans.custom_stickers_outside_source_require_premium: No puedes usar stickers personalizados fuera de su servidor de origen sin Premium.
+premium_and_plans.discriminator_change_requires_premium: Cambiar tu discriminador requiere Premium.
+premium_and_plans.no_active_subscription: No hay una suscripcion activa.
+premium_and_plans.no_visionary_slots_available: No hay cupos Visionary disponibles.
+premium_and_plans.premium_required_for_custom_emoji: Se requiere Premium para usar un emoji personalizado.
+premium_and_plans.visionary_required_for_bot_discriminator: Tienes que tener el plan vitalicio Visionary para personalizar discriminadores de bots.
+premium_and_plans.visionary_required_for_discriminator: Tienes que tener el plan vitalicio Visionary para usar ese discriminador.
+rate_limits.accent_color_changed_too_often: Has cambiado tu color de acento demasiadas veces ultimamente. Intenta de nuevo en {minutes} {minutes, plural, one {minuto} other {minutos}}.
+rate_limits.avatar_changed_too_often: Has cambiado tu avatar demasiadas veces ultimamente. Intenta de nuevo en {minutes} {minutes, plural, one {minuto} other {minutos}}.
+rate_limits.banner_changed_too_often: Has cambiado tu banner demasiadas veces ultimamente. Intenta de nuevo en {minutes} {minutes, plural, one {minuto} other {minutos}}.
+rate_limits.bio_changed_too_often: Has cambiado tu bio demasiadas veces ultimamente. Intenta de nuevo en {minutes} {minutes, plural, one {minuto} other {minutos}}.
+rate_limits.ip_authorization_resend_cooldown: El reenvio de autorización de IP tiene tiempo de espera.
+rate_limits.ip_authorization_resend_limit_exceeded: Se excedio el limite de reenvios de autorización de IP.
+rate_limits.phone_rate_limit_exceeded: Se excedio el limite de solicitudes por teléfono.
+rate_limits.pronouns_changed_too_often: Has cambiado tus pronombres demasiadas veces ultimamente. Intenta de nuevo en {minutes} {minutes, plural, one {minuto} other {minutos}}.
+rate_limits.rate_limited: Se alcanzó el limite de solicitudes.
+rate_limits.slowmode_rate_limited: 'Modo lento: se alcanzó el limite de solicitudes.'
+rate_limits.username_changed_too_often: Has cambiado tu nombre de usuario demasiadas veces ultimamente. Intenta de nuevo en {minutes} {minutes, plural, one {minuto} other {minutos}}.
+roles.cannot_reorder_everyone_role: No puedes reordenar el rol @everyone.
+roles.cannot_set_everyone_hoist: No puedes cambiar la posicion de hoist del rol @everyone.
+roles.cannot_use_same_role_as_preceding: No puedes usar el mismo rol que el rol anterior.
+roles.invalid_role_id: 'ID de rol inválido: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: No puedes usar `parse` junto con `allowed_mentions.users` o `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: El rol anterior no está en el servidor.
+stickers_and_emojis.custom_emoji_not_found: No se encontro el emoji personalizado.
+stickers_and_emojis.custom_sticker_not_found: No se encontro el sticker personalizado.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: No puedes usar este emoji sin acceso a su servidor o paquete instalado.
+stickers_and_emojis.max_reactions_reached: Se alcanzó el máximo de {count} {{count, plural, one {reacción} other {reacciones}}}.
+stickers_and_emojis.max_stickers_reached: Se alcanzó el máximo de {count} {{count, plural, one {sticker} other {stickers}}}.
+stickers_and_emojis.not_valid_unicode_emoji: No es un emoji Unicode valido.
+stickers_and_emojis.unknown_emoji: Emoji desconocido.
+stickers_and_emojis.unknown_sticker: Sticker desconocido.
+stripe.error: Error de Stripe.
+stripe.invalid_product_configuration: Configuracion de producto invalida.
+stripe.invalid_product_selection: Seleccion de producto invalida.
+stripe.no_active_subscription_found: No se encontro una suscripcion activa.
+stripe.no_purchase_history_customer_portal_unavailable: No se encontro historial de compras. El portal del cliente no está disponible.
+stripe.no_subscription_found: No se encontro ninguna suscripcion.
+stripe.payment_not_available: El procesamiento de pagos no está disponible.
+stripe.subscription_already_canceling: La suscripcion ya está configurada para cancelarse al final del periodo.
+stripe.subscription_not_canceling: La suscripcion no está configurada para cancelarse.
+stripe.subscription_period_end_missing: Falta subscription current_period_end.
+stripe.webhook_not_available: El procesamiento de webhooks no está disponible.
+stripe.webhook_signature_invalid: La firma del webhook de Stripe es invalida.
+stripe.webhook_signature_missing: Falta la firma del webhook de Stripe.
+tickets.ticket_already_completed: Este ticket ya fue completado.
+tos_and_age.date_of_birth_format_invalid: Formato de fecha de nacimiento inválido.
+tos_and_age.must_agree_to_tos_and_privacy: Debes aceptar los Terminos del servicio y la Politica de privacidad.
+tos_and_age.must_be_minimum_age: Debes tener al menos {minAge} {minAge, plural, one {año} other {años}} para crear una cuenta.
+unknown_entities.unknown_application: Aplicación desconocida.
+unknown_entities.unknown_channel: Canal desconocido.
+unknown_entities.unknown_guild: Servidor desconocido.
+unknown_entities.unknown_invite: Invitacion desconocida.
+unknown_entities.unknown_member: Miembro desconocido.
+unknown_entities.unknown_message: Mensaje desconocido.
+unknown_entities.unknown_pack: Pack desconocido.
+unknown_entities.unknown_role: Rol desconocido.
+unknown_entities.unknown_user_flag: Flag de usuario desconocida.
+unknown_entities.unknown_user: Usuario desconocido.
+urls.invalid_url_format: Formato de URL inválido.
+urls.invalid_url_or_attachment_reference: Formato de URL inválido o referencia de adjunto invalida.
+urls.url_length_invalid: La URL debe tener entre {min} y {max} caracteres.
+usernames_and_tags.discriminator_invalid_format: El discriminador debe tener {min}–{max} dígitos.
+usernames_and_tags.discriminator_out_of_range: El discriminador debe estar entre {min} y {max}.
+usernames_and_tags.discriminator_required: Se requiere discriminador.
+usernames_and_tags.display_name_length_invalid: El nombre para mostrar debe tener entre {min} y {max} caracteres.
+usernames_and_tags.display_name_reserved_terms: El nombre para mostrar no puede contener "system message".
+usernames_and_tags.display_name_reserved_value: El nombre para mostrar no puede ser "everyone" ni "here".
+usernames_and_tags.global_name_length_invalid: El nombre global debe tener entre {min} y {max} caracteres.
+usernames_and_tags.global_name_reserved_value: El nombre global no puede ser "everyone" ni "here".
+usernames_and_tags.tag_already_taken: Este tag ya está en uso.
+usernames_and_tags.too_many_users_with_this_username: Hay demasiados usuarios con este nombre de usuario.
+usernames_and_tags.too_many_users_with_username_try_different: Hay demasiados usuarios con este nombre de usuario. Prueba con otro.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Las cuentas no reclamadas solo pueden establecer el correo electrónico mediante un token.
+usernames_and_tags.username_invalid_characters: El nombre de usuario solo puede contener letras latinas (a-z, A-Z), números (0-9) y guiones bajos (_).
+usernames_and_tags.username_length_invalid: El nombre de usuario debe tener entre {min} y {max} caracteres.
+usernames_and_tags.username_not_available: El nombre de usuario no está disponible.
+usernames_and_tags.username_reserved_terms: El nombre de usuario no puede contener "fluxer" ni "system message".
+usernames_and_tags.username_reserved_value: El nombre de usuario no puede ser "everyone" ni "here".
+vanity_urls.vanity_url_already_taken: Esta URL personalizada ya está en uso.
+vanity_urls.vanity_url_code_already_taken: Este código de URL personalizada ya está en uso.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: El código de URL personalizada no puede contener "fluxer".
+vanity_urls.vanity_url_code_length_invalid: El código de URL personalizada debe tener entre {min} y {max} caracteres.
+vanity_urls.vanity_url_invalid_characters: La URL personalizada solo puede contener letras minúsculas (a-z), dígitos (0-9) y guiones (-).
+webhooks.cannot_modify_system_webhook: No podés editar mensajes del sistema.
+webhooks.max_webhooks_per_channel_reached: Se alcanzó el máximo de {count} {{count, plural, one {webhook} other {webhooks}}} por canal.
+webhooks.max_webhooks_per_guild_reached: Se alcanzó el máximo de {count} {{count, plural, one {webhook} other {webhooks}}} por servidor.
+webhooks.max_webhooks_reached: Se alcanzó el máximo de {count} {{count, plural, one {webhook} other {webhooks}}}.
+webhooks.unknown_webhook: Webhook desconocido.
+webhooks.webhook_name_length_invalid: El nombre del webhook debe tener entre {min} y {max} caracteres.

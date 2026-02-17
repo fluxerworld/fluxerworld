@@ -1,0 +1,20 @@
+{
+	"name": "@fluxer/limits",
+	"version": "0.0.0",
+	"type": "module",
+	"exports": {
+		"./src/*": "./src/*",
+		"./*": "./*"
+	},
+	"scripts": {
+		"typecheck": "tsgo --noEmit",
+		"test": "vitest run"
+	},
+	"dependencies": {
+		"@fluxer/constants": "workspace:*"
+	},
+	"devDependencies": {
+		"@typescript/native-preview": "catalog:",
+		"vitest": "catalog:"
+	}
+}

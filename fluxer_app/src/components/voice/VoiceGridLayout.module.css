@@ -1,0 +1,150 @@
+.gridViewport {
+	width: 100%;
+	height: 100%;
+	min-height: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	container-type: size;
+	container-name: voice-grid;
+}
+
+.gridViewportOverflowing {
+	align-items: flex-start;
+}
+
+.gridViewportOverflowing .grid {
+	align-content: flex-start;
+}
+
+.gridViewportCompact .grid {
+	--voice-grid-gap: 10px;
+	--voice-grid-side-padding: 12px;
+	--voice-grid-vertical-padding: 10px;
+	--voice-grid-compact-tile-min-width: 190px;
+}
+
+.gridViewportCompact .gridItem {
+	width: calc((100% - (var(--voice-grid-columns) - 1) * var(--voice-grid-gap)) / var(--voice-grid-columns));
+	max-width: calc((100% - (var(--voice-grid-columns) - 1) * var(--voice-grid-gap)) / var(--voice-grid-columns));
+	min-width: min(var(--voice-grid-compact-tile-min-width), 100%);
+}
+
+.gridViewportCompact .grid[data-tile-count='1'] .gridItem {
+	width: min(var(--voice-grid-single-tile-width), 680px);
+	max-width: min(var(--voice-grid-single-tile-width), 680px);
+	min-width: min(var(--voice-grid-compact-tile-min-width), 100%);
+}
+
+.gridViewport[data-edge-to-edge='true'] .grid {
+	--voice-grid-side-padding: 0px;
+	--voice-grid-vertical-padding: 0px;
+}
+
+.grid {
+	--voice-grid-columns: 1;
+	--voice-grid-gap: 12px;
+	--voice-grid-side-padding: 12px;
+	--voice-grid-vertical-padding: 14px;
+	--voice-grid-single-tile-width: min(
+		calc(100cqw - (2 * var(--voice-grid-side-padding))),
+		calc((100cqh - (2 * var(--voice-grid-vertical-padding))) * 16 / 9)
+	);
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-content: center;
+	width: 100%;
+	max-width: 100%;
+	height: 100%;
+	gap: var(--voice-grid-gap);
+	padding-inline: var(--voice-grid-side-padding);
+	padding-block: var(--voice-grid-vertical-padding);
+	box-sizing: border-box;
+}
+
+.gridItem {
+	width: calc((100% - (var(--voice-grid-columns) - 1) * var(--voice-grid-gap)) / var(--voice-grid-columns));
+	max-width: calc((100% - (var(--voice-grid-columns) - 1) * var(--voice-grid-gap)) / var(--voice-grid-columns));
+	min-width: 0;
+	flex: 0 0 auto;
+	flex-shrink: 0;
+	min-width: 0;
+	aspect-ratio: 16 / 9;
+}
+
+.grid[data-tile-count='1'] {
+	align-content: center;
+}
+
+.grid[data-tile-count='1'] .gridItem {
+	width: var(--voice-grid-single-tile-width);
+	max-width: var(--voice-grid-single-tile-width);
+}
+
+.grid:has(> :nth-child(6)) {
+	--voice-grid-gap: 10px;
+}
+
+.grid:has(> :nth-child(12)) {
+	--voice-grid-gap: 8px;
+}
+
+.gridViewportCompact .grid:has(> :nth-child(12)) {
+	--voice-grid-gap: 6px;
+}
+
+.grid:has(> :nth-child(24)) {
+	--voice-grid-gap: 6px;
+}
+
+.gridViewportCompact .grid:has(> :nth-child(24)) {
+	--voice-grid-gap: 5px;
+}
+
+.grid:has(> :nth-child(40)) {
+	--voice-grid-gap: 4px;
+}
+
+@container voice-grid (max-width: 759px) {
+	.grid {
+		--voice-grid-side-padding: 8px;
+	}
+}
+
+@container voice-grid (max-width: 419px) {
+	.grid {
+		--voice-grid-side-padding: 6px;
+	}
+}
+
+@container voice-grid (max-height: 519px) {
+	.grid {
+		--voice-grid-vertical-padding: 10px;
+	}
+}
+
+@container voice-grid (max-height: 359px) {
+	.grid {
+		--voice-grid-vertical-padding: 8px;
+	}
+}
+
+@container voice-grid (min-width: 520px) and (min-height: 260px) {
+	.grid:has(> :nth-child(2)) {
+		--voice-grid-columns: 2;
+	}
+}
+
+@container voice-grid (min-width: 860px) and (min-height: 360px) {
+	.grid:has(> :nth-child(5)) {
+		--voice-grid-columns: 3;
+	}
+}
+
+@container voice-grid (min-width: 1180px) and (min-height: 460px) {
+	.grid:has(> :nth-child(10)) {
+		--voice-grid-columns: 4;
+	}
+}

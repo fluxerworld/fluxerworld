@@ -17,22 +17,25 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GiftActionCreators from '@app/actions/GiftActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {openClaimAccountModal} from '@app/components/modals/ClaimAccountModal';
+import styles from '@app/components/modals/GiftAcceptModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {Spinner} from '@app/components/uikit/Spinner';
+import i18n from '@app/I18n';
+import {Logger} from '@app/lib/Logger';
+import {UserRecord} from '@app/records/UserRecord';
+import GiftStore from '@app/stores/GiftStore';
+import UserStore from '@app/stores/UserStore';
+import {getGiftDurationText} from '@app/utils/GiftUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {GiftIcon, QuestionIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as GiftActionCreators from '~/actions/GiftActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {Spinner} from '~/components/uikit/Spinner';
-import i18n from '~/i18n';
-import {UserRecord} from '~/records/UserRecord';
-import GiftStore from '~/stores/GiftStore';
-import UserStore from '~/stores/UserStore';
-import {getGiftDurationText} from '~/utils/giftUtils';
-import styles from './GiftAcceptModal.module.css';
+import {useEffect, useMemo, useState} from 'react';
+
+const logger = new Logger('GiftAcceptModal');
 
 interface GiftAcceptModalProps {
 	code: string;
@@ -42,22 +45,24 @@ export const GiftAcceptModal = observer(function GiftAcceptModal({code}: GiftAcc
 	const {t} = useLingui();
 	const giftState = GiftStore.gifts.get(code) ?? null;
 	const gift = giftState?.data ?? null;
-	const [isRedeeming, setIsRedeeming] = React.useState(false);
+	const [isRedeeming, setIsRedeeming] = useState(false);
 	const isUnclaimed = !(UserStore.currentUser?.isClaimed() ?? false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!giftState) {
 			void GiftActionCreators.fetchWithCoalescing(code).catch(() => {});
 		}
 	}, [code, giftState]);
 
-	const creator = React.useMemo(() => {
+	const creator = useMemo(() => {
 		if (!gift?.created_by) return null;
 		return new UserRecord({
 			id: gift.created_by.id,
 			username: gift.created_by.username,
 			discriminator: gift.created_by.discriminator,
+			global_name: gift.created_by.global_name,
 			avatar: gift.created_by.avatar,
+			avatar_color: gift.created_by.avatar_color,
 			flags: gift.created_by.flags,
 		});
 	}, [gift?.created_by]);
@@ -76,7 +81,7 @@ export const GiftAcceptModal = observer(function GiftAcceptModal({code}: GiftAcc
 			await GiftActionCreators.redeem(i18n, code);
 			ModalActionCreators.pop();
 		} catch (error) {
-			console.error('[GiftAcceptModal] Failed to redeem gift:', error);
+			logger.error('Failed to redeem gift:', error);
 			setIsRedeeming(false);
 		}
 	};

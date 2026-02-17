@@ -17,19 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/pages/ReportPage.module.css';
+import type {FlowStep} from '@app/components/pages/report/ReportTypes';
 import {Trans} from '@lingui/react/macro';
 import clsx from 'clsx';
 import React from 'react';
-import styles from '../ReportPage.module.css';
-import type {FlowStep} from './types';
 
-type Props = {
+interface Props {
 	current: FlowStep;
 	hasSelection: boolean;
 	hasEmail: boolean;
 	hasTicket: boolean;
 	onSelect: (step: FlowStep) => void;
-};
+}
 
 const STEP_ORDER: Array<FlowStep> = ['selection', 'email', 'verification', 'details'];
 
@@ -74,5 +74,3 @@ export const ReportBreadcrumbs: React.FC<Props> = ({current, hasSelection, hasEm
 		</div>
 	);
 };
-
-export default ReportBreadcrumbs;

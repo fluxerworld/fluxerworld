@@ -23,6 +23,10 @@
 -export([start_link/0]).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+-endif.
+
 -type channel_id() :: integer().
 -type call_ref() :: {pid(), reference()}.
 -type call_data() :: map().
@@ -35,27 +39,10 @@ start_link() ->
 -spec init([]) -> {ok, state()}.
 init([]) ->
     process_flag(trap_exit, true),
+    ets:new(call_pid_cache, [named_table, public, set]),
     {ok, #{calls => #{}}}.
 
--spec handle_call(Request, From, State) -> Result when
-    Request ::
-        {create, channel_id(), call_data()}
-        | {lookup, channel_id()}
-        | {get_or_create, channel_id(), call_data()}
-        | {terminate_call, channel_id()}
-        | get_local_count
-        | get_global_count
-        | term(),
-    From :: gen_server:from(),
-    State :: state(),
-    Result :: {reply, Reply, state()},
-    Reply ::
-        {ok, pid()}
-        | {error, already_exists}
-        | {error, not_found}
-        | {error, term()}
-        | ok
-        | {ok, non_neg_integer()}.
+-spec handle_call(term(), gen_server:from(), state()) -> {reply, term(), state()}.
 handle_call({create, ChannelId, CallData}, _From, State) ->
     do_create_call(ChannelId, CallData, State);
 handle_call({lookup, ChannelId}, _From, State) ->
@@ -75,25 +62,18 @@ handle_call(_Request, _From, State) ->
 handle_cast(_Msg, State) ->
     {noreply, State}.
 
--spec handle_info(Info, State) -> {noreply, state()} when
-    Info :: {'DOWN', reference(), process, pid(), term()} | term(),
-    State :: state().
+-spec handle_info(term(), state()) -> {noreply, state()}.
 handle_info({'DOWN', _Ref, process, Pid, _Reason}, #{calls := Calls} = State) ->
     NewCalls = process_registry:cleanup_on_down(Pid, Calls),
     {noreply, State#{calls := NewCalls}};
 handle_info(_Info, State) ->
     {noreply, State}.
 
--spec terminate(Reason, State) -> ok when
-    Reason :: term(),
-    State :: state().
+-spec terminate(term(), state()) -> ok.
 terminate(_Reason, #{calls := _Calls}) ->
     ok.
 
--spec code_change(OldVsn, State, Extra) -> {ok, state()} when
-    OldVsn :: term(),
-    State :: state() | {state, map()},
-    Extra :: term().
+-spec code_change(term(), state() | {state, map()}, term()) -> {ok, state()}.
 code_change(_OldVsn, {state, Calls}, _Extra) ->
     {ok, #{calls => Calls}};
 code_change(_OldVsn, State, _Extra) ->
@@ -118,6 +98,7 @@ do_create_call(ChannelId, CallData, #{calls := Calls} = State) ->
                                         ChannelId, {RegisteredPid, Ref}, CleanCalls
                                     ),
                                     NewState = State#{calls := NewCalls},
+                                    ets:insert(call_pid_cache, {ChannelId, RegisteredPid}),
                                     {reply, {ok, RegisteredPid}, NewState};
                                 {error, Reason} ->
                                     {reply, {error, Reason}, State}
@@ -132,13 +113,31 @@ do_create_call(ChannelId, CallData, #{calls := Calls} = State) ->
 
 -spec do_lookup_call(channel_id(), state()) -> {reply, {ok, pid()} | {error, not_found}, state()}.
 do_lookup_call(ChannelId, #{calls := Calls} = State) ->
+    case ets:lookup(call_pid_cache, ChannelId) of
+        [{ChannelId, Pid}] when is_pid(Pid) ->
+            case is_process_alive(Pid) of
+                true ->
+                    {reply, {ok, Pid}, State};
+                false ->
+                    ets:delete(call_pid_cache, ChannelId),
+                    do_lookup_call_fallback(ChannelId, Calls, State)
+            end;
+        _ ->
+            do_lookup_call_fallback(ChannelId, Calls, State)
+    end.
+
+-spec do_lookup_call_fallback(channel_id(), map(), state()) ->
+    {reply, {ok, pid()} | {error, not_found}, state()}.
+do_lookup_call_fallback(ChannelId, Calls, State) ->
     case maps:get(ChannelId, Calls, undefined) of
         {Pid, _Ref} when is_pid(Pid) ->
+            ets:insert(call_pid_cache, {ChannelId, Pid}),
             {reply, {ok, Pid}, State};
         undefined ->
             CallName = process_registry:build_process_name(call, ChannelId),
             case process_registry:lookup_or_monitor(CallName, ChannelId, Calls) of
                 {ok, Pid, _Ref, NewCalls} ->
+                    ets:insert(call_pid_cache, {ChannelId, Pid}),
                     {reply, {ok, Pid}, State#{calls := NewCalls}};
                 {error, not_found} ->
                     {reply, {error, not_found}, State}
@@ -163,8 +162,17 @@ do_terminate_call(ChannelId, #{calls := Calls} = State) ->
             gen_server:stop(Pid, normal, ?SHUTDOWN_TIMEOUT),
             CallName = process_registry:build_process_name(call, ChannelId),
             process_registry:safe_unregister(CallName),
+            ets:delete(call_pid_cache, ChannelId),
             NewCalls = maps:remove(ChannelId, Calls),
             {reply, ok, State#{calls := NewCalls}};
         undefined ->
             {reply, {error, not_found}, State}
     end.
+
+-ifdef(TEST).
+
+state_operations_test() ->
+    State = #{calls => #{}},
+    ?assertEqual(#{}, maps:get(calls, State)).
+
+-endif.

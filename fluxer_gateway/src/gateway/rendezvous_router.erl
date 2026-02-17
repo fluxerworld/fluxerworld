@@ -19,10 +19,6 @@
 
 -export([select/2, group_keys/2]).
 
--ifdef(TEST).
--include_lib("eunit/include/eunit.hrl").
--endif.
-
 -define(HASH_LIMIT, 16#FFFFFFFF).
 
 -spec select(term(), pos_integer()) -> non_neg_integer().
@@ -51,22 +47,21 @@ select(_Key, _ShardCount) ->
 
 -spec group_keys([term()], pos_integer()) -> [{non_neg_integer(), [term()]}].
 group_keys(Keys, ShardCount) when is_list(Keys), ShardCount > 0 ->
-    Sorted =
-        maps:to_list(
-            lists:foldl(
-                fun(Key, Acc) ->
-                    Index = select(Key, ShardCount),
-                    Existing = maps:get(Index, Acc, []),
-                    maps:put(Index, [Key | Existing], Acc)
-                end,
-                #{},
-                Keys
-            )
+    Grouped =
+        lists:foldl(
+            fun(Key, Acc) ->
+                Index = select(Key, ShardCount),
+                Existing = maps:get(Index, Acc, []),
+                maps:put(Index, [Key | Existing], Acc)
+            end,
+            #{},
+            Keys
         ),
-    lists:sort(
+    Sorted = lists:sort(
         fun({IdxA, _}, {IdxB, _}) -> IdxA =< IdxB end,
-        [{Index, lists:usort(Group)} || {Index, Group} <- Sorted]
-    );
+        [{Index, lists:usort(Group)} || {Index, Group} <- maps:to_list(Grouped)]
+    ),
+    Sorted;
 group_keys(_Keys, _ShardCount) ->
     [].
 
@@ -75,20 +70,55 @@ weight(Key, Index) ->
     erlang:phash2({Key, Index}, ?HASH_LIMIT).
 
 -ifdef(TEST).
-select_returns_valid_index_test() ->
+-include_lib("eunit/include/eunit.hrl").
+
+select_single_shard_test() ->
     ?assertEqual(0, select(test_key, 1)),
-    Index = select(test_key, 5),
-    ?assert(Index >= 0),
-    ?assert(Index < 5).
+    ?assertEqual(0, select(any_key, 1)),
+    ?assertEqual(0, select(12345, 1)).
 
-select_is_stable_for_same_inputs_test() ->
-    ?assertEqual(select(<<"abc">>, 8), select(<<"abc">>, 8)),
-    ?assertEqual(select(12345, 3), select(12345, 3)).
+select_valid_index_test_() ->
+    [
+        ?_test(begin
+            Index = select(test_key, N),
+            ?assert(Index >= 0),
+            ?assert(Index < N)
+        end)
+     || N <- [2, 5, 10, 100]
+    ].
 
-group_keys_sorts_and_deduplicates_test() ->
+select_stability_test_() ->
+    [
+        ?_assertEqual(select(<<"abc">>, 8), select(<<"abc">>, 8)),
+        ?_assertEqual(select(12345, 3), select(12345, 3)),
+        ?_assertEqual(select({user, 1}, 10), select({user, 1}, 10))
+    ].
+
+select_distribution_test() ->
+    Keys = lists:seq(1, 1000),
+    ShardCount = 10,
+    Distribution = lists:foldl(
+        fun(Key, Acc) ->
+            Index = select(Key, ShardCount),
+            maps:update_with(Index, fun(V) -> V + 1 end, 1, Acc)
+        end,
+        #{},
+        Keys
+    ),
+    Counts = maps:values(Distribution),
+    ?assertEqual(ShardCount, maps:size(Distribution)),
+    lists:foreach(fun(Count) -> ?assert(Count > 0) end, Counts).
+
+group_keys_empty_test() ->
+    ?assertEqual([], group_keys([], 4)).
+
+group_keys_single_test() ->
+    Groups = group_keys([key1], 4),
+    ?assertEqual(1, length(Groups)).
+
+group_keys_deduplicates_test() ->
     Keys = [1, 2, 3, 1, 2],
     Groups = group_keys(Keys, 2),
-    ?assertMatch([{_, _}, {_, _}], Groups),
     lists:foreach(
         fun({_Index, GroupKeys}) ->
             ?assertEqual(GroupKeys, lists:usort(GroupKeys))
@@ -96,6 +126,16 @@ group_keys_sorts_and_deduplicates_test() ->
         Groups
     ).
 
-group_keys_handles_empty_test() ->
-    ?assertEqual([], group_keys([], 4)).
+group_keys_sorted_indices_test() ->
+    Keys = lists:seq(1, 100),
+    Groups = group_keys(Keys, 5),
+    Indices = [I || {I, _} <- Groups],
+    ?assertEqual(Indices, lists:sort(Indices)).
+
+group_keys_all_keys_present_test() ->
+    Keys = [a, b, c, d, e],
+    Groups = group_keys(Keys, 3),
+    AllGroupedKeys = lists:flatten([K || {_, K} <- Groups]),
+    ?assertEqual(lists:sort(Keys), lists:sort(AllGroupedKeys)).
+
 -endif.

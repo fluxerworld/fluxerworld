@@ -17,24 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ChannelActionCreators from '@app/actions/ChannelActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {GroupLeaveFailedModal} from '@app/components/alerts/GroupLeaveFailedModal';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import {Logger} from '@app/lib/Logger';
+import {Routes} from '@app/Routes';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import {ME} from '@fluxer/constants/src/AppConstants';
 import {useLingui} from '@lingui/react/macro';
-import React from 'react';
-import * as ChannelActionCreators from '~/actions/ChannelActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {ME} from '~/Constants';
-import {GroupLeaveFailedModal} from '~/components/alerts/GroupLeaveFailedModal';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import {Routes} from '~/Routes';
-import SelectedChannelStore from '~/stores/SelectedChannelStore';
-import * as RouterUtils from '~/utils/RouterUtils';
+import {useCallback} from 'react';
+
+const logger = new Logger('useLeaveGroup');
 
 export const useLeaveGroup = () => {
 	const {t} = useLingui();
 
-	return React.useCallback(
+	return useCallback(
 		(channelId: string) => {
 			ModalActionCreators.push(
 				modal(() => (
@@ -56,8 +59,10 @@ export const useLeaveGroup = () => {
 									children: t`Left group`,
 								});
 							} catch (error) {
-								console.error('Failed to leave group:', error);
-								ModalActionCreators.push(modal(() => <GroupLeaveFailedModal />));
+								logger.error('Failed to leave group', error);
+								window.setTimeout(() => {
+									ModalActionCreators.push(modal(() => <GroupLeaveFailedModal />));
+								}, 0);
 							}
 						}}
 					/>

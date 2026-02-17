@@ -1,0 +1,364 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.textualPreview {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	max-width: 50vw;
+	min-width: 0;
+	border-radius: var(--radius-md);
+	background-color: var(--background-secondary);
+	border: 1px solid var(--border-color);
+	overflow: hidden;
+}
+
+.previewSurface {
+	--preview-code-line-height: 1rem;
+	--preview-padding: 0.5rem;
+	--bg-code-block: transparent;
+	display: flex;
+	width: 100%;
+	min-width: 0;
+	background-color: var(--bg-code-block);
+}
+
+.inlinePreviewSurface {
+	min-height: calc((6 * var(--preview-code-line-height, 1rem)) + (2 * var(--preview-padding, 0.5rem)));
+	max-height: 500px;
+}
+
+.previewViewport {
+	--preview-visible-lines: 1;
+	--preview-horizontal-scrollbar-size: 0px;
+	width: 100%;
+	min-width: 0;
+	padding: var(--preview-padding);
+	box-sizing: border-box;
+	line-height: var(--preview-code-line-height);
+	max-block-size: calc(
+		(var(--preview-visible-lines) * var(--preview-code-line-height)) +
+		(2 * var(--preview-padding)) +
+		var(--preview-horizontal-scrollbar-size)
+	);
+	overflow-x: auto;
+	scrollbar-width: thin;
+	scrollbar-color: var(--background-tertiary) transparent;
+}
+
+@supports (max-block-size: 1lh) {
+	.previewViewport {
+		max-block-size: calc(
+			(var(--preview-visible-lines) * 1lh) +
+			(2 * var(--preview-padding)) +
+			var(--preview-horizontal-scrollbar-size)
+		);
+	}
+}
+
+.previewViewportCollapsed {
+	overflow-y: hidden;
+}
+
+.previewViewportExpanded {
+	overflow-y: auto;
+}
+
+.previewViewport::-webkit-scrollbar {
+	width: 8px;
+	height: 8px;
+}
+
+.previewViewport::-webkit-scrollbar-track {
+	background-color: transparent;
+}
+
+.previewViewport::-webkit-scrollbar-thumb {
+	background-color: var(--background-tertiary);
+	border-radius: 9999px;
+}
+
+.previewViewport::-webkit-scrollbar-thumb:hover {
+	background-color: var(--interactive-muted);
+}
+
+.previewCode {
+	--pre-padding: 0;
+	margin: 0;
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	line-height: var(--preview-code-line-height);
+	white-space: pre;
+	color: var(--text-code);
+	min-width: max-content;
+	min-block-size: calc(var(--preview-visible-lines) * var(--preview-code-line-height));
+}
+
+.previewCode :global(.hljs) {
+	display: block;
+	margin: 0;
+	padding: 0;
+	background: transparent;
+	color: inherit;
+	line-height: inherit;
+	overflow: visible;
+}
+
+.previewCodeWrap {
+	white-space: pre-wrap;
+	word-break: break-word;
+	min-width: 100%;
+}
+
+.previewError {
+	width: 100%;
+	padding: 0.875rem;
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	color: var(--status-danger);
+	font-size: 0.8125rem;
+	line-height: 1.125rem;
+}
+
+.loadingState {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.footer {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.5rem 0.625rem;
+	border-top: 1px solid var(--border-color);
+	background-color: var(--background-secondary);
+}
+
+.expandButton {
+	border: none;
+	background-color: var(--background-modifier-hover);
+	color: var(--text-secondary);
+	width: 2rem;
+	height: 2rem;
+	border-radius: 0.625rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	flex-shrink: 0;
+	transition:
+		background-color 0.12s ease,
+		color 0.12s ease;
+}
+
+@media (hover: hover) {
+	.expandButton:hover {
+		background-color: var(--background-modifier-selected);
+		color: var(--text-primary);
+	}
+}
+
+.expandIcon {
+	transition: transform 0.12s ease;
+}
+
+.expandIconExpanded {
+	transform: rotate(180deg);
+}
+
+.fileSection {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+	flex: 1;
+}
+
+.fileMeta {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	gap: 0.175rem;
+}
+
+.fileName {
+	font-size: 0.8125rem;
+	line-height: 1.25;
+	color: var(--text-primary);
+	font-weight: 500;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.fileSize {
+	font-size: 0.75rem;
+	color: var(--text-tertiary);
+}
+
+.footerActions {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.125rem;
+	flex-shrink: 0;
+}
+
+.controlButton {
+	border: none;
+	background: transparent;
+	color: var(--text-secondary);
+	width: 2rem;
+	height: 2rem;
+	border-radius: 0.5rem;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition:
+		background-color 0.12s ease,
+		color 0.12s ease;
+}
+
+@media (hover: hover) {
+	.controlButton:hover {
+		background-color: var(--background-modifier-hover);
+		color: var(--text-primary);
+	}
+}
+
+.controlButtonDisabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.languagePopout {
+	width: 16rem;
+	border-radius: 0.5rem;
+	border: 1px solid var(--background-header-secondary);
+	background-color: var(--background-secondary);
+	padding: 0.5rem;
+	box-shadow:
+		0 10px 15px -3px rgb(0 0 0 / 0.2),
+		0 4px 6px -4px rgb(0 0 0 / 0.15);
+}
+
+.languageSearch {
+	margin-bottom: 0.5rem;
+}
+
+.languageScroller {
+	max-height: 14rem;
+}
+
+.languageOption {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.35rem 0.5rem;
+	border-radius: 0.375rem;
+	background: transparent;
+	border: none;
+	color: var(--text-primary);
+	text-align: left;
+	cursor: pointer;
+}
+
+@media (hover: hover) {
+	.languageOption:hover {
+		background-color: var(--background-modifier-hover);
+	}
+}
+
+.languageOptionSelected {
+	background-color: var(--background-modifier-selected);
+}
+
+.languageOptionCode {
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	line-height: 1rem;
+	color: var(--text-primary);
+}
+
+.languageOptionCanonical {
+	font-size: 0.6875rem;
+	line-height: 1rem;
+	color: var(--text-tertiary);
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+}
+
+.languageEmptyState {
+	padding: 0.75rem 0.5rem;
+	text-align: center;
+	font-size: 0.8125rem;
+	line-height: 1.125rem;
+	color: var(--text-tertiary);
+}
+
+.modalRoot {
+	width: 100% !important;
+	height: 100% !important;
+	max-width: min(1278px, calc(100vw - 2rem)) !important;
+	max-height: min(1200px, calc(100svh - 2rem)) !important;
+}
+
+.modalLayout {
+	display: flex;
+	flex-direction: column;
+	min-height: 100px;
+	height: 100%;
+}
+
+.modalBody {
+	display: flex;
+	padding: 0;
+	min-height: 0;
+	flex: 1;
+}
+
+.modalPreviewSurface {
+	height: 100%;
+	max-height: none;
+	min-height: 0;
+	flex: 1;
+}
+
+.previewViewportFill {
+	height: 100%;
+	max-block-size: none;
+}
+
+.previewCodeFill {
+	min-block-size: 100%;
+}
+
+@media (max-width: 768px) {
+	.textualPreview {
+		max-width: 100%;
+	}
+
+	.modalRoot {
+		max-width: calc(100vw - 1rem) !important;
+		max-height: calc(100svh - 1rem) !important;
+	}
+}

@@ -18,9 +18,10 @@
  */
 
 import type React from 'react';
+import {DndProvider} from 'react-dnd';
 import KeyboardBackend, {isKeyboardDragTrigger} from 'react-dnd-accessible-backend';
 import {HTML5Backend} from 'react-dnd-html5-backend';
-import {createTransition, DndProvider, MouseTransition} from 'react-dnd-multi-backend';
+import {createTransition, MouseTransition, MultiBackend} from 'react-dnd-multi-backend';
 
 const KeyboardTransition = createTransition('keydown', (event: Event) => {
 	if (!isKeyboardDragTrigger(event as KeyboardEvent)) return false;
@@ -50,5 +51,9 @@ interface DndContextProps {
 }
 
 export const DndContext = ({children}: DndContextProps) => {
-	return <DndProvider options={DND_OPTIONS}>{children}</DndProvider>;
+	return (
+		<DndProvider backend={MultiBackend} options={DND_OPTIONS}>
+			{children}
+		</DndProvider>
+	);
 };

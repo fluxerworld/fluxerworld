@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {EmojiAttributionSubtext, getEmojiAttribution} from '@app/components/emojis/EmojiAttributionSubtext';
+import styles from '@app/components/emojis/EmojiInfoContent.module.css';
+import GuildStore from '@app/stores/GuildStore';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
 import {observer} from 'mobx-react-lite';
-import {EmojiAttributionSubtext, getEmojiAttribution} from '~/components/emojis/EmojiAttributionSubtext';
-import type {Emoji} from '~/stores/EmojiStore';
-import GuildStore from '~/stores/GuildStore';
-import styles from './EmojiInfoContent.module.css';
 
 interface EmojiInfoContentProps {
-	emoji: Emoji;
+	emoji: FlatEmoji;
 }
 
 export const EmojiInfoContent = observer(function EmojiInfoContent({emoji}: EmojiInfoContentProps) {

@@ -17,14 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Input} from '@app/components/form/Input';
+import styles from '@app/components/modals/components/SettingsSearch.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
 import {useLingui} from '@lingui/react/macro';
 import {MagnifyingGlassIcon, XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
-import {Input} from '../../form/Input';
-import styles from './SettingsSearch.module.css';
 
 interface SettingsSearchProps {
 	className?: string;
@@ -105,9 +106,11 @@ export const SettingsSearch: React.FC<SettingsSearchProps> = observer(
 		}, [handleQueryChange]);
 
 		const rightElement = query ? (
-			<button type="button" onClick={handleClear} className={styles.clearButton} aria-label={t`Clear search`}>
-				<XIcon size={14} weight="bold" />
-			</button>
+			<FocusRing offset={-2}>
+				<button type="button" onClick={handleClear} className={styles.clearButton} aria-label={t`Clear search`}>
+					<XIcon size={14} weight="bold" />
+				</button>
+			</FocusRing>
 		) : undefined;
 
 		return (

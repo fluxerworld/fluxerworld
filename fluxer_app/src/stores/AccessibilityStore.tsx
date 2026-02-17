@@ -17,13 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {makeAutoObservable, reaction} from 'mobx';
-import {StickerAnimationOptions} from '~/Constants';
-import {makePersistent} from '~/lib/MobXPersistence';
-import {loadTheme, persistTheme} from '~/lib/themePersistence';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
+import {makePersistent} from '@app/lib/MobXPersistence';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import {StickerAnimationOptions} from '@fluxer/constants/src/UserConstants';
+import {makeAutoObservable, reaction, runInAction} from 'mobx';
 
-export enum ChannelTypingIndicatorMode {
+export enum GuildChannelPresenceIndicatorMode {
 	AVATARS = 0,
 	INDICATOR_ONLY = 1,
 	HIDDEN = 2,
@@ -38,6 +37,17 @@ export enum DMMessagePreviewMode {
 	ALL = 0,
 	UNREAD_ONLY = 1,
 	NONE = 2,
+}
+
+export enum ChannelTypingIndicatorMode {
+	AVATARS = 0,
+	INDICATOR_ONLY = 1,
+	HIDDEN = 2,
+}
+
+export enum HdrDisplayMode {
+	FULL = 'full',
+	STANDARD = 'standard',
 }
 
 export interface AccessibilitySettings {
@@ -60,16 +70,11 @@ export interface AccessibilitySettings {
 	mobileStickerAnimationValue: number;
 	mobileGifAutoPlayValue: boolean;
 	mobileAnimateEmojiValue: boolean;
-	syncThemeAcrossDevices: boolean;
-	localThemeOverride: string | null;
-	showMessageDividers: boolean;
-	autoSendTenorGifs: boolean;
-	showGiftButton: boolean;
+	autoSendKlipyGifs: boolean;
 	showGifButton: boolean;
 	showMemesButton: boolean;
 	showStickersButton: boolean;
 	showEmojiButton: boolean;
-	showUploadButton: boolean;
 	showMediaFavoriteButton: boolean;
 	showMediaDownloadButton: boolean;
 	showMediaDeleteButton: boolean;
@@ -96,6 +101,9 @@ export interface AccessibilitySettings {
 	dmMessagePreviewMode: DMMessagePreviewMode;
 	enableTTSCommand: boolean;
 	ttsRate: number;
+	showFadedUnreadOnMutedChannels: boolean;
+	showContextMenuShortcuts: boolean;
+	hdrDisplayMode: HdrDisplayMode;
 }
 
 const getDefaultDmMessagePreviewMode = (): DMMessagePreviewMode =>
@@ -105,7 +113,7 @@ class AccessibilityStore {
 	saturationFactor = 1;
 	alwaysUnderlineLinks = false;
 	enableTextSelection = false;
-	showMessageSendButton = true;
+	showMessageSendButton = false;
 	showTextareaFocusRing = true;
 	hideKeyboardHints = false;
 	escapeExitsKeyboardMode = false;
@@ -121,16 +129,11 @@ class AccessibilityStore {
 	mobileStickerAnimationValue: number = StickerAnimationOptions.ANIMATE_ON_INTERACTION;
 	mobileGifAutoPlayValue = false;
 	mobileAnimateEmojiValue = true;
-	syncThemeAcrossDevices = true;
-	localThemeOverride: string | null = null;
-	showMessageDividers = false;
-	autoSendTenorGifs = true;
-	showGiftButton = true;
+	autoSendKlipyGifs = true;
 	showGifButton = true;
 	showMemesButton = true;
 	showStickersButton = true;
 	showEmojiButton = true;
-	showUploadButton = true;
 	showMediaFavoriteButton = true;
 	showMediaDownloadButton = true;
 	showMediaDeleteButton = true;
@@ -158,22 +161,20 @@ class AccessibilityStore {
 	dmMessagePreviewMode: DMMessagePreviewMode = getDefaultDmMessagePreviewMode();
 	enableTTSCommand = true;
 	ttsRate = 1.0;
+	showFadedUnreadOnMutedChannels = false;
+	showContextMenuShortcuts = false;
+	hdrDisplayMode = HdrDisplayMode.FULL;
 	mediaQuery: MediaQueryList | null = null;
+	private _hydrated = false;
 
 	constructor() {
 		makeAutoObservable(this, {mediaQuery: false}, {autoBind: true});
-		this.bootstrapThemeOverride();
 		this.initPersistence();
 		this.initializeMotionDetection();
 	}
 
-	private bootstrapThemeOverride(): void {
-		void loadTheme().then((explicitTheme) => {
-			if (explicitTheme) {
-				this.syncThemeAcrossDevices = false;
-				this.localThemeOverride = explicitTheme;
-			}
-		});
+	get isHydrated(): boolean {
+		return this._hydrated;
 	}
 
 	private async initPersistence(): Promise<void> {
@@ -197,16 +198,11 @@ class AccessibilityStore {
 			'mobileStickerAnimationValue',
 			'mobileGifAutoPlayValue',
 			'mobileAnimateEmojiValue',
-			'syncThemeAcrossDevices',
-			'localThemeOverride',
-			'showMessageDividers',
-			'autoSendTenorGifs',
-			'showGiftButton',
+			'autoSendKlipyGifs',
 			'showGifButton',
 			'showMemesButton',
 			'showStickersButton',
 			'showEmojiButton',
-			'showUploadButton',
 			'showMediaFavoriteButton',
 			'showMediaDownloadButton',
 			'showMediaDeleteButton',
@@ -233,7 +229,14 @@ class AccessibilityStore {
 			'dmMessagePreviewMode',
 			'enableTTSCommand',
 			'ttsRate',
+			'showFadedUnreadOnMutedChannels',
+			'showContextMenuShortcuts',
+			'hdrDisplayMode',
 		]);
+
+		runInAction(() => {
+			this._hydrated = true;
+		});
 	}
 
 	private initializeMotionDetection() {
@@ -301,19 +304,11 @@ class AccessibilityStore {
 		if (validated.mobileGifAutoPlayValue !== undefined) this.mobileGifAutoPlayValue = validated.mobileGifAutoPlayValue;
 		if (validated.mobileAnimateEmojiValue !== undefined)
 			this.mobileAnimateEmojiValue = validated.mobileAnimateEmojiValue;
-		if (validated.syncThemeAcrossDevices !== undefined) this.syncThemeAcrossDevices = validated.syncThemeAcrossDevices;
-		if (validated.localThemeOverride !== undefined) {
-			this.localThemeOverride = validated.localThemeOverride;
-			persistTheme(this.localThemeOverride);
-		}
-		if (validated.showMessageDividers !== undefined) this.showMessageDividers = validated.showMessageDividers;
-		if (validated.autoSendTenorGifs !== undefined) this.autoSendTenorGifs = validated.autoSendTenorGifs;
-		if (validated.showGiftButton !== undefined) this.showGiftButton = validated.showGiftButton;
+		if (validated.autoSendKlipyGifs !== undefined) this.autoSendKlipyGifs = validated.autoSendKlipyGifs;
 		if (validated.showGifButton !== undefined) this.showGifButton = validated.showGifButton;
 		if (validated.showMemesButton !== undefined) this.showMemesButton = validated.showMemesButton;
 		if (validated.showStickersButton !== undefined) this.showStickersButton = validated.showStickersButton;
 		if (validated.showEmojiButton !== undefined) this.showEmojiButton = validated.showEmojiButton;
-		if (validated.showUploadButton !== undefined) this.showUploadButton = validated.showUploadButton;
 		if (validated.showMediaFavoriteButton !== undefined)
 			this.showMediaFavoriteButton = validated.showMediaFavoriteButton;
 		if (validated.showMediaDownloadButton !== undefined)
@@ -360,6 +355,11 @@ class AccessibilityStore {
 		if (validated.dmMessagePreviewMode !== undefined) this.dmMessagePreviewMode = validated.dmMessagePreviewMode;
 		if (validated.enableTTSCommand !== undefined) this.enableTTSCommand = validated.enableTTSCommand;
 		if (validated.ttsRate !== undefined) this.ttsRate = validated.ttsRate;
+		if (validated.showFadedUnreadOnMutedChannels !== undefined)
+			this.showFadedUnreadOnMutedChannels = validated.showFadedUnreadOnMutedChannels;
+		if (validated.showContextMenuShortcuts !== undefined)
+			this.showContextMenuShortcuts = validated.showContextMenuShortcuts;
+		if (validated.hdrDisplayMode !== undefined) this.hdrDisplayMode = validated.hdrDisplayMode;
 	}
 
 	private validateSettings(data: Readonly<Partial<AccessibilitySettings>>): Partial<AccessibilitySettings> {
@@ -383,16 +383,11 @@ class AccessibilityStore {
 			mobileStickerAnimationValue: data.mobileStickerAnimationValue ?? this.mobileStickerAnimationValue,
 			mobileGifAutoPlayValue: data.mobileGifAutoPlayValue ?? this.mobileGifAutoPlayValue,
 			mobileAnimateEmojiValue: data.mobileAnimateEmojiValue ?? this.mobileAnimateEmojiValue,
-			syncThemeAcrossDevices: data.syncThemeAcrossDevices ?? this.syncThemeAcrossDevices,
-			localThemeOverride: data.localThemeOverride ?? this.localThemeOverride,
-			showMessageDividers: data.showMessageDividers ?? this.showMessageDividers,
-			autoSendTenorGifs: data.autoSendTenorGifs ?? this.autoSendTenorGifs,
-			showGiftButton: data.showGiftButton ?? this.showGiftButton,
+			autoSendKlipyGifs: data.autoSendKlipyGifs ?? this.autoSendKlipyGifs,
 			showGifButton: data.showGifButton ?? this.showGifButton,
 			showMemesButton: data.showMemesButton ?? this.showMemesButton,
 			showStickersButton: data.showStickersButton ?? this.showStickersButton,
 			showEmojiButton: data.showEmojiButton ?? this.showEmojiButton,
-			showUploadButton: data.showUploadButton ?? this.showUploadButton,
 			showMediaFavoriteButton: data.showMediaFavoriteButton ?? this.showMediaFavoriteButton,
 			showMediaDownloadButton: data.showMediaDownloadButton ?? this.showMediaDownloadButton,
 			showMediaDeleteButton: data.showMediaDeleteButton ?? this.showMediaDeleteButton,
@@ -430,6 +425,9 @@ class AccessibilityStore {
 			dmMessagePreviewMode: data.dmMessagePreviewMode ?? this.dmMessagePreviewMode,
 			enableTTSCommand: data.enableTTSCommand ?? this.enableTTSCommand,
 			ttsRate: Math.max(0.1, Math.min(2.0, data.ttsRate ?? this.ttsRate)),
+			showFadedUnreadOnMutedChannels: data.showFadedUnreadOnMutedChannels ?? this.showFadedUnreadOnMutedChannels,
+			showContextMenuShortcuts: data.showContextMenuShortcuts ?? this.showContextMenuShortcuts,
+			hdrDisplayMode: data.hdrDisplayMode ?? this.hdrDisplayMode,
 		};
 	}
 
@@ -437,7 +435,6 @@ class AccessibilityStore {
 		return reaction(
 			() => ({
 				messageGroupSpacing: this.messageGroupSpacing,
-				showMessageDividers: this.showMessageDividers,
 			}),
 			() => callback(),
 			{fireImmediately: true},

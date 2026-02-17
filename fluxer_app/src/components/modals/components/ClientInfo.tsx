@@ -17,19 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import Config from '@app/Config';
+import styles from '@app/components/modals/components/ClientInfo.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import DeveloperModeStore from '@app/stores/DeveloperModeStore';
+import {getClientInfo, getClientInfoSync} from '@app/utils/ClientInfoUtils';
+import {isDesktop} from '@app/utils/NativeUtils';
+import {formatShortRelativeTime} from '@fluxer/date_utils/src/DateDuration';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useEffect, useState} from 'react';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import Config from '~/Config';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import DeveloperModeStore from '~/stores/DeveloperModeStore';
-import {getClientInfo, getClientInfoSync} from '~/utils/ClientInfoUtils';
-import * as DateUtils from '~/utils/DateUtils';
-import {isDesktop} from '~/utils/NativeUtils';
-import styles from './ClientInfo.module.css';
 
 export const ClientInfo = observer(() => {
 	const {t, i18n} = useLingui();
@@ -92,7 +92,7 @@ export const ClientInfo = observer(() => {
 
 		TextCopyActionCreators.copy(
 			i18n,
-			`${Config.PUBLIC_PROJECT_ENV} ${buildInfo}${timestamp}, ${browserName} ${browserVersion}, ${osDescription}${desktopInfo}`,
+			`${Config.PUBLIC_RELEASE_CHANNEL} ${buildInfo}${timestamp}, ${browserName} ${browserVersion}, ${osDescription}${desktopInfo}`,
 		);
 	};
 
@@ -101,7 +101,8 @@ export const ClientInfo = observer(() => {
 			<FocusRing>
 				<button type="button" onClick={onClick} className={styles.button}>
 					<span>
-						{Config.PUBLIC_PROJECT_ENV} {buildNumber ? `build ${buildNumber} (${buildShaShort})` : `(${buildShaShort})`}
+						{Config.PUBLIC_RELEASE_CHANNEL}{' '}
+						{buildNumber ? `build ${buildNumber} (${buildShaShort})` : `(${buildShaShort})`}
 					</span>
 					{desktopVersion && (
 						<span>
@@ -110,7 +111,7 @@ export const ClientInfo = observer(() => {
 					)}
 					{Config.PUBLIC_BUILD_TIMESTAMP && (
 						<span>
-							<Trans>Deployed</Trans> {DateUtils.getShortRelativeDateString(Config.PUBLIC_BUILD_TIMESTAMP * 1000)}
+							<Trans>Deployed</Trans> {formatShortRelativeTime(Config.PUBLIC_BUILD_TIMESTAMP * 1000)}
 						</span>
 					)}
 					<span>

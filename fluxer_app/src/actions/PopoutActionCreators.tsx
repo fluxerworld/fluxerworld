@@ -17,17 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {Popout} from '~/components/uikit/Popout';
-import PopoutStore from '~/stores/PopoutStore';
+import type {Popout} from '@app/components/uikit/popout';
+import PopoutStore from '@app/stores/PopoutStore';
 
-export const open = (popout: Popout): void => {
+export function open(popout: Popout): void {
 	PopoutStore.open(popout);
-};
+}
 
-export const close = (key?: string | number): void => {
+export function close(key?: string | number): void {
 	PopoutStore.close(key);
-};
+}
 
-export const closeAll = (): void => {
+export function closeAll(): void {
 	PopoutStore.closeAll();
-};
+}

@@ -17,28 +17,31 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as InviteActionCreators from '~/actions/InviteActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {AuthErrorState} from '~/components/auth/AuthErrorState';
-import {AuthLoadingState} from '~/components/auth/AuthLoadingState';
-import {InviteHeader} from '~/components/auth/InviteHeader';
-import styles from '~/components/modals/InviteAcceptModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import foodPatternUrl from '~/images/i-like-food.svg';
-import InviteStore from '~/stores/InviteStore';
-import {isGroupDmInvite, isGuildInvite, isPackInvite as isPackInviteGuard} from '~/types/InviteTypes';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import {getGroupDmInviteCounts} from '~/utils/invite/GroupDmInviteCounts';
+import * as InviteActionCreators from '@app/actions/InviteActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {AuthErrorState} from '@app/components/auth/AuthErrorState';
+import {AuthLoadingState} from '@app/components/auth/AuthLoadingState';
+import {InviteHeader} from '@app/components/auth/InviteHeader';
+import styles from '@app/components/modals/InviteAcceptModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import foodPatternUrl from '@app/images/i-like-food.svg';
+import {Logger} from '@app/lib/Logger';
+import InviteStore from '@app/stores/InviteStore';
+import {isGroupDmInvite, isGuildInvite, isPackInvite as isPackInviteGuard} from '@app/types/InviteTypes';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {getGroupDmInviteCounts} from '@app/utils/invite/GroupDmInviteCounts';
 import {
 	GuildInvitePrimaryAction,
 	getGuildInviteActionState,
 	getGuildInvitePrimaryAction,
 	isGuildInviteActionDisabled,
-} from '~/utils/invite/GuildInviteActionState';
+} from '@app/utils/invite/GuildInviteActionState';
+import {Trans, useLingui} from '@lingui/react/macro';
+import {observer} from 'mobx-react-lite';
+import {useCallback, useEffect, useMemo, useState} from 'react';
+
+const logger = new Logger('InviteAcceptModal');
 
 interface InviteAcceptModalProps {
 	code: string;
@@ -49,9 +52,9 @@ export const InviteAcceptModal = observer(function InviteAcceptModal({code}: Inv
 	const inviteState = InviteStore.invites.get(code) ?? null;
 	const invite = inviteState?.data ?? null;
 
-	const [isAccepting, setIsAccepting] = React.useState(false);
+	const [isAccepting, setIsAccepting] = useState(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!inviteState) {
 			void InviteActionCreators.fetchWithCoalescing(code).catch(() => {});
 		}
@@ -70,7 +73,7 @@ export const InviteAcceptModal = observer(function InviteAcceptModal({code}: Inv
 	const guildActionState = getGuildInviteActionState({invite});
 	const {presenceCount, memberCount} = guildActionState;
 
-	const inviteForHeader = React.useMemo(() => {
+	const inviteForHeader = useMemo(() => {
 		if (!invite) return null;
 		if (isGroupDM && groupDMCounts) {
 			return {
@@ -85,7 +88,7 @@ export const InviteAcceptModal = observer(function InviteAcceptModal({code}: Inv
 		};
 	}, [invite, isGroupDM, presenceCount, memberCount, groupDMCounts?.memberCount]);
 
-	const splashUrl = React.useMemo(() => {
+	const splashUrl = useMemo(() => {
 		if (!invite || !isGuildInvite(invite)) {
 			return null;
 		}
@@ -105,7 +108,7 @@ export const InviteAcceptModal = observer(function InviteAcceptModal({code}: Inv
 	const isJoinDisabled = isGuildInviteActionDisabled(guildActionState);
 	const primaryActionType = getGuildInvitePrimaryAction(guildActionState);
 
-	const primaryLabel = React.useMemo(() => {
+	const primaryLabel = useMemo(() => {
 		if (isGroupDM) return t`Join Group DM`;
 		switch (primaryActionType) {
 			case GuildInvitePrimaryAction.InvitesDisabled:
@@ -117,17 +120,17 @@ export const InviteAcceptModal = observer(function InviteAcceptModal({code}: Inv
 		}
 	}, [isGroupDM, primaryActionType]);
 
-	const handleDismiss = React.useCallback(() => {
+	const handleDismiss = useCallback(() => {
 		ModalActionCreators.pop();
 	}, []);
 
-	const handleAccept = React.useCallback(async () => {
+	const handleAccept = useCallback(async () => {
 		setIsAccepting(true);
 		try {
 			await InviteActionCreators.acceptAndTransitionToChannel(code, i18n);
 			ModalActionCreators.pop();
 		} catch (error) {
-			console.error('[InviteAcceptModal] Failed to accept invite:', error);
+			logger.error(' Failed to accept invite:', error);
 			setIsAccepting(false);
 		}
 	}, [code]);

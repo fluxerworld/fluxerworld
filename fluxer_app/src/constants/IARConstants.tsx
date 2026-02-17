@@ -20,7 +20,7 @@
 import type {I18n, MessageDescriptor} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 
-export interface ViolationCategoryDescriptor {
+interface ViolationCategoryDescriptor {
 	value: string;
 	name: MessageDescriptor;
 	desc: MessageDescriptor;

@@ -17,19 +17,30 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import styles from '@app/components/channel/barriers/BarrierComponents.module.css';
+import wrapperStyles from '@app/components/channel/textarea/InputWrapper.module.css';
+import textareaStyles from '@app/components/channel/textarea/TextareaInput.module.css';
+import {openClaimAccountModal} from '@app/components/modals/ClaimAccountModal';
+import {PhoneAddModal} from '@app/components/modals/PhoneAddModal';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
+import {Button} from '@app/components/uikit/button/Button';
+import {unblockUser} from '@app/utils/RelationshipActionUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
+import {
+	ClockIcon,
+	EnvelopeSimpleIcon,
+	InfoIcon,
+	PhoneIcon,
+	ProhibitIcon,
+	ShieldWarningIcon,
+	TimerIcon,
+	WarningCircleIcon,
+} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import {useEffect, useState} from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
-import {PhoneAddModal} from '~/components/modals/PhoneAddModal';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import {Button} from '~/components/uikit/Button/Button';
-import {unblockUser} from '~/utils/RelationshipActionUtils';
-import wrapperStyles from '../textarea/InputWrapper.module.css';
-import styles from './BarrierComponents.module.css';
 
 interface BarrierProps {
 	onAction?: () => void;
@@ -39,23 +50,40 @@ interface TimedBarrierProps extends BarrierProps {
 	initialTimeRemaining?: number;
 }
 
-const BarrierBase = observer(({message, action}: {message: React.ReactNode; action?: React.ReactNode}) => {
+interface BarrierBaseProps {
+	message: React.ReactNode;
+	action?: React.ReactNode;
+	icon: React.ReactElement;
+}
+
+const BarrierBase = observer(({message, action, icon}: BarrierBaseProps) => {
+	const hasAction = Boolean(action);
+
 	return (
 		<div
 			className={clsx(
 				wrapperStyles.box,
 				wrapperStyles.wrapperSides,
+				textareaStyles.textareaOuter,
+				textareaStyles.textareaOuterMinHeight,
 				wrapperStyles.roundedAll,
 				wrapperStyles.bottomSpacing,
 			)}
-			style={{minHeight: 'var(--input-container-min-height)'}}
 		>
-			<div
-				className={wrapperStyles.barInner}
-				style={{gridTemplateColumns: '1fr auto', minHeight: 'var(--input-container-min-height)'}}
-			>
-				<div className={styles.message}>{message}</div>
-				{action && <div>{action}</div>}
+			<div className={clsx(styles.barrierLayout, !hasAction && styles.barrierLayoutNoAction)}>
+				<div className={clsx(textareaStyles.uploadButtonColumn, textareaStyles.sideButtonPadding)}>
+					<div className={styles.icon}>{icon}</div>
+				</div>
+				<div className={clsx(textareaStyles.contentAreaDense, styles.messageArea)}>
+					<div className={styles.message}>{message}</div>
+				</div>
+				{hasAction && (
+					<div
+						className={clsx(textareaStyles.buttonContainerDense, textareaStyles.sideButtonPadding, styles.actionArea)}
+					>
+						{action}
+					</div>
+				)}
 			</div>
 		</div>
 	);
@@ -98,6 +126,7 @@ export const UnclaimedAccountBarrier = observer(({onAction}: BarrierProps) => {
 	return (
 		<BarrierBase
 			message={<Trans>You need to claim your account to send messages in this community.</Trans>}
+			icon={<ShieldWarningIcon size={18} weight="fill" />}
 			action={
 				<Button
 					small={true}
@@ -117,6 +146,7 @@ export const UnverifiedEmailBarrier = observer(({onAction}: BarrierProps) => {
 	return (
 		<BarrierBase
 			message={<Trans>You need to verify your email to send messages in this community.</Trans>}
+			icon={<EnvelopeSimpleIcon size={18} weight="fill" />}
 			action={
 				<Button
 					small={true}
@@ -136,6 +166,7 @@ export const AccountTooNewBarrier = observer(({initialTimeRemaining = 5 * 60 * 1
 	return (
 		<BarrierBase
 			message={<Trans>Your account is too new to send messages in this community.</Trans>}
+			icon={<ClockIcon size={18} weight="fill" />}
 			action={initialTimeRemaining > 0 ? <CountdownTimer initialTime={initialTimeRemaining} /> : null}
 		/>
 	);
@@ -145,6 +176,7 @@ export const NotMemberLongEnoughBarrier = observer(({initialTimeRemaining = 10 *
 	return (
 		<BarrierBase
 			message={<Trans>You haven't been a member of this community long enough to send messages.</Trans>}
+			icon={<ClockIcon size={18} weight="fill" />}
 			action={initialTimeRemaining > 0 ? <CountdownTimer initialTime={initialTimeRemaining} /> : null}
 		/>
 	);
@@ -154,6 +186,7 @@ export const NoPhoneNumberBarrier = observer(({onAction}: BarrierProps) => {
 	return (
 		<BarrierBase
 			message={<Trans>You need to add a phone number to send messages in this community.</Trans>}
+			icon={<PhoneIcon size={18} weight="fill" />}
 			action={
 				<Button
 					small={true}
@@ -178,6 +211,7 @@ export const SendMessageDisabledBarrier = observer(() => {
 					spam or abuse detection.
 				</Trans>
 			}
+			icon={<WarningCircleIcon size={18} weight="fill" />}
 			action={null}
 		/>
 	);
@@ -192,13 +226,35 @@ export const TimeoutBarrier = observer(({initialTimeRemaining = 0}: TimedBarrier
 					timeout expires.
 				</Trans>
 			}
+			icon={<TimerIcon size={18} weight="fill" />}
 			action={initialTimeRemaining > 0 ? <CountdownTimer initialTime={initialTimeRemaining} /> : null}
 		/>
 	);
 });
 
 export const DefaultBarrier = observer(() => {
-	return <BarrierBase message={<Trans>You cannot send messages in this community.</Trans>} action={null} />;
+	return (
+		<BarrierBase
+			message={<Trans>You cannot send messages in this community.</Trans>}
+			icon={<InfoIcon size={18} weight="fill" />}
+			action={null}
+		/>
+	);
+});
+
+export const SystemDmBarrier = observer(() => {
+	return (
+		<BarrierBase
+			message={
+				<Trans>
+					System DMs deliver important announcements from Fluxer staff. Replies and interactions are disabled in this
+					conversation.
+				</Trans>
+			}
+			icon={<InfoIcon size={18} weight="fill" />}
+			action={null}
+		/>
+	);
 });
 
 interface BlockedUserBarrierProps extends BarrierProps {
@@ -216,6 +272,7 @@ export const BlockedUserBarrier = observer(({userId, username, onAction}: Blocke
 	return (
 		<BarrierBase
 			message={<Trans>You have blocked {username}. Unblock them to send messages.</Trans>}
+			icon={<ProhibitIcon size={18} weight="fill" />}
 			action={
 				<Button small={true} onClick={handleUnblock}>
 					<Trans>Unblock</Trans>
@@ -229,6 +286,7 @@ export const UnclaimedDMBarrier = observer(({onAction}: BarrierProps) => {
 	return (
 		<BarrierBase
 			message={<Trans>You need to claim your account to send direct messages.</Trans>}
+			icon={<ShieldWarningIcon size={18} weight="fill" />}
 			action={
 				<Button
 					small={true}

@@ -17,20 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ScreenRecordingPermissionDeniedModal} from '~/components/alerts/ScreenRecordingPermissionDeniedModal';
-import {ScreenShareUnsupportedModal} from '~/components/alerts/ScreenShareUnsupportedModal';
-import {ScreenRecordingPermissionDeniedError} from '~/utils/errors/ScreenRecordingPermissionDeniedError';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {ScreenRecordingPermissionDeniedModal} from '@app/components/alerts/ScreenRecordingPermissionDeniedModal';
+import {ScreenShareUnsupportedModal} from '@app/components/alerts/ScreenShareUnsupportedModal';
+import {Logger} from '@app/lib/Logger';
+import {ScreenRecordingPermissionDeniedError} from '@app/utils/errors/ScreenRecordingPermissionDeniedError';
+
+const logger = new Logger('ScreenShareUtils');
 
 const isScreenShareUnsupportedError = (error: unknown): boolean => {
 	if (!(error instanceof Error)) return false;
 
 	return (
-		error.name === 'DeviceUnsupportedError' ||
-		error.message.includes('getDisplayMedia not supported') ||
-		error.message.includes('NotSupportedError') ||
-		error.message.includes('NotAllowedError')
+		error.name === 'DeviceUnsupportedError' || error.name === 'NotSupportedError' || error.name === 'NotAllowedError'
 	);
 };
 
@@ -42,14 +42,14 @@ const handleScreenShareError = (error: unknown): void => {
 	if (isScreenShareUnsupportedError(error)) {
 		ModalActionCreators.push(modal(() => <ScreenShareUnsupportedModal />));
 	} else {
-		console.error('Failed to start screen share:', error);
+		logger.error('Failed to start screen share:', error);
 	}
 };
 
-export const executeScreenShareOperation = async (
+export async function executeScreenShareOperation(
 	operation: () => Promise<void>,
 	onError?: (error: unknown) => void,
-): Promise<void> => {
+): Promise<void> {
 	try {
 		await operation();
 	} catch (error) {
@@ -59,4 +59,4 @@ export const executeScreenShareOperation = async (
 		}
 		throw error;
 	}
-};
+}

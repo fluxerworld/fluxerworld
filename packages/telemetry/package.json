@@ -1,0 +1,36 @@
+{
+	"name": "@fluxer/telemetry",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./*": "./*"
+	},
+	"scripts": {
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@opentelemetry/api": "catalog:",
+		"@opentelemetry/exporter-logs-otlp-http": "catalog:",
+		"@opentelemetry/exporter-metrics-otlp-http": "catalog:",
+		"@opentelemetry/exporter-trace-otlp-http": "catalog:",
+		"@opentelemetry/instrumentation": "catalog:",
+		"@opentelemetry/instrumentation-http": "catalog:",
+		"@opentelemetry/instrumentation-pino": "catalog:",
+		"@opentelemetry/resources": "catalog:",
+		"@opentelemetry/sdk-logs": "catalog:",
+		"@opentelemetry/sdk-metrics": "catalog:",
+		"@opentelemetry/sdk-node": "catalog:",
+		"@opentelemetry/sdk-trace-base": "catalog:",
+		"@opentelemetry/semantic-conventions": "catalog:"
+	},
+	"devDependencies": {
+		"@typescript/native-preview": "catalog:"
+	},
+	"optionalDependencies": {
+		"@opentelemetry/instrumentation-aws-sdk": "catalog:",
+		"@opentelemetry/instrumentation-cassandra-driver": "catalog:",
+		"@opentelemetry/instrumentation-fetch": "catalog:",
+		"@types/node": "catalog:"
+	}
+}

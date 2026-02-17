@@ -17,6 +17,33 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import {VerificationResult} from '@app/actions/AuthenticationActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as UserActionCreators from '@app/actions/UserActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import {Select} from '@app/components/form/Select';
+import * as Modal from '@app/components/modals/Modal';
+import styles from '@app/components/modals/RequiredActionModal.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {
+	COUNTRY_CODES,
+	type CountryCode,
+	formatPhoneNumber,
+	getCountryName,
+	getDefaultCountry,
+	getE164PhoneNumber,
+} from '@app/data/CountryCodes';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import LayerManager from '@app/stores/LayerManager';
+import UserStore from '@app/stores/UserStore';
+import * as EmojiUtils from '@app/utils/EmojiUtils';
+import * as LocaleUtils from '@app/utils/LocaleUtils';
+import type {RequiredAction} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 import type {MessageDescriptor} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {Trans, useLingui} from '@lingui/react/macro';
@@ -26,39 +53,17 @@ import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useCallback, useEffect, useMemo, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import {components, type OptionProps, type SingleValueProps} from 'react-select';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import {VerificationResult} from '~/actions/AuthenticationActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as UserActionCreators from '~/actions/UserActionCreators';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import {Select} from '~/components/form/Select';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {
-	COUNTRY_CODES,
-	type CountryCode,
-	formatPhoneNumber,
-	getCountryName,
-	getDefaultCountry,
-	getE164PhoneNumber,
-} from '~/data/countryCodes';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import type {RequiredAction} from '~/records/UserRecord';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import LayerManager from '~/stores/LayerManager';
-import UserStore from '~/stores/UserStore';
-import * as EmojiUtils from '~/utils/EmojiUtils';
-import * as LocaleUtils from '~/utils/LocaleUtils';
-import styles from './RequiredActionModal.module.css';
+import {components, type FilterOptionOption, type OptionProps, type SingleValueProps} from 'react-select';
 
 interface PhoneFormInputs {
 	phoneNumber: string;
 }
 interface CodeFormInputs {
 	code: string;
+}
+
+interface BouncedEmailFormInputs {
+	newEmail: string;
 }
 
 interface CountrySelectOption {
@@ -125,9 +130,12 @@ const getVerificationMode = (requiredActions: Array<RequiredAction>): Verificati
 	return 'email';
 };
 
-const getTitleDescriptor = (mode: VerificationMode, reverify = false): MessageDescriptor => {
+const getTitleDescriptor = (mode: VerificationMode, reverify = false, emailBounced = false): MessageDescriptor => {
 	switch (mode) {
 		case 'email':
+			if (emailBounced) {
+				return msg`Email Update Required`;
+			}
 			return reverify ? msg`Email Re-Verification Required` : msg`Email Verification Required`;
 		case 'phone':
 			return reverify ? msg`Phone Re-Verification Required` : msg`Phone Verification Required`;
@@ -136,9 +144,16 @@ const getTitleDescriptor = (mode: VerificationMode, reverify = false): MessageDe
 	}
 };
 
-const getDescriptionDescriptor = (mode: VerificationMode, reverify = false): MessageDescriptor => {
+const getDescriptionDescriptor = (
+	mode: VerificationMode,
+	reverify = false,
+	emailBounced = false,
+): MessageDescriptor => {
 	switch (mode) {
 		case 'email':
+			if (emailBounced) {
+				return msg`Your current email address couldn't receive messages. Please update it to continue using Fluxer.`;
+			}
 			return reverify
 				? msg`We've detected suspicious activity on your account. Please reverify your email address to continue using Fluxer.`
 				: msg`We've detected suspicious activity on your account. Please verify your email address to continue using Fluxer.`;
@@ -163,14 +178,22 @@ const RequiredActionModal: React.FC<{mock?: boolean}> = observer(({mock = false}
 	const [phoneVerificationStep, setPhoneVerificationStep] = useState<PhoneVerificationStep>(
 		DeveloperOptionsStore.mockRequiredActionsPhoneStep,
 	);
+	const [bouncedEmailStep, setBouncedEmailStep] = useState<'new_email' | 'code'>('new_email');
+	const [bouncedEmailTicket, setBouncedEmailTicket] = useState<string | null>(null);
+	const [bouncedEmailRecipient, setBouncedEmailRecipient] = useState<string | null>(null);
 	const [isResendingEmail, setIsResendingEmail] = useState(false);
+	const [isResendingBouncedEmailCode, setIsResendingBouncedEmailCode] = useState(false);
+	const [isLoggingOut, setIsLoggingOut] = useState(false);
 	const [selectedCountry, setSelectedCountry] = useState<CountryCode>(getDefaultCountry());
 	const [phoneNumber, setPhoneNumber] = useState('');
 	const [formattedPhone, setFormattedPhone] = useState('');
 	const phoneForm = useForm<PhoneFormInputs>();
 	const codeForm = useForm<CodeFormInputs>();
+	const bouncedEmailForm = useForm<BouncedEmailFormInputs>();
+	const bouncedEmailCodeForm = useForm<CodeFormInputs>();
 	const locale = LocaleUtils.getCurrentLocale();
 	const countryOptions = getCountryOptions(locale);
+	const isEmailBounced = !mock && !!user?.emailBounced;
 
 	const effectiveMode: VerificationMode = useMemo(() => {
 		if (mock) {
@@ -185,10 +208,13 @@ const RequiredActionModal: React.FC<{mock?: boolean}> = observer(({mock = false}
 			{id: 'email', label: t`Email`},
 			{id: 'phone', label: t`Phone`},
 		],
-		[],
+		[t],
 	);
 
 	const isReverify = mock ? DeveloperOptionsStore.mockRequiredActionsReverify : false;
+	const showBouncedEmailFlow =
+		isEmailBounced &&
+		(effectiveMode === 'email' || (effectiveMode === 'email_or_phone' && selectedVerificationType === 'email'));
 
 	useEffect(() => {
 		const formatted = formatPhoneNumber(phoneNumber, selectedCountry);
@@ -208,23 +234,29 @@ const RequiredActionModal: React.FC<{mock?: boolean}> = observer(({mock = false}
 		} else {
 			setSelectedVerificationType('email');
 			setPhoneVerificationStep('phone');
+			setBouncedEmailStep('new_email');
+			setBouncedEmailTicket(null);
+			setBouncedEmailRecipient(null);
 			setIsResendingEmail(false);
+			setIsResendingBouncedEmailCode(false);
 			setPhoneNumber('');
 			setFormattedPhone('');
 			phoneForm.reset();
 			codeForm.reset();
+			bouncedEmailForm.reset();
+			bouncedEmailCodeForm.reset();
 		}
-	}, [mock, user?.requiredActions]);
+	}, [mock, user?.requiredActions, phoneForm, codeForm, bouncedEmailForm, bouncedEmailCodeForm]);
 
 	const onSubmitPhone = useCallback(async () => {
 		if (!phoneNumber) {
-			phoneForm.setError('phoneNumber', {message: 'Phone number is required'});
+			phoneForm.setError('phoneNumber', {message: t`Phone number is required`});
 			return;
 		}
 		const e164Phone = getE164PhoneNumber(phoneNumber, selectedCountry);
 		await UserActionCreators.sendPhoneVerification(e164Phone);
 		setPhoneVerificationStep('code');
-	}, [phoneForm, phoneNumber, selectedCountry]);
+	}, [phoneForm, phoneNumber, selectedCountry, t]);
 
 	const onSubmitCode = useCallback(
 		async (data: CodeFormInputs) => {
@@ -236,6 +268,35 @@ const RequiredActionModal: React.FC<{mock?: boolean}> = observer(({mock = false}
 		[phoneNumber, selectedCountry],
 	);
 
+	const onSubmitBouncedEmail = useCallback(
+		async (data: BouncedEmailFormInputs) => {
+			const result = await UserActionCreators.requestBouncedEmailChangeNew(data.newEmail);
+			setBouncedEmailTicket(result.ticket);
+			setBouncedEmailRecipient(result.new_email);
+			setBouncedEmailStep('code');
+			bouncedEmailCodeForm.reset();
+			ToastActionCreators.success(t`Verification code sent. Check your new email inbox.`);
+		},
+		[bouncedEmailCodeForm, t],
+	);
+
+	const onSubmitBouncedEmailCode = useCallback(
+		async (data: CodeFormInputs) => {
+			if (!bouncedEmailTicket) {
+				bouncedEmailCodeForm.setError('code', {message: t`Please request a verification code first.`});
+				return;
+			}
+
+			const updatedUser = await UserActionCreators.verifyBouncedEmailChangeNew(
+				bouncedEmailTicket,
+				data.code.split(' ').join(''),
+			);
+			UserStore.handleUserUpdate(updatedUser);
+			ToastActionCreators.success(t`Your email address has been updated.`);
+		},
+		[bouncedEmailCodeForm, bouncedEmailTicket, t],
+	);
+
 	const {handleSubmit: handlePhoneSubmit, isSubmitting: isPhoneSubmitting} = useFormSubmit({
 		form: phoneForm,
 		onSubmit: onSubmitPhone,
@@ -245,6 +306,18 @@ const RequiredActionModal: React.FC<{mock?: boolean}> = observer(({mock = false}
 	const {handleSubmit: handleCodeSubmit, isSubmitting: isCodeSubmitting} = useFormSubmit({
 		form: codeForm,
 		onSubmit: onSubmitCode,
+		defaultErrorField: 'code',
+	});
+
+	const {handleSubmit: handleBouncedEmailSubmit, isSubmitting: isBouncedEmailSubmitting} = useFormSubmit({
+		form: bouncedEmailForm,
+		onSubmit: onSubmitBouncedEmail,
+		defaultErrorField: 'newEmail',
+	});
+
+	const {handleSubmit: handleBouncedEmailCodeSubmit, isSubmitting: isBouncedEmailCodeSubmitting} = useFormSubmit({
+		form: bouncedEmailCodeForm,
+		onSubmit: onSubmitBouncedEmailCode,
 		defaultErrorField: 'code',
 	});
 
@@ -289,6 +362,34 @@ const RequiredActionModal: React.FC<{mock?: boolean}> = observer(({mock = false}
 
 	const isEmailResending = mock ? DeveloperOptionsStore.mockRequiredActionsResending : isResendingEmail;
 
+	const handleResendBouncedEmailCode = useCallback(async () => {
+		if (!bouncedEmailTicket || isResendingBouncedEmailCode) {
+			return;
+		}
+
+		setIsResendingBouncedEmailCode(true);
+		try {
+			await UserActionCreators.resendBouncedEmailChangeNew(bouncedEmailTicket);
+			ToastActionCreators.success(t`A new verification code has been sent.`);
+		} catch {
+			ToastActionCreators.error(t`Failed to resend verification code. Please try again later.`);
+		} finally {
+			setIsResendingBouncedEmailCode(false);
+		}
+	}, [bouncedEmailTicket, isResendingBouncedEmailCode, t]);
+
+	const handleLogout = useCallback(async () => {
+		if (isLoggingOut) {
+			return;
+		}
+		setIsLoggingOut(true);
+		try {
+			await AuthenticationActionCreators.logout();
+		} finally {
+			setIsLoggingOut(false);
+		}
+	}, [isLoggingOut]);
+
 	const renderBackdrop = useMemo(() => {
 		return (
 			<div
@@ -319,68 +420,156 @@ const RequiredActionModal: React.FC<{mock?: boolean}> = observer(({mock = false}
 						<div className={styles.iconContainer}>
 							<WarningIcon weight="fill" className={styles.icon} />
 						</div>
-						<h2 className={styles.title}>{t(getTitleDescriptor(effectiveMode, isReverify))}</h2>
-						<p className={styles.description}>{t(getDescriptionDescriptor(effectiveMode, isReverify))}</p>
+						<h2 className={styles.title}>{t(getTitleDescriptor(effectiveMode, isReverify, isEmailBounced))}</h2>
+						<p className={styles.description}>
+							{t(getDescriptionDescriptor(effectiveMode, isReverify, isEmailBounced))}
+						</p>
 					</div>
 
 					{effectiveMode === 'email_or_phone' && (
 						<div className={styles.tabContainer}>
 							{verificationTabs.map((tab) => (
-								<button
-									key={tab.id}
-									type="button"
-									className={clsx(
-										styles.tabButton,
-										selectedVerificationType === tab.id ? styles.tabActive : styles.tabInactive,
-									)}
-									onClick={() => setSelectedVerificationType(tab.id)}
-									aria-pressed={selectedVerificationType === tab.id}
-								>
-									{tab.label}
-								</button>
+								<FocusRing key={tab.id} offset={-2}>
+									<button
+										type="button"
+										className={clsx(
+											styles.tabButton,
+											selectedVerificationType === tab.id ? styles.tabActive : styles.tabInactive,
+										)}
+										onClick={() => setSelectedVerificationType(tab.id)}
+										aria-pressed={selectedVerificationType === tab.id}
+									>
+										{tab.label}
+									</button>
+								</FocusRing>
 							))}
 						</div>
 					)}
 
 					<div className={styles.contentContainer}>
 						{(effectiveMode === 'email' ||
-							(effectiveMode === 'email_or_phone' && selectedVerificationType === 'email')) && (
-							<>
-								<div className={styles.stepsCard}>
-									<div className={styles.stepsContainer}>
-										<div className={styles.stepRow}>
-											<div className={styles.stepBadge}>1</div>
-											<p className={styles.stepText}>
-												<Trans>
-													Check your inbox at <strong>{user?.email}</strong> for a verification email.
-												</Trans>
-											</p>
-										</div>
-										<div className={styles.stepRow}>
-											<div className={styles.stepBadge}>2</div>
-											<p className={styles.stepText}>
-												<Trans>Click the verification link in the email.</Trans>
-											</p>
-										</div>
-										<div className={styles.stepRow}>
-											<div className={styles.stepBadge}>3</div>
-											<p className={styles.stepText}>
-												<Trans>Return to this page to continue.</Trans>
-											</p>
+							(effectiveMode === 'email_or_phone' && selectedVerificationType === 'email')) &&
+							(showBouncedEmailFlow ? (
+								<>
+									<div className={styles.stepsCard}>
+										<p className={styles.stepText}>
+											<Trans>
+												Your current email <strong>{user?.email}</strong> could not receive messages. Enter a different
+												email address to continue.
+											</Trans>
+										</p>
+									</div>
+
+									{bouncedEmailStep === 'new_email' ? (
+										<Form form={bouncedEmailForm} onSubmit={handleBouncedEmailSubmit}>
+											<div className={styles.formContainer}>
+												<Input
+													{...bouncedEmailForm.register('newEmail')}
+													autoComplete="email"
+													autoFocus={true}
+													error={bouncedEmailForm.formState.errors.newEmail?.message}
+													label={t`New Email`}
+													placeholder={t`name@example.com`}
+													required={true}
+													type="email"
+													footer={
+														<p className={styles.footerText}>
+															<Trans>We'll send a verification code to this email address.</Trans>
+														</p>
+													}
+												/>
+
+												<Button type="submit" submitting={isBouncedEmailSubmitting}>
+													<Trans>Send Code</Trans>
+												</Button>
+											</div>
+										</Form>
+									) : (
+										<Form form={bouncedEmailCodeForm} onSubmit={handleBouncedEmailCodeSubmit}>
+											<div className={styles.formContainer}>
+												<Input
+													{...bouncedEmailCodeForm.register('code')}
+													autoComplete="one-time-code"
+													autoFocus={true}
+													error={bouncedEmailCodeForm.formState.errors.code?.message}
+													label={t`Verification Code`}
+													required={true}
+													footer={
+														<p className={styles.footerText}>
+															<Trans>
+																Enter the verification code sent to{' '}
+																{bouncedEmailRecipient ?? user?.email ?? t`your new email`}.
+															</Trans>
+														</p>
+													}
+												/>
+
+												<div className={styles.buttonGroup}>
+													<Button type="submit" submitting={isBouncedEmailCodeSubmitting}>
+														<Trans>Update Email</Trans>
+													</Button>
+													<Button
+														variant="secondary"
+														onClick={handleResendBouncedEmailCode}
+														disabled={isBouncedEmailCodeSubmitting || isResendingBouncedEmailCode}
+														submitting={isResendingBouncedEmailCode}
+													>
+														<Trans>Resend Code</Trans>
+													</Button>
+													<Button
+														variant="secondary"
+														onClick={() => {
+															setBouncedEmailStep('new_email');
+															setBouncedEmailTicket(null);
+															setBouncedEmailRecipient(null);
+															bouncedEmailCodeForm.reset();
+														}}
+														disabled={isBouncedEmailCodeSubmitting}
+													>
+														<Trans>Use Different Email</Trans>
+													</Button>
+												</div>
+											</div>
+										</Form>
+									)}
+								</>
+							) : (
+								<>
+									<div className={styles.stepsCard}>
+										<div className={styles.stepsContainer}>
+											<div className={styles.stepRow}>
+												<div className={styles.stepBadge}>1</div>
+												<p className={styles.stepText}>
+													<Trans>
+														Check your inbox at <strong>{user?.email}</strong> for a verification email.
+													</Trans>
+												</p>
+											</div>
+											<div className={styles.stepRow}>
+												<div className={styles.stepBadge}>2</div>
+												<p className={styles.stepText}>
+													<Trans>Click the verification link in the email.</Trans>
+												</p>
+											</div>
+											<div className={styles.stepRow}>
+												<div className={styles.stepBadge}>3</div>
+												<p className={styles.stepText}>
+													<Trans>Return to this page to continue.</Trans>
+												</p>
+											</div>
 										</div>
 									</div>
-								</div>
 
-								<div className={styles.resendSection}>
-									<p className={styles.resendText}>
-										<Trans>Didn't receive the email?</Trans>
-									</p>
-									<Button onClick={handleResendEmail} disabled={isEmailResending} submitting={isEmailResending}>
-										<Trans>Resend Verification Email</Trans>
-									</Button>
-								</div>
-							</>
-						)}
+									<div className={styles.resendSection}>
+										<p className={styles.resendText}>
+											<Trans>Didn't receive the email?</Trans>
+										</p>
+										<Button onClick={handleResendEmail} disabled={isEmailResending} submitting={isEmailResending}>
+											<Trans>Resend Verification Email</Trans>
+										</Button>
+									</div>
+								</>
+							))}
 
 						{(effectiveMode === 'phone' ||
 							(effectiveMode === 'email_or_phone' && selectedVerificationType === 'phone')) &&
@@ -400,9 +589,12 @@ const RequiredActionModal: React.FC<{mock?: boolean}> = observer(({mock = false}
 													}
 												}}
 												options={countryOptions}
-												components={{Option: CountryOption as any, SingleValue: SingleValue as any}}
+												components={{
+													Option: CountryOption as React.ComponentType<OptionProps<CountrySelectOption>>,
+													SingleValue: SingleValue as React.ComponentType<SingleValueProps<CountrySelectOption>>,
+												}}
 												placeholder={t`Search countries...`}
-												filterOption={(option: any, inputValue: string) => {
+												filterOption={(option: FilterOptionOption<CountrySelectOption>, inputValue: string) => {
 													const searchTerm = inputValue.toLowerCase();
 													const countryName = getCountryName(option.data.country.code, locale);
 													return (
@@ -416,12 +608,12 @@ const RequiredActionModal: React.FC<{mock?: boolean}> = observer(({mock = false}
 
 										<Input
 											{...phoneForm.register('phoneNumber')}
-											autoFocus={true}
 											autoComplete="tel"
+											autoFocus={true}
 											value={formattedPhone}
 											onChange={handlePhoneInput}
 											error={phoneForm.formState.errors.phoneNumber?.message}
-											label={t`Phone number`}
+											label={t`Phone Number`}
 											placeholder={selectedCountry.format || '##########'}
 											required={true}
 											footer={
@@ -441,10 +633,10 @@ const RequiredActionModal: React.FC<{mock?: boolean}> = observer(({mock = false}
 									<div className={styles.formContainer}>
 										<Input
 											{...codeForm.register('code')}
-											autoFocus={true}
 											autoComplete="one-time-code"
+											autoFocus={true}
 											error={codeForm.formState.errors.code?.message}
-											label={t`Verification code`}
+											label={t`Verification Code`}
 											required={true}
 											footer={
 												<p className={styles.footerText}>
@@ -469,13 +661,16 @@ const RequiredActionModal: React.FC<{mock?: boolean}> = observer(({mock = false}
 					</div>
 				</div>
 			</Modal.Content>
-			{mock && (
-				<Modal.Footer>
-					<Button variant="secondary" onClick={() => ModalActionCreators.pop()}>
+			<Modal.Footer>
+				{mock && (
+					<Button variant="secondary" onClick={() => ModalActionCreators.pop()} disabled={isLoggingOut}>
 						<Trans>Dismiss</Trans>
 					</Button>
-				</Modal.Footer>
-			)}
+				)}
+				<Button variant="danger-secondary" onClick={handleLogout} submitting={isLoggingOut}>
+					<Trans>Log Out</Trans>
+				</Button>
+			</Modal.Footer>
 		</Modal.Root>
 	);
 });

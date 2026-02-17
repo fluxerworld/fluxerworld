@@ -1,0 +1,151 @@
+name: release livekitctl
+
+on:
+  push:
+    tags:
+      - 'livekitctl-v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Version to release (e.g., 1.0.0)
+        required: true
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-livekitctl
+  cancel-in-progress: false
+
+env:
+  GO_VERSION: '1.24'
+
+jobs:
+  build:
+    name: Build ${{ matrix.goos }}/${{ matrix.goarch }}
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - goos: linux
+            goarch: amd64
+          - goos: linux
+            goarch: arm64
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache-dependency-path: fluxer_devops/livekitctl/go.sum
+
+      - name: Determine version
+        id: version
+        run: >-
+          python3 scripts/ci/workflows/release_livekitctl.py
+          --step determine_version
+          --event-name "${{ github.event_name }}"
+          --input-version "${{ inputs.version }}"
+          --ref-name "${{ github.ref_name }}"
+
+      - name: Build binary
+        env:
+          GOOS: ${{ matrix.goos }}
+          GOARCH: ${{ matrix.goarch }}
+          CGO_ENABLED: 0
+        run: >-
+          python3 ${{ github.workspace }}/scripts/ci/workflows/release_livekitctl.py
+          --step build_binary
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: livekitctl-${{ matrix.goos }}-${{ matrix.goarch }}
+          path: fluxer_devops/livekitctl/livekitctl-${{ matrix.goos }}-${{ matrix.goarch }}
+          retention-days: 1
+
+  release:
+    name: Create release
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
+    needs: build
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Determine version
+        id: version
+        run: >-
+          python3 scripts/ci/workflows/release_livekitctl.py
+          --step determine_version
+          --event-name "${{ github.event_name }}"
+          --input-version "${{ inputs.version }}"
+          --ref-name "${{ github.ref_name }}"
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: Prepare release assets
+        run: >-
+          python3 ${{ github.workspace }}/scripts/ci/workflows/release_livekitctl.py
+          --step prepare_release_assets
+
+      - name: Generate checksums
+        run: >-
+          python3 ${{ github.workspace }}/scripts/ci/workflows/release_livekitctl.py
+          --step generate_checksums
+          --release-dir release
+
+      - name: Create tag (workflow_dispatch only)
+        if: github.event_name == 'workflow_dispatch'
+        run: >-
+          python3 ${{ github.workspace }}/scripts/ci/workflows/release_livekitctl.py
+          --step create_tag
+          --tag "${{ steps.version.outputs.tag }}"
+          --version "${{ steps.version.outputs.version }}"
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.version.outputs.tag }}
+          name: livekitctl v${{ steps.version.outputs.version }}
+          body: |
+            ## livekitctl v${{ steps.version.outputs.version }}
+
+            Self-hosted LiveKit bootstrap and operations CLI.
+
+            ### Installation
+
+            ```bash
+            curl -fsSL https://fluxer.app/get/livekitctl | sudo bash
+            ```
+
+            ### Manual download
+
+            Download the appropriate binary for your system:
+            - `livekitctl-linux-amd64` - Linux x86_64
+            - `livekitctl-linux-arm64` - Linux ARM64
+
+            Then make it executable and move to your PATH:
+            ```bash
+            chmod +x livekitctl-linux-*
+            sudo mv livekitctl-linux-* /usr/local/bin/livekitctl
+            ```
+
+            ### Checksums
+
+            See `checksums.txt` for SHA256 checksums.
+          files: |
+            release/livekitctl-linux-amd64
+            release/livekitctl-linux-arm64
+            release/checksums.txt
+          draft: false
+          prerelease: false

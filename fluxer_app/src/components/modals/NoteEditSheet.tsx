@@ -17,15 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as UserNoteActionCreators from '@app/actions/UserNoteActionCreators';
+import styles from '@app/components/modals/NoteEditSheet.module.css';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import {TextareaAutosize} from '@app/lib/TextareaAutosize';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {ArrowLeftIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as UserNoteActionCreators from '~/actions/UserNoteActionCreators';
-import styles from '~/components/modals/NoteEditSheet.module.css';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import {TextareaAutosize} from '~/lib/TextareaAutosize';
+import type React from 'react';
+import {useId, useState} from 'react';
 
 interface NoteEditSheetProps {
 	isOpen: boolean;
@@ -36,28 +37,15 @@ interface NoteEditSheetProps {
 
 export const NoteEditSheet: React.FC<NoteEditSheetProps> = observer(({isOpen, onClose, userId, initialNote}) => {
 	const {t} = useLingui();
-	const userNoteId = React.useId();
-	const [note, setNote] = React.useState(initialNote || '');
-	const [hasChanges, setHasChanges] = React.useState(false);
-
-	React.useEffect(() => {
-		setHasChanges(note !== (initialNote || ''));
-	}, [note, initialNote]);
-
+	const userNoteId = useId();
+	const [note, setNote] = useState(initialNote || '');
 	const handleSave = () => {
-		if (hasChanges) {
-			UserNoteActionCreators.update(userId, note);
-			onClose();
-		}
+		UserNoteActionCreators.update(userId, note);
+		onClose();
 	};
 
 	const saveButton = (
-		<button
-			type="button"
-			onClick={handleSave}
-			disabled={!hasChanges}
-			className={clsx(styles.saveButton, hasChanges ? styles.saveButtonActive : styles.saveButtonDisabled)}
-		>
+		<button type="button" onClick={handleSave} className={clsx(styles.saveButton, styles.saveButtonActive)}>
 			<Trans>Save</Trans>
 		</button>
 	);

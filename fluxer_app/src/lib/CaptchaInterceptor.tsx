@@ -17,14 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {CaptchaModal, type CaptchaType} from '@app/components/modals/CaptchaModal';
+import HttpClient, {type HttpResponse} from '@app/lib/HttpClient';
+import {getResponseCode, getResponseMessage} from '@app/utils/ApiErrorUtils';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {action, makeObservable, observable} from 'mobx';
 import {observer} from 'mobx-react-lite';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {CaptchaModal, type CaptchaType} from '~/components/modals/CaptchaModal';
-import HttpClient, {type HttpResponse} from '~/lib/HttpClient';
 
 export interface CaptchaResult {
 	token: string;
@@ -74,12 +75,9 @@ class CaptchaInterceptorStore {
 		});
 	}
 
-	private isCaptchaError(body: unknown): boolean {
-		if (body && typeof body === 'object' && 'code' in body) {
-			const code = (body as {code?: string}).code;
-			return code === 'CAPTCHA_REQUIRED' || code === 'INVALID_CAPTCHA';
-		}
-		return false;
+	private isCaptchaError(response: HttpResponse): boolean {
+		const code = getResponseCode(response.body);
+		return code === 'CAPTCHA_REQUIRED' || code === 'INVALID_CAPTCHA';
 	}
 
 	private showCaptchaModal(): Promise<CaptchaResult> {
@@ -130,10 +128,10 @@ class CaptchaInterceptorStore {
 		retryWithHeaders: (headers: Record<string, string>) => Promise<HttpResponse>,
 		reject: (error: Error) => void,
 	): boolean | Promise<HttpResponse> | undefined {
-		if (response.status === 400 && this.isCaptchaError(response.body)) {
-			const errorBody = response.body as {message?: string};
+		if (response.status === 400 && this.isCaptchaError(response)) {
 			const i18n = this.i18n!;
-			const errorMessage = errorBody?.message || i18n._(msg`Captcha verification failed. Please try again.`);
+			const errorMessage =
+				getResponseMessage(response.body) || i18n._(msg`Captcha verification failed. Please try again.`);
 
 			this.state.setError(errorMessage);
 			this.state.setIsVerifying(false);

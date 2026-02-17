@@ -17,28 +17,35 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {SettingsSection} from '@app/components/modals/shared/SettingsSection';
+import {SettingsTabContainer, SettingsTabContent} from '@app/components/modals/shared/SettingsTabLayout';
+import {ActiveNowTabContent} from '@app/components/modals/tabs/appearance_tab/ActiveNowTab';
+import {ChannelListTabContent} from '@app/components/modals/tabs/appearance_tab/ChannelListTab';
+import {FavoritesTabContent} from '@app/components/modals/tabs/appearance_tab/FavoritesTab';
+import {HdrTabContent, shouldShowHdrSettings} from '@app/components/modals/tabs/appearance_tab/HdrTab';
+import {InterfaceTabContent} from '@app/components/modals/tabs/appearance_tab/InterfaceTab';
+import {AppearanceTabPreview, MessagesTabContent} from '@app/components/modals/tabs/appearance_tab/MessagesTab';
+import {
+	AppZoomLevelTabContent,
+	FontSizeTabContent,
+	useAppZoomLevelDescription,
+} from '@app/components/modals/tabs/appearance_tab/ScalingTab';
+import {ThemeTabContent} from '@app/components/modals/tabs/appearance_tab/ThemeTab';
+import {shouldShowAppZoomLevel} from '@app/components/modals/utils/AppZoomLevelUtils';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {SettingsSection} from '~/components/modals/shared/SettingsSection';
-import {SettingsTabContainer, SettingsTabContent} from '~/components/modals/shared/SettingsTabLayout';
-import {FavoritesTabContent} from './AppearanceTab/FavoritesTab';
-import {InterfaceTabContent} from './AppearanceTab/InterfaceTab';
-import {AppearanceTabPreview, MessagesTabContent} from './AppearanceTab/MessagesTab';
-import {
-	AppZoomLevelTabContent,
-	ChatFontScalingTabContent,
-	getAppZoomLevelDescription,
-	shouldShowAppZoomLevel,
-} from './AppearanceTab/ScalingTab';
-import {ThemeTabContent} from './AppearanceTab/ThemeTab';
 
-const AppearanceTab: React.FC = observer(() => {
+export const AppearanceTab: React.FC = observer(() => {
 	const {t} = useLingui();
 	const showZoomLevel = shouldShowAppZoomLevel();
+	const showHdrSettings = shouldShowHdrSettings();
+	const appZoomLevelDescription = useAppZoomLevelDescription();
 
 	return (
 		<SettingsTabContainer>
+			{!MobileLayoutStore.enabled && <AppearanceTabPreview />}
 			<SettingsTabContent>
 				<SettingsSection
 					id="theme"
@@ -48,16 +55,26 @@ const AppearanceTab: React.FC = observer(() => {
 					<ThemeTabContent />
 				</SettingsSection>
 
+				{showHdrSettings ? (
+					<SettingsSection
+						id="hdr"
+						title={t`High Dynamic Range`}
+						description={t`Control how HDR images are displayed on HDR-capable monitors.`}
+					>
+						<HdrTabContent />
+					</SettingsSection>
+				) : null}
+
 				<SettingsSection
 					id="chat-font-scaling"
-					title={t`Chat font scaling`}
+					title={t`Chat Font Scaling`}
 					description={t`Adjust the font size in the chat area.`}
 				>
-					<ChatFontScalingTabContent />
+					<FontSizeTabContent />
 				</SettingsSection>
 
 				{showZoomLevel ? (
-					<SettingsSection id="app-zoom-level" title={t`App zoom level`} description={getAppZoomLevelDescription(t)}>
+					<SettingsSection id="app-zoom-level" title={t`App Zoom Level`} description={appZoomLevelDescription}>
 						<AppZoomLevelTabContent />
 					</SettingsSection>
 				) : null}
@@ -79,11 +96,25 @@ const AppearanceTab: React.FC = observer(() => {
 				</SettingsSection>
 
 				<SettingsSection
+					id="channel-list"
+					title={t`Channel List`}
+					description={t`Control unread indicator behavior for muted channels in channel lists.`}
+				>
+					<ChannelListTabContent />
+				</SettingsSection>
+
+				<SettingsSection
+					id="active-now"
+					title={t`Active Now`}
+					description={t`Control how Active Now surfaces across the app.`}
+				>
+					<ActiveNowTabContent />
+				</SettingsSection>
+
+				<SettingsSection
 					id="favorites"
 					title={t`Favorites`}
 					description={t`Control the visibility of favorites throughout the app.`}
-					isAdvanced
-					defaultExpanded={false}
 				>
 					<FavoritesTabContent />
 				</SettingsSection>
@@ -91,6 +122,3 @@ const AppearanceTab: React.FC = observer(() => {
 		</SettingsTabContainer>
 	);
 });
-
-export {AppearanceTabPreview};
-export default AppearanceTab;

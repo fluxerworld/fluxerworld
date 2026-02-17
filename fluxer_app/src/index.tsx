@@ -17,70 +17,123 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import 'urlpattern-polyfill';
-import '~/styles/preflight.css';
-import '~/styles/generated/color-system.css';
-import '~/global.css';
-import '~/stores/SpellcheckStore';
-import '~/components/quick-switcher/QuickSwitcherModal';
+import {configure} from 'mobx';
 
+// TODO: Not sure why this is needed, but without it, we might get stuck in a loop of errors.
+configure({disableErrorBoundaries: true});
+
+import '@app/components/quick_switcher/QuickSwitcherModal';
+import '@app/global.css';
+import '@app/stores/SpellcheckStore';
+import '@app/styles/generated/color-system.css';
+import '@app/styles/preflight.css';
+import 'urlpattern-polyfill';
+import {App} from '@app/App';
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import {setupHttpClient} from '@app/bootstrap/SetupHttpClient';
+import Config from '@app/Config';
+import {BootstrapErrorScreen} from '@app/components/BootstrapErrorScreen';
+import {ErrorFallback} from '@app/components/ErrorFallback';
+import {NetworkErrorScreen} from '@app/components/NetworkErrorScreen';
+import {initI18n} from '@app/I18n';
+import CaptchaInterceptor from '@app/lib/CaptchaInterceptor';
+import {Logger} from '@app/lib/Logger';
+import {initializeEmojiParser} from '@app/lib/markdown/EmojiProviderSetup';
+import {registerServiceWorker} from '@app/service_worker/Register';
+import AccountManager from '@app/stores/AccountManager';
+import ChannelDisplayNameStore from '@app/stores/ChannelDisplayNameStore';
+import GeoIPStore from '@app/stores/GeoIPStore';
+import KeybindStore from '@app/stores/KeybindStore';
+import NewDeviceMonitoringStore from '@app/stores/NewDeviceMonitoringStore';
+import NotificationStore from '@app/stores/NotificationStore';
+import QuickSwitcherStore from '@app/stores/QuickSwitcherStore';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import MediaEngineFacade from '@app/stores/voice/MediaEngineFacade';
+import {preloadClientInfo} from '@app/utils/ClientInfoUtils';
+import {getElectronAPI} from '@app/utils/NativeUtils';
+import TtsUtils from '@app/utils/TtsUtils';
 import {i18n} from '@lingui/core';
 import {I18nProvider} from '@lingui/react';
+import type {Scope} from '@sentry/react';
 import * as Sentry from '@sentry/react';
 import ReactDOM from 'react-dom/client';
 
-import {App} from '~/App';
-import {setupHttpClient} from '~/bootstrap/setupHttpClient';
-import {BootstrapErrorScreen} from '~/components/BootstrapErrorScreen';
-import {ErrorFallback} from '~/components/ErrorFallback';
-import {NetworkErrorScreen} from '~/components/NetworkErrorScreen';
-import {initI18n} from '~/i18n';
-import CaptchaInterceptor from '~/lib/CaptchaInterceptor';
-import AccountManager from '~/stores/AccountManager';
-import ChannelDisplayNameStore from '~/stores/ChannelDisplayNameStore';
-import GeoIPStore from '~/stores/GeoIPStore';
-import KeybindStore from '~/stores/KeybindStore';
-import NewDeviceMonitoringStore from '~/stores/NewDeviceMonitoringStore';
-import NotificationStore from '~/stores/NotificationStore';
-import QuickSwitcherStore from '~/stores/QuickSwitcherStore';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import MediaEngineFacade from '~/stores/voice/MediaEngineFacade';
-import {registerServiceWorker} from '~/sw/register';
-import {preloadClientInfo} from '~/utils/ClientInfoUtils';
-import Config from './Config';
+interface SentryErrorBoundaryProps {
+	fallback?: React.ReactNode;
+	beforeCapture?: (scope: Scope, context: unknown) => void;
+	children?: React.ReactNode;
+}
+
+const SentryErrorBoundary = Sentry.ErrorBoundary as React.ComponentType<SentryErrorBoundaryProps>;
+
+const logger = new Logger('index');
 
 preloadClientInfo();
 
 const normalizePathSegment = (value: string): string => value.replace(/^\/+|\/+$/g, '');
 
-function buildRuntimeSentryDsn(): string | null {
-	if (typeof window === 'undefined') {
-		return null;
+async function resumePendingDesktopHandoffLogin(): Promise<void> {
+	const electronApi = getElectronAPI();
+	if (!electronApi || typeof electronApi.consumeDesktopHandoffCode !== 'function') {
+		return;
 	}
 
-	if (!Config.PUBLIC_SENTRY_PROJECT_ID || !Config.PUBLIC_SENTRY_PUBLIC_KEY) {
-		return null;
+	let handoffCode: string | null = null;
+	try {
+		handoffCode = await electronApi.consumeDesktopHandoffCode();
+	} catch (error) {
+		logger.warn('Failed to consume pending desktop handoff code:', error);
+		return;
 	}
 
-	const origin = window.location.origin;
-	if (!origin) {
-		return null;
+	if (!handoffCode) {
+		return;
 	}
 
-	const proxyPath = normalizePathSegment(Config.PUBLIC_SENTRY_PROXY_PATH ?? '/error-reporting-proxy');
-	const projectSegment = normalizePathSegment(Config.PUBLIC_SENTRY_PROJECT_ID);
-
-	const url = new URL(`/${proxyPath}/${projectSegment}`, origin);
-	url.username = Config.PUBLIC_SENTRY_PUBLIC_KEY;
-	return url.toString();
+	try {
+		const result = await AuthenticationActionCreators.pollDesktopHandoffStatus(handoffCode);
+		if (result.status === 'completed' && result.token && result.user_id) {
+			await AuthenticationActionCreators.completeLogin({token: result.token, userId: result.user_id});
+		} else {
+			logger.warn('Pending desktop handoff not completed:', {status: result.status});
+		}
+	} catch (error) {
+		logger.warn('Failed to resume pending desktop handoff login:', error);
+	}
 }
 
-const resolvedSentryDsn = Config.PUBLIC_SENTRY_DSN ?? buildRuntimeSentryDsn();
+function initSentry(): void {
+	const resolvedSentryDsn = buildRuntimeSentryDsn() || RuntimeConfigStore.sentryDsn;
+	const normalizedBuildSha =
+		Config.PUBLIC_BUILD_SHA && Config.PUBLIC_BUILD_SHA !== 'dev' ? Config.PUBLIC_BUILD_SHA : undefined;
+	const buildNumberString =
+		Config.PUBLIC_BUILD_NUMBER && Config.PUBLIC_BUILD_NUMBER > 0 ? String(Config.PUBLIC_BUILD_NUMBER) : undefined;
+	const buildTimestampString = Config.PUBLIC_BUILD_TIMESTAMP ? String(Config.PUBLIC_BUILD_TIMESTAMP) : undefined;
+	const releaseLabel = normalizedBuildSha ? `fluxer-app@${normalizedBuildSha}` : undefined;
 
-if (resolvedSentryDsn) {
+	if (!resolvedSentryDsn) {
+		return;
+	}
+
+	const buildContextEntries: Array<[string, string]> = [];
+	if (normalizedBuildSha) {
+		buildContextEntries.push(['sha', normalizedBuildSha]);
+	}
+	if (buildNumberString) {
+		buildContextEntries.push(['number', buildNumberString]);
+	}
+	if (buildTimestampString) {
+		buildContextEntries.push(['timestamp', buildTimestampString]);
+	}
+	if (Config.PUBLIC_RELEASE_CHANNEL) {
+		buildContextEntries.push(['channel', Config.PUBLIC_RELEASE_CHANNEL]);
+	}
+
 	Sentry.init({
 		dsn: resolvedSentryDsn,
-		environment: Config.PUBLIC_PROJECT_ENV,
+		environment: Config.PUBLIC_RELEASE_CHANNEL,
+		release: releaseLabel,
+		dist: buildNumberString,
 		sendDefaultPii: true,
 		beforeSend(event, hint) {
 			const error = hint.originalException;
@@ -91,7 +144,45 @@ if (resolvedSentryDsn) {
 			}
 			return event;
 		},
+		initialScope: (scope: Scope) => {
+			if (Config.PUBLIC_RELEASE_CHANNEL) {
+				scope.setTag('release_channel', Config.PUBLIC_RELEASE_CHANNEL);
+			}
+			if (normalizedBuildSha) {
+				scope.setTag('build_sha', normalizedBuildSha);
+			}
+			if (buildNumberString) {
+				scope.setTag('build_number', buildNumberString);
+			}
+			if (buildTimestampString) {
+				scope.setTag('build_timestamp', buildTimestampString);
+			}
+
+			if (buildContextEntries.length > 0) {
+				scope.setContext('build', Object.fromEntries(buildContextEntries));
+			}
+
+			return scope;
+		},
 	});
+}
+
+function buildRuntimeSentryDsn(): string | null {
+	if (!RuntimeConfigStore.sentryProjectId || !RuntimeConfigStore.sentryPublicKey) {
+		return null;
+	}
+
+	const origin = window.location.origin;
+	if (!origin) {
+		return null;
+	}
+
+	const proxyPath = normalizePathSegment(RuntimeConfigStore.sentryProxyPath ?? '/error-reporting-proxy');
+	const projectSegment = normalizePathSegment(RuntimeConfigStore.sentryProjectId);
+
+	const url = new URL(`/${proxyPath}/${projectSegment}`, origin);
+	url.username = RuntimeConfigStore.sentryPublicKey;
+	return url.toString();
 }
 
 async function bootstrap(): Promise<void> {
@@ -104,11 +195,14 @@ async function bootstrap(): Promise<void> {
 	NotificationStore.setI18n(i18n);
 	MediaEngineFacade.setI18n(i18n);
 	CaptchaInterceptor.setI18n(i18n);
+	TtsUtils.setI18n(i18n);
+	TtsUtils.init();
 
 	try {
-		await Promise.all([RuntimeConfigStore.waitForInit(), GeoIPStore.fetchGeoData()]);
+		await RuntimeConfigStore.waitForInit();
+		initSentry();
 	} catch (error) {
-		console.error('Failed to initialize runtime config or fetch GeoIP data:', error);
+		logger.error('Failed to initialize runtime config:', error);
 		const root = ReactDOM.createRoot(document.getElementById('root')!);
 		root.render(
 			<I18nProvider i18n={i18n}>
@@ -118,27 +212,41 @@ async function bootstrap(): Promise<void> {
 		return;
 	}
 
+	if (!RuntimeConfigStore.isSelfHosted()) {
+		try {
+			await GeoIPStore.fetchGeoData();
+		} catch (error) {
+			logger.warn('Failed to fetch GeoIP data (continuing anyway):', error);
+		}
+	}
+
 	await AccountManager.bootstrap();
 
 	setupHttpClient();
+	initializeEmojiParser();
+
+	await resumePendingDesktopHandoffLogin();
 
 	const root = ReactDOM.createRoot(document.getElementById('root')!);
 	root.render(
-		<Sentry.ErrorBoundary
+		<SentryErrorBoundary
 			fallback={
 				<I18nProvider i18n={i18n}>
 					<ErrorFallback />
 				</I18nProvider>
 			}
+			beforeCapture={(scope: Scope, _context: unknown) => {
+				scope.setTag('sentry', 'true');
+			}}
 		>
 			<App />
-		</Sentry.ErrorBoundary>,
+		</SentryErrorBoundary>,
 	);
 	registerServiceWorker();
 }
 
 bootstrap().catch(async (error) => {
-	console.error('Failed to bootstrap app:', error);
+	logger.error('Failed to bootstrap app:', error);
 
 	try {
 		await initI18n();
@@ -149,7 +257,7 @@ bootstrap().catch(async (error) => {
 			</I18nProvider>,
 		);
 	} catch (renderError) {
-		console.error('Failed to render error screen:', renderError);
+		logger.error('Failed to render error screen:', renderError);
 		document.body.style.margin = '0';
 		document.body.style.minHeight = '100vh';
 		document.body.innerHTML = `

@@ -24,6 +24,10 @@
     channel_has_capacity/3
 ]).
 
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+-endif.
+
 -type user_id() :: integer().
 -type session_id() :: binary().
 -type session_pid() :: pid().
@@ -103,3 +107,56 @@ channel_has_capacity(ChannelId, UserLimit, VoiceStates) ->
 -spec ensure_binary(binary() | integer()) -> binary().
 ensure_binary(Value) when is_binary(Value) -> Value;
 ensure_binary(Value) when is_integer(Value) -> integer_to_binary(Value).
+
+-ifdef(TEST).
+
+find_session_by_user_id_test() ->
+    Pid = self(),
+    Ref = make_ref(),
+    Sessions = #{
+        <<"session1">> => {100, Pid, Ref},
+        <<"session2">> => {200, Pid, make_ref()}
+    },
+    ?assertMatch({ok, <<"session1">>, _, _}, find_session_by_user_id(100, Sessions)),
+    ?assertEqual(not_found, find_session_by_user_id(999, Sessions)).
+
+disconnect_user_not_found_test() ->
+    VoiceStates = #{},
+    Sessions = #{},
+    CleanupFun = fun(_, _) -> ok end,
+    ?assertMatch({not_found, _, _}, disconnect_user(100, VoiceStates, Sessions, CleanupFun)).
+
+disconnect_user_if_in_channel_mismatch_test() ->
+    VoiceStates = #{100 => #{<<"channel_id">> => <<"999">>}},
+    Sessions = #{},
+    CleanupFun = fun(_, _) -> ok end,
+    Result = disconnect_user_if_in_channel(100, 123, VoiceStates, Sessions, CleanupFun),
+    ?assertMatch({channel_mismatch, _, _}, Result).
+
+disconnect_user_if_in_channel_not_found_test() ->
+    VoiceStates = #{},
+    Sessions = #{},
+    CleanupFun = fun(_, _) -> ok end,
+    Result = disconnect_user_if_in_channel(100, 123, VoiceStates, Sessions, CleanupFun),
+    ?assertMatch({not_found, _, _}, Result).
+
+channel_has_capacity_unlimited_test() ->
+    VoiceStates = #{
+        1 => #{<<"channel_id">> => <<"100">>},
+        2 => #{<<"channel_id">> => <<"100">>}
+    },
+    ?assert(channel_has_capacity(100, 0, VoiceStates)).
+
+channel_has_capacity_limited_test() ->
+    VoiceStates = #{
+        1 => #{<<"channel_id">> => <<"100">>},
+        2 => #{<<"channel_id">> => <<"100">>}
+    },
+    ?assertNot(channel_has_capacity(100, 2, VoiceStates)),
+    ?assert(channel_has_capacity(100, 3, VoiceStates)).
+
+ensure_binary_test() ->
+    ?assertEqual(<<"123">>, ensure_binary(123)),
+    ?assertEqual(<<"abc">>, ensure_binary(<<"abc">>)).
+
+-endif.

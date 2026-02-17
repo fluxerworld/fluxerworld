@@ -17,18 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as UserActionCreators from '@app/actions/UserActionCreators';
+import {SettingsSection} from '@app/components/modals/shared/SettingsSection';
+import {SettingsTabContainer, SettingsTabContent} from '@app/components/modals/shared/SettingsTabLayout';
+import {AccountTabContent} from '@app/components/modals/tabs/account_security_tab/AccountTab';
+import {DangerZoneTabContent} from '@app/components/modals/tabs/account_security_tab/DangerZoneTab';
+import {SecurityTabContent} from '@app/components/modals/tabs/account_security_tab/SecurityTab';
+import {Logger} from '@app/lib/Logger';
+import UserStore from '@app/stores/UserStore';
+import {PublicUserFlags, UserAuthenticatorTypes} from '@fluxer/constants/src/UserConstants';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useCallback, useEffect, useState} from 'react';
-import * as UserActionCreators from '~/actions/UserActionCreators';
-import {UserAuthenticatorTypes, UserFlags} from '~/Constants';
-import {SettingsSection} from '~/components/modals/shared/SettingsSection';
-import {SettingsTabContainer, SettingsTabContent} from '~/components/modals/shared/SettingsTabLayout';
-import UserStore from '~/stores/UserStore';
-import {AccountTabContent} from './AccountSecurityTab/AccountTab';
-import {DangerZoneTabContent} from './AccountSecurityTab/DangerZoneTab';
-import {SecurityTabContent} from './AccountSecurityTab/SecurityTab';
+
+const logger = new Logger('AccountSecurityTab');
 
 const AccountSecurityTab: React.FC = observer(() => {
 	const {t} = useLingui();
@@ -45,7 +48,7 @@ const AccountSecurityTab: React.FC = observer(() => {
 			const credentials = await UserActionCreators.listWebAuthnCredentials();
 			setPasskeys(credentials);
 		} catch (error) {
-			console.error('Failed to load passkeys', error);
+			logger.error('Failed to load passkeys', error);
 		} finally {
 			setLoadingPasskeys(false);
 		}
@@ -60,9 +63,9 @@ const AccountSecurityTab: React.FC = observer(() => {
 	const hasSmsMfa = user.authenticatorTypes?.includes(UserAuthenticatorTypes.SMS) ?? false;
 	const hasTotpMfa = user.authenticatorTypes?.includes(UserAuthenticatorTypes.TOTP) ?? false;
 	const isSmsMfaDisabledForUser =
-		(user.flags & UserFlags.STAFF) !== 0 ||
-		(user.flags & UserFlags.CTP_MEMBER) !== 0 ||
-		(user.flags & UserFlags.PARTNER) !== 0;
+		(user.flags & PublicUserFlags.STAFF) !== 0 ||
+		(user.flags & PublicUserFlags.CTP_MEMBER) !== 0 ||
+		(user.flags & PublicUserFlags.PARTNER) !== 0;
 
 	const isClaimed = user.isClaimed();
 

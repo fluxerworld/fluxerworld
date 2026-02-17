@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ExpressionPickerPopout} from '@app/components/popouts/ExpressionPickerPopout';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {ExpressionPickerPopout} from '~/components/popouts/ExpressionPickerPopout';
-import type {Emoji} from '~/stores/EmojiStore';
+import {useCallback} from 'react';
 
 export const EmojiPickerPopout = observer(
 	({
@@ -29,11 +29,11 @@ export const EmojiPickerPopout = observer(
 		onClose,
 	}: {
 		channelId: string | null;
-		handleSelect: (emoji: Emoji, shiftKey?: boolean) => void;
+		handleSelect: (emoji: FlatEmoji, shiftKey?: boolean) => void;
 		onClose?: () => void;
 	}) => {
-		const handleEmojiSelect = React.useCallback(
-			(emoji: Emoji, shiftKey?: boolean) => {
+		const handleEmojiSelect = useCallback(
+			(emoji: FlatEmoji, shiftKey?: boolean) => {
 				handleSelect(emoji, shiftKey);
 				if (!shiftKey && onClose) {
 					onClose();

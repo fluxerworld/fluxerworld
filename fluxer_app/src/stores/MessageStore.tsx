@@ -17,32 +17,32 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import type {JumpOptions} from '@app/lib/ChannelMessages';
+import {ChannelMessages} from '@app/lib/ChannelMessages';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import DimensionStore from '@app/stores/DimensionStore';
+import GuildStore from '@app/stores/GuildStore';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
+import SelectedGuildStore from '@app/stores/SelectedGuildStore';
+import UserStore from '@app/stores/UserStore';
+import type {Presence} from '@app/types/gateway/GatewayPresenceTypes';
+import type {ReactionEmoji} from '@app/utils/ReactionUtils';
+import {FAVORITES_GUILD_ID, ME} from '@fluxer/constants/src/AppConstants';
+import {MessageStates} from '@fluxer/constants/src/ChannelConstants';
+import {MAX_MESSAGES_PER_CHANNEL} from '@fluxer/constants/src/LimitConstants';
+import type {ChannelId} from '@fluxer/schema/src/branded/WireIds';
+import type {GuildMemberData} from '@fluxer/schema/src/domains/guild/GuildMemberSchemas';
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {action, makeAutoObservable, reaction} from 'mobx';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import {FAVORITES_GUILD_ID, MAX_MESSAGES_PER_CHANNEL, ME, MessageStates} from '~/Constants';
-import type {JumpOptions} from '~/lib/ChannelMessages';
-import {ChannelMessages} from '~/lib/ChannelMessages';
-import type {GuildMember} from '~/records/GuildMemberRecord';
-import type {Message, MessageRecord} from '~/records/MessageRecord';
-import type {Presence} from '~/stores/PresenceStore';
-import type {ReactionEmoji} from '~/utils/ReactionUtils';
-import ChannelStore from './ChannelStore';
-import ConnectionStore from './ConnectionStore';
-import DimensionStore from './DimensionStore';
-import GuildStore from './GuildStore';
-import RelationshipStore from './RelationshipStore';
-import SelectedChannelStore from './SelectedChannelStore';
-import SelectedGuildStore from './SelectedGuildStore';
-import UserStore from './UserStore';
-
-type ChannelId = string;
-type MessageId = string;
-type GuildId = string;
 
 interface GuildMemberUpdateAction {
 	type: 'GUILD_MEMBER_UPDATE';
 	guildId: string;
-	member: GuildMember;
+	member: GuildMemberData;
 }
 
 interface PresenceUpdateAction {
@@ -51,8 +51,8 @@ interface PresenceUpdateAction {
 }
 
 interface PendingMessageJump {
-	channelId: ChannelId;
-	messageId: MessageId;
+	channelId: string;
+	messageId: string;
 }
 
 class MessageStore {
@@ -73,31 +73,30 @@ class MessageStore {
 		this.updateCounter += 1;
 	}
 
-	getMessages(channelId: ChannelId): ChannelMessages {
+	getMessages(channelId: string): ChannelMessages {
 		return ChannelMessages.getOrCreate(channelId);
 	}
 
-	getMessage(channelId: ChannelId, messageId: MessageId): MessageRecord | undefined {
+	getCachedMessages(channelId: string): ChannelMessages | undefined {
+		return ChannelMessages.get(channelId);
+	}
+
+	getMessage(channelId: string, messageId: string): MessageRecord | undefined {
 		return ChannelMessages.getOrCreate(channelId).get(messageId);
 	}
 
-	getLastEditableMessage(channelId: ChannelId): MessageRecord | undefined {
-		const messages = this.getMessages(channelId).toArray();
-		for (let i = messages.length - 1; i >= 0; i--) {
-			const message = messages[i];
-			if (message.isCurrentUserAuthor() && message.state === MessageStates.SENT && message.isUserMessage()) {
-				return message;
-			}
-		}
-		return;
+	getLastEditableMessage(channelId: string): MessageRecord | undefined {
+		return this.getMessages(channelId).findNewest((message) => {
+			return message.isCurrentUserAuthor() && message.state === MessageStates.SENT && message.isUserMessage();
+		});
 	}
 
-	jumpedMessageId(channelId: ChannelId): MessageId | null | undefined {
+	jumpedMessageId(channelId: string): string | null | undefined {
 		const channel = ChannelMessages.get(channelId);
 		return channel?.jumpTargetId;
 	}
 
-	hasPresent(channelId: ChannelId): boolean {
+	hasPresent(channelId: string): boolean {
 		const channel = ChannelMessages.get(channelId);
 		return channel?.hasPresent() ?? false;
 	}
@@ -182,7 +181,7 @@ class MessageStore {
 		return didHydrateSelectedChannel;
 	}
 
-	private startChannelHydration(channelId: ChannelId, options: {forceScrollToBottom?: boolean} = {}): void {
+	private startChannelHydration(channelId: string, options: {forceScrollToBottom?: boolean} = {}): void {
 		if (!ChannelStore.getChannel(channelId)) return;
 
 		const {forceScrollToBottom = false} = options;
@@ -198,7 +197,7 @@ class MessageStore {
 	}
 
 	@action
-	handleChannelSelect(action: {guildId?: GuildId; channelId?: ChannelId | null; messageId?: MessageId}): boolean {
+	handleChannelSelect(action: {guildId?: string; channelId?: string | null; messageId?: string}): boolean {
 		const channelId = action.channelId ?? action.guildId;
 		if (channelId == null || channelId === ME) {
 			return false;
@@ -213,17 +212,17 @@ class MessageStore {
 			this.notifyChange();
 		}
 
-		if (action.messageId && !ConnectionStore.isConnected) {
+		if (action.messageId && !GatewayConnectionStore.isConnected) {
 			this.pendingMessageJump = {channelId, messageId: action.messageId};
 			return true;
 		}
 
-		if (ConnectionStore.isConnected && action.messageId) {
+		if (GatewayConnectionStore.isConnected && action.messageId) {
 			MessageActionCreators.jumpToMessage(channelId, action.messageId, true);
 			return false;
 		}
 
-		if (!ConnectionStore.isConnected || messages.loadingMore || messages.ready) {
+		if (!GatewayConnectionStore.isConnected || messages.loadingMore || messages.ready) {
 			if (messages.ready && DimensionStore.isAtBottom(channelId)) {
 				ChannelMessages.commit(messages.truncateTop(MAX_MESSAGES_PER_CHANNEL));
 				this.notifyChange();
@@ -255,7 +254,7 @@ class MessageStore {
 	}
 
 	@action
-	handleGuildUnavailable(guildId: GuildId, unavailable: boolean): boolean {
+	handleGuildUnavailable(guildId: string, unavailable: boolean): boolean {
 		if (!unavailable) {
 			return false;
 		}
@@ -289,7 +288,7 @@ class MessageStore {
 	}
 
 	@action
-	handleGuildCreate(action: {guild: {id: GuildId}}): boolean {
+	handleGuildCreate(action: {guild: {id: string}}): boolean {
 		if (SelectedGuildStore.selectedGuildId !== action.guild.id) {
 			return false;
 		}
@@ -318,7 +317,7 @@ class MessageStore {
 	}
 
 	@action
-	handleLoadMessages(action: {channelId: ChannelId; jump?: JumpOptions}): boolean {
+	handleLoadMessages(action: {channelId: string; jump?: JumpOptions}): boolean {
 		const messages = ChannelMessages.getOrCreate(action.channelId);
 		ChannelMessages.commit(messages.loadStart(action.jump));
 		this.notifyChange();
@@ -326,7 +325,7 @@ class MessageStore {
 	}
 
 	@action
-	handleTruncateMessages(action: {channelId: ChannelId; truncateBottom?: boolean; truncateTop?: boolean}): boolean {
+	handleTruncateMessages(action: {channelId: string; truncateBottom?: boolean; truncateTop?: boolean}): boolean {
 		const messages = ChannelMessages.getOrCreate(action.channelId).truncate(
 			action.truncateBottom ?? false,
 			action.truncateTop ?? false,
@@ -338,7 +337,7 @@ class MessageStore {
 
 	@action
 	handleLoadMessagesSuccessCached(action: {
-		channelId: ChannelId;
+		channelId: string;
 		jump?: JumpOptions;
 		before?: string;
 		after?: string;
@@ -367,7 +366,7 @@ class MessageStore {
 
 	@action
 	handleLoadMessagesSuccess(action: {
-		channelId: ChannelId;
+		channelId: string;
 		isBefore?: boolean;
 		isAfter?: boolean;
 		jump?: JumpOptions;
@@ -391,7 +390,7 @@ class MessageStore {
 	}
 
 	@action
-	handleLoadMessagesFailure(action: {channelId: ChannelId}): boolean {
+	handleLoadMessagesFailure(action: {channelId: string}): boolean {
 		const messages = ChannelMessages.getOrCreate(action.channelId);
 		ChannelMessages.commit(messages.mutate({loadingMore: false, error: true}));
 		this.notifyChange();
@@ -399,7 +398,18 @@ class MessageStore {
 	}
 
 	@action
-	handleIncomingMessage(action: {channelId: ChannelId; message: Message}): boolean {
+	handleLoadMessagesBlocked(action: {channelId: string}): boolean {
+		const messages = ChannelMessages.getOrCreate(action.channelId);
+		if (!messages.loadingMore && !messages.error) {
+			return false;
+		}
+		ChannelMessages.commit(messages.mutate({loadingMore: false, error: false}));
+		this.notifyChange();
+		return true;
+	}
+
+	@action
+	handleIncomingMessage(action: {channelId: string; message: Message}): boolean {
 		ChannelStore.handleMessageCreate({message: action.message});
 
 		const existing = ChannelMessages.get(action.channelId);
@@ -414,7 +424,7 @@ class MessageStore {
 	}
 
 	@action
-	handleSendFailed(action: {channelId: ChannelId; nonce: string}): boolean {
+	handleSendFailed(action: {channelId: string; nonce: string}): boolean {
 		const existing = ChannelMessages.get(action.channelId);
 		if (!existing || !existing.has(action.nonce)) return false;
 
@@ -425,7 +435,18 @@ class MessageStore {
 	}
 
 	@action
-	handleMessageDelete(action: {id: MessageId; channelId: ChannelId}): boolean {
+	handleSendRetry(action: {channelId: string; messageId: string}): boolean {
+		const existing = ChannelMessages.get(action.channelId);
+		if (!existing || !existing.has(action.messageId)) return false;
+
+		const updated = existing.update(action.messageId, (message) => message.withUpdates({state: MessageStates.SENDING}));
+		ChannelMessages.commit(updated);
+		this.notifyChange();
+		return true;
+	}
+
+	@action
+	handleMessageDelete(action: {id: string; channelId: string}): boolean {
 		const existing = ChannelMessages.get(action.channelId);
 		if (!existing || !existing.has(action.id)) {
 			return false;
@@ -446,7 +467,7 @@ class MessageStore {
 	}
 
 	@action
-	handleMessageDeleteBulk(action: {ids: Array<MessageId>; channelId: ChannelId}): boolean {
+	handleMessageDeleteBulk(action: {ids: Array<string>; channelId: string}): boolean {
 		const existing = ChannelMessages.get(action.channelId);
 		if (!existing) return false;
 
@@ -607,7 +628,7 @@ class MessageStore {
 	}
 
 	@action
-	handleMessageReveal(action: {channelId: ChannelId; messageId: MessageId | null}): boolean {
+	handleMessageReveal(action: {channelId: string; messageId: string | null}): boolean {
 		const messages = ChannelMessages.getOrCreate(action.channelId);
 		ChannelMessages.commit(messages.mutate({revealedMessageId: action.messageId}));
 		this.notifyChange();
@@ -615,7 +636,7 @@ class MessageStore {
 	}
 
 	@action
-	handleClearJumpTarget(action: {channelId: ChannelId}): boolean {
+	handleClearJumpTarget(action: {channelId: string}): boolean {
 		const messages = ChannelMessages.get(action.channelId);
 		if (messages?.jumpTargetId != null) {
 			ChannelMessages.commit(messages.mutate({jumpTargetId: null, jumped: false}));
@@ -628,8 +649,8 @@ class MessageStore {
 	@action
 	handleReaction(action: {
 		type: 'MESSAGE_REACTION_ADD' | 'MESSAGE_REACTION_REMOVE';
-		channelId: ChannelId;
-		messageId: MessageId;
+		channelId: string;
+		messageId: string;
 		userId: string;
 		emoji: ReactionEmoji;
 		optimistic?: boolean;
@@ -654,11 +675,22 @@ class MessageStore {
 	}
 
 	@action
-	handleRemoveAllReactions(action: {channelId: ChannelId; messageId: MessageId}): boolean {
+	handleRemoveAllReactions(action: {channelId: string; messageId: string}): boolean {
 		const existing = ChannelMessages.get(action.channelId);
 		if (!existing) return false;
 
 		const updated = existing.update(action.messageId, (message) => message.withUpdates({reactions: []}));
+		ChannelMessages.commit(updated);
+		this.notifyChange();
+		return true;
+	}
+
+	@action
+	handleRemoveReactionEmoji(action: {channelId: string; messageId: string; emoji: ReactionEmoji}): boolean {
+		const existing = ChannelMessages.get(action.channelId);
+		if (!existing) return false;
+
+		const updated = existing.update(action.messageId, (message) => message.withoutReactionEmoji(action.emoji));
 		ChannelMessages.commit(updated);
 		this.notifyChange();
 		return true;
@@ -689,8 +721,8 @@ class MessageStore {
 
 	@action
 	handleOptimisticEdit(action: {
-		channelId: ChannelId;
-		messageId: MessageId;
+		channelId: string;
+		messageId: string;
 		content: string;
 	}): {originalContent: string; originalEditedTimestamp: string | null} | null {
 		const {channelId, messageId, content} = action;
@@ -720,8 +752,8 @@ class MessageStore {
 
 	@action
 	handleEditRollback(action: {
-		channelId: ChannelId;
-		messageId: MessageId;
+		channelId: string;
+		messageId: string;
 		originalContent: string;
 		originalEditedTimestamp: string | null;
 	}): void {

@@ -17,80 +17,32 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {GuildSplashCardAlignmentValue} from '~/Constants';
+import {GuildRoleRecord} from '@app/records/GuildRoleRecord';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import type {GuildReadyData} from '@app/types/gateway/GatewayGuildTypes';
+import {LARGE_GUILD_THRESHOLD} from '@fluxer/constants/src/GatewayConstants';
+import type {GuildSplashCardAlignmentValue} from '@fluxer/constants/src/GuildConstants';
+import {GuildFeatures, GuildSplashCardAlignment} from '@fluxer/constants/src/GuildConstants';
 import {
-	GuildFeatures,
-	GuildSplashCardAlignment,
-	LARGE_GUILD_THRESHOLD,
 	MAX_GUILD_EMOJIS_ANIMATED,
 	MAX_GUILD_EMOJIS_ANIMATED_MORE_EMOJI,
 	MAX_GUILD_EMOJIS_STATIC,
 	MAX_GUILD_EMOJIS_STATIC_MORE_EMOJI,
 	MAX_GUILD_STICKERS,
 	MAX_GUILD_STICKERS_MORE_STICKERS,
-	MessageNotifications,
-} from '~/Constants';
-import type {Channel} from '~/records/ChannelRecord';
-import type {GuildEmoji} from '~/records/GuildEmojiRecord';
-import type {GuildMember} from '~/records/GuildMemberRecord';
-import type {GuildRole} from '~/records/GuildRoleRecord';
-import {GuildRoleRecord} from '~/records/GuildRoleRecord';
-import type {GuildSticker} from '~/records/GuildStickerRecord';
-import type {Presence} from '~/stores/PresenceStore';
-import type {VoiceState} from '~/stores/voice/MediaEngineFacade';
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
+} from '@fluxer/constants/src/LimitConstants';
+import {MessageNotifications} from '@fluxer/constants/src/NotificationConstants';
+import type {Guild} from '@fluxer/schema/src/domains/guild/GuildResponseSchemas';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
 
-export type Guild = Readonly<{
-	id: string;
-	name: string;
-	icon: string | null;
-	banner?: string | null;
-	banner_width?: number | null;
-	banner_height?: number | null;
-	splash?: string | null;
-	splash_width?: number | null;
-	splash_height?: number | null;
-	splash_card_alignment?: GuildSplashCardAlignmentValue;
-	embed_splash?: string | null;
-	embed_splash_width?: number | null;
-	embed_splash_height?: number | null;
-	vanity_url_code: string | null;
-	owner_id: string;
-	system_channel_id: string | null;
-	system_channel_flags?: number;
-	rules_channel_id?: string | null;
-	afk_channel_id?: string | null;
-	afk_timeout?: number;
-	features: ReadonlyArray<string>;
-	verification_level?: number;
-	mfa_level?: number;
-	nsfw_level?: number;
-	explicit_content_filter?: number;
-	default_message_notifications?: number;
-	disabled_operations?: number;
-	joined_at?: string;
-	unavailable?: boolean;
-	member_count?: number;
-}>;
-
-export type GuildReadyData = Readonly<{
-	id: string;
-	properties: Omit<Guild, 'roles'>;
-	channels: ReadonlyArray<Channel>;
-	emojis: ReadonlyArray<GuildEmoji>;
-	stickers?: ReadonlyArray<GuildSticker>;
-	members: ReadonlyArray<GuildMember>;
-	member_count: number;
-	presences?: ReadonlyArray<Presence>;
-	voice_states?: ReadonlyArray<VoiceState>;
-	roles: ReadonlyArray<GuildRole>;
-	joined_at: string;
-	unavailable?: boolean;
-}>;
+interface GuildRecordOptions {
+	instanceId?: string;
+}
 
 type GuildInput = Guild | GuildRecord;
 
 export class GuildRecord {
+	readonly instanceId: string;
 	readonly id: string;
 	readonly name: string;
 	readonly icon: string | null;
@@ -121,9 +73,12 @@ export class GuildRecord {
 	private readonly _disabledOperations: number;
 	readonly joinedAt: string | null;
 	readonly unavailable: boolean;
+	readonly messageHistoryCutoff: string | null;
 	readonly memberCount: number;
 
-	constructor(guild: GuildInput) {
+	constructor(guild: GuildInput, options?: GuildRecordOptions) {
+		this.instanceId =
+			options?.instanceId ?? (guild instanceof GuildRecord ? guild.instanceId : RuntimeConfigStore.localInstanceDomain);
 		this.id = guild.id;
 		this.name = guild.name;
 		this.icon = guild.icon;
@@ -153,6 +108,7 @@ export class GuildRecord {
 		this.defaultMessageNotifications = this.normalizeDefaultMessageNotifications(guild);
 		this._disabledOperations = this.normalizeDisabledOperations(guild);
 		this.joinedAt = this.normalizeJoinedAt(guild);
+		this.messageHistoryCutoff = this.normalizeMessageHistoryCutoff(guild);
 		this.unavailable = guild.unavailable ?? false;
 		this.memberCount = this.normalizeMemberCount(guild);
 	}
@@ -274,6 +230,10 @@ export class GuildRecord {
 		return this.normalizeField(guild, 'joined_at', 'joinedAt');
 	}
 
+	private normalizeMessageHistoryCutoff(guild: GuildInput): string | null {
+		return this.normalizeField(guild, 'message_history_cutoff', 'messageHistoryCutoff');
+	}
+
 	private normalizeMemberCount(guild: GuildInput): number {
 		if (this.isGuildInput(guild)) {
 			const value = (guild as Guild).member_count;
@@ -290,7 +250,7 @@ export class GuildRecord {
 		return this._disabledOperations;
 	}
 
-	static fromGuildReadyData(guildData: GuildReadyData): GuildRecord {
+	static fromGuildReadyData(guildData: GuildReadyData, instanceId?: string): GuildRecord {
 		const roles = Object.freeze(
 			guildData.roles.reduce<Record<string, GuildRoleRecord>>(
 				(acc, role) => ({
@@ -302,12 +262,15 @@ export class GuildRecord {
 			),
 		);
 
-		return new GuildRecord({
-			...guildData.properties,
-			roles,
-			joined_at: guildData.joined_at,
-			unavailable: guildData.unavailable,
-		});
+		return new GuildRecord(
+			{
+				...guildData.properties,
+				roles,
+				joined_at: guildData.joined_at,
+				unavailable: guildData.unavailable,
+			},
+			{instanceId},
+		);
 	}
 
 	toJSON(): Guild & {
@@ -341,6 +304,7 @@ export class GuildRecord {
 			explicit_content_filter: this.explicitContentFilter,
 			default_message_notifications: this.defaultMessageNotifications,
 			disabled_operations: this._disabledOperations,
+			message_history_cutoff: this.messageHistoryCutoff,
 			joined_at: this.joinedAt ?? undefined,
 			unavailable: this.unavailable,
 			member_count: this.memberCount,
@@ -349,44 +313,54 @@ export class GuildRecord {
 	}
 
 	withUpdates(guild: Partial<Guild>): GuildRecord {
-		return new GuildRecord({
-			...this,
-			name: guild.name ?? this.name,
-			icon: guild.icon ?? this.icon,
-			banner: guild.banner ?? this.banner,
-			bannerWidth: guild.banner_width ?? this.bannerWidth,
-			bannerHeight: guild.banner_height ?? this.bannerHeight,
-			splash: guild.splash ?? this.splash,
-			splashWidth: guild.splash_width ?? this.splashWidth,
-			splashHeight: guild.splash_height ?? this.splashHeight,
-			splashCardAlignment: guild.splash_card_alignment ?? this.splashCardAlignment,
-			embedSplash: guild.embed_splash ?? this.embedSplash,
-			embedSplashWidth: guild.embed_splash_width ?? this.embedSplashWidth,
-			embedSplashHeight: guild.embed_splash_height ?? this.embedSplashHeight,
-			features: guild.features ? new Set(guild.features) : this.features,
-			vanityURLCode: guild.vanity_url_code ?? this.vanityURLCode,
-			ownerId: guild.owner_id ?? this.ownerId,
-			systemChannelId: guild.system_channel_id ?? this.systemChannelId,
-			systemChannelFlags: guild.system_channel_flags ?? this.systemChannelFlags,
-			rulesChannelId: guild.rules_channel_id ?? this.rulesChannelId,
-			afkChannelId: guild.afk_channel_id ?? this.afkChannelId,
-			afkTimeout: guild.afk_timeout ?? this.afkTimeout,
-			verificationLevel: guild.verification_level ?? this.verificationLevel,
-			mfaLevel: guild.mfa_level ?? this.mfaLevel,
-			nsfwLevel: guild.nsfw_level ?? this.nsfwLevel,
-			explicitContentFilter: guild.explicit_content_filter ?? this.explicitContentFilter,
-			defaultMessageNotifications: guild.default_message_notifications ?? this.defaultMessageNotifications,
-			disabledOperations: guild.disabled_operations ?? this.disabledOperations,
-			unavailable: guild.unavailable ?? this.unavailable,
-			memberCount: guild.member_count ?? this.memberCount,
-		});
+		return new GuildRecord(
+			{
+				...this,
+				name: guild.name ?? this.name,
+				icon: guild.icon ?? this.icon,
+				banner: guild.banner ?? this.banner,
+				bannerWidth: guild.banner_width ?? this.bannerWidth,
+				bannerHeight: guild.banner_height ?? this.bannerHeight,
+				splash: guild.splash ?? this.splash,
+				splashWidth: guild.splash_width ?? this.splashWidth,
+				splashHeight: guild.splash_height ?? this.splashHeight,
+				splashCardAlignment: guild.splash_card_alignment ?? this.splashCardAlignment,
+				embedSplash: guild.embed_splash ?? this.embedSplash,
+				embedSplashWidth: guild.embed_splash_width ?? this.embedSplashWidth,
+				embedSplashHeight: guild.embed_splash_height ?? this.embedSplashHeight,
+				features: guild.features ? new Set(guild.features) : this.features,
+				vanityURLCode: guild.vanity_url_code ?? this.vanityURLCode,
+				ownerId: guild.owner_id ?? this.ownerId,
+				systemChannelId: guild.system_channel_id ?? this.systemChannelId,
+				systemChannelFlags: guild.system_channel_flags ?? this.systemChannelFlags,
+				rulesChannelId: guild.rules_channel_id ?? this.rulesChannelId,
+				afkChannelId: guild.afk_channel_id ?? this.afkChannelId,
+				afkTimeout: guild.afk_timeout ?? this.afkTimeout,
+				verificationLevel: guild.verification_level ?? this.verificationLevel,
+				mfaLevel: guild.mfa_level ?? this.mfaLevel,
+				nsfwLevel: guild.nsfw_level ?? this.nsfwLevel,
+				explicitContentFilter: guild.explicit_content_filter ?? this.explicitContentFilter,
+				defaultMessageNotifications: guild.default_message_notifications ?? this.defaultMessageNotifications,
+				disabledOperations: guild.disabled_operations ?? this.disabledOperations,
+				messageHistoryCutoff:
+					guild.message_history_cutoff !== undefined
+						? (guild.message_history_cutoff ?? null)
+						: this.messageHistoryCutoff,
+				unavailable: guild.unavailable ?? this.unavailable,
+				memberCount: guild.member_count ?? this.memberCount,
+			},
+			{instanceId: this.instanceId},
+		);
 	}
 
 	withRoles(roles: Record<string, GuildRoleRecord>): GuildRecord {
-		return new GuildRecord({
-			...this,
-			roles: Object.freeze({...roles}),
-		});
+		return new GuildRecord(
+			{
+				...this,
+				roles: Object.freeze({...roles}),
+			},
+			{instanceId: this.instanceId},
+		);
 	}
 
 	addRole(role: GuildRoleRecord): GuildRecord {
@@ -451,7 +425,11 @@ export class GuildRecord {
 	}
 
 	get isLargeGuild(): boolean {
-		return this.features.has(GuildFeatures.LARGE_GUILD_OVERRIDE) || this.memberCount > LARGE_GUILD_THRESHOLD;
+		return (
+			this.features.has(GuildFeatures.LARGE_GUILD_OVERRIDE) ||
+			this.features.has(GuildFeatures.VERY_LARGE_GUILD) ||
+			this.memberCount > LARGE_GUILD_THRESHOLD
+		);
 	}
 
 	get effectiveMessageNotifications(): number {

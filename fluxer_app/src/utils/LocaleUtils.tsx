@@ -17,14 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as UserSettingsActionCreators from '@app/actions/UserSettingsActionCreators';
+import i18n, {loadLocaleCatalog} from '@app/I18n';
+import {Logger} from '@app/lib/Logger';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import type {MessageDescriptor} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
-import * as UserSettingsActionCreators from '~/actions/UserSettingsActionCreators';
-import i18n, {loadLocaleCatalog} from '~/i18n';
-import UserSettingsStore from '~/stores/UserSettingsStore';
+
+const logger = new Logger('LocaleUtils');
 
 interface LocaleInfo {
 	code: string;
-	name: import('@lingui/core').MessageDescriptor;
+	name: MessageDescriptor;
 	nativeName: string;
 	flag: string;
 	region?: string;
@@ -69,13 +73,13 @@ const SUPPORTED_LOCALES: Array<LocaleInfo> = [
 
 const DEFAULT_LOCALE = 'en-US';
 
-export const getCurrentLocale = (): string => {
+export function getCurrentLocale(): string {
 	return UserSettingsStore.getLocale() || DEFAULT_LOCALE;
-};
+}
 
-export const setLocale = (localeCode: string): void => {
+export function setLocale(localeCode: string): void {
 	if (!SUPPORTED_LOCALES.find((locale) => locale.code === localeCode)) {
-		console.warn(`Unsupported locale: ${localeCode}`);
+		logger.warn(`Unsupported locale: ${localeCode}`);
 		return;
 	}
 
@@ -85,9 +89,9 @@ export const setLocale = (localeCode: string): void => {
 			locale: normalized,
 		});
 	} catch (error) {
-		console.error(`Failed to load locale ${localeCode}:`, error);
+		logger.error(`Failed to load locale ${localeCode}:`, error);
 	}
-};
+}
 
 interface TranslatedLocaleInfo {
 	code: string;
@@ -97,11 +101,11 @@ interface TranslatedLocaleInfo {
 	region?: string;
 }
 
-export const getSortedLocales = (): Array<TranslatedLocaleInfo> => {
+export function getSortedLocales(): Array<TranslatedLocaleInfo> {
 	return [...SUPPORTED_LOCALES]
 		.map((locale) => ({
 			...locale,
 			name: i18n._(locale.name),
 		}))
 		.sort((a, b) => a.nativeName.localeCompare(b.nativeName));
-};
+}

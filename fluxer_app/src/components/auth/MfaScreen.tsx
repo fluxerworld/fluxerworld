@@ -17,12 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import FormField from '@app/components/auth/FormField';
+import styles from '@app/components/auth/MfaScreen.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {useMfaController} from '@app/hooks/useLoginFlow';
+import type {LoginSuccessPayload, MfaChallenge} from '@app/viewmodels/auth/AuthFlow';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {useId} from 'react';
-import FormField from '~/components/auth/FormField';
-import {Button} from '~/components/uikit/Button/Button';
-import {type LoginSuccessPayload, type MfaChallenge, useMfaController} from '~/hooks/useLoginFlow';
-import styles from './MfaScreen.module.css';
 
 interface MfaScreenProps {
 	challenge: MfaChallenge;

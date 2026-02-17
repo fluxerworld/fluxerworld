@@ -1,0 +1,44 @@
+---
+title: 'Billing'
+description: 'Billing object schemas from the Fluxer API.'
+---
+
+<a id="createcheckoutsessionrequest"></a>
+
+## CreateCheckoutSessionRequest
+
+**Related endpoints**
+
+- [`POST /stripe/checkout/gift`](/api-reference/billing/create-gift-checkout-session)
+- [`POST /stripe/checkout/subscription`](/api-reference/billing/create-checkout-session)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| price_id | [SnowflakeType](#snowflaketype) | The Stripe price ID for the subscription plan |
+
+<a id="urlresponse"></a>
+
+## UrlResponse
+
+**Related endpoints**
+
+- [`POST /premium/customer-portal`](/api-reference/premium/create-customer-portal)
+- [`POST /stripe/checkout/gift`](/api-reference/billing/create-gift-checkout-session)
+- [`POST /stripe/checkout/subscription`](/api-reference/billing/create-checkout-session)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| url | string | The URL to redirect to |
+
+<a id="webhookreceivedresponse"></a>
+
+## WebhookReceivedResponse
+
+**Related endpoints**
+
+- [`POST /stripe/webhook`](/api-reference/billing/process-stripe-webhook)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| received | boolean | Whether the webhook was successfully received |
+

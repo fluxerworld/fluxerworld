@@ -35,6 +35,7 @@ impl From<JsValue> for EncodeError {
 }
 
 #[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
 pub fn crop_and_rotate_gif(
     input: &[u8],
     x: u32,
@@ -83,6 +84,7 @@ enum EncoderMode {
     Quantized,
 }
 
+#[allow(clippy::too_many_arguments)]
 fn process_gif(
     input: &[u8],
     x: u32,
@@ -451,13 +453,15 @@ impl PaletteFrameEncoder {
             transparent_index,
         } = PaletteFrameData::from_rgba(&rgba)?;
 
-        let mut frame = Frame::default();
-        frame.width = self.width;
-        frame.height = self.height;
-        frame.delay = delay;
-        frame.buffer = Cow::Owned(indices);
-        frame.palette = Some(palette);
-        frame.transparent = transparent_index;
+        let frame = Frame {
+            width: self.width,
+            height: self.height,
+            delay,
+            buffer: Cow::Owned(indices),
+            palette: Some(palette),
+            transparent: transparent_index,
+            ..Frame::default()
+        };
         self.encoder.write_frame(&frame).map_err(map_encoding_error)
     }
 

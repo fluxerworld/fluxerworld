@@ -16,12 +16,12 @@ on:
           - stable
           - canary
         default: stable
-        description: Channel to deploy
+        description: Release channel to deploy
       ref:
         type: string
         required: false
         default: ''
-        description: Optional git ref to deploy (defaults to main/canary based on channel)
+        description: Optional git ref (defaults to the triggering branch)
 
 concurrency:
   group: deploy-fluxer-admin-${{ github.event_name == 'workflow_dispatch' && inputs.channel || (github.ref_name == 'canary' && 'canary') || 'stable' }}
@@ -35,43 +35,33 @@ jobs:
     with:
       github_event_name: ${{ github.event_name }}
       github_ref_name: ${{ github.ref_name }}
-      github_ref: ${{ github.ref }}
       workflow_dispatch_channel: ${{ github.event_name == 'workflow_dispatch' && inputs.channel || '' }}
-      workflow_dispatch_ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || '' }}
 
   deploy:
     name: Deploy admin
     needs: channel-vars
-    runs-on: blacksmith-2vcpu-ubuntu-2404
-    timeout-minutes: 10
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
     env:
       CHANNEL: ${{ needs.channel-vars.outputs.channel }}
       IS_CANARY: ${{ needs.channel-vars.outputs.is_canary }}
-      SOURCE_REF: ${{ needs.channel-vars.outputs.source_ref }}
       STACK_SUFFIX: ${{ needs.channel-vars.outputs.stack_suffix }}
       STACK: ${{ format('fluxer-admin{0}', needs.channel-vars.outputs.stack_suffix) }}
       CACHE_SCOPE: ${{ format('deploy-fluxer-admin{0}', needs.channel-vars.outputs.stack_suffix) }}
       CADDY_DOMAIN: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'admin.canary.fluxer.app' || 'admin.fluxer.app' }}
-      APP_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://web.canary.fluxer.app' || 'https://web.fluxer.app' }}
-      API_PUBLIC_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://api.canary.fluxer.app' || 'https://api.fluxer.app' }}
-      ADMIN_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://admin.canary.fluxer.app' || 'https://admin.fluxer.app' }}
-      ADMIN_REDIRECT_URI: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://admin.canary.fluxer.app/oauth2_callback' || 'https://admin.fluxer.app/oauth2_callback' }}
       REPLICAS: ${{ needs.channel-vars.outputs.is_canary == 'true' && 1 || 2 }}
+      RELEASE_CHANNEL: ${{ needs.channel-vars.outputs.channel }}
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ env.SOURCE_REF }}
+          ref: ${{ inputs.ref || '' }}
           fetch-depth: 0
 
       - name: Record deploy commit
-        run: |
-          set -euo pipefail
-          sha=$(git rev-parse HEAD)
-          echo "Deploying commit ${sha}"
-          printf 'DEPLOY_SHA=%s\n' "$sha" >> "$GITHUB_ENV"
+        run: python3 scripts/ci/workflows/deploy_admin.py --step record_deploy_commit
 
       - name: Set build timestamp
-        run: echo "BUILD_TIMESTAMP=$(date -u +%s)" >> "$GITHUB_ENV"
+        run: python3 scripts/ci/workflows/deploy_admin.py --step set_build_timestamp
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -85,7 +75,7 @@ jobs:
       - name: Build image
         uses: docker/build-push-action@v6
         with:
-          context: fluxer_admin
+          context: .
           file: fluxer_admin/Dockerfile
           tags: ${{ env.STACK }}:${{ env.DEPLOY_SHA }}
           load: true
@@ -93,18 +83,16 @@ jobs:
           cache-from: type=gha,scope=${{ env.CACHE_SCOPE }}
           cache-to: type=gha,mode=max,scope=${{ env.CACHE_SCOPE }}
           build-args: |
+            BUILD_SHA=${{ env.DEPLOY_SHA }}
+            BUILD_NUMBER=${{ github.run_number }}
             BUILD_TIMESTAMP=${{ env.BUILD_TIMESTAMP }}
+            RELEASE_CHANNEL=${{ env.RELEASE_CHANNEL }}
         env:
           DOCKER_BUILD_SUMMARY: false
           DOCKER_BUILD_RECORD_UPLOAD: false
 
       - name: Install docker-pussh
-        run: |
-          set -euo pipefail
-          mkdir -p ~/.docker/cli-plugins
-          curl -fsSL https://raw.githubusercontent.com/psviderski/unregistry/v0.3.1/docker-pussh \
-            -o ~/.docker/cli-plugins/docker-pussh
-          chmod +x ~/.docker/cli-plugins/docker-pussh
+        run: python3 scripts/ci/workflows/deploy_admin.py --step install_docker_pussh
 
       - name: Set up SSH agent
         uses: webfactory/ssh-agent@v0.9.1
@@ -112,96 +100,13 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_SERVER }}
 
       - name: Add server to known hosts
-        run: |
-          set -euo pipefail
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+        run: python3 scripts/ci/workflows/deploy_admin.py --step add_known_hosts --server-ip ${{ secrets.SERVER_IP }}
 
       - name: Push image and deploy
         env:
           IMAGE_TAG: ${{ env.STACK }}:${{ env.DEPLOY_SHA }}
           SERVER: ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}
           STACK: ${{ env.STACK }}
-          APP_ENDPOINT: ${{ env.APP_ENDPOINT }}
-          API_PUBLIC_ENDPOINT: ${{ env.API_PUBLIC_ENDPOINT }}
-          ADMIN_ENDPOINT: ${{ env.ADMIN_ENDPOINT }}
-          ADMIN_REDIRECT_URI: ${{ env.ADMIN_REDIRECT_URI }}
           CADDY_DOMAIN: ${{ env.CADDY_DOMAIN }}
           REPLICAS: ${{ env.REPLICAS }}
-        run: |
-          set -euo pipefail
-          docker pussh "${IMAGE_TAG}" "${SERVER}"
-
-          ssh "${SERVER}" \
-            "IMAGE_TAG=${IMAGE_TAG} STACK=${STACK} APP_ENDPOINT=${APP_ENDPOINT} API_PUBLIC_ENDPOINT=${API_PUBLIC_ENDPOINT} ADMIN_ENDPOINT=${ADMIN_ENDPOINT} ADMIN_REDIRECT_URI=${ADMIN_REDIRECT_URI} CADDY_DOMAIN=${CADDY_DOMAIN} REPLICAS=${REPLICAS} bash" << 'EOF'
-          set -euo pipefail
-          sudo mkdir -p "/opt/${STACK}"
-          sudo chown -R "${USER}:${USER}" "/opt/${STACK}"
-          cd "/opt/${STACK}"
-
-          cat > compose.yaml << COMPOSEEOF
-          x-deploy-base: &deploy_base
-            restart_policy:
-              condition: on-failure
-              delay: 5s
-              max_attempts: 3
-            update_config:
-              parallelism: 1
-              delay: 10s
-              order: start-first
-            rollback_config:
-              parallelism: 1
-              delay: 10s
-
-          x-healthcheck: &healthcheck
-            test: ['CMD', 'curl', '-f', 'http://localhost:8080/']
-            interval: 30s
-            timeout: 10s
-            retries: 3
-            start_period: 40s
-
-          services:
-            app:
-              image: ${IMAGE_TAG}
-              env_file:
-                - /etc/fluxer/fluxer.env
-              environment:
-                FLUXER_API_PUBLIC_ENDPOINT: ${API_PUBLIC_ENDPOINT}
-                FLUXER_APP_ENDPOINT: ${APP_ENDPOINT}
-                FLUXER_MEDIA_ENDPOINT: https://fluxerusercontent.com
-                FLUXER_CDN_ENDPOINT: https://fluxerstatic.com
-                FLUXER_ADMIN_ENDPOINT: ${ADMIN_ENDPOINT}
-                FLUXER_PATH_ADMIN: /
-                APP_MODE: admin
-                FLUXER_ADMIN_PORT: 8080
-                ADMIN_OAUTH2_REDIRECT_URI: ${ADMIN_REDIRECT_URI}
-                ADMIN_OAUTH2_CLIENT_ID: 1440355698178071552
-                ADMIN_OAUTH2_AUTO_CREATE: "false"
-                FLUXER_METRICS_HOST: fluxer-metrics_app:8080
-              deploy:
-                <<: *deploy_base
-                replicas: ${REPLICAS}
-                labels:
-                  - "caddy=${CADDY_DOMAIN}"
-                  - 'caddy.reverse_proxy={{upstreams 8080}}'
-                  - 'caddy.header.X-Robots-Tag="noindex, nofollow, nosnippet, noimageindex"'
-                  - 'caddy.header.Strict-Transport-Security="max-age=31536000; includeSubDomains; preload"'
-                  - 'caddy.header.X-Xss-Protection="1; mode=block"'
-                  - 'caddy.header.X-Content-Type-Options=nosniff'
-                  - 'caddy.header.Referrer-Policy=strict-origin-when-cross-origin'
-                  - 'caddy.header.X-Frame-Options=DENY'
-              networks: [fluxer-shared]
-              healthcheck: *healthcheck
-
-          networks:
-            fluxer-shared:
-              external: true
-          COMPOSEEOF
-
-          docker stack deploy \
-            --with-registry-auth \
-            --detach=false \
-            --resolve-image never \
-            -c compose.yaml \
-            "${STACK}"
-          EOF
+        run: python3 scripts/ci/workflows/deploy_admin.py --step push_and_deploy

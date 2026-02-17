@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as HighlightActionCreators from '@app/actions/HighlightActionCreators';
+import {type AutocompleteOption, isChannel} from '@app/components/channel/Autocomplete';
+import styles from '@app/components/channel/AutocompleteChannel.module.css';
+import {AutocompleteItem} from '@app/components/channel/AutocompleteItem';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import * as HighlightActionCreators from '~/actions/HighlightActionCreators';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import {type AutocompleteOption, isChannel} from './Autocomplete';
-import styles from './AutocompleteChannel.module.css';
-import {AutocompleteItem} from './AutocompleteItem';
 
 export const AutocompleteChannel = observer(
 	({

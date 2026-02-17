@@ -1,0 +1,165 @@
+{
+	"$schema": "https://unpkg.com/knip@5/schema.json",
+	"ignoreExportsUsedInFile": true,
+	"rules": {
+		"exports": "off",
+		"types": "off",
+		"unlisted": "warn"
+	},
+	"ignore": [
+		"packages/cassandra/src/**",
+		"packages/virus_scan/src/**",
+		"packages/cache/src/providers/**",
+		"packages/captcha/src/providers/**",
+		"packages/csp/src/**",
+		"packages/locale/src/LocaleService.tsx",
+		"tsconfigs/**",
+		"fluxer_static/libs/**",
+		"fluxer_desktop/**",
+		"fluxer_docs/scripts/generate_resources.mjs",
+		"fluxer_integration/src/globalTeardown.tsx",
+		"packages/admin/public/static/app.css",
+		"packages/marketing/public/static/app.css",
+		"packages/marketing/src/styles/app.css",
+		"packages/admin/src/styles/app.css"
+	],
+	"ignoreBinaries": ["mint"],
+	"workspaces": {
+		".": {
+			"ignoreDependencies": ["@biomejs/biome"]
+		},
+		"fluxer_app": {
+			"entry": ["scripts/**/*.{mjs,ts,tsx}", "src/**/*.{ts,tsx}"],
+			"ignore": [
+				"lingui.config.js",
+				"postcss.config.js",
+				"src/sw/worker.ts",
+				"pkgs/libfluxcore/libfluxcore_bg.wasm.d.ts",
+				"pkgs/libfluxcore/libfluxcore.d.ts",
+				"src/types/browser.d.ts"
+			],
+			"ignoreDependencies": [
+				"fs-extra",
+				"@lingui/swc-plugin",
+				"@svgr/core",
+				"@svgr/plugin-jsx",
+				"@svgr/plugin-svgo",
+				"browserslist",
+				"chokidar",
+				"lightningcss",
+				"node-addon-api"
+			],
+			"project": ["src/**/*.{ts,tsx,mjs}", "src/**/*.css", "pkgs/**/*.{ts,tsx,js,mjs,wasm}"],
+			"paths": {
+				"@app/*": ["src/*"],
+				"@app_scripts/*": ["scripts/*"],
+				"@pkgs/*": ["pkgs/*"]
+			}
+		},
+		"fluxer_api": {
+			"entry": ["scripts/*.{ts,tsx}"],
+			"ignore": ["src/errors/*.ts", "src/models/PrivateChannel.ts", "src/infrastructure/IAssetDeletionQueue.ts"],
+			"project": ["src/**/*.{ts,tsx}", "scripts/*.{ts,tsx}"]
+		},
+		"fluxer_admin": {
+			"entry": ["src/**/*.tsx"],
+			"ignoreDependencies": ["tailwindcss"]
+		},
+		"packages/app": {
+			"entry": ["src/**/*.tsx"],
+			"ignoreDependencies": ["@hono/node-server", "@fluxer/app_proxy", "@fluxer/hono", "@fluxer/logger", "hono"]
+		},
+		"packages/cache": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/cassandra": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/csp": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/locale": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/virus_scan": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/kv_client": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/api": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/openapi": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/admin": {
+			"entry": ["src/**/*.tsx"],
+			"ignoreDependencies": ["tailwindcss"]
+		},
+		"packages/s3": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/app_proxy": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/marketing": {
+			"entry": ["src/**/*.tsx"],
+			"ignoreDependencies": ["tailwindcss"]
+		},
+		"packages/ui": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/validation": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/queue": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/hono_types": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/hono": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/http_client": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/rate_limit": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/errors": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/schema": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/constants": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/telemetry": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/ip_utils": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/oauth2": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/time": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/captcha": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/config": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/search_client": {
+			"entry": ["src/**/*.tsx"]
+		},
+		"packages/media_proxy_utils": {
+			"entry": ["src/**/*.tsx"]
+		}
+	}
+}

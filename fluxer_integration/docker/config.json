@@ -1,0 +1,74 @@
+{
+	"$schema": "../../packages/config/src/ConfigSchema.json",
+	"env": "development",
+	"domain": {
+		"base_domain": "localhost"
+	},
+	"database": {
+		"backend": "sqlite",
+		"sqlite_path": "./data/integration.db"
+	},
+	"s3": {
+		"access_key_id": "integration-test-access-key",
+		"secret_access_key": "integration-test-secret-key"
+	},
+	"services": {
+		"media_proxy": {
+			"secret_key": "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef"
+		},
+		"admin": {
+			"secret_key_base": "abcdef0123456789abcdef0123456789abcdef0123456789abcdef0123456789",
+			"oauth_client_secret": "fedcba9876543210fedcba9876543210fedcba9876543210fedcba9876543210"
+		},
+		"gateway": {
+			"port": 8080,
+			"api_host": "http://127.0.0.1:8088/api",
+			"admin_reload_secret": "deadbeef0123456789abcdef0123456789abcdef0123456789abcdef01234567",
+			"media_proxy_endpoint": "http://localhost:8088/media"
+		},
+		"server": {
+			"port": 8088
+		}
+	},
+	"gateway": {
+		"rpc_endpoint": "http://127.0.0.1:8081",
+		"rpc_secret": "cafebabe0123456789abcdef0123456789abcdef0123456789abcdef01234567"
+	},
+	"auth": {
+		"sudo_mode_secret": "c0ffee000123456789abcdef0123456789abcdef0123456789abcdef01234567",
+		"connection_initiation_secret": "f00dbabe0123456789abcdef0123456789abcdef0123456789abcdef01234567",
+		"vapid": {
+			"public_key": "face0000123456789abcdef0123456789abcdef0123456789abcdef0123456789",
+			"private_key": "beef0000123456789abcdef0123456789abcdef0123456789abcdef0123456789"
+		},
+		"bluesky": {
+			"enabled": false
+		}
+	},
+	"dev": {
+		"disable_rate_limits": true,
+		"relax_registration_rate_limits": true,
+		"test_mode_enabled": true
+	},
+	"integrations": {
+		"voice": {
+			"enabled": true,
+			"api_key": "devkey",
+			"api_secret": "devsecret",
+			"url": "ws://livekit:7880",
+			"webhook_url": "",
+			"default_region": {
+				"id": "default",
+				"name": "Default",
+				"emoji": "🌐",
+				"latitude": 0.0,
+				"longitude": 0.0
+			}
+		},
+		"cloudflare": {
+			"purge_enabled": false,
+			"zone_id": "",
+			"api_token": ""
+		}
+	}
+}

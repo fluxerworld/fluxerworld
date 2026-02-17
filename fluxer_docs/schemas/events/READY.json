@@ -1,0 +1,121 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "READY",
+	"description": "Contains initial state information sent after identifying. This is the first event received after a successful IDENTIFY.",
+	"scope": "session",
+	"dispatchedBy": ["gateway"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"version": {
+				"type": "integer",
+				"description": "Gateway protocol version"
+			},
+			"session_id": {
+				"type": "string",
+				"description": "Session ID for resuming"
+			},
+			"user": {
+				"$ref": "UserPrivateResponse",
+				"description": "The current user"
+			},
+			"guilds": {
+				"type": "array",
+				"items": {"$ref": "GuildReadyResponse"},
+				"description": "Guilds the user is in (includes full guild data for non-bots, unavailable placeholders for bots)"
+			},
+			"private_channels": {
+				"type": "array",
+				"items": {"$ref": "ChannelResponse"},
+				"description": "DM and group DM channels"
+			},
+			"relationships": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"id": {"type": "string", "description": "User ID of the related user"},
+						"type": {
+							"type": "integer",
+							"description": "Relationship type (1=friend, 2=blocked, 3=incoming_request, 4=outgoing_request)"
+						},
+						"since": {"type": "string", "description": "ISO8601 timestamp of when the relationship was established"},
+						"nickname": {"type": "string", "nullable": true, "description": "Custom nickname for the related user"}
+					},
+					"required": ["id", "type"],
+					"description": "Relationship with user field stripped (user data in users array)"
+				},
+				"description": "User relationships (friends, blocked, pending) with user objects stripped"
+			},
+			"users": {
+				"type": "array",
+				"items": {"$ref": "UserPartialResponse"},
+				"description": "Users referenced by relationships, channels, and guild members (deduped)"
+			},
+			"presences": {
+				"type": "array",
+				"items": {"$ref": "PresenceResponse"},
+				"description": "Presences of friends and group DM recipients"
+			},
+			"sessions": {
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"session_id": {
+							"type": "string",
+							"description": "Session identifier ('all' for aggregated, or specific ID)"
+						},
+						"status": {
+							"type": "string",
+							"enum": ["online", "offline", "idle", "dnd", "invisible"],
+							"description": "Session status"
+						},
+						"mobile": {"type": "boolean", "description": "Whether the session is from a mobile device"},
+						"afk": {"type": "boolean", "description": "Whether the session is AFK"}
+					},
+					"required": ["session_id", "status", "mobile", "afk"]
+				},
+				"description": "Active gateway sessions for the current user"
+			},
+			"user_settings": {
+				"$ref": "UserSettingsResponse",
+				"description": "User settings"
+			},
+			"user_guild_settings": {
+				"type": "array",
+				"items": {"$ref": "UserGuildSettingsResponse"},
+				"description": "Per-guild notification settings"
+			},
+			"read_states": {
+				"type": "array",
+				"items": {"$ref": "ReadStateResponse"},
+				"description": "Channel read state (last read message IDs)"
+			},
+			"notes": {
+				"type": "object",
+				"additionalProperties": {"type": "string"},
+				"description": "User notes keyed by user ID"
+			},
+			"country_code": {
+				"type": "string",
+				"description": "Two-letter country code based on IP geolocation"
+			},
+			"pinned_dms": {
+				"type": "array",
+				"items": {"type": "string"},
+				"description": "Array of pinned DM channel IDs"
+			},
+			"favorite_memes": {
+				"type": "array",
+				"items": {"$ref": "FavoriteMemeResponse"},
+				"description": "User's favourite memes"
+			},
+			"auth_session_id_hash": {
+				"type": "string",
+				"description": "Hash of the authentication session ID"
+			}
+		},
+		"required": ["version", "session_id", "user", "guilds"]
+	}
+}

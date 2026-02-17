@@ -1,0 +1,25 @@
+---
+title: 'Opcodes'
+description: 'Gateway opcodes used for communication between client and server.'
+---
+
+Gateway opcodes indicate the type of payload being sent or received. Clients send and receive different opcodes depending on their role in the connection lifecycle.
+
+## Opcode reference
+
+| Opcode | Name | Description | Client Action |
+|--------|------|-------------|---------------|
+| `0` | `DISPATCH` | Dispatches an event to the client | Receive |
+| `1` | `HEARTBEAT` | Fired periodically to keep the connection alive | Send/Receive |
+| `2` | `IDENTIFY` | Starts a new session during the initial handshake | Send |
+| `3` | `PRESENCE_UPDATE` | Updates the client presence | Send |
+| `4` | `VOICE_STATE_UPDATE` | Joins, moves, or disconnects from a voice channel | Send |
+| `5` | `VOICE_SERVER_PING` | Pings the voice server | Send |
+| `6` | `RESUME` | Resumes a previous session after a disconnect | Send |
+| `7` | `RECONNECT` | Indicates the client should reconnect to the gateway | Receive |
+| `8` | `REQUEST_GUILD_MEMBERS` | Requests members for a guild | Send |
+| `9` | `INVALID_SESSION` | Session has been invalidated; client should reconnect and identify | Receive |
+| `10` | `HELLO` | Sent immediately after connecting; contains heartbeat interval | Receive |
+| `11` | `HEARTBEAT_ACK` | Acknowledgement of a heartbeat | Receive |
+| `12` | `GATEWAY_ERROR` | Indicates an error occurred while processing a gateway message | Receive |
+| `14` | `LAZY_REQUEST` | Requests lazy-loaded guild data | Send |

@@ -17,32 +17,36 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
+import * as StickerPickerActionCreators from '@app/actions/StickerPickerActionCreators';
+import styles from '@app/components/channel/EmojiPicker.module.css';
+import gifStyles from '@app/components/channel/GifPicker.module.css';
+import {PremiumUpsellBanner} from '@app/components/channel/PremiumUpsellBanner';
+import premiumStyles from '@app/components/channel/PremiumUpsellBanner.module.css';
+import {PickerEmptyState} from '@app/components/channel/shared/PickerEmptyState';
+import {useStickerCategories} from '@app/components/channel/sticker_picker/hooks/useStickerCategories';
+import {useVirtualRows} from '@app/components/channel/sticker_picker/hooks/useVirtualRows';
+import {StickerPickerCategoryList} from '@app/components/channel/sticker_picker/StickerPickerCategoryList';
+import {STICKERS_PER_ROW} from '@app/components/channel/sticker_picker/StickerPickerConstants';
+import {StickerPickerInspector} from '@app/components/channel/sticker_picker/StickerPickerInspector';
+import {StickerPickerSearchBar} from '@app/components/channel/sticker_picker/StickerPickerSearchBar';
+import {VirtualRowWrapper} from '@app/components/channel/sticker_picker/VirtualRow';
+import {ExpressionPickerHeaderPortal} from '@app/components/popouts/ExpressionPickerPopout';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {usePremiumUpsellData} from '@app/hooks/usePremiumUpsellData';
+import {useSearchInputAutofocus} from '@app/hooks/useSearchInputAutofocus';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import type {GuildStickerRecord} from '@app/records/GuildStickerRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import StickerStore from '@app/stores/StickerStore';
+import {checkStickerAvailability, shouldShowStickerPremiumUpsell} from '@app/utils/ExpressionPermissionUtils';
+import {shouldShowPremiumFeatures} from '@app/utils/PremiumUtils';
+import {Trans, useLingui} from '@lingui/react/macro';
 import {SmileySadIcon, StickerIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as StickerPickerActionCreators from '~/actions/StickerPickerActionCreators';
-import styles from '~/components/channel/EmojiPicker.module.css';
-import gifStyles from '~/components/channel/GifPicker.module.css';
-import {PremiumUpsellBanner} from '~/components/channel/PremiumUpsellBanner';
-import {PickerEmptyState} from '~/components/channel/shared/PickerEmptyState';
-import {useStickerCategories} from '~/components/channel/sticker-picker/hooks/useStickerCategories';
-import {useVirtualRows} from '~/components/channel/sticker-picker/hooks/useVirtualRows';
-import {StickerPickerCategoryList} from '~/components/channel/sticker-picker/StickerPickerCategoryList';
-import {STICKERS_PER_ROW} from '~/components/channel/sticker-picker/StickerPickerConstants';
-import {StickerPickerInspector} from '~/components/channel/sticker-picker/StickerPickerInspector';
-import {StickerPickerSearchBar} from '~/components/channel/sticker-picker/StickerPickerSearchBar';
-import {VirtualRowWrapper} from '~/components/channel/sticker-picker/VirtualRow';
-import {ExpressionPickerHeaderPortal} from '~/components/popouts/ExpressionPickerPopout';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-import {useForceUpdate} from '~/hooks/useForceUpdate';
-import {useSearchInputAutofocus} from '~/hooks/useSearchInputAutofocus';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import type {GuildStickerRecord} from '~/records/GuildStickerRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import StickerStore from '~/stores/StickerStore';
-import {checkStickerAvailability, shouldShowStickerPremiumUpsell} from '~/utils/ExpressionPermissionUtils';
-import {shouldShowPremiumFeatures} from '~/utils/PremiumUtils';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore} from 'react';
+
 export const StickersPicker = observer(
 	({
 		channelId,
@@ -52,48 +56,68 @@ export const StickersPicker = observer(
 		handleSelect: (sticker: GuildStickerRecord, shiftKey?: boolean) => void;
 	}) => {
 		const {t, i18n} = useLingui();
-		const [searchTerm, setSearchTerm] = React.useState('');
-		const [hoveredSticker, setHoveredSticker] = React.useState<GuildStickerRecord | null>(null);
-		const [renderedStickers, setRenderedStickers] = React.useState<ReadonlyArray<GuildStickerRecord>>([]);
-		const [allStickersForCategories, setAllStickersForCategories] = React.useState<ReadonlyArray<GuildStickerRecord>>(
-			[],
-		);
-		const [selectedRow, setSelectedRow] = React.useState(-1);
-		const [selectedColumn, setSelectedColumn] = React.useState(-1);
-		const [shouldScrollOnSelection, setShouldScrollOnSelection] = React.useState(false);
-		const scrollerRef = React.useRef<ScrollerHandle>(null);
-		const searchInputRef = React.useRef<HTMLInputElement>(null);
-		const stickerRefs = React.useRef<Map<string, HTMLButtonElement>>(new Map());
+		const [searchTerm, setSearchTerm] = useState('');
+		const [hoveredSticker, setHoveredSticker] = useState<GuildStickerRecord | null>(null);
+		const [selectedRow, setSelectedRow] = useState(-1);
+		const [selectedColumn, setSelectedColumn] = useState(-1);
+		const [shouldScrollOnSelection, setShouldScrollOnSelection] = useState(false);
+		const scrollerRef = useRef<ScrollerHandle>(null);
+		const searchInputRef = useRef<HTMLInputElement>(null);
+		const stickerRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
 		const channel = channelId ? (ChannelStore.getChannel(channelId) ?? null) : null;
-		const categoryRefs = React.useRef<Map<string, HTMLDivElement>>(new Map());
-		const forceUpdate = useForceUpdate();
+		const categoryRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+		const [stickerDataVersion, setStickerDataVersion] = useState(0);
+		const permissionVersion = useSyncExternalStore(
+			PermissionStore.subscribe.bind(PermissionStore),
+			() => PermissionStore.version,
+		);
+		const getStickerAvailability = useCallback(
+			(sticker: GuildStickerRecord) => checkStickerAvailability(i18n, sticker, channel),
+			[channel, i18n, permissionVersion],
+		);
+		const getStickerGuildId = useCallback((sticker: GuildStickerRecord) => sticker.guildId, []);
 
-		React.useEffect(() => {
-			const stickers = StickerStore.searchWithChannel(channel, searchTerm);
-			setRenderedStickers(stickers);
-			if (stickers.length > 0) {
-				setSelectedRow(0);
-				setSelectedColumn(0);
-			} else {
-				setSelectedRow(-1);
-				setSelectedColumn(-1);
-				setHoveredSticker(null);
-			}
-		}, [channel, searchTerm]);
+		const renderStickerPreviewItem = useCallback(
+			(sticker: GuildStickerRecord) => (
+				<div className={premiumStyles.previewItem} key={`${sticker.guildId ?? 'guild'}-${sticker.id}`}>
+					<img src={sticker.url} alt={sticker.name} loading="lazy" />
+				</div>
+			),
+			[],
+		);
 
-		React.useEffect(() => {
-			setAllStickersForCategories(StickerStore.getAllStickers());
+		useEffect(() => {
+			const handleStickerDataUpdated = () => {
+				setStickerDataVersion((version) => version + 1);
+			};
+			return ComponentDispatch.subscribe('STICKER_PICKER_RERENDER', handleStickerDataUpdated);
 		}, []);
-
-		React.useEffect(() => {
-			return ComponentDispatch.subscribe('STICKER_PICKER_RERENDER', forceUpdate);
-		});
 
 		useSearchInputAutofocus(searchInputRef);
 
+		const searchItems = useMemo(
+			() => StickerStore.searchWithChannel(channel, searchTerm),
+			[channel, searchTerm, stickerDataVersion],
+		);
+		const searchUpsell = usePremiumUpsellData({
+			items: searchItems,
+			getAvailability: getStickerAvailability,
+			getGuildId: getStickerGuildId,
+		});
+		const renderedStickers = searchUpsell.accessibleItems;
+
+		const allItems = StickerStore.getAllStickers();
+		const allUpsell = usePremiumUpsellData({
+			items: allItems,
+			getAvailability: getStickerAvailability,
+			getGuildId: getStickerGuildId,
+			renderPreviewItem: renderStickerPreviewItem,
+			previewLimit: 4,
+		});
+
 		const {favoriteStickers, frequentlyUsedStickers, stickersByGuildId} = useStickerCategories(
-			allStickersForCategories,
+			allUpsell.accessibleItems,
 			renderedStickers,
 		);
 		const virtualRows = useVirtualRows(
@@ -105,13 +129,25 @@ export const StickersPicker = observer(
 			STICKERS_PER_ROW,
 		);
 
-		const allStickers = React.useMemo(() => StickerStore.getAllStickers(), []);
-		const hasNoStickersAtAll = allStickers.length === 0;
+		const hasNoStickersAtAll = allItems.length === 0;
 
 		const isSearching = searchTerm.trim().length > 0;
-		const showPremiumUpsell = shouldShowPremiumFeatures() && shouldShowStickerPremiumUpsell(channel) && !isSearching;
+		const lockedStickerCount = allUpsell.summary.lockedItems.length;
+		const previewContent = allUpsell.previewContent;
+		const stickerCommunityCount = allUpsell.summary.communityCount;
+		const stickerLabel =
+			lockedStickerCount === 1 ? t`${lockedStickerCount} sticker` : t`${lockedStickerCount} stickers`;
+		const communityLabel =
+			stickerCommunityCount === 1 ? t`${stickerCommunityCount} community` : t`${stickerCommunityCount} communities`;
+		const stickerUpsellMessage = (
+			<Trans>
+				Unlock {stickerLabel} from {communityLabel} with Plutonium.
+			</Trans>
+		);
+		const showPremiumUpsell =
+			shouldShowPremiumFeatures() && shouldShowStickerPremiumUpsell(channel) && !isSearching && lockedStickerCount > 0;
 
-		const sections = React.useMemo(() => {
+		const sections = useMemo(() => {
 			const result: Array<number> = [];
 			for (const row of virtualRows) {
 				if (row.type === 'sticker-row') {
@@ -135,7 +171,7 @@ export const StickersPicker = observer(
 			}
 		};
 
-		const handleStickerSelect = React.useCallback(
+		const handleStickerSelect = useCallback(
 			(sticker: GuildStickerRecord, shiftKey?: boolean) => {
 				const availability = checkStickerAvailability(i18n, sticker, channel);
 				if (!availability.canUse) {
@@ -148,7 +184,7 @@ export const StickersPicker = observer(
 			[channel, handleSelect, i18n],
 		);
 
-		const handleSelectionChange = React.useCallback(
+		const handleSelectionChange = useCallback(
 			(row: number, column: number, shouldScroll = false) => {
 				if (row < 0 || column < 0) {
 					return;
@@ -172,13 +208,13 @@ export const StickersPicker = observer(
 			[virtualRows],
 		);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (renderedStickers.length > 0 && selectedRow === 0 && selectedColumn === 0 && !hoveredSticker) {
 				handleSelectionChange(0, 0, false);
 			}
 		}, [renderedStickers, selectedRow, selectedColumn, hoveredSticker, handleSelectionChange]);
 
-		const handleSelectSticker = React.useCallback(
+		const handleSelectSticker = useCallback(
 			(row: number | null, column: number | null, event?: React.KeyboardEvent) => {
 				if (row === null || column === null) {
 					return;
@@ -238,9 +274,15 @@ export const StickersPicker = observer(
 								className={`${styles.list} ${styles.listWrapper}`}
 								fade={false}
 								key="stickers-picker-scroller"
-								reserveScrollbarTrack={true}
 							>
-								{showPremiumUpsell && <PremiumUpsellBanner />}
+								{showPremiumUpsell && (
+									<PremiumUpsellBanner
+										message={stickerUpsellMessage}
+										communityIds={allUpsell.summary.lockedCommunityIds}
+										communityCount={stickerCommunityCount}
+										previewContent={previewContent}
+									/>
+								)}
 								{virtualRows.map((row, index) => {
 									const stickerRowIndex = virtualRows.slice(0, index).filter((r) => r.type === 'sticker-row').length;
 									const needsSpacingAfter = row.type === 'sticker-row' && virtualRows[index + 1]?.type === 'header';

@@ -17,19 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/shared/PickerSearchInput.module.css';
+import {Input} from '@app/components/form/Input';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {useInputFocusManagement} from '@app/hooks/useInputFocusManagement';
+import {isTextInputKeyEvent} from '@app/lib/IsTextInputKeyEvent';
+import ContextMenuStore from '@app/stores/ContextMenuStore';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
+import MessageFocusStore from '@app/stores/MessageFocusStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import ModalStore from '@app/stores/ModalStore';
+import QuickSwitcherStore from '@app/stores/QuickSwitcherStore';
 import {useLingui} from '@lingui/react/macro';
 import {ArrowLeftIcon, MagnifyingGlassIcon, XIcon} from '@phosphor-icons/react';
-import React from 'react';
-import {Input} from '~/components/form/Input';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {useInputFocusManagement} from '~/hooks/useInputFocusManagement';
-import {isTextInputKeyEvent} from '~/lib/isTextInputKeyEvent';
-import ContextMenuStore from '~/stores/ContextMenuStore';
-import KeyboardModeStore from '~/stores/KeyboardModeStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import ModalStore from '~/stores/ModalStore';
-import QuickSwitcherStore from '~/stores/QuickSwitcherStore';
-import styles from './PickerSearchInput.module.css';
+import React, {useCallback, useEffect, useRef} from 'react';
 
 const MODAL_KEYBOARD_SELECTOR = '[role="dialog"], .modal-backdrop';
 
@@ -63,6 +64,7 @@ interface PickerSearchInputProps {
 	maxLength?: number;
 	showBackButton?: boolean;
 	onBackButtonClick?: () => void;
+	rightCustomElement?: React.ReactNode;
 }
 
 const assignRef = <T,>(ref: React.Ref<T> | null | undefined, value: T | null) => {
@@ -76,19 +78,29 @@ const assignRef = <T,>(ref: React.Ref<T> | null | undefined, value: T | null) =>
 
 export const PickerSearchInput = React.forwardRef<HTMLInputElement, PickerSearchInputProps>(
 	(
-		{value, onChange, placeholder, inputRef, onKeyDown, maxLength = 100, showBackButton = false, onBackButtonClick},
+		{
+			value,
+			onChange,
+			placeholder,
+			inputRef,
+			onKeyDown,
+			maxLength = 100,
+			showBackButton = false,
+			onBackButtonClick,
+			rightCustomElement,
+		},
 		forwardedRef,
 	) => {
 		const {t} = useLingui();
-		const inputElementRef = React.useRef<HTMLInputElement | null>(null);
+		const inputElementRef = useRef<HTMLInputElement | null>(null);
 		const {canFocus, safeFocusTextarea} = useInputFocusManagement(inputElementRef);
-		const valueRef = React.useRef(value);
+		const valueRef = useRef(value);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			valueRef.current = value;
 		}, [value]);
 
-		const setInputRefs = React.useCallback(
+		const setInputRefs = useCallback(
 			(element: HTMLInputElement | null) => {
 				inputElementRef.current = element;
 				assignRef(inputRef, element);
@@ -97,7 +109,7 @@ export const PickerSearchInput = React.forwardRef<HTMLInputElement, PickerSearch
 			[forwardedRef, inputRef],
 		);
 
-		const handleChange = React.useCallback(
+		const handleChange = useCallback(
 			(event: React.ChangeEvent<HTMLInputElement>) => {
 				onChange(event.target.value);
 			},
@@ -108,7 +120,7 @@ export const PickerSearchInput = React.forwardRef<HTMLInputElement, PickerSearch
 			onChange('');
 		};
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (MobileLayoutStore.enabled) {
 				return;
 			}
@@ -125,7 +137,7 @@ export const PickerSearchInput = React.forwardRef<HTMLInputElement, PickerSearch
 			};
 		}, [safeFocusTextarea]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			const handleKeyDown = (event: KeyboardEvent) => {
 				const input = inputElementRef.current;
 				if (!input) {
@@ -156,11 +168,8 @@ export const PickerSearchInput = React.forwardRef<HTMLInputElement, PickerSearch
 					return;
 				}
 
-				if (KeyboardModeStore.keyboardModeEnabled) {
-					const focusedElement = document.activeElement;
-					if (focusedElement?.closest('[data-message-id]')) {
-						return;
-					}
+				if (KeyboardModeStore.keyboardModeEnabled && MessageFocusStore.focusedMessageId) {
+					return;
 				}
 
 				if (!isTextInputKeyEvent(event)) {
@@ -207,11 +216,14 @@ export const PickerSearchInput = React.forwardRef<HTMLInputElement, PickerSearch
 					className={styles.searchInput}
 					leftIcon={<MagnifyingGlassIcon size={18} weight="regular" />}
 					rightElement={
-						value ? (
-							<button type="button" className={styles.clearButton} onClick={handleClear} aria-label={t`Clear search`}>
-								<XIcon size={18} weight="regular" />
-							</button>
-						) : undefined
+						<div className={styles.rightElementContainer}>
+							{rightCustomElement}
+							{value ? (
+								<button type="button" className={styles.clearButton} onClick={handleClear} aria-label={t`Clear search`}>
+									<XIcon size={18} weight="bold" />
+								</button>
+							) : null}
+						</div>
 					}
 				/>
 			</div>

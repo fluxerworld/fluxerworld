@@ -17,15 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {GenericErrorModal} from '@app/components/alerts/GenericErrorModal';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {GenericErrorModal} from './GenericErrorModal';
 
 export const InviteRevokeFailedModal = observer(() => {
 	const {t} = useLingui();
 	return (
 		<GenericErrorModal
-			title={t`Failed to revoke invite`}
+			title={t`Failed to Revoke Invite`}
 			message={t`We couldn't revoke the invite at this time. The invite link may still be active. Please try again in a moment.`}
 		/>
 	);

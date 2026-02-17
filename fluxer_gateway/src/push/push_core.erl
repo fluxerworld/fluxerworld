@@ -21,17 +21,19 @@
 -export([sync_user_guild_settings/3]).
 -export([sync_user_blocked_ids/2]).
 
+-spec handle_message_create(map()) -> ok.
 handle_message_create(Params) ->
-    PushEnabled = fluxer_gateway_env:get(push_enabled),
-    case PushEnabled of
+    case fluxer_gateway_env:get(push_enabled) of
         true ->
             gen_server:cast(push, {handle_message_create, Params});
         false ->
             ok
     end.
 
+-spec sync_user_guild_settings(integer(), integer(), map()) -> ok.
 sync_user_guild_settings(UserId, GuildId, UserGuildSettings) ->
     gen_server:cast(push, {sync_user_guild_settings, UserId, GuildId, UserGuildSettings}).
 
+-spec sync_user_blocked_ids(integer(), [integer()]) -> ok.
 sync_user_blocked_ids(UserId, BlockedIds) ->
     gen_server:cast(push, {sync_user_blocked_ids, UserId, BlockedIds}).

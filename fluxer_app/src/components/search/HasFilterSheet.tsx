@@ -17,6 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/search/HasFilterSheet.module.css';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import {Button} from '@app/components/uikit/button/Button';
+import {Scroller} from '@app/components/uikit/Scroller';
 import type {MessageDescriptor} from '@lingui/core';
 import {msg, t} from '@lingui/core/macro';
 import {Trans, useLingui} from '@lingui/react/macro';
@@ -33,10 +37,6 @@ import {
 } from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import type React from 'react';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import {Button} from '~/components/uikit/Button/Button';
-import {Scroller} from '~/components/uikit/Scroller';
-import styles from './HasFilterSheet.module.css';
 
 export type HasFilterType = 'image' | 'sound' | 'video' | 'file' | 'sticker' | 'embed' | 'link';
 
@@ -88,7 +88,7 @@ export const HasFilterSheet: React.FC<HasFilterSheetProps> = ({isOpen, onClose, 
 					<Trans>Show messages that contain:</Trans>
 				</p>
 
-				<Scroller className={styles.scroller} fade={false}>
+				<Scroller key="has-filter-scroller" className={styles.scroller} fade={false}>
 					<div className={styles.optionsContainer}>
 						{HAS_FILTER_OPTIONS.map((option) => {
 							const isSelected = selectedFilters.includes(option.type);

@@ -1,0 +1,369 @@
+account_disabled_suspicious:
+  subject: Ideiglenesen letiltottuk a Fluxer-fiókodat
+  body: |-
+    Szia {username}!
+
+    Ideiglenesen letiltottuk a Fluxer-fiókodat, mert gyanús aktivitást észleltünk.
+
+    {reason, select,
+      null {}
+      other {Indok: {reason}}
+    }
+
+    A hozzáférés visszaállításához új jelszót kell beállítanod:
+
+    {forgotUrl}
+
+    Ezután újra be tudsz jelentkezni.
+
+    Ha szerinted ez tévedésből történt, vedd fel a kapcsolatot az ügyfélszolgálatunkkal.
+
+    – A Fluxer biztonsági csapata
+account_scheduled_deletion:
+  subject: A Fluxer-fiókodat végleges törlésre ütemeztük
+  body: |-
+    Szia {username}!
+
+    A Fluxer-fiókodat végleges törlésre ütemeztük, mert megsértetted a felhasználási feltételeinket vagy a közösségi irányelveinket.
+
+    Tervezett törlés: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Indok: {reason}}
+    }
+
+    Ez egy komoly intézkedés. A fiókod adatait a megadott időpontban véglegesen töröljük.
+
+    Kérjük, nézd át:
+    - Felhasználási feltételek: {termsUrl}
+    - Közösségi irányelvek: {guidelinesUrl}
+
+    Fellebbezés:
+    Ha szerinted a döntés téves vagy nem megalapozott, 60 napod van fellebbezést benyújtani. Írj az appeals@fluxer.app címre, és ezt erről az e-mail-címről tedd meg.
+
+    A fellebbezésben:
+    - Írd le egyértelműen, miért gondolod, hogy a döntés téves vagy nem megalapozott.
+    - Ha tudsz, csatolj releváns bizonyítékot vagy adj meg további körülményeket.
+
+    A Fluxer biztonsági csapatának egyik tagja átnézi a fellebbezést, és a végső döntésig felfüggesztheti a törlést.
+
+    – A Fluxer biztonsági csapata
+account_temp_banned:
+  subject: Ideiglenesen felfüggesztettük a Fluxer-fiókodat
+  body: |-
+    Szia {username}!
+
+    Ideiglenesen felfüggesztettük a Fluxer-fiókodat, mert megsértetted a felhasználási feltételeinket vagy a közösségi irányelveinket.
+
+    Időtartam: {durationHours, plural,
+      =1 {1 óra}
+      other {# óra}
+    }
+    Felfüggesztés vége: {bannedUntil, date, full} {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {Indok: {reason}}
+    }
+
+    Ez idő alatt nem fogsz tudni hozzáférni a fiókodhoz.
+
+    Kérjük, nézd át:
+    - Felhasználási feltételek: {termsUrl}
+    - Közösségi irányelvek: {guidelinesUrl}
+
+    Ha szerinted a döntés téves vagy nem megalapozott, fellebbezhetsz az appeals@fluxer.app címen, és ezt erről az e-mail-címről tedd meg. Kérjük, írd le egyértelműen, miért gondolod, hogy a döntés téves. Átnézzük a fellebbezést, és visszajelzünk a döntésünkről.
+
+    – A Fluxer biztonsági csapata
+donation_confirmation:
+  subject: Köszönjük a Fluxer-adományodat
+  body: |-
+    Szia!
+
+    Köszönjük a Fluxer-adományodat! {interval, select,
+      month {Az ismétlődő adományod}
+      year {Az ismétlődő adományod}
+      other {Az egyszeri adományod}
+    } sikeresen {interval, select,
+      month {beállítva}
+      year {beállítva}
+      other {feldolgozva}
+    }.
+
+    Adomány részletei:
+    Összeg: {amount} {currency} {interval, select,
+      month {havonként}
+      year {évente}
+      other {}
+    }
+
+    A Stripe hamarosan küldi neked az elismervényt a számla PDF-ével. Ez tartalmazza az összes fizetési részletet és felhasználható adózási célokra.
+
+    Bármikor megtekintheted az adományaid előzményeit, letöltheted a számlákat, {interval, select,
+      month {és kezelheted vagy törölheted az előfizetésedet}
+      year {és kezelheted vagy törölheted az előfizetésedet}
+      other {és kezelheted a jövőbeli adományokat}
+    } ezzel a linkkel:
+
+    {manageUrl}
+
+    A támogatásod segít működtetni a Fluxert. Köszönjük!
+
+    – Fluxer csapata
+donation_magic_link:
+  subject: Kezeld a Fluxer-adományaidat
+  body: |-
+    Szia!
+
+    Az alábbi linkre kattintva elérheted az adományozói portált:
+
+    {manageUrl}
+
+    A portálon kezelheted az előfizetéseket, letöltheted a számlákat és megtekintheted az adományaid előzményeit.
+
+    Ez a link {expiresAt, date, full} {expiresAt, time, short}-ig érvényes.
+
+    Ha nem te kérted ezt a linket, nyugodtan hagyd figyelmen kívül ezt az e-mailt.
+
+    – A Fluxer csapata
+dsa_report_verification:
+  subject: E-mail-cím megerősítése DSA-bejelentéshez
+  body: |-
+    Szia!
+
+    A lenti kóddal tudod beküldeni a Digital Services Act (DSA) szerinti bejelentésedet a Fluxeren:
+
+    {code}
+
+    A kód eddig érvényes: {expiresAt, date, full} {expiresAt, time, short}.
+
+    Ha nem te kérted, nyugodtan hagyd figyelmen kívül ezt az e-mailt.
+
+    – A Fluxer biztonsági csapata
+email_change_new:
+  subject: Erősítsd meg az új Fluxer e-mail-címedet
+  body: |-
+    Szia {username}!
+
+    Írd be ezt a kódot az appban az új Fluxer e-mail-címed megerősítéséhez:
+
+    {code}
+
+    A kód eddig érvényes: {expiresAt, date, full} {expiresAt, time, short}.
+
+    Ha nem te kérted, nyugodtan hagyd figyelmen kívül ezt az e-mailt.
+
+    – A Fluxer csapata
+email_change_original:
+  subject: Erősítsd meg a Fluxer e-mail-cím módosítását
+  body: |-
+    Szia {username}!
+
+    Kérést kaptunk a Fluxer-fiókodhoz tartozó e-mail-cím megváltoztatására.
+
+    A módosítás megerősítéséhez írd be ezt a kódot az appban:
+
+    {code}
+
+    A kód eddig érvényes: {expiresAt, date, full} {expiresAt, time, short}.
+
+    Ha nem te kérted, azonnal gondoskodj a fiókod biztonságáról.
+
+    – A Fluxer csapata
+email_change_revert:
+  subject: Megváltozott a Fluxer e-mail-címed
+  body: |-
+    Szia {username}!
+
+    A Fluxer-fiókodhoz tartozó e-mail-címet erre módosítottuk: {newEmail}.
+
+    Ha te végezted a módosítást, nincs teendőd. Ha nem te voltál, ezen a linken visszaállíthatod a változtatást, és biztonságba helyezheted a fiókodat:
+
+    {revertUrl}
+
+    Ez visszaállítja a korábbi e-mail-címedet, minden eszközről kijelentkeztet, eltávolítja a kapcsolt telefonszámokat, kikapcsolja a többfaktoros hitelesítést, és új jelszó beállítását kéri.
+
+    – A Fluxer biztonsági csapata
+email_verification:
+  subject: Erősítsd meg a Fluxer e-mail-címedet
+  body: |-
+    Szia {username}!
+
+    Kérjük, erősítsd meg a Fluxer-fiókodhoz tartozó e-mail-címet az alábbi linkre kattintva:
+
+    {verifyUrl}
+
+    Ha nem te hoztál létre Fluxer-fiókot, nyugodtan figyelmen kívül hagyhatod ezt az e-mailt.
+
+    A link 24 órán át érvényes.
+
+    – A Fluxer csapata
+gift_chargeback_notification:
+  subject: Eltávolítottuk a beváltott ajándékhoz járó előnyöket
+  body: |-
+    Szia {username}!
+
+    Egy általad beváltott ajándékkódot eredetileg valaki más fizetett ki. A fizetést azóta visszaterhelték (chargeback).
+
+    Emiatt eltávolítottuk azokat az előnyöket, amelyeket a fiókodhoz adtunk, amikor beváltottad az ajándékot.
+
+    Ha szerinted ez tévedés, vedd fel a kapcsolatot az ügyfélszolgálatunkkal, és írd meg, amit tudsz az ajándékkódról és a beváltás időpontjáról.
+
+    – A Fluxer csapata
+harvest_completed:
+  subject: A Fluxer-adatexportod készen áll a letöltésre
+  body: |-
+    Szia {username}!
+
+    Elkészült az adatexportod.
+
+    Letöltési link:
+    {downloadUrl}
+
+    Tartalmazott üzenetek: {totalMessages, number}
+    Fájlméret: {fileSizeMB, number} MB
+
+    A link eddig érvényes: {expiresAt, date, full} {expiresAt, time, short}.
+
+    Ha nem te kérted ezt az exportot, azonnal változtasd meg a jelszavad, és vedd fel a kapcsolatot az ügyfélszolgálatunkkal.
+
+    – A Fluxer csapata
+inactivity_warning:
+  subject: A Fluxer-fiókodat inaktivitás miatt töröljük
+  body: |-
+    Szia {username}!
+
+    Nem láttunk aktivitást a Fluxer-fiókodon {lastActiveDate, date, full} óta.
+
+    Ha nem jelentkezel be eddig: {deletionDate, date, full} {deletionDate, time, short}, a fiókodat inaktivitás miatt véglegesen töröljük.
+
+    Jelentkezz be itt:
+    {loginUrl}
+
+    Ha nemrég használtad a Fluxert, azonnal vedd fel a kapcsolatot az ügyfélszolgálatunkkal.
+
+    – A Fluxer csapata
+ip_authorization:
+  subject: Bejelentkezés jóváhagyása új IP-címről
+  body: |-
+    Szia {username}!
+
+    Olyan bejelentkezési próbálkozást észleltünk a Fluxer-fiókodnál, amely új IP-címről történt:
+
+    IP-cím: {ipAddress}
+    Hely: {location}
+
+    Ha te voltál, az alábbi linken jóváhagyhatod ezt az IP-címet:
+
+    {authUrl}
+
+    Ha nem te próbáltál meg bejelentkezni, azonnal változtasd meg a jelszavad.
+
+    Ez a jóváhagyó link 30 percig érvényes.
+
+    – A Fluxer csapata
+password_change_verification:
+  subject: Erősítsd meg a Fluxer jelszavad módosítását
+  body: |-
+    Szia {username}!
+
+    Kérést kaptunk a Fluxer-fiókodhoz tartozó jelszó megváltoztatására.
+
+    A módosítás megerősítéséhez írd be ezt a kódot az appban:
+
+    {code}
+
+    A kód eddig érvényes: {expiresAt, date, full} {expiresAt, time, short}.
+
+    Ha nem te kérted, előfordulhat, hogy valaki hozzáfért a fiókodhoz. Azonnal változtasd meg a jelszavad, és kapcsold be a kétfaktoros hitelesítést.
+
+    – A Fluxer csapata
+password_reset:
+  subject: Állítsd vissza a Fluxer jelszavadat
+  body: |-
+    Szia {username}!
+
+    Jelszó-visszaállítást kértél a Fluxerhez. Az alábbi linken tudsz új jelszót beállítani:
+
+    {resetUrl}
+
+    Ha nem te kérted a jelszó-visszaállítást, nyugodtan hagyd figyelmen kívül ezt az e-mailt.
+
+    A link 1 órán át érvényes.
+
+    – A Fluxer csapata
+registration_approved:
+  subject: Jóváhagytuk a Fluxer-regisztrációdat
+  body: |-
+    Szia {username}!
+
+    Jó hír: jóváhagytuk a Fluxer-regisztrációdat.
+
+    Most már be tudsz jelentkezni a Fluxer appba itt:
+    {channelsUrl}
+
+    Üdv a Fluxer közösségben.
+
+    – A Fluxer csapata
+report_resolved:
+  subject: Átnéztük a bejelentésedet
+  body: |-
+    Szia {username}!
+
+    A bejelentésedet (azonosító: {reportId}) átnézte a biztonsági csapatunk.
+
+    Válasz a biztonsági csapattól:
+    {publicComment}
+
+    Köszönjük, hogy segítesz biztonságossá tenni a Fluxert mindenkinek. Minden bejelentést komolyan veszünk, és értékeljük a közösségért tett hozzájárulásod.
+
+    Ha kérdésed vagy észrevételed van a döntéssel kapcsolatban, írj a safety@fluxer.app címre.
+
+    – A Fluxer biztonsági csapata
+scheduled_deletion_notification:
+  subject: A Fluxer-fiókodat végleges törlésre ütemeztük
+  body: |-
+    Szia {username}!
+
+    A Fluxer-fiókodat végleges törlésre ütemeztük.
+
+    Tervezett törlés: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Indok: {reason}}
+    }
+
+    Ez egy komoly intézkedés. A fiókod adatait a megadott időpontban véglegesen töröljük.
+
+    Ha szerinted a döntés téves, fellebbezhetsz az appeals@fluxer.app címen, és ezt erről az e-mail-címről tedd meg.
+
+    – A Fluxer biztonsági csapata
+self_deletion_scheduled:
+  subject: Ütemeztük a Fluxer-fiókod törlését
+  body: |-
+    Szia {username}!
+
+    Te kérted a Fluxer-fiókod törlését. A fiókod végleges törlésének időpontja:
+
+    {deletionDate, date, full} {deletionDate, time, short}
+
+    Ha nem te kérted, jelentkezz be a fiókodba a törlés lemondásához. Javasoljuk azt is, hogy változtasd meg a jelszavad, hogy biztonságban tartsd a fiókodat.
+
+    – A Fluxer csapata
+unban_notification:
+  subject: Feloldottuk a Fluxer-fiókod felfüggesztését
+  body: |-
+    Szia {username}!
+
+    Jó hír: feloldottuk a Fluxer-fiókod felfüggesztését.
+
+    {reason, select,
+      null {}
+      other {Indok: {reason}}
+    }
+
+    Most már újra be tudsz lépni a fiókodba, és használhatod a Fluxert a megszokott módon.
+
+    – A Fluxer biztonsági csapata

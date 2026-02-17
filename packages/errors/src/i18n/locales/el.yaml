@@ -1,0 +1,497 @@
+account.already_verified: Ο λογαριασμός σου είναι ήδη επαληθευμένος.
+account.communication_disabled: Η επικοινωνία είναι απενεργοποιημένη.
+account.disabled: Αυτός ο λογαριασμός έχει απενεργοποιηθεί.
+account.email_verification_required_for_guild: Πρέπει να επαληθεύσεις το email σου για να στείλεις μηνύματα σε αυτόν τον server.
+account.guild_verification_required: Απαιτείται επαλήθευση server.
+account.ip_authorization_required: Απαιτείται έγκριση IP.
+account.locked_suspicious_activity: Ο λογαριασμός σου είναι κλειδωμένος λόγω ύποπτης δραστηριότητας.
+account.phone_required_for_guild: Πρέπει να προσθέσεις αριθμό τηλεφώνου για να στείλεις μηνύματα σε αυτόν τον server.
+account.scheduled_for_deletion: Αυτός ο λογαριασμός είναι προγραμματισμένος για διαγραφή.
+account.session_timeout: Η συνεδρία έληξε. Κάνε ανανέωση στη σελίδα και ξανασυνδέσου.
+account.session_token_mismatch: Δεν ταιριάζει το token της συνεδρίας.
+account.suspended_permanently: Αυτός ο λογαριασμός έχει αποκλειστεί μόνιμα.
+account.suspended_temporarily: Αυτός ο λογαριασμός έχει αποκλειστεί προσωρινά.
+account.too_new_for_guild: Ο λογαριασμός σου είναι πολύ καινούριος για να στέλνεις μηνύματα σε αυτόν τον server.
+account.unauthorized: Μη εξουσιοδοτημένο.
+admin_and_system.acls_must_be_non_empty: Τα ACLs δεν πρέπει να είναι άδεια.
+admin_and_system.admin_api_key_not_found: Δεν βρέθηκε το admin API key.
+admin_and_system.audit_log_indexing: Το audit log χρήζει ευρετηρίασης. Παρακαλώ προσπάθησε ξανά σε λίγο.
+admin_and_system.channel_indexing: Τα κανάλια χρήζουν ευρετηρίασης. Παρακαλώ προσπάθησε ξανά σε λίγο.
+admin_and_system.creation_failed: Δεν μπορέσαμε να δημιουργήσουμε τον πόρο. Παρακαλώ προσπάθησε ξανά.
+admin_and_system.deletion_failed: Δεν μπορέσαμε να διαγράψουμε τον πόρο. Παρακαλώ προσπάθησε ξανά.
+admin_and_system.decryption_failed: Δεν μπορέσαμε να αποκρυπτογραφήσουμε το μήνυμα. Τα κλειδιά κρυπτογράφησης μπορεί να είναι άκυρα ή κατεστραμμένα.
+admin_and_system.empty_encrypted_body: Άδειο κρυπτογραφημένο σώμα.
+admin_and_system.encryption_failed: Δεν μπορέσαμε να κρυπτογραφήσουμε το μήνυμα. Τα κλειδιά κρυπτογράφησης μπορεί να είναι άκυρα ή κατεστραμμένα.
+admin_and_system.general_error: Κάτι πήγε στραβά. Παρακαλώ προσπάθησε ξανά αργότερα.
+admin_and_system.invalid_acls_format: Μη έγκυρη μορφή ACLs.
+admin_and_system.invalid_api_origin: Μη έγκυρο API origin.
+admin_and_system.invalid_audit_log_reason: Μη έγκυρος λόγος audit log.
+admin_and_system.invalid_bot_flag: Μη έγκυρο bot flag.
+admin_and_system.invalid_decrypted_json: Μη έγκυρο αποκρυπτογραφημένο JSON.
+admin_and_system.invalid_ephemeral_key: Μη έγκυρο ephemeral key.
+admin_and_system.invalid_flags_format: Μη έγκυρη μορφή flags.
+admin_and_system.invalid_form_body: Μη έγκυρο σώμα φόρμας.
+admin_and_system.invalid_format: Η παρεχόμενη τιμή είναι σε μη έγκυρη μορφή.
+admin_and_system.invalid_integer_format: Μη έγκυρη μορφή ακέραιου αριθμού.
+admin_and_system.invalid_iv: Μη έγκυρο initialization vector.
+admin_and_system.invalid_suspicious_flags_format: Μη έγκυρη μορφή suspicious flags.
+admin_and_system.invalid_system_flag: Μη έγκυρο system flag.
+admin_and_system.invalid_timeout_value: Μη έγκυρη τιμή timeout.
+admin_and_system.invalid_timestamp: Μη έγκυρο timestamp.
+admin_and_system.invalid_timezone_identifier: Μη έγκυρο αναγνωριστικό ζώνης ώρας.
+admin_and_system.missing_acl: Λείπει ACL.
+admin_and_system.missing_ephemeral_key: Λείπει ephemeral key.
+admin_and_system.missing_iv: Λείπει initialization vector.
+admin_and_system.must_be_iso_timestamp: Πρέπει να είναι έγκυρο ISO timestamp.
+admin_and_system.processing_failed: Δεν μπορέσαμε να επεξεργαστούμε το αίτημα. Παρακαλώ προσπάθησε ξανά.
+admin_and_system.response_validation_failed: 'Η επαλήθευση της απόκρισης απέτυχε: {errors}.'
+admin_and_system.test_harness_disabled: Το test harness είναι απενεργοποιημένο.
+admin_and_system.test_harness_forbidden: Το test harness δεν επιτρέπεται.
+admin_and_system.unknown_suspicious_flag: Άγνωστο suspicious flag.
+admin_and_system.update_failed: Δεν μπορέσαμε να ενημερώσουμε τον πόρο. Παρακαλώ προσπάθησε ξανά.
+admin_and_system.user_must_be_bot_for_system_user: Ο χρήστης πρέπει να είναι bot για να σημειωθεί ως system user.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` και `expires_at` είναι υποχρεωτικά.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` και `message_id` πρέπει να είναι έγκυροι ακέραιοι αριθμοί.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Οι χρήστες με MANAGE_MESSAGES μπορούν να επεξεργαστούν μόνο τις περιγραφές συνημμένων, όχι άλλα metadata.
+attachments_and_uploads.attachment_metadata_without_files: Δόθηκαν metadata συνημμένου με filename, αλλά δεν ανέβηκαν αρχεία.
+attachments_and_uploads.attachment_must_be_image: Το συνημμένο "{filename}" πρέπει να είναι εικόνα (png, jpg, jpeg, webp ή gif).
+attachments_and_uploads.attachment_not_found_in_message: Δεν βρέθηκε συνημμένο με ID {attachmentId} στο μήνυμα.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Απαιτείται το array attachments metadata όταν ανεβάζεις αρχεία.
+attachments_and_uploads.attachments_not_allowed_for_message: Τα συνημμένα δεν επιτρέπονται για αυτό το μήνυμα.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Δεν μπορείς να κάνεις reference σε συνημμένα όταν δεν έχουν δοθεί συνημμένα.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Δεν επιτρέπονται διπλότυπα attachment IDs.
+attachments_and_uploads.duplicate_file_index: 'Διπλό file index: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Δεν μπορέσαμε να κάνουμε parse τα multipart form data. Έλεγξε ότι όλα τα ονόματα πεδίων και τα filenames είναι σωστά.
+attachments_and_uploads.failed_to_parse_multipart_payload: Δεν μπορέσαμε να κάνουμε parse το multipart payload.
+attachments_and_uploads.failed_to_upload_image: Δεν μπορέσαμε να ανεβάσουμε την εικόνα. Δοκίμασε ξανά.
+attachments_and_uploads.file_index_exceeds_maximum: Το file index {index} ξεπερνά το μέγιστο επιτρεπτό index {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Το αρχείο δεν βρέθηκε για σάρωση.
+attachments_and_uploads.file_not_found: Το αρχείο δεν βρέθηκε.
+attachments_and_uploads.file_size_too_large: Το μέγεθος του αρχείου είναι πολύ μεγάλο. Το μέγιστο μέγεθος αρχείου είναι {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Το filename δεν μπορεί να είναι άδειο μετά την κανονικοποίηση.
+attachments_and_uploads.filename_invalid_characters: Το filename περιέχει μη έγκυρους χαρακτήρες.
+attachments_and_uploads.filename_length_invalid: Το filename πρέπει να είναι μεταξύ {min} και {max} χαρακτήρων.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Ασυμφωνία filename για το συνημμένο {attachmentId}: στα metadata είναι "{expectedFilename}", αλλά δεν ταιριάζει.'
+attachments_and_uploads.image_size_exceeds_limit: Το μέγεθος της εικόνας ξεπερνά τα {maxSize} bytes.
+attachments_and_uploads.invalid_file_field_name: 'Μη έγκυρο όνομα πεδίου αρχείου: {key}. Αναμενόμενη μορφή: `files[N]` όπου N είναι αριθμός.'
+attachments_and_uploads.invalid_image_data: Μη έγκυρα δεδομένα εικόνας.
+attachments_and_uploads.invalid_image_format: 'Μη έγκυρη μορφή εικόνας. Υποστηριζόμενες καταλήξεις: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: Μη έγκυρο JSON στο `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Δεν επιτρέπονται πολλαπλά αρχεία για το index {index}.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Δεν ανέβηκε αρχείο για τα metadata συνημμένου με ID {attachmentId}.
+attachments_and_uploads.no_file_uploaded_for_attachment: Δεν ανέβηκε αρχείο για το συνημμένο με ID {attachmentId}.
+attachments_and_uploads.no_metadata_for_file: Δεν δόθηκαν metadata για το αρχείο με ID {fileId}.
+attachments_and_uploads.no_valid_media_in_message: Δεν βρέθηκε έγκυρο media στο μήνυμα.
+attachments_and_uploads.payload_json_required_for_multipart: Απαιτείται το πεδίο `payload_json` για multipart μηνύματα.
+attachments_and_uploads.preview_must_be_jpeg: Το preview πρέπει να είναι JPEG.
+attachments_and_uploads.referenced_attachment_not_found: Το referenced συνημμένο "{filename}" δεν βρέθηκε στα συνημμένα του μηνύματος.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` πρέπει να είναι ένας έγκυρος ακέραιος αριθμός.'
+attachments_and_uploads.too_many_files: Πάρα πολλά αρχεία. Επιτρέπονται το πολύ {maxFiles} {maxFiles, plural, one {αρχείο} other {αρχεία}}.
+attachments_and_uploads.unknown_image_format: Άγνωστη μορφή εικόνας.
+attachments_and_uploads.unresolved_attachment_url: Εντοπίστηκε μη επιλυμένο URL `attachment://`. Αυτό θα έπρεπε να έχει επιλυθεί πριν την επεξεργασία του embed.
+attachments_and_uploads.uploaded_attachment_not_found: Το ανεβασμένο συνημμένο {filename} δεν βρέθηκε.
+auth_and_oauth.application_not_owned: Δεν είσαι ιδιοκτήτης αυτής της εφαρμογής.
+auth_and_oauth.bot_already_in_guild: Αυτό το bot είναι ήδη στη συντεχνία.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Οι bot χρήστες δεν μπορούν να δημιουργούν auth sessions.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Οι bot χρήστες δεν μπορούν να χρησιμοποιούν auth endpoints.
+auth_and_oauth.handoff_code_expired: Ο handoff κωδικός έληξε.
+auth_and_oauth.handoff_code_invalid: Μη έγκυρος handoff κωδικός.
+auth_and_oauth.http_get_authorize_not_supported: Το GET /oauth2/authorize δεν υποστηρίζεται. Χρησιμοποίησε POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Μη έγκυρο client secret.
+auth_and_oauth.invalid_client: Μη έγκυρος client.
+auth_and_oauth.invalid_code: Μη έγκυρος κωδικός.
+auth_and_oauth.invalid_grant: Μη έγκυρο grant.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Μη έγκυρο ή ληγμένο authorization ticket.
+auth_and_oauth.invalid_or_expired_authorization_token: Μη έγκυρο ή ληγμένο authorization token.
+auth_and_oauth.invalid_or_expired_ticket: Μη έγκυρο ή ληγμένο ticket.
+auth_and_oauth.invalid_proof_token: Μη έγκυρο proof token.
+auth_and_oauth.invalid_redirect_uri: Μη έγκυρο redirect URI.
+auth_and_oauth.invalid_request: Μη έγκυρο αίτημα.
+auth_and_oauth.invalid_scope: Το ζητούμενο scope δεν υποστηρίζεται ή δεν έχεις δικαίωμα να το ζητήσεις.
+auth_and_oauth.invalid_sudo_token: Μη έγκυρο sudo token.
+auth_and_oauth.invalid_token_admin_api_key: Μη έγκυρο admin API key.
+auth_and_oauth.missing_authorization: Λείπει ή μη έγκυρη κεφαλίδα εξουσιοδότησης.
+auth_and_oauth.missing_client_secret: Λείπει client secret.
+auth_and_oauth.missing_redirect_uri: Λείπει redirect URI.
+auth_and_oauth.must_start_session_before_sending_messages: Πρέπει να ξεκινήσεις συνεδρία πριν στείλεις μηνύματα.
+auth_and_oauth.oauth_admin_scope_required: Τα OAuth2 tokens απαιτούν το admin scope για πρόσβαση σε admin endpoints.
+auth_and_oauth.oauth_fields_missing: Λείπουν πεδία OAuth.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Απαιτείται redirect URI για non-bot scopes.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Το response type πρέπει να είναι code για non-bot scopes.
+auth_and_oauth.sudo_mode_required: Απαιτείται sudo mode.
+auth_and_oauth.unknown_application: Άγνωστη εφαρμογή.
+auth_and_oauth.unsupported_response_type: Μη υποστηριζόμενο response type.
+auth_and_registration.current_password_incorrect: Ο τρέχων κωδικός είναι λανθασμένος.
+auth_and_registration.password_is_too_common: Ο κωδικός σου είναι πολύ κοινός. Επιλέξτε έναν πιο μοναδικό κωδικό.
+auth_and_registration.password_not_set: Ο κωδικός δεν έχει οριστεί.
+bots.bot_application_not_found: Δεν βρέθηκε η εφαρμογή bot.
+bots.bot_discriminator_cannot_be_changed: Ο διακριτικός αριθμός του bot δεν μπορεί να αλλάξει.
+bots.bot_is_private: Αυτό το bot είναι ιδιωτικό.
+bots.bot_user_generation_failed: Η δημιουργία χρήστη bot απέτυχε.
+bots.bot_user_not_found: Δεν βρέθηκε ο χρήστης bot.
+bots.invalid_response_type_for_non_bot: Το response type πρέπει να είναι code για non-bot scopes.
+bots.not_a_bot_application: Αυτή η εφαρμογή δεν είναι bot.
+calls_and_voice.call_already_exists: Η κλήση υπάρχει ήδη.
+calls_and_voice.cannot_modify_voice_state: Δεν μπορείς να τροποποιήσεις το voice state.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Μη έγκυρη ή περιορισμένη RTC περιοχή: {region}.'
+calls_and_voice.invalid_rtc_region: 'Μη έγκυρη RTC περιοχή: {region}. Διαθέσιμες περιοχές: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Μη έγκυρη μορφή stream key.
+calls_and_voice.invalid_stream_thumbnail_payload: Μη έγκυρο stream thumbnail payload.
+calls_and_voice.no_active_call: Δεν υπάρχει ενεργή κλήση.
+calls_and_voice.stream_key_channel_mismatch: Το stream key δεν ταιριάζει με το κανάλι.
+calls_and_voice.stream_key_scope_mismatch: Το stream key δεν ταιριάζει με το scope.
+calls_and_voice.stream_thumbnail_payload_empty: Το stream thumbnail payload είναι άδειο.
+calls_and_voice.unknown_voice_region: Άγνωστη voice περιοχή.
+calls_and_voice.unknown_voice_server: Άγνωστος voice server.
+calls_and_voice.voice_message_duration_exceeds_limit: Η διάρκεια του voice μηνύματος δεν μπορεί να ξεπερνά τα {maxDuration} δευτερόλεπτα.
+calls_and_voice.voice_message_duration_required: Τα συνημμένα των voice μηνυμάτων πρέπει να ορίζουν διάρκεια.
+calls_and_voice.voice_message_waveform_required: Τα συνημμένα των voice μηνυμάτων πρέπει να περιλαμβάνουν waveform data.
+calls_and_voice.voice_messages_require_single_attachment: Τα voice μηνύματα πρέπει να έχουν ακριβώς ένα συνημμένο.
+captcha.invalid: Μη έγκυρο captcha.
+captcha.required: Απαιτείται captcha.
+channels_and_guilds.afk_channel_must_be_in_guild: Το AFK κανάλι πρέπει να είναι στον server.
+channels_and_guilds.afk_channel_must_be_voice: Το AFK κανάλι πρέπει να είναι voice κανάλι.
+channels_and_guilds.all_channels_must_belong_to_guild: Όλα τα κανάλια πρέπει να ανήκουν σε αυτόν τον server.
+channels_and_guilds.animated_guild_banner_requires_feature: Το animated banner του server απαιτεί τη δυνατότητα ANIMATED_BANNER.
+channels_and_guilds.cannot_execute_on_dm: Αυτή η ενέργεια δεν μπορεί να γίνει σε DM.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Η ιδιοκτησία του διακομιστή δεν μπορεί να μεταφερθεί σε bot.
+channels_and_guilds.cannot_leave_guild_as_owner: Δεν μπορείς να φύγεις από server ως ιδιοκτήτης. Μετέφερε την ιδιοκτησία ή διέγραψε τον server.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Δεν μπορείς να τοποθετήσεις ένα κανάλι σε σχέση με τον εαυτό του ή τους απογόνους του.
+channels_and_guilds.cannot_report_own_guild: Δεν μπορείς να κάνεις αναφορά τον δικό σου server.
+channels_and_guilds.categories_cannot_have_parent_channel: Οι κατηγορίες δεν μπορούν να έχουν parent κανάλι.
+channels_and_guilds.categories_cannot_have_parents: Οι κατηγορίες δεν μπορούν να έχουν parents.
+channels_and_guilds.channel_id_required: Απαιτείται `channel_id`.
+channels_and_guilds.channel_must_be_dm_or_group_dm: Το κανάλι πρέπει να είναι DM ή group DM.
+channels_and_guilds.channel_must_be_voice: Το κανάλι πρέπει να είναι voice κανάλι.
+channels_and_guilds.channel_not_found: Το κανάλι δεν βρέθηκε.
+channels_and_guilds.context_channel_or_guild_required: Απαιτείται context channel ή guild ID.
+channels_and_guilds.guild_banner_requires_feature: Το banner του server απαιτεί τη δυνατότητα BANNER.
+channels_and_guilds.guild_id_must_match_referenced_message: Το guild ID πρέπει να ταιριάζει με το κανάλι από το οποίο έγινε fetch το referenced μήνυμα.
+channels_and_guilds.invalid_channel_id: 'Μη έγκυρο ID καναλιού: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Μη έγκυρος τύπος καναλιού για κλήση.
+channels_and_guilds.invalid_channel_type: Μη έγκυρος τύπος καναλιού.
+channels_and_guilds.invalid_channel: Μη έγκυρο κανάλι.
+channels_and_guilds.invalid_parent_channel: Μη έγκυρο parent κανάλι.
+channels_and_guilds.invite_splash_requires_feature: Το invite splash απαιτεί τη δυνατότητα INVITE_SPLASH.
+channels_and_guilds.invites_disabled: Τα invites είναι απενεργοποιημένα.
+channels_and_guilds.max_group_dm_recipients_reached: Έφτασες το μέγιστο των {count} παραληπτών σε group DM {count, plural, one {recipient} other {recipients}}.
+channels_and_guilds.max_group_dms_reached: Έφτασες το μέγιστο των {count} group {count, plural, one {DM} other {DMs}}.
+channels_and_guilds.max_guild_channels_reached: Έφτασες το μέγιστο των {count} καναλιών {count, plural, one {channel} other {channels}} στον server.
+channels_and_guilds.max_guild_members_reached: Έφτασες το μέγιστο των {count} μελών {count, plural, one {member} other {members}} στον server.
+channels_and_guilds.max_guild_roles_reached: Έφτασες το μέγιστο των {count} ρόλων {count, plural, one {role} other {roles}} στον server.
+channels_and_guilds.max_guilds_reached: Έφτασες το μέγιστο των {count} {count, plural, one {guild} other {guilds}}.
+channels_and_guilds.message_history_cutoff_before_guild_creation: Η αποκοπή ιστορικού μηνυμάτων δεν μπορεί να είναι πριν δημιουργηθεί η κοινότητα.
+channels_and_guilds.message_history_cutoff_in_future: Η αποκοπή ιστορικού μηνυμάτων δεν μπορεί να είναι στο μέλλον.
+channels_and_guilds.parent_channel_not_in_guild: Το parent κανάλι δεν υπάρχει στον server.
+channels_and_guilds.parent_must_be_category: Το parent πρέπει να είναι κατηγορία.
+channels_and_guilds.preceding_channel_must_share_parent: Το προηγούμενο κανάλι πρέπει να έχει το ίδιο parent με το κανάλι που μετακινείται.
+channels_and_guilds.preceding_channel_not_in_guild: Το προηγούμενο κανάλι δεν υπάρχει στον server.
+channels_and_guilds.system_channel_must_be_in_guild: Το system κανάλι πρέπει να είναι στον server.
+channels_and_guilds.system_channel_must_be_text: Το system κανάλι πρέπει να είναι text κανάλι.
+channels_and_guilds.temporary_invite_requires_presence: Το προσωρινό invite απαιτεί presence.
+channels_and_guilds.vanity_url_requires_feature: Το vanity URL απαιτεί τη δυνατότητα VANITY_URL.
+channels_and_guilds.voice_channel_full: Το voice κανάλι είναι γεμάτο.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Τα voice κανάλια δεν μπορούν να είναι πάνω από τα text κανάλια στην ίδια κατηγορία.
+colors.color_value_too_high: Η τιμή χρώματος δεν πρέπει να ξεπερνά το 0xffffff.
+colors.color_value_too_low: Η τιμή χρώματος πρέπει να είναι τουλάχιστον 0x000000.
+connections.already_exists: Μια σύνδεση αυτού του τύπου με αυτό το αναγνωριστικό υπάρχει ήδη.
+connections.bluesky_oauth_callback_failed: Δεν μπορέσαμε να ολοκληρώσουμε τη σύνδεση Bluesky. Παρακαλώ δοκίμασε ξανά.
+connections.bluesky_oauth_not_enabled: Οι συνδέσεις Bluesky δεν είναι ενεργοποιημένες σε αυτόν τον server.
+connections.bluesky_oauth_session_expired: Η συνεδρία σου στο Bluesky έληξε. Παρακαλώ επανασύνδεσε τον λογαριασμό σου.
+connections.bluesky_oauth_state_invalid: Το αίτημα εξουσιοδότησης έληξε ή είναι άκυρο. Παρακαλώ δοκίμασε ξανά.
+connections.invalid_identifier: Το αναγνωριστικό σύνδεσης είναι μη έγκυρο.
+connections.initiation_token_invalid: Το token έναρξης σύνδεσης είναι μη έγκυρο ή έχει λήξει.
+connections.invalid_type: Ο τύπος σύνδεσης δεν υποστηρίζεται.
+connections.limit_reached: Έφτασες το μέγιστο όριο συνδέσεων ({limit}).
+connections.not_found: Άγνωστη σύνδεση.
+connections.verification_failed: Η επαλήθευση της σύνδεσης απέτυχε. Βεβαιώσου ότι το token επαλήθευσης είναι σωστά τοποθετημένο.
+content_and_safety.content_blocked: Αυτό το περιεχόμενο μπλοκαρίστηκε από τα συστήματα ασφαλείας.
+content_and_safety.csam_scan_failed: Η σάρωση ασφάλειας περιεχομένου αντιμετώπισε σφάλμα. Παρακαλώ δοκίμασε να ανεβάσεις ξανά αργότερα.
+content_and_safety.csam_scan_parse_error: Η σάρωση ασφάλειας περιεχομένου επέστρεψε μη έγκυρη απόκριση. Παρακαλώ δοκίμασε να ανεβάσεις ξανά αργότερα.
+content_and_safety.csam_scan_subscription_error: Η υπηρεσία σάρωσης ασφάλειας περιεχομένου είναι προσωρινά μη διαθέσιμη. Παρακαλώ δοκίμασε να ανεβάσεις ξανά αργότερα.
+content_and_safety.csam_scan_timeout: Η σάρωση ασφάλειας περιεχομένου χρειάστηκε πολύ χρόνο. Παρακαλώ δοκίμασε να ανεβάσεις ξανά.
+content_and_safety.explicit_content_cannot_be_sent: Δεν μπορείς να στείλεις ρητό περιεχόμενο.
+content_and_safety.ncmec_already_submitted: Αυτό το περιεχόμενο έχει ήδη υποβληθεί στο NCMEC.
+content_and_safety.ncmec_submission_failed: Δεν μπορέσαμε να υποβάλουμε την αναφορά στο NCMEC. Παρακαλώ δοκίμασε ξανά αργότερα.
+content_and_safety.nsfw_age_restricted: Το NSFW περιεχόμενο είναι περιορισμένο βάσει ηλικίας.
+discovery.already_applied: Αυτή η κοινότητα έχει ήδη υποβάλει αίτηση για ανακάλυψη.
+discovery.application_already_reviewed: Αυτή η αίτηση ανακάλυψης έχει ήδη εξεταστεί.
+discovery.application_not_found: Η αίτηση ανακάλυψης δεν βρέθηκε.
+discovery.description_required: Απαιτείται περιγραφή για την καταχώρηση στην ανακάλυψη.
+discovery.insufficient_members: Αυτή η κοινότητα δεν πληροί τον ελάχιστο αριθμό μελών για ανακάλυψη.
+discovery.invalid_category: Μη έγκυρη κατηγορία ανακάλυψης.
+discovery.not_discoverable: Αυτή η κοινότητα δεν είναι καταχωρημένη στην ανακάλυψη.
+donation.amount_invalid: Το ποσό δωρεάς είναι μη έγκυρο.
+donation.donor_not_found: Ο δωρητής δεν βρέθηκε.
+donation.magic_link_expired: Ο μαγικός σύνδεσμος έληξε.
+donation.magic_link_invalid: Ο μαγικός σύνδεσμος είναι μη έγκυρος.
+donation.magic_link_used: Ο μαγικός σύνδεσμος έχει ήδη χρησιμοποιηθεί.
+email.email_already_in_use: Το email χρησιμοποιείται ήδη.
+email.email_required: Απαιτείται email.
+email.email_service_not_testable: Η υπηρεσία email δεν μπορεί να δοκιμαστεί.
+email.invalid_format: Μη έγκυρη μορφή διεύθυνσης email.
+email.invalid_or_expired_reset_token: Μη έγκυρο ή ληγμένο token επαναφοράς κωδικού.
+email.invalid_or_expired_revert_token: Μη έγκυρο ή ληγμένο revert token.
+email.invalid_or_expired_verification_token: Μη έγκυρο ή ληγμένο verification token.
+email.invalid_or_password: Λάθος email ή κωδικός.
+email.invalid_token: Μη έγκυρο email token.
+email.invalid_verification_code: Μη έγκυρος κωδικός επαλήθευσης.
+email.length_invalid: Η διεύθυνση email πρέπει να είναι μεταξύ {min} και {max} χαρακτήρων.
+email.must_be_changed_via_token: Το email πρέπει να αλλάξει μέσω token.
+email.must_change_via_token: Το email πρέπει να αλλάξει μέσω `email_token`.
+email.must_have_email_to_change_it: Πρέπει να έχεις διεύθυνση email για να το αλλάξεις.
+email.new_email_must_be_different: Το νέο email πρέπει να είναι διαφορετικό από το τρέχον email.
+email.no_new_email_requested: Δεν ζητήθηκε νέο email.
+email.no_original_email_on_record: Δεν υπάρχει καταχωρημένο αρχικό email.
+email.original_email_already_verified: Το αρχικό email είναι ήδη επαληθευμένο.
+email.original_email_must_be_verified_first: Πρέπει πρώτα να επαληθευτεί το αρχικό email.
+email.original_verification_not_required: Δεν απαιτείται επαλήθευση του αρχικού email για αυτή τη ροή.
+email.token_expired: Το email token έληξε.
+email.user_has_no_email_address: Αυτός ο χρήστης δεν έχει διεύθυνση email.
+email.user_is_not_pending_verification: Αυτός ο χρήστης δεν είναι σε αναμονή επαλήθευσης.
+email.verification_code_expired: Ο κωδικός επαλήθευσης έληξε.
+email.verification_code_not_issued: Δεν έχει εκδοθεί κωδικός επαλήθευσης.
+embeds.embed_index_out_of_bounds: Το embed index {embedIndex} είναι εκτός ορίων (το μήνυμα έχει {embedCount} {embedCount, plural, one {ενσωμάτωση} other {ενσωματώσεις}}).
+embeds.embed_splash_requires_feature: Το embed splash απαιτεί τη δυνατότητα INVITE_SPLASH.
+embeds.embeds_exceed_max_characters: Τα embeds δεν πρέπει να ξεπερνούν συνολικά τους {maxCharacters} {maxCharacters, plural, one {χαρακτήρα} other {χαρακτήρες}}.
+embeds.too_many_embeds: Πάρα πολλά embeds. Επιτρέπονται το πολύ {maxEmbeds} {maxEmbeds, plural, one {ενσωμάτωση} other {ενσωματώσεις}}.
+feature_flags.feature_not_available_self_hosted: Αυτή η δυνατότητα δεν είναι διαθέσιμη στις self-hosted instances.
+feature_flags.feature_temporarily_disabled: Αυτή η λειτουργία είναι προσωρινά απενεργοποιημένη.
+friends_and_dms.already_friends: Είστε ήδη φίλοι με αυτόν τον χρήστη.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Απαιτείται τουλάχιστον ένας παραλήπτης για να γίνει seed τα private κανάλια.
+friends_and_dms.at_least_one_recipient_required: Απαιτείται τουλάχιστον ένας παραλήπτης.
+friends_and_dms.bots_cannot_send_friend_requests: Τα bots δεν μπορούν να στέλνουν αιτήματα φιλίας.
+friends_and_dms.cannot_add_yourself_to_group_dm: Δεν μπορείς να προσθέσεις τον εαυτό σου σε group DM.
+friends_and_dms.cannot_dm_yourself: Δεν μπορείς να στείλεις DM στον εαυτό σου.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Δεν μπορείς να στείλεις αίτημα φιλίας σε μπλοκαρισμένο χρήστη.
+friends_and_dms.cannot_send_friend_request_to_self: Δεν μπορείς να στείλεις αίτημα φιλίας στον εαυτό σου.
+friends_and_dms.cannot_send_messages_to_user: Δεν μπορείς να στείλεις μηνύματα σε αυτόν τον χρήστη.
+friends_and_dms.duplicate_recipients_not_allowed: Δεν επιτρέπονται διπλότυποι παραλήπτες.
+friends_and_dms.friend_request_blocked: Ο χρήστης δεν δέχεται αιτήματα φιλίας αυτήν τη στιγμή.
+friends_and_dms.not_friends: Δεν είστε φίλοι με αυτόν τον χρήστη.
+friends_and_dms.recipient_ids_cannot_be_empty: Τα Recipient IDs δεν μπορεί να είναι άδεια.
+friends_and_dms.recipient_ids_must_be_strings: Τα Recipient IDs πρέπει να είναι strings.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Τα Recipient IDs πρέπει να είναι έγκυρα snowflakes.
+harvest.expired: Το harvest έληξε.
+harvest.failed: Το harvest απέτυχε.
+harvest.not_ready: Το harvest δεν είναι έτοιμο.
+harvest.on_cooldown: Το harvest είναι σε αναμονή.
+harvest.unknown: Άγνωστο harvest.
+http.bad_gateway: Κακή πύλη.
+http.bad_request: Κακό αίτημα.
+http.conflict: Σύγκρουση.
+http.forbidden: Απαγορευμένο.
+http.gateway_timeout: Αποληξία χρόνου πύλης.
+http.gone: Έχει διαγραφεί.
+http.internal_server_error: Εσωτερικό σφάλμα διακομιστή.
+http.method_not_allowed: Μέθοδος μη επιτρεπτή.
+http.not_found: Δεν βρέθηκε.
+http.not_implemented: Δεν έχει υλοποιηθεί.
+http.service_unavailable: Υπηρεσία μη διαθέσιμη.
+http.validation_error: Η επαλήθευση απέτυχε.
+invites_and_beta.invalid_or_already_used_beta_code: Μη έγκυρος ή ήδη χρησιμοποιημένος beta κωδικός.
+invites_and_beta.max_beta_codes_reached: Έφτασες το μέγιστο των {count} beta {count, plural, one {code} other {codes}}.
+invites_and_beta.unknown_beta_code: Άγνωστος beta κωδικός.
+invites_and_gifts.gift_code_already_redeemed: Ο gift κωδικός έχει ήδη εξαργυρωθεί.
+invites_and_gifts.stripe_gift_redemption_in_progress: Η εξαργύρωση του gift κωδικού είναι σε εξέλιξη. Δοκίμασε ξανά σε λίγο.
+invites_and_gifts.unknown_gift_code: Άγνωστος gift κωδικός.
+invites_and_packs.emoji_requires_access: Δεν μπορείς να χρησιμοποιήσεις αυτό το emoji χωρίς πρόσβαση στον server του ή εγκατεστημένο pack.
+invites_and_packs.invalid_pack_type: Μη έγκυρος τύπος pack.
+invites_and_packs.max_animated_emojis_reached: Έφτασες το μέγιστο των {count} κινούμενων {count, plural, one {emoji} other {emojis}}.
+invites_and_packs.max_emojis_reached: Έφτασες το μέγιστο των {count} {count, plural, one {emoji} other {emojis}}.
+invites_and_packs.max_pack_expressions_reached: Έφτασες το μέγιστο των {count} pack {count, plural, one {expression} other {expressions}}.
+invites_and_packs.max_packs_reached: Έφτασες το μέγιστο των {count} {count, plural, one {pack} other {packs}}.
+invites_and_packs.pack_access_denied: Δεν έχεις πρόσβαση στο pack.
+limits.at_least_one_entry_required: Απαιτείται τουλάχιστον μία καταχώρηση.
+limits.base64_length_invalid: Το μήκος του Base64 string πρέπει να είναι μεταξύ {min} και {maxLength} χαρακτήρων.
+limits.bucket_required: Απαιτείται `bucket`.
+limits.cannot_shrink_reserved_slots: Δεν μπορείς να μειώσεις τα reserved slots.
+limits.cannot_specify_before_and_after: Δεν μπορείς να ορίσεις και `before` και `after`.
+limits.content_exceeds_max_length: Το κείμενο δεν πρέπει να ξεπερνά τους {maxLength} {maxLength, plural, one {χαρακτήρα} other {χαρακτήρες}}.
+limits.integer_out_of_int64_range: Η τιμή ακέραιου αριθμού βρίσκεται εκτός του έγκυρου int64 εύρους.
+limits.rows_required: Απαιτείται `rows`.
+limits.string_length_exact: Το string πρέπει να είναι ακριβώς {length} χαρακτήρες.
+limits.string_length_invalid: Το μήκος του string πρέπει να είναι από {min} έως {max} χαρακτήρες.
+limits.timeout_cannot_exceed_365_days: Το timeout δεν μπορεί να είναι μεγαλύτερο από {maxDays} {maxDays, plural, one {ημέρα} other {ημέρες}} από τώρα.
+limits.value_must_be_integer_in_range: Η τιμή για το `{name}` πρέπει να είναι ακέραιος αριθμός από {minValue} έως {maxValue}.
+limits.value_too_small: Η τιμή είναι πολύ μικρή.
+media_and_memes.favorite_meme_name_required: Απαιτείται όνομα αγαπημένου meme.
+media_and_memes.favorite_meme_not_found: Δεν βρέθηκε το αγαπημένο meme.
+media_and_memes.max_favorite_memes_reached: Έφτασες το μέγιστο των {count} αγαπημένων {count, plural, one {meme} other {memes}}.
+media_and_memes.media_already_in_favorites: Αυτό το media είναι ήδη στα αγαπημένα σου memes.
+media_and_memes.media_metadata_error: Σφάλμα metadata media.
+media_and_memes.unknown_favorite_meme: Άγνωστο αγαπημένο meme.
+messages.cannot_delete_more_than_100: Δεν μπορείς να διαγράψεις περισσότερα από {max} {max, plural, one {μήνυμα} other {μηνύματα}} ταυτόχρονα.
+messages.cannot_edit_others_message: Δεν μπορείς να επεξεργαστείς το μήνυμα άλλου χρήστη.
+messages.cannot_preload_more_than_100_channels: Δεν μπορείς να προ-φορτώσεις περισσότερα από {max} {max, plural, one {κανάλι} other {κανάλια}} ταυτόχρονα.
+messages.cannot_reply_to_system_message: Δεν μπορείς να απαντήσεις σε μήνυμα συστήματος.
+messages.cannot_send_empty_message: Δεν μπορείς να στείλεις άδειο μήνυμα.
+messages.forward_messages_cannot_include_extra_content: Τα προωθημένα μηνύματα δεν μπορούν να περιλαμβάνουν περιεχόμενο, embeds, συνημμένα ή stickers.
+messages.forward_reference_requires_channel_and_message: Το reference προώθησης πρέπει να περιλαμβάνει `channel_id` και `message_id`.
+messages.invalid_message_data: Μη έγκυρα δεδομένα μηνύματος.
+messages.invalid_scheduled_message_payload: Μη έγκυρο payload προγραμματισμένου μηνύματος.
+messages.message_ids_cannot_be_empty: Το `message_ids` δεν μπορεί να είναι άδειο.
+messages.messages_array_required: Απαιτείται το array `messages` και δεν πρέπει να είναι άδειο.
+messages.messages_with_snapshots_cannot_be_edited: Δεν μπορείς να επεξεργαστείς μηνύματα με snapshots.
+messages.scheduled_messages_max_30_days: Τα προγραμματισμένα μηνύματα μπορούν να αποσταλούν το πολύ 30 ημέρες στο μέλλον.
+messages.scheduled_send_datetime_invalid: Μη έγκυρη ημερομηνία ή ώρα για προγραμματισμένη αποστολή.
+messages.scheduled_time_must_be_future: Η προγραμματισμένη ώρα πρέπει να είναι στο μέλλον.
+messages.voice_messages_attachment_must_be_audio: Τα voice message attachments πρέπει να είναι αρχεία audio.
+messages.voice_messages_cannot_have_content: Τα voice μηνύματα δεν μπορούν να έχουν text content.
+messages.voice_messages_cannot_have_embeds: Τα voice μηνύματα δεν μπορούν να έχουν embeds.
+messages.voice_messages_cannot_have_favorite_memes: Τα voice μηνύματα δεν μπορούν να έχουν αγαπημένα memes.
+messages.voice_messages_cannot_have_stickers: Τα voice μηνύματα δεν μπορούν να έχουν stickers.
+mfa_and_passkeys.invalid_mfa_code: Μη έγκυρος κωδικός MFA.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Μη έγκυρος μετρητής ταυτοποίησης WebAuthn.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Μη έγκυρος μετρητής WebAuthn credential.
+mfa_and_passkeys.invalid_webauthn_credential: Μη έγκυρο WebAuthn credential.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Μη έγκυρη μορφή δημόσιου κλειδιού WebAuthn.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Πρέπει να ενεργοποιήσεις 2FA στο λογαριασμό σου πριν το απαιτήσεις για τους moderators.
+mfa_and_passkeys.no_passkeys_registered: Δεν υπάρχουν καταχωρημένα passkeys.
+mfa_and_passkeys.passkey_authentication_failed: Η ταυτοποίηση με passkey απέτυχε.
+mfa_and_passkeys.passkeys_disabled: Τα passkeys είναι απενεργοποιημένα.
+mfa_and_passkeys.two_factor_not_enabled: Ο έλεγχος ταυτότητας δύο παραγόντων δεν είναι ενεργός.
+mfa_and_passkeys.two_factor_required: Απαιτείται έλεγχος ταυτότητας δύο παραγόντων.
+mfa_and_passkeys.unknown_webauthn_credential: Άγνωστο WebAuthn credential.
+mfa_and_passkeys.webauthn_credential_limit_reached: Έφτασες το μέγιστο των {count} WebAuthn {count, plural, one {credential} other {credentials}}.
+misc_limits.max_bookmarks_reached: Έφτασες το μέγιστο των {count} {count, plural, one {bookmark} other {bookmarks}}.
+misc_limits.max_category_channels_reached: Έφτασες το μέγιστο των {count} κατηγορίας {count, plural, one {channel} other {channels}}.
+misc_limits.max_friends_reached: Έφτασες το μέγιστο των {count} {count, plural, one {friend} other {friends}}.
+misc_limits.max_invites_reached: Έφτασες το μέγιστο των {count} {count, plural, one {invite} other {invites}}.
+misc_limits.max_pins_per_channel_reached: Έφτασες το μέγιστο των {count} {count, plural, one {pin} other {pins}} ανά κανάλι.
+misc.cannot_send_messages_in_non_text_channel: Δεν μπορείς να στείλεις μηνύματα σε κανάλι που δεν είναι text.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Πρέπει να επαληθεύσεις το email σου για να στείλεις μηνύματα σε αυτόν τον server.
+misc.invalid_job_id: Μη έγκυρο job ID.
+misc.invalid_permissions_integer: Τα permissions πρέπει να είναι έγκυρος ακέραιος αριθμός.
+misc.invalid_permissions_negative: Τα permissions πρέπει να είναι μη αρνητικά.
+misc.invalid_request_generic: Μη έγκυρο αίτημα.
+misc.invalid_snowflake: Μη έγκυρο snowflake.
+misc.job_already_processed: Το job έχει ήδη υποβληθεί σε επεξεργασία.
+misc.job_id_required: Απαιτείται job ID.
+misc.job_not_found: Το job δεν βρέθηκε.
+misc.max_files_exceeded: Πάρα πολλά αρχεία. Επιτρέπονται το πολύ {maxFiles} {maxFiles, plural, one {αρχείο} other {αρχεία}}.
+misc.must_have_bot_to_mark_system_user: Ο χρήστης πρέπει να είναι bot για να σημειωθεί ως system user.
+moderation_and_reports.cannot_report_own_message: Δεν μπορείς να κάνεις αναφορά το δικό σου μήνυμα.
+moderation_and_reports.cannot_report_yourself: Δεν μπορείς να κάνεις αναφορά τον εαυτό σου.
+moderation_and_reports.invalid_dsa_report_target: Μη έγκυρος στόχος αναφοράς DSA.
+moderation_and_reports.invalid_dsa_ticket: Μη έγκυρο DSA ticket.
+moderation_and_reports.invalid_dsa_verification_code: Μη έγκυρος κωδικός επαλήθευσης DSA.
+moderation_and_reports.report_already_resolved: Η αναφορά έχει ήδη επιλυθεί.
+moderation_and_reports.report_banned: Οι αναφορές είναι αποκλεισμένες.
+moderation_and_reports.unknown_report: Άγνωστη αναφορά.
+moderation_and_reports.user_is_not_banned: Αυτός ο χρήστης δεν είναι απαγορευμένος.
+names_and_normalization.channel_name_empty_after_normalization: Το όνομα καναλιού δεν μπορεί να είναι άδειο μετά την κανονικοποίηση.
+names_and_normalization.name_empty_after_normalization: Το όνομα δεν μπορεί να είναι άδειο μετά την κανονικοποίηση.
+permissions.missing_access: Δεν έχεις πρόσβαση.
+permissions.missing_permissions: Λείπουν δικαιώματα.
+permissions.not_owner_of_admin_api_key: Δεν έχεις δικαίωμα να τροποποιήσεις αυτό το admin API key.
+permissions.user_banned_from_guild: Αυτός ο χρήστης είναι αποκλεισμένος από αυτόν τον server.
+permissions.user_ip_banned_from_guild: Η IP αυτού του χρήστη είναι αποκλεισμένη από αυτόν τον server.
+permissions.user_not_in_channel: Αυτός ο χρήστης δεν είναι σε αυτό το κανάλι.
+permissions.user_not_in_voice: Αυτός ο χρήστης δεν είναι σε voice.
+permissions.user_owns_guilds: Αυτός ο χρήστης είναι ιδιοκτήτης σε servers.
+phone.invalid_number: Μη έγκυρος αριθμός τηλεφώνου.
+phone.number_already_used: Ο αριθμός τηλεφώνου χρησιμοποιείται ήδη.
+phone.number_format_required: Ο αριθμός τηλεφώνου πρέπει να είναι σε μορφή E.164 (π.χ. +1234567890).
+phone.phone_required_for_sms_mfa: Απαιτείται αριθμός τηλεφώνου για SMS MFA.
+phone.sms_mfa_not_enabled: Το SMS MFA δεν είναι ενεργό.
+phone.sms_mfa_requires_totp: Το SMS MFA απαιτεί TOTP.
+phone.sms_verification_unavailable: Η επαλήθευση μέσω SMS δεν είναι διαθέσιμη προσωρινά. Δοκίμασε ξανά αργότερα.
+phone.verification_code_invalid: Μη έγκυρος κωδικός επαλήθευσης τηλεφώνου.
+phone.verification_required: Απαιτείται επαλήθευση τηλεφώνου.
+premium_and_plans.animated_avatars_require_premium: Τα animated avatars απαιτούν Premium.
+premium_and_plans.banners_require_premium: Τα banners απαιτούν Premium.
+premium_and_plans.bio_requires_premium_for_length: Ένα bio μεγαλύτερο από {maxLength} χαρακτήρες απαιτεί Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Δεν μπορείς να εξαργυρώσεις Plutonium με Visionary.
+premium_and_plans.custom_emojis_outside_source_require_premium: Δεν μπορείς να χρησιμοποιείς custom emojis εκτός των source servers τους χωρίς Premium.
+premium_and_plans.custom_stickers_in_dms_require_premium: Δεν μπορείς να χρησιμοποιείς custom stickers σε DM χωρίς Premium.
+premium_and_plans.custom_stickers_outside_source_require_premium: Δεν μπορείς να χρησιμοποιείς custom stickers εκτός των source servers τους χωρίς Premium.
+premium_and_plans.discriminator_change_requires_premium: Η αλλαγή discriminator απαιτεί Premium.
+premium_and_plans.no_active_subscription: Δεν υπάρχει ενεργή συνδρομή.
+premium_and_plans.no_visionary_slots_available: Δεν υπάρχουν διαθέσιμες θέσεις Visionary.
+premium_and_plans.premium_required_for_custom_emoji: Απαιτείται Premium για να χρησιμοποιήσεις custom emoji.
+premium_and_plans.visionary_required_for_bot_discriminator: Πρέπει να είσαι στο lifetime πλάνο Visionary για να προσαρμόσεις bot discriminators.
+premium_and_plans.visionary_required_for_discriminator: Πρέπει να είσαι στο lifetime πλάνο Visionary για να χρησιμοποιήσεις αυτόν τον discriminator.
+rate_limits.accent_color_changed_too_often: Έχεις αλλάξει πολύ συχνά το χρώμα έμφασης τελευταία. Δοκίμασε ξανά σε {minutes} {minutes, plural, one {λεπτό} other {λεπτά}}.
+rate_limits.avatar_changed_too_often: Έχεις αλλάξει πολύ συχνά το avatar σου τελευταία. Δοκίμασε ξανά σε {minutes} {minutes, plural, one {λεπτό} other {λεπτά}}.
+rate_limits.banner_changed_too_often: Έχεις αλλάξει πολύ συχνά το banner σου τελευταία. Δοκίμασε ξανά σε {minutes} {minutes, plural, one {λεπτό} other {λεπτά}}.
+rate_limits.bio_changed_too_often: Έχεις αλλάξει πολύ συχνά το bio σου τελευταία. Δοκίμασε ξανά σε {minutes} {minutes, plural, one {λεπτό} other {λεπτά}}.
+rate_limits.ip_authorization_resend_cooldown: Η επαναποστολή έγκρισης IP είναι σε αναμονή.
+rate_limits.ip_authorization_resend_limit_exceeded: Ξεπέρασες το όριο επαναποστολών για έγκριση IP.
+rate_limits.phone_rate_limit_exceeded: Ξεπέρασες το όριο ενεργειών για το τηλέφωνο.
+rate_limits.pronouns_changed_too_often: Έχεις αλλάξει πολύ συχνά τις αντωνυμίες σου τελευταία. Δοκίμασε ξανά σε {minutes} {minutes, plural, one {λεπτό} other {λεπτά}}.
+rate_limits.rate_limited: Έχεις μπει σε rate limit.
+rate_limits.slowmode_rate_limited: Έχεις μπει σε rate limit λόγω slow mode.
+rate_limits.username_changed_too_often: Έχεις αλλάξει πολύ συχνά το username σου τελευταία. Δοκίμασε ξανά σε {minutes} {minutes, plural, one {λεπτό} other {λεπτά}}.
+roles.cannot_reorder_everyone_role: Δεν μπορείς να αλλάξεις σειρά στον ρόλο @everyone.
+roles.cannot_set_everyone_hoist: Δεν μπορείς να ορίσεις hoist θέση για τον ρόλο @everyone.
+roles.cannot_use_same_role_as_preceding: Δεν μπορείς να χρησιμοποιήσεις τον ίδιο ρόλο με έναν προηγούμενο ρόλο.
+roles.invalid_role_id: 'Μη έγκυρο role ID: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Δεν μπορείς να χρησιμοποιήσεις `parse` μαζί με `allowed_mentions.users` ή `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Ο προηγούμενος ρόλος δεν υπάρχει στον server.
+stickers_and_emojis.custom_emoji_not_found: Δεν βρέθηκε το custom emoji.
+stickers_and_emojis.custom_sticker_not_found: Δεν βρέθηκε το custom sticker.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Δεν μπορείς να χρησιμοποιήσεις αυτό το emoji χωρίς πρόσβαση στον server του ή εγκατεστημένο pack.
+stickers_and_emojis.max_reactions_reached: Έφτασες το μέγιστο των {count} {count, plural, one {reaction} other {reactions}}.
+stickers_and_emojis.max_stickers_reached: Έφτασες το μέγιστο των {count} {count, plural, one {sticker} other {stickers}}.
+stickers_and_emojis.not_valid_unicode_emoji: Δεν είναι έγκυρο Unicode emoji.
+stickers_and_emojis.unknown_emoji: Άγνωστο emoji.
+stickers_and_emojis.unknown_sticker: Άγνωστο sticker.
+stripe.error: Σφάλμα Stripe.
+stripe.invalid_product_configuration: Μη έγκυρη ρύθμιση προϊόντος.
+stripe.invalid_product_selection: Μη έγκυρη επιλογή προϊόντος.
+stripe.no_active_subscription_found: Δεν βρέθηκε ενεργή συνδρομή.
+stripe.no_purchase_history_customer_portal_unavailable: Δεν βρέθηκε ιστορικό αγορών. Το customer portal δεν είναι διαθέσιμο.
+stripe.no_subscription_found: Δεν βρέθηκε συνδρομή.
+stripe.payment_not_available: Η επεξεργασία πληρωμών δεν είναι διαθέσιμη.
+stripe.subscription_already_canceling: Η συνδρομή είναι ήδη ρυθμισμένη να ακυρωθεί στο τέλος της περιόδου.
+stripe.subscription_not_canceling: Η συνδρομή δεν είναι ρυθμισμένη να ακυρωθεί.
+stripe.subscription_period_end_missing: Λείπει το subscription current_period_end.
+stripe.webhook_not_available: Η επεξεργασία webhook δεν είναι διαθέσιμη.
+stripe.webhook_signature_invalid: Η υπογραφή webhook του Stripe δεν είναι έγκυρη.
+stripe.webhook_signature_missing: Λείπει η υπογραφή webhook του Stripe.
+tickets.ticket_already_completed: Αυτό το ticket έχει ήδη ολοκληρωθεί.
+tos_and_age.date_of_birth_format_invalid: Μη έγκυρη μορφή ημερομηνίας γέννησης.
+tos_and_age.must_agree_to_tos_and_privacy: Πρέπει να συμφωνήσεις με τους Όρους χρήσης και την Πολιτική απορρήτου.
+tos_and_age.must_be_minimum_age: Πρέπει να είσαι τουλάχιστον {minAge} {minAge, plural, one {χρόνο} other {χρόνια}} για να δημιουργήσεις λογαριασμό.
+unknown_entities.unknown_application: Η εφαρμογή δεν βρέθηκε.
+unknown_entities.unknown_channel: Άγνωστο κανάλι.
+unknown_entities.unknown_guild: Άγνωστος server.
+unknown_entities.unknown_invite: Άγνωστο invite.
+unknown_entities.unknown_member: Άγνωστο μέλος.
+unknown_entities.unknown_message: Άγνωστο μήνυμα.
+unknown_entities.unknown_pack: Άγνωστο pack.
+unknown_entities.unknown_role: Άγνωστος ρόλος.
+unknown_entities.unknown_user_flag: Άγνωστο user flag.
+unknown_entities.unknown_user: Άγνωστος χρήστης.
+urls.invalid_url_format: Μη έγκυρη μορφή URL.
+urls.invalid_url_or_attachment_reference: Μη έγκυρη μορφή URL ή reference συνημμένου.
+urls.url_length_invalid: Το URL πρέπει να είναι μεταξύ {min} και {max} χαρακτήρων.
+usernames_and_tags.discriminator_invalid_format: Ο discriminator πρέπει να είναι {min}–{max} ψηφία.
+usernames_and_tags.discriminator_out_of_range: Ο discriminator πρέπει να είναι μεταξύ {min} και {max}.
+usernames_and_tags.discriminator_required: Απαιτείται discriminator.
+usernames_and_tags.display_name_length_invalid: Το display name πρέπει να είναι μεταξύ {min} και {max} χαρακτήρων.
+usernames_and_tags.display_name_reserved_terms: Το display name δεν μπορεί να περιέχει "system message".
+usernames_and_tags.display_name_reserved_value: Το display name δεν μπορεί να είναι "everyone" ή "here".
+usernames_and_tags.global_name_length_invalid: Το global name πρέπει να είναι από {min} έως {max} χαρακτήρες.
+usernames_and_tags.global_name_reserved_value: Το global name δεν μπορεί να είναι "everyone" ή "here".
+usernames_and_tags.tag_already_taken: Αυτό το tag χρησιμοποιείται ήδη.
+usernames_and_tags.too_many_users_with_this_username: Υπάρχουν πάρα πολλοί χρήστες με αυτό το username.
+usernames_and_tags.too_many_users_with_username_try_different: Υπάρχουν πάρα πολλοί χρήστες με αυτό το username. Δοκίμασε άλλο.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Οι μη διεκδικημένοι λογαριασμοί μπορούν να θέσουν email μόνο μέσω token.
+usernames_and_tags.username_invalid_characters: Το username μπορεί να περιέχει μόνο λατινικά γράμματα (a-z, A-Z), αριθμούς (0-9) και κάτω παύλες (_).
+usernames_and_tags.username_length_invalid: Το username πρέπει να είναι μεταξύ {min} και {max} χαρακτήρων.
+usernames_and_tags.username_not_available: Αυτό το username δεν είναι διαθέσιμο.
+usernames_and_tags.username_reserved_terms: Το username δεν μπορεί να περιέχει "fluxer" ή "system message".
+usernames_and_tags.username_reserved_value: Το username δεν μπορεί να είναι "everyone" ή "here".
+vanity_urls.vanity_url_already_taken: Αυτό το vanity URL χρησιμοποιείται ήδη.
+vanity_urls.vanity_url_code_already_taken: Αυτός ο κωδικός vanity URL χρησιμοποιείται ήδη.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Ο κωδικός vanity URL δεν μπορεί να περιέχει "fluxer".
+vanity_urls.vanity_url_code_length_invalid: Ο κωδικός vanity URL πρέπει να είναι μεταξύ {min} και {max} χαρακτήρων.
+vanity_urls.vanity_url_invalid_characters: Το vanity URL μπορεί να περιέχει μόνο πεζά γράμματα (a-z), ψηφία (0-9) και παύλες (-).
+webhooks.cannot_modify_system_webhook: Δεν μπορείς να επεξεργαστείς τα system μηνύματα.
+webhooks.max_webhooks_per_channel_reached: Έφτασες το μέγιστο των {count} {count, plural, one {webhook} other {webhooks}} ανά κανάλι.
+webhooks.max_webhooks_per_guild_reached: Έφτασες το μέγιστο των {count} {count, plural, one {webhook} other {webhooks}} ανά server.
+webhooks.max_webhooks_reached: Έφτασες το μέγιστο των {count} {count, plural, one {webhook} other {webhooks}}.
+webhooks.unknown_webhook: Άγνωστο webhook.
+webhooks.webhook_name_length_invalid: Το όνομα του webhook πρέπει να είναι από {min} έως {max} χαρακτήρες.

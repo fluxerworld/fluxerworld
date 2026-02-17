@@ -1,0 +1,10 @@
+{
+	"recommendations": [
+		"TypeScriptTeam.native-preview",
+		"biomejs.biome",
+		"clinyong.vscode-css-modules",
+		"pgourlain.erlang",
+		"golang.go",
+		"rust-lang.rust-analyzer"
+	]
+}

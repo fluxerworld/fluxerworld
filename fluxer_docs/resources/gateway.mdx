@@ -1,0 +1,44 @@
+---
+title: 'Gateway'
+description: 'Gateway object schemas from the Fluxer API.'
+---
+
+<a id="customstatusresponse"></a>
+
+## CustomStatusResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| emoji_animated | boolean | Whether the status emoji is animated |
+| emoji_id? | ?[SnowflakeType](#snowflaketype) | The ID of the custom emoji used in the status |
+| emoji_name? | ?string | The name of the emoji used in the status |
+| expires_at? | ?string (date-time) | ISO8601 timestamp of when the custom status expires |
+| text? | ?string | The custom status message text |
+
+<a id="gatewaybotresponse"></a>
+
+## GatewayBotResponse
+
+**Related endpoints**
+
+- [`GET /gateway/bot`](/api-reference/gateway/get-gateway-information)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| session_start_limit | [GatewayBotResponseSessionStartLimit](#gatewaybotresponsesessionstartlimit) | Session start rate limit information |
+| shards | integer (int53) | Recommended number of shards to use when connecting |
+| url | string | WebSocket URL to connect to the gateway |
+
+<a id="gatewaybotresponsesessionstartlimit"></a>
+
+## GatewayBotResponseSessionStartLimit
+
+Session start rate limit information
+
+| Field | Type | Description |
+|-------|------|-------------|
+| max_concurrency | integer (int53) | Maximum number of concurrent IDENTIFY requests |
+| remaining | integer (int53) | Remaining number of session starts |
+| reset_after | integer (int53) | Milliseconds until the limit resets |
+| total | integer (int53) | Total number of session starts allowed |
+

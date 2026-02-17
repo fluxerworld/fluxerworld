@@ -24,7 +24,7 @@
 }
 
 .modalRoot {
-	composes: root large from './Modal.module.css';
+	composes: root large from '@app/components/modals/Modal.module.css';
 	width: 720px;
 	max-width: 720px;
 	overflow: visible;

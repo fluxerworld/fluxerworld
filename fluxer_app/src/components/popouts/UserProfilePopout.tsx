@@ -17,48 +17,60 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as PopoutActionCreators from '@app/actions/PopoutActionCreators';
+import * as PrivateChannelActionCreators from '@app/actions/PrivateChannelActionCreators';
+import * as UserProfileActionCreators from '@app/actions/UserProfileActionCreators';
+import {CustomStatusDisplay} from '@app/components/common/custom_status_display/CustomStatusDisplay';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {UserProfileModal} from '@app/components/modals/UserProfileModal';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
+import {UserProfileBadges} from '@app/components/popouts/UserProfileBadges';
+import {UserProfileDataWarning} from '@app/components/popouts/UserProfileDataWarning';
+import styles from '@app/components/popouts/UserProfilePopout.module.css';
+import {
+	UserProfileConnections,
+	UserProfileMembershipInfo,
+	UserProfilePreviewBio,
+	UserProfileRoles,
+} from '@app/components/popouts/UserProfileShared';
+import {ProfileCardActions} from '@app/components/profile/profile_card/ProfileCardActions';
+import {ProfileCardBanner} from '@app/components/profile/profile_card/ProfileCardBanner';
+import {ProfileCardContent} from '@app/components/profile/profile_card/ProfileCardContent';
+import {ProfileCardFooter} from '@app/components/profile/profile_card/ProfileCardFooter';
+import {ProfileCardLayout} from '@app/components/profile/profile_card/ProfileCardLayout';
+import {ProfileCardUserInfo} from '@app/components/profile/profile_card/ProfileCardUserInfo';
+import {useProfileCardDisplayState} from '@app/components/profile/useProfileCardDisplayState';
+import {VoiceActivitySection} from '@app/components/profile/VoiceActivitySection';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRingScope from '@app/components/uikit/focus_ring/FocusRingScope';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useAutoplayExpandedProfileAnimations} from '@app/hooks/useAutoplayExpandedProfileAnimations';
+import {useHover} from '@app/hooks/useHover';
+import {Logger} from '@app/lib/Logger';
+import type {ProfileRecord} from '@app/records/ProfileRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import MemberPresenceSubscriptionStore from '@app/stores/MemberPresenceSubscriptionStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import UserProfileStore from '@app/stores/UserProfileStore';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {createMockProfile} from '@app/utils/ProfileUtils';
+import {Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {MEDIA_PROXY_PROFILE_BANNER_SIZE_POPOUT} from '@fluxer/constants/src/MediaProxyAssetSizes';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {ChatTeardropIcon, PencilIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as PopoutActionCreators from '~/actions/PopoutActionCreators';
-import * as PrivateChannelActionCreators from '~/actions/PrivateChannelActionCreators';
-import * as UserProfileActionCreators from '~/actions/UserProfileActionCreators';
-import {DEFAULT_ACCENT_COLOR, Permissions} from '~/Constants';
-import {CustomStatusDisplay} from '~/components/common/CustomStatusDisplay/CustomStatusDisplay';
-import {CustomStatusModal} from '~/components/modals/CustomStatusModal';
-import {UserProfileModal} from '~/components/modals/UserProfileModal';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import {UserProfileBadges} from '~/components/popouts/UserProfileBadges';
-import {UserProfileDataWarning} from '~/components/popouts/UserProfileDataWarning';
-import {UserProfileBio, UserProfileMembershipInfo, UserProfileRoles} from '~/components/popouts/UserProfileShared';
-import {ProfileCardActions} from '~/components/profile/ProfileCard/ProfileCardActions';
-import {ProfileCardBanner} from '~/components/profile/ProfileCard/ProfileCardBanner';
-import {ProfileCardContent} from '~/components/profile/ProfileCard/ProfileCardContent';
-import {ProfileCardFooter} from '~/components/profile/ProfileCard/ProfileCardFooter';
-import {ProfileCardLayout} from '~/components/profile/ProfileCard/ProfileCardLayout';
-import {ProfileCardUserInfo} from '~/components/profile/ProfileCard/ProfileCardUserInfo';
-import {Button} from '~/components/uikit/Button/Button';
-import FocusRingScope from '~/components/uikit/FocusRing/FocusRingScope';
-import {Spinner} from '~/components/uikit/Spinner';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useAutoplayExpandedProfileAnimations} from '~/hooks/useAutoplayExpandedProfileAnimations';
-import {useHover} from '~/hooks/useHover';
-import type {ProfileRecord} from '~/records/ProfileRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import MemberPresenceSubscriptionStore from '~/stores/MemberPresenceSubscriptionStore';
-import PermissionStore from '~/stores/PermissionStore';
-import UserProfileStore from '~/stores/UserProfileStore';
-import * as ColorUtils from '~/utils/ColorUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import * as ProfileDisplayUtils from '~/utils/ProfileDisplayUtils';
-import {createMockProfile} from '~/utils/ProfileUtils';
-import styles from './UserProfilePopout.module.css';
+import type React from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
+
+const logger = new Logger('UserProfilePopout');
 
 interface UserProfilePopoutProps {
 	popoutKey: string | number;
@@ -72,29 +84,35 @@ export const UserProfilePopout: React.FC<UserProfilePopoutProps> = observer(
 	({popoutKey, user, isWebhook, guildId, isPreview}) => {
 		const {t} = useLingui();
 		const [hoverRef, isHovering] = useHover();
-		const [profile, setProfile] = React.useState<ProfileRecord | null>(() => {
+		const [profile, setProfile] = useState<ProfileRecord | null>(() => {
 			const cachedProfile = UserProfileStore.getProfile(user.id, guildId);
 			return cachedProfile ?? createMockProfile(user);
 		});
-		const [profileLoadError, setProfileLoadError] = React.useState(false);
-		const profileData = React.useMemo(() => profile?.getEffectiveProfile() ?? null, [profile]);
+		const [profileLoadError, setProfileLoadError] = useState(false);
+		const showProfileDataWarning = !isWebhook && (profileLoadError || DeveloperOptionsStore.forceProfileDataWarning);
 
 		const guildMember = GuildMemberStore.getMember(profile?.guildId ?? '', user.id);
 		const memberRoles = profile?.guildId && guildMember ? guildMember.getSortedRoles() : [];
 		const canManageRoles = PermissionStore.can(Permissions.MANAGE_ROLES, {guildId});
 		const isCurrentUser = user.id === AuthenticationStore.currentUserId;
+		const relationshipType = RelationshipStore.getRelationship(user.id)?.type;
+		const isBlocked = relationshipType === RelationshipTypes.BLOCKED;
 
-		const openFullProfile = React.useCallback(
+		const openFullProfile = useCallback(
 			(autoFocusNote?: boolean) => {
+				if (isWebhook) {
+					return;
+				}
+
 				ModalActionCreators.push(
 					modal(() => <UserProfileModal userId={user.id} guildId={guildId} autoFocusNote={autoFocusNote} />),
 				);
 				PopoutActionCreators.close(popoutKey);
 			},
-			[user.id, guildId, popoutKey],
+			[isWebhook, user.id, guildId, popoutKey],
 		);
 
-		const fetchProfile = React.useCallback(async () => {
+		const fetchProfile = useCallback(async () => {
 			if (isWebhook) return;
 
 			const isGuildMember = guildId ? GuildMemberStore.getMember(guildId, user.id) : false;
@@ -110,18 +128,27 @@ export const UserProfilePopout: React.FC<UserProfilePopoutProps> = observer(
 				setProfile(fetchedProfile);
 				setProfileLoadError(false);
 			} catch (error) {
-				console.error('Failed to fetch profile for user popout:', error);
+				logger.error('Failed to fetch profile for user popout', error);
 				const cachedProfile = UserProfileStore.getProfile(user.id, guildId);
 				setProfile(cachedProfile ?? createMockProfile(user));
 				setProfileLoadError(true);
 			}
 		}, [guildId, user.id, isWebhook]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			fetchProfile();
 		}, [fetchProfile]);
 
-		React.useEffect(() => {
+		useEffect(() => {
+			if (profileLoadError && profile) {
+				const profileData = profile?.getEffectiveProfile() ?? null;
+				if (profileData && Object.keys(profileData).length > 0) {
+					setProfileLoadError(false);
+				}
+			}
+		}, [profileLoadError, profile]);
+
+		useEffect(() => {
 			if (!guildId || !user.id || isWebhook) {
 				return;
 			}
@@ -130,7 +157,7 @@ export const UserProfilePopout: React.FC<UserProfilePopoutProps> = observer(
 			if (!hasMember) {
 				MemberPresenceSubscriptionStore.touchMember(guildId, user.id);
 				GuildMemberStore.fetchMembers(guildId, {userIds: [user.id]}).catch((error) => {
-					console.error('[UserProfilePopout] Failed to fetch guild member:', error);
+					logger.error('Failed to fetch guild member', error);
 				});
 			} else {
 				MemberPresenceSubscriptionStore.touchMember(guildId, user.id);
@@ -146,8 +173,7 @@ export const UserProfilePopout: React.FC<UserProfilePopoutProps> = observer(
 			PopoutActionCreators.close(popoutKey);
 		};
 
-		const openCustomStatus = React.useCallback(() => {
-			ModalActionCreators.push(modal(() => <CustomStatusModal />));
+		const handleClosePopout = useCallback(() => {
 			PopoutActionCreators.close(popoutKey);
 		}, [popoutKey]);
 
@@ -156,33 +182,37 @@ export const UserProfilePopout: React.FC<UserProfilePopoutProps> = observer(
 				PopoutActionCreators.close(popoutKey);
 				await PrivateChannelActionCreators.openDMChannel(user.id);
 			} catch (error) {
-				console.error('Failed to open DM channel:', error);
+				logger.error('Failed to open DM channel', error);
 			}
 		};
 
-		const profileContext = React.useMemo<ProfileDisplayUtils.ProfileDisplayContext>(
-			() => ({
-				user,
-				profile,
-				guildId: profile?.guildId,
-				guildMember,
-				guildMemberProfile: profile?.guildMemberProfile,
-			}),
-			[user, profile, guildMember],
-		);
-
-		const {avatarUrl, hoverAvatarUrl} = React.useMemo(
-			() => ProfileDisplayUtils.getProfileAvatarUrls(profileContext),
-			[profileContext],
-		);
+		const handleOpenBlockedDm = () => {
+			ModalActionCreators.push(
+				modal(() => (
+					<ConfirmModal
+						title={t`Open DM`}
+						description={t`You blocked ${user.username}. You won't be able to send messages unless you unblock them.`}
+						primaryText={t`Open DM`}
+						primaryVariant="primary"
+						onPrimary={handleMessage}
+					/>
+				)),
+			);
+		};
 
 		const shouldAutoplayProfileAnimations = useAutoplayExpandedProfileAnimations();
-		const bannerUrl = React.useMemo(
-			() => ProfileDisplayUtils.getProfileBannerUrl(profileContext, undefined, shouldAutoplayProfileAnimations, 600),
-			[profileContext, shouldAutoplayProfileAnimations],
-		);
 
-		const popoutContainerRef = React.useRef<HTMLDivElement | null>(null);
+		const {avatarUrl, hoverAvatarUrl, bannerUrl, accentColor, profileData} = useProfileCardDisplayState({
+			user,
+			profile,
+			guildId: profile?.guildId,
+			guildMember,
+			guildMemberProfile: profile?.guildMemberProfile,
+			shouldAutoplayProfileAnimations,
+			bannerSize: MEDIA_PROXY_PROFILE_BANNER_SIZE_POPOUT,
+		});
+
+		const popoutContainerRef = useRef<HTMLDivElement | null>(null);
 		const displayName = NicknameUtils.getNickname(user, guildId);
 
 		if (!profile && !isWebhook) {
@@ -193,10 +223,8 @@ export const UserProfilePopout: React.FC<UserProfilePopoutProps> = observer(
 			);
 		}
 
-		const rawAccentColor = profileData?.accent_color ?? null;
-		const accentColorHex = typeof rawAccentColor === 'number' ? ColorUtils.int2hex(rawAccentColor) : rawAccentColor;
-		const borderColor = accentColorHex || DEFAULT_ACCENT_COLOR;
-		const bannerColor = accentColorHex || DEFAULT_ACCENT_COLOR;
+		const borderColor = accentColor;
+		const bannerColor = accentColor;
 
 		return (
 			<FocusRingScope containerRef={popoutContainerRef}>
@@ -210,22 +238,17 @@ export const UserProfilePopout: React.FC<UserProfilePopoutProps> = observer(
 							hoverAvatarUrl={hoverAvatarUrl}
 							disablePresence={isWebhook}
 							isClickable={!isWebhook}
-							onAvatarClick={() => openFullProfile()}
+							onAvatarClick={!isWebhook ? () => openFullProfile() : undefined}
 						/>
 
-						{!isWebhook && (
-							<UserProfileBadges
-								user={user}
-								profile={profile}
-								warningIndicator={
-									profileLoadError || DeveloperOptionsStore.forceProfileDataWarning ? (
-										<UserProfileDataWarning />
-									) : undefined
-								}
-							/>
-						)}
+						{!isWebhook && <UserProfileBadges user={user} profile={profile} />}
 
 						<ProfileCardContent isWebhook={isWebhook}>
+							{showProfileDataWarning && (
+								<div className={styles.profileDataWarning}>
+									<UserProfileDataWarning />
+								</div>
+							)}
 							<ProfileCardUserInfo
 								displayName={displayName}
 								user={user}
@@ -233,8 +256,8 @@ export const UserProfilePopout: React.FC<UserProfilePopoutProps> = observer(
 								showUsername={!isWebhook}
 								isClickable={!isWebhook}
 								isWebhook={isWebhook}
-								onDisplayNameClick={() => openFullProfile()}
-								onUsernameClick={() => openFullProfile()}
+								onDisplayNameClick={!isWebhook ? () => openFullProfile() : undefined}
+								onUsernameClick={!isWebhook ? () => openFullProfile() : undefined}
 								actions={
 									!isWebhook && (
 										<ProfileCardActions
@@ -252,15 +275,13 @@ export const UserProfilePopout: React.FC<UserProfilePopoutProps> = observer(
 										className={styles.profileCustomStatusText}
 										allowJumboEmoji
 										maxLines={0}
-										isEditable={isCurrentUser}
-										onEdit={openCustomStatus}
-										showPlaceholder={isCurrentUser}
 										alwaysAnimate={shouldAutoplayProfileAnimations}
 									/>
 								</div>
 							)}
+							{!isWebhook && <VoiceActivitySection userId={user.id} onNavigate={handleClosePopout} />}
 							{profile && (
-								<UserProfileBio
+								<UserProfilePreviewBio
 									profile={profile}
 									profileData={profileData ?? null}
 									onShowMore={() => openFullProfile()}
@@ -275,6 +296,7 @@ export const UserProfilePopout: React.FC<UserProfilePopoutProps> = observer(
 									canManageRoles={canManageRoles}
 								/>
 							)}
+							{profile && <UserProfileConnections profile={profile} variant="compact" />}
 						</ProfileCardContent>
 
 						{!isWebhook && (
@@ -305,9 +327,9 @@ export const UserProfilePopout: React.FC<UserProfilePopoutProps> = observer(
 									<Button
 										small={true}
 										leftIcon={<ChatTeardropIcon className={styles.iconSmall} />}
-										onClick={handleMessage}
+										onClick={isBlocked ? handleOpenBlockedDm : handleMessage}
 									>
-										<Trans>Message</Trans>
+										{isBlocked ? <Trans>Open DM</Trans> : <Trans>Message</Trans>}
 									</Button>
 								)}
 							</ProfileCardFooter>

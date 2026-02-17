@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {GenericErrorModal} from '@app/components/alerts/GenericErrorModal';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {GenericErrorModal} from './GenericErrorModal';
 
 export const InviteAcceptFailedModal = observer(() => {
 	const {t} = useLingui();
 	return (
-		<GenericErrorModal title={t`Failed to accept invite`} message={t`We couldn't join this community at this time.`} />
+		<GenericErrorModal title={t`Failed to Accept Invite`} message={t`We couldn't join this community at this time.`} />
 	);
 });

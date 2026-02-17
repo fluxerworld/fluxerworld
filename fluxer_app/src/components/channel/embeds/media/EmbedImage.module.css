@@ -26,6 +26,7 @@
 	padding: 0;
 	text-align: left;
 	cursor: pointer;
+	-webkit-touch-callout: none;
 	border-radius: var(--media-border-radius, 0);
 	overflow: hidden;
 }

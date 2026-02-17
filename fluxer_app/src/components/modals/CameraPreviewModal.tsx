@@ -17,32 +17,33 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as VoiceSettingsActionCreators from '@app/actions/VoiceSettingsActionCreators';
+import {Select} from '@app/components/form/Select';
+import BackgroundImageGalleryModal from '@app/components/modals/BackgroundImageGalleryModal';
+import styles from '@app/components/modals/CameraPreviewModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {Logger} from '@app/lib/Logger';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import VoiceSettingsStore, {BLUR_BACKGROUND_ID, NONE_BACKGROUND_ID} from '@app/stores/VoiceSettingsStore';
+import VoiceDevicePermissionStore from '@app/stores/voice/VoiceDevicePermissionStore';
+import VoiceMediaStateCoordinator from '@app/stores/voice/VoiceMediaStateCoordinator';
+import {applyBackgroundProcessor} from '@app/utils/VideoBackgroundProcessor';
+import type {VoiceDeviceState} from '@app/utils/VoiceDeviceManager';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {useLocalParticipant} from '@livekit/components-react';
-import {BackgroundProcessor} from '@livekit/track-processors';
 import {CameraIcon, ImageIcon} from '@phosphor-icons/react';
 import type {LocalParticipant, LocalVideoTrack} from 'livekit-client';
 import {createLocalVideoTrack} from 'livekit-client';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useCallback, useEffect, useRef, useState} from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as VoiceSettingsActionCreators from '~/actions/VoiceSettingsActionCreators';
-import {Select} from '~/components/form/Select';
-import BackgroundImageGalleryModal from '~/components/modals/BackgroundImageGalleryModal';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {Spinner} from '~/components/uikit/Spinner';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import LocalVoiceStateStore from '~/stores/LocalVoiceStateStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import VoiceSettingsStore, {BLUR_BACKGROUND_ID, NONE_BACKGROUND_ID} from '~/stores/VoiceSettingsStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import VoiceDevicePermissionStore, {type VoiceDeviceState} from '~/stores/voice/VoiceDevicePermissionStore';
-import * as BackgroundImageDB from '~/utils/BackgroundImageDB';
-import styles from './CameraPreviewModal.module.css';
+
+const logger = new Logger('CameraPreviewModal');
 
 interface CameraPreviewModalProps {
 	onEnabled?: () => void;
@@ -65,10 +66,6 @@ const RESOLUTION_CHECK_INTERVAL = 100;
 const VIDEO_ELEMENT_WAIT_TIMEOUT = 5000;
 const VIDEO_ELEMENT_CHECK_INTERVAL = 10;
 
-const MEDIAPIPE_TASKS_VISION_WASM_BASE = `https://fluxerstatic.com/libs/mediapipe/tasks-vision/0.10.14/wasm`;
-const MEDIAPIPE_SEGMENTER_MODEL_PATH =
-	'https://fluxerstatic.com/libs/mediapipe/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite';
-
 const CAMERA_RESOLUTION_PRESETS: Record<'low' | 'medium' | 'high', VideoResolutionPreset> = {
 	low: {width: 640, height: 360, frameRate: 24},
 	medium: {width: 1280, height: 720, frameRate: 30},
@@ -83,14 +80,13 @@ const CameraPreviewModalContent = observer((props: CameraPreviewModalProps) => {
 	const [status, setStatus] = useState<
 		'idle' | 'initializing' | 'ready' | 'error' | 'fixing' | 'fix-settling' | 'fix-switching-back'
 	>('initializing');
-	const [resolution, setResolution] = useState<{width: number; height: number} | null>(null);
 	const [error, setError] = useState<string | null>(null);
 
 	const videoRef = useRef<HTMLVideoElement>(null);
 	const trackRef = useRef<LocalVideoTrack | null>(null);
-	const processorRef = useRef<ReturnType<typeof BackgroundProcessor> | null>(null);
+	const processorRef = useRef<{destroy: () => Promise<void>} | null>(null);
 	const isMountedRef = useRef(true);
-	const isIOSRef = useRef(/iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream);
+	const isIOSRef = useRef(/iPad|iPhone|iPod/.test(navigator.userAgent) && !('MSStream' in window));
 	const prevConfigRef = useRef<{
 		videoDeviceId: string;
 		backgroundImageId: string;
@@ -112,7 +108,10 @@ const CameraPreviewModalContent = observer((props: CameraPreviewModalProps) => {
 		setVideoDevices(videoInputs);
 
 		const voiceSettings = VoiceSettingsStore;
-		if (voiceSettings.videoDeviceId === 'default' && videoInputs.length > 0) {
+		const currentDeviceId = voiceSettings.videoDeviceId;
+		const currentDeviceExists = videoInputs.some((device) => device.deviceId === currentDeviceId);
+
+		if (videoInputs.length > 0 && (currentDeviceId === 'default' || !currentDeviceExists)) {
 			VoiceSettingsActionCreators.update({videoDeviceId: videoInputs[0].deviceId});
 		}
 	}, []);
@@ -240,6 +239,11 @@ const CameraPreviewModalContent = observer((props: CameraPreviewModalProps) => {
 			trackRef.current = track;
 			track.attach(videoElement);
 
+			const actualDeviceId = track.mediaStreamTrack.getSettings().deviceId;
+			if (actualDeviceId && actualDeviceId !== voiceSettings.videoDeviceId) {
+				VoiceSettingsActionCreators.update({videoDeviceId: actualDeviceId});
+			}
+
 			await new Promise<void>((resolve) => {
 				let playbackAttempts = 0;
 				const checkPlayback = () => {
@@ -267,9 +271,6 @@ const CameraPreviewModalContent = observer((props: CameraPreviewModalProps) => {
 					const settings = track.mediaStreamTrack.getSettings();
 					if (settings.width && settings.height) {
 						negotiatedResolution = {width: settings.width, height: settings.height};
-						if (isMountedRef.current) {
-							setResolution(negotiatedResolution);
-						}
 						resolve();
 					} else if (++resolutionAttempts < RESOLUTION_WAIT_TIMEOUT / RESOLUTION_CHECK_INTERVAL) {
 						setTimeout(checkResolution, RESOLUTION_CHECK_INTERVAL);
@@ -292,41 +293,10 @@ const CameraPreviewModalContent = observer((props: CameraPreviewModalProps) => {
 				needsResolutionFixRef.current = !isValid16x9;
 			}
 
-			const isNone = voiceSettings.backgroundImageId === NONE_BACKGROUND_ID;
-			const isBlur = voiceSettings.backgroundImageId === BLUR_BACKGROUND_ID;
-
 			try {
-				if (isBlur) {
-					processorRef.current = BackgroundProcessor({
-						mode: 'background-blur',
-						blurRadius: 20,
-						assetPaths: {
-							tasksVisionFileSet: MEDIAPIPE_TASKS_VISION_WASM_BASE,
-							modelAssetPath: MEDIAPIPE_SEGMENTER_MODEL_PATH,
-						},
-					});
-					await track.setProcessor(processorRef.current);
-				} else if (!isNone) {
-					const backgroundImage = voiceSettings.backgroundImages?.find(
-						(img) => img.id === voiceSettings.backgroundImageId,
-					);
-					if (backgroundImage) {
-						const imageUrl = await BackgroundImageDB.getBackgroundImageURL(backgroundImage.id);
-						if (imageUrl) {
-							processorRef.current = BackgroundProcessor({
-								mode: 'virtual-background',
-								imagePath: imageUrl,
-								assetPaths: {
-									tasksVisionFileSet: MEDIAPIPE_TASKS_VISION_WASM_BASE,
-									modelAssetPath: MEDIAPIPE_SEGMENTER_MODEL_PATH,
-								},
-							});
-							await track.setProcessor(processorRef.current);
-						}
-					}
-				}
+				processorRef.current = await applyBackgroundProcessor(track);
 			} catch (_webglError) {
-				console.warn('WebGL not supported for background processing, falling back to basic camera');
+				logger.warn('WebGL not supported for background processing, falling back to basic camera');
 			}
 
 			if (!isMountedRef.current) {
@@ -376,8 +346,7 @@ const CameraPreviewModalContent = observer((props: CameraPreviewModalProps) => {
 				deviceId: voiceSettings.videoDeviceId !== 'default' ? voiceSettings.videoDeviceId : undefined,
 			});
 
-			LocalVoiceStateStore.updateSelfVideo(true);
-			MediaEngineStore.syncLocalVoiceStateWithServer({self_video: true});
+			VoiceMediaStateCoordinator.applyCameraState(true, {reason: 'user', sendUpdate: true});
 
 			onEnabled?.();
 			onEnableCamera?.();
@@ -455,18 +424,6 @@ const CameraPreviewModalContent = observer((props: CameraPreviewModalProps) => {
 		label: device.label || t`Camera ${device.deviceId.slice(0, 8)}`,
 	}));
 
-	const isValidAspectRatio = resolution
-		? Math.abs(resolution.width / resolution.height - TARGET_ASPECT_RATIO) < ASPECT_RATIO_TOLERANCE
-		: null;
-
-	const resolutionDisplay = resolution
-		? {
-				display: `${resolution.width}×${resolution.height}`,
-				aspectRatio: (resolution.width / resolution.height).toFixed(3),
-				frameRate: voiceSettings.videoFrameRate,
-			}
-		: null;
-
 	return (
 		<Modal.Root size="medium">
 			<Modal.Header title={t`Camera Preview`} />
@@ -520,27 +477,6 @@ const CameraPreviewModalContent = observer((props: CameraPreviewModalProps) => {
 								</div>
 							</div>
 						)}
-
-						<div className={styles.liveLabel}>
-							<Trans>Live Preview</Trans>
-						</div>
-
-						{status === 'ready' && resolutionDisplay && (
-							<div className={styles.resolutionInfo}>
-								<div className={styles.resolutionDetails}>
-									<div>{resolutionDisplay.display}</div>
-									<div className={styles.resolutionRow}>
-										<span>AR: {resolutionDisplay.aspectRatio}</span>
-										<span>{resolutionDisplay.frameRate}fps</span>
-										{isValidAspectRatio === false && (
-											<Tooltip text={t`Not 16:9 aspect ratio`}>
-												<span className={styles.warningIcon}>⚠</span>
-											</Tooltip>
-										)}
-									</div>
-								</div>
-							</div>
-						)}
 					</div>
 				</div>
 			</Modal.Content>
@@ -558,7 +494,7 @@ const CameraPreviewModalContent = observer((props: CameraPreviewModalProps) => {
 	);
 });
 
-const CameraPreviewModalInRoom: React.FC<Omit<CameraPreviewModalProps, 'localParticipant' | 'isCameraEnabled'>> =
+export const CameraPreviewModalInRoom: React.FC<Omit<CameraPreviewModalProps, 'localParticipant' | 'isCameraEnabled'>> =
 	observer((props) => {
 		const {localParticipant, isCameraEnabled} = useLocalParticipant();
 		return (
@@ -566,8 +502,6 @@ const CameraPreviewModalInRoom: React.FC<Omit<CameraPreviewModalProps, 'localPar
 		);
 	});
 
-const CameraPreviewModalStandalone: React.FC<CameraPreviewModalProps> = observer((props) => {
+export const CameraPreviewModalStandalone: React.FC<CameraPreviewModalProps> = observer((props) => {
 	return <CameraPreviewModalContent localParticipant={undefined} isCameraEnabled={false} {...props} />;
 });
-
-export {CameraPreviewModalInRoom, CameraPreviewModalStandalone};

@@ -1,0 +1,440 @@
+app.communities.community: Cộng đồng
+app.communities.community_support: Hỗ trợ cộng đồng
+app.communities.featured_in_discovery: Nổi bật trong mục khám phá
+app.communities.moderation.actions_and_tools: Hành động và công cụ kiểm duyệt
+app.communities.moderation.report_people_or_communities: Báo cáo người dùng hoặc cộng đồng để bọn mình giữ Fluxer an toàn cho mọi người.
+app.communities.moderation.tools: Công cụ kiểm duyệt
+app.communities.roles_permissions_audit.audit_logs: Nhật ký kiểm toán để minh bạch
+app.communities.roles_permissions_audit.granular_roles_and_permissions: Vai trò và quyền hạn chi tiết
+app.communities.roles_permissions_audit.keep_running_smoothly: Giữ cộng đồng chạy mượt với vai trò, quyền hạn và nhật ký.
+app.communities.title: Cộng đồng
+app.communities.verification.label: Xác minh cộng đồng
+app.communities.verification.value_statement: Cộng đồng của bạn được gắn trạng thái xác minh để tăng độ tin cậy.
+app.communities.verification.verified_community: Cộng đồng đã xác minh
+app.customization.animated_profile.animated_avatars_and_banners: Avatar và banner động
+app.customization.animated_profile.stand_out_animated_profile: Nổi bật với ảnh đại diện và banner động để thể hiện cá tính.
+app.customization.app_icon_badges: Xem số thông báo trên biểu tượng ứng dụng.
+app.customization.compact_mode: Chế độ gọn và tuỳ chọn hiển thị
+app.customization.custom_css_themes: Chủ đề CSS tuỳ chỉnh
+app.customization.custom_sounds.entrance_sounds: Âm thanh vào kênh tuỳ chỉnh
+app.customization.custom_sounds.notification_sounds: Âm thanh thông báo tuỳ chỉnh
+app.customization.custom_sounds.set_personalized_join_sounds: Đặt âm thanh riêng khi bạn vào kênh thoại để ai cũng biết bạn đến.
+app.customization.custom_sounds.upload_custom_notification_sounds: Tải lên và dùng âm thanh thông báo của riêng bạn để cá nhân hoá trải nghiệm Fluxer.
+app.customization.custom_themes: Chủ đề tuỳ chỉnh
+app.customization.global_emoji_and_sticker_access: Dùng emoji và sticker toàn cục
+app.customization.saved_media_and_css: Thêm emoji tuỳ chỉnh, lưu media để xem sau, và tuỳ biến ứng dụng bằng CSS.
+app.customization.title: Tuỳ chỉnh
+app.customization.upload_custom_emojis_and_stickers: Tải lên emoji và sticker tuỳ chỉnh
+app.customization.use_animated_emojis: Dùng emoji động
+app.messaging.description: Nhắn riêng cho bạn bè, chat nhóm, hoặc xây cộng đồng với các kênh.
+app.messaging.features.bookmarked_messages: Tin nhắn đã đánh dấu
+app.messaging.features.file_sharing: Chia sẻ tệp và xem trước liên kết
+app.messaging.features.full_markdown_support: Hỗ trợ Markdown đầy đủ trong tin nhắn
+app.messaging.features.message_scheduling.description: Hẹn giờ để tin nhắn được gửi vào một thời điểm cụ thể trong tương lai. Không cần DeLorean đâu.
+app.messaging.features.organised_channels_for_communities: Kênh được sắp xếp gọn gàng cho cộng đồng
+app.messaging.features.private_dms_and_group_chats: DM riêng và chat nhóm
+app.messaging.features.save_media: Lưu ảnh, video, GIF và âm thanh
+app.messaging.features.search.filter_options: Lọc theo người dùng, ngày tháng và hơn thế nữa
+app.messaging.features.search.find_old_messages: Tìm lại tin nhắn cũ hoặc nhảy giữa cộng đồng và kênh chỉ trong vài giây.
+app.messaging.features.search.label: Tìm lịch sử tin nhắn
+app.messaging.features.search.quick_switcher_shortcuts: Chuyển nhanh với phím tắt
+app.messaging.features.search.search_and_quick_switcher: Tìm kiếm và chuyển nhanh
+app.messaging.title: Nhắn tin
+app.open.open_fluxer: Mở Fluxer
+app.open.open_web_app: Mở ứng dụng web
+app.profiles_identity.custom_identity: Nhận dạng tuỳ chỉnh
+app.profiles_identity.customise_per_community: Tuỳ chỉnh hồ sơ khác nhau cho mỗi cộng đồng bạn tham gia.
+app.profiles_identity.manage_friends_and_block_users: Quản lý bạn bè và chặn người dùng
+app.voice_and_video.features.mute_controls: Điều khiển tắt mic, tắt nghe và camera
+app.voice_and_video.features.noise_suppression: Khử ồn và khử vọng
+app.voice_and_video.features.screen_sharing: Chia sẻ màn hình tích hợp
+app.voice_and_video.features.stream_4k_60fps: Stream lên tới độ phân giải 4K ở 60 fps để những người khác có thể thấy bạn với độ rõ tuyệt vời.
+app.voice_and_video.features.up_to_4k_video_quality: Chất lượng video lên tới 4K
+app.voice_and_video.features.video_backgrounds.description: Lưu tối đa 15 nền video cho cuộc gọi. Không còn lục tung thư mục Downloads nữa.
+app.voice_and_video.features.video_quality: Chất lượng video
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.video_quality_premium: Lên đến 4K/60fps
+app.voice_and_video.hop_in_a_call: Nhảy vào cuộc gọi với bạn bè hoặc chia sẻ màn hình để làm việc cùng nhau.
+app.voice_and_video.title: Gọi thoại và video
+beta_and_access.beta_label: Beta
+beta_and_access.early_access.be_first_to_try: Là người thử đầu tiên các tính năng mới trước khi ra cho mọi người.
+beta_and_access.early_access.label: Truy cập sớm
+beta_and_access.featured_benefit_line: Đủ mọi thứ cơ bản bạn mong đợi, cộng thêm vài thứ bạn không nghĩ là sẽ có.
+beta_and_access.public_beta: Beta công khai
+beta_and_access.registration_limited_during_beta: Trong giai đoạn beta, bọn mình giới hạn đăng ký. Khi bạn đã vào được, bạn có thể đưa bạn bè một mã để bỏ qua hàng đợi.
+beta_and_access.try_without_email: Thử Fluxer không cần email trong 30 giây
+community_funding_and_roles.focused_on_product: Hiện tại bọn mình tập trung ship một sản phẩm thật tốt và giữ Fluxer độc lập, tự xoay sở.
+community_funding_and_roles.future_paid_roles_heading: Tương lai của các vai trò trả phí
+community_funding_and_roles.future_paid_roles_note: Bọn mình vẫn đang xây mô hình kinh doanh quanh Fluxer và chưa sẵn sàng cho vai trò trả phí.
+community_funding_and_roles.non_paid_recurring_role: Một vai trò không trả phí cho những người đóng góp thường xuyên, cùng định hình Fluxer với team cốt lõi.
+community_funding_and_roles.sustainability_note: Với sự ủng hộ của bạn, bọn mình hy vọng làm nền tảng liên lạc độc lập này bền vững và bắt đầu mở các vai trò trả phí trong tương lai.
+company_and_resources.blog: Blog
+company_and_resources.careers.careers_at_fluxer: Tuyển dụng tại Fluxer
+company_and_resources.careers.label: Tuyển dụng
+company_and_resources.careers.share_a_bit_about_yourself: Chia sẻ vài điều về bạn và cách bạn muốn đóng góp bằng cách email tới careers@fluxer.app
+company_and_resources.community_team.fluxer_community_team: Đội cộng đồng Fluxer
+company_and_resources.community_team.share_feedback_report_bugs: Gửi góp ý, báo lỗi và giúp Fluxer trở thành nơi chào đón mọi người.
+company_and_resources.company: Công ty
+company_and_resources.company_info: Thông tin công ty
+company_and_resources.connect: Kết nối
+company_and_resources.docs: Tài liệu
+company_and_resources.help.get_help: Cần trợ giúp
+company_and_resources.help.help_center: Trung tâm trợ giúp
+company_and_resources.help.label: Trợ giúp
+company_and_resources.press.label: Báo chí
+company_and_resources.press.press_contact: Liên hệ báo chí
+company_and_resources.product: Sản phẩm
+company_and_resources.resources: Tài nguyên
+company_and_resources.source_and_contribution.code_issues_docs_reviews: Mã, issue, tài liệu và review
+company_and_resources.source_and_contribution.contribute_code: Đóng góp mã
+company_and_resources.source_and_contribution.contribute_on_github: Đóng góp trên GitHub
+company_and_resources.source_and_contribution.fix_bugs_ship_features: Sửa lỗi, ra mắt tính năng, hoặc trau chuốt trải nghiệm trong repo chính của bọn mình.
+company_and_resources.source_and_contribution.fluxer_built_in_open: Fluxer được xây dựng công khai. Chọn con đường hợp với cách bạn thích giúp.
+company_and_resources.source_and_contribution.get_involved: Tham gia
+company_and_resources.source_and_contribution.source_code: Mã nguồn
+company_and_resources.source_and_contribution.translation.help_translate: Giúp dịch Fluxer và tài liệu để nó thật sự tự nhiên ở mọi nơi.
+company_and_resources.source_and_contribution.translation.label: Dịch thuật và bản địa hoá
+company_and_resources.source_and_contribution.translation.llm_translation_note: Hiện tại mọi bản dịch đều do LLM tạo ra và chỉ được chỉnh rất ít. Bọn mình rất muốn có người thật giúp bản địa hoá Fluxer sang ngôn ngữ của bạn. Nếu muốn góp sức, hãy email tới i18n@fluxer.app – bọn mình rất vui khi nhận đóng góp.
+company_and_resources.source_and_contribution.translation.localization_label: Bản địa hoá
+company_and_resources.source_and_contribution.view_repository: Xem kho mã
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: Muốn giúp xây Fluxer?
+company_and_resources.source_and_contribution.ways_to_contribute: Cách đóng góp
+donations.business: Doanh nghiệp
+donations.donate.action: Ủng hộ
+donations.donate.label: Ủng hộ Fluxer
+donations.donate.description: Hỗ trợ Fluxer bằng khoản quyên góp một lần hoặc định kỳ
+donations.donation_disclaimer: Khoản ủng hộ là đóng góp tự nguyện và không mang lại cho bạn bất kỳ sản phẩm, dịch vụ, quyền sở hữu hay đặc quyền nào. Nếu bạn muốn tính năng cao cấp, xem {0}.
+donations.individual: Cá nhân
+donations.individual_vs_business.answer: Cả hai đều hỗ trợ cùng một mục tiêu. Khác biệt duy nhất là ủng hộ Doanh nghiệp cho phép bạn nhập mã số thuế (nếu có) và nhận hoá đơn PDF khi hoàn tất, tiện cho kế toán.
+donations.individual_vs_business.question: Cá nhân và Doanh nghiệp khác nhau ở điểm nào?
+donations.infrastructure_costs_detail: Khoản ủng hộ của bạn giúp chi trả chi phí hạ tầng của Fluxer, gồm máy chủ, băng thông, lưu trữ và phát triển tính năng mới. Nó giúp bọn mình duy trì và cải thiện nền tảng cho mọi người.
+donations.minimum_donation: 'Ủng hộ tối thiểu: $5 / €5'
+donations.mobile_roadmap_sponsorship: Tài trợ lộ trình di động
+donations.send_one_time_gift: Gửi quà một lần
+donations.support_future_development: Hỗ trợ phát triển về sau
+donations.support_message: Giúp bọn mình xây một nền tảng liên lạc độc lập. Khoản ủng hộ của bạn tài trợ hạ tầng và phát triển.
+donations.tax_deductible.answer: Các khoản ủng hộ cho Fluxer hiện không được khấu trừ thuế, nhưng chúng trực tiếp tài trợ cho hạ tầng và quá trình phát triển liên tục của chúng tôi.
+donations.tax_deductible.question: Khoản ủng hộ có được khấu trừ thuế không?
+donations.what_it_supports: Khoản ủng hộ của mình hỗ trợ gì?
+donations.why_support: Giúp bọn mình xây một kiểu nền tảng liên lạc khác – mã nguồn mở, do cộng đồng tài trợ, và làm bằng sự chăm chút.
+donations.recurring: Định kỳ
+donations.return_question: Mình có nhận được gì lại không?
+donations.form.email: Email
+donations.form.email_placeholder: email@cua.ban
+donations.form.amount: Số tiền
+donations.form.amount_other: Số khác
+donations.form.amount_placeholder: Nhập số tiền (5-1000)
+donations.form.billing: Thanh toán
+donations.form.donation_type: Loại quyên góp
+donations.form.one_time: Một lần
+donations.form.or_label: Hoặc
+donations.form.monthly: Hàng tháng
+donations.form.yearly: Hàng năm
+donations.form.currency: Tiền tệ
+donations.form.processing: Đang xử lý...
+donations.form.send_link: Gửi liên kết
+donations.form.sending: Đang gửi...
+donations.errors.active_subscription_exists: Bạn đã có một khoản ủng hộ định kỳ đang hoạt động rồi. Để bắt đầu một khoản ủng hộ định kỳ khác, vui lòng hủy khoản hiện tại trước bằng cổng thông tin khách hàng. Bạn có thể ủng hộ một lần thay thế.
+donations.errors.invalid_email: Vui lòng nhập địa chỉ email hợp lệ
+donations.errors.invalid_amount: Số tiền phải từ 5 đến 1000
+donations.errors.generic: Có lỗi xảy ra. Vui lòng thử lại.
+donations.errors.network: Lỗi mạng. Vui lòng thử lại.
+donations.manage.title: Quản lý các khoản ủng hộ
+donations.manage.description: Nhập email để nhận liên kết tới cổng thông tin nhà tài trợ của bạn, nơi bạn có thể quản lý đăng ký, tải hoá đơn và xem lịch sử ủng hộ.
+donations.manage.success: Nếu có tài khoản gắn với email đó, bạn sẽ sớm nhận được liên kết quản lý.
+donations.success.title: Cảm ơn bạn!
+donations.success.description: Cảm ơn sự hỗ trợ của bạn!
+donations.success.message: Cảm ơn khoản ủng hộ của bạn! Bọn mình thực sự trân trọng sự hỗ trợ của bạn.
+donations.success.email_notice: Bạn sẽ nhận được email xác nhận cùng chi tiết về khoản ủng hộ và liên kết tới cổng thông tin nhà tài trợ trong thời gian ngắn.
+donations.success.back_to_donate: Quay lại trang ủng hộ
+download.download: Tải
+download.download_app_or_open_in_browser: Tải app hoặc mở Fluxer trong trình duyệt để bắt đầu kết nối với các cộng đồng của bạn.
+download.download_fluxer: Tải Fluxer
+download.download_for_prefix: 'Tải cho '
+download.open_in_browser: Mở trong trình duyệt
+download.screenshots_courtesy_of: 'Ảnh chụp màn hình được cung cấp bởi '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: Nguyên tắc cộng đồng
+footer.company_information: Thông tin công ty
+footer.connect: Kết nối
+footer.donate: Ủng hộ
+footer.download: Tải
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (công ty trách nhiệm hữu hạn của Thuỵ Điển: 559537-3993)'
+footer.help_support_an_independent_communication: Hỗ trợ nền tảng liên lạc độc lập. Khoản ủng hộ của bạn tài trợ hạ tầng và phát triển của nền tảng.
+footer.partners: Đối tác
+footer.plutonium_tier: Gói Plutonium
+footer.policies: Chính sách
+footer.press: Báo chí
+footer.privacy_policy: Chính sách quyền riêng tư
+footer.report_a_bug: Báo lỗi
+footer.roadmap: Lộ trình
+footer.rss_feed: RSS feed
+footer.security_bug_bounty: Chương trình bug bounty bảo mật
+footer.source_code: Mã nguồn
+footer.terms_of_service: Điều khoản dịch vụ
+general.all: tất cả
+general.coming_soon.label: Sắp ra mắt
+general.coming_soon.whats_available_today: Hôm nay có gì
+general.last_updated: Cập nhật lần cuối
+general.made_in_sweden: Làm tại Thụy Điển
+general.not_available: Không có sẵn
+general.or: hoặc
+general.tagline: Ứng dụng chat đặt bạn lên hàng đầu
+languages.change_language: Đổi ngôn ngữ
+languages.choose_your_language: Chọn ngôn ngữ
+languages.language_label: Ngôn ngữ
+languages.list.arabic: Tiếng Ả Rập
+languages.list.bulgarian: Tiếng Bulgaria
+languages.list.chinese_simplified: Tiếng Trung (Giản thể)
+languages.list.chinese_traditional: Tiếng Trung (Phồn thể)
+languages.list.croatian: Tiếng Croatia
+languages.list.czech: Tiếng Séc
+languages.list.danish: Tiếng Đan Mạch
+languages.list.dutch: Tiếng Hà Lan
+languages.list.english: Tiếng Anh
+languages.list.english_us: Tiếng Anh (Mỹ)
+languages.list.finnish: Tiếng Phần Lan
+languages.list.french: Tiếng Pháp
+languages.list.german: Tiếng Đức
+languages.list.greek: Tiếng Hy Lạp
+languages.list.hebrew: Tiếng Do Thái
+languages.list.hindi: Tiếng Hindi
+languages.list.hungarian: Tiếng Hungary
+languages.list.indonesian: Tiếng Indonesia
+languages.list.italian: Tiếng Ý
+languages.list.japanese: Tiếng Nhật
+languages.list.korean: Tiếng Hàn
+languages.list.lithuanian: Tiếng Litva
+languages.list.norwegian: Tiếng Na Uy
+languages.list.polish: Tiếng Ba Lan
+languages.list.portuguese_brazil: Tiếng Bồ Đào Nha (Brazil)
+languages.list.romanian: Tiếng Romania
+languages.list.russian: Tiếng Nga
+languages.list.spanish_latin_america: Tiếng Tây Ban Nha (Mỹ Latin)
+languages.list.spanish_spain: Tiếng Tây Ban Nha (Tây Ban Nha)
+languages.list.swedish: Tiếng Thuỵ Điển
+languages.list.thai: Tiếng Thái
+languages.list.turkish: Tiếng Thổ Nhĩ Kỳ
+languages.list.ukrainian: Tiếng Ukraine
+languages.list.vietnamese: Tiếng Việt
+launch.description: Tìm hiểu về nhà phát triển đằng sau Fluxer, mục tiêu của dự án, tech stack và những gì sắp tới.
+launch.heading: Câu chuyện phía sau Fluxer
+launch.read_more: Đọc bài blog ra mắt
+launch.view_full_roadmap: Xem lộ trình đầy đủ
+misc_labels.design_and_branding: Thiết kế và thương hiệu
+misc_labels.direct_team_support: Hỗ trợ trực tiếp từ team
+misc_labels.exclusive_communities: Cộng đồng độc quyền
+misc_labels.exclusive_features: Tính năng độc quyền
+misc_labels.feature: Tính năng
+misc_labels.get_updates: Nhận cập nhật, xem tính năng sắp tới, bàn luận gợi ý và chat với team.
+misc_labels.join_and_spread_word: Tham gia và lan toả
+misc_labels.join_fluxer_community_contribute: Tham gia cộng đồng Fluxer và cùng xây tương lai liên lạc qua mã nguồn mở và đóng góp của cộng đồng.
+misc_labels.join_fluxer_hq: Tham gia Fluxer HQ
+misc_labels.join_multiple_devices: Đăng nhập trên nhiều thiết bị cùng lúc
+misc_labels.join_team_behind_fluxer: Tham gia đội ngũ phía sau Fluxer
+misc_labels.learn_more: Tìm hiểu thêm
+misc_labels.product_hunt_badge_title: Fluxer - Nền tảng nhắn tin và VoIP kiểu Discord, mã nguồn mở | bài viết nổi bật trên Product Hunt
+misc_labels.profile_badge: Huy hiệu hồ sơ
+misc_labels.read_the_guide: Đọc hướng dẫn
+misc_labels.ready_to_get_started: Sẵn sàng bắt đầu chưa?
+misc_labels.register_now: Đăng ký ngay
+misc_labels.related_policies: Chính sách liên quan
+misc_labels.report_bugs: Báo lỗi
+misc_labels.software_development: Phát triển phần mềm
+misc_labels.trust_and_safety: Tin cậy và an toàn
+misc_labels.unique_profile_badge: Huy hiệu hồ sơ độc nhất
+misc_labels.unlimited_users: Không giới hạn người dùng
+navigation.close: Đóng
+navigation.close_navigation_menu: Đóng menu điều hướng
+navigation.copy_link_to_section: Sao chép liên kết tới mục này
+navigation.go_home: Về trang chủ
+navigation.on_this_page: Trên trang này
+navigation.page_not_found.description: Trang này không tồn tại. Nhưng còn nhiều thứ hay ho để khám phá.
+navigation.page_not_found.title: Không tìm thấy trang
+navigation.press.download_assets_intro: Tải logo, xem màu thương hiệu và liên hệ đội báo chí của bọn mình.
+navigation.press.download_fluxer_assets: Tải logo Fluxer, tài sản thương hiệu và liên hệ đội báo chí
+navigation.press.press_and_brand_assets: Báo chí và tài sản thương hiệu
+partner_program.become_partner.apply_email: Đăng ký tại partners@fluxer.app
+partner_program.become_partner.call_to_action: Trở thành đối tác
+partner_program.become_partner.heading: Trở thành Fluxer Partner
+partner_program.become_partner.if_youre_a_creator_or: Nếu bạn là creator hoặc đang vận hành một cộng đồng lớn, bọn mình muốn nghe từ bạn.
+partner_program.become_partner.learn_about_partners: Tìm hiểu về đối tác
+partner_program.become_partner.learn_more: Tìm hiểu thêm
+partner_program.become_partner.ready_prompt: Sẵn sàng trở thành đối tác chưa?
+partner_program.description: Đặc quyền và lợi ích độc quyền cho creator và chủ cộng đồng lớn.
+partner_program.label: Đối tác
+partner_program.perks.creator_monetization.description: Truy cập sớm tính năng kiếm tiền với phí nền tảng thấp hơn so với người không phải đối tác.
+partner_program.perks.creator_monetization.label: Kiếm tiền cho creator
+partner_program.perks.custom_vanity_url.description: Nhận URL vanity độc quyền như fluxer.gg/yourcommunity.
+partner_program.perks.custom_vanity_url.label: URL vanity tuỳ chỉnh
+partner_program.perks.direct_team_access.description: Tham gia cộng đồng đối tác độc quyền với quyền truy cập trực tiếp đội Fluxer.
+partner_program.perks.direct_team_access.label: Truy cập trực tiếp team
+partner_program.perks.discovery_visibility: Được tăng độ hiển thị khi được giới thiệu trong mục khám phá cộng đồng.
+partner_program.perks.exclusive_merch.description: Nhận hàng hoá và đồ swag chỉ dành cho Fluxer Partner.
+partner_program.perks.exclusive_merch.label: Merch độc quyền
+partner_program.perks.free_plutonium.description: Nhận Plutonium miễn phí cho tài khoản để dùng mọi tính năng cao cấp.
+partner_program.perks.free_plutonium.label: Plutonium miễn phí
+partner_program.perks.increased_limits.description: Cộng đồng của bạn sẽ được tăng giới hạn khi bạn cần.
+partner_program.perks.increased_limits.label: Tăng giới hạn
+partner_program.perks.partner_badge.description: Hiển thị huy hiệu Partner độc quyền trên hồ sơ để nổi bật.
+partner_program.perks.partner_badge.label: Huy hiệu Partner
+partner_program.perks.vip_voice_servers.description: Truy cập máy chủ thoại VIP dành riêng cho cộng đồng đối tác.
+partner_program.perks.vip_voice_servers.label: Kênh thoại VIP
+partner_program.requirements.audience_description: Mô tả ngắn về khán giả của bạn và bạn làm gì
+partner_program.requirements.links_to_content: Liên kết tới nội dung hoặc cộng đồng của bạn (YouTube, Twitch, Discord, v.v.)
+partner_program.requirements.name_and_username: Tên của bạn và tên người dùng trên nền tảng
+partner_program.requirements.usage_plan: Bạn dự định dùng Fluxer với cộng đồng của bạn như thế nào
+partner_program.who_its_for: 'Creator và chủ cộng đồng: mở khoá đặc quyền như Plutonium miễn phí, huy hiệu Partner, URL vanity tuỳ chỉnh, và nhiều hơn nữa.'
+partner_program.perks.heading: Đặc quyền đối tác
+partner_program.perks.see_perks: Xem đặc quyền
+partner_program.apply.instructions: Gửi email cho bọn mình với các thông tin sau để đăng ký chương trình Đối tác Fluxer.
+partner_program.apply.response_time: Bọn mình sẽ xem xét tất cả đơn đăng ký và liên hệ lại trong vài ngày.
+platform_support.desktop.available_on_desktop_and_web: Có trên máy tính và trên web
+platform_support.desktop.download_desktop_intro: Tải Fluxer cho Windows, macOS và Linux. Ứng dụng di động đang được triển khai.
+platform_support.desktop.interface_label: Giao diện Fluxer trên máy tính
+platform_support.desktop.label: Máy tính
+platform_support.desktop.use_desktop_client_mobile_soon: Dùng bản desktop (bản di động sắp có)
+platform_support.mobile.install_as_app.add_to_home: Thêm Fluxer lên màn hình chính để ẩn UI của trình duyệt.
+platform_support.mobile.install_as_app.done_desktop: Xong! Giờ bạn có thể mở Fluxer như một chương trình bình thường.
+platform_support.mobile.install_as_app.done_mobile: Xong! Giờ bạn có thể mở Fluxer từ màn hình chính.
+platform_support.mobile.install_as_app.guides.in_chrome: ' trong Chrome'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: ' trong Chrome hoặc trình duyệt khác có hỗ trợ PWA'
+platform_support.mobile.install_as_app.guides.in_safari: ' trong Safari'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: Hướng dẫn cài PWA cho {name}
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: 'Nhấn "Thêm vào màn hình chính"'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: 'Nhấn "Thêm" ở góc trên bên phải'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: 'Nhấn "Cài ứng dụng"'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: Nhấn nút cài đặt (mũi tên hướng xuống trên biểu tượng màn hình) ở thanh địa chỉ
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: 'Nhấn "Cài đặt" trong hộp thoại hiện ra'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: 'Nhấn nút "More" (⋮) ở góc trên bên phải'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: Nhấn nút chia sẻ (hình chữ nhật với mũi tên hướng lên)
+platform_support.mobile.install_as_app.install_fluxer_as_app: Cài Fluxer như một ứng dụng
+platform_support.mobile.install_as_app.title: Cách cài như một ứng dụng
+platform_support.mobile.interface_label: Giao diện Fluxer trên di động
+platform_support.mobile.mobile_apps_underway: Ứng dụng di động đang được triển khai
+platform_support.mobile.mobile_browser_explainer: Bọn mình đang làm app cho iOS và Android. Trong lúc chờ, Fluxer chạy trong trình duyệt di động, và bọn mình đã bỏ nhiều công sức để nó trông và dùng như app nhất có thể.
+platform_support.mobile.not_full_replacement_yet: Hiện tại nó chưa thay thế hoàn toàn app desktop, và vẫn thiếu vài thứ bạn mong đợi ở một app chat di động.
+platform_support.mobile.push_notifications: Nhận thông báo đẩy khi bạn không ở trong app.
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS và iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: Chọn bản phân phối Linux
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: Tải cho macOS
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: Tải cho Windows
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: Màu thương hiệu
+press_branding.assets.full_color: Bản màu đầy đủ
+press_branding.assets.label: Logo
+press_branding.assets.logo_variants.black_logo: Logo đen
+press_branding.assets.logo_variants.color_logo: Logo màu
+press_branding.assets.logo_variants.white_logo: Logo trắng
+press_branding.assets.palette_description: Bảng màu được chọn kỹ, đại diện cho thương hiệu Fluxer.
+press_branding.assets.premium_quality: Chất lượng cao
+press_branding.assets.primary_brand_color_description: Màu thương hiệu chính. Dùng cho các yếu tố thương hiệu quan trọng và điểm nhấn.
+press_branding.assets.symbol_variants.black_symbol: Biểu tượng đen
+press_branding.assets.symbol_variants.color_symbol: Biểu tượng màu
+press_branding.assets.symbol_variants.label: Biểu tượng
+press_branding.assets.symbol_variants.white_symbol: Biểu tượng trắng
+press_branding.assets.usage_guidance.dark_surface_guidance: Dành cho nền, chữ trên nền tối và tạo tương phản.
+press_branding.assets.usage_guidance.for_dark_backgrounds: Dành cho nền tối
+press_branding.assets.usage_guidance.for_light_backgrounds: Dành cho nền sáng
+press_branding.assets.usage_guidance.full_logo_description: Logo đầy đủ gồm wordmark. Dùng làm đại diện chính cho thương hiệu.
+press_branding.assets.usage_guidance.light_surface_guidance: Dành cho chữ, icon trên nền sáng và tạo chiều sâu.
+press_branding.assets.usage_guidance.symbol_description: Biểu tượng riêng. Chỉ dùng khi thương hiệu đã rõ ràng hoặc đã được nhận diện ở bối cảnh đó.
+press_branding.colors.blue_da_ba_dee: Blue Da Ba Dee
+press_branding.colors.white: Trắng
+press_branding.colors.black: Đen
+press_branding.contact.story_prompt: Có câu chuyện về Fluxer? Bọn mình rất muốn nghe từ bạn.
+press_branding.contact.response_time: Thông thường bọn mình phản hồi trong vòng 24 giờ.
+pricing_and_tiers.billing.forever: Mãi mãi
+pricing_and_tiers.billing.most_popular: Phổ biến nhất
+pricing_and_tiers.billing.per_forever: /mãi mãi
+pricing_and_tiers.billing.per_month: /tháng
+pricing_and_tiers.billing.per_year_full: /năm
+pricing_and_tiers.billing.per_year_short: /năm
+pricing_and_tiers.billing.save_percent: Tiết kiệm 17%
+pricing_and_tiers.free.comparison_label: Miễn phí vs Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 'Tất cả trong gói Miễn phí, cộng thêm:'
+pricing_and_tiers.free.full_access_to_all_features: Dùng đầy đủ mọi tính năng
+pricing_and_tiers.free.label: Miễn phí
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: 'Lưu ý: quyền lợi Plutonium và Visionary chỉ áp dụng cho instance chính thức Fluxer.app, không áp dụng cho instance bên thứ ba hoặc tự host.'
+pricing_and_tiers.plutonium.feature_highlights: Tải lên 500 MB, tin nhắn 4.000 ký tự, 300 bookmark, 50 gói emoji, và còn nhiều nữa.
+pricing_and_tiers.plutonium.features.bio_character_limit: Giới hạn ký tự phần giới thiệu
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: Chọn tag 4 chữ số riêng của mình như #0001, #1337, hoặc #9999 để làm tên người dùng của bạn thực sự độc đáo.
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: Tag tên người dùng 4 chữ số tuỳ chỉnh
+pricing_and_tiers.plutonium.features.custom_username_tag: Tag tên người dùng tuỳ chỉnh
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: Nền video tuỳ chỉnh
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: Gói emoji và sticker
+pricing_and_tiers.plutonium.features.file_upload_size: Kích thước tải lên
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: Dùng emoji và sticker toàn cục
+pricing_and_tiers.plutonium.features.message_character_limit: Giới hạn ký tự tin nhắn
+pricing_and_tiers.plutonium.features.message_scheduling: Hẹn giờ gửi tin
+pricing_and_tiers.plutonium.features.per_community_profiles: Hồ sơ theo từng cộng đồng
+pricing_and_tiers.plutonium.features.saved_media: Media đã lưu
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: Hỗ trợ webhook và bot
+pricing_and_tiers.plutonium.get_more_with_plutonium: Mở thêm với Fluxer Plutonium
+pricing_and_tiers.plutonium.get_plutonium: Lấy Plutonium
+pricing_and_tiers.plutonium.higher_limits_and_early_access: Giới hạn cao hơn, tính năng độc quyền và truy cập sớm các bản cập nhật mới
+pricing_and_tiers.plutonium.higher_limits_everywhere: Giới hạn cao hơn ở mọi nơi
+pricing_and_tiers.plutonium.show_off_status_badge: Khoe trạng thái Plutonium với huy hiệu độc quyền trên hồ sơ của bạn.
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: 'Nâng cấp lên Plutonium với $4.99/tháng: tag tên người dùng tuỳ chỉnh, hồ sơ theo từng cộng đồng, hẹn giờ gửi tin, stream 4K, tải lên 500 MB, và nhiều tính năng độc quyền khác.'
+pricing_and_tiers.visionary.badge.numbered_badge: Huy hiệu có số thể hiện trạng thái Visionary của bạn
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: Huy hiệu có số (1–{0}) thể hiện trạng thái Visionary của bạn
+pricing_and_tiers.visionary.bundle_label: Plutonium trọn đời và Operator Pass với Visionary – giới hạn số lượng
+pricing_and_tiers.visionary.communities_with_team_access: Cộng đồng Visionary và Operators có quyền truy cập team
+pricing_and_tiers.visionary.get_visionary: Lấy Visionary
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: Nhận Plutonium trọn đời trên Fluxer.app kèm Operator Pass cho tự host. Trả {0} một lần. Có hiệu lực đến ngày 1 tháng 10 năm 2026, hoặc đến khi tất cả các suất được nhận.
+pricing_and_tiers.visionary.lifetime_operator_pass: Operator Pass trọn đời
+pricing_and_tiers.visionary.lifetime_plutonium: Plutonium trọn đời
+pricing_and_tiers.visionary.limited_offer_note: 'Ưu đãi có hạn: Visionary bao gồm Operator Pass'
+pricing_and_tiers.visionary.limited_slots_label: Visionary – giới hạn số lượng
+pricing_and_tiers.visionary.one_time_purchase.label: Mua một lần
+pricing_and_tiers.visionary.one_time_purchase.promise: Mua một lần, dùng trọn đời
+pricing_and_tiers.visionary.purchase_flow: Mua Visionary trực tiếp trong app sau khi tạo tài khoản. Ngày mua và số đơn hàng sẽ hiển thị trên hồ sơ của bạn (có thể ẩn trong cài đặt quyền riêng tư).
+pricing_and_tiers.visionary.slots_left.generic: Còn {0}/{1} suất
+pricing_and_tiers.visionary.slots_left.visionary_bundle: Chỉ còn {0}/{1} suất Visionary trọn đời – Plutonium trọn đời kèm Operator Pass
+pricing_and_tiers.visionary.slots_left.visionary_only: Còn {0} suất Visionary
+product_positioning.free_and_open_source: Fluxer miễn phí và mã nguồn mở. Ai cũng có thể tự host miễn phí.
+product_positioning.intro: Fluxer là nền tảng nhắn tin tức thì và VoIP miễn phí, mã nguồn mở, dành cho bạn bè, nhóm và cộng đồng.
+product_positioning.open_source.fully_open_source_agplv3: Mã nguồn mở hoàn toàn (AGPLv3)
+product_positioning.open_source.label: Mã nguồn mở
+product_positioning.open_source.license: Mã nguồn mở (AGPL-3.0)
+product_positioning.self_hosting.connect_from_any_client: Kết nối từ bất kỳ client nào
+product_positioning.self_hosting.free_self_hosting: Tự host miễn phí
+product_positioning.self_hosting.host_your_own_instance: Tự host instance của bạn
+product_positioning.self_hosting.label: Tự host
+product_positioning.self_hosting.operator_pass.access_to_operators_community: Quyền vào cộng đồng Fluxer Operators
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: Hết ưu đãi thì Operator Pass vẫn có thể mua riêng.
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: 'Operator Pass là tuỳ chọn: trả phí để được hỗ trợ và vào cộng đồng Operators.'
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: Hỗ trợ ưu tiên và quyền vào cộng đồng Operators cho tự host
+product_positioning.self_hosting.run_backend_on_your_hardware: Chạy backend Fluxer trên phần cứng của bạn và kết nối bằng app của bọn mình.
+product_positioning.self_hosting.switch_between_instances: Chuyển qua lại giữa nhiều instance
+security.found_security_issue: Phát hiện vấn đề bảo mật?
+security.report_vulnerabilities: Báo cáo lỗ hổng và giúp bọn mình giữ nền tảng an toàn.
+security.responsible_disclosure_note: Bọn mình trân trọng việc công bố có trách nhiệm qua trang bug bounty. Bọn mình tặng code Plutonium và huy hiệu Bug Hunter theo mức độ nghiêm trọng.
+security.security_bug_bounty: Chương trình bug bounty bảo mật
+security.security_reports: Báo cáo bảo mật
+security.testers_access_from_reports: Báo cáo được duyệt sẽ cho bạn quyền vào Fluxer Testers, nơi bạn có thể kiếm điểm để đổi code Plutonium và huy hiệu Bug Hunter.
+social_and_feeds.bluesky.follow_us: Theo dõi bọn mình trên Bluesky
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: RSS feed Bluesky
+social_and_feeds.follow_fluxer: Theo dõi @fluxer.app
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: RSS feed blog
+social_and_feeds.rss.fluxer_blog_rss: RSS blog Fluxer
+social_and_feeds.rss.label: RSS feed
+social_and_feeds.stay_updated_cta: Luôn cập nhật tin tức, trạng thái dịch vụ và mọi thứ đang diễn ra. Bạn cũng có thể đăng ký

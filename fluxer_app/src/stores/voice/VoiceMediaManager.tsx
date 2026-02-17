@@ -17,40 +17,68 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {LocalAudioTrack, Room, ScreenShareCaptureOptions, TrackPublishOptions} from 'livekit-client';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as SoundActionCreators from '@app/actions/SoundActionCreators';
+import {CameraPermissionDeniedModal} from '@app/components/alerts/CameraPermissionDeniedModal';
+import {MicrophonePermissionDeniedModal} from '@app/components/alerts/MicrophonePermissionDeniedModal';
+import {Logger} from '@app/lib/Logger';
+import CallMediaPrefsStore from '@app/stores/CallMediaPrefsStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import KeybindStore from '@app/stores/KeybindStore';
+import LocalVoiceStateStore from '@app/stores/LocalVoiceStateStore';
+import MediaPermissionStore from '@app/stores/MediaPermissionStore';
+import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
+import {
+	applyAllLocalAudioPreferences as applyAllLocalAudioPreferencesImpl,
+	applyLocalAudioPreferencesForUser as applyLocalAudioPreferencesForUserImpl,
+	applyPushToTalkHold as applyPushToTalkHoldImpl,
+	getMuteReason as getMuteReasonImpl,
+	handlePushToTalkModeChange as handlePushToTalkModeChangeImpl,
+} from '@app/stores/voice/VoiceAudioManager';
+import VoiceDevicePermissionStore from '@app/stores/voice/VoiceDevicePermissionStore';
+import {playEntranceSound} from '@app/stores/voice/VoiceEntranceSoundManager';
+import {
+	getRoomFromMediaEngineStore,
+	syncLocalVoiceStateWithServer,
+	updateLocalParticipantFromRoom,
+} from '@app/stores/voice/VoiceMediaEngineBridge';
+import VoiceMediaStateCoordinator from '@app/stores/voice/VoiceMediaStateCoordinator';
+import VoiceScreenShareManager from '@app/stores/voice/VoiceScreenShareManager';
+import type {VoiceState} from '@app/types/gateway/GatewayVoiceTypes';
+import {ensureNativePermission} from '@app/utils/NativePermissions';
+import {isDesktop} from '@app/utils/NativeUtils';
+import {SoundType} from '@app/utils/SoundUtils';
+import {applyBackgroundProcessor} from '@app/utils/VideoBackgroundProcessor';
+import {voiceVolumePercentToTrackVolume} from '@app/utils/VoiceVolumeUtils';
+import type {
+	LocalAudioTrack,
+	LocalVideoTrack,
+	Room,
+	ScreenShareCaptureOptions,
+	TrackPublishOptions,
+} from 'livekit-client';
 import {Track, VideoPresets} from 'livekit-client';
 import {makeAutoObservable} from 'mobx';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as SoundActionCreators from '~/actions/SoundActionCreators';
-import {CameraPermissionDeniedModal} from '~/components/alerts/CameraPermissionDeniedModal';
-import {MicrophonePermissionDeniedModal} from '~/components/alerts/MicrophonePermissionDeniedModal';
-import {Logger} from '~/lib/Logger';
-import CallMediaPrefsStore from '~/stores/CallMediaPrefsStore';
-import ChannelStore from '~/stores/ChannelStore';
-import LocalVoiceStateStore from '~/stores/LocalVoiceStateStore';
-import MediaPermissionStore from '~/stores/MediaPermissionStore';
-import VoiceSettingsStore from '~/stores/VoiceSettingsStore';
-import VoiceDevicePermissionStore from '~/stores/voice/VoiceDevicePermissionStore';
-import {ensureNativePermission} from '~/utils/NativePermissions';
-import {isDesktop} from '~/utils/NativeUtils';
-import {SoundType} from '~/utils/SoundUtils';
-import {
-	applyAllLocalAudioPreferences as applyAllLocalAudioPreferencesFn,
-	applyLocalAudioPreferencesForUser as applyLocalAudioPreferencesForUserFn,
-	applyPushToTalkHold as applyPushToTalkHoldFn,
-	getMuteReason as getMuteReasonFn,
-	handlePushToTalkModeChange as handlePushToTalkModeChangeFn,
-} from './VoiceAudioManager';
-import {playEntranceSound} from './VoiceEntranceSoundManager';
-import VoiceScreenShareManager from './VoiceScreenShareManager';
-import type {VoiceState} from './VoiceStateManager';
 
 const logger = new Logger('VoiceMediaManager');
 
 export interface SetCameraEnabledOptions {
 	deviceId?: string;
 	sendUpdate?: boolean;
+}
+
+interface LocalAudioTrackWithVolume {
+	setVolume: (volume: number) => void;
+}
+
+function isLocalAudioTrackWithVolume(track: unknown): track is LocalAudioTrackWithVolume {
+	return (
+		track != null &&
+		typeof track === 'object' &&
+		'setVolume' in track &&
+		typeof (track as LocalAudioTrackWithVolume).setVolume === 'function'
+	);
 }
 
 class VoiceMediaManager {
@@ -67,8 +95,11 @@ class VoiceMediaManager {
 		const selfDeaf = LocalVoiceStateStore.getSelfDeaf();
 		const denied = MediaPermissionStore.isMicrophoneExplicitlyDenied();
 
-		if (selfMute || selfDeaf) {
-			logger.debug('[ensureMicrophone] Skipping: user is muted or deafened', {selfMute, selfDeaf});
+		const isPttMutedOnly =
+			KeybindStore.isPushToTalkEnabled() && selfMute && !LocalVoiceStateStore.getHasUserSetMute() && !selfDeaf;
+
+		if ((selfMute || selfDeaf) && !isPttMutedOnly) {
+			logger.debug('Skipping: user is muted or deafened', {selfMute, selfDeaf});
 			if (selfMute) {
 				this.syncVoiceState({self_mute: true});
 			}
@@ -76,7 +107,7 @@ class VoiceMediaManager {
 		}
 
 		if (denied) {
-			logger.debug('[ensureMicrophone] Microphone explicitly denied');
+			logger.debug('Microphone explicitly denied');
 			if (!LocalVoiceStateStore.getSelfMute()) {
 				LocalVoiceStateStore.updateSelfMute(true);
 			}
@@ -85,7 +116,7 @@ class VoiceMediaManager {
 		}
 
 		if (!room.localParticipant) {
-			logger.warn('[ensureMicrophone] No local participant');
+			logger.warn('No local participant');
 			return;
 		}
 
@@ -93,7 +124,14 @@ class VoiceMediaManager {
 			await this.enableMicrophone(room, channelId);
 			MediaPermissionStore.updateMicrophonePermissionGranted();
 
-			this.syncVoiceState({self_mute: selfMute});
+			if (isPttMutedOnly) {
+				room.localParticipant.audioTrackPublications.forEach((publication) => {
+					publication.mute().catch((error) => logger.error('Failed to mute publication for PTT', {error}));
+				});
+				this.syncVoiceState({self_mute: true});
+			} else {
+				this.syncVoiceState({self_mute: selfMute});
+			}
 		} catch (e: unknown) {
 			if (e instanceof Error && (e.name === 'NotAllowedError' || e.name === 'PermissionDeniedError')) {
 				MediaPermissionStore.markMicrophoneExplicitlyDenied();
@@ -114,7 +152,7 @@ class VoiceMediaManager {
 			if (isDesktop()) {
 				const nativeResult = await ensureNativePermission('microphone');
 				if (nativeResult === 'denied') {
-					logger.warn('[enableMicrophone] Native microphone permission denied');
+					logger.warn('Native microphone permission denied');
 					throw Object.assign(new Error('Native microphone permission denied'), {
 						name: 'NotAllowedError',
 					});
@@ -124,10 +162,10 @@ class VoiceMediaManager {
 				}
 			}
 
-			await VoiceDevicePermissionStore.ensureDevices({requestPermissions: false}).catch(() => {});
+			await VoiceDevicePermissionStore.ensureDevices({requestPermissions: false});
 
 			if (!room.localParticipant) {
-				logger.warn('[enableMicrophone] No local participant');
+				logger.warn('No local participant');
 				return;
 			}
 
@@ -146,16 +184,17 @@ class VoiceMediaManager {
 				autoGainControl: VoiceSettingsStore.getAutoGainControl(),
 				...(audioBitrate && {audioBitrate}),
 			});
+			this.applyLocalInputVolume(room);
 
 			MediaPermissionStore.updateMicrophonePermissionGranted();
-			logger.info('[enableMicrophone] Successfully enabled microphone');
+			logger.info('Successfully enabled microphone');
 		} catch (e: unknown) {
 			if (e instanceof Error && (e.name === 'NotAllowedError' || e.name === 'PermissionDeniedError')) {
-				logger.error('[enableMicrophone] Permission denied');
+				logger.error('Permission denied');
 				MediaPermissionStore.markMicrophoneExplicitlyDenied();
 				ModalActionCreators.push(modal(() => <MicrophonePermissionDeniedModal />));
 			} else {
-				logger.error('[enableMicrophone] Failed', e);
+				logger.error('Failed', e);
 			}
 			throw e;
 		}
@@ -163,7 +202,7 @@ class VoiceMediaManager {
 
 	async disableMicrophone(room: Room): Promise<void> {
 		if (!room.localParticipant) {
-			logger.warn('[disableMicrophone] No local participant');
+			logger.warn('No local participant');
 			return;
 		}
 
@@ -177,10 +216,10 @@ class VoiceMediaManager {
 					.filter((track): track is LocalAudioTrack => Boolean(track));
 
 				await Promise.allSettled(tracks.map((track) => participant.unpublishTrack(track)));
-				logger.info('[disableMicrophone] Successfully disabled microphone');
+				logger.info('Successfully disabled microphone');
 			}
 		} catch (e) {
-			logger.error('[disableMicrophone] Failed', e);
+			logger.error('Failed', e);
 		}
 	}
 
@@ -193,11 +232,11 @@ class VoiceMediaManager {
 	}
 
 	async setCameraEnabled(enabled: boolean, options?: SetCameraEnabledOptions): Promise<void> {
-		const room = this.getRoomFromMediaEngineStore();
+		const room = getRoomFromMediaEngineStore();
 		const {sendUpdate = true, ...restOptions} = options || {};
 
 		if (!room?.localParticipant) {
-			logger.warn('[setCameraEnabled] No room or local participant');
+			logger.warn('No room or local participant');
 			return;
 		}
 
@@ -218,24 +257,30 @@ class VoiceMediaManager {
 			const resolution = VoiceSettingsStore.getCameraResolution();
 			const videoResolution = this.getVideoPreset(resolution);
 
+			if (!enabled) {
+				VoiceMediaStateCoordinator.applyCameraState(false, {reason: sendUpdate ? 'user' : 'server', sendUpdate});
+			}
+
 			await participant.setCameraEnabled(enabled, {resolution: videoResolution, ...restOptions});
 
-			LocalVoiceStateStore.updateSelfVideo(enabled);
-			if (sendUpdate) this.syncVoiceState({self_video: enabled});
+			if (enabled) {
+				await this.applyBackgroundToCamera(participant);
+				VoiceMediaStateCoordinator.applyCameraState(true, {reason: sendUpdate ? 'user' : 'server', sendUpdate});
+			}
 
-			this.updateLocalParticipant();
+			updateLocalParticipantFromRoom(room);
 
 			if (enabled) {
 				SoundActionCreators.playSound(SoundType.CameraOn);
 			} else {
 				SoundActionCreators.playSound(SoundType.CameraOff);
 			}
-			logger.info('[setCameraEnabled] Success', {enabled});
+			logger.info('Success', {enabled});
 		} catch (e) {
-			logger.error('[setCameraEnabled] Failed', {enabled, error: e});
+			logger.error('Failed', {enabled, error: e});
 			const actual = room.localParticipant?.isCameraEnabled ?? false;
-			LocalVoiceStateStore.updateSelfVideo(actual);
-			if (sendUpdate) this.syncVoiceState({self_video: actual});
+			VoiceMediaStateCoordinator.applyCameraState(actual, {reason: sendUpdate ? 'user' : 'server', sendUpdate});
+			updateLocalParticipantFromRoom(room);
 
 			if (actual) {
 				SoundActionCreators.playSound(SoundType.CameraOn);
@@ -243,6 +288,20 @@ class VoiceMediaManager {
 				SoundActionCreators.playSound(SoundType.CameraOff);
 			}
 		}
+	}
+
+	private async applyBackgroundToCamera(participant: Room['localParticipant']): Promise<void> {
+		const videoPublication = Array.from(participant.videoTrackPublications.values()).find(
+			(pub) => pub.source === Track.Source.Camera,
+		);
+
+		const track = videoPublication?.track as LocalVideoTrack | undefined;
+		if (!track) {
+			logger.warn('No camera track found to apply background');
+			return;
+		}
+
+		await applyBackgroundProcessor(track);
 	}
 
 	private getVideoPreset(resolution: string) {
@@ -263,29 +322,28 @@ class VoiceMediaManager {
 
 	async setScreenShareEnabled(
 		enabled: boolean,
-		options?: ScreenShareCaptureOptions & {sendUpdate?: boolean},
+		options?: ScreenShareCaptureOptions & {sendUpdate?: boolean; playSound?: boolean; restartIfEnabled?: boolean},
 		publishOptions?: TrackPublishOptions,
 	): Promise<void> {
-		const room = this.getRoomFromMediaEngineStore();
-		await VoiceScreenShareManager.setScreenShareEnabled(
-			room,
-			enabled,
-			{syncVoiceState: this.syncVoiceState, updateLocalParticipant: this.updateLocalParticipant},
-			options,
-			publishOptions,
-		);
+		const room = getRoomFromMediaEngineStore();
+		await VoiceScreenShareManager.setScreenShareEnabled(room, enabled, options, publishOptions);
+	}
+
+	async updateActiveScreenShareSettings(
+		options?: ScreenShareCaptureOptions,
+		publishOptions?: TrackPublishOptions,
+	): Promise<boolean> {
+		const room = getRoomFromMediaEngineStore();
+		return VoiceScreenShareManager.updateActiveScreenShareSettings(room, options, publishOptions);
 	}
 
 	async toggleScreenShareFromKeybind(): Promise<void> {
-		const room = this.getRoomFromMediaEngineStore();
-		await VoiceScreenShareManager.toggleScreenShareFromKeybind(room, {
-			syncVoiceState: this.syncVoiceState,
-			updateLocalParticipant: this.updateLocalParticipant,
-		});
+		const room = getRoomFromMediaEngineStore();
+		await VoiceScreenShareManager.toggleScreenShareFromKeybind(room);
 	}
 
 	async playEntranceSound(): Promise<void> {
-		const room = this.getRoomFromMediaEngineStore();
+		const room = getRoomFromMediaEngineStore();
 		await playEntranceSound(room);
 	}
 
@@ -298,58 +356,36 @@ class VoiceMediaManager {
 		self_stream?: boolean;
 		self_mute?: boolean;
 		self_deaf?: boolean;
-		viewer_stream_key?: string | null;
+		viewer_stream_keys?: Array<string>;
 	}): void {
-		try {
-			if ('_mediaEngineStore' in window) {
-				const store = (window as {_mediaEngineStore?: {syncLocalVoiceStateWithServer?: (p: typeof partial) => void}})
-					._mediaEngineStore;
-				if (store?.syncLocalVoiceStateWithServer) {
-					store.syncLocalVoiceStateWithServer(partial);
-				}
-			}
-		} catch (e) {
-			logger.error('[syncVoiceState] Failed to sync voice state with server', e);
-		}
-	}
-
-	private getRoomFromMediaEngineStore(): Room | null {
-		try {
-			if ('_mediaEngineStore' in window) {
-				const store = (window as {_mediaEngineStore?: {room?: Room}})._mediaEngineStore;
-				return store?.room ?? null;
-			}
-		} catch (e) {
-			logger.error('[getRoomFromMediaEngineStore] Failed to get room', e);
-		}
-		return null;
-	}
-
-	private updateLocalParticipant(): void {
-		try {
-			const room = this.getRoomFromMediaEngineStore();
-			if (room?.localParticipant && '_mediaEngineStore' in window) {
-				const store = (window as {_mediaEngineStore?: {updateLocalParticipant?: () => void}})._mediaEngineStore;
-				if (store && 'upsertParticipant' in store) {
-					(store as {upsertParticipant?: (p: unknown) => void}).upsertParticipant?.(room.localParticipant);
-				}
-			}
-		} catch (e) {
-			logger.error('[updateLocalParticipant] Failed to update local participant', e);
-		}
+		syncLocalVoiceStateWithServer(partial);
 	}
 
 	applyLocalAudioPreferencesForUser(userId: string, room: Room | null): void {
-		applyLocalAudioPreferencesForUserFn(userId, room);
+		applyLocalAudioPreferencesForUserImpl(userId, room);
 	}
 
 	applyAllLocalAudioPreferences(room: Room | null): void {
-		applyAllLocalAudioPreferencesFn(room);
+		applyAllLocalAudioPreferencesImpl(room);
+	}
+
+	applyLocalInputVolume(room: Room | null): void {
+		if (!room?.localParticipant) {
+			return;
+		}
+		const localInputVolume = voiceVolumePercentToTrackVolume(VoiceSettingsStore.getInputVolume());
+		room.localParticipant.audioTrackPublications.forEach((publication) => {
+			const track = publication.track;
+			if (!track || !isLocalAudioTrackWithVolume(track)) {
+				return;
+			}
+			track.setVolume(localInputVolume);
+		});
 	}
 
 	setLocalVideoDisabled(identity: string, disabled: boolean, room: Room | null, connectionId: string | null): void {
 		if (!connectionId) {
-			logger.warn('[setLocalVideoDisabled] No connection ID');
+			logger.warn('No connection ID');
 			return;
 		}
 		CallMediaPrefsStore.setVideoDisabled(connectionId, identity, disabled);
@@ -358,45 +394,57 @@ class VoiceMediaManager {
 		if (!p) return;
 
 		p.videoTrackPublications.forEach((pub) => {
-			if (pub.source === Track.Source.Camera || pub.source === Track.Source.ScreenShare) {
-				try {
-					if (disabled) {
-						pub.setSubscribed(false);
-						logger.debug('[setLocalVideoDisabled] Unsubscribed from track', {
-							identity,
-							source: pub.source,
-							trackSid: pub.trackSid,
-						});
-					} else {
-						pub.setSubscribed(true);
-						logger.debug('[setLocalVideoDisabled] Re-subscribed to track', {
-							identity,
-							source: pub.source,
-							trackSid: pub.trackSid,
-						});
-					}
-				} catch (err) {
-					logger.error('[setLocalVideoDisabled] Failed to update subscription', {
-						error: err,
+			const isCamera = pub.source === Track.Source.Camera;
+			const isScreenShare = pub.source === Track.Source.ScreenShare;
+			if (!isCamera && !isScreenShare) {
+				const error = new Error('Unsupported video track source for local subscription update');
+				logger.error('Unexpected local video track source while resubscribing', {
+					identity,
+					source: pub.source,
+					trackSid: pub.trackSid,
+				});
+				throw error;
+			}
+
+			try {
+				if (disabled) {
+					pub.setSubscribed(false);
+					logger.debug('Unsubscribed from track', {
 						identity,
 						source: pub.source,
-						disabled,
+						trackSid: pub.trackSid,
 					});
+					return;
 				}
+
+				const trackType = isScreenShare ? 'screen_share' : 'camera';
+				pub.setSubscribed(true);
+				logger.debug('Re-subscribed to local video track', {
+					identity,
+					trackSid: pub.trackSid,
+					trackType,
+				});
+			} catch (err) {
+				logger.error('Failed to update subscription', {
+					error: err,
+					identity,
+					source: pub.source,
+					disabled,
+				});
 			}
 		});
 	}
 
 	applyPushToTalkHold(held: boolean, room: Room | null, getCurrentUserVoiceState: () => VoiceState | null): void {
-		applyPushToTalkHoldFn(held, room, getCurrentUserVoiceState, this.syncVoiceState);
+		applyPushToTalkHoldImpl(held, room, getCurrentUserVoiceState, this.syncVoiceState);
 	}
 
 	handlePushToTalkModeChange(room: Room | null, getCurrentUserVoiceState: () => VoiceState | null): void {
-		handlePushToTalkModeChangeFn(room, getCurrentUserVoiceState, this.syncVoiceState);
+		handlePushToTalkModeChangeImpl(room, getCurrentUserVoiceState, this.syncVoiceState);
 	}
 
 	getMuteReason(voiceState: VoiceState | null): 'guild' | 'push_to_talk' | 'self' | null {
-		return getMuteReasonFn(voiceState);
+		return getMuteReasonImpl(voiceState);
 	}
 }
 

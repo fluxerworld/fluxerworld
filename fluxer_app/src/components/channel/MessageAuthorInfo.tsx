@@ -17,24 +17,46 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans} from '@lingui/react/macro';
+import {MessageAvatar} from '@app/components/channel/MessageAvatar';
+import {MessageUsername} from '@app/components/channel/MessageUsername';
+import {TimestampWithTooltip} from '@app/components/channel/TimestampWithTooltip';
+import {UserTag} from '@app/components/channel/UserTag';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import styles from '@app/styles/Message.module.css';
+import * as DateUtils from '@app/utils/DateUtils';
+import type {MessagePreviewContext} from '@fluxer/constants/src/ChannelConstants';
+import {formatShortRelativeTime} from '@fluxer/date_utils/src/DateDuration';
+import {Trans, useLingui} from '@lingui/react/macro';
 import {ClockIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import type {MessagePreviewContext} from '~/Constants';
-import {MessageAvatar} from '~/components/channel/MessageAvatar';
-import {MessageUsername} from '~/components/channel/MessageUsername';
-import {TimestampWithTooltip} from '~/components/channel/TimestampWithTooltip';
-import {UserTag} from '~/components/channel/UserTag';
-import {Tooltip} from '~/components/uikit/Tooltip';
-import type {GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {GuildRecord} from '~/records/GuildRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import styles from '~/styles/Message.module.css';
-import * as DateUtils from '~/utils/DateUtils';
+import {useMemo} from 'react';
 
-export const MessageAuthorInfo = observer(
-	({
+interface MessageAuthorInfoProps {
+	message: MessageRecord;
+	author: UserRecord;
+	guild?: GuildRecord;
+	member?: GuildMemberRecord;
+	shouldGroup: boolean;
+	shouldAppearAuthorless: boolean;
+	messageDisplayCompact: boolean;
+	showUserAvatarsInCompactMode: boolean;
+	mobileLayoutEnabled: boolean;
+	isHovering: boolean;
+	formattedDate: string;
+	previewContext?: keyof typeof MessagePreviewContext;
+	previewOverrides?: {
+		usernameColor?: string;
+		displayName?: string;
+	};
+}
+
+export const MessageAuthorInfo = observer((props: MessageAuthorInfoProps) => {
+	const {t} = useLingui();
+	const {
 		message,
 		author,
 		guild,
@@ -48,194 +70,137 @@ export const MessageAuthorInfo = observer(
 		formattedDate,
 		previewContext,
 		previewOverrides,
-	}: {
-		message: MessageRecord;
-		author: UserRecord;
-		guild?: GuildRecord;
-		member?: GuildMemberRecord;
-		shouldGroup: boolean;
-		shouldAppearAuthorless: boolean;
-		messageDisplayCompact: boolean;
-		showUserAvatarsInCompactMode: boolean;
-		mobileLayoutEnabled: boolean;
-		isHovering: boolean;
-		formattedDate: string;
-		previewContext?: keyof typeof MessagePreviewContext;
-		previewOverrides?: {
-			usernameColor?: string;
-			displayName?: string;
-		};
-	}) => {
-		if (shouldAppearAuthorless) return null;
+	} = props;
 
-		const isPreview = !!previewContext;
-		const timeoutUntil = member?.communicationDisabledUntil ?? null;
-		const isMemberTimedOut = Boolean(member?.isTimedOut());
-		const timeoutIndicator =
+	const isPreview = useMemo(() => Boolean(previewContext), [previewContext]);
+
+	const timeoutUntil = useMemo(() => member?.communicationDisabledUntil ?? null, [member?.communicationDisabledUntil]);
+	const isMemberTimedOut = useMemo(() => Boolean(member?.isTimedOut?.()), [member]);
+
+	const timeoutIndicator = useMemo(
+		() =>
 			timeoutUntil && isMemberTimedOut ? (
 				<Tooltip
 					text={() => (
 						<Trans>
-							Timeout ends {DateUtils.getShortRelativeDateString(timeoutUntil)} (
-							{DateUtils.getFormattedDateTime(timeoutUntil)})
+							Timeout ends {formatShortRelativeTime(timeoutUntil)} ({DateUtils.getFormattedDateTime(timeoutUntil)})
 						</Trans>
 					)}
 					position="top"
 					maxWidth="none"
 				>
-					<span className={styles.messageTimeoutIndicator}>
+					<span className={styles.messageTimeoutIndicator} role="img" aria-label={t`Timed out`}>
 						<ClockIcon size={16} weight="bold" />
 					</span>
 				</Tooltip>
-			) : null;
+			) : null,
+		[timeoutUntil, isMemberTimedOut],
+	);
 
-		if (messageDisplayCompact && !shouldGroup) {
-			return (
-				<h3 className={styles.messageAuthorInfoCompact}>
-					<TimestampWithTooltip date={message.timestamp} className={styles.messageTimestampCompact}>
-						<span className={styles.messageAssistiveText} aria-hidden="true">
-							{'['}
-						</span>
-						{DateUtils.getFormattedTime(message.timestamp)}
-						<span className={styles.messageAssistiveText} aria-hidden="true">
-							{'] '}
-						</span>
-					</TimestampWithTooltip>
-					{author.bot && <UserTag className={styles.userTagCompact} system={author.system} />}
-					{showUserAvatarsInCompactMode && (
-						<MessageAvatar
-							user={author}
-							message={message}
-							guildId={guild?.id}
-							size={16}
-							className={styles.messageAvatarCompact}
-							isHovering={isHovering}
-							isPreview={isPreview}
-						/>
-					)}
-					<span className={styles.authorContainer}>
-						{timeoutIndicator}
-						<MessageUsername
-							user={author}
-							message={message}
-							guild={guild}
-							member={member}
-							className={styles.messageUsername}
-							isPreview={isPreview}
-							previewColor={previewOverrides?.usernameColor}
-							previewName={previewOverrides?.displayName}
-						/>
-						<span className={styles.messageAssistiveText} aria-hidden="true">
-							{':'}
-						</span>
-					</span>
-				</h3>
-			);
-		}
+	const username = useMemo(
+		() => (
+			<MessageUsername
+				user={author}
+				message={message}
+				guild={guild}
+				member={member}
+				className={styles.messageUsername}
+				isPreview={isPreview}
+				previewColor={previewOverrides?.usernameColor}
+				previewName={previewOverrides?.displayName}
+			/>
+		),
+		[author, message, guild, member, isPreview, previewOverrides?.usernameColor, previewOverrides?.displayName],
+	);
 
-		if (messageDisplayCompact && shouldGroup) {
-			if (mobileLayoutEnabled) return null;
+	const timestampClass = useMemo(
+		() => (shouldGroup ? styles.messageTimestampCompactHover : styles.messageTimestampCompact),
+		[shouldGroup],
+	);
 
-			return (
-				<h3 className={styles.messageAuthorInfoCompact}>
-					<TimestampWithTooltip date={message.timestamp} className={styles.messageTimestampCompactHover}>
-						<span className={styles.messageAssistiveText} aria-hidden="true">
-							{'['}
-						</span>
-						{DateUtils.getFormattedTime(message.timestamp)}
-						<span className={styles.messageAssistiveText} aria-hidden="true">
-							{'] '}
-						</span>
-					</TimestampWithTooltip>
-					{author.bot && <UserTag className={styles.userTagCompact} system={author.system} />}
-					{showUserAvatarsInCompactMode && (
-						<MessageAvatar
-							user={author}
-							message={message}
-							guildId={guild?.id}
-							size={16}
-							className={styles.messageAvatarCompact}
-							isHovering={isHovering}
-							isPreview={isPreview}
-						/>
-					)}
-					<span className={styles.authorContainer}>
-						{timeoutIndicator}
-						<MessageUsername
-							user={author}
-							message={message}
-							guild={guild}
-							member={member}
-							className={styles.messageUsername}
-							isPreview={isPreview}
-							previewColor={previewOverrides?.usernameColor}
-							previewName={previewOverrides?.displayName}
-						/>
-						<span className={styles.messageAssistiveText} aria-hidden="true">
-							{':'}
-						</span>
-					</span>
-				</h3>
-			);
-		}
+	if (shouldAppearAuthorless) return null;
 
-		if (!shouldGroup) {
-			return (
-				<>
-					<div className={styles.messageGutterLeft} />
+	if (messageDisplayCompact) {
+		if (shouldGroup && mobileLayoutEnabled) return null;
+
+		return (
+			<span className={styles.messageAuthorInfoCompact}>
+				<TimestampWithTooltip date={message.timestamp} className={timestampClass}>
+					<span className={styles.copyOnly}>[</span>
+					{DateUtils.getFormattedTime(message.timestamp)}
+					<span className={styles.copyOnly}>]</span>
+				</TimestampWithTooltip>
+
+				<span className={styles.copyOnly}> </span>
+
+				{author.bot && <UserTag className={styles.userTagCompact} system={author.system} />}
+
+				{showUserAvatarsInCompactMode && (
 					<MessageAvatar
 						user={author}
 						message={message}
 						guildId={guild?.id}
-						size={40}
-						className={styles.messageAvatar}
+						size={16}
+						className={styles.messageAvatarCompact}
 						isHovering={isHovering}
 						isPreview={isPreview}
 					/>
-					<div className={styles.messageGutterRight} />
-					<h3 className={styles.messageAuthorInfo}>
-						<span className={styles.authorContainer}>
-							{timeoutIndicator}
-							<MessageUsername
-								user={author}
-								message={message}
-								guild={guild}
-								member={member}
-								className={styles.messageUsername}
-								isPreview={isPreview}
-								previewColor={previewOverrides?.usernameColor}
-								previewName={previewOverrides?.displayName}
-							/>
-							{author.bot && <UserTag className={styles.userTagOffset} system={author.system} />}
-						</span>
+				)}
 
-						<TimestampWithTooltip date={message.timestamp} className={styles.messageTimestamp}>
-							<span className={styles.messageAssistiveText} aria-hidden="true">
-								{' — '}
-							</span>
-							{formattedDate}
-						</TimestampWithTooltip>
-					</h3>
-				</>
-			);
-		}
+				<span className={styles.messageAuthorPart}>
+					{timeoutIndicator}
+					{username}
+				</span>
 
-		if (mobileLayoutEnabled) return null;
+				<span className={styles.copyOnly}>: </span>
+			</span>
+		);
+	}
 
+	if (!shouldGroup) {
 		return (
 			<>
 				<div className={styles.messageGutterLeft} />
-				<TimestampWithTooltip date={message.timestamp} className={styles.messageTimestampHover}>
-					<span className={styles.messageAssistiveText} aria-hidden="true">
-						{'['}
-					</span>
-					{DateUtils.getFormattedTime(message.timestamp)}
-					<span className={styles.messageAssistiveText} aria-hidden="true">
-						{']'}
-					</span>
-				</TimestampWithTooltip>
+				<MessageAvatar
+					user={author}
+					message={message}
+					guildId={guild?.id}
+					size={40}
+					className={styles.messageAvatar}
+					isHovering={isHovering}
+					isPreview={isPreview}
+				/>
 				<div className={styles.messageGutterRight} />
+				<h3 className={styles.messageAuthorInfo}>
+					<span className={styles.messageAuthorRow}>
+						<span className={styles.messageAuthorPart}>
+							{timeoutIndicator}
+							{username}
+							{author.bot && <UserTag className={styles.userTagOffset} system={author.system} />}
+						</span>
+						<TimestampWithTooltip date={message.timestamp} className={styles.messageTimestamp}>
+							<span aria-hidden="true" className={styles.authorDashSeparator}>
+								{' \u2014 '}
+							</span>
+							{formattedDate}
+						</TimestampWithTooltip>
+					</span>
+				</h3>
 			</>
 		);
-	},
-);
+	}
+
+	if (mobileLayoutEnabled) return null;
+
+	return (
+		<>
+			<div className={styles.messageGutterLeft} />
+			<TimestampWithTooltip date={message.timestamp} className={styles.messageTimestampHover}>
+				<span className={styles.textSeparator}>[</span>
+				{DateUtils.getFormattedTime(message.timestamp)}
+				<span className={styles.textSeparator}>]</span>
+			</TimestampWithTooltip>
+			<div className={styles.messageGutterRight} />
+		</>
+	);
+});

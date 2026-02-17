@@ -1,0 +1,37 @@
+services:
+  turborepo-cache:
+    image: ducktors/turborepo-remote-cache:latest
+    hostname: turborepo-cache
+    env_file:
+      - /etc/fluxer/turborepo-cache.env
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+      - STORAGE_PROVIDER=s3
+      - STORAGE_PATH=fluxer-turborepo
+      - S3_ENDPOINT=https://s3.us-east-va.io.cloud.ovh.us
+      - AWS_REGION=us-east-va
+      - LOG_LEVEL=info
+    networks:
+      - fluxer-shared
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+      labels:
+        - 'caddy=turborepo.fluxer.dev'
+        - 'caddy.reverse_proxy={{upstreams 3000}}'
+        - 'caddy.header.Strict-Transport-Security="max-age=31536000; includeSubDomains; preload"'
+
+networks:
+  fluxer-shared:
+    external: true

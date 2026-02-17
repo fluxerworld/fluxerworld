@@ -19,20 +19,37 @@
 
 -export([execute_method/2]).
 
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+-endif.
+
+-define(CALL_LOOKUP_TIMEOUT, 2000).
+-define(CALL_CREATE_TIMEOUT, 10000).
+
+-spec execute_method(binary(), map()) -> term().
 execute_method(<<"call.get">>, #{<<"channel_id">> := ChannelIdBin}) ->
     ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
-    case gen_server:call(call_manager, {lookup, ChannelId}, 5000) of
+    case lookup_call(ChannelId) of
         {ok, Pid} ->
-            case gen_server:call(Pid, {get_state}, 5000) of
-                {ok, CallData} ->
-                    CallData;
-                _ ->
-                    throw({error, <<"Failed to get call state">>})
+            case gen_server:call(Pid, {get_state}, ?CALL_LOOKUP_TIMEOUT) of
+                {ok, CallData} -> CallData;
+                _ -> throw({error, <<"call_state_error">>})
             end;
-        {error, not_found} ->
-            null;
         not_found ->
             null
+    end;
+execute_method(<<"call.get_pending_joins">>, #{<<"channel_id">> := ChannelIdBin}) ->
+    ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
+    case lookup_call(ChannelId) of
+        {ok, Pid} ->
+            case gen_server:call(Pid, {get_pending_connections}, ?CALL_LOOKUP_TIMEOUT) of
+                #{pending_joins := PendingJoins} ->
+                    #{<<"pending_joins">> => PendingJoins};
+                _ ->
+                    throw({error, <<"call_pending_joins_error">>})
+            end;
+        not_found ->
+            #{<<"pending_joins">> => []}
     end;
 execute_method(<<"call.create">>, Params) ->
     #{
@@ -42,12 +59,10 @@ execute_method(<<"call.create">>, Params) ->
         <<"ringing">> := RingingBins,
         <<"recipients">> := RecipientsBins
     } = Params,
-
     ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
     MessageId = validation:snowflake_or_throw(<<"message_id">>, MessageIdBin),
     Ringing = validation:snowflake_list_or_throw(<<"ringing">>, RingingBins),
     Recipients = validation:snowflake_list_or_throw(<<"recipients">>, RecipientsBins),
-
     CallData = #{
         channel_id => ChannelId,
         message_id => MessageId,
@@ -55,161 +70,123 @@ execute_method(<<"call.create">>, Params) ->
         ringing => Ringing,
         recipients => Recipients
     },
-
-    case gen_server:call(call_manager, {create, ChannelId, CallData}, 10000) of
+    case gen_server:call(call_manager, {create, ChannelId, CallData}, ?CALL_CREATE_TIMEOUT) of
         {ok, Pid} ->
-            case gen_server:call(Pid, {get_state}, 5000) of
-                {ok, CallState} ->
-                    CallState;
-                _ ->
-                    throw({error, <<"Failed to get call state after creation">>})
+            case gen_server:call(Pid, {get_state}, ?CALL_LOOKUP_TIMEOUT) of
+                {ok, CallState} -> CallState;
+                _ -> throw({error, <<"call_state_error">>})
             end;
         {error, already_exists} ->
-            throw({error, <<"Call already exists">>});
+            throw({error, <<"call_already_exists">>});
         {error, Reason} ->
-            throw({error, iolist_to_binary(io_lib:format("Failed to create call: ~p", [Reason]))})
+            throw({error, iolist_to_binary(io_lib:format("create_call_error: ~p", [Reason]))})
     end;
-execute_method(<<"call.update_region">>, #{
-    <<"channel_id">> := ChannelIdBin, <<"region">> := Region
+execute_method(<<"call.update_region">>, #{<<"channel_id">> := ChannelIdBin, <<"region">> := Region}) ->
+    ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
+    with_call(ChannelId, fun(Pid) ->
+        case gen_server:call(Pid, {update_region, Region}, ?CALL_LOOKUP_TIMEOUT) of
+            ok -> true;
+            _ -> throw({error, <<"update_region_error">>})
+        end
+    end);
+execute_method(<<"call.ring">>, #{
+    <<"channel_id">> := ChannelIdBin, <<"recipients">> := RecipientsBin
 }) ->
     ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
-    case gen_server:call(call_manager, {lookup, ChannelId}, 5000) of
-        {ok, Pid} ->
-            case gen_server:call(Pid, {update_region, Region}, 5000) of
-                ok ->
-                    true;
-                _ ->
-                    throw({error, <<"Failed to update region">>})
-            end;
-        not_found ->
-            throw({error, <<"Call not found">>})
-    end;
-execute_method(<<"call.ring">>, Params) ->
-    #{<<"channel_id">> := ChannelIdBin, <<"recipients">> := RecipientsBin} = Params,
-
+    Recipients = validation:snowflake_list_or_throw(<<"recipients">>, RecipientsBin),
+    with_call(ChannelId, fun(Pid) ->
+        case gen_server:call(Pid, {ring_recipients, Recipients}, ?CALL_LOOKUP_TIMEOUT) of
+            ok -> true;
+            _ -> throw({error, <<"ring_recipients_error">>})
+        end
+    end);
+execute_method(<<"call.stop_ringing">>, #{
+    <<"channel_id">> := ChannelIdBin, <<"recipients">> := RecipientsBin
+}) ->
     ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
     Recipients = validation:snowflake_list_or_throw(<<"recipients">>, RecipientsBin),
-
-    case gen_server:call(call_manager, {lookup, ChannelId}, 5000) of
-        {ok, Pid} ->
-            case gen_server:call(Pid, {ring_recipients, Recipients}, 5000) of
-                ok ->
-                    true;
-                _ ->
-                    throw({error, <<"Failed to ring recipients">>})
-            end;
-        not_found ->
-            throw({error, <<"Call not found">>})
-    end;
-execute_method(<<"call.stop_ringing">>, Params) ->
-    #{<<"channel_id">> := ChannelIdBin, <<"recipients">> := RecipientsBin} = Params,
-
-    ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
-    Recipients = validation:snowflake_list_or_throw(<<"recipients">>, RecipientsBin),
-
-    case gen_server:call(call_manager, {lookup, ChannelId}, 5000) of
-        {ok, Pid} ->
-            case gen_server:call(Pid, {stop_ringing, Recipients}, 5000) of
-                ok ->
-                    true;
-                _ ->
-                    throw({error, <<"Failed to stop ringing">>})
-            end;
-        not_found ->
-            throw({error, <<"Call not found">>})
-    end;
-execute_method(<<"call.join">>, Params) ->
-    #{
-        <<"channel_id">> := ChannelIdBin,
-        <<"user_id">> := UserIdBin,
-        <<"session_id">> := SessionIdBin,
-        <<"voice_state">> := VoiceState
-    } = Params,
-
+    with_call(ChannelId, fun(Pid) ->
+        case gen_server:call(Pid, {stop_ringing, Recipients}, ?CALL_LOOKUP_TIMEOUT) of
+            ok -> true;
+            _ -> throw({error, <<"stop_ringing_error">>})
+        end
+    end);
+execute_method(<<"call.join">>, #{
+    <<"channel_id">> := ChannelIdBin,
+    <<"user_id">> := UserIdBin,
+    <<"session_id">> := SessionIdBin,
+    <<"voice_state">> := VoiceState
+}) ->
     ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
     SessionId = SessionIdBin,
-
-    case gen_server:call(session_manager, {lookup, SessionId}, 5000) of
+    case session_manager:lookup(SessionId) of
         {ok, SessionPid} ->
-            case gen_server:call(call_manager, {lookup, ChannelId}, 5000) of
-                {ok, CallPid} ->
-                    case
-                        gen_server:call(
-                            CallPid, {join, UserId, VoiceState, SessionId, SessionPid}, 5000
-                        )
-                    of
-                        ok ->
-                            true;
-                        _ ->
-                            throw({error, <<"Failed to join call">>})
-                    end;
-                not_found ->
-                    throw({error, <<"Call not found">>})
-            end;
-        not_found ->
-            throw({error, <<"Session not found">>})
+            with_call(ChannelId, fun(CallPid) ->
+                gen_server:cast(CallPid, {join_async, UserId, VoiceState, SessionId, SessionPid}),
+                true
+            end);
+        {error, not_found} ->
+            throw({error, <<"session_not_found">>})
     end;
 execute_method(<<"call.leave">>, #{<<"channel_id">> := ChannelIdBin, <<"session_id">> := SessionId}) ->
     ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
-
-    case gen_server:call(call_manager, {lookup, ChannelId}, 5000) of
-        {ok, Pid} ->
-            case gen_server:call(Pid, {leave, SessionId}, 5000) of
-                ok ->
-                    true;
-                _ ->
-                    throw({error, <<"Failed to leave call">>})
-            end;
-        not_found ->
-            throw({error, <<"Call not found">>})
-    end;
+    with_call(ChannelId, fun(Pid) ->
+        case gen_server:call(Pid, {leave, SessionId}, ?CALL_LOOKUP_TIMEOUT) of
+            ok -> true;
+            _ -> throw({error, <<"leave_call_error">>})
+        end
+    end);
 execute_method(<<"call.delete">>, #{<<"channel_id">> := ChannelIdBin}) ->
     ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
-    case gen_server:call(call_manager, {terminate_call, ChannelId}, 5000) of
-        ok ->
-            true;
-        {error, not_found} ->
-            throw({error, <<"Call not found">>});
-        _ ->
-            throw({error, <<"Failed to delete call">>})
+    case gen_server:call(call_manager, {terminate_call, ChannelId}, ?CALL_LOOKUP_TIMEOUT) of
+        ok -> true;
+        {error, not_found} -> throw({error, <<"call_not_found">>});
+        _ -> throw({error, <<"delete_call_error">>})
     end;
-execute_method(<<"call.confirm_connection">>, Params) ->
-    #{<<"channel_id">> := ChannelIdBin, <<"connection_id">> := ConnectionId} = Params,
+execute_method(<<"call.confirm_connection">>, #{
+    <<"channel_id">> := ChannelIdBin, <<"connection_id">> := ConnectionId
+}) ->
     ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
-    logger:debug(
-        "[gateway_rpc_call] call.confirm_connection channel_id=~p connection_id=~p",
-        [ChannelId, ConnectionId]
-    ),
-    case gen_server:call(call_manager, {lookup, ChannelId}, 5000) of
+    case lookup_call(ChannelId) of
         {ok, Pid} ->
-            gen_server:call(Pid, {confirm_connection, ConnectionId}, 5000);
-        {error, not_found} ->
-            logger:debug(
-                "[gateway_rpc_call] call.confirm_connection call not found for channel_id=~p", [
-                    ChannelId
-                ]
-            ),
-            #{success => true, call_not_found => true};
+            gen_server:call(Pid, {confirm_connection, ConnectionId}, ?CALL_LOOKUP_TIMEOUT);
         not_found ->
-            logger:debug(
-                "[gateway_rpc_call] call.confirm_connection call manager returned not_found for channel_id=~p",
-                [ChannelId]
-            ),
             #{success => true, call_not_found => true}
     end;
-execute_method(<<"call.disconnect_user_if_in_channel">>, Params) ->
-    #{<<"channel_id">> := ChannelIdBin, <<"user_id">> := UserIdBin} = Params,
+execute_method(
+    <<"call.disconnect_user_if_in_channel">>,
+    #{<<"channel_id">> := ChannelIdBin, <<"user_id">> := UserIdBin} = Params
+) ->
     ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
     ConnectionId = maps:get(<<"connection_id">>, Params, undefined),
-    case gen_server:call(call_manager, {lookup, ChannelId}, 5000) of
+    case lookup_call(ChannelId) of
         {ok, Pid} ->
             gen_server:call(
-                Pid, {disconnect_user_if_in_channel, UserId, ChannelId, ConnectionId}, 5000
+                Pid,
+                {disconnect_user_if_in_channel, UserId, ChannelId, ConnectionId},
+                ?CALL_LOOKUP_TIMEOUT
             );
-        {error, not_found} ->
-            #{success => true, call_not_found => true};
         not_found ->
             #{success => true, call_not_found => true}
     end.
+
+-spec lookup_call(integer()) -> {ok, pid()} | not_found.
+lookup_call(ChannelId) ->
+    case gen_server:call(call_manager, {lookup, ChannelId}, ?CALL_LOOKUP_TIMEOUT) of
+        {ok, Pid} -> {ok, Pid};
+        {error, not_found} -> not_found;
+        not_found -> not_found
+    end.
+
+-spec with_call(integer(), fun((pid()) -> T)) -> T when T :: term().
+with_call(ChannelId, Fun) ->
+    case lookup_call(ChannelId) of
+        {ok, Pid} -> Fun(Pid);
+        not_found -> throw({error, <<"call_not_found">>})
+    end.
+
+-ifdef(TEST).
+
+-endif.

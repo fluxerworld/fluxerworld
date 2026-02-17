@@ -17,32 +17,34 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as GuildMemberActionCreators from '@app/actions/GuildMemberActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import styles from '@app/components/guild/RoleManagement.module.css';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {GuildSettingsModal} from '@app/components/modals/GuildSettingsModal';
+import profileStyles from '@app/components/popouts/UserProfilePopout.module.css';
+import {CheckboxItem} from '@app/components/uikit/context_menu/ContextMenu';
+import itemStyles from '@app/components/uikit/context_menu/items/MenuItems.module.css';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {MenuBottomSheet, type MenuGroupType} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useRoleHierarchy} from '@app/hooks/useRoleHierarchy';
+import type {GuildRoleRecord} from '@app/records/GuildRoleRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildSettingsModalStore from '@app/stores/GuildSettingsModalStore';
+import GuildStore from '@app/stores/GuildStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import * as ColorUtils from '@app/utils/ColorUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {PlusIcon, XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as GuildMemberActionCreators from '~/actions/GuildMemberActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {GuildSettingsModal} from '~/components/modals/GuildSettingsModal';
-import profileStyles from '~/components/popouts/UserProfilePopout.module.css';
-import itemStyles from '~/components/uikit/ContextMenu/items/MenuItems.module.css';
-import {MenuGroup} from '~/components/uikit/ContextMenu/MenuGroup';
-import {MenuItem} from '~/components/uikit/ContextMenu/MenuItem';
-import {MenuItemCheckbox} from '~/components/uikit/ContextMenu/MenuItemCheckbox';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {MenuBottomSheet, type MenuGroupType} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useRoleHierarchy} from '~/hooks/useRoleHierarchy';
-import type {GuildRoleRecord} from '~/records/GuildRoleRecord';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildSettingsModalStore from '~/stores/GuildSettingsModalStore';
-import GuildStore from '~/stores/GuildStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import * as ColorUtils from '~/utils/ColorUtils';
-import styles from './RoleManagement.module.css';
+import type React from 'react';
+import {useCallback, useMemo, useState} from 'react';
 
 const RoleBadge: React.FC<{
 	role: GuildRoleRecord;
@@ -67,7 +69,7 @@ const RoleBadge: React.FC<{
 					<FocusRing offset={-2}>
 						<button type="button" className={styles.roleRemoveButton} onClick={handleRemoveRole}>
 							<XIcon
-								weight="regular"
+								weight="bold"
 								className={clsx(styles.roleRemoveIconContainer, profileStyles.roleRemoveIcon)}
 								style={{color: iconColor}}
 							/>
@@ -130,7 +132,7 @@ const ManageRolesMenuContent: React.FC<ManageRolesMenuContentProps> = observer(f
 	const currentMember = GuildMemberStore.getMember(guildId, userId);
 	const {canManageRole} = useRoleHierarchy(guild);
 
-	const handleOpenGuildSettings = React.useCallback(() => {
+	const handleOpenGuildSettings = useCallback(() => {
 		onClose();
 		if (GuildSettingsModalStore.navigateToTab(guildId, 'roles')) {
 			return;
@@ -138,7 +140,7 @@ const ManageRolesMenuContent: React.FC<ManageRolesMenuContentProps> = observer(f
 		ModalActionCreators.push(modal(() => <GuildSettingsModal guildId={guildId} initialTab="roles" />));
 	}, [guildId, onClose]);
 
-	const allRoles = React.useMemo(() => {
+	const allRoles = useMemo(() => {
 		if (!guild) return [];
 		return Object.values(guild.roles)
 			.filter((role) => !role.isEveryone)
@@ -149,7 +151,7 @@ const ManageRolesMenuContent: React.FC<ManageRolesMenuContentProps> = observer(f
 			}));
 	}, [guild, canManageRole]);
 
-	const handleToggleRole = React.useCallback(
+	const handleToggleRole = useCallback(
 		async (roleId: string, hasRole: boolean, canManage: boolean) => {
 			if (!canManage) return;
 			if (hasRole) {
@@ -176,18 +178,18 @@ const ManageRolesMenuContent: React.FC<ManageRolesMenuContentProps> = observer(f
 			{allRoles.map(({role, canManage}) => {
 				const hasRole = currentMember?.roles.has(role.id) ?? false;
 				return (
-					<MenuItemCheckbox
+					<CheckboxItem
 						key={role.id}
 						checked={hasRole}
 						disabled={!canManage}
-						onChange={() => handleToggleRole(role.id, hasRole, canManage)}
+						onCheckedChange={() => handleToggleRole(role.id, hasRole, canManage)}
 						closeOnChange={false}
 					>
 						<div className={itemStyles.roleContainer}>
 							<div className={itemStyles.roleIcon} style={{backgroundColor: ColorUtils.int2rgb(role.color)}} />
 							<span className={clsx(itemStyles.roleName, !canManage && itemStyles.roleDisabled)}>{role.name}</span>
 						</div>
-					</MenuItemCheckbox>
+					</CheckboxItem>
 				);
 			})}
 		</MenuGroup>
@@ -201,7 +203,7 @@ interface ManageRolesBottomSheetProps {
 	userId: string;
 }
 
-const ManageRolesBottomSheet: React.FC<ManageRolesBottomSheetProps> = observer(function ManageRolesBottomSheet({
+export const ManageRolesBottomSheet: React.FC<ManageRolesBottomSheetProps> = observer(function ManageRolesBottomSheet({
 	isOpen,
 	onClose,
 	guildId,
@@ -212,7 +214,7 @@ const ManageRolesBottomSheet: React.FC<ManageRolesBottomSheetProps> = observer(f
 	const currentMember = GuildMemberStore.getMember(guildId, userId);
 	const {canManageRole} = useRoleHierarchy(guild);
 
-	const handleOpenGuildSettings = React.useCallback(() => {
+	const handleOpenGuildSettings = useCallback(() => {
 		onClose();
 		if (GuildSettingsModalStore.navigateToTab(guildId, 'roles')) {
 			return;
@@ -220,7 +222,7 @@ const ManageRolesBottomSheet: React.FC<ManageRolesBottomSheetProps> = observer(f
 		ModalActionCreators.push(modal(() => <GuildSettingsModal guildId={guildId} initialTab="roles" />));
 	}, [guildId, onClose]);
 
-	const allRoles = React.useMemo(() => {
+	const allRoles = useMemo(() => {
 		if (!guild) return [];
 		return Object.values(guild.roles)
 			.filter((role) => !role.isEveryone)
@@ -231,7 +233,7 @@ const ManageRolesBottomSheet: React.FC<ManageRolesBottomSheetProps> = observer(f
 			}));
 	}, [guild, canManageRole]);
 
-	const menuGroups: Array<MenuGroupType> = React.useMemo(() => {
+	const menuGroups: Array<MenuGroupType> = useMemo(() => {
 		if (allRoles.length === 0) {
 			return [
 				{
@@ -274,20 +276,64 @@ const ManageRolesBottomSheet: React.FC<ManageRolesBottomSheetProps> = observer(f
 	return <MenuBottomSheet isOpen={isOpen} onClose={onClose} title={t`Manage Roles`} groups={menuGroups} />;
 });
 
+function openNoRolesModal(guildId: string) {
+	function NoRolesModalDescription() {
+		const {t} = useLingui();
+		const handleOpenRolesSettings = useCallback(() => {
+			ModalActionCreators.pop();
+			if (GuildSettingsModalStore.navigateToTab(guildId, 'roles')) {
+				return;
+			}
+			ModalActionCreators.push(modal(() => <GuildSettingsModal guildId={guildId} initialTab="roles" />));
+		}, []);
+
+		return (
+			<Trans>
+				There are no roles to assign in this community at this time, but you can create a new role in{' '}
+				<button type="button" className={styles.noRolesLink} onClick={handleOpenRolesSettings}>
+					{t`Community Settings > Roles & Permissions`}
+				</button>
+				.
+			</Trans>
+		);
+	}
+
+	ModalActionCreators.push(
+		modal(() => (
+			<ConfirmModal
+				title={<Trans>No Roles Available</Trans>}
+				description={<NoRolesModalDescription />}
+				primaryText={<Trans>OK</Trans>}
+				primaryVariant="primary"
+				secondaryText={false}
+				onPrimary={() => {}}
+			/>
+		)),
+	);
+}
+
 export const AddRoleButton: React.FC<{
 	guildId: string;
 	userId: string;
-	variant?: 'pill' | 'icon' | 'mobile';
-}> = observer(function AddRoleButton({guildId, userId, variant = 'icon'}) {
+}> = observer(function AddRoleButton({guildId, userId}) {
 	const {t} = useLingui();
 	const guild = GuildStore.getGuild(guildId);
 	const member = GuildMemberStore.getMember(guildId, userId);
 	const isMobile = MobileLayoutStore.enabled;
-	const [showBottomSheet, setShowBottomSheet] = React.useState(false);
+	const [showBottomSheet, setShowBottomSheet] = useState(false);
 
-	const handleClick = React.useCallback(
+	const hasRoles = useMemo(() => {
+		if (!guild) return false;
+		return Object.values(guild.roles).some((r) => !r.isEveryone);
+	}, [guild]);
+
+	const handleClick = useCallback(
 		(event: React.MouseEvent<HTMLButtonElement>) => {
-			if (isMobile || variant === 'mobile') {
+			if (!hasRoles) {
+				openNoRolesModal(guildId);
+				return;
+			}
+			if (isMobile) {
 				setShowBottomSheet(true);
 			} else {
 				ContextMenuActionCreators.openFromEvent(event, ({onClose}) => (
@@ -295,49 +341,28 @@ export const AddRoleButton: React.FC<{
 				));
 			}
 		},
-		[guildId, userId, isMobile, variant],
+		[guildId, userId, isMobile, hasRoles],
 	);
 
 	if (!guild || !member) return null;
 
-	const hasRoles = Object.values(guild.roles).some((r) => !r.isEveryone);
-	if (!hasRoles) return null;
-
-	if (variant === 'mobile') {
-		return (
-			<>
-				<button type="button" className={styles.addRoleButtonMobile} onClick={handleClick}>
-					<PlusIcon weight="bold" className={styles.iconSizeMobile} />
-					<span className={styles.addRoleLabelMobile}>
-						<Trans>Add Role</Trans>
-					</span>
-				</button>
+	return (
+		<>
+			<Tooltip text={t`Add Role`}>
+				<FocusRing offset={-2}>
+					<button type="button" className={clsx(styles.addRoleButton, styles.addRoleButtonIcon)} onClick={handleClick}>
+						<PlusIcon weight="bold" className={styles.iconSize} />
+					</button>
+				</FocusRing>
+			</Tooltip>
+			{isMobile && (
 				<ManageRolesBottomSheet
 					isOpen={showBottomSheet}
 					onClose={() => setShowBottomSheet(false)}
 					guildId={guildId}
 					userId={userId}
 				/>
-			</>
-		);
-	}
-
-	const button = (
-		<FocusRing offset={-2}>
-			<button type="button" className={clsx(styles.addRoleButton, styles.addRoleButtonIcon)} onClick={handleClick}>
-				<PlusIcon weight="bold" className={styles.iconSize} />
-				{variant === 'pill' && (
-					<span className={styles.addRoleLabel}>
-						<Trans>Add Role</Trans>
-					</span>
-				)}
-			</button>
-		</FocusRing>
+			)}
+		</>
 	);
-
-	if (variant === 'icon') {
-		return <Tooltip text={t`Add Role`}>{button}</Tooltip>;
-	}
-
-	return button;
 });

@@ -17,30 +17,31 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import * as ThemeActionCreators from '@app/actions/ThemeActionCreators';
+import {AuthErrorState} from '@app/components/auth/AuthErrorState';
+import {AuthLoadingState} from '@app/components/auth/AuthLoadingState';
+import {AuthLoginLayout} from '@app/components/auth/AuthLoginLayout';
+import {AuthPageHeader} from '@app/components/auth/AuthPageHeader';
+import sharedStyles from '@app/components/auth/AuthPageStyles.module.css';
+import {AuthRouterLink} from '@app/components/auth/AuthRouterLink';
+import {useDesktopHandoffFlow} from '@app/components/auth/auth_login_core/useDesktopHandoffFlow';
+import {DesktopDeepLinkPrompt} from '@app/components/auth/DesktopDeepLinkPrompt';
+import {HandoffCodeDisplay} from '@app/components/auth/HandoffCodeDisplay';
+import MfaScreen from '@app/components/auth/MfaScreen';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import {useThemeExists} from '@app/hooks/useThemeExists';
+import {useLocation, useParams} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import AccountManager from '@app/stores/AccountManager';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import {setPathQueryParams} from '@app/utils/UrlUtils';
+import type {LoginSuccessPayload} from '@app/viewmodels/auth/AuthFlow';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {PaletteIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import {useCallback, useMemo} from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import * as ThemeActionCreators from '~/actions/ThemeActionCreators';
-import {AuthErrorState} from '~/components/auth/AuthErrorState';
-import {AuthLoadingState} from '~/components/auth/AuthLoadingState';
-import {useDesktopHandoffFlow} from '~/components/auth/AuthLoginCore/useDesktopHandoffFlow';
-import {AuthLoginLayout} from '~/components/auth/AuthLoginLayout';
-import {AuthPageHeader} from '~/components/auth/AuthPageHeader';
-import sharedStyles from '~/components/auth/AuthPageStyles.module.css';
-import {AuthRouterLink} from '~/components/auth/AuthRouterLink';
-import {DesktopDeepLinkPrompt} from '~/components/auth/DesktopDeepLinkPrompt';
-import {HandoffCodeDisplay} from '~/components/auth/HandoffCodeDisplay';
-import MfaScreen from '~/components/auth/MfaScreen';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import type {LoginSuccessPayload} from '~/hooks/useLoginFlow';
-import {useThemeExists} from '~/hooks/useThemeExists';
-import {useLocation, useParams} from '~/lib/router';
-import {Routes} from '~/Routes';
-import AccountManager from '~/stores/AccountManager';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import * as RouterUtils from '~/utils/RouterUtils';
 
 const ThemeLoginPage = observer(function ThemeLoginPage() {
 	const {t, i18n} = useLingui();
@@ -48,14 +49,14 @@ const ThemeLoginPage = observer(function ThemeLoginPage() {
 	const location = useLocation();
 	const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
 
-	const rawRedirect = params.get('redirect_to');
-	const isDesktopHandoff = params.get('desktop_handoff') === '1';
+	const rawRedirect = params['get']('redirect_to');
+	const isDesktopHandoff = params['get']('desktop_handoff') === '1';
+	const registerSearch = rawRedirect ? {redirect_to: rawRedirect} : undefined;
 	const redirectPath = useMemo(() => {
-		const urlParams = new URLSearchParams();
-		if (rawRedirect) {
-			urlParams.set('redirect_to', rawRedirect);
+		if (!rawRedirect) {
+			return Routes.theme(themeId);
 		}
-		return `${Routes.theme(themeId)}${urlParams.toString() ? `?${urlParams.toString()}` : ''}`;
+		return setPathQueryParams(Routes.theme(themeId), {redirect_to: rawRedirect});
 	}, [themeId, rawRedirect]);
 
 	const handleLoginComplete = useCallback(() => {
@@ -77,13 +78,13 @@ const ThemeLoginPage = observer(function ThemeLoginPage() {
 							</div>
 						}
 						title={t`You've got CSS!`}
-						subtitle={t`Shared theme`}
+						subtitle={t`Shared Theme`}
 					/>
 				</>
 			}
 			showTitle={false}
 			registerLink={
-				<AuthRouterLink to={Routes.themeRegister(themeId)} search={{redirect_to: rawRedirect || undefined}}>
+				<AuthRouterLink to={Routes.themeRegister(themeId)} search={registerSearch}>
 					<Trans>Register</Trans>
 				</AuthRouterLink>
 			}
@@ -98,8 +99,8 @@ const ThemeLoginPageMFA = observer(function ThemeLoginPageMFA() {
 	const location = useLocation();
 	const params = useMemo(() => new URLSearchParams(location.search), [location.search]);
 
-	const isDesktopHandoff = params.get('desktop_handoff') === '1';
-	const rawRedirect = params.get('redirect_to');
+	const isDesktopHandoff = params['get']('desktop_handoff') === '1';
+	const rawRedirect = params['get']('redirect_to');
 	const redirectTo = isDesktopHandoff ? undefined : rawRedirect || Routes.theme(themeId);
 
 	const mfaTicket = AuthenticationStore.currentMfaTicket;

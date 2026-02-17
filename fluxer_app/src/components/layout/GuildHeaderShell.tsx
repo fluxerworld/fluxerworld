@@ -17,15 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {LongPressable} from '@app/components/LongPressable';
+import styles from '@app/components/layout/GuildHeader.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Popout} from '@app/components/uikit/popout/Popout';
+import {useMergeRefs} from '@app/hooks/useMergeRefs';
+import PopoutStore from '@app/stores/PopoutStore';
+import {isMobileExperienceEnabled} from '@app/utils/MobileExperience';
 import {observer} from 'mobx-react-lite';
-import React, {useState} from 'react';
-import {LongPressable} from '~/components/LongPressable';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Popout} from '~/components/uikit/Popout/Popout';
-import {useMergeRefs} from '~/hooks/useMergeRefs';
-import PopoutStore from '~/stores/PopoutStore';
-import {isMobileExperienceEnabled} from '~/utils/mobileExperience';
-import styles from './GuildHeader.module.css';
+import React, {useCallback, useRef, useState} from 'react';
 
 interface GuildHeaderShellProps {
 	popoutId: string;
@@ -40,7 +40,7 @@ interface GuildHeaderShellProps {
 const GuildHeaderTrigger = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
 	(props, forwardedRef) => {
 		const {children, ...rest} = props;
-		const triggerRef = React.useRef<HTMLDivElement | null>(null);
+		const triggerRef = useRef<HTMLDivElement | null>(null);
 		const mergedRef = useMergeRefs([triggerRef, forwardedRef]);
 
 		return (
@@ -69,18 +69,18 @@ export const GuildHeaderShell = observer(
 		const isOpen = popoutId in popouts;
 		const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
 		const isMobile = isMobileExperienceEnabled();
-		const internalRef = React.useRef<HTMLDivElement | null>(null);
+		const internalRef = useRef<HTMLDivElement | null>(null);
 		const mergedRef = useMergeRefs([internalRef, triggerRef]);
 
-		const handleOpenBottomSheet = React.useCallback(() => {
+		const handleOpenBottomSheet = useCallback(() => {
 			setBottomSheetOpen(true);
 		}, []);
 
-		const handleCloseBottomSheet = React.useCallback(() => {
+		const handleCloseBottomSheet = useCallback(() => {
 			setBottomSheetOpen(false);
 		}, []);
 
-		const handleContextMenuWrapper = React.useCallback(
+		const handleContextMenuWrapper = useCallback(
 			(event: React.MouseEvent) => {
 				event.preventDefault();
 				event.stopPropagation();

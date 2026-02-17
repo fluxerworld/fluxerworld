@@ -17,24 +17,25 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as SavedMessageActionCreators from '@app/actions/SavedMessageActionCreators';
+import {Message} from '@app/components/channel/Message';
+import {LongPressable} from '@app/components/LongPressable';
+import styles from '@app/components/modals/BookmarksBottomSheet.module.css';
+import {SavedMessageMissingCard} from '@app/components/shared/SavedMessageMissingCard';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import type {MenuGroupType} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {MenuBottomSheet} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {useMessageListKeyboardNavigation} from '@app/hooks/useMessageListKeyboardNavigation';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import SavedMessagesStore from '@app/stores/SavedMessagesStore';
+import {goToMessage} from '@app/utils/MessageNavigator';
+import {MessagePreviewContext} from '@fluxer/constants/src/ChannelConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {ArrowSquareOutIcon, TrashIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as SavedMessageActionCreators from '~/actions/SavedMessageActionCreators';
-import {MessagePreviewContext} from '~/Constants';
-import {Message} from '~/components/channel/Message';
-import {LongPressable} from '~/components/LongPressable';
-import styles from '~/components/modals/BookmarksBottomSheet.module.css';
-import {SavedMessageMissingCard} from '~/components/shared/SavedMessageMissingCard';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import type {MenuGroupType} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import {MenuBottomSheet} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import {Scroller} from '~/components/uikit/Scroller';
-import type {MessageRecord} from '~/records/MessageRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import SavedMessagesStore from '~/stores/SavedMessagesStore';
-import {goToMessage} from '~/utils/MessageNavigator';
+import {useEffect, useRef, useState} from 'react';
 
 interface BookmarksBottomSheetProps {
 	isOpen: boolean;
@@ -45,14 +46,19 @@ export const BookmarksBottomSheet = observer(({isOpen, onClose}: BookmarksBottom
 	const {t, i18n} = useLingui();
 	const {savedMessages, missingSavedMessages, fetched} = SavedMessagesStore;
 	const hasBookmarks = savedMessages.length > 0 || missingSavedMessages.length > 0;
-	const [selectedMessage, setSelectedMessage] = React.useState<MessageRecord | null>(null);
-	const [menuOpen, setMenuOpen] = React.useState(false);
+	const scrollerRef = useRef<ScrollerHandle | null>(null);
+	const [selectedMessage, setSelectedMessage] = useState<MessageRecord | null>(null);
+	const [menuOpen, setMenuOpen] = useState(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!fetched && isOpen) {
 			SavedMessageActionCreators.fetch();
 		}
 	}, [fetched, isOpen]);
+
+	useMessageListKeyboardNavigation({
+		containerRef: scrollerRef,
+	});
 
 	const handleLongPress = (message: MessageRecord) => {
 		setSelectedMessage(message);
@@ -102,7 +108,7 @@ export const BookmarksBottomSheet = observer(({isOpen, onClose}: BookmarksBottom
 		<>
 			<BottomSheet isOpen={isOpen} onClose={onClose} snapPoints={[0, 1]} initialSnap={1} title={t`Bookmarks`}>
 				{hasBookmarks ? (
-					<Scroller className={styles.messageList} key="bookmarks-bottom-sheet-scroller">
+					<Scroller className={styles.messageList} key="bookmarks-bottom-sheet-scroller" ref={scrollerRef}>
 						{missingSavedMessages.length > 0 && (
 							<div className={styles.missingList}>
 								{missingSavedMessages.map((entry) => (

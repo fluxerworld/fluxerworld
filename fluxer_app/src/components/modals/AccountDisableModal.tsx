@@ -17,22 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as UserActionCreators from '@app/actions/UserActionCreators';
+import {Form} from '@app/components/form/Form';
+import {FormErrorText} from '@app/components/form/FormErrorText';
+import styles from '@app/components/modals/AccountDisableModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import {Routes} from '@app/Routes';
+import * as RouterUtils from '@app/utils/RouterUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useForm} from 'react-hook-form';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as UserActionCreators from '~/actions/UserActionCreators';
-import {Form} from '~/components/form/Form';
-import styles from '~/components/modals/AccountDisableModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import {Routes} from '~/Routes';
-import * as RouterUtils from '~/utils/RouterUtils';
+
+interface FormInputs {
+	form: string;
+}
 
 export const AccountDisableModal = observer(() => {
 	const {t} = useLingui();
-	const form = useForm();
+	const form = useForm<FormInputs>();
 
 	const onSubmit = async () => {
 		await UserActionCreators.disableAccount();
@@ -50,13 +55,14 @@ export const AccountDisableModal = observer(() => {
 		<Modal.Root size="small" centered>
 			<Form form={form} onSubmit={handleSubmit}>
 				<Modal.Header title={t`Disable Account`} />
-				<Modal.Content className={styles.content}>
+				<Modal.Content contentClassName={styles.content}>
 					<div className={styles.description}>
 						<Trans>
 							Disabling your account will log you out of all sessions. You can re-enable your account at any time by
 							logging in again.
 						</Trans>
 					</div>
+					<FormErrorText message={form.formState.errors.form?.message} />
 				</Modal.Content>
 				<Modal.Footer>
 					<Button onClick={ModalActionCreators.pop} variant="secondary">

@@ -1,0 +1,42 @@
+---
+title: 'Introduction'
+description: 'Fluxer developer documentation'
+---
+
+Fluxer is a free and open source instant messaging and VoIP platform built for friends, groups, and communities.
+
+With Fluxer's HTTP, WebSocket Gateway, and Media Proxy APIs, you can build integrations on the Fluxer platform, whether you're creating a bot, a webhook, or an OAuth2 integration.
+
+Fluxer's APIs are consistent across Fluxer instances, as long as they're running the latest Fluxer Server version. This applies whether you use the official Fluxer.app deployment operated by Fluxer Platform AB or a self-hosted deployment. Just make sure you use the correct base URLs for the instance you're targeting.
+
+Fluxer's API surface is intentionally similar to Discord's, but it's not Discord. You should expect some differences. That said, if you've worked with Discord's APIs before, you'll likely feel at home. The part most likely to remain compatible is the core WebSocket Gateway protocol, which means you can often reuse WebSocket connection code from existing Discord libraries.
+
+## Documentation scope
+
+These docs are more comprehensive than you might be used to from Discord since they cover not only bot-facing APIs, but also instance management APIs (since you can self-host Fluxer) and client-specific APIs (since Fluxer encourages you to build third-party clients). If you're just looking to build a bot, you can safely skip over sections that don't interest you.
+
+## Ready to get started?
+
+<Card
+	title="Quickstart: Build your first bot"
+	icon="rocket"
+	href="/quickstart"
+	horizontal
+>
+	Create a Fluxer bot that pings your pong.
+</Card>
+
+<CardGroup cols={2}>
+	<Card title="API Reference" icon="terminal" href="/api-reference/introduction">
+		See all the HTTP API endpoints available.
+	</Card>
+	<Card title="WebSocket Gateway API" icon="satellite-dish" href="/gateway/overview">
+		Learn how to implement your own WebSocket client. Or use an existing one.
+	</Card>
+	<Card title="OAuth2" icon="key" href="/topics/oauth2">
+		Let people sign in with Fluxer to your web services.
+	</Card>
+	<Card title="Resources" icon="table" href="/resources/overview">
+		Browse all request and response schemas in detail.
+	</Card>
+</CardGroup>

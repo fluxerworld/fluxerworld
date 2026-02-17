@@ -17,11 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {makePersistent} from '@app/lib/MobXPersistence';
+import ChannelStore from '@app/stores/ChannelStore';
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import GeoIPStore from '@app/stores/GeoIPStore';
+import GuildStore from '@app/stores/GuildStore';
+import UserStore from '@app/stores/UserStore';
+import {GuildNSFWLevel} from '@fluxer/constants/src/GuildConstants';
 import {makeAutoObservable} from 'mobx';
-import {makePersistent} from '~/lib/MobXPersistence';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import GeoIPStore from '~/stores/GeoIPStore';
-import UserStore from '~/stores/UserStore';
 
 export enum NSFWGateReason {
 	NONE = 0,
@@ -30,8 +33,14 @@ export enum NSFWGateReason {
 	CONSENT_REQUIRED = 3,
 }
 
+export interface NSFWGateContext {
+	channelId?: string | null;
+	guildId?: string | null;
+}
+
 class GuildNSFWAgreeStore {
 	agreedChannelIds: Array<string> = [];
+	agreedGuildIds: Array<string> = [];
 
 	constructor() {
 		makeAutoObservable(this, {}, {autoBind: true});
@@ -39,7 +48,7 @@ class GuildNSFWAgreeStore {
 	}
 
 	private async initPersistence(): Promise<void> {
-		await makePersistent(this, 'GuildNSFWAgreeStore', ['agreedChannelIds']);
+		await makePersistent(this, 'GuildNSFWAgreeStore', ['agreedChannelIds', 'agreedGuildIds']);
 	}
 
 	agreeToChannel(channelId: string): void {
@@ -48,15 +57,50 @@ class GuildNSFWAgreeStore {
 		}
 	}
 
+	agreeToGuild(guildId: string): void {
+		if (!this.agreedGuildIds.includes(guildId)) {
+			this.agreedGuildIds.push(guildId);
+		}
+	}
+
 	reset(): void {
 		this.agreedChannelIds = [];
+		this.agreedGuildIds = [];
 	}
 
 	hasAgreedToChannel(channelId: string): boolean {
 		return this.agreedChannelIds.includes(channelId);
 	}
 
-	getGateReason(channelId: string): NSFWGateReason {
+	hasAgreedToGuild(guildId: string): boolean {
+		return this.agreedGuildIds.includes(guildId);
+	}
+
+	private resolveContext(context: NSFWGateContext): {
+		channelId: string | null;
+		guildId: string | null;
+		channelIsNsfw: boolean;
+		guildIsAgeRestricted: boolean;
+	} {
+		const channelId = context.channelId ?? null;
+		const guildIdFromArg = context.guildId ?? null;
+
+		const channel = channelId ? ChannelStore.getChannel(channelId) : null;
+		const guildId = guildIdFromArg ?? channel?.guildId ?? null;
+
+		const guild = guildId ? GuildStore.getGuild(guildId) : null;
+		const guildIsAgeRestricted = guild?.nsfwLevel === GuildNSFWLevel.AGE_RESTRICTED;
+		const channelIsNsfw = channel?.isNSFW() ?? false;
+
+		return {channelId, guildId, channelIsNsfw, guildIsAgeRestricted};
+	}
+
+	isGatedContent(context: NSFWGateContext): boolean {
+		const {channelIsNsfw, guildIsAgeRestricted} = this.resolveContext(context);
+		return channelIsNsfw || guildIsAgeRestricted;
+	}
+
+	getGateReason(context: NSFWGateContext): NSFWGateReason {
 		const mockReason = DeveloperOptionsStore.mockNSFWGateReason;
 		if (mockReason !== 'none') {
 			switch (mockReason) {
@@ -67,6 +111,11 @@ class GuildNSFWAgreeStore {
 				case 'consent_required':
 					return NSFWGateReason.CONSENT_REQUIRED;
 			}
+		}
+
+		const resolved = this.resolveContext(context);
+		if (!resolved.channelIsNsfw && !resolved.guildIsAgeRestricted) {
+			return NSFWGateReason.NONE;
 		}
 
 		const countryCode = GeoIPStore.countryCode;
@@ -90,15 +139,22 @@ class GuildNSFWAgreeStore {
 			return NSFWGateReason.AGE_RESTRICTED;
 		}
 
-		if (!this.hasAgreedToChannel(channelId)) {
+		if (resolved.guildIsAgeRestricted) {
+			if (!resolved.guildId || !this.hasAgreedToGuild(resolved.guildId)) {
+				return NSFWGateReason.CONSENT_REQUIRED;
+			}
+			return NSFWGateReason.NONE;
+		}
+
+		if (!resolved.channelId || !this.hasAgreedToChannel(resolved.channelId)) {
 			return NSFWGateReason.CONSENT_REQUIRED;
 		}
 
 		return NSFWGateReason.NONE;
 	}
 
-	shouldShowGate(channelId: string): boolean {
-		return this.getGateReason(channelId) !== NSFWGateReason.NONE;
+	shouldShowGate(context: NSFWGateContext): boolean {
+		return this.getGateReason(context) !== NSFWGateReason.NONE;
 	}
 }
 

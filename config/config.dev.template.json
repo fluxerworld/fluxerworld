@@ -1,0 +1,116 @@
+{
+	"$schema": "../packages/config/src/ConfigSchema.json",
+	"env": "development",
+	"domain": {
+		"base_domain": "localhost",
+		"public_port": 48763
+	},
+	"database": {
+		"backend": "sqlite",
+		"sqlite_path": "./data/dev.db"
+	},
+	"internal": {
+		"kv": "redis://127.0.0.1:6379/0"
+	},
+	"s3": {
+		"access_key_id": "",
+		"secret_access_key": "",
+		"endpoint": "http://127.0.0.1:49319/s3"
+	},
+	"services": {
+		"server": {
+			"port": 49319,
+			"host": "0.0.0.0"
+		},
+		"media_proxy": {
+			"secret_key": ""
+		},
+		"admin": {
+			"secret_key_base": "",
+			"oauth_client_secret": ""
+		},
+		"marketing": {
+			"enabled": true,
+			"port": 49531,
+			"host": "0.0.0.0",
+			"secret_key_base": ""
+		},
+		"gateway": {
+			"port": 49107,
+			"rpc_tcp_port": 49108,
+			"api_host": "http://localhost:49319/api",
+			"admin_reload_secret": "",
+			"media_proxy_endpoint": "http://localhost:49319/media",
+			"logger_level": "debug"
+		},
+		"queue": {
+			"secret": ""
+		}
+	},
+	"gateway": {
+		"rpc_endpoint": "http://localhost:49107",
+		"rpc_secret": ""
+	},
+	"auth": {
+		"sudo_mode_secret": "",
+		"connection_initiation_secret": "",
+		"vapid": {
+			"public_key": "",
+			"private_key": ""
+		},
+		"bluesky": {
+			"enabled": true,
+			"keys": []
+		}
+	},
+	"dev": {
+		"disable_rate_limits": true
+	},
+	"integrations": {
+		"email": {
+			"enabled": true,
+			"provider": "smtp",
+			"from_email": "noreply@localhost",
+			"smtp": {
+				"host": "localhost",
+				"port": 49621,
+				"username": "dev",
+				"password": "",
+				"secure": false
+			}
+		},
+		"gif": {
+			"provider": "klipy"
+		},
+		"klipy": {
+			"api_key": ""
+		},
+		"tenor": {
+			"api_key": ""
+		},
+		"voice": {
+			"enabled": true,
+			"api_key": "",
+			"api_secret": "",
+			"url": "ws://localhost:7880",
+			"webhook_url": "http://localhost:49319/api/webhooks/livekit",
+			"default_region": {
+				"id": "default",
+				"name": "Default",
+				"emoji": "\ud83c\udf10",
+				"latitude": 0.0,
+				"longitude": 0.0
+			}
+		},
+		"search": {
+			"url": "http://127.0.0.1:7700",
+			"api_key": ""
+		}
+	},
+	"instance": {
+		"private_key_path": ""
+	},
+	"federation": {
+		"enabled": false
+	}
+}

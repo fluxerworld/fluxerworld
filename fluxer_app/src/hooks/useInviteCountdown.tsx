@@ -17,15 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import {useEffect, useState} from 'react';
 
-export const useInviteCountdown = (
-	expiresAt: string | null | undefined,
-): {countdown: string | null; isMonospace: boolean} => {
-	const [countdown, setCountdown] = React.useState<string | null>(null);
-	const [isMonospace, setIsMonospace] = React.useState(false);
+export function useInviteCountdown(expiresAt: string | null | undefined): {
+	countdown: string | null;
+	isMonospace: boolean;
+} {
+	const [countdown, setCountdown] = useState<string | null>(null);
+	const [isMonospace, setIsMonospace] = useState(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!expiresAt) {
 			setCountdown(null);
 			setIsMonospace(false);
@@ -67,4 +68,4 @@ export const useInviteCountdown = (
 	}, [expiresAt]);
 
 	return {countdown, isMonospace};
-};
+}

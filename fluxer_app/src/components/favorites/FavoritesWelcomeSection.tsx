@@ -17,20 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as FavoritesActionCreators from '@app/actions/FavoritesActionCreators';
+import styles from '@app/components/favorites/FavoritesWelcomeSection.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {Routes} from '@app/Routes';
+import * as RouterUtils from '@app/utils/RouterUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {StarIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as FavoritesActionCreators from '~/actions/FavoritesActionCreators';
-import {Button} from '~/components/uikit/Button/Button';
-import {Routes} from '~/Routes';
-import * as RouterUtils from '~/utils/RouterUtils';
-import styles from './FavoritesWelcomeSection.module.css';
+import {useCallback} from 'react';
 
-export const FavoritesWelcomeSection: React.FC = observer(function FavoritesWelcomeSection() {
+export const FavoritesWelcomeSection = observer(() => {
 	const {i18n} = useLingui();
 
-	const handleDisableFavorites = React.useCallback(() => {
+	const handleDisableFavorites = useCallback(() => {
 		FavoritesActionCreators.confirmHideFavorites(() => {
 			RouterUtils.transitionTo(Routes.ME);
 		}, i18n);

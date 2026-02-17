@@ -17,28 +17,33 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GuildEmojiActionCreators from '@app/actions/GuildEmojiActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import styles from '@app/components/emojis/EmojiListItem.module.css';
+import {Input} from '@app/components/form/Input';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {Button} from '@app/components/uikit/button/Button';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {InlineEdit} from '@app/components/uikit/InlineEdit';
+import {Popout} from '@app/components/uikit/popout/Popout';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useStickerAnimation} from '@app/hooks/useStickerAnimation';
+import {Logger} from '@app/lib/Logger';
+import GuildStore from '@app/stores/GuildStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {GuildFeatures} from '@fluxer/constants/src/GuildConstants';
+import type {GuildEmojiWithUser} from '@fluxer/schema/src/domains/guild/GuildEmojiSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as GuildEmojiActionCreators from '~/actions/GuildEmojiActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {GuildFeatures} from '~/Constants';
-import {Input} from '~/components/form/Input';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {Button} from '~/components/uikit/Button/Button';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {InlineEdit} from '~/components/uikit/InlineEdit';
-import {Popout} from '~/components/uikit/Popout/Popout';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import type {GuildEmojiWithUser} from '~/records/GuildEmojiRecord';
-import GuildStore from '~/stores/GuildStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import styles from './EmojiListItem.module.css';
+import type React from 'react';
+import {useEffect, useRef, useState} from 'react';
+
+const logger = new Logger('EmojiListItem');
 
 interface EmojiRenamePopoutContentProps {
 	initialName: string;
@@ -48,11 +53,11 @@ interface EmojiRenamePopoutContentProps {
 
 const EmojiRenamePopoutContent: React.FC<EmojiRenamePopoutContentProps> = ({initialName, onSave, onClose}) => {
 	const {t} = useLingui();
-	const [draft, setDraft] = React.useState(initialName);
-	const [isSaving, setIsSaving] = React.useState(false);
-	const inputRef = React.useRef<HTMLInputElement | null>(null);
+	const [draft, setDraft] = useState(initialName);
+	const [isSaving, setIsSaving] = useState(false);
+	const inputRef = useRef<HTMLInputElement | null>(null);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		requestAnimationFrame(() => inputRef.current?.focus());
 	}, []);
 
@@ -150,7 +155,7 @@ export const EmojiListItem: React.FC<{
 }> = observer(({guildId, emoji, layout, onRename, onRemove}) => {
 	const {t} = useLingui();
 	const avatarUrl = emoji.user ? AvatarUtils.getUserAvatarURL(emoji.user, false) : null;
-	const gridNameButtonRef = React.useRef<HTMLButtonElement | null>(null);
+	const gridNameButtonRef = useRef<HTMLButtonElement | null>(null);
 
 	const handleSave = async (newName: string) => {
 		const sanitizedName = newName.replace(/[^a-zA-Z0-9_]/g, '');
@@ -171,7 +176,7 @@ export const EmojiListItem: React.FC<{
 			await GuildEmojiActionCreators.update(guildId, emoji.id, {name: sanitizedName});
 		} catch (err) {
 			onRename(emoji.id, prevName);
-			console.error('Failed to update emoji name:', err);
+			logger.error('Failed to update emoji name:', err);
 			ToastActionCreators.error(t`Failed to update emoji name. Reverted to the previous name.`);
 			throw err;
 		}
@@ -200,7 +205,8 @@ export const EmojiListItem: React.FC<{
 		);
 	};
 
-	const emojiUrl = AvatarUtils.getEmojiURL({id: emoji.id, animated: emoji.animated});
+	const {shouldAnimate} = useStickerAnimation();
+	const emojiUrl = AvatarUtils.getEmojiURL({id: emoji.id, animated: shouldAnimate});
 
 	if (layout === 'grid') {
 		return (

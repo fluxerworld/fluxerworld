@@ -17,104 +17,110 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Plural, Trans, useLingui} from '@lingui/react/macro';
-
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import * as PrivateChannelActionCreators from '@app/actions/PrivateChannelActionCreators';
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
+import * as UserNoteActionCreators from '@app/actions/UserNoteActionCreators';
+import * as UserProfileActionCreators from '@app/actions/UserProfileActionCreators';
+import {UserTag} from '@app/components/channel/UserTag';
+import {CustomStatusDisplay} from '@app/components/common/custom_status_display/CustomStatusDisplay';
+import {GroupDMAvatar} from '@app/components/common/GroupDMAvatar';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import type {IARContext} from '@app/components/modals/IARModal';
+import {IARModal} from '@app/components/modals/IARModal';
+import * as Modal from '@app/components/modals/Modal';
+import userProfileModalStyles from '@app/components/modals/UserProfileModal.module.css';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
+import {GuildIcon} from '@app/components/popouts/GuildIcon';
+import {UserProfileBadges} from '@app/components/popouts/UserProfileBadges';
+import {UserProfileDataWarning} from '@app/components/popouts/UserProfileDataWarning';
+import {
+	UserProfileBio,
+	UserProfileConnections,
+	UserProfileMembershipInfo,
+	UserProfileRoles,
+} from '@app/components/popouts/UserProfileShared';
+import {VoiceActivitySection} from '@app/components/profile/VoiceActivitySection';
+import {Button} from '@app/components/uikit/button/Button';
+import {GroupDMContextMenu} from '@app/components/uikit/context_menu/GroupDMContextMenu';
+import {GuildContextMenu} from '@app/components/uikit/context_menu/GuildContextMenu';
+import {GuildMemberContextMenu} from '@app/components/uikit/context_menu/GuildMemberContextMenu';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import {MenuItemRadio} from '@app/components/uikit/context_menu/MenuItemRadio';
+import {UserContextMenu} from '@app/components/uikit/context_menu/UserContextMenu';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import {Tabs} from '@app/components/uikit/tabs/Tabs';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useAutoplayExpandedProfileAnimations} from '@app/hooks/useAutoplayExpandedProfileAnimations';
+import {Logger} from '@app/lib/Logger';
+import {TextareaAutosize} from '@app/lib/TextareaAutosize';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import type {ProfileRecord} from '@app/records/ProfileRecord';
+import {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import type {ContextMenuTargetElement} from '@app/stores/ContextMenuStore';
+import ContextMenuStore, {isContextMenuNodeTarget} from '@app/stores/ContextMenuStore';
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import MemberPresenceSubscriptionStore from '@app/stores/MemberPresenceSubscriptionStore';
+import ModalStore from '@app/stores/ModalStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
+import UserNoteStore from '@app/stores/UserNoteStore';
+import UserProfileStore from '@app/stores/UserProfileStore';
+import UserStore from '@app/stores/UserStore';
+import {getUserAccentColor} from '@app/utils/AccentColorUtils';
+import * as CallUtils from '@app/utils/CallUtils';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import * as ProfileDisplayUtils from '@app/utils/ProfileDisplayUtils';
+import {createMockProfile} from '@app/utils/ProfileUtils';
+import * as RelationshipActionUtils from '@app/utils/RelationshipActionUtils';
+import {ME} from '@fluxer/constants/src/AppConstants';
+import {Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {
+	MEDIA_PROXY_AVATAR_SIZE_PROFILE,
+	MEDIA_PROXY_PROFILE_BANNER_SIZE_MODAL,
+} from '@fluxer/constants/src/MediaProxyAssetSizes';
+import {PublicUserFlags, RelationshipTypes} from '@fluxer/constants/src/UserConstants';
+import type {UserPartial} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
+import {Trans, useLingui} from '@lingui/react/macro';
 import {
 	CaretDownIcon,
 	ChatTeardropIcon,
 	CheckCircleIcon,
 	ClockCounterClockwiseIcon,
+	CopyIcon,
 	DotsThreeIcon,
+	FlagIcon,
+	GlobeIcon,
+	IdentificationCardIcon,
 	PencilIcon,
 	ProhibitIcon,
 	UserMinusIcon,
 	UserPlusIcon,
 	UsersThreeIcon,
+	VideoCameraIcon,
 } from '@phosphor-icons/react';
-
 import {clsx} from 'clsx';
 import {autorun} from 'mobx';
 import {observer} from 'mobx-react-lite';
-import React, {useId} from 'react';
+import type React from 'react';
+import {useCallback, useEffect, useId, useMemo, useRef, useState} from 'react';
 import type {PressEvent} from 'react-aria-components';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as NavigationActionCreators from '~/actions/NavigationActionCreators';
-import * as PrivateChannelActionCreators from '~/actions/PrivateChannelActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import * as UserNoteActionCreators from '~/actions/UserNoteActionCreators';
-import * as UserProfileActionCreators from '~/actions/UserProfileActionCreators';
-import {DEFAULT_ACCENT_COLOR, Permissions, RelationshipTypes} from '~/Constants';
-import {UserTag} from '~/components/channel/UserTag';
-import {CustomStatusDisplay} from '~/components/common/CustomStatusDisplay/CustomStatusDisplay';
-import {GroupDMAvatar} from '~/components/common/GroupDMAvatar';
-import {CustomStatusModal} from '~/components/modals/CustomStatusModal';
-import type {IARContext} from '~/components/modals/IARModal';
-import {IARModal} from '~/components/modals/IARModal';
-import * as Modal from '~/components/modals/Modal';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import {GuildIcon} from '~/components/popouts/GuildIcon';
-import {UserProfileBadges} from '~/components/popouts/UserProfileBadges';
-import {UserProfileDataWarning} from '~/components/popouts/UserProfileDataWarning';
-import {UserProfileBio, UserProfileMembershipInfo, UserProfileRoles} from '~/components/popouts/UserProfileShared';
-import {Button} from '~/components/uikit/Button/Button';
-import {
-	BlockUserIcon,
-	CopyFluxerTagIcon,
-	CopyUserIdIcon,
-	ReportUserIcon,
-	VideoCallIcon,
-	ViewGlobalProfileIcon,
-	VoiceCallIcon,
-} from '~/components/uikit/ContextMenu/ContextMenuIcons';
-import {GroupDMContextMenu} from '~/components/uikit/ContextMenu/GroupDMContextMenu';
-import {GuildContextMenu} from '~/components/uikit/ContextMenu/GuildContextMenu';
-import {GuildMemberContextMenu} from '~/components/uikit/ContextMenu/GuildMemberContextMenu';
-import {MenuGroup} from '~/components/uikit/ContextMenu/MenuGroup';
-import {MenuItem} from '~/components/uikit/ContextMenu/MenuItem';
-import {MenuItemRadio} from '~/components/uikit/ContextMenu/MenuItemRadio';
-import {UserContextMenu} from '~/components/uikit/ContextMenu/UserContextMenu';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Spinner} from '~/components/uikit/Spinner';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import {Tabs} from '~/components/uikit/Tabs/Tabs';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useAutoplayExpandedProfileAnimations} from '~/hooks/useAutoplayExpandedProfileAnimations';
-import {TextareaAutosize} from '~/lib/TextareaAutosize';
-import {Routes} from '~/Routes';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {GuildRecord} from '~/records/GuildRecord';
-import type {ProfileRecord} from '~/records/ProfileRecord';
-import {type UserPartial, UserRecord} from '~/records/UserRecord';
 
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ChannelStore from '~/stores/ChannelStore';
-import type {ContextMenuTargetElement} from '~/stores/ContextMenuStore';
-import ContextMenuStore, {isContextMenuNodeTarget} from '~/stores/ContextMenuStore';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import MemberPresenceSubscriptionStore from '~/stores/MemberPresenceSubscriptionStore';
-import ModalStore from '~/stores/ModalStore';
-import PermissionStore from '~/stores/PermissionStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-import SelectedChannelStore from '~/stores/SelectedChannelStore';
-import UserNoteStore from '~/stores/UserNoteStore';
-import UserProfileStore from '~/stores/UserProfileStore';
-import UserStore from '~/stores/UserStore';
-
-import * as CallUtils from '~/utils/CallUtils';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import * as ColorUtils from '~/utils/ColorUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import * as ProfileDisplayUtils from '~/utils/ProfileDisplayUtils';
-import {createMockProfile} from '~/utils/ProfileUtils';
-import * as RelationshipActionUtils from '~/utils/RelationshipActionUtils';
-import * as RouterUtils from '~/utils/RouterUtils';
-
-import modalRootStyles from './Modal.module.css';
-import userProfileModalStyles from './UserProfileModal.module.css';
+const logger = new Logger('UserProfileModal');
 
 export interface UserProfileModalProps {
 	userId: string;
@@ -129,9 +135,7 @@ interface UserInfoProps {
 	user: UserRecord;
 	profile: ProfileRecord;
 	guildId?: string;
-	warningIndicator?: React.ReactNode;
-	isCurrentUser?: boolean;
-	onEditCustomStatus?: () => void;
+	showProfileDataWarning?: boolean;
 }
 
 interface UserNoteEditorProps {
@@ -159,66 +163,60 @@ interface ProfileModalContentProps {
 	noteRef?: React.RefObject<HTMLTextAreaElement | null>;
 	renderActionButtons: () => React.ReactNode;
 	previewOverrides?: ProfileDisplayUtils.ProfilePreviewOverrides;
-	warningIndicator?: React.ReactNode;
+	showProfileDataWarning?: boolean;
 }
 
-const UserInfo: React.FC<UserInfoProps> = observer(
-	({user, profile, guildId, warningIndicator, isCurrentUser, onEditCustomStatus}) => {
-		const displayName = NicknameUtils.getNickname(user, guildId);
-		const effectiveProfile = profile?.getEffectiveProfile() ?? null;
-		const shouldAutoplayProfileAnimations = useAutoplayExpandedProfileAnimations();
+const UserInfo: React.FC<UserInfoProps> = observer(({user, profile, guildId, showProfileDataWarning}) => {
+	const displayName = NicknameUtils.getNickname(user, guildId);
+	const effectiveProfile = profile?.getEffectiveProfile() ?? null;
+	const shouldAutoplayProfileAnimations = useAutoplayExpandedProfileAnimations();
 
-		return (
-			<div className={userProfileModalStyles.userInfo}>
-				<div className={clsx(userProfileModalStyles.userInfoHeader, userProfileModalStyles.userInfoHeaderDesktop)}>
-					<div className={userProfileModalStyles.userInfoContent}>
-						<div className={userProfileModalStyles.nameRow}>
-							<span className={userProfileModalStyles.userName}>{displayName}</span>
-							{user.bot && <UserTag className={userProfileModalStyles.userTag} system={user.system} size="lg" />}
+	return (
+		<div className={userProfileModalStyles.userInfo}>
+			<div className={clsx(userProfileModalStyles.userInfoHeader, userProfileModalStyles.userInfoHeaderDesktop)}>
+				<div className={userProfileModalStyles.userInfoContent}>
+					{showProfileDataWarning && (
+						<div className={userProfileModalStyles.profileDataWarning}>
+							<UserProfileDataWarning />
 						</div>
-						<div className={userProfileModalStyles.tagBadgeRow}>
-							<div className={userProfileModalStyles.usernameRow}>{user.tag}</div>
-							<div className={userProfileModalStyles.badgesWrapper}>
-								<UserProfileBadges
-									user={user}
-									profile={profile}
-									isModal={true}
-									isMobile={false}
-									warningIndicator={warningIndicator}
-								/>
-							</div>
+					)}
+					<div className={userProfileModalStyles.nameRow}>
+						<span className={userProfileModalStyles.userName}>{displayName}</span>
+						{user.bot && <UserTag className={userProfileModalStyles.userTag} system={user.system} size="lg" />}
+					</div>
+					<div className={userProfileModalStyles.tagBadgeRow}>
+						<div className={userProfileModalStyles.usernameRow}>{user.tag}</div>
+						<div className={userProfileModalStyles.badgesWrapper}>
+							<UserProfileBadges user={user} profile={profile} isModal={true} isMobile={false} />
 						</div>
-						{effectiveProfile?.pronouns && (
-							<div className={userProfileModalStyles.pronouns}>{effectiveProfile.pronouns}</div>
-						)}
-						<div className={userProfileModalStyles.customStatusRow}>
-							<CustomStatusDisplay
-								userId={user.id}
-								className={userProfileModalStyles.customStatusText}
-								showTooltip
-								allowJumboEmoji
-								maxLines={0}
-								isEditable={isCurrentUser}
-								onEdit={onEditCustomStatus}
-								showPlaceholder={isCurrentUser}
-								alwaysAnimate={shouldAutoplayProfileAnimations}
-							/>
-						</div>
+					</div>
+					{effectiveProfile?.pronouns && (
+						<div className={userProfileModalStyles.pronouns}>{effectiveProfile.pronouns}</div>
+					)}
+					<div className={userProfileModalStyles.customStatusRow}>
+						<CustomStatusDisplay
+							userId={user.id}
+							className={userProfileModalStyles.customStatusText}
+							showTooltip
+							allowJumboEmoji
+							maxLines={0}
+							alwaysAnimate={shouldAutoplayProfileAnimations}
+						/>
 					</div>
 				</div>
 			</div>
-		);
-	},
-);
+		</div>
+	);
+});
 
 const UserNoteEditor: React.FC<UserNoteEditorProps> = observer(({userId, initialNote, autoFocus, noteRef}) => {
 	const {t} = useLingui();
-	const [isEditing, setIsEditing] = React.useState(false);
-	const [localNote, setLocalNote] = React.useState<string | null>(null);
-	const internalNoteRef = React.useRef<HTMLTextAreaElement | null>(null);
+	const [isEditing, setIsEditing] = useState(false);
+	const [localNote, setLocalNote] = useState<string | null>(null);
+	const internalNoteRef = useRef<HTMLTextAreaElement | null>(null);
 	const textareaRef = noteRef || internalNoteRef;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (autoFocus && textareaRef.current) {
 			setIsEditing(true);
 		}
@@ -268,9 +266,14 @@ const ProfileContent: React.FC<ProfileContentProps> = observer(({profile, user, 
 	const memberRoles = profile?.guildId && guildMember ? guildMember.getSortedRoles() : [];
 	const canManageRoles = PermissionStore.can(Permissions.MANAGE_ROLES, {guildId: profile?.guild?.id});
 
+	const handleNavigate = useCallback(() => {
+		ModalActionCreators.pop();
+	}, []);
+
 	return (
 		<div className={userProfileModalStyles.profileContent}>
 			<div className={userProfileModalStyles.profileContentHeader}>
+				<VoiceActivitySection userId={user.id} onNavigate={handleNavigate} showAllActivities={true} />
 				<UserProfileBio profile={profile} />
 				<UserProfileMembershipInfo profile={profile} user={user} />
 				<UserProfileRoles
@@ -279,6 +282,7 @@ const ProfileContent: React.FC<ProfileContentProps> = observer(({profile, user, 
 					memberRoles={[...memberRoles]}
 					canManageRoles={canManageRoles}
 				/>
+				<UserProfileConnections profile={profile} variant="cards" />
 				<UserNoteEditor userId={user.id} initialNote={userNote} autoFocus={autoFocusNote} noteRef={noteRef} />
 			</div>
 		</div>
@@ -286,16 +290,23 @@ const ProfileContent: React.FC<ProfileContentProps> = observer(({profile, user, 
 });
 
 const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
-	({profile, user, userNote, autoFocusNote, noteRef, renderActionButtons, previewOverrides, warningIndicator}) => {
+	({
+		profile,
+		user,
+		userNote,
+		autoFocusNote,
+		noteRef,
+		renderActionButtons,
+		previewOverrides,
+		showProfileDataWarning,
+	}) => {
 		const {t} = useLingui();
 		const effectiveProfile = profile?.getEffectiveProfile() ?? null;
-		const rawAccentColor = effectiveProfile?.accent_color;
-		const accentColorHex = typeof rawAccentColor === 'number' ? ColorUtils.int2hex(rawAccentColor) : rawAccentColor;
-		const bannerColor = accentColorHex || DEFAULT_ACCENT_COLOR;
+		const bannerColor = getUserAccentColor(user, effectiveProfile?.accent_color);
 
 		const guildMember = GuildMemberStore.getMember(profile?.guildId ?? '', user.id);
 
-		const profileContext = React.useMemo<ProfileDisplayUtils.ProfileDisplayContext>(
+		const profileContext = useMemo<ProfileDisplayUtils.ProfileDisplayContext>(
 			() => ({
 				user,
 				profile,
@@ -308,20 +319,26 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 
 		const shouldAutoplayProfileAnimations = useAutoplayExpandedProfileAnimations();
 
-		const {avatarUrl, hoverAvatarUrl} = React.useMemo(
-			() => ProfileDisplayUtils.getProfileAvatarUrls(profileContext, previewOverrides),
+		const {avatarUrl, hoverAvatarUrl} = useMemo(
+			() => ProfileDisplayUtils.getProfileAvatarUrls(profileContext, previewOverrides, MEDIA_PROXY_AVATAR_SIZE_PROFILE),
 			[profileContext, previewOverrides],
 		);
 
-		const bannerUrl = React.useMemo(
-			() => ProfileDisplayUtils.getProfileBannerUrl(profileContext, previewOverrides, shouldAutoplayProfileAnimations),
+		const bannerUrl = useMemo(
+			() =>
+				ProfileDisplayUtils.getProfileBannerUrl(
+					profileContext,
+					previewOverrides,
+					shouldAutoplayProfileAnimations,
+					MEDIA_PROXY_PROFILE_BANNER_SIZE_MODAL,
+				),
 			[profileContext, previewOverrides, shouldAutoplayProfileAnimations],
 		);
 
 		type MutualView = 'mutual_friends' | 'mutual_communities' | 'mutual_groups';
 
-		const [activeTab, setActiveTab] = React.useState<'overview' | 'mutual'>('overview');
-		const handleTabChange = React.useCallback((tab: 'overview' | 'mutual') => {
+		const [activeTab, setActiveTab] = useState<'overview' | 'mutual'>('overview');
+		const handleTabChange = useCallback((tab: 'overview' | 'mutual') => {
 			setActiveTab(tab);
 		}, []);
 
@@ -329,16 +346,12 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 		const mutualFriendsCount = profile?.mutualFriends?.length ?? 0;
 		const isCurrentUser = user.id === AuthenticationStore.currentUserId;
 
-		const openCustomStatus = React.useCallback(() => {
-			ModalActionCreators.push(modal(() => <CustomStatusModal />));
-		}, []);
-
 		const profileMutualGuilds = profile?.mutualGuilds ?? [];
 		type MutualGuildDisplay = {
 			guild: GuildRecord;
 			nick: string | null;
 		};
-		const mutualGuildDisplayItems = React.useMemo(() => {
+		const mutualGuildDisplayItems = useMemo(() => {
 			return profileMutualGuilds
 				.map((mutualGuild) => {
 					const guild = GuildStore.getGuild(mutualGuild.id);
@@ -353,14 +366,14 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 			(channel) => channel.isGroupDM() && channel.recipientIds.includes(user.id),
 		);
 
-		const [mutualView, setMutualView] = React.useState<MutualView>(
+		const [mutualView, setMutualView] = useState<MutualView>(
 			showMutualFriendsTab ? 'mutual_friends' : 'mutual_communities',
 		);
 
-		const mutualMenuButtonRef = React.useRef<HTMLButtonElement>(null);
-		const [isMutualMenuOpen, setIsMutualMenuOpen] = React.useState(false);
+		const mutualMenuButtonRef = useRef<HTMLButtonElement>(null);
+		const [isMutualMenuOpen, setIsMutualMenuOpen] = useState(false);
 
-		const getMutualViewLabel = React.useCallback(
+		const getMutualViewLabel = useCallback(
 			(view: MutualView) => {
 				switch (view) {
 					case 'mutual_friends': {
@@ -371,16 +384,16 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 						const count = mutualGroups.length;
 						return t`Mutual Groups (${count})`;
 					}
-				default: {
-					const count = profileMutualGuilds.length;
-					return t`Mutual Communities (${count})`;
+					default: {
+						const count = profileMutualGuilds.length;
+						return t`Mutual Communities (${count})`;
+					}
 				}
-			}
-		},
-		[t, mutualFriendsCount, mutualGroups.length, profileMutualGuilds.length],
-	);
+			},
+			[t, mutualFriendsCount, mutualGroups.length, profileMutualGuilds.length],
+		);
 
-		const openMutualMenu = React.useCallback(
+		const openMutualMenu = useCallback(
 			(event: React.MouseEvent<HTMLButtonElement>) => {
 				const contextMenu = ContextMenuStore.contextMenu;
 				const isOpen = !!contextMenu && contextMenu.target.target === event.currentTarget;
@@ -422,9 +435,9 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 			[getMutualViewLabel, mutualView, showMutualFriendsTab],
 		);
 
-		const mutualTabLabelText = React.useMemo(() => getMutualViewLabel(mutualView), [getMutualViewLabel, mutualView]);
+		const mutualTabLabelText = useMemo(() => getMutualViewLabel(mutualView), [getMutualViewLabel, mutualView]);
 
-		const tabs = React.useMemo(
+		const tabs = useMemo(
 			() =>
 				[
 					{key: 'overview', label: t`Overview`},
@@ -433,11 +446,11 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 			[t, mutualTabLabelText],
 		);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			setMutualView(showMutualFriendsTab ? 'mutual_friends' : 'mutual_communities');
 		}, [showMutualFriendsTab, user.id]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (!showMutualFriendsTab && mutualView === 'mutual_friends') {
 				setMutualView('mutual_communities');
 			}
@@ -470,8 +483,7 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 		const handleGuildClick = (guild: GuildRecord) => {
 			ModalActionCreators.pop();
 			const selectedChannel = SelectedChannelStore.selectedChannelIds.get(guild.id);
-			RouterUtils.transitionTo(Routes.guildChannel(guild.id, selectedChannel));
-			NavigationActionCreators.selectGuild(guild.id);
+			NavigationActionCreators.selectGuild(guild.id, selectedChannel);
 		};
 
 		const handleGuildContextMenu = (event: React.MouseEvent, guild: GuildRecord) => {
@@ -484,7 +496,7 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 
 		const handleGroupClick = (group: ChannelRecord) => {
 			ModalActionCreators.pop();
-			RouterUtils.transitionTo(Routes.dmChannel(group.id));
+			NavigationActionCreators.selectChannel(ME, group.id);
 		};
 
 		const handleGroupContextMenu = (event: React.MouseEvent, group: ChannelRecord) => {
@@ -495,9 +507,9 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 			));
 		};
 
-		const [contextMenuTarget, setContextMenuTarget] = React.useState<ContextMenuTargetElement | null>(null);
+		const [contextMenuTarget, setContextMenuTarget] = useState<ContextMenuTargetElement | null>(null);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			const disposer = autorun(() => {
 				const contextMenu = ContextMenuStore.contextMenu;
 				setContextMenuTarget(contextMenu?.target.target ?? null);
@@ -521,7 +533,7 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 			return false;
 		};
 
-		React.useEffect(() => {
+		useEffect(() => {
 			const disposer = autorun(() => {
 				const contextMenu = ContextMenuStore.contextMenu;
 				const isOpen =
@@ -534,7 +546,7 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 			};
 		}, []);
 
-		const renderMutualFriendsList = React.useCallback(() => {
+		const renderMutualFriendsList = useCallback(() => {
 			const friends = profile?.mutualFriends ?? [];
 
 			return (
@@ -562,7 +574,7 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 			);
 		}, [handleMutualFriendClick, profile, isContextMenuOpenFor]);
 
-		const renderMutualGroupsList = React.useCallback(() => {
+		const renderMutualGroupsList = useCallback(() => {
 			return (
 				<div className={userProfileModalStyles.mutualFriendsList}>
 					{mutualGroups.map((group) => (
@@ -584,7 +596,7 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 			);
 		}, [handleGroupClick, handleGroupContextMenu, isContextMenuOpenFor, mutualGroups]);
 
-		const renderMutualGuildsList = React.useCallback(() => {
+		const renderMutualGuildsList = useCallback(() => {
 			return (
 				<div className={userProfileModalStyles.mutualFriendsList}>
 					{mutualGuildDisplayItems.map(({guild, nick}) => (
@@ -613,7 +625,7 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 			profileMutualGuilds.length,
 		]);
 
-		const renderMutualTabContent = React.useCallback(() => {
+		const renderMutualTabContent = useCallback(() => {
 			switch (mutualView) {
 				case 'mutual_friends':
 					return showMutualFriendsTab ? renderMutualFriendsList() : renderMutualGuildsList();
@@ -624,7 +636,7 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 			}
 		}, [mutualView, renderMutualFriendsList, renderMutualGroupsList, renderMutualGuildsList, showMutualFriendsTab]);
 
-		const renderActiveTabContent = React.useCallback(() => {
+		const renderActiveTabContent = useCallback(() => {
 			switch (activeTab) {
 				case 'overview':
 					return (
@@ -649,7 +661,6 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 			<>
 				<header>
 					<div className={userProfileModalStyles.bannerContainer}>
-						{/* biome-ignore lint/a11y/noSvgWithoutTitle: this is fine */}
 						<svg className={userProfileModalStyles.bannerMask} viewBox="0 0 600 210" preserveAspectRatio="none">
 							<mask id={maskId}>
 								<rect fill="white" x="0" y="0" width="600" height="210" />
@@ -657,16 +668,13 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 							</mask>
 
 							<foreignObject x="0" y="0" width="600" height="210" overflow="visible" mask={`url(#${maskId})`}>
-								{bannerUrl ? (
-									<div
-										className={userProfileModalStyles.bannerImage}
-										style={{
-											backgroundImage: `url(${bannerUrl})`,
-										}}
-									/>
-								) : (
-									<div className={userProfileModalStyles.bannerColor} style={{backgroundColor: bannerColor}} />
-								)}
+								<div
+									className={userProfileModalStyles.bannerImage}
+									style={{
+										backgroundColor: bannerColor,
+										...(bannerUrl ? {backgroundImage: `url(${bannerUrl})`} : {}),
+									}}
+								/>
 							</foreignObject>
 						</svg>
 					</div>
@@ -685,9 +693,7 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 						user={user}
 						profile={profile}
 						guildId={profile.guildId ?? undefined}
-						warningIndicator={warningIndicator}
-						isCurrentUser={isCurrentUser}
-						onEditCustomStatus={openCustomStatus}
+						showProfileDataWarning={showProfileDataWarning}
 					/>
 
 					{!isCurrentUser ? (
@@ -698,24 +704,26 @@ const ProfileModalContent: React.FC<ProfileModalContentProps> = observer(
 								tabs={tabs}
 								renderTabSibling={(tab) =>
 									tab === 'mutual' ? (
-										<button
-											ref={mutualMenuButtonRef}
-											type="button"
-											className={clsx(
-												userProfileModalStyles.mutualMenuButton,
-												isMutualMenuOpen && userProfileModalStyles.mutualMenuButtonActive,
-											)}
-											onClick={(event) => openMutualMenu(event)}
-											aria-label={t`Select mutual view`}
-										>
-											<CaretDownIcon
-												weight="bold"
+										<FocusRing offset={-2}>
+											<button
+												ref={mutualMenuButtonRef}
+												type="button"
 												className={clsx(
-													userProfileModalStyles.mutualMenuIcon,
-													isMutualMenuOpen && userProfileModalStyles.mutualMenuIconOpen,
+													userProfileModalStyles.mutualMenuButton,
+													isMutualMenuOpen && userProfileModalStyles.mutualMenuButtonActive,
 												)}
-											/>
-										</button>
+												onClick={(event) => openMutualMenu(event)}
+												aria-label={t`Select mutual view`}
+											>
+												<CaretDownIcon
+													weight="bold"
+													className={clsx(
+														userProfileModalStyles.mutualMenuIcon,
+														isMutualMenuOpen && userProfileModalStyles.mutualMenuIconOpen,
+													)}
+												/>
+											</button>
+										</FocusRing>
 									) : null
 								}
 							/>
@@ -748,7 +756,7 @@ const MutualFriendItem = ({
 	onContextMenu: (e: React.MouseEvent) => void;
 	isContextMenuOpen: (target: EventTarget | null) => boolean;
 }) => {
-	const itemRef = React.useRef<HTMLDivElement>(null);
+	const itemRef = useRef<HTMLDivElement>(null);
 	const isActive = isContextMenuOpen(itemRef.current);
 
 	return (
@@ -785,7 +793,7 @@ const MutualGuildItem = ({
 	onContextMenu: (e: React.MouseEvent) => void;
 	isContextMenuOpen: (target: EventTarget | null) => boolean;
 }) => {
-	const itemRef = React.useRef<HTMLDivElement>(null);
+	const itemRef = useRef<HTMLDivElement>(null);
 	const isActive = isContextMenuOpen(itemRef.current);
 
 	return (
@@ -824,8 +832,11 @@ const MutualGroupItem = ({
 	onContextMenu: (e: React.MouseEvent) => void;
 	isContextMenuOpen: (target: EventTarget | null) => boolean;
 }) => {
-	const itemRef = React.useRef<HTMLDivElement>(null);
+	const {t} = useLingui();
+	const itemRef = useRef<HTMLDivElement>(null);
 	const isActive = isContextMenuOpen(itemRef.current);
+	const memberCount = group.recipientIds.length + 1;
+	const memberLabel = memberCount === 1 ? t`${memberCount} Member` : t`${memberCount} Members`;
 
 	return (
 		<div
@@ -840,9 +851,7 @@ const MutualGroupItem = ({
 			<GroupDMAvatar channel={group} size={40} />
 			<div className={userProfileModalStyles.mutualFriendInfo}>
 				<span className={userProfileModalStyles.mutualFriendName}>{ChannelUtils.getDMDisplayName(group)}</span>
-				<span className={userProfileModalStyles.mutualFriendUsername}>
-					<Plural value={group.recipientIds.length + 1} one="# Member" other="# Members" />
-				</span>
+				<span className={userProfileModalStyles.mutualFriendUsername}>{memberLabel}</span>
 			</div>
 		</div>
 	);
@@ -855,13 +864,15 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 		const storeUser = UserStore.getUser(userId);
 		const user = previewUser ?? storeUser;
 
-		const fallbackUser = React.useMemo(
+		const fallbackUser = useMemo(
 			() =>
 				new UserRecord({
 					id: userId,
 					username: userId,
 					discriminator: '0000',
+					global_name: null,
 					avatar: null,
+					avatar_color: null,
 					flags: 0,
 				}),
 			[userId],
@@ -869,28 +880,31 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 
 		const displayUser = user ?? fallbackUser;
 
-		const fallbackProfile = React.useMemo(() => createMockProfile(fallbackUser), [fallbackUser]);
-		const mockProfile = React.useMemo(() => (user ? createMockProfile(user) : null), [user]);
-		const initialProfile = React.useMemo(() => UserProfileStore.getProfile(userId, guildId), [userId, guildId]);
-		const [profile, setProfile] = React.useState<ProfileRecord | null>(initialProfile);
-		const [profileLoadError, setProfileLoadError] = React.useState(false);
-		const [showGlobalProfile, setShowGlobalProfile] = React.useState(false);
-		const [isProfileLoading, setIsProfileLoading] = React.useState(() => !previewUser && !initialProfile);
+		const fallbackProfile = useMemo(() => createMockProfile(fallbackUser), [fallbackUser]);
+		const mockProfile = useMemo(() => (user ? createMockProfile(user) : null), [user]);
+		const initialProfile = useMemo(() => UserProfileStore.getProfile(userId, guildId), [userId, guildId]);
+		const [profile, setProfile] = useState<ProfileRecord | null>(initialProfile);
+		const [profileLoadError, setProfileLoadError] = useState(false);
+		const [showGlobalProfile, setShowGlobalProfile] = useState(false);
+		const [isProfileLoading, setIsProfileLoading] = useState(() => !previewUser && !initialProfile);
 		const userNote = UserNoteStore.getUserNote(userId);
 		const isCurrentUser = user?.id === AuthenticationStore.currentUserId;
 		const relationship = RelationshipStore.getRelationship(userId);
 		const relationshipType = relationship?.type;
+		const isBlocked = relationshipType === RelationshipTypes.BLOCKED;
 		const isUserBot = user?.bot ?? false;
-		const noteRef = React.useRef<HTMLTextAreaElement | null>(null);
-		const moreOptionsButtonRef = React.useRef<HTMLButtonElement>(null);
-		const [isMoreMenuOpen, setIsMoreMenuOpen] = React.useState(false);
+		const isFriendlyBot =
+			isUserBot && (displayUser.flags & PublicUserFlags.FRIENDLY_BOT) === PublicUserFlags.FRIENDLY_BOT;
+		const noteRef = useRef<HTMLTextAreaElement | null>(null);
+		const moreOptionsButtonRef = useRef<HTMLButtonElement>(null);
+		const [isMoreMenuOpen, setIsMoreMenuOpen] = useState(false);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			setProfile(initialProfile);
 			setIsProfileLoading(!previewUser && !initialProfile);
 		}, [initialProfile, previewUser]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (previewUser || profile) {
 				setIsProfileLoading(false);
 				setProfileLoadError(false);
@@ -912,7 +926,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 				})
 				.catch((error) => {
 					if (cancelled) return;
-					console.error('Failed to fetch user profile:', error);
+					logger.error('Failed to fetch user profile:', error);
 					setProfileLoadError(true);
 				})
 				.finally(() => {
@@ -925,7 +939,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 			};
 		}, [userId, guildId, previewUser, profile]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			const handleContextMenuChange = () => {
 				const contextMenu = ContextMenuStore.contextMenu;
 				const isOpen =
@@ -938,7 +952,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 			return () => disposer();
 		}, []);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (!guildId || !userId || previewUser) {
 				return;
 			}
@@ -947,7 +961,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 			if (!hasMember) {
 				MemberPresenceSubscriptionStore.touchMember(guildId, userId);
 				GuildMemberStore.fetchMembers(guildId, {userIds: [userId]}).catch((error) => {
-					console.error('[UserProfileModal] Failed to fetch guild member:', error);
+					logger.error('Failed to fetch guild member:', error);
 				});
 			} else {
 				MemberPresenceSubscriptionStore.touchMember(guildId, userId);
@@ -961,7 +975,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 		const hasGuildProfile = !!(profile?.guildId && profile?.guildMemberProfile);
 		const shouldShowProfileDataWarning = profileLoadError || DeveloperOptionsStore.forceProfileDataWarning;
 
-		const displayProfile = React.useMemo((): ProfileRecord | null => {
+		const displayProfile = useMemo((): ProfileRecord | null => {
 			if (!profile) return null;
 			if (showGlobalProfile && hasGuildProfile) {
 				return profile.withUpdates({guild_member_profile: null}).withGuildId(null);
@@ -969,7 +983,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 			return profile;
 		}, [profile, showGlobalProfile, hasGuildProfile]);
 
-		const screenReaderLabel = React.useMemo(() => {
+		const screenReaderLabel = useMemo(() => {
 			if (!displayUser) return t`User Profile`;
 			const tag = displayUser.tag;
 			return t`User Profile: ${tag}`;
@@ -989,8 +1003,22 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 				ModalActionCreators.pop();
 				await PrivateChannelActionCreators.openDMChannel(userId);
 			} catch (error) {
-				console.error('Failed to open DM channel:', error);
+				logger.error('Failed to open DM channel:', error);
 			}
+		};
+
+		const handleOpenBlockedDm = () => {
+			ModalActionCreators.push(
+				modal(() => (
+					<ConfirmModal
+						title={t`Open DM`}
+						description={t`You blocked ${displayUser.username}. You won't be able to send messages unless you unblock them.`}
+						primaryText={t`Open DM`}
+						primaryVariant="primary"
+						onPrimary={handleMessage}
+					/>
+				)),
+			);
 		};
 
 		const handleSendFriendRequest = () => {
@@ -1022,7 +1050,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 				const channelId = await PrivateChannelActionCreators.ensureDMChannel(userId);
 				await CallUtils.checkAndStartCall(channelId, event?.shiftKey ?? false);
 			} catch (error) {
-				console.error('Failed to start voice call:', error);
+				logger.error('Failed to start voice call:', error);
 			}
 		};
 
@@ -1031,7 +1059,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 				const channelId = await PrivateChannelActionCreators.ensureDMChannel(userId);
 				await CallUtils.checkAndStartCall(channelId, event?.shiftKey ?? false);
 			} catch (error) {
-				console.error('Failed to start video call:', error);
+				logger.error('Failed to start video call:', error);
 			}
 		};
 
@@ -1068,7 +1096,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 				case RelationshipTypes.BLOCKED:
 					return (
 						<MenuItem
-							icon={<BlockUserIcon />}
+							icon={<ProhibitIcon />}
 							onClick={() => {
 								handleUnblockUser();
 								onClose();
@@ -1080,7 +1108,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 				default:
 					return (
 						<MenuItem
-							icon={<BlockUserIcon />}
+							icon={<ProhibitIcon />}
 							onClick={() => {
 								handleBlockUser();
 								onClose();
@@ -1106,7 +1134,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 					{hasGuildProfile && (
 						<MenuGroup>
 							<MenuItem
-								icon={<ViewGlobalProfileIcon />}
+								icon={<GlobeIcon />}
 								onClick={() => {
 									setShowGlobalProfile(!showGlobalProfile);
 									props.onClose();
@@ -1119,7 +1147,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 					{!isCurrentUser && !isUserBot && relationshipType === RelationshipTypes.FRIEND && (
 						<MenuGroup>
 							<MenuItem
-								icon={<VoiceCallIcon />}
+								icon={<VideoCameraIcon />}
 								onClick={(pressEvent: PressEvent) => {
 									handleStartVoiceCall(pressEvent);
 									props.onClose();
@@ -1128,7 +1156,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 								{t`Start Voice Call`}
 							</MenuItem>
 							<MenuItem
-								icon={<VideoCallIcon />}
+								icon={<VideoCameraIcon />}
 								onClick={(pressEvent: PressEvent) => {
 									handleStartVideoCall(pressEvent);
 									props.onClose();
@@ -1140,7 +1168,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 					)}
 					<MenuGroup>
 						<MenuItem
-							icon={<CopyFluxerTagIcon />}
+							icon={<CopyIcon />}
 							onClick={() => {
 								handleCopyFluxerTag();
 								props.onClose();
@@ -1149,7 +1177,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 							{t`Copy FluxerTag`}
 						</MenuItem>
 						<MenuItem
-							icon={<CopyUserIdIcon />}
+							icon={<IdentificationCardIcon />}
 							onClick={() => {
 								handleCopyUserId();
 								props.onClose();
@@ -1175,7 +1203,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 					{!isCurrentUser && (
 						<MenuGroup>
 							<MenuItem
-								icon={<ReportUserIcon />}
+								icon={<FlagIcon />}
 								onClick={() => {
 									handleReportUser();
 									props.onClose();
@@ -1248,7 +1276,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 			}
 
 			const renderPrimaryActionButton = () => {
-				if (isUserBot) {
+				if (isUserBot && !isFriendlyBot) {
 					return null;
 				}
 
@@ -1312,7 +1340,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 						</Tooltip>
 					);
 				}
-				if (relationshipType === undefined && !isUserBot) {
+				if (relationshipType === undefined && (!isUserBot || isFriendlyBot)) {
 					const tooltipText = currentUserUnclaimed
 						? t`Claim your account to send friend requests.`
 						: t`Send Friend Request`;
@@ -1339,9 +1367,9 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 					<Button
 						small={true}
 						leftIcon={<ChatTeardropIcon className={userProfileModalStyles.buttonIcon} />}
-						onClick={handleMessage}
+						onClick={isBlocked ? handleOpenBlockedDm : handleMessage}
 					>
-						<Trans>Message</Trans>
+						{isBlocked ? <Trans>Open DM</Trans> : <Trans>Message</Trans>}
 					</Button>
 					{renderPrimaryActionButton()}
 					<Button
@@ -1359,15 +1387,13 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 		};
 
 		const borderProfile = displayProfile?.getEffectiveProfile() ?? null;
-		const rawAccentColor = borderProfile?.accent_color;
-		const accentColorHex = typeof rawAccentColor === 'number' ? ColorUtils.int2hex(rawAccentColor) : rawAccentColor;
-		const borderColor = accentColorHex || DEFAULT_ACCENT_COLOR;
+		const borderColor = getUserAccentColor(displayUser, borderProfile?.accent_color);
 
 		return (
 			<Modal.Root
 				size="medium"
 				initialFocusRef={autoFocusNote ? noteRef : undefined}
-				className={clsx(modalRootStyles.root, modalRootStyles.medium, userProfileModalStyles.modalRoot)}
+				className={userProfileModalStyles.modalRoot}
 			>
 				<Modal.ScreenReaderLabel text={screenReaderLabel} />
 				<div className={userProfileModalStyles.modalContainer} style={{borderColor}}>
@@ -1384,7 +1410,7 @@ export const UserProfileModal: UserProfileModalComponent = observer(
 							autoFocusNote={autoFocusNote}
 							noteRef={noteRef}
 							renderActionButtons={renderActionButtons}
-							warningIndicator={shouldShowProfileDataWarning ? <UserProfileDataWarning /> : undefined}
+							showProfileDataWarning={shouldShowProfileDataWarning}
 							previewOverrides={previewOverrides}
 						/>
 					)}

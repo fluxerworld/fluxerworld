@@ -1,0 +1,11 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "GUILD_UPDATE",
+	"description": "Sent when a guild is updated.",
+	"scope": "guild",
+	"dispatchedBy": ["PATCH /guilds/:guild_id"],
+	"payload": {
+		"$ref": "GuildResponse",
+		"description": "The updated guild object"
+	}
+}

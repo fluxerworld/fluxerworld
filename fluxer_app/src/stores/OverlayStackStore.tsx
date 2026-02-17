@@ -24,29 +24,34 @@ const Z_INDEX_INCREMENT = 10;
 
 class OverlayStackStore {
 	private counter = 0;
+	private sequence = 0;
 
 	constructor() {
 		makeAutoObservable(this, {}, {autoBind: true});
 	}
 
 	acquire(): number {
-		const zIndex = BASE_Z_INDEX + this.counter * Z_INDEX_INCREMENT;
+		const zIndex = BASE_Z_INDEX + this.sequence * Z_INDEX_INCREMENT;
+		this.sequence++;
 		this.counter++;
 		return zIndex;
 	}
 
 	release(): void {
-		if (this.counter > 0) {
-			this.counter--;
+		if (this.counter === 0) return;
+		this.counter--;
+		if (this.counter === 0) {
+			this.sequence = 0;
 		}
 	}
 
 	peek(): number {
-		return BASE_Z_INDEX + this.counter * Z_INDEX_INCREMENT;
+		return BASE_Z_INDEX + this.sequence * Z_INDEX_INCREMENT;
 	}
 
 	reset(): void {
 		this.counter = 0;
+		this.sequence = 0;
 	}
 }
 

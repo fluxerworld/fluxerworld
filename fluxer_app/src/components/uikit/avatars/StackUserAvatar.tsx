@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {AvatarWithPresence} from '@app/components/uikit/avatars/AvatarWithPresence';
+import styles from '@app/components/uikit/avatars/StackUserAvatar.module.css';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import UserStore from '@app/stores/UserStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {GuildRecord} from '~/records/GuildRecord';
-import UserStore from '~/stores/UserStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import {AvatarWithPresence} from './AvatarWithPresence';
-import styles from './StackUserAvatar.module.css';
 
 interface StackUserAvatarProps {
 	guild: GuildRecord;

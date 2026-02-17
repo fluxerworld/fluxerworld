@@ -31,6 +31,10 @@
 start_link(ShardIndex) ->
     gen_server:start_link(?MODULE, #{shard_index => ShardIndex}, []).
 
+-spec table_name(non_neg_integer()) -> atom().
+table_name(Index) ->
+    list_to_atom(atom_to_list(?TABLE_PREFIX) ++ "_" ++ integer_to_list(Index)).
+
 -spec init(map()) -> {ok, state()}.
 init(#{shard_index := ShardIndex}) ->
     process_flag(trap_exit, true),
@@ -113,6 +117,33 @@ ensure_table(Table) ->
             ok
     end.
 
--spec table_name(non_neg_integer()) -> atom().
-table_name(Index) ->
-    list_to_atom(atom_to_list(?TABLE_PREFIX) ++ "_" ++ integer_to_list(Index)).
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+table_name_test() ->
+    ?assertEqual(presence_cache_0, table_name(0)),
+    ?assertEqual(presence_cache_5, table_name(5)).
+
+do_put_online_inserts_test() ->
+    Table = test_cache_table,
+    ets:new(Table, [named_table, public, set]),
+    ?assertEqual(ok, do_put(Table, 1, #{<<"status">> => <<"online">>})),
+    ?assertMatch([{1, _}], ets:lookup(Table, 1)),
+    ets:delete(Table).
+
+do_put_offline_deletes_test() ->
+    Table = test_cache_table_2,
+    ets:new(Table, [named_table, public, set]),
+    ets:insert(Table, {1, #{<<"status">> => <<"online">>}}),
+    ?assertEqual(ok, do_put(Table, 1, #{<<"status">> => <<"offline">>})),
+    ?assertEqual([], ets:lookup(Table, 1)),
+    ets:delete(Table).
+
+do_put_invisible_deletes_test() ->
+    Table = test_cache_table_3,
+    ets:new(Table, [named_table, public, set]),
+    ets:insert(Table, {1, #{<<"status">> => <<"online">>}}),
+    ?assertEqual(ok, do_put(Table, 1, #{<<"status">> => <<"invisible">>})),
+    ?assertEqual([], ets:lookup(Table, 1)),
+    ets:delete(Table).
+-endif.

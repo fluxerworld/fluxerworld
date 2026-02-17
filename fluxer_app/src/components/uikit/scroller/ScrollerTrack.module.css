@@ -1,0 +1,88 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.track {
+	position: absolute;
+	z-index: 2;
+	opacity: 0;
+	transition: opacity 0.15s ease-out;
+}
+
+.visible {
+	opacity: 1;
+}
+
+.vertical {
+	inset-block: 0;
+	inset-inline-end: 0;
+	width: var(--scroller-track-size);
+}
+
+.horizontal {
+	inset-inline: 0;
+	inset-block-end: 0;
+	height: var(--scroller-track-size);
+}
+
+.thumb {
+	position: absolute;
+	background-color: var(--scrollbar-thumb-bg);
+	transition: background-color 0.2s ease;
+	cursor: default;
+}
+
+.thumb::before {
+	content: '';
+	position: absolute;
+	inset: -4px;
+}
+
+.vertical .thumb {
+	top: 0;
+	inset-inline-end: 2px;
+	width: max(2px, calc(var(--scroller-track-size) - 4px));
+	border-radius: 999px;
+}
+
+.horizontal .thumb {
+	inset-block-end: 2px;
+	inset-inline-start: 0;
+	height: max(2px, calc(var(--scroller-track-size) - 4px));
+	border-radius: 999px;
+}
+
+.thumb:hover {
+	background-color: var(--scrollbar-thumb-bg-hover);
+	cursor: grab;
+}
+
+.thumb.active {
+	background-color: var(--scrollbar-thumb-bg-hover);
+	cursor: grabbing;
+}
+
+.regular.vertical .thumb {
+	inset-inline-end: 4px;
+	width: max(4px, calc(var(--scroller-track-size) - 8px));
+}
+
+.regular.horizontal .thumb {
+	inset-block-end: 4px;
+	height: max(4px, calc(var(--scroller-track-size) - 8px));
+}

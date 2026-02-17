@@ -17,24 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
-import {MagnifyingGlassIcon, XIcon} from '@phosphor-icons/react';
-import {clsx} from 'clsx';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as QuickSwitcherActionCreators from '~/actions/QuickSwitcherActionCreators';
-import {QuickSwitcherResultTypes} from '~/Constants';
-import {Input} from '~/components/form/Input';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {MentionBadge} from '~/components/uikit/MentionBadge';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-import {SegmentedTabs} from '~/components/uikit/SegmentedTabs/SegmentedTabs';
-import * as Sheet from '~/components/uikit/Sheet/Sheet';
-import {useListNavigation} from '~/hooks/useListNavigation';
-import type {QuickSwitcherExecutableResult, QuickSwitcherResult} from '~/stores/QuickSwitcherStore';
-import QuickSwitcherStore from '~/stores/QuickSwitcherStore';
-import ReadStateStore from '~/stores/ReadStateStore';
-import {FriendsListContent} from '~/utils/friends/FriendsListUtils';
+import * as QuickSwitcherActionCreators from '@app/actions/QuickSwitcherActionCreators';
+import styles from '@app/components/bottomsheets/QuickSwitcherBottomSheet.module.css';
+import {Input} from '@app/components/form/Input';
+import {CloseIcon, SearchIcon} from '@app/components/uikit/context_menu/ContextMenuIcons';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {MentionBadge} from '@app/components/uikit/MentionBadge';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {SegmentedTabs} from '@app/components/uikit/segmented_tabs/SegmentedTabs';
+import * as Sheet from '@app/components/uikit/sheet/Sheet';
+import {useListNavigation} from '@app/hooks/useListNavigation';
+import {shouldDisableAutofocusOnMobile} from '@app/lib/AutofocusUtils';
+import type {QuickSwitcherExecutableResult, QuickSwitcherResult} from '@app/stores/QuickSwitcherStore';
+import QuickSwitcherStore from '@app/stores/QuickSwitcherStore';
+import ReadStateStore from '@app/stores/ReadStateStore';
+import {FriendsListContent} from '@app/utils/friends/FriendsListUtils';
 import {
 	createSections,
 	getChannelId,
@@ -45,11 +42,16 @@ import {
 	type QuickSwitcherSection,
 	renderIcon,
 	useQuickSwitcherInputFocus,
-} from '~/utils/quick-switcher/QuickSwitcherModalUtils';
-import styles from './QuickSwitcherBottomSheet.module.css';
+} from '@app/utils/quick_switcher/QuickSwitcherModalUtils';
+import {QuickSwitcherResultTypes} from '@fluxer/constants/src/QuickSwitcherConstants';
+import {useLingui} from '@lingui/react/macro';
+import {clsx} from 'clsx';
+import {observer} from 'mobx-react-lite';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
 type QuickSwitcherContainerStyle = React.CSSProperties & {
-	'--quick-switcher-scroll-padding-bottom'?: string;
+	'--quick_switcher-scroll-padding-bottom'?: string;
 };
 
 const QUICK_SWITCHER_SCROLL_PADDING_BOTTOM = 'calc(env(safe-area-inset-bottom, 0px) + 1.25rem)';
@@ -141,14 +143,14 @@ interface QuickSwitcherBottomSheetProps {
 }
 
 export const QuickSwitcherBottomSheet: React.FC<QuickSwitcherBottomSheetProps> = observer(({isOpen, onClose}) => {
-	const {t} = useLingui();
+	const {t, i18n} = useLingui();
 	const {query, results, selectedIndex} = QuickSwitcherStore;
-	const inputRef = React.useRef<HTMLInputElement>(null);
-	const scrollerRef = React.useRef<ScrollerHandle>(null);
-	const rowRefs = React.useRef<Array<HTMLButtonElement | null>>([]);
-	const shouldScrollToSelection = React.useRef(false);
-	const [activeTab, setActiveTab] = React.useState<'search' | 'friends'>('search');
-	const [friendsSearchQuery, setFriendsSearchQuery] = React.useState('');
+	const inputRef = useRef<HTMLInputElement>(null);
+	const scrollerRef = useRef<ScrollerHandle>(null);
+	const rowRefs = useRef<Array<HTMLButtonElement | null>>([]);
+	const shouldScrollToSelection = useRef(false);
+	const [activeTab, setActiveTab] = useState<'search' | 'friends'>('search');
+	const [friendsSearchQuery, setFriendsSearchQuery] = useState('');
 
 	const {
 		keyboardFocusIndex,
@@ -166,7 +168,7 @@ export const QuickSwitcherBottomSheet: React.FC<QuickSwitcherBottomSheetProps> =
 		rowRefs.current = Array(results.length).fill(null);
 	}
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (results.length === 0) {
 			setKeyboardIndex(-1);
 			handleMouseLeave();
@@ -176,13 +178,16 @@ export const QuickSwitcherBottomSheet: React.FC<QuickSwitcherBottomSheetProps> =
 		setKeyboardIndex(clamped);
 	}, [handleMouseLeave, results.length, selectedIndex, setKeyboardIndex]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		handleMouseLeave();
 	}, [handleMouseLeave, results.length]);
 
 	useQuickSwitcherInputFocus(isOpen, true, activeTab, inputRef);
 
-	React.useEffect(() => {
+	useEffect(() => {
+		if (shouldDisableAutofocusOnMobile()) {
+			return;
+		}
 		if (!isOpen || activeTab !== 'search') return;
 		const timeout = window.setTimeout(() => {
 			if (document.activeElement !== inputRef.current) {
@@ -193,11 +198,11 @@ export const QuickSwitcherBottomSheet: React.FC<QuickSwitcherBottomSheetProps> =
 		return () => window.clearTimeout(timeout);
 	}, [activeTab, isOpen]);
 
-	const handleQueryChange = React.useCallback((value: string) => {
+	const handleQueryChange = useCallback((value: string) => {
 		QuickSwitcherActionCreators.search(value);
 	}, []);
 
-	const handleKeyDown = React.useCallback(async (event: React.KeyboardEvent<HTMLInputElement>) => {
+	const handleKeyDown = useCallback(async (event: React.KeyboardEvent<HTMLInputElement>) => {
 		switch (event.key) {
 			case 'ArrowDown':
 				event.preventDefault();
@@ -223,7 +228,7 @@ export const QuickSwitcherBottomSheet: React.FC<QuickSwitcherBottomSheetProps> =
 		}
 	}, []);
 
-	const handleSelect = React.useCallback(
+	const handleSelect = useCallback(
 		(index: number) => {
 			shouldScrollToSelection.current = false;
 			handleHoverIndex(index);
@@ -231,11 +236,11 @@ export const QuickSwitcherBottomSheet: React.FC<QuickSwitcherBottomSheetProps> =
 		[handleHoverIndex],
 	);
 
-	const handleConfirm = React.useCallback((result: QuickSwitcherExecutableResult) => {
+	const handleConfirm = useCallback((result: QuickSwitcherExecutableResult) => {
 		void QuickSwitcherActionCreators.switchTo(result);
 	}, []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!shouldScrollToSelection.current || keyboardFocusIndex < 0) {
 			shouldScrollToSelection.current = false;
 			return;
@@ -251,20 +256,20 @@ export const QuickSwitcherBottomSheet: React.FC<QuickSwitcherBottomSheetProps> =
 		}
 	}, [keyboardFocusIndex, activeTab]);
 
-	const sections = React.useMemo(() => createSections(results), [results]);
+	const sections = useMemo(() => createSections(results), [results]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!isOpen) {
 			setActiveTab('search');
 			setFriendsSearchQuery('');
 		}
 	}, [isOpen]);
 
-	const friendsInputRef = React.useRef<HTMLInputElement>(null);
+	const friendsInputRef = useRef<HTMLInputElement>(null);
 	const isSearchTab = activeTab === 'search';
 	const inputPlaceholder = isSearchTab ? t`Search for channels, people, or communities` : t`Search friends`;
 
-	const handleTabChange = React.useCallback((tab: 'search' | 'friends') => {
+	const handleTabChange = useCallback((tab: 'search' | 'friends') => {
 		setActiveTab(tab);
 	}, []);
 
@@ -297,12 +302,12 @@ export const QuickSwitcherBottomSheet: React.FC<QuickSwitcherBottomSheetProps> =
 
 	const renderClearButton = () => (
 		<button type="button" className={styles.searchClearButton} onClick={handleInputClear} aria-label={clearButtonLabel}>
-			<XIcon size={16} weight="bold" color="currentColor" />
+			<CloseIcon size={16} />
 		</button>
 	);
 
-	const containerStyle: QuickSwitcherContainerStyle = React.useMemo(
-		() => ({'--quick-switcher-scroll-padding-bottom': QUICK_SWITCHER_SCROLL_PADDING_BOTTOM}),
+	const containerStyle: QuickSwitcherContainerStyle = useMemo(
+		() => ({'--quick_switcher-scroll-padding-bottom': QUICK_SWITCHER_SCROLL_PADDING_BOTTOM}),
 		[],
 	);
 
@@ -313,7 +318,7 @@ export const QuickSwitcherBottomSheet: React.FC<QuickSwitcherBottomSheetProps> =
 				<div className={styles.container} style={containerStyle}>
 					<div className={styles.tabsContainer}>
 						<SegmentedTabs
-							tabs={getQuickSwitcherTabs(t)}
+							tabs={getQuickSwitcherTabs(i18n)}
 							selectedTab={activeTab}
 							onTabChange={handleTabChange}
 							ariaLabel={t`Quick switcher tabs`}
@@ -329,14 +334,14 @@ export const QuickSwitcherBottomSheet: React.FC<QuickSwitcherBottomSheetProps> =
 									onKeyDown={handleInputKeyDown}
 									placeholder={inputPlaceholder}
 									className={styles.searchInput}
-									leftIcon={<MagnifyingGlassIcon size={18} weight="bold" color="currentColor" />}
-									rightElement={query.length > 0 ? renderClearButton() : undefined}
+									leftIcon={<SearchIcon size={18} />}
+									rightElement={query['length'] > 0 ? renderClearButton() : undefined}
 									spellCheck={false}
 									autoComplete="off"
 									inputMode="search"
 								/>
 							</div>
-							<Scroller ref={scrollerRef} className={styles.scroller} key="quick-switcher-sheet-scroller">
+							<Scroller ref={scrollerRef} className={styles.scroller} key="quick_switcher-sheet-scroller">
 								<div className={styles.scrollContent}>
 									{results.length === 0 ? (
 										<div className={styles.emptyState}>
@@ -350,21 +355,23 @@ export const QuickSwitcherBottomSheet: React.FC<QuickSwitcherBottomSheetProps> =
 											<div key={`section-${sidx}`} className={styles.section}>
 												{section.header && <div className={styles.sectionHeader}>{section.header.title}</div>}
 												<div className={styles.sectionList}>
-													{section.rows.map(({result, index}) => (
-														<ResultRow
-															key={getResultKey(result)}
-															result={result}
-															index={index}
-															isKeyboardSelected={index === keyboardFocusIndex}
-															isHovered={index === hoverIndexForRender}
-															onHover={handleSelect}
-															onMouseLeave={handleMouseLeave}
-															onConfirm={handleConfirm}
-															innerRef={(node) => {
-																rowRefs.current[index] = node;
-															}}
-														/>
-													))}
+													{section.rows.map(
+														({result, index}: {result: QuickSwitcherExecutableResult; index: number}) => (
+															<ResultRow
+																key={getResultKey(result)}
+																result={result}
+																index={index}
+																isKeyboardSelected={index === keyboardFocusIndex}
+																isHovered={index === hoverIndexForRender}
+																onHover={handleSelect}
+																onMouseLeave={handleMouseLeave}
+																onConfirm={handleConfirm}
+																innerRef={(node) => {
+																	rowRefs.current[index] = node;
+																}}
+															/>
+														),
+													)}
 												</div>
 											</div>
 										))
@@ -380,7 +387,7 @@ export const QuickSwitcherBottomSheet: React.FC<QuickSwitcherBottomSheetProps> =
 									onChange={(event) => handleInputChange(event.target.value)}
 									placeholder={t`Search friends`}
 									className={styles.searchInput}
-									leftIcon={<MagnifyingGlassIcon size={18} weight="bold" color="currentColor" />}
+									leftIcon={<SearchIcon size={18} />}
 									rightElement={friendsSearchQuery.length > 0 ? renderClearButton() : undefined}
 									spellCheck={false}
 									autoComplete="off"

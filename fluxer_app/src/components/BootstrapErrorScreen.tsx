@@ -17,24 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/ErrorFallback.module.css';
+import {FluxerIcon} from '@app/components/icons/FluxerIcon';
+import {Button} from '@app/components/uikit/button/Button';
+import AppStorage from '@app/lib/AppStorage';
 import {Trans} from '@lingui/react/macro';
-import React from 'react';
-import {FluxerIcon} from '~/components/icons/FluxerIcon';
-import {Button} from '~/components/uikit/Button/Button';
-import AppStorage from '~/lib/AppStorage';
-import styles from './ErrorFallback.module.css';
+import type React from 'react';
+import {useCallback} from 'react';
 
 interface BootstrapErrorScreenProps {
 	error?: Error;
 }
 
+const PRESERVED_RESET_STORAGE_KEYS = ['DraftStore'] as const;
+
 export const BootstrapErrorScreen: React.FC<BootstrapErrorScreenProps> = ({error}) => {
-	const handleRetry = React.useCallback(() => {
+	const handleRetry = useCallback(() => {
 		window.location.reload();
 	}, []);
 
-	const handleReset = React.useCallback(() => {
-		AppStorage.clear();
+	const handleReset = useCallback(() => {
+		AppStorage.clearExcept(PRESERVED_RESET_STORAGE_KEYS);
 		window.location.reload();
 	}, []);
 

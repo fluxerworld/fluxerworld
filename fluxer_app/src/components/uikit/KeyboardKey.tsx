@@ -17,10 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/uikit/KeyboardKey.module.css';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import styles from './KeyboardKey.module.css';
 
-export const KeyboardKey = observer(({children}: {children: string}) => (
+export interface KeyboardKeyProps {
+	children: React.ReactNode;
+}
+
+export const KeyboardKey: React.FC<KeyboardKeyProps> = observer(({children}) => (
 	<kbd className={clsx(styles.key, children === '↵' && styles.keyWide)}>{children}</kbd>
 ));

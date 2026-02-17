@@ -1,0 +1,11 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "FAVORITE_MEME_CREATE",
+	"description": "A favourite meme was added to the user's collection.",
+	"scope": "presence",
+	"dispatchedBy": ["POST /users/@me/memes", "POST /channels/:channel_id/messages/:message_id/memes"],
+	"payload": {
+		"$ref": "FavoriteMemeResponse",
+		"description": "The created favourite meme"
+	}
+}

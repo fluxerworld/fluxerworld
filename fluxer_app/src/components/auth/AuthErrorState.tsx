@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/auth/AuthPageStyles.module.css';
 import type {Icon} from '@phosphor-icons/react';
 import {QuestionIcon} from '@phosphor-icons/react';
-import styles from './AuthPageStyles.module.css';
 
 interface AuthErrorStateProps {
 	icon?: Icon;

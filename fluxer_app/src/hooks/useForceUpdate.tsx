@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
+import {useCallback, useState} from 'react';
 
-export const useForceUpdate = () => {
-	const [, setState] = React.useState<object>({});
-	return React.useCallback(() => setState({}), []);
-};
+export function useForceUpdate() {
+	const [, setState] = useState<object>({});
+	return useCallback(() => setState({}), []);
+}

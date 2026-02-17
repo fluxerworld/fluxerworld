@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {ContextMenu, ContextMenuConfig, ContextMenuTargetElement} from '@app/stores/ContextMenuStore';
+import ContextMenuStore from '@app/stores/ContextMenuStore';
 import type React from 'react';
-import type {ContextMenu, ContextMenuConfig, ContextMenuTargetElement} from '~/stores/ContextMenuStore';
-import ContextMenuStore from '~/stores/ContextMenuStore';
 
 const nativeContextMenuTarget: ContextMenuTargetElement = {
 	tagName: 'ReactNativeContextMenu',
@@ -47,18 +47,18 @@ const toHTMLElement = (value: unknown): HTMLElement | null => {
 	return null;
 };
 
-export const close = (): void => {
+export function close(): void {
 	ContextMenuStore.close();
-};
+}
 
 type RenderFn = (props: {onClose: () => void}) => React.ReactNode;
 
-export const openAtPoint = (
+export function openAtPoint(
 	point: {x: number; y: number},
 	render: RenderFn,
 	config?: ContextMenuConfig,
 	target: ContextMenuTargetElement = nativeContextMenuTarget,
-): void => {
+): void {
 	const contextMenu: ContextMenu = {
 		id: makeId('context-menu'),
 		target: {x: point.x, y: point.y, target},
@@ -67,22 +67,22 @@ export const openAtPoint = (
 	};
 
 	ContextMenuStore.open(contextMenu);
-};
+}
 
-export const openForElement = (
+export function openForElement(
 	element: HTMLElement,
 	render: RenderFn,
 	options?: {point?: {x: number; y: number}; config?: ContextMenuConfig},
-): void => {
+): void {
 	const point = options?.point ?? getViewportCenterForElement(element);
 	openAtPoint(point, render, options?.config, element);
-};
+}
 
-export const openFromEvent = (
+export function openFromEvent(
 	event: React.MouseEvent | MouseEvent,
 	render: RenderFn,
 	config?: ContextMenuConfig,
-): void => {
+): void {
 	event.preventDefault?.();
 	event.stopPropagation?.();
 
@@ -103,13 +103,13 @@ export const openFromEvent = (
 			: {x: 0, y: 0};
 
 	openAtPoint(point, render, config, anchor ?? nativeContextMenuTarget);
-};
+}
 
-export const openFromElementBottomRight = (
+export function openFromElementBottomRight(
 	event: React.MouseEvent | MouseEvent,
 	render: RenderFn,
 	config?: ContextMenuConfig,
-): void => {
+): void {
 	event.preventDefault?.();
 	event.stopPropagation?.();
 
@@ -128,9 +128,34 @@ export const openFromElementBottomRight = (
 	const point = {x: rect.right + scrollX, y: rect.bottom + scrollY + 4};
 
 	openAtPoint(point, render, {align: 'top-right', ...config}, anchor);
-};
+}
 
-export const openNativeContextMenu = (render: RenderFn, config?: ContextMenu['config']): void => {
+export function openFromElementTopLeft(
+	event: React.MouseEvent | MouseEvent,
+	render: RenderFn,
+	config?: ContextMenuConfig,
+): void {
+	event.preventDefault?.();
+	event.stopPropagation?.();
+
+	const currentTarget = 'currentTarget' in event ? toHTMLElement(event.currentTarget) : null;
+	const target = 'target' in event ? toHTMLElement(event.target) : null;
+	const anchor = currentTarget ?? target;
+
+	if (!anchor) {
+		openFromEvent(event, render, config);
+		return;
+	}
+
+	const rect = anchor.getBoundingClientRect();
+	const scrollX = window.scrollX || window.pageXOffset || 0;
+	const scrollY = window.scrollY || window.pageYOffset || 0;
+	const point = {x: rect.left + scrollX, y: rect.top + scrollY};
+
+	openAtPoint(point, render, {align: 'bottom-left', ...config}, anchor);
+}
+
+export function openNativeContextMenu(render: RenderFn, config?: ContextMenu['config']): void {
 	const contextMenu: ContextMenu = {
 		id: makeId('native-context-menu'),
 		target: {
@@ -146,4 +171,4 @@ export const openNativeContextMenu = (render: RenderFn, config?: ContextMenu['co
 	};
 
 	ContextMenuStore.open(contextMenu);
-};
+}

@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/TimestampWithTooltip.module.css';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import * as DateUtils from '@app/utils/DateUtils';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import * as DateUtils from '~/utils/DateUtils';
-import styles from './TimestampWithTooltip.module.css';
 
 interface TimestampWithTooltipProps {
 	date: Date;
@@ -45,7 +45,7 @@ export const TimestampWithTooltip = observer(({date, children, className}: Times
 	const decoratedChildren = (
 		<>
 			<i className={styles.hiddenSpacer} aria-hidden="true">
-				{' — '}
+				{' '}
 			</i>
 			{children}
 		</>

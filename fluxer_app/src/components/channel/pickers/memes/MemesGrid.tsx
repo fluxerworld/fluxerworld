@@ -17,13 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {MemeGridItem} from '@app/components/channel/pickers/memes/MemeGridItem';
+import {computeMasonryColumns} from '@app/components/channel/pickers/shared/ComputeColumns';
+import {MasonryVirtualGrid} from '@app/components/channel/pickers/shared/MasonryVirtualGrid';
+import type {FavoriteMemeRecord} from '@app/records/FavoriteMemeRecord';
+import MemesPickerStore from '@app/stores/MemesPickerStore';
+import QuickSwitcherStore from '@app/stores/QuickSwitcherStore';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import MemesPickerStore from '~/stores/MemesPickerStore';
-import QuickSwitcherStore from '~/stores/QuickSwitcherStore';
-import {computeMasonryColumns} from '../shared/computeColumns';
-import {MasonryVirtualGrid} from '../shared/MasonryVirtualGrid';
-import {MemeGridItem} from './MemeGridItem';
+import {useCallback, useMemo} from 'react';
 
 export const MemesGrid = observer(
 	({
@@ -34,7 +35,7 @@ export const MemesGrid = observer(
 		viewportHeight,
 		scrollTop,
 	}: {
-		memes: Array<any>;
+		memes: Array<FavoriteMemeRecord>;
 		onClose?: () => void;
 		gifAutoPlay: boolean;
 		viewportWidth: number;
@@ -44,7 +45,7 @@ export const MemesGrid = observer(
 		const itemGutter = 8;
 		const columns = computeMasonryColumns(viewportWidth, itemGutter);
 
-		const data = React.useMemo(
+		const data = useMemo(
 			() =>
 				memes.map((meme) => ({
 					id: meme.id,
@@ -55,9 +56,9 @@ export const MemesGrid = observer(
 			[memes],
 		);
 
-		const itemKeys = React.useMemo(() => data.map((d) => d.id), [data]);
+		const itemKeys = useMemo(() => data.map((d) => d.id), [data]);
 
-		const handleSelectKey = React.useCallback((itemKey: string) => {
+		const handleSelectKey = useCallback((itemKey: string) => {
 			MemesPickerStore.trackMemeUsage(itemKey);
 		}, []);
 

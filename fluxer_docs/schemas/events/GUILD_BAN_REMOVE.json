@@ -1,0 +1,25 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "GUILD_BAN_REMOVE",
+	"description": "Sent when a user is unbanned from a guild.",
+	"scope": "guild",
+	"dispatchedBy": ["DELETE /guilds/:guild_id/bans/:user_id"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"guild_id": {
+				"type": "string",
+				"description": "Guild ID"
+			},
+			"user": {
+				"type": "object",
+				"properties": {
+					"id": {"type": "string", "description": "User ID"}
+				},
+				"required": ["id"],
+				"description": "Partial user object"
+			}
+		},
+		"required": ["guild_id", "user"]
+	}
+}

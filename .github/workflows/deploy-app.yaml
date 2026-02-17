@@ -7,6 +7,7 @@ on:
       - canary
     paths:
       - fluxer_app/**
+      - fluxer_app_proxy/**
       - .github/workflows/deploy-app.yaml
   workflow_dispatch:
     inputs:
@@ -16,12 +17,12 @@ on:
           - stable
           - canary
         default: stable
-        description: Channel to deploy
+        description: Release channel to deploy
       ref:
         type: string
         required: false
         default: ''
-        description: Optional git ref to deploy (defaults to main/canary based on channel)
+        description: Optional git ref (defaults to the triggering branch)
 
 concurrency:
   group: deploy-fluxer-app-${{ github.event_name == 'workflow_dispatch' && inputs.channel || (github.ref_name == 'canary' && 'canary') || 'stable' }}
@@ -36,36 +37,21 @@ jobs:
     with:
       github_event_name: ${{ github.event_name }}
       github_ref_name: ${{ github.ref_name }}
-      github_ref: ${{ github.ref }}
       workflow_dispatch_channel: ${{ github.event_name == 'workflow_dispatch' && inputs.channel || '' }}
-      workflow_dispatch_ref: ${{ github.event_name == 'workflow_dispatch' && inputs.ref || '' }}
 
   deploy:
     name: Deploy app
     needs: channel-vars
-    runs-on: blacksmith-2vcpu-ubuntu-2404
-    timeout-minutes: 10
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
     env:
       CHANNEL: ${{ needs.channel-vars.outputs.channel }}
       IS_CANARY: ${{ needs.channel-vars.outputs.is_canary }}
-      SOURCE_REF: ${{ needs.channel-vars.outputs.source_ref }}
       STACK_SUFFIX: ${{ needs.channel-vars.outputs.stack_suffix }}
 
       SERVICE_NAME: ${{ format('fluxer-app{0}', needs.channel-vars.outputs.stack_suffix) }}
-      DOCKERFILE: fluxer_app/proxy/Dockerfile
-      SENTRY_PROXY_PATH: /error-reporting-proxy
+      DOCKERFILE: fluxer_app_proxy/Dockerfile
       CACHE_SCOPE: ${{ format('fluxer-app{0}', needs.channel-vars.outputs.stack_suffix) }}
-
-      PUBLIC_BOOTSTRAP_API_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://web.canary.fluxer.app/api' || 'https://web.fluxer.app/api' }}
-      PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://api.canary.fluxer.app' || 'https://api.fluxer.app' }}
-      PUBLIC_PROJECT_ENV: ${{ needs.channel-vars.outputs.channel }}
-      PUBLIC_SENTRY_DSN: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://59ced0e2666ab83dd1ddb056cdd22d1b@sentry.web.canary.fluxer.app/4510205815291904' || 'https://59ced0e2666ab83dd1ddb056cdd22d1b@sentry.web.fluxer.app/4510205815291904' }}
-
-      SENTRY_REPORT_HOST: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'https://sentry.web.canary.fluxer.app' || 'https://sentry.web.fluxer.app' }}
-      API_TARGET: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'fluxer-api-canary_app' || 'fluxer-api_app' }}
-
-      CADDY_APP_DOMAIN: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'web.canary.fluxer.app' || 'web.fluxer.app' }}
-      SENTRY_CADDY_DOMAIN: ${{ needs.channel-vars.outputs.is_canary == 'true' && 'sentry.web.canary.fluxer.app' || 'sentry.web.fluxer.app' }}
 
       RELEASE_CHANNEL: ${{ needs.channel-vars.outputs.channel }}
       APP_REPLICAS: ${{ needs.channel-vars.outputs.is_canary == 'true' && 1 || 2 }}
@@ -73,13 +59,11 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
-          ref: ${{ env.SOURCE_REF }}
+          ref: ${{ inputs.ref || '' }}
           fetch-depth: 0
 
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
-        with:
-          version: 10.26.0
 
       - name: Set up Node.js
         uses: actions/setup-node@v6
@@ -88,25 +72,18 @@ jobs:
           cache: pnpm
           cache-dependency-path: fluxer_app/pnpm-lock.yaml
 
-      - name: Set up Go
-        uses: actions/setup-go@v6
-        with:
-          go-version: '1.25.5'
-
       - name: Install dependencies
-        working-directory: fluxer_app
-        run: pnpm install --frozen-lockfile
+        run: python3 scripts/ci/workflows/deploy_app.py --step install_dependencies
 
       - name: Run Lingui i18n tasks
-        working-directory: fluxer_app
-        run: pnpm lingui:extract && pnpm lingui:compile --strict
+        run: python3 scripts/ci/workflows/deploy_app.py --step run_lingui
+        env:
+          TURBO_API: https://turborepo.fluxer.dev
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: team_fluxer
 
       - name: Record deploy commit
-        run: |
-          set -euo pipefail
-          sha=$(git rev-parse HEAD)
-          echo "Deploying commit ${sha}"
-          printf 'DEPLOY_SHA=%s\n' "$sha" >> "$GITHUB_ENV"
+        run: python3 scripts/ci/workflows/deploy_app.py --step record_deploy_commit
 
       - name: Set up Rust
         uses: dtolnay/rust-toolchain@stable
@@ -127,74 +104,45 @@ jobs:
             ${{ runner.os }}-cargo-
 
       - name: Install wasm-pack
-        run: |
-          set -euo pipefail
-          if ! command -v wasm-pack >/dev/null 2>&1; then
-            cargo install wasm-pack --version 0.13.1
-          fi
+        run: python3 scripts/ci/workflows/deploy_app.py --step install_wasm_pack
 
       - name: Generate wasm artifacts
-        working-directory: fluxer_app
-        run: pnpm wasm:codegen
+        run: python3 scripts/ci/workflows/deploy_app.py --step generate_wasm
+        env:
+          TURBO_API: https://turborepo.fluxer.dev
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: team_fluxer
+
+      - name: Set up SSH agent
+        uses: webfactory/ssh-agent@v0.9.1
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_SERVER }}
+
+      - name: Add server to known hosts
+        run: python3 scripts/ci/workflows/deploy_app.py --step add_known_hosts --server-ip ${{ secrets.SERVER_IP }}
+
+      - name: Fetch deployment config
+        env:
+          SERVER: ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }}
+          RELEASE_CHANNEL: ${{ env.RELEASE_CHANNEL }}
+        run: python3 scripts/ci/workflows/deploy_app.py --step fetch_deployment_config
 
       - name: Build application
-        working-directory: fluxer_app
         env:
-          NODE_ENV: production
-          PUBLIC_BOOTSTRAP_API_ENDPOINT: ${{ env.PUBLIC_BOOTSTRAP_API_ENDPOINT }}
-          PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT: ${{ env.PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT }}
-          PUBLIC_API_VERSION: 1
-          PUBLIC_PROJECT_ENV: ${{ env.PUBLIC_PROJECT_ENV }}
-          PUBLIC_SENTRY_PROJECT_ID: 4510205815291904
-          PUBLIC_SENTRY_PUBLIC_KEY: 59ced0e2666ab83dd1ddb056cdd22d1b
-          PUBLIC_SENTRY_DSN: ${{ env.PUBLIC_SENTRY_DSN }}
-          PUBLIC_SENTRY_PROXY_PATH: ${{ env.SENTRY_PROXY_PATH }}
-          PUBLIC_BUILD_NUMBER: ${{ github.run_number }}
-        run: |
-          set -euo pipefail
-          export PUBLIC_BUILD_SHA=$(git rev-parse --short HEAD)
-          export PUBLIC_BUILD_TIMESTAMP=$(date +%s)
-          pnpm build
-          cat > dist/version.json << EOF
-          {
-            "sha": "$PUBLIC_BUILD_SHA",
-            "buildNumber": $PUBLIC_BUILD_NUMBER,
-            "timestamp": $PUBLIC_BUILD_TIMESTAMP,
-            "env": "$PUBLIC_PROJECT_ENV"
-          }
-          EOF
+          FLUXER_CONFIG: ${{ github.workspace }}/fluxer_app/config.json
+          TURBO_API: https://turborepo.fluxer.dev
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: team_fluxer
+        run: python3 scripts/ci/workflows/deploy_app.py --step build_application
 
       - name: Install rclone
-        run: |
-          set -euo pipefail
-          if ! command -v rclone >/dev/null 2>&1; then
-            curl -fsSL https://rclone.org/install.sh | sudo bash
-          fi
+        run: python3 scripts/ci/workflows/deploy_app.py --step install_rclone
 
       - name: Upload assets to S3 static bucket
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          set -euo pipefail
-          mkdir -p ~/.config/rclone
-          cat > ~/.config/rclone/rclone.conf << RCLONEEOF
-          [ovh]
-          type = s3
-          provider = Other
-          env_auth = true
-          endpoint = https://s3.us-east-va.io.cloud.ovh.us
-          acl = public-read
-          RCLONEEOF
-
-          rclone copy fluxer_app/dist/assets ovh:fluxer-static/assets \
-            --transfers 32 \
-            --checkers 16 \
-            --size-only \
-            --fast-list \
-            --s3-upload-concurrency 8 \
-            --s3-chunk-size 16M \
-            -v
+        run: python3 scripts/ci/workflows/deploy_app.py --step upload_assets
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -204,6 +152,9 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Set build timestamp
+        run: python3 scripts/ci/workflows/deploy_app.py --step set_build_timestamp
 
       - name: Build image
         uses: docker/build-push-action@v6
@@ -215,28 +166,17 @@ jobs:
           platforms: linux/amd64
           cache-from: type=gha,scope=${{ env.CACHE_SCOPE }}
           cache-to: type=gha,mode=max,scope=${{ env.CACHE_SCOPE }}
+          build-args: |
+            BUILD_SHA=${{ env.DEPLOY_SHA }}
+            BUILD_NUMBER=${{ github.run_number }}
+            BUILD_TIMESTAMP=${{ env.BUILD_TIMESTAMP }}
+            RELEASE_CHANNEL=${{ env.RELEASE_CHANNEL }}
         env:
           DOCKER_BUILD_SUMMARY: false
           DOCKER_BUILD_RECORD_UPLOAD: false
 
       - name: Install docker-pussh
-        run: |
-          set -euo pipefail
-          mkdir -p ~/.docker/cli-plugins
-          curl -fsSL https://raw.githubusercontent.com/psviderski/unregistry/v0.3.1/docker-pussh \
-            -o ~/.docker/cli-plugins/docker-pussh
-          chmod +x ~/.docker/cli-plugins/docker-pussh
-
-      - name: Set up SSH agent
-        uses: webfactory/ssh-agent@v0.9.1
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY_SERVER }}
-
-      - name: Add server to known hosts
-        run: |
-          set -euo pipefail
-          mkdir -p ~/.ssh
-          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+        run: python3 scripts/ci/workflows/deploy_app.py --step install_docker_pussh
 
       - name: Push image and deploy
         env:
@@ -246,108 +186,6 @@ jobs:
           SERVICE_NAME: ${{ env.SERVICE_NAME }}
           COMPOSE_STACK: ${{ env.SERVICE_NAME }}
 
-          SENTRY_DSN: https://59ced0e2666ab83dd1ddb056cdd22d1b@o4510149383094272.ingest.us.sentry.io/4510205815291904
-          SENTRY_PROXY_PATH: ${{ env.SENTRY_PROXY_PATH }}
-          SENTRY_REPORT_HOST: ${{ env.SENTRY_REPORT_HOST }}
-
-          CADDY_APP_DOMAIN: ${{ env.CADDY_APP_DOMAIN }}
-          SENTRY_CADDY_DOMAIN: ${{ env.SENTRY_CADDY_DOMAIN }}
-          API_TARGET: ${{ env.API_TARGET }}
-
           RELEASE_CHANNEL: ${{ env.RELEASE_CHANNEL }}
           APP_REPLICAS: ${{ env.APP_REPLICAS }}
-        run: |
-          set -euo pipefail
-          docker pussh "${IMAGE_TAG}" "${SERVER}"
-
-          ssh "${SERVER}" \
-            "IMAGE_TAG=${IMAGE_TAG} SERVICE_NAME=${SERVICE_NAME} COMPOSE_STACK=${COMPOSE_STACK} SENTRY_DSN=${SENTRY_DSN} SENTRY_PROXY_PATH=${SENTRY_PROXY_PATH} SENTRY_REPORT_HOST=${SENTRY_REPORT_HOST} CADDY_APP_DOMAIN=${CADDY_APP_DOMAIN} SENTRY_CADDY_DOMAIN=${SENTRY_CADDY_DOMAIN} API_TARGET=${API_TARGET} RELEASE_CHANNEL=${RELEASE_CHANNEL} APP_REPLICAS=${APP_REPLICAS} bash" << 'EOF'
-          set -euo pipefail
-          sudo mkdir -p "/opt/${SERVICE_NAME}"
-          sudo chown -R "${USER}:${USER}" "/opt/${SERVICE_NAME}"
-          cd "/opt/${SERVICE_NAME}"
-
-          cat > compose.yaml << COMPOSEEOF
-          x-deploy-base: &deploy_base
-            restart_policy:
-              condition: on-failure
-              delay: 5s
-              max_attempts: 3
-            update_config:
-              parallelism: 1
-              delay: 10s
-              order: start-first
-            rollback_config:
-              parallelism: 1
-              delay: 10s
-
-          x-common-caddy-headers: &common_caddy_headers
-            caddy.header.Strict-Transport-Security: "max-age=31536000; includeSubDomains; preload"
-            caddy.header.X-Xss-Protection: "1; mode=block"
-            caddy.header.X-Content-Type-Options: "nosniff"
-            caddy.header.Referrer-Policy: "strict-origin-when-cross-origin"
-            caddy.header.X-Frame-Options: "DENY"
-            caddy.header.Expect-Ct: "max-age=86400, report-uri=\\"${SENTRY_REPORT_HOST}/api/4510205815291904/security/?sentry_key=59ced0e2666ab83dd1ddb056cdd22d1b\\""
-            caddy.header.Cache-Control: "no-store, no-cache, must-revalidate"
-            caddy.header.Pragma: "no-cache"
-            caddy.header.Expires: "0"
-
-          x-env-base: &env_base
-            PORT: 8080
-            RELEASE_CHANNEL: ${RELEASE_CHANNEL}
-            FLUXER_METRICS_HOST: fluxer-metrics_app:8080
-            SENTRY_DSN: ${SENTRY_DSN}
-            SENTRY_REPORT_HOST: ${SENTRY_REPORT_HOST}
-
-          x-healthcheck: &healthcheck
-            test: ['CMD', 'curl', '-f', 'http://localhost:8080/_health']
-            interval: 30s
-            timeout: 10s
-            retries: 3
-            start_period: 40s
-
-          services:
-            app:
-              image: ${IMAGE_TAG}
-              deploy:
-                <<: *deploy_base
-                replicas: ${APP_REPLICAS}
-                labels:
-                  <<: *common_caddy_headers
-                  caddy: ${CADDY_APP_DOMAIN}
-                  caddy.handle_path_0: /api*
-                  caddy.handle_path_0.reverse_proxy: "http://${API_TARGET}:8080"
-                  caddy.reverse_proxy: "{{upstreams 8080}}"
-              environment:
-                <<: *env_base
-                SENTRY_PROXY_PATH: ${SENTRY_PROXY_PATH}
-              networks: [fluxer-shared]
-              healthcheck: *healthcheck
-
-            sentry:
-              image: ${IMAGE_TAG}
-              deploy:
-                <<: *deploy_base
-                replicas: 1
-                labels:
-                  <<: *common_caddy_headers
-                  caddy: ${SENTRY_CADDY_DOMAIN}
-                  caddy.reverse_proxy: "{{upstreams 8080}}"
-              environment:
-                <<: *env_base
-                SENTRY_PROXY_PATH: /
-              networks: [fluxer-shared]
-              healthcheck: *healthcheck
-
-          networks:
-            fluxer-shared:
-              external: true
-          COMPOSEEOF
-
-          docker stack deploy \
-            --with-registry-auth \
-            --detach=false \
-            --resolve-image never \
-            -c compose.yaml \
-            "${COMPOSE_STACK}"
-          EOF
+        run: python3 scripts/ci/workflows/deploy_app.py --step push_and_deploy

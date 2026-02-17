@@ -17,17 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {LayoutMode} from '~/stores/VoiceCallLayoutStore';
-import VoiceCallLayoutStore from '~/stores/VoiceCallLayoutStore';
+import type {LayoutMode, PinnedParticipantSource} from '@app/stores/VoiceCallLayoutStore';
+import VoiceCallLayoutStore from '@app/stores/VoiceCallLayoutStore';
 
-export const setLayoutMode = (mode: LayoutMode): void => {
+export function setLayoutMode(mode: LayoutMode): void {
 	VoiceCallLayoutStore.setLayoutMode(mode);
-};
+}
 
-export const setPinnedParticipant = (identity: string | null): void => {
-	VoiceCallLayoutStore.setPinnedParticipant(identity);
-};
+export function setPinnedParticipant(identity: string | null, source?: PinnedParticipantSource): void {
+	VoiceCallLayoutStore.setPinnedParticipant(identity, source);
+}
 
-export const markUserOverride = (): void => {
+export function markUserOverride(): void {
 	VoiceCallLayoutStore.markUserOverride();
-};
+}

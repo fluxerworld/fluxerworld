@@ -17,57 +17,60 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as InviteActionCreators from '@app/actions/InviteActionCreators';
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as PrivateChannelActionCreators from '@app/actions/PrivateChannelActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {Input} from '@app/components/form/Input';
+import {Select} from '@app/components/form/Select';
+import {Switch} from '@app/components/form/Switch';
+import styles from '@app/components/modals/InviteModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {CopyLinkSection} from '@app/components/modals/shared/CopyLinkSection';
+import type {RecipientItem} from '@app/components/modals/shared/RecipientList';
+import {RecipientList, useRecipientItems} from '@app/components/modals/shared/RecipientList';
+import selectorStyles from '@app/components/modals/shared/SelectorModalStyles.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {Logger} from '@app/lib/Logger';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildStore from '@app/stores/GuildStore';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import {useCopyLinkHandler} from '@app/utils/CopyLinkHandlers';
+import * as InviteUtils from '@app/utils/InviteUtils';
+import {GuildFeatures} from '@fluxer/constants/src/GuildConstants';
+import type {Invite} from '@fluxer/schema/src/domains/invite/InviteSchemas';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {MagnifyingGlassIcon, WarningCircleIcon, WarningIcon} from '@phosphor-icons/react';
 import clsx from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as InviteActionCreators from '~/actions/InviteActionCreators';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as PrivateChannelActionCreators from '~/actions/PrivateChannelActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {GuildFeatures} from '~/Constants';
-import {Input} from '~/components/form/Input';
-import {Select} from '~/components/form/Select';
-import {Switch} from '~/components/form/Switch';
-import styles from '~/components/modals/InviteModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {CopyLinkSection} from '~/components/modals/shared/CopyLinkSection';
-import type {RecipientItem} from '~/components/modals/shared/RecipientList';
-import {RecipientList, useRecipientItems} from '~/components/modals/shared/RecipientList';
-import selectorStyles from '~/components/modals/shared/SelectorModalStyles.module.css';
-import {Button} from '~/components/uikit/Button/Button';
-import {Spinner} from '~/components/uikit/Spinner';
-import type {Invite} from '~/records/MessageRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildStore from '~/stores/GuildStore';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import * as InviteUtils from '~/utils/InviteUtils';
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
+import {useCallback, useEffect, useMemo, useState} from 'react';
+
+const logger = new Logger('InviteModal');
 
 export const InviteModal = observer(({channelId}: {channelId: string}) => {
-	const {t, i18n} = useLingui();
+	const {t} = useLingui();
 	const channel = ChannelStore.getChannel(channelId);
 	const inviteCapability = InviteUtils.getInviteCapability(channelId, channel?.guildId);
 	const isUsingVanityUrl = inviteCapability.useVanityUrl;
 
-	const [invite, setInvite] = React.useState<Invite | null>(null);
-	const [loading, setLoading] = React.useState(!isUsingVanityUrl);
-	const [showAdvanced, setShowAdvanced] = React.useState(false);
-	const [copied, setCopied] = React.useState(false);
-	const [sentInvites, setSentInvites] = React.useState(new Map<string, boolean>());
-	const [sendingTo, setSendingTo] = React.useState(new Set<string>());
+	const [invite, setInvite] = useState<Invite | null>(null);
+	const [loading, setLoading] = useState(!isUsingVanityUrl);
+	const [showAdvanced, setShowAdvanced] = useState(false);
+	const [sentInvites, setSentInvites] = useState(new Map<string, boolean>());
+	const [sendingTo, setSendingTo] = useState(new Set<string>());
 
-	const [maxAge, setMaxAge] = React.useState('604800');
-	const [maxUses, setMaxUses] = React.useState('0');
-	const [temporary, setTemporary] = React.useState(false);
+	const [maxAge, setMaxAge] = useState('604800');
+	const [maxUses, setMaxUses] = useState('0');
+	const [temporary, setTemporary] = useState(false);
 	const recipients = useRecipientItems();
-	const [searchQuery, setSearchQuery] = React.useState('');
+	const [searchQuery, setSearchQuery] = useState('');
 
-	const maxAgeOptions = React.useMemo(
+	const maxAgeOptions = useMemo(
 		() => [
 			{value: '0', label: t`Never`},
 			{value: '1800', label: t`30 minutes`},
@@ -80,7 +83,7 @@ export const InviteModal = observer(({channelId}: {channelId: string}) => {
 		[t],
 	);
 
-	const maxUsesOptions = React.useMemo(
+	const maxUsesOptions = useMemo(
 		() => [
 			{value: '0', label: t`No limit`},
 			{value: '1', label: t`1 use`},
@@ -93,7 +96,7 @@ export const InviteModal = observer(({channelId}: {channelId: string}) => {
 		[t],
 	);
 
-	const loadInvite = React.useCallback(
+	const loadInvite = useCallback(
 		async (options?: {maxAge?: number; maxUses?: number; temporary?: boolean}) => {
 			if (isUsingVanityUrl) {
 				return;
@@ -113,7 +116,7 @@ export const InviteModal = observer(({channelId}: {channelId: string}) => {
 		[channelId, isUsingVanityUrl],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!isUsingVanityUrl) {
 			loadInvite({maxAge: 604800, maxUses: 0, temporary: false});
 		}
@@ -121,7 +124,7 @@ export const InviteModal = observer(({channelId}: {channelId: string}) => {
 	if (!channel || channel.guildId == null) {
 		return (
 			<Modal.Root size="small" centered>
-				<Modal.Header title={t`Invite friends`} />
+				<Modal.Header title={t`Invite Friends`} />
 				<Modal.Content className={styles.noChannelContent}>
 					<WarningIcon size={48} weight="fill" className={styles.noChannelIcon} />
 					<p className={styles.noChannelText}>
@@ -144,37 +147,32 @@ export const InviteModal = observer(({channelId}: {channelId: string}) => {
 			? `${RuntimeConfigStore.inviteEndpoint}/${invite.code}`
 			: '';
 
-	const handleCopy = async () => {
-		if (!inviteUrl) return;
-		await TextCopyActionCreators.copy(i18n, inviteUrl, true);
-		setCopied(true);
-		setTimeout(() => setCopied(false), 2000);
-	};
+	const handleCopy = useCopyLinkHandler(inviteUrl, true);
 
 	const handleSendInvite = async (item: RecipientItem) => {
 		const userId = item.type === 'group_dm' ? item.id : item.user.id;
 
 		setSendingTo((prev) => new Set(prev).add(userId));
-		try {
-			let targetChannelId: string;
-			if (item.channelId) {
-				targetChannelId = item.channelId;
-			} else {
-				targetChannelId = await PrivateChannelActionCreators.ensureDMChannel(item.user.id);
-			}
 
-			await MessageActionCreators.send(targetChannelId, {
+		let targetChannelId: string;
+		if (item.channelId) {
+			targetChannelId = item.channelId;
+		} else {
+			targetChannelId = await PrivateChannelActionCreators.ensureDMChannel(item.user.id);
+		}
+
+		try {
+			const result = await MessageActionCreators.send(targetChannelId, {
 				content: inviteUrl,
 				nonce: SnowflakeUtils.fromTimestamp(Date.now()),
 			});
 
-			setSentInvites((prev) => new Map(prev).set(userId, true));
+			if (result) {
+				setSentInvites((prev) => new Map(prev).set(userId, true));
+			}
 		} catch (error) {
-			console.error('Failed to send invite:', error);
-			ToastActionCreators.createToast({
-				type: 'error',
-				children: <Trans>Failed to send invite</Trans>,
-			});
+			logger.error('Failed to send invite:', error);
+			ToastActionCreators.error(t`Failed to send invite. Please try again.`);
 		} finally {
 			setSendingTo((prev) => {
 				const next = new Set(prev);
@@ -275,7 +273,7 @@ export const InviteModal = observer(({channelId}: {channelId: string}) => {
 				) : (
 					<div className={styles.advancedView}>
 						<Select
-							label={t`Expire after`}
+							label={t`Expire After`}
 							options={maxAgeOptions}
 							value={maxAge}
 							onChange={(value) => {
@@ -285,7 +283,7 @@ export const InviteModal = observer(({channelId}: {channelId: string}) => {
 						/>
 
 						<Select
-							label={t`Max number of uses`}
+							label={t`Max Number of Uses`}
 							options={maxUsesOptions}
 							value={maxUses}
 							onChange={(value) => {
@@ -295,7 +293,7 @@ export const InviteModal = observer(({channelId}: {channelId: string}) => {
 						/>
 
 						<Switch
-							label={t`Grant temporary membership`}
+							label={t`Grant Temporary Membership`}
 							description={t`Members will be removed when they go offline unless a role is assigned`}
 							value={temporary}
 							onChange={setTemporary}
@@ -309,7 +307,6 @@ export const InviteModal = observer(({channelId}: {channelId: string}) => {
 						label={<Trans>or send an invite link to a friend:</Trans>}
 						value={inviteUrl}
 						onCopy={handleCopy}
-						copied={copied}
 						onInputClick={(e) => e.currentTarget.select()}
 						inputProps={{placeholder: t`Invite link`}}
 					>
@@ -320,9 +317,11 @@ export const InviteModal = observer(({channelId}: {channelId: string}) => {
 						) : (
 							<p className={styles.expirationText}>
 								<Trans>Your invite link expires in {getExpirationText()}.</Trans>{' '}
-								<button type="button" onClick={() => setShowAdvanced(true)} className={styles.editLink}>
-									<Trans>Edit invite link</Trans>
-								</button>
+								<FocusRing offset={-2}>
+									<button type="button" onClick={() => setShowAdvanced(true)} className={styles.editLink}>
+										<Trans>Edit invite link</Trans>
+									</button>
+								</FocusRing>
 							</p>
 						)}
 					</CopyLinkSection>

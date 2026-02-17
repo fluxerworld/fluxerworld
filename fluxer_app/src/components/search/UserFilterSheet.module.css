@@ -100,7 +100,7 @@
 
 @media (hover: hover) and (pointer: fine) {
 	.userItem:hover {
-		background-color: var(--background-secondary-hover);
+		background-color: var(--background-modifier-hover);
 	}
 }
 

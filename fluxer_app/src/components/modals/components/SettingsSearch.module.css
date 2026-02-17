@@ -46,8 +46,3 @@
 	color: var(--text-primary);
 	background-color: var(--background-modifier-hover);
 }
-
-.clearButton:focus-visible {
-	outline: 2px solid var(--focus-ring);
-	outline-offset: -2px;
-}

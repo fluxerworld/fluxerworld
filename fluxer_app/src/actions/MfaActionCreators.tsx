@@ -17,15 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {BackupCode} from '~/records/UserRecord';
-import SudoStore from '~/stores/SudoStore';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import SudoStore from '@app/stores/SudoStore';
+import type {BackupCode} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 
 const logger = new Logger('MFA');
 
-export const enableMfaTotp = async (secret: string, code: string): Promise<Array<BackupCode>> => {
+export async function enableMfaTotp(secret: string, code: string): Promise<Array<BackupCode>> {
 	try {
 		logger.debug('Enabling TOTP-based MFA');
 		const response = await http.post<{backup_codes: Array<BackupCode>}>({
@@ -40,9 +40,9 @@ export const enableMfaTotp = async (secret: string, code: string): Promise<Array
 		logger.error('Failed to enable TOTP-based MFA:', error);
 		throw error;
 	}
-};
+}
 
-export const disableMfaTotp = async (code: string): Promise<void> => {
+export async function disableMfaTotp(code: string): Promise<void> {
 	try {
 		logger.debug('Disabling TOTP-based MFA');
 		await http.post({url: Endpoints.USER_MFA_TOTP_DISABLE, body: {code}});
@@ -51,9 +51,9 @@ export const disableMfaTotp = async (code: string): Promise<void> => {
 		logger.error('Failed to disable TOTP-based MFA:', error);
 		throw error;
 	}
-};
+}
 
-export const getBackupCodes = async (regenerate = false): Promise<Array<BackupCode>> => {
+export async function getBackupCodes(regenerate = false): Promise<Array<BackupCode>> {
 	try {
 		logger.debug(`${regenerate ? 'Regenerating' : 'Fetching'} MFA backup codes`);
 		const response = await http.post<{backup_codes: Array<BackupCode>}>({
@@ -68,4 +68,4 @@ export const getBackupCodes = async (regenerate = false): Promise<Array<BackupCo
 		logger.error(`Failed to ${regenerate ? 'regenerate' : 'fetch'} MFA backup codes:`, error);
 		throw error;
 	}
-};
+}

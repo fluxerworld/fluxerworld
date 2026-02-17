@@ -17,35 +17,36 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {MODE} from '@app/lib/Env';
+import {Platform} from '@app/lib/Platform';
+import {convertToCodePoints} from '@app/utils/EmojiCodepointUtils';
 import type {FC, SVGProps} from 'react';
-import {MODE} from '~/lib/env';
-import {Platform} from '~/lib/Platform';
-
-export type TwemojiComponent = FC<SVGProps<SVGSVGElement>>;
 
 const TWEMOJI_CDN = 'https://fluxerstatic.com/emoji';
 
+type TwemojiComponent = FC<SVGProps<SVGSVGElement>>;
+
 export const shouldUseNativeEmoji = Platform.isAppleDevice;
 
-export const convertToCodePoints = (emoji: string): string => {
-	const containsZWJ = emoji.includes('\u200D');
-	const processedEmoji = containsZWJ ? emoji : emoji.replace(/\uFE0F/g, '');
-	return Array.from(processedEmoji)
-		.map((char) => char.codePointAt(0)?.toString(16).replace(/^0+/, '') || '')
-		.join('-');
-};
+export function fromHexCodePoint(hex: string): string {
+	return String.fromCodePoint(Number.parseInt(hex, 16));
+}
 
-export const fromHexCodePoint = (hex: string): string => String.fromCodePoint(Number.parseInt(hex, 16));
-
-export const getTwemojiURL = (codePoints: string): string | null => {
+export function getTwemojiURL(codePoints: string): string | null {
 	if (shouldUseNativeEmoji || MODE === 'test' || !codePoints) {
 		return null;
 	}
 
 	return `${TWEMOJI_CDN}/${codePoints}.svg`;
-};
+}
 
-export const getEmojiURL = (unicode: string): string | null => getTwemojiURL(convertToCodePoints(unicode));
+export function getEmojiURL(unicode: string): string | null {
+	return getTwemojiURL(convertToCodePoints(unicode));
+}
 
-export const getTwemojiSvg = (_codePoints: string): TwemojiComponent | null => null;
-export const getEmojiSvg = (_unicode: string): TwemojiComponent | null => null;
+export function getTwemojiSvg(_codePoints: string): TwemojiComponent | null {
+	return null;
+}
+export function getEmojiSvg(_unicode: string): TwemojiComponent | null {
+	return null;
+}

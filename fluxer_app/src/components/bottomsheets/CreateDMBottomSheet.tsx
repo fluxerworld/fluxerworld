@@ -17,18 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import styles from '@app/components/bottomsheets/CreateDMBottomSheet.module.css';
+import {FriendSelector} from '@app/components/common/FriendSelector';
+import {DuplicateGroupConfirmModal} from '@app/components/modals/DuplicateGroupConfirmModal';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import {Button} from '@app/components/uikit/button/Button';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {useCreateDMModalLogic} from '@app/utils/modals/CreateDMModalUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {FriendSelector} from '~/components/common/FriendSelector';
-import {DuplicateGroupConfirmModal} from '~/components/modals/DuplicateGroupConfirmModal';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import {Button} from '~/components/uikit/Button/Button';
-import {Scroller} from '~/components/uikit/Scroller';
-import {useCreateDMModalLogic} from '~/utils/modals/CreateDMModalUtils';
-import styles from './CreateDMBottomSheet.module.css';
+import type React from 'react';
+import {useCallback, useLayoutEffect, useMemo, useRef, useState} from 'react';
 
 interface CreateDMBottomSheetProps {
 	isOpen: boolean;
@@ -42,11 +43,11 @@ type ScrollContentStyle = React.CSSProperties & {
 export const CreateDMBottomSheet = observer(({isOpen, onClose}: CreateDMBottomSheetProps) => {
 	const {t} = useLingui();
 	const modalLogic = useCreateDMModalLogic({autoCloseOnCreate: false, resetKey: isOpen});
-	const snapPoints = React.useMemo(() => [0, 1], []);
-	const footerRef = React.useRef<HTMLDivElement>(null);
-	const [footerHeight, setFooterHeight] = React.useState(0);
+	const snapPoints = useMemo(() => [0, 1], []);
+	const footerRef = useRef<HTMLDivElement>(null);
+	const [footerHeight, setFooterHeight] = useState(0);
 
-	React.useLayoutEffect(() => {
+	useLayoutEffect(() => {
 		if (!isOpen) {
 			setFooterHeight(0);
 			return undefined;
@@ -66,26 +67,22 @@ export const CreateDMBottomSheet = observer(({isOpen, onClose}: CreateDMBottomSh
 		}
 
 		const handleResize = () => updateHeight();
-		if (typeof window !== 'undefined') {
-			window.addEventListener('resize', handleResize);
-		}
+		window.addEventListener('resize', handleResize);
 
 		return () => {
 			resizeObserver?.disconnect();
-			if (typeof window !== 'undefined') {
-				window.removeEventListener('resize', handleResize);
-			}
+			window.removeEventListener('resize', handleResize);
 		};
 	}, [isOpen]);
 
-	const scrollContentStyle = React.useMemo<ScrollContentStyle>(() => {
+	const scrollContentStyle = useMemo<ScrollContentStyle>(() => {
 		if (footerHeight === 0) {
 			return {};
 		}
 		return {'--create-dm-scroll-padding-bottom': `calc(${footerHeight}px + 16px)`};
 	}, [footerHeight]);
 
-	const handleCreate = React.useCallback(async () => {
+	const handleCreate = useCallback(async () => {
 		const result = await modalLogic.handleCreate();
 		if (result && result.duplicates.length > 0) {
 			ModalActionCreators.push(
@@ -105,7 +102,7 @@ export const CreateDMBottomSheet = observer(({isOpen, onClose}: CreateDMBottomSh
 	return (
 		<BottomSheet isOpen={isOpen} onClose={onClose} snapPoints={snapPoints} title={t`Select Friends`} disablePadding>
 			<div className={styles.container}>
-				<Scroller className={styles.scroller} fade={false}>
+				<Scroller key="create-dm-scroller" className={styles.scroller} fade={false}>
 					<div className={styles.content} style={scrollContentStyle}>
 						<p className={styles.description}>
 							{modalLogic.selectedUserIds.length === 0 ? (

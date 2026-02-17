@@ -34,7 +34,7 @@
 	transition:
 		background 200ms ease,
 		opacity 150ms ease;
-	color: white;
+	color: var(--text-on-brand-primary);
 }
 
 .overlayButton svg {
@@ -46,5 +46,5 @@
 }
 
 .overlayButton.overlayButtonHover:hover svg {
-	color: rgba(255, 255, 255, 0.95);
+	color: color-mix(in srgb, var(--text-on-brand-primary) 95%, transparent);
 }

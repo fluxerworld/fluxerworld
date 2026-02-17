@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {SelectOption} from '@app/components/form/Select';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {type OptionProps, components as reactSelectComponents, type SingleValueProps} from 'react-select';
-import type {SelectOption} from '~/components/form/Select';
-import * as AvatarUtils from '~/utils/AvatarUtils';
 
-export interface GuildSelectOption extends SelectOption<string> {
+export interface GuildSelectOption extends SelectOption {
 	icon?: string | null;
 }
 

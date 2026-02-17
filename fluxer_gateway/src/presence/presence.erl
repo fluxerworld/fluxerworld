@@ -21,20 +21,63 @@
 -export([start_link/1]).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
+-type user_id() :: integer().
+-type session_id() :: binary().
+-type status() :: online | offline | idle | dnd | invisible.
+-type custom_status() :: map() | null.
+-type session_entry() :: #{
+    session_id := session_id(),
+    status := status(),
+    afk := boolean(),
+    mobile := boolean(),
+    pid := pid(),
+    mref := reference(),
+    socket_pid := pid() | undefined
+}.
+-type sessions() :: #{session_id() => session_entry()}.
+-type subscription_entry() :: #{friend := boolean(), gdm_channels := #{integer() => true}}.
+-type subscriptions() :: #{user_id() => subscription_entry()}.
+-type push_buffer_entry() :: #{channel_id := integer(), message_id := integer(), params := map()}.
+
+-type state() :: #{
+    user_id := user_id(),
+    user_data := map(),
+    sessions := sessions(),
+    push_buffer := [push_buffer_entry()],
+    custom_status := custom_status(),
+    status := status(),
+    guild_ids := #{integer() => true},
+    temporary_guild_ids := #{integer() => true},
+    friends := #{user_id() => true},
+    group_dm_recipients := #{integer() => #{user_id() => true}},
+    subscriptions := subscriptions(),
+    is_bot := boolean(),
+    initial_presences_sent := boolean(),
+    last_published_presence := map() | undefined
+}.
+
+-type presence_data() :: #{
+    user_id := user_id(),
+    user_data := map(),
+    guild_ids => [integer()],
+    friend_ids => [user_id()],
+    group_dm_recipients => #{integer() => [user_id()] | #{user_id() => true}},
+    status := status(),
+    custom_status => custom_status()
+}.
+
+-spec start_link(presence_data()) -> {ok, pid()} | {error, term()}.
 start_link(PresenceData) ->
     gen_server:start_link(?MODULE, PresenceData, []).
 
+-spec init(presence_data()) -> {ok, state()}.
 init(PresenceData) ->
     process_flag(trap_exit, true),
     UserId = maps:get(user_id, PresenceData),
     UserData = maps:get(user_data, PresenceData),
     Status = maps:get(status, PresenceData),
     IsBot0 = maps:get(<<"bot">>, UserData, false),
-    IsBot =
-        case IsBot0 of
-            true -> true;
-            _ -> false
-        end,
+    IsBot = IsBot0 =:= true,
     GuildIds0 = maps:get(guild_ids, PresenceData, []),
     FriendIds0 = maps:get(friend_ids, PresenceData, []),
     GroupDmRecipients0 = maps:get(group_dm_recipients, PresenceData, #{}),
@@ -50,6 +93,7 @@ init(PresenceData) ->
         user_id => UserId,
         user_data => UserData,
         sessions => #{},
+        push_buffer => [],
         custom_status => CustomStatus,
         status => Status,
         guild_ids => map_from_ids(GuildIds0),
@@ -68,6 +112,8 @@ init(PresenceData) ->
 
     {ok, StateWithSubs}.
 
+-spec handle_call(term(), gen_server:from(), state()) ->
+    {reply, term(), state()} | {stop, normal, ok, state()}.
 handle_call({session_connect, Request}, {Pid, _}, State) ->
     Result = presence_session:handle_session_connect(Request, Pid, State),
     publish_global_if_needed(Result);
@@ -84,9 +130,7 @@ handle_call({terminate_session, SessionIdHashes}, _From, State) ->
 handle_call({dispatch, EventAtom, Data}, _From, State) ->
     Sessions = maps:get(sessions, State),
     UserId = maps:get(user_id, State),
-
     SessionPids = [maps:get(pid, S) || S <- maps:values(Sessions)],
-
     lists:foreach(
         fun(Pid) when is_pid(Pid) ->
             case erlang:is_process_alive(Pid) of
@@ -98,7 +142,6 @@ handle_call({dispatch, EventAtom, Data}, _From, State) ->
         end,
         SessionPids
     ),
-
     case EventAtom of
         user_update ->
             CurrentUserData = maps:get(user_data, State, #{}),
@@ -115,34 +158,9 @@ handle_call({dispatch, EventAtom, Data}, _From, State) ->
             FinalState = force_publish_global_presence(NewState),
             {reply, ok, FinalState};
         message_create ->
-            HasMobile = lists:any(
-                fun(Session) ->
-                    maps:get(mobile, Session, false)
-                end,
-                maps:values(Sessions)
-            ),
-            AllAfk = lists:all(
-                fun(Session) ->
-                    maps:get(afk, Session, false)
-                end,
-                maps:values(Sessions)
-            ),
-            ShouldSendPush =
-                (map_size(Sessions) =:= 0) orelse ((not HasMobile) andalso AllAfk),
-            case ShouldSendPush of
-                true ->
-                    AuthorIdBin = maps:get(<<"id">>, maps:get(<<"author">>, Data, #{}), <<"0">>),
-                    AuthorId = validation:snowflake_or_default(AuthorIdBin, 0),
-                    push:handle_message_create(#{
-                        message_data => Data,
-                        user_ids => [UserId],
-                        guild_id => 0,
-                        author_id => AuthorId
-                    });
-                false ->
-                    ok
-            end,
-            {reply, ok, State};
+            {reply, ok, handle_message_create_event(Data, State)};
+        message_ack ->
+            {reply, ok, handle_message_ack_event(Data, State)};
         _ ->
             {reply, ok, State}
     end;
@@ -175,10 +193,10 @@ handle_call({terminate, SessionIdHashes}, _From, State) ->
 handle_call(_, _From, State) ->
     {reply, ok, State}.
 
+-spec handle_cast(term(), state()) -> {noreply, state()}.
 handle_cast({dispatch, Event, Data}, State) ->
     Sessions = maps:get(sessions, State),
     UserId = maps:get(user_id, State),
-
     SessionPids = [maps:get(pid, S) || S <- maps:values(Sessions)],
     lists:foreach(
         fun(Pid) when is_pid(Pid) ->
@@ -186,7 +204,6 @@ handle_cast({dispatch, Event, Data}, State) ->
         end,
         SessionPids
     ),
-
     case Event of
         user_update ->
             CurrentUserData = maps:get(user_data, State, #{}),
@@ -203,34 +220,9 @@ handle_cast({dispatch, Event, Data}, State) ->
             FinalState = force_publish_global_presence(NewState),
             {noreply, FinalState};
         message_create ->
-            HasMobile = lists:any(
-                fun(Session) ->
-                    maps:get(mobile, Session, false)
-                end,
-                maps:values(Sessions)
-            ),
-            AllAfk = lists:all(
-                fun(Session) ->
-                    maps:get(afk, Session, false)
-                end,
-                maps:values(Sessions)
-            ),
-            ShouldSendPush =
-                (map_size(Sessions) =:= 0) orelse ((not HasMobile) andalso AllAfk),
-            case ShouldSendPush of
-                true ->
-                    AuthorIdBin = maps:get(<<"id">>, maps:get(<<"author">>, Data, #{}), <<"0">>),
-                    AuthorId = validation:snowflake_or_default(AuthorIdBin, 0),
-                    push:handle_message_create(#{
-                        message_data => Data,
-                        user_ids => [UserId],
-                        guild_id => 0,
-                        author_id => AuthorId
-                    });
-                false ->
-                    ok
-            end,
-            {noreply, State};
+            {noreply, handle_message_create_event(Data, State)};
+        message_ack ->
+            {noreply, handle_message_ack_event(Data, State)};
         _ ->
             {noreply, State}
     end;
@@ -264,9 +256,28 @@ handle_cast({sync_friends, FriendIds}, State) ->
 handle_cast({sync_group_dm_recipients, RecipientsByChannel}, State) ->
     NewState = sync_group_dm_subscriptions(RecipientsByChannel, State),
     {noreply, NewState};
+handle_cast({join_guild, GuildId}, State) ->
+    {reply, _Reply, NewState} = handle_join_guild(GuildId, State),
+    {noreply, NewState};
+handle_cast({leave_guild, GuildId}, State) ->
+    {reply, _Reply, NewState} = handle_leave_guild(GuildId, State),
+    {noreply, NewState};
+handle_cast({add_temporary_guild, GuildId}, State) ->
+    {reply, _JoinReply, JoinedState} = handle_join_guild(GuildId, State),
+    TemporaryGuildIds = maps:get(temporary_guild_ids, JoinedState, #{}),
+    NewTemporaryGuildIds = maps:put(GuildId, true, TemporaryGuildIds),
+    NewState = maps:put(temporary_guild_ids, NewTemporaryGuildIds, JoinedState),
+    {noreply, NewState};
+handle_cast({remove_temporary_guild, GuildId}, State) ->
+    {reply, _LeaveReply, LeftState} = handle_leave_guild(GuildId, State),
+    TemporaryGuildIds = maps:get(temporary_guild_ids, LeftState, #{}),
+    NewTemporaryGuildIds = maps:remove(GuildId, TemporaryGuildIds),
+    NewState = maps:put(temporary_guild_ids, NewTemporaryGuildIds, LeftState),
+    {noreply, NewState};
 handle_cast(_, State) ->
     {noreply, State}.
 
+-spec handle_info(term(), state()) -> {noreply, state()} | {stop, normal, state()}.
 handle_info({presence, TargetId, Payload}, State) ->
     dispatch_global_presence(TargetId, Payload, State);
 handle_info({initial_presences, Presences}, State) ->
@@ -284,18 +295,22 @@ handle_info({'DOWN', Ref, process, _Pid, Reason}, State) ->
 handle_info(_, State) ->
     {noreply, State}.
 
+-spec terminate(term(), state() | term()) -> ok.
 terminate(_Reason, State) when not is_map(State) ->
     ok;
 terminate(_Reason, State) ->
+    flush_push_buffer(State),
     UserId = maps:get(user_id, State),
     presence_cache:delete(UserId),
     publish_offline_on_terminate(UserId, State),
     kick_temporary_members_on_terminate(UserId, State),
     ok.
 
+-spec code_change(term(), state(), term()) -> {ok, state()}.
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
+-spec kick_temporary_members_on_terminate(user_id(), state()) -> ok.
 kick_temporary_members_on_terminate(UserId, State) ->
     TemporaryGuildIds = maps:get(temporary_guild_ids, State, #{}),
     case map_size(TemporaryGuildIds) of
@@ -309,18 +324,11 @@ kick_temporary_members_on_terminate(UserId, State) ->
                     <<"user_id">> => type_conv:to_binary(UserId),
                     <<"guild_ids">> => [type_conv:to_binary(Gid) || Gid <- GuildIdsList]
                 },
-                case rpc_client:call(Request) of
-                    {ok, _} ->
-                        ok;
-                    {error, Reason} ->
-                        logger:warning(
-                            "[presence] Failed to kick temporary member ~p from guilds ~p: ~p",
-                            [UserId, GuildIdsList, Reason]
-                        )
-                end
+                rpc_client:call(Request)
             end)
     end.
 
+-spec publish_offline_on_terminate(user_id(), state()) -> ok.
 publish_offline_on_terminate(UserId, State) ->
     LastPublished = maps:get(last_published_presence, State, undefined),
     WasVisible =
@@ -351,9 +359,10 @@ publish_offline_on_terminate(UserId, State) ->
             ok
     end.
 
+-spec handle_process_down(reference(), term(), state()) ->
+    {noreply, state()} | {stop, normal, state()}.
 handle_process_down(Ref, _Reason, State) ->
     Sessions = maps:get(sessions, State),
-
     case presence_session:find_session_by_ref(Ref, Sessions) of
         {ok, SessionId} ->
             NewSessions = maps:remove(SessionId, Sessions),
@@ -370,6 +379,7 @@ handle_process_down(Ref, _Reason, State) ->
             {noreply, State}
     end.
 
+-spec ensure_initial_global_subscriptions(state()) -> state().
 ensure_initial_global_subscriptions(State) ->
     case maps:get(is_bot, State, false) of
         true ->
@@ -399,6 +409,8 @@ ensure_initial_global_subscriptions(State) ->
             )
     end.
 
+-spec publish_global_if_needed({reply, term(), state()} | {noreply, state()}) ->
+    {reply, term(), state()} | {noreply, state()}.
 publish_global_if_needed({reply, Reply, NewState}) ->
     FinalState = publish_global_presence(maps:get(sessions, NewState), NewState),
     {reply, Reply, FinalState};
@@ -406,21 +418,167 @@ publish_global_if_needed({noreply, NewState}) ->
     FinalState = publish_global_presence(maps:get(sessions, NewState), NewState),
     {noreply, FinalState}.
 
+-spec publish_global_presence(sessions(), state()) -> state().
 publish_global_presence(_Sessions, State) ->
     {Payload, CurrentExternal, ExternalStatus} = build_presence_external(State),
     LastPublished = maps:get(last_published_presence, State, undefined),
-
     case presence_changed(LastPublished, CurrentExternal) of
         true ->
-            publish_presence_payload(State, Payload, CurrentExternal, ExternalStatus);
+            NewState = publish_presence_payload(State, Payload, CurrentExternal, ExternalStatus),
+            maybe_update_push_eligibility(NewState);
         false ->
+            maybe_update_push_eligibility(State)
+    end.
+
+-spec force_publish_global_presence(state()) -> state().
+force_publish_global_presence(State) ->
+    {Payload, CurrentExternal, ExternalStatus} = build_presence_external(State),
+    NewState = publish_presence_payload(State, Payload, CurrentExternal, ExternalStatus),
+    maybe_update_push_eligibility(NewState).
+
+-spec handle_message_create_event(map(), state()) -> state().
+handle_message_create_event(Data, State) ->
+    UserId = maps:get(user_id, State),
+    Sessions = maps:get(sessions, State, #{}),
+    case build_push_create_params(UserId, Data) of
+        undefined ->
+            State;
+        Params ->
+            Eligible = is_push_eligible(Sessions),
+            case Eligible of
+                true ->
+                    FlushedState = flush_push_buffer(State),
+                    push:handle_message_create(Params),
+                    FlushedState;
+                false ->
+                    buffer_push_notification(Params, State)
+            end
+    end.
+
+-spec handle_message_ack_event(map(), state()) -> state().
+handle_message_ack_event(Data, State) ->
+    ChannelId = parse_snowflake(<<"channel_id">>, maps:get(<<"channel_id">>, Data, undefined)),
+    MessageId = parse_snowflake(<<"message_id">>, maps:get(<<"message_id">>, Data, undefined)),
+    case {ChannelId, MessageId} of
+        {ParsedChannelId, ParsedMessageId}
+            when is_integer(ParsedChannelId), is_integer(ParsedMessageId)
+        ->
+            ack_push_buffer(ParsedChannelId, ParsedMessageId, State);
+        _ ->
             State
     end.
 
-force_publish_global_presence(State) ->
-    {Payload, CurrentExternal, ExternalStatus} = build_presence_external(State),
-    publish_presence_payload(State, Payload, CurrentExternal, ExternalStatus).
+-spec build_push_create_params(user_id(), map()) -> map() | undefined.
+build_push_create_params(UserId, Data) ->
+    AuthorIdBin = maps:get(<<"id">>, maps:get(<<"author">>, Data, #{}), undefined),
+    case parse_snowflake(<<"author_id">>, AuthorIdBin) of
+        undefined ->
+            undefined;
+        AuthorId ->
+            #{
+                message_data => Data,
+                user_ids => [UserId],
+                guild_id => 0,
+                author_id => AuthorId
+            }
+    end.
 
+-spec buffer_push_notification(map(), state()) -> state().
+buffer_push_notification(Params, State) ->
+    case make_push_buffer_entry(Params) of
+        undefined ->
+            State;
+        Entry ->
+            Buffer = maps:get(push_buffer, State, []),
+            maps:put(push_buffer, [Entry | Buffer], State)
+    end.
+
+-spec flush_push_buffer(state()) -> state().
+flush_push_buffer(State) ->
+    Buffer = maps:get(push_buffer, State, []),
+    case Buffer of
+        [] ->
+            State;
+        _ ->
+            Entries = lists:reverse(Buffer),
+            lists:foreach(
+                fun(Entry) ->
+                    push:handle_message_create(maps:get(params, Entry))
+                end,
+                Entries
+            ),
+            maps:put(push_buffer, [], State)
+    end.
+
+-spec ack_push_buffer(integer(), integer(), state()) -> state().
+ack_push_buffer(ChannelId, MessageId, State) when ChannelId > 0, MessageId > 0 ->
+    Buffer = maps:get(push_buffer, State, []),
+    FilteredBuffer = lists:filter(
+        fun(Entry) -> not should_drop_buffer_entry(Entry, ChannelId, MessageId) end,
+        Buffer
+    ),
+    maps:put(push_buffer, FilteredBuffer, State);
+ack_push_buffer(_, _, State) ->
+    State.
+
+-spec should_drop_buffer_entry(push_buffer_entry(), integer(), integer()) -> boolean().
+should_drop_buffer_entry(Entry, ChannelId, MessageId) ->
+    EntryChannel = maps:get(channel_id, Entry),
+    EntryMessage = maps:get(message_id, Entry),
+    EntryChannel =:= ChannelId andalso EntryMessage =< MessageId.
+
+-spec make_push_buffer_entry(map()) -> push_buffer_entry() | undefined.
+make_push_buffer_entry(Params) ->
+    MessageData = maps:get(message_data, Params, #{}),
+    ChannelId = parse_snowflake(<<"channel_id">>, maps:get(<<"channel_id">>, MessageData, undefined)),
+    MessageId = parse_snowflake(<<"id">>, maps:get(<<"id">>, MessageData, undefined)),
+    case {ChannelId, MessageId} of
+        {ParsedChannelId, ParsedMessageId}
+            when is_integer(ParsedChannelId), is_integer(ParsedMessageId)
+        ->
+            #{
+                channel_id => ParsedChannelId,
+                message_id => ParsedMessageId,
+                params => Params
+            };
+        _ ->
+            undefined
+    end.
+
+-spec parse_snowflake(binary(), term()) -> integer() | undefined.
+parse_snowflake(FieldName, Value) ->
+    case validation:validate_snowflake(FieldName, Value) of
+        {ok, Id} -> Id;
+        {error, _, _} -> undefined
+    end.
+
+-spec is_push_eligible(sessions()) -> boolean().
+is_push_eligible(Sessions) ->
+    case map_size(Sessions) of
+        0 ->
+            true;
+        _ ->
+            HasMobile = lists:any(
+                fun(Session) -> maps:get(mobile, Session, false) end,
+                maps:values(Sessions)
+            ),
+            AllAfk = lists:all(
+                fun(Session) -> maps:get(afk, Session, false) end,
+                maps:values(Sessions)
+            ),
+            (not HasMobile) andalso AllAfk
+    end.
+
+-spec maybe_update_push_eligibility(state()) -> state().
+maybe_update_push_eligibility(State) ->
+    Sessions = maps:get(sessions, State, #{}),
+    Eligible = is_push_eligible(Sessions),
+    case {Eligible, maps:get(push_buffer, State, [])} of
+        {true, [_ | _]} -> flush_push_buffer(State);
+        _ -> State
+    end.
+
+-spec build_presence_external(state()) -> {map(), map(), binary()}.
 build_presence_external(State) ->
     Payload = build_presence_payload(State),
     ExternalStatus = maps:get(<<"status">>, Payload, <<"offline">>),
@@ -435,6 +593,7 @@ build_presence_external(State) ->
     },
     {Payload, CurrentExternal, ExternalStatus}.
 
+-spec publish_presence_payload(state(), map(), map(), binary()) -> state().
 publish_presence_payload(State, Payload, CurrentExternal, ExternalStatus) ->
     UserId = maps:get(user_id, State),
     case ExternalStatus of
@@ -446,11 +605,13 @@ publish_presence_payload(State, Payload, CurrentExternal, ExternalStatus) ->
     presence_bus:publish(UserId, Payload),
     maps:put(last_published_presence, CurrentExternal, State).
 
+-spec presence_changed(map() | undefined, map()) -> boolean().
 presence_changed(undefined, _Current) ->
     true;
 presence_changed(Last, Current) ->
     Last =/= Current.
 
+-spec publish_user_update_to_bus(user_id(), map(), state()) -> ok.
 publish_user_update_to_bus(UserId, UserData, State) ->
     LastPublished = maps:get(last_published_presence, State, undefined),
     WasVisible = is_last_published_visible(LastPublished),
@@ -466,6 +627,7 @@ publish_user_update_to_bus(UserId, UserData, State) ->
             ok
     end.
 
+-spec is_last_published_visible(map() | undefined) -> boolean().
 is_last_published_visible(undefined) ->
     false;
 is_last_published_visible(#{status := Status}) when
@@ -477,6 +639,7 @@ is_last_published_visible(#{status := Status}) when
 is_last_published_visible(_) ->
     false.
 
+-spec dispatch_global_presence(user_id(), map(), state()) -> {noreply, state()}.
 dispatch_global_presence(TargetId, Payload, State) ->
     UserId = maps:get(user_id, State),
     case TargetId =:= UserId of
@@ -495,6 +658,7 @@ dispatch_global_presence(TargetId, Payload, State) ->
             {noreply, State}
     end.
 
+-spec sync_friend_subscriptions([user_id()], state()) -> state().
 sync_friend_subscriptions(FriendIds, State) ->
     case maps:get(is_bot, State, false) of
         true ->
@@ -525,6 +689,8 @@ sync_friend_subscriptions(FriendIds, State) ->
             maybe_force_offline(Removals, State4)
     end.
 
+-spec sync_group_dm_subscriptions(#{integer() => [user_id()] | #{user_id() => true}}, state()) ->
+    state().
 sync_group_dm_subscriptions(RecipientsByChannel, State) ->
     case maps:get(is_bot, State, false) of
         true ->
@@ -558,6 +724,10 @@ sync_group_dm_subscriptions(RecipientsByChannel, State) ->
             maps:put(group_dm_recipients, Normalized, State4)
     end.
 
+-spec diff_group_dm_recipients(#{integer() => #{user_id() => true}}, #{
+    integer() => #{user_id() => true}
+}) ->
+    {[{user_id(), integer()}], [{user_id(), integer()}]}.
 diff_group_dm_recipients(Old, New) ->
     OldPairs =
         lists:append(
@@ -578,6 +748,7 @@ diff_group_dm_recipients(Old, New) ->
         lists:subtract(OldPairs, NewPairs)
     }.
 
+-spec ensure_subscription(user_id(), friend | gdm, integer() | undefined, state()) -> state().
 ensure_subscription(UserId, Reason, ChannelId, State) ->
     case UserId =:= maps:get(user_id, State) of
         true ->
@@ -602,6 +773,8 @@ ensure_subscription(UserId, Reason, ChannelId, State) ->
             maps:put(subscriptions, NewSubscriptions, State)
     end.
 
+-spec remove_subscription_reason(user_id(), friend | gdm, integer() | undefined, state()) ->
+    state().
 remove_subscription_reason(UserId, Reason, ChannelId, State) ->
     Subscriptions = maps:get(subscriptions, State, #{}),
     Entry0 = maps:get(UserId, Subscriptions, #{friend => false, gdm_channels => #{}}),
@@ -625,10 +798,15 @@ remove_subscription_reason(UserId, Reason, ChannelId, State) ->
     end,
     maps:put(subscriptions, NewSubscriptions, State).
 
+-spec has_subscription(subscription_entry()) -> boolean().
 has_subscription(Entry) ->
     (maps:get(friend, Entry, false) =:= true) orelse
         (map_size(maps:get(gdm_channels, Entry, #{})) > 0).
 
+-spec normalize_group_dm_recipients(
+    #{integer() => [user_id()] | #{user_id() => true}}, user_id(), boolean()
+) ->
+    #{integer() => #{user_id() => true}}.
 normalize_group_dm_recipients(RecipientsByChannel, UserId, IsBot) ->
     case IsBot of
         true ->
@@ -646,6 +824,7 @@ normalize_group_dm_recipients(RecipientsByChannel, UserId, IsBot) ->
             )
     end.
 
+-spec handle_join_guild(integer(), state()) -> {reply, ok, state()}.
 handle_join_guild(GuildId, State) ->
     Guilds = maps:get(guild_ids, State, #{}),
     case maps:is_key(GuildId, Guilds) of
@@ -658,6 +837,7 @@ handle_join_guild(GuildId, State) ->
             {reply, ok, NewState}
     end.
 
+-spec handle_leave_guild(integer(), state()) -> {reply, ok, state()}.
 handle_leave_guild(GuildId, State) ->
     Guilds = maps:get(guild_ids, State, #{}),
     case maps:is_key(GuildId, Guilds) of
@@ -673,9 +853,11 @@ handle_leave_guild(GuildId, State) ->
             {reply, ok, NewState}
     end.
 
+-spec map_from_ids([term()]) -> #{term() => true}.
 map_from_ids(Ids) when is_list(Ids) ->
     maps:from_list([{Id, true} || Id <- Ids]).
 
+-spec cache_if_visible(user_id(), map()) -> ok.
 cache_if_visible(UserId, Payload) when is_integer(UserId), is_map(Payload) ->
     Status = maps:get(<<"status">>, Payload, <<"offline">>),
     case Status of
@@ -686,6 +868,7 @@ cache_if_visible(UserId, Payload) when is_integer(UserId), is_map(Payload) ->
 cache_if_visible(_, _) ->
     ok.
 
+-spec build_presence_payload(state()) -> map().
 build_presence_payload(State) ->
     Sessions = maps:get(sessions, State),
     Status = presence_status:get_current_status(Sessions),
@@ -695,6 +878,7 @@ build_presence_payload(State) ->
     CustomStatus = maps:get(custom_status, State, null),
     presence_payload:build(UserData, Status, Mobile, Afk, CustomStatus).
 
+-spec maybe_handle_custom_status(map(), state()) -> {map(), state()}.
 maybe_handle_custom_status(Request, State) ->
     case maps:find(<<"custom_status">>, Request) of
         error ->
@@ -716,6 +900,7 @@ maybe_handle_custom_status(Request, State) ->
             {Request, State}
     end.
 
+-spec validate_custom_status(map(), map(), state()) -> {map(), state()}.
 validate_custom_status(CustomStatus, Request, State) ->
     UserId = maps:get(user_id, State),
     case custom_status_validation:validate(UserId, CustomStatus) of
@@ -725,14 +910,11 @@ validate_custom_status(CustomStatus, Request, State) ->
         {ok, _} ->
             UpdatedRequest = maps:put(<<"custom_status">>, null, Request),
             {UpdatedRequest, maps:put(custom_status, null, State)};
-        {error, Reason} ->
-            logger:warning(
-                "[presence] Custom status validation failed for user ~p: ~p",
-                [UserId, Reason]
-            ),
+        {error, _Reason} ->
             {Request, State}
     end.
 
+-spec custom_status_comparator(custom_status()) -> map() | null.
 custom_status_comparator(null) ->
     null;
 custom_status_comparator(Map) when is_map(Map) ->
@@ -743,6 +925,7 @@ custom_status_comparator(Map) when is_map(Map) ->
         <<"emoji_name">> => field_or_null(Map, <<"emoji_name">>)
     }.
 
+-spec handle_user_settings_update(map(), state()) -> state().
 handle_user_settings_update(Data, State) ->
     case maps:find(<<"custom_status">>, Data) of
         error ->
@@ -752,6 +935,7 @@ handle_user_settings_update(Data, State) ->
             maps:put(custom_status, Normalized, State)
     end.
 
+-spec normalize_state_custom_status(term()) -> custom_status().
 normalize_state_custom_status(null) ->
     null;
 normalize_state_custom_status(Map) when is_map(Map) ->
@@ -759,12 +943,14 @@ normalize_state_custom_status(Map) when is_map(Map) ->
 normalize_state_custom_status(_) ->
     null.
 
+-spec field_or_null(map(), binary()) -> term() | null.
 field_or_null(Map, Key) ->
     case maps:get(Key, Map, undefined) of
         undefined -> null;
         Value -> Value
     end.
 
+-spec maybe_send_cached_presences([user_id()], state()) -> state().
 maybe_send_cached_presences(UserIds, State) ->
     case UserIds of
         [] ->
@@ -784,6 +970,7 @@ maybe_send_cached_presences(UserIds, State) ->
             State
     end.
 
+-spec maybe_force_offline([user_id()], state()) -> state().
 maybe_force_offline(UserIds, State) ->
     Subscriptions = maps:get(subscriptions, State, #{}),
     lists:foldl(
@@ -807,6 +994,7 @@ maybe_force_offline(UserIds, State) ->
         UserIds
     ).
 
+-spec notify_sessions_presence(map(), state()) -> state().
 notify_sessions_presence(Payload, State) ->
     Sessions = maps:get(sessions, State, #{}),
     SessionPids = [maps:get(pid, S) || S <- maps:values(Sessions)],
@@ -818,6 +1006,7 @@ notify_sessions_presence(Payload, State) ->
     ),
     State.
 
+-spec fetch_initial_presences(pid(), state()) -> ok.
 fetch_initial_presences(PresencePid, State) ->
     case maps:get(is_bot, State, false) of
         true ->
@@ -850,6 +1039,7 @@ fetch_initial_presences(PresencePid, State) ->
             end
     end.
 
+-spec recipient_list([user_id()] | #{user_id() => true} | term()) -> [user_id()].
 recipient_list(Value) when is_list(Value) ->
     Value;
 recipient_list(Value) when is_map(Value) ->
@@ -877,11 +1067,60 @@ gdm_subscription_add_remove_test() ->
     Entry1 = maps:get(10, Subscriptions1),
     GdmChannels1 = maps:get(gdm_channels, Entry1, #{}),
     ?assertEqual(true, maps:get(1, GdmChannels1)),
-
     State2 = sync_group_dm_subscriptions(#{}, State1),
     Subscriptions2 = maps:get(subscriptions, State2, #{}),
     ?assertEqual(false, maps:is_key(10, Subscriptions2)),
     ok.
+
+map_from_ids_test() ->
+    ?assertEqual(#{}, map_from_ids([])),
+    ?assertEqual(#{1 => true, 2 => true}, map_from_ids([1, 2])).
+
+has_subscription_test() ->
+    ?assertEqual(false, has_subscription(#{friend => false, gdm_channels => #{}})),
+    ?assertEqual(true, has_subscription(#{friend => true, gdm_channels => #{}})),
+    ?assertEqual(true, has_subscription(#{friend => false, gdm_channels => #{1 => true}})).
+
+is_push_eligible_test() ->
+    ?assertEqual(true, is_push_eligible(#{})),
+    ?assertEqual(false, is_push_eligible(#{<<"s1">> => #{mobile => true, afk => false}})),
+    ?assertEqual(true, is_push_eligible(#{<<"s1">> => #{mobile => false, afk => true}})),
+    ?assertEqual(false, is_push_eligible(#{<<"s1">> => #{mobile => false, afk => false}})).
+
+presence_changed_test() ->
+    ?assertEqual(true, presence_changed(undefined, #{status => <<"online">>})),
+    ?assertEqual(false, presence_changed(#{status => <<"online">>}, #{status => <<"online">>})),
+    ?assertEqual(true, presence_changed(#{status => <<"online">>}, #{status => <<"idle">>})).
+
+is_last_published_visible_test() ->
+    ?assertEqual(false, is_last_published_visible(undefined)),
+    ?assertEqual(true, is_last_published_visible(#{status => <<"online">>})),
+    ?assertEqual(true, is_last_published_visible(#{status => <<"idle">>})),
+    ?assertEqual(true, is_last_published_visible(#{status => <<"dnd">>})),
+    ?assertEqual(false, is_last_published_visible(#{status => <<"offline">>})),
+    ?assertEqual(false, is_last_published_visible(#{status => <<"invisible">>})).
+
+custom_status_comparator_test() ->
+    ?assertEqual(null, custom_status_comparator(null)),
+    Expected = #{
+        <<"text">> => <<"hello">>,
+        <<"expires_at">> => null,
+        <<"emoji_id">> => null,
+        <<"emoji_name">> => null
+    },
+    ?assertEqual(Expected, custom_status_comparator(#{<<"text">> => <<"hello">>})).
+
+normalize_state_custom_status_test() ->
+    ?assertEqual(null, normalize_state_custom_status(null)),
+    ?assertEqual(
+        #{<<"text">> => <<"hi">>}, normalize_state_custom_status(#{<<"text">> => <<"hi">>})
+    ),
+    ?assertEqual(null, normalize_state_custom_status(<<"invalid">>)).
+
+recipient_list_test() ->
+    ?assertEqual([1, 2], recipient_list([1, 2])),
+    ?assertEqual([1], recipient_list(#{1 => true})),
+    ?assertEqual([], recipient_list(undefined)).
 
 maybe_start_presence_bus() ->
     case whereis(presence_bus) of

@@ -17,17 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Logger} from '~/lib/Logger';
-import DraftStore from '~/stores/DraftStore';
+import {Logger} from '@app/lib/Logger';
+import DraftStore from '@app/stores/DraftStore';
 
 const logger = new Logger('Draft');
 
-export const createDraft = (channelId: string, content: string): void => {
+export function createDraft(channelId: string, content: string): void {
 	logger.debug(`Creating draft for channel ${channelId}`);
 	DraftStore.createDraft(channelId, content);
-};
+}
 
-export const deleteDraft = (channelId: string): void => {
+export function deleteDraft(channelId: string): void {
 	logger.debug(`Deleting draft for channel ${channelId}`);
 	DraftStore.deleteDraft(channelId);
-};
+}

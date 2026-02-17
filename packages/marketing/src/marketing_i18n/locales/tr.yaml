@@ -1,0 +1,440 @@
+app.communities.community: Topluluk
+app.communities.community_support: Topluluk desteği
+app.communities.featured_in_discovery: Keşfette öne çıkan
+app.communities.moderation.actions_and_tools: Moderasyon aksiyonları ve araçları
+app.communities.moderation.report_people_or_communities: Fluxer'i herkes için güvenli tutabilmemiz için kişileri ya da toplulukları bildir.
+app.communities.moderation.tools: Moderasyon araçları
+app.communities.roles_permissions_audit.audit_logs: Şeffaflık için denetim kayıtları
+app.communities.roles_permissions_audit.granular_roles_and_permissions: Detaylı roller ve izinler
+app.communities.roles_permissions_audit.keep_running_smoothly: Roller, izinler ve loglarla topluluğunu sorunsuz şekilde yürüt.
+app.communities.title: Topluluklar
+app.communities.verification.label: Topluluk doğrulaması
+app.communities.verification.value_statement: Topluluğun, özgünlük ve güven için doğrulanmış statü kazanır.
+app.communities.verification.verified_community: Doğrulanmış topluluk
+app.customization.animated_profile.animated_avatars_and_banners: Animasyonlu avatarlar ve bannerlar
+app.customization.animated_profile.stand_out_animated_profile: Kişiliğini yansıtmak için animasyonlu profil resimleri ve bannerlarla öne çık.
+app.customization.app_icon_badges: Uygulama ikonunda rozet sayılarını gör.
+app.customization.compact_mode: Kompakt mod ve görünüm seçenekleri
+app.customization.custom_css_themes: Özel CSS temaları
+app.customization.custom_sounds.entrance_sounds: Özel giriş sesleri
+app.customization.custom_sounds.notification_sounds: Özel bildirim sesleri
+app.customization.custom_sounds.set_personalized_join_sounds: Ses kanallarına girerken varlığını belli eden kişisel sesler ayarla.
+app.customization.custom_sounds.upload_custom_notification_sounds: Fluxer deneyimini kişiselleştirmek için kendi bildirim seslerini yükle ve kullan.
+app.customization.custom_themes: Özel temalar
+app.customization.global_emoji_and_sticker_access: Her yerde emoji ve çıkartma erişimi
+app.customization.saved_media_and_css: Özel emoji ekle, medyayı sonra için kaydet ve uygulamayı özel CSS ile şekillendir.
+app.customization.title: Özelleştirme
+app.customization.upload_custom_emojis_and_stickers: Özel emoji ve çıkartma yükle
+app.customization.use_animated_emojis: Animasyonlu emoji kullan
+app.messaging.description: Arkadaşlarına DM at, grupla sohbet et ya da kanallarla topluluk kur.
+app.messaging.features.bookmarked_messages: Yer imi eklenmiş mesajlar
+app.messaging.features.file_sharing: Dosya paylaş ve bağlantıları önizle
+app.messaging.features.full_markdown_support: Mesajlarda tam Markdown desteği
+app.messaging.features.message_scheduling.description: Mesajları gelecekte belirli bir saatte gidecek şekilde ayarla. DeLorean gerekmez.
+app.messaging.features.organised_channels_for_communities: Topluluklar için düzenli kanallar
+app.messaging.features.private_dms_and_group_chats: Özel mesajlar (DM) ve grup sohbetleri
+app.messaging.features.save_media: Görselleri, videoları, GIF'leri ve sesi kaydet
+app.messaging.features.search.filter_options: Kullanıcılara, tarihlere ve daha fazlasına göre filtrele
+app.messaging.features.search.find_old_messages: Eski mesajları bul ya da topluluklar ve kanallar arasında saniyeler içinde atla.
+app.messaging.features.search.label: Mesaj geçmişinde ara
+app.messaging.features.search.quick_switcher_shortcuts: Klavye kısayollarıyla hızlı geçiş
+app.messaging.features.search.search_and_quick_switcher: Arama ve hızlı geçiş
+app.messaging.title: Mesajlaşma
+app.open.open_fluxer: Fluxer'i aç
+app.open.open_web_app: Web uygulamasını aç
+app.profiles_identity.custom_identity: Özel kimlik
+app.profiles_identity.customise_per_community: Bulunduğun her toplulukta profilini farklı şekilde özelleştir.
+app.profiles_identity.manage_friends_and_block_users: Arkadaşlarını yönet ve kullanıcıları engelle
+app.voice_and_video.features.mute_controls: Sustur, sağırlaştır ve kamera kontrolleri
+app.voice_and_video.features.noise_suppression: Gürültü bastırma ve yankı iptali
+app.voice_and_video.features.screen_sharing: Yerleşik ekran paylaşımı
+app.voice_and_video.features.stream_4k_60fps: Seni görkemli netlikte görebilmeleri için 4K çözünürlüğe kadar 60 fps'de yayın yap.
+app.voice_and_video.features.up_to_4k_video_quality: 4K'ya kadar video kalitesi
+app.voice_and_video.features.video_backgrounds.description: Aramalarda kullanmak için 15 adede kadar video arka planı sakla. İndirilenler klasöründe hazine avına son.
+app.voice_and_video.features.video_quality: Video kalitesi
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.video_quality_premium: '"4K/60fps''ye kadar"'
+app.voice_and_video.hop_in_a_call: Arkadaşlarla hemen aramaya gir ya da birlikte çalışmak için ekranını paylaş.
+app.voice_and_video.title: Ses ve video
+beta_and_access.beta_label: Beta
+beta_and_access.early_access.be_first_to_try: Yeni özellikler herkese açılmadan önce ilk sen dene.
+beta_and_access.early_access.label: Erken erişim
+beta_and_access.featured_benefit_line: Beklediğin tüm temel şeyler var, üstüne bir de beklemediğin birkaç şey.
+beta_and_access.public_beta: Herkese açık beta
+beta_and_access.registration_limited_during_beta: Beta sırasında kayıtları sınırlı tutuyoruz. İçeri girdikten sonra, sırayı atlamak için arkadaşlarına bir kod verebilirsin.
+beta_and_access.try_without_email: E-postasız 30 saniyede Fluxer'i dene
+community_funding_and_roles.focused_on_product: Şu an harika bir ürün çıkarmaya, Fluxer'i bağımsız tutmaya ve kendi yağımızla kavrulmaya odaklıyız.
+community_funding_and_roles.future_paid_roles_heading: Ücretli rollerin geleceği
+community_funding_and_roles.future_paid_roles_note: Fluxer etrafındaki işi hala kuruyoruz ve ücretli roller için henüz hazır değiliz.
+community_funding_and_roles.non_paid_recurring_role: Çekirdek ekiple birlikte Fluxer'i şekillendiren, düzenli katkı verenler için ücretsiz bir rol.
+community_funding_and_roles.sustainability_note: Desteğinle bu bağımsız iletişim platformunu sürdürülebilir kılıp gelecekte ücretli roller sunmayı umuyoruz.
+company_and_resources.blog: Blog
+company_and_resources.careers.careers_at_fluxer: Fluxer'de kariyer
+company_and_resources.careers.label: Kariyer
+company_and_resources.careers.share_a_bit_about_yourself: Kendinden biraz bahset ve nasıl katkı vermek istediğini careers@fluxer.app adresine mail atarak paylaş
+company_and_resources.community_team.fluxer_community_team: Fluxer topluluk ekibi
+company_and_resources.community_team.share_feedback_report_bugs: Geri bildirim paylaş, bug bildir ve Fluxer'i herkes için daha sıcak bir yer yapmamıza yardım et.
+company_and_resources.company: Şirket
+company_and_resources.company_info: Şirket bilgisi
+company_and_resources.connect: Bağlan
+company_and_resources.docs: Dokümanlar
+company_and_resources.help.get_help: Yardım al
+company_and_resources.help.help_center: Yardım merkezi
+company_and_resources.help.label: Yardım
+company_and_resources.press.label: Basın
+company_and_resources.press.press_contact: Basın iletişim
+company_and_resources.product: Ürün
+company_and_resources.resources: Kaynaklar
+company_and_resources.source_and_contribution.code_issues_docs_reviews: Kod, sorunlar, dokümanlar ve incelemeler
+company_and_resources.source_and_contribution.contribute_code: Koda katkı ver
+company_and_resources.source_and_contribution.contribute_on_github: GitHub'da katkı ver
+company_and_resources.source_and_contribution.fix_bugs_ship_features: Ana depomuzda bug'ları düzelt, özellikleri gönder ya da deneyimi parlat.
+company_and_resources.source_and_contribution.fluxer_built_in_open: Fluxer açıkta geliştiriliyor. Sana uyan yolu seç.
+company_and_resources.source_and_contribution.get_involved: Katıl
+company_and_resources.source_and_contribution.source_code: Kaynak kod
+company_and_resources.source_and_contribution.translation.help_translate: Fluxer'i ve dokümanlarını çevir, her yerde doğal hissettirsin.
+company_and_resources.source_and_contribution.translation.label: Çeviri ve yerelleştirme
+company_and_resources.source_and_contribution.translation.llm_translation_note: Şu an tüm çeviriler LLM ile üretiliyor ve çok az insan düzenlemesi var. Fluxer'i kendi diline gerçekten yerelleştirmek için gerçek insanlara ihtiyacımız var. Katkı vermek için i18n@fluxer.app adresine mail at, seve seve kabul ederiz.
+company_and_resources.source_and_contribution.translation.localization_label: Yerelleştirme
+company_and_resources.source_and_contribution.view_repository: Depoyu görüntüle
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: Fluxer'i geliştirmeye yardım etmek ister misin?
+company_and_resources.source_and_contribution.ways_to_contribute: Katkı yolları
+donations.business: Kurumsal
+donations.donate.action: Bağış yap
+donations.donate.label: Fluxer'e bağış yap
+donations.donate.description: Fluxer'ı tek seferlik veya yinelenen bir bağışla destekleyin
+donations.donation_disclaimer: Bağışlar gönüllü hediyelerdir ve sana herhangi bir ürün, hizmet, sahiplik ya da özel hak sağlamaz. Premium özellik arıyorsan {0} sayfasına bak.
+donations.individual: Bireysel
+donations.individual_vs_business.answer: İki bağış türü de aynı amacı aynı şekilde destekler. Tek fark, Kurumsal bağışların (varsa) vergi kimliği eklemene ve işlem tamamlanınca PDF fatura alabilmene izin vermesidir, bu da şirket muhasebesi için işe yarayabilir.
+donations.individual_vs_business.question: Bireysel ile Kurumsal arasındaki fark ne?
+donations.infrastructure_costs_detail: Bağışın, Fluxer'in sunucular, bant genişliği, depolama ve yeni özelliklerin geliştirilmesi gibi altyapı maliyetlerini karşılamaya yardım eder. Platformu herkes için ayakta tutmamızı ve geliştirmemizi sağlar.
+donations.minimum_donation: 'Minimum bağış: $5 / €5'
+donations.mobile_roadmap_sponsorship: Mobil yol haritasına sponsor ol
+donations.send_one_time_gift: Tek seferlik bağış gönder
+donations.support_future_development: Gelecek geliştirmeleri destekle
+donations.support_message: Bağımsız bir iletişim platformu inşa etmemize yardım et. Bağışın platformun altyapısını ve geliştirmesini finanse eder.
+donations.tax_deductible.answer: Fluxer'e yapılan bağışlar şu anda vergiden düşülebilir değildir, ancak doğrudan altyapımızı ve devam eden geliştirme süreçlerimizi finanse eder.
+donations.tax_deductible.question: Bağışım vergiden düşülebilir mi?
+donations.what_it_supports: Bağışım neyi destekliyor?
+donations.why_support: Farklı bir iletişim platformu inşa etmemize yardım et – açık kaynaklı, topluluk fonlu ve özenle geliştirilmiş.
+donations.recurring: Tekrarlayan
+donations.return_question: Karşılığında bir şey alıyor muyum?
+donations.form.email: E-posta
+donations.form.email_placeholder: senin@eposta.com
+donations.form.amount: Tutar
+donations.form.amount_other: Diğer
+donations.form.amount_placeholder: Tutarı gir (5-1000)
+donations.form.billing: Faturalama
+donations.form.donation_type: Bağış Türü
+donations.form.one_time: Tek Seferlik
+donations.form.or_label: Veya
+donations.form.monthly: Aylık
+donations.form.yearly: Yıllık
+donations.form.currency: Para birimi
+donations.form.processing: İşleniyor...
+donations.form.send_link: Linki gönder
+donations.form.sending: Gönderiliyor...
+donations.errors.active_subscription_exists: Zaten aktif tekrarlayan bir bağışın var. Farklı bir tekrarlayan bağış başlatmak için önce müşteri portalını kullanarak mevcut olanı iptal et. Bunun yerine tek seferlik bağış yapabilirsin.
+donations.errors.invalid_email: Lütfen geçerli bir e-posta adresi gir
+donations.errors.invalid_amount: Tutar 5 ile 1000 arasında olmalı
+donations.errors.generic: Bir şeyler ters gitti. Lütfen tekrar dene.
+donations.errors.network: Ağ hatası. Lütfen tekrar dene.
+donations.manage.title: Bağışlarını yönet
+donations.manage.description: Bağışçı portalına erişim linki almak için e-postanı gir. Portalda aboneliklerini yönetebilir, faturaları indirebilir ve bağış geçmişini görüntüleyebilirsin.
+donations.manage.success: Bu e-posta için bir hesap varsa, yakında bir yönetim bağlantısı alacaksın.
+donations.success.title: Teşekkürler!
+donations.success.description: Desteğin için teşekkürler!
+donations.success.message: Bağışın için teşekkürler! Desteğini gerçekten takdir ediyoruz.
+donations.success.email_notice: Yakında bağışının detaylarını ve bağışçı portalına bir link içeren bir onay e-postası alacaksın.
+donations.success.back_to_donate: Bağış sayfasına dön
+download.download: İndir
+download.download_app_or_open_in_browser: Topluluklarınla bağlanmaya başlamak için uygulamayı indir ya da Fluxer'i tarayıcıda aç.
+download.download_fluxer: Fluxer'i indir
+download.download_for_prefix: 'İndir: '
+download.open_in_browser: Tarayıcıda aç
+download.screenshots_courtesy_of: 'Ekran görüntüleri şunun izniyle: '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: Topluluk kuralları
+footer.company_information: Şirket bilgileri
+footer.connect: Bağlan
+footer.donate: Bağış yap
+footer.download: İndir
+footer.help_support_an_independent_communication: Bağımsız bir iletişim platformunu destekleyin. Bağışlarınız platformun altyapısını ve geliştirilmesini desteklemektedir.
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (İsveçte kurulu bir limited şirket: 559537-3993)'
+footer.partners: Partnerler
+footer.plutonium_tier: Plutonium paketi
+footer.policies: Politikalar
+footer.press: Basın
+footer.privacy_policy: Gizlilik politikası
+footer.report_a_bug: Bug bildir
+footer.roadmap: Yol haritası
+footer.rss_feed: RSS akışı
+footer.security_bug_bounty: Güvenlik bug bounty
+footer.source_code: Kaynak kod
+footer.terms_of_service: Hizmet şartları
+general.all: tümü
+general.coming_soon.label: Yakında geliyor
+general.coming_soon.whats_available_today: Şu an neler var
+general.last_updated: Son güncelleme
+general.made_in_sweden: İsveç'te üretildi
+general.not_available: Mevcut değil
+general.or: veya
+general.tagline: Önce seni düşünen bir sohbet uygulaması
+languages.change_language: Dili değiştir
+languages.choose_your_language: Dilini seç
+languages.language_label: Dil
+languages.list.arabic: Arapça
+languages.list.bulgarian: Bulgarca
+languages.list.chinese_simplified: Çince (Basitleştirilmiş)
+languages.list.chinese_traditional: Çince (Geleneksel)
+languages.list.croatian: Hırvatça
+languages.list.czech: Çekçe
+languages.list.danish: Danca
+languages.list.dutch: Felemenkçe
+languages.list.english: İngilizce
+languages.list.english_us: İngilizce (ABD)
+languages.list.finnish: Fince
+languages.list.french: Fransızca
+languages.list.german: Almanca
+languages.list.greek: Yunanca
+languages.list.hebrew: İbranice
+languages.list.hindi: Hintçe
+languages.list.hungarian: Macarca
+languages.list.indonesian: Endonezce
+languages.list.italian: İtalyanca
+languages.list.japanese: Japonca
+languages.list.korean: Korece
+languages.list.lithuanian: Litvanca
+languages.list.norwegian: Norveççe
+languages.list.polish: Lehçe
+languages.list.portuguese_brazil: Portekizce (Brezilya)
+languages.list.romanian: Romence
+languages.list.russian: Rusça
+languages.list.spanish_latin_america: İspanyolca (Latin Amerika)
+languages.list.spanish_spain: İspanyolca (İspanya)
+languages.list.swedish: İsveççe
+languages.list.thai: Tayca
+languages.list.turkish: Türkçe
+languages.list.ukrainian: Ukraynaca
+languages.list.vietnamese: Vietnamca
+launch.description: Fluxer'in arkasındaki developer'ı tanı, projenin hedeflerini, tech stack'i ve sırada nelerini öğren.
+launch.heading: Fluxer'in hikayesi
+launch.read_more: Lansman blog yazısını oku
+launch.view_full_roadmap: Yol haritasının tamamına bak
+misc_labels.design_and_branding: Tasarım ve marka
+misc_labels.direct_team_support: Ekipten doğrudan destek
+misc_labels.exclusive_communities: Özel topluluklar
+misc_labels.exclusive_features: Özel özellikler
+misc_labels.feature: Özellik
+misc_labels.get_updates: Güncellemeleri al, yaklaşan özellikleri gör, önerileri tartış ve ekiple sohbet et.
+misc_labels.join_and_spread_word: Katıl ve haberi yay
+misc_labels.join_fluxer_community_contribute: Fluxer topluluğuna katıl ve açık kaynak ile topluluk katkılarıyla iletişimin geleceğini inşa etmeye yardım et.
+misc_labels.join_fluxer_hq: Fluxer HQ'ya katıl
+misc_labels.join_multiple_devices: Aynı anda birden fazla cihazdan katıl
+misc_labels.join_team_behind_fluxer: Fluxer'in arkasındaki ekibe katıl
+misc_labels.learn_more: Daha fazla bilgi
+misc_labels.product_hunt_badge_title: Fluxer - Açık kaynaklı Discord benzeri anlık mesajlaşma ve VoIP platformu | Product Hunt en iyi gönderi
+misc_labels.profile_badge: Profil rozeti
+misc_labels.read_the_guide: Rehberi oku
+misc_labels.ready_to_get_started: Başlamaya hazır mısın?
+misc_labels.register_now: Şimdi kaydol
+misc_labels.related_policies: İlgili politikalar
+misc_labels.report_bugs: Bug bildir
+misc_labels.software_development: Yazılım geliştirme
+misc_labels.trust_and_safety: Güven ve güvenlik
+misc_labels.unique_profile_badge: Benzersiz profil rozeti
+misc_labels.unlimited_users: Sınırsız kullanıcı
+navigation.close: Kapat
+navigation.close_navigation_menu: Gezinme menüsünü kapat
+navigation.copy_link_to_section: Bölüm bağlantısını kopyala
+navigation.go_home: Ana sayfaya git
+navigation.on_this_page: Bu sayfada
+navigation.page_not_found.description: Bu sayfa yok. Ama keşfedecek daha çok şey var.
+navigation.page_not_found.title: Sayfa bulunamadı
+navigation.press.download_assets_intro: Logolarımızı indir, marka renklerimizi öğren ve basın ekibimizle iletişime geç.
+navigation.press.download_fluxer_assets: Fluxer logolarını ve marka varlıklarını indir, basın ekibimizle iletişime geç
+navigation.press.press_and_brand_assets: Basın ve marka varlıkları
+partner_program.become_partner.apply_email: 'Başvuru: partners@fluxer.app'
+partner_program.become_partner.call_to_action: Partner ol
+partner_program.become_partner.heading: Fluxer Partneri ol
+partner_program.become_partner.if_youre_a_creator_or: İçerik üreticisiysen ya da büyük bir topluluk yönetiyorsan, senden haber almayı isteriz.
+partner_program.become_partner.learn_about_partners: Partnerler hakkında bilgi al
+partner_program.become_partner.learn_more: Daha fazla bilgi
+partner_program.become_partner.ready_prompt: Partner olmaya hazır mısın?
+partner_program.description: İçerik üreticileri ve büyük topluluk sahipleri için özel avantajlar.
+partner_program.label: Partnerler
+partner_program.perks.creator_monetization.description: Partner olmayanlara göre daha düşük platform ücretleriyle üretici gelir modeli özelliklerine erken erişim.
+partner_program.perks.creator_monetization.label: Üretici gelir modeli
+partner_program.perks.custom_vanity_url.description: fluxer.gg/yourcommunity gibi özel bir vanity URL al.
+partner_program.perks.custom_vanity_url.label: Özel vanity URL
+partner_program.perks.direct_team_access.description: Fluxer ekibine doğrudan erişim veren özel Partnerler topluluğuna katıl.
+partner_program.perks.direct_team_access.label: Ekip ile doğrudan erişim
+partner_program.perks.discovery_visibility: Keşfette öne çıkarak daha fazla görünürlük kazan.
+partner_program.perks.exclusive_merch.description: Sadece Fluxer Partnerlerine özel ürünler ve hediyeler al.
+partner_program.perks.exclusive_merch.label: Özel ürünler
+partner_program.perks.free_plutonium.description: Tüm premium özelliklerin tadını çıkarmak için hesabına ücretsiz Plutonium al.
+partner_program.perks.free_plutonium.label: Ücretsiz Plutonium
+partner_program.perks.increased_limits.description: İhtiyacın olduğunda topluluğun daha yüksek limitler alır.
+partner_program.perks.increased_limits.label: Artırılmış limitler
+partner_program.perks.partner_badge.description: Profilinde özel bir Partner rozeti gösterip öne çık.
+partner_program.perks.partner_badge.label: Partner rozeti
+partner_program.perks.vip_voice_servers.description: Sadece partnerli topluluklara ayrılmış VIP ses sunucularına erişim.
+partner_program.perks.vip_voice_servers.label: VIP ses kanalları
+partner_program.requirements.audience_description: Hedef kitlen ve ne yaptığın hakkında kısa açıklama
+partner_program.requirements.links_to_content: İçeriklerine ya da topluluğuna linkler (YouTube, Twitch, Discord vb.)
+partner_program.requirements.name_and_username: Adın ve platform kullanıcı adın
+partner_program.requirements.usage_plan: Fluxer'i topluluğunla nasıl kullanmayı planlıyorsun
+partner_program.who_its_for: '"İçerik üreticileri ve topluluk sahipleri: ücretsiz Plutonium, Partner rozeti, özel vanity URL''ler ve daha fazlası gibi avantajların kilidini aç."'
+partner_program.perks.heading: Partner avantajları
+partner_program.perks.see_perks: Avantajları gör
+partner_program.apply.instructions: Fluxer Partner Programı'na başvurmak için bize aşağıdaki bilgilerle bir e-posta gönder.
+partner_program.apply.response_time: Tüm başvuruları inceliyoruz ve birkaç gün içinde sana geri dönüyoruz.
+platform_support.desktop.available_on_desktop_and_web: Masaüstünde ve webde kullanılabilir
+platform_support.desktop.download_desktop_intro: Fluxer'i Windows, macOS ve Linux için indir. Mobil uygulamalar üzerinde çalışıyoruz.
+platform_support.desktop.interface_label: Fluxer masaüstü arayüzü
+platform_support.desktop.label: Masaüstü
+platform_support.desktop.use_desktop_client_mobile_soon: Masaüstü istemcisini kullan (mobil yakında)
+platform_support.mobile.install_as_app.add_to_home: Tarayıcı arayüzünü gizlemek için Fluxer'i ana ekranına ekle.
+platform_support.mobile.install_as_app.done_desktop: Tamam! Artık Fluxer'i normal bir program gibi açabilirsin.
+platform_support.mobile.install_as_app.done_mobile: Tamam! Artık Fluxer'i ana ekranından açabilirsin.
+platform_support.mobile.install_as_app.guides.in_chrome: '" Chrome''da"'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: '" Chrome''da ya da PWA destekli başka bir tarayıcıda"'
+platform_support.mobile.install_as_app.guides.in_safari: '" Safari''de"'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: '{name} için PWA kurulum rehberi'
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: Ana ekrana ekle seçeneğine tıkla
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: Sağ üst köşedeki Ekle seçeneğine tıkla
+platform_support.mobile.install_as_app.guides.steps.press_install_app: Uygulamayı yükle seçeneğine tıkla
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: Adres çubuğundaki yükleme düğmesine (monitör üzerindeki aşağı bakan ok) tıkla
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: Açılan pencerede Yükle seçeneğine tıkla
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: Sağ üst köşedeki Daha fazla (⋮) düğmesine tıkla
+platform_support.mobile.install_as_app.guides.steps.press_share_button: Paylaş düğmesine (yukarı bakan ok olan dikdörtgen) tıkla
+platform_support.mobile.install_as_app.install_fluxer_as_app: Fluxer'i uygulama gibi kur
+platform_support.mobile.install_as_app.title: Uygulama gibi nasıl kurulur
+platform_support.mobile.interface_label: Fluxer mobil arayüzü
+platform_support.mobile.mobile_apps_underway: Mobil uygulamalar üzerinde çalışıyoruz
+platform_support.mobile.mobile_browser_explainer: iOS ve Android için uygulamalar geliştiriyoruz. Hazır olana kadar Fluxer mobil tarayıcında çalışıyor ve olabildiğince uygulama gibi hissettirmesi için baya uğraştık.
+platform_support.mobile.not_full_replacement_yet: Bu henüz masaüstü uygulamasının tam bir yerine geçmiyor ve mobil bir sohbet uygulamasından bekleyeceğin bazı şeyler hala eksik.
+platform_support.mobile.push_notifications: Uygulamadan uzaktayken anlık bildirimler al.
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS ve iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: Linux dağıtımını seç
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: macOS için indir
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: Windows için indir
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: Marka renkleri
+press_branding.assets.full_color: Tam renkli sürüm
+press_branding.assets.label: Logo
+press_branding.assets.logo_variants.black_logo: Siyah logo
+press_branding.assets.logo_variants.color_logo: Renkli logo
+press_branding.assets.logo_variants.white_logo: Beyaz logo
+press_branding.assets.palette_description: Fluxer markasını temsil eden özenle seçilmiş renk paletimiz.
+press_branding.assets.premium_quality: Premium kalite
+press_branding.assets.primary_brand_color_description: Ana marka rengimiz. Önemli marka öğelerinde ve vurgularda bunu kullan.
+press_branding.assets.symbol_variants.black_symbol: Siyah sembol
+press_branding.assets.symbol_variants.color_symbol: Renkli sembol
+press_branding.assets.symbol_variants.label: Sembol
+press_branding.assets.symbol_variants.white_symbol: Beyaz sembol
+press_branding.assets.usage_guidance.dark_surface_guidance: Arka planlarda, koyu yüzeylerde metin için ve kontrast yaratmak için.
+press_branding.assets.usage_guidance.for_dark_backgrounds: Koyu arka planlar için
+press_branding.assets.usage_guidance.for_light_backgrounds: Açık arka planlar için
+press_branding.assets.usage_guidance.full_logo_description: Wordmark dahil tam logomuz. Markamızın ana temsili olarak bunu kullan.
+press_branding.assets.usage_guidance.light_surface_guidance: Metin için, açık yüzeylerde ikonlar için ve derinlik katmak için.
+press_branding.assets.usage_guidance.symbol_description: Tek başına sembolümüz. Bunu sadece markamız bağlamda zaten net görünüyorsa ya da iyi biliniyorsa kullan.
+press_branding.colors.blue_da_ba_dee: Blue Da Ba Dee
+press_branding.colors.white: Beyaz
+press_branding.colors.black: Siyah
+press_branding.contact.story_prompt: Fluxer hakkında bir hikâyen var mı? Senden duymak isteriz.
+press_branding.contact.response_time: Genellikle 24 saat içinde cevap veriyoruz.
+pricing_and_tiers.billing.forever: Sonsuza dek
+pricing_and_tiers.billing.most_popular: En popüler
+pricing_and_tiers.billing.per_forever: /ömür boyu
+pricing_and_tiers.billing.per_month: /ay
+pricing_and_tiers.billing.per_year_full: /yıl
+pricing_and_tiers.billing.per_year_short: /yıl
+pricing_and_tiers.billing.save_percent: '%17 tasarruf'
+pricing_and_tiers.free.comparison_label: Ücretsiz vs Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 'Ücretsiz plandaki her şey, artı:'
+pricing_and_tiers.free.full_access_to_all_features: Tüm özelliklere tam erişim
+pricing_and_tiers.free.label: Ücretsiz
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: '"Not: Plutonium ve Visionary avantajları yalnızca resmi Fluxer.app instance''ı için geçerli, üçüncü taraf veya self-hosted instance''lar için değil."'
+pricing_and_tiers.plutonium.feature_highlights: 500 MB yükleme, 4.000 karakter mesaj, 300 yer imi, 50 emoji paketi ve çok daha fazlası.
+pricing_and_tiers.plutonium.features.bio_character_limit: Bio karakter limiti
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: Kullanıcı adını gerçekten benzersiz kılmak için #0001, #1337 ya da #9999 gibi kendi 4 haneli etiketini seç.
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: Özel 4 haneli kullanıcı adı etiketi
+pricing_and_tiers.plutonium.features.custom_username_tag: Özel kullanıcı adı etiketi
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: Video arka planları
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: Emoji ve çıkartma paketleri
+pricing_and_tiers.plutonium.features.file_upload_size: Dosya yükleme boyutu
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: Her yerde emoji ve çıkartma erişimi
+pricing_and_tiers.plutonium.features.message_character_limit: Mesaj karakter limiti
+pricing_and_tiers.plutonium.features.message_scheduling: Mesaj zamanlama
+pricing_and_tiers.plutonium.features.per_community_profiles: Topluluk bazlı profiller
+pricing_and_tiers.plutonium.features.saved_media: Kaydedilen medya
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: Webhook ve bot desteği
+pricing_and_tiers.plutonium.get_more_with_plutonium: Fluxer Plutonium ile daha fazlası
+pricing_and_tiers.plutonium.get_plutonium: Plutonium al
+pricing_and_tiers.plutonium.higher_limits_and_early_access: Daha yüksek limitler, özel özellikler ve yeni güncellemelere erken erişim
+pricing_and_tiers.plutonium.higher_limits_everywhere: Her yerde daha yüksek limitler
+pricing_and_tiers.plutonium.show_off_status_badge: Profilinde özel bir rozetle Plutonium durumunu göster.
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: '"Ayda $4.99''a Plutonium''a geç: özel kullanıcı adı etiketleri, topluluk bazlı profiller, mesaj zamanlama, 4K yayın, 500 MB yükleme ve daha fazla özel özellik."'
+pricing_and_tiers.visionary.badge.numbered_badge: Visionary durumunu gösteren numaralı rozet
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: Visionary durumunu gösteren numaralı rozet (1–{0})
+pricing_and_tiers.visionary.bundle_label: Visionary ile ömür boyu Plutonium ve Operator Pass – sınırlı kontenjan
+pricing_and_tiers.visionary.communities_with_team_access: Ekip erişimli Visionary ve Operators toplulukları
+pricing_and_tiers.visionary.get_visionary: Visionary al
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: Fluxer.app üzerinde ömür boyu Plutonium ve self-hosting için Operator Pass alın. {0} tek sefer ödeyin. 1 Ekim 2026ya kadar veya tüm kontenjanlar dolana kadar geçerli.
+pricing_and_tiers.visionary.lifetime_operator_pass: Ömür boyu Operator Pass
+pricing_and_tiers.visionary.lifetime_plutonium: Ömür boyu Plutonium
+pricing_and_tiers.visionary.limited_offer_note: 'Sınırlı teklif: Visionary paketine Operator Pass dahil'
+pricing_and_tiers.visionary.limited_slots_label: Visionary – sınırlı kontenjan
+pricing_and_tiers.visionary.one_time_purchase.label: Tek seferlik satın alım
+pricing_and_tiers.visionary.one_time_purchase.promise: Tek sefer ödeme, ömür boyu erişim
+pricing_and_tiers.visionary.purchase_flow: Hesabını oluşturduktan sonra Visionary'yi uygulama içinden doğrudan satın al. Satın alma tarihin ve sipariş numaran profilinde görünür (gizlilik ayarlarından saklayabilirsin).
+pricing_and_tiers.visionary.slots_left.generic: '{1} kontenjandan {0} kaldı'
+pricing_and_tiers.visionary.slots_left.visionary_bundle: Sadece {1} Visionary ömür boyu kontenjandan {0} kaldı – ömür boyu Plutonium ve Operator Pass
+pricing_and_tiers.visionary.slots_left.visionary_only: '{0} Visionary kontenjanı kaldı'
+product_positioning.free_and_open_source: Fluxer ücretsiz ve açık kaynaklı. İsteyen herkes ücretsiz self-host edebilir.
+product_positioning.intro: Fluxer, arkadaşlar, gruplar ve topluluklar için yapılmış ücretsiz ve açık kaynaklı bir anlık mesajlaşma ve VoIP platformu.
+product_positioning.open_source.fully_open_source_agplv3: Tamamen açık kaynak (AGPLv3)
+product_positioning.open_source.label: Açık kaynak
+product_positioning.open_source.license: Açık kaynak (AGPL-3.0)
+product_positioning.self_hosting.connect_from_any_client: Herhangi bir istemciden bağlan
+product_positioning.self_hosting.free_self_hosting: Ücretsiz kendi barındırma
+product_positioning.self_hosting.host_your_own_instance: Kendi instance'ını barındır
+product_positioning.self_hosting.label: Kendi barındırma
+product_positioning.self_hosting.operator_pass.access_to_operators_community: Fluxer Operators topluluğuna erişim
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: Teklif bitince Operator Pass tek başına da kullanılabilir olmaya devam edecek.
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: 'Operator Pass opsiyonel: destek ve topluluk erişimi için ödeme yap.'
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: Self-hosting için öncelikli destek ve Operators topluluğuna erişim
+product_positioning.self_hosting.run_backend_on_your_hardware: Fluxer backend'ini kendi donanımında çalıştır ve uygulamalarımızla bağlan.
+product_positioning.self_hosting.switch_between_instances: Birden fazla instance arasında geçiş yap
+security.found_security_issue: Bir güvenlik açığı mı buldun?
+security.report_vulnerabilities: Açıkları bildir, platformu güvenli tutmamıza yardım et.
+security.responsible_disclosure_note: Güvenlik bug bounty sayfamız üzerinden sorumlu bildirim yapmana seviniyoruz. Şiddete göre Plutonium kodları ve Bug Hunter rozetleri veriyoruz.
+security.security_bug_bounty: Güvenlik bug bounty
+security.security_reports: Güvenlik raporları
+security.testers_access_from_reports: Onaylanan raporlar, puan kazanıp Plutonium kodları ve Bug Hunter rozeti alabileceğin Fluxer Testers erişimi sağlar.
+social_and_feeds.bluesky.follow_us: Bluesky'da takip et
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: Bluesky RSS akışı
+social_and_feeds.follow_fluxer: 'Takip et: @fluxer.app'
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: Blog RSS akışı
+social_and_feeds.rss.fluxer_blog_rss: Fluxer blog RSS
+social_and_feeds.rss.label: RSS akışı
+social_and_feeds.stay_updated_cta: 'Haberler, servis durumu ve neler olduğundan haberdar kal. İstersen şu akışa da abone olabilirsin:'

@@ -17,63 +17,63 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {RelationshipTypes} from '~/Constants';
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 
 const logger = new Logger('RelationshipActionCreators');
 
-export const sendFriendRequest = async (userId: string) => {
+export async function sendFriendRequest(userId: string) {
 	try {
 		await http.post({url: Endpoints.USER_RELATIONSHIP(userId)});
 	} catch (error) {
 		logger.error('Failed to send friend request:', error);
 		throw error;
 	}
-};
+}
 
-export const sendFriendRequestByTag = async (username: string, discriminator: string) => {
+export async function sendFriendRequestByTag(username: string, discriminator: string) {
 	try {
 		await http.post({url: Endpoints.USER_RELATIONSHIPS, body: {username, discriminator}});
 	} catch (error) {
 		logger.error('Failed to send friend request by tag:', error);
 		throw error;
 	}
-};
+}
 
-export const acceptFriendRequest = async (userId: string) => {
+export async function acceptFriendRequest(userId: string) {
 	try {
 		await http.put({url: Endpoints.USER_RELATIONSHIP(userId)});
 	} catch (error) {
 		logger.error('Failed to accept friend request:', error);
 		throw error;
 	}
-};
+}
 
-export const removeRelationship = async (userId: string) => {
+export async function removeRelationship(userId: string) {
 	try {
 		await http.delete({url: Endpoints.USER_RELATIONSHIP(userId)});
 	} catch (error) {
 		logger.error('Failed to remove relationship:', error);
 		throw error;
 	}
-};
+}
 
-export const blockUser = async (userId: string) => {
+export async function blockUser(userId: string) {
 	try {
 		await http.put({url: Endpoints.USER_RELATIONSHIP(userId), body: {type: RelationshipTypes.BLOCKED}});
 	} catch (error) {
 		logger.error('Failed to block user:', error);
 		throw error;
 	}
-};
+}
 
-export const updateFriendNickname = async (userId: string, nickname: string | null) => {
+export async function updateFriendNickname(userId: string, nickname: string | null) {
 	try {
 		await http.patch({url: Endpoints.USER_RELATIONSHIP(userId), body: {nickname}});
 	} catch (error) {
 		logger.error('Failed to update friend nickname:', error);
 		throw error;
 	}
-};
+}

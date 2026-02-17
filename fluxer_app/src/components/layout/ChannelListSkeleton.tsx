@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/GuildNavbarSkeleton.module.css';
 import type React from 'react';
-import styles from './GuildNavbarSkeleton.module.css';
 
 export const ChannelListSkeleton: React.FC = () => {
 	return (

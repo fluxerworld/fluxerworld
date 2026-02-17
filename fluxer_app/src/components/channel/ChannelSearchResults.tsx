@@ -17,10 +17,46 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {MessageDescriptor} from '@lingui/core';
+import '@app/components/channel/ChannelSearchHighlight.css';
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import styles from '@app/components/channel/ChannelSearchResults.module.css';
+import {Message, type MessageBehaviorOverrides} from '@app/components/channel/Message';
+import type {SearchMachineState} from '@app/components/channel/SearchResultsUtils';
+import {areSegmentsEqual} from '@app/components/channel/SearchResultsUtils';
+import {DEFAULT_SCOPE_VALUE, getScopeOptionsForChannel} from '@app/components/channel/SearchScopeOptions';
+import {MessageContextPrefix} from '@app/components/shared/message_context_prefix/MessageContextPrefix';
+import {Button} from '@app/components/uikit/button/Button';
+import {ContextMenuCloseProvider} from '@app/components/uikit/context_menu/ContextMenu';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {MenuItemRadio} from '@app/components/uikit/context_menu/MenuItemRadio';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {useMessageListKeyboardNavigation} from '@app/hooks/useMessageListKeyboardNavigation';
+import {PASSWORD_MANAGER_IGNORE_ATTRIBUTES} from '@app/lib/PasswordManagerAutocomplete';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import ChannelSearchStore, {getChannelSearchContextId} from '@app/stores/ChannelSearchStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
+import GuildStore from '@app/stores/GuildStore';
+import {applyChannelSearchHighlight, clearChannelSearchHighlight} from '@app/utils/ChannelSearchHighlight';
+import {goToMessage} from '@app/utils/MessageNavigator';
+import {tokenizeSearchQuery} from '@app/utils/SearchQueryTokenizer';
+import type {SearchSegment} from '@app/utils/SearchSegmentManager';
+import {
+	isIndexing,
+	type MessageSearchParams,
+	type MessageSearchScope,
+	parseSearchQueryWithSegments,
+	searchMessages,
+} from '@app/utils/SearchUtils';
+import {MessagePreviewContext} from '@fluxer/constants/src/ChannelConstants';
+import type {I18n, MessageDescriptor} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {useLingui} from '@lingui/react/macro';
-
 import type {IconProps} from '@phosphor-icons/react';
 import {
 	ChatCenteredDotsIcon,
@@ -37,42 +73,6 @@ import {
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import {MessagePreviewContext} from '~/Constants';
-import {Message, type MessageBehaviorOverrides} from '~/components/channel/Message';
-import {MessageContextPrefix} from '~/components/shared/MessageContextPrefix/MessageContextPrefix';
-import {Button} from '~/components/uikit/Button/Button';
-import {ContextMenuCloseProvider} from '~/components/uikit/ContextMenu/ContextMenu';
-import {MenuGroup} from '~/components/uikit/ContextMenu/MenuGroup';
-import {MenuItemRadio} from '~/components/uikit/ContextMenu/MenuItemRadio';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-import {Spinner} from '~/components/uikit/Spinner';
-import {Routes} from '~/Routes';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {GuildRecord} from '~/records/GuildRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
-import ChannelSearchStore, {getChannelSearchContextId} from '~/stores/ChannelSearchStore';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildNSFWAgreeStore from '~/stores/GuildNSFWAgreeStore';
-import GuildStore from '~/stores/GuildStore';
-import {applyChannelSearchHighlight, clearChannelSearchHighlight} from '~/utils/ChannelSearchHighlight';
-import {goToMessage} from '~/utils/MessageNavigator';
-import * as RouterUtils from '~/utils/RouterUtils';
-import {tokenizeSearchQuery} from '~/utils/SearchQueryTokenizer';
-import type {SearchSegment} from '~/utils/SearchSegmentManager';
-import {
-	isIndexing,
-	type MessageSearchParams,
-	type MessageSearchScope,
-	parseSearchQueryWithSegments,
-	searchMessages,
-} from '~/utils/SearchUtils';
-import './ChannelSearchHighlight.css';
-import styles from './ChannelSearchResults.module.css';
-import type {SearchMachineState} from './SearchResultsUtils';
-import {areSegmentsEqual} from './SearchResultsUtils';
-import {DEFAULT_SCOPE_VALUE, getScopeOptionsForChannel} from './searchScopeOptions';
 
 const getChannelGuild = (channel: ChannelRecord): GuildRecord | null => {
 	if (!channel.guildId) {
@@ -80,13 +80,6 @@ const getChannelGuild = (channel: ChannelRecord): GuildRecord | null => {
 	}
 
 	return GuildStore.getGuild(channel.guildId) ?? null;
-};
-
-const getChannelPath = (channel: ChannelRecord): string => {
-	if (channel.guildId) {
-		return Routes.guildChannel(channel.guildId, channel.id);
-	}
-	return Routes.dmChannel(channel.id);
 };
 
 interface ChannelSearchResultsProps {
@@ -174,12 +167,10 @@ const DETACHED_MESSAGE_BEHAVIOR: MessageBehaviorOverrides = {
 
 type ChannelSearchSortMode = 'newest' | 'oldest' | 'relevant';
 
-const getSortModeOptions = (
-	t: (descriptor: MessageDescriptor) => string,
-): Array<{mode: ChannelSearchSortMode; label: string}> => [
-	{mode: 'newest', label: t(msg({message: 'Newest'}))},
-	{mode: 'oldest', label: t(msg({message: 'Oldest'}))},
-	{mode: 'relevant', label: t(msg({message: 'Most Relevant'}))},
+const getSortModeOptions = (i18n: I18n): Array<{mode: ChannelSearchSortMode; label: string}> => [
+	{mode: 'newest', label: i18n._(msg({message: 'Newest'}))},
+	{mode: 'oldest', label: i18n._(msg({message: 'Oldest'}))},
+	{mode: 'relevant', label: i18n._(msg({message: 'Most Relevant'}))},
 ];
 
 const SCOPE_ICON_COMPONENTS: Record<MessageSearchScope, React.ComponentType<IconProps>> = {
@@ -243,14 +234,22 @@ const collectSearchNsfwChannels = (params: MessageSearchParams, contextChannelId
 	const nsfwChannels: Array<string> = [];
 
 	const contextChannel = ChannelStore.getChannel(contextChannelId);
-	if (contextChannel?.isNSFW() && !GuildNSFWAgreeStore.shouldShowGate(contextChannelId)) {
+	if (
+		contextChannel &&
+		GuildNSFWAgreeStore.isGatedContent({channelId: contextChannelId, guildId: contextChannel.guildId ?? null}) &&
+		!GuildNSFWAgreeStore.shouldShowGate({channelId: contextChannelId, guildId: contextChannel.guildId ?? null})
+	) {
 		nsfwChannels.push(contextChannelId);
 	}
 
 	if (params.channelId) {
 		for (const channelIdParam of params.channelId) {
 			const targetChannel = ChannelStore.getChannel(channelIdParam);
-			if (targetChannel?.isNSFW() && !GuildNSFWAgreeStore.shouldShowGate(channelIdParam)) {
+			if (
+				targetChannel &&
+				GuildNSFWAgreeStore.isGatedContent({channelId: channelIdParam, guildId: targetChannel.guildId ?? null}) &&
+				!GuildNSFWAgreeStore.shouldShowGate({channelId: channelIdParam, guildId: targetChannel.guildId ?? null})
+			) {
 				nsfwChannels.push(channelIdParam);
 			}
 		}
@@ -313,13 +312,18 @@ export const ChannelSearchResults = observer(
 		const [sortMode, setSortMode] = useState<ChannelSearchSortMode>('newest');
 		const sortModeRef = useRef<ChannelSearchSortMode>(sortMode);
 
+		useMessageListKeyboardNavigation({
+			containerRef: scrollerRef,
+			allowWhenInactive: true,
+		});
+
 		const activeScope = searchContext?.scope ?? DEFAULT_SCOPE_VALUE;
 		const scopeOptions = useMemo(
 			() => getScopeOptionsForChannel(i18n, channel),
 			[i18n, channel.id, channel.type, channel.guildId],
 		);
 		const scopeOptionValues = useMemo(() => new Set(scopeOptions.map((option) => option.value)), [scopeOptions]);
-		const sortModeOptions = useMemo(() => getSortModeOptions(t), [t]);
+		const sortModeOptions = useMemo(() => getSortModeOptions(i18n), [i18n]);
 
 		useEffect(() => {
 			if (!scopeOptions.length || !contextId) {
@@ -336,7 +340,7 @@ export const ChannelSearchResults = observer(
 
 		const applyScopeToParams = useCallback(
 			(params: MessageSearchParams) => {
-				const parsedScope = params.scope;
+				const parsedScope = params['scope'];
 				let resolvedScope: MessageSearchScope = activeScope ?? DEFAULT_SCOPE_VALUE;
 
 				if (parsedScope && scopeOptionValues.has(parsedScope)) {
@@ -349,7 +353,7 @@ export const ChannelSearchResults = observer(
 					ChannelSearchStore.setScope(contextId, resolvedScope);
 				}
 
-				params.scope = resolvedScope;
+				params['scope'] = resolvedScope;
 			},
 			[scopeOptionValues, activeScope, contextId],
 		);
@@ -431,6 +435,17 @@ export const ChannelSearchResults = observer(
 					return;
 				}
 
+				if (GuildNSFWAgreeStore.shouldShowGate({channelId: channelId.current, guildId: channelGuildId.current})) {
+					setContextMachineState({
+						status: 'success',
+						results: [],
+						total: 0,
+						hitsPerPage: RESULTS_PER_PAGE,
+						page: 1,
+					});
+					return;
+				}
+
 				const attemptSegments = currentSearchSegments.current.map((segment) => ({...segment}));
 				lastSearchAttempt.current = {
 					query: currentSearchQuery.current,
@@ -487,6 +502,18 @@ export const ChannelSearchResults = observer(
 		const poll = useCallback(async () => {
 			if (currentChannelId.current !== channelId.current) {
 				stopPolling();
+				return;
+			}
+
+			if (GuildNSFWAgreeStore.shouldShowGate({channelId: channelId.current, guildId: channelGuildId.current})) {
+				stopPolling();
+				setContextMachineState({
+					status: 'success',
+					results: [],
+					total: 0,
+					hitsPerPage: RESULTS_PER_PAGE,
+					page: 1,
+				});
 				return;
 			}
 
@@ -631,7 +658,11 @@ export const ChannelSearchResults = observer(
 		}, [contextId, scrollPosition]);
 
 		const transitionToChannel = useCallback((targetChannel: ChannelRecord) => {
-			RouterUtils.transitionTo(getChannelPath(targetChannel));
+			if (targetChannel.guildId) {
+				NavigationActionCreators.selectChannel(targetChannel.guildId, targetChannel.id);
+			} else {
+				NavigationActionCreators.selectChannel(undefined, targetChannel.id);
+			}
 		}, []);
 
 		const renderContent = useCallback(() => {
@@ -700,7 +731,6 @@ export const ChannelSearchResults = observer(
 							className={styles.resultsScroller}
 							onScroll={handleScrollerScroll}
 							fade={false}
-							reserveScrollbarTrack={false}
 							key="channel-search-results-scroller-desktop"
 						>
 							{Array.from(messagesByChannel.entries()).map(([resultChannelId, messages]) => {
@@ -738,7 +768,9 @@ export const ChannelSearchResults = observer(
 															type="button"
 															className={styles.jumpButton}
 															onClick={() => {
-																transitionToChannel(messageChannel);
+																if (messageChannel.id !== channel.id) {
+																	transitionToChannel(messageChannel);
+																}
 																goToMessage(message.channelId, message.id);
 															}}
 														>
@@ -808,22 +840,25 @@ export const ChannelSearchResults = observer(
 														>
 															{t`Go to page`}
 														</label>
-														<input
-															id={`channel-search-pagination-input-${side}`}
-															ref={ellipsisInputRef}
-															type="number"
-															min={1}
-															max={totalPages}
-															inputMode="numeric"
-															value={pageJumpValue}
-															onChange={(e) => setPageJumpValue(e.target.value)}
-															onBlur={() => {
-																setActiveEllipsis(null);
-																setPageJumpValue('');
-															}}
-															className={styles.pageInput}
-															placeholder={side === 'left' ? '1' : totalPages.toString()}
-														/>
+														<FocusRing offset={-2}>
+															<input
+																id={`channel-search-pagination-input-${side}`}
+																ref={ellipsisInputRef}
+																type="number"
+																{...PASSWORD_MANAGER_IGNORE_ATTRIBUTES}
+																min={1}
+																max={totalPages}
+																inputMode="numeric"
+																value={pageJumpValue}
+																onChange={(e) => setPageJumpValue(e.target.value)}
+																onBlur={() => {
+																	setActiveEllipsis(null);
+																	setPageJumpValue('');
+																}}
+																className={styles.pageInput}
+																placeholder={side === 'left' ? '1' : totalPages.toString()}
+															/>
+														</FocusRing>
 													</form>
 												);
 											}
@@ -863,6 +898,7 @@ export const ChannelSearchResults = observer(
 			resetScrollerToTop,
 			activeScope,
 			transitionToChannel,
+			channel.id,
 		]);
 
 		useEffect(() => {

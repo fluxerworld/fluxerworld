@@ -83,12 +83,6 @@
 	background-color: var(--background-modifier-hover);
 }
 
-.headerButton:focus-visible {
-	background-color: var(--background-modifier-hover);
-	outline: 2px solid var(--brand-primary);
-	outline-offset: -2px;
-}
-
 .left {
 	display: flex;
 	align-items: center;

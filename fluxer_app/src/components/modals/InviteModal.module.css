@@ -138,12 +138,6 @@
 	text-decoration: underline;
 }
 
-.editLink:focus-visible {
-	outline: 2px solid var(--brand-primary);
-	outline-offset: 2px;
-	border-radius: 2px;
-}
-
 .advancedView {
 	display: flex;
 	flex-direction: column;

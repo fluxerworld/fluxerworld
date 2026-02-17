@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/GuildNavbar.module.css';
+import {useLocation} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {useLocation} from '~/lib/router';
-import {Routes} from '~/Routes';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import styles from './GuildNavbar.module.css';
 
 interface GuildSidebarProps {
 	header: React.ReactNode;

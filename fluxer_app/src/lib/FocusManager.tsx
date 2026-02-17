@@ -17,8 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
+import WindowStore from '@app/stores/WindowStore';
 import {autorun} from 'mobx';
-import WindowStore from '~/stores/WindowStore';
 
 type FocusChangeListener = (focused: boolean) => void;
 
@@ -27,6 +28,7 @@ class FocusManager {
 	private listeners: Set<FocusChangeListener> = new Set();
 	private initialized = false;
 	private disposer: (() => void) | null = null;
+	private logger = new Logger('FocusManager');
 
 	static getInstance(): FocusManager {
 		if (!FocusManager.instance) {
@@ -65,7 +67,7 @@ class FocusManager {
 			try {
 				listener(focused);
 			} catch (error) {
-				console.error('FocusManager: Error in listener:', error);
+				this.logger.error('FocusManager: Error in listener:', error);
 			}
 		});
 	}

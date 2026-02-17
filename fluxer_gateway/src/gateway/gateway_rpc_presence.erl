@@ -19,6 +19,13 @@
 
 -export([execute_method/2]).
 
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+-endif.
+
+-define(PRESENCE_LOOKUP_TIMEOUT, 2000).
+
+-spec execute_method(binary(), map()) -> term().
 execute_method(<<"presence.dispatch">>, #{
     <<"user_id">> := UserIdBin, <<"event">> := Event, <<"data">> := Data
 }) ->
@@ -35,132 +42,73 @@ execute_method(<<"presence.join_guild">>, #{
 }) ->
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
-    case gen_server:call(presence_manager, {lookup, UserId}, 10000) of
-        {ok, Pid} ->
-            case gen_server:call(Pid, {join_guild, GuildId}, 10000) of
-                ok -> true;
-                _ -> throw({error, <<"Join guild failed">>})
-            end;
-        not_found ->
-            true;
-        {error, _} ->
-            true;
-        _ ->
-            true
-    end;
+    presence_manager:lookup_async(UserId, {join_guild, GuildId}),
+    true;
 execute_method(<<"presence.leave_guild">>, #{
     <<"user_id">> := UserIdBin, <<"guild_id">> := GuildIdBin
 }) ->
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
-    case gen_server:call(presence_manager, {lookup, UserId}, 10000) of
-        {ok, Pid} ->
-            case gen_server:call(Pid, {leave_guild, GuildId}, 10000) of
-                ok -> true;
-                _ -> throw({error, <<"Leave guild failed">>})
-            end;
-        not_found ->
-            true;
-        {error, _} ->
-            true;
-        _ ->
-            true
-    end;
+    presence_manager:lookup_async(UserId, {leave_guild, GuildId}),
+    true;
 execute_method(<<"presence.terminate_sessions">>, #{
     <<"user_id">> := UserIdBin, <<"session_id_hashes">> := SessionIdHashes
 }) ->
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
-    case gen_server:call(presence_manager, {lookup, UserId}, 10000) of
-        {ok, Pid} ->
-            case gen_server:call(Pid, {terminate_session, SessionIdHashes}, 10000) of
-                ok -> true;
-                _ -> throw({error, <<"Terminate session failed">>})
-            end;
-        not_found ->
-            true;
-        {error, _} ->
-            true;
-        _ ->
-            true
-    end;
-execute_method(<<"presence.terminate_all_sessions">>, #{
-    <<"user_id">> := UserIdBin
-}) ->
+    presence_manager:lookup_async(UserId, {terminate_session, SessionIdHashes}),
+    true;
+execute_method(<<"presence.terminate_all_sessions">>, #{<<"user_id">> := UserIdBin}) ->
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
     case presence_manager:terminate_all_sessions(UserId) of
         ok -> true;
-        _ -> throw({error, <<"Terminate all sessions failed">>})
+        _ -> throw({error, <<"terminate_sessions_error">>})
     end;
 execute_method(<<"presence.has_active">>, #{<<"user_id">> := UserIdBin}) ->
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
-    case gen_server:call(presence_manager, {lookup, UserId}, 10000) of
-        {ok, _Pid} ->
-            #{<<"has_active">> => true};
-        _ ->
-            #{<<"has_active">> => false}
+    case gen_server:call(presence_manager, {lookup, UserId}, ?PRESENCE_LOOKUP_TIMEOUT) of
+        {ok, _Pid} -> #{<<"has_active">> => true};
+        _ -> #{<<"has_active">> => false}
     end;
 execute_method(<<"presence.add_temporary_guild">>, #{
     <<"user_id">> := UserIdBin, <<"guild_id">> := GuildIdBin
 }) ->
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
-    case gen_server:call(presence_manager, {lookup, UserId}, 10000) of
-        {ok, Pid} ->
-            case gen_server:call(Pid, {add_temporary_guild, GuildId}, 10000) of
-                ok -> true;
-                _ -> throw({error, <<"Add temporary guild failed">>})
-            end;
-        not_found ->
-            true;
-        {error, _} ->
-            true;
-        _ ->
-            true
-    end;
+    presence_manager:lookup_async(UserId, {add_temporary_guild, GuildId}),
+    true;
 execute_method(<<"presence.remove_temporary_guild">>, #{
     <<"user_id">> := UserIdBin, <<"guild_id">> := GuildIdBin
 }) ->
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
-    case gen_server:call(presence_manager, {lookup, UserId}, 10000) of
-        {ok, Pid} ->
-            case gen_server:call(Pid, {remove_temporary_guild, GuildId}, 10000) of
-                ok -> true;
-                _ -> throw({error, <<"Remove temporary guild failed">>})
-            end;
-        not_found ->
-            true;
-        {error, _} ->
-            true;
-        _ ->
-            true
-    end;
+    presence_manager:lookup_async(UserId, {remove_temporary_guild, GuildId}),
+    true;
 execute_method(<<"presence.sync_group_dm_recipients">>, #{
     <<"user_id">> := UserIdBin, <<"recipients_by_channel">> := RecipientsByChannel
 }) ->
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
-    NormalizedRecipients =
-        maps:from_list([
-            {
-                validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
-                [validation:snowflake_or_throw(<<"recipient_id">>, RBin) || RBin <- Recipients]
-            }
-         || {ChannelIdBin, Recipients} <- maps:to_list(RecipientsByChannel)
-        ]),
-    case gen_server:call(presence_manager, {lookup, UserId}, 10000) of
+    NormalizedRecipients = normalize_recipients(RecipientsByChannel),
+    case gen_server:call(presence_manager, {lookup, UserId}, ?PRESENCE_LOOKUP_TIMEOUT) of
         {ok, Pid} ->
             gen_server:cast(Pid, {sync_group_dm_recipients, NormalizedRecipients}),
-            true;
-        not_found ->
-            true;
-        {error, _} ->
             true;
         _ ->
             true
     end.
 
+-spec normalize_recipients(map()) -> map().
+normalize_recipients(RecipientsByChannel) ->
+    maps:from_list([
+        {
+            validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
+            [validation:snowflake_or_throw(<<"recipient_id">>, RBin) || RBin <- Recipients]
+        }
+     || {ChannelIdBin, Recipients} <- maps:to_list(RecipientsByChannel)
+    ]).
+
+-spec handle_offline_dispatch(atom(), integer(), map()) -> true.
 handle_offline_dispatch(message_create, UserId, Data) ->
-    AuthorIdBin = maps:get(<<"id">>, maps:get(<<"author">>, Data, #{}), <<"0">>),
+    AuthorIdBin = maps:get(<<"id">>, maps:get(<<"author">>, Data, #{}), undefined),
     AuthorId = validation:snowflake_or_throw(<<"author_id">>, AuthorIdBin),
     push:handle_message_create(#{
         message_data => Data,
@@ -178,5 +126,16 @@ handle_offline_dispatch(relationship_remove, UserId, _Data) ->
 handle_offline_dispatch(_Event, _UserId, _Data) ->
     true.
 
+-spec sync_blocked_ids_for_user(integer()) -> ok.
 sync_blocked_ids_for_user(_UserId) ->
     ok.
+
+-ifdef(TEST).
+
+normalize_recipients_test() ->
+    Input = #{<<"123">> => [<<"456">>, <<"789">>]},
+    Result = normalize_recipients(Input),
+    ?assert(is_map(Result)),
+    ?assertEqual(1, maps:size(Result)).
+
+-endif.

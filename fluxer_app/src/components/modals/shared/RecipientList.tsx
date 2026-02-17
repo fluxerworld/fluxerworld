@@ -17,23 +17,25 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {GroupDMAvatar} from '@app/components/common/GroupDMAvatar';
+import {Input} from '@app/components/form/Input';
+import styles from '@app/components/modals/shared/RecipientList.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import type {UserRecord} from '@app/records/UserRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import UserStore from '@app/stores/UserStore';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {MagnifyingGlassIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {ChannelTypes, RelationshipTypes} from '~/Constants';
-import {GroupDMAvatar} from '~/components/common/GroupDMAvatar';
-import {Input} from '~/components/form/Input';
-import {Button} from '~/components/uikit/Button/Button';
-import {Scroller} from '~/components/uikit/Scroller';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import type {UserRecord} from '~/records/UserRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import RelationshipStore from '~/stores/RelationshipStore';
-import UserStore from '~/stores/UserStore';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import styles from './RecipientList.module.css';
+import type React from 'react';
+import {useMemo, useRef, useState} from 'react';
 
 export interface RecipientItem {
 	id: string;
@@ -48,9 +50,9 @@ export const useRecipientItems = () => {
 	const dmChannels = ChannelStore.dmChannels;
 	const usersSnapshot = UserStore.usersList;
 
-	const initialOrderRef = React.useRef<Array<string> | null>(null);
+	const initialOrderRef = useRef<Array<string> | null>(null);
 
-	return React.useMemo(() => {
+	return useMemo(() => {
 		const recipients: Array<RecipientItem> = [];
 		const friends = relationships.filter((r) => r.type === RelationshipTypes.FRIEND);
 		const friendIds = new Set(friends.map((f) => f.id));
@@ -142,10 +144,10 @@ interface RecipientListProps {
 
 export const RecipientList = observer((props: RecipientListProps) => {
 	const {t} = useLingui();
-	const [internalSearchQuery, setInternalSearchQuery] = React.useState('');
+	const [internalSearchQuery, setInternalSearchQuery] = useState('');
 	const searchQuery = props.searchQuery ?? internalSearchQuery;
 
-	const filteredRecipients = React.useMemo(() => {
+	const filteredRecipients = useMemo(() => {
 		if (!searchQuery.trim()) {
 			return props.recipients;
 		}
@@ -181,12 +183,7 @@ export const RecipientList = observer((props: RecipientListProps) => {
 			)}
 
 			<div className={styles.listContainer}>
-				<Scroller
-					className={styles.scroller}
-					key={props.scrollerKey ?? 'recipient-list-scroller'}
-					fade={false}
-					reserveScrollbarTrack={false}
-				>
+				<Scroller className={styles.scroller} key={props.scrollerKey ?? 'recipient-list-scroller'} fade={false}>
 					{filteredRecipients.length === 0 ? (
 						<div className={styles.noResults}>{props.noResultsMessage ?? <Trans>No friends found</Trans>}</div>
 					) : (
@@ -196,8 +193,11 @@ export const RecipientList = observer((props: RecipientListProps) => {
 								const isSending = props.sendingTo.has(userId);
 								const isSent = props.sentTo.has(userId);
 								const displayName = item.type === 'group_dm' ? item.channelName : NicknameUtils.getNickname(item.user);
-								const secondaryText =
-									item.type === 'dm' ? t`Direct Message` : item.type === 'group_dm' ? t`Group DM` : item.user.username;
+								const secondaryText = (() => {
+									if (item.type === 'dm') return t`Direct Message`;
+									if (item.type === 'group_dm') return t`Group DM`;
+									return item.user.username;
+								})();
 
 								return (
 									<div key={userId} className={styles.friendItem}>

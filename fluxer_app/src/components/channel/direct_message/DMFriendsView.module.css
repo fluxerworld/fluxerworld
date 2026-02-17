@@ -1,0 +1,160 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.container {
+	display: flex;
+	height: 100%;
+	min-height: 0;
+	width: 100%;
+	min-width: 0;
+	background-color: var(--background-secondary-lighter);
+}
+
+.mainColumn {
+	display: grid;
+	grid-template-rows: 3.5rem 1fr;
+	flex: 1;
+	min-width: 0;
+	min-height: 0;
+}
+
+.content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	min-height: 0;
+}
+
+.searchWrapper {
+	width: 100%;
+	padding: 0 1rem;
+	padding-top: 0.75rem;
+}
+
+.searchIcon {
+	height: 1.25rem;
+	width: 1.25rem;
+	color: var(--text-secondary);
+}
+
+.tabBody {
+	flex: 1;
+	min-height: 0;
+	overflow: hidden;
+}
+
+.headerContent {
+	display: flex;
+	min-width: 0;
+	align-items: center;
+	gap: 1rem;
+}
+
+.titleSection {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	flex-shrink: 0;
+	-webkit-app-region: no-drag;
+}
+
+.titleIcon {
+	height: 1.5rem;
+	width: 1.5rem;
+}
+
+.titleText {
+	font-weight: 600;
+	white-space: nowrap;
+}
+
+.divider {
+	height: 1.5rem;
+	width: 1px;
+	background-color: var(--background-modifier-accent);
+	flex-shrink: 0;
+	-webkit-app-region: no-drag;
+}
+
+.tabsWrapper {
+	flex: 1;
+	min-width: 0;
+	height: 100%;
+	-webkit-app-region: no-drag;
+	overflow: hidden;
+}
+
+.tabsScroller {
+	height: 100%;
+}
+
+.tabsInner {
+	display: flex;
+	gap: 0.5rem;
+	align-items: center;
+	padding: 4px;
+}
+
+.tabButton {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+	padding: 0.25rem 0.75rem;
+	border-radius: 0.375rem;
+	font-weight: 600;
+	font-size: 1rem;
+	line-height: 1.5rem;
+	color: var(--text-primary-muted);
+	background: transparent;
+	border: none;
+	cursor: pointer;
+	transition:
+		background-color 0.15s ease,
+		color 0.15s ease;
+	white-space: nowrap;
+	flex-shrink: 0;
+}
+
+.tabButton:hover {
+	background-color: var(--background-modifier-hover);
+	color: var(--text-primary);
+}
+
+.tabButton.active {
+	background-color: var(--background-modifier-selected);
+	color: var(--text-primary);
+}
+
+.tabButton.primary {
+	background-color: var(--brand-primary);
+	color: var(--brand-primary-fill);
+}
+
+.tabButton.primary:hover {
+	background-color: var(--brand-primary);
+	color: var(--brand-primary-fill);
+	opacity: 0.9;
+}
+
+.tabContent {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}

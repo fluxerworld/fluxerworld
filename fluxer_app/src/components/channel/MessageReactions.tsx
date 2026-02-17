@@ -17,30 +17,36 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ReactionActionCreators from '@app/actions/ReactionActionCreators';
+import {ReactionInteractionDisabledModal} from '@app/components/alerts/ReactionInteractionDisabledModal';
+import {EmojiInfoBottomSheet} from '@app/components/bottomsheets/EmojiInfoBottomSheet';
+import {
+	createMessageActionHandlers,
+	isClientSystemMessage,
+	useMessagePermissions,
+} from '@app/components/channel/MessageActionUtils';
+import styles from '@app/components/channel/MessageReactions.module.css';
+import {LongPressable} from '@app/components/LongPressable';
+import {ExpressionPickerSheet} from '@app/components/modals/ExpressionPickerSheet';
+import {EmojiPickerPopout} from '@app/components/popouts/EmojiPickerPopout';
+import {ReactionTooltip} from '@app/components/popouts/ReactionTooltip';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Popout} from '@app/components/uikit/popout/Popout';
+import {useHover} from '@app/hooks/useHover';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import {getEmojiName, getReactionKey, useEmojiURL} from '@app/utils/ReactionUtils';
+import type {MessageReaction} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {useLingui} from '@lingui/react/macro';
-
 import {SmileyIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {AnimatePresence, motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
-import React, {useEffect} from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ReactionActionCreators from '~/actions/ReactionActionCreators';
-import {ReactionInteractionDisabledModal} from '~/components/alerts/ReactionInteractionDisabledModal';
-import {EmojiInfoBottomSheet} from '~/components/bottomsheets/EmojiInfoBottomSheet';
-import styles from '~/components/channel/MessageReactions.module.css';
-import {createMessageActionHandlers, useMessagePermissions} from '~/components/channel/messageActionUtils';
-import {LongPressable} from '~/components/LongPressable';
-import {EmojiPickerPopout} from '~/components/popouts/EmojiPickerPopout';
-import {ReactionTooltip} from '~/components/popouts/ReactionTooltip';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Popout} from '~/components/uikit/Popout/Popout';
-import {useHover} from '~/hooks/useHover';
-import type {MessageReaction, MessageRecord} from '~/records/MessageRecord';
-import KeyboardModeStore from '~/stores/KeyboardModeStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import {getEmojiName, getReactionKey, useEmojiURL} from '~/utils/ReactionUtils';
+import {useCallback, useEffect, useRef, useState} from 'react';
 
 interface EmojiInfoData {
 	id?: string;
@@ -53,30 +59,37 @@ const MessageReactionItem = observer(
 		message,
 		reaction,
 		isPreview = false,
+		disableInteraction = false,
 	}: {
 		message: MessageRecord;
 		reaction: MessageReaction;
 		isPreview?: boolean;
+		disableInteraction?: boolean;
 	}) => {
 		const {t, i18n} = useLingui();
 		const [hoverRef, isHovering] = useHover();
-		const [prevCount, setPrevCount] = React.useState(reaction.count);
-		const [animationSyncKey, setAnimationSyncKey] = React.useState(0);
-		const [emojiInfoOpen, setEmojiInfoOpen] = React.useState(false);
-		const [selectedEmoji, setSelectedEmoji] = React.useState<EmojiInfoData | null>(null);
+		const [prevCount, setPrevCount] = useState(reaction.count);
+		const [animationSyncKey, setAnimationSyncKey] = useState(0);
+		const [emojiInfoOpen, setEmojiInfoOpen] = useState(false);
+		const [selectedEmoji, setSelectedEmoji] = useState<EmojiInfoData | null>(null);
+		const [tooltipHovering, setTooltipHovering] = useState(false);
 		const isMobile = MobileLayoutStore.isMobileLayout();
 
-		const handleTooltipAnimationSync = React.useCallback(() => {
+		const handleTooltipAnimationSync = useCallback(() => {
 			setAnimationSyncKey((prev) => prev + 1);
 		}, []);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (prevCount !== reaction.count) {
 				setPrevCount(reaction.count);
 			}
 		}, [reaction.count, prevCount]);
 
 		const handleClick = () => {
+			if (disableInteraction) {
+				return;
+			}
+
 			if (isPreview) {
 				ModalActionCreators.push(modal(() => <ReactionInteractionDisabledModal />));
 				return;
@@ -90,7 +103,7 @@ const MessageReactionItem = observer(
 		};
 
 		const handleLongPress = () => {
-			if (isPreview) {
+			if (isPreview || disableInteraction) {
 				return;
 			}
 			setSelectedEmoji({
@@ -101,13 +114,13 @@ const MessageReactionItem = observer(
 			setEmojiInfoOpen(true);
 		};
 
-		const handleCloseEmojiInfo = React.useCallback(() => {
+		const handleCloseEmojiInfo = useCallback(() => {
 			setEmojiInfoOpen(false);
 			setSelectedEmoji(null);
 		}, []);
 
 		const emojiName = getEmojiName(reaction.emoji);
-		const emojiUrl = useEmojiURL({emoji: reaction.emoji, isHovering});
+		const emojiUrl = useEmojiURL({emoji: reaction.emoji, isHovering: isHovering || tooltipHovering});
 		const isUnicodeEmoji = reaction.emoji.id == null;
 
 		const variants = {
@@ -127,6 +140,7 @@ const MessageReactionItem = observer(
 					className={styles.reactionButton}
 					aria-label={ariaLabel}
 					aria-pressed={reaction.me}
+					disabled={disableInteraction}
 					onClick={handleClick}
 				>
 					<div className={styles.reactionInner}>
@@ -143,7 +157,7 @@ const MessageReactionItem = observer(
 									animate="center"
 									exit={reaction.count > prevCount ? 'down' : 'up'}
 									variants={variants}
-									transition={{duration: 0.2}}
+									transition={{duration: AccessibilityStore.useReducedMotion ? 0 : 0.2}}
 								>
 									{reaction.count}
 								</motion.div>
@@ -173,6 +187,7 @@ const MessageReactionItem = observer(
 				hoveredEmojiUrl={emojiUrl}
 				animationSyncKey={animationSyncKey}
 				onRequestAnimationSync={handleTooltipAnimationSync}
+				onTooltipHoverChange={setTooltipHovering}
 			>
 				<div className={clsx(styles.reactionContainer, reaction.me && styles.reactionMe)} ref={hoverRef}>
 					{buttonContent}
@@ -192,21 +207,23 @@ export const MessageReactions = observer(
 		isPreview?: boolean;
 		onPopoutToggle?: (isOpen: boolean) => void;
 	}) => {
-		const {t} = useLingui();
-		const [emojiPickerOpen, setEmojiPickerOpen] = React.useState(false);
-		const addReactionButtonRef = React.useRef<HTMLButtonElement>(null);
+		const {t, i18n} = useLingui();
+		const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
+		const addReactionButtonRef = useRef<HTMLButtonElement>(null);
 		const permissions = useMessagePermissions(message);
-		const handlers = createMessageActionHandlers(message);
+		const handlers = createMessageActionHandlers(message, {i18n});
 		const keyboardModeEnabled = KeyboardModeStore.keyboardModeEnabled;
+		const isMobileLayout = MobileLayoutStore.isMobileLayout();
+		const disableReactionInteraction = isClientSystemMessage(message);
 
-		const blurReactionTrigger = React.useCallback(() => {
+		const blurReactionTrigger = useCallback(() => {
 			if (keyboardModeEnabled) {
 				return;
 			}
 			requestAnimationFrame(() => addReactionButtonRef.current?.blur());
 		}, [keyboardModeEnabled]);
 
-		const handleEmojiPickerToggle = React.useCallback(
+		const handleEmojiPickerToggle = useCallback(
 			(open: boolean) => {
 				setEmojiPickerOpen(open);
 				onPopoutToggle?.(open);
@@ -217,8 +234,8 @@ export const MessageReactions = observer(
 			[onPopoutToggle, blurReactionTrigger],
 		);
 
-		const handleEmojiPickerOpen = React.useCallback(() => handleEmojiPickerToggle(true), [handleEmojiPickerToggle]);
-		const handleEmojiPickerClose = React.useCallback(() => handleEmojiPickerToggle(false), [handleEmojiPickerToggle]);
+		const handleEmojiPickerOpen = useCallback(() => handleEmojiPickerToggle(true), [handleEmojiPickerToggle]);
+		const handleEmojiPickerClose = useCallback(() => handleEmojiPickerToggle(false), [handleEmojiPickerToggle]);
 
 		useEffect(() => {
 			return () => {
@@ -238,36 +255,64 @@ export const MessageReactions = observer(
 						message={message}
 						reaction={reaction}
 						isPreview={isPreview}
+						disableInteraction={disableReactionInteraction}
 					/>
 				))}
-				{hasReactions && permissions.canAddReactions && !isPreview && (
-					<Popout
-						render={({onClose}) => (
-							<EmojiPickerPopout
+				{hasReactions &&
+					permissions?.canAddReactions &&
+					!disableReactionInteraction &&
+					!isPreview &&
+					(isMobileLayout ? (
+						<>
+							<FocusRing offset={-2}>
+								<button
+									ref={addReactionButtonRef}
+									type="button"
+									className={clsx(styles.addReactionButton, emojiPickerOpen && styles.addReactionButtonActive)}
+									aria-label={t`Add Reaction`}
+									data-action="message-add-reaction-button"
+									onClick={handleEmojiPickerOpen}
+								>
+									<SmileyIcon size={20} weight="fill" />
+								</button>
+							</FocusRing>
+							<ExpressionPickerSheet
+								isOpen={emojiPickerOpen}
+								onClose={handleEmojiPickerClose}
 								channelId={message.channelId}
-								handleSelect={handlers.handleEmojiSelect}
-								onClose={onClose}
+								onEmojiSelect={handlers.handleEmojiSelect}
+								visibleTabs={['emojis']}
 							/>
-						)}
-						position="right-start"
-						uniqueId={`emoji-picker-reactions-${message.id}`}
-						animationType="none"
-						onOpen={handleEmojiPickerOpen}
-						onClose={handleEmojiPickerClose}
-					>
-						<FocusRing offset={-2}>
-							<button
-								ref={addReactionButtonRef}
-								type="button"
-								className={clsx(styles.addReactionButton, emojiPickerOpen && styles.addReactionButtonActive)}
-								aria-label={t`Add Reaction`}
-								data-action="message-add-reaction-button"
-							>
-								<SmileyIcon size={20} weight="fill" />
-							</button>
-						</FocusRing>
-					</Popout>
-				)}
+						</>
+					) : (
+						<Popout
+							render={({onClose}) => (
+								<EmojiPickerPopout
+									channelId={message.channelId}
+									handleSelect={handlers.handleEmojiSelect}
+									onClose={onClose}
+								/>
+							)}
+							position="right-start"
+							uniqueId={`emoji_picker-reactions-${message.id}`}
+							shouldAutoUpdate={false}
+							animationType="none"
+							onOpen={handleEmojiPickerOpen}
+							onClose={handleEmojiPickerClose}
+						>
+							<FocusRing offset={-2}>
+								<button
+									ref={addReactionButtonRef}
+									type="button"
+									className={clsx(styles.addReactionButton, emojiPickerOpen && styles.addReactionButtonActive)}
+									aria-label={t`Add Reaction`}
+									data-action="message-add-reaction-button"
+								>
+									<SmileyIcon size={20} weight="fill" />
+								</button>
+							</FocusRing>
+						</Popout>
+					))}
 			</div>
 		);
 	},

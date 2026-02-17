@@ -17,9 +17,6 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {observer} from 'mobx-react-lite';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import GuildVerificationStore, {VerificationFailureReason} from '~/stores/GuildVerificationStore';
 import {
 	AccountTooNewBarrier,
 	DefaultBarrier,
@@ -29,7 +26,10 @@ import {
 	TimeoutBarrier,
 	UnclaimedAccountBarrier,
 	UnverifiedEmailBarrier,
-} from './barriers/BarrierComponents';
+} from '@app/components/channel/barriers/BarrierComponents';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import GuildVerificationStore, {VerificationFailureReason} from '@app/stores/GuildVerificationStore';
+import {observer} from 'mobx-react-lite';
 
 interface Props {
 	channel: ChannelRecord;

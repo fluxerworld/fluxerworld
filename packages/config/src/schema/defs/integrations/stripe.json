@@ -1,0 +1,104 @@
+{
+	"stripe_prices": {
+		"type": "object",
+		"description": "Stripe Price IDs for subscription products.",
+		"additionalProperties": false,
+		"properties": {
+			"monthly_usd": {
+				"type": "string",
+				"description": "Monthly subscription USD price ID.",
+				"default": ""
+			},
+			"monthly_eur": {
+				"type": "string",
+				"description": "Monthly subscription EUR price ID.",
+				"default": ""
+			},
+			"yearly_usd": {
+				"type": "string",
+				"description": "Yearly subscription USD price ID.",
+				"default": ""
+			},
+			"yearly_eur": {
+				"type": "string",
+				"description": "Yearly subscription EUR price ID.",
+				"default": ""
+			},
+			"visionary_usd": {
+				"type": "string",
+				"description": "Visionary tier USD price ID.",
+				"default": ""
+			},
+			"visionary_eur": {
+				"type": "string",
+				"description": "Visionary tier EUR price ID.",
+				"default": ""
+			},
+			"gift_visionary_usd": {
+				"type": "string",
+				"description": "Gift Visionary USD price ID.",
+				"default": ""
+			},
+			"gift_visionary_eur": {
+				"type": "string",
+				"description": "Gift Visionary EUR price ID.",
+				"default": ""
+			},
+			"gift_1_month_usd": {
+				"type": "string",
+				"description": "Gift 1 Month USD price ID.",
+				"default": ""
+			},
+			"gift_1_month_eur": {
+				"type": "string",
+				"description": "Gift 1 Month EUR price ID.",
+				"default": ""
+			},
+			"gift_1_year_usd": {
+				"type": "string",
+				"description": "Gift 1 Year USD price ID.",
+				"default": ""
+			},
+			"gift_1_year_eur": {
+				"type": "string",
+				"description": "Gift 1 Year EUR price ID.",
+				"default": ""
+			}
+		}
+	},
+	"stripe_integration": {
+		"type": "object",
+		"description": "Stripe payments integration.",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"description": "Enable Stripe payments.",
+				"default": false
+			},
+			"secret_key": {
+				"type": "string",
+				"description": "Stripe Secret Key."
+			},
+			"webhook_secret": {
+				"type": "string",
+				"description": "Stripe Webhook Signing Secret."
+			},
+			"prices": {
+				"description": "Stripe Price ID configuration.",
+				"$ref": "#/$defs/stripe_prices"
+			}
+		},
+		"if": {
+			"required": ["enabled"],
+			"properties": {
+				"enabled": {
+					"const": true
+				}
+			}
+		},
+		"then": {
+			"required": ["secret_key", "webhook_secret"]
+		}
+	}
+}

@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ChannelPinsContent} from '@app/components/shared/ChannelPinsContent';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {ChannelPinsContent} from '~/components/shared/ChannelPinsContent';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import type {ChannelRecord} from '~/records/ChannelRecord';
 
 export const ChannelPinsBottomSheet = observer(
 	({isOpen, onClose, channel}: {isOpen: boolean; onClose: () => void; channel: ChannelRecord}) => {

@@ -17,20 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Input} from '@app/components/form/Input';
+import styles from '@app/components/pages/ReportPage.module.css';
+import {Button} from '@app/components/uikit/button/Button';
 import {Trans, useLingui} from '@lingui/react/macro';
 import type React from 'react';
-import {Input} from '~/components/form/Input';
-import {Button} from '~/components/uikit/Button/Button';
-import styles from '../ReportPage.module.css';
 
-type Props = {
+interface Props {
 	email: string;
 	errorMessage: string | null;
 	isSending: boolean;
 	onEmailChange: (value: string) => void;
 	onSubmit: () => void;
 	onStartOver: () => void;
-};
+}
 
 export const ReportStepEmail: React.FC<Props> = ({
 	email,
@@ -108,5 +108,3 @@ export const ReportStepEmail: React.FC<Props> = ({
 		</div>
 	);
 };
-
-export default ReportStepEmail;

@@ -1,0 +1,325 @@
+---
+title: 'Webhooks'
+description: 'Webhooks object schemas from the Fluxer API.'
+---
+
+<a id="githubwebhook"></a>
+
+## GitHubWebhook
+
+**Related endpoints**
+
+- [`POST /webhooks/{webhook_id}/{token}/github`](/api-reference/webhooks/execute-github-webhook)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| action? | ?string |  |
+| answer? | ?[GitHubWebhookAnswer](#githubwebhookanswer) |  |
+| check_run? | ?[GitHubWebhookCheckRun](#githubwebhookcheckrun) |  |
+| check_suite? | ?[GitHubWebhookCheckSuite](#githubwebhookchecksuite) |  |
+| comment? | ?[GitHubWebhookAnswer](#githubwebhookanswer) |  |
+| commits? | ?[GitHubWebhookCommitsItem](#githubwebhookcommitsitem)[] |  |
+| compare? | ?string |  |
+| discussion? | ?[GitHubWebhookDiscussion](#githubwebhookdiscussion) |  |
+| forced? | ?boolean |  |
+| forkee? | ?[GitHubWebhookForkee](#githubwebhookforkee) |  |
+| head_commit? | ?[GitHubWebhookCommitsItem](#githubwebhookcommitsitem) |  |
+| issue? | ?[GitHubWebhookIssue](#githubwebhookissue) |  |
+| member? | ?[GitHubWebhookMember](#githubwebhookmember) |  |
+| pull_request? | ?[GitHubWebhookIssue](#githubwebhookissue) |  |
+| ref? | ?string |  |
+| ref_type? | ?string |  |
+| release? | ?[GitHubWebhookRelease](#githubwebhookrelease) |  |
+| repository? | ?[GitHubWebhookForkee](#githubwebhookforkee) |  |
+| review? | ?[GitHubWebhookReview](#githubwebhookreview) |  |
+| sender | [GitHubWebhookMember](#githubwebhookmember) |  |
+
+<a id="sentrywebhook"></a>
+
+## SentryWebhook
+
+**Related endpoints**
+
+- [`POST /webhooks/{webhook_id}/{token}/sentry`](/api-reference/webhooks/execute-sentry-webhook)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| action? | ?string |  |
+| actor? | ?[SentryWebhookActor](#sentrywebhookactor) |  |
+| data? | ?[SentryWebhookData](#sentrywebhookdata) |  |
+| installation? | ?[SentryWebhookInstallation](#sentrywebhookinstallation) |  |
+
+<a id="slackwebhookrequest"></a>
+
+## SlackWebhookRequest
+
+**Related endpoints**
+
+- [`POST /webhooks/{webhook_id}/{token}/slack`](/api-reference/webhooks/execute-slack-webhook)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| attachments? | [SlackWebhookRequestAttachmentsItem](#slackwebhookrequestattachmentsitem)[] | Array of attachment objects |
+| icon_url? | string | Override the default icon of the webhook |
+| text? | string | Main text content of the message |
+| username? | string | Override the default username of the webhook |
+
+<a id="webhookcreaterequest"></a>
+
+## WebhookCreateRequest
+
+**Related endpoints**
+
+- [`POST /channels/{channel_id}/webhooks`](/api-reference/webhooks/create-webhook)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| avatar? | ?[Base64ImageType](#base64imagetype) | The avatar image as a base64-encoded data URI |
+| name | string | The name of the webhook |
+
+<a id="webhookresponse"></a>
+
+## WebhookResponse
+
+**Related endpoints**
+
+- [`GET /channels/{channel_id}/webhooks`](/api-reference/webhooks/list-channel-webhooks)
+- [`GET /guilds/{guild_id}/webhooks`](/api-reference/webhooks/list-guild-webhooks)
+- [`GET /webhooks/{webhook_id}`](/api-reference/webhooks/get-webhook)
+- [`POST /channels/{channel_id}/webhooks`](/api-reference/webhooks/create-webhook)
+- [`PATCH /webhooks/{webhook_id}`](/api-reference/webhooks/update-webhook)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| avatar? | ?string | The hash of the webhook avatar image |
+| channel_id | [SnowflakeType](#snowflaketype) | The ID of the channel this webhook posts to |
+| guild_id | [SnowflakeType](#snowflaketype) | The ID of the guild this webhook belongs to |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier (snowflake) for the webhook |
+| name | string | The display name of the webhook |
+| token | string | The secure token used to execute the webhook |
+| user | [UserPartialResponse](#userpartialresponse) |  |
+
+<a id="webhooktokenresponse"></a>
+
+## WebhookTokenResponse
+
+**Related endpoints**
+
+- [`GET /webhooks/{webhook_id}/{token}`](/api-reference/webhooks/get-webhook-with-token)
+- [`PATCH /webhooks/{webhook_id}/{token}`](/api-reference/webhooks/update-webhook-with-token)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| avatar? | ?string | The hash of the webhook avatar image |
+| channel_id | [SnowflakeType](#snowflaketype) | The ID of the channel this webhook posts to |
+| guild_id | [SnowflakeType](#snowflaketype) | The ID of the guild this webhook belongs to |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier (snowflake) for the webhook |
+| name | string | The display name of the webhook |
+| token | string | The secure token used to execute the webhook |
+
+<a id="webhooktokenupdaterequest"></a>
+
+## WebhookTokenUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /webhooks/{webhook_id}/{token}`](/api-reference/webhooks/update-webhook-with-token)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| avatar? | ?[Base64ImageType](#base64imagetype) | The new avatar image as a base64-encoded data URI |
+| name? | string | The new name of the webhook |
+
+<a id="webhooktype"></a>
+
+## WebhookType
+
+The type of webhook
+
+| Value | Description |
+|-------|-------------|
+| `1` | Incoming webhook |
+| `2` | Channel follower webhook |
+
+<a id="webhookupdaterequest"></a>
+
+## WebhookUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /webhooks/{webhook_id}`](/api-reference/webhooks/update-webhook)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| avatar? | ?[Base64ImageType](#base64imagetype) | The new avatar image as a base64-encoded data URI |
+| channel_id? | [SnowflakeType](#snowflaketype) |  |
+| name? | string | The new name of the webhook |
+
+<a id="githubwebhookanswer"></a>
+
+## GitHubWebhookAnswer
+
+| Field | Type | Description |
+|-------|------|-------------|
+| body | string |  |
+| commit_id? | ?[SnowflakeType](#snowflaketype) |  |
+| html_url | string |  |
+| id | [Int64Type](#int64type) |  |
+| user | [GitHubWebhookMember](#githubwebhookmember) |  |
+
+<a id="githubwebhookcheckrun"></a>
+
+## GitHubWebhookCheckRun
+
+| Field | Type | Description |
+|-------|------|-------------|
+| check_suite | [GitHubWebhookCheckSuite](#githubwebhookchecksuite) |  |
+| conclusion? | ?string |  |
+| details_url? | ?string |  |
+| html_url | string |  |
+| name | string |  |
+| output? | ?[GitHubWebhookCheckRunOutput](#githubwebhookcheckrunoutput) |  |
+| pull_requests? | ?[GitHubWebhookCheckRunPullRequestsItem](#githubwebhookcheckrunpullrequestsitem)[] |  |
+
+<a id="githubwebhookchecksuite"></a>
+
+## GitHubWebhookCheckSuite
+
+| Field | Type | Description |
+|-------|------|-------------|
+| app | [GuildEmojiUpdateRequest](#guildemojiupdaterequest) |  |
+| conclusion? | ?string |  |
+| head_branch? | ?string |  |
+| head_sha | string |  |
+| pull_requests? | ?[GitHubWebhookCheckRunPullRequestsItem](#githubwebhookcheckrunpullrequestsitem)[] |  |
+
+<a id="githubwebhookcommitsitem"></a>
+
+## GitHubWebhookCommitsItem
+
+| Field | Type | Description |
+|-------|------|-------------|
+| author | [GitHubWebhookCommitsItemAuthor](#githubwebhookcommitsitemauthor) |  |
+| id | [SnowflakeType](#snowflaketype) |  |
+| message | string |  |
+| url | string |  |
+
+<a id="githubwebhookdiscussion"></a>
+
+## GitHubWebhookDiscussion
+
+| Field | Type | Description |
+|-------|------|-------------|
+| answer_html_url? | ?string |  |
+| body? | ?string |  |
+| html_url | string |  |
+| number | [Int32Type](#int32type) |  |
+| title | string |  |
+| user | [GitHubWebhookMember](#githubwebhookmember) |  |
+
+<a id="githubwebhookforkee"></a>
+
+## GitHubWebhookForkee
+
+| Field | Type | Description |
+|-------|------|-------------|
+| full_name | string |  |
+| html_url | string |  |
+| id | [Int32Type](#int32type) |  |
+| name | string |  |
+
+<a id="githubwebhookissue"></a>
+
+## GitHubWebhookIssue
+
+| Field | Type | Description |
+|-------|------|-------------|
+| body? | ?string |  |
+| html_url | string |  |
+| id | [Int64Type](#int64type) |  |
+| number | [Int32Type](#int32type) |  |
+| title | string |  |
+| user | [GitHubWebhookMember](#githubwebhookmember) |  |
+
+<a id="githubwebhookmember"></a>
+
+## GitHubWebhookMember
+
+| Field | Type | Description |
+|-------|------|-------------|
+| avatar_url | string |  |
+| html_url | string |  |
+| id | [Int32Type](#int32type) |  |
+| login | string |  |
+
+<a id="githubwebhookrelease"></a>
+
+## GitHubWebhookRelease
+
+| Field | Type | Description |
+|-------|------|-------------|
+| body? | ?string |  |
+| html_url | string |  |
+| id | [Int32Type](#int32type) |  |
+| tag_name | string |  |
+
+<a id="githubwebhookreview"></a>
+
+## GitHubWebhookReview
+
+| Field | Type | Description |
+|-------|------|-------------|
+| body? | ?string |  |
+| html_url | string |  |
+| state | string |  |
+| user | [GitHubWebhookMember](#githubwebhookmember) |  |
+
+<a id="sentrywebhookactor"></a>
+
+## SentryWebhookActor
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | [SnowflakeType](#snowflaketype) |  |
+| name | string |  |
+| type | string |  |
+
+<a id="sentrywebhookdata"></a>
+
+## SentryWebhookData
+
+| Field | Type | Description |
+|-------|------|-------------|
+| issue | [SentryWebhookDataIssue](#sentrywebhookdataissue) |  |
+
+<a id="sentrywebhookinstallation"></a>
+
+## SentryWebhookInstallation
+
+| Field | Type | Description |
+|-------|------|-------------|
+| uuid | string |  |
+
+<a id="slackwebhookrequestattachmentsitem"></a>
+
+## SlackWebhookRequestAttachmentsItem
+
+Array of attachment objects
+
+| Field | Type | Description |
+|-------|------|-------------|
+| author_icon? | string | URL for the author icon image |
+| author_link? | string | URL to link from the author name |
+| author_name? | string | Name of the author |
+| color? | string | Colour of the attachment sidebar (hex code or preset) |
+| fallback? | string | Fallback text for notifications |
+| fields? | [SlackWebhookRequestAttachmentsItemFieldsItem](#slackwebhookrequestattachmentsitemfieldsitem)[] | Array of field objects |
+| footer? | string | Footer text displayed at the bottom |
+| image_url? | string | URL of the main image to display |
+| pretext? | string | Text that appears above the attachment block |
+| text? | string | Main text content of the attachment |
+| thumb_url? | string | URL of a thumbnail image |
+| title? | string | Title of the attachment |
+| title_link? | string | URL to link from the title |
+| ts? | integer (int64) | Unix timestamp for the attachment footer |
+

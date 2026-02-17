@@ -17,18 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
+import {getParserFlagsForContext, render, wrapRenderedContent} from '@app/lib/markdown/renderers';
+import {MarkdownContext, type MarkdownParseOptions} from '@app/lib/markdown/renderers/RendererTypes';
+import markupStyles from '@app/styles/Markup.module.css';
+import {Parser} from '@fluxer/markdown_parser/src/parser/Parser';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import React from 'react';
-import markupStyles from '~/styles/Markup.module.css';
-import {Parser} from './parser/parser/parser';
-import {
-	getParserFlagsForContext,
-	MarkdownContext,
-	type MarkdownParseOptions,
-	render,
-	wrapRenderedContent,
-} from './renderers';
+
+const logger = new Logger('SafeMarkdown');
 
 const MarkdownErrorBoundary = class MarkdownErrorBoundary extends React.Component<
 	{children: React.ReactNode},
@@ -44,7 +42,7 @@ const MarkdownErrorBoundary = class MarkdownErrorBoundary extends React.Componen
 	}
 
 	override componentDidCatch(error: Error, info: React.ErrorInfo) {
-		console.error('Error rendering markdown:', error, info);
+		logger.error('Error rendering markdown:', error, info);
 	}
 
 	override render() {
@@ -74,7 +72,7 @@ function parseMarkdown(
 
 		return wrapRenderedContent(renderedContent, options.context);
 	} catch (error) {
-		console.error(`Error parsing markdown (${options.context}):`, error);
+		logger.error(`Error parsing markdown (${options.context}):`, error);
 		return <span>{content}</span>;
 	}
 }

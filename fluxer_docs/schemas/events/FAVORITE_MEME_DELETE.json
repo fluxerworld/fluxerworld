@@ -1,0 +1,17 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "FAVORITE_MEME_DELETE",
+	"description": "A favourite meme was deleted from the user's collection.",
+	"scope": "presence",
+	"dispatchedBy": ["DELETE /users/@me/memes/:meme_id"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"meme_id": {
+				"type": "string",
+				"description": "ID of the deleted favourite meme"
+			}
+		},
+		"required": ["meme_id"]
+	}
+}

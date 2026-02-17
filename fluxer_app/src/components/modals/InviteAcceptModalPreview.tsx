@@ -17,20 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {PreviewGuildInviteHeader} from '@app/components/auth/InviteHeader';
+import styles from '@app/components/modals/InviteAcceptModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import foodPatternUrl from '@app/images/i-like-food.svg';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import PresenceStore from '@app/stores/PresenceStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {GuildFeatures} from '~/Constants';
-import {PreviewGuildInviteHeader} from '~/components/auth/InviteHeader';
-import styles from '~/components/modals/InviteAcceptModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import foodPatternUrl from '~/images/i-like-food.svg';
-import type {GuildRecord} from '~/records/GuildRecord';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import PresenceStore from '~/stores/PresenceStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
+import {useCallback, useMemo} from 'react';
 
 interface InviteAcceptModalPreviewProps {
 	guild: GuildRecord;
@@ -50,20 +49,18 @@ export const InviteAcceptModalPreview = observer(function InviteAcceptModalPrevi
 	hasClearedSplash,
 }: InviteAcceptModalPreviewProps) {
 	const {t} = useLingui();
-	const handleDismiss = React.useCallback(() => {
+	const handleDismiss = useCallback(() => {
 		ModalActionCreators.pop();
 	}, []);
 
 	const presenceCount = PresenceStore.getPresenceCount(guild.id);
 	const memberCount = GuildMemberStore.getMemberCount(guild.id);
 
-	const guildFeatures = React.useMemo(() => {
+	const guildFeatures = useMemo(() => {
 		return Array.from(guild.features);
 	}, [guild.features]);
 
-	const isVerified = guildFeatures.includes(GuildFeatures.VERIFIED);
-
-	const splashUrl = React.useMemo(() => {
+	const splashUrl = useMemo(() => {
 		if (hasClearedSplash) {
 			return null;
 		}
@@ -102,7 +99,7 @@ export const InviteAcceptModalPreview = observer(function InviteAcceptModalPrevi
 							guildId={guild.id}
 							guildName={guild.name}
 							guildIcon={guild.icon}
-							isVerified={isVerified}
+							features={guildFeatures}
 							presenceCount={presenceCount}
 							memberCount={memberCount}
 							previewIconUrl={hasClearedIcon ? null : previewIconUrl}

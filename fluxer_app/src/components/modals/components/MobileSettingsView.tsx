@@ -17,48 +17,47 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as NagbarActionCreators from '@app/actions/NagbarActionCreators';
+import {LongPressable} from '@app/components/LongPressable';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {ClientInfo} from '@app/components/modals/components/ClientInfo';
+import {LogoutModal} from '@app/components/modals/components/LogoutModal';
+import styles from '@app/components/modals/components/MobileSettingsView.module.css';
+import type {MobileNavigationState} from '@app/components/modals/hooks/useMobileNavigation';
+import {useSettingsContentKey} from '@app/components/modals/hooks/useSettingsContentKey';
+import {useUnsavedChangesFlash} from '@app/components/modals/hooks/useUnsavedChangesFlash';
+import {
+	MobileHeader,
+	MobileHeaderWithBanner,
+	MobileSettingsDangerItem,
+} from '@app/components/modals/shared/MobileSettingsComponents';
+import userSettingsStyles from '@app/components/modals/UserSettingsModal.module.css';
+import {getSettingsTabComponent} from '@app/components/modals/utils/DesktopSettingsTabs';
+import type {SettingsTab} from '@app/components/modals/utils/SettingsConstants';
+import {getCategoryLabel} from '@app/components/modals/utils/SettingsConstants';
+import type {UserSettingsTabType} from '@app/components/modals/utils/SettingsSectionRegistry';
+import {filterSettingsTabsForDeveloperMode} from '@app/components/modals/utils/SettingsTabFilters';
+import {MentionBadgeAnimated} from '@app/components/uikit/MentionBadge';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {usePressable} from '@app/hooks/usePressable';
+import {usePushSubscriptions} from '@app/hooks/usePushSubscriptions';
+import {Logger} from '@app/lib/Logger';
+import {activateLatestServiceWorker} from '@app/lib/Versioning';
+import * as PushSubscriptionService from '@app/services/push/PushSubscriptionService';
+import DeveloperModeStore from '@app/stores/DeveloperModeStore';
+import UserStore from '@app/stores/UserStore';
+import {isPwaOnMobileOrTablet} from '@app/utils/PwaUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {ArrowClockwiseIcon, ArrowLeftIcon, BellSlashIcon, type IconWeight, SignOutIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {AnimatePresence, motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as NagbarActionCreators from '~/actions/NagbarActionCreators';
-import * as UnsavedChangesActionCreators from '~/actions/UnsavedChangesActionCreators';
-import {LongPressable} from '~/components/LongPressable';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {ClientInfo} from '~/components/modals/components/ClientInfo';
-import {LogoutModal} from '~/components/modals/components/LogoutModal';
-import styles from '~/components/modals/components/MobileSettingsView.module.css';
-import type {MobileNavigationState} from '~/components/modals/hooks/useMobileNavigation';
-import {useSettingsContentKey} from '~/components/modals/hooks/useSettingsContentKey';
-import {
-	MobileSettingsDangerItem,
-	MobileHeader as SharedMobileHeader,
-} from '~/components/modals/shared/MobileSettingsComponents';
-import userSettingsStyles from '~/components/modals/UserSettingsModal.module.css';
-import {getSettingsTabComponent} from '~/components/modals/utils/desktopSettingsTabs';
-import {
-	getCategoryLabel,
-	type SettingsTab,
-	type UserSettingsTabType,
-} from '~/components/modals/utils/settingsConstants';
-import {filterSettingsTabsForDeveloperMode} from '~/components/modals/utils/settingsTabFilters';
-import {Button} from '~/components/uikit/Button/Button';
-import {MentionBadgeAnimated} from '~/components/uikit/MentionBadge';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Spinner} from '~/components/uikit/Spinner';
-import {usePressable} from '~/hooks/usePressable';
-import {usePushSubscriptions} from '~/hooks/usePushSubscriptions';
-import {activateLatestServiceWorker} from '~/lib/versioning';
-import * as PushSubscriptionService from '~/services/push/PushSubscriptionService';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import DeveloperModeStore from '~/stores/DeveloperModeStore';
-import UnsavedChangesStore from '~/stores/UnsavedChangesStore';
-import UserStore from '~/stores/UserStore';
-import {isPwaOnMobileOrTablet} from '~/utils/PwaUtils';
+import React, {type UIEvent, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+
+const logger = new Logger('MobileSettingsView');
 
 interface MobileSettingsViewProps {
 	groupedSettingsTabs: Record<string, Array<SettingsTab>>;
@@ -69,87 +68,6 @@ interface MobileSettingsViewProps {
 	initialGuildId?: string;
 	initialSubtab?: string;
 }
-
-const MobileHeaderWithBanner = observer(
-	({
-		title,
-		onBack,
-		showBackButton = true,
-		showUnsavedBanner = false,
-		flashBanner = false,
-		tabData = {},
-	}: {
-		title: string;
-		onBack?: () => void;
-		showBackButton?: boolean;
-		showUnsavedBanner?: boolean;
-		flashBanner?: boolean;
-		tabData?: any;
-	}) => {
-		const {t} = useLingui();
-		const prefersReducedMotion = AccessibilityStore.useReducedMotion;
-
-		return (
-			<div
-				className={`safe-area-top ${styles.header}`}
-				style={{
-					transitionDuration: prefersReducedMotion ? '0ms' : '200ms',
-					backgroundColor: showUnsavedBanner
-						? flashBanner
-							? 'var(--status-danger)'
-							: 'var(--background-primary)'
-						: 'var(--background-primary)',
-				}}
-			>
-				<AnimatePresence mode="wait">
-					{showUnsavedBanner ? (
-						<motion.div
-							key="banner"
-							initial={prefersReducedMotion ? {opacity: 1} : {opacity: 0}}
-							animate={{opacity: 1}}
-							exit={prefersReducedMotion ? {opacity: 1} : {opacity: 0}}
-							transition={prefersReducedMotion ? {duration: 0} : {duration: 0.25, ease: 'easeOut'}}
-							className={styles.headerContent}
-						>
-							<div className={styles.bannerTextContainer}>
-								<div
-									className={`${styles.bannerText} ${flashBanner ? styles.bannerTextWhite : styles.bannerTextPrimary}`}
-								>
-									<Trans>Careful! You have unsaved changes.</Trans>
-								</div>
-							</div>
-							<div className={styles.bannerActions}>
-								<Button variant="secondary" small={true} onClick={tabData.onReset}>
-									<Trans>Reset</Trans>
-								</Button>
-								<Button small={true} onClick={tabData.onSave} submitting={tabData.isSubmitting}>
-									<Trans>Save</Trans>
-								</Button>
-							</div>
-						</motion.div>
-					) : (
-						<motion.div
-							key="title"
-							initial={prefersReducedMotion ? {opacity: 1} : {opacity: 0}}
-							animate={{opacity: 1}}
-							exit={prefersReducedMotion ? {opacity: 1} : {opacity: 0}}
-							transition={prefersReducedMotion ? {duration: 0} : {duration: 0.25, ease: 'easeOut'}}
-							className={styles.headerContentRelative}
-						>
-							{showBackButton && onBack && (
-								<button type="button" onClick={onBack} className={styles.backButton} aria-label={t`Go back`}>
-									<ArrowLeftIcon className={styles.icon5} />
-								</button>
-							)}
-							<h1 className={styles.headerTitle}>{title}</h1>
-							<div className={styles.headerSpacer} />
-						</motion.div>
-					)}
-				</AnimatePresence>
-			</div>
-		);
-	},
-);
 
 interface PressableSettingsItemProps {
 	tab: SettingsTab;
@@ -217,7 +135,7 @@ const MobileSettingsActionItem: React.FC<MobileSettingsActionItemProps> = observ
 
 const ServiceWorkerUpdateButton = observer(() => {
 	const {t} = useLingui();
-	const [isUpdating, setIsUpdating] = React.useState(false);
+	const [isUpdating, setIsUpdating] = useState(false);
 
 	const handleUpdateServiceWorker = async () => {
 		if (isUpdating) return;
@@ -226,7 +144,7 @@ const ServiceWorkerUpdateButton = observer(() => {
 			await activateLatestServiceWorker();
 			window.location.reload();
 		} catch (error) {
-			console.error('Failed to update service worker:', error);
+			logger.error('Failed to update service worker:', error);
 		} finally {
 			setIsUpdating(false);
 		}
@@ -250,20 +168,24 @@ const MobileSettingsList = observer(
 	({
 		groupedTabs,
 		onTabSelect,
+		scrollRef,
+		onScroll,
 	}: {
 		groupedTabs: Record<string, Array<SettingsTab>>;
 		onTabSelect: (tab: string, title: string) => void;
+		scrollRef?: React.Ref<ScrollerHandle>;
+		onScroll?: (event: UIEvent<HTMLDivElement>) => void;
 	}) => {
 		const {t} = useLingui();
 		const currentUser = UserStore.currentUser;
 		const isDeveloper = DeveloperModeStore.isDeveloper;
 
-		const filteredTabs = React.useMemo(
+		const filteredTabs = useMemo(
 			() => filterSettingsTabsForDeveloperMode(groupedTabs, isDeveloper),
 			[groupedTabs, isDeveloper],
 		);
 
-		const mobileVisibleTabs = React.useMemo(() => {
+		const mobileVisibleTabs = useMemo(() => {
 			const visibleTabs: Record<string, Array<SettingsTab>> = {};
 			Object.entries(filteredTabs).forEach(([category, tabs]) => {
 				const filteredCategoryTabs = tabs.filter((tab) => !MOBILE_HIDDEN_TAB_TYPES.has(tab.type));
@@ -274,7 +196,7 @@ const MobileSettingsList = observer(
 			return visibleTabs;
 		}, [filteredTabs]);
 
-		const handleLogout = React.useCallback(() => {
+		const handleLogout = useCallback(() => {
 			ModalActionCreators.push(modal(() => <LogoutModal />));
 		}, []);
 
@@ -282,11 +204,11 @@ const MobileSettingsList = observer(
 		const {subscriptions, refresh: refreshPushSubscriptions} = usePushSubscriptions(isPwaMobile);
 		const showForgetPushAction = isPwaMobile && subscriptions.length > 0;
 
-		const handleForgetPushSubscriptions = React.useCallback(() => {
+		const handleForgetPushSubscriptions = useCallback(() => {
 			ModalActionCreators.push(
 				modal(() => (
 					<ConfirmModal
-						title={t`Forget push subscriptions?`}
+						title={t`Forget Push Subscriptions?`}
 						description={
 							<p>
 								<Trans>Clearing subscriptions ensures the gateway stops sending messages to this installation.</Trans>
@@ -308,7 +230,7 @@ const MobileSettingsList = observer(
 			);
 		}, [refreshPushSubscriptions, t]);
 
-		const debugActions = React.useMemo(() => {
+		const debugActions = useMemo(() => {
 			const actions: Array<{key: string; element: React.ReactElement}> = [
 				{key: 'update', element: <ServiceWorkerUpdateButton key="service-worker" />},
 			];
@@ -334,7 +256,12 @@ const MobileSettingsList = observer(
 		const lastCategoryIndex = categories.length - 1;
 
 		return (
-			<Scroller className={styles.scrollerContainer} key="mobile-settings-list-scroller">
+			<Scroller
+				className={styles.scrollerContainer}
+				key="mobile-settings-list-scroller"
+				ref={scrollRef}
+				onScroll={onScroll}
+			>
 				{categories.map(([category, tabs], categoryIndex) => (
 					<div key={category} className={styles.categorySection}>
 						<h2 className={styles.categoryTitle}>{getCategoryLabel(category as SettingsTab['category'])}</h2>
@@ -396,7 +323,7 @@ interface MobileContentWithScrollSpyProps {
 	scrollKey: string;
 	initialGuildId?: string;
 	initialSubtab?: string;
-	currentTabComponent: React.ComponentType<any> | null;
+	currentTabComponent: React.ComponentType<Record<string, unknown>> | null;
 }
 
 const MobileContentWithScrollSpy: React.FC<MobileContentWithScrollSpyProps> = observer(
@@ -408,7 +335,7 @@ const MobileContentWithScrollSpy: React.FC<MobileContentWithScrollSpyProps> = ob
 						React.createElement(currentTabComponent, {
 							...(initialGuildId ? {initialGuildId} : {}),
 							...(initialSubtab ? {initialSubtab} : {}),
-						} as any)}
+						} as Record<string, unknown>)}
 				</div>
 			</Scroller>
 		);
@@ -418,16 +345,10 @@ const MobileContentWithScrollSpy: React.FC<MobileContentWithScrollSpyProps> = ob
 export const MobileSettingsView: React.FC<MobileSettingsViewProps> = observer(
 	({groupedSettingsTabs, currentTab, mobileNav, onBack, onTabSelect, initialGuildId, initialSubtab}) => {
 		const {t} = useLingui();
-		const unsavedChangesStore = UnsavedChangesStore;
-		const [flashBanner, setFlashBanner] = React.useState(false);
-		const [lastFlashTrigger, setLastFlashTrigger] = React.useState(0);
-
-		const currentTabId = mobileNav.currentView?.tab || '';
-		const showUnsavedBanner = unsavedChangesStore.unsavedChanges[currentTabId] || false;
-		const flashTrigger = unsavedChangesStore.flashTriggers[currentTabId] || 0;
-		const tabData = unsavedChangesStore.tabData[currentTabId] || {};
+		const currentTabId = mobileNav.currentView?.tab;
+		const {showUnsavedBanner, flashBanner, tabData, checkUnsavedChanges} = useUnsavedChangesFlash(currentTabId);
 		const {contentKey} = useSettingsContentKey();
-		const scrollKey = React.useMemo(() => {
+		const scrollKey = useMemo(() => {
 			if (!currentTabId) {
 				return 'user-settings-mobile-root';
 			}
@@ -436,36 +357,35 @@ export const MobileSettingsView: React.FC<MobileSettingsViewProps> = observer(
 			return `user-settings-${currentTabId}-${subtabKey}`;
 		}, [contentKey, currentTabId, initialSubtab]);
 
-		React.useEffect(() => {
-			if (flashTrigger > lastFlashTrigger) {
-				setFlashBanner(true);
-				setLastFlashTrigger(flashTrigger);
-				setTimeout(() => setFlashBanner(false), 300);
-			}
-		}, [flashTrigger, lastFlashTrigger]);
-
-		const checkUnsavedChanges = (tabId?: string): boolean => {
-			const checkTabId = tabId || mobileNav.currentView?.tab;
-			if (!checkTabId) return false;
-			if (unsavedChangesStore.unsavedChanges[checkTabId]) {
-				UnsavedChangesActionCreators.triggerFlashEffect(checkTabId);
-				return true;
-			}
-			return false;
-		};
-
-		const handleBack = () => {
+		const handleBack = useCallback(() => {
 			if (checkUnsavedChanges()) return;
 			onBack();
-		};
+		}, [checkUnsavedChanges, onBack]);
 
-		const handleTabSelect = (tab: string, title: string) => {
-			if (checkUnsavedChanges()) return;
-			onTabSelect(tab, title);
-		};
+		const handleTabSelect = useCallback(
+			(tab: string, title: string) => {
+				if (checkUnsavedChanges()) return;
+				onTabSelect(tab, title);
+			},
+			[checkUnsavedChanges, onTabSelect],
+		);
 
 		const showMobileList = mobileNav.isRootView;
 		const showMobileContent = !mobileNav.isRootView;
+		const listScrollPositionRef = useRef(0);
+		const listScrollerRef = useRef<ScrollerHandle | null>(null);
+		const handleListScroll = useCallback((event: UIEvent<HTMLDivElement>) => {
+			listScrollPositionRef.current = event.currentTarget.scrollTop;
+		}, []);
+
+		useEffect(() => {
+			if (!showMobileList) return;
+			const scroller = listScrollerRef.current;
+			if (!scroller) return;
+			const target = listScrollPositionRef.current;
+			if (target === 0) return;
+			scroller.scrollTo({to: target, animate: false});
+		}, [showMobileList]);
 		const currentTabComponent = currentTab ? getSettingsTabComponent(currentTab.type) : null;
 
 		return (
@@ -482,7 +402,7 @@ export const MobileSettingsView: React.FC<MobileSettingsViewProps> = observer(
 								transition={{duration: 0.08, ease: 'easeInOut'}}
 								className={userSettingsStyles.mobileHeaderContent}
 							>
-								<SharedMobileHeader title={t`Settings`} onBack={() => ModalActionCreators.pop()} />
+								<MobileHeader title={t`Settings`} onBack={() => ModalActionCreators.pop()} />
 							</motion.div>
 						)}
 						{showMobileContent && currentTab && (
@@ -520,7 +440,12 @@ export const MobileSettingsView: React.FC<MobileSettingsViewProps> = observer(
 								className={userSettingsStyles.mobileContentPane}
 								style={{willChange: 'transform'}}
 							>
-								<MobileSettingsList groupedTabs={groupedSettingsTabs} onTabSelect={handleTabSelect} />
+								<MobileSettingsList
+									groupedTabs={groupedSettingsTabs}
+									onTabSelect={handleTabSelect}
+									scrollRef={listScrollerRef}
+									onScroll={handleListScroll}
+								/>
 							</motion.div>
 						)}
 						{showMobileContent && currentTab && (

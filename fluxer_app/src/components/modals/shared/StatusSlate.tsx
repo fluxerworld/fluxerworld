@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/modals/shared/StatusSlate.module.css';
+import {Button} from '@app/components/uikit/button/Button';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {Button} from '~/components/uikit/Button/Button';
-import styles from './StatusSlate.module.css';
 
 interface StatusAction {
 	text: React.ReactNode;

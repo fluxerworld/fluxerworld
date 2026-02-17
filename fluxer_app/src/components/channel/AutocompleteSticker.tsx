@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {AutocompleteOption} from '@app/components/channel/Autocomplete';
+import {isSticker} from '@app/components/channel/Autocomplete';
+import styles from '@app/components/channel/AutocompleteEmoji.module.css';
+import {AutocompleteItem} from '@app/components/channel/AutocompleteItem';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import type {AutocompleteOption} from './Autocomplete';
-import {isSticker} from './Autocomplete';
-import styles from './AutocompleteEmoji.module.css';
-import {AutocompleteItem} from './AutocompleteItem';
 
 export const AutocompleteSticker = observer(
 	({

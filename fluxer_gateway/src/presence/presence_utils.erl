@@ -28,6 +28,8 @@
 
 -define(PRESENCE_BATCH_SIZE, 500).
 
+-type user_id() :: integer().
+
 -spec collect_guild_member_presences(map()) -> [map()].
 collect_guild_member_presences(GuildState) ->
     MemberIds = collect_guild_member_ids(GuildState),
@@ -39,13 +41,13 @@ collect_guild_member_presences(GuildState) ->
             [P || P <- Presences, is_visible_presence(P)]
     end.
 
--spec collect_guild_member_ids(map()) -> [integer()].
+-spec collect_guild_member_ids(map()) -> [user_id()].
 collect_guild_member_ids(GuildState) ->
     Members = get_members_from_guild_state(GuildState),
     MemberIds = [member_user_id(M) || M <- Members],
     [Id || Id <- MemberIds, Id =/= undefined].
 
--spec filter_self_presence(integer(), [map()]) -> [map()].
+-spec filter_self_presence(user_id(), [map()]) -> [map()].
 filter_self_presence(UserId, Presences) ->
     [P || P <- Presences, presence_user_id(P) =/= UserId].
 
@@ -60,13 +62,14 @@ batch_presences([]) ->
 batch_presences(Presences) ->
     batch_presences(Presences, []).
 
+-spec batch_presences([map()], [[map()]]) -> [[map()]].
 batch_presences([], Acc) ->
     lists:reverse(Acc);
 batch_presences(Presences, Acc) ->
     {Batch, Rest} = take_batch(Presences, ?PRESENCE_BATCH_SIZE),
     batch_presences(Rest, [Batch | Acc]).
 
--spec send_presence_bulk(pid(), integer(), integer(), [map()]) -> ok.
+-spec send_presence_bulk(pid(), integer(), user_id(), [map()]) -> ok.
 send_presence_bulk(_Pid, _GuildId, _UserId, []) ->
     ok;
 send_presence_bulk(Pid, GuildId, UserId, Presences) ->
@@ -88,24 +91,28 @@ send_presence_bulk(Pid, GuildId, UserId, Presences) ->
             )
     end.
 
+-spec get_members_from_guild_state(map()) -> [map()].
 get_members_from_guild_state(GuildState) ->
     case maps:get(data, GuildState, undefined) of
         undefined ->
-            map_utils:ensure_list(maps:get(<<"members">>, GuildState, []));
+            guild_data_index:member_values(GuildState);
         Data ->
-            map_utils:ensure_list(maps:get(<<"members">>, Data, []))
+            guild_data_index:member_values(Data)
     end.
 
+-spec member_user_id(map()) -> user_id() | undefined.
 member_user_id(Member) ->
     User = maps:get(<<"user">>, Member, #{}),
     map_utils:get_integer(User, <<"id">>, undefined).
 
+-spec presence_user_id(map() | term()) -> user_id() | undefined.
 presence_user_id(P) when is_map(P) ->
     User = maps:get(<<"user">>, P, #{}),
     map_utils:get_integer(User, <<"id">>, undefined);
 presence_user_id(_) ->
     undefined.
 
+-spec take_batch([T], pos_integer()) -> {[T], [T]} when T :: term().
 take_batch(List, N) when length(List) =< N ->
     {List, []};
 take_batch(List, N) ->
@@ -184,4 +191,24 @@ collect_guild_member_ids_external_format_test() ->
     Ids = collect_guild_member_ids(GuildState),
     ?assertEqual([100, 200], lists:sort(Ids)).
 
+take_batch_small_list_test() ->
+    {Batch, Rest} = take_batch([1, 2, 3], 10),
+    ?assertEqual([1, 2, 3], Batch),
+    ?assertEqual([], Rest).
+
+take_batch_exact_test() ->
+    {Batch, Rest} = take_batch([1, 2, 3], 3),
+    ?assertEqual([1, 2, 3], Batch),
+    ?assertEqual([], Rest).
+
+take_batch_split_test() ->
+    {Batch, Rest} = take_batch([1, 2, 3, 4, 5], 2),
+    ?assertEqual([1, 2], Batch),
+    ?assertEqual([3, 4, 5], Rest).
+
+presence_user_id_test() ->
+    ?assertEqual(123, presence_user_id(#{<<"user">> => #{<<"id">> => <<"123">>}})),
+    ?assertEqual(undefined, presence_user_id(#{<<"user">> => #{}})),
+    ?assertEqual(undefined, presence_user_id(#{})),
+    ?assertEqual(undefined, presence_user_id(invalid)).
 -endif.

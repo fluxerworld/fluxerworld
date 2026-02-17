@@ -17,12 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {useMaybeMessageViewContext} from '@app/components/channel/MessageViewContext';
+import {PreloadableUserPopout} from '@app/components/channel/PreloadableUserPopout';
+import {Avatar} from '@app/components/uikit/Avatar';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import type {UserRecord} from '@app/records/UserRecord';
 import {observer} from 'mobx-react-lite';
-import {PreloadableUserPopout} from '~/components/channel/PreloadableUserPopout';
-import {Avatar} from '~/components/uikit/Avatar';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import type {MessageRecord} from '~/records/MessageRecord';
-import type {UserRecord} from '~/records/UserRecord';
+import {useCallback} from 'react';
 
 export const MessageAvatar = observer(
 	({
@@ -41,13 +43,20 @@ export const MessageAvatar = observer(
 		isHovering: boolean;
 		isPreview: boolean;
 	}) => {
+		const onPopoutToggle = useMaybeMessageViewContext()?.onPopoutToggle;
+		const handlePopoutOpen = useCallback(() => onPopoutToggle?.(true), [onPopoutToggle]);
+		const handlePopoutClose = useCallback(() => onPopoutToggle?.(false), [onPopoutToggle]);
+
 		return (
 			<PreloadableUserPopout
 				user={user}
 				isWebhook={message.webhookId != null}
+				webhookId={message.webhookId ?? undefined}
 				guildId={guildId}
 				channelId={message.channelId}
 				enableLongPressActions={false}
+				onPopoutOpen={handlePopoutOpen}
+				onPopoutClose={handlePopoutClose}
 			>
 				<FocusRing>
 					<Avatar

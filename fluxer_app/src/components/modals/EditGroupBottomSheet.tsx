@@ -17,26 +17,28 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ChannelActionCreators from '@app/actions/ChannelActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import {AssetCropModal, AssetType} from '@app/components/modals/AssetCropModal';
+import styles from '@app/components/modals/EditGroupBottomSheet.module.css';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import {Button} from '@app/components/uikit/button/Button';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import ChannelStore from '@app/stores/ChannelStore';
+import {isAnimatedFile} from '@app/utils/AnimatedImageUtils';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {openFilePicker} from '@app/utils/FilePickerUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {ArrowLeftIcon, PlusIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import type React from 'react';
+import {useCallback, useMemo, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import * as ChannelActionCreators from '~/actions/ChannelActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import styles from '~/components/modals/EditGroupBottomSheet.module.css';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import {Button} from '~/components/uikit/Button/Button';
-import {Scroller} from '~/components/uikit/Scroller';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import ChannelStore from '~/stores/ChannelStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import {openFilePicker} from '~/utils/FilePickerUtils';
-import {AssetCropModal, AssetType} from './AssetCropModal';
 
 interface FormInputs {
 	icon?: string | null;
@@ -52,13 +54,13 @@ interface EditGroupBottomSheetProps {
 export const EditGroupBottomSheet: React.FC<EditGroupBottomSheetProps> = observer(({isOpen, onClose, channelId}) => {
 	const {t} = useLingui();
 	const channel = ChannelStore.getChannel(channelId);
-	const [hasClearedIcon, setHasClearedIcon] = React.useState(false);
-	const [previewIconUrl, setPreviewIconUrl] = React.useState<string | null>(null);
+	const [hasClearedIcon, setHasClearedIcon] = useState(false);
+	const [previewIconUrl, setPreviewIconUrl] = useState<string | null>(null);
 	const form = useForm<FormInputs>({
-		defaultValues: React.useMemo(() => ({name: channel?.name || ''}), [channel]),
+		defaultValues: useMemo(() => ({name: channel?.name || ''}), [channel]),
 	});
 
-	const handleIconUpload = React.useCallback(
+	const handleIconUpload = useCallback(
 		async (file: File | null) => {
 			try {
 				if (!file) return;
@@ -71,7 +73,9 @@ export const EditGroupBottomSheet: React.FC<EditGroupBottomSheetProps> = observe
 					return;
 				}
 
-				if (file.type === 'image/gif') {
+				const animated = await isAnimatedFile(file);
+
+				if (animated) {
 					ToastActionCreators.createToast({
 						type: 'error',
 						children: t`Animated icons are not supported. Please use JPEG, PNG, or WebP.`,
@@ -123,18 +127,18 @@ export const EditGroupBottomSheet: React.FC<EditGroupBottomSheetProps> = observe
 		[form],
 	);
 
-	const handleIconUploadClick = React.useCallback(async () => {
-		const [file] = await openFilePicker({accept: 'image/jpeg,image/png,image/webp,image/gif'});
+	const handleIconUploadClick = useCallback(async () => {
+		const [file] = await openFilePicker({accept: 'image/jpeg,image/png,image/webp,image/gif,image/avif'});
 		await handleIconUpload(file ?? null);
 	}, [handleIconUpload]);
 
-	const handleClearIcon = React.useCallback(() => {
+	const handleClearIcon = useCallback(() => {
 		form.setValue('icon', null);
 		setPreviewIconUrl(null);
 		setHasClearedIcon(true);
 	}, [form]);
 
-	const onSubmit = React.useCallback(
+	const onSubmit = useCallback(
 		async (data: FormInputs) => {
 			const newChannel = await ChannelActionCreators.update(channelId, {
 				icon: data.icon,
@@ -159,7 +163,7 @@ export const EditGroupBottomSheet: React.FC<EditGroupBottomSheetProps> = observe
 
 	const iconPresentable = hasClearedIcon
 		? null
-		: (previewIconUrl ?? AvatarUtils.getChannelIconURL({id: channel.id, icon: channel.icon}, 256));
+		: (previewIconUrl ?? AvatarUtils.getChannelIconURL({id: channel.id, icon: channel.icon}));
 
 	return (
 		<BottomSheet

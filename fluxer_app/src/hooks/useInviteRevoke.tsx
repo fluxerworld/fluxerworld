@@ -17,18 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import * as InviteActionCreators from '~/actions/InviteActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {InviteRevokeFailedModal} from '~/components/alerts/InviteRevokeFailedModal';
+import * as InviteActionCreators from '@app/actions/InviteActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {InviteRevokeFailedModal} from '@app/components/alerts/InviteRevokeFailedModal';
+import {useCallback} from 'react';
 
-export const useInviteRevoke = (): ((code: string) => Promise<void>) => {
-	return React.useCallback(async (code: string) => {
+export function useInviteRevoke() {
+	return useCallback(async (code: string) => {
 		try {
 			await InviteActionCreators.remove(code);
 		} catch (_error) {
 			ModalActionCreators.push(modal(() => <InviteRevokeFailedModal />));
 		}
 	}, []);
-};
+}

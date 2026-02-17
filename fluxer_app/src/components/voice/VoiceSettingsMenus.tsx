@@ -17,6 +17,30 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as CallActionCreators from '@app/actions/CallActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as VoiceCallLayoutActionCreators from '@app/actions/VoiceCallLayoutActionCreators';
+import * as VoiceSettingsActionCreators from '@app/actions/VoiceSettingsActionCreators';
+import * as VoiceStateActionCreators from '@app/actions/VoiceStateActionCreators';
+import {CameraPreviewModalInRoom} from '@app/components/modals/CameraPreviewModal';
+import {HideOwnCameraConfirmModal} from '@app/components/modals/HideOwnCameraConfirmModal';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
+import {CheckboxItem} from '@app/components/uikit/context_menu/ContextMenu';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import {MenuItemRadio} from '@app/components/uikit/context_menu/MenuItemRadio';
+import {MenuItemSlider} from '@app/components/uikit/context_menu/MenuItemSlider';
+import {MenuItemSubmenu} from '@app/components/uikit/context_menu/MenuItemSubmenu';
+import styles from '@app/components/voice/VoiceSettingsMenus.module.css';
+import {Logger} from '@app/lib/Logger';
+import CallStateStore from '@app/stores/CallStateStore';
+import VoiceCallLayoutStore from '@app/stores/VoiceCallLayoutStore';
+import VoicePromptsStore from '@app/stores/VoicePromptsStore';
+import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import {hasDeviceLabels, resolveEffectiveDeviceId} from '@app/utils/VoiceDeviceManager';
+import type {RtcRegionResponse} from '@fluxer/schema/src/domains/channel/ChannelSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {
 	CameraIcon,
@@ -30,27 +54,10 @@ import {
 	VideoIcon,
 } from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as VoiceCallLayoutActionCreators from '~/actions/VoiceCallLayoutActionCreators';
-import * as VoiceSettingsActionCreators from '~/actions/VoiceSettingsActionCreators';
-import * as VoiceStateActionCreators from '~/actions/VoiceStateActionCreators';
-import {CameraPreviewModalInRoom} from '~/components/modals/CameraPreviewModal';
-import {HideOwnCameraConfirmModal} from '~/components/modals/HideOwnCameraConfirmModal';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import {MenuGroup} from '~/components/uikit/ContextMenu/MenuGroup';
-import {MenuItem} from '~/components/uikit/ContextMenu/MenuItem';
-import {MenuItemCheckbox} from '~/components/uikit/ContextMenu/MenuItemCheckbox';
-import {MenuItemRadio} from '~/components/uikit/ContextMenu/MenuItemRadio';
-import {MenuItemSlider} from '~/components/uikit/ContextMenu/MenuItemSlider';
-import {MenuItemSubmenu} from '~/components/uikit/ContextMenu/MenuItemSubmenu';
-import VoiceCallLayoutStore from '~/stores/VoiceCallLayoutStore';
-import VoicePromptsStore from '~/stores/VoicePromptsStore';
-import VoiceSettingsStore from '~/stores/VoiceSettingsStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import {hasDeviceLabels, resolveEffectiveDeviceId} from '~/utils/VoiceDeviceManager';
-import styles from './VoiceSettingsMenus.module.css';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
+
+const logger = new Logger('VoiceSettingsMenus');
 
 interface VoiceAudioSettingsMenuProps {
 	inputDevices: Array<MediaDeviceInfo>;
@@ -66,7 +73,7 @@ export const VoiceAudioSettingsMenu: React.FC<VoiceAudioSettingsMenuProps> = obs
 		const voiceState = MediaEngineStore.getCurrentUserVoiceState();
 		const isDeafened = voiceState?.self_deaf ?? false;
 
-		const handleToggleDeafen = React.useCallback((_checked: boolean) => {
+		const handleToggleDeafen = useCallback((_checked: boolean) => {
 			VoiceStateActionCreators.toggleSelfDeaf(null);
 		}, []);
 
@@ -151,39 +158,39 @@ export const VoiceAudioSettingsMenu: React.FC<VoiceAudioSettingsMenuProps> = obs
 				</MenuGroup>
 
 				<MenuGroup>
-					<MenuItemCheckbox
+					<CheckboxItem
 						icon={<SpeakerSimpleSlashIcon weight="fill" className={styles.icon} />}
 						checked={voiceSettings.echoCancellation}
-						onChange={(checked) => VoiceSettingsActionCreators.update({echoCancellation: checked})}
+						onCheckedChange={(checked) => VoiceSettingsActionCreators.update({echoCancellation: checked})}
 					>
 						<Trans>Echo Cancellation</Trans>
-					</MenuItemCheckbox>
+					</CheckboxItem>
 
-					<MenuItemCheckbox
+					<CheckboxItem
 						icon={<SpeakerSimpleSlashIcon weight="fill" className={styles.icon} />}
 						checked={voiceSettings.noiseSuppression}
-						onChange={(checked) => VoiceSettingsActionCreators.update({noiseSuppression: checked})}
+						onCheckedChange={(checked) => VoiceSettingsActionCreators.update({noiseSuppression: checked})}
 					>
 						<Trans>Noise Suppression</Trans>
-					</MenuItemCheckbox>
+					</CheckboxItem>
 
-					<MenuItemCheckbox
+					<CheckboxItem
 						icon={<MicrophoneIcon weight="fill" className={styles.icon} />}
 						checked={voiceSettings.autoGainControl}
-						onChange={(checked) => VoiceSettingsActionCreators.update({autoGainControl: checked})}
+						onCheckedChange={(checked) => VoiceSettingsActionCreators.update({autoGainControl: checked})}
 					>
 						<Trans>Auto Gain Control</Trans>
-					</MenuItemCheckbox>
+					</CheckboxItem>
 				</MenuGroup>
 
 				<MenuGroup>
-					<MenuItemCheckbox
+					<CheckboxItem
 						icon={<SpeakerSlashIcon weight="fill" className={styles.icon} />}
 						checked={isDeafened}
-						onChange={handleToggleDeafen}
+						onCheckedChange={handleToggleDeafen}
 					>
 						<Trans>Deafen</Trans>
-					</MenuItemCheckbox>
+					</CheckboxItem>
 				</MenuGroup>
 
 				<MenuGroup>
@@ -381,33 +388,151 @@ interface VoiceMoreOptionsMenuProps {
 }
 
 export const VoiceMoreOptionsMenu: React.FC<VoiceMoreOptionsMenuProps> = observer(({onClose}) => {
+	const {t} = useLingui();
 	const voiceSettings = VoiceSettingsStore;
 	const layoutMode = VoiceCallLayoutStore.layoutMode;
 	const isGrid = layoutMode === 'grid';
+	const connectedChannelId = MediaEngineStore.channelId;
+	const isDmVoiceCall = connectedChannelId != null && (MediaEngineStore.guildId ?? null) === null;
+	const currentRegion =
+		isDmVoiceCall && connectedChannelId ? (CallStateStore.getCall(connectedChannelId)?.region ?? null) : null;
+	const [regions, setRegions] = useState<Array<RtcRegionResponse>>([]);
+	const [isChangingRegion, setIsChangingRegion] = useState(false);
+
+	useEffect(() => {
+		if (!isDmVoiceCall || !connectedChannelId) {
+			setRegions([]);
+			return undefined;
+		}
+
+		let cancelled = false;
+		void CallActionCreators.fetchCallRegions(connectedChannelId)
+			.then((fetchedRegions) => {
+				if (!cancelled) {
+					setRegions(fetchedRegions);
+				}
+			})
+			.catch((error) => {
+				logger.error('Failed to fetch DM call regions for more options menu:', error);
+				if (!cancelled) {
+					setRegions([]);
+				}
+			});
+
+		return () => {
+			cancelled = true;
+		};
+	}, [connectedChannelId, isDmVoiceCall]);
+
+	const getRegionDisplayName = useCallback(
+		(regionId: string, regionName: string): string => {
+			if (regionName && regionName !== regionId) {
+				return regionName;
+			}
+			if (regionId === 'us-east') {
+				return t`US East`;
+			}
+			if (regionId === 'eu-central') {
+				return t`EU Central`;
+			}
+			return regionId
+				.split('-')
+				.map((part) => {
+					const lower = part.toLowerCase();
+					if (lower === 'us') return 'US';
+					if (lower === 'eu') return 'EU';
+					return `${lower.slice(0, 1).toUpperCase()}${lower.slice(1)}`;
+				})
+				.join(' ');
+		},
+		[t],
+	);
+
+	const regionHint = useMemo(() => {
+		if (!currentRegion) return t`Automatic`;
+		const matchedRegion = regions.find((region) => region.id === currentRegion);
+		if (matchedRegion) {
+			return getRegionDisplayName(matchedRegion.id, matchedRegion.name);
+		}
+		return currentRegion;
+	}, [currentRegion, getRegionDisplayName, regions, t]);
+
+	const handleRegionSelect = useCallback(
+		(regionId: string | null) => {
+			if (!connectedChannelId || isChangingRegion || currentRegion === regionId) {
+				return;
+			}
+
+			setIsChangingRegion(true);
+			void CallActionCreators.updateCallRegion(connectedChannelId, regionId)
+				.catch((error) => {
+					logger.error('Failed to update DM call region from more options menu:', error);
+				})
+				.finally(() => {
+					setIsChangingRegion(false);
+				});
+		},
+		[connectedChannelId, currentRegion, isChangingRegion],
+	);
 
 	return (
 		<>
 			<MenuGroup>
-				<MenuItemCheckbox
-					icon={<GridFourIcon weight="fill" className={styles.icon} />}
-					checked={isGrid}
-					onChange={(checked) => {
-						if (checked) VoiceCallLayoutActionCreators.setLayoutMode('grid');
-						else VoiceCallLayoutActionCreators.setLayoutMode('focus');
-						VoiceCallLayoutActionCreators.markUserOverride();
-					}}
-				>
-					<Trans>Grid View</Trans>
-				</MenuItemCheckbox>
+				{isDmVoiceCall && (
+					<MenuItemSubmenu
+						label={t`Voice Region`}
+						hint={regionHint}
+						disabled={isChangingRegion}
+						render={() => (
+							<>
+								<MenuItemRadio
+									key="automatic"
+									selected={!currentRegion}
+									disabled={isChangingRegion}
+									onSelect={() => handleRegionSelect(null)}
+								>
+									{t`Automatic`}
+								</MenuItemRadio>
+								{regions.map((region) => {
+									const label = getRegionDisplayName(region.id, region.name);
+									return (
+										<MenuItemRadio
+											key={region.id}
+											selected={currentRegion === region.id}
+											disabled={isChangingRegion}
+											onSelect={() => handleRegionSelect(region.id)}
+										>
+											{label}
+										</MenuItemRadio>
+									);
+								})}
+							</>
+						)}
+					/>
+				)}
+				{!isDmVoiceCall && (
+					<CheckboxItem
+						icon={<GridFourIcon weight="fill" className={styles.icon} />}
+						checked={isGrid}
+						onCheckedChange={(checked) => {
+							if (checked) VoiceCallLayoutActionCreators.setLayoutMode('grid');
+							else VoiceCallLayoutActionCreators.setLayoutMode('focus');
+							VoiceCallLayoutActionCreators.markUserOverride();
+						}}
+					>
+						<Trans>Grid View</Trans>
+					</CheckboxItem>
+				)}
 
-				<MenuItemCheckbox
+				<CheckboxItem
 					icon={<UsersIcon weight="fill" className={styles.icon} />}
 					checked={voiceSettings.showMyOwnCamera}
-					onChange={(checked) => {
+					onCheckedChange={(checked) => {
 						if (!checked) {
 							if (VoicePromptsStore.getSkipHideOwnCameraConfirm()) {
 								VoiceSettingsActionCreators.update({showMyOwnCamera: false});
 							} else {
+								onClose();
 								ModalActionCreators.push(modal(() => <HideOwnCameraConfirmModal />));
 							}
 						} else {
@@ -416,15 +541,15 @@ export const VoiceMoreOptionsMenu: React.FC<VoiceMoreOptionsMenuProps> = observe
 					}}
 				>
 					<Trans>Show My Own Camera</Trans>
-				</MenuItemCheckbox>
+				</CheckboxItem>
 
-				<MenuItemCheckbox
+				<CheckboxItem
 					icon={<UsersIcon weight="fill" className={styles.icon} />}
 					checked={voiceSettings.showNonVideoParticipants}
-					onChange={(checked) => VoiceSettingsActionCreators.update({showNonVideoParticipants: checked})}
+					onCheckedChange={(checked) => VoiceSettingsActionCreators.update({showNonVideoParticipants: checked})}
 				>
 					<Trans>Show Non-Video Participants</Trans>
-				</MenuItemCheckbox>
+				</CheckboxItem>
 			</MenuGroup>
 
 			<MenuGroup>

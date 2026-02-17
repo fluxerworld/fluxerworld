@@ -1,0 +1,369 @@
+account_disabled_suspicious:
+  subject: Contul tău Fluxer a fost dezactivat temporar
+  body: |-
+    Salut {username},
+
+    Contul tău Fluxer a fost dezactivat temporar, deoarece am detectat activitate suspectă.
+
+    {reason, select,
+      null {}
+      other {Motiv: {reason}}
+    }
+
+    Ca să îți recapeți accesul la cont, trebuie să îți resetezi parola:
+
+    {forgotUrl}
+
+    După ce îți resetezi parola, te vei putea autentifica din nou.
+
+    Dacă crezi că este o greșeală, te rugăm să contactezi echipa noastră de suport.
+
+    – Echipa Fluxer de siguranță
+account_scheduled_deletion:
+  subject: Contul tău Fluxer va fi șters definitiv
+  body: |-
+    Salut {username},
+
+    Contul tău Fluxer a fost programat pentru ștergere definitivă, deoarece ai încălcat termenii de utilizare sau regulile comunității.
+
+    Dată programată pentru ștergere: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Motiv: {reason}}
+    }
+
+    Aceasta este o măsură serioasă. Datele contului tău vor fi șterse definitiv la data programată.
+
+    Te rugăm să consulți:
+    - Termenii de utilizare: {termsUrl}
+    - Regulile comunității: {guidelinesUrl}
+
+    Depunerea unei contestații:
+    Dacă crezi că această decizie este greșită sau nejustificată, poți depune o contestație în termen de 60 de zile. Trimite un e-mail la appeals@fluxer.app, folosind această adresă de e-mail.
+
+    În contestație:
+    - Explică clar de ce consideri că decizia este greșită sau nejustificată
+    - Include, dacă este posibil, dovezi sau context relevant
+
+    Un membru al echipei Fluxer de siguranță va analiza contestația și poate suspenda ștergerea programată până la o decizie finală.
+
+    – Echipa Fluxer de siguranță
+account_temp_banned:
+  subject: Contul tău Fluxer a fost suspendat temporar
+  body: |-
+    Salut {username},
+
+    Contul tău Fluxer a fost suspendat temporar, deoarece ai încălcat termenii de utilizare sau regulile comunității.
+
+    Durată: {durationHours, plural,
+      =1 {1 oră}
+      other {# ore}
+    }
+    Suspendat până la: {bannedUntil, date, full} {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {Motiv: {reason}}
+    }
+
+    În această perioadă nu vei putea accesa contul.
+
+    Te rugăm să consulți:
+    - Termenii de utilizare: {termsUrl}
+    - Regulile comunității: {guidelinesUrl}
+
+    Dacă crezi că această decizie este greșită sau nejustificată, poți depune o contestație: trimite un e-mail la appeals@fluxer.app, folosind această adresă de e-mail. Explică clar de ce consideri că decizia este greșită. Vom analiza contestația și îți vom răspunde cu decizia noastră.
+
+    – Echipa Fluxer de siguranță
+donation_confirmation:
+  subject: Vă mulțumim pentru donația dumneavoastră la Fluxer
+  body: |-
+    Bună ziua,
+
+    Vă mulțumim pentru donația dumneavoastră la Fluxer! {interval, select,
+      month {Donația dumneavoastră recurentă}
+      year {Donația dumneavoastră recurentă}
+      other {Donația dumneavoastră unică}
+    } a fost {interval, select,
+      month {configurată}
+      year {configurată}
+      other {procesată}
+    } cu succes.
+
+    Detaliile donației:
+    Sumă: {amount} {currency} {interval, select,
+      month {pe lună}
+      year {pe an}
+      other {}
+    }
+
+    Stripe vă va trimite separat un e-mail cu o chitanță și factura PDF în scurt timp. Aceasta include toate detaliile plății și poate fi folosită în scopuri fiscale.
+
+    Puteți consulta istoricul donațiilor, descărca facturi, {interval, select,
+      month {și gestiona sau anula abonamentul}
+      year {și gestiona sau anula abonamentul}
+      other {și gestiona donațiile viitoare}
+    } oricând folosind acest link:
+
+    {manageUrl}
+
+    Sprijinul dumneavoastră ajută la menținerea Fluxer în funcțiune. Vă mulțumim!
+
+    – Echipa Fluxer
+donation_magic_link:
+  subject: Gestionați donațiile dumneavoastră la Fluxer
+  body: |-
+    Bună ziua,
+
+    Faceți clic pe linkul de mai jos pentru a accesa portalul dumneavoastră de donator:
+
+    {manageUrl}
+
+    În portal, puteți gestiona abonamentele, descărca facturi și consulta istoricul donațiilor.
+
+    Linkul expiră pe {expiresAt, date, full} la {expiresAt, time, short}.
+
+    Dacă nu ați solicitat acest link, puteți ignora în siguranță acest e-mail.
+
+    – Echipa Fluxer
+dsa_report_verification:
+  subject: Confirmă adresa ta de e-mail pentru o sesizare DSA
+  body: |-
+    Salut,
+
+    Folosește codul de mai jos ca să trimiți sesizarea ta în baza Digital Services Act (DSA) către Fluxer:
+
+    {code}
+
+    Codul expiră pe {expiresAt, date, full} la {expiresAt, time, short}.
+
+    Dacă nu ai cerut acest lucru, poți ignora acest e-mail.
+
+    – Echipa Fluxer de siguranță
+email_change_new:
+  subject: Confirmă noua ta adresă de e-mail Fluxer
+  body: |-
+    Salut {username},
+
+    Introdu codul în aplicație ca să confirmi noua ta adresă de e-mail Fluxer:
+
+    {code}
+
+    Codul expiră pe {expiresAt, date, full} la {expiresAt, time, short}.
+
+    Dacă nu ai cerut acest lucru, poți ignora acest e-mail.
+
+    – Echipa Fluxer
+email_change_original:
+  subject: Confirmă schimbarea adresei tale de e-mail Fluxer
+  body: |-
+    Salut {username},
+
+    Am primit o solicitare de schimbare a adresei de e-mail pentru contul tău Fluxer.
+
+    Ca să confirmi schimbarea, introdu codul în aplicație:
+
+    {code}
+
+    Codul expiră pe {expiresAt, date, full} la {expiresAt, time, short}.
+
+    Dacă nu ai cerut acest lucru, te rugăm să îți securizezi contul imediat.
+
+    – Echipa Fluxer
+email_change_revert:
+  subject: Adresa de e-mail a contului tău Fluxer a fost schimbată
+  body: |-
+    Salut {username},
+
+    Adresa de e-mail a contului tău Fluxer a fost schimbată în {newEmail}.
+
+    Dacă tu ai făcut schimbarea, nu trebuie să faci nimic. Dacă nu, poți anula schimbarea și îți poți securiza contul folosind linkul de mai jos:
+
+    {revertUrl}
+
+    Acest link va restaura adresa de e-mail anterioară, te va deconecta de peste tot, va elimina numerele de telefon asociate, va dezactiva MFA și îți va solicita să setezi o parolă nouă.
+
+    – Echipa Fluxer de siguranță
+email_verification:
+  subject: Confirmă adresa ta de e-mail Fluxer
+  body: |-
+    Salut {username},
+
+    Te rugăm să confirmi adresa de e-mail pentru contul tău Fluxer făcând clic pe linkul de mai jos:
+
+    {verifyUrl}
+
+    Dacă nu ți-ai creat un cont Fluxer, poți ignora în siguranță acest e-mail.
+
+    Linkul este valabil 24 de ore.
+
+    – Echipa Fluxer
+gift_chargeback_notification:
+  subject: Beneficiile din cadoul tău au fost eliminate
+  body: |-
+    Salut {username},
+
+    Un cod cadou pe care l-ai folosit a fost plătit inițial de altcineva. Plata a fost ulterior returnată prin chargeback.
+
+    Din acest motiv, am eliminat beneficiile care au fost adăugate contului tău când ai folosit cadoul.
+
+    Dacă crezi că este o greșeală, te rugăm să contactezi echipa noastră de suport și să incluzi toate detaliile pe care le ai despre codul cadou și momentul în care l-ai folosit.
+
+    – Echipa Fluxer
+harvest_completed:
+  subject: Exportul tău de date Fluxer este gata pentru descărcare
+  body: |-
+    Salut {username},
+
+    Exportul tău de date este gata.
+
+    Link de descărcare:
+    {downloadUrl}
+
+    Mesaje incluse: {totalMessages, number}
+    Dimensiune fișier: {fileSizeMB, number} MB
+
+    Linkul expiră pe {expiresAt, date, full} la {expiresAt, time, short}.
+
+    Dacă nu ai cerut acest export, schimbă-ți parola imediat și contactează echipa noastră de suport.
+
+    – Echipa Fluxer
+inactivity_warning:
+  subject: Contul tău Fluxer va fi șters din cauza inactivității
+  body: |-
+    Salut {username},
+
+    Nu am observat activitate în contul tău Fluxer din {lastActiveDate, date, full}.
+
+    Dacă nu te autentifici până la {deletionDate, date, full} la {deletionDate, time, short}, contul tău va fi șters definitiv din cauza inactivității.
+
+    Autentifică-te aici:
+    {loginUrl}
+
+    Dacă ai folosit Fluxer recent, contactează echipa noastră de suport imediat.
+
+    – Echipa Fluxer
+ip_authorization:
+  subject: Confirmă autentificarea de la o adresă IP nouă
+  body: |-
+    Salut {username},
+
+    Am detectat o încercare de autentificare în contul tău Fluxer de la o adresă IP nouă:
+
+    Adresă IP: {ipAddress}
+    Locație: {location}
+
+    Dacă ai fost tu, confirmă această adresă IP folosind linkul de mai jos:
+
+    {authUrl}
+
+    Dacă nu ai încercat să te autentifici, schimbă-ți parola imediat.
+
+    Linkul de confirmare este valabil 30 de minute.
+
+    – Echipa Fluxer
+password_change_verification:
+  subject: Confirmă schimbarea parolei Fluxer
+  body: |-
+    Salut {username},
+
+    Am primit o solicitare de schimbare a parolei pentru contul tău Fluxer.
+
+    Ca să confirmi schimbarea, introdu codul în aplicație:
+
+    {code}
+
+    Codul expiră pe {expiresAt, date, full} la {expiresAt, time, short}.
+
+    Dacă nu ai cerut acest lucru, este posibil ca cineva să aibă acces la contul tău. Schimbă-ți parola imediat și activează autentificarea în doi factori.
+
+    – Echipa Fluxer
+password_reset:
+  subject: Resetează parola Fluxer
+  body: |-
+    Salut {username},
+
+    Ai cerut resetarea parolei Fluxer. Folosește linkul de mai jos ca să setezi o parolă nouă:
+
+    {resetUrl}
+
+    Dacă nu ai cerut acest lucru, poți ignora în siguranță acest e-mail.
+
+    Linkul este valabil 1 oră.
+
+    – Echipa Fluxer
+registration_approved:
+  subject: Înregistrarea ta Fluxer a fost aprobată
+  body: |-
+    Salut {username},
+
+    Vești bune: înregistrarea ta Fluxer a fost aprobată.
+
+    Te poți autentifica acum în aplicația Fluxer aici:
+    {channelsUrl}
+
+    Bun venit în comunitatea Fluxer.
+
+    – Echipa Fluxer
+report_resolved:
+  subject: Sesizarea ta a fost analizată
+  body: |-
+    Salut {username},
+
+    Sesizarea ta (ID: {reportId}) a fost analizată de echipa noastră de siguranță.
+
+    Răspuns din partea echipei de siguranță:
+    {publicComment}
+
+    Îți mulțumim că ne ajuți să păstrăm Fluxer sigur pentru toată lumea. Tratăm toate sesizările cu seriozitate și apreciem contribuția ta la comunitate.
+
+    Dacă ai întrebări sau nelămuriri despre acest rezultat, scrie-ne la safety@fluxer.app.
+
+    – Echipa Fluxer de siguranță
+scheduled_deletion_notification:
+  subject: Contul tău Fluxer va fi șters definitiv
+  body: |-
+    Salut {username},
+
+    Contul tău Fluxer a fost programat pentru ștergere definitivă.
+
+    Dată programată pentru ștergere: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Motiv: {reason}}
+    }
+
+    Aceasta este o măsură serioasă. Datele contului tău vor fi șterse definitiv la data programată.
+
+    Dacă crezi că această decizie este greșită, poți depune o contestație: trimite un e-mail la appeals@fluxer.app, folosind această adresă de e-mail.
+
+    – Echipa Fluxer de siguranță
+self_deletion_scheduled:
+  subject: Ștergerea contului tău Fluxer a fost programată
+  body: |-
+    Salut {username},
+
+    Ai cerut ștergerea contului tău Fluxer. Contul tău va fi șters definitiv pe:
+
+    {deletionDate, date, full} la {deletionDate, time, short}
+
+    Dacă nu ai cerut acest lucru, autentifică-te în cont ca să anulezi ștergerea. Îți recomandăm, de asemenea, să îți schimbi parola ca să îți securizezi contul.
+
+    – Echipa Fluxer
+unban_notification:
+  subject: Suspendarea contului tău Fluxer a fost ridicată
+  body: |-
+    Salut {username},
+
+    Vești bune: suspendarea contului tău Fluxer a fost ridicată.
+
+    {reason, select,
+      null {}
+      other {Motiv: {reason}}
+    }
+
+    Te poți autentifica din nou și poți continua să folosești Fluxer ca de obicei.
+
+    – Echipa Fluxer de siguranță

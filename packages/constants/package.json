@@ -1,0 +1,15 @@
+{
+	"name": "@fluxer/constants",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./*": "./*"
+	},
+	"scripts": {
+		"typecheck": "tsgo --noEmit"
+	},
+	"devDependencies": {
+		"@typescript/native-preview": "catalog:"
+	}
+}

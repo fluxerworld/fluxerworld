@@ -17,25 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
+import ChannelStore from '@app/stores/ChannelStore';
+import DimensionStore from '@app/stores/DimensionStore';
+import ReadStateStore from '@app/stores/ReadStateStore';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
+import WindowStore from '@app/stores/WindowStore';
 import {action, makeAutoObservable, reaction} from 'mobx';
-import {Logger} from '~/lib/Logger';
-import ChannelStore from './ChannelStore';
-import DimensionStore from './DimensionStore';
-import ReadStateStore from './ReadStateStore';
-import SelectedChannelStore from './SelectedChannelStore';
-import WindowStore from './WindowStore';
 
 const logger = new Logger('AutoAckStore');
 
-type ChannelId = string;
-
 class AutoAckStore {
-	private readonly windowChannels = new Map<string, Set<ChannelId>>();
+	private readonly windowChannels = new Map<string, Set<string>>();
 
 	private readonly windowConditions = new Map<
 		string,
 		{
-			channelId: ChannelId | null;
+			channelId: string | null;
 			isAtBottom: boolean;
 			canAutoAck: boolean;
 		}
@@ -86,7 +84,7 @@ class AutoAckStore {
 	@action
 	private updateAutoAckState(conditions: {
 		windowId: string;
-		channelId: ChannelId | null;
+		channelId: string | null;
 		isAtBottom: boolean;
 		canAutoAck: boolean;
 	}): void {
@@ -113,7 +111,7 @@ class AutoAckStore {
 	}
 
 	@action
-	private enableAutomaticAckInternal(channelId: ChannelId, windowId: string): void {
+	private enableAutomaticAckInternal(channelId: string, windowId: string): void {
 		const channel = ChannelStore.getChannel(channelId);
 		if (channel == null) {
 			logger.debug(`Ignoring enableAutomaticAck for non-existent channel ${channelId}`);
@@ -133,7 +131,7 @@ class AutoAckStore {
 	}
 
 	@action
-	private disableAutomaticAckInternal(channelId: ChannelId, windowId: string): void {
+	private disableAutomaticAckInternal(channelId: string, windowId: string): void {
 		const channels = this.windowChannels.get(windowId);
 		if (channels == null) return;
 
@@ -147,7 +145,7 @@ class AutoAckStore {
 		}
 	}
 
-	isAutomaticAckEnabled(channelId: ChannelId): boolean {
+	isAutomaticAckEnabled(channelId: string): boolean {
 		for (const channels of this.windowChannels.values()) {
 			if (channels.has(channelId)) return true;
 		}
@@ -155,7 +153,7 @@ class AutoAckStore {
 	}
 
 	@action
-	disableForChannel(channelId: ChannelId): void {
+	disableForChannel(channelId: string): void {
 		for (const [windowId, channels] of this.windowChannels.entries()) {
 			if (channels.has(channelId)) {
 				channels.delete(channelId);

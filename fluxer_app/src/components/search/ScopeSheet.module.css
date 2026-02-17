@@ -54,16 +54,6 @@
 	user-select: none;
 }
 
-.option:active {
-	transform: scale(0.98);
-}
-
-@media (hover: hover) {
-	.option:hover {
-		background-color: var(--background-secondary-hover);
-	}
-}
-
 .optionSelected {
 	border-color: var(--brand-primary-light);
 	background-color: color-mix(in srgb, var(--brand-primary-light) 10%, transparent);
@@ -72,16 +62,6 @@
 :global(.theme-light) .optionSelected {
 	border-color: var(--brand-primary);
 	background-color: color-mix(in srgb, var(--brand-primary) 10%, transparent);
-}
-
-@media (hover: hover) {
-	.optionSelected:hover {
-		background-color: color-mix(in srgb, var(--brand-primary-light) 15%, transparent);
-	}
-
-	:global(.theme-light) .optionSelected:hover {
-		background-color: color-mix(in srgb, var(--brand-primary) 15%, transparent);
-	}
 }
 
 .optionLeft {

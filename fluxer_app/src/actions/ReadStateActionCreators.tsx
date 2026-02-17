@@ -17,30 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import ChannelStore from '~/stores/ChannelStore';
-import MessageStore from '~/stores/MessageStore';
-import ReadStateStore from '~/stores/ReadStateStore';
-import SnowflakeUtil from '~/utils/SnowflakeUtil';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import ChannelStore from '@app/stores/ChannelStore';
+import MessageStore from '@app/stores/MessageStore';
+import ReadStateStore from '@app/stores/ReadStateStore';
+import {atPreviousMillisecond} from '@fluxer/snowflake/src/SnowflakeUtils';
 
 const logger = new Logger('ReadStateActionCreators');
 
-type ChannelId = string;
-type MessageId = string;
-
-export const ack = (channelId: ChannelId, immediate = false, force = false): void => {
+export function ack(channelId: string, immediate = false, force = false): void {
 	logger.debug(`Acking channel ${channelId}, immediate=${immediate}, force=${force}`);
 	ReadStateStore.handleChannelAck({channelId, immediate, force});
-};
+}
 
-export const ackWithStickyUnread = (channelId: ChannelId): void => {
+export function ackWithStickyUnread(channelId: string): void {
 	logger.debug(`Acking channel ${channelId} with sticky unread preservation`);
 	ReadStateStore.handleChannelAckWithStickyUnread({channelId});
-};
+}
 
-export const manualAck = async (channelId: ChannelId, messageId: MessageId): Promise<void> => {
+export async function manualAck(channelId: string, messageId: string): Promise<void> {
 	try {
 		logger.debug(`Manual ack: ${messageId} in ${channelId}`);
 		const mentionCount = ReadStateStore.getManualAckMentionCount(channelId, messageId);
@@ -59,9 +56,9 @@ export const manualAck = async (channelId: ChannelId, messageId: MessageId): Pro
 		logger.error(`Failed to manual ack ${messageId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const markAsUnread = async (channelId: ChannelId, messageId: MessageId): Promise<void> => {
+export async function markAsUnread(channelId: string, messageId: string): Promise<void> {
 	const messages = MessageStore.getMessages(channelId);
 	const messagesArray = messages.toArray();
 	const messageIndex = messagesArray.findIndex((m) => m.id === messageId);
@@ -73,8 +70,7 @@ export const markAsUnread = async (channelId: ChannelId, messageId: MessageId): 
 		return;
 	}
 
-	const ackMessageId =
-		messageIndex > 0 ? messagesArray[messageIndex - 1].id : SnowflakeUtil.atPreviousMillisecond(messageId);
+	const ackMessageId = messageIndex > 0 ? messagesArray[messageIndex - 1].id : atPreviousMillisecond(messageId);
 
 	if (!ackMessageId || ackMessageId === '0') {
 		logger.debug('Unable to determine a previous message to ack; skipping mark-as-unread request');
@@ -83,20 +79,20 @@ export const markAsUnread = async (channelId: ChannelId, messageId: MessageId): 
 
 	logger.debug(`Acking ${ackMessageId} to mark ${messageId} as unread`);
 	await manualAck(channelId, ackMessageId);
-};
+}
 
-export const clearManualAck = (channelId: ChannelId): void => {
+export function clearManualAck(channelId: string): void {
 	ReadStateStore.handleClearManualAck({channelId});
-};
+}
 
-export const clearStickyUnread = (channelId: ChannelId): void => {
+export function clearStickyUnread(channelId: string): void {
 	logger.debug(`Clearing sticky unread for ${channelId}`);
 	ReadStateStore.clearStickyUnread(channelId);
-};
+}
 
 interface BulkAckEntry {
-	channelId: ChannelId;
-	messageId: MessageId;
+	channelId: string;
+	messageId: string;
 }
 
 const BULK_ACK_BATCH_SIZE = 100;
@@ -109,7 +105,7 @@ function chunkEntries<T>(entries: Array<T>, size: number): Array<Array<T>> {
 	return chunks;
 }
 
-function createBulkEntry(channelId: ChannelId): BulkAckEntry | null {
+function createBulkEntry(channelId: string): BulkAckEntry | null {
 	const messageId =
 		ReadStateStore.lastMessageId(channelId) ?? ChannelStore.getChannel(channelId)?.lastMessageId ?? null;
 
@@ -144,7 +140,7 @@ function updateReadStatesLocally(entries: Array<BulkAckEntry>): void {
 	}
 }
 
-export async function bulkAckChannels(channelIds: Array<ChannelId>): Promise<void> {
+export async function bulkAckChannels(channelIds: Array<string>): Promise<void> {
 	const entries = channelIds
 		.map((channelId) => createBulkEntry(channelId))
 		.filter((entry): entry is BulkAckEntry => entry != null);

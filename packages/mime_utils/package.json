@@ -1,0 +1,22 @@
+{
+	"name": "@fluxer/mime_utils",
+	"version": "0.0.0",
+	"type": "module",
+	"main": "./src/index.tsx",
+	"types": "./src/index.tsx",
+	"exports": {
+		".": "./src/index.tsx",
+		"./src/*": "./src/*",
+		"./*": "./*"
+	},
+	"scripts": {
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"mime": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@typescript/native-preview": "catalog:"
+	}
+}

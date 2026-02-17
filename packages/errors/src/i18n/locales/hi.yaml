@@ -1,0 +1,497 @@
+account.already_verified: तुम्हारा अकाउंट पहले से verified है।
+account.communication_disabled: कम्युनिकेशन बंद है।
+account.disabled: यह अकाउंट disable कर दिया गया है।
+account.email_verification_required_for_guild: इस सर्वर में मैसेज भेजने के लिए तुम्हें अपना ईमेल verify करना होगा।
+account.guild_verification_required: सर्वर verification जरूरी है।
+account.ip_authorization_required: IP authorization जरूरी है।
+account.locked_suspicious_activity: संदिग्ध activity की वजह से तुम्हारा अकाउंट lock कर दिया गया है।
+account.phone_required_for_guild: इस सर्वर में मैसेज भेजने के लिए तुम्हें फोन नंबर add करना होगा।
+account.scheduled_for_deletion: यह अकाउंट deletion के लिए schedule है।
+account.session_timeout: सेशन टाइम आउट हो गया। पेज refresh करो और फिर से log in करो।
+account.session_token_mismatch: सेशन टोकन match नहीं कर रहा।
+account.suspended_permanently: यह अकाउंट हमेशा के लिए suspended है।
+account.suspended_temporarily: यह अकाउंट कुछ समय के लिए suspended है।
+account.too_new_for_guild: इस सर्वर में मैसेज भेजने के लिए तुम्हारा अकाउंट अभी बहुत नया है।
+account.unauthorized: अनधिकृत।
+admin_and_system.acls_must_be_non_empty: ACLs खाली नहीं हो सकते।
+admin_and_system.admin_api_key_not_found: Admin API key नहीं मिली।
+admin_and_system.audit_log_indexing: ऑडिट लॉग को अनुक्रमित किया जा रहा है। कृपया कुछ पलों में फिर से कोशिश करें।
+admin_and_system.channel_indexing: चैनलों को अनुक्रमित किया जा रहा है। कृपया कुछ पलों में फिर से कोशिश करें।
+admin_and_system.creation_failed: हम संसाधन बनाने में विफल रहे। कृपया दोबारा प्रयास करें।
+admin_and_system.deletion_failed: हम संसाधन को हटाने में विफल रहे। कृपया दोबारा प्रयास करें।
+admin_and_system.decryption_failed: हम संदेश को डिक्रिप्ट नहीं कर सके। एन्क्रिप्शन कुंजियाँ अमान्य या दूषित हो सकती हैं।
+admin_and_system.empty_encrypted_body: एन्क्रिप्ट किया गया निकाय खाली है।
+admin_and_system.encryption_failed: हम संदेश को एन्क्रिप्ट नहीं कर सके। एन्क्रिप्शन कुंजियाँ अमान्य या दूषित हो सकती हैं।
+admin_and_system.general_error: कुछ गलत हो गया। कृपया बाद में दोबारा प्रयास करें।
+admin_and_system.invalid_acls_format: ACL स्वरूप अमान्य है।
+admin_and_system.invalid_api_origin: API मूल अमान्य है।
+admin_and_system.invalid_audit_log_reason: ऑडिट लॉग कारण अमान्य है।
+admin_and_system.invalid_bot_flag: बॉट ध्वज अमान्य है।
+admin_and_system.invalid_decrypted_json: डिक्रिप्ट किया गया JSON अमान्य है।
+admin_and_system.invalid_ephemeral_key: अस्थायी कुंजी अमान्य है।
+admin_and_system.invalid_flags_format: ध्वज स्वरूप अमान्य है।
+admin_and_system.invalid_form_body: फॉर्म निकाय अमान्य है।
+admin_and_system.invalid_format: प्रदान किया गया मान अमान्य स्वरूप में है।
+admin_and_system.invalid_integer_format: पूर्णांक स्वरूप अमान्य है।
+admin_and_system.invalid_iv: प्रारंभीकरण सदिश अमान्य है।
+admin_and_system.invalid_suspicious_flags_format: संदिग्ध ध्वज स्वरूप अमान्य है।
+admin_and_system.invalid_system_flag: सिस्टम ध्वज अमान्य है।
+admin_and_system.invalid_timeout_value: समय सीमा मान अमान्य है।
+admin_and_system.invalid_timestamp: समय मुहर अमान्य है।
+admin_and_system.invalid_timezone_identifier: समय क्षेत्र पहचानकर्ता अमान्य है।
+admin_and_system.missing_acl: ACL लुप्त है।
+admin_and_system.missing_ephemeral_key: अस्थायी कुंजी लुप्त है।
+admin_and_system.missing_iv: प्रारंभीकरण सदिश लुप्त है।
+admin_and_system.must_be_iso_timestamp: मान्य ISO समय मुहर होनी चाहिए।
+admin_and_system.processing_failed: हम अनुरोध को संसाधित नहीं कर सके। कृपया दोबारा प्रयास करें।
+admin_and_system.response_validation_failed: 'प्रतिक्रिया सत्यापन विफल: {errors}।'
+admin_and_system.test_harness_disabled: परीक्षण हार्नेस अक्षम है।
+admin_and_system.test_harness_forbidden: परीक्षण हार्नेस निषिद्ध है।
+admin_and_system.unknown_suspicious_flag: अज्ञात संदिग्ध ध्वज।
+admin_and_system.update_failed: हम संसाधन को अद्यतन करने में विफल रहे। कृपया दोबारा प्रयास करें।
+admin_and_system.user_must_be_bot_for_system_user: उपयोगकर्ता को सिस्टम उपयोगकर्ता के रूप में चिह्नित किए जाने के लिए बॉट होना चाहिए।
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id`, and `expires_at` are required.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id`, and `message_id` must be valid integers.'
+attachments_and_uploads.cannot_edit_attachment_metadata: MANAGE_MESSAGES permission वाले users सिर्फ attachment descriptions edit कर सकते हैं, दूसरा metadata नहीं।
+attachments_and_uploads.attachment_metadata_without_files: Attachment metadata में filename है, लेकिन कोई files upload नहीं हुईं।
+attachments_and_uploads.attachment_must_be_image: Attachment "{filename}" image file होना चाहिए (png, jpg, jpeg, webp, या gif)।
+attachments_and_uploads.attachment_not_found_in_message: ID {attachmentId} वाला attachment message में नहीं मिला।
+attachments_and_uploads.attachments_metadata_required_when_uploading: Files upload करने के लिए attachments metadata array जरूरी है।
+attachments_and_uploads.attachments_not_allowed_for_message: Attachments aren't allowed for this message.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: जब attachments दिए ही नहीं हैं, तब attachments reference नहीं कर सकते।
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Duplicate attachment IDs allowed नहीं हैं।
+attachments_and_uploads.duplicate_file_index: 'Duplicate file index: {index}।'
+attachments_and_uploads.failed_to_parse_multipart_form_data: हम multipart form data parse नहीं कर पाए। Check करो कि field names और filenames सही format में हैं।
+attachments_and_uploads.failed_to_parse_multipart_payload: हम multipart payload parse नहीं कर पाए।
+attachments_and_uploads.failed_to_upload_image: हम image upload नहीं कर पाए। बाद में फिर से कोशिश करो।
+attachments_and_uploads.file_index_exceeds_maximum: File index {index} allowed maximum index {maxIndex} से ज्यादा है।
+attachments_and_uploads.file_not_found_for_scanning: Scanning के लिए file नहीं मिली।
+attachments_and_uploads.file_not_found: File नहीं मिली।
+attachments_and_uploads.file_size_too_large: File size बहुत बड़ी है। Maximum file size {maxSize} है।
+attachments_and_uploads.filename_empty_after_normalization: Normalization के बाद filename खाली नहीं हो सकता।
+attachments_and_uploads.filename_invalid_characters: Filename में invalid characters हैं।
+attachments_and_uploads.filename_length_invalid: Filename {min} से {max} characters के बीच होना चाहिए।
+attachments_and_uploads.filename_mismatch_for_attachment: 'Attachment {attachmentId} के लिए filename match नहीं करता: metadata में "{expectedFilename}" है, लेकिन actual अलग है।'
+attachments_and_uploads.image_size_exceeds_limit: Image size {maxSize} bytes की limit से ज्यादा है।
+attachments_and_uploads.invalid_file_field_name: 'File field name गलत है: {key}। Expected format: `files[N]` जहां N एक number है।'
+attachments_and_uploads.invalid_image_data: Image data गलत है।
+attachments_and_uploads.invalid_image_format: 'Image format गलत है। Supported extensions: {supportedExtensions}।'
+attachments_and_uploads.invalid_json_in_payload_json: '`payload_json` में JSON गलत है।'
+attachments_and_uploads.multiple_files_for_index_not_allowed: Index {index} के लिए multiple files allowed नहीं हैं।
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: ID {attachmentId} वाले attachment metadata के लिए कोई file upload नहीं हुई।
+attachments_and_uploads.no_file_uploaded_for_attachment: ID {attachmentId} वाले attachment के लिए कोई file upload नहीं हुई।
+attachments_and_uploads.no_metadata_for_file: ID {fileId} वाली file के लिए कोई metadata नहीं दिया गया।
+attachments_and_uploads.no_valid_media_in_message: No valid media was found in the message.
+attachments_and_uploads.payload_json_required_for_multipart: '`payload_json` field multipart messages के लिए जरूरी है।'
+attachments_and_uploads.preview_must_be_jpeg: Preview JPEG होना चाहिए।
+attachments_and_uploads.referenced_attachment_not_found: Referenced attachment "{filename}" message attachments में नहीं मिला।
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` must be a valid integer.'
+attachments_and_uploads.too_many_files: Too many files. Maximum {maxFiles} {maxFiles, plural, one {file} other {files}} allowed.
+attachments_and_uploads.unknown_image_format: Unknown image format।
+attachments_and_uploads.unresolved_attachment_url: Unresolved `attachment://` URL मिला। Embed processing से पहले इसे resolve होना चाहिए था।
+attachments_and_uploads.uploaded_attachment_not_found: Uploaded attachment {filename} नहीं मिला।
+auth_and_oauth.application_not_owned: तुम इस application के मालिक नहीं हो।
+auth_and_oauth.bot_already_in_guild: यह bot पहले से guild में है।
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Bot users auth sessions बना नहीं सकते।
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Bot users auth endpoints यूज़ नहीं कर सकते।
+auth_and_oauth.handoff_code_expired: Handoff code expire हो गया है।
+auth_and_oauth.handoff_code_invalid: Handoff code गलत है।
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize supported नहीं है। POST /oauth2/authorize/consent यूज़ करो।
+auth_and_oauth.invalid_client_secret: Client secret गलत है।
+auth_and_oauth.invalid_client: Client गलत है।
+auth_and_oauth.invalid_code: Code गलत है।
+auth_and_oauth.invalid_grant: Grant गलत है।
+auth_and_oauth.invalid_or_expired_authorization_ticket: Authorization ticket गलत है या expire हो गया है।
+auth_and_oauth.invalid_or_expired_authorization_token: Authorization token गलत है या expire हो गया है।
+auth_and_oauth.invalid_or_expired_ticket: Ticket गलत है या expire हो गया है।
+auth_and_oauth.invalid_proof_token: Invalid proof token.
+auth_and_oauth.invalid_redirect_uri: Redirect URI गलत है।
+auth_and_oauth.invalid_request: Request गलत है।
+auth_and_oauth.invalid_scope: Scope गलत है।
+auth_and_oauth.invalid_sudo_token: Sudo token गलत है।
+auth_and_oauth.invalid_token_admin_api_key: Admin API key गलत है।
+auth_and_oauth.missing_authorization: Authorization नहीं है।
+auth_and_oauth.missing_client_secret: Client secret नहीं है।
+auth_and_oauth.missing_redirect_uri: Redirect URI नहीं है।
+auth_and_oauth.must_start_session_before_sending_messages: मैसेज भेजने से पहले session शुरू करना जरूरी है।
+auth_and_oauth.oauth_admin_scope_required: Admin endpoints access करने के लिए OAuth2 tokens में admin scope होना चाहिए।
+auth_and_oauth.oauth_fields_missing: OAuth fields missing हैं।
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Non-bot scopes के लिए redirect URI जरूरी है।
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Non-bot scopes के लिए response type code होना चाहिए।
+auth_and_oauth.sudo_mode_required: Sudo mode जरूरी है।
+auth_and_oauth.unknown_application: अनजान application।
+auth_and_oauth.unsupported_response_type: Response type supported नहीं है।
+auth_and_registration.current_password_incorrect: वर्तमान पासवर्ड गलत है।
+auth_and_registration.password_is_too_common: Your password is too common. Please choose a more unique password.
+auth_and_registration.password_not_set: Password isn't set.
+bots.bot_application_not_found: Bot application नहीं मिला।
+bots.bot_discriminator_cannot_be_changed: बॉट डिस्क्रिमिनेटर को बदला नहीं जा सकता।
+bots.bot_is_private: यह bot private है।
+bots.bot_user_generation_failed: Bot user generation fail हो गई।
+bots.bot_user_not_found: Bot user नहीं मिला।
+bots.invalid_response_type_for_non_bot: Non-bot scopes के लिए response type code होना चाहिए।
+bots.not_a_bot_application: यह application bot नहीं है।
+calls_and_voice.call_already_exists: Call पहले से मौजूद है।
+calls_and_voice.cannot_modify_voice_state: तुम voice state modify नहीं कर सकते।
+calls_and_voice.invalid_or_restricted_rtc_region: 'RTC region गलत या restricted है: {region}।'
+calls_and_voice.invalid_rtc_region: 'RTC region गलत है: {region}। Available regions: {availableRegions}।'
+calls_and_voice.invalid_stream_key_format: Stream key format गलत है।
+calls_and_voice.invalid_stream_thumbnail_payload: Stream thumbnail payload गलत है।
+calls_and_voice.no_active_call: कोई active call नहीं है।
+calls_and_voice.stream_key_channel_mismatch: Stream key और channel match नहीं करते।
+calls_and_voice.stream_key_scope_mismatch: Stream key और scope match नहीं करते।
+calls_and_voice.stream_thumbnail_payload_empty: Stream thumbnail payload खाली है।
+calls_and_voice.unknown_voice_region: Unknown voice region।
+calls_and_voice.unknown_voice_server: Unknown voice server।
+calls_and_voice.voice_message_duration_exceeds_limit: Voice message duration {maxDuration} seconds से ज्यादा नहीं हो सकती।
+calls_and_voice.voice_message_duration_required: Voice message attachments में duration बताना जरूरी है।
+calls_and_voice.voice_message_waveform_required: Voice message attachments में waveform data जरूरी है।
+calls_and_voice.voice_messages_require_single_attachment: Voice messages में ठीक एक attachment होना चाहिए।
+captcha.invalid: कैप्चा गलत है।
+captcha.required: कैप्चा जरूरी है।
+channels_and_guilds.afk_channel_must_be_in_guild: AFK channel guild में होना चाहिए।
+channels_and_guilds.afk_channel_must_be_voice: AFK channel voice channel होना चाहिए।
+channels_and_guilds.all_channels_must_belong_to_guild: सभी channels इसी guild के होने चाहिए।
+channels_and_guilds.animated_guild_banner_requires_feature: Animated guild banner के लिए ANIMATED_BANNER feature चाहिए।
+channels_and_guilds.cannot_execute_on_dm: यह action DM में नहीं किया जा सकता।
+channels_and_guilds.cannot_transfer_ownership_to_bot: सर्वर का स्वामित्व किसी बॉट को हस्तांतरित नहीं किया जा सकता।
+channels_and_guilds.cannot_leave_guild_as_owner: Owner होने पर तुम guild छोड़ नहीं सकते। Ownership transfer करो या guild delete करो।
+channels_and_guilds.cannot_position_channel_relative_to_itself: तुम channel को खुद के या उसके descendants के relative position नहीं कर सकते।
+channels_and_guilds.cannot_report_own_guild: तुम अपने ही guild को report नहीं कर सकते।
+channels_and_guilds.categories_cannot_have_parent_channel: Categories का parent channel नहीं हो सकता।
+channels_and_guilds.categories_cannot_have_parents: Categories के parents नहीं हो सकते।
+channels_and_guilds.channel_id_required: '`channel_id` जरूरी है।'
+channels_and_guilds.channel_must_be_dm_or_group_dm: Channel DM या group DM होना चाहिए।
+channels_and_guilds.channel_must_be_voice: Channel voice channel होना चाहिए।
+channels_and_guilds.channel_not_found: Channel नहीं मिला।
+channels_and_guilds.context_channel_or_guild_required: Context channel या guild ID जरूरी है।
+channels_and_guilds.guild_banner_requires_feature: Guild banner के लिए BANNER feature चाहिए।
+channels_and_guilds.guild_id_must_match_referenced_message: Guild ID उसी channel से match करनी चाहिए जिससे referenced message fetch किया गया था।
+channels_and_guilds.invalid_channel_id: 'Channel ID गलत है: {channelId}।'
+channels_and_guilds.invalid_channel_type_for_call: Call के लिए channel type सही नहीं है।
+channels_and_guilds.invalid_channel_type: Channel type गलत है।
+channels_and_guilds.invalid_channel: Channel गलत है।
+channels_and_guilds.invalid_parent_channel: Invalid parent channel.
+channels_and_guilds.invite_splash_requires_feature: Invite splash के लिए INVITE_SPLASH feature चाहिए।
+channels_and_guilds.invites_disabled: Invites disabled हैं।
+channels_and_guilds.max_group_dm_recipients_reached: आपने {count} group DM {count, plural, one {recipient} other {recipients}} की maximum तक पहुंच गए हैं।
+channels_and_guilds.max_group_dms_reached: आपने {count} group {count, plural, one {DM} other {DMs}} की maximum तक पहुंच गए हैं।
+channels_and_guilds.max_guild_channels_reached: आपने {count} guild {count, plural, one {channel} other {channels}} की maximum तक पहुंच गए हैं।
+channels_and_guilds.max_guild_members_reached: आपने {count} guild {count, plural, one {member} other {members}} की maximum तक पहुंच गए हैं।
+channels_and_guilds.max_guild_roles_reached: आपने {count} guild {count, plural, one {role} other {roles}} की maximum तक पहुंच गए हैं।
+channels_and_guilds.max_guilds_reached: आपने {count} {count, plural, one {guild} other {guilds}} की maximum तक पहुंच गए हैं।
+channels_and_guilds.message_history_cutoff_before_guild_creation: संदेश इतिहास cutoff community बनने से पहले का नहीं हो सकता।
+channels_and_guilds.message_history_cutoff_in_future: संदेश इतिहास cutoff future में नहीं हो सकता।
+channels_and_guilds.parent_channel_not_in_guild: Parent channel guild में मौजूद नहीं है।
+channels_and_guilds.parent_must_be_category: Parent category होना चाहिए।
+channels_and_guilds.preceding_channel_must_share_parent: Preceding channel का parent moved channel के parent जैसा ही होना चाहिए।
+channels_and_guilds.preceding_channel_not_in_guild: Preceding channel guild में मौजूद नहीं है।
+channels_and_guilds.system_channel_must_be_in_guild: System channel guild में होना चाहिए।
+channels_and_guilds.system_channel_must_be_text: System channel text channel होना चाहिए।
+channels_and_guilds.temporary_invite_requires_presence: Temporary invite के लिए presence जरूरी है।
+channels_and_guilds.vanity_url_requires_feature: Vanity URL के लिए VANITY_URL feature चाहिए।
+channels_and_guilds.voice_channel_full: Voice channel भर चुका है।
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: एक ही category में voice channels, text channels के ऊपर नहीं रखे जा सकते।
+colors.color_value_too_high: Color value 0xffffff से ज्यादा नहीं हो सकती।
+colors.color_value_too_low: Color value कम से कम 0x000000 होनी चाहिए।
+connections.already_exists: इस identifier के साथ इस प्रकार का connection पहले से मौजूद है।
+connections.bluesky_oauth_callback_failed: हम Bluesky connection को पूरा नहीं कर सके। कृपया फिर से कोशिश करो।
+connections.bluesky_oauth_not_enabled: इस सर्वर पर Bluesky connections enabled नहीं हैं।
+connections.bluesky_oauth_session_expired: तुम्हारे Bluesky session की समय सीमा समाप्त हो गई है। कृपया अपना अकाउंट फिर से जोड़ो।
+connections.bluesky_oauth_state_invalid: Authorization request की समय सीमा समाप्त हो गई है या यह मान्य नहीं है। कृपया फिर से कोशिश करो।
+connections.invalid_identifier: Connection identifier गलत है।
+connections.invalid_type: Connection type supported नहीं है।
+connections.initiation_token_invalid: कनेक्शन शुरुआत टोकन अमान्य है या इसकी समय सीमा समाप्त हो गई है।
+connections.limit_reached: आपने maximum connections ({limit}) की limit तक पहुंच गए हैं।
+connections.not_found: अनजान connection।
+connections.verification_failed: Connection verification fail हो गई। सुनिश्चित करो कि verification token सही जगह पर रखा गया है।
+content_and_safety.content_blocked: यह content safety systems ने block कर दिया।
+content_and_safety.csam_scan_failed: CSAM scan fail हो गई।
+content_and_safety.csam_scan_parse_error: CSAM scan parse error।
+content_and_safety.csam_scan_subscription_error: CSAM scan subscription error।
+content_and_safety.csam_scan_timeout: CSAM scan का समय समाप्त हो गया।
+content_and_safety.explicit_content_cannot_be_sent: Explicit content भेजा नहीं जा सकता।
+content_and_safety.ncmec_already_submitted: यह content पहले ही NCMEC को submit किया जा चुका है।
+content_and_safety.ncmec_submission_failed: हम report NCMEC को submit नहीं कर पाए। बाद में फिर से कोशिश करो।
+content_and_safety.nsfw_age_restricted: NSFW content age restricted है।
+discovery.already_applied: यह समुदाय पहले ही डिस्कवरी के लिए आवेदन कर चुका है।
+discovery.application_already_reviewed: इस डिस्कवरी आवेदन की पहले ही समीक्षा की जा चुकी है।
+discovery.application_not_found: डिस्कवरी आवेदन नहीं मिला।
+discovery.description_required: डिस्कवरी सूची के लिए विवरण जरूरी है।
+discovery.insufficient_members: यह समुदाय डिस्कवरी के लिए न्यूनतम सदस्य संख्या की शर्त पूरी नहीं करता।
+discovery.invalid_category: डिस्कवरी श्रेणी अमान्य है।
+discovery.not_discoverable: यह समुदाय डिस्कवरी में सूचीबद्ध नहीं है।
+donation.amount_invalid: दान की राशि मान्य नहीं है।
+donation.donor_not_found: दाता नहीं मिला।
+donation.magic_link_expired: जादुई लिंक की समय सीमा समाप्त हो गई है।
+donation.magic_link_invalid: जादुई लिंक मान्य नहीं है।
+donation.magic_link_used: जादुई लिंक पहले से ही उपयोग किया जा चुका है।
+email.email_already_in_use: Email is already in use.
+email.email_required: Email is required.
+email.email_service_not_testable: Email service test नहीं की जा सकती।
+email.invalid_format: ईमेल का फॉर्मैट गलत है।
+email.invalid_or_expired_reset_token: Invalid or expired password reset token.
+email.invalid_or_expired_revert_token: Invalid or expired revert token.
+email.invalid_or_expired_verification_token: Invalid or expired verification token.
+email.invalid_or_password: ईमेल या पासवर्ड गलत है।
+email.invalid_token: Invalid email token.
+email.invalid_verification_code: Invalid verification code.
+email.length_invalid: ईमेल पता {min} से {max} characters के बीच होना चाहिए।
+email.must_be_changed_via_token: Email must be changed via token.
+email.must_change_via_token: ईमेल `email_token` के जरिए ही बदला जा सकता है।
+email.must_have_email_to_change_it: You must have an email address to change it.
+email.new_email_must_be_different: New email must be different from your current email.
+email.no_new_email_requested: नए ईमेल की कोई request नहीं की गई।
+email.no_original_email_on_record: Original email का कोई record नहीं है।
+email.original_email_already_verified: Original email पहले से verified है।
+email.original_email_must_be_verified_first: पहले original email verify करना होगा।
+email.original_verification_not_required: इस flow में original verification जरूरी नहीं है।
+email.token_expired: ईमेल token expire हो गया है।
+email.user_has_no_email_address: इस यूजर के पास कोई ईमेल पता नहीं है।
+email.user_is_not_pending_verification: This user isn't pending verification.
+email.verification_code_expired: Verification code has expired.
+email.verification_code_not_issued: No verification code has been issued.
+embeds.embed_index_out_of_bounds: Embed index {embedIndex} out of bounds है (message में {embedCount} {embedCount, plural, one {एंबेड} other {एंबेड्स}} हैं)।
+embeds.embed_splash_requires_feature: Embed splash के लिए INVITE_SPLASH feature चाहिए।
+embeds.embeds_exceed_max_characters: Embeds कुल मिलाकर {maxCharacters} {maxCharacters, plural, one {अक्षर} other {अक्षर}} से ज्यादा नहीं हो सकते।
+embeds.too_many_embeds: बहुत ज्यादा embeds। Maximum {maxEmbeds} {maxEmbeds, plural, one {एंबेड} other {एंबेड्स}} allowed हैं।
+feature_flags.feature_not_available_self_hosted: यह feature self-hosted instances पर उपलब्ध नहीं है।
+feature_flags.feature_temporarily_disabled: यह feature अभी अस्थायी तौर पर disabled है।
+friends_and_dms.already_friends: तुम इस यूजर के साथ पहले से friends हो।
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Private channels seed करने के लिए कम से कम एक recipient जरूरी है।
+friends_and_dms.at_least_one_recipient_required: At least one recipient is required.
+friends_and_dms.bots_cannot_send_friend_requests: Bots friend requests नहीं भेज सकते।
+friends_and_dms.cannot_add_yourself_to_group_dm: तुम खुद को group DM में add नहीं कर सकते।
+friends_and_dms.cannot_dm_yourself: तुम खुद को DM नहीं कर सकते।
+friends_and_dms.cannot_send_friend_request_to_blocked_user: तुम blocked user को friend request नहीं भेज सकते।
+friends_and_dms.cannot_send_friend_request_to_self: तुम खुद को friend request नहीं भेज सकते।
+friends_and_dms.cannot_send_messages_to_user: तुम इस यूजर को messages नहीं भेज सकते।
+friends_and_dms.duplicate_recipients_not_allowed: Duplicate recipients allowed नहीं हैं।
+friends_and_dms.friend_request_blocked: उपयोगकर्ता इस समय मित्रता अनुरोध स्वीकार नहीं कर रहे हैं।
+friends_and_dms.not_friends: तुम इस यूजर के साथ friends नहीं हो।
+friends_and_dms.recipient_ids_cannot_be_empty: Recipient IDs खाली नहीं हो सकते।
+friends_and_dms.recipient_ids_must_be_strings: Recipient IDs strings होने चाहिए।
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Recipient IDs valid snowflakes होने चाहिए।
+harvest.expired: Harvest expire हो गया है।
+harvest.failed: Harvest fail हो गया।
+harvest.not_ready: Harvest अभी ready नहीं है।
+harvest.on_cooldown: Harvest cooldown पर है।
+harvest.unknown: Unknown harvest।
+http.bad_gateway: बुरा gateway।
+http.bad_request: बुरी request।
+http.conflict: विरोध।
+http.forbidden: निषिद्ध।
+http.gateway_timeout: Gateway timeout।
+http.gone: चला गया।
+http.internal_server_error: आंतरिक सर्वर error।
+http.method_not_allowed: तरीका allowed नहीं है।
+http.not_found: नहीं मिला।
+http.not_implemented: लागू नहीं किया गया।
+http.service_unavailable: सेवा उपलब्ध नहीं है।
+http.validation_error: Validation fail हो गई।
+invites_and_beta.invalid_or_already_used_beta_code: Invalid or already used beta code.
+invites_and_beta.max_beta_codes_reached: आपने {count} beta {count, plural, one {code} other {codes}} की maximum तक पहुंच गए हैं।
+invites_and_beta.unknown_beta_code: Unknown beta code।
+invites_and_gifts.gift_code_already_redeemed: Gift code पहले से redeem हो चुका है।
+invites_and_gifts.stripe_gift_redemption_in_progress: Gift code redemption चल रहा है। एक पल बाद फिर से कोशिश करो।
+invites_and_gifts.unknown_gift_code: Unknown gift code।
+invites_and_packs.emoji_requires_access: इस emoji को यूज़ करने के लिए उसके server का access या installed pack चाहिए।
+invites_and_packs.invalid_pack_type: Pack type गलत है।
+invites_and_packs.max_animated_emojis_reached: आपने {count} animated {count, plural, one {emoji} other {emojis}} की maximum तक पहुंच गए हैं।
+invites_and_packs.max_emojis_reached: आपने {count} {count, plural, one {emoji} other {emojis}} की maximum तक पहुंच गए हैं।
+invites_and_packs.max_pack_expressions_reached: आपने {count} pack {count, plural, one {expression} other {expressions}} की maximum तक पहुंच गए हैं।
+invites_and_packs.max_packs_reached: आपने {count} {count, plural, one {pack} other {packs}} की maximum तक पहुंच गए हैं।
+invites_and_packs.pack_access_denied: Pack का access नहीं है।
+limits.at_least_one_entry_required: कम से कम एक entry जरूरी है।
+limits.base64_length_invalid: 'Base64 स्ट्रिंग की length {min} से {maxLength} characters के बीच होनी चाहिए।'
+limits.bucket_required: '`bucket` जरूरी है।'
+limits.cannot_shrink_reserved_slots: Reserved slots कम नहीं किए जा सकते।
+limits.cannot_specify_before_and_after: तुम `before` और `after` दोनों साथ में specify नहीं कर सकते।
+limits.content_exceeds_max_length: Text {maxLength} {maxLength, plural, one {अक्षर} other {अक्षर}} से ज्यादा नहीं हो सकता।
+limits.integer_out_of_int64_range: Integer value valid int64 range से बाहर है।
+limits.rows_required: '`rows` जरूरी है।'
+limits.string_length_exact: String की length बिल्कुल {length} अक्षर होनी चाहिए।
+limits.string_length_invalid: String की length {min} से {max} अक्षर के बीच होनी चाहिए।
+limits.timeout_cannot_exceed_365_days: 'Timeout अब से {maxDays} {maxDays, plural, one {दिन} other {दिन}} से ज्यादा नहीं हो सकता।'
+limits.value_must_be_integer_in_range: '`{name}` की value {minValue} से {maxValue} के बीच integer होनी चाहिए।'
+limits.value_too_small: Value बहुत छोटी है।
+media_and_memes.favorite_meme_name_required: Favourite meme name जरूरी है।
+media_and_memes.favorite_meme_not_found: Favourite meme नहीं मिला।
+media_and_memes.max_favorite_memes_reached: आपने {count} favourite {count, plural, one {meme} other {memes}} की maximum तक पहुंच गए हैं।
+media_and_memes.media_already_in_favorites: यह media पहले से तुम्हारे favourite memes में है।
+media_and_memes.media_metadata_error: Media metadata error।
+media_and_memes.unknown_favorite_meme: Unknown favourite meme।
+messages.cannot_delete_more_than_100: 'तुम एक बार में {max} {max, plural, one {message} other {messages}} से ज्यादा delete नहीं कर सकते।'
+messages.cannot_edit_others_message: तुम किसी और का message edit नहीं कर सकते।
+messages.cannot_preload_more_than_100_channels: 'तुम एक बार में {max} {max, plural, one {channel} other {channels}} से ज्यादा preload नहीं कर सकते।'
+messages.cannot_reply_to_system_message: तुम system message का reply नहीं कर सकते।
+messages.cannot_send_empty_message: तुम खाली message नहीं भेज सकते।
+messages.forward_messages_cannot_include_extra_content: Forwarded messages में extra content, embeds, attachments, या stickers शामिल नहीं हो सकते।
+messages.forward_reference_requires_channel_and_message: Forward message reference में `channel_id` और `message_id` होना जरूरी है।
+messages.invalid_message_data: Message data गलत है।
+messages.invalid_scheduled_message_payload: Scheduled message payload गलत है।
+messages.message_ids_cannot_be_empty: '`message_ids` खाली नहीं हो सकता।'
+messages.messages_array_required: '`messages` array जरूरी है और खाली नहीं हो सकती।'
+messages.messages_with_snapshots_cannot_be_edited: Snapshots वाले messages edit नहीं किए जा सकते।
+messages.scheduled_messages_max_30_days: Scheduled messages सबसे ज्यादा 30 दिन आगे हो सकते हैं।
+messages.scheduled_send_datetime_invalid: Scheduled send के लिए date या time गलत है।
+messages.scheduled_time_must_be_future: Scheduled time future में होना चाहिए।
+messages.voice_messages_attachment_must_be_audio: Voice message attachments must be audio files.
+messages.voice_messages_cannot_have_content: Voice messages can't have text content.
+messages.voice_messages_cannot_have_embeds: Voice messages can't have embeds.
+messages.voice_messages_cannot_have_favorite_memes: Voice messages can't have favorite memes.
+messages.voice_messages_cannot_have_stickers: Voice messages can't have stickers.
+mfa_and_passkeys.invalid_mfa_code: MFA code गलत है।
+mfa_and_passkeys.invalid_webauthn_authentication_counter: WebAuthn authentication counter गलत है।
+mfa_and_passkeys.invalid_webauthn_credential_counter: WebAuthn credential counter गलत है।
+mfa_and_passkeys.invalid_webauthn_credential: WebAuthn credential गलत है।
+mfa_and_passkeys.invalid_webauthn_public_key_format: WebAuthn public key format गलत है।
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: 'Moderators के लिए इसे ज़रूरी करने से पहले तुम्हें अपने अकाउंट पर 2FA enable करना होगा।'
+mfa_and_passkeys.no_passkeys_registered: कोई passkeys register नहीं हैं।
+mfa_and_passkeys.passkey_authentication_failed: Passkey authentication fail हो गया।
+mfa_and_passkeys.passkeys_disabled: Passkeys disabled हैं।
+mfa_and_passkeys.two_factor_not_enabled: Two-factor authentication enabled नहीं है।
+mfa_and_passkeys.two_factor_required: Two-factor authentication जरूरी है।
+mfa_and_passkeys.unknown_webauthn_credential: Unknown WebAuthn credential।
+mfa_and_passkeys.webauthn_credential_limit_reached: आपने {count} WebAuthn {count, plural, one {credential} other {credentials}} की maximum तक पहुंच गए हैं।
+misc_limits.max_bookmarks_reached: आपने {count} {count, plural, one {bookmark} other {bookmarks}} की maximum तक पहुंच गए हैं।
+misc_limits.max_category_channels_reached: आपने {count} category {count, plural, one {channel} other {channels}} की maximum तक पहुंच गए हैं।
+misc_limits.max_friends_reached: आपने {count} {count, plural, one {friend} other {friends}} की maximum तक पहुंच गए हैं।
+misc_limits.max_invites_reached: आपने {count} {count, plural, one {invite} other {invites}} की maximum तक पहुंच गए हैं।
+misc_limits.max_pins_per_channel_reached: आपने {count} {count, plural, one {pin} other {pins}} प्रति channel की maximum तक पहुंच गए हैं।
+misc.cannot_send_messages_in_non_text_channel: तुम non-text channel में messages नहीं भेज सकते।
+misc.cannot_send_messages_in_this_guild_without_email_verification: इस सर्वर में messages भेजने के लिए तुम्हें अपना ईमेल verify करना होगा।
+misc.invalid_job_id: Job ID गलत है।
+misc.invalid_permissions_integer: Permissions valid integer होनी चाहिए।
+misc.invalid_permissions_negative: Permissions negative नहीं हो सकतीं।
+misc.invalid_request_generic: Request गलत है।
+misc.invalid_snowflake: Snowflake गलत है।
+misc.job_already_processed: Job पहले ही process हो चुका है।
+misc.job_id_required: Job ID जरूरी है।
+misc.job_not_found: Job नहीं मिला।
+misc.max_files_exceeded: बहुत ज्यादा files। Maximum {maxFiles} {maxFiles, plural, one {फाइल} other {फाइलें}} allowed हैं।
+misc.must_have_bot_to_mark_system_user: System user mark करने के लिए user का bot होना जरूरी है।
+moderation_and_reports.cannot_report_own_message: तुम अपने ही message को report नहीं कर सकते।
+moderation_and_reports.cannot_report_yourself: तुम खुद को report नहीं कर सकते।
+moderation_and_reports.invalid_dsa_report_target: DSA report target गलत है।
+moderation_and_reports.invalid_dsa_ticket: DSA ticket गलत है।
+moderation_and_reports.invalid_dsa_verification_code: DSA verification code गलत है।
+moderation_and_reports.report_already_resolved: Report पहले ही resolve हो चुकी है।
+moderation_and_reports.report_banned: Report banned है।
+moderation_and_reports.unknown_report: Unknown report।
+moderation_and_reports.user_is_not_banned: This user isn't banned.
+names_and_normalization.channel_name_empty_after_normalization: Normalization के बाद channel name खाली नहीं हो सकता।
+names_and_normalization.name_empty_after_normalization: Normalization के बाद name खाली नहीं हो सकता।
+permissions.missing_access: ऐक्सेस नहीं है।
+permissions.missing_permissions: परमिशन नहीं हैं।
+permissions.not_owner_of_admin_api_key: तुम्हें इस admin API key को बदलने की परमिशन नहीं है।
+permissions.user_banned_from_guild: यह यूजर इस सर्वर से banned है।
+permissions.user_ip_banned_from_guild: इस यूजर का IP इस सर्वर में banned है।
+permissions.user_not_in_channel: यह यूजर इस चैनल में नहीं है।
+permissions.user_not_in_voice: यह यूजर voice में नहीं है।
+permissions.user_owns_guilds: यह यूजर कुछ सर्वर्स का owner है।
+phone.invalid_number: फोन नंबर गलत है।
+phone.number_already_used: यह फोन नंबर पहले से इस्तेमाल में है।
+phone.number_format_required: फोन नंबर E.164 format में होना चाहिए (जैसे, +1234567890)।
+phone.phone_required_for_sms_mfa: SMS MFA के लिए फोन नंबर जरूरी है।
+phone.sms_mfa_not_enabled: SMS MFA enabled नहीं है।
+phone.sms_mfa_requires_totp: SMS MFA के लिए TOTP जरूरी है।
+phone.sms_verification_unavailable: SMS verification अभी अस्थायी तौर पर उपलब्ध नहीं है। बाद में फिर से कोशिश करो।
+phone.verification_code_invalid: फोन verification code गलत है।
+phone.verification_required: फोन verification जरूरी है।
+premium_and_plans.animated_avatars_require_premium: Animated avatar के लिए Premium चाहिए।
+premium_and_plans.banners_require_premium: Banner के लिए Premium चाहिए।
+premium_and_plans.bio_requires_premium_for_length: A bio longer than {maxLength} characters requires Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Visionary के साथ Plutonium redeem नहीं कर सकते।
+premium_and_plans.custom_emojis_outside_source_require_premium: अपने source server के बाहर custom emoji यूज़ करने के लिए Premium चाहिए।
+premium_and_plans.custom_stickers_in_dms_require_premium: DMs में custom stickers के लिए Premium चाहिए।
+premium_and_plans.custom_stickers_outside_source_require_premium: अपने source server के बाहर custom stickers यूज़ करने के लिए Premium चाहिए।
+premium_and_plans.discriminator_change_requires_premium: Discriminator बदलने के लिए Premium चाहिए।
+premium_and_plans.no_active_subscription: कोई active subscription नहीं है।
+premium_and_plans.no_visionary_slots_available: Visionary slots उपलब्ध नहीं हैं।
+premium_and_plans.premium_required_for_custom_emoji: Custom emoji यूज़ करने के लिए Premium चाहिए।
+premium_and_plans.visionary_required_for_bot_discriminator: Bot discriminators customise करने के लिए तुम्हें Visionary lifetime plan पर होना होगा।
+premium_and_plans.visionary_required_for_discriminator: उस discriminator के लिए तुम्हें Visionary lifetime plan पर होना होगा।
+rate_limits.accent_color_changed_too_often: तुमने हाल ही में अपना एक्सेंट कलर बहुत बार बदल लिया है। कृपया {minutes} {minutes, plural, one {मिनट} other {मिनट}} बाद फिर से कोशिश करो।
+rate_limits.avatar_changed_too_often: तुमने हाल ही में अपना अवतार बहुत बार बदल लिया है। कृपया {minutes} {minutes, plural, one {मिनट} other {मिनट}} बाद फिर से कोशिश करो।
+rate_limits.banner_changed_too_often: तुमने हाल ही में अपना बैनर बहुत बार बदल लिया है। कृपया {minutes} {minutes, plural, one {मिनट} other {मिनट}} बाद फिर से कोशिश करो।
+rate_limits.bio_changed_too_often: तुमने हाल ही में अपना बायो बहुत बार बदल लिया है। कृपया {minutes} {minutes, plural, one {मिनट} other {मिनट}} बाद फिर से कोशिश करो।
+rate_limits.ip_authorization_resend_cooldown: IP authorization resend अभी cooldown पर है।
+rate_limits.ip_authorization_resend_limit_exceeded: IP authorization resend की limit पार हो गई है।
+rate_limits.phone_rate_limit_exceeded: फोन rate limit पार हो गई है।
+rate_limits.pronouns_changed_too_often: तुमने हाल ही में अपने pronouns बहुत बार बदले हैं। कृपया {minutes} {minutes, plural, one {मिनट} other {मिनट}} बाद फिर से कोशिश करो।
+rate_limits.rate_limited: तुम्हें rate limit लग गई है।
+rate_limits.slowmode_rate_limited: slow mode में rate limit लग गई है।
+rate_limits.username_changed_too_often: तुमने हाल ही में अपना username बहुत बार बदला है। कृपया {minutes} {minutes, plural, one {मिनट} other {मिनट}} बाद फिर से कोशिश करो।
+roles.cannot_reorder_everyone_role: तुम @everyone role को reorder नहीं कर सकते।
+roles.cannot_set_everyone_hoist: तुम @everyone role के लिए hoist position set नहीं कर सकते।
+roles.cannot_use_same_role_as_preceding: तुम preceding role जैसा ही role नहीं रख सकते।
+roles.invalid_role_id: 'Role ID गलत है: {roleId}।'
+roles.parse_and_users_or_roles_cannot_be_used_together: You can't use `parse` together with `allowed_mentions.users` or `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Preceding role guild में मौजूद नहीं है।
+stickers_and_emojis.custom_emoji_not_found: Custom emoji नहीं मिला।
+stickers_and_emojis.custom_sticker_not_found: Custom sticker नहीं मिला।
+stickers_and_emojis.emoji_requires_guild_or_pack_access: You can't use this emoji without access to its guild or installed pack.
+stickers_and_emojis.max_reactions_reached: आपने {count} {count, plural, one {reaction} other {reactions}} की maximum तक पहुंच गए हैं।
+stickers_and_emojis.max_stickers_reached: आपने {count} {count, plural, one {sticker} other {stickers}} की maximum तक पहुंच गए हैं।
+stickers_and_emojis.not_valid_unicode_emoji: Valid Unicode emoji नहीं है।
+stickers_and_emojis.unknown_emoji: Unknown emoji।
+stickers_and_emojis.unknown_sticker: Unknown sticker।
+stripe.error: Stripe error।
+stripe.invalid_product_configuration: Product configuration गलत है।
+stripe.invalid_product_selection: Product selection गलत है।
+stripe.no_active_subscription_found: कोई active subscription नहीं मिला।
+stripe.no_purchase_history_customer_portal_unavailable: Purchase history नहीं मिली। Customer portal उपलब्ध नहीं है।
+stripe.no_subscription_found: कोई subscription नहीं मिला।
+stripe.payment_not_available: Payment processing उपलब्ध नहीं है।
+stripe.subscription_already_canceling: Subscription पहले से period end पर cancel होने के लिए set है।
+stripe.subscription_not_canceling: Subscription cancel होने के लिए set नहीं है।
+stripe.subscription_period_end_missing: Subscription current_period_end missing है।
+stripe.webhook_not_available: Webhook processing उपलब्ध नहीं है।
+stripe.webhook_signature_invalid: Stripe webhook signature गलत है।
+stripe.webhook_signature_missing: Stripe webhook signature missing है।
+tickets.ticket_already_completed: यह ticket पहले ही complete हो चुका है।
+tos_and_age.date_of_birth_format_invalid: जन्मतिथि का फॉर्मैट गलत है।
+tos_and_age.must_agree_to_tos_and_privacy: Terms of Service और Privacy Policy से agree करना जरूरी है।
+tos_and_age.must_be_minimum_age: अकाउंट बनाने के लिए तुम्हारी उम्र कम से कम {minAge} {minAge, plural, one {साल} other {साल}} होनी चाहिए।
+unknown_entities.unknown_application: अनजान application।
+unknown_entities.unknown_channel: Unknown channel।
+unknown_entities.unknown_guild: Unknown guild।
+unknown_entities.unknown_invite: Unknown invite।
+unknown_entities.unknown_member: Unknown member।
+unknown_entities.unknown_message: Unknown message।
+unknown_entities.unknown_pack: Unknown pack।
+unknown_entities.unknown_role: Unknown role।
+unknown_entities.unknown_user_flag: Unknown user flag।
+unknown_entities.unknown_user: Unknown user।
+urls.invalid_url_format: URL format गलत है।
+urls.invalid_url_or_attachment_reference: URL format या attachment reference गलत है।
+urls.url_length_invalid: URL {min} से {max} characters के बीच होना चाहिए।
+usernames_and_tags.discriminator_invalid_format: Discriminator {min}–{max} digits का होना चाहिए।
+usernames_and_tags.discriminator_out_of_range: Discriminator {min} से {max} के बीच होना चाहिए।
+usernames_and_tags.discriminator_required: Discriminator जरूरी है।
+usernames_and_tags.display_name_length_invalid: Display name {min} से {max} characters के बीच होना चाहिए।
+usernames_and_tags.display_name_reserved_terms: Display name में "system message" नहीं हो सकता।
+usernames_and_tags.display_name_reserved_value: Display name "everyone" या "here" नहीं हो सकता।
+usernames_and_tags.global_name_length_invalid: Global name must be between {min} and {max} characters.
+usernames_and_tags.global_name_reserved_value: Global name can't be "everyone" or "here".
+usernames_and_tags.tag_already_taken: यह tag पहले से लिया जा चुका है।
+usernames_and_tags.too_many_users_with_this_username: इस username वाले users बहुत ज्यादा हैं।
+usernames_and_tags.too_many_users_with_username_try_different: इस username वाले users बहुत ज्यादा हैं। कोई दूसरा username ट्राय करो।
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Unclaimed accounts can only set email via token.
+usernames_and_tags.username_invalid_characters: Username में सिर्फ Latin letters (a-z, A-Z), numbers (0-9), और underscores (_) हो सकते हैं।
+usernames_and_tags.username_length_invalid: Username {min} से {max} characters के बीच होना चाहिए।
+usernames_and_tags.username_not_available: यह username उपलब्ध नहीं है।
+usernames_and_tags.username_reserved_terms: Username में "fluxer" या "system message" नहीं हो सकता।
+usernames_and_tags.username_reserved_value: Username "everyone" या "here" नहीं हो सकता।
+vanity_urls.vanity_url_already_taken: यह vanity URL पहले से लिया जा चुका है।
+vanity_urls.vanity_url_code_already_taken: यह vanity URL code पहले से लिया जा चुका है।
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Vanity URL code में "fluxer" नहीं हो सकता।
+vanity_urls.vanity_url_code_length_invalid: Vanity URL code {min} से {max} characters के बीच होना चाहिए।
+vanity_urls.vanity_url_invalid_characters: Vanity URL में सिर्फ lowercase letters (a-z), digits (0-9), और hyphens (-) हो सकते हैं।
+webhooks.cannot_modify_system_webhook: आप सिस्टम संदेशों को संपादित नहीं कर सकते।
+webhooks.max_webhooks_per_channel_reached: आपने {count} {count, plural, one {webhook} other {webhooks}} प्रति channel की maximum तक पहुंच गए हैं।
+webhooks.max_webhooks_per_guild_reached: आपने {count} {count, plural, one {webhook} other {webhooks}} प्रति guild की maximum तक पहुंच गए हैं।
+webhooks.max_webhooks_reached: आपने {count} {count, plural, one {webhook} other {webhooks}} की maximum तक पहुंच गए हैं।
+webhooks.unknown_webhook: Unknown webhook।
+webhooks.webhook_name_length_invalid: Webhook name {min} से {max} characters के बीच होना चाहिए।

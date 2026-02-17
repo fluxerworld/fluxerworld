@@ -17,15 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {SettingsSection} from '@app/components/modals/shared/SettingsSection';
+import {SettingsTabContainer, SettingsTabContent} from '@app/components/modals/shared/SettingsTabLayout';
+import {CommunicationTabContent} from '@app/components/modals/tabs/privacy_safety_tab/CommunicationTab';
+import {ConnectionsTabContent} from '@app/components/modals/tabs/privacy_safety_tab/ConnectionsTab';
+import {DataDeletionTabContent} from '@app/components/modals/tabs/privacy_safety_tab/DataDeletionTab';
+import {DataExportTabContent} from '@app/components/modals/tabs/privacy_safety_tab/DataExportTab';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {SettingsSection} from '~/components/modals/shared/SettingsSection';
-import {SettingsTabContainer, SettingsTabContent} from '~/components/modals/shared/SettingsTabLayout';
-import {CommunicationTabContent} from './PrivacySafetyTab/CommunicationTab';
-import {ConnectionsTabContent} from './PrivacySafetyTab/ConnectionsTab';
-import {DataDeletionTabContent} from './PrivacySafetyTab/DataDeletionTab';
-import {DataExportTabContent} from './PrivacySafetyTab/DataExportTab';
 
 const PrivacySafetyTab: React.FC = observer(() => {
 	const {t} = useLingui();
@@ -52,8 +52,6 @@ const PrivacySafetyTab: React.FC = observer(() => {
 					id="data-export"
 					title={t`Data Export`}
 					description={t`Download a complete package of your account data, including all messages and attachment URLs`}
-					isAdvanced
-					defaultExpanded={false}
 				>
 					<DataExportTabContent />
 				</SettingsSection>
@@ -62,8 +60,6 @@ const PrivacySafetyTab: React.FC = observer(() => {
 					id="data-deletion"
 					title={t`Data Deletion`}
 					description={t`Permanently delete all messages you have sent across the platform`}
-					isAdvanced
-					defaultExpanded={false}
 				>
 					<DataDeletionTabContent />
 				</SettingsSection>

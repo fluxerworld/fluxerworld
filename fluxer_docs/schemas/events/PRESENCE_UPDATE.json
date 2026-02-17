@@ -1,0 +1,49 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "PRESENCE_UPDATE",
+	"description": "User presence was updated. Sent when a friend's or group DM member's status changes.",
+	"scope": "presence",
+	"dispatchedBy": ["gateway"],
+	"note": "Dispatched to users who are subscribed to the target user's presence (friends, group DM members)",
+	"payload": {
+		"type": "object",
+		"properties": {
+			"user": {
+				"type": "object",
+				"description": "Normalized user object",
+				"properties": {
+					"id": {"type": "string", "description": "User ID"},
+					"username": {"type": "string", "description": "Username"},
+					"display_name": {"type": ["string", "null"], "description": "Display name"},
+					"avatar": {"type": ["string", "null"], "description": "Avatar hash"},
+					"bot": {"type": "boolean", "description": "Whether user is a bot"}
+				},
+				"required": ["id"]
+			},
+			"status": {
+				"type": "string",
+				"enum": ["online", "idle", "dnd", "offline", "invisible"],
+				"description": "User's current status"
+			},
+			"mobile": {
+				"type": "boolean",
+				"description": "Whether the user has any mobile session active"
+			},
+			"afk": {
+				"type": "boolean",
+				"description": "Whether the user is marked as AFK"
+			},
+			"custom_status": {
+				"type": ["object", "null"],
+				"description": "User's custom status (null if offline/invisible or not set)",
+				"properties": {
+					"text": {"type": ["string", "null"], "description": "Custom status text"},
+					"emoji_id": {"type": ["string", "null"], "description": "Custom emoji ID"},
+					"emoji_name": {"type": ["string", "null"], "description": "Emoji name (for unicode emoji)"},
+					"expires_at": {"type": ["string", "null"], "description": "ISO8601 timestamp when status expires"}
+				}
+			}
+		},
+		"required": ["user", "status", "mobile", "afk", "custom_status"]
+	}
+}

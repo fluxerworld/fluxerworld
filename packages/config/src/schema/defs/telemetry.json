@@ -1,0 +1,137 @@
+{
+	"alerts": {
+		"type": "object",
+		"description": "Alerting settings.",
+		"additionalProperties": false,
+		"properties": {
+			"webhook_url": {
+				"type": "string",
+				"default": "",
+				"description": "Webhook URL for system alerts."
+			}
+		}
+	},
+	"telemetry": {
+		"type": "object",
+		"description": "OpenTelemetry observability settings.",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"default": false,
+				"description": "Enable OpenTelemetry."
+			},
+			"otlp_endpoint": {
+				"type": "string",
+				"default": "",
+				"description": "OTLP collector endpoint."
+			},
+			"api_key": {
+				"type": "string",
+				"default": "",
+				"description": "API Key for telemetry service."
+			},
+			"service_name": {
+				"type": "string",
+				"default": "fluxer",
+				"description": "Service name reported to telemetry."
+			},
+			"environment": {
+				"type": "string",
+				"default": "development",
+				"description": "Environment name (dev, prod, etc)."
+			},
+			"trace_sampling_ratio": {
+				"type": "number",
+				"minimum": 0,
+				"maximum": 1,
+				"default": 1.0,
+				"description": "Sampling ratio for traces (0.0 to 1.0)."
+			},
+			"export_timeout": {
+				"type": "number",
+				"minimum": 1,
+				"default": 30000,
+				"description": "Timeout in milliseconds for exporting telemetry data."
+			},
+			"metric_export_interval_ms": {
+				"type": "number",
+				"minimum": 1,
+				"default": 60000,
+				"description": "Interval in milliseconds between metric exports."
+			},
+			"ignore_incoming_paths": {
+				"type": "array",
+				"items": {
+					"type": "string"
+				},
+				"default": ["/_health"],
+				"description": "HTTP paths to exclude from tracing."
+			}
+		}
+	},
+	"sentry": {
+		"type": "object",
+		"description": "Sentry configuration.",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"default": false,
+				"description": "Enable Sentry reporting."
+			},
+			"dsn": {
+				"type": "string",
+				"default": "",
+				"description": "Sentry DSN."
+			}
+		}
+	},
+	"app_public": {
+		"type": "object",
+		"description": "Public configuration exposed to the frontend application.",
+		"additionalProperties": false,
+		"properties": {
+			"api_version": {
+				"type": "number",
+				"default": 1,
+				"description": "API Version."
+			},
+			"bootstrap_api_endpoint": {
+				"type": "string",
+				"default": "",
+				"description": "Bootstrap API endpoint."
+			},
+			"bootstrap_api_public_endpoint": {
+				"type": "string",
+				"default": "",
+				"description": "Public Bootstrap API endpoint."
+			},
+			"sentry_dsn": {
+				"type": "string",
+				"default": "",
+				"description": "Frontend Sentry DSN."
+			},
+			"sentry_proxy_path": {
+				"type": "string",
+				"default": "/error-reporting-proxy",
+				"description": "Path to proxy Sentry requests."
+			},
+			"sentry_report_host": {
+				"type": "string",
+				"default": "",
+				"description": "Host for Sentry reporting."
+			},
+			"sentry_project_id": {
+				"type": "string",
+				"default": "",
+				"description": "Sentry Project ID."
+			},
+			"sentry_public_key": {
+				"type": "string",
+				"default": "",
+				"description": "Sentry Public Key."
+			}
+		}
+	}
+}

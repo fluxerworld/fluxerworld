@@ -17,17 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import KeybindManager from '@app/lib/KeybindManager';
+import InputMonitoringPromptsStore from '@app/stores/InputMonitoringPromptsStore';
+import {openNativePermissionSettings, requestNativePermission} from '@app/utils/NativePermissions';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import KeybindManager from '~/lib/KeybindManager';
-import InputMonitoringPromptsStore from '~/stores/InputMonitoringPromptsStore';
-import {openNativePermissionSettings, requestNativePermission} from '~/utils/NativePermissions';
-import {Button} from '../uikit/Button/Button';
-import styles from './ConfirmModal.module.css';
-import * as Modal from './Modal';
+import type React from 'react';
+import {useRef, useState} from 'react';
 
 interface InputMonitoringCTAModalProps {
 	onComplete?: () => void;
@@ -35,8 +35,8 @@ interface InputMonitoringCTAModalProps {
 
 export const InputMonitoringCTAModal: React.FC<InputMonitoringCTAModalProps> = observer(({onComplete}) => {
 	const {t} = useLingui();
-	const [submitting, setSubmitting] = React.useState(false);
-	const initialFocusRef = React.useRef<HTMLButtonElement | null>(null);
+	const [submitting, setSubmitting] = useState(false);
+	const initialFocusRef = useRef<HTMLButtonElement | null>(null);
 
 	const handleEnable = async () => {
 		setSubmitting(true);
@@ -71,19 +71,21 @@ export const InputMonitoringCTAModal: React.FC<InputMonitoringCTAModalProps> = o
 	return (
 		<Modal.Root size="small" centered initialFocusRef={initialFocusRef}>
 			<Modal.Header title={t`Enable Input Monitoring`} />
-			<Modal.Content className={styles.content}>
-				<p>
-					<Trans>
-						Fluxer needs permission to monitor keyboard and mouse input so that <strong>Push-to-Talk</strong> and{' '}
-						<strong>Global Shortcuts</strong> work even when you're in another app or game.
-					</Trans>
-				</p>
-				<p style={{marginTop: '12px'}}>
-					<Trans>
-						This is required to detect any key or mouse button you choose for Push-to-Talk. You can change this later in{' '}
-						<strong>System Settings → Privacy & Security → Input Monitoring</strong>.
-					</Trans>
-				</p>
+			<Modal.Content>
+				<Modal.ContentLayout>
+					<Modal.Description>
+						<Trans>
+							Fluxer needs permission to monitor keyboard and mouse input so that <strong>Push-to-Talk</strong> and{' '}
+							<strong>Global Shortcuts</strong> work even when you're in another app or game.
+						</Trans>
+					</Modal.Description>
+					<Modal.Description>
+						<Trans>
+							This is required to detect any key or mouse button you choose for Push-to-Talk. You can change this later
+							in <strong>System Settings → Privacy & Security → Input Monitoring</strong>.
+						</Trans>
+					</Modal.Description>
+				</Modal.ContentLayout>
 			</Modal.Content>
 			<Modal.Footer>
 				<Button onClick={handleDismiss} variant="secondary">

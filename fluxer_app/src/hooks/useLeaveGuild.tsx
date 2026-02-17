@@ -17,21 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GuildActionCreators from '@app/actions/GuildActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {GenericErrorModal} from '@app/components/alerts/GenericErrorModal';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {Logger} from '@app/lib/Logger';
+import {Routes} from '@app/Routes';
+import * as RouterUtils from '@app/utils/RouterUtils';
 import {useLingui} from '@lingui/react/macro';
-import React from 'react';
-import * as GuildActionCreators from '~/actions/GuildActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {GenericErrorModal} from '~/components/alerts/GenericErrorModal';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {Routes} from '~/Routes';
-import * as RouterUtils from '~/utils/RouterUtils';
+import {useCallback} from 'react';
+
+const logger = new Logger('useLeaveGuild');
 
 export const useLeaveGuild = () => {
 	const {t} = useLingui();
 
-	return React.useCallback(
+	return useCallback(
 		(guildId: string) => {
 			ModalActionCreators.push(
 				modal(() => (
@@ -49,15 +52,17 @@ export const useLeaveGuild = () => {
 									children: t`Left community`,
 								});
 							} catch (error) {
-								console.error('Failed to leave community:', error);
-								ModalActionCreators.push(
-									modal(() => (
-										<GenericErrorModal
-											title={t`Failed to leave community`}
-											message={t`We couldn't remove you from the community at this time.`}
-										/>
-									)),
-								);
+								logger.error('Failed to leave community', error);
+								window.setTimeout(() => {
+									ModalActionCreators.push(
+										modal(() => (
+											<GenericErrorModal
+												title={t`Failed to Leave Community`}
+												message={t`We couldn't remove you from the community at this time.`}
+											/>
+										)),
+									);
+								}, 0);
 							}
 						}}
 					/>

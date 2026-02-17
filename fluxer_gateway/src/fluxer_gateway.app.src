@@ -10,12 +10,10 @@
         public_key,
         ssl,
         inets,
-        jsx,
         jose,
         cowboy,
-        hackney,
-        base64url,
-        ezstd
+        ezstd,
+        base64url
     ]},
     {env, []},
     {modules, []},

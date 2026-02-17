@@ -1,0 +1,20 @@
+CREATE TABLE IF NOT EXISTS fluxer.system_dm_jobs (
+    job_type text,
+    job_id bigint,
+    admin_user_id bigint,
+    status text,
+    content text,
+    registration_start timestamp,
+    registration_end timestamp,
+    excluded_guild_ids set<text>,
+    target_count int,
+    sent_count int,
+    failed_count int,
+    last_error text,
+    worker_job_key text,
+    created_at timestamp,
+    updated_at timestamp,
+    approved_by bigint,
+    approved_at timestamp,
+    PRIMARY KEY ((job_type), job_id)
+) WITH CLUSTERING ORDER BY (job_id DESC);

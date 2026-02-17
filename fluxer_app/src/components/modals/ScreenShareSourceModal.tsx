@@ -17,36 +17,38 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as Modal from '@app/components/modals/Modal';
+import styles from '@app/components/modals/ScreenShareSourceModal.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import type {DesktopSource} from '@app/types/electron.d';
 import {Trans, useLingui} from '@lingui/react/macro';
-import type {DesktopSource} from '~/../src-electron/common/types';
-import * as Modal from '~/components/modals/Modal';
-import styles from '~/components/modals/ScreenShareSourceModal.module.css';
-import {Button} from '~/components/uikit/Button/Button';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {isNativeMacOS} from '~/utils/NativeUtils';
 
 interface ScreenShareSourceModalProps {
 	sources: Array<DesktopSource>;
 	audioRequested: boolean;
+	supportsLoopbackAudio?: boolean;
+	supportsSystemAudioCapture?: boolean;
 	onSelect: (sourceId: string | null) => void;
 }
 
-const getAudioHintText = (audioRequested: boolean): string => {
+export const ScreenShareSourceModal = ({
+	sources,
+	audioRequested,
+	supportsLoopbackAudio,
+	supportsSystemAudioCapture,
+	onSelect,
+}: ScreenShareSourceModalProps) => {
 	const {t} = useLingui();
-	if (!audioRequested) {
-		return t`Audio is disabled for this share.`;
-	}
-	if (isNativeMacOS()) {
-		return t`Audio will be included with this screen share.`;
-	}
-	return t`System audio capture is not supported on this platform.`;
-};
-
-export const ScreenShareSourceModal = ({sources, audioRequested, onSelect}: ScreenShareSourceModalProps) => {
-	const {t} = useLingui();
+	const hasAudioCapability = Boolean(supportsLoopbackAudio || supportsSystemAudioCapture);
+	const audioHint = !audioRequested
+		? t`Audio is disabled for this share.`
+		: hasAudioCapability
+			? t`Audio will be included with this screen share.`
+			: t`System audio capture is not supported on this platform.`;
 	return (
 		<Modal.Root size="xlarge" onClose={() => onSelect(null)}>
-			<Modal.Header title={t`Select screen or window`} />
+			<Modal.Header title={t`Select Screen or Window`} />
 			<Modal.Content>
 				<p className={styles.description}>
 					<Trans>Pick the screen or window you want to share with the call.</Trans>
@@ -68,7 +70,7 @@ export const ScreenShareSourceModal = ({sources, audioRequested, onSelect}: Scre
 						</FocusRing>
 					))}
 				</div>
-				<p className={styles.audioHint}>{getAudioHintText(audioRequested)}</p>
+				<p className={styles.audioHint}>{audioHint}</p>
 			</Modal.Content>
 			<Modal.Footer>
 				<Button variant="secondary" onClick={() => onSelect(null)}>

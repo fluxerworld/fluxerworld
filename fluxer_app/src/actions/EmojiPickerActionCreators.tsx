@@ -17,21 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import EmojiPickerStore from '~/stores/EmojiPickerStore';
-import type {Emoji} from '~/stores/EmojiStore';
+import EmojiPickerStore from '@app/stores/EmojiPickerStore';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
 
-function getEmojiKey(emoji: Emoji): string {
+function getEmojiKey(emoji: FlatEmoji): string {
 	if (emoji.id) {
 		return `custom:${emoji.guildId}:${emoji.id}`;
 	}
 	return `unicode:${emoji.uniqueName}`;
 }
 
-export function trackEmojiUsage(emoji: Emoji): void {
+export function trackEmojiUsage(emoji: FlatEmoji): void {
 	EmojiPickerStore.trackEmojiUsage(getEmojiKey(emoji));
 }
 
-export function toggleFavorite(emoji: Emoji): void {
+export function toggleFavorite(emoji: FlatEmoji): void {
 	EmojiPickerStore.toggleFavorite(getEmojiKey(emoji));
 }
 

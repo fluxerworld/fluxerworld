@@ -172,10 +172,6 @@
 	background-color: var(--background-secondary-alt);
 }
 
-.recorderBox:focus-visible {
-	outline: none;
-}
-
 .recorderBoxRecording {
 	border-style: solid;
 	border-color: var(--status-danger);

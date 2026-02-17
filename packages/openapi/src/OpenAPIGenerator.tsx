@@ -1,0 +1,210 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import {discoverControllerFiles, extractRoutesFromControllers} from '@fluxer/openapi/src/extractors/RouteExtractor';
+import {isExcludedRoutePath, OpenAPIGeneratorCatalog} from '@fluxer/openapi/src/generator/OpenAPIGeneratorCatalog';
+import {OpenAPIOperationBuilder} from '@fluxer/openapi/src/generator/OpenAPIOperationBuilder';
+import {collectReferencedSchemaNames} from '@fluxer/openapi/src/generator/OpenAPISchemaReferenceCollector';
+import {loadSchemasIntoRegistry} from '@fluxer/openapi/src/generator/OpenAPISchemaRegistryLoader';
+import type {OpenAPIGenerationResult, OpenAPIGeneratorOptions} from '@fluxer/openapi/src/OpenAPIGenerationTypes';
+import type {ExtractedRoute, OpenAPIDocument, OpenAPIPathItem, OpenAPISchema} from '@fluxer/openapi/src/OpenAPITypes';
+import {convertPathToOpenAPI} from '@fluxer/openapi/src/registry/ParameterRegistry';
+import {SchemaRegistry} from '@fluxer/openapi/src/registry/SchemaRegistry';
+
+interface PathBuildResult {
+	readonly paths: Record<string, OpenAPIPathItem>;
+	readonly operationCount: number;
+	readonly skippedRouteCount: number;
+}
+
+interface GeneratorSettings {
+	readonly basePath: string;
+	readonly title: string;
+	readonly version: string;
+	readonly description: string;
+	readonly serverUrl: string;
+}
+
+function createGeneratorSettings(options: OpenAPIGeneratorOptions): GeneratorSettings {
+	return {
+		basePath: options.basePath,
+		title: options.title ?? 'Fluxer API',
+		version: options.version ?? '1.0.0',
+		description: options.description ?? 'The Fluxer API',
+		serverUrl: options.serverUrl ?? 'https://api.fluxer.app',
+	};
+}
+
+export class OpenAPIGenerator {
+	private readonly settings: GeneratorSettings;
+	private readonly schemaRegistry: SchemaRegistry;
+
+	constructor(options: OpenAPIGeneratorOptions) {
+		this.settings = createGeneratorSettings(options);
+		this.schemaRegistry = new SchemaRegistry();
+	}
+
+	public async generate(): Promise<OpenAPIDocument> {
+		const result = await this.generateWithStats();
+		return result.document;
+	}
+
+	public async generateWithStats(): Promise<OpenAPIGenerationResult> {
+		const controllerFiles = discoverControllerFiles(`${this.settings.basePath}/packages/api`);
+		const routes = extractRoutesFromControllers(controllerFiles);
+
+		let registeredSchemaCount = 0;
+		let loadedSchemas = new Map();
+
+		try {
+			const schemaLoadResult = await loadSchemasIntoRegistry(this.settings.basePath, this.schemaRegistry);
+			registeredSchemaCount = schemaLoadResult.totalRegisteredSchemas;
+			loadedSchemas = schemaLoadResult.loadedSchemas;
+		} catch (error) {
+			console.warn('Warning: Could not load some schemas:', error);
+			registeredSchemaCount = Object.keys(this.schemaRegistry.getAllSchemas()).length;
+		}
+
+		const operationBuilder = new OpenAPIOperationBuilder({
+			schemaRegistry: this.schemaRegistry,
+			loadedSchemas,
+			usedOperationIds: new Set(),
+		});
+		const pathBuildResult = this.buildPaths(routes, operationBuilder);
+		const allSchemas = this.schemaRegistry.getAllSchemas();
+		const referencedSchemas = collectReferencedSchemaNames(pathBuildResult.paths, allSchemas);
+		const publishedSchemas = this.filterPublishedSchemas(allSchemas, referencedSchemas);
+		const tags = this.buildTags(routes);
+
+		const document: OpenAPIDocument = {
+			openapi: '3.1.0',
+			info: {
+				title: this.settings.title,
+				version: this.settings.version,
+				description: this.settings.description,
+				contact: {
+					name: 'Fluxer Developers',
+					email: 'developers@fluxer.app',
+				},
+				license: {
+					name: 'AGPL-3.0',
+					url: 'https://www.gnu.org/licenses/agpl-3.0.html',
+				},
+			},
+			servers: [{url: this.settings.serverUrl, description: 'Production API'}],
+			paths: pathBuildResult.paths,
+			components: {
+				schemas: publishedSchemas,
+				securitySchemes: OpenAPIGeneratorCatalog.securitySchemes,
+			},
+			tags,
+		};
+
+		return {
+			document,
+			stats: {
+				controllerCount: controllerFiles.length,
+				routeCount: routes.length,
+				operationCount: pathBuildResult.operationCount,
+				skippedRouteCount: pathBuildResult.skippedRouteCount,
+				registeredSchemaCount,
+				publishedSchemaCount: Object.keys(publishedSchemas).length,
+				tagCount: tags.length,
+			},
+		};
+	}
+
+	private buildPaths(routes: Array<ExtractedRoute>, operationBuilder: OpenAPIOperationBuilder): PathBuildResult {
+		const paths: Record<string, OpenAPIPathItem> = {};
+		let operationCount = 0;
+		let skippedRouteCount = 0;
+
+		for (const route of routes) {
+			if (isExcludedRoutePath(route.path)) {
+				continue;
+			}
+
+			if (!route.responseSchemaName && !route.hasNoContent) {
+				skippedRouteCount++;
+				continue;
+			}
+
+			const openApiPath = convertPathToOpenAPI(route.path);
+			paths[openApiPath] ??= {};
+			paths[openApiPath][route.method] = operationBuilder.buildOperation(route);
+			operationCount++;
+		}
+
+		const sortedPaths: Record<string, OpenAPIPathItem> = {};
+		for (const key of Object.keys(paths).sort()) {
+			sortedPaths[key] = paths[key];
+		}
+
+		return {
+			paths: sortedPaths,
+			operationCount,
+			skippedRouteCount,
+		};
+	}
+
+	private filterPublishedSchemas(
+		allSchemas: Record<string, OpenAPISchema>,
+		referencedSchemas: Set<string>,
+	): Record<string, OpenAPISchema> {
+		const publishedSchemas: Record<string, OpenAPISchema> = {};
+
+		for (const name of referencedSchemas) {
+			if (allSchemas[name]) {
+				publishedSchemas[name] = allSchemas[name];
+			}
+		}
+
+		return publishedSchemas;
+	}
+
+	private buildTags(routes: Array<ExtractedRoute>): Array<{name: string; description?: string}> {
+		const usedTags = new Set<string>();
+
+		for (const route of routes) {
+			if (isExcludedRoutePath(route.path)) {
+				continue;
+			}
+
+			if (!route.explicitTags) {
+				continue;
+			}
+
+			for (const tag of route.explicitTags) {
+				usedTags.add(tag);
+			}
+		}
+
+		const orderIndex = new Map<string, number>();
+		for (const [index, tag] of OpenAPIGeneratorCatalog.tags.order.entries()) {
+			orderIndex.set(tag, index);
+		}
+
+		return Array.from(usedTags)
+			.sort((a, b) => (orderIndex.get(a) ?? 1_000_000) - (orderIndex.get(b) ?? 1_000_000))
+			.map((name) => ({
+				name,
+				description: OpenAPIGeneratorCatalog.tags.descriptions[name],
+			}));
+	}
+}

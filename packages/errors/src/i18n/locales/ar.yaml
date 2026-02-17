@@ -1,0 +1,497 @@
+account.already_verified: حسابك مفعّل أصلاً.
+account.communication_disabled: تم تعطيل التواصل.
+account.disabled: تم تعطيل هذا الحساب.
+account.email_verification_required_for_guild: لازم توثّق بريدك عشان تقدر ترسل رسائل في هذا السيرفر.
+account.guild_verification_required: توثيق السيرفر مطلوب.
+account.ip_authorization_required: تفويض عنوان IP مطلوب.
+account.locked_suspicious_activity: حسابك مقفول بسبب نشاط مريب.
+account.phone_required_for_guild: لازم تضيف رقم هاتف عشان تقدر ترسل رسائل في هذا السيرفر.
+account.scheduled_for_deletion: هذا الحساب مجدول للحذف.
+account.session_timeout: انتهت الجلسة. حدّث الصفحة وسجّل دخولك من جديد.
+account.session_token_mismatch: رمز الجلسة غير مطابق.
+account.suspended_permanently: تم إيقاف هذا الحساب نهائياً.
+account.suspended_temporarily: تم إيقاف هذا الحساب مؤقتاً.
+account.too_new_for_guild: حسابك جديد جداً عشان تقدر ترسل رسائل في هذا السيرفر.
+account.unauthorized: غير مصرح.
+admin_and_system.acls_must_be_non_empty: ACLs لازم ما تكون فاضية.
+admin_and_system.admin_api_key_not_found: مفتاح واجهة API الإداري غير موجود.
+admin_and_system.audit_log_indexing: سجل التدقيق قيد الفهرسة. اصبر شوية وجرّب مرة ثانية.
+admin_and_system.channel_indexing: القنوات قيد الفهرسة. اصبر شوية وجرّب مرة ثانية.
+admin_and_system.creation_failed: ما قدرنا ننشئ المورد. جرّب مرة ثانية.
+admin_and_system.deletion_failed: ما قدرنا نحذف المورد. جرّب مرة ثانية.
+admin_and_system.decryption_failed: ما قدرنا نفك تشفير الرسالة. مفاتيح التشفير قد تكون غير صالحة أو تالفة.
+admin_and_system.empty_encrypted_body: جسم مشفر فاضي.
+admin_and_system.encryption_failed: ما قدرنا نشفّر الرسالة. مفاتيح التشفير قد تكون غير صالحة أو تالفة.
+admin_and_system.general_error: صار شيء غلط. جرّب مرة ثانية لاحقاً.
+admin_and_system.invalid_acls_format: تنسيق ACLs غير صالح.
+admin_and_system.invalid_api_origin: مصدر API غير صالح.
+admin_and_system.invalid_audit_log_reason: سبب سجل التدقيق غير صالح.
+admin_and_system.invalid_bot_flag: bot flag غير صالح.
+admin_and_system.invalid_decrypted_json: JSON مفك التشفير غير صالح.
+admin_and_system.invalid_ephemeral_key: مفتاح مؤقت غير صالح.
+admin_and_system.invalid_flags_format: تنسيق flags غير صالح.
+admin_and_system.invalid_form_body: محتوى النموذج غير صالح.
+admin_and_system.invalid_format: القيمة المعطاة بتنسيق غير صالح.
+admin_and_system.invalid_integer_format: تنسيق رقم غير صالح.
+admin_and_system.invalid_iv: متجه التهيئة غير صالح.
+admin_and_system.invalid_suspicious_flags_format: تنسيق suspicious flags غير صالح.
+admin_and_system.invalid_system_flag: system flag غير صالح.
+admin_and_system.invalid_timeout_value: قيمة المهلة غير صالحة.
+admin_and_system.invalid_timestamp: الطابع الزمني غير صالح.
+admin_and_system.invalid_timezone_identifier: معرّف المنطقة الزمنية غير صالح.
+admin_and_system.missing_acl: ACL ناقص.
+admin_and_system.missing_ephemeral_key: مفتاح مؤقت ناقص.
+admin_and_system.missing_iv: متجه التهيئة ناقص.
+admin_and_system.must_be_iso_timestamp: لازم يكون طابع زمني ISO صالح.
+admin_and_system.processing_failed: ما قدرنا نعالج الطلب. جرّب مرة ثانية.
+admin_and_system.response_validation_failed: 'فشل التحقق من الاستجابة: {errors}.'
+admin_and_system.test_harness_disabled: بيئة الاختبار معطّلة.
+admin_and_system.test_harness_forbidden: بيئة الاختبار محظورة.
+admin_and_system.unknown_suspicious_flag: suspicious flag غير معروف.
+admin_and_system.update_failed: ما قدرنا نحدّث المورد. جرّب مرة ثانية.
+admin_and_system.user_must_be_bot_for_system_user: المستخدم لازم يكون بوت عشان يتم تعيينه كمستخدم نظام.
+attachments_and_uploads.attachment_fields_required: '`attachment_id` و `channel_id` و `message_id` و `expires_at` مطلوبين.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id` و `channel_id` و `message_id` لازم تكون أرقام صحيحة.'
+attachments_and_uploads.cannot_edit_attachment_metadata: المستخدمون الذين لديهم صلاحية MANAGE_MESSAGES يمكنهم تعديل أوصاف المرفقات فقط، وليس البيانات الوصفية الأخرى.
+attachments_and_uploads.attachment_metadata_without_files: بيانات المرفقات فيها اسم ملف، بس ما تم رفع ملفات.
+attachments_and_uploads.attachment_must_be_image: المرفق "{filename}" لازم يكون صورة (png, jpg, jpeg, webp, أو gif).
+attachments_and_uploads.attachment_not_found_in_message: المرفق بمعرّف {attachmentId} ما لقيناه في الرسالة.
+attachments_and_uploads.attachments_metadata_required_when_uploading: مصفوفة بيانات المرفقات مطلوبة عند رفع الملفات.
+attachments_and_uploads.attachments_not_allowed_for_message: المرفقات مو مسموحة لهذه الرسالة.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: ما تقدر تشير لمرفقات بدون ما تكون فيه مرفقات.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: تكرار معرّفات المرفقات غير مسموح.
+attachments_and_uploads.duplicate_file_index: 'تكرار فهرس ملف: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: ما قدرنا نقرأ multipart form data. تأكد أن أسماء الحقول وأسماء الملفات مكتوبة بشكل صحيح.
+attachments_and_uploads.failed_to_parse_multipart_payload: ما قدرنا نقرأ multipart payload.
+attachments_and_uploads.failed_to_upload_image: ما قدرنا نرفع الصورة. جرّب مرة ثانية.
+attachments_and_uploads.file_index_exceeds_maximum: فهرس الملف {index} يتجاوز الحد الأقصى المسموح {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: الملف غير موجود للفحص.
+attachments_and_uploads.file_not_found: الملف غير موجود.
+attachments_and_uploads.file_size_too_large: حجم الملف كبير جداً. حد أقصى لحجم الملف {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: اسم الملف ما ينفع يكون فاضي بعد التطبيع.
+attachments_and_uploads.filename_invalid_characters: اسم الملف يحتوي أحرف غير مسموحة.
+attachments_and_uploads.filename_length_invalid: اسم الملف لازم يكون بين {min} و {max} حرف.
+attachments_and_uploads.filename_mismatch_for_attachment: 'عدم تطابق اسم الملف للمرفق {attachmentId}: البيانات تقول "{expectedFilename}" بس ما يطابق.'
+attachments_and_uploads.image_size_exceeds_limit: حجم الصورة يتجاوز {maxSize} بايت.
+attachments_and_uploads.invalid_file_field_name: 'اسم حقل الملف غير صالح: {key}. الصيغة المتوقعة: `files[N]` حيث N رقم.'
+attachments_and_uploads.invalid_image_data: بيانات الصورة غير صالحة.
+attachments_and_uploads.invalid_image_format: 'صيغة الصورة غير صالحة. الامتدادات المدعومة: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: JSON غير صالح في `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: أكثر من ملف لنفس الفهرس {index} غير مسموح.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: ما تم رفع ملف لبيانات المرفق بمعرّف {attachmentId}.
+attachments_and_uploads.no_file_uploaded_for_attachment: ما تم رفع ملف للمرفق بمعرّف {attachmentId}.
+attachments_and_uploads.no_metadata_for_file: ما تم توفير بيانات لملف بمعرّف {fileId}.
+attachments_and_uploads.no_valid_media_in_message: ما لقينا وسائط صحيحة في الرسالة.
+attachments_and_uploads.payload_json_required_for_multipart: حقل `payload_json` مطلوب لرسائل multipart.
+attachments_and_uploads.preview_must_be_jpeg: المعاينة لازم تكون JPEG.
+attachments_and_uploads.referenced_attachment_not_found: المرفق المشار له "{filename}" ما لقيناه ضمن مرفقات الرسالة.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` لازم يكون رقم صحيح.'
+attachments_and_uploads.too_many_files: ملفات كثيرة. الحد الأقصى {maxFiles} {maxFiles, plural, one {ملف} other {ملفات}}.
+attachments_and_uploads.unknown_image_format: صيغة صورة غير معروفة.
+attachments_and_uploads.unresolved_attachment_url: تم اكتشاف رابط `attachment://` غير محلول. المفروض ينحل قبل معالجة embed.
+attachments_and_uploads.uploaded_attachment_not_found: المرفق المرفوع {filename} ما لقيناه.
+auth_and_oauth.application_not_owned: ما أنت مالك هذا التطبيق.
+auth_and_oauth.bot_already_in_guild: هذا البوت موجود أصلاً في الخادم.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: حسابات البوت ما تقدر تنشئ جلسات auth.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: حسابات البوت ما تقدر تستخدم نقاط auth.
+auth_and_oauth.handoff_code_expired: انتهت صلاحية كود التسليم.
+auth_and_oauth.handoff_code_invalid: كود التسليم غير صالح.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize غير مدعوم. استخدم POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: سر العميل غير صالح.
+auth_and_oauth.invalid_client: العميل غير صالح.
+auth_and_oauth.invalid_code: الكود غير صالح.
+auth_and_oauth.invalid_grant: التفويض غير صالح أو منتهي الصلاحية أو تم إلغاؤه.
+auth_and_oauth.invalid_or_expired_authorization_ticket: تذكرة التفويض غير صالحة أو منتهية.
+auth_and_oauth.invalid_or_expired_authorization_token: رمز التفويض غير صالح أو منتهي.
+auth_and_oauth.invalid_or_expired_ticket: التذكرة غير صالحة أو منتهية.
+auth_and_oauth.invalid_proof_token: رمز الإثبات غير صالح.
+auth_and_oauth.invalid_redirect_uri: رابط إعادة التوجيه غير صالح.
+auth_and_oauth.invalid_request: طلب غير صالح.
+auth_and_oauth.invalid_scope: النطاق المطلوب غير مدعوم أو ما عندك الإذن لطلبه.
+auth_and_oauth.invalid_sudo_token: رمز sudo غير صالح.
+auth_and_oauth.invalid_token_admin_api_key: مفتاح واجهة API الإداري غير صالح.
+auth_and_oauth.missing_authorization: رأس تفويض ناقص أو غير صالح.
+auth_and_oauth.missing_client_secret: سر العميل ناقص.
+auth_and_oauth.missing_redirect_uri: رابط إعادة التوجيه ناقص.
+auth_and_oauth.must_start_session_before_sending_messages: لازم تبدأ جلسة قبل ما ترسل رسائل.
+auth_and_oauth.oauth_admin_scope_required: توكنات OAuth2 تحتاج نطاق admin للوصول لنهايات admin.
+auth_and_oauth.oauth_fields_missing: حقول OAuth ناقصة.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: رابط إعادة التوجيه مطلوب للنطاقات غير الخاصة بالبوت.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: نوع الاستجابة لازم يكون code للنطاقات غير الخاصة بالبوت.
+auth_and_oauth.sudo_mode_required: وضع sudo مطلوب.
+auth_and_oauth.unknown_application: تطبيق غير معروف.
+auth_and_oauth.unsupported_response_type: نوع الاستجابة غير مدعوم.
+auth_and_registration.current_password_incorrect: كلمة المرور الحالية غير صحيحة.
+auth_and_registration.password_is_too_common: كلمة المرور شائعة جداً. اختار كلمة مرور أكثر تفرداً.
+auth_and_registration.password_not_set: كلمة المرور مو مضبوطة.
+bots.bot_application_not_found: تطبيق البوت غير موجود.
+bots.bot_discriminator_cannot_be_changed: لا يمكن تغيير معرف البوت.
+bots.bot_is_private: هذا البوت خاص.
+bots.bot_user_generation_failed: فشل إنشاء مستخدم البوت.
+bots.bot_user_not_found: مستخدم البوت غير موجود.
+bots.invalid_response_type_for_non_bot: نوع الاستجابة لازم يكون code للنطاقات غير الخاصة بالبوت.
+bots.not_a_bot_application: هذا التطبيق مو بوت.
+calls_and_voice.call_already_exists: مكالمة قيد المعالجة بالفعل في هذه القناة.
+calls_and_voice.cannot_modify_voice_state: ما تقدر تعدّل حالة الصوت.
+calls_and_voice.invalid_or_restricted_rtc_region: 'منطقة RTC غير صالحة أو مقيّدة: {region}.'
+calls_and_voice.invalid_rtc_region: 'منطقة RTC غير صالحة: {region}. المناطق المتاحة: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: تنسيق مفتاح البث غير صالح.
+calls_and_voice.invalid_stream_thumbnail_payload: بيانات صورة مصغّرة للبث غير صالحة.
+calls_and_voice.no_active_call: ما فيه مكالمة نشطة.
+calls_and_voice.stream_key_channel_mismatch: مفتاح البث لا يطابق القناة.
+calls_and_voice.stream_key_scope_mismatch: نطاق مفتاح البث غير مطابق.
+calls_and_voice.stream_thumbnail_payload_empty: بيانات صورة مصغّرة للبث فاضية.
+calls_and_voice.unknown_voice_region: منطقة صوت غير معروفة.
+calls_and_voice.unknown_voice_server: سيرفر صوت غير معروف.
+calls_and_voice.voice_message_duration_exceeds_limit: مدة الرسالة الصوتية ما تقدر تتجاوز {maxDuration} {maxDuration, plural, one {ثانية} other {ثواني}}.
+calls_and_voice.voice_message_duration_required: مرفقات الرسائل الصوتية لازم تحدد مدة.
+calls_and_voice.voice_message_waveform_required: مرفقات الرسائل الصوتية لازم تتضمن بيانات waveform.
+calls_and_voice.voice_messages_require_single_attachment: الرسائل الصوتية لازم تحتوي مرفق واحد فقط.
+captcha.invalid: الكابتشا غير صحيحة.
+captcha.required: الكابتشا مطلوبة.
+connections.already_exists: اتصال من هذا النوع بنفس المعرّف موجود أصلاً.
+connections.bluesky_oauth_callback_failed: ما قدرنا نكمل اتصال بلوسكاي. جرّب مرة ثانية.
+connections.bluesky_oauth_not_enabled: اتصالات بلوسكاي مو مفعّلة على هذا الخادم.
+connections.bluesky_oauth_session_expired: انتهت صلاحية جلسة بلوسكاي. أعد ربط حسابك.
+connections.bluesky_oauth_state_invalid: طلب التفويض انتهت صلاحيته أو غير صالح. جرّب مرة ثانية.
+connections.invalid_identifier: معرّف الاتصال غير صالح.
+connections.initiation_token_invalid: رمز بدء الاتصال غير صالح أو انتهت صلاحيته.
+connections.invalid_type: نوع الاتصال غير مدعوم.
+connections.limit_reached: وصلت للحد الأقصى لعدد الاتصالات ({limit}).
+connections.not_found: اتصال غير معروف.
+connections.verification_failed: فشل التحقق من الاتصال. تأكد أن رمز التحقق مضبوط بشكل صحيح.
+channels_and_guilds.afk_channel_must_be_in_guild: قناة AFK لازم تكون داخل السيرفر.
+channels_and_guilds.afk_channel_must_be_voice: قناة AFK لازم تكون صوتية.
+channels_and_guilds.all_channels_must_belong_to_guild: كل القنوات لازم تتبع لهذا السيرفر.
+channels_and_guilds.animated_guild_banner_requires_feature: بانر السيرفر المتحرك يحتاج ميزة ANIMATED_BANNER.
+channels_and_guilds.cannot_execute_on_dm: هذا الإجراء ما ينفع يتم في DM.
+channels_and_guilds.cannot_transfer_ownership_to_bot: لا يمكن نقل ملكية المجتمع إلى بوت.
+channels_and_guilds.cannot_leave_guild_as_owner: ما تقدر تترك السيرفر وأنت المالك. انقل الملكية أو احذف السيرفر بدل كذا.
+channels_and_guilds.cannot_position_channel_relative_to_itself: ما تقدر تغيّر ترتيب قناة بالنسبة لنفسها أو بالنسبة لأحد فروعها.
+channels_and_guilds.cannot_report_own_guild: ما تقدر تبلغ على سيرفرك.
+channels_and_guilds.categories_cannot_have_parent_channel: الفئات ما تقدر يكون لها قناة أم.
+channels_and_guilds.categories_cannot_have_parents: الفئات ما تقدر يكون لها آباء.
+channels_and_guilds.channel_id_required: '`channel_id` مطلوب.'
+channels_and_guilds.channel_must_be_dm_or_group_dm: القناة لازم تكون DM أو DM جماعي.
+channels_and_guilds.channel_must_be_voice: القناة لازم تكون صوتية.
+channels_and_guilds.channel_not_found: القناة غير موجودة.
+channels_and_guilds.context_channel_or_guild_required: لازم معرّف قناة سياق أو معرّف سيرفر.
+channels_and_guilds.guild_banner_requires_feature: بانر السيرفر يحتاج ميزة BANNER.
+channels_and_guilds.guild_id_must_match_referenced_message: معرّف السيرفر لازم يطابق القناة اللي انجاب منها مرجع الرسالة.
+channels_and_guilds.invalid_channel_id: 'معرّف القناة غير صالح: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: المكالمات تقدر تتم فقط في الرسائل المباشرة أو الرسائل الجماعية.
+channels_and_guilds.invalid_channel_type: نوع القناة غير صالح.
+channels_and_guilds.invalid_channel: قناة غير صالحة.
+channels_and_guilds.invalid_parent_channel: القناة الأم غير صالحة.
+channels_and_guilds.invite_splash_requires_feature: صورة الدعوة تحتاج ميزة INVITE_SPLASH.
+channels_and_guilds.invites_disabled: الدعوات معطّلة.
+channels_and_guilds.max_group_dm_recipients_reached: وصلت للحد الأقصى لـ {count} مستقبل DM جماعي {count, plural, one {مستقبل} other {مستقبلين}}.
+channels_and_guilds.max_group_dms_reached: وصلت للحد الأقصى لـ {count} DM جماعي {count, plural, one {DM} other {DMs}}.
+channels_and_guilds.max_guild_channels_reached: وصلت للحد الأقصى لـ {count} قناة في السيرفر {count, plural, one {قناة} other {قنوات}}.
+channels_and_guilds.max_guild_members_reached: وصلت للحد الأقصى لـ {count} عضو في السيرفر {count, plural, one {عضو} other {أعضاء}}.
+channels_and_guilds.max_guild_roles_reached: وصلت للحد الأقصى لـ {count} رتبة في السيرفر {count, plural, one {رتبة} other {رتب}}.
+channels_and_guilds.max_guilds_reached: وصلت للحد الأقصى لـ {count} {count, plural, one {سيرفر} other {سيرفرات}}.
+channels_and_guilds.message_history_cutoff_before_guild_creation: ما تقدر تحدد سقف سجل الرسائل قبل تاريخ إنشاء الجماعة.
+channels_and_guilds.message_history_cutoff_in_future: ما تقدر تحدد سقف سجل الرسائل في المستقبل.
+channels_and_guilds.parent_channel_not_in_guild: القناة الأم مو موجودة في السيرفر.
+channels_and_guilds.parent_must_be_category: القناة الأم لازم تكون فئة.
+channels_and_guilds.preceding_channel_must_share_parent: القناة اللي قبل لازم تشارك نفس القناة الأم مع القناة المنقولة.
+channels_and_guilds.preceding_channel_not_in_guild: القناة اللي قبل مو موجودة في السيرفر.
+channels_and_guilds.system_channel_must_be_in_guild: قناة النظام لازم تكون داخل السيرفر.
+channels_and_guilds.system_channel_must_be_text: قناة النظام لازم تكون نصية.
+channels_and_guilds.temporary_invite_requires_presence: الدعوة المؤقتة تحتاج تواجد.
+channels_and_guilds.vanity_url_requires_feature: رابط Vanity يحتاج ميزة VANITY_URL.
+channels_and_guilds.voice_channel_full: القناة الصوتية ممتلئة.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: القنوات الصوتية ما تقدر تكون فوق القنوات النصية داخل نفس الفئة.
+colors.color_value_too_high: قيمة اللون لازم ما تتجاوز 0xffffff.
+colors.color_value_too_low: قيمة اللون لازم تكون على الأقل 0x000000.
+content_and_safety.content_blocked: تم حظر هذا المحتوى بواسطة أنظمة الأمان.
+content_and_safety.csam_scan_failed: فحص السلامة واجه خطأ. اعد محاولة التحميل لاحقاً.
+content_and_safety.csam_scan_parse_error: فحص السلامة أرجع استجابة غير صالحة. اعد محاولة التحميل لاحقاً.
+content_and_safety.csam_scan_subscription_error: خدمة فحص السلامة غير متاحة مؤقتاً. اعد محاولة التحميل لاحقاً.
+content_and_safety.csam_scan_timeout: فحص السلامة استغرق وقت أطول. اعد محاولة التحميل.
+content_and_safety.explicit_content_cannot_be_sent: ما تقدر ترسل محتوى صريح.
+content_and_safety.ncmec_already_submitted: تم إرسال هذا المحتوى إلى NCMEC مسبقاً.
+content_and_safety.ncmec_submission_failed: ما قدرنا نرسل البلاغ إلى NCMEC. جرّب مرة ثانية لاحقاً.
+content_and_safety.nsfw_age_restricted: محتوى NSFW مقيّد بالعمر.
+discovery.already_applied: هذا المجتمع تقدّم بالفعل بطلب للظهور في الاستكشاف.
+discovery.application_already_reviewed: تمت مراجعة طلب الاستكشاف هذا بالفعل.
+discovery.application_not_found: طلب الاستكشاف غير موجود.
+discovery.description_required: الوصف مطلوب لإدراجك في الاستكشاف.
+discovery.insufficient_members: هذا المجتمع ما يحقق الحد الأدنى من الأعضاء للظهور في الاستكشاف.
+discovery.invalid_category: فئة الاستكشاف غير صالحة.
+discovery.not_discoverable: هذا المجتمع غير مدرج في الاستكشاف.
+donation.amount_invalid: كمية التبرع غير صالحة.
+donation.donor_not_found: المتبرع غير موجود.
+donation.magic_link_expired: انتهت صلاحية رابط السحر.
+donation.magic_link_invalid: رابط السحر غير صالح.
+donation.magic_link_used: تم استخدام رابط السحر بالفعل.
+email.email_already_in_use: البريد الإلكتروني مستخدم مسبقاً.
+email.email_required: البريد الإلكتروني مطلوب.
+email.email_service_not_testable: خدمة البريد غير متاحة مؤقتاً. جرّب لاحقاً.
+email.invalid_format: تنسيق البريد الإلكتروني غير صالح.
+email.invalid_or_expired_reset_token: رمز إعادة تعيين كلمة المرور غير صالح أو منتهي.
+email.invalid_or_expired_revert_token: رمز العودة غير صالح أو منتهي.
+email.invalid_or_expired_verification_token: رمز التحقق غير صالح أو منتهي.
+email.invalid_or_password: البريد الإلكتروني أو كلمة المرور غير صحيحة.
+email.invalid_token: رمز البريد الإلكتروني غير صالح.
+email.invalid_verification_code: كود التحقق غير صالح.
+email.length_invalid: عنوان البريد الإلكتروني لازم يكون بين {min} و {max} حرف.
+email.must_be_changed_via_token: لازم تغيير البريد يتم عبر رمز.
+email.must_change_via_token: لازم تغيير البريد يتم عبر `email_token`.
+email.must_have_email_to_change_it: لازم يكون عندك بريد إلكتروني عشان تقدر تغيره.
+email.new_email_must_be_different: البريد الجديد لازم يكون مختلف عن بريدك الحالي.
+email.no_new_email_requested: ما تم طلب بريد جديد.
+email.no_original_email_on_record: ما فيه بريد أصلي مسجّل.
+email.original_email_already_verified: البريد الأصلي موثّق أصلاً.
+email.original_email_must_be_verified_first: لازم توثّق البريد الأصلي أولاً.
+email.original_verification_not_required: توثيق البريد الأصلي مو مطلوب لهذا المسار.
+email.token_expired: توكن البريد الإلكتروني منتهي.
+email.user_has_no_email_address: هذا المستخدم ما عنده عنوان بريد إلكتروني.
+email.user_is_not_pending_verification: هذا المستخدم مو في انتظار توثيق.
+email.verification_code_expired: انتهت صلاحية كود التحقق.
+email.verification_code_not_issued: ما تم إصدار كود توثيق.
+embeds.embed_index_out_of_bounds: فهرس embed {embedIndex} خارج النطاق (الرسالة فيها {embedCount} {embedCount, plural, one {embed} other {embeds}}).
+embeds.embed_splash_requires_feature: صورة embed تحتاج ميزة INVITE_SPLASH.
+embeds.embeds_exceed_max_characters: embeds لازم ما تتجاوز إجمالاً {maxCharacters} {maxCharacters, plural, one {حرف} other {حروف}}.
+embeds.too_many_embeds: embeds كثيرة. الحد الأقصى {maxEmbeds} {maxEmbeds, plural, one {embed} other {embeds}}}.
+feature_flags.feature_not_available_self_hosted: هذه الميزة ما تتوفر على خوادم مستضافة بشكل مستقل.
+feature_flags.feature_temporarily_disabled: هذه الميزة معطّلة مؤقتاً.
+friends_and_dms.already_friends: أنت أصلاً صديق لهذا المستخدم.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: لازم على الأقل مستلم واحد لتهيئة القنوات الخاصة.
+friends_and_dms.at_least_one_recipient_required: لازم على الأقل مستقبل واحد.
+friends_and_dms.bots_cannot_send_friend_requests: البوتات ما تقدر ترسل طلبات صداقة.
+friends_and_dms.cannot_add_yourself_to_group_dm: ما تقدر تضيف نفسك إلى DM جماعي.
+friends_and_dms.cannot_dm_yourself: ما تقدر تراسل نفسك.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: ما تقدر ترسل طلب صداقة لمستخدم حاظره.
+friends_and_dms.cannot_send_friend_request_to_self: ما تقدر ترسل طلب صداقة لنفسك.
+friends_and_dms.cannot_send_messages_to_user: ما تقدر ترسل رسائل لهذا المستخدم.
+friends_and_dms.duplicate_recipients_not_allowed: تكرار المستلمين غير مسموح.
+friends_and_dms.friend_request_blocked: المستخدم لا يقبل طلبات الصداقة في هذا الوقت.
+friends_and_dms.not_friends: أنت مو صديق لهذا المستخدم.
+friends_and_dms.recipient_ids_cannot_be_empty: معرّفات المستلمين ما ينفع تكون فاضية.
+friends_and_dms.recipient_ids_must_be_strings: معرّفات المستلمين لازم تكون نصوص.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: معرّفات المستلمين لازم تكون snowflakes صحيحة.
+harvest.expired: انتهت صلاحية طلب تصدير البيانات. اطلب تصدير جديد.
+harvest.failed: فشل طلب تصدير البيانات. جرّب مرة ثانية.
+harvest.not_ready: تصدير البيانات لسه قيد التحضير. رجع شوية لاحقاً.
+harvest.on_cooldown: تقدر تطلب تصدير بيانات مرة واحدة كل 7 أيام.
+harvest.unknown: Harvest غير معروف.
+http.bad_gateway: بوابة سيئة.
+http.bad_request: طلب سيء.
+http.conflict: تضارب.
+http.forbidden: محظور.
+http.gateway_timeout: انتهت مهلة البوابة.
+http.gone: غير متوفر.
+http.internal_server_error: خطأ داخلي في الخادم.
+http.method_not_allowed: الطريقة غير مسموحة.
+http.not_found: غير موجود.
+http.not_implemented: لم يتم التنفيذ.
+http.service_unavailable: الخدمة غير متاحة.
+http.validation_error: فشل التحقق.
+invites_and_beta.invalid_or_already_used_beta_code: كود بيتا غير صالح أو مستخدم مسبقاً.
+invites_and_beta.max_beta_codes_reached: وصلت للحد الأقصى لـ {count} كود بيتا {count, plural, one {كود} other {أكواد}}.
+invites_and_beta.unknown_beta_code: كود بيتا غير معروف.
+invites_and_gifts.gift_code_already_redeemed: كود الهدية مستخدم أصلاً.
+invites_and_gifts.stripe_gift_redemption_in_progress: استبدال كود الهدية قيد المعالجة. جرّب بعد لحظة.
+invites_and_gifts.unknown_gift_code: كود هدية غير معروف.
+invites_and_packs.emoji_requires_access: ما تقدر تستخدم هذا الإيموجي بدون وصول لسيرفره أو تثبيت الباك.
+invites_and_packs.invalid_pack_type: نوع الباك غير صالح.
+invites_and_packs.max_animated_emojis_reached: وصلت للحد الأقصى لـ {count} إيموجي متحرك {count, plural, one {إيموجي} other {إيموجيات}}.
+invites_and_packs.max_emojis_reached: وصلت للحد الأقصى لـ {count} {count, plural, one {إيموجي} other {إيموجيات}}.
+invites_and_packs.max_pack_expressions_reached: وصلت للحد الأقصى لـ {count} تعبير باك {count, plural, one {تعبير} other {تعابير}}.
+invites_and_packs.max_packs_reached: وصلت للحد الأقصى لـ {count} {count, plural, one {باك} other {باكات}}.
+invites_and_packs.pack_access_denied: ما عندك إذن للوصول لهذا الباك.
+limits.at_least_one_entry_required: لازم إدخال واحد على الأقل.
+limits.base64_length_invalid: طول البيانات المشفرة Base64 لازم يكون بين {min} و {maxLength} حرف.
+limits.bucket_required: '`bucket` مطلوب.'
+limits.cannot_shrink_reserved_slots: ما تقدر تقلّص الخانات المحجوزة.
+limits.cannot_specify_before_and_after: ما تقدر تحدد `before` و `after` مع بعض.
+limits.integer_out_of_int64_range: قيمة الرقم خارج نطاق int64 الصحيح.
+limits.content_exceeds_max_length: النص لازم ما يتجاوز {maxLength} {maxLength, plural, one {حرف} other {حروف}}.
+limits.rows_required: '`rows` مطلوب.'
+limits.string_length_exact: النص لازم يكون بالضبط {length} حرف.
+limits.string_length_invalid: طول النص لازم يكون بين {min} و {max} حرف.
+limits.timeout_cannot_exceed_365_days: المهلة ما تقدر تكون أطول من {maxDays} {maxDays, plural, one {يوم} other {أيام}} من الآن.
+limits.value_must_be_integer_in_range: قيمة `{name}` لازم تكون رقم صحيح بين {minValue} و {maxValue}.
+limits.value_too_small: القيمة صغيرة جداً.
+media_and_memes.favorite_meme_name_required: اسم الميم المفضلة مطلوب.
+media_and_memes.favorite_meme_not_found: الميم المفضلة غير موجودة.
+media_and_memes.max_favorite_memes_reached: وصلت للحد الأقصى لـ {count} ميم مفضلة {count, plural, one {ميم} other {ميمات}}.
+media_and_memes.media_already_in_favorites: هذا المحتوى موجود أصلاً ضمن الميمز المفضلة عندك.
+media_and_memes.media_metadata_error: خطأ في بيانات الوسائط.
+media_and_memes.unknown_favorite_meme: ميم مفضلة غير معروفة.
+messages.cannot_delete_more_than_100: ما تقدر تحذف أكثر من {max} {max, plural, one {رسالة} other {رسائل}} مرة واحدة.
+messages.cannot_edit_others_message: ما تقدر تعدّل رسالة مستخدم ثاني.
+messages.cannot_preload_more_than_100_channels: ما تقدر تحمّل أكثر من {max} {max, plural, one {قناة} other {قنوات}} مرة واحدة.
+messages.cannot_reply_to_system_message: ما تقدر ترد على رسالة نظام.
+messages.cannot_send_empty_message: ما تقدر ترسل رسالة فاضية.
+messages.forward_messages_cannot_include_extra_content: الرسائل المعاد توجيهها ما ينفع تشمل محتوى إضافي أو embeds أو مرفقات أو stickers.
+messages.forward_reference_requires_channel_and_message: مرجع إعادة التوجيه لازم يحتوي `channel_id` و `message_id`.
+messages.invalid_message_data: بيانات الرسالة غير صالحة.
+messages.invalid_scheduled_message_payload: بيانات الرسالة المجدولة غير صالحة.
+messages.message_ids_cannot_be_empty: '`message_ids` ما ينفع يكون فاضي.'
+messages.messages_array_required: مصفوفة `messages` مطلوبة ولازم ما تكون فاضية.
+messages.messages_with_snapshots_cannot_be_edited: الرسائل اللي فيها لقطات ما تقدر تعدّلها.
+messages.scheduled_messages_max_30_days: الرسائل المجدولة لا يمكن أن تكون أكثر من 30 يوماً في المستقبل.
+messages.scheduled_send_datetime_invalid: تاريخ أو وقت الإرسال المجدول غير صالح.
+messages.scheduled_time_must_be_future: وقت الجدولة لازم يكون بالمستقبل.
+messages.voice_messages_attachment_must_be_audio: مرفقات الرسائل الصوتية لازم تكون ملفات صوتية.
+messages.voice_messages_cannot_have_content: الرسائل الصوتية ما تقدر يكون عندها محتوى نصي.
+messages.voice_messages_cannot_have_embeds: الرسائل الصوتية ما تقدر يكون عندها embeds.
+messages.voice_messages_cannot_have_favorite_memes: الرسائل الصوتية ما تقدر يكون عندها ميمز مفضلة.
+messages.voice_messages_cannot_have_stickers: الرسائل الصوتية ما تقدر يكون عندها stickers.
+mfa_and_passkeys.invalid_mfa_code: كود MFA غير صحيح.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: عداد مصادقة WebAuthn غير صالح.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: لازم تفعّل المصادقة الثنائية على حسابك قبل ما تفرضها على المشرفين.
+mfa_and_passkeys.invalid_webauthn_credential_counter: عداد بيانات اعتماد WebAuthn غير صالح.
+mfa_and_passkeys.invalid_webauthn_credential: بيانات اعتماد WebAuthn غير صالحة.
+mfa_and_passkeys.invalid_webauthn_public_key_format: تنسيق المفتاح العام لـ WebAuthn غير صالح.
+mfa_and_passkeys.no_passkeys_registered: ما فيه مفاتيح مرور مسجّلة.
+mfa_and_passkeys.passkey_authentication_failed: فشل التحقق بمفتاح المرور.
+mfa_and_passkeys.passkeys_disabled: مفاتيح المرور معطّلة.
+mfa_and_passkeys.two_factor_not_enabled: المصادقة الثنائية مو مفعّلة.
+mfa_and_passkeys.two_factor_required: المصادقة الثنائية مطلوبة.
+mfa_and_passkeys.unknown_webauthn_credential: بيانات اعتماد WebAuthn غير معروفة.
+mfa_and_passkeys.webauthn_credential_limit_reached: وصلت لحد بيانات اعتماد WebAuthn (الحد الأقصى {count} بيانات اعتماد {count, plural, one {بيانات} other {بيانات}}).
+misc_limits.max_bookmarks_reached: وصلت للحد الأقصى لـ {count} {count, plural, one {إشارة مرجعية} other {إشارات مرجعية}}.
+misc_limits.max_category_channels_reached: وصلت للحد الأقصى لـ {count} قناة فئة {count, plural, one {قناة} other {قنوات}}.
+misc_limits.max_friends_reached: وصلت للحد الأقصى لـ {count} {count, plural, one {صديق} other {أصدقاء}}.
+misc_limits.max_invites_reached: وصلت للحد الأقصى لـ {count} {count, plural, one {دعوة} other {دعوات}}.
+misc_limits.max_pins_per_channel_reached: وصلت للحد الأقصى لـ {count} {count, plural, one {تثبيت} other {تثبيتات}} لكل قناة.
+misc.cannot_send_messages_in_non_text_channel: ما تقدر ترسل رسائل في قناة غير نصية.
+misc.cannot_send_messages_in_this_guild_without_email_verification: لازم توثّق بريدك عشان تقدر ترسل رسائل في هذا السيرفر.
+misc.invalid_job_id: معرّف المهمة غير صالح.
+misc.invalid_permissions_integer: الصلاحيات لازم تكون رقم صحيح.
+misc.invalid_permissions_negative: الصلاحيات ما ينفع تكون سالبة.
+misc.invalid_request_generic: طلب غير صالح.
+misc.invalid_snowflake: snowflake غير صالح.
+misc.job_already_processed: تمت معالجة المهمة أصلاً.
+misc.job_id_required: معرّف المهمة مطلوب.
+misc.job_not_found: المهمة غير موجودة.
+misc.max_files_exceeded: ملفات كثيرة. الحد الأقصى {maxFiles} {maxFiles, plural, one {ملف} other {ملفات}}.
+misc.must_have_bot_to_mark_system_user: المستخدم لازم يكون بوت عشان يتم تعيينه كمستخدم نظام.
+moderation_and_reports.cannot_report_own_message: ما تقدر تبلغ على رسالتك.
+moderation_and_reports.cannot_report_yourself: ما تقدر تبلغ على نفسك.
+moderation_and_reports.invalid_dsa_report_target: هدف بلاغ DSA غير صالح.
+moderation_and_reports.invalid_dsa_ticket: تذكرة DSA غير صالحة.
+moderation_and_reports.invalid_dsa_verification_code: كود توثيق DSA غير صحيح.
+moderation_and_reports.report_already_resolved: البلاغ محلول أصلاً.
+moderation_and_reports.report_banned: تم حظرك من تقديم البلاغات.
+moderation_and_reports.unknown_report: بلاغ غير معروف.
+moderation_and_reports.user_is_not_banned: هذا المستخدم مو محظور.
+names_and_normalization.channel_name_empty_after_normalization: اسم القناة ما ينفع يكون فاضي بعد التطبيع.
+names_and_normalization.name_empty_after_normalization: الاسم ما ينفع يكون فاضي بعد التطبيع.
+permissions.missing_access: ما عندك وصول لهذا المورد أو الميزة.
+permissions.missing_permissions: ما عندك الصلاحيات اللي تحتاجها عشان تقدر تقوم بهذا الإجراء.
+permissions.not_owner_of_admin_api_key: ما عندك صلاحية تعدّل مفتاح واجهة API الإداري هذا.
+permissions.user_banned_from_guild: هذا المستخدم محظور من هذا السيرفر.
+permissions.user_ip_banned_from_guild: عنوان IP لهذا المستخدم محظور من هذا السيرفر.
+permissions.user_not_in_channel: هذا المستخدم مو موجود في هذه القناة.
+permissions.user_not_in_voice: هذا المستخدم مو موجود في الصوت.
+permissions.user_owns_guilds: هذا المستخدم يملك سيرفرات.
+phone.invalid_number: رقم الهاتف غير صالح.
+phone.number_already_used: رقم الهاتف مستخدم مسبقاً.
+phone.number_format_required: رقم الهاتف لازم يكون بصيغة E.164 (مثلاً، +1234567890).
+phone.phone_required_for_sms_mfa: لازم رقم هاتف عشان MFA عبر SMS.
+phone.sms_mfa_not_enabled: MFA عبر SMS مو مفعّل.
+phone.sms_mfa_requires_totp: MFA عبر SMS يحتاج TOTP.
+phone.sms_verification_unavailable: توثيق SMS غير متاح مؤقتاً. جرّب لاحقاً.
+phone.verification_code_invalid: كود توثيق الهاتف غير صحيح.
+phone.verification_required: توثيق الهاتف مطلوب.
+premium_and_plans.animated_avatars_require_premium: الصور المتحركة تحتاج Premium.
+premium_and_plans.banners_require_premium: البانرات تحتاج Premium.
+premium_and_plans.bio_requires_premium_for_length: نبذة أطول من {maxLength} حرف تحتاج Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: ما تقدر تستبدل Plutonium مع خطة Visionary.
+premium_and_plans.custom_emojis_outside_source_require_premium: ما تقدر تستخدم إيموجيات مخصصة خارج سيرفرها الأصلي بدون Premium.
+premium_and_plans.custom_stickers_in_dms_require_premium: ما تقدر تستخدم ملصقات مخصصة في الرسائل الخاصة بدون Premium.
+premium_and_plans.custom_stickers_outside_source_require_premium: ما تقدر تستخدم ملصقات مخصصة خارج سيرفرها الأصلي بدون Premium.
+premium_and_plans.discriminator_change_requires_premium: تغيير المميّز يحتاج Premium.
+premium_and_plans.no_active_subscription: ما فيه اشتراك نشط.
+premium_and_plans.no_visionary_slots_available: ما فيه خانات Visionary متاحة.
+premium_and_plans.premium_required_for_custom_emoji: تحتاج Premium عشان تستخدم إيموجي مخصص.
+premium_and_plans.visionary_required_for_bot_discriminator: لازم تكون على خطة Visionary مدى الحياة عشان تخصص مميّزات البوت.
+premium_and_plans.visionary_required_for_discriminator: لازم تكون على خطة Visionary مدى الحياة عشان تستخدم هذا المميّز.
+rate_limits.accent_color_changed_too_often: غيّرت لون الواجهة كثيراً بالفترة الأخيرة. جرّب مرة ثانية بعد {minutes} {minutes, plural, one {دقيقة} other {دقائق}}.
+rate_limits.avatar_changed_too_often: غيّرت صورتك الشخصية كثيراً بالفترة الأخيرة. جرّب مرة ثانية بعد {minutes} {minutes, plural, one {دقيقة} other {دقائق}}.
+rate_limits.banner_changed_too_often: غيّرت البانر كثيراً بالفترة الأخيرة. جرّب مرة ثانية بعد {minutes} {minutes, plural, one {دقيقة} other {دقائق}}.
+rate_limits.bio_changed_too_often: غيّرت النبذة كثيراً بالفترة الأخيرة. جرّب مرة ثانية بعد {minutes} {minutes, plural, one {دقيقة} other {دقائق}}.
+rate_limits.ip_authorization_resend_cooldown: إعادة إرسال تفويض عنوان IP لسه عليها فترة انتظار.
+rate_limits.ip_authorization_resend_limit_exceeded: تجاوزت حد إعادة إرسال تفويض عنوان IP.
+rate_limits.phone_rate_limit_exceeded: تجاوزت حد الطلبات للهاتف.
+rate_limits.pronouns_changed_too_often: غيّرت الضمائر كثيراً بالفترة الأخيرة. جرّب مرة ثانية بعد {minutes} {minutes, plural, one {دقيقة} other {دقائق}}.
+rate_limits.rate_limited: تم تقييدك بسبب كثرة الطلبات.
+rate_limits.slowmode_rate_limited: تم تقييد وضع الإبطاء.
+rate_limits.username_changed_too_often: غيّرت اسم المستخدم كثيراً بالفترة الأخيرة. جرّب مرة ثانية بعد {minutes} {minutes, plural, one {دقيقة} other {دقائق}}.
+roles.cannot_reorder_everyone_role: ما تقدر تغيّر ترتيب رتبة @everyone.
+roles.cannot_set_everyone_hoist: ما تقدر تضبط hoist لرتبة @everyone.
+roles.cannot_use_same_role_as_preceding: ما تقدر تستخدم نفس الرتبة كرتبة سابقة.
+roles.invalid_role_id: 'معرّف الرتبة غير صالح: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: ما تقدر تستخدم `parse` مع `allowed_mentions.users` أو `allowed_mentions.roles` سوية.
+roles.preceding_role_not_in_guild: الرتبة اللي قبل مو موجودة في السيرفر.
+stickers_and_emojis.custom_emoji_not_found: الإيموجي المخصص غير موجود.
+stickers_and_emojis.custom_sticker_not_found: الملصق المخصص غير موجود.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: ما تقدر تستخدم هذا الإيموجي بدون وصول لسيرفره أو تثبيت الباك.
+stickers_and_emojis.max_reactions_reached: وصلت للحد الأقصى لـ {count} {count, plural, one {تفاعل} other {تفاعلات}}.
+stickers_and_emojis.max_stickers_reached: وصلت للحد الأقصى لـ {count} {count, plural, one {ملصق} other {ملصقات}}}}
+stickers_and_emojis.not_valid_unicode_emoji: هذا مو إيموجي Unicode صالح.
+stickers_and_emojis.unknown_emoji: إيموجي غير معروف.
+stickers_and_emojis.unknown_sticker: ملصق غير معروف.
+stripe.error: معالجة الدفع واجهت خطأ. جرّب مرة ثانية أو اتصل بالدعم.
+stripe.invalid_product_configuration: إعدادات المنتج غير صالحة.
+stripe.invalid_product_selection: اختيار المنتج غير صالح.
+stripe.no_active_subscription_found: ما لقينا اشتراك نشط.
+stripe.no_purchase_history_customer_portal_unavailable: ما فيه سجل مشتريات. بوابة العميل غير متاحة.
+stripe.no_subscription_found: ما لقينا اشتراك.
+stripe.payment_not_available: معالجة الدفع غير متاحة مؤقتاً. جرّب لاحقاً.
+stripe.subscription_already_canceling: الاشتراك مضبوط أصلاً على الإلغاء بنهاية الفترة.
+stripe.subscription_not_canceling: الاشتراك مو مضبوط على الإلغاء.
+stripe.subscription_period_end_missing: subscription current_period_end مفقود.
+stripe.webhook_not_available: معالجة webhook غير متاحة.
+stripe.webhook_signature_invalid: توقيع webhook في Stripe غير صالح.
+stripe.webhook_signature_missing: توقيع webhook في Stripe مفقود.
+tickets.ticket_already_completed: هذه التذكرة مكتملة أصلاً.
+tos_and_age.date_of_birth_format_invalid: تنسيق تاريخ الميلاد غير صالح.
+tos_and_age.must_agree_to_tos_and_privacy: لازم توافق على شروط الخدمة وسياسة الخصوصية.
+tos_and_age.must_be_minimum_age: لازم يكون عمرك على الأقل {minAge} {minAge, plural, one {سنة} other {سنوات}} عشان تنشئ حساب.
+unknown_entities.unknown_application: التطبيق ما تم العثور عليه.
+unknown_entities.unknown_channel: القناة ما تم العثور عليها.
+unknown_entities.unknown_guild: السيرفر ما تم العثور عليه.
+unknown_entities.unknown_invite: الدعوة ما تم العثور عليها أو ما تكون صالحة.
+unknown_entities.unknown_member: العضو ما تم العثور عليه في هذا السيرفر.
+unknown_entities.unknown_message: الرسالة ما تم العثور عليها.
+unknown_entities.unknown_pack: الباك ما تم العثور عليه.
+unknown_entities.unknown_role: الرتبة ما تم العثور عليها.
+unknown_entities.unknown_user_flag: user flag المحدد ما يتم التعرف عليه.
+unknown_entities.unknown_user: المستخدم ما تم العثور عليه.
+urls.invalid_url_format: تنسيق الرابط غير صالح.
+urls.invalid_url_or_attachment_reference: تنسيق الرابط غير صالح أو مرجع المرفق غير صحيح.
+urls.url_length_invalid: طول الرابط لازم يكون بين {min} و {max} حرف.
+usernames_and_tags.discriminator_invalid_format: المميّز لازم يكون {min}–{max} أرقام.
+usernames_and_tags.discriminator_out_of_range: المميّز لازم يكون بين {min} و {max}.
+usernames_and_tags.discriminator_required: المميّز مطلوب.
+usernames_and_tags.display_name_length_invalid: اسم العرض لازم يكون بين {min} و {max} حرف.
+usernames_and_tags.display_name_reserved_terms: اسم العرض ما ينفع يحتوي "system message".
+usernames_and_tags.display_name_reserved_value: اسم العرض ما ينفع يكون "everyone" أو "here".
+usernames_and_tags.global_name_length_invalid: اسم عام لازم يكون بين {min} و {max} حرف.
+usernames_and_tags.global_name_reserved_value: الاسم العام ما ينفع يكون "everyone" أو "here".
+usernames_and_tags.tag_already_taken: هذا التاغ مأخوذ.
+usernames_and_tags.too_many_users_with_this_username: فيه مستخدمين كثير بنفس اسم المستخدم هذا.
+usernames_and_tags.too_many_users_with_username_try_different: فيه مستخدمين كثير بنفس اسم المستخدم هذا. جرّب اسم ثاني.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: الحسابات غير المطالَب بها تقدر فقط تضبط البريد عبر رمز.
+usernames_and_tags.username_invalid_characters: اسم المستخدم لازم يكون بحروف لاتينية (a-z, A-Z) وأرقام (0-9) وشرطة سفلية (_).
+usernames_and_tags.username_length_invalid: اسم المستخدم لازم يكون بين {min} و {max} حرف.
+usernames_and_tags.username_not_available: اسم المستخدم ما متاح.
+usernames_and_tags.username_reserved_terms: اسم المستخدم ما ينفع يحتوي "fluxer" أو "system message".
+usernames_and_tags.username_reserved_value: اسم المستخدم ما ينفع يكون "everyone" أو "here".
+vanity_urls.vanity_url_already_taken: رابط الـ vanity مأخوذ.
+vanity_urls.vanity_url_code_already_taken: كود رابط الـ vanity مأخوذ.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: كود رابط الـ vanity ما ينفع يحتوي "fluxer".
+vanity_urls.vanity_url_code_length_invalid: كود رابط الـ vanity لازم يكون بين {min} و {max} حرف.
+vanity_urls.vanity_url_invalid_characters: رابط الـ vanity ما ينفع إلا بحروف صغيرة (a-z) وأرقام (0-9) وشرطة (-).
+webhooks.cannot_modify_system_webhook: ما تقدر تعدّل رسائل النظام.
+webhooks.max_webhooks_per_channel_reached: وصلت للحد الأقصى لـ {count} {count, plural, one {webhook} other {webhooks}} لكل قناة.
+webhooks.max_webhooks_per_guild_reached: وصلت للحد الأقصى لـ {count} {count, plural, one {webhook} other {webhooks}} لكل سيرفر.
+webhooks.max_webhooks_reached: وصلت للحد الأقصى لـ {count} {count, plural, one {webhook} other {webhooks}}.
+webhooks.unknown_webhook: Webhook غير معروف.
+webhooks.webhook_name_length_invalid: اسم الـ webhook لازم يكون بين {min} و {max} حرف.

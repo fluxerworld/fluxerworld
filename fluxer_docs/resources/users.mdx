@@ -1,0 +1,1468 @@
+---
+title: 'Users'
+description: 'Users object schemas from the Fluxer API.'
+---
+
+<a id="createprivatechannelrequest"></a>
+
+## CreatePrivateChannelRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/channels`](/api-reference/users/create-private-channel)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| recipient_id? | [SnowflakeType](#snowflaketype) |  |
+| recipients? | [SnowflakeType](#snowflaketype)[] | Array of user IDs for creating a group DM (max 9) |
+
+<a id="customstatuspayload"></a>
+
+## CustomStatusPayload
+
+| Field | Type | Description |
+|-------|------|-------------|
+| emoji_id? | ?[SnowflakeType](#snowflaketype) | ID of custom emoji to display |
+| emoji_name? | ?string | Unicode emoji or custom emoji name |
+| expires_at? | ?string \| integer (int64) | When the custom status expires |
+| text? | ?string | Custom status text (max 128 characters) |
+
+<a id="disabletotprequest"></a>
+
+## DisableTotpRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/mfa/totp/disable`](/api-reference/users/disable-totp-multi-factor-authentication)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | The TOTP code to verify |
+| mfa_code? | string | MFA verification code from authenticator app or SMS |
+| mfa_method? | [GuildUpdateRequestMfaMethod](#guildupdaterequestmfamethod) | MFA method to use for verification |
+| password? | [PasswordType](#passwordtype) |  |
+| webauthn_challenge? | string | WebAuthn challenge string |
+| webauthn_response? | JSON value | WebAuthn authentication response |
+
+<a id="emailchangebouncedrequestnewrequest"></a>
+
+## EmailChangeBouncedRequestNewRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/email-change/bounced/request-new`](/api-reference/users/request-replacement-email-for-bounced-address)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| new_email | [EmailType](#emailtype) |  |
+
+<a id="emailchangebouncedverifynewrequest"></a>
+
+## EmailChangeBouncedVerifyNewRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/email-change/bounced/verify-new`](/api-reference/users/verify-replacement-email-for-bounced-address)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | Verification code sent to the replacement email address |
+| ticket | [SnowflakeType](#snowflaketype) | Email change ticket identifier |
+
+<a id="emailchangerequestnewrequest"></a>
+
+## EmailChangeRequestNewRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/email-change/request-new`](/api-reference/users/request-new-email-address)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| new_email | [EmailType](#emailtype) |  |
+| original_proof | string | Proof token obtained from verifying the original email |
+| ticket | [SnowflakeType](#snowflaketype) | Email change ticket identifier |
+
+<a id="emailchangerequestnewresponse"></a>
+
+## EmailChangeRequestNewResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/email-change/bounced/request-new`](/api-reference/users/request-replacement-email-for-bounced-address)
+- [`POST /users/@me/email-change/request-new`](/api-reference/users/request-new-email-address)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| new_code_expires_at | string | ISO8601 timestamp when the new email code expires |
+| new_email | string | The new email address the user wants to verify |
+| resend_available_at | ?string | ISO8601 timestamp when the new email code can be resent |
+| ticket | string | Ticket associated with the email change attempt |
+
+<a id="emailchangestartresponse"></a>
+
+## EmailChangeStartResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/email-change/start`](/api-reference/users/start-email-change)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| original_code_expires_at | ?string | ISO8601 timestamp when the original verification code expires |
+| original_email | ?string | The original email address on record |
+| original_proof | ?string | Proof token generated when original email verification is not required |
+| require_original | boolean | Whether verification of the original email is required |
+| resend_available_at | ?string | ISO8601 timestamp when the original verification code can be resent |
+| ticket | string | Ticket returned for email change actions |
+
+<a id="emailchangeticketrequest"></a>
+
+## EmailChangeTicketRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/email-change/bounced/resend-new`](/api-reference/users/resend-replacement-email-code)
+- [`POST /users/@me/email-change/resend-new`](/api-reference/users/resend-new-email-confirmation)
+- [`POST /users/@me/email-change/resend-original`](/api-reference/users/resend-original-email-confirmation)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| ticket | [SnowflakeType](#snowflaketype) | Email change ticket identifier |
+
+<a id="emailchangeverifynewrequest"></a>
+
+## EmailChangeVerifyNewRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/email-change/verify-new`](/api-reference/users/verify-new-email-address)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | Verification code sent to the original email address |
+| original_proof | string | Proof token obtained from verifying the original email |
+| ticket | [SnowflakeType](#snowflaketype) | Email change ticket identifier |
+
+<a id="emailchangeverifyoriginalrequest"></a>
+
+## EmailChangeVerifyOriginalRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/email-change/verify-original`](/api-reference/users/verify-original-email-address)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | Verification code sent to the original email address |
+| ticket | [SnowflakeType](#snowflaketype) | Email change ticket identifier |
+
+<a id="emailchangeverifyoriginalresponse"></a>
+
+## EmailChangeVerifyOriginalResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/email-change/verify-original`](/api-reference/users/verify-original-email-address)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| original_proof | string | Proof token issued after verifying the original email |
+
+<a id="emailtokenresponse"></a>
+
+## EmailTokenResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/email-change/verify-new`](/api-reference/users/verify-new-email-address)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| email_token | string | The email change token to use for updating email |
+
+<a id="emptybodyrequest"></a>
+
+## EmptyBodyRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/email-change/start`](/api-reference/users/start-email-change)
+- [`POST /users/@me/password-change/start`](/api-reference/users/start-password-change)
+
+Type: object
+
+<a id="enablemfatotprequest"></a>
+
+## EnableMfaTotpRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/mfa/totp/enable`](/api-reference/users/enable-totp-multi-factor-authentication)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | The TOTP verification code |
+| mfa_code? | string | MFA verification code from authenticator app or SMS |
+| mfa_method? | [GuildUpdateRequestMfaMethod](#guildupdaterequestmfamethod) | MFA method to use for verification |
+| password? | [PasswordType](#passwordtype) |  |
+| secret | string | The TOTP secret key |
+| webauthn_challenge? | string | WebAuthn challenge string |
+| webauthn_response? | JSON value | WebAuthn authentication response |
+
+<a id="friendrequestbytagrequest"></a>
+
+## FriendRequestByTagRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/relationships`](/api-reference/users/send-friend-request-by-tag)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| discriminator | string | Discriminator tag of the user |
+| username | [UsernameType](#usernametype) |  |
+
+<a id="friendsourceflags"></a>
+
+## FriendSourceFlags
+
+Friend source flags
+
+Type: Bitflags32
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| MUTUAL_FRIENDS | `1` | Allow friend requests from users who share mutual friends |
+| MUTUAL_GUILDS | `2` | Allow friend requests from users in mutual guilds |
+| NO_RELATION | `4` | Allow friend requests from users with no existing relation |
+
+<a id="giftcodemetadataresponse"></a>
+
+## GiftCodeMetadataResponse
+
+**Related endpoints**
+
+- [`GET /users/@me/gifts`](/api-reference/users/list-user-gifts)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | The unique gift code string |
+| created_at | string (date-time) | Timestamp when the gift code was created |
+| created_by | [UserPartialResponse](#userpartialresponse) |  |
+| duration_months | integer (int53) | Duration of the subscription gift in months |
+| redeemed_at? | ?string (date-time) | Timestamp when the gift code was redeemed |
+| redeemed_by? | ?[UserPartialResponse](#userpartialresponse) | The user who redeemed the gift code |
+
+<a id="harvestcreationresponseschema"></a>
+
+## HarvestCreationResponseSchema
+
+**Related endpoints**
+
+- [`POST /users/@me/harvest`](/api-reference/users/request-data-harvest)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| created_at | string | ISO 8601 timestamp when the harvest request was created |
+| harvest_id | [SnowflakeType](#snowflaketype) | Unique identifier for the harvest request |
+| status | [HarvestStatusEnum](#harveststatusenum) |  |
+
+<a id="harvestdownloadurlresponse"></a>
+
+## HarvestDownloadUrlResponse
+
+**Related endpoints**
+
+- [`GET /users/@me/harvest/{harvestId}/download`](/api-reference/users/get-data-harvest-download-url)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| download_url | string | The presigned URL to download the harvest archive |
+| expires_at | string | ISO 8601 timestamp when the harvest download expires |
+
+<a id="harveststatusenum"></a>
+
+## HarvestStatusEnum
+
+Current status of the harvest request
+
+| Value | Description |
+|-------|-------------|
+| `pending` | The harvest job is waiting to be processed |
+| `processing` | The harvest job is currently being processed |
+| `completed` | The harvest job has finished successfully |
+| `failed` | The harvest job encountered an error and could not complete |
+
+<a id="harveststatusresponseschema"></a>
+
+## HarvestStatusResponseSchema
+
+**Related endpoints**
+
+- [`GET /users/@me/harvest/{harvestId}`](/api-reference/users/get-data-harvest-status)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| completed_at | ?string | ISO 8601 timestamp when the harvest completed, or null otherwise |
+| created_at | string | ISO 8601 timestamp when the harvest request was created |
+| download_url_expires_at | ?string | ISO 8601 timestamp when the download URL expires, or null if unavailable |
+| error_message | ?string | Error message when the harvest fails, or null otherwise |
+| expires_at | ?string | ISO 8601 timestamp when the harvest download expires, or null if unavailable |
+| failed_at | ?string | ISO 8601 timestamp when the harvest failed, or null otherwise |
+| file_size | ?string | Final file size of the downloaded data, expressed as a string, or null if not available |
+| harvest_id | [SnowflakeType](#snowflaketype) | Unique identifier for the harvest request |
+| progress_percent | number | Harvest progress as a percentage value between 0 and 100 |
+| progress_step | ?string | Textual description of the current harvest step, if available |
+| started_at | ?string | ISO 8601 timestamp when the harvest started, or null if pending |
+| status | [HarvestStatusEnum](#harveststatusenum) |  |
+
+<a id="harveststatusresponseschemanullable"></a>
+
+## HarvestStatusResponseSchemaNullable
+
+**Related endpoints**
+
+- [`GET /users/@me/harvest/latest`](/api-reference/users/get-latest-data-harvest)
+
+Type: ?[HarvestStatusResponseSchema](#harveststatusresponseschema)
+
+<a id="incomingcallflags"></a>
+
+## IncomingCallFlags
+
+Incoming call settings
+
+Type: Bitflags32
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| FRIENDS_OF_FRIENDS | `1` | Allow incoming calls from friends of friends |
+| GUILD_MEMBERS | `2` | Allow incoming calls from guild members |
+| EVERYONE | `4` | Allow incoming calls from everyone |
+| FRIENDS_ONLY | `8` | Allow incoming calls only from friends |
+| NOBODY | `16` | Block all incoming calls |
+| SILENT_EVERYONE | `32` | Allow calls from everyone but receive them silently |
+
+<a id="messagelistresponse"></a>
+
+## MessageListResponse
+
+**Related endpoints**
+
+- [`GET /users/@me/mentions`](/api-reference/users/list-mentions-for-current-user)
+
+Type: [MessageResponseSchema](#messageresponseschema)[]
+
+<a id="mfabackupcodesrequest"></a>
+
+## MfaBackupCodesRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/mfa/backup-codes`](/api-reference/users/get-backup-codes-for-multi-factor-authentication)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| mfa_code? | string | MFA verification code from authenticator app or SMS |
+| mfa_method? | [GuildUpdateRequestMfaMethod](#guildupdaterequestmfamethod) | MFA method to use for verification |
+| password? | [PasswordType](#passwordtype) |  |
+| regenerate | boolean | Whether to regenerate backup codes |
+| webauthn_challenge? | string | WebAuthn challenge string |
+| webauthn_response? | JSON value | WebAuthn authentication response |
+
+<a id="mfabackupcodesresponse"></a>
+
+## MfaBackupCodesResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/mfa/backup-codes`](/api-reference/users/get-backup-codes-for-multi-factor-authentication)
+- [`POST /users/@me/mfa/totp/enable`](/api-reference/users/enable-totp-multi-factor-authentication)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| backup_codes | [MfaBackupCodeResponse](#mfabackupcoderesponse)[] | List of backup codes |
+
+<a id="mutualguildresponse"></a>
+
+## MutualGuildResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | [SnowflakeType](#snowflaketype) | The ID of the mutual guild |
+| nick | ?string | The nickname of the target user in this guild |
+
+<a id="passwordchangecompleterequest"></a>
+
+## PasswordChangeCompleteRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/password-change/complete`](/api-reference/users/complete-password-change)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| new_password | [PasswordType](#passwordtype) |  |
+| ticket | [SnowflakeType](#snowflaketype) | Password change ticket identifier |
+| verification_proof | string | Proof token obtained from verifying the email code |
+
+<a id="passwordchangestartresponse"></a>
+
+## PasswordChangeStartResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/password-change/start`](/api-reference/users/start-password-change)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code_expires_at | string | ISO8601 timestamp when the verification code expires |
+| resend_available_at | ?string | ISO8601 timestamp when the code can be resent |
+| ticket | string | Ticket for password change actions |
+
+<a id="passwordchangeticketrequest"></a>
+
+## PasswordChangeTicketRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/password-change/resend`](/api-reference/users/resend-password-change-verification-code)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| ticket | [SnowflakeType](#snowflaketype) | Password change ticket identifier |
+
+<a id="passwordchangeverifyrequest"></a>
+
+## PasswordChangeVerifyRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/password-change/verify`](/api-reference/users/verify-password-change-code)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | Verification code sent to the email address |
+| ticket | [SnowflakeType](#snowflaketype) | Password change ticket identifier |
+
+<a id="passwordchangeverifyresponse"></a>
+
+## PasswordChangeVerifyResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/password-change/verify`](/api-reference/users/verify-password-change-code)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| verification_proof | string | Proof token issued after verifying the email code |
+
+<a id="phoneaddrequest"></a>
+
+## PhoneAddRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/phone`](/api-reference/users/add-phone-number-to-account)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| mfa_code? | string | MFA verification code from authenticator app or SMS |
+| mfa_method? | [GuildUpdateRequestMfaMethod](#guildupdaterequestmfamethod) | MFA method to use for verification |
+| password? | [PasswordType](#passwordtype) |  |
+| phone_token | string | Token from phone verification |
+| webauthn_challenge? | string | WebAuthn challenge string |
+| webauthn_response? | JSON value | WebAuthn authentication response |
+
+<a id="phonesendverificationrequest"></a>
+
+## PhoneSendVerificationRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/phone/send-verification`](/api-reference/users/send-phone-verification-code)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| phone | [PhoneNumberType](#phonenumbertype) |  |
+
+<a id="phoneverifyrequest"></a>
+
+## PhoneVerifyRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/phone/verify`](/api-reference/users/verify-phone-code)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | The verification code |
+| phone | [PhoneNumberType](#phonenumbertype) |  |
+
+<a id="phoneverifyresponse"></a>
+
+## PhoneVerifyResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/phone/verify`](/api-reference/users/verify-phone-code)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| phone_token | string | Token to use when adding phone to account |
+
+<a id="preloadmessagesrequest"></a>
+
+## PreloadMessagesRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/channels/messages/preload`](/api-reference/users/preload-messages-for-channels-alternative)
+- [`POST /users/@me/preload-messages`](/api-reference/users/preload-messages-for-channels)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channels | [SnowflakeType](#snowflaketype)[] | Array of channel IDs to preload messages from (max 100) |
+
+<a id="preloadmessagesresponse"></a>
+
+## PreloadMessagesResponse
+
+A map of channel IDs to the latest message in each channel
+
+**Related endpoints**
+
+- [`POST /users/@me/channels/messages/preload`](/api-reference/users/preload-messages-for-channels-alternative)
+- [`POST /users/@me/preload-messages`](/api-reference/users/preload-messages-for-channels)
+
+Type: map&lt;string, [MessageResponseSchema](#messageresponseschema)&gt;
+
+<a id="publicuserflags"></a>
+
+## PublicUserFlags
+
+The public flags on the user account
+
+Type: Bitflags32
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| STAFF | `1` | User is a staff member |
+| CTP_MEMBER | `2` | User is a community test program member |
+| PARTNER | `4` | User is a partner |
+| BUG_HUNTER | `8` | User is a bug hunter |
+| FRIENDLY_BOT | `16` | Bot accepts friend requests from users |
+| FRIENDLY_BOT_MANUAL_APPROVAL | `32` | Bot requires manual approval for friend requests |
+
+<a id="pushsubscriberequest"></a>
+
+## PushSubscribeRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/push/subscribe`](/api-reference/users/subscribe-to-push-notifications)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| endpoint | string | The push subscription endpoint URL |
+| keys | [PushSubscribeRequestKeys](#pushsubscriberequestkeys) |  |
+| user_agent? | string | The user agent string |
+
+<a id="pushsubscriberesponse"></a>
+
+## PushSubscribeResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/push/subscribe`](/api-reference/users/subscribe-to-push-notifications)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| subscription_id | [SnowflakeType](#snowflaketype) | The unique identifier for the push subscription |
+
+<a id="pushsubscriptionitemresponse"></a>
+
+## PushSubscriptionItemResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| subscription_id | [SnowflakeType](#snowflaketype) | The unique identifier for the push subscription |
+| user_agent | ?string | The user agent that registered this subscription |
+
+<a id="pushsubscriptionslistresponse"></a>
+
+## PushSubscriptionsListResponse
+
+**Related endpoints**
+
+- [`GET /users/@me/push/subscriptions`](/api-reference/users/list-push-subscriptions)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| subscriptions | [PushSubscriptionItemResponse](#pushsubscriptionitemresponse)[] | Array of push subscriptions |
+
+<a id="relationshipnicknameupdaterequest"></a>
+
+## RelationshipNicknameUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /users/@me/relationships/{user_id}`](/api-reference/users/update-relationship-nickname)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| nickname | ?string | Custom nickname for this friend (max 256 characters) |
+
+<a id="relationshipresponse"></a>
+
+## RelationshipResponse
+
+**Related endpoints**
+
+- [`GET /users/@me/relationships`](/api-reference/users/list-user-relationships)
+- [`POST /users/@me/relationships`](/api-reference/users/send-friend-request-by-tag)
+- [`POST /users/@me/relationships/{user_id}`](/api-reference/users/send-friend-request)
+- [`PUT /users/@me/relationships/{user_id}`](/api-reference/users/accept-or-update-friend-request)
+- [`PATCH /users/@me/relationships/{user_id}`](/api-reference/users/update-relationship-nickname)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for the relationship |
+| nickname | ?string | A custom nickname set for the related user |
+| since? | string (date-time) | ISO8601 timestamp of when the relationship was established |
+| type | [RelationshipTypes](#relationshiptypes) | The type of relationship (friend, blocked, pending, etc.) |
+| user | [UserPartialResponse](#userpartialresponse) |  |
+
+<a id="relationshiptypeputrequest"></a>
+
+## RelationshipTypePutRequest
+
+**Related endpoints**
+
+- [`PUT /users/@me/relationships/{user_id}`](/api-reference/users/accept-or-update-friend-request)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| type? | [RelationshipTypes](#relationshiptypes) | Type of relationship to create |
+
+<a id="relationshiptypes"></a>
+
+## RelationshipTypes
+
+Relationship type
+
+| Value | Description |
+|-------|-------------|
+| `1` | User is a friend |
+| `2` | User is blocked |
+| `3` | Pending incoming friend request |
+| `4` | Pending outgoing friend request |
+
+<a id="savedmessageentrylistresponse"></a>
+
+## SavedMessageEntryListResponse
+
+**Related endpoints**
+
+- [`GET /users/@me/saved-messages`](/api-reference/users/list-saved-messages)
+
+Type: [SavedMessageEntryResponse](#savedmessageentryresponse)[]
+
+<a id="savedmessageentryresponse"></a>
+
+## SavedMessageEntryResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | [SnowflakeType](#snowflaketype) | ID of the channel containing the message |
+| id | [SnowflakeType](#snowflaketype) | Unique identifier for the saved message entry |
+| message | ?[MessageResponseSchema](#messageresponseschema) | The message content if available |
+| message_id | [SnowflakeType](#snowflaketype) | ID of the saved message |
+| status | enum&lt;`available`, `missing_permissions`&gt; | Availability status of the saved message |
+
+<a id="savemessagerequest"></a>
+
+## SaveMessageRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/saved-messages`](/api-reference/users/save-message)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | [SnowflakeType](#snowflaketype) |  |
+| message_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="scheduledmessageresponseschema"></a>
+
+## ScheduledMessageResponseSchema
+
+**Related endpoints**
+
+- [`GET /users/@me/scheduled-messages`](/api-reference/users/list-scheduled-messages)
+- [`GET /users/@me/scheduled-messages/{scheduled_message_id}`](/api-reference/users/get-scheduled-message)
+- [`POST /channels/{channel_id}/messages/schedule`](/api-reference/channels/schedule-a-message-to-send-later)
+- [`PATCH /users/@me/scheduled-messages/{scheduled_message_id}`](/api-reference/users/update-scheduled-message)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | [SnowflakeType](#snowflaketype) | The ID of the channel this message will be sent to |
+| created_at | string | The ISO 8601 timestamp when this scheduled message was created |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier for this scheduled message |
+| invalidated_at | ?string | The ISO 8601 timestamp when the message was marked invalid |
+| payload | [ScheduledMessageResponseSchemaPayload](#scheduledmessageresponseschemapayload) | The message content and metadata to be sent |
+| scheduled_at | string | The ISO 8601 UTC timestamp when the message is scheduled to be sent |
+| scheduled_local_at | string | The ISO 8601 timestamp in the user local timezone |
+| status | enum&lt;`pending`, `invalid`, `scheduled`, `sent`, `failed`, `cancelled`&gt; | The current status of the scheduled message |
+| status_reason | ?string | A human-readable reason for the current status, if applicable |
+| timezone | [SnowflakeType](#snowflaketype) | The IANA timezone identifier used for scheduling |
+
+<a id="sudomfamethodsresponse"></a>
+
+## SudoMfaMethodsResponse
+
+**Related endpoints**
+
+- [`GET /users/@me/sudo/mfa-methods`](/api-reference/users/list-sudo-multi-factor-authentication-methods)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| has_mfa | boolean | Whether any MFA method is enabled |
+| sms | boolean | Whether SMS MFA is enabled |
+| totp | boolean | Whether TOTP is enabled |
+| webauthn | boolean | Whether WebAuthn is enabled |
+
+<a id="sudoverificationschema"></a>
+
+## SudoVerificationSchema
+
+**Related endpoints**
+
+- [`POST /oauth2/applications/{id}/bot/reset-token`](/api-reference/oauth2/reset-bot-token)
+- [`POST /oauth2/applications/{id}/client-secret/reset`](/api-reference/oauth2/reset-client-secret)
+- [`POST /users/@me/delete`](/api-reference/users/delete-current-user-account)
+- [`POST /users/@me/disable`](/api-reference/users/disable-current-user-account)
+- [`POST /users/@me/messages/delete`](/api-reference/users/request-bulk-message-deletion)
+- [`POST /users/@me/mfa/sms/disable`](/api-reference/users/disable-sms-multi-factor-authentication)
+- [`POST /users/@me/mfa/sms/enable`](/api-reference/users/enable-sms-multi-factor-authentication)
+- [`POST /users/@me/mfa/webauthn/credentials/registration-options`](/api-reference/users/get-webauthn-registration-options)
+- [`DELETE /oauth2/applications/{id}`](/api-reference/oauth2/delete-application)
+- [`DELETE /users/@me/authorized-ips`](/api-reference/users/forget-authorized-ips-for-current-user)
+- [`DELETE /users/@me/mfa/webauthn/credentials/{credential_id}`](/api-reference/users/delete-webauthn-credential)
+- [`DELETE /users/@me/phone`](/api-reference/users/remove-phone-number-from-account)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| mfa_code? | string | MFA verification code from authenticator app or SMS |
+| mfa_method? | [GuildUpdateRequestMfaMethod](#guildupdaterequestmfamethod) | MFA method to use for verification |
+| password? | [PasswordType](#passwordtype) |  |
+| webauthn_challenge? | string | WebAuthn challenge string |
+| webauthn_response? | JSON value | WebAuthn authentication response |
+
+<a id="useradminresponseschema"></a>
+
+## UserAdminResponseSchema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| accent_color | ?[Int32Type](#int32type) |  |
+| acls | string[] |  |
+| authenticator_types | [Int32Type](#int32type)[] |  |
+| avatar | ?string |  |
+| banner | ?string |  |
+| bio | ?string |  |
+| bot | boolean |  |
+| date_of_birth | ?string |  |
+| deletion_public_reason | ?string |  |
+| deletion_reason_code | ?[Int32Type](#int32type) |  |
+| discriminator | [Int32Type](#int32type) |  |
+| email | ?string |  |
+| email_bounced | boolean |  |
+| email_verified | boolean |  |
+| flags | [UserFlags](#userflags) |  |
+| global_name | ?string |  |
+| has_totp | boolean |  |
+| id | [SnowflakeType](#snowflaketype) |  |
+| last_active_at | ?string |  |
+| last_active_ip | ?string |  |
+| last_active_ip_reverse | ?string |  |
+| last_active_location | ?string |  |
+| locale | ?string |  |
+| pending_bulk_message_deletion_at | ?string |  |
+| pending_deletion_at | ?string |  |
+| phone | ?string |  |
+| premium_since | ?string |  |
+| premium_type | ?[Int32Type](#int32type) |  |
+| premium_until | ?string |  |
+| pronouns | ?string |  |
+| suspicious_activity_flags | [SuspiciousActivityFlags](#suspiciousactivityflags) |  |
+| system | boolean |  |
+| temp_banned_until | ?string |  |
+| traits | string[] |  |
+| username | string |  |
+
+<a id="userauthenticatortypes"></a>
+
+## UserAuthenticatorTypes
+
+Authenticator type
+
+| Value | Description |
+|-------|-------------|
+| `0` | Time-based one-time password authenticator |
+| `1` | SMS-based authenticator |
+| `2` | WebAuthn authenticator |
+
+<a id="usercontactchangelogentryschema"></a>
+
+## UserContactChangeLogEntrySchema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| actor_user_id | ?[SnowflakeType](#snowflaketype) |  |
+| event_at | string |  |
+| event_id | [SnowflakeType](#snowflaketype) |  |
+| field | string |  |
+| new_value | ?string |  |
+| old_value | ?string |  |
+| reason | ?string |  |
+
+<a id="userflags"></a>
+
+## UserFlags
+
+A single user flag value to add or remove
+
+Type: Bitflags64
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| STAFF | `1` | User is a staff member |
+| CTP_MEMBER | `2` | User is a community test program member |
+| PARTNER | `4` | User is a partner |
+| BUG_HUNTER | `8` | User is a bug hunter |
+| HIGH_GLOBAL_RATE_LIMIT | `8589934592` | User has elevated global rate limits |
+| FRIENDLY_BOT | `16` | Bot accepts friend requests from users |
+| FRIENDLY_BOT_MANUAL_APPROVAL | `32` | Bot requires manual approval for friend requests |
+| DELETED | `17179869184` | User account has been deleted |
+| DISABLED_SUSPICIOUS_ACTIVITY | `34359738368` | User account disabled due to suspicious activity |
+| SELF_DELETED | `68719476736` | User account was self-deleted |
+| PREMIUM_DISCRIMINATOR | `137438953472` | User has a premium discriminator |
+| DISABLED | `274877906944` | User account is disabled |
+| HAS_SESSION_STARTED | `549755813888` | User has started a session |
+| PREMIUM_BADGE_HIDDEN | `1099511627776` | User has hidden their premium badge |
+| PREMIUM_BADGE_MASKED | `2199023255552` | User has masked their premium badge |
+| PREMIUM_BADGE_TIMESTAMP_HIDDEN | `4398046511104` | User has hidden their premium badge timestamp |
+| PREMIUM_BADGE_SEQUENCE_HIDDEN | `8796093022208` | User has hidden their premium badge sequence |
+| PREMIUM_PERKS_SANITIZED | `17592186044416` | User premium perks are sanitized |
+| PREMIUM_PURCHASE_DISABLED | `35184372088832` | Premium purchase is disabled for this user |
+| PREMIUM_ENABLED_OVERRIDE | `70368744177664` | Premium status is enabled via override |
+| RATE_LIMIT_BYPASS | `140737488355328` | User can bypass rate limits |
+| REPORT_BANNED | `281474976710656` | User is banned from reporting |
+| VERIFIED_NOT_UNDERAGE | `562949953421312` | User is verified as not underage |
+| HAS_DISMISSED_PREMIUM_ONBOARDING | `2251799813685248` | User has dismissed premium onboarding |
+| USED_MOBILE_CLIENT | `4503599627370496` | User has used a mobile client |
+| APP_STORE_REVIEWER | `9007199254740992` | User is an app store reviewer |
+| DM_HISTORY_BACKFILLED | `18014398509481984` | User DM history has been backfilled |
+| HAS_RELATIONSHIPS_INDEXED | `36028797018963968` | User relationships have been indexed |
+| MESSAGES_BY_AUTHOR_BACKFILLED | `72057594037927936` | Messages by this author have been backfilled |
+| STAFF_HIDDEN | `144115188075855872` | User staff status is hidden from public flags |
+| BOT_SANITIZED | `288230376151711744` | User's owned bot discriminators have been sanitized |
+
+<a id="userguildsettingsresponse"></a>
+
+## UserGuildSettingsResponse
+
+**Related endpoints**
+
+- [`PATCH /users/@me/guilds/{guild_id}/settings`](/api-reference/users/update-guild-settings-for-user)
+- [`PATCH /users/@me/guilds/@me/settings`](/api-reference/users/update-dm-notification-settings)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_overrides | ?map&lt;string, [UserGuildSettingsResponseChannelOverridesAdditionalProperties](#userguildsettingsresponsechanneloverridesadditionalproperties)&gt; | Per-channel notification overrides |
+| guild_id | ?[SnowflakeType](#snowflaketype) | The ID of the guild these settings apply to |
+| hide_muted_channels | boolean | Whether muted channels are hidden in the sidebar |
+| message_notifications | [UserNotificationSettings](#usernotificationsettings) | The default notification level for the guild |
+| mobile_push | boolean | Whether mobile push notifications are enabled |
+| mute_config | ?[UserGuildSettingsResponseMuteConfig](#userguildsettingsresponsemuteconfig) | The mute configuration for the guild |
+| muted | boolean | Whether the guild is muted |
+| suppress_everyone | boolean | Whether @everyone mentions are suppressed |
+| suppress_roles | boolean | Whether role mentions are suppressed |
+| version | integer (int32) | The version number of these settings for sync |
+
+<a id="userguildsettingsupdaterequest"></a>
+
+## UserGuildSettingsUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /users/@me/guilds/{guild_id}/settings`](/api-reference/users/update-guild-settings-for-user)
+- [`PATCH /users/@me/guilds/@me/settings`](/api-reference/users/update-dm-notification-settings)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_overrides? | ?map&lt;string, [UserGuildSettingsUpdateRequestChannelOverridesAdditionalProperties](#userguildsettingsupdaterequestchanneloverridesadditionalproperties)&gt; | Per-channel overrides |
+| hide_muted_channels? | boolean | Hide muted channels |
+| message_notifications? | [UserNotificationSettings](#usernotificationsettings) | Default guild notification level |
+| mobile_push? | boolean | Mobile push notifications enabled |
+| mute_config? | ?[UserGuildSettingsUpdateRequestMuteConfig](#userguildsettingsupdaterequestmuteconfig) | Guild mute configuration |
+| muted? | boolean | Guild muted |
+| suppress_everyone? | boolean | Suppress @everyone mentions |
+| suppress_roles? | boolean | Suppress role mentions |
+
+<a id="usernametype"></a>
+
+## UsernameType
+
+**Related endpoints**
+
+- [`GET /users/check-tag`](/api-reference/users/check-username-tag-availability)
+
+Type: string
+
+<a id="usernoteresponse"></a>
+
+## UserNoteResponse
+
+**Related endpoints**
+
+- [`GET /users/@me/notes/{target_id}`](/api-reference/users/get-note-on-user)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| note | string | The note text for this user |
+
+<a id="usernotesrecordresponse"></a>
+
+## UserNotesRecordResponse
+
+A map of user IDs to note text
+
+**Related endpoints**
+
+- [`GET /users/@me/notes`](/api-reference/users/list-current-user-notes)
+
+Type: map&lt;string, string&gt;
+
+<a id="usernoteupdaterequest"></a>
+
+## UserNoteUpdateRequest
+
+**Related endpoints**
+
+- [`PUT /users/@me/notes/{target_id}`](/api-reference/users/set-note-on-user)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| note? | ?string | The note text (max 256 characters) |
+
+<a id="usernotificationsettings"></a>
+
+## UserNotificationSettings
+
+Notification level preference
+
+| Value | Description |
+|-------|-------------|
+| `0` | Receive notifications for all messages |
+| `1` | Only receive notifications for mentions |
+| `2` | Do not receive any notifications |
+| `3` | Inherit notification settings from parent |
+
+<a id="userpartialresponse"></a>
+
+## UserPartialResponse
+
+**Related endpoints**
+
+- [`GET /users/{user_id}`](/api-reference/users/get-user-by-id)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| avatar | ?string | The hash of the user avatar image |
+| avatar_color | ?[Int32Type](#int32type) | The dominant avatar color of the user as an integer |
+| bot? | boolean | Whether the user is a bot account |
+| discriminator | string | The four-digit discriminator tag of the user |
+| flags | [PublicUserFlags](#publicuserflags) |  |
+| global_name | ?string | The display name of the user, if set |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier (snowflake) for this user |
+| system? | boolean | Whether the user is an official system user |
+| username | string | The username of the user, not unique across the platform |
+
+<a id="userpremiumtypes"></a>
+
+## UserPremiumTypes
+
+Premium subscription type
+
+| Value | Description |
+|-------|-------------|
+| `0` | No premium subscription |
+| `1` | Active premium subscription |
+| `2` | Lifetime premium subscription |
+
+<a id="userprivateresponse"></a>
+
+## UserPrivateResponse
+
+**Related endpoints**
+
+- [`GET /users/@me`](/api-reference/users/get-current-user-profile)
+- [`POST /users/@me/email-change/bounced/verify-new`](/api-reference/users/verify-replacement-email-for-bounced-address)
+- [`PATCH /users/@me`](/api-reference/users/update-current-user-profile)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| accent_color | ?[Int32Type](#int32type) | The user-selected accent color as an integer |
+| acls | string[] | Access control list entries for the user |
+| authenticator_types? | [UserAuthenticatorTypes](#userauthenticatortypes)[] | The types of authenticators configured for MFA |
+| avatar | ?string | The hash of the user avatar image |
+| avatar_color | ?[Int32Type](#int32type) | The dominant avatar color of the user as an integer |
+| banner | ?string | The hash of the user profile banner image |
+| banner_color | ?[Int32Type](#int32type) | The default banner color if no custom banner is set |
+| bio | ?string | The user biography text |
+| bot? | boolean | Whether the user is a bot account |
+| discriminator | string | The four-digit discriminator tag of the user |
+| email | ?string | The email address associated with the account |
+| email_bounced? | boolean | Whether the current email address is marked as bounced by the mail provider |
+| flags | [PublicUserFlags](#publicuserflags) |  |
+| global_name | ?string | The display name of the user, if set |
+| has_dismissed_premium_onboarding | boolean | Whether the user has dismissed the premium onboarding flow |
+| has_ever_purchased | boolean | Whether the user has ever made a purchase |
+| has_unread_gift_inventory | boolean | Whether there are unread items in the gift inventory |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier (snowflake) for this user |
+| is_staff | boolean | Whether the user has staff permissions |
+| mfa_enabled | boolean | Whether multi-factor authentication is enabled |
+| nsfw_allowed | boolean | Whether the user is allowed to view NSFW content |
+| password_last_changed_at | ?string | ISO8601 timestamp of the last password change |
+| pending_bulk_message_deletion | ?[UserPrivateResponsePendingBulkMessageDeletion](#userprivateresponsependingbulkmessagedeletion) | Information about a pending bulk message deletion request |
+| phone | ?string | The phone number associated with the account |
+| premium_badge_hidden | boolean | Whether the premium badge is hidden on the profile |
+| premium_badge_masked | boolean | Whether the premium badge shows a masked appearance |
+| premium_badge_sequence_hidden | boolean | Whether the lifetime sequence number is hidden |
+| premium_badge_timestamp_hidden | boolean | Whether the premium start timestamp is hidden |
+| premium_billing_cycle | ?string | The billing cycle for the premium subscription |
+| premium_enabled_override | boolean | Whether premium features are enabled via override |
+| premium_lifetime_sequence | ?[Int32Type](#int32type) | The sequence number for lifetime premium subscribers |
+| premium_purchase_disabled | boolean | Whether premium purchases are disabled for this account |
+| premium_since | ?string | ISO8601 timestamp of when premium was first activated |
+| premium_type | ?[UserPremiumTypes](#userpremiumtypes) |  |
+| premium_until | ?string | ISO8601 timestamp of when the current premium period ends |
+| premium_will_cancel | boolean | Whether premium is set to cancel at the end of the billing period |
+| pronouns | ?string | The preferred pronouns of the user |
+| required_actions | ?string[] | Actions the user must complete before full access |
+| system? | boolean | Whether the user is an official system user |
+| traits | string[] | Special traits assigned to the user account |
+| unread_gift_inventory_count | integer (int32) | The number of unread gift inventory items |
+| used_mobile_client | boolean | Whether the user has ever used the mobile client |
+| username | string | The username of the user, not unique across the platform |
+| verified | boolean | Whether the email address has been verified |
+
+<a id="userprofilefullresponse"></a>
+
+## UserProfileFullResponse
+
+**Related endpoints**
+
+- [`GET /users/{target_id}/profile`](/api-reference/users/get-user-profile)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| connected_accounts? | [ConnectionResponse](#connectionresponse)[] | Array of verified external connections |
+| guild_member? | [GuildMemberResponse](#guildmemberresponse) |  |
+| guild_member_profile? | ?[UserProfileFullResponseGuildMemberProfile](#userprofilefullresponseguildmemberprofile) | Guild-specific profile data |
+| mutual_friends? | [UserPartialResponse](#userpartialresponse)[] | Array of mutual friends |
+| mutual_guilds? | [MutualGuildResponse](#mutualguildresponse)[] | Array of mutual guilds |
+| premium_lifetime_sequence? | [Int32Type](#int32type) |  |
+| premium_since? | string | ISO8601 timestamp of when premium was activated |
+| premium_type? | [UserPremiumTypes](#userpremiumtypes) | The type of premium subscription |
+| user | [UserPartialResponse](#userpartialresponse) | The user object |
+| user_profile | [UserProfileFullResponseUserProfile](#userprofilefullresponseuserprofile) | The user profile data |
+
+<a id="userreportcategoryenum"></a>
+
+## UserReportCategoryEnum
+
+Category of the user report
+
+| Value | Description |
+|-------|-------------|
+| `harassment` | User engages in harassment, bullying, or intimidation |
+| `hate_speech` | User promotes hatred against protected groups |
+| `spam_account` | Account used for spamming or bulk messaging |
+| `impersonation` | User falsely claims to be another person or entity |
+| `underage_user` | User appears to be under the minimum required age |
+| `inappropriate_profile` | Profile contains inappropriate or offensive content |
+| `other` | Other violations not covered by specific categories |
+
+<a id="usersessionresponse"></a>
+
+## UserSessionResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| approx_last_used_at | string | ISO timestamp of the session last usage (approximate) |
+| client_ip | string | Client IP address |
+| client_ip_reverse | ?string | Reverse DNS hostname for the client IP (PTR), if available |
+| client_location | ?string | Approximate geo location label for the client IP, if available |
+| client_os | ?string | Client operating system, if detected |
+| client_platform | ?string | Client platform, if detected |
+| created_at | string | ISO timestamp when the session was created |
+| session_id_hash | [SnowflakeType](#snowflaketype) | Hashed session identifier (base64url) |
+
+<a id="usersettingsresponse"></a>
+
+## UserSettingsResponse
+
+**Related endpoints**
+
+- [`GET /users/@me/settings`](/api-reference/users/get-current-user-settings)
+- [`PATCH /users/@me/settings`](/api-reference/users/update-current-user-settings)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| afk_timeout | integer (int32) | The idle timeout in seconds before going AFK |
+| animate_emoji | boolean | Whether to animate custom emoji |
+| animate_stickers | [StickerAnimationOptions](#stickeranimationoptions) | Sticker animation preference setting |
+| bot_default_guilds_restricted | boolean | Whether new guilds have bot DM restrictions by default |
+| bot_restricted_guilds | [SnowflakeType](#snowflaketype)[] | Guild IDs where bot direct messages are restricted |
+| custom_status | ?[CustomStatusResponse](#customstatusresponse) | The custom status set by the user |
+| default_guilds_restricted | boolean | Whether new guilds have DM restrictions by default |
+| default_hide_muted_channels | boolean | Whether muted channels are hidden by default in new guilds |
+| developer_mode | boolean | Whether developer mode is enabled |
+| friend_source_flags | [FriendSourceFlags](#friendsourceflags) |  |
+| gif_auto_play | boolean | Whether GIFs auto-play in chat |
+| group_dm_add_permission_flags | [GroupDmAddPermissionFlags](#groupdmaddpermissionflags) |  |
+| guild_folders | [UserSettingsResponseGuildFoldersItem](#usersettingsresponseguildfoldersitem)[] | The folder structure for organizing guilds in the sidebar |
+| incoming_call_flags | [IncomingCallFlags](#incomingcallflags) |  |
+| inline_attachment_media | boolean | Whether to display attachments inline in chat |
+| inline_embed_media | boolean | Whether to display embed media inline in chat |
+| locale | [Locale](#locale) |  |
+| message_display_compact | boolean | Whether to use compact message display mode |
+| render_embeds | boolean | Whether to render message embeds |
+| render_reactions | boolean | Whether to display reactions on messages |
+| render_spoilers | [RenderSpoilers](#renderspoilers) | Spoiler rendering preference setting |
+| restricted_guilds | [SnowflakeType](#snowflaketype)[] | Guild IDs where direct messages are restricted |
+| status | string | The current online status of the user |
+| status_resets_at? | ?string (date-time) | ISO8601 timestamp of when the status will reset |
+| status_resets_to? | ?string | The status to reset to after the scheduled reset |
+| theme | string | The UI theme preference |
+| time_format | [TimeFormatTypes](#timeformattypes) | The preferred time format setting |
+| trusted_domains | string[] | List of trusted external link domains |
+
+<a id="usersettingsupdaterequest"></a>
+
+## UserSettingsUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /users/@me/settings`](/api-reference/users/update-current-user-settings)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| afk_timeout? | integer (int53) | AFK timeout in seconds |
+| animate_emoji? | boolean | Animate custom emoji |
+| animate_stickers? | [StickerAnimationOptions](#stickeranimationoptions) | Sticker animation preference |
+| bot_default_guilds_restricted? | boolean | Default bot DM restriction for new guilds |
+| bot_restricted_guilds? | [SnowflakeType](#snowflaketype)[] | Guilds with bot DM restrictions |
+| custom_status? | ?[CustomStatusPayload](#customstatuspayload) | Custom status |
+| default_guilds_restricted? | boolean | Default DM restriction for new guilds |
+| default_hide_muted_channels? | boolean | Hide muted channels by default in new guilds |
+| developer_mode? | boolean | Developer mode enabled |
+| flags? | [FriendSourceFlags](#friendsourceflags) |  |
+| friend_source_flags? | [FriendSourceFlags](#friendsourceflags) |  |
+| gif_auto_play? | boolean | Auto-play GIFs |
+| group_dm_add_permission_flags? | [GroupDmAddPermissionFlags](#groupdmaddpermissionflags) |  |
+| guild_folders? | [UserSettingsUpdateRequestGuildFoldersItem](#usersettingsupdaterequestguildfoldersitem)[] | Guild folder organization |
+| incoming_call_flags? | [IncomingCallFlags](#incomingcallflags) |  |
+| inline_attachment_media? | boolean | Display attachments inline |
+| inline_embed_media? | boolean | Display embed media inline |
+| locale? | [Locale](#locale) |  |
+| message_display_compact? | boolean | Compact message display |
+| render_embeds? | boolean | Render message embeds |
+| render_reactions? | boolean | Display reactions |
+| render_spoilers? | [RenderSpoilers](#renderspoilers) | Spoiler rendering preference |
+| restricted_guilds? | [SnowflakeType](#snowflaketype)[] | Guilds with DM restrictions |
+| status? | [UserStatusType](#userstatustype) |  |
+| status_resets_at? | ?string \| integer (int64) | When status resets |
+| status_resets_to? | ?[UserStatusType](#userstatustype) |  |
+| theme? | [UserThemeType](#userthemetype) |  |
+| time_format? | [TimeFormatTypes](#timeformattypes) | Time format preference |
+| trusted_domains? | string[] | Trusted external link domains. Use "*" to trust all domains. |
+
+<a id="userstatustype"></a>
+
+## UserStatusType
+
+User online status
+
+| Value | Description |
+|-------|-------------|
+| `online` | User is online and available |
+| `dnd` | Do not disturb – notifications are suppressed |
+| `idle` | User is away or inactive |
+| `invisible` | User appears offline but can still receive messages |
+
+<a id="usertagcheckresponse"></a>
+
+## UserTagCheckResponse
+
+**Related endpoints**
+
+- [`GET /users/check-tag`](/api-reference/users/check-username-tag-availability)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| taken | boolean | Whether the username/discriminator combination is already taken |
+
+<a id="userthemetype"></a>
+
+## UserThemeType
+
+UI theme preference
+
+| Value | Description |
+|-------|-------------|
+| `dark` | Dark colour theme |
+| `coal` | Coal/darker colour theme |
+| `light` | Light colour theme |
+| `system` | Follow system colour preference |
+
+<a id="userupdatewithverificationrequest"></a>
+
+## UserUpdateWithVerificationRequest
+
+**Related endpoints**
+
+- [`PATCH /users/@me`](/api-reference/users/update-current-user-profile)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| accent_color? | ?integer (int32) | Profile accent color as integer |
+| avatar? | ?[Base64ImageType](#base64imagetype) | Base64-encoded avatar image |
+| banner? | ?[Base64ImageType](#base64imagetype) | Base64-encoded profile banner image |
+| bio? | ?string | User biography text (max 320 characters) |
+| discriminator? | string | The 4-digit discriminator tag |
+| email? | [EmailType](#emailtype) |  |
+| email_token? | string | Email change token for updating email |
+| global_name? | ?string | The display name shown to other users |
+| has_dismissed_premium_onboarding? | boolean | Whether user dismissed premium onboarding |
+| has_unread_gift_inventory? | boolean | Whether user has unread gifts |
+| mfa_code? | string | MFA verification code from authenticator app or SMS |
+| mfa_method? | [GuildUpdateRequestMfaMethod](#guildupdaterequestmfamethod) | MFA method to use for verification |
+| new_password? | [PasswordType](#passwordtype) |  |
+| password? | [PasswordType](#passwordtype) |  |
+| premium_badge_hidden? | boolean | Whether to hide the premium badge |
+| premium_badge_masked? | boolean | Whether to mask the premium badge |
+| premium_badge_sequence_hidden? | boolean | Whether to hide premium badge sequence |
+| premium_badge_timestamp_hidden? | boolean | Whether to hide premium badge timestamp |
+| premium_enabled_override? | boolean | Override premium enabled state |
+| pronouns? | ?string | User pronouns (max 40 characters) |
+| used_mobile_client? | boolean | Whether user has used mobile client |
+| username? | [UsernameType](#usernametype) |  |
+| webauthn_challenge? | string | WebAuthn challenge string |
+| webauthn_response? | JSON value | WebAuthn authentication response |
+
+<a id="webauthnchallengeresponse"></a>
+
+## WebAuthnChallengeResponse
+
+**Related endpoints**
+
+- [`POST /users/@me/mfa/webauthn/credentials/registration-options`](/api-reference/users/get-webauthn-registration-options)
+- [`POST /users/@me/sudo/webauthn/authentication-options`](/api-reference/users/get-sudo-webauthn-authentication-options)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| challenge | string | The WebAuthn challenge |
+
+<a id="webauthncredentiallistresponse"></a>
+
+## WebAuthnCredentialListResponse
+
+**Related endpoints**
+
+- [`GET /users/@me/mfa/webauthn/credentials`](/api-reference/users/list-webauthn-credentials)
+
+Type: [WebAuthnCredentialResponse](#webauthncredentialresponse)[]
+
+<a id="webauthncredentialupdaterequest"></a>
+
+## WebAuthnCredentialUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /users/@me/mfa/webauthn/credentials/{credential_id}`](/api-reference/users/update-webauthn-credential)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| mfa_code? | string | MFA verification code from authenticator app or SMS |
+| mfa_method? | [GuildUpdateRequestMfaMethod](#guildupdaterequestmfamethod) | MFA method to use for verification |
+| name | string | New name for the credential |
+| password? | [PasswordType](#passwordtype) |  |
+| webauthn_challenge? | string | WebAuthn challenge string |
+| webauthn_response? | JSON value | WebAuthn authentication response |
+
+<a id="webauthnregisterrequest"></a>
+
+## WebAuthnRegisterRequest
+
+**Related endpoints**
+
+- [`POST /users/@me/mfa/webauthn/credentials`](/api-reference/users/register-webauthn-credential)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| challenge | string | The challenge from registration options |
+| mfa_code? | string | MFA verification code from authenticator app or SMS |
+| mfa_method? | [GuildUpdateRequestMfaMethod](#guildupdaterequestmfamethod) | MFA method to use for verification |
+| name | string | User-assigned name for the credential |
+| password? | [PasswordType](#passwordtype) |  |
+| response | JSON value | WebAuthn registration response |
+| webauthn_challenge? | string | WebAuthn challenge string |
+| webauthn_response? | JSON value | WebAuthn authentication response |
+
+<a id="pushsubscriberequestkeys"></a>
+
+## PushSubscribeRequestKeys
+
+| Field | Type | Description |
+|-------|------|-------------|
+| auth | string | The authentication secret |
+| p256dh | string | The P-256 ECDH public key |
+
+<a id="scheduledmessageresponseschemapayload"></a>
+
+## ScheduledMessageResponseSchemaPayload
+
+The message content and metadata to be sent
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allowed_mentions? | [ScheduledMessageAllowedMentionsSchema](#scheduledmessageallowedmentionsschema) |  |
+| attachments? | [MessageAttachmentResponse](#messageattachmentresponse)[] | Array of attachment objects for the message |
+| content? | ?string | The text content of the scheduled message |
+| embeds? | [MessageEmbedResponse](#messageembedresponse)[] | Array of embed objects attached to the message |
+| favorite_meme_id? | [SnowflakeType](#snowflaketype) |  |
+| flags? | [MessageFlags](#messageflags) |  |
+| message_reference? | [ScheduledMessageReferenceSchema](#scheduledmessagereferenceschema) |  |
+| nonce? | [SnowflakeType](#snowflaketype) | Client-generated identifier for the message |
+| sticker_ids? | [SnowflakeType](#snowflaketype)[] | Array of sticker IDs to include in the message |
+| stickers? | [MessageStickerResponse](#messagestickerresponse)[] | Array of sticker objects attached to the message |
+| tts? | boolean | Whether this is a text-to-speech message |
+
+<a id="userguildsettingsresponsechanneloverridesadditionalproperties"></a>
+
+## UserGuildSettingsResponseChannelOverridesAdditionalProperties
+
+| Field | Type | Description |
+|-------|------|-------------|
+| collapsed | boolean | Whether the channel category is collapsed in the sidebar |
+| message_notifications | [UserNotificationSettings](#usernotificationsettings) | The notification level override for this channel |
+| mute_config | ?[UserGuildSettingsResponseMuteConfig](#userguildsettingsresponsemuteconfig) | The mute configuration for this channel |
+| muted | boolean | Whether notifications are muted for this channel |
+
+<a id="userguildsettingsresponsemuteconfig"></a>
+
+## UserGuildSettingsResponseMuteConfig
+
+The mute configuration for the guild
+
+| Field | Type | Description |
+|-------|------|-------------|
+| end_time | ?string | ISO8601 timestamp of when the mute expires |
+| selected_time_window | integer (int32) | The selected mute duration in seconds |
+
+<a id="userguildsettingsupdaterequestchanneloverridesadditionalproperties"></a>
+
+## UserGuildSettingsUpdateRequestChannelOverridesAdditionalProperties
+
+| Field | Type | Description |
+|-------|------|-------------|
+| collapsed | boolean | Channel category collapsed |
+| message_notifications | [UserNotificationSettings](#usernotificationsettings) | Channel notification level |
+| mute_config? | ?[UserGuildSettingsUpdateRequestMuteConfig](#userguildsettingsupdaterequestmuteconfig) | Channel mute configuration |
+| muted | boolean | Channel muted |
+
+<a id="userguildsettingsupdaterequestmuteconfig"></a>
+
+## UserGuildSettingsUpdateRequestMuteConfig
+
+Guild mute configuration
+
+| Field | Type | Description |
+|-------|------|-------------|
+| end_time? | ?string \| integer (int64) | When the mute expires |
+| selected_time_window | integer (int53) | Selected mute duration |
+
+<a id="userprivateresponsependingbulkmessagedeletion"></a>
+
+## UserPrivateResponsePendingBulkMessageDeletion
+
+Information about a pending bulk message deletion request
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_count | integer (int32) | The number of channels with messages to delete |
+| message_count | integer (int32) | The total number of messages to delete |
+| scheduled_at | string | ISO8601 timestamp of when the deletion was scheduled |
+
+<a id="userprofilefullresponseguildmemberprofile"></a>
+
+## UserProfileFullResponseGuildMemberProfile
+
+Guild-specific profile data
+
+| Field | Type | Description |
+|-------|------|-------------|
+| accent_color | ?[Int32Type](#int32type) | Guild-specific accent color |
+| banner | ?string | Hash of the guild-specific banner image |
+| bio | ?string | Guild-specific biography text |
+| pronouns | ?string | Guild-specific pronouns |
+
+<a id="userprofilefullresponseuserprofile"></a>
+
+## UserProfileFullResponseUserProfile
+
+The user profile data
+
+| Field | Type | Description |
+|-------|------|-------------|
+| accent_color | ?[Int32Type](#int32type) | User-selected accent color |
+| banner | ?string | Hash of the profile banner image |
+| banner_color? | ?[Int32Type](#int32type) | Default banner color if no custom banner |
+| bio | ?string | User biography text |
+| pronouns | ?string | User pronouns |
+
+<a id="usersettingsresponseguildfoldersitem"></a>
+
+## UserSettingsResponseGuildFoldersItem
+
+The folder structure for organizing guilds in the sidebar
+
+| Field | Type | Description |
+|-------|------|-------------|
+| color? | ?[Int32Type](#int32type) | The color of the folder as an integer |
+| flags? | [GuildFolderFlags](#guildfolderflags) |  |
+| guild_ids | [SnowflakeType](#snowflaketype)[] | The IDs of guilds contained in this folder |
+| icon? | [UserSettingsResponseGuildFoldersItemIcon](#usersettingsresponseguildfoldersitemicon) | Selected icon for the guild folder |
+| id? | ?integer (int32) | The unique identifier for the folder (-1 for uncategorized) |
+| name? | ?string | The display name of the folder |
+
+<a id="usersettingsupdaterequestguildfoldersitem"></a>
+
+## UserSettingsUpdateRequestGuildFoldersItem
+
+Guild folder organization
+
+| Field | Type | Description |
+|-------|------|-------------|
+| color? | ?[Int32Type](#int32type) | Color of the folder as integer |
+| flags? | [GuildFolderFlags](#guildfolderflags) |  |
+| guild_ids | [SnowflakeType](#snowflaketype)[] | Guild IDs in this folder |
+| icon? | [UserSettingsResponseGuildFoldersItemIcon](#usersettingsresponseguildfoldersitemicon) | Selected icon for the guild folder |
+| id | integer (int32) | Unique identifier for the folder (-1 for uncategorized) |
+| name? | ?string | Display name of the folder |
+

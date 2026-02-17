@@ -1,0 +1,16 @@
+port: 7880
+
+keys:
+  '<replace-with-api-key>': '<replace-with-api-secret>'
+
+rtc:
+  tcp_port: 7881
+
+turn:
+  enabled: true
+  udp_port: 3478
+
+room:
+  auto_create: true
+  max_participants: 100
+  empty_timeout: 300

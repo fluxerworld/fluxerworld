@@ -17,15 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/ChannelLayout.module.css';
+import {useParams} from '@app/lib/router/React';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildStore from '@app/stores/GuildStore';
 import {Trans} from '@lingui/react/macro';
 import {SmileySadIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import {useParams} from '~/lib/router';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildStore from '~/stores/GuildStore';
-import styles from './ChannelLayout.module.css';
+import type {ReactNode} from 'react';
 
-export const ChannelLayout = observer(({children}: {children: React.ReactNode}) => {
+interface ChannelLayoutProps {
+	children: ReactNode;
+}
+
+export const ChannelLayout = observer(({children}: ChannelLayoutProps) => {
 	const {guildId: routeGuildId, channelId} = useParams() as {guildId?: string; channelId: string};
 	const channel = ChannelStore.getChannel(channelId);
 	const guildId = routeGuildId || channel?.guildId;

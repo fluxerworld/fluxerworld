@@ -20,8 +20,8 @@
 interface ExponentialBackoffOptions {
 	minDelay: number;
 	maxDelay: number;
-	maxNumOfAttempts?: number;
 	factor?: number;
+	maxNumOfAttempts?: number;
 	jitter?: boolean;
 	jitterFactor?: number;
 }

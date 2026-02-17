@@ -17,13 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Input} from '@app/components/form/Input';
+import {Select, type SelectOption} from '@app/components/form/Select';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {MS_PER_DAY} from '@fluxer/date_utils/src/DateConstants';
+import {getSystemTimeZone} from '@fluxer/date_utils/src/DateIntrospection';
 import {useLingui} from '@lingui/react/macro';
-import React from 'react';
-import {Input} from '~/components/form/Input';
-import {Select, type SelectOption} from '~/components/form/Select';
-import styles from '~/components/modals/ConfirmModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 
 interface ScheduleMessageModalProps {
 	onClose: () => void;
@@ -47,32 +49,32 @@ export const ScheduleMessageModal = ({
 	helpText,
 }: ScheduleMessageModalProps) => {
 	const {t} = useLingui();
-	const minDateTime = React.useMemo(() => formatInputValue(new Date(Date.now() + 60_000)), []);
-	const maxDateTime = React.useMemo(() => formatInputValue(new Date(Date.now() + 30 * 24 * 60 * 60 * 1000)), []);
-	const defaultTimezone = React.useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone, []);
-	const timezoneOptions = React.useMemo((): Array<SelectOption<string>> => {
+	const minDateTime = useMemo(() => formatInputValue(new Date(Date.now() + 60_000)), []);
+	const maxDateTime = useMemo(() => formatInputValue(new Date(Date.now() + 30 * MS_PER_DAY)), []);
+	const defaultTimezone = useMemo(() => getSystemTimeZone(), []);
+	const timezoneOptions = useMemo((): Array<SelectOption<string>> => {
 		const intl = Intl as typeof Intl & {supportedValuesOf?: (type: string) => Array<string>};
 		const zones = typeof intl.supportedValuesOf === 'function' ? intl.supportedValuesOf('timeZone') : [defaultTimezone];
 		return zones.map((zone) => ({value: zone, label: zone}));
 	}, [defaultTimezone]);
 
-	const initialScheduledAt = React.useMemo(
+	const initialScheduledAt = useMemo(
 		() => initialScheduledLocalAt ?? formatInputValue(new Date(Date.now() + 5 * 60 * 1000)),
 		[initialScheduledLocalAt],
 	);
-	const [scheduledLocalAt, setScheduledLocalAt] = React.useState(initialScheduledAt);
-	const [timezone, setTimezone] = React.useState(initialTimezone ?? defaultTimezone);
-	React.useEffect(() => {
+	const [scheduledLocalAt, setScheduledLocalAt] = useState(initialScheduledAt);
+	const [timezone, setTimezone] = useState(initialTimezone ?? defaultTimezone);
+	useEffect(() => {
 		setScheduledLocalAt(initialScheduledLocalAt ?? formatInputValue(new Date(Date.now() + 5 * 60 * 1000)));
 	}, [initialScheduledLocalAt]);
-	React.useEffect(() => {
+	useEffect(() => {
 		if (initialTimezone) {
 			setTimezone(initialTimezone);
 		}
 	}, [initialTimezone]);
-	const [submitting, setSubmitting] = React.useState(false);
+	const [submitting, setSubmitting] = useState(false);
 
-	const handleConfirm = React.useCallback(async () => {
+	const handleConfirm = useCallback(async () => {
 		if (!scheduledLocalAt) {
 			return;
 		}
@@ -88,29 +90,31 @@ export const ScheduleMessageModal = ({
 	return (
 		<Modal.Root size="small" centered onClose={onClose}>
 			<Modal.Header title={title ?? t`Schedule Message`} />
-			<Modal.Content className={styles.content}>
-				<span className={styles.descriptionText}>{helpText ?? t`Pick a time when this message should be posted.`}</span>
+			<Modal.Content>
+				<Modal.ContentLayout>
+					<Modal.Description>{helpText ?? t`Pick a time when this message should be posted.`}</Modal.Description>
 
-				<div className={styles.inputContainer}>
-					<Input
-						id="schedule-message-time"
-						type="datetime-local"
-						label={t`Date & time`}
-						min={minDateTime}
-						max={maxDateTime}
-						value={scheduledLocalAt}
-						onChange={(event) => setScheduledLocalAt(event.target.value)}
-					/>
+					<Modal.InputGroup>
+						<Input
+							id="schedule-message-time"
+							type="datetime-local"
+							label={t`Date & Time`}
+							min={minDateTime}
+							max={maxDateTime}
+							value={scheduledLocalAt}
+							onChange={(event) => setScheduledLocalAt(event.target.value)}
+						/>
 
-					<Select
-						id="schedule-message-timezone"
-						label={t`Timezone`}
-						description={t`Scheduled messages can be at most 30 days in the future.`}
-						value={timezone}
-						options={timezoneOptions}
-						onChange={setTimezone}
-					/>
-				</div>
+						<Select
+							id="schedule-message-timezone"
+							label={t`Timezone`}
+							description={t`Scheduled messages can be at most 30 days in the future.`}
+							value={timezone}
+							options={timezoneOptions}
+							onChange={setTimezone}
+						/>
+					</Modal.InputGroup>
+				</Modal.ContentLayout>
 			</Modal.Content>
 			<Modal.Footer>
 				<Button variant="secondary" onClick={onClose}>

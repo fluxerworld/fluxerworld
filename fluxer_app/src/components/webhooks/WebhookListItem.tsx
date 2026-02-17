@@ -17,21 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {Input} from '@app/components/form/Input';
+import {Select} from '@app/components/form/Select';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import styles from '@app/components/webhooks/WebhookListItem.module.css';
+import {Logger} from '@app/lib/Logger';
+import type {WebhookRecord} from '@app/records/WebhookRecord';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import * as DateUtils from '@app/utils/DateUtils';
+import {openFilePicker} from '@app/utils/FilePickerUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CaretDownIcon, CopySimpleIcon, TrashSimpleIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {Input} from '~/components/form/Input';
-import {Select} from '~/components/form/Select';
-import {Button} from '~/components/uikit/Button/Button';
-import type {WebhookRecord} from '~/records/WebhookRecord';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import * as DateUtils from '~/utils/DateUtils';
-import {openFilePicker} from '~/utils/FilePickerUtils';
-import styles from './WebhookListItem.module.css';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 
 interface ChannelOption {
 	id: string;
@@ -50,6 +53,8 @@ interface WebhookListItemProps {
 	formVersion?: number;
 }
 
+const logger = new Logger('WebhookListItem');
+
 export const WebhookListItem: React.FC<WebhookListItemProps> = observer(
 	({
 		webhook,
@@ -63,9 +68,9 @@ export const WebhookListItem: React.FC<WebhookListItemProps> = observer(
 		formVersion,
 	}) => {
 		const {t, i18n} = useLingui();
-		const [localExpanded, setLocalExpanded] = React.useState(defaultExpanded);
+		const [localExpanded, setLocalExpanded] = useState(defaultExpanded);
 		const expanded = isExpanded ?? localExpanded;
-		const setExpanded = React.useCallback(
+		const setExpanded = useCallback(
 			(next: boolean) => {
 				if (onExpandedChange) onExpandedChange(next);
 				else setLocalExpanded(next);
@@ -73,18 +78,18 @@ export const WebhookListItem: React.FC<WebhookListItemProps> = observer(
 			[onExpandedChange],
 		);
 
-		const [isDeleting, setIsDeleting] = React.useState(false);
-		const [isUpdatingAvatar, setIsUpdatingAvatar] = React.useState(false);
-		const [selectedChannelId, setSelectedChannelId] = React.useState(webhook.channelId);
-		const [currentName, setCurrentName] = React.useState(webhook.name);
+		const [isDeleting, setIsDeleting] = useState(false);
+		const [isUpdatingAvatar, setIsUpdatingAvatar] = useState(false);
+		const [selectedChannelId, setSelectedChannelId] = useState(webhook.channelId);
+		const [currentName, setCurrentName] = useState(webhook.name);
 
-		const [localAvatar, setLocalAvatar] = React.useState<string | null | undefined>(undefined);
+		const [localAvatar, setLocalAvatar] = useState<string | null | undefined>(undefined);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			setLocalAvatar(undefined);
 		}, []);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (formVersion == null) return;
 			setLocalAvatar(undefined);
 			setCurrentName(webhook.name);
@@ -93,38 +98,38 @@ export const WebhookListItem: React.FC<WebhookListItemProps> = observer(
 
 		const creator = webhook.creator;
 		const creatorDisplayName = creator?.displayName ?? t`Unknown user`;
-		const createdAt = React.useMemo(() => DateUtils.getFormattedShortDate(webhook.createdAt), [webhook.createdAt]);
+		const createdAt = useMemo(() => DateUtils.getFormattedShortDate(webhook.createdAt), [webhook.createdAt]);
 
 		const effectiveAvatar: string | null = localAvatar !== undefined ? localAvatar : (webhook.avatar ?? null);
 
-		const avatarUrl = React.useMemo(() => {
+		const avatarUrl = useMemo(() => {
 			return AvatarUtils.getWebhookAvatarURL({id: webhook.id, avatar: effectiveAvatar}, false);
 		}, [webhook.id, effectiveAvatar]);
 
-		const webhookUrl = React.useMemo(() => webhook.webhookUrl, [webhook.webhookUrl]);
+		const webhookUrl = useMemo(() => webhook.webhookUrl, [webhook.webhookUrl]);
 
-		const handleCopy = React.useCallback(async () => {
+		const handleCopy = useCallback(async () => {
 			try {
 				await TextCopyActionCreators.copy(i18n, webhookUrl);
 			} catch (error) {
-				console.error('Failed to copy webhook URL', error);
+				logger.error('Failed to copy webhook URL', error);
 			}
 		}, [i18n, webhookUrl]);
 
-		const handleDelete = React.useCallback(async () => {
+		const handleDelete = useCallback(async () => {
 			if (!onDelete) return;
 			setIsDeleting(true);
 			try {
 				await onDelete(webhook);
 			} catch (error) {
-				console.error('Failed to delete webhook', error);
+				logger.error('Failed to delete webhook', error);
 				ToastActionCreators.createToast({type: 'error', children: t`Failed to delete webhook`});
 			} finally {
 				setIsDeleting(false);
 			}
 		}, [onDelete, webhook]);
 
-		const handleChannelChange = React.useCallback(
+		const handleChannelChange = useCallback(
 			(newChannelId: string) => {
 				if (newChannelId === webhook.channelId) return;
 				setSelectedChannelId(newChannelId);
@@ -133,7 +138,7 @@ export const WebhookListItem: React.FC<WebhookListItemProps> = observer(
 			[onUpdate, webhook.id, webhook.channelId],
 		);
 
-		const handleAvatarUpload = React.useCallback(async () => {
+		const handleAvatarUpload = useCallback(async () => {
 			const [file] = await openFilePicker({accept: 'image/*'});
 			if (!file) return;
 
@@ -160,38 +165,40 @@ export const WebhookListItem: React.FC<WebhookListItemProps> = observer(
 			}
 		}, [webhook.id, onUpdate]);
 
-		const handleClearAvatar = React.useCallback(() => {
+		const handleClearAvatar = useCallback(() => {
 			setLocalAvatar(null);
 			onUpdate?.(webhook.id, {avatar: null});
 		}, [webhook.id, onUpdate]);
 
 		return (
 			<div className={styles.container}>
-				<button
-					type="button"
-					className={styles.headerButton}
-					onClick={() => setExpanded(!expanded)}
-					aria-expanded={expanded}
-				>
-					<div className={styles.left}>
-						<div className={styles.avatarLarge} style={{backgroundImage: `url(${avatarUrl})`}} aria-hidden />
-						<div className={styles.textBlock}>
-							<div className={styles.titleRow}>
-								<span className={styles.name}>{currentName}</span>
-								{channelName && <span className={styles.channelTag}>#{channelName}</span>}
-							</div>
-							<div className={styles.metaRow}>
-								<span className={styles.truncate}>
-									<Trans>
-										Created by {creatorDisplayName} on {createdAt}
-									</Trans>
-								</span>
-								{channelName && <span className={styles.channelTagMobile}>#{channelName}</span>}
+				<FocusRing offset={-2}>
+					<button
+						type="button"
+						className={styles.headerButton}
+						onClick={() => setExpanded(!expanded)}
+						aria-expanded={expanded}
+					>
+						<div className={styles.left}>
+							<div className={styles.avatarLarge} style={{backgroundImage: `url(${avatarUrl})`}} aria-hidden />
+							<div className={styles.textBlock}>
+								<div className={styles.titleRow}>
+									<span className={styles.name}>{currentName}</span>
+									{channelName && <span className={styles.channelTag}>#{channelName}</span>}
+								</div>
+								<div className={styles.metaRow}>
+									<span className={styles.truncate}>
+										<Trans>
+											Created by {creatorDisplayName} on {createdAt}
+										</Trans>
+									</span>
+									{channelName && <span className={styles.channelTagMobile}>#{channelName}</span>}
+								</div>
 							</div>
 						</div>
-					</div>
-					<CaretDownIcon className={clsx(styles.chevron, expanded && styles.chevronExpanded)} weight="bold" />
-				</button>
+						<CaretDownIcon className={clsx(styles.chevron, expanded && styles.chevronExpanded)} weight="bold" />
+					</button>
+				</FocusRing>
 
 				{expanded && (
 					<div className={styles.details}>

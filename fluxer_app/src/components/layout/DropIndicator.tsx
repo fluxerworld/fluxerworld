@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/DropIndicator.module.css';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import styles from './DropIndicator.module.css';
 
-export const DropIndicator = observer(({position, isValid = true}: {position: 'top' | 'bottom'; isValid?: boolean}) => (
+export const DropIndicator = observer(({position, isValid}: {position: 'top' | 'bottom'; isValid: boolean}) => (
 	<div
 		className={clsx(
 			styles.dropIndicator,

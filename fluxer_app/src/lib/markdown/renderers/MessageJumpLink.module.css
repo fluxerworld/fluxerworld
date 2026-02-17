@@ -18,14 +18,9 @@
  */
 
 .jumpLinkButton {
-	border: 1px solid var(--markup-mention-border);
-	padding: 0.1rem 0.35rem;
-	margin: 0;
-	font: inherit;
-	display: inline-flex;
-	align-items: center;
-	line-height: 1;
-	vertical-align: middle;
+	appearance: none;
+	-webkit-appearance: none;
+	color: inherit;
 	background-color: var(--markup-jump-link-fill);
 	transition:
 		background-color var(--transition-fast),
@@ -40,31 +35,27 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 0.2rem;
-	line-height: 1;
-	vertical-align: middle;
-	min-height: 1rem;
-	padding-bottom: 0.05rem;
+	line-height: inherit;
+	white-space: nowrap;
 }
 
 .jumpLinkGuild {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.2rem;
-	line-height: 1;
+	line-height: inherit;
 	flex-shrink: 0;
-	transform: translateY(-0.12rem);
 }
 
 .jumpLinkGuildIcon {
-	width: 1rem;
-	height: 1rem;
-	--guild-icon-size: 1rem;
+	width: 0.9em;
+	height: 0.9em;
+	--guild-icon-size: 0.9em;
 	flex-shrink: 0;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	vertical-align: middle;
-	line-height: 0;
 }
 
 .jumpLinkGuildIcon > svg,
@@ -73,12 +64,9 @@
 }
 
 .jumpLinkGuildName {
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
 	font-weight: 500;
-	line-height: 1;
-	vertical-align: middle;
+	line-height: inherit;
+	white-space: nowrap;
 }
 
 .jumpLinkCaret {
@@ -86,54 +74,50 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	line-height: 0;
-	vertical-align: middle;
+	line-height: inherit;
+	vertical-align: baseline;
 }
 
 .jumpLinkLabel {
-	display: inline-flex;
-	align-items: center;
 	font-weight: 500;
 	white-space: nowrap;
-	line-height: 1;
-	transform: translateY(-0.12rem);
+	line-height: inherit;
 	color: inherit;
 }
 
-.jumpLinkDM {
+.jumpLinkDm {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.3rem;
-	line-height: 1;
+	line-height: inherit;
 	color: inherit;
 }
 
-.jumpLinkDMName {
+.jumpLinkDmName {
 	font-weight: 500;
 	color: inherit;
-	line-height: 1;
-	transform: translateY(-0.12rem);
+	line-height: inherit;
+	white-space: nowrap;
 }
 
 .jumpLinkMessage {
 	display: inline-flex;
 	align-items: center;
 	gap: 0.1rem;
-	line-height: 1;
-	vertical-align: middle;
+	line-height: inherit;
+	vertical-align: baseline;
 	flex-shrink: 0;
 }
 
 .jumpLinkMessageIcon {
-	width: 0.9rem;
-	height: 0.9rem;
+	width: 0.9em;
+	height: 0.9em;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
 	flex-shrink: 0;
 	vertical-align: middle;
-	line-height: 0;
-	padding-bottom: 0.05rem;
+	line-height: inherit;
 }
 
 .jumpLinkMessageIcon > svg {
@@ -144,16 +128,16 @@
 	display: inline-flex;
 	align-items: center;
 	gap: 0.2rem;
-	line-height: 1;
+	line-height: inherit;
 }
 
 .jumpLinkChannelIcon {
-	width: 0.9rem;
-	height: 0.9rem;
+	width: 0.9em;
+	height: 0.9em;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	line-height: 0;
+	line-height: inherit;
 	flex-shrink: 0;
 }
 
@@ -166,6 +150,5 @@
 	font-weight: 500;
 	color: inherit;
 	white-space: nowrap;
-	line-height: 1;
-	transform: translateY(-0.12rem);
+	line-height: inherit;
 }

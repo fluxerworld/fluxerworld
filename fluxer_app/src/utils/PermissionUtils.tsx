@@ -17,20 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import UserStore from '@app/stores/UserStore';
+import {
+	ALL_PERMISSIONS,
+	DEFAULT_PERMISSIONS,
+	ElevatedPermissions,
+	Permissions,
+} from '@fluxer/constants/src/ChannelConstants';
+import {GuildMFALevel} from '@fluxer/constants/src/GuildConstants';
+import type {RoleId, UserId} from '@fluxer/schema/src/branded/WireIds';
+import type {Channel} from '@fluxer/schema/src/domains/channel/ChannelSchemas';
+import type {Guild} from '@fluxer/schema/src/domains/guild/GuildResponseSchemas';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
-import {ALL_PERMISSIONS, DEFAULT_PERMISSIONS, ElevatedPermissions, GuildMFALevel, Permissions} from '~/Constants';
-import type {Channel} from '~/records/ChannelRecord';
-import type {Guild} from '~/records/GuildRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import UserStore from '~/stores/UserStore';
 
 export const NONE = 0n;
-
-type UserId = string;
-type RoleId = string;
 
 interface PermissionOverwrite {
 	id: string;
@@ -40,7 +44,7 @@ interface PermissionOverwrite {
 }
 
 interface Role {
-	id: RoleId;
+	id: string;
 	permissions: bigint;
 	position: number;
 }
@@ -54,7 +58,7 @@ export interface PermissionSpec {
 	}>;
 }
 
-function calculateElevatedPermissions(permissions: bigint, guild: Guild, userId: UserId, checkElevated = true): bigint {
+function calculateElevatedPermissions(permissions: bigint, guild: Guild, userId: string, checkElevated = true): bigint {
 	if (
 		checkElevated &&
 		(guild.mfa_level ?? 0) === GuildMFALevel.ELEVATED &&
@@ -69,7 +73,7 @@ function calculateElevatedPermissions(permissions: bigint, guild: Guild, userId:
 }
 
 export function computePermissions(
-	user: {id: UserId} | UserId,
+	user: string | {id: string} | UserId,
 	context: Channel | Guild,
 	overwrites?: Record<string, PermissionOverwrite> | null,
 	roles?: Record<RoleId, Role> | null,
@@ -133,12 +137,12 @@ export function computePermissions(
 
 	const member = GuildMemberStore.getMember(guild.id, userId);
 
-	const roleEveryone = roles?.[guild.id];
+	const roleEveryone = roles?.[guild.id as keyof typeof roles];
 	let permissions = roleEveryone != null ? roleEveryone.permissions : DEFAULT_PERMISSIONS;
 
 	if (member != null && roles) {
 		for (const roleId of member.roles) {
-			const role = roles[roleId];
+			const role = roles[roleId as keyof typeof roles];
 			if (role !== undefined) {
 				permissions |= role.permissions;
 			}
@@ -159,7 +163,7 @@ export function computePermissions(
 			let deny = NONE;
 
 			for (const roleId of member.roles) {
-				const overwriteRole = overwrites[roleId];
+				const overwriteRole = overwrites[roleId as string];
 				if (overwriteRole != null) {
 					allow |= overwriteRole.allow;
 					deny |= overwriteRole.deny;
@@ -180,7 +184,7 @@ export function computePermissions(
 	return calculateElevatedPermissions(permissions, guild, userId, checkElevated);
 }
 
-export function isRoleHigher(guild: Guild, userId: UserId, a: Role | null, b: Role | null): boolean {
+export function isRoleHigher(guild: Guild, userId: string, a: Role | null, b: Role | null): boolean {
 	if (guild.owner_id === userId) return true;
 	if (a == null) return false;
 
@@ -194,7 +198,7 @@ export function isRoleHigher(guild: Guild, userId: UserId, a: Role | null, b: Ro
 	return rolesList.indexOf(a.id) > (b != null ? rolesList.indexOf(b.id) : -1);
 }
 
-export function getHighestRole(guild: Guild, userId: UserId): Role | null {
+export function getHighestRole(guild: Guild, userId: string): Role | null {
 	const member = GuildMemberStore.getMember(guild.id, userId);
 	if (member == null) return null;
 
@@ -215,7 +219,7 @@ export function getHighestRole(guild: Guild, userId: UserId): Role | null {
 
 export function can(
 	permission: bigint,
-	user: {id: UserId} | UserId,
+	user: string | {id: string} | UserId,
 	context: Channel | Guild,
 	overwrites?: Record<string, PermissionOverwrite> | null,
 	roles?: Record<RoleId, Role> | null,

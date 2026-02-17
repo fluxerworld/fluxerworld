@@ -17,27 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as InviteActionCreators from '@app/actions/InviteActionCreators';
+import {AuthBottomLink} from '@app/components/auth/AuthBottomLink';
+import {AuthErrorState} from '@app/components/auth/AuthErrorState';
+import {AuthLoadingState} from '@app/components/auth/AuthLoadingState';
+import {AuthMinimalRegisterFormCore} from '@app/components/auth/AuthMinimalRegisterFormCore';
+import sharedStyles from '@app/components/auth/AuthPageStyles.module.css';
+import {AuthRouterLink} from '@app/components/auth/AuthRouterLink';
+import {DesktopDeepLinkPrompt} from '@app/components/auth/DesktopDeepLinkPrompt';
+import {GuildInviteHeader, InviteHeader} from '@app/components/auth/InviteHeader';
+import {Button} from '@app/components/uikit/button/Button';
+import {useAuthLayoutContext} from '@app/contexts/AuthLayoutContext';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import {useParams} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import InviteStore from '@app/stores/InviteStore';
+import {isGroupDmInvite, isGuildInvite} from '@app/types/InviteTypes';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {GuildFeatures, GuildSplashCardAlignment} from '@fluxer/constants/src/GuildConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useEffect} from 'react';
-import * as InviteActionCreators from '~/actions/InviteActionCreators';
-import {GuildFeatures, GuildSplashCardAlignment} from '~/Constants';
-import {AuthBottomLink} from '~/components/auth/AuthBottomLink';
-import {AuthErrorState} from '~/components/auth/AuthErrorState';
-import {AuthLoadingState} from '~/components/auth/AuthLoadingState';
-import {AuthMinimalRegisterFormCore} from '~/components/auth/AuthMinimalRegisterFormCore';
-import sharedStyles from '~/components/auth/AuthPageStyles.module.css';
-import {AuthRouterLink} from '~/components/auth/AuthRouterLink';
-import {DesktopDeepLinkPrompt} from '~/components/auth/DesktopDeepLinkPrompt';
-import {GuildInviteHeader, InviteHeader} from '~/components/auth/InviteHeader';
-import {Button} from '~/components/uikit/Button/Button';
-import {useAuthLayoutContext} from '~/contexts/AuthLayoutContext';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import {useParams} from '~/lib/router';
-import {Routes} from '~/Routes';
-import InviteStore from '~/stores/InviteStore';
-import {isGroupDmInvite, isGuildInvite} from '~/types/InviteTypes';
-import * as AvatarUtils from '~/utils/AvatarUtils';
 
 const InviteRegisterPage = observer(function InviteRegisterPage() {
 	const {t} = useLingui();

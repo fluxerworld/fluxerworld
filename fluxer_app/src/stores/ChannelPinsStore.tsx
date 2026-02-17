@@ -17,11 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {MessageRecord} from '@app/records/MessageRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import type {ReactionEmoji} from '@app/utils/ReactionUtils';
+import type {Channel} from '@fluxer/schema/src/domains/channel/ChannelSchemas';
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {makeAutoObservable} from 'mobx';
-import type {Channel} from '~/records/ChannelRecord';
-import {type Message, MessageRecord} from '~/records/MessageRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import type {ReactionEmoji} from '~/utils/ReactionUtils';
 
 interface ChannelPinEntry {
 	message: MessageRecord;

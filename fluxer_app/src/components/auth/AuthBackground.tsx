@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/AuthLayout.module.css';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import {GuildSplashCardAlignment} from '@fluxer/constants/src/GuildConstants';
+import type {ValueOf} from '@fluxer/constants/src/ValueOf';
 import {motion} from 'framer-motion';
 import type React from 'react';
-import {GuildSplashCardAlignment} from '~/Constants';
-import styles from '~/components/layout/AuthLayout.module.css';
 
-const getSplashAlignmentStyles = (
-	alignment: (typeof GuildSplashCardAlignment)[keyof typeof GuildSplashCardAlignment],
-) => {
+const getSplashAlignmentStyles = (alignment: ValueOf<typeof GuildSplashCardAlignment>) => {
 	switch (alignment) {
 		case GuildSplashCardAlignment.LEFT:
 			return {transformOrigin: 'bottom left', objectPosition: 'left bottom'};
@@ -44,7 +44,7 @@ export interface AuthBackgroundProps {
 	patternImageUrl: string;
 	className?: string;
 	useFullCover?: boolean;
-	splashAlignment?: (typeof GuildSplashCardAlignment)[keyof typeof GuildSplashCardAlignment];
+	splashAlignment?: ValueOf<typeof GuildSplashCardAlignment>;
 }
 
 export const AuthBackground: React.FC<AuthBackgroundProps> = ({
@@ -68,7 +68,7 @@ export const AuthBackground: React.FC<AuthBackgroundProps> = ({
 					<motion.div
 						initial={{opacity: 0}}
 						animate={{opacity: splashLoaded ? 1 : 0}}
-						transition={{duration: 0.5, ease: 'easeInOut'}}
+						transition={{duration: AccessibilityStore.useReducedMotion ? 0 : 0.5, ease: 'easeInOut'}}
 						style={{position: 'absolute', inset: 0}}
 					>
 						<img
@@ -95,7 +95,7 @@ export const AuthBackground: React.FC<AuthBackgroundProps> = ({
 					className={styles.splashImage}
 					initial={{opacity: 0}}
 					animate={{opacity: splashLoaded ? 1 : 0}}
-					transition={{duration: 0.5, ease: 'easeInOut'}}
+					transition={{duration: AccessibilityStore.useReducedMotion ? 0 : 0.5, ease: 'easeInOut'}}
 					style={{
 						width: splashDimensions.width,
 						height: splashDimensions.height,

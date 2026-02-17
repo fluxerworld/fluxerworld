@@ -1,0 +1,59 @@
+services:
+  fluxer_server:
+    build:
+      context: /root/fluxer
+      dockerfile: fluxer_server/Dockerfile.dev
+    working_dir: /workspace/fluxer_server
+    command: >
+      sh -lc "corepack enable pnpm && pnpm install --frozen-lockfile && pnpm start"
+    ports:
+      - '18088:8088'
+    environment:
+      - FLUXER_CONFIG=/workspace/config/config.json
+      - NODE_ENV=development
+      - FLUXER_CONFIG__ENV=development
+    volumes:
+      - /root/fluxer/packages:/workspace/packages
+      - /root/fluxer/pnpm-workspace.yaml:/workspace/pnpm-workspace.yaml:ro
+      - /root/fluxer/pnpm-lock.yaml:/workspace/pnpm-lock.yaml:ro
+      - /root/fluxer/package.json:/workspace/package.json:ro
+      - /root/fluxer/tsconfigs:/workspace/tsconfigs:ro
+      - /root/fluxer/patches:/workspace/patches:ro
+      - corepack_cache:/root/.cache/node/corepack
+      - /root/fluxer/fluxer_integration/docker/config.json:/workspace/config/config.json:ro
+      - integration_node_modules:/workspace/node_modules
+      - /root/fluxer/fluxer_server:/workspace/fluxer_server
+      - /root/fluxer/fluxer_media_proxy/data/model.onnx:/workspace/fluxer_server/data/model.onnx:ro
+    networks:
+      - integration
+    restart: on-failure
+    depends_on:
+      livekit:
+        condition: service_healthy
+
+  livekit:
+    image: livekit/livekit-server:latest
+    command: --config /etc/livekit.yaml --dev
+    volumes:
+      - /root/fluxer/fluxer_integration/docker/livekit.yaml:/etc/livekit.yaml:ro
+    ports:
+      - '17880:7880'
+      - '17882:7882/udp'
+      - '17999:7999/udp'
+    networks:
+      - integration
+    restart: on-failure
+    healthcheck:
+      test: ['CMD-SHELL', 'wget --no-verbose --tries=1 --spider http://localhost:7880 || exit 1']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+networks:
+  integration:
+    name: fluxer-integration-isolated
+
+volumes:
+  corepack_cache:
+  integration_node_modules:

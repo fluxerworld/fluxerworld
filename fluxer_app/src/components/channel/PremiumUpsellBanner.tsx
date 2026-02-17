@@ -17,29 +17,80 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as PremiumModalActionCreators from '@app/actions/PremiumModalActionCreators';
+import styles from '@app/components/channel/PremiumUpsellBanner.module.css';
+import {GuildIcon} from '@app/components/popouts/GuildIcon';
+import {PlutoniumUpsell} from '@app/components/uikit/plutonium_upsell/PlutoniumUpsell';
+import DismissedUpsellStore from '@app/stores/DismissedUpsellStore';
+import GuildStore from '@app/stores/GuildStore';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import * as PremiumModalActionCreators from '~/actions/PremiumModalActionCreators';
-import {PlutoniumUpsell} from '~/components/uikit/PlutoniumUpsell/PlutoniumUpsell';
-import DismissedUpsellStore from '~/stores/DismissedUpsellStore';
-import styles from './PremiumUpsellBanner.module.css';
+import type React from 'react';
 
-export const PremiumUpsellBanner = observer(({message}: {message?: string}) => {
-	if (DismissedUpsellStore.pickerPremiumUpsellDismissed) {
-		return null;
-	}
+interface PremiumUpsellBannerProps {
+	children?: React.ReactNode;
+	message?: React.ReactNode;
+	communityIds?: Array<string>;
+	communityCount?: number;
+	previewContent?: React.ReactNode;
+}
 
-	const handleClick = () => {
-		PremiumModalActionCreators.open();
-	};
+const COMMUNITY_ICON_LIMIT = 4;
 
-	const handleDismiss = () => {
-		DismissedUpsellStore.dismissPickerPremiumUpsell();
-	};
-
+const mapGuildIdToIcon = (communityId: string) => {
+	const guild = GuildStore.getGuild(communityId);
 	return (
-		<PlutoniumUpsell className={styles.banner} onButtonClick={handleClick} dismissible={true} onDismiss={handleDismiss}>
-			{message ?? <Trans>Unlock all custom emojis and stickers across all communities with Plutonium</Trans>}
-		</PlutoniumUpsell>
+		<GuildIcon
+			key={communityId}
+			id={communityId}
+			name={guild?.name ?? ''}
+			icon={guild?.icon ?? null}
+			sizePx={20}
+			className={styles.communityIcon}
+		/>
 	);
-});
+};
+
+export const PremiumUpsellBanner = observer(
+	({children, message, communityIds, communityCount, previewContent}: PremiumUpsellBannerProps) => {
+		if (DismissedUpsellStore.pickerPremiumUpsellDismissed) {
+			return null;
+		}
+
+		const handleClick = () => {
+			PremiumModalActionCreators.open();
+		};
+
+		const handleDismiss = () => {
+			DismissedUpsellStore.dismissPickerPremiumUpsell();
+		};
+
+		const renderedCommunityIds = communityIds?.slice(0, COMMUNITY_ICON_LIMIT) ?? [];
+		const extraCommunityCount =
+			communityCount && communityCount > renderedCommunityIds.length ? communityCount - renderedCommunityIds.length : 0;
+
+		return (
+			<PlutoniumUpsell
+				className={styles.banner}
+				onButtonClick={handleClick}
+				dismissible={true}
+				onDismiss={handleDismiss}
+			>
+				<div className={styles.content}>
+					<p className={styles.text}>
+						{message ?? children ?? (
+							<Trans>Unlock all custom emojis and stickers across all communities with Plutonium</Trans>
+						)}
+					</p>
+					{renderedCommunityIds.length > 0 && (
+						<div className={styles.communityRow}>
+							{renderedCommunityIds.map(mapGuildIdToIcon)}
+							{extraCommunityCount > 0 && <span className={styles.communityMore}>+{extraCommunityCount}</span>}
+						</div>
+					)}
+					{previewContent && <div className={styles.previewRow}>{previewContent}</div>}
+				</div>
+			</PlutoniumUpsell>
+		);
+	},
+);

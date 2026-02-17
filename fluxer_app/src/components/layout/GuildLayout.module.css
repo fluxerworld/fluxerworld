@@ -38,7 +38,7 @@
 
 .guildLayoutContent {
 	display: grid;
-	grid-template-columns: var(--layout-sidebar-width) 1fr;
+	grid-template-columns: var(--layout-sidebar-width) minmax(0, 1fr);
 	align-items: stretch;
 	align-content: stretch;
 	height: 100%;
@@ -51,7 +51,7 @@
 
 .guildLayoutContentMobile {
 	composes: guildLayoutContent;
-	grid-template-columns: 1fr;
+	grid-template-columns: minmax(0, 1fr);
 	background-color: var(--background-tertiary);
 }
 

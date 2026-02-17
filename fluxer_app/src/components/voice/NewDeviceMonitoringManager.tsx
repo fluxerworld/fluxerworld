@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {useLayoutVariant} from '@app/contexts/LayoutVariantContext';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import NewDeviceMonitoringStore from '@app/stores/NewDeviceMonitoringStore';
 import {observer} from 'mobx-react-lite';
 import {useEffect} from 'react';
-import {useLayoutVariant} from '~/contexts/LayoutVariantContext';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import NewDeviceMonitoringStore from '~/stores/NewDeviceMonitoringStore';
 
-export const NewDeviceMonitoringManager = observer(() => {
+export const NewDeviceMonitoringManager: React.FC = observer(() => {
 	const isAuthenticated = AuthenticationStore.isAuthenticated;
 	const variant = useLayoutVariant();
 	const shouldRun = isAuthenticated && variant === 'app';

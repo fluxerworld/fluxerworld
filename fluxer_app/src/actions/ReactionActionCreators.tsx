@@ -17,31 +17,35 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {FeatureTemporarilyDisabledModal} from '@app/components/alerts/FeatureTemporarilyDisabledModal';
+import {TooManyReactionsModal} from '@app/components/alerts/TooManyReactionsModal';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {HttpError} from '@app/lib/HttpError';
+import {Logger} from '@app/lib/Logger';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import MessageReactionsStore from '@app/stores/MessageReactionsStore';
+import MessageStore from '@app/stores/MessageStore';
+import {getApiErrorCode, getApiErrorRetryAfter} from '@app/utils/ApiErrorUtils';
+import type {ReactionEmoji} from '@app/utils/ReactionUtils';
+import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
+import {ME} from '@fluxer/constants/src/AppConstants';
+import type {UserPartial} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {APIErrorCodes, ME} from '~/Constants';
-import {FeatureTemporarilyDisabledModal} from '~/components/alerts/FeatureTemporarilyDisabledModal';
-import {TooManyReactionsModal} from '~/components/alerts/TooManyReactionsModal';
-import {Endpoints} from '~/Endpoints';
-import http, {HttpError} from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {UserPartial} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ConnectionStore from '~/stores/ConnectionStore';
-import MessageReactionsStore from '~/stores/MessageReactionsStore';
-import MessageStore from '~/stores/MessageStore';
-import type {ReactionEmoji} from '~/utils/ReactionUtils';
 
 const logger = new Logger('MessageReactions');
 
 const MAX_RETRIES = 3;
 
-const checkReactionResponse = (i18n: I18n, error: any, retry: () => void): boolean => {
+const checkReactionResponse = (i18n: I18n, error: HttpError, retry: () => void): boolean => {
+	const errorCode = getApiErrorCode(error);
+
 	if (error.status === 403) {
-		const errorCode = error.body?.code as string;
 		if (errorCode === APIErrorCodes.FEATURE_TEMPORARILY_DISABLED) {
 			logger.debug('Feature temporarily disabled, not retrying');
 			ModalActionCreators.push(modal(() => <FeatureTemporarilyDisabledModal />));
@@ -58,14 +62,13 @@ const checkReactionResponse = (i18n: I18n, error: any, retry: () => void): boole
 	}
 
 	if (error.status === 429) {
-		const retryAfter = error.body?.retry_after || 1000;
+		const retryAfter = getApiErrorRetryAfter(error) || 1000;
 		logger.debug(`Rate limited, retrying after ${retryAfter}ms`);
 		setTimeout(retry, retryAfter);
 		return false;
 	}
 
 	if (error.status === 400) {
-		const errorCode = error.body?.code as string;
 		switch (errorCode) {
 			case APIErrorCodes.MAX_REACTIONS:
 				logger.debug(`Reaction limit reached: ${errorCode}`);
@@ -114,6 +117,10 @@ const optimisticUpdate = (
 			emoji,
 			optimistic: true,
 		});
+	} else if (type === 'MESSAGE_REACTION_REMOVE_ALL') {
+		MessageStore.handleRemoveAllReactions({channelId, messageId});
+	} else if (type === 'MESSAGE_REACTION_REMOVE_EMOJI') {
+		MessageStore.handleRemoveReactionEmoji({channelId, messageId, emoji});
 	}
 
 	logger.debug(
@@ -139,7 +146,7 @@ const makeUrl = ({
 		: Endpoints.CHANNEL_MESSAGE_REACTION(channelId, messageId, emojiCode);
 };
 
-const retryWithExponentialBackoff = async (func: () => Promise<any>, attempts = 0): Promise<any> => {
+async function retryWithExponentialBackoff<T>(func: () => Promise<T>, attempts = 0): Promise<T> {
 	const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 	try {
@@ -160,12 +167,12 @@ const retryWithExponentialBackoff = async (func: () => Promise<any>, attempts = 
 		logger.error(`Operation failed after ${MAX_RETRIES} attempts:`, error);
 		throw error;
 	}
-};
+}
 
 const performReactionAction = (
 	i18n: I18n,
 	type: 'MESSAGE_REACTION_ADD' | 'MESSAGE_REACTION_REMOVE',
-	apiFunc: () => Promise<any>,
+	apiFunc: () => Promise<unknown>,
 	channelId: string,
 	messageId: string,
 	emoji: ReactionEmoji,
@@ -191,12 +198,12 @@ const performReactionAction = (
 	});
 };
 
-export const getReactions = async (
+export async function getReactions(
 	channelId: string,
 	messageId: string,
 	emoji: ReactionEmoji,
 	limit?: number,
-): Promise<Array<UserPartial>> => {
+): Promise<Array<UserPartial>> {
 	MessageReactionsStore.handleFetchPending(messageId, emoji);
 
 	try {
@@ -205,7 +212,7 @@ export const getReactions = async (
 		);
 
 		const query: Record<string, number> = {};
-		if (limit !== undefined) query.limit = limit;
+		if (limit !== undefined) query['limit'] = limit;
 
 		const response = await http.get<Array<UserPartial>>({
 			url: makeUrl({channelId, messageId, emoji}),
@@ -221,39 +228,39 @@ export const getReactions = async (
 		MessageReactionsStore.handleFetchError(messageId, emoji);
 		throw error;
 	}
-};
+}
 
-export const addReaction = (i18n: I18n, channelId: string, messageId: string, emoji: ReactionEmoji): void => {
+export function addReaction(i18n: I18n, channelId: string, messageId: string, emoji: ReactionEmoji): void {
 	logger.debug(`Adding reaction ${emoji.name} to message ${messageId}`);
 
 	const apiFunc = () =>
 		http.put({
 			url: makeUrl({channelId, messageId, emoji, userId: ME}),
-			query: {session_id: ConnectionStore.sessionId ?? null},
+			query: {session_id: GatewayConnectionStore.sessionId ?? null},
 		});
 
 	performReactionAction(i18n, 'MESSAGE_REACTION_ADD', apiFunc, channelId, messageId, emoji);
-};
+}
 
-export const removeReaction = (
+export function removeReaction(
 	i18n: I18n,
 	channelId: string,
 	messageId: string,
 	emoji: ReactionEmoji,
 	userId?: string,
-): void => {
+): void {
 	logger.debug(`Removing reaction ${emoji.name} from message ${messageId}`);
 
 	const apiFunc = () =>
 		http.delete({
 			url: makeUrl({channelId, messageId, emoji, userId: userId || ME}),
-			query: {session_id: ConnectionStore.sessionId ?? null},
+			query: {session_id: GatewayConnectionStore.sessionId ?? null},
 		});
 
 	performReactionAction(i18n, 'MESSAGE_REACTION_REMOVE', apiFunc, channelId, messageId, emoji, userId);
-};
+}
 
-export const removeAllReactions = (i18n: I18n, channelId: string, messageId: string): void => {
+export function removeAllReactions(i18n: I18n, channelId: string, messageId: string): void {
 	logger.debug(`Removing all reactions from message ${messageId} in channel ${channelId}`);
 
 	const apiFunc = () =>
@@ -264,4 +271,19 @@ export const removeAllReactions = (i18n: I18n, channelId: string, messageId: str
 	retryWithExponentialBackoff(apiFunc).catch((error) => {
 		checkReactionResponse(i18n, error, () => removeAllReactions(i18n, channelId, messageId));
 	});
-};
+}
+
+export function removeReactionEmoji(i18n: I18n, channelId: string, messageId: string, emoji: ReactionEmoji): void {
+	logger.debug(`Removing all ${emoji.name} reactions from message ${messageId} in channel ${channelId}`);
+
+	optimisticUpdate('MESSAGE_REACTION_REMOVE_EMOJI', channelId, messageId, emoji);
+
+	const apiFunc = () =>
+		http.delete({
+			url: makeUrl({channelId, messageId, emoji}),
+		});
+
+	retryWithExponentialBackoff(apiFunc).catch((error) => {
+		checkReactionResponse(i18n, error, () => removeReactionEmoji(i18n, channelId, messageId, emoji));
+	});
+}

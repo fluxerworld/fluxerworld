@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {GifVideoPoolProvider} from '~/components/channel/GifVideoPool';
-import {GifPickerView} from './GifPickerView';
+import {GifVideoPoolProvider} from '@app/components/channel/GifVideoPool';
+import {GifPickerView} from '@app/components/channel/pickers/gif/GifPickerView';
 
 export interface GifPickerProps {
 	onClose?: () => void;

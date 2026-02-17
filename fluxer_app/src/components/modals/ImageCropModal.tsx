@@ -17,23 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import styles from '@app/components/modals/ImageCropModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Slider} from '@app/components/uikit/Slider';
+import {Logger} from '@app/lib/Logger';
+import {cropAnimatedImageWithWorkerPool} from '@app/workers/AnimatedImageCropWorkerManager';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {ArrowClockwiseIcon, ImageSquareIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import styles from '~/components/modals/ImageCropModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Slider} from '~/components/uikit/Slider';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 
-interface CropGifWorkerMessage {
-	type: number;
-	result?: Uint8Array;
-	error?: string;
-}
+const logger = new Logger('ImageCropModal');
 
 interface Point {
 	x: number;
@@ -50,9 +49,7 @@ interface DragBoundaries {
 	right: number;
 }
 
-export type GifBytes = Uint8Array;
-
-interface GifCropOptions {
+interface AnimatedImageCropOptions {
 	x: number;
 	y: number;
 	width: number;
@@ -62,59 +59,12 @@ interface GifCropOptions {
 	resizeHeight?: number | null;
 }
 
-async function cropGifWithWorker(gif: GifBytes, options: GifCropOptions): Promise<GifBytes> {
-	const {x, y, width, height, imageRotation = 0, resizeWidth = null, resizeHeight = null} = options;
-
-	return new Promise<GifBytes>((resolve, reject) => {
-		const worker = new Worker(new URL('../../workers/gifCrop.worker.ts', import.meta.url), {
-			type: 'module',
-		});
-
-		worker.addEventListener(
-			'message',
-			(event: MessageEvent<CropGifWorkerMessage>) => {
-				const msg = event.data;
-
-				if (msg.type === 1) {
-					worker.terminate();
-					if (msg.result) {
-						resolve(msg.result);
-					} else {
-						reject(new Error('Empty result from worker'));
-					}
-				} else if (msg.type === 2) {
-					worker.terminate();
-					reject(new Error(msg.error || 'Unknown error from worker'));
-				}
-			},
-			{once: true},
-		);
-
-		worker.addEventListener('error', (error) => {
-			worker.terminate();
-			reject(error);
-		});
-
-		const transferables: Array<Transferable> = [];
-		if (gif.buffer) {
-			transferables.push(gif.buffer);
-		}
-
-		worker.postMessage(
-			{
-				type: 0,
-				gif,
-				x,
-				y,
-				width,
-				height,
-				imageRotation,
-				resizeWidth,
-				resizeHeight,
-			},
-			transferables,
-		);
-	});
+async function cropAnimatedImageWithWorker(
+	imageBytes: Uint8Array,
+	format: 'gif' | 'webp' | 'avif' | 'apng',
+	options: AnimatedImageCropOptions,
+): Promise<Uint8Array> {
+	return cropAnimatedImageWithWorkerPool(imageBytes, format, options);
 }
 
 function clamp(value: number, min: number, max: number): number {
@@ -370,7 +320,7 @@ async function exportStaticImage(
 	return blob;
 }
 
-async function exportAnimatedGif(
+async function exportAnimatedImage(
 	image: HTMLImageElement,
 	displayDimensions: Size,
 	cropDimensions: Size,
@@ -380,6 +330,7 @@ async function exportAnimatedGif(
 	maxH: number,
 	maxBytes: number,
 	src: string,
+	mimeType: string,
 ): Promise<Blob> {
 	const scale = image.naturalWidth / displayDimensions.width;
 	const cropNativeWidth = cropDimensions.width * scale;
@@ -398,10 +349,18 @@ async function exportAnimatedGif(
 
 	const response = await fetch(src);
 	if (!response.ok) {
-		throw new Error('Failed to fetch GIF data');
+		throw new Error('Failed to fetch animated image data');
 	}
 	const buffer = await response.arrayBuffer();
-	const gifBytes = new Uint8Array(buffer);
+	const imageBytes = new Uint8Array(buffer);
+
+	const format = mimeType.toLowerCase().includes('gif')
+		? 'gif'
+		: mimeType.toLowerCase().includes('webp')
+			? 'webp'
+			: mimeType.toLowerCase().includes('avif')
+				? 'avif'
+				: 'apng';
 
 	const cropOptions = {
 		x: Math.max(0, Math.floor(geom.sourceX)),
@@ -414,23 +373,23 @@ async function exportAnimatedGif(
 	};
 	snapCropOptionsToImageBounds(cropOptions, image);
 
-	const resultBytes = await cropGifWithWorker(gifBytes, cropOptions);
-	const resultBlob = new Blob([new Uint8Array(resultBytes)], {type: 'image/gif'});
+	const resultBytes = await cropAnimatedImageWithWorker(imageBytes, format, cropOptions);
+	const resultBlob = new Blob([new Uint8Array(resultBytes)], {type: mimeType});
 
 	if (resultBlob.size === 0) {
-		throw new Error('Empty GIF blob returned');
+		throw new Error('Empty animated image blob returned');
 	}
 
 	if (resultBlob.size > maxBytes) {
 		throw new Error(
-			`GIF size ${(resultBlob.size / 1024).toFixed(1)} KB exceeds max ${(maxBytes / 1024).toFixed(0)} KB`,
+			`Animated image size ${(resultBlob.size / 1024).toFixed(1)} KB exceeds max ${(maxBytes / 1024).toFixed(0)} KB`,
 		);
 	}
 
 	return resultBlob;
 }
 
-function snapCropOptionsToImageBounds(options: GifCropOptions, image: HTMLImageElement): void {
+function snapCropOptionsToImageBounds(options: AnimatedImageCropOptions, image: HTMLImageElement): void {
 	const EPS = 2;
 	const naturalWidth = image.naturalWidth;
 	const naturalHeight = image.naturalHeight;
@@ -508,32 +467,34 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 		maxHeightRatio,
 	}) => {
 		const {t} = useLingui();
-		const imageRef = React.useRef<HTMLImageElement | null>(null);
-		const cropperContainerRef = React.useRef<HTMLDivElement | null>(null);
-		const transformRef = React.useRef<Point>({x: 0, y: 0});
+		const imageRef = useRef<HTMLImageElement | null>(null);
+		const cropperContainerRef = useRef<HTMLDivElement | null>(null);
+		const transformRef = useRef<Point>({x: 0, y: 0});
 
-		const [displayDimensions, setDisplayDimensions] = React.useState<Size | null>(null);
-		const [cropDimensions, setCropDimensions] = React.useState<Size | null>(null);
-		const [dragBoundaries, setDragBoundaries] = React.useState<DragBoundaries>({
+		const [displayDimensions, setDisplayDimensions] = useState<Size | null>(null);
+		const [cropDimensions, setCropDimensions] = useState<Size | null>(null);
+		const [dragBoundaries, setDragBoundaries] = useState<DragBoundaries>({
 			top: 0,
 			bottom: 0,
 			left: 0,
 			right: 0,
 		});
-		const [zoomRatio, setZoomRatio] = React.useState(1);
-		const [rotation, setRotation] = React.useState(0);
-		const [hasEdits, setHasEdits] = React.useState(false);
-		const [isProcessing, setIsProcessing] = React.useState(false);
-		const [isDragging, setIsDragging] = React.useState(false);
-		const [dragStart, setDragStart] = React.useState<Point>({x: 0, y: 0});
-		const [loadError, setLoadError] = React.useState(false);
-		const [sliderKey, setSliderKey] = React.useState(0);
+		const [zoomRatio, setZoomRatio] = useState(1);
+		const [rotation, setRotation] = useState(0);
+		const [hasEdits, setHasEdits] = useState(false);
+		const [isProcessing, setIsProcessing] = useState(false);
+		const [isDragging, setIsDragging] = useState(false);
+		const [dragStart, setDragStart] = useState<Point>({x: 0, y: 0});
+		const [loadError, setLoadError] = useState(false);
+		const [sliderKey, setSliderKey] = useState(0);
 
-		const [heightRatio, setHeightRatio] = React.useState(1);
-		const [heightSliderKey, setHeightSliderKey] = React.useState(0);
+		const [heightRatio, setHeightRatio] = useState(1);
+		const [heightSliderKey, setHeightSliderKey] = useState(0);
 
 		const isRound = cropShape === 'round';
-		const isGif = sourceMimeType.toLowerCase() === 'image/gif';
+		const isAnimated = ['image/gif', 'image/webp', 'image/avif', 'image/png'].some((type) =>
+			sourceMimeType.toLowerCase().includes(type.replace('image/', '')),
+		);
 
 		const MIN_ZOOM = 1;
 		const MAX_ZOOM = 3;
@@ -542,14 +503,14 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 		const effectiveMaxHeightRatio = !isRound ? (maxHeightRatio ?? 1) : 1;
 		const heightSliderEnabled = !isRound && effectiveMinHeightRatio < effectiveMaxHeightRatio;
 
-		const applyTransform = React.useCallback((x: number, y: number, rotationDeg: number) => {
+		const applyTransform = useCallback((x: number, y: number, rotationDeg: number) => {
 			transformRef.current = {x, y};
 			const img = imageRef.current;
 			if (!img) return;
 			img.style.transform = `translate3d(calc(-50% + ${x}px), calc(-50% + ${y}px), 0) rotate(${rotationDeg}deg)`;
 		}, []);
 
-		const recalculateLayout = React.useCallback(
+		const recalculateLayout = useCallback(
 			(nextHeightRatio: number, resetTransform: boolean) => {
 				const img = imageRef.current;
 				const container = cropperContainerRef.current;
@@ -611,11 +572,11 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 			],
 		);
 
-		const handleImageLoad = React.useCallback(() => {
+		const handleImageLoad = useCallback(() => {
 			recalculateLayout(heightRatio, true);
 		}, [heightRatio, recalculateLayout]);
 
-		const handleMouseDown: React.MouseEventHandler<HTMLImageElement> = React.useCallback((event) => {
+		const handleMouseDown: React.MouseEventHandler<HTMLImageElement> = useCallback((event) => {
 			event.preventDefault();
 			const {x, y} = transformRef.current;
 			setIsDragging(true);
@@ -625,7 +586,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 			});
 		}, []);
 
-		const handleMouseMove = React.useCallback(
+		const handleMouseMove = useCallback(
 			(event: MouseEvent) => {
 				if (!isDragging || !displayDimensions || !cropDimensions) return;
 				const newX = event.clientX - dragStart.x;
@@ -648,14 +609,14 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 			],
 		);
 
-		const handleMouseUp = React.useCallback(() => {
+		const handleMouseUp = useCallback(() => {
 			if (!isDragging) return;
 			setIsDragging(false);
 			const transform = transformRef.current;
 			setHasEdits(hasEditsFrom(zoomRatio, rotation, transform, heightRatio));
 		}, [heightRatio, isDragging, rotation, zoomRatio]);
 
-		const handleZoomChange = React.useCallback(
+		const handleZoomChange = useCallback(
 			(ratio: number) => {
 				if (!displayDimensions || !cropDimensions) return;
 
@@ -681,7 +642,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 			[MIN_ZOOM, MAX_ZOOM, applyTransform, cropDimensions, displayDimensions, heightRatio, rotation],
 		);
 
-		const handleHeightRatioChange = React.useCallback(
+		const handleHeightRatioChange = useCallback(
 			(value: number) => {
 				if (!heightSliderEnabled) return;
 				recalculateLayout(value, false);
@@ -689,7 +650,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 			[heightSliderEnabled, recalculateLayout],
 		);
 
-		const handleRotate = React.useCallback(() => {
+		const handleRotate = useCallback(() => {
 			if (!displayDimensions || !cropDimensions) return;
 
 			const nextRotation = (rotation + 90) % 360;
@@ -708,7 +669,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 			setHasEdits(hasEditsFrom(zoomRatio, nextRotation, clamped, heightRatio));
 		}, [applyTransform, cropDimensions, displayDimensions, heightRatio, rotation, zoomRatio]);
 
-		const handleReset = React.useCallback(() => {
+		const handleReset = useCallback(() => {
 			if (!displayDimensions || !cropDimensions) return;
 
 			recalculateLayout(1, true);
@@ -716,7 +677,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 			setHeightSliderKey((k) => k + 1);
 		}, [cropDimensions, displayDimensions, recalculateLayout]);
 
-		const handleSave = React.useCallback(async () => {
+		const handleSave = useCallback(async () => {
 			const img = imageRef.current;
 			if (!img || !displayDimensions || !cropDimensions) return;
 
@@ -728,8 +689,8 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 					height: displayDimensions.height * zoomRatio,
 				};
 
-				const outBlob = isGif
-					? await exportAnimatedGif(
+				const outBlob = isAnimated
+					? await exportAnimatedImage(
 							img,
 							scaledDisplayDimensions,
 							cropDimensions,
@@ -739,6 +700,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 							maxHeight,
 							sizeLimitBytes,
 							imageUrl,
+							sourceMimeType,
 						)
 					: await exportStaticImage(
 							img,
@@ -754,7 +716,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 				onCropComplete(outBlob);
 				ModalActionCreators.pop();
 			} catch (error) {
-				console.error('Error cropping image:', error);
+				logger.error('Error cropping image:', error);
 				const message = error instanceof Error && error.message ? error.message : errorMessage;
 				ToastActionCreators.createToast({
 					type: 'error',
@@ -768,7 +730,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 			displayDimensions,
 			errorMessage,
 			imageUrl,
-			isGif,
+			isAnimated,
 			maxHeight,
 			maxWidth,
 			onCropComplete,
@@ -777,16 +739,16 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 			zoomRatio,
 		]);
 
-		const handleSkip = React.useCallback(() => {
+		const handleSkip = useCallback(() => {
 			if (onSkip) onSkip();
 			ModalActionCreators.pop();
 		}, [onSkip]);
 
-		const handleCancel = React.useCallback(() => {
+		const handleCancel = useCallback(() => {
 			ModalActionCreators.pop();
 		}, []);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			const onMouseMove = (e: MouseEvent) => handleMouseMove(e);
 			const onMouseUp = () => handleMouseUp();
 			window.addEventListener('mousemove', onMouseMove);
@@ -800,7 +762,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 			};
 		}, [handleImageLoad, handleMouseMove, handleMouseUp]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			let isSliderDragging = false;
 
 			const onSliderDragStart = () => {
@@ -830,7 +792,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 			};
 		}, []);
 
-		const imageStyle: React.CSSProperties = React.useMemo(() => {
+		const imageStyle: React.CSSProperties = useMemo(() => {
 			if (!displayDimensions) return {};
 			const width = displayDimensions.width * zoomRatio;
 			const height = displayDimensions.height * zoomRatio;
@@ -855,7 +817,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 						<img
 							ref={imageRef}
 							src={imageUrl}
-							alt="crop"
+							alt={t`Crop preview`}
 							className={styles.image}
 							style={{
 								opacity: displayDimensions ? 1 : 0,
@@ -964,7 +926,7 @@ export const ImageCropModal: React.FC<ImageCropModalProps> = observer(
 								className={styles.rotateButton}
 								onClick={handleRotate}
 								disabled={isProcessing}
-								title={t`Rotate clockwise`}
+								title={t`Rotate Clockwise`}
 							>
 								<ArrowClockwiseIcon size={24} weight="regular" className={styles.rotateIcon} />
 							</button>

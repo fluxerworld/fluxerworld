@@ -17,25 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as UserSettingsActionCreators from '@app/actions/UserSettingsActionCreators';
+import {Switch} from '@app/components/form/Switch';
+import styles from '@app/components/modals/GuildPrivacySettingsModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import GuildStore from '@app/stores/GuildStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as UserSettingsActionCreators from '~/actions/UserSettingsActionCreators';
-import {Switch} from '~/components/form/Switch';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import GuildStore from '~/stores/GuildStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import styles from './GuildPrivacySettingsModal.module.css';
 
-export const GuildPrivacySettingsModal = observer(function GuildPrivacySettingsModal({guildId}: {guildId: string}) {
+export const GuildPrivacySettingsModal = observer(({guildId}: {guildId: string}) => {
 	const {t} = useLingui();
 	const guild = GuildStore.getGuild(guildId);
 	const restrictedGuilds = UserSettingsStore.restrictedGuilds;
+	const botRestrictedGuilds = UserSettingsStore.botRestrictedGuilds;
 
 	if (!guild) return null;
 
 	const isDMsAllowed = !restrictedGuilds.includes(guildId);
+	const isBotDMsAllowed = !botRestrictedGuilds.includes(guildId);
 
 	const handleToggleDMs = async (value: boolean) => {
 		let newRestrictedGuilds: Array<string>;
@@ -51,6 +53,20 @@ export const GuildPrivacySettingsModal = observer(function GuildPrivacySettingsM
 		});
 	};
 
+	const handleToggleBotDMs = async (value: boolean) => {
+		let newRestrictedGuilds: Array<string>;
+
+		if (value) {
+			newRestrictedGuilds = botRestrictedGuilds.filter((id) => id !== guildId);
+		} else {
+			newRestrictedGuilds = [...botRestrictedGuilds, guildId];
+		}
+
+		await UserSettingsActionCreators.update({
+			botRestrictedGuilds: newRestrictedGuilds,
+		});
+	};
+
 	return (
 		<Modal.Root size="small" centered>
 			<Modal.Header title={t`Privacy Settings`} />
@@ -61,6 +77,12 @@ export const GuildPrivacySettingsModal = observer(function GuildPrivacySettingsM
 						description={t`Allow direct messages from other members in this community`}
 						value={isDMsAllowed}
 						onChange={handleToggleDMs}
+					/>
+					<Switch
+						label={t`Bot Direct Messages`}
+						description={t`Allow bots from this community to send you direct messages`}
+						value={isBotDMsAllowed}
+						onChange={handleToggleBotDMs}
 					/>
 				</div>
 			</Modal.Content>

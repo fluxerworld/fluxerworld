@@ -1,0 +1,27 @@
+{
+	"name": "@fluxer/email",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./*": "./*"
+	},
+	"scripts": {
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@fluxer/i18n": "workspace:*",
+		"@fluxer/logger": "workspace:*",
+		"itty-time": "catalog:",
+		"nodemailer": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@types/nodemailer": "catalog:",
+		"@typescript/native-preview": "catalog:",
+		"vite-tsconfig-paths": "catalog:",
+		"vitest": "catalog:"
+	}
+}

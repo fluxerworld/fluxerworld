@@ -17,21 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {ChannelTypes} from '~/Constants';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import {Logger} from '~/lib/Logger';
-import {type Channel, ChannelRecord} from '~/records/ChannelRecord';
-import {type UserPartial, UserRecord} from '~/records/UserRecord';
-import DeveloperOptionsStore, {type DeveloperOptionsState} from '~/stores/DeveloperOptionsStore';
-import MockIncomingCallStore from '~/stores/MockIncomingCallStore';
-import UserStore from '~/stores/UserStore';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {Logger} from '@app/lib/Logger';
+import {ChannelRecord} from '@app/records/ChannelRecord';
+import {UserRecord} from '@app/records/UserRecord';
+import DeveloperOptionsStore, {type DeveloperOptionsState} from '@app/stores/DeveloperOptionsStore';
+import MockIncomingCallStore from '@app/stores/MockIncomingCallStore';
+import UserStore from '@app/stores/UserStore';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import type {Channel} from '@fluxer/schema/src/domains/channel/ChannelSchemas';
+import type {UserPartial} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
+import {generateSnowflake} from '@fluxer/snowflake/src/Snowflake';
 
 const logger = new Logger('DeveloperOptions');
 
-export const updateOption = <K extends keyof DeveloperOptionsState>(key: K, value: DeveloperOptionsState[K]): void => {
+export function updateOption<K extends keyof DeveloperOptionsState>(key: K, value: DeveloperOptionsState[K]): void {
 	logger.debug(`Updating developer option: ${String(key)} = ${value}`);
 	DeveloperOptionsStore.updateOption(key, value);
-};
+}
 
 export function setAttachmentMock(
 	attachmentId: string,
@@ -59,15 +62,15 @@ export function triggerMockIncomingCall(): void {
 		return;
 	}
 
-	const timestamp = Date.now() - 1420070400000;
-	const random = Math.floor(Math.random() * 4096);
-	const mockChannelId = ((timestamp << 22) | random).toString();
+	const mockChannelId = generateSnowflake().toString();
 
 	const initiatorPartial: UserPartial = {
 		id: currentUser.id,
 		username: currentUser.username,
 		discriminator: currentUser.discriminator,
+		global_name: currentUser.globalName,
 		avatar: currentUser.avatar ?? null,
+		avatar_color: currentUser.avatarColor ?? null,
 		flags: currentUser.flags ?? 0,
 	};
 

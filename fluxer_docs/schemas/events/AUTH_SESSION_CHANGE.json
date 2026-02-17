@@ -1,0 +1,25 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "AUTH_SESSION_CHANGE",
+	"description": "Authentication session has changed. Sent when the user's token is rotated due to a security-sensitive operation like password change.",
+	"scope": "presence",
+	"dispatchedBy": ["PATCH /users/@me (when password is changed)"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"old_auth_session_id_hash": {
+				"type": "string",
+				"description": "Base64url-encoded hash of the old session ID"
+			},
+			"new_auth_session_id_hash": {
+				"type": "string",
+				"description": "Base64url-encoded hash of the new session ID"
+			},
+			"new_token": {
+				"type": "string",
+				"description": "The new authentication token"
+			}
+		},
+		"required": ["old_auth_session_id_hash", "new_auth_session_id_hash", "new_token"]
+	}
+}

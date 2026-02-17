@@ -17,36 +17,41 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
+import * as LayoutActionCreators from '@app/actions/LayoutActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as VoiceStateActionCreators from '@app/actions/VoiceStateActionCreators';
+import styles from '@app/components/bottomsheets/VoiceLobbyBottomSheet.module.css';
+import {CameraPreviewModalInRoom} from '@app/components/modals/CameraPreviewModal';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import {Button} from '@app/components/uikit/button/Button';
 import {
-	CameraIcon,
-	CameraSlashIcon,
-	GearIcon,
-	MicrophoneIcon,
-	MicrophoneSlashIcon,
-	PhoneXIcon,
-	SpeakerHighIcon,
-	SpeakerSlashIcon,
-} from '@phosphor-icons/react';
+	CameraOffIcon,
+	CameraOnIcon,
+	DeafenIcon,
+	DisconnectCallIcon,
+	MicrophoneOffIcon,
+	MicrophoneOnIcon,
+	SettingsIcon,
+	UndeafenIcon,
+} from '@app/components/uikit/context_menu/ContextMenuIcons';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {usePendingVoiceConnection} from '@app/hooks/usePendingVoiceConnection';
+import {Logger} from '@app/lib/Logger';
+import {Routes} from '@app/Routes';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import LocalVoiceStateStore from '@app/stores/LocalVoiceStateStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import {navigateToWithMobileHistory} from '@app/utils/MobileNavigation';
+import {useLingui} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import * as LayoutActionCreators from '~/actions/LayoutActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as VoiceStateActionCreators from '~/actions/VoiceStateActionCreators';
-import {CameraPreviewModalInRoom} from '~/components/modals/CameraPreviewModal';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import {Button} from '~/components/uikit/Button/Button';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {Routes} from '~/Routes';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {GuildRecord} from '~/records/GuildRecord';
-import LocalVoiceStateStore from '~/stores/LocalVoiceStateStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import {navigateToWithMobileHistory} from '~/utils/MobileNavigation';
-import styles from './VoiceLobbyBottomSheet.module.css';
+import {useCallback} from 'react';
+
+const logger = new Logger('VoiceLobbyBottomSheet');
 
 interface VoiceLobbyBottomSheetProps {
 	isOpen: boolean;
@@ -105,9 +110,20 @@ export const VoiceLobbyBottomSheet = observer(function VoiceLobbyBottomSheet({
 		void MediaEngineStore.disconnectFromVoiceChannel('user');
 	};
 
-	const handleConnect = () => {
-		void MediaEngineStore.connectToVoiceChannel(guild.id, channel.id);
-	};
+	const handleVoiceConnected = useCallback(() => {
+		onClose();
+		const isMobile = MobileLayoutStore.isMobileLayout();
+		navigateToWithMobileHistory(Routes.guildChannel(guild.id, channel.id), isMobile);
+		if (isMobile) {
+			LayoutActionCreators.updateMobileLayoutState(false, true);
+		}
+	}, [guild.id, channel.id, onClose]);
+
+	const {isPending: isConnecting, startConnection: handleConnect} = usePendingVoiceConnection({
+		guildId: guild.id,
+		channelId: channel.id,
+		onConnected: handleVoiceConnected,
+	});
 
 	const handleToggleCamera = async () => {
 		try {
@@ -117,7 +133,7 @@ export const VoiceLobbyBottomSheet = observer(function VoiceLobbyBottomSheet({
 				ModalActionCreators.push(modal(() => <CameraPreviewModalInRoom />));
 			}
 		} catch (err) {
-			console.error('Failed to toggle camera:', err);
+			logger.error('Failed to toggle camera:', err);
 		}
 	};
 
@@ -152,14 +168,14 @@ export const VoiceLobbyBottomSheet = observer(function VoiceLobbyBottomSheet({
 							<Button
 								variant="danger-primary"
 								onClick={handleDisconnect}
-								leftIcon={<PhoneXIcon weight="fill" size={18} />}
+								leftIcon={<DisconnectCallIcon size={18} />}
 								className={styles.fullWidth}
 							>
 								{t`Disconnect`}
 							</Button>
 						</>
 					) : (
-						<Button variant="primary" onClick={handleConnect} className={styles.fullWidth}>
+						<Button variant="primary" onClick={handleConnect} className={styles.fullWidth} submitting={isConnecting}>
 							{t`Connect to Voice`}
 						</Button>
 					)}
@@ -171,9 +187,9 @@ export const VoiceLobbyBottomSheet = observer(function VoiceLobbyBottomSheet({
 							className={clsx(styles.iconContainer, isMuted ? styles.iconContainerDanger : styles.iconContainerBrand)}
 						>
 							{isMuted ? (
-								<MicrophoneSlashIcon weight="fill" className={styles.actionIcon} size={24} />
+								<MicrophoneOffIcon className={styles.actionIcon} size={24} />
 							) : (
-								<MicrophoneIcon weight="fill" className={styles.actionIcon} size={24} />
+								<MicrophoneOnIcon className={styles.actionIcon} size={24} />
 							)}
 						</div>
 						<span className={styles.actionText}>{isMuted ? t`Unmute` : t`Mute`}</span>
@@ -187,9 +203,9 @@ export const VoiceLobbyBottomSheet = observer(function VoiceLobbyBottomSheet({
 							)}
 						>
 							{isDeafened ? (
-								<SpeakerSlashIcon weight="fill" className={styles.actionIconSecondary} size={24} />
+								<DeafenIcon className={styles.actionIconSecondary} size={24} />
 							) : (
-								<SpeakerHighIcon weight="fill" className={styles.actionIconSecondary} size={24} />
+								<UndeafenIcon className={styles.actionIconSecondary} size={24} />
 							)}
 						</div>
 						<span className={styles.actionText}>{isDeafened ? t`Undeafen` : t`Deafen`}</span>
@@ -204,9 +220,9 @@ export const VoiceLobbyBottomSheet = observer(function VoiceLobbyBottomSheet({
 								)}
 							>
 								{isCameraOn ? (
-									<CameraIcon weight="fill" className={styles.actionIcon} size={24} />
+									<CameraOnIcon className={styles.actionIcon} size={24} />
 								) : (
-									<CameraSlashIcon weight="fill" className={styles.actionIconSecondary} size={24} />
+									<CameraOffIcon className={styles.actionIconSecondary} size={24} />
 								)}
 							</div>
 							<span className={styles.actionText}>{isCameraOn ? t`Camera On` : t`Camera Off`}</span>
@@ -215,7 +231,7 @@ export const VoiceLobbyBottomSheet = observer(function VoiceLobbyBottomSheet({
 
 					<button type="button" className={styles.actionButton} onClick={handleOpenVoiceSettings}>
 						<div className={clsx(styles.iconContainer, styles.iconContainerTertiary)}>
-							<GearIcon weight="fill" className={styles.actionIconSecondary} size={24} />
+							<SettingsIcon className={styles.actionIconSecondary} size={24} />
 						</div>
 						<span className={styles.actionText}>{t`Settings`}</span>
 					</button>

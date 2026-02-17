@@ -17,51 +17,88 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {t} from '@lingui/core/macro';
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as DeveloperOptionsActionCreators from '@app/actions/DeveloperOptionsActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as PopoutActionCreators from '@app/actions/PopoutActionCreators';
+import * as PremiumModalActionCreators from '@app/actions/PremiumModalActionCreators';
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
+import * as VoiceSettingsActionCreators from '@app/actions/VoiceSettingsActionCreators';
+import {CameraPreviewModalInRoom} from '@app/components/modals/CameraPreviewModal';
+import {ScreenShareSettingsModal} from '@app/components/modals/ScreenShareSettingsModal';
+import {CheckboxItem} from '@app/components/uikit/context_menu/ContextMenu';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import {MenuItemRadio} from '@app/components/uikit/context_menu/MenuItemRadio';
+import {MenuItemSubmenu} from '@app/components/uikit/context_menu/MenuItemSubmenu';
+import {FocusRingWrapper} from '@app/components/uikit/FocusRingWrapper';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Popout} from '@app/components/uikit/popout/Popout';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {SignalStrengthIcon} from '@app/components/voice/SignalStrengthIcon';
+import styles from '@app/components/voice/VoiceConnectionStatus.module.css';
+import {
+	useVoiceParticipantAvatarEntries,
+	VoiceParticipantSpeakingAvatarStack,
+} from '@app/components/voice/VoiceParticipantAvatarList';
+import {VoiceCameraSettingsMenu} from '@app/components/voice/VoiceSettingsMenus';
+import {useMediaDevices} from '@app/hooks/useMediaDevices';
+import {usePopout} from '@app/hooks/usePopout';
+import {Logger} from '@app/lib/Logger';
+import {Link} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import ChannelStore from '@app/stores/ChannelStore';
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import GuildStore from '@app/stores/GuildStore';
+import LocalVoiceStateStore from '@app/stores/LocalVoiceStateStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import type {LatencyDataPoint} from '@app/stores/voice/VoiceStatsManager';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import {LimitResolver} from '@app/utils/limits/LimitResolverAdapter';
+import {isLimitToggleEnabled} from '@app/utils/limits/LimitUtils';
+import {supportsDesktopScreenShareAudioCapture} from '@app/utils/NativeUtils';
+import {executeScreenShareOperation} from '@app/utils/ScreenShareUtils';
 import {useLingui} from '@lingui/react/macro';
 import {
 	CameraIcon,
 	CameraSlashIcon,
+	CaretRightIcon,
 	DesktopIcon,
 	DeviceMobileIcon,
 	LockSimpleIcon,
-	MonitorIcon,
+	MonitorPlayIcon,
 	PhoneXIcon,
+	UsersIcon,
 	WaveformIcon,
 	XIcon,
 } from '@phosphor-icons/react';
 import {clsx} from 'clsx';
+import {ScreenSharePresets} from 'livekit-client';
 import {observer} from 'mobx-react-lite';
-import {useCallback} from 'react';
-import * as DeveloperOptionsActionCreators from '~/actions/DeveloperOptionsActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as PopoutActionCreators from '~/actions/PopoutActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import * as VoiceSettingsActionCreators from '~/actions/VoiceSettingsActionCreators';
-import {CameraPreviewModalInRoom} from '~/components/modals/CameraPreviewModal';
-import {ScreenShareSettingsModal} from '~/components/modals/ScreenShareSettingsModal';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {FocusRingWrapper} from '~/components/uikit/FocusRingWrapper';
-import {Popout} from '~/components/uikit/Popout/Popout';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {usePopout} from '~/hooks/usePopout';
-import {Link} from '~/lib/router';
-import {Routes} from '~/Routes';
-import ChannelStore from '~/stores/ChannelStore';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import GuildStore from '~/stores/GuildStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import VoiceSettingsStore from '~/stores/VoiceSettingsStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import type {LatencyDataPoint} from '~/stores/voice/VoiceStatsManager';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import {executeScreenShareOperation} from '~/utils/ScreenShareUtils';
-import {SignalStrengthIcon} from './SignalStrengthIcon';
-import styles from './VoiceConnectionStatus.module.css';
+import {type MouseEvent as ReactMouseEvent, useCallback, useMemo} from 'react';
+
+const logger = new Logger('VoiceConnectionStatus');
+const SCREEN_SHARE_PRESETS = {
+	low: ScreenSharePresets.h360fps15,
+	medium: ScreenSharePresets.h720fps30,
+	high: ScreenSharePresets.h1080fps30,
+	ultra: ScreenSharePresets.h1080fps30,
+	'4k': ScreenSharePresets.original,
+} as const;
+type ScreenShareResolution = keyof typeof SCREEN_SHARE_PRESETS;
+
+function resolveScreenShareFrameRate(frameRate: number): number {
+	if (frameRate === 15 || frameRate === 24 || frameRate === 60) {
+		return frameRate;
+	}
+	return 30;
+}
 
 const VoiceDetailsPopout = observer(() => {
-	const {i18n} = useLingui();
+	const {i18n, t} = useLingui();
 	const latency = MediaEngineStore.currentLatency;
 	const averageLatency = MediaEngineStore.averageLatency;
 	const latencyHistory = MediaEngineStore.latencyHistory;
@@ -122,7 +159,6 @@ const VoiceDetailsPopout = observer(() => {
 					<svg
 						viewBox={`0 0 ${chartWidth} ${chartHeight}`}
 						className={styles.chartSvg}
-						style={{width: '100%'}}
 						role="img"
 						aria-label={t`Latency graph`}
 					>
@@ -227,7 +263,7 @@ const VoiceDetailsPopout = observer(() => {
 										}
 									}}
 								>
-									<LockSimpleIcon weight="fill" className={styles.lockIcon} style={{color: 'var(--status-online)'}} />
+									<LockSimpleIcon weight="fill" className={styles.lockIcon} />
 									<span className={styles.endpointBadgeText}>{strippedEndpoint}</span>
 								</div>
 							</FocusRing>
@@ -248,11 +284,17 @@ const VoiceConnectionStatusInner = observer(() => {
 	const storeIsConnected = MediaEngineStore.connected;
 	const voiceSettings = VoiceSettingsStore;
 	const noiseSuppressionEnabled = voiceSettings.noiseSuppression;
+	const showVoiceConnectionId = voiceSettings.showVoiceConnectionId;
 
 	const currentLatency = MediaEngineStore.currentLatency;
 	const latencyForSignal = currentLatency;
 	const connectionId = MediaEngineStore.connectionId;
 	const isMobile = voiceState?.is_mobile ?? false;
+	const participantAvatarEntries = useVoiceParticipantAvatarEntries({
+		guildId: storeConnectedGuildId ?? null,
+		channelId: storeConnectedChannelId,
+	});
+	const showVoiceConnectionAvatarStack = voiceSettings.showVoiceConnectionAvatarStack;
 
 	const {openProps: popoutProps} = usePopout('voice-details-popout');
 
@@ -260,14 +302,19 @@ const VoiceConnectionStatusInner = observer(() => {
 	const connectedChannelId = storeConnectedChannelId;
 	const isConnected = storeIsConnected;
 
-	if (!connectedGuildId || !connectedChannelId) {
+	if (!connectedChannelId) {
 		return null;
 	}
 
 	const channel = ChannelStore.getChannel(connectedChannelId);
-	const guild = GuildStore.getGuild(connectedGuildId);
+	if (!channel) {
+		return null;
+	}
 
-	if (!channel || !guild) {
+	const isPrivateChannel = channel.isPrivate();
+	const guild = connectedGuildId ? GuildStore.getGuild(connectedGuildId) : null;
+
+	if (!isPrivateChannel && !guild) {
 		return null;
 	}
 
@@ -282,6 +329,54 @@ const VoiceConnectionStatusInner = observer(() => {
 		if (isConnected) return styles.statusConnected;
 		return styles.statusDisconnected;
 	};
+	const shouldShowVoiceConnectionAvatarStack =
+		isConnected && showVoiceConnectionAvatarStack && participantAvatarEntries.length > 0;
+	let channelRoute: string;
+	if (isPrivateChannel) {
+		channelRoute = Routes.dmChannel(channel.id);
+	} else if (guild) {
+		channelRoute = Routes.guildChannel(guild.id, channel.id);
+	} else {
+		return null;
+	}
+	const avatarGuildId = guild?.id ?? channel.guildId ?? null;
+	const channelDisplayName = isPrivateChannel
+		? ChannelUtils.getDMDisplayName(channel)
+		: channel.name?.trim() || ChannelUtils.getName(channel);
+	const guildDisplayName = guild?.name ?? '';
+	const channelSourceLabel = isPrivateChannel ? channelDisplayName : `${channelDisplayName} / ${guildDisplayName}`;
+
+	const handleVoiceConnectionStatusContextMenu = useCallback(
+		(event: ReactMouseEvent<HTMLElement>) => {
+			event.preventDefault();
+			event.stopPropagation();
+
+			ContextMenuActionCreators.openFromEvent(event, ({onClose}) => (
+				<MenuGroup>
+					<CheckboxItem
+						icon={<UsersIcon weight="regular" className={styles.icon} />}
+						checked={showVoiceConnectionAvatarStack}
+						onCheckedChange={(checked) => {
+							VoiceSettingsActionCreators.update({showVoiceConnectionAvatarStack: checked});
+							onClose();
+						}}
+					>
+						{t`Show Call Avatars`}
+					</CheckboxItem>
+					<CheckboxItem
+						checked={showVoiceConnectionId}
+						onCheckedChange={(checked) => {
+							VoiceSettingsActionCreators.update({showVoiceConnectionId: checked});
+							onClose();
+						}}
+					>
+						{t`Show Connection ID`}
+					</CheckboxItem>
+				</MenuGroup>
+			));
+		},
+		[showVoiceConnectionAvatarStack, showVoiceConnectionId, t],
+	);
 
 	return (
 		<div className={styles.voiceConnectionContainer}>
@@ -295,7 +390,11 @@ const VoiceConnectionStatusInner = observer(() => {
 				)}
 				<Popout {...popoutProps} position="top" offsetMainAxis={16} render={() => <VoiceDetailsPopout />}>
 					<FocusRingWrapper focusRingOffset={-2}>
-						<button type="button" className={clsx(styles.statusButton, getStatusClass())}>
+						<button
+							type="button"
+							className={clsx(styles.statusButton, getStatusClass())}
+							onContextMenu={handleVoiceConnectionStatusContextMenu}
+						>
 							{getStatusText()}
 						</button>
 					</FocusRingWrapper>
@@ -331,32 +430,51 @@ const VoiceConnectionStatusInner = observer(() => {
 			</div>
 
 			<div className={styles.connectionInfo}>
-				{connectionId && (
-					<div className={styles.infoRow}>
+				<div className={styles.channelSourceRow}>
+					<FocusRing offset={-2}>
+						<Link
+							to={channelRoute}
+							className={styles.channelSourceLink}
+							aria-label={t`Jump to ${channelSourceLabel}`}
+							onContextMenu={handleVoiceConnectionStatusContextMenu}
+						>
+							{isPrivateChannel ? (
+								<span className={styles.channelSourceText}>{channelDisplayName}</span>
+							) : (
+								<span className={styles.channelSourceText}>
+									<span className={styles.channelSourceChannel}>{channelDisplayName}</span>
+									<span className={styles.channelSourceSeparator}> / </span>
+									<span className={styles.channelSourceGuild}>{guildDisplayName}</span>
+								</span>
+							)}
+						</Link>
+					</FocusRing>
+				</div>
+				{showVoiceConnectionId && connectionId && (
+					<div className={styles.connectionIdRow}>
 						{isMobile ? (
-							<DeviceMobileIcon weight="regular" className={styles.infoIcon} />
+							<DeviceMobileIcon weight="regular" className={styles.connectionIdIcon} />
 						) : (
-							<DesktopIcon weight="regular" className={styles.infoIcon} />
+							<DesktopIcon weight="regular" className={styles.connectionIdIcon} />
 						)}
-						<div>
-							<Tooltip text={connectionId}>
-								<span className={styles.infoText}>{connectionId}</span>
+						<div className={styles.connectionIdValue}>
+							<Tooltip text={connectionId} position="top" align="center">
+								<span className={styles.connectionIdValueText}>{connectionId}</span>
 							</Tooltip>
 						</div>
 					</div>
 				)}
-				<FocusRing offset={-2}>
-					<Link to={Routes.guildChannel(guild.id, channel.id)} className={styles.channelInfo}>
-						<div className={styles.channelIcon}>
-							{ChannelUtils.getIcon(channel, {className: styles.channelIconSize})}
-						</div>
-						<div className={styles.channelText}>
-							<span className={styles.channelName}>{channel.name}</span>
-							<span className={styles.guildSeparator}> / </span>
-							<span className={styles.guildName}>{guild.name}</span>
-						</div>
-					</Link>
-				</FocusRing>
+				{shouldShowVoiceConnectionAvatarStack && (
+					<div className={styles.channelAvatarStack}>
+						<VoiceParticipantSpeakingAvatarStack
+							entries={participantAvatarEntries}
+							guildId={avatarGuildId}
+							channelId={channel.id}
+							size={20}
+							maxVisible={4}
+						/>
+					</div>
+				)}
 			</div>
 
 			<div className={styles.mediaSection}>
@@ -366,8 +484,107 @@ const VoiceConnectionStatusInner = observer(() => {
 	);
 });
 
+interface ScreenShareQualityMenuContentProps {
+	frameRateOptions: Array<{value: number; label: string; isPremium: boolean}>;
+	resolutionOptions: Array<{value: ScreenShareResolution; label: string; isPremium: boolean}>;
+	hasHigherVideoQuality: boolean;
+	includeStreamAudio: boolean;
+	applyScreenShareSettings: (
+		resolution: ScreenShareResolution,
+		frameRate: number,
+		includeAudio: boolean,
+	) => Promise<void>;
+}
+
+const ScreenShareQualityMenuContent = observer(
+	({
+		frameRateOptions,
+		resolutionOptions,
+		hasHigherVideoQuality,
+		includeStreamAudio,
+		applyScreenShareSettings,
+	}: ScreenShareQualityMenuContentProps) => {
+		const {t} = useLingui();
+		const selectedResolution = VoiceSettingsStore.screenshareResolution;
+		const selectedFrameRate = resolveScreenShareFrameRate(VoiceSettingsStore.videoFrameRate);
+
+		const runApplyScreenShareSettings = useCallback(
+			(resolution: ScreenShareResolution, frameRate: number, includeAudio: boolean) => {
+				void applyScreenShareSettings(resolution, frameRate, includeAudio).catch((error) => {
+					logger.error('Failed to apply screen share settings from menu:', error);
+				});
+			},
+			[applyScreenShareSettings],
+		);
+
+		const handleFrameRateSelect = useCallback(
+			(option: {value: number; isPremium: boolean}) => {
+				if (option.isPremium && !hasHigherVideoQuality) {
+					PremiumModalActionCreators.open();
+					return;
+				}
+				if (selectedFrameRate === option.value) {
+					return;
+				}
+				VoiceSettingsActionCreators.update({videoFrameRate: option.value});
+				runApplyScreenShareSettings(selectedResolution, option.value, includeStreamAudio);
+			},
+			[hasHigherVideoQuality, includeStreamAudio, runApplyScreenShareSettings, selectedFrameRate, selectedResolution],
+		);
+
+		const handleResolutionSelect = useCallback(
+			(option: {value: ScreenShareResolution; isPremium: boolean}) => {
+				if (option.isPremium && !hasHigherVideoQuality) {
+					PremiumModalActionCreators.open();
+					return;
+				}
+				if (selectedResolution === option.value) {
+					return;
+				}
+				VoiceSettingsActionCreators.update({screenshareResolution: option.value});
+				runApplyScreenShareSettings(option.value, selectedFrameRate, includeStreamAudio);
+			},
+			[hasHigherVideoQuality, includeStreamAudio, runApplyScreenShareSettings, selectedFrameRate, selectedResolution],
+		);
+
+		return (
+			<>
+				<MenuGroup>
+					<MenuItem disabled>{t`Frame Rate`}</MenuItem>
+					{frameRateOptions.map((option) => (
+						<MenuItemRadio
+							key={option.value}
+							selected={selectedFrameRate === option.value}
+							onSelect={() => {
+								handleFrameRateSelect(option);
+							}}
+						>
+							{option.label}
+						</MenuItemRadio>
+					))}
+				</MenuGroup>
+				<MenuGroup>
+					<MenuItem disabled>{t`Resolution`}</MenuItem>
+					{resolutionOptions.map((option) => (
+						<MenuItemRadio
+							key={option.value}
+							selected={selectedResolution === option.value}
+							onSelect={() => {
+								handleResolutionSelect(option);
+							}}
+						>
+							{option.label}
+						</MenuItemRadio>
+					))}
+				</MenuGroup>
+			</>
+		);
+	},
+);
+
 const LocalParticipantControls = observer(() => {
 	const {t} = useLingui();
+	const {videoDevices} = useMediaDevices();
 	const room = MediaEngineStore.room;
 	const localParticipant = room?.localParticipant;
 	const participants = MediaEngineStore.participants;
@@ -375,6 +592,42 @@ const LocalParticipantControls = observer(() => {
 	const isCameraEnabled = localParticipantSnapshot?.isCameraEnabled ?? false;
 	const isScreenShareEnabled = localParticipantSnapshot?.isScreenShareEnabled ?? false;
 	const isConnected = !!room && !!localParticipant;
+	const supportsStreamAudioCapture = useMemo(() => supportsDesktopScreenShareAudioCapture(), []);
+	const includeStreamAudio = supportsStreamAudioCapture && LocalVoiceStateStore.getSelfStreamAudio();
+	const screenShareResolutionOptions = useMemo<
+		Array<{value: ScreenShareResolution; label: string; isPremium: boolean}>
+	>(
+		() => [
+			{value: 'low', label: t`480p`, isPremium: false},
+			{value: 'medium', label: t`720p`, isPremium: false},
+			{value: 'high', label: t`1080p`, isPremium: true},
+			{value: 'ultra', label: t`1440p`, isPremium: true},
+			{value: '4k', label: t`4K`, isPremium: true},
+		],
+		[t],
+	);
+	const screenShareFrameRateOptions = useMemo<Array<{value: number; label: string; isPremium: boolean}>>(
+		() => [
+			{value: 15, label: t`15 FPS`, isPremium: false},
+			{value: 24, label: t`24 FPS`, isPremium: false},
+			{value: 30, label: t`30 FPS`, isPremium: false},
+			{value: 60, label: t`60 FPS`, isPremium: true},
+		],
+		[t],
+	);
+	const hasHigherVideoQuality = useMemo(
+		() =>
+			isLimitToggleEnabled(
+				{
+					feature_higher_video_quality: LimitResolver.resolve({
+						key: 'feature_higher_video_quality',
+						fallback: 0,
+					}),
+				},
+				'feature_higher_video_quality',
+			),
+		[],
+	);
 
 	const handleToggleCamera = useCallback(async () => {
 		if (!localParticipant) return;
@@ -396,19 +649,131 @@ const LocalParticipantControls = observer(() => {
 				);
 			}
 		} catch (error) {
-			console.error('Failed to toggle camera:', error);
+			logger.error('Failed to toggle camera:', error);
 		}
 	}, [isCameraEnabled, localParticipant]);
 
-	const getScreenShareConstraints = useCallback(
-		(_resolution: 'low' | 'medium' | 'high' | 'ultra' | '4k', _frameRate: number) => {
-			return {
+	const getScreenShareOptions = useCallback((resolution: ScreenShareResolution, frameRate: number) => {
+		const preset = SCREEN_SHARE_PRESETS[resolution];
+		return {
+			captureOptions: {
 				audio: true,
 				selfBrowserSurface: 'include' as const,
-				video: true as const,
-			};
+				systemAudio: 'include' as const,
+				resolution: {
+					...preset.resolution,
+					frameRate,
+				},
+			},
+			publishOptions: {
+				screenShareEncoding: preset.encoding,
+			},
+		};
+	}, []);
+
+	const applyScreenShareSettings = useCallback(
+		async (resolution: ScreenShareResolution, frameRate: number, includeAudio: boolean) => {
+			if (!isConnected || !localParticipant || !isScreenShareEnabled) {
+				return;
+			}
+
+			await executeScreenShareOperation(async () => {
+				const includeAudioForRequest = supportsStreamAudioCapture ? includeAudio : false;
+				const {captureOptions, publishOptions} = getScreenShareOptions(resolution, frameRate);
+				await MediaEngineStore.updateActiveScreenShareSettings(
+					{
+						...captureOptions,
+						audio: includeAudioForRequest,
+					},
+					publishOptions,
+				);
+			});
 		},
-		[],
+		[getScreenShareOptions, isConnected, isScreenShareEnabled, localParticipant, supportsStreamAudioCapture],
+	);
+
+	const openCameraSettingsMenu = useCallback(
+		(event: ReactMouseEvent<HTMLElement>) => {
+			if (!isConnected) return;
+
+			event.preventDefault();
+			event.stopPropagation();
+			ContextMenuActionCreators.openFromEvent(event, ({onClose}) => (
+				<VoiceCameraSettingsMenu videoDevices={videoDevices} onClose={onClose} />
+			));
+		},
+		[isConnected, videoDevices],
+	);
+
+	const openScreenShareMenu = useCallback(
+		(event: ReactMouseEvent<HTMLElement>) => {
+			if (!isConnected || !isScreenShareEnabled) return;
+
+			event.preventDefault();
+			event.stopPropagation();
+
+			ContextMenuActionCreators.openFromEvent(event, ({onClose}) => (
+				<>
+					<MenuGroup>
+						<MenuItem
+							icon={<MonitorPlayIcon weight="fill" className={styles.icon} />}
+							danger
+							onClick={async () => {
+								onClose();
+								await MediaEngineStore.setScreenShareEnabled(false);
+							}}
+						>
+							{t`Stop Streaming`}
+						</MenuItem>
+					</MenuGroup>
+					<MenuGroup>
+						<MenuItemSubmenu
+							label={t`Stream Quality`}
+							icon={<CaretRightIcon weight="bold" className={styles.icon} />}
+							render={() => (
+								<ScreenShareQualityMenuContent
+									frameRateOptions={screenShareFrameRateOptions}
+									resolutionOptions={screenShareResolutionOptions}
+									hasHigherVideoQuality={hasHigherVideoQuality}
+									includeStreamAudio={includeStreamAudio}
+									applyScreenShareSettings={applyScreenShareSettings}
+								/>
+							)}
+						/>
+					</MenuGroup>
+					<MenuGroup>
+						<CheckboxItem
+							checked={includeStreamAudio}
+							disabled={!supportsStreamAudioCapture}
+							onCheckedChange={async (checked) => {
+								if (!supportsStreamAudioCapture) {
+									return;
+								}
+								LocalVoiceStateStore.updateSelfStreamAudio(checked);
+								await applyScreenShareSettings(
+									VoiceSettingsStore.screenshareResolution,
+									resolveScreenShareFrameRate(VoiceSettingsStore.videoFrameRate),
+									checked,
+								);
+							}}
+						>
+							{t`Share Stream Audio`}
+						</CheckboxItem>
+					</MenuGroup>
+				</>
+			));
+		},
+		[
+			applyScreenShareSettings,
+			hasHigherVideoQuality,
+			includeStreamAudio,
+			isConnected,
+			isScreenShareEnabled,
+			screenShareFrameRateOptions,
+			screenShareResolutionOptions,
+			supportsStreamAudioCapture,
+			t,
+		],
 	);
 
 	const handleScreenShare = useCallback(async () => {
@@ -416,18 +781,23 @@ const LocalParticipantControls = observer(() => {
 
 		try {
 			if (isScreenShareEnabled) {
-				await MediaEngineStore.setScreenShareEnabled(false);
+				return;
 			} else {
 				ModalActionCreators.push(
 					modal(() => (
 						<ScreenShareSettingsModal
 							onStartShare={async (resolution, frameRate, includeAudio) => {
 								await executeScreenShareOperation(async () => {
-									const constraints = getScreenShareConstraints(resolution, frameRate);
-									await MediaEngineStore.setScreenShareEnabled(true, {
-										...constraints,
-										audio: includeAudio,
-									});
+									const includeAudioForRequest = supportsStreamAudioCapture ? includeAudio : false;
+									const {captureOptions, publishOptions} = getScreenShareOptions(resolution, frameRate);
+									await MediaEngineStore.setScreenShareEnabled(
+										true,
+										{
+											...captureOptions,
+											audio: includeAudioForRequest,
+										},
+										publishOptions,
+									);
 								});
 							}}
 						/>
@@ -435,26 +805,33 @@ const LocalParticipantControls = observer(() => {
 				);
 			}
 		} catch (error) {
-			console.error('Failed to toggle screen share:', error);
+			logger.error('Failed to toggle screen share:', error);
 		}
-	}, [isScreenShareEnabled, localParticipant, getScreenShareConstraints]);
+	}, [isScreenShareEnabled, localParticipant, getScreenShareOptions, supportsStreamAudioCapture]);
+
+	const cameraLabel = (() => {
+		if (!isConnected) return t`Please wait for connection...`;
+		if (isCameraEnabled) return t`Turn Off Camera`;
+		return t`Turn On Camera`;
+	})();
+
+	const screenShareLabel = (() => {
+		if (!isConnected) return t`Please wait for connection...`;
+		if (isScreenShareEnabled) return t`Stop Sharing`;
+		return t`Share Your Screen`;
+	})();
 
 	return (
 		<>
-			<Tooltip
-				text={
-					!isConnected ? t`Please wait for connection...` : isCameraEnabled ? t`Turn Off Camera` : t`Turn On Camera`
-				}
-			>
+			<Tooltip text={cameraLabel}>
 				<FocusRing offset={-2} enabled={isConnected}>
 					<button
 						type="button"
 						className={clsx(styles.mediaButton, isCameraEnabled && styles.cameraActive)}
 						onClick={handleToggleCamera}
+						onContextMenu={openCameraSettingsMenu}
 						disabled={!isConnected}
-						aria-label={
-							!isConnected ? t`Please wait for connection...` : isCameraEnabled ? t`Turn Off Camera` : t`Turn On Camera`
-						}
+						aria-label={cameraLabel}
 					>
 						{isCameraEnabled ? (
 							<CameraIcon weight="fill" className={styles.mediaIcon} />
@@ -464,30 +841,23 @@ const LocalParticipantControls = observer(() => {
 					</button>
 				</FocusRing>
 			</Tooltip>
-			<Tooltip
-				text={
-					!isConnected
-						? t`Please wait for connection...`
-						: isScreenShareEnabled
-							? t`Stop Sharing`
-							: t`Share Your Screen`
-				}
-			>
+			<Tooltip text={screenShareLabel}>
 				<FocusRing offset={-2} enabled={isConnected}>
 					<button
 						type="button"
 						className={clsx(styles.mediaButton, isScreenShareEnabled && styles.screenShareActive)}
-						onClick={handleScreenShare}
+						onClick={(event) => {
+							if (isScreenShareEnabled) {
+								openScreenShareMenu(event);
+								return;
+							}
+							void handleScreenShare();
+						}}
+						onContextMenu={openScreenShareMenu}
 						disabled={!isConnected}
-						aria-label={
-							!isConnected
-								? t`Please wait for connection...`
-								: isScreenShareEnabled
-									? t`Stop Sharing`
-									: t`Share Your Screen`
-						}
+						aria-label={screenShareLabel}
 					>
-						<MonitorIcon weight="fill" className={styles.mediaIcon} />
+						<MonitorPlayIcon weight="fill" className={styles.mediaIcon} />
 					</button>
 				</FocusRing>
 			</Tooltip>
@@ -496,9 +866,10 @@ const LocalParticipantControls = observer(() => {
 });
 
 const MockedVoiceConnectionStatus = observer(() => {
-	const {i18n} = useLingui();
+	const {i18n, t} = useLingui();
 	const voiceSettings = VoiceSettingsStore;
 	const noiseSuppressionEnabled = voiceSettings.noiseSuppression;
+	const showVoiceConnectionId = voiceSettings.showVoiceConnectionId;
 	const {openProps: popoutProps} = usePopout('voice-details-popout');
 	const latency = 42;
 	const averageLatency = 45;
@@ -549,13 +920,7 @@ const MockedVoiceConnectionStatus = observer(() => {
 
 							{chartData.length > 0 && (
 								<div className={styles.chartContainer}>
-									<svg
-										viewBox="0 0 300 120"
-										className={styles.chartSvg}
-										style={{width: '100%'}}
-										role="img"
-										aria-label={t`Latency graph`}
-									>
+									<svg viewBox="0 0 300 120" className={styles.chartSvg} role="img" aria-label={t`Latency graph`}>
 										{Array.from({length: 5}, (_, i) => Math.round((maxLatency / 4) * i)).map((value) => {
 											const y = 110 - (value / maxLatency) * 80;
 											return (
@@ -659,11 +1024,7 @@ const MockedVoiceConnectionStatus = observer(() => {
 													}
 												}}
 											>
-												<LockSimpleIcon
-													weight="fill"
-													className={styles.lockIcon}
-													style={{color: 'var(--status-online)'}}
-												/>
+												<LockSimpleIcon weight="fill" className={styles.lockIcon} />
 												<span className={styles.endpointBadgeText}>mock.voice.server:443</span>
 											</div>
 										</FocusRing>
@@ -710,24 +1071,27 @@ const MockedVoiceConnectionStatus = observer(() => {
 			</div>
 
 			<div className={styles.connectionInfo}>
-				<div className={styles.infoRow}>
-					<DesktopIcon weight="regular" className={styles.infoIcon} />
-					<div>
-						<Tooltip text="mock-device-1">
-							<span className={styles.infoText}>mock-device-1</span>
-						</Tooltip>
-					</div>
+				<div className={styles.channelSourceRow}>
+					<FocusRing offset={-2}>
+						<button type="button" className={styles.channelSourceLink}>
+							<span className={styles.channelSourceText}>
+								<span className={styles.channelSourceChannel}>general</span>
+								<span className={styles.channelSourceSeparator}> / </span>
+								<span className={styles.channelSourceGuild}>Mock Guild</span>
+							</span>
+						</button>
+					</FocusRing>
 				</div>
-				<div className={styles.channelInfo}>
-					<div className={styles.channelIcon}>
-						{ChannelUtils.getIcon({type: 2}, {className: styles.channelIconSize})}
+				{showVoiceConnectionId && (
+					<div className={styles.connectionIdRow}>
+						<DesktopIcon weight="regular" className={styles.connectionIdIcon} />
+						<div className={styles.connectionIdValue}>
+							<Tooltip text="mock-connection-1" position="top" align="center">
+								<span className={styles.connectionIdValueText}>mock-connection-1</span>
+							</Tooltip>
+						</div>
 					</div>
-					<div className={styles.channelText}>
-						<span className={styles.channelName}>general</span>
-						<span className={styles.guildSeparator}> / </span>
-						<span className={styles.guildName}>Mock Guild</span>
-					</div>
-				</div>
+				)}
 			</div>
 
 			<div className={styles.mediaSection}>
@@ -741,7 +1105,7 @@ const MockedVoiceConnectionStatus = observer(() => {
 				<Tooltip text={t`Share Your Screen`}>
 					<FocusRing offset={-2}>
 						<button type="button" className={styles.mediaButton} aria-label={t`Share Your Screen`}>
-							<MonitorIcon weight="fill" className={styles.mediaIcon} />
+							<MonitorPlayIcon weight="fill" className={styles.mediaIcon} />
 						</button>
 					</FocusRing>
 				</Tooltip>
@@ -751,7 +1115,6 @@ const MockedVoiceConnectionStatus = observer(() => {
 });
 
 export const VoiceConnectionStatus = observer(() => {
-	const storeConnectedGuildId = MediaEngineStore.guildId;
 	const storeConnectedChannelId = MediaEngineStore.channelId;
 	const mobileLayout = MobileLayoutStore;
 	const forceShowVoiceConnection = DeveloperOptionsStore.forceShowVoiceConnection;
@@ -760,10 +1123,9 @@ export const VoiceConnectionStatus = observer(() => {
 		return null;
 	}
 
-	const connectedGuildId = storeConnectedGuildId;
 	const connectedChannelId = storeConnectedChannelId;
 
-	if (!connectedGuildId || !connectedChannelId) {
+	if (!connectedChannelId) {
 		if (!forceShowVoiceConnection) {
 			return null;
 		}

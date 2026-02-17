@@ -17,15 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/ScheduledMessageEditBar.module.css';
+import wrapperStyles from '@app/components/channel/textarea/InputWrapper.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {getCurrentLocale} from '@app/utils/LocaleUtils';
+import {getFormattedDateTimeInZone} from '@fluxer/date_utils/src/DateFormatting';
 import {useLingui} from '@lingui/react/macro';
 import {ClockIcon, XCircleIcon} from '@phosphor-icons/react';
-import {DateTime} from 'luxon';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {getCurrentLocale} from '~/utils/LocaleUtils';
-import styles from './ScheduledMessageEditBar.module.css';
-import wrapperStyles from './textarea/InputWrapper.module.css';
+import {useCallback, useMemo} from 'react';
 
 interface ScheduledMessageEditBarProps {
 	scheduledLocalAt: string;
@@ -35,22 +35,16 @@ interface ScheduledMessageEditBarProps {
 
 const formatScheduleLabel = (local: string, timezone: string): string => {
 	const locale = getCurrentLocale();
-	const dt = DateTime.fromISO(local, {zone: timezone}).setLocale(locale);
-	if (!dt.isValid) {
-		return `${local} (${timezone})`;
-	}
-	return `${dt.toLocaleString(DateTime.DATETIME_MED)} (${timezone})`;
+	const formatted = getFormattedDateTimeInZone(local, timezone, locale);
+	return `${formatted} (${timezone})`;
 };
 
 export const ScheduledMessageEditBar = observer(
 	({scheduledLocalAt, timezone, onCancel}: ScheduledMessageEditBarProps) => {
 		const {t} = useLingui();
-		const scheduleLabel = React.useMemo(
-			() => formatScheduleLabel(scheduledLocalAt, timezone),
-			[scheduledLocalAt, timezone],
-		);
+		const scheduleLabel = useMemo(() => formatScheduleLabel(scheduledLocalAt, timezone), [scheduledLocalAt, timezone]);
 
-		const handleStopEditing = React.useCallback(() => {
+		const handleStopEditing = useCallback(() => {
 			onCancel();
 		}, [onCancel]);
 

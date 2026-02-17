@@ -17,15 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {LongPressable} from '@app/components/LongPressable';
+import channelItemStyles from '@app/components/layout/ChannelItem.module.css';
+import channelItemSurfaceStyles from '@app/components/layout/ChannelItemSurface.module.css';
+import {DropIndicator} from '@app/components/layout/DropIndicator';
+import type {ScrollIndicatorSeverity} from '@app/components/layout/ScrollIndicatorOverlay';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
 import {CaretDownIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import React from 'react';
-import {LongPressable} from '~/components/LongPressable';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import channelItemStyles from './ChannelItem.module.css';
-import channelItemSurfaceStyles from './ChannelItemSurface.module.css';
-import {DropIndicator} from './DropIndicator';
-import type {ScrollIndicatorSeverity} from './ScrollIndicatorOverlay';
 
 interface GenericChannelItemProps {
 	icon?: React.ReactNode;
@@ -60,6 +60,8 @@ interface GenericChannelItemProps {
 	'data-dnd-name'?: string;
 	dataScrollIndicator?: ScrollIndicatorSeverity;
 	dataScrollId?: string;
+	onMouseEnter?: (event: React.MouseEvent) => void;
+	onMouseLeave?: (event: React.MouseEvent) => void;
 }
 
 export const GenericChannelItem = React.forwardRef<HTMLDivElement, GenericChannelItemProps>(
@@ -94,6 +96,8 @@ export const GenericChannelItem = React.forwardRef<HTMLDivElement, GenericChanne
 			'data-dnd-name': dataDndName,
 			dataScrollIndicator,
 			dataScrollId,
+			onMouseEnter,
+			onMouseLeave,
 		},
 		ref,
 	) => {
@@ -116,6 +120,8 @@ export const GenericChannelItem = React.forwardRef<HTMLDivElement, GenericChanne
 						onKeyDown={onKeyDown}
 						onFocus={onFocus}
 						onBlur={onBlur}
+						onMouseEnter={onMouseEnter}
+						onMouseLeave={onMouseLeave}
 						role={role}
 						tabIndex={tabIndex}
 						onLongPress={onLongPress}
@@ -129,21 +135,17 @@ export const GenericChannelItem = React.forwardRef<HTMLDivElement, GenericChanne
 						) : (
 							<>
 								{isCategory ? (
-									<div style={{display: 'flex', alignItems: 'center', flex: 1, minWidth: 0}}>
-										<span style={{flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>
-											{name}
-										</span>
+									<div className={channelItemStyles.categoryContainer}>
+										<span className={channelItemStyles.categoryName}>{name}</span>
 										<CaretDownIcon weight="bold" style={{transform: `rotate(${isCollapsed ? -90 : 0}deg)`}} />
 									</div>
 								) : (
 									<>
-										{icon && <div style={{marginRight: 8, display: 'flex', alignItems: 'center'}}>{icon}</div>}
-										<span style={{flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'}}>
-											{name}
-										</span>
+										{icon && <div className={channelItemStyles.iconContainer}>{icon}</div>}
+										<span className={channelItemStyles.channelName}>{name}</span>
 									</>
 								)}
-								<div style={{display: 'flex', alignItems: 'center', marginLeft: 8}}>
+								<div className={channelItemStyles.actionsContainer}>
 									{actions}
 									{badges}
 								</div>

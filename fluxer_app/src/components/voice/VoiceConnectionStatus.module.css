@@ -37,6 +37,14 @@
 	min-width: 0;
 }
 
+.channelAvatarStack {
+	display: flex;
+	align-items: center;
+	min-width: 0;
+	flex-shrink: 1;
+	align-self: flex-start;
+}
+
 .signalIcon {
 	display: flex;
 	align-items: center;
@@ -93,10 +101,6 @@
 	border: none;
 	border-radius: var(--radius-md);
 	cursor: pointer;
-	transition:
-		background-color var(--transition-fast),
-		color var(--transition-fast),
-		transform var(--transition-fast);
 	position: relative;
 	padding: 0;
 	flex-shrink: 0;
@@ -105,10 +109,6 @@
 .controlButton:hover {
 	background-color: color-mix(in srgb, var(--control-button-normal-text) 10%, transparent);
 	color: var(--control-button-hover-text);
-}
-
-.controlButton:active {
-	transform: scale(0.95);
 }
 
 .controlButton.selected {
@@ -132,92 +132,103 @@
 	gap: var(--spacing-2);
 }
 
-.infoRow {
+.channelSourceRow {
 	display: flex;
 	align-items: center;
-	gap: var(--spacing-2);
-	color: var(--text-secondary);
-	font-size: 0.75rem;
-	line-height: 1rem;
-}
-
-.channelInfo {
-	display: flex;
-	align-items: center;
-	gap: var(--spacing-2);
-	color: var(--text-secondary);
-	font-size: 0.75rem;
-	line-height: 1rem;
-	text-decoration: none;
-	cursor: pointer;
-}
-
-.channelInfo:hover {
-	text-decoration: underline;
-	color: var(--text-primary);
-}
-
-.channelInfo:focus-visible {
-	outline: 2px solid var(--brand-primary);
-	outline-offset: 1px;
-}
-
-.channelIcon {
-	height: 16px;
-	width: 16px;
-	color: var(--text-tertiary);
-	flex-shrink: 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-.channelText {
-	display: flex;
-	align-items: center;
-	flex: 1;
 	min-width: 0;
 }
 
-.channelName {
-	font-weight: 500;
-	color: var(--text-primary);
+.channelSourceLink {
+	display: inline-flex;
+	align-items: center;
+	min-width: 0;
+	max-width: 100%;
+	border: none;
+	background: transparent;
+	padding: 0;
+	font-size: 0.75rem;
+	line-height: 1rem;
+	color: var(--text-secondary);
+	text-decoration: none;
+	text-decoration-color: currentColor;
+	cursor: pointer;
+}
+
+.channelSourceLink:visited {
+	color: var(--text-secondary);
+}
+
+.channelSourceLink:hover {
+	color: var(--text-secondary);
+	text-decoration: underline;
+	text-decoration-color: currentColor;
+}
+
+.channelSourceLink:active {
+	color: var(--text-secondary);
+}
+
+.channelSourceText {
+	display: inline-flex;
+	align-items: center;
+	min-width: 0;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
-}
-
-.channelInfo:hover .channelName {
 	color: inherit;
 }
 
-.guildSeparator {
-	color: var(--text-tertiary);
-	margin: 0 2px;
-	flex-shrink: 0;
+.channelSourceChannel {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	min-width: 0;
+	color: inherit;
 }
 
-.guildName {
-	color: var(--text-tertiary);
-	font-weight: 400;
+.channelSourceSeparator {
+	margin: 0 2px;
+	flex-shrink: 0;
+	color: inherit;
+}
+
+.channelSourceGuild {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: inherit;
+}
+
+.connectionIdRow {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-2);
+	min-width: 0;
+	font-size: 0.75rem;
+	line-height: 1rem;
+	color: var(--text-secondary);
+}
+
+.connectionIdValue {
+	flex: 1 1 auto;
+	min-width: 0;
+	display: flex;
+	align-items: center;
+}
+
+.connectionIdValueText {
+	display: inline-block;
+	max-width: 100%;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;
 }
 
-.infoIcon {
+.connectionIdIcon {
 	height: 16px;
 	width: 16px;
 	color: var(--text-tertiary);
 	flex-shrink: 0;
-}
-
-.infoText {
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	flex: 1;
-	color: var(--text-secondary);
 }
 
 .mediaSection {
@@ -232,28 +243,19 @@
 	justify-content: center;
 	height: 32px;
 	width: 100%;
-	background-color: transparent;
+	background-color: color-mix(in srgb, var(--background-modifier-hover) 70%, transparent);
 	color: var(--control-button-normal-text);
 	border: 1px solid var(--background-modifier-hover);
 	border-radius: var(--radius-md);
 	cursor: pointer;
-	transition:
-		background-color var(--transition-fast),
-		color var(--transition-fast),
-		transform var(--transition-fast),
-		border-color var(--transition-fast);
 	position: relative;
 	padding: 0;
 }
 
 .mediaButton:hover:not(:disabled) {
-	background-color: color-mix(in srgb, var(--control-button-normal-text) 5%, transparent);
+	background-color: color-mix(in srgb, var(--control-button-normal-text) 10%, transparent);
 	color: var(--control-button-hover-text);
 	border-color: var(--background-modifier-selected);
-}
-
-.mediaButton:active:not(:disabled) {
-	transform: scale(0.95);
 }
 
 .mediaButton:disabled {
@@ -263,14 +265,14 @@
 
 .mediaButton.cameraActive,
 .mediaButton.screenShareActive {
-	background-color: color-mix(in srgb, var(--status-online) 10%, transparent);
+	background-color: color-mix(in srgb, var(--status-online) 15%, transparent);
 	color: var(--status-online);
-	border-color: var(--status-online);
+	border-color: color-mix(in srgb, var(--status-online) 30%, transparent);
 }
 
 .mediaButton.cameraActive:hover:not(:disabled),
 .mediaButton.screenShareActive:hover:not(:disabled) {
-	background-color: color-mix(in srgb, var(--status-online) 15%, transparent);
+	background-color: color-mix(in srgb, var(--status-online) 20%, transparent);
 	color: var(--status-online);
 }
 
@@ -286,8 +288,8 @@
 	width: calc(var(--layout-sidebar-width) - 16px);
 	box-sizing: border-box;
 	padding: var(--spacing-3);
-	background-color: var(--background-primary);
-	border: 1px solid var(--background-header-secondary);
+	background-color: var(--voice-surface-2);
+	border: 1px solid var(--voice-surface-5);
 	border-radius: var(--radius-md);
 }
 
@@ -402,6 +404,7 @@
 
 .chartSvg {
 	overflow: visible;
+	width: 100%;
 }
 
 .gridLine {
@@ -437,7 +440,7 @@
 }
 
 .textGreen {
-	color: rgb(34 197 94);
+	color: var(--voice-status-success);
 }
 
 .textBackgroundModifierHover {
@@ -467,9 +470,125 @@
 	height: 12px;
 	width: 12px;
 	flex-shrink: 0;
+	color: var(--status-online);
 }
 
-.channelIconSize {
-	height: 16px;
-	width: 16px;
+.regionSelectorContainer {
+	position: relative;
+	margin-left: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-end;
+}
+
+.regionButton {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-1);
+	padding: 4px 8px;
+	background-color: var(--background-secondary);
+	border: 1px solid var(--background-modifier-hover);
+	border-radius: var(--radius-sm);
+	cursor: pointer;
+	transition:
+		background-color var(--transition-fast),
+		border-color var(--transition-fast);
+	font-size: 0.75rem;
+	color: var(--text-primary);
+}
+
+.regionButton:hover:not(:disabled) {
+	background-color: var(--background-modifier-hover);
+	border-color: var(--background-modifier-selected);
+}
+
+.regionButton:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.regionIcon {
+	height: 14px;
+	width: 14px;
+	color: var(--text-secondary);
+	flex-shrink: 0;
+}
+
+.regionButtonText {
+	font-weight: 600;
+	color: var(--text-primary);
+	white-space: nowrap;
+}
+
+.regionCaret {
+	height: 12px;
+	width: 12px;
+	color: var(--text-secondary);
+	flex-shrink: 0;
+	transition: transform var(--transition-fast);
+}
+
+.regionCaretOpen {
+	transform: rotate(180deg);
+}
+
+.regionDropdown {
+	position: absolute;
+	top: 100%;
+	right: 0;
+	margin-top: 4px;
+	min-width: 160px;
+	max-height: 200px;
+	overflow-y: auto;
+	background-color: var(--background-tertiary);
+	border: 1px solid var(--background-modifier-hover);
+	border-radius: var(--radius-md);
+	box-shadow: var(--shadow-lg);
+	z-index: 100;
+	display: flex;
+	flex-direction: column;
+	padding: 4px;
+}
+
+.regionOption {
+	display: flex;
+	align-items: center;
+	gap: var(--spacing-2);
+	padding: 8px 12px;
+	background-color: transparent;
+	border: none;
+	border-radius: var(--radius-sm);
+	cursor: pointer;
+	transition: background-color var(--transition-fast);
+	font-size: 0.875rem;
+	color: var(--text-primary);
+	text-align: left;
+	width: 100%;
+}
+
+.regionOption:hover:not(:disabled) {
+	background-color: var(--background-modifier-hover);
+}
+
+.regionOption:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.regionOptionSelected {
+	background-color: var(--background-modifier-selected);
+}
+
+.regionOptionSelected:hover:not(:disabled) {
+	background-color: color-mix(in srgb, var(--background-modifier-selected) 80%, var(--background-modifier-hover));
+}
+
+.regionEmoji {
+	font-size: 1rem;
+	flex-shrink: 0;
+}
+
+.regionName {
+	font-weight: 500;
+	white-space: nowrap;
 }

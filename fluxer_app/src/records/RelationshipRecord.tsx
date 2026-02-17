@@ -17,8 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {UserPartial, UserRecord} from '~/records/UserRecord';
-import UserStore from '~/stores/UserStore';
+import type {UserRecord} from '@app/records/UserRecord';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import UserStore from '@app/stores/UserStore';
+import type {UserPartial} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 
 export type Relationship = Readonly<{
 	id: string;
@@ -28,14 +30,20 @@ export type Relationship = Readonly<{
 	nickname?: string | null;
 }>;
 
+interface RelationshipRecordOptions {
+	instanceId?: string;
+}
+
 export class RelationshipRecord {
+	readonly instanceId: string;
 	readonly id: string;
 	readonly type: number;
 	readonly userId: string;
 	readonly since: Date;
 	readonly nickname: string | null;
 
-	constructor(relationship: Relationship) {
+	constructor(relationship: Relationship, options?: RelationshipRecordOptions) {
+		this.instanceId = options?.instanceId ?? RuntimeConfigStore.localInstanceDomain;
 		if (relationship.user) {
 			UserStore.cacheUsers([relationship.user]);
 			this.userId = relationship.user.id;
@@ -60,12 +68,15 @@ export class RelationshipRecord {
 				}
 			: this.user?.toJSON();
 
-		return new RelationshipRecord({
-			id: relationship.id ?? this.id,
-			type: relationship.type ?? this.type,
-			since: relationship.since ?? this.since.toISOString(),
-			nickname: relationship.nickname ?? this.nickname,
-			user: mergedUser,
-		});
+		return new RelationshipRecord(
+			{
+				id: relationship.id ?? this.id,
+				type: relationship.type ?? this.type,
+				since: relationship.since ?? this.since.toISOString(),
+				nickname: relationship.nickname ?? this.nickname,
+				user: mergedUser,
+			},
+			{instanceId: this.instanceId},
+		);
 	}
 }

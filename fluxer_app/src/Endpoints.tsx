@@ -17,7 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {ME} from '~/Constants';
+import {ME} from '@fluxer/constants/src/AppConstants';
 
 export const Endpoints = {
 	INSTANCE: '/instance',
@@ -33,7 +33,6 @@ export const Endpoints = {
 	AUTH_LOGOUT: '/auth/logout',
 	AUTH_REGISTER: '/auth/register',
 	AUTH_USERNAME_SUGGESTIONS: '/auth/username-suggestions',
-	AUTH_REDEEM_BETA_CODE: '/auth/redeem-beta-code',
 	AUTH_SESSIONS: '/auth/sessions',
 	AUTH_SESSIONS_LOGOUT: '/auth/sessions/logout',
 	AUTH_HANDOFF_INITIATE: '/auth/handoff/initiate',
@@ -47,8 +46,13 @@ export const Endpoints = {
 	AUTH_RESEND_VERIFICATION: '/auth/verify/resend',
 	AUTH_AUTHORIZE_IP: '/auth/authorize-ip',
 	AUTH_IP_AUTHORIZATION_RESEND: '/auth/ip-authorization/resend',
-	AUTH_IP_AUTHORIZATION_STREAM: (ticket: string) =>
-		`/auth/ip-authorization/stream?ticket=${encodeURIComponent(ticket)}`,
+	AUTH_IP_AUTHORIZATION_POLL: (ticket: string) => {
+		const url = new URL('https://fluxer.invalid/auth/ip-authorization/poll');
+		url.searchParams.set('ticket', ticket);
+		return `${url.pathname}${url.search}`;
+	},
+	AUTH_SSO_START: '/auth/sso/start',
+	AUTH_SSO_COMPLETE: '/auth/sso/complete',
 
 	SUDO_MFA_METHODS: '/users/@me/sudo/mfa-methods',
 	SUDO_SMS_SEND: '/users/@me/sudo/mfa/sms/send',
@@ -101,6 +105,7 @@ export const Endpoints = {
 	GUILD_CHANNELS: (guildId: string) => `/guilds/${guildId}/channels`,
 	GUILD_MEMBER: (guildId: string, query = ME) => `/guilds/${guildId}/members/${query}`,
 	GUILD_MEMBERS: (guildId: string) => `/guilds/${guildId}/members`,
+	GUILD_MEMBERS_SEARCH: (guildId: string) => `/guilds/${guildId}/members-search`,
 	GUILD_MEMBER_ROLE: (guildId: string, userId: string, roleId: string) =>
 		`/guilds/${guildId}/members/${userId}/roles/${roleId}`,
 	GUILD_BAN: (guildId: string, userId: string) => `/guilds/${guildId}/bans/${userId}`,
@@ -112,7 +117,6 @@ export const Endpoints = {
 	GUILD_TRANSFER_OWNERSHIP: (guildId: string) => `/guilds/${guildId}/transfer-ownership`,
 	GUILD_TEXT_CHANNEL_FLEXIBLE_NAMES: (guildId: string) => `/guilds/${guildId}/text-channel-flexible-names`,
 	GUILD_DETACHED_BANNER: (guildId: string) => `/guilds/${guildId}/detached-banner`,
-	GUILD_DISALLOW_UNCLAIMED_ACCOUNTS: (guildId: string) => `/guilds/${guildId}/disallow-unclaimed-accounts`,
 	GUILD_EMOJI: (guildId: string, emojiId: string) => `/guilds/${guildId}/emojis/${emojiId}`,
 	GUILD_EMOJIS: (guildId: string) => `/guilds/${guildId}/emojis`,
 	GUILD_STICKER: (guildId: string, stickerId: string) => `/guilds/${guildId}/stickers/${stickerId}`,
@@ -128,7 +132,6 @@ export const Endpoints = {
 	GIFT_REDEEM: (code: string) => `/gifts/${code}/redeem`,
 	USER_GIFTS: '/users/@me/gifts',
 
-	PREMIUM_VISIONARY_SLOTS: '/premium/visionary/slots',
 	PREMIUM_VISIONARY_REJOIN: '/premium/visionary/rejoin',
 	PREMIUM_OPERATOR_REJOIN: '/premium/operator/rejoin',
 	PREMIUM_PRICE_IDS: '/premium/price-ids',
@@ -150,14 +153,18 @@ export const Endpoints = {
 	DSA_REPORT_EMAIL_VERIFY: '/reports/dsa/email/verify',
 	DSA_REPORT_CREATE: '/reports/dsa',
 
+	KLIPY_FEATURED: '/klipy/featured',
+	KLIPY_REGISTER_SHARE: '/klipy/register-share',
+	KLIPY_SEARCH: '/klipy/search',
+	KLIPY_SUGGEST: '/klipy/suggest',
+	KLIPY_TRENDING_GIFS: '/klipy/trending-gifs',
+
 	TENOR_FEATURED: '/tenor/featured',
 	TENOR_REGISTER_SHARE: '/tenor/register-share',
 	TENOR_SEARCH: '/tenor/search',
 	TENOR_SUGGEST: '/tenor/suggest',
 	TENOR_TRENDING_GIFS: '/tenor/trending-gifs',
 
-	USER_BETA_CODE: (code: string) => `/users/@me/beta-codes/${code}`,
-	USER_BETA_CODES: '/users/@me/beta-codes',
 	USER_CHANNELS: '/users/@me/channels',
 	USER_CHANNEL_PIN: (channelId: string) => `/users/@me/channels/${channelId}/pin`,
 	USER_GUILDS_LIST: '/users/@me/guilds',
@@ -170,6 +177,7 @@ export const Endpoints = {
 	USER_MFA_TOTP_ENABLE: '/users/@me/mfa/totp/enable',
 	USER_MFA_SMS_ENABLE: '/users/@me/mfa/sms/enable',
 	USER_MFA_SMS_DISABLE: '/users/@me/mfa/sms/disable',
+	USER_AUTHORIZED_IPS: '/users/@me/authorized-ips',
 	USER_MFA_WEBAUTHN_CREDENTIALS: '/users/@me/mfa/webauthn/credentials',
 	USER_MFA_WEBAUTHN_REGISTRATION_OPTIONS: '/users/@me/mfa/webauthn/credentials/registration-options',
 	USER_MFA_WEBAUTHN_CREDENTIAL: (credentialId: string) => `/users/@me/mfa/webauthn/credentials/${credentialId}`,
@@ -182,10 +190,18 @@ export const Endpoints = {
 	USER_EMAIL_CHANGE_REQUEST_NEW: '/users/@me/email-change/request-new',
 	USER_EMAIL_CHANGE_RESEND_NEW: '/users/@me/email-change/resend-new',
 	USER_EMAIL_CHANGE_VERIFY_NEW: '/users/@me/email-change/verify-new',
+	USER_EMAIL_CHANGE_BOUNCED_REQUEST_NEW: '/users/@me/email-change/bounced/request-new',
+	USER_EMAIL_CHANGE_BOUNCED_RESEND_NEW: '/users/@me/email-change/bounced/resend-new',
+	USER_EMAIL_CHANGE_BOUNCED_VERIFY_NEW: '/users/@me/email-change/bounced/verify-new',
+	USER_PASSWORD_CHANGE_START: '/users/@me/password-change/start',
+	USER_PASSWORD_CHANGE_RESEND: '/users/@me/password-change/resend',
+	USER_PASSWORD_CHANGE_VERIFY: '/users/@me/password-change/verify',
+	USER_PASSWORD_CHANGE_COMPLETE: '/users/@me/password-change/complete',
 	USER_DISABLE: '/users/@me/disable',
 	USER_DELETE: '/users/@me/delete',
 	USER_BULK_DELETE_MESSAGES: '/users/@me/messages/delete',
 	USER_BULK_DELETE_MESSAGES_TEST: '/users/@me/messages/delete/test',
+	USER_PREMIUM_RESET: '/users/@me/premium/reset',
 	USER_HARVEST: '/users/@me/harvest',
 	USER_HARVEST_LATEST: '/users/@me/harvest/latest',
 	USER_HARVEST_STATUS: (harvestId: string) => `/users/@me/harvest/${harvestId}`,
@@ -228,4 +244,16 @@ export const Endpoints = {
 	REPORT_MESSAGE: '/reports/message',
 	REPORT_USER: '/reports/user',
 	REPORT_GUILD: '/reports/guild',
+
+	DISCOVERY_GUILDS: '/discovery/guilds',
+	DISCOVERY_CATEGORIES: '/discovery/categories',
+	DISCOVERY_JOIN: (guildId: string) => `/discovery/guilds/${guildId}/join`,
+	GUILD_DISCOVERY: (guildId: string) => `/guilds/${guildId}/discovery`,
+
+	CONNECTIONS: '/users/@me/connections',
+	CONNECTIONS_VERIFY_AND_CREATE: '/users/@me/connections/verify',
+	BLUESKY_AUTHORIZE: '/users/@me/connections/bluesky/authorize',
+	CONNECTION: (type: string, connectionId: string) => `/users/@me/connections/${type}/${connectionId}`,
+	CONNECTION_VERIFY: (type: string, connectionId: string) => `/users/@me/connections/${type}/${connectionId}/verify`,
+	CONNECTIONS_REORDER: '/users/@me/connections/reorder',
 } as const;

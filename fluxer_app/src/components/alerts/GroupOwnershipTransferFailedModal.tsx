@@ -17,17 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {GenericErrorModal} from '@app/components/alerts/GenericErrorModal';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type {ReactElement} from 'react';
-import {GenericErrorModal} from './GenericErrorModal';
 
-export const GroupOwnershipTransferFailedModal: React.FC<{username?: string}> = observer(({username}) => {
+interface GroupOwnershipTransferFailedModalProps {
+	username: string;
+}
+
+export const GroupOwnershipTransferFailedModal = observer(({username}: GroupOwnershipTransferFailedModalProps) => {
 	const {t} = useLingui();
 	const message: ReactElement = (
 		<Trans>
 			Ownership could not be transferred to <strong>{username}</strong> at this time.
 		</Trans>
 	);
-	return <GenericErrorModal title={t`Failed to transfer ownership`} message={message} />;
+	return <GenericErrorModal title={t`Failed to Transfer Ownership`} message={message} />;
 });

@@ -17,6 +17,75 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as VoiceCallLayoutActionCreators from '@app/actions/VoiceCallLayoutActionCreators';
+import * as VoiceSettingsActionCreators from '@app/actions/VoiceSettingsActionCreators';
+import {VoiceParticipantBottomSheet} from '@app/components/bottomsheets/VoiceParticipantBottomSheet';
+import {LongPressable} from '@app/components/LongPressable';
+import {Avatar} from '@app/components/uikit/Avatar';
+import {Button} from '@app/components/uikit/button/Button';
+import {VoiceParticipantContextMenu} from '@app/components/uikit/context_menu/VoiceParticipantContextMenu';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {LiveBadge} from '@app/components/uikit/LiveBadge';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {FeedHiddenOverlay} from '@app/components/voice/FeedHiddenOverlay';
+import {getPlaceholderAvatarColor} from '@app/components/voice/GetPlaceholderAvatarColor';
+import {
+	getOwnStreamHiddenState,
+	useOwnScreenSharePreviewState,
+	useWindowFocus,
+} from '@app/components/voice/OwnStreamPreviewState';
+import {StreamInfoPill} from '@app/components/voice/StreamInfoPill';
+import {getStreamKey} from '@app/components/voice/StreamKeys';
+import {StreamWatchHoverCard} from '@app/components/voice/StreamWatchHoverCard';
+import {useStreamPreview} from '@app/components/voice/useStreamPreview';
+import {useStreamSpectators} from '@app/components/voice/useStreamSpectators';
+import {useStreamTrackInfo} from '@app/components/voice/useStreamTrackInfo';
+import {useStreamWatchState} from '@app/components/voice/useStreamWatchState';
+import voiceCallStyles from '@app/components/voice/VoiceCallView.module.css';
+import {
+	isVoiceParticipantActuallySpeaking,
+	parseVoiceParticipantIdentity,
+} from '@app/components/voice/VoiceParticipantSpeakingUtils';
+import styles from '@app/components/voice/VoiceParticipantTile.module.css';
+import {Endpoints} from '@app/Endpoints';
+import HttpClient from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import CallMediaPrefsStore from '@app/stores/CallMediaPrefsStore';
+import ContextMenuStore from '@app/stores/ContextMenuStore';
+import LocalVoiceStateStore from '@app/stores/LocalVoiceStateStore';
+import ParticipantVolumeStore from '@app/stores/ParticipantVolumeStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import PrivacyPreferencesStore from '@app/stores/PrivacyPreferencesStore';
+import StreamAudioPrefsStore from '@app/stores/StreamAudioPrefsStore';
+import UserStore from '@app/stores/UserStore';
+import VoiceCallLayoutStore from '@app/stores/VoiceCallLayoutStore';
+import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import {dimColor} from '@app/utils/ColorUtils';
+import {isMobileExperienceEnabled} from '@app/utils/MobileExperience';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {canViewStreamPreview} from '@app/utils/StreamPreviewPermissionUtils';
+import {voiceVolumePercentToTrackVolume} from '@app/utils/VoiceVolumeUtils';
+import {DEFAULT_ACCENT_COLOR} from '@fluxer/constants/src/AppConstants';
+import {Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {
+	STREAM_AUDIO_PREFS_TOUCH_INTERVAL_MS,
+	STREAM_PREVIEW_CONTENT_TYPE_JPEG,
+	STREAM_PREVIEW_DIMENSION_SCALE_STEP,
+	STREAM_PREVIEW_ENCODE_ATTEMPTS,
+	STREAM_PREVIEW_INITIAL_UPLOAD_INTERVAL_MS,
+	STREAM_PREVIEW_INITIAL_UPLOAD_MAX_ATTEMPTS,
+	STREAM_PREVIEW_JPEG_DATA_URL_PREFIX,
+	STREAM_PREVIEW_JPEG_QUALITY_MIN,
+	STREAM_PREVIEW_JPEG_QUALITY_START,
+	STREAM_PREVIEW_JPEG_QUALITY_STEP,
+	STREAM_PREVIEW_MAX_BYTES,
+	STREAM_PREVIEW_MAX_DIMENSION_PX,
+	STREAM_PREVIEW_MIN_DIMENSION_PX,
+	STREAM_PREVIEW_UPLOAD_INTERVAL_MS,
+	STREAM_PREVIEW_UPLOAD_JITTER_MS,
+} from '@fluxer/constants/src/StreamConstants';
 import {useLingui} from '@lingui/react/macro';
 import {
 	isTrackReference,
@@ -32,135 +101,111 @@ import {
 	DotsThreeIcon,
 	EyeIcon,
 	MicrophoneSlashIcon,
+	MonitorPlayIcon,
 	PauseIcon,
-	ProjectorScreenIcon,
+	PlusIcon,
+	SpeakerHighIcon,
 	SpeakerSlashIcon,
+	VideoCameraIcon,
 	VideoCameraSlashIcon,
 } from '@phosphor-icons/react';
 import {clsx} from 'clsx';
-import {type Participant, type RemoteTrackPublication, Track} from 'livekit-client';
+import {type Participant, ParticipantEvent, type RemoteTrackPublication, Track} from 'livekit-client';
 import {autorun} from 'mobx';
 import {observer} from 'mobx-react-lite';
-import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as SoundActionCreators from '~/actions/SoundActionCreators';
-import * as VoiceCallLayoutActionCreators from '~/actions/VoiceCallLayoutActionCreators';
-import {DEFAULT_ACCENT_COLOR} from '~/Constants';
-import {VoiceParticipantBottomSheet} from '~/components/bottomsheets/VoiceParticipantBottomSheet';
-import {LongPressable} from '~/components/LongPressable';
-import {Avatar} from '~/components/uikit/Avatar';
-import {Button} from '~/components/uikit/Button/Button';
-import {VoiceParticipantContextMenu} from '~/components/uikit/ContextMenu/VoiceParticipantContextMenu';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip';
-import {Endpoints} from '~/Endpoints';
-import HttpClient from '~/lib/HttpClient';
-import type {UserRecord} from '~/records/UserRecord';
-import CallMediaPrefsStore from '~/stores/CallMediaPrefsStore';
-import ContextMenuStore from '~/stores/ContextMenuStore';
-import LocalVoiceStateStore from '~/stores/LocalVoiceStateStore';
-import UserStore from '~/stores/UserStore';
-import VoiceCallLayoutStore from '~/stores/VoiceCallLayoutStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import type {VoiceState} from '~/stores/voice/VoiceStateManager';
-import WindowStore from '~/stores/WindowStore';
-import {isMobileExperienceEnabled} from '~/utils/mobileExperience';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import {SoundType} from '~/utils/SoundUtils';
-import {getPlaceholderAvatarColor} from './getPlaceholderAvatarColor';
-import voiceCallStyles from './VoiceCallView.module.css';
-import styles from './VoiceParticipantTile.module.css';
+import type React from 'react';
+import {useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
 
-const AVATAR_BACKGROUND_DIM_AMOUNT = 0.12;
+const logger = new Logger('VoiceParticipantTile');
 
-interface RGBComponents {
-	r: number;
-	g: number;
-	b: number;
-	a?: number;
+function estimateBase64Bytes(base64: string): number {
+	return Math.floor((base64.length * 3) / 4);
 }
 
-const clampChannel = (value: number) => Math.max(0, Math.min(255, value));
-
-const toRGBComponents = (color: string): RGBComponents | null => {
-	const normalized = color.trim();
-
-	const hexMatch = normalized.match(/^#([a-f0-9]{3}|[a-f0-9]{6}|[a-f0-9]{8})$/i);
-	if (hexMatch) {
-		const hex = hexMatch[1];
-		const expand = (pair: string) => (pair.length === 1 ? `${pair}${pair}` : pair);
-
-		if (hex.length === 3) {
-			const r = expand(hex[0]);
-			const g = expand(hex[1]);
-			const b = expand(hex[2]);
-			return {
-				r: parseInt(r, 16),
-				g: parseInt(g, 16),
-				b: parseInt(b, 16),
-			};
-		}
-
-		if (hex.length === 6) {
-			return {
-				r: parseInt(hex.slice(0, 2), 16),
-				g: parseInt(hex.slice(2, 4), 16),
-				b: parseInt(hex.slice(4, 6), 16),
-			};
-		}
-
-		if (hex.length === 8) {
-			return {
-				r: parseInt(hex.slice(0, 2), 16),
-				g: parseInt(hex.slice(2, 4), 16),
-				b: parseInt(hex.slice(4, 6), 16),
-				a: parseInt(hex.slice(6, 8), 16) / 255,
-			};
-		}
+function getScaledDimensions(width: number, height: number, maxDimension: number): {width: number; height: number} {
+	if (width <= maxDimension && height <= maxDimension) {
+		return {width, height};
 	}
 
-	const rgbMatch = normalized.match(
-		/^rgba?\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})(?:\s*,\s*(\d*\.?\d+))?\s*\)$/i,
-	);
+	const scale = maxDimension / Math.max(width, height);
+	return {
+		width: Math.max(1, Math.round(width * scale)),
+		height: Math.max(1, Math.round(height * scale)),
+	};
+}
 
-	if (rgbMatch) {
-		const [, rawR, rawG, rawB, rawA] = rgbMatch;
-		const components: RGBComponents = {
-			r: clampChannel(Number(rawR)),
-			g: clampChannel(Number(rawG)),
-			b: clampChannel(Number(rawB)),
-		};
+function drawPreviewCanvas(
+	source: CanvasImageSource,
+	width: number,
+	height: number,
+	maxDimension: number,
+): HTMLCanvasElement | null {
+	const {width: targetWidth, height: targetHeight} = getScaledDimensions(width, height, maxDimension);
+	const canvas = document.createElement('canvas');
+	canvas.width = targetWidth;
+	canvas.height = targetHeight;
+	const ctx = canvas.getContext('2d');
+	if (!ctx) return null;
+	ctx.drawImage(source, 0, 0, targetWidth, targetHeight);
+	return canvas;
+}
 
-		if (rawA != null) {
-			components.a = Math.max(0, Math.min(1, Number(rawA)));
+function encodePreviewBase64(canvas: HTMLCanvasElement, quality: number): string {
+	const dataUrl = canvas.toDataURL(STREAM_PREVIEW_CONTENT_TYPE_JPEG, quality);
+	return dataUrl.replace(STREAM_PREVIEW_JPEG_DATA_URL_PREFIX, '');
+}
+
+async function buildPreviewBase64FromSource(
+	source: CanvasImageSource,
+	width: number,
+	height: number,
+): Promise<string | null> {
+	let quality = STREAM_PREVIEW_JPEG_QUALITY_START;
+	let maxDimension = STREAM_PREVIEW_MAX_DIMENSION_PX;
+
+	for (let attempt = 0; attempt < STREAM_PREVIEW_ENCODE_ATTEMPTS; attempt += 1) {
+		const canvas = drawPreviewCanvas(source, width, height, maxDimension);
+		if (!canvas) return null;
+
+		const base64 = encodePreviewBase64(canvas, quality);
+		if (estimateBase64Bytes(base64) <= STREAM_PREVIEW_MAX_BYTES) {
+			return base64;
 		}
 
-		return components;
+		if (quality > STREAM_PREVIEW_JPEG_QUALITY_MIN) {
+			quality = Math.max(STREAM_PREVIEW_JPEG_QUALITY_MIN, quality - STREAM_PREVIEW_JPEG_QUALITY_STEP);
+		} else if (maxDimension > STREAM_PREVIEW_MIN_DIMENSION_PX) {
+			maxDimension = Math.max(
+				STREAM_PREVIEW_MIN_DIMENSION_PX,
+				Math.round(maxDimension * STREAM_PREVIEW_DIMENSION_SCALE_STEP),
+			);
+		}
 	}
 
 	return null;
-};
+}
 
-const formatRGB = ({r, g, b, a}: RGBComponents): string =>
-	a != null ? `rgba(${r}, ${g}, ${b}, ${a})` : `rgb(${r}, ${g}, ${b})`;
+async function buildPreviewBase64FromVideo(videoEl: HTMLVideoElement): Promise<string | null> {
+	if (videoEl.videoWidth === 0 || videoEl.videoHeight === 0) return null;
+	return buildPreviewBase64FromSource(videoEl, videoEl.videoWidth, videoEl.videoHeight);
+}
 
-const dimColor = (color: string): string => {
-	const rgb = toRGBComponents(color);
-	if (!rgb) return color;
+async function buildPreviewBase64FromDataUrl(dataUrl: string): Promise<string | null> {
+	const image = new Image();
+	image.decoding = 'async';
+	image.src = dataUrl;
 
-	const factor = Math.max(0, Math.min(1, 1 - AVATAR_BACKGROUND_DIM_AMOUNT));
-	const dimmed: RGBComponents = {
-		r: clampChannel(Math.round(rgb.r * factor)),
-		g: clampChannel(Math.round(rgb.g * factor)),
-		b: clampChannel(Math.round(rgb.b * factor)),
-	};
-
-	if (rgb.a != null) {
-		dimmed.a = rgb.a;
+	try {
+		await image.decode();
+	} catch {
+		return null;
 	}
 
-	return formatRGB(dimmed);
-};
+	const width = image.naturalWidth || image.width;
+	const height = image.naturalHeight || image.height;
+	if (!width || !height) return null;
+	return buildPreviewBase64FromSource(image, width, height);
+}
 
 interface VoiceParticipantTileProps {
 	trackRef?: TrackReferenceOrPlaceholder;
@@ -170,6 +215,7 @@ interface VoiceParticipantTileProps {
 	isPinned?: boolean;
 	showFocusIndicator?: boolean;
 	allowAutoSubscribe?: boolean;
+	renderFocusedPlaceholder?: boolean;
 }
 
 interface VoiceParticipantTileInnerProps {
@@ -181,26 +227,21 @@ interface VoiceParticipantTileInnerProps {
 	isPinned?: boolean;
 	showFocusIndicator?: boolean;
 	allowAutoSubscribe: boolean;
+	renderFocusedPlaceholder: boolean;
 }
 
-interface ParsedIdentity {
-	userId: string;
-	connectionId: string;
+function isCameraSource(source: Track.Source | undefined) {
+	return source === Track.Source.Camera;
 }
 
-function parseIdentity(identity: string): ParsedIdentity {
-	const match = identity.match(/^user_(\d+)_(.+)$/);
-	return {userId: match?.[1] ?? '', connectionId: match?.[2] ?? ''};
-}
-
-function getStreamKey(guildId: string | undefined, channelId: string | undefined, connectionId: string) {
-	if (channelId && guildId) return `${guildId}:${channelId}:${connectionId}`;
-	if (channelId) return `dm:${channelId}:${connectionId}`;
-	return `stream:${connectionId}`;
-}
-
-function isVideoSource(source: Track.Source | undefined) {
-	return source === Track.Source.Camera || source === Track.Source.ScreenShare;
+function isAudioTrackWithVolume(track: unknown): track is {kind: string; setVolume: (volume: number) => void} {
+	return (
+		track != null &&
+		typeof track === 'object' &&
+		'kind' in track &&
+		(track as {kind: string}).kind === Track.Kind.Audio &&
+		'setVolume' in track
+	);
 }
 
 function getSourceDataAttr(source: Track.Source | undefined) {
@@ -215,7 +256,7 @@ function getSourceDataAttr(source: Track.Source | undefined) {
 }
 
 function useEffectiveTrackRef(explicit?: TrackReferenceOrPlaceholder) {
-	const ctx = React.useContext(TrackRefContext as React.Context<TrackReferenceOrPlaceholder | undefined>);
+	const ctx = useContext(TrackRefContext as React.Context<TrackReferenceOrPlaceholder | undefined>);
 	return (explicit ?? ctx) as TrackReferenceOrPlaceholder | undefined;
 }
 
@@ -247,14 +288,20 @@ function useTileContextMenuActive(tileElRef: React.RefObject<HTMLElement | null>
 	useEffect(() => {
 		const disposer = autorun(() => {
 			const cm = ContextMenuStore.contextMenu;
-			const target = cm?.target?.target as Node | undefined;
+			const target = cm?.target?.target;
 			const el = tileElRef.current;
-			setOpen(Boolean(cm && target && el && el.contains(target)));
+			setOpen(Boolean(cm && target instanceof Node && el && el.contains(target)));
 		});
 		return () => disposer();
 	}, [tileElRef]);
 
 	return open;
+}
+
+function resolveAvatarSize(width: number, height: number, min: number, max: number): number {
+	const base = Math.min(width, height);
+	const raw = Math.max(min, Math.min(base * 0.32, max));
+	return Math.round(raw / 2) * 2;
 }
 
 function useAvatarSize(tileElRef: React.RefObject<HTMLElement | null>, min = 80, max = 192) {
@@ -266,17 +313,27 @@ function useAvatarSize(tileElRef: React.RefObject<HTMLElement | null>, min = 80,
 		const el = tileElRef.current;
 		if (!el) return;
 
-		const compute = () => {
-			const rect = el.getBoundingClientRect();
-			const base = Math.min(rect.width, rect.height);
-			const next = Math.round(Math.max(min, Math.min(base * 0.32, max)));
+		const computeFromDimensions = (width: number, height: number) => {
+			const next = resolveAvatarSize(width, height, min, max);
 			setAvatarSize((prev) => (prev !== next ? next : prev));
 		};
 
-		compute();
-		const ro = new ResizeObserver(compute);
+		const computeFromRect = () => {
+			const rect = el.getBoundingClientRect();
+			computeFromDimensions(rect.width, rect.height);
+		};
+
+		computeFromRect();
+		const ro = new ResizeObserver((entries) => {
+			const first = entries[0];
+			if (!first) return;
+			const {width, height} = first.contentRect;
+			computeFromDimensions(width, height);
+		});
 		ro.observe(el);
-		return () => ro.disconnect();
+		return () => {
+			ro.disconnect();
+		};
 	}, [tileElRef, min, max]);
 
 	return avatarSize;
@@ -291,90 +348,95 @@ function useAutoVideoSubscription(opts: {
 	isScreenShare: boolean;
 }) {
 	const {enabled, trackRef, isIntersecting, videoLocallyDisabled, isLocalParticipant, isScreenShare} = opts;
+	const lastRequestedRef = useRef<{trackSid: string | null; desired: boolean | null}>({trackSid: null, desired: null});
 
 	useEffect(() => {
-		if (!enabled) return;
-		if (isLocalParticipant) return;
-		if (isScreenShare) return;
-		if (!isTrackReference(trackRef)) return;
+		if (!enabled || isLocalParticipant || isScreenShare) {
+			lastRequestedRef.current = {trackSid: null, desired: null};
+			return;
+		}
+		if (!isTrackReference(trackRef)) {
+			lastRequestedRef.current = {trackSid: null, desired: null};
+			return;
+		}
 
 		const pub = trackRef.publication as RemoteTrackPublication | undefined;
 		if (!pub || typeof pub.setSubscribed !== 'function') return;
 
-		const shouldSubscribe = isIntersecting && !videoLocallyDisabled;
+		const shouldSubscribe = !videoLocallyDisabled;
+		const trackSid = pub.trackSid ?? null;
+
+		if (lastRequestedRef.current.trackSid !== trackSid) {
+			lastRequestedRef.current = {trackSid, desired: null};
+		}
+
+		if (pub.isSubscribed === shouldSubscribe) {
+			lastRequestedRef.current.desired = shouldSubscribe;
+			return;
+		}
+
+		if (lastRequestedRef.current.desired === shouldSubscribe) return;
 
 		try {
+			lastRequestedRef.current.desired = shouldSubscribe;
 			pub.setSubscribed(shouldSubscribe);
 		} catch (err) {
-			console.error('[VoiceParticipantTile] setSubscribed failed', err);
+			logger.error('setSubscribed failed', err);
 		}
 	}, [enabled, trackRef, isIntersecting, videoLocallyDisabled, isLocalParticipant, isScreenShare]);
 }
 
-const previewInflight = new Map<string, Promise<string | null>>();
+interface ScreenShareAudioPublicationState {
+	publication: RemoteTrackPublication | null;
+	hasTrack: boolean;
+}
 
-function useScreensharePreview(enabled: boolean, streamKey: string) {
-	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-	const [loading, setLoading] = useState(false);
+function useScreenShareAudioPublication(participant: Participant, enabled: boolean): ScreenShareAudioPublicationState {
+	const [publication, setPublication] = useState<RemoteTrackPublication | null>(null);
+	const [hasTrack, setHasTrack] = useState(false);
 
-	const revoke = useCallback((url: string | null) => {
-		if (url) URL.revokeObjectURL(url);
-	}, []);
-
-	const fetchPreview = useCallback(async () => {
-		if (!enabled) return;
-
-		const existing = previewInflight.get(streamKey);
-		if (existing) {
-			const url = await existing;
-			setPreviewUrl((prev) => {
-				if (prev !== url) revoke(prev);
-				return url;
-			});
+	useEffect(() => {
+		if (!enabled) {
+			setPublication(null);
+			setHasTrack(false);
 			return;
 		}
 
-		const p = (async () => {
-			setLoading(true);
-			try {
-				const response = await HttpClient.get<ArrayBuffer>({
-					url: Endpoints.STREAM_PREVIEW(streamKey),
-					binary: true,
-					skipParsing: true,
-				});
-
-				if (!response.ok || !response.body) return null;
-
-				const contentType = response.headers['content-type'] || 'image/jpeg';
-				const blob = new Blob([response.body], {type: contentType});
-				return URL.createObjectURL(blob);
-			} catch (err) {
-				console.error('[VoiceParticipantTile] preview fetch failed', err);
-				return null;
-			} finally {
-				setLoading(false);
-			}
-		})();
-
-		previewInflight.set(streamKey, p);
-
-		const url = await p.finally(() => previewInflight.delete(streamKey));
-		setPreviewUrl((prev) => {
-			if (prev !== url) revoke(prev);
-			return url;
-		});
-	}, [enabled, streamKey, revoke]);
-
-	useEffect(() => {
-		return () => {
-			setPreviewUrl((prev) => {
-				revoke(prev);
-				return null;
+		const update = () => {
+			const next = participant.getTrackPublication(Track.Source.ScreenShareAudio) as RemoteTrackPublication | undefined;
+			logger.debug('Resolved screen share audio publication', {
+				participantIdentity: participant.identity,
+				trackSid: next?.trackSid ?? null,
+				hasTrack: Boolean(next?.track),
+				isSubscribed: next?.isSubscribed ?? null,
 			});
+			setPublication((previousPublication) => {
+				const nextPublication = next ?? null;
+				return previousPublication === nextPublication ? previousPublication : nextPublication;
+			});
+			setHasTrack(Boolean(next?.track));
 		};
-	}, [revoke]);
 
-	return {previewUrl, isPreviewLoading: loading, fetchPreview};
+		update();
+
+		participant.on(ParticipantEvent.TrackPublished, update);
+		participant.on(ParticipantEvent.TrackUnpublished, update);
+		participant.on(ParticipantEvent.TrackSubscribed, update);
+		participant.on(ParticipantEvent.TrackUnsubscribed, update);
+		participant.on(ParticipantEvent.TrackMuted, update);
+		participant.on(ParticipantEvent.TrackUnmuted, update);
+
+		return () => {
+			participant.off(ParticipantEvent.TrackPublished, update);
+			participant.off(ParticipantEvent.TrackUnpublished, update);
+			participant.off(ParticipantEvent.TrackSubscribed, update);
+			participant.off(ParticipantEvent.TrackUnsubscribed, update);
+			participant.off(ParticipantEvent.TrackMuted, update);
+			participant.off(ParticipantEvent.TrackUnmuted, update);
+		};
+	}, [participant, enabled]);
+
+	return {publication, hasTrack};
 }
 
 function useScreenshareWatchSubscription(opts: {
@@ -383,77 +445,266 @@ function useScreenshareWatchSubscription(opts: {
 	userWantsToWatch: boolean;
 	videoLocallyDisabled: boolean;
 	isWindowFocused: boolean;
+	isOwnScreenShare: boolean;
+	audioPublication?: RemoteTrackPublication | null;
 }) {
-	const {isScreenShare, trackRef, userWantsToWatch, videoLocallyDisabled, isWindowFocused} = opts;
+	const {
+		isScreenShare,
+		trackRef,
+		userWantsToWatch,
+		videoLocallyDisabled,
+		isWindowFocused,
+		isOwnScreenShare,
+		audioPublication,
+	} = opts;
+
+	const publication = useMemo(() => {
+		if (!isTrackReference(trackRef)) return undefined;
+		return trackRef.publication as RemoteTrackPublication | undefined;
+	}, [trackRef]);
+
+	const publicationTrackSid = publication?.trackSid ?? null;
+	const previousPublicationRef = useRef<RemoteTrackPublication | null>(null);
+	const previousTrackSidRef = useRef<string | null>(null);
+	const audioTrackSid = audioPublication?.trackSid ?? null;
+	const previousAudioPublicationRef = useRef<RemoteTrackPublication | null>(null);
+	const previousAudioTrackSidRef = useRef<string | null>(null);
 
 	useEffect(() => {
 		if (!isScreenShare) return;
-		if (!userWantsToWatch) return;
-		if (videoLocallyDisabled) return;
-		if (!isTrackReference(trackRef)) return;
+		const pub = publication;
+		if (!pub || typeof pub.setSubscribed !== 'function' || typeof pub.setEnabled !== 'function') {
+			const previousPublication = previousPublicationRef.current;
+			if (previousPublication?.isSubscribed) {
+				try {
+					previousPublication.setSubscribed(false);
+				} catch (err) {
+					logger.error('setSubscribed(false) failed for previous publication', err);
+				}
+			}
+			previousPublicationRef.current = null;
+			previousTrackSidRef.current = null;
+			return;
+		}
 
-		const pub = trackRef.publication as RemoteTrackPublication | undefined;
-		if (!pub || typeof pub.setSubscribed !== 'function' || typeof pub.setEnabled !== 'function') return;
+		const shouldSubscribe = userWantsToWatch && !videoLocallyDisabled;
 
-		if (!pub.isSubscribed) {
-			try {
-				pub.setSubscribed(true);
-			} catch (err) {
-				console.error('[Screenshare] setSubscribed(true) failed', err);
+		if (previousTrackSidRef.current && previousTrackSidRef.current !== publicationTrackSid) {
+			const previousPublication = previousPublicationRef.current;
+			if (previousPublication?.isSubscribed) {
+				try {
+					previousPublication.setSubscribed(false);
+				} catch (err) {
+					logger.error('setSubscribed(false) failed for previous publication', err);
+				}
 			}
 		}
 
-		try {
-			pub.setEnabled(isWindowFocused);
-		} catch (err) {
-			console.error('[Screenshare] setEnabled failed', err);
-		}
-	}, [isScreenShare, trackRef, userWantsToWatch, videoLocallyDisabled, isWindowFocused]);
-}
+		previousPublicationRef.current = pub;
+		previousTrackSidRef.current = publicationTrackSid;
 
-function useWindowFocus() {
-	const [isFocused, setIsFocused] = useState(() => WindowStore.isFocused());
+		if (shouldSubscribe) {
+			if (!pub.isSubscribed) {
+				try {
+					pub.setSubscribed(true);
+				} catch (err) {
+					logger.error('setSubscribed(true) failed', err);
+				}
+			}
+
+			if (isOwnScreenShare) {
+				try {
+					pub.setEnabled(isWindowFocused);
+				} catch (err) {
+					logger.error('setEnabled failed', err);
+				}
+			}
+		} else {
+			if (pub.isSubscribed) {
+				try {
+					pub.setSubscribed(false);
+				} catch (err) {
+					logger.error('setSubscribed(false) failed', err);
+				}
+			}
+		}
+	}, [
+		isScreenShare,
+		publication,
+		publicationTrackSid,
+		userWantsToWatch,
+		videoLocallyDisabled,
+		isWindowFocused,
+		isOwnScreenShare,
+	]);
 
 	useEffect(() => {
-		const disposer = autorun(() => {
-			setIsFocused(WindowStore.isFocused());
-		});
-		return () => disposer();
-	}, []);
+		if (!isScreenShare) return;
+		const pub = audioPublication;
+		if (!pub || typeof pub.setSubscribed !== 'function') {
+			const previousPublication = previousAudioPublicationRef.current;
+			if (previousPublication?.isSubscribed) {
+				try {
+					previousPublication.setSubscribed(false);
+				} catch (err) {
+					logger.error('setSubscribed(false) failed for previous audio publication', err);
+				}
+			}
+			previousAudioPublicationRef.current = null;
+			previousAudioTrackSidRef.current = null;
+			return;
+		}
 
-	return isFocused;
+		const shouldSubscribe = userWantsToWatch;
+		logger.debug('Evaluating screen share audio subscription', {
+			participantIdentity: trackRef.participant?.identity,
+			trackSid: audioTrackSid,
+			shouldSubscribe,
+			isSubscribed: pub.isSubscribed,
+			hasTrack: Boolean(pub.track),
+		});
+
+		if (previousAudioTrackSidRef.current && previousAudioTrackSidRef.current !== audioTrackSid) {
+			const previousPublication = previousAudioPublicationRef.current;
+			if (previousPublication?.isSubscribed) {
+				try {
+					previousPublication.setSubscribed(false);
+				} catch (err) {
+					logger.error('setSubscribed(false) failed for previous audio publication', err);
+				}
+			}
+		}
+
+		previousAudioPublicationRef.current = pub;
+		previousAudioTrackSidRef.current = audioTrackSid;
+
+		if (shouldSubscribe) {
+			if (!pub.isSubscribed) {
+				try {
+					pub.setSubscribed(true);
+				} catch (err) {
+					logger.error('setSubscribed(true) failed for audio publication', err);
+				}
+			}
+			if (typeof pub.setEnabled === 'function') {
+				try {
+					pub.setEnabled(true);
+				} catch (err) {
+					logger.error('setEnabled(true) failed for audio publication', err);
+				}
+			}
+		} else if (pub.isSubscribed) {
+			try {
+				pub.setSubscribed(false);
+			} catch (err) {
+				logger.error('setSubscribed(false) failed for audio publication', err);
+			}
+		}
+	}, [isScreenShare, audioPublication, audioTrackSid, userWantsToWatch]);
 }
 
-function useViewerUsers(isScreenShare: boolean, streamKey: string, ownerUserId: string) {
-	const viewerIds = useMemo(() => {
-		if (!isScreenShare) return [];
+function useScreensharePreviewUploader(
+	isOwnScreenShare: boolean,
+	streamKey: string,
+	channelId: string | undefined,
+	videoRef: React.RefObject<HTMLVideoElement | null>,
+	fallbackDataUrl: string | null,
+) {
+	const uploadInFlightRef = useRef(false);
+	const initialUploadAttemptsRef = useRef(0);
+	const hasUploadedPreviewRef = useRef(false);
 
-		const allStates = MediaEngineStore.getAllVoiceStates();
-		const ids: Array<string> = [];
+	useEffect(() => {
+		logger.debug('useScreensharePreviewUploader effect', {isOwnScreenShare, streamKey, channelId});
+		if (!isOwnScreenShare || !channelId) return;
 
-		Object.values(allStates).forEach((guildStates) => {
-			Object.values(guildStates).forEach((channelStates) => {
-				Object.values(channelStates).forEach((vs: VoiceState) => {
-					if (vs.viewer_stream_key === streamKey && vs.user_id && vs.user_id !== ownerUserId) {
-						ids.push(vs.user_id);
-					}
+		initialUploadAttemptsRef.current = 0;
+		hasUploadedPreviewRef.current = false;
+
+		logger.debug('useScreensharePreviewUploader: starting upload schedule', {streamKey, channelId});
+
+		const uploadPreview = async (): Promise<boolean> => {
+			if (uploadInFlightRef.current) return false;
+
+			if (PrivacyPreferencesStore.getDisableStreamPreviews()) {
+				logger.debug('useScreensharePreviewUploader: stream previews disabled by user preference');
+				return false;
+			}
+
+			uploadInFlightRef.current = true;
+
+			try {
+				if (!hasUploadedPreviewRef.current) {
+					initialUploadAttemptsRef.current += 1;
+				}
+
+				const videoEl = videoRef.current;
+				const base64Data =
+					(videoEl ? await buildPreviewBase64FromVideo(videoEl) : null) ||
+					(fallbackDataUrl ? await buildPreviewBase64FromDataUrl(fallbackDataUrl) : null);
+				if (!base64Data) {
+					logger.debug('useScreensharePreviewUploader: no preview payload', {streamKey});
+					return false;
+				}
+
+				logger.debug('useScreensharePreviewUploader: uploading', {streamKey, dataLength: base64Data.length});
+
+				const response = await HttpClient.post({
+					url: Endpoints.STREAM_PREVIEW(streamKey),
+					body: {
+						channel_id: channelId,
+						thumbnail: base64Data,
+						content_type: STREAM_PREVIEW_CONTENT_TYPE_JPEG,
+					},
 				});
-			});
-		});
 
-		return Array.from(new Set(ids));
-	}, [isScreenShare, streamKey, ownerUserId]);
+				logger.debug('useScreensharePreviewUploader: upload result', {ok: response.ok, status: response.status});
+				if (response.ok) {
+					hasUploadedPreviewRef.current = true;
+				}
+				return response.ok;
+			} catch (err) {
+				logger.error('Failed to upload screenshare preview', err);
+				return false;
+			} finally {
+				uploadInFlightRef.current = false;
+			}
+		};
 
-	const viewerUsers = useMemo(
-		() => viewerIds.map((id) => UserStore.getUser(id)).filter((u): u is UserRecord => Boolean(u)),
-		[viewerIds],
-	);
+		let timeoutId: number | null = null;
+		const scheduleNextUpload = () => {
+			const shouldFastRetry =
+				!hasUploadedPreviewRef.current && initialUploadAttemptsRef.current < STREAM_PREVIEW_INITIAL_UPLOAD_MAX_ATTEMPTS;
+			const jitter = shouldFastRetry ? 0 : Math.round((Math.random() * 2 - 1) * STREAM_PREVIEW_UPLOAD_JITTER_MS);
+			const delay =
+				(shouldFastRetry ? STREAM_PREVIEW_INITIAL_UPLOAD_INTERVAL_MS : STREAM_PREVIEW_UPLOAD_INTERVAL_MS) + jitter;
+			timeoutId = window.setTimeout(() => {
+				void uploadPreview().finally(() => scheduleNextUpload());
+			}, delay);
+		};
 
-	return {viewerIds, viewerUsers};
+		scheduleNextUpload();
+		void uploadPreview();
+
+		return () => {
+			if (timeoutId !== null) {
+				window.clearTimeout(timeoutId);
+			}
+		};
+	}, [isOwnScreenShare, streamKey, channelId, videoRef, fallbackDataUrl]);
 }
 
 export const VoiceParticipantTile = observer((props: VoiceParticipantTileProps) => {
-	const {trackRef, guildId, channelId, onClick, isPinned, showFocusIndicator, allowAutoSubscribe = true} = props;
+	const {
+		trackRef,
+		guildId,
+		channelId,
+		onClick,
+		isPinned,
+		showFocusIndicator,
+		allowAutoSubscribe = true,
+		renderFocusedPlaceholder = false,
+	} = props;
 
 	const effectiveTrackRef = useEffectiveTrackRef(trackRef);
 	const {elementProps} = useParticipantTile({
@@ -473,6 +724,7 @@ export const VoiceParticipantTile = observer((props: VoiceParticipantTileProps) 
 			isPinned={isPinned}
 			showFocusIndicator={showFocusIndicator}
 			allowAutoSubscribe={allowAutoSubscribe}
+			renderFocusedPlaceholder={renderFocusedPlaceholder}
 		/>
 	);
 });
@@ -486,11 +738,12 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 	isPinned,
 	showFocusIndicator,
 	allowAutoSubscribe,
+	renderFocusedPlaceholder,
 }: VoiceParticipantTileInnerProps) {
 	const {t} = useLingui();
 	const participant = trackRef.participant;
 	const identity = participant.identity;
-	const {userId, connectionId} = useMemo(() => parseIdentity(identity), [identity]);
+	const {userId, connectionId} = useMemo(() => parseVoiceParticipantIdentity(identity), [identity]);
 
 	const participantUser = UserStore.getUser(userId);
 	const currentUser = UserStore.getCurrentUser();
@@ -501,111 +754,197 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 	const voiceState = MediaEngineStore.getVoiceStateByConnectionId(connectionId);
 	const connectionParticipant = MediaEngineStore.getParticipantByUserIdAndConnectionId(userId, connectionId);
 
-	const isGuildMuted = voiceState?.mute ?? false;
 	const isSelfMuted =
 		voiceState?.self_mute ?? (connectionParticipant ? !connectionParticipant.isMicrophoneEnabled : false);
 	const isSelfDeafened = voiceState?.self_deaf ?? false;
-
-	const isActuallySpeaking = isSpeaking && !isSelfMuted && !isGuildMuted;
+	const isActuallySpeaking = isVoiceParticipantActuallySpeaking({
+		isSpeaking,
+		voiceState,
+		isMicrophoneEnabled: participant.isMicrophoneEnabled,
+	});
 
 	const isMobileExperience = isMobileExperienceEnabled();
 	const [bottomSheetOpen, setBottomSheetOpen] = useState(false);
 
 	const isLocalParticipant = Boolean((participant as Participant)?.isLocal);
 	const isWindowFocused = useWindowFocus();
+	const pauseOwnScreenSharePreviewOnUnfocus = VoiceSettingsStore.pauseOwnScreenSharePreviewOnUnfocus;
 
 	const sourceAttr = getSourceDataAttr(trackRef.source);
 	const isScreenShare = trackRef.source === Track.Source.ScreenShare;
+	const isFocusedPlaceholderTile = renderFocusedPlaceholder;
+	const isInteractiveScreenShareTile = isScreenShare && !isFocusedPlaceholderTile;
 	const isOwnScreenShare = isScreenShare && isLocalParticipant;
+	const isOwnContent = isLocalParticipant && isCurrentUser;
+	const {isOwnScreenShareHidden, isOwnCameraHidden} = getOwnStreamHiddenState({
+		isOwnContent,
+		isScreenShare,
+		showMyOwnCamera: VoiceSettingsStore.showMyOwnCamera,
+		showMyOwnScreenShare: VoiceSettingsStore.showMyOwnScreenShare,
+	});
 
 	const callId = MediaEngineStore.connectionId ?? '';
 	const streamKey = useMemo(() => getStreamKey(guildId, channelId, connectionId), [guildId, channelId, connectionId]);
+	const {viewerUsers} = useStreamSpectators(isScreenShare ? streamKey : '');
 
-	const videoLocallyDisabled = useMemo(() => {
-		if (!callId) return false;
-		if (!isTrackReference(trackRef)) return false;
-		if (!isVideoSource(trackRef.source)) return false;
-		return CallMediaPrefsStore.isVideoDisabled(callId, identity);
-	}, [callId, trackRef, identity]);
+	const cameraLocallyDisabled =
+		callId !== '' &&
+		isTrackReference(trackRef) &&
+		isCameraSource(trackRef.source) &&
+		CallMediaPrefsStore.isVideoDisabled(callId, identity);
 
 	const publication = isTrackReference(trackRef)
 		? (trackRef.publication as RemoteTrackPublication | undefined)
 		: undefined;
+	const {publication: screenShareAudioPublication, hasTrack: hasScreenShareAudioTrack} = useScreenShareAudioPublication(
+		participant,
+		isScreenShare,
+	);
+	const hasScreenShareAudio = Boolean(screenShareAudioPublication);
 
 	const hasVideo = useMemo(() => {
 		if (!isTrackReference(trackRef)) return false;
 		const pub = trackRef.publication;
-		return Boolean(pub?.track) && !pub?.isMuted && !videoLocallyDisabled;
-	}, [trackRef, videoLocallyDisabled]);
+		return Boolean(pub?.track) && !pub?.isMuted && !cameraLocallyDisabled;
+	}, [trackRef, cameraLocallyDisabled]);
+
+	const streamVolume = StreamAudioPrefsStore.getVolume(streamKey);
+	const isStreamMuted = StreamAudioPrefsStore.isMuted(streamKey);
+	const isParticipantLocallyMuted = ParticipantVolumeStore.isLocalMuted(userId);
+	const isLocalSelfDeafened = LocalVoiceStateStore.getSelfDeaf();
+	const hasStreamAudioPrefsEntry = StreamAudioPrefsStore.hasEntry(streamKey);
 
 	const isSubscribed = Boolean(publication?.isSubscribed);
 
-	const {ref: tileRef, isIntersecting} = useIntersection<HTMLDivElement>(allowAutoSubscribe);
+	const shouldAutoSubscribe = allowAutoSubscribe && !isFocusedPlaceholderTile;
+	const {ref: tileRef, isIntersecting} = useIntersection<HTMLDivElement>(shouldAutoSubscribe);
 	useAutoVideoSubscription({
-		enabled: allowAutoSubscribe,
+		enabled: shouldAutoSubscribe,
 		trackRef,
 		isIntersecting,
-		videoLocallyDisabled,
+		videoLocallyDisabled: cameraLocallyDisabled,
 		isLocalParticipant,
 		isScreenShare,
 	});
 
-	const [userWantsToWatch, setUserWantsToWatch] = useState(false);
-
-	const startWatching = useCallback(() => {
-		setUserWantsToWatch(true);
-		LocalVoiceStateStore.updateViewerStreamKey(streamKey);
-		MediaEngineStore.syncLocalVoiceStateWithServer({viewer_stream_key: streamKey});
-	}, [streamKey]);
+	const {
+		isWatching,
+		startWatching,
+		addStream,
+		stopWatching: stopWatchingStream,
+	} = useStreamWatchState({
+		streamKey,
+		guildId,
+		channelId,
+	});
 
 	const stopWatching = useCallback(() => {
-		setUserWantsToWatch(false);
-		if (LocalVoiceStateStore.getViewerStreamKey()) {
-			LocalVoiceStateStore.updateViewerStreamKey(null);
-			MediaEngineStore.syncLocalVoiceStateWithServer({viewer_stream_key: null});
+		if (publication?.setSubscribed) {
+			try {
+				publication.setSubscribed(false);
+			} catch (err) {
+				logger.error('setSubscribed(false) failed', err);
+			}
 		}
-	}, []);
+		stopWatchingStream();
+	}, [publication, stopWatchingStream]);
 
 	useScreenshareWatchSubscription({
-		isScreenShare,
+		isScreenShare: isInteractiveScreenShareTile,
 		trackRef,
-		userWantsToWatch,
-		videoLocallyDisabled,
-		isWindowFocused,
+		userWantsToWatch: isWatching,
+		videoLocallyDisabled: false,
+		isWindowFocused: pauseOwnScreenSharePreviewOnUnfocus ? isWindowFocused : true,
+		isOwnScreenShare,
+		audioPublication: screenShareAudioPublication,
 	});
 
 	useEffect(() => {
-		if (!isScreenShare || videoLocallyDisabled) stopWatching();
+		if (!isScreenShare || isOwnScreenShare || isFocusedPlaceholderTile) return;
+		if (!isWatching) return;
+		const pub = screenShareAudioPublication;
+		if (!pub) return;
 
+		const track = pub.track;
+		if (isAudioTrackWithVolume(track)) {
+			try {
+				track.setVolume(voiceVolumePercentToTrackVolume(streamVolume));
+			} catch (err) {
+				logger.error('setVolume failed for stream audio', err);
+			}
+		}
+
+		const shouldEnable = !isStreamMuted && !isParticipantLocallyMuted && !isLocalSelfDeafened;
+		if (typeof pub.setEnabled === 'function') {
+			try {
+				logger.debug('Applying runtime screen share audio enabled state', {
+					trackSid: pub.trackSid,
+					isWatching,
+					isStreamMuted,
+					isParticipantLocallyMuted,
+					isLocalSelfDeafened,
+					shouldEnable,
+				});
+				pub.setEnabled(shouldEnable);
+			} catch (err) {
+				logger.error('setEnabled failed for stream audio', err);
+			}
+		}
+		MediaEngineStore.applyLocalAudioPreferencesForUser(userId);
+	}, [
+		hasScreenShareAudioTrack,
+		isScreenShare,
+		isOwnScreenShare,
+		isFocusedPlaceholderTile,
+		isWatching,
+		screenShareAudioPublication,
+		streamVolume,
+		isStreamMuted,
+		isParticipantLocallyMuted,
+		isLocalSelfDeafened,
+		userId,
+	]);
+
+	useEffect(() => {
+		if (!isScreenShare || isOwnScreenShare || isFocusedPlaceholderTile) return;
+		if (!hasScreenShareAudio || !hasStreamAudioPrefsEntry) return;
+
+		StreamAudioPrefsStore.touchStream(streamKey);
+		const intervalId = window.setInterval(() => {
+			StreamAudioPrefsStore.touchStream(streamKey);
+		}, STREAM_AUDIO_PREFS_TOUCH_INTERVAL_MS);
 		return () => {
-			if (LocalVoiceStateStore.getViewerStreamKey() === streamKey) stopWatching();
+			window.clearInterval(intervalId);
 		};
-	}, [isScreenShare, videoLocallyDisabled, streamKey, stopWatching]);
+	}, [
+		isScreenShare,
+		isOwnScreenShare,
+		isFocusedPlaceholderTile,
+		hasScreenShareAudio,
+		hasStreamAudioPrefsEntry,
+		streamKey,
+	]);
 
 	const [previewPopoverOpen, setPreviewPopoverOpen] = useState(false);
-	const previewEnabled = isScreenShare && !isSubscribed && !videoLocallyDisabled;
+	const canFetchStreamPreview = canViewStreamPreview({
+		guildId,
+		channelId,
+		hasConnectPermission: () =>
+			PermissionStore.can(Permissions.CONNECT, {guildId: guildId ?? undefined, channelId: channelId ?? undefined}),
+	});
+	const previewEnabled =
+		isTrackReference(trackRef) &&
+		isScreenShare &&
+		!isOwnScreenShare &&
+		!isSubscribed &&
+		!isFocusedPlaceholderTile &&
+		canFetchStreamPreview;
 
-	const {previewUrl, isPreviewLoading, fetchPreview} = useScreensharePreview(previewEnabled, streamKey);
+	const {previewUrl, isPreviewLoading} = useStreamPreview(previewEnabled, streamKey);
+	const trackInfo = useStreamTrackInfo(isScreenShare ? trackRef : null);
 
-	useEffect(() => {
-		if (!previewEnabled) return;
-		void fetchPreview();
-	}, [previewEnabled, fetchPreview]);
-
-	const {viewerIds, viewerUsers} = useViewerUsers(isScreenShare, streamKey, userId);
-
-	const prevViewerCountRef = useRef(0);
-	useEffect(() => {
-		if (!isScreenShare) return;
-
-		const prev = prevViewerCountRef.current;
-		const next = viewerIds.length;
-
-		if (next > prev) SoundActionCreators.playSound(SoundType.ViewerJoin);
-		else if (next < prev) SoundActionCreators.playSound(SoundType.ViewerLeave);
-
-		prevViewerCountRef.current = next;
-	}, [isScreenShare, viewerIds.length]);
+	const isStreamPlaceholder = isScreenShare && !isTrackReference(trackRef);
+	const showStreamEnded = isStreamPlaceholder && isWatching && !isFocusedPlaceholderTile;
 
 	const avatarSize = useAvatarSize(tileRef);
 	const placeholderColor = useMemo(
@@ -618,6 +957,39 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 	const placeholderStyle = useMemo<React.CSSProperties>(
 		() => ({backgroundColor: placeholderBackgroundColor}),
 		[placeholderBackgroundColor],
+	);
+
+	const focusedCameraPlaceholderStyle = useMemo<React.CSSProperties>(
+		() => ({...placeholderStyle, opacity: 1}),
+		[placeholderStyle],
+	);
+	const screenSharePlaceholderStyle = useMemo<React.CSSProperties>(
+		() => ({backgroundColor: placeholderBackgroundColor, opacity: 1}),
+		[placeholderBackgroundColor],
+	);
+
+	const renderScreenSharePlaceholder = useCallback(
+		(showLiveBadge: boolean) => (
+			<>
+				<div style={screenSharePlaceholderStyle} className={styles.focusedPlaceholderScreenSurface}>
+					{participantUser && (
+						<div className={clsx(styles.avatarRing, styles.focusedPlaceholderAvatarDimmed)}>
+							<Avatar user={participantUser} size={avatarSize} className={styles.avatarFlexShrink} guildId={guildId} />
+						</div>
+					)}
+				</div>
+				<div className={styles.focusedPlaceholderCameraOverlay} />
+				<div className={styles.focusedPlaceholderIconLayer}>
+					<MonitorPlayIcon weight="fill" className={styles.focusedPlaceholderIcon} />
+				</div>
+				{showLiveBadge && (
+					<div className={styles.focusedPlaceholderLiveBadge}>
+						<LiveBadge showTooltip={false} />
+					</div>
+				)}
+			</>
+		),
+		[avatarSize, guildId, participantUser, screenSharePlaceholderStyle],
 	);
 
 	const tileContextMenuOpen = useTileContextMenuActive(tileRef);
@@ -648,6 +1020,14 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 		);
 	}, [participantUser, guildId, channelId, participant.name]);
 
+	const showStreamAudioControls = isScreenShare && !isOwnScreenShare && !isCurrentUser && hasScreenShareAudio;
+	const streamAudioTooltip = isStreamMuted ? t`Unmute stream audio` : t`Mute stream audio`;
+	const viewerStreamCount = LocalVoiceStateStore.getViewerStreamKeys().length;
+	const addStreamTooltipText =
+		viewerStreamCount === 1
+			? t`Keep watching 1 stream and add this one`
+			: t`Keep watching ${viewerStreamCount} streams and add this one`;
+
 	const handleContextMenu = useCallback(
 		(event: React.MouseEvent | MouseEvent) => {
 			if (!participantUser) return;
@@ -660,28 +1040,48 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 					guildId={guildId}
 					connectionId={connectionId}
 					isGroupedItem={hasMultipleConnections && isCurrentUser}
+					streamKey={streamKey}
+					isScreenShare={isScreenShare}
+					isWatching={isWatching}
+					hasScreenShareAudio={hasScreenShareAudio}
+					isOwnScreenShare={isOwnScreenShare}
+					onStopWatching={stopWatching}
 				/>
 			));
 		},
-		[participantUser, participantDisplayName, guildId, connectionId, hasMultipleConnections, isCurrentUser],
+		[
+			participantUser,
+			participantDisplayName,
+			guildId,
+			connectionId,
+			hasMultipleConnections,
+			isCurrentUser,
+			streamKey,
+			isScreenShare,
+			isWatching,
+			hasScreenShareAudio,
+			isOwnScreenShare,
+			stopWatching,
+		],
 	);
 
-	const isFocused = VoiceCallLayoutStore.pinnedParticipantIdentity === identity;
+	const pinnedParticipantSource = VoiceCallLayoutStore.pinnedParticipantSource;
+	const isFocusedOnThisTile =
+		VoiceCallLayoutStore.pinnedParticipantIdentity === identity &&
+		(pinnedParticipantSource == null || pinnedParticipantSource === trackRef.source);
 
 	const handleTileClick = useCallback(() => {
-		if (isScreenShare) return;
-
-		const wasFocused = VoiceCallLayoutStore.pinnedParticipantIdentity === identity;
+		const wasFocused =
+			VoiceCallLayoutStore.pinnedParticipantIdentity === identity &&
+			(pinnedParticipantSource == null || pinnedParticipantSource === trackRef.source);
 		if (wasFocused) {
 			VoiceCallLayoutActionCreators.setPinnedParticipant(null);
-			VoiceCallLayoutActionCreators.setLayoutMode('grid');
 		} else {
-			VoiceCallLayoutActionCreators.setLayoutMode('focus');
-			VoiceCallLayoutActionCreators.setPinnedParticipant(identity);
+			VoiceCallLayoutActionCreators.setPinnedParticipant(identity, trackRef.source);
 			onClick?.(identity);
 		}
 		VoiceCallLayoutActionCreators.markUserOverride();
-	}, [identity, isScreenShare, onClick]);
+	}, [identity, onClick, pinnedParticipantSource, trackRef.source]);
 
 	const handleTileKeyDown = useCallback(
 		(event: React.KeyboardEvent<HTMLDivElement>) => {
@@ -730,27 +1130,134 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 		[handleContextMenu],
 	);
 
+	const handleStreamAudioToggle = useCallback(
+		(event?: React.SyntheticEvent) => {
+			event?.stopPropagation();
+			StreamAudioPrefsStore.setMuted(streamKey, !isStreamMuted);
+			MediaEngineStore.applyLocalAudioPreferencesForUser(userId);
+		},
+		[streamKey, isStreamMuted, userId],
+	);
+
+	const handleStreamAudioKeyDown = useCallback(
+		(event: React.KeyboardEvent<HTMLDivElement>) => {
+			switch (event.key) {
+				case 'Enter':
+				case ' ':
+					event.preventDefault();
+					event.stopPropagation();
+					handleStreamAudioToggle();
+					break;
+				default:
+					break;
+			}
+		},
+		[handleStreamAudioToggle],
+	);
+
 	const handleWatch = useCallback(
 		(e?: React.SyntheticEvent) => {
 			e?.stopPropagation();
 			startWatching();
-			VoiceCallLayoutActionCreators.setLayoutMode('focus');
-			VoiceCallLayoutActionCreators.setPinnedParticipant(identity);
+			VoiceCallLayoutActionCreators.setPinnedParticipant(identity, Track.Source.ScreenShare);
 		},
 		[identity, startWatching],
+	);
+
+	const handleAddStream = useCallback(
+		(event: React.SyntheticEvent) => {
+			event.stopPropagation();
+			addStream();
+		},
+		[addStream],
+	);
+
+	const handleRevealHiddenFeed = useCallback(
+		(e: React.SyntheticEvent) => {
+			e.stopPropagation();
+			if (isOwnScreenShareHidden) {
+				VoiceSettingsActionCreators.update({showMyOwnScreenShare: true});
+			} else if (isOwnCameraHidden) {
+				VoiceSettingsActionCreators.update({showMyOwnCamera: true});
+			}
+		},
+		[isOwnScreenShareHidden, isOwnCameraHidden],
 	);
 
 	const handleMouseEnter = useCallback(() => {
 		if (!previewEnabled) return;
 		setPreviewPopoverOpen(true);
-		void fetchPreview();
-	}, [previewEnabled, fetchPreview]);
+	}, [previewEnabled]);
 
 	const handleMouseLeave = useCallback(() => setPreviewPopoverOpen(false), []);
 
+	const videoRef = useRef<HTMLVideoElement | null>(null);
+
+	const {frozenFrameUrl, isOwnStreamPreviewPaused, shouldHideOwnScreenShareVideo} = useOwnScreenSharePreviewState({
+		isOwnScreenShare,
+		pausePreviewOnUnfocus: pauseOwnScreenSharePreviewOnUnfocus,
+		isWindowFocused,
+		videoRef,
+	});
+	const hasVisibleMediaTile =
+		!isFocusedPlaceholderTile && isTrackReference(trackRef) && hasVideo && !shouldHideOwnScreenShareVideo;
+	const isAvatarOnlyTile = !hasVisibleMediaTile && !isScreenShare;
+	const shouldShowTileSpeakingIndicator =
+		!isFocusedPlaceholderTile && isActuallySpeaking && !isScreenShare && !isAvatarOnlyTile;
+
+	useScreensharePreviewUploader(
+		isOwnScreenShare && !isFocusedPlaceholderTile,
+		streamKey,
+		channelId,
+		videoRef,
+		frozenFrameUrl,
+	);
+
 	const mediaNode = useMemo(() => {
-		if (isTrackReference(trackRef) && hasVideo) {
-			return <VideoTrack trackRef={trackRef} manageSubscription={false} />;
+		if (isFocusedPlaceholderTile) {
+			if (isScreenShare) {
+				return renderScreenSharePlaceholder(true);
+			}
+
+			return (
+				<>
+					<div style={focusedCameraPlaceholderStyle} className={voiceCallStyles.lkParticipantPlaceholder}>
+						{participantUser && (
+							<div className={clsx(styles.avatarRing, styles.focusedPlaceholderAvatarDimmed)}>
+								<Avatar
+									user={participantUser}
+									size={avatarSize}
+									className={styles.avatarFlexShrink}
+									guildId={guildId}
+								/>
+							</div>
+						)}
+					</div>
+					<div className={styles.focusedPlaceholderCameraOverlay} />
+					<div className={styles.focusedPlaceholderIconLayer}>
+						<VideoCameraIcon weight="fill" className={styles.focusedPlaceholderIcon} />
+					</div>
+				</>
+			);
+		}
+
+		if (isTrackReference(trackRef) && hasVideo && !shouldHideOwnScreenShareVideo) {
+			return <VideoTrack ref={videoRef} trackRef={trackRef} manageSubscription={false} />;
+		}
+
+		if (shouldHideOwnScreenShareVideo && frozenFrameUrl) {
+			return <img src={frozenFrameUrl} alt="" className={styles.frozenFrame} />;
+		}
+
+		if (isScreenShare && !isOwnScreenShare) {
+			if (previewUrl) {
+				return <img src={previewUrl} alt="" className={styles.screensharePreviewBackground} />;
+			}
+			return renderScreenSharePlaceholder(false);
+		}
+
+		if (isScreenShare) {
+			return renderScreenSharePlaceholder(false);
 		}
 
 		return (
@@ -762,7 +1269,23 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 				)}
 			</div>
 		);
-	}, [trackRef, hasVideo, placeholderStyle, participantUser, isActuallySpeaking, avatarSize, guildId]);
+	}, [
+		avatarSize,
+		focusedCameraPlaceholderStyle,
+		frozenFrameUrl,
+		guildId,
+		hasVideo,
+		isActuallySpeaking,
+		isFocusedPlaceholderTile,
+		isOwnScreenShare,
+		isScreenShare,
+		participantUser,
+		placeholderStyle,
+		previewUrl,
+		renderScreenSharePlaceholder,
+		trackRef,
+		shouldHideOwnScreenShareVideo,
+	]);
 
 	return (
 		<>
@@ -774,11 +1297,11 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 						voiceCallStyles.lkParticipantTile,
 						elementProps.className,
 						isPinned && voiceCallStyles.pinnedParticipant,
-						!isScreenShare && styles.cursorPointer,
+						styles.cursorPointer,
 						tileContextMenuOpen && voiceCallStyles.tileContextMenuActive,
 					)}
-					data-speaking={isActuallySpeaking}
-					data-video-muted={!hasVideo}
+					data-speaking={shouldShowTileSpeakingIndicator}
+					data-video-muted={isFocusedPlaceholderTile || !hasVideo || (shouldHideOwnScreenShareVideo && !frozenFrameUrl)}
 					data-source={sourceAttr}
 					onContextMenu={handleContextMenu}
 					onClick={handleTileClick}
@@ -795,99 +1318,136 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 
 					{isScreenShare &&
 						isTrackReference(trackRef) &&
-						!userWantsToWatch &&
-						!videoLocallyDisabled &&
-						!isOwnScreenShare && (
+						!isWatching &&
+						!cameraLocallyDisabled &&
+						!isOwnScreenShare &&
+						!isFocusedPlaceholderTile && (
 							<div className={styles.watchStreamOverlay}>
+								<div className={styles.watchStreamButtons}>
+									<Button
+										variant="secondary"
+										fitContent
+										leftIcon={<MonitorPlayIcon size={18} weight="fill" />}
+										onClick={handleWatch}
+										className={styles.watchStreamButton}
+									>
+										{t`Watch Stream`}
+									</Button>
+									{viewerStreamCount > 0 && (
+										<Tooltip text={addStreamTooltipText}>
+											<Button
+												variant="secondary"
+												fitContent
+												leftIcon={<PlusIcon weight="bold" size={18} />}
+												onClick={handleAddStream}
+												className={styles.watchStreamButton}
+											>
+												{t`Add Stream`}
+											</Button>
+										</Tooltip>
+									)}
+								</div>
+								<div className={styles.liveBadgeContainer}>
+									{trackInfo ? (
+										<StreamInfoPill info={trackInfo} tone="voice_tile" showLiveBadge />
+									) : (
+										<LiveBadge showTooltip={false} />
+									)}
+								</div>
+							</div>
+						)}
+
+					{showStreamEnded && (
+						<div className={styles.streamEndedOverlay}>
+							<div className={styles.streamEndedContent}>
+								<span className={styles.streamEndedTitle}>{t`Stream ended`}</span>
 								<Button
 									variant="secondary"
 									compact
 									fitContent
-									leftIcon={<ProjectorScreenIcon className={styles.watchStreamButtonIcon} />}
-									onClick={handleWatch}
+									onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+										event.stopPropagation();
+										stopWatching();
+									}}
+									className={styles.streamEndedButton}
 								>
-									{t`Watch Stream`}
+									{t`Stop watching`}
 								</Button>
-								<div className={styles.liveBadge}>LIVE</div>
+							</div>
+						</div>
+					)}
+
+					{isOwnScreenShareHidden && !isFocusedPlaceholderTile && (
+						<FeedHiddenOverlay
+							message={t`This stream has been hidden.`}
+							buttonLabel={t`Watch Stream`}
+							onReveal={handleRevealHiddenFeed}
+						/>
+					)}
+
+					{isOwnCameraHidden && !isFocusedPlaceholderTile && (
+						<FeedHiddenOverlay
+							message={t`This feed has been hidden.`}
+							buttonLabel={t`Show Camera`}
+							onReveal={handleRevealHiddenFeed}
+						/>
+					)}
+
+					{isOwnScreenShare &&
+						!isOwnScreenShareHidden &&
+						!isFocusedPlaceholderTile &&
+						(isOwnStreamPreviewPaused || !isFocusedOnThisTile) && (
+							<div className={clsx(styles.selfStreamOverlay, isOwnStreamPreviewPaused && styles.paused)}>
+								{isOwnStreamPreviewPaused ? (
+									<div className={styles.selfStreamPreviewPaused}>
+										<PauseIcon weight="fill" className={styles.pausedIcon} />
+										<span className={styles.pausedText}>{t`Preview paused to save resources`}</span>
+										<span className={styles.pausedSubtext}>{t`Your stream is still being broadcast`}</span>
+									</div>
+								) : (
+									<div className={styles.selfStreamPreviewActive}>
+										{trackInfo ? (
+											<StreamInfoPill info={trackInfo} tone="voice_tile" showLiveBadge />
+										) : (
+											<LiveBadge showTooltip={false} />
+										)}
+									</div>
+								)}
 							</div>
 						)}
 
-					{isOwnScreenShare && (
-						<div className={styles.selfStreamOverlay}>
-							{isWindowFocused ? (
-								<div className={styles.selfStreamPreviewActive}>
-									<div className={styles.liveBadge}>LIVE</div>
-								</div>
-							) : (
-								<div className={styles.selfStreamPreviewPaused}>
-									<PauseIcon weight="fill" className={styles.pausedIcon} />
-									<span className={styles.pausedText}>{t`Preview paused to save resources`}</span>
-									<span className={styles.pausedSubtext}>{t`Your stream is still being broadcast`}</span>
-								</div>
-							)}
-						</div>
-					)}
-
-					{isScreenShare && previewEnabled && previewPopoverOpen && !isOwnScreenShare && (
+					{isScreenShare && previewEnabled && previewPopoverOpen && !isOwnScreenShare && !isFocusedPlaceholderTile && (
 						<div className={styles.previewPopover}>
-							{previewUrl ? (
-								<img src={previewUrl} alt={t`Stream preview`} className={styles.previewImage} />
-							) : (
-								<div className={styles.previewFallback}>{isPreviewLoading ? t`Loading...` : t`No preview yet`}</div>
-							)}
-							<div className={styles.previewWatchButton}>
-								<Button
-									variant="secondary"
-									superCompact
-									fitContent
-									leftIcon={<ProjectorScreenIcon className={styles.watchStreamButtonIcon} />}
-									onClick={handleWatch}
-								>
-									{t`Watch`}
-								</Button>
-							</div>
+							<StreamWatchHoverCard
+								variant="compact"
+								previewUrl={previewUrl}
+								isPreviewLoading={isPreviewLoading}
+								watchLabel={t`Watch`}
+								watchDisabled={false}
+								onWatch={handleWatch}
+							/>
 						</div>
 					)}
 
-					{isScreenShare && viewerUsers.length > 0 && (
-						<div className={styles.viewersContainer}>
-							<EyeIcon weight="fill" className={styles.viewersIcon} />
-							<div className={styles.viewersAvatars}>
-								{viewerUsers.slice(0, 5).map((u) => {
-									const displayName = NicknameUtils.getNickname(u, guildId, channelId) || u.username || 'User';
-									return (
-										<Tooltip key={u.id} text={displayName} position="top">
-											<div className={styles.viewerAvatarWrapper}>
-												<Avatar user={u} size={24} guildId={guildId} />
-											</div>
-										</Tooltip>
-									);
-								})}
-								{viewerUsers.length > 5 && (
-									<Tooltip
-										text={viewerUsers
-											.slice(5)
-											.map((u) => NicknameUtils.getNickname(u, guildId, channelId) || u.username || 'User')
-											.join(', ')}
-										position="top"
-									>
-										<div className={styles.viewerCountBadge}>+{viewerUsers.length - 5}</div>
-									</Tooltip>
-								)}
-							</div>
-						</div>
-					)}
-
-					{videoLocallyDisabled && (
+					{cameraLocallyDisabled && !isOwnCameraHidden && !isFocusedPlaceholderTile && (
 						<div className={styles.videoDisabledOverlay}>
 							<VideoCameraSlashIcon weight="fill" className={styles.videoDisabledIcon} />
 						</div>
 					)}
 
-					{showFocusIndicator && isFocused && (
+					{showFocusIndicator && isFocusedOnThisTile && !isFocusedPlaceholderTile && (
 						<div className={styles.focusOverlay}>
 							<EyeIcon weight="fill" className={styles.focusOverlayIcon} />
 						</div>
+					)}
+
+					{isScreenShare && viewerUsers.length > 0 && !isFocusedPlaceholderTile && (
+						<Tooltip text={t`${viewerUsers.length} watching`} position="top">
+							<div className={styles.spectatorBadge}>
+								<EyeIcon weight="fill" className={styles.spectatorIcon} />
+								<span>{viewerUsers.length}</span>
+							</div>
+						</Tooltip>
 					)}
 
 					<div className={voiceCallStyles.lkParticipantMetadata}>
@@ -920,35 +1480,66 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 								</Tooltip>
 							</div>
 
-							<Tooltip text={participantDisplayName as string} position="top">
-								<span className={clsx(styles.participantNameText, voiceCallStyles.participantName)}>
-									{participantDisplayName}
-								</span>
-							</Tooltip>
-
-							{connectionId && (
-								<Tooltip text={t`Connection: ${connectionId}`} position="top">
-									<span className={clsx(styles.participantConnectionText, voiceCallStyles.participantConn)}>
-										({connectionId})
+							<div className={voiceCallStyles.participantMetadataLabel}>
+								<Tooltip text={participantDisplayName as string} position="top">
+									<span className={clsx(styles.participantNameText, voiceCallStyles.participantName)}>
+										{participantDisplayName}
 									</span>
 								</Tooltip>
-							)}
+
+								{connectionId && (
+									<Tooltip text={t`Connection: ${connectionId}`} position="top">
+										<span className={clsx(styles.participantConnectionText, voiceCallStyles.participantConn)}>
+											({connectionId})
+										</span>
+									</Tooltip>
+								)}
+							</div>
 						</div>
 
-						<FocusRing offset={-2}>
+						{!isLocalParticipant && (
 							<div
-								role="button"
-								tabIndex={0}
-								className={clsx(voiceCallStyles.lkParticipantMetadataItem, styles.menuButton)}
-								onClick={(e) => {
-									e.stopPropagation();
-									handleContextMenu(e);
-								}}
-								onKeyDown={handleMenuButtonKeyDown}
+								className={clsx(
+									voiceCallStyles.lkParticipantMetadataItem,
+									voiceCallStyles.lkParticipantMetadataControls,
+									styles.controlGroup,
+								)}
 							>
-								<DotsThreeIcon weight="bold" className={styles.menuButtonIcon} />
+								{showStreamAudioControls && (
+									<Tooltip text={streamAudioTooltip} position="top">
+										<FocusRing offset={-2}>
+											<div
+												role="button"
+												tabIndex={0}
+												className={clsx(styles.streamAudioButton, isStreamMuted && styles.streamAudioButtonMuted)}
+												onClick={handleStreamAudioToggle}
+												onKeyDown={handleStreamAudioKeyDown}
+											>
+												{isStreamMuted ? (
+													<SpeakerSlashIcon weight="fill" className={styles.streamAudioIcon} />
+												) : (
+													<SpeakerHighIcon weight="fill" className={styles.streamAudioIcon} />
+												)}
+											</div>
+										</FocusRing>
+									</Tooltip>
+								)}
+								<FocusRing offset={-2}>
+									<div
+										role="button"
+										tabIndex={0}
+										className={styles.menuButton}
+										onClick={(e) => {
+											e.stopPropagation();
+											handleContextMenu(e);
+										}}
+										onKeyDown={handleMenuButtonKeyDown}
+									>
+										<DotsThreeIcon weight="bold" className={styles.menuButtonIcon} />
+									</div>
+								</FocusRing>
 							</div>
-						</FocusRing>
+						)}
 					</div>
 				</LongPressable>
 			</FocusRing>
@@ -962,6 +1553,12 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 					guildId={guildId}
 					connectionId={connectionId}
 					isConnectionItem
+					streamKey={streamKey}
+					isScreenShare={isScreenShare}
+					isWatching={isWatching}
+					hasScreenShareAudio={hasScreenShareAudio}
+					isOwnScreenShare={isOwnScreenShare}
+					onStopWatching={stopWatching}
 				/>
 			)}
 		</>

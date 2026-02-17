@@ -15,7 +15,7 @@ concurrency:
 jobs:
   push:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 25
     permissions:
       contents: read
     env:
@@ -33,27 +33,10 @@ jobs:
           fetch-depth: 0
 
       - name: Install rclone
-        run: |
-          set -euo pipefail
-          if ! command -v rclone >/dev/null 2>&1; then
-            curl -fsSL https://rclone.org/install.sh | sudo bash
-          fi
+        run: python3 scripts/ci/workflows/sync_static.py --step install_rclone
 
       - name: Push repo contents to bucket
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        run: |
-          set -euo pipefail
-          mkdir -p ~/.config/rclone
-          cat > ~/.config/rclone/rclone.conf << RCLONEEOF
-          [ovh]
-          type = s3
-          provider = Other
-          env_auth = true
-          endpoint = $RCLONE_ENDPOINT
-          acl = private
-          RCLONEEOF
-
-          mkdir -p "$RCLONE_SOURCE_DIR"
-          rclone sync "$RCLONE_SOURCE" "$RCLONE_REMOTE:$RCLONE_BUCKET" --create-empty-src-dirs --exclude "assets/**"
+        run: python3 scripts/ci/workflows/sync_static.py --step push

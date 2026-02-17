@@ -17,19 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import {VerificationResult} from '@app/actions/AuthenticationActionCreators';
+import {AuthRouterLink} from '@app/components/auth/AuthRouterLink';
+import styles from '@app/components/pages/AuthorizeIPPage.module.css';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import {useHashParam} from '@app/hooks/useHashParam';
+import {createVerificationError, type VerificationError, VerificationErrorType} from '@app/types/VerificationError';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CheckIcon, XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import {useEffect, useState} from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import {VerificationResult} from '~/actions/AuthenticationActionCreators';
-import {AuthRouterLink} from '~/components/auth/AuthRouterLink';
-import {Spinner} from '~/components/uikit/Spinner';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import {useHashParam} from '~/hooks/useHashParam';
-import {createVerificationError, type VerificationError, VerificationErrorType} from '~/types/VerificationError';
-import styles from './AuthorizeIPPage.module.css';
 
 const renderErrorMessage = (error: VerificationError | null) => {
 	if (!error) return null;

@@ -1,0 +1,165 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.mobileTextareaWrapper {
+	display: flex;
+	align-items: flex-end;
+	gap: 6px;
+	padding: 8px;
+	width: 100%;
+	box-sizing: border-box;
+}
+
+.mobilePlusButtonContainer {
+	display: flex;
+	align-items: flex-end;
+	flex-shrink: 0;
+	height: 36px;
+}
+
+.mobilePlusButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background-color: var(--background-tertiary);
+	color: var(--text-primary);
+	border: none;
+	cursor: pointer;
+	flex-shrink: 0;
+	padding: 0;
+}
+
+.mobilePlusButtonIcon {
+	width: 20px;
+	height: 20px;
+}
+
+.mobileContentWrapper {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	align-items: flex-end;
+	gap: 6px;
+}
+
+.mobileInputContainer {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	align-items: flex-end;
+	background-color: var(--background-tertiary);
+	border-radius: 18px;
+	padding: 0;
+	position: relative;
+	min-height: 36px;
+}
+
+.mobileInputContent {
+	flex: 1;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 0;
+	font-size: 0.9375rem;
+}
+
+.mobileEmojiButtonContainer {
+	position: absolute;
+	right: 4px;
+	bottom: 2px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1;
+}
+
+.mobileEmojiButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 32px;
+	height: 32px;
+	border-radius: 50%;
+	background-color: transparent;
+	color: var(--text-primary-muted);
+	border: none;
+	cursor: pointer;
+	flex-shrink: 0;
+	padding: 0;
+}
+
+.mobileEmojiButtonIcon {
+	width: 22px;
+	height: 22px;
+}
+
+.mobileRightButtonContainer {
+	flex-shrink: 0;
+	display: flex;
+	align-items: flex-end;
+	height: 36px;
+}
+
+.mobileSendButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background-color: var(--brand-primary);
+	color: white;
+	border: none;
+	cursor: pointer;
+	flex-shrink: 0;
+}
+
+.mobileSendButton:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.mobileVoiceButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 50%;
+	background-color: var(--background-tertiary);
+	color: var(--text-primary);
+	border: none;
+	cursor: pointer;
+	flex-shrink: 0;
+	touch-action: none;
+}
+
+.mobileVoiceButton:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+.mobileRightButtonIcon {
+	width: 20px;
+	height: 20px;
+}

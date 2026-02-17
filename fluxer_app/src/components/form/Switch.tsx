@@ -17,12 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/form/Switch.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import styles from './Switch.module.css';
+import type React from 'react';
+import {useCallback, useId, useMemo, useRef} from 'react';
 
 interface SwitchProps {
 	label?: React.ReactNode;
@@ -36,20 +37,26 @@ interface SwitchProps {
 }
 export const Switch = observer(
 	({label, description, value, onChange, disabled, ariaLabel, className, compact}: SwitchProps) => {
-		const baseId = React.useId();
-		const labelId = `${baseId}-switch-label`;
-		const descriptionId = `${baseId}-switch-description`;
+		const baseId = useId();
+		const labelId = useMemo(() => `${baseId}-switch-label`, [baseId]);
+		const descriptionId = useMemo(() => `${baseId}-switch-description`, [baseId]);
 
-		const hasLabel = label !== undefined && label !== null && !(typeof label === 'string' && label.trim().length === 0);
+		const hasLabel = useMemo(
+			() => label !== undefined && label !== null && !(typeof label === 'string' && label.trim().length === 0),
+			[label],
+		);
 
-		const hasDescription =
-			description !== undefined &&
-			description !== null &&
-			!(typeof description === 'string' && description.trim().length === 0);
+		const hasDescription = useMemo(
+			() =>
+				description !== undefined &&
+				description !== null &&
+				!(typeof description === 'string' && description.trim().length === 0),
+			[description],
+		);
 
-		const rootRef = React.useRef<React.ElementRef<typeof SwitchPrimitive.Root>>(null);
+		const rootRef = useRef<React.ElementRef<typeof SwitchPrimitive.Root>>(null);
 
-		const valueChange = React.useCallback(
+		const valueChange = useCallback(
 			(next: boolean) => {
 				if (disabled) return;
 				onChange(next);
@@ -57,13 +64,13 @@ export const Switch = observer(
 			[disabled, onChange],
 		);
 
-		const handleLabelToggle = React.useCallback(() => {
+		const handleLabelToggle = useCallback(() => {
 			if (disabled) return;
 			onChange(!value);
 			rootRef.current?.focus();
 		}, [disabled, onChange, value]);
 
-		const handleLabelKeyDown = React.useCallback(
+		const handleLabelKeyDown = useCallback(
 			(event: React.KeyboardEvent<HTMLDivElement>) => {
 				if (event.key === 'Enter' || event.key === ' ') {
 					event.preventDefault();

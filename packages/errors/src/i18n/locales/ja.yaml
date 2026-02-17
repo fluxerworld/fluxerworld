@@ -1,0 +1,497 @@
+account.already_verified: アカウントはもう認証済みだよ。
+account.communication_disabled: コミュニケーション機能が無効になっているよ。
+account.disabled: このアカウントは無効化されているよ。
+account.email_verification_required_for_guild: このサーバーでメッセージを送るには、メール認証が必要だよ。
+account.guild_verification_required: サーバー認証が必要だよ。
+account.ip_authorization_required: IP認証が必要だよ。
+account.locked_suspicious_activity: 不審な動きがあったため、アカウントをロックしたよ。
+account.phone_required_for_guild: このサーバーでメッセージを送るには、電話番号の追加が必要だよ。
+account.scheduled_for_deletion: このアカウントは削除予定だよ。
+account.session_timeout: セッションがタイムアウトしたよ。ページを更新して、もう一度ログインしてね。
+account.session_token_mismatch: セッショントークンが一致しないよ。
+account.suspended_permanently: このアカウントは永久に停止されているよ。
+account.suspended_temporarily: このアカウントは一時的に停止されているよ。
+account.too_new_for_guild: このサーバーでメッセージを送るには、アカウントが新しすぎるよ。
+account.unauthorized: 認証されていないよ。
+admin_and_system.acls_must_be_non_empty: ACLは空にできないよ。
+admin_and_system.admin_api_key_not_found: 管理者APIキーが見つからないよ。
+admin_and_system.audit_log_indexing: 監査ログをインデックス中です。しばらくしてからお試しください。
+admin_and_system.channel_indexing: チャンネルをインデックス中です。しばらくしてからお試しください。
+admin_and_system.creation_failed: リソースを作成できませんでした。もう一度お試しください。
+admin_and_system.deletion_failed: リソースを削除できませんでした。もう一度お試しください。
+admin_and_system.decryption_failed: メッセージの復号化に失敗しました。暗号化キーが無効か破損している可能性があります。
+admin_and_system.empty_encrypted_body: 暗号化されたボディが空です。
+admin_and_system.encryption_failed: メッセージの暗号化に失敗しました。暗号化キーが無効か破損している可能性があります。
+admin_and_system.general_error: 問題が発生しました。後ほどもう一度お試しください。
+admin_and_system.invalid_acls_format: ACLの形式が無効です。
+admin_and_system.invalid_api_origin: APIのオリジンが無効です。
+admin_and_system.invalid_audit_log_reason: 監査ログの理由が無効です。
+admin_and_system.invalid_bot_flag: ボットフラグが無効です。
+admin_and_system.invalid_decrypted_json: 復号化されたJSONが無効です。
+admin_and_system.invalid_ephemeral_key: エフェメラルキーが無効です。
+admin_and_system.invalid_flags_format: フラグの形式が無効です。
+admin_and_system.invalid_form_body: フォーム本文が無効です。
+admin_and_system.invalid_format: 指定された値の形式が無効です。
+admin_and_system.invalid_integer_format: 整数の形式が無効です。
+admin_and_system.invalid_iv: 初期化ベクトル (IV) が無効です。
+admin_and_system.invalid_suspicious_flags_format: 不審フラグの形式が無効です。
+admin_and_system.invalid_system_flag: システムフラグが無効です。
+admin_and_system.invalid_timeout_value: タイムアウト値が無効です。
+admin_and_system.invalid_timestamp: タイムスタンプが無効です。
+admin_and_system.invalid_timezone_identifier: タイムゾーン識別子が無効です。
+admin_and_system.missing_acl: ACLがありません。
+admin_and_system.missing_ephemeral_key: エフェメラルキーがありません。
+admin_and_system.missing_iv: 初期化ベクトル (IV) がありません。
+admin_and_system.must_be_iso_timestamp: 有効なISO形式のタイムスタンプを指定してください。
+admin_and_system.processing_failed: リクエストを処理できませんでした。もう一度お試しください。
+admin_and_system.response_validation_failed: 'レスポンスの検証に失敗しました: {errors}。'
+admin_and_system.test_harness_disabled: テストハーネスは無効になっています。
+admin_and_system.test_harness_forbidden: テストハーネスは許可されていません。
+admin_and_system.unknown_suspicious_flag: 不明な不審フラグです。
+admin_and_system.update_failed: リソースを更新できませんでした。もう一度お試しください。
+admin_and_system.user_must_be_bot_for_system_user: ユーザーをシステムユーザーとしてマークするには、ボットである必要があります。
+attachments_and_uploads.attachment_fields_required: '`attachment_id`、`channel_id`、`message_id`、`expires_at`が全て必要だよ。'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`、`channel_id`、`message_id`は有効な整数じゃないとダメだよ。'
+attachments_and_uploads.cannot_edit_attachment_metadata: MANAGE_MESSAGES権限を持つユーザーは添付ファイルの説明だけを編集できて、他のメタデータは編集できないよ。
+attachments_and_uploads.attachment_metadata_without_files: 添付メタデータにファイル名はあるけど、ファイルがアップロードされてないよ。
+attachments_and_uploads.attachment_must_be_image: 添付"{filename}"は画像ファイル(png, jpg, jpeg, webp, gif)じゃないとダメだよ。
+attachments_and_uploads.attachment_not_found_in_message: ID {attachmentId} の添付がこのメッセージに見つからないよ。
+attachments_and_uploads.attachments_metadata_required_when_uploading: ファイルをアップロードするには添付メタデータ配列が必要だよ。
+attachments_and_uploads.attachments_not_allowed_for_message: このメッセージには添付は使えないよ。
+attachments_and_uploads.cannot_reference_attachments_without_attachments: 添付がないのに添付参照はできないよ。
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: attachment IDの重複はダメだよ。
+attachments_and_uploads.duplicate_file_index: 'ファイルインデックスが重複してるよ: {index}。'
+attachments_and_uploads.failed_to_parse_multipart_form_data: multipart form dataを解析できなかったよ。フィールド名とファイル名の形式を確認してね。
+attachments_and_uploads.failed_to_parse_multipart_payload: multipart payloadを解析できなかったよ。
+attachments_and_uploads.failed_to_upload_image: 画像をアップロードできなかったよ。あとでもう一度試してね。
+attachments_and_uploads.file_index_exceeds_maximum: ファイルインデックス {index} が上限 {maxIndex} を超えてるよ。
+attachments_and_uploads.file_not_found_for_scanning: スキャンするファイルが見つからないよ。
+attachments_and_uploads.file_not_found: ファイルが見つからないよ。
+attachments_and_uploads.file_size_too_large: ファイルサイズが大きすぎるよ。最大サイズは{maxSize}だよ。
+attachments_and_uploads.filename_empty_after_normalization: 正規化後のファイル名が空になるよ。
+attachments_and_uploads.filename_invalid_characters: ファイル名に使えない文字が含まれてるよ。
+attachments_and_uploads.filename_length_invalid: ファイル名は{min}～{max}文字にしてね。
+attachments_and_uploads.filename_mismatch_for_attachment: 添付 {attachmentId} のファイル名が一致しないよ。メタデータは"{expectedFilename}"だけど、実際とは違うよ。
+attachments_and_uploads.image_size_exceeds_limit: 画像サイズが{maxSize}バイトを超えてるよ。
+attachments_and_uploads.invalid_file_field_name: 'ファイルフィールド名が無効だよ: {key}。形式は`files[N]` (Nは数字) にしてね。'
+attachments_and_uploads.invalid_image_data: 画像データが無効だよ。
+attachments_and_uploads.invalid_image_format: '画像形式が無効だよ。対応拡張子: {supportedExtensions}。'
+attachments_and_uploads.invalid_json_in_payload_json: '`payload_json`のJSONが無効だよ。'
+attachments_and_uploads.multiple_files_for_index_not_allowed: インデックス {index} に複数ファイルは指定できないよ。
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: ID {attachmentId} の添付メタデータにファイルがアップロードされてないよ。
+attachments_and_uploads.no_file_uploaded_for_attachment: ID {attachmentId} の添付にファイルがアップロードされてないよ。
+attachments_and_uploads.no_metadata_for_file: ID {fileId} のファイルにメタデータがないよ。
+attachments_and_uploads.no_valid_media_in_message: メッセージに有効なメディアが見つからないよ。
+attachments_and_uploads.payload_json_required_for_multipart: multipartメッセージには`payload_json`が必要だよ。
+attachments_and_uploads.preview_must_be_jpeg: プレビューはJPEGじゃないとダメだよ。
+attachments_and_uploads.referenced_attachment_not_found: 参照した添付"{filename}"がメッセージの添付に見つからないよ。
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes`は有効な整数じゃないとダメだよ。'
+attachments_and_uploads.too_many_files: ファイルが多すぎるよ。最大{maxFiles}{maxFiles, plural, one {個} other {個}}まで。
+attachments_and_uploads.unknown_image_format: 不明な画像形式だよ。
+attachments_and_uploads.unresolved_attachment_url: 未解決の`attachment://`URLが見つかったよ。これは埋め込み処理の前に解決されているはずだよ。
+attachments_and_uploads.uploaded_attachment_not_found: アップロードした添付 {filename} が見つからないよ。
+auth_and_oauth.application_not_owned: このアプリケーションの所有者じゃないよ。
+auth_and_oauth.bot_already_in_guild: このボットはすでにギルドにいるよ。
+auth_and_oauth.bot_users_cannot_create_auth_sessions: ボットユーザーは認証セッションを作れないよ。
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: ボットユーザーは認証エンドポイントを使えないよ。
+auth_and_oauth.handoff_code_expired: 引き継ぎコードの期限が切れてるよ。
+auth_and_oauth.handoff_code_invalid: 引き継ぎコードが無効だよ。
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorizeはサポートしてないよ。POST /oauth2/authorize/consentを使ってね。
+auth_and_oauth.invalid_client_secret: クライアントシークレットが無効だよ。
+auth_and_oauth.invalid_client: クライアントが無効だよ。
+auth_and_oauth.invalid_code: コードが無効だよ。
+auth_and_oauth.invalid_grant: grantが無効だよ。
+auth_and_oauth.invalid_or_expired_authorization_ticket: 認可チケットが無効か期限切れだよ。
+auth_and_oauth.invalid_or_expired_authorization_token: 認可トークンが無効か期限切れだよ。
+auth_and_oauth.invalid_or_expired_ticket: チケットが無効か期限切れだよ。
+auth_and_oauth.invalid_proof_token: プルーフトークンが無効だよ。
+auth_and_oauth.invalid_redirect_uri: リダイレクトURIが無効だよ。
+auth_and_oauth.invalid_request: リクエストが無効だよ。
+auth_and_oauth.invalid_scope: スコープが無効だよ。
+auth_and_oauth.invalid_sudo_token: sudoトークンが無効だよ。
+auth_and_oauth.invalid_token_admin_api_key: 管理者APIキーが無効だよ。
+auth_and_oauth.missing_authorization: 認可情報がないよ。
+auth_and_oauth.missing_client_secret: クライアントシークレットがないよ。
+auth_and_oauth.missing_redirect_uri: リダイレクトURIがないよ。
+auth_and_oauth.must_start_session_before_sending_messages: メッセージを送る前にセッションを開始してね。
+auth_and_oauth.oauth_admin_scope_required: OAuth2トークンで管理者エンドポイントにアクセスするにはadminスコープが必要だよ。
+auth_and_oauth.oauth_fields_missing: OAuthの項目が足りないよ。
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: ボット以外のスコープではredirect URIが必要だよ。
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: ボット以外のスコープではresponse_typeはcodeじゃないとダメだよ。
+auth_and_oauth.sudo_mode_required: sudoモードが必要だよ。
+auth_and_oauth.unknown_application: 不明なアプリケーションだよ。
+auth_and_oauth.unsupported_response_type: response_typeが未対応だよ。
+auth_and_registration.current_password_incorrect: 現在のパスワードが間違っているよ。
+auth_and_registration.password_is_too_common: パスワードが一般的すぎるよ。もっと複雑なパスワードを選んでね。
+auth_and_registration.password_not_set: パスワードが設定されてないよ。
+bots.bot_application_not_found: ボットアプリケーションが見つからないよ。
+bots.bot_discriminator_cannot_be_changed: ボットの識別子は変更できません。
+bots.bot_is_private: このボットはプライベートだよ。
+bots.bot_user_generation_failed: ボットユーザーの生成に失敗したよ。
+bots.bot_user_not_found: ボットユーザーが見つからないよ。
+bots.invalid_response_type_for_non_bot: ボット以外のスコープではresponse_typeはcodeじゃないとダメだよ。
+bots.not_a_bot_application: このアプリケーションはボットじゃないよ。
+calls_and_voice.call_already_exists: 通話はすでにあるよ。
+calls_and_voice.cannot_modify_voice_state: ボイス状態は変更できないよ。
+calls_and_voice.invalid_or_restricted_rtc_region: 'RTCリージョンが無効か制限されてるよ: {region}。'
+calls_and_voice.invalid_rtc_region: 'RTCリージョンが無効だよ: {region}。利用できるリージョン: {availableRegions}。'
+calls_and_voice.invalid_stream_key_format: 配信キーの形式が無効だよ。
+calls_and_voice.invalid_stream_thumbnail_payload: 配信サムネイルのペイロードが無効だよ。
+calls_and_voice.no_active_call: 通話が始まってないよ。
+calls_and_voice.stream_key_channel_mismatch: 配信キーのチャンネルが一致しないよ。
+calls_and_voice.stream_key_scope_mismatch: 配信キーのスコープが一致しないよ。
+calls_and_voice.stream_thumbnail_payload_empty: 配信サムネイルのペイロードが空だよ。
+calls_and_voice.unknown_voice_region: 不明なボイスリージョンだよ。
+calls_and_voice.unknown_voice_server: 不明なボイスサーバーだよ。
+calls_and_voice.voice_message_duration_exceeds_limit: ボイスメッセージの長さは{maxDuration}{maxDuration, plural, one {秒} other {秒}}を超えられないよ。
+calls_and_voice.voice_message_duration_required: ボイスメッセージの添付には再生時間の指定が必要だよ。
+calls_and_voice.voice_message_waveform_required: ボイスメッセージの添付には波形データが必要だよ。
+calls_and_voice.voice_messages_require_single_attachment: ボイスメッセージは添付が1つだけじゃないとダメだよ。
+captcha.invalid: キャプチャが間違ってるよ。
+captcha.required: キャプチャが必要だよ。
+channels_and_guilds.afk_channel_must_be_in_guild: AFKチャンネルはこのサーバー内じゃないとダメだよ。
+channels_and_guilds.afk_channel_must_be_voice: AFKチャンネルはボイスチャンネルじゃないとダメだよ。
+channels_and_guilds.all_channels_must_belong_to_guild: すべてのチャンネルはこのサーバーに属してないとダメだよ。
+channels_and_guilds.animated_guild_banner_requires_feature: アニメーションサーバーバナーにはANIMATED_BANNER機能が必要だよ。
+channels_and_guilds.cannot_execute_on_dm: この操作はDMではできないよ。
+channels_and_guilds.cannot_transfer_ownership_to_bot: サーバーの所有権をボットに移行することはできません。
+channels_and_guilds.cannot_leave_guild_as_owner: オーナーのままサーバーを抜けられないよ。所有権を移すか、サーバーを削除してね。
+channels_and_guilds.cannot_position_channel_relative_to_itself: チャンネルを自分自身や子孫の位置に移動できないよ。
+channels_and_guilds.cannot_report_own_guild: 自分のサーバーは通報できないよ。
+channels_and_guilds.categories_cannot_have_parent_channel: カテゴリには親チャンネルを設定できないよ。
+channels_and_guilds.categories_cannot_have_parents: カテゴリに親は設定できないよ。
+channels_and_guilds.channel_id_required: '`channel_id`が必要だよ。'
+channels_and_guilds.channel_must_be_dm_or_group_dm: チャンネルはDMかグループDMじゃないとダメだよ。
+channels_and_guilds.channel_must_be_voice: チャンネルはボイスチャンネルじゃないとダメだよ。
+channels_and_guilds.channel_not_found: チャンネルが見つからないよ。
+channels_and_guilds.context_channel_or_guild_required: コンテキストのチャンネルIDかサーバーIDが必要だよ。
+channels_and_guilds.guild_banner_requires_feature: サーバーバナーにはBANNER機能が必要だよ。
+channels_and_guilds.guild_id_must_match_referenced_message: サーバーIDは、参照したメッセージを取得したチャンネルのサーバーと一致してないとダメだよ。
+channels_and_guilds.invalid_channel_id: 'チャンネルIDが無効だよ: {channelId}。'
+channels_and_guilds.invalid_channel_type_for_call: 通話に使えないチャンネルタイプだよ。
+channels_and_guilds.invalid_channel_type: チャンネルタイプが無効だよ。
+channels_and_guilds.invalid_channel: チャンネルが無効だよ。
+channels_and_guilds.invalid_parent_channel: 親チャンネルが無効だよ。
+channels_and_guilds.invite_splash_requires_feature: 招待スプラッシュにはINVITE_SPLASH機能が必要だよ。
+channels_and_guilds.invites_disabled: 招待が無効になってるよ。
+channels_and_guilds.max_group_dm_recipients_reached: グループDMの最大{count}{count, plural, one {人} other {人}}に達したよ。
+channels_and_guilds.max_group_dms_reached: グループDMの最大{count}{count, plural, one {個} other {個}}に達したよ。
+channels_and_guilds.max_guild_channels_reached: サーバーのチャンネル最大{count}{count, plural, one {個} other {個}}に達したよ。
+channels_and_guilds.max_guild_members_reached: サーバーのメンバー最大{count}{count, plural, one {人} other {人}}に達したよ。
+channels_and_guilds.max_guild_roles_reached: サーバーのロール最大{count}{count, plural, one {個} other {個}}に達したよ。
+channels_and_guilds.max_guilds_reached: サーバーの最大{count}{count, plural, one {個} other {個}}に達したよ。
+channels_and_guilds.message_history_cutoff_before_guild_creation: メッセージ履歴のカットオフ日時はコミュニティ作成日時より前に設定することはできないよ。
+channels_and_guilds.message_history_cutoff_in_future: メッセージ履歴のカットオフ日時を未来に設定することはできないよ。
+channels_and_guilds.parent_channel_not_in_guild: 親チャンネルがこのサーバーにないよ。
+channels_and_guilds.parent_must_be_category: 親はカテゴリじゃないとダメだよ。
+channels_and_guilds.preceding_channel_must_share_parent: 移動先の直前のチャンネルと同じ親カテゴリでないとダメだよ。
+channels_and_guilds.preceding_channel_not_in_guild: 直前のチャンネルがこのサーバーにないよ。
+channels_and_guilds.system_channel_must_be_in_guild: システムチャンネルはこのサーバー内じゃないとダメだよ。
+channels_and_guilds.system_channel_must_be_text: システムチャンネルはテキストチャンネルじゃないとダメだよ。
+channels_and_guilds.temporary_invite_requires_presence: 一時招待にはオンライン状態が必要だよ。
+channels_and_guilds.vanity_url_requires_feature: バニティURLにはVANITY_URL機能が必要だよ。
+channels_and_guilds.voice_channel_full: ボイスチャンネルが満員だよ。
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: 同じカテゴリ内では、ボイスチャンネルをテキストチャンネルより上に置けないよ。
+colors.color_value_too_high: 色の値は0xffffff以下にしてね。
+colors.color_value_too_low: 色の値は0x000000以上にしてね。
+content_and_safety.content_blocked: この内容は安全システムによってブロックされたよ。
+content_and_safety.csam_scan_failed: CSAMスキャンに失敗したよ。
+content_and_safety.csam_scan_parse_error: CSAMスキャンの解析エラーだよ。
+content_and_safety.csam_scan_subscription_error: CSAMスキャンのサブスクリプションエラーだよ。
+content_and_safety.csam_scan_timeout: CSAMスキャンがタイムアウトしたよ。
+content_and_safety.explicit_content_cannot_be_sent: 露骨な内容は送れないよ。
+content_and_safety.ncmec_already_submitted: この内容はすでにNCMECに提出済みだよ。
+content_and_safety.ncmec_submission_failed: NCMECに報告を送れなかったよ。あとでもう一度試してね。
+content_and_safety.nsfw_age_restricted: NSFWコンテンツは年齢制限があるよ。
+connections.already_exists: このタイプの接続はこの識別子で既に存在しているよ。
+connections.bluesky_oauth_callback_failed: Blueskyへの接続が完了できなかったよ。もう一度試してね。
+connections.bluesky_oauth_not_enabled: このサーバーではBlueskyへの接続が有効になってないよ。
+connections.bluesky_oauth_session_expired: Blueskyのセッションの期限が切れたよ。アカウントを再接続してね。
+connections.bluesky_oauth_state_invalid: 認可リクエストの期限が切れたか無効だよ。もう一度試してね。
+connections.invalid_identifier: 接続の識別子が無効だよ。
+connections.invalid_type: この接続タイプはサポートされていないよ。
+connections.initiation_token_invalid: 接続開始用トークンが無効か期限切れだよ。
+connections.limit_reached: 接続の最大{limit}{limit, plural, one {個} other {個}}に達したよ。
+connections.not_found: 不明な接続だよ。
+connections.verification_failed: 接続の検証に失敗したよ。確認トークンが正しく配置されていることを確認してね。
+discovery.already_applied: このコミュニティはすでにディスカバリーに申請済みだよ。
+discovery.application_already_reviewed: このディスカバリー申請はすでに審査済みだよ。
+discovery.application_not_found: ディスカバリー申請が見つからないよ。
+discovery.description_required: ディスカバリーの掲載には説明文が必要だよ。
+discovery.insufficient_members: このコミュニティはディスカバリーに必要な最小メンバー数を満たしていないよ。
+discovery.invalid_category: ディスカバリーのカテゴリが無効だよ。
+discovery.not_discoverable: このコミュニティはディスカバリーに掲載されていないよ。
+donation.amount_invalid: 寄付金額が無効だよ。
+donation.donor_not_found: 寄付者が見つからないよ。
+donation.magic_link_expired: マジックリンクの期限が切れてるよ。
+donation.magic_link_invalid: マジックリンクが無効だよ。
+donation.magic_link_used: マジックリンクはもう使用済みだよ。
+email.email_already_in_use: メールアドレスはもう使われてるよ。
+email.email_required: メールアドレスが必要だよ。
+email.email_service_not_testable: メールサービスはテストできないよ。
+email.invalid_format: メールアドレスの形式が正しくないよ。
+email.invalid_or_expired_reset_token: パスワードリセットトークンが無効か期限切れだよ。
+email.invalid_or_expired_revert_token: リバートトークンが無効か期限切れだよ。
+email.invalid_or_expired_verification_token: 認証トークンが無効か期限切れだよ。
+email.invalid_or_password: メールアドレスかパスワードが間違ってるよ。
+email.invalid_token: メールトークンが無効だよ。
+email.invalid_verification_code: 認証コードが間違ってるよ。
+email.length_invalid: メールアドレスは{min}～{max}文字にしてね。
+email.must_be_changed_via_token: メールアドレスはトークン経由で変更してね。
+email.must_change_via_token: メールアドレスの変更は`email_token`経由でやってね。
+email.must_have_email_to_change_it: メールアドレスを変更するには、メールアドレスを登録する必要があるよ。
+email.new_email_must_be_different: 新しいメールアドレスは今のと違うアドレスにしてね。
+email.no_new_email_requested: 新しいメールアドレスの申請がないよ。
+email.no_original_email_on_record: 元のメールアドレスが記録されてないよ。
+email.original_email_already_verified: 元のメールアドレスはもう認証済みだよ。
+email.original_email_must_be_verified_first: 先に元のメールアドレスを認証してね。
+email.original_verification_not_required: このフローでは元の認証は不要だよ。
+email.token_expired: メールトークンの期限が切れてるよ。
+email.user_has_no_email_address: このユーザーにはメールアドレスが登録されてないよ。
+email.user_is_not_pending_verification: このユーザーは認証待ちじゃないよ。
+email.verification_code_expired: 認証コードの期限が切れてるよ。
+email.verification_code_not_issued: 認証コードが発行されてないよ。
+embeds.embed_index_out_of_bounds: 埋め込みインデックス {embedIndex} は範囲外だよ (このメッセージの埋め込みは {embedCount}{embedCount, plural, one {件} other {件}})。
+embeds.embed_splash_requires_feature: 埋め込みスプラッシュにはINVITE_SPLASH機能が必要だよ。
+embeds.embeds_exceed_max_characters: 埋め込みの合計は{maxCharacters}{maxCharacters, plural, one {文字} other {文字}}以内にしてね。
+embeds.too_many_embeds: 埋め込みが多すぎるよ。最大{maxEmbeds}{maxEmbeds, plural, one {件} other {件}}まで。
+feature_flags.feature_not_available_self_hosted: この機能はセルフホスト環境では利用できないよ。
+feature_flags.feature_temporarily_disabled: この機能は一時的に無効になってるよ。
+friends_and_dms.already_friends: このユーザーとはもうフレンドだよ。
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: プライベートチャンネルを作るには宛先が最低1人必要だよ。
+friends_and_dms.at_least_one_recipient_required: 最低でも1人の宛先が必要だよ。
+friends_and_dms.bots_cannot_send_friend_requests: ボットはフレンド申請を送れないよ。
+friends_and_dms.cannot_add_yourself_to_group_dm: 自分をグループDMに追加できないよ。
+friends_and_dms.cannot_dm_yourself: 自分にDMは送れないよ。
+friends_and_dms.cannot_send_friend_request_to_blocked_user: ブロックしたユーザーにはフレンド申請を送れないよ。
+friends_and_dms.cannot_send_friend_request_to_self: 自分にフレンド申請は送れないよ。
+friends_and_dms.cannot_send_messages_to_user: このユーザーにはメッセージを送れないよ。
+friends_and_dms.duplicate_recipients_not_allowed: 宛先の重複はダメだよ。
+friends_and_dms.friend_request_blocked: このユーザーは現在フレンド申請を受け付けていません。
+friends_and_dms.not_friends: このユーザーとはフレンドじゃないよ。
+friends_and_dms.recipient_ids_cannot_be_empty: 宛先IDは空にできないよ。
+friends_and_dms.recipient_ids_must_be_strings: 宛先IDは文字列じゃないとダメだよ。
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: 宛先IDは有効なsnowflakeじゃないとダメだよ。
+harvest.expired: Harvestの期限が切れてるよ。
+harvest.failed: Harvestに失敗したよ。
+harvest.not_ready: Harvestの準備ができてないよ。
+harvest.on_cooldown: Harvestはクールダウン中だよ。
+harvest.unknown: 不明なHarvestだよ。
+http.bad_gateway: ゲートウェイエラーだよ。
+http.bad_request: 不正なリクエストだよ。
+http.conflict: 競合してるよ。
+http.forbidden: アクセスが禁止されてるよ。
+http.gateway_timeout: ゲートウェイタイムアウトだよ。
+http.gone: なくなってるよ。
+http.internal_server_error: サーバー内部エラーだよ。
+http.method_not_allowed: そのメソッドは許可されてないよ。
+http.not_found: 見つからないよ。
+http.not_implemented: 実装されてないよ。
+http.service_unavailable: サービスが利用不可だよ。
+http.validation_error: 検証に失敗したよ。
+invites_and_beta.invalid_or_already_used_beta_code: ベータコードが無効か、すでに使用済みだよ。
+invites_and_beta.max_beta_codes_reached: ベータコードの最大{count}{count, plural, one {個} other {個}}に達したよ。
+invites_and_beta.unknown_beta_code: 不明なベータコードだよ。
+invites_and_gifts.gift_code_already_redeemed: ギフトコードはもう引き換え済みだよ。
+invites_and_gifts.stripe_gift_redemption_in_progress: ギフトコードを引き換え中だよ。少ししてから試してね。
+invites_and_gifts.unknown_gift_code: 不明なギフトコードだよ。
+invites_and_packs.emoji_requires_access: この絵文字を使うには、元のサーバーかインストール済みパックへのアクセスが必要だよ。
+invites_and_packs.invalid_pack_type: パックタイプが無効だよ。
+invites_and_packs.max_animated_emojis_reached: アニメーション絵文字の最大{count}{count, plural, one {個} other {個}}に達したよ。
+invites_and_packs.max_emojis_reached: 絵文字の最大{count}{count, plural, one {個} other {個}}に達したよ。
+invites_and_packs.max_pack_expressions_reached: パックの表現の最大{count}{count, plural, one {個} other {個}}に達したよ。
+invites_and_packs.max_packs_reached: パックの最大{count}{count, plural, one {個} other {個}}に達したよ。
+invites_and_packs.pack_access_denied: パックへのアクセスが拒否されたよ。
+limits.at_least_one_entry_required: 最低1件は必要だよ。
+limits.base64_length_invalid: Base64文字列の長さは{min}～{maxLength}文字にしてね。
+limits.bucket_required: '`bucket`が必要だよ。'
+limits.cannot_shrink_reserved_slots: 予約枠は減らせないよ。
+limits.cannot_specify_before_and_after: '`before`と`after`は両方指定できないよ。'
+limits.content_exceeds_max_length: テキストは{maxLength}{maxLength, plural, one {文字} other {文字}}を超えないでね。
+limits.integer_out_of_int64_range: 整数値はint64の有効範囲外だよ。
+limits.timeout_cannot_exceed_365_days: タイムアウトは今から{maxDays}{maxDays, plural, one {日} other {日}}以上に設定できないよ。
+limits.rows_required: '`rows`が必要だよ。'
+limits.string_length_exact: 文字列はちょうど{length}文字にしてね。
+limits.string_length_invalid: 文字列の長さは{min}～{max}文字にしてね。
+limits.value_must_be_integer_in_range: '`{name}`の値は{minValue}～{maxValue}の整数にしてね。'
+limits.value_too_small: 値が小さすぎるよ。
+media_and_memes.favorite_meme_name_required: お気に入りミーム名が必要だよ。
+media_and_memes.favorite_meme_not_found: お気に入りミームが見つからないよ。
+media_and_memes.max_favorite_memes_reached: お気に入りミームの最大{count}{count, plural, one {個} other {個}}に達したよ。
+media_and_memes.media_already_in_favorites: このメディアはもうお気に入りミームに入ってるよ。
+media_and_memes.media_metadata_error: メディアのメタデータエラーだよ。
+media_and_memes.unknown_favorite_meme: 不明なお気に入りミームだよ。
+messages.cannot_delete_more_than_100: 一度に削除できるメッセージは{max}{max, plural, one {件} other {件}}までだよ。
+messages.cannot_edit_others_message: 他のユーザーのメッセージは編集できないよ。
+messages.cannot_preload_more_than_100_channels: 一度にプリロードできるチャンネルは{max}{max, plural, one {個} other {個}}までだよ。
+messages.cannot_reply_to_system_message: システムメッセージには返信できないよ。
+messages.cannot_send_empty_message: 空のメッセージは送れないよ。
+messages.forward_messages_cannot_include_extra_content: 転送メッセージには本文以外 (埋め込み、添付、スタンプ) を付けられないよ。
+messages.forward_reference_requires_channel_and_message: 転送参照には`channel_id`と`message_id`が必要だよ。
+messages.invalid_message_data: メッセージデータが無効だよ。
+messages.invalid_scheduled_message_payload: 予約送信のペイロードが無効だよ。
+messages.message_ids_cannot_be_empty: '`message_ids`は空にできないよ。'
+messages.messages_array_required: '`messages`配列が必要だよ。空はダメ。'
+messages.messages_with_snapshots_cannot_be_edited: スナップショット付きのメッセージは編集できないよ。
+messages.scheduled_messages_max_30_days: 予約メッセージは最大30日先までに設定してね。
+messages.scheduled_send_datetime_invalid: 予約送信の日時が無効だよ。
+messages.scheduled_time_must_be_future: 予約送信の時間は未来にしてね。
+messages.voice_messages_attachment_must_be_audio: ボイスメッセージの添付は音声ファイルじゃないとダメだよ。
+messages.voice_messages_cannot_have_content: ボイスメッセージには本文を付けられないよ。
+messages.voice_messages_cannot_have_embeds: ボイスメッセージに埋め込みは付けられないよ。
+messages.voice_messages_cannot_have_favorite_memes: ボイスメッセージにお気に入りミームは付けられないよ。
+messages.voice_messages_cannot_have_stickers: ボイスメッセージにスタンプは付けられないよ。
+mfa_and_passkeys.invalid_mfa_code: MFAコードが間違ってるよ。
+mfa_and_passkeys.invalid_webauthn_authentication_counter: WebAuthnの認証カウンターが無効だよ。
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: モデレーターに二要素認証を必須にする前に、まずあなたのアカウントで有効にしてね。
+mfa_and_passkeys.invalid_webauthn_credential_counter: WebAuthnの認証情報カウンターが無効だよ。
+mfa_and_passkeys.invalid_webauthn_credential: WebAuthnの認証情報が無効だよ。
+mfa_and_passkeys.invalid_webauthn_public_key_format: WebAuthnの公開鍵の形式が無効だよ。
+mfa_and_passkeys.no_passkeys_registered: パスキーが登録されてないよ。
+mfa_and_passkeys.passkey_authentication_failed: パスキー認証に失敗したよ。
+mfa_and_passkeys.passkeys_disabled: パスキーは無効になってるよ。
+mfa_and_passkeys.two_factor_not_enabled: 二要素認証が有効になってないよ。
+mfa_and_passkeys.two_factor_required: 二要素認証が必要だよ。
+mfa_and_passkeys.unknown_webauthn_credential: 不明なWebAuthn認証情報だよ。
+mfa_and_passkeys.webauthn_credential_limit_reached: WebAuthn認証情報の最大{count}{count, plural, one {個} other {個}}に達したよ。
+misc_limits.max_bookmarks_reached: ブックマークの最大{count}{count, plural, one {個} other {個}}に達したよ。
+misc_limits.max_category_channels_reached: カテゴリ内のチャンネルの最大{count}{count, plural, one {個} other {個}}に達したよ。
+misc_limits.max_friends_reached: フレンドの最大{count}{count, plural, one {人} other {人}}に達したよ。
+misc_limits.max_invites_reached: 招待の最大{count}{count, plural, one {個} other {個}}に達したよ。
+misc_limits.max_pins_per_channel_reached: チャンネルごとのピンの最大{count}{count, plural, one {個} other {個}}に達したよ。
+misc.cannot_send_messages_in_non_text_channel: テキストチャンネル以外にはメッセージを送れないよ。
+misc.cannot_send_messages_in_this_guild_without_email_verification: メール認証しないと、このサーバーではメッセージを送れないよ。
+misc.invalid_job_id: ジョブIDが無効だよ。
+misc.invalid_permissions_integer: 権限は有効な整数じゃないとダメだよ。
+misc.invalid_permissions_negative: 権限は負の値にできないよ。
+misc.invalid_request_generic: リクエストが無効だよ。
+misc.invalid_snowflake: snowflakeが無効だよ。
+misc.job_already_processed: ジョブはもう処理済みだよ。
+misc.job_id_required: ジョブIDが必要だよ。
+misc.job_not_found: ジョブが見つからないよ。
+misc.max_files_exceeded: ファイルが多すぎるよ。最大{maxFiles}{maxFiles, plural, one {個} other {個}}まで。
+misc.must_have_bot_to_mark_system_user: システムユーザーにするには、ユーザーはボットじゃないとダメだよ。
+moderation_and_reports.cannot_report_own_message: 自分のメッセージは通報できないよ。
+moderation_and_reports.cannot_report_yourself: 自分は通報できないよ。
+moderation_and_reports.invalid_dsa_report_target: DSA通報の対象が無効だよ。
+moderation_and_reports.invalid_dsa_ticket: DSAチケットが無効だよ。
+moderation_and_reports.invalid_dsa_verification_code: DSA認証コードが無効だよ。
+moderation_and_reports.report_already_resolved: この通報はもう解決済みだよ。
+moderation_and_reports.report_banned: 通報が禁止されてるよ。
+moderation_and_reports.unknown_report: 不明な通報だよ。
+moderation_and_reports.user_is_not_banned: このユーザーはBANされてないよ。
+names_and_normalization.channel_name_empty_after_normalization: 正規化後のチャンネル名が空になるよ。
+names_and_normalization.name_empty_after_normalization: 正規化後の名前が空になるよ。
+permissions.missing_access: アクセスできないよ。
+permissions.missing_permissions: 権限が足りないよ。
+permissions.not_owner_of_admin_api_key: この管理者APIキーを変更する権限がないよ。
+permissions.user_banned_from_guild: このユーザーはこのサーバーでBANされているよ。
+permissions.user_ip_banned_from_guild: このユーザーのIPはこのサーバーでBANされているよ。
+permissions.user_not_in_channel: このユーザーはこのチャンネルにいないよ。
+permissions.user_not_in_voice: このユーザーはボイスにいないよ。
+permissions.user_owns_guilds: このユーザーはサーバーを所有しているよ。
+phone.invalid_number: 電話番号が無効だよ。
+phone.number_already_used: その電話番号はもう使われてるよ。
+phone.number_format_required: '電話番号はE.164形式にしてね (例: +1234567890)。'
+phone.phone_required_for_sms_mfa: SMSのMFAには電話番号が必要だよ。
+phone.sms_mfa_not_enabled: SMSのMFAが有効になってないよ。
+phone.sms_mfa_requires_totp: SMSのMFAにはTOTPが必要だよ。
+phone.sms_verification_unavailable: SMS認証は一時的に使えないよ。あとでもう一度試してね。
+phone.verification_code_invalid: 電話番号の認証コードが間違ってるよ。
+phone.verification_required: 電話番号の認証が必要だよ。
+premium_and_plans.animated_avatars_require_premium: アニメーションアバターを使うにはPremiumが必要だよ。
+premium_and_plans.banners_require_premium: バナーを使うにはPremiumが必要だよ。
+premium_and_plans.bio_requires_premium_for_length: '{maxLength}文字を超える自己紹介を使うにはPremiumが必要だよ。'
+premium_and_plans.cannot_redeem_plutonium_with_visionary: VisionaryではPlutoniumを引き換えできないよ。
+premium_and_plans.custom_emojis_outside_source_require_premium: Premiumがないと、元のサーバー以外ではカスタム絵文字は使えないよ。
+premium_and_plans.custom_stickers_in_dms_require_premium: DMでカスタムスタンプを使うにはPremiumが必要だよ。
+premium_and_plans.custom_stickers_outside_source_require_premium: Premiumがないと、元のサーバー以外ではカスタムスタンプは使えないよ。
+premium_and_plans.discriminator_change_requires_premium: ディスクリミネーターを変更するにはPremiumが必要だよ。
+premium_and_plans.no_active_subscription: 有効なサブスクがないよ。
+premium_and_plans.no_visionary_slots_available: Visionaryの枠が空いてないよ。
+premium_and_plans.premium_required_for_custom_emoji: カスタム絵文字を使うにはPremiumが必要だよ。
+premium_and_plans.visionary_required_for_bot_discriminator: ボットのディスクリミネーターをカスタマイズするにはVisionaryの永久プランが必要だよ。
+premium_and_plans.visionary_required_for_discriminator: そのディスクリミネーターを使うにはVisionaryの永久プランが必要だよ。
+rate_limits.accent_color_changed_too_often: 最近アクセントカラーを変えすぎだよ。{minutes}{minutes, plural, one {分} other {分}}後にもう一度試してね。
+rate_limits.avatar_changed_too_often: 最近アバターを変えすぎだよ。{minutes}{minutes, plural, one {分} other {分}}後にもう一度試してね。
+rate_limits.banner_changed_too_often: 最近バナーを変えすぎだよ。{minutes}{minutes, plural, one {分} other {分}}後にもう一度試してね。
+rate_limits.bio_changed_too_often: 最近自己紹介を変えすぎだよ。{minutes}{minutes, plural, one {分} other {分}}後にもう一度試してね。
+rate_limits.ip_authorization_resend_cooldown: IP認証の再送はクールダウン中だよ。
+rate_limits.ip_authorization_resend_limit_exceeded: IP認証の再送上限を超えたよ。
+rate_limits.phone_rate_limit_exceeded: 電話番号のレート制限上限を超えたよ。
+rate_limits.pronouns_changed_too_often: 最近代名詞を変えすぎだよ。{minutes}{minutes, plural, one {分} other {分}}後にもう一度試してね。
+rate_limits.rate_limited: レート制限中だよ。
+rate_limits.slowmode_rate_limited: 低速モードでレート制限中だよ。
+rate_limits.username_changed_too_often: 最近ユーザー名を変えすぎだよ。{minutes}{minutes, plural, one {分} other {分}}後にもう一度試してね。
+roles.cannot_reorder_everyone_role: '@everyoneロールは並べ替えできないよ。'
+roles.cannot_set_everyone_hoist: '@everyoneロールにホイスト位置は設定できないよ。'
+roles.cannot_use_same_role_as_preceding: 直前のロールと同じロールは使えないよ。
+roles.invalid_role_id: 'ロールIDが無効だよ: {roleId}。'
+roles.parse_and_users_or_roles_cannot_be_used_together: '`parse`と`allowed_mentions.users`か`allowed_mentions.roles`は同時に使えないよ。'
+roles.preceding_role_not_in_guild: 直前のロールがこのサーバーにないよ。
+stickers_and_emojis.custom_emoji_not_found: カスタム絵文字が見つからないよ。
+stickers_and_emojis.custom_sticker_not_found: カスタムスタンプが見つからないよ。
+stickers_and_emojis.emoji_requires_guild_or_pack_access: この絵文字を使うには、元のサーバーかインストール済みパックへのアクセスが必要だよ。
+stickers_and_emojis.max_reactions_reached: リアクションの最大{count}{count, plural, one {個} other {個}}に達したよ。
+stickers_and_emojis.max_stickers_reached: スタンプの最大{count}{count, plural, one {個} other {個}}に達したよ。
+stickers_and_emojis.not_valid_unicode_emoji: 有効なUnicode絵文字じゃないよ。
+stickers_and_emojis.unknown_emoji: 不明な絵文字だよ。
+stickers_and_emojis.unknown_sticker: 不明なスタンプだよ。
+stripe.error: Stripeエラーだよ。
+stripe.invalid_product_configuration: 商品の設定が無効だよ。
+stripe.invalid_product_selection: 商品の選択が無効だよ。
+stripe.no_active_subscription_found: 有効なサブスクが見つからないよ。
+stripe.no_purchase_history_customer_portal_unavailable: 購入履歴が見つからないよ。カスタマーポータルは使えないよ。
+stripe.no_subscription_found: サブスクが見つからないよ。
+stripe.payment_not_available: 決済処理は利用できないよ。
+stripe.subscription_already_canceling: サブスクはすでに期間終了で解約する設定になってるよ。
+stripe.subscription_not_canceling: サブスクは期間終了で解約する設定になってないよ。
+stripe.subscription_period_end_missing: subscription current_period_endがないよ。
+stripe.webhook_not_available: Webhook処理は利用できないよ。
+stripe.webhook_signature_invalid: Stripe webhook署名が無効だよ。
+stripe.webhook_signature_missing: Stripe webhook署名がないよ。
+tickets.ticket_already_completed: このチケットはもう完了してるよ。
+tos_and_age.date_of_birth_format_invalid: 生年月日の形式が正しくないよ。
+tos_and_age.must_agree_to_tos_and_privacy: 利用規約とプライバシーポリシーに同意してね。
+tos_and_age.must_be_minimum_age: アカウントを作るには{minAge}{minAge, plural, one {歳} other {歳}}以上じゃないとダメだよ。
+unknown_entities.unknown_application: 不明なアプリケーションだよ。
+unknown_entities.unknown_channel: 不明なチャンネルだよ。
+unknown_entities.unknown_guild: 不明なサーバーだよ。
+unknown_entities.unknown_invite: 不明な招待だよ。
+unknown_entities.unknown_member: 不明なメンバーだよ。
+unknown_entities.unknown_message: 不明なメッセージだよ。
+unknown_entities.unknown_pack: 不明なパックだよ。
+unknown_entities.unknown_role: 不明なロールだよ。
+unknown_entities.unknown_user_flag: 不明なユーザーフラグだよ。
+unknown_entities.unknown_user: 不明なユーザーだよ。
+urls.invalid_url_format: URLの形式が無効だよ。
+urls.invalid_url_or_attachment_reference: URLの形式が無効か、添付参照が無効だよ。
+urls.url_length_invalid: URLは{min}～{max}文字にしてね。
+usernames_and_tags.discriminator_invalid_format: ディスクリミネーターは{min}～{max}桁の数字にしてね。
+usernames_and_tags.discriminator_out_of_range: ディスクリミネーターは{min}～{max}の間にしてね。
+usernames_and_tags.discriminator_required: ディスクリミネーターが必要だよ。
+usernames_and_tags.display_name_length_invalid: 表示名は{min}～{max}文字にしてね。
+usernames_and_tags.display_name_reserved_terms: 表示名に"system message"は含められないよ。
+usernames_and_tags.display_name_reserved_value: 表示名に"everyone"や"here"は使えないよ。
+usernames_and_tags.global_name_length_invalid: グローバル名は{min}～{max}文字にしてね。
+usernames_and_tags.global_name_reserved_value: グローバル名に"everyone"や"here"は使えないよ。
+usernames_and_tags.tag_already_taken: そのタグはもう使われてるよ。
+usernames_and_tags.too_many_users_with_this_username: そのユーザー名の人が多すぎるよ。
+usernames_and_tags.too_many_users_with_username_try_different: そのユーザー名の人が多すぎるよ。別のユーザー名にしてね。
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: 未登録のアカウントはトークン経由でのみメールアドレスを設定できるよ。
+usernames_and_tags.username_invalid_characters: ユーザー名に使えるのは英字(a-z, A-Z)、数字(0-9)、アンダースコア(_)だけだよ。
+usernames_and_tags.username_length_invalid: ユーザー名は{min}～{max}文字にしてね。
+usernames_and_tags.username_not_available: そのユーザー名は使えないよ。
+usernames_and_tags.username_reserved_terms: ユーザー名に"fluxer"や"system message"は含められないよ。
+usernames_and_tags.username_reserved_value: ユーザー名に"everyone"や"here"は使えないよ。
+vanity_urls.vanity_url_already_taken: そのバニティURLはもう使われてるよ。
+vanity_urls.vanity_url_code_already_taken: そのバニティURLコードはもう使われてるよ。
+vanity_urls.vanity_url_code_cannot_contain_fluxer: バニティURLコードに"fluxer"は入れられないよ。
+vanity_urls.vanity_url_code_length_invalid: バニティURLコードは{min}～{max}文字にしてね。
+vanity_urls.vanity_url_invalid_characters: バニティURLに使えるのは小文字(a-z)、数字(0-9)、ハイフン(-)だけだよ。
+webhooks.cannot_modify_system_webhook: システムメッセージは編集できません。
+webhooks.max_webhooks_per_channel_reached: チャンネルのWebhookの最大{count}{count, plural, one {個} other {個}}に達したよ。
+webhooks.max_webhooks_per_guild_reached: このサーバーのWebhookの最大{count}{count, plural, one {個} other {個}}に達したよ。
+webhooks.max_webhooks_reached: Webhookの最大{count}{count, plural, one {個} other {個}}に達したよ。
+webhooks.unknown_webhook: 不明なWebhookだよ。
+webhooks.webhook_name_length_invalid: Webhook名は{min}～{max}文字にしてね。

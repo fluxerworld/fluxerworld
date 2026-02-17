@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/GuildNavbarSkeleton.module.css';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import styles from './GuildNavbarSkeleton.module.css';
 
 export const GuildNavbarSkeleton = observer(() => {
 	const mobileLayout = MobileLayoutStore;

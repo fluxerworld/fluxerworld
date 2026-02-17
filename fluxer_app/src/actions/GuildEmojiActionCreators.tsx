@@ -17,23 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {GuildEmojiWithUser} from '~/records/GuildEmojiRecord';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import type {GuildEmojiWithUser} from '@fluxer/schema/src/domains/guild/GuildEmojiSchemas';
 
 const logger = new Logger('Emojis');
 
-export const sanitizeEmojiName = (fileName: string): string => {
+export function sanitizeEmojiName(fileName: string): string {
 	const name =
 		fileName
 			.split('.')
 			.shift()
 			?.replace(/[^a-zA-Z0-9_]/g, '') ?? '';
 	return name.padEnd(2, '_').slice(0, 32);
-};
+}
 
-export const list = async (guildId: string): Promise<ReadonlyArray<GuildEmojiWithUser>> => {
+export async function list(guildId: string): Promise<ReadonlyArray<GuildEmojiWithUser>> {
 	try {
 		const response = await http.get<ReadonlyArray<GuildEmojiWithUser>>({url: Endpoints.GUILD_EMOJIS(guildId)});
 		const emojis = response.body;
@@ -43,15 +43,18 @@ export const list = async (guildId: string): Promise<ReadonlyArray<GuildEmojiWit
 		logger.error(`Failed to list emojis for guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const bulkUpload = async (
+export async function bulkUpload(
 	guildId: string,
 	emojis: Array<{name: string; image: string}>,
 	signal?: AbortSignal,
-): Promise<{success: Array<any>; failed: Array<{name: string; error: string}>}> => {
+): Promise<{success: Array<GuildEmojiWithUser>; failed: Array<{name: string; error: string}>}> {
 	try {
-		const response = await http.post<{success: Array<any>; failed: Array<{name: string; error: string}>}>({
+		const response = await http.post<{
+			success: Array<GuildEmojiWithUser>;
+			failed: Array<{name: string; error: string}>;
+		}>({
 			url: `${Endpoints.GUILD_EMOJIS(guildId)}/bulk`,
 			body: {emojis},
 			signal,
@@ -63,9 +66,9 @@ export const bulkUpload = async (
 		logger.error(`Failed to bulk upload emojis to guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const update = async (guildId: string, emojiId: string, data: {name: string}): Promise<void> => {
+export async function update(guildId: string, emojiId: string, data: {name: string}): Promise<void> {
 	try {
 		await http.patch({url: Endpoints.GUILD_EMOJI(guildId, emojiId), body: data});
 		logger.debug(`Updated emoji ${emojiId} in guild ${guildId}`);
@@ -73,15 +76,17 @@ export const update = async (guildId: string, emojiId: string, data: {name: stri
 		logger.error(`Failed to update emoji ${emojiId} in guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const remove = async (guildId: string, emojiId: string, purge = false): Promise<void> => {
+export async function remove(guildId: string, emojiId: string, purge = false): Promise<void> {
 	try {
-		const query = purge ? '?purge=true' : '';
-		await http.delete({url: `${Endpoints.GUILD_EMOJI(guildId, emojiId)}${query}`});
+		await http.delete({
+			url: Endpoints.GUILD_EMOJI(guildId, emojiId),
+			query: purge ? {purge: true} : undefined,
+		});
 		logger.debug(`Removed emoji ${emojiId} from guild ${guildId}`);
 	} catch (error) {
 		logger.error(`Failed to remove emoji ${emojiId} from guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}

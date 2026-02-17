@@ -17,19 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {makePersistent} from '@app/lib/MobXPersistence';
 import {makeAutoObservable} from 'mobx';
-import {makePersistent} from '~/lib/MobXPersistence';
 
 class VoicePromptsStore {
 	skipHideOwnCameraConfirm = false;
+	skipHideOwnScreenShareConfirm = false;
 
 	constructor() {
-		makeAutoObservable(this, {}, {autoBind: true});
+		makeAutoObservable(
+			this,
+			{getSkipHideOwnCameraConfirm: false, getSkipHideOwnScreenShareConfirm: false},
+			{autoBind: true},
+		);
 		void this.initPersistence();
 	}
 
 	private async initPersistence(): Promise<void> {
-		await makePersistent(this, 'VoicePromptsStore', ['skipHideOwnCameraConfirm']);
+		await makePersistent(this, 'VoicePromptsStore', ['skipHideOwnCameraConfirm', 'skipHideOwnScreenShareConfirm']);
 	}
 
 	getSkipHideOwnCameraConfirm(): boolean {
@@ -38,6 +43,14 @@ class VoicePromptsStore {
 
 	setSkipHideOwnCameraConfirm(value: boolean): void {
 		this.skipHideOwnCameraConfirm = value;
+	}
+
+	getSkipHideOwnScreenShareConfirm(): boolean {
+		return this.skipHideOwnScreenShareConfirm;
+	}
+
+	setSkipHideOwnScreenShareConfirm(value: boolean): void {
+		this.skipHideOwnScreenShareConfirm = value;
 	}
 }
 

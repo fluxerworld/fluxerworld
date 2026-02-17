@@ -1,0 +1,22 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "MESSAGE_REACTION_REMOVE_ALL",
+	"description": "Sent when all reactions are removed from a message.",
+	"scope": "channel",
+	"scopeNote": "Guild channels dispatch to guild scope; DMs dispatch to presence scope.",
+	"dispatchedBy": ["DELETE /channels/:channel_id/messages/:message_id/reactions"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID"
+			},
+			"message_id": {
+				"type": "string",
+				"description": "Message ID"
+			}
+		},
+		"required": ["channel_id", "message_id"]
+	}
+}

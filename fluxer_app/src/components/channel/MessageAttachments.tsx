@@ -17,60 +17,60 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import {Attachment} from '@app/components/channel/embeds/attachments/Attachment';
+import {AttachmentMosaic} from '@app/components/channel/embeds/attachments/AttachmentMosaic';
+import {Embed} from '@app/components/channel/embeds/Embed';
+import {GiftEmbed} from '@app/components/channel/GiftEmbed';
+import {InviteEmbed} from '@app/components/channel/InviteEmbed';
+import {getAttachmentRenderingState} from '@app/components/channel/MessageAttachmentStateUtils';
+import styles from '@app/components/channel/MessageAttachments.module.css';
+import {MessageReactions} from '@app/components/channel/MessageReactions';
+import {useMessageViewContext} from '@app/components/channel/MessageViewContext';
+import {ThemeEmbed} from '@app/components/channel/ThemeEmbed';
+import {GroupDMAvatar} from '@app/components/common/GroupDMAvatar';
+import {GuildIcon} from '@app/components/popouts/GuildIcon';
+import {Avatar} from '@app/components/uikit/Avatar';
+import {MediaContextMenu} from '@app/components/uikit/context_menu/MediaContextMenu';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useStickerAnimation} from '@app/hooks/useStickerAnimation';
+import {SafeMarkdown} from '@app/lib/markdown';
+import {MarkdownContext} from '@app/lib/markdown/renderers/RendererTypes';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import GuildStore from '@app/stores/GuildStore';
+import StickerStore from '@app/stores/StickerStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import markupStyles from '@app/styles/Markup.module.css';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {useForwardedMessageContext} from '@app/utils/ForwardedMessageUtils';
+import {goToMessage} from '@app/utils/MessageNavigator';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import type {MessageEmbed} from '@fluxer/schema/src/domains/message/EmbedSchemas';
+import type {
+	MessageAttachment,
+	MessageSnapshot,
+	MessageStickerItem,
+} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {Trans} from '@lingui/react/macro';
 import {ArrowBendUpRightIcon, CaretRightIcon, HashIcon, NotePencilIcon, SpeakerHighIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import {ChannelTypes, StickerFormatTypes} from '~/Constants';
-import {Attachment} from '~/components/channel/embeds/attachments/Attachment';
-import {AttachmentMosaic} from '~/components/channel/embeds/attachments/AttachmentMosaic';
-import {Embed} from '~/components/channel/embeds/Embed';
-import {GiftEmbed} from '~/components/channel/GiftEmbed';
-import {InviteEmbed} from '~/components/channel/InviteEmbed';
-import {MessageReactions} from '~/components/channel/MessageReactions';
-import {getAttachmentRenderingState} from '~/components/channel/messageAttachmentStateUtils';
-import {ThemeEmbed} from '~/components/channel/ThemeEmbed';
-import {GroupDMAvatar} from '~/components/common/GroupDMAvatar';
-import {GuildIcon} from '~/components/popouts/GuildIcon';
-import {Avatar} from '~/components/uikit/Avatar';
-import {MediaContextMenu} from '~/components/uikit/ContextMenu/MediaContextMenu';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {SafeMarkdown} from '~/lib/markdown';
-import {MarkdownContext} from '~/lib/markdown/renderers';
-import type {
-	MessageAttachment,
-	MessageEmbed,
-	MessageRecord,
-	MessageSnapshot,
-	MessageStickerItem,
-} from '~/records/MessageRecord';
-import GuildStore from '~/stores/GuildStore';
-import StickerStore from '~/stores/StickerStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import markupStyles from '~/styles/Markup.module.css';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import {useForwardedMessageContext} from '~/utils/forwardedMessageUtils';
-import {goToMessage} from '~/utils/MessageNavigator';
-import styles from './MessageAttachments.module.css';
-import {useMessageViewContext} from './MessageViewContext';
+import type React from 'react';
+import {useCallback} from 'react';
 
 const ForwardedFromSource = observer(({message}: {message: MessageRecord}) => {
 	const {sourceChannel, sourceGuild, sourceUser, hasAccessToSource, displayName} = useForwardedMessageContext(message);
 
-	const handleJumpToOriginal = React.useCallback(() => {
+	const handleJumpToOriginal = useCallback(() => {
 		if (message.messageReference && sourceChannel) {
 			goToMessage(message.messageReference.channel_id, message.messageReference.message_id);
 		}
 	}, [message.messageReference, sourceChannel]);
 
-	if (!hasAccessToSource || !sourceChannel || !displayName || !message.messageReference) {
-		return null;
-	}
+	const renderChannelIcon = useCallback(() => {
+		if (!sourceChannel) return null;
 
-	const renderChannelIcon = () => {
 		const iconSize = 16;
 
 		if (sourceChannel.type === ChannelTypes.DM_PERSONAL_NOTES) {
@@ -94,7 +94,11 @@ const ForwardedFromSource = observer(({message}: {message: MessageRecord}) => {
 			return <SpeakerHighIcon className={styles.forwardedSourceIcon} weight="fill" size={iconSize} />;
 		}
 		return <HashIcon className={styles.forwardedSourceIcon} weight="bold" size={iconSize} />;
-	};
+	}, [sourceChannel, sourceUser]);
+
+	if (!hasAccessToSource || !sourceChannel || !displayName || !message.messageReference) {
+		return null;
+	}
 
 	if (
 		sourceChannel.type === ChannelTypes.DM ||
@@ -144,7 +148,13 @@ const ForwardedFromSource = observer(({message}: {message: MessageRecord}) => {
 	return null;
 });
 
-const ForwardedMessageContent = observer(({message, snapshot}: {message: MessageRecord; snapshot: MessageSnapshot}) => {
+interface ForwardedMessageContentProps {
+	message: MessageRecord;
+	snapshot: MessageSnapshot;
+	onDelete?: (bypassConfirm?: boolean) => void;
+}
+
+const ForwardedMessageContent = observer(({message, snapshot, onDelete}: ForwardedMessageContentProps) => {
 	const snapshotIsPreview = true;
 	return (
 		<div className={styles.forwardedContainer}>
@@ -158,7 +168,7 @@ const ForwardedMessageContent = observer(({message, snapshot}: {message: Message
 				</div>
 
 				{snapshot.content && (
-					<div className={clsx(markupStyles.markup)}>
+					<div className={clsx(markupStyles.markup)} data-search-highlight-scope="message">
 						<SafeMarkdown
 							content={snapshot.content}
 							options={{
@@ -179,7 +189,12 @@ const ForwardedMessageContent = observer(({message, snapshot}: {message: Message
 							return (
 								<>
 									{shouldUseMosaic && (
-										<AttachmentMosaic attachments={mediaAttachments} message={message} isPreview={snapshotIsPreview} />
+										<AttachmentMosaic
+											attachments={mediaAttachments}
+											message={message}
+											isPreview={snapshotIsPreview}
+											onDelete={onDelete}
+										/>
 									)}
 									{enrichedAttachments.map((attachment: MessageAttachment) => (
 										<Attachment
@@ -188,6 +203,7 @@ const ForwardedMessageContent = observer(({message, snapshot}: {message: Message
 											isPreview={snapshotIsPreview}
 											message={message}
 											renderInMosaic={shouldUseMosaic}
+											onDelete={onDelete}
 										/>
 									))}
 								</>
@@ -207,7 +223,7 @@ const ForwardedMessageContent = observer(({message, snapshot}: {message: Message
 									message={message}
 									embedIndex={index}
 									contextualEmbeds={snapshot.embeds}
-									onDelete={() => {}}
+									onDelete={onDelete}
 									isPreview={snapshotIsPreview}
 								/>
 							);
@@ -222,12 +238,14 @@ const ForwardedMessageContent = observer(({message, snapshot}: {message: Message
 });
 
 export const MessageAttachments = observer(() => {
-	const {message, handleDelete, previewContext, onPopoutToggle} = useMessageViewContext();
+	const {message, handleDelete, previewContext, onPopoutToggle, readonlyPreview} = useMessageViewContext();
 	const isPreview = Boolean(previewContext);
+	const reactionsIsPreview = isPreview || Boolean(readonlyPreview);
+	const {shouldAnimate, interactionHandlers} = useStickerAnimation();
 	return (
 		<>
 			{message.messageSnapshots && message.messageSnapshots.length > 0 && (
-				<ForwardedMessageContent message={message} snapshot={message.messageSnapshots[0]} />
+				<ForwardedMessageContent message={message} snapshot={message.messageSnapshots[0]} onDelete={handleDelete} />
 			)}
 
 			{message.invites.map((code) => (
@@ -253,7 +271,7 @@ export const MessageAttachments = observer(() => {
 					{message.stickers.map((sticker: MessageStickerItem) => {
 						const stickerUrl = AvatarUtils.getStickerURL({
 							id: sticker.id,
-							animated: sticker.format_type === StickerFormatTypes.GIF,
+							animated: shouldAnimate,
 							size: 320,
 						});
 
@@ -297,7 +315,13 @@ export const MessageAttachments = observer(() => {
 						return (
 							<Tooltip key={sticker.id} text={tooltipContent}>
 								<FocusRing>
-									<div role="img" className={styles.stickerWrapper} onContextMenu={handleContextMenu}>
+									<div
+										role="img"
+										className={styles.stickerWrapper}
+										data-message-sticker="true"
+										onContextMenu={handleContextMenu}
+										{...interactionHandlers}
+									>
 										<img
 											src={stickerUrl}
 											alt={stickerRecord?.description || sticker.name}
@@ -320,7 +344,12 @@ export const MessageAttachments = observer(() => {
 				return (
 					<>
 						{shouldWrapInMosaic && (
-							<AttachmentMosaic attachments={mediaAttachments} message={message} isPreview={isPreview} />
+							<AttachmentMosaic
+								attachments={mediaAttachments}
+								message={message}
+								isPreview={isPreview}
+								onDelete={handleDelete}
+							/>
 						)}
 						{enrichedAttachments.map((attachment) => (
 							<Attachment
@@ -329,6 +358,7 @@ export const MessageAttachments = observer(() => {
 								isPreview={isPreview}
 								message={message}
 								renderInMosaic={shouldWrapInMosaic}
+								onDelete={handleDelete}
 							/>
 						))}
 					</>
@@ -352,7 +382,7 @@ export const MessageAttachments = observer(() => {
 				})}
 
 			{UserSettingsStore.getRenderReactions() && message.reactions.length > 0 && (
-				<MessageReactions message={message} isPreview={isPreview} onPopoutToggle={onPopoutToggle} />
+				<MessageReactions message={message} isPreview={reactionsIsPreview} onPopoutToggle={onPopoutToggle} />
 			)}
 		</>
 	);

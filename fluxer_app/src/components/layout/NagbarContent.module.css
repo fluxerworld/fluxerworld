@@ -50,3 +50,14 @@
 	flex-wrap: wrap;
 	justify-content: center;
 }
+
+.dismissButton {
+	background: none;
+	border: none;
+	color: inherit;
+	font: inherit;
+	font-weight: 600;
+	padding: 0.5rem 1rem;
+	cursor: pointer;
+	opacity: 0.8;
+}

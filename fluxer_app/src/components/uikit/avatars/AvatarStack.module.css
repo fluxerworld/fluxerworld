@@ -40,6 +40,36 @@
 	grid-row: 1;
 }
 
+.avatarButton {
+	cursor: pointer;
+	border-radius: 50%;
+	border: none;
+	background-color: transparent;
+	padding: 0;
+	outline: none;
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.avatarContent {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.avatarContextMenuWrap {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
 .avatar.withMask {
 	mask: radial-gradient(
 		50% 50% at calc(150% + var(--avatar-overlap)),

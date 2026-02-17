@@ -17,8 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as UserProfileActionCreators from '@app/actions/UserProfileActionCreators';
+import {Logger} from '@app/lib/Logger';
 import {makeAutoObservable} from 'mobx';
-import * as UserProfileActionCreators from '~/actions/UserProfileActionCreators';
 
 interface UserProfileMobileState {
 	userId: string | null;
@@ -27,6 +28,7 @@ interface UserProfileMobileState {
 }
 
 class UserProfileMobileStore {
+	private logger = new Logger('UserProfileMobileStore');
 	userId: UserProfileMobileState['userId'] = null;
 	guildId: UserProfileMobileState['guildId'] = undefined;
 	autoFocusNote: UserProfileMobileState['autoFocusNote'] = undefined;
@@ -44,7 +46,7 @@ class UserProfileMobileStore {
 		this.guildId = guildId;
 		this.autoFocusNote = autoFocusNote;
 		UserProfileActionCreators.fetch(userId, guildId).catch((error) => {
-			console.error('Failed to fetch user profile:', error);
+			this.logger.error('Failed to fetch user profile:', error);
 		});
 	}
 

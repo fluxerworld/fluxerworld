@@ -17,13 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GuildMemberActionCreators from '@app/actions/GuildMemberActionCreators';
+import {BaseChangeNicknameModal} from '@app/components/modals/BaseChangeNicknameModal';
+import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as GuildMemberActionCreators from '~/actions/GuildMemberActionCreators';
-import {BaseChangeNicknameModal} from '~/components/modals/BaseChangeNicknameModal';
-import type {GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
+import type React from 'react';
+import {useCallback} from 'react';
 
 interface ChangeNicknameModalProps {
 	guildId: string;
@@ -35,7 +36,7 @@ export const ChangeNicknameModal: React.FC<ChangeNicknameModalProps> = observer(
 	const currentUserId = AuthenticationStore.currentUserId;
 	const isCurrentUser = user.id === currentUserId;
 
-	const handleSave = React.useCallback(
+	const handleSave = useCallback(
 		async (nick: string | null) => {
 			if (isCurrentUser) {
 				await GuildMemberActionCreators.updateProfile(guildId, {nick});

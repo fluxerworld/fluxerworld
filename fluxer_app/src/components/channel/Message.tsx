@@ -17,35 +17,42 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as ReadStateActionCreators from '@app/actions/ReadStateActionCreators';
+import {MessageActionBar, MessageActionBarCore} from '@app/components/channel/MessageActionBar';
+import {MessageActionBottomSheet} from '@app/components/channel/MessageActionBottomSheet';
+import {requestDeleteMessage} from '@app/components/channel/MessageActionUtils';
+import {MessageViewContextProvider} from '@app/components/channel/MessageViewContext';
+import {MessageContextMenu} from '@app/components/uikit/context_menu/MessageContextMenu';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {useContextMenuHoverState} from '@app/hooks/useContextMenuHoverState';
+import {parse} from '@app/lib/markdown/renderers';
+import {MarkdownContext} from '@app/lib/markdown/renderers/RendererTypes';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
+import MessageEditStore from '@app/stores/MessageEditStore';
+import MessageFocusStore from '@app/stores/MessageFocusStore';
+import MessageReplyStore from '@app/stores/MessageReplyStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import styles from '@app/styles/Message.module.css';
+import {getMessageComponent} from '@app/utils/MessageComponentUtils';
+import {FLUXERBOT_ID} from '@fluxer/constants/src/AppConstants';
+import {
+	MessageEmbedTypes,
+	MessagePreviewContext,
+	MessageStates,
+	MessageTypes,
+} from '@fluxer/constants/src/ChannelConstants';
+import {NodeType} from '@fluxer/markdown_parser/src/types/Enums';
 import {useLingui} from '@lingui/react/macro';
 import {clsx} from 'clsx';
-import {autorun} from 'mobx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import * as ReadStateActionCreators from '~/actions/ReadStateActionCreators';
-import {FLUXERBOT_ID, MessageEmbedTypes, MessagePreviewContext, MessageStates, MessageTypes} from '~/Constants';
-import {MessageActionBar, MessageActionBarCore} from '~/components/channel/MessageActionBar';
-import {MessageActionBottomSheet} from '~/components/channel/MessageActionBottomSheet';
-import {MessageContextMenu} from '~/components/uikit/ContextMenu/MessageContextMenu';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {NodeType} from '~/lib/markdown/parser/types/enums';
-import {MarkdownContext, parse} from '~/lib/markdown/renderers';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import ContextMenuStore, {isContextMenuNodeTarget} from '~/stores/ContextMenuStore';
-import DeveloperOptionsStore from '~/stores/DeveloperOptionsStore';
-import KeyboardModeStore from '~/stores/KeyboardModeStore';
-import MessageEditStore from '~/stores/MessageEditStore';
-import MessageReplyStore from '~/stores/MessageReplyStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import styles from '~/styles/Message.module.css';
-import {getMessageComponent} from '~/utils/MessageComponentUtils';
-import {MessageViewContextProvider} from './MessageViewContext';
 
 const shouldApplyGroupedLayout = (message: MessageRecord, _prevMessage?: MessageRecord) => {
 	if (message.type !== MessageTypes.DEFAULT && message.type !== MessageTypes.REPLY) {
@@ -53,6 +60,9 @@ const shouldApplyGroupedLayout = (message: MessageRecord, _prevMessage?: Message
 	}
 	return true;
 };
+
+const isDisplaySystemMessage = (message: MessageRecord): boolean =>
+	message.type !== MessageTypes.DEFAULT && message.type !== MessageTypes.REPLY;
 
 const isActivationKey = (key: string) => key === 'Enter' || key === ' ' || key === 'Spacebar' || key === 'Space';
 
@@ -69,12 +79,29 @@ const handleAltKeyboardEvent = (event: React.KeyboardEvent, message: MessageReco
 	ReadStateActionCreators.markAsUnread(message.channelId, message.id);
 };
 
-const handleDeleteMessage = (i18n: any, bypassConfirm: boolean, message: MessageRecord) => {
-	if (bypassConfirm) {
-		MessageActionCreators.remove(message.channelId, message.id);
-		return;
+const getContextMenuLinkUrl = (target: EventTarget | null): string | undefined => {
+	if (!(target instanceof HTMLElement)) {
+		return undefined;
 	}
-	MessageActionCreators.showDeleteConfirmation(i18n, {message});
+
+	const anchor = target.closest('a');
+	if (anchor?.href) {
+		return anchor.href;
+	}
+
+	const mediaTarget = target.closest('[data-message-emoji="true"], [data-message-sticker="true"]');
+	if (!mediaTarget) {
+		return undefined;
+	}
+
+	const imageElement =
+		mediaTarget instanceof HTMLImageElement ? mediaTarget : mediaTarget.querySelector<HTMLImageElement>('img');
+	if (!imageElement) {
+		return undefined;
+	}
+
+	const imageUrl = imageElement.currentSrc || imageElement.src;
+	return imageUrl || undefined;
 };
 
 export type MessageBehaviorOverrides = Partial<{
@@ -108,6 +135,7 @@ interface MessageProps {
 	behaviorOverrides?: MessageBehaviorOverrides;
 	compact?: boolean;
 	idPrefix?: string;
+	readonlyPreview?: boolean;
 }
 
 export const Message: React.FC<MessageProps> = observer((props) => {
@@ -125,18 +153,23 @@ export const Message: React.FC<MessageProps> = observer((props) => {
 		behaviorOverrides,
 		compact,
 		idPrefix = 'message',
+		readonlyPreview,
 	} = props;
 
 	const {i18n} = useLingui();
 
 	const [showActionBar, setShowActionBar] = useState(false);
 	const [isLongPressing, setIsLongPressing] = useState(false);
-	const [contextMenuOpen, setContextMenuOpen] = useState(behaviorOverrides?.contextMenuOpen ?? false);
 	const [isHoveringDesktop, setIsHoveringDesktop] = useState(false);
 	const [isFocusedWithin, setIsFocusedWithin] = useState(false);
 	const [isPopoutOpen, setIsPopoutOpen] = useState(false);
 
 	const messageRef = useRef<HTMLDivElement | null>(null);
+	const disableContextMenuTracking = behaviorOverrides?.disableContextMenuTracking ?? false;
+	const trackedContextMenuOpen = useContextMenuHoverState(messageRef, !disableContextMenuTracking);
+	const contextMenuOpen = disableContextMenuTracking
+		? (behaviorOverrides?.contextMenuOpen ?? false)
+		: trackedContextMenuOpen;
 	const longPressTimerRef = useRef<NodeJS.Timeout | null>(null);
 	const wasEditingInPreviousUpdateRef = useRef(false);
 
@@ -150,17 +183,6 @@ export const Message: React.FC<MessageProps> = observer((props) => {
 	const forceUnknownMessageType =
 		behaviorOverrides?.forceUnknownMessageType ?? DeveloperOptionsStore.forceUnknownMessageType;
 	const messageGroupSpacing = behaviorOverrides?.messageGroupSpacing ?? AccessibilityStore.messageGroupSpacingValue;
-
-	const handleContextMenuUpdate = useCallback(() => {
-		const contextMenu = ContextMenuStore.contextMenu;
-		const contextMenuTarget = contextMenu?.target?.target ?? null;
-		const messageElement = messageRef.current;
-		const isOpen =
-			Boolean(contextMenu) &&
-			isContextMenuNodeTarget(contextMenuTarget) &&
-			Boolean(messageElement?.contains(contextMenuTarget));
-		setContextMenuOpen(!!isOpen);
-	}, []);
 
 	const handleAltClick = useCallback(
 		(event: React.MouseEvent) => {
@@ -177,7 +199,7 @@ export const Message: React.FC<MessageProps> = observer((props) => {
 
 	const handleDelete = useCallback(
 		(bypassConfirm = false) => {
-			handleDeleteMessage(i18n, bypassConfirm, message);
+			requestDeleteMessage(message, i18n, bypassConfirm);
 		},
 		[i18n, message],
 	);
@@ -199,13 +221,9 @@ export const Message: React.FC<MessageProps> = observer((props) => {
 			if (mobileLayoutEnabled) {
 				return;
 			}
+			MessageFocusStore.holdContextFocus(channel.id, message.id, message);
 
-			let linkUrl: string | undefined;
-			const target = event.target as HTMLElement;
-			const anchor = target.closest('a');
-			if (anchor?.href) {
-				linkUrl = anchor.href;
-			}
+			const linkUrl = getContextMenuLinkUrl(event.target);
 
 			ContextMenuActionCreators.openFromEvent(event, (props) => (
 				<MessageContextMenu message={message} onClose={props.onClose} onDelete={handleDelete} linkUrl={linkUrl} />
@@ -315,27 +333,6 @@ export const Message: React.FC<MessageProps> = observer((props) => {
 		[clearLongPressState, calculateVelocity],
 	);
 
-	useEffect(() => {
-		if (behaviorOverrides?.disableContextMenuTracking) {
-			return;
-		}
-		const disposer = autorun(() => {
-			handleContextMenuUpdate();
-		});
-		return () => {
-			disposer();
-		};
-	}, [handleContextMenuUpdate, behaviorOverrides?.disableContextMenuTracking]);
-
-	useEffect(() => {
-		if (!behaviorOverrides?.disableContextMenuTracking) {
-			return;
-		}
-		if (behaviorOverrides.contextMenuOpen !== undefined) {
-			setContextMenuOpen(behaviorOverrides.contextMenuOpen);
-		}
-	}, [behaviorOverrides?.contextMenuOpen, behaviorOverrides?.disableContextMenuTracking]);
-
 	const keyboardModeEnabled = KeyboardModeStore.keyboardModeEnabled;
 
 	const handleFocusWithin = useCallback(() => {
@@ -343,11 +340,13 @@ export const Message: React.FC<MessageProps> = observer((props) => {
 			return;
 		}
 		setIsFocusedWithin(true);
-	}, [keyboardModeEnabled]);
+		MessageFocusStore.focusMessage(channel.id, message.id, message);
+	}, [channel.id, message, keyboardModeEnabled]);
 
 	const handleBlurWithin = useCallback(() => {
 		setIsFocusedWithin(false);
-	}, []);
+		MessageFocusStore.blurMessage(channel.id, message.id);
+	}, [channel.id, message.id]);
 
 	useEffect(() => {
 		if (mobileLayoutEnabled || !messageRef.current) return;
@@ -372,6 +371,18 @@ export const Message: React.FC<MessageProps> = observer((props) => {
 			window.removeEventListener('focus', syncHoverState);
 		};
 	}, [mobileLayoutEnabled, keyboardModeEnabled]);
+
+	useEffect(() => {
+		if (!keyboardModeEnabled) return;
+		if (contextMenuOpen) {
+			MessageFocusStore.holdContextFocus(channel.id, message.id, message);
+			return;
+		}
+		MessageFocusStore.releaseContextFocus(channel.id, message.id);
+		if (!isFocusedWithin) {
+			MessageFocusStore.clearFocusedMessageIfMatches(channel.id, message.id);
+		}
+	}, [channel.id, contextMenuOpen, isFocusedWithin, keyboardModeEnabled, message, message.id]);
 
 	useLayoutEffect(() => {
 		const wasEditing = wasEditingInPreviousUpdateRef.current;
@@ -428,16 +439,43 @@ export const Message: React.FC<MessageProps> = observer((props) => {
 			handleDelete,
 			shouldGroup,
 			isHovering,
+			messageDisplayCompact,
 			previewContext,
 			previewOverrides,
+			previewPermissions: previewMode
+				? {
+						isDM: false,
+						canSendMessages: true,
+						canAddReactions: true,
+						canEditMessage: true,
+						canDeleteMessage: true,
+						canDeleteAttachment: true,
+						canPinMessage: true,
+						canSuppressEmbeds: true,
+						shouldRenderSuppressEmbeds: false,
+					}
+				: undefined,
 			onPopoutToggle: setIsPopoutOpen,
+			readonlyPreview,
 		}),
-		[channel, message, handleDelete, shouldGroup, isHovering, previewContext, previewOverrides, setIsPopoutOpen],
+		[
+			channel,
+			message,
+			handleDelete,
+			shouldGroup,
+			isHovering,
+			messageDisplayCompact,
+			previewContext,
+			previewOverrides,
+			previewMode,
+			setIsPopoutOpen,
+			readonlyPreview,
+		],
 	);
 
 	const messageComponent = (
 		<MessageViewContextProvider value={messageContextValue}>
-			{getMessageComponent(channel, message, forceUnknownMessageType)}
+			{getMessageComponent(message, channel, forceUnknownMessageType)}
 		</MessageViewContextProvider>
 	);
 
@@ -454,43 +492,82 @@ export const Message: React.FC<MessageProps> = observer((props) => {
 		astNodes[0].type === NodeType.Link &&
 		!message.suppressEmbeds;
 
-	const shouldDisableHoverBackground = prefersReducedMotion && !isEditing;
+	const shouldDisableHoverBackground = (prefersReducedMotion && !isEditing) || readonlyPreview;
 	const isKeyboardFocused = keyboardModeEnabled && isFocusedWithin;
 	const shouldApplySpacing = !shouldGroup && !removeTopSpacing && previewContext !== MessagePreviewContext.LIST_POPOUT;
-
-	const messageClasses = clsx(
-		messageDisplayCompact ? styles.messageCompact : styles.message,
-		shouldDisableHoverBackground && styles.messageNoHover,
-		isEditing && styles.messageEditing,
-		!messageDisplayCompact && shouldGroup && shouldApplyGroupedLayout(message, prevMessage) && styles.messageGrouped,
-		!previewContext && message.isMentioned() && styles.messageMentioned,
-		!previewContext &&
-			(isReplying || isHighlight || isJumpTarget) &&
-			(isReplying ? styles.messageReplying : styles.messageHighlight),
-		message.type === MessageTypes.CLIENT_SYSTEM && message.author.id === FLUXERBOT_ID && styles.messageClientSystem,
-		isLongPressing && styles.messageLongPress,
-		!previewContext && (contextMenuOpen || isPopoutOpen) && styles.contextMenuActive,
-		previewContext && styles.messagePreview,
-		MobileLayoutStore.isEnabled() && styles.mobileLayout,
-		!messageDisplayCompact &&
-			(!message.content || shouldHideContent) &&
-			!isEditing &&
-			message.isUserMessage() &&
-			styles.messageNoText,
-		isKeyboardFocused && styles.keyboardFocused,
-		isKeyboardFocused && 'keyboard-focus-active',
-		shouldApplySpacing && previewContext && styles.messagePreviewSpacing,
+	const systemFollowsSystem = Boolean(
+		shouldGroup && prevMessage && isDisplaySystemMessage(prevMessage) && isDisplaySystemMessage(message),
 	);
 
-	const shouldShowActionBar =
-		!previewContext && message.state !== MessageStates.SENDING && !isEditing && !MobileLayoutStore.isEnabled();
+	const messageClasses = useMemo(
+		() =>
+			clsx(
+				messageDisplayCompact ? styles.messageCompact : styles.message,
+				shouldDisableHoverBackground && styles.messageNoHover,
+				isEditing && styles.messageEditing,
+				!messageDisplayCompact &&
+					shouldGroup &&
+					shouldApplyGroupedLayout(message, prevMessage) &&
+					styles.messageGrouped,
+				systemFollowsSystem && styles.systemMessageFollowsSystem,
+				!previewContext && message.isMentioned() && styles.messageMentioned,
+				!previewContext &&
+					(isReplying || isHighlight || isJumpTarget) &&
+					(isReplying ? styles.messageReplying : styles.messageHighlight),
+				message.type === MessageTypes.CLIENT_SYSTEM && message.author.id === FLUXERBOT_ID && styles.messageClientSystem,
+				isLongPressing && styles.messageLongPress,
+				!previewContext && (contextMenuOpen || isPopoutOpen) && styles.contextMenuActive,
+				previewContext && styles.messagePreview,
+				MobileLayoutStore.isEnabled() && styles.mobileLayout,
+				!messageDisplayCompact &&
+					(!message.content || shouldHideContent) &&
+					!isEditing &&
+					message.isUserMessage() &&
+					styles.messageNoText,
+				isKeyboardFocused && styles.keyboardFocused,
+				isKeyboardFocused && 'keyboard-focus-active',
+				shouldApplySpacing && previewContext && styles.messagePreviewSpacing,
+			),
+		[
+			messageDisplayCompact,
+			shouldDisableHoverBackground,
+			isEditing,
+			systemFollowsSystem,
+			shouldGroup,
+			message,
+			prevMessage,
+			previewContext,
+			isReplying,
+			isHighlight,
+			isJumpTarget,
+			isLongPressing,
+			contextMenuOpen,
+			isPopoutOpen,
+			shouldHideContent,
+			isKeyboardFocused,
+			shouldApplySpacing,
+		],
+	);
 
-	const shouldShowBottomSheet =
-		MobileLayoutStore.isEnabled() &&
-		showActionBar &&
-		!previewContext &&
-		message.state !== MessageStates.SENDING &&
-		!isEditing;
+	const shouldShowActionBar = useMemo(
+		() =>
+			!previewContext &&
+			!readonlyPreview &&
+			message.state !== MessageStates.SENDING &&
+			!isEditing &&
+			!MobileLayoutStore.isEnabled(),
+		[previewContext, readonlyPreview, message.state, isEditing],
+	);
+
+	const shouldShowBottomSheet = useMemo(
+		() =>
+			MobileLayoutStore.isEnabled() &&
+			showActionBar &&
+			!previewContext &&
+			message.state !== MessageStates.SENDING &&
+			!isEditing,
+		[showActionBar, previewContext, message.state, isEditing],
+	);
 
 	return (
 		<>

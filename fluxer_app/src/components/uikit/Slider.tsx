@@ -17,17 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import styles from '@app/components/uikit/Slider.module.css';
+import tooltipStyles from '@app/components/uikit/SliderTooltip.module.css';
+import {useTooltipPortalRoot} from '@app/components/uikit/tooltip/Tooltip';
+import {useMergeRefs} from '@app/hooks/useMergeRefs';
+import {Logger} from '@app/lib/Logger';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import {getReducedMotionProps, TOOLTIP_MOTION} from '@app/utils/ReducedMotionAnimation';
 import {FloatingPortal} from '@floating-ui/react';
 import {arrow, autoUpdate, computePosition, flip, offset, shift} from '@floating-ui/react-dom';
 import {useLingui} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import {AnimatePresence, motion} from 'framer-motion';
-import React from 'react';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {useTooltipPortalRoot} from '~/components/uikit/Tooltip';
-import {useMergeRefs} from '~/hooks/useMergeRefs';
-import styles from './Slider.module.css';
-import tooltipStyles from './SliderTooltip.module.css';
+import React, {useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
+
+const logger = new Logger('Slider');
 
 interface SliderProps {
 	defaultValue: number;
@@ -39,6 +44,7 @@ interface SliderProps {
 	equidistant?: boolean;
 	markers?: Array<number>;
 	className?: string;
+	ariaLabelledBy?: string;
 	stickToMarkers?: boolean;
 	mini?: boolean;
 	markerPosition?: 'above' | 'below';
@@ -83,6 +89,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			asValueChanges,
 			barStyles = {},
 			fillStyles = {},
+			ariaLabelledBy,
 			children,
 			value: controlledValue,
 			step,
@@ -90,28 +97,29 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 		ref,
 	) => {
 		const {t} = useLingui();
-		const sliderRef = React.useRef<HTMLDivElement>(null);
-		const thumbRef = React.useRef<HTMLButtonElement>(null);
-		const tooltipRef = React.useRef<HTMLDivElement>(null);
-		const arrowRef = React.useRef<HTMLDivElement>(null);
-		const cleanupRef = React.useRef<(() => void) | null>(null);
-		const isCalculatingRef = React.useRef(false);
-		const rafRef = React.useRef<number | null>(null);
+		const sliderRef = useRef<HTMLDivElement>(null);
+		const thumbRef = useRef<HTMLButtonElement>(null);
+		const tooltipRef = useRef<HTMLDivElement>(null);
+		const arrowRef = useRef<HTMLDivElement>(null);
+		const cleanupRef = useRef<(() => void) | null>(null);
+		const isCalculatingRef = useRef(false);
+		const rafRef = useRef<number | null>(null);
 		const mergedRef = useMergeRefs([ref]);
 		const tooltipPortalRoot = useTooltipPortalRoot();
-		const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue);
-		const [isDragging, setIsDragging] = React.useState(false);
-		const [showTooltip, setShowTooltip] = React.useState(false);
-		const [tooltipPosition, setTooltipPosition] = React.useState({x: 0, y: 0, arrowX: 0, arrowY: 0, isReady: false});
+		const tooltipMotion = getReducedMotionProps(TOOLTIP_MOTION, AccessibilityStore.useReducedMotion);
+		const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
+		const [isDragging, setIsDragging] = useState(false);
+		const [showTooltip, setShowTooltip] = useState(false);
+		const [tooltipPosition, setTooltipPosition] = useState({x: 0, y: 0, arrowX: 0, arrowY: 0, isReady: false});
 
 		const value = controlledValue !== undefined ? controlledValue : uncontrolledValue;
-		const [mouseState, setMouseState] = React.useState<{
+		const [mouseState, setMouseState] = useState<{
 			x: number;
 			boundingRect: DOMRect | null;
 		}>({x: 0, boundingRect: null});
-		const [newClosestIndex, setNewClosestIndex] = React.useState<number | null>(null);
+		const [newClosestIndex, setNewClosestIndex] = useState<number | null>(null);
 
-		const applyStep = React.useCallback(
+		const applyStep = useCallback(
 			(val: number): number => {
 				if (step === undefined || step === 0) return val;
 				return Math.round(val / step) * step;
@@ -119,7 +127,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			[step],
 		);
 
-		const findClosestMarkerByIndex = React.useCallback((val: number, markerArray: Array<number>): number => {
+		const findClosestMarkerByIndex = useCallback((val: number, markerArray: Array<number>): number => {
 			if (!markerArray || markerArray.length === 0) return 0;
 
 			let diff = 0;
@@ -148,7 +156,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			return markerArray.length - 1;
 		}, []);
 
-		const markerState = React.useMemo((): MarkerState => {
+		const markerState = useMemo((): MarkerState => {
 			if (!markers || markers.length === 0) {
 				return {
 					min: minValue,
@@ -185,7 +193,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			};
 		}, [markers, minValue, maxValue, value, equidistant, findClosestMarkerByIndex]);
 
-		const scaleValue = React.useCallback(
+		const scaleValue = useCallback(
 			(val: number): number => {
 				if (markerState.range === 0) return 0;
 				return (100.0 * (val - markerState.min)) / markerState.range;
@@ -193,7 +201,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			[markerState.min, markerState.range],
 		);
 
-		const unscaleValue = React.useCallback(
+		const unscaleValue = useCallback(
 			(val: number): number => {
 				if (markerState.range === 0) return markerState.min;
 				return (val * markerState.range) / 100 + markerState.min;
@@ -212,7 +220,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			}
 		}
 
-		const moveSmoothly = React.useCallback(
+		const moveSmoothly = useCallback(
 			(clientX: number) => {
 				if (!mouseState.boundingRect) return;
 
@@ -243,7 +251,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			[value, minValue, maxValue, handleSize, asValueChanges, mouseState.boundingRect, mouseState.x, applyStep],
 		);
 
-		const moveStaggered = React.useCallback(
+		const moveStaggered = useCallback(
 			(clientX: number) => {
 				if (!mouseState.boundingRect || markerState.closestMarkerIndex === undefined) return;
 
@@ -318,7 +326,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			}
 		};
 
-		const handleMouseMove = React.useCallback(
+		const handleMouseMove = useCallback(
 			(e: MouseEvent) => {
 				e.preventDefault();
 
@@ -331,7 +339,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			[stickToMarkers, moveSmoothly, moveStaggered],
 		);
 
-		const handleMouseUp = React.useCallback(() => {
+		const handleMouseUp = useCallback(() => {
 			setIsDragging(false);
 			setShowTooltip(false);
 			setTooltipPosition((prev) => ({...prev, isReady: false}));
@@ -415,7 +423,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			}
 		};
 
-		const handleTouchMove = React.useCallback(
+		const handleTouchMove = useCallback(
 			(e: TouchEvent) => {
 				if (stickToMarkers) {
 					moveStaggered(e.touches[0].clientX);
@@ -426,7 +434,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			[stickToMarkers, moveSmoothly, moveStaggered],
 		);
 
-		const handleTouchEnd = React.useCallback(() => {
+		const handleTouchEnd = useCallback(() => {
 			setIsDragging(false);
 
 			document.dispatchEvent(new CustomEvent('slider-drag-end'));
@@ -439,7 +447,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			}
 		}, [stickToMarkers, newClosestIndex, value, onValueChange, markerState.sortedMarkers]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (isDragging) {
 				document.addEventListener('mousemove', handleMouseMove);
 				document.addEventListener('mouseup', handleMouseUp);
@@ -461,11 +469,11 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			return;
 		}, [isDragging, handleMouseMove, handleMouseUp, handleTouchMove, handleTouchEnd]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			setUncontrolledValue(defaultValue);
 		}, [defaultValue]);
 
-		const updateTooltipPosition = React.useCallback(async () => {
+		const updateTooltipPosition = useCallback(async () => {
 			if (!showTooltip || !thumbRef.current || !tooltipRef.current || isCalculatingRef.current) {
 				return;
 			}
@@ -502,7 +510,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 					isReady: true,
 				});
 			} catch (error) {
-				console.error('Error positioning slider tooltip:', error);
+				logger.error('Error positioning slider tooltip:', error);
 				if (tooltipRef.current) {
 					tooltipRef.current.style.visibility = 'visible';
 				}
@@ -511,7 +519,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			}
 		}, [showTooltip]);
 
-		React.useLayoutEffect(() => {
+		useLayoutEffect(() => {
 			if (!showTooltip || !thumbRef.current || !tooltipRef.current) {
 				if (cleanupRef.current) {
 					cleanupRef.current();
@@ -534,7 +542,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 			};
 		}, [showTooltip, updateTooltipPosition]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (isDragging && showTooltip) {
 				updateTooltipPosition();
 			}
@@ -591,6 +599,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 						aria-valuenow={value}
 						aria-disabled={disabled}
 						aria-label={t`Slider value`}
+						aria-labelledby={ariaLabelledBy}
 						tabIndex={0}
 						onClick={handleTrackClick}
 						onKeyDown={handleKeyDown}
@@ -625,10 +634,12 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 						<AnimatePresence mode="wait">
 							<motion.div
 								key="slider-tooltip"
-								ref={(node) => {
-									(tooltipRef as any).current = node;
-									if (node && thumbRef.current) {
-										updateTooltipPosition();
+								ref={(node: HTMLDivElement | null) => {
+									if (node) {
+										tooltipRef.current = node as HTMLDivElement;
+										if (thumbRef.current) {
+											updateTooltipPosition();
+										}
 									}
 								}}
 								style={{
@@ -638,13 +649,7 @@ export const Slider = React.forwardRef<HTMLDivElement, SliderProps>(
 									zIndex: 'var(--z-index-tooltip)',
 									visibility: tooltipPosition.isReady ? 'visible' : 'hidden',
 								}}
-								initial={{opacity: 0, scale: 0.98}}
-								animate={{opacity: 1, scale: 1}}
-								exit={{opacity: 0, scale: 0.98}}
-								transition={{
-									opacity: {duration: 0.1},
-									scale: {type: 'spring', damping: 25, stiffness: 500},
-								}}
+								{...tooltipMotion}
 							>
 								<div className={tooltipStyles.tooltip}>
 									<div

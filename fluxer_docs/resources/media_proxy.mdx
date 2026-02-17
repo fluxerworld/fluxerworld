@@ -1,0 +1,342 @@
+---
+title: 'Media proxy'
+description: 'Object schemas used by the Fluxer media proxy.'
+---
+
+The media proxy serves all user-generated content for Fluxer, including avatars, icons, attachments, emojis, stickers, and external media. All public routes are served from `https://fluxerusercontent.com`.
+
+See the [Media Proxy API reference](/media-proxy-api) for the full list of available endpoints.
+
+## Field notation
+
+Resource tables use a compact notation:
+
+| Notation | Meaning |
+|----------|----------|
+| `field` | Required field |
+| `field?` | Optional field (may be omitted) |
+| `?type` | Nullable (value can be `null`) |
+
+## Enums
+
+<a id="imagesizeenum"></a>
+
+### ImageSizeEnum
+
+Allowed image sizes in pixels.
+
+**Related endpoints**
+
+- [`GET /avatars/{id}/{filename}`](/media-proxy-api/images/get-user-or-guild-avatar)
+- [`GET /icons/{id}/{filename}`](/media-proxy-api/images/get-guild-icon)
+- [`GET /banners/{id}/{filename}`](/media-proxy-api/images/get-user-or-guild-banner)
+- [`GET /emojis/{id}`](/media-proxy-api/content/get-custom-emoji)
+- [`GET /stickers/{id}`](/media-proxy-api/content/get-sticker)
+- [`GET /attachments/{channel_id}/{attachment_id}/{filename}`](/media-proxy-api/content/get-message-attachment)
+
+| Value | Description |
+|-------|-------------|
+| `16` | 16 pixels |
+| `20` | 20 pixels |
+| `22` | 22 pixels |
+| `24` | 24 pixels |
+| `28` | 28 pixels |
+| `32` | 32 pixels |
+| `40` | 40 pixels |
+| `44` | 44 pixels |
+| `48` | 48 pixels |
+| `56` | 56 pixels |
+| `60` | 60 pixels |
+| `64` | 64 pixels |
+| `80` | 80 pixels |
+| `96` | 96 pixels |
+| `100` | 100 pixels |
+| `128` | 128 pixels |
+| `160` | 160 pixels |
+| `240` | 240 pixels |
+| `256` | 256 pixels |
+| `300` | 300 pixels |
+| `320` | 320 pixels |
+| `480` | 480 pixels |
+| `512` | 512 pixels |
+| `600` | 600 pixels |
+| `640` | 640 pixels |
+| `1024` | 1024 pixels |
+| `1280` | 1280 pixels |
+| `1536` | 1536 pixels |
+| `2048` | 2048 pixels |
+| `3072` | 3072 pixels |
+| `4096` | 4096 pixels |
+
+<a id="imageformatenum"></a>
+
+### ImageFormatEnum
+
+Allowed image output formats.
+
+**Related endpoints**
+
+- [`GET /avatars/{id}/{filename}`](/media-proxy-api/images/get-user-or-guild-avatar)
+- [`GET /external/{signature}/{timestamp}/{url}`](/media-proxy-api/external/proxy-external-media)
+
+| Value | Description |
+|-------|-------------|
+| `png` | PNG format |
+| `jpg` | JPEG format |
+| `jpeg` | JPEG format (alias) |
+| `webp` | WebP format (default, recommended) |
+| `gif` | GIF format (for animated images) |
+
+<a id="imagequalityenum"></a>
+
+### ImageQualityEnum
+
+Image quality levels.
+
+**Related endpoints**
+
+- [`GET /avatars/{id}/{filename}`](/media-proxy-api/images/get-user-or-guild-avatar)
+- [`GET /external/{signature}/{timestamp}/{url}`](/media-proxy-api/external/proxy-external-media)
+
+| Value | Description |
+|-------|-------------|
+| `high` | High quality compression, good balance of size and fidelity (default for most images) |
+| `low` | Lower quality for smaller file sizes, suitable for thumbnails |
+| `lossless` | No quality loss, largest file sizes (default for external media) |
+
+---
+
+## Query parameter schemas
+
+<a id="imagequeryparams"></a>
+
+## ImageQueryParams
+
+Standard query parameters for image routes.
+
+**Related endpoints**
+
+- [`GET /avatars/{id}/{filename}`](/media-proxy-api/images/get-user-or-guild-avatar)
+- [`GET /icons/{id}/{filename}`](/media-proxy-api/images/get-guild-icon)
+- [`GET /emojis/{id}`](/media-proxy-api/content/get-custom-emoji)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| size? | [ImageSizeEnum](#imagesizeenum) | Target image size in pixels. Default: `128` |
+| format? | [ImageFormatEnum](#imageformatenum) | Output image format. Default: `webp` |
+| quality? | [ImageQualityEnum](#imagequalityenum) | Image quality level. Default: `high` |
+| animated? | boolean | Whether to return animated images (GIF, APNG) if available. Default: `false` |
+
+<a id="externalmediaqueryparams"></a>
+
+## ExternalMediaQueryParams
+
+Query parameters for the external media proxy.
+
+**Related endpoints**
+
+- [`GET /external/{signature}/{timestamp}/{url}`](/media-proxy-api/external/proxy-external-media)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| width? | integer | Target width in pixels (1-4096). If only width is specified, height is calculated to maintain aspect ratio. |
+| height? | integer | Target height in pixels (1-4096). If only height is specified, width is calculated to maintain aspect ratio. |
+| format? | [ImageFormatEnum](#imageformatenum) | Output image format. If not specified, the original format is preserved. |
+| quality? | [ImageQualityEnum](#imagequalityenum) | Image quality level. Default: `lossless` |
+| animated? | boolean | Whether to preserve animation for GIF images. Default: `false` |
+
+---
+
+## Response schemas
+
+<a id="metadataresponse"></a>
+
+## MetadataResponse
+
+Response from metadata extraction.
+
+**Related endpoints**
+
+- [`POST /_metadata`](/media-proxy-api/internal/extract-media-metadata)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| format | string | Detected media format (e.g., `png`, `jpeg`, `gif`, `mp4`) |
+| content_type | string | MIME content type |
+| content_hash | string | SHA-256 hash of the content |
+| size | integer | File size in bytes |
+| width? | integer | Image or video width in pixels |
+| height? | integer | Image or video height in pixels |
+| duration? | number | Video or audio duration in seconds |
+| placeholder? | string | BlurHash placeholder string for progressive loading |
+| base64? | string | Base64-encoded content (if `with_base64` was requested) |
+| animated? | boolean | Whether the image is animated (GIF, APNG) |
+| nsfw | boolean | Whether the content was flagged as NSFW |
+| nsfw_probability? | number | NSFW probability score (0-1) |
+| nsfw_predictions? | map&lt;string, number&gt; | Per-category NSFW predictions |
+
+<a id="thumbnailresponse"></a>
+
+## ThumbnailResponse
+
+Response from thumbnail generation.
+
+**Related endpoints**
+
+- [`POST /_thumbnail`](/media-proxy-api/internal/generate-video-thumbnail)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| thumbnail | string | Base64-encoded thumbnail image (JPEG) |
+| mime_type | string | MIME type of the thumbnail (always `image/jpeg`) |
+
+<a id="frameresponse"></a>
+
+## FrameResponse
+
+Response from frame extraction.
+
+**Related endpoints**
+
+- [`POST /_frames`](/media-proxy-api/internal/extract-video-frames)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| frames | [ExtractedFrame](#extractedframe)[] | Extracted video frames |
+
+<a id="extractedframe"></a>
+
+## ExtractedFrame
+
+Single extracted video frame.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| timestamp | number | Frame timestamp in seconds |
+| mime_type | string | MIME type of the frame image |
+| base64 | string | Base64-encoded frame image |
+
+---
+
+## Request schemas
+
+<a id="metadatarequest"></a>
+
+### MetadataRequest
+
+Discriminated union for metadata extraction requests. The `type` field determines which variant is used.
+
+**Related endpoints**
+
+- [`POST /_metadata`](/media-proxy-api/internal/extract-media-metadata)
+
+| Type | Description |
+|------|-------------|
+| [MetadataRequestExternal](#metadatarequestexternal) | Fetch metadata from an external URL |
+| [MetadataRequestUpload](#metadatarequestupload) | Get metadata from an uploaded file |
+| [MetadataRequestBase64](#metadatarequestbase64) | Get metadata from base64-encoded data |
+| [MetadataRequestS3](#metadatarequests3) | Get metadata from an S3 object |
+
+<a id="metadatarequestexternal"></a>
+
+## MetadataRequestExternal
+
+Metadata request for external URLs.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| type | string | Must be `"external"` |
+| url | string | External URL to fetch |
+| with_base64? | boolean | Include base64-encoded content in response |
+| isNSFWAllowed | boolean | Whether NSFW content is permitted |
+
+<a id="metadatarequestupload"></a>
+
+## MetadataRequestUpload
+
+Metadata request for uploaded files.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| type | string | Must be `"upload"` |
+| upload_filename | string | Filename in the uploads bucket |
+| isNSFWAllowed | boolean | Whether NSFW content is permitted |
+
+<a id="metadatarequestbase64"></a>
+
+## MetadataRequestBase64
+
+Metadata request for base64-encoded data.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| type | string | Must be `"base64"` |
+| base64 | string | Base64-encoded media data |
+| isNSFWAllowed | boolean | Whether NSFW content is permitted |
+
+<a id="metadatarequests3"></a>
+
+## MetadataRequestS3
+
+Metadata request for S3 objects.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| type | string | Must be `"s3"` |
+| bucket | string | S3 bucket name |
+| key | string | S3 object key |
+| with_base64? | boolean | Include base64-encoded content in response |
+| isNSFWAllowed | boolean | Whether NSFW content is permitted |
+
+<a id="framerequest"></a>
+
+### FrameRequest
+
+Discriminated union for frame extraction requests. The `type` field determines which variant is used.
+
+**Related endpoints**
+
+- [`POST /_frames`](/media-proxy-api/internal/extract-video-frames)
+
+| Type | Description |
+|------|-------------|
+| [FrameRequestUpload](#framerequestupload) | Extract frames from an uploaded file |
+| [FrameRequestS3](#framerequests3) | Extract frames from an S3 object |
+
+<a id="framerequestupload"></a>
+
+## FrameRequestUpload
+
+Frame extraction request for uploaded files.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| type | string | Must be `"upload"` |
+| upload_filename | string | Filename in the uploads bucket |
+
+<a id="framerequests3"></a>
+
+## FrameRequestS3
+
+Frame extraction request for S3 objects.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| type | string | Must be `"s3"` |
+| bucket | string | S3 bucket name |
+| key | string | S3 object key |
+
+<a id="thumbnailrequestbody"></a>
+
+## ThumbnailRequestBody
+
+Request body for thumbnail generation.
+
+**Related endpoints**
+
+- [`POST /_thumbnail`](/media-proxy-api/internal/generate-video-thumbnail)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| upload_filename | string | Filename of the uploaded video in the uploads bucket |
+

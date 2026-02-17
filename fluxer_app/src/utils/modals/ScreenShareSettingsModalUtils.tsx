@@ -17,13 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as PremiumModalActionCreators from '@app/actions/PremiumModalActionCreators';
+import * as VoiceSettingsActionCreators from '@app/actions/VoiceSettingsActionCreators';
+import {Logger} from '@app/lib/Logger';
+import LocalVoiceStateStore from '@app/stores/LocalVoiceStateStore';
+import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
+import {LimitResolver} from '@app/utils/limits/LimitResolverAdapter';
+import {isLimitToggleEnabled} from '@app/utils/limits/LimitUtils';
+import {supportsDesktopScreenShareAudioCapture} from '@app/utils/NativeUtils';
+import type {MessageDescriptor} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as PremiumModalActionCreators from '~/actions/PremiumModalActionCreators';
-import LocalVoiceStateStore from '~/stores/LocalVoiceStateStore';
-import UserStore from '~/stores/UserStore';
-import VoiceSettingsStore from '~/stores/VoiceSettingsStore';
+import {useCallback, useMemo, useState} from 'react';
+
+const logger = new Logger('ScreenShareSettingsModal');
 
 export interface ScreenShareSettingsModalSharedProps {
 	onStartShare: (
@@ -33,80 +40,143 @@ export interface ScreenShareSettingsModalSharedProps {
 	) => Promise<void>;
 }
 
-export const RESOLUTION_OPTIONS = [
-	{value: 'low' as const, label: msg`480p`, isPremium: false},
-	{value: 'medium' as const, label: msg`720p`, isPremium: false},
-	{value: 'high' as const, label: msg`1080p`, isPremium: true},
-	{value: 'ultra' as const, label: msg`1440p`, isPremium: true},
-	{value: '4k' as const, label: msg`4K`, isPremium: true},
+interface ResolutionOption {
+	value: 'low' | 'medium' | 'high' | 'ultra' | '4k';
+	label: MessageDescriptor;
+	isPremium: boolean;
+}
+
+interface FramerateOption {
+	value: number;
+	label: MessageDescriptor;
+	isPremium: boolean;
+}
+
+const BASE_RESOLUTION_OPTIONS: Array<Omit<ResolutionOption, 'isPremium'>> = [
+	{value: 'low', label: msg`480p`},
+	{value: 'medium', label: msg`720p`},
+	{value: 'high', label: msg`1080p`},
+	{value: 'ultra', label: msg`1440p`},
+	{value: '4k', label: msg`4K`},
 ];
 
-export const FRAMERATE_OPTIONS = [
-	{value: 15, label: msg`15 fps`, isPremium: false},
-	{value: 24, label: msg`24 fps`, isPremium: false},
-	{value: 30, label: msg`30 fps`, isPremium: false},
-	{value: 60, label: msg`60 fps`, isPremium: true},
+const BASE_FRAMERATE_OPTIONS: Array<Omit<FramerateOption, 'isPremium'>> = [
+	{value: 15, label: msg`15 FPS`},
+	{value: 24, label: msg`24 FPS`},
+	{value: 30, label: msg`30 FPS`},
+	{value: 60, label: msg`60 FPS`},
 ];
 
-export const useScreenShareSettingsModal = ({onStartShare}: ScreenShareSettingsModalSharedProps) => {
-	const user = UserStore.currentUser;
+const PREMIUM_RESOLUTION_VALUES: Set<ResolutionOption['value']> = new Set(['high', 'ultra', '4k']);
+const PREMIUM_FRAMERATE_VALUES: Set<number> = new Set([60]);
+
+const getResolutionOptions = (_hasHigherQuality: boolean): Array<ResolutionOption> => {
+	return BASE_RESOLUTION_OPTIONS.map((option) => ({
+		...option,
+		isPremium: PREMIUM_RESOLUTION_VALUES.has(option.value),
+	}));
+};
+
+const getFramerateOptions = (_hasHigherQuality: boolean): Array<FramerateOption> => {
+	return BASE_FRAMERATE_OPTIONS.map((option) => ({
+		...option,
+		isPremium: PREMIUM_FRAMERATE_VALUES.has(option.value),
+	}));
+};
+
+export function useScreenShareSettingsModal({onStartShare}: ScreenShareSettingsModalSharedProps) {
 	const voiceSettings = VoiceSettingsStore;
-	const hasPremium = React.useMemo(() => user?.isPremium() ?? false, [user]);
-	const [isSharing, setIsSharing] = React.useState(false);
-	const [selectedResolution, setSelectedResolution] = React.useState<'low' | 'medium' | 'high' | 'ultra' | '4k'>(
-		!hasPremium &&
+	const hasHigherQuality = useMemo(
+		() =>
+			isLimitToggleEnabled(
+				{
+					feature_higher_video_quality: LimitResolver.resolve({
+						key: 'feature_higher_video_quality',
+						fallback: 0,
+					}),
+				},
+				'feature_higher_video_quality',
+			),
+		[],
+	);
+
+	const resolutionOptions = useMemo(() => getResolutionOptions(hasHigherQuality), [hasHigherQuality]);
+	const framerateOptions = useMemo(() => getFramerateOptions(hasHigherQuality), [hasHigherQuality]);
+	const supportsScreenShareAudio = useMemo(() => supportsDesktopScreenShareAudioCapture(), []);
+
+	const [isSharing, setIsSharing] = useState(false);
+	const [selectedResolution, setSelectedResolution] = useState<'low' | 'medium' | 'high' | 'ultra' | '4k'>(
+		!hasHigherQuality &&
 			(voiceSettings.screenshareResolution === 'high' ||
 				voiceSettings.screenshareResolution === 'ultra' ||
 				voiceSettings.screenshareResolution === '4k')
 			? 'medium'
 			: voiceSettings.screenshareResolution,
 	);
-	const [selectedFrameRate, setSelectedFrameRate] = React.useState<number>(
-		!hasPremium && voiceSettings.videoFrameRate > 30 ? 30 : voiceSettings.videoFrameRate,
+	const [selectedFrameRate, setSelectedFrameRate] = useState<number>(
+		!hasHigherQuality && voiceSettings.videoFrameRate > 30 ? 30 : voiceSettings.videoFrameRate,
 	);
-	const [includeAudio, setIncludeAudio] = React.useState<boolean>(LocalVoiceStateStore.getSelfStreamAudio());
+	const [includeAudio, setIncludeAudioState] = useState<boolean>(
+		supportsScreenShareAudio && LocalVoiceStateStore.getSelfStreamAudio(),
+	);
+	const setIncludeAudio = useCallback(
+		(value: boolean) => {
+			if (!supportsScreenShareAudio) {
+				setIncludeAudioState(false);
+				return;
+			}
+			setIncludeAudioState(value);
+		},
+		[supportsScreenShareAudio],
+	);
 
-	const handleStartShare = React.useCallback(async () => {
+	const handleStartShare = useCallback(async () => {
 		setIsSharing(true);
 		try {
-			LocalVoiceStateStore.updateSelfStreamAudio(includeAudio);
-			await onStartShare(selectedResolution, selectedFrameRate, includeAudio);
+			const includeAudioForRequest = supportsScreenShareAudio ? includeAudio : false;
+			LocalVoiceStateStore.updateSelfStreamAudio(includeAudioForRequest);
+			VoiceSettingsActionCreators.update({
+				screenshareResolution: selectedResolution,
+				videoFrameRate: selectedFrameRate,
+			});
+			await onStartShare(selectedResolution, selectedFrameRate, includeAudioForRequest);
 			ModalActionCreators.pop();
 		} catch (error) {
-			console.error('Failed to start screen share:', error);
+			logger.error('Failed to start screen share', error);
 			setIsSharing(false);
 		}
-	}, [selectedResolution, selectedFrameRate, includeAudio, onStartShare]);
+	}, [selectedResolution, selectedFrameRate, includeAudio, onStartShare, supportsScreenShareAudio]);
 
-	const handleCancel = React.useCallback(() => {
+	const handleCancel = useCallback(() => {
 		ModalActionCreators.pop();
 	}, []);
 
-	const handleResolutionClick = React.useCallback(
+	const handleResolutionClick = useCallback(
 		(value: 'low' | 'medium' | 'high' | 'ultra' | '4k', isPremium: boolean) => {
-			if (isPremium && !hasPremium) {
+			if (isPremium && !hasHigherQuality) {
 				PremiumModalActionCreators.open();
 				return;
 			}
 			setSelectedResolution(value);
 		},
-		[hasPremium],
+		[hasHigherQuality],
 	);
 
-	const handleFrameRateClick = React.useCallback(
+	const handleFrameRateClick = useCallback(
 		(value: number, isPremium: boolean) => {
-			if (isPremium && !hasPremium) {
+			if (isPremium && !hasHigherQuality) {
 				PremiumModalActionCreators.open();
 				return;
 			}
 			setSelectedFrameRate(value);
 		},
-		[hasPremium],
+		[hasHigherQuality],
 	);
 
 	return {
-		hasPremium,
+		hasPremium: hasHigherQuality,
 		isSharing,
+		supportsScreenShareAudio,
 		selectedResolution,
 		selectedFrameRate,
 		includeAudio,
@@ -115,7 +185,7 @@ export const useScreenShareSettingsModal = ({onStartShare}: ScreenShareSettingsM
 		handleCancel,
 		handleResolutionClick,
 		handleFrameRateClick,
-		RESOLUTION_OPTIONS,
-		FRAMERATE_OPTIONS,
+		RESOLUTION_OPTIONS: resolutionOptions,
+		FRAMERATE_OPTIONS: framerateOptions,
 	};
-};
+}

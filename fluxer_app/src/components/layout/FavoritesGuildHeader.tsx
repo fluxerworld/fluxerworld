@@ -17,29 +17,30 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import {FavoritesGuildHeaderBottomSheet} from '@app/components/bottomsheets/FavoritesGuildHeaderBottomSheet';
+import styles from '@app/components/layout/FavoritesGuildHeader.module.css';
+import guildHeaderStyles from '@app/components/layout/GuildHeader.module.css';
+import {GuildHeaderShell} from '@app/components/layout/GuildHeaderShell';
+import {FavoritesGuildHeaderPopout} from '@app/components/popouts/FavoritesGuildHeaderPopout';
+import {FavoritesGuildContextMenu} from '@app/components/uikit/context_menu/FavoritesGuildContextMenu';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import PopoutStore from '@app/stores/PopoutStore';
 import {useLingui} from '@lingui/react/macro';
 import {CaretDownIcon, DotsThreeIcon, StarIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import {FavoritesGuildHeaderBottomSheet} from '~/components/bottomsheets/FavoritesGuildHeaderBottomSheet';
-import {GuildHeaderShell} from '~/components/layout/GuildHeaderShell';
-import {FavoritesGuildHeaderPopout} from '~/components/popouts/FavoritesGuildHeaderPopout';
-import {FavoritesGuildContextMenu} from '~/components/uikit/ContextMenu/FavoritesGuildContextMenu';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import PopoutStore from '~/stores/PopoutStore';
-import styles from './FavoritesGuildHeader.module.css';
-import guildHeaderStyles from './GuildHeader.module.css';
+import type React from 'react';
+import {useCallback, useRef} from 'react';
 
 export const FavoritesGuildHeader = observer(() => {
 	const {t} = useLingui();
 	const {popouts} = PopoutStore;
 	const isOpen = 'favorites-guild-header' in popouts;
 	const isMobile = MobileLayoutStore.isMobileLayout();
-	const mobileHeaderRef = React.useRef<HTMLDivElement | null>(null);
+	const mobileHeaderRef = useRef<HTMLDivElement | null>(null);
 
-	const handleContextMenu = React.useCallback((event: React.MouseEvent) => {
+	const handleContextMenu = useCallback((event: React.MouseEvent) => {
 		ContextMenuActionCreators.openFromEvent(event, ({onClose}) => <FavoritesGuildContextMenu onClose={onClose} />);
 	}, []);
 

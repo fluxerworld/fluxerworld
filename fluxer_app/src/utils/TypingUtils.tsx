@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as TypingActionCreators from '~/actions/TypingActionCreators';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import TypingStore from '~/stores/TypingStore';
+import * as TypingActionCreators from '@app/actions/TypingActionCreators';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import TypingStore from '@app/stores/TypingStore';
 
 class TypingManager {
 	private currentChannelId: string | null = null;

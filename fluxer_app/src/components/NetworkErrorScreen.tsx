@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/ErrorFallback.module.css';
+import {FluxerIcon} from '@app/components/icons/FluxerIcon';
+import {Button} from '@app/components/uikit/button/Button';
 import {Trans} from '@lingui/react/macro';
-import React from 'react';
-import {FluxerIcon} from '~/components/icons/FluxerIcon';
-import {Button} from '~/components/uikit/Button/Button';
-import styles from './ErrorFallback.module.css';
+import {useCallback} from 'react';
 
-export const NetworkErrorScreen: React.FC = () => {
-	const handleRetry = React.useCallback(() => {
+export const NetworkErrorScreen = () => {
+	const handleRetry = useCallback(() => {
 		window.location.reload();
 	}, []);
 

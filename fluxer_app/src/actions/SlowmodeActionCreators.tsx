@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import ChannelStickerStore from '~/stores/ChannelStickerStore';
-import SlowmodeStore from '~/stores/SlowmodeStore';
+import ChannelStickerStore from '@app/stores/ChannelStickerStore';
+import SlowmodeStore from '@app/stores/SlowmodeStore';
 
 export function recordMessageSend(channelId: string): void {
 	ChannelStickerStore.clearPendingStickerOnMessageSend(channelId);

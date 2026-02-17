@@ -17,23 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {PurchaseDisclaimer} from '@app/components/modals/components/PurchaseDisclaimer';
+import styles from '@app/components/modals/components/plutonium/BottomCTASection.module.css';
+import {PurchaseDisabledWrapper} from '@app/components/modals/components/plutonium/PurchaseDisabledWrapper';
+import {Button} from '@app/components/uikit/button/Button';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {Button} from '~/components/uikit/Button/Button';
-import {PurchaseDisclaimer} from '../PurchaseDisclaimer';
-import styles from './BottomCTASection.module.css';
-import {PurchaseDisabledWrapper} from './PurchaseDisabledWrapper';
 
 interface BottomCTASectionProps {
 	isGiftMode: boolean;
 	monthlyPrice: string;
 	yearlyPrice: string;
-	visionaryPrice: string;
 	loadingCheckout: boolean;
-	loadingSlots: boolean;
-	isVisionarySoldOut: boolean;
-	handleSelectPlan: (plan: 'monthly' | 'yearly' | 'visionary' | 'gift1Month' | 'gift1Year' | 'giftVisionary') => void;
+	handleSelectPlan: (plan: 'monthly' | 'yearly' | 'gift_1_month' | 'gift_1_year') => void;
 	purchaseDisabled?: boolean;
 	purchaseDisabledTooltip?: React.ReactNode;
 }
@@ -43,10 +40,7 @@ export const BottomCTASection: React.FC<BottomCTASectionProps> = observer(
 		isGiftMode,
 		monthlyPrice,
 		yearlyPrice,
-		visionaryPrice,
 		loadingCheckout,
-		loadingSlots,
-		isVisionarySoldOut,
 		handleSelectPlan,
 		purchaseDisabled = false,
 		purchaseDisabledTooltip,
@@ -66,7 +60,7 @@ export const BottomCTASection: React.FC<BottomCTASectionProps> = observer(
 								<Button
 									variant="secondary"
 									onClick={() => handleSelectPlan('monthly')}
-									submitting={loadingCheckout || loadingSlots}
+									submitting={loadingCheckout}
 									className={styles.button}
 									disabled={purchaseDisabled}
 								>
@@ -77,22 +71,11 @@ export const BottomCTASection: React.FC<BottomCTASectionProps> = observer(
 								<Button
 									variant="primary"
 									onClick={() => handleSelectPlan('yearly')}
-									submitting={loadingCheckout || loadingSlots}
+									submitting={loadingCheckout}
 									className={styles.button}
 									disabled={purchaseDisabled}
 								>
 									<Trans>Yearly {yearlyPrice}</Trans>
-								</Button>
-							</PurchaseDisabledWrapper>
-							<PurchaseDisabledWrapper disabled={purchaseDisabled || isVisionarySoldOut} tooltipText={tooltipText}>
-								<Button
-									variant="primary"
-									onClick={() => handleSelectPlan('visionary')}
-									submitting={loadingCheckout || loadingSlots}
-									disabled={purchaseDisabled || isVisionarySoldOut}
-									className={styles.button}
-								>
-									{isVisionarySoldOut ? <Trans>Visionary Sold Out</Trans> : <Trans>Visionary {visionaryPrice}</Trans>}
 								</Button>
 							</PurchaseDisabledWrapper>
 						</>
@@ -101,8 +84,8 @@ export const BottomCTASection: React.FC<BottomCTASectionProps> = observer(
 							<PurchaseDisabledWrapper disabled={purchaseDisabled} tooltipText={tooltipText}>
 								<Button
 									variant="secondary"
-									onClick={() => handleSelectPlan('gift1Year')}
-									submitting={loadingCheckout || loadingSlots}
+									onClick={() => handleSelectPlan('gift_1_year')}
+									submitting={loadingCheckout}
 									className={styles.button}
 									disabled={purchaseDisabled}
 								>
@@ -112,27 +95,12 @@ export const BottomCTASection: React.FC<BottomCTASectionProps> = observer(
 							<PurchaseDisabledWrapper disabled={purchaseDisabled} tooltipText={tooltipText}>
 								<Button
 									variant="primary"
-									onClick={() => handleSelectPlan('gift1Month')}
-									submitting={loadingCheckout || loadingSlots}
+									onClick={() => handleSelectPlan('gift_1_month')}
+									submitting={loadingCheckout}
 									className={styles.button}
 									disabled={purchaseDisabled}
 								>
 									<Trans>1 Month {monthlyPrice}</Trans>
-								</Button>
-							</PurchaseDisabledWrapper>
-							<PurchaseDisabledWrapper disabled={purchaseDisabled || isVisionarySoldOut} tooltipText={tooltipText}>
-								<Button
-									variant="primary"
-									onClick={() => handleSelectPlan('giftVisionary')}
-									submitting={loadingCheckout || loadingSlots}
-									disabled={purchaseDisabled || isVisionarySoldOut}
-									className={styles.button}
-								>
-									{isVisionarySoldOut ? (
-										<Trans>Visionary Gift Sold Out</Trans>
-									) : (
-										<Trans>Visionary {visionaryPrice}</Trans>
-									)}
 								</Button>
 							</PurchaseDisabledWrapper>
 						</>

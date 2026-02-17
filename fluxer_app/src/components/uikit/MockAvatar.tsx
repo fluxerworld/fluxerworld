@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getStatusTypeLabel} from '@app/AppConstants';
+import {BaseAvatar} from '@app/components/uikit/BaseAvatar';
+import {cdnUrl} from '@app/utils/UrlUtils';
 import {useLingui} from '@lingui/react/macro';
 import React from 'react';
-import {getStatusTypeLabel} from '~/Constants';
-import {BaseAvatar} from '~/components/uikit/BaseAvatar';
-import {cdnUrl} from '~/utils/UrlUtils';
 
 interface MockAvatarProps {
 	size: 12 | 16 | 20 | 24 | 32 | 36 | 40 | 48 | 56 | 80 | 120;

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env sh
 
 # Copyright (C) 2026 Fluxer Contributors
 #
@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
 
-set -euo pipefail
+set -eu
 
 TIMESTAMP=$(date +%Y%m%d-%H%M%S)
 BACKUP_NAME="cassandra-backup-${TIMESTAMP}"
@@ -50,9 +50,9 @@ echo "[$(date)] Collecting snapshot files"
 mkdir -p "${TEMP_DIR}"
 
 # Find all snapshot directories and copy to temp location
-find "${DATA_DIR}" -type d -name "${SNAPSHOT_TAG}" | while read snapshot_dir; do
+find "${DATA_DIR}" -type d -name "${SNAPSHOT_TAG}" | while IFS= read -r snapshot_dir; do
     # Get relative path from data dir
-    rel_path=$(dirname $(echo "${snapshot_dir}" | sed "s|${DATA_DIR}/||"))
+    rel_path=$(dirname "${snapshot_dir#$DATA_DIR/}")
     target_dir="${TEMP_DIR}/${rel_path}"
     mkdir -p "${target_dir}"
     cp -r "${snapshot_dir}" "${target_dir}/"
@@ -89,7 +89,7 @@ fi
 # Step 4: Create tar archive and encrypt with age (streaming)
 echo "[$(date)] Encrypting backup with age..."
 if ! tar -C /tmp -cf - "${BACKUP_NAME}" | \
-     age -r "$(cat ${AGE_PUBLIC_KEY_FILE})" -o "/tmp/${ENCRYPTED_BACKUP}"; then
+     age -r "$(cat "${AGE_PUBLIC_KEY_FILE}")" -o "/tmp/${ENCRYPTED_BACKUP}"; then
     echo "[$(date)] Error: Encryption failed"
     rm -rf "${TEMP_DIR}"
     nodetool -h "${CASSANDRA_HOST}" clearsnapshot -t "${SNAPSHOT_TAG}"
@@ -130,7 +130,7 @@ aws s3 ls "s3://${B2_BUCKET_NAME}/" --endpoint-url="${B2_ENDPOINT_URL}" | \
     awk '{print $4}' | \
     sort -r | \
     tail -n +$((MAX_BACKUP_COUNT + 1)) | \
-    while read -r old_backup; do
+    while IFS= read -r old_backup; do
         echo "[$(date)] Deleting old backup: ${old_backup}"
         aws s3 rm "s3://${B2_BUCKET_NAME}/${old_backup}" --endpoint-url="${B2_ENDPOINT_URL}" || true
     done

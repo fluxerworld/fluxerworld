@@ -17,21 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as NotificationActionCreators from '@app/actions/NotificationActionCreators';
+import * as SoundActionCreators from '@app/actions/SoundActionCreators';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import SoundStore from '@app/stores/SoundStore';
+import UserStore from '@app/stores/UserStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {getElectronAPI, isDesktop} from '@app/utils/NativeUtils';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import {SoundType} from '@app/utils/SoundUtils';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
-import * as NotificationActionCreators from '~/actions/NotificationActionCreators';
-import * as SoundActionCreators from '~/actions/SoundActionCreators';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import SoundStore from '~/stores/SoundStore';
-import UserStore from '~/stores/UserStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import {getElectronAPI, isDesktop} from '~/utils/NativeUtils';
-import * as RouterUtils from '~/utils/RouterUtils';
-import {SoundType} from '~/utils/SoundUtils';
 
 let notificationClickHandlerInitialized = false;
 
-export const ensureDesktopNotificationClickHandler = (): void => {
+export function ensureDesktopNotificationClickHandler(): void {
 	if (notificationClickHandlerInitialized) return;
 
 	const electronApi = getElectronAPI();
@@ -44,22 +44,22 @@ export const ensureDesktopNotificationClickHandler = (): void => {
 			RouterUtils.transitionTo(url);
 		}
 	});
-};
+}
 
-export const hasNotification = (): boolean => {
+export function hasNotification(): boolean {
 	if (isDesktop()) return true;
 	return typeof Notification !== 'undefined';
-};
+}
 
-export const isGranted = async (): Promise<boolean> => {
+export async function isGranted(): Promise<boolean> {
 	if (isDesktop()) return true;
 	return typeof Notification !== 'undefined' && Notification.permission === 'granted';
-};
+}
 
-export const playNotificationSoundIfEnabled = (): void => {
+export function playNotificationSoundIfEnabled(): void {
 	if (!SoundStore.isSoundTypeEnabled(SoundType.Message)) return;
 	SoundActionCreators.playSound(SoundType.Message);
-};
+}
 
 type PermissionResult = 'granted' | 'denied' | 'unsupported';
 
@@ -86,7 +86,7 @@ const getCurrentUserAvatar = (): string | null => {
 	return AvatarUtils.getUserAvatarURL(currentUser);
 };
 
-export const requestPermission = async (i18n: I18n): Promise<void> => {
+export async function requestPermission(i18n: I18n): Promise<void> {
 	if (isDesktop()) {
 		NotificationActionCreators.permissionGranted();
 		playNotificationSoundIfEnabled();
@@ -116,7 +116,7 @@ export const requestPermission = async (i18n: I18n): Promise<void> => {
 		body: i18n._(msg`Huzzah! Browser notifications are enabled`),
 		icon,
 	});
-};
+}
 
 export interface NotificationResult {
 	browserNotification: Notification | null;
@@ -124,7 +124,7 @@ export interface NotificationResult {
 }
 
 const getServiceWorkerRegistration = async (): Promise<ServiceWorkerRegistration | null> => {
-	if (typeof navigator === 'undefined' || typeof navigator.serviceWorker === 'undefined') {
+	if (typeof navigator.serviceWorker === 'undefined') {
 		return null;
 	}
 
@@ -198,7 +198,7 @@ const tryShowNotificationViaWindowNotification = ({
 	return {browserNotification: notification, nativeNotificationId: null};
 };
 
-export const showNotification = async ({
+export async function showNotification({
 	title,
 	body,
 	url,
@@ -210,7 +210,7 @@ export const showNotification = async ({
 	url?: string;
 	icon?: string;
 	playSound?: boolean;
-}): Promise<NotificationResult> => {
+}): Promise<NotificationResult> {
 	try {
 		if (playSound) {
 			playNotificationSoundIfEnabled();
@@ -251,20 +251,20 @@ export const showNotification = async ({
 	} catch {
 		return {browserNotification: null, nativeNotificationId: null};
 	}
-};
+}
 
-export const closeNativeNotification = (id: string): void => {
+export function closeNativeNotification(id: string): void {
 	const electronApi = getElectronAPI();
 	if (electronApi) {
 		electronApi.closeNotification(id);
 	}
-};
+}
 
-export const closeNativeNotifications = (ids: Array<string>): void => {
+export function closeNativeNotifications(ids: Array<string>): void {
 	if (ids.length === 0) return;
 
 	const electronApi = getElectronAPI();
 	if (electronApi) {
 		electronApi.closeNotifications(ids);
 	}
-};
+}

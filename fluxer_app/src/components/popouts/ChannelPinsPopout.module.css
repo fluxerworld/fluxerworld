@@ -27,7 +27,7 @@
 	min-height: 200px;
 	max-height: var(--pins-popout-max-height);
 	overflow: hidden;
-	border-radius: var(--radius-md);
+	border-radius: 8px;
 	border: 1px solid var(--background-header-secondary);
 	background-color: var(--background-primary);
 }

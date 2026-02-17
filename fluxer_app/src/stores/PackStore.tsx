@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as PackActionCreators from '@app/actions/PackActionCreators';
+import type {PackDashboardResponse} from '@fluxer/schema/src/domains/pack/PackSchemas';
 import {makeAutoObservable, runInAction} from 'mobx';
-import * as PackActionCreators from '~/actions/PackActionCreators';
-import type {PackDashboardResponse} from '~/types/PackTypes';
 
 type FetchStatus = 'idle' | 'pending' | 'success' | 'error';
 

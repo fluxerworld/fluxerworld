@@ -17,15 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {APIErrorCodes} from '~/Constants';
-import {PinFailedModal, type PinFailureReason} from '~/components/alerts/PinFailedModal';
-import {Endpoints} from '~/Endpoints';
-import http, {type HttpError} from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {Message} from '~/records/MessageRecord';
-import ChannelPinsStore from '~/stores/ChannelPinsStore';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {PinFailedModal, type PinFailureReason} from '@app/components/alerts/PinFailedModal';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import type {HttpError} from '@app/lib/HttpError';
+import {Logger} from '@app/lib/Logger';
+import ChannelPinsStore from '@app/stores/ChannelPinsStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
+import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 
 interface ApiErrorBody {
 	code?: string;
@@ -40,6 +43,14 @@ const getApiErrorCode = (error: HttpError): string | undefined => {
 const logger = new Logger('Pins');
 const PIN_PAGE_SIZE = 25;
 
+const shouldBlockPinsFetch = (channelId: string): boolean => {
+	const channel = ChannelStore.getChannel(channelId);
+	if (!channel || channel.isPrivate()) {
+		return false;
+	}
+	return GuildNSFWAgreeStore.shouldShowGate({channelId: channel.id, guildId: channel.guildId ?? null});
+};
+
 interface ChannelPinResponse {
 	message: Message;
 	pinned_at: string;
@@ -49,7 +60,12 @@ interface ChannelPinsPayload {
 	has_more: boolean;
 }
 
-export const fetch = async (channelId: string) => {
+export async function fetch(channelId: string) {
+	if (shouldBlockPinsFetch(channelId)) {
+		ChannelPinsStore.handleChannelPinsFetchSuccess(channelId, [], false);
+		return [];
+	}
+
 	ChannelPinsStore.handleFetchPending(channelId);
 	try {
 		const response = await http.get<ChannelPinsPayload>({
@@ -64,9 +80,14 @@ export const fetch = async (channelId: string) => {
 		ChannelPinsStore.handleChannelPinsFetchError(channelId);
 		return [];
 	}
-};
+}
 
-export const loadMore = async (channelId: string): Promise<Array<Message>> => {
+export async function loadMore(channelId: string): Promise<Array<Message>> {
+	if (shouldBlockPinsFetch(channelId)) {
+		ChannelPinsStore.handleChannelPinsFetchSuccess(channelId, [], false);
+		return [];
+	}
+
 	if (!ChannelPinsStore.getHasMore(channelId) || ChannelPinsStore.getIsLoading(channelId)) {
 		return [];
 	}
@@ -94,7 +115,7 @@ export const loadMore = async (channelId: string): Promise<Array<Message>> => {
 		ChannelPinsStore.handleChannelPinsFetchError(channelId);
 		return [];
 	}
-};
+}
 
 const getFailureReason = (error: HttpError): PinFailureReason => {
 	const errorCode = getApiErrorCode(error);
@@ -104,7 +125,7 @@ const getFailureReason = (error: HttpError): PinFailureReason => {
 	return 'generic';
 };
 
-export const pin = async (channelId: string, messageId: string): Promise<void> => {
+export async function pin(channelId: string, messageId: string): Promise<void> {
 	try {
 		await http.put({url: Endpoints.CHANNEL_PIN(channelId, messageId)});
 		logger.debug(`Pinned message ${messageId} in channel ${channelId}`);
@@ -113,9 +134,9 @@ export const pin = async (channelId: string, messageId: string): Promise<void> =
 		const reason = getFailureReason(error as HttpError);
 		ModalActionCreators.push(modal(() => <PinFailedModal reason={reason} />));
 	}
-};
+}
 
-export const unpin = async (channelId: string, messageId: string): Promise<void> => {
+export async function unpin(channelId: string, messageId: string): Promise<void> {
 	try {
 		await http.delete({url: Endpoints.CHANNEL_PIN(channelId, messageId)});
 		logger.debug(`Unpinned message ${messageId} from channel ${channelId}`);
@@ -124,4 +145,4 @@ export const unpin = async (channelId: string, messageId: string): Promise<void>
 		const reason = getFailureReason(error as HttpError);
 		ModalActionCreators.push(modal(() => <PinFailedModal isUnpin reason={reason} />));
 	}
-};
+}

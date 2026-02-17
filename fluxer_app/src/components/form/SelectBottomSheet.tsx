@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {SelectOption} from '@app/components/form/Select';
+import styles from '@app/components/form/SelectBottomSheet.module.css';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
 import {useLingui} from '@lingui/react/macro';
 import {CaretDownIcon, CheckIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import type {SelectOption} from './Select';
-import styles from './SelectBottomSheet.module.css';
+import React, {useId, useMemo, useState} from 'react';
 
 type Primitive = string | number | null;
 
@@ -99,9 +99,9 @@ export const SelectBottomSheet = observer(function SelectBottomSheet<
 	renderValue,
 }: SelectBottomSheetProps<V, IsMulti, O>) {
 	const {t} = useLingui();
-	const [isOpen, setIsOpen] = React.useState(false);
+	const [isOpen, setIsOpen] = useState(false);
 
-	const selectedOption = React.useMemo(() => {
+	const selectedOption = useMemo(() => {
 		if (isMulti) {
 			if (!Array.isArray(value)) return [];
 			return options.filter((option) => (value as Array<V>).includes(option.value));
@@ -109,7 +109,7 @@ export const SelectBottomSheet = observer(function SelectBottomSheet<
 		return options.find((option) => option.value === value) || null;
 	}, [isMulti, options, value]);
 
-	const displayValue = React.useMemo(() => {
+	const displayValue = useMemo(() => {
 		if (renderValue) {
 			return renderValue(selectedOption as IsMulti extends true ? Array<O> : O | null);
 		}
@@ -152,7 +152,7 @@ export const SelectBottomSheet = observer(function SelectBottomSheet<
 		return value === optionValue;
 	};
 
-	const generatedTriggerId = React.useId();
+	const generatedTriggerId = useId();
 	const triggerId = id ?? generatedTriggerId;
 
 	return (

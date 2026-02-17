@@ -1,0 +1,497 @@
+account.already_verified: Tvůj účet už je ověřený.
+account.communication_disabled: Komunikace je zakázaná.
+account.disabled: Tenhle účet je deaktivovaný.
+account.email_verification_required_for_guild: Pro posílání zpráv na tomhle serveru musíš ověřit e-mail.
+account.guild_verification_required: Je vyžadované ověření serveru.
+account.ip_authorization_required: Je vyžadované ověření IP.
+account.locked_suspicious_activity: Tvůj účet je uzamčený kvuli podezřelé aktivitě.
+account.phone_required_for_guild: Pro posílání zpráv na tomhle serveru musíš přidat telefonní číslo.
+account.scheduled_for_deletion: Tenhle účet je naplánovaný k odstranění.
+account.session_timeout: Relace vypršela. Obnov stránku a přihlas se znovu.
+account.session_token_mismatch: Token relace nesouhlasí.
+account.suspended_permanently: Tenhle účet má trvalou suspendaci.
+account.suspended_temporarily: Tenhle účet má dočasnou suspendaci.
+account.too_new_for_guild: Tvůj účet je moc nový na posílání zpráv na tomhle serveru.
+account.unauthorized: Bez oprávnění.
+admin_and_system.acls_must_be_non_empty: ACL nesmí být prázdné.
+admin_and_system.admin_api_key_not_found: Admin API klíč nebyl nalezen.
+admin_and_system.audit_log_indexing: Audit logy se právě indexují. Zkus to znovu za chvíli.
+admin_and_system.channel_indexing: Kanály se právě indexují. Zkus to znovu za chvíli.
+admin_and_system.creation_failed: Zdroj se nepodařilo vytvořit. Zkus to znovu.
+admin_and_system.deletion_failed: Zdroj se nepodařilo smazat. Zkus to znovu.
+admin_and_system.decryption_failed: Zprávu se nepodařilo dešifrovat. Šifrovací klíče mohou být neplatné nebo poškozené.
+admin_and_system.empty_encrypted_body: Prázdné zašifrované tělo.
+admin_and_system.encryption_failed: Zprávu se nepodařilo zašifrovat. Šifrovací klíče mohou být neplatné nebo poškozené.
+admin_and_system.general_error: Něco se pokazilo. Zkus to později.
+admin_and_system.invalid_acls_format: Neplatný formát ACL.
+admin_and_system.invalid_api_origin: Neplatný API origin.
+admin_and_system.invalid_audit_log_reason: Neplatný důvod v audit logu.
+admin_and_system.invalid_bot_flag: Neplatný bot flag.
+admin_and_system.invalid_decrypted_json: Neplatný dešifrovaný JSON.
+admin_and_system.invalid_ephemeral_key: Neplatný efemérní klíč.
+admin_and_system.invalid_flags_format: Neplatný formát flags.
+admin_and_system.invalid_form_body: Neplatné tělo formuláře.
+admin_and_system.invalid_format: Poskytnutá hodnota má neplatný formát.
+admin_and_system.invalid_integer_format: Neplatný formát celého čísla.
+admin_and_system.invalid_iv: Neplatný inicializační vektor.
+admin_and_system.invalid_suspicious_flags_format: Neplatný formát suspicious flags.
+admin_and_system.invalid_system_flag: Neplatný system flag.
+admin_and_system.invalid_timeout_value: Neplatná hodnota časového limitu.
+admin_and_system.invalid_timestamp: Neplatný timestamp.
+admin_and_system.invalid_timezone_identifier: Neplatný identifikátor časové zóny.
+admin_and_system.missing_acl: Chybí ACL.
+admin_and_system.missing_ephemeral_key: Chybí efemérní klíč.
+admin_and_system.missing_iv: Chybí inicializační vektor.
+admin_and_system.must_be_iso_timestamp: Musí to být platný ISO timestamp.
+admin_and_system.processing_failed: Požadavek se nepodařilo zpracovat. Zkus to znovu.
+admin_and_system.response_validation_failed: 'Selhala validace odpovědi: {errors}.'
+admin_and_system.test_harness_disabled: Test harness je vypnutý.
+admin_and_system.test_harness_forbidden: Test harness je zakázaný.
+admin_and_system.unknown_suspicious_flag: Neznámý suspicious flag.
+admin_and_system.update_failed: Zdroj se nepodařilo aktualizovat. Zkus to znovu.
+admin_and_system.user_must_be_bot_for_system_user: Uživatel musí být bot, aby mohl být označený jako systémový uživatel.
+attachments_and_uploads.attachment_fields_required: Pole `attachment_id`, `channel_id`, `message_id` a `expires_at` jsou povinná.
+attachments_and_uploads.attachment_ids_must_be_valid_integers: Pole `attachment_id`, `channel_id` a `message_id` musí být platná celá čísla.
+attachments_and_uploads.cannot_edit_attachment_metadata: Uživatelé s oprávněním MANAGE_MESSAGES můžou upravovat jen popisy příloh, ne další metadata.
+attachments_and_uploads.attachment_metadata_without_files: Metadata přílohy obsahují název souboru, ale nebyly nahrané žádné soubory.
+attachments_and_uploads.attachment_must_be_image: Příloha "{filename}" musí být obrázek (png, jpg, jpeg, webp nebo gif).
+attachments_and_uploads.attachment_not_found_in_message: Příloha s ID {attachmentId} nebyla ve zprávě nalezena.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Při nahrávání souborů je povinné pole attachments metadata.
+attachments_and_uploads.attachments_not_allowed_for_message: U této zprávy nejsou přílohy povolené.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Nemůžeš odkazovat na přílohy, když žádné přílohy nejsou.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Duplicitní ID příloh nejsou povolená.
+attachments_and_uploads.duplicate_file_index: 'Duplicitní index souboru: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Nepovedlo se zpracovat multipart form data. Zkontroluj názvy polí a názvy souborů, jestli jsou správně.
+attachments_and_uploads.failed_to_parse_multipart_payload: Nepovedlo se zpracovat multipart payload.
+attachments_and_uploads.failed_to_upload_image: Obrázek se nepodařilo nahrát. Zkus to znovu.
+attachments_and_uploads.file_index_exceeds_maximum: Index souboru {index} překračuje maximální povolený index {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Soubor pro kontrolu nebyl nalezen.
+attachments_and_uploads.file_not_found: Soubor nebyl nalezen.
+attachments_and_uploads.file_size_too_large: Soubor je příliš velký. Maximální velikost souboru je {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Název souboru po normalizaci nesmí být prázdný.
+attachments_and_uploads.filename_invalid_characters: Název souboru obsahuje nepovolené znaky.
+attachments_and_uploads.filename_length_invalid: Název souboru musí mít mezi {min} a {max} znaky.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Neshoda názvu souboru u přílohy {attachmentId}: metadata uvádějí "{expectedFilename}", ale nesedí to.'
+attachments_and_uploads.image_size_exceeds_limit: Velikost obrázku překračuje {maxSize} bajtů.
+attachments_and_uploads.invalid_file_field_name: 'Neplatný název pole souboru: {key}. Očekávaný formát: `files[N]`, kde N je číslo.'
+attachments_and_uploads.invalid_image_data: Neplatná data obrázku.
+attachments_and_uploads.invalid_image_format: 'Neplatný formát obrázku. Podporované přípony: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: Neplatný JSON v `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Pro index {index} není povolených víc souborů.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Pro metadata přílohy s ID {attachmentId} nebyl nahraný žádný soubor.
+attachments_and_uploads.no_file_uploaded_for_attachment: Pro přílohu s ID {attachmentId} nebyl nahraný žádný soubor.
+attachments_and_uploads.no_metadata_for_file: Pro soubor s ID {fileId} nebyla poskytnutá žádná metadata.
+attachments_and_uploads.no_valid_media_in_message: V přispěvávku se nenašlo žádné platné médium.
+attachments_and_uploads.payload_json_required_for_multipart: Pole `payload_json` je pro multipart zprávy povinné.
+attachments_and_uploads.preview_must_be_jpeg: Náhled musí být JPEG.
+attachments_and_uploads.referenced_attachment_not_found: Odkazovaná příloha "{filename}" nebyla v přílohách zprávy nalezena.
+attachments_and_uploads.size_bytes_must_be_valid_integer: Pole `size_bytes` musí být platné celé číslo.
+attachments_and_uploads.too_many_files: Příliš mnoho souborů. Povolené maximum je {maxFiles} {maxFiles, plural, one {soubor} few {soubory} other {souborů}}.
+attachments_and_uploads.unknown_image_format: Neznámý formát obrázku.
+attachments_and_uploads.unresolved_attachment_url: Zjištěná nevyřešená URL `attachment://`. Tohle mělo být vyřešené před zpracováním embedů.
+attachments_and_uploads.uploaded_attachment_not_found: Nahraná příloha {filename} nebyla nalezena.
+auth_and_oauth.application_not_owned: Tuhle aplikaci nevlastníš.
+auth_and_oauth.bot_already_in_guild: Tento bot už je v guildě.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Boti nemůžou vytvářet auth relace.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Boti nemůžou používat auth endpointy.
+auth_and_oauth.handoff_code_expired: Handoff kód vypršel.
+auth_and_oauth.handoff_code_invalid: Neplatný handoff kód.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize není podporované. Použij POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Neplatný client secret.
+auth_and_oauth.invalid_client: Neplatný klient.
+auth_and_oauth.invalid_code: Neplatný kód.
+auth_and_oauth.invalid_grant: Neplatný grant.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Neplatný nebo expirovaný autorizační ticket.
+auth_and_oauth.invalid_or_expired_authorization_token: Neplatný nebo expirovaný autorizační token.
+auth_and_oauth.invalid_or_expired_ticket: Neplatný nebo expirovaný ticket.
+auth_and_oauth.invalid_proof_token: Neplatný proof token.
+auth_and_oauth.invalid_redirect_uri: Neplatné redirect URI.
+auth_and_oauth.invalid_request: Neplatný požadavek.
+auth_and_oauth.invalid_scope: Neplatný scope.
+auth_and_oauth.invalid_sudo_token: Neplatný sudo token.
+auth_and_oauth.invalid_token_admin_api_key: Neplatný admin API klíč.
+auth_and_oauth.missing_authorization: Chybí autorizace.
+auth_and_oauth.missing_client_secret: Chybí client secret.
+auth_and_oauth.missing_redirect_uri: Chybí redirect URI.
+auth_and_oauth.must_start_session_before_sending_messages: Než pošleš zprávy, musíš spustit relaci.
+auth_and_oauth.oauth_admin_scope_required: OAuth2 tokeny potřebují scope admin pro přístup k admin endpointům.
+auth_and_oauth.oauth_fields_missing: Chybí OAuth pole.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Pro non-bot scope je vyžadované redirect URI.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Response type musí být code pro non-bot scope.
+auth_and_oauth.sudo_mode_required: Je vyžadovaný sudo mode.
+auth_and_oauth.unknown_application: Neznámá aplikace.
+auth_and_oauth.unsupported_response_type: Nepodporovaný response type.
+auth_and_registration.current_password_incorrect: Současné heslo je nesprávné.
+auth_and_registration.password_is_too_common: Tvé heslo je příliš běžné. Zvolte si prosím jedinečnější heslo.
+auth_and_registration.password_not_set: Heslo není nastavené.
+bots.bot_application_not_found: Aplikace bota nebyla nalezena.
+bots.bot_discriminator_cannot_be_changed: Diskriminátor bota nelze změnit.
+bots.bot_is_private: Tenhle bot je soukromý.
+bots.bot_user_generation_failed: Generování uživatele bota se nezdařilo.
+bots.bot_user_not_found: Uživatel bota nebyl nalezen.
+bots.invalid_response_type_for_non_bot: Response type musí být code pro non-bot scope.
+bots.not_a_bot_application: Tahle aplikace není bot.
+calls_and_voice.call_already_exists: Hovor už existuje.
+calls_and_voice.cannot_modify_voice_state: Nemůžeš měnit voice state.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Neplatný nebo omezený RTC region: {region}.'
+calls_and_voice.invalid_rtc_region: 'Neplatný RTC region: {region}. Dostupné regiony: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Neplatný formát stream key.
+calls_and_voice.invalid_stream_thumbnail_payload: Neplatný payload náhledu streamu.
+calls_and_voice.no_active_call: Žádný aktivní hovor.
+calls_and_voice.stream_key_channel_mismatch: Stream key nesouhlasí s kanálem.
+calls_and_voice.stream_key_scope_mismatch: Stream key nesouhlasí se scope.
+calls_and_voice.stream_thumbnail_payload_empty: Payload náhledu streamu je prázdný.
+calls_and_voice.unknown_voice_region: Neznámý voice region.
+calls_and_voice.unknown_voice_server: Neznámý voice server.
+calls_and_voice.voice_message_duration_exceeds_limit: Délka hlasové zprávy nesmí překročit {maxDuration} sekund.
+calls_and_voice.voice_message_duration_required: Přílohy hlasových zpráv musí mít uvedenou délku.
+calls_and_voice.voice_message_waveform_required: Přílohy hlasových zpráv musí obsahovat waveform data.
+calls_and_voice.voice_messages_require_single_attachment: Hlasové zprávy musí obsahovat přesně jednu přílohu.
+captcha.invalid: Neplatná captcha.
+captcha.required: Captcha je povinná.
+channels_and_guilds.afk_channel_must_be_in_guild: AFK kanál musí být na serveru.
+channels_and_guilds.afk_channel_must_be_voice: AFK kanál musí být hlasový.
+channels_and_guilds.all_channels_must_belong_to_guild: Všechny kanály musí patřit do stejného serveru.
+channels_and_guilds.animated_guild_banner_requires_feature: Animovaný banner serveru vyžaduje funkci ANIMATED_BANNER.
+channels_and_guilds.cannot_execute_on_dm: Tuhle akci nejde provést v DM.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Vlastnictví serveru nelze převést na bota.
+channels_and_guilds.cannot_leave_guild_as_owner: Jako vlastník serveru nemůžeš odejít. Převeď vlastnictví nebo server smaž.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Kanál nejde umístit relativně k sobě ani k jeho potomkům.
+channels_and_guilds.cannot_report_own_guild: Nemůžeš nahlásit vlastní server.
+channels_and_guilds.categories_cannot_have_parent_channel: Kategorie nemůžou mít nadřazený kanál.
+channels_and_guilds.categories_cannot_have_parents: Kategorie nemůžou mít rodiče.
+channels_and_guilds.channel_id_required: '`channel_id` je povinné.'
+channels_and_guilds.channel_must_be_dm_or_group_dm: Kanál musí být DM nebo skupinový DM.
+channels_and_guilds.channel_must_be_voice: Kanál musí být hlasový.
+channels_and_guilds.channel_not_found: Kanál nebyl nalezen.
+channels_and_guilds.context_channel_or_guild_required: Je potřeba kontext kanálu nebo ID serveru.
+channels_and_guilds.guild_banner_requires_feature: Banner serveru vyžaduje funkci BANNER.
+channels_and_guilds.guild_id_must_match_referenced_message: ID serveru se musí shodovat s kanálem, ze kterého byla načtená odkazovaná zpráva.
+channels_and_guilds.invalid_channel_id: 'Neplatné ID kanálu: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Hovory se dají provádět jen v přímých zprávách nebo skupinových DM.
+channels_and_guilds.invalid_channel_type: Neplatný typ kanálu.
+channels_and_guilds.invalid_channel: Neplatný kanál.
+channels_and_guilds.invalid_parent_channel: Neplatný nadřazený kanál.
+channels_and_guilds.invite_splash_requires_feature: Invite splash vyžaduje funkci INVITE_SPLASH.
+channels_and_guilds.invites_disabled: Pozvánky jsou vypnuté.
+channels_and_guilds.max_group_dm_recipients_reached: Dosáhli jste maximálního počtu {count} účastníků skupinového DM {count, plural, one {recipient} other {recipients}}.
+channels_and_guilds.max_group_dms_reached: Dosáhli jste maximálního počtu {count} skupinových DM {count, plural, one {DM} other {DMs}}}.
+channels_and_guilds.max_guild_channels_reached: Dosáhli jste maximálního počtu {count} kanálů na serveru {count, plural, one {channel} other {channels}}.
+channels_and_guilds.max_guild_members_reached: Dosáhli jste maximálního počtu {count} členů serveru {count, plural, one {member} other {members}}.
+channels_and_guilds.max_guild_roles_reached: Dosáhli jste maximálního počtu {count} rolí na serveru {count, plural, one {role} other {roles}}.
+channels_and_guilds.max_guilds_reached: Dosáhli jste maximálního počtu {count} serverů {count, plural, one {guild} other {guilds}}.
+channels_and_guilds.message_history_cutoff_before_guild_creation: Cutoff historie zpráv nesmí být před vytvořením komunity.
+channels_and_guilds.message_history_cutoff_in_future: Cutoff historie zpráv nesmí být v budoucnosti.
+channels_and_guilds.parent_channel_not_in_guild: Nadřazený kanál na serveru není.
+channels_and_guilds.parent_must_be_category: Nadřazený prvek musí být kategorie.
+channels_and_guilds.preceding_channel_must_share_parent: Předchozí kanál musí mít stejného rodiče jako přesouvaný kanál.
+channels_and_guilds.preceding_channel_not_in_guild: Předchozí kanál na serveru není.
+channels_and_guilds.system_channel_must_be_in_guild: Systémový kanál musí být na serveru.
+channels_and_guilds.system_channel_must_be_text: Systémový kanál musí být textový.
+channels_and_guilds.temporary_invite_requires_presence: Dočasná pozvánka vyžaduje přítomnost.
+channels_and_guilds.vanity_url_requires_feature: Vanity URL vyžaduje funkci VANITY_URL.
+channels_and_guilds.voice_channel_full: Hlasový kanál je plný.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Hlasové kanály nemůžou být v rámci stejné kategorie nad textovými kanály.
+connections.already_exists: Připojení tohoto typu s tímto identifikátorem už existuje.
+connections.bluesky_oauth_callback_failed: Nepodařilo se nám dokončit připojení Bluesky. Zkus to znovu.
+connections.bluesky_oauth_not_enabled: Připojení přes Bluesky na tomhle serveru není povolené.
+connections.bluesky_oauth_session_expired: Tvá Bluesky relace vypršela. Prosím, připoj si znovu svůj účet.
+connections.bluesky_oauth_state_invalid: Žádost o autorizaci vypršela nebo je neplatná. Zkus to znovu.
+connections.invalid_identifier: Identifikátor připojení je neplatný.
+connections.invalid_type: Typ připojení není podporovaný.
+connections.initiation_token_invalid: Token iniciace připojení je neplatný nebo vypršel.
+connections.limit_reached: Dosáhli jste maximálního počtu připojení ({limit}).
+connections.not_found: Neznámé připojení.
+connections.verification_failed: Ověření připojení se nezdařilo. Ujistěte se, že je ověřovací token správně umístěn.
+colors.color_value_too_high: Hodnota barvy nesmí překročit 0xffffff.
+colors.color_value_too_low: Hodnota barvy musí být aspoň 0x000000.
+content_and_safety.content_blocked: Tenhle obsah byl zablokovaný bezpečnostními systémy.
+content_and_safety.csam_scan_failed: Selhala kontrola bezpečnosti obsahu. Zkus nahrát soubor později.
+content_and_safety.csam_scan_parse_error: Kontrola bezpečnosti obsahu vrátila neplatnou odpověď. Zkus nahrát soubor později.
+content_and_safety.csam_scan_subscription_error: Služba kontroly bezpečnosti obsahu je dočasně nedostupná. Zkus nahrát soubor později.
+content_and_safety.csam_scan_timeout: Kontrola bezpečnosti obsahu trvala příliš dlouho. Zkus to znovu.
+content_and_safety.explicit_content_cannot_be_sent: Explicitní obsah nejde odeslat.
+content_and_safety.ncmec_already_submitted: Tenhle obsah už byl odeslaný NCMEC.
+content_and_safety.ncmec_submission_failed: Nepovedlo se odeslat hlášení do NCMEC. Zkus to později.
+content_and_safety.nsfw_age_restricted: NSFW obsah je věkově omezený.
+discovery.already_applied: Tato komunita o zápis do discovery už požádala.
+discovery.application_already_reviewed: Tato žádost o zápis do discovery už byla přezkoumána.
+discovery.application_not_found: Žádost o zápis do discovery nebyla nalezena.
+discovery.description_required: Pro zápis do discovery je potřeba popis.
+discovery.insufficient_members: Tato komunita nesplňuje minimální počet členů pro zápis do discovery.
+discovery.invalid_category: Neplatná kategorie discovery.
+discovery.not_discoverable: Tato komunita není zapsaná v discovery.
+donation.amount_invalid: Částka na darování je neplatná.
+donation.donor_not_found: Dárce nebyl nalezen.
+donation.magic_link_expired: Magický odkaz vypršel.
+donation.magic_link_invalid: Magický odkaz je neplatný.
+donation.magic_link_used: Magický odkaz byl již použit.
+email.email_already_in_use: E-mail se už používá.
+email.email_required: E-mail je povinný.
+email.email_service_not_testable: Emailová služba je dočasně nedostupná. Zkus to později.
+email.invalid_format: Neplatný formát e-mailové adresy.
+email.invalid_or_expired_reset_token: Neplatný nebo expirovaný token pro obnovení hesla.
+email.invalid_or_expired_revert_token: Neplatný nebo expirovaný token pro vrácení.
+email.invalid_or_expired_verification_token: Neplatný nebo expirovaný ověřovací token.
+email.invalid_or_password: Neplatný email nebo heslo.
+email.invalid_token: Neplatný e-mailový token.
+email.invalid_verification_code: Neplatný ověřovací kód.
+email.length_invalid: E-mailová adresa musí mít mezi {min} a {max} znaky.
+email.must_be_changed_via_token: E-mail je potřeba změnit přes token.
+email.must_change_via_token: E-mail je potřeba změnit přes `email_token`.
+email.must_have_email_to_change_it: Abys mohl e-mail změnit, musíš mít e-mail nastavený.
+email.new_email_must_be_different: Nový e-mail se musí lišit od současného e-mailu.
+email.no_new_email_requested: Nebyl vyžádaný žádný nový e-mail.
+email.no_original_email_on_record: Nemáme uložený původní e-mail.
+email.original_email_already_verified: Původní e-mail už je ověřený.
+email.original_email_must_be_verified_first: Nejdřív je potřeba ověřit původní e-mail.
+email.original_verification_not_required: U tohohle postupu se původní ověření nevyžaduje.
+email.token_expired: E-mailový token vypršel.
+email.user_has_no_email_address: Tenhle uživatel nemá nastavený e-mail.
+email.user_is_not_pending_verification: Tenhle uživatel nečeká na ověření.
+email.verification_code_expired: Ověřovací kód vypršel.
+email.verification_code_not_issued: Žádný ověřovací kód nebyl vydán.
+embeds.embed_index_out_of_bounds: Index embedu {embedIndex} je mimo rozsah (zpráva má {embedCount} {embedCount, plural, one {embed} few {embedy} other {embedů}}).
+embeds.embed_splash_requires_feature: Embed splash vyžaduje funkci INVITE_SPLASH.
+embeds.embeds_exceed_max_characters: Embeds nesmí dohromady překročit {maxCharacters} {maxCharacters, plural, one {znak} few {znaky} other {znaků}}.
+embeds.too_many_embeds: Příliš mnoho embedů. Povolené maximum je {maxEmbeds} {maxEmbeds, plural, one {embed} few {embedy} other {embedů}}.
+feature_flags.feature_not_available_self_hosted: Tahle funkce není dostupná na samoobslužně hostovaných instancích.
+feature_flags.feature_temporarily_disabled: Tato funkce je dočasně vypnutá.
+friends_and_dms.already_friends: S tímhle uživatelem už jste přátelé.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Pro vytvoření soukromých kanálů je potřeba aspoň jeden příjemce.
+friends_and_dms.at_least_one_recipient_required: Je potřeba aspoň jeden příjemce.
+friends_and_dms.bots_cannot_send_friend_requests: Boti nemůžou posílat žádosti o přátelství.
+friends_and_dms.cannot_add_yourself_to_group_dm: Nemůžeš přidat sám sebe do skupinového DM.
+friends_and_dms.cannot_dm_yourself: Nemůžeš si poslat DM.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Nemůžeš poslat žádost o přátelství uživateli, kterého máš zablokovaného.
+friends_and_dms.cannot_send_friend_request_to_self: Nemůžeš poslat žádost o přátelství sám sobě.
+friends_and_dms.cannot_send_messages_to_user: Tomuhle uživateli nemůžeš posílat zprávy.
+friends_and_dms.duplicate_recipients_not_allowed: Duplicitní příjemci nejsou povolení.
+friends_and_dms.friend_request_blocked: Uživatel v tuto chvíli nepřijímá žádosti o přátelství.
+friends_and_dms.not_friends: S tímhle uživatelem nejste přátelé.
+friends_and_dms.recipient_ids_cannot_be_empty: ID příjemců nesmí být prázdné.
+friends_and_dms.recipient_ids_must_be_strings: ID příjemců musí být řetězce.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: ID příjemců musí být platné snowflakes.
+harvest.expired: Tvůj export dat vypršel. Zapiš si nový export.
+harvest.failed: Export dat se nepodařil. Zkus to znovu.
+harvest.not_ready: Tvůj export dat se stále připravuje. Vrať se za chvíli.
+harvest.on_cooldown: Export dat si můžeš vyžádat jen jednou za 7 dní.
+harvest.unknown: Neznámý harvest.
+http.bad_gateway: Špatná brána.
+http.bad_request: Špatný požadavek.
+http.conflict: Konflikt.
+http.forbidden: Zakázáno.
+http.gateway_timeout: Timeout brány.
+http.gone: Odstraněno.
+http.internal_server_error: Chyba interního serveru.
+http.method_not_allowed: Metoda není povolená.
+http.not_found: Nenalezeno.
+http.not_implemented: Není implementováno.
+http.service_unavailable: Služba není dostupná.
+http.validation_error: Selhala validace.
+invites_and_beta.invalid_or_already_used_beta_code: Neplatný nebo již použitý beta kód.
+invites_and_beta.max_beta_codes_reached: Dosáhli jste maximálního počtu {count} beta kódů {count, plural, one {code} other {codes}}.
+invites_and_beta.unknown_beta_code: Neznámý beta kód.
+invites_and_gifts.gift_code_already_redeemed: Dárkový kód už je uplatněný.
+invites_and_gifts.stripe_gift_redemption_in_progress: Uplatnění dárkového kódu právě probíhá. Zkus to za chvilku.
+invites_and_gifts.unknown_gift_code: Neznámý dárkový kód.
+invites_and_packs.emoji_requires_access: Tohle emoji nejde použít bez přístupu k jeho serveru nebo nainstalovanému balíčku.
+invites_and_packs.invalid_pack_type: Neplatný typ balíčku.
+invites_and_packs.max_animated_emojis_reached: Dosáhli jste maximálního počtu {count} animovaných emojis {count, plural, one {emoji} other {emojis}}.
+invites_and_packs.max_emojis_reached: Dosáhli jste maximálního počtu {count} emojis {count, plural, one {emoji} other {emojis}}.
+invites_and_packs.max_pack_expressions_reached: Dosáhli jste maximálního počtu {count} výrazů v balíčku {count, plural, one {expression} other {expressions}}.
+invites_and_packs.max_packs_reached: Dosáhli jste maximálního počtu {count} balíčků {count, plural, one {pack} other {packs}}.
+invites_and_packs.pack_access_denied: Přístup k balíčku byl zamítnutý.
+limits.at_least_one_entry_required: Je potřeba aspoň jedna položka.
+limits.base64_length_invalid: Délka řetězce Base64 musí být mezi {min} a {maxLength} znaky.
+limits.bucket_required: '`bucket` je povinné.'
+limits.cannot_shrink_reserved_slots: Rezervované sloty nejde zmenšit.
+limits.cannot_specify_before_and_after: Nemůžeš zadat zároveň `before` i `after`.
+limits.content_exceeds_max_length: Text nesmí překročit {maxLength} {maxLength, plural, one {znak} few {znaky} other {znaků}}.
+limits.integer_out_of_int64_range: Celočíselná hodnota je mimo platný rozsah int64.
+limits.rows_required: '`rows` je povinné.'
+limits.string_length_exact: Řetězec musí mít přesně {length} znaků.
+limits.string_length_invalid: Délka řetězce musí být mezi {min} a {max} znaky.
+limits.timeout_cannot_exceed_365_days: Časový limit nemůže být delší než {maxDays} {maxDays, plural, one {den} few {dny} other {dní}} od teď.
+limits.value_must_be_integer_in_range: Hodnota pro `{name}` musí být celé číslo mezi {minValue} a {maxValue}.
+limits.value_too_small: Hodnota je příliš malá.
+media_and_memes.favorite_meme_name_required: Je potřeba název oblíbeného memu.
+media_and_memes.favorite_meme_not_found: Oblíbený mem nebyl nalezen.
+media_and_memes.max_favorite_memes_reached: Dosáhli jste maximálního počtu {count} oblíbených memů {count, plural, one {meme} other {memes}}.
+media_and_memes.media_already_in_favorites: Tohle už máš v oblíbených memech.
+media_and_memes.media_metadata_error: Chyba metadat média.
+media_and_memes.unknown_favorite_meme: Neznámý oblíbený mem.
+messages.cannot_delete_more_than_100: Nemůžeš najednou smazat víc než {max} {max, plural, one {zprávu} few {zprávy} other {zpráv}}.
+messages.cannot_edit_others_message: Nemůžeš upravovat cizí zprávu.
+messages.cannot_preload_more_than_100_channels: Nemůžeš najednou přednahrát víc než {max} {max, plural, one {kanál} few {kanály} other {kanálů}}.
+messages.cannot_reply_to_system_message: Na systémovou zprávu nejde odpovědět.
+messages.cannot_send_empty_message: Nemůžeš odeslat prázdnou zprávu.
+messages.forward_messages_cannot_include_extra_content: Přeposlané zprávy nesmí obsahovat obsah navíc, embedy, přílohy ani samolepky.
+messages.scheduled_messages_max_30_days: Naplánované zprávy mohou být v budoucnosti maximálně 30 dní.
+messages.forward_reference_requires_channel_and_message: Reference pro přeposlání musí obsahovat `channel_id` a `message_id`.
+messages.invalid_message_data: Neplatná data zprávy.
+messages.invalid_scheduled_message_payload: Neplatný payload naplánované zprávy.
+messages.message_ids_cannot_be_empty: '`message_ids` nesmí být prázdné.'
+messages.messages_array_required: Pole `messages` je povinné a nesmí být prázdné.
+messages.messages_with_snapshots_cannot_be_edited: Zprávy se snapshoty nejdou upravovat.
+messages.scheduled_send_datetime_invalid: Neplatné datum nebo čas pro naplánované odeslání.
+messages.scheduled_time_must_be_future: Naplánovaný čas musí být v budoucnosti.
+messages.voice_messages_attachment_must_be_audio: Přílohy hlasových zpráv musí být zvukové soubory.
+messages.voice_messages_cannot_have_content: Hlasové zprávy nemohou obsahovat textový obsah.
+messages.voice_messages_cannot_have_embeds: Hlasové zprávy nemohou obsahovat embedy.
+messages.voice_messages_cannot_have_favorite_memes: Hlasové zprávy nemohou obsahovat oblíbené memy.
+messages.voice_messages_cannot_have_stickers: Hlasové zprávy nemohou obsahovat samolepky.
+mfa_and_passkeys.invalid_mfa_code: Neplatný MFA kód.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Neplatný čítač ověřování WebAuthn.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Neplatný čítač přihlašovacích údajů WebAuthn.
+mfa_and_passkeys.invalid_webauthn_credential: Nepovedlo se ověřit WebAuthn přihlašovací údaje.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Neplatný formát veřejného klíče WebAuthn.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Před vyžadováním 2FA pro moderátory si musíš nejdřív zapnout 2FA na svém účtu.
+mfa_and_passkeys.no_passkeys_registered: Nejsou zaregistrované žádné passkeys.
+mfa_and_passkeys.passkey_authentication_failed: Ověření přes passkey se nepovedlo.
+mfa_and_passkeys.passkeys_disabled: Passkeys jsou vypnuté.
+mfa_and_passkeys.two_factor_not_enabled: Dvoufázové ověření není zapnuté.
+mfa_and_passkeys.two_factor_required: Je vyžadované dvoufázové ověření.
+mfa_and_passkeys.unknown_webauthn_credential: Neznámé WebAuthn přihlašovací údaje.
+mfa_and_passkeys.webauthn_credential_limit_reached: Dosáhli jste maximálního počtu {count} WebAuthn přihlašovacích údajů {count, plural, one {credential} other {credentials}}.
+misc_limits.max_bookmarks_reached: Dosáhli jste maximálního počtu {count} záložek {count, plural, one {bookmark} other {bookmarks}}.
+misc_limits.max_category_channels_reached: Dosáhli jste maximálního počtu {count} kanálů v kategorii {count, plural, one {channel} other {channels}}.
+misc_limits.max_friends_reached: Dosáhli jste maximálního počtu {count} přátel {count, plural, one {friend} other {friends}}.
+misc_limits.max_invites_reached: Dosáhli jste maximálního počtu {count} pozvánek {count, plural, one {invite} other {invites}}.
+misc_limits.max_pins_per_channel_reached: Dosáhli jste maximálního počtu {count} připnutí na kanál {count, plural, one {pin} other {pins}}.
+misc.cannot_send_messages_in_non_text_channel: Nemůžeš posílat zprávy v netextovém kanálu.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Pro posílání zpráv na tomhle serveru musíš ověřit e-mail.
+misc.invalid_job_id: Neplatné ID úlohy.
+misc.invalid_permissions_integer: Oprávnění musí být platné celé číslo.
+misc.invalid_permissions_negative: Oprávnění nesmí být záporné.
+misc.invalid_request_generic: Neplatný požadavek.
+misc.invalid_snowflake: Neplatný snowflake.
+misc.job_already_processed: Úloha už je zpracovaná.
+misc.job_id_required: ID úlohy je povinné.
+misc.job_not_found: Úloha nebyla nalezena.
+misc.max_files_exceeded: Příliš mnoho souborů. Povolené maximum je {maxFiles} {maxFiles, plural, one {soubor} few {soubory} other {souborů}}.
+misc.must_have_bot_to_mark_system_user: Uživatel musí být bot, aby mohl být označený jako systémový uživatel.
+moderation_and_reports.cannot_report_own_message: Nemůžeš nahlásit vlastní zprávu.
+moderation_and_reports.cannot_report_yourself: Nemůžeš nahlásit sám sebe.
+moderation_and_reports.invalid_dsa_report_target: Neplatný cíl DSA nahlášení.
+moderation_and_reports.invalid_dsa_ticket: Neplatný DSA ticket.
+moderation_and_reports.invalid_dsa_verification_code: Neplatný DSA ověřovací kód.
+moderation_and_reports.report_already_resolved: Nahlášení už je vyřešené.
+moderation_and_reports.report_banned: Nahlášení je zablokované.
+moderation_and_reports.unknown_report: Neznámé nahlášení.
+moderation_and_reports.user_is_not_banned: Tenhle uživatel nemá ban.
+names_and_normalization.channel_name_empty_after_normalization: Název kanálu po normalizaci nesmí být prázdný.
+names_and_normalization.name_empty_after_normalization: Název po normalizaci nesmí být prázdný.
+permissions.missing_access: Chybí přístup.
+permissions.missing_permissions: Chybí oprávnění.
+permissions.not_owner_of_admin_api_key: Nemáš oprávnění upravovat tenhle admin API klíč.
+permissions.user_banned_from_guild: Tenhle uživatel má na tomhle serveru ban.
+permissions.user_ip_banned_from_guild: IP tohohle uživatele má na tomhle serveru ban.
+permissions.user_not_in_channel: Tenhle uživatel není v tomhle kanálu.
+permissions.user_not_in_voice: Tenhle uživatel není v hlasovém kanálu.
+permissions.user_owns_guilds: Tenhle uživatel vlastní servery.
+phone.invalid_number: Neplatné telefonní číslo.
+phone.number_already_used: Tohle telefonní číslo už se používá.
+phone.number_format_required: Telefonní číslo musí být ve formátu E.164 (například +1234567890).
+phone.phone_required_for_sms_mfa: Pro SMS MFA je potřeba telefonní číslo.
+phone.sms_mfa_not_enabled: SMS MFA není zapnuté.
+phone.sms_mfa_requires_totp: SMS MFA vyžaduje TOTP.
+phone.sms_verification_unavailable: Ověření přes SMS je dočasně nedostupné. Zkus to později.
+phone.verification_code_invalid: Neplatný ověřovací kód.
+phone.verification_required: Je vyžadované ověření telefonu.
+premium_and_plans.animated_avatars_require_premium: Animované avatary vyžadují Premium.
+premium_and_plans.banners_require_premium: Bannery vyžadují Premium.
+premium_and_plans.bio_requires_premium_for_length: Bio delší než {maxLength} znaků vyžaduje Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: S Visionary nejde uplatnit Plutonium.
+premium_and_plans.custom_emojis_outside_source_require_premium: Bez Premium nejde používat vlastní emoji mimo jejich původní servery.
+premium_and_plans.custom_stickers_in_dms_require_premium: Bez Premium nejde používat vlastní samolepky v DM.
+premium_and_plans.custom_stickers_outside_source_require_premium: Bez Premium nejde používat vlastní samolepky mimo jejich původní servery.
+premium_and_plans.discriminator_change_requires_premium: Změna discriminatoru vyžaduje Premium.
+premium_and_plans.no_active_subscription: Žádné aktivní předplatné.
+premium_and_plans.no_visionary_slots_available: Nejsou dostupné žádné Visionary sloty.
+premium_and_plans.premium_required_for_custom_emoji: Pro použití vlastního emoji je potřeba Premium.
+premium_and_plans.visionary_required_for_bot_discriminator: Pro úpravu discriminatorů botů musíš mít doživotní plán Visionary.
+premium_and_plans.visionary_required_for_discriminator: Na tenhle discriminator musíš mít doživotní plán Visionary.
+rate_limits.accent_color_changed_too_often: Barvu zvýraznění měníš v poslední době moc často. Zkus to znovu za {minutes} {minutes, plural, one {minutu} few {minuty} other {minut}}.
+rate_limits.avatar_changed_too_often: Avatar měníš v poslední době moc často. Zkus to znovu za {minutes} {minutes, plural, one {minutu} few {minuty} other {minut}}.
+rate_limits.banner_changed_too_often: Banner měníš v poslední době moc často. Zkus to znovu za {minutes} {minutes, plural, one {minutu} few {minuty} other {minut}}.
+rate_limits.bio_changed_too_often: Bio měníš v poslední době moc často. Zkus to znovu za {minutes} {minutes, plural, one {minutu} few {minuty} other {minut}}.
+rate_limits.ip_authorization_resend_cooldown: Opětovné odeslání ověření IP je dočasně zablokované.
+rate_limits.ip_authorization_resend_limit_exceeded: Překročený limit pro opětovné odeslání ověření IP.
+rate_limits.phone_rate_limit_exceeded: Překročený limit pro telefon.
+rate_limits.pronouns_changed_too_often: Zájmena měníš v poslední době moc často. Zkus to znovu za {minutes} {minutes, plural, one {minutu} few {minuty} other {minut}}.
+rate_limits.rate_limited: Dočasně máš omezený počet požadavků.
+rate_limits.slowmode_rate_limited: Kvuli slow mode tady platí limit.
+rate_limits.username_changed_too_often: Uživatelské jméno měníš v poslední době moc často. Zkus to znovu za {minutes} {minutes, plural, one {minutu} few {minuty} other {minut}}.
+roles.cannot_reorder_everyone_role: Roli @everyone nejde přeuspořádat.
+roles.cannot_set_everyone_hoist: U role @everyone nejde nastavit hoist pozici.
+roles.cannot_use_same_role_as_preceding: Nemůžeš použít stejnou roli jako předchozí.
+roles.invalid_role_id: 'Neplatné ID role: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Nemůžeš používat `parse` spolu s `allowed_mentions.users` nebo `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Předchozí role na serveru není.
+stickers_and_emojis.custom_emoji_not_found: Vlastní emoji nebylo nalezené.
+stickers_and_emojis.custom_sticker_not_found: Vlastní samolepka nebyla nalezená.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Tohle emoji nejde použít bez přístupu k jeho serveru nebo nainstalovanému balíčku.
+stickers_and_emojis.max_reactions_reached: Dosáhli jste maximálního počtu {count} reakcí {count, plural, one {reaction} other {reactions}}.
+stickers_and_emojis.max_stickers_reached: Dosáhli jste maximálního počtu {count} samolepek {count, plural, one {sticker} other {stickers}}.
+stickers_and_emojis.not_valid_unicode_emoji: Tohle není platné Unicode emoji.
+stickers_and_emojis.unknown_emoji: Neznámé emoji.
+stickers_and_emojis.unknown_sticker: Neznámá samolepka.
+stripe.error: Při zpracování platby došlo k chybě. Zkus to znovu nebo se obrať na podporu.
+stripe.invalid_product_configuration: Neplatná konfigurace produktu.
+stripe.invalid_product_selection: Neplatný výběr produktu.
+stripe.no_active_subscription_found: Nebylo nalezené žádné aktivní předplatné.
+stripe.no_purchase_history_customer_portal_unavailable: Nebyla nalezená historie nákupů. Zákaznický portál není dostupný.
+stripe.no_subscription_found: Předplatné nebylo nalezené.
+stripe.payment_not_available: Zpracování plateb není dostupné. Zkus to později.
+stripe.subscription_already_canceling: Předplatné je už nastavené na zrušení na konci období.
+stripe.subscription_not_canceling: Předplatné není nastavené na zrušení.
+stripe.subscription_period_end_missing: Chybí subscription current_period_end.
+stripe.webhook_not_available: Zpracování webhooků není dostupné.
+stripe.webhook_signature_invalid: Podpis Stripe webhooku je neplatný.
+stripe.webhook_signature_missing: Chybí podpis Stripe webhooku.
+tickets.ticket_already_completed: Tenhle ticket už je dokončený.
+tos_and_age.date_of_birth_format_invalid: Neplatný formát data narození.
+tos_and_age.must_agree_to_tos_and_privacy: Musíš souhlasit s podmínkami služby a zásadami ochrany soukromí.
+tos_and_age.must_be_minimum_age: Pro vytvoření účtu ti musí být aspoň {minAge} {minAge, plural, one {rok} few {roky} other {let}}.
+unknown_entities.unknown_application: Neznámá aplikace.
+unknown_entities.unknown_channel: Neznámý kanál.
+unknown_entities.unknown_guild: Neznámý server.
+unknown_entities.unknown_invite: Neznámá pozvánka.
+unknown_entities.unknown_member: Neznámý člen.
+unknown_entities.unknown_message: Neznámá zpráva.
+unknown_entities.unknown_pack: Neznámý balíček.
+unknown_entities.unknown_role: Neznámá role.
+unknown_entities.unknown_user_flag: Neznámý user flag.
+unknown_entities.unknown_user: Neznámý uživatel.
+urls.invalid_url_format: Neplatný formát URL.
+urls.invalid_url_or_attachment_reference: Neplatný formát URL nebo reference na přílohu.
+urls.url_length_invalid: URL musí mít mezi {min} a {max} znaky.
+usernames_and_tags.discriminator_invalid_format: Discriminator musí být {min}–{max} číslic.
+usernames_and_tags.discriminator_out_of_range: Discriminator musí být mezi {min} a {max}.
+usernames_and_tags.discriminator_required: Discriminator je povinný.
+usernames_and_tags.display_name_length_invalid: Zobrazované jméno musí mít mezi {min} a {max} znaky.
+usernames_and_tags.display_name_reserved_terms: Zobrazované jméno nesmí obsahovat "system message".
+usernames_and_tags.display_name_reserved_value: Zobrazované jméno nesmí být "everyone" ani "here".
+usernames_and_tags.global_name_length_invalid: Globální jméno musí mít mezi {min} a {max} znaky.
+usernames_and_tags.global_name_reserved_value: Globální jméno nesmí být "everyone" nebo "here".
+usernames_and_tags.tag_already_taken: Tenhle tag už je zabraný.
+usernames_and_tags.too_many_users_with_this_username: Tenhle uživatelský jméno má příliš mnoho lidí.
+usernames_and_tags.too_many_users_with_username_try_different: Tenhle uživatelský jméno má příliš mnoho lidí. Zkus jiné.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Nevyzvednuté účty mohou nastavit e-mail jen přes token.
+usernames_and_tags.username_invalid_characters: Uživatelské jméno může obsahovat jen latinku (a-z, A-Z), číslice (0-9) a podtržítka (_).
+usernames_and_tags.username_length_invalid: Uživatelské jméno musí mít mezi {min} a {max} znaky.
+usernames_and_tags.username_not_available: Tenhle uživatelský jméno není dostupné.
+usernames_and_tags.username_reserved_terms: Uživatelské jméno nesmí obsahovat "fluxer" ani "system message".
+usernames_and_tags.username_reserved_value: Uživatelské jméno nesmí být "everyone" ani "here".
+vanity_urls.vanity_url_already_taken: Tahle vanity URL už je zabraná.
+vanity_urls.vanity_url_code_already_taken: Tenhle kód vanity URL už je zabraný.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Kód vanity URL nesmí obsahovat "fluxer".
+vanity_urls.vanity_url_code_length_invalid: Kód vanity URL musí mít mezi {min} a {max} znaky.
+vanity_urls.vanity_url_invalid_characters: Vanity URL může obsahovat jen malá písmena (a-z), číslice (0-9) a spojovníky (-).
+webhooks.cannot_modify_system_webhook: Systémový webhook nelze upravovat.
+webhooks.max_webhooks_per_channel_reached: Dosáhli jste maximálního počtu {count} webhooků na kanál {count, plural, one {webhook} other {webhooks}}.
+webhooks.max_webhooks_per_guild_reached: Dosáhli jste maximálního počtu {count} webhooků na server {count, plural, one {webhook} other {webhooks}}.
+webhooks.max_webhooks_reached: Dosáhli jste maximálního počtu {count} webhooků {count, plural, one {webhook} other {webhooks}}.
+webhooks.unknown_webhook: Neznámý webhook.
+webhooks.webhook_name_length_invalid: Název webhooku musí mít mezi {min} a {max} znaky.

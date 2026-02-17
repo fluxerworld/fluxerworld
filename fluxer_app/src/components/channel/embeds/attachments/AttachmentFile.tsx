@@ -17,6 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import {TextualAttachmentPreview} from '@app/components/channel/embeds/attachments/TextualAttachmentPreview';
+import {splitFilename} from '@app/components/channel/embeds/EmbedUtils';
+import {canDeleteAttachmentUtil} from '@app/components/channel/MessageActionUtils';
+import {useMaybeMessageViewContext} from '@app/components/channel/MessageViewContext';
+import {MediaContextMenu} from '@app/components/uikit/context_menu/MediaContextMenu';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useDeleteAttachment} from '@app/hooks/useDeleteAttachment';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import attachmentFileStyles from '@app/styles/AttachmentFile.module.css';
+import messageStyles from '@app/styles/Message.module.css';
+import {shouldPreviewAttachment} from '@app/utils/AttachmentPreviewUtils';
+import {downloadFile} from '@app/utils/FileDownloadUtils';
+import {formatFileSize} from '@app/utils/FileUtils';
+import type {MessageAttachment} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {useLingui} from '@lingui/react/macro';
 import {
 	DownloadSimpleIcon,
@@ -35,19 +51,6 @@ import {
 } from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import {splitFilename} from '~/components/channel/embeds/EmbedUtils';
-import {useMaybeMessageViewContext} from '~/components/channel/MessageViewContext';
-import {canDeleteAttachmentUtil} from '~/components/channel/messageActionUtils';
-import {MediaContextMenu} from '~/components/uikit/ContextMenu/MediaContextMenu';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useDeleteAttachment} from '~/hooks/useDeleteAttachment';
-import type {MessageAttachment, MessageRecord} from '~/records/MessageRecord';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import attachmentFileStyles from '~/styles/AttachmentFile.module.css';
-import messageStyles from '~/styles/Message.module.css';
-import {downloadFile} from '~/utils/FileDownloadUtils';
-import {formatFileSize} from '~/utils/FileUtils';
 
 interface AttachmentFileProps {
 	attachment: MessageAttachment;
@@ -64,6 +67,7 @@ export const AttachmentFile = observer(({attachment, message, isPreview}: Attach
 	const fileExtension = fileName.split('.').pop()?.toLowerCase() || '';
 
 	const {name: fileNameWithoutExt, extension: fileExt} = splitFilename(fileName);
+	const showTextPreview = !isPreview && shouldPreviewAttachment(attachment);
 
 	const getFileTypeIcon = () => {
 		const imageTypes = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp', 'ico'];
@@ -111,18 +115,29 @@ export const AttachmentFile = observer(({attachment, message, isPreview}: Attach
 		return <FileIcon size={32} />;
 	};
 
-	const containerStyles: React.CSSProperties = isMobile
-		? {
-				display: 'grid',
-				width: '100%',
-				maxWidth: '100%',
-				minWidth: 0,
-			}
-		: {
-				display: 'grid',
-				width: '400px',
-				maxWidth: '400px',
-			};
+	let containerStyles: React.CSSProperties;
+	if (isMobile) {
+		containerStyles = {
+			display: 'grid',
+			width: '100%',
+			maxWidth: '100%',
+			minWidth: 0,
+		};
+	} else if (showTextPreview) {
+		containerStyles = {
+			display: 'grid',
+			width: '100%',
+			maxWidth: '50vw',
+			minWidth: 0,
+		};
+	} else {
+		containerStyles = {
+			display: 'grid',
+			width: '100%',
+			maxWidth: '400px',
+			minWidth: 'min(400px, 100%)',
+		};
+	}
 
 	const handleDownload = async (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -169,33 +184,37 @@ export const AttachmentFile = observer(({attachment, message, isPreview}: Attach
 					<TrashIcon size={16} weight="bold" />
 				</button>
 			)}
-			<div className={attachmentFileStyles.attachmentContainer}>
-				<div className={attachmentFileStyles.iconContainer}>{getFileTypeIcon()}</div>
-				<div className={attachmentFileStyles.fileInfoContainer}>
-					<p className={attachmentFileStyles.fileName}>
-						<span className={attachmentFileStyles.fileNameTruncate}>{fileNameWithoutExt}</span>
-						<span className={attachmentFileStyles.fileExtension}>{fileExt}</span>
-					</p>
-					<p className={attachmentFileStyles.fileSize}>{fileSize}</p>
+			{showTextPreview ? (
+				<TextualAttachmentPreview attachment={attachment} />
+			) : (
+				<div className={attachmentFileStyles.attachmentContainer}>
+					<div className={attachmentFileStyles.iconContainer}>{getFileTypeIcon()}</div>
+					<div className={attachmentFileStyles.fileInfoContainer}>
+						<p className={attachmentFileStyles.fileName}>
+							<span className={attachmentFileStyles.fileNameTruncate}>{fileNameWithoutExt}</span>
+							<span className={attachmentFileStyles.fileExtension}>{fileExt}</span>
+						</p>
+						<p className={attachmentFileStyles.fileSize}>{fileSize}</p>
+					</div>
+					{isExpired ? (
+						<Tooltip text={t`Attachment expired`}>
+							<div className={clsx(attachmentFileStyles.downloadButton, attachmentFileStyles.downloadButtonDisabled)}>
+								<WarningCircleIcon size={20} weight="bold" />
+							</div>
+						</Tooltip>
+					) : (
+						<button
+							type="button"
+							onClick={handleDownload}
+							className={attachmentFileStyles.downloadButton}
+							aria-label={t`Download`}
+							disabled={!attachment.url}
+						>
+							<DownloadSimpleIcon size={20} weight="bold" />
+						</button>
+					)}
 				</div>
-				{isExpired ? (
-					<Tooltip text={t`Attachment expired`}>
-						<div className={clsx(attachmentFileStyles.downloadButton, attachmentFileStyles.downloadButtonDisabled)}>
-							<WarningCircleIcon size={20} weight="bold" />
-						</div>
-					</Tooltip>
-				) : (
-					<button
-						type="button"
-						onClick={handleDownload}
-						className={attachmentFileStyles.downloadButton}
-						aria-label={t`Download`}
-						disabled={!attachment.url}
-					>
-						<DownloadSimpleIcon size={20} weight="bold" />
-					</button>
-				)}
-			</div>
+			)}
 		</div>
 	);
 });

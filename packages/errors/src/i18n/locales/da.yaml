@@ -1,0 +1,497 @@
+account.already_verified: Din konto er allerede verificeret.
+account.communication_disabled: Kommunikation er deaktiveret.
+account.disabled: Denne konto er deaktiveret.
+account.email_verification_required_for_guild: Du skal verificere din email for at sende beskeder på denne server.
+account.guild_verification_required: Serververificering er påkrævet.
+account.ip_authorization_required: IP-godkendelse er påkrævet.
+account.locked_suspicious_activity: Din konto er låst på grund af mistænkelig aktivitet.
+account.phone_required_for_guild: Du skal tilføje et telefonnummer for at sende beskeder på denne server.
+account.scheduled_for_deletion: Denne konto er planlagt til at blive slettet.
+account.session_timeout: Sessionen udløb. Opdater siden og log ind igen.
+account.session_token_mismatch: Session-token matcher ikke.
+account.suspended_permanently: Denne konto er permanent suspenderet.
+account.suspended_temporarily: Denne konto er midlertidigt suspenderet.
+account.too_new_for_guild: Din konto er for ny til at sende beskeder på denne server.
+account.unauthorized: Ikke autoriseret.
+admin_and_system.acls_must_be_non_empty: ACL'er må ikke være tomme.
+admin_and_system.admin_api_key_not_found: Admin API-nøglen blev ikke fundet.
+admin_and_system.audit_log_indexing: Audit logs indekseres. Prøv igen om et øjeblik.
+admin_and_system.channel_indexing: Kanaler indekseres. Prøv igen om et øjeblik.
+admin_and_system.creation_failed: Vi kunne ikke oprette ressourcen. Prøv igen.
+admin_and_system.deletion_failed: Vi kunne ikke slette ressourcen. Prøv igen.
+admin_and_system.decryption_failed: Vi kunne ikke dekryptere beskeden. Krypteringsnøglerne kan være ugyldige eller ødelagte.
+admin_and_system.empty_encrypted_body: Tom krypteret brødtekst.
+admin_and_system.encryption_failed: Vi kunne ikke kryptere beskeden. Krypteringsnøglerne kan være ugyldige eller ødelagte.
+admin_and_system.general_error: Noget gik galt. Prøv igen senere.
+admin_and_system.invalid_acls_format: Ugyldigt ACL-format.
+admin_and_system.invalid_api_origin: Ugyldig API-oprindelse.
+admin_and_system.invalid_audit_log_reason: Ugyldig begrundelse for audit log.
+admin_and_system.invalid_bot_flag: Ugyldigt bot-flag.
+admin_and_system.invalid_decrypted_json: Ugyldig dekrypteret JSON.
+admin_and_system.invalid_ephemeral_key: Ugyldig ephemeral-nøgle.
+admin_and_system.invalid_flags_format: Ugyldigt format på flag.
+admin_and_system.invalid_form_body: Ugyldigt formularindhold.
+admin_and_system.invalid_format: Den angivne værdi har et ugyldigt format.
+admin_and_system.invalid_integer_format: Ugyldigt heltalsformat.
+admin_and_system.invalid_iv: Ugyldig initialiseringsvektor.
+admin_and_system.invalid_suspicious_flags_format: Ugyldigt format på mistænkelige flag.
+admin_and_system.invalid_system_flag: Ugyldigt system-flag.
+admin_and_system.invalid_timeout_value: Ugyldig timeout-værdi.
+admin_and_system.invalid_timestamp: Ugyldigt timestamp.
+admin_and_system.invalid_timezone_identifier: Ugyldigt tidszone-id.
+admin_and_system.missing_acl: Manglende ACL.
+admin_and_system.missing_ephemeral_key: Mangler ephemeral-nøgle.
+admin_and_system.missing_iv: Mangler initialiseringsvektor.
+admin_and_system.must_be_iso_timestamp: Skal være et gyldigt ISO-timestamp.
+admin_and_system.processing_failed: Vi kunne ikke behandle anmodningen. Prøv igen.
+admin_and_system.response_validation_failed: 'Validering af svar mislykkedes: {errors}.'
+admin_and_system.test_harness_disabled: Test harness er slået fra.
+admin_and_system.test_harness_forbidden: Test harness er ikke tilladt.
+admin_and_system.unknown_suspicious_flag: Ukendt mistænkeligt flag.
+admin_and_system.update_failed: Opdatering mislykkedes.
+admin_and_system.user_must_be_bot_for_system_user: Brugeren skal være en bot for at blive markeret som systembruger.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` og `expires_at` er påkrævet.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` og `message_id` skal være gyldige heltal.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Brugere med MANAGE_MESSAGES kan kun redigere vedhæftningsbeskrivelser, ikke andre metadata.
+attachments_and_uploads.attachment_metadata_without_files: Vedhæftningsmetadata indeholder et filnavn, men der blev ikke uploadet nogen filer.
+attachments_and_uploads.attachment_must_be_image: Vedhæftningen "{filename}" skal være en billedfil (png, jpg, jpeg, webp eller gif).
+attachments_and_uploads.attachment_not_found_in_message: Vedhæftning med ID {attachmentId} blev ikke fundet i beskeden.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Vedhæftningsmetadata-array er påkrævet ved upload af filer.
+attachments_and_uploads.attachments_not_allowed_for_message: Vedhæftninger er ikke tilladt for denne besked.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Du kan ikke referere til vedhæftninger, når der ikke er angivet nogen.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Dublerede attachment-id'er er ikke tilladt.
+attachments_and_uploads.duplicate_file_index: 'Dubleret filindeks: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Vi kunne ikke læse multipart form data. Tjek at alle feltnavne og filnavne er korrekt formateret.
+attachments_and_uploads.failed_to_parse_multipart_payload: Vi kunne ikke læse multipart payloaden.
+attachments_and_uploads.failed_to_upload_image: Vi kunne ikke uploade billedet. Prøv igen.
+attachments_and_uploads.file_index_exceeds_maximum: Filindeks {index} overstiger den maksimalt tilladte indeksværdi på {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Filen blev ikke fundet til scanning.
+attachments_and_uploads.file_not_found: Filen blev ikke fundet.
+attachments_and_uploads.file_size_too_large: Filen er for stor. Maksimal filstørrelse er {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Filnavnet kan ikke være tomt efter normalisering.
+attachments_and_uploads.filename_invalid_characters: Filnavnet indeholder ugyldige tegn.
+attachments_and_uploads.filename_length_invalid: Filnavnet skal være mellem {min} og {max} tegn.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Filnavn matcher ikke for vedhæftning {attachmentId}: metadata angiver "{expectedFilename}", men det matcher ikke.'
+attachments_and_uploads.image_size_exceeds_limit: Billedstørrelsen overstiger {maxSize} bytes.
+attachments_and_uploads.invalid_file_field_name: 'Ugyldigt filfeltnavn: {key}. Forventet format: `files[N]` hvor N er et tal.'
+attachments_and_uploads.invalid_image_data: Ugyldige billeddata.
+attachments_and_uploads.invalid_image_format: 'Ugyldigt billedformat. Understøttede filendelser: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: Ugyldig JSON i `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Flere filer for indeks {index} er ikke tilladt.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Der blev ikke uploadet nogen fil til vedhæftningsmetadata med ID {attachmentId}.
+attachments_and_uploads.no_file_uploaded_for_attachment: Der blev ikke uploadet nogen fil til vedhæftning med ID {attachmentId}.
+attachments_and_uploads.no_metadata_for_file: Der blev ikke angivet metadata for fil med ID {fileId}.
+attachments_and_uploads.no_valid_media_in_message: Intet gyldigt medie blev fundet i beskeden.
+attachments_and_uploads.payload_json_required_for_multipart: '`payload_json`-feltet er påkrævet for multipart-beskeder.'
+attachments_and_uploads.preview_must_be_jpeg: Preview skal være JPEG.
+attachments_and_uploads.referenced_attachment_not_found: Den refererede vedhæftning "{filename}" blev ikke fundet i beskedens vedhæftninger.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` skal være et gyldigt heltal.'
+attachments_and_uploads.too_many_files: For mange filer. Maksimalt {maxFiles} {maxFiles, plural, one {fil} other {filer}} tilladt.
+attachments_and_uploads.unknown_image_format: Ukendt billedformat.
+attachments_and_uploads.unresolved_attachment_url: Der blev fundet en uløst `attachment://` URL. Den burde være blevet løst før embed-behandling.
+attachments_and_uploads.uploaded_attachment_not_found: Den uploadede vedhæftning {filename} blev ikke fundet.
+auth_and_oauth.application_not_owned: Du ejer ikke denne applikation.
+auth_and_oauth.bot_already_in_guild: Denne bot er allerede i guilden.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Bot-brugere kan ikke oprette auth-sessions.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Bot-brugere kan ikke bruge auth-endpoints.
+auth_and_oauth.handoff_code_expired: Handoff-koden er udløbet.
+auth_and_oauth.handoff_code_invalid: Ugyldig handoff-kode.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize understøttes ikke. Brug POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Ugyldigt client secret.
+auth_and_oauth.invalid_client: Ugyldig klient.
+auth_and_oauth.invalid_code: Ugyldig kode.
+auth_and_oauth.invalid_grant: Ugyldigt grant.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Ugyldig eller udløbet autorisation-ticket.
+auth_and_oauth.invalid_or_expired_authorization_token: Ugyldigt eller udløbet autorisationstoken.
+auth_and_oauth.invalid_or_expired_ticket: Ugyldig eller udløbet ticket.
+auth_and_oauth.invalid_proof_token: Ugyldigt bevistoken.
+auth_and_oauth.invalid_redirect_uri: Ugyldig redirect URI.
+auth_and_oauth.invalid_request: Ugyldig forespørgsel.
+auth_and_oauth.invalid_scope: Ugyldigt scope.
+auth_and_oauth.invalid_sudo_token: Ugyldigt sudo-token.
+auth_and_oauth.invalid_token_admin_api_key: Ugyldig admin API-nøgle.
+auth_and_oauth.missing_authorization: Mangler godkendelse.
+auth_and_oauth.missing_client_secret: Mangler client secret.
+auth_and_oauth.missing_redirect_uri: Mangler redirect URI.
+auth_and_oauth.must_start_session_before_sending_messages: Du skal starte en session, før du kan sende beskeder.
+auth_and_oauth.oauth_admin_scope_required: OAuth2-tokens kræver admin-scope for at få adgang til admin-endpoints.
+auth_and_oauth.oauth_fields_missing: Mangler OAuth-felter.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Redirect URI er påkrævet for ikke-bot scopes.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Response type skal være code for ikke-bot scopes.
+auth_and_oauth.sudo_mode_required: Sudo mode er påkrævet.
+auth_and_oauth.unknown_application: Ukendt applikation.
+auth_and_oauth.unsupported_response_type: Ikke understøttet response type.
+auth_and_registration.current_password_incorrect: Nuværende adgangskode er forkert.
+auth_and_registration.password_is_too_common: Dit adgangskode er for almindeligt. Vælg et mere unikt adgangskode.
+auth_and_registration.password_not_set: Adgangskode er ikke sat.
+bots.bot_application_not_found: Bot-applikationen blev ikke fundet.
+bots.bot_discriminator_cannot_be_changed: Bot-diskriminator kan ikke ændres.
+bots.bot_is_private: Denne bot er privat.
+bots.bot_user_generation_failed: Oprettelse af botbruger mislykkedes.
+bots.bot_user_not_found: Bot-brugeren blev ikke fundet.
+bots.invalid_response_type_for_non_bot: Response type skal være code for ikke-bot scopes.
+bots.not_a_bot_application: Denne applikation er ikke en bot.
+calls_and_voice.call_already_exists: Opkaldet findes allerede.
+calls_and_voice.cannot_modify_voice_state: Du kan ikke ændre voice state.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Ugyldig eller begrænset RTC-region: {region}.'
+calls_and_voice.invalid_rtc_region: 'Ugyldig RTC-region: {region}. Tilgængelige regioner: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Ugyldigt format på stream key.
+calls_and_voice.invalid_stream_thumbnail_payload: Ugyldig stream thumbnail-payload.
+calls_and_voice.no_active_call: Intet aktivt opkald.
+calls_and_voice.stream_key_channel_mismatch: Stream key matcher ikke kanalen.
+calls_and_voice.stream_key_scope_mismatch: Stream key matcher ikke scopet.
+calls_and_voice.stream_thumbnail_payload_empty: Stream thumbnail-payloaden er tom.
+calls_and_voice.unknown_voice_region: Ukendt voice-region.
+calls_and_voice.unknown_voice_server: Ukendt voice-server.
+calls_and_voice.voice_message_duration_exceeds_limit: Varigheden på voice-beskeden kan ikke overstige {maxDuration} sekunder.
+calls_and_voice.voice_message_duration_required: Vedhæftninger til voice-beskeder skal angive en varighed.
+calls_and_voice.voice_message_waveform_required: Vedhæftninger til voice-beskeder skal indeholde waveform-data.
+calls_and_voice.voice_messages_require_single_attachment: Voice-beskeder skal indeholde præcis én vedhæftning.
+captcha.invalid: Ugyldig captcha.
+captcha.required: Captcha er påkrævet.
+connections.bluesky_oauth_callback_failed: Vi kunne ikke fuldføre Bluesky-forbindelsen. Prøv igen.
+connections.bluesky_oauth_not_enabled: Bluesky-forbindelser er ikke aktiveret på denne server.
+connections.bluesky_oauth_session_expired: Din Bluesky-session er udløbet. Forbind din konto igen.
+connections.bluesky_oauth_state_invalid: Autorisationsanmodningen er udløbet eller ugyldig. Prøv igen.
+connections.already_exists: En forbindelse af denne type med denne identifikator eksisterer allerede.
+connections.invalid_identifier: Forbindelses-identifikatoren er ugyldig.
+connections.invalid_type: Forbindelsestypen understøttes ikke.
+connections.initiation_token_invalid: Forbindelses-initierings-tokenet er ugyldigt eller udløbet.
+connections.limit_reached: Du har nået det maksimale antal forbindelser ({limit}).
+connections.not_found: Ukendt forbindelse.
+connections.verification_failed: Forbindelsesverificering mislykkedes. Sørg for, at verifikationstokenet er korrekt placeret.
+channels_and_guilds.afk_channel_must_be_in_guild: AFK-kanalen skal være på serveren.
+channels_and_guilds.afk_channel_must_be_voice: AFK-kanalen skal være en voice-kanal.
+channels_and_guilds.all_channels_must_belong_to_guild: Alle kanaler skal tilhøre denne server.
+channels_and_guilds.animated_guild_banner_requires_feature: Animeret serverbanner kræver ANIMATED_BANNER-funktionen.
+channels_and_guilds.cannot_execute_on_dm: Denne handling kan ikke udføres i en DM.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Ejerskab af fællesskabet kan ikke overføres til en bot.
+channels_and_guilds.cannot_leave_guild_as_owner: Du kan ikke forlade en server som ejer. Overfør ejerskabet eller slet serveren i stedet.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Du kan ikke placere en kanal i forhold til sig selv eller dens underkanaler.
+channels_and_guilds.cannot_report_own_guild: Du kan ikke anmelde din egen server.
+channels_and_guilds.categories_cannot_have_parent_channel: Kategorier kan ikke have en overordnet kanal.
+channels_and_guilds.categories_cannot_have_parents: Kategorier kan ikke have overordnede.
+channels_and_guilds.channel_id_required: '`channel_id` er påkrævet.'
+channels_and_guilds.channel_must_be_dm_or_group_dm: Kanalen skal være en DM eller en gruppe-DM.
+channels_and_guilds.channel_must_be_voice: Kanalen skal være en voice-kanal.
+channels_and_guilds.channel_not_found: Kanal ikke fundet.
+channels_and_guilds.context_channel_or_guild_required: Der kræves en kontekstkanal eller et server-id.
+channels_and_guilds.guild_banner_requires_feature: Serverbanner kræver BANNER-funktionen.
+channels_and_guilds.guild_id_must_match_referenced_message: Server-id'et skal matche kanalen, den refererede besked blev hentet fra.
+channels_and_guilds.invalid_channel_id: 'Ugyldigt kanal-id: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Ugyldig kanaltype til opkald.
+channels_and_guilds.invalid_channel_type: Ugyldig kanaltype.
+channels_and_guilds.invalid_channel: Ugyldig kanal.
+channels_and_guilds.invalid_parent_channel: Ugyldig overordnet kanal.
+channels_and_guilds.invite_splash_requires_feature: Invite splash kræver INVITE_SPLASH-funktionen.
+channels_and_guilds.invites_disabled: Invites er deaktiveret.
+channels_and_guilds.max_group_dm_recipients_reached: Du har nået maksimum på {count} gruppe-DM {count, plural, one {modtager} other {modtagere}}.
+channels_and_guilds.max_group_dms_reached: Du har nået maksimum på {count} gruppe {count, plural, one {DM} other {DM'er}}.
+channels_and_guilds.max_guild_channels_reached: Du har nået maksimum på {count} server {count, plural, one {kanal} other {kanaler}}.
+channels_and_guilds.max_guild_members_reached: Du har nået maksimum på {count} server {count, plural, one {medlem} other {medlemmer}}.
+channels_and_guilds.max_guild_roles_reached: Du har nået maksimum på {count} server {count, plural, one {rolle} other {roller}}.
+channels_and_guilds.max_guilds_reached: Du har nået maksimum på {count} {count, plural, one {server} other {servere}}.
+channels_and_guilds.message_history_cutoff_before_guild_creation: Meddelelseshistoriens afskæring kan ikke være før fællesskabet blev oprettet.
+channels_and_guilds.message_history_cutoff_in_future: Meddelelseshistoriens afskæring kan ikke være i fremtiden.
+channels_and_guilds.parent_channel_not_in_guild: Den overordnede kanal findes ikke på serveren.
+channels_and_guilds.parent_must_be_category: Overordnet skal være en kategori.
+channels_and_guilds.preceding_channel_must_share_parent: Den forrige kanal skal have samme overordnede som den flyttede kanal.
+channels_and_guilds.preceding_channel_not_in_guild: Den forrige kanal findes ikke på serveren.
+channels_and_guilds.system_channel_must_be_in_guild: Systemkanalen skal være på serveren.
+channels_and_guilds.system_channel_must_be_text: Systemkanalen skal være en tekstkanal.
+channels_and_guilds.temporary_invite_requires_presence: Midlertidig invite kræver tilstedeværelse.
+channels_and_guilds.vanity_url_requires_feature: Vanity URL kræver VANITY_URL-funktionen.
+channels_and_guilds.voice_channel_full: Voice-kanalen er fuld.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Voice-kanaler kan ikke placeres over tekstkanaler i samme kategori.
+colors.color_value_too_high: Farveværdien må ikke overstige 0xffffff.
+colors.color_value_too_low: Farveværdien skal mindst være 0x000000.
+content_and_safety.content_blocked: Indholdet blev blokeret af sikkerhedssystemerne.
+content_and_safety.csam_scan_failed: CSAM-scanning mislykkedes.
+content_and_safety.csam_scan_parse_error: CSAM-scanning parseringsfejl.
+content_and_safety.csam_scan_subscription_error: Fejl ved CSAM-scanning-abonnement.
+content_and_safety.csam_scan_timeout: CSAM-scanning fik timeout.
+content_and_safety.explicit_content_cannot_be_sent: Eksplicit indhold kan ikke sendes.
+content_and_safety.ncmec_already_submitted: Indholdet er allerede indsendt til NCMEC.
+content_and_safety.ncmec_submission_failed: Vi kunne ikke indsende rapporten til NCMEC. Prøv igen senere.
+content_and_safety.nsfw_age_restricted: NSFW-indhold er aldersbegrænset.
+discovery.already_applied: Dette fællesskab har allerede ansøgt om opdagelse.
+discovery.application_already_reviewed: Denne opdagelsesansøgning er allerede blevet behandlet.
+discovery.application_not_found: Opdagelsesansøgningen blev ikke fundet.
+discovery.description_required: En beskrivelse er påkrævet for at blive vist i opdagelse.
+discovery.insufficient_members: Dette fællesskab opfylder ikke minimumsantallet af medlemmer for opdagelse.
+discovery.invalid_category: Ugyldig opdagelseskategori.
+discovery.not_discoverable: Dette fællesskab er ikke vist i opdagelse.
+donation.amount_invalid: Donationsbeløbet er ugyldigt.
+donation.donor_not_found: Donor ikke fundet.
+donation.magic_link_expired: Magisk link er udløbet.
+donation.magic_link_invalid: Magisk link er ugyldigt.
+donation.magic_link_used: Magisk link er allerede brugt.
+email.email_already_in_use: Emailadressen er allerede i brug.
+email.email_required: Emailadresse er påkrævet.
+email.email_service_not_testable: Emailtjenesten kan ikke testes.
+email.invalid_format: Ugyldigt format på emailadressen.
+email.invalid_or_expired_reset_token: Ugyldigt eller udløbet adgangskodegenopretningstoken.
+email.invalid_or_expired_revert_token: Ugyldigt eller udløbet omvendt token.
+email.invalid_or_expired_verification_token: Ugyldigt eller udløbet verificeringstoken.
+email.invalid_or_password: Ugyldig email eller adgangskode.
+email.invalid_token: Ugyldigt emailtoken.
+email.invalid_verification_code: Ugyldigt verificeringskode.
+email.length_invalid: Emailadressen skal være mellem {min} og {max} tegn.
+email.must_be_changed_via_token: Email skal ændres via token.
+email.must_change_via_token: Email skal ændres via `email_token`.
+email.must_have_email_to_change_it: Du skal have en emailadresse for at ændre den.
+email.new_email_must_be_different: Ny emailadresse skal være forskellig fra din nuværende emailadresse.
+email.no_new_email_requested: Der blev ikke anmodet om en ny email.
+email.no_original_email_on_record: Der er ingen oprindelig email registreret.
+email.original_email_already_verified: Den oprindelige email er allerede verificeret.
+email.original_email_must_be_verified_first: Den oprindelige email skal verificeres først.
+email.original_verification_not_required: Oprindelig verificering er ikke nødvendig i denne proces.
+email.token_expired: Email-token er udløbet.
+email.user_has_no_email_address: Denne bruger har ingen emailadresse.
+email.user_is_not_pending_verification: Denne bruger afventer ikke verificering.
+email.verification_code_expired: Verificeringskoden er udløbet.
+email.verification_code_not_issued: Ingen verificeringskode er blevet udstedt.
+embeds.embed_index_out_of_bounds: Indlejring {embedIndex} er uden for grænsen (beskeden har {embedCount} {embedCount, plural, one {indlejring} other {indlejringer}}).
+embeds.embed_splash_requires_feature: Embed splash kræver INVITE_SPLASH-funktionen.
+embeds.embeds_exceed_max_characters: Indlejringer må samlet set ikke overstige {maxCharacters} {maxCharacters, plural, one {tegn} other {tegn}}.
+embeds.too_many_embeds: For mange embeds. Maks {maxEmbeds} {maxEmbeds, plural, one {indlejring} other {indlejringer}} tilladt.
+feature_flags.feature_not_available_self_hosted: Denne funktion er ikke tilgængelig på selv-hostede instanser.
+feature_flags.feature_temporarily_disabled: Denne funktion er midlertidigt slået fra.
+friends_and_dms.already_friends: Du er allerede venner med den her bruger.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Der skal mindst være én modtager for at oprette private kanaler.
+friends_and_dms.at_least_one_recipient_required: Mindst én modtager er påkrævet.
+friends_and_dms.bots_cannot_send_friend_requests: Bots kan ikke sende venneanmodninger.
+friends_and_dms.cannot_add_yourself_to_group_dm: Du kan ikke tilføje dig selv til en gruppe-DM.
+friends_and_dms.cannot_dm_yourself: Du kan ikke sende en DM til dig selv.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Du kan ikke sende en venneanmodning til en blokeret bruger.
+friends_and_dms.cannot_send_friend_request_to_self: Du kan ikke sende en venneanmodning til dig selv.
+friends_and_dms.cannot_send_messages_to_user: Du kan ikke sende beskeder til den her bruger.
+friends_and_dms.duplicate_recipients_not_allowed: Dublerede modtagere er ikke tilladt.
+friends_and_dms.friend_request_blocked: Brugeren accepterer ikke venneanmodninger på nuværende tidspunkt.
+friends_and_dms.not_friends: Du er ikke venner med den her bruger.
+friends_and_dms.recipient_ids_cannot_be_empty: Modtager-id'er kan ikke være tomme.
+friends_and_dms.recipient_ids_must_be_strings: Modtager-id'er skal være strenge.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Modtager-id'er skal være gyldige snowflakes.
+harvest.expired: Harvest er udløbet.
+harvest.failed: Harvest mislykkedes.
+harvest.not_ready: Harvest er ikke klar.
+harvest.on_cooldown: Harvest er på cooldown.
+harvest.unknown: Ukendt harvest.
+http.bad_gateway: Dårlig gateway.
+http.bad_request: Ugyldig forespørgsel.
+http.conflict: Konflikt.
+http.forbidden: Forbudt.
+http.gateway_timeout: Gateway-timeout.
+http.gone: Væk.
+http.internal_server_error: Intern serverfejl.
+http.method_not_allowed: Metode ikke tilladt.
+http.not_found: Ikke fundet.
+http.not_implemented: Ikke implementeret.
+http.service_unavailable: Tjenesten er ikke tilgængelig.
+http.validation_error: Validering mislykkedes.
+invites_and_beta.invalid_or_already_used_beta_code: Ugyldig eller allerede brugt betakode.
+invites_and_beta.max_beta_codes_reached: Du har nået maksimum på {count} beta {count, plural, one {kode} other {koder}}.
+invites_and_beta.unknown_beta_code: Ukendt beta-kode.
+invites_and_gifts.gift_code_already_redeemed: Gavekoden er allerede indløst.
+invites_and_gifts.stripe_gift_redemption_in_progress: Indløsning af gavekoden er i gang. Prøv igen om et øjeblik.
+invites_and_gifts.unknown_gift_code: Ukendt gavekode.
+invites_and_packs.emoji_requires_access: Du kan ikke bruge den her emoji uden adgang til dens server eller installerede pack.
+invites_and_packs.invalid_pack_type: Ugyldig pack-type.
+invites_and_packs.max_animated_emojis_reached: Du har nået maksimum på {count} animeret {count, plural, one {emoji} other {emojis}}.
+invites_and_packs.max_emojis_reached: Du har nået maksimum på {count} {count, plural, one {emoji} other {emojis}}.
+invites_and_packs.max_pack_expressions_reached: Du har nået maksimum på {count} pack {count, plural, one {udtryk} other {udtryk}}.
+invites_and_packs.max_packs_reached: Du har nået maksimum på {count} {count, plural, one {pack} other {packs}}.
+invites_and_packs.pack_access_denied: Ingen adgang til pack.
+limits.at_least_one_entry_required: Der skal mindst være én post.
+limits.base64_length_invalid: Base64-strenglængden skal være mellem {min} og {maxLength} tegn.
+limits.bucket_required: '`bucket` er påkrævet.'
+limits.cannot_shrink_reserved_slots: Du kan ikke mindske reserverede pladser.
+limits.cannot_specify_before_and_after: Du kan ikke angive både `before` og `after`.
+limits.content_exceeds_max_length: Teksten må ikke overstige {maxLength} {maxLength, plural, one {tegn} other {tegn}}.
+limits.integer_out_of_int64_range: Heltalsværdien ligger uden for det gyldige int64-område.
+limits.rows_required: '`rows` er påkrævet.'
+limits.string_length_exact: Strengen skal være præcis {length} tegn.
+limits.string_length_invalid: Strenglængden skal være mellem {min} og {max} tegn.
+limits.timeout_cannot_exceed_365_days: Timeout kan ikke være længere end {maxDays} {maxDays, plural, one {dag} other {dage}} fra nu.
+limits.value_must_be_integer_in_range: Værdien for `{name}` skal være et heltal mellem {minValue} og {maxValue}.
+limits.value_too_small: Værdien er for lav.
+media_and_memes.favorite_meme_name_required: Navn på favoritmeme er påkrævet.
+media_and_memes.favorite_meme_not_found: Favoritmeme blev ikke fundet.
+media_and_memes.max_favorite_memes_reached: Du har nået maksimum på {count} favorit {count, plural, one {meme} other {memer}}.
+media_and_memes.media_already_in_favorites: Det her medie er allerede i dine favoritmemes.
+media_and_memes.media_metadata_error: Fejl i mediemetadata.
+media_and_memes.unknown_favorite_meme: Ukendt favoritmeme.
+messages.cannot_delete_more_than_100: Du kan ikke slette mere end {max} {max, plural, one {besked} other {beskeder}} på én gang.
+messages.cannot_edit_others_message: Du kan ikke redigere en anden brugers besked.
+messages.cannot_preload_more_than_100_channels: Du kan ikke forindlæse mere end {max} {max, plural, one {kanal} other {kanaler}} på én gang.
+messages.cannot_reply_to_system_message: Du kan ikke svare på en systembesked.
+messages.cannot_send_empty_message: Du kan ikke sende en tom besked.
+messages.forward_messages_cannot_include_extra_content: Videresendte beskeder kan ikke indeholde indhold, embeds, vedhæftninger eller stickers.
+messages.forward_reference_requires_channel_and_message: Reference til videresendelse skal indeholde `channel_id` og `message_id`.
+messages.invalid_message_data: Ugyldige beskeddata.
+messages.invalid_scheduled_message_payload: Ugyldig payload for planlagt besked.
+messages.message_ids_cannot_be_empty: '`message_ids` kan ikke være tom.'
+messages.messages_array_required: '`messages`-arrayet er påkrævet og må ikke være tomt.'
+messages.messages_with_snapshots_cannot_be_edited: Beskeder med snapshots kan ikke redigeres.
+messages.scheduled_messages_max_30_days: Planlagte beskeder kan være højst 30 dage i fremtiden.
+messages.scheduled_send_datetime_invalid: Ugyldig dato eller tid for planlagt afsendelse.
+messages.scheduled_time_must_be_future: Planlagt tidspunkt skal ligge i fremtiden.
+messages.voice_messages_attachment_must_be_audio: Vedhæftninger til voice-beskeder skal være audiofiler.
+messages.voice_messages_cannot_have_content: Voice-beskeder kan ikke have tekstindhold.
+messages.voice_messages_cannot_have_embeds: Voice-beskeder kan ikke have indlejringer.
+messages.voice_messages_cannot_have_favorite_memes: Voice-beskeder kan ikke have favoritmemes.
+messages.voice_messages_cannot_have_stickers: Voice-beskeder kan ikke have stickers.
+mfa_and_passkeys.invalid_mfa_code: Ugyldig MFA-kode.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Ugyldig WebAuthn-autentificeringstæller.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Ugyldig WebAuthn-credential-tæller.
+mfa_and_passkeys.invalid_webauthn_credential: Ugyldig WebAuthn-credential.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Ugyldigt format på WebAuthn-public key.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Du skal aktivere 2FA på din konto, før du kan kræve det for moderatorer.
+mfa_and_passkeys.no_passkeys_registered: Der er ingen registrerede passkeys.
+mfa_and_passkeys.passkey_authentication_failed: Passkey-autentificering mislykkedes.
+mfa_and_passkeys.passkeys_disabled: Passkeys er slået fra.
+mfa_and_passkeys.two_factor_not_enabled: Tofaktorautentificering er ikke slået til.
+mfa_and_passkeys.two_factor_required: Tofaktorautentificering er påkrævet.
+mfa_and_passkeys.unknown_webauthn_credential: Ukendt WebAuthn-credential.
+mfa_and_passkeys.webauthn_credential_limit_reached: Du har nået maksimum på {count} WebAuthn {count, plural, one {credential} other {credentials}}.
+misc_limits.max_bookmarks_reached: Du har nået maksimum på {count} {count, plural, one {bogmærke} other {bogmærker}}.
+misc_limits.max_category_channels_reached: Du har nået maksimum på {count} kategori {count, plural, one {kanal} other {kanaler}}.
+misc_limits.max_friends_reached: Du har nået maksimum på {count} {count, plural, one {ven} other {venner}}.
+misc_limits.max_invites_reached: Du har nået maksimum på {count} {count, plural, one {invite} other {invites}}.
+misc_limits.max_pins_per_channel_reached: Du har nået maksimum på {count} {count, plural, one {pin} other {pins}} pr. kanal.
+misc.cannot_send_messages_in_non_text_channel: Du kan ikke sende beskeder i en kanal, der ikke er en tekstkanal.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Du skal verificere din email for at sende beskeder på denne server.
+misc.invalid_job_id: Ugyldigt job-id.
+misc.invalid_permissions_integer: Rettigheder skal være et gyldigt heltal.
+misc.invalid_permissions_negative: Rettigheder må ikke være negative.
+misc.invalid_request_generic: Ugyldig forespørgsel.
+misc.invalid_snowflake: Ugyldig snowflake.
+misc.job_already_processed: Jobbet er allerede behandlet.
+misc.job_id_required: Job-id er påkrævet.
+misc.job_not_found: Jobbet blev ikke fundet.
+misc.max_files_exceeded: For mange filer. Maks {maxFiles} {maxFiles, plural, one {fil} other {filer}} tilladt.
+misc.must_have_bot_to_mark_system_user: Brugeren skal være en bot for at blive markeret som systembruger.
+moderation_and_reports.cannot_report_own_message: Du kan ikke anmelde din egen besked.
+moderation_and_reports.cannot_report_yourself: Du kan ikke anmelde dig selv.
+moderation_and_reports.invalid_dsa_report_target: Ugyldigt DSA-anmeldelsesmål.
+moderation_and_reports.invalid_dsa_ticket: Ugyldig DSA-ticket.
+moderation_and_reports.invalid_dsa_verification_code: Ugyldig DSA-verificeringskode.
+moderation_and_reports.report_already_resolved: Anmeldelsen er allerede løst.
+moderation_and_reports.report_banned: Du kan ikke anmelde lige nu.
+moderation_and_reports.unknown_report: Ukendt anmeldelse.
+moderation_and_reports.user_is_not_banned: Denne bruger er ikke bandlyst.
+names_and_normalization.channel_name_empty_after_normalization: Kanalnavnet kan ikke være tomt efter normalisering.
+names_and_normalization.name_empty_after_normalization: Navnet kan ikke være tomt efter normalisering.
+permissions.missing_access: Manglende adgang.
+permissions.missing_permissions: Manglende rettigheder.
+permissions.not_owner_of_admin_api_key: Du har ikke rettighed til at ændre denne admin API-nøgle.
+permissions.user_banned_from_guild: Denne bruger er bandlyst fra denne server.
+permissions.user_ip_banned_from_guild: Denne brugers IP er bandlyst fra denne server.
+permissions.user_not_in_channel: Denne bruger er ikke i denne kanal.
+permissions.user_not_in_voice: Denne bruger er ikke i voice.
+permissions.user_owns_guilds: Denne bruger ejer servere.
+phone.invalid_number: Ugyldigt telefonnummer.
+phone.number_already_used: Telefonnummeret er allerede i brug.
+phone.number_format_required: Telefonnummeret skal være i E.164-format (for eksempel +1234567890).
+phone.phone_required_for_sms_mfa: Der kræves et telefonnummer til SMS MFA.
+phone.sms_mfa_not_enabled: SMS MFA er ikke slået til.
+phone.sms_mfa_requires_totp: SMS MFA kræver TOTP.
+phone.sms_verification_unavailable: SMS-verificering er midlertidigt utilgængelig. Prøv igen senere.
+phone.verification_code_invalid: Ugyldig telefonverificeringskode.
+phone.verification_required: Telefonverificering er påkrævet.
+premium_and_plans.animated_avatars_require_premium: Animerede avatarer kræver Premium.
+premium_and_plans.banners_require_premium: Bannere kræver Premium.
+premium_and_plans.bio_requires_premium_for_length: A bio longer than {maxLength} characters requires Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Du kan ikke indløse Plutonium med Visionary.
+premium_and_plans.custom_emojis_outside_source_require_premium: Du kan ikke bruge brugerdefinerede emojis uden for deres kildeservere uden Premium.
+premium_and_plans.custom_stickers_in_dms_require_premium: Du kan ikke bruge brugerdefinerede stickers i DMs uden Premium.
+premium_and_plans.custom_stickers_outside_source_require_premium: Du kan ikke bruge brugerdefinerede stickers uden for deres kildeservere uden Premium.
+premium_and_plans.discriminator_change_requires_premium: At ændre din discriminator kræver Premium.
+premium_and_plans.no_active_subscription: Intet aktivt abonnement.
+premium_and_plans.no_visionary_slots_available: Der er ingen ledige Visionary-pladser.
+premium_and_plans.premium_required_for_custom_emoji: Der kræves Premium for at bruge en brugerdefineret emoji.
+premium_and_plans.visionary_required_for_bot_discriminator: Du skal være på Visionary lifetime-planen for at tilpasse bot-discriminators.
+premium_and_plans.visionary_required_for_discriminator: Du skal være på Visionary lifetime-planen for at bruge den discriminator.
+rate_limits.accent_color_changed_too_often: Du har skiftet accentfarve for mange gange for nylig. Prøv igen om {minutes} {minutes, plural, one {minut} other {minutter}}.
+rate_limits.avatar_changed_too_often: Du har skiftet avatar for mange gange for nylig. Prøv igen om {minutes} {minutes, plural, one {minut} other {minutter}}.
+rate_limits.banner_changed_too_often: Du har skiftet banner for mange gange for nylig. Prøv igen om {minutes} {minutes, plural, one {minut} other {minutter}}.
+rate_limits.bio_changed_too_often: Du har ændret din bio for mange gange for nylig. Prøv igen om {minutes} {minutes, plural, one {minut} other {minutter}}.
+rate_limits.ip_authorization_resend_cooldown: Du kan ikke sende IP-godkendelsen igen endnu.
+rate_limits.ip_authorization_resend_limit_exceeded: Du har nået grænsen for at sende IP-godkendelse igen.
+rate_limits.phone_rate_limit_exceeded: Du har nået grænsen for telefonforsøg.
+rate_limits.pronouns_changed_too_often: Du har ændret dine pronomener for mange gange for nylig. Prøv igen om {minutes} {minutes, plural, one {minut} other {minutter}}.
+rate_limits.rate_limited: Du laver for mange forespørgsler lige nu.
+rate_limits.slowmode_rate_limited: 'Slow mode: du skriver for hurtigt.'
+rate_limits.username_changed_too_often: Du har ændret dit brugernavn for mange gange for nylig. Prøv igen om {minutes} {minutes, plural, one {minut} other {minutter}}.
+roles.cannot_reorder_everyone_role: Du kan ikke ændre rækkefølgen på @everyone-rollen.
+roles.cannot_set_everyone_hoist: Du kan ikke ændre hoist-positionen for @everyone-rollen.
+roles.cannot_use_same_role_as_preceding: Du kan ikke bruge samme rolle som den forrige rolle.
+roles.invalid_role_id: 'Ugyldigt rolle-id: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Du kan ikke bruge `parse` sammen med `allowed_mentions.users` eller `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Den forrige rolle findes ikke på serveren.
+stickers_and_emojis.custom_emoji_not_found: Brugerdefineret emoji blev ikke fundet.
+stickers_and_emojis.custom_sticker_not_found: Brugerdefineret sticker blev ikke fundet.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Du kan ikke bruge denne emoji uden adgang til dens server eller installerede pack.
+stickers_and_emojis.max_reactions_reached: Du har nået maksimum på {count} {count, plural, one {reaktion} other {reaktioner}}.
+stickers_and_emojis.max_stickers_reached: Du har nået maksimum på {count} {count, plural, one {sticker} other {stickers}}.
+stickers_and_emojis.not_valid_unicode_emoji: Ikke en gyldig Unicode-emoji.
+stickers_and_emojis.unknown_emoji: Ukendt emoji.
+stickers_and_emojis.unknown_sticker: Ukendt sticker.
+stripe.error: Stripe-fejl.
+stripe.invalid_product_configuration: Ugyldig produktkonfiguration.
+stripe.invalid_product_selection: Ugyldigt produktvalg.
+stripe.no_active_subscription_found: Der blev ikke fundet noget aktivt abonnement.
+stripe.no_purchase_history_customer_portal_unavailable: Der blev ikke fundet nogen købsoversigt. Kundeportalen er ikke tilgængelig.
+stripe.no_subscription_found: Der blev ikke fundet noget abonnement.
+stripe.payment_not_available: Betalingsbehandling er ikke tilgængelig.
+stripe.subscription_already_canceling: Abonnementet er allerede sat til at stoppe ved periodens udløb.
+stripe.subscription_not_canceling: Abonnementet er ikke sat til at stoppe.
+stripe.subscription_period_end_missing: Abonnementets current_period_end mangler.
+stripe.webhook_not_available: Webhook-behandling er ikke tilgængelig.
+stripe.webhook_signature_invalid: Stripe webhook-signaturen er ugyldig.
+stripe.webhook_signature_missing: Stripe webhook-signaturen mangler.
+tickets.ticket_already_completed: Denne ticket er allerede afsluttet.
+tos_and_age.date_of_birth_format_invalid: Ugyldigt format på fødselsdato.
+tos_and_age.must_agree_to_tos_and_privacy: Du skal acceptere vilkår for tjenesten og privatlivspolitikken.
+tos_and_age.must_be_minimum_age: Du skal være mindst {minAge} {minAge, plural, one {år} other {år}} for at oprette en konto.
+unknown_entities.unknown_application: Ukendt applikation.
+unknown_entities.unknown_channel: Ukendt kanal.
+unknown_entities.unknown_guild: Ukendt server.
+unknown_entities.unknown_invite: Ukendt invite.
+unknown_entities.unknown_member: Ukendt medlem.
+unknown_entities.unknown_message: Ukendt besked.
+unknown_entities.unknown_pack: Ukendt pack.
+unknown_entities.unknown_role: Ukendt rolle.
+unknown_entities.unknown_user_flag: Ukendt user flag.
+unknown_entities.unknown_user: Ukendt bruger.
+urls.invalid_url_format: Ugyldigt URL-format.
+urls.invalid_url_or_attachment_reference: Ugyldigt URL-format eller vedhæftningsreference.
+urls.url_length_invalid: URL'en skal være mellem {min} og {max} tegn.
+usernames_and_tags.discriminator_invalid_format: Discriminator skal være {min}–{max} cifre.
+usernames_and_tags.discriminator_out_of_range: Discriminator skal være mellem {min} og {max}.
+usernames_and_tags.discriminator_required: Discriminator er påkrævet.
+usernames_and_tags.display_name_length_invalid: Visningsnavn skal være mellem {min} og {max} tegn.
+usernames_and_tags.display_name_reserved_terms: Visningsnavn kan ikke indeholde "system message".
+usernames_and_tags.display_name_reserved_value: Visningsnavn kan ikke være "everyone" eller "here".
+usernames_and_tags.global_name_length_invalid: Globalt navn skal være mellem {min} og {max} tegn.
+usernames_and_tags.global_name_reserved_value: Globalt navn kan ikke være "everyone" eller "here".
+usernames_and_tags.tag_already_taken: Det tag er allerede taget.
+usernames_and_tags.too_many_users_with_this_username: Der er for mange brugere med det brugernavn.
+usernames_and_tags.too_many_users_with_username_try_different: Der er for mange brugere med det brugernavn. Prøv et andet.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Uopfordrede konti kan kun indstille email via token.
+usernames_and_tags.username_invalid_characters: Brugernavn kan kun indeholde latinske bogstaver (a-z, A-Z), tal (0-9) og understreger (_).
+usernames_and_tags.username_length_invalid: Brugernavn skal være mellem {min} og {max} tegn.
+usernames_and_tags.username_not_available: Brugernavnet er ikke tilgængeligt.
+usernames_and_tags.username_reserved_terms: Brugernavn kan ikke indeholde "fluxer" eller "system message".
+usernames_and_tags.username_reserved_value: Brugernavn kan ikke være "everyone" eller "here".
+vanity_urls.vanity_url_already_taken: Denne vanity URL er allerede taget.
+vanity_urls.vanity_url_code_already_taken: Denne vanity URL-kode er allerede taget.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Vanity URL-koden må ikke indeholde "fluxer".
+vanity_urls.vanity_url_code_length_invalid: Vanity URL-koden skal være mellem {min} og {max} tegn.
+vanity_urls.vanity_url_invalid_characters: Vanity URL'en kan kun indeholde små bogstaver (a-z), cifre (0-9) og bindestreger (-).
+webhooks.cannot_modify_system_webhook: Du kan ikke ændre system-webhooken.
+webhooks.max_webhooks_per_channel_reached: Du har nået maksimum på {count} {count, plural, one {webhook} other {webhooks}} pr. kanal.
+webhooks.max_webhooks_per_guild_reached: Du har nået maksimum på {count} {count, plural, one {webhook} other {webhooks}} pr. server.
+webhooks.max_webhooks_reached: Du har nået maksimum på {count} {count, plural, one {webhook} other {webhooks}}.
+webhooks.unknown_webhook: Ukendt webhook.
+webhooks.webhook_name_length_invalid: Webhook-navn skal være mellem {min} og {max} tegn.

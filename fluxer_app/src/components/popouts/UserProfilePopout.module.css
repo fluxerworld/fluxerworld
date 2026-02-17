@@ -62,3 +62,7 @@
 .profileCustomStatus:hover .profileCustomStatusText {
 	--emoji-show-animated: 1;
 }
+
+.profileDataWarning {
+	margin-bottom: 0.5rem;
+}

@@ -17,45 +17,45 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import AutoAckStore from '@app/stores/AutoAckStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import DimensionStore from '@app/stores/DimensionStore';
+import GuildAvailabilityStore from '@app/stores/GuildAvailabilityStore';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import MessageStore from '@app/stores/MessageStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import UserGuildSettingsStore from '@app/stores/UserGuildSettingsStore';
+import UserStore from '@app/stores/UserStore';
+import {ChannelTypes, Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {MS_PER_DAY} from '@fluxer/date_utils/src/DateConstants';
+import type {ChannelId, GuildId} from '@fluxer/schema/src/branded/WireIds';
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
+import {compare as compareSnowflakes, extractTimestamp, fromTimestamp} from '@fluxer/snowflake/src/SnowflakeUtils';
 import {action, makeAutoObservable, reaction} from 'mobx';
-import {ChannelTypes, Permissions} from '~/Constants';
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {Message, MessageRecord} from '~/records/MessageRecord';
-import {compare as compareSnowflakes, extractTimestamp, fromTimestamp} from '~/utils/SnowflakeUtils';
-import AutoAckStore from './AutoAckStore';
-import ChannelStore from './ChannelStore';
-import DimensionStore from './DimensionStore';
-import GuildAvailabilityStore from './GuildAvailabilityStore';
-import GuildStore from './GuildStore';
-import MessageStore from './MessageStore';
-import PermissionStore from './PermissionStore';
-import RelationshipStore from './RelationshipStore';
-import UserGuildSettingsStore from './UserGuildSettingsStore';
-import UserStore from './UserStore';
 
 const logger = new Logger('ReadStateStore');
 
-type ChannelId = string;
-type MessageId = string;
-type GuildId = string;
-
-const CAN_READ_PERMISSIONS = Permissions.VIEW_CHANNEL | Permissions.READ_MESSAGE_HISTORY;
-const OLD_MESSAGE_AGE_THRESHOLD = 7 * 24 * 60 * 60 * 1000;
-const RECENT_MESSAGE_THRESHOLD = 3 * 24 * 60 * 60 * 1000;
+const CAN_READ_PERMISSIONS = Permissions.VIEW_CHANNEL;
+const OLD_MESSAGE_AGE_THRESHOLD = 7 * MS_PER_DAY;
+const RECENT_MESSAGE_THRESHOLD = 3 * MS_PER_DAY;
 
 export interface GatewayReadState {
-	id: ChannelId;
+	id: string;
 	mention_count?: number;
 	last_message_id?: string | null;
 	last_pin_timestamp?: string | null;
 }
 
 interface ChannelPayload {
-	id: ChannelId;
+	id: string;
 	type: number;
-	guild_id?: GuildId;
+	guild_id?: string;
 	last_message_id?: string | null;
 	last_pin_timestamp?: string | null;
 }
@@ -67,14 +67,14 @@ function parseTimestamp(timestamp?: string | null): number {
 }
 
 class ReadStateEntry {
-	readonly channelId: ChannelId;
+	readonly channelId: string;
 
-	_guildId: GuildId | null = null;
+	_guildId: string | null = null;
 	loadedMessages = false;
 
-	private _lastMessageId: MessageId | null = null;
+	private _lastMessageId: string | null = null;
 	private _lastMessageTimestamp = 0;
-	private _ackMessageId: MessageId | null = null;
+	private _ackMessageId: string | null = null;
 	private _ackMessageTimestamp = 0;
 
 	ackPinTimestamp = 0;
@@ -82,15 +82,15 @@ class ReadStateEntry {
 
 	isManualAck = false;
 
-	private _oldestUnreadMessageId: MessageId | null = null;
+	private _oldestUnreadMessageId: string | null = null;
 	oldestUnreadMessageIdStale = false;
 
-	private _stickyUnreadMessageId: MessageId | null = null;
+	private _stickyUnreadMessageId: string | null = null;
 	estimated = false;
 	private _unreadCount = 0;
 	private _mentionCount = 0;
 
-	outgoingAck: MessageId | null = null;
+	outgoingAck: string | null = null;
 	private outgoingAckTimer: NodeJS.Timeout | null = null;
 
 	snapshot?: {
@@ -101,7 +101,7 @@ class ReadStateEntry {
 		takenAt: number;
 	};
 
-	constructor(channelId: ChannelId) {
+	constructor(channelId: string) {
 		this.channelId = channelId;
 		makeAutoObservable(this, {}, {autoBind: true});
 	}
@@ -110,16 +110,16 @@ class ReadStateEntry {
 		return Date.now();
 	}
 
-	get guildId(): GuildId | null {
+	get guildId(): string | null {
 		const channel = ChannelStore.getChannel(this.channelId);
 		return channel?.guildId ?? this._guildId ?? null;
 	}
 
-	get lastMessageId(): MessageId | null {
+	get lastMessageId(): string | null {
 		return this._lastMessageId;
 	}
 
-	set lastMessageId(messageId: MessageId | null) {
+	set lastMessageId(messageId: string | null) {
 		this._lastMessageId = messageId;
 		this._lastMessageTimestamp = messageId != null ? extractTimestamp(messageId) : 0;
 	}
@@ -128,33 +128,33 @@ class ReadStateEntry {
 		return this._lastMessageTimestamp;
 	}
 
-	get ackMessageId(): MessageId | null {
+	get ackMessageId(): string | null {
 		return this._ackMessageId;
 	}
 
-	set ackMessageId(messageId: MessageId | null) {
+	set ackMessageId(messageId: string | null) {
 		this._ackMessageId = messageId;
 		this._ackMessageTimestamp = messageId != null ? extractTimestamp(messageId) : 0;
 	}
 
-	get oldestUnreadMessageId(): MessageId | null {
+	get oldestUnreadMessageId(): string | null {
 		return this._oldestUnreadMessageId;
 	}
 
-	set oldestUnreadMessageId(messageId: MessageId | null) {
+	set oldestUnreadMessageId(messageId: string | null) {
 		this._oldestUnreadMessageId = messageId;
 		this.oldestUnreadMessageIdStale = false;
 	}
 
-	get stickyUnreadMessageId(): MessageId | null {
+	get stickyUnreadMessageId(): string | null {
 		return this._stickyUnreadMessageId;
 	}
 
-	set stickyUnreadMessageId(messageId: MessageId | null) {
+	set stickyUnreadMessageId(messageId: string | null) {
 		this._stickyUnreadMessageId = messageId;
 	}
 
-	get visualUnreadMessageId(): MessageId | null {
+	get visualUnreadMessageId(): string | null {
 		return this._stickyUnreadMessageId ?? this._oldestUnreadMessageId;
 	}
 
@@ -228,8 +228,7 @@ class ReadStateEntry {
 			return false;
 		}
 
-		const canTrack = channel.isPrivate() || PermissionStore.can(CAN_READ_PERMISSIONS, channel);
-		return canTrack;
+		return channel.isPrivate() || PermissionStore.can(CAN_READ_PERMISSIONS, channel);
 	}
 
 	canBeUnread(): boolean {
@@ -341,7 +340,7 @@ class ReadStateEntry {
 		};
 	}
 
-	rebuild(ackMessageId?: MessageId | null, {recomputeMentions = false}: {recomputeMentions?: boolean} = {}): void {
+	rebuild(ackMessageId?: string | null, {recomputeMentions = false}: {recomputeMentions?: boolean} = {}): void {
 		this.ackMessageId = ackMessageId ?? this._ackMessageId;
 		this.oldestUnreadMessageId = null;
 		this.estimated = false;
@@ -366,7 +365,7 @@ class ReadStateEntry {
 
 		let foundAckMessage = false;
 		let loadedOlderMessages = false;
-		let oldestUnread: MessageId | null = null;
+		let oldestUnread: string | null = null;
 
 		messages.forAll((message) => {
 			if (!foundAckMessage) {
@@ -408,7 +407,22 @@ class ReadStateEntry {
 
 		const hasUserMention = mentions?.some((m) => m.id === userId) ?? false;
 		const hasEveryoneMention = !suppressEveryone && !!mentionEveryone;
-		const hasRoleMention = !suppressRoles && (mentionRoles?.length ?? 0) > 0;
+		const hasRoleMention =
+			!suppressRoles &&
+			(mentionRoles?.length ?? 0) > 0 &&
+			(() => {
+				const guildId = this.guildId;
+				if (!guildId) {
+					return false;
+				}
+
+				const member = GuildMemberStore.getMember(guildId, userId);
+				if (!member) {
+					return false;
+				}
+
+				return mentionRoles?.some((roleId) => member.roles.has(roleId)) ?? false;
+			})();
 
 		let shouldMention = hasUserMention || hasEveryoneMention || hasRoleMention;
 		const isMuted = UserGuildSettingsStore.isGuildOrChannelMuted(this.guildId, this.channelId);
@@ -419,7 +433,7 @@ class ReadStateEntry {
 		return shouldMention;
 	}
 
-	computeMentionCountAfterAck(messageId: MessageId): number {
+	computeMentionCountAfterAck(messageId: string): number {
 		const currentUser = UserStore.getCurrentUser();
 		if (currentUser == null) {
 			return 0;
@@ -492,7 +506,7 @@ class ReadStateEntry {
 	}
 
 	ack(options: {
-		messageId?: MessageId | null;
+		messageId?: string | null;
 		local?: boolean;
 		immediate?: boolean;
 		force?: boolean;
@@ -590,9 +604,9 @@ class ReadStateStore {
 		const normalized = Math.max(0, mentionCount);
 		state.mentionCount = normalized;
 		if (normalized > 0 && state.canHaveMentions()) {
-			this.mentionChannels.add(state.channelId);
+			this.mentionChannels.add(state.channelId as ChannelId);
 		} else {
-			this.mentionChannels.delete(state.channelId);
+			this.mentionChannels.delete(state.channelId as ChannelId);
 		}
 	}
 
@@ -610,14 +624,14 @@ class ReadStateStore {
 	}
 
 	@action
-	private notifyChange(channelId?: ChannelId, {global = false}: {global?: boolean} = {}): void {
+	private notifyChange(channelId?: string, {global = false}: {global?: boolean} = {}): void {
 		if (global) {
 			this.pendingGlobalRecompute = true;
 			this.pendingChanges.clear();
 		} else if (channelId != null && !this.pendingGlobalRecompute) {
-			const entry = this.states.get(channelId);
+			const entry = this.states.get(channelId as ChannelId);
 			const guildId = entry?.guildId ?? null;
-			this.pendingChanges.set(channelId, guildId);
+			this.pendingChanges.set(channelId as ChannelId, guildId as GuildId | null);
 		}
 		this.updateCounter++;
 	}
@@ -626,11 +640,11 @@ class ReadStateStore {
 	consumePendingChanges(): {
 		all: boolean;
 		channelIds: Array<ChannelId>;
-		changes: Array<{channelId: ChannelId; guildId: GuildId | null}>;
+		changes: Array<{channelId: string; guildId: string | null}>;
 	} {
 		const all = this.pendingGlobalRecompute;
 
-		const changes: Array<{channelId: ChannelId; guildId: GuildId | null}> = [];
+		const changes: Array<{channelId: string; guildId: string | null}> = [];
 		const channelIds: Array<ChannelId> = [];
 
 		if (!all) {
@@ -645,21 +659,21 @@ class ReadStateStore {
 		return {all, channelIds, changes};
 	}
 
-	get(channelId: ChannelId): ReadStateEntry {
-		let entry = this.states.get(channelId);
+	get(channelId: string): ReadStateEntry {
+		let entry = this.states.get(channelId as ChannelId);
 		if (entry == null) {
 			entry = new ReadStateEntry(channelId);
-			this.states.set(channelId, entry);
+			this.states.set(channelId as ChannelId, entry);
 		}
 		return entry;
 	}
 
-	getIfExists(channelId: ChannelId): ReadStateEntry | undefined {
-		return this.states.get(channelId);
+	getIfExists(channelId: string): ReadStateEntry | undefined {
+		return this.states.get(channelId as ChannelId);
 	}
 
-	clear(channelId: ChannelId): boolean {
-		const entry = this.states.get(channelId);
+	clear(channelId: string): boolean {
+		const entry = this.states.get(channelId as ChannelId);
 		if (entry == null) {
 			return false;
 		}
@@ -667,8 +681,8 @@ class ReadStateStore {
 		this.notifyChange(channelId);
 
 		entry.dispose();
-		this.states.delete(channelId);
-		this.mentionChannels.delete(channelId);
+		this.states.delete(channelId as ChannelId);
+		this.mentionChannels.delete(channelId as ChannelId);
 		return true;
 	}
 
@@ -694,51 +708,51 @@ class ReadStateStore {
 		return ids;
 	}
 
-	isAutomaticAckEnabled(channelId: ChannelId): boolean {
+	isAutomaticAckEnabled(channelId: string): boolean {
 		return AutoAckStore.isAutomaticAckEnabled(channelId);
 	}
 
-	getUnreadCount(channelId: ChannelId): number {
+	getUnreadCount(channelId: string): number {
 		const state = this.getIfExists(channelId);
 		return state?.canBeUnread() ? state.unreadCount : 0;
 	}
 
-	getMentionCount(channelId: ChannelId): number {
+	getMentionCount(channelId: string): number {
 		const state = this.getIfExists(channelId);
 		return state?.canHaveMentions() ? state.mentionCount : 0;
 	}
 
-	getManualAckMentionCount(channelId: ChannelId, messageId: MessageId): number {
+	getManualAckMentionCount(channelId: string, messageId: string): number {
 		const state = this.getIfExists(channelId);
 		return state?.computeMentionCountAfterAck(messageId) ?? 0;
 	}
 
-	hasUnread(channelId: ChannelId): boolean {
+	hasUnread(channelId: string): boolean {
 		const state = this.getIfExists(channelId);
 		return !!(state?.canBeUnread() && state.hasUnread());
 	}
 
-	hasUnreadOrMentions(channelId: ChannelId): boolean {
+	hasUnreadOrMentions(channelId: string): boolean {
 		const state = this.getIfExists(channelId);
 		return !!(state?.canBeUnread() && state.hasUnreadOrMentions());
 	}
 
-	ackMessageId(channelId: ChannelId): MessageId | null {
+	ackMessageId(channelId: string): string | null {
 		const state = this.getIfExists(channelId);
 		return state?.canBeUnread() ? state.ackMessageId : null;
 	}
 
-	lastMessageId(channelId: ChannelId): MessageId | null {
+	lastMessageId(channelId: string): string | null {
 		const state = this.getIfExists(channelId);
 		return state?.lastMessageId ?? null;
 	}
 
-	getOldestUnreadMessageId(channelId: ChannelId): MessageId | null {
+	getOldestUnreadMessageId(channelId: string): string | null {
 		const state = this.getIfExists(channelId);
 		return state?.canTrackUnreads() ? state.oldestUnreadMessageId : null;
 	}
 
-	getVisualUnreadMessageId(channelId: ChannelId): MessageId | null {
+	getVisualUnreadMessageId(channelId: string): string | null {
 		const state = this.getIfExists(channelId);
 		return state?.canTrackUnreads() ? state.visualUnreadMessageId : null;
 	}
@@ -747,7 +761,7 @@ class ReadStateStore {
 		return Array.from(this.states.keys());
 	}
 
-	clearStickyUnread(channelId: ChannelId): void {
+	clearStickyUnread(channelId: string): void {
 		const state = this.getIfExists(channelId);
 		if (state != null) {
 			state.clearStickyUnread();
@@ -755,12 +769,12 @@ class ReadStateStore {
 		}
 	}
 
-	hasUnreadPins(channelId: ChannelId): boolean {
+	hasUnreadPins(channelId: string): boolean {
 		const state = this.getIfExists(channelId);
 		return !!(state?.canBeUnread() && state.lastPinTimestamp > state.ackPinTimestamp);
 	}
 
-	ackPins(channelId: ChannelId): void {
+	ackPins(channelId: string): void {
 		const state = this.get(channelId);
 		if (state.ackPins()) {
 			this.notifyChange(channelId);
@@ -774,7 +788,7 @@ class ReadStateStore {
 		const channelsWithReadState = new Set<ChannelId>();
 
 		for (const readState of action.readState) {
-			channelsWithReadState.add(readState.id);
+			channelsWithReadState.add(readState.id as ChannelId);
 
 			const state = this.get(readState.id);
 			this.setMentionCount(state, readState.mention_count ?? 0);
@@ -796,7 +810,7 @@ class ReadStateStore {
 			state.lastPinTimestamp = parseTimestamp(channel.last_pin_timestamp);
 			state._guildId = channel.guild_id ?? null;
 
-			if (!channelsWithReadState.has(channel.id)) {
+			if (!channelsWithReadState.has(channel.id as ChannelId)) {
 				state.ackMessageId = null;
 				this.setMentionCount(state, 0);
 			}
@@ -810,7 +824,7 @@ class ReadStateStore {
 		this.notifyChange(undefined, {global: true});
 	}
 
-	handleGuildCreate(action: {guild: {id: GuildId; channels?: ReadonlyArray<ChannelPayload>}}): void {
+	handleGuildCreate(action: {guild: {id: string; channels?: ReadonlyArray<ChannelPayload>}}): void {
 		if (action.guild.channels) {
 			for (const channel of action.guild.channels) {
 				if (channel.type === ChannelTypes.GUILD_VOICE) continue;
@@ -824,11 +838,16 @@ class ReadStateStore {
 		this.notifyChange(undefined, {global: true});
 	}
 
-	handleLoadMessages(action: {channelId: ChannelId; isAfter?: boolean; messages: Array<Message>}): void {
+	handleLoadMessages(action: {channelId: string; isAfter?: boolean; messages: Array<Message>}): void {
 		const state = this.get(action.channelId);
 		state.loadedMessages = true;
 
 		const messages = MessageStore.getMessages(action.channelId);
+
+		const newestMessage = messages.last();
+		if (newestMessage != null && compareSnowflakes(newestMessage.id, state.lastMessageId ?? '') > 0) {
+			state.lastMessageId = newestMessage.id;
+		}
 
 		if (messages.hasPresent() || (messages.jumpTargetId != null && messages.jumpTargetId === state.ackMessageId)) {
 			state.rebuild();
@@ -839,7 +858,7 @@ class ReadStateStore {
 		this.notifyChange(action.channelId);
 	}
 
-	handleIncomingMessage(action: {channelId: ChannelId; message: Message}): void {
+	handleIncomingMessage(action: {channelId: string; message: Message}): void {
 		const state = this.get(action.channelId);
 		const currentUser = UserStore.getCurrentUser();
 
@@ -873,14 +892,14 @@ class ReadStateStore {
 			const shouldMention = state.shouldMentionFor(action.message, currentUser.id, state.isPrivate);
 			if (shouldMention) {
 				state.mentionCount++;
-				this.mentionChannels.add(state.channelId);
+				this.mentionChannels.add(state.channelId as ChannelId);
 			}
 		}
 
 		this.notifyChange(action.channelId);
 	}
 
-	handleMessageDelete(action: {channelId: ChannelId}): void {
+	handleMessageDelete(action: {channelId: string}): void {
 		const state = this.get(action.channelId);
 		state.rebuild();
 		this.notifyChange(action.channelId);
@@ -890,7 +909,8 @@ class ReadStateStore {
 		if (
 			action.channel.type !== ChannelTypes.DM &&
 			action.channel.type !== ChannelTypes.GROUP_DM &&
-			action.channel.type !== ChannelTypes.GUILD_TEXT
+			action.channel.type !== ChannelTypes.GUILD_TEXT &&
+			action.channel.type !== ChannelTypes.DM_PERSONAL_NOTES
 		) {
 			return;
 		}
@@ -901,7 +921,9 @@ class ReadStateStore {
 		state._guildId = action.channel.guild_id ?? null;
 
 		if (
-			(action.channel.type === ChannelTypes.DM || action.channel.type === ChannelTypes.GROUP_DM) &&
+			(action.channel.type === ChannelTypes.DM ||
+				action.channel.type === ChannelTypes.GROUP_DM ||
+				action.channel.type === ChannelTypes.DM_PERSONAL_NOTES) &&
 			action.channel.last_message_id != null
 		) {
 			state.ackMessageId = action.channel.last_message_id;
@@ -910,11 +932,11 @@ class ReadStateStore {
 		this.notifyChange(action.channel.id);
 	}
 
-	handleChannelDelete(action: {channel: {id: ChannelId}}): void {
+	handleChannelDelete(action: {channel: {id: string}}): void {
 		this.clear(action.channel.id);
 	}
 
-	handleChannelAck(action: {channelId: ChannelId; messageId?: MessageId; immediate?: boolean; force?: boolean}): void {
+	handleChannelAck(action: {channelId: string; messageId?: string; immediate?: boolean; force?: boolean}): void {
 		const state = this.get(action.channelId);
 		state.ack({
 			messageId: action.messageId,
@@ -925,7 +947,7 @@ class ReadStateStore {
 		this.notifyChange(action.channelId);
 	}
 
-	handleChannelAckWithStickyUnread(action: {channelId: ChannelId}): void {
+	handleChannelAckWithStickyUnread(action: {channelId: string}): void {
 		const state = this.get(action.channelId);
 
 		const lastMessageId = state.lastMessageId;
@@ -951,13 +973,13 @@ class ReadStateStore {
 		}
 	}
 
-	handleChannelPinsAck(action: {channelId: ChannelId; timestamp?: string}): void {
+	handleChannelPinsAck(action: {channelId: string; timestamp?: string}): void {
 		const state = this.get(action.channelId);
 		state.ackPins(action.timestamp);
 		this.notifyChange(action.channelId);
 	}
 
-	handleChannelPinsUpdate(action: {channelId: ChannelId; lastPinTimestamp: string}): void {
+	handleChannelPinsUpdate(action: {channelId: string; lastPinTimestamp: string}): void {
 		const state = this.get(action.channelId);
 		const newTimestamp = parseTimestamp(action.lastPinTimestamp);
 
@@ -967,7 +989,7 @@ class ReadStateStore {
 		}
 	}
 
-	handleMessageAck(action: {channelId: ChannelId; messageId: MessageId; mentionCount?: number; manual: boolean}): void {
+	handleMessageAck(action: {channelId: string; messageId: string; mentionCount?: number; manual: boolean}): void {
 		const state = this.get(action.channelId);
 		const mentionCount = action.mentionCount;
 		if (action.manual) {
@@ -999,7 +1021,7 @@ class ReadStateStore {
 		this.notifyChange(action.channelId);
 	}
 
-	handleClearManualAck(action: {channelId: ChannelId}): void {
+	handleClearManualAck(action: {channelId: string}): void {
 		const state = this.get(action.channelId);
 		if (state.isManualAck) {
 			state.isManualAck = false;

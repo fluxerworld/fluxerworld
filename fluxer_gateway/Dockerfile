@@ -1,5 +1,7 @@
 FROM erlang:28-slim AS build
 
+ARG LOGGER_LEVEL=info
+
 WORKDIR /usr/src/app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -9,6 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	gcc \
 	g++ \
 	libc6-dev \
+	gettext-base \
 	ca-certificates \
 	&& rm -rf /var/lib/apt/lists/*
 
@@ -19,8 +22,7 @@ COPY rebar.config rebar.lock* ./
 RUN rebar3 compile --deps_only
 
 COPY . .
-RUN cp config/vm.args.template config/vm.args && \
-	cp config/sys.config.template config/sys.config && \
+RUN LOGGER_LEVEL=${LOGGER_LEVEL} envsubst < config/sys.config.template > config/sys.config && \
 	rebar3 as prod release
 
 FROM erlang:28-slim
@@ -33,14 +35,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 	&& rm -rf /var/lib/apt/lists/*
 
 COPY --from=build /usr/src/app/_build/prod/rel/fluxer_gateway .
+COPY scripts/docker_entrypoint.sh /opt/fluxer_gateway/bin/docker_entrypoint.sh
 
-RUN useradd -r -s /sbin/nologin -d /opt/fluxer_gateway fluxer && \
+RUN chmod +x /opt/fluxer_gateway/bin/docker_entrypoint.sh && \
+	useradd -r -s /sbin/nologin -d /opt/fluxer_gateway fluxer && \
 	chown -R fluxer:fluxer /opt/fluxer_gateway
 
 USER fluxer
 
 EXPOSE 8080 8081
 
-ENV RELX_REPLACE_OS_VARS=true
-
-ENTRYPOINT ["/opt/fluxer_gateway/bin/fluxer_gateway", "foreground"]
+ENTRYPOINT ["/opt/fluxer_gateway/bin/docker_entrypoint.sh"]

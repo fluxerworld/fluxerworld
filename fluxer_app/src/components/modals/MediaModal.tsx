@@ -17,11 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MediaViewerActionCreators from '@app/actions/MediaViewerActionCreators';
+import {ExpiryFootnote} from '@app/components/common/ExpiryFootnote';
+import styles from '@app/components/modals/MediaModal.module.css';
+import {MobileVideoViewer} from '@app/components/modals/MobileVideoViewer';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import PoweredByKlipySvg from '@app/images/powered-by-klipy.svg?react';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import LayerManager from '@app/stores/LayerManager';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
 import {useLingui} from '@lingui/react/macro';
 import {
 	ArrowSquareOutIcon,
 	CaretLeftIcon,
 	CaretRightIcon,
+	DotsThreeIcon,
 	DownloadSimpleIcon,
 	InfoIcon,
 	MagnifyingGlassMinusIcon,
@@ -32,24 +44,20 @@ import {
 import {clsx} from 'clsx';
 import {AnimatePresence, motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
-import type {
-	CSSProperties,
-	FC,
-	KeyboardEvent as ReactKeyboardEvent,
-	MouseEvent as ReactMouseEvent,
-	ReactNode,
+import type {CSSProperties, FC, KeyboardEvent as ReactKeyboardEvent, MouseEvent as ReactMouseEvent} from 'react';
+import {
+	createElement,
+	forwardRef,
+	type ReactNode,
+	useCallback,
+	useEffect,
+	useLayoutEffect,
+	useMemo,
+	useRef,
+	useState,
 } from 'react';
-import {createElement, forwardRef, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {createPortal} from 'react-dom';
 import {TransformComponent, TransformWrapper} from 'react-zoom-pan-pinch';
-import * as MediaViewerActionCreators from '~/actions/MediaViewerActionCreators';
-import {ExpiryFootnote} from '~/components/common/ExpiryFootnote';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import LayerManager from '~/stores/LayerManager';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import styles from './MediaModal.module.css';
 
 interface MediaModalProps {
 	title: string;
@@ -72,12 +80,19 @@ interface MediaModalProps {
 	totalAttachments?: number;
 	onPrevious?: () => void;
 	onNext?: () => void;
-	thumbnails?: Array<{
-		src: string;
-		alt?: string;
-		type?: 'image' | 'gif' | 'gifv' | 'video' | 'audio';
-	}>;
+	thumbnails?: ReadonlyArray<MediaThumbnail>;
 	onSelectThumbnail?: (index: number) => void;
+	providerName?: string;
+	videoSrc?: string;
+	initialTime?: number;
+	mediaType?: 'image' | 'video' | 'audio';
+	onMenuOpen?: () => void;
+}
+
+interface MediaThumbnail {
+	src: string;
+	alt?: string;
+	type?: 'image' | 'gif' | 'gifv' | 'video' | 'audio';
 }
 
 interface ControlButtonProps {
@@ -139,7 +154,7 @@ interface FileInfoProps {
 }
 
 const FileInfo: FC<FileInfoProps> = observer(
-	({fileName, fileSize, dimensions, expiryInfo, currentIndex, totalAttachments, onPrevious, onNext}) => {
+	({fileName, fileSize, dimensions, expiryInfo, currentIndex, totalAttachments, onPrevious, onNext}: FileInfoProps) => {
 		const {t} = useLingui();
 		const hasNavigation = currentIndex !== undefined && totalAttachments !== undefined && totalAttachments > 1;
 
@@ -218,7 +233,7 @@ const Controls: FC<ControlsProps> = observer(
 		zoomState = 'fit',
 		onZoom,
 		enableZoomControls = false,
-	}) => {
+	}: ControlsProps) => {
 		const {t} = useLingui();
 		const [isHoveringActions, setIsHoveringActions] = useState(false);
 		const hasActions =
@@ -320,6 +335,30 @@ const Controls: FC<ControlsProps> = observer(
 	},
 );
 
+interface CompactMobileControlsProps {
+	onClose: () => void;
+	onMenuOpen?: () => void;
+}
+
+const CompactMobileControls: FC<CompactMobileControlsProps> = observer(
+	({onClose, onMenuOpen}: CompactMobileControlsProps) => {
+		const {t} = useLingui();
+
+		return (
+			<div className={styles.mobileTopBarControls} role="toolbar" aria-label={t`Media controls`}>
+				<ControlButton icon={<XIcon size={20} weight="bold" />} label={t`Close`} onClick={onClose} />
+				{onMenuOpen && (
+					<ControlButton
+						icon={<DotsThreeIcon size={20} weight="bold" />}
+						label={t`More options`}
+						onClick={onMenuOpen}
+					/>
+				)}
+			</div>
+		);
+	},
+);
+
 type ZoomState = 'fit' | 'zoomed';
 
 interface DesktopMediaViewerProps {
@@ -331,7 +370,7 @@ interface DesktopMediaViewerProps {
 }
 
 const DesktopMediaViewer: FC<DesktopMediaViewerProps> = observer(
-	({children, onClose, onZoomStateChange, zoomState: externalZoomState, onZoom}) => {
+	({children, onClose, onZoomStateChange, zoomState: externalZoomState, onZoom}: DesktopMediaViewerProps) => {
 		const [internalZoomState, setInternalZoomState] = useState<ZoomState>('fit');
 		const [panX, setPanX] = useState(0);
 		const [panY, setPanY] = useState(0);
@@ -348,8 +387,21 @@ const DesktopMediaViewer: FC<DesktopMediaViewerProps> = observer(
 		const zoomState = externalZoomState ?? internalZoomState;
 		currentZoomStateRef.current = zoomState;
 
+		useLayoutEffect(() => {
+			if (externalZoomState === undefined) {
+				return;
+			}
+
+			setPanX(0);
+			setPanY(0);
+		}, [externalZoomState]);
+
 		const updateZoomState = useCallback(
 			(newState: ZoomState) => {
+				if (currentZoomStateRef.current === newState) {
+					return;
+				}
+
 				currentZoomStateRef.current = newState;
 				setPanX(0);
 				setPanY(0);
@@ -511,6 +563,7 @@ const DesktopMediaViewer: FC<DesktopMediaViewerProps> = observer(
 					role="img"
 					style={{
 						transform: `translate3d(${panX / zoomScale}px, ${panY / zoomScale}px, 0) scale(${zoomScale})`,
+						transformOrigin: 'center center',
 						willChange: isDragging ? 'transform' : 'auto',
 					}}
 					onMouseEnter={() => setIsHoveringContent(true)}
@@ -525,7 +578,11 @@ const DesktopMediaViewer: FC<DesktopMediaViewerProps> = observer(
 	},
 );
 
-const MobileMediaViewer: FC<{children: ReactNode}> = observer(({children}) => {
+interface MobileMediaViewerProps {
+	children: ReactNode;
+}
+
+const MobileMediaViewer: FC<MobileMediaViewerProps> = observer(({children}: MobileMediaViewerProps) => {
 	return (
 		<div className={styles.mobileViewerContainer}>
 			<TransformWrapper
@@ -573,19 +630,56 @@ export const MediaModal: FC<MediaModalProps> = observer(
 		onNext,
 		thumbnails,
 		onSelectThumbnail,
-	}) => {
+		providerName,
+		videoSrc,
+		initialTime,
+		mediaType,
+		onMenuOpen,
+	}: MediaModalProps) => {
 		const {enabled: isMobile} = MobileLayoutStore;
 		const modalKey = useRef(Math.random().toString(36).substring(7));
 		const prefersReducedMotion = AccessibilityStore.useReducedMotion;
 		const [zoomState, setZoomState] = useState<ZoomState>('fit');
 		const [viewportPadding, setViewportPadding] = useState(getViewportPadding);
+		const headerBarRef = useRef<HTMLDivElement>(null);
+		const thumbnailCarouselRef = useRef<HTMLDivElement>(null);
+		const navigationOverlayRef = useRef<HTMLDivElement>(null);
+		const klipyAttributionRef = useRef<HTMLDivElement>(null);
+		const latestIndexRef = useRef(currentIndex ?? 0);
+		const [topOverlayHeight, setTopOverlayHeight] = useState(0);
+		const [bottomOverlayHeight, setBottomOverlayHeight] = useState(0);
+
+		const measureOverlayHeights = useCallback(() => {
+			const nextTopOverlayHeight = Math.ceil(headerBarRef.current?.getBoundingClientRect().height ?? 0);
+			const nextBottomOverlayHeight = Math.ceil(
+				Math.max(
+					thumbnailCarouselRef.current?.getBoundingClientRect().height ?? 0,
+					navigationOverlayRef.current?.getBoundingClientRect().height ?? 0,
+					klipyAttributionRef.current?.getBoundingClientRect().height ?? 0,
+				),
+			);
+
+			setTopOverlayHeight((previousHeight) =>
+				previousHeight === nextTopOverlayHeight ? previousHeight : nextTopOverlayHeight,
+			);
+			setBottomOverlayHeight((previousHeight) =>
+				previousHeight === nextBottomOverlayHeight ? previousHeight : nextBottomOverlayHeight,
+			);
+		}, []);
+
 		const handleClose = useCallback(() => {
 			MediaViewerActionCreators.closeMediaViewer();
 		}, []);
 
 		const handleZoom = useCallback((state: ZoomState) => {
-			setZoomState(state);
+			setZoomState((previousState) => (previousState === state ? previousState : state));
 		}, []);
+
+		useEffect(() => {
+			if (currentIndex !== undefined) {
+				latestIndexRef.current = currentIndex;
+			}
+		}, [currentIndex]);
 
 		useEffect(() => {
 			LayerManager.addLayer('modal', modalKey.current, handleClose);
@@ -612,73 +706,213 @@ export const MediaModal: FC<MediaModalProps> = observer(
 
 		useEffect(() => {
 			const handleKeyDown = (e: KeyboardEvent) => {
+				if (e.defaultPrevented) return;
+
 				if (e.key === 'Escape') {
 					handleClose();
-				} else if (e.key === 'ArrowLeft' && onPrevious) {
+					return;
+				}
+
+				const target = e.target as HTMLElement | null;
+				if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA' || target.isContentEditable)) {
+					return;
+				}
+
+				if ((e.key === 'ArrowLeft' || e.key === 'ArrowRight') && currentIndex !== undefined && onSelectThumbnail) {
+					const count = thumbnails?.length ?? 0;
+					if (count > 1) {
+						e.preventDefault();
+						const delta = e.key === 'ArrowRight' ? 1 : -1;
+						const latest = latestIndexRef.current;
+						const nextIndex = (latest + delta + count) % count;
+						latestIndexRef.current = nextIndex;
+						setZoomState('fit');
+						setRovingThumbnailIndex(nextIndex);
+						onSelectThumbnail(nextIndex);
+						return;
+					}
+				}
+
+				if (e.key === 'ArrowLeft' && onPrevious) {
 					e.preventDefault();
 					onPrevious();
-				} else if (e.key === 'ArrowRight' && onNext) {
+					return;
+				}
+
+				if (e.key === 'ArrowRight' && onNext) {
 					e.preventDefault();
 					onNext();
+					return;
 				}
 			};
 			window.addEventListener('keydown', handleKeyDown);
 			return () => window.removeEventListener('keydown', handleKeyDown);
-		}, [handleClose, onPrevious, onNext]);
-
-		const contentSizingStyle = useMemo(
-			() => ({'--media-content-padding': `${viewportPadding}px`}) as CSSProperties,
-			[viewportPadding],
-		);
+		}, [handleClose, onPrevious, onNext, onSelectThumbnail, thumbnails]);
 
 		const hasThumbnailCarousel =
 			thumbnails && thumbnails.length > 1 && currentIndex !== undefined && onSelectThumbnail !== undefined;
+
+		const contentSizingStyle = useMemo(() => {
+			const minimumTopOverlayHeight = isMobile ? 40 : 48;
+			const hasNavigationOverlay = currentIndex !== undefined && totalAttachments !== undefined && totalAttachments > 1;
+			const hasBottomOverlay =
+				zoomState === 'fit' &&
+				(Boolean(providerName === 'KLIPY') || Boolean(hasThumbnailCarousel) || hasNavigationOverlay);
+			const minimumBottomOverlayHeight = hasBottomOverlay ? 48 : 0;
+
+			const hasSideNavButtons = hasThumbnailCarousel && zoomState !== 'zoomed' && !isMobile;
+			const navButtonInset = 12 + 48 + 12;
+			const sideOverlayWidth = hasSideNavButtons ? Math.max(0, navButtonInset - viewportPadding) : 0;
+
+			return {
+				'--media-content-padding': `${viewportPadding}px`,
+				'--media-edge-padding': `${viewportPadding}px`,
+				'--media-top-overlay-height': `${Math.max(topOverlayHeight, minimumTopOverlayHeight)}px`,
+				'--media-bottom-overlay-height': `${Math.max(bottomOverlayHeight, minimumBottomOverlayHeight)}px`,
+				'--media-overlay-gap': '8px',
+				'--media-side-overlay-width': `${sideOverlayWidth}px`,
+			} as CSSProperties;
+		}, [
+			viewportPadding,
+			topOverlayHeight,
+			bottomOverlayHeight,
+			isMobile,
+			currentIndex,
+			totalAttachments,
+			zoomState,
+			providerName,
+			hasThumbnailCarousel,
+		]);
+
+		useLayoutEffect(() => {
+			measureOverlayHeights();
+
+			const observer = new ResizeObserver(() => {
+				measureOverlayHeights();
+			});
+
+			if (headerBarRef.current) observer.observe(headerBarRef.current);
+			if (thumbnailCarouselRef.current) observer.observe(thumbnailCarouselRef.current);
+			if (navigationOverlayRef.current) observer.observe(navigationOverlayRef.current);
+			if (klipyAttributionRef.current) observer.observe(klipyAttributionRef.current);
+
+			return () => observer.disconnect();
+		}, [measureOverlayHeights, hasThumbnailCarousel, providerName, currentIndex, totalAttachments, zoomState]);
+
+		const thumbnailCount = thumbnails?.length ?? 0;
+		const thumbnailButtonRefs = useRef<Array<HTMLButtonElement | null>>([]);
+		const [rovingThumbnailIndex, setRovingThumbnailIndex] = useState<number>(() => currentIndex ?? 0);
+
+		useEffect(() => {
+			thumbnailButtonRefs.current = thumbnailButtonRefs.current.slice(0, thumbnailCount);
+		}, [thumbnailCount]);
+
+		useEffect(() => {
+			if (!thumbnailCount && rovingThumbnailIndex !== 0) {
+				setRovingThumbnailIndex(0);
+				return;
+			}
+
+			if (thumbnailCount && rovingThumbnailIndex >= thumbnailCount) {
+				setRovingThumbnailIndex(thumbnailCount - 1);
+			}
+		}, [thumbnailCount, rovingThumbnailIndex]);
+
+		useEffect(() => {
+			if (currentIndex !== undefined && currentIndex !== rovingThumbnailIndex) {
+				setRovingThumbnailIndex(currentIndex);
+			}
+		}, [currentIndex, rovingThumbnailIndex]);
 
 		const handleThumbnailSelect = useCallback(
 			(index: number) => {
 				if (!onSelectThumbnail || currentIndex === undefined) return;
 				setZoomState('fit');
+				setRovingThumbnailIndex(index);
 				onSelectThumbnail(index);
 			},
 			[onSelectThumbnail, currentIndex],
 		);
 
+		const focusThumbnailButton = useCallback((index: number) => {
+			const button = thumbnailButtonRefs.current[index];
+			button?.focus();
+		}, []);
+
+		const handleThumbnailKeyDown = useCallback(
+			(e: ReactKeyboardEvent<HTMLElement>) => {
+				if (!thumbnailCount) return;
+
+				let nextIndex = rovingThumbnailIndex;
+				if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+					nextIndex = (rovingThumbnailIndex + 1) % thumbnailCount;
+				} else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+					nextIndex = (rovingThumbnailIndex - 1 + thumbnailCount) % thumbnailCount;
+				} else if (e.key === 'Home') {
+					nextIndex = 0;
+				} else if (e.key === 'End') {
+					nextIndex = thumbnailCount - 1;
+				} else {
+					return;
+				}
+
+				if (nextIndex === rovingThumbnailIndex) return;
+
+				e.preventDefault();
+				e.stopPropagation();
+				handleThumbnailSelect(nextIndex);
+				focusThumbnailButton(nextIndex);
+			},
+			[focusThumbnailButton, handleThumbnailSelect, rovingThumbnailIndex, thumbnailCount],
+		);
+
 		const {t} = useLingui();
 		const wrappedChildren = useMemo(() => <div className={styles.mediaContainer}>{children}</div>, [children]);
 
-		const mediaContent = enablePanZoom
-			? isMobile
-				? createElement(MobileMediaViewer, null, wrappedChildren)
-				: createElement(DesktopMediaViewer, {
-						onClose: handleClose,
-						onZoomStateChange: setZoomState,
-						zoomState,
-						onZoom: handleZoom,
-						// biome-ignore lint/correctness/noChildrenProp: Desktop viewer expects children prop to wrap content
-						children: wrappedChildren,
-					})
-			: createElement(
-					'div',
-					{className: styles.nonZoomMediaContainer},
-					createElement('div', {
-						className: styles.nonZoomBackdrop,
-						role: 'button',
-						tabIndex: 0,
-						onClick: handleClose,
-						onKeyDown: (e: ReactKeyboardEvent<HTMLDivElement>) => {
-							if (e.key === 'Enter' || e.key === ' ') {
-								e.preventDefault();
-								handleClose();
-							}
-						},
-						'aria-label': 'Close media viewer',
-					}),
-					createElement(
+		const isMobileVideo = isMobile && mediaType === 'video' && videoSrc;
+		const showDesktopControls = !isMobile;
+		const showCompactMobileControls = isMobile && !isMobileVideo;
+
+		const mediaContent = isMobileVideo
+			? createElement(MobileVideoViewer, {
+					src: videoSrc,
+					initialTime,
+					loop: true,
+					onClose: handleClose,
+					onMenuOpen,
+				})
+			: enablePanZoom
+				? isMobile
+					? createElement(MobileMediaViewer, null, wrappedChildren)
+					: createElement(DesktopMediaViewer, {
+							onClose: handleClose,
+							onZoomStateChange: setZoomState,
+							zoomState,
+							onZoom: handleZoom,
+							children: wrappedChildren,
+						})
+				: createElement(
 						'div',
-						{className: styles.nonZoomContent},
-						createElement('div', {className: styles.nonZoomContentInner}, wrappedChildren),
-					),
-				);
+						{className: styles.nonZoomMediaContainer},
+						createElement('div', {
+							className: styles.nonZoomBackdrop,
+							role: 'button',
+							tabIndex: 0,
+							onClick: handleClose,
+							onKeyDown: (e: ReactKeyboardEvent<HTMLDivElement>) => {
+								if (e.key === 'Enter' || e.key === ' ') {
+									e.preventDefault();
+									handleClose();
+								}
+							},
+							'aria-label': 'Close media viewer',
+						}),
+						createElement(
+							'div',
+							{className: styles.nonZoomContent},
+							createElement('div', {className: styles.nonZoomContentInner}, wrappedChildren),
+						),
+					);
 
 		const modalContent = (
 			<AnimatePresence>
@@ -688,7 +922,7 @@ export const MediaModal: FC<MediaModalProps> = observer(
 						initial={{opacity: 0}}
 						animate={{opacity: 1}}
 						exit={{opacity: 0}}
-						transition={prefersReducedMotion ? {duration: 0.05} : {duration: 0.2}}
+						transition={prefersReducedMotion ? {duration: 0} : {duration: 0.2}}
 						aria-hidden="true"
 						onClick={handleClose}
 					/>
@@ -698,13 +932,16 @@ export const MediaModal: FC<MediaModalProps> = observer(
 						initial={{opacity: 0}}
 						animate={{opacity: 1}}
 						exit={{opacity: 0}}
-						transition={prefersReducedMotion ? {duration: 0.05} : {duration: 0.2}}
+						transition={prefersReducedMotion ? {duration: 0} : {duration: 0.2}}
 						role="dialog"
 						aria-modal="true"
 						aria-label={title}
 					>
-						<div className={clsx(styles.modalContentInner, zoomState === 'zoomed' && styles.modalContentInnerZoomed)}>
-							<div className={styles.headerBar}>
+						<div
+							className={clsx(styles.modalContentInner, zoomState === 'zoomed' && styles.modalContentInnerZoomed)}
+							style={contentSizingStyle}
+						>
+							<div ref={headerBarRef} className={styles.headerBar}>
 								{zoomState !== 'zoomed' && (
 									<div className={styles.headerMeta}>
 										<FileInfo
@@ -720,78 +957,144 @@ export const MediaModal: FC<MediaModalProps> = observer(
 									</div>
 								)}
 
-								<div className={styles.headerControls}>
-									<Controls
-										isFavorited={isFavorited}
-										onFavorite={onFavorite}
-										onSave={onSave}
-										onOpenInBrowser={onOpenInBrowser}
-										onInfo={onInfo}
-										onClose={handleClose}
-										additionalActions={additionalActions}
-										zoomState={zoomState}
-										onZoom={enablePanZoom && !isMobile ? handleZoom : undefined}
-										enableZoomControls={enablePanZoom && !isMobile}
-									/>
-								</div>
+								{showDesktopControls && (
+									<div className={styles.headerControls}>
+										<Controls
+											isFavorited={isFavorited}
+											onFavorite={onFavorite}
+											onSave={onSave}
+											onOpenInBrowser={onOpenInBrowser}
+											onInfo={onInfo}
+											onClose={handleClose}
+											additionalActions={additionalActions}
+											zoomState={zoomState}
+											onZoom={enablePanZoom && !isMobile ? handleZoom : undefined}
+											enableZoomControls={enablePanZoom && !isMobile}
+										/>
+									</div>
+								)}
+
+								{showCompactMobileControls && (
+									<div className={styles.headerControls}>
+										<CompactMobileControls onClose={handleClose} onMenuOpen={onMenuOpen} />
+									</div>
+								)}
 							</div>
 
-							<div
-								className={clsx(styles.mediaArea, zoomState === 'zoomed' && styles.mediaAreaZoomed)}
-								style={contentSizingStyle}
-							>
+							<div className={clsx(styles.mediaArea, zoomState === 'zoomed' && styles.mediaAreaZoomed)}>
 								{mediaContent}
 							</div>
 
-							{hasThumbnailCarousel && (
-								<div className={styles.thumbnailCarousel} role="listbox" aria-label={t`Attachment thumbnails`}>
-									{thumbnails?.map((thumb, index) => {
-										const isSelected = currentIndex === index;
-										const badgeText =
-											thumb.type === 'audio'
-												? t`Audio`
-												: thumb.type === 'video' || thumb.type === 'gifv'
-													? t`Video`
-													: thumb.type === 'gif'
-														? t`GIF`
-														: undefined;
+							{providerName === 'KLIPY' && zoomState === 'fit' && (
+								<div ref={klipyAttributionRef} className={styles.klipyAttribution}>
+									<PoweredByKlipySvg />
+								</div>
+							)}
 
-										return (
-											<FocusRing key={`${thumb.src}-${index}`} offset={-2}>
-												<button
-													type="button"
-													role="option"
-													aria-selected={isSelected}
-													aria-label={thumb.alt ?? t`Attachment ${index + 1}`}
-													className={clsx(styles.thumbnailButton, isSelected && styles.thumbnailButtonSelected)}
-													onClick={() => handleThumbnailSelect(index)}
-												>
-													<div className={styles.thumbnailImageWrapper}>
-														{thumb.type === 'video' || thumb.type === 'gifv' ? (
-															<video
-																className={styles.thumbnailVideo}
-																src={thumb.src}
-																muted
-																playsInline
-																preload="metadata"
-																aria-label={thumb.alt ?? t`Video preview`}
-															/>
-														) : thumb.type === 'audio' ? (
-															<div className={styles.thumbnailPlaceholder}>{t`Audio`}</div>
-														) : (
-															<img
-																src={thumb.src}
-																alt={thumb.alt ?? ''}
-																className={styles.thumbnailImage}
-																draggable={false}
-															/>
-														)}
-														{badgeText && <span className={styles.thumbnailBadge}>{badgeText}</span>}
-													</div>
-												</button>
-											</FocusRing>
-										);
-									})}
+							{hasThumbnailCarousel && zoomState !== 'zoomed' && !isMobile && (
+								<>
+									<div className={styles.floatingNavButtonLeft}>
+										<Tooltip text={t`Previous attachment`} position="right">
+											<span>
+												<FocusRing offset={-2}>
+													<button
+														type="button"
+														className={styles.floatingNavButton}
+														onClick={onPrevious ?? (() => {})}
+														aria-label={t`Previous attachment`}
+													>
+														<CaretLeftIcon size={24} weight="bold" />
+													</button>
+												</FocusRing>
+											</span>
+										</Tooltip>
+									</div>
+									<div className={styles.floatingNavButtonRight}>
+										<Tooltip text={t`Next attachment`} position="left">
+											<span>
+												<FocusRing offset={-2}>
+													<button
+														type="button"
+														className={styles.floatingNavButton}
+														onClick={onNext ?? (() => {})}
+														aria-label={t`Next attachment`}
+													>
+														<CaretRightIcon size={24} weight="bold" />
+													</button>
+												</FocusRing>
+											</span>
+										</Tooltip>
+									</div>
+								</>
+							)}
+
+							{hasThumbnailCarousel && zoomState !== 'zoomed' && (
+								<div ref={thumbnailCarouselRef} className={styles.thumbnailCarouselWrapper}>
+									<Scroller
+										className={styles.thumbnailCarouselScroller}
+										orientation="horizontal"
+										overflow="auto"
+										fade={false}
+										key="media-modal-thumbnail-carousel-scroller"
+										role="listbox"
+										aria-label={t`Attachment thumbnails`}
+										onKeyDown={handleThumbnailKeyDown}
+									>
+										<div className={styles.thumbnailCarousel}>
+											{thumbnails?.map((thumb: MediaThumbnail, index: number) => {
+												const isSelected = currentIndex === index;
+												const isRovingTarget = rovingThumbnailIndex === index;
+												const isFirstThumbnail = index === 0;
+												const isLastThumbnail = index === thumbnailCount - 1;
+
+												return (
+													<FocusRing key={`${thumb.src}-${index}`} offset={-2}>
+														<button
+															ref={(el) => {
+																thumbnailButtonRefs.current[index] = el;
+															}}
+															type="button"
+															role="option"
+															aria-selected={isSelected}
+															aria-label={thumb.alt ?? t`Attachment ${index + 1}`}
+															className={clsx(styles.thumbnailButton, isSelected && styles.thumbnailButtonSelected)}
+															tabIndex={isRovingTarget ? 0 : -1}
+															onClick={() => handleThumbnailSelect(index)}
+															onKeyDown={handleThumbnailKeyDown}
+														>
+															<div
+																className={clsx(
+																	styles.thumbnailImageWrapper,
+																	isFirstThumbnail && styles.thumbnailImageWrapperFirst,
+																	isLastThumbnail && styles.thumbnailImageWrapperLast,
+																)}
+															>
+																{thumb.type === 'video' || thumb.type === 'gifv' ? (
+																	<video
+																		className={styles.thumbnailVideo}
+																		src={thumb.src}
+																		muted
+																		playsInline
+																		preload="metadata"
+																		aria-label={thumb.alt ?? t`Video preview`}
+																	/>
+																) : thumb.type === 'audio' ? (
+																	<div className={styles.thumbnailPlaceholder}>{t`Audio`}</div>
+																) : (
+																	<img
+																		src={thumb.src}
+																		alt={thumb.alt ?? ''}
+																		className={styles.thumbnailImage}
+																		draggable={false}
+																	/>
+																)}
+															</div>
+														</button>
+													</FocusRing>
+												);
+											})}
+										</div>
+									</Scroller>
 								</div>
 							)}
 
@@ -799,7 +1102,7 @@ export const MediaModal: FC<MediaModalProps> = observer(
 								currentIndex !== undefined &&
 								totalAttachments !== undefined &&
 								totalAttachments > 1 && (
-									<div className={styles.navigationOverlay}>
+									<div ref={navigationOverlayRef} className={styles.navigationOverlay}>
 										<Tooltip text={t`Previous attachment`} position="top">
 											<span>
 												<ControlButton

@@ -17,13 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-export type AuthSession = Readonly<{
-	id: string;
-	approx_last_used_at: string | null;
-	client_os: string;
-	client_platform: string;
-	client_location: string | null;
-}>;
+import type {AuthSessionLocation, AuthSessionResponse} from '@fluxer/schema/src/domains/auth/AuthSchemas';
 
 export class AuthSessionRecord {
 	readonly id: string;
@@ -31,26 +25,38 @@ export class AuthSessionRecord {
 	readonly clientOs: string;
 	readonly clientPlatform: string;
 	readonly clientLocation: string | null;
+	readonly isCurrent: boolean;
+	private readonly clientInfo: AuthSessionResponse['client_info'] | null;
 
-	constructor(data: AuthSession) {
-		this.id = data.id;
+	constructor(data: AuthSessionResponse) {
+		this.id = data.id_hash;
 		this.approxLastUsedAt = data.approx_last_used_at ? new Date(data.approx_last_used_at) : null;
-		this.clientOs = data.client_os;
-		this.clientPlatform = data.client_platform;
-		this.clientLocation = data.client_location;
+		this.clientInfo = data.client_info ?? null;
+		this.clientOs = this.clientInfo?.os ?? 'Unknown';
+		this.clientPlatform = this.clientInfo?.platform ?? 'Unknown';
+		this.clientLocation = getLocationLabel(this.clientInfo?.location ?? null);
+		this.isCurrent = data.current;
 	}
 
-	toJSON(): AuthSession {
+	toJSON(): AuthSessionResponse {
 		return {
-			id: this.id,
+			id_hash: this.id,
 			approx_last_used_at: this.approxLastUsedAt?.toISOString() ?? null,
-			client_os: this.clientOs,
-			client_platform: this.clientPlatform,
-			client_location: this.clientLocation,
+			client_info: this.clientInfo,
+			current: this.isCurrent,
 		};
 	}
 
 	equals(other: AuthSessionRecord): boolean {
 		return JSON.stringify(this) === JSON.stringify(other);
 	}
+}
+
+function getLocationLabel(location: AuthSessionLocation | null): string | null {
+	if (!location) {
+		return null;
+	}
+
+	const parts = [location.city, location.region, location.country].filter(Boolean);
+	return parts.length ? parts.join(', ') : null;
 }

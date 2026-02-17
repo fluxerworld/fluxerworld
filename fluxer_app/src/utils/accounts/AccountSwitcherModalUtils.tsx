@@ -17,37 +17,44 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {getAccountAvatarUrl} from '@app/components/accounts/AccountListItem';
+import {showBrowserLoginHandoffModal} from '@app/components/auth/BrowserLoginHandoffModal';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import {Endpoints} from '@app/Endpoints';
+import i18n from '@app/I18n';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import {type Account, SessionExpiredError} from '@app/lib/SessionManager';
+import AccountManager from '@app/stores/AccountManager';
+import {describeApiEndpoint} from '@app/stores/RuntimeConfigStore';
+import {DEFAULT_API_VERSION} from '@fluxer/constants/src/AppConstants';
 import {msg} from '@lingui/core/macro';
 import {Trans} from '@lingui/react/macro';
 import {SignOutIcon} from '@phosphor-icons/react';
 import type React from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {getAccountAvatarUrl} from '~/components/accounts/AccountListItem';
-import {showBrowserLoginHandoffModal} from '~/components/auth/BrowserLoginHandoffModal';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {MenuGroup} from '~/components/uikit/ContextMenu/MenuGroup';
-import {MenuItem} from '~/components/uikit/ContextMenu/MenuItem';
-import i18n from '~/i18n';
-import {SessionExpiredError} from '~/lib/SessionManager';
-import AccountManager, {type AccountSummary} from '~/stores/AccountManager';
-import {describeApiEndpoint} from '~/stores/RuntimeConfigStore';
+
+const logger = new Logger('AccountSwitcherModalUtils');
 
 export interface AccountSwitcherLogic {
-	currentAccount: AccountSummary | null;
-	accounts: Array<AccountSummary>;
-	secondaryAccounts: Array<AccountSummary>;
+	currentAccount: Account | null;
+	accounts: Array<Account>;
+	secondaryAccounts: Array<Account>;
 	isBusy: boolean;
 	currentInstanceLabel: string | null;
 	handleSwitchAccount: (userId: string) => Promise<void>;
 	handleLogout: () => Promise<void>;
+	handleLogoutStoredAccount: (account: Account) => Promise<void>;
 	handleAddAccount: () => void;
 	handleReLogin: (_userId: string) => void;
 	handleRemoveAccount: (userId: string) => Promise<void>;
-	getAvatarUrl: (account: AccountSummary) => string | undefined;
+	getAvatarUrl: (account: Account) => string | undefined;
 }
 
 const handleLoginSuccess = async ({token, userId}: {token: string; userId: string}): Promise<void> => {
@@ -55,7 +62,15 @@ const handleLoginSuccess = async ({token, userId}: {token: string; userId: strin
 	ModalActionCreators.popAll();
 };
 
-export const useAccountSwitcherLogic = (): AccountSwitcherLogic => {
+function buildAccountLogoutUrl(account: Account): string {
+	const endpoint = account.instance?.apiEndpoint?.replace(/\/+$/, '');
+	if (!endpoint) {
+		return Endpoints.AUTH_LOGOUT;
+	}
+	return `${endpoint}/v${DEFAULT_API_VERSION}${Endpoints.AUTH_LOGOUT}`;
+}
+
+export function useAccountSwitcherLogic(): AccountSwitcherLogic {
 	const currentAccount = AccountManager.currentAccount;
 	const accounts = AccountManager.getAllAccounts();
 
@@ -85,7 +100,7 @@ export const useAccountSwitcherLogic = (): AccountSwitcherLogic => {
 			if (error instanceof SessionExpiredError) {
 				handleReLogin(userId);
 			} else {
-				console.error('Failed to switch account', error);
+				logger.error('Failed to switch account', error);
 				ToastActionCreators.error(i18n._(msg`We couldn't switch accounts. Please try again.`));
 			}
 		}
@@ -100,9 +115,29 @@ export const useAccountSwitcherLogic = (): AccountSwitcherLogic => {
 			await AccountManager.logout();
 			ModalActionCreators.pop();
 		} catch (error) {
-			console.error('Logout failed', error);
+			logger.error('Logout failed', error);
 			ToastActionCreators.error(i18n._(msg`Logging out failed. Try again in a moment.`));
 		}
+	};
+
+	const handleLogoutStoredAccount = async (account: Account): Promise<void> => {
+		if (isBusy) {
+			return;
+		}
+
+		try {
+			await http.post({
+				url: buildAccountLogoutUrl(account),
+				headers: {Authorization: account.token},
+				timeout: 5000,
+				retries: 0,
+				skipAuth: true,
+			});
+		} catch (error) {
+			logger.warn('Failed to log out stored account', error);
+		}
+
+		await handleRemoveAccount(account.userId);
 	};
 
 	const handleAddAccount = (): void => {
@@ -117,7 +152,7 @@ export const useAccountSwitcherLogic = (): AccountSwitcherLogic => {
 		try {
 			await AccountManager.removeStoredAccount(userId);
 		} catch (error) {
-			console.error('Failed to remove account', error);
+			logger.error('Failed to remove account', error);
 			ToastActionCreators.error(i18n._(msg`Could not remove this account. Please try again.`));
 		}
 	};
@@ -130,28 +165,29 @@ export const useAccountSwitcherLogic = (): AccountSwitcherLogic => {
 		currentInstanceLabel,
 		handleSwitchAccount,
 		handleLogout,
+		handleLogoutStoredAccount,
 		handleAddAccount,
 		handleReLogin,
 		handleRemoveAccount,
 		getAvatarUrl: getAccountAvatarUrl,
 	};
-};
+}
 
 export interface OpenSignOutConfirmOptions {
-	account: AccountSummary;
+	account: Account;
 	currentAccountId: string | null;
 	hasMultipleAccounts: boolean;
 	onLogout: () => Promise<void>;
-	onRemoveAccount: (userId: string) => Promise<void>;
+	onLogoutStoredAccount: (account: Account) => Promise<void>;
 }
 
-export const openSignOutConfirm = ({
+export function openSignOutConfirm({
 	account,
 	currentAccountId,
 	hasMultipleAccounts,
 	onLogout,
-	onRemoveAccount,
-}: OpenSignOutConfirmOptions): void => {
+	onLogoutStoredAccount,
+}: OpenSignOutConfirmOptions): void {
 	const displayName = account.userData?.username ?? account.userId;
 	const isCurrentAccount = account.userId === currentAccountId;
 
@@ -167,7 +203,7 @@ export const openSignOutConfirm = ({
 							<Trans>Signing out will bring you to the login screen.</Trans>
 						)
 					) : (
-						<Trans>This will remove the cached session for this account.</Trans>
+						<Trans>Signing out will remove this account from the device.</Trans>
 					)
 				}
 				primaryText={<Trans>Sign out</Trans>}
@@ -176,25 +212,25 @@ export const openSignOutConfirm = ({
 					if (isCurrentAccount) {
 						await onLogout();
 					} else {
-						await onRemoveAccount(account.userId);
+						await onLogoutStoredAccount(account);
 					}
 				}}
 			/>
 		)),
 	);
-};
+}
 
 export interface OpenAccountContextMenuOptions {
-	account: AccountSummary;
+	account: Account;
 	currentAccountId: string | null;
 	hasMultipleAccounts: boolean;
 	onSwitch: (userId: string) => void;
 	onReLogin: (userId: string) => void;
 	onLogout: () => Promise<void>;
-	onRemoveAccount: (userId: string) => Promise<void>;
+	onLogoutStoredAccount: (account: Account) => Promise<void>;
 }
 
-export const openAccountContextMenu = (
+export function openAccountContextMenu(
 	event: React.MouseEvent<HTMLButtonElement>,
 	{
 		account,
@@ -203,9 +239,9 @@ export const openAccountContextMenu = (
 		onSwitch,
 		onReLogin,
 		onLogout,
-		onRemoveAccount,
+		onLogoutStoredAccount,
 	}: OpenAccountContextMenuOptions,
-): void => {
+): void {
 	const isCurrent = account.userId === currentAccountId;
 
 	ContextMenuActionCreators.openFromEvent(event, (props) => (
@@ -221,33 +257,53 @@ export const openAccountContextMenu = (
 							currentAccountId,
 							hasMultipleAccounts,
 							onLogout,
-							onRemoveAccount,
+							onLogoutStoredAccount,
 						});
 					}}
 				>
 					<Trans>Sign out</Trans>
 				</MenuItem>
-			) : account.isValid === false ? (
-				<MenuItem
-					icon={<SignOutIcon size={18} />}
-					onClick={() => {
-						props.onClose();
-						onReLogin(account.userId);
-					}}
-				>
-					<Trans>Re-login</Trans>
-				</MenuItem>
 			) : (
-				<MenuItem
-					icon={<SignOutIcon size={18} />}
-					onClick={() => {
-						props.onClose();
-						onSwitch(account.userId);
-					}}
-				>
-					<Trans>Switch to this account</Trans>
-				</MenuItem>
+				<>
+					{account.isValid === false ? (
+						<MenuItem
+							icon={<SignOutIcon size={18} />}
+							onClick={() => {
+								props.onClose();
+								onReLogin(account.userId);
+							}}
+						>
+							<Trans>Re-login</Trans>
+						</MenuItem>
+					) : (
+						<MenuItem
+							icon={<SignOutIcon size={18} />}
+							onClick={() => {
+								props.onClose();
+								onSwitch(account.userId);
+							}}
+						>
+							<Trans>Switch to this account</Trans>
+						</MenuItem>
+					)}
+					<MenuItem
+						danger
+						icon={<SignOutIcon size={18} />}
+						onClick={() => {
+							props.onClose();
+							openSignOutConfirm({
+								account,
+								currentAccountId,
+								hasMultipleAccounts,
+								onLogout,
+								onLogoutStoredAccount,
+							});
+						}}
+					>
+						<Trans>Sign out</Trans>
+					</MenuItem>
+				</>
 			)}
 		</MenuGroup>
 	));
-};
+}

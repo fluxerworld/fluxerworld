@@ -17,24 +17,25 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/textarea/TextareaButton.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {TooltipWithKeybind} from '@app/components/uikit/keybind_hint/KeybindHint';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import type {KeybindCommand, KeyCombo} from '@app/stores/KeybindStore';
 import type {Icon, IconProps} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
-import React from 'react';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {TooltipWithKeybind} from '~/components/uikit/KeybindHint/KeybindHint';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import type {KeybindAction, KeyCombo} from '~/stores/KeybindStore';
-import styles from './TextareaButton.module.css';
+import React, {useCallback} from 'react';
 
-export type TextareaButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
+interface TextareaButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 	icon: Icon;
 	label: string;
 	isSelected?: boolean;
 	compact?: boolean;
 	iconProps?: Partial<IconProps>;
-	keybindAction?: KeybindAction;
+	keybindAction?: KeybindCommand;
 	keybindCombo?: KeyCombo;
-};
+	forceHover?: boolean;
+}
 
 export const TextareaButton = React.forwardRef<HTMLButtonElement, TextareaButtonProps>(
 	(
@@ -49,6 +50,7 @@ export const TextareaButton = React.forwardRef<HTMLButtonElement, TextareaButton
 			className,
 			keybindAction,
 			keybindCombo,
+			forceHover,
 			...props
 		},
 		ref,
@@ -61,13 +63,18 @@ export const TextareaButton = React.forwardRef<HTMLButtonElement, TextareaButton
 				aria-label={label}
 				disabled={disabled}
 				onClick={onClick}
-				className={clsx(compact ? styles.buttonCompact : styles.button, isSelected && styles.selected, className)}
+				className={clsx(
+					compact ? styles.buttonCompact : styles.button,
+					isSelected && styles.selected,
+					forceHover && styles.contextMenuHover,
+					className,
+				)}
 			>
 				<Icon className={styles.icon} {...iconProps} />
 			</button>
 		);
 
-		const tooltipText = React.useCallback(
+		const tooltipText = useCallback(
 			() => <TooltipWithKeybind label={label} action={keybindAction} combo={keybindCombo} />,
 			[label, keybindAction, keybindCombo],
 		);

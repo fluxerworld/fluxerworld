@@ -17,24 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/popouts/GuildIcon.module.css';
+import {useHover} from '@app/hooks/useHover';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {getInitialsLength} from '@app/utils/GuildInitialsUtils';
+import * as ImageCacheUtils from '@app/utils/ImageCacheUtils';
+import * as StringUtils from '@app/utils/StringUtils';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {useHover} from '~/hooks/useHover';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import {getInitialsLength} from '~/utils/GuildInitialsUtils';
-import * as ImageCacheUtils from '~/utils/ImageCacheUtils';
-import * as StringUtils from '~/utils/StringUtils';
-import styles from './GuildIcon.module.css';
+import type React from 'react';
+import {useEffect, useMemo, useState} from 'react';
 
-type GuildIconProps = {
+interface GuildIconProps {
 	id: string;
 	name: string;
 	icon: string | null;
 	className?: string;
 	sizePx?: number;
 	containerProps?: React.HTMLAttributes<HTMLElement> & {'data-jump-link-guild-icon'?: string};
-};
+}
 
 type GuildIconStyleVars = React.CSSProperties & {
 	'--guild-icon-size'?: string;
@@ -49,28 +51,26 @@ export const GuildIcon = observer(function GuildIcon({
 	sizePx,
 	containerProps,
 }: GuildIconProps) {
-	const initials = React.useMemo(() => StringUtils.getInitialsFromName(name), [name]);
-	const initialsLength = React.useMemo(() => getInitialsLength(initials), [initials]);
+	const initials = useMemo(() => StringUtils.getInitialsFromName(name), [name]);
+	const initialsLength = useMemo(() => getInitialsLength(initials), [initials]);
 	const [hoverRef, isHovering] = useHover();
 
-	const iconUrl = React.useMemo(() => (icon ? AvatarUtils.getGuildIconURL({id, icon}) : null), [id, icon]);
-	const hoverIconUrl = React.useMemo(() => (icon ? AvatarUtils.getGuildIconURL({id, icon}, true) : null), [id, icon]);
+	const iconUrl = useMemo(() => (icon ? AvatarUtils.getGuildIconURL({id, icon}) : null), [id, icon]);
+	const hoverIconUrl = useMemo(() => (icon ? AvatarUtils.getGuildIconURL({id, icon}, true) : null), [id, icon]);
 
-	const [isStaticLoaded, setIsStaticLoaded] = React.useState(() =>
-		iconUrl ? ImageCacheUtils.hasImage(iconUrl) : false,
-	);
-	const [isAnimatedLoaded, setIsAnimatedLoaded] = React.useState(() =>
+	const [isStaticLoaded, setIsStaticLoaded] = useState(() => (iconUrl ? ImageCacheUtils.hasImage(iconUrl) : false));
+	const [isAnimatedLoaded, setIsAnimatedLoaded] = useState(() =>
 		hoverIconUrl ? ImageCacheUtils.hasImage(hoverIconUrl) : false,
 	);
-	const [shouldPlayAnimated, setShouldPlayAnimated] = React.useState(false);
+	const [shouldPlayAnimated, setShouldPlayAnimated] = useState(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setIsStaticLoaded(iconUrl ? ImageCacheUtils.hasImage(iconUrl) : false);
 		setIsAnimatedLoaded(hoverIconUrl ? ImageCacheUtils.hasImage(hoverIconUrl) : false);
 		setShouldPlayAnimated(false);
 	}, [iconUrl, hoverIconUrl]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!iconUrl || isStaticLoaded) return;
 
 		let cancelled = false;
@@ -82,7 +82,7 @@ export const GuildIcon = observer(function GuildIcon({
 		};
 	}, [iconUrl, isStaticLoaded]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!isHovering || !hoverIconUrl || isAnimatedLoaded) return;
 
 		let cancelled = false;
@@ -94,7 +94,7 @@ export const GuildIcon = observer(function GuildIcon({
 		};
 	}, [isHovering, hoverIconUrl, isAnimatedLoaded]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		setShouldPlayAnimated(Boolean(isHovering && isAnimatedLoaded));
 	}, [isHovering, isAnimatedLoaded]);
 
@@ -108,12 +108,15 @@ export const GuildIcon = observer(function GuildIcon({
 		styleVars['--guild-icon-image'] = `url(${activeUrl})`;
 	}
 
+	const reducedMotion = AccessibilityStore.useReducedMotion;
+
 	return (
 		<div
 			ref={hoverRef}
 			className={clsx(styles.container, className, !icon && styles.containerNoIcon)}
 			{...containerProps}
 			data-initials-length={initialsLength}
+			data-reduced-motion={reducedMotion}
 			style={styleVars}
 		>
 			{!icon && <span className={styles.initials}>{initials}</span>}

@@ -17,41 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import {getCurrentLocale} from '@app/utils/LocaleUtils';
+import {TimeFormatTypes} from '@fluxer/constants/src/UserConstants';
+import {
+	getFormattedCompactDateTime as getFormattedCompactDateTimeBase,
+	getFormattedDateTime as getFormattedDateTimeBase,
+	getFormattedDateTimeWithSeconds as getFormattedDateTimeWithSecondsBase,
+	getFormattedFullDate as getFormattedFullDateBase,
+	getFormattedShortDate as getFormattedShortDateBase,
+	getFormattedTime as getFormattedTimeBase,
+	getRelativeDateString as getRelativeDateStringBase,
+} from '@fluxer/date_utils/src/DateFormatting';
+import {localeUses12Hour} from '@fluxer/date_utils/src/DateHourCycle';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
-import {DateTime} from 'luxon';
-import {TimeFormatTypes} from '~/Constants';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import {getCurrentLocale} from '~/utils/LocaleUtils';
 
-const localeUses12Hour = (locale: string): boolean => {
-	const lang = locale.toLowerCase();
-
-	const twelveHourLocales = [
-		'en-us',
-		'en-ca',
-		'en-au',
-		'en-nz',
-		'en-ph',
-		'en-in',
-		'en-pk',
-		'en-bd',
-		'en-za',
-		'es-mx',
-		'es-co',
-		'ar',
-		'hi',
-		'bn',
-		'ur',
-		'fil',
-		'tl',
-	];
-
-	return twelveHourLocales.some((l) => lang.startsWith(l));
-};
-
-export const shouldUse12HourFormat = (locale: string): boolean => {
+export function shouldUse12HourFormat(locale: string): boolean {
 	const timeFormat = UserSettingsStore.getTimeFormat();
 	switch (timeFormat) {
 		case TimeFormatTypes.TWELVE_HOUR:
@@ -64,113 +47,59 @@ export const shouldUse12HourFormat = (locale: string): boolean => {
 			return localeUses12Hour(effectiveLocale);
 		}
 	}
-};
+}
 
-const parseDateTime = (timestamp: number | Date | string): DateTime => {
-	if (timestamp instanceof Date) {
-		return DateTime.fromJSDate(timestamp);
-	}
-	if (typeof timestamp === 'string') {
-		return DateTime.fromISO(timestamp);
-	}
-
-	if (timestamp == null || Number.isNaN(timestamp)) {
-		console.warn('[DateUtils] Invalid timestamp provided, using current time:', timestamp);
-		return DateTime.now();
-	}
-	return DateTime.fromMillis(timestamp);
-};
-
-export const isSameDay = (timestamp1: number | Date | string, timestamp2?: number | Date | string): boolean => {
-	const dt1 = parseDateTime(timestamp1);
-	const dt2 = timestamp2 != null ? parseDateTime(timestamp2) : DateTime.now();
-	return dt1.hasSame(dt2, 'day');
-};
-
-export const getRelativeDateString = (timestamp: number | Date | string, i18n: I18n): string => {
+export function getRelativeDateString(timestamp: number | Date | string, i18n: I18n): string {
 	const locale = getCurrentLocale();
-	const dt = parseDateTime(timestamp).setLocale(locale);
-	const now = DateTime.now().setLocale(locale);
+	const hour12 = shouldUse12HourFormat(locale);
+	const baseString = getRelativeDateStringBase(timestamp, locale, hour12);
 
-	const timeString = dt.toLocaleString({
-		hour: 'numeric',
-		minute: '2-digit',
-		hour12: shouldUse12HourFormat(locale),
-	});
+	const date = new Date(
+		typeof timestamp === 'string' || typeof timestamp === 'number' ? new Date(timestamp) : timestamp,
+	);
 
-	if (dt.hasSame(now, 'day')) {
+	if (baseString.startsWith('Today at ')) {
+		const timeString = getFormattedTimeBase(date, locale, hour12);
 		return i18n._(msg`Today at ${timeString}`);
 	}
-	if (dt.hasSame(now.minus({days: 1}), 'day')) {
+	if (baseString.startsWith('Yesterday at ')) {
+		const timeString = getFormattedTimeBase(date, locale, hour12);
 		return i18n._(msg`Yesterday at ${timeString}`);
 	}
 
-	return dt.toLocaleString({
-		month: 'numeric',
-		day: 'numeric',
-		year: 'numeric',
-		hour: 'numeric',
-		minute: '2-digit',
-		hour12: shouldUse12HourFormat(locale),
-	});
-};
+	return baseString;
+}
 
-export const getFormattedDateTime = (timestamp: number | Date | string): string => {
+export function getFormattedDateTime(timestamp: number | Date | string): string {
 	const locale = getCurrentLocale();
-	const dt = parseDateTime(timestamp).setLocale(locale);
-	return dt.toLocaleString({
-		month: 'numeric',
-		day: 'numeric',
-		year: 'numeric',
-		hour: 'numeric',
-		minute: '2-digit',
-		hour12: shouldUse12HourFormat(locale),
-	});
-};
+	const hour12 = shouldUse12HourFormat(locale);
+	return getFormattedDateTimeBase(timestamp, locale, hour12);
+}
 
-export const getFormattedShortDate = (timestamp: number | Date | string): string => {
-	return parseDateTime(timestamp).setLocale(getCurrentLocale()).toLocaleString(DateTime.DATE_MED);
-};
-
-export const getFormattedTime = (timestamp: number | Date | string): string => {
+export function getFormattedShortDate(timestamp: number | Date | string): string {
 	const locale = getCurrentLocale();
-	const dt = parseDateTime(timestamp).setLocale(locale);
-	return dt.toLocaleString({
-		hour: 'numeric',
-		minute: '2-digit',
-		hour12: shouldUse12HourFormat(locale),
-	});
-};
+	return getFormattedShortDateBase(timestamp, locale);
+}
 
-export const getFormattedCompactDateTime = (timestamp: number | Date | string): string => {
+export function getFormattedTime(timestamp: number | Date | string): string {
 	const locale = getCurrentLocale();
-	const dt = parseDateTime(timestamp).setLocale(locale);
-	return dt.toFormat('M/d/yy, h:mm a');
-};
+	const hour12 = shouldUse12HourFormat(locale);
+	return getFormattedTimeBase(timestamp, locale, hour12);
+}
 
-export const getFormattedFullDate = (timestamp: number | Date | string): string => {
-	return parseDateTime(timestamp).setLocale(getCurrentLocale()).toLocaleString(DateTime.DATE_FULL);
-};
-
-export const getFormattedDateTimeWithSeconds = (timestamp: number | Date | string): string => {
+export function getFormattedCompactDateTime(timestamp: number | Date | string): string {
 	const locale = getCurrentLocale();
-	const dt = parseDateTime(timestamp).setLocale(locale);
-	const datePart = dt.toLocaleString({
-		weekday: 'long',
-		month: 'long',
-		day: 'numeric',
-		year: 'numeric',
-	});
-	const timePart = dt.toLocaleString({
-		hour: 'numeric',
-		minute: '2-digit',
-		second: '2-digit',
-		hour12: shouldUse12HourFormat(locale),
-	});
-	return `${datePart} ${timePart}`;
-};
+	const hour12 = shouldUse12HourFormat(locale);
+	return getFormattedCompactDateTimeBase(timestamp, locale, hour12);
+}
 
-export const getShortRelativeDateString = (timestamp: number | Date | string): string => {
-	const result = parseDateTime(timestamp).setLocale(getCurrentLocale()).toRelative({style: 'short'});
-	return result ?? '';
-};
+export function getFormattedFullDate(timestamp: number | Date | string): string {
+	const locale = getCurrentLocale();
+	return getFormattedFullDateBase(timestamp, locale);
+}
+
+export function getFormattedDateTimeWithSeconds(timestamp: number | Date | string): string {
+	const locale = getCurrentLocale();
+	const hour12 = shouldUse12HourFormat(locale);
+	return getFormattedDateTimeWithSecondsBase(timestamp, locale, hour12);
+}

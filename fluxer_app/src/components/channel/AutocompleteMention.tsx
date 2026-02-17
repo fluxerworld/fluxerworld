@@ -17,18 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {
+	type AutocompleteOption,
+	isMentionMember,
+	isMentionRole,
+	isMentionUser,
+	isSpecialMention,
+} from '@app/components/channel/Autocomplete';
+import {AutocompleteItem} from '@app/components/channel/AutocompleteItem';
+import styles from '@app/components/channel/AutocompleteMention.module.css';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import {useParams} from '@app/lib/router/React';
+import GuildStore from '@app/stores/GuildStore';
+import * as ColorUtils from '@app/utils/ColorUtils';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {useParams} from '~/lib/router';
-import GuildStore from '~/stores/GuildStore';
-import * as ColorUtils from '~/utils/ColorUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import {StatusAwareAvatar} from '../uikit/StatusAwareAvatar';
-import {type AutocompleteOption, isMentionMember, isMentionRole, isMentionUser, isSpecialMention} from './Autocomplete';
-import {AutocompleteItem} from './AutocompleteItem';
-
-import styles from './AutocompleteMention.module.css';
 
 export const AutocompleteMention = observer(function AutocompleteMention({
 	onSelect,

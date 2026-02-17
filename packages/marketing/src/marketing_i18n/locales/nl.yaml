@@ -1,0 +1,440 @@
+app.communities.community: Community
+app.communities.community_support: Community-support
+app.communities.featured_in_discovery: Uitgelicht in Ontdekken
+app.communities.moderation.actions_and_tools: Moderatie-acties en tools
+app.communities.moderation.report_people_or_communities: Meld personen of communities zodat we Fluxer veilig houden voor iedereen.
+app.communities.moderation.tools: Moderatie-tools
+app.communities.roles_permissions_audit.audit_logs: Auditlogs voor transparantie
+app.communities.roles_permissions_audit.granular_roles_and_permissions: Fijnmazige rollen en rechten
+app.communities.roles_permissions_audit.keep_running_smoothly: Laat je community soepel draaien met rollen, rechten en logs.
+app.communities.title: Communities
+app.communities.verification.label: Community-verificatie
+app.communities.verification.value_statement: Je community krijgt een geverifieerde status voor authenticiteit en vertrouwen.
+app.communities.verification.verified_community: Geverifieerde community
+app.customization.animated_profile.animated_avatars_and_banners: Geanimeerde avatars en banners
+app.customization.animated_profile.stand_out_animated_profile: Val op met geanimeerde profielfoto's en banners om je persoonlijkheid te laten zien.
+app.customization.app_icon_badges: Bekijk badge-aantallen op het app-icoon.
+app.customization.compact_mode: Compacte modus en weergaveopties
+app.customization.custom_css_themes: Eigen CSS-thema's
+app.customization.custom_sounds.entrance_sounds: Eigen binnenkomstgeluiden
+app.customization.custom_sounds.notification_sounds: Eigen meldingsgeluiden
+app.customization.custom_sounds.set_personalized_join_sounds: Stel persoonlijke geluiden in als je een spraakkanaal binnenkomt, zodat iedereen je hoort aankomen.
+app.customization.custom_sounds.upload_custom_notification_sounds: Upload en gebruik je eigen meldingsgeluiden om je Fluxer-ervaring te personaliseren.
+app.customization.custom_themes: Eigen thema's
+app.customization.global_emoji_and_sticker_access: Wereldwijde toegang tot emoji's en stickers
+app.customization.saved_media_and_css: Voeg eigen emoji's toe, sla media op voor later en geef de app een eigen stijl met eigen CSS.
+app.customization.title: Personalisatie
+app.customization.upload_custom_emojis_and_stickers: Upload eigen emoji's en stickers
+app.customization.use_animated_emojis: Gebruik geanimeerde emoji's
+app.messaging.description: Stuur je vrienden een DM, chat met groepen of bouw communities met kanalen.
+app.messaging.features.bookmarked_messages: Berichten met bladwijzer
+app.messaging.features.file_sharing: Bestanden delen en links previewen
+app.messaging.features.full_markdown_support: Volledige Markdown-ondersteuning in berichten
+app.messaging.features.message_scheduling.description: Plan berichten om op een specifiek moment in de toekomst te versturen. Geen DeLorean nodig.
+app.messaging.features.organised_channels_for_communities: Georganiseerde kanalen voor communities
+app.messaging.features.private_dms_and_group_chats: Privé-DM's en groepschats
+app.messaging.features.save_media: Afbeeldingen, video's, GIF's en audio opslaan
+app.messaging.features.search.filter_options: Filter op gebruikers, datums en meer
+app.messaging.features.search.find_old_messages: Vind oude berichten of spring in seconden tussen communities en kanalen.
+app.messaging.features.search.label: Berichtgeschiedenis doorzoeken
+app.messaging.features.search.quick_switcher_shortcuts: Snel wisselen met sneltoetsen
+app.messaging.features.search.search_and_quick_switcher: Zoeken en snel wisselen
+app.messaging.title: Berichten
+app.open.open_fluxer: Fluxer openen
+app.open.open_web_app: Webapp openen
+app.profiles_identity.custom_identity: Eigen identiteit
+app.profiles_identity.customise_per_community: Pas je profiel anders aan voor elke community waar je bij zit.
+app.profiles_identity.manage_friends_and_block_users: Vrienden beheren en gebruikers blokkeren
+app.voice_and_video.features.mute_controls: Mute-, doof- en cameraknoppen
+app.voice_and_video.features.noise_suppression: Ruisonderdrukking en echo-annulering
+app.voice_and_video.features.screen_sharing: Ingebouwde schermdeling
+app.voice_and_video.features.stream_4k_60fps: Stream tot 4K-resolutie op 60 fps zodat anderen je in kristalhelder beeld kunnen zien.
+app.voice_and_video.features.video_backgrounds.description: Bewaar tot 15 videobackgrounds voor calls. Geen speurtochten meer door je map Downloads.
+app.voice_and_video.features.video_quality: Videokwaliteit
+app.voice_and_video.features.up_to_4k_video_quality: Tot 4K-videokwaliteit
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.video_quality_premium: Tot 4K/60fps
+app.voice_and_video.hop_in_a_call: Spring in een call met vrienden of deel je scherm om samen te werken.
+app.voice_and_video.title: Spraak en video
+beta_and_access.beta_label: Beta
+beta_and_access.early_access.be_first_to_try: Probeer nieuwe functies als eerste voordat ze voor iedereen uitkomen.
+beta_and_access.early_access.label: Vroege toegang
+beta_and_access.featured_benefit_line: Alle basics die je verwacht, plus een paar dingen die je niet verwacht.
+beta_and_access.public_beta: Openbare beta
+beta_and_access.registration_limited_during_beta: Tijdens de beta beperken we registraties. Als je erin zit, kun je vrienden een code geven om de wachtrij over te slaan.
+beta_and_access.try_without_email: Probeer Fluxer zonder e-mail in 30 seconden
+community_funding_and_roles.focused_on_product: Op dit moment focussen we op het leveren van een geweldig product en Fluxer onafhankelijk houden, zonder investeerders en met eigen middelen.
+community_funding_and_roles.future_paid_roles_heading: De toekomst van betaalde rollen
+community_funding_and_roles.future_paid_roles_note: We bouwen nog aan het businessmodel rond Fluxer en zijn nog niet klaar voor betaalde rollen.
+community_funding_and_roles.non_paid_recurring_role: Een onbetaalde rol voor terugkerende bijdragers die Fluxer samen met het kernteam helpen vormgeven.
+community_funding_and_roles.sustainability_note: Met jouw steun hopen we dit onafhankelijke communicatieplatform duurzaam te maken en in de toekomst betaalde rollen aan te bieden.
+company_and_resources.blog: Blog
+company_and_resources.careers.careers_at_fluxer: Werken bij Fluxer
+company_and_resources.careers.label: Vacatures
+company_and_resources.careers.share_a_bit_about_yourself: Vertel kort iets over jezelf en hoe je wilt bijdragen door te mailen naar careers@fluxer.app
+company_and_resources.community_team.fluxer_community_team: Fluxer communityteam
+company_and_resources.community_team.share_feedback_report_bugs: Deel feedback, meld bugs en help Fluxer welkom te maken voor iedereen.
+company_and_resources.company: Bedrijf
+company_and_resources.company_info: Bedrijfsinfo
+company_and_resources.connect: Contact
+company_and_resources.docs: Docs
+company_and_resources.help.get_help: Hulp krijgen
+company_and_resources.help.help_center: Helpcentrum
+company_and_resources.help.label: Hulp
+company_and_resources.press.label: Pers
+company_and_resources.press.press_contact: Perscontact
+company_and_resources.product: Product
+company_and_resources.resources: Bronnen
+company_and_resources.source_and_contribution.code_issues_docs_reviews: Code, issues, docs en reviews
+company_and_resources.source_and_contribution.contribute_code: Code bijdragen
+company_and_resources.source_and_contribution.contribute_on_github: Bijdragen op GitHub
+company_and_resources.source_and_contribution.fix_bugs_ship_features: Fix bugs, bouw features of poets de ervaring op in onze hoofdrepository.
+company_and_resources.source_and_contribution.fluxer_built_in_open: Fluxer wordt in het openbaar gebouwd. Kies het pad dat past bij hoe jij graag helpt.
+company_and_resources.source_and_contribution.get_involved: Doe mee
+company_and_resources.source_and_contribution.source_code: Broncode
+company_and_resources.source_and_contribution.translation.help_translate: Help Fluxer en de docs te vertalen zodat het overal echt native voelt.
+company_and_resources.source_and_contribution.translation.label: Vertaling en lokalisatie
+company_and_resources.source_and_contribution.translation.llm_translation_note: Alle vertalingen zijn momenteel door een LLM gegenereerd met minimale menselijke revisie. We zouden het tof vinden als echte mensen ons helpen Fluxer te lokaliseren in jouw taal. Mail daarvoor naar i18n@fluxer.app, dan nemen we je bijdrage graag aan.
+company_and_resources.source_and_contribution.translation.localization_label: Lokalisatie
+company_and_resources.source_and_contribution.view_repository: Repository bekijken
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: Wil je helpen Fluxer te bouwen?
+company_and_resources.source_and_contribution.ways_to_contribute: Manieren om bij te dragen
+donations.business: Zakelijk
+donations.donate.action: Doneer
+donations.donate.label: Doneer aan Fluxer
+donations.donate.description: Ondersteun Fluxer met een eenmalige of terugkerende donatie
+donations.donation_disclaimer: Donaties zijn vrijwillige giften en geven je geen product, dienst, eigendom of speciale rechten. Als je premium functies zoekt, kijk dan bij {0}.
+donations.individual: Particulier
+donations.individual_vs_business.answer: Beide donaties ondersteunen hetzelfde doel. Het enige verschil is dat je bij zakelijke donaties een btw-nummer (indien van toepassing) kunt invullen en na afronding een PDF-factuur krijgt, handig voor je boekhouding.
+donations.individual_vs_business.question: Wat is het verschil tussen Particulier en Zakelijk?
+donations.infrastructure_costs_detail: Je donatie helpt Fluxers infrastructuurkosten te betalen, zoals servers, bandbreedte, opslag en de doorontwikkeling van nieuwe functies. Zo kunnen we het platform voor iedereen blijven onderhouden en verbeteren.
+donations.minimum_donation: 'Minimale donatie: $5 / €5'
+donations.mobile_roadmap_sponsorship: Sponsor de roadmap voor mobiel
+donations.send_one_time_gift: Geef een eenmalig cadeau
+donations.support_future_development: Steun verdere ontwikkeling
+donations.support_message: Help ons een onafhankelijk communicatieplatform te bouwen. Je donatie betaalt de infrastructuur en ontwikkeling.
+donations.tax_deductible.answer: Donaties aan Fluxer zijn momenteel niet fiscaal aftrekbaar, maar ze financieren wel direct onze infrastructuur en doorontwikkeling.
+donations.tax_deductible.question: Is mijn donatie fiscaal aftrekbaar?
+donations.what_it_supports: Waar gaat mijn donatie naartoe?
+donations.why_support: Help ons een ander soort communicatieplatform te bouwen – open source, door de community gefinancierd en met zorg gemaakt.
+donations.recurring: Terugkerend
+donations.return_question: Krijg ik iets terug?
+donations.form.email: E-mail
+donations.form.email_placeholder: jouw@email.com
+donations.form.amount: Bedrag
+donations.form.amount_other: Anders
+donations.form.amount_placeholder: Vul bedrag in (5-1000)
+donations.form.billing: Facturering
+donations.form.donation_type: Donatietype
+donations.form.one_time: Eenmalig
+donations.form.or_label: Of
+donations.form.monthly: Maandelijks
+donations.form.yearly: Jaarlijks
+donations.form.currency: Valuta
+donations.form.processing: Verwerken...
+donations.form.send_link: Link versturen
+donations.form.sending: Versturen...
+donations.errors.active_subscription_exists: Je hebt al een actieve terugkerende donatie. Om een andere terugkerende donatie te starten, moet je eerst de huidige annuleren via het klantportaal. Je kunt in plaats daarvan een eenmalige donatie doen.
+donations.errors.invalid_email: Vul een geldig e-mailadres in
+donations.errors.invalid_amount: Bedrag moet tussen 5 en 1000 zijn
+donations.errors.generic: Er is iets misgegaan. Probeer het opnieuw.
+donations.errors.network: Netwerkfout. Probeer het opnieuw.
+donations.manage.title: Beheer je donaties
+donations.manage.description: Vul je e-mail in om een link naar je donateurportaal te ontvangen, waar je abonnementen kunt beheren, facturen kunt downloaden en je donatiegeschiedenis kunt bekijken.
+donations.manage.success: Als er een account voor dat e-mailadres bestaat, ontvang je binnenkort een beheerlink.
+donations.success.title: Bedankt!
+donations.success.description: Bedankt voor je steun!
+donations.success.message: Bedankt voor je donatie! We waarderen je steun enorm.
+donations.success.email_notice: Je ontvangt binnenkort een bevestigingsmail met details over je donatie en een link naar je donateurportaal.
+donations.success.back_to_donate: Terug naar doneren
+download.download: Download
+download.download_app_or_open_in_browser: Download de app of open Fluxer in je browser om contact te maken met je communities.
+download.download_fluxer: Fluxer downloaden
+download.download_for_prefix: 'Download voor '
+download.open_in_browser: Openen in browser
+download.screenshots_courtesy_of: 'Screenshots met dank aan '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: Communityrichtlijnen
+footer.company_information: Bedrijfsinformatie
+footer.connect: Contact
+footer.donate: Doneer
+footer.help_support_an_independent_communication: Steun een onafhankelijk communicatieplatform. Je donatie betaalt de infrastructuur en ontwikkeling van het platform.
+footer.download: Download
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (Zweedse besloten vennootschap: 559537-3993)'
+footer.partners: Partners
+footer.plutonium_tier: Plutonium-tier
+footer.policies: Beleid
+footer.press: Pers
+footer.privacy_policy: Privacybeleid
+footer.report_a_bug: Bug melden
+footer.roadmap: Roadmap
+footer.rss_feed: RSS-feed
+footer.security_bug_bounty: Beveiligings-bug bounty
+footer.source_code: Broncode
+footer.terms_of_service: Gebruiksvoorwaarden
+general.all: alles
+general.coming_soon.label: Binnenkort
+general.coming_soon.whats_available_today: Wat is er nu beschikbaar
+general.last_updated: Laatst bijgewerkt
+general.made_in_sweden: Gemaakt in Zweden
+general.not_available: Niet beschikbaar
+general.or: of
+general.tagline: Een chatapp die jou voorop zet
+languages.change_language: Taal wijzigen
+languages.choose_your_language: Kies je taal
+languages.language_label: Taal
+languages.list.arabic: Arabisch
+languages.list.bulgarian: Bulgaars
+languages.list.chinese_simplified: Chinees (vereenvoudigd)
+languages.list.chinese_traditional: Chinees (traditioneel)
+languages.list.croatian: Kroatisch
+languages.list.czech: Tsjechisch
+languages.list.danish: Deens
+languages.list.dutch: Nederlands
+languages.list.english: Engels
+languages.list.english_us: Engels (VS)
+languages.list.finnish: Fins
+languages.list.french: Frans
+languages.list.german: Duits
+languages.list.greek: Grieks
+languages.list.hebrew: Hebreeuws
+languages.list.hindi: Hindi
+languages.list.hungarian: Hongaars
+languages.list.indonesian: Indonesisch
+languages.list.italian: Italiaans
+languages.list.japanese: Japans
+languages.list.korean: Koreaans
+languages.list.lithuanian: Litouws
+languages.list.norwegian: Noors
+languages.list.polish: Pools
+languages.list.portuguese_brazil: Portugees (Brazilië)
+languages.list.romanian: Roemeens
+languages.list.russian: Russisch
+languages.list.spanish_latin_america: Spaans (Latijns-Amerika)
+languages.list.spanish_spain: Spaans (Spanje)
+languages.list.swedish: Zweeds
+languages.list.thai: Thais
+languages.list.turkish: Turks
+languages.list.ukrainian: Oekraïens
+languages.list.vietnamese: Vietnamees
+launch.description: Lees over de ontwikkelaar achter Fluxer, de doelen van het project, de tech stack en wat er hierna aankomt.
+launch.heading: Het verhaal achter Fluxer
+launch.read_more: Lees de launch-blogpost
+launch.view_full_roadmap: Bekijk de volledige roadmap
+misc_labels.design_and_branding: Design en branding
+misc_labels.direct_team_support: Directe ondersteuning van het team
+misc_labels.exclusive_communities: Exclusieve communities
+misc_labels.exclusive_features: Exclusieve functies
+misc_labels.feature: Functie
+misc_labels.get_updates: Krijg updates, zie aankomende functies, bespreek ideeën en chat met het team.
+misc_labels.join_and_spread_word: Doe mee en vertel het door
+misc_labels.join_fluxer_community_contribute: Sluit je aan bij de Fluxer-community en help de toekomst van communicatie te bouwen met open source en bijdragen van de community.
+misc_labels.join_fluxer_hq: Word lid van Fluxer HQ
+misc_labels.join_multiple_devices: Log in op meerdere apparaten tegelijk
+misc_labels.join_team_behind_fluxer: Sluit je aan bij het team achter Fluxer
+misc_labels.learn_more: Meer info
+misc_labels.product_hunt_badge_title: Fluxer – open-source, Discord-achtige instant messaging en VoIP | Product Hunt top post
+misc_labels.profile_badge: Profielbadge
+misc_labels.read_the_guide: Lees de gids
+misc_labels.ready_to_get_started: Klaar om te starten?
+misc_labels.register_now: Nu registreren
+misc_labels.related_policies: Gerelateerde beleidsregels
+misc_labels.report_bugs: Bugs melden
+misc_labels.software_development: Softwareontwikkeling
+misc_labels.trust_and_safety: Vertrouwen en veiligheid
+misc_labels.unique_profile_badge: Unieke profielbadge
+misc_labels.unlimited_users: Onbeperkt aantal gebruikers
+navigation.close: Sluiten
+navigation.close_navigation_menu: Navigatiemenu sluiten
+navigation.copy_link_to_section: Link naar deze sectie kopiëren
+navigation.go_home: Ga naar start
+navigation.on_this_page: Op deze pagina
+navigation.page_not_found.description: Deze pagina bestaat niet. Maar er is nog genoeg te ontdekken.
+navigation.page_not_found.title: Pagina niet gevonden
+navigation.press.download_assets_intro: Download onze logo's, bekijk onze merkkleuren en neem contact op met ons persteam.
+navigation.press.download_fluxer_assets: Download Fluxer-logo's en merkassets en neem contact op met ons persteam
+navigation.press.press_and_brand_assets: Pers- en merkassets
+partner_program.become_partner.apply_email: Aanmelden via partners@fluxer.app
+partner_program.become_partner.call_to_action: Word partner
+partner_program.become_partner.heading: Word Fluxer-partner
+partner_program.become_partner.if_youre_a_creator_or: Als je creator bent of een grote community runt, horen we graag van je.
+partner_program.become_partner.learn_about_partners: Meer over partners
+partner_program.become_partner.learn_more: Meer info
+partner_program.become_partner.ready_prompt: Klaar om partner te worden?
+partner_program.description: Exclusieve voordelen voor content creators en eigenaren van grote communities.
+partner_program.label: Partners
+partner_program.perks.creator_monetization.description: Vroege toegang tot functies om als creator te verdienen, met lagere platformkosten dan niet-partners.
+partner_program.perks.creator_monetization.label: Verdienen als creator
+partner_program.perks.custom_vanity_url.description: Krijg een exclusieve vanity-URL zoals fluxer.gg/jouwcommunity.
+partner_program.perks.custom_vanity_url.label: Eigen vanity-URL
+partner_program.perks.direct_team_access.description: Word lid van de exclusieve Partners-community met directe toegang tot het Fluxer-team.
+partner_program.perks.direct_team_access.label: Directe toegang tot het team
+partner_program.perks.discovery_visibility: Krijg meer zichtbaarheid door uitgelicht te worden in Ontdekken.
+partner_program.perks.exclusive_merch.description: Krijg exclusieve Fluxer-merch en goodies, alleen voor partners.
+partner_program.perks.exclusive_merch.label: Exclusieve merch
+partner_program.perks.free_plutonium.description: Krijg gratis Plutonium op je account en gebruik alle premium functies.
+partner_program.perks.free_plutonium.label: Gratis Plutonium
+partner_program.perks.increased_limits.description: Je community krijgt verhoogde limieten wanneer je ze nodig hebt.
+partner_program.perks.increased_limits.label: Verhoogde limieten
+partner_program.perks.partner_badge.description: Laat een exclusieve Partner-badge op je profiel zien om op te vallen.
+partner_program.perks.partner_badge.label: Partner-badge
+partner_program.perks.vip_voice_servers.description: Toegang tot VIP-spraakservers die exclusief zijn voor partnercommunities.
+partner_program.perks.vip_voice_servers.label: VIP-spraakkanalen
+partner_program.requirements.audience_description: Korte beschrijving van je publiek en wat je doet
+partner_program.requirements.links_to_content: Links naar je content of community (YouTube, Twitch, Discord, enz.)
+partner_program.requirements.name_and_username: Je naam en gebruikersnaam op het platform
+partner_program.requirements.usage_plan: Hoe je Fluxer met je community wilt gebruiken
+partner_program.who_its_for: '"Content creators en community-eigenaren: ontgrendel exclusieve voordelen zoals gratis Plutonium, een Partner-badge, eigen vanity-URL''s en meer."'
+partner_program.perks.heading: Partnervoordelen
+partner_program.perks.see_perks: Bekijk voordelen
+partner_program.apply.instructions: Stuur ons een mail met de volgende informatie om je aan te melden voor het Fluxer Partnerprogramma.
+partner_program.apply.response_time: We bekijken alle aanmeldingen en nemen binnen een paar dagen contact op.
+platform_support.desktop.available_on_desktop_and_web: Beschikbaar op je desktop en op het web
+platform_support.desktop.download_desktop_intro: Download Fluxer voor Windows, macOS en Linux. Mobiele apps zijn in de maak.
+platform_support.desktop.interface_label: Fluxer desktopinterface
+platform_support.desktop.label: Desktop
+platform_support.desktop.use_desktop_client_mobile_soon: Gebruik de desktopclient (mobiel komt eraan)
+platform_support.mobile.install_as_app.add_to_home: Zet Fluxer op je beginscherm om de browser-UI te verbergen.
+platform_support.mobile.install_as_app.done_desktop: Klaar! Je kunt Fluxer nu openen alsof het een gewoon programma is.
+platform_support.mobile.install_as_app.done_mobile: Klaar! Je kunt Fluxer nu openen vanaf je beginscherm.
+platform_support.mobile.install_as_app.guides.in_chrome: ' in Chrome'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: ' in Chrome of een andere browser met PWA-ondersteuning'
+platform_support.mobile.install_as_app.guides.in_safari: ' in Safari'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: PWA-installatiegids voor {name}
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: 'Klik op "Zet op beginscherm"'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: 'Klik op "Toevoegen" rechtsboven'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: 'Klik op "App installeren"'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: Klik op de installatieknop (pijl omlaag op een monitor) in de adresbalk
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: 'Klik op "Installeren" in de pop-up die verschijnt'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: 'Klik op de knop "Meer" (⋮) rechtsboven'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: Klik op de deelknop (rechthoek met pijl omhoog)
+platform_support.mobile.install_as_app.install_fluxer_as_app: Fluxer als app installeren
+platform_support.mobile.install_as_app.title: Hoe je het als app installeert
+platform_support.mobile.interface_label: Fluxer mobiele interface
+platform_support.mobile.mobile_apps_underway: Mobiele apps zijn in de maak
+platform_support.mobile.mobile_browser_explainer: We bouwen apps voor iOS en Android. Tot ze klaar zijn, werkt Fluxer in je mobiele browser, en we hebben er veel werk in gestoken om het zo app-achtig mogelijk te laten voelen.
+platform_support.mobile.not_full_replacement_yet: Dit vervangt de desktopapp nog niet helemaal, en sommige dingen die je van een mobiele chatapp verwacht ontbreken nog.
+platform_support.mobile.push_notifications: Krijg pushmeldingen als je even niet in de app zit.
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS en iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: Kies je Linux-distributie
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: Download voor macOS
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: Download voor Windows
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: Merkkleuren
+press_branding.assets.full_color: Volledige kleurversie
+press_branding.assets.label: Logo
+press_branding.assets.logo_variants.black_logo: Zwart logo
+press_branding.assets.logo_variants.color_logo: Kleurlogo
+press_branding.assets.logo_variants.white_logo: Wit logo
+press_branding.assets.palette_description: Ons zorgvuldig gekozen kleurenpalet dat het Fluxer-merk vertegenwoordigt.
+press_branding.assets.premium_quality: Premium kwaliteit
+press_branding.assets.primary_brand_color_description: Onze primaire merkkleur. Gebruik dit voor belangrijke merkonderdelen en accenten.
+press_branding.assets.symbol_variants.black_symbol: Zwart symbool
+press_branding.assets.symbol_variants.color_symbol: Kleursymbool
+press_branding.assets.symbol_variants.label: Symbool
+press_branding.assets.symbol_variants.white_symbol: Wit symbool
+press_branding.assets.usage_guidance.dark_surface_guidance: Voor achtergronden, tekst op donkere vlakken en contrast.
+press_branding.assets.usage_guidance.for_dark_backgrounds: Voor donkere achtergronden
+press_branding.assets.usage_guidance.for_light_backgrounds: Voor lichte achtergronden
+press_branding.assets.usage_guidance.full_logo_description: Ons volledige logo inclusief het woordmerk. Gebruik dit als primaire representatie van ons merk.
+press_branding.assets.usage_guidance.light_surface_guidance: Voor tekst, iconen op lichte vlakken en diepte.
+press_branding.assets.usage_guidance.symbol_description: Ons losse symbool. Gebruik dit alleen wanneer ons merk duidelijk zichtbaar is of in de context al goed gevestigd is.
+press_branding.colors.blue_da_ba_dee: Blue Da Ba Dee
+press_branding.colors.white: Wit
+press_branding.colors.black: Zwart
+press_branding.contact.story_prompt: Heb je een verhaal over Fluxer? We horen graag van je.
+press_branding.contact.response_time: We reageren meestal binnen 24 uur.
+pricing_and_tiers.billing.forever: Voor altijd
+pricing_and_tiers.billing.most_popular: Meest populair
+pricing_and_tiers.billing.per_forever: /voor altijd
+pricing_and_tiers.billing.per_month: /mnd
+pricing_and_tiers.billing.per_year_full: /jaar
+pricing_and_tiers.billing.per_year_short: /jr
+pricing_and_tiers.billing.save_percent: Bespaar 17%
+pricing_and_tiers.free.comparison_label: Gratis vs Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 'Alles in Gratis, plus:'
+pricing_and_tiers.free.full_access_to_all_features: Volledige toegang tot alle functies
+pricing_and_tiers.free.label: Gratis
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: 'Let op: Plutonium- en Visionary-voordelen gelden alleen op de officiële Fluxer.app-instance, niet op instances van derden of zelf gehoste instances.'
+pricing_and_tiers.plutonium.feature_highlights: Uploads tot 500 MB, berichten tot 4.000 tekens, 300 bladwijzers, 50 emojipakketten en nog veel meer.
+pricing_and_tiers.plutonium.features.bio_character_limit: Bio-limiet (tekens)
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: Kies je eigen 4-cijferige tag zoals #0001, #1337 of #9999 om je gebruikersnaam echt uniek te maken.
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: Eigen 4-cijferige gebruikers-tag
+pricing_and_tiers.plutonium.features.custom_username_tag: Eigen gebruikers-tag
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: Eigen videobackgrounds
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: Emoji- en stickerpakketten
+pricing_and_tiers.plutonium.features.file_upload_size: Uploadgrootte
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: Wereldwijde toegang tot emoji's en stickers
+pricing_and_tiers.plutonium.features.message_character_limit: Berichtenlimiet (tekens)
+pricing_and_tiers.plutonium.features.message_scheduling: Berichten plannen
+pricing_and_tiers.plutonium.features.per_community_profiles: Profielen per community
+pricing_and_tiers.plutonium.features.saved_media: Opgeslagen media
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: Webhooks en bot-ondersteuning
+pricing_and_tiers.plutonium.get_more_with_plutonium: Haal meer uit Fluxer Plutonium
+pricing_and_tiers.plutonium.get_plutonium: Neem Plutonium
+pricing_and_tiers.plutonium.higher_limits_and_early_access: Hogere limieten, exclusieve functies en vroege toegang tot nieuwe updates
+pricing_and_tiers.plutonium.higher_limits_everywhere: Hogere limieten overal
+pricing_and_tiers.plutonium.show_off_status_badge: Laat je Plutonium-status zien met een exclusieve badge op je profiel.
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: 'Upgrade naar Plutonium voor $4.99 per maand: eigen gebruikers-tag, profielen per community, berichten plannen, 4K streaming, uploads tot 500 MB en meer exclusieve functies.'
+pricing_and_tiers.visionary.badge.numbered_badge: Genummerde badge die je Visionary-status laat zien
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: Genummerde badge (1–{0}) die je Visionary-status laat zien
+pricing_and_tiers.visionary.bundle_label: Levenslang Plutonium en Operator Pass met Visionary – beperkte plekken
+pricing_and_tiers.visionary.communities_with_team_access: Visionary- en Operators-communities met teamtoegang
+pricing_and_tiers.visionary.get_visionary: Neem Visionary
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: Krijg levenslang Plutonium op Fluxer.app plus een Operator Pass voor zelf hosten. Betaal {0} eenmalig. Beschikbaar tot 1 oktober 2026, of totdat alle plekken zijn geclaimd.
+pricing_and_tiers.visionary.lifetime_operator_pass: Levenslang Operator Pass
+pricing_and_tiers.visionary.lifetime_plutonium: Levenslang Plutonium
+pricing_and_tiers.visionary.limited_offer_note: 'Tijdelijke actie: Visionary is inclusief Operator Pass'
+pricing_and_tiers.visionary.limited_slots_label: Visionary – beperkte plekken
+pricing_and_tiers.visionary.one_time_purchase.label: Eenmalige aankoop
+pricing_and_tiers.visionary.one_time_purchase.promise: Eenmalige aankoop, levenslange toegang
+pricing_and_tiers.visionary.purchase_flow: Koop Visionary direct in de app nadat je je account hebt aangemaakt. Je aankoopdatum en ordernummer worden op je profiel getoond (je kunt dit verbergen in de privacy-instellingen).
+pricing_and_tiers.visionary.slots_left.generic: '{0} van {1} plekken over'
+pricing_and_tiers.visionary.slots_left.visionary_bundle: Nog maar {0} van {1} Visionary-plekken over – levenslang Plutonium en Operator Pass
+pricing_and_tiers.visionary.slots_left.visionary_only: '{0} Visionary-plekken over'
+product_positioning.free_and_open_source: Fluxer is gratis en open source. Iedereen kan gratis zelf hosten.
+product_positioning.intro: Fluxer is een gratis, open source platform voor instant messaging en VoIP, gebouwd voor vrienden, groepen en communities.
+product_positioning.open_source.fully_open_source_agplv3: Volledig open source (AGPLv3)
+product_positioning.open_source.label: Open source
+product_positioning.open_source.license: Open source (AGPL-3.0)
+product_positioning.self_hosting.connect_from_any_client: Verbind vanaf elke client
+product_positioning.self_hosting.free_self_hosting: Gratis zelf hosten
+product_positioning.self_hosting.host_your_own_instance: Host je eigen instance
+product_positioning.self_hosting.label: Zelf hosten
+product_positioning.self_hosting.operator_pass.access_to_operators_community: Toegang tot de Fluxer Operators-community
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: Na afloop van de aanbieding blijft Operator Pass ook los verkrijgbaar.
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: 'Operator Pass is optioneel: je betaalt voor ondersteuning en toegang tot de community.'
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: Ondersteuning met voorrang en toegang tot de Operators-community voor zelf hosten
+product_positioning.self_hosting.run_backend_on_your_hardware: Draai de Fluxer-backend op je eigen hardware en verbind met onze apps.
+product_positioning.self_hosting.switch_between_instances: Wissel tussen meerdere instances
+security.found_security_issue: Een beveiligingsprobleem gevonden?
+security.report_vulnerabilities: Meld kwetsbaarheden en help ons het platform veilig te houden.
+security.responsible_disclosure_note: We waarderen responsible disclosure via onze beveiligings-bug bounty-pagina. We geven Plutonium-codes en Bug Hunter-badges op basis van de ernst.
+security.security_bug_bounty: Beveiligings-bug bounty
+security.security_reports: Beveiligingsrapporten
+security.testers_access_from_reports: Goedgekeurde meldingen geven toegang tot Fluxer Testers, waar je punten kunt verdienen voor Plutonium-codes en de Bug Hunter-badge.
+social_and_feeds.bluesky.follow_us: Volg ons op Bluesky
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: Bluesky RSS-feed
+social_and_feeds.follow_fluxer: Volg @fluxer.app
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: Blog RSS-feed
+social_and_feeds.rss.fluxer_blog_rss: Fluxer blog RSS
+social_and_feeds.rss.label: RSS-feed
+social_and_feeds.stay_updated_cta: Blijf op de hoogte van nieuws, servicestatus en wat er speelt. Je kunt je ook abonneren op onze

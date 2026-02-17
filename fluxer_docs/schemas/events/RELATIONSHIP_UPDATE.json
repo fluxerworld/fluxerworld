@@ -1,0 +1,11 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "RELATIONSHIP_UPDATE",
+	"description": "Sent when a user relationship is updated (friend request accepted, nickname changed).",
+	"scope": "presence",
+	"dispatchedBy": ["PUT /users/@me/relationships/:user_id", "PATCH /users/@me/relationships/:user_id"],
+	"payload": {
+		"$ref": "RelationshipResponse",
+		"description": "The updated relationship object"
+	}
+}

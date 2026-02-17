@@ -17,17 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Endpoints} from '@app/Endpoints';
+import type {UserData} from '@app/lib/AccountStorage';
+import http from '@app/lib/HttpClient';
+import {HttpError} from '@app/lib/HttpError';
+import {Logger} from '@app/lib/Logger';
+import AccountManager from '@app/stores/AccountManager';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import {getApiErrorCode} from '@app/utils/ApiErrorUtils';
+import {isDesktop} from '@app/utils/NativeUtils';
+import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
+import type {ValueOf} from '@fluxer/constants/src/ValueOf';
 import type {AuthenticationResponseJSON, PublicKeyCredentialRequestOptionsJSON} from '@simplewebauthn/browser';
-import {APIErrorCodes} from '~/Constants';
-import {Endpoints} from '~/Endpoints';
-import type {UserData} from '~/lib/AccountStorage';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import AccountManager from '~/stores/AccountManager';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ConnectionStore from '~/stores/ConnectionStore';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import {isDesktop} from '~/utils/NativeUtils';
 
 const logger = new Logger('AuthService');
 
@@ -43,14 +45,13 @@ export const VerificationResult = {
 	RATE_LIMITED: 'RATE_LIMITED',
 	SERVER_ERROR: 'SERVER_ERROR',
 } as const;
-export type VerificationResult = (typeof VerificationResult)[keyof typeof VerificationResult];
+export type VerificationResult = ValueOf<typeof VerificationResult>;
 
 interface RegisterData {
 	email?: string;
 	global_name?: string;
 	username?: string;
 	password?: string;
-	beta_code: string;
 	date_of_birth: string;
 	consent: boolean;
 	captchaToken?: string;
@@ -63,7 +64,6 @@ interface StandardLoginResponse {
 	user_id: string;
 	token: string;
 	theme?: string;
-	pending_verification?: boolean;
 }
 
 interface MfaLoginResponse {
@@ -72,6 +72,8 @@ interface MfaLoginResponse {
 	sms: boolean;
 	totp: boolean;
 	webauthn: boolean;
+	allowed_methods?: Array<string>;
+	sms_phone_hint?: string | null;
 }
 
 type LoginResponse = StandardLoginResponse | MfaLoginResponse;
@@ -83,18 +85,20 @@ export interface IpAuthorizationRequiredResponse {
 	resend_available_in: number;
 }
 
-export const isIpAuthorizationRequiredResponse = (
+export function isIpAuthorizationRequiredResponse(
 	response: LoginResponse | IpAuthorizationRequiredResponse,
-): response is IpAuthorizationRequiredResponse => {
+): response is IpAuthorizationRequiredResponse {
 	return (response as IpAuthorizationRequiredResponse).ip_authorization_required === true;
-};
+}
 
 interface TokenResponse {
 	user_id: string;
 	token: string;
 	theme?: string;
-	pending_verification?: boolean;
+	redirect_to?: string;
 }
+
+export type ResetPasswordResponse = TokenResponse | MfaLoginResponse;
 
 interface DesktopHandoffInitiateResponse {
 	code: string;
@@ -107,26 +111,20 @@ interface DesktopHandoffStatusResponse {
 	user_id?: string;
 }
 
-export const login = async ({
+export async function login({
 	email,
 	password,
 	captchaToken,
 	inviteCode,
 	captchaType,
-	customApiEndpoint,
 }: {
 	email: string;
 	password: string;
 	captchaToken?: string;
 	inviteCode?: string;
 	captchaType?: 'turnstile' | 'hcaptcha';
-	customApiEndpoint?: string;
-}): Promise<LoginResponse | IpAuthorizationRequiredResponse> => {
+}): Promise<LoginResponse | IpAuthorizationRequiredResponse> {
 	try {
-		if (customApiEndpoint) {
-			await RuntimeConfigStore.connectToEndpoint(customApiEndpoint);
-		}
-
 		const headers: Record<string, string> = {};
 		if (captchaToken) {
 			headers['X-Captcha-Token'] = captchaToken;
@@ -148,22 +146,26 @@ export const login = async ({
 		logger.debug('Login successful', {mfa: response.body?.mfa});
 		return response.body;
 	} catch (error) {
-		const httpError = error as {status?: number; body?: any};
-		if (httpError.status === 403 && httpError.body?.code === APIErrorCodes.IP_AUTHORIZATION_REQUIRED) {
+		if (
+			error instanceof HttpError &&
+			error.status === 403 &&
+			getApiErrorCode(error) === APIErrorCodes.IP_AUTHORIZATION_REQUIRED
+		) {
 			logger.info('Login requires IP authorization', {email});
+			const body = error.body as Record<string, unknown> | undefined;
 			return {
 				ip_authorization_required: true,
-				ticket: httpError.body?.ticket,
-				email: httpError.body?.email,
-				resend_available_in: httpError.body?.resend_available_in ?? 30,
+				ticket: body?.ticket as string,
+				email: body?.email as string,
+				resend_available_in: (body?.resend_available_in as number) ?? 30,
 			};
 		}
 		logger.error('Login failed', error);
 		throw error;
 	}
-};
+}
 
-export const loginMfaTotp = async (code: string, ticket: string, inviteCode?: string): Promise<TokenResponse> => {
+export async function loginMfaTotp(code: string, ticket: string, inviteCode?: string): Promise<TokenResponse> {
 	try {
 		const body: {
 			code: string;
@@ -185,9 +187,9 @@ export const loginMfaTotp = async (code: string, ticket: string, inviteCode?: st
 		logger.error('MFA TOTP authentication failed', error);
 		throw error;
 	}
-};
+}
 
-export const loginMfaSmsSend = async (ticket: string): Promise<void> => {
+export async function loginMfaSmsSend(ticket: string): Promise<void> {
 	try {
 		await http.post({
 			url: Endpoints.AUTH_LOGIN_MFA_SMS_SEND,
@@ -199,9 +201,9 @@ export const loginMfaSmsSend = async (ticket: string): Promise<void> => {
 		logger.error('Failed to send SMS MFA code', error);
 		throw error;
 	}
-};
+}
 
-export const loginMfaSms = async (code: string, ticket: string, inviteCode?: string): Promise<TokenResponse> => {
+export async function loginMfaSms(code: string, ticket: string, inviteCode?: string): Promise<TokenResponse> {
 	try {
 		const body: {
 			code: string;
@@ -223,14 +225,14 @@ export const loginMfaSms = async (code: string, ticket: string, inviteCode?: str
 		logger.error('MFA SMS authentication failed', error);
 		throw error;
 	}
-};
+}
 
-export const loginMfaWebAuthn = async (
+export async function loginMfaWebAuthn(
 	response: AuthenticationResponseJSON,
 	challenge: string,
 	ticket: string,
 	inviteCode?: string,
-): Promise<TokenResponse> => {
+): Promise<TokenResponse> {
 	try {
 		const body: {
 			response: AuthenticationResponseJSON;
@@ -253,9 +255,9 @@ export const loginMfaWebAuthn = async (
 		logger.error('MFA WebAuthn authentication failed', error);
 		throw error;
 	}
-};
+}
 
-export const getWebAuthnMfaOptions = async (ticket: string): Promise<PublicKeyCredentialRequestOptionsJSON> => {
+export async function getWebAuthnMfaOptions(ticket: string): Promise<PublicKeyCredentialRequestOptionsJSON> {
 	try {
 		const response = await http.post<PublicKeyCredentialRequestOptionsJSON>({
 			url: Endpoints.AUTH_LOGIN_MFA_WEBAUTHN_OPTIONS,
@@ -269,9 +271,9 @@ export const getWebAuthnMfaOptions = async (ticket: string): Promise<PublicKeyCr
 		logger.error('Failed to get WebAuthn MFA options', error);
 		throw error;
 	}
-};
+}
 
-export const getWebAuthnAuthenticationOptions = async (): Promise<PublicKeyCredentialRequestOptionsJSON> => {
+export async function getWebAuthnAuthenticationOptions(): Promise<PublicKeyCredentialRequestOptionsJSON> {
 	try {
 		const response = await http.post<PublicKeyCredentialRequestOptionsJSON>({
 			url: Endpoints.AUTH_WEBAUTHN_OPTIONS,
@@ -284,13 +286,13 @@ export const getWebAuthnAuthenticationOptions = async (): Promise<PublicKeyCrede
 		logger.error('Failed to get WebAuthn authentication options', error);
 		throw error;
 	}
-};
+}
 
-export const authenticateWithWebAuthn = async (
+export async function authenticateWithWebAuthn(
 	response: AuthenticationResponseJSON,
 	challenge: string,
 	inviteCode?: string,
-): Promise<TokenResponse> => {
+): Promise<TokenResponse> {
 	try {
 		const body: {
 			response: AuthenticationResponseJSON;
@@ -312,9 +314,9 @@ export const authenticateWithWebAuthn = async (
 		logger.error('WebAuthn authentication failed', error);
 		throw error;
 	}
-};
+}
 
-export const register = async (data: RegisterData): Promise<TokenResponse> => {
+export async function register(data: RegisterData): Promise<TokenResponse> {
 	try {
 		const headers: Record<string, string> = {};
 		if (data.captchaToken) {
@@ -334,13 +336,13 @@ export const register = async (data: RegisterData): Promise<TokenResponse> => {
 		logger.error('Registration failed', error);
 		throw error;
 	}
-};
+}
 
 interface UsernameSuggestionsResponse {
 	suggestions: Array<string>;
 }
 
-export const getUsernameSuggestions = async (globalName: string): Promise<Array<string>> => {
+export async function getUsernameSuggestions(globalName: string): Promise<Array<string>> {
 	try {
 		const response = await http.post<UsernameSuggestionsResponse>({
 			url: Endpoints.AUTH_USERNAME_SUGGESTIONS,
@@ -354,13 +356,13 @@ export const getUsernameSuggestions = async (globalName: string): Promise<Array<
 		logger.error('Failed to fetch username suggestions', error);
 		throw error;
 	}
-};
+}
 
-export const forgotPassword = async (
+export async function forgotPassword(
 	email: string,
 	captchaToken?: string,
 	captchaType?: 'turnstile' | 'hcaptcha',
-): Promise<void> => {
+): Promise<void> {
 	try {
 		const headers: Record<string, string> = {};
 		if (captchaToken) {
@@ -376,11 +378,11 @@ export const forgotPassword = async (
 	} catch (error) {
 		logger.warn('Password reset request failed, but returning success to user', error);
 	}
-};
+}
 
-export const resetPassword = async (token: string, password: string): Promise<TokenResponse> => {
+export async function resetPassword(token: string, password: string): Promise<ResetPasswordResponse> {
 	try {
-		const response = await http.post<TokenResponse>({
+		const response = await http.post<ResetPasswordResponse>({
 			url: Endpoints.AUTH_RESET_PASSWORD,
 			body: {token, password},
 			headers: withPlatformHeader(),
@@ -392,9 +394,9 @@ export const resetPassword = async (token: string, password: string): Promise<To
 		logger.error('Password reset failed', error);
 		throw error;
 	}
-};
+}
 
-export const revertEmailChange = async (token: string, password: string): Promise<TokenResponse> => {
+export async function revertEmailChange(token: string, password: string): Promise<TokenResponse> {
 	try {
 		const response = await http.post<TokenResponse>({
 			url: Endpoints.AUTH_EMAIL_REVERT,
@@ -408,9 +410,9 @@ export const revertEmailChange = async (token: string, password: string): Promis
 		logger.error('Email revert failed', error);
 		throw error;
 	}
-};
+}
 
-export const verifyEmail = async (token: string): Promise<VerificationResult> => {
+export async function verifyEmail(token: string): Promise<VerificationResult> {
 	try {
 		await http.post({
 			url: Endpoints.AUTH_VERIFY_EMAIL,
@@ -428,9 +430,9 @@ export const verifyEmail = async (token: string): Promise<VerificationResult> =>
 		logger.error('Email verification failed - server error', error);
 		return VerificationResult.SERVER_ERROR;
 	}
-};
+}
 
-export const resendVerificationEmail = async (): Promise<VerificationResult> => {
+export async function resendVerificationEmail(): Promise<VerificationResult> {
 	try {
 		await http.post({
 			url: Endpoints.AUTH_RESEND_VERIFICATION,
@@ -447,13 +449,13 @@ export const resendVerificationEmail = async (): Promise<VerificationResult> => 
 		logger.error('Failed to resend verification email - server error', error);
 		return VerificationResult.SERVER_ERROR;
 	}
-};
+}
 
-export const logout = async (): Promise<void> => {
+export async function logout(): Promise<void> {
 	await AccountManager.logout();
-};
+}
 
-export const authorizeIp = async (token: string): Promise<VerificationResult> => {
+export async function authorizeIp(token: string): Promise<VerificationResult> {
 	try {
 		await http.post({
 			url: Endpoints.AUTH_AUTHORIZE_IP,
@@ -471,45 +473,47 @@ export const authorizeIp = async (token: string): Promise<VerificationResult> =>
 		logger.error('IP authorization failed - server error', error);
 		return VerificationResult.SERVER_ERROR;
 	}
-};
+}
 
-export const resendIpAuthorization = async (ticket: string): Promise<void> => {
+export async function resendIpAuthorization(ticket: string): Promise<void> {
 	await http.post({
 		url: Endpoints.AUTH_IP_AUTHORIZATION_RESEND,
 		body: {ticket},
 		headers: withPlatformHeader(),
 	});
-};
+}
 
-export const subscribeToIpAuthorization = (ticket: string): EventSource => {
-	const base = RuntimeConfigStore.apiEndpoint || '';
-	const url = `${base}${Endpoints.AUTH_IP_AUTHORIZATION_STREAM(ticket)}`;
-	return new EventSource(url);
-};
+export interface IpAuthorizationPollResult {
+	completed: boolean;
+	token?: string;
+	user_id?: string;
+}
 
-export const initiateDesktopHandoff = async (): Promise<DesktopHandoffInitiateResponse> => {
+export async function pollIpAuthorization(ticket: string): Promise<IpAuthorizationPollResult> {
+	const response = await http.get<IpAuthorizationPollResult>({
+		url: Endpoints.AUTH_IP_AUTHORIZATION_POLL(ticket),
+		headers: withPlatformHeader(),
+	});
+	return response.body;
+}
+
+export async function initiateDesktopHandoff(): Promise<DesktopHandoffInitiateResponse> {
 	const response = await http.post<DesktopHandoffInitiateResponse>({
 		url: Endpoints.AUTH_HANDOFF_INITIATE,
 		skipAuth: true,
 	});
 	return response.body;
-};
+}
 
-export const pollDesktopHandoffStatus = async (
-	code: string,
-	customApiEndpoint?: string,
-): Promise<DesktopHandoffStatusResponse> => {
-	const url = customApiEndpoint
-		? `${customApiEndpoint}${Endpoints.AUTH_HANDOFF_STATUS(code)}`
-		: Endpoints.AUTH_HANDOFF_STATUS(code);
+export async function pollDesktopHandoffStatus(code: string): Promise<DesktopHandoffStatusResponse> {
 	const response = await http.get<DesktopHandoffStatusResponse>({
-		url,
+		url: Endpoints.AUTH_HANDOFF_STATUS(code),
 		skipAuth: true,
 	});
 	return response.body;
-};
+}
 
-export const completeDesktopHandoff = async ({
+export async function completeDesktopHandoff({
 	code,
 	token,
 	userId,
@@ -517,15 +521,15 @@ export const completeDesktopHandoff = async ({
 	code: string;
 	token: string;
 	userId: string;
-}): Promise<void> => {
+}): Promise<void> {
 	await http.post({
 		url: Endpoints.AUTH_HANDOFF_COMPLETE,
 		body: {code, token, user_id: userId},
 		skipAuth: true,
 	});
-};
+}
 
-export const startSession = (token: string, options: {startGateway?: boolean} = {}): void => {
+export function startSession(token: string, options: {startGateway?: boolean} = {}): void {
 	const {startGateway = true} = options;
 
 	logger.info('Starting new session');
@@ -535,12 +539,12 @@ export const startSession = (token: string, options: {startGateway?: boolean} = 
 		return;
 	}
 
-	ConnectionStore.startSession(token);
-};
+	GatewayConnectionStore.startSession(token);
+}
 
 let sessionStartInProgress = false;
 
-export const ensureSessionStarted = async (): Promise<void> => {
+export async function ensureSessionStarted(): Promise<void> {
 	if (sessionStartInProgress) {
 		return;
 	}
@@ -553,11 +557,11 @@ export const ensureSessionStarted = async (): Promise<void> => {
 		return;
 	}
 
-	if (ConnectionStore.isConnected || ConnectionStore.isConnecting) {
+	if (GatewayConnectionStore.isConnected || GatewayConnectionStore.isConnecting) {
 		return;
 	}
 
-	if (ConnectionStore.socket) {
+	if (GatewayConnectionStore.socket) {
 		return;
 	}
 
@@ -568,16 +572,16 @@ export const ensureSessionStarted = async (): Promise<void> => {
 
 		const token = AuthenticationStore.authToken;
 		if (token) {
-			ConnectionStore.startSession(token);
+			GatewayConnectionStore.startSession(token);
 		}
 	} finally {
 		setTimeout(() => {
 			sessionStartInProgress = false;
 		}, 100);
 	}
-};
+}
 
-export const completeLogin = async ({
+export async function completeLogin({
 	token,
 	userId,
 	userData,
@@ -585,7 +589,7 @@ export const completeLogin = async ({
 	token: string;
 	userId: string;
 	userData?: UserData;
-}): Promise<void> => {
+}): Promise<void> {
 	logger.info('Completing login process');
 
 	if (userId && token) {
@@ -593,7 +597,25 @@ export const completeLogin = async ({
 	} else {
 		startSession(token, {startGateway: true});
 	}
-};
+}
+
+export async function startSso(redirectTo?: string): Promise<{authorization_url: string}> {
+	const response = await http.post<{authorization_url: string}>({
+		url: Endpoints.AUTH_SSO_START,
+		body: {redirect_to: redirectTo},
+		headers: withPlatformHeader(),
+	});
+	return response.body;
+}
+
+export async function completeSso({code, state}: {code: string; state: string}): Promise<TokenResponse> {
+	const response = await http.post<TokenResponse>({
+		url: Endpoints.AUTH_SSO_COMPLETE,
+		body: {code, state},
+		headers: withPlatformHeader(),
+	});
+	return response.body;
+}
 
 interface SetMfaTicketPayload {
 	ticket: string;
@@ -602,26 +624,12 @@ interface SetMfaTicketPayload {
 	webauthn: boolean;
 }
 
-export const setMfaTicket = ({ticket, sms, totp, webauthn}: SetMfaTicketPayload): void => {
+export function setMfaTicket({ticket, sms, totp, webauthn}: SetMfaTicketPayload): void {
 	logger.debug('Setting MFA ticket');
 	AuthenticationStore.handleMfaTicketSet({ticket, sms, totp, webauthn});
-};
+}
 
-export const clearMfaTicket = (): void => {
+export function clearMfaTicket(): void {
 	logger.debug('Clearing MFA ticket');
 	AuthenticationStore.handleMfaTicketClear();
-};
-
-export const redeemBetaCode = async (betaCode: string): Promise<void> => {
-	try {
-		await http.post({
-			url: Endpoints.AUTH_REDEEM_BETA_CODE,
-			body: {beta_code: betaCode},
-			headers: withPlatformHeader(),
-		});
-		logger.info('Beta code redeemed successfully');
-	} catch (error) {
-		logger.error('Beta code redemption failed', error);
-		throw error;
-	}
-};
+}

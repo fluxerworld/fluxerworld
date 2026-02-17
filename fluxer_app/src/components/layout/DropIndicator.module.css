@@ -35,10 +35,14 @@
 }
 
 .dropIndicatorValid {
-	background-color: var(--brand-primary);
+	background-color: var(--brand-primary-light);
 }
 
 .dropIndicatorInvalid {
 	background-color: var(--text-primary-muted);
 	opacity: 0.6;
+}
+
+:global(.theme-light) .dropIndicatorValid {
+	background-color: var(--brand-primary);
 }

@@ -17,37 +17,46 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as RecentMentionActionCreators from '@app/actions/RecentMentionActionCreators';
+import {Message} from '@app/components/channel/Message';
+import {InboxMessageHeader} from '@app/components/popouts/InboxMessageHeader';
+import headerStyles from '@app/components/popouts/InboxMessageHeader.module.css';
+import styles from '@app/components/popouts/RecentMentionsContent.module.css';
+import previewStyles from '@app/components/shared/MessagePreview.module.css';
+import {CheckboxItem} from '@app/components/uikit/context_menu/ContextMenu';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useMessageListKeyboardNavigation} from '@app/hooks/useMessageListKeyboardNavigation';
+import ChannelStore from '@app/stores/ChannelStore';
+import ContextMenuStore from '@app/stores/ContextMenuStore';
+import RecentMentionsStore from '@app/stores/RecentMentionsStore';
+import {goToMessage} from '@app/utils/MessageNavigator';
+import {MessagePreviewContext} from '@fluxer/constants/src/ChannelConstants';
 import {msg} from '@lingui/core/macro';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {DotsThreeIcon, FlagCheckeredIcon, SparkleIcon, XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {autorun} from 'mobx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as RecentMentionActionCreators from '~/actions/RecentMentionActionCreators';
-import {MessagePreviewContext} from '~/Constants';
-import {Message} from '~/components/channel/Message';
-import styles from '~/components/popouts/RecentMentionsContent.module.css';
-import {MessageContextPrefix} from '~/components/shared/MessageContextPrefix/MessageContextPrefix';
-import previewStyles from '~/components/shared/MessagePreview.module.css';
-import {MenuGroup} from '~/components/uikit/ContextMenu/MenuGroup';
-import {MenuItemCheckbox} from '~/components/uikit/ContextMenu/MenuItemCheckbox';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Scroller} from '~/components/uikit/Scroller';
-import ChannelStore from '~/stores/ChannelStore';
-import ContextMenuStore from '~/stores/ContextMenuStore';
-import RecentMentionsStore from '~/stores/RecentMentionsStore';
-import {goToMessage} from '~/utils/MessageNavigator';
+import {useCallback, useEffect, useRef, useState} from 'react';
+
+const readonlyBehaviorOverrides = {
+	disableContextMenu: true,
+	prefersReducedMotion: true,
+};
 
 const FilterMenuContent = observer(() => {
 	const filters = RecentMentionsStore.getFilters();
 
 	return (
 		<MenuGroup>
-			<MenuItemCheckbox
+			<CheckboxItem
 				checked={filters.includeEveryone}
-				onChange={(checked) => {
+				onCheckedChange={(checked) => {
 					RecentMentionActionCreators.updateFilters({
 						includeEveryone: checked,
 					});
@@ -55,10 +64,10 @@ const FilterMenuContent = observer(() => {
 				}}
 			>
 				<Trans>Include @everyone mentions</Trans>
-			</MenuItemCheckbox>
-			<MenuItemCheckbox
+			</CheckboxItem>
+			<CheckboxItem
 				checked={filters.includeRoles}
-				onChange={(checked) => {
+				onCheckedChange={(checked) => {
 					RecentMentionActionCreators.updateFilters({
 						includeRoles: checked,
 					});
@@ -66,10 +75,10 @@ const FilterMenuContent = observer(() => {
 				}}
 			>
 				<Trans>Include @role mentions</Trans>
-			</MenuItemCheckbox>
-			<MenuItemCheckbox
+			</CheckboxItem>
+			<CheckboxItem
 				checked={filters.includeGuilds}
-				onChange={(checked) => {
+				onCheckedChange={(checked) => {
 					RecentMentionActionCreators.updateFilters({
 						includeGuilds: checked,
 					});
@@ -77,30 +86,35 @@ const FilterMenuContent = observer(() => {
 				}}
 			>
 				<Trans>Include all community mentions</Trans>
-			</MenuItemCheckbox>
+			</CheckboxItem>
 		</MenuGroup>
 	);
 });
 
 export const RecentMentionsContent = observer(
 	({onHeaderActionsChange}: {onHeaderActionsChange?: (actions: React.ReactNode) => void}) => {
-		const {i18n} = useLingui();
+		const {t, i18n} = useLingui();
 
 		const fetched = RecentMentionsStore.fetched;
 		const hasMore = RecentMentionsStore.getHasMore();
 		const isLoadingMore = RecentMentionsStore.getIsLoadingMore();
-		const filterButtonRef = React.useRef<HTMLButtonElement>(null);
-		const [isFilterMenuOpen, setIsFilterMenuOpen] = React.useState(false);
+		const filterButtonRef = useRef<HTMLButtonElement>(null);
+		const scrollerRef = useRef<ScrollerHandle | null>(null);
+		const [isFilterMenuOpen, setIsFilterMenuOpen] = useState(false);
 
 		const accessibleMentions = RecentMentionsStore.getAccessibleMentions();
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (!fetched) {
 				RecentMentionActionCreators.fetch();
 			}
 		}, [fetched]);
 
-		React.useEffect(() => {
+		useMessageListKeyboardNavigation({
+			containerRef: scrollerRef,
+		});
+
+		useEffect(() => {
 			const handleContextMenuChange = () => {
 				const contextMenu = ContextMenuStore.contextMenu;
 				const isOpen =
@@ -113,7 +127,7 @@ export const RecentMentionsContent = observer(
 			return () => disposer();
 		}, []);
 
-		const handleFilterPointerDown = React.useCallback((event: React.PointerEvent) => {
+		const handleFilterPointerDown = useCallback((event: React.PointerEvent) => {
 			const contextMenu = ContextMenuStore.contextMenu;
 			const isOpen = !!contextMenu && contextMenu.target.target === filterButtonRef.current;
 
@@ -124,7 +138,7 @@ export const RecentMentionsContent = observer(
 			}
 		}, []);
 
-		const handleFilterClick = React.useCallback((event: React.MouseEvent) => {
+		const handleFilterClick = useCallback((event: React.MouseEvent) => {
 			const contextMenu = ContextMenuStore.contextMenu;
 			const isOpen = !!contextMenu && contextMenu.target.target === event.currentTarget;
 
@@ -135,7 +149,7 @@ export const RecentMentionsContent = observer(
 			ContextMenuActionCreators.openFromEvent(event, () => <FilterMenuContent />);
 		}, []);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			onHeaderActionsChange?.(
 				<FocusRing offset={-2} focusTarget={filterButtonRef} ringTarget={filterButtonRef}>
 					<button
@@ -154,7 +168,7 @@ export const RecentMentionsContent = observer(
 			return () => onHeaderActionsChange?.(null);
 		}, [onHeaderActionsChange, handleFilterPointerDown, handleFilterClick, isFilterMenuOpen, i18n]);
 
-		const handleScroll = React.useCallback(
+		const handleScroll = useCallback(
 			(event: React.UIEvent<HTMLDivElement>) => {
 				const target = event.currentTarget;
 				const scrollPercentage = (target.scrollTop + target.offsetHeight) / target.scrollHeight;
@@ -166,9 +180,17 @@ export const RecentMentionsContent = observer(
 			[hasMore, isLoadingMore],
 		);
 
-		const handleJumpToMessage = React.useCallback((channelId: string, messageId: string) => {
+		const handleJumpToMessage = useCallback((channelId: string, messageId: string) => {
 			goToMessage(channelId, messageId);
 		}, []);
+
+		if (!fetched) {
+			return (
+				<div className={previewStyles.emptyState}>
+					<Spinner />
+				</div>
+			);
+		}
 
 		if (accessibleMentions.length === 0) {
 			return (
@@ -189,27 +211,40 @@ export const RecentMentionsContent = observer(
 		}
 
 		return (
-			<Scroller
-				className={styles.scroller}
-				onScroll={handleScroll}
-				key="recent-mentions-scroller"
-				reserveScrollbarTrack
-			>
+			<Scroller className={styles.scroller} onScroll={handleScroll} key="recent-mentions-scroller" ref={scrollerRef}>
 				{accessibleMentions.map((message) => {
 					const channel = ChannelStore.getChannel(message.channelId);
 					if (!channel) return null;
 
 					return (
-						<React.Fragment key={message.id}>
-							<MessageContextPrefix
+						<div key={message.id} className={styles.messageCard}>
+							<InboxMessageHeader
 								channel={channel}
-								showGuildMeta={Boolean(channel.guildId)}
-								compact
 								onClick={() => handleJumpToMessage(message.channelId, message.id)}
+								rightActions={
+									<Tooltip text={t`Remove mention`} position="top">
+										<FocusRing offset={-2}>
+											<button
+												type="button"
+												className={headerStyles.headerIconButton}
+												onClick={() => RecentMentionActionCreators.remove(message.id)}
+												aria-label={t`Remove mention`}
+											>
+												<XIcon weight="bold" className={headerStyles.headerIcon} />
+											</button>
+										</FocusRing>
+									</Tooltip>
+								}
 							/>
 
 							<div className={previewStyles.previewCard}>
-								<Message message={message} channel={channel} previewContext={MessagePreviewContext.LIST_POPOUT} />
+								<Message
+									message={message}
+									channel={channel}
+									previewContext={MessagePreviewContext.LIST_POPOUT}
+									behaviorOverrides={readonlyBehaviorOverrides}
+									readonlyPreview
+								/>
 
 								<div className={previewStyles.actionButtons}>
 									<FocusRing offset={-2}>
@@ -221,28 +256,15 @@ export const RecentMentionsContent = observer(
 											<Trans>Jump</Trans>
 										</button>
 									</FocusRing>
-
-									<FocusRing offset={-2}>
-										<button
-											type="button"
-											className={previewStyles.actionIconButton}
-											onClick={() => RecentMentionActionCreators.remove(message.id)}
-											title={i18n._(msg`Remove mention`)}
-										>
-											<XIcon weight="regular" className={previewStyles.actionIcon} />
-										</button>
-									</FocusRing>
 								</div>
 							</div>
-						</React.Fragment>
+						</div>
 					);
 				})}
 
 				{isLoadingMore && (
 					<div className={previewStyles.loadingState}>
-						<div className={previewStyles.loadingText}>
-							<Trans>Loading more...</Trans>
-						</div>
+						<Spinner />
 					</div>
 				)}
 

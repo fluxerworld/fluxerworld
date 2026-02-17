@@ -1,0 +1,59 @@
+---
+title: 'Invites'
+description: 'Invites object schemas from the Fluxer API.'
+---
+
+<a id="channelinvitecreaterequest"></a>
+
+## ChannelInviteCreateRequest
+
+**Related endpoints**
+
+- [`POST /channels/{channel_id}/invites`](/api-reference/invites/create-channel-invite)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| max_age? | ?integer (int32) | Duration in seconds before the invite expires (0 for never) |
+| max_uses? | ?integer (int32) | Maximum number of times this invite can be used (0 for unlimited) |
+| temporary? | ?boolean | Whether members that joined via this invite should be kicked after disconnecting |
+| unique? | ?boolean | Whether to create a new unique invite or reuse an existing one |
+
+<a id="invitemetadataresponseschema"></a>
+
+## InviteMetadataResponseSchema
+
+**Related endpoints**
+
+- [`GET /channels/{channel_id}/invites`](/api-reference/invites/list-channel-invites)
+- [`GET /guilds/{guild_id}/invites`](/api-reference/invites/list-guild-invites)
+- [`GET /packs/{pack_id}/invites`](/api-reference/invites/list-pack-invites)
+- [`POST /channels/{channel_id}/invites`](/api-reference/invites/create-channel-invite)
+- [`POST /packs/{pack_id}/invites`](/api-reference/invites/create-pack-invite)
+
+Type: [GuildInviteMetadataResponse](#guildinvitemetadataresponse) \| [GroupDmInviteMetadataResponse](#groupdminvitemetadataresponse) \| [PackInviteMetadataResponse](#packinvitemetadataresponse)
+
+<a id="inviteresponseschema"></a>
+
+## InviteResponseSchema
+
+**Related endpoints**
+
+- [`GET /invites/{invite_code}`](/api-reference/invites/get-invite-information)
+- [`POST /invites/{invite_code}`](/api-reference/invites/accept-invite)
+
+Type: [GuildInviteResponse](#guildinviteresponse) \| [GroupDmInviteResponse](#groupdminviteresponse) \| [PackInviteResponse](#packinviteresponse)
+
+<a id="packinvitecreaterequest"></a>
+
+## PackInviteCreateRequest
+
+**Related endpoints**
+
+- [`POST /packs/{pack_id}/invites`](/api-reference/invites/create-pack-invite)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| max_age? | ?integer (int32) | Duration in seconds before the invite expires (0 for never) |
+| max_uses? | ?integer (int32) | Maximum number of times this invite can be used (0 for unlimited) |
+| unique? | ?boolean | Whether to create a new unique invite or reuse an existing one |
+

@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {type Relationship, RelationshipRecord} from '@app/records/RelationshipRecord';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {makeAutoObservable} from 'mobx';
-import {RelationshipTypes} from '~/Constants';
-import {type Relationship, RelationshipRecord} from '~/records/RelationshipRecord';
 
 class RelationshipStore {
 	relationships: Record<string, RelationshipRecord> = {};

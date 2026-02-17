@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {makePersistent} from '@app/lib/MobXPersistence';
+import FavoritesStore from '@app/stores/FavoritesStore';
+import NavigationStore from '@app/stores/NavigationStore';
+import {FAVORITES_GUILD_ID, ME} from '@fluxer/constants/src/AppConstants';
+import type {Channel} from '@fluxer/schema/src/domains/channel/ChannelSchemas';
 import {action, makeAutoObservable, reaction} from 'mobx';
-import {FAVORITES_GUILD_ID, ME} from '~/Constants';
-import {makePersistent} from '~/lib/MobXPersistence';
-import type {Channel} from '~/records/ChannelRecord';
-import NavigationStore from '~/stores/NavigationStore';
-import FavoritesStore from './FavoritesStore';
 
 interface ChannelVisit {
 	channelId: string;

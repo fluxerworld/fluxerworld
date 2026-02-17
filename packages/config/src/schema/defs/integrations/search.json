@@ -1,0 +1,19 @@
+{
+	"search_integration": {
+		"type": "object",
+		"description": "Search engine integration (Meilisearch). Fluxer always uses Meilisearch for indexing and querying.",
+		"additionalProperties": false,
+		"properties": {
+			"url": {
+				"type": "string",
+				"description": "Meilisearch HTTP API URL.",
+				"default": "http://127.0.0.1:7700"
+			},
+			"api_key": {
+				"type": "string",
+				"description": "Meilisearch API key used by the API for index management and writes. Use a key with access to documents and settings."
+			}
+		},
+		"required": ["url", "api_key"]
+	}
+}

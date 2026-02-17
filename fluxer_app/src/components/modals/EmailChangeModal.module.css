@@ -17,11 +17,6 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-.inputContainer {
-	display: flex;
-	flex-direction: column;
-}
-
 .footer {
 	align-items: center;
 	display: flex;

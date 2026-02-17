@@ -17,21 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GuildStickerActionCreators from '@app/actions/GuildStickerActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {Form} from '@app/components/form/Form';
+import styles from '@app/components/modals/AddGuildStickerModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {StickerFormFields} from '@app/components/modals/sticker_form/StickerFormFields';
+import {StickerPreview} from '@app/components/modals/sticker_form/StickerPreview';
+import {Button} from '@app/components/uikit/button/Button';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import {Logger} from '@app/lib/Logger';
+import * as ImageCropUtils from '@app/utils/ImageCropUtils';
+import {GlobalLimits} from '@app/utils/limits/GlobalLimits';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import {useCallback, useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import * as GuildStickerActionCreators from '~/actions/GuildStickerActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {STICKER_MAX_SIZE} from '~/Constants';
-import {Form} from '~/components/form/Form';
-import styles from '~/components/modals/AddGuildStickerModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {StickerFormFields} from '~/components/modals/sticker-form/StickerFormFields';
-import {StickerPreview} from '~/components/modals/sticker-form/StickerPreview';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import * as ImageCropUtils from '~/utils/ImageCropUtils';
+
+const logger = new Logger('AddGuildStickerModal');
 
 interface AddGuildStickerModalProps {
 	guildId: string;
@@ -51,8 +54,8 @@ export const AddGuildStickerModal = observer(function AddGuildStickerModal({
 	onSuccess,
 }: AddGuildStickerModalProps) {
 	const {t} = useLingui();
-	const [isProcessing, setIsProcessing] = React.useState(false);
-	const [previewUrl, setPreviewUrl] = React.useState<string | null>(null);
+	const [isProcessing, setIsProcessing] = useState(false);
+	const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
 	const form = useForm<FormInputs>({
 		defaultValues: {
@@ -62,17 +65,18 @@ export const AddGuildStickerModal = observer(function AddGuildStickerModal({
 		},
 	});
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const url = URL.createObjectURL(file);
 		setPreviewUrl(url);
 		return () => URL.revokeObjectURL(url);
 	}, [file]);
 
-	const onSubmit = React.useCallback(
+	const onSubmit = useCallback(
 		async (data: FormInputs) => {
 			setIsProcessing(true);
 			try {
-				const base64Image = await ImageCropUtils.optimizeStickerImage(file, STICKER_MAX_SIZE, 320);
+				const maxStickerSize = GlobalLimits.getStickerMaxSize();
+				const base64Image = await ImageCropUtils.optimizeStickerImage(file, maxStickerSize, 320);
 
 				await GuildStickerActionCreators.create(guildId, {
 					name: data.name.trim(),
@@ -83,10 +87,10 @@ export const AddGuildStickerModal = observer(function AddGuildStickerModal({
 
 				onSuccess();
 				ModalActionCreators.pop();
-			} catch (error: any) {
-				console.error('Failed to create sticker:', error);
+			} catch (error: unknown) {
+				logger.error('Failed to create sticker:', error);
 				form.setError('name', {
-					message: error.message || t`Failed to create sticker`,
+					message: error instanceof Error ? error.message : t`Failed to create sticker`,
 				});
 				setIsProcessing(false);
 			}

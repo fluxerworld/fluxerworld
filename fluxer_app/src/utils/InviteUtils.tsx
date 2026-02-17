@@ -17,19 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {ChannelTypes, Permissions} from '~/Constants';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {GuildRecord} from '~/records/GuildRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildStore from '~/stores/GuildStore';
-import PermissionStore from '~/stores/PermissionStore';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import SelectedChannelStore from '~/stores/SelectedChannelStore';
-import * as CodeLinkUtils from '~/utils/CodeLinkUtils';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildStore from '@app/stores/GuildStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
+import * as CodeLinkUtils from '@app/utils/CodeLinkUtils';
+import {ChannelTypes, Permissions} from '@fluxer/constants/src/ChannelConstants';
 
 const INVITE_CONFIG: CodeLinkUtils.CodeLinkConfig = {
-	get shortHost() {
-		return RuntimeConfigStore.inviteHost;
+	get urlBase() {
+		return RuntimeConfigStore.inviteUrlBase;
 	},
 	path: 'invite',
 };

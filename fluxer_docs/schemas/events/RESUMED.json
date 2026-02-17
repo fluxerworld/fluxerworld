@@ -1,0 +1,11 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "RESUMED",
+	"description": "Response to a successful resume request. The client should replay any missed events from the buffer.",
+	"scope": "session",
+	"dispatchedBy": ["gateway"],
+	"payload": {
+		"type": "null",
+		"description": "Null payload; presence of this event indicates successful resume"
+	}
+}

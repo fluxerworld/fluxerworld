@@ -17,22 +17,25 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ReactionActionCreators from '@app/actions/ReactionActionCreators';
+import {MessageReactionsModal} from '@app/components/modals/MessageReactionsModal';
+import {EmojiTooltipContent} from '@app/components/uikit/emoji_tooltip_content/EmojiTooltipContent';
+import {useTooltipPortalRoot} from '@app/components/uikit/tooltip/Tooltip';
+import {useMergeRefs} from '@app/hooks/useMergeRefs';
+import {useReactionTooltip} from '@app/hooks/useReactionTooltip';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import MessageReactionsStore from '@app/stores/MessageReactionsStore';
+import {getReactionTooltip, useEmojiURL} from '@app/utils/ReactionUtils';
+import {getReducedMotionProps, TOOLTIP_MOTION} from '@app/utils/ReducedMotionAnimation';
 import {FloatingPortal} from '@floating-ui/react';
+import type {MessageReaction} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {useLingui} from '@lingui/react/macro';
 import {AnimatePresence, motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ReactionActionCreators from '~/actions/ReactionActionCreators';
-import {MessageReactionsModal} from '~/components/modals/MessageReactionsModal';
-import {EmojiTooltipContent} from '~/components/uikit/EmojiTooltipContent/EmojiTooltipContent';
-import {useTooltipPortalRoot} from '~/components/uikit/Tooltip';
-import {useMergeRefs} from '~/hooks/useMergeRefs';
-import {useReactionTooltip} from '~/hooks/useReactionTooltip';
-import type {MessageReaction, MessageRecord} from '~/records/MessageRecord';
-import MessageReactionsStore from '~/stores/MessageReactionsStore';
-import {getReactionTooltip, useEmojiURL} from '~/utils/ReactionUtils';
+import React, {useEffect, useMemo, useRef} from 'react';
 
 export const ReactionTooltip = observer(
 	({
@@ -42,6 +45,7 @@ export const ReactionTooltip = observer(
 		hoveredEmojiUrl,
 		animationSyncKey,
 		onRequestAnimationSync,
+		onTooltipHoverChange,
 	}: {
 		message: MessageRecord;
 		reaction: MessageReaction;
@@ -49,18 +53,26 @@ export const ReactionTooltip = observer(
 		hoveredEmojiUrl?: string | null;
 		animationSyncKey?: number;
 		onRequestAnimationSync?: () => void;
+		onTooltipHoverChange?: (hovering: boolean) => void;
 	}) => {
 		const {t} = useLingui();
 		const tooltipPortalRoot = useTooltipPortalRoot();
+		const tooltipMotion = getReducedMotionProps(TOOLTIP_MOTION, AccessibilityStore.useReducedMotion);
 		const {targetRef, tooltipRef, state, updatePosition, handlers, tooltipHandlers, hide} = useReactionTooltip(500);
 
-		const prevIsOpenRef = React.useRef(false);
-		React.useEffect(() => {
+		const prevIsOpenRef = useRef(false);
+		useEffect(() => {
 			if (state.isOpen && !prevIsOpenRef.current) {
 				onRequestAnimationSync?.();
 			}
 			prevIsOpenRef.current = state.isOpen;
 		}, [state.isOpen, onRequestAnimationSync]);
+
+		useEffect(() => {
+			if (!state.isOpen) {
+				onTooltipHoverChange?.(false);
+			}
+		}, [state.isOpen, onTooltipHoverChange]);
 
 		const fetchStatus = MessageReactionsStore.getFetchStatus(message.id, reaction.emoji);
 		const isLoading = fetchStatus === 'pending';
@@ -74,10 +86,12 @@ export const ReactionTooltip = observer(
 		});
 		const emojiUrl = hoveredEmojiUrl ?? fallbackEmojiUrl;
 
-		React.useEffect(() => {
-			if (!state.isOpen) return;
+		useEffect(() => {
+			if (!state.isOpen || fetchStatus === 'pending' || fetchStatus === 'error') {
+				return;
+			}
 			if (fetchStatus === 'idle') {
-				ReactionActionCreators.getReactions(message.channelId, message.id, reaction.emoji, 3);
+				ReactionActionCreators.getReactions(message.channelId, message.id, reaction.emoji, 3).catch((_error) => {});
 			}
 		}, [state.isOpen, message.channelId, message.id, reaction.emoji, fetchStatus]);
 
@@ -89,6 +103,21 @@ export const ReactionTooltip = observer(
 				)),
 			);
 		};
+
+		const tooltipMouseHandlers = useMemo(
+			() => ({
+				...tooltipHandlers,
+				onMouseEnter(event: React.MouseEvent) {
+					tooltipHandlers.onMouseEnter(event);
+					onTooltipHoverChange?.(true);
+				},
+				onMouseLeave(event: React.MouseEvent) {
+					tooltipHandlers.onMouseLeave(event);
+					onTooltipHoverChange?.(false);
+				},
+			}),
+			[tooltipHandlers, onTooltipHoverChange],
+		);
 
 		const child = React.Children.only(children);
 		const childRef = child.props.ref ?? null;
@@ -104,7 +133,7 @@ export const ReactionTooltip = observer(
 					<FloatingPortal root={tooltipPortalRoot}>
 						<AnimatePresence>
 							<motion.div
-								ref={(node) => {
+								ref={(node: HTMLDivElement | null) => {
 									(tooltipRef as React.MutableRefObject<HTMLDivElement | null>).current = node;
 									if (node && targetRef.current) {
 										updatePosition();
@@ -117,14 +146,8 @@ export const ReactionTooltip = observer(
 									zIndex: 'var(--z-index-tooltip)',
 									visibility: state.isReady ? 'visible' : 'hidden',
 								}}
-								initial={{opacity: 0, scale: 0.98}}
-								animate={{opacity: 1, scale: 1}}
-								exit={{opacity: 0, scale: 0.98}}
-								transition={{
-									opacity: {duration: 0.1},
-									scale: {type: 'spring', damping: 25, stiffness: 500},
-								}}
-								{...tooltipHandlers}
+								{...tooltipMotion}
+								{...tooltipMouseHandlers}
 							>
 								<EmojiTooltipContent
 									emojiUrl={emojiUrl}

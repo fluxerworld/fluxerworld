@@ -1,0 +1,497 @@
+account.already_verified: Hesabın zaten doğrulanmış.
+account.communication_disabled: İletişim devre dışı.
+account.disabled: Bu hesap devre dışı bırakıldı.
+account.email_verification_required_for_guild: Bu sunucuda mesaj göndermek için e-postanı doğrulaman gerekiyor.
+account.guild_verification_required: Sunucu doğrulaması gerekiyor.
+account.ip_authorization_required: IP yetkilendirmesi gerekiyor.
+account.locked_suspicious_activity: Şüpheli etkinlik nedeniyle hesabın kilitlendi.
+account.phone_required_for_guild: Bu sunucuda mesaj göndermek için bir telefon numarası eklemen gerekiyor.
+account.scheduled_for_deletion: Bu hesap silinmek üzere planlandı.
+account.session_timeout: Oturum zaman aşımına uğradı. Sayfayı yenileyip tekrar giriş yap.
+account.session_token_mismatch: Oturum anahtarı eşleşmiyor.
+account.suspended_permanently: Bu hesap kalıcı olarak askıya alındı.
+account.suspended_temporarily: Bu hesap geçici olarak askıya alındı.
+account.too_new_for_guild: Bu sunucuda mesaj göndermek için hesabın çok yeni.
+account.unauthorized: Yetkisiz.
+admin_and_system.acls_must_be_non_empty: ACL'ler boş olmamalı.
+admin_and_system.admin_api_key_not_found: Yönetici API anahtarı bulunamadı.
+admin_and_system.audit_log_indexing: Denetim günlükleri indeksleniyor. Lütfen birazdan tekrar dene.
+admin_and_system.channel_indexing: Kanallar indeksleniyor. Lütfen birazdan tekrar dene.
+admin_and_system.creation_failed: Kaynağı oluşturamadık. Lütfen tekrar dene.
+admin_and_system.deletion_failed: Kaynağı silemedik. Lütfen tekrar dene.
+admin_and_system.decryption_failed: Mesajın şifresini çözemedik. Şifreleme anahtarları geçersiz ya da bozuk olabilir.
+admin_and_system.empty_encrypted_body: Boş şifrelenmiş gövde.
+admin_and_system.encryption_failed: Mesajı şifrelemedik. Şifreleme anahtarları geçersiz ya da bozuk olabilir.
+admin_and_system.general_error: Bir şeyler ters gitti. Lütfen daha sonra tekrar dene.
+admin_and_system.invalid_acls_format: Geçersiz ACL formatı.
+admin_and_system.invalid_api_origin: Geçersiz API kaynağı.
+admin_and_system.invalid_audit_log_reason: Geçersiz denetim günlüğü nedeni.
+admin_and_system.invalid_bot_flag: Geçersiz bot bayrağı.
+admin_and_system.invalid_decrypted_json: Geçersiz şifresi çözülmüş JSON.
+admin_and_system.invalid_ephemeral_key: Geçersiz geçici anahtar.
+admin_and_system.invalid_flags_format: Geçersiz bayraklar formatı.
+admin_and_system.invalid_form_body: Geçersiz form gövdesi.
+admin_and_system.invalid_format: Sağlanan değer geçersiz bir biçimdedir.
+admin_and_system.invalid_integer_format: Geçersiz tamsayı formatı.
+admin_and_system.invalid_iv: Geçersiz başlatma vektörü.
+admin_and_system.invalid_suspicious_flags_format: Geçersiz şüpheli bayraklar formatı.
+admin_and_system.invalid_system_flag: Geçersiz sistem bayrağı.
+admin_and_system.invalid_timeout_value: Geçersiz zaman aşımı değeri.
+admin_and_system.invalid_timestamp: Geçersiz zaman damgası.
+admin_and_system.invalid_timezone_identifier: Geçersiz saat dilimi tanımlayıcısı.
+admin_and_system.missing_acl: ACL eksik.
+admin_and_system.missing_ephemeral_key: Geçici anahtar eksik.
+admin_and_system.missing_iv: Başlatma vektörü eksik.
+admin_and_system.must_be_iso_timestamp: Geçerli bir ISO zaman damgası olmalı.
+admin_and_system.processing_failed: İsteği işlemedik. Lütfen tekrar dene.
+admin_and_system.response_validation_failed: 'Yanıt doğrulaması başarısız: {errors}.'
+admin_and_system.test_harness_disabled: Test harness devre dışı bırakılmış.
+admin_and_system.test_harness_forbidden: Test harness yasaklı.
+admin_and_system.unknown_suspicious_flag: Bilinmeyen şüpheli bayrak.
+admin_and_system.update_failed: Kaynağı güncellemedik. Lütfen tekrar dene.
+admin_and_system.user_must_be_bot_for_system_user: Bir kullanıcının sistem kullanıcısı olarak işaretlenmesi için bot olması gerekir.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` ve `expires_at` gerekli.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` ve `message_id` geçerli integer olmalı.'
+attachments_and_uploads.cannot_edit_attachment_metadata: MANAGE_MESSAGES yetkisine sahip kullanıcılar yalnızca ek açıklamalarını düzenleyebilir, diğer metadataları düzenleyemez.
+attachments_and_uploads.attachment_metadata_without_files: Ek metadatasında dosya adı var ama dosya yüklenmedi.
+attachments_and_uploads.attachment_must_be_image: Ek "{filename}" bir görsel dosyası olmalı (png, jpg, jpeg, webp ya da gif).
+attachments_and_uploads.attachment_not_found_in_message: ID'si {attachmentId} olan ek, mesajda bulunamadı.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Dosya yüklerken attachments metadata dizisi gerekli.
+attachments_and_uploads.attachments_not_allowed_for_message: Bu mesaj için ekler kabul edilmiyor.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Ek yokken ek referansı veremezsin.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Aynı attachment ID'si tekrar kullanılamaz.
+attachments_and_uploads.duplicate_file_index: 'Tekrarlanan dosya indeksi: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Multipart form verisini ayrıştıramadık. Alan adlarının ve dosya adlarının doğru biçimde olduğundan emin ol.
+attachments_and_uploads.failed_to_parse_multipart_payload: Multipart payload ayrıştırılamadı.
+attachments_and_uploads.failed_to_upload_image: Görseli yükleyemedik. Lütfen tekrar dene.
+attachments_and_uploads.file_index_exceeds_maximum: Dosya indeksi {index}, izin verilen en yüksek indeks {maxIndex} değerini aşıyor.
+attachments_and_uploads.file_not_found_for_scanning: Tarama için dosya bulunamadı.
+attachments_and_uploads.file_not_found: Dosya bulunamadı.
+attachments_and_uploads.file_size_too_large: Dosya boyutu çok büyük. Maksimum dosya boyutu {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Normalleştirmeden sonra dosya adı boş olamaz.
+attachments_and_uploads.filename_invalid_characters: Dosya adında geçersiz karakterler var.
+attachments_and_uploads.filename_length_invalid: Dosya adı {min} ile {max} karakter arasında olmalı.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Ek {attachmentId} için dosya adı uyuşmuyor: metadata "{expectedFilename}" diyor ama eşleşmiyor.'
+attachments_and_uploads.image_size_exceeds_limit: Görsel boyutu {maxSize} bayt sınırını aşıyor.
+attachments_and_uploads.invalid_file_field_name: 'Geçersiz dosya alan adı: {key}. Beklenen format: `files[N]` (N bir sayı).'
+attachments_and_uploads.invalid_image_data: Geçersiz görsel verisi.
+attachments_and_uploads.invalid_image_format: 'Geçersiz görsel formatı. Desteklenen uzantılar: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: '`payload_json` içinde geçersiz JSON.'
+attachments_and_uploads.multiple_files_for_index_not_allowed: '{index} indeksi için birden fazla dosyaya izin verilmiyor.'
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: ID'si {attachmentId} olan ek metadatası için dosya yüklenmedi.
+attachments_and_uploads.no_file_uploaded_for_attachment: ID'si {attachmentId} olan ek için dosya yüklenmedi.
+attachments_and_uploads.no_metadata_for_file: ID'si {fileId} olan dosya için metadata verilmedi.
+attachments_and_uploads.no_valid_media_in_message: Mesajda geçerli medya bulunamadı.
+attachments_and_uploads.payload_json_required_for_multipart: Multipart mesajları için `payload_json` alanı gerekli.
+attachments_and_uploads.preview_must_be_jpeg: Önizleme JPEG olmalı.
+attachments_and_uploads.referenced_attachment_not_found: Referans verilen ek "{filename}" mesaj eklerinde bulunamadı.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` geçerli bir integer olmalı.'
+attachments_and_uploads.too_many_files: Çok fazla dosya. Maksimum {maxFiles} {maxFiles, plural, one {file} other {files}} izin veriliyor.
+attachments_and_uploads.unknown_image_format: Bilinmeyen görsel formatı.
+attachments_and_uploads.unresolved_attachment_url: Çözümlenmemiş `attachment://` URL'i tespit edildi. Bu, embed işlenmeden önce çözülmüş olmalıydı.
+attachments_and_uploads.uploaded_attachment_not_found: Yüklenen ek {filename} bulunamadı.
+auth_and_oauth.application_not_owned: Bu uygulamaya sahip değilsin.
+auth_and_oauth.bot_already_in_guild: Bu bot zaten guild'de.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Bot kullanıcılar kimlik doğrulama oturumu oluşturamaz.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Bot kullanıcılar kimlik doğrulama uç noktalarını kullanamaz.
+auth_and_oauth.handoff_code_expired: Devretme kodunun süresi doldu.
+auth_and_oauth.handoff_code_invalid: Geçersiz devretme kodu.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize desteklenmiyor. POST /oauth2/authorize/consent kullan.
+auth_and_oauth.invalid_client_secret: Geçersiz istemci gizli anahtarı.
+auth_and_oauth.invalid_client: Geçersiz istemci.
+auth_and_oauth.invalid_code: Geçersiz kod.
+auth_and_oauth.invalid_grant: Geçersiz yetki (grant).
+auth_and_oauth.invalid_or_expired_authorization_ticket: Yetkilendirme bileti geçersiz ya da süresi dolmuş.
+auth_and_oauth.invalid_or_expired_authorization_token: Yetkilendirme anahtarı geçersiz ya da süresi dolmuş.
+auth_and_oauth.invalid_or_expired_ticket: Bilet geçersiz ya da süresi dolmuş.
+auth_and_oauth.invalid_proof_token: Geçersiz kanıt anahtarı.
+auth_and_oauth.invalid_redirect_uri: Geçersiz yönlendirme URI'si.
+auth_and_oauth.invalid_request: Geçersiz istek.
+auth_and_oauth.invalid_scope: Geçersiz kapsam.
+auth_and_oauth.invalid_sudo_token: Geçersiz sudo anahtarı.
+auth_and_oauth.invalid_token_admin_api_key: Geçersiz yönetici API anahtarı.
+auth_and_oauth.missing_authorization: Yetkilendirme eksik.
+auth_and_oauth.missing_client_secret: İstemci gizli anahtarı eksik.
+auth_and_oauth.missing_redirect_uri: Yönlendirme URI'si eksik.
+auth_and_oauth.must_start_session_before_sending_messages: Mesaj göndermeden önce bir oturum başlatman gerekiyor.
+auth_and_oauth.oauth_admin_scope_required: OAuth2 anahtarları, admin uç noktalarına erişmek için admin kapsamını gerektirir.
+auth_and_oauth.oauth_fields_missing: OAuth alanları eksik.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Bot olmayan kapsamlar için yönlendirme URI'si gerekli.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Bot olmayan kapsamlar için yanıt türü code olmalı.
+auth_and_oauth.sudo_mode_required: Sudo modu gerekiyor.
+auth_and_oauth.unknown_application: Bilinmeyen uygulama.
+auth_and_oauth.unsupported_response_type: Desteklenmeyen yanıt türü.
+auth_and_registration.current_password_incorrect: Mevcut şifre yanlış.
+auth_and_registration.password_is_too_common: Şifren çok yaygın. Lütfen daha benzersiz bir şifre seç.
+auth_and_registration.password_not_set: Şifre ayarlanmamış.
+bots.bot_application_not_found: Bot uygulaması bulunamadı.
+bots.bot_discriminator_cannot_be_changed: Bot ayırt edici numarası değiştirilemez.
+bots.bot_is_private: Bu bot özeldir.
+bots.bot_user_generation_failed: Bot kullanıcı oluşturma başarısız oldu.
+bots.bot_user_not_found: Bot kullanıcısı bulunamadı.
+bots.invalid_response_type_for_non_bot: Bot olmayan kapsamlar için yanıt türü code olmalı.
+bots.not_a_bot_application: Bu uygulama bir bot değildir.
+calls_and_voice.call_already_exists: Arama zaten var.
+calls_and_voice.cannot_modify_voice_state: Ses durumunu değiştiremezsin.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Geçersiz ya da kısıtlı RTC bölgesi: {region}.'
+calls_and_voice.invalid_rtc_region: 'Geçersiz RTC bölgesi: {region}. Kullanılabilir bölgeler: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Geçersiz yayın anahtarı formatı.
+calls_and_voice.invalid_stream_thumbnail_payload: Geçersiz yayın küçük resim payload'u.
+calls_and_voice.no_active_call: Aktif arama yok.
+calls_and_voice.stream_key_channel_mismatch: Yayın anahtarı kanal uyuşmazlığı.
+calls_and_voice.stream_key_scope_mismatch: Yayın anahtarı kapsam uyuşmazlığı.
+calls_and_voice.stream_thumbnail_payload_empty: Yayın küçük resim payload'u boş.
+calls_and_voice.unknown_voice_region: Bilinmeyen ses bölgesi.
+calls_and_voice.unknown_voice_server: Bilinmeyen ses sunucusu.
+calls_and_voice.voice_message_duration_exceeds_limit: Sesli mesaj süresi {maxDuration} {maxDuration, plural, one {second} other {seconds}} aşamaz.
+calls_and_voice.voice_message_duration_required: Sesli mesaj eklerinde süre belirtilmeli.
+calls_and_voice.voice_message_waveform_required: Sesli mesaj ekleri waveform verisi içermeli.
+calls_and_voice.voice_messages_require_single_attachment: Sesli mesajlar tam olarak bir ek içermeli.
+captcha.invalid: Captcha geçersiz.
+captcha.required: Captcha gerekli.
+channels_and_guilds.afk_channel_must_be_in_guild: AFK kanalı bu sunucuda olmalı.
+channels_and_guilds.afk_channel_must_be_voice: AFK kanalı bir ses kanalı olmalı.
+channels_and_guilds.all_channels_must_belong_to_guild: Tüm kanallar bu sunucuya ait olmalı.
+channels_and_guilds.animated_guild_banner_requires_feature: Hareketli sunucu bannerı için ANIMATED_BANNER özelliği gerekiyor.
+channels_and_guilds.cannot_execute_on_dm: Bu işlem DM'de yapılamaz.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Sunucu sahipliği bir bota aktarılamaz.
+channels_and_guilds.cannot_leave_guild_as_owner: Sunucu sahibi olarak ayrılamazsın. Önce sahipliği devret ya da sunucuyu sil.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Bir kanalı kendisine ya da alt öğelerine göre konumlandıramazsın.
+channels_and_guilds.cannot_report_own_guild: Kendi sunucunu şikayet edemezsin.
+channels_and_guilds.categories_cannot_have_parent_channel: Kategorilerin üst kanalı olamaz.
+channels_and_guilds.categories_cannot_have_parents: Kategorilerin üst kategorisi olamaz.
+channels_and_guilds.channel_id_required: '`channel_id` gerekli.'
+channels_and_guilds.channel_must_be_dm_or_group_dm: Kanal bir DM ya da grup DM olmalı.
+channels_and_guilds.channel_must_be_voice: Kanal bir ses kanalı olmalı.
+channels_and_guilds.channel_not_found: Kanal bulunamadı.
+channels_and_guilds.context_channel_or_guild_required: Bir bağlam kanalı ya da sunucu ID'si gerekli.
+channels_and_guilds.guild_banner_requires_feature: Sunucu bannerı için BANNER özelliği gerekiyor.
+channels_and_guilds.guild_id_must_match_referenced_message: Sunucu ID'si, referans verilen mesajın alındığı kanaldaki sunucu ile aynı olmalı.
+channels_and_guilds.invalid_channel_id: "Geçersiz kanal ID'si: {channelId}."
+channels_and_guilds.invalid_channel_type_for_call: Arama için geçersiz kanal türü.
+channels_and_guilds.invalid_channel_type: Geçersiz kanal türü.
+channels_and_guilds.invalid_channel: Geçersiz kanal.
+channels_and_guilds.invalid_parent_channel: Geçersiz üst kanal.
+channels_and_guilds.invite_splash_requires_feature: Davet splash için INVITE_SPLASH özelliği gerekiyor.
+channels_and_guilds.invites_disabled: Davetler devre dışı.
+channels_and_guilds.max_group_dm_recipients_reached: Grup DM alıcı sayısı {count} {count, plural, one {recipient} other {recipients}} sınırına ulaşıldı.
+channels_and_guilds.max_group_dms_reached: Maksimum {count} grup {count, plural, one {DM} other {DMs}} sınırına ulaşıldı.
+channels_and_guilds.max_guild_channels_reached: Maksimum {count} sunucu {count, plural, one {channel} other {channels}} sayısına ulaşıldı.
+channels_and_guilds.max_guild_members_reached: Maksimum {count} sunucu {count, plural, one {member} other {members}} sayısına ulaşıldı.
+channels_and_guilds.max_guild_roles_reached: Maksimum {count} sunucu {count, plural, one {role} other {roles}} sayısına ulaşıldı.
+channels_and_guilds.max_guilds_reached: Maksimum {count} {count, plural, one {guild} other {guilds}} sayısına ulaşıldı.
+channels_and_guilds.message_history_cutoff_before_guild_creation: Mesaj geçmişi kesme tarihi topluluktan önce olamaz.
+channels_and_guilds.message_history_cutoff_in_future: Mesaj geçmişi kesme tarihi gelecekte olamaz.
+channels_and_guilds.parent_channel_not_in_guild: Üst kanal sunucuda yok.
+channels_and_guilds.parent_must_be_category: Üst öğe bir kategori olmalı.
+channels_and_guilds.preceding_channel_must_share_parent: Önceki kanal, taşınan kanalla aynı üst öğeyi paylaşmalı.
+channels_and_guilds.preceding_channel_not_in_guild: Önceki kanal sunucuda yok.
+channels_and_guilds.system_channel_must_be_in_guild: Sistem kanalı bu sunucuda olmalı.
+channels_and_guilds.system_channel_must_be_text: Sistem kanalı bir metin kanalı olmalı.
+channels_and_guilds.temporary_invite_requires_presence: Geçici davet için çevrimiçi olma durumu gerekiyor.
+channels_and_guilds.vanity_url_requires_feature: Özel URL için VANITY_URL özelliği gerekiyor.
+channels_and_guilds.voice_channel_full: Ses kanalı dolu.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Aynı kategoride ses kanalları metin kanallarının üstüne taşınamaz.
+colors.color_value_too_high: Renk değeri 0xffffff değerini aşamaz.
+colors.color_value_too_low: Renk değeri en az 0x000000 olmalı.
+connections.already_exists: Bu türden bir bağlantı bu tanımlayıcıyla zaten mevcut.
+connections.bluesky_oauth_callback_failed: Bluesky bağlantısını tamamlayamadık. Lütfen tekrar dene.
+connections.bluesky_oauth_not_enabled: Bluesky bağlantıları bu sunucuda etkinleştirilmemiş.
+connections.bluesky_oauth_session_expired: Bluesky oturumunun süresi dolmuş. Lütfen hesabını yeniden bağla.
+connections.bluesky_oauth_state_invalid: Yetkilendirme isteğinin süresi dolmuş ya da geçersiz. Lütfen tekrar dene.
+connections.invalid_identifier: Bağlantı tanımlayıcısı geçersiz.
+connections.initiation_token_invalid: Bağlantı başlatma anahtarı geçersiz ya da süresi dolmuş.
+connections.invalid_type: Bağlantı türü desteklenmiyor.
+connections.limit_reached: Maksimum bağlantı sayısına ulaştın ({limit}).
+connections.not_found: Bilinmeyen bağlantı.
+connections.verification_failed: Bağlantı doğrulaması başarısız oldu. Doğrulama anahtarının doğru yere yerleştirilmiş olduğundan emin ol.
+content_and_safety.content_blocked: Bu içerik güvenlik sistemleri tarafından engellendi.
+content_and_safety.csam_scan_failed: CSAM taraması başarısız oldu.
+content_and_safety.csam_scan_parse_error: CSAM tarama ayrıştırma hatası.
+content_and_safety.csam_scan_subscription_error: CSAM tarama abonelik hatası.
+content_and_safety.csam_scan_timeout: CSAM taraması zaman aşımına uğradı.
+content_and_safety.explicit_content_cannot_be_sent: Açık içerik gönderilemez.
+content_and_safety.ncmec_already_submitted: Bu içerik zaten NCMEC'ye gönderilmiş.
+content_and_safety.ncmec_submission_failed: Raporu NCMEC'ye gönderemedik. Lütfen daha sonra tekrar dene.
+content_and_safety.nsfw_age_restricted: NSFW içerik yaş kısıtlı.
+discovery.already_applied: Bu topluluk keşif için zaten başvurmuş.
+discovery.application_already_reviewed: Bu keşif başvurusu zaten incelenmiş.
+discovery.application_not_found: Keşif başvurusu bulunamadı.
+discovery.description_required: Keşif listesi için bir açıklama gerekli.
+discovery.insufficient_members: Bu topluluk keşif için gereken minimum üye sayısını karşılamıyor.
+discovery.invalid_category: Geçersiz keşif kategorisi.
+discovery.not_discoverable: Bu topluluk keşifte listelenmemiş.
+donation.amount_invalid: Bağış tutarı geçersiz.
+donation.donor_not_found: Bağışçı bulunamadı.
+donation.magic_link_expired: Sihirli bağlantının süresi dolmuş.
+donation.magic_link_invalid: Sihirli bağlantı geçersiz.
+donation.magic_link_used: Sihirli bağlantı zaten kullanılmış.
+email.email_already_in_use: Bu e-posta zaten kullanılıyor.
+email.email_required: E-posta gerekli.
+email.email_service_not_testable: E-posta servisi test edilemez.
+email.invalid_format: Geçersiz e-posta adresi formatı.
+email.invalid_or_expired_reset_token: Geçersiz veya süresi dolmuş şifre sıfırlama anahtarı.
+email.invalid_or_expired_revert_token: Geçersiz veya süresi dolmuş geri alma anahtarı.
+email.invalid_or_expired_verification_token: Geçersiz veya süresi dolmuş doğrulama anahtarı.
+email.invalid_or_password: Geçersiz e-posta ya da şifre.
+email.invalid_token: Geçersiz e-posta anahtarı.
+email.invalid_verification_code: Geçersiz doğrulama kodu.
+email.length_invalid: E-posta adresi {min} ile {max} karakter arasında olmalı.
+email.must_be_changed_via_token: E-posta anahtarla değiştirilmeli.
+email.must_change_via_token: E-posta `email_token` ile değiştirilmek zorunda.
+email.must_have_email_to_change_it: Değiştirebilmek için bir e-posta adresin olmalı.
+email.new_email_must_be_different: Yeni e-posta, mevcut e-postandan farklı olmalı.
+email.no_new_email_requested: Yeni e-posta talebi yok.
+email.no_original_email_on_record: Kayıtlarda orijinal e-posta yok.
+email.original_email_already_verified: Orijinal e-posta zaten doğrulanmış.
+email.original_email_must_be_verified_first: Önce orijinal e-posta doğrulanmalı.
+email.original_verification_not_required: Bu akış için orijinal doğrulama gerekmiyor.
+email.token_expired: E-posta anahtarının süresi doldu.
+email.user_has_no_email_address: Bu kullanıcının e-posta adresi yok.
+email.user_is_not_pending_verification: Bu kullanıcı doğrulama beklemede değil.
+email.verification_code_expired: Doğrulama kodunun süresi doldu.
+email.verification_code_not_issued: Doğrulama kodu verilmemiş.
+embeds.embed_index_out_of_bounds: Embed indeksi {embedIndex} sınır dışında (mesajda {embedCount} {embedCount, plural, one {embed} other {embeds}} var).
+embeds.embed_splash_requires_feature: Embed splash için INVITE_SPLASH özelliği gerekiyor.
+embeds.embeds_exceed_max_characters: Embedler toplamda {maxCharacters} {maxCharacters, plural, one {character} other {characters}} sınırını aşamaz.
+embeds.too_many_embeds: Çok fazla embed. En fazla {maxEmbeds} {maxEmbeds, plural, one {embed} other {embeds}} olabilir.
+feature_flags.feature_not_available_self_hosted: Bu özellik kendi barındırılan sistemlerde mevcut değildir.
+feature_flags.feature_temporarily_disabled: Bu özellik geçici olarak devre dışı.
+friends_and_dms.already_friends: Bu kullanıcıyla zaten arkadaşsın.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Özel kanalları başlatmak için en az bir alıcı gerekli.
+friends_and_dms.at_least_one_recipient_required: En az bir alıcı gerekli.
+friends_and_dms.bots_cannot_send_friend_requests: Botlar arkadaşlık isteği gönderemez.
+friends_and_dms.cannot_add_yourself_to_group_dm: Kendini bir grup DM'ye ekleyemezsin.
+friends_and_dms.cannot_dm_yourself: Kendine DM atamazsın.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Engellediğin bir kullanıcıya arkadaşlık isteği gönderemezsin.
+friends_and_dms.cannot_send_friend_request_to_self: Kendine arkadaşlık isteği gönderemezsin.
+friends_and_dms.cannot_send_messages_to_user: Bu kullanıcıya mesaj gönderemezsin.
+friends_and_dms.duplicate_recipients_not_allowed: Aynı alıcıyı birden fazla ekleyemezsin.
+friends_and_dms.friend_request_blocked: Kullanıcı şu anda arkadaşlık isteklerini kabul etmiyor.
+friends_and_dms.not_friends: Bu kullanıcıyla arkadaş değilsin.
+friends_and_dms.recipient_ids_cannot_be_empty: Alıcı ID'leri boş olamaz.
+friends_and_dms.recipient_ids_must_be_strings: Alıcı ID'leri string olmalı.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Alıcı ID'leri geçerli snowflake olmalı.
+harvest.expired: Harvest süresi doldu.
+harvest.failed: Harvest başarısız oldu.
+harvest.not_ready: Harvest hazır değil.
+harvest.on_cooldown: Harvest bekleme süresinde.
+harvest.unknown: Bilinmeyen harvest.
+http.bad_gateway: Hatalı ağ geçidi.
+http.bad_request: Hatalı istek.
+http.conflict: Çakışma.
+http.forbidden: Yasaklı.
+http.gateway_timeout: Ağ geçidi zaman aşımı.
+http.gone: Gitmiş.
+http.internal_server_error: İç sunucu hatası.
+http.method_not_allowed: Yönteme izin verilmedi.
+http.not_found: Bulunamadı.
+http.not_implemented: Uygulanmadı.
+http.service_unavailable: Hizmet kullanılamıyor.
+http.validation_error: Doğrulama başarısız.
+invites_and_beta.invalid_or_already_used_beta_code: Geçersiz ya da zaten kullanılmış beta kodu.
+invites_and_beta.max_beta_codes_reached: Maksimum {count} beta {count, plural, one {code} other {codes}} sayısına ulaşıldı.
+invites_and_beta.unknown_beta_code: Bilinmeyen beta kodu.
+invites_and_gifts.gift_code_already_redeemed: Hediye kodu zaten kullanılmış.
+invites_and_gifts.stripe_gift_redemption_in_progress: Hediye kodu kullanımı sürüyor. Birazdan tekrar dene.
+invites_and_gifts.unknown_gift_code: Bilinmeyen hediye kodu.
+invites_and_packs.emoji_requires_access: Bu emojiyi kullanmak için bulunduğu sunucuya ya da kurulu pakete erişimin olmalı.
+invites_and_packs.invalid_pack_type: Geçersiz paket türü.
+invites_and_packs.max_animated_emojis_reached: Maksimum {count} hareketli {count, plural, one {emoji} other {emojis}} sayısına ulaşıldı.
+invites_and_packs.max_emojis_reached: Maksimum {count} {count, plural, one {emoji} other {emojis}} sayısına ulaşıldı.
+invites_and_packs.max_pack_expressions_reached: Maksimum {count} paket {count, plural, one {expression} other {expressions}} sayısına ulaşıldı.
+invites_and_packs.max_packs_reached: Maksimum {count} {count, plural, one {pack} other {packs}} sayısına ulaşıldı.
+invites_and_packs.pack_access_denied: Paket erişimi reddedildi.
+limits.at_least_one_entry_required: En az bir kayıt gerekli.
+limits.bucket_required: '`bucket` gerekli.'
+limits.cannot_shrink_reserved_slots: Ayrılmış slotları küçültemezsin.
+limits.cannot_specify_before_and_after: Hem `before` hem `after` aynı anda belirtilemez.
+limits.base64_length_invalid: Base64 string uzunluğu {min} ile {maxLength} karakter arasında olmalı.
+limits.content_exceeds_max_length: Metin {maxLength} {maxLength, plural, one {character} other {characters}} sınırını aşamaz.
+limits.integer_out_of_int64_range: Tamsayı değeri geçerli int64 aralığının dışında.
+limits.rows_required: '`rows` gerekli.'
+limits.string_length_exact: String tam olarak {length} karakter olmalı.
+limits.timeout_cannot_exceed_365_days: Timeout şu andan itibaren {maxDays} {maxDays, plural, one {günden} other {günden}} fazla olamaz.
+limits.string_length_invalid: String uzunluğu {min} ile {max} karakter arasında olmalı.
+limits.value_must_be_integer_in_range: '`{name}` için değer {minValue} ile {maxValue} arasında bir integer olmalı.'
+limits.value_too_small: Değer çok küçük.
+media_and_memes.favorite_meme_name_required: Favori meme adı gerekli.
+media_and_memes.favorite_meme_not_found: Favori meme bulunamadı.
+media_and_memes.max_favorite_memes_reached: Maksimum {count} favori {count, plural, one {meme} other {memes}} sayısına ulaşıldı.
+media_and_memes.media_already_in_favorites: Bu medya zaten favori memelerinde.
+media_and_memes.media_metadata_error: Medya metadata hatası.
+media_and_memes.unknown_favorite_meme: Bilinmeyen favori meme.
+messages.cannot_delete_more_than_100: Aynı anda {max} {max, plural, one {mesajdan} other {mesajdan}} fazlasını silemezsin.
+messages.cannot_edit_others_message: Başka bir kullanıcının mesajını düzenleyemezsin.
+messages.cannot_preload_more_than_100_channels: Aynı anda {max} {max, plural, one {kanaldan} other {kanaldan}} fazlasını önyükleyemezsin.
+messages.cannot_reply_to_system_message: Bir sistem mesajına yanıt veremezsin.
+messages.cannot_send_empty_message: Boş mesaj gönderemezsin.
+messages.scheduled_messages_max_30_days: Zamanlanmış mesajlar en fazla 30 gün ileride olabilir.
+messages.forward_messages_cannot_include_extra_content: İletilen mesajlara içerik, gömme (embed), ek veya sticker eklenemez.
+messages.forward_reference_requires_channel_and_message: İletme referansı `channel_id` ve `message_id` içermeli.
+messages.invalid_message_data: Geçersiz mesaj verisi.
+messages.invalid_scheduled_message_payload: Geçersiz zamanlanmış mesaj yükü.
+messages.message_ids_cannot_be_empty: '`message_ids` boş olamaz.'
+messages.messages_array_required: '`messages` dizisi gerekli ve boş olmamalı.'
+messages.messages_with_snapshots_cannot_be_edited: Anlık görüntü içeren mesajlar düzenlenemez.
+messages.scheduled_send_datetime_invalid: Zamanlanmış gönderim için tarih ya da saat geçersiz.
+messages.scheduled_time_must_be_future: Zamanlanan saat gelecekte olmalı.
+messages.voice_messages_attachment_must_be_audio: Ses mesajı ekleri ses dosyası olmalı.
+messages.voice_messages_cannot_have_content: Sesli mesajlar metin içeriği olamaz.
+messages.voice_messages_cannot_have_embeds: Sesli mesajlar embed olamaz.
+messages.voice_messages_cannot_have_favorite_memes: Sesli mesajlar favori meme olamaz.
+messages.voice_messages_cannot_have_stickers: Sesli mesajlar sticker olamaz.
+mfa_and_passkeys.invalid_mfa_code: Geçersiz MFA kodu.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Geçersiz WebAuthn doğrulama sayacı.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Moderatörler için zorunlu hale getirmeden önce hesabında 2FA'yı etkinleştirmen gerekiyor.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Geçersiz WebAuthn kimlik bilgisi sayacı.
+mfa_and_passkeys.invalid_webauthn_credential: WebAuthn kimlik bilgisi doğrulanamadı.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Geçersiz WebAuthn açık anahtar formatı.
+mfa_and_passkeys.no_passkeys_registered: Kayıtlı geçiş anahtarı yok.
+mfa_and_passkeys.passkey_authentication_failed: Geçiş anahtarıyla doğrulama başarısız oldu.
+mfa_and_passkeys.passkeys_disabled: Geçiş anahtarları devre dışı.
+mfa_and_passkeys.two_factor_not_enabled: İki faktörlü kimlik doğrulama etkin değil.
+mfa_and_passkeys.two_factor_required: İki faktörlü kimlik doğrulama gerekiyor.
+mfa_and_passkeys.unknown_webauthn_credential: Bilinmeyen WebAuthn kimlik bilgisi.
+mfa_and_passkeys.webauthn_credential_limit_reached: WebAuthn kimlik bilgisi sınırına {count} {count, plural, one {credential} other {credentials}} ulaşıldı.
+misc_limits.max_bookmarks_reached: Maksimum {count} {count, plural, one {bookmark} other {bookmarks}} sayısına ulaşıldı.
+misc_limits.max_category_channels_reached: Maksimum {count} kategori {count, plural, one {channel} other {channels}} sayısına ulaşıldı.
+misc_limits.max_friends_reached: Maksimum {count} {count, plural, one {friend} other {friends}} sayısına ulaşıldı.
+misc_limits.max_invites_reached: Maksimum {count} {count, plural, one {invite} other {invites}} sayısına ulaşıldı.
+misc_limits.max_pins_per_channel_reached: Kanal başına maksimum {count} {count, plural, one {pin} other {pins}} sayısına ulaşıldı.
+misc.cannot_send_messages_in_non_text_channel: Metin olmayan bir kanalda mesaj gönderemezsin.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Bu sunucuda mesaj göndermek için e-postanı doğrulaman gerekiyor.
+misc.invalid_job_id: Geçersiz iş ID'si.
+misc.invalid_permissions_integer: İzinler geçerli bir integer olmalı.
+misc.invalid_permissions_negative: İzinler negatif olamaz.
+misc.invalid_request_generic: Geçersiz istek.
+misc.invalid_snowflake: Geçersiz snowflake.
+misc.job_already_processed: İş zaten işlendi.
+misc.job_id_required: İş ID'si gerekli.
+misc.job_not_found: İş bulunamadı.
+misc.max_files_exceeded: Çok fazla dosya. En fazla {maxFiles} {maxFiles, plural, one {file} other {files}} olabilir.
+misc.must_have_bot_to_mark_system_user: Bir kullanıcıyı sistem kullanıcısı olarak işaretlemek için bot olması gerekir.
+moderation_and_reports.cannot_report_own_message: Kendi mesajını şikayet edemezsin.
+moderation_and_reports.cannot_report_yourself: Kendini şikayet edemezsin.
+moderation_and_reports.invalid_dsa_report_target: Geçersiz DSA şikayet hedefi.
+moderation_and_reports.invalid_dsa_ticket: Geçersiz DSA bileti.
+moderation_and_reports.invalid_dsa_verification_code: Geçersiz DSA doğrulama kodu.
+moderation_and_reports.report_already_resolved: Şikayet zaten sonuçlandırılmış.
+moderation_and_reports.report_banned: Şikayet engellendi.
+moderation_and_reports.unknown_report: Bilinmeyen şikayet.
+moderation_and_reports.user_is_not_banned: Bu kullanıcı yasaklı değil.
+names_and_normalization.channel_name_empty_after_normalization: Normalleştirmeden sonra kanal adı boş olamaz.
+names_and_normalization.name_empty_after_normalization: Normalleştirmeden sonra ad boş olamaz.
+permissions.missing_access: Erişim yok.
+permissions.missing_permissions: İzinler eksik.
+permissions.not_owner_of_admin_api_key: Bu yönetici API anahtarını değiştirme iznin yok.
+permissions.user_banned_from_guild: Bu kullanıcı bu sunucudan yasaklı.
+permissions.user_ip_banned_from_guild: Bu kullanıcının IP'si bu sunucuda yasaklı.
+permissions.user_not_in_channel: Bu kullanıcı bu kanalda değil.
+permissions.user_not_in_voice: Bu kullanıcı ses kanalında değil.
+permissions.user_owns_guilds: Bu kullanıcı sunucuların sahibi.
+phone.invalid_number: Geçersiz telefon numarası.
+phone.number_already_used: Bu telefon numarası zaten kullanılıyor.
+phone.number_format_required: Telefon numarası E.164 formatında olmalı (örneğin, +1234567890).
+phone.phone_required_for_sms_mfa: SMS MFA için bir telefon numarası gerekiyor.
+phone.sms_mfa_not_enabled: SMS MFA etkin değil.
+phone.sms_mfa_requires_totp: SMS MFA için TOTP gerekiyor.
+phone.sms_verification_unavailable: SMS doğrulaması geçici olarak kullanılamıyor. Lütfen daha sonra tekrar dene.
+phone.verification_code_invalid: Telefon doğrulama kodu geçersiz.
+phone.verification_required: Telefon doğrulaması gerekiyor.
+premium_and_plans.animated_avatars_require_premium: Hareketli avatarlar için Premium gerekiyor.
+premium_and_plans.banners_require_premium: Bannerlar için Premium gerekiyor.
+premium_and_plans.bio_requires_premium_for_length: '{maxLength} karakterden uzun biyografi için Premium gerekiyor.'
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Visionary ile Plutonium kullanamazsın.
+premium_and_plans.custom_emojis_outside_source_require_premium: Premium olmadan özel emojileri kaynak sunucuları dışında kullanamazsın.
+premium_and_plans.custom_stickers_in_dms_require_premium: DM'lerde özel sticker kullanmak için Premium gerekiyor.
+premium_and_plans.custom_stickers_outside_source_require_premium: Premium olmadan özel stickerları kaynak sunucuları dışında kullanamazsın.
+premium_and_plans.discriminator_change_requires_premium: Ayrıştırıcını değiştirmek için Premium gerekiyor.
+premium_and_plans.no_active_subscription: Aktif abonelik yok.
+premium_and_plans.no_visionary_slots_available: Kullanılabilir Visionary yuvası yok.
+premium_and_plans.premium_required_for_custom_emoji: Özel emoji kullanmak için Premium gerekiyor.
+premium_and_plans.visionary_required_for_bot_discriminator: Bot ayrıştırıcılarını özelleştirmek için Visionary ömür boyu planında olman gerekiyor.
+premium_and_plans.visionary_required_for_discriminator: O ayrıştırıcıyı kullanmak için Visionary ömür boyu planında olman gerekiyor.
+rate_limits.accent_color_changed_too_often: Son zamanlarda vurgu rengini çok sık değiştirdin. Lütfen {minutes} {minutes, plural, one {minute} other {minutes}} sonra tekrar dene.
+rate_limits.avatar_changed_too_often: Son zamanlarda avatarını çok sık değiştirdin. Lütfen {minutes} {minutes, plural, one {minute} other {minutes}} sonra tekrar dene.
+rate_limits.banner_changed_too_often: Son zamanlarda bannerını çok sık değiştirdin. Lütfen {minutes} {minutes, plural, one {minute} other {minutes}} sonra tekrar dene.
+rate_limits.bio_changed_too_often: Son zamanlarda biyografini çok sık değiştirdin. Lütfen {minutes} {minutes, plural, one {minute} other {minutes}} sonra tekrar dene.
+rate_limits.ip_authorization_resend_cooldown: IP yetkilendirme yeniden gönderimi bekleme süresinde.
+rate_limits.ip_authorization_resend_limit_exceeded: IP yetkilendirme yeniden gönderme sınırı aşıldı.
+rate_limits.phone_rate_limit_exceeded: Telefon için istek sınırı aşıldı.
+rate_limits.pronouns_changed_too_often: Son zamanlarda zamirlerini çok sık değiştirdin. Lütfen {minutes} {minutes, plural, one {minute} other {minutes}} sonra tekrar dene.
+rate_limits.rate_limited: Çok fazla istek attığın için şu an sınırlandın.
+rate_limits.slowmode_rate_limited: Yavaş mod nedeniyle sınırlandın.
+rate_limits.username_changed_too_often: Son zamanlarda kullanıcı adını çok sık değiştirdin. Lütfen {minutes} {minutes, plural, one {minute} other {minutes}} sonra tekrar dene.
+roles.cannot_reorder_everyone_role: '@everyone rolünü yeniden sıralayamazsın.'
+roles.cannot_set_everyone_hoist: '@everyone rolü için hoist konumu ayarlayamazsın.'
+roles.cannot_use_same_role_as_preceding: Önceki rolle aynı rolü kullanamazsın.
+roles.invalid_role_id: "Geçersiz rol ID'si: {roleId}."
+roles.parse_and_users_or_roles_cannot_be_used_together: '`parse` ile `allowed_mentions.users` veya `allowed_mentions.roles` birlikte kullanılamaz.'
+roles.preceding_role_not_in_guild: Önceki rol sunucuda yok.
+stickers_and_emojis.custom_emoji_not_found: Özel emoji bulunamadı.
+stickers_and_emojis.custom_sticker_not_found: Özel sticker bulunamadı.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Bu emojiyi kullanmak için sunucuya veya yüklü pakete erişimin olmalı.
+stickers_and_emojis.max_reactions_reached: Maksimum {count} {count, plural, one {reaction} other {reactions}} sayısına ulaşıldı.
+stickers_and_emojis.max_stickers_reached: Maksimum {count} {count, plural, one {sticker} other {stickers}} sayısına ulaşıldı.
+stickers_and_emojis.not_valid_unicode_emoji: Geçerli bir Unicode emoji değil.
+stickers_and_emojis.unknown_emoji: Bilinmeyen emoji.
+stickers_and_emojis.unknown_sticker: Bilinmeyen sticker.
+stripe.error: Stripe hatası.
+stripe.invalid_product_configuration: Geçersiz ürün yapılandırması.
+stripe.invalid_product_selection: Geçersiz ürün seçimi.
+stripe.no_active_subscription_found: Aktif abonelik bulunamadı.
+stripe.no_purchase_history_customer_portal_unavailable: Satın alma geçmişi bulunamadı. Müşteri portalı kullanılamıyor.
+stripe.no_subscription_found: Abonelik bulunamadı.
+stripe.payment_not_available: Ödeme işlemleri kullanılamıyor.
+stripe.subscription_already_canceling: Abonelik zaten dönem sonunda iptal edilecek şekilde ayarlı.
+stripe.subscription_not_canceling: Abonelik iptal edilecek şekilde ayarlı değil.
+stripe.subscription_period_end_missing: Subscription current_period_end eksik.
+stripe.webhook_not_available: Webhook işlemleri kullanılamıyor.
+stripe.webhook_signature_invalid: Stripe webhook imzası geçersiz.
+stripe.webhook_signature_missing: Stripe webhook imzası eksik.
+tickets.ticket_already_completed: Bu bilet zaten tamamlandı.
+tos_and_age.date_of_birth_format_invalid: Doğum tarihi formatı geçersiz.
+tos_and_age.must_agree_to_tos_and_privacy: Hizmet Şartları ve Gizlilik Politikası'nı kabul etmen gerekiyor.
+tos_and_age.must_be_minimum_age: Hesap oluşturmak için en az {minAge} {minAge, plural, one {year} other {years}} olman gerekiyor.
+unknown_entities.unknown_application: Bilinmeyen uygulama.
+unknown_entities.unknown_channel: Bilinmeyen kanal.
+unknown_entities.unknown_guild: Bilinmeyen sunucu.
+unknown_entities.unknown_invite: Bilinmeyen davet.
+unknown_entities.unknown_member: Bilinmeyen üye.
+unknown_entities.unknown_message: Bilinmeyen mesaj.
+unknown_entities.unknown_pack: Bilinmeyen paket.
+unknown_entities.unknown_role: Bilinmeyen rol.
+unknown_entities.unknown_user_flag: Bilinmeyen kullanıcı flag'i.
+unknown_entities.unknown_user: Bilinmeyen kullanıcı.
+urls.invalid_url_format: Geçersiz URL formatı.
+urls.invalid_url_or_attachment_reference: Geçersiz URL formatı ya da ek referansı.
+urls.url_length_invalid: URL {min} ile {max} karakter arasında olmalı.
+usernames_and_tags.discriminator_invalid_format: Ayrıştırıcı {min}–{max} haneli olmalı.
+usernames_and_tags.discriminator_out_of_range: Ayrıştırıcı {min} ile {max} arasında olmalı.
+usernames_and_tags.discriminator_required: Ayrıştırıcı gerekli.
+usernames_and_tags.display_name_length_invalid: Görünen ad {min} ile {max} karakter arasında olmalı.
+usernames_and_tags.display_name_reserved_terms: Görünen ad "system message" içeremez.
+usernames_and_tags.display_name_reserved_value: Görünen ad "everyone" ya da "here" olamaz.
+usernames_and_tags.global_name_length_invalid: Global ad {min} ile {max} karakter arasında olmalı.
+usernames_and_tags.global_name_reserved_value: Global ad "everyone" ya da "here" olamaz.
+usernames_and_tags.tag_already_taken: Bu etiket zaten alınmış.
+usernames_and_tags.too_many_users_with_this_username: Bu kullanıcı adına sahip çok fazla kullanıcı var.
+usernames_and_tags.too_many_users_with_username_try_different: Bu kullanıcı adına sahip çok fazla kullanıcı var. Başka bir kullanıcı adı dene.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Sahiplenilmemiş hesaplar e-postayı sadece token ile ayarlayabilir.
+usernames_and_tags.username_invalid_characters: Kullanıcı adı yalnızca Latin harfleri (a-z, A-Z), sayılar (0-9) ve alt çizgi (_) içerebilir.
+usernames_and_tags.username_length_invalid: Kullanıcı adı {min} ile {max} karakter arasında olmalı.
+usernames_and_tags.username_not_available: Bu kullanıcı adı mevcut değil.
+usernames_and_tags.username_reserved_terms: Kullanıcı adı "fluxer" ya da "system message" içeremez.
+usernames_and_tags.username_reserved_value: Kullanıcı adı "everyone" ya da "here" olamaz.
+vanity_urls.vanity_url_already_taken: Bu özel URL zaten alınmış.
+vanity_urls.vanity_url_code_already_taken: Bu özel URL kodu zaten alınmış.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Özel URL kodu "fluxer" içeremez.
+vanity_urls.vanity_url_code_length_invalid: Özel URL kodu {min} ile {max} karakter arasında olmalı.
+vanity_urls.vanity_url_invalid_characters: Özel URL yalnızca küçük harfler (a-z), rakamlar (0-9) ve tire (-) içerebilir.
+webhooks.cannot_modify_system_webhook: Sistem iletilerini düzenleyemezsin.
+webhooks.max_webhooks_per_channel_reached: Kanal başına maksimum {count} {count, plural, one {webhook} other {webhooks}} sayısına ulaşıldı.
+webhooks.max_webhooks_per_guild_reached: Sunucu başına maksimum {count} {count, plural, one {webhook} other {webhooks}} sayısına ulaşıldı.
+webhooks.max_webhooks_reached: Maksimum {count} {count, plural, one {webhook} other {webhooks}} sayısına ulaşıldı.
+webhooks.unknown_webhook: Bilinmeyen webhook.
+webhooks.webhook_name_length_invalid: Webhook adı {min} ile {max} karakter arasında olmalı.

@@ -1,0 +1,440 @@
+app.communities.community: 커뮤니티
+app.communities.community_support: 커뮤니티 지원
+app.communities.featured_in_discovery: 탐색에 추천됨
+app.communities.moderation.actions_and_tools: 관리 작업 및 도구
+app.communities.moderation.report_people_or_communities: 사람이나 커뮤니티를 신고해 모두에게 안전한 Fluxer를 유지할 수 있어요.
+app.communities.moderation.tools: 관리 도구
+app.communities.roles_permissions_audit.audit_logs: 투명성을 위한 감사 로그
+app.communities.roles_permissions_audit.granular_roles_and_permissions: 세분화된 역할과 권한
+app.communities.roles_permissions_audit.keep_running_smoothly: 역할, 권한, 로그로 커뮤니티를 원활하게 운영하세요.
+app.communities.title: 커뮤니티
+app.communities.verification.label: 커뮤니티 인증
+app.communities.verification.value_statement: 신뢰성과 진정성을 위해 커뮤니티에 인증 상태가 부여돼요.
+app.communities.verification.verified_community: 인증된 커뮤니티
+app.customization.animated_profile.animated_avatars_and_banners: 애니메이션 아바타 및 배너
+app.customization.animated_profile.stand_out_animated_profile: 움직이는 프로필 사진과 배너로 개성을 표현하세요.
+app.customization.app_icon_badges: 앱 아이콘에서 배지 개수 확인
+app.customization.compact_mode: 컴팩트 모드 및 표시 옵션
+app.customization.custom_css_themes: 커스텀 CSS 테마
+app.customization.custom_sounds.entrance_sounds: 커스텀 입장 사운드
+app.customization.custom_sounds.notification_sounds: 커스텀 알림 사운드
+app.customization.custom_sounds.set_personalized_join_sounds: 음성 채널에 들어올 때 나만의 사운드로 존재감을 알리세요.
+app.customization.custom_sounds.upload_custom_notification_sounds: 알림 사운드를 직접 업로드해 Fluxer를 더 내 취향에 맞게 꾸밀 수 있어요.
+app.customization.custom_themes: 커스텀 테마
+app.customization.global_emoji_and_sticker_access: 전역 이모지 및 스티커 사용
+app.customization.saved_media_and_css: 커스텀 이모지를 추가하고 미디어를 저장하며 CSS로 앱을 꾸밀 수 있어요.
+app.customization.title: 커스터마이징
+app.customization.upload_custom_emojis_and_stickers: 커스텀 이모지와 스티커 업로드
+app.customization.use_animated_emojis: 애니메이션 이모지 사용
+app.messaging.description: 친구에게 DM을 보내고, 그룹 채팅을 하거나 채널로 커뮤니티를 만들어보세요.
+app.messaging.features.bookmarked_messages: 북마크한 메시지
+app.messaging.features.file_sharing: 파일 공유 및 링크 미리보기
+app.messaging.features.full_markdown_support: 메시지에서 전체 Markdown 지원
+app.messaging.features.message_scheduling.description: 미래의 특정 시간에 메시지를 보내도록 예약하세요. 타임머신은 필요 없어요.
+app.messaging.features.organised_channels_for_communities: 커뮤니티용 정리된 채널
+app.messaging.features.private_dms_and_group_chats: 개인 DM과 그룹 채팅
+app.messaging.features.save_media: 이미지, 영상, GIF, 오디오 저장
+app.messaging.features.search.filter_options: 사용자, 날짜 등으로 필터링
+app.messaging.features.search.find_old_messages: 몇 초 만에 예전 메시지를 찾거나 커뮤니티와 채널을 이동하세요.
+app.messaging.features.search.label: 메시지 기록 검색
+app.messaging.features.search.quick_switcher_shortcuts: 키보드 단축키로 빠른 전환
+app.messaging.features.search.search_and_quick_switcher: 검색 및 빠른 전환
+app.messaging.title: 메시징
+app.open.open_fluxer: Fluxer 열기
+app.open.open_web_app: 웹 앱 열기
+app.profiles_identity.custom_identity: 커스텀 아이덴티티
+app.profiles_identity.customise_per_community: 참여 중인 각 커뮤니티마다 다른 프로필을 설정할 수 있어요.
+app.profiles_identity.manage_friends_and_block_users: 친구 관리 및 사용자 차단
+app.voice_and_video.features.mute_controls: 음소거, 청각 차단, 카메라 제어
+app.voice_and_video.features.noise_suppression: 소음 억제 및 에코 제거
+app.voice_and_video.features.screen_sharing: 내장 화면 공유
+app.voice_and_video.features.stream_4k_60fps: 최대 4K 해상도의 60fps로 스트리밍해 다른 사람들이 당신을 선명하게 볼 수 있어요.
+app.voice_and_video.features.up_to_4k_video_quality: 최대 4K 영상 화질
+app.voice_and_video.features.video_backgrounds.description: 통화용 영상 배경을 최대 15개까지 저장할 수 있어요. 더 이상 다운로드 폴더를 뒤질 필요 없어요.
+app.voice_and_video.features.video_quality: 영상 화질
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.video_quality_premium: 최대 4K/60fps
+app.voice_and_video.hop_in_a_call: 친구와 바로 통화하거나 화면을 공유하며 함께 작업하세요.
+app.voice_and_video.title: 음성 및 영상
+beta_and_access.beta_label: 베타
+beta_and_access.early_access.be_first_to_try: 모두에게 공개되기 전에 새로운 기능을 가장 먼저 사용해보세요.
+beta_and_access.early_access.label: 얼리 액세스
+beta_and_access.featured_benefit_line: 기본 기능은 물론, 예상하지 못한 몇 가지 특별한 기능도 포함돼요.
+beta_and_access.public_beta: 공개 베타
+beta_and_access.registration_limited_during_beta: 베타 기간 동안 가입 인원이 제한돼요. 가입 후에는 친구에게 대기열을 건너뛸 수 있는 코드를 줄 수 있어요.
+beta_and_access.try_without_email: 이메일 없이 30초 만에 Fluxer 체험
+community_funding_and_roles.focused_on_product: 현재는 훌륭한 제품을 만드는 데 집중하며 Fluxer를 독립적이고 자체 자금으로 운영하고 있어요.
+community_funding_and_roles.future_paid_roles_heading: 유급 역할의 미래
+community_funding_and_roles.future_paid_roles_note: 아직은 유급 역할을 제공할 준비가 되지 않았어요.
+community_funding_and_roles.non_paid_recurring_role: 핵심 팀과 함께 Fluxer의 방향을 만들어가는 반복 기여자를 위한 무급 역할이에요.
+community_funding_and_roles.sustainability_note: 여러분의 지원으로 이 독립적인 플랫폼을 지속 가능하게 만들고, 앞으로 유급 역할도 제공하고 싶어요.
+company_and_resources.blog: 블로그
+company_and_resources.careers.careers_at_fluxer: Fluxer 채용
+company_and_resources.careers.label: 채용
+company_and_resources.careers.share_a_bit_about_yourself: 자기소개와 기여하고 싶은 내용을 careers@fluxer.app 으로 보내주세요
+company_and_resources.community_team.fluxer_community_team: Fluxer 커뮤니티 팀
+company_and_resources.community_team.share_feedback_report_bugs: 피드백을 공유하고 버그를 신고해 모두에게 환영받는 Fluxer를 만들어주세요.
+company_and_resources.company: 회사
+company_and_resources.company_info: 회사 정보
+company_and_resources.connect: 연결
+company_and_resources.docs: 문서
+company_and_resources.help.get_help: 도움 받기
+company_and_resources.help.help_center: 도움말 센터
+company_and_resources.help.label: 도움말
+company_and_resources.press.label: 프레스
+company_and_resources.press.press_contact: 프레스 문의
+company_and_resources.product: 제품
+company_and_resources.resources: 자료
+company_and_resources.source_and_contribution.code_issues_docs_reviews: 코드, 이슈, 문서, 리뷰
+company_and_resources.source_and_contribution.contribute_code: 코드 기여
+company_and_resources.source_and_contribution.contribute_on_github: GitHub에서 기여하기
+company_and_resources.source_and_contribution.fix_bugs_ship_features: 메인 저장소에서 버그를 수정하고 기능을 출시하거나 경험을 다듬어보세요.
+company_and_resources.source_and_contribution.fluxer_built_in_open: Fluxer는 공개적으로 개발되고 있어요. 원하는 방식으로 참여해보세요.
+company_and_resources.source_and_contribution.get_involved: 참여하기
+company_and_resources.source_and_contribution.source_code: 소스 코드
+company_and_resources.source_and_contribution.translation.help_translate: Fluxer와 문서를 번역해 어디서나 자연스럽게 사용할 수 있게 도와주세요.
+company_and_resources.source_and_contribution.translation.label: 번역 및 현지화
+company_and_resources.source_and_contribution.translation.llm_translation_note: 현재 모든 번역은 LLM으로 생성되었고 최소한의 검수만 거쳤어요. 실제 사용자분들의 참여를 환영해요. i18n@fluxer.app 으로 메일 주세요.
+company_and_resources.source_and_contribution.translation.localization_label: 현지화
+company_and_resources.source_and_contribution.view_repository: 저장소 보기
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: Fluxer를 함께 만들고 싶나요?
+company_and_resources.source_and_contribution.ways_to_contribute: 기여 방법
+donations.business: 기업
+donations.donate.action: 기부하기
+donations.donate.label: Fluxer에 기부
+donations.donate.description: 일회성 또는 정기 기부로 Fluxer 지원
+donations.donation_disclaimer: 기부는 자발적인 후원이며 제품, 서비스, 소유권 또는 특별한 권리를 제공하지 않아요. 프리미엄 기능을 찾고 있다면 {0}을 확인해보세요.
+donations.individual: 개인
+donations.individual_vs_business.answer: 두 방식 모두 동일한 목적을 지원해요. 기업 기부의 경우 세금 ID를 입력하고 PDF 영수증을 받을 수 있어 회계 처리에 유용해요.
+donations.individual_vs_business.question: 개인과 기업 기부의 차이는 무엇인가요?
+donations.infrastructure_costs_detail: 기부금은 서버, 대역폭, 저장 공간 등 인프라 비용과 새로운 기능 개발에 사용돼요. 모두를 위해 플랫폼을 유지하고 개선하는 데 큰 도움이 돼요.
+donations.minimum_donation: '최소 기부금: $5 / €5'
+donations.mobile_roadmap_sponsorship: 모바일 로드맵 후원
+donations.send_one_time_gift: 일회성 기부
+donations.support_future_development: 향후 개발 지원
+donations.support_message: 독립적인 커뮤니케이션 플랫폼을 만드는 데 도움을 주세요. 기부금은 인프라와 개발에 사용돼요.
+donations.tax_deductible.answer: Fluxer에 대한 기부금은 현재 세금 공제 대상이 아니지만, 인프라와 개발을 직접 지원하는 데 사용돼요.
+donations.tax_deductible.question: 기부금은 세금 공제가 되나요?
+donations.what_it_supports: 기부금은 어디에 사용되나요?
+donations.why_support: 오픈 소스이고 커뮤니티가 지원하며 정성스럽게 만들어진 새로운 커뮤니케이션 플랫폼을 함께 만들어주세요.
+donations.recurring: 정기
+donations.return_question: 무언가 돌려받나요?
+donations.form.email: 이메일
+donations.form.email_placeholder: your@email.com
+donations.form.amount: 금액
+donations.form.amount_other: 기타
+donations.form.amount_placeholder: 금액 입력 (5-1000)
+donations.form.billing: 결제
+donations.form.donation_type: 기부 유형
+donations.form.one_time: 일회성
+donations.form.or_label: 또는
+donations.form.monthly: 월간
+donations.form.yearly: 연간
+donations.form.currency: 통화
+donations.form.processing: 처리 중...
+donations.form.send_link: 링크 전송
+donations.form.sending: 전송 중...
+donations.errors.active_subscription_exists: 이미 활성 정기 기부가 있어요. 다른 정기 기부를 시작하려면 먼저 고객 포털을 통해 현재 기부를 취소해주세요. 대신 일회성 기부를 할 수도 있어요.
+donations.errors.invalid_email: 올바른 이메일 주소를 입력해주세요
+donations.errors.invalid_amount: 금액은 5에서 1000 사이여야 해요
+donations.errors.generic: 문제가 발생했어요. 다시 시도해주세요.
+donations.errors.network: 네트워크 오류가 발생했어요. 다시 시도해주세요.
+donations.manage.title: 기부 관리
+donations.manage.description: 이메일을 입력하면 기부자 포털 링크를 보내드려요. 포털에서 구독 관리, 영수증 다운로드, 기부 내역 확인이 가능해요.
+donations.manage.success: 해당 이메일에 계정이 있으면 곧 관리 링크를 받게 됩니다.
+donations.success.title: 감사합니다!
+donations.success.description: 지원해주셔서 감사합니다!
+donations.success.message: 기부해주셔서 감사합니다! 정말 감사드립니다.
+donations.success.email_notice: 기부 내역과 기부자 포털 링크가 포함된 확인 이메일을 곧 받으실 거예요.
+donations.success.back_to_donate: 기부 페이지로 돌아가기
+download.download: 다운로드
+download.download_app_or_open_in_browser: 앱을 다운로드하거나 브라우저에서 Fluxer를 열어 커뮤니티와 연결을 시작하세요.
+download.download_fluxer: Fluxer 다운로드
+download.download_for_prefix: '다음용 다운로드 '
+download.open_in_browser: 브라우저에서 열기
+download.screenshots_courtesy_of: '스크린샷 제공 '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: 커뮤니티 가이드라인
+footer.company_information: 회사 정보
+footer.connect: 연결
+footer.donate: 기부
+footer.download: 다운로드
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (스웨덴 유한책임회사: 559537-3993)'
+footer.help_support_an_independent_communication: 독립적인 커뮤니케이션 플랫폼을 지원해주세요. 기부금은 플랫폼의 인프라와 개발에 사용돼요.
+footer.partners: 파트너
+footer.plutonium_tier: 플루토늄 요금제
+footer.policies: 정책
+footer.press: 프레스
+footer.privacy_policy: 개인정보 처리방침
+footer.report_a_bug: 버그 신고
+footer.roadmap: 로드맵
+footer.rss_feed: RSS 피드
+footer.security_bug_bounty: 보안 버그 바운티
+footer.source_code: 소스 코드
+footer.terms_of_service: 서비스 약관
+general.all: 전체
+general.coming_soon.label: 출시 예정
+general.coming_soon.whats_available_today: 지금 이용 가능한 기능
+general.last_updated: 마지막 업데이트
+general.made_in_sweden: 스웨덴에서 제작
+general.not_available: 이용 불가
+general.or: 또는
+general.tagline: 사용자를 먼저 생각하는 채팅 앱
+languages.change_language: 언어 변경
+languages.choose_your_language: 언어 선택
+languages.language_label: 언어
+languages.list.arabic: 아랍어
+languages.list.bulgarian: 불가리아어
+languages.list.chinese_simplified: 중국어 (간체)
+languages.list.chinese_traditional: 중국어 (번체)
+languages.list.croatian: 크로아티아어
+languages.list.czech: 체코어
+languages.list.danish: 덴마크어
+languages.list.dutch: 네덜란드어
+languages.list.english: 영어
+languages.list.english_us: 영어 (미국)
+languages.list.finnish: 핀란드어
+languages.list.french: 프랑스어
+languages.list.german: 독일어
+languages.list.greek: 그리스어
+languages.list.hebrew: 히브리어
+languages.list.hindi: 힌디어
+languages.list.hungarian: 헝가리어
+languages.list.indonesian: 인도네시아어
+languages.list.italian: 이탈리아어
+languages.list.japanese: 일본어
+languages.list.korean: 한국어
+languages.list.lithuanian: 리투아니아어
+languages.list.norwegian: 노르웨이어
+languages.list.polish: 폴란드어
+languages.list.portuguese_brazil: 포르투갈어 (브라질)
+languages.list.romanian: 루마니아어
+languages.list.russian: 러시아어
+languages.list.spanish_latin_america: 스페인어 (라틴 아메리카)
+languages.list.spanish_spain: 스페인어 (스페인)
+languages.list.swedish: 스웨덴어
+languages.list.thai: 태국어
+languages.list.turkish: 터키어
+languages.list.ukrainian: 우크라이나어
+languages.list.vietnamese: 베트남어
+launch.description: Fluxer의 개발자, 프로젝트의 목표, 기술 스택, 앞으로의 계획을 알아보세요.
+launch.heading: Fluxer의 이야기
+launch.read_more: 출시 블로그 글 읽기
+launch.view_full_roadmap: 전체 로드맵 보기
+misc_labels.design_and_branding: 디자인 및 브랜딩
+misc_labels.direct_team_support: 팀 직접 지원
+misc_labels.exclusive_communities: 전용 커뮤니티
+misc_labels.exclusive_features: 전용 기능
+misc_labels.feature: 기능
+misc_labels.get_updates: 업데이트를 받고 예정된 기능을 확인하며 팀과 대화하세요.
+misc_labels.join_and_spread_word: 참여하고 알려주세요
+misc_labels.join_fluxer_community_contribute: Fluxer 커뮤니티에 참여해 오픈 소스와 커뮤니티 기여로 커뮤니케이션의 미래를 함께 만들어주세요.
+misc_labels.join_fluxer_hq: Fluxer HQ 참여
+misc_labels.join_multiple_devices: 여러 기기에서 동시에 참여
+misc_labels.join_team_behind_fluxer: Fluxer를 만드는 팀에 합류하세요
+misc_labels.learn_more: 자세히 알아보기
+misc_labels.product_hunt_badge_title: Fluxer - 오픈 소스 Discord 스타일 메신저 및 VoIP 플랫폼 | Product Hunt 최고 게시물
+misc_labels.profile_badge: 프로필 배지
+misc_labels.read_the_guide: 가이드 읽기
+misc_labels.ready_to_get_started: 시작할 준비가 되셨나요?
+misc_labels.register_now: 지금 가입
+misc_labels.related_policies: 관련 정책
+misc_labels.report_bugs: 버그 신고
+misc_labels.software_development: 소프트웨어 개발
+misc_labels.trust_and_safety: 신뢰 및 안전
+misc_labels.unique_profile_badge: 고유 프로필 배지
+misc_labels.unlimited_users: 무제한 사용자
+navigation.close: 닫기
+navigation.close_navigation_menu: 내비게이션 메뉴 닫기
+navigation.copy_link_to_section: 이 섹션 링크 복사
+navigation.go_home: 홈으로 이동
+navigation.on_this_page: 이 페이지에서
+navigation.page_not_found.description: 이 페이지는 존재하지 않아요. 대신 둘러볼 건 아직 많아요.
+navigation.page_not_found.title: 페이지를 찾을 수 없음
+navigation.press.download_assets_intro: 로고를 다운로드하고 브랜드 컬러를 확인한 뒤 프레스 팀에 문의할 수 있어요.
+navigation.press.download_fluxer_assets: Fluxer 로고와 브랜드 자료를 다운로드하고 프레스 팀에 문의하세요
+navigation.press.press_and_brand_assets: 프레스 및 브랜드 자료
+partner_program.become_partner.apply_email: partners@fluxer.app 으로 신청하세요
+partner_program.become_partner.call_to_action: 파트너 신청
+partner_program.become_partner.heading: Fluxer 파트너가 되어보세요
+partner_program.become_partner.if_youre_a_creator_or: 크리에이터이거나 큰 커뮤니티를 운영 중이라면 연락 주세요.
+partner_program.become_partner.learn_about_partners: 파트너 프로그램 알아보기
+partner_program.become_partner.learn_more: 자세히 알아보기
+partner_program.become_partner.ready_prompt: 파트너가 될 준비가 되셨나요?
+partner_program.description: 콘텐츠 크리에이터와 대형 커뮤니티 운영자를 위한 전용 혜택을 제공해요.
+partner_program.label: 파트너
+partner_program.perks.creator_monetization.description: 파트너가 아닌 경우보다 낮은 수수료로 수익화 기능을 먼저 이용할 수 있어요.
+partner_program.perks.creator_monetization.label: 크리에이터 수익화
+partner_program.perks.custom_vanity_url.description: fluxer.gg/yourcommunity 같은 전용 커스텀 URL을 제공받아요.
+partner_program.perks.custom_vanity_url.label: 커스텀 URL
+partner_program.perks.direct_team_access.description: Fluxer 팀과 직접 소통할 수 있는 전용 파트너 커뮤니티에 참여하세요.
+partner_program.perks.direct_team_access.label: 팀 직접 접근
+partner_program.perks.discovery_visibility: 커뮤니티 탐색에 노출돼 더 많은 주목을 받을 수 있어요.
+partner_program.perks.exclusive_merch.description: 파트너 전용 Fluxer 굿즈와 스웨그를 받아보세요.
+partner_program.perks.exclusive_merch.label: 전용 굿즈
+partner_program.perks.free_plutonium.description: 계정에 무료 플루토늄을 받아 모든 프리미엄 기능을 이용하세요.
+partner_program.perks.free_plutonium.label: 무료 플루토늄
+partner_program.perks.increased_limits.description: 필요할 때 커뮤니티 한도가 상향돼요.
+partner_program.perks.increased_limits.label: 확장된 한도
+partner_program.perks.partner_badge.description: 프로필에 전용 파트너 배지를 표시해 눈에 띄게 보여주세요.
+partner_program.perks.partner_badge.label: 파트너 배지
+partner_program.perks.vip_voice_servers.description: 파트너 커뮤니티 전용 VIP 음성 서버에 접근할 수 있어요.
+partner_program.perks.vip_voice_servers.label: VIP 음성 채널
+partner_program.requirements.audience_description: 대상 청중과 활동에 대한 간단한 설명
+partner_program.requirements.links_to_content: 콘텐츠나 커뮤니티 링크 (YouTube, Twitch, Discord 등)
+partner_program.requirements.name_and_username: 이름과 플랫폼 사용자 이름
+partner_program.requirements.usage_plan: 커뮤니티에서 Fluxer를 어떻게 사용할 계획인지
+partner_program.who_its_for: 콘텐츠 크리에이터와 커뮤니티 운영자에게 무료 플루토늄, 파트너 배지, 커스텀 URL 등 전용 혜택을 제공해요.
+partner_program.perks.heading: 파트너 혜택
+partner_program.perks.see_perks: 혜택 보기
+partner_program.apply.instructions: Fluxer 파트너 프로그램에 지원하려면 다음 정보를 이메일로 보내주세요.
+partner_program.apply.response_time: 모든 지원서를 검토하고 며칠 내로 답변드려요.
+platform_support.desktop.available_on_desktop_and_web: 데스크톱과 웹에서 이용 가능
+platform_support.desktop.download_desktop_intro: Windows, macOS, Linux용 Fluxer를 다운로드하세요. 모바일 앱도 준비 중이에요.
+platform_support.desktop.interface_label: Fluxer 데스크톱 인터페이스
+platform_support.desktop.label: 데스크톱
+platform_support.desktop.use_desktop_client_mobile_soon: 데스크톱 클라이언트 사용 가능 (모바일은 곧 출시)
+platform_support.mobile.install_as_app.add_to_home: 홈 화면에 Fluxer를 추가해 브라우저 UI를 숨기세요.
+platform_support.mobile.install_as_app.done_desktop: 완료됐어요. 이제 일반 프로그램처럼 Fluxer를 열 수 있어요.
+platform_support.mobile.install_as_app.done_mobile: 완료됐어요. 이제 홈 화면에서 Fluxer를 열 수 있어요.
+platform_support.mobile.install_as_app.guides.in_chrome: ' Chrome에서'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: ' Chrome 또는 PWA를 지원하는 다른 브라우저에서'
+platform_support.mobile.install_as_app.guides.in_safari: ' Safari에서'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: '{name}용 PWA 설치 가이드'
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: '"홈 화면에 추가"를 누르세요'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: '오른쪽 상단의 "추가"를 누르세요'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: '"앱 설치"를 누르세요'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: 주소 표시줄에 있는 설치 버튼을 누르세요 (모니터 모양에 아래쪽 화살표)
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: '표시되는 팝업에서 "설치"를 누르세요'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: '오른쪽 상단의 "더보기"(⋮) 버튼을 누르세요'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: 공유 버튼을 누르세요 (위쪽 화살표가 있는 사각형)
+platform_support.mobile.install_as_app.install_fluxer_as_app: Fluxer를 앱으로 설치
+platform_support.mobile.install_as_app.title: 앱으로 설치하는 방법
+platform_support.mobile.interface_label: Fluxer 모바일 인터페이스
+platform_support.mobile.mobile_apps_underway: 모바일 앱을 개발 중이에요
+platform_support.mobile.mobile_browser_explainer: iOS와 Android용 앱을 만들고 있어요. 준비되는 동안에는 모바일 브라우저에서 Fluxer를 사용할 수 있고, 앱처럼 느껴지도록 많은 노력을 기울였어요.
+platform_support.mobile.not_full_replacement_yet: 아직 데스크톱 앱을 완전히 대체하지는 않으며, 모바일 채팅 앱에서 기대할 수 있는 일부 기능은 빠져 있어요.
+platform_support.mobile.push_notifications: 앱을 사용하지 않을 때도 푸시 알림을 받을 수 있어요.
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8 이상
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS 및 iPadOS
+platform_support.platforms.ios.min_version: iOS 15 이상
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: Linux 배포판 선택
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: macOS용 다운로드
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15 이상
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: Windows용 다운로드
+platform_support.platforms.windows.min_version: Windows 10 이상
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: 브랜드 컬러
+press_branding.assets.full_color: 풀 컬러 버전
+press_branding.assets.label: 로고
+press_branding.assets.logo_variants.black_logo: 블랙 로고
+press_branding.assets.logo_variants.color_logo: 컬러 로고
+press_branding.assets.logo_variants.white_logo: 화이트 로고
+press_branding.assets.palette_description: Fluxer 브랜드를 대표하는 엄선된 컬러 팔레트예요.
+press_branding.assets.premium_quality: 프리미엄 품질
+press_branding.assets.primary_brand_color_description: 주요 브랜드 컬러로, 핵심 요소와 포인트에 사용하세요.
+press_branding.assets.symbol_variants.black_symbol: 블랙 심볼
+press_branding.assets.symbol_variants.color_symbol: 컬러 심볼
+press_branding.assets.symbol_variants.label: 심볼
+press_branding.assets.symbol_variants.white_symbol: 화이트 심볼
+press_branding.assets.usage_guidance.dark_surface_guidance: 어두운 배경과 대비를 만들 때 사용하세요.
+press_branding.assets.usage_guidance.for_dark_backgrounds: 어두운 배경용
+press_branding.assets.usage_guidance.for_light_backgrounds: 밝은 배경용
+press_branding.assets.usage_guidance.full_logo_description: 워드마크가 포함된 전체 로고예요. 브랜드의 기본 표현으로 사용하세요.
+press_branding.assets.usage_guidance.light_surface_guidance: 밝은 배경에서 텍스트와 아이콘에 사용하세요.
+press_branding.assets.usage_guidance.symbol_description: 단독 심볼이에요. 브랜드가 충분히 인지되는 경우에만 사용하세요.
+press_branding.colors.blue_da_ba_dee: 블루 다 바 디
+press_branding.colors.white: 화이트
+press_branding.colors.black: 블랙
+press_branding.contact.story_prompt: Fluxer에 관한 이야기가 있나요? 들려주세요.
+press_branding.contact.response_time: 보통 24시간 이내에 답변드려요.
+pricing_and_tiers.billing.forever: 영구
+pricing_and_tiers.billing.most_popular: 가장 인기
+pricing_and_tiers.billing.per_forever: /영구
+pricing_and_tiers.billing.per_month: /월
+pricing_and_tiers.billing.per_year_full: /년
+pricing_and_tiers.billing.per_year_short: /년
+pricing_and_tiers.billing.save_percent: 17% 절약
+pricing_and_tiers.free.comparison_label: 무료 vs 플루토늄
+pricing_and_tiers.free.everything_in_free_plus: '무료의 모든 기능에 더해:'
+pricing_and_tiers.free.full_access_to_all_features: 모든 기능에 대한 전체 접근
+pricing_and_tiers.free.label: 무료
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: '참고: 플루토늄과 비저너리 혜택은 공식 Fluxer.app 인스턴스에서만 적용돼요.'
+pricing_and_tiers.plutonium.feature_highlights: 500MB 업로드, 4,000자 메시지, 300개 북마크, 50개 이모지 팩 등 더 많은 기능이 있어요.
+pricing_and_tiers.plutonium.features.bio_character_limit: 소개 글자 수 제한
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: '#0001, #1337, #9999 같은 나만의 4자리 태그를 선택해 사용자 이름을 정말 독특하게 만들어보세요.'
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: 커스텀 4자리 사용자명 태그
+pricing_and_tiers.plutonium.features.custom_username_tag: 커스텀 사용자 태그
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: 커스텀 영상 배경
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: 이모지 및 스티커 팩
+pricing_and_tiers.plutonium.features.file_upload_size: 파일 업로드 크기
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: 전역 이모지 및 스티커 사용
+pricing_and_tiers.plutonium.features.message_character_limit: 메시지 글자 수 제한
+pricing_and_tiers.plutonium.features.message_scheduling: 메시지 예약 전송
+pricing_and_tiers.plutonium.features.per_community_profiles: 커뮤니티별 프로필
+pricing_and_tiers.plutonium.features.saved_media: 저장된 미디어
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: 웹훅 및 봇 지원
+pricing_and_tiers.plutonium.get_more_with_plutonium: Fluxer 플루토늄으로 더 많은 기능을 이용하세요
+pricing_and_tiers.plutonium.get_plutonium: 플루토늄 받기
+pricing_and_tiers.plutonium.higher_limits_and_early_access: 더 높은 한도, 전용 기능, 새로운 업데이트 조기 이용
+pricing_and_tiers.plutonium.higher_limits_everywhere: 전반적인 한도 상향
+pricing_and_tiers.plutonium.show_off_status_badge: 프로필에 전용 배지를 표시해 플루토늄 상태를 보여주세요.
+pricing_and_tiers.plutonium.tier_name: 플루토늄
+pricing_and_tiers.plutonium.upgrade_pitch: 월 $4.99로 플루토늄으로 업그레이드하세요. 커스텀 사용자 태그, 커뮤니티별 프로필, 메시지 예약, 4K 스트리밍, 500MB 업로드 등 다양한 전용 기능이 포함돼요.
+pricing_and_tiers.visionary.badge.numbered_badge: 비저너리 상태를 보여주는 번호 배지
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: 비저너리 상태를 보여주는 번호 배지 (1-{0})
+pricing_and_tiers.visionary.bundle_label: 비저너리로 평생 플루토늄과 Operator Pass 제공 (한정 수량)
+pricing_and_tiers.visionary.communities_with_team_access: 팀 접근 권한이 포함된 비저너리 및 Operators 커뮤니티
+pricing_and_tiers.visionary.get_visionary: 비저너리 받기
+pricing_and_tiers.visionary.label: 비저너리
+pricing_and_tiers.visionary.lifetime_offer_copy: Fluxer.app에서 평생 플루토늄과 자체 호스팅용 Operator Pass를 받으세요. {0}을 한 번만 결제하면 돼요. 2026년 10월 1일까지 또는 모든 슬롯이 소진될 때까지 제공돼요.
+pricing_and_tiers.visionary.lifetime_operator_pass: 평생 Operator Pass
+pricing_and_tiers.visionary.lifetime_plutonium: 평생 플루토늄
+pricing_and_tiers.visionary.limited_offer_note: '한정 혜택: 비저너리에 Operator Pass 포함'
+pricing_and_tiers.visionary.limited_slots_label: 비저너리 한정 수량
+pricing_and_tiers.visionary.one_time_purchase.label: 일회성 구매
+pricing_and_tiers.visionary.one_time_purchase.promise: 한 번 구매로 평생 이용
+pricing_and_tiers.visionary.purchase_flow: 계정을 만든 뒤 앱에서 바로 비저너리를 구매할 수 있어요. 구매 날짜와 주문 번호는 프로필에 표시되며, 개인정보 설정에서 숨길 수 있어요.
+pricing_and_tiers.visionary.slots_left.generic: '{0} / {1} 슬롯 남음'
+pricing_and_tiers.visionary.slots_left.visionary_bundle: 비저너리 평생 슬롯 {0} / {1} 남음
+pricing_and_tiers.visionary.slots_left.visionary_only: 비저너리 슬롯 {0}개 남음
+product_positioning.free_and_open_source: Fluxer는 무료 오픈 소스예요. 누구나 무료로 자체 호스팅할 수 있어요.
+product_positioning.intro: Fluxer는 친구, 그룹, 커뮤니티를 위한 무료 오픈 소스 메신저 및 VoIP 플랫폼이에요.
+product_positioning.open_source.fully_open_source_agplv3: 완전히 오픈 소스 (AGPLv3)
+product_positioning.open_source.label: 오픈 소스
+product_positioning.open_source.license: 오픈 소스 (AGPL-3.0)
+product_positioning.self_hosting.connect_from_any_client: 어떤 클라이언트에서도 연결
+product_positioning.self_hosting.free_self_hosting: 무료 자체 호스팅
+product_positioning.self_hosting.host_your_own_instance: 나만의 인스턴스 운영
+product_positioning.self_hosting.label: 자체 호스팅
+product_positioning.self_hosting.operator_pass.access_to_operators_community: Fluxer Operators 커뮤니티 접근
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: 프로모션 종료 후에도 Operator Pass는 단독으로 이용 가능해요.
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: Operator Pass는 선택 사항이에요. 지원과 커뮤니티 접근을 위해 결제할 수 있어요.
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: 자체 호스팅을 위한 우선 지원과 Operators 커뮤니티 접근
+product_positioning.self_hosting.run_backend_on_your_hardware: 자신의 하드웨어에서 Fluxer 백엔드를 실행하고 앱으로 연결하세요.
+product_positioning.self_hosting.switch_between_instances: 여러 인스턴스 간 전환
+security.found_security_issue: 보안 문제를 발견했나요?
+security.report_vulnerabilities: 취약점을 신고해 플랫폼 보안을 함께 지켜주세요.
+security.responsible_disclosure_note: 보안 버그 바운티 페이지를 통한 책임 있는 공개에 감사드려요. 심각도에 따라 플루토늄 코드와 버그 헌터 배지를 제공해요.
+security.security_bug_bounty: 보안 버그 바운티
+security.security_reports: 보안 보고서
+security.testers_access_from_reports: 승인된 보고서를 제출하면 Fluxer 테스터에 접근할 수 있고, 포인트로 플루토늄 코드와 버그 헌터 배지를 받을 수 있어요.
+social_and_feeds.bluesky.follow_us: Bluesky에서 팔로우
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: Bluesky RSS 피드
+social_and_feeds.follow_fluxer: '@fluxer.app 팔로우'
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: 블로그 RSS 피드
+social_and_feeds.rss.fluxer_blog_rss: Fluxer 블로그 RSS
+social_and_feeds.rss.label: RSS 피드
+social_and_feeds.stay_updated_cta: 소식, 서비스 상태, 최근 업데이트를 받아보세요. 다음을 구독할 수도 있어요

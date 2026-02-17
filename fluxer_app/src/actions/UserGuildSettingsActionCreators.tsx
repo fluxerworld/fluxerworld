@@ -17,14 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {ME, MessageNotifications} from '~/Constants';
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {UserGuildSettingsPartial} from '~/records/UserGuildSettingsRecord';
-import GuildStore from '~/stores/GuildStore';
-import type {ChannelOverride, GatewayGuildSettings} from '~/stores/UserGuildSettingsStore';
-import UserGuildSettingsStore from '~/stores/UserGuildSettingsStore';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import type {UserGuildSettingsPartial} from '@app/records/UserGuildSettingsRecord';
+import GuildStore from '@app/stores/GuildStore';
+import type {ChannelOverride, GatewayGuildSettings} from '@app/stores/UserGuildSettingsStore';
+import UserGuildSettingsStore from '@app/stores/UserGuildSettingsStore';
+import {ME} from '@fluxer/constants/src/AppConstants';
+import {MessageNotifications} from '@fluxer/constants/src/NotificationConstants';
 
 const logger = new Logger('UserGuildSettingsActionCreators');
 
@@ -108,28 +109,28 @@ const scheduleUpdate = (guildId: string | null, updates: UserGuildSettingsPartia
 	logger.debug(`Scheduled coalesced settings update for guild ${key} in 3 seconds`);
 };
 
-export const updateGuildSettings = (
+export function updateGuildSettings(
 	guildId: string | null,
 	updates: UserGuildSettingsPartial,
 	options?: PersistenceOptions,
-): void => {
+): void {
 	UserGuildSettingsStore.getSettings(guildId);
 	UserGuildSettingsStore.updateGuildSettings(guildId, updates as Partial<GatewayGuildSettings>);
 	scheduleUpdate(guildId, updates, options);
-};
+}
 
-export const toggleHideMutedChannels = (guildId: string | null): void => {
+export function toggleHideMutedChannels(guildId: string | null): void {
 	const currentSettings = UserGuildSettingsStore.getSettings(guildId);
 	const newValue = !currentSettings.hide_muted_channels;
 	updateGuildSettings(guildId, {hide_muted_channels: newValue});
-};
+}
 
-export const updateChannelOverride = (
+export function updateChannelOverride(
 	guildId: string | null,
 	channelId: string,
 	override: Partial<ChannelOverride> | null,
 	options?: PersistenceOptions,
-): void => {
+): void {
 	const currentSettings = UserGuildSettingsStore.getSettings(guildId);
 	const currentOverride = UserGuildSettingsStore.getChannelOverride(guildId, channelId);
 
@@ -146,7 +147,7 @@ export const updateChannelOverride = (
 		};
 	}
 
-	const newChannelOverrides = {...(currentSettings.channel_overrides ?? {})};
+	const newChannelOverrides: Record<string, ChannelOverride> = {...(currentSettings.channel_overrides ?? {})};
 
 	if (newOverride == null) {
 		delete newChannelOverrides[channelId];
@@ -167,32 +168,32 @@ export const updateChannelOverride = (
 		},
 		options,
 	);
-};
+}
 
-export const toggleChannelCollapsed = (guildId: string | null, channelId: string): void => {
+export function toggleChannelCollapsed(guildId: string | null, channelId: string): void {
 	const isCollapsed = UserGuildSettingsStore.isChannelCollapsed(guildId, channelId);
 	updateChannelOverride(guildId, channelId, {collapsed: !isCollapsed});
-};
+}
 
-export const updateMessageNotifications = (
+export function updateMessageNotifications(
 	guildId: string | null,
 	level: number,
 	channelId?: string,
 	options?: PersistenceOptions,
-): void => {
+): void {
 	if (channelId) {
 		updateChannelOverride(guildId, channelId, {message_notifications: level}, options);
 	} else {
 		updateGuildSettings(guildId, {message_notifications: level}, options);
 	}
-};
+}
 
-export const toggleChannelMuted = (guildId: string | null, channelId: string, options?: PersistenceOptions): void => {
+export function toggleChannelMuted(guildId: string | null, channelId: string, options?: PersistenceOptions): void {
 	const isMuted = UserGuildSettingsStore.isChannelMuted(guildId, channelId);
 	updateChannelOverride(guildId, channelId, {muted: !isMuted}, options);
-};
+}
 
-export const toggleAllCategoriesCollapsed = (guildId: string | null, categoryIds: Array<string>): void => {
+export function toggleAllCategoriesCollapsed(guildId: string | null, categoryIds: Array<string>): void {
 	if (categoryIds.length === 0) return;
 
 	const allCollapsed = categoryIds.every((categoryId) =>
@@ -211,7 +212,7 @@ export const toggleAllCategoriesCollapsed = (guildId: string | null, categoryIds
 		channel_overrides: (() => {
 			const currentSettings = UserGuildSettingsStore.getSettings(guildId);
 
-			const newChannelOverrides = {...(currentSettings.channel_overrides ?? {})};
+			const newChannelOverrides: Record<string, ChannelOverride> = {...(currentSettings.channel_overrides ?? {})};
 			for (const categoryId of categoryIds) {
 				const currentOverride = UserGuildSettingsStore.getChannelOverride(guildId, categoryId);
 				if (newCollapsedState) {
@@ -230,9 +231,9 @@ export const toggleAllCategoriesCollapsed = (guildId: string | null, categoryIds
 			return Object.keys(newChannelOverrides).length > 0 ? newChannelOverrides : null;
 		})(),
 	});
-};
+}
 
-export const repairGuildNotificationInheritance = (): void => {
+export function repairGuildNotificationInheritance(): void {
 	const guildIds = UserGuildSettingsStore.getGuildIds();
 	if (guildIds.length === 0) return;
 
@@ -248,4 +249,4 @@ export const repairGuildNotificationInheritance = (): void => {
 
 		updateGuildSettings(guildId, {message_notifications: MessageNotifications.INHERIT});
 	}
-};
+}

@@ -1,0 +1,497 @@
+account.already_verified: Tavo paskyra jau patvirtinta.
+account.communication_disabled: Bendravimas isjungtas.
+account.disabled: Si paskyra isjungta.
+account.email_verification_required_for_guild: Kad galetum siusti zinutes siame serveryje, reikia patvirtinti el. pasta.
+account.guild_verification_required: Reikalingas serverio patvirtinimas.
+account.ip_authorization_required: Reikalinga IP autorizacija.
+account.locked_suspicious_activity: Tavo paskyra uzrakinta del itartinos veiklos.
+account.phone_required_for_guild: Kad galetum siusti zinutes siame serveryje, reikia prideti telefono numeri.
+account.scheduled_for_deletion: Si paskyra suplanuota istrinti.
+account.session_timeout: Sesija baigesi. Atnaujink puslapi ir prisijunk is naujo.
+account.session_token_mismatch: Sesijos zetonas nesutampa.
+account.suspended_permanently: Tavo paskyra visam laikui sustabdyta.
+account.suspended_temporarily: Tavo paskyra laikinai sustabdyta.
+account.too_new_for_guild: Tavo paskyra per nauja, kad galetum siusti zinutes siame serveryje.
+account.unauthorized: Neleistina prieiga.
+admin_and_system.acls_must_be_non_empty: ACLs negali buti tuscias.
+admin_and_system.admin_api_key_not_found: Administratoriaus API raktas nerastas.
+admin_and_system.audit_log_indexing: Audito žurnalai indeksuojami. Prašau patikrinti po akimirkos.
+admin_and_system.channel_indexing: Kanalai indeksuojami. Prašau patikrinti po akimirkos.
+admin_and_system.creation_failed: Nepavyko sukurti resurso. Prašau bandyti dar kartą.
+admin_and_system.deletion_failed: Nepavyko ištrinti resurso. Prašau bandyti dar kartą.
+admin_and_system.decryption_failed: Nepavyko iššifruoti žinutės. Šifravimo raktai gali būti netinkami arba sugadinti.
+admin_and_system.empty_encrypted_body: Tuščias šifruotas turinys.
+admin_and_system.encryption_failed: Nepavyko šifruoti žinutės. Šifravimo raktai gali būti netinkami arba sugadinti.
+admin_and_system.general_error: Kažkas nepavyko. Prašau bandyti vėliau.
+admin_and_system.invalid_acls_format: Neteisingas ACL formatas.
+admin_and_system.invalid_api_origin: Neteisingas API šaltinis.
+admin_and_system.invalid_audit_log_reason: Neteisingas audito žurnalo priežastis.
+admin_and_system.invalid_bot_flag: Neteisingas bota žyma.
+admin_and_system.invalid_decrypted_json: Neteisingas iššifruotas JSON.
+admin_and_system.invalid_ephemeral_key: Neteisingas trumpalaikis raktas.
+admin_and_system.invalid_flags_format: Neteisingas žymų formatas.
+admin_and_system.invalid_form_body: Neteisingas formos turinys.
+admin_and_system.invalid_format: Pateikta reikšmė yra netinkamo formato.
+admin_and_system.invalid_integer_format: Neteisingas sveikojo skaičiaus formatas.
+admin_and_system.invalid_iv: Neteisingas inicijuojantis vektorius.
+admin_and_system.invalid_suspicious_flags_format: Neteisingas įtartinų žymų formatas.
+admin_and_system.invalid_system_flag: Neteisingas sistemos žyma.
+admin_and_system.invalid_timeout_value: Neteisingą laiko limito reikšmė.
+admin_and_system.invalid_timestamp: Neteisingas laiko žymaslė.
+admin_and_system.invalid_timezone_identifier: Neteisingas laiko juostos identifikatorius.
+admin_and_system.missing_acl: Trūksta ACL.
+admin_and_system.missing_ephemeral_key: Trūksta trumpalaiko rakto.
+admin_and_system.missing_iv: Trūksta inicijuojančio vektoriaus.
+admin_and_system.must_be_iso_timestamp: Turi būti galiojantis ISO laiko žymaslė.
+admin_and_system.processing_failed: Nepavyko apdoroti užklausos. Prašau bandyti dar kartą.
+admin_and_system.response_validation_failed: 'Atsakymo patikrinimas nepavyko: {errors}.'
+admin_and_system.test_harness_disabled: Bandymo arklys išjungtas.
+admin_and_system.test_harness_forbidden: Bandymo arklys uždrausta.
+admin_and_system.unknown_suspicious_flag: Nežinoma įtartina žyma.
+admin_and_system.update_failed: Nepavyko atnaujinti resurso. Prašau bandyti dar kartą.
+admin_and_system.user_must_be_bot_for_system_user: Naudotojas turi būti botas, kad būtų pažymėtas kaip sistemos naudotojas.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` ir `expires_at` yra būtini.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` ir `message_id` turi būti galiojantys sveikieji skaičiai.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Naudotojai su MANAGE_MESSAGES gali redaguoti tik priedu aprašus, o ne kitus metaduomenis.
+attachments_and_uploads.attachment_metadata_without_files: Priedo metaduomenyse nurodytas failo pavadinimas, tačiau failai nebuvo įkelti.
+attachments_and_uploads.attachment_must_be_image: Priedas "{filename}" turi būti paveikslėlio failas (png, jpg, jpeg, webp arba gif).
+attachments_and_uploads.attachment_not_found_in_message: Žinutėje nerastas priedas su ID {attachmentId}.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Ikeliant failus, būtinas priedu metaduomenu masyvas.
+attachments_and_uploads.attachments_not_allowed_for_message: Priedai nėra leidžiami šioje žinutėje.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Negalite nurodyti priedu, jei nėra priedu.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Pasikartojantys priedu ID nėra leidžiami.
+attachments_and_uploads.duplicate_file_index: 'Pasikartojantis failo indeksas: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Nepavyko nuskaityti daugiadalio formos duomenu. Patikrinkite, ar visi lauku pavadinimai ir failu pavadinimai suformuoti teisingai.
+attachments_and_uploads.failed_to_parse_multipart_payload: Nepavyko nuskaityti daugiadalio turinio.
+attachments_and_uploads.failed_to_upload_image: Nepavyko ikelti paveikslėlio. Prašau bandyti dar kartą.
+attachments_and_uploads.file_index_exceeds_maximum: Failo indeksas {index} viršija didžiausią leistiną indeksą {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Failas nerastas skenavimui.
+attachments_and_uploads.file_not_found: Failas nerastas.
+attachments_and_uploads.file_size_too_large: Failas per didelis. Didžiausias leidžiamas dydis yra {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Failo pavadinimas po normalizavimo negali likti tuscias.
+attachments_and_uploads.filename_invalid_characters: Failo pavadinime yra neleistinu simboliu.
+attachments_and_uploads.filename_length_invalid: Failo pavadinimas turi būti nuo {min} iki {max} simbolių.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Failo pavadinimas nesutampa priedui {attachmentId}: metaduomenys nurodo "{expectedFilename}", bet tai nesutampa.'
+attachments_and_uploads.image_size_exceeds_limit: Paveikslelio dydis virsija {maxSize} baitu.
+attachments_and_uploads.invalid_file_field_name: 'Neteisingas failo lauko pavadinimas: {key}. Tinkamas formatas: `files[N]`, kur N yra skaicius.'
+attachments_and_uploads.invalid_image_data: Neteisingi paveikslelio duomenys.
+attachments_and_uploads.invalid_image_format: 'Neteisingas paveikslelio formatas. Palaikomi pletiniai: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: Neteisingas JSON lauke `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Keli failai tam paciam indeksui {index} neleidziami.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Priedo metaduomenims su ID {attachmentId} nebuvo ikeltas joks failas.
+attachments_and_uploads.no_file_uploaded_for_attachment: Priedui su ID {attachmentId} nebuvo ikeltas joks failas.
+attachments_and_uploads.no_metadata_for_file: Failui su ID {fileId} nepateikti metaduomenys.
+attachments_and_uploads.no_valid_media_in_message: Žinutėje nerasta galiojančios medijos.
+attachments_and_uploads.payload_json_required_for_multipart: '`payload_json` laukas yra privalomas multipart zinutems.'
+attachments_and_uploads.preview_must_be_jpeg: Perziura turi buti JPEG.
+attachments_and_uploads.referenced_attachment_not_found: Nurodytas priedas "{filename}" nerastas zinutes prieduose.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` turi būti galiojantis sveikasis skaičius.'
+attachments_and_uploads.too_many_files: Per daug failų. Didžiausias leidžiamas kiekis yra {maxFiles} {maxFiles, plural, one {failas} few {failai} many {failų} other {failų}}.
+attachments_and_uploads.unknown_image_format: Nezinomas paveikslelio formatas.
+attachments_and_uploads.unresolved_attachment_url: Aptiktas neissprestas `attachment://` URL. Tai turejo buti isspresta pries apdorojant embedus.
+attachments_and_uploads.uploaded_attachment_not_found: Ikelto priedo {filename} nerasta.
+auth_and_oauth.application_not_owned: Tu nesavininkai šios aplikacijos.
+auth_and_oauth.bot_already_in_guild: Šis botas jau yra gildijoje.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Boto naudotojai negali kurti auth sesiju.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Boto naudotojai negali naudoti auth endpointu.
+auth_and_oauth.handoff_code_expired: Handoff kodo galiojimas baigesi.
+auth_and_oauth.handoff_code_invalid: Neteisingas handoff kodas.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize nepalaikomas. Naudok POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Neteisingas kliento slaptas raktas.
+auth_and_oauth.invalid_client: Neteisingas klientas.
+auth_and_oauth.invalid_code: Neteisingas kodas.
+auth_and_oauth.invalid_grant: Neteisingas grant.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Neteisingas arba pasibaiges autorizacijos bilietas.
+auth_and_oauth.invalid_or_expired_authorization_token: Neteisingas arba pasibaiges autorizacijos zetonas.
+auth_and_oauth.invalid_or_expired_ticket: Neteisingas arba pasibaiges bilietas.
+auth_and_oauth.invalid_proof_token: Neteisingas įrodymo žetonas.
+auth_and_oauth.invalid_redirect_uri: Neteisingas peradresavimo URI.
+auth_and_oauth.invalid_request: Neteisinga uzklausa.
+auth_and_oauth.invalid_scope: Neteisinga scope reiksme.
+auth_and_oauth.invalid_sudo_token: Neteisingas sudo zetonas.
+auth_and_oauth.invalid_token_admin_api_key: Neteisingas administratoriaus API raktas.
+auth_and_oauth.missing_authorization: Truksta autorizacijos.
+auth_and_oauth.missing_client_secret: Truksta kliento slapto rakto.
+auth_and_oauth.missing_redirect_uri: Truksta peradresavimo URI.
+auth_and_oauth.must_start_session_before_sending_messages: Pries siunciant zinutes reikia pradeti sesija.
+auth_and_oauth.oauth_admin_scope_required: Kad pasiektum admin endpointus, OAuth2 zetonams reikia admin scope.
+auth_and_oauth.oauth_fields_missing: Truksta OAuth lauku.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Neboto scope atveju reikalingas redirect_uri.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Neboto scope atveju response_type turi buti code.
+auth_and_oauth.sudo_mode_required: Reikalingas sudo rezimas.
+auth_and_oauth.unknown_application: Nežinoma programa.
+auth_and_oauth.unsupported_response_type: Nepalaikomas atsakymo tipas.
+auth_and_registration.current_password_incorrect: Dabartinis slaptažodis neteisingas.
+auth_and_registration.password_is_too_common: Jūsų slaptažodis yra per dažnas. Pasirinkite unikalesnį slaptažodį.
+auth_and_registration.password_not_set: Slaptažodis nenustatytas.
+bots.bot_application_not_found: Bota programa nerasta.
+bots.bot_discriminator_cannot_be_changed: Boto diskriminatoriaus negalima pakeisti.
+bots.bot_is_private: Šis botas yra privatus.
+bots.bot_user_generation_failed: Boto naudotojo generavimas nepavyko.
+bots.bot_user_not_found: Bota naudotojas nerastas.
+bots.invalid_response_type_for_non_bot: Neboto scope atveju response_type turi buti code.
+bots.not_a_bot_application: Ši programa nėra botas.
+calls_and_voice.call_already_exists: Skambutis jau egzistuoja.
+calls_and_voice.cannot_modify_voice_state: Negali keisti balso busenos.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Neteisingas arba ribojamas RTC regionas: {region}.'
+calls_and_voice.invalid_rtc_region: 'Neteisingas RTC regionas: {region}. Galimi regionai: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Neteisingas stream key formatas.
+calls_and_voice.invalid_stream_thumbnail_payload: Neteisingas stream thumbnail payload.
+calls_and_voice.no_active_call: Nera aktyvaus skambucio.
+calls_and_voice.stream_key_channel_mismatch: Stream key kanalo nesutapimas.
+calls_and_voice.stream_key_scope_mismatch: Stream key scope nesutapimas.
+calls_and_voice.stream_thumbnail_payload_empty: Stream thumbnail payload tuscias.
+calls_and_voice.unknown_voice_region: Nezinomas balso regionas.
+calls_and_voice.unknown_voice_server: Nezinomas balso serveris.
+calls_and_voice.voice_message_duration_exceeds_limit: Balso zinutes trukme negali virsyti {maxDuration} sekundziu.
+calls_and_voice.voice_message_duration_required: Balso zinutes prieduose privaloma nurodyti trukme.
+calls_and_voice.voice_message_waveform_required: Balso zinutes prieduose privalomi waveform duomenys.
+calls_and_voice.voice_messages_require_single_attachment: Balso zinutes turi tureti tik viena prieda.
+captcha.invalid: Neteisinga CAPTCHA.
+captcha.required: Reikia CAPTCHA.
+channels_and_guilds.afk_channel_must_be_in_guild: AFK kanalas turi buti siame serveryje.
+channels_and_guilds.afk_channel_must_be_voice: AFK kanalas turi buti balso kanalas.
+channels_and_guilds.all_channels_must_belong_to_guild: Visi kanalai turi priklausyti siam serveryje.
+channels_and_guilds.animated_guild_banner_requires_feature: Animuotam serverio baneriui reikia ANIMATED_BANNER funkcijos.
+channels_and_guilds.cannot_execute_on_dm: Sio veiksmo DM atlikti negalima.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Serverio nuosavybė negali būti perduota botui.
+channels_and_guilds.cannot_leave_guild_as_owner: Negali palikti serverio budamas savininkas. Perduok savininko teises arba istrink serveri.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Negali nustatyti kanalo pozicijos jo paties ar jo vaiku atzvilgiu.
+channels_and_guilds.cannot_report_own_guild: Negali pranesti apie savo serveri.
+channels_and_guilds.categories_cannot_have_parent_channel: Kategorijos negali tureti teviniu kanalu.
+channels_and_guilds.categories_cannot_have_parents: Kategorijos negali tureti tevu.
+channels_and_guilds.channel_id_required: '`channel_id` yra privalomas.'
+channels_and_guilds.channel_must_be_dm_or_group_dm: Kanalas turi buti DM arba grupinis DM.
+channels_and_guilds.channel_must_be_voice: Kanalas turi buti balso kanalas.
+channels_and_guilds.channel_not_found: Kanalas nerastas.
+channels_and_guilds.context_channel_or_guild_required: Reikalingas konteksto kanalas arba serverio ID.
+channels_and_guilds.guild_banner_requires_feature: Serverio baneriui reikia BANNER funkcijos.
+channels_and_guilds.guild_id_must_match_referenced_message: Serverio ID turi sutapti su kanalu, is kurio buvo paimta nurodyta zinute.
+channels_and_guilds.invalid_channel_id: 'Neteisingas kanalo ID: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Skambuciui netinkamas kanalo tipas.
+channels_and_guilds.invalid_channel_type: Neteisingas kanalo tipas.
+channels_and_guilds.invalid_channel: Neteisingas kanalas.
+channels_and_guilds.invalid_parent_channel: Neteisingas tėvinis kanalas.
+channels_and_guilds.invite_splash_requires_feature: Invite splash reikalauja INVITE_SPLASH funkcijos.
+channels_and_guilds.invites_disabled: Pakvietimai isjungti.
+channels_and_guilds.max_group_dm_recipients_reached: Pasiektas maksimalus {count} grupinio DM {count, plural, one {gavėjo} few {gavėjų} many {gavėjų} other {gavėjų}}.
+channels_and_guilds.max_group_dms_reached: Pasiektas maksimalus {count} grupinio {count, plural, one {DM} few {DM} many {DM} other {DM}}.
+channels_and_guilds.max_guild_channels_reached: Pasiektas maksimalus {count} serverio {count, plural, one {kanalo} few {kanalų} many {kanalų} other {kanalų}}.
+channels_and_guilds.max_guild_members_reached: Pasiektas maksimalus {count} serverio {count, plural, one {nario} few {narių} many {narių} other {narių}}.
+channels_and_guilds.max_guild_roles_reached: Pasiektas maksimalus {count} serverio {count, plural, one {vaidmens} few {vaidmenų} many {vaidmenų} other {vaidmenų}}.
+channels_and_guilds.max_guilds_reached: Pasiektas maksimalus {count} {count, plural, one {serverio} few {serverių} many {serverių} other {serverių}}.
+channels_and_guilds.message_history_cutoff_before_guild_creation: Žinutės istorijos nukirpimas negali būti anksčiau nei bendruomenė buvo sukurta.
+channels_and_guilds.message_history_cutoff_in_future: Žinutės istorijos nukirpimas negali būti ateityje.
+channels_and_guilds.parent_channel_not_in_guild: Tevinis kanalas nera siame serveryje.
+channels_and_guilds.parent_must_be_category: Tevas turi buti kategorija.
+channels_and_guilds.preceding_channel_must_share_parent: Ankstesnis kanalas turi tureti ta pati teva kaip ir perkeliamas kanalas.
+channels_and_guilds.preceding_channel_not_in_guild: Ankstesnis kanalas nera siame serveryje.
+channels_and_guilds.system_channel_must_be_in_guild: Sistemos kanalas turi buti siame serveryje.
+channels_and_guilds.system_channel_must_be_text: Sistemos kanalas turi buti tekstinis kanalas.
+channels_and_guilds.temporary_invite_requires_presence: Laikinam pakvietimui reikia buvimo busenos.
+channels_and_guilds.vanity_url_requires_feature: Vanity URL reikalauja VANITY_URL funkcijos.
+channels_and_guilds.voice_channel_full: Balso kanalas pilnas.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Balso kanalai negali buti virs tekstiniu kanalu toje pacioje kategorijoje.
+colors.color_value_too_high: Spalvos reiksme negali virsyti 0xffffff.
+colors.color_value_too_low: Spalvos reiksme turi buti bent 0x000000.
+content_and_safety.content_blocked: Saugos sistemos uzblokavo si turini.
+content_and_safety.csam_scan_failed: CSAM nuskaitymas nepavyko.
+content_and_safety.csam_scan_parse_error: CSAM nuskaitymo analizės klaida.
+content_and_safety.csam_scan_subscription_error: CSAM nuskaitymo prenumeratos klaida.
+content_and_safety.csam_scan_timeout: CSAM nuskaitymas baigėsi laiko pabaiga.
+content_and_safety.explicit_content_cannot_be_sent: Atviro seksualinio turinio siusti negalima.
+content_and_safety.ncmec_already_submitted: Apie si turini jau pranesta NCMEC.
+content_and_safety.ncmec_submission_failed: Nepavyko issiusti praneshimo i NCMEC. Pabandyk veliau.
+content_and_safety.nsfw_age_restricted: NSFW turinys yra ribojamas pagal amziu.
+connections.bluesky_oauth_callback_failed: Nepavyko užbaigti „Bluesky" ryšį. Prašau bandyti dar kartą.
+connections.bluesky_oauth_not_enabled: „Bluesky" ryšiai nėra įjungti šiame serveryje.
+connections.bluesky_oauth_session_expired: Jūsų „Bluesky" sesija baigėsi. Prašau iš naujo prijungti savo paskyrą.
+connections.bluesky_oauth_state_invalid: Autorizacijos užklausa baigėsi arba yra netinkama. Prašau bandyti dar kartą.
+connections.already_exists: Ši tipo ryšys su šiuo identifikatoriumi jau egzistuoja.
+connections.invalid_identifier: Ryšio identifikatorius yra neteisingas.
+connections.initiation_token_invalid: Ryšio inicijavimo žetonas neteisingas arba pasibaigęs.
+connections.invalid_type: Ryšio tipas nepalaikomas.
+connections.limit_reached: Pasiekėte maksimalų ryšių skaičių ({limit}).
+connections.not_found: Nežinomas ryšys.
+connections.verification_failed: Ryšio patikrinimas nepavyko. Įsitikinkite, kad patvirtinimo žetonas yra teisingoje vietoje.
+discovery.already_applied: Ši bendruomenė jau kreipėsi dėl atradimų.
+discovery.application_already_reviewed: Ši atradimų paraiška jau peržiūrėta.
+discovery.application_not_found: Atradimų paraiška nerasta.
+discovery.description_required: Atradimų sąraše reikalingas aprašymas.
+discovery.insufficient_members: Ši bendruomenė neatitinka minimalaus narių skaičiaus atradimams.
+discovery.invalid_category: Neteisinga atradimų kategorija.
+discovery.not_discoverable: Ši bendruomenė nėra įtraukta į atradimų sąrašą.
+donation.amount_invalid: Donacijos suma neteisinga.
+donation.donor_not_found: Donatorius nerastas.
+donation.magic_link_expired: Magiškas saitas nebegalioja.
+donation.magic_link_invalid: Magiškas saitas neteisingas.
+donation.magic_link_used: Magiškas saitas jau panaudotas.
+email.email_already_in_use: El. paštas jau naudojamas.
+email.email_required: El. paštas yra būtinas.
+email.email_service_not_testable: El. pasto paslaugos neimanoma testuoti.
+email.invalid_format: Neteisingas el. pasto adreso formatas.
+email.invalid_or_expired_reset_token: Neteisingas arba pasibaigęs slaptažodžio atstatymo žetonas.
+email.invalid_or_expired_revert_token: Neteisingas arba pasibaigęs grąžinimo žetonas.
+email.invalid_or_expired_verification_token: Neteisingas arba pasibaigęs patvirtinimo žetonas.
+email.invalid_or_password: Neteisingas el. pastas arba slaptazodis.
+email.invalid_token: Neteisingas el. pašto žetonas.
+email.invalid_verification_code: Neteisingas patvirtinimo kodas.
+email.length_invalid: El. pašto adresas turi būti nuo {min} iki {max} simbolių.
+email.must_be_changed_via_token: El. paštas turi būti keičiamas per žetoną.
+email.must_change_via_token: El. pastas turi buti keiciamas per `email_token`.
+email.must_have_email_to_change_it: Norint pakeisti el. paštą, turite jį turėti.
+email.new_email_must_be_different: Naujas el. paštas turi skirtis nuo dabartinio.
+email.no_new_email_requested: Naujas el. pastas nebuvo uzsakytas.
+email.no_original_email_on_record: Nera irasyto pradinio el. pasto.
+email.original_email_already_verified: Pradinis el. pastas jau patvirtintas.
+email.original_email_must_be_verified_first: Pirma reikia patvirtinti pradini el. pasta.
+email.original_verification_not_required: Siam procesui pradinio patvirtinimo nereikia.
+email.token_expired: El. pasto zetonas nebegalioja.
+email.user_has_no_email_address: Sis naudotojas neturi el. pasto adreso.
+email.user_is_not_pending_verification: Šis naudotojas nėra laukiamas patvirtinimo.
+email.verification_code_expired: Patvirtinimo kodas pasibaigęs.
+email.verification_code_not_issued: Patvirtinimo kodas nebuvo išduotas.
+embeds.embed_index_out_of_bounds: Embedo indeksas {embedIndex} uz ribu (zinuteje yra {embedCount} {embedCount, plural, one {embedas} few {embedai} many {embedu} other {embedu}}).
+embeds.embed_splash_requires_feature: Embed splash reikalauja INVITE_SPLASH funkcijos.
+embeds.embeds_exceed_max_characters: Embedai is viso negali virsyti {maxCharacters} {maxCharacters, plural, one {simboli} few {simbolius} many {simboliu} other {simboliu}}.
+embeds.too_many_embeds: Per daug embedu. Daugiausia galima {maxEmbeds} {maxEmbeds, plural, one {embeda} few {embedus} many {embedu} other {embedu}}.
+feature_flags.feature_not_available_self_hosted: Ši funkcija nėra pasiekiama savamdiegėse instancijose.
+feature_flags.feature_temporarily_disabled: Si funkcija laikinai isjungta.
+friends_and_dms.already_friends: Tu jau draugauji su siuo naudotoju.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Privatiems kanalams sukurti reikia bent vieno gavejo.
+friends_and_dms.at_least_one_recipient_required: Reikalingas bent vienas gavėjas.
+friends_and_dms.bots_cannot_send_friend_requests: Botai negali siusti draugo uzklausu.
+friends_and_dms.cannot_add_yourself_to_group_dm: Negali prideti saves i grupini DM.
+friends_and_dms.cannot_dm_yourself: Negali rasyti DM sau.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Negali siusti draugo uzklausos uzblokuotam naudotojui.
+friends_and_dms.cannot_send_friend_request_to_self: Negali siusti draugo uzklausos sau.
+friends_and_dms.cannot_send_messages_to_user: Negali siusti zinuciu siam naudotojui.
+friends_and_dms.duplicate_recipients_not_allowed: Pasikartojantys gavejai neleidziami.
+friends_and_dms.friend_request_blocked: Naudotojas šiuo metu nepriima draugo užklausų.
+friends_and_dms.not_friends: Tu nesi draugas su siuo naudotoju.
+friends_and_dms.recipient_ids_cannot_be_empty: Recipient ID negali buti tuscias.
+friends_and_dms.recipient_ids_must_be_strings: Recipient ID turi buti eilutes.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Recipient ID turi buti galiojantys snowflake.
+harvest.expired: Harvest nebegalioja.
+harvest.failed: Harvest nepavyko.
+harvest.not_ready: Harvest dar nepasiruoses.
+harvest.on_cooldown: Harvest laikinai uzblokuotas.
+harvest.unknown: Nezinomas harvest.
+http.bad_gateway: Blogas šliuzas.
+http.bad_request: Bloga užklausa.
+http.conflict: Konflikt.
+http.forbidden: Uždrausta.
+http.gateway_timeout: Šliuzo laiko pabaiga.
+http.gone: Išnyko.
+http.internal_server_error: Vidinė serverio klaida.
+http.method_not_allowed: Metodas neleistinas.
+http.not_found: Nerasta.
+http.not_implemented: Nerealizuota.
+http.service_unavailable: Paslauga nepasiekiama.
+http.validation_error: Patikrinimas nepavyko.
+invites_and_beta.invalid_or_already_used_beta_code: Neteisingas arba jau panaudotas beta kodas.
+invites_and_beta.max_beta_codes_reached: Pasiektas maksimalus {count} beta {count, plural, one {kodo} few {kodų} many {kodų} other {kodų}}.
+invites_and_beta.unknown_beta_code: Nezinomas beta kodas.
+invites_and_gifts.gift_code_already_redeemed: Dovanu kodas jau panaudotas.
+invites_and_gifts.stripe_gift_redemption_in_progress: Dovanu kodo panaudojimas vyksta. Pabandyk po akimirkos.
+invites_and_gifts.unknown_gift_code: Nezinomas dovanu kodas.
+invites_and_packs.emoji_requires_access: Sio emoji negali naudoti neturedamas prieigos prie jo serverio arba idiegto pack.
+invites_and_packs.invalid_pack_type: Neteisingas pack tipas.
+invites_and_packs.max_animated_emojis_reached: Pasiektas maksimalus {count} animuoto {count, plural, one {emoji} few {emoji} many {emoji} other {emoji}}.
+invites_and_packs.max_emojis_reached: Pasiektas maksimalus {count} {count, plural, one {emoji} few {emoji} many {emoji} other {emoji}}.
+invites_and_packs.max_pack_expressions_reached: Pasiektas maksimalus {count} pack {count, plural, one {expression} few {expression} many {expression} other {expression}}.
+invites_and_packs.max_packs_reached: Pasiektas maksimalus {count} {count, plural, one {pack} few {pack} many {pack} other {pack}}.
+invites_and_packs.pack_access_denied: Prieiga prie pack uzdrausta.
+limits.at_least_one_entry_required: Reikia bent vieno iraso.
+limits.base64_length_invalid: 'Base64 eilutės ilgis turi būti nuo {min} iki {maxLength} simbolių.'
+limits.bucket_required: '`bucket` yra privalomas.'
+limits.cannot_shrink_reserved_slots: Negali sumazinti rezervuotu vietu.
+limits.integer_out_of_int64_range: Sveikasis skaičius yra už galiojamo int64 diapazono.
+limits.cannot_specify_before_and_after: Negali nurodyti ir `before`, ir `after`.
+limits.content_exceeds_max_length: Tekstas negali virsyti {maxLength} {maxLength, plural, one {simboli} few {simbolius} many {simboliu} other {simboliu}}.
+limits.rows_required: '`rows` yra privalomas.'
+limits.string_length_exact: Eilute turi buti tiksliai {length} simboliu ilgio.
+limits.string_length_invalid: Eilutes ilgis turi buti nuo {min} iki {max} simboliu.
+limits.timeout_cannot_exceed_365_days: 'Timeout negali būti ilgesnė nei {maxDays} {maxDays, plural, one {diena} few {dienos} many {dienų} other {dienų}} į ateitį.'
+limits.value_must_be_integer_in_range: Lauko `{name}` reiksme turi buti sveikasis skaicius nuo {minValue} iki {maxValue}.
+limits.value_too_small: Reiksme per maza.
+media_and_memes.favorite_meme_name_required: Reikia megstamo memo pavadinimo.
+media_and_memes.favorite_meme_not_found: Megstamas memas nerastas.
+media_and_memes.max_favorite_memes_reached: Pasiektas maksimalus {count} mėgstamo {count, plural, one {mėmo} few {mėmų} many {mėmų} other {mėmų}}.
+media_and_memes.media_already_in_favorites: Sis turinys jau yra tavo megstamu memu sarase.
+media_and_memes.media_metadata_error: Medijos metaduomenu klaida.
+media_and_memes.unknown_favorite_meme: Nezinomas megstamas memas.
+messages.cannot_edit_others_message: Negali redaguoti kito naudotojo zinutes.
+messages.cannot_reply_to_system_message: Negali atsakyti i sistemos zinute.
+messages.cannot_delete_more_than_100: Negali ištrinti daugiau nei {max} {max, plural, one {žinutę} few {žinutes} many {žinučių} other {žinučių}} iš karto.
+messages.cannot_preload_more_than_100_channels: Negali iš anksto įkelti daugiau nei {max} {max, plural, one {kanalo} few {kanalų} many {kanalų} other {kanalų}} iš karto.
+messages.cannot_send_empty_message: Negali siusti tuscios zinutes.
+messages.forward_messages_cannot_include_extra_content: Persiunciamos zinutes negali tureti papildomo turinio, embedu, priedu ar lipduku.
+messages.forward_reference_requires_channel_and_message: Persiuntimo nuorodoje turi buti `channel_id` ir `message_id`.
+messages.invalid_message_data: Neteisingi zinutes duomenys.
+messages.invalid_scheduled_message_payload: Neteisingas suplanuotos zinutes payload.
+messages.message_ids_cannot_be_empty: '`message_ids` negali buti tuscias.'
+messages.messages_array_required: '`messages` masyvas yra privalomas ir negali buti tuscias.'
+messages.messages_with_snapshots_cannot_be_edited: Zinuciu su snapshotais redaguoti negalima.
+messages.scheduled_messages_max_30_days: Suplanuotos žinutės gali būti daugiausia 30 dienų ateityje.
+messages.scheduled_send_datetime_invalid: Neteisinga suplanuoto siuntimo data arba laikas.
+messages.scheduled_time_must_be_future: Suplanuotas laikas turi buti ateityje.
+messages.voice_messages_attachment_must_be_audio: Balso žinutės priedai turi būti garso failai.
+messages.voice_messages_cannot_have_content: Balso žinutės negali turėti tekstinio turinio.
+messages.voice_messages_cannot_have_embeds: Balso žinutės negali turėti įdėtų objektų.
+messages.voice_messages_cannot_have_favorite_memes: Balso žinutės negali turėti mėgstamiausių memų.
+messages.voice_messages_cannot_have_stickers: Balso žinutės negali turėti lipdukų.
+mfa_and_passkeys.invalid_mfa_code: Neteisingas MFA kodas.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Neteisingas WebAuthn autentifikacijos skaitiklis.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Neteisingas WebAuthn credential skaitiklis.
+mfa_and_passkeys.invalid_webauthn_credential: Neteisingas WebAuthn credential.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Neteisingas WebAuthn viesojo rakto formatas.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Prieš reikalaudamas 2FA moderatoriams, turite jį įjungti savo paskyroje.
+mfa_and_passkeys.no_passkeys_registered: Nera uzregistruotu prieigos raktu.
+mfa_and_passkeys.passkey_authentication_failed: Prieigos rakto autentifikacija nepavyko.
+mfa_and_passkeys.passkeys_disabled: Prieigos raktai isjungti.
+mfa_and_passkeys.two_factor_not_enabled: Dvieju faktoriu autentifikacija neijungta.
+mfa_and_passkeys.two_factor_required: Reikalinga dvieju faktoriu autentifikacija.
+mfa_and_passkeys.unknown_webauthn_credential: Nezinomas WebAuthn credential.
+mfa_and_passkeys.webauthn_credential_limit_reached: Pasiektas maksimalus {count} WebAuthn {count, plural, one {kredencialas} few {kredencialų} many {kredencialų} other {kredencialų}}.
+misc_limits.max_bookmarks_reached: Pasiektas maksimalus {count} {count, plural, one {žymės} few {žymių} many {žymių} other {žymių}}.
+misc_limits.max_category_channels_reached: Pasiektas maksimalus {count} kategorijos {count, plural, one {kanalo} few {kanalų} many {kanalų} other {kanalų}}.
+misc_limits.max_friends_reached: Pasiektas maksimalus {count} {count, plural, one {draūgo} few {draugų} many {draugų} other {draugų}}.
+misc_limits.max_invites_reached: Pasiektas maksimalus {count} {count, plural, one {pakvietimo} few {pakvietimų} many {pakvietimų} other {pakvietimų}}.
+misc_limits.max_pins_per_channel_reached: Pasiektas maksimalus {count} {count, plural, one {prisegtos žinutės} few {prisegtu žinučių} many {prisegtu žinučių} other {prisegtu žinučių}} kanale.
+misc.cannot_send_messages_in_non_text_channel: Negali siusti zinuciu netekstiniame kanale.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Kad galetum siusti zinutes siame serveryje, reikia patvirtinti el. pasta.
+misc.invalid_job_id: Neteisingas job ID.
+misc.invalid_permissions_integer: Permissions turi buti galiojantis sveikasis skaicius.
+misc.invalid_permissions_negative: Permissions negali buti neigiami.
+misc.invalid_request_generic: Neteisinga uzklausa.
+misc.invalid_snowflake: Neteisingas snowflake.
+misc.job_already_processed: Job jau apdorotas.
+misc.job_id_required: Job ID yra privalomas.
+misc.job_not_found: Job nerastas.
+misc.max_files_exceeded: Per daug failu. Daugiausia galima {maxFiles} {maxFiles, plural, one {faila} few {failus} many {failu} other {failu}}.
+misc.must_have_bot_to_mark_system_user: Kad naudotojas butu pazymetas kaip sistemos naudotojas, jis turi buti botas.
+moderation_and_reports.cannot_report_own_message: Negali pranesti apie savo zinute.
+moderation_and_reports.cannot_report_yourself: Negali pranesti apie save.
+moderation_and_reports.invalid_dsa_report_target: Neteisingas DSA pranesimo taikinys.
+moderation_and_reports.invalid_dsa_ticket: Neteisingas DSA bilietas.
+moderation_and_reports.invalid_dsa_verification_code: Neteisingas DSA patvirtinimo kodas.
+moderation_and_reports.report_already_resolved: Pranesimas jau isspręstas.
+moderation_and_reports.report_banned: Pranesimai uzdrausti.
+moderation_and_reports.unknown_report: Nezinomas pranesimas.
+moderation_and_reports.user_is_not_banned: Šis naudotojas nėra užblokuotas.
+names_and_normalization.channel_name_empty_after_normalization: Kanalo pavadinimas po normalizavimo negali likti tuscias.
+names_and_normalization.name_empty_after_normalization: Vardas po normalizavimo negali likti tuscias.
+permissions.missing_access: Truksta prieigos.
+permissions.missing_permissions: Truksta leidimu.
+permissions.not_owner_of_admin_api_key: Neturi teises keisti sio administratoriaus API rakto.
+permissions.user_banned_from_guild: Sis naudotojas uzblokuotas siame serveryje.
+permissions.user_ip_banned_from_guild: Sio naudotojo IP uzblokuotas siame serveryje.
+permissions.user_not_in_channel: Sis naudotojas nera siame kanale.
+permissions.user_not_in_voice: Sis naudotojas nera balso kanale.
+permissions.user_owns_guilds: Sis naudotojas valdo serverius.
+phone.invalid_number: Neteisingas telefono numeris.
+phone.number_already_used: Sis telefono numeris jau naudojamas.
+phone.number_format_required: Telefono numeris turi buti E.164 formatu (pvz., +1234567890).
+phone.phone_required_for_sms_mfa: SMS MFA reikia telefono numerio.
+phone.sms_mfa_not_enabled: SMS MFA neijungtas.
+phone.sms_mfa_requires_totp: SMS MFA reikalauja TOTP.
+phone.sms_verification_unavailable: SMS patvirtinimas laikinai nepasiekiamas. Pabandyk veliau.
+phone.verification_code_invalid: Neteisingas telefono patvirtinimo kodas.
+phone.verification_required: Reikalingas telefono patvirtinimas.
+premium_and_plans.animated_avatars_require_premium: Animuoti avatarai reikalauja Premium.
+premium_and_plans.banners_require_premium: Baneriai reikalauja Premium.
+premium_and_plans.bio_requires_premium_for_length: Bionė, trumpesnė nei {maxLength} simbolių, reikalauja Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Su Visionary negali issikeisti i Plutonium.
+premium_and_plans.custom_emojis_outside_source_require_premium: Be Premium negali naudoti pasirinktiniu emoji uz ju saltinio serveriu ribu.
+premium_and_plans.custom_stickers_in_dms_require_premium: Be Premium negali naudoti pasirinktiniu lipduku DM.
+premium_and_plans.custom_stickers_outside_source_require_premium: Be Premium negali naudoti pasirinktiniu lipduku uz ju saltinio serveriu ribu.
+premium_and_plans.discriminator_change_requires_premium: Keisti diskriminatoriu gali tik Premium.
+premium_and_plans.no_active_subscription: Nera aktyvios prenumeratos.
+premium_and_plans.no_visionary_slots_available: Nera laisvu Visionary vietu.
+premium_and_plans.premium_required_for_custom_emoji: Norint naudoti pasirinktini emoji, reikia Premium.
+premium_and_plans.visionary_required_for_bot_discriminator: Kad galetum tinkinti boto diskriminatorius, reikia Visionary viso gyvenimo plano.
+premium_and_plans.visionary_required_for_discriminator: Kad naudotum ta diskriminatoriu, reikia Visionary viso gyvenimo plano.
+rate_limits.accent_color_changed_too_often: Pastaruoju metu per daznai keitei akcento spalva. Pabandyk dar karta po {minutes} {minutes, plural, one {minutes} few {minuciu} many {minuciu} other {minuciu}}.
+rate_limits.avatar_changed_too_often: Pastaruoju metu per daznai keitei avatarą. Pabandyk dar karta po {minutes} {minutes, plural, one {minutes} few {minuciu} many {minuciu} other {minuciu}}.
+rate_limits.banner_changed_too_often: Pastaruoju metu per daznai keitei baneri. Pabandyk dar karta po {minutes} {minutes, plural, one {minutes} few {minuciu} many {minuciu} other {minuciu}}.
+rate_limits.bio_changed_too_often: Pastaruoju metu per daznai keitei bio. Pabandyk dar karta po {minutes} {minutes, plural, one {minutes} few {minuciu} many {minuciu} other {minuciu}}.
+rate_limits.ip_authorization_resend_cooldown: IP autorizacijos pakartotinis siuntimas laikinai uzblokuotas.
+rate_limits.ip_authorization_resend_limit_exceeded: Virsyta IP autorizacijos pakartotinio siuntimo riba.
+rate_limits.phone_rate_limit_exceeded: Virsyta telefonu uzklausu riba.
+rate_limits.pronouns_changed_too_often: Pastaruoju metu per daznai keitei ivardzius. Pabandyk dar karta po {minutes} {minutes, plural, one {minutes} few {minuciu} many {minuciu} other {minuciu}}.
+rate_limits.rate_limited: Tau laikinai taikomas greicio limitas.
+rate_limits.slowmode_rate_limited: 'Slow mode: pasiektas greicio limitas.'
+rate_limits.username_changed_too_often: Pastaruoju metu per daznai keitei naudotojo varda. Pabandyk dar karta po {minutes} {minutes, plural, one {minutes} few {minuciu} many {minuciu} other {minuciu}}.
+roles.cannot_reorder_everyone_role: Negali perrikiuoti @everyone roles.
+roles.cannot_set_everyone_hoist: Negali nustatyti hoist pozicijos @everyone rolei.
+roles.cannot_use_same_role_as_preceding: Negali naudoti tos pacios roles kaip ir ankstesne role.
+roles.invalid_role_id: 'Neteisingas roles ID: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Negalite naudoti `parse` kartu su `allowed_mentions.users` arba `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Ankstesne role nera siame serveryje.
+stickers_and_emojis.custom_emoji_not_found: Pasirinktinis emoji nerastas.
+stickers_and_emojis.custom_sticker_not_found: Pasirinktinis lipdukas nerastas.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Šiam emoji naudoti reikalinga prieiga prie jo gildijos arba suinstaliuoto paketo.
+stickers_and_emojis.max_reactions_reached: Pasiektas maksimalus {count} {count, plural, one {reakcijos} few {reakcijų} many {reakcijų} other {reakcijų}}.
+stickers_and_emojis.max_stickers_reached: Pasiektas maksimalus {count} {count, plural, one {lipduko} few {lipdukų} many {lipdukų} other {lipdukų}}.
+stickers_and_emojis.not_valid_unicode_emoji: Tai nera galiojantis Unicode emoji.
+stickers_and_emojis.unknown_emoji: Nezinomas emoji.
+stickers_and_emojis.unknown_sticker: Nezinomas lipdukas.
+stripe.error: Stripe klaida.
+stripe.invalid_product_configuration: Neteisinga produkto konfiguracija.
+stripe.invalid_product_selection: Neteisingas produkto pasirinkimas.
+stripe.no_active_subscription_found: Aktyvi prenumerata nerasta.
+stripe.no_purchase_history_customer_portal_unavailable: Pirkimu istorijos nerasta. Kliento portalas nepasiekiamas.
+stripe.no_subscription_found: Prenumerata nerasta.
+stripe.payment_not_available: Mokejimu apdorojimas nepasiekiamas.
+stripe.subscription_already_canceling: Prenumerata jau nustatyta nutraukti periodo pabaigoje.
+stripe.subscription_not_canceling: Prenumerata nenustatyta nutraukti.
+stripe.subscription_period_end_missing: Truksta subscription current_period_end.
+stripe.webhook_not_available: Webhook apdorojimas nepasiekiamas.
+stripe.webhook_signature_invalid: Neteisingas Stripe webhook parasas.
+stripe.webhook_signature_missing: Truksta Stripe webhook paraso.
+tickets.ticket_already_completed: Sis ticket jau uzbaigtas.
+tos_and_age.date_of_birth_format_invalid: Neteisingas gimimo datos formatas.
+tos_and_age.must_agree_to_tos_and_privacy: Turi sutikti su naudojimo salygomis ir privatumo politika.
+tos_and_age.must_be_minimum_age: Kad susikurtum paskyra, tau turi buti bent {minAge} {minAge, plural, one {metu} few {metu} many {metu} other {metu}}.
+unknown_entities.unknown_application: Nežinoma programa.
+unknown_entities.unknown_channel: Nezinomas kanalas.
+unknown_entities.unknown_guild: Nezinomas serveris.
+unknown_entities.unknown_invite: Nezinomas pakvietimas.
+unknown_entities.unknown_member: Nezinomas narys.
+unknown_entities.unknown_message: Nezinoma zinute.
+unknown_entities.unknown_pack: Nezinomas pack.
+unknown_entities.unknown_role: Nezinoma role.
+unknown_entities.unknown_user_flag: Nezinomas naudotojo flag.
+unknown_entities.unknown_user: Nezinomas naudotojas.
+urls.invalid_url_format: Neteisingas URL formatas.
+urls.invalid_url_or_attachment_reference: Neteisingas URL formatas arba priedo nuoroda.
+urls.url_length_invalid: URL turi būti nuo {min} iki {max} simbolių.
+usernames_and_tags.discriminator_invalid_format: Diskriminatorius turi būti {min}–{max} skaitmenys.
+usernames_and_tags.discriminator_out_of_range: Diskriminatorius turi būti nuo {min} iki {max}.
+usernames_and_tags.discriminator_required: Reikalingas diskriminatorius.
+usernames_and_tags.display_name_length_invalid: Rodomas vardas turi būti nuo {min} iki {max} simbolių.
+usernames_and_tags.display_name_reserved_terms: Rodomame varde negali buti "system message".
+usernames_and_tags.display_name_reserved_value: Rodomas vardas negali buti "everyone" arba "here".
+usernames_and_tags.global_name_length_invalid: Globalinis vardas turi būti nuo {min} iki {max} simbolių.
+usernames_and_tags.global_name_reserved_value: Global name can't be "everyone" or "here".
+usernames_and_tags.tag_already_taken: Sis tagas jau uzimtas.
+usernames_and_tags.too_many_users_with_this_username: Su siuo naudotojo vardu yra per daug naudotoju.
+usernames_and_tags.too_many_users_with_username_try_different: Su siuo naudotojo vardu yra per daug naudotoju. Pabandyk kita varda.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Nepatvirtinti paskyros el. paštą gali nustatyti tik per žetoną.
+usernames_and_tags.username_invalid_characters: Naudotojo varde gali buti tik lotyniskos raides (a-z, A-Z), skaiciai (0-9) ir pabraukimas (_).
+usernames_and_tags.username_length_invalid: Naudotojo vardas turi būti nuo {min} iki {max} simbolių.
+usernames_and_tags.username_not_available: Šis naudotojo vardas nepasiekiamas.
+usernames_and_tags.username_reserved_terms: Naudotojo varde negali buti "fluxer" arba "system message".
+usernames_and_tags.username_reserved_value: Naudotojo vardas negali buti "everyone" arba "here".
+vanity_urls.vanity_url_already_taken: Sis vanity URL jau uzimtas.
+vanity_urls.vanity_url_code_already_taken: Sis vanity URL kodas jau uzimtas.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Vanity URL kode negali buti "fluxer".
+vanity_urls.vanity_url_code_length_invalid: Vanity URL kodas turi būti nuo {min} iki {max} simbolių.
+vanity_urls.vanity_url_invalid_characters: Vanity URL gali tureti tik mazasias raides (a-z), skaitmenis (0-9) ir bruksnelius (-).
+webhooks.cannot_modify_system_webhook: Negali keisti sistemos webhooko.
+webhooks.max_webhooks_per_channel_reached: Pasiektas maksimalus {count} {count, plural, one {webhoko} few {webhokų} many {webhokų} other {webhokų}} kanale.
+webhooks.max_webhooks_per_guild_reached: Pasiektas maksimalus {count} {count, plural, one {webhoko} few {webhokų} many {webhokų} other {webhokų}} serveryje.
+webhooks.max_webhooks_reached: Pasiektas maksimalus {count} {count, plural, one {webhoko} few {webhokų} many {webhokų} other {webhokų}}.
+webhooks.unknown_webhook: Nezinomas webhookas.
+webhooks.webhook_name_length_invalid: Webhooko pavadinimas turi būti nuo {min} iki {max} simbolių.

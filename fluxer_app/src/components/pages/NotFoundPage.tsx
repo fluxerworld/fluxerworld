@@ -17,16 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {FluxerIcon} from '@app/components/icons/FluxerIcon';
+import styles from '@app/components/pages/NotFoundPage.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import {Link} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {FluxerIcon} from '~/components/icons/FluxerIcon';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import {Link} from '~/lib/router';
-import {Routes} from '~/Routes';
-import styles from './NotFoundPage.module.css';
 
-export const NotFoundPage = observer(function NotFoundPage() {
+export const NotFoundPage = observer(() => {
 	useFluxerDocumentTitle('Not Found');
 
 	return (

@@ -17,17 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/form/ColorPickerField.module.css';
+import surfaceStyles from '@app/components/form/FormSurface.module.css';
+import {ColorPickerPopout} from '@app/components/popouts/ColorPickerPopout';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {PASSWORD_MANAGER_IGNORE_ATTRIBUTES} from '@app/lib/PasswordManagerAutocomplete';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {EyedropperIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import Color from 'colorjs.io';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import type React from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import {Button, Dialog, DialogTrigger, Popover} from 'react-aria-components';
-import {ColorPickerPopout} from '~/components/popouts/ColorPickerPopout';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import styles from './ColorPickerField.module.css';
-import surfaceStyles from './FormSurface.module.css';
 
 function clampByte(n: number) {
 	return Math.max(0, Math.min(255, Math.round(n)));
@@ -70,11 +72,11 @@ function parseColor(input: string): {hex: string; num: number} | null {
 		const ctx = document.createElement('canvas').getContext('2d');
 		if (ctx) {
 			ctx.fillStyle = '#000';
-			(ctx as any).fillStyle = raw as any;
+			ctx.fillStyle = raw as string;
 			const parsedRaw = String(ctx.fillStyle);
 
 			ctx.fillStyle = '#123456';
-			(ctx as any).fillStyle = raw as any;
+			ctx.fillStyle = raw as string;
 			const secondRaw = String(ctx.fillStyle);
 
 			const looksValid = parsedRaw !== '#000000' || secondRaw !== '#123456';
@@ -130,25 +132,25 @@ export const ColorPickerField: React.FC<ColorPickerFieldProps> = observer((props
 	const {label, description, value, onChange, disabled, className, defaultValue, hideHelperText, descriptionClassName} =
 		props;
 
-	const containerRef = React.useRef<HTMLFieldSetElement>(null);
-	const inputRef = React.useRef<HTMLInputElement>(null);
+	const containerRef = useRef<HTMLFieldSetElement>(null);
+	const inputRef = useRef<HTMLInputElement>(null);
 
-	const getEffectiveValue = React.useCallback(() => {
+	const getEffectiveValue = useCallback(() => {
 		return value === 0 && defaultValue !== undefined ? defaultValue : value;
 	}, [value, defaultValue]);
 
-	const [inputValue, setInputValue] = React.useState(() => numberToHex(getEffectiveValue()));
-	const [showError, setShowError] = React.useState(false);
-	const [popoutOpen, setPopoutOpen] = React.useState(false);
+	const [inputValue, setInputValue] = useState(() => numberToHex(getEffectiveValue()));
+	const [showError, setShowError] = useState(false);
+	const [popoutOpen, setPopoutOpen] = useState(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!popoutOpen) {
 			const effectiveValue = getEffectiveValue();
 			setInputValue(numberToHex(effectiveValue));
 		}
 	}, [getEffectiveValue, popoutOpen]);
 
-	const commitFromText = React.useCallback(() => {
+	const commitFromText = useCallback(() => {
 		const parsed = parseColor(inputValue);
 		const effectiveValue = getEffectiveValue();
 		if (!parsed) {
@@ -163,11 +165,11 @@ export const ColorPickerField: React.FC<ColorPickerFieldProps> = observer((props
 		setShowError(false);
 	}, [inputValue, getEffectiveValue, onChange]);
 
-	const handleInputBlur = React.useCallback(() => {
+	const handleInputBlur = useCallback(() => {
 		commitFromText();
 	}, [commitFromText]);
 
-	const handleInputKeyDown: React.KeyboardEventHandler<HTMLInputElement> = React.useCallback(
+	const handleInputKeyDown: React.KeyboardEventHandler<HTMLInputElement> = useCallback(
 		(e) => {
 			if (e.key === 'Enter') {
 				e.preventDefault();
@@ -178,12 +180,12 @@ export const ColorPickerField: React.FC<ColorPickerFieldProps> = observer((props
 		[commitFromText],
 	);
 
-	const handleInputChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+	const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
 		setInputValue(e.target.value);
 		setShowError(false);
 	}, []);
 
-	const handleColorChange = React.useCallback(
+	const handleColorChange = useCallback(
 		(colorHex: string) => {
 			const parsed = parseColor(colorHex);
 			if (parsed) {
@@ -195,7 +197,7 @@ export const ColorPickerField: React.FC<ColorPickerFieldProps> = observer((props
 		[onChange],
 	);
 
-	const handleReset = React.useCallback(() => {
+	const handleReset = useCallback(() => {
 		onChange(0);
 		const resetHex = defaultValue !== undefined ? numberToHex(defaultValue) : '#000000';
 		setInputValue(resetHex);
@@ -224,6 +226,7 @@ export const ColorPickerField: React.FC<ColorPickerFieldProps> = observer((props
 						<input
 							ref={inputRef}
 							type="text"
+							{...PASSWORD_MANAGER_IGNORE_ATTRIBUTES}
 							value={inputValue}
 							onChange={handleInputChange}
 							onBlur={handleInputBlur}

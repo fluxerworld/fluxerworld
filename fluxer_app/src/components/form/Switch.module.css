@@ -69,6 +69,9 @@
 }
 
 .switchRoot {
+	--switch-highlight: rgba(255, 255, 255, 0.1);
+	--switch-edge: rgba(0, 0, 0, 0.25);
+	--switch-shadow: rgba(0, 0, 0, 0.2);
 	display: inline-flex;
 	align-items: center;
 	position: relative;
@@ -76,10 +79,17 @@
 	width: 2.75rem;
 	border-radius: 9999px;
 	background-color: rgb(107 114 128);
-	transition-property: color, background-color, border-color;
-	transition-duration: 300ms;
+	box-shadow:
+		inset 0 2px 4px 0 rgba(0, 0, 0, 0.15),
+		0 1px 0 0 var(--switch-highlight);
+	transition-property: color, background-color, border-color, box-shadow;
+	transition-duration: 150ms;
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 	cursor: pointer;
+}
+
+.switchRoot:hover {
+	--switch-highlight: rgba(255, 255, 255, 0.15);
 }
 
 .switchRoot.disabled {
@@ -89,6 +99,9 @@
 
 .switchRoot[data-state='checked'] {
 	background-color: var(--brand-primary);
+	box-shadow:
+		inset 0 2px 4px 0 rgba(0, 0, 0, 0.1),
+		0 1px 0 0 rgba(255, 255, 255, 0.15);
 }
 
 .switchThumb {
@@ -101,13 +114,21 @@
 	border-radius: 9999px;
 	background-color: white;
 	box-shadow:
-		0 4px 6px -1px rgb(0 0 0 / 0.1),
-		0 2px 4px -2px rgb(0 0 0 / 0.1);
-	transition-property: transform;
-	transition-duration: 300ms;
+		inset 0 -1px 2px 0 rgba(0, 0, 0, 0.08),
+		0 1px 0 0 rgba(0, 0, 0, 0.15),
+		0 2px 4px -1px rgba(0, 0, 0, 0.2);
+	transition-property: transform, box-shadow;
+	transition-duration: 150ms;
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 	will-change: transform;
 	transform: translateX(2px);
+}
+
+.switchRoot:active .switchThumb {
+	box-shadow:
+		inset 0 1px 2px 0 rgba(0, 0, 0, 0.1),
+		0 0 0 0 rgba(0, 0, 0, 0.15),
+		0 1px 2px -1px rgba(0, 0, 0, 0.15);
 }
 
 .switchThumb[data-state='checked'] {

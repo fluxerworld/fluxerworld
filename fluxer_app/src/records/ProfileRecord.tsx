@@ -17,14 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {GuildMember, GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {GuildRecord} from '~/records/GuildRecord';
-import type {UserPartial, UserProfile} from '~/records/UserRecord';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import UserStore from '~/stores/UserStore';
+import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import UserStore from '@app/stores/UserStore';
+import type {ConnectionResponse} from '@fluxer/schema/src/domains/connection/ConnectionSchemas';
+import type {GuildMemberData} from '@fluxer/schema/src/domains/guild/GuildMemberSchemas';
+import type {UserPartial, UserProfile} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 
-export type ProfileMutualGuild = Readonly<{
+export interface ProfileMutualGuild {
+	id: string;
+	nick: string | null;
+}
+
+export type MiniGuildMember = Readonly<{
 	id: string;
 	nick: string | null;
 }>;
@@ -34,12 +41,13 @@ export type Profile = Readonly<{
 	user_profile: UserProfile;
 	guild_member_profile?: UserProfile | null;
 	timezone_offset: number | null;
-	guild_member?: GuildMember;
+	guild_member?: GuildMemberData;
 	premium_type?: number;
 	premium_since?: string;
 	premium_lifetime_sequence?: number;
 	mutual_friends?: Array<UserPartial>;
 	mutual_guilds?: Array<ProfileMutualGuild>;
+	connected_accounts?: Array<ConnectionResponse>;
 }>;
 
 export class ProfileRecord {
@@ -53,6 +61,7 @@ export class ProfileRecord {
 	readonly premiumLifetimeSequence: number | null;
 	readonly mutualFriends: ReadonlyArray<UserPartial> | null;
 	readonly mutualGuilds: ReadonlyArray<ProfileMutualGuild> | null;
+	readonly connectedAccounts: ReadonlyArray<ConnectionResponse> | null;
 
 	constructor(profile: Profile, guildId?: string) {
 		this.userId = profile.user.id;
@@ -65,6 +74,7 @@ export class ProfileRecord {
 		this.premiumLifetimeSequence = profile.premium_lifetime_sequence ?? null;
 		this.mutualFriends = profile.mutual_friends ? Object.freeze([...profile.mutual_friends]) : null;
 		this.mutualGuilds = profile.mutual_guilds ? Object.freeze([...profile.mutual_guilds]) : null;
+		this.connectedAccounts = profile.connected_accounts ? Object.freeze([...profile.connected_accounts]) : null;
 	}
 
 	withUpdates(updates: Partial<Profile>): ProfileRecord {
@@ -85,6 +95,8 @@ export class ProfileRecord {
 						: (this.premiumLifetimeSequence ?? undefined),
 				mutual_friends: updates.mutual_friends ?? (this.mutualFriends ? [...this.mutualFriends] : undefined),
 				mutual_guilds: updates.mutual_guilds ?? (this.mutualGuilds ? [...this.mutualGuilds] : undefined),
+				connected_accounts:
+					updates.connected_accounts ?? (this.connectedAccounts ? [...this.connectedAccounts] : undefined),
 			},
 			this.guildId ?? undefined,
 		);
@@ -139,13 +151,14 @@ export class ProfileRecord {
 			this.premiumSince === other.premiumSince &&
 			this.premiumLifetimeSequence === other.premiumLifetimeSequence &&
 			JSON.stringify(this.mutualFriends) === JSON.stringify(other.mutualFriends) &&
-			JSON.stringify(this.mutualGuilds) === JSON.stringify(other.mutualGuilds)
+			JSON.stringify(this.mutualGuilds) === JSON.stringify(other.mutualGuilds) &&
+			JSON.stringify(this.connectedAccounts) === JSON.stringify(other.connectedAccounts)
 		);
 	}
 
 	toJSON(): Profile {
 		return {
-			user: UserStore.getUser(this.userId)!,
+			user: UserStore.getUser(this.userId)!.toJSON(),
 			user_profile: {...this.userProfile},
 			guild_member_profile: this.guildMemberProfile ? {...this.guildMemberProfile} : undefined,
 			timezone_offset: this.timezoneOffset,
@@ -154,6 +167,7 @@ export class ProfileRecord {
 			premium_lifetime_sequence: this.premiumLifetimeSequence ?? undefined,
 			mutual_friends: this.mutualFriends ? [...this.mutualFriends] : undefined,
 			mutual_guilds: this.mutualGuilds ? [...this.mutualGuilds] : undefined,
+			connected_accounts: this.connectedAccounts ? [...this.connectedAccounts] : undefined,
 		};
 	}
 }

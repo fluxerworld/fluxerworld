@@ -17,10 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {execSync} from 'node:child_process';
+import fs from 'node:fs';
 import path, {dirname} from 'node:path';
 import {fileURLToPath} from 'node:url';
 import {CopyRspackPlugin, DefinePlugin, HtmlRspackPlugin, SwcJsMinimizerRspackPlugin} from '@rspack/core';
-import ReactRefreshPlugin from '@rspack/plugin-react-refresh';
 import {createPoFileRule, getLinguiSwcPluginConfig} from './scripts/build/rspack/lingui.mjs';
 import {staticFilesPlugin} from './scripts/build/rspack/static-files.mjs';
 
@@ -28,6 +29,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const ROOT_DIR = path.resolve(__dirname, '.');
+const MONOREPO_ROOT = path.resolve(__dirname, '..');
 const SRC_DIR = path.join(ROOT_DIR, 'src');
 const DIST_DIR = path.join(ROOT_DIR, 'dist');
 const PKGS_DIR = path.join(ROOT_DIR, 'pkgs');
@@ -35,33 +37,258 @@ const PUBLIC_DIR = path.join(ROOT_DIR, 'assets');
 
 const CDN_ENDPOINT = 'https://fluxerstatic.com';
 
-const isProduction = process.env.NODE_ENV === 'production';
-const isDevelopment = !isProduction;
+function resolveMode() {
+	const modeIndex = process.argv.indexOf('--mode');
+	if (modeIndex >= 0) {
+		const modeValue = process.argv[modeIndex + 1];
+		if (modeValue) {
+			return modeValue;
+		}
+	}
+	return 'production';
+}
 
-const mode = isProduction ? 'production' : 'development';
+const mode = resolveMode();
+const isProduction = mode === 'production';
+const isDevelopment = !isProduction;
 const devJsName = 'assets/[name].js';
 const devCssName = 'assets/[name].css';
 
-function getPublicEnvVar(name) {
-	const value = process.env[name];
-	return JSON.stringify(value) ?? 'undefined';
+function isPlainObject(value) {
+	return value !== null && typeof value === 'object' && !Array.isArray(value);
+}
+
+function readConfig() {
+	const configPath = process.env.FLUXER_CONFIG;
+	if (!configPath) {
+		throw new Error('FLUXER_CONFIG must be set to a JSON config path.');
+	}
+	const resolvedConfigPath = path.isAbsolute(configPath) ? configPath : path.resolve(MONOREPO_ROOT, configPath);
+	const content = fs.readFileSync(resolvedConfigPath, 'utf-8');
+	const parsed = JSON.parse(content);
+	if (!isPlainObject(parsed)) {
+		throw new Error('Invalid JSON config: expected an object at root.');
+	}
+	return parsed;
+}
+
+function getValue(source, path, fallback) {
+	let current = source;
+	for (const segment of path) {
+		if (!isPlainObject(current)) {
+			return fallback;
+		}
+		current = current[segment];
+	}
+	return current ?? fallback;
+}
+
+function asString(value, fallback = undefined) {
+	if (value === null || value === undefined) {
+		return fallback;
+	}
+	if (typeof value === 'string') {
+		return value;
+	}
+	if (typeof value === 'number' || typeof value === 'boolean') {
+		return String(value);
+	}
+	return fallback;
+}
+
+function normalizeOverride(value) {
+	const trimmed = asString(value, '')?.trim() ?? '';
+	return trimmed === '' ? undefined : trimmed;
+}
+
+function buildUrl(scheme, domain, port, path = '') {
+	const isStandardPort =
+		(scheme === 'http' && port === 80) ||
+		(scheme === 'https' && port === 443) ||
+		(scheme === 'ws' && port === 80) ||
+		(scheme === 'wss' && port === 443);
+	const portPart = port && !isStandardPort ? `:${port}` : '';
+	return `${scheme}://${domain}${portPart}${path}`;
+}
+
+function deriveDomain(endpointType, config) {
+	switch (endpointType) {
+		case 'staticCdn':
+			return config.static_cdn_domain || config.base_domain;
+		case 'invite':
+			return config.invite_domain || config.base_domain;
+		case 'gift':
+			return config.gift_domain || config.base_domain;
+		default:
+			return config.base_domain;
+	}
+}
+
+function deriveEndpointsFromDomain(domainConfig, overrides) {
+	const publicScheme = domainConfig.public_scheme ?? 'https';
+	const publicPort = domainConfig.public_port ?? (publicScheme === 'https' ? 443 : 80);
+	const gatewayScheme = publicScheme === 'https' ? 'wss' : 'ws';
+	const derived = {
+		api: buildUrl(publicScheme, deriveDomain('api', domainConfig), publicPort, '/api'),
+		app: buildUrl(publicScheme, deriveDomain('app', domainConfig), publicPort),
+		gateway: buildUrl(gatewayScheme, deriveDomain('gateway', domainConfig), publicPort, '/gateway'),
+		media: buildUrl(publicScheme, deriveDomain('media', domainConfig), publicPort, '/media'),
+		staticCdn: buildUrl(publicScheme, deriveDomain('staticCdn', domainConfig), publicPort, '/static'),
+		admin: buildUrl(publicScheme, deriveDomain('admin', domainConfig), publicPort, '/admin'),
+		marketing: buildUrl(publicScheme, deriveDomain('marketing', domainConfig), publicPort, '/marketing'),
+		invite: buildUrl(publicScheme, deriveDomain('invite', domainConfig), publicPort, '/invite'),
+		gift: buildUrl(publicScheme, deriveDomain('gift', domainConfig), publicPort, '/gift'),
+	};
+	const normalizedOverrides = {
+		api: normalizeOverride(overrides?.api),
+		app: normalizeOverride(overrides?.app),
+		gateway: normalizeOverride(overrides?.gateway),
+		media: normalizeOverride(overrides?.media),
+		staticCdn: normalizeOverride(overrides?.static_cdn),
+		admin: normalizeOverride(overrides?.admin),
+		marketing: normalizeOverride(overrides?.marketing),
+		invite: normalizeOverride(overrides?.invite),
+		gift: normalizeOverride(overrides?.gift),
+	};
+	return {
+		api: normalizedOverrides.api ?? derived.api,
+		app: normalizedOverrides.app ?? derived.app,
+		gateway: normalizedOverrides.gateway ?? derived.gateway,
+		media: normalizedOverrides.media ?? derived.media,
+		staticCdn: normalizedOverrides.staticCdn ?? derived.staticCdn,
+		admin: normalizedOverrides.admin ?? derived.admin,
+		marketing: normalizedOverrides.marketing ?? derived.marketing,
+		invite: normalizedOverrides.invite ?? derived.invite,
+		gift: normalizedOverrides.gift ?? derived.gift,
+	};
+}
+
+function stripApiSuffix(url) {
+	if (!url) {
+		return url;
+	}
+	return url.endsWith('/api') ? url.slice(0, -4) : url;
+}
+
+function parseSentryDsn(dsn) {
+	if (!dsn) {
+		return {};
+	}
+	try {
+		const parsed = new URL(dsn);
+		const path = parsed.pathname.replace(/^\/+|\/+$/g, '');
+		const segments = path ? path.split('/') : [];
+		const projectId = segments.length > 0 ? segments[segments.length - 1] : undefined;
+		const publicKey = parsed.username || undefined;
+		return {projectId, publicKey};
+	} catch {
+		return {};
+	}
+}
+
+function resolveAppPublic(config) {
+	const appPublic = getValue(config, ['app_public'], {});
+	const domain = getValue(config, ['domain'], {});
+	const overrides = getValue(config, ['endpoint_overrides'], {});
+	const endpoints = deriveEndpointsFromDomain(domain, overrides);
+	const defaultBootstrapEndpoint = endpoints.api;
+	const defaultPublicEndpoint = stripApiSuffix(endpoints.api);
+	const sentryDsn =
+		asString(appPublic.sentry_dsn) ?? asString(getValue(config, ['services', 'app_proxy', 'sentry_dsn']));
+	const sentryParsed = parseSentryDsn(sentryDsn);
+	return {
+		apiVersion: asString(appPublic.api_version, '1'),
+		bootstrapApiEndpoint: asString(appPublic.bootstrap_api_endpoint, defaultBootstrapEndpoint),
+		bootstrapApiPublicEndpoint: asString(appPublic.bootstrap_api_public_endpoint, defaultPublicEndpoint),
+		relayDirectoryUrl: asString(appPublic.relay_directory_url),
+		sentryDsn,
+		sentryProxyPath: asString(
+			appPublic.sentry_proxy_path,
+			asString(getValue(config, ['services', 'app_proxy', 'sentry_proxy_path']), '/error-reporting-proxy'),
+		),
+		sentryReportHost: asString(
+			appPublic.sentry_report_host,
+			asString(getValue(config, ['services', 'app_proxy', 'sentry_report_host']), ''),
+		),
+		sentryProjectId: asString(appPublic.sentry_project_id, sentryParsed.projectId),
+		sentryPublicKey: asString(appPublic.sentry_public_key, sentryParsed.publicKey),
+	};
+}
+
+function resolveReleaseChannel() {
+	const raw = asString(process.env.RELEASE_CHANNEL, 'nightly').toLowerCase();
+	if (raw === 'stable' || raw === 'canary') {
+		return raw;
+	}
+	return 'nightly';
+}
+
+function resolveBuildMetadata() {
+	const envBuildSha = asString(process.env.BUILD_SHA);
+	let buildSha = envBuildSha ?? undefined;
+	if (!buildSha) {
+		try {
+			buildSha = execSync('git rev-parse --short HEAD', {cwd: ROOT_DIR, stdio: ['ignore', 'pipe', 'ignore']})
+				.toString()
+				.trim();
+		} catch {
+			buildSha = 'dev';
+		}
+	}
+	const buildNumber = asString(process.env.BUILD_NUMBER, '0');
+	const buildTimestamp = asString(process.env.BUILD_TIMESTAMP, String(Math.floor(Date.now() / 1000)));
+	const releaseChannel = resolveReleaseChannel();
+	return {
+		buildSha,
+		buildNumber,
+		buildTimestamp,
+		releaseChannel,
+	};
+}
+
+function getPublicEnvVar(values, name) {
+	const value = values[name];
+	return value === undefined ? 'undefined' : JSON.stringify(value);
 }
 
 export default () => {
 	const linguiSwcPlugin = getLinguiSwcPluginConfig();
+	const config = readConfig();
+	const appPublic = resolveAppPublic(config);
+	const buildMetadata = resolveBuildMetadata();
+	const publicValues = {
+		PUBLIC_BUILD_SHA: buildMetadata.buildSha,
+		PUBLIC_BUILD_NUMBER: buildMetadata.buildNumber,
+		PUBLIC_BUILD_TIMESTAMP: buildMetadata.buildTimestamp,
+		PUBLIC_RELEASE_CHANNEL: buildMetadata.releaseChannel,
+		PUBLIC_SENTRY_DSN: appPublic.sentryDsn ?? null,
+		PUBLIC_SENTRY_PROJECT_ID: appPublic.sentryProjectId ?? null,
+		PUBLIC_SENTRY_PUBLIC_KEY: appPublic.sentryPublicKey ?? null,
+		PUBLIC_SENTRY_PROXY_PATH: appPublic.sentryProxyPath,
+		PUBLIC_API_VERSION: appPublic.apiVersion,
+		PUBLIC_BOOTSTRAP_API_ENDPOINT: appPublic.bootstrapApiEndpoint,
+		PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT: appPublic.bootstrapApiPublicEndpoint ?? appPublic.bootstrapApiEndpoint,
+		PUBLIC_RELAY_DIRECTORY_URL: appPublic.relayDirectoryUrl ?? null,
+	};
 
 	return {
 		mode,
 
 		entry: {
 			main: path.join(SRC_DIR, 'index.tsx'),
+			sw: path.join(SRC_DIR, 'service_worker', 'Worker.tsx'),
 		},
 
 		output: {
 			path: DIST_DIR,
 			publicPath: isProduction ? `${CDN_ENDPOINT}/` : '/',
 			workerPublicPath: '/',
-			filename: isProduction ? 'assets/[contenthash:16].js' : devJsName,
+			filename: (pathData) => {
+				if (pathData.chunk?.name === 'sw') {
+					return 'sw.js';
+				}
+				return isProduction ? 'assets/[contenthash:16].js' : devJsName;
+			},
 			chunkFilename: isProduction ? 'assets/[contenthash:16].js' : devJsName,
 			cssFilename: isProduction ? 'assets/[contenthash:16].css' : devCssName,
 			cssChunkFilename: isProduction ? 'assets/[contenthash:16].css' : devCssName,
@@ -77,7 +304,18 @@ export default () => {
 		resolve: {
 			alias: {
 				'~': SRC_DIR,
+				'@app': SRC_DIR,
 				'@pkgs': PKGS_DIR,
+				'@fluxer/constants/src': path.join(MONOREPO_ROOT, 'packages/constants/src'),
+				'@fluxer/date_utils/src': path.join(MONOREPO_ROOT, 'packages/date_utils/src'),
+				'@fluxer/geo_utils/src': path.join(MONOREPO_ROOT, 'packages/geo_utils/src'),
+				'@fluxer/limits/src': path.join(MONOREPO_ROOT, 'packages/limits/src'),
+				'@fluxer/list_utils/src': path.join(MONOREPO_ROOT, 'packages/list_utils/src'),
+				'@fluxer/markdown_parser/src': path.join(MONOREPO_ROOT, 'packages/markdown_parser/src'),
+				'@fluxer/number_utils/src': path.join(MONOREPO_ROOT, 'packages/number_utils/src'),
+				'@fluxer/schema/src': path.join(MONOREPO_ROOT, 'packages/schema/src'),
+				'@fluxer/snowflake/src': path.join(MONOREPO_ROOT, 'packages/snowflake/src'),
+				'@fluxer/ui/src': path.join(MONOREPO_ROOT, 'packages/ui/src'),
 			},
 			extensions: [
 				'.web.tsx',
@@ -119,7 +357,7 @@ export default () => {
 									react: {
 										runtime: 'automatic',
 										development: isDevelopment,
-										refresh: isDevelopment,
+										refresh: false,
 									},
 								},
 								experimental: {
@@ -198,11 +436,18 @@ export default () => {
 					},
 				},
 			],
-		},
 
-		generator: {
-			'css/module': {
-				exportsConvention: 'as-is',
+			generator: {
+				'css/module': {
+					localIdentName: '[name]__[local]___[hash:base64:6]',
+					exportsConvention: 'camel-case-only',
+					exportsOnly: false,
+				},
+				'css/auto': {
+					localIdentName: '[name]__[local]___[hash:base64:6]',
+					exportsConvention: 'camel-case-only',
+					exportsOnly: false,
+				},
 			},
 		},
 
@@ -212,6 +457,7 @@ export default () => {
 				filename: 'index.html',
 				inject: 'body',
 				scriptLoading: 'module',
+				excludeChunks: ['sw'],
 			}),
 
 			new CopyRspackPlugin({
@@ -224,33 +470,35 @@ export default () => {
 				],
 			}),
 
-			staticFilesPlugin({cdnEndpoint: CDN_ENDPOINT}),
+			staticFilesPlugin({staticCdnEndpoint: CDN_ENDPOINT}),
 
 			new DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify(mode),
 				'import.meta.env.DEV': JSON.stringify(isDevelopment),
 				'import.meta.env.PROD': JSON.stringify(isProduction),
 				'import.meta.env.MODE': JSON.stringify(mode),
-				'import.meta.env.PUBLIC_BUILD_SHA': getPublicEnvVar('PUBLIC_BUILD_SHA'),
-				'import.meta.env.PUBLIC_BUILD_NUMBER': getPublicEnvVar('PUBLIC_BUILD_NUMBER'),
-				'import.meta.env.PUBLIC_BUILD_TIMESTAMP': getPublicEnvVar('PUBLIC_BUILD_TIMESTAMP'),
-				'import.meta.env.PUBLIC_PROJECT_ENV': getPublicEnvVar('PUBLIC_PROJECT_ENV'),
-				'import.meta.env.PUBLIC_SENTRY_DSN': getPublicEnvVar('PUBLIC_SENTRY_DSN'),
-				'import.meta.env.PUBLIC_SENTRY_PROJECT_ID': getPublicEnvVar('PUBLIC_SENTRY_PROJECT_ID'),
-				'import.meta.env.PUBLIC_SENTRY_PUBLIC_KEY': getPublicEnvVar('PUBLIC_SENTRY_PUBLIC_KEY'),
-				'import.meta.env.PUBLIC_SENTRY_PROXY_PATH': getPublicEnvVar('PUBLIC_SENTRY_PROXY_PATH'),
-				'import.meta.env.PUBLIC_API_VERSION': getPublicEnvVar('PUBLIC_API_VERSION'),
-				'import.meta.env.PUBLIC_BOOTSTRAP_API_ENDPOINT': getPublicEnvVar('PUBLIC_BOOTSTRAP_API_ENDPOINT'),
-				'import.meta.env.PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT': getPublicEnvVar('PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT'),
+				'import.meta.env.PUBLIC_BUILD_SHA': getPublicEnvVar(publicValues, 'PUBLIC_BUILD_SHA'),
+				'import.meta.env.PUBLIC_BUILD_NUMBER': getPublicEnvVar(publicValues, 'PUBLIC_BUILD_NUMBER'),
+				'import.meta.env.PUBLIC_BUILD_TIMESTAMP': getPublicEnvVar(publicValues, 'PUBLIC_BUILD_TIMESTAMP'),
+				'import.meta.env.PUBLIC_RELEASE_CHANNEL': getPublicEnvVar(publicValues, 'PUBLIC_RELEASE_CHANNEL'),
+				'import.meta.env.PUBLIC_SENTRY_DSN': getPublicEnvVar(publicValues, 'PUBLIC_SENTRY_DSN'),
+				'import.meta.env.PUBLIC_SENTRY_PROJECT_ID': getPublicEnvVar(publicValues, 'PUBLIC_SENTRY_PROJECT_ID'),
+				'import.meta.env.PUBLIC_SENTRY_PUBLIC_KEY': getPublicEnvVar(publicValues, 'PUBLIC_SENTRY_PUBLIC_KEY'),
+				'import.meta.env.PUBLIC_SENTRY_PROXY_PATH': getPublicEnvVar(publicValues, 'PUBLIC_SENTRY_PROXY_PATH'),
+				'import.meta.env.PUBLIC_API_VERSION': getPublicEnvVar(publicValues, 'PUBLIC_API_VERSION'),
+				'import.meta.env.PUBLIC_BOOTSTRAP_API_ENDPOINT': getPublicEnvVar(publicValues, 'PUBLIC_BOOTSTRAP_API_ENDPOINT'),
+				'import.meta.env.PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT': getPublicEnvVar(
+					publicValues,
+					'PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT',
+				),
+				'import.meta.env.PUBLIC_RELAY_DIRECTORY_URL': getPublicEnvVar(publicValues, 'PUBLIC_RELAY_DIRECTORY_URL'),
 			}),
-
-			isDevelopment && new ReactRefreshPlugin(),
-		].filter(Boolean),
+		],
 
 		optimization: {
 			splitChunks: isProduction
 				? {
-						chunks: 'all',
+						chunks: (chunk) => chunk.name !== 'sw',
 						maxInitialRequests: 50,
 						cacheGroups: {
 							icons: {
@@ -350,7 +598,7 @@ export default () => {
 								reuseExistingChunk: true,
 							},
 							networking: {
-								test: /[\\/]node_modules[\\/](ws|undici)[\\/]/,
+								test: /[\\/]node_modules[\\/](ws)[\\/]/,
 								name: 'networking',
 								priority: 26,
 								reuseExistingChunk: true,
@@ -384,35 +632,25 @@ export default () => {
 			],
 		},
 
-		devServer: isDevelopment
-			? {
-					port: 3000,
-					hot: true,
-					liveReload: false,
-					historyApiFallback: true,
-					allowedHosts: 'all',
-					client: {
-						webSocketURL: 'auto://0.0.0.0:0/ws',
-					},
-					headers: {
-						'Access-Control-Allow-Origin': '*',
-						'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
-						'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
-					},
-					static: {
-						directory: DIST_DIR,
-						watch: false,
-					},
-				}
-			: undefined,
-
-		experiments: {css: true},
-
-		css: {
-			modules: {
-				localIdentName: '[name]__[local]___[hash:base64:16]',
-				localsConvention: 'camelCaseOnly',
+		devServer: {
+			port: Number(process.env.FLUXER_APP_DEV_PORT) || 49427,
+			hot: false,
+			liveReload: false,
+			client: false,
+			webSocketServer: false,
+			historyApiFallback: true,
+			allowedHosts: 'all',
+			headers: {
+				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
+				'Access-Control-Allow-Headers': 'X-Requested-With, content-type, Authorization',
+			},
+			static: {
+				directory: DIST_DIR,
+				watch: false,
 			},
 		},
+
+		experiments: {css: true},
 	};
 };

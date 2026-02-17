@@ -1,0 +1,361 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import {Logger} from '@fluxer/api/src/Logger';
+import {DefaultUserOnly, LoginRequiredAllowSuspicious} from '@fluxer/api/src/middleware/AuthMiddleware';
+import {requireOAuth2BearerToken, requireOAuth2Scope} from '@fluxer/api/src/middleware/OAuth2ScopeMiddleware';
+import {RateLimitMiddleware} from '@fluxer/api/src/middleware/RateLimitMiddleware';
+import {OpenAPI} from '@fluxer/api/src/middleware/ResponseTypeMiddleware';
+import {SudoModeMiddleware} from '@fluxer/api/src/middleware/SudoModeMiddleware';
+import {RateLimitConfigs} from '@fluxer/api/src/RateLimitConfig';
+import type {HonoApp} from '@fluxer/api/src/types/HonoEnv';
+import {Validator} from '@fluxer/api/src/Validator';
+import {HttpGetAuthorizeNotSupportedError} from '@fluxer/errors/src/domains/auth/HttpGetAuthorizeNotSupportedError';
+import {SudoVerificationSchema} from '@fluxer/schema/src/domains/auth/AuthSchemas';
+import {
+	ApplicationAuthorizationIdParam,
+	ApplicationIdParam,
+} from '@fluxer/schema/src/domains/common/CommonParamSchemas';
+import {
+	ApplicationPublicResponse,
+	ApplicationResponse,
+	ApplicationsMeResponse,
+	AuthorizeConsentRequest,
+	AuthorizeRequest,
+	BotTokenResetResponse,
+	IntrospectRequestForm,
+	OAuth2AuthorizationsListResponse,
+	OAuth2ConsentResponse,
+	OAuth2IntrospectResponse,
+	OAuth2MeResponse,
+	OAuth2TokenResponse,
+	OAuth2UserInfoResponse,
+	RevokeRequestForm,
+	TokenRequest,
+} from '@fluxer/schema/src/domains/oauth/OAuthSchemas';
+import type {z} from 'zod';
+
+export function OAuth2Controller(app: HonoApp) {
+	app.get(
+		'/oauth2/authorize',
+		RateLimitMiddleware(RateLimitConfigs.OAUTH_AUTHORIZE),
+		LoginRequiredAllowSuspicious,
+		DefaultUserOnly,
+		Validator('query', AuthorizeRequest),
+		async (ctx) => {
+			const q = ctx.req.valid('query');
+			Logger.info(
+				{client_id: q.client_id?.toString?.(), scope: q.scope},
+				'GET /oauth2/authorize called; not supported',
+			);
+			throw new HttpGetAuthorizeNotSupportedError();
+		},
+	);
+
+	app.post(
+		'/oauth2/authorize/consent',
+		RateLimitMiddleware(RateLimitConfigs.OAUTH_AUTHORIZE),
+		LoginRequiredAllowSuspicious,
+		DefaultUserOnly,
+		Validator('json', AuthorizeConsentRequest),
+		OpenAPI({
+			operationId: 'provide_oauth2_consent',
+			summary: 'Grant OAuth2 consent',
+			responseSchema: OAuth2ConsentResponse,
+			statusCode: 200,
+			security: ['botToken', 'bearerToken', 'sessionToken'],
+			tags: ['OAuth2'],
+			description:
+				'User grants permission for an OAuth2 application to access authorized scopes. Used in authorization code flow to complete the authorization process after user review.',
+		}),
+		async (ctx) => {
+			const body: z.infer<typeof AuthorizeConsentRequest> = ctx.req.valid('json');
+			const user = ctx.get('user');
+			return ctx.json(
+				await ctx.get('oauth2RequestService').authorizeConsent({
+					body,
+					userId: user.id,
+					requestCache: ctx.get('requestCache'),
+				}),
+			);
+		},
+	);
+
+	app.post(
+		'/oauth2/token',
+		RateLimitMiddleware(RateLimitConfigs.OAUTH_TOKEN),
+		Validator('form', TokenRequest),
+		OpenAPI({
+			operationId: 'exchange_oauth2_token',
+			summary: 'Exchange OAuth2 token',
+			responseSchema: OAuth2TokenResponse,
+			statusCode: 200,
+			security: [],
+			tags: ['OAuth2'],
+			description:
+				'Exchanges authorization code or other grant type for access tokens. Supports authorization code, refresh token, and client credentials flows. Client authentication via authorization header or client credentials.',
+		}),
+		async (ctx) => {
+			const form = ctx.req.valid('form');
+			const result = await ctx.get('oauth2RequestService').tokenExchange({
+				form,
+				authorizationHeader: ctx.req.header('authorization') ?? undefined,
+				logPrefix: 'OAuth2',
+			});
+			return ctx.json(result);
+		},
+	);
+
+	app.get(
+		'/oauth2/userinfo',
+		RateLimitMiddleware(RateLimitConfigs.OAUTH_INTROSPECT),
+		requireOAuth2Scope('identify'),
+		OpenAPI({
+			operationId: 'get_oauth2_userinfo',
+			summary: 'Get OAuth2 user information',
+			responseSchema: OAuth2UserInfoResponse,
+			statusCode: 200,
+			security: ['bearerToken'],
+			tags: ['OAuth2'],
+			description:
+				'Retrieves authenticated user information using a valid access token. Requires identify scope and supports email scope for email fields.',
+		}),
+		async (ctx) => {
+			return ctx.json(await ctx.get('oauth2RequestService').userInfo(ctx.req.header('authorization') ?? undefined));
+		},
+	);
+
+	app.post(
+		'/oauth2/token/revoke',
+		RateLimitMiddleware(RateLimitConfigs.OAUTH_INTROSPECT),
+		Validator('form', RevokeRequestForm),
+		OpenAPI({
+			operationId: 'revoke_oauth2_token',
+			summary: 'Revoke OAuth2 token',
+			responseSchema: null,
+			statusCode: 200,
+			security: [],
+			tags: ['OAuth2'],
+			description:
+				'Revokes an access or refresh token, immediately invalidating it. Client authentication required via authorization header or client credentials. Returns 200 on success.',
+		}),
+		async (ctx) => {
+			await ctx.get('oauth2RequestService').revoke({
+				form: ctx.req.valid('form'),
+				authorizationHeader: ctx.req.header('authorization') ?? undefined,
+			});
+			return ctx.body(null, 200);
+		},
+	);
+
+	app.post(
+		'/oauth2/introspect',
+		RateLimitMiddleware(RateLimitConfigs.OAUTH_INTROSPECT),
+		Validator('form', IntrospectRequestForm),
+		OpenAPI({
+			operationId: 'introspect_oauth2_token',
+			summary: 'Introspect OAuth2 token',
+			responseSchema: OAuth2IntrospectResponse,
+			statusCode: 200,
+			security: [],
+			tags: ['OAuth2'],
+			description:
+				'Verifies token validity and retrieves metadata. Returns active status, scope, expiration, and user information. Client authentication via authorization header or client credentials.',
+		}),
+		async (ctx) => {
+			const result = await ctx.get('oauth2RequestService').introspect({
+				form: ctx.req.valid('form'),
+				authorizationHeader: ctx.req.header('authorization') ?? undefined,
+			});
+			return ctx.json(result);
+		},
+	);
+
+	app.get(
+		'/oauth2/@me',
+		requireOAuth2BearerToken(),
+		LoginRequiredAllowSuspicious,
+		DefaultUserOnly,
+		OpenAPI({
+			operationId: 'get_current_user_oauth2',
+			summary: 'Get current OAuth2 user',
+			responseSchema: OAuth2MeResponse,
+			statusCode: 200,
+			security: ['bearerToken'],
+			tags: ['OAuth2'],
+			description:
+				'Retrieves current authorization details for a valid OAuth2 bearer token. Includes OAuth2 metadata and user details when identify is present.',
+		}),
+		async (ctx) => {
+			const response = await ctx.get('oauth2RequestService').getMe(ctx.req.header('authorization') ?? undefined);
+			return ctx.json(response);
+		},
+	);
+
+	app.get(
+		'/oauth2/applications/:id/public',
+		RateLimitMiddleware(RateLimitConfigs.OAUTH_DEV_CLIENTS_LIST),
+		Validator('param', ApplicationIdParam),
+		OpenAPI({
+			operationId: 'get_public_application',
+			summary: 'Get public application',
+			responseSchema: ApplicationPublicResponse,
+			statusCode: 200,
+			security: [],
+			tags: ['OAuth2'],
+			description:
+				'Retrieves public information about an OAuth2 application without authentication. Allows clients to discover application metadata before initiating authorization.',
+		}),
+		async (ctx) => {
+			const appId = ctx.req.valid('param').id;
+			const response = await ctx.get('oauth2RequestService').getApplicationPublic(appId);
+			return ctx.json(response);
+		},
+	);
+
+	app.get(
+		'/applications/@me',
+		OpenAPI({
+			operationId: 'get_current_user_applications',
+			summary: 'List current user applications',
+			responseSchema: ApplicationsMeResponse,
+			statusCode: 200,
+			security: [],
+			tags: ['OAuth2'],
+			description:
+				'Lists all OAuth2 applications registered by the authenticated user. Includes application credentials and metadata. Requires valid OAuth2 access token.',
+		}),
+		async (ctx) => {
+			const response = await ctx
+				.get('oauth2RequestService')
+				.getApplicationsMe(ctx.req.header('authorization') ?? undefined);
+			return ctx.json(response);
+		},
+	);
+
+	app.post(
+		'/oauth2/applications/:id/bot/reset-token',
+		RateLimitMiddleware(RateLimitConfigs.OAUTH_DEV_CLIENT_ROTATE_SECRET),
+		LoginRequiredAllowSuspicious,
+		DefaultUserOnly,
+		SudoModeMiddleware,
+		Validator('param', ApplicationIdParam),
+		Validator('json', SudoVerificationSchema),
+		OpenAPI({
+			operationId: 'reset_bot_token',
+			summary: 'Reset bot token',
+			responseSchema: BotTokenResetResponse,
+			statusCode: 200,
+			security: ['botToken', 'bearerToken', 'sessionToken'],
+			tags: ['OAuth2'],
+			description:
+				'Rotates the bot token for an OAuth2 application. Requires sudo mode authentication. Invalidates all previously issued bot tokens. Used for security rotation and compromise mitigation.',
+		}),
+		async (ctx) => {
+			const user = ctx.get('user');
+			const body = ctx.req.valid('json');
+			const applicationId = ctx.req.valid('param').id;
+			const response = await ctx.get('oauth2RequestService').resetBotToken({
+				ctx,
+				userId: user.id,
+				body,
+				applicationId,
+			});
+			return ctx.json(response);
+		},
+	);
+
+	app.post(
+		'/oauth2/applications/:id/client-secret/reset',
+		RateLimitMiddleware(RateLimitConfigs.OAUTH_DEV_CLIENT_ROTATE_SECRET),
+		LoginRequiredAllowSuspicious,
+		DefaultUserOnly,
+		SudoModeMiddleware,
+		Validator('param', ApplicationIdParam),
+		Validator('json', SudoVerificationSchema),
+		OpenAPI({
+			operationId: 'reset_client_secret',
+			summary: 'Reset client secret',
+			responseSchema: ApplicationResponse,
+			statusCode: 200,
+			security: ['botToken', 'bearerToken', 'sessionToken'],
+			tags: ['OAuth2'],
+			description:
+				'Rotates the client secret for an OAuth2 application. Requires sudo mode authentication. Essential security operation for protecting client credentials. Existing access tokens remain valid.',
+		}),
+		async (ctx) => {
+			const user = ctx.get('user');
+			const body = ctx.req.valid('json');
+			const applicationId = ctx.req.valid('param').id;
+			const response = await ctx.get('oauth2RequestService').resetClientSecret({
+				ctx,
+				userId: user.id,
+				body,
+				applicationId,
+			});
+			return ctx.json(response);
+		},
+	);
+
+	app.get(
+		'/oauth2/@me/authorizations',
+		RateLimitMiddleware(RateLimitConfigs.OAUTH_DEV_CLIENTS_LIST),
+		LoginRequiredAllowSuspicious,
+		DefaultUserOnly,
+		OpenAPI({
+			operationId: 'list_user_oauth2_authorizations',
+			summary: 'List user OAuth2 authorizations',
+			responseSchema: OAuth2AuthorizationsListResponse,
+			statusCode: 200,
+			security: ['botToken', 'bearerToken', 'sessionToken'],
+			tags: ['OAuth2'],
+			description:
+				'Lists all third-party applications the user has authorized. Shows granted scopes and authorization metadata. Allows user to review and manage delegated access.',
+		}),
+		async (ctx) => {
+			const user = ctx.get('user');
+			const authorizations = await ctx.get('oauth2RequestService').listAuthorizations(user.id);
+			return ctx.json(authorizations);
+		},
+	);
+
+	app.delete(
+		'/oauth2/@me/authorizations/:applicationId',
+		RateLimitMiddleware(RateLimitConfigs.OAUTH_INTROSPECT),
+		LoginRequiredAllowSuspicious,
+		DefaultUserOnly,
+		Validator('param', ApplicationAuthorizationIdParam),
+		OpenAPI({
+			operationId: 'delete_user_oauth2_authorization',
+			summary: 'Revoke OAuth2 authorization',
+			responseSchema: null,
+			statusCode: 204,
+			security: ['botToken', 'bearerToken', 'sessionToken'],
+			tags: ['OAuth2'],
+			description:
+				'Revokes user authorization for a third-party application. Immediately invalidates all tokens issued to that application. User regains control of delegated access.',
+		}),
+		async (ctx) => {
+			const user = ctx.get('user');
+			const applicationId = ctx.req.valid('param').applicationId;
+			await ctx.get('oauth2RequestService').deleteAuthorization(user.id, applicationId);
+			return ctx.body(null, 204);
+		},
+	);
+}

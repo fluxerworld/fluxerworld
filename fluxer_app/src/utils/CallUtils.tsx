@@ -17,10 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import * as CallActionCreators from '~/actions/CallActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {CallNotRingableModal} from '~/components/alerts/CallNotRingableModal';
+import * as CallActionCreators from '@app/actions/CallActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {CallNotRingableModal} from '@app/components/alerts/CallNotRingableModal';
+import {Logger} from '@app/lib/Logger';
+
+const logger = new Logger('CallUtils');
 
 export async function checkAndStartCall(channelId: string, silent = false): Promise<boolean> {
 	try {
@@ -32,7 +35,7 @@ export async function checkAndStartCall(channelId: string, silent = false): Prom
 		CallActionCreators.startCall(channelId, silent);
 		return true;
 	} catch (error) {
-		console.error('Failed to check call eligibility:', error);
+		logger.error('Failed to check call eligibility:', error);
 		return false;
 	}
 }

@@ -17,25 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as UserSettingsActionCreators from '@app/actions/UserSettingsActionCreators';
+import {Switch} from '@app/components/form/Switch';
+import {SettingsTabContainer, SettingsTabSection} from '@app/components/modals/shared/SettingsTabLayout';
+import {WarningAlert} from '@app/components/uikit/warning_alert/WarningAlert';
+import NativeWindowStateStore from '@app/stores/NativeWindowStateStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import {getAutostartStatus, setAutostartEnabled} from '@app/utils/AutostartUtils';
+import {getNativePlatform, isDesktop, type NativePlatform} from '@app/utils/NativeUtils';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as UserSettingsActionCreators from '~/actions/UserSettingsActionCreators';
-import {Switch} from '~/components/form/Switch';
-import {SettingsTabContainer, SettingsTabSection} from '~/components/modals/shared/SettingsTabLayout';
-import {WarningAlert} from '~/components/uikit/WarningAlert/WarningAlert';
-import NativeWindowStateStore from '~/stores/NativeWindowStateStore';
-import UserSettingsStore from '~/stores/UserSettingsStore';
-import {getAutostartStatus, setAutostartEnabled} from '~/utils/AutostartUtils';
-import {getNativePlatform, isDesktop, type NativePlatform} from '~/utils/NativeUtils';
+import type React from 'react';
+import {useLayoutEffect, useState} from 'react';
 
 const AdvancedTab: React.FC = observer(() => {
 	const {developerMode} = UserSettingsStore;
-	const [autostartEnabled, setAutostartEnabledState] = React.useState(false);
-	const [autostartBusy, setAutostartBusy] = React.useState(false);
-	const [platform, setPlatform] = React.useState<NativePlatform>('unknown');
+	const [autostartEnabled, setAutostartEnabledState] = useState(false);
+	const [autostartBusy, setAutostartBusy] = useState(false);
+	const [platform, setPlatform] = useState<NativePlatform>('unknown');
 
-	React.useLayoutEffect(() => {
+	useLayoutEffect(() => {
 		let mounted = true;
 
 		const initAutostart = async () => {
@@ -85,7 +86,7 @@ const AdvancedTab: React.FC = observer(() => {
 					description={<Trans>Run Fluxer automatically when your computer starts. Or don't. Your choice!</Trans>}
 				>
 					<Switch
-						label={<Trans>Launch Fluxer at login</Trans>}
+						label={<Trans>Launch Fluxer at Login</Trans>}
 						description={<Trans>Applies only to the desktop app on this device.</Trans>}
 						value={platform === 'macos' ? autostartEnabled : false}
 						disabled={platform !== 'macos' || autostartBusy}
@@ -106,19 +107,19 @@ const AdvancedTab: React.FC = observer(() => {
 					}
 				>
 					<Switch
-						label={<Trans>Remember size &amp; position</Trans>}
+						label={<Trans>Remember Size &amp; Position</Trans>}
 						description={<Trans>Keep your window dimensions and placement even when you reload the app.</Trans>}
 						value={NativeWindowStateStore.rememberSizeAndPosition}
 						onChange={NativeWindowStateStore.setRememberSizeAndPosition}
 					/>
 					<Switch
-						label={<Trans>Restore maximized</Trans>}
+						label={<Trans>Restore Maximized</Trans>}
 						description={<Trans>Reopen in maximized mode if that&rsquo;s how you last used Fluxer.</Trans>}
 						value={NativeWindowStateStore.rememberMaximized}
 						onChange={NativeWindowStateStore.setRememberMaximized}
 					/>
 					<Switch
-						label={<Trans>Restore fullscreen</Trans>}
+						label={<Trans>Restore Fullscreen</Trans>}
 						description={<Trans>Return to fullscreen automatically when you had it enabled last time.</Trans>}
 						value={NativeWindowStateStore.rememberFullscreen}
 						onChange={NativeWindowStateStore.setRememberFullscreen}

@@ -17,19 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GuildActionCreators from '@app/actions/GuildActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import styles from '@app/components/invites/DisableInvitesButton.module.css';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {Button} from '@app/components/uikit/button/Button';
+import GuildStore from '@app/stores/GuildStore';
+import UserStore from '@app/stores/UserStore';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as GuildActionCreators from '~/actions/GuildActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {Button} from '~/components/uikit/Button/Button';
-import GuildStore from '~/stores/GuildStore';
-import UserStore from '~/stores/UserStore';
-import styles from './DisableInvitesButton.module.css';
+import {useCallback} from 'react';
 
-export const DisableInvitesButton: React.FC<{guildId: string}> = observer(function DisableInvitesButton({guildId}) {
+export const DisableInvitesButton = observer(({guildId}: {guildId: string}) => {
 	const {t} = useLingui();
 	const guild = GuildStore.getGuild(guildId);
 	const currentUser = UserStore.currentUser;
@@ -39,7 +39,7 @@ export const DisableInvitesButton: React.FC<{guildId: string}> = observer(functi
 	const isUnclaimed = currentUser != null && !currentUser.isClaimed();
 	const isPreviewGuild = isOwner && isUnclaimed;
 
-	const handleToggleInvites = React.useCallback(() => {
+	const handleToggleInvites = useCallback(() => {
 		ModalActionCreators.push(
 			modal(() => (
 				<ConfirmModal

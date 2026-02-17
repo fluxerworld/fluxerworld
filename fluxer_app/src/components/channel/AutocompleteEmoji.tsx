@@ -17,16 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as EmojiPickerActionCreators from '@app/actions/EmojiPickerActionCreators';
+import {type AutocompleteOption, isEmoji, isMeme, isSticker} from '@app/components/channel/Autocomplete';
+import styles from '@app/components/channel/AutocompleteEmoji.module.css';
+import {AutocompleteItem} from '@app/components/channel/AutocompleteItem';
+import GuildStore from '@app/stores/GuildStore';
+import {shouldUseNativeEmoji} from '@app/utils/EmojiUtils';
+import {getEmojiDisplayData} from '@app/utils/SkinToneUtils';
 import {useLingui} from '@lingui/react/macro';
 import {MusicNoteIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import * as EmojiPickerActionCreators from '~/actions/EmojiPickerActionCreators';
-import GuildStore from '~/stores/GuildStore';
-import {shouldUseNativeEmoji} from '~/utils/EmojiUtils';
-import {type AutocompleteOption, isEmoji, isMeme, isSticker} from './Autocomplete';
-import styles from './AutocompleteEmoji.module.css';
-import {AutocompleteItem} from './AutocompleteItem';
 
 const SectionHeading = observer(({children}: {children: React.ReactNode}) => (
 	<div className={styles.sectionHeading}>{children}</div>
@@ -68,6 +69,7 @@ export const AutocompleteEmoji = observer(
 						{emojis.map((option, index) => {
 							const isUnicodeEmoji = !option.emoji.guildId && !option.emoji.id;
 							const useNativeRendering = shouldUseNativeEmoji && isUnicodeEmoji;
+							const {surrogates: displaySurrogates, url: displayUrl} = getEmojiDisplayData(option.emoji);
 							return (
 								<AutocompleteItem
 									key={option.emoji.name}
@@ -77,12 +79,12 @@ export const AutocompleteEmoji = observer(
 									}
 									icon={
 										useNativeRendering ? (
-											<span className={styles.nativeEmojiIcon}>{option.emoji.surrogates}</span>
+											<span className={styles.nativeEmojiIcon}>{displaySurrogates}</span>
 										) : (
 											<img
 												draggable={false}
 												className={styles.emojiIcon}
-												src={option.emoji.url ?? ''}
+												src={displayUrl ?? ''}
 												alt={option.emoji.name}
 											/>
 										)

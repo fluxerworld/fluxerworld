@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {MessageRecord} from '@app/records/MessageRecord';
 import {makeAutoObservable} from 'mobx';
-import type {MessageRecord} from '~/records/MessageRecord';
 
 export type MediaViewerItem = Readonly<{
 	src: string;
@@ -34,6 +34,9 @@ export type MediaViewerItem = Readonly<{
 	duration?: number;
 	expiresAt?: string | null;
 	expired?: boolean;
+	animated?: boolean;
+	providerName?: string;
+	initialTime?: number;
 }>;
 
 class MediaViewerStore {

@@ -1,0 +1,21 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "CHANNEL_RECIPIENT_ADD",
+	"description": "Sent when a user is added to a group DM. Dispatched to existing members only (the new user receives CHANNEL_CREATE instead).",
+	"scope": "presence",
+	"dispatchedBy": ["PUT /channels/:channel_id/recipients/:user_id", "POST /invites/:invite_code (group DM invites)"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID of the group DM"
+			},
+			"user": {
+				"$ref": "UserPartialResponse",
+				"description": "The user that was added"
+			}
+		},
+		"required": ["channel_id", "user"]
+	}
+}

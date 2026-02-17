@@ -17,25 +17,29 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
-import {ClockIcon, XCircleIcon} from '@phosphor-icons/react';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as GuildMemberActionCreators from '~/actions/GuildMemberActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
+import * as GuildMemberActionCreators from '@app/actions/GuildMemberActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {RemoveTimeoutModal} from '@app/components/modals/RemoveTimeoutModal';
+import {getTimeoutDurationOptions, type TimeoutDurationOption} from '@app/components/modals/TimeoutMemberOptions';
+import styles from '@app/components/modals/TimeoutMemberSheet.module.css';
 import {
 	MenuBottomSheet,
 	type MenuGroupType,
 	type MenuItemType,
 	type MenuRadioType,
-} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import type {GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import {RemoveTimeoutModal} from './RemoveTimeoutModal';
-import {getTimeoutDurationOptions, type TimeoutDurationOption} from './TimeoutMemberOptions';
-import styles from './TimeoutMemberSheet.module.css';
+} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {Logger} from '@app/lib/Logger';
+import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import {Trans, useLingui} from '@lingui/react/macro';
+import {ClockIcon, XCircleIcon} from '@phosphor-icons/react';
+import {observer} from 'mobx-react-lite';
+import type React from 'react';
+import {useCallback, useMemo, useState} from 'react';
+
+const logger = new Logger('TimeoutMemberSheet');
 
 interface TimeoutMemberSheetProps {
 	isOpen: boolean;
@@ -47,13 +51,13 @@ interface TimeoutMemberSheetProps {
 
 export const TimeoutMemberSheet: React.FC<TimeoutMemberSheetProps> = observer(
 	({isOpen, onClose, guildId, targetUser, targetMember}) => {
-		const {t} = useLingui();
+		const {t, i18n} = useLingui();
 		const isCurrentlyTimedOut = targetMember.isTimedOut();
-		const timeoutOptions = React.useMemo(() => getTimeoutDurationOptions(t), [t]);
-		const [timeoutDuration, setTimeoutDuration] = React.useState<number>(timeoutOptions[3].value);
-		const [isSubmitting, setIsSubmitting] = React.useState(false);
+		const timeoutOptions = useMemo(() => getTimeoutDurationOptions(i18n), [i18n]);
+		const [timeoutDuration, setTimeoutDuration] = useState<number>(timeoutOptions[3].value);
+		const [isSubmitting, setIsSubmitting] = useState(false);
 
-		const handleTimeout = React.useCallback(async () => {
+		const handleTimeout = useCallback(async () => {
 			setIsSubmitting(true);
 			try {
 				const timeoutUntil = new Date(Date.now() + timeoutDuration * 1000).toISOString();
@@ -64,7 +68,7 @@ export const TimeoutMemberSheet: React.FC<TimeoutMemberSheetProps> = observer(
 				});
 				onClose();
 			} catch (error) {
-				console.error('Failed to timeout member:', error);
+				logger.error('Failed to timeout member:', error);
 				ToastActionCreators.createToast({
 					type: 'error',
 					children: <Trans>Failed to timeout member. Please try again.</Trans>,
@@ -74,7 +78,7 @@ export const TimeoutMemberSheet: React.FC<TimeoutMemberSheetProps> = observer(
 			}
 		}, [guildId, onClose, targetUser.id, timeoutDuration, targetUser.tag]);
 
-		const durationItems: Array<MenuRadioType> = React.useMemo(() => {
+		const durationItems: Array<MenuRadioType> = useMemo(() => {
 			return timeoutOptions.map((option: TimeoutDurationOption) => ({
 				label: option.label,
 				selected: option.value === timeoutDuration,
@@ -82,7 +86,7 @@ export const TimeoutMemberSheet: React.FC<TimeoutMemberSheetProps> = observer(
 			}));
 		}, [timeoutDuration, timeoutOptions]);
 
-		const actionItems: Array<MenuItemType> = React.useMemo(() => {
+		const actionItems: Array<MenuItemType> = useMemo(() => {
 			const items: Array<MenuItemType> = [
 				{
 					id: 'timeout',

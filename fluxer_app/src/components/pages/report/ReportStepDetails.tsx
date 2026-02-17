@@ -17,15 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Input, Textarea} from '@app/components/form/Input';
+import {Select, type SelectOption} from '@app/components/form/Select';
+import styles from '@app/components/pages/ReportPage.module.css';
+import type {FormValues, ReportType} from '@app/components/pages/report/ReportTypes';
+import {Button} from '@app/components/uikit/button/Button';
 import {Trans, useLingui} from '@lingui/react/macro';
 import type React from 'react';
-import {Input, Textarea} from '~/components/form/Input';
-import {Select, type SelectOption} from '~/components/form/Select';
-import {Button} from '~/components/uikit/Button/Button';
-import styles from '../ReportPage.module.css';
-import type {FormValues, ReportType} from './types';
 
-type Props = {
+interface Props {
 	selectedType: ReportType;
 	formValues: FormValues;
 	categoryOptions: Array<SelectOption<string>>;
@@ -41,7 +41,7 @@ type Props = {
 	messageLinkOk: boolean;
 	userTargetOk: boolean;
 	guildTargetOk: boolean;
-};
+}
 
 export const ReportStepDetails: React.FC<Props> = ({
 	selectedType,
@@ -120,7 +120,7 @@ export const ReportStepDetails: React.FC<Props> = ({
 								}
 							/>
 							<Input
-								label={t`Reported User Tag (optional)`}
+								label={t`Reported User Tag (Optional)`}
 								type="text"
 								value={formValues.messageUserTag}
 								onChange={(e) => onFieldChange('messageUserTag', e.target.value)}
@@ -134,7 +134,7 @@ export const ReportStepDetails: React.FC<Props> = ({
 					{selectedType === 'user' && (
 						<>
 							<Input
-								label={t`User ID (optional)`}
+								label={t`User ID (Optional)`}
 								type="text"
 								value={formValues.userId}
 								onChange={(e) => onFieldChange('userId', e.target.value)}
@@ -143,7 +143,7 @@ export const ReportStepDetails: React.FC<Props> = ({
 								error={fieldErrors.userId}
 							/>
 							<Input
-								label={t`User Tag (optional)`}
+								label={t`User Tag (Optional)`}
 								type="text"
 								value={formValues.userTag}
 								onChange={(e) => onFieldChange('userTag', e.target.value)}
@@ -164,7 +164,7 @@ export const ReportStepDetails: React.FC<Props> = ({
 					{selectedType === 'guild' && (
 						<>
 							<Input
-								label={t`Guild (Community) ID`}
+								label={t`Community ID`}
 								type="text"
 								value={formValues.guildId}
 								onChange={(e) => onFieldChange('guildId', e.target.value)}
@@ -174,13 +174,13 @@ export const ReportStepDetails: React.FC<Props> = ({
 								footer={
 									guildTargetOk ? undefined : (
 										<span className={styles.helperText}>
-											<Trans>Guild ID is required.</Trans>
+											<Trans>Community ID is required.</Trans>
 										</span>
 									)
 								}
 							/>
 							<Input
-								label={t`Invite Code (optional)`}
+								label={t`Invite Code (Optional)`}
 								type="text"
 								value={formValues.inviteCode}
 								onChange={(e) => onFieldChange('inviteCode', e.target.value)}
@@ -210,7 +210,7 @@ export const ReportStepDetails: React.FC<Props> = ({
 					/>
 
 					<Input
-						label={t`Your FluxerTag (optional)`}
+						label={t`Your FluxerTag (Optional)`}
 						type="text"
 						value={formValues.reporterFluxerTag}
 						onChange={(e) => onFieldChange('reporterFluxerTag', e.target.value)}
@@ -219,7 +219,7 @@ export const ReportStepDetails: React.FC<Props> = ({
 					/>
 
 					<Textarea
-						label={t`Additional Comments (optional)`}
+						label={t`Additional Comments (Optional)`}
 						value={formValues.additionalInfo}
 						onChange={(e) => onFieldChange('additionalInfo', e.target.value)}
 						placeholder={t`Describe what makes the content illegal`}
@@ -256,5 +256,3 @@ export const ReportStepDetails: React.FC<Props> = ({
 		</div>
 	);
 };
-
-export default ReportStepDetails;

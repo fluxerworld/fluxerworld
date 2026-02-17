@@ -1,0 +1,3095 @@
+---
+title: 'Admin'
+description: 'Admin object schemas from the Fluxer API.'
+---
+
+<a id="addsnowflakereservationrequest"></a>
+
+## AddSnowflakeReservationRequest
+
+**Related endpoints**
+
+- [`POST /admin/snowflake-reservations/add`](/api-reference/admin/add-snowflake-reservation)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| email | [EmailType](#emailtype) |  |
+| snowflake | [SnowflakeType](#snowflaketype) |  |
+
+<a id="adminarchiveresponseschema"></a>
+
+## AdminArchiveResponseSchema
+
+**Related endpoints**
+
+- [`POST /admin/archives/guild`](/api-reference/admin/trigger-guild-archive)
+- [`POST /admin/archives/user`](/api-reference/admin/trigger-user-archive)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| archive_id | [SnowflakeType](#snowflaketype) |  |
+| completed_at | ?string |  |
+| download_url_expires_at | ?string |  |
+| error_message | ?string |  |
+| expires_at | ?string |  |
+| failed_at | ?string |  |
+| file_size | ?string |  |
+| progress_percent | number |  |
+| progress_step | ?string |  |
+| requested_at | string |  |
+| requested_by | [SnowflakeType](#snowflaketype) |  |
+| started_at | ?string |  |
+| subject_id | [SnowflakeType](#snowflaketype) |  |
+| subject_type | [AdminArchiveResponseSchemaSubjectType](#adminarchiveresponseschemasubjecttype) | Type of subject being archived |
+
+<a id="adminauditlogresponseschema"></a>
+
+## AdminAuditLogResponseSchema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| action | string |  |
+| admin_user_id | [SnowflakeType](#snowflaketype) |  |
+| audit_log_reason | ?string |  |
+| created_at | string |  |
+| log_id | [SnowflakeType](#snowflaketype) |  |
+| metadata | map&lt;string, string&gt; |  |
+| target_id | string | The ID of the affected entity (user, channel, role, invite code, etc.) |
+| target_type | string |  |
+
+<a id="adminuserdmchannelschema"></a>
+
+## AdminUserDmChannelSchema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | [SnowflakeType](#snowflaketype) |  |
+| channel_type | ?[Int32Type](#int32type) |  |
+| is_open | boolean |  |
+| last_message_id | ?[SnowflakeType](#snowflaketype) |  |
+| recipient_ids | [SnowflakeType](#snowflaketype)[] |  |
+
+<a id="adminusersmeresponse"></a>
+
+## AdminUsersMeResponse
+
+**Related endpoints**
+
+- [`GET /admin/users/me`](/api-reference/admin/get-authenticated-admin-user)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user | [UserAdminResponseSchema](#useradminresponseschema) |  |
+
+<a id="auditlogslistresponseschema"></a>
+
+## AuditLogsListResponseSchema
+
+**Related endpoints**
+
+- [`POST /admin/audit-logs`](/api-reference/admin/list-audit-logs)
+- [`POST /admin/audit-logs/search`](/api-reference/admin/search-audit-logs)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| logs | [AdminAuditLogResponseSchema](#adminauditlogresponseschema)[] |  |
+| total | number |  |
+
+<a id="bancheckresponseschema"></a>
+
+## BanCheckResponseSchema
+
+**Related endpoints**
+
+- [`POST /admin/bans/email/check`](/api-reference/admin/check-email-ban-status)
+- [`POST /admin/bans/ip/check`](/api-reference/admin/check-ip-ban-status)
+- [`POST /admin/bans/phone/check`](/api-reference/admin/check-phone-ban-status)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| banned | boolean |  |
+
+<a id="banemailrequest"></a>
+
+## BanEmailRequest
+
+**Related endpoints**
+
+- [`POST /admin/bans/email/add`](/api-reference/admin/add-email-ban)
+- [`POST /admin/bans/email/check`](/api-reference/admin/check-email-ban-status)
+- [`POST /admin/bans/email/remove`](/api-reference/admin/remove-email-ban)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| email | [EmailType](#emailtype) |  |
+
+<a id="banguildmemberrequest"></a>
+
+## BanGuildMemberRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/ban-member`](/api-reference/admin/ban-guild-member)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| ban_duration_seconds? | integer (int53) | Duration of the ban in seconds (0 for permanent, or a valid temporary duration) |
+| delete_message_days? | integer (int32) | Number of days of messages to delete from the banned user (0-7) |
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+| reason? | ?string | The reason for the ban (max 512 characters) |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="baniprequest"></a>
+
+## BanIpRequest
+
+**Related endpoints**
+
+- [`POST /admin/bans/ip/add`](/api-reference/admin/add-ip-ban)
+- [`POST /admin/bans/ip/check`](/api-reference/admin/check-ip-ban-status)
+- [`POST /admin/bans/ip/remove`](/api-reference/admin/remove-ip-ban)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| ip | string | IPv4/IPv6 address or CIDR range to ban |
+
+<a id="banphonerequest"></a>
+
+## BanPhoneRequest
+
+**Related endpoints**
+
+- [`POST /admin/bans/phone/add`](/api-reference/admin/add-phone-ban)
+- [`POST /admin/bans/phone/check`](/api-reference/admin/check-phone-ban-status)
+- [`POST /admin/bans/phone/remove`](/api-reference/admin/remove-phone-ban)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| phone | [PhoneNumberType](#phonenumbertype) |  |
+
+<a id="bulkaddguildmembersrequest"></a>
+
+## BulkAddGuildMembersRequest
+
+**Related endpoints**
+
+- [`POST /admin/bulk/add-guild-members`](/api-reference/admin/bulk-add-guild-members)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+| user_ids | [SnowflakeType](#snowflaketype)[] | List of user IDs to add as members |
+
+<a id="bulkoperationfailedresponse"></a>
+
+## BulkOperationFailedResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| error | string |  |
+| id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="bulkoperationresponse"></a>
+
+## BulkOperationResponse
+
+**Related endpoints**
+
+- [`POST /admin/bulk/add-guild-members`](/api-reference/admin/bulk-add-guild-members)
+- [`POST /admin/bulk/schedule-user-deletion`](/api-reference/admin/schedule-bulk-user-deletion)
+- [`POST /admin/bulk/update-guild-features`](/api-reference/admin/bulk-update-guild-features)
+- [`POST /admin/bulk/update-user-flags`](/api-reference/admin/bulk-update-user-flags)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| failed | [BulkOperationFailedResponse](#bulkoperationfailedresponse)[] |  |
+| successful | [SnowflakeType](#snowflaketype)[] |  |
+
+<a id="bulkscheduleuserdeletionrequest"></a>
+
+## BulkScheduleUserDeletionRequest
+
+**Related endpoints**
+
+- [`POST /admin/bulk/schedule-user-deletion`](/api-reference/admin/schedule-bulk-user-deletion)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| days_until_deletion? | integer (int32) | Number of days until the accounts are deleted |
+| public_reason? | string | Public-facing reason for the deletion |
+| reason_code | integer (int32) | Code indicating the reason for deletion |
+| user_ids | [SnowflakeType](#snowflaketype)[] | List of user IDs to schedule deletion for |
+
+<a id="bulkupdateguildfeaturesrequest"></a>
+
+## BulkUpdateGuildFeaturesRequest
+
+**Related endpoints**
+
+- [`POST /admin/bulk/update-guild-features`](/api-reference/admin/bulk-update-guild-features)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| add_features? | [GuildFeatureSchema](#guildfeatureschema)[] | Guild features to add to all specified guilds |
+| guild_ids | [SnowflakeType](#snowflaketype)[] | List of guild IDs to update |
+| remove_features? | [GuildFeatureSchema](#guildfeatureschema)[] | Guild features to remove from all specified guilds |
+
+<a id="bulkupdateuserflagsrequest"></a>
+
+## BulkUpdateUserFlagsRequest
+
+**Related endpoints**
+
+- [`POST /admin/bulk/update-user-flags`](/api-reference/admin/bulk-update-user-flags)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| add_flags? | [UserFlags](#userflags)[] | User flags to add to all specified users |
+| remove_flags? | [UserFlags](#userflags)[] | User flags to remove from all specified users |
+| user_ids | [SnowflakeType](#snowflaketype)[] | List of user IDs to update |
+
+<a id="cancelbulkmessagedeletionrequest"></a>
+
+## CancelBulkMessageDeletionRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/cancel-bulk-message-deletion`](/api-reference/admin/cancel-bulk-message-deletion)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="changedobrequest"></a>
+
+## ChangeDobRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/change-dob`](/api-reference/admin/change-user-dob)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| date_of_birth | string | New date of birth in YYYY-MM-DD format |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="changeemailrequest"></a>
+
+## ChangeEmailRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/change-email`](/api-reference/admin/change-user-email)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| email | [EmailType](#emailtype) |  |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="changeusernamerequest"></a>
+
+## ChangeUsernameRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/change-username`](/api-reference/admin/change-user-username)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| discriminator? | [Int32Type](#int32type) |  |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+| username | [UsernameType](#usernametype) |  |
+
+<a id="clearguildfieldsrequest"></a>
+
+## ClearGuildFieldsRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/clear-fields`](/api-reference/admin/clear-guild-fields)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| fields | [ClearGuildFieldsRequestFields](#clearguildfieldsrequestfields)[] | List of guild image fields to clear |
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="clearuserfieldsrequest"></a>
+
+## ClearUserFieldsRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/clear-fields`](/api-reference/admin/clear-user-fields)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| fields | [ClearUserFieldsRequestFields](#clearuserfieldsrequestfields)[] | List of profile fields to clear |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="codesresponse"></a>
+
+## CodesResponse
+
+**Related endpoints**
+
+- [`POST /admin/codes/gift`](/api-reference/admin/generate-gift-subscription-codes)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| codes | string[] |  |
+
+<a id="createadminapikeyrequest"></a>
+
+## CreateAdminApiKeyRequest
+
+**Related endpoints**
+
+- [`POST /admin/api-keys`](/api-reference/admin/create-admin-api-key)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| acls | string[] | List of access control permissions for the key |
+| expires_in_days? | integer (int32) | Number of days until the key expires |
+| name | string | Display name for the API key |
+
+<a id="createadminapikeyresponse"></a>
+
+## CreateAdminApiKeyResponse
+
+**Related endpoints**
+
+- [`POST /admin/api-keys`](/api-reference/admin/create-admin-api-key)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| acls | string[] | List of access control permissions for the key |
+| created_at | string | ISO 8601 timestamp when the key was created |
+| expires_at | ?string | ISO 8601 timestamp when the key expires, or null if no expiration |
+| key | string | The generated API key secret (only shown once) |
+| key_id | [SnowflakeType](#snowflaketype) | Unique identifier for the API key |
+| name | string | Display name for the API key |
+
+<a id="createsystemdmjobrequest"></a>
+
+## CreateSystemDmJobRequest
+
+**Related endpoints**
+
+- [`POST /admin/system-dm-jobs`](/api-reference/admin/create-system-dm-job)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| content | string | Message content to send to users |
+| excluded_guild_ids? | [SnowflakeType](#snowflaketype)[] | Guild IDs whose members should be excluded |
+| registration_end? | ?string | Only target users registered before this date |
+| registration_start? | ?string | Only target users registered after this date |
+
+<a id="createvoiceregionrequest"></a>
+
+## CreateVoiceRegionRequest
+
+**Related endpoints**
+
+- [`POST /admin/voice/regions/create`](/api-reference/admin/create-voice-region)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allowed_guild_ids? | [SnowflakeType](#snowflaketype)[] | Guild IDs explicitly allowed to use this region |
+| allowed_user_ids? | [SnowflakeType](#snowflaketype)[] | User IDs explicitly allowed to use this region |
+| emoji | string | Emoji representing the region |
+| id | [SnowflakeType](#snowflaketype) | Unique identifier for the voice region |
+| is_default? | boolean | Whether this is the default region |
+| latitude | number | Geographic latitude coordinate |
+| longitude | number | Geographic longitude coordinate |
+| name | string | Display name of the voice region |
+| required_guild_features? | string[] | Guild features required to use this region |
+| vip_only? | boolean | Whether this region is restricted to VIP users |
+
+<a id="createvoiceregionresponse"></a>
+
+## CreateVoiceRegionResponse
+
+**Related endpoints**
+
+- [`POST /admin/voice/regions/create`](/api-reference/admin/create-voice-region)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| region | [VoiceRegionAdminResponse](#voiceregionadminresponse) | Created voice region |
+
+<a id="createvoiceserverrequest"></a>
+
+## CreateVoiceServerRequest
+
+**Related endpoints**
+
+- [`POST /admin/voice/servers/create`](/api-reference/admin/create-voice-server)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allowed_guild_ids? | [SnowflakeType](#snowflaketype)[] | Guild IDs explicitly allowed to use this server |
+| allowed_user_ids? | [SnowflakeType](#snowflaketype)[] | User IDs explicitly allowed to use this server |
+| api_key | string | API key for authenticating with the voice server |
+| api_secret | string | API secret for authenticating with the voice server |
+| endpoint | string (uri) | Client signal WebSocket endpoint URL for the voice server |
+| is_active? | boolean | Whether the server is currently active |
+| region_id | [SnowflakeType](#snowflaketype) | ID of the region this server belongs to |
+| required_guild_features? | string[] | Guild features required to use this server |
+| server_id | [SnowflakeType](#snowflaketype) | Unique identifier for the voice server |
+| vip_only? | boolean | Whether this server is restricted to VIP users |
+
+<a id="createvoiceserverresponse"></a>
+
+## CreateVoiceServerResponse
+
+**Related endpoints**
+
+- [`POST /admin/voice/servers/create`](/api-reference/admin/create-voice-server)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| server | [VoiceServerAdminResponse](#voiceserveradminresponse) | Created voice server |
+
+<a id="deleteallusermessagesrequest"></a>
+
+## DeleteAllUserMessagesRequest
+
+**Related endpoints**
+
+- [`POST /admin/messages/delete-all`](/api-reference/admin/delete-all-user-messages)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| dry_run? | boolean |  |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="deleteallusermessagesresponse"></a>
+
+## DeleteAllUserMessagesResponse
+
+**Related endpoints**
+
+- [`POST /admin/messages/delete-all`](/api-reference/admin/delete-all-user-messages)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_count | [Int32Type](#int32type) |  |
+| dry_run | boolean |  |
+| job_id? | [SnowflakeType](#snowflaketype) |  |
+| message_count | [Int32Type](#int32type) |  |
+| success | enum&lt;`true`&gt; |  |
+
+<a id="deleteapikeyresponse"></a>
+
+## DeleteApiKeyResponse
+
+**Related endpoints**
+
+- [`DELETE /admin/api-keys/{keyId}`](/api-reference/admin/delete-admin-api-key)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| success | enum&lt;`true`&gt; |  |
+
+<a id="deleteguildrequest"></a>
+
+## DeleteGuildRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/delete`](/api-reference/admin/delete-guild)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="deletemessagerequest"></a>
+
+## DeleteMessageRequest
+
+**Related endpoints**
+
+- [`POST /admin/messages/delete`](/api-reference/admin/delete-single-message)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | [SnowflakeType](#snowflaketype) |  |
+| message_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="deletemessageresponse"></a>
+
+## DeleteMessageResponse
+
+**Related endpoints**
+
+- [`POST /admin/messages/delete`](/api-reference/admin/delete-single-message)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| success | enum&lt;`true`&gt; |  |
+
+<a id="deletesnowflakereservationrequest"></a>
+
+## DeleteSnowflakeReservationRequest
+
+**Related endpoints**
+
+- [`POST /admin/snowflake-reservations/delete`](/api-reference/admin/delete-snowflake-reservation)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| email | [EmailType](#emailtype) |  |
+
+<a id="deletevoiceregionrequest"></a>
+
+## DeleteVoiceRegionRequest
+
+**Related endpoints**
+
+- [`POST /admin/voice/regions/delete`](/api-reference/admin/delete-voice-region)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | [SnowflakeType](#snowflaketype) | ID of the voice region to delete |
+
+<a id="deletevoiceresponse"></a>
+
+## DeleteVoiceResponse
+
+**Related endpoints**
+
+- [`POST /admin/voice/regions/delete`](/api-reference/admin/delete-voice-region)
+- [`POST /admin/voice/servers/delete`](/api-reference/admin/delete-voice-server)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| success | boolean | Whether the deletion was successful |
+
+<a id="deletevoiceserverrequest"></a>
+
+## DeleteVoiceServerRequest
+
+**Related endpoints**
+
+- [`POST /admin/voice/servers/delete`](/api-reference/admin/delete-voice-server)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| region_id | [SnowflakeType](#snowflaketype) | ID of the region the server belongs to |
+| server_id | [SnowflakeType](#snowflaketype) | ID of the voice server to delete |
+
+<a id="disableforsuspiciousactivityrequest"></a>
+
+## DisableForSuspiciousActivityRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/disable-suspicious`](/api-reference/admin/disable-user-for-suspicious-activity)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| flags | [SuspiciousActivityFlags](#suspiciousactivityflags) |  |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="disablemfarequest"></a>
+
+## DisableMfaRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/cancel-deletion`](/api-reference/admin/cancel-account-deletion)
+- [`POST /admin/users/disable-mfa`](/api-reference/admin/disable-user-mfa)
+- [`POST /admin/users/unban`](/api-reference/admin/unban-user)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="discoveryadminrejectrequest"></a>
+
+## DiscoveryAdminRejectRequest
+
+**Related endpoints**
+
+- [`POST /admin/discovery/applications/{guild_id}/reject`](/api-reference/admin/reject-discovery-application)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| reason | string | Rejection reason |
+
+<a id="discoveryadminremoverequest"></a>
+
+## DiscoveryAdminRemoveRequest
+
+**Related endpoints**
+
+- [`POST /admin/discovery/guilds/{guild_id}/remove`](/api-reference/admin/remove-guild-from-discovery)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| reason | string | Removal reason |
+
+<a id="discoveryadminreviewrequest"></a>
+
+## DiscoveryAdminReviewRequest
+
+**Related endpoints**
+
+- [`POST /admin/discovery/applications/{guild_id}/approve`](/api-reference/admin/approve-discovery-application)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| reason? | string | Review reason |
+
+<a id="discoveryapplicationresponse"></a>
+
+## DiscoveryApplicationResponse
+
+**Related endpoints**
+
+- [`GET /admin/discovery/applications`](/api-reference/admin/list-discovery-applications)
+- [`GET /guilds/{guild_id}/discovery`](/api-reference/discovery/get-discovery-status)
+- [`POST /admin/discovery/applications/{guild_id}/approve`](/api-reference/admin/approve-discovery-application)
+- [`POST /admin/discovery/applications/{guild_id}/reject`](/api-reference/admin/reject-discovery-application)
+- [`POST /admin/discovery/guilds/{guild_id}/remove`](/api-reference/admin/remove-guild-from-discovery)
+- [`POST /guilds/{guild_id}/discovery`](/api-reference/discovery/apply-for-guild-discovery)
+- [`PATCH /guilds/{guild_id}/discovery`](/api-reference/discovery/edit-discovery-application)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| applied_at | string | Application timestamp |
+| category_id | number | Discovery category ID |
+| description | string | Discovery description |
+| guild_id | [SnowflakeType](#snowflaketype) | Guild ID |
+| review_reason? | ?string | Review reason |
+| reviewed_at? | ?string | Review timestamp |
+| status | string | Application status |
+
+<a id="downloadurlresponseschema"></a>
+
+## DownloadUrlResponseSchema
+
+**Related endpoints**
+
+- [`GET /admin/archives/{subjectType}/{subjectId}/{archiveId}/download`](/api-reference/admin/get-archive-download-url)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| downloadUrl | string |  |
+| expiresAt | string |  |
+
+<a id="error"></a>
+
+## Error
+
+**Related endpoints**
+
+- [`GET /.well-known/fluxer`](/api-reference/instance/get-instance-discovery-document)
+- [`GET /admin/api-keys`](/api-reference/admin/list-admin-api-keys)
+- [`GET /admin/archives/{subjectType}/{subjectId}/{archiveId}`](/api-reference/admin/get-archive-details)
+- [`GET /admin/archives/{subjectType}/{subjectId}/{archiveId}/download`](/api-reference/admin/get-archive-download-url)
+- [`GET /admin/discovery/applications`](/api-reference/admin/list-discovery-applications)
+- [`GET /admin/gateway/stats`](/api-reference/admin/get-gateway-node-statistics)
+- [`GET /admin/guilds/{guild_id}/emojis`](/api-reference/admin/list-guild-emojis)
+- [`GET /admin/guilds/{guild_id}/stickers`](/api-reference/admin/list-guild-stickers)
+- [`GET /admin/reports/{report_id}`](/api-reference/admin/get-report-details)
+- [`GET /admin/reports/{report_id}/legal-hold`](/api-reference/admin/get-legal-hold-status)
+- [`GET /admin/reports/{report_id}/ncmec-status`](/api-reference/admin/get-ncmec-submission-status)
+- [`GET /admin/system-dm-jobs`](/api-reference/admin/list-system-dm-jobs)
+- [`GET /admin/users/me`](/api-reference/admin/get-authenticated-admin-user)
+- [`GET /admin/visionary-slots`](/api-reference/admin/list-all-visionary-slots)
+- [`GET /applications/@me`](/api-reference/oauth2/list-current-user-applications)
+- [`GET /auth/handoff/{code}/status`](/api-reference/auth/get-handoff-status)
+- [`GET /auth/ip-authorization/poll`](/api-reference/auth/poll-ip-authorization)
+- [`GET /auth/sessions`](/api-reference/auth/list-auth-sessions)
+- [`GET /auth/sso/status`](/api-reference/auth/get-sso-status)
+- [`GET /channels/{channel_id}`](/api-reference/channels/fetch-a-channel)
+- [`GET /channels/{channel_id}/call`](/api-reference/channels/get-call-eligibility-status)
+- [`GET /channels/{channel_id}/invites`](/api-reference/invites/list-channel-invites)
+- [`GET /channels/{channel_id}/messages`](/api-reference/channels/list-messages-in-a-channel)
+- [`GET /channels/{channel_id}/messages/{message_id}`](/api-reference/channels/fetch-a-message)
+- [`GET /channels/{channel_id}/messages/{message_id}/reactions/{emoji}`](/api-reference/channels/list-users-who-reacted-with-emoji)
+- [`GET /channels/{channel_id}/messages/pins`](/api-reference/channels/list-pinned-messages)
+- [`GET /channels/{channel_id}/rtc-regions`](/api-reference/channels/list-rtc-regions)
+- [`GET /channels/{channel_id}/webhooks`](/api-reference/webhooks/list-channel-webhooks)
+- [`GET /discovery/categories`](/api-reference/discovery/list-discovery-categories)
+- [`GET /discovery/guilds`](/api-reference/discovery/search-discoverable-guilds)
+- [`GET /donations/manage`](/api-reference/donations/manage-donation-subscription)
+- [`GET /gateway/bot`](/api-reference/gateway/get-gateway-information)
+- [`GET /gifts/{code}`](/api-reference/gifts/get-gift-code)
+- [`GET /guilds/{guild_id}`](/api-reference/guilds/get-guild-information)
+- [`GET /guilds/{guild_id}/audit-logs`](/api-reference/guilds/list-guild-audit-logs)
+- [`GET /guilds/{guild_id}/bans`](/api-reference/guilds/list-guild-bans)
+- [`GET /guilds/{guild_id}/channels`](/api-reference/guilds/list-guild-channels)
+- [`GET /guilds/{guild_id}/discovery`](/api-reference/discovery/get-discovery-status)
+- [`GET /guilds/{guild_id}/emojis`](/api-reference/guilds/list-guild-emojis)
+- [`GET /guilds/{guild_id}/invites`](/api-reference/invites/list-guild-invites)
+- [`GET /guilds/{guild_id}/members`](/api-reference/guilds/list-guild-members)
+- [`GET /guilds/{guild_id}/members/{user_id}`](/api-reference/guilds/get-guild-member-by-user-id)
+- [`GET /guilds/{guild_id}/members/@me`](/api-reference/guilds/get-current-user-guild-member)
+- [`GET /guilds/{guild_id}/roles`](/api-reference/guilds/list-guild-roles)
+- [`GET /guilds/{guild_id}/stickers`](/api-reference/guilds/list-guild-stickers)
+- [`GET /guilds/{guild_id}/vanity-url`](/api-reference/guilds/get-guild-vanity-url)
+- [`GET /guilds/{guild_id}/webhooks`](/api-reference/webhooks/list-guild-webhooks)
+- [`GET /invites/{invite_code}`](/api-reference/invites/get-invite-information)
+- [`GET /klipy/featured`](/api-reference/klipy/get-featured-klipy-gifs)
+- [`GET /klipy/search`](/api-reference/klipy/search-klipy-gifs)
+- [`GET /klipy/suggest`](/api-reference/klipy/get-klipy-search-suggestions)
+- [`GET /klipy/trending-gifs`](/api-reference/klipy/get-trending-klipy-gifs)
+- [`GET /oauth2/@me`](/api-reference/oauth2/get-current-oauth2-user)
+- [`GET /oauth2/@me/authorizations`](/api-reference/oauth2/list-user-oauth2-authorizations)
+- [`GET /oauth2/applications/{id}`](/api-reference/oauth2/get-application)
+- [`GET /oauth2/applications/{id}/public`](/api-reference/oauth2/get-public-application)
+- [`GET /oauth2/applications/@me`](/api-reference/oauth2/list-user-applications)
+- [`GET /oauth2/userinfo`](/api-reference/oauth2/get-oauth2-user-information)
+- [`GET /packs`](/api-reference/packs/list-user-packs)
+- [`GET /packs/{pack_id}/invites`](/api-reference/invites/list-pack-invites)
+- [`GET /packs/emojis/{pack_id}`](/api-reference/packs/list-pack-emojis)
+- [`GET /packs/stickers/{pack_id}`](/api-reference/packs/list-pack-stickers)
+- [`GET /premium/price-ids`](/api-reference/premium/get-stripe-price-ids)
+- [`GET /streams/{stream_key}/preview`](/api-reference/channels/get-stream-preview-image)
+- [`GET /tenor/featured`](/api-reference/tenor/get-featured-tenor-gifs)
+- [`GET /tenor/search`](/api-reference/tenor/search-tenor-gifs)
+- [`GET /tenor/suggest`](/api-reference/tenor/get-tenor-search-suggestions)
+- [`GET /tenor/trending-gifs`](/api-reference/tenor/get-trending-tenor-gifs)
+- [`GET /users/{target_id}/profile`](/api-reference/users/get-user-profile)
+- [`GET /users/{user_id}`](/api-reference/users/get-user-by-id)
+- [`GET /users/@me`](/api-reference/users/get-current-user-profile)
+- [`GET /users/@me/applications`](/api-reference/oauth2/list-user-applications)
+- [`GET /users/@me/channels`](/api-reference/users/list-private-channels)
+- [`GET /users/@me/connections`](/api-reference/connections/list-user-connections)
+- [`GET /users/@me/gifts`](/api-reference/users/list-user-gifts)
+- [`GET /users/@me/guilds`](/api-reference/guilds/list-current-user-guilds)
+- [`GET /users/@me/harvest/{harvestId}`](/api-reference/users/get-data-harvest-status)
+- [`GET /users/@me/harvest/{harvestId}/download`](/api-reference/users/get-data-harvest-download-url)
+- [`GET /users/@me/harvest/latest`](/api-reference/users/get-latest-data-harvest)
+- [`GET /users/@me/memes`](/api-reference/saved-media/list-favorite-memes)
+- [`GET /users/@me/memes/{meme_id}`](/api-reference/saved-media/get-favorite-meme)
+- [`GET /users/@me/mentions`](/api-reference/users/list-mentions-for-current-user)
+- [`GET /users/@me/mfa/webauthn/credentials`](/api-reference/users/list-webauthn-credentials)
+- [`GET /users/@me/notes`](/api-reference/users/list-current-user-notes)
+- [`GET /users/@me/notes/{target_id}`](/api-reference/users/get-note-on-user)
+- [`GET /users/@me/push/subscriptions`](/api-reference/users/list-push-subscriptions)
+- [`GET /users/@me/relationships`](/api-reference/users/list-user-relationships)
+- [`GET /users/@me/saved-messages`](/api-reference/users/list-saved-messages)
+- [`GET /users/@me/scheduled-messages`](/api-reference/users/list-scheduled-messages)
+- [`GET /users/@me/scheduled-messages/{scheduled_message_id}`](/api-reference/users/get-scheduled-message)
+- [`GET /users/@me/settings`](/api-reference/users/get-current-user-settings)
+- [`GET /users/@me/sudo/mfa-methods`](/api-reference/users/list-sudo-multi-factor-authentication-methods)
+- [`GET /users/check-tag`](/api-reference/users/check-username-tag-availability)
+- [`GET /webhooks/{webhook_id}`](/api-reference/webhooks/get-webhook)
+- [`GET /webhooks/{webhook_id}/{token}`](/api-reference/webhooks/get-webhook-with-token)
+- [`POST /admin/api-keys`](/api-reference/admin/create-admin-api-key)
+- [`POST /admin/archives/guild`](/api-reference/admin/trigger-guild-archive)
+- [`POST /admin/archives/list`](/api-reference/admin/list-archives)
+- [`POST /admin/archives/user`](/api-reference/admin/trigger-user-archive)
+- [`POST /admin/assets/purge`](/api-reference/admin/purge-guild-assets)
+- [`POST /admin/audit-logs`](/api-reference/admin/list-audit-logs)
+- [`POST /admin/audit-logs/search`](/api-reference/admin/search-audit-logs)
+- [`POST /admin/bans/email/add`](/api-reference/admin/add-email-ban)
+- [`POST /admin/bans/email/check`](/api-reference/admin/check-email-ban-status)
+- [`POST /admin/bans/email/list`](/api-reference/admin/list-email-bans)
+- [`POST /admin/bans/email/remove`](/api-reference/admin/remove-email-ban)
+- [`POST /admin/bans/ip/add`](/api-reference/admin/add-ip-ban)
+- [`POST /admin/bans/ip/check`](/api-reference/admin/check-ip-ban-status)
+- [`POST /admin/bans/ip/list`](/api-reference/admin/list-ip-bans)
+- [`POST /admin/bans/ip/remove`](/api-reference/admin/remove-ip-ban)
+- [`POST /admin/bans/phone/add`](/api-reference/admin/add-phone-ban)
+- [`POST /admin/bans/phone/check`](/api-reference/admin/check-phone-ban-status)
+- [`POST /admin/bans/phone/list`](/api-reference/admin/list-phone-bans)
+- [`POST /admin/bans/phone/remove`](/api-reference/admin/remove-phone-ban)
+- [`POST /admin/bulk/add-guild-members`](/api-reference/admin/bulk-add-guild-members)
+- [`POST /admin/bulk/schedule-user-deletion`](/api-reference/admin/schedule-bulk-user-deletion)
+- [`POST /admin/bulk/update-guild-features`](/api-reference/admin/bulk-update-guild-features)
+- [`POST /admin/bulk/update-user-flags`](/api-reference/admin/bulk-update-user-flags)
+- [`POST /admin/codes/gift`](/api-reference/admin/generate-gift-subscription-codes)
+- [`POST /admin/discovery/applications/{guild_id}/approve`](/api-reference/admin/approve-discovery-application)
+- [`POST /admin/discovery/applications/{guild_id}/reject`](/api-reference/admin/reject-discovery-application)
+- [`POST /admin/discovery/guilds/{guild_id}/remove`](/api-reference/admin/remove-guild-from-discovery)
+- [`POST /admin/gateway/memory-stats`](/api-reference/admin/get-guild-memory-statistics)
+- [`POST /admin/gateway/reload-all`](/api-reference/admin/reload-specified-guilds)
+- [`POST /admin/guilds/ban-member`](/api-reference/admin/ban-guild-member)
+- [`POST /admin/guilds/clear-fields`](/api-reference/admin/clear-guild-fields)
+- [`POST /admin/guilds/delete`](/api-reference/admin/delete-guild)
+- [`POST /admin/guilds/force-add-user`](/api-reference/admin/force-add-user-to-guild)
+- [`POST /admin/guilds/kick-member`](/api-reference/admin/kick-guild-member)
+- [`POST /admin/guilds/list-members`](/api-reference/admin/list-guild-members)
+- [`POST /admin/guilds/lookup`](/api-reference/admin/look-up-guild)
+- [`POST /admin/guilds/reload`](/api-reference/admin/reload-guild)
+- [`POST /admin/guilds/search`](/api-reference/admin/search-guilds)
+- [`POST /admin/guilds/shutdown`](/api-reference/admin/shutdown-guild)
+- [`POST /admin/guilds/transfer-ownership`](/api-reference/admin/transfer-guild-ownership)
+- [`POST /admin/guilds/update-features`](/api-reference/admin/update-guild-features)
+- [`POST /admin/guilds/update-name`](/api-reference/admin/update-guild-name)
+- [`POST /admin/guilds/update-settings`](/api-reference/admin/update-guild-settings)
+- [`POST /admin/guilds/update-vanity`](/api-reference/admin/update-guild-vanity)
+- [`POST /admin/instance-config/get`](/api-reference/admin/get-instance-configuration)
+- [`POST /admin/instance-config/update`](/api-reference/admin/update-instance-configuration)
+- [`POST /admin/limit-config/get`](/api-reference/admin/get-limit-configuration)
+- [`POST /admin/limit-config/update`](/api-reference/admin/update-limit-configuration)
+- [`POST /admin/messages/delete`](/api-reference/admin/delete-single-message)
+- [`POST /admin/messages/delete-all`](/api-reference/admin/delete-all-user-messages)
+- [`POST /admin/messages/lookup`](/api-reference/admin/look-up-message-details)
+- [`POST /admin/messages/lookup-by-attachment`](/api-reference/admin/look-up-message-by-attachment)
+- [`POST /admin/messages/shred`](/api-reference/admin/queue-message-shred-operation)
+- [`POST /admin/messages/shred-status`](/api-reference/admin/get-message-shred-status)
+- [`POST /admin/reports/{report_id}/legal-hold`](/api-reference/admin/set-legal-hold-on-evidence)
+- [`POST /admin/reports/{report_id}/ncmec-submit`](/api-reference/admin/submit-report-to-ncmec)
+- [`POST /admin/reports/list`](/api-reference/admin/list-reports)
+- [`POST /admin/reports/resolve`](/api-reference/admin/resolve-report)
+- [`POST /admin/reports/search`](/api-reference/admin/search-reports)
+- [`POST /admin/search/refresh-index`](/api-reference/admin/refresh-search-index)
+- [`POST /admin/search/refresh-status`](/api-reference/admin/get-search-index-refresh-status)
+- [`POST /admin/snowflake-reservations/add`](/api-reference/admin/add-snowflake-reservation)
+- [`POST /admin/snowflake-reservations/delete`](/api-reference/admin/delete-snowflake-reservation)
+- [`POST /admin/snowflake-reservations/list`](/api-reference/admin/list-snowflake-reservations)
+- [`POST /admin/system-dm-jobs`](/api-reference/admin/create-system-dm-job)
+- [`POST /admin/system-dm-jobs/{job_id}/approve`](/api-reference/admin/approve-system-dm-job)
+- [`POST /admin/users/cancel-bulk-message-deletion`](/api-reference/admin/cancel-bulk-message-deletion)
+- [`POST /admin/users/cancel-deletion`](/api-reference/admin/cancel-account-deletion)
+- [`POST /admin/users/change-dob`](/api-reference/admin/change-user-dob)
+- [`POST /admin/users/change-email`](/api-reference/admin/change-user-email)
+- [`POST /admin/users/change-log`](/api-reference/admin/get-user-change-log)
+- [`POST /admin/users/change-username`](/api-reference/admin/change-user-username)
+- [`POST /admin/users/clear-fields`](/api-reference/admin/clear-user-fields)
+- [`POST /admin/users/disable-mfa`](/api-reference/admin/disable-user-mfa)
+- [`POST /admin/users/disable-suspicious`](/api-reference/admin/disable-user-for-suspicious-activity)
+- [`POST /admin/users/list-dm-channels`](/api-reference/admin/list-user-dm-channels)
+- [`POST /admin/users/list-guilds`](/api-reference/admin/list-user-guilds)
+- [`POST /admin/users/list-sessions`](/api-reference/admin/list-user-sessions)
+- [`POST /admin/users/lookup`](/api-reference/admin/lookup-user)
+- [`POST /admin/users/schedule-deletion`](/api-reference/admin/schedule-account-deletion)
+- [`POST /admin/users/search`](/api-reference/admin/search-users)
+- [`POST /admin/users/send-password-reset`](/api-reference/admin/send-password-reset)
+- [`POST /admin/users/set-acls`](/api-reference/admin/set-user-acls)
+- [`POST /admin/users/set-bot-status`](/api-reference/admin/set-user-bot-status)
+- [`POST /admin/users/set-system-status`](/api-reference/admin/set-user-system-status)
+- [`POST /admin/users/set-traits`](/api-reference/admin/set-user-traits)
+- [`POST /admin/users/temp-ban`](/api-reference/admin/temp-ban-user)
+- [`POST /admin/users/terminate-sessions`](/api-reference/admin/terminate-user-sessions)
+- [`POST /admin/users/unban`](/api-reference/admin/unban-user)
+- [`POST /admin/users/unlink-phone`](/api-reference/admin/unlink-user-phone)
+- [`POST /admin/users/update-flags`](/api-reference/admin/update-user-flags)
+- [`POST /admin/users/update-suspicious-activity-flags`](/api-reference/admin/update-suspicious-activity-flags)
+- [`POST /admin/users/verify-email`](/api-reference/admin/verify-user-email)
+- [`POST /admin/visionary-slots/expand`](/api-reference/admin/expand-visionary-slots)
+- [`POST /admin/visionary-slots/reserve`](/api-reference/admin/reserve-or-unreserve-a-visionary-slot)
+- [`POST /admin/visionary-slots/shrink`](/api-reference/admin/shrink-visionary-slots)
+- [`POST /admin/visionary-slots/swap`](/api-reference/admin/swap-visionary-slot-reservations)
+- [`POST /admin/voice/regions/create`](/api-reference/admin/create-voice-region)
+- [`POST /admin/voice/regions/delete`](/api-reference/admin/delete-voice-region)
+- [`POST /admin/voice/regions/get`](/api-reference/admin/get-voice-region)
+- [`POST /admin/voice/regions/list`](/api-reference/admin/list-voice-regions)
+- [`POST /admin/voice/regions/update`](/api-reference/admin/update-voice-region)
+- [`POST /admin/voice/servers/create`](/api-reference/admin/create-voice-server)
+- [`POST /admin/voice/servers/delete`](/api-reference/admin/delete-voice-server)
+- [`POST /admin/voice/servers/get`](/api-reference/admin/get-voice-server)
+- [`POST /admin/voice/servers/list`](/api-reference/admin/list-voice-servers)
+- [`POST /admin/voice/servers/update`](/api-reference/admin/update-voice-server)
+- [`POST /auth/authorize-ip`](/api-reference/auth/authorize-ip-address)
+- [`POST /auth/email-revert`](/api-reference/auth/revert-email-change)
+- [`POST /auth/forgot`](/api-reference/auth/forgot-password)
+- [`POST /auth/handoff/complete`](/api-reference/auth/complete-handoff)
+- [`POST /auth/handoff/initiate`](/api-reference/auth/initiate-handoff)
+- [`POST /auth/ip-authorization/resend`](/api-reference/auth/resend-ip-authorization)
+- [`POST /auth/login`](/api-reference/auth/login-account)
+- [`POST /auth/login/mfa/sms`](/api-reference/auth/login-with-sms-mfa)
+- [`POST /auth/login/mfa/sms/send`](/api-reference/auth/send-sms-mfa-code)
+- [`POST /auth/login/mfa/totp`](/api-reference/auth/login-with-totp)
+- [`POST /auth/login/mfa/webauthn`](/api-reference/auth/login-with-webauthn-mfa)
+- [`POST /auth/login/mfa/webauthn/authentication-options`](/api-reference/auth/get-webauthn-mfa-options)
+- [`POST /auth/logout`](/api-reference/auth/logout-account)
+- [`POST /auth/register`](/api-reference/auth/register-account)
+- [`POST /auth/reset`](/api-reference/auth/reset-password)
+- [`POST /auth/sessions/logout`](/api-reference/auth/logout-all-sessions)
+- [`POST /auth/sso/complete`](/api-reference/auth/complete-sso)
+- [`POST /auth/sso/start`](/api-reference/auth/start-sso)
+- [`POST /auth/username-suggestions`](/api-reference/auth/get-username-suggestions)
+- [`POST /auth/verify`](/api-reference/auth/verify-email)
+- [`POST /auth/verify/resend`](/api-reference/auth/resend-verification-email)
+- [`POST /auth/webauthn/authenticate`](/api-reference/auth/authenticate-with-webauthn)
+- [`POST /auth/webauthn/authentication-options`](/api-reference/auth/get-webauthn-authentication-options)
+- [`POST /channels/{channel_id}/call/end`](/api-reference/channels/end-call-session)
+- [`POST /channels/{channel_id}/call/ring`](/api-reference/channels/ring-call-recipients)
+- [`POST /channels/{channel_id}/call/stop-ringing`](/api-reference/channels/stop-ringing-call-recipients)
+- [`POST /channels/{channel_id}/invites`](/api-reference/invites/create-channel-invite)
+- [`POST /channels/{channel_id}/messages`](/api-reference/channels/send-a-message)
+- [`POST /channels/{channel_id}/messages/{message_id}/ack`](/api-reference/channels/acknowledge-a-message)
+- [`POST /channels/{channel_id}/messages/{message_id}/memes`](/api-reference/saved-media/create-meme-from-message)
+- [`POST /channels/{channel_id}/messages/bulk-delete`](/api-reference/channels/bulk-delete-messages)
+- [`POST /channels/{channel_id}/messages/schedule`](/api-reference/channels/schedule-a-message-to-send-later)
+- [`POST /channels/{channel_id}/pins/ack`](/api-reference/channels/acknowledge-new-pin-notifications)
+- [`POST /channels/{channel_id}/typing`](/api-reference/channels/indicate-typing-activity)
+- [`POST /channels/{channel_id}/webhooks`](/api-reference/webhooks/create-webhook)
+- [`POST /discovery/guilds/{guild_id}/join`](/api-reference/discovery/join-a-discoverable-guild)
+- [`POST /donations/checkout`](/api-reference/donations/create-donation-checkout-session)
+- [`POST /donations/request-link`](/api-reference/donations/request-donation-management-link)
+- [`POST /gifts/{code}/redeem`](/api-reference/gifts/redeem-gift-code)
+- [`POST /guilds`](/api-reference/guilds/create-guild)
+- [`POST /guilds/{guild_id}/channels`](/api-reference/guilds/create-guild-channel)
+- [`POST /guilds/{guild_id}/delete`](/api-reference/guilds/delete-guild)
+- [`POST /guilds/{guild_id}/discovery`](/api-reference/discovery/apply-for-guild-discovery)
+- [`POST /guilds/{guild_id}/emojis`](/api-reference/guilds/create-guild-emoji)
+- [`POST /guilds/{guild_id}/emojis/bulk`](/api-reference/guilds/bulk-create-guild-emojis)
+- [`POST /guilds/{guild_id}/members-search`](/api-reference/guilds/search-guild-members)
+- [`POST /guilds/{guild_id}/roles`](/api-reference/guilds/create-guild-role)
+- [`POST /guilds/{guild_id}/stickers`](/api-reference/guilds/create-guild-sticker)
+- [`POST /guilds/{guild_id}/stickers/bulk`](/api-reference/guilds/bulk-create-guild-stickers)
+- [`POST /guilds/{guild_id}/transfer-ownership`](/api-reference/guilds/transfer-guild-ownership)
+- [`POST /invites/{invite_code}`](/api-reference/invites/accept-invite)
+- [`POST /klipy/register-share`](/api-reference/klipy/register-klipy-gif-share)
+- [`POST /oauth2/applications`](/api-reference/oauth2/create-oauth2-application)
+- [`POST /oauth2/applications/{id}/bot/reset-token`](/api-reference/oauth2/reset-bot-token)
+- [`POST /oauth2/applications/{id}/client-secret/reset`](/api-reference/oauth2/reset-client-secret)
+- [`POST /oauth2/authorize/consent`](/api-reference/oauth2/grant-oauth2-consent)
+- [`POST /oauth2/introspect`](/api-reference/oauth2/introspect-oauth2-token)
+- [`POST /oauth2/token`](/api-reference/oauth2/exchange-oauth2-token)
+- [`POST /oauth2/token/revoke`](/api-reference/oauth2/revoke-oauth2-token)
+- [`POST /packs/{pack_id}/install`](/api-reference/packs/install-pack)
+- [`POST /packs/{pack_id}/invites`](/api-reference/invites/create-pack-invite)
+- [`POST /packs/{pack_type}`](/api-reference/packs/create-pack)
+- [`POST /packs/emojis/{pack_id}`](/api-reference/packs/create-pack-emoji)
+- [`POST /packs/emojis/{pack_id}/bulk`](/api-reference/packs/bulk-create-pack-emojis)
+- [`POST /packs/stickers/{pack_id}`](/api-reference/packs/create-pack-sticker)
+- [`POST /packs/stickers/{pack_id}/bulk`](/api-reference/packs/bulk-create-pack-stickers)
+- [`POST /premium/cancel-subscription`](/api-reference/premium/cancel-subscription)
+- [`POST /premium/customer-portal`](/api-reference/premium/create-customer-portal)
+- [`POST /premium/operator/rejoin`](/api-reference/premium/rejoin-operator-guild)
+- [`POST /premium/reactivate-subscription`](/api-reference/premium/reactivate-subscription)
+- [`POST /premium/visionary/rejoin`](/api-reference/premium/rejoin-visionary-guild)
+- [`POST /read-states/ack-bulk`](/api-reference/read-states/mark-channels-as-read)
+- [`POST /reports/dsa`](/api-reference/reports/create-dsa-report)
+- [`POST /reports/dsa/email/send`](/api-reference/reports/send-dsa-report-email)
+- [`POST /reports/dsa/email/verify`](/api-reference/reports/verify-dsa-report-email)
+- [`POST /reports/guild`](/api-reference/reports/report-guild)
+- [`POST /reports/message`](/api-reference/reports/report-message)
+- [`POST /reports/user`](/api-reference/reports/report-user)
+- [`POST /search/messages`](/api-reference/search/search-messages)
+- [`POST /streams/{stream_key}/preview`](/api-reference/channels/upload-stream-preview-image)
+- [`POST /stripe/checkout/gift`](/api-reference/billing/create-gift-checkout-session)
+- [`POST /stripe/checkout/subscription`](/api-reference/billing/create-checkout-session)
+- [`POST /stripe/webhook`](/api-reference/billing/process-stripe-webhook)
+- [`POST /tenor/register-share`](/api-reference/tenor/register-tenor-gif-share)
+- [`POST /users/@me/channels`](/api-reference/users/create-private-channel)
+- [`POST /users/@me/channels/messages/preload`](/api-reference/users/preload-messages-for-channels-alternative)
+- [`POST /users/@me/connections`](/api-reference/connections/initiate-connection)
+- [`POST /users/@me/connections/{type}/{connection_id}/verify`](/api-reference/connections/verify-connection)
+- [`POST /users/@me/connections/bluesky/authorize`](/api-reference/connections/start-bluesky-oauth-flow)
+- [`POST /users/@me/connections/verify`](/api-reference/connections/verify-and-create-connection)
+- [`POST /users/@me/delete`](/api-reference/users/delete-current-user-account)
+- [`POST /users/@me/disable`](/api-reference/users/disable-current-user-account)
+- [`POST /users/@me/email-change/bounced/request-new`](/api-reference/users/request-replacement-email-for-bounced-address)
+- [`POST /users/@me/email-change/bounced/resend-new`](/api-reference/users/resend-replacement-email-code)
+- [`POST /users/@me/email-change/bounced/verify-new`](/api-reference/users/verify-replacement-email-for-bounced-address)
+- [`POST /users/@me/email-change/request-new`](/api-reference/users/request-new-email-address)
+- [`POST /users/@me/email-change/resend-new`](/api-reference/users/resend-new-email-confirmation)
+- [`POST /users/@me/email-change/resend-original`](/api-reference/users/resend-original-email-confirmation)
+- [`POST /users/@me/email-change/start`](/api-reference/users/start-email-change)
+- [`POST /users/@me/email-change/verify-new`](/api-reference/users/verify-new-email-address)
+- [`POST /users/@me/email-change/verify-original`](/api-reference/users/verify-original-email-address)
+- [`POST /users/@me/harvest`](/api-reference/users/request-data-harvest)
+- [`POST /users/@me/memes`](/api-reference/saved-media/create-meme-from-url)
+- [`POST /users/@me/messages/delete`](/api-reference/users/request-bulk-message-deletion)
+- [`POST /users/@me/messages/delete/test`](/api-reference/users/test-bulk-message-deletion)
+- [`POST /users/@me/mfa/backup-codes`](/api-reference/users/get-backup-codes-for-multi-factor-authentication)
+- [`POST /users/@me/mfa/sms/disable`](/api-reference/users/disable-sms-multi-factor-authentication)
+- [`POST /users/@me/mfa/sms/enable`](/api-reference/users/enable-sms-multi-factor-authentication)
+- [`POST /users/@me/mfa/totp/disable`](/api-reference/users/disable-totp-multi-factor-authentication)
+- [`POST /users/@me/mfa/totp/enable`](/api-reference/users/enable-totp-multi-factor-authentication)
+- [`POST /users/@me/mfa/webauthn/credentials`](/api-reference/users/register-webauthn-credential)
+- [`POST /users/@me/mfa/webauthn/credentials/registration-options`](/api-reference/users/get-webauthn-registration-options)
+- [`POST /users/@me/password-change/complete`](/api-reference/users/complete-password-change)
+- [`POST /users/@me/password-change/resend`](/api-reference/users/resend-password-change-verification-code)
+- [`POST /users/@me/password-change/start`](/api-reference/users/start-password-change)
+- [`POST /users/@me/password-change/verify`](/api-reference/users/verify-password-change-code)
+- [`POST /users/@me/phone`](/api-reference/users/add-phone-number-to-account)
+- [`POST /users/@me/phone/send-verification`](/api-reference/users/send-phone-verification-code)
+- [`POST /users/@me/phone/verify`](/api-reference/users/verify-phone-code)
+- [`POST /users/@me/preload-messages`](/api-reference/users/preload-messages-for-channels)
+- [`POST /users/@me/premium/reset`](/api-reference/users/reset-current-user-premium-state)
+- [`POST /users/@me/push/subscribe`](/api-reference/users/subscribe-to-push-notifications)
+- [`POST /users/@me/relationships`](/api-reference/users/send-friend-request-by-tag)
+- [`POST /users/@me/relationships/{user_id}`](/api-reference/users/send-friend-request)
+- [`POST /users/@me/saved-messages`](/api-reference/users/save-message)
+- [`POST /users/@me/sudo/mfa/sms/send`](/api-reference/users/send-sudo-sms-code)
+- [`POST /users/@me/sudo/webauthn/authentication-options`](/api-reference/users/get-sudo-webauthn-authentication-options)
+- [`POST /users/@me/themes`](/api-reference/themes/create-theme)
+- [`POST /webhooks/{webhook_id}/{token}`](/api-reference/webhooks/execute-webhook)
+- [`POST /webhooks/{webhook_id}/{token}/github`](/api-reference/webhooks/execute-github-webhook)
+- [`POST /webhooks/{webhook_id}/{token}/sentry`](/api-reference/webhooks/execute-sentry-webhook)
+- [`POST /webhooks/{webhook_id}/{token}/slack`](/api-reference/webhooks/execute-slack-webhook)
+- [`PUT /channels/{channel_id}/messages/{message_id}/reactions/{emoji}/@me`](/api-reference/channels/add-reaction-to-message)
+- [`PUT /channels/{channel_id}/permissions/{overwrite_id}`](/api-reference/channels/set-permission-overwrite-for-channel)
+- [`PUT /channels/{channel_id}/pins/{message_id}`](/api-reference/channels/pin-a-message)
+- [`PUT /channels/{channel_id}/recipients/{user_id}`](/api-reference/channels/add-recipient-to-group-dm)
+- [`PUT /guilds/{guild_id}/bans/{user_id}`](/api-reference/guilds/ban-guild-member)
+- [`PUT /guilds/{guild_id}/members/{user_id}/roles/{role_id}`](/api-reference/guilds/add-role-to-guild-member)
+- [`PUT /users/@me/channels/{channel_id}/pin`](/api-reference/users/pin-direct-message-channel)
+- [`PUT /users/@me/notes/{target_id}`](/api-reference/users/set-note-on-user)
+- [`PUT /users/@me/relationships/{user_id}`](/api-reference/users/accept-or-update-friend-request)
+- [`PATCH /channels/{channel_id}`](/api-reference/channels/update-channel-settings)
+- [`PATCH /channels/{channel_id}/call`](/api-reference/channels/update-call-region)
+- [`PATCH /channels/{channel_id}/messages/{message_id}`](/api-reference/channels/edit-a-message)
+- [`PATCH /guilds/{guild_id}`](/api-reference/guilds/update-guild-settings)
+- [`PATCH /guilds/{guild_id}/channels`](/api-reference/guilds/update-channel-positions)
+- [`PATCH /guilds/{guild_id}/detached-banner`](/api-reference/guilds/toggle-detached-banner)
+- [`PATCH /guilds/{guild_id}/discovery`](/api-reference/discovery/edit-discovery-application)
+- [`PATCH /guilds/{guild_id}/emojis/{emoji_id}`](/api-reference/guilds/update-guild-emoji)
+- [`PATCH /guilds/{guild_id}/members/{user_id}`](/api-reference/guilds/update-guild-member)
+- [`PATCH /guilds/{guild_id}/members/@me`](/api-reference/guilds/update-current-user-guild-member)
+- [`PATCH /guilds/{guild_id}/roles`](/api-reference/guilds/update-role-positions)
+- [`PATCH /guilds/{guild_id}/roles/{role_id}`](/api-reference/guilds/update-guild-role)
+- [`PATCH /guilds/{guild_id}/roles/hoist-positions`](/api-reference/guilds/update-role-hoist-positions)
+- [`PATCH /guilds/{guild_id}/stickers/{sticker_id}`](/api-reference/guilds/update-guild-sticker)
+- [`PATCH /guilds/{guild_id}/text-channel-flexible-names`](/api-reference/guilds/toggle-text-channel-flexible-names)
+- [`PATCH /guilds/{guild_id}/vanity-url`](/api-reference/guilds/update-guild-vanity-url)
+- [`PATCH /oauth2/applications/{id}`](/api-reference/oauth2/update-application)
+- [`PATCH /oauth2/applications/{id}/bot`](/api-reference/oauth2/update-bot-profile)
+- [`PATCH /packs/{pack_id}`](/api-reference/packs/update-pack)
+- [`PATCH /packs/emojis/{pack_id}/{emoji_id}`](/api-reference/packs/update-pack-emoji)
+- [`PATCH /packs/stickers/{pack_id}/{sticker_id}`](/api-reference/packs/update-pack-sticker)
+- [`PATCH /streams/{stream_key}/stream`](/api-reference/channels/update-stream-region)
+- [`PATCH /users/@me`](/api-reference/users/update-current-user-profile)
+- [`PATCH /users/@me/connections/{type}/{connection_id}`](/api-reference/connections/update-connection)
+- [`PATCH /users/@me/connections/reorder`](/api-reference/connections/reorder-connections)
+- [`PATCH /users/@me/guilds/{guild_id}/settings`](/api-reference/users/update-guild-settings-for-user)
+- [`PATCH /users/@me/guilds/@me/settings`](/api-reference/users/update-dm-notification-settings)
+- [`PATCH /users/@me/memes/{meme_id}`](/api-reference/saved-media/update-favorite-meme)
+- [`PATCH /users/@me/mfa/webauthn/credentials/{credential_id}`](/api-reference/users/update-webauthn-credential)
+- [`PATCH /users/@me/relationships/{user_id}`](/api-reference/users/update-relationship-nickname)
+- [`PATCH /users/@me/scheduled-messages/{scheduled_message_id}`](/api-reference/users/update-scheduled-message)
+- [`PATCH /users/@me/settings`](/api-reference/users/update-current-user-settings)
+- [`PATCH /webhooks/{webhook_id}`](/api-reference/webhooks/update-webhook)
+- [`PATCH /webhooks/{webhook_id}/{token}`](/api-reference/webhooks/update-webhook-with-token)
+- [`DELETE /admin/api-keys/{keyId}`](/api-reference/admin/delete-admin-api-key)
+- [`DELETE /admin/reports/{report_id}/legal-hold`](/api-reference/admin/release-legal-hold-on-evidence)
+- [`DELETE /auth/handoff/{code}`](/api-reference/auth/cancel-handoff)
+- [`DELETE /channels/{channel_id}`](/api-reference/channels/delete-a-channel)
+- [`DELETE /channels/{channel_id}/messages/{message_id}`](/api-reference/channels/delete-a-message)
+- [`DELETE /channels/{channel_id}/messages/{message_id}/attachments/{attachment_id}`](/api-reference/channels/delete-a-message-attachment)
+- [`DELETE /channels/{channel_id}/messages/{message_id}/reactions`](/api-reference/channels/remove-all-reactions-from-message)
+- [`DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji}`](/api-reference/channels/remove-all-reactions-with-emoji)
+- [`DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji}/{target_id}`](/api-reference/channels/remove-reaction-from-message)
+- [`DELETE /channels/{channel_id}/messages/{message_id}/reactions/{emoji}/@me`](/api-reference/channels/remove-own-reaction-from-message)
+- [`DELETE /channels/{channel_id}/messages/ack`](/api-reference/channels/clear-channel-read-state)
+- [`DELETE /channels/{channel_id}/permissions/{overwrite_id}`](/api-reference/channels/delete-permission-overwrite)
+- [`DELETE /channels/{channel_id}/pins/{message_id}`](/api-reference/channels/unpin-a-message)
+- [`DELETE /channels/{channel_id}/recipients/{user_id}`](/api-reference/channels/remove-recipient-from-group-dm)
+- [`DELETE /guilds/{guild_id}/bans/{user_id}`](/api-reference/guilds/unban-guild-member)
+- [`DELETE /guilds/{guild_id}/discovery`](/api-reference/discovery/withdraw-discovery-application)
+- [`DELETE /guilds/{guild_id}/emojis/{emoji_id}`](/api-reference/guilds/delete-guild-emoji)
+- [`DELETE /guilds/{guild_id}/members/{user_id}`](/api-reference/guilds/remove-guild-member)
+- [`DELETE /guilds/{guild_id}/members/{user_id}/roles/{role_id}`](/api-reference/guilds/remove-role-from-guild-member)
+- [`DELETE /guilds/{guild_id}/roles/{role_id}`](/api-reference/guilds/delete-guild-role)
+- [`DELETE /guilds/{guild_id}/roles/hoist-positions`](/api-reference/guilds/reset-role-hoist-positions)
+- [`DELETE /guilds/{guild_id}/stickers/{sticker_id}`](/api-reference/guilds/delete-guild-sticker)
+- [`DELETE /invites/{invite_code}`](/api-reference/invites/delete-invite)
+- [`DELETE /oauth2/@me/authorizations/{applicationId}`](/api-reference/oauth2/revoke-oauth2-authorization)
+- [`DELETE /oauth2/applications/{id}`](/api-reference/oauth2/delete-application)
+- [`DELETE /packs/{pack_id}`](/api-reference/packs/delete-pack)
+- [`DELETE /packs/{pack_id}/install`](/api-reference/packs/uninstall-pack)
+- [`DELETE /packs/emojis/{pack_id}/{emoji_id}`](/api-reference/packs/delete-pack-emoji)
+- [`DELETE /packs/stickers/{pack_id}/{sticker_id}`](/api-reference/packs/delete-pack-sticker)
+- [`DELETE /users/@me/authorized-ips`](/api-reference/users/forget-authorized-ips-for-current-user)
+- [`DELETE /users/@me/channels/{channel_id}/pin`](/api-reference/users/unpin-direct-message-channel)
+- [`DELETE /users/@me/connections/{type}/{connection_id}`](/api-reference/connections/delete-connection)
+- [`DELETE /users/@me/guilds/{guild_id}`](/api-reference/guilds/leave-guild)
+- [`DELETE /users/@me/memes/{meme_id}`](/api-reference/saved-media/delete-favorite-meme)
+- [`DELETE /users/@me/mentions/{message_id}`](/api-reference/users/delete-mention)
+- [`DELETE /users/@me/messages/delete`](/api-reference/users/cancel-bulk-message-deletion)
+- [`DELETE /users/@me/mfa/webauthn/credentials/{credential_id}`](/api-reference/users/delete-webauthn-credential)
+- [`DELETE /users/@me/phone`](/api-reference/users/remove-phone-number-from-account)
+- [`DELETE /users/@me/push/subscriptions/{subscription_id}`](/api-reference/users/unsubscribe-from-push-notifications)
+- [`DELETE /users/@me/relationships/{user_id}`](/api-reference/users/remove-relationship)
+- [`DELETE /users/@me/saved-messages/{message_id}`](/api-reference/users/unsave-message)
+- [`DELETE /users/@me/scheduled-messages/{scheduled_message_id}`](/api-reference/users/cancel-scheduled-message)
+- [`DELETE /webhooks/{webhook_id}`](/api-reference/webhooks/delete-webhook)
+- [`DELETE /webhooks/{webhook_id}/{token}`](/api-reference/webhooks/delete-webhook-with-token)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | [APIErrorCode](#apierrorcode) |  |
+| errors? | [ValidationErrorItem](#validationerroritem)[] | Field-specific validation errors |
+| message | string | Human-readable error message |
+
+<a id="expandvisionaryslotsrequest"></a>
+
+## ExpandVisionarySlotsRequest
+
+**Related endpoints**
+
+- [`POST /admin/visionary-slots/expand`](/api-reference/admin/expand-visionary-slots)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| count | integer (int32) | Number of new slots to create |
+
+<a id="forceaddusertoguildrequest"></a>
+
+## ForceAddUserToGuildRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/force-add-user`](/api-reference/admin/force-add-user-to-guild)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="generategiftcodesrequest"></a>
+
+## GenerateGiftCodesRequest
+
+**Related endpoints**
+
+- [`POST /admin/codes/gift`](/api-reference/admin/generate-gift-subscription-codes)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| count | integer (int32) | Number of gift codes to generate |
+| product_type | enum&lt;`gift_1_month`, `gift_1_year`&gt; | Type of gift subscription |
+
+<a id="getarchiveresponseschema"></a>
+
+## GetArchiveResponseSchema
+
+**Related endpoints**
+
+- [`GET /admin/archives/{subjectType}/{subjectId}/{archiveId}`](/api-reference/admin/get-archive-details)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| archive | ?[AdminArchiveResponseSchema](#adminarchiveresponseschema) |  |
+
+<a id="getindexrefreshstatusrequest"></a>
+
+## GetIndexRefreshStatusRequest
+
+**Related endpoints**
+
+- [`POST /admin/search/refresh-status`](/api-reference/admin/get-search-index-refresh-status)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| job_id | [SnowflakeType](#snowflaketype) | ID of the index refresh job to check |
+
+<a id="getprocessmemorystatsrequest"></a>
+
+## GetProcessMemoryStatsRequest
+
+**Related endpoints**
+
+- [`POST /admin/gateway/memory-stats`](/api-reference/admin/get-guild-memory-statistics)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| limit? | integer (int32) |  |
+
+<a id="getvoiceregionrequest"></a>
+
+## GetVoiceRegionRequest
+
+**Related endpoints**
+
+- [`POST /admin/voice/regions/get`](/api-reference/admin/get-voice-region)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | [SnowflakeType](#snowflaketype) | ID of the voice region to retrieve |
+| include_servers? | boolean | Whether to include voice servers in the response |
+
+<a id="getvoiceregionresponse"></a>
+
+## GetVoiceRegionResponse
+
+**Related endpoints**
+
+- [`POST /admin/voice/regions/get`](/api-reference/admin/get-voice-region)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| region | ?[VoiceRegionWithServersResponse](#voiceregionwithserversresponse) | Voice region details or null if not found |
+
+<a id="getvoiceserverrequest"></a>
+
+## GetVoiceServerRequest
+
+**Related endpoints**
+
+- [`POST /admin/voice/servers/get`](/api-reference/admin/get-voice-server)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| region_id | [SnowflakeType](#snowflaketype) | ID of the region the server belongs to |
+| server_id | [SnowflakeType](#snowflaketype) | ID of the voice server to retrieve |
+
+<a id="getvoiceserverresponse"></a>
+
+## GetVoiceServerResponse
+
+**Related endpoints**
+
+- [`POST /admin/voice/servers/get`](/api-reference/admin/get-voice-server)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| server | ?[VoiceServerAdminResponse](#voiceserveradminresponse) | Voice server details or null if not found |
+
+<a id="guildmemorystatsresponse"></a>
+
+## GuildMemoryStatsResponse
+
+**Related endpoints**
+
+- [`POST /admin/gateway/memory-stats`](/api-reference/admin/get-guild-memory-statistics)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guilds | [GuildMemoryStatsResponseGuildsItem](#guildmemorystatsresponseguildsitem)[] |  |
+
+<a id="guildupdateresponse"></a>
+
+## GuildUpdateResponse
+
+**Related endpoints**
+
+- [`POST /admin/guilds/transfer-ownership`](/api-reference/admin/transfer-guild-ownership)
+- [`POST /admin/guilds/update-features`](/api-reference/admin/update-guild-features)
+- [`POST /admin/guilds/update-name`](/api-reference/admin/update-guild-name)
+- [`POST /admin/guilds/update-settings`](/api-reference/admin/update-guild-settings)
+- [`POST /admin/guilds/update-vanity`](/api-reference/admin/update-guild-vanity)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild | [GuildUpdateResponseGuild](#guildupdateresponseguild) |  |
+
+<a id="indexrefreshstatusresponse"></a>
+
+## IndexRefreshStatusResponse
+
+**Related endpoints**
+
+- [`POST /admin/search/refresh-status`](/api-reference/admin/get-search-index-refresh-status)
+
+Type: [MessageShredStatusNotFoundResponse](#messageshredstatusnotfoundresponse) \| [IndexRefreshStatusResponseOneOf1](#indexrefreshstatusresponseoneof1)
+
+<a id="instanceconfigresponse"></a>
+
+## InstanceConfigResponse
+
+**Related endpoints**
+
+- [`POST /admin/instance-config/get`](/api-reference/admin/get-instance-configuration)
+- [`POST /admin/instance-config/update`](/api-reference/admin/update-instance-configuration)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| manual_review_active_now | boolean |  |
+| manual_review_enabled | boolean |  |
+| manual_review_schedule_enabled | boolean |  |
+| manual_review_schedule_end_hour_utc | [Int32Type](#int32type) |  |
+| manual_review_schedule_start_hour_utc | [Int32Type](#int32type) |  |
+| registration_alerts_webhook_url | ?string |  |
+| self_hosted | boolean |  |
+| sso | [SsoConfigResponse](#ssoconfigresponse) |  |
+| system_alerts_webhook_url | ?string |  |
+
+<a id="instanceconfigupdaterequest"></a>
+
+## InstanceConfigUpdateRequest
+
+**Related endpoints**
+
+- [`POST /admin/instance-config/update`](/api-reference/admin/update-instance-configuration)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| manual_review_enabled? | boolean |  |
+| manual_review_schedule_enabled? | boolean |  |
+| manual_review_schedule_end_hour_utc? | integer (int32) |  |
+| manual_review_schedule_start_hour_utc? | integer (int32) |  |
+| registration_alerts_webhook_url? | ?string (uri) |  |
+| sso? | [InstanceConfigUpdateRequestSso](#instanceconfigupdaterequestsso) |  |
+| system_alerts_webhook_url? | ?string (uri) |  |
+
+<a id="kickguildmemberrequest"></a>
+
+## KickGuildMemberRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/kick-member`](/api-reference/admin/kick-guild-member)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="legalholdrequest"></a>
+
+## LegalHoldRequest
+
+**Related endpoints**
+
+- [`POST /admin/reports/{report_id}/legal-hold`](/api-reference/admin/set-legal-hold-on-evidence)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| expires_at? | string | ISO 8601 timestamp when the legal hold expires |
+
+<a id="legalholdresponse"></a>
+
+## LegalHoldResponse
+
+**Related endpoints**
+
+- [`GET /admin/reports/{report_id}/legal-hold`](/api-reference/admin/get-legal-hold-status)
+- [`POST /admin/reports/{report_id}/legal-hold`](/api-reference/admin/set-legal-hold-on-evidence)
+- [`DELETE /admin/reports/{report_id}/legal-hold`](/api-reference/admin/release-legal-hold-on-evidence)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| held | boolean |  |
+
+<a id="limitconfiggetresponse"></a>
+
+## LimitConfigGetResponse
+
+**Related endpoints**
+
+- [`POST /admin/limit-config/get`](/api-reference/admin/get-limit-configuration)
+- [`POST /admin/limit-config/update`](/api-reference/admin/update-limit-configuration)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bounds? | map&lt;string, [LimitConfigGetResponseBoundsAdditionalProperties](#limitconfiggetresponseboundsadditionalproperties)&gt; |  |
+| categories | map&lt;string, string&gt; |  |
+| defaults | map&lt;string, JSON value&gt; |  |
+| limit_config | [LimitConfigGetResponseLimitConfig](#limitconfiggetresponselimitconfig) |  |
+| limit_config_json | string |  |
+| limit_keys | string[] |  |
+| metadata | map&lt;string, [LimitConfigGetResponseMetadataAdditionalProperties](#limitconfiggetresponsemetadataadditionalproperties)&gt; |  |
+| self_hosted | boolean |  |
+
+<a id="limitconfigupdaterequest"></a>
+
+## LimitConfigUpdateRequest
+
+**Related endpoints**
+
+- [`POST /admin/limit-config/update`](/api-reference/admin/update-limit-configuration)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| limit_config | [LimitConfigUpdateRequestLimitConfig](#limitconfigupdaterequestlimitconfig) | New limit configuration snapshot |
+
+<a id="limitfilterresponse"></a>
+
+## LimitFilterResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guildFeatures? | string[] | Guild feature filters for this limit rule |
+| traits? | string[] | Trait filters for this limit rule |
+
+<a id="limitruleresponse"></a>
+
+## LimitRuleResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| filters? | [LimitFilterResponse](#limitfilterresponse) |  |
+| id | [SnowflakeType](#snowflaketype) | Unique identifier for this limit rule |
+| overrides | map&lt;string, number&gt; | Map of limit keys to their override values (differences from defaults) |
+
+<a id="listadminapikeyresponse"></a>
+
+## ListAdminApiKeyResponse
+
+**Related endpoints**
+
+- [`GET /admin/api-keys`](/api-reference/admin/list-admin-api-keys)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| acls | string[] | List of access control permissions for the key |
+| created_at | string | ISO 8601 timestamp when the key was created |
+| created_by_user_id | [SnowflakeType](#snowflaketype) | User ID of the admin who created this key |
+| expires_at | ?string | ISO 8601 timestamp when the key expires, or null if no expiration |
+| key_id | [SnowflakeType](#snowflaketype) | Unique identifier for the API key |
+| last_used_at | ?string | ISO 8601 timestamp when the key was last used, or null if never used |
+| name | string | Display name for the API key |
+
+<a id="listarchivesrequest"></a>
+
+## ListArchivesRequest
+
+**Related endpoints**
+
+- [`POST /admin/archives/list`](/api-reference/admin/list-archives)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| include_expired? | boolean | Whether to include expired archives |
+| limit? | number | Maximum number of archives to return |
+| requested_by? | [SnowflakeType](#snowflaketype) |  |
+| subject_id? | [SnowflakeType](#snowflaketype) |  |
+| subject_type? | [ListArchivesRequestSubjectType](#listarchivesrequestsubjecttype) | Type of archives to list |
+
+<a id="listarchivesresponseschema"></a>
+
+## ListArchivesResponseSchema
+
+**Related endpoints**
+
+- [`POST /admin/archives/list`](/api-reference/admin/list-archives)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| archives | [AdminArchiveResponseSchema](#adminarchiveresponseschema)[] |  |
+
+<a id="listauditlogsrequest"></a>
+
+## ListAuditLogsRequest
+
+**Related endpoints**
+
+- [`POST /admin/audit-logs`](/api-reference/admin/list-audit-logs)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| admin_user_id? | [SnowflakeType](#snowflaketype) |  |
+| limit? | integer (int32) | Maximum number of entries to return |
+| offset? | integer (int64) | Number of entries to skip |
+| target_id? | string | Filter by target entity ID (user, channel, role, invite code, etc.) |
+| target_type? | string | Filter by target entity type |
+
+<a id="listbansrequest"></a>
+
+## ListBansRequest
+
+**Related endpoints**
+
+- [`POST /admin/bans/email/list`](/api-reference/admin/list-email-bans)
+- [`POST /admin/bans/ip/list`](/api-reference/admin/list-ip-bans)
+- [`POST /admin/bans/phone/list`](/api-reference/admin/list-phone-bans)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| limit? | integer (int32) | Maximum number of bans to return |
+
+<a id="listemailbansresponseschema"></a>
+
+## ListEmailBansResponseSchema
+
+**Related endpoints**
+
+- [`POST /admin/bans/email/list`](/api-reference/admin/list-email-bans)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bans | [EmailType](#emailtype)[] |  |
+
+<a id="listguildemojisresponse"></a>
+
+## ListGuildEmojisResponse
+
+**Related endpoints**
+
+- [`GET /admin/guilds/{guild_id}/emojis`](/api-reference/admin/list-guild-emojis)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| emojis | [GuildAssetItemSchema](#guildassetitemschema)[] |  |
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="listguildmembersrequest"></a>
+
+## ListGuildMembersRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/list-members`](/api-reference/admin/list-guild-members)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+| limit? | integer (int32) |  |
+| offset? | integer (int64) |  |
+
+<a id="listguildmembersresponse"></a>
+
+## ListGuildMembersResponse
+
+**Related endpoints**
+
+- [`POST /admin/guilds/list-members`](/api-reference/admin/list-guild-members)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| limit | [Int32Type](#int32type) |  |
+| members | [GuildMemberResponse](#guildmemberresponse)[] |  |
+| offset | [Int32Type](#int32type) |  |
+| total | [Int32Type](#int32type) |  |
+
+<a id="listguildstickersresponse"></a>
+
+## ListGuildStickersResponse
+
+**Related endpoints**
+
+- [`GET /admin/guilds/{guild_id}/stickers`](/api-reference/admin/list-guild-stickers)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+| stickers | [GuildAssetItemSchema](#guildassetitemschema)[] |  |
+
+<a id="listipbansresponseschema"></a>
+
+## ListIpBansResponseSchema
+
+**Related endpoints**
+
+- [`POST /admin/bans/ip/list`](/api-reference/admin/list-ip-bans)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bans | [IpBanListEntrySchema](#ipbanlistentryschema)[] |  |
+
+<a id="listphonebansresponseschema"></a>
+
+## ListPhoneBansResponseSchema
+
+**Related endpoints**
+
+- [`POST /admin/bans/phone/list`](/api-reference/admin/list-phone-bans)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bans | [PhoneNumberType](#phonenumbertype)[] |  |
+
+<a id="listreportsrequest"></a>
+
+## ListReportsRequest
+
+**Related endpoints**
+
+- [`POST /admin/reports/list`](/api-reference/admin/list-reports)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| limit? | integer (int32) | Maximum number of reports to return |
+| offset? | integer (int64) | Number of reports to skip |
+| status? | [ReportStatus](#reportstatus) |  |
+
+<a id="listreportsresponse"></a>
+
+## ListReportsResponse
+
+**Related endpoints**
+
+- [`POST /admin/reports/list`](/api-reference/admin/list-reports)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| reports | [ReportAdminResponseSchema](#reportadminresponseschema)[] |  |
+
+<a id="listsnowflakereservationsresponse"></a>
+
+## ListSnowflakeReservationsResponse
+
+**Related endpoints**
+
+- [`POST /admin/snowflake-reservations/list`](/api-reference/admin/list-snowflake-reservations)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| reservations | [SnowflakeReservationEntry](#snowflakereservationentry)[] | List of snowflake reservations |
+
+<a id="listsystemdmjobsresponse"></a>
+
+## ListSystemDmJobsResponse
+
+**Related endpoints**
+
+- [`GET /admin/system-dm-jobs`](/api-reference/admin/list-system-dm-jobs)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| jobs | [SystemDmJobResponse](#systemdmjobresponse)[] | List of system DM jobs |
+| next_cursor? | ?string | Pagination cursor for the next page |
+
+<a id="listuserchangelogrequest"></a>
+
+## ListUserChangeLogRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/change-log`](/api-reference/admin/get-user-change-log)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| limit? | number | Maximum number of entries to return |
+| page_token? | string | Pagination token for the next page of results |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="listuserchangelogresponseschema"></a>
+
+## ListUserChangeLogResponseSchema
+
+**Related endpoints**
+
+- [`POST /admin/users/change-log`](/api-reference/admin/get-user-change-log)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| entries | [UserContactChangeLogEntrySchema](#usercontactchangelogentryschema)[] |  |
+| next_page_token | ?string |  |
+
+<a id="listuserdmchannelsrequest"></a>
+
+## ListUserDmChannelsRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/list-dm-channels`](/api-reference/admin/list-user-dm-channels)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| after? | [SnowflakeType](#snowflaketype) |  |
+| before? | [SnowflakeType](#snowflaketype) |  |
+| limit? | integer (int32) | Maximum number of DM channels to return |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="listuserdmchannelsresponse"></a>
+
+## ListUserDmChannelsResponse
+
+**Related endpoints**
+
+- [`POST /admin/users/list-dm-channels`](/api-reference/admin/list-user-dm-channels)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channels | [AdminUserDmChannelSchema](#adminuserdmchannelschema)[] |  |
+
+<a id="listuserguildsrequest"></a>
+
+## ListUserGuildsRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/list-guilds`](/api-reference/admin/list-user-guilds)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| after? | [SnowflakeType](#snowflaketype) |  |
+| before? | [SnowflakeType](#snowflaketype) |  |
+| limit? | integer (int32) |  |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+| with_counts? | boolean |  |
+
+<a id="listuserguildsresponse"></a>
+
+## ListUserGuildsResponse
+
+**Related endpoints**
+
+- [`POST /admin/users/list-guilds`](/api-reference/admin/list-user-guilds)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guilds | [GuildAdminResponse](#guildadminresponse)[] |  |
+
+<a id="listusersessionsrequest"></a>
+
+## ListUserSessionsRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/list-sessions`](/api-reference/admin/list-user-sessions)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="listusersessionsresponse"></a>
+
+## ListUserSessionsResponse
+
+**Related endpoints**
+
+- [`POST /admin/users/list-sessions`](/api-reference/admin/list-user-sessions)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| sessions | [UserSessionResponse](#usersessionresponse)[] |  |
+
+<a id="listvisionaryslotsresponse"></a>
+
+## ListVisionarySlotsResponse
+
+**Related endpoints**
+
+- [`GET /admin/visionary-slots`](/api-reference/admin/list-all-visionary-slots)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| reserved_count | integer (int32) | Number of reserved slots |
+| slots | [VisionarySlotSchema](#visionaryslotschema)[] | List of all visionary slots |
+| total_count | integer (int32) | Total number of slots |
+
+<a id="listvoiceregionsrequest"></a>
+
+## ListVoiceRegionsRequest
+
+**Related endpoints**
+
+- [`POST /admin/voice/regions/list`](/api-reference/admin/list-voice-regions)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| include_servers? | boolean | Whether to include voice servers in the response |
+
+<a id="listvoiceregionsresponse"></a>
+
+## ListVoiceRegionsResponse
+
+**Related endpoints**
+
+- [`POST /admin/voice/regions/list`](/api-reference/admin/list-voice-regions)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| regions | [VoiceRegionAdminResponse](#voiceregionadminresponse)[] | List of voice regions |
+
+<a id="listvoiceserversrequest"></a>
+
+## ListVoiceServersRequest
+
+**Related endpoints**
+
+- [`POST /admin/voice/servers/list`](/api-reference/admin/list-voice-servers)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| region_id | [SnowflakeType](#snowflaketype) | ID of the region to list servers for |
+
+<a id="listvoiceserversresponse"></a>
+
+## ListVoiceServersResponse
+
+**Related endpoints**
+
+- [`POST /admin/voice/servers/list`](/api-reference/admin/list-voice-servers)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| servers | [VoiceServerAdminResponse](#voiceserveradminresponse)[] | List of voice servers |
+
+<a id="lookupguildrequest"></a>
+
+## LookupGuildRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/lookup`](/api-reference/admin/look-up-guild)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="lookupguildresponse"></a>
+
+## LookupGuildResponse
+
+**Related endpoints**
+
+- [`POST /admin/guilds/lookup`](/api-reference/admin/look-up-guild)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild | ?[LookupGuildResponseGuild](#lookupguildresponseguild) |  |
+
+<a id="lookupmessagebyattachmentrequest"></a>
+
+## LookupMessageByAttachmentRequest
+
+**Related endpoints**
+
+- [`POST /admin/messages/lookup-by-attachment`](/api-reference/admin/look-up-message-by-attachment)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| attachment_id | [SnowflakeType](#snowflaketype) |  |
+| channel_id | [SnowflakeType](#snowflaketype) |  |
+| context_limit? | integer (int32) |  |
+| filename | string |  |
+
+<a id="lookupmessagerequest"></a>
+
+## LookupMessageRequest
+
+**Related endpoints**
+
+- [`POST /admin/messages/lookup`](/api-reference/admin/look-up-message-details)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | [SnowflakeType](#snowflaketype) |  |
+| context_limit? | integer (int32) |  |
+| message_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="lookupmessageresponse"></a>
+
+## LookupMessageResponse
+
+**Related endpoints**
+
+- [`POST /admin/messages/lookup`](/api-reference/admin/look-up-message-details)
+- [`POST /admin/messages/lookup-by-attachment`](/api-reference/admin/look-up-message-by-attachment)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| message_id | ?[SnowflakeType](#snowflaketype) |  |
+| messages | [LookupMessageResponseMessagesItem](#lookupmessageresponsemessagesitem)[] |  |
+
+<a id="lookupuserbyidsrequest"></a>
+
+## LookupUserByIdsRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user_ids | [SnowflakeType](#snowflaketype)[] |  |
+
+<a id="lookupuserbyqueryrequest"></a>
+
+## LookupUserByQueryRequest
+
+| Field | Type | Description |
+|-------|------|-------------|
+| query | string |  |
+
+<a id="lookupuserrequest"></a>
+
+## LookupUserRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/lookup`](/api-reference/admin/lookup-user)
+
+Type: [LookupUserByQueryRequest](#lookupuserbyqueryrequest) \| [LookupUserByIdsRequest](#lookupuserbyidsrequest)
+
+<a id="lookupuserresponse"></a>
+
+## LookupUserResponse
+
+**Related endpoints**
+
+- [`POST /admin/users/lookup`](/api-reference/admin/lookup-user)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| users | [UserAdminResponseSchema](#useradminresponseschema)[] |  |
+
+<a id="messageshredrequest"></a>
+
+## MessageShredRequest
+
+**Related endpoints**
+
+- [`POST /admin/messages/shred`](/api-reference/admin/queue-message-shred-operation)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| entries | [DeleteMessageRequest](#deletemessagerequest)[] |  |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="messageshredresponse"></a>
+
+## MessageShredResponse
+
+**Related endpoints**
+
+- [`POST /admin/messages/shred`](/api-reference/admin/queue-message-shred-operation)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| job_id | [SnowflakeType](#snowflaketype) |  |
+| requested? | integer (int64) |  |
+| success | enum&lt;`true`&gt; |  |
+
+<a id="messageshredstatusrequest"></a>
+
+## MessageShredStatusRequest
+
+**Related endpoints**
+
+- [`POST /admin/messages/shred-status`](/api-reference/admin/get-message-shred-status)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| job_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="messageshredstatusresponse"></a>
+
+## MessageShredStatusResponse
+
+**Related endpoints**
+
+- [`POST /admin/messages/shred-status`](/api-reference/admin/get-message-shred-status)
+
+Type: [MessageShredStatusNotFoundResponse](#messageshredstatusnotfoundresponse) \| [MessageShredStatusProgressResponse](#messageshredstatusprogressresponse)
+
+<a id="ncmecsubmissionstatusresponse"></a>
+
+## NcmecSubmissionStatusResponse
+
+**Related endpoints**
+
+- [`GET /admin/reports/{report_id}/ncmec-status`](/api-reference/admin/get-ncmec-submission-status)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| failure_reason | ?string | Reason for submission failure if failed |
+| ncmec_report_id | ?[SnowflakeType](#snowflaketype) | NCMEC report ID if submitted |
+| status | [NcmecSubmissionStatusResponseStatus](#ncmecsubmissionstatusresponsestatus) | NCMEC submission status |
+| submitted_at | ?string | ISO 8601 timestamp when the report was submitted |
+| submitted_by_admin_id | ?[SnowflakeType](#snowflaketype) | ID of the admin who submitted the report |
+
+<a id="ncmecsubmitresultresponse"></a>
+
+## NcmecSubmitResultResponse
+
+**Related endpoints**
+
+- [`POST /admin/reports/{report_id}/ncmec-submit`](/api-reference/admin/submit-report-to-ncmec)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| error | ?string |  |
+| ncmec_report_id | ?[SnowflakeType](#snowflaketype) |  |
+| success | boolean |  |
+
+<a id="nodestatsresponse"></a>
+
+## NodeStatsResponse
+
+**Related endpoints**
+
+- [`GET /admin/gateway/stats`](/api-reference/admin/get-gateway-node-statistics)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| calls | [Int32Type](#int32type) |  |
+| guilds | [Int32Type](#int32type) |  |
+| memory | [NodeStatsResponseMemory](#nodestatsresponsememory) |  |
+| presences | [Int32Type](#int32type) |  |
+| process_count | [Int32Type](#int32type) |  |
+| process_limit | [Int32Type](#int32type) |  |
+| sessions | [Int32Type](#int32type) |  |
+| status | string |  |
+| uptime_seconds | [Int32Type](#int32type) |  |
+
+<a id="purgeguildasseterrorschema"></a>
+
+## PurgeGuildAssetErrorSchema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| error | string |  |
+| id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="purgeguildassetresultschema"></a>
+
+## PurgeGuildAssetResultSchema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| asset_type | [PurgeGuildAssetResultSchemaAssetType](#purgeguildassetresultschemaassettype) | Type of guild asset |
+| found_in_db | boolean | Whether the asset was found in the database |
+| guild_id | ?[SnowflakeType](#snowflaketype) | ID of the guild the asset belongs to |
+| id | [SnowflakeType](#snowflaketype) | Unique identifier of the asset |
+
+<a id="purgeguildassetsrequest"></a>
+
+## PurgeGuildAssetsRequest
+
+**Related endpoints**
+
+- [`POST /admin/assets/purge`](/api-reference/admin/purge-guild-assets)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| ids | [SnowflakeType](#snowflaketype)[] | List of asset IDs to purge |
+
+<a id="purgeguildassetsresponseschema"></a>
+
+## PurgeGuildAssetsResponseSchema
+
+**Related endpoints**
+
+- [`POST /admin/assets/purge`](/api-reference/admin/purge-guild-assets)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| errors | [PurgeGuildAssetErrorSchema](#purgeguildasseterrorschema)[] |  |
+| processed | [PurgeGuildAssetResultSchema](#purgeguildassetresultschema)[] |  |
+
+<a id="refreshsearchindexrequest"></a>
+
+## RefreshSearchIndexRequest
+
+**Related endpoints**
+
+- [`POST /admin/search/refresh-index`](/api-reference/admin/refresh-search-index)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id? | [SnowflakeType](#snowflaketype) |  |
+| index_type | [RefreshSearchIndexRequestIndexType](#refreshsearchindexrequestindextype) | Type of search index to refresh |
+| user_id? | [SnowflakeType](#snowflaketype) |  |
+
+<a id="refreshsearchindexresponse"></a>
+
+## RefreshSearchIndexResponse
+
+**Related endpoints**
+
+- [`POST /admin/search/refresh-index`](/api-reference/admin/refresh-search-index)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| job_id | [SnowflakeType](#snowflaketype) |  |
+| success | enum&lt;`true`&gt; |  |
+
+<a id="reloadallguildsresponse"></a>
+
+## ReloadAllGuildsResponse
+
+**Related endpoints**
+
+- [`POST /admin/gateway/reload-all`](/api-reference/admin/reload-specified-guilds)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| count | [Int32Type](#int32type) |  |
+
+<a id="reloadguildrequest"></a>
+
+## ReloadGuildRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/reload`](/api-reference/admin/reload-guild)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="reloadguildsrequest"></a>
+
+## ReloadGuildsRequest
+
+**Related endpoints**
+
+- [`POST /admin/gateway/reload-all`](/api-reference/admin/reload-specified-guilds)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_ids | [SnowflakeType](#snowflaketype)[] | List of guild IDs to reload |
+
+<a id="reportadminresponseschema"></a>
+
+## ReportAdminResponseSchema
+
+**Related endpoints**
+
+- [`GET /admin/reports/{report_id}`](/api-reference/admin/get-report-details)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| additional_info | ?string |  |
+| category | ?string |  |
+| message_context? | [ReportAdminResponseSchemaMessageContextItem](#reportadminresponseschemamessagecontextitem)[] |  |
+| mutual_dm_channel_id? | ?[SnowflakeType](#snowflaketype) |  |
+| public_comment | ?string |  |
+| report_id | [SnowflakeType](#snowflaketype) |  |
+| report_type | [ReportType](#reporttype) |  |
+| reported_at | string |  |
+| reported_channel_id | ?[SnowflakeType](#snowflaketype) |  |
+| reported_channel_name | ?string |  |
+| reported_guild_id | ?[SnowflakeType](#snowflaketype) |  |
+| reported_guild_invite_code | ?string |  |
+| reported_guild_name | ?string |  |
+| reported_message_id | ?[SnowflakeType](#snowflaketype) |  |
+| reported_user_avatar_hash | ?string |  |
+| reported_user_discriminator | ?string |  |
+| reported_user_id | ?[SnowflakeType](#snowflaketype) |  |
+| reported_user_tag | ?string |  |
+| reported_user_username | ?string |  |
+| reporter_country_of_residence | ?string |  |
+| reporter_discriminator | ?string |  |
+| reporter_email | ?string |  |
+| reporter_full_legal_name | ?string |  |
+| reporter_id | ?[SnowflakeType](#snowflaketype) |  |
+| reporter_tag | ?string |  |
+| reporter_username | ?string |  |
+| resolved_at | ?string |  |
+| resolved_by_admin_id | ?[SnowflakeType](#snowflaketype) |  |
+| status | [ReportStatus](#reportstatus) |  |
+
+<a id="reservevisionaryslotrequest"></a>
+
+## ReserveVisionarySlotRequest
+
+**Related endpoints**
+
+- [`POST /admin/visionary-slots/reserve`](/api-reference/admin/reserve-or-unreserve-a-visionary-slot)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| slot_index | integer (int32) | Slot index to reserve (must be &gt;= 1) |
+| user_id | ?[SnowflakeType](#snowflaketype) \| enum&lt;`-1`&gt; | User ID to reserve the slot for, or null to unreserve (special value -1 is also valid) |
+
+<a id="resolvereportrequest"></a>
+
+## ResolveReportRequest
+
+**Related endpoints**
+
+- [`POST /admin/reports/resolve`](/api-reference/admin/resolve-report)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| public_comment? | string | Public comment to include with the resolution |
+| report_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="resolvereportresponse"></a>
+
+## ResolveReportResponse
+
+**Related endpoints**
+
+- [`POST /admin/reports/resolve`](/api-reference/admin/resolve-report)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| public_comment | ?string |  |
+| report_id | [SnowflakeType](#snowflaketype) |  |
+| resolved_at | ?string |  |
+| status | [ReportStatus](#reportstatus) |  |
+
+<a id="scheduleaccountdeletionrequest"></a>
+
+## ScheduleAccountDeletionRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/schedule-deletion`](/api-reference/admin/schedule-account-deletion)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| days_until_deletion? | integer (int32) | Number of days until the account is deleted |
+| public_reason? | string | Public-facing reason for the deletion |
+| reason_code | integer (int32) | Code indicating the reason for deletion |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="searchauditlogsrequest"></a>
+
+## SearchAuditLogsRequest
+
+**Related endpoints**
+
+- [`POST /admin/audit-logs/search`](/api-reference/admin/search-audit-logs)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| admin_user_id? | [SnowflakeType](#snowflaketype) |  |
+| limit? | integer (int32) | Maximum number of entries to return |
+| offset? | integer (int64) | Number of entries to skip |
+| query? | string | Search query string |
+| sort_by? | [SearchAuditLogsRequestSortBy](#searchauditlogsrequestsortby) | Field to sort audit logs by |
+| sort_order? | [SearchAuditLogsRequestSortOrder](#searchauditlogsrequestsortorder) | Sort order direction |
+| target_id? | string | Filter by target entity ID (user, channel, role, invite code, etc.) |
+
+<a id="searchguildsrequest"></a>
+
+## SearchGuildsRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/search`](/api-reference/admin/search-guilds)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| limit? | integer (int32) |  |
+| offset? | integer (int64) |  |
+| query? | string |  |
+
+<a id="searchguildsresponse"></a>
+
+## SearchGuildsResponse
+
+**Related endpoints**
+
+- [`POST /admin/guilds/search`](/api-reference/admin/search-guilds)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guilds | [GuildAdminResponse](#guildadminresponse)[] |  |
+| total | number |  |
+
+<a id="searchreportsrequest"></a>
+
+## SearchReportsRequest
+
+**Related endpoints**
+
+- [`POST /admin/reports/search`](/api-reference/admin/search-reports)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| category? | string | Filter by report category |
+| guild_context_id? | [SnowflakeType](#snowflaketype) |  |
+| limit? | integer (int32) | Maximum number of entries to return |
+| offset? | integer (int64) | Number of entries to skip |
+| query? | string | Search query string |
+| report_type? | [ReportType](#reporttype) |  |
+| reported_channel_id? | [SnowflakeType](#snowflaketype) |  |
+| reported_guild_id? | [SnowflakeType](#snowflaketype) |  |
+| reported_user_id? | [SnowflakeType](#snowflaketype) |  |
+| reporter_id? | [SnowflakeType](#snowflaketype) |  |
+| resolved_by_admin_id? | [SnowflakeType](#snowflaketype) |  |
+| sort_by? | [SearchReportsRequestSortBy](#searchreportsrequestsortby) | Field to sort reports by |
+| sort_order? | [SearchAuditLogsRequestSortOrder](#searchauditlogsrequestsortorder) | Sort order direction |
+| status? | [ReportStatus](#reportstatus) |  |
+
+<a id="searchreportsresponse"></a>
+
+## SearchReportsResponse
+
+**Related endpoints**
+
+- [`POST /admin/reports/search`](/api-reference/admin/search-reports)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| limit | number |  |
+| offset | number |  |
+| reports | [ReportAdminResponseSchema](#reportadminresponseschema)[] |  |
+| total | number |  |
+
+<a id="searchusersrequest"></a>
+
+## SearchUsersRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/search`](/api-reference/admin/search-users)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| limit? | integer (int32) |  |
+| offset? | integer (int64) |  |
+| query? | string |  |
+
+<a id="searchusersresponse"></a>
+
+## SearchUsersResponse
+
+**Related endpoints**
+
+- [`POST /admin/users/search`](/api-reference/admin/search-users)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| total | number |  |
+| users | [UserAdminResponseSchema](#useradminresponseschema)[] |  |
+
+<a id="sendpasswordresetrequest"></a>
+
+## SendPasswordResetRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/send-password-reset`](/api-reference/admin/send-password-reset)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="setuseraclsrequest"></a>
+
+## SetUserAclsRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/set-acls`](/api-reference/admin/set-user-acls)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| acls | string[] | List of access control permissions to assign |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="setuserbotstatusrequest"></a>
+
+## SetUserBotStatusRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/set-bot-status`](/api-reference/admin/set-user-bot-status)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bot | boolean | Whether the user should be marked as a bot |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="setusersystemstatusrequest"></a>
+
+## SetUserSystemStatusRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/set-system-status`](/api-reference/admin/set-user-system-status)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| system | boolean | Whether the user should be marked as a system user |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="setusertraitsrequest"></a>
+
+## SetUserTraitsRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/set-traits`](/api-reference/admin/set-user-traits)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| traits | string[] | List of traits to assign to the user |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="shrinkvisionaryslotsrequest"></a>
+
+## ShrinkVisionarySlotsRequest
+
+**Related endpoints**
+
+- [`POST /admin/visionary-slots/shrink`](/api-reference/admin/shrink-visionary-slots)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| target_count | integer (int32) | Target total number of slots (removes from highest indices, minimum 0 slots) |
+
+<a id="shutdownguildrequest"></a>
+
+## ShutdownGuildRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/shutdown`](/api-reference/admin/shutdown-guild)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="snowflakereservationentry"></a>
+
+## SnowflakeReservationEntry
+
+| Field | Type | Description |
+|-------|------|-------------|
+| email | [SnowflakeType](#snowflaketype) | Email address the snowflake is reserved for |
+| snowflake | [SnowflakeType](#snowflaketype) | Reserved snowflake ID |
+| updated_at | ?string | ISO 8601 timestamp when the reservation was last updated |
+
+<a id="successresponse"></a>
+
+## SuccessResponse
+
+**Related endpoints**
+
+- [`POST /admin/guilds/delete`](/api-reference/admin/delete-guild)
+- [`POST /admin/guilds/force-add-user`](/api-reference/admin/force-add-user-to-guild)
+- [`POST /admin/guilds/reload`](/api-reference/admin/reload-guild)
+- [`POST /admin/guilds/shutdown`](/api-reference/admin/shutdown-guild)
+- [`POST /admin/snowflake-reservations/add`](/api-reference/admin/add-snowflake-reservation)
+- [`POST /admin/snowflake-reservations/delete`](/api-reference/admin/delete-snowflake-reservation)
+- [`DELETE /users/@me/messages/delete`](/api-reference/users/cancel-bulk-message-deletion)
+- [`DELETE /users/@me/push/subscriptions/{subscription_id}`](/api-reference/users/unsubscribe-from-push-notifications)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| success | enum&lt;`true`&gt; | Whether the operation succeeded |
+
+<a id="suspiciousactivityflags"></a>
+
+## SuspiciousActivityFlags
+
+Bitmask of suspicious activity flags that triggered the disable
+
+Type: Bitflags32
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| REQUIRE_VERIFIED_EMAIL | `1` | Requires verified email address |
+| REQUIRE_REVERIFIED_EMAIL | `2` | Requires re-verified email address |
+| REQUIRE_VERIFIED_PHONE | `4` | Requires verified phone number |
+| REQUIRE_REVERIFIED_PHONE | `8` | Requires re-verified phone number |
+| REQUIRE_VERIFIED_EMAIL_OR_VERIFIED_PHONE | `16` | Requires verified email or verified phone |
+| REQUIRE_REVERIFIED_EMAIL_OR_VERIFIED_PHONE | `32` | Requires re-verified email or re-verified phone |
+| REQUIRE_VERIFIED_EMAIL_OR_REVERIFIED_PHONE | `64` | Requires verified email or re-verified phone |
+| REQUIRE_REVERIFIED_EMAIL_OR_REVERIFIED_PHONE | `128` | Requires re-verified email or re-verified phone |
+
+<a id="swapvisionaryslotsrequest"></a>
+
+## SwapVisionarySlotsRequest
+
+**Related endpoints**
+
+- [`POST /admin/visionary-slots/swap`](/api-reference/admin/swap-visionary-slot-reservations)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| slot_index_a | integer (int32) | First slot index to swap (must be &gt;= 1) |
+| slot_index_b | integer (int32) | Second slot index to swap (must be &gt;= 1) |
+
+<a id="systemdmjobresponse"></a>
+
+## SystemDmJobResponse
+
+**Related endpoints**
+
+- [`POST /admin/system-dm-jobs`](/api-reference/admin/create-system-dm-job)
+- [`POST /admin/system-dm-jobs/{job_id}/approve`](/api-reference/admin/approve-system-dm-job)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| approved_at? | ?string | ISO 8601 timestamp when the job was approved |
+| content | string | Message content being sent |
+| created_at | string | ISO 8601 timestamp when the job was created |
+| excluded_guild_ids | [SnowflakeType](#snowflaketype)[] | List of excluded guild IDs |
+| failed_count | integer (int32) | Number of messages that failed to send |
+| job_id | [SnowflakeType](#snowflaketype) | Unique identifier for the job |
+| last_error? | ?string | Last error message if the job failed |
+| registration_end? | ?string | Registration date filter end |
+| registration_start? | ?string | Registration date filter start |
+| sent_count | integer (int32) | Number of messages successfully sent |
+| status | [SystemDmJobResponseStatus](#systemdmjobresponsestatus) | Current status of the system DM job |
+| target_count | integer (int32) | Total number of users targeted |
+
+<a id="tempbanuserrequest"></a>
+
+## TempBanUserRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/temp-ban`](/api-reference/admin/temp-ban-user)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| duration_hours | integer (int32) | Duration of the ban in hours. Use 0 for a permanent ban (until manually unbanned). |
+| reason? | string | Reason for the temporary ban |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="terminatesessionsrequest"></a>
+
+## TerminateSessionsRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/terminate-sessions`](/api-reference/admin/terminate-user-sessions)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="terminatesessionsresponse"></a>
+
+## TerminateSessionsResponse
+
+**Related endpoints**
+
+- [`POST /admin/users/terminate-sessions`](/api-reference/admin/terminate-user-sessions)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| terminated_count | [Int32Type](#int32type) |  |
+
+<a id="transferguildownershiprequest"></a>
+
+## TransferGuildOwnershipRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/transfer-ownership`](/api-reference/admin/transfer-guild-ownership)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+| new_owner_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="triggerguildarchiverequest"></a>
+
+## TriggerGuildArchiveRequest
+
+**Related endpoints**
+
+- [`POST /admin/archives/guild`](/api-reference/admin/trigger-guild-archive)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="triggeruserarchiverequest"></a>
+
+## TriggerUserArchiveRequest
+
+**Related endpoints**
+
+- [`POST /admin/archives/user`](/api-reference/admin/trigger-user-archive)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="unlinkphonerequest"></a>
+
+## UnlinkPhoneRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/unlink-phone`](/api-reference/admin/unlink-user-phone)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="updateguildfeaturesrequest"></a>
+
+## UpdateGuildFeaturesRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/update-features`](/api-reference/admin/update-guild-features)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| add_features? | [GuildFeatureSchema](#guildfeatureschema)[] | Guild features to add |
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+| remove_features? | [GuildFeatureSchema](#guildfeatureschema)[] | Guild features to remove |
+
+<a id="updateguildnamerequest"></a>
+
+## UpdateGuildNameRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/update-name`](/api-reference/admin/update-guild-name)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+| name | string | New name for the guild |
+
+<a id="updateguildsettingsrequest"></a>
+
+## UpdateGuildSettingsRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/update-settings`](/api-reference/admin/update-guild-settings)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| default_message_notifications? | [DefaultMessageNotifications](#defaultmessagenotifications) | Default notification setting for new members |
+| disabled_operations? | [GuildOperations](#guildoperations) |  |
+| explicit_content_filter? | [GuildExplicitContentFilter](#guildexplicitcontentfilter) | Explicit content filter level |
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+| mfa_level? | [GuildMFALevel](#guildmfalevel) | Required MFA level for moderators |
+| nsfw_level? | [NSFWLevel](#nsfwlevel) | NSFW content level for the guild |
+| verification_level? | [GuildVerificationLevel](#guildverificationlevel) | Required verification level for guild members |
+
+<a id="updateguildvanityrequest"></a>
+
+## UpdateGuildVanityRequest
+
+**Related endpoints**
+
+- [`POST /admin/guilds/update-vanity`](/api-reference/admin/update-guild-vanity)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | [SnowflakeType](#snowflaketype) |  |
+| vanity_url_code | ?string | New vanity URL code, or null to remove |
+
+<a id="updatesuspiciousactivityflagsrequest"></a>
+
+## UpdateSuspiciousActivityFlagsRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/update-suspicious-activity-flags`](/api-reference/admin/update-suspicious-activity-flags)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| flags | [SuspiciousActivityFlags](#suspiciousactivityflags) |  |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="updateuserflagsrequest"></a>
+
+## UpdateUserFlagsRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/update-flags`](/api-reference/admin/update-user-flags)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| add_flags? | [UserFlags](#userflags)[] | User flags to add |
+| remove_flags? | [UserFlags](#userflags)[] | User flags to remove |
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="updatevoiceregionrequest"></a>
+
+## UpdateVoiceRegionRequest
+
+**Related endpoints**
+
+- [`POST /admin/voice/regions/update`](/api-reference/admin/update-voice-region)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allowed_guild_ids? | [SnowflakeType](#snowflaketype)[] | Guild IDs explicitly allowed to use this region |
+| allowed_user_ids? | [SnowflakeType](#snowflaketype)[] | User IDs explicitly allowed to use this region |
+| emoji? | string | Emoji representing the region |
+| id | [SnowflakeType](#snowflaketype) | Unique identifier for the voice region |
+| is_default? | boolean | Whether this is the default region |
+| latitude? | number | Geographic latitude coordinate |
+| longitude? | number | Geographic longitude coordinate |
+| name? | string | Display name of the voice region |
+| required_guild_features? | string[] | Guild features required to use this region |
+| vip_only? | boolean | Whether this region is restricted to VIP users |
+
+<a id="updatevoiceregionresponse"></a>
+
+## UpdateVoiceRegionResponse
+
+**Related endpoints**
+
+- [`POST /admin/voice/regions/update`](/api-reference/admin/update-voice-region)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| region | [VoiceRegionAdminResponse](#voiceregionadminresponse) | Updated voice region |
+
+<a id="updatevoiceserverrequest"></a>
+
+## UpdateVoiceServerRequest
+
+**Related endpoints**
+
+- [`POST /admin/voice/servers/update`](/api-reference/admin/update-voice-server)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allowed_guild_ids? | [SnowflakeType](#snowflaketype)[] | Guild IDs explicitly allowed to use this server |
+| allowed_user_ids? | [SnowflakeType](#snowflaketype)[] | User IDs explicitly allowed to use this server |
+| api_key? | string | API key for authenticating with the voice server |
+| api_secret? | string | API secret for authenticating with the voice server |
+| endpoint? | string (uri) | Client signal WebSocket endpoint URL for the voice server |
+| is_active? | boolean | Whether the server is currently active |
+| region_id | [SnowflakeType](#snowflaketype) | ID of the region this server belongs to |
+| required_guild_features? | string[] | Guild features required to use this server |
+| server_id | [SnowflakeType](#snowflaketype) | Unique identifier for the voice server |
+| vip_only? | boolean | Whether this server is restricted to VIP users |
+
+<a id="updatevoiceserverresponse"></a>
+
+## UpdateVoiceServerResponse
+
+**Related endpoints**
+
+- [`POST /admin/voice/servers/update`](/api-reference/admin/update-voice-server)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| server | [VoiceServerAdminResponse](#voiceserveradminresponse) | Updated voice server |
+
+<a id="usermutationresponse"></a>
+
+## UserMutationResponse
+
+**Related endpoints**
+
+- [`POST /admin/users/cancel-bulk-message-deletion`](/api-reference/admin/cancel-bulk-message-deletion)
+- [`POST /admin/users/cancel-deletion`](/api-reference/admin/cancel-account-deletion)
+- [`POST /admin/users/change-dob`](/api-reference/admin/change-user-dob)
+- [`POST /admin/users/change-email`](/api-reference/admin/change-user-email)
+- [`POST /admin/users/change-username`](/api-reference/admin/change-user-username)
+- [`POST /admin/users/clear-fields`](/api-reference/admin/clear-user-fields)
+- [`POST /admin/users/disable-suspicious`](/api-reference/admin/disable-user-for-suspicious-activity)
+- [`POST /admin/users/schedule-deletion`](/api-reference/admin/schedule-account-deletion)
+- [`POST /admin/users/set-acls`](/api-reference/admin/set-user-acls)
+- [`POST /admin/users/set-bot-status`](/api-reference/admin/set-user-bot-status)
+- [`POST /admin/users/set-system-status`](/api-reference/admin/set-user-system-status)
+- [`POST /admin/users/set-traits`](/api-reference/admin/set-user-traits)
+- [`POST /admin/users/temp-ban`](/api-reference/admin/temp-ban-user)
+- [`POST /admin/users/unban`](/api-reference/admin/unban-user)
+- [`POST /admin/users/unlink-phone`](/api-reference/admin/unlink-user-phone)
+- [`POST /admin/users/update-flags`](/api-reference/admin/update-user-flags)
+- [`POST /admin/users/update-suspicious-activity-flags`](/api-reference/admin/update-suspicious-activity-flags)
+- [`POST /admin/users/verify-email`](/api-reference/admin/verify-user-email)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user | [UserAdminResponseSchema](#useradminresponseschema) |  |
+
+<a id="verifyuseremailrequest"></a>
+
+## VerifyUserEmailRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/verify-email`](/api-reference/admin/verify-user-email)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="visionaryslotoperationresponse"></a>
+
+## VisionarySlotOperationResponse
+
+**Related endpoints**
+
+- [`POST /admin/visionary-slots/expand`](/api-reference/admin/expand-visionary-slots)
+- [`POST /admin/visionary-slots/reserve`](/api-reference/admin/reserve-or-unreserve-a-visionary-slot)
+- [`POST /admin/visionary-slots/shrink`](/api-reference/admin/shrink-visionary-slots)
+- [`POST /admin/visionary-slots/swap`](/api-reference/admin/swap-visionary-slot-reservations)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| success | enum&lt;`true`&gt; |  |
+
+<a id="adminarchiveresponseschemasubjecttype"></a>
+
+## AdminArchiveResponseSchemaSubjectType
+
+Type of subject being archived
+
+| Value | Description |
+|-------|-------------|
+| `user` | User data archive |
+| `guild` | Guild data archive |
+
+<a id="listarchivesrequestsubjecttype"></a>
+
+## ListArchivesRequestSubjectType
+
+Type of archives to list
+
+| Value | Description |
+|-------|-------------|
+| `user` | List user archives |
+| `guild` | List guild archives |
+| `all` | List all archives |
+
+<a id="purgeguildassetresultschemaassettype"></a>
+
+## PurgeGuildAssetResultSchemaAssetType
+
+Type of guild asset
+
+| Value | Description |
+|-------|-------------|
+| `emoji` | Custom emoji asset |
+| `sticker` | Custom sticker asset |
+| `unknown` | Unknown asset type |
+
+<a id="searchauditlogsrequestsortby"></a>
+
+## SearchAuditLogsRequestSortBy
+
+Field to sort audit logs by
+
+| Value | Description |
+|-------|-------------|
+| `createdAt` | Sort by creation timestamp |
+| `relevance` | Sort by search relevance score |
+
+<a id="searchauditlogsrequestsortorder"></a>
+
+## SearchAuditLogsRequestSortOrder
+
+Sort order direction
+
+| Value | Description |
+|-------|-------------|
+| `asc` | Ascending order (oldest first) |
+| `desc` | Descending order (newest first) |
+
+<a id="searchreportsrequestsortby"></a>
+
+## SearchReportsRequestSortBy
+
+Field to sort reports by
+
+| Value | Description |
+|-------|-------------|
+| `createdAt` | Sort by creation timestamp |
+| `reportedAt` | Sort by report submission timestamp |
+| `resolvedAt` | Sort by resolution timestamp |
+
+<a id="ncmecsubmissionstatusresponsestatus"></a>
+
+## NcmecSubmissionStatusResponseStatus
+
+NCMEC submission status
+
+| Value | Description |
+|-------|-------------|
+| `not_submitted` | Report has not been submitted to NCMEC |
+| `submitted` | Report has been submitted to NCMEC |
+| `failed` | Report submission to NCMEC failed |
+
+<a id="refreshsearchindexrequestindextype"></a>
+
+## RefreshSearchIndexRequestIndexType
+
+Type of search index to refresh
+
+| Value | Description |
+|-------|-------------|
+| `guilds` | Guild search index |
+| `users` | User search index |
+| `reports` | Report search index |
+| `audit_logs` | Audit log search index |
+| `channel_messages` | Channel message search index |
+| `guild_members` | Guild member search index |
+| `favorite_memes` | Favourite meme search index |
+
+<a id="systemdmjobresponsestatus"></a>
+
+## SystemDmJobResponseStatus
+
+Current status of the system DM job
+
+| Value | Description |
+|-------|-------------|
+| `pending` | Job is pending approval |
+| `approved` | Job has been approved and is queued |
+| `running` | Job is currently running |
+| `completed` | Job completed successfully |
+| `failed` | Job failed |
+
+<a id="clearguildfieldsrequestfields"></a>
+
+## ClearGuildFieldsRequestFields
+
+Guild image field that can be cleared
+
+| Value | Description |
+|-------|-------------|
+| `icon` | Guild icon image |
+| `banner` | Guild banner image |
+| `splash` | Guild invite splash image |
+| `embed_splash` | Guild embedded invite splash image |
+
+<a id="clearuserfieldsrequestfields"></a>
+
+## ClearUserFieldsRequestFields
+
+User profile field that can be cleared
+
+| Value | Description |
+|-------|-------------|
+| `avatar` | User profile avatar image |
+| `banner` | User profile banner image |
+| `bio` | User biography text |
+| `pronouns` | User pronouns |
+| `global_name` | User display name |
+
+<a id="guildmemorystatsresponseguildsitem"></a>
+
+## GuildMemoryStatsResponseGuildsItem
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_icon | ?string |  |
+| guild_id | ?[SnowflakeType](#snowflaketype) |  |
+| guild_name | string |  |
+| member_count | [Int32Type](#int32type) |  |
+| memory | [Int64StringType](#int64stringtype) |  |
+| presence_count | [Int32Type](#int32type) |  |
+| session_count | [Int32Type](#int32type) |  |
+
+<a id="guildupdateresponseguild"></a>
+
+## GuildUpdateResponseGuild
+
+| Field | Type | Description |
+|-------|------|-------------|
+| banner | ?string |  |
+| features | string[] |  |
+| icon | ?string |  |
+| id | [SnowflakeType](#snowflaketype) |  |
+| member_count | [Int32Type](#int32type) |  |
+| name | string |  |
+| owner_id | [SnowflakeType](#snowflaketype) |  |
+
+<a id="indexrefreshstatusresponseoneof1"></a>
+
+## IndexRefreshStatusResponseOneOf1
+
+| Field | Type | Description |
+|-------|------|-------------|
+| completed_at? | string | ISO 8601 timestamp when the job completed |
+| error? | string | Error message if the job failed |
+| failed_at? | string | ISO 8601 timestamp when the job failed |
+| index_type | string | Type of index being refreshed |
+| indexed? | number | Number of items indexed so far |
+| started_at? | string | ISO 8601 timestamp when the job started |
+| status | [MessageShredStatusProgressResponseStatus](#messageshredstatusprogressresponsestatus) | Current status of the index refresh job |
+| total? | number | Total number of items to index |
+
+<a id="instanceconfigupdaterequestsso"></a>
+
+## InstanceConfigUpdateRequestSso
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allowed_domains? | string[] |  |
+| authorization_url? | ?string |  |
+| auto_provision? | boolean |  |
+| client_id? | ?[SnowflakeType](#snowflaketype) |  |
+| client_secret? | ?string |  |
+| display_name? | ?string |  |
+| enabled? | boolean |  |
+| issuer? | ?string |  |
+| jwks_url? | ?string |  |
+| redirect_uri? | ?string (uri) |  |
+| scope? | ?string |  |
+| token_url? | ?string |  |
+| userinfo_url? | ?string |  |
+
+<a id="limitconfiggetresponseboundsadditionalproperties"></a>
+
+## LimitConfigGetResponseBoundsAdditionalProperties
+
+| Field | Type | Description |
+|-------|------|-------------|
+| max | number |  |
+| min | number |  |
+
+<a id="limitconfiggetresponselimitconfig"></a>
+
+## LimitConfigGetResponseLimitConfig
+
+| Field | Type | Description |
+|-------|------|-------------|
+| rules | [LimitConfigGetResponseLimitConfigRulesItem](#limitconfiggetresponselimitconfigrulesitem)[] |  |
+| traitDefinitions | string[] |  |
+
+<a id="limitconfiggetresponsemetadataadditionalproperties"></a>
+
+## LimitConfigGetResponseMetadataAdditionalProperties
+
+| Field | Type | Description |
+|-------|------|-------------|
+| category | string |  |
+| description | string |  |
+| isToggle | boolean |  |
+| key | string |  |
+| label | string |  |
+| max? | number |  |
+| min? | number |  |
+| scope | string |  |
+| unit? | [LimitConfigGetResponseMetadataAdditionalPropertiesUnit](#limitconfiggetresponsemetadataadditionalpropertiesunit) |  |
+
+<a id="limitconfigupdaterequestlimitconfig"></a>
+
+## LimitConfigUpdateRequestLimitConfig
+
+New limit configuration snapshot
+
+| Field | Type | Description |
+|-------|------|-------------|
+| rules | [LimitConfigUpdateRequestLimitConfigRulesItem](#limitconfigupdaterequestlimitconfigrulesitem)[] | Limit rules |
+| traitDefinitions? | string[] | Trait definitions used by rules |
+
+<a id="lookupguildresponseguild"></a>
+
+## LookupGuildResponseGuild
+
+| Field | Type | Description |
+|-------|------|-------------|
+| afk_channel_id | ?[SnowflakeType](#snowflaketype) |  |
+| afk_timeout | [Int32Type](#int32type) |  |
+| banner | ?string |  |
+| channels | [LookupGuildResponseGuildChannelsItem](#lookupguildresponseguildchannelsitem)[] |  |
+| default_message_notifications | [DefaultMessageNotifications](#defaultmessagenotifications) |  |
+| disabled_operations | [Int32Type](#int32type) |  |
+| embed_splash | ?string |  |
+| explicit_content_filter | [GuildExplicitContentFilter](#guildexplicitcontentfilter) |  |
+| features | string[] |  |
+| icon | ?string |  |
+| id | [SnowflakeType](#snowflaketype) |  |
+| member_count | [Int32Type](#int32type) |  |
+| mfa_level | [GuildMFALevel](#guildmfalevel) |  |
+| name | string |  |
+| nsfw_level | [NSFWLevel](#nsfwlevel) |  |
+| owner_id | [SnowflakeType](#snowflaketype) |  |
+| roles | [LookupGuildResponseGuildRolesItem](#lookupguildresponseguildrolesitem)[] |  |
+| rules_channel_id | ?[SnowflakeType](#snowflaketype) |  |
+| splash | ?string |  |
+| system_channel_flags | [SystemChannelFlags](#systemchannelflags) |  |
+| system_channel_id | ?[SnowflakeType](#snowflaketype) |  |
+| vanity_url_code | ?string |  |
+| verification_level | [GuildVerificationLevel](#guildverificationlevel) |  |
+
+<a id="lookupmessageresponsemessagesitem"></a>
+
+## LookupMessageResponseMessagesItem
+
+| Field | Type | Description |
+|-------|------|-------------|
+| attachments | [LookupMessageResponseMessagesItemAttachmentsItem](#lookupmessageresponsemessagesitemattachmentsitem)[] |  |
+| author_discriminator | string |  |
+| author_id | [SnowflakeType](#snowflaketype) |  |
+| author_username | string |  |
+| channel_id | [SnowflakeType](#snowflaketype) |  |
+| content | string |  |
+| id | [SnowflakeType](#snowflaketype) |  |
+| timestamp | string |  |
+
+<a id="nodestatsresponsememory"></a>
+
+## NodeStatsResponseMemory
+
+| Field | Type | Description |
+|-------|------|-------------|
+| processes | [Int64StringType](#int64stringtype) |  |
+| system | [Int64StringType](#int64stringtype) |  |
+| total | [Int64StringType](#int64stringtype) |  |
+
+<a id="reportadminresponseschemamessagecontextitem"></a>
+
+## ReportAdminResponseSchemaMessageContextItem
+
+| Field | Type | Description |
+|-------|------|-------------|
+| attachments | [LookupMessageResponseMessagesItemAttachmentsItem](#lookupmessageresponsemessagesitemattachmentsitem)[] |  |
+| author_discriminator | string |  |
+| author_id | [SnowflakeType](#snowflaketype) |  |
+| author_username | string |  |
+| channel_id | [SnowflakeType](#snowflaketype) |  |
+| content | string |  |
+| guild_id | ?[SnowflakeType](#snowflaketype) |  |
+| id | [SnowflakeType](#snowflaketype) |  |
+| timestamp | string |  |
+

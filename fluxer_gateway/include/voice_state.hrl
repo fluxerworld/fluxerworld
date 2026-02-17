@@ -15,12 +15,10 @@
 %% You should have received a copy of the GNU Affero General Public License
 %% along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
 
--record(voice_flags, {
-    self_mute = false :: boolean(),
-    self_deaf = false :: boolean(),
-    self_video = false :: boolean(),
-    self_stream = false :: boolean(),
-    is_mobile = false :: boolean()
-}).
-
--type voice_flags() :: #voice_flags{}.
+-type voice_flags() :: #{
+    self_mute := boolean(),
+    self_deaf := boolean(),
+    self_video := boolean(),
+    self_stream := boolean(),
+    is_mobile := boolean()
+}.

@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {makePersistent} from '@app/lib/MobXPersistence';
+import NavigationStore from '@app/stores/NavigationStore';
+import {ME} from '@fluxer/constants/src/AppConstants';
 import {action, makeAutoObservable, reaction} from 'mobx';
-import {ME} from '~/Constants';
-import {makePersistent} from '~/lib/MobXPersistence';
-import NavigationStore from '~/stores/NavigationStore';
 
 const FAVORITES_ROUTE_ID = '@favorites';
 

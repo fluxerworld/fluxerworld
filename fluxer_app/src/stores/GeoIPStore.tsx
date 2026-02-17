@@ -44,7 +44,7 @@ class GeoIPStore {
 
 	async fetchGeoData(): Promise<void> {
 		try {
-			const response = await fetch('https://ip.fluxer.workers.dev/');
+			const response = await fetch('https://ip.fluxer.workers.dev/', {signal: AbortSignal.timeout(5000)});
 			if (!response.ok) {
 				throw new Error(`Failed to fetch geo data: ${response.statusText}`);
 			}

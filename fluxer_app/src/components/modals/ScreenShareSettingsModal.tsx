@@ -17,17 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Switch} from '@app/components/form/Switch';
+import * as Modal from '@app/components/modals/Modal';
+import styles from '@app/components/modals/ScreenShareSettingsModal.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {useScreenShareSettingsModal} from '@app/utils/modals/ScreenShareSettingsModalUtils';
+import {shouldShowPremiumFeatures} from '@app/utils/PremiumUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CrownIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import {useMemo} from 'react';
-import {Switch} from '~/components/form/Switch';
-import * as Modal from '~/components/modals/Modal';
-import styles from '~/components/modals/ScreenShareSettingsModal.module.css';
-import {Button} from '~/components/uikit/Button/Button';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {useScreenShareSettingsModal} from '~/utils/modals/ScreenShareSettingsModalUtils';
 
 interface ScreenShareSettingsModalProps {
 	onStartShare: (
@@ -42,6 +43,7 @@ export const ScreenShareSettingsModal = observer(({onStartShare}: ScreenShareSet
 	const {
 		hasPremium,
 		isSharing,
+		supportsScreenShareAudio,
 		selectedResolution,
 		selectedFrameRate,
 		includeAudio,
@@ -131,14 +133,18 @@ export const ScreenShareSettingsModal = observer(({onStartShare}: ScreenShareSet
 									<Trans>Share Audio</Trans>
 								</div>
 								<div className={styles.audioToggleDescription}>
-									<Trans>Include audio from your screen in the share</Trans>
+									{supportsScreenShareAudio ? (
+										<Trans>Include audio from your screen in the share</Trans>
+									) : (
+										<Trans>System audio capture is not available on this platform.</Trans>
+									)}
 								</div>
 							</div>
-							<Switch value={includeAudio} onChange={setIncludeAudio} />
+							<Switch value={includeAudio} onChange={setIncludeAudio} disabled={!supportsScreenShareAudio} />
 						</div>
 					</div>
 
-					{!hasPremium && (
+					{!hasPremium && shouldShowPremiumFeatures() && (
 						<div className={styles.premiumBanner}>
 							<div className={styles.premiumBannerHeader}>
 								<CrownIcon weight="fill" size={16} className={styles.premiumBannerIcon} />
@@ -148,7 +154,7 @@ export const ScreenShareSettingsModal = observer(({onStartShare}: ScreenShareSet
 							</div>
 							<p className={styles.premiumBannerDescription}>
 								<Trans>
-									Get High (1080p), Ultra (1440p), and 4K (2160p) resolutions, plus 60 fps for the smoothest experience.
+									Get High (1080p), Ultra (1440p), and 4K (2160p) resolutions, plus 60 FPS for the smoothest experience.
 								</Trans>
 							</p>
 						</div>

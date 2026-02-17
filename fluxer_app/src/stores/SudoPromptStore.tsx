@@ -17,14 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import SudoVerificationModal from '@app/components/modals/SudoVerificationModal';
+import {Endpoints} from '@app/Endpoints';
+import HttpClient, {type HttpRequestConfig} from '@app/lib/HttpClient';
+import type {HttpError} from '@app/lib/HttpError';
+import {Logger} from '@app/lib/Logger';
+import {makePersistent} from '@app/lib/MobXPersistence';
+import type {SudoVerificationPayload} from '@app/types/Sudo';
+import {getApiErrorMessage} from '@app/utils/ApiErrorUtils';
 import {makeAutoObservable, runInAction} from 'mobx';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import SudoVerificationModal from '~/components/modals/SudoVerificationModal';
-import {Endpoints} from '~/Endpoints';
-import HttpClient, {type HttpError, type HttpRequestConfig} from '~/lib/HttpClient';
-import {makePersistent} from '~/lib/MobXPersistence';
-import type {SudoVerificationPayload} from '~/types/Sudo';
 
 interface SudoRequestContext {
 	method: string;
@@ -37,7 +40,7 @@ export enum SudoVerificationMethod {
 	WEBAUTHN = 'webauthn',
 }
 
-export const isAbortError = (error: unknown): boolean => {
+export function isAbortError(error: unknown): boolean {
 	if (error instanceof DOMException && error.name === 'AbortError') {
 		return true;
 	}
@@ -45,11 +48,12 @@ export const isAbortError = (error: unknown): boolean => {
 		return true;
 	}
 	return false;
-};
+}
 
 const SUDO_MODAL_KEY = 'sudo-verification-modal';
 
 class SudoPromptStore {
+	private logger = new Logger('SudoPromptStore');
 	isOpen = false;
 	isLoadingMethods = false;
 	isVerifying = false;
@@ -129,7 +133,7 @@ class SudoPromptStore {
 				};
 			});
 		} catch (error) {
-			console.error('Failed to load sudo MFA methods', error);
+			this.logger.error('Failed to load sudo MFA methods', error);
 			runInAction(() => {
 				this.availableMethods = {password: true, totp: false, sms: false, webauthn: false, has_mfa: false};
 			});
@@ -160,7 +164,7 @@ class SudoPromptStore {
 	}
 
 	handleTokenReceived(_token: string | null): void {
-		if (!this.isVerifying) {
+		if (!this.isOpen && !this.isVerifying) {
 			return;
 		}
 		this.cleanup();
@@ -178,8 +182,7 @@ class SudoPromptStore {
 			const httpError = error as HttpError | null;
 			this.rawError = httpError;
 
-			const body = httpError?.body as {message?: string} | undefined;
-			this.verificationError = body?.message ?? 'Verification failed';
+			this.verificationError = getApiErrorMessage(error) ?? 'Verification failed';
 		});
 	};
 
@@ -194,7 +197,5 @@ class SudoPromptStore {
 		ModalActionCreators.popWithKey(SUDO_MODAL_KEY);
 	}
 }
-
-export type {SudoVerificationPayload};
 
 export default new SudoPromptStore();

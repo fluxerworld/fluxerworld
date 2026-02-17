@@ -42,7 +42,7 @@
 @media (hover: hover) {
 	.deleteButton:hover {
 		background-color: var(--status-danger);
-		color: white;
+		color: var(--text-on-brand-primary);
 	}
 }
 
@@ -57,7 +57,6 @@
 	border: 1px solid var(--background-modifier-accent);
 	background-color: var(--background-secondary);
 	padding: 0.75rem;
-	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .iconContainer {
@@ -114,8 +113,8 @@
 	flex-shrink: 0;
 	border-radius: 8px;
 	background-color: var(--brand-primary);
-	color: white;
-	transition: background-color 150ms ease;
+	color: var(--text-on-brand-primary);
+	transition: background-color 0.1s ease;
 	cursor: pointer;
 }
 
@@ -147,4 +146,148 @@
 .statusIcon {
 	width: 14px;
 	height: 14px;
+}
+
+.textualPreview {
+	display: flex;
+	flex-direction: column;
+	border-radius: var(--radius-md);
+	background-color: var(--background-secondary);
+	border: 1px solid var(--border-color);
+	overflow: hidden;
+}
+
+.previewContent {
+	position: relative;
+	background-color: var(--bg-code-block);
+	min-height: 5rem;
+}
+
+.previewContentInner {
+	display: flex;
+	flex-direction: column;
+	gap: 0.5rem;
+	padding: 0.75rem;
+}
+
+.previewContentLoading {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-height: 6rem;
+	color: var(--text-tertiary);
+}
+
+.codeBlock {
+	margin: 0;
+	padding: 0;
+	font-family: var(--font-mono);
+	font-size: 0.75rem;
+	line-height: 1rem;
+	white-space: pre;
+	color: var(--text-code);
+	overflow-x: auto;
+	scrollbar-width: thin;
+}
+
+.wrapMode {
+	white-space: pre-wrap !important;
+	word-break: break-word;
+}
+
+.previewTruncationNote {
+	color: var(--text-tertiary);
+	font-size: 0.75rem;
+	line-height: 1rem;
+	font-family: var(--font-mono);
+}
+
+.previewFooter {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 0.75rem;
+	padding: 0.5rem 0.75rem;
+	background-color: var(--background-secondary);
+	border-top: 1px solid var(--border-color);
+}
+
+.previewFooterLeft {
+	display: flex;
+	flex-direction: column;
+	gap: 0.15rem;
+	min-width: 0;
+	flex: 1;
+}
+
+.previewFilename {
+	font-size: 0.875rem;
+	font-weight: 500;
+	color: var(--text-primary);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.previewFileSize {
+	font-size: 0.75rem;
+	color: var(--text-tertiary);
+}
+
+.previewControls {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.25rem;
+}
+
+.previewControlButton {
+	border: none;
+	background: transparent;
+	color: var(--text-secondary);
+	width: 2rem;
+	height: 2rem;
+	border-radius: 4px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition:
+		background-color 0.1s ease,
+		color 0.1s ease;
+	text-decoration: none;
+}
+
+@media (hover: hover) {
+	.previewControlButton:hover {
+		background-color: var(--background-modifier-hover);
+		color: var(--text-primary);
+	}
+}
+
+.previewError {
+	padding: 1rem;
+	display: flex;
+	align-items: center;
+	gap: 0.45rem;
+	color: var(--status-danger);
+}
+
+.previewLoadingState {
+	padding: 1rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.5rem;
+	color: var(--text-tertiary);
+}
+
+.srOnly {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
 }

@@ -138,6 +138,8 @@ extract_snowflake(FieldName, Map, Default) ->
 extract_snowflakes(FieldSpecs, Map) ->
     extract_snowflakes_loop(FieldSpecs, Map, #{}).
 
+-spec extract_snowflakes_loop(list({atom(), binary()}), map(), map()) ->
+    {ok, #{atom() => integer()}} | {error, atom(), atom()}.
 extract_snowflakes_loop([], _Map, Acc) ->
     {ok, Acc};
 extract_snowflakes_loop([{KeyAtom, FieldName} | Rest], Map, Acc) ->
@@ -192,3 +194,87 @@ error_category_to_close_code(auth_failed) ->
     constants:close_code_to_num(authentication_failed);
 error_category_to_close_code(_) ->
     constants:close_code_to_num(unknown_error).
+
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+validate_snowflake_integer_test() ->
+    ?assertEqual({ok, 123}, validate_snowflake(123)),
+    ?assertEqual({ok, 0}, validate_snowflake(0)),
+    ?assertEqual({ok, -1}, validate_snowflake(-1)).
+
+validate_snowflake_binary_test() ->
+    ?assertEqual({ok, 123}, validate_snowflake(<<"123">>)),
+    ?assertEqual({ok, 0}, validate_snowflake(<<"0">>)).
+
+validate_snowflake_invalid_test() ->
+    ?assertMatch({error, _, _}, validate_snowflake(null)),
+    ?assertMatch({error, _, _}, validate_snowflake(<<"abc">>)),
+    ?assertMatch({error, _, _}, validate_snowflake(1.5)).
+
+validate_optional_snowflake_test() ->
+    ?assertEqual({ok, null}, validate_optional_snowflake(null)),
+    ?assertEqual({ok, 123}, validate_optional_snowflake(123)),
+    ?assertEqual({ok, 456}, validate_optional_snowflake(<<"456">>)).
+
+validate_snowflake_list_test() ->
+    ?assertEqual({ok, [1, 2, 3]}, validate_snowflake_list([1, 2, 3])),
+    ?assertEqual({ok, [1, 2]}, validate_snowflake_list([<<"1">>, <<"2">>])),
+    ?assertEqual({ok, []}, validate_snowflake_list([])).
+
+validate_snowflake_list_invalid_test() ->
+    ?assertMatch({error, _, _}, validate_snowflake_list([1, <<"abc">>])),
+    ?assertMatch({error, _, _}, validate_snowflake_list(not_a_list)).
+
+snowflake_or_default_test() ->
+    ?assertEqual(123, snowflake_or_default(123, 0)),
+    ?assertEqual(456, snowflake_or_default(<<"456">>, 0)),
+    ?assertEqual(0, snowflake_or_default(<<"abc">>, 0)),
+    ?assertEqual(99, snowflake_or_default(null, 99)).
+
+get_field_test() ->
+    Map = #{<<"key">> => <<"value">>},
+    ?assertEqual({ok, <<"value">>}, get_field(<<"key">>, Map)),
+    ?assertMatch({error, _, _}, get_field(<<"missing">>, Map)).
+
+get_field_with_default_test() ->
+    Map = #{<<"key">> => <<"value">>},
+    ?assertEqual(<<"value">>, get_field(<<"key">>, Map, <<"default">>)),
+    ?assertEqual(<<"default">>, get_field(<<"missing">>, Map, <<"default">>)),
+    ?assertEqual(<<"default">>, get_field(<<"key">>, not_a_map, <<"default">>)).
+
+extract_snowflake_test() ->
+    Map = #{<<"id">> => <<"123">>},
+    ?assertEqual({ok, 123}, extract_snowflake(<<"id">>, Map)),
+    ?assertMatch({error, _, _}, extract_snowflake(<<"missing">>, Map)).
+
+extract_snowflake_with_default_test() ->
+    Map = #{<<"id">> => <<"123">>},
+    ?assertEqual(123, extract_snowflake(<<"id">>, Map, 0)),
+    ?assertEqual(0, extract_snowflake(<<"missing">>, Map, 0)).
+
+extract_snowflakes_test() ->
+    Map = #{<<"user_id">> => <<"123">>, <<"guild_id">> => <<"456">>},
+    Specs = [{user, <<"user_id">>}, {guild, <<"guild_id">>}],
+    {ok, Result} = extract_snowflakes(Specs, Map),
+    ?assertEqual(123, maps:get(user, Result)),
+    ?assertEqual(456, maps:get(guild, Result)).
+
+get_required_field_test() ->
+    Map = #{<<"id">> => <<"123">>},
+    Validator = fun(V) -> validate_snowflake(V) end,
+    ?assertEqual({ok, 123}, get_required_field(<<"id">>, Map, Validator)),
+    ?assertMatch({error, _, _}, get_required_field(<<"missing">>, Map, Validator)).
+
+get_optional_field_test() ->
+    Map = #{<<"id">> => <<"123">>},
+    Validator = fun(V) -> validate_snowflake(V) end,
+    ?assertEqual({ok, 123}, get_optional_field(<<"id">>, Map, Validator)),
+    ?assertEqual({ok, undefined}, get_optional_field(<<"missing">>, Map, Validator)).
+
+error_category_to_close_code_test() ->
+    ?assertEqual(4008, error_category_to_close_code(rate_limited)),
+    ?assertEqual(4004, error_category_to_close_code(auth_failed)),
+    ?assertEqual(4000, error_category_to_close_code(unknown)).
+
+-endif.

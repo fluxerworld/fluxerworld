@@ -1,0 +1,29 @@
+{
+	"clamav_integration": {
+		"type": "object",
+		"description": "ClamAV antivirus integration.",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"default": false,
+				"description": "Enable ClamAV scanning."
+			},
+			"host": {
+				"type": "string",
+				"default": "clamav",
+				"description": "ClamAV host."
+			},
+			"port": {
+				"type": "number",
+				"default": 3310,
+				"description": "ClamAV port."
+			},
+			"fail_open": {
+				"type": "boolean",
+				"default": true,
+				"description": "If true, allow files if scanning fails."
+			}
+		}
+	}
+}

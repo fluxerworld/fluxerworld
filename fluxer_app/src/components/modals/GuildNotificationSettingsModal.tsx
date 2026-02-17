@@ -17,24 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as UserGuildSettingsActionCreators from '@app/actions/UserGuildSettingsActionCreators';
+import {Select} from '@app/components/form/Select';
+import {Switch} from '@app/components/form/Switch';
+import styles from '@app/components/modals/GuildNotificationSettingsModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import {RadioGroup, type RadioOption} from '@app/components/uikit/radio_group/RadioGroup';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildStore from '@app/stores/GuildStore';
+import UserGuildSettingsStore from '@app/stores/UserGuildSettingsStore';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import {MessageNotifications} from '@fluxer/constants/src/NotificationConstants';
+import type {ChannelId} from '@fluxer/schema/src/branded/WireIds';
 import {useLingui} from '@lingui/react/macro';
 import {FolderIcon, XIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as UserGuildSettingsActionCreators from '~/actions/UserGuildSettingsActionCreators';
-import {ChannelTypes, MessageNotifications} from '~/Constants';
-import {Select} from '~/components/form/Select';
-import {Switch} from '~/components/form/Switch';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import {RadioGroup, type RadioOption} from '~/components/uikit/RadioGroup/RadioGroup';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildStore from '~/stores/GuildStore';
-import UserGuildSettingsStore from '~/stores/UserGuildSettingsStore';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import styles from './GuildNotificationSettingsModal.module.css';
 
 interface ChannelOption {
 	value: string;
@@ -88,7 +90,7 @@ export const GuildNotificationSettingsModal = observer(({guildId}: {guildId: str
 		},
 		{
 			value: MessageNotifications.ONLY_MENTIONS,
-			name: t`Only @mentions`,
+			name: t`Only Mentions`,
 		},
 		{
 			value: MessageNotifications.NO_MESSAGES,
@@ -99,7 +101,7 @@ export const GuildNotificationSettingsModal = observer(({guildId}: {guildId: str
 	const handleAddOverride = (value: string | null) => {
 		if (!value) return;
 
-		const existingOverride = settings.channel_overrides?.[value];
+		const existingOverride = settings.channel_overrides?.[value as ChannelId];
 		if (existingOverride) {
 			return;
 		}
@@ -192,7 +194,7 @@ export const GuildNotificationSettingsModal = observer(({guildId}: {guildId: str
 							}
 						/>
 						<Switch
-							label={t`Suppress all role @mentions`}
+							label={t`Suppress All Role @mentions`}
 							value={settings.suppress_roles}
 							onChange={(value) =>
 								UserGuildSettingsActionCreators.updateGuildSettings(guildId, {suppress_roles: value})

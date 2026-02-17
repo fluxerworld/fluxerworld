@@ -17,23 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/common/FriendSelector.module.css';
+import {Input, type RenderInputArgs} from '@app/components/form/Input';
+import {Avatar} from '@app/components/uikit/Avatar';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import type {UserRecord} from '@app/records/UserRecord';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import UserStore from '@app/stores/UserStore';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {useLingui} from '@lingui/react/macro';
 import {MagnifyingGlassIcon, XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {RelationshipTypes} from '~/Constants';
-import {Input, type RenderInputArgs} from '~/components/form/Input';
-import {Avatar} from '~/components/uikit/Avatar';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Scroller} from '~/components/uikit/Scroller';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import type {UserRecord} from '~/records/UserRecord';
-import RelationshipStore from '~/stores/RelationshipStore';
-import UserStore from '~/stores/UserStore';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import styles from './FriendSelector.module.css';
+import type React from 'react';
+import {useMemo, useRef, useState} from 'react';
 
 interface FriendSelectorProps {
 	selectedUserIds: Array<string>;
@@ -63,10 +64,10 @@ export const FriendSelector: React.FC<FriendSelectorProps> = observer(
 		stickyUserIds = [],
 	}) => {
 		const {t} = useLingui();
-		const [internalSearchQuery, setInternalSearchQuery] = React.useState('');
+		const [internalSearchQuery, setInternalSearchQuery] = useState('');
 		const searchQuery = externalSearchQuery ?? internalSearchQuery;
-		const [inputFocused, setInputFocused] = React.useState(false);
-		const inputRef = React.useRef<HTMLInputElement | null>(null);
+		const [inputFocused, setInputFocused] = useState(false);
+		const inputRef = useRef<HTMLInputElement | null>(null);
 
 		const handleSearchChange = (value: string) => {
 			if (onSearchQueryChange) {
@@ -77,7 +78,7 @@ export const FriendSelector: React.FC<FriendSelectorProps> = observer(
 		};
 
 		const relationships = RelationshipStore.getRelationships();
-		const friendUsers = React.useMemo(() => {
+		const friendUsers = useMemo(() => {
 			const friends = relationships.filter(
 				(relationship) => relationship.type === RelationshipTypes.FRIEND && !excludeUserIds.includes(relationship.id),
 			);
@@ -88,11 +89,11 @@ export const FriendSelector: React.FC<FriendSelectorProps> = observer(
 				.sort((a, b) => NicknameUtils.getNickname(a).localeCompare(NicknameUtils.getNickname(b)));
 		}, [relationships, excludeUserIds]);
 
-		const activeStickyUserIds = React.useMemo(() => {
+		const activeStickyUserIds = useMemo(() => {
 			return stickyUserIds.filter((id) => selectedUserIds.includes(id));
 		}, [stickyUserIds, selectedUserIds]);
 
-		const groupedFriends = React.useMemo(() => {
+		const groupedFriends = useMemo(() => {
 			const filtered = friendUsers.filter((user) => {
 				if (!searchQuery) return true;
 				return NicknameUtils.getNickname(user).toLowerCase().includes(searchQuery.toLowerCase());
@@ -204,7 +205,6 @@ export const FriendSelector: React.FC<FriendSelectorProps> = observer(
 					className={clsx(styles.scroller, !showSearchInput && styles.scrollerNoSearch)}
 					key="friend-selector-scroller"
 					fade={false}
-					reserveScrollbarTrack={false}
 				>
 					{groupedFriends.length === 0 && activeStickyUserIds.length === 0 ? (
 						<div className={styles.emptyState}>

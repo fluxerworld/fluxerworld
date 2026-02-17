@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
 
 const logger = new Logger('Notes');
 
-export const update = async (userId: string, note: string | null): Promise<void> => {
+export async function update(userId: string, note: string | null): Promise<void> {
 	try {
 		await http.put({url: Endpoints.USER_NOTE(userId), body: {note}});
 		logger.debug(`Updated note for user ${userId} to ${note ? 'new value' : 'null'}`);
@@ -31,4 +31,4 @@ export const update = async (userId: string, note: string | null): Promise<void>
 		logger.error(`Failed to update note for user ${userId}:`, error);
 		throw error;
 	}
-};
+}

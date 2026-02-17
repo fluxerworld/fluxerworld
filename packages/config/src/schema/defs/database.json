@@ -1,0 +1,127 @@
+{
+	"cassandra": {
+		"type": "object",
+		"description": "Cassandra connection details.",
+		"additionalProperties": false,
+		"required": ["hosts", "keyspace", "local_dc", "username", "password"],
+		"properties": {
+			"hosts": {
+				"type": "array",
+				"description": "Array of Cassandra contact points (hostnames or IPs).",
+				"items": {
+					"type": "string"
+				}
+			},
+			"keyspace": {
+				"type": "string",
+				"description": "Cassandra keyspace name."
+			},
+			"local_dc": {
+				"type": "string",
+				"description": "Local Data Center name for topology awareness."
+			},
+			"username": {
+				"type": "string",
+				"description": "Cassandra authentication username."
+			},
+			"password": {
+				"type": "string",
+				"description": "Cassandra authentication password."
+			}
+		}
+	},
+	"database": {
+		"type": "object",
+		"description": "Database backend selection and configuration.",
+		"additionalProperties": false,
+		"required": ["backend"],
+		"properties": {
+			"backend": {
+				"type": "string",
+				"description": "Selected database backend. 'sqlite' is for dev/single-node, 'cassandra' for production.",
+				"enum": ["cassandra", "sqlite"]
+			},
+			"cassandra": {
+				"description": "Configuration settings for Cassandra backend.",
+				"$ref": "#/$defs/cassandra"
+			},
+			"sqlite_path": {
+				"type": "string",
+				"description": "Filesystem path to the SQLite database file.",
+				"default": "./data/fluxer.db"
+			}
+		}
+	},
+	"s3_buckets": {
+		"type": "object",
+		"description": "Configuration of specific S3 bucket names.",
+		"additionalProperties": false,
+		"properties": {
+			"cdn": {
+				"type": "string",
+				"description": "Bucket for CDN assets.",
+				"default": "fluxer"
+			},
+			"uploads": {
+				"type": "string",
+				"description": "Bucket for user uploads.",
+				"default": "fluxer-uploads"
+			},
+			"downloads": {
+				"type": "string",
+				"description": "Bucket for downloads.",
+				"default": "fluxer-downloads"
+			},
+			"reports": {
+				"type": "string",
+				"description": "Bucket for report data.",
+				"default": "fluxer-reports"
+			},
+			"harvests": {
+				"type": "string",
+				"description": "Bucket for data harvests.",
+				"default": "fluxer-harvests"
+			},
+			"static": {
+				"type": "string",
+				"description": "Bucket for static site assets.",
+				"default": "fluxer-static"
+			}
+		}
+	},
+	"s3": {
+		"type": "object",
+		"description": "S3 connection configuration.",
+		"additionalProperties": false,
+		"required": ["access_key_id", "secret_access_key"],
+		"properties": {
+			"endpoint": {
+				"type": "string",
+				"description": "S3 service endpoint URL.",
+				"default": "http://localhost:3900"
+			},
+			"presigned_url_base": {
+				"type": "string",
+				"description": "Base URL for presigned download URLs. If not set, defaults to the endpoint value. Set this to a public URL when the endpoint is internal."
+			},
+			"region": {
+				"type": "string",
+				"description": "S3 region.",
+				"default": "local"
+			},
+			"access_key_id": {
+				"type": "string",
+				"description": "S3 Access Key ID."
+			},
+			"secret_access_key": {
+				"type": "string",
+				"description": "S3 Secret Access Key."
+			},
+			"buckets": {
+				"description": "Mapping of logical buckets to actual S3 bucket names.",
+				"$ref": "#/$defs/s3_buckets",
+				"default": {}
+			}
+		}
+	}
+}

@@ -17,17 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getStatusTypeLabel} from '@app/AppConstants';
+import {getStatusGeometry} from '@app/components/uikit/AvatarStatusGeometry';
+import {getAvatarStatusLayout} from '@app/components/uikit/AvatarStatusLayout';
+import styles from '@app/components/uikit/BaseAvatar.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {TYPING_BRIDGE_RIGHT_SHIFT_RATIO} from '@app/components/uikit/TypingConstants';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import FocusManager from '@app/lib/FocusManager';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import typingStyles from '@app/styles/Typing.module.css';
+import type {StatusType} from '@fluxer/constants/src/StatusConstants';
+import {normalizeStatus, StatusTypes} from '@fluxer/constants/src/StatusConstants';
 import {useLingui} from '@lingui/react/macro';
 import {motion} from 'framer-motion';
-import React from 'react';
-import type {StatusType} from '~/Constants';
-import {getStatusTypeLabel, normalizeStatus, StatusTypes} from '~/Constants';
-import {getStatusGeometry} from '~/components/uikit/AvatarStatusGeometry';
-import {getAvatarStatusLayout} from '~/components/uikit/AvatarStatusLayout';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import FocusManager from '~/lib/FocusManager';
-import typingStyles from '~/styles/Typing.module.css';
-import styles from './BaseAvatar.module.css';
+import React, {useEffect, useId, useState} from 'react';
 
 interface BaseAvatarProps {
 	size: number;
@@ -66,9 +70,9 @@ export const BaseAvatar = React.forwardRef<HTMLDivElement, BaseAvatarProps>(
 		ref,
 	) => {
 		const {t, i18n} = useLingui();
-		const [isFocused, setIsFocused] = React.useState(FocusManager.isFocused());
+		const [isFocused, setIsFocused] = useState(FocusManager.isFocused());
 
-		React.useEffect(() => {
+		useEffect(() => {
 			const unsubscribe = FocusManager.subscribe(setIsFocused);
 			return unsubscribe;
 		}, []);
@@ -77,9 +81,13 @@ export const BaseAvatar = React.forwardRef<HTMLDivElement, BaseAvatarProps>(
 		const renderableStatus = resolveRenderableStatus(normalizedStatus);
 
 		const layout = getAvatarStatusLayout(size, isMobileStatus);
-		const SNAPPY_TRANSITION = {type: 'tween', duration: 0.16, ease: 'easeOut'} as const;
+		const SNAPPY_TRANSITION = {
+			type: 'tween',
+			duration: AccessibilityStore.useReducedMotion ? 0 : 0.16,
+			ease: 'easeOut',
+		} as const;
 
-		const rawId = React.useId();
+		const rawId = useId();
 		const safeId = rawId.replace(/:/g, '');
 		const dynamicAvatarMaskId = `svg-mask-avatar-dynamic-${safeId}`;
 
@@ -98,6 +106,7 @@ export const BaseAvatar = React.forwardRef<HTMLDivElement, BaseAvatarProps>(
 
 		const typingDeltaW = layout.innerTypingWidth - layout.innerStatusWidth;
 		const extendW = Math.max(0, typingDeltaW);
+		const typingBridgeShift = extendW * TYPING_BRIDGE_RIGHT_SHIFT_RATIO;
 
 		const baseBridgeRect = {
 			x: cutoutCx,
@@ -107,16 +116,30 @@ export const BaseAvatar = React.forwardRef<HTMLDivElement, BaseAvatarProps>(
 		};
 
 		const typingBridgeRect = {
-			x: cutoutCx - extendW,
+			x: cutoutCx - extendW + typingBridgeShift,
 			y: cutoutCy - cutoutR,
 			width: extendW,
 			height: cutoutR * 2,
 		};
 
 		const baseLeftCap = {cx: cutoutCx};
-		const typingLeftCap = {cx: cutoutCx - extendW};
+		const typingLeftCap = {cx: cutoutCx - extendW + typingBridgeShift};
+		const baseRightCap = {cx: cutoutCx};
+		const typingRightCap = {cx: cutoutCx + typingBridgeShift};
 
-		const displayUrl = shouldPlayAnimated && hoverAvatarUrl && isFocused ? hoverAvatarUrl : avatarUrl;
+		const candidateUrl = shouldPlayAnimated && hoverAvatarUrl && isFocused ? hoverAvatarUrl : avatarUrl;
+
+		const [imgError, setImgError] = useState(false);
+
+		useEffect(() => {
+			setImgError(false);
+			if (!candidateUrl) return;
+			const img = new Image();
+			img.onerror = () => setImgError(true);
+			img.src = candidateUrl;
+		}, [candidateUrl]);
+
+		if (!candidateUrl || imgError) return null;
 
 		const avatarMaskId = shouldUseDynamicAvatarMask
 			? dynamicAvatarMaskId
@@ -134,7 +157,7 @@ export const BaseAvatar = React.forwardRef<HTMLDivElement, BaseAvatarProps>(
 		const typingAnimation = {
 			width: layout.innerTypingWidth,
 			height: layout.innerTypingHeight,
-			right: layout.innerStatusRight,
+			right: layout.innerTypingRight,
 			bottom: layout.innerTypingBottom,
 			borderRadius: typingR,
 		};
@@ -153,122 +176,131 @@ export const BaseAvatar = React.forwardRef<HTMLDivElement, BaseAvatarProps>(
 		const effectiveStatusLabel = statusLabel || (normalizedStatus ? getStatusTypeLabel(i18n, normalizedStatus) : '');
 
 		return (
-			// biome-ignore lint/a11y/useAriaPropsSupportedByRole: aria-label is supported by both button and img roles
-			<div
-				ref={ref}
-				className={`${styles.container} ${isClickable ? styles.clickable : ''} ${className || ''}`.trim()}
-				role={isClickable ? 'button' : 'img'}
-				aria-label={ariaLabel}
-				style={{width: size, height: size}}
-				aria-hidden={false}
-				tabIndex={isClickable ? 0 : undefined}
-				{...props}
-			>
-				<svg
-					viewBox={`0 0 ${size} ${size}`}
-					className={styles.overlay}
-					style={{borderRadius: '50%'}}
-					aria-hidden
-					role="presentation"
+			<FocusRing offset={-2} enabled={isClickable}>
+				{/* biome-ignore lint/a11y/useAriaPropsSupportedByRole: aria-label is supported by both button and img roles */}
+				<div
+					ref={ref}
+					className={`${styles.container} ${isClickable ? styles.clickable : ''} ${className || ''}`.trim()}
+					role={isClickable ? 'button' : 'img'}
+					aria-label={ariaLabel}
+					style={{width: size, height: size}}
+					aria-hidden={false}
+					tabIndex={isClickable ? 0 : undefined}
+					{...props}
 				>
-					{shouldUseDynamicAvatarMask && statusGeom && (
-						<defs>
-							<mask id={dynamicAvatarMaskId} maskUnits="userSpaceOnUse" x={0} y={0} width={size} height={size}>
-								<circle fill="white" cx={size / 2} cy={size / 2} r={size / 2} />
-								<circle fill="black" cx={cutoutCx} cy={cutoutCy} r={cutoutR} />
-								<motion.rect
-									fill="black"
-									rx={0}
-									ry={0}
-									initial={false}
-									animate={isTyping ? typingBridgeRect : baseBridgeRect}
-									transition={SNAPPY_TRANSITION}
-								/>
-								<motion.circle
-									fill="black"
-									cy={cutoutCy}
-									r={cutoutR}
-									initial={false}
-									animate={isTyping ? typingLeftCap : baseLeftCap}
-									transition={SNAPPY_TRANSITION}
-								/>
-							</mask>
-						</defs>
-					)}
-					<image
-						href={displayUrl}
-						width={size}
-						height={size}
-						mask={`url(#${avatarMaskId})`}
-						preserveAspectRatio="xMidYMid slice"
-					/>
-				</svg>
+					<svg
+						viewBox={`0 0 ${size} ${size}`}
+						className={styles.overlay}
+						style={{borderRadius: '50%'}}
+						aria-hidden
+						role="presentation"
+					>
+						{shouldUseDynamicAvatarMask && statusGeom && (
+							<defs>
+								<mask id={dynamicAvatarMaskId} maskUnits="userSpaceOnUse" x={0} y={0} width={size} height={size}>
+									<circle fill="white" cx={size / 2} cy={size / 2} r={size / 2} />
+									<motion.circle
+										fill="black"
+										cy={cutoutCy}
+										r={cutoutR}
+										initial={false}
+										animate={isTyping ? typingRightCap : baseRightCap}
+										transition={SNAPPY_TRANSITION}
+									/>
+									<motion.rect
+										fill="black"
+										rx={0}
+										ry={0}
+										initial={false}
+										animate={isTyping ? typingBridgeRect : baseBridgeRect}
+										transition={SNAPPY_TRANSITION}
+									/>
+									<motion.circle
+										fill="black"
+										cy={cutoutCy}
+										r={cutoutR}
+										initial={false}
+										animate={isTyping ? typingLeftCap : baseLeftCap}
+										transition={SNAPPY_TRANSITION}
+									/>
+								</mask>
+							</defs>
+						)}
+						<image
+							href={candidateUrl}
+							width={size}
+							height={size}
+							mask={`url(#${avatarMaskId})`}
+							preserveAspectRatio="xMidYMid slice"
+						/>
+					</svg>
 
-				<div className={styles.hoverOverlay} style={{borderRadius: '50%'}} />
+					<div className={styles.hoverOverlay} style={{borderRadius: '50%'}} />
 
-				{shouldShowStatus && (
-					<Tooltip text={effectiveStatusLabel}>
-						<motion.div
-							className={styles.statusContainer}
-							style={{
-								display: 'flex',
-								alignItems: 'center',
-								justifyContent: 'center',
-								pointerEvents: isTyping || disableStatusTooltip ? 'none' : 'auto',
-								overflow: 'hidden',
-							}}
-							initial={false}
-							animate={isTyping ? typingAnimation : statusAnimation}
-							transition={SNAPPY_TRANSITION}
-							role="img"
-							aria-label={isTyping ? t`Typing indicator` : `${effectiveStatusLabel} status`}
-						>
-							{isTyping ? (
-								<div
-									style={{
-										width: '100%',
-										height: '100%',
-										backgroundColor: statusColor,
-										borderRadius: 'inherit',
-										display: 'flex',
-										alignItems: 'center',
-										justifyContent: 'center',
-									}}
-								>
+					{shouldShowStatus && (
+						<Tooltip text={effectiveStatusLabel}>
+							<motion.div
+								className={styles.statusContainer}
+								style={{
+									display: 'flex',
+									alignItems: 'center',
+									justifyContent: 'center',
+									pointerEvents: isTyping || disableStatusTooltip ? 'none' : 'auto',
+									overflow: 'hidden',
+								}}
+								initial={false}
+								animate={isTyping ? typingAnimation : statusAnimation}
+								transition={SNAPPY_TRANSITION}
+								role="img"
+								aria-label={isTyping ? t`Typing indicator` : t`${effectiveStatusLabel} status`}
+							>
+								{isTyping ? (
 									<div
 										style={{
+											width: '100%',
+											height: '100%',
+											backgroundColor: statusColor,
+											borderRadius: 'inherit',
 											display: 'flex',
 											alignItems: 'center',
-											gap: Math.round(layout.innerTypingHeight * 0.12),
+											justifyContent: 'center',
 										}}
 									>
-										{dotDelays.map((delay) => (
-											<div
-												key={delay}
-												className={typingStyles.dot}
-												style={{
-													width: Math.round(layout.innerTypingHeight * 0.25),
-													height: Math.round(layout.innerTypingHeight * 0.25),
-													borderRadius: '50%',
-													backgroundColor: 'white',
-													animationDelay: `${delay}ms`,
-												}}
-											/>
-										))}
+										<div
+											style={{
+												display: 'flex',
+												alignItems: 'center',
+												gap: Math.round(layout.innerTypingHeight * 0.12),
+											}}
+										>
+											{dotDelays.map((delay) => (
+												<div
+													key={delay}
+													className={typingStyles.dot}
+													style={{
+														width: Math.round(layout.innerTypingHeight * 0.25),
+														height: Math.round(layout.innerTypingHeight * 0.25),
+														borderRadius: '50%',
+														backgroundColor: 'white',
+														animationDelay: `${delay}ms`,
+													}}
+												/>
+											))}
+										</div>
 									</div>
-								</div>
-							) : (
-								<StatusIndicatorSvg
-									width={layout.innerStatusWidth}
-									height={isMobileOnline ? layout.innerStatusHeight : layout.innerStatusWidth}
-									statusColor={statusColor}
-									statusMaskId={statusMaskId}
-								/>
-							)}
-						</motion.div>
-					</Tooltip>
-				)}
-			</div>
+								) : (
+									<StatusIndicatorSvg
+										width={layout.innerStatusWidth}
+										height={isMobileOnline ? layout.innerStatusHeight : layout.innerStatusWidth}
+										statusColor={statusColor}
+										statusMaskId={statusMaskId}
+									/>
+								)}
+							</motion.div>
+						</Tooltip>
+					)}
+				</div>
+			</FocusRing>
 		);
 	},
 );
@@ -306,7 +338,6 @@ interface StatusIndicatorSvgProps {
 }
 
 const StatusIndicatorSvg = ({width, height, statusColor, statusMaskId}: StatusIndicatorSvgProps) => (
-	// biome-ignore lint/a11y/noSvgWithoutTitle: decorative SVG, parent has aria-label
 	<svg width={width} height={height} viewBox={`0 0 ${width} ${height}`} aria-hidden>
 		<rect x={0} y={0} width={width} height={height} fill={statusColor} mask={`url(#${statusMaskId})`} />
 	</svg>

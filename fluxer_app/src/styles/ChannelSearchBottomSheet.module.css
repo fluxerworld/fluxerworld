@@ -281,10 +281,11 @@
 }
 
 .searchResultItem {
+	--message-media-max-width: 100%;
 	position: relative;
 	margin-bottom: 12px;
 	cursor: pointer;
-	overflow: hidden;
+	overflow: visible;
 	user-select: none;
 	-webkit-user-select: none;
 	background-color: var(--background-modifier-hover);

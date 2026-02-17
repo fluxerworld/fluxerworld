@@ -91,7 +91,8 @@
 	color: white;
 	font-size: 10px;
 	font-weight: 700;
-	padding: 8px;
+	padding-block: 0;
+	padding-inline: 8px;
 	border-radius: 3px;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;

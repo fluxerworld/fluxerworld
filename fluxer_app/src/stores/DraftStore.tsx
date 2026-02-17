@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {makePersistent} from '@app/lib/MobXPersistence';
 import {action, makeAutoObservable} from 'mobx';
-import {makePersistent} from '~/lib/MobXPersistence';
 
 class DraftStore {
 	drafts: Record<string, string> = {};

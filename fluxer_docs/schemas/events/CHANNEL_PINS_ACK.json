@@ -1,0 +1,22 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "CHANNEL_PINS_ACK",
+	"description": "Sent when channel pins were acknowledged by the user.",
+	"scope": "presence",
+	"dispatchedBy": ["POST /channels/:channel_id/pins/ack"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID"
+			},
+			"timestamp": {
+				"type": "string",
+				"format": "date-time",
+				"description": "Timestamp of acknowledgement"
+			}
+		},
+		"required": ["channel_id", "timestamp"]
+	}
+}

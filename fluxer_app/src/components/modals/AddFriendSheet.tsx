@@ -17,16 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {AddFriendForm} from '@app/components/channel/direct_message/AddFriendForm';
+import {MobileFriendRequestItem} from '@app/components/channel/friends/MobileFriendRequestItem';
+import styles from '@app/components/modals/AddFriendSheet.module.css';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import {Scroller} from '@app/components/uikit/Scroller';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import React from 'react';
-import {RelationshipTypes} from '~/Constants';
-import {AddFriendForm} from '~/components/channel/dm/AddFriendForm';
-import {MobileFriendRequestItem} from '~/components/channel/friends/MobileFriendRequestItem';
-import styles from '~/components/modals/AddFriendSheet.module.css';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import {Scroller} from '~/components/uikit/Scroller';
-import RelationshipStore from '~/stores/RelationshipStore';
 
 interface AddFriendSheetProps {
 	isOpen: boolean;

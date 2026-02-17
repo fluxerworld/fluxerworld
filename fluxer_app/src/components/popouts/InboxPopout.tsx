@@ -17,22 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as InboxActionCreators from '@app/actions/InboxActionCreators';
+import styles from '@app/components/popouts/InboxPopout.module.css';
+import {RecentMentionsContent} from '@app/components/popouts/RecentMentionsContent';
+import {SavedMessagesContent} from '@app/components/popouts/SavedMessagesContent';
+import {ScheduledMessagesContent} from '@app/components/popouts/ScheduledMessagesContent';
+import {UnreadChannelsContent} from '@app/components/popouts/UnreadChannelsContent';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import FocusRingScope from '@app/components/uikit/focus_ring/FocusRingScope';
+import InboxStore, {type InboxTab} from '@app/stores/InboxStore';
+import {hasManagedTrait} from '@app/utils/traits/UserTraits';
+import {ManagedTraits} from '@fluxer/constants/src/ManagedTraits';
 import {useLingui} from '@lingui/react/macro';
-
-import {AtIcon, BookmarkSimpleIcon, ClockIcon} from '@phosphor-icons/react';
+import {AtIcon, BellIcon, BookmarkSimpleIcon, ClockIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as InboxActionCreators from '~/actions/InboxActionCreators';
-import styles from '~/components/popouts/InboxPopout.module.css';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import FocusRingScope from '~/components/uikit/FocusRing/FocusRingScope';
-import FeatureFlagStore from '~/stores/FeatureFlagStore';
-import InboxStore, {type InboxTab} from '~/stores/InboxStore';
-import SelectedGuildStore from '~/stores/SelectedGuildStore';
-import {RecentMentionsContent} from './RecentMentionsContent';
-import {SavedMessagesContent} from './SavedMessagesContent';
-import {ScheduledMessagesContent} from './ScheduledMessagesContent';
+import type React from 'react';
+import {useCallback, useRef, useState} from 'react';
 
 interface TabConfig {
 	key: InboxTab;
@@ -43,10 +44,15 @@ interface TabConfig {
 export const InboxPopout = observer(({initialTab}: {initialTab?: InboxTab} = {}) => {
 	const {t} = useLingui();
 	const activeTab = initialTab ?? InboxStore.selectedTab;
-	const [headerActions, setHeaderActions] = React.useState<React.ReactNode>(null);
-	const containerRef = React.useRef<HTMLDivElement | null>(null);
+	const [headerActions, setHeaderActions] = useState<React.ReactNode>(null);
+	const containerRef = useRef<HTMLDivElement | null>(null);
 
 	const baseTabs: Array<TabConfig> = [
+		{
+			key: 'unreadChannels',
+			label: t`Unread`,
+			icon: <BellIcon weight="fill" className={styles.iconSmall} />,
+		},
 		{
 			key: 'bookmarks',
 			label: t`Bookmarks`,
@@ -65,13 +71,12 @@ export const InboxPopout = observer(({initialTab}: {initialTab?: InboxTab} = {})
 		icon: <ClockIcon className={styles.iconSmall} />,
 	};
 
-	const selectedGuildId = SelectedGuildStore.selectedGuildId;
-	const showScheduledTab = FeatureFlagStore.isMessageSchedulingEnabled(selectedGuildId ?? undefined);
+	const showScheduledTab = hasManagedTrait(ManagedTraits.MESSAGE_SCHEDULING);
 	const tabs = showScheduledTab ? [...baseTabs, scheduledTab] : baseTabs;
 
 	const normalizedActiveTab = tabs.some((tab) => tab.key === activeTab) ? activeTab : tabs[0].key;
 
-	const setActiveTab = React.useCallback((tab: InboxTab) => {
+	const setActiveTab = useCallback((tab: InboxTab) => {
 		InboxActionCreators.setTab(tab);
 	}, []);
 
@@ -110,6 +115,11 @@ export const InboxPopout = observer(({initialTab}: {initialTab?: InboxTab} = {})
 					{normalizedActiveTab === 'bookmarks' && (
 						<div className={styles.tabContent}>
 							<SavedMessagesContent />
+						</div>
+					)}
+					{normalizedActiveTab === 'unreadChannels' && (
+						<div className={styles.tabContent}>
+							<UnreadChannelsContent />
 						</div>
 					)}
 					{normalizedActiveTab === 'mentions' && (

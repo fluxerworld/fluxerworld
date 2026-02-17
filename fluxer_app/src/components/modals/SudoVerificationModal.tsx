@@ -17,21 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import * as Modal from '@app/components/modals/Modal';
+import styles from '@app/components/modals/SudoVerificationModal.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {Endpoints} from '@app/Endpoints';
+import HttpClient from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import SudoPromptStore, {SudoVerificationMethod} from '@app/stores/SudoPromptStore';
+import type {SudoVerificationPayload} from '@app/types/Sudo';
+import * as FormUtils from '@app/utils/FormUtils';
+import * as WebAuthnUtils from '@app/utils/WebAuthnUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import type React from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {Spinner} from '~/components/uikit/Spinner';
-import {Endpoints} from '~/Endpoints';
-import HttpClient from '~/lib/HttpClient';
-import SudoPromptStore, {SudoVerificationMethod, type SudoVerificationPayload} from '~/stores/SudoPromptStore';
-import * as FormUtils from '~/utils/FormUtils';
-import * as WebAuthnUtils from '~/utils/WebAuthnUtils';
-import styles from './SudoVerificationModal.module.css';
+
+const logger = new Logger('SudoVerificationModal');
 
 interface FormInputs {
 	password: string;
@@ -46,12 +51,7 @@ enum SmsStatus {
 }
 
 const isMacAppIdentifierError = (error: unknown): boolean => {
-	const message =
-		error instanceof Error
-			? error.message
-			: typeof error === 'object' && error !== null && 'message' in error
-				? String((error as {message?: unknown}).message ?? '')
-				: '';
+	const message = error instanceof Error ? error.message : '';
 	return message.toLowerCase().includes('application identifier');
 };
 
@@ -113,11 +113,11 @@ const SudoVerificationModal: React.FC = observer(() => {
 		defaultValues: {password: '', totpCode: '', smsCode: ''},
 	});
 
-	const [selectedMethod, setSelectedMethod] = React.useState<SudoVerificationMethod | null>(null);
-	const [smsStatus, setSmsStatus] = React.useState<SmsStatus>(SmsStatus.IDLE);
-	const [webAuthnPayload, setWebAuthnPayload] = React.useState<{challenge: string; response: unknown} | null>(null);
+	const [selectedMethod, setSelectedMethod] = useState<SudoVerificationMethod | null>(null);
+	const [smsStatus, setSmsStatus] = useState<SmsStatus>(SmsStatus.IDLE);
+	const [webAuthnPayload, setWebAuthnPayload] = useState<{challenge: string; response: unknown} | null>(null);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!isOpen) return;
 
 		setSelectedMethod(null);
@@ -128,7 +128,7 @@ const SudoVerificationModal: React.FC = observer(() => {
 		SudoPromptStore.loadAvailableMethods().catch(() => {});
 	}, [isOpen, form]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (isLoadingMethods || !isOpen) return;
 
 		const currentMethodAvailable = selectedMethod !== null && getMethodAvailable(selectedMethod, availableMethods);
@@ -140,18 +140,21 @@ const SudoVerificationModal: React.FC = observer(() => {
 		}
 	}, [isLoadingMethods, isOpen, availableMethods, selectedMethod, lastUsedMfaMethod]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!verificationError && !rawError) return;
 
 		const fallbackField = getDefaultFieldForMethod(selectedMethod);
 		if (rawError) {
-			FormUtils.handleError(i18n, form, rawError as any, fallbackField);
-		} else if (verificationError) {
+			FormUtils.handleError(i18n, form, rawError, fallbackField);
+			return;
+		}
+
+		if (verificationError) {
 			form.setError(fallbackField, {type: 'server', message: verificationError});
 		}
 	}, [form, verificationError, rawError, selectedMethod, i18n]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (selectedMethod !== SudoVerificationMethod.WEBAUTHN) return;
 		if (!webAuthnPayload || isVerifying) return;
 
@@ -166,7 +169,7 @@ const SudoVerificationModal: React.FC = observer(() => {
 		getMethodAvailable(method, availableMethods),
 	);
 
-	const methodLabels = React.useMemo<Record<SudoVerificationMethod, string>>(
+	const methodLabels = useMemo<Record<SudoVerificationMethod, string>>(
 		() => ({
 			[SudoVerificationMethod.PASSWORD]: t`Password`,
 			[SudoVerificationMethod.TOTP]: t`Authenticator app`,
@@ -189,7 +192,7 @@ const SudoVerificationModal: React.FC = observer(() => {
 			await HttpClient.post({url: Endpoints.SUDO_SMS_SEND});
 			setSmsStatus(SmsStatus.SENT);
 		} catch (err) {
-			console.error('Failed to send SMS code', err);
+			logger.error('Failed to send SMS code', err);
 			setSmsStatus(SmsStatus.IDLE);
 			setFieldError(t`Failed to send SMS code. Please try again.`);
 		}
@@ -201,7 +204,7 @@ const SudoVerificationModal: React.FC = observer(() => {
 		try {
 			await WebAuthnUtils.assertWebAuthnSupported();
 		} catch (error) {
-			console.error('WebAuthn unavailable', error);
+			logger.error('WebAuthn unavailable', error);
 			setFieldError(t`Passkeys are not available on this device.`);
 			return;
 		}
@@ -211,7 +214,7 @@ const SudoVerificationModal: React.FC = observer(() => {
 			const credential = await WebAuthnUtils.performAuthentication(optionsResponse.body);
 			setWebAuthnPayload({challenge: optionsResponse.body.challenge, response: credential});
 		} catch (err) {
-			console.error('WebAuthn verification failed', err);
+			logger.error('WebAuthn verification failed', err);
 			if (isMacAppIdentifierError(err)) {
 				setFieldError(
 					t`Passkeys require a signed macOS bundle with a valid application identifier. Please install the signed desktop client and retry.`,
@@ -244,7 +247,7 @@ const SudoVerificationModal: React.FC = observer(() => {
 				return (
 					<Input
 						{...form.register('totpCode')}
-						label={t`Authenticator code`}
+						label={t`Authenticator Code`}
 						autoFocus
 						autoComplete="one-time-code"
 						required
@@ -266,7 +269,7 @@ const SudoVerificationModal: React.FC = observer(() => {
 						{smsStatus === SmsStatus.SENT && (
 							<Input
 								{...form.register('smsCode')}
-								label={t`SMS code`}
+								label={t`SMS Code`}
 								autoFocus
 								autoComplete="one-time-code"
 								required
@@ -356,7 +359,7 @@ const SudoVerificationModal: React.FC = observer(() => {
 	return (
 		<Modal.Root size="small" centered onClose={handleClose}>
 			<Form form={form} onSubmit={onSubmit} aria-label={t`Verify identity form`}>
-				<Modal.Header title={t`Verify your identity`} onClose={handleClose} />
+				<Modal.Header title={t`Verify Your Identity`} onClose={handleClose} />
 				<Modal.Content>
 					<div className={styles.container}>
 						<p className={styles.description}>

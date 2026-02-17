@@ -1,0 +1,497 @@
+account.already_verified: Račun ti je već potvrđen.
+account.communication_disabled: Komunikacija je onemogućena.
+account.disabled: Ovaj račun je deaktiviran.
+account.email_verification_required_for_guild: Moraš potvrditi e-mail da bi slao poruke na ovom serveru.
+account.guild_verification_required: Verifikacija servera je obavezna.
+account.ip_authorization_required: IP autorizacija je obavezna.
+account.locked_suspicious_activity: Račun ti je zaključan zbog sumnjive aktivnosti.
+account.phone_required_for_guild: Moraš dodati broj telefona da bi slao poruke na ovom serveru.
+account.scheduled_for_deletion: Ovaj račun je zakazan za brisanje.
+account.session_timeout: Sesija je istekla. Osvježi stranicu i prijavi se opet.
+account.session_token_mismatch: Token sesije se ne podudara.
+account.suspended_permanently: Ovaj račun je trajno suspendiran.
+account.suspended_temporarily: Ovaj račun je privremeno suspendiran.
+account.too_new_for_guild: Tvoj račun je pre nov da bi slao poruke na ovom serveru.
+account.unauthorized: Nemaš ovlasti.
+admin_and_system.acls_must_be_non_empty: ACL-ovi ne smiju biti prazni.
+admin_and_system.admin_api_key_not_found: Admin API ključ nije pronađen.
+admin_and_system.audit_log_indexing: Indeksiranje audit loga.
+admin_and_system.channel_indexing: Indeksiranje kanala.
+admin_and_system.creation_failed: Kreiranje nije uspjelo.
+admin_and_system.deletion_failed: Brisanje nije uspjelo.
+admin_and_system.decryption_failed: Dešifriranje nije uspjelo.
+admin_and_system.empty_encrypted_body: Prazno šifrirano tijelo.
+admin_and_system.encryption_failed: Šifriranje nije uspjelo.
+admin_and_system.general_error: Nešto je pošlo po zlu.
+admin_and_system.invalid_acls_format: Neispravan format ACL-ova.
+admin_and_system.invalid_api_origin: Neispravan API origin.
+admin_and_system.invalid_audit_log_reason: Neispravan razlog u audit logu.
+admin_and_system.invalid_bot_flag: Neispravan bot flag.
+admin_and_system.invalid_decrypted_json: Neispravan dešifrirani JSON.
+admin_and_system.invalid_ephemeral_key: Neispravan efemerni ključ.
+admin_and_system.invalid_flags_format: Neispravan format flagova.
+admin_and_system.invalid_form_body: Neispravan sadržaj forme.
+admin_and_system.invalid_format: Neispravan format.
+admin_and_system.invalid_integer_format: Neispravan format cijelog broja.
+admin_and_system.invalid_iv: Neispravan inicijalizacijski vektor.
+admin_and_system.invalid_suspicious_flags_format: Neispravan format suspicious flagova.
+admin_and_system.invalid_system_flag: Neispravan system flag.
+admin_and_system.invalid_timeout_value: Neispravna vrijednost timeouta.
+admin_and_system.invalid_timestamp: Neispravan timestamp.
+admin_and_system.invalid_timezone_identifier: Neispravan identifikator vremenske zone.
+admin_and_system.missing_acl: Nedostaje ACL.
+admin_and_system.missing_ephemeral_key: Nedostaje efemerni ključ.
+admin_and_system.missing_iv: Nedostaje inicijalizacijski vektor.
+admin_and_system.must_be_iso_timestamp: Mora biti valjan ISO timestamp.
+admin_and_system.processing_failed: Obrada nije uspjela.
+admin_and_system.response_validation_failed: 'Validacija odgovora nije uspjela: {errors}.'
+admin_and_system.test_harness_disabled: Test harness je isključen.
+admin_and_system.test_harness_forbidden: Test harness nije dopušten.
+admin_and_system.unknown_suspicious_flag: Nepoznat suspicious flag.
+admin_and_system.update_failed: Ažuriranje nije uspjelo.
+admin_and_system.user_must_be_bot_for_system_user: Korisnik mora biti bot da bi bio označen kao sistemski korisnik.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` i `expires_at` su obavezni.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` i `message_id` moraju biti valjani cijeli brojevi.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Korisnici s MANAGE_MESSAGES mogu uređivati samo opise privitaka, ne ostale metapodatke.
+attachments_and_uploads.attachment_metadata_without_files: Metapodaci privitka imaju naziv datoteke, ali nema uploadanih datoteka.
+attachments_and_uploads.attachment_must_be_image: Privitak "{filename}" mora biti slika (png, jpg, jpeg, webp ili gif).
+attachments_and_uploads.attachment_not_found_in_message: Privitak s ID-em {attachmentId} nije pronađen u poruci.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Polje metapodataka privitaka je obavezno pri uploadu datoteka.
+attachments_and_uploads.attachments_not_allowed_for_message: Privici nisu dopušteni za ovu poruku.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Ne možeš referencirati privitke kad nisu poslani privici.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Duplicirani ID-evi privitaka nisu dopušteni.
+attachments_and_uploads.duplicate_file_index: 'Duplicirani indeks datoteke: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Nismo uspjeli parsirati multipart form data. Provjeri jesu li svi nazivi polja i nazivi datoteka ispravno formatirani.
+attachments_and_uploads.failed_to_parse_multipart_payload: Nismo uspjeli parsirati multipart payload.
+attachments_and_uploads.failed_to_upload_image: Nismo uspjeli uploadati sliku. Pokušaj opet.
+attachments_and_uploads.file_index_exceeds_maximum: Indeks datoteke {index} prelazi maksimalni dopušteni indeks {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Datoteka nije pronađena za skeniranje.
+attachments_and_uploads.file_not_found: Datoteka nije pronađena.
+attachments_and_uploads.file_size_too_large: Datoteka je prevelika. Maksimalna veličina datoteke je {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Naziv datoteke ne može biti prazan nakon normalizacije.
+attachments_and_uploads.filename_invalid_characters: Naziv datoteke sadrži nedopuštene znakove.
+attachments_and_uploads.filename_length_invalid: Naziv datoteke mora imati između {min} i {max} znakova.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Naziv datoteke se ne podudara za privitak {attachmentId}: metapodaci navode "{expectedFilename}", ali ne odgovara.'
+attachments_and_uploads.image_size_exceeds_limit: Veličina slike prelazi {maxSize} bajtova.
+attachments_and_uploads.invalid_file_field_name: 'Neispravan naziv polja datoteke: {key}. Očekivani format je `files[N]`, gdje je N broj.'
+attachments_and_uploads.invalid_image_data: Neispravni podaci slike.
+attachments_and_uploads.invalid_image_format: 'Neispravan format slike. Podržane ekstenzije: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: Neispravan JSON u `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Više datoteka za indeks {index} nije dopušteno.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Nije uploadana datoteka za metapodatke privitka s ID-em {attachmentId}.
+attachments_and_uploads.no_file_uploaded_for_attachment: Nije uploadana datoteka za privitak s ID-em {attachmentId}.
+attachments_and_uploads.no_metadata_for_file: Nisu poslani metapodaci za datoteku s ID-em {fileId}.
+attachments_and_uploads.no_valid_media_in_message: U poruci nije pronađen valjani medij.
+attachments_and_uploads.payload_json_required_for_multipart: Polje `payload_json` je obavezno za multipart poruke.
+attachments_and_uploads.preview_must_be_jpeg: Pretpregled mora biti JPEG.
+attachments_and_uploads.referenced_attachment_not_found: Referencirani privitak "{filename}" nije pronađen u privicima poruke.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` mora biti valjan cijeli broj.'
+attachments_and_uploads.too_many_files: Previše datoteka. Dopušteno je najviše {maxFiles} {maxFiles, plural, one {datoteka} few {datoteke} other {datoteka}}.
+attachments_and_uploads.unknown_image_format: Nepoznat format slike.
+attachments_and_uploads.unresolved_attachment_url: Otkriven je nerazriješen URL `attachment://`. Ovo je trebalo biti razriješeno prije obrade embeda.
+attachments_and_uploads.uploaded_attachment_not_found: Uploadani privitak {filename} nije pronađen.
+auth_and_oauth.application_not_owned: Ne posjedovaš ovu aplikaciju.
+auth_and_oauth.bot_already_in_guild: Ovaj bot je već u guildu.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Bot korisnici ne mogu stvarati auth sesije.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Bot korisnici ne mogu koristiti auth endpoint-e.
+auth_and_oauth.handoff_code_expired: Handoff kod je istekao.
+auth_and_oauth.handoff_code_invalid: Neispravan handoff kod.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize nije podržan. Koristi POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Neispravan client secret.
+auth_and_oauth.invalid_client: Neispravan klijent.
+auth_and_oauth.invalid_code: Neispravan kod.
+auth_and_oauth.invalid_grant: Neispravan grant.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Autorizacijski ticket je neispravan ili je istekao.
+auth_and_oauth.invalid_or_expired_authorization_token: Autorizacijski token je neispravan ili je istekao.
+auth_and_oauth.invalid_or_expired_ticket: Ticket je neispravan ili je istekao.
+auth_and_oauth.invalid_proof_token: Neispravan token za potvrdu.
+auth_and_oauth.invalid_redirect_uri: Neispravan redirect URI.
+auth_and_oauth.invalid_request: Neispravan zahtjev.
+auth_and_oauth.invalid_scope: Neispravan scope.
+auth_and_oauth.invalid_sudo_token: Neispravan sudo token.
+auth_and_oauth.invalid_token_admin_api_key: Neispravan admin API ključ.
+auth_and_oauth.missing_authorization: Nedostaje autorizacija.
+auth_and_oauth.missing_client_secret: Nedostaje client secret.
+auth_and_oauth.missing_redirect_uri: Nedostaje redirect URI.
+auth_and_oauth.must_start_session_before_sending_messages: Moraš pokrenuti sesiju prije slanja poruka.
+auth_and_oauth.oauth_admin_scope_required: OAuth2 tokenima treba admin scope za pristup admin endpointima.
+auth_and_oauth.oauth_fields_missing: Nedostaju OAuth polja.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Redirect URI je obavezan za scopeove koji nisu bot.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Response type mora biti code za scopeove koji nisu bot.
+auth_and_oauth.sudo_mode_required: Sudo način je obavezan.
+auth_and_oauth.unknown_application: Nepoznata aplikacija.
+auth_and_oauth.unsupported_response_type: Nepodržan response type.
+auth_and_registration.current_password_incorrect: Trenutna lozinka nije ispravna.
+auth_and_registration.password_is_too_common: Tvoja lozinka je previše česta. Odaberi jedinstvenu lozinku.
+auth_and_registration.password_not_set: Lozinka nije postavljena.
+bots.bot_application_not_found: Bot aplikacija nije pronađena.
+bots.bot_discriminator_cannot_be_changed: Diskriminator bota ne može se promijeniti.
+bots.bot_is_private: Ovaj bot je privatna.
+bots.bot_user_generation_failed: Stvaranje bot korisnika nije uspjelo.
+bots.bot_user_not_found: Bot korisnik nije pronađen.
+bots.invalid_response_type_for_non_bot: Response type mora biti code za scopeove koji nisu bot.
+bots.not_a_bot_application: Ova aplikacija nije bot.
+calls_and_voice.call_already_exists: Poziv već postoji.
+calls_and_voice.cannot_modify_voice_state: Ne možeš mijenjati voice stanje.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Neispravna ili ograničena RTC regija: {region}.'
+calls_and_voice.invalid_rtc_region: 'Neispravna RTC regija: {region}. Dostupne regije: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Neispravan format stream keya.
+calls_and_voice.invalid_stream_thumbnail_payload: Neispravan payload thumbnaila streama.
+calls_and_voice.no_active_call: Nema aktivnog poziva.
+calls_and_voice.stream_key_channel_mismatch: Stream key se ne podudara s kanalom.
+calls_and_voice.stream_key_scope_mismatch: Stream key scope se ne podudara.
+calls_and_voice.stream_thumbnail_payload_empty: Payload thumbnaila streama je prazan.
+calls_and_voice.unknown_voice_region: Nepoznata voice regija.
+calls_and_voice.unknown_voice_server: Nepoznat voice server.
+calls_and_voice.voice_message_duration_exceeds_limit: Trajanje glasovne poruke ne smije prelaziti {maxDuration} sekundi.
+calls_and_voice.voice_message_duration_required: Privici glasovnih poruka moraju navesti trajanje.
+calls_and_voice.voice_message_waveform_required: Privici glasovnih poruka moraju sadržavati waveform podatke.
+calls_and_voice.voice_messages_require_single_attachment: Glasovne poruke moraju imati točno jedan privitak.
+captcha.invalid: Neispravna captcha.
+captcha.required: Captcha je obavezna.
+channels_and_guilds.afk_channel_must_be_in_guild: AFK kanal mora biti na ovom serveru.
+channels_and_guilds.afk_channel_must_be_voice: AFK kanal mora biti glasovni.
+channels_and_guilds.all_channels_must_belong_to_guild: Svi kanali moraju pripadati ovom serveru.
+channels_and_guilds.animated_guild_banner_requires_feature: Animirani baner servera traži značajku ANIMATED_BANNER.
+channels_and_guilds.cannot_execute_on_dm: Ova radnja se ne može izvršiti u DM-u.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Vlasništvo nad poslužiteljem ne može se prenijeti na bota.
+channels_and_guilds.cannot_leave_guild_as_owner: Ne možeš napustiti server kao vlasnik. Prenesi vlasništvo ili izbriši server.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Ne možeš pozicionirati kanal u odnosu na njega samog ili njegove podkanale.
+channels_and_guilds.cannot_report_own_guild: Ne možeš prijaviti vlastiti server.
+channels_and_guilds.categories_cannot_have_parent_channel: Kategorije ne mogu imati nadređeni kanal.
+channels_and_guilds.categories_cannot_have_parents: Kategorije ne mogu imati roditelje.
+channels_and_guilds.channel_id_required: '`channel_id` je obavezan.'
+channels_and_guilds.channel_must_be_dm_or_group_dm: Kanal mora biti DM ili grupni DM.
+channels_and_guilds.channel_must_be_voice: Kanal mora biti glasovni.
+channels_and_guilds.channel_not_found: Kanal nije pronađen.
+channels_and_guilds.context_channel_or_guild_required: Obavezan je kontekstualni ID kanala ili servera.
+channels_and_guilds.guild_banner_requires_feature: Baner servera traži značajku BANNER.
+channels_and_guilds.guild_id_must_match_referenced_message: ID servera mora odgovarati kanalu iz kojeg je dohvaćena referencirana poruka.
+channels_and_guilds.invalid_channel_id: 'Neispravan ID kanala: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Neispravan tip kanala za poziv.
+channels_and_guilds.invalid_channel_type: Neispravan tip kanala.
+channels_and_guilds.invalid_channel: Neispravan kanal.
+channels_and_guilds.invalid_parent_channel: Neispravan nadređeni kanal.
+channels_and_guilds.invite_splash_requires_feature: Invite splash traži značajku INVITE_SPLASH.
+channels_and_guilds.invites_disabled: Pozivnice su isključene.
+channels_and_guilds.max_group_dm_recipients_reached: Dosegnut je maksimalan broj od {count} primatelja u grupnom {count, plural, one {DM-u} other {DM-ovima}}.
+channels_and_guilds.max_group_dms_reached: Dosegnut je maksimalan broj od {count} grupnih {count, plural, one {DM-a} other {DM-ova}}.
+channels_and_guilds.max_guild_channels_reached: Dosegnut je maksimalan broj od {count} kanala na {count, plural, one {serveru} other {serverima}}.
+channels_and_guilds.max_guild_members_reached: Dosegnut je maksimalan broj od {count} članova na {count, plural, one {serveru} other {serverima}}.
+channels_and_guilds.max_guild_roles_reached: Dosegnut je maksimalan broj od {count} uloga na {count, plural, one {serveru} other {serverima}}.
+channels_and_guilds.max_guilds_reached: Dosegnut je maksimalan broj od {count} {count, plural, one {servera} other {servera}}.
+channels_and_guilds.message_history_cutoff_before_guild_creation: Rezanje historije poruka ne može biti prije nego što je zajednica napravljena.
+channels_and_guilds.message_history_cutoff_in_future: Rezanje historije poruka ne može biti u budućnosti.
+channels_and_guilds.parent_channel_not_in_guild: Nadređeni kanal nije prisutan na serveru.
+channels_and_guilds.parent_must_be_category: Roditelj mora biti kategorija.
+channels_and_guilds.preceding_channel_must_share_parent: Prethodni kanal mora imati istog roditelja kao kanal koji se miče.
+channels_and_guilds.preceding_channel_not_in_guild: Prethodni kanal nije prisutan na serveru.
+channels_and_guilds.system_channel_must_be_in_guild: Sistemski kanal mora biti na ovom serveru.
+channels_and_guilds.system_channel_must_be_text: Sistemski kanal mora biti tekstualni.
+channels_and_guilds.temporary_invite_requires_presence: Privremena pozivnica traži prisutnost.
+channels_and_guilds.vanity_url_requires_feature: Vanity URL traži značajku VANITY_URL.
+channels_and_guilds.voice_channel_full: Glasovni kanal je pun.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Glasovni kanali ne mogu biti iznad tekstualnih kanala unutar iste kategorije.
+colors.color_value_too_high: Vrijednost boje ne smije prelaziti 0xffffff.
+colors.color_value_too_low: Vrijednost boje mora biti barem 0x000000.
+connections.already_exists: Veza ovog tipa s ovim identifikatorom već postoji.
+connections.bluesky_oauth_callback_failed: Nismo uspjeli dovršiti povezivanje s Blueskyem. Pokušaj opet.
+connections.bluesky_oauth_not_enabled: Veze s Blueskyem nisu uključene na ovom serveru.
+connections.bluesky_oauth_session_expired: Tvoja Bluesky sesija je istekla. Ponovno poveži svoj račun.
+connections.bluesky_oauth_state_invalid: Zahtjev za autorizaciju je istekao ili je neispravan. Pokušaj opet.
+connections.invalid_identifier: Identifikator veze nije valjan.
+connections.invalid_type: Tip veze nije podržan.
+connections.initiation_token_invalid: Token inicijacije veze je neispravan ili je istekao.
+connections.limit_reached: Dosegnut je maksimalan broj od {limit} {limit, plural, one {veze} few {veza} other {veza}}.
+connections.not_found: Nepoznata veza.
+connections.verification_failed: Potvrda veze nije uspjela. Provjeri je li token za potvrdu ispravno postavljen.
+content_and_safety.content_blocked: Ovaj sadržaj je blokiran sigurnosnim sustavima.
+content_and_safety.csam_scan_failed: CSAM skeniranje nije uspjelo.
+content_and_safety.csam_scan_parse_error: CSAM greška pri parsiranju.
+content_and_safety.csam_scan_subscription_error: CSAM greška pretplate.
+content_and_safety.csam_scan_timeout: CSAM skeniranje je isteklo.
+content_and_safety.explicit_content_cannot_be_sent: Eksplicitan sadržaj se ne može slati.
+content_and_safety.ncmec_already_submitted: Ovaj sadržaj je već prijavljen NCMEC-u.
+content_and_safety.ncmec_submission_failed: Nismo uspjeli poslati prijavu NCMEC-u. Pokušaj opet kasnije.
+content_and_safety.nsfw_age_restricted: NSFW sadržaj je dobno ograničen.
+discovery.already_applied: Ova zajednica se već prijavila za otkrivanje.
+discovery.application_already_reviewed: Ovaj zahtjev za otkrivanje je već pregledan.
+discovery.application_not_found: Zahtjev za otkrivanje nije pronađen.
+discovery.description_required: Opis je obavezan za popis u otkrivanju.
+discovery.insufficient_members: Ova zajednica ne ispunjava minimalan broj članova za otkrivanje.
+discovery.invalid_category: Neispravna kategorija otkrivanja.
+discovery.not_discoverable: Ova zajednica nije navedena u otkrivanju.
+donation.amount_invalid: Iznos donacije nije valjan.
+donation.donor_not_found: Donator nije pronađen.
+donation.magic_link_expired: Čarobna poveznica je istekla.
+donation.magic_link_invalid: Čarobna poveznica nije valjana.
+donation.magic_link_used: Čarobna poveznica je već iskorištena.
+email.email_already_in_use: E-mail je već u upotrebi.
+email.email_required: E-mail je obavezan.
+email.email_service_not_testable: E-mail servis se ne može testirati.
+email.invalid_format: Neispravan format e-mail adrese.
+email.invalid_or_expired_reset_token: Token za poništavanje lozinke je neispravan ili je istekao.
+email.invalid_or_expired_revert_token: Token za vraćanje je neispravan ili je istekao.
+email.invalid_or_expired_verification_token: Token za potvrdu je neispravan ili je istekao.
+email.invalid_or_password: Neispravan e-mail ili lozinka.
+email.invalid_token: Neispravan e-mail token.
+email.invalid_verification_code: Neispravan kod za potvrdu.
+email.length_invalid: E-mail adresa mora imati između {min} i {max} znakova.
+email.must_be_changed_via_token: E-mail se mora promijeniti putem tokena.
+email.must_change_via_token: E-mail se mora promijeniti preko `email_token`.
+email.must_have_email_to_change_it: Moraš imati e-mail adresu da je promijeniš.
+email.new_email_must_be_different: Nova e-mail adresa mora biti drugačija od tvoje trenutne adrese.
+email.no_new_email_requested: Nije zatražen novi e-mail.
+email.no_original_email_on_record: Nema zabilježenog originalnog e-maila.
+email.original_email_already_verified: Originalni e-mail je već potvrđen.
+email.original_email_must_be_verified_first: Prvo moraš potvrditi originalni e-mail.
+email.original_verification_not_required: Potvrda originalnog e-maila nije potrebna za ovaj postupak.
+email.token_expired: E-mail token je istekao.
+email.user_has_no_email_address: Ovaj korisnik nema e-mail adresu.
+email.user_is_not_pending_verification: Ovaj korisnik ne čeka verifikaciju.
+email.verification_code_expired: Kod za potvrdu je istekao.
+email.verification_code_not_issued: Kod za potvrdu nije izdан.
+embeds.embed_index_out_of_bounds: Indeks embeda {embedIndex} je izvan raspona (poruka ima {embedCount} {embedCount, plural, one {embed} few {embeda} other {embeda}}).
+embeds.embed_splash_requires_feature: Embed splash traži značajku INVITE_SPLASH.
+embeds.embeds_exceed_max_characters: Embedovi ukupno ne smiju prelaziti {maxCharacters} {maxCharacters, plural, one {znak} few {znaka} other {znakova}}.
+embeds.too_many_embeds: Previše embedova. Dopušteno je najviše {maxEmbeds} {maxEmbeds, plural, one {embed} few {embeda} other {embeda}}.
+feature_flags.feature_not_available_self_hosted: Ova značajka nije dostupna na lokalnim instancama.
+feature_flags.feature_temporarily_disabled: Ova značajka je privremeno isključena.
+friends_and_dms.already_friends: Već si prijatelj s ovim korisnikom.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Trebaš barem jednog primatelja za pokretanje privatnih kanala.
+friends_and_dms.at_least_one_recipient_required: Potreban je barem jedan primatelj.
+friends_and_dms.bots_cannot_send_friend_requests: Botovi ne mogu slati zahtjeve za prijateljstvo.
+friends_and_dms.cannot_add_yourself_to_group_dm: Ne možeš dodati sebe u grupni DM.
+friends_and_dms.cannot_dm_yourself: Ne možeš poslati DM sam sebi.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Ne možeš poslati zahtjev za prijateljstvo blokiranom korisniku.
+friends_and_dms.cannot_send_friend_request_to_self: Ne možeš poslati zahtjev za prijateljstvo sam sebi.
+friends_and_dms.cannot_send_messages_to_user: Ne možeš slati poruke ovom korisniku.
+friends_and_dms.duplicate_recipients_not_allowed: Duplicirani primatelji nisu dopušteni.
+friends_and_dms.friend_request_blocked: Korisnik trenutno ne prihvaća zahtjeve za prijateljstvo.
+friends_and_dms.not_friends: Nisi prijatelj s ovim korisnikom.
+friends_and_dms.recipient_ids_cannot_be_empty: ID-evi primatelja ne mogu biti prazni.
+friends_and_dms.recipient_ids_must_be_strings: ID-evi primatelja moraju biti stringovi.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: ID-evi primatelja moraju biti valjani snowflakeovi.
+harvest.expired: Harvest je istekao.
+harvest.failed: Harvest nije uspio.
+harvest.not_ready: Harvest još nije spreman.
+harvest.on_cooldown: Harvest je na čekanju.
+harvest.unknown: Nepoznat harvest.
+http.bad_gateway: Loša mrežna vrata.
+http.bad_request: Neispravan zahtjev.
+http.conflict: Konflikt.
+http.forbidden: Zabranjeno.
+http.gateway_timeout: Timeout mrežnih vrata.
+http.gone: Otišlo.
+http.internal_server_error: Interna greška poslužitelja.
+http.method_not_allowed: Metoda nije dozvoljena.
+http.not_found: Nije pronađeno.
+http.not_implemented: Nije implementirano.
+http.service_unavailable: Servis nije dostupan.
+http.validation_error: Validacija nije uspjela.
+invites_and_beta.invalid_or_already_used_beta_code: Beta kod je neispravan ili je već iskorišten.
+invites_and_beta.max_beta_codes_reached: Dosegnut je maksimalan broj od {count} beta {count, plural, one {koda} other {kodova}}.
+invites_and_beta.unknown_beta_code: Nepoznat beta kod.
+invites_and_gifts.gift_code_already_redeemed: Gift kod je već iskorišten.
+invites_and_gifts.stripe_gift_redemption_in_progress: Iskorištavanje gift koda je u tijeku. Pokušaj opet za trenutak.
+invites_and_gifts.unknown_gift_code: Nepoznat gift kod.
+invites_and_packs.emoji_requires_access: Ne možeš koristiti ovaj emoji bez pristupa njegovom serveru ili instaliranom packu.
+invites_and_packs.invalid_pack_type: Neispravan tip packa.
+invites_and_packs.max_animated_emojis_reached: Dosegnut je maksimalan broj od {count} animiranih {count, plural, one {emojija} other {emojija}}.
+invites_and_packs.max_emojis_reached: Dosegnut je maksimalan broj od {count} {count, plural, one {emojija} other {emojija}}.
+invites_and_packs.max_pack_expressions_reached: Dosegnut je maksimalan broj od {count} pack {count, plural, one {izraza} other {izraza}}.
+invites_and_packs.max_packs_reached: Dosegnut je maksimalan broj od {count} {count, plural, one {packa} other {packova}}.
+invites_and_packs.pack_access_denied: Pristup packu je odbijen.
+limits.at_least_one_entry_required: Potrebna je barem jedna stavka.
+limits.base64_length_invalid: Duljina Base64 stringa mora biti između {min} i {maxLength} znakova.
+limits.bucket_required: '`bucket` je obavezan.'
+limits.cannot_shrink_reserved_slots: Ne možeš smanjiti rezervirane slotove.
+limits.cannot_specify_before_and_after: Ne možeš istovremeno navesti `before` i `after`.
+limits.integer_out_of_int64_range: Vrijednost cijelog broja je izvan valjane vrijednosti int64 raspona.
+limits.content_exceeds_max_length: Tekst ne smije prelaziti {maxLength} {maxLength, plural, one {znak} few {znaka} other {znakova}}.
+limits.rows_required: '`rows` je obavezan.'
+limits.string_length_exact: String mora imati točno {length} znakova.
+limits.string_length_invalid: Duljina stringa mora biti između {min} i {max} znakova.
+limits.timeout_cannot_exceed_365_days: Timeout ne može biti duži od {maxDays} {maxDays, plural, one {dan} few {dana} other {dana}} od sada.
+limits.value_must_be_integer_in_range: Vrijednost za `{name}` mora biti cijeli broj između {minValue} i {maxValue}.
+limits.value_too_small: Vrijednost je premala.
+media_and_memes.favorite_meme_name_required: Naziv omiljenog mema je obavezan.
+media_and_memes.favorite_meme_not_found: Omiljeni mem nije pronađen.
+media_and_memes.max_favorite_memes_reached: Dosegnut je maksimalan broj od {count} omiljenih {count, plural, one {memova} other {memova}}.
+media_and_memes.media_already_in_favorites: Ovaj medij je već u tvojim omiljenim memovima.
+media_and_memes.media_metadata_error: Greška u metapodacima medija.
+media_and_memes.unknown_favorite_meme: Nepoznat omiljeni mem.
+messages.cannot_delete_more_than_100: Ne možeš obrisati više od {max} {max, plural, one {poruke} few {poruka} other {poruka}} odjednom.
+messages.cannot_edit_others_message: Ne možeš uređivati tuđu poruku.
+messages.cannot_preload_more_than_100_channels: Ne možeš preunaprijed učitati više od {max} {max, plural, one {kanala} few {kanala} other {kanala}} odjednom.
+messages.cannot_reply_to_system_message: Ne možeš odgovoriti na sistemsku poruku.
+messages.cannot_send_empty_message: Ne možeš poslati praznu poruku.
+messages.forward_messages_cannot_include_extra_content: Proslijeđene poruke ne mogu sadržavati dodatni sadržaj, embedove, privitke ni stickere.
+messages.forward_reference_requires_channel_and_message: Referenca za prosljeđivanje poruke mora uključivati `channel_id` i `message_id`.
+messages.invalid_message_data: Neispravni podaci poruke.
+messages.invalid_scheduled_message_payload: Neispravan payload zakazane poruke.
+messages.message_ids_cannot_be_empty: '`message_ids` ne može biti prazan.'
+messages.messages_array_required: Polje `messages` je obavezno i ne smije biti prazno.
+messages.messages_with_snapshots_cannot_be_edited: Poruke sa snapshotovima se ne mogu uređivati.
+messages.scheduled_messages_max_30_days: Zakazane poruke mogu biti najviše 30 dana u budućnosti.
+messages.scheduled_send_datetime_invalid: Neispravan datum ili vrijeme za zakazano slanje.
+messages.scheduled_time_must_be_future: Zakazano vrijeme mora biti u budućnosti.
+messages.voice_messages_attachment_must_be_audio: Privici glasovnih poruka moraju biti audio datoteke.
+messages.voice_messages_cannot_have_content: Glasovne poruke ne mogu imati tekstualni sadržaj.
+messages.voice_messages_cannot_have_embeds: Glasovne poruke ne mogu imati embedove.
+messages.voice_messages_cannot_have_favorite_memes: Glasovne poruke ne mogu imati omiljene memove.
+messages.voice_messages_cannot_have_stickers: Glasovne poruke ne mogu imati stickere.
+mfa_and_passkeys.invalid_mfa_code: Neispravan MFA kod.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Neispravan WebAuthn authentication counter.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Neispravan WebAuthn credential counter.
+mfa_and_passkeys.invalid_webauthn_credential: Neispravan WebAuthn credential.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Neispravan format WebAuthn javnog ključa.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Moraš omogućiti 2FA na svom računu prije nego što ga zahtijevi od moderatora.
+mfa_and_passkeys.no_passkeys_registered: Nema registriranih passkeya.
+mfa_and_passkeys.passkey_authentication_failed: Autentifikacija passkeyem nije uspjela.
+mfa_and_passkeys.passkeys_disabled: Passkeyi su isključeni.
+mfa_and_passkeys.two_factor_not_enabled: Dvofaktorska autentifikacija nije uključena.
+mfa_and_passkeys.two_factor_required: Dvofaktorska autentifikacija je obavezna.
+mfa_and_passkeys.unknown_webauthn_credential: Nepoznat WebAuthn credential.
+mfa_and_passkeys.webauthn_credential_limit_reached: Dosegnut je limit od {count} WebAuthn {count, plural, one {credentiala} other {credentiala}}.
+misc_limits.max_bookmarks_reached: Dosegnut je maksimalan broj od {count} {count, plural, one {bookmarkinga} other {bookmarkinga}}.
+misc_limits.max_category_channels_reached: Dosegnut je maksimalan broj od {count} kanala u {count, plural, one {kategoriji} other {kategorijama}}.
+misc_limits.max_friends_reached: Dosegnut je maksimalan broj od {count} {count, plural, one {prijatelja} other {prijatelja}}.
+misc_limits.max_invites_reached: Dosegnut je maksimalan broj od {count} {count, plural, one {pozivnice} other {pozivnica}}.
+misc_limits.max_pins_per_channel_reached: Dosegnut je maksimalan broj od {count} {count, plural, one {pina} other {pinova}} po kanalu.
+misc.cannot_send_messages_in_non_text_channel: Ne možeš slati poruke u kanalu koji nije tekstualni.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Moraš potvrditi e-mail da bi slao poruke na ovom serveru.
+misc.invalid_job_id: Neispravan ID posla.
+misc.invalid_permissions_integer: Dozvole moraju biti valjan cijeli broj.
+misc.invalid_permissions_negative: Dozvole ne smiju biti negativne.
+misc.invalid_request_generic: Neispravan zahtjev.
+misc.invalid_snowflake: Neispravan snowflake.
+misc.job_already_processed: Posao je već obrađen.
+misc.job_id_required: ID posla je obavezan.
+misc.job_not_found: Posao nije pronađen.
+misc.max_files_exceeded: Previše datoteka. Dopušteno je najviše {maxFiles} {maxFiles, plural, one {datoteku} few {datoteke} other {datoteka}}.
+misc.must_have_bot_to_mark_system_user: Korisnik mora biti bot da bi bio označen kao sistemski korisnik.
+moderation_and_reports.cannot_report_own_message: Ne možeš prijaviti vlastitu poruku.
+moderation_and_reports.cannot_report_yourself: Ne možeš prijaviti sebe.
+moderation_and_reports.invalid_dsa_report_target: Neispravan cilj DSA prijave.
+moderation_and_reports.invalid_dsa_ticket: Neispravan DSA ticket.
+moderation_and_reports.invalid_dsa_verification_code: Neispravan DSA kod za potvrdu.
+moderation_and_reports.report_already_resolved: Prijava je već riješena.
+moderation_and_reports.report_banned: Prijavljivanje je zabranjeno.
+moderation_and_reports.unknown_report: Nepoznata prijava.
+moderation_and_reports.user_is_not_banned: Ovaj korisnik nije banan.
+names_and_normalization.channel_name_empty_after_normalization: Naziv kanala ne može biti prazan nakon normalizacije.
+names_and_normalization.name_empty_after_normalization: Naziv ne može biti prazan nakon normalizacije.
+permissions.missing_access: Nemaš pristup.
+permissions.missing_permissions: Nemaš potrebne dozvole.
+permissions.not_owner_of_admin_api_key: Nemaš dozvolu za mijenjanje ovog admin API ključa.
+permissions.user_banned_from_guild: Ovaj korisnik je banan na ovom serveru.
+permissions.user_ip_banned_from_guild: IP ovog korisnika je banan na ovom serveru.
+permissions.user_not_in_channel: Ovaj korisnik nije u ovom kanalu.
+permissions.user_not_in_voice: Ovaj korisnik nije u glasovnom kanalu.
+permissions.user_owns_guilds: Ovaj korisnik je vlasnik servera.
+phone.invalid_number: Neispravan broj telefona.
+phone.number_already_used: Broj telefona se već koristi.
+phone.number_format_required: Broj telefona mora biti u E.164 formatu (npr. +1234567890).
+phone.phone_required_for_sms_mfa: Za SMS MFA treba broj telefona.
+phone.sms_mfa_not_enabled: SMS MFA nije uključen.
+phone.sms_mfa_requires_totp: SMS MFA zahtijeva TOTP.
+phone.sms_verification_unavailable: SMS potvrda je privremeno nedostupna. Pokušaj opet kasnije.
+phone.verification_code_invalid: Neispravan kod za potvrdu telefona.
+phone.verification_required: Potvrda telefona je obavezna.
+premium_and_plans.animated_avatars_require_premium: Animirani avatari traže Premium.
+premium_and_plans.banners_require_premium: Baneri traže Premium.
+premium_and_plans.bio_requires_premium_for_length: Bio duža od {maxLength} znakova zahtijeva Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Ne možeš iskoristiti Plutonium uz Visionary.
+premium_and_plans.custom_emojis_outside_source_require_premium: Ne možeš koristiti prilagođene emojije izvan njihovih izvornih servera bez Premiuma.
+premium_and_plans.custom_stickers_in_dms_require_premium: Ne možeš koristiti prilagođene stickere u DM-ovima bez Premiuma.
+premium_and_plans.custom_stickers_outside_source_require_premium: Ne možeš koristiti prilagođene stickere izvan njihovih izvornih servera bez Premiuma.
+premium_and_plans.discriminator_change_requires_premium: Za promjenu discriminatora treba Premium.
+premium_and_plans.no_active_subscription: Nema aktivne pretplate.
+premium_and_plans.no_visionary_slots_available: Nema slobodnih Visionary slotova.
+premium_and_plans.premium_required_for_custom_emoji: Za korištenje prilagođenog emojija treba Premium.
+premium_and_plans.visionary_required_for_bot_discriminator: Moraš imati Visionary lifetime plan da bi prilagodio discriminatore botova.
+premium_and_plans.visionary_required_for_discriminator: Moraš imati Visionary lifetime plan da bi koristio taj discriminator.
+rate_limits.accent_color_changed_too_often: Prečesto mijenjaš boju naglaska u zadnje vrijeme. Pokušaj opet za {minutes} {minutes, plural, one {minutu} few {minute} other {minuta}}.
+rate_limits.avatar_changed_too_often: Prečesto mijenjaš avatar u zadnje vrijeme. Pokušaj opet za {minutes} {minutes, plural, one {minutu} few {minute} other {minuta}}.
+rate_limits.banner_changed_too_often: Prečesto mijenjaš baner u zadnje vrijeme. Pokušaj opet za {minutes} {minutes, plural, one {minutu} few {minute} other {minuta}}.
+rate_limits.bio_changed_too_often: Prečesto mijenjaš bio u zadnje vrijeme. Pokušaj opet za {minutes} {minutes, plural, one {minutu} few {minute} other {minuta}}.
+rate_limits.ip_authorization_resend_cooldown: Za ponovno slanje IP autorizacije moraš malo pričekati.
+rate_limits.ip_authorization_resend_limit_exceeded: Prekoračen je limit ponovnog slanja IP autorizacije.
+rate_limits.phone_rate_limit_exceeded: Prekoračen je limit zahtjeva za telefon.
+rate_limits.pronouns_changed_too_often: Prečesto mijenjaš zamjenice u zadnje vrijeme. Pokušaj opet za {minutes} {minutes, plural, one {minutu} few {minute} other {minuta}}.
+rate_limits.rate_limited: Dosegnut je limit zahtjeva.
+rate_limits.slowmode_rate_limited: 'Usporeni način: dosegnut je limit.'
+rate_limits.username_changed_too_often: Prečesto mijenjaš korisničko ime u zadnje vrijeme. Pokušaj opet za {minutes} {minutes, plural, one {minutu} few {minute} other {minuta}}.
+roles.cannot_reorder_everyone_role: Ne možeš promijeniti redoslijed uloge @everyone.
+roles.cannot_set_everyone_hoist: Ne možeš postaviti hoist poziciju za ulogu @everyone.
+roles.cannot_use_same_role_as_preceding: Ne možeš koristiti istu ulogu kao prethodnu ulogu.
+roles.invalid_role_id: 'Neispravan ID uloge: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Ne možeš koristiti `parse` zajedno s `allowed_mentions.users` ili `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Prethodna uloga nije prisutna na serveru.
+stickers_and_emojis.custom_emoji_not_found: Prilagođeni emoji nije pronađen.
+stickers_and_emojis.custom_sticker_not_found: Prilagođeni sticker nije pronađen.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Ne možeš koristiti ovaj emoji bez pristupa njegovom serveru ili instaliranom packu.
+stickers_and_emojis.max_reactions_reached: Dosegnut je maksimalan broj od {count} {count, plural, one {reakcije} other {reakcija}}.
+stickers_and_emojis.max_stickers_reached: Dosegnut je maksimalan broj od {count} {count, plural, one {stickera} other {stickera}}.
+stickers_and_emojis.not_valid_unicode_emoji: Ovo nije valjan Unicode emoji.
+stickers_and_emojis.unknown_emoji: Nepoznat emoji.
+stickers_and_emojis.unknown_sticker: Nepoznat sticker.
+stripe.error: Stripe greška.
+stripe.invalid_product_configuration: Neispravna konfiguracija proizvoda.
+stripe.invalid_product_selection: Neispravan odabir proizvoda.
+stripe.no_active_subscription_found: Nije pronađena aktivna pretplata.
+stripe.no_purchase_history_customer_portal_unavailable: Nema povijesti kupnji. Customer portal nije dostupan.
+stripe.no_subscription_found: Pretplata nije pronađena.
+stripe.payment_not_available: Obrada plaćanja nije dostupna.
+stripe.subscription_already_canceling: Pretplata je već postavljena da se otkaže na kraju obračunskog razdoblja.
+stripe.subscription_not_canceling: Pretplata nije postavljena da se otkaže.
+stripe.subscription_period_end_missing: Nedostaje subscription current_period_end.
+stripe.webhook_not_available: Obrada webhookova nije dostupna.
+stripe.webhook_signature_invalid: Stripe potpis webhooka je neispravan.
+stripe.webhook_signature_missing: Nedostaje Stripe potpis webhooka.
+tickets.ticket_already_completed: Ovaj ticket je već dovršen.
+tos_and_age.date_of_birth_format_invalid: Neispravan format datuma rođenja.
+tos_and_age.must_agree_to_tos_and_privacy: Moraš prihvatiti uvjete korištenja i politiku privatnosti.
+tos_and_age.must_be_minimum_age: Moraš imati barem {minAge} {minAge, plural, one {godinu} few {godine} other {godina}} da bi napravio račun.
+unknown_entities.unknown_application: Nepoznata aplikacija.
+unknown_entities.unknown_channel: Nepoznat kanal.
+unknown_entities.unknown_guild: Nepoznat server.
+unknown_entities.unknown_invite: Nepoznata pozivnica.
+unknown_entities.unknown_member: Nepoznat član.
+unknown_entities.unknown_message: Nepoznata poruka.
+unknown_entities.unknown_pack: Nepoznat pack.
+unknown_entities.unknown_role: Nepoznata uloga.
+unknown_entities.unknown_user_flag: Nepoznat user flag.
+unknown_entities.unknown_user: Nepoznat korisnik.
+urls.invalid_url_format: Neispravan format URL-a.
+urls.invalid_url_or_attachment_reference: Neispravan format URL-a ili reference na privitak.
+urls.url_length_invalid: URL mora imati između {min} i {max} znakova.
+usernames_and_tags.discriminator_invalid_format: Discriminator mora imati {min}–{max} znamenke.
+usernames_and_tags.discriminator_out_of_range: Discriminator mora biti između {min} i {max}.
+usernames_and_tags.discriminator_required: Discriminator je obavezan.
+usernames_and_tags.display_name_length_invalid: Prikazano ime mora imati između {min} i {max} znakova.
+usernames_and_tags.display_name_reserved_terms: Prikazano ime ne smije sadržavati "system message".
+usernames_and_tags.display_name_reserved_value: Prikazano ime ne može biti "everyone" ni "here".
+usernames_and_tags.global_name_length_invalid: Globalno ime mora imati između {min} i {max} znakova.
+usernames_and_tags.global_name_reserved_value: Globalno ime ne može biti "everyone" ili "here".
+usernames_and_tags.tag_already_taken: Ovaj tag je već zauzet.
+usernames_and_tags.too_many_users_with_this_username: Previše korisnika ima ovo korisničko ime.
+usernames_and_tags.too_many_users_with_username_try_different: Previše korisnika ima ovo korisničko ime. Probaj drugo korisničko ime.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Nepotvđeni računi mogu postaviti e-mail samo putem tokena.
+usernames_and_tags.username_invalid_characters: Korisničko ime smije sadržavati samo latinična slova (a-z, A-Z), brojeve (0-9) i donju crtu (_).
+usernames_and_tags.username_length_invalid: Korisničko ime mora imati između {min} i {max} znakova.
+usernames_and_tags.username_not_available: Ovo korisničko ime nije dostupno.
+usernames_and_tags.username_reserved_terms: Korisničko ime ne smije sadržavati "fluxer" ni "system message".
+usernames_and_tags.username_reserved_value: Korisničko ime ne može biti "everyone" ni "here".
+vanity_urls.vanity_url_already_taken: Ovaj vanity URL je već zauzet.
+vanity_urls.vanity_url_code_already_taken: Ovaj vanity URL kod je već zauzet.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Vanity URL kod ne smije sadržavati "fluxer".
+vanity_urls.vanity_url_code_length_invalid: Vanity URL kod mora imati između {min} i {max} znakova.
+vanity_urls.vanity_url_invalid_characters: Vanity URL smije sadržavati samo mala slova (a-z), znamenke (0-9) i crtice (-).
+webhooks.cannot_modify_system_webhook: Ne možeš mijenjati sistemski webhook.
+webhooks.max_webhooks_per_channel_reached: Dosegnut je maksimalan broj od {count} {count, plural, one {webhooka} other {webhookova}} po kanalu.
+webhooks.max_webhooks_per_guild_reached: Dosegnut je maksimalan broj od {count} {count, plural, one {webhooka} other {webhookova}} po serveru.
+webhooks.max_webhooks_reached: Dosegnut je maksimalan broj od {count} {count, plural, one {webhooka} other {webhookova}}.
+webhooks.unknown_webhook: Nepoznat webhook.
+webhooks.webhook_name_length_invalid: Naziv webhooka mora imati između {min} i {max} znakova.

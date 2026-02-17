@@ -17,31 +17,35 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans} from '@lingui/react/macro';
+import * as PopoutActionCreators from '@app/actions/PopoutActionCreators';
+import {Autocomplete} from '@app/components/channel/Autocomplete';
+import editingStyles from '@app/components/channel/EditingMessageInput.module.css';
+import {MessageCharacterCounter} from '@app/components/channel/MessageCharacterCounter';
+import {TextareaButton} from '@app/components/channel/textarea/TextareaButton';
+import styles from '@app/components/channel/textarea/TextareaInput.module.css';
+import {TextareaInputField} from '@app/components/channel/textarea/TextareaInputField';
+import {ExpressionPickerSheet} from '@app/components/modals/ExpressionPickerSheet';
+import {ExpressionPickerPopout} from '@app/components/popouts/ExpressionPickerPopout';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {openPopout} from '@app/components/uikit/popout/Popout';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {useMarkdownKeybinds} from '@app/hooks/useMarkdownKeybinds';
+import {useTextareaAutocomplete} from '@app/hooks/useTextareaAutocomplete';
+import {useTextareaEmojiPicker} from '@app/hooks/useTextareaEmojiPicker';
+import {useTextareaPaste} from '@app/hooks/useTextareaPaste';
+import {useTextareaSegments} from '@app/hooks/useTextareaSegments';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import UserStore from '@app/stores/UserStore';
+import {Limits} from '@app/utils/limits/UserLimits';
+import {applyMarkdownSegments} from '@app/utils/MarkdownToSegmentUtils';
+import {MAX_MESSAGE_LENGTH_PREMIUM} from '@fluxer/constants/src/LimitConstants';
+import {Trans, useLingui} from '@lingui/react/macro';
 import {SmileyIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as PopoutActionCreators from '~/actions/PopoutActionCreators';
-import {Autocomplete} from '~/components/channel/Autocomplete';
-import {MessageCharacterCounter} from '~/components/channel/MessageCharacterCounter';
-import {TextareaButton} from '~/components/channel/textarea/TextareaButton';
-import {TextareaInputField} from '~/components/channel/textarea/TextareaInputField';
-import {ExpressionPickerSheet} from '~/components/modals/ExpressionPickerSheet';
-import {ExpressionPickerPopout} from '~/components/popouts/ExpressionPickerPopout';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {openPopout} from '~/components/uikit/Popout/Popout';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-import {useMarkdownKeybinds} from '~/hooks/useMarkdownKeybinds';
-import {useTextareaAutocomplete} from '~/hooks/useTextareaAutocomplete';
-import {useTextareaEmojiPicker} from '~/hooks/useTextareaEmojiPicker';
-import {useTextareaPaste} from '~/hooks/useTextareaPaste';
-import {useTextareaSegments} from '~/hooks/useTextareaSegments';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import UserStore from '~/stores/UserStore';
-import {applyMarkdownSegments} from '~/utils/MarkdownToSegmentUtils';
-import editingStyles from './EditingMessageInput.module.css';
-import styles from './textarea/TextareaInput.module.css';
+import type React from 'react';
+import {useCallback, useLayoutEffect, useMemo, useRef, useState} from 'react';
 
 export const EditingMessageInput = observer(
 	({
@@ -59,26 +63,29 @@ export const EditingMessageInput = observer(
 		value: string;
 		setValue: React.Dispatch<React.SetStateAction<string>>;
 	}) => {
+		const {t} = useLingui();
 		const currentUser = UserStore.getCurrentUser()!;
 		const maxMessageLength = currentUser.maxMessageLength;
-		const [expressionPickerOpen, setExpressionPickerOpen] = React.useState(false);
-		const hasInitializedRef = React.useRef(false);
-		const containerRef = React.useRef<HTMLDivElement>(null);
-		const scrollerRef = React.useRef<ScrollerHandle>(null);
+		const premiumMaxLength = Limits.getPremiumValue('max_message_length', MAX_MESSAGE_LENGTH_PREMIUM);
+		const [expressionPickerOpen, setExpressionPickerOpen] = useState(false);
+		const hasInitializedRef = useRef(false);
+		const containerRef = useRef<HTMLDivElement>(null);
+		const scrollerRef = useRef<ScrollerHandle>(null);
 		const mobileLayout = MobileLayoutStore;
-		const expressionPickerTriggerRef = React.useRef<HTMLButtonElement>(null);
-		const [isFocused, setIsFocused] = React.useState(false);
+		const expressionPickerTriggerRef = useRef<HTMLButtonElement>(null);
+		const [isFocused, setIsFocused] = useState(false);
 		useMarkdownKeybinds(isFocused);
-		const [textareaHeight, setTextareaHeight] = React.useState(0);
-		const hasScrolledInitiallyRef = React.useRef(false);
-		const shouldStickToBottomRef = React.useRef(true);
+		const [textareaHeight, setTextareaHeight] = useState(0);
+		const hasScrolledInitiallyRef = useRef(false);
+		const shouldStickToBottomRef = useRef(true);
+		const previousHeightRef = useRef<number | null>(null);
 
-		const handleScroll = React.useCallback(() => {
+		const handleScroll = useCallback(() => {
 			const distance = scrollerRef.current?.getDistanceFromBottom?.();
 			if (distance == null) return;
 			shouldStickToBottomRef.current = distance <= 8;
 		}, []);
-		const handleTextareaKeyDown = React.useCallback(
+		const handleTextareaKeyDown = useCallback(
 			(event: React.KeyboardEvent<HTMLTextAreaElement>) => {
 				if (event.key === 'Escape') {
 					event.preventDefault();
@@ -89,9 +96,9 @@ export const EditingMessageInput = observer(
 			[onCancel],
 		);
 
-		const {segmentManagerRef, previousValueRef, displayToActual, insertSegment, handleTextChange} =
-			useTextareaSegments();
-		const {handleEmojiSelect} = useTextareaEmojiPicker({setValue, textareaRef, insertSegment, previousValueRef});
+		const {segmentManagerRef, previousValueRef, displayToActual, handleTextChange} = useTextareaSegments();
+		const {handleEmojiSelect} = useTextareaEmojiPicker({setValue, textareaRef, segmentManagerRef, previousValueRef});
+		const actualContent = useMemo(() => displayToActual(value), [displayToActual, value]);
 
 		const {
 			autocompleteQuery,
@@ -109,7 +116,7 @@ export const EditingMessageInput = observer(
 			textareaRef,
 			segmentManagerRef,
 			previousValueRef,
-			allowedTriggers: ['emoji'],
+			allowedTriggers: ['emoji', 'mention'],
 		});
 
 		useTextareaPaste({
@@ -120,7 +127,7 @@ export const EditingMessageInput = observer(
 			previousValueRef,
 		});
 
-		React.useLayoutEffect(() => {
+		useLayoutEffect(() => {
 			if (!hasInitializedRef.current && value) {
 				hasInitializedRef.current = true;
 
@@ -138,7 +145,7 @@ export const EditingMessageInput = observer(
 			}
 		}, [value, channel.guildId, setValue, segmentManagerRef, previousValueRef]);
 
-		React.useLayoutEffect(() => {
+		useLayoutEffect(() => {
 			if (hasScrolledInitiallyRef.current) return;
 			if (!scrollerRef.current) return;
 			if (textareaHeight <= 0) return;
@@ -148,15 +155,39 @@ export const EditingMessageInput = observer(
 			shouldStickToBottomRef.current = true;
 		}, [textareaHeight]);
 
-		const handleSubmit = React.useCallback(() => {
-			if (value.length > maxMessageLength) {
+		useLayoutEffect(() => {
+			const container = containerRef.current;
+			if (!container) return;
+
+			const ro = new ResizeObserver((entries) => {
+				const entry = entries[0];
+				if (!entry) return;
+
+				const height = entry.borderBoxSize?.[0]?.blockSize ?? entry.contentRect.height;
+				const prevHeight = previousHeightRef.current;
+				previousHeightRef.current = height;
+
+				if (prevHeight != null && prevHeight !== height) {
+					const delta = height - prevHeight;
+					ComponentDispatch.dispatch('LAYOUT_RESIZED', {
+						channelId: channel.id,
+						heightDelta: delta,
+					});
+				}
+			});
+
+			ro.observe(container);
+			return () => ro.disconnect();
+		}, [channel.id]);
+
+		const handleSubmit = useCallback(() => {
+			if (actualContent.length > maxMessageLength) {
 				return;
 			}
-			const actualContent = displayToActual(value);
 			onSubmit(actualContent);
-		}, [value, displayToActual, onSubmit, maxMessageLength]);
+		}, [actualContent, onSubmit, maxMessageLength]);
 
-		const handleExpressionPickerToggle = React.useCallback(() => {
+		const handleExpressionPickerToggle = useCallback(() => {
 			const triggerElement = expressionPickerTriggerRef.current;
 			if (!triggerElement) return;
 
@@ -215,11 +246,8 @@ export const EditingMessageInput = observer(
 									key="editing-message-input-scroller"
 									onScroll={handleScroll}
 								>
-									<div style={{display: 'flex', flexDirection: 'column'}}>
-										<span
-											key={textareaHeight}
-											style={{position: 'absolute', visibility: 'hidden', pointerEvents: 'none'}}
-										/>
+									<div className={editingStyles.flexColumnContainer}>
+										<span key={textareaHeight} className={editingStyles.hiddenSpan} />
 										<TextareaInputField
 											channelId={channel.id}
 											disabled={false}
@@ -256,7 +284,7 @@ export const EditingMessageInput = observer(
 									ref={mobileLayout.enabled ? undefined : expressionPickerTriggerRef}
 									icon={SmileyIcon}
 									iconProps={{weight: 'fill'}}
-									label="Emojis"
+									label={t`Emojis`}
 									isSelected={expressionPickerOpen}
 									onClick={mobileLayout.enabled ? () => setExpressionPickerOpen(true) : handleExpressionPickerToggle}
 									data-expression-picker-tab="emojis"
@@ -266,9 +294,10 @@ export const EditingMessageInput = observer(
 						</div>
 
 						<MessageCharacterCounter
-							currentLength={value.length}
+							currentLength={actualContent.length}
 							maxLength={maxMessageLength}
-							isPremium={currentUser.isPremium()}
+							canUpgrade={maxMessageLength < premiumMaxLength}
+							premiumMaxLength={premiumMaxLength}
 						/>
 					</div>
 				</FocusRing>

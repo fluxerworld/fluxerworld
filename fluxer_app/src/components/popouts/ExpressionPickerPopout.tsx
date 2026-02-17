@@ -17,21 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ExpressionPickerActionCreators from '@app/actions/ExpressionPickerActionCreators';
+import {EmojiPicker} from '@app/components/channel/EmojiPicker';
+import {GifPicker} from '@app/components/channel/pickers/gif/GifPicker';
+import {MemesPicker} from '@app/components/channel/pickers/memes/MemesPicker';
+import {StickersPicker} from '@app/components/channel/StickersPicker';
+import styles from '@app/components/popouts/ExpressionPickerPopout.module.css';
+import * as StickerSendUtils from '@app/lib/StickerSendUtils';
+import type {GuildStickerRecord} from '@app/records/GuildStickerRecord';
+import ExpressionPickerStore from '@app/stores/ExpressionPickerStore';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
+import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {useLingui} from '@lingui/react/macro';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import React, {useCallback, useContext, useEffect, useMemo, useRef, useState} from 'react';
 import ReactDOM from 'react-dom';
-import * as ExpressionPickerActionCreators from '~/actions/ExpressionPickerActionCreators';
-import {EmojiPicker} from '~/components/channel/EmojiPicker';
-import {GifPicker} from '~/components/channel/pickers/gif/GifPicker';
-import {MemesPicker} from '~/components/channel/pickers/memes/MemesPicker';
-import {StickersPicker} from '~/components/channel/StickersPicker';
-import * as StickerSendUtils from '~/lib/StickerSendUtils';
-import type {Emoji} from '~/stores/EmojiStore';
-import ExpressionPickerStore from '~/stores/ExpressionPickerStore';
-import styles from './ExpressionPickerPopout.module.css';
 
 interface ExpressionPickerHeaderContextType {
 	headerPortalElement: HTMLDivElement | null;
@@ -40,7 +42,7 @@ interface ExpressionPickerHeaderContextType {
 export const ExpressionPickerHeaderContext = React.createContext<ExpressionPickerHeaderContextType | null>(null);
 
 export const useExpressionPickerHeaderPortal = () => {
-	return React.useContext(ExpressionPickerHeaderContext);
+	return useContext(ExpressionPickerHeaderContext);
 };
 
 export const ExpressionPickerHeaderPortal = ({children}: {children: React.ReactNode}) => {
@@ -58,12 +60,12 @@ interface ExpressionPickerCategory {
 	label: string;
 	renderComponent: (props: {
 		channelId?: string;
-		onSelect: (emoji: Emoji, shiftKey?: boolean) => void;
+		onSelect: (emoji: FlatEmoji, shiftKey?: boolean) => void;
 		onClose?: () => void;
 	}) => React.ReactNode;
 }
 
-const createAllCategories = (i18n: ReturnType<typeof useLingui>['i18n']): Array<ExpressionPickerCategory> => [
+const createAllCategories = (i18n: I18n): Array<ExpressionPickerCategory> => [
 	{
 		type: 'gifs' as const,
 		label: i18n._(msg`GIFs`),
@@ -78,7 +80,7 @@ const createAllCategories = (i18n: ReturnType<typeof useLingui>['i18n']): Array<
 		type: 'stickers' as const,
 		label: i18n._(msg`Stickers`),
 		renderComponent: ({channelId, onClose}) => {
-			const handleStickerSelect = (sticker: any, shiftKey?: boolean) => {
+			const handleStickerSelect = (sticker: GuildStickerRecord, shiftKey?: boolean) => {
 				if (channelId) {
 					StickerSendUtils.handleStickerSelect(channelId, sticker);
 					if (onClose && !shiftKey) {
@@ -99,7 +101,7 @@ const createAllCategories = (i18n: ReturnType<typeof useLingui>['i18n']): Array<
 
 interface ExpressionPickerPopoutProps {
 	channelId?: string;
-	onEmojiSelect: (emoji: Emoji, shiftKey?: boolean) => void;
+	onEmojiSelect: (emoji: FlatEmoji, shiftKey?: boolean) => void;
 	onClose?: () => void;
 	visibleTabs?: Array<ExpressionPickerTabType>;
 	selectedTab?: ExpressionPickerTabType;
@@ -117,19 +119,19 @@ export const ExpressionPickerPopout = observer(
 	}: ExpressionPickerPopoutProps) => {
 		const {t, i18n} = useLingui();
 
-		const categories = React.useMemo(() => {
+		const categories = useMemo(() => {
 			const all = createAllCategories(i18n);
 			return all.filter((category) => visibleTabs.includes(category.type));
 		}, [i18n, visibleTabs]);
 
-		const [internalSelectedTab, setInternalSelectedTab] = React.useState<ExpressionPickerTabType>(
+		const [internalSelectedTab, setInternalSelectedTab] = useState<ExpressionPickerTabType>(
 			() => categories[0]?.type || 'emojis',
 		);
 
 		const storeSelectedTab = ExpressionPickerStore.selectedTab;
 		const selectedTab = storeSelectedTab ?? controlledSelectedTab ?? internalSelectedTab;
 
-		const setSelectedTab = React.useCallback(
+		const setSelectedTab = useCallback(
 			(tab: ExpressionPickerTabType) => {
 				if (tab === selectedTab) {
 					return;
@@ -151,9 +153,9 @@ export const ExpressionPickerPopout = observer(
 		);
 
 		const selectedCategory = categories.find((category) => category.type === selectedTab) || categories[0];
-		const containerRef = React.useRef<HTMLDivElement>(null);
+		const containerRef = useRef<HTMLDivElement>(null);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (containerRef.current) {
 				const firstInput = containerRef.current.querySelector('input[type="text"]') as HTMLInputElement | null;
 				if (firstInput) {
@@ -162,8 +164,8 @@ export const ExpressionPickerPopout = observer(
 			}
 		}, []);
 
-		const handleEmojiSelect = React.useCallback(
-			(emoji: Emoji, shiftKey?: boolean) => {
+		const handleEmojiSelect = useCallback(
+			(emoji: FlatEmoji, shiftKey?: boolean) => {
 				onEmojiSelect(emoji, shiftKey);
 				if (onClose && !shiftKey) {
 					onClose();
@@ -173,13 +175,13 @@ export const ExpressionPickerPopout = observer(
 		);
 
 		const showTabs = categories.length > 1;
-		const [headerPortalElement, setHeaderPortalElement] = React.useState<HTMLDivElement | null>(null);
+		const [headerPortalElement, setHeaderPortalElement] = useState<HTMLDivElement | null>(null);
 
-		const headerPortalCallback = React.useCallback((node: HTMLDivElement | null) => {
+		const headerPortalCallback = useCallback((node: HTMLDivElement | null) => {
 			setHeaderPortalElement(node);
 		}, []);
 
-		const headerContextValue = React.useMemo(() => ({headerPortalElement}), [headerPortalElement]);
+		const headerContextValue = useMemo(() => ({headerPortalElement}), [headerPortalElement]);
 
 		return (
 			<ExpressionPickerHeaderContext.Provider value={headerContextValue}>

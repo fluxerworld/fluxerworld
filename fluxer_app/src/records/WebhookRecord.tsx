@@ -17,20 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {UserPartial, UserRecord} from '~/records/UserRecord';
-import UserStore from '~/stores/UserStore';
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
-import {webhookUrl} from '~/utils/UrlUtils';
-
-export type Webhook = Readonly<{
-	id: string;
-	guild_id: string;
-	channel_id: string;
-	user: UserPartial;
-	name: string;
-	avatar: string | null;
-	token: string;
-}>;
+import type {UserRecord} from '@app/records/UserRecord';
+import UserStore from '@app/stores/UserStore';
+import {webhookUrl} from '@app/utils/UrlUtils';
+import type {UserPartial} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
+import type {Webhook} from '@fluxer/schema/src/domains/webhook/WebhookSchemas';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
 
 export class WebhookRecord {
 	readonly id: string;

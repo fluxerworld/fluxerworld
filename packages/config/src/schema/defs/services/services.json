@@ -1,0 +1,41 @@
+{
+	"services": {
+		"type": "object",
+		"description": "Container for all service-specific configurations.",
+		"additionalProperties": false,
+		"required": ["media_proxy", "admin", "gateway"],
+		"properties": {
+			"s3": {
+				"$ref": "#/$defs/s3_service",
+				"default": {}
+			},
+			"queue": {
+				"$ref": "#/$defs/queue_service",
+				"default": {}
+			},
+			"media_proxy": {
+				"$ref": "#/$defs/media_proxy_service"
+			},
+			"admin": {
+				"$ref": "#/$defs/admin_service"
+			},
+			"marketing": {
+				"$ref": "#/$defs/marketing_service"
+			},
+			"api": {
+				"$ref": "#/$defs/api_service",
+				"default": {}
+			},
+			"app_proxy": {
+				"$ref": "#/$defs/app_proxy_service"
+			},
+			"gateway": {
+				"$ref": "#/$defs/gateway_service"
+			},
+			"server": {
+				"$ref": "#/$defs/server_service",
+				"default": {}
+			}
+		}
+	}
+}

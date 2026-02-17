@@ -274,10 +274,8 @@
 	white-space: nowrap;
 }
 
-.switchAccountLink:hover,
-.switchAccountLink:focus-visible {
+.switchAccountLink:hover {
 	text-decoration: underline;
-	outline: none;
 }
 
 .cardGrid {

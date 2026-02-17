@@ -17,15 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useForm} from 'react-hook-form';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import styles from '~/components/modals/ConfirmModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
 
 interface FormInputs {
 	name: string;
@@ -34,7 +33,6 @@ interface FormInputs {
 export const PasskeyNameModal = observer(({onSubmit}: {onSubmit: (name: string) => void | Promise<void>}) => {
 	const {t} = useLingui();
 	const form = useForm<FormInputs>();
-
 	const handleSubmit = async (data: FormInputs) => {
 		await onSubmit(data.name);
 		ModalActionCreators.pop();
@@ -44,18 +42,20 @@ export const PasskeyNameModal = observer(({onSubmit}: {onSubmit: (name: string) 
 		<Modal.Root size="small" centered>
 			<Form form={form} onSubmit={handleSubmit} aria-label={t`Name passkey form`}>
 				<Modal.Header title={t`Name Passkey`} />
-				<Modal.Content className={styles.content}>
-					<Input
-						{...form.register('name')}
-						autoFocus={true}
-						error={form.formState.errors.name?.message}
-						label={t`Passkey Name`}
-						maxLength={64}
-						minLength={1}
-						placeholder={t`e.g., YubiKey, iPhone, Work Computer`}
-						required={true}
-						type="text"
-					/>
+				<Modal.Content>
+					<Modal.ContentLayout>
+						<Input
+							{...form.register('name')}
+							autoFocus={true}
+							error={form.formState.errors.name?.message}
+							label={t`Passkey Name`}
+							maxLength={64}
+							minLength={1}
+							placeholder={t`e.g., YubiKey, iPhone, Work Computer`}
+							required={true}
+							type="text"
+						/>
+					</Modal.ContentLayout>
 				</Modal.Content>
 				<Modal.Footer>
 					<Button onClick={ModalActionCreators.pop} variant="secondary">

@@ -1,0 +1,93 @@
+---
+title: 'Saved media'
+description: 'Saved media object schemas from the Fluxer API.'
+---
+
+<a id="createfavoritememebodyschema"></a>
+
+## CreateFavoriteMemeBodySchema
+
+**Related endpoints**
+
+- [`POST /channels/{channel_id}/messages/{message_id}/memes`](/api-reference/saved-media/create-meme-from-message)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| alt_text? | ?string | Alternative text description for accessibility |
+| attachment_id? | ?[SnowflakeType](#snowflaketype) | ID of the message attachment to save as a meme |
+| embed_index? | ?integer (int64) | Index of the message embed to save as a meme |
+| name | string | Display name for the meme |
+| tags? | ?string[] | Tags for categorizing and searching the meme |
+
+<a id="createfavoritememefromurlbodyschema"></a>
+
+## CreateFavoriteMemeFromUrlBodySchema
+
+**Related endpoints**
+
+- [`POST /users/@me/memes`](/api-reference/saved-media/create-meme-from-url)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| alt_text? | ?string | Alternative text description for accessibility |
+| klipy_slug? | ?string | Klipy clip slug if the URL is from Klipy |
+| name? | ?string | Display name for the meme |
+| tags? | ?string[] | Tags for categorizing and searching the meme |
+| tenor_slug_id? | ?[SnowflakeType](#snowflaketype) | Tenor view/&lt;slug&gt;-&lt;id&gt; identifier if the URL is from Tenor |
+| url | string (uri) | URL of the image or video to save as a favorite meme |
+
+<a id="favoritememelistresponse"></a>
+
+## FavoriteMemeListResponse
+
+**Related endpoints**
+
+- [`GET /users/@me/memes`](/api-reference/saved-media/list-favorite-memes)
+
+Type: [FavoriteMemeResponse](#favoritememeresponse)[]
+
+<a id="favoritememeresponse"></a>
+
+## FavoriteMemeResponse
+
+**Related endpoints**
+
+- [`GET /users/@me/memes/{meme_id}`](/api-reference/saved-media/get-favorite-meme)
+- [`POST /channels/{channel_id}/messages/{message_id}/memes`](/api-reference/saved-media/create-meme-from-message)
+- [`POST /users/@me/memes`](/api-reference/saved-media/create-meme-from-url)
+- [`PATCH /users/@me/memes/{meme_id}`](/api-reference/saved-media/update-favorite-meme)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| alt_text? | ?string | Alternative text description for accessibility |
+| attachment_id | [SnowflakeType](#snowflaketype) | ID of the attachment storing the meme |
+| content_hash? | ?string | Hash of the file content for deduplication |
+| content_type | string | MIME type of the meme file |
+| duration? | ?number | Duration of the video in seconds |
+| filename | string | Original filename of the meme |
+| height? | ?integer (int53) | Height of the image or video in pixels |
+| id | [SnowflakeType](#snowflaketype) | Unique identifier for the favorite meme |
+| is_gifv? | boolean | Whether the meme is a video converted from GIF |
+| klipy_slug? | ?string | Klipy clip slug if the meme was sourced from Klipy |
+| name | string | Display name of the meme |
+| size | number | File size in bytes |
+| tags | string[] | Tags for categorizing and searching the meme |
+| tenor_slug_id? | ?[SnowflakeType](#snowflaketype) | Tenor view/&lt;slug&gt;-&lt;id&gt; identifier if the meme was sourced from Tenor |
+| url | string | CDN URL to access the meme |
+| user_id | [SnowflakeType](#snowflaketype) | ID of the user who owns this favorite meme |
+| width? | ?integer (int53) | Width of the image or video in pixels |
+
+<a id="updatefavoritememebodyschema"></a>
+
+## UpdateFavoriteMemeBodySchema
+
+**Related endpoints**
+
+- [`PATCH /users/@me/memes/{meme_id}`](/api-reference/saved-media/update-favorite-meme)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| alt_text? | ?string | Alternative text description for accessibility |
+| name? | string | Display name for the meme |
+| tags? | ?string[] | New tags for categorizing and searching the meme |
+

@@ -1,0 +1,497 @@
+account.already_verified: Contul tău e deja verificat.
+account.communication_disabled: Comunicarea e dezactivată.
+account.disabled: Acest cont a fost dezactivat.
+account.email_verification_required_for_guild: Trebuie să-ți verifici emailul ca să trimiți mesaje pe acest server.
+account.guild_verification_required: E necesară verificarea pe server.
+account.ip_authorization_required: Este necesară autorizarea IP.
+account.locked_suspicious_activity: Contul tău e blocat din cauza unei activități suspecte.
+account.phone_required_for_guild: Trebuie să adaugi un număr de telefon ca să trimiți mesaje pe acest server.
+account.scheduled_for_deletion: Acest cont e programat pentru ștergere.
+account.session_timeout: Sesiunea a expirat. Reîmprospătează pagina și autentifică-te din nou.
+account.session_token_mismatch: Tokenul sesiunii nu se potrivește.
+account.suspended_permanently: Acest cont a fost suspendat permanent.
+account.suspended_temporarily: Acest cont a fost suspendat temporar.
+account.too_new_for_guild: Contul tău e prea nou ca să trimiți mesaje pe acest server.
+account.unauthorized: Neautorizat.
+admin_and_system.acls_must_be_non_empty: ACL-urile nu pot fi goale.
+admin_and_system.admin_api_key_not_found: Cheia API de admin nu a fost găsită.
+admin_and_system.audit_log_indexing: Jurnalele de audit se indexează. Te rugăm să încerci din nou peste câteva momente.
+admin_and_system.channel_indexing: Canalele se indexează. Te rugăm să încerci din nou peste câteva momente.
+admin_and_system.creation_failed: Nu am putut crea resursa. Te rugăm să încerci din nou.
+admin_and_system.deletion_failed: Nu am putut șterge resursa. Te rugăm să încerci din nou.
+admin_and_system.decryption_failed: Decriptarea a eșuat.
+admin_and_system.empty_encrypted_body: Corp criptat gol.
+admin_and_system.encryption_failed: Criptarea a eșuat.
+admin_and_system.general_error: Ceva nu a mers bine. Te rugăm să încerci mai târziu.
+admin_and_system.invalid_acls_format: Format de ACL-uri invalid.
+admin_and_system.invalid_api_origin: Origine API invalidă.
+admin_and_system.invalid_audit_log_reason: Motiv de jurnal de audit invalid.
+admin_and_system.invalid_bot_flag: Steag bot invalid.
+admin_and_system.invalid_decrypted_json: JSON decriptat invalid.
+admin_and_system.invalid_ephemeral_key: Cheie efemeră invalidă.
+admin_and_system.invalid_flags_format: Format de steaguri invalid.
+admin_and_system.invalid_form_body: Corp de formular invalid.
+admin_and_system.invalid_format: Valoarea furnizată are un format invalid.
+admin_and_system.invalid_integer_format: Format de număr întreg invalid.
+admin_and_system.invalid_iv: Vector de inițializare invalid.
+admin_and_system.invalid_suspicious_flags_format: Format de steaguri suspecte invalid.
+admin_and_system.invalid_system_flag: Steag de sistem invalid.
+admin_and_system.invalid_timeout_value: Valoare de timeout invalidă.
+admin_and_system.invalid_timestamp: Marcă de timp invalidă.
+admin_and_system.invalid_timezone_identifier: Identificator de fus orar invalid.
+admin_and_system.missing_acl: ACL lipsă.
+admin_and_system.missing_ephemeral_key: Lipsește cheia efemeră.
+admin_and_system.missing_iv: Lipsește vectorul de inițializare.
+admin_and_system.must_be_iso_timestamp: Trebuie să fie o marcă de timp ISO validă.
+admin_and_system.processing_failed: Nu am putut procesa cererea. Te rugăm să încerci din nou.
+admin_and_system.response_validation_failed: 'Validarea răspunsului a eșuat: {errors}.'
+admin_and_system.test_harness_disabled: Harnesul de testare este dezactivat.
+admin_and_system.test_harness_forbidden: Harnesul de testare este interzis.
+admin_and_system.unknown_suspicious_flag: Steag suspect necunoscut.
+admin_and_system.update_failed: Nu am putut actualiza resursa. Te rugăm să încerci din nou.
+admin_and_system.user_must_be_bot_for_system_user: Utilizatorul trebuie să fie bot ca să fie marcat ca utilizator de sistem.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` și `expires_at` sunt obligatorii.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` și `message_id` trebuie să fie numere întregi valide.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Utilizatorii cu MANAGE_MESSAGES pot edita doar descrierile atașamentelor, nu alte metadate.
+attachments_and_uploads.attachment_metadata_without_files: Metadata atașamentului include un nume de fișier, dar nu au fost încărcate fișiere.
+attachments_and_uploads.attachment_must_be_image: Atașamentul "{filename}" trebuie să fie un fișier imagine (png, jpg, jpeg, webp sau gif).
+attachments_and_uploads.attachment_not_found_in_message: Atașamentul cu ID {attachmentId} nu a fost găsit în mesaj.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Array-ul de metadata pentru atașamente este obligatoriu la încărcarea fișierelor.
+attachments_and_uploads.attachments_not_allowed_for_message: Atașamentele nu sunt permise pentru acest mesaj.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Nu poți face referire la atașamente dacă nu sunt furnizate atașamente.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: ID-urile de atașament duplicate nu sunt permise.
+attachments_and_uploads.duplicate_file_index: 'Index de fișier duplicat: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: N-am putut interpreta datele multipart form. Verifică dacă numele câmpurilor și ale fișierelor sunt formatate corect.
+attachments_and_uploads.failed_to_parse_multipart_payload: N-am putut interpreta payload-ul multipart.
+attachments_and_uploads.failed_to_upload_image: N-am putut încărca imaginea. Încearcă din nou.
+attachments_and_uploads.file_index_exceeds_maximum: Indexul de fișier {index} depășește indexul maxim permis de {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Fișierul nu a fost găsit pentru scanare.
+attachments_and_uploads.file_not_found: Fișierul nu a fost găsit.
+attachments_and_uploads.file_size_too_large: Fișierul e prea mare. Dimensiunea maximă este {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Numele fișierului nu poate fi gol după normalizare.
+attachments_and_uploads.filename_invalid_characters: Numele fișierului conține caractere invalide.
+attachments_and_uploads.filename_length_invalid: Numele fișierului trebuie să aibă între {min} și {max} caractere.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Numele fișierului nu se potrivește pentru atașamentul {attachmentId}: metadata spune "{expectedFilename}", dar nu se potrivește.'
+attachments_and_uploads.image_size_exceeds_limit: Dimensiunea imaginii depășește {maxSize} octeți.
+attachments_and_uploads.invalid_file_field_name: 'Nume de câmp de fișier invalid: {key}. Format așteptat: `files[N]` unde N este un număr.'
+attachments_and_uploads.invalid_image_data: Date de imagine invalide.
+attachments_and_uploads.invalid_image_format: 'Format de imagine invalid. Extensii acceptate: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: JSON invalid în `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Nu sunt permise mai multe fișiere pentru indexul {index}.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Nu a fost încărcat niciun fișier pentru metadata atașamentului cu ID {attachmentId}.
+attachments_and_uploads.no_file_uploaded_for_attachment: Nu a fost încărcat niciun fișier pentru atașamentul cu ID {attachmentId}.
+attachments_and_uploads.no_metadata_for_file: Nu a fost furnizată nicio metadata pentru fișierul cu ID {fileId}.
+attachments_and_uploads.no_valid_media_in_message: Nu a fost găsită nicio media validă în mesaj.
+attachments_and_uploads.payload_json_required_for_multipart: Câmpul `payload_json` este obligatoriu pentru mesajele multipart.
+attachments_and_uploads.preview_must_be_jpeg: Previzualizarea trebuie să fie JPEG.
+attachments_and_uploads.referenced_attachment_not_found: Atașamentul referit "{filename}" nu a fost găsit în atașamentele mesajului.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` trebuie să fie un număr întreg valid.'
+attachments_and_uploads.too_many_files: Prea multe fișiere. Sunt permise maximum {maxFiles} {maxFiles, plural, one {fișier} other {fișiere}}.
+attachments_and_uploads.unknown_image_format: Format de imagine necunoscut.
+attachments_and_uploads.unresolved_attachment_url: A fost detectat un URL `attachment://` nerezolvat. Ar fi trebuit rezolvat înainte de procesarea embed-urilor.
+attachments_and_uploads.uploaded_attachment_not_found: Atașamentul încărcat {filename} nu a fost găsit.
+auth_and_oauth.application_not_owned: Nu deții această aplicație.
+auth_and_oauth.bot_already_in_guild: Acest bot e deja în guild.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Utilizatorii bot nu pot crea sesiuni de autentificare.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Utilizatorii bot nu pot folosi endpointurile de autentificare.
+auth_and_oauth.handoff_code_expired: Codul handoff a expirat.
+auth_and_oauth.handoff_code_invalid: Cod handoff invalid.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize nu e suportat. Folosește POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Secret de client invalid.
+auth_and_oauth.invalid_client: Client invalid.
+auth_and_oauth.invalid_code: Cod invalid.
+auth_and_oauth.invalid_grant: Grant invalid.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Ticket de autorizare invalid sau expirat.
+auth_and_oauth.invalid_or_expired_authorization_token: Token de autorizare invalid sau expirat.
+auth_and_oauth.invalid_or_expired_ticket: Ticket invalid sau expirat.
+auth_and_oauth.invalid_proof_token: Token de dovadă invalid.
+auth_and_oauth.invalid_redirect_uri: Redirect URI invalid.
+auth_and_oauth.invalid_request: Cerere invalidă.
+auth_and_oauth.invalid_scope: Scope invalid.
+auth_and_oauth.invalid_sudo_token: Token sudo invalid.
+auth_and_oauth.invalid_token_admin_api_key: Cheie API de admin invalidă.
+auth_and_oauth.missing_authorization: Lipsește autorizarea.
+auth_and_oauth.missing_client_secret: Lipsește secretul de client.
+auth_and_oauth.missing_redirect_uri: Lipsește redirect URI.
+auth_and_oauth.must_start_session_before_sending_messages: Trebuie să pornești o sesiune înainte să trimiți mesaje.
+auth_and_oauth.oauth_admin_scope_required: Tokenurile OAuth2 au nevoie de scope-ul admin ca să acceseze endpointurile de admin.
+auth_and_oauth.oauth_fields_missing: Lipsesc câmpuri OAuth.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Redirect URI este necesar pentru scope-uri non-bot.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Tipul de răspuns trebuie să fie code pentru scope-uri non-bot.
+auth_and_oauth.sudo_mode_required: Este necesar modul sudo.
+auth_and_oauth.unknown_application: Aplicație necunoscută.
+auth_and_oauth.unsupported_response_type: Tip de răspuns nesuportat.
+auth_and_registration.current_password_incorrect: Parola curentă este incorectă.
+auth_and_registration.password_is_too_common: Parola ta e prea comună. Alege o parolă mai unică.
+auth_and_registration.password_not_set: Parola nu e setată.
+bots.bot_application_not_found: Aplicația bot nu a fost găsită.
+bots.bot_discriminator_cannot_be_changed: Discriminatorul botului nu poate fi modificat.
+bots.bot_is_private: Acest bot e privat.
+bots.bot_user_generation_failed: Generarea utilizatorului bot a eșuat.
+bots.bot_user_not_found: Utilizatorul bot nu a fost găsit.
+bots.invalid_response_type_for_non_bot: Tipul de răspuns trebuie să fie code pentru scope-uri non-bot.
+bots.not_a_bot_application: Această aplicație nu e un bot.
+calls_and_voice.call_already_exists: Apelul există deja.
+calls_and_voice.cannot_modify_voice_state: Nu poți modifica starea vocală.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Regiune RTC invalidă sau restricționată: {region}.'
+calls_and_voice.invalid_rtc_region: 'Regiune RTC invalidă: {region}. Regiuni disponibile: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Format de cheie de stream invalid.
+calls_and_voice.invalid_stream_thumbnail_payload: Payload invalid pentru miniatura streamului.
+calls_and_voice.no_active_call: Nu există niciun apel activ.
+calls_and_voice.stream_key_channel_mismatch: Cheia de stream nu se potrivește cu canalul.
+calls_and_voice.stream_key_scope_mismatch: Cheia de stream nu se potrivește cu scope-ul.
+calls_and_voice.stream_thumbnail_payload_empty: Payload-ul pentru miniatura streamului e gol.
+calls_and_voice.unknown_voice_region: Regiune vocală necunoscută.
+calls_and_voice.unknown_voice_server: Server vocal necunoscut.
+calls_and_voice.voice_message_duration_exceeds_limit: Durata mesajului vocal nu poate depăși {maxDuration} {maxDuration, plural, one {secundă} other {secunde}}.
+calls_and_voice.voice_message_duration_required: Atașamentele pentru mesaje vocale trebuie să specifice o durată.
+calls_and_voice.voice_message_waveform_required: Atașamentele pentru mesaje vocale trebuie să includă date de waveform.
+calls_and_voice.voice_messages_require_single_attachment: Mesajele vocale trebuie să aibă exact un atașament.
+captcha.invalid: Captcha invalid.
+captcha.required: Captcha este necesar.
+connections.already_exists: O conexiune de acest tip cu acest identificator există deja.
+connections.bluesky_oauth_callback_failed: N-am putut finaliza conexiunea cu Bluesky. Te rugăm să încerci din nou.
+connections.bluesky_oauth_not_enabled: Conexiunile cu Bluesky nu sunt activate pe acest server.
+connections.bluesky_oauth_session_expired: Sesiunea ta pe Bluesky a expirat. Te rugăm să-ți reconectezi contul.
+connections.bluesky_oauth_state_invalid: Cererea de autorizare a expirat sau este invalidă. Te rugăm să încerci din nou.
+connections.invalid_identifier: Identificatorul conexiunii este invalid.
+connections.initiation_token_invalid: Tokenul de inițiere a conexiunii este invalid sau a expirat.
+connections.invalid_type: Tipul de conexiune nu este suportat.
+connections.limit_reached: Ai atins numărul maxim de conexiuni ({limit}).
+connections.not_found: Conexiune necunoscută.
+connections.verification_failed: Verificarea conexiunii a eșuat. Asigură-te că tokenul de verificare e plasat corect.
+channels_and_guilds.afk_channel_must_be_in_guild: Canalul AFK trebuie să fie în acest server.
+channels_and_guilds.afk_channel_must_be_voice: Canalul AFK trebuie să fie vocal.
+channels_and_guilds.all_channels_must_belong_to_guild: Toate canalele trebuie să aparțină acestui server.
+channels_and_guilds.animated_guild_banner_requires_feature: Bannerul animat de server necesită feature-ul ANIMATED_BANNER.
+channels_and_guilds.cannot_execute_on_dm: Acțiunea asta nu poate fi făcută într-un DM.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Proprietatea serverului nu poate fi transferată unui bot.
+channels_and_guilds.cannot_leave_guild_as_owner: Nu poți părăsi serverul ca proprietar. Transferă proprietatea sau șterge serverul.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Nu poți poziționa un canal față de el însuși sau de descendenții lui.
+channels_and_guilds.cannot_report_own_guild: Nu poți raporta propriul server.
+channels_and_guilds.categories_cannot_have_parent_channel: Categoriile nu pot avea un canal părinte.
+channels_and_guilds.categories_cannot_have_parents: Categoriile nu pot avea părinți.
+channels_and_guilds.channel_id_required: '`channel_id` este obligatoriu.'
+channels_and_guilds.channel_must_be_dm_or_group_dm: Canalul trebuie să fie un DM sau un DM de grup.
+channels_and_guilds.channel_must_be_voice: Canalul trebuie să fie vocal.
+channels_and_guilds.channel_not_found: Canalul nu a fost găsit.
+channels_and_guilds.context_channel_or_guild_required: Este necesar un ID de canal sau de server.
+channels_and_guilds.guild_banner_requires_feature: Bannerul de server necesită feature-ul BANNER.
+channels_and_guilds.guild_id_must_match_referenced_message: ID-ul serverului trebuie să se potrivească cu canalul din care a fost preluat mesajul referit.
+channels_and_guilds.invalid_channel_id: 'ID de canal invalid: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Tip de canal invalid pentru apel.
+channels_and_guilds.invalid_channel_type: Tip de canal invalid.
+channels_and_guilds.invalid_channel: Canal invalid.
+channels_and_guilds.invalid_parent_channel: Canal părinte invalid.
+channels_and_guilds.invite_splash_requires_feature: Invite splash necesită feature-ul INVITE_SPLASH.
+channels_and_guilds.invites_disabled: Invitațiile sunt dezactivate.
+channels_and_guilds.max_group_dm_recipients_reached: Ai atins numărul maxim de {count} {count, plural, one {destinatar} other {destinatari}} într-un DM de grup.
+channels_and_guilds.max_group_dms_reached: Ai atins numărul maxim de {count} {count, plural, one {DM} other {DM-uri}} de grup.
+channels_and_guilds.max_guild_channels_reached: Ai atins numărul maxim de {count} {count, plural, one {canal} other {canale}} pe server.
+channels_and_guilds.max_guild_members_reached: Ai atins numărul maxim de {count} {count, plural, one {membru} other {membri}} pe server.
+channels_and_guilds.max_guild_roles_reached: Ai atins numărul maxim de {count} {count, plural, one {rol} other {roluri}} pe server.
+channels_and_guilds.max_guilds_reached: Ai atins numărul maxim de {count} {count, plural, one {server} other {servere}}.
+channels_and_guilds.message_history_cutoff_before_guild_creation: Istoricul de mesaje nu poate fi setat înainte de crearea comunității.
+channels_and_guilds.message_history_cutoff_in_future: Istoricul de mesaje nu poate fi setat în viitor.
+channels_and_guilds.parent_channel_not_in_guild: Canalul părinte nu e prezent pe server.
+channels_and_guilds.parent_must_be_category: Părintele trebuie să fie o categorie.
+channels_and_guilds.preceding_channel_must_share_parent: Canalul precedent trebuie să aibă același părinte ca canalul mutat.
+channels_and_guilds.preceding_channel_not_in_guild: Canalul precedent nu e prezent pe server.
+channels_and_guilds.system_channel_must_be_in_guild: Canalul de sistem trebuie să fie în acest server.
+channels_and_guilds.system_channel_must_be_text: Canalul de sistem trebuie să fie text.
+channels_and_guilds.temporary_invite_requires_presence: Invitația temporară necesită prezență.
+channels_and_guilds.vanity_url_requires_feature: Vanity URL necesită feature-ul VANITY_URL.
+channels_and_guilds.voice_channel_full: Canalul vocal e plin.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Canalele vocale nu pot fi deasupra canalelor text în aceeași categorie.
+colors.color_value_too_high: Valoarea culorii nu trebuie să depășească 0xffffff.
+colors.color_value_too_low: Valoarea culorii trebuie să fie cel puțin 0x000000.
+content_and_safety.content_blocked: Acest conținut a fost blocat de sistemele de siguranță.
+content_and_safety.csam_scan_failed: Scanarea CSAM a eșuat.
+content_and_safety.csam_scan_parse_error: Eroare de parsare la scanarea CSAM.
+content_and_safety.csam_scan_subscription_error: Eroare de abonament la scanarea CSAM.
+content_and_safety.csam_scan_timeout: Scanarea CSAM a expirat.
+content_and_safety.explicit_content_cannot_be_sent: Conținutul explicit nu poate fi trimis.
+content_and_safety.ncmec_already_submitted: Acest conținut a fost deja trimis către NCMEC.
+content_and_safety.ncmec_submission_failed: N-am putut trimite raportul către NCMEC. Încearcă mai târziu.
+content_and_safety.nsfw_age_restricted: Conținutul NSFW are restricție de vârstă.
+discovery.already_applied: Această comunitate a aplicat deja pentru descoperire.
+discovery.application_already_reviewed: Această cerere de descoperire a fost deja analizată.
+discovery.application_not_found: Cererea de descoperire nu a fost găsită.
+discovery.description_required: O descriere este obligatorie pentru listarea în descoperire.
+discovery.insufficient_members: Această comunitate nu întrunește numărul minim de membri pentru descoperire.
+discovery.invalid_category: Categorie de descoperire invalidă.
+discovery.not_discoverable: Această comunitate nu este listată în descoperire.
+donation.amount_invalid: Suma donației este invalidă.
+donation.donor_not_found: Donatorul nu a fost găsit.
+donation.magic_link_expired: Link-ul magic a expirat.
+donation.magic_link_invalid: Link-ul magic este invalid.
+donation.magic_link_used: Link-ul magic a fost deja folosit.
+email.email_already_in_use: Emailul e deja folosit.
+email.email_required: Emailul este obligatoriu.
+email.email_service_not_testable: Serviciul de email nu poate fi testat.
+email.invalid_format: Format de adresă de email invalid.
+email.invalid_or_expired_reset_token: Token de resetare parolă invalid sau expirat.
+email.invalid_or_expired_revert_token: Token de revenire invalid sau expirat.
+email.invalid_or_expired_verification_token: Token de verificare invalid sau expirat.
+email.invalid_or_password: Email sau parolă greșite.
+email.invalid_token: Token de email invalid.
+email.invalid_verification_code: Cod de verificare invalid.
+email.length_invalid: Adresa de email trebuie să aibă între {min} și {max} caractere.
+email.must_be_changed_via_token: Emailul trebuie schimbat prin token.
+email.must_change_via_token: Emailul trebuie schimbat prin `email_token`.
+email.must_have_email_to_change_it: Trebuie să ai o adresă de email ca s-o poți schimba.
+email.new_email_must_be_different: Emailul nou trebuie să fie diferit de cel actual.
+email.no_new_email_requested: Nu a fost cerut niciun email nou.
+email.no_original_email_on_record: Nu există niciun email inițial înregistrat.
+email.original_email_already_verified: Emailul inițial e deja verificat.
+email.original_email_must_be_verified_first: Emailul inițial trebuie verificat mai întâi.
+email.original_verification_not_required: Verificarea inițială nu e necesară pentru acest flux.
+email.token_expired: Tokenul de email a expirat.
+email.user_has_no_email_address: Acest utilizator nu are o adresă de email.
+email.user_is_not_pending_verification: Acest utilizator nu are verificare în așteptare.
+email.verification_code_expired: Codul de verificare a expirat.
+email.verification_code_not_issued: Nu a fost emis niciun cod de verificare.
+embeds.embed_index_out_of_bounds: Indexul embed-ului {embedIndex} e în afara limitelor (mesajul are {embedCount} {embedCount, plural, one {embed} other {embed-uri}}).
+embeds.embed_splash_requires_feature: Embed splash necesită feature-ul INVITE_SPLASH.
+embeds.embeds_exceed_max_characters: Embed-urile nu trebuie să depășească în total {maxCharacters} {maxCharacters, plural, one {caracter} other {caractere}}.
+embeds.too_many_embeds: Prea multe embed-uri. Sunt permise maximum {maxEmbeds} {maxEmbeds, plural, one {embed} other {embed-uri}}.
+feature_flags.feature_not_available_self_hosted: Această funcție nu este disponibilă pe instanțele care se auto-găzduiesc.
+feature_flags.feature_temporarily_disabled: Această funcție este dezactivată temporar.
+friends_and_dms.already_friends: Ești deja prieten cu acest utilizator.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: E necesar cel puțin un destinatar ca să inițializezi canale private.
+friends_and_dms.at_least_one_recipient_required: Este necesar cel puțin un destinatar.
+friends_and_dms.bots_cannot_send_friend_requests: Boții nu pot trimite cereri de prietenie.
+friends_and_dms.cannot_add_yourself_to_group_dm: Nu te poți adăuga pe tine într-un DM de grup.
+friends_and_dms.cannot_dm_yourself: Nu-ți poți da DM ție însuți.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Nu poți trimite o cerere de prietenie unui utilizator blocat.
+friends_and_dms.cannot_send_friend_request_to_self: Nu-ți poți trimite ție o cerere de prietenie.
+friends_and_dms.cannot_send_messages_to_user: Nu poți trimite mesaje acestui utilizator.
+friends_and_dms.duplicate_recipients_not_allowed: Destinatarii duplicat nu sunt permiși.
+friends_and_dms.friend_request_blocked: Utilizatorul nu acceptă cereri de prietenie momentan.
+friends_and_dms.not_friends: Nu ești prieten cu acest utilizator.
+friends_and_dms.recipient_ids_cannot_be_empty: ID-urile destinatarilor nu pot fi goale.
+friends_and_dms.recipient_ids_must_be_strings: ID-urile destinatarilor trebuie să fie șiruri de caractere.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: ID-urile destinatarilor trebuie să fie snowflake-uri valide.
+harvest.expired: Cererea ta de export de date a expirat. Te rugăm să ceri un export nou.
+harvest.failed: Cererea ta de export de date a eșuat. Te rugăm să încerci din nou.
+harvest.not_ready: Exportul tău de date se pregătește încă. Te rugăm să revii peste câteva momente.
+harvest.on_cooldown: Poți solicita un export de date o singură dată la fiecare 7 zile.
+harvest.unknown: Harvest necunoscut.
+http.bad_gateway: Poartă defectuoasă.
+http.bad_request: Cerere invalidă.
+http.conflict: Conflict.
+http.forbidden: Interzis.
+http.gateway_timeout: Timeout-ul porții.
+http.gone: Dispărut.
+http.internal_server_error: Eroare internă a serverului.
+http.method_not_allowed: Metoda nu e permisă.
+http.not_found: Nu a fost găsit.
+http.not_implemented: Nu e implementat.
+http.service_unavailable: Serviciu indisponibil.
+http.validation_error: Validarea a eșuat.
+invites_and_beta.invalid_or_already_used_beta_code: Cod beta invalid sau deja folosit.
+invites_and_beta.max_beta_codes_reached: Ai atins numărul maxim de {count} coduri beta {count, plural, one {cod} other {coduri}}.
+invites_and_beta.unknown_beta_code: Cod beta necunoscut.
+invites_and_gifts.gift_code_already_redeemed: Codul cadou a fost deja folosit.
+invites_and_gifts.stripe_gift_redemption_in_progress: Răscumpărarea codului cadou e în curs. Încearcă din nou imediat.
+invites_and_gifts.unknown_gift_code: Cod cadou necunoscut.
+invites_and_packs.emoji_requires_access: Nu poți folosi acest emoji fără acces la serverul lui sau la pachetul instalat.
+invites_and_packs.invalid_pack_type: Tip de pack invalid.
+invites_and_packs.max_animated_emojis_reached: Ai atins numărul maxim de {count} emoji-uri animate {count, plural, one {emoji} other {emoji-uri}}.
+invites_and_packs.max_emojis_reached: Ai atins numărul maxim de {count} {count, plural, one {emoji} other {emoji-uri}}.
+invites_and_packs.max_pack_expressions_reached: Ai atins numărul maxim de {count} expresii pentru pack {count, plural, one {expresie} other {expresii}}.
+invites_and_packs.max_packs_reached: Ai atins numărul maxim de {count} {count, plural, one {pachet} other {pachete}}.
+invites_and_packs.pack_access_denied: Nu ai permisiunea să accesezi acest pachet.
+limits.at_least_one_entry_required: Este necesar cel puțin o intrare.
+limits.base64_length_invalid: Lungimea șirului Base64 trebuie să fie între {min} și {maxLength} caractere.
+limits.bucket_required: '`bucket` este obligatoriu.'
+limits.cannot_shrink_reserved_slots: Nu poți micșora sloturile rezervate.
+limits.cannot_specify_before_and_after: Nu poți specifica atât `before` cât și `after`.
+limits.content_exceeds_max_length: Textul nu trebuie să depășească {maxLength} {maxLength, plural, one {caracter} other {caractere}}.
+limits.integer_out_of_int64_range: Valoarea întreagă este în afara intervalului valid int64.
+limits.rows_required: '`rows` este obligatoriu.'
+limits.string_length_exact: Șirul trebuie să aibă exact {length} caractere.
+limits.string_length_invalid: Lungimea șirului trebuie să fie între {min} și {max} caractere.
+limits.timeout_cannot_exceed_365_days: Timeout-ul nu poate fi mai lung de {maxDays} {maxDays, plural, one {zi} other {zile}} de acum.
+limits.value_must_be_integer_in_range: Valoarea pentru `{name}` trebuie să fie un număr întreg între {minValue} și {maxValue}.
+limits.value_too_small: Valoarea este prea mică.
+media_and_memes.favorite_meme_name_required: Numele meme-ului favorit este obligatoriu.
+media_and_memes.favorite_meme_not_found: Meme-ul favorit nu a fost găsit.
+media_and_memes.max_favorite_memes_reached: Ai atins numărul maxim de {count} {count, plural, one {meme} other {meme-uri}} favorite.
+media_and_memes.media_already_in_favorites: Media asta e deja în meme-urile tale favorite.
+media_and_memes.media_metadata_error: Eroare la metadata media.
+media_and_memes.unknown_favorite_meme: Meme favorit necunoscut.
+messages.cannot_delete_more_than_100: Nu poți șterge mai mult de {max} {max, plural, one {mesaj} other {mesaje}} o dată.
+messages.cannot_edit_others_message: Nu poți edita mesajul altcuiva.
+messages.cannot_preload_more_than_100_channels: Nu poți preîncărca mai mult de {max} {max, plural, one {canal} other {canale}} o dată.
+messages.cannot_reply_to_system_message: Nu poți răspunde la un mesaj de sistem.
+messages.cannot_send_empty_message: Nu poți trimite un mesaj gol.
+messages.forward_messages_cannot_include_extra_content: Mesajele redirecționate nu pot include conținut, embed-uri, atașamente sau stickere.
+messages.forward_reference_requires_channel_and_message: Referința pentru mesajul redirecționat trebuie să includă `channel_id` și `message_id`.
+messages.invalid_message_data: Date de mesaj invalide.
+messages.invalid_scheduled_message_payload: Payload de mesaj programat invalid.
+messages.message_ids_cannot_be_empty: '`message_ids` nu poate fi gol.'
+messages.messages_array_required: Array-ul `messages` este obligatoriu și nu poate fi gol.
+messages.messages_with_snapshots_cannot_be_edited: Mesajele cu snapshot-uri nu pot fi editate.
+messages.scheduled_messages_max_30_days: Mesajele programate pot fi maximum 30 de zile în viitor.
+messages.scheduled_send_datetime_invalid: Dată sau oră invalidă pentru trimiterea programată.
+messages.scheduled_time_must_be_future: Ora programată trebuie să fie în viitor.
+messages.voice_messages_attachment_must_be_audio: Atașamentele pentru mesaje vocale trebuie să fie fișiere audio.
+messages.voice_messages_cannot_have_content: Mesajele vocale nu pot avea conținut text.
+messages.voice_messages_cannot_have_embeds: Mesajele vocale nu pot avea embed-uri.
+messages.voice_messages_cannot_have_favorite_memes: Mesajele vocale nu pot avea meme-uri favorite.
+messages.voice_messages_cannot_have_stickers: Mesajele vocale nu pot avea stickere.
+mfa_and_passkeys.invalid_mfa_code: Cod MFA invalid.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Contor de autentificare WebAuthn invalid.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Contor de credențial WebAuthn invalid.
+mfa_and_passkeys.invalid_webauthn_credential: Nu s-a putut verifica credența WebAuthn.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Format de cheie publică WebAuthn invalid.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Trebuie să activezi autentificarea în doi pași pe contul tău înainte de a o necesita pentru moderatori.
+mfa_and_passkeys.no_passkeys_registered: Nu ai niciun passkey înregistrat.
+mfa_and_passkeys.passkey_authentication_failed: Autentificarea cu passkey a eșuat.
+mfa_and_passkeys.passkeys_disabled: Passkey-urile sunt dezactivate.
+mfa_and_passkeys.two_factor_not_enabled: Autentificarea în doi pași nu e activată.
+mfa_and_passkeys.two_factor_required: Este necesară autentificarea în doi pași.
+mfa_and_passkeys.unknown_webauthn_credential: Credențial WebAuthn necunoscut.
+mfa_and_passkeys.webauthn_credential_limit_reached: Ai atins limita de {count} credențiale WebAuthn {count, plural, one {credență} other {credențe}}.
+misc_limits.max_bookmarks_reached: Ai atins numărul maxim de {count} {count, plural, one {semn} other {semne}} de carte.
+misc_limits.max_category_channels_reached: Ai atins numărul maxim de {count} canale de categorie {count, plural, one {canal} other {canale}}.
+misc_limits.max_friends_reached: Ai atins numărul maxim de {count} {count, plural, one {prieten} other {prieteni}}.
+misc_limits.max_invites_reached: Ai atins numărul maxim de {count} {count, plural, one {invitație} other {invitații}}.
+misc_limits.max_pins_per_channel_reached: Ai atins numărul maxim de {count} {count, plural, one {pin} other {pin-uri}} pe canal.
+misc.cannot_send_messages_in_non_text_channel: Nu poți trimite mesaje într-un canal non-text.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Trebuie să-ți verifici emailul ca să trimiți mesaje pe acest server.
+misc.invalid_job_id: ID de job invalid.
+misc.invalid_permissions_integer: Permisiunile trebuie să fie un număr întreg valid.
+misc.invalid_permissions_negative: Permisiunile trebuie să fie nenegative.
+misc.invalid_request_generic: Cerere invalidă.
+misc.invalid_snowflake: Snowflake invalid.
+misc.job_already_processed: Jobul a fost deja procesat.
+misc.job_id_required: ID-ul de job este obligatoriu.
+misc.job_not_found: Jobul nu a fost găsit.
+misc.max_files_exceeded: Prea multe fișiere. Sunt permise maximum {maxFiles} {maxFiles, plural, one {fișier} other {fișiere}}.
+misc.must_have_bot_to_mark_system_user: Utilizatorul trebuie să fie bot ca să fie marcat ca utilizator de sistem.
+moderation_and_reports.cannot_report_own_message: Nu poți raporta propriul mesaj.
+moderation_and_reports.cannot_report_yourself: Nu te poți raporta pe tine.
+moderation_and_reports.invalid_dsa_report_target: Țintă invalidă pentru raport DSA.
+moderation_and_reports.invalid_dsa_ticket: Ticket DSA invalid.
+moderation_and_reports.invalid_dsa_verification_code: Cod de verificare DSA invalid.
+moderation_and_reports.report_already_resolved: Raportul a fost deja rezolvat.
+moderation_and_reports.report_banned: Raportarea e interzisă.
+moderation_and_reports.unknown_report: Raport necunoscut.
+moderation_and_reports.user_is_not_banned: Acest utilizator nu are ban.
+names_and_normalization.channel_name_empty_after_normalization: Numele canalului nu poate fi gol după normalizare.
+names_and_normalization.name_empty_after_normalization: Numele nu poate fi gol după normalizare.
+permissions.missing_access: Nu ai acces la această resursă sau funcție.
+permissions.missing_permissions: Nu ai permisiunile necesare pentru a efectua această acțiune.
+permissions.not_owner_of_admin_api_key: Nu ai permisiunea să modifici această cheie API de admin.
+permissions.user_banned_from_guild: Acest utilizator are ban pe acest server.
+permissions.user_ip_banned_from_guild: IP-ul acestui utilizator are ban pe acest server.
+permissions.user_not_in_channel: Acest utilizator nu e în acest canal.
+permissions.user_not_in_voice: Acest utilizator nu e într-un canal vocal.
+permissions.user_owns_guilds: Acest utilizator deține servere.
+phone.invalid_number: Număr de telefon invalid.
+phone.number_already_used: Numărul de telefon e deja folosit.
+phone.number_format_required: Numărul de telefon trebuie să fie în format E.164 (de exemplu, +1234567890).
+phone.phone_required_for_sms_mfa: E necesar un număr de telefon pentru MFA prin SMS.
+phone.sms_mfa_not_enabled: MFA prin SMS nu e activat.
+phone.sms_mfa_requires_totp: MFA prin SMS necesită TOTP.
+phone.sms_verification_unavailable: Verificarea prin SMS nu e disponibilă momentan. Încearcă mai târziu.
+phone.verification_code_invalid: Cod de verificare telefon invalid.
+phone.verification_required: Este necesară verificarea telefonului.
+premium_and_plans.animated_avatars_require_premium: Avatarele animate necesită Premium.
+premium_and_plans.banners_require_premium: Bannerele necesită Premium.
+premium_and_plans.bio_requires_premium_for_length: Un bio mai lung de {maxLength} caractere necesită Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Nu poți răscumpăra Plutonium cu Visionary.
+premium_and_plans.custom_emojis_outside_source_require_premium: Nu poți folosi emoji-urile personalizate în afara serverelor lor sursă fără Premium.
+premium_and_plans.custom_stickers_in_dms_require_premium: Nu poți folosi stickere personalizate în DM-uri fără Premium.
+premium_and_plans.custom_stickers_outside_source_require_premium: Nu poți folosi stickere personalizate în afara serverelor lor sursă fără Premium.
+premium_and_plans.discriminator_change_requires_premium: Schimbarea discriminatorului necesită Premium.
+premium_and_plans.no_active_subscription: Nu ai niciun abonament activ.
+premium_and_plans.no_visionary_slots_available: Nu mai sunt sloturi Visionary disponibile.
+premium_and_plans.premium_required_for_custom_emoji: Ai nevoie de Premium ca să folosești un emoji personalizat.
+premium_and_plans.visionary_required_for_bot_discriminator: Trebuie să fii pe planul pe viață Visionary ca să personalizezi discriminatorii boților.
+premium_and_plans.visionary_required_for_discriminator: Trebuie să fii pe planul pe viață Visionary ca să folosești discriminatorul ăsta.
+rate_limits.accent_color_changed_too_often: Ți-ai schimbat prea des culoarea de accent în ultima vreme. Încearcă din nou peste {minutes} {minutes, plural, one {minut} other {minute}}.
+rate_limits.avatar_changed_too_often: Ți-ai schimbat prea des avatarul în ultima vreme. Încearcă din nou peste {minutes} {minutes, plural, one {minut} other {minute}}.
+rate_limits.banner_changed_too_often: Ți-ai schimbat prea des bannerul în ultima vreme. Încearcă din nou peste {minutes} {minutes, plural, one {minut} other {minute}}.
+rate_limits.bio_changed_too_often: Ți-ai schimbat prea des bio-ul în ultima vreme. Încearcă din nou peste {minutes} {minutes, plural, one {minut} other {minute}}.
+rate_limits.ip_authorization_resend_cooldown: Retrimiterea autorizării IP e în pauză.
+rate_limits.ip_authorization_resend_limit_exceeded: Ai depășit limita de retrimiteri pentru autorizarea IP.
+rate_limits.phone_rate_limit_exceeded: Ai depășit limita de solicitări pentru telefon.
+rate_limits.pronouns_changed_too_often: Ți-ai schimbat prea des pronumele în ultima vreme. Încearcă din nou peste {minutes} {minutes, plural, one {minut} other {minute}}.
+rate_limits.rate_limited: Ai ajuns la limita de solicitări.
+rate_limits.slowmode_rate_limited: 'Modul lent: ai ajuns la limita de solicitări.'
+rate_limits.username_changed_too_often: Ți-ai schimbat prea des numele de utilizator în ultima vreme. Încearcă din nou peste {minutes} {minutes, plural, one {minut} other {minute}}.
+roles.cannot_reorder_everyone_role: Nu poți reordona rolul @everyone.
+roles.cannot_set_everyone_hoist: Nu poți seta hoist pentru rolul @everyone.
+roles.cannot_use_same_role_as_preceding: Nu poți folosi același rol ca rolul precedent.
+roles.invalid_role_id: 'ID de rol invalid: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Nu poți folosi `parse` împreună cu `allowed_mentions.users` sau `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Rolul precedent nu e prezent pe server.
+stickers_and_emojis.custom_emoji_not_found: Emoji-ul personalizat nu a fost găsit.
+stickers_and_emojis.custom_sticker_not_found: Stickerul personalizat nu a fost găsit.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Nu poți folosi acest emoji fără acces la serverul lui sau la pachetul instalat.
+stickers_and_emojis.max_reactions_reached: Ai atins numărul maxim de {count} {count, plural, one {reacție} other {reacții}}.
+stickers_and_emojis.max_stickers_reached: Ai atins numărul maxim de {count} {count, plural, one {sticker} other {stickere}}.
+stickers_and_emojis.not_valid_unicode_emoji: Nu este un emoji Unicode valid.
+stickers_and_emojis.unknown_emoji: Emoji necunoscut.
+stickers_and_emojis.unknown_sticker: Sticker necunoscut.
+stripe.error: Procesarea plății a întâmpinat o eroare. Te rugăm să încerci din nou sau să contactezi asistența.
+stripe.invalid_product_configuration: Configurație de produs invalidă.
+stripe.invalid_product_selection: Selecție de produs invalidă.
+stripe.no_active_subscription_found: Nu a fost găsit niciun abonament activ.
+stripe.no_purchase_history_customer_portal_unavailable: Nu există istoric de cumpărături. Portalul de client nu e disponibil.
+stripe.no_subscription_found: Nu a fost găsit niciun abonament.
+stripe.payment_not_available: Procesarea plăților nu este disponibilă momentan. Te rugăm să încerci mai târziu.
+stripe.subscription_already_canceling: Abonamentul este deja setat să se oprească la finalul perioadei.
+stripe.subscription_not_canceling: Abonamentul nu este setat să se oprească.
+stripe.subscription_period_end_missing: Lipsește subscription current_period_end.
+stripe.webhook_not_available: Procesarea webhook-urilor nu este disponibilă.
+stripe.webhook_signature_invalid: Semnătura webhook-ului Stripe este invalidă.
+stripe.webhook_signature_missing: Lipsește semnătura webhook-ului Stripe.
+tickets.ticket_already_completed: Ticketul ăsta a fost deja finalizat.
+tos_and_age.date_of_birth_format_invalid: Format de dată de naștere invalid.
+tos_and_age.must_agree_to_tos_and_privacy: Trebuie să fii de acord cu termenii de utilizare și politica de confidențialitate.
+tos_and_age.must_be_minimum_age: Trebuie să ai cel puțin {minAge} {minAge, plural, one {an} other {ani}} ca să creezi un cont.
+unknown_entities.unknown_application: Aplicația nu a fost găsită.
+unknown_entities.unknown_channel: Canalul nu a fost găsit.
+unknown_entities.unknown_guild: Serverul nu a fost găsit.
+unknown_entities.unknown_invite: Invitația nu a fost găsită sau nu mai este validă.
+unknown_entities.unknown_member: Membrul nu a fost găsit pe acest server.
+unknown_entities.unknown_message: Mesajul nu a fost găsit.
+unknown_entities.unknown_pack: Pachetul nu a fost găsit.
+unknown_entities.unknown_role: Rolul nu a fost găsit.
+unknown_entities.unknown_user_flag: Steagul de utilizator specificat nu este recunoscut.
+unknown_entities.unknown_user: Utilizatorul nu a fost găsit.
+urls.invalid_url_format: Format URL invalid.
+urls.invalid_url_or_attachment_reference: Format URL invalid sau referință de atașament invalidă.
+urls.url_length_invalid: URL-ul trebuie să aibă între {min} și {max} caractere.
+usernames_and_tags.discriminator_invalid_format: Discriminatorul trebuie să aibă {min}–{max} cifre.
+usernames_and_tags.discriminator_out_of_range: Discriminatorul trebuie să fie între {min} și {max}.
+usernames_and_tags.discriminator_required: Discriminatorul este obligatoriu.
+usernames_and_tags.display_name_length_invalid: Numele afișat trebuie să aibă între {min} și {max} caractere.
+usernames_and_tags.display_name_reserved_terms: Numele afișat nu poate conține "system message".
+usernames_and_tags.display_name_reserved_value: Numele afișat nu poate fi "everyone" sau "here".
+usernames_and_tags.global_name_length_invalid: Numele global trebuie să aibă între {min} și {max} caractere.
+usernames_and_tags.global_name_reserved_value: Numele global nu poate fi "everyone" sau "here".
+usernames_and_tags.tag_already_taken: Acest tag e deja luat.
+usernames_and_tags.too_many_users_with_this_username: Sunt prea mulți utilizatori cu acest nume de utilizator.
+usernames_and_tags.too_many_users_with_username_try_different: Sunt prea mulți utilizatori cu acest nume de utilizator. Încearcă altul.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Conturile neconfirmate pot seta emailul doar prin token.
+usernames_and_tags.username_invalid_characters: Numele de utilizator poate conține doar litere latine (a-z, A-Z), cifre (0-9) și underscore (_).
+usernames_and_tags.username_length_invalid: Numele de utilizator trebuie să aibă între {min} și {max} caractere.
+usernames_and_tags.username_not_available: Acest nume de utilizator nu este disponibil.
+usernames_and_tags.username_reserved_terms: Numele de utilizator nu poate conține "fluxer" sau "system message".
+usernames_and_tags.username_reserved_value: Numele de utilizator nu poate fi "everyone" sau "here".
+vanity_urls.vanity_url_already_taken: Acest vanity URL este deja luat.
+vanity_urls.vanity_url_code_already_taken: Codul vanity URL este deja luat.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Codul de vanity URL nu poate conține "fluxer".
+vanity_urls.vanity_url_code_length_invalid: Codul de vanity URL trebuie să aibă între {min} și {max} caractere.
+vanity_urls.vanity_url_invalid_characters: Vanity URL-ul poate conține doar litere mici (a-z), cifre (0-9) și liniuțe (-).
+webhooks.cannot_modify_system_webhook: Nu poți edita mesaje de sistem.
+webhooks.max_webhooks_per_channel_reached: Ai atins numărul maxim de {count} {count, plural, one {webhook} other {webhook-uri}} pe canal.
+webhooks.max_webhooks_per_guild_reached: Ai atins numărul maxim de {count} {count, plural, one {webhook} other {webhook-uri}} pe server.
+webhooks.max_webhooks_reached: Ai atins numărul maxim de {count} {count, plural, one {webhook} other {webhook-uri}}.
+webhooks.unknown_webhook: Webhook-ul necunoscut.
+webhooks.webhook_name_length_invalid: Numele webhook-ului trebuie să aibă între {min} și {max} caractere.

@@ -1,0 +1,88 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "VOICE_STATE_UPDATE",
+	"description": "Sent when a user's voice state is updated (join/leave/move voice channel, mute/deafen).",
+	"scope": "guild",
+	"dispatchedBy": ["gateway"],
+	"note": "Triggered by client sending VOICE_STATE_UPDATE opcode (4)",
+	"payload": {
+		"type": "object",
+		"properties": {
+			"guild_id": {
+				"type": "string",
+				"description": "Guild ID (only present for guild voice, not for DM calls)"
+			},
+			"channel_id": {
+				"type": ["string", "null"],
+				"description": "Channel ID the user is in (null if disconnected)"
+			},
+			"user_id": {
+				"type": "string",
+				"description": "User ID"
+			},
+			"connection_id": {
+				"type": "string",
+				"description": "Connection ID for this voice state"
+			},
+			"session_id": {
+				"type": "string",
+				"description": "Session ID for this voice state"
+			},
+			"member": {
+				"$ref": "GuildMemberResponse",
+				"description": "Guild member object (if guild voice)"
+			},
+			"deaf": {
+				"type": "boolean",
+				"description": "Whether the user is server deafened"
+			},
+			"mute": {
+				"type": "boolean",
+				"description": "Whether the user is server muted"
+			},
+			"self_deaf": {
+				"type": "boolean",
+				"description": "Whether the user is self deafened"
+			},
+			"self_mute": {
+				"type": "boolean",
+				"description": "Whether the user is self muted"
+			},
+			"self_video": {
+				"type": "boolean",
+				"description": "Whether the user's camera is on"
+			},
+			"self_stream": {
+				"type": "boolean",
+				"description": "Whether the user is streaming"
+			},
+			"is_mobile": {
+				"type": "boolean",
+				"description": "Whether the user is connected from a mobile device"
+			},
+			"viewer_stream_keys": {
+				"type": "array",
+				"items": {
+					"type": "string"
+				},
+				"description": "An array of stream keys the user is currently viewing"
+			},
+			"version": {
+				"type": "integer",
+				"description": "Voice state version number, incremented on each update"
+			}
+		},
+		"required": [
+			"user_id",
+			"connection_id",
+			"mute",
+			"deaf",
+			"self_mute",
+			"self_deaf",
+			"self_video",
+			"self_stream",
+			"is_mobile",
+			"version"
+		]
+	}
+}

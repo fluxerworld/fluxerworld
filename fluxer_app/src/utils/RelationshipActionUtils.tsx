@@ -17,31 +17,37 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as RelationshipActionCreators from '@app/actions/RelationshipActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import type {UserRecord} from '@app/records/UserRecord';
+import RelationshipStore from '@app/stores/RelationshipStore';
+import {getApiErrorCode, getApiErrorMessage} from '@app/utils/ApiErrorUtils';
+import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as RelationshipActionCreators from '~/actions/RelationshipActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {APIErrorCodes, RelationshipTypes} from '~/Constants';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import type {UserRecord} from '~/records/UserRecord';
-import RelationshipStore from '~/stores/RelationshipStore';
-import {getApiErrorCode} from '~/utils/ApiErrorUtils';
 
-export function getSendFriendRequestErrorMessage(i18n: I18n, code: string | undefined): string {
-	switch (code) {
+export function getSendFriendRequestErrorMessage(
+	i18n: I18n,
+	apiCode: string | null | undefined,
+	apiMessage: string | null | undefined,
+): string {
+	if (apiMessage) {
+		return apiMessage;
+	}
+	switch (apiCode) {
 		case APIErrorCodes.FRIEND_REQUEST_BLOCKED:
 			return i18n._(msg`This user isn't accepting friend requests right now.`);
 		case APIErrorCodes.CANNOT_SEND_FRIEND_REQUEST_TO_BLOCKED_USER:
 			return i18n._(msg`Unblock this user before sending a friend request.`);
-		case APIErrorCodes.BOTS_CANNOT_HAVE_FRIENDS:
-			return i18n._(msg`You can't send friend requests to bots.`);
 		case APIErrorCodes.CANNOT_SEND_FRIEND_REQUEST_TO_SELF:
 			return i18n._(msg`You can't send a friend request to yourself.`);
 		case APIErrorCodes.ALREADY_FRIENDS:
 			return i18n._(msg`You're already friends with this user.`);
-		case APIErrorCodes.UNCLAIMED_ACCOUNT_RESTRICTED:
+		case APIErrorCodes.UNCLAIMED_ACCOUNT_CANNOT_SEND_FRIEND_REQUESTS:
 			return i18n._(msg`You need to claim your account to send friend requests.`);
 		default:
 			return i18n._(msg`Failed to send friend request. Please try again.`);
@@ -71,7 +77,7 @@ export async function sendFriendRequest(i18n: I18n, userId: string): Promise<boo
 		ToastActionCreators.success(i18n._(msg`Friend request sent`));
 		return true;
 	} catch (err) {
-		ToastActionCreators.error(getSendFriendRequestErrorMessage(i18n, getApiErrorCode(err)));
+		ToastActionCreators.error(getSendFriendRequestErrorMessage(i18n, getApiErrorCode(err), getApiErrorMessage(err)));
 		return false;
 	}
 }

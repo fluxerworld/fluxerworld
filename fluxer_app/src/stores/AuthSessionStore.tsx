@@ -17,8 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {AuthSessionRecord} from '@app/records/AuthSessionRecord';
+import type {AuthSessionResponse} from '@fluxer/schema/src/domains/auth/AuthSchemas';
 import {makeAutoObservable} from 'mobx';
-import {type AuthSession, AuthSessionRecord} from '~/records/AuthSessionRecord';
 
 type FetchStatus = 'idle' | 'pending' | 'success' | 'error';
 
@@ -44,7 +45,7 @@ class AuthSessionStore {
 		this.fetchStatus = 'pending';
 	}
 
-	fetchSuccess(authSessions: ReadonlyArray<AuthSession>): void {
+	fetchSuccess(authSessions: ReadonlyArray<AuthSessionResponse>): void {
 		this.authSessions = authSessions.map((session) => new AuthSessionRecord(session));
 		this.fetchStatus = 'success';
 	}

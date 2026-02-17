@@ -17,16 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
+import type {ProfileRecord} from '@app/records/ProfileRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import {ME} from '@fluxer/constants/src/AppConstants';
 import {makeAutoObservable, runInAction} from 'mobx';
-import {ME} from '~/Constants';
-import type {ProfileRecord} from '~/records/ProfileRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
 
 type ProfilesByGuildId = Record<string, ProfileRecord>;
 
 const PROFILE_TIMEOUT_MS = 60_000;
 
 class UserProfileStore {
+	private logger = new Logger('UserProfileStore');
 	profiles: Record<string, ProfilesByGuildId> = {};
 	profileTimeouts: Record<string, NodeJS.Timeout> = {};
 
@@ -67,7 +69,7 @@ class UserProfileStore {
 
 	handleProfileCreate(profile: ProfileRecord): void {
 		if (!profile?.userId) {
-			console.warn('Attempted to set invalid profile:', profile);
+			this.logger.warn('Attempted to set invalid profile:', profile);
 			return;
 		}
 
@@ -87,7 +89,7 @@ class UserProfileStore {
 	handleProfilesClear(): void {
 		const currentUserId = AuthenticationStore.currentUserId;
 		if (!currentUserId) {
-			console.warn('Attempted to clear profiles without valid user ID');
+			this.logger.warn('Attempted to clear profiles without valid user ID');
 			return;
 		}
 

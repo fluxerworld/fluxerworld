@@ -17,6 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import emojiShortcuts from '@app/data/emoji-shortcuts.json';
+import emojiData from '@app/data/emojis.json';
+import type {UnicodeEmoji} from '@app/types/EmojiTypes';
+import * as EmojiUtils from '@app/utils/EmojiUtils';
+import * as RegexUtils from '@app/utils/RegexUtils';
+import {SKIN_TONE_SURROGATES} from '@fluxer/constants/src/EmojiConstants';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {
@@ -29,11 +35,6 @@ import {
 	MagnetIcon,
 	SmileyIcon,
 } from '@phosphor-icons/react';
-import {SKIN_TONE_SURROGATES} from '~/Constants';
-import emojiShortcuts from '~/data/emoji-shortcuts.json';
-import emojiData from '~/data/emojis.json';
-import * as EmojiUtils from '~/utils/EmojiUtils';
-import * as RegexUtils from '~/utils/RegexUtils';
 
 export const EMOJI_SPRITES = {
 	NonDiversityPerRow: 42,
@@ -41,22 +42,6 @@ export const EMOJI_SPRITES = {
 	PickerPerRow: 11,
 	PickerCount: 50,
 };
-
-export interface UnicodeEmoji {
-	id?: string;
-	uniqueName: string;
-	name: string;
-	names: ReadonlyArray<string>;
-	allNamesString: string;
-	url?: string;
-	surrogates: string;
-	hasDiversity: boolean;
-	managed: boolean;
-	useSpriteSheet: boolean;
-	index?: number;
-	diversityIndex?: number;
-	guildId?: string;
-}
 
 const emojisByCategory: Record<string, Array<UnicodeEmoji>> = {};
 const nameToEmoji: Record<string, UnicodeEmoji> = {};
@@ -83,7 +68,12 @@ class UnicodeEmojiClass {
 	diversitiesByName: Record<string, {url: string; name: string; surrogatePair: string}>;
 	urlForDiversitySurrogate: Record<string, string>;
 
-	constructor(emojiObject: {names: Array<string>; surrogates: string; hasDiversity?: boolean; skins?: Array<any>}) {
+	constructor(emojiObject: {
+		names: Array<string>;
+		surrogates: string;
+		hasDiversity?: boolean;
+		skins?: Array<{surrogates: string}>;
+	}) {
 		const {names, surrogates} = emojiObject;
 		const name = names[0] || '';
 
@@ -185,7 +175,13 @@ Object.entries(emojiData).forEach(([category, emojiObjects]) => {
 		});
 
 		Object.values(emoji.diversitiesByName).forEach((diversity) => {
-			nameToEmoji[diversity.name] = emoji.toJSON();
+			const skinTonedEmoji: UnicodeEmoji = {
+				...emoji.toJSON(),
+				name: diversity.name,
+				surrogates: diversity.surrogatePair,
+				url: diversity.url,
+			};
+			nameToEmoji[diversity.name] = skinTonedEmoji;
 			nameToSurrogate[diversity.name] = diversity.surrogatePair;
 			surrogateToName[diversity.surrogatePair] = diversity.name;
 		});
@@ -317,5 +313,6 @@ export default {
 	EMOJI_NAME_RE,
 	EMOJI_NAME_AND_DIVERSITY_RE,
 	EMOJI_SHORTCUT_RE,
+	EMOJI_SURROGATE_RE,
 	EMOJI_SPRITES,
 };

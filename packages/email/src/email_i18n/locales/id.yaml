@@ -1,0 +1,369 @@
+account_disabled_suspicious:
+  subject: Akun Fluxer kamu sementara dinonaktifkan
+  body: |-
+    Halo {username},
+
+    Kami menonaktifkan sementara akun Fluxer kamu karena terdeteksi aktivitas mencurigakan.
+
+    {reason, select,
+      null {}
+      other {Alasan: {reason}}
+    }
+
+    Untuk mendapatkan akses ke akun kamu kembali, kamu perlu mereset kata sandi:
+
+    {forgotUrl}
+
+    Setelah kata sandi direset, kamu bisa masuk lagi.
+
+    Kalau kamu merasa ini terjadi karena kesalahan, silakan hubungi tim dukungan kami.
+
+    – Tim keamanan Fluxer
+account_scheduled_deletion:
+  subject: Akun Fluxer kamu akan dihapus secara permanen
+  body: |-
+    Halo {username},
+
+    Akun Fluxer kamu dijadwalkan untuk dihapus secara permanen karena melanggar ketentuan layanan atau pedoman komunitas kami.
+
+    Jadwal penghapusan: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Alasan: {reason}}
+    }
+
+    Ini adalah tindakan penegakan yang serius. Data akun kamu akan dihapus secara permanen pada waktu yang dijadwalkan.
+
+    Silakan baca:
+    - Ketentuan layanan: {termsUrl}
+    - Pedoman komunitas: {guidelinesUrl}
+
+    Ajukan banding:
+    Kalau kamu merasa keputusan ini keliru atau tidak beralasan, kamu bisa mengajukan banding dalam 60 hari. Kirim email ke appeals@fluxer.app, dan pastikan mengirimnya dari alamat email ini.
+
+    Dalam banding kamu:
+    - Jelaskan dengan jelas mengapa kamu menilai keputusan ini keliru atau tidak beralasan
+    - Sertakan bukti atau konteks yang relevan jika memungkinkan
+
+    Anggota tim keamanan Fluxer akan meninjau banding kamu dan dapat menunda penghapusan yang dijadwalkan sampai ada keputusan akhir.
+
+    – Tim keamanan Fluxer
+account_temp_banned:
+  subject: Akun Fluxer kamu sementara ditangguhkan
+  body: |-
+    Halo {username},
+
+    Akun Fluxer kamu sementara ditangguhkan karena melanggar ketentuan layanan atau pedoman komunitas kami.
+
+    Durasi: {durationHours, plural,
+      =1 {1 jam}
+      other {# jam}
+    }
+    Ditangguhkan sampai: {bannedUntil, date, full} {bannedUntil, time, short}
+
+    {reason, select,
+      null {}
+      other {Alasan: {reason}}
+    }
+
+    Selama periode ini, kamu tidak bisa mengakses akun kamu.
+
+    Silakan baca:
+    - Ketentuan layanan: {termsUrl}
+    - Pedoman komunitas: {guidelinesUrl}
+
+    Kalau kamu merasa keputusan ini keliru atau tidak beralasan, kamu bisa mengajukan banding ke appeals@fluxer.app, dan pastikan mengirimnya dari alamat email ini. Jelaskan dengan jelas mengapa kamu menilai keputusan ini keliru. Kami akan meninjau banding kamu dan membalas dengan keputusan kami.
+
+    – Tim keamanan Fluxer
+donation_confirmation:
+  subject: Terima kasih atas donasi Anda ke Fluxer
+  body: |-
+    Halo,
+
+    Terima kasih atas donasi Anda ke Fluxer! {interval, select,
+      month {Donasi berulang}
+      year {Donasi berulang}
+      other {Donasi sekali}
+    } Anda telah berhasil {interval, select,
+      month {diatur}
+      year {diatur}
+      other {diproses}
+    }.
+
+    Detail donasi:
+    Jumlah: {amount} {currency} {interval, select,
+      month {per bulan}
+      year {per tahun}
+      other {}
+    }
+
+    Stripe akan mengirimkan email terpisah kepada Anda dengan tanda terima dan PDF faktur dalam waktu singkat. Email tersebut mencakup semua rincian pembayaran dan dapat digunakan untuk keperluan pajak.
+
+    Anda dapat melihat riwayat donasi, mengunduh faktur, {interval, select,
+      month {dan mengelola atau membatalkan langganan}
+      year {dan mengelola atau membatalkan langganan}
+      other {dan mengelola donasi di masa mendatang}
+    } kapan saja menggunakan tautan ini:
+
+    {manageUrl}
+
+    Dukungan Anda membantu Fluxer tetap berjalan. Terima kasih!
+
+    – Tim Fluxer
+donation_magic_link:
+  subject: Kelola donasi Fluxer Anda
+  body: |-
+    Halo,
+
+    Klik tautan di bawah ini untuk mengakses portal donatur Anda:
+
+    {manageUrl}
+
+    Di portal, Anda dapat mengelola langganan, mengunduh faktur, dan melihat riwayat donasi.
+
+    Tautan ini akan kedaluwarsa pada {expiresAt, date, full} pukul {expiresAt, time, short}.
+
+    Jika Anda tidak meminta tautan ini, Anda dapat mengabaikan email ini dengan aman.
+
+    – Tim Fluxer
+dsa_report_verification:
+  subject: Verifikasi email kamu untuk laporan DSA
+  body: |-
+    Halo,
+
+    Gunakan kode di bawah ini untuk mengirim laporan Digital Services Act (DSA) kamu di Fluxer:
+
+    {code}
+
+    Kode ini akan kedaluwarsa pada {expiresAt, date, full} pukul {expiresAt, time, short}.
+
+    Kalau kamu tidak meminta ini, kamu bisa mengabaikan email ini.
+
+    – Tim keamanan Fluxer
+email_change_new:
+  subject: Verifikasi email Fluxer baru kamu
+  body: |-
+    Halo {username},
+
+    Masukkan kode ini di aplikasi untuk memverifikasi email Fluxer baru kamu:
+
+    {code}
+
+    Kode ini akan kedaluwarsa pada {expiresAt, date, full} pukul {expiresAt, time, short}.
+
+    Kalau kamu tidak meminta ini, kamu bisa mengabaikan email ini.
+
+    – Tim Fluxer
+email_change_original:
+  subject: Konfirmasi perubahan email Fluxer kamu
+  body: |-
+    Halo {username},
+
+    Kami menerima permintaan untuk mengubah alamat email pada akun Fluxer kamu.
+
+    Untuk mengonfirmasi perubahan ini, masukkan kode berikut di aplikasi:
+
+    {code}
+
+    Kode ini akan kedaluwarsa pada {expiresAt, date, full} pukul {expiresAt, time, short}.
+
+    Kalau kamu tidak meminta ini, segera amankan akun kamu.
+
+    – Tim Fluxer
+email_change_revert:
+  subject: Email akun Fluxer kamu telah diubah
+  body: |-
+    Halo {username},
+
+    Alamat email pada akun Fluxer kamu telah diubah menjadi {newEmail}.
+
+    Kalau kamu yang melakukan perubahan ini, kamu tidak perlu melakukan apa pun. Kalau bukan kamu, kamu bisa membatalkan perubahan ini dan mengamankan akun kamu lewat tautan berikut:
+
+    {revertUrl}
+
+    Tindakan ini akan memulihkan alamat email kamu sebelumnya, mengeluarkan kamu dari semua perangkat, menghapus nomor telepon yang tertaut, menonaktifkan MFA, dan meminta kamu membuat kata sandi baru.
+
+    – Tim keamanan Fluxer
+email_verification:
+  subject: Verifikasi alamat email Fluxer kamu
+  body: |-
+    Halo {username},
+
+    Silakan verifikasi alamat email untuk akun Fluxer kamu dengan mengklik tautan di bawah ini:
+
+    {verifyUrl}
+
+    Kalau kamu tidak membuat akun Fluxer, kamu bisa mengabaikan email ini dengan aman.
+
+    Tautan ini berlaku selama 24 jam.
+
+    – Tim Fluxer
+gift_chargeback_notification:
+  subject: Manfaat dari hadiah yang kamu tukarkan telah dihapus
+  body: |-
+    Halo {username},
+
+    Kode hadiah yang kamu tukarkan awalnya dibayar oleh orang lain. Pembayaran tersebut kemudian dibatalkan (chargeback).
+
+    Karena itu, kami menghapus manfaat yang ditambahkan ke akun kamu saat kamu menukarkan hadiah tersebut.
+
+    Kalau kamu merasa ini keliru, silakan hubungi tim dukungan kami dan sertakan detail yang kamu punya tentang kode hadiah tersebut serta kapan kamu menukarkannya.
+
+    – Tim Fluxer
+harvest_completed:
+  subject: Ekspor data Fluxer kamu siap diunduh
+  body: |-
+    Halo {username},
+
+    Ekspor data kamu sudah siap.
+
+    Tautan unduhan:
+    {downloadUrl}
+
+    Pesan yang disertakan: {totalMessages, number}
+    Ukuran file: {fileSizeMB, number} MB
+
+    Tautan ini akan kedaluwarsa pada {expiresAt, date, full} pukul {expiresAt, time, short}.
+
+    Kalau kamu tidak meminta ekspor ini, segera ganti kata sandi kamu dan hubungi tim dukungan kami.
+
+    – Tim Fluxer
+inactivity_warning:
+  subject: Akun Fluxer kamu akan dihapus karena tidak aktif
+  body: |-
+    Halo {username},
+
+    Kami belum melihat aktivitas di akun Fluxer kamu sejak {lastActiveDate, date, full}.
+
+    Kalau kamu tidak login sebelum {deletionDate, date, full} pukul {deletionDate, time, short}, akun kamu akan dihapus secara permanen karena tidak aktif.
+
+    Login di sini:
+    {loginUrl}
+
+    Kalau kamu baru-baru ini menggunakan Fluxer, segera hubungi tim dukungan kami.
+
+    – Tim Fluxer
+ip_authorization:
+  subject: Konfirmasi login dari alamat IP baru
+  body: |-
+    Halo {username},
+
+    Kami mendeteksi percobaan login ke akun Fluxer kamu dari alamat IP baru:
+
+    Alamat IP: {ipAddress}
+    Lokasi: {location}
+
+    Kalau itu kamu, silakan konfirmasi alamat IP ini lewat tautan di bawah ini:
+
+    {authUrl}
+
+    Kalau kamu tidak mencoba login, segera ganti kata sandi kamu.
+
+    Tautan konfirmasi ini berlaku selama 30 menit.
+
+    – Tim Fluxer
+password_change_verification:
+  subject: Konfirmasi perubahan kata sandi Fluxer kamu
+  body: |-
+    Halo {username},
+
+    Kami menerima permintaan untuk mengubah kata sandi pada akun Fluxer kamu.
+
+    Untuk mengonfirmasi perubahan ini, masukkan kode berikut di aplikasi:
+
+    {code}
+
+    Kode ini akan kedaluwarsa pada {expiresAt}.
+
+    Kalau kamu tidak meminta ini, seseorang mungkin memiliki akses ke akun kamu. Segera ganti kata sandi kamu dan aktifkan autentikasi dua faktor.
+
+    – Tim Fluxer
+password_reset:
+  subject: Reset kata sandi Fluxer kamu
+  body: |-
+    Halo {username},
+
+    Kamu meminta reset kata sandi Fluxer. Gunakan tautan di bawah ini untuk membuat kata sandi baru:
+
+    {resetUrl}
+
+    Kalau kamu tidak meminta reset ini, kamu bisa mengabaikan email ini dengan aman.
+
+    Tautan ini berlaku selama 1 jam.
+
+    – Tim Fluxer
+registration_approved:
+  subject: Pendaftaran Fluxer kamu telah disetujui
+  body: |-
+    Halo {username},
+
+    Kabar baik: pendaftaran Fluxer kamu sudah disetujui.
+
+    Sekarang kamu bisa login ke aplikasi Fluxer di:
+    {channelsUrl}
+
+    Selamat datang di komunitas Fluxer.
+
+    – Tim Fluxer
+report_resolved:
+  subject: Laporan kamu telah ditinjau
+  body: |-
+    Halo {username},
+
+    Laporan kamu (ID: {reportId}) sudah ditinjau oleh tim keamanan kami.
+
+    Tanggapan dari tim keamanan:
+    {publicComment}
+
+    Terima kasih sudah membantu menjaga Fluxer tetap aman untuk semua orang. Kami menanggapi semua laporan dengan serius dan menghargai kontribusi kamu untuk komunitas.
+
+    Kalau kamu punya pertanyaan atau keberatan tentang hasil ini, silakan hubungi safety@fluxer.app.
+
+    – Tim keamanan Fluxer
+scheduled_deletion_notification:
+  subject: Akun Fluxer kamu akan dihapus secara permanen
+  body: |-
+    Halo {username},
+
+    Akun Fluxer kamu dijadwalkan untuk dihapus secara permanen.
+
+    Jadwal penghapusan: {deletionDate, date, full} {deletionDate, time, short}
+
+    {reason, select,
+      null {}
+      other {Alasan: {reason}}
+    }
+
+    Ini adalah tindakan penegakan yang serius. Data akun kamu akan dihapus secara permanen pada waktu yang dijadwalkan.
+
+    Kalau kamu merasa keputusan ini keliru, kamu bisa mengajukan banding ke appeals@fluxer.app, dan pastikan mengirimnya dari alamat email ini.
+
+    – Tim keamanan Fluxer
+self_deletion_scheduled:
+  subject: Penghapusan akun Fluxer kamu telah dijadwalkan
+  body: |-
+    Halo {username},
+
+    Kamu meminta untuk menghapus akun Fluxer kamu. Akun kamu dijadwalkan untuk dihapus secara permanen pada:
+
+    {deletionDate, date, full} pukul {deletionDate, time, short}
+
+    Kalau kamu tidak meminta ini, login ke akun kamu untuk membatalkan penghapusan. Kami juga menyarankan kamu mengganti kata sandi untuk mengamankan akun kamu.
+
+    – Tim Fluxer
+unban_notification:
+  subject: Penangguhan akun Fluxer kamu telah dicabut
+  body: |-
+    Halo {username},
+
+    Kabar baik: penangguhan akun Fluxer kamu sudah dicabut.
+
+    {reason, select,
+      null {}
+      other {Alasan: {reason}}
+    }
+
+    Sekarang kamu bisa login lagi dan melanjutkan menggunakan Fluxer seperti biasa.
+
+    – Tim keamanan Fluxer

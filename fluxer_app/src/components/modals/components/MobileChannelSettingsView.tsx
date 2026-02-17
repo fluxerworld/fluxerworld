@@ -17,21 +17,29 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {ChannelDeleteModal} from '@app/components/modals/ChannelDeleteModal';
+import type {MobileNavigationState} from '@app/components/modals/hooks/useMobileNavigation';
+import {useUnsavedChangesFlash} from '@app/components/modals/hooks/useUnsavedChangesFlash';
+import {
+	MobileHeader,
+	MobileHeaderWithBanner,
+	MobileSettingsDangerItem,
+	MobileSettingsList,
+} from '@app/components/modals/shared/MobileSettingsComponents';
+import styles from '@app/components/modals/UserSettingsModal.module.css';
+import type {ChannelSettingsTab, ChannelSettingsTabType} from '@app/components/modals/utils/ChannelSettingsConstants';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import {useLingui} from '@lingui/react/macro';
 import {TrashIcon} from '@phosphor-icons/react';
 import {AnimatePresence, motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ChannelTypes} from '~/Constants';
-import {ChannelDeleteModal} from '~/components/modals/ChannelDeleteModal';
-import {Scroller} from '~/components/uikit/Scroller';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {MobileNavigationState} from '../hooks/useMobileNavigation';
-import {MobileHeader, MobileSettingsDangerItem, MobileSettingsList} from '../shared/MobileSettingsComponents';
-import styles from '../UserSettingsModal.module.css';
-import type {ChannelSettingsTab, ChannelSettingsTabType} from '../utils/channelSettingsConstants';
+import type React from 'react';
+import {type UIEvent, useCallback, useEffect, useRef} from 'react';
 
 interface MobileChannelSettingsViewProps {
 	channel: ChannelRecord;
@@ -69,15 +77,45 @@ const headerFadeVariants = {
 export const MobileChannelSettingsView: React.FC<MobileChannelSettingsViewProps> = observer(
 	({channel, groupedSettingsTabs, currentTab, mobileNav, onBack, onTabSelect}) => {
 		const {t} = useLingui();
+		const reducedMotion = AccessibilityStore.useReducedMotion;
+		const currentTabId = mobileNav.currentView?.tab;
+		const {showUnsavedBanner, flashBanner, tabData, checkUnsavedChanges} = useUnsavedChangesFlash(currentTabId);
 
-		const handleDeleteChannel = React.useCallback(() => {
+		const handleDeleteChannel = useCallback(() => {
 			ModalActionCreators.push(modal(() => <ChannelDeleteModal channelId={channel.id} />));
 		}, [channel.id]);
+
+		const handleBack = useCallback(() => {
+			if (checkUnsavedChanges()) return;
+			onBack();
+		}, [checkUnsavedChanges, onBack]);
+
+		const handleTabSelect = useCallback(
+			(tabType: string, title: string) => {
+				if (checkUnsavedChanges()) return;
+				onTabSelect(tabType, title);
+			},
+			[checkUnsavedChanges, onTabSelect],
+		);
 
 		const isCategory = channel.type === ChannelTypes.GUILD_CATEGORY;
 
 		const showMobileList = mobileNav.isRootView;
 		const showMobileContent = !mobileNav.isRootView;
+		const listScrollPositionRef = useRef(0);
+		const listScrollerRef = useRef<ScrollerHandle | null>(null);
+		const handleListScroll = useCallback((event: UIEvent<HTMLDivElement>) => {
+			listScrollPositionRef.current = event.currentTarget.scrollTop;
+		}, []);
+
+		useEffect(() => {
+			if (!showMobileList) return;
+			const scroller = listScrollerRef.current;
+			if (!scroller) return;
+			const target = listScrollPositionRef.current;
+			if (target === 0) return;
+			scroller.scrollTo({to: target, animate: false});
+		}, [showMobileList]);
 
 		const dangerAction = (
 			<MobileSettingsDangerItem
@@ -94,34 +132,34 @@ export const MobileChannelSettingsView: React.FC<MobileChannelSettingsViewProps>
 						{showMobileList && (
 							<motion.div
 								key="mobile-list-header"
-								variants={headerFadeVariants}
+								variants={reducedMotion ? undefined : headerFadeVariants}
 								initial="center"
 								animate="center"
-								exit="exit"
-								transition={{
-									duration: 0.08,
-									ease: 'easeInOut',
-								}}
+								exit={reducedMotion ? 'center' : 'exit'}
+								transition={{duration: reducedMotion ? 0 : 0.08, ease: 'easeInOut'}}
 								className={styles.mobileHeaderContent}
 							>
-								<MobileHeader title={channel.name || ''} onBack={onBack} />
+								<MobileHeader title={channel.name || ''} onBack={handleBack} />
 							</motion.div>
 						)}
 
 						{showMobileContent && currentTab && (
 							<motion.div
 								key={`mobile-content-header-${mobileNav.currentView?.tab}`}
-								variants={headerFadeVariants}
-								initial="enter"
+								variants={reducedMotion ? undefined : headerFadeVariants}
+								initial={reducedMotion ? 'center' : 'enter'}
 								animate="center"
-								exit="exit"
-								transition={{
-									duration: 0.08,
-									ease: 'easeInOut',
-								}}
+								exit={reducedMotion ? 'center' : 'exit'}
+								transition={{duration: reducedMotion ? 0 : 0.08, ease: 'easeInOut'}}
 								className={styles.mobileHeaderContent}
 							>
-								<MobileHeader title={mobileNav.currentView?.title || currentTab.label} onBack={onBack} />
+								<MobileHeaderWithBanner
+									title={mobileNav.currentView?.title || currentTab.label}
+									onBack={handleBack}
+									showUnsavedBanner={showUnsavedBanner}
+									flashBanner={flashBanner}
+									tabData={tabData}
+								/>
 							</motion.div>
 						)}
 					</AnimatePresence>
@@ -133,22 +171,21 @@ export const MobileChannelSettingsView: React.FC<MobileChannelSettingsViewProps>
 							<motion.div
 								key="mobile-list-content"
 								custom={mobileNav.direction}
-								variants={contentFadeVariants}
+								variants={reducedMotion ? undefined : contentFadeVariants}
 								initial="center"
 								animate="center"
-								exit="exit"
-								transition={{
-									duration: 0.15,
-									ease: 'easeInOut',
-								}}
+								exit={reducedMotion ? 'center' : 'exit'}
+								transition={{duration: reducedMotion ? 0 : 0.15, ease: 'easeInOut'}}
 								className={styles.mobileContentPane}
 								style={{willChange: 'transform'}}
 							>
 								<MobileSettingsList
 									groupedTabs={groupedSettingsTabs}
-									onTabSelect={onTabSelect}
+									onTabSelect={handleTabSelect}
 									hiddenCategories={['channel_settings']}
 									dangerContent={dangerAction}
+									scrollRef={listScrollerRef}
+									onScroll={handleListScroll}
 								/>
 							</motion.div>
 						)}
@@ -157,14 +194,11 @@ export const MobileChannelSettingsView: React.FC<MobileChannelSettingsViewProps>
 							<motion.div
 								key={`mobile-content-${mobileNav.currentView?.tab}`}
 								custom={mobileNav.direction}
-								variants={contentFadeVariants}
-								initial="enter"
+								variants={reducedMotion ? undefined : contentFadeVariants}
+								initial={reducedMotion ? 'center' : 'enter'}
 								animate="center"
-								exit="exit"
-								transition={{
-									duration: 0.15,
-									ease: 'easeInOut',
-								}}
+								exit={reducedMotion ? 'center' : 'exit'}
+								transition={{duration: reducedMotion ? 0 : 0.15, ease: 'easeInOut'}}
 								className={styles.mobileContentPane}
 								style={{willChange: 'transform'}}
 							>

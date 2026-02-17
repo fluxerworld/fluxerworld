@@ -18,45 +18,46 @@
  */
 
 .tag {
-	position: relative;
-	display: inline-flex;
-	align-items: center;
+	display: inline-block;
 	background-color: var(--brand-primary);
 	text-indent: 0;
-	vertical-align: middle;
 	text-transform: uppercase;
 	color: var(--brand-primary-fill);
-	padding-left: 0.275rem;
-	padding-right: 0.275rem;
+	padding: 0 0.35rem;
+	vertical-align: baseline;
+	padding-block: var(--user-tag-padding-vertical, 0.125rem);
+	min-height: var(--user-tag-min-height, auto);
+	height: var(--user-tag-height, auto);
+	line-height: var(--user-tag-line-height, 1);
+	border-radius: 4px;
 }
 
 .tagSm {
-	margin-left: 0.25rem;
-	height: 0.9375rem;
 	border-radius: 4px;
 	font-size: 0.625rem;
+	--user-tag-min-height: 0.9375rem;
+	--user-tag-padding-vertical: 0.125rem;
 }
 
 .tagLg {
-	height: 1.5rem;
 	border-radius: 6px;
 	font-size: 0.75rem;
+	--user-tag-min-height: 1.5rem;
+	--user-tag-padding-vertical: 0.15rem;
 }
 
 .text {
-	position: relative;
-	vertical-align: top;
+	display: inline-block;
 	font-weight: 600;
 	pointer-events: none;
+	line-height: var(--user-tag-line-height, 1);
 }
 
 .textSm {
-	font-size: 0.75rem;
-	line-height: 0.9375rem;
+	font-size: 0.625rem;
 }
 
 .textLg {
-	font-size: 0.875rem;
-	line-height: 1.5rem;
+	font-size: 0.75rem;
 	letter-spacing: 0.025em;
 }

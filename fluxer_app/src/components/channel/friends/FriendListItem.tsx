@@ -17,35 +17,41 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getStatusTypeLabel} from '@app/AppConstants';
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as PrivateChannelActionCreators from '@app/actions/PrivateChannelActionCreators';
+import * as RelationshipActionCreators from '@app/actions/RelationshipActionCreators';
+import {ActionButton} from '@app/components/channel/friends/ActionButton';
+import styles from '@app/components/channel/friends/FriendListItem.module.css';
+import {CustomStatusDisplay} from '@app/components/common/custom_status_display/CustomStatusDisplay';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {StartVideoCallMenuItem, StartVoiceCallMenuItem} from '@app/components/uikit/context_menu/items/CallMenuItems';
+import {RemoveFriendMenuItem} from '@app/components/uikit/context_menu/items/RelationshipMenuItems';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {UserContextMenu} from '@app/components/uikit/context_menu/UserContextMenu';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import {usePresenceCustomStatus} from '@app/hooks/usePresenceCustomStatus';
+import {Logger} from '@app/lib/Logger';
+import ContextMenuStore from '@app/stores/ContextMenuStore';
+import PresenceStore from '@app/stores/PresenceStore';
+import UserStore from '@app/stores/UserStore';
+import {stopPropagationOnEnterSpace} from '@app/utils/KeyboardUtils';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import type {StatusType} from '@fluxer/constants/src/StatusConstants';
+import {isOfflineStatus} from '@fluxer/constants/src/StatusConstants';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {ChatTeardropIcon, CheckIcon, DotsThreeVerticalIcon, XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {autorun} from 'mobx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as PrivateChannelActionCreators from '~/actions/PrivateChannelActionCreators';
-import * as RelationshipActionCreators from '~/actions/RelationshipActionCreators';
-import type {StatusType} from '~/Constants';
-import {getStatusTypeLabel, isOfflineStatus, RelationshipTypes} from '~/Constants';
-import {CustomStatusDisplay} from '~/components/common/CustomStatusDisplay/CustomStatusDisplay';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {StartVideoCallMenuItem, StartVoiceCallMenuItem} from '~/components/uikit/ContextMenu/items/CallMenuItems';
-import {RemoveFriendMenuItem} from '~/components/uikit/ContextMenu/items/RelationshipMenuItems';
-import {MenuGroup} from '~/components/uikit/ContextMenu/MenuGroup';
-import {UserContextMenu} from '~/components/uikit/ContextMenu/UserContextMenu';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import {normalizeCustomStatus} from '~/lib/customStatus';
-import ContextMenuStore from '~/stores/ContextMenuStore';
-import PresenceStore from '~/stores/PresenceStore';
-import UserStore from '~/stores/UserStore';
-import {stopPropagationOnEnterSpace} from '~/utils/KeyboardUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import {ActionButton} from './ActionButton';
-import styles from './FriendListItem.module.css';
+import type React from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
+
+const logger = new Logger('FriendListItem');
 
 interface FriendAction {
 	icon: React.ReactNode;
@@ -70,11 +76,11 @@ export const FriendListItem: React.FC<FriendListItemProps> = observer((props) =>
 	const {t} = useLingui();
 	const {userId, relationshipType, openProfile} = props;
 
-	const itemRef = React.useRef<HTMLDivElement>(null);
-	const [status, setStatus] = React.useState(() => PresenceStore.getStatus(userId));
-	const [contextMenuOpen, setContextMenuOpen] = React.useState(false);
+	const itemRef = useRef<HTMLDivElement>(null);
+	const [status, setStatus] = useState(() => PresenceStore.getStatus(userId));
+	const [contextMenuOpen, setContextMenuOpen] = useState(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const handlePresenceUpdate = (_userId: string, newStatus: StatusType) => {
 			setStatus(newStatus);
 		};
@@ -85,7 +91,7 @@ export const FriendListItem: React.FC<FriendListItemProps> = observer((props) =>
 		};
 	}, [userId]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const disposer = autorun(() => {
 			const contextMenu = ContextMenuStore.contextMenu;
 			const targetElement = contextMenu?.target.target;
@@ -99,7 +105,7 @@ export const FriendListItem: React.FC<FriendListItemProps> = observer((props) =>
 		};
 	}, []);
 
-	const getStatusText = React.useCallback(() => {
+	const getStatusText = useCallback(() => {
 		switch (relationshipType) {
 			case RelationshipTypes.INCOMING_REQUEST:
 				return statusLabels[RelationshipTypes.INCOMING_REQUEST];
@@ -110,7 +116,7 @@ export const FriendListItem: React.FC<FriendListItemProps> = observer((props) =>
 		}
 	}, [relationshipType]);
 
-	const getStatusClassName = React.useCallback(() => {
+	const getStatusClassName = useCallback(() => {
 		const isOffline = isOfflineStatus(status);
 
 		if (relationshipType === RelationshipTypes.FRIEND) {
@@ -119,19 +125,19 @@ export const FriendListItem: React.FC<FriendListItemProps> = observer((props) =>
 		return styles.friendStatusOffline;
 	}, [relationshipType, status]);
 
-	const createDMChannel = React.useCallback(
+	const createDMChannel = useCallback(
 		async (e: React.MouseEvent) => {
 			e.stopPropagation();
 			try {
 				await PrivateChannelActionCreators.openDMChannel(userId);
 			} catch (error) {
-				console.error('Failed to open DM channel:', error);
+				logger.error('Failed to open DM channel:', error);
 			}
 		},
 		[userId],
 	);
 
-	const ignoreIncomingFriendRequest = React.useCallback(
+	const ignoreIncomingFriendRequest = useCallback(
 		(e: React.MouseEvent) => {
 			e.stopPropagation();
 			const user = UserStore.getUser(userId);
@@ -152,7 +158,7 @@ export const FriendListItem: React.FC<FriendListItemProps> = observer((props) =>
 		[userId],
 	);
 
-	const cancelOutgoingFriendRequest = React.useCallback(
+	const cancelOutgoingFriendRequest = useCallback(
 		(e: React.MouseEvent) => {
 			e.stopPropagation();
 			const user = UserStore.getUser(userId);
@@ -173,7 +179,7 @@ export const FriendListItem: React.FC<FriendListItemProps> = observer((props) =>
 		[userId],
 	);
 
-	const acceptFriendRequest = React.useCallback(
+	const acceptFriendRequest = useCallback(
 		(e: React.MouseEvent) => {
 			e.stopPropagation();
 			RelationshipActionCreators.acceptFriendRequest(userId);
@@ -181,7 +187,7 @@ export const FriendListItem: React.FC<FriendListItemProps> = observer((props) =>
 		[userId],
 	);
 
-	const handleContextMenuClick = React.useCallback(
+	const handleContextMenuClick = useCallback(
 		(e: React.MouseEvent) => {
 			e.stopPropagation();
 			const user = UserStore.getUser(userId);
@@ -202,7 +208,7 @@ export const FriendListItem: React.FC<FriendListItemProps> = observer((props) =>
 		[userId],
 	);
 
-	const handleUserContextMenu = React.useCallback(
+	const handleUserContextMenu = useCallback(
 		(e: React.MouseEvent) => {
 			e.preventDefault();
 			e.stopPropagation();
@@ -214,7 +220,7 @@ export const FriendListItem: React.FC<FriendListItemProps> = observer((props) =>
 		[userId],
 	);
 
-	const getFriendActions = React.useCallback((): Array<FriendAction> => {
+	const getFriendActions = useCallback((): Array<FriendAction> => {
 		switch (relationshipType) {
 			case RelationshipTypes.FRIEND:
 				return [
@@ -268,11 +274,14 @@ export const FriendListItem: React.FC<FriendListItemProps> = observer((props) =>
 	]);
 
 	const user = UserStore.getUser(userId);
+	const customStatus = usePresenceCustomStatus({
+		userId,
+		enabled: relationshipType === RelationshipTypes.FRIEND,
+	});
 	if (!user) return null;
 
 	const actions = getFriendActions();
-	const customStatus = relationshipType === RelationshipTypes.FRIEND ? PresenceStore.getCustomStatus(userId) : null;
-	const hasCustomStatus = !!normalizeCustomStatus(customStatus);
+	const hasCustomStatus = customStatus !== null;
 
 	return (
 		<FocusRing>
@@ -298,7 +307,7 @@ export const FriendListItem: React.FC<FriendListItemProps> = observer((props) =>
 						</div>
 						{hasCustomStatus ? (
 							<CustomStatusDisplay
-								userId={userId}
+								customStatus={customStatus}
 								className={styles.friendSubtext}
 								showTooltip
 								constrained

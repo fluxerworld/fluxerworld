@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import MessageStore from '@app/stores/MessageStore';
 import {makeAutoObservable} from 'mobx';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import MessageStore from '~/stores/MessageStore';
 
 type MessageReplyState = Readonly<{
 	messageId: string;

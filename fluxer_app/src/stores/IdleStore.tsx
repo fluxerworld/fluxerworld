@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {IS_DEV} from '@app/lib/Env';
+import LocalPresenceStore from '@app/stores/LocalPresenceStore';
 import {makeAutoObservable} from 'mobx';
-import {IS_DEV} from '~/lib/env';
-import LocalPresenceStore from '~/stores/LocalPresenceStore';
 
 const IDLE_DURATION_MS = 1000 * (IS_DEV ? 10 : 60 * 10);
 

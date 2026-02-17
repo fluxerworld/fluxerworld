@@ -17,16 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {SystemMessage} from '@app/components/channel/SystemMessage';
+import {SystemMessageUsername} from '@app/components/channel/SystemMessageUsername';
+import {useSystemMessageData} from '@app/hooks/useSystemMessageData';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import styles from '@app/styles/Message.module.css';
 import {Trans} from '@lingui/react/macro';
 import {PencilSimpleIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import {SystemMessage} from '~/components/channel/SystemMessage';
-import {SystemMessageUsername} from '~/components/channel/SystemMessageUsername';
-import {useSystemMessageData} from '~/hooks/useSystemMessageData';
-import type {MessageRecord} from '~/records/MessageRecord';
-import styles from '~/styles/Message.module.css';
 
-export const ChannelNameChangeMessage = observer(({message}: {message: MessageRecord}) => {
+interface ChannelNameChangeMessageProps {
+	message: MessageRecord;
+}
+
+export const ChannelNameChangeMessage = observer(({message}: ChannelNameChangeMessageProps) => {
 	const {author, channel, guild} = useSystemMessageData(message);
 
 	if (!channel) {

@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import UserSettingsStore from '@app/stores/UserSettingsStore';
 import {makeAutoObservable} from 'mobx';
-import {makePersistent} from '~/lib/MobXPersistence';
 
 const IMPLICITLY_TRUSTED_DOMAINS = [
 	'fluxer.app',
@@ -29,51 +29,81 @@ const IMPLICITLY_TRUSTED_DOMAINS = [
 	'fluxerstatic.com',
 ] as const;
 
-const getCurrentHostname = (): string | undefined => {
-	if (typeof location === 'undefined') {
-		return undefined;
-	}
-	return location.hostname;
-};
+const TRUSTED_DOMAINS_LOCALSTORAGE_KEY = 'TrustedDomainStore';
 
 class TrustedDomainStore {
-	trustedDomains: Array<string> = [];
+	private migrationChecked = false;
 
 	constructor() {
 		makeAutoObservable(this, {}, {autoBind: true});
-		void this.initPersistence();
 	}
 
-	private async initPersistence(): Promise<void> {
-		await makePersistent(this, 'TrustedDomainStore', ['trustedDomains']);
+	get trustedDomains(): ReadonlyArray<string> {
+		return UserSettingsStore.getTrustedDomains();
 	}
 
-	addTrustedDomain(domain: string): void {
-		if (this.trustedDomains.includes(domain)) {
-			return;
+	get trustAllDomains(): boolean {
+		return UserSettingsStore.trustAllDomains();
+	}
+
+	async checkAndMigrateLegacyData(): Promise<void> {
+		if (this.migrationChecked) return;
+		this.migrationChecked = true;
+
+		const legacyData = localStorage.getItem(TRUSTED_DOMAINS_LOCALSTORAGE_KEY);
+		if (!legacyData) return;
+
+		try {
+			const parsed = JSON.parse(legacyData);
+			const legacyDomains: Array<string> = parsed?.trustedDomains ?? [];
+
+			if (legacyDomains.length > 0 && UserSettingsStore.getTrustedDomains().length === 0) {
+				await UserSettingsStore.saveSettings({trustedDomains: legacyDomains});
+				localStorage.removeItem(TRUSTED_DOMAINS_LOCALSTORAGE_KEY);
+			}
+		} catch {}
+	}
+
+	async addTrustedDomain(domain: string): Promise<void> {
+		if (this.trustAllDomains) return;
+
+		const current = [...this.trustedDomains];
+		if (current.includes(domain)) return;
+
+		await UserSettingsStore.saveSettings({
+			trustedDomains: [...current, domain],
+		});
+	}
+
+	async removeTrustedDomain(domain: string): Promise<void> {
+		const current = [...this.trustedDomains];
+		if (!current.includes(domain)) return;
+
+		await UserSettingsStore.saveSettings({
+			trustedDomains: current.filter((d) => d !== domain),
+		});
+	}
+
+	async clearAllTrustedDomains(): Promise<void> {
+		await UserSettingsStore.saveSettings({trustedDomains: []});
+	}
+
+	async setTrustAllDomains(trustAll: boolean): Promise<void> {
+		if (trustAll) {
+			await UserSettingsStore.saveSettings({trustedDomains: ['*']});
+		} else {
+			await UserSettingsStore.saveSettings({trustedDomains: []});
 		}
-
-		this.trustedDomains = [...this.trustedDomains, domain];
-	}
-
-	removeTrustedDomain(domain: string): void {
-		if (!this.trustedDomains.includes(domain)) {
-			return;
-		}
-
-		this.trustedDomains = this.trustedDomains.filter((d) => d !== domain);
 	}
 
 	isTrustedDomain(hostname: string): boolean {
-		const currentHostname = getCurrentHostname();
-		if (currentHostname && hostname === currentHostname) {
-			return true;
-		}
+		if (this.trustAllDomains) return true;
+
+		const currentHostname = location.hostname;
+		if (hostname === currentHostname) return true;
 
 		for (const pattern of IMPLICITLY_TRUSTED_DOMAINS) {
-			if (this.matchesDomainPattern(hostname, pattern)) {
-				return true;
-			}
+			if (this.matchesDomainPattern(hostname, pattern)) return true;
 		}
 
 		return this.trustedDomains.some((pattern) => this.matchesDomainPattern(hostname, pattern));
@@ -89,6 +119,11 @@ class TrustedDomainStore {
 
 	getTrustedDomains(): ReadonlyArray<string> {
 		return this.trustedDomains;
+	}
+
+	getTrustedDomainsCount(): number {
+		if (this.trustAllDomains) return 0;
+		return this.trustedDomains.length;
 	}
 }
 

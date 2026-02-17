@@ -36,9 +36,10 @@
 	justify-content: center;
 	border-radius: 6px;
 	color: var(--text-primary);
-	transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
-	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-	transition-duration: 150ms;
+	background-color: transparent;
+	transition:
+		color 0.1s ease,
+		background-color 0.1s ease;
 	cursor: pointer;
 }
 
@@ -47,17 +48,18 @@
 }
 
 .filterButtonActive {
-	background-color: var(--background-modifier-hover);
+	background-color: var(--background-modifier-selected);
 }
 
 .scroller {
 	flex: 1;
 	min-height: 0;
 	min-width: 0;
-	max-height: 700px;
-	padding-block: 8px;
-	padding-inline-start: 12px;
-	padding-inline-end: 0;
+	padding: 8px 12px 12px;
+}
+
+.messageCard {
+	margin-bottom: 16px;
 }
 
 .groupContainer {
@@ -111,5 +113,6 @@
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	--guild-icon-size: 20px;
+	height: 16px;
+	width: 16px;
 }

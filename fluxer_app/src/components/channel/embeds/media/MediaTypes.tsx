@@ -17,9 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {MessageRecord} from '~/records/MessageRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
 
 export interface BaseMediaProps {
+	nsfw?: boolean;
+	channelId?: string;
+	messageId?: string;
+	attachmentId?: string;
+	embedIndex?: number;
+	message?: MessageRecord;
+	contentHash?: string | null;
+	onDelete?: (bypassConfirm?: boolean) => void;
+}
+
+export interface MediaContext {
 	channelId?: string;
 	messageId?: string;
 	attachmentId?: string;

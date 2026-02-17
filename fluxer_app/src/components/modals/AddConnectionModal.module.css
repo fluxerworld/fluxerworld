@@ -1,0 +1,157 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.content {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-4);
+}
+
+.stack {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-4);
+}
+
+.instructions {
+	color: var(--text-secondary);
+	font-size: 0.875rem;
+	line-height: 1.5;
+	margin: 0;
+}
+
+.dnsCard {
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-selected);
+	border-radius: var(--radius-lg);
+	padding: var(--spacing-4);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-3);
+}
+
+.dnsHeading {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-1);
+}
+
+.dnsTitle {
+	font-size: 0.875rem;
+	font-weight: 600;
+	margin: 0;
+}
+
+.dnsFields {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-3);
+}
+
+.dnsMeta {
+	margin: 0;
+	color: var(--text-secondary);
+	font-size: 0.8125rem;
+	line-height: 1.5;
+}
+
+.inlineCode {
+	font-family: var(--font-mono);
+	font-size: 0.85em;
+	background-color: var(--bg-code);
+	color: var(--text-code);
+	padding: 0.15em 0.3em;
+	margin: -0.15em 0;
+	border-radius: var(--radius-sm);
+	white-space: pre-wrap;
+	box-decoration-break: clone;
+	user-select: text;
+}
+
+.dnsInput {
+	user-select: text;
+}
+
+.tokenCard {
+	background: var(--background-secondary);
+	border: 1px solid var(--background-modifier-selected);
+	border-radius: var(--radius-lg);
+	padding: var(--spacing-4);
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-3);
+}
+
+.tokenCardHeader {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-1);
+}
+
+.tokenTitle {
+	font-size: 0.875rem;
+	font-weight: 600;
+	margin: 0;
+}
+
+.tokenSubtitle {
+	margin: 0;
+	color: var(--text-secondary);
+	font-size: 0.8125rem;
+	line-height: 1.4;
+}
+
+.tokenDownloadRow {
+	display: flex;
+	flex-direction: column;
+	gap: var(--spacing-2);
+}
+
+.tokenMeta {
+	margin: 0;
+	color: var(--text-secondary);
+	font-size: 0.8125rem;
+	line-height: 1.5;
+}
+
+.copyButton {
+	border: 1px solid var(--background-modifier-border);
+	background: var(--background-surface);
+	border-radius: var(--radius-sm);
+	width: 32px;
+	height: 32px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: border-color 0.15s ease;
+}
+
+.copyButton:disabled {
+	opacity: 0.4;
+	cursor: not-allowed;
+}
+
+.copyButton:not(:disabled):hover {
+	border-color: var(--text-primary);
+}
+
+.copyIcon {
+	color: var(--text-primary);
+}

@@ -1,0 +1,497 @@
+account.already_verified: Je account is al geverifieerd.
+account.communication_disabled: Communicatie is uitgeschakeld.
+account.disabled: Dit account is uitgeschakeld.
+account.email_verification_required_for_guild: Je moet je e-mailadres verifiëren om berichten te sturen in deze server.
+account.guild_verification_required: Serververificatie is verplicht.
+account.ip_authorization_required: IP-autorisatie is verplicht.
+account.locked_suspicious_activity: Je account is vergrendeld vanwege verdachte activiteit.
+account.phone_required_for_guild: Je moet een telefoonnummer toevoegen om berichten te sturen in deze server.
+account.scheduled_for_deletion: Dit account staat gepland om verwijderd te worden.
+account.session_timeout: Je sessie is verlopen. Vernieuw de pagina en log opnieuw in.
+account.session_token_mismatch: Sessie-token komt niet overeen.
+account.suspended_permanently: Dit account is permanent geschorst.
+account.suspended_temporarily: Dit account is tijdelijk geschorst.
+account.too_new_for_guild: Je account is te nieuw om berichten te sturen in deze server.
+account.unauthorized: Niet geautoriseerd.
+admin_and_system.acls_must_be_non_empty: ACL's mogen niet leeg zijn.
+admin_and_system.admin_api_key_not_found: Admin-API-sleutel is niet gevonden.
+admin_and_system.audit_log_indexing: Auditlog wordt geindexeerd. Probeer het over een moment opnieuw.
+admin_and_system.channel_indexing: Kanalen worden geindexeerd. Probeer het over een moment opnieuw.
+admin_and_system.creation_failed: We konden de resource niet aanmaken. Probeer het opnieuw.
+admin_and_system.deletion_failed: We konden de resource niet verwijderen. Probeer het opnieuw.
+admin_and_system.decryption_failed: We konden het bericht niet ontsleutelen. De versleutelingssleutels kunnen ongeldig of beschadigd zijn.
+admin_and_system.empty_encrypted_body: Lege versleutelde body.
+admin_and_system.encryption_failed: We konden het bericht niet versleutelen. De versleutelingssleutels kunnen ongeldig of beschadigd zijn.
+admin_and_system.general_error: Er ging iets fout. Probeer het later opnieuw.
+admin_and_system.invalid_acls_format: Ongeldig ACL-formaat.
+admin_and_system.invalid_api_origin: Ongeldige API-origin.
+admin_and_system.invalid_audit_log_reason: Ongeldige reden voor auditlog.
+admin_and_system.invalid_bot_flag: Ongeldige bot-vlag.
+admin_and_system.invalid_decrypted_json: Ongeldige ontsleutelde JSON.
+admin_and_system.invalid_ephemeral_key: Ongeldige eenfmaals-sleutel.
+admin_and_system.invalid_flags_format: Ongeldig formaat voor vlaggen.
+admin_and_system.invalid_form_body: Ongeldige formulierbody.
+admin_and_system.invalid_format: De opgegeven waarde heeft een ongeldig formaat.
+admin_and_system.invalid_integer_format: Ongeldig geheel getal-formaat.
+admin_and_system.invalid_iv: Ongeldig initialisatievector.
+admin_and_system.invalid_suspicious_flags_format: Ongeldig formaat voor verdachte vlaggen.
+admin_and_system.invalid_system_flag: Ongeldige systeemvlag.
+admin_and_system.invalid_timeout_value: Ongeldige timeoutwaarde.
+admin_and_system.invalid_timestamp: Ongeldige timestamp.
+admin_and_system.invalid_timezone_identifier: Ongeldige timezone-identifier.
+admin_and_system.missing_acl: ACL ontbreekt.
+admin_and_system.missing_ephemeral_key: Ephemeral key ontbreekt.
+admin_and_system.missing_iv: Initialisatievector ontbreekt.
+admin_and_system.must_be_iso_timestamp: Moet een geldige ISO-timestamp zijn.
+admin_and_system.processing_failed: We konden het verzoek niet verwerken. Probeer het opnieuw.
+admin_and_system.response_validation_failed: 'Response-validatie mislukt: {errors}.'
+admin_and_system.test_harness_disabled: Test harness is uitgeschakeld.
+admin_and_system.test_harness_forbidden: Test harness is niet toegestaan.
+admin_and_system.unknown_suspicious_flag: Onbekende suspicious flag.
+admin_and_system.update_failed: We konden de resource niet bijwerken. Probeer het opnieuw.
+admin_and_system.user_must_be_bot_for_system_user: Gebruiker moet een bot zijn om als systeemgebruiker gemarkeerd te worden.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` en `expires_at` zijn verplicht.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` en `message_id` moeten geldige integers zijn.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Gebruikers met MANAGE_MESSAGES kunnen alleen bijlagebeschrijvingen bewerken, niet andere metadata.
+attachments_and_uploads.attachment_metadata_without_files: Bijlage-metadata bevatte een bestandsnaam, maar er zijn geen bestanden geupload.
+attachments_and_uploads.attachment_must_be_image: Bijlage "{filename}" moet een afbeeldingsbestand zijn (png, jpg, jpeg, webp of gif).
+attachments_and_uploads.attachment_not_found_in_message: Bijlage met ID {attachmentId} is niet gevonden in het bericht.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Attachments metadata array is verplicht bij het uploaden van bestanden.
+attachments_and_uploads.attachments_not_allowed_for_message: Bijlagen zijn niet toegestaan voor dit bericht.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Je kunt geen bijlagen refereren als er geen bijlagen zijn meegegeven.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Dubbele attachment IDs zijn niet toegestaan.
+attachments_and_uploads.duplicate_file_index: 'Dubbele file index: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: We konden de multipart form data niet verwerken. Check of alle veldnamen en bestandsnamen goed zijn opgemaakt.
+attachments_and_uploads.failed_to_parse_multipart_payload: We konden de multipart payload niet verwerken.
+attachments_and_uploads.failed_to_upload_image: We konden de afbeelding niet uploaden. Probeer het opnieuw.
+attachments_and_uploads.file_index_exceeds_maximum: File index {index} is groter dan de maximaal toegestane index {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Bestand niet gevonden om te scannen.
+attachments_and_uploads.file_not_found: Bestand niet gevonden.
+attachments_and_uploads.file_size_too_large: Bestandsgrootte is te groot. Maximale bestandsgrootte is {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Bestandsnaam mag niet leeg zijn na normalisatie.
+attachments_and_uploads.filename_invalid_characters: Bestandsnaam bevat ongeldige tekens.
+attachments_and_uploads.filename_length_invalid: Bestandsnaam moet tussen {min} en {max} tekens lang zijn.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Bestandsnaam komt niet overeen voor bijlage {attachmentId}: metadata geeft "{expectedFilename}", maar dat matcht niet.'
+attachments_and_uploads.image_size_exceeds_limit: Afbeeldingsgrootte is groter dan {maxSize} bytes.
+attachments_and_uploads.invalid_file_field_name: 'Ongeldige file field name: {key}. Verwacht formaat: `files[N]` waarbij N een nummer is.'
+attachments_and_uploads.invalid_image_data: Ongeldige afbeeldingsdata.
+attachments_and_uploads.invalid_image_format: 'Ongeldig afbeeldingsformaat. Ondersteunde extensies: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: Ongeldige JSON in `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Meerdere bestanden voor index {index} zijn niet toegestaan.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Er is geen bestand geupload voor bijlage-metadata met ID {attachmentId}.
+attachments_and_uploads.no_file_uploaded_for_attachment: Er is geen bestand geupload voor bijlage met ID {attachmentId}.
+attachments_and_uploads.no_metadata_for_file: Er is geen metadata meegegeven voor bestand met ID {fileId}.
+attachments_and_uploads.no_valid_media_in_message: Geen geldige media gevonden in het bericht.
+attachments_and_uploads.payload_json_required_for_multipart: '`payload_json` is verplicht voor multipart-berichten.'
+attachments_and_uploads.preview_must_be_jpeg: Preview moet JPEG zijn.
+attachments_and_uploads.referenced_attachment_not_found: Gerefereerde bijlage "{filename}" is niet gevonden in de bijlagen van het bericht.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` moet een geldige integer zijn.'
+attachments_and_uploads.too_many_files: Te veel bestanden. Maximaal {maxFiles} {maxFiles, plural, one {bestand} other {bestanden}} toegestaan.
+attachments_and_uploads.unknown_image_format: Onbekend afbeeldingsformaat.
+attachments_and_uploads.unresolved_attachment_url: Niet-opgeloste `attachment://`-URL gevonden. Dit had opgelost moeten zijn voordat embed-verwerking begon.
+attachments_and_uploads.uploaded_attachment_not_found: Geuploade bijlage {filename} is niet gevonden.
+auth_and_oauth.application_not_owned: Je bent niet de eigenaar van deze applicatie.
+auth_and_oauth.bot_already_in_guild: Deze bot is al in de server.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Botgebruikers kunnen geen auth-sessies aanmaken.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Botgebruikers kunnen auth-endpoints niet gebruiken.
+auth_and_oauth.handoff_code_expired: Handoff-code is verlopen.
+auth_and_oauth.handoff_code_invalid: Ongeldige handoff-code.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize wordt niet ondersteund. Gebruik POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Ongeldig client secret.
+auth_and_oauth.invalid_client: Ongeldige client.
+auth_and_oauth.invalid_code: Ongeldige code.
+auth_and_oauth.invalid_grant: De autorisatiegrant is ongeldig, verlopen of ingetrokken.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Ongeldig of verlopen autorisatieticket.
+auth_and_oauth.invalid_or_expired_authorization_token: Ongeldig of verlopen autorisatietoken.
+auth_and_oauth.invalid_or_expired_ticket: Ongeldig of verlopen ticket.
+auth_and_oauth.invalid_proof_token: Ongeldig proof token.
+auth_and_oauth.invalid_redirect_uri: Ongeldige redirect-URI.
+auth_and_oauth.invalid_request: Ongeldig verzoek.
+auth_and_oauth.invalid_scope: De aangevraagde scope wordt niet ondersteund of je hebt geen toestemming om deze aan te vragen.
+auth_and_oauth.invalid_sudo_token: Ongeldig sudo-token.
+auth_and_oauth.invalid_token_admin_api_key: Ongeldige admin-API-sleutel.
+auth_and_oauth.missing_authorization: Autorisatie ontbreekt.
+auth_and_oauth.missing_client_secret: Client secret ontbreekt.
+auth_and_oauth.missing_redirect_uri: Redirect-URI ontbreekt.
+auth_and_oauth.must_start_session_before_sending_messages: Je moet een sessie starten voordat je berichten kunt sturen.
+auth_and_oauth.oauth_admin_scope_required: OAuth2-tokens hebben de admin-scope nodig om admin-endpoints te kunnen gebruiken.
+auth_and_oauth.oauth_fields_missing: OAuth-velden ontbreken.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Redirect-URI is verplicht voor non-bot scopes.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Response type moet "code" zijn voor non-bot scopes.
+auth_and_oauth.sudo_mode_required: Sudo-modus is vereist.
+auth_and_oauth.unknown_application: Onbekende applicatie.
+auth_and_oauth.unsupported_response_type: Niet-ondersteund response type.
+auth_and_registration.current_password_incorrect: Huidig wachtwoord is onjuist.
+auth_and_registration.password_is_too_common: Je wachtwoord is te algemeen. Kies een unieker wachtwoord.
+auth_and_registration.password_not_set: Wachtwoord is niet ingesteld.
+bots.bot_application_not_found: Bot-applicatie is niet gevonden.
+bots.bot_discriminator_cannot_be_changed: Bot-discriminator kan niet worden gewijzigd.
+bots.bot_is_private: Deze bot is privé.
+bots.bot_user_generation_failed: Aanmaken van bot-gebruiker mislukt.
+bots.bot_user_not_found: Botgebruiker is niet gevonden.
+bots.invalid_response_type_for_non_bot: Response type moet "code" zijn voor non-bot scopes.
+bots.not_a_bot_application: Deze applicatie is geen bot.
+calls_and_voice.call_already_exists: Er is al een oproep actief in dit kanaal.
+calls_and_voice.cannot_modify_voice_state: Je kunt de voice state niet wijzigen.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Ongeldige of beperkte RTC-regio: {region}.'
+calls_and_voice.invalid_rtc_region: "Ongeldige RTC-regio: {region}. Beschikbare regio's: {availableRegions}."
+calls_and_voice.invalid_stream_key_format: Ongeldig stream key-formaat.
+calls_and_voice.invalid_stream_thumbnail_payload: Ongeldige stream thumbnail payload.
+calls_and_voice.no_active_call: Geen actieve call.
+calls_and_voice.stream_key_channel_mismatch: Stream key en kanaal komen niet overeen.
+calls_and_voice.stream_key_scope_mismatch: Stream key en scope komen niet overeen.
+calls_and_voice.stream_thumbnail_payload_empty: Stream thumbnail payload is leeg.
+calls_and_voice.unknown_voice_region: Onbekende voice-regio.
+calls_and_voice.unknown_voice_server: Onbekende voice-server.
+calls_and_voice.voice_message_duration_exceeds_limit: Voice-berichtduur mag niet langer zijn dan {maxDuration} {maxDuration, plural, one {seconde} other {seconden}}.
+calls_and_voice.voice_message_duration_required: Bijlagen bij voice-berichten moeten een duur opgeven.
+calls_and_voice.voice_message_waveform_required: Bijlagen bij voice-berichten moeten waveform-data bevatten.
+calls_and_voice.voice_messages_require_single_attachment: Voice-berichten moeten precies 1 bijlage bevatten.
+captcha.invalid: Ongeldige captcha.
+captcha.required: Captcha is verplicht.
+connections.bluesky_oauth_callback_failed: We konden de Bluesky-verbinding niet voltooien. Probeer het opnieuw.
+connections.bluesky_oauth_not_enabled: Bluesky-verbindingen zijn niet ingeschakeld op deze server.
+connections.bluesky_oauth_session_expired: Je Bluesky-sessie is verlopen. Verbind je account opnieuw.
+connections.bluesky_oauth_state_invalid: De autorisatieaanvraag is verlopen of ongeldig. Probeer het opnieuw.
+connections.already_exists: Een verbinding van dit type met deze identificatie bestaat al.
+connections.invalid_identifier: De verbindingsidentificatie is ongeldig.
+connections.initiation_token_invalid: Het verbindingsinitiatie-token is ongeldig of verlopen.
+connections.invalid_type: Het verbindingstype wordt niet ondersteund.
+connections.limit_reached: Je hebt het maximale aantal verbindingen bereikt ({limit}).
+connections.not_found: Onbekende verbinding.
+connections.verification_failed: Verbindingsverificatie is mislukt. Zorg ervoor dat het verificatietoken correct is geplaatst.
+channels_and_guilds.afk_channel_must_be_in_guild: AFK-kanaal moet in deze server staan.
+channels_and_guilds.afk_channel_must_be_voice: AFK-kanaal moet een spraakkanaal zijn.
+channels_and_guilds.all_channels_must_belong_to_guild: Alle kanalen moeten bij deze server horen.
+channels_and_guilds.animated_guild_banner_requires_feature: Geanimeerde serverbanner vereist de ANIMATED_BANNER-feature.
+channels_and_guilds.cannot_execute_on_dm: Deze actie kan niet worden uitgevoerd in een DM.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Servereigendom kan niet worden overgedragen aan een bot.
+channels_and_guilds.cannot_leave_guild_as_owner: Je kunt de server niet verlaten als eigenaar. Draag het eigenaarschap over of verwijder de server.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Je kunt een kanaal niet positioneren ten opzichte van zichzelf of zijn descendants.
+channels_and_guilds.cannot_report_own_guild: Je kunt je eigen server niet rapporteren.
+channels_and_guilds.categories_cannot_have_parent_channel: Categorieën kunnen geen bovenliggend kanaal hebben.
+channels_and_guilds.categories_cannot_have_parents: Categorieën kunnen geen bovenliggende kanalen hebben.
+channels_and_guilds.channel_id_required: '`channel_id` is verplicht.'
+channels_and_guilds.channel_must_be_dm_or_group_dm: Kanaal moet een DM of groeps-DM zijn.
+channels_and_guilds.channel_must_be_voice: Kanaal moet een spraakkanaal zijn.
+channels_and_guilds.channel_not_found: Kanaal niet gevonden.
+channels_and_guilds.context_channel_or_guild_required: Een context-kanaal of server-ID is verplicht.
+channels_and_guilds.guild_banner_requires_feature: Serverbanner vereist de BANNER-feature.
+channels_and_guilds.guild_id_must_match_referenced_message: Server-ID moet overeenkomen met het kanaal waar het aangehaalde bericht vandaan komt.
+channels_and_guilds.invalid_channel_id: 'Ongeldige kanaal-ID: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Oproepen kunnen alleen in privéberichten of groepsberichten worden gemaakt.
+channels_and_guilds.invalid_channel_type: Ongeldig kanaaltype.
+channels_and_guilds.invalid_channel: Ongeldig kanaal.
+channels_and_guilds.invalid_parent_channel: Ongeldig bovenliggend kanaal.
+channels_and_guilds.invite_splash_requires_feature: Invite splash vereist de INVITE_SPLASH-feature.
+channels_and_guilds.invites_disabled: Uitnodigingen zijn uitgeschakeld.
+channels_and_guilds.max_group_dm_recipients_reached: Je hebt het maximum van {count} groeps-DM-{count, plural, one {ontvanger} other {ontvangers}} bereikt.
+channels_and_guilds.max_group_dms_reached: Je hebt het maximum van {count} groeps-{count, plural, one {DM} other {DM's}} bereikt.
+channels_and_guilds.max_guild_channels_reached: Je hebt het maximum van {count} server{count, plural, one {kanaal} other {kanalen}} bereikt.
+channels_and_guilds.max_guild_members_reached: Je hebt het maximum van {count} server{count, plural, one {lid} other {leden}} bereikt.
+channels_and_guilds.max_guild_roles_reached: Je hebt het maximum van {count} server{count, plural, one {rol} other {rollen}} bereikt.
+channels_and_guilds.max_guilds_reached: Je hebt het maximum van {count} {count, plural, one {server} other {servers}} bereikt.
+channels_and_guilds.message_history_cutoff_before_guild_creation: Berichtgeschiedenis-cutoff kan niet voor het maken van de community liggen.
+channels_and_guilds.message_history_cutoff_in_future: Berichtgeschiedenis-cutoff kan niet in de toekomst liggen.
+channels_and_guilds.parent_channel_not_in_guild: Bovenliggend kanaal staat niet in de server.
+channels_and_guilds.parent_must_be_category: Parent moet een categorie zijn.
+channels_and_guilds.preceding_channel_must_share_parent: Het voorgaande kanaal moet dezelfde parent hebben als het verplaatste kanaal.
+channels_and_guilds.preceding_channel_not_in_guild: Het voorgaande kanaal staat niet in de server.
+channels_and_guilds.system_channel_must_be_in_guild: Systeemkanaal moet in deze server staan.
+channels_and_guilds.system_channel_must_be_text: Systeemkanaal moet een tekstkanaal zijn.
+channels_and_guilds.temporary_invite_requires_presence: Voor een tijdelijke uitnodiging moet je online zijn.
+channels_and_guilds.vanity_url_requires_feature: Vanity URL vereist de VANITY_URL-feature.
+channels_and_guilds.voice_channel_full: Spraakkanaal zit vol.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Spraakkanalen kunnen niet boven tekstkanalen staan binnen dezelfde categorie.
+colors.color_value_too_high: Kleurwaarde mag niet hoger zijn dan 0xffffff.
+colors.color_value_too_low: Kleurwaarde moet minstens 0x000000 zijn.
+content_and_safety.content_blocked: Deze inhoud is geblokkeerd door veiligheidssystemen.
+content_and_safety.csam_scan_failed: De content safety scan is mislukt. Probeer het later opnieuw.
+content_and_safety.csam_scan_parse_error: De content safety scan gaf een ongeldig antwoord. Probeer het later opnieuw.
+content_and_safety.csam_scan_subscription_error: De content safety scan service is tijdelijk niet beschikbaar. Probeer het later opnieuw.
+content_and_safety.csam_scan_timeout: De content safety scan duurde te lang. Probeer het opnieuw.
+content_and_safety.explicit_content_cannot_be_sent: Expliciete inhoud kan niet worden verstuurd.
+content_and_safety.ncmec_already_submitted: Deze inhoud is al ingediend bij NCMEC.
+content_and_safety.ncmec_submission_failed: We konden de melding niet indienen bij NCMEC. Probeer het later opnieuw.
+content_and_safety.nsfw_age_restricted: NSFW-inhoud is leeftijdsgebonden.
+discovery.already_applied: Deze community heeft al een aanvraag ingediend voor ontdekking.
+discovery.application_already_reviewed: Deze ontdekkingsaanvraag is al beoordeeld.
+discovery.application_not_found: Ontdekkingsaanvraag is niet gevonden.
+discovery.description_required: Een beschrijving is verplicht voor de ontdekkingsvermelding.
+discovery.insufficient_members: Deze community voldoet niet aan het minimale ledenaantal voor ontdekking.
+discovery.invalid_category: Ongeldige ontdekkingscategorie.
+discovery.not_discoverable: Deze community staat niet vermeld in ontdekking.
+donation.amount_invalid: Donatiebedrag is ongeldig.
+donation.donor_not_found: Donor niet gevonden.
+donation.magic_link_expired: Magische link is verlopen.
+donation.magic_link_invalid: Magische link is ongeldig.
+donation.magic_link_used: Magische link is al gebruikt.
+email.email_already_in_use: E-mailadres is al in gebruik.
+email.email_required: E-mailadres is verplicht.
+email.email_service_not_testable: E-mailservice is tijdelijk niet beschikbaar. Probeer het later opnieuw.
+email.invalid_format: Ongeldig formaat voor e-mailadres.
+email.invalid_or_expired_reset_token: Ongeldig of verlopen wachtwoord reset-token.
+email.invalid_or_expired_revert_token: Ongeldig of verlopen revert-token.
+email.invalid_or_expired_verification_token: Ongeldig of verlopen verificatietoken.
+email.invalid_or_password: Ongeldig e-mailadres of wachtwoord.
+email.invalid_token: Ongeldig e-mailtoken.
+email.invalid_verification_code: Ongeldige verificatiecode.
+email.length_invalid: E-mailadres moet tussen {min} en {max} tekens lang zijn.
+email.must_be_changed_via_token: E-mailadres moet worden gewijzigd via token.
+email.must_change_via_token: E-mailadres moet worden gewijzigd via `email_token`.
+email.must_have_email_to_change_it: Je moet een e-mailadres hebben om het te kunnen wijzigen.
+email.new_email_must_be_different: Het nieuwe e-mailadres moet anders zijn dan je huidige e-mailadres.
+email.no_new_email_requested: Er is geen nieuw e-mailadres aangevraagd.
+email.no_original_email_on_record: Er staat geen origineel e-mailadres geregistreerd.
+email.original_email_already_verified: Het originele e-mailadres is al geverifieerd.
+email.original_email_must_be_verified_first: Het originele e-mailadres moet eerst geverifieerd worden.
+email.original_verification_not_required: Originele verificatie is niet nodig voor deze flow.
+email.token_expired: E-mailtoken is verlopen.
+email.user_has_no_email_address: Deze gebruiker heeft geen e-mailadres.
+email.user_is_not_pending_verification: Deze gebruiker wacht niet op verificatie.
+email.verification_code_expired: Verificatiecode is verlopen.
+email.verification_code_not_issued: Er is geen verificatiecode verstrekt.
+embeds.embed_index_out_of_bounds: Embed-index {embedIndex} valt buiten de grenzen (bericht heeft {embedCount} {embedCount, plural, one {embed} other {embeds}}).
+embeds.embed_splash_requires_feature: Embed splash vereist de INVITE_SPLASH-feature.
+embeds.embeds_exceed_max_characters: Embeds mogen in totaal niet meer dan {maxCharacters} {maxCharacters, plural, one {teken} other {tekens}} bevatten.
+embeds.too_many_embeds: Te veel embeds. Maximaal {maxEmbeds} {maxEmbeds, plural, one {embed} other {embeds}} toegestaan.
+feature_flags.feature_not_available_self_hosted: Deze feature is niet beschikbaar op zelf-gehoste instanties.
+feature_flags.feature_temporarily_disabled: Deze feature is tijdelijk uitgeschakeld.
+friends_and_dms.already_friends: Je bent al bevriend met deze gebruiker.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Je hebt minstens 1 ontvanger nodig om privekanalen te seeden.
+friends_and_dms.at_least_one_recipient_required: Je hebt minstens 1 ontvanger nodig.
+friends_and_dms.bots_cannot_send_friend_requests: Bots kunnen geen vriendschapsverzoeken sturen.
+friends_and_dms.cannot_add_yourself_to_group_dm: Je kunt jezelf niet toevoegen aan een groeps-DM.
+friends_and_dms.cannot_dm_yourself: Je kunt jezelf geen DM sturen.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Je kunt geen vriendschapsverzoek sturen naar een geblokkeerde gebruiker.
+friends_and_dms.cannot_send_friend_request_to_self: Je kunt jezelf geen vriendschapsverzoek sturen.
+friends_and_dms.cannot_send_messages_to_user: Je kunt geen berichten sturen naar deze gebruiker.
+friends_and_dms.duplicate_recipients_not_allowed: Dubbele ontvangers zijn niet toegestaan.
+friends_and_dms.friend_request_blocked: Gebruiker accepteert momenteel geen vriendschapsverzoeken.
+friends_and_dms.not_friends: Je bent niet bevriend met deze gebruiker.
+friends_and_dms.recipient_ids_cannot_be_empty: Recipient IDs mogen niet leeg zijn.
+friends_and_dms.recipient_ids_must_be_strings: Recipient IDs moeten strings zijn.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Recipient IDs moeten geldige snowflakes zijn.
+harvest.expired: Je gegevensexportverzoek is verlopen. Vraag een nieuwe export aan.
+harvest.failed: Je gegevensexportverzoek is mislukt. Probeer het opnieuw.
+harvest.not_ready: Je gegevensexport wordt nog voorbereid. Kom over een moment terug.
+harvest.on_cooldown: Je kunt slechts eens per 7 dagen een gegevensexport aanvragen.
+harvest.unknown: Onbekende harvest.
+http.bad_gateway: Slechte gateway.
+http.bad_request: Ongeldig verzoek.
+http.conflict: Conflict.
+http.forbidden: Verboden.
+http.gateway_timeout: Gateway timeout.
+http.gone: Verdwenen.
+http.internal_server_error: Interne serverfout.
+http.method_not_allowed: Methode niet toegestaan.
+http.not_found: Niet gevonden.
+http.not_implemented: Niet geïmplementeerd.
+http.service_unavailable: Service niet beschikbaar.
+http.validation_error: Validatie mislukt.
+invites_and_beta.invalid_or_already_used_beta_code: Ongeldige of al gebruikte beta-code.
+invites_and_beta.max_beta_codes_reached: Je hebt het maximum van {count} beta-{count, plural, one {code} other {codes}} bereikt.
+invites_and_beta.unknown_beta_code: Onbekende beta-code.
+invites_and_gifts.gift_code_already_redeemed: Gift code is al ingewisseld.
+invites_and_gifts.stripe_gift_redemption_in_progress: Gift code wordt nu ingewisseld. Probeer het zo nog een keer.
+invites_and_gifts.unknown_gift_code: Onbekende gift code.
+invites_and_packs.emoji_requires_access: Je kunt deze emoji niet gebruiken zonder toegang tot de server of het geinstalleerde pack.
+invites_and_packs.invalid_pack_type: Ongeldig pack type.
+invites_and_packs.max_animated_emojis_reached: Je hebt het maximum van {count} geanimeerde {count, plural, one {emoji} other {emoji's}} bereikt.
+invites_and_packs.max_emojis_reached: Je hebt het maximum van {count} {count, plural, one {emoji} other {emoji's}} bereikt.
+invites_and_packs.max_pack_expressions_reached: Je hebt het maximum van {count} pack-{count, plural, one {expressie} other {expressies}} bereikt.
+invites_and_packs.max_packs_reached: Je hebt het maximum van {count} {count, plural, one {pack} other {packs}} bereikt.
+invites_and_packs.pack_access_denied: Geen toegang tot pack.
+limits.at_least_one_entry_required: Minstens 1 entry is verplicht.
+limits.base64_length_invalid: Base64-string moet tussen {min} en {maxLength} tekens lang zijn.
+limits.bucket_required: '`bucket` is verplicht.'
+limits.cannot_shrink_reserved_slots: Je kunt gereserveerde slots niet verkleinen.
+limits.cannot_specify_before_and_after: Je kunt niet zowel `before` als `after` opgeven.
+limits.content_exceeds_max_length: Tekst mag niet langer zijn dan {maxLength} {maxLength, plural, one {teken} other {tekens}}.
+limits.integer_out_of_int64_range: Integer-waarde valt buiten het geldige int64-bereik.
+limits.rows_required: '`rows` is verplicht.'
+limits.timeout_cannot_exceed_365_days: Timeout kan niet langer zijn dan {maxDays} {maxDays, plural, one {dag} other {dagen}} vanaf nu.
+limits.string_length_exact: String moet precies {length} tekens lang zijn.
+limits.string_length_invalid: Stringlengte moet tussen {min} en {max} tekens liggen.
+limits.value_must_be_integer_in_range: De waarde voor `{name}` moet een integer zijn tussen {minValue} en {maxValue}.
+limits.value_too_small: Waarde is te klein.
+media_and_memes.favorite_meme_name_required: Naam van favoriete meme is verplicht.
+media_and_memes.favorite_meme_not_found: Favoriete meme is niet gevonden.
+media_and_memes.max_favorite_memes_reached: Je hebt het maximum van {count} favoriete {count, plural, one {meme} other {memes}} bereikt.
+media_and_memes.media_already_in_favorites: Deze media staat al in je favoriete memes.
+media_and_memes.media_metadata_error: Fout in media-metadata.
+media_and_memes.unknown_favorite_meme: Onbekende favoriete meme.
+messages.cannot_delete_more_than_100: Je kunt niet meer dan {max} {max, plural, one {bericht} other {berichten}} tegelijk verwijderen.
+messages.cannot_edit_others_message: Je kunt het bericht van een andere gebruiker niet bewerken.
+messages.cannot_preload_more_than_100_channels: Je kunt niet meer dan {max} {max, plural, one {kanaal} other {kanalen}} tegelijk preloaden.
+messages.cannot_reply_to_system_message: Je kunt niet reageren op een systeembericht.
+messages.cannot_send_empty_message: Je kunt geen leeg bericht sturen.
+messages.forward_messages_cannot_include_extra_content: Doorgestuurde berichten mogen geen extra content, embeds, bijlagen of stickers bevatten.
+messages.forward_reference_requires_channel_and_message: Doorgestuurde berichtverwijzing moet `channel_id` en `message_id` bevatten.
+messages.invalid_message_data: Ongeldige berichtgegevens.
+messages.invalid_scheduled_message_payload: Ongeldige payload voor gepland bericht.
+messages.message_ids_cannot_be_empty: '`message_ids` mag niet leeg zijn.'
+messages.messages_array_required: '`messages`-array is verplicht en mag niet leeg zijn.'
+messages.messages_with_snapshots_cannot_be_edited: Berichten met snapshots kunnen niet worden bewerkt.
+messages.scheduled_messages_max_30_days: Geplande berichten kunnen maximaal 30 dagen in de toekomst liggen.
+messages.scheduled_send_datetime_invalid: Ongeldige datum of tijd voor gepland verzenden.
+messages.scheduled_time_must_be_future: De geplande tijd moet in de toekomst liggen.
+messages.voice_messages_attachment_must_be_audio: Bijlagen bij voice-berichten moeten audiobestanden zijn.
+messages.voice_messages_cannot_have_content: Voice-berichten kunnen geen tekstinhoud hebben.
+messages.voice_messages_cannot_have_embeds: Voice-berichten kunnen geen embeds hebben.
+messages.voice_messages_cannot_have_favorite_memes: Voice-berichten kunnen geen favoriete memes hebben.
+messages.voice_messages_cannot_have_stickers: Voice-berichten kunnen geen stickers hebben.
+mfa_and_passkeys.invalid_mfa_code: Ongeldige MFA-code.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Ongeldige WebAuthn-authenticatiecounter.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Ongeldige WebAuthn-credentialcounter.
+mfa_and_passkeys.invalid_webauthn_credential: WebAuthn-credential kon niet worden geverifieerd.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Ongeldig formaat voor WebAuthn-public key.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Je moet 2FA inschakelen op je account voordat je dit voor moderators verplicht kunt stellen.
+mfa_and_passkeys.no_passkeys_registered: Er zijn geen passkeys geregistreerd.
+mfa_and_passkeys.passkey_authentication_failed: Passkey-authenticatie is mislukt.
+mfa_and_passkeys.passkeys_disabled: Passkeys zijn uitgeschakeld.
+mfa_and_passkeys.two_factor_not_enabled: Twee-factor-authenticatie is niet ingeschakeld.
+mfa_and_passkeys.two_factor_required: Twee-factor-authenticatie is verplicht.
+mfa_and_passkeys.unknown_webauthn_credential: Onbekende WebAuthn-credential.
+mfa_and_passkeys.webauthn_credential_limit_reached: Je hebt het limiet voor {count} WebAuthn-{count, plural, one {credential} other {credentials}} bereikt.
+misc_limits.max_bookmarks_reached: Je hebt het maximum van {count} {count, plural, one {bladwijzer} other {bladwijzers}} bereikt.
+misc_limits.max_category_channels_reached: Je hebt het maximum van {count} categorie{count, plural, one {kanaal} other {kanalen}} bereikt.
+misc_limits.max_friends_reached: Je hebt het maximum van {count} {count, plural, one {vriend} other {vrienden}} bereikt.
+misc_limits.max_invites_reached: Je hebt het maximum van {count} {count, plural, one {uitnodiging} other {uitnodigingen}} bereikt.
+misc_limits.max_pins_per_channel_reached: Je hebt het maximum van {count} {count, plural, one {pin} other {pins}} per kanaal bereikt.
+misc.cannot_send_messages_in_non_text_channel: Je kunt geen berichten sturen in een niet-tekstkanaal.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Je moet je e-mailadres verifiëren om berichten te sturen in deze server.
+misc.invalid_job_id: Ongeldige job-ID.
+misc.invalid_permissions_integer: Rechten moeten een geldige integer zijn.
+misc.invalid_permissions_negative: Rechten mogen niet negatief zijn.
+misc.invalid_request_generic: Ongeldig verzoek.
+misc.invalid_snowflake: Ongeldige snowflake.
+misc.job_already_processed: Job is al verwerkt.
+misc.job_id_required: Job-ID is verplicht.
+misc.job_not_found: Job niet gevonden.
+misc.max_files_exceeded: Te veel bestanden. Maximaal {maxFiles} {maxFiles, plural, one {bestand} other {bestanden}} toegestaan.
+misc.must_have_bot_to_mark_system_user: Gebruiker moet een bot zijn om als systeemgebruiker gemarkeerd te worden.
+moderation_and_reports.cannot_report_own_message: Je kunt je eigen bericht niet rapporteren.
+moderation_and_reports.cannot_report_yourself: Je kunt jezelf niet rapporteren.
+moderation_and_reports.invalid_dsa_report_target: Ongeldig DSA-rapportdoel.
+moderation_and_reports.invalid_dsa_ticket: Ongeldig DSA-ticket.
+moderation_and_reports.invalid_dsa_verification_code: Ongeldige DSA-verificatiecode.
+moderation_and_reports.report_already_resolved: Melding is al afgehandeld.
+moderation_and_reports.report_banned: Je bent verbannen van het indienen van meldingen.
+moderation_and_reports.unknown_report: Onbekende melding.
+moderation_and_reports.user_is_not_banned: Deze gebruiker is niet verbannen.
+names_and_normalization.channel_name_empty_after_normalization: Kanaalnaam mag niet leeg zijn na normalisatie.
+names_and_normalization.name_empty_after_normalization: Naam mag niet leeg zijn na normalisatie.
+permissions.missing_access: Je hebt geen toegang tot deze resource of functie.
+permissions.missing_permissions: Je hebt niet de vereiste machtigingen om deze actie uit te voeren.
+permissions.not_owner_of_admin_api_key: Je hebt geen rechten om deze admin-API-sleutel te wijzigen.
+permissions.user_banned_from_guild: Deze gebruiker is verbannen van deze server.
+permissions.user_ip_banned_from_guild: Het IP-adres van deze gebruiker is verbannen van deze server.
+permissions.user_not_in_channel: Deze gebruiker zit niet in dit kanaal.
+permissions.user_not_in_voice: Deze gebruiker zit niet in voice.
+permissions.user_owns_guilds: Deze gebruiker is eigenaar van servers.
+phone.invalid_number: Ongeldig telefoonnummer.
+phone.number_already_used: Dit telefoonnummer is al in gebruik.
+phone.number_format_required: Telefoonnummer moet in E.164-formaat staan (bijvoorbeeld +1234567890).
+phone.phone_required_for_sms_mfa: Je hebt een telefoonnummer nodig voor SMS-MFA.
+phone.sms_mfa_not_enabled: SMS-MFA is niet ingeschakeld.
+phone.sms_mfa_requires_totp: SMS-MFA vereist TOTP.
+phone.sms_verification_unavailable: SMS-verificatie is tijdelijk niet beschikbaar. Probeer het later opnieuw.
+phone.verification_code_invalid: Ongeldige telefoonverificatiecode.
+phone.verification_required: Telefoonverificatie is verplicht.
+premium_and_plans.animated_avatars_require_premium: Voor geanimeerde avatars heb je Premium nodig.
+premium_and_plans.banners_require_premium: Voor banners heb je Premium nodig.
+premium_and_plans.bio_requires_premium_for_length: Een bio langer dan {maxLength} tekens vereist Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Je kunt Plutonium niet inwisselen met Visionary.
+premium_and_plans.custom_emojis_outside_source_require_premium: Zonder Premium kun je geen aangepaste emoji's gebruiken buiten hun bronservers.
+premium_and_plans.custom_stickers_in_dms_require_premium: Zonder Premium kun je geen aangepaste stickers gebruiken in DM's.
+premium_and_plans.custom_stickers_outside_source_require_premium: Zonder Premium kun je geen aangepaste stickers gebruiken buiten hun bronservers.
+premium_and_plans.discriminator_change_requires_premium: Je discriminator aanpassen vereist Premium.
+premium_and_plans.no_active_subscription: Geen actief abonnement.
+premium_and_plans.no_visionary_slots_available: Er zijn geen Visionary-slots beschikbaar.
+premium_and_plans.premium_required_for_custom_emoji: Je hebt Premium nodig om een aangepaste emoji te gebruiken.
+premium_and_plans.visionary_required_for_bot_discriminator: Je moet het Visionary lifetime-plan hebben om bot discriminators aan te passen.
+premium_and_plans.visionary_required_for_discriminator: Je moet het Visionary lifetime-plan hebben om die discriminator te gebruiken.
+rate_limits.accent_color_changed_too_often: Je hebt je accentkleur de afgelopen tijd te vaak aangepast. Probeer het opnieuw over {minutes} {minutes, plural, one {minuut} other {minuten}}.
+rate_limits.avatar_changed_too_often: Je hebt je avatar de afgelopen tijd te vaak aangepast. Probeer het opnieuw over {minutes} {minutes, plural, one {minuut} other {minuten}}.
+rate_limits.banner_changed_too_often: Je hebt je banner de afgelopen tijd te vaak aangepast. Probeer het opnieuw over {minutes} {minutes, plural, one {minuut} other {minuten}}.
+rate_limits.bio_changed_too_often: Je hebt je bio de afgelopen tijd te vaak aangepast. Probeer het opnieuw over {minutes} {minutes, plural, one {minuut} other {minuten}}.
+rate_limits.ip_authorization_resend_cooldown: Je kunt de IP-autorisatie nog niet opnieuw versturen. Probeer het straks opnieuw.
+rate_limits.ip_authorization_resend_limit_exceeded: Je hebt te vaak gevraagd om de IP-autorisatie opnieuw te versturen.
+rate_limits.phone_rate_limit_exceeded: Je hebt de telefoonlimiet bereikt. Probeer het later opnieuw.
+rate_limits.pronouns_changed_too_often: Je hebt je voornaamwoorden de afgelopen tijd te vaak aangepast. Probeer het opnieuw over {minutes} {minutes, plural, one {minuut} other {minuten}}.
+rate_limits.rate_limited: Je bent onderworpen aan snelheidsbeperking.
+rate_limits.slowmode_rate_limited: Vertraagde modus is actief.
+rate_limits.username_changed_too_often: Je hebt je gebruikersnaam de afgelopen tijd te vaak aangepast. Probeer het opnieuw over {minutes} {minutes, plural, one {minuut} other {minuten}}.
+roles.cannot_reorder_everyone_role: Je kunt de @everyone-rol niet opnieuw ordenen.
+roles.cannot_set_everyone_hoist: Je kunt de hoist-positie niet instellen voor de @everyone-rol.
+roles.cannot_use_same_role_as_preceding: Je kunt niet dezelfde rol gebruiken als een voorgaande rol.
+roles.invalid_role_id: 'Ongeldige rol-ID: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Je kunt `parse` niet samen gebruiken met `allowed_mentions.users` of `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: De voorgaande rol staat niet in de server.
+stickers_and_emojis.custom_emoji_not_found: Aangepaste emoji is niet gevonden.
+stickers_and_emojis.custom_sticker_not_found: Aangepaste sticker is niet gevonden.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Je kunt deze emoji niet gebruiken zonder toegang tot de server of het geinstalleerde pack.
+stickers_and_emojis.max_reactions_reached: Je hebt het maximum van {count} {count, plural, one {reactie} other {reacties}} bereikt.
+stickers_and_emojis.max_stickers_reached: Je hebt het maximum van {count} {count, plural, one {sticker} other {stickers}} bereikt.
+stickers_and_emojis.not_valid_unicode_emoji: Geen geldige Unicode-emoji.
+stickers_and_emojis.unknown_emoji: Onbekende emoji.
+stickers_and_emojis.unknown_sticker: Onbekende sticker.
+stripe.error: Bij de betalingsverwerking is een fout opgetreden. Probeer het opnieuw of neem contact op met ondersteuning.
+stripe.invalid_product_configuration: Ongeldige productconfiguratie.
+stripe.invalid_product_selection: Ongeldige productkeuze.
+stripe.no_active_subscription_found: Geen actief abonnement gevonden.
+stripe.no_purchase_history_customer_portal_unavailable: Geen aankoopgeschiedenis gevonden. Customer portal is niet beschikbaar.
+stripe.no_subscription_found: Geen abonnement gevonden.
+stripe.payment_not_available: Betalingsverwerking is tijdelijk niet beschikbaar. Probeer het later opnieuw.
+stripe.subscription_already_canceling: Abonnement staat al op opzeggen aan het einde van de periode.
+stripe.subscription_not_canceling: Abonnement staat niet op opzeggen.
+stripe.subscription_period_end_missing: Subscription current_period_end ontbreekt.
+stripe.webhook_not_available: Webhookverwerking is tijdelijk niet beschikbaar.
+stripe.webhook_signature_invalid: Stripe webhook signature is ongeldig.
+stripe.webhook_signature_missing: Stripe webhook signature ontbreekt.
+tickets.ticket_already_completed: Dit ticket is al afgerond.
+tos_and_age.date_of_birth_format_invalid: Ongeldig formaat voor geboortedatum.
+tos_and_age.must_agree_to_tos_and_privacy: Je moet akkoord gaan met de gebruiksvoorwaarden en het privacybeleid.
+tos_and_age.must_be_minimum_age: Je moet minstens {minAge} {minAge, plural, one {jaar} other {jaren}} oud zijn om een account te maken.
+unknown_entities.unknown_application: Onbekende applicatie.
+unknown_entities.unknown_channel: Onbekend kanaal.
+unknown_entities.unknown_guild: Onbekende server.
+unknown_entities.unknown_invite: Onbekende uitnodiging.
+unknown_entities.unknown_member: Onbekend lid.
+unknown_entities.unknown_message: Onbekend bericht.
+unknown_entities.unknown_pack: Onbekend pack.
+unknown_entities.unknown_role: Onbekende rol.
+unknown_entities.unknown_user_flag: Onbekende user flag.
+unknown_entities.unknown_user: Onbekende gebruiker.
+urls.invalid_url_format: Ongeldig URL-formaat.
+urls.invalid_url_or_attachment_reference: Ongeldig URL-formaat of bijlageverwijzing.
+urls.url_length_invalid: URL moet tussen {min} en {max} tekens lang zijn.
+usernames_and_tags.discriminator_invalid_format: Discriminator moet {min}–{max} cijfers zijn.
+usernames_and_tags.discriminator_out_of_range: Discriminator moet tussen {min} en {max} liggen.
+usernames_and_tags.discriminator_required: Discriminator is verplicht.
+usernames_and_tags.display_name_length_invalid: Weergavenaam moet tussen {min} en {max} tekens lang zijn.
+usernames_and_tags.display_name_reserved_terms: Weergavenaam mag "system message" niet bevatten.
+usernames_and_tags.display_name_reserved_value: Weergavenaam mag niet "everyone" of "here" zijn.
+usernames_and_tags.global_name_length_invalid: Wereldwijde naam moet tussen {min} en {max} tekens lang zijn.
+usernames_and_tags.global_name_reserved_value: Wereldwijde naam mag niet "everyone" of "here" zijn.
+usernames_and_tags.tag_already_taken: Deze tag is al in gebruik.
+usernames_and_tags.too_many_users_with_this_username: Er zijn te veel gebruikers met deze gebruikersnaam.
+usernames_and_tags.too_many_users_with_username_try_different: Er zijn te veel gebruikers met deze gebruikersnaam. Probeer een andere gebruikersnaam.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Niet-gekoppelde accounts kunnen alleen e-mail instellen via token.
+usernames_and_tags.username_invalid_characters: Gebruikersnaam mag alleen Latijnse letters (a-z, A-Z), cijfers (0-9) en underscores (_) bevatten.
+usernames_and_tags.username_length_invalid: Gebruikersnaam moet tussen {min} en {max} tekens lang zijn.
+usernames_and_tags.username_not_available: Deze gebruikersnaam is niet beschikbaar.
+usernames_and_tags.username_reserved_terms: Gebruikersnaam mag "fluxer" of "system message" niet bevatten.
+usernames_and_tags.username_reserved_value: Gebruikersnaam mag niet "everyone" of "here" zijn.
+vanity_urls.vanity_url_already_taken: Deze vanity URL is al in gebruik.
+vanity_urls.vanity_url_code_already_taken: Deze vanity URL-code is al in gebruik.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Vanity URL-code mag "fluxer" niet bevatten.
+vanity_urls.vanity_url_code_length_invalid: Vanity URL-code moet tussen {min} en {max} tekens lang zijn.
+vanity_urls.vanity_url_invalid_characters: Vanity URL mag alleen kleine letters (a-z), cijfers (0-9) en koppeltekens (-) bevatten.
+webhooks.cannot_modify_system_webhook: Je kunt systeemberichten niet bewerken.
+webhooks.max_webhooks_per_channel_reached: Je hebt het maximum van {count} {count, plural, one {webhook} other {webhooks}} per kanaal bereikt.
+webhooks.max_webhooks_per_guild_reached: Je hebt het maximum van {count} {count, plural, one {webhook} other {webhooks}} per server bereikt.
+webhooks.max_webhooks_reached: Je hebt het maximum van {count} {count, plural, one {webhook} other {webhooks}} bereikt.
+webhooks.unknown_webhook: Onbekende webhook.
+webhooks.webhook_name_length_invalid: Webhooknaam moet tussen {min} en {max} tekens lang zijn.

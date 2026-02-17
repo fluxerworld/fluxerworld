@@ -17,18 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import SessionManager from '@app/lib/SessionManager';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import type {ValueOf} from '@fluxer/constants/src/ValueOf';
+import type {UserPrivate} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 import {action, computed, makeAutoObservable} from 'mobx';
-import SessionManager from '~/lib/SessionManager';
-import type {UserPrivate} from '~/records/UserRecord';
-import * as RouterUtils from '~/utils/RouterUtils';
 
 const LoginState = {
 	Default: 'default',
 	Mfa: 'mfa',
 } as const;
-export type LoginState = (typeof LoginState)[keyof typeof LoginState];
+export type LoginState = ValueOf<typeof LoginState>;
 
-export type MfaMethods = {sms: boolean; totp: boolean; webauthn: boolean};
+export interface MfaMethods {
+	sms: boolean;
+	totp: boolean;
+	webauthn: boolean;
+}
 
 class AuthenticationStore {
 	loginState: LoginState = LoginState.Default;

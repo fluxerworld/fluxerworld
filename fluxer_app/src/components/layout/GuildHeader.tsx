@@ -17,32 +17,31 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
-import {CaretDownIcon, DotsThreeIcon, SealCheckIcon} from '@phosphor-icons/react';
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import {GuildHeaderBottomSheet} from '@app/components/bottomsheets/GuildHeaderBottomSheet';
+import {GuildBadge} from '@app/components/guild/GuildBadge';
+import styles from '@app/components/layout/GuildHeader.module.css';
+import {GuildHeaderShell} from '@app/components/layout/GuildHeaderShell';
+import {NativeDragRegion} from '@app/components/layout/NativeDragRegion';
+import {GuildHeaderPopout} from '@app/components/popouts/GuildHeaderPopout';
+import {GuildContextMenu} from '@app/components/uikit/context_menu/GuildContextMenu';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import PopoutStore from '@app/stores/PopoutStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {GuildFeatures} from '@fluxer/constants/src/GuildConstants';
+import {CaretDownIcon, DotsThreeIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import {GuildFeatures} from '~/Constants';
-import {GuildHeaderBottomSheet} from '~/components/bottomsheets/GuildHeaderBottomSheet';
-import {GuildHeaderShell} from '~/components/layout/GuildHeaderShell';
-import {NativeDragRegion} from '~/components/layout/NativeDragRegion';
-import {GuildHeaderPopout} from '~/components/popouts/GuildHeaderPopout';
-import {GuildContextMenu} from '~/components/uikit/ContextMenu/GuildContextMenu';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import type {GuildRecord} from '~/records/GuildRecord';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import PopoutStore from '~/stores/PopoutStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import styles from './GuildHeader.module.css';
+import type React from 'react';
+import {useCallback, useLayoutEffect, useRef, useState} from 'react';
 
 const HEADER_MIN_HEIGHT = 56;
 const DEFAULT_BANNER_ASPECT_RATIO = 16 / 9;
 const MAX_VIEWPORT_HEIGHT_FRACTION = 0.3;
 
 export const GuildHeader = observer(({guild}: {guild: GuildRecord}) => {
-	const {t} = useLingui();
 	const {popouts} = PopoutStore;
 	const isOpen = 'guild-header' in popouts;
 	const isMobile = MobileLayoutStore.isMobileLayout();
@@ -51,9 +50,9 @@ export const GuildHeader = observer(({guild}: {guild: GuildRecord}) => {
 	const isDetachedBanner = guild.features.has(GuildFeatures.DETACHED_BANNER);
 	const showIntegratedBanner = Boolean(bannerURL && !isDetachedBanner);
 
-	const headerContainerRef = React.useRef<HTMLDivElement | null>(null);
+	const headerContainerRef = useRef<HTMLDivElement | null>(null);
 
-	const calculateBannerLayout = React.useCallback(() => {
+	const calculateBannerLayout = useCallback(() => {
 		if (!showIntegratedBanner || !bannerURL) {
 			return {height: HEADER_MIN_HEIGHT, centerCrop: false};
 		}
@@ -74,16 +73,16 @@ export const GuildHeader = observer(({guild}: {guild: GuildRecord}) => {
 		};
 	}, [showIntegratedBanner, bannerURL, guild.bannerWidth, guild.bannerHeight, isMobile]);
 
-	const [{height: bannerMaxHeight, centerCrop}, setBannerLayout] = React.useState(() => calculateBannerLayout());
+	const [{height: bannerMaxHeight, centerCrop}, setBannerLayout] = useState(() => calculateBannerLayout());
 
-	React.useLayoutEffect(() => {
+	useLayoutEffect(() => {
 		const updateLayout = () => setBannerLayout(calculateBannerLayout());
 		updateLayout();
 		window.addEventListener('resize', updateLayout);
 		return () => window.removeEventListener('resize', updateLayout);
 	}, [calculateBannerLayout]);
 
-	const handleContextMenu = React.useCallback(
+	const handleContextMenu = useCallback(
 		(event: React.MouseEvent) => {
 			ContextMenuActionCreators.openFromEvent(event, ({onClose}) => (
 				<GuildContextMenu guild={guild} onClose={onClose} />
@@ -92,7 +91,7 @@ export const GuildHeader = observer(({guild}: {guild: GuildRecord}) => {
 		[guild],
 	);
 
-	const headerButtonRef = React.useRef<HTMLDivElement | null>(null);
+	const headerButtonRef = useRef<HTMLDivElement | null>(null);
 
 	return (
 		<div className={styles.headerWrapper}>
@@ -128,13 +127,11 @@ export const GuildHeader = observer(({guild}: {guild: GuildRecord}) => {
 				>
 					{(isOpen) => (
 						<>
-							{guild.features.has(GuildFeatures.VERIFIED) && (
-								<Tooltip text={t`Verified Community`} position="bottom">
-									<SealCheckIcon
-										className={showIntegratedBanner ? styles.verifiedIconWithBanner : styles.verifiedIconDefault}
-									/>
-								</Tooltip>
-							)}
+							<GuildBadge
+								features={guild.features}
+								variant={showIntegratedBanner ? 'banner' : 'default'}
+								tooltipPosition="bottom"
+							/>
 							<span className={showIntegratedBanner ? styles.guildNameWithBanner : styles.guildNameDefault}>
 								{guild.name}
 							</span>

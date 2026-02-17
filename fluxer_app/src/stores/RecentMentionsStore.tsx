@@ -17,17 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {makePersistent} from '@app/lib/MobXPersistence';
+import {MessageRecord, messageMentionsCurrentUser} from '@app/records/MessageRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
+import GuildStore from '@app/stores/GuildStore';
+import type {ReactionEmoji} from '@app/utils/ReactionUtils';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import type {Channel} from '@fluxer/schema/src/domains/channel/ChannelSchemas';
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {makeAutoObservable} from 'mobx';
-import {ChannelTypes} from '~/Constants';
-import {makePersistent} from '~/lib/MobXPersistence';
-import type {Channel} from '~/records/ChannelRecord';
-import {type Message, MessageRecord, messageMentionsCurrentUser} from '~/records/MessageRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ChannelStore from '~/stores/ChannelStore';
-import GuildNSFWAgreeStore from '~/stores/GuildNSFWAgreeStore';
-import GuildStore from '~/stores/GuildStore';
-import MobileMentionToastStore from '~/stores/MobileMentionToastStore';
-import type {ReactionEmoji} from '~/utils/ReactionUtils';
 
 export interface MentionFilters {
 	includeEveryone: boolean;
@@ -134,10 +134,7 @@ class RecentMentionsStore {
 			const channel = ChannelStore.getChannel(message.channel_id);
 			if (!channel) return false;
 
-			if (channel.isNSFW()) {
-				return !GuildNSFWAgreeStore.shouldShowGate(channel.id);
-			}
-			return true;
+			return !GuildNSFWAgreeStore.shouldShowGate({channelId: channel.id, guildId: channel.guildId ?? null});
 		});
 	}
 
@@ -161,7 +158,6 @@ class RecentMentionsStore {
 
 	handleMessageDelete(messageId: string): void {
 		this.recentMentions = this.recentMentions.filter((message) => message.id !== messageId);
-		MobileMentionToastStore.dequeue(messageId);
 	}
 
 	handleMessageCreate(message: Message): void {
@@ -172,15 +168,12 @@ class RecentMentionsStore {
 		const channel = ChannelStore.getChannel(message.channel_id);
 		if (!channel) return;
 
-		if (channel.isNSFW()) {
-			if (GuildNSFWAgreeStore.shouldShowGate(channel.id)) {
-				return;
-			}
+		if (GuildNSFWAgreeStore.shouldShowGate({channelId: channel.id, guildId: channel.guildId ?? null})) {
+			return;
 		}
 
 		const messageRecord = new MessageRecord(message);
 		this.recentMentions.unshift(messageRecord);
-		MobileMentionToastStore.enqueue(messageRecord);
 	}
 
 	private updateMessageWithReaction(messageId: string, updater: (message: MessageRecord) => MessageRecord): void {

@@ -17,28 +17,31 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
-import {GiftIcon, QuestionIcon} from '@phosphor-icons/react';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as GiftActionCreators from '~/actions/GiftActionCreators';
+import * as GiftActionCreators from '@app/actions/GiftActionCreators';
+import styles from '@app/components/channel/GiftEmbed.module.css';
 import {
 	EmbedCard,
 	EmbedSkeletonButton,
 	EmbedSkeletonCircle,
 	EmbedSkeletonSubtitle,
 	EmbedSkeletonTitle,
-} from '~/components/embeds/EmbedCard/EmbedCard';
-import cardStyles from '~/components/embeds/EmbedCard/EmbedCard.module.css';
-import {useEmbedSkeletonOverride} from '~/components/embeds/EmbedCard/useEmbedSkeletonOverride';
-import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
-import {Button} from '~/components/uikit/Button/Button';
-import i18n from '~/i18n';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import GiftStore from '~/stores/GiftStore';
-import UserStore from '~/stores/UserStore';
-import {getGiftDurationText} from '~/utils/giftUtils';
-import styles from './GiftEmbed.module.css';
+} from '@app/components/embeds/embed_card/EmbedCard';
+import cardStyles from '@app/components/embeds/embed_card/EmbedCard.module.css';
+import {useEmbedSkeletonOverride} from '@app/components/embeds/embed_card/useEmbedSkeletonOverride';
+import {openClaimAccountModal} from '@app/components/modals/ClaimAccountModal';
+import {Button} from '@app/components/uikit/button/Button';
+import i18n from '@app/I18n';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {Logger} from '@app/lib/Logger';
+import GiftStore from '@app/stores/GiftStore';
+import UserStore from '@app/stores/UserStore';
+import {getGiftDurationText} from '@app/utils/GiftUtils';
+import {useLingui} from '@lingui/react/macro';
+import {GiftIcon, QuestionIcon} from '@phosphor-icons/react';
+import {observer} from 'mobx-react-lite';
+import {useEffect, useRef} from 'react';
+
+const logger = new Logger('GiftEmbed');
 
 interface GiftEmbedProps {
 	code: string;
@@ -52,14 +55,14 @@ export const GiftEmbed = observer(function GiftEmbed({code}: GiftEmbedProps) {
 	const isUnclaimed = !(UserStore.currentUser?.isClaimed() ?? false);
 	const shouldForceSkeleton = useEmbedSkeletonOverride();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!giftState) {
 			void GiftActionCreators.fetchWithCoalescing(code).catch(() => {});
 		}
 	}, [code, giftState]);
 
-	const prevLoadingRef = React.useRef<boolean>(true);
-	React.useEffect(() => {
+	const prevLoadingRef = useRef<boolean>(true);
+	useEffect(() => {
 		const isLoading = !!giftState?.loading;
 		if (prevLoadingRef.current && !isLoading && giftState) {
 			ComponentDispatch.dispatch('LAYOUT_RESIZED');
@@ -85,7 +88,7 @@ export const GiftEmbed = observer(function GiftEmbed({code}: GiftEmbedProps) {
 		try {
 			await GiftActionCreators.redeem(i18n, code);
 		} catch (error) {
-			console.error('Failed to redeem gift', error);
+			logger.error('Failed to redeem gift', error);
 		}
 	};
 
@@ -106,7 +109,11 @@ export const GiftEmbed = observer(function GiftEmbed({code}: GiftEmbedProps) {
 			</Button>
 		) : (
 			<Button variant="primary" matchSkeletonHeight onClick={handleRedeem} disabled={gift.redeemed || isUnclaimed}>
-				{gift.redeemed ? t`Gift Claimed` : isUnclaimed ? t`Claim Account to Redeem` : t`Claim Gift`}
+				{(() => {
+					if (gift.redeemed) return t`Gift Claimed`;
+					if (isUnclaimed) return t`Claim Account to Redeem`;
+					return t`Claim Gift`;
+				})()}
 			</Button>
 		);
 

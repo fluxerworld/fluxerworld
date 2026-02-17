@@ -17,26 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {CustomStatusDisplay} from '@app/components/common/custom_status_display/CustomStatusDisplay';
+import {NoteEditSheet} from '@app/components/modals/NoteEditSheet';
+import {UserSettingsModal} from '@app/components/modals/UserSettingsModal';
+import styles from '@app/components/pages/YouPage.module.css';
+import {UserProfileBadges} from '@app/components/popouts/UserProfileBadges';
+import {UserProfileBio, UserProfileMembershipInfo} from '@app/components/popouts/UserProfileShared';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import {normalizeCustomStatus} from '@app/lib/CustomStatus';
+import PresenceStore from '@app/stores/PresenceStore';
+import UserNoteStore from '@app/stores/UserNoteStore';
+import UserStore from '@app/stores/UserStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {createMockProfile} from '@app/utils/ProfileUtils';
 import {Trans} from '@lingui/react/macro';
 import {GearIcon, NotePencilIcon, PencilIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {CustomStatusDisplay} from '~/components/common/CustomStatusDisplay/CustomStatusDisplay';
-import {NoteEditSheet} from '~/components/modals/NoteEditSheet';
-import {UserSettingsModal} from '~/components/modals/UserSettingsModal';
-import {UserProfileBadges} from '~/components/popouts/UserProfileBadges';
-import {UserProfileBio, UserProfileMembershipInfo} from '~/components/popouts/UserProfileShared';
-import {Scroller} from '~/components/uikit/Scroller';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import {normalizeCustomStatus} from '~/lib/customStatus';
-import PresenceStore from '~/stores/PresenceStore';
-import UserNoteStore from '~/stores/UserNoteStore';
-import UserStore from '~/stores/UserStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import {createMockProfile} from '~/utils/ProfileUtils';
-import styles from './YouPage.module.css';
+import {useMemo, useState} from 'react';
 
 interface YouPageProps {
 	onAvatarClick: () => void;
@@ -45,7 +45,7 @@ interface YouPageProps {
 export const YouPage = observer(({onAvatarClick}: YouPageProps) => {
 	const user = UserStore.currentUser;
 	const userNote = user ? UserNoteStore.getUserNote(user.id) : '';
-	const [noteSheetOpen, setNoteSheetOpen] = React.useState(false);
+	const [noteSheetOpen, setNoteSheetOpen] = useState(false);
 
 	const handleSettings = () => {
 		ModalActionCreators.push(modal(() => <UserSettingsModal />));
@@ -55,8 +55,8 @@ export const YouPage = observer(({onAvatarClick}: YouPageProps) => {
 		ModalActionCreators.push(modal(() => <UserSettingsModal initialTab="my_profile" />));
 	};
 
-	const profile = React.useMemo(() => (user ? createMockProfile(user) : null), [user]);
-	const normalizedCustomStatus = React.useMemo(() => {
+	const profile = useMemo(() => (user ? createMockProfile(user) : null), [user]);
+	const normalizedCustomStatus = useMemo(() => {
 		if (!user) return null;
 		return normalizeCustomStatus(PresenceStore.getCustomStatus(user.id));
 	}, [user]);

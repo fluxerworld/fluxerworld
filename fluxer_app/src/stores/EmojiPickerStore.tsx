@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {Logger} from '@app/lib/Logger';
+import {makePersistent} from '@app/lib/MobXPersistence';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
 import {makeAutoObservable} from 'mobx';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import {Logger} from '~/lib/Logger';
-import {makePersistent} from '~/lib/MobXPersistence';
-import type {Emoji} from '~/stores/EmojiStore';
 
 const logger = new Logger('EmojiPickerStore');
 
@@ -37,6 +37,7 @@ const DEFAULT_QUICK_EMOJIS = [
 	{name: 'thumbsup', uniqueName: 'thumbsup'},
 	{name: 'ok_hand', uniqueName: 'ok_hand'},
 	{name: 'tada', uniqueName: 'tada'},
+	{name: 'heart', uniqueName: 'heart'},
 ];
 
 class EmojiPickerStore {
@@ -94,7 +95,7 @@ class EmojiPickerStore {
 		logger.debug(`Toggled category: ${category}`);
 	}
 
-	isFavorite(emoji: Emoji): boolean {
+	isFavorite(emoji: FlatEmoji): boolean {
 		return this.favoriteEmojis.includes(this.getEmojiKey(emoji));
 	}
 
@@ -109,8 +110,8 @@ class EmojiPickerStore {
 		return entry.count * (1 + timeDecay);
 	}
 
-	getFrecentEmojis(allEmojis: ReadonlyArray<Emoji>, limit: number = MAX_FRECENT_EMOJIS): Array<Emoji> {
-		const emojiScores: Array<{emoji: Emoji; score: number}> = [];
+	getFrecentEmojis(allEmojis: ReadonlyArray<FlatEmoji>, limit: number = MAX_FRECENT_EMOJIS): Array<FlatEmoji> {
+		const emojiScores: Array<{emoji: FlatEmoji; score: number}> = [];
 
 		for (const emoji of allEmojis) {
 			const emojiKey = this.getEmojiKey(emoji);
@@ -126,8 +127,8 @@ class EmojiPickerStore {
 		return emojiScores.slice(0, limit).map((item) => item.emoji);
 	}
 
-	getFavoriteEmojis(allEmojis: ReadonlyArray<Emoji>): Array<Emoji> {
-		const favorites: Array<Emoji> = [];
+	getFavoriteEmojis(allEmojis: ReadonlyArray<FlatEmoji>): Array<FlatEmoji> {
+		const favorites: Array<FlatEmoji> = [];
 
 		for (const emoji of allEmojis) {
 			if (this.isFavorite(emoji)) {
@@ -138,12 +139,12 @@ class EmojiPickerStore {
 		return favorites;
 	}
 
-	getFrecencyScoreForEmoji(emoji: Emoji): number {
+	getFrecencyScoreForEmoji(emoji: FlatEmoji): number {
 		const usage = this.emojiUsage[this.getEmojiKey(emoji)];
 		return usage ? this.getFrecencyScore(usage) : 0;
 	}
 
-	getQuickReactionEmojis(allEmojis: ReadonlyArray<Emoji>, count: number): Array<Emoji> {
+	getQuickReactionEmojis(allEmojis: ReadonlyArray<FlatEmoji>, count: number): Array<FlatEmoji> {
 		const frecent = this.getFrecentEmojis(allEmojis, count);
 
 		if (frecent.length >= count) {
@@ -164,14 +165,14 @@ class EmojiPickerStore {
 		return result.slice(0, count);
 	}
 
-	private getEmojiKey(emoji: Emoji): string {
+	private getEmojiKey(emoji: FlatEmoji): string {
 		if (emoji.id) {
 			return `custom:${emoji.guildId}:${emoji.id}`;
 		}
 		return `unicode:${emoji.uniqueName}`;
 	}
 
-	trackEmoji(emoji: Emoji): void {
+	trackEmoji(emoji: FlatEmoji): void {
 		this.trackEmojiUsage(this.getEmojiKey(emoji));
 	}
 }

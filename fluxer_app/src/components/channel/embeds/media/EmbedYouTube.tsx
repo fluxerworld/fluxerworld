@@ -17,18 +17,19 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/embeds/media/EmbedYouTube.module.css';
+import {OverlayActionButton, OverlayPlayButton} from '@app/components/channel/embeds/media/MediaButtons';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import {createCalculator} from '@app/utils/DimensionUtils';
+import * as ImageCacheUtils from '@app/utils/ImageCacheUtils';
+import {openExternalUrl} from '@app/utils/NativeUtils';
+import type {MessageEmbed} from '@fluxer/schema/src/domains/message/EmbedSchemas';
 import {useLingui} from '@lingui/react/macro';
 import {ArrowSquareOutIcon, PlayIcon} from '@phosphor-icons/react';
 import {AnimatePresence, motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
 import {type FC, useCallback, useEffect, useState} from 'react';
 import {thumbHashToDataURL} from 'thumbhash';
-import type {MessageEmbed} from '~/records/MessageRecord';
-import {createCalculator} from '~/utils/DimensionUtils';
-import * as ImageCacheUtils from '~/utils/ImageCacheUtils';
-import {openExternalUrl} from '~/utils/NativeUtils';
-import styles from './EmbedYouTube.module.css';
-import {OverlayActionButton, OverlayPlayButton} from './MediaButtons';
 
 const YOUTUBE_CONFIG = {
 	DEFAULT_WIDTH: 400,
@@ -79,7 +80,7 @@ const Thumbnail: FC<ThumbnailProps> = observer(
 								key="placeholder"
 								initial={{opacity: 1}}
 								exit={{opacity: 0}}
-								transition={{duration: 0.2}}
+								transition={{duration: AccessibilityStore.useReducedMotion ? 0 : 0.2}}
 								src={thumbHashURL}
 								alt={t`Video thumbnail`}
 								className={styles.thumbnailPlaceholder}
@@ -88,7 +89,7 @@ const Thumbnail: FC<ThumbnailProps> = observer(
 								key="overlay"
 								initial={{opacity: 1}}
 								exit={{opacity: 0}}
-								transition={{duration: 0.2}}
+								transition={{duration: AccessibilityStore.useReducedMotion ? 0 : 0.2}}
 								className={styles.overlay}
 							/>
 						</>
@@ -101,7 +102,7 @@ const Thumbnail: FC<ThumbnailProps> = observer(
 					className={styles.posterImage}
 					initial={{opacity: 0}}
 					animate={{opacity: posterLoaded ? 1 : 0}}
-					transition={{duration: 0.2}}
+					transition={{duration: AccessibilityStore.useReducedMotion ? 0 : 0.2}}
 				/>
 
 				<div className={styles.controlsContainer}>
@@ -179,7 +180,7 @@ export const EmbedYouTube: FC<EmbedYouTubeProps> = observer(({embed, width = YOU
 				className={styles.container}
 				style={{
 					...containerStyle,
-					minHeight: `${dimensions.height}px`,
+					width: `${dimensions.width}px`,
 					aspectRatio,
 					maxWidth: '100%',
 				}}
@@ -208,7 +209,7 @@ export const EmbedYouTube: FC<EmbedYouTubeProps> = observer(({embed, width = YOU
 			className={styles.videoContainer}
 			style={{
 				...containerStyle,
-				minHeight: `${dimensions.height}px`,
+				width: `${dimensions.width}px`,
 				aspectRatio,
 				maxWidth: '100%',
 			}}

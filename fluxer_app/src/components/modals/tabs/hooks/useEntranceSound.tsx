@@ -17,33 +17,47 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as PremiumModalActionCreators from '@app/actions/PremiumModalActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {Logger} from '@app/lib/Logger';
+import * as CustomSoundDB from '@app/utils/CustomSoundDB';
+import {openFilePicker} from '@app/utils/FilePickerUtils';
+import {LimitResolver} from '@app/utils/limits/LimitResolverAdapter';
+import {isLimitToggleEnabled} from '@app/utils/limits/LimitUtils';
 import {useLingui} from '@lingui/react/macro';
-import React from 'react';
-import * as PremiumModalActionCreators from '~/actions/PremiumModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as CustomSoundDB from '~/utils/CustomSoundDB';
-import {openFilePicker} from '~/utils/FilePickerUtils';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 
-export const useEntranceSound = (hasPremium: boolean) => {
+const logger = new Logger('useEntranceSound');
+
+export const useEntranceSound = () => {
 	const {t} = useLingui();
-	const [entranceSound, setEntranceSound] = React.useState<CustomSoundDB.EntranceSound | null>(null);
-	const [isPreviewing, setIsPreviewing] = React.useState(false);
+	const [entranceSound, setEntranceSound] = useState<CustomSoundDB.EntranceSound | null>(null);
+	const [isPreviewing, setIsPreviewing] = useState(false);
 
-	React.useEffect(() => {
+	const hasEntranceSounds = useMemo(
+		() =>
+			isLimitToggleEnabled(
+				{feature_voice_entrance_sounds: LimitResolver.resolve({key: 'feature_voice_entrance_sounds', fallback: 0})},
+				'feature_voice_entrance_sounds',
+			),
+		[],
+	);
+
+	useEffect(() => {
 		const loadEntranceSound = async () => {
 			try {
 				const sound = await CustomSoundDB.getEntranceSound();
 				setEntranceSound(sound);
 			} catch (error) {
-				console.error('Failed to load entrance sound:', error);
+				logger.error('Failed to load entrance sound', error);
 			}
 		};
 		loadEntranceSound();
 	}, []);
 
-	const upload = React.useCallback(
+	const upload = useCallback(
 		async (file: File | null) => {
-			if (!hasPremium || !file) {
+			if (!hasEntranceSounds || !file) {
 				return;
 			}
 
@@ -75,17 +89,17 @@ export const useEntranceSound = (hasPremium: boolean) => {
 					children: t`Entrance sound uploaded successfully`,
 				});
 			} catch (error) {
-				console.error('Failed to upload entrance sound:', error);
+				logger.error('Failed to upload entrance sound', error);
 				ToastActionCreators.createToast({
 					type: 'error',
 					children: t`Failed to upload entrance sound`,
 				});
 			}
 		},
-		[hasPremium, t],
+		[hasEntranceSounds, t],
 	);
 
-	const remove = React.useCallback(async () => {
+	const remove = useCallback(async () => {
 		try {
 			await CustomSoundDB.deleteEntranceSound();
 			setEntranceSound(null);
@@ -95,7 +109,7 @@ export const useEntranceSound = (hasPremium: boolean) => {
 				children: t`Entrance sound removed`,
 			});
 		} catch (error) {
-			console.error('Failed to delete entrance sound:', error);
+			logger.error('Failed to delete entrance sound', error);
 			ToastActionCreators.createToast({
 				type: 'error',
 				children: t`Failed to remove entrance sound`,
@@ -103,7 +117,7 @@ export const useEntranceSound = (hasPremium: boolean) => {
 		}
 	}, [t]);
 
-	const preview = React.useCallback(async () => {
+	const preview = useCallback(async () => {
 		if (!entranceSound || isPreviewing) return;
 
 		try {
@@ -123,19 +137,19 @@ export const useEntranceSound = (hasPremium: boolean) => {
 
 			await audio.play();
 		} catch (error) {
-			console.error('Failed to preview entrance sound:', error);
+			logger.error('Failed to preview entrance sound', error);
 			setIsPreviewing(false);
 		}
 	}, [entranceSound, isPreviewing]);
 
-	const openUploadDialog = React.useCallback(async () => {
-		if (!hasPremium) {
+	const openUploadDialog = useCallback(async () => {
+		if (!hasEntranceSounds) {
 			PremiumModalActionCreators.open();
 			return;
 		}
 		const [file] = await openFilePicker({accept: CustomSoundDB.SUPPORTED_MIME_TYPES.join(',')});
 		await upload(file ?? null);
-	}, [hasPremium, upload]);
+	}, [hasEntranceSounds, upload]);
 
 	return {
 		entranceSound,

@@ -17,16 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {GenericErrorModal} from '@app/components/alerts/GenericErrorModal';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {GenericErrorModal} from './GenericErrorModal';
 
 export const MessageForwardFailedModal = observer(() => {
 	const {t} = useLingui();
 
 	return (
 		<GenericErrorModal
-			title={t`Failed to forward message`}
+			title={t`Failed to Forward Message`}
 			message={t`We couldn't forward the message at this time.`}
 		/>
 	);

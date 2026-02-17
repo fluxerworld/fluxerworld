@@ -17,27 +17,38 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as SavedMessageActionCreators from '@app/actions/SavedMessageActionCreators';
+import {Message} from '@app/components/channel/Message';
+import {InboxMessageHeader} from '@app/components/popouts/InboxMessageHeader';
+import headerStyles from '@app/components/popouts/InboxMessageHeader.module.css';
+import styles from '@app/components/popouts/SavedMessagesContent.module.css';
+import previewStyles from '@app/components/shared/MessagePreview.module.css';
+import {SavedMessageMissingCard} from '@app/components/shared/SavedMessageMissingCard';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useMessageListKeyboardNavigation} from '@app/hooks/useMessageListKeyboardNavigation';
+import ChannelStore from '@app/stores/ChannelStore';
+import SavedMessagesStore from '@app/stores/SavedMessagesStore';
+import {goToMessage} from '@app/utils/MessageNavigator';
+import {MessagePreviewContext} from '@fluxer/constants/src/ChannelConstants';
 import {useLingui} from '@lingui/react/macro';
 import {FlagCheckeredIcon, SparkleIcon, XIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as SavedMessageActionCreators from '~/actions/SavedMessageActionCreators';
-import {MessagePreviewContext} from '~/Constants';
-import {Message} from '~/components/channel/Message';
-import {MessageContextPrefix} from '~/components/shared/MessageContextPrefix/MessageContextPrefix';
-import previewStyles from '~/components/shared/MessagePreview.module.css';
-import {SavedMessageMissingCard} from '~/components/shared/SavedMessageMissingCard';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Scroller} from '~/components/uikit/Scroller';
-import ChannelStore from '~/stores/ChannelStore';
-import SavedMessagesStore from '~/stores/SavedMessagesStore';
-import {goToMessage} from '~/utils/MessageNavigator';
+import {useCallback, useEffect, useRef} from 'react';
+
+const readonlyBehaviorOverrides = {
+	disableContextMenu: true,
+	prefersReducedMotion: true,
+};
 
 export const SavedMessagesContent = observer(() => {
 	const {t, i18n} = useLingui();
 	const {savedMessages, missingSavedMessages, fetched} = SavedMessagesStore;
+	const scrollerRef = useRef<ScrollerHandle | null>(null);
 
-	const renderMissingSavedMessage = React.useCallback(
+	const renderMissingSavedMessage = useCallback(
 		(entryId: string) => (
 			<SavedMessageMissingCard
 				key={`lost-${entryId}`}
@@ -48,11 +59,23 @@ export const SavedMessagesContent = observer(() => {
 		[i18n],
 	);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!fetched) {
 			SavedMessageActionCreators.fetch();
 		}
 	}, [fetched]);
+
+	useMessageListKeyboardNavigation({
+		containerRef: scrollerRef,
+	});
+
+	if (!fetched) {
+		return (
+			<div className={previewStyles.emptyState}>
+				<Spinner />
+			</div>
+		);
+	}
 
 	if (!savedMessages.length && !missingSavedMessages.length) {
 		return (
@@ -69,7 +92,7 @@ export const SavedMessagesContent = observer(() => {
 	}
 
 	return (
-		<Scroller className={previewStyles.scroller} key="saved-messages-scroller" reserveScrollbarTrack>
+		<Scroller className={styles.scroller} key="saved-messages-scroller" ref={scrollerRef}>
 			{missingSavedMessages.map((entry) => renderMissingSavedMessage(entry.id))}
 			{savedMessages.map((message) => {
 				const channel = ChannelStore.getChannel(message.channelId);
@@ -79,16 +102,34 @@ export const SavedMessagesContent = observer(() => {
 				}
 
 				return (
-					<React.Fragment key={message.id}>
-						<MessageContextPrefix
+					<div key={message.id} className={styles.messageCard}>
+						<InboxMessageHeader
 							channel={channel}
-							showGuildMeta={Boolean(channel.guildId)}
-							compact
 							onClick={() => goToMessage(message.channelId, message.id)}
+							rightActions={
+								<Tooltip text={t`Remove bookmark`} position="top">
+									<FocusRing offset={-2}>
+										<button
+											type="button"
+											className={headerStyles.headerIconButton}
+											onClick={() => SavedMessageActionCreators.remove(i18n, message.id)}
+											aria-label={t`Remove bookmark`}
+										>
+											<XIcon weight="bold" className={headerStyles.headerIcon} />
+										</button>
+									</FocusRing>
+								</Tooltip>
+							}
 						/>
 
 						<div className={previewStyles.previewCard}>
-							<Message message={message} channel={channel} previewContext={MessagePreviewContext.LIST_POPOUT} />
+							<Message
+								message={message}
+								channel={channel}
+								previewContext={MessagePreviewContext.LIST_POPOUT}
+								behaviorOverrides={readonlyBehaviorOverrides}
+								readonlyPreview
+							/>
 
 							<div className={previewStyles.actionButtons}>
 								<FocusRing offset={-2}>
@@ -102,19 +143,9 @@ export const SavedMessagesContent = observer(() => {
 										{t`Jump`}
 									</button>
 								</FocusRing>
-
-								<FocusRing offset={-2}>
-									<button
-										type="button"
-										className={previewStyles.actionIconButton}
-										onClick={() => SavedMessageActionCreators.remove(i18n, message.id)}
-									>
-										<XIcon weight="regular" className={previewStyles.actionIcon} />
-									</button>
-								</FocusRing>
 							</div>
 						</div>
-					</React.Fragment>
+					</div>
 				);
 			})}
 

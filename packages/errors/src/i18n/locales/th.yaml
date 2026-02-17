@@ -1,0 +1,497 @@
+account.already_verified: บัญชีของคุณยืนยันแล้วอยู่แล้ว
+account.communication_disabled: การสื่อสารถูกปิดใช้งานอยู่
+account.disabled: บัญชีนี้ถูกปิดใช้งานแล้ว
+account.email_verification_required_for_guild: คุณต้องยืนยันอีเมลก่อนถึงจะส่งข้อความในเซิร์ฟเวอร์นี้ได้
+account.guild_verification_required: ต้องผ่านการยืนยันของเซิร์ฟเวอร์ก่อน
+account.ip_authorization_required: ต้องยืนยัน IP ก่อน
+account.locked_suspicious_activity: บัญชีของคุณถูกล็อกเพราะพบกิจกรรมน่าสงสัย
+account.phone_required_for_guild: คุณต้องเพิ่มเบอร์โทรก่อนถึงจะส่งข้อความในเซิร์ฟเวอร์นี้ได้
+account.scheduled_for_deletion: บัญชีนี้ถูกตั้งเวลาเพื่อลบแล้ว
+account.session_timeout: เซสชันหมดเวลาแล้ว รีเฟรชหน้าเว็บแล้วล็อกอินใหม่อีกครั้ง
+account.session_token_mismatch: โทเคนเซสชันไม่ตรงกัน
+account.suspended_permanently: บัญชีนี้ถูกระงับถาวรแล้ว
+account.suspended_temporarily: บัญชีนี้ถูกระงับชั่วคราว
+account.too_new_for_guild: บัญชีของคุณใหม่เกินไป ยังส่งข้อความในเซิร์ฟเวอร์นี้ไม่ได้
+account.unauthorized: ไม่ได้รับอนุญาต
+admin_and_system.acls_must_be_non_empty: ACLs ห้ามว่าง
+admin_and_system.admin_api_key_not_found: ไม่พบ admin API key
+admin_and_system.audit_log_indexing: กำลังดำเนินการจัดดัชนีบันทึกการตรวจสอบอยู่ โปรดลองใหม่ในอีกสักครู่
+admin_and_system.channel_indexing: กำลังดำเนินการจัดดัชนีช่องอยู่ โปรดลองใหม่ในอีกสักครู่
+admin_and_system.creation_failed: ไม่สามารถสร้างทรัพยากรได้ โปรดลองใหม่
+admin_and_system.deletion_failed: ไม่สามารถลบทรัพยากรได้ โปรดลองใหม่
+admin_and_system.decryption_failed: ไม่สามารถถอดรหัสข้อความได้ คีย์การเข้ารหัสอาจไม่ถูกต้องหรือเสียหาย
+admin_and_system.empty_encrypted_body: เนื้อหาที่เข้ารหัสว่างเปล่า
+admin_and_system.encryption_failed: ไม่สามารถเข้ารหัสข้อความได้ คีย์การเข้ารหัสอาจไม่ถูกต้องหรือเสียหาย
+admin_and_system.general_error: มีบางอย่างผิดพลาด โปรดลองใหม่อีกครั้งภายหลัง
+admin_and_system.invalid_acls_format: รูปแบบ ACL ไม่ถูกต้อง
+admin_and_system.invalid_api_origin: ต้นทาง API ไม่ถูกต้อง
+admin_and_system.invalid_audit_log_reason: เหตุผลบันทึกการตรวจสอบไม่ถูกต้อง
+admin_and_system.invalid_bot_flag: แฟล็ก bot ไม่ถูกต้อง
+admin_and_system.invalid_decrypted_json: JSON ที่ถอดรหัสแล้วไม่ถูกต้อง
+admin_and_system.invalid_ephemeral_key: คีย์ชั่วคราวไม่ถูกต้อง
+admin_and_system.invalid_flags_format: รูปแบบแฟล็กไม่ถูกต้อง
+admin_and_system.invalid_form_body: เนื้อหาแบบฟอร์มไม่ถูกต้อง
+admin_and_system.invalid_format: ค่าที่ระบุมีรูปแบบไม่ถูกต้อง
+admin_and_system.invalid_integer_format: รูปแบบจำนวนเต็มไม่ถูกต้อง
+admin_and_system.invalid_iv: เวกเตอร์การเริ่มต้นไม่ถูกต้อง
+admin_and_system.invalid_suspicious_flags_format: รูปแบบแฟล็กที่น่าสงสัยไม่ถูกต้อง
+admin_and_system.invalid_system_flag: แฟล็กระบบไม่ถูกต้อง
+admin_and_system.invalid_timeout_value: ค่าหมดเวลาไม่ถูกต้อง
+admin_and_system.invalid_timestamp: แสตมป์เวลาไม่ถูกต้อง
+admin_and_system.invalid_timezone_identifier: ตัวระบุโซนเวลาไม่ถูกต้อง
+admin_and_system.missing_acl: ขาด ACL
+admin_and_system.missing_ephemeral_key: ขาดคีย์ชั่วคราว
+admin_and_system.missing_iv: ขาดเวกเตอร์การเริ่มต้น
+admin_and_system.must_be_iso_timestamp: ต้องเป็นแสตมป์เวลา ISO ที่ถูกต้อง
+admin_and_system.processing_failed: ไม่สามารถประมวลผลคำขอได้ โปรดลองใหม่
+admin_and_system.response_validation_failed: 'การตรวจสอบความถูกต้องของการตอบสนองล้มเหลว: {errors}.'
+admin_and_system.test_harness_disabled: ปิดใช้งาน test harness แล้ว
+admin_and_system.test_harness_forbidden: ห้ามใช้ test harness
+admin_and_system.unknown_suspicious_flag: แฟล็กที่น่าสงสัยไม่รู้จัก
+admin_and_system.update_failed: ไม่สามารถอัปเดตทรัพยากรได้ โปรดลองใหม่
+admin_and_system.user_must_be_bot_for_system_user: ผู้ใช้ต้องเป็น bot เพื่อให้ทำเครื่องหมายว่าเป็นผู้ใช้ระบบ
+attachments_and_uploads.attachment_fields_required: ต้องระบุ `attachment_id`, `channel_id`, `message_id` และ `expires_at`
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` และ `message_id` ต้องเป็นจำนวนเต็มที่ถูกต้อง'
+attachments_and_uploads.cannot_edit_attachment_metadata: ผู้ใช้ที่มีสิทธิ์ MANAGE_MESSAGES สามารถแก้ไขเฉพาะคำอธิบายไฟล์แนบเท่านั้น
+attachments_and_uploads.attachment_metadata_without_files: มี metadata ของไฟล์แนบที่ระบุชื่อไฟล์ แต่ไม่มีไฟล์ถูกอัปโหลด
+attachments_and_uploads.attachment_must_be_image: ไฟล์แนบ "{filename}" ต้องเป็นไฟล์รูปภาพ (png, jpg, jpeg, webp หรือ gif)
+attachments_and_uploads.attachment_not_found_in_message: ไม่พบไฟล์แนบที่มี ID {attachmentId} ในข้อความนี้
+attachments_and_uploads.attachments_metadata_required_when_uploading: ต้องมีอาร์เรย์ metadata ของไฟล์แนบเมื่ออัปโหลดไฟล์
+attachments_and_uploads.attachments_not_allowed_for_message: ข้อความนี้ไม่อนุญาตให้มีไฟล์แนบ
+attachments_and_uploads.cannot_reference_attachments_without_attachments: อ้างอิงไฟล์แนบไม่ได้ถ้าไม่ได้ส่งไฟล์แนบมา
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: ห้ามมี attachment ID ซ้ำ
+attachments_and_uploads.duplicate_file_index: 'มี file index ซ้ำ: {index}'
+attachments_and_uploads.failed_to_parse_multipart_form_data: แยก multipart form data ไม่สำเร็จ ตรวจสอบชื่อฟิลด์และชื่อไฟล์ว่าอยู่ในรูปแบบที่ถูกต้อง
+attachments_and_uploads.failed_to_parse_multipart_payload: แยก multipart payload ไม่สำเร็จ
+attachments_and_uploads.failed_to_upload_image: อัปโหลดรูปภาพไม่สำเร็จ ลองใหม่อีกครั้ง
+attachments_and_uploads.file_index_exceeds_maximum: file index {index} เกินค่าสูงสุดที่อนุญาตคือ {maxIndex}
+attachments_and_uploads.file_not_found_for_scanning: ไม่พบไฟล์สำหรับการสแกน
+attachments_and_uploads.file_not_found: ไม่พบไฟล์
+attachments_and_uploads.file_size_too_large: ไฟล์มีขนาดใหญ่เกินไป ขนาดไฟล์สูงสุดคือ {maxSize}
+attachments_and_uploads.filename_empty_after_normalization: ชื่อไฟล์ห้ามว่างหลังจาก normalization
+attachments_and_uploads.filename_invalid_characters: ชื่อไฟล์มีอักขระที่ไม่อนุญาต
+attachments_and_uploads.filename_length_invalid: ชื่อไฟล์ต้องยาวระหว่าง {min} ถึง {max} ตัวอักษร
+attachments_and_uploads.filename_mismatch_for_attachment: 'ชื่อไฟล์ไม่ตรงกันสำหรับไฟล์แนบ {attachmentId}: metadata ระบุว่า "{expectedFilename}" แต่ไม่ตรงกับไฟล์จริง'
+attachments_and_uploads.image_size_exceeds_limit: รูปภาพมีขนาดเกิน {maxSize} ไบต์
+attachments_and_uploads.invalid_file_field_name: 'ชื่อฟิลด์ไฟล์ไม่ถูกต้อง: {key}. รูปแบบที่คาดหวังคือ `files[N]` โดย N เป็นตัวเลข'
+attachments_and_uploads.invalid_image_data: ข้อมูลรูปภาพไม่ถูกต้อง
+attachments_and_uploads.invalid_image_format: 'รูปแบบรูปภาพไม่ถูกต้อง รองรับนามสกุล: {supportedExtensions}'
+attachments_and_uploads.invalid_json_in_payload_json: JSON ใน `payload_json` ไม่ถูกต้อง
+attachments_and_uploads.multiple_files_for_index_not_allowed: ห้ามมีหลายไฟล์สำหรับ index {index}
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: ไม่มีไฟล์ถูกอัปโหลดสำหรับ metadata ของไฟล์แนบที่มี ID {attachmentId}
+attachments_and_uploads.no_file_uploaded_for_attachment: ไม่มีไฟล์ถูกอัปโหลดสำหรับไฟล์แนบที่มี ID {attachmentId}
+attachments_and_uploads.no_metadata_for_file: ไม่มี metadata สำหรับไฟล์ที่มี ID {fileId}
+attachments_and_uploads.no_valid_media_in_message: ไม่พบสื่อที่ถูกต้องในข้อความ
+attachments_and_uploads.payload_json_required_for_multipart: ต้องมีฟิลด์ `payload_json` สำหรับข้อความแบบ multipart
+attachments_and_uploads.preview_must_be_jpeg: พรีวิวต้องเป็น JPEG
+attachments_and_uploads.referenced_attachment_not_found: ไม่พบไฟล์แนบที่อ้างอิง "{filename}" ในรายการไฟล์แนบของข้อความ
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` ต้องเป็นจำนวนเต็มที่ถูกต้อง'
+attachments_and_uploads.too_many_files: มีไฟล์มากเกินไป อนุญาตสูงสุด {maxFiles} {maxFiles, plural, one {ไฟล์} other {ไฟล์}}
+attachments_and_uploads.unknown_image_format: ไม่รู้จักรูปแบบรูปภาพ
+attachments_and_uploads.unresolved_attachment_url: พบ URL แบบ `attachment://` ที่ยังไม่ถูก resolve ควรถูก resolve ก่อนประมวลผล embed
+attachments_and_uploads.uploaded_attachment_not_found: ไม่พบไฟล์แนบที่อัปโหลด {filename}
+auth_and_oauth.application_not_owned: คุณไม่เป็นเจ้าของแอปพลิเคชันนี้
+auth_and_oauth.bot_already_in_guild: บอตนี้อยู่ในกิลด์แล้ว
+auth_and_oauth.bot_users_cannot_create_auth_sessions: ผู้ใช้บอตสร้างเซสชัน auth ไม่ได้
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: ผู้ใช้บอตใช้ปลายทาง auth ไม่ได้
+auth_and_oauth.handoff_code_expired: handoff code หมดอายุแล้ว
+auth_and_oauth.handoff_code_invalid: handoff code ไม่ถูกต้อง
+auth_and_oauth.http_get_authorize_not_supported: ไม่รองรับ GET /oauth2/authorize ให้ใช้ POST /oauth2/authorize/consent
+auth_and_oauth.invalid_client_secret: client secret ไม่ถูกต้อง
+auth_and_oauth.invalid_client: ไคลเอนต์ไม่ถูกต้อง
+auth_and_oauth.invalid_code: โค้ดไม่ถูกต้อง
+auth_and_oauth.invalid_grant: grant ไม่ถูกต้อง
+auth_and_oauth.invalid_or_expired_authorization_ticket: authorization ticket ไม่ถูกต้องหรือหมดอายุแล้ว
+auth_and_oauth.invalid_or_expired_authorization_token: authorization token ไม่ถูกต้องหรือหมดอายุแล้ว
+auth_and_oauth.invalid_or_expired_ticket: ticket ไม่ถูกต้องหรือหมดอายุแล้ว
+auth_and_oauth.invalid_proof_token: proof token ไม่ถูกต้อง
+auth_and_oauth.invalid_redirect_uri: redirect URI ไม่ถูกต้อง
+auth_and_oauth.invalid_request: คำขอไม่ถูกต้อง
+auth_and_oauth.invalid_scope: scope ไม่ถูกต้อง
+auth_and_oauth.invalid_sudo_token: sudo token ไม่ถูกต้อง
+auth_and_oauth.invalid_token_admin_api_key: admin API key ไม่ถูกต้อง
+auth_and_oauth.missing_authorization: ขาดการยืนยันสิทธิ์
+auth_and_oauth.missing_client_secret: ขาด client secret
+auth_and_oauth.missing_redirect_uri: ขาด redirect URI
+auth_and_oauth.must_start_session_before_sending_messages: คุณต้องเริ่มเซสชันก่อนถึงจะส่งข้อความได้
+auth_and_oauth.oauth_admin_scope_required: โทเคน OAuth2 ต้องมี scope admin เพื่อเข้าถึงปลายทาง admin
+auth_and_oauth.oauth_fields_missing: ขาดฟิลด์ OAuth
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: ต้องระบุ redirect URI สำหรับ scope ที่ไม่ใช่บอต
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: response type ต้องเป็น code สำหรับ scope ที่ไม่ใช่บอต
+auth_and_oauth.sudo_mode_required: ต้องใช้โหมด sudo
+auth_and_oauth.unknown_application: ไม่รู้จักแอปพลิเคชัน
+auth_and_oauth.unsupported_response_type: response type ไม่รองรับ
+auth_and_registration.current_password_incorrect: รหัสผ่านปัจจุบันไม่ถูกต้อง
+auth_and_registration.password_is_too_common: รหัสผ่านของคุณพบเห็นบ่อยเกินไป กรุณาเลือกรหัสผ่านที่เฉพาะเจาะจงกว่านี้
+auth_and_registration.password_not_set: ยังไม่ได้ตั้งรหัสผ่าน
+bots.bot_application_not_found: ไม่พบแอปพลิเคชันบอต
+bots.bot_discriminator_cannot_be_changed: ไม่สามารถเปลี่ยนตัวระบุบอทได้
+bots.bot_is_private: บอตนี้เป็นแบบส่วนตัว
+bots.bot_user_generation_failed: สร้างผู้ใช้บอตไม่สำเร็จ
+bots.bot_user_not_found: ไม่พบผู้ใช้บอต
+bots.invalid_response_type_for_non_bot: response type ต้องเป็น code สำหรับ scope ที่ไม่ใช่บอต
+bots.not_a_bot_application: แอปพลิเคชันนี้ไม่ใช่บอต
+calls_and_voice.call_already_exists: มีสายนี้อยู่แล้ว
+calls_and_voice.cannot_modify_voice_state: แก้ไขสถานะเสียงไม่ได้
+calls_and_voice.invalid_or_restricted_rtc_region: 'RTC region ไม่ถูกต้องหรือถูกจำกัด: {region}'
+calls_and_voice.invalid_rtc_region: 'RTC region ไม่ถูกต้อง: {region}. ภูมิภาคที่ใช้ได้: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: รูปแบบ stream key ไม่ถูกต้อง
+calls_and_voice.invalid_stream_thumbnail_payload: payload ของภาพตัวอย่างสตรีมไม่ถูกต้อง
+calls_and_voice.no_active_call: ไม่มีสายที่กำลังใช้งาน
+calls_and_voice.stream_key_channel_mismatch: stream key ไม่ตรงกับช่อง
+calls_and_voice.stream_key_scope_mismatch: scope ของ stream key ไม่ตรงกัน
+calls_and_voice.stream_thumbnail_payload_empty: payload ของภาพตัวอย่างสตรีมว่าง
+calls_and_voice.unknown_voice_region: ไม่รู้จักภูมิภาคเสียงนี้
+calls_and_voice.unknown_voice_server: ไม่รู้จักเซิร์ฟเวอร์เสียงนี้
+calls_and_voice.voice_message_duration_exceeds_limit: ระยะเวลาข้อความเสียงต้องไม่เกิน {maxDuration} วินาที
+calls_and_voice.voice_message_duration_required: ไฟล์แนบของข้อความเสียงต้องระบุระยะเวลา
+calls_and_voice.voice_message_waveform_required: ไฟล์แนบของข้อความเสียงต้องมีข้อมูล waveform
+calls_and_voice.voice_messages_require_single_attachment: ข้อความเสียงต้องมีไฟล์แนบแค่ 1 ไฟล์เท่านั้น
+captcha.invalid: captcha ไม่ถูกต้อง
+captcha.required: ต้องทำ captcha
+connections.already_exists: มีการเชื่อมต่อประเภทนี้ที่มีตัวระบุนี้อยู่แล้ว
+connections.bluesky_oauth_callback_failed: ไม่สามารถเสร็จสิ้นการเชื่อมต่อ Bluesky ได้ ลองใหม่อีกครั้ง
+connections.bluesky_oauth_not_enabled: ไม่ได้เปิดใช้การเชื่อมต่อ Bluesky บนเซิร์ฟเวอร์นี้
+connections.bluesky_oauth_session_expired: เซสชัน Bluesky ของคุณหมดอายุแล้ว โปรดเชื่อมต่อบัญชีของคุณอีกครั้ง
+connections.bluesky_oauth_state_invalid: คำขอการยืนยันสิทธิ์หมดอายุหรือไม่ถูกต้อง ลองใหม่อีกครั้ง
+connections.invalid_identifier: ตัวระบุการเชื่อมต่อไม่ถูกต้อง
+connections.invalid_type: ประเภทการเชื่อมต่อไม่รองรับ
+connections.initiation_token_invalid: โทเคนเริ่มต้นการเชื่อมต่อไม่ถูกต้องหรือหมดอายุแล้ว
+connections.limit_reached: คุณถึงจำนวนการเชื่อมต่อสูงสุดแล้ว ({limit})
+connections.not_found: ไม่รู้จักการเชื่อมต่อนี้
+connections.verification_failed: ยืนยันการเชื่อมต่อไม่สำเร็จ ตรวจสอบว่าโทเคนยืนยันตั้งไว้ถูกต้องหรือไม่
+channels_and_guilds.afk_channel_must_be_in_guild: ห้อง AFK ต้องอยู่ในเซิร์ฟเวอร์นี้
+channels_and_guilds.afk_channel_must_be_voice: ห้อง AFK ต้องเป็นห้องเสียง
+channels_and_guilds.all_channels_must_belong_to_guild: ทุกช่องต้องอยู่ในเซิร์ฟเวอร์นี้
+channels_and_guilds.animated_guild_banner_requires_feature: แบนเนอร์เซิร์ฟเวอร์แบบเคลื่อนไหวต้องมีฟีเจอร์ ANIMATED_BANNER
+channels_and_guilds.cannot_execute_on_dm: ทำรายการนี้ใน DM ไม่ได้
+channels_and_guilds.cannot_transfer_ownership_to_bot: ไม่สามารถโอนความเป็นเจ้าของเซิร์ฟเวอร์ให้กับบอทได้
+channels_and_guilds.cannot_leave_guild_as_owner: คุณออกจากเซิร์ฟเวอร์ในฐานะเจ้าของไม่ได้ โอนความเป็นเจ้าของหรือลบเซิร์ฟเวอร์แทน
+channels_and_guilds.cannot_position_channel_relative_to_itself: จัดตำแหน่งช่องโดยอ้างอิงตัวเองหรือช่องลูกของมันไม่ได้
+channels_and_guilds.cannot_report_own_guild: คุณรายงานเซิร์ฟเวอร์ของตัวเองไม่ได้
+channels_and_guilds.categories_cannot_have_parent_channel: หมวดหมู่มีช่องแม่ไม่ได้
+channels_and_guilds.categories_cannot_have_parents: หมวดหมู่มีแม่ไม่ได้
+channels_and_guilds.channel_id_required: ต้องระบุ `channel_id`
+channels_and_guilds.channel_must_be_dm_or_group_dm: ช่องต้องเป็น DM หรือกลุ่ม DM
+channels_and_guilds.channel_must_be_voice: ช่องต้องเป็นห้องเสียง
+channels_and_guilds.channel_not_found: ไม่พบช่อง
+channels_and_guilds.context_channel_or_guild_required: ต้องมีไอดีช่องหรือไอดีเซิร์ฟเวอร์เป็นบริบท
+channels_and_guilds.guild_banner_requires_feature: แบนเนอร์เซิร์ฟเวอร์ต้องมีฟีเจอร์ BANNER
+channels_and_guilds.guild_id_must_match_referenced_message: guild ID ต้องตรงกับช่องที่ดึงข้อความที่อ้างอิงมาจาก
+channels_and_guilds.invalid_channel_id: 'ไอดีช่องไม่ถูกต้อง: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: ประเภทช่องไม่รองรับสำหรับการโทร
+channels_and_guilds.invalid_channel_type: ประเภทช่องไม่ถูกต้อง
+channels_and_guilds.invalid_channel: ช่องไม่ถูกต้อง
+channels_and_guilds.invalid_parent_channel: ช่องแม่ไม่ถูกต้อง
+channels_and_guilds.invite_splash_requires_feature: invite splash ต้องมีฟีเจอร์ INVITE_SPLASH
+channels_and_guilds.invites_disabled: ปิดการเชิญอยู่
+channels_and_guilds.max_group_dm_recipients_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {ผู้รับ} other {ผู้รับ}} ของกลุ่ม DM แล้ว
+channels_and_guilds.max_group_dms_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {กลุ่ม DM} other {กลุ่ม DM}} แล้ว
+channels_and_guilds.max_guild_channels_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {ช่อง} other {ช่อง}} ในเซิร์ฟเวอร์แล้ว
+channels_and_guilds.max_guild_members_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {สมาชิก} other {สมาชิก}} ในเซิร์ฟเวอร์แล้ว
+channels_and_guilds.max_guild_roles_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {บทบาท} other {บทบาท}} ในเซิร์ฟเวอร์แล้ว
+channels_and_guilds.max_guilds_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {เซิร์ฟเวอร์} other {เซิร์ฟเวอร์}} แล้ว
+channels_and_guilds.message_history_cutoff_before_guild_creation: ไม่สามารถตั้งค่าข้อตัดส่วนประวัติข้อความก่อนเวลาที่สร้างชุมชนได้
+channels_and_guilds.message_history_cutoff_in_future: ไม่สามารถตั้งค่าข้อตัดส่วนประวัติข้อความในอนาคตได้
+channels_and_guilds.parent_channel_not_in_guild: ช่องแม่ไม่ได้อยู่ในเซิร์ฟเวอร์นี้
+channels_and_guilds.parent_must_be_category: ช่องแม่ต้องเป็นหมวดหมู่
+channels_and_guilds.preceding_channel_must_share_parent: ช่องก่อนหน้าต้องมีช่องแม่เดียวกับช่องที่ย้าย
+channels_and_guilds.preceding_channel_not_in_guild: ช่องก่อนหน้าไม่ได้อยู่ในเซิร์ฟเวอร์นี้
+channels_and_guilds.system_channel_must_be_in_guild: system channel ต้องอยู่ในเซิร์ฟเวอร์นี้
+channels_and_guilds.system_channel_must_be_text: system channel ต้องเป็นช่องข้อความ
+channels_and_guilds.temporary_invite_requires_presence: คำเชิญชั่วคราวต้องมีสถานะออนไลน์
+channels_and_guilds.vanity_url_requires_feature: vanity URL ต้องมีฟีเจอร์ VANITY_URL
+channels_and_guilds.voice_channel_full: ห้องเสียงเต็มแล้ว
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: ห้องเสียงวางไว้เหนือห้องข้อความในหมวดเดียวกันไม่ได้
+colors.color_value_too_high: ค่าสีต้องไม่เกิน 0xffffff
+colors.color_value_too_low: ค่าสีต้องอย่างน้อย 0x000000
+content_and_safety.content_blocked: เนื้อหานี้ถูกบล็อกโดยระบบความปลอดภัย
+content_and_safety.csam_scan_failed: สแกน CSAM ไม่สำเร็จ
+content_and_safety.csam_scan_parse_error: ข้อผิดพลาดในการแยกวิเคราะห์สแกน CSAM
+content_and_safety.csam_scan_subscription_error: ข้อผิดพลาดการสมัครสมาชิกสแกน CSAM
+content_and_safety.csam_scan_timeout: หมดเวลารอการสแกน CSAM
+content_and_safety.explicit_content_cannot_be_sent: ส่งเนื้อหาโจ่งแจ้งไม่ได้
+content_and_safety.ncmec_already_submitted: เนื้อหานี้ถูกส่งไปยัง NCMEC แล้ว
+content_and_safety.ncmec_submission_failed: ส่งรายงานไปยัง NCMEC ไม่สำเร็จ ลองใหม่อีกครั้งภายหลัง
+content_and_safety.nsfw_age_restricted: เนื้อหา NSFW จำกัดอายุ
+discovery.already_applied: ชุมชนนี้สมัครเพื่อการค้นพบไปแล้ว
+discovery.application_already_reviewed: ใบสมัครการค้นพบนี้ถูกตรวจสอบแล้ว
+discovery.application_not_found: ไม่พบใบสมัครการค้นพบ
+discovery.description_required: ต้องมีคำอธิบายสำหรับการลงรายการการค้นพบ
+discovery.insufficient_members: ชุมชนนี้มีจำนวนสมาชิกไม่ถึงขั้นต่ำที่กำหนดสำหรับการค้นพบ
+discovery.invalid_category: หมวดหมู่การค้นพบไม่ถูกต้อง
+discovery.not_discoverable: ชุมชนนี้ไม่ได้อยู่ในรายการการค้นพบ
+donation.amount_invalid: จำนวนเงินบริจาคไม่ถูกต้อง
+donation.donor_not_found: ไม่พบผู้บริจาค
+donation.magic_link_expired: ลิงก์มหัศจรรย์หมดอายุแล้ว
+donation.magic_link_invalid: ลิงก์มหัศจรรย์ไม่ถูกต้อง
+donation.magic_link_used: ลิงก์มหัศจรรย์ถูกใช้ไปแล้ว
+email.email_already_in_use: อีเมลนี้ถูกใช้งานแล้ว
+email.email_required: ต้องระบุอีเมล
+email.email_service_not_testable: ทดสอบบริการอีเมลไม่ได้
+email.invalid_format: รูปแบบอีเมลไม่ถูกต้อง
+email.invalid_or_expired_reset_token: โทเคนรีเซ็ตรหัสผ่านไม่ถูกต้องหรือหมดอายุแล้ว
+email.invalid_or_expired_revert_token: โทเคนการย้อนกลับไม่ถูกต้องหรือหมดอายุแล้ว
+email.invalid_or_expired_verification_token: โทเคนยืนยันไม่ถูกต้องหรือหมดอายุแล้ว
+email.invalid_or_password: อีเมลหรือรหัสผ่านไม่ถูกต้อง
+email.invalid_token: โทเคนอีเมลไม่ถูกต้อง
+email.invalid_verification_code: โค้ดยืนยันไม่ถูกต้อง
+email.length_invalid: ที่อยู่อีเมลต้องยาวระหว่าง {min} ถึง {max} ตัวอักษร
+email.must_be_changed_via_token: ต้องเปลี่ยนอีเมลผ่านโทเคน
+email.must_change_via_token: ต้องเปลี่ยนอีเมลผ่าน `email_token`
+email.must_have_email_to_change_it: คุณต้องมีที่อยู่อีเมลถึงจะเปลี่ยนมันได้
+email.new_email_must_be_different: อีเมลใหม่ต้องแตกต่างจากอีเมลปัจจุบันของคุณ
+email.no_new_email_requested: ไม่ได้มีการขออีเมลใหม่ไว้
+email.no_original_email_on_record: ไม่มีอีเมลเดิมอยู่ในระบบ
+email.original_email_already_verified: อีเมลเดิมยืนยันแล้วอยู่แล้ว
+email.original_email_must_be_verified_first: ต้องยืนยันอีเมลเดิมก่อน
+email.original_verification_not_required: โฟลว์นี้ไม่จำเป็นต้องยืนยันอีเมลเดิม
+email.token_expired: โทเคนอีเมลหมดอายุแล้ว
+email.user_has_no_email_address: ผู้ใช้นี้ไม่มีที่อยู่อีเมล
+email.user_is_not_pending_verification: ผู้ใช้นี้ไม่ได้รอการยืนยัน
+email.verification_code_expired: โค้ดยืนยันหมดอายุแล้ว
+email.verification_code_not_issued: ยังไม่มีโค้ดยืนยันถูกออกให้
+embeds.embed_index_out_of_bounds: embed index {embedIndex} อยู่นอกขอบเขต (ข้อความมี {embedCount} {embedCount, plural, one {embed} other {embed}})
+embeds.embed_splash_requires_feature: embed splash ต้องมีฟีเจอร์ INVITE_SPLASH
+embeds.embeds_exceed_max_characters: embed ทั้งหมดต้องมีความยาวรวมไม่เกิน {maxCharacters} {maxCharacters, plural, one {ตัวอักษร} other {ตัวอักษร}}
+embeds.too_many_embeds: มี embed มากเกินไป อนุญาตสูงสุด {maxEmbeds} {maxEmbeds, plural, one {embed} other {embed}}
+feature_flags.feature_not_available_self_hosted: ฟีเจอร์นี้ไม่พร้อมใช้งานบนอินสแตนซ์ที่จัดการเอง
+feature_flags.feature_temporarily_disabled: ฟีเจอร์นี้ถูกปิดใช้งานชั่วคราว
+friends_and_dms.already_friends: คุณเป็นเพื่อนกับผู้ใช้นี้อยู่แล้ว
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: ต้องมีผู้รับอย่างน้อย 1 คนเพื่อสร้างช่องส่วนตัว
+friends_and_dms.at_least_one_recipient_required: ต้องมีผู้รับอย่างน้อย 1 คน
+friends_and_dms.bots_cannot_send_friend_requests: บอตส่งคำขอเป็นเพื่อนไม่ได้
+friends_and_dms.cannot_add_yourself_to_group_dm: เพิ่มตัวเองเข้าไปในกลุ่ม DM ไม่ได้
+friends_and_dms.cannot_dm_yourself: ส่ง DM ให้ตัวเองไม่ได้
+friends_and_dms.cannot_send_friend_request_to_blocked_user: ส่งคำขอเป็นเพื่อนให้ผู้ใช้ที่คุณบล็อกไว้ไม่ได้
+friends_and_dms.cannot_send_friend_request_to_self: ส่งคำขอเป็นเพื่อนให้ตัวเองไม่ได้
+friends_and_dms.cannot_send_messages_to_user: คุณส่งข้อความหาผู้ใช้นี้ไม่ได้
+friends_and_dms.duplicate_recipients_not_allowed: ห้ามมีผู้รับซ้ำ
+friends_and_dms.friend_request_blocked: ผู้ใช้นี้ไม่รับคำขอเป็นเพื่อนในขณะนี้
+friends_and_dms.not_friends: คุณไม่ได้เป็นเพื่อนกับผู้ใช้นี้
+friends_and_dms.recipient_ids_cannot_be_empty: Recipient IDs ห้ามว่าง
+friends_and_dms.recipient_ids_must_be_strings: Recipient IDs ต้องเป็นสตริง
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Recipient IDs ต้องเป็น snowflake ที่ถูกต้อง
+harvest.expired: Harvest หมดอายุแล้ว
+harvest.failed: Harvest ไม่สำเร็จ
+harvest.not_ready: Harvest ยังไม่พร้อม
+harvest.on_cooldown: Harvest กำลังคูลดาวน์อยู่
+harvest.unknown: ไม่รู้จัก harvest นี้
+http.bad_gateway: เกตเวย์ไม่ดี
+http.bad_request: คำขอไม่ดี
+http.conflict: ขัดแย้ง
+http.forbidden: ห้าม
+http.gateway_timeout: หมดเวลารอสัญญาณจากเกตเวย์
+http.gone: ไป
+http.internal_server_error: เกิดข้อผิดพลาดภายในเซิร์ฟเวอร์
+http.method_not_allowed: ไม่อนุญาตให้ใช้วิธีนี้
+http.not_found: ไม่พบ
+http.not_implemented: ยังไม่ได้ใช้งาน
+http.service_unavailable: บริการยังไม่พร้อมใช้งาน
+http.validation_error: ตรวจสอบความถูกต้องไม่ผ่าน
+invites_and_beta.invalid_or_already_used_beta_code: โค้ดเบต้าไม่ถูกต้องหรือถูกใช้แล้ว
+invites_and_beta.max_beta_codes_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {โค้ด} other {โค้ด}} เบต้าแล้ว
+invites_and_beta.unknown_beta_code: ไม่รู้จักโค้ดเบต้านี้
+invites_and_gifts.gift_code_already_redeemed: โค้ดของขวัญถูกแลกไปแล้ว
+invites_and_gifts.stripe_gift_redemption_in_progress: กำลังแลกโค้ดของขวัญอยู่ ลองใหม่อีกครั้งสักครู่
+invites_and_gifts.unknown_gift_code: ไม่รู้จักโค้ดของขวัญนี้
+invites_and_packs.emoji_requires_access: คุณใช้อีโมจินี้ไม่ได้ถ้าไม่มีสิทธิ์เข้าถึงเซิร์ฟเวอร์หรือแพ็กที่ติดตั้งไว้
+invites_and_packs.invalid_pack_type: ประเภทแพ็กไม่ถูกต้อง
+invites_and_packs.max_animated_emojis_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {อีโมจิแบบเคลื่อนไหว} other {อีโมจิแบบเคลื่อนไหว}} แล้ว
+invites_and_packs.max_emojis_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {อีโมจิ} other {อีโมจิ}} แล้ว
+invites_and_packs.max_pack_expressions_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {expression} other {expression}} ของแพ็กแล้ว
+invites_and_packs.max_packs_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {แพ็ก} other {แพ็ก}} แล้ว
+invites_and_packs.pack_access_denied: ถูกปฏิเสธการเข้าถึงแพ็ก
+limits.at_least_one_entry_required: ต้องมีอย่างน้อย 1 รายการ
+limits.base64_length_invalid: สตริง Base64 ต้องยาวระหว่าง {min} ถึง {maxLength} ตัวอักษร
+limits.bucket_required: ต้องระบุ `bucket`
+limits.cannot_shrink_reserved_slots: ลดจำนวนสล็อตที่จองไว้ไม่ได้
+limits.cannot_specify_before_and_after: ห้ามระบุทั้ง `before` และ `after` พร้อมกัน
+limits.content_exceeds_max_length: ข้อความต้องไม่ยาวเกิน {maxLength} {maxLength, plural, one {ตัวอักษร} other {ตัวอักษร}}
+limits.integer_out_of_int64_range: ค่าจำนวนเต็มอยู่นอกช่วงที่ถูกต้องของ int64
+limits.rows_required: ต้องระบุ `rows`
+limits.string_length_exact: สตริงต้องยาวเท่ากับ {length} ตัวอักษรพอดี
+limits.string_length_invalid: ความยาวสตริงต้องอยู่ระหว่าง {min} ถึง {max} ตัวอักษร
+limits.value_must_be_integer_in_range: ค่าของ `{name}` ต้องเป็นจำนวนเต็มระหว่าง {minValue} ถึง {maxValue}
+limits.value_too_small: ค่าน้อยเกินไป
+limits.timeout_cannot_exceed_365_days: ไม่สามารถตั้งหมดเวลาเกิน {maxDays} {maxDays, plural, one {วัน} other {วัน}} นับจากตอนนี้ได้
+media_and_memes.favorite_meme_name_required: ต้องระบุชื่อมีมโปรด
+media_and_memes.favorite_meme_not_found: ไม่พบมีมโปรด
+media_and_memes.max_favorite_memes_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {มีม} other {มีม}} โปรดแล้ว
+media_and_memes.media_already_in_favorites: สื่อนี้อยู่ในมีมโปรดของคุณแล้ว
+media_and_memes.media_metadata_error: เกิดข้อผิดพลาดกับ metadata ของสื่อ
+media_and_memes.unknown_favorite_meme: ไม่รู้จักมีมโปรดนี้
+messages.cannot_edit_others_message: แก้ไขข้อความของคนอื่นไม่ได้
+messages.cannot_preload_more_than_100_channels: คุณเตรียมโหลดล่วงหน้าได้สูงสุด {max} {max, plural, one {ช่อง} other {ช่อง}} พร้อมกันในครั้งเดียว
+messages.cannot_reply_to_system_message: ตอบกลับข้อความของระบบไม่ได้
+messages.cannot_delete_more_than_100: คุณลบข้อความได้สูงสุด {max} {max, plural, one {ข้อความ} other {ข้อความ}} พร้อมกันในครั้งเดียว
+messages.cannot_send_empty_message: ส่งข้อความว่างไม่ได้
+messages.forward_messages_cannot_include_extra_content: ข้อความที่ส่งต่อห้ามมีเนื้อหาเพิ่มเติม, embed, ไฟล์แนบ หรือสติกเกอร์
+messages.forward_reference_requires_channel_and_message: การอ้างอิงข้อความที่ส่งต่อ ต้องมี `channel_id` และ `message_id`
+messages.invalid_message_data: ข้อมูลข้อความไม่ถูกต้อง
+messages.invalid_scheduled_message_payload: payload ของข้อความที่ตั้งส่งไม่ถูกต้อง
+messages.message_ids_cannot_be_empty: '`message_ids` ห้ามว่าง'
+messages.messages_array_required: ต้องมีอาร์เรย์ `messages` และห้ามว่าง
+messages.messages_with_snapshots_cannot_be_edited: ข้อความที่มี snapshot แก้ไขไม่ได้
+messages.scheduled_send_datetime_invalid: วันที่หรือเวลาสำหรับการส่งตามกำหนดไม่ถูกต้อง
+messages.scheduled_messages_max_30_days: ข้อความที่ตั้งส่งได้อย่างน้อย 30 วันในอนาคต
+messages.scheduled_time_must_be_future: เวลาที่ตั้งส่งต้องอยู่ในอนาคต
+messages.voice_messages_attachment_must_be_audio: ไฟล์แนบของข้อความเสียงต้องเป็นไฟล์เสียง
+messages.voice_messages_cannot_have_content: ข้อความเสียงไม่สามารถมีเนื้อหาข้อความได้
+messages.voice_messages_cannot_have_embeds: ข้อความเสียงไม่สามารถมี embed ได้
+messages.voice_messages_cannot_have_favorite_memes: ข้อความเสียงไม่สามารถมีมีมโปรดได้
+messages.voice_messages_cannot_have_stickers: ข้อความเสียงไม่สามารถมีสติกเกอร์ได้
+mfa_and_passkeys.invalid_mfa_code: โค้ด MFA ไม่ถูกต้อง
+mfa_and_passkeys.invalid_webauthn_authentication_counter: ตัวนับการยืนยันตัวตน WebAuthn ไม่ถูกต้อง
+mfa_and_passkeys.invalid_webauthn_credential_counter: ตัวนับข้อมูลรับรอง WebAuthn ไม่ถูกต้อง
+mfa_and_passkeys.invalid_webauthn_credential: ข้อมูลรับรอง WebAuthn ไม่ถูกต้อง
+mfa_and_passkeys.invalid_webauthn_public_key_format: รูปแบบ public key ของ WebAuthn ไม่ถูกต้อง
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: คุณต้องเปิดใช้ 2FA ในบัญชีของคุณก่อนถึงจะบังคับใช้ 2FA สำหรับผู้ดูแลได้
+mfa_and_passkeys.no_passkeys_registered: ยังไม่มี passkey ที่ลงทะเบียนไว้
+mfa_and_passkeys.passkey_authentication_failed: ยืนยันตัวตนด้วย passkey ไม่สำเร็จ
+mfa_and_passkeys.passkeys_disabled: ปิดใช้งาน passkey อยู่
+mfa_and_passkeys.two_factor_not_enabled: ยังไม่ได้เปิดใช้การยืนยันตัวตนสองขั้นตอน
+mfa_and_passkeys.two_factor_required: ต้องใช้การยืนยันตัวตนสองขั้นตอน
+mfa_and_passkeys.unknown_webauthn_credential: ไม่รู้จักข้อมูลรับรอง WebAuthn นี้
+mfa_and_passkeys.webauthn_credential_limit_reached: ถึงขีดจำกัด {count} {count, plural, one {ข้อมูลรับรอง} other {ข้อมูลรับรอง}} WebAuthn แล้ว
+misc_limits.max_bookmarks_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {บุ๊กมาร์ก} other {บุ๊กมาร์ก}} แล้ว
+misc_limits.max_category_channels_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {ช่อง} other {ช่อง}} ในหมวดหมู่แล้ว
+misc_limits.max_friends_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {เพื่อน} other {เพื่อน}} แล้ว
+misc_limits.max_invites_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {คำเชิญ} other {คำเชิญ}} แล้ว
+misc_limits.max_pins_per_channel_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {ปักหมุด} other {ปักหมุด}} ต่อช่องแล้ว
+misc.cannot_send_messages_in_non_text_channel: ส่งข้อความในช่องที่ไม่ใช่ช่องข้อความไม่ได้
+misc.cannot_send_messages_in_this_guild_without_email_verification: คุณต้องยืนยันอีเมลก่อนถึงจะส่งข้อความในเซิร์ฟเวอร์นี้ได้
+misc.invalid_job_id: job ID ไม่ถูกต้อง
+misc.invalid_permissions_integer: permissions ต้องเป็นจำนวนเต็มที่ถูกต้อง
+misc.invalid_permissions_negative: permissions ต้องไม่เป็นค่าติดลบ
+misc.invalid_request_generic: คำขอไม่ถูกต้อง
+misc.invalid_snowflake: snowflake ไม่ถูกต้อง
+misc.job_already_processed: job นี้ถูกประมวลผลแล้ว
+misc.job_id_required: ต้องระบุ job ID
+misc.job_not_found: ไม่พบ job
+misc.max_files_exceeded: มีไฟล์มากเกินไป อนุญาตสูงสุด {maxFiles} {maxFiles, plural, one {ไฟล์} other {ไฟล์}}
+misc.must_have_bot_to_mark_system_user: ผู้ใช้ต้องเป็นบอตถึงจะทำเครื่องหมายเป็น system user ได้
+moderation_and_reports.cannot_report_own_message: คุณรายงานข้อความของตัวเองไม่ได้
+moderation_and_reports.cannot_report_yourself: คุณรายงานตัวเองไม่ได้
+moderation_and_reports.invalid_dsa_report_target: เป้าหมายรายงาน DSA ไม่ถูกต้อง
+moderation_and_reports.invalid_dsa_ticket: ตั๋ว DSA ไม่ถูกต้อง
+moderation_and_reports.invalid_dsa_verification_code: โค้ดยืนยัน DSA ไม่ถูกต้อง
+moderation_and_reports.report_already_resolved: รายงานนี้ถูกจัดการแล้ว
+moderation_and_reports.report_banned: การรายงานถูกแบน
+moderation_and_reports.unknown_report: ไม่รู้จักรายงานนี้
+moderation_and_reports.user_is_not_banned: ผู้ใช้นี้ไม่ได้ถูกแบน
+names_and_normalization.channel_name_empty_after_normalization: ชื่อช่องห้ามว่างหลังจาก normalization
+names_and_normalization.name_empty_after_normalization: ชื่อห้ามว่างหลังจาก normalization
+permissions.missing_access: ไม่มีสิทธิ์เข้าถึง
+permissions.missing_permissions: สิทธิ์ไม่พอ
+permissions.not_owner_of_admin_api_key: คุณไม่มีสิทธิ์แก้ไข admin API key นี้
+permissions.user_banned_from_guild: ผู้ใช้นี้ถูกแบนจากเซิร์ฟเวอร์นี้
+permissions.user_ip_banned_from_guild: IP ของผู้ใช้นี้ถูกแบนจากเซิร์ฟเวอร์นี้
+permissions.user_not_in_channel: ผู้ใช้นี้ไม่ได้อยู่ในช่องนี้
+permissions.user_not_in_voice: ผู้ใช้นี้ไม่ได้อยู่ในห้องเสียง
+permissions.user_owns_guilds: ผู้ใช้นี้เป็นเจ้าของเซิร์ฟเวอร์อยู่
+phone.invalid_number: เบอร์โทรไม่ถูกต้อง
+phone.number_already_used: เบอร์โทรนี้ถูกใช้อยู่แล้ว
+phone.number_format_required: เบอร์โทรต้องเป็นรูปแบบ E.164 (เช่น +1234567890)
+phone.phone_required_for_sms_mfa: ต้องมีเบอร์โทรเพื่อใช้ MFA ผ่าน SMS
+phone.sms_mfa_not_enabled: ยังไม่ได้เปิดใช้ MFA ผ่าน SMS
+phone.sms_mfa_requires_totp: MFA ผ่าน SMS ต้องใช้ TOTP
+phone.sms_verification_unavailable: การยืนยันผ่าน SMS ใช้งานไม่ได้ชั่วคราว ลองใหม่อีกครั้งภายหลัง
+phone.verification_code_invalid: โค้ดยืนยันเบอร์โทรไม่ถูกต้อง
+phone.verification_required: ต้องยืนยันเบอร์โทร
+premium_and_plans.animated_avatars_require_premium: อวาตาร์แบบเคลื่อนไหวต้องใช้ Premium
+premium_and_plans.banners_require_premium: แบนเนอร์ต้องใช้ Premium
+premium_and_plans.bio_requires_premium_for_length: ไบโอที่ยาวกว่า {maxLength} ตัวอักษรต้องใช้ Premium
+premium_and_plans.cannot_redeem_plutonium_with_visionary: คุณแลก Plutonium ด้วย Visionary ไม่ได้
+premium_and_plans.custom_emojis_outside_source_require_premium: คุณใช้อีโมจิแบบกำหนดเองนอกเซิร์ฟเวอร์ต้นทางไม่ได้ ถ้าไม่มี Premium
+premium_and_plans.custom_stickers_in_dms_require_premium: คุณใช้สติกเกอร์แบบกำหนดเองใน DM ไม่ได้ ถ้าไม่มี Premium
+premium_and_plans.custom_stickers_outside_source_require_premium: คุณใช้สติกเกอร์แบบกำหนดเองนอกเซิร์ฟเวอร์ต้นทางไม่ได้ ถ้าไม่มี Premium
+premium_and_plans.discriminator_change_requires_premium: การเปลี่ยน discriminator ต้องใช้ Premium
+premium_and_plans.no_active_subscription: ไม่มีการสมัครสมาชิกที่ใช้งานอยู่
+premium_and_plans.no_visionary_slots_available: ไม่มีสล็อต Visionary ว่าง
+premium_and_plans.premium_required_for_custom_emoji: ต้องใช้ Premium เพื่อใช้อีโมจิแบบกำหนดเอง
+premium_and_plans.visionary_required_for_bot_discriminator: คุณต้องอยู่บนแพลน Visionary แบบตลอดชีพถึงจะปรับแต่ง discriminator ของบอตได้
+premium_and_plans.visionary_required_for_discriminator: คุณต้องอยู่บนแพลน Visionary แบบตลอดชีพถึงจะใช้ discriminator นั้นได้
+rate_limits.accent_color_changed_too_often: คุณเปลี่ยนสี accent บ่อยเกินไปเมื่อไม่นานมานี้ ลองใหม่อีกครั้งในอีก {minutes} {minutes, plural, one {นาที} other {นาที}}.
+rate_limits.avatar_changed_too_often: คุณเปลี่ยนอวาตาร์บ่อยเกินไปเมื่อไม่นานมานี้ ลองใหม่อีกครั้งในอีก {minutes} {minutes, plural, one {นาที} other {นาที}}.
+rate_limits.banner_changed_too_often: คุณเปลี่ยนแบนเนอร์บ่อยเกินไปเมื่อไม่นานมานี้ ลองใหม่อีกครั้งในอีก {minutes} {minutes, plural, one {นาที} other {นาที}}.
+rate_limits.bio_changed_too_often: คุณเปลี่ยนไบโอบ่อยเกินไปเมื่อไม่นานมานี้ ลองใหม่อีกครั้งในอีก {minutes} {minutes, plural, one {นาที} other {นาที}}.
+rate_limits.ip_authorization_resend_cooldown: การส่งยืนยัน IP ซ้ำกำลังคูลดาวน์อยู่
+rate_limits.ip_authorization_resend_limit_exceeded: เกินขีดจำกัดการส่งยืนยัน IP ซ้ำแล้ว
+rate_limits.phone_rate_limit_exceeded: เกินขีดจำกัดการใช้งานผ่านเบอร์โทรแล้ว
+rate_limits.pronouns_changed_too_often: คุณเปลี่ยนสรรพนามบ่อยเกินไปเมื่อไม่นานมานี้ ลองใหม่อีกครั้งในอีก {minutes} {minutes, plural, one {นาที} other {นาที}}.
+rate_limits.rate_limited: ตอนนี้ระบบกำลังจำกัดความถี่การใช้งานของคุณอยู่
+rate_limits.slowmode_rate_limited: โหมดช้ากำลังจำกัดความถี่การใช้งานอยู่
+rate_limits.username_changed_too_often: คุณเปลี่ยนชื่อผู้ใช้บ่อยเกินไปเมื่อไม่นานมานี้ ลองใหม่อีกครั้งในอีก {minutes} {minutes, plural, one {นาที} other {นาที}}.
+roles.cannot_reorder_everyone_role: จัดลำดับบทบาท @everyone ใหม่ไม่ได้
+roles.cannot_set_everyone_hoist: ตั้งค่า hoist ให้บทบาท @everyone ไม่ได้
+roles.cannot_use_same_role_as_preceding: ใช้บทบาทเดียวกับบทบาทก่อนหน้าไม่ได้
+roles.invalid_role_id: 'ไอดีบทบาทไม่ถูกต้อง: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: ใช้ `parse` ร่วมกับ `allowed_mentions.users` หรือ `allowed_mentions.roles` ไม่ได้
+roles.preceding_role_not_in_guild: บทบาทก่อนหน้าไม่ได้อยู่ในเซิร์ฟเวอร์นี้
+stickers_and_emojis.custom_emoji_not_found: ไม่พบอีโมจิแบบกำหนดเอง
+stickers_and_emojis.custom_sticker_not_found: ไม่พบสติกเกอร์แบบกำหนดเอง
+stickers_and_emojis.emoji_requires_guild_or_pack_access: คุณใช้อีโมจินี้ไม่ได้ถ้าไม่มีสิทธิ์เข้าถึงเซิร์ฟเวอร์หรือแพ็กที่ติดตั้งไว้
+stickers_and_emojis.max_reactions_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {รีแอคชัน} other {รีแอคชัน}} แล้ว
+stickers_and_emojis.max_stickers_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {สติกเกอร์} other {สติกเกอร์}} แล้ว
+stickers_and_emojis.not_valid_unicode_emoji: ไม่ใช่อีโมจิ Unicode ที่ถูกต้อง
+stickers_and_emojis.unknown_emoji: ไม่รู้จักอีโมจินี้
+stickers_and_emojis.unknown_sticker: ไม่รู้จักสติกเกอร์นี้
+stripe.error: เกิดข้อผิดพลาดกับ Stripe
+stripe.invalid_product_configuration: การตั้งค่าสินค้าไม่ถูกต้อง
+stripe.invalid_product_selection: การเลือกสินค้าไม่ถูกต้อง
+stripe.no_active_subscription_found: ไม่พบการสมัครสมาชิกที่ใช้งานอยู่
+stripe.no_purchase_history_customer_portal_unavailable: ไม่พบประวัติการซื้อ จึงยังใช้ customer portal ไม่ได้
+stripe.no_subscription_found: ไม่พบการสมัครสมาชิก
+stripe.payment_not_available: การชำระเงินยังไม่พร้อมใช้งาน
+stripe.subscription_already_canceling: การสมัครสมาชิกถูกตั้งให้ยกเลิกเมื่อครบงวดอยู่แล้ว
+stripe.subscription_not_canceling: การสมัครสมาชิกไม่ได้ถูกตั้งให้ยกเลิก
+stripe.subscription_period_end_missing: ขาดค่า subscription current_period_end
+stripe.webhook_not_available: การประมวลผล webhook ยังไม่พร้อมใช้งาน
+stripe.webhook_signature_invalid: ลายเซ็น webhook ของ Stripe ไม่ถูกต้อง
+stripe.webhook_signature_missing: ขาดลายเซ็น webhook ของ Stripe
+tickets.ticket_already_completed: ตั๋วนี้ถูกทำเสร็จแล้ว
+tos_and_age.date_of_birth_format_invalid: รูปแบบวันเกิดไม่ถูกต้อง
+tos_and_age.must_agree_to_tos_and_privacy: คุณต้องยอมรับข้อกำหนดการให้บริการและนโยบายความเป็นส่วนตัว
+tos_and_age.must_be_minimum_age: คุณต้องอายุอย่างน้อย {minAge} {minAge, plural, one {ปี} other {ปี}} ถึงจะสร้างบัญชีได้
+unknown_entities.unknown_application: ไม่รู้จักแอปพลิเคชัน
+unknown_entities.unknown_channel: ไม่รู้จักช่องนี้
+unknown_entities.unknown_guild: ไม่รู้จักเซิร์ฟเวอร์นี้
+unknown_entities.unknown_invite: ไม่รู้จักคำเชิญนี้
+unknown_entities.unknown_member: ไม่รู้จักสมาชิกนี้
+unknown_entities.unknown_message: ไม่รู้จักข้อความนี้
+unknown_entities.unknown_pack: ไม่รู้จักแพ็กนี้
+unknown_entities.unknown_role: ไม่รู้จักบทบาทนี้
+unknown_entities.unknown_user_flag: ไม่รู้จัก user flag นี้
+unknown_entities.unknown_user: ไม่รู้จักผู้ใช้นี้
+urls.invalid_url_format: รูปแบบ URL ไม่ถูกต้อง
+urls.invalid_url_or_attachment_reference: รูปแบบ URL ไม่ถูกต้องหรือการอ้างอิงไฟล์แนบไม่ถูกต้อง
+urls.url_length_invalid: URL ต้องยาวระหว่าง {min} ถึง {max} ตัวอักษร
+usernames_and_tags.discriminator_invalid_format: discriminator ต้องเป็น {min}–{max} หลัก
+usernames_and_tags.discriminator_out_of_range: discriminator ต้องอยู่ระหว่าง {min} และ {max}
+usernames_and_tags.discriminator_required: ต้องระบุ discriminator
+usernames_and_tags.display_name_length_invalid: ชื่อที่แสดงต้องยาวระหว่าง {min} ถึง {max} ตัวอักษร
+usernames_and_tags.display_name_reserved_terms: ชื่อที่แสดงห้ามมีคำว่า "system message"
+usernames_and_tags.display_name_reserved_value: ชื่อที่แสดงห้ามเป็น "everyone" หรือ "here"
+usernames_and_tags.global_name_length_invalid: ชื่อสากลต้องยาวระหว่าง {min} ถึง {max} ตัวอักษร
+usernames_and_tags.global_name_reserved_value: ชื่อสากลห้ามเป็น "everyone" หรือ "here"
+usernames_and_tags.tag_already_taken: แท็กนี้ถูกใช้ไปแล้ว
+usernames_and_tags.too_many_users_with_this_username: มีผู้ใช้ชื่อผู้ใช้นี้เยอะเกินไป
+usernames_and_tags.too_many_users_with_username_try_different: มีผู้ใช้ชื่อผู้ใช้นี้เยอะเกินไป ลองเปลี่ยนชื่อผู้ใช้อื่นดู
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: บัญชีที่ยังไม่ยืนยันตัวตนสามารถตั้งค่าอีเมลผ่านโทเคนเท่านั้น
+usernames_and_tags.username_invalid_characters: ชื่อผู้ใช้ใช้ได้เฉพาะตัวอักษรละติน (a-z, A-Z), ตัวเลข (0-9) และขีดล่าง (_)
+usernames_and_tags.username_length_invalid: ชื่อผู้ใช้ต้องยาวระหว่าง {min} ถึง {max} ตัวอักษร
+usernames_and_tags.username_not_available: ชื่อผู้ใช้นี้ยังไม่พร้อมใช้งาน
+usernames_and_tags.username_reserved_terms: ชื่อผู้ใช้ห้ามมีคำว่า "fluxer" หรือ "system message"
+usernames_and_tags.username_reserved_value: ชื่อผู้ใช้ห้ามเป็น "everyone" หรือ "here"
+vanity_urls.vanity_url_already_taken: vanity URL นี้ถูกใช้ไปแล้ว
+vanity_urls.vanity_url_code_already_taken: โค้ด vanity URL นี้ถูกใช้ไปแล้ว
+vanity_urls.vanity_url_code_cannot_contain_fluxer: โค้ด vanity URL ห้ามมีคำว่า "fluxer"
+vanity_urls.vanity_url_code_length_invalid: โค้ด vanity URL ต้องยาวระหว่าง {min} ถึง {max} ตัวอักษร
+vanity_urls.vanity_url_invalid_characters: vanity URL ใช้ได้เฉพาะตัวอักษรพิมพ์เล็ก (a-z), ตัวเลข (0-9) และขีดกลาง (-)
+webhooks.cannot_modify_system_webhook: แก้ไข system webhook ไม่ได้
+webhooks.max_webhooks_per_channel_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {webhook} other {webhook}} ต่อช่องแล้ว
+webhooks.max_webhooks_per_guild_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {webhook} other {webhook}} ต่อเซิร์ฟเวอร์แล้ว
+webhooks.max_webhooks_reached: ถึงจำนวนสูงสุด {count} {count, plural, one {webhook} other {webhook}} แล้ว
+webhooks.unknown_webhook: ไม่รู้จัก webhook นี้
+webhooks.webhook_name_length_invalid: ชื่อ webhook ต้องยาวระหว่าง {min} ถึง {max} ตัวอักษร

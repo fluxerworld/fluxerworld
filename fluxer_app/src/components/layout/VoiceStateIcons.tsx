@@ -17,12 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/layout/VoiceStateIcons.module.css';
+import {LiveBadge} from '@app/components/uikit/LiveBadge';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
 import {useLingui} from '@lingui/react/macro';
 import {MicrophoneSlashIcon, SpeakerSlashIcon, VideoCameraIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import styles from './VoiceStateIcons.module.css';
 
 interface Props {
 	isSelfMuted: boolean;
@@ -39,11 +40,6 @@ export const VoiceStateIcons = observer(
 		const {t} = useLingui();
 		return (
 			<div className={clsx(styles.container, className)}>
-				{isScreenSharing && (
-					<Tooltip text={t`Screen Sharing`}>
-						<span className={styles.liveBadge}>{t`Live`}</span>
-					</Tooltip>
-				)}
 				{isCameraOn && (
 					<Tooltip text={t`Camera On`}>
 						<VideoCameraIcon weight="fill" className={clsx(styles.icon, styles.iconMuted)} />
@@ -65,6 +61,7 @@ export const VoiceStateIcons = observer(
 						/>
 					</Tooltip>
 				)}
+				{isScreenSharing && <LiveBadge />}
 			</div>
 		);
 	},

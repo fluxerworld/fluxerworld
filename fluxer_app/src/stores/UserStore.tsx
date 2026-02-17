@@ -17,10 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {openClaimAccountModal} from '@app/components/modals/ClaimAccountModal';
+import {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import type {User, UserPrivate} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 import {action, makeAutoObservable, reaction, runInAction} from 'mobx';
-import {openClaimAccountModal} from '~/components/modals/ClaimAccountModal';
-import {type User, type UserPrivate, UserRecord} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
 
 class UserStore {
 	users: Record<string, UserRecord> = {};
@@ -77,9 +78,9 @@ class UserStore {
 	}
 
 	@action
-	handleUserUpdate(user: User): void {
+	handleUserUpdate(user: User, options?: {clearMissingOptionalFields?: boolean}): void {
 		const existingUser = this.users[user.id];
-		const updatedUser = existingUser ? existingUser.withUpdates(user) : new UserRecord(user);
+		const updatedUser = existingUser ? existingUser.withUpdates(user, options) : new UserRecord(user);
 		this.users = {
 			...this.users,
 			[user.id]: updatedUser,

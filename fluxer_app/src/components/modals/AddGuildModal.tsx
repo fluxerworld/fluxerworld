@@ -17,34 +17,33 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as GuildActionCreators from '@app/actions/GuildActionCreators';
+import * as InviteActionCreators from '@app/actions/InviteActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {ExternalLink} from '@app/components/common/ExternalLink';
+import {Form} from '@app/components/form/Form';
+import {Input} from '@app/components/form/Input';
+import styles from '@app/components/modals/AddGuildModal.module.css';
+import {AssetCropModal, AssetType} from '@app/components/modals/AssetCropModal';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {useFormSubmit} from '@app/hooks/useFormSubmit';
+import {Routes} from '@app/Routes';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import {isAnimatedFile} from '@app/utils/AnimatedImageUtils';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {openFilePicker} from '@app/utils/FilePickerUtils';
+import {getInitialsLength} from '@app/utils/GuildInitialsUtils';
+import * as InviteUtils from '@app/utils/InviteUtils';
+import * as StringUtils from '@app/utils/StringUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {HouseIcon, LinkIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React, {useState} from 'react';
+import React, {useCallback, useContext, useEffect, useId, useMemo, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import * as GuildActionCreators from '~/actions/GuildActionCreators';
-import * as InviteActionCreators from '~/actions/InviteActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {ExternalLink} from '~/components/common/ExternalLink';
-import {Form} from '~/components/form/Form';
-import {Input} from '~/components/form/Input';
-import styles from '~/components/modals/AddGuildModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {useFormSubmit} from '~/hooks/useFormSubmit';
-import {Routes} from '~/Routes';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import {openFilePicker} from '~/utils/FilePickerUtils';
-import {getInitialsLength} from '~/utils/GuildInitialsUtils';
-import * as InviteUtils from '~/utils/InviteUtils';
-import * as RouterUtils from '~/utils/RouterUtils';
-import * as StringUtils from '~/utils/StringUtils';
-import {AssetCropModal, AssetType} from './AssetCropModal';
-
-export type AddGuildModalView = 'landing' | 'create_guild' | 'join_guild';
 
 interface GuildCreateFormInputs {
 	icon?: string | null;
@@ -58,6 +57,8 @@ interface GuildJoinFormInputs {
 interface ModalFooterContextValue {
 	setFooterContent: (content: React.ReactNode) => void;
 }
+
+export type AddGuildModalView = 'landing' | 'create_guild' | 'join_guild';
 
 const ModalFooterContext = React.createContext<ModalFooterContextValue | null>(null);
 
@@ -73,7 +74,7 @@ export const AddGuildModal = observer(({initialView = 'landing'}: {initialView?:
 	const [view, setView] = useState<AddGuildModalView>(initialView);
 	const [footerContent, setFooterContent] = useState<React.ReactNode>(null);
 
-	const getTitle = () => {
+	const getTitle = (): string => {
 		switch (view) {
 			case 'landing':
 				return t`Add a Community`;
@@ -81,10 +82,12 @@ export const AddGuildModal = observer(({initialView = 'landing'}: {initialView?:
 				return t`Create a Community`;
 			case 'join_guild':
 				return t`Join a Community`;
+			default:
+				return t`Add a Community`;
 		}
 	};
 
-	const contextValue = React.useMemo(
+	const contextValue = useMemo(
 		() => ({
 			setFooterContent,
 		}),
@@ -96,7 +99,7 @@ export const AddGuildModal = observer(({initialView = 'landing'}: {initialView?:
 			<Modal.Root size="small" centered>
 				<Modal.Header title={getTitle()} />
 
-				<Modal.Content className={styles.content}>
+				<Modal.Content contentClassName={styles.content}>
 					{view === 'landing' && <LandingView onViewChange={setView} />}
 					{view === 'create_guild' && <GuildCreateForm />}
 					{view === 'join_guild' && <GuildJoinForm />}
@@ -125,7 +128,7 @@ const LandingView = observer(({onViewChange}: {onViewChange: (view: AddGuildModa
 				/>
 				<ActionButton
 					onClick={() => onViewChange('join_guild')}
-					icon={<LinkIcon size={24} weight="regular" />}
+					icon={<LinkIcon size={24} weight="bold" />}
 					label={t`Join Community`}
 				/>
 			</div>
@@ -135,12 +138,11 @@ const LandingView = observer(({onViewChange}: {onViewChange: (view: AddGuildModa
 
 const GuildCreateForm = observer(() => {
 	const {t} = useLingui();
-	const [previewIconUrl, setPreviewIconUrl] = React.useState<string | null>(null);
+	const [previewIconUrl, setPreviewIconUrl] = useState<string | null>(null);
 	const form = useForm<GuildCreateFormInputs>({defaultValues: {name: ''}});
-	const modalFooterContext = React.useContext(ModalFooterContext);
-	const formId = React.useId();
-
-	const guildNamePlaceholders = React.useMemo(
+	const modalFooterContext = useContext(ModalFooterContext);
+	const formId = useId();
+	const guildNamePlaceholders = useMemo(
 		() => [
 			t`The Midnight Gamers`,
 			t`Study Buddies United`,
@@ -175,7 +177,7 @@ const GuildCreateForm = observer(() => {
 			t`Art Club`,
 			t`Book Club`,
 			t`Sports Fans`,
-			t`Gaming Guild`,
+			t`Gaming Community`,
 			t`Study Group`,
 			t`Work Friends`,
 			t`Family Chat`,
@@ -186,22 +188,22 @@ const GuildCreateForm = observer(() => {
 		[],
 	);
 
-	const randomPlaceholder = React.useMemo(() => {
+	const randomPlaceholder = useMemo(() => {
 		const randomIndex = Math.floor(Math.random() * guildNamePlaceholders.length);
 		return guildNamePlaceholders[randomIndex];
 	}, [guildNamePlaceholders]);
 
 	const nameValue = form.watch('name');
 
-	const initials = React.useMemo(() => {
+	const initials = useMemo(() => {
 		const raw = (nameValue || '').trim();
 		if (!raw) return '';
 		return StringUtils.getInitialsFromName(raw);
 	}, [nameValue]);
 
-	const initialsLength = React.useMemo(() => (initials ? getInitialsLength(initials) : null), [initials]);
+	const initialsLength = useMemo(() => (initials ? getInitialsLength(initials) : null), [initials]);
 
-	const handleIconUpload = React.useCallback(async () => {
+	const handleIconUpload = useCallback(async () => {
 		try {
 			const [file] = await openFilePicker({accept: 'image/*'});
 			if (!file) return;
@@ -214,7 +216,9 @@ const GuildCreateForm = observer(() => {
 				return;
 			}
 
-			if (file.type === 'image/gif') {
+			const animated = await isAnimatedFile(file);
+
+			if (animated) {
 				ToastActionCreators.createToast({
 					type: 'error',
 					children: t`Animated icons are not supported when creating a new community. Please use JPEG, PNG, or WebP.`,
@@ -262,13 +266,13 @@ const GuildCreateForm = observer(() => {
 		}
 	}, [form]);
 
-	const onSubmit = React.useCallback(async (data: GuildCreateFormInputs) => {
+	const onSubmit = useCallback(async (data: GuildCreateFormInputs) => {
 		const guild = await GuildActionCreators.create({
 			icon: data.icon,
 			name: data.name,
 		});
 		ModalActionCreators.pop();
-		RouterUtils.transitionTo(Routes.guildChannel(guild.id, guild.system_channel_id || undefined));
+		NavigationActionCreators.selectChannel(guild.id, guild.system_channel_id || undefined);
 	}, []);
 
 	const {handleSubmit, isSubmitting} = useFormSubmit({
@@ -277,7 +281,7 @@ const GuildCreateForm = observer(() => {
 		defaultErrorField: 'name',
 	});
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const isNameEmpty = !nameValue?.trim();
 
 		modalFooterContext?.setFooterContent(
@@ -294,7 +298,7 @@ const GuildCreateForm = observer(() => {
 		return () => modalFooterContext?.setFooterContent(null);
 	}, [handleSubmit, isSubmitting, modalFooterContext, nameValue]);
 
-	const handleClearIcon = React.useCallback(() => {
+	const handleClearIcon = useCallback(() => {
 		form.setValue('icon', null);
 		setPreviewIconUrl(null);
 	}, [form]);
@@ -355,7 +359,10 @@ const GuildCreateForm = observer(() => {
 					<p className={styles.guidelines}>
 						<Trans>
 							By creating a community, you agree to follow and uphold the{' '}
-							<ExternalLink href={Routes.guidelines()}>Fluxer Community Guidelines</ExternalLink>.
+							<ExternalLink href={Routes.guidelines()} className={styles.guidelinesLink}>
+								Fluxer Community Guidelines
+							</ExternalLink>
+							.
 						</Trans>
 					</p>
 				</div>
@@ -367,10 +374,9 @@ const GuildCreateForm = observer(() => {
 const GuildJoinForm = observer(() => {
 	const {t, i18n} = useLingui();
 	const form = useForm<GuildJoinFormInputs>({defaultValues: {code: ''}});
-	const modalFooterContext = React.useContext(ModalFooterContext);
-	const formId = React.useId();
-
-	const randomInviteCode = React.useMemo(() => {
+	const modalFooterContext = useContext(ModalFooterContext);
+	const formId = useId();
+	const randomInviteCode = useMemo(() => {
 		const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
 		const length = Math.floor(Math.random() * 7) + 6;
 		let result = '';
@@ -380,7 +386,7 @@ const GuildJoinForm = observer(() => {
 		return result;
 	}, []);
 
-	const onSubmit = React.useCallback(
+	const onSubmit = useCallback(
 		async (data: GuildJoinFormInputs) => {
 			const parsedCode = InviteUtils.findInvite(data.code) ?? data.code;
 			const invite = await InviteActionCreators.fetch(parsedCode);
@@ -398,7 +404,7 @@ const GuildJoinForm = observer(() => {
 
 	const codeValue = form.watch('code');
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const isCodeEmpty = !codeValue?.trim();
 
 		modalFooterContext?.setFooterContent(

@@ -17,17 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {UserData} from '@app/lib/AccountStorage';
+import SessionManager, {type Account, SessionExpiredError} from '@app/lib/SessionManager';
+import {Routes} from '@app/Routes';
+import * as PushSubscriptionService from '@app/services/push/PushSubscriptionService';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import * as NotificationUtils from '@app/utils/NotificationUtils';
+import {isInstalledPwa} from '@app/utils/PwaUtils';
+import * as RouterUtils from '@app/utils/RouterUtils';
 import {computed, makeAutoObservable} from 'mobx';
-import type {UserData} from '~/lib/AccountStorage';
-import SessionManager, {type Account, SessionExpiredError} from '~/lib/SessionManager';
-import {Routes} from '~/Routes';
-import * as PushSubscriptionService from '~/services/push/PushSubscriptionService';
-import ConnectionStore from '~/stores/ConnectionStore';
-import * as NotificationUtils from '~/utils/NotificationUtils';
-import {isInstalledPwa} from '~/utils/PwaUtils';
-import * as RouterUtils from '~/utils/RouterUtils';
-
-export type AccountSummary = Account;
 
 class AccountManager {
 	constructor() {
@@ -53,7 +51,7 @@ class AccountManager {
 		return SessionManager.userId;
 	}
 
-	get accounts(): Map<string, AccountSummary> {
+	get accounts(): Map<string, Account> {
 		return new Map(SessionManager.accounts.map((a) => [a.userId, a]));
 	}
 
@@ -65,11 +63,11 @@ class AccountManager {
 		return SessionManager.isLoggingOut || SessionManager.isSwitching;
 	}
 
-	get currentAccount(): AccountSummary | null {
+	get currentAccount(): Account | null {
 		return SessionManager.currentAccount;
 	}
 
-	get orderedAccounts(): Array<AccountSummary> {
+	get orderedAccounts(): Array<Account> {
 		return SessionManager.accounts;
 	}
 
@@ -77,7 +75,7 @@ class AccountManager {
 		return SessionManager.canSwitchAccount();
 	}
 
-	getAllAccounts(): Array<AccountSummary> {
+	getAllAccounts(): Array<Account> {
 		return this.orderedAccounts;
 	}
 
@@ -116,7 +114,7 @@ class AccountManager {
 		}
 
 		await SessionManager.switchAccount(userId);
-		ConnectionStore.startSession(SessionManager.token ?? undefined);
+		GatewayConnectionStore.startSession(SessionManager.token ?? undefined);
 		RouterUtils.replaceWith(Routes.ME);
 
 		if (this.shouldManagePushSubscriptions()) {
@@ -130,7 +128,7 @@ class AccountManager {
 
 	async switchToNewAccount(userId: string, token: string, userData?: UserData, skipReload = false): Promise<void> {
 		await SessionManager.login(token, userId, userData);
-		ConnectionStore.startSession(token);
+		GatewayConnectionStore.startSession(token);
 		if (!skipReload) {
 			RouterUtils.replaceWith(Routes.ME);
 		}

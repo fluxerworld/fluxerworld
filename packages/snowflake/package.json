@@ -1,0 +1,28 @@
+{
+	"name": "@fluxer/snowflake",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./src/Snowflake.tsx",
+		"./src/*": "./src/*",
+		"./*": "./*"
+	},
+	"main": "./src/Snowflake.tsx",
+	"types": "./src/Snowflake.tsx",
+	"scripts": {
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@fluxer/constants": "workspace:*",
+		"itty-time": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@typescript/native-preview": "catalog:",
+		"vite-tsconfig-paths": "catalog:",
+		"vitest": "catalog:"
+	}
+}

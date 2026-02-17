@@ -1,0 +1,33 @@
+{
+	"name": "fluxer_desktop",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"main": "dist/main/index.js",
+	"scripts": {
+		"build": "node scripts/build.mjs",
+		"set-channel": "node scripts/set-build-channel.mjs",
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@electron-webauthn/native": "0.0.6",
+		"@simplewebauthn/browser": "13.2.2",
+		"electron-squirrel-startup": "1.0.1",
+		"electron-webauthn-mac": "1.0.0",
+		"node-mac-permissions": "2.5.0",
+		"update-electron-app": "3.1.2",
+		"ws": "8.19.0"
+	},
+	"devDependencies": {
+		"@types/ws": "8.18.1",
+		"@typescript/native-preview": "7.0.0-dev.20260130.1",
+		"electron": "40.0.0",
+		"electron-builder": "26.4.0",
+		"electron-builder-squirrel-windows": "26.4.0",
+		"esbuild": "0.27.2"
+	},
+	"optionalDependencies": {
+		"electron-log": "5.4.3",
+		"uiohook-napi": "1.5.4"
+	}
+}

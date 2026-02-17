@@ -17,23 +17,28 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {GroupDMAvatar} from '@app/components/common/GroupDMAvatar';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import {Button} from '@app/components/uikit/button/Button';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import {
+	INCOMING_CALL_OVERLAY_HEIGHT,
+	INCOMING_CALL_OVERLAY_WIDTH,
+} from '@app/components/voice/IncomingCallOverlayConstants';
+import styles from '@app/components/voice/IncomingCallUI.module.css';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import {isMobileExperienceEnabled} from '@app/utils/MobileExperience';
+import {getReducedMotionProps} from '@app/utils/ReducedMotionAnimation';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import {useLingui} from '@lingui/react/macro';
 import {PhoneIcon, PhoneIncomingIcon, XIcon} from '@phosphor-icons/react';
 import {motion} from 'framer-motion';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {ChannelTypes} from '~/Constants';
-import {GroupDMAvatar} from '~/components/common/GroupDMAvatar';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import {Button} from '~/components/uikit/Button/Button';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {UserRecord} from '~/records/UserRecord';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import {isMobileExperienceEnabled} from '~/utils/mobileExperience';
-import {INCOMING_CALL_OVERLAY_HEIGHT, INCOMING_CALL_OVERLAY_WIDTH} from './IncomingCallOverlayConstants';
-import styles from './IncomingCallUI.module.css';
 
 interface Position {
 	x: number;
@@ -54,6 +59,13 @@ interface DragListeners {
 	move: (event: PointerEvent) => void;
 	up: (event: PointerEvent) => void;
 }
+
+const CARD_MOTION = {
+	initial: {opacity: 0, scale: 0.985},
+	animate: {opacity: 1, scale: 1},
+	exit: {opacity: 0, scale: 0.985},
+	transition: {duration: 0.14, ease: 'easeOut' as const},
+};
 
 const DRAG_START_THRESHOLD = 6;
 const DRAG_START_THRESHOLD_SQ = DRAG_START_THRESHOLD ** 2;
@@ -343,10 +355,7 @@ export const IncomingCallUI: React.FC<IncomingCallUIProps> = observer(
 
 				<motion.div
 					className={styles.card}
-					initial={{opacity: 0, scale: 0.985}}
-					animate={{opacity: 1, scale: 1}}
-					exit={{opacity: 0, scale: 0.985}}
-					transition={{duration: 0.14, ease: 'easeOut'}}
+					{...getReducedMotionProps(CARD_MOTION, AccessibilityStore.useReducedMotion)}
 				>
 					<div className={styles.dragHandle} onPointerDown={handleDragHandlePointerDown} aria-hidden="true">
 						<div className={styles.dragPill} />

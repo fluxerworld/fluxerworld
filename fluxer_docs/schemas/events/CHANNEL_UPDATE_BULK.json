@@ -1,0 +1,18 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "CHANNEL_UPDATE_BULK",
+	"description": "Sent when multiple channels are updated (e.g. reordering).",
+	"scope": "guild",
+	"dispatchedBy": ["PATCH /guilds/:guild_id/channels"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channels": {
+				"type": "array",
+				"items": {"$ref": "ChannelResponse"},
+				"description": "Array of updated channels (filtered by user permissions)"
+			}
+		},
+		"required": ["channels"]
+	}
+}

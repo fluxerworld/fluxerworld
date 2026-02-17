@@ -89,11 +89,6 @@
 	width: 1rem;
 }
 
-.previewDivider {
-	border-bottom: 1px solid var(--background-header-secondary);
-	padding-bottom: 2rem;
-}
-
 .fullWidth {
 	width: 100%;
 }

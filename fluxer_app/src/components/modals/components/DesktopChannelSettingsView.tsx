@@ -17,32 +17,36 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
-import {ArrowLeftIcon, ArrowRightIcon, TrashIcon} from '@phosphor-icons/react';
-import {AnimatePresence, motion} from 'framer-motion';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ChannelTypes} from '~/Constants';
-import {ChannelDeleteModal} from '~/components/modals/ChannelDeleteModal';
-import {Button} from '~/components/uikit/Button/Button';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import SettingsSidebarStore from '~/stores/SettingsSidebarStore';
-import {SettingsModalHeader} from '../components/SettingsModalHeader';
-import styles from '../GuildSettingsModal.module.css';
-import {useUnsavedChangesFlash} from '../hooks/useUnsavedChangesFlash';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {ChannelDeleteModal} from '@app/components/modals/ChannelDeleteModal';
+import {SettingsModalHeader} from '@app/components/modals/components/SettingsModalHeader';
+import styles from '@app/components/modals/GuildSettingsModal.module.css';
+import {useUnsavedChangesFlash} from '@app/components/modals/hooks/useUnsavedChangesFlash';
 import {
 	SettingsModalDesktopContent,
 	SettingsModalDesktopScroll,
 	SettingsModalDesktopSidebar,
 	SettingsModalSidebarCategory,
 	SettingsModalSidebarCategoryTitle,
+	SettingsModalSidebarFooter,
 	SettingsModalSidebarItem,
 	SettingsModalSidebarNav,
-} from '../shared/SettingsModalLayout';
-import type {ChannelSettingsTab, ChannelSettingsTabType} from '../utils/channelSettingsConstants';
+} from '@app/components/modals/shared/SettingsModalLayout';
+import type {ChannelSettingsTab, ChannelSettingsTabType} from '@app/components/modals/utils/ChannelSettingsConstants';
+import {Button} from '@app/components/uikit/button/Button';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import SettingsSidebarStore from '@app/stores/SettingsSidebarStore';
+import {openMessageHistoryThresholdSettings} from '@app/utils/modals/guild_tabs/GuildOverviewTabUtils';
+import {ChannelTypes, Permissions} from '@fluxer/constants/src/ChannelConstants';
+import {useLingui} from '@lingui/react/macro';
+import {ArrowLeftIcon, ArrowRightIcon, TrashIcon} from '@phosphor-icons/react';
+import {AnimatePresence, motion} from 'framer-motion';
+import {observer} from 'mobx-react-lite';
+import type React from 'react';
+import {useCallback, useMemo, useRef} from 'react';
 
 interface DesktopChannelSettingsViewProps {
 	channel: ChannelRecord;
@@ -61,17 +65,15 @@ export const DesktopChannelSettingsView: React.FC<DesktopChannelSettingsViewProp
 		const {t} = useLingui();
 		const {showUnsavedBanner, flashBanner, tabData, checkUnsavedChanges} = useUnsavedChangesFlash(selectedTab);
 		const prefersReducedMotion = AccessibilityStore.useReducedMotion;
-		const contentRef = React.useRef<HTMLDivElement>(null);
-		const focusContentPanel = React.useCallback(() => {
+		const contentRef = useRef<HTMLDivElement>(null);
+		const focusContentPanel = useCallback(() => {
 			contentRef.current?.focus();
 		}, []);
 
-		const channelPermissionsOverrideOwnerId = React.useMemo(
-			() => `channel-permissions-${channel.id}`,
-			[channel.id],
-		);
+		const channelPermissionsOverrideOwnerId = useMemo(() => `channel-permissions-${channel.id}`, [channel.id]);
+		const canManageGuild = PermissionStore.can(Permissions.MANAGE_GUILD, {guildId: channel.guildId ?? ''});
 
-		const handleTabSelect = React.useCallback(
+		const handleTabSelect = useCallback(
 			(tabType: ChannelSettingsTabType) => {
 				if (checkUnsavedChanges()) return;
 				if (
@@ -86,12 +88,12 @@ export const DesktopChannelSettingsView: React.FC<DesktopChannelSettingsViewProp
 			[checkUnsavedChanges, onTabSelect, channelPermissionsOverrideOwnerId],
 		);
 
-		const handleDeleteChannel = React.useCallback(() => {
+		const handleDeleteChannel = useCallback(() => {
 			if (checkUnsavedChanges()) return;
 			ModalActionCreators.push(modal(() => <ChannelDeleteModal channelId={channel.id} />));
 		}, [channel.id, checkUnsavedChanges]);
 
-		const handleClose = React.useCallback(() => {
+		const handleClose = useCallback(() => {
 			if (checkUnsavedChanges()) return;
 			ModalActionCreators.pop();
 		}, [checkUnsavedChanges]);
@@ -100,13 +102,13 @@ export const DesktopChannelSettingsView: React.FC<DesktopChannelSettingsViewProp
 		const useOverride = SettingsSidebarStore.useOverride;
 		const activeTabPanelId = selectedTab ? `channel-settings-tabpanel-${selectedTab}` : undefined;
 		const activeTabId = selectedTab ? `channel-settings-tab-${selectedTab}` : undefined;
-		const hasSelectedTabInSidebar = React.useMemo(() => {
+		const hasSelectedTabInSidebar = useMemo(() => {
 			if (!selectedTab || useOverride) {
 				return false;
 			}
 			return Object.values(groupedSettingsTabs).some((tabs) => tabs.some((tab) => tab.type === selectedTab));
 		}, [groupedSettingsTabs, selectedTab, useOverride]);
-		const scrollKey = React.useMemo(
+		const scrollKey = useMemo(
 			() => `channel-settings-${channel.id}-${selectedTab ?? 'none'}`,
 			[channel.id, selectedTab],
 		);
@@ -149,16 +151,16 @@ export const DesktopChannelSettingsView: React.FC<DesktopChannelSettingsViewProp
 									{SettingsSidebarStore.hasOverride &&
 										SettingsSidebarStore.ownerId === channelPermissionsOverrideOwnerId &&
 										!SettingsSidebarStore.isDismissed(channelPermissionsOverrideOwnerId) && (
-										<div className={styles.sidebarButtonWrapper}>
-											<Button
-												variant="secondary"
-												rightIcon={<ArrowRightIcon className={styles.sidebarButtonIcon} />}
-												onClick={() => SettingsSidebarStore.activateOverride(channelPermissionsOverrideOwnerId)}
-											>
-												{t`Back to Overrides`}
-											</Button>
-										</div>
-									)}
+											<div className={styles.sidebarButtonWrapper}>
+												<Button
+													variant="secondary"
+													rightIcon={<ArrowRightIcon className={styles.sidebarButtonIcon} />}
+													onClick={() => SettingsSidebarStore.activateOverride(channelPermissionsOverrideOwnerId)}
+												>
+													{t`Back to Overrides`}
+												</Button>
+											</div>
+										)}
 									{Object.entries(groupedSettingsTabs).map(([category, tabs]) => (
 										<SettingsModalSidebarCategory key={category}>
 											{category !== 'channel_settings' && (
@@ -196,6 +198,18 @@ export const DesktopChannelSettingsView: React.FC<DesktopChannelSettingsViewProp
 							)}
 						</AnimatePresence>
 					</SettingsModalSidebarNav>
+					{selectedTab === 'permissions' && canManageGuild && channel.guildId && SettingsSidebarStore.useOverride && (
+						<SettingsModalSidebarFooter>
+							<Button
+								variant="secondary"
+								small={true}
+								fitContainer={true}
+								onClick={() => openMessageHistoryThresholdSettings(channel.guildId!)}
+							>
+								{t`Message History Threshold`}
+							</Button>
+						</SettingsModalSidebarFooter>
+					)}
 				</SettingsModalDesktopSidebar>
 				<SettingsModalDesktopContent ref={contentRef} tabpanelId={activeTabPanelId} labelledBy={activeTabId}>
 					<SettingsModalHeader

@@ -17,17 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {PerksButton} from '@app/components/modals/components/PerksButton';
+import type {GracePeriodInfo} from '@app/components/modals/components/plutonium/hooks/useSubscriptionStatus';
+import styles from '@app/components/modals/components/plutonium/SubscriptionCard.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import type {UserRecord} from '@app/records/UserRecord';
+import {getFormattedLongDate} from '@fluxer/date_utils/src/DateFormatting';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {DotsThreeIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {Button} from '~/components/uikit/Button/Button';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import type {UserRecord} from '~/records/UserRecord';
-import {PerksButton} from '../PerksButton';
-import type {GracePeriodInfo} from './hooks/useSubscriptionStatus';
-import styles from './SubscriptionCard.module.css';
 
 interface SubscriptionCardProps {
 	currentUser: UserRecord;
@@ -42,21 +43,17 @@ interface SubscriptionCardProps {
 	subscriptionCardColorClass: string;
 	subscriptionStatusColor: string;
 	hasEverPurchased: boolean;
-	isVisionarySoldOut: boolean;
 	shouldUseCancelQuickAction: boolean;
 	shouldUseReactivateQuickAction: boolean;
 	loadingPortal: boolean;
 	loadingCancel: boolean;
 	loadingReactivate: boolean;
 	loadingRejoinCommunity: boolean;
-	loadingCheckout: boolean;
-	loadingSlots: boolean;
 	isCommunityMenuOpen: boolean;
 	communityButtonRef: React.RefObject<HTMLButtonElement | null>;
 	scrollToPerks: () => void;
 	handlePerksKeyDown: (event: React.KeyboardEvent<HTMLSpanElement>) => void;
 	navigateToRedeemGift: () => void;
-	handleSelectPlan: (plan: 'visionary') => void;
 	handleOpenCustomerPortal: () => void;
 	handleReactivateSubscription: () => void;
 	handleCancelSubscription: () => void;
@@ -80,21 +77,17 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = observer(
 		subscriptionCardColorClass,
 		subscriptionStatusColor,
 		hasEverPurchased,
-		isVisionarySoldOut,
 		shouldUseCancelQuickAction,
 		shouldUseReactivateQuickAction,
 		loadingPortal,
 		loadingCancel,
 		loadingReactivate,
 		loadingRejoinCommunity,
-		loadingCheckout,
-		loadingSlots,
 		isCommunityMenuOpen,
 		communityButtonRef,
 		scrollToPerks,
 		handlePerksKeyDown,
 		navigateToRedeemGift,
-		handleSelectPlan,
 		handleOpenCustomerPortal,
 		handleReactivateSubscription,
 		handleCancelSubscription,
@@ -105,7 +98,6 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = observer(
 	}) => {
 		const {t} = useLingui();
 		const {isInGracePeriod, isExpired: isFullyExpired, graceEndDate} = gracePeriodInfo;
-		const isPremium = currentUser.isPremium();
 		const tooltipText: string | (() => React.ReactNode) =
 			purchaseDisabledTooltip != null
 				? () => purchaseDisabledTooltip
@@ -148,11 +140,7 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = observer(
 						<div className={styles.description}>
 							{isFullyExpired ? (
 								(() => {
-									const expiredDate = graceEndDate?.toLocaleDateString(locale, {
-										month: 'long',
-										day: 'numeric',
-										year: 'numeric',
-									});
+									const expiredDate = graceEndDate ? getFormattedLongDate(graceEndDate, locale) : undefined;
 									return (
 										<Trans>
 											Your subscription expired on <strong>{expiredDate}</strong>. You lost all{' '}
@@ -163,11 +151,7 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = observer(
 								})()
 							) : isInGracePeriod ? (
 								(() => {
-									const graceDate = graceEndDate?.toLocaleDateString(locale, {
-										month: 'long',
-										day: 'numeric',
-										year: 'numeric',
-									});
+									const graceDate = graceEndDate ? getFormattedLongDate(graceEndDate, locale) : undefined;
 									return (
 										<Trans>
 											Your subscription ended, but you still have all{' '}
@@ -178,11 +162,9 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = observer(
 								})()
 							) : isGiftSubscription ? (
 								(() => {
-									const giftEndDate = new Date(currentUser.premiumUntil!).toLocaleDateString(locale, {
-										month: 'long',
-										day: 'numeric',
-										year: 'numeric',
-									});
+									const giftEndDate = currentUser.premiumUntil
+										? getFormattedLongDate(new Date(currentUser.premiumUntil), locale)
+										: undefined;
 									return (
 										<>
 											<Trans>
@@ -192,20 +174,16 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = observer(
 											</Trans>
 											<br />
 											<Trans>
-												You can redeem additional gift codes to <strong>extend</strong> your gift time. To start a
-												monthly or yearly plan, wait until after it ends — or <strong>upgrade to Visionary</strong> now
-												(remaining gift time will be discarded).
+												You can redeem additional gift codes to <strong>extend</strong> your gift time.
 											</Trans>
 										</>
 									);
 								})()
 							) : premiumWillCancel ? (
 								(() => {
-									const cancelDate = new Date(currentUser.premiumUntil!).toLocaleDateString(locale, {
-										month: 'long',
-										day: 'numeric',
-										year: 'numeric',
-									});
+									const cancelDate = currentUser.premiumUntil
+										? getFormattedLongDate(new Date(currentUser.premiumUntil), locale)
+										: undefined;
 									return (
 										<Trans>
 											Your subscription will cancel on <strong>{cancelDate}</strong>. You'll lose all{' '}
@@ -243,11 +221,7 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = observer(
 							!isFullyExpired &&
 							!isGiftSubscription &&
 							(() => {
-								const renewalDate = new Date(currentUser.premiumUntil).toLocaleDateString(locale, {
-									month: 'long',
-									day: 'numeric',
-									year: 'numeric',
-								});
+								const renewalDate = getFormattedLongDate(new Date(currentUser.premiumUntil), locale);
 								return (
 									<div className={styles.renewalInfo}>
 										<Trans>
@@ -256,50 +230,23 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = observer(
 									</div>
 								);
 							})()}
-
-						{isPremium && !isVisionary && !isVisionarySoldOut && (
-							<div className={styles.upgradeNote}>
-								<Trans>
-									Upgrading to Visionary is a <strong>one-time</strong> purchase and will{' '}
-									<strong>cancel your current {isGiftSubscription ? 'gift time' : 'subscription'} immediately</strong>.
-								</Trans>
-							</div>
-						)}
 					</div>
 
 					<div className={styles.actions}>
 						{isGiftSubscription ? (
-							<>
-								{wrapIfDisabled(
-									<Button
-										variant="inverted"
-										onClick={navigateToRedeemGift}
-										small
-										className={styles.actionButton}
-										disabled={purchaseDisabled}
-									>
-										<Trans>Redeem Gift Code</Trans>
-									</Button>,
-									'redeem-gift',
-									purchaseDisabled,
-								)}
-								{!isVisionary &&
-									!isVisionarySoldOut &&
-									wrapIfDisabled(
-										<Button
-											variant="inverted"
-											onClick={() => handleSelectPlan('visionary')}
-											submitting={loadingCheckout || loadingSlots}
-											small
-											className={styles.actionButton}
-											disabled={purchaseDisabled}
-										>
-											<Trans>Upgrade to Visionary</Trans>
-										</Button>,
-										'upgrade-gift-visionary',
-										purchaseDisabled,
-									)}
-							</>
+							wrapIfDisabled(
+								<Button
+									variant="inverted"
+									onClick={navigateToRedeemGift}
+									small
+									className={styles.actionButton}
+									disabled={purchaseDisabled}
+								>
+									<Trans>Redeem Gift Code</Trans>
+								</Button>,
+								'redeem-gift',
+								purchaseDisabled,
+							)
 						) : (
 							<>
 								{hasEverPurchased &&
@@ -342,23 +289,6 @@ export const SubscriptionCard: React.FC<SubscriptionCardProps> = observer(
 										<Trans>Join Community</Trans>
 									</Button>
 								)}
-
-								{!isVisionary &&
-									!isVisionarySoldOut &&
-									wrapIfDisabled(
-										<Button
-											variant="inverted"
-											onClick={() => handleSelectPlan('visionary')}
-											submitting={loadingCheckout || loadingSlots}
-											small
-											className={styles.actionButton}
-											disabled={purchaseDisabled}
-										>
-											<Trans>Upgrade to Visionary</Trans>
-										</Button>,
-										'upgrade-visionary',
-										purchaseDisabled,
-									)}
 
 								{shouldUseCancelQuickAction && (
 									<Button

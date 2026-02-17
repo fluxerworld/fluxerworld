@@ -1,0 +1,440 @@
+app.communities.community: Komunitas
+app.communities.community_support: Dukungan komunitas
+app.communities.featured_in_discovery: Ditampilkan di Jelajah
+app.communities.moderation.actions_and_tools: Aksi dan alat moderasi
+app.communities.moderation.report_people_or_communities: Laporkan orang atau komunitas supaya kami bisa menjaga Fluxer tetap aman untuk semua orang.
+app.communities.moderation.tools: Alat moderasi
+app.communities.roles_permissions_audit.audit_logs: Log audit untuk transparansi
+app.communities.roles_permissions_audit.granular_roles_and_permissions: Peran dan izin yang granular
+app.communities.roles_permissions_audit.keep_running_smoothly: Jaga komunitasmu tetap berjalan lancar dengan peran, izin, dan log.
+app.communities.title: Komunitas
+app.communities.verification.label: Verifikasi komunitas
+app.communities.verification.value_statement: Komunitasmu dapat status verifikasi untuk menunjukkan keaslian dan membangun kepercayaan.
+app.communities.verification.verified_community: Komunitas terverifikasi
+app.customization.animated_profile.animated_avatars_and_banners: Avatar dan banner animasi
+app.customization.animated_profile.stand_out_animated_profile: Tampil beda dengan foto profil dan banner animasi untuk mengekspresikan diri.
+app.customization.app_icon_badges: Lihat jumlah badge di ikon aplikasi.
+app.customization.compact_mode: Mode ringkas dan opsi tampilan
+app.customization.custom_css_themes: Tema CSS kustom
+app.customization.custom_sounds.entrance_sounds: Suara masuk kustom
+app.customization.custom_sounds.notification_sounds: Suara notifikasi kustom
+app.customization.custom_sounds.set_personalized_join_sounds: Atur suara khusus saat kamu masuk channel suara biar kehadiranmu terasa.
+app.customization.custom_sounds.upload_custom_notification_sounds: Unggah dan pakai suara notifikasi sendiri untuk bikin pengalaman Fluxer makin personal.
+app.customization.custom_themes: Tema kustom
+app.customization.global_emoji_and_sticker_access: Akses emoji dan stiker global
+app.customization.saved_media_and_css: Tambahkan emoji kustom, simpan media untuk nanti, dan gaya aplikasi dengan CSS kustom.
+app.customization.title: Kustomisasi
+app.customization.upload_custom_emojis_and_stickers: Unggah emoji dan stiker kustom
+app.customization.use_animated_emojis: Pakai emoji animasi
+app.messaging.description: DM temanmu, chat bareng grup, atau bangun komunitas lewat channel.
+app.messaging.features.bookmarked_messages: Pesan yang ditandai
+app.messaging.features.file_sharing: Bagikan file dan pratinjau tautan
+app.messaging.features.full_markdown_support: Dukungan Markdown penuh di pesan
+app.messaging.features.message_scheduling.description: Jadwalkan pesan untuk dikirim di waktu tertentu nanti. Nggak perlu DeLorean.
+app.messaging.features.organised_channels_for_communities: Channel teratur untuk komunitas
+app.messaging.features.private_dms_and_group_chats: DM pribadi dan chat grup
+app.messaging.features.save_media: Simpan gambar, video, GIF, dan audio
+app.messaging.features.search.filter_options: Filter berdasarkan pengguna, tanggal, dan lainnya
+app.messaging.features.search.find_old_messages: Temukan pesan lama atau loncat antar komunitas dan channel dalam hitungan detik.
+app.messaging.features.search.label: Cari riwayat pesan
+app.messaging.features.search.quick_switcher_shortcuts: Quick switcher dengan pintasan papan ketik
+app.messaging.features.search.search_and_quick_switcher: Pencarian dan quick switcher
+app.messaging.title: Chat
+app.open.open_fluxer: Buka Fluxer
+app.open.open_web_app: Buka aplikasi web
+app.profiles_identity.custom_identity: Identitas kustom
+app.profiles_identity.customise_per_community: Sesuaikan profilmu berbeda-beda untuk tiap komunitas yang kamu ikuti.
+app.profiles_identity.manage_friends_and_block_users: Kelola teman dan blokir pengguna
+app.voice_and_video.features.mute_controls: Kontrol mute, deafen, dan kamera
+app.voice_and_video.features.noise_suppression: Peredam bising dan pembatalan gema
+app.voice_and_video.features.screen_sharing: Berbagi layar bawaan
+app.voice_and_video.features.video_backgrounds.description: Simpan sampai 15 latar belakang video untuk panggilan. Nggak perlu lagi bongkar-bongkar folder Downloads.
+app.voice_and_video.features.video_quality: Kualitas video
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.stream_4k_60fps: Streaming hingga 4K dengan 60 fps agar orang lain bisa melihatmu dengan jelas yang menakjubkan.
+app.voice_and_video.features.up_to_4k_video_quality: Kualitas video hingga 4K
+app.voice_and_video.features.video_quality_premium: Hingga 4K/60fps
+app.voice_and_video.hop_in_a_call: Langsung ikut panggilan bareng teman atau bagikan layar untuk kerja bareng.
+app.voice_and_video.title: Suara dan video
+beta_and_access.beta_label: Beta
+beta_and_access.early_access.be_first_to_try: Jadi yang pertama mencoba fitur baru sebelum dirilis untuk semua orang.
+beta_and_access.early_access.label: Akses awal
+beta_and_access.featured_benefit_line: Semua yang basic kamu harapkan, plus beberapa hal yang mungkin nggak kamu duga.
+beta_and_access.public_beta: Beta publik
+beta_and_access.registration_limited_during_beta: Kami membatasi pendaftaran selama beta. Setelah kamu masuk, kamu bisa kasih temanmu kode untuk lewat antrean.
+beta_and_access.try_without_email: Coba Fluxer tanpa email dalam 30 detik
+community_funding_and_roles.focused_on_product: Saat ini kami fokus ngerilis produk yang bagus dan menjaga Fluxer tetap independen, didanai sendiri.
+community_funding_and_roles.future_paid_roles_heading: Masa depan peran berbayar
+community_funding_and_roles.future_paid_roles_note: Kami masih membangun bisnis di sekitar Fluxer dan belum siap untuk peran berbayar.
+community_funding_and_roles.non_paid_recurring_role: Peran tidak berbayar untuk kontributor rutin yang membantu membentuk Fluxer bareng tim inti.
+community_funding_and_roles.sustainability_note: Dengan dukungan kamu, kami berharap bisa membuat platform komunikasi independen ini berkelanjutan dan mulai menawarkan peran berbayar di masa depan.
+company_and_resources.blog: Blog
+company_and_resources.careers.careers_at_fluxer: Karier di Fluxer
+company_and_resources.careers.label: Karier
+company_and_resources.careers.share_a_bit_about_yourself: Ceritakan sedikit tentang dirimu dan bagaimana kamu ingin berkontribusi dengan mengirim email ke careers@fluxer.app
+company_and_resources.community_team.fluxer_community_team: Tim komunitas Fluxer
+company_and_resources.community_team.share_feedback_report_bugs: Bagikan masukan, laporkan bug, dan bantu bikin Fluxer jadi tempat yang ramah untuk semua orang.
+company_and_resources.company: Perusahaan
+company_and_resources.company_info: Info perusahaan
+company_and_resources.connect: Terhubung
+company_and_resources.docs: Dokumentasi
+company_and_resources.help.get_help: Dapatkan bantuan
+company_and_resources.help.help_center: Pusat bantuan
+company_and_resources.help.label: Bantuan
+company_and_resources.press.label: Pers
+company_and_resources.press.press_contact: Kontak pers
+company_and_resources.product: Produk
+company_and_resources.resources: Sumber daya
+company_and_resources.source_and_contribution.code_issues_docs_reviews: Kode, issue, dokumentasi, dan review
+company_and_resources.source_and_contribution.contribute_code: Kontribusi kode
+company_and_resources.source_and_contribution.contribute_on_github: Kontribusi di GitHub
+company_and_resources.source_and_contribution.fix_bugs_ship_features: Perbaiki bug, kirim fitur, atau poles pengalaman di repo utama kami.
+company_and_resources.source_and_contribution.fluxer_built_in_open: Fluxer dibangun secara terbuka. Pilih jalur yang paling pas buat kamu.
+company_and_resources.source_and_contribution.get_involved: Ikut berkontribusi
+company_and_resources.source_and_contribution.source_code: Kode sumber
+company_and_resources.source_and_contribution.translation.help_translate: Bantu terjemahkan Fluxer dan dokumentasinya supaya terasa native di mana-mana.
+company_and_resources.source_and_contribution.translation.label: Terjemahan dan lokalisasi
+company_and_resources.source_and_contribution.translation.llm_translation_note: Semua terjemahan saat ini dibuat oleh LLM dengan revisi manusia yang minim. Kami ingin orang sungguhan membantu kami melokalkan Fluxer ke bahasa kamu. Untuk itu, email i18n@fluxer.app dan kami dengan senang hati menerima kontribusimu.
+company_and_resources.source_and_contribution.translation.localization_label: Lokalisasi
+company_and_resources.source_and_contribution.view_repository: Lihat repositori
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: Mau bantu bangun Fluxer?
+company_and_resources.source_and_contribution.ways_to_contribute: Cara berkontribusi
+donations.business: Bisnis
+donations.donate.action: Donasi
+donations.donate.label: Donasi ke Fluxer
+donations.donate.description: Dukung Fluxer dengan donasi satu kali atau berulang
+donations.donation_disclaimer: Donasi adalah hadiah sukarela dan tidak memberi kamu produk, layanan, kepemilikan, atau hak istimewa apa pun. Kalau kamu cari fitur premium, cek {0}.
+donations.individual: Individu
+donations.individual_vs_business.answer: Keduanya sama-sama mendukung tujuan yang sama. Bedanya, donasi Bisnis memungkinkan kamu menambahkan ID pajak (kalau ada) dan menerima faktur PDF setelah selesai, yang berguna untuk pembukuan perusahaan.
+donations.individual_vs_business.question: Apa bedanya Individu dan Bisnis?
+donations.infrastructure_costs_detail: Donasimu membantu membiayai biaya infrastruktur Fluxer, termasuk server, bandwidth, penyimpanan, dan pengembangan fitur baru yang berkelanjutan. Ini membantu kami menjaga dan meningkatkan platform untuk semua orang.
+donations.minimum_donation: 'Donasi minimum: $5 / €5'
+donations.mobile_roadmap_sponsorship: Sponsori roadmap mobile
+donations.send_one_time_gift: Kirim hadiah sekali
+donations.support_future_development: Dukung pengembangan ke depan
+donations.support_message: Bantu kami membangun platform komunikasi yang independen. Donasimu membiayai infrastruktur platform dan pengembangan.
+donations.tax_deductible.answer: Donasi ke Fluxer saat ini tidak dapat dikurangkan dari pajak, tetapi secara langsung mendanai infrastruktur dan pengembangan berkelanjutan kami.
+donations.tax_deductible.question: Apakah donasiku bisa mengurangi pajak?
+donations.what_it_supports: Donasiku dipakai buat apa?
+donations.why_support: Bantu kami membangun jenis platform komunikasi yang berbeda - open source, didanai komunitas, dan dibuat dengan sepenuh hati.
+donations.recurring: Berulang
+donations.return_question: Apakah saya mendapat sesuatu sebagai balasan?
+donations.form.email: Email
+donations.form.email_placeholder: anda@email.com
+donations.form.amount: Jumlah
+donations.form.amount_other: Lainnya
+donations.form.amount_placeholder: Masukkan jumlah (5-1000)
+donations.form.billing: Penagihan
+donations.form.donation_type: Jenis Donasi
+donations.form.one_time: Satu Kali
+donations.form.or_label: Atau
+donations.form.monthly: Bulanan
+donations.form.yearly: Tahunan
+donations.form.currency: Mata uang
+donations.form.processing: Memproses...
+donations.form.send_link: Kirim tautan
+donations.form.sending: Mengirim...
+donations.errors.active_subscription_exists: Kamu sudah punya donasi berulang yang aktif. Untuk memulai donasi berulang yang berbeda, silakan batalkan yang sekarang terlebih dahulu menggunakan portal pelanggan. Kamu bisa melakukan donasi satu kali sebagai gantinya.
+donations.errors.invalid_email: Mohon masukkan alamat email yang valid
+donations.errors.invalid_amount: Jumlah harus antara 5 dan 1000
+donations.errors.generic: Ada yang salah. Coba lagi.
+donations.errors.network: Kesalahan jaringan. Coba lagi.
+donations.manage.title: Kelola donasi kamu
+donations.manage.description: Masukkan email kamu untuk menerima tautan ke portal donatur, tempat kamu bisa mengelola langganan, mengunduh faktur, dan melihat riwayat donasimu.
+donations.manage.success: Jika ada akun untuk email tersebut, kamu akan segera menerima tautan pengelolaan.
+donations.success.title: Terima kasih!
+donations.success.description: Terima kasih atas dukunganmu!
+donations.success.message: Terima kasih atas donasimu! Kami sangat menghargai dukunganmu.
+donations.success.email_notice: Kamu akan menerima email konfirmasi dalam waktu dekat dengan detail donasimu dan tautan ke portal donatur.
+donations.success.back_to_donate: Kembali ke Donasi
+download.download: Unduh
+download.download_app_or_open_in_browser: Unduh aplikasinya atau buka Fluxer di browser untuk mulai terhubung dengan komunitasmu.
+download.download_fluxer: Unduh Fluxer
+download.download_for_prefix: 'Unduh untuk '
+download.open_in_browser: Buka di browser
+download.screenshots_courtesy_of: 'Screenshot dari '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: Pedoman komunitas
+footer.company_information: Info perusahaan
+footer.connect: Terhubung
+footer.donate: Donasi
+footer.download: Unduh
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (perseroan terbatas Swedia: 559537-3993)'
+footer.help_support_an_independent_communication: Dukung platform komunikasi independen. Donasimu membiayai infrastruktur platform dan pengembangan.
+footer.partners: Mitra
+footer.plutonium_tier: Tier Plutonium
+footer.policies: Kebijakan
+footer.press: Pers
+footer.privacy_policy: Kebijakan privasi
+footer.report_a_bug: Laporkan bug
+footer.roadmap: Roadmap
+footer.rss_feed: Feed RSS
+footer.security_bug_bounty: Bug bounty keamanan
+footer.source_code: Kode sumber
+footer.terms_of_service: Ketentuan layanan
+general.all: semua
+general.coming_soon.label: Segera hadir
+general.coming_soon.whats_available_today: Apa yang tersedia hari ini
+general.last_updated: Terakhir diperbarui
+general.made_in_sweden: Dibuat di Swedia
+general.not_available: Tidak tersedia
+general.or: atau
+general.tagline: Aplikasi chat yang memihak kamu
+languages.change_language: Ganti bahasa
+languages.choose_your_language: Pilih bahasa kamu
+languages.language_label: Bahasa
+languages.list.arabic: Arab
+languages.list.bulgarian: Bulgaria
+languages.list.chinese_simplified: Tionghoa (Sederhana)
+languages.list.chinese_traditional: Tionghoa (Tradisional)
+languages.list.croatian: Kroasia
+languages.list.czech: Ceko
+languages.list.danish: Denmark
+languages.list.dutch: Belanda
+languages.list.english: Inggris
+languages.list.english_us: Inggris (AS)
+languages.list.finnish: Finlandia
+languages.list.french: Prancis
+languages.list.german: Jerman
+languages.list.greek: Yunani
+languages.list.hebrew: Ibrani
+languages.list.hindi: Hindi
+languages.list.hungarian: Hungaria
+languages.list.indonesian: Indonesia
+languages.list.italian: Italia
+languages.list.japanese: Jepang
+languages.list.korean: Korea
+languages.list.lithuanian: Lituania
+languages.list.norwegian: Norwegia
+languages.list.polish: Polandia
+languages.list.portuguese_brazil: Portugis (Brasil)
+languages.list.romanian: Rumania
+languages.list.russian: Rusia
+languages.list.spanish_latin_america: Spanyol (Amerika Latin)
+languages.list.spanish_spain: Spanyol (Spanyol)
+languages.list.swedish: Swedia
+languages.list.thai: Thai
+languages.list.turkish: Turki
+languages.list.ukrainian: Ukraina
+languages.list.vietnamese: Vietnam
+launch.description: Pelajari tentang developer di balik Fluxer, tujuan proyek, tech stack yang dipakai, dan apa yang akan datang.
+launch.heading: Cerita di balik Fluxer
+launch.read_more: Baca postingan blog peluncuran
+launch.view_full_roadmap: Lihat roadmap lengkap
+misc_labels.design_and_branding: Desain dan branding
+misc_labels.direct_team_support: Dukungan langsung dari tim
+misc_labels.exclusive_communities: Komunitas eksklusif
+misc_labels.exclusive_features: Fitur eksklusif
+misc_labels.feature: Fitur
+misc_labels.get_updates: Dapatkan kabar terbaru, lihat fitur yang akan datang, bahas saran, dan ngobrol dengan tim.
+misc_labels.join_and_spread_word: Gabung dan sebarkan kabar
+misc_labels.join_fluxer_community_contribute: Gabung komunitas Fluxer dan bantu bangun masa depan komunikasi lewat open source dan kontribusi komunitas.
+misc_labels.join_fluxer_hq: Gabung Fluxer HQ
+misc_labels.join_multiple_devices: Gabung dari beberapa perangkat sekaligus
+misc_labels.join_team_behind_fluxer: Gabung tim di balik Fluxer
+misc_labels.learn_more: Pelajari lebih lanjut
+misc_labels.product_hunt_badge_title: Fluxer - Platform pesan instan dan VoIP open source mirip Discord | postingan teratas Product Hunt
+misc_labels.profile_badge: Lencana profil
+misc_labels.read_the_guide: Baca panduannya
+misc_labels.ready_to_get_started: Siap mulai?
+misc_labels.register_now: Daftar sekarang
+misc_labels.related_policies: Kebijakan terkait
+misc_labels.report_bugs: Laporkan bug
+misc_labels.software_development: Pengembangan perangkat lunak
+misc_labels.trust_and_safety: Kepercayaan dan keamanan
+misc_labels.unique_profile_badge: Lencana profil unik
+misc_labels.unlimited_users: Pengguna tanpa batas
+navigation.close: Tutup
+navigation.close_navigation_menu: Tutup menu navigasi
+navigation.copy_link_to_section: Salin tautan ke bagian ini
+navigation.go_home: Ke beranda
+navigation.on_this_page: Di halaman ini
+navigation.page_not_found.description: Halaman ini nggak ada. Tapi masih banyak yang bisa kamu jelajahi.
+navigation.page_not_found.title: Halaman tidak ditemukan
+navigation.press.download_assets_intro: Unduh logo kami, lihat warna brand kami, dan hubungi tim pers kami.
+navigation.press.download_fluxer_assets: Unduh logo Fluxer, aset brand, dan hubungi tim pers kami
+navigation.press.press_and_brand_assets: Pers dan aset brand
+partner_program.become_partner.apply_email: Daftar di partners@fluxer.app
+partner_program.become_partner.call_to_action: Jadi Mitra
+partner_program.become_partner.heading: Jadi Mitra Fluxer
+partner_program.become_partner.if_youre_a_creator_or: Kalau kamu kreator atau menjalankan komunitas besar, kami pengin dengar dari kamu.
+partner_program.become_partner.learn_about_partners: Kenalan dengan Mitra
+partner_program.become_partner.learn_more: Pelajari lebih lanjut
+partner_program.become_partner.ready_prompt: Siap jadi Mitra?
+partner_program.description: Perk eksklusif untuk kreator konten dan pemilik komunitas besar.
+partner_program.label: Mitra
+partner_program.perks.creator_monetization.description: Akses awal ke fitur monetisasi kreator dengan biaya platform yang lebih rendah dibanding non-mitra.
+partner_program.perks.creator_monetization.label: Monetisasi kreator
+partner_program.perks.custom_vanity_url.description: Dapatkan URL vanity eksklusif seperti fluxer.gg/komunitaskamu.
+partner_program.perks.custom_vanity_url.label: URL vanity kustom
+partner_program.perks.direct_team_access.description: Gabung ke komunitas Mitra eksklusif dengan akses langsung ke tim Fluxer.
+partner_program.perks.direct_team_access.label: Akses langsung ke tim
+partner_program.perks.discovery_visibility: Dapatkan visibilitas lebih dengan ditampilkan di discovery komunitas.
+partner_program.perks.exclusive_merch.description: Dapatkan merchandise dan swag khusus Mitra Fluxer.
+partner_program.perks.exclusive_merch.label: Merch eksklusif
+partner_program.perks.free_plutonium.description: Dapatkan Plutonium gratis untuk akunmu supaya bisa menikmati semua fitur premium.
+partner_program.perks.free_plutonium.label: Plutonium gratis
+partner_program.perks.increased_limits.description: Komunitasmu mendapat batas yang lebih tinggi saat kamu membutuhkannya.
+partner_program.perks.increased_limits.label: Batas ditingkatkan
+partner_program.perks.partner_badge.description: Tampilkan lencana Mitra eksklusif di profilmu biar makin menonjol.
+partner_program.perks.partner_badge.label: Lencana Mitra
+partner_program.perks.vip_voice_servers.description: Akses ke server suara VIP yang khusus untuk komunitas mitra.
+partner_program.perks.vip_voice_servers.label: Kanal suara VIP
+partner_program.requirements.audience_description: Deskripsi singkat tentang audiens kamu dan apa yang kamu lakukan
+partner_program.requirements.links_to_content: Tautan ke konten atau komunitas kamu (YouTube, Twitch, Discord, dll.)
+partner_program.requirements.name_and_username: Nama kamu dan nama pengguna di platform
+partner_program.requirements.usage_plan: Gimana kamu berencana memakai Fluxer untuk komunitasmu
+partner_program.who_its_for: 'Kreator konten dan pemilik komunitas: buka akses ke perk eksklusif termasuk Plutonium gratis, lencana Mitra, URL vanity kustom, dan lainnya.'
+partner_program.perks.heading: Perk Mitra
+partner_program.perks.see_perks: Lihat perk
+partner_program.apply.instructions: Kirimkan email kepada kami dengan informasi berikut untuk mendaftar ke Program Mitra Fluxer.
+partner_program.apply.response_time: Kami meninjau semua aplikasi dan akan menghubungimu dalam beberapa hari.
+platform_support.desktop.available_on_desktop_and_web: Tersedia di desktop dan web
+platform_support.desktop.download_desktop_intro: Unduh Fluxer untuk Windows, macOS, dan Linux. Aplikasi mobile lagi dikerjain.
+platform_support.desktop.interface_label: Antarmuka Fluxer desktop
+platform_support.desktop.label: Desktop
+platform_support.desktop.use_desktop_client_mobile_soon: Pakai klien desktop (mobile segera hadir)
+platform_support.mobile.install_as_app.add_to_home: Tambahkan Fluxer ke layar utama kamu untuk menyembunyikan UI browser.
+platform_support.mobile.install_as_app.done_desktop: Selesai! Sekarang kamu bisa membuka Fluxer seperti program biasa.
+platform_support.mobile.install_as_app.done_mobile: Selesai! Sekarang kamu bisa membuka Fluxer dari layar utama kamu.
+platform_support.mobile.install_as_app.guides.in_chrome: ' di Chrome'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: ' di Chrome atau browser lain yang mendukung PWA'
+platform_support.mobile.install_as_app.guides.in_safari: ' di Safari'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: Panduan pemasangan PWA untuk {name}
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: 'Tekan "Tambahkan ke layar utama"'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: 'Tekan "Tambah" di pojok kanan atas'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: 'Tekan "Pasang aplikasi"'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: Tekan tombol pasang (ikon panah ke bawah di monitor) di bilah alamat
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: 'Tekan "Pasang" di pop-up yang muncul'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: 'Tekan tombol "Lainnya" (⋮) di pojok kanan atas'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: Tekan tombol bagikan (persegi panjang dengan panah ke atas)
+platform_support.mobile.install_as_app.install_fluxer_as_app: Pasang Fluxer sebagai aplikasi
+platform_support.mobile.install_as_app.title: Cara memasang sebagai aplikasi
+platform_support.mobile.interface_label: Antarmuka Fluxer mobile
+platform_support.mobile.mobile_apps_underway: Aplikasi mobile sedang dalam pengembangan
+platform_support.mobile.mobile_browser_explainer: Kami lagi bikin aplikasi untuk iOS dan Android. Sambil nunggu, Fluxer bisa dipakai lewat browser di ponselmu, dan kami sudah berusaha bikin rasanya semirip mungkin dengan aplikasi.
+platform_support.mobile.not_full_replacement_yet: Ini belum sepenuhnya menggantikan aplikasi desktop, dan beberapa hal yang biasa kamu harapkan dari aplikasi chat mobile masih belum ada.
+platform_support.mobile.push_notifications: Dapatkan notifikasi push saat kamu lagi nggak buka aplikasi.
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS dan iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: Pilih distro Linux
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: Unduh untuk macOS
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: Unduh untuk Windows
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: Warna brand
+press_branding.assets.full_color: Versi warna penuh
+press_branding.assets.label: Logo
+press_branding.assets.logo_variants.black_logo: Logo hitam
+press_branding.assets.logo_variants.color_logo: Logo berwarna
+press_branding.assets.logo_variants.white_logo: Logo putih
+press_branding.assets.palette_description: Palet warna pilihan kami yang mewakili brand Fluxer.
+press_branding.assets.premium_quality: Kualitas premium
+press_branding.assets.primary_brand_color_description: Warna brand utama kami. Gunakan untuk elemen brand penting dan aksen.
+press_branding.assets.symbol_variants.black_symbol: Simbol hitam
+press_branding.assets.symbol_variants.color_symbol: Simbol berwarna
+press_branding.assets.symbol_variants.label: Simbol
+press_branding.assets.symbol_variants.white_symbol: Simbol putih
+press_branding.assets.usage_guidance.dark_surface_guidance: Untuk latar, teks di permukaan gelap, dan menciptakan kontras.
+press_branding.assets.usage_guidance.for_dark_backgrounds: Untuk latar gelap
+press_branding.assets.usage_guidance.for_light_backgrounds: Untuk latar terang
+press_branding.assets.usage_guidance.full_logo_description: Logo lengkap kami, termasuk tulisan namanya. Pakai ini sebagai representasi utama brand kami.
+press_branding.assets.usage_guidance.light_surface_guidance: Untuk teks, ikon di permukaan terang, dan menciptakan kedalaman.
+press_branding.assets.usage_guidance.symbol_description: Simbol mandiri kami. Pakai ini hanya saat brand kami sudah jelas terlihat atau sudah mapan di konteks lainnya.
+press_branding.colors.blue_da_ba_dee: Blue Da Ba Dee
+press_branding.colors.white: Putih
+press_branding.colors.black: Hitam
+press_branding.contact.story_prompt: Punya cerita tentang Fluxer? Kami ingin mendengarnya.
+press_branding.contact.response_time: Kami biasanya merespons dalam 24 jam.
+pricing_and_tiers.billing.forever: Selamanya
+pricing_and_tiers.billing.most_popular: Paling populer
+pricing_and_tiers.billing.per_forever: /selamanya
+pricing_and_tiers.billing.per_month: /bln
+pricing_and_tiers.billing.per_year_full: /tahun
+pricing_and_tiers.billing.per_year_short: /thn
+pricing_and_tiers.billing.save_percent: Hemat 17%
+pricing_and_tiers.free.comparison_label: Gratis vs Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 'Semua di Gratis, plus:'
+pricing_and_tiers.free.full_access_to_all_features: Akses penuh ke semua fitur
+pricing_and_tiers.free.label: Gratis
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: 'Catatan: manfaat Plutonium dan Visionary hanya berlaku untuk instance resmi Fluxer.app, bukan instance pihak ketiga atau self-hosted.'
+pricing_and_tiers.plutonium.feature_highlights: Unggahan 500 MB, pesan 4.000 karakter, 300 bookmark, 50 paket emoji, dan masih banyak lagi.
+pricing_and_tiers.plutonium.features.bio_character_limit: Batas karakter bio
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: Pilih tag 4 digit kamu sendiri seperti #0001, #1337, atau #9999 untuk membuat username kamu benar-benar unik.
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: Tag nama pengguna 4 digit kustom
+pricing_and_tiers.plutonium.features.custom_username_tag: Tag nama pengguna kustom
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: Latar belakang video
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: Paket emoji dan stiker
+pricing_and_tiers.plutonium.features.file_upload_size: Ukuran unggahan file
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: Akses emoji dan stiker global
+pricing_and_tiers.plutonium.features.message_character_limit: Batas karakter pesan
+pricing_and_tiers.plutonium.features.message_scheduling: Penjadwalan pesan
+pricing_and_tiers.plutonium.features.per_community_profiles: Profil per komunitas
+pricing_and_tiers.plutonium.features.saved_media: Media tersimpan
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: Webhook dan dukungan bot
+pricing_and_tiers.plutonium.get_more_with_plutonium: Dapatkan lebih banyak dengan Fluxer Plutonium
+pricing_and_tiers.plutonium.get_plutonium: Dapatkan Plutonium
+pricing_and_tiers.plutonium.higher_limits_and_early_access: Batas lebih tinggi, fitur eksklusif, dan akses awal ke pembaruan baru
+pricing_and_tiers.plutonium.higher_limits_everywhere: Batas lebih tinggi di mana-mana
+pricing_and_tiers.plutonium.show_off_status_badge: Pamerkan status Plutoniummu dengan lencana eksklusif di profilmu.
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: 'Upgrade ke Plutonium seharga $4.99/bln: tag nama pengguna kustom, profil per komunitas, penjadwalan pesan, streaming 4K, unggahan 500 MB, dan banyak fitur eksklusif lainnya.'
+pricing_and_tiers.visionary.badge.numbered_badge: Lencana bernomor yang menunjukkan status Visionary kamu
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: Lencana bernomor (1–{0}) yang menunjukkan status Visionary kamu
+pricing_and_tiers.visionary.bundle_label: Plutonium dan Operator Pass seumur hidup dengan Visionary - slot terbatas
+pricing_and_tiers.visionary.communities_with_team_access: Komunitas Visionary dan Operators dengan akses tim
+pricing_and_tiers.visionary.get_visionary: Dapatkan Visionary
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: Dapatkan Plutonium seumur hidup di Fluxer.app plus Operator Pass untuk self-hosting. Bayar {0} sekali saja. Tersedia sampai 1 Oktober 2026, atau sampai semua slot habis.
+pricing_and_tiers.visionary.lifetime_operator_pass: Operator Pass seumur hidup
+pricing_and_tiers.visionary.lifetime_plutonium: Plutonium seumur hidup
+pricing_and_tiers.visionary.limited_offer_note: 'Penawaran terbatas: Visionary termasuk Operator Pass'
+pricing_and_tiers.visionary.limited_slots_label: Visionary - slot terbatas
+pricing_and_tiers.visionary.one_time_purchase.label: Pembelian sekali
+pricing_and_tiers.visionary.one_time_purchase.promise: Pembelian sekali, akses seumur hidup
+pricing_and_tiers.visionary.purchase_flow: Beli Visionary langsung di aplikasi setelah kamu membuat akun. Tanggal pembelian dan nomor pesanan akan ditampilkan di profilmu (bisa disembunyikan di pengaturan privasi).
+pricing_and_tiers.visionary.slots_left.generic: '{0} dari {1} slot tersisa'
+pricing_and_tiers.visionary.slots_left.visionary_bundle: Tinggal {0} dari {1} slot Visionary seumur hidup - Plutonium dan Operator Pass seumur hidup
+pricing_and_tiers.visionary.slots_left.visionary_only: '{0} slot Visionary tersisa'
+product_positioning.free_and_open_source: Fluxer gratis dan open source. Siapa pun bisa self-host gratis.
+product_positioning.intro: Fluxer adalah platform pesan instan dan VoIP gratis dan open source yang dibuat untuk teman, grup, dan komunitas.
+product_positioning.open_source.fully_open_source_agplv3: Sepenuhnya open source (AGPLv3)
+product_positioning.open_source.label: Open source
+product_positioning.open_source.license: Open source (AGPL-3.0)
+product_positioning.self_hosting.connect_from_any_client: Terhubung dari klien mana pun
+product_positioning.self_hosting.free_self_hosting: Self-hosting gratis
+product_positioning.self_hosting.host_your_own_instance: Host instance sendiri
+product_positioning.self_hosting.label: Self-hosting
+product_positioning.self_hosting.operator_pass.access_to_operators_community: Akses ke komunitas Fluxer Operators
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: Setelah penawarannya berakhir, Operator Pass tetap tersedia sendiri.
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: 'Operator Pass itu opsional: bayar untuk dukungan dan akses komunitas.'
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: Dukungan prioritas dan akses komunitas Operators untuk self-hosting
+product_positioning.self_hosting.run_backend_on_your_hardware: Jalankan backend Fluxer di perangkatmu sendiri dan terhubung lewat aplikasi kami.
+product_positioning.self_hosting.switch_between_instances: Pindah antar beberapa instance
+security.found_security_issue: Menemukan masalah keamanan?
+security.report_vulnerabilities: Laporkan kerentanan dan bantu kami menjaga platform tetap aman.
+security.responsible_disclosure_note: Kami menghargai responsible disclosure lewat halaman bug bounty keamanan kami. Kami menyediakan kode Plutonium dan lencana Bug Hunter berdasarkan tingkat keparahan.
+security.security_bug_bounty: Bug bounty keamanan
+security.security_reports: Laporan keamanan
+security.testers_access_from_reports: Laporan yang disetujui memberi akses ke Fluxer Testers, tempat kamu bisa mengumpulkan poin untuk kode Plutonium dan lencana Bug Hunter.
+social_and_feeds.bluesky.follow_us: Ikuti kami di Bluesky
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: Feed RSS Bluesky
+social_and_feeds.follow_fluxer: Ikuti @fluxer.app
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: Feed RSS blog
+social_and_feeds.rss.fluxer_blog_rss: Feed RSS blog Fluxer
+social_and_feeds.rss.label: Feed RSS
+social_and_feeds.stay_updated_cta: Tetap update soal berita, status layanan, dan apa yang sedang terjadi. Kamu juga bisa berlangganan ke

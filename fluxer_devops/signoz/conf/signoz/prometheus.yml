@@ -1,0 +1,16 @@
+global:
+  scrape_interval: 5s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets:
+            - alertmanager:9093
+
+rule_files: []
+
+scrape_configs: []
+
+remote_read:
+  - url: tcp://clickhouse:9000/signoz_metrics

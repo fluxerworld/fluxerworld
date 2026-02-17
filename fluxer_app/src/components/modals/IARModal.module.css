@@ -17,12 +17,6 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-.container {
-	display: flex;
-	flex-direction: column;
-	gap: 16px;
-}
-
 .description {
 	font-size: 14px;
 	color: var(--text-tertiary);
@@ -37,6 +31,7 @@
 	background-color: var(--background-secondary);
 	padding: 8px 0;
 	margin-bottom: 16px;
+	font-size: 87.5%;
 }
 
 .userPreview {
@@ -79,9 +74,63 @@
 	margin-bottom: 16px;
 }
 
-.categoryLabel {
-	margin-bottom: 8px;
+.categorySelect :global([class*='-control']) {
+	min-height: 62px !important;
+}
+
+.categorySelect :global([class*='-singleValue']) {
+	position: static !important;
+	transform: none !important;
+	max-width: 100% !important;
+	white-space: normal !important;
+}
+
+.optionContent {
+	display: flex;
+	flex-direction: column;
+	gap: 2px;
+	padding: 2px 0;
+	white-space: normal;
+}
+
+.optionName {
 	font-size: 14px;
-	font-weight: 600;
+	font-weight: 500;
+	color: var(--text-primary);
+}
+
+.optionDesc {
+	font-size: 12px;
 	color: var(--text-tertiary);
+}
+
+.optionDescSelected {
+	font-size: 12px;
+	color: inherit;
+}
+
+.valueContent {
+	display: flex;
+	flex-direction: column;
+	gap: 1px;
+	overflow: hidden;
+	min-width: 0;
+}
+
+.valueName {
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--text-primary);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.valueDesc {
+	font-size: 11px;
+	color: var(--text-tertiary);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	line-height: 1.3;
 }

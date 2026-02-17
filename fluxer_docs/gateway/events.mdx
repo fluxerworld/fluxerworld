@@ -1,0 +1,1328 @@
+---
+title: 'Events'
+description: 'Gateway dispatch events sent by the Fluxer gateway.'
+---
+
+Dispatch events are sent by the gateway to notify the client of state changes. These events are sent with opcode `0` (DISPATCH) and include an event name and associated data.
+
+## Event scopes
+
+Events are delivered based on their scope:
+
+| Scope | Description |
+|-------|-------------|
+| `session` | Sent only to the current session |
+| `presence` | Sent to all sessions of the current user |
+| `guild` | Sent to all users in a guild who have permission to receive it |
+| `channel` | Sent based on channel type (guild channels use guild scope, DMs use presence scope) |
+
+## Event reference
+
+| Event | Scope | Description |
+|-------|-------|-------------|
+| [`READY`](#ready) | `session` | Contains initial state information sent after identifying. This is the first event received after a successful IDENTIFY. |
+| [`RESUMED`](#resumed) | `session` | Response to a successful resume request. The client should replay any missed events from the buffer. |
+| [`SESSIONS_REPLACE`](#sessions-replace) | `presence` | User sessions have been replaced. Sent when sessions are updated across devices. |
+| [`USER_UPDATE`](#user-update) | `presence` | Properties about the current user changed. |
+| [`USER_PINNED_DMS_UPDATE`](#user-pinned-dms-update) | `presence` | User pinned DMs have been updated. |
+| [`USER_SETTINGS_UPDATE`](#user-settings-update) | `presence` | User settings have been updated. |
+| [`USER_GUILD_SETTINGS_UPDATE`](#user-guild-settings-update) | `presence` | User guild settings have been updated. |
+| [`USER_NOTE_UPDATE`](#user-note-update) | `presence` | User note for a target user has been updated. |
+| [`RECENT_MENTION_DELETE`](#recent-mention-delete) | `presence` | A recent mention was deleted from the user's mentions list. |
+| [`SAVED_MESSAGE_CREATE`](#saved-message-create) | `presence` | A message was saved to the user's saved messages. |
+| [`SAVED_MESSAGE_DELETE`](#saved-message-delete) | `presence` | A saved message was deleted from the user's saved messages. |
+| [`FAVORITE_MEME_CREATE`](#favorite-meme-create) | `presence` | A favourite meme was added to the user's collection. |
+| [`FAVORITE_MEME_UPDATE`](#favorite-meme-update) | `presence` | A favourite meme was updated in the user's collection. |
+| [`FAVORITE_MEME_DELETE`](#favorite-meme-delete) | `presence` | A favourite meme was deleted from the user's collection. |
+| [`AUTH_SESSION_CHANGE`](#auth-session-change) | `presence` | Authentication session has changed. Sent when the user's token is rotated due to a security-sensitive operation like password change. |
+| [`PRESENCE_UPDATE`](#presence-update) | `presence` | User presence was updated. Sent when a friend's or group DM member's status changes. |
+| [`GUILD_CREATE`](#guild-create) | `guild` | Sent when a guild becomes available, when the user joins a new guild, or for lazy-loading of unavailable guilds. |
+| [`GUILD_UPDATE`](#guild-update) | `guild` | Sent when a guild is updated. |
+| [`GUILD_DELETE`](#guild-delete) | `guild` | Sent when a guild becomes unavailable or the user is removed from a guild. |
+| [`GUILD_MEMBER_ADD`](#guild-member-add) | `guild` | Sent when a new user joins a guild. |
+| [`GUILD_MEMBER_UPDATE`](#guild-member-update) | `guild` | Sent when a guild member is updated. |
+| [`GUILD_MEMBER_REMOVE`](#guild-member-remove) | `guild` | Sent when a user is removed from a guild (leave, kick, or ban). |
+| [`GUILD_ROLE_CREATE`](#guild-role-create) | `guild` | Sent when a guild role is created. |
+| [`GUILD_ROLE_UPDATE`](#guild-role-update) | `guild` | Sent when a guild role is updated. |
+| [`GUILD_ROLE_UPDATE_BULK`](#guild-role-update-bulk) | `guild` | Sent when multiple guild roles are updated (e.g. reordering or hoist position changes). |
+| [`GUILD_ROLE_DELETE`](#guild-role-delete) | `guild` | Sent when a guild role is deleted. |
+| [`GUILD_EMOJIS_UPDATE`](#guild-emojis-update) | `guild` | Sent when guild emojis were updated. |
+| [`GUILD_STICKERS_UPDATE`](#guild-stickers-update) | `guild` | Sent when guild stickers were updated. |
+| [`GUILD_BAN_ADD`](#guild-ban-add) | `guild` | Sent when a user is banned from a guild. |
+| [`GUILD_BAN_REMOVE`](#guild-ban-remove) | `guild` | Sent when a user is unbanned from a guild. |
+| [`CHANNEL_CREATE`](#channel-create) | `channel` | Sent when a new channel is created or opened for a user. |
+| [`CHANNEL_UPDATE`](#channel-update) | `channel` | Sent when a channel is updated. |
+| [`CHANNEL_UPDATE_BULK`](#channel-update-bulk) | `guild` | Sent when multiple channels are updated (e.g. reordering). |
+| [`CHANNEL_DELETE`](#channel-delete) | `channel` | Sent when a channel is deleted or closed for a user. |
+| [`CHANNEL_PINS_UPDATE`](#channel-pins-update) | `channel` | Sent when a message is pinned or unpinned. |
+| [`CHANNEL_PINS_ACK`](#channel-pins-ack) | `presence` | Sent when channel pins were acknowledged by the user. |
+| [`CHANNEL_RECIPIENT_ADD`](#channel-recipient-add) | `presence` | Sent when a user is added to a group DM. Dispatched to existing members only (the new user receives CHANNEL_CREATE instead). |
+| [`CHANNEL_RECIPIENT_REMOVE`](#channel-recipient-remove) | `presence` | Sent when a user is removed from a group DM. |
+| [`MESSAGE_CREATE`](#message-create) | `channel` | Sent when a message is created. |
+| [`MESSAGE_UPDATE`](#message-update) | `channel` | Sent when a message is edited or updated (e.g., embeds added). |
+| [`MESSAGE_DELETE`](#message-delete) | `channel` | Sent when a message is deleted. |
+| [`MESSAGE_DELETE_BULK`](#message-delete-bulk) | `channel` | Sent when multiple messages are deleted at once. |
+| [`MESSAGE_REACTION_ADD`](#message-reaction-add) | `channel` | Sent when a user adds a reaction to a message. |
+| [`MESSAGE_REACTION_REMOVE`](#message-reaction-remove) | `channel` | Sent when a user removes a reaction from a message. |
+| [`MESSAGE_REACTION_REMOVE_ALL`](#message-reaction-remove-all) | `channel` | Sent when all reactions are removed from a message. |
+| [`MESSAGE_REACTION_REMOVE_EMOJI`](#message-reaction-remove-emoji) | `channel` | Sent when all reactions for a specific emoji are removed from a message. |
+| [`MESSAGE_ACK`](#message-ack) | `presence` | Sent when a message is acknowledged (marked as read). |
+| [`TYPING_START`](#typing-start) | `channel` | Sent when a user starts typing in a channel. |
+| [`WEBHOOKS_UPDATE`](#webhooks-update) | `guild` | Sent when a guild channel webhook is created, updated, or deleted. Indicates that webhooks for the channel should be re-fetched. |
+| [`INVITE_CREATE`](#invite-create) | `guild` | Sent when an invite to a channel or pack is created. The payload structure varies based on invite type. |
+| [`INVITE_DELETE`](#invite-delete) | `guild` | Sent when an invite to a channel is deleted. |
+| [`RELATIONSHIP_ADD`](#relationship-add) | `presence` | Sent when a user relationship is added (friend request sent/received, blocked). |
+| [`RELATIONSHIP_UPDATE`](#relationship-update) | `presence` | Sent when a user relationship is updated (friend request accepted, nickname changed). |
+| [`RELATIONSHIP_REMOVE`](#relationship-remove) | `presence` | Sent when a user relationship is removed (unfriended, unblocked, request cancelled, or replaced by a block). |
+| [`VOICE_STATE_UPDATE`](#voice-state-update) | `guild` | Sent when a user's voice state is updated (join/leave/move voice channel, mute/deafen). |
+| [`VOICE_SERVER_UPDATE`](#voice-server-update) | `presence` | Sent when the voice server for a guild or call is updated. |
+| [`CALL_CREATE`](#call-create) | `presence` | Sent when a DM or group DM call is started. |
+| [`CALL_UPDATE`](#call-update) | `presence` | Sent when a DM or group DM call is updated (participants join/leave, ringing state changes). |
+| [`CALL_DELETE`](#call-delete) | `presence` | Sent when a DM or group DM call ends. |
+
+## Gateway types
+
+These types are used in gateway event payloads but are not exposed through the HTTP API.
+
+### VoiceStateResponse
+
+Represents a user's voice connection state.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | ?snowflake | The guild ID this voice state is for, null if in a DM call |
+| channel_id | ?snowflake | The channel ID the user is connected to, null if disconnected |
+| user_id | snowflake | The user ID this voice state is for |
+| connection_id? | ?string | The unique connection identifier |
+| session_id? | string | The session ID for this voice state |
+| member? | [GuildMemberResponse](/resources/guilds#guildmemberresponse) | The guild member data, if in a guild voice channel |
+| mute | boolean | Whether the user is server muted |
+| deaf | boolean | Whether the user is server deafened |
+| self_mute | boolean | Whether the user has muted themselves |
+| self_deaf | boolean | Whether the user has deafened themselves |
+| self_video? | boolean | Whether the user has their camera enabled |
+| self_stream? | boolean | Whether the user is streaming |
+| is_mobile? | boolean | Whether the user is connected from a mobile device |
+| viewer_stream_keys? | string[] | An array of stream keys the user is currently viewing |
+| version? | integer | The voice state version for ordering updates |
+
+### PresenceResponse
+
+Represents a user's presence (online status and activity).
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user | [UserPartialResponse](/resources/users#userpartialresponse) | The user this presence is for |
+| status | string | The current online status (online, idle, dnd, invisible, offline) |
+| mobile | boolean | Whether the user is on a mobile device |
+| afk | boolean | Whether the user is marked as AFK |
+| custom_status | ?[CustomStatusResponse](#customstatusresponse) | The custom status set by the user |
+
+### CustomStatusResponse
+
+Represents a user's custom status.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| text | string | The custom status text |
+| emoji_id | ?snowflake | The ID of the custom emoji used in the status |
+| emoji_name | ?string | The name of the emoji used in the status |
+| expires_at | ?string | ISO8601 timestamp when the custom status expires |
+
+### SessionResponse
+
+Represents a user's gateway session.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| session_id | string | The session identifier, or "all" for the aggregate session |
+| status | string | The status for this session (online, idle, dnd, invisible, offline) |
+| mobile | boolean | Whether this session is on a mobile device |
+| afk | boolean | Whether this session is marked as AFK |
+
+### ReadStateResponse
+
+Represents read state for a channel.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | snowflake | The channel ID for this read state |
+| mention_count | integer | Number of unread mentions in the channel |
+| last_message_id | ?snowflake | The ID of the last message read |
+| last_pin_timestamp | ?string | ISO8601 timestamp of the last pinned message acknowledged |
+
+### GuildReadyResponse
+
+Partial guild data sent in the READY event.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | snowflake | The unique identifier for this guild |
+| unavailable? | boolean | Whether the guild is unavailable due to an outage |
+| name? | string | The name of the guild |
+| icon? | ?string | The hash of the guild icon |
+| owner_id? | snowflake | The ID of the guild owner |
+| member_count? | integer | Total number of members in the guild |
+| lazy? | boolean | Whether this guild uses lazy loading |
+| large? | boolean | Whether this guild is considered large |
+| joined_at? | string | ISO8601 timestamp of when the user joined |
+
+## Event details
+
+### Session events
+
+### `READY`
+
+Contains initial state information sent after identifying. This is the first event received after a successful IDENTIFY.
+
+**Scope:** `session`
+
+**Dispatched by:** Gateway (internal)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| version | integer | Gateway protocol version |
+| session_id | string | Session ID for resuming |
+| user | [UserPrivateResponse](/resources/users#userprivateresponse) | The current user |
+| guilds | [GuildReadyResponse](#guildreadyresponse)[] | Guilds the user is in (includes full guild data for non-bots, unavailable placeholders for bots) |
+| private_channels? | [ChannelResponse](/resources/channels#channelresponse)[] | DM and group DM channels |
+| relationships? | object[] | User relationships (friends, blocked, pending) with user objects stripped |
+| users? | [UserPartialResponse](/resources/users#userpartialresponse)[] | Users referenced by relationships, channels, and guild members (deduped) |
+| presences? | [PresenceResponse](#presenceresponse)[] | Presences of friends and group DM recipients |
+| sessions? | object[] | Active gateway sessions for the current user |
+| user_settings? | [UserSettingsResponse](/resources/users#usersettingsresponse) | User settings |
+| user_guild_settings? | [UserGuildSettingsResponse](/resources/users#userguildsettingsresponse)[] | Per-guild notification settings |
+| read_states? | [ReadStateResponse](#readstateresponse)[] | Channel read state (last read message IDs) |
+| notes? | object | User notes keyed by user ID |
+| country_code? | string | Two-letter country code based on IP geolocation |
+| pinned_dms? | string[] | Array of pinned DM channel IDs |
+| favorite_memes? | [FavoriteMemeResponse](/resources/saved_media#favoritememeresponse)[] | User's favourite memes |
+| auth_session_id_hash? | string | Hash of the authentication session ID |
+
+---
+
+### `RESUMED`
+
+Response to a successful resume request. The client should replay any missed events from the buffer.
+
+**Scope:** `session`
+
+**Dispatched by:** Gateway (internal)
+
+**Payload:**
+
+Null payload; presence of this event indicates successful resume
+
+---
+
+### `SESSIONS_REPLACE`
+
+User sessions have been replaced. Sent when sessions are updated across devices.
+
+**Scope:** `presence`
+
+**Dispatched by:** Gateway (internal)
+
+**Payload:**
+
+Payload is an object[].
+
+---
+
+### User events
+
+### `USER_UPDATE`
+
+Properties about the current user changed.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`PATCH /users/@me`](/api-reference/users/update-current-user-profile)
+- `PATCH /users/@me/profile`
+
+**Payload:**
+
+See [UserPrivateResponse](/resources/users#userprivateresponse) for payload structure.
+
+---
+
+### `USER_PINNED_DMS_UPDATE`
+
+User pinned DMs have been updated.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`PUT /users/@me/channels/:channel_id/pin`](/api-reference/users/pin-direct-message-channel)
+- [`DELETE /users/@me/channels/:channel_id/pin`](/api-reference/users/unpin-direct-message-channel)
+
+**Payload:**
+
+Payload is an string[].
+
+---
+
+### `USER_SETTINGS_UPDATE`
+
+User settings have been updated.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`PATCH /users/@me/settings`](/api-reference/users/update-current-user-settings)
+
+**Payload:**
+
+See [UserSettingsResponse](/resources/users#usersettingsresponse) for payload structure.
+
+---
+
+### `USER_GUILD_SETTINGS_UPDATE`
+
+User guild settings have been updated.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`PATCH /users/@me/guilds/:guild_id/settings`](/api-reference/users/update-guild-settings-for-user)
+
+**Payload:**
+
+See [UserGuildSettingsResponse](/resources/users#userguildsettingsresponse) for payload structure.
+
+---
+
+### `USER_NOTE_UPDATE`
+
+User note for a target user has been updated.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`PUT /users/@me/notes/:user_id`](/api-reference/users/set-note-on-user)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | string | User ID the note is about |
+| note | string | The note content |
+
+---
+
+### User content events
+
+### `RECENT_MENTION_DELETE`
+
+A recent mention was deleted from the user's mentions list.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`DELETE /users/@me/mentions/:message_id`](/api-reference/users/delete-mention)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| message_id | string | ID of the deleted mention's message |
+
+---
+
+### `SAVED_MESSAGE_CREATE`
+
+A message was saved to the user's saved messages.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`POST /users/@me/saved-messages`](/api-reference/users/save-message)
+
+**Payload:**
+
+See [MessageResponse](/resources/channels#messageresponse) for payload structure.
+
+---
+
+### `SAVED_MESSAGE_DELETE`
+
+A saved message was deleted from the user's saved messages.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`DELETE /users/@me/saved-messages/:message_id`](/api-reference/users/unsave-message)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| message_id | string | ID of the deleted saved message |
+
+---
+
+### Favourite memes events
+
+### `FAVORITE_MEME_CREATE`
+
+A favourite meme was added to the user's collection.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`POST /users/@me/memes`](/api-reference/saved-media/create-meme-from-url)
+- [`POST /channels/:channel_id/messages/:message_id/memes`](/api-reference/saved-media/create-meme-from-message)
+
+**Payload:**
+
+See [FavoriteMemeResponse](/resources/saved_media#favoritememeresponse) for payload structure.
+
+---
+
+### `FAVORITE_MEME_UPDATE`
+
+A favourite meme was updated in the user's collection.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`PATCH /users/@me/memes/:meme_id`](/api-reference/saved-media/update-favorite-meme)
+
+**Payload:**
+
+See [FavoriteMemeResponse](/resources/saved_media#favoritememeresponse) for payload structure.
+
+---
+
+### `FAVORITE_MEME_DELETE`
+
+A favourite meme was deleted from the user's collection.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`DELETE /users/@me/memes/:meme_id`](/api-reference/saved-media/delete-favorite-meme)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| meme_id | string | ID of the deleted favourite meme |
+
+---
+
+### Authentication events
+
+### `AUTH_SESSION_CHANGE`
+
+Authentication session has changed. Sent when the user's token is rotated due to a security-sensitive operation like password change.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`PATCH /users/@me`](/api-reference/users/update-current-user-profile) (when password is changed)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| old_auth_session_id_hash | string | Base64url-encoded hash of the old session ID |
+| new_auth_session_id_hash | string | Base64url-encoded hash of the new session ID |
+| new_token | string | The new authentication token |
+
+---
+
+### Presence events
+
+### `PRESENCE_UPDATE`
+
+User presence was updated. Sent when a friend's or group DM member's status changes.
+
+**Scope:** `presence`
+
+**Dispatched by:** Gateway (internal)
+
+<Note>Dispatched to users who are subscribed to the target user's presence (friends, group DM members)</Note>
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user | object | Normalized user object |
+| status | string | User's current status |
+| mobile | boolean | Whether the user has any mobile session active |
+| afk | boolean | Whether the user is marked as AFK |
+| custom_status | ?object | User's custom status (null if offline/invisible or not set) |
+
+---
+
+### Guild events
+
+### `GUILD_CREATE`
+
+Sent when a guild becomes available, when the user joins a new guild, or for lazy-loading of unavailable guilds.
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`POST /guilds`](/api-reference/guilds/create-guild)
+- [`POST /invites/:invite_code`](/api-reference/invites/accept-invite)
+- Gateway (internal)
+
+**Payload:**
+
+See [GuildResponse](/resources/guilds#guildresponse) for payload structure.
+
+**Additional fields:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channels | [ChannelResponse](/resources/channels#channelresponse)[] | Channels in the guild |
+| members | [GuildMemberResponse](/resources/guilds#guildmemberresponse)[] | Members in the guild (user field contains only id for deduplication) |
+| presences | [PresenceResponse](#presenceresponse)[] | Presences of online members |
+| voice_states | [VoiceStateResponse](#voicestateresponse)[] | Voice states of members in voice channels |
+| joined_at | string | When the current user joined the guild |
+
+---
+
+### `GUILD_UPDATE`
+
+Sent when a guild is updated.
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`PATCH /guilds/:guild_id`](/api-reference/guilds/update-guild-settings)
+
+**Payload:**
+
+See [GuildResponse](/resources/guilds#guildresponse) for payload structure.
+
+---
+
+### `GUILD_DELETE`
+
+Sent when a guild becomes unavailable or the user is removed from a guild.
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- `DELETE /guilds/:guild_id`
+- [`DELETE /users/@me/guilds/:guild_id`](/api-reference/guilds/leave-guild)
+- Gateway (internal)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | string | Guild ID |
+| unavailable? | boolean | True if the guild is unavailable due to an outage (not a leave/kick) |
+
+---
+
+### Guild members events
+
+### `GUILD_MEMBER_ADD`
+
+Sent when a new user joins a guild.
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`POST /invites/:invite_code`](/api-reference/invites/accept-invite)
+- `PUT /guilds/:guild_id/members/:user_id`
+
+**Payload:**
+
+See [GuildMemberResponse](/resources/guilds#guildmemberresponse) for payload structure.
+
+---
+
+### `GUILD_MEMBER_UPDATE`
+
+Sent when a guild member is updated.
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`PATCH /guilds/:guild_id/members/:user_id`](/api-reference/guilds/update-guild-member)
+- [`PATCH /guilds/:guild_id/members/@me`](/api-reference/guilds/update-current-user-guild-member)
+- [`PUT /guilds/:guild_id/members/:user_id/roles/:role_id`](/api-reference/guilds/add-role-to-guild-member)
+- [`DELETE /guilds/:guild_id/members/:user_id/roles/:role_id`](/api-reference/guilds/remove-role-from-guild-member)
+
+**Payload:**
+
+See [GuildMemberResponse](/resources/guilds#guildmemberresponse) for payload structure.
+
+---
+
+### `GUILD_MEMBER_REMOVE`
+
+Sent when a user is removed from a guild (leave, kick, or ban).
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`DELETE /guilds/:guild_id/members/:user_id`](/api-reference/guilds/remove-guild-member)
+- [`DELETE /users/@me/guilds/:guild_id`](/api-reference/guilds/leave-guild)
+- [`PUT /guilds/:guild_id/bans/:user_id`](/api-reference/guilds/ban-guild-member)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user | object | Partial user object containing only the user ID |
+
+---
+
+### Guild roles events
+
+### `GUILD_ROLE_CREATE`
+
+Sent when a guild role is created.
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`POST /guilds/:guild_id/roles`](/api-reference/guilds/create-guild-role)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| role | [GuildRoleResponse](/resources/guilds#guildroleresponse) | The created role |
+
+---
+
+### `GUILD_ROLE_UPDATE`
+
+Sent when a guild role is updated.
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`PATCH /guilds/:guild_id/roles/:role_id`](/api-reference/guilds/update-guild-role)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| role | [GuildRoleResponse](/resources/guilds#guildroleresponse) | The updated role |
+
+---
+
+### `GUILD_ROLE_UPDATE_BULK`
+
+Sent when multiple guild roles are updated (e.g. reordering or hoist position changes).
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`PATCH /guilds/:guild_id/roles`](/api-reference/guilds/update-role-positions)
+- [`PATCH /guilds/:guild_id/roles/hoist-positions`](/api-reference/guilds/update-role-hoist-positions)
+- [`DELETE /guilds/:guild_id/roles/hoist-positions`](/api-reference/guilds/reset-role-hoist-positions)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| roles | [GuildRoleResponse](/resources/guilds#guildroleresponse)[] | The updated roles |
+
+---
+
+### `GUILD_ROLE_DELETE`
+
+Sent when a guild role is deleted.
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`DELETE /guilds/:guild_id/roles/:role_id`](/api-reference/guilds/delete-guild-role)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| role_id | string | ID of the deleted role |
+
+---
+
+### Guild content events
+
+### `GUILD_EMOJIS_UPDATE`
+
+Sent when guild emojis were updated.
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`POST /guilds/:guild_id/emojis`](/api-reference/guilds/create-guild-emoji)
+- [`POST /guilds/:guild_id/emojis/bulk`](/api-reference/guilds/bulk-create-guild-emojis)
+- [`PATCH /guilds/:guild_id/emojis/:emoji_id`](/api-reference/guilds/update-guild-emoji)
+- [`DELETE /guilds/:guild_id/emojis/:emoji_id`](/api-reference/guilds/delete-guild-emoji)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| emojis | [GuildEmojiResponse](/resources/guilds#guildemojiresponse)[] | Array of all emojis in the guild |
+
+---
+
+### `GUILD_STICKERS_UPDATE`
+
+Sent when guild stickers were updated.
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`POST /guilds/:guild_id/stickers`](/api-reference/guilds/create-guild-sticker)
+- [`POST /guilds/:guild_id/stickers/bulk`](/api-reference/guilds/bulk-create-guild-stickers)
+- [`PATCH /guilds/:guild_id/stickers/:sticker_id`](/api-reference/guilds/update-guild-sticker)
+- [`DELETE /guilds/:guild_id/stickers/:sticker_id`](/api-reference/guilds/delete-guild-sticker)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| stickers | [GuildStickerResponse](/resources/packs#guildstickerresponse)[] | Array of all stickers in the guild |
+
+---
+
+### Guild moderation events
+
+### `GUILD_BAN_ADD`
+
+Sent when a user is banned from a guild.
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`PUT /guilds/:guild_id/bans/:user_id`](/api-reference/guilds/ban-guild-member)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | string | Guild ID |
+| user | object | Partial user object |
+
+---
+
+### `GUILD_BAN_REMOVE`
+
+Sent when a user is unbanned from a guild.
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`DELETE /guilds/:guild_id/bans/:user_id`](/api-reference/guilds/unban-guild-member)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id | string | Guild ID |
+| user | object | Partial user object |
+
+---
+
+### Channel events
+
+### `CHANNEL_CREATE`
+
+Sent when a new channel is created or opened for a user.
+
+**Scope:** `channel` – Guild channels dispatch to guild scope; DMs dispatch to presence scope for each recipient
+
+**Dispatched by:**
+- [`POST /guilds/:guild_id/channels`](/api-reference/guilds/create-guild-channel)
+- [`POST /users/@me/channels`](/api-reference/users/create-private-channel)
+- [`PUT /channels/:channel_id/recipients/:user_id`](/api-reference/channels/add-recipient-to-group-dm)
+- [`POST /invites/:invite_code`](/api-reference/invites/accept-invite) (group DM invites)
+
+**Payload:**
+
+See [ChannelResponse](/resources/channels#channelresponse) for payload structure.
+
+---
+
+### `CHANNEL_UPDATE`
+
+Sent when a channel is updated.
+
+**Scope:** `channel` – Guild channels dispatch to guild scope; DMs dispatch to presence scope
+
+**Dispatched by:**
+- [`PATCH /channels/:channel_id`](/api-reference/channels/update-channel-settings)
+- [`PUT /channels/:channel_id/permissions/:overwrite_id`](/api-reference/channels/set-permission-overwrite-for-channel)
+- [`DELETE /channels/:channel_id/permissions/:overwrite_id`](/api-reference/channels/delete-permission-overwrite)
+
+**Payload:**
+
+See [ChannelResponse](/resources/channels#channelresponse) for payload structure.
+
+---
+
+### `CHANNEL_UPDATE_BULK`
+
+Sent when multiple channels are updated (e.g. reordering).
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`PATCH /guilds/:guild_id/channels`](/api-reference/guilds/update-channel-positions)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channels | [ChannelResponse](/resources/channels#channelresponse)[] | Array of updated channels (filtered by user permissions) |
+
+---
+
+### `CHANNEL_DELETE`
+
+Sent when a channel is deleted or closed for a user.
+
+**Scope:** `channel` – Guild channels dispatch to guild scope; DMs dispatch to presence scope for each recipient
+
+**Dispatched by:**
+- [`DELETE /channels/:channel_id`](/api-reference/channels/delete-a-channel)
+- [`DELETE /channels/:channel_id/recipients/:user_id`](/api-reference/channels/remove-recipient-from-group-dm)
+
+**Payload:**
+
+See [ChannelResponse](/resources/channels#channelresponse) for payload structure.
+
+---
+
+### `CHANNEL_PINS_UPDATE`
+
+Sent when a message is pinned or unpinned.
+
+**Scope:** `channel` – Guild channels dispatch to guild scope; DMs dispatch to presence scope
+
+**Dispatched by:**
+- [`PUT /channels/:channel_id/pins/:message_id`](/api-reference/channels/pin-a-message)
+- [`DELETE /channels/:channel_id/pins/:message_id`](/api-reference/channels/unpin-a-message)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID |
+| last_pin_timestamp | ?string | ISO 8601 timestamp of the last pinned message, or null if no pins remain |
+
+---
+
+### `CHANNEL_PINS_ACK`
+
+Sent when channel pins were acknowledged by the user.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`POST /channels/:channel_id/pins/ack`](/api-reference/channels/acknowledge-new-pin-notifications)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID |
+| timestamp | string | Timestamp of acknowledgement |
+
+---
+
+### Group DM events
+
+### `CHANNEL_RECIPIENT_ADD`
+
+Sent when a user is added to a group DM. Dispatched to existing members only (the new user receives CHANNEL_CREATE instead).
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`PUT /channels/:channel_id/recipients/:user_id`](/api-reference/channels/add-recipient-to-group-dm)
+- [`POST /invites/:invite_code`](/api-reference/invites/accept-invite) (group DM invites)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID of the group DM |
+| user | [UserPartialResponse](/resources/users#userpartialresponse) | The user that was added |
+
+---
+
+### `CHANNEL_RECIPIENT_REMOVE`
+
+Sent when a user is removed from a group DM.
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`DELETE /channels/:channel_id/recipients/:user_id`](/api-reference/channels/remove-recipient-from-group-dm)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID of the group DM |
+| user | [UserPartialResponse](/resources/users#userpartialresponse) | The user that was removed |
+
+---
+
+### Message events
+
+### `MESSAGE_CREATE`
+
+Sent when a message is created.
+
+**Scope:** `channel` – Guild channels dispatch to guild scope; DMs dispatch to presence scope; personal notes dispatch to presence scope
+
+**Dispatched by:**
+- [`POST /channels/:channel_id/messages`](/api-reference/channels/send-a-message)
+- [`POST /webhooks/:webhook_id/:token`](/api-reference/webhooks/execute-webhook)
+- [`POST /webhooks/:webhook_id/:token/github`](/api-reference/webhooks/execute-github-webhook)
+- [`POST /webhooks/:webhook_id/:token/slack`](/api-reference/webhooks/execute-slack-webhook)
+- [`POST /webhooks/:webhook_id/:token/sentry`](/api-reference/webhooks/execute-sentry-webhook)
+
+**Payload:**
+
+See [MessageResponse](/resources/channels#messageresponse) for payload structure.
+
+**Additional fields:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_type | integer | Type of the channel the message was sent in |
+
+---
+
+### `MESSAGE_UPDATE`
+
+Sent when a message is edited or updated (e.g., embeds added).
+
+**Scope:** `channel` – Guild channels dispatch to guild scope; DMs dispatch to presence scope
+
+**Dispatched by:**
+- [`PATCH /channels/:channel_id/messages/:message_id`](/api-reference/channels/edit-a-message)
+- `internal:embed_processing`
+- `internal:pin_update`
+- `internal:reaction_update`
+
+**Payload:**
+
+See [MessageResponse](/resources/channels#messageresponse) for payload structure.
+
+---
+
+### `MESSAGE_DELETE`
+
+Sent when a message is deleted.
+
+**Scope:** `channel` – Guild channels dispatch to guild scope; DMs dispatch to presence scope
+
+**Dispatched by:**
+- [`DELETE /channels/:channel_id/messages/:message_id`](/api-reference/channels/delete-a-message)
+- `internal:admin_message_delete`
+- `internal:bulk_delete_user_messages`
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | string | ID of the deleted message |
+| channel_id | string | Channel ID |
+| content? | string | Content of the deleted message (for audit purposes) |
+| author_id? | string | ID of the message author |
+
+---
+
+### `MESSAGE_DELETE_BULK`
+
+Sent when multiple messages are deleted at once.
+
+**Scope:** `channel` – Guild channels dispatch to guild scope; DMs dispatch to presence scope
+
+**Dispatched by:**
+- [`POST /channels/:channel_id/messages/bulk-delete`](/api-reference/channels/bulk-delete-messages)
+- `internal:bulk_delete_user_messages`
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| ids | string[] | IDs of the deleted messages |
+| channel_id | string | Channel ID |
+
+---
+
+### Message reactions events
+
+### `MESSAGE_REACTION_ADD`
+
+Sent when a user adds a reaction to a message.
+
+**Scope:** `channel` – Guild channels dispatch to guild scope; DMs dispatch to presence scope.
+
+**Dispatched by:**
+- [`PUT /channels/:channel_id/messages/:message_id/reactions/:emoji/@me`](/api-reference/channels/add-reaction-to-message)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID |
+| message_id | string | Message ID |
+| emoji | object | The emoji used |
+| user_id | string | ID of the user who reacted |
+| session_id? | string | Session ID of the user who reacted |
+| guild_id? | string | Guild ID (only present for guild channels) |
+| member? | [GuildMemberResponse](/resources/guilds#guildmemberresponse) | Guild member object (only present for guild channels) |
+
+---
+
+### `MESSAGE_REACTION_REMOVE`
+
+Sent when a user removes a reaction from a message.
+
+**Scope:** `channel` – Guild channels dispatch to guild scope; DMs dispatch to presence scope.
+
+**Dispatched by:**
+- [`DELETE /channels/:channel_id/messages/:message_id/reactions/:emoji/@me`](/api-reference/channels/remove-own-reaction-from-message)
+- [`DELETE /channels/:channel_id/messages/:message_id/reactions/:emoji/:user_id`](/api-reference/channels/remove-reaction-from-message)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID |
+| message_id | string | Message ID |
+| emoji | object | The emoji that was removed |
+| user_id | string | ID of the user whose reaction was removed |
+| session_id? | string | Session ID of the user whose reaction was removed |
+| guild_id? | string | Guild ID (only present for guild channels) |
+| member? | [GuildMemberResponse](/resources/guilds#guildmemberresponse) | Guild member object (only present for guild channels) |
+
+---
+
+### `MESSAGE_REACTION_REMOVE_ALL`
+
+Sent when all reactions are removed from a message.
+
+**Scope:** `channel` – Guild channels dispatch to guild scope; DMs dispatch to presence scope.
+
+**Dispatched by:**
+- [`DELETE /channels/:channel_id/messages/:message_id/reactions`](/api-reference/channels/remove-all-reactions-from-message)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID |
+| message_id | string | Message ID |
+
+---
+
+### `MESSAGE_REACTION_REMOVE_EMOJI`
+
+Sent when all reactions for a specific emoji are removed from a message.
+
+**Scope:** `channel` – Guild channels dispatch to guild scope; DMs dispatch to presence scope.
+
+**Dispatched by:**
+- [`DELETE /channels/:channel_id/messages/:message_id/reactions/:emoji`](/api-reference/channels/remove-all-reactions-with-emoji)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID |
+| message_id | string | Message ID |
+| emoji | object | The emoji that was removed |
+
+---
+
+### Read state events
+
+### `MESSAGE_ACK`
+
+Sent when a message is acknowledged (marked as read).
+
+**Scope:** `presence` – Always dispatched to the user's presence scope only
+
+**Dispatched by:**
+- [`POST /channels/:channel_id/messages/:message_id/ack`](/api-reference/channels/acknowledge-a-message)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID |
+| message_id | string | ID of the last read message |
+| mention_count | integer | Remaining unread mention count after this acknowledgement |
+| manual? | boolean | Whether this was a manual acknowledgement |
+
+---
+
+### Typing events
+
+### `TYPING_START`
+
+Sent when a user starts typing in a channel.
+
+**Scope:** `channel` – Guild channels dispatch to guild scope; DMs dispatch to presence scope. May be disabled per-guild via guild settings.
+
+**Dispatched by:**
+- [`POST /channels/:channel_id/typing`](/api-reference/channels/indicate-typing-activity)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID |
+| user_id | string | ID of the user who started typing |
+| timestamp | integer | Unix timestamp (milliseconds) when typing started |
+| guild_id? | string | Guild ID (only present for guild channels) |
+| member? | [GuildMemberResponse](/resources/guilds#guildmemberresponse) | Guild member object (only present for guild channels) |
+
+---
+
+### Webhooks events
+
+### `WEBHOOKS_UPDATE`
+
+Sent when a guild channel webhook is created, updated, or deleted. Indicates that webhooks for the channel should be re-fetched.
+
+**Scope:** `guild`
+
+**Dispatched by:**
+- [`POST /channels/:channel_id/webhooks`](/api-reference/webhooks/create-webhook)
+- [`PATCH /webhooks/:webhook_id`](/api-reference/webhooks/update-webhook)
+- [`DELETE /webhooks/:webhook_id`](/api-reference/webhooks/delete-webhook)
+- [`PATCH /webhooks/:webhook_id/:token`](/api-reference/webhooks/update-webhook-with-token)
+- [`DELETE /webhooks/:webhook_id/:token`](/api-reference/webhooks/delete-webhook-with-token)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID whose webhooks were updated |
+
+---
+
+### Invites events
+
+### `INVITE_CREATE`
+
+Sent when an invite to a channel or pack is created. The payload structure varies based on invite type.
+
+**Scope:** `guild` – Guild scope for guild invites (MANAGE_CHANNELS permission required), presence scope for group DM invites (sent to all recipients)
+
+**Dispatched by:**
+- [`POST /channels/:channel_id/invites`](/api-reference/invites/create-channel-invite)
+- [`POST /packs/:pack_id/invites`](/api-reference/invites/create-pack-invite)
+
+**Payload:**
+
+Empty payload.
+
+---
+
+### `INVITE_DELETE`
+
+Sent when an invite to a channel is deleted.
+
+**Scope:** `guild` – Guild scope for guild invites (MANAGE_CHANNELS permission required), presence scope for group DM invites (sent to all recipients)
+
+**Dispatched by:**
+- [`DELETE /invites/:invite_code`](/api-reference/invites/delete-invite)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | The invite code that was deleted |
+| channel_id? | string | Channel ID the invite was for (present for guild and group DM invites) |
+| guild_id? | string | Guild ID (present for guild invites only) |
+
+---
+
+### Relationships events
+
+### `RELATIONSHIP_ADD`
+
+Sent when a user relationship is added (friend request sent/received, blocked).
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`PUT /users/@me/relationships/:user_id`](/api-reference/users/accept-or-update-friend-request)
+- [`POST /users/@me/relationships`](/api-reference/users/send-friend-request-by-tag)
+- [`POST /users/@me/relationships/:user_id`](/api-reference/users/send-friend-request)
+
+**Payload:**
+
+See [RelationshipResponse](/resources/users#relationshipresponse) for payload structure.
+
+---
+
+### `RELATIONSHIP_UPDATE`
+
+Sent when a user relationship is updated (friend request accepted, nickname changed).
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`PUT /users/@me/relationships/:user_id`](/api-reference/users/accept-or-update-friend-request)
+- [`PATCH /users/@me/relationships/:user_id`](/api-reference/users/update-relationship-nickname)
+
+**Payload:**
+
+See [RelationshipResponse](/resources/users#relationshipresponse) for payload structure.
+
+---
+
+### `RELATIONSHIP_REMOVE`
+
+Sent when a user relationship is removed (unfriended, unblocked, request cancelled, or replaced by a block).
+
+**Scope:** `presence`
+
+**Dispatched by:**
+- [`DELETE /users/@me/relationships/:user_id`](/api-reference/users/remove-relationship)
+- [`PUT /users/@me/relationships/:user_id`](/api-reference/users/accept-or-update-friend-request)
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| id | string | ID of the user whose relationship was removed |
+
+---
+
+### Voice events
+
+### `VOICE_STATE_UPDATE`
+
+Sent when a user's voice state is updated (join/leave/move voice channel, mute/deafen).
+
+**Scope:** `guild`
+
+**Dispatched by:** Gateway (internal)
+
+<Note>Triggered by client sending VOICE_STATE_UPDATE opcode (4)</Note>
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| guild_id? | string | Guild ID (only present for guild voice, not for DM calls) |
+| channel_id? | ?string | Channel ID the user is in (null if disconnected) |
+| user_id | string | User ID |
+| connection_id | string | Connection ID for this voice state |
+| session_id? | string | Session ID for this voice state |
+| member? | [GuildMemberResponse](/resources/guilds#guildmemberresponse) | Guild member object (if guild voice) |
+| deaf | boolean | Whether the user is server deafened |
+| mute | boolean | Whether the user is server muted |
+| self_deaf | boolean | Whether the user is self deafened |
+| self_mute | boolean | Whether the user is self muted |
+| self_video | boolean | Whether the user's camera is on |
+| self_stream | boolean | Whether the user is streaming |
+| is_mobile | boolean | Whether the user is connected from a mobile device |
+| viewer_stream_keys? | string[] | An array of stream keys the user is currently viewing |
+| version | integer | Voice state version number, incremented on each update |
+
+---
+
+### `VOICE_SERVER_UPDATE`
+
+Sent when the voice server for a guild or call is updated.
+
+**Scope:** `presence`
+
+**Dispatched by:** Gateway (internal)
+
+<Note>Sent after joining a voice channel or when the voice server changes. For guild voice, includes guild_id. For DM calls, includes channel_id.</Note>
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| token | string | Voice connection token for authenticating with the voice server |
+| endpoint | string | Voice server host (hostname:port) |
+| connection_id | string | Connection ID for this voice connection |
+| guild_id? | string | Guild ID (present for guild voice channels) |
+| channel_id? | string | Channel ID (present for DM calls) |
+
+---
+
+### Calls events
+
+### `CALL_CREATE`
+
+Sent when a DM or group DM call is started.
+
+**Scope:** `presence`
+
+**Dispatched by:** Gateway (internal)
+
+<Note>Dispatched to all recipients of the DM/group DM when a call is initiated</Note>
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID of the call |
+| message_id | string | ID of the call message |
+| region? | ?string | Voice region for the call |
+| ringing | string[] | Array of user IDs currently being rung |
+| voice_states | [VoiceStateResponse](#voicestateresponse)[] | Voice states of current participants in the call |
+
+---
+
+### `CALL_UPDATE`
+
+Sent when a DM or group DM call is updated (participants join/leave, ringing state changes).
+
+**Scope:** `presence`
+
+**Dispatched by:** Gateway (internal)
+
+<Note>Dispatched to all recipients when call state changes</Note>
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID of the call |
+| message_id | string | ID of the call message |
+| region? | ?string | Voice region for the call |
+| ringing | string[] | Array of user IDs currently being rung |
+| voice_states | [VoiceStateResponse](#voicestateresponse)[] | Voice states of current participants in the call |
+
+---
+
+### `CALL_DELETE`
+
+Sent when a DM or group DM call ends.
+
+**Scope:** `presence`
+
+**Dispatched by:** Gateway (internal)
+
+<Note>Dispatched to all recipients when the call terminates (all participants leave or timeout)</Note>
+
+**Payload:**
+
+| Field | Type | Description |
+|-------|------|-------------|
+| channel_id | string | Channel ID of the ended call |
+
+---
+

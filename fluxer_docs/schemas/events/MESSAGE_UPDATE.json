@@ -1,0 +1,17 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "MESSAGE_UPDATE",
+	"description": "Sent when a message is edited or updated (e.g., embeds added).",
+	"scope": "channel",
+	"scopeNote": "Guild channels dispatch to guild scope; DMs dispatch to presence scope",
+	"dispatchedBy": [
+		"PATCH /channels/:channel_id/messages/:message_id",
+		"internal:embed_processing",
+		"internal:pin_update",
+		"internal:reaction_update"
+	],
+	"payload": {
+		"$ref": "MessageResponse",
+		"description": "The updated message object"
+	}
+}

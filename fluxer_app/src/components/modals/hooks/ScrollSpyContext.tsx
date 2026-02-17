@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import {useScrollSpy} from './useScrollSpy';
+import {useScrollSpy} from '@app/components/modals/hooks/useScrollSpy';
+import React, {useContext, useMemo} from 'react';
 
 export interface ScrollSpyContextValue {
 	activeSectionId: string | null;
@@ -38,7 +38,7 @@ export interface ScrollSpyProviderProps {
 export const ScrollSpyProvider: React.FC<ScrollSpyProviderProps> = ({sectionIds, containerRef, offset, children}) => {
 	const {activeSectionId, scrollToSection} = useScrollSpy({sectionIds, containerRef, offset});
 
-	const contextValue = React.useMemo<ScrollSpyContextValue>(
+	const contextValue = useMemo<ScrollSpyContextValue>(
 		() => ({
 			activeSectionId,
 			scrollToSection,
@@ -51,5 +51,5 @@ export const ScrollSpyProvider: React.FC<ScrollSpyProviderProps> = ({sectionIds,
 };
 
 export function useScrollSpyContext(): ScrollSpyContextValue | null {
-	return React.useContext(ScrollSpyContext);
+	return useContext(ScrollSpyContext);
 }

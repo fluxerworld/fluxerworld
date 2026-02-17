@@ -283,13 +283,8 @@
 	gap: 0.125rem;
 }
 
-.channelNameButton:hover,
-.channelNameButton:focus-visible {
+.channelNameButton:hover {
 	text-decoration: underline;
-}
-
-.channelNameButton:focus-visible {
-	outline: none;
 }
 
 .channelNameText {
@@ -376,11 +371,13 @@
 }
 
 .messageItem {
+	--message-media-max-width: 100%;
 	position: relative;
 	margin-bottom: 0.5rem;
 	cursor: default;
 	user-select: text;
 	-webkit-user-select: text;
+	min-width: 0;
 	border-radius: 0.375rem;
 	border: 1px solid var(--background-header-secondary);
 	background-color: var(--background-secondary-lighter);
@@ -538,11 +535,6 @@
 
 .pageInput::placeholder {
 	color: var(--text-primary-muted);
-}
-
-.pageInput:focus {
-	border-color: var(--background-modifier-accent-focus);
-	outline: none;
 }
 
 .pageInput::-webkit-inner-spin-button,

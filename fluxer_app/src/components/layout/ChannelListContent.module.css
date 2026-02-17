@@ -32,6 +32,7 @@
 	width: 100%;
 	min-width: 0;
 	min-height: 100%;
+	padding-right: var(--spacing-2);
 }
 
 .topDropZone {
@@ -58,6 +59,16 @@
 .bottomDropZone {
 	position: relative;
 	height: 0.625rem;
+}
+
+.membersSection {
+	padding: 0 0 0.125rem;
+}
+
+.membersSeparator {
+	height: 1px;
+	margin: 0.375rem 0.75rem;
+	background: var(--background-modifier-hover);
 }
 
 .bottomSpacer {

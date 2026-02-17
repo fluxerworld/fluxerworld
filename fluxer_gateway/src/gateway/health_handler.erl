@@ -19,6 +19,7 @@
 
 -export([init/2]).
 
+-spec init(cowboy_req:req(), term()) -> {ok, cowboy_req:req(), term()}.
 init(Req0, State) ->
     Req = cowboy_req:reply(
         200,

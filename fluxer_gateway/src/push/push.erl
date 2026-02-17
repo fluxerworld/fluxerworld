@@ -29,16 +29,6 @@
 -export([get_cache_stats/0]).
 -export_type([state/0]).
 
--import(push_eligibility, [is_eligible_for_push/8]).
--import(push_cache, [
-    update_lru/2,
-    get_user_push_subscriptions/2,
-    cache_user_subscriptions/3,
-    invalidate_user_badge_count/2
-]).
--import(push_sender, [send_push_notifications/8]).
--import(push_logger_filter, [install_progress_filter/0]).
-
 -type state() :: #{
     user_guild_settings_cache := map(),
     user_guild_settings_lru := list(),
@@ -59,11 +49,12 @@
     badge_counts_ttl_seconds := non_neg_integer()
 }.
 
+-spec start_link() -> {ok, pid()} | {error, term()}.
 start_link() ->
     gen_server:start_link({local, ?MODULE}, ?MODULE, [], []).
 
+-spec init([]) -> {ok, state()}.
 init([]) ->
-    install_progress_filter(),
     PushEnabled = fluxer_gateway_env:get(push_enabled),
     BaseState = #{
         user_guild_settings_cache => #{},
@@ -102,7 +93,7 @@ init([]) ->
             {ok, BaseState}
     end.
 
-
+-spec handle_call(term(), gen_server:from(), state()) -> {reply, term(), state()}.
 handle_call(get_cache_stats, _From, State) ->
     #{
         user_guild_settings_cache := UgsCache,
@@ -120,6 +111,7 @@ handle_call(get_cache_stats, _From, State) ->
 handle_call(_Request, _From, State) ->
     {reply, ok, State}.
 
+-spec handle_cast(term(), state()) -> {noreply, state()}.
 handle_cast({handle_message_create, Params}, State) ->
     {noreply, do_handle_message_create(Params, State)};
 handle_cast({sync_user_guild_settings, UserId, GuildId, UserGuildSettings}, State) ->
@@ -129,7 +121,7 @@ handle_cast({sync_user_guild_settings, UserId, GuildId, UserGuildSettings}, Stat
     } = State,
     Key = {settings, UserId, GuildId},
     NewCache = maps:put(Key, UserGuildSettings, UgsCache),
-    NewLru = update_lru(Key, UgsLru),
+    NewLru = push_cache:update_lru(Key, UgsLru),
     {noreply, State#{
         user_guild_settings_cache := NewCache,
         user_guild_settings_lru := NewLru
@@ -141,7 +133,7 @@ handle_cast({sync_user_blocked_ids, UserId, BlockedIds}, State) ->
     } = State,
     Key = {blocked, UserId},
     NewCache = maps:put(Key, BlockedIds, BiCache),
-    NewLru = update_lru(Key, BiLru),
+    NewLru = push_cache:update_lru(Key, BiLru),
     {noreply, State#{
         blocked_ids_cache := NewCache,
         blocked_ids_lru := NewLru
@@ -153,24 +145,31 @@ handle_cast({cache_user_guild_settings, UserId, GuildId, Settings}, State) ->
     } = State,
     Key = {settings, UserId, GuildId},
     NewCache = maps:put(Key, Settings, UgsCache),
-    NewLru = update_lru(Key, UgsLru),
+    NewLru = push_cache:update_lru(Key, UgsLru),
     {noreply, State#{
         user_guild_settings_cache := NewCache,
         user_guild_settings_lru := NewLru
     }};
 handle_cast({invalidate_user_badge_count, UserId}, State) ->
-    {noreply, invalidate_user_badge_count(UserId, State)};
+    {noreply, push_cache:invalidate_user_badge_count(UserId, State)};
 handle_cast(_Msg, State) ->
     {noreply, State}.
 
+-spec handle_info(term(), state()) -> {noreply, state()}.
 handle_info(_Info, State) ->
     {noreply, State}.
 
+-spec terminate(term(), state()) -> ok.
 terminate(_Reason, _State) ->
     ok.
 
-code_change(_OldVsn, {state, UgsCache, UgsLru, UgsSize, UgsMaxMb, PsCache, PsLru, PsSize, PsMaxMb,
-                      BiCache, BiLru, BiSize, BiMaxMb, BcCache, BcLru, BcSize, BcMaxMb, BcTtl}, _Extra) ->
+-spec code_change(term(), state() | tuple(), term()) -> {ok, state()}.
+code_change(
+    _OldVsn,
+    {state, UgsCache, UgsLru, UgsSize, UgsMaxMb, PsCache, PsLru, PsSize, PsMaxMb, BiCache, BiLru,
+        BiSize, BiMaxMb, BcCache, BcLru, BcSize, BcMaxMb, BcTtl},
+    _Extra
+) ->
     {ok, #{
         user_guild_settings_cache => UgsCache,
         user_guild_settings_lru => UgsLru,
@@ -193,27 +192,41 @@ code_change(_OldVsn, {state, UgsCache, UgsLru, UgsSize, UgsMaxMb, PsCache, PsLru
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
 
+-spec handle_message_create(map()) -> ok.
 handle_message_create(Params) ->
-    PushEnabled = fluxer_gateway_env:get(push_enabled),
-
-    case PushEnabled of
-        true -> gen_server:cast(?MODULE, {handle_message_create, Params});
+    case fluxer_gateway_env:get(push_enabled) of
+        true ->
+            logger:debug(
+                "Push: handle_message_create dispatched",
+                #{
+                    author_id => maps:get(author_id, Params, undefined),
+                    guild_id => maps:get(guild_id, Params, undefined),
+                    user_count => length(maps:get(user_ids, Params, []))
+                }
+            ),
+            gen_server:cast(?MODULE, {handle_message_create, Params});
         false ->
+            logger:debug("Push: push_enabled=false, skipping message_create"),
             ok
     end.
 
+-spec sync_user_guild_settings(integer(), integer(), map()) -> ok.
 sync_user_guild_settings(UserId, GuildId, UserGuildSettings) ->
     gen_server:cast(?MODULE, {sync_user_guild_settings, UserId, GuildId, UserGuildSettings}).
 
+-spec sync_user_blocked_ids(integer(), [integer()]) -> ok.
 sync_user_blocked_ids(UserId, BlockedIds) ->
     gen_server:cast(?MODULE, {sync_user_blocked_ids, UserId, BlockedIds}).
 
+-spec invalidate_user_badge_count(integer()) -> ok.
 invalidate_user_badge_count(UserId) ->
     gen_server:cast(?MODULE, {invalidate_user_badge_count, UserId}).
 
+-spec get_cache_stats() -> {ok, map()}.
 get_cache_stats() ->
     gen_server:call(?MODULE, get_cache_stats, 5000).
 
+-spec do_handle_message_create(map(), state()) -> state().
 do_handle_message_create(Params, State) ->
     MessageData = maps:get(message_data, Params),
     UserIds = maps:get(user_ids, Params),
@@ -226,12 +239,18 @@ do_handle_message_create(Params, State) ->
     GuildName = maps:get(guild_name, Params, undefined),
     ChannelName = maps:get(channel_name, Params, undefined),
     logger:debug(
-        "[push] Processing message ~p in channel ~p, guild ~p for users ~p (author ~p, defaults ~p)",
-        [MessageId, ChannelId, GuildId, UserIds, AuthorId, GuildDefaultNotifications]
+        "Push: evaluating eligibility",
+        #{
+            message_id => MessageId,
+            channel_id => ChannelId,
+            guild_id => GuildId,
+            author_id => AuthorId,
+            candidate_count => length(UserIds)
+        }
     ),
     EligibleUsers = lists:filter(
         fun(UserId) ->
-            Eligible = is_eligible_for_push(
+            push_eligibility:is_eligible_for_push(
                 UserId,
                 AuthorId,
                 GuildId,
@@ -240,18 +259,24 @@ do_handle_message_create(Params, State) ->
                 GuildDefaultNotifications,
                 UserRolesMap,
                 State
-            ),
-            logger:debug("[push] User ~p eligible: ~p", [UserId, Eligible]),
-            Eligible
+            )
         end,
         UserIds
     ),
-    logger:debug("[push] Eligible users: ~p", [EligibleUsers]),
+    logger:debug(
+        "Push: eligibility result",
+        #{
+            message_id => MessageId,
+            channel_id => ChannelId,
+            eligible_count => length(EligibleUsers),
+            eligible_user_ids => EligibleUsers
+        }
+    ),
     case EligibleUsers of
         [] ->
             State;
         _ ->
-            send_push_notifications(
+            push_dispatcher:enqueue_send_notifications(
                 EligibleUsers,
                 MessageData,
                 GuildId,
@@ -260,5 +285,6 @@ do_handle_message_create(Params, State) ->
                 GuildName,
                 ChannelName,
                 State
-            )
+            ),
+            State
     end.

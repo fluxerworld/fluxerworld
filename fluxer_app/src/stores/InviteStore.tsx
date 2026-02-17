@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as InviteActionCreators from '@app/actions/InviteActionCreators';
+import {isGuildInvite, isPackInvite} from '@app/types/InviteTypes';
+import type {Invite} from '@fluxer/schema/src/domains/invite/InviteSchemas';
 import {action, makeAutoObservable, runInAction} from 'mobx';
-import * as InviteActionCreators from '~/actions/InviteActionCreators';
-import type {Invite} from '~/records/MessageRecord';
-import {isGuildInvite, isPackInvite} from '~/types/InviteTypes';
 
 type FetchStatus = 'idle' | 'pending' | 'success' | 'error';
 

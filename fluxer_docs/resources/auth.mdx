@@ -1,0 +1,483 @@
+---
+title: 'Auth'
+description: 'Auth object schemas from the Fluxer API.'
+---
+
+<a id="authenticatortype"></a>
+
+## AuthenticatorType
+
+The type of authenticator
+
+| Value | Description |
+|-------|-------------|
+| `0` | Time-based one-time password authenticator |
+| `1` | SMS-based authenticator |
+| `2` | WebAuthn authenticator |
+
+<a id="authloginresponse"></a>
+
+## AuthLoginResponse
+
+**Related endpoints**
+
+- [`POST /auth/email-revert`](/api-reference/auth/revert-email-change)
+- [`POST /auth/login`](/api-reference/auth/login-account)
+- [`POST /auth/reset`](/api-reference/auth/reset-password)
+
+Type: [AuthTokenWithUserIdResponse](#authtokenwithuseridresponse) \| [AuthMfaRequiredResponse](#authmfarequiredresponse)
+
+<a id="authmfarequiredresponse"></a>
+
+## AuthMfaRequiredResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allowed_methods | string[] | List of allowed MFA methods |
+| mfa | enum&lt;`true`&gt; | Indicates MFA is required to complete authentication |
+| sms | boolean | Whether SMS MFA is available |
+| sms_phone_hint? | ?string | Masked phone number hint for SMS MFA |
+| ticket | string | MFA ticket to use when completing MFA verification |
+| totp | boolean | Whether TOTP authenticator MFA is available |
+| webauthn | boolean | Whether WebAuthn security key MFA is available |
+
+<a id="authorizeiprequest"></a>
+
+## AuthorizeIpRequest
+
+**Related endpoints**
+
+- [`POST /auth/authorize-ip`](/api-reference/auth/authorize-ip-address)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| token | string | The IP authorization token from email |
+
+<a id="authregisterresponse"></a>
+
+## AuthRegisterResponse
+
+**Related endpoints**
+
+- [`POST /auth/register`](/api-reference/auth/register-account)
+
+Type: [AuthTokenWithUserIdResponse](#authtokenwithuseridresponse) \| [AuthMfaRequiredResponse](#authmfarequiredresponse)
+
+<a id="authsessionclientinfo"></a>
+
+## AuthSessionClientInfo
+
+| Field | Type | Description |
+|-------|------|-------------|
+| browser? | ?string | The browser reported by the client |
+| location? | ?[AuthSessionLocation](#authsessionlocation) | The geolocation data sent by the client |
+| os? | ?string | The operating system reported by the client |
+| platform? | ?string | The platform reported by the client |
+
+<a id="authsessionlocation"></a>
+
+## AuthSessionLocation
+
+| Field | Type | Description |
+|-------|------|-------------|
+| city? | ?string | The city name reported by the client |
+| country? | ?string | The country reported by the client |
+| region? | ?string | The region reported by the client |
+
+<a id="authsessionresponse"></a>
+
+## AuthSessionResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| approx_last_used_at? | ?string (date-time) | Approximate timestamp of the last session activity |
+| client_info? | ?[AuthSessionClientInfo](#authsessionclientinfo) | Client metadata recorded for this session |
+| current | boolean | Whether this is the current session making the request |
+| id_hash | [SnowflakeType](#snowflaketype) | The base64url-encoded session id hash |
+
+<a id="authsessionsresponse"></a>
+
+## AuthSessionsResponse
+
+**Related endpoints**
+
+- [`GET /auth/sessions`](/api-reference/auth/list-auth-sessions)
+
+Type: [AuthSessionResponse](#authsessionresponse)[]
+
+<a id="authtokenwithuseridresponse"></a>
+
+## AuthTokenWithUserIdResponse
+
+**Related endpoints**
+
+- [`POST /auth/login/mfa/sms`](/api-reference/auth/login-with-sms-mfa)
+- [`POST /auth/login/mfa/totp`](/api-reference/auth/login-with-totp)
+- [`POST /auth/login/mfa/webauthn`](/api-reference/auth/login-with-webauthn-mfa)
+- [`POST /auth/webauthn/authenticate`](/api-reference/auth/authenticate-with-webauthn)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| token | string | Authentication token for API requests |
+| user_id | [SnowflakeType](#snowflaketype) | ID of the authenticated user |
+
+<a id="emailrevertrequest"></a>
+
+## EmailRevertRequest
+
+**Related endpoints**
+
+- [`POST /auth/email-revert`](/api-reference/auth/revert-email-change)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| password | [PasswordType](#passwordtype) |  |
+| token | string | Email revert token from email |
+
+<a id="forgotpasswordrequest"></a>
+
+## ForgotPasswordRequest
+
+**Related endpoints**
+
+- [`POST /auth/forgot`](/api-reference/auth/forgot-password)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| email | [EmailType](#emailtype) |  |
+
+<a id="handoffcompleterequest"></a>
+
+## HandoffCompleteRequest
+
+**Related endpoints**
+
+- [`POST /auth/handoff/complete`](/api-reference/auth/complete-handoff)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | The handoff code from the initiating session |
+| token | string | The authentication token to transfer |
+| user_id | [SnowflakeType](#snowflaketype) | The user ID associated with the token |
+
+<a id="handoffinitiateresponse"></a>
+
+## HandoffInitiateResponse
+
+**Related endpoints**
+
+- [`POST /auth/handoff/initiate`](/api-reference/auth/initiate-handoff)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | Handoff code to share with the receiving device |
+| expires_at | string (date-time) | ISO 8601 timestamp when the handoff code expires |
+
+<a id="handoffstatusresponse"></a>
+
+## HandoffStatusResponse
+
+**Related endpoints**
+
+- [`GET /auth/handoff/{code}/status`](/api-reference/auth/get-handoff-status)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| status | string | Current status of the handoff (pending, completed, expired) |
+| token? | ?string | Authentication token if handoff is complete |
+| user_id? | ?[SnowflakeType](#snowflaketype) | User ID if handoff is complete |
+
+<a id="ipauthorizationpollresponse"></a>
+
+## IpAuthorizationPollResponse
+
+**Related endpoints**
+
+- [`GET /auth/ip-authorization/poll`](/api-reference/auth/poll-ip-authorization)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| completed | boolean | Whether the IP authorization has been completed |
+| token? | ?string | Authentication token if authorization is complete |
+| user_id? | ?[SnowflakeType](#snowflaketype) | User ID if authorization is complete |
+
+<a id="loginrequest"></a>
+
+## LoginRequest
+
+**Related endpoints**
+
+- [`POST /auth/login`](/api-reference/auth/login-account)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| email | [EmailType](#emailtype) |  |
+| invite_code? | ?string | Guild invite code to join after login |
+| password | [PasswordType](#passwordtype) |  |
+
+<a id="logoutauthsessionsrequest"></a>
+
+## LogoutAuthSessionsRequest
+
+**Related endpoints**
+
+- [`POST /auth/sessions/logout`](/api-reference/auth/logout-all-sessions)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| password? | [PasswordType](#passwordtype) |  |
+| session_id_hashes | [SnowflakeType](#snowflaketype)[] | Array of session ID hashes to log out (max 100) |
+
+<a id="mfabackupcoderesponse"></a>
+
+## MfaBackupCodeResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | The backup code |
+| consumed | boolean | Whether the code has been used |
+
+<a id="mfasmsrequest"></a>
+
+## MfaSmsRequest
+
+**Related endpoints**
+
+- [`POST /auth/login/mfa/sms`](/api-reference/auth/login-with-sms-mfa)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | The SMS verification code |
+| ticket | string | The MFA ticket from the login response |
+
+<a id="mfaticketrequest"></a>
+
+## MfaTicketRequest
+
+**Related endpoints**
+
+- [`POST /auth/ip-authorization/resend`](/api-reference/auth/resend-ip-authorization)
+- [`POST /auth/login/mfa/sms/send`](/api-reference/auth/send-sms-mfa-code)
+- [`POST /auth/login/mfa/webauthn/authentication-options`](/api-reference/auth/get-webauthn-mfa-options)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| ticket | string | The MFA ticket from the login response |
+
+<a id="mfatotprequest"></a>
+
+## MfaTotpRequest
+
+**Related endpoints**
+
+- [`POST /auth/login/mfa/totp`](/api-reference/auth/login-with-totp)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | The TOTP code from the authenticator app |
+| ticket | string | The MFA ticket from the login response |
+
+<a id="registerrequest"></a>
+
+## RegisterRequest
+
+**Related endpoints**
+
+- [`POST /auth/register`](/api-reference/auth/register-account)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| consent | boolean | Whether user consents to terms of service |
+| date_of_birth | string | Date of birth in YYYY-MM-DD format |
+| email? | [EmailType](#emailtype) |  |
+| global_name? | string | Display name shown to other users |
+| invite_code? | ?string | Guild invite code to join after registration |
+| password? | [PasswordType](#passwordtype) |  |
+| username? | [UsernameType](#usernametype) |  |
+
+<a id="resetpasswordrequest"></a>
+
+## ResetPasswordRequest
+
+**Related endpoints**
+
+- [`POST /auth/reset`](/api-reference/auth/reset-password)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| password | [PasswordType](#passwordtype) |  |
+| token | string | Password reset token from email |
+
+<a id="ssocompleterequest"></a>
+
+## SsoCompleteRequest
+
+**Related endpoints**
+
+- [`POST /auth/sso/complete`](/api-reference/auth/complete-sso)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| code | string | Authorization code from the SSO provider |
+| state | string | State parameter for CSRF protection |
+
+<a id="ssocompleteresponse"></a>
+
+## SsoCompleteResponse
+
+**Related endpoints**
+
+- [`POST /auth/sso/complete`](/api-reference/auth/complete-sso)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| redirect_to | string | URL to redirect the user to after completion |
+| token | string | Authentication token for the session |
+| user_id | [SnowflakeType](#snowflaketype) | ID of the authenticated user |
+
+<a id="ssoconfigresponse"></a>
+
+## SsoConfigResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| allowed_domains | string[] |  |
+| authorization_url | ?string |  |
+| auto_provision | boolean |  |
+| client_id | ?[SnowflakeType](#snowflaketype) |  |
+| client_secret_set | boolean |  |
+| display_name | ?string |  |
+| enabled | boolean |  |
+| issuer | ?string |  |
+| jwks_url | ?string |  |
+| redirect_uri | ?string |  |
+| scope | ?string |  |
+| token_url | ?string |  |
+| userinfo_url | ?string |  |
+
+<a id="ssostartrequest"></a>
+
+## SsoStartRequest
+
+**Related endpoints**
+
+- [`POST /auth/sso/start`](/api-reference/auth/start-sso)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| redirect_to? | ?string | URL to redirect to after SSO completion |
+
+<a id="ssostartresponse"></a>
+
+## SsoStartResponse
+
+**Related endpoints**
+
+- [`POST /auth/sso/start`](/api-reference/auth/start-sso)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| authorization_url | string | URL to redirect user to for SSO authentication |
+| redirect_uri | string | Redirect URI after SSO completion |
+| state | string | State parameter for CSRF protection |
+
+<a id="ssostatusresponse"></a>
+
+## SsoStatusResponse
+
+**Related endpoints**
+
+- [`GET /auth/sso/status`](/api-reference/auth/get-sso-status)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| display_name | ?string | Display name of the SSO provider |
+| enabled | boolean | Whether SSO is enabled for this instance |
+| enforced | boolean | Whether SSO is required for all users |
+| redirect_uri | string | OAuth redirect URI for SSO |
+
+<a id="usernamesuggestionsrequest"></a>
+
+## UsernameSuggestionsRequest
+
+**Related endpoints**
+
+- [`POST /auth/username-suggestions`](/api-reference/auth/get-username-suggestions)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| global_name | string | Display name to generate username suggestions from |
+
+<a id="usernamesuggestionsresponse"></a>
+
+## UsernameSuggestionsResponse
+
+**Related endpoints**
+
+- [`POST /auth/username-suggestions`](/api-reference/auth/get-username-suggestions)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| suggestions | string[] | List of suggested usernames |
+
+<a id="verifyemailrequest"></a>
+
+## VerifyEmailRequest
+
+**Related endpoints**
+
+- [`POST /auth/verify`](/api-reference/auth/verify-email)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| token | string | Email verification token from email |
+
+<a id="webauthnauthenticaterequest"></a>
+
+## WebAuthnAuthenticateRequest
+
+**Related endpoints**
+
+- [`POST /auth/webauthn/authenticate`](/api-reference/auth/authenticate-with-webauthn)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| challenge | string | The challenge string from authentication options |
+| response | JSON value | WebAuthn authentication response |
+
+<a id="webauthnauthenticationoptionsresponse"></a>
+
+## WebAuthnAuthenticationOptionsResponse
+
+**Related endpoints**
+
+- [`POST /auth/login/mfa/webauthn/authentication-options`](/api-reference/auth/get-webauthn-mfa-options)
+- [`POST /auth/webauthn/authentication-options`](/api-reference/auth/get-webauthn-authentication-options)
+
+Type: JSON value
+
+<a id="webauthncredentialresponse"></a>
+
+## WebAuthnCredentialResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| created_at | string | When the credential was registered |
+| id | [SnowflakeType](#snowflaketype) | The credential ID |
+| last_used_at | ?string | When the credential was last used |
+| name | string | User-assigned name for the credential |
+
+<a id="webauthnmfarequest"></a>
+
+## WebAuthnMfaRequest
+
+**Related endpoints**
+
+- [`POST /auth/login/mfa/webauthn`](/api-reference/auth/login-with-webauthn-mfa)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| challenge | string | The challenge string from authentication options |
+| response | JSON value | WebAuthn authentication response |
+| ticket | string | The MFA ticket from the login response |
+

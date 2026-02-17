@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {makePersistent} from '@app/lib/MobXPersistence';
+import type {SearchHints} from '@app/utils/SearchQueryParser';
 import {action, makeAutoObservable} from 'mobx';
-import {makePersistent} from '~/lib/MobXPersistence';
-import type {SearchHints} from '~/utils/SearchQueryParser';
 
 export interface SearchHistoryEntry {
 	query: string;

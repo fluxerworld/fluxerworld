@@ -1,0 +1,440 @@
+app.communities.community: Komunita
+app.communities.community_support: Podpora komunit
+app.communities.featured_in_discovery: Doporučené v objevování
+app.communities.moderation.actions_and_tools: Moderátorské akce a nástroje
+app.communities.moderation.report_people_or_communities: Nahlaš lidi nebo komunity, ať dokážeme udržet Fluxer v bezpečí pro všechny.
+app.communities.moderation.tools: Moderátorské nástroje
+app.communities.roles_permissions_audit.audit_logs: Auditní logy pro transparentnost
+app.communities.roles_permissions_audit.granular_roles_and_permissions: Detailní role a oprávnění
+app.communities.roles_permissions_audit.keep_running_smoothly: Udrž svou komunitu v pohodě díky rolím, oprávněním a logům.
+app.communities.title: Komunity
+app.communities.verification.label: Ověření komunity
+app.communities.verification.value_statement: Tvoje komunita získá ověřený status kvůli autenticitě a důvěře.
+app.communities.verification.verified_community: Ověřená komunita
+app.customization.animated_profile.animated_avatars_and_banners: Animované avatary a bannery
+app.customization.animated_profile.stand_out_animated_profile: Vynikni s animovanými profilovkami a bannery a ukaž svou osobnost.
+app.customization.app_icon_badges: Zobrazuj počet odznaků na ikoně aplikace.
+app.customization.compact_mode: Kompaktní režim a možnosti zobrazení
+app.customization.custom_css_themes: Vlastní CSS témata
+app.customization.custom_sounds.entrance_sounds: Vlastní zvuky při příchodu
+app.customization.custom_sounds.notification_sounds: Vlastní zvuky upozornění
+app.customization.custom_sounds.set_personalized_join_sounds: Nastav si vlastní zvuk při připojení do hlasových kanálů, ať je hned jasné, že jsi tu.
+app.customization.custom_sounds.upload_custom_notification_sounds: Nahraj a používej vlastní zvuky upozornění a vylad si Fluxer po svém.
+app.customization.custom_themes: Vlastní témata
+app.customization.global_emoji_and_sticker_access: Globální přístup k emoji a samolepkám
+app.customization.saved_media_and_css: Přidávej vlastní emoji, ukládej si média na později a uprav si aplikaci vlastním CSS.
+app.customization.title: Přizpůsobení
+app.customization.upload_custom_emojis_and_stickers: Nahraj vlastní emoji a samolepky
+app.customization.use_animated_emojis: Používej animované emoji
+app.messaging.description: Piš si s kamarády v DM, chatuj ve skupinách nebo buduj komunity pomocí kanálů.
+app.messaging.features.bookmarked_messages: Zprávy v záložkách
+app.messaging.features.file_sharing: Sdílej soubory a prohlížej náhledy odkazů
+app.messaging.features.full_markdown_support: Plná podpora Markdownu ve zprávách
+app.messaging.features.message_scheduling.description: Naplánuj zprávy tak, aby se odeslaly v konkrétní čas v budoucnu. Žádný DeLorean není potřeba.
+app.messaging.features.organised_channels_for_communities: Uspořádané kanály pro komunity
+app.messaging.features.private_dms_and_group_chats: Soukromé DM a skupinové chaty
+app.messaging.features.save_media: Ukládej obrázky, videa, GIFy a audio
+app.messaging.features.search.filter_options: Filtruj podle uživatelů, dat a dalších věcí
+app.messaging.features.search.find_old_messages: Najdi staré zprávy nebo přeskakuj mezi komunitami a kanály během pár vteřin.
+app.messaging.features.search.label: Hledání v historii zpráv
+app.messaging.features.search.quick_switcher_shortcuts: Rychlý přepínač s klávesovými zkratkami
+app.messaging.features.search.search_and_quick_switcher: Vyhledávání a rychlý přepínač
+app.messaging.title: Zprávy
+app.open.open_fluxer: Otevřít Fluxer
+app.open.open_web_app: Otevřít webovou aplikaci
+app.profiles_identity.custom_identity: Vlastní identita
+app.profiles_identity.customise_per_community: Přizpůsob si profil jinak pro každou komunitu, ve které jsi.
+app.profiles_identity.manage_friends_and_block_users: Spravuj přátele a blokuj uživatele
+app.voice_and_video.features.mute_controls: Ztlumení, ohlušení a ovládání kamery
+app.voice_and_video.features.noise_suppression: Potlačení hluku a zrušení ozvěny
+app.voice_and_video.features.screen_sharing: Vestavěné sdílení obrazovky
+app.voice_and_video.features.stream_4k_60fps: Streamuj až 4K rozlišení při 60 fps, ať ti ostatní vidí v ohromující ostřenosti.
+app.voice_and_video.features.up_to_4k_video_quality: Kvalita videa až 4K
+app.voice_and_video.features.video_backgrounds.description: Ulož si až 15 video pozadí pro hovory. Už žádné lovení ve složce Stažené soubory.
+app.voice_and_video.features.video_quality: Kvalita videa
+app.voice_and_video.features.video_quality_free: 720p/30fps
+app.voice_and_video.features.video_quality_premium: Až 4K/60fps
+app.voice_and_video.hop_in_a_call: Skoč do hovoru s kamarády nebo sdílej obrazovku a pracujte spolu.
+app.voice_and_video.title: Hlas a video
+beta_and_access.beta_label: Beta
+beta_and_access.early_access.be_first_to_try: Vyzkoušej nové funkce jako první, než je vypustíme pro všechny.
+beta_and_access.early_access.label: Předčasný přístup
+beta_and_access.featured_benefit_line: Všechny základy, které čekáš, plus pár věcí, které ne.
+beta_and_access.public_beta: Veřejná beta
+beta_and_access.registration_limited_during_beta: Během bety omezujeme registrace. Jakmile se dostaneš dovnitř, můžeš dát kamarádům kód, aby přeskočili frontu.
+beta_and_access.try_without_email: Vyzkoušej Fluxer bez emailu za 30 vteřin
+community_funding_and_roles.focused_on_product: Teď se soustředíme hlavně na to, abychom doručili skvělý produkt a udrželi Fluxer nezávislý a financovaný z vlastních zdrojů.
+community_funding_and_roles.future_paid_roles_heading: Budoucnost placených rolí
+community_funding_and_roles.future_paid_roles_note: Pořád teprve stavíme business kolem Fluxeru a na placené role ještě nejsme úplně připravení.
+community_funding_and_roles.non_paid_recurring_role: Neplacená role pro pravidelné přispěvatele, kteří pomáhají tvarovat Fluxer spolu s core týmem.
+community_funding_and_roles.sustainability_note: S tvou podporou věříme, že tuhle nezávislou komunikační platformu udržíme dlouhodobě a časem začneme nabízet placené role.
+company_and_resources.blog: Blog
+company_and_resources.careers.careers_at_fluxer: Kariéra ve Fluxeru
+company_and_resources.careers.label: Kariéra
+company_and_resources.careers.share_a_bit_about_yourself: Napiš nám něco o sobě a jak bys chtěl přispívat – stačí poslat email na careers@fluxer.app
+company_and_resources.community_team.fluxer_community_team: Komunitní tým Fluxeru
+company_and_resources.community_team.share_feedback_report_bugs: Pošli feedback, nahlaš bugy a pomoz udělat Fluxer příjemný pro všechny.
+company_and_resources.company: Společnost
+company_and_resources.company_info: Informace o společnosti
+company_and_resources.connect: Kontakt
+company_and_resources.docs: Dokumentace
+company_and_resources.help.get_help: Získat pomoc
+company_and_resources.help.help_center: Centrum pomoci
+company_and_resources.help.label: Pomoc
+company_and_resources.press.label: Pro média
+company_and_resources.press.press_contact: Kontakt pro média
+company_and_resources.product: Produkt
+company_and_resources.resources: Zdroje
+company_and_resources.source_and_contribution.code_issues_docs_reviews: Kód, issues, dokumentace a review
+company_and_resources.source_and_contribution.contribute_code: Přispívej kódem
+company_and_resources.source_and_contribution.contribute_on_github: Přispívej na GitHubu
+company_and_resources.source_and_contribution.fix_bugs_ship_features: Opravuj bugy, dodávej funkce nebo laď zážitek v našem hlavním repu.
+company_and_resources.source_and_contribution.fluxer_built_in_open: Fluxer vyvíjíme veřejně. Vyber si cestu, která ti sedí.
+company_and_resources.source_and_contribution.get_involved: Zapoj se
+company_and_resources.source_and_contribution.source_code: Zdrojový kód
+company_and_resources.source_and_contribution.translation.help_translate: Pomoz přeložit Fluxer a jeho dokumentaci, ať to všude působí přirozeně.
+company_and_resources.source_and_contribution.translation.label: Překlad a lokalizace
+company_and_resources.source_and_contribution.translation.llm_translation_note: Všechny překlady jsou zatím generované pomocí LLM s minimální lidskou kontrolou. Budeme rádi, když nám pomůžou skuteční lidé lokalizovat Fluxer do tvého jazyka. Stačí napsat na i18n@fluxer.app a rádi přijmeme tvoje příspěvky.
+company_and_resources.source_and_contribution.translation.localization_label: Lokalizace
+company_and_resources.source_and_contribution.view_repository: Zobrazit repozitář
+company_and_resources.source_and_contribution.want_to_help_build_fluxer: Chceš pomoct budovat Fluxer?
+company_and_resources.source_and_contribution.ways_to_contribute: Způsoby, jak přispívat
+donations.business: Firma
+donations.donate.action: Přispět
+donations.donate.label: Přispěj Fluxeru
+donations.donate.description: Podpořte Fluxer jednorázovým nebo opakovaným příspěvkem
+donations.donation_disclaimer: Příspěvky jsou dobrovolné dary a neposkytují ti žádný produkt, službu, vlastnictví ani speciální práva. Jestli hledáš premium funkce, mrkni na {0}.
+donations.individual: Jednotlivec
+donations.individual_vs_business.answer: Obě varianty podporují stejnou věc stejně. Jediný rozdíl je v tom, že u firemního příspěvku můžeš zadat IČO (pokud je relevantní) a po dokončení dostat PDF fakturu, což se hodí pro účetnictví.
+donations.individual_vs_business.question: Jaký je rozdíl mezi Jednotlivec a Firma?
+donations.infrastructure_costs_detail: Tvůj příspěvek pomáhá pokrýt náklady na infrastrukturu Fluxeru, včetně serverů, bandwidthu, úložiště a průběžného vývoje nových funkcí. Pomáhá nám udržovat a zlepšovat platformu pro všechny.
+donations.minimum_donation: 'Minimální příspěvek: $5 / €5'
+donations.mobile_roadmap_sponsorship: Sponzorovat roadmapu pro mobil
+donations.send_one_time_gift: Poslat jednorázový dar
+donations.support_future_development: Podpořit další vývoj
+donations.support_message: Pomoz nám budovat nezávislou komunikační platformu. Tvůj příspěvek platí infrastrukturu platformy a vývoj.
+donations.tax_deductible.answer: Příspěvky pro Fluxer nejsou v současnosti daňově odčitatelné, ale přímo financují naši infrastrukturu a průběžný vývoj.
+donations.tax_deductible.question: Je můj příspěvek daňově odčitatelný?
+donations.what_it_supports: Co můj příspěvek podporuje?
+donations.why_support: Pomoz nám budovat jiný druh komunikační platformy – open source, komunitně financovanou a dělanou s péčí.
+donations.recurring: Opakované
+donations.return_question: Dostanu něco zpátky?
+donations.form.email: Email
+donations.form.email_placeholder: your@email.com
+donations.form.amount: Částka
+donations.form.amount_other: Jiná
+donations.form.amount_placeholder: Zadej částku (5-1000)
+donations.form.billing: Fakturace
+donations.form.donation_type: Typ příspěvku
+donations.form.one_time: Jednorázový
+donations.form.or_label: Nebo
+donations.form.monthly: Měsíčně
+donations.form.yearly: Ročně
+donations.form.currency: Měna
+donations.form.processing: Zpracovává se...
+donations.form.send_link: Poslat odkaz
+donations.form.sending: Odesílá se...
+donations.errors.active_subscription_exists: Už máš aktivní opakovaný příspěvek. Pro zahájení jiného opakovaného příspěvku nejdřív zruš ten stávající přes zákaznický portál. Místo toho můžeš poslat jednorázový příspěvek.
+donations.errors.invalid_email: Zadej prosím platnou emailovou adresu
+donations.errors.invalid_amount: Částka musí být mezi 5 a 1000
+donations.errors.generic: Něco se pokazilo. Zkus to prosím znovu.
+donations.errors.network: Chyba sítě. Zkus to prosím znovu.
+donations.manage.title: Spravuj své příspěvky
+donations.manage.description: Zadej svůj email a dostaneš odkaz na portál dárce, kde můžeš spravovat předplatné, stahovat faktury a prohlížet historii svých příspěvků.
+donations.manage.success: Pokud pro tento email existuje účet, brzy ti přijde odkaz pro správu.
+donations.success.title: Děkujeme!
+donations.success.description: Děkujeme za tvou podporu!
+donations.success.message: Děkujeme za tvůj příspěvek! Moc si vážíme tvé podpory.
+donations.success.email_notice: Brzy dostaneš potvrzovací email s detaily o příspěvku a odkazem na portál dárce.
+donations.success.back_to_donate: Zpět na příspěvky
+download.download: Stáhnout
+download.download_app_or_open_in_browser: Stáhni si aplikaci nebo otevři Fluxer v prohlížeči a začni se propojovat se svými komunitami.
+download.download_fluxer: Stáhnout Fluxer
+download.download_for_prefix: 'Stáhnout pro '
+download.open_in_browser: Otevřít v prohlížeči
+download.screenshots_courtesy_of: 'Screenshoty se svolením '
+footer.bluesky_social_media: Bluesky
+footer.community_guidelines: Pravidla komunity
+footer.company_information: Informace o společnosti
+footer.connect: Kontakt
+footer.donate: Přispět
+footer.download: Stáhnout
+footer.fluxer: Fluxer
+footer.fluxer_platform_ab_swedish_limited: '© Fluxer Platform AB (švédská společnost s ručením omezeným: 559537-3993)'
+footer.help_support_an_independent_communication: Podporuj nezávislou komunikační platformu. Tvůj příspěvek financuje infrastrukturu a vývoj platformy.
+footer.partners: Partneři
+footer.plutonium_tier: Tarif Plutonium
+footer.policies: Pravidla
+footer.press: Pro média
+footer.privacy_policy: Zásady ochrany soukromí
+footer.report_a_bug: Nahlásit bug
+footer.roadmap: Roadmapa
+footer.rss_feed: RSS feed
+footer.security_bug_bounty: Security bug bounty
+footer.source_code: Zdrojový kód
+footer.terms_of_service: Podmínky používání
+general.all: vše
+general.coming_soon.label: Již brzy
+general.coming_soon.whats_available_today: Co je dostupné už dnes
+general.last_updated: Naposledy aktualizováno
+general.made_in_sweden: Vyrobeno ve Švédsku
+general.not_available: Není k dispozici
+general.or: nebo
+general.tagline: Chat aplikace, kde jsi na prvním místě
+languages.change_language: Změnit jazyk
+languages.choose_your_language: Vyber si jazyk
+languages.language_label: Jazyk
+languages.list.arabic: Arabština
+languages.list.bulgarian: Bulharština
+languages.list.chinese_simplified: Čínština (zjednodušená)
+languages.list.chinese_traditional: Čínština (tradiční)
+languages.list.croatian: Chorvatština
+languages.list.czech: Čeština
+languages.list.danish: Dánština
+languages.list.dutch: Nizozemština
+languages.list.english: Angličtina
+languages.list.english_us: Angličtina (USA)
+languages.list.finnish: Finština
+languages.list.french: Francouzština
+languages.list.german: Němčina
+languages.list.greek: Řečtina
+languages.list.hebrew: Hebrejština
+languages.list.hindi: Hindština
+languages.list.hungarian: Maďarština
+languages.list.indonesian: Indonéština
+languages.list.italian: Italština
+languages.list.japanese: Japonština
+languages.list.korean: Korejština
+languages.list.lithuanian: Litevština
+languages.list.norwegian: Norština
+languages.list.polish: Polština
+languages.list.portuguese_brazil: Portugalština (Brazílie)
+languages.list.romanian: Rumunština
+languages.list.russian: Ruština
+languages.list.spanish_latin_america: Španělština (Latinská Amerika)
+languages.list.spanish_spain: Španělština (Španělsko)
+languages.list.swedish: Švédština
+languages.list.thai: Thajština
+languages.list.turkish: Turečtina
+languages.list.ukrainian: Ukrajinština
+languages.list.vietnamese: Vietnamština
+launch.description: Poznej vývojáře za Fluxerem, cíle projektu, tech stack a co přijde dál.
+launch.heading: Příběh Fluxeru
+launch.read_more: Přečíst launch článek na blogu
+launch.view_full_roadmap: Zobrazit celou roadmapu
+misc_labels.design_and_branding: Design a branding
+misc_labels.direct_team_support: Přímá podpora týmu
+misc_labels.exclusive_communities: Exkluzivní komunity
+misc_labels.exclusive_features: Exkluzivní funkce
+misc_labels.feature: Funkce
+misc_labels.get_updates: Získej novinky, mrkni na chystané funkce, prober nápady a pokecaj s týmem.
+misc_labels.join_and_spread_word: Připoj se a šiř to dál
+misc_labels.join_fluxer_community_contribute: Připoj se do komunity Fluxeru a pomoz budovat budoucnost komunikace přes open source a komunitní příspěvky.
+misc_labels.join_fluxer_hq: Připojit se do Fluxer HQ
+misc_labels.join_multiple_devices: Připojit se z více zařízení najednou
+misc_labels.join_team_behind_fluxer: Připojit se k týmu za Fluxerem
+misc_labels.learn_more: Zjistit víc
+misc_labels.product_hunt_badge_title: Fluxer – open-source messaging a VoIP platforma ve stylu Discordu | top příspěvek na Product Huntu
+misc_labels.profile_badge: Odznak profilu
+misc_labels.read_the_guide: Přečíst si návod
+misc_labels.ready_to_get_started: Jdeš do toho?
+misc_labels.register_now: Zaregistrovat se
+misc_labels.related_policies: Související pravidla
+misc_labels.report_bugs: Nahlásit bugy
+misc_labels.software_development: Vývoj softwaru
+misc_labels.trust_and_safety: Důvěra a bezpečí
+misc_labels.unique_profile_badge: Jedinečný odznak profilu
+misc_labels.unlimited_users: Neomezený počet uživatelů
+navigation.close: Zavřít
+navigation.close_navigation_menu: Zavřít navigační menu
+navigation.copy_link_to_section: Zkopírovat odkaz na sekci
+navigation.go_home: Domů
+navigation.on_this_page: Na téhle stránce
+navigation.page_not_found.description: Tahle stránka neexistuje. Ale je tu spousta dalšího k objevení.
+navigation.page_not_found.title: Stránka nenalezena
+navigation.press.download_assets_intro: Stáhni si naše loga, mrkni na naše barvy a ozvi se našemu press týmu.
+navigation.press.download_fluxer_assets: Stáhni si loga Fluxeru, brand podklady a ozvi se našemu press týmu
+navigation.press.press_and_brand_assets: Podklady pro média a brand
+partner_program.become_partner.apply_email: Přihlas se na partners@fluxer.app
+partner_program.become_partner.call_to_action: Stát se partnerem
+partner_program.become_partner.heading: Staň se partnerem Fluxeru
+partner_program.become_partner.if_youre_a_creator_or: Jestli jsi tvůrce nebo vedeš velkou komunitu, rádi o tobě uslyšíme.
+partner_program.become_partner.learn_about_partners: Zjistit víc o partnerech
+partner_program.become_partner.learn_more: Zjistit víc
+partner_program.become_partner.ready_prompt: Jsi ready stát se partnerem?
+partner_program.description: Exkluzivní výhody pro tvůrce obsahu a majitele velkých komunit.
+partner_program.label: Partneři
+partner_program.perks.creator_monetization.description: Předčasný přístup k monetizaci pro tvůrce s nižšími poplatky než u nepartnerů.
+partner_program.perks.creator_monetization.label: Monetizace pro tvůrce
+partner_program.perks.custom_vanity_url.description: Získej exkluzivní vlastní vanity URL, třeba fluxer.gg/tvojekomunita.
+partner_program.perks.custom_vanity_url.label: Vlastní vanity URL
+partner_program.perks.direct_team_access.description: Připoj se do exkluzivní komunity partnerů s přímým přístupem k Fluxer týmu.
+partner_program.perks.direct_team_access.label: Přímý přístup k týmu
+partner_program.perks.discovery_visibility: Získej větší viditelnost díky doporučení v objevování komunit.
+partner_program.perks.exclusive_merch.description: Získej exkluzivní Fluxer Partner merch a swag.
+partner_program.perks.exclusive_merch.label: Exkluzivní merch
+partner_program.perks.free_plutonium.description: Získej Plutonium zdarma na svůj účet a užívej si všechny premium funkce.
+partner_program.perks.free_plutonium.label: Plutonium zdarma
+partner_program.perks.increased_limits.description: Tvoje komunita dostane navýšené limity, když je budeš potřebovat.
+partner_program.perks.increased_limits.label: Navýšené limity
+partner_program.perks.partner_badge.description: Ukaž exkluzivní partnerský odznak na profilu a vynikni.
+partner_program.perks.partner_badge.label: Partnerský odznak
+partner_program.perks.vip_voice_servers.description: Přístup k VIP hlasovým serverům vyhrazeným jen pro partnerské komunity.
+partner_program.perks.vip_voice_servers.label: VIP hlasové kanály
+partner_program.requirements.audience_description: Stručný popis tvého publika a toho, co děláš
+partner_program.requirements.links_to_content: Odkazy na tvůj obsah nebo komunitu (YouTube, Twitch, Discord atd.)
+partner_program.requirements.name_and_username: Tvoje jméno a uživatelské jméno na platformě
+partner_program.requirements.usage_plan: Jak plánuješ používat Fluxer se svou komunitou
+partner_program.who_its_for: 'Tvůrci obsahu a majitelé komunit: odemkni exkluzivní výhody včetně Plutonia zdarma, partnerského odznaku, vlastních vanity URL a dalšího.'
+partner_program.perks.heading: Výhody pro partnery
+partner_program.perks.see_perks: Zobrazit výhody
+partner_program.apply.instructions: Pošli nám email s následujícími informacemi a přihlaš se do Fluxer Partner Programme.
+partner_program.apply.response_time: Kontrolujeme všechny přihlášky a ozveme se ti během několika dní.
+platform_support.desktop.available_on_desktop_and_web: Dostupné na desktopu i na webu
+platform_support.desktop.download_desktop_intro: Stáhni si Fluxer pro Windows, macOS a Linux. Mobilní aplikace jsou ve vývoji.
+platform_support.desktop.interface_label: Desktopové rozhraní Fluxeru
+platform_support.desktop.label: Desktop
+platform_support.desktop.use_desktop_client_mobile_soon: Používej desktop klienta (mobil už brzy)
+platform_support.mobile.install_as_app.add_to_home: Přidej Fluxer na plochu, ať schováš UI prohlížeče.
+platform_support.mobile.install_as_app.done_desktop: Hotovo! Teď můžeš Fluxer otevírat jako běžný program.
+platform_support.mobile.install_as_app.done_mobile: Hotovo! Teď můžeš Fluxer otevírat z plochy.
+platform_support.mobile.install_as_app.guides.in_chrome: ' v Chromu'
+platform_support.mobile.install_as_app.guides.in_chrome_or_another_browser: ' v Chromu nebo jiném prohlížeči s podporou PWA'
+platform_support.mobile.install_as_app.guides.in_safari: ' v Safari'
+platform_support.mobile.install_as_app.guides.pwa_installation_guide: Návod na instalaci PWA pro {name}
+platform_support.mobile.install_as_app.guides.steps.press_add_to_home_screen: 'Klikni na "Přidat na plochu"'
+platform_support.mobile.install_as_app.guides.steps.press_add_upper_right: 'Klikni na "Přidat" vpravo nahoře'
+platform_support.mobile.install_as_app.guides.steps.press_install_app: 'Klikni na "Nainstalovat aplikaci"'
+platform_support.mobile.install_as_app.guides.steps.press_install_button_address_bar: Klikni na tlačítko instalace (šipka dolů na monitoru) v adresním řádku
+platform_support.mobile.install_as_app.guides.steps.press_install_in_popup: 'V okně, které se zobrazí, klikni na "Nainstalovat"'
+platform_support.mobile.install_as_app.guides.steps.press_more_menu: 'Klikni na tlačítko "Další" (⋮) vpravo nahoře'
+platform_support.mobile.install_as_app.guides.steps.press_share_button: Klikni na tlačítko sdílení (obdélník se šipkou nahoru)
+platform_support.mobile.install_as_app.install_fluxer_as_app: Nainstalovat Fluxer jako aplikaci
+platform_support.mobile.install_as_app.title: Jak to nainstalovat jako aplikaci
+platform_support.mobile.interface_label: Mobilní rozhraní Fluxeru
+platform_support.mobile.mobile_apps_underway: Mobilní aplikace jsou ve vývoji
+platform_support.mobile.mobile_browser_explainer: Děláme aplikace pro iOS a Android. Než budou hotové, Fluxer funguje v mobilním prohlížeči a hodně jsme se snažili, aby to působilo co nejvíc jako appka.
+platform_support.mobile.not_full_replacement_yet: Zatím to ale není plnohodnotná náhrada desktop aplikace a pořád tu chybí pár věcí, které bys od mobilní chat appky čekal.
+platform_support.mobile.push_notifications: Dostávej push notifikace, když nejsi v aplikaci.
+platform_support.platforms.android.apk: APK
+platform_support.platforms.android.min_version: Android 8+
+platform_support.platforms.android.name: Android
+platform_support.platforms.ios.ios_ipados: iOS a iPadOS
+platform_support.platforms.ios.min_version: iOS 15+
+platform_support.platforms.ios.name: iOS
+platform_support.platforms.ios.testflight: TestFlight
+platform_support.platforms.linux.choose_distribution: Vyber distribuci Linuxu
+platform_support.platforms.linux.name: Linux
+platform_support.platforms.macos.apple_silicon: Apple Silicon
+platform_support.platforms.macos.download_label: Stáhnout pro macOS
+platform_support.platforms.macos.intel: Intel
+platform_support.platforms.macos.min_version: macOS 10.15+
+platform_support.platforms.macos.name: macOS
+platform_support.platforms.windows.download_label: Stáhnout pro Windows
+platform_support.platforms.windows.min_version: Windows 10+
+platform_support.platforms.windows.name: Windows
+press_branding.assets.brand_colors_heading: Barvy brandu
+press_branding.assets.full_color: Plnobarevná verze
+press_branding.assets.label: Logo
+press_branding.assets.logo_variants.black_logo: Černé logo
+press_branding.assets.logo_variants.color_logo: Barevné logo
+press_branding.assets.logo_variants.white_logo: Bílé logo
+press_branding.assets.palette_description: Pečlivě vybraná barevná paleta, která reprezentuje brand Fluxeru.
+press_branding.assets.premium_quality: Špičková kvalita
+press_branding.assets.primary_brand_color_description: Naše hlavní barva brandu. Používej ji pro klíčové prvky a akcenty.
+press_branding.assets.symbol_variants.black_symbol: Černý symbol
+press_branding.assets.symbol_variants.color_symbol: Barevný symbol
+press_branding.assets.symbol_variants.label: Symbol
+press_branding.assets.symbol_variants.white_symbol: Bílý symbol
+press_branding.assets.usage_guidance.dark_surface_guidance: Pro pozadí, text na tmavých plochách a vytváření kontrastu.
+press_branding.assets.usage_guidance.for_dark_backgrounds: Pro tmavá pozadí
+press_branding.assets.usage_guidance.for_light_backgrounds: Pro světlá pozadí
+press_branding.assets.usage_guidance.full_logo_description: Naše plné logo včetně wordmarku. Používej ho jako hlavní reprezentaci brandu.
+press_branding.assets.usage_guidance.light_surface_guidance: Pro text, ikony na světlých plochách a vytváření hloubky.
+press_branding.assets.usage_guidance.symbol_description: Naše samostatné znamení. Používej ho jen tehdy, když je brand už jasně vidět nebo dobře zavedený v kontextu.
+press_branding.colors.blue_da_ba_dee: Blue Da Ba Dee
+press_branding.colors.white: Bílá
+press_branding.colors.black: Černá
+press_branding.contact.story_prompt: Máš příběh o Fluxeru? Rádi si ho vyslechnem.
+press_branding.contact.response_time: Obvykle odpovídáme během 24 hodin.
+pricing_and_tiers.billing.forever: Navždy
+pricing_and_tiers.billing.most_popular: Nejoblíbenější
+pricing_and_tiers.billing.per_forever: /navždy
+pricing_and_tiers.billing.per_month: /měs.
+pricing_and_tiers.billing.per_year_full: /rok
+pricing_and_tiers.billing.per_year_short: /rok
+pricing_and_tiers.billing.save_percent: Ušetři 17 %
+pricing_and_tiers.free.comparison_label: Zdarma vs Plutonium
+pricing_and_tiers.free.everything_in_free_plus: 'Všechno ve verzi Zdarma, a navíc:'
+pricing_and_tiers.free.full_access_to_all_features: Plný přístup ke všem funkcím
+pricing_and_tiers.free.label: Zdarma
+pricing_and_tiers.plutonium.benefits_note_official_instance_only: 'Poznámka: výhody Plutonia a Visionary platí jen pro oficiální instanci Fluxer.app, ne pro third-party nebo self-hostované instance.'
+pricing_and_tiers.plutonium.feature_highlights: Nahrávání do 500 MB, zprávy do 4 000 znaků, 300 záložek, 50 balíčků emoji a mnohem víc.
+pricing_and_tiers.plutonium.features.bio_character_limit: Limit znaků v bio
+pricing_and_tiers.plutonium.features.choose_custom_4_digit_tag: Vyber si vlastní 4místný tag jako #0001, #1337 nebo #9999, aby byla tvoje uživatelské jméno opravdu jedinečné.
+pricing_and_tiers.plutonium.features.custom_4_digit_username_tag: Vlastní 4místný tag uživatelského jména
+pricing_and_tiers.plutonium.features.custom_username_tag: Vlastní tag u uživatelského jména
+pricing_and_tiers.plutonium.features.custom_video_backgrounds: Video pozadí
+pricing_and_tiers.plutonium.features.emoji_sticker_packs: Balíčky emoji a samolepek
+pricing_and_tiers.plutonium.features.file_upload_size: Velikost nahrávaných souborů
+pricing_and_tiers.plutonium.features.global_emoji_sticker_access: Globální přístup k emoji a samolepkám
+pricing_and_tiers.plutonium.features.message_character_limit: Limit znaků ve zprávě
+pricing_and_tiers.plutonium.features.message_scheduling: Plánování zpráv
+pricing_and_tiers.plutonium.features.per_community_profiles: Profily pro jednotlivé komunity
+pricing_and_tiers.plutonium.features.saved_media: Uložená média
+pricing_and_tiers.plutonium.features.webhooks_and_bot_support: Webhooky a podpora botů
+pricing_and_tiers.plutonium.get_more_with_plutonium: Získej víc s Fluxer Plutonium
+pricing_and_tiers.plutonium.get_plutonium: Získat Plutonium
+pricing_and_tiers.plutonium.higher_limits_and_early_access: Vyšší limity, exkluzivní funkce a předčasný přístup k novým updatům
+pricing_and_tiers.plutonium.higher_limits_everywhere: Vyšší limity všude
+pricing_and_tiers.plutonium.show_off_status_badge: Ukaž svůj Plutonium status exkluzivním odznakem na profilu.
+pricing_and_tiers.plutonium.tier_name: Plutonium
+pricing_and_tiers.plutonium.upgrade_pitch: 'Upgraduj na Plutonium za $4.99/měs.: vlastní tagy u jména, profily pro jednotlivé komunity, plánování zpráv, 4K streamování, nahrávání do 500 MB a spoustu dalších exkluzivních funkcí.'
+pricing_and_tiers.visionary.badge.numbered_badge: Očíslovaný odznak, který ukazuje tvůj status Visionary
+pricing_and_tiers.visionary.badge.numbered_badge_with_range: Očíslovaný odznak (1–{0}), který ukazuje tvůj status Visionary
+pricing_and_tiers.visionary.bundle_label: Plutonium a Operator Pass na doživotí s Visionary – omezený počet míst
+pricing_and_tiers.visionary.communities_with_team_access: Komunity Visionary a Operators s přístupem k týmu
+pricing_and_tiers.visionary.get_visionary: Získat Visionary
+pricing_and_tiers.visionary.label: Visionary
+pricing_and_tiers.visionary.lifetime_offer_copy: Získej Plutonium na celý život na Fluxer.app plus Operator Pass pro self-hosting. Zaplať {0} jednorázově. Dostupné do 1. října 2026 nebo dokud nebudou obsazena všechna místa.
+pricing_and_tiers.visionary.lifetime_operator_pass: Operator Pass na doživotí
+pricing_and_tiers.visionary.lifetime_plutonium: Plutonium na doživotí
+pricing_and_tiers.visionary.limited_offer_note: 'Omezená nabídka: Visionary zahrnuje Operator Pass'
+pricing_and_tiers.visionary.limited_slots_label: Visionary – omezený počet míst
+pricing_and_tiers.visionary.one_time_purchase.label: Jednorázový nákup
+pricing_and_tiers.visionary.one_time_purchase.promise: Jednorázový nákup, doživotní přístup
+pricing_and_tiers.visionary.purchase_flow: Visionary koupíš přímo v aplikaci po vytvoření účtu. Datum nákupu a číslo objednávky se zobrazí na profilu (může být skryté v nastavení soukromí).
+pricing_and_tiers.visionary.slots_left.generic: '{0} z {1} míst zbývá'
+pricing_and_tiers.visionary.slots_left.visionary_bundle: Už jen {0} z {1} míst Visionary – Plutonium a Operator Pass na doživotí
+pricing_and_tiers.visionary.slots_left.visionary_only: Zbývá {0} míst Visionary
+product_positioning.free_and_open_source: Fluxer je zdarma a open source. Kdokoliv si ho může zdarma self-hostovat.
+product_positioning.intro: Fluxer je bezplatná a open source platforma pro okamžité zprávy a VoIP, postavená pro kamarády, skupiny a komunity.
+product_positioning.open_source.fully_open_source_agplv3: Zcela open source (AGPLv3)
+product_positioning.open_source.label: Open source
+product_positioning.open_source.license: Open source (AGPL-3.0)
+product_positioning.self_hosting.connect_from_any_client: Připoj se z libovolného klienta
+product_positioning.self_hosting.free_self_hosting: Self-hosting zdarma
+product_positioning.self_hosting.host_your_own_instance: Hostuj si vlastní instanci
+product_positioning.self_hosting.label: Self-hosting
+product_positioning.self_hosting.operator_pass.access_to_operators_community: Přístup do Fluxer Operators komunity
+product_positioning.self_hosting.operator_pass.after_offer_ends_stays_available: Až nabídka skončí, Operator Pass zůstane k dispozici samostatně.
+product_positioning.self_hosting.operator_pass.label: Operator Pass
+product_positioning.self_hosting.operator_pass.note_optional: 'Operator Pass je volitelný: platíš za podporu a přístup do Operators komunity.'
+product_positioning.self_hosting.operator_pass.priority_support_and_operators_access: Prioritní podpora a přístup do Operators komunity pro self-hosting
+product_positioning.self_hosting.run_backend_on_your_hardware: Spusť backend Fluxeru na svém hardwaru a připoj se přes naše aplikace.
+product_positioning.self_hosting.switch_between_instances: Přepínej mezi více instancemi
+security.found_security_issue: Našel jsi bezpečnostní problém?
+security.report_vulnerabilities: Nahlaš zranitelnosti a pomoz nám držet platformu v bezpečí.
+security.responsible_disclosure_note: Vážíme si zodpovědného nahlašování přes náš program security bug bounty. Podle závažnosti rozdáváme kódy na Plutonium a odznaky Bug Hunter.
+security.security_bug_bounty: Security bug bounty
+security.security_reports: Bezpečnostní reporty
+security.testers_access_from_reports: Schválené reporty ti dají přístup do Fluxer Testers, kde můžeš sbírat body za kódy na Plutonium a odznak Bug Hunter.
+social_and_feeds.bluesky.follow_us: Sleduj nás na Bluesky
+social_and_feeds.bluesky.label: Bluesky
+social_and_feeds.bluesky.rss_feed: Bluesky RSS feed
+social_and_feeds.follow_fluxer: Sleduj @fluxer.app
+social_and_feeds.github: GitHub
+social_and_feeds.rss.blog_rss_feed: RSS feed blogu
+social_and_feeds.rss.fluxer_blog_rss: Fluxer blog RSS
+social_and_feeds.rss.label: RSS feed
+social_and_feeds.stay_updated_cta: Buď v obraze ohledně novinek, stavu služby a toho, co se děje. Můžeš se taky přihlásit k odběru našeho

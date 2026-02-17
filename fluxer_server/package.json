@@ -1,0 +1,42 @@
+{
+	"name": "fluxer_server",
+	"version": "0.0.0",
+	"private": true,
+	"description": "Combined umbrella service for self-hosters bringing together all TypeScript backend services",
+	"license": "AGPL-3.0-or-later",
+	"type": "module",
+	"scripts": {
+		"dev": "tsx watch --clear-screen=false src/startServer.tsx",
+		"start": "tsx src/startServer.tsx",
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@fluxer/admin": "workspace:*",
+		"@fluxer/api": "workspace:*",
+		"@fluxer/app_proxy": "workspace:*",
+		"@fluxer/config": "workspace:*",
+		"@fluxer/constants": "workspace:*",
+		"@fluxer/errors": "workspace:*",
+		"@fluxer/hono": "workspace:*",
+		"@fluxer/hono_types": "workspace:*",
+		"@fluxer/initialization": "workspace:*",
+		"@fluxer/ip_utils": "workspace:*",
+		"@fluxer/kv_client": "workspace:*",
+		"@fluxer/logger": "workspace:*",
+		"@fluxer/media_proxy": "workspace:*",
+		"@fluxer/queue": "workspace:*",
+		"@fluxer/s3": "workspace:*",
+		"@fluxer/sentry": "workspace:*",
+		"@fluxer/worker": "workspace:*",
+		"hono": "catalog:",
+		"tsx": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@typescript/native-preview": "catalog:"
+	},
+	"packageManager": "pnpm@10.29.3",
+	"engines": {
+		"node": ">=24.0.0"
+	}
+}

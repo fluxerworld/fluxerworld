@@ -1,0 +1,90 @@
+x-logging: &default-logging
+  driver: json-file
+  options:
+    max-size: '10m'
+    max-file: '5'
+
+services:
+  valkey:
+    image: valkey/valkey:8.0.6-alpine
+    container_name: valkey
+    restart: unless-stopped
+    command: ['valkey-server', '--appendonly', 'yes', '--save', '60', '1', '--loglevel', 'warning']
+    volumes:
+      - valkey_data:/data
+    healthcheck:
+      test: ['CMD', 'valkey-cli', 'ping']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging: *default-logging
+
+  fluxer_server:
+    image: ${FLUXER_SERVER_IMAGE:-ghcr.io/fluxerapp/fluxer-server:stable}
+    container_name: fluxer_server
+    restart: unless-stopped
+    init: true
+    environment:
+      FLUXER_CONFIG: /usr/src/app/config/config.json
+      NODE_ENV: production
+    ports:
+      - '${FLUXER_HTTP_PORT:-8080}:8080'
+    depends_on:
+      valkey:
+        condition: service_healthy
+    volumes:
+      - ./config:/usr/src/app/config:ro
+      - fluxer_data:/usr/src/app/data
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1:8080/_health || exit 1']
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    logging: *default-logging
+
+  meilisearch:
+    image: getmeili/meilisearch:v1.14
+    container_name: meilisearch
+    profiles: ['search']
+    restart: unless-stopped
+    environment:
+      MEILI_ENV: production
+      MEILI_MASTER_KEY: ${MEILI_MASTER_KEY:?Set MEILI_MASTER_KEY in .env or environment}
+      MEILI_DB_PATH: /meili_data
+      MEILI_HTTP_ADDR: 0.0.0.0:7700
+    ports:
+      - '${MEILI_PORT:-7700}:7700'
+    volumes:
+      - meilisearch_data:/meili_data
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1:7700/health || exit 1']
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    logging: *default-logging
+
+  livekit:
+    image: livekit/livekit-server:v1.9.11
+    container_name: livekit
+    profiles: ['voice']
+    restart: unless-stopped
+    command: ['--config', '/etc/livekit/livekit.yaml']
+    volumes:
+      - ./config/livekit.yaml:/etc/livekit/livekit.yaml:ro
+    ports:
+      - '${LIVEKIT_PORT:-7880}:7880'
+      - '7881:7881'
+      - '3478:3478/udp'
+      - '50000-50100:50000-50100/udp'
+    healthcheck:
+      test: ['CMD-SHELL', 'wget -qO- http://127.0.0.1:7880 || exit 1']
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    logging: *default-logging
+
+volumes:
+  valkey_data:
+  fluxer_data:
+  meilisearch_data:

@@ -1,0 +1,9 @@
+{application, fluxer_relay, [
+    {description, "Fluxer Relay Server"},
+    {vsn, "0.1.0"},
+    {registered, []},
+    {mod, {fluxer_relay_app, []}},
+    {applications, [kernel, stdlib, crypto, cowboy, gun, lager]},
+    {env, []},
+    {modules, []}
+]}.

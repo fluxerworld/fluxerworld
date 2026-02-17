@@ -21,6 +21,8 @@
 	margin-left: 0;
 	margin-right: 0;
 	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
 }
 
 .box {
@@ -29,12 +31,17 @@
 	border: none;
 	transition: border-color 0.2s ease;
 	margin-bottom: 0;
+	max-width: 100%;
+	box-sizing: border-box;
 }
 
 .stackSection {
 	width: 100%;
+	max-width: 100%;
 	display: flex;
 	flex-direction: column;
+	min-width: 0;
+	box-sizing: border-box;
 }
 
 .stackSection + .stackSection {
@@ -76,14 +83,20 @@
 	position: relative;
 	z-index: 1;
 	flex-shrink: 0;
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
 }
 
 .barInner {
 	display: grid;
 	align-items: center;
-	grid-template-columns: 1fr auto;
+	grid-template-columns: minmax(0, 1fr) auto;
 	padding-left: 16px;
 	padding-right: 16px;
+	width: 100%;
+	max-width: 100%;
+	box-sizing: border-box;
 }
 
 .separator {

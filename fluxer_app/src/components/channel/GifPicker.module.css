@@ -24,8 +24,10 @@
 	grid-template-rows: 1fr;
 	overflow: hidden;
 	background-color: var(--background-primary);
-	--gif-picker-overlay-bg: oklab(0 0 0 / 0.75);
-	--gif-picker-overlay-hover-bg: oklab(0 0 0 / 0.8);
+	--gif-picker-category-overlay-bg: rgb(0 0 0 / 0.68);
+	--gif-picker-category-overlay-hover-bg: rgb(0 0 0 / 0.5);
+	--gif-picker-gif-overlay-bg: rgb(0 0 0 / 0.18);
+	--gif-picker-gif-overlay-hover-bg: rgb(0 0 0 / 0.04);
 }
 
 .gifPickerMain {
@@ -46,40 +48,8 @@
 }
 
 .virtualList {
-	scrollbar-color: var(--scrollbar-thumb-bg) transparent;
-	scrollbar-width: thin;
 	overflow-anchor: none;
 	background-color: var(--background-primary);
-}
-
-@media (max-width: 768px) {
-	.virtualList {
-		scrollbar-width: none;
-	}
-
-	.virtualList::-webkit-scrollbar {
-		display: none;
-	}
-}
-
-.virtualList::-webkit-scrollbar {
-	width: 8px;
-}
-
-.virtualList::-webkit-scrollbar-thumb {
-	background-color: var(--scrollbar-thumb-bg);
-	background-clip: padding-box;
-	border: 2px solid transparent;
-	border-radius: 4px;
-	min-height: 48px;
-}
-
-.virtualList::-webkit-scrollbar-thumb:hover {
-	background-color: var(--scrollbar-thumb-bg-hover);
-}
-
-.virtualList::-webkit-scrollbar-track {
-	background-color: transparent;
 }
 
 .virtualRow {
@@ -121,8 +91,10 @@
 	transition: color 0.1s ease-out;
 }
 
-.searchBarBackButton:hover {
-	color: var(--text-primary);
+@media (hover: hover) {
+	.searchBarBackButton:hover {
+		color: var(--text-primary);
+	}
 }
 
 .searchBarTitle {
@@ -173,6 +145,9 @@
 	border: 1px solid transparent;
 	transition: border-color 0.1s ease-out;
 	outline: none;
+	overflow: hidden;
+	isolation: isolate;
+	contain: paint;
 }
 
 .gridItemFocused {
@@ -183,26 +158,20 @@
 .gridItemBackdrop {
 	position: absolute;
 	inset: 1px;
-	transition:
-		background-color 0.1s ease-out,
-		backdrop-filter 0.1s ease-out;
+	transition: background-color 0.1s ease-out;
 	z-index: 2;
-	background-color: var(--gif-picker-overlay-bg);
+	background-color: var(--gif-picker-category-overlay-bg);
 	border-radius: calc(0.375rem - 1px);
-}
-
-.gridItemCategory:hover {
-	border-color: var(--brand-primary-light);
-	box-shadow: inset 0 0 0 1px var(--brand-primary-light);
-}
-
-.gridItemCategory:hover .gridItemBackdrop {
-	backdrop-filter: blur(2px);
-	background-color: var(--gif-picker-overlay-hover-bg);
+	pointer-events: none;
 }
 
 .gridItemGif .gridItemBackdrop {
 	display: none;
+}
+
+.gridItemGifPicker .gridItemBackdrop {
+	display: block;
+	background-color: var(--gif-picker-gif-overlay-bg);
 }
 
 .gifMediaContainer {
@@ -213,24 +182,12 @@
 	justify-content: center;
 	overflow: hidden;
 	border-radius: calc(0.375rem - 1px);
-	transition: filter 0.1s ease-out;
-}
-
-.gridItemGif:hover {
-	border-color: var(--brand-primary-light);
-	box-shadow: inset 0 0 0 1px var(--brand-primary-light);
-}
-
-.gridItemGif:hover .gifMediaContainer {
-	filter: brightness(1.2);
+	background-color: var(--background-secondary);
+	z-index: 1;
 }
 
 .gridItemFavorites .gridItemBackdrop {
 	background-color: hsla(242, 67%, 55%, 0.6);
-}
-
-.gridItemFavorites:hover .gridItemBackdrop {
-	background-color: hsla(242, 67%, 55%, 0.8);
 }
 
 .gridItemCategoryTitle {
@@ -291,8 +248,10 @@
 	transition: color 0.1s ease-out;
 }
 
-.backButton:hover {
-	color: var(--text-primary);
+@media (hover: hover) {
+	.backButton:hover {
+		color: var(--text-primary);
+	}
 }
 
 .header h2 {
@@ -357,8 +316,10 @@
 	transition: background-color 0.2s ease;
 }
 
-.suggestionTag:hover {
-	background-color: var(--background-modifier-hover);
+@media (hover: hover) {
+	.suggestionTag:hover {
+		background-color: var(--background-modifier-hover);
+	}
 }
 
 .suggestionTag:active {
@@ -375,6 +336,9 @@
 	opacity: 0;
 	pointer-events: none;
 	transform: translateY(-4px);
+	transition:
+		opacity 0.12s ease-out,
+		transform 0.12s ease-out;
 }
 
 .favoriteButton {
@@ -396,12 +360,14 @@
 	cursor: pointer;
 }
 
-.favoriteButton:hover {
-	transform: scale(1.05);
-}
+@media (hover: hover) {
+	.favoriteButton:hover {
+		transform: scale(1.05);
+	}
 
-.favoriteButton:hover:has([style*='status-danger']) {
-	background-color: var(--status-danger-hover);
+	.favoriteButtonDanger:hover {
+		background-color: var(--button-danger-active-fill);
+	}
 }
 
 .favoriteButton:active {
@@ -413,10 +379,19 @@
 	background-color: var(--brand-primary);
 }
 
+.favoriteButtonDanger {
+	background-color: var(--button-danger-fill);
+	color: var(--button-danger-text);
+}
+
 .favoriteButtonIcon {
 	color: var(--text-primary);
 	height: 1rem;
 	width: 1rem;
+}
+
+.favoriteButtonDanger .favoriteButtonIcon {
+	color: var(--button-danger-text);
 }
 
 .favoriteButtonActiveIcon {
@@ -476,8 +451,10 @@
 
 :global(.theme-light) .gifPickerContainer {
 	background-color: var(--background-primary);
-	--gif-picker-overlay-bg: color-mix(in srgb, var(--background-primary) 80%, transparent);
-	--gif-picker-overlay-hover-bg: color-mix(in srgb, var(--background-primary) 90%, transparent);
+	--gif-picker-category-overlay-bg: rgb(255 255 255 / 0.56);
+	--gif-picker-category-overlay-hover-bg: rgb(255 255 255 / 0.36);
+	--gif-picker-gif-overlay-bg: rgb(255 255 255 / 0.16);
+	--gif-picker-gif-overlay-hover-bg: rgb(255 255 255 / 0.04);
 }
 
 :global(.theme-light) .gifPickerMain,
@@ -543,12 +520,57 @@
 	}
 }
 
-.gridItemGif:hover .hoverActionButtons,
-.gridItemGif:focus-visible .hoverActionButtons,
 .gridItemGif:focus-within .hoverActionButtons,
 .gridItemFavoritePending .hoverActionButtons,
 .gridItemFocused .hoverActionButtons {
 	opacity: 1;
 	transform: translateY(0);
 	pointer-events: auto;
+}
+
+.gridItemCategory:focus-within .gridItemBackdrop,
+.gridItemFocused.gridItemCategory .gridItemBackdrop {
+	background-color: var(--gif-picker-category-overlay-hover-bg);
+}
+
+.gridItemGifPicker:focus-within .gridItemBackdrop,
+.gridItemFocused.gridItemGifPicker .gridItemBackdrop {
+	background-color: var(--gif-picker-gif-overlay-hover-bg);
+}
+
+@media (hover: hover) {
+	.gridItemCategory:hover {
+		border-color: var(--brand-primary-light);
+		box-shadow: inset 0 0 0 1px var(--brand-primary-light);
+	}
+
+	.gridItemCategory:hover .gridItemBackdrop {
+		background-color: var(--gif-picker-category-overlay-hover-bg);
+	}
+
+	.gridItemGifPicker:hover {
+		border-color: var(--brand-primary-light);
+		box-shadow: inset 0 0 0 1px var(--brand-primary-light);
+	}
+
+	.gridItemGifPicker:hover .gridItemBackdrop {
+		background-color: var(--gif-picker-gif-overlay-hover-bg);
+	}
+
+	.gridItemFavorites:hover .gridItemBackdrop {
+		background-color: hsla(242, 67%, 55%, 0.8);
+	}
+
+	.gridItemGif:hover .hoverActionButtons {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+}
+
+@media (hover: none) {
+	.gridItemFocused {
+		border-color: transparent;
+		box-shadow: none;
+	}
 }

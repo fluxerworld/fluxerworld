@@ -1,0 +1,497 @@
+account.already_verified: Твій акаунт уже підтверджено.
+account.communication_disabled: Спілкування вимкнено.
+account.disabled: Цей акаунт вимкнено.
+account.email_verification_required_for_guild: Щоб писати в цій гільдії, підтвердь електронну пошту.
+account.guild_verification_required: Потрібна верифікація в гільдії.
+account.ip_authorization_required: Потрібна авторизація IP.
+account.locked_suspicious_activity: Твій акаунт заблоковано через підозрілу активність.
+account.phone_required_for_guild: Щоб писати в цій гільдії, додай номер телефону.
+account.scheduled_for_deletion: Цей акаунт заплановано на видалення.
+account.session_timeout: Сеанс завершився. Онови сторінку та увійди знову.
+account.session_token_mismatch: Токен сеансу не збігається.
+account.suspended_permanently: Цей акаунт заблоковано назавжди.
+account.suspended_temporarily: Цей акаунт тимчасово заблоковано.
+account.too_new_for_guild: Твій акаунт занадто новий, щоб надсилати повідомлення в цій гільдії.
+account.unauthorized: Немає доступу.
+admin_and_system.acls_must_be_non_empty: ACL не можуть бути порожніми.
+admin_and_system.admin_api_key_not_found: Адмінський API-ключ не знайдено.
+admin_and_system.audit_log_indexing: Виконується індексація журналу аудиту. Спробуй ще раз за мить.
+admin_and_system.channel_indexing: Канали індексуються. Спробуй ще раз за мить.
+admin_and_system.creation_failed: Не вдалося створити ресурс. Спробуй ще раз.
+admin_and_system.deletion_failed: Не вдалося видалити ресурс. Спробуй ще раз.
+admin_and_system.decryption_failed: Не вдалося розшифрувати повідомлення. Ключі шифрування можуть бути недійсними або пошкодженими.
+admin_and_system.empty_encrypted_body: Порожне зашифроване тіло.
+admin_and_system.encryption_failed: Не вдалося зашифрувати повідомлення. Ключі шифрування можуть бути недійсними або пошкодженими.
+admin_and_system.general_error: Щось пішло не так. Спробуй ще раз пізніше.
+admin_and_system.invalid_acls_format: Недійсний формат ACL.
+admin_and_system.invalid_api_origin: Недійсне джерело API.
+admin_and_system.invalid_audit_log_reason: Недійсна причина в журналі аудиту.
+admin_and_system.invalid_bot_flag: Недійсний прапор бота.
+admin_and_system.invalid_decrypted_json: Недійсний розшифрований JSON.
+admin_and_system.invalid_ephemeral_key: Недійсний тимчасовий ключ.
+admin_and_system.invalid_flags_format: Недійсний формат прапорів.
+admin_and_system.invalid_form_body: Недійсне тіло форми.
+admin_and_system.invalid_format: Надана значення мають недійсний формат.
+admin_and_system.invalid_integer_format: Недійсний формат цілого числа.
+admin_and_system.invalid_iv: Недійсний вектор ініціалізації.
+admin_and_system.invalid_suspicious_flags_format: Недійсний формат прапорів підозрілої діяльності.
+admin_and_system.invalid_system_flag: Недійсний системний прапор.
+admin_and_system.invalid_timeout_value: Недійсне значення таймауту.
+admin_and_system.invalid_timestamp: Недійсна позначка часу.
+admin_and_system.invalid_timezone_identifier: Недійсний ідентифікатор часового поясу.
+admin_and_system.missing_acl: Відсутній ACL.
+admin_and_system.missing_ephemeral_key: Відсутній тимчасовий ключ.
+admin_and_system.missing_iv: Відсутній вектор ініціалізації.
+admin_and_system.must_be_iso_timestamp: Має бути валідна ISO позначка часу.
+admin_and_system.processing_failed: Не вдалося обробити запит. Спробуй ще раз.
+admin_and_system.response_validation_failed: 'Перевірка відповіді не пройшла: {errors}.'
+admin_and_system.test_harness_disabled: Тестовий стенд вимкнено.
+admin_and_system.test_harness_forbidden: Тестовий стенд заборонено.
+admin_and_system.unknown_suspicious_flag: Невідомий прапор підозрілої діяльності.
+admin_and_system.update_failed: Не вдалося оновити ресурс. Спробуй ще раз.
+admin_and_system.user_must_be_bot_for_system_user: Користувач має бути ботом, щоб його позначити як системного.
+attachments_and_uploads.attachment_fields_required: Обов'язкові `attachment_id`, `channel_id`, `message_id` і `expires_at`.
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` і `message_id` мають бути валідними цілими числами.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Користувачі з правом MANAGE_MESSAGES можуть редагувати лише описи вкладень, а не інші метадані.
+attachments_and_uploads.attachment_metadata_without_files: У метаданих вкладення є назва файлу, але самих файлів не завантажено.
+attachments_and_uploads.attachment_must_be_image: Вкладення "{filename}" має бути зображенням (png, jpg, jpeg, webp або gif).
+attachments_and_uploads.attachment_not_found_in_message: Вкладення з ID {attachmentId} не знайдено в повідомленні.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Під час завантаження потрібен масив метаданих вкладень.
+attachments_and_uploads.attachments_not_allowed_for_message: Вкладення не дозволені для цього повідомлення.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Не можна посилатися на вкладення, якщо вкладень не передано.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Дублікати attachment ID не дозволені.
+attachments_and_uploads.duplicate_file_index: 'Дубльований індекс файлу: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Не вдалося розібрати multipart form data. Перевір назви полів і файлів.
+attachments_and_uploads.failed_to_parse_multipart_payload: Не вдалося розібрати multipart payload.
+attachments_and_uploads.failed_to_upload_image: Не вдалося завантажити зображення. Спробуй ще раз.
+attachments_and_uploads.file_index_exceeds_maximum: Індекс файлу {index} перевищує максимально дозволений {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Файл для сканування не знайдено.
+attachments_and_uploads.file_not_found: Файл не знайдено.
+attachments_and_uploads.file_size_too_large: Файл занадто великий. Максимальний розмір файлу – {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Назва файлу не може бути порожньою після нормалізації.
+attachments_and_uploads.filename_invalid_characters: У назві файлу є недопустимі символи.
+attachments_and_uploads.filename_length_invalid: Назва файлу має бути від {min} до {max} символів.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Назва файлу не збігається для вкладення {attachmentId}: у метаданих "{expectedFilename}", але вона не збігається.'
+attachments_and_uploads.image_size_exceeds_limit: Розмір зображення перевищує {maxSize} байтів.
+attachments_and_uploads.invalid_file_field_name: 'Недійсна назва поля файлу: {key}. Очікуваний формат: `files[N]`, де N – число.'
+attachments_and_uploads.invalid_image_data: Недійсні дані зображення.
+attachments_and_uploads.invalid_image_format: 'Неправильний формат зображення. Підтримувані розширення: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: Недійсний JSON у `payload_json`.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Кілька файлів для індексу {index} не дозволені.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Не завантажено файл для метаданих вкладення з ID {attachmentId}.
+attachments_and_uploads.no_file_uploaded_for_attachment: Не завантажено файл для вкладення з ID {attachmentId}.
+attachments_and_uploads.no_metadata_for_file: Не надано метаданих для файлу з ID {fileId}.
+attachments_and_uploads.no_valid_media_in_message: У повідомленні не знайдено валідних медіафайлів.
+attachments_and_uploads.payload_json_required_for_multipart: Для multipart-повідомлень потрібне поле `payload_json`.
+attachments_and_uploads.preview_must_be_jpeg: Прев'ю має бути у форматі JPEG.
+attachments_and_uploads.referenced_attachment_not_found: Вкладення "{filename}" не знайдено серед вкладень повідомлення.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` має бути валідним цілим числом.'
+attachments_and_uploads.too_many_files: Забагато файлів. Максимум {maxFiles} {maxFiles, plural, one {файл} few {файли} many {файлів} other {файли}}.
+attachments_and_uploads.unknown_image_format: Невідомий формат зображення.
+attachments_and_uploads.unresolved_attachment_url: Виявлено нерозв'язаний URL `attachment://`. Його треба було розв'язати до обробки embed.
+attachments_and_uploads.uploaded_attachment_not_found: Завантажене вкладення {filename} не знайдено.
+auth_and_oauth.application_not_owned: Ти не володієш цим додатком.
+auth_and_oauth.bot_already_in_guild: Цей бот вже в гільдії.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Користувачі-боти не можуть створювати auth-сесії.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Користувачі-боти не можуть використовувати auth ендпоїнти.
+auth_and_oauth.handoff_code_expired: Термін дії handoff code минув.
+auth_and_oauth.handoff_code_invalid: Недійсний handoff code.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize не підтримується. Використай POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Недійсний client secret.
+auth_and_oauth.invalid_client: Недійсний клієнт.
+auth_and_oauth.invalid_code: Недійсний код.
+auth_and_oauth.invalid_grant: Недійсний grant.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Недійсний або прострочений authorization ticket.
+auth_and_oauth.invalid_or_expired_authorization_token: Недійсний або прострочений токен авторизації.
+auth_and_oauth.invalid_or_expired_ticket: Недійсний або прострочений ticket.
+auth_and_oauth.invalid_proof_token: Недійсний proof token.
+auth_and_oauth.invalid_redirect_uri: Недійсний redirect URI.
+auth_and_oauth.invalid_request: Недійсний запит.
+auth_and_oauth.invalid_scope: Недійсний scope.
+auth_and_oauth.invalid_sudo_token: Недійсний sudo token.
+auth_and_oauth.invalid_token_admin_api_key: Недійсний адмінський API-ключ.
+auth_and_oauth.missing_authorization: Немає авторизації.
+auth_and_oauth.missing_client_secret: Немає client secret.
+auth_and_oauth.missing_redirect_uri: Немає redirect URI.
+auth_and_oauth.must_start_session_before_sending_messages: Спочатку почни сесію, а вже потім надсилай повідомлення.
+auth_and_oauth.oauth_admin_scope_required: OAuth2-токени потребують admin scope для доступу до адмінських ендпоїнтів.
+auth_and_oauth.oauth_fields_missing: Не вистачає полів OAuth.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Для scope без ботів потрібен redirect URI.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Для scope без ботів response type має бути code.
+auth_and_oauth.sudo_mode_required: Потрібен sudo mode.
+auth_and_oauth.unknown_application: Невідомий додаток.
+auth_and_oauth.unsupported_response_type: Непідтримуваний response type.
+auth_and_registration.current_password_incorrect: Поточний пароль неправильний.
+auth_and_registration.password_is_too_common: Ваш пароль занадто поширений. Виберіть більш унікальний пароль.
+auth_and_registration.password_not_set: Пароль не встановлено.
+bots.bot_application_not_found: Додаток бота не знайдено.
+bots.bot_discriminator_cannot_be_changed: Дискримінатор бота не можна змінити.
+bots.bot_is_private: Цей бот приватний.
+bots.bot_user_generation_failed: Не вдалося створити користувача-бота.
+bots.bot_user_not_found: Користувача-бота не знайдено.
+bots.invalid_response_type_for_non_bot: Response type має бути code для scope без ботів.
+bots.not_a_bot_application: Цей додаток не є ботом.
+calls_and_voice.call_already_exists: Дзвінок уже існує.
+calls_and_voice.cannot_modify_voice_state: Не можна змінювати голосовий стан.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Недійсний або обмежений RTC-регіон: {region}.'
+calls_and_voice.invalid_rtc_region: 'Недійсний RTC-регіон: {region}. Доступні регіони: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Неправильний формат stream key.
+calls_and_voice.invalid_stream_thumbnail_payload: Недійсний payload прев'ю стріму.
+calls_and_voice.no_active_call: Немає активного дзвінка.
+calls_and_voice.stream_key_channel_mismatch: Stream key не відповідає каналу.
+calls_and_voice.stream_key_scope_mismatch: Stream key не відповідає scope.
+calls_and_voice.stream_thumbnail_payload_empty: Payload прев'ю стріму порожній.
+calls_and_voice.unknown_voice_region: Невідомий голосовий регіон.
+calls_and_voice.unknown_voice_server: Невідомий голосовий сервер.
+calls_and_voice.voice_message_duration_exceeds_limit: Тривалість голосового повідомлення не може перевищувати {maxDuration} секунд.
+calls_and_voice.voice_message_duration_required: Для вкладень голосових повідомлень потрібно вказати тривалість.
+calls_and_voice.voice_message_waveform_required: Для вкладень голосових повідомлень потрібні дані waveform.
+calls_and_voice.voice_messages_require_single_attachment: Голосові повідомлення мають містити рівно одне вкладення.
+captcha.invalid: Неправильна капча.
+captcha.required: Потрібна капча.
+channels_and_guilds.afk_channel_must_be_in_guild: AFK-канал має бути в цій гільдії.
+channels_and_guilds.afk_channel_must_be_voice: AFK-канал має бути голосовим.
+channels_and_guilds.all_channels_must_belong_to_guild: Усі канали мають належати цій гільдії.
+channels_and_guilds.animated_guild_banner_requires_feature: Для анімованого банера гільдії потрібна функція ANIMATED_BANNER.
+channels_and_guilds.cannot_execute_on_dm: Цю дію не можна виконати в приватних.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Володіння сервером не може бути передано боту.
+channels_and_guilds.cannot_leave_guild_as_owner: Ти не можеш вийти з гільдії як власник. Передай права власника або видали гільдію.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Не можна позиціонувати канал відносно самого себе або його нащадків.
+channels_and_guilds.cannot_report_own_guild: Не можна поскаржитися на власну гільдію.
+channels_and_guilds.categories_cannot_have_parent_channel: Категорії не можуть мати батьківський канал.
+channels_and_guilds.categories_cannot_have_parents: Категорії не можуть мати батьків.
+channels_and_guilds.channel_id_required: Потрібен `channel_id`.
+channels_and_guilds.channel_must_be_dm_or_group_dm: Канал має бути приватним або груповим приватним.
+channels_and_guilds.channel_must_be_voice: Канал має бути голосовим.
+channels_and_guilds.channel_not_found: Канал не знайдено.
+channels_and_guilds.context_channel_or_guild_required: Потрібен контекстний ID каналу або гільдії.
+channels_and_guilds.guild_banner_requires_feature: Для банера гільдії потрібна функція BANNER.
+channels_and_guilds.guild_id_must_match_referenced_message: ID гільдії має збігатися з каналом, звідки було отримано повідомлення.
+channels_and_guilds.invalid_channel_id: 'Недійсний ID каналу: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Цей тип каналу не підходить для дзвінка.
+channels_and_guilds.invalid_channel_type: Недійсний тип каналу.
+channels_and_guilds.invalid_channel: Недійсний канал.
+channels_and_guilds.invalid_parent_channel: Недійсний батьківський канал.
+channels_and_guilds.invite_splash_requires_feature: Для invite splash потрібна функція INVITE_SPLASH.
+channels_and_guilds.invites_disabled: Запрошення вимкнено.
+channels_and_guilds.max_group_dm_recipients_reached: 'Ти досяг максимуму {count} учасника у груповому приваті: {count, plural, one {учасник} few {учасники} many {учасників} other {учасників}}.'
+channels_and_guilds.max_group_dms_reached: 'Ти досяг максимуму {count} групового приватного чату: {count, plural, one {груповий приват} few {групові приватні} many {групових приватних} other {групових приватних}}.'
+channels_and_guilds.max_guild_channels_reached: 'Ти досяг максимуму {count} каналу у гільдії: {count, plural, one {канал} few {канали} many {каналів} other {каналів}}.'
+channels_and_guilds.max_guild_members_reached: 'Ти досяг максимуму {count} учасника у гільдії: {count, plural, one {учасник} few {учасники} many {учасників} other {учасників}}.'
+channels_and_guilds.max_guild_roles_reached: 'Ти досяг максимуму {count} ролі у гільдії: {count, plural, one {роль} few {ролі} many {ролей} other {ролей}}.'
+channels_and_guilds.max_guilds_reached: 'Ти досяг максимуму {count} гільдії: {count, plural, one {гільдія} few {гільдії} many {гільдій} other {гільдій}}.'
+channels_and_guilds.message_history_cutoff_before_guild_creation: Межа історії повідомлень не може бути раніше від дати створення спільноти.
+channels_and_guilds.message_history_cutoff_in_future: Межа історії повідомлень не може бути в майбутньому.
+channels_and_guilds.parent_channel_not_in_guild: Батьківського каналу немає в цій гільдії.
+channels_and_guilds.parent_must_be_category: Батьківський елемент має бути категорією.
+channels_and_guilds.preceding_channel_must_share_parent: Попередній канал має мати того ж батька, що й переміщений канал.
+channels_and_guilds.preceding_channel_not_in_guild: Попереднього каналу немає в цій гільдії.
+channels_and_guilds.system_channel_must_be_in_guild: Системний канал має бути в цій гільдії.
+channels_and_guilds.system_channel_must_be_text: Системний канал має бути текстовим.
+channels_and_guilds.temporary_invite_requires_presence: Для тимчасового запрошення потрібна присутність.
+channels_and_guilds.vanity_url_requires_feature: Для vanity URL потрібна функція VANITY_URL.
+channels_and_guilds.voice_channel_full: Голосовий канал заповнений.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Голосові канали не можуть бути вище текстових у межах однієї категорії.
+connections.already_exists: З'єднання цього типу з цим ідентифікатором уже існує.
+connections.bluesky_oauth_callback_failed: Ми не змогли завершити підключення Bluesky. Спробуй ще раз.
+connections.bluesky_oauth_not_enabled: На цьому сервері не ввімкнено підключення Bluesky.
+connections.bluesky_oauth_session_expired: Твоя сесія Bluesky була прострочена. Будь ласка, повторно підключи свій акаунт.
+connections.bluesky_oauth_state_invalid: Запит авторизації закінчив дію або невалідний. Спробуй ще раз.
+connections.initiation_token_invalid: Токен ініціації з'єднання недійсний або прострочений.
+connections.invalid_identifier: Ідентифікатор з'єднання недійсний.
+connections.invalid_type: Тип з'єднання не підтримується.
+connections.limit_reached: Ти досяг максимуму {limit} {limit, plural, one {з'єднання} few {з'єднання} many {з'єднань} other {з'єднань}}.
+connections.not_found: Невідоме з'єднання.
+connections.verification_failed: Не вдалося підтвердити з'єднання. Переконайся, що токен підтвердження правильно розміщено.
+colors.color_value_too_high: Значення кольору не має перевищувати 0xffffff.
+colors.color_value_too_low: Значення кольору має бути щонайменше 0x000000.
+content_and_safety.content_blocked: Цей контент заблокували системи безпеки.
+content_and_safety.csam_scan_failed: Не вдалося сканувати CSAM.
+content_and_safety.csam_scan_parse_error: Помилка парсингу CSAM сканування.
+content_and_safety.csam_scan_subscription_error: Помилка підписки CSAM сканування.
+content_and_safety.csam_scan_timeout: CSAM сканування закінчилось за таймаутом.
+content_and_safety.explicit_content_cannot_be_sent: Відвертий контент не можна надсилати.
+content_and_safety.ncmec_already_submitted: Цей контент уже надіслано до NCMEC.
+content_and_safety.ncmec_submission_failed: Не вдалося надіслати звіт до NCMEC. Спробуй пізніше.
+content_and_safety.nsfw_age_restricted: NSFW-контент доступний лише з віковими обмеженнями.
+discovery.already_applied: Ця спільнота вже подала заявку на виявлення.
+discovery.application_already_reviewed: Цю заявку на виявлення вже розглянуто.
+discovery.application_not_found: Заявку на виявлення не знайдено.
+discovery.description_required: Для виявлення в списку потрібен опис.
+discovery.insufficient_members: Ця спільнота не відповідає мінімальній кількості учасників для виявлення.
+discovery.invalid_category: Недійсна категорія виявлення.
+discovery.not_discoverable: Ця спільнота не включена у виявлення.
+donation.amount_invalid: Сума пожертви недопустима.
+donation.donor_not_found: Донатора не знайдено.
+donation.magic_link_expired: Чарівне посилання закінчилось.
+donation.magic_link_invalid: Чарівне посилання недопустиме.
+donation.magic_link_used: Чарівне посилання вже використано.
+email.email_already_in_use: Ця електронна пошта вже використовується.
+email.email_required: Потрібна електронна пошта.
+email.email_service_not_testable: Поштовий сервіс не можна протестувати.
+email.invalid_format: Неправильний формат електронної адреси.
+email.invalid_or_expired_reset_token: Недійсний або прострочений токен скидання пароля.
+email.invalid_or_expired_revert_token: Недійсний або прострочений токен скасування.
+email.invalid_or_expired_verification_token: Недійсний або прострочений токен підтвердження.
+email.invalid_or_password: Неправильна електронна пошта або пароль.
+email.invalid_token: Недійсний токен електронної пошти.
+email.invalid_verification_code: Неправильний код підтвердження.
+email.length_invalid: Електронна адреса має бути від {min} до {max} символів.
+email.must_be_changed_via_token: Електронну пошту можна змінити лише через токен.
+email.must_change_via_token: Електронну пошту можна змінити лише через `email_token`.
+email.must_have_email_to_change_it: Щоб змінити електронну пошту, у вас має бути адреса електронної пошти.
+email.new_email_must_be_different: Нова електронна пошта має відрізнятися від вашої поточної.
+email.no_new_email_requested: Запиту на нову електронну пошту не було.
+email.no_original_email_on_record: Оригінальну електронну пошту не знайдено.
+email.original_email_already_verified: Оригінальну електронну пошту вже підтверджено.
+email.original_email_must_be_verified_first: Спочатку підтвердь оригінальну електронну пошту.
+email.original_verification_not_required: Для цього процесу підтвердження оригінальної пошти не потрібне.
+email.token_expired: Термін дії токена електронної пошти минув.
+email.user_has_no_email_address: У цього користувача немає електронної адреси.
+email.user_is_not_pending_verification: Цей користувач не очікує на підтвердження.
+email.verification_code_expired: Термін дії коду підтвердження минув.
+email.verification_code_not_issued: Код підтвердження не видано.
+embeds.embed_index_out_of_bounds: Індекс embed {embedIndex} поза межами (у повідомленні {embedCount} {embedCount, plural, one {embed} other {embed}}).
+embeds.embed_splash_requires_feature: Для embed splash потрібна функція INVITE_SPLASH.
+embeds.embeds_exceed_max_characters: Усі embed разом не мають перевищувати {maxCharacters} {maxCharacters, plural, one {символ} few {символи} many {символів} other {символи}}.
+embeds.too_many_embeds: Забагато embed. Максимум {maxEmbeds} {maxEmbeds, plural, one {embed} other {embed}}.
+feature_flags.feature_not_available_self_hosted: Ця функція недоступна на локально розгорнутих екземплярах.
+feature_flags.feature_temporarily_disabled: Цю функцію тимчасово вимкнено.
+friends_and_dms.already_friends: Ти вже дружиш із цим користувачем.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Щоб створити приватні канали, потрібен хоча б один отримувач.
+friends_and_dms.at_least_one_recipient_required: Потрібен хоча б один отримувач.
+friends_and_dms.bots_cannot_send_friend_requests: Боти не можуть надсилати запити в друзі.
+friends_and_dms.cannot_add_yourself_to_group_dm: Не можна додати себе в груповий приват.
+friends_and_dms.cannot_dm_yourself: Не можна написати самому(самій) собі.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Не можна надіслати запит у друзі заблокованому користувачу.
+friends_and_dms.cannot_send_friend_request_to_self: Не можна надіслати запит у друзі самому(самій) собі.
+friends_and_dms.cannot_send_messages_to_user: Ти не можеш надсилати повідомлення цьому користувачу.
+friends_and_dms.duplicate_recipients_not_allowed: Дублікати отримувачів не дозволені.
+friends_and_dms.friend_request_blocked: Користувач наразі не приймає запити в друзі.
+friends_and_dms.not_friends: Ви не друзі.
+friends_and_dms.recipient_ids_cannot_be_empty: Recipient IDs не можуть бути порожніми.
+friends_and_dms.recipient_ids_must_be_strings: Recipient IDs мають бути рядками.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Recipient IDs мають бути валідними snowflake.
+harvest.expired: Harvest прострочено.
+harvest.failed: Harvest не вдався.
+harvest.not_ready: Harvest ще не готовий.
+harvest.on_cooldown: Harvest на перезарядці.
+harvest.unknown: Невідомий harvest.
+http.bad_gateway: Поганий шлюз.
+http.bad_request: Поганий запит.
+http.conflict: Конфлікт.
+http.forbidden: Заборонено.
+http.gateway_timeout: Таймаут шлюзу.
+http.gone: Видалено.
+http.internal_server_error: Внутрішня помилка сервера.
+http.method_not_allowed: Метод не дозволено.
+http.not_found: Не знайдено.
+http.not_implemented: Не реалізовано.
+http.service_unavailable: Сервіс недоступний.
+http.validation_error: Перевірка не пройшла.
+invites_and_beta.invalid_or_already_used_beta_code: Недійсний або вже використаний бета-код.
+invites_and_beta.max_beta_codes_reached: 'Ти досяг максимуму {count} бета-коду: {count, plural, one {бета-код} few {бета-коди} many {бета-кодів} other {бета-кодів}}.'
+invites_and_beta.unknown_beta_code: Невідомий бета-код.
+invites_and_gifts.gift_code_already_redeemed: Подарунковий код уже використано.
+invites_and_gifts.stripe_gift_redemption_in_progress: Подарунковий код зараз активується. Спробуй за мить.
+invites_and_gifts.unknown_gift_code: Невідомий подарунковий код.
+invites_and_packs.emoji_requires_access: Ти не можеш використати цей емодзі без доступу до гільдії або встановленого паку.
+invites_and_packs.invalid_pack_type: Недійсний тип паку.
+invites_and_packs.max_animated_emojis_reached: 'Ти досяг максимуму {count} анімованого емодзі: {count, plural, one {емодзі} few {емодзі} many {емодзі} other {емодзі}}.'
+invites_and_packs.max_emojis_reached: 'Ти досяг максимуму {count} емодзі: {count, plural, one {емодзі} few {емодзі} many {емодзі} other {емодзі}}.'
+invites_and_packs.max_pack_expressions_reached: 'Ти досяг максимуму {count} виразу у пакові: {count, plural, one {вираз} few {вирази} many {виразів} other {виразів}}.'
+invites_and_packs.max_packs_reached: 'Ти досяг максимуму {count} паку: {count, plural, one {пак} few {паки} many {паків} other {паків}}.'
+invites_and_packs.pack_access_denied: Немає доступу до паку.
+limits.at_least_one_entry_required: Потрібен хоча б один запис.
+limits.base64_length_invalid: Довжина рядка Base64 має бути між {min} і {maxLength} символами.
+limits.bucket_required: Потрібне `bucket`.
+limits.cannot_shrink_reserved_slots: Не можна зменшити зарезервовані слоти.
+limits.cannot_specify_before_and_after: Не можна вказувати і `before`, і `after` одночасно.
+limits.content_exceeds_max_length: Текст не має перевищувати {maxLength} {maxLength, plural, one {символ} few {символи} many {символів} other {символи}}.
+limits.integer_out_of_int64_range: Значення цілого числа виходить за межи дійсного діапазону int64.
+limits.rows_required: Потрібне `rows`.
+limits.string_length_exact: Рядок має бути рівно {length} символів.
+limits.string_length_invalid: Довжина рядка має бути між {min} і {max} символами.
+limits.timeout_cannot_exceed_365_days: Таймаут не може бути більше ніж {maxDays} {maxDays, plural, one {день} few {дні} many {днів} other {днів}} від тепер.
+limits.value_must_be_integer_in_range: Значення для `{name}` має бути цілим числом між {minValue} і {maxValue}.
+limits.value_too_small: Значення занадто мале.
+media_and_memes.favorite_meme_name_required: Потрібна назва улюбленого мема.
+media_and_memes.favorite_meme_not_found: Улюблений мем не знайдено.
+media_and_memes.max_favorite_memes_reached: 'Ти досяг максимуму {count} улюбленого мема: {count, plural, one {мем} few {меми} many {мемів} other {мемів}}.'
+media_and_memes.media_already_in_favorites: Це медіа вже є в улюблених мемах.
+media_and_memes.media_metadata_error: Помилка метаданих медіа.
+media_and_memes.unknown_favorite_meme: Невідомий улюблений мем.
+messages.cannot_delete_more_than_100: Ти не можеш видалити більше ніж {max} {max, plural, one {повідомлення} few {повідомлення} many {повідомлень} other {повідомлень}} одночасно.
+messages.cannot_edit_others_message: Не можна редагувати чуже повідомлення.
+messages.cannot_preload_more_than_100_channels: Ти не можеш завантажити більше ніж {max} {max, plural, one {канал} few {канали} many {каналів} other {каналів}} одночасно.
+messages.cannot_reply_to_system_message: Не можна відповідати на системне повідомлення.
+messages.cannot_send_empty_message: Не можна надіслати порожнє повідомлення.
+messages.forward_messages_cannot_include_extra_content: Переслані повідомлення не можуть містити текст, ембеди, вкладення або стікери.
+messages.scheduled_messages_max_30_days: Відкладені повідомлення можуть бути не більше ніж на 30 днів у майбутньому.
+messages.forward_reference_requires_channel_and_message: Посилання для пересилання має містити `channel_id` і `message_id`.
+messages.invalid_message_data: Недійсні дані повідомлення.
+messages.invalid_scheduled_message_payload: Недійсний payload відкладеного повідомлення.
+messages.message_ids_cannot_be_empty: '`message_ids` не може бути порожнім.'
+messages.messages_array_required: Потрібен масив `messages`, і він не має бути порожнім.
+messages.messages_with_snapshots_cannot_be_edited: Повідомлення зі снапшотами не можна редагувати.
+messages.scheduled_send_datetime_invalid: Неправильні дата або час для відкладеного надсилання.
+messages.scheduled_time_must_be_future: Час відкладеного надсилання має бути в майбутньому.
+messages.voice_messages_attachment_must_be_audio: Вкладення голосових повідомлень мають бути аудіофайлами.
+messages.voice_messages_cannot_have_content: Голосові повідомлення не можуть містити текст.
+messages.voice_messages_cannot_have_embeds: Голосові повідомлення не можуть містити ембеди.
+messages.voice_messages_cannot_have_favorite_memes: Голосові повідомлення не можуть містити улюблені меми.
+messages.voice_messages_cannot_have_stickers: Голосові повідомлення не можуть містити стікери.
+mfa_and_passkeys.invalid_mfa_code: Неправильний MFA-код.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Недійсний лічильник автентифікації WebAuthn.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Недійсний лічильник облікових даних WebAuthn.
+mfa_and_passkeys.invalid_webauthn_credential: Недійсні облікові дані WebAuthn.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Недійсний формат публічного ключа WebAuthn.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Спочатку включи 2FA на своєму акаунті, перш ніж вимагати його від модераторів.
+mfa_and_passkeys.no_passkeys_registered: Passkeys не зареєстровано.
+mfa_and_passkeys.passkey_authentication_failed: Не вдалося автентифікуватися через passkey.
+mfa_and_passkeys.passkeys_disabled: Passkeys вимкнено.
+mfa_and_passkeys.two_factor_not_enabled: Двофакторну автентифікацію не ввімкнено.
+mfa_and_passkeys.two_factor_required: Потрібна двофакторна автентифікація.
+mfa_and_passkeys.unknown_webauthn_credential: Невідомі облікові дані WebAuthn.
+mfa_and_passkeys.webauthn_credential_limit_reached: 'Ти досяг максимуму {count} облікових даних WebAuthn: {count, plural, one {облікові дані} few {облікові дані} many {облікових даних} other {облікових даних}}.'
+misc_limits.max_bookmarks_reached: 'Ти досяг максимуму {count} закладки: {count, plural, one {закладка} few {закладки} many {закладок} other {закладок}}.'
+misc_limits.max_category_channels_reached: 'Ти досяг максимуму {count} каналу у категорії: {count, plural, one {канал} few {канали} many {каналів} other {каналів}}.'
+misc_limits.max_friends_reached: 'Ти досяг максимуму {count} друга: {count, plural, one {друг} few {друзі} many {друзів} other {друзів}}.'
+misc_limits.max_invites_reached: 'Ти досяг максимуму {count} запрошення: {count, plural, one {запрошення} few {запрошення} many {запрошень} other {запрошень}}.'
+misc_limits.max_pins_per_channel_reached: 'Ти досяг максимуму {count} закріплення в каналі: {count, plural, one {закріплення} few {закріплення} many {закріплень} other {закріплень}}.'
+misc.cannot_send_messages_in_non_text_channel: Не можна надсилати повідомлення в нетекстовий канал.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Щоб писати в цій гільдії, підтвердь електронну пошту.
+misc.invalid_job_id: Недійсний job ID.
+misc.invalid_permissions_integer: Permissions мають бути валідним цілим числом.
+misc.invalid_permissions_negative: Permissions не можуть бути від'ємними.
+misc.invalid_request_generic: Недійсний запит.
+misc.invalid_snowflake: Недійсний snowflake.
+misc.job_already_processed: Job уже оброблено.
+misc.job_id_required: Потрібен job ID.
+misc.job_not_found: Job не знайдено.
+misc.max_files_exceeded: Забагато файлів. Максимум {maxFiles} {maxFiles, plural, one {файл} few {файли} many {файлів} other {файли}}.
+misc.must_have_bot_to_mark_system_user: Користувач має бути ботом, щоб позначити його як системного.
+moderation_and_reports.cannot_report_own_message: Не можна поскаржитися на власне повідомлення.
+moderation_and_reports.cannot_report_yourself: Не можна поскаржитися на себе.
+moderation_and_reports.invalid_dsa_report_target: Недійсна ціль DSA-скарги.
+moderation_and_reports.invalid_dsa_ticket: Недійсний DSA ticket.
+moderation_and_reports.invalid_dsa_verification_code: Неправильний код підтвердження DSA.
+moderation_and_reports.report_already_resolved: Скаргу вже розглянуто.
+moderation_and_reports.report_banned: Скарги заблоковано.
+moderation_and_reports.unknown_report: Невідома скарга.
+moderation_and_reports.user_is_not_banned: Цього користувача не забанено.
+names_and_normalization.channel_name_empty_after_normalization: Назва каналу не може бути порожньою після нормалізації.
+names_and_normalization.name_empty_after_normalization: Ім'я не може бути порожнім після нормалізації.
+permissions.missing_access: Немає доступу.
+permissions.missing_permissions: Недостатньо прав.
+permissions.not_owner_of_admin_api_key: У тебе немає прав змінювати цей адмінський API-ключ.
+permissions.user_banned_from_guild: Цього користувача забанено в цій гільдії.
+permissions.user_ip_banned_from_guild: IP цього користувача забанено в цій гільдії.
+permissions.user_not_in_channel: Цього користувача немає в цьому каналі.
+permissions.user_not_in_voice: Цей користувач не в голосовому каналі.
+permissions.user_owns_guilds: Цей користувач є власником гільдій.
+phone.invalid_number: Неправильний номер телефону.
+phone.number_already_used: Цей номер телефону вже використовується.
+phone.number_format_required: Номер телефону має бути у форматі E.164 (наприклад, +1234567890).
+phone.phone_required_for_sms_mfa: Для SMS MFA потрібен номер телефону.
+phone.sms_mfa_not_enabled: SMS MFA не ввімкнено.
+phone.sms_mfa_requires_totp: Для SMS MFA потрібен TOTP.
+phone.sms_verification_unavailable: Перевірка через SMS тимчасово недоступна. Спробуй пізніше.
+phone.verification_code_invalid: Неправильний код підтвердження телефону.
+phone.verification_required: Потрібна верифікація телефону.
+premium_and_plans.animated_avatars_require_premium: Анімовані аватари доступні лише з Premium.
+premium_and_plans.banners_require_premium: Банери доступні лише з Premium.
+premium_and_plans.bio_requires_premium_for_length: Опис профілю довший за {maxLength} символів потребує Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: З планом Visionary не можна обміняти Plutonium.
+premium_and_plans.custom_emojis_outside_source_require_premium: Без Premium ти не можеш використовувати власні емодзі поза гільдіями, де вони створені.
+premium_and_plans.custom_stickers_in_dms_require_premium: Щоб використовувати власні стікери в приватних, потрібен Premium.
+premium_and_plans.custom_stickers_outside_source_require_premium: Без Premium ти не можеш використовувати власні стікери поза гільдіями, де вони доступні.
+premium_and_plans.discriminator_change_requires_premium: Щоб змінити дискримінатор, потрібен Premium.
+premium_and_plans.no_active_subscription: Немає активної підписки.
+premium_and_plans.no_visionary_slots_available: Вільних слотів Visionary немає.
+premium_and_plans.premium_required_for_custom_emoji: Щоб використати власний емодзі, потрібен Premium.
+premium_and_plans.visionary_required_for_bot_discriminator: Щоб налаштовувати дискримінатори ботів, потрібен довічний план Visionary.
+premium_and_plans.visionary_required_for_discriminator: Щоб використати цей дискримінатор, потрібен довічний план Visionary.
+rate_limits.accent_color_changed_too_often: Ти занадто часто змінював(ла) колір акценту останнім часом. Спробуй ще раз за {minutes} {minutes, plural, one {хвилину} few {хвилини} many {хвилин} other {хвилини}}.
+rate_limits.avatar_changed_too_often: Ти занадто часто змінював(ла) аватар останнім часом. Спробуй ще раз за {minutes} {minutes, plural, one {хвилину} few {хвилини} many {хвилин} other {хвилини}}.
+rate_limits.banner_changed_too_often: Ти занадто часто змінював(ла) банер останнім часом. Спробуй ще раз за {minutes} {minutes, plural, one {хвилину} few {хвилини} many {хвилин} other {хвилини}}.
+rate_limits.bio_changed_too_often: Ти занадто часто змінював(ла) опис профілю останнім часом. Спробуй ще раз за {minutes} {minutes, plural, one {хвилину} few {хвилини} many {хвилин} other {хвилини}}.
+rate_limits.ip_authorization_resend_cooldown: Повторне надсилання підтвердження IP поки недоступне – зачекай трохи.
+rate_limits.ip_authorization_resend_limit_exceeded: Перевищено ліміт повторних надсилань підтвердження IP.
+rate_limits.phone_rate_limit_exceeded: Перевищено ліміт запитів для телефону.
+rate_limits.pronouns_changed_too_often: Ти занадто часто змінював(ла) займенники останнім часом. Спробуй ще раз за {minutes} {minutes, plural, one {хвилину} few {хвилини} many {хвилин} other {хвилини}}.
+rate_limits.rate_limited: Занадто багато запитів. Спробуй трохи пізніше.
+rate_limits.slowmode_rate_limited: Спрацював повільний режим.
+rate_limits.username_changed_too_often: Ти занадто часто змінював(ла) нікнейм останнім часом. Спробуй ще раз за {minutes} {minutes, plural, one {хвилину} few {хвилини} many {хвилин} other {хвилини}}.
+roles.cannot_reorder_everyone_role: Не можна змінювати порядок ролі @everyone.
+roles.cannot_set_everyone_hoist: Не можна вмикати hoist для ролі @everyone.
+roles.cannot_use_same_role_as_preceding: Не можна використовувати ту саму роль, що й попередня.
+roles.invalid_role_id: 'Недійсний ID ролі: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Не можна використовувати `parse` разом із `allowed_mentions.users` або `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Попередньої ролі немає в цій гільдії.
+stickers_and_emojis.custom_emoji_not_found: Власний емодзі не знайдено.
+stickers_and_emojis.custom_sticker_not_found: Власний стікер не знайдено.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Ви не можете використати цей емодзі без доступу до гільдії або встановленого паку.
+stickers_and_emojis.max_reactions_reached: 'Ти досяг максимуму {count} реакції: {count, plural, one {реакція} few {реакції} many {реакцій} other {реакцій}}.'
+stickers_and_emojis.max_stickers_reached: 'Ти досяг максимуму {count} стікера: {count, plural, one {стікер} few {стікери} many {стікерів} other {стікерів}}.'
+stickers_and_emojis.not_valid_unicode_emoji: Це невалідний Unicode-емодзі.
+stickers_and_emojis.unknown_emoji: Невідомий емодзі.
+stickers_and_emojis.unknown_sticker: Невідомий стікер.
+stripe.error: Помилка Stripe.
+stripe.invalid_product_configuration: Недійсна конфігурація продукту.
+stripe.invalid_product_selection: Недійсний вибір продукту.
+stripe.no_active_subscription_found: Активної підписки не знайдено.
+stripe.no_purchase_history_customer_portal_unavailable: Історії покупок не знайдено. Портал клієнта недоступний.
+stripe.no_subscription_found: Підписку не знайдено.
+stripe.payment_not_available: Обробка платежів недоступна.
+stripe.subscription_already_canceling: Підписку вже налаштовано на скасування наприкінці періоду.
+stripe.subscription_not_canceling: Підписка не налаштована на скасування.
+stripe.subscription_period_end_missing: Не вказано subscription current_period_end.
+stripe.webhook_not_available: Обробка webhook недоступна.
+stripe.webhook_signature_invalid: Підпис Stripe webhook недійсний.
+stripe.webhook_signature_missing: Підпис Stripe webhook відсутній.
+tickets.ticket_already_completed: Цей ticket уже виконано.
+tos_and_age.date_of_birth_format_invalid: Неправильний формат дати народження.
+tos_and_age.must_agree_to_tos_and_privacy: Потрібно погодитися з умовами користування та політикою конфіденційності.
+tos_and_age.must_be_minimum_age: Щоб створити акаунт, тобі має бути щонайменше {minAge} {minAge, plural, one {рік} few {роки} many {років} other {роки}}.
+unknown_entities.unknown_application: Невідомий додаток.
+unknown_entities.unknown_channel: Невідомий канал.
+unknown_entities.unknown_guild: Невідома гільдія.
+unknown_entities.unknown_invite: Невідоме запрошення.
+unknown_entities.unknown_member: Невідомий учасник.
+unknown_entities.unknown_message: Невідоме повідомлення.
+unknown_entities.unknown_pack: Невідомий пак.
+unknown_entities.unknown_role: Невідома роль.
+unknown_entities.unknown_user_flag: Невідомий user flag.
+unknown_entities.unknown_user: Невідомий користувач.
+urls.invalid_url_format: Неправильний формат URL.
+urls.invalid_url_or_attachment_reference: Неправильний формат URL або посилання на вкладення.
+urls.url_length_invalid: URL має бути від {min} до {max} символів.
+usernames_and_tags.discriminator_invalid_format: Дискримінатор має бути {min}–{max} цифри.
+usernames_and_tags.discriminator_out_of_range: Дискримінатор має бути між {min} і {max}.
+usernames_and_tags.discriminator_required: Потрібен дискримінатор.
+usernames_and_tags.display_name_length_invalid: Відображуване ім'я має бути від {min} до {max} символів.
+usernames_and_tags.display_name_reserved_terms: Відображуване ім'я не може містити "system message".
+usernames_and_tags.display_name_reserved_value: Відображуване ім'я не може бути "everyone" або "here".
+usernames_and_tags.global_name_length_invalid: Глобальне ім'я має бути від {min} до {max} символів.
+usernames_and_tags.global_name_reserved_value: Глобальне ім'я не може бути "everyone" або "here".
+usernames_and_tags.tag_already_taken: Цей тег уже зайнятий.
+usernames_and_tags.too_many_users_with_this_username: Занадто багато користувачів із таким нікнеймом.
+usernames_and_tags.too_many_users_with_username_try_different: Занадто багато користувачів із таким нікнеймом. Спробуй інший.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Непідтверджені акаунти можуть встановити електронну пошту лише через токен.
+usernames_and_tags.username_invalid_characters: Нікнейм може містити лише латинські літери (a-z, A-Z), цифри (0-9) та підкреслення (_).
+usernames_and_tags.username_length_invalid: Нікнейм має бути від {min} до {max} символів.
+usernames_and_tags.username_not_available: Цей нікнейм недоступний.
+usernames_and_tags.username_reserved_terms: Нікнейм не може містити "fluxer" або "system message".
+usernames_and_tags.username_reserved_value: Нікнейм не може бути "everyone" або "here".
+vanity_urls.vanity_url_already_taken: Цей vanity URL уже зайнятий.
+vanity_urls.vanity_url_code_already_taken: Цей код vanity URL уже зайнятий.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Код vanity URL не може містити "fluxer".
+vanity_urls.vanity_url_code_length_invalid: Код vanity URL має бути від {min} до {max} символів.
+vanity_urls.vanity_url_invalid_characters: Vanity URL може містити лише малі літери (a-z), цифри (0-9) і дефіси (-).
+webhooks.cannot_modify_system_webhook: Не можна редагувати системні повідомлення.
+webhooks.max_webhooks_per_channel_reached: 'Ти досяг максимуму {count} webhook на канал: {count, plural, one {webhook} few {webhook} many {webhook} other {webhook}}.'
+webhooks.max_webhooks_per_guild_reached: 'Ти досяг максимуму {count} webhook на гільдію: {count, plural, one {webhook} few {webhook} many {webhook} other {webhook}}.'
+webhooks.max_webhooks_reached: 'Ти досяг максимуму {count} webhook: {count, plural, one {webhook} few {webhook} many {webhook} other {webhook}}.'
+webhooks.unknown_webhook: Невідомий webhook.
+webhooks.webhook_name_length_invalid: Назва webhook має бути від {min} до {max} символів.

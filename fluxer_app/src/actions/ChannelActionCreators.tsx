@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {ChannelTypes} from '~/Constants';
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {Channel} from '~/records/ChannelRecord';
-import type {Invite} from '~/records/MessageRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import InviteStore from '~/stores/InviteStore';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import ChannelStore from '@app/stores/ChannelStore';
+import InviteStore from '@app/stores/InviteStore';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import type {Channel} from '@fluxer/schema/src/domains/channel/ChannelSchemas';
+import type {Invite} from '@fluxer/schema/src/domains/invite/InviteSchemas';
 
 const logger = new Logger('Channels');
 
@@ -34,10 +34,10 @@ export interface ChannelRtcRegion {
 	emoji: string;
 }
 
-export const create = async (
+export async function create(
 	guildId: string,
 	params: Pick<Channel, 'name' | 'url' | 'type' | 'parent_id' | 'bitrate' | 'user_limit'>,
-) => {
+) {
 	try {
 		const response = await http.post<Channel>(Endpoints.GUILD_CHANNELS(guildId), params);
 		return response.body;
@@ -45,12 +45,12 @@ export const create = async (
 		logger.error('Failed to create channel:', error);
 		throw error;
 	}
-};
+}
 
-export const update = async (
+export async function update(
 	channelId: string,
 	params: Partial<Pick<Channel, 'name' | 'topic' | 'url' | 'nsfw' | 'icon' | 'owner_id' | 'rtc_region'>>,
-) => {
+) {
 	try {
 		const response = await http.patch<Channel>(Endpoints.CHANNEL(channelId), params);
 		return response.body;
@@ -58,9 +58,9 @@ export const update = async (
 		logger.error(`Failed to update channel ${channelId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const updateGroupDMNickname = async (channelId: string, userId: string, nickname: string | null) => {
+export async function updateGroupDMNickname(channelId: string, userId: string, nickname: string | null) {
 	try {
 		const response = await http.patch<Channel>({
 			url: Endpoints.CHANNEL(channelId),
@@ -75,13 +75,13 @@ export const updateGroupDMNickname = async (channelId: string, userId: string, n
 		logger.error(`Failed to update nickname for user ${userId} in channel ${channelId}:`, error);
 		throw error;
 	}
-};
+}
 
 export interface RemoveChannelOptions {
 	optimistic?: boolean;
 }
 
-export const remove = async (channelId: string, silent?: boolean, options?: RemoveChannelOptions) => {
+export async function remove(channelId: string, silent?: boolean, options?: RemoveChannelOptions) {
 	const channel = ChannelStore.getChannel(channelId);
 	const isPrivateChannel =
 		channel != null && !channel.guildId && (channel.type === ChannelTypes.DM || channel.type === ChannelTypes.GROUP_DM);
@@ -92,8 +92,10 @@ export const remove = async (channelId: string, silent?: boolean, options?: Remo
 	}
 
 	try {
-		const url = silent ? `${Endpoints.CHANNEL(channelId)}?silent=true` : Endpoints.CHANNEL(channelId);
-		await http.delete({url});
+		await http.delete({
+			url: Endpoints.CHANNEL(channelId),
+			query: silent ? {silent: true} : undefined,
+		});
 		if (shouldOptimisticallyRemove) {
 			ChannelStore.clearOptimisticallyRemovedChannel(channelId);
 		}
@@ -104,12 +106,12 @@ export const remove = async (channelId: string, silent?: boolean, options?: Remo
 		logger.error(`Failed to delete channel ${channelId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const updatePermissionOverwrites = async (
+export async function updatePermissionOverwrites(
 	channelId: string,
 	permissionOverwrites: Array<{id: string; type: 0 | 1; allow: string; deny: string}>,
-) => {
+) {
 	try {
 		const response = await http.patch<Channel>({
 			url: Endpoints.CHANNEL(channelId),
@@ -120,9 +122,9 @@ export const updatePermissionOverwrites = async (
 		logger.error(`Failed to update permission overwrites for channel ${channelId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const fetchChannelInvites = async (channelId: string): Promise<Array<Invite>> => {
+export async function fetchChannelInvites(channelId: string): Promise<Array<Invite>> {
 	try {
 		InviteStore.handleChannelInvitesFetchPending(channelId);
 		const response = await http.get<Array<Invite>>({url: Endpoints.CHANNEL_INVITES(channelId)});
@@ -134,9 +136,9 @@ export const fetchChannelInvites = async (channelId: string): Promise<Array<Invi
 		InviteStore.handleChannelInvitesFetchError(channelId);
 		throw error;
 	}
-};
+}
 
-export const fetchRtcRegions = async (channelId: string): Promise<Array<ChannelRtcRegion>> => {
+export async function fetchRtcRegions(channelId: string): Promise<Array<ChannelRtcRegion>> {
 	try {
 		const response = await http.get<Array<ChannelRtcRegion>>({url: Endpoints.CHANNEL_RTC_REGIONS(channelId)});
 		return response.body ?? [];
@@ -144,4 +146,4 @@ export const fetchRtcRegions = async (channelId: string): Promise<Array<ChannelR
 		logger.error(`Failed to fetch RTC regions for channel ${channelId}:`, error);
 		throw error;
 	}
-};
+}

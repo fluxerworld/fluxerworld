@@ -17,68 +17,79 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
-import {HashIcon, MagnifyingGlassIcon, NotePencilIcon, SmileyIcon, SpeakerHighIcon} from '@phosphor-icons/react';
-import {clsx} from 'clsx';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import {ChannelTypes} from '~/Constants';
-import {MessageForwardFailedModal} from '~/components/alerts/MessageForwardFailedModal';
-import {Autocomplete} from '~/components/channel/Autocomplete';
-import {MessageCharacterCounter} from '~/components/channel/MessageCharacterCounter';
-import {GroupDMAvatar} from '~/components/common/GroupDMAvatar';
-import {Input} from '~/components/form/Input';
-import {ExpressionPickerSheet} from '~/components/modals/ExpressionPickerSheet';
-import * as Modal from '~/components/modals/Modal';
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {MessageForwardFailedModal} from '@app/components/alerts/MessageForwardFailedModal';
+import {Autocomplete} from '@app/components/channel/Autocomplete';
+import {MessageCharacterCounter} from '@app/components/channel/MessageCharacterCounter';
+import {GroupDMAvatar} from '@app/components/common/GroupDMAvatar';
+import {Input} from '@app/components/form/Input';
+import {ExpressionPickerSheet} from '@app/components/modals/ExpressionPickerSheet';
+import modalStyles from '@app/components/modals/ForwardModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
 import {
 	getForwardChannelCategoryName,
 	getForwardChannelDisplayName,
 	getForwardChannelGuildName,
 	useForwardChannelSelection,
-} from '~/components/modals/shared/forwardChannelSelection';
-import selectorStyles from '~/components/modals/shared/SelectorModalStyles.module.css';
-import {ExpressionPickerPopout} from '~/components/popouts/ExpressionPickerPopout';
-import {Button} from '~/components/uikit/Button/Button';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import {Popout} from '~/components/uikit/Popout/Popout';
-import {Scroller} from '~/components/uikit/Scroller';
-import {useTextareaAutocomplete} from '~/hooks/useTextareaAutocomplete';
-import {useTextareaEmojiPicker} from '~/hooks/useTextareaEmojiPicker';
-import {useTextareaPaste} from '~/hooks/useTextareaPaste';
-import {useTextareaSegments} from '~/hooks/useTextareaSegments';
-import {TextareaAutosize} from '~/lib/TextareaAutosize';
-import {Routes} from '~/Routes';
-import type {MessageRecord} from '~/records/MessageRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import UserStore from '~/stores/UserStore';
-import * as RouterUtils from '~/utils/RouterUtils';
-import {FocusRing} from '../uikit/FocusRing';
-import {StatusAwareAvatar} from '../uikit/StatusAwareAvatar';
-import modalStyles from './ForwardModal.module.css';
+} from '@app/components/modals/shared/ForwardChannelSelection';
+import selectorStyles from '@app/components/modals/shared/SelectorModalStyles.module.css';
+import {ExpressionPickerPopout} from '@app/components/popouts/ExpressionPickerPopout';
+import {Button} from '@app/components/uikit/button/Button';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Popout} from '@app/components/uikit/popout/Popout';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import {useTextareaAutocomplete} from '@app/hooks/useTextareaAutocomplete';
+import {useTextareaEmojiPicker} from '@app/hooks/useTextareaEmojiPicker';
+import {useTextareaPaste} from '@app/hooks/useTextareaPaste';
+import {useTextareaSegments} from '@app/hooks/useTextareaSegments';
+import {Logger} from '@app/lib/Logger';
+import {TextareaAutosize} from '@app/lib/TextareaAutosize';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import UserStore from '@app/stores/UserStore';
+import {Limits} from '@app/utils/limits/UserLimits';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import {MAX_MESSAGE_LENGTH_PREMIUM} from '@fluxer/constants/src/LimitConstants';
+import {Trans, useLingui} from '@lingui/react/macro';
+import {HashIcon, MagnifyingGlassIcon, NotePencilIcon, SmileyIcon, SpeakerHighIcon} from '@phosphor-icons/react';
+import {clsx} from 'clsx';
+import {observer} from 'mobx-react-lite';
+import {useCallback, useMemo, useRef, useState} from 'react';
+
+const logger = new Logger('ForwardModal');
 
 export const ForwardModal = observer(({message}: {message: MessageRecord}) => {
 	const {t} = useLingui();
 	const {filteredChannels, handleToggleChannel, isChannelDisabled, searchQuery, selectedChannelIds, setSearchQuery} =
 		useForwardChannelSelection({excludedChannelId: message.channelId});
-	const [optionalMessage, setOptionalMessage] = React.useState('');
-	const [isForwarding, setIsForwarding] = React.useState(false);
-	const [expressionPickerOpen, setExpressionPickerOpen] = React.useState(false);
-	const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-	const containerRef = React.useRef<HTMLDivElement>(null);
+	const [optionalMessage, setOptionalMessage] = useState('');
+	const [isForwarding, setIsForwarding] = useState(false);
+	const [expressionPickerOpen, setExpressionPickerOpen] = useState(false);
+	const textareaRef = useRef<HTMLTextAreaElement>(null);
+	const containerRef = useRef<HTMLDivElement>(null);
 	const currentUser = UserStore.currentUser!;
+	const premiumMaxLength = Limits.getPremiumValue('max_message_length', MAX_MESSAGE_LENGTH_PREMIUM);
 	const mobileLayout = MobileLayoutStore;
 
-	const {segmentManagerRef, previousValueRef, displayToActual, insertSegment, handleTextChange} = useTextareaSegments();
+	const {segmentManagerRef, previousValueRef, displayToActual, handleTextChange} = useTextareaSegments();
+	const handleOptionalMessageExceedsLimit = useCallback(() => {
+		ToastActionCreators.error(t`Message is too long`);
+	}, [t]);
 	const {handleEmojiSelect} = useTextareaEmojiPicker({
 		setValue: setOptionalMessage,
 		textareaRef,
-		insertSegment,
+		segmentManagerRef,
 		previousValueRef,
+		maxActualLength: currentUser.maxMessageLength,
+		onExceedMaxLength: handleOptionalMessageExceedsLimit,
 	});
 
 	const channel = ChannelStore.getChannel(message.channelId)!;
@@ -98,6 +109,8 @@ export const ForwardModal = observer(({message}: {message: MessageRecord}) => {
 		textareaRef,
 		segmentManagerRef,
 		previousValueRef,
+		maxActualLength: currentUser.maxMessageLength,
+		onExceedMaxLength: handleOptionalMessageExceedsLimit,
 	});
 
 	useTextareaPaste({
@@ -106,14 +119,21 @@ export const ForwardModal = observer(({message}: {message: MessageRecord}) => {
 		segmentManagerRef,
 		setValue: setOptionalMessage,
 		previousValueRef,
+		maxMessageLength: currentUser.maxMessageLength,
+		onPasteExceedsLimit: () => handleOptionalMessageExceedsLimit(),
 	});
+
+	const actualOptionalMessage = useMemo(() => displayToActual(optionalMessage), [displayToActual, optionalMessage]);
+	const optionalMessageDisplayMaxLength = useMemo(() => {
+		return Math.max(0, optionalMessage.length + (currentUser.maxMessageLength - actualOptionalMessage.length));
+	}, [actualOptionalMessage.length, currentUser.maxMessageLength, optionalMessage.length]);
 
 	const handleForward = async () => {
 		if (selectedChannelIds.size === 0 || isForwarding) return;
 
 		setIsForwarding(true);
 		try {
-			const actualMessage = optionalMessage.trim() ? displayToActual(optionalMessage) : undefined;
+			const actualMessage = optionalMessage.trim() ? actualOptionalMessage : undefined;
 			await MessageActionCreators.forward(
 				Array.from(selectedChannelIds),
 				{
@@ -133,22 +153,18 @@ export const ForwardModal = observer(({message}: {message: MessageRecord}) => {
 				const forwardedChannelId = Array.from(selectedChannelIds)[0];
 				const forwardedChannel = ChannelStore.getChannel(forwardedChannelId);
 				if (forwardedChannel) {
-					if (forwardedChannel.guildId) {
-						RouterUtils.transitionTo(Routes.guildChannel(forwardedChannel.guildId, forwardedChannelId));
-					} else {
-						RouterUtils.transitionTo(Routes.dmChannel(forwardedChannelId));
-					}
+					NavigationActionCreators.selectChannel(forwardedChannel.guildId ?? undefined, forwardedChannelId);
 				}
 			}
 		} catch (error) {
-			console.error('Failed to forward message:', error);
+			logger.error('Failed to forward message:', error);
 			ModalActionCreators.push(modal(() => <MessageForwardFailedModal />));
 		} finally {
 			setIsForwarding(false);
 		}
 	};
 
-	const getChannelIcon = (ch: any) => {
+	const getChannelIcon = (ch: ChannelRecord) => {
 		const iconSize = 32;
 
 		if (ch.type === ChannelTypes.DM_PERSONAL_NOTES) {
@@ -194,19 +210,14 @@ export const ForwardModal = observer(({message}: {message: MessageRecord}) => {
 			</Modal.Header>
 			<Modal.Content className={selectorStyles.selectorContent}>
 				<div className={selectorStyles.listContainer}>
-					<Scroller
-						className={selectorStyles.scroller}
-						key="forward-modal-channel-list-scroller"
-						fade={false}
-						reserveScrollbarTrack={false}
-					>
+					<Scroller className={selectorStyles.scroller} key="forward-modal-channel-list-scroller" fade={false}>
 						{filteredChannels.length === 0 ? (
 							<div className={selectorStyles.emptyState}>
 								<Trans>No channels found</Trans>
 							</div>
 						) : (
 							<div className={selectorStyles.itemList}>
-								{filteredChannels.map((ch) => {
+								{filteredChannels.map((ch: ChannelRecord | null) => {
 									if (!ch) return null;
 									const isSelected = selectedChannelIds.has(ch.id);
 									const isDisabled = isChannelDisabled(ch.id);
@@ -269,7 +280,7 @@ export const ForwardModal = observer(({message}: {message: MessageRecord}) => {
 				<div ref={containerRef} className={modalStyles.messageInputContainer}>
 					<TextareaAutosize
 						className={clsx(modalStyles.messageInput, modalStyles.messageInputBase)}
-						maxLength={currentUser.maxMessageLength}
+						maxLength={optionalMessageDisplayMaxLength}
 						ref={textareaRef}
 						value={optionalMessage}
 						onChange={(e) => {
@@ -298,9 +309,10 @@ export const ForwardModal = observer(({message}: {message: MessageRecord}) => {
 						placeholder={t`Add a comment (optional)`}
 					/>
 					<MessageCharacterCounter
-						currentLength={optionalMessage.length}
+						currentLength={actualOptionalMessage.length}
 						maxLength={currentUser.maxMessageLength}
-						isPremium={currentUser.isPremium()}
+						canUpgrade={currentUser.maxMessageLength < premiumMaxLength}
+						premiumMaxLength={premiumMaxLength}
 					/>
 					<div className={modalStyles.messageInputActions}>
 						{mobileLayout.enabled ? (
@@ -328,9 +340,11 @@ export const ForwardModal = observer(({message}: {message: MessageRecord}) => {
 								render={({onClose}) => (
 									<ExpressionPickerPopout
 										channelId={message.channelId}
-										onEmojiSelect={(emoji) => {
-											handleEmojiSelect(emoji);
-											onClose();
+										onEmojiSelect={(emoji, shiftKey) => {
+											const didInsert = handleEmojiSelect(emoji, shiftKey);
+											if (didInsert && !shiftKey) {
+												onClose();
+											}
 										}}
 										onClose={onClose}
 										visibleTabs={['emojis']}
@@ -372,7 +386,13 @@ export const ForwardModal = observer(({message}: {message: MessageRecord}) => {
 					isOpen={expressionPickerOpen}
 					onClose={() => setExpressionPickerOpen(false)}
 					channelId={message.channelId}
-					onEmojiSelect={handleEmojiSelect}
+					onEmojiSelect={(emoji, shiftKey) => {
+						const didInsert = handleEmojiSelect(emoji, shiftKey);
+						if (didInsert && !shiftKey) {
+							setExpressionPickerOpen(false);
+						}
+						return didInsert;
+					}}
 					visibleTabs={['emojis']}
 					selectedTab="emojis"
 					zIndex={30000}

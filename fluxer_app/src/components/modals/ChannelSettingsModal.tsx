@@ -17,67 +17,70 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {ChannelTypes} from '~/Constants';
-import * as Modal from '~/components/modals/Modal';
-import ChannelStore from '~/stores/ChannelStore';
-import ConnectionStore from '~/stores/gateway/ConnectionStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import {isMobileExperienceEnabled} from '~/utils/mobileExperience';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as UnsavedChangesActionCreators from '@app/actions/UnsavedChangesActionCreators';
+import {DesktopChannelSettingsView} from '@app/components/modals/components/DesktopChannelSettingsView';
+import {MobileChannelSettingsView} from '@app/components/modals/components/MobileChannelSettingsView';
+import {useMobileNavigation} from '@app/components/modals/hooks/useMobileNavigation';
+import * as Modal from '@app/components/modals/Modal';
+import {SettingsModalContainer} from '@app/components/modals/shared/SettingsModalLayout';
+import type {ChannelSettingsTabType} from '@app/components/modals/utils/ChannelSettingsConstants';
+import ChannelStore from '@app/stores/ChannelStore';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import UnsavedChangesStore from '@app/stores/UnsavedChangesStore';
+import {isMobileExperienceEnabled} from '@app/utils/MobileExperience';
 import {
 	type ChannelSettingsModalProps,
-	createHandleClose,
 	getAvailableTabs,
 	getGroupedSettingsTabs,
-} from '~/utils/modals/ChannelSettingsModalUtils';
-import {DesktopChannelSettingsView} from './components/DesktopChannelSettingsView';
-import {MobileChannelSettingsView} from './components/MobileChannelSettingsView';
-import {useMobileNavigation} from './hooks/useMobileNavigation';
-import {SettingsModalContainer} from './shared/SettingsModalLayout';
-import type {ChannelSettingsTabType} from './utils/channelSettingsConstants';
+} from '@app/utils/modals/ChannelSettingsModalUtils';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import {useLingui} from '@lingui/react/macro';
+import {observer} from 'mobx-react-lite';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 
 export const ChannelSettingsModal: React.FC<ChannelSettingsModalProps> = observer(({channelId, initialMobileTab}) => {
-	const {t} = useLingui();
+	const {t, i18n} = useLingui();
 	const channel = ChannelStore.getChannel(channelId);
 	const guildId = channel?.guildId;
-	const [selectedTab, setSelectedTab] = React.useState<ChannelSettingsTabType>('overview');
+	const [selectedTab, setSelectedTab] = useState<ChannelSettingsTabType>('overview');
 
-	const availableTabs = React.useMemo(() => {
-		return getAvailableTabs(t, channelId);
-	}, [t, channelId]);
+	const availableTabs = useMemo(() => {
+		return getAvailableTabs(i18n, channelId);
+	}, [i18n, channelId]);
 
-	const isMobileExperience = isMobileExperienceEnabled();
+	const isMobileExp = isMobileExperienceEnabled();
 
-	const initialTab = React.useMemo(() => {
-		if (!isMobileExperience || !initialMobileTab) return;
+	const initialTab = useMemo(() => {
+		if (!isMobileExp || !initialMobileTab) return;
 		const targetTab = availableTabs.find((tab) => tab.type === initialMobileTab);
 		if (!targetTab) return;
 		return {tab: initialMobileTab, title: targetTab.label};
-	}, [initialMobileTab, availableTabs, isMobileExperience]);
+	}, [initialMobileTab, availableTabs, isMobileExp]);
 
 	const mobileNav = useMobileNavigation<ChannelSettingsTabType>(initialTab);
 	const {enabled: isMobile} = MobileLayoutStore;
+	const unsavedChangesStore = UnsavedChangesStore;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (guildId) {
-			ConnectionStore.syncGuildIfNeeded(guildId, 'channel-settings-modal');
+			GatewayConnectionStore.syncGuildIfNeeded(guildId, 'channel-settings-modal');
 		}
 	}, [guildId]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!channel) {
 			ModalActionCreators.pop();
 		}
 	}, [channel]);
 
-	const groupedSettingsTabs = React.useMemo(() => {
+	const groupedSettingsTabs = useMemo(() => {
 		return getGroupedSettingsTabs(availableTabs);
 	}, [availableTabs]);
 
-	const currentTab = React.useMemo(() => {
+	const currentTab = useMemo(() => {
 		if (!isMobile) {
 			return availableTabs.find((tab) => tab.type === selectedTab);
 		}
@@ -85,7 +88,7 @@ export const ChannelSettingsModal: React.FC<ChannelSettingsModalProps> = observe
 		return availableTabs.find((tab) => tab.type === mobileNav.currentView?.tab);
 	}, [isMobile, selectedTab, mobileNav.isRootView, mobileNav.currentView, availableTabs]);
 
-	const handleMobileBack = React.useCallback(() => {
+	const handleMobileBack = useCallback(() => {
 		if (mobileNav.isRootView) {
 			ModalActionCreators.pop();
 		} else {
@@ -93,14 +96,22 @@ export const ChannelSettingsModal: React.FC<ChannelSettingsModalProps> = observe
 		}
 	}, [mobileNav]);
 
-	const handleTabSelect = React.useCallback(
+	const handleTabSelect = useCallback(
 		(tabType: string, title: string) => {
 			mobileNav.navigateTo(tabType as ChannelSettingsTabType, title);
 		},
 		[mobileNav],
 	);
 
-	const handleClose = React.useCallback(createHandleClose(selectedTab), [selectedTab]);
+	const currentMobileTab = mobileNav.currentView?.tab;
+	const handleClose = useCallback(() => {
+		const checkTabId = isMobile ? currentMobileTab : selectedTab;
+		if (checkTabId && unsavedChangesStore.unsavedChanges[checkTabId]) {
+			UnsavedChangesActionCreators.triggerFlashEffect(checkTabId);
+			return;
+		}
+		ModalActionCreators.pop();
+	}, [currentMobileTab, isMobile, selectedTab, unsavedChangesStore.unsavedChanges]);
 
 	if (!channel) {
 		return null;

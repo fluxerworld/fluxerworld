@@ -17,36 +17,44 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as TrustedDomainActionCreators from '@app/actions/TrustedDomainActionCreators';
+import styles from '@app/components/modals/ExternalLinkWarningModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import {openExternalUrl} from '@app/utils/NativeUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {ArrowRightIcon, WarningIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as TrustedDomainActionCreators from '~/actions/TrustedDomainActionCreators';
-import styles from '~/components/modals/ExternalLinkWarningModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import {openExternalUrl} from '~/utils/NativeUtils';
+import {useCallback, useMemo, useRef, useState} from 'react';
 
-export const ExternalLinkWarningModal = observer(({url, hostname}: {url: string; hostname: string}) => {
+export const ExternalLinkWarningModal = observer(({url}: {url: string}) => {
 	const {t} = useLingui();
-	const [trustDomain, setTrustDomain] = React.useState(false);
-	const initialFocusRef = React.useRef<HTMLButtonElement | null>(null);
+	const [trustDomain, setTrustDomain] = useState(false);
+	const initialFocusRef = useRef<HTMLButtonElement | null>(null);
 
-	const handleContinue = React.useCallback(() => {
+	const hostname = useMemo(() => {
+		try {
+			return new URL(url).hostname;
+		} catch {
+			return url;
+		}
+	}, [url]);
+
+	const handleContinue = useCallback(async () => {
 		if (trustDomain) {
-			TrustedDomainActionCreators.addTrustedDomain(hostname);
+			await TrustedDomainActionCreators.addTrustedDomain(hostname);
 		}
 		void openExternalUrl(url);
 		ModalActionCreators.pop();
 	}, [url, hostname, trustDomain]);
 
-	const handleCancel = React.useCallback(() => {
+	const handleCancel = useCallback(() => {
 		ModalActionCreators.pop();
 	}, []);
 
-	const handleTrustChange = React.useCallback((checked: boolean) => {
+	const handleTrustChange = useCallback((checked: boolean) => {
 		setTrustDomain(checked);
 	}, []);
 

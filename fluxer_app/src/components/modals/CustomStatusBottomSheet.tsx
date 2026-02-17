@@ -17,34 +17,42 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as UserSettingsActionCreators from '@app/actions/UserSettingsActionCreators';
+import {Input} from '@app/components/form/Input';
+import styles from '@app/components/modals/CustomStatusBottomSheet.module.css';
+import {ExpressionPickerSheet} from '@app/components/modals/ExpressionPickerSheet';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {
+	getTimeWindowPresets,
+	minutesToMs,
+	TIME_WINDOW_LABEL_MESSAGES,
+	type TimeWindowKey,
+	type TimeWindowPreset,
+} from '@app/constants/TimeWindowPresets';
+import {type CustomStatus, normalizeCustomStatus} from '@app/lib/CustomStatus';
+import DeveloperModeStore from '@app/stores/DeveloperModeStore';
+import EmojiStore from '@app/stores/EmojiStore';
+import PresenceStore from '@app/stores/PresenceStore';
+import UserStore from '@app/stores/UserStore';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
+import {getEmojiURL, shouldUseNativeEmoji} from '@app/utils/EmojiUtils';
+import {getSkinTonedSurrogate} from '@app/utils/SkinToneUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {SmileyIcon, XIcon} from '@phosphor-icons/react';
 import clsx from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as UserSettingsActionCreators from '~/actions/UserSettingsActionCreators';
-import {Input} from '~/components/form/Input';
-import {ExpressionPickerSheet} from '~/components/modals/ExpressionPickerSheet';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import {Button} from '~/components/uikit/Button/Button';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {type CustomStatus, normalizeCustomStatus} from '~/lib/customStatus';
-import type {Emoji} from '~/stores/EmojiStore';
-import EmojiStore from '~/stores/EmojiStore';
-import PresenceStore from '~/stores/PresenceStore';
-import UserStore from '~/stores/UserStore';
-import {getEmojiURL, shouldUseNativeEmoji} from '~/utils/EmojiUtils';
-import styles from './CustomStatusBottomSheet.module.css';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useState} from 'react';
 
 const CUSTOM_STATUS_SNAP_POINTS: Array<number> = [0, 1];
 
-const EXPIRY_OPTIONS = [
-	{id: 'never', label: <Trans>Don&apos;t clear</Trans>, minutes: null},
-	{id: '30m', label: <Trans>30 minutes</Trans>, minutes: 30},
-	{id: '1h', label: <Trans>1 hour</Trans>, minutes: 60},
-	{id: '4h', label: <Trans>4 hours</Trans>, minutes: 4 * 60},
-	{id: '24h', label: <Trans>24 hours</Trans>, minutes: 24 * 60},
-];
+interface ExpiryOption {
+	id: TimeWindowKey;
+	label: string;
+	minutes: number | null;
+}
 
 interface CustomStatusBottomSheetProps {
 	isOpen: boolean;
@@ -66,22 +74,21 @@ const buildDraftStatus = (params: {
 };
 
 export const CustomStatusBottomSheet = observer(({isOpen, onClose}: CustomStatusBottomSheetProps) => {
-	const {t} = useLingui();
+	const {t, i18n} = useLingui();
 	const currentUser = UserStore.getCurrentUser();
 	const currentUserId = currentUser?.id ?? null;
 	const existingCustomStatus = currentUserId ? PresenceStore.getCustomStatus(currentUserId) : null;
 	const normalizedExisting = normalizeCustomStatus(existingCustomStatus);
+	const isDeveloper = DeveloperModeStore.isDeveloper;
 
-	const [statusText, setStatusText] = React.useState('');
-	const [emojiId, setEmojiId] = React.useState<string | null>(null);
-	const [emojiName, setEmojiName] = React.useState<string | null>(null);
-	const [selectedExpiry, setSelectedExpiry] = React.useState<string>('never');
-	const [isSaving, setIsSaving] = React.useState(false);
-	const [emojiPickerOpen, setEmojiPickerOpen] = React.useState(false);
+	const [statusText, setStatusText] = useState('');
+	const [emojiId, setEmojiId] = useState<string | null>(null);
+	const [emojiName, setEmojiName] = useState<string | null>(null);
+	const [selectedExpiry, setSelectedExpiry] = useState<TimeWindowKey>('never');
+	const [isSaving, setIsSaving] = useState(false);
+	const [emojiPickerOpen, setEmojiPickerOpen] = useState(false);
 
-	const mountedAt = React.useMemo(() => new Date(), []);
-
-	React.useEffect(() => {
+	useEffect(() => {
 		if (isOpen) {
 			setStatusText(normalizedExisting?.text ?? '');
 			setEmojiId(normalizedExisting?.emojiId ?? null);
@@ -90,27 +97,34 @@ export const CustomStatusBottomSheet = observer(({isOpen, onClose}: CustomStatus
 		}
 	}, [isOpen, normalizedExisting?.text, normalizedExisting?.emojiId, normalizedExisting?.emojiName]);
 
-	const getExpiresAt = React.useCallback(
-		(expiryId: string): string | null => {
-			const option = EXPIRY_OPTIONS.find((o) => o.id === expiryId);
-			if (!option?.minutes) return null;
-			return new Date(mountedAt.getTime() + option.minutes * 60 * 1000).toISOString();
-		},
-		[mountedAt],
+	const expiryOptions = useMemo(
+		() =>
+			getTimeWindowPresets({includeDeveloperOptions: isDeveloper}).map((preset: TimeWindowPreset) => ({
+				id: preset.key,
+				label: i18n._(TIME_WINDOW_LABEL_MESSAGES[preset.key]),
+				minutes: preset.minutes,
+			})),
+		[i18n, isDeveloper],
 	);
 
-	const draftStatus = React.useMemo(
-		() => buildDraftStatus({text: statusText.trim(), emojiId, emojiName, expiresAt: getExpiresAt(selectedExpiry)}),
-		[statusText, emojiId, emojiName, selectedExpiry, getExpiresAt],
+	const draftStatus = useMemo(
+		() => buildDraftStatus({text: statusText.trim(), emojiId, emojiName, expiresAt: null}),
+		[statusText, emojiId, emojiName],
 	);
 
-	const handleEmojiSelect = React.useCallback((emoji: Emoji) => {
+	const getExpiresAtForSave = useCallback((): string | null => {
+		const option = expiryOptions.find((o: ExpiryOption) => o.id === selectedExpiry);
+		if (!option?.minutes) return null;
+		return new Date(Date.now() + minutesToMs(option.minutes)!).toISOString();
+	}, [expiryOptions, selectedExpiry]);
+
+	const handleEmojiSelect = useCallback((emoji: FlatEmoji) => {
 		if (emoji.id) {
 			setEmojiId(emoji.id);
 			setEmojiName(emoji.name);
 		} else {
 			setEmojiId(null);
-			setEmojiName(emoji.surrogates ?? emoji.name);
+			setEmojiName(getSkinTonedSurrogate(emoji));
 		}
 	}, []);
 
@@ -125,7 +139,13 @@ export const CustomStatusBottomSheet = observer(({isOpen, onClose}: CustomStatus
 
 		setIsSaving(true);
 		try {
-			await UserSettingsActionCreators.update({customStatus: draftStatus});
+			const statusToSave = buildDraftStatus({
+				text: statusText.trim(),
+				emojiId,
+				emojiName,
+				expiresAt: getExpiresAtForSave(),
+			});
+			await UserSettingsActionCreators.update({customStatus: statusToSave});
 			onClose();
 		} finally {
 			setIsSaving(false);
@@ -217,12 +237,12 @@ export const CustomStatusBottomSheet = observer(({isOpen, onClose}: CustomStatus
 						<select
 							className={styles.expirySelect}
 							value={selectedExpiry}
-							onChange={(e) => setSelectedExpiry(e.target.value)}
+							onChange={(e) => setSelectedExpiry(e.target.value as TimeWindowKey)}
 							disabled={isSaving}
 						>
-							{EXPIRY_OPTIONS.map((option) => (
+							{expiryOptions.map((option: ExpiryOption) => (
 								<option key={option.id} value={option.id}>
-									{typeof option.label === 'string' ? option.label : option.id}
+									{option.label}
 								</option>
 							))}
 						</select>

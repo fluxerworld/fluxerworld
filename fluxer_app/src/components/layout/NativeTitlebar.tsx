@@ -17,24 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {CopySimple, Minus, Square, X} from '@phosphor-icons/react';
+import styles from '@app/components/layout/NativeTitlebar.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import FluxerWordmark from '@app/images/fluxer-wordmark.svg?react';
+import {getElectronAPI, type NativePlatform} from '@app/utils/NativeUtils';
+import {useLingui} from '@lingui/react/macro';
+import {CopySimpleIcon, MinusIcon, SquareIcon, XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
-import React from 'react';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import FluxerWordmark from '~/images/fluxer-wordmark.svg?react';
-import {getElectronAPI, type NativePlatform} from '~/utils/NativeUtils';
-import styles from './NativeTitlebar.module.css';
+import type React from 'react';
+import {useEffect, useState} from 'react';
 
 interface NativeTitlebarProps {
 	platform: NativePlatform;
 }
 
 export const NativeTitlebar: React.FC<NativeTitlebarProps> = ({platform}) => {
-	const [isMaximized, setIsMaximized] = React.useState(false);
+	const {t} = useLingui();
+	const [isMaximized, setIsMaximized] = useState(false);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const electronApi = getElectronAPI();
-		if (!electronApi) return;
+		if (!electronApi?.onWindowMaximizeChange) return;
 
 		const unsubscribe = electronApi.onWindowMaximizeChange((maximized: boolean) => {
 			setIsMaximized(maximized);
@@ -47,19 +50,19 @@ export const NativeTitlebar: React.FC<NativeTitlebarProps> = ({platform}) => {
 
 	const handleMinimize = () => {
 		const electronApi = getElectronAPI();
-		electronApi?.windowMinimize();
+		electronApi?.windowMinimize?.();
 	};
 
 	const handleToggleMaximize = () => {
 		const electronApi = getElectronAPI();
-		if (!electronApi) return;
+		if (!electronApi?.windowMaximize) return;
 
 		electronApi.windowMaximize();
 	};
 
 	const handleClose = () => {
 		const electronApi = getElectronAPI();
-		electronApi?.windowClose();
+		electronApi?.windowClose?.();
 	};
 
 	const handleDoubleClick = () => {
@@ -75,8 +78,13 @@ export const NativeTitlebar: React.FC<NativeTitlebarProps> = ({platform}) => {
 			<div className={styles.spacer} />
 			<div className={styles.controls}>
 				<FocusRing offset={-2}>
-					<button type="button" className={styles.controlButton} onClick={handleMinimize} aria-label="Minimize window">
-						<Minus weight="bold" />
+					<button
+						type="button"
+						className={styles.controlButton}
+						onClick={handleMinimize}
+						aria-label={t`Minimize window`}
+					>
+						<MinusIcon weight="bold" />
 					</button>
 				</FocusRing>
 				<FocusRing offset={-2}>
@@ -84,9 +92,9 @@ export const NativeTitlebar: React.FC<NativeTitlebarProps> = ({platform}) => {
 						type="button"
 						className={styles.controlButton}
 						onClick={handleToggleMaximize}
-						aria-label={isMaximized ? 'Restore window' : 'Maximize window'}
+						aria-label={isMaximized ? t`Restore window` : t`Maximize window`}
 					>
-						{isMaximized ? <CopySimple weight="bold" /> : <Square weight="bold" />}
+						{isMaximized ? <CopySimpleIcon weight="bold" /> : <SquareIcon weight="bold" />}
 					</button>
 				</FocusRing>
 				<FocusRing offset={-2}>
@@ -94,9 +102,9 @@ export const NativeTitlebar: React.FC<NativeTitlebarProps> = ({platform}) => {
 						type="button"
 						className={clsx(styles.controlButton, styles.closeButton)}
 						onClick={handleClose}
-						aria-label="Close window"
+						aria-label={t`Close window`}
 					>
-						<X weight="bold" />
+						<XIcon weight="bold" />
 					</button>
 				</FocusRing>
 			</div>

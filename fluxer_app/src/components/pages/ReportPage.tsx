@@ -17,62 +17,67 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {useLingui} from '@lingui/react/macro';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import type {SelectOption} from '~/components/form/Select';
-import type {RadioOption} from '~/components/uikit/RadioGroup/RadioGroup';
-import {AuthLayoutContext} from '~/contexts/AuthLayoutContext';
-import {Endpoints} from '~/Endpoints';
-import {useFluxerDocumentTitle} from '~/hooks/useFluxerDocumentTitle';
-import HttpClient from '~/lib/HttpClient';
-import styles from './ReportPage.module.css';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import type {SelectOption} from '@app/components/form/Select';
+import styles from '@app/components/pages/ReportPage.module.css';
 import {
 	COUNTRY_OPTIONS,
 	GUILD_CATEGORY_OPTIONS,
 	MESSAGE_CATEGORY_OPTIONS,
 	REPORT_TYPE_OPTION_DESCRIPTORS,
 	USER_CATEGORY_OPTIONS,
-} from './report/optionDescriptors';
-import ReportBreadcrumbs from './report/ReportBreadcrumbs';
-import ReportStepComplete from './report/ReportStepComplete';
-import ReportStepDetails from './report/ReportStepDetails';
-import ReportStepEmail from './report/ReportStepEmail';
-import ReportStepSelection from './report/ReportStepSelection';
-import ReportStepVerification from './report/ReportStepVerification';
-import {createInitialState, reducer} from './report/state';
-import type {FlowStep, FormValues, ReportType} from './report/types';
+} from '@app/components/pages/report/OptionDescriptors';
+import {ReportBreadcrumbs} from '@app/components/pages/report/ReportBreadcrumbs';
+import {ReportStepComplete} from '@app/components/pages/report/ReportStepComplete';
+import {ReportStepDetails} from '@app/components/pages/report/ReportStepDetails';
+import {ReportStepEmail} from '@app/components/pages/report/ReportStepEmail';
+import {ReportStepSelection} from '@app/components/pages/report/ReportStepSelection';
+import {ReportStepVerification} from '@app/components/pages/report/ReportStepVerification';
+import type {FlowStep, FormValues, ReportType} from '@app/components/pages/report/ReportTypes';
+import {createInitialState, reducer} from '@app/components/pages/report/State';
 import {
 	EMAIL_REGEX,
 	formatVerificationCodeInput,
 	isValidHttpUrl,
 	normalizeLikelyUrl,
 	VERIFICATION_CODE_REGEX,
-} from './report/validators';
+} from '@app/components/pages/report/Validators';
+import type {RadioOption} from '@app/components/uikit/radio_group/RadioGroup';
+import {AuthLayoutContext} from '@app/contexts/AuthLayoutContext';
+import {Endpoints} from '@app/Endpoints';
+import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
+import HttpClient from '@app/lib/HttpClient';
+import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
+import type {MessageDescriptor} from '@lingui/core';
+import {useLingui} from '@lingui/react/macro';
+import {observer} from 'mobx-react-lite';
+import {useCallback, useContext, useEffect, useLayoutEffect, useMemo, useReducer} from 'react';
 
-type ValidationError = {path: string; message: string};
+interface ValidationError {
+	path: string;
+	message: string;
+}
 
 export const ReportPage = observer(() => {
 	const {t} = useLingui();
-	const authLayout = React.useContext(AuthLayoutContext);
+	const authLayout = useContext(AuthLayoutContext);
 
 	useFluxerDocumentTitle(t`Report Illegal Content`);
 
-	React.useLayoutEffect(() => {
+	useLayoutEffect(() => {
 		if (!authLayout) return;
 		authLayout.setShowLogoSide(false);
 		return () => authLayout.setShowLogoSide(true);
 	}, [authLayout]);
 
-	const [state, dispatch] = React.useReducer(reducer, undefined, createInitialState);
+	const [state, dispatch] = useReducer(reducer, undefined, createInitialState);
 
-	const parseValidationErrors = React.useCallback(
+	const parseValidationErrors = useCallback(
 		(
 			error: unknown,
 		): {fieldErrors: Partial<Record<keyof FormValues, string>>; generalMessage: string | null} | null => {
 			if (error && typeof error === 'object' && 'body' in error && (error as {body?: unknown}).body) {
-				const body = (error as {body?: any}).body;
+				const body = (error as {body?: Record<string, unknown>}).body;
 				const pathMap: Record<string, keyof FormValues> = {
 					category: 'category',
 					reporter_full_legal_name: 'reporterFullName',
@@ -87,7 +92,7 @@ export const ReportPage = observer(() => {
 					additional_info: 'additionalInfo',
 				};
 
-				if (body?.code === 'INVALID_FORM_BODY' && Array.isArray(body.errors)) {
+				if (body?.code === APIErrorCodes.INVALID_FORM_BODY && Array.isArray(body.errors)) {
 					const fieldErrors: Partial<Record<keyof FormValues, string>> = {};
 					const errors = body.errors as Array<ValidationError>;
 					for (const err of errors) {
@@ -115,42 +120,42 @@ export const ReportPage = observer(() => {
 		[t],
 	);
 
-	const reportTypeOptions = React.useMemo<ReadonlyArray<RadioOption<ReportType>>>(() => {
-		return REPORT_TYPE_OPTION_DESCRIPTORS.map((option) => ({
+	const reportTypeOptions = useMemo<ReadonlyArray<RadioOption<ReportType>>>(() => {
+		return REPORT_TYPE_OPTION_DESCRIPTORS.map((option: {value: ReportType; name: MessageDescriptor}) => ({
 			value: option.value,
 			name: t(option.name),
 		}));
 	}, [t]);
 
-	const messageCategoryOptions = React.useMemo<Array<SelectOption<string>>>(() => {
-		return MESSAGE_CATEGORY_OPTIONS.map((option) => ({
+	const messageCategoryOptions = useMemo<Array<SelectOption<string>>>(() => {
+		return MESSAGE_CATEGORY_OPTIONS.map((option: {value: string; label: MessageDescriptor}) => ({
 			value: option.value,
 			label: t(option.label),
 		}));
 	}, [t]);
 
-	const userCategoryOptions = React.useMemo<Array<SelectOption<string>>>(() => {
-		return USER_CATEGORY_OPTIONS.map((option) => ({
+	const userCategoryOptions = useMemo<Array<SelectOption<string>>>(() => {
+		return USER_CATEGORY_OPTIONS.map((option: {value: string; label: MessageDescriptor}) => ({
 			value: option.value,
 			label: t(option.label),
 		}));
 	}, [t]);
 
-	const guildCategoryOptions = React.useMemo<Array<SelectOption<string>>>(() => {
-		return GUILD_CATEGORY_OPTIONS.map((option) => ({
+	const guildCategoryOptions = useMemo<Array<SelectOption<string>>>(() => {
+		return GUILD_CATEGORY_OPTIONS.map((option: {value: string; label: MessageDescriptor}) => ({
 			value: option.value,
 			label: t(option.label),
 		}));
 	}, [t]);
 
-	const countryOptions = React.useMemo<Array<SelectOption<string>>>(() => {
-		return COUNTRY_OPTIONS.map((option) => ({
+	const countryOptions = useMemo<Array<SelectOption<string>>>(() => {
+		return COUNTRY_OPTIONS.map((option: {value: string; label: MessageDescriptor}) => ({
 			value: option.value,
 			label: t(option.label),
 		}));
 	}, [t]);
 
-	const categoryOptionsByType = React.useMemo(() => {
+	const categoryOptionsByType = useMemo(() => {
 		return {
 			message: messageCategoryOptions,
 			user: userCategoryOptions,
@@ -160,13 +165,13 @@ export const ReportPage = observer(() => {
 
 	const categoryOptions = state.selectedType ? categoryOptionsByType[state.selectedType] : [];
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (state.resendCooldownSeconds <= 0) return;
 		const timer = window.setInterval(() => dispatch({type: 'TICK_RESEND_COOLDOWN'}), 1000);
 		return () => window.clearInterval(timer);
 	}, [state.resendCooldownSeconds, dispatch]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (state.flowStep === 'selection') return;
 
 		if (!state.selectedType) {
@@ -189,15 +194,15 @@ export const ReportPage = observer(() => {
 		}
 	}, [state.flowStep, state.selectedType, state.email, state.ticket, state.successReportId]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		window.scrollTo({top: 0, behavior: 'smooth'});
 	}, [state.flowStep]);
 
-	const onSelectType = React.useCallback((type: ReportType) => {
+	const onSelectType = useCallback((type: ReportType) => {
 		dispatch({type: 'SELECT_TYPE', reportType: type});
 	}, []);
 
-	const sendVerificationCode = React.useCallback(async () => {
+	const sendVerificationCode = useCallback(async () => {
 		if (state.isSendingCode || state.isVerifying || state.isSubmitting) return;
 
 		const normalizedEmail = state.email.trim();
@@ -240,7 +245,7 @@ export const ReportPage = observer(() => {
 		}
 	}, [state.email, state.isSendingCode, state.isVerifying, state.isSubmitting, state.flowStep, t]);
 
-	const verifyCode = React.useCallback(async () => {
+	const verifyCode = useCallback(async () => {
 		if (state.isSendingCode || state.isVerifying || state.isSubmitting) return;
 
 		const code = state.verificationCode.trim().toUpperCase();
@@ -280,7 +285,7 @@ export const ReportPage = observer(() => {
 		}
 	}, [state.email, state.verificationCode, state.isSendingCode, state.isVerifying, state.isSubmitting, t]);
 
-	const handleSubmit = React.useCallback(async () => {
+	const handleSubmit = useCallback(async () => {
 		if (!state.selectedType) return;
 		if (state.isSubmitting || state.isSendingCode || state.isVerifying) return;
 
@@ -366,7 +371,7 @@ export const ReportPage = observer(() => {
 				const inviteCode = state.formValues.inviteCode.trim();
 
 				if (!guildId) {
-					dispatch({type: 'SET_ERROR', message: t`Please include the community (guild) ID you are reporting.`});
+					dispatch({type: 'SET_ERROR', message: t`Please include the community ID you are reporting.`});
 					return;
 				}
 

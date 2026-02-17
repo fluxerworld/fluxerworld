@@ -96,3 +96,16 @@
 	transform: translatez(0);
 	opacity: 1;
 }
+
+@media (pointer: coarse), (max-width: 767px) {
+	.hoverRoll .default,
+	.hoverRoll .hovered {
+		transform: none;
+		opacity: 1;
+		position: static;
+	}
+
+	.hoverRoll .hovered {
+		display: none;
+	}
+}

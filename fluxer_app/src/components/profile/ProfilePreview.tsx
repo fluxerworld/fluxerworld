@@ -17,38 +17,37 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {CustomStatusDisplay} from '@app/components/common/custom_status_display/CustomStatusDisplay';
+import {UserProfileModal} from '@app/components/modals/UserProfileModal';
+import {UserProfileBadges} from '@app/components/popouts/UserProfileBadges';
+import {UserProfileMembershipInfo, UserProfilePreviewBio} from '@app/components/popouts/UserProfileShared';
+import styles from '@app/components/profile/ProfilePreview.module.css';
+import {ProfileCardBanner} from '@app/components/profile/profile_card/ProfileCardBanner';
+import {ProfileCardContent} from '@app/components/profile/profile_card/ProfileCardContent';
+import {ProfileCardFooter} from '@app/components/profile/profile_card/ProfileCardFooter';
+import {ProfileCardLayout} from '@app/components/profile/profile_card/ProfileCardLayout';
+import {ProfileCardUserInfo} from '@app/components/profile/profile_card/ProfileCardUserInfo';
+import {useProfileCardDisplayState} from '@app/components/profile/useProfileCardDisplayState';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useAutoplayExpandedProfileAnimations} from '@app/hooks/useAutoplayExpandedProfileAnimations';
+import type {CustomStatus} from '@app/lib/CustomStatus';
+import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
+import type {ProfileRecord} from '@app/records/ProfileRecord';
+import type {UserRecord} from '@app/records/UserRecord';
+import GuildStore from '@app/stores/GuildStore';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import type {ProfilePreviewOverrides} from '@app/utils/ProfileDisplayUtils';
+import {type BadgeSettings, createMockProfile} from '@app/utils/ProfileUtils';
+import type {UserProfile} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {ChatTeardropIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {DEFAULT_ACCENT_COLOR} from '~/Constants';
-import {CustomStatusDisplay} from '~/components/common/CustomStatusDisplay/CustomStatusDisplay';
-import {CustomStatusModal} from '~/components/modals/CustomStatusModal';
-import {UserProfileModal} from '~/components/modals/UserProfileModal';
-import {UserProfileBadges} from '~/components/popouts/UserProfileBadges';
-import {UserProfileBio, UserProfileMembershipInfo} from '~/components/popouts/UserProfileShared';
-import {ProfileCardBanner} from '~/components/profile/ProfileCard/ProfileCardBanner';
-import {ProfileCardContent} from '~/components/profile/ProfileCard/ProfileCardContent';
-import {ProfileCardFooter} from '~/components/profile/ProfileCard/ProfileCardFooter';
-import {ProfileCardLayout} from '~/components/profile/ProfileCard/ProfileCardLayout';
-import {ProfileCardUserInfo} from '~/components/profile/ProfileCard/ProfileCardUserInfo';
-import {Button} from '~/components/uikit/Button/Button';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useAutoplayExpandedProfileAnimations} from '~/hooks/useAutoplayExpandedProfileAnimations';
-import type {CustomStatus} from '~/lib/customStatus';
-import type {GuildMemberRecord} from '~/records/GuildMemberRecord';
-import type {ProfileRecord} from '~/records/ProfileRecord';
-import type {UserProfile, UserRecord} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import GuildStore from '~/stores/GuildStore';
-import * as ColorUtils from '~/utils/ColorUtils';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import * as ProfileDisplayUtils from '~/utils/ProfileDisplayUtils';
-import {type BadgeSettings, createMockProfile} from '~/utils/ProfileUtils';
-import styles from './ProfilePreview.module.css';
+import type React from 'react';
+import {useCallback, useMemo} from 'react';
 
 interface ProfilePreviewProps {
 	user: UserRecord;
@@ -58,7 +57,7 @@ interface ProfilePreviewProps {
 	hasClearedBanner?: boolean;
 	previewBio?: string | null;
 	previewPronouns?: string | null;
-	previewAccentColor?: string | null;
+	previewAccentColor?: number | null;
 	previewGlobalName?: string | null;
 	previewNick?: string | null;
 	guildId?: string | null;
@@ -98,18 +97,7 @@ export const ProfilePreview: React.FC<ProfilePreviewProps> = observer(
 	}) => {
 		const {t} = useLingui();
 
-		const profileContext = React.useMemo<ProfileDisplayUtils.ProfileDisplayContext>(
-			() => ({
-				user,
-				profile: null,
-				guildId,
-				guildMember,
-				guildMemberProfile,
-			}),
-			[user, guildId, guildMember, guildMemberProfile],
-		);
-
-		const previewOverrides = React.useMemo<ProfileDisplayUtils.ProfilePreviewOverrides>(
+		const previewOverrides = useMemo<ProfilePreviewOverrides>(
 			() => ({
 				previewAvatarUrl,
 				previewBannerUrl,
@@ -128,25 +116,14 @@ export const ProfilePreview: React.FC<ProfilePreviewProps> = observer(
 			],
 		);
 
-		const {avatarUrl: finalAvatarUrl, hoverAvatarUrl: finalHoverAvatarUrl} = React.useMemo(
-			() => ProfileDisplayUtils.getProfileAvatarUrls(profileContext, previewOverrides),
-			[profileContext, previewOverrides],
-		);
-
-		const shouldAutoplayProfileAnimations = useAutoplayExpandedProfileAnimations();
-		const finalBannerUrl = React.useMemo(
-			() => ProfileDisplayUtils.getProfileBannerUrl(profileContext, previewOverrides, shouldAutoplayProfileAnimations),
-			[profileContext, previewOverrides, shouldAutoplayProfileAnimations],
-		) as string | null;
-
-		const previewUser = React.useMemo(() => {
+		const previewUser = useMemo(() => {
 			const bio = previewBio !== undefined ? previewBio : user.bio;
 			const pronouns = previewPronouns !== undefined ? previewPronouns : user.pronouns;
 			const globalName = previewGlobalName !== undefined ? previewGlobalName : user.globalName;
 			return user.withUpdates({bio, pronouns, global_name: globalName});
 		}, [user, previewBio, previewPronouns, previewGlobalName]);
 
-		const mockProfile = React.useMemo(() => {
+		const mockProfile = useMemo(() => {
 			const profile = createMockProfile(previewUser, {
 				previewBannerUrl,
 				hasClearedBanner,
@@ -182,7 +159,25 @@ export const ProfilePreview: React.FC<ProfilePreviewProps> = observer(
 			guildMemberProfile,
 		]);
 
-		const openMockProfile = React.useCallback(() => {
+		const shouldAutoplayProfileAnimations = useAutoplayExpandedProfileAnimations();
+
+		const {
+			avatarUrl: finalAvatarUrl,
+			hoverAvatarUrl: finalHoverAvatarUrl,
+			bannerUrl: finalBannerUrl,
+			accentColor,
+		} = useProfileCardDisplayState({
+			user,
+			profile: mockProfile,
+			guildId,
+			guildMember,
+			guildMemberProfile: mockProfile.getGuildMemberProfile() ?? guildMemberProfile,
+			previewOverrides,
+			accentUser: previewUser,
+			shouldAutoplayProfileAnimations,
+		});
+
+		const openMockProfile = useCallback(() => {
 			ModalActionCreators.push(
 				modal(() => (
 					<UserProfileModal
@@ -202,22 +197,14 @@ export const ProfilePreview: React.FC<ProfilePreviewProps> = observer(
 		}, [user.id, guildId, previewAvatarUrl, previewBannerUrl, hasClearedAvatar, hasClearedBanner, previewUser]);
 
 		const pronouns = previewPronouns !== undefined ? previewPronouns : user.pronouns;
-		const displayName = previewNick || NicknameUtils.getNickname(previewUser, guildId);
+		const displayName = previewNick || NicknameUtils.getNickname(previewUser, guildId ?? undefined);
 
-		const rawAccentColor = previewAccentColor !== undefined ? previewAccentColor : user.accentColor;
-		const accentColorHex = typeof rawAccentColor === 'number' ? ColorUtils.int2hex(rawAccentColor) : rawAccentColor;
-		const borderColor = accentColorHex || DEFAULT_ACCENT_COLOR;
-		const bannerColor = accentColorHex || DEFAULT_ACCENT_COLOR;
+		const borderColor = accentColor;
+		const bannerColor = accentColor;
 
 		const selectedGuild = guildId ? GuildStore.getGuild(guildId) : null;
 
 		const hasPreviewStatus = previewCustomStatus !== undefined;
-		const isCurrentUser = user.id === AuthenticationStore.currentUserId;
-		const canEditCustomStatus = isCurrentUser && !hasPreviewStatus;
-
-		const openCustomStatus = React.useCallback(() => {
-			ModalActionCreators.push(modal(() => <CustomStatusModal />));
-		}, []);
 
 		const handlePreviewKeyDown = (event: React.KeyboardEvent<HTMLDivElement>) => {
 			if (event.key === 'Enter' || event.key === ' ') {
@@ -264,13 +251,10 @@ export const ProfilePreview: React.FC<ProfilePreviewProps> = observer(
 									className={styles.profileCustomStatusText}
 									allowJumboEmoji
 									maxLines={0}
-									isEditable={canEditCustomStatus}
-									onEdit={openCustomStatus}
-									showPlaceholder={canEditCustomStatus}
 									alwaysAnimate={shouldAutoplayProfileAnimations}
 								/>
 							</div>
-							<UserProfileBio profile={mockProfile} onShowMore={openMockProfile} />
+							<UserProfilePreviewBio profile={mockProfile} onShowMore={openMockProfile} />
 							{showMembershipInfo && (
 								<UserProfileMembershipInfo
 									profile={{...mockProfile, guild: selectedGuild, guildMember} as ProfileRecord}

@@ -1,0 +1,14 @@
+{
+	"tenor": {
+		"type": "object",
+		"description": "Tenor GIF API integration.",
+		"additionalProperties": false,
+		"properties": {
+			"api_key": {
+				"type": "string",
+				"default": "",
+				"description": "Tenor API key."
+			}
+		}
+	}
+}

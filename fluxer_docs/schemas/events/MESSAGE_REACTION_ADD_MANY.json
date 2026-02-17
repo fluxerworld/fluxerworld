@@ -1,0 +1,57 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "MESSAGE_REACTION_ADD_MANY",
+	"description": "Sent when multiple reaction add events are batched together within a debounce window. Only dispatched to sessions that set the DEBOUNCE_MESSAGE_REACTIONS identify flag. When only a single reaction occurs within the window, a regular MESSAGE_REACTION_ADD is sent instead.",
+	"scope": "channel",
+	"scopeNote": "Guild channels dispatch to guild scope; DMs dispatch to presence scope. This is a virtual event synthesised by the gateway from buffered MESSAGE_REACTION_ADD events.",
+	"dispatchedBy": ["PUT /channels/:channel_id/messages/:message_id/reactions/:emoji/@me"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID"
+			},
+			"message_id": {
+				"type": "string",
+				"description": "Message ID"
+			},
+			"guild_id": {
+				"type": "string",
+				"description": "Guild ID (only present for guild channels)"
+			},
+			"reactions": {
+				"type": "array",
+				"description": "Array of individual reaction entries",
+				"items": {
+					"type": "object",
+					"properties": {
+						"user_id": {
+							"type": "string",
+							"description": "ID of the user who reacted"
+						},
+						"emoji": {
+							"type": "object",
+							"properties": {
+								"id": {"type": "string", "description": "Emoji ID (only present for custom emoji)"},
+								"name": {"type": "string", "description": "Emoji name (unicode character or custom emoji name)"},
+								"animated": {
+									"type": "boolean",
+									"description": "Whether the emoji is animated (only present for custom emoji)"
+								}
+							},
+							"required": ["name"],
+							"description": "The emoji used"
+						},
+						"member": {
+							"$ref": "GuildMemberResponse",
+							"description": "Guild member object (only present for guild channels)"
+						}
+					},
+					"required": ["user_id", "emoji"]
+				}
+			}
+		},
+		"required": ["channel_id", "message_id", "reactions"]
+	}
+}

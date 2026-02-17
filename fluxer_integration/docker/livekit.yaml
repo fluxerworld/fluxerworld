@@ -1,0 +1,19 @@
+port: 7880
+
+keys:
+  'devkey': 'devsecret'
+
+rtc:
+  tcp_port: 7881
+
+webhook:
+  api_key: 'devkey'
+  urls:
+    - ''
+
+room:
+  auto_create: true
+  max_participants: 100
+  empty_timeout: 300
+
+development: true

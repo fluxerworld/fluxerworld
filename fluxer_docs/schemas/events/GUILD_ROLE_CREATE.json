@@ -1,0 +1,17 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "GUILD_ROLE_CREATE",
+	"description": "Sent when a guild role is created.",
+	"scope": "guild",
+	"dispatchedBy": ["POST /guilds/:guild_id/roles"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"role": {
+				"$ref": "GuildRoleResponse",
+				"description": "The created role"
+			}
+		},
+		"required": ["role"]
+	}
+}

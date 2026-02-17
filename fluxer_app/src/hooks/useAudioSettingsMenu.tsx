@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import {VoiceAudioSettingsMenu} from '@app/components/voice/VoiceSettingsMenus';
 import type React from 'react';
 import {useCallback} from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import {VoiceAudioSettingsMenu} from '~/components/voice/VoiceSettingsMenus';
 
 interface UseAudioSettingsMenuOptions {
 	inputDevices: Array<MediaDeviceInfo>;

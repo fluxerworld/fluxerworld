@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {DebugModal, type DebugTab} from '@app/components/debug/DebugModal';
+import type {UserRecord} from '@app/records/UserRecord';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useMemo} from 'react';
-import type {UserRecord} from '~/records/UserRecord';
-import {DebugModal, type DebugTab} from './DebugModal';
 
 interface UserDebugModalProps {
 	title: string;

@@ -17,17 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/channel/MessageActionBottomSheet.module.css';
+import {useMessageActionMenuData} from '@app/components/channel/MessageActionMenu';
+import {MessageReactionsSheet} from '@app/components/channel/MessageReactionsSheet';
+import {renderQuickReactionEmoji} from '@app/components/channel/QuickReactionsRow';
+import quickReactionStyles from '@app/components/channel/QuickReactionsRow.module.css';
+import {ExpressionPickerSheet} from '@app/components/modals/ExpressionPickerSheet';
+import {MenuBottomSheet} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import EmojiPickerStore from '@app/stores/EmojiPickerStore';
 import {useLingui} from '@lingui/react/macro';
 import {PlusIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {useMessageActionMenuData} from '~/components/channel/messageActionMenu';
-import {ExpressionPickerSheet} from '~/components/modals/ExpressionPickerSheet';
-import {MenuBottomSheet} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import type {MessageRecord} from '~/records/MessageRecord';
-import EmojiPickerStore from '~/stores/EmojiPickerStore';
-import {shouldUseNativeEmoji} from '~/utils/EmojiUtils';
-import styles from './MessageActionBottomSheet.module.css';
+import type React from 'react';
+import {useCallback, useMemo, useState} from 'react';
 
 interface MessageActionBottomSheetProps {
 	isOpen: boolean;
@@ -39,13 +42,23 @@ interface MessageActionBottomSheetProps {
 export const MessageActionBottomSheet: React.FC<MessageActionBottomSheetProps> = observer(
 	({isOpen, onClose, message, handleDelete}) => {
 		const {t} = useLingui();
-		const [isEmojiPickerOpen, setIsEmojiPickerOpen] = React.useState(false);
+		const [isEmojiPickerOpen, setIsEmojiPickerOpen] = useState(false);
+		const [isReactionsSheetOpen, setIsReactionsSheetOpen] = useState(false);
 
-		const handleAddReaction = React.useCallback(() => {
+		const handleAddReaction = useCallback(() => {
 			setIsEmojiPickerOpen(true);
 		}, []);
 
-		const handleEmojiPickerClose = React.useCallback(() => {
+		const handleOpenReactionsSheet = useCallback(() => {
+			setIsReactionsSheetOpen(true);
+		}, []);
+
+		const handleReactionsSheetClose = useCallback(() => {
+			setIsReactionsSheetOpen(false);
+			onClose();
+		}, [onClose]);
+
+		const handleEmojiPickerClose = useCallback(() => {
 			setIsEmojiPickerOpen(false);
 			onClose();
 		}, [onClose]);
@@ -54,43 +67,37 @@ export const MessageActionBottomSheet: React.FC<MessageActionBottomSheetProps> =
 			onClose,
 			onDelete: () => handleDelete(),
 			onOpenEmojiPicker: handleAddReaction,
+			onOpenReactionsSheet: handleOpenReactionsSheet,
 			quickReactionCount: 4,
 		});
+		const visibleGroups = useMemo(() => groups.filter((group) => group.items.length > 0), [groups]);
 
 		const quickReactionRow = quickReactionRowVisible ? (
 			<div className={styles.quickReactionWrapper}>
-				<div className={styles.quickReactionRow}>
-					{quickReactionEmojis.map((emoji) => {
-						const isUnicodeEmoji = !emoji.guildId && !emoji.id;
-						const useNativeRendering = shouldUseNativeEmoji && isUnicodeEmoji;
-						return (
-							<button
-								key={emoji.name}
-								type="button"
-								onClick={() => {
-									EmojiPickerStore.trackEmoji(emoji);
-									handlers.handleEmojiSelect(emoji);
-									onClose();
-								}}
-								aria-label={t`React with :${emoji.name}:`}
-								className={styles.quickReactionButton}
-							>
-								{useNativeRendering ? (
-									<span className={styles.quickReactionEmoji}>{emoji.surrogates}</span>
-								) : (
-									<img src={emoji.url ?? ''} alt={emoji.name} className={styles.quickReactionEmoji} />
-								)}
-							</button>
-						);
-					})}
+				<div className={quickReactionStyles.row}>
+					{quickReactionEmojis.map((emoji) => (
+						<button
+							key={emoji.name}
+							type="button"
+							onClick={() => {
+								EmojiPickerStore.trackEmoji(emoji);
+								handlers.handleEmojiSelect(emoji);
+								onClose();
+							}}
+							aria-label={t`React with :${emoji.name}:`}
+							className={quickReactionStyles.button}
+						>
+							{renderQuickReactionEmoji(emoji)}
+						</button>
+					))}
 
 					<button
 						type="button"
 						onClick={handleAddReaction}
 						aria-label={t`Add another reaction`}
-						className={styles.quickReactionButton}
+						className={quickReactionStyles.button}
 					>
-						<PlusIcon className={styles.addReactionIcon} weight="bold" />
+						<PlusIcon size={24} weight="bold" />
 					</button>
 				</div>
 			</div>
@@ -99,9 +106,9 @@ export const MessageActionBottomSheet: React.FC<MessageActionBottomSheetProps> =
 		return (
 			<>
 				<MenuBottomSheet
-					isOpen={isOpen && !isEmojiPickerOpen}
+					isOpen={isOpen && !isEmojiPickerOpen && !isReactionsSheetOpen}
 					onClose={onClose}
-					groups={groups}
+					groups={visibleGroups}
 					headerContent={quickReactionRow}
 				/>
 				<ExpressionPickerSheet
@@ -110,6 +117,13 @@ export const MessageActionBottomSheet: React.FC<MessageActionBottomSheetProps> =
 					channelId={message.channelId}
 					onEmojiSelect={handlers.handleEmojiSelect}
 					visibleTabs={['emojis']}
+				/>
+				<MessageReactionsSheet
+					isOpen={isReactionsSheetOpen}
+					onClose={handleReactionsSheetClose}
+					channelId={message.channelId}
+					messageId={message.id}
+					openToReaction={message.reactions[0]}
 				/>
 			</>
 		);

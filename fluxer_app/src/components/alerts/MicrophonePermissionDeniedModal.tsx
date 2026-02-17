@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {openNativePermissionSettings} from '@app/utils/NativePermissions';
+import {isDesktop, isNativeMacOS} from '@app/utils/NativeUtils';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {openNativePermissionSettings} from '~/utils/NativePermissions';
-import {isDesktop, isNativeMacOS} from '~/utils/NativeUtils';
 
 export const MicrophonePermissionDeniedModal = observer(() => {
 	const {t} = useLingui();

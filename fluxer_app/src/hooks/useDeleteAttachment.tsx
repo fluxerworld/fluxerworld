@@ -17,15 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import type {MessageRecord} from '@app/records/MessageRecord';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {useCallback} from 'react';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import type {MessageRecord} from '~/records/MessageRecord';
 
-export const useDeleteAttachment = (message: MessageRecord | undefined, attachmentId: string | undefined) => {
+export function useDeleteAttachment(
+	message: MessageRecord | null | undefined,
+	attachmentId: string | null | undefined,
+) {
 	const {t} = useLingui();
 
 	return useCallback(
@@ -56,4 +59,4 @@ export const useDeleteAttachment = (message: MessageRecord | undefined, attachme
 		},
 		[message, attachmentId, t],
 	);
-};
+}

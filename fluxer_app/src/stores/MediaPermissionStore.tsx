@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
+import {MediaDeviceRefreshType, refreshMediaDeviceLists} from '@app/utils/MediaDeviceRefresh';
+import {checkNativePermission} from '@app/utils/NativePermissions';
 import {makeAutoObservable, reaction, runInAction} from 'mobx';
-import {Logger} from '~/lib/Logger';
-import {MediaDeviceRefreshType, refreshMediaDeviceLists} from '~/utils/MediaDeviceRefresh';
-import {checkNativePermission} from '~/utils/NativePermissions';
 
 const logger = new Logger('MediaPermissionStore');
 

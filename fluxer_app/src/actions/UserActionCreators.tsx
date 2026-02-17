@@ -17,14 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import MessageStore from '@app/stores/MessageStore';
+import SudoStore from '@app/stores/SudoStore';
+import type {SudoVerificationPayload} from '@app/types/Sudo';
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
+import type {HarvestStatusResponse} from '@fluxer/schema/src/domains/user/UserHarvestSchemas';
+import type {UserPrivate} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 import type {PublicKeyCredentialCreationOptionsJSON, RegistrationResponseJSON} from '@simplewebauthn/browser';
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {Message} from '~/records/MessageRecord';
-import type {UserPrivate} from '~/records/UserRecord';
-import MessageStore from '~/stores/MessageStore';
-import SudoStore from '~/stores/SudoStore';
 
 const logger = new Logger('User');
 
@@ -66,9 +68,20 @@ interface EmailChangeVerifyNewResponse {
 	email_token: string;
 }
 
-export const update = async (
+interface PasswordChangeStartResponse {
+	ticket: string;
+	code_expires_at: string;
+	resend_available_at: string | null;
+}
+
+interface PasswordChangeVerifyResponse {
+	verification_proof: string;
+}
+
+export async function update(
 	user: Partial<UserPrivate> & {
 		avatar?: string | null;
+		password?: string;
 		new_password?: string;
 		premium_badge_hidden?: boolean;
 		premium_badge_masked?: boolean;
@@ -79,7 +92,7 @@ export const update = async (
 		has_unread_gift_inventory?: boolean;
 		email_token?: string;
 	},
-): Promise<UserPrivate & {token?: string}> => {
+): Promise<UserPrivate & {token?: string}> {
 	try {
 		logger.debug('Updating current user profile');
 		const response = await http.patch<UserPrivate & {token?: string}>(Endpoints.USER_ME, user);
@@ -97,15 +110,15 @@ export const update = async (
 		logger.error('Failed to update user profile:', error);
 		throw error;
 	}
-};
+}
 
-export const checkFluxerTagAvailability = async ({
+export async function checkFluxerTagAvailability({
 	username,
 	discriminator,
 }: {
 	username: string;
 	discriminator: string;
-}): Promise<boolean> => {
+}): Promise<boolean> {
 	try {
 		logger.debug(`Checking availability for FluxerTag ${username}#${discriminator}`);
 		const response = await http.get<FluxerTagAvailabilityResponse>({
@@ -117,9 +130,9 @@ export const checkFluxerTagAvailability = async ({
 		logger.error('Failed to check FluxerTag availability:', error);
 		throw error;
 	}
-};
+}
 
-export const sendPhoneVerification = async (phone: string): Promise<void> => {
+export async function sendPhoneVerification(phone: string): Promise<void> {
 	try {
 		logger.debug('Sending phone verification code');
 		await http.post({url: Endpoints.USER_PHONE_SEND_VERIFICATION, body: {phone}});
@@ -128,9 +141,9 @@ export const sendPhoneVerification = async (phone: string): Promise<void> => {
 		logger.error('Failed to send phone verification code', error);
 		throw error;
 	}
-};
+}
 
-export const verifyPhone = async (phone: string, code: string): Promise<PhoneTokenResponse> => {
+export async function verifyPhone(phone: string, code: string): Promise<PhoneTokenResponse> {
 	try {
 		logger.debug('Verifying phone code');
 		const response = await http.post<PhoneTokenResponse>(Endpoints.USER_PHONE_VERIFY, {phone, code});
@@ -140,9 +153,9 @@ export const verifyPhone = async (phone: string, code: string): Promise<PhoneTok
 		logger.error('Failed to verify phone code', error);
 		throw error;
 	}
-};
+}
 
-export const addPhone = async (phoneToken: string): Promise<void> => {
+export async function addPhone(phoneToken: string): Promise<void> {
 	try {
 		logger.debug('Adding phone to account');
 		await http.post({url: Endpoints.USER_PHONE, body: {phone_token: phoneToken}});
@@ -151,9 +164,9 @@ export const addPhone = async (phoneToken: string): Promise<void> => {
 		logger.error('Failed to add phone to account', error);
 		throw error;
 	}
-};
+}
 
-export const startEmailChange = async (): Promise<EmailChangeStartResponse> => {
+export async function startEmailChange(): Promise<EmailChangeStartResponse> {
 	try {
 		logger.debug('Starting email change flow');
 		const response = await http.post<EmailChangeStartResponse>({
@@ -165,9 +178,9 @@ export const startEmailChange = async (): Promise<EmailChangeStartResponse> => {
 		logger.error('Failed to start email change', error);
 		throw error;
 	}
-};
+}
 
-export const resendEmailChangeOriginal = async (ticket: string): Promise<void> => {
+export async function resendEmailChangeOriginal(ticket: string): Promise<void> {
 	try {
 		logger.debug('Resending email change original code');
 		await http.post({
@@ -178,12 +191,12 @@ export const resendEmailChangeOriginal = async (ticket: string): Promise<void> =
 		logger.error('Failed to resend original email code', error);
 		throw error;
 	}
-};
+}
 
-export const verifyEmailChangeOriginal = async (
+export async function verifyEmailChangeOriginal(
 	ticket: string,
 	code: string,
-): Promise<EmailChangeVerifyOriginalResponse> => {
+): Promise<EmailChangeVerifyOriginalResponse> {
 	try {
 		logger.debug('Verifying original email code');
 		const response = await http.post<EmailChangeVerifyOriginalResponse>({
@@ -195,13 +208,13 @@ export const verifyEmailChangeOriginal = async (
 		logger.error('Failed to verify original email code', error);
 		throw error;
 	}
-};
+}
 
-export const requestEmailChangeNew = async (
+export async function requestEmailChangeNew(
 	ticket: string,
 	newEmail: string,
 	originalProof: string,
-): Promise<EmailChangeRequestNewResponse> => {
+): Promise<EmailChangeRequestNewResponse> {
 	try {
 		logger.debug('Requesting new email code');
 		const response = await http.post<EmailChangeRequestNewResponse>({
@@ -213,9 +226,9 @@ export const requestEmailChangeNew = async (
 		logger.error('Failed to request new email code', error);
 		throw error;
 	}
-};
+}
 
-export const resendEmailChangeNew = async (ticket: string): Promise<void> => {
+export async function resendEmailChangeNew(ticket: string): Promise<void> {
 	try {
 		logger.debug('Resending new email code');
 		await http.post({
@@ -226,13 +239,13 @@ export const resendEmailChangeNew = async (ticket: string): Promise<void> => {
 		logger.error('Failed to resend new email code', error);
 		throw error;
 	}
-};
+}
 
-export const verifyEmailChangeNew = async (
+export async function verifyEmailChangeNew(
 	ticket: string,
 	code: string,
 	originalProof: string,
-): Promise<EmailChangeVerifyNewResponse> => {
+): Promise<EmailChangeVerifyNewResponse> {
 	try {
 		logger.debug('Verifying new email code');
 		const response = await http.post<EmailChangeVerifyNewResponse>({
@@ -244,9 +257,113 @@ export const verifyEmailChangeNew = async (
 		logger.error('Failed to verify new email code', error);
 		throw error;
 	}
-};
+}
 
-export const removePhone = async (): Promise<void> => {
+export async function requestBouncedEmailChangeNew(newEmail: string): Promise<EmailChangeRequestNewResponse> {
+	try {
+		logger.debug('Requesting bounced email replacement code');
+		const response = await http.post<EmailChangeRequestNewResponse>({
+			url: Endpoints.USER_EMAIL_CHANGE_BOUNCED_REQUEST_NEW,
+			body: {new_email: newEmail},
+		});
+		return response.body;
+	} catch (error) {
+		logger.error('Failed to request bounced email replacement code', error);
+		throw error;
+	}
+}
+
+export async function resendBouncedEmailChangeNew(ticket: string): Promise<void> {
+	try {
+		logger.debug('Resending bounced email replacement code');
+		await http.post({
+			url: Endpoints.USER_EMAIL_CHANGE_BOUNCED_RESEND_NEW,
+			body: {ticket},
+		});
+	} catch (error) {
+		logger.error('Failed to resend bounced email replacement code', error);
+		throw error;
+	}
+}
+
+export async function verifyBouncedEmailChangeNew(ticket: string, code: string): Promise<UserPrivate> {
+	try {
+		logger.debug('Verifying bounced email replacement code');
+		const response = await http.post<UserPrivate>({
+			url: Endpoints.USER_EMAIL_CHANGE_BOUNCED_VERIFY_NEW,
+			body: {ticket, code},
+		});
+		return response.body;
+	} catch (error) {
+		logger.error('Failed to verify bounced email replacement code', error);
+		throw error;
+	}
+}
+
+export async function startPasswordChange(): Promise<PasswordChangeStartResponse> {
+	try {
+		logger.debug('Starting password change flow');
+		const response = await http.post<PasswordChangeStartResponse>({
+			url: Endpoints.USER_PASSWORD_CHANGE_START,
+			body: {},
+		});
+		return response.body;
+	} catch (error) {
+		logger.error('Failed to start password change', error);
+		throw error;
+	}
+}
+
+export async function resendPasswordChangeCode(ticket: string): Promise<void> {
+	try {
+		logger.debug('Resending password change code');
+		await http.post({
+			url: Endpoints.USER_PASSWORD_CHANGE_RESEND,
+			body: {ticket},
+		});
+	} catch (error) {
+		logger.error('Failed to resend password change code', error);
+		throw error;
+	}
+}
+
+export async function verifyPasswordChangeCode(ticket: string, code: string): Promise<PasswordChangeVerifyResponse> {
+	try {
+		logger.debug('Verifying password change code');
+		const response = await http.post<PasswordChangeVerifyResponse>({
+			url: Endpoints.USER_PASSWORD_CHANGE_VERIFY,
+			body: {ticket, code},
+		});
+		return response.body;
+	} catch (error) {
+		logger.error('Failed to verify password change code', error);
+		throw error;
+	}
+}
+
+export async function completePasswordChange(
+	ticket: string,
+	verificationProof: string,
+	newPassword: string,
+): Promise<void> {
+	try {
+		logger.debug('Completing password change');
+		await http.post({
+			url: Endpoints.USER_PASSWORD_CHANGE_COMPLETE,
+			body: {
+				ticket,
+				verification_proof: verificationProof,
+				new_password: newPassword,
+			},
+		});
+		logger.info('Password changed successfully');
+	} catch (error) {
+		logger.error('Failed to complete password change', error);
+		throw error;
+	}
+}
+
+export async function removePhone(): Promise<void> {
 	try {
 		logger.debug('Removing phone from account');
 		await http.delete({url: Endpoints.USER_PHONE, body: {}});
@@ -255,9 +372,9 @@ export const removePhone = async (): Promise<void> => {
 		logger.error('Failed to remove phone from account', error);
 		throw error;
 	}
-};
+}
 
-export const enableSmsMfa = async (): Promise<void> => {
+export async function enableSmsMfa(): Promise<void> {
 	try {
 		logger.debug('Enabling SMS MFA');
 		await http.post({url: Endpoints.USER_MFA_SMS_ENABLE, body: {}});
@@ -267,9 +384,9 @@ export const enableSmsMfa = async (): Promise<void> => {
 		logger.error('Failed to enable SMS MFA', error);
 		throw error;
 	}
-};
+}
 
-export const disableSmsMfa = async (): Promise<void> => {
+export async function disableSmsMfa(): Promise<void> {
 	try {
 		logger.debug('Disabling SMS MFA');
 		await http.post({url: Endpoints.USER_MFA_SMS_DISABLE, body: {}});
@@ -278,9 +395,9 @@ export const disableSmsMfa = async (): Promise<void> => {
 		logger.error('Failed to disable SMS MFA', error);
 		throw error;
 	}
-};
+}
 
-export const listWebAuthnCredentials = async (): Promise<Array<WebAuthnCredential>> => {
+export async function listWebAuthnCredentials(): Promise<Array<WebAuthnCredential>> {
 	try {
 		logger.debug('Fetching WebAuthn credentials');
 		const response = await http.get<Array<WebAuthnCredential>>({url: Endpoints.USER_MFA_WEBAUTHN_CREDENTIALS});
@@ -291,9 +408,9 @@ export const listWebAuthnCredentials = async (): Promise<Array<WebAuthnCredentia
 		logger.error('Failed to fetch WebAuthn credentials', error);
 		throw error;
 	}
-};
+}
 
-export const getWebAuthnRegistrationOptions = async (): Promise<PublicKeyCredentialCreationOptionsJSON> => {
+export async function getWebAuthnRegistrationOptions(): Promise<PublicKeyCredentialCreationOptionsJSON> {
 	try {
 		logger.debug('Getting WebAuthn registration options');
 		const response = await http.post<PublicKeyCredentialCreationOptionsJSON>({
@@ -307,13 +424,13 @@ export const getWebAuthnRegistrationOptions = async (): Promise<PublicKeyCredent
 		logger.error('Failed to get WebAuthn registration options', error);
 		throw error;
 	}
-};
+}
 
-export const registerWebAuthnCredential = async (
+export async function registerWebAuthnCredential(
 	response: RegistrationResponseJSON,
 	challenge: string,
 	name: string,
-): Promise<void> => {
+): Promise<void> {
 	try {
 		logger.debug('Registering WebAuthn credential');
 		await http.post({url: Endpoints.USER_MFA_WEBAUTHN_CREDENTIALS, body: {response, challenge, name}});
@@ -323,9 +440,9 @@ export const registerWebAuthnCredential = async (
 		logger.error('Failed to register WebAuthn credential', error);
 		throw error;
 	}
-};
+}
 
-export const renameWebAuthnCredential = async (credentialId: string, name: string): Promise<void> => {
+export async function renameWebAuthnCredential(credentialId: string, name: string): Promise<void> {
 	try {
 		logger.debug('Renaming WebAuthn credential');
 		await http.patch({url: Endpoints.USER_MFA_WEBAUTHN_CREDENTIAL(credentialId), body: {name}});
@@ -334,9 +451,9 @@ export const renameWebAuthnCredential = async (credentialId: string, name: strin
 		logger.error('Failed to rename WebAuthn credential', error);
 		throw error;
 	}
-};
+}
 
-export const deleteWebAuthnCredential = async (credentialId: string): Promise<void> => {
+export async function deleteWebAuthnCredential(credentialId: string): Promise<void> {
 	try {
 		logger.debug('Deleting WebAuthn credential');
 		await http.delete({url: Endpoints.USER_MFA_WEBAUTHN_CREDENTIAL(credentialId), body: {}});
@@ -345,9 +462,9 @@ export const deleteWebAuthnCredential = async (credentialId: string): Promise<vo
 		logger.error('Failed to delete WebAuthn credential', error);
 		throw error;
 	}
-};
+}
 
-export const disableAccount = async (): Promise<void> => {
+export async function disableAccount(): Promise<void> {
 	try {
 		logger.debug('Disabling account');
 		await http.post({url: Endpoints.USER_DISABLE, body: {}});
@@ -356,9 +473,9 @@ export const disableAccount = async (): Promise<void> => {
 		logger.error('Failed to disable account', error);
 		throw error;
 	}
-};
+}
 
-export const deleteAccount = async (): Promise<void> => {
+export async function deleteAccount(): Promise<void> {
 	try {
 		logger.debug('Deleting account');
 		await http.post({url: Endpoints.USER_DELETE, body: {}});
@@ -367,9 +484,20 @@ export const deleteAccount = async (): Promise<void> => {
 		logger.error('Failed to delete account', error);
 		throw error;
 	}
-};
+}
 
-export const bulkDeleteAllMessages = async (): Promise<void> => {
+export async function forgetAuthorizedIps(sudoPayload: SudoVerificationPayload): Promise<void> {
+	try {
+		logger.debug('Forgetting authorised IPs');
+		await http.delete({url: Endpoints.USER_AUTHORIZED_IPS, body: sudoPayload});
+		logger.info('Authorised IPs cleared');
+	} catch (error) {
+		logger.error('Failed to forget authorised IPs', error);
+		throw error;
+	}
+}
+
+export async function bulkDeleteAllMessages(): Promise<void> {
 	try {
 		logger.debug('Requesting bulk deletion of all messages');
 		await http.post({url: Endpoints.USER_BULK_DELETE_MESSAGES, body: {}});
@@ -378,9 +506,9 @@ export const bulkDeleteAllMessages = async (): Promise<void> => {
 		logger.error('Failed to queue bulk message deletion', error);
 		throw error;
 	}
-};
+}
 
-export const cancelBulkDeleteAllMessages = async (): Promise<void> => {
+export async function cancelBulkDeleteAllMessages(): Promise<void> {
 	try {
 		logger.debug('Cancelling bulk deletion of all messages');
 		await http.delete({url: Endpoints.USER_BULK_DELETE_MESSAGES, body: {}});
@@ -389,9 +517,9 @@ export const cancelBulkDeleteAllMessages = async (): Promise<void> => {
 		logger.error('Failed to cancel bulk message deletion', error);
 		throw error;
 	}
-};
+}
 
-export const testBulkDeleteAllMessages = async (): Promise<void> => {
+export async function testBulkDeleteAllMessages(): Promise<void> {
 	try {
 		logger.debug('Requesting test bulk deletion of all messages (15s delay)');
 		await http.post({url: Endpoints.USER_BULK_DELETE_MESSAGES_TEST});
@@ -400,9 +528,20 @@ export const testBulkDeleteAllMessages = async (): Promise<void> => {
 		logger.error('Failed to queue test bulk message deletion', error);
 		throw error;
 	}
-};
+}
 
-export const requestDataHarvest = async (): Promise<{harvestId: string}> => {
+export async function resetPremiumState(): Promise<void> {
+	try {
+		logger.debug('Resetting premium state for current user');
+		await http.post({url: Endpoints.USER_PREMIUM_RESET});
+		logger.info('Reset premium state for current user');
+	} catch (error) {
+		logger.error('Failed to reset premium state', error);
+		throw error;
+	}
+}
+
+export async function requestDataHarvest(): Promise<{harvestId: string}> {
 	try {
 		logger.debug('Requesting data harvest');
 		const response = await http.post<{harvest_id: string}>({url: Endpoints.USER_HARVEST});
@@ -412,33 +551,33 @@ export const requestDataHarvest = async (): Promise<{harvestId: string}> => {
 		logger.error('Failed to request data harvest', error);
 		throw error;
 	}
-};
+}
 
-export const getLatestHarvest = async (): Promise<any> => {
+export async function getLatestHarvest(): Promise<HarvestStatusResponse | null> {
 	try {
 		logger.debug('Fetching latest harvest');
-		const response = await http.get<any>({url: Endpoints.USER_HARVEST_LATEST});
+		const response = await http.get<HarvestStatusResponse | null>({url: Endpoints.USER_HARVEST_LATEST});
 		return response.body;
 	} catch (error) {
 		logger.error('Failed to fetch latest harvest', error);
 		throw error;
 	}
-};
+}
 
-export const getHarvestStatus = async (harvestId: string): Promise<any> => {
+export async function getHarvestStatus(harvestId: string): Promise<HarvestStatusResponse> {
 	try {
 		logger.debug('Fetching harvest status', {harvestId});
-		const response = await http.get<any>({url: Endpoints.USER_HARVEST_STATUS(harvestId)});
+		const response = await http.get<HarvestStatusResponse>({url: Endpoints.USER_HARVEST_STATUS(harvestId)});
 		return response.body;
 	} catch (error) {
 		logger.error('Failed to fetch harvest status', error);
 		throw error;
 	}
-};
+}
 
 export type PreloadedDirectMessages = Record<string, Message>;
 
-export const preloadDMMessages = async (channelIds: Array<string>): Promise<PreloadedDirectMessages> => {
+export async function preloadDMMessages(channelIds: Array<string>): Promise<PreloadedDirectMessages> {
 	try {
 		logger.debug('Preloading DM messages', {channelCount: channelIds.length});
 		const response = await http.post<PreloadedDirectMessages>(Endpoints.USER_PRELOAD_MESSAGES, {
@@ -453,4 +592,4 @@ export const preloadDMMessages = async (channelIds: Array<string>): Promise<Prel
 		logger.error('Failed to preload DM messages', error);
 		throw error;
 	}
-};
+}

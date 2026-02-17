@@ -1,0 +1,140 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.scroller {
+	flex: 1;
+	min-height: 0;
+	min-width: 0;
+	padding: 8px 12px 12px;
+}
+
+.channelCard {
+	margin-bottom: 16px;
+}
+
+.messageStream {
+	--chat-horizontal-padding: 12px;
+	padding: 0 8px;
+}
+
+.previewFooter {
+	display: flex;
+	justify-content: flex-start;
+	padding: 8px 12px 10px;
+}
+
+.viewAllButton {
+	font-size: 0.75rem;
+	font-weight: 600;
+	color: var(--text-primary);
+	background-color: transparent;
+	border: 1px solid var(--background-header-secondary);
+	border-radius: 6px;
+	padding: 4px 10px;
+	cursor: pointer;
+}
+
+.viewAllButton:hover {
+	background-color: var(--background-modifier-hover);
+}
+
+.viewAllButton:disabled {
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+.messageRow {
+	position: relative;
+}
+
+.messageActions {
+	display: none;
+	position: absolute;
+	top: 8px;
+	right: 12px;
+	gap: 4px;
+}
+
+.messageRow:hover .messageActions {
+	display: flex;
+}
+
+.jumpButton {
+	min-width: 42px;
+}
+
+.collapseButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 20px;
+	height: 20px;
+	border-radius: 4px;
+	background-color: transparent;
+	color: var(--text-primary-muted);
+	cursor: pointer;
+	transition:
+		color 0.15s ease,
+		background-color 0.15s ease,
+		transform 0.15s ease;
+}
+
+.collapseButton:hover {
+	color: var(--text-primary);
+}
+
+.collapseButtonCollapsed {
+	transform: rotate(-90deg);
+}
+
+.collapseIcon {
+	width: 14px;
+	height: 14px;
+}
+
+.headerIconButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 28px;
+	height: 28px;
+	border-radius: 6px;
+	background-color: var(--background-secondary);
+	color: var(--text-primary-muted);
+	cursor: pointer;
+	transition:
+		color 0.15s ease,
+		background-color 0.15s ease;
+}
+
+.headerIconButton:hover {
+	color: var(--text-primary);
+	background-color: var(--background-modifier-hover);
+}
+
+.headerIcon {
+	width: 16px;
+	height: 16px;
+}
+
+.previewDateDivider :global(.text) {
+	background-color: var(--background-primary);
+	border-radius: 6px;
+	padding: 2px 10px;
+}

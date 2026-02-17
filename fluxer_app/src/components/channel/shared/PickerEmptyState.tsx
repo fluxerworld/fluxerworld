@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import sharedStyles from '@app/components/channel/ExpressionPickerShared.module.css';
 import type React from 'react';
-import sharedStyles from '~/components/channel/ExpressionPickerShared.module.css';
 
 interface PickerEmptyStateProps {
 	icon: React.ComponentType<{className?: string}>;

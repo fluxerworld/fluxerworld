@@ -1,0 +1,447 @@
+---
+title: 'OAuth2'
+description: 'OAuth2 object schemas from the Fluxer API.'
+---
+
+<a id="applicationbotresponse"></a>
+
+## ApplicationBotResponse
+
+Detailed bot user metadata
+
+| Field | Type | Description |
+|-------|------|-------------|
+| authenticator_types? | [AuthenticatorType](#authenticatortype)[] | The types of authenticators enabled |
+| avatar? | ?string | The avatar hash of the bot |
+| banner? | ?string | The banner hash of the bot |
+| bio | ?string | The bio or description of the bot |
+| discriminator | string | The discriminator of the bot |
+| flags | [BotFlags](#botflags) |  |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier of the bot user |
+| mfa_enabled? | boolean | Whether the bot has MFA enabled |
+| token? | string | The bot token for authentication |
+| username | string | The username of the bot |
+
+<a id="applicationcreaterequest"></a>
+
+## ApplicationCreateRequest
+
+**Related endpoints**
+
+- [`POST /oauth2/applications`](/api-reference/oauth2/create-oauth2-application)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bot_public? | boolean | Whether the bot can be invited by anyone |
+| bot_require_code_grant? | boolean | Whether the bot requires OAuth2 code grant |
+| name | string | The name of the application |
+| redirect_uris? | ?[OAuth2RedirectURICreateType](#oauth2redirecturicreatetype)[] | The redirect URIs for OAuth2 flows |
+
+<a id="applicationflags"></a>
+
+## ApplicationFlags
+
+The application flags
+
+Type: integer (int32)
+
+<a id="applicationlistresponse"></a>
+
+## ApplicationListResponse
+
+**Related endpoints**
+
+- [`GET /oauth2/applications/@me`](/api-reference/oauth2/list-user-applications)
+- [`GET /users/@me/applications`](/api-reference/oauth2/list-user-applications)
+
+Type: [ApplicationResponse](#applicationresponse)[]
+
+<a id="applicationpublicresponse"></a>
+
+## ApplicationPublicResponse
+
+**Related endpoints**
+
+- [`GET /oauth2/applications/{id}/public`](/api-reference/oauth2/get-public-application)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bot | ?[ApplicationBotResponse](#applicationbotresponse) | The bot user associated with the application |
+| bot_public | boolean | Whether the bot can be invited by anyone |
+| description | null | The description of the application |
+| icon | ?string | The icon hash of the application |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier of the application |
+| name | string | The name of the application |
+| redirect_uris | string[] | The registered redirect URIs for OAuth2 |
+| scopes | string[] | The available OAuth2 scopes |
+
+<a id="applicationresponse"></a>
+
+## ApplicationResponse
+
+**Related endpoints**
+
+- [`GET /oauth2/applications/{id}`](/api-reference/oauth2/get-application)
+- [`POST /oauth2/applications`](/api-reference/oauth2/create-oauth2-application)
+- [`POST /oauth2/applications/{id}/client-secret/reset`](/api-reference/oauth2/reset-client-secret)
+- [`PATCH /oauth2/applications/{id}`](/api-reference/oauth2/update-application)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bot? | [ApplicationBotResponse](#applicationbotresponse) |  |
+| bot_public | boolean | Whether the bot can be invited by anyone |
+| bot_require_code_grant | boolean | Whether the bot requires OAuth2 code grant |
+| client_secret? | string | The client secret for OAuth2 authentication |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier of the application |
+| name | string | The name of the application |
+| redirect_uris | string[] | The registered redirect URIs for OAuth2 |
+
+<a id="applicationsmeresponse"></a>
+
+## ApplicationsMeResponse
+
+**Related endpoints**
+
+- [`GET /applications/@me`](/api-reference/oauth2/list-current-user-applications)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bot? | [ApplicationBotResponse](#applicationbotresponse) |  |
+| bot_public | boolean | Whether the bot can be invited by anyone |
+| bot_require_code_grant | boolean | Whether the bot requires OAuth2 code grant |
+| description | null | The description of the application |
+| flags | [ApplicationFlags](#applicationflags) |  |
+| icon | null | The icon hash of the application |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier of the application |
+| name | string | The name of the application |
+
+<a id="applicationupdaterequest"></a>
+
+## ApplicationUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /oauth2/applications/{id}`](/api-reference/oauth2/update-application)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bot_public? | boolean | Whether the bot can be invited by anyone |
+| bot_require_code_grant? | boolean | Whether the bot requires OAuth2 code grant |
+| name? | string | The name of the application |
+| redirect_uris? | ?[OAuth2RedirectURIUpdateType](#oauth2redirecturiupdatetype)[] | The redirect URIs for OAuth2 flows |
+
+<a id="authorizeconsentrequest"></a>
+
+## AuthorizeConsentRequest
+
+**Related endpoints**
+
+- [`POST /oauth2/authorize/consent`](/api-reference/oauth2/grant-oauth2-consent)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| client_id | [SnowflakeType](#snowflaketype) |  |
+| guild_id? | [SnowflakeType](#snowflaketype) |  |
+| permissions? | string | The bot permissions to request |
+| redirect_uri? | string | The URI to redirect to after authorization |
+| response_type? | string | The OAuth2 response type |
+| scope | string | The space-separated list of requested scopes |
+| state? | string | A random string for CSRF protection |
+
+<a id="botflags"></a>
+
+## BotFlags
+
+The bot user flags
+
+Type: Bitflags32
+
+| Flag | Value | Description |
+|------|-------|-------------|
+| FRIENDLY_BOT | `16` | Bot accepts friend requests from users |
+| FRIENDLY_BOT_MANUAL_APPROVAL | `32` | Bot requires manual approval for friend requests |
+
+<a id="botprofileresponse"></a>
+
+## BotProfileResponse
+
+**Related endpoints**
+
+- [`PATCH /oauth2/applications/{id}/bot`](/api-reference/oauth2/update-bot-profile)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| avatar | ?string | The avatar hash of the bot |
+| banner | ?string | The banner hash of the bot |
+| bio | ?string | The bio or description of the bot |
+| discriminator | string | The discriminator of the bot |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier of the bot user |
+| username | string | The username of the bot |
+
+<a id="botprofileupdaterequest"></a>
+
+## BotProfileUpdateRequest
+
+**Related endpoints**
+
+- [`PATCH /oauth2/applications/{id}/bot`](/api-reference/oauth2/update-bot-profile)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| avatar? | ?[Base64ImageType](#base64imagetype) | The avatar image as base64 |
+| banner? | ?[Base64ImageType](#base64imagetype) | The banner image as base64 |
+| bio? | ?string | The bio or description of the bot |
+| bot_flags? | [BotFlags](#botflags) |  |
+| discriminator? | string | The discriminator of the bot |
+| username? | [UsernameType](#usernametype) |  |
+
+<a id="bottokenresetresponse"></a>
+
+## BotTokenResetResponse
+
+**Related endpoints**
+
+- [`POST /oauth2/applications/{id}/bot/reset-token`](/api-reference/oauth2/reset-bot-token)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bot | [ApplicationBotResponse](#applicationbotresponse) |  |
+| token | string | The new bot token |
+
+<a id="introspectrequestform"></a>
+
+## IntrospectRequestForm
+
+**Related endpoints**
+
+- [`POST /oauth2/introspect`](/api-reference/oauth2/introspect-oauth2-token)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| client_id? | [SnowflakeType](#snowflaketype) |  |
+| client_secret? | string | The application client secret |
+| token | string | The token to introspect |
+
+<a id="oauth2authorizationresponse"></a>
+
+## OAuth2AuthorizationResponse
+
+| Field | Type | Description |
+|-------|------|-------------|
+| application | [OAuth2AuthorizationResponseApplication](#oauth2authorizationresponseapplication) | The application that was authorized |
+| authorized_at | string | The timestamp when the authorization was granted |
+| scopes | string[] | The list of granted OAuth2 scopes |
+
+<a id="oauth2authorizationslistresponse"></a>
+
+## OAuth2AuthorizationsListResponse
+
+**Related endpoints**
+
+- [`GET /oauth2/@me/authorizations`](/api-reference/oauth2/list-user-oauth2-authorizations)
+
+Type: [OAuth2AuthorizationResponse](#oauth2authorizationresponse)[]
+
+<a id="oauth2consentresponse"></a>
+
+## OAuth2ConsentResponse
+
+**Related endpoints**
+
+- [`POST /oauth2/authorize/consent`](/api-reference/oauth2/grant-oauth2-consent)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| redirect_to | string | The URL to redirect the user to after consent |
+
+<a id="oauth2introspectresponse"></a>
+
+## OAuth2IntrospectResponse
+
+**Related endpoints**
+
+- [`POST /oauth2/introspect`](/api-reference/oauth2/introspect-oauth2-token)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| active | boolean | Whether the token is currently active |
+| client_id? | [SnowflakeType](#snowflaketype) |  |
+| exp? | [Int32Type](#int32type) |  |
+| iat? | [Int32Type](#int32type) |  |
+| scope? | string | The space-separated list of scopes |
+| sub? | [SnowflakeType](#snowflaketype) |  |
+| token_type? | string | The type of token |
+| username? | string | The username of the token owner |
+
+<a id="oauth2meresponse"></a>
+
+## OAuth2MeResponse
+
+**Related endpoints**
+
+- [`GET /oauth2/@me`](/api-reference/oauth2/get-current-oauth2-user)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| application | [OAuth2MeResponseApplication](#oauth2meresponseapplication) | The application associated with the token |
+| expires | string | The expiration timestamp of the token |
+| scopes | string[] | The list of granted OAuth2 scopes |
+| user? | [OAuth2MeResponseUser](#oauth2meresponseuser) | The user associated with the token |
+
+<a id="oauth2redirecturicreatetype"></a>
+
+## OAuth2RedirectURICreateType
+
+Type: string
+
+<a id="oauth2redirecturiupdatetype"></a>
+
+## OAuth2RedirectURIUpdateType
+
+Type: string
+
+<a id="oauth2tokenresponse"></a>
+
+## OAuth2TokenResponse
+
+**Related endpoints**
+
+- [`POST /oauth2/token`](/api-reference/oauth2/exchange-oauth2-token)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| access_token | string | The access token for API authorization |
+| expires_in | integer (int32) | The number of seconds until the access token expires |
+| refresh_token | string | The refresh token for obtaining new access tokens |
+| scope | string | The space-separated list of granted scopes |
+| token_type | string | The type of token, typically "Bearer" |
+
+<a id="oauth2userinforesponse"></a>
+
+## OAuth2UserInfoResponse
+
+**Related endpoints**
+
+- [`GET /oauth2/userinfo`](/api-reference/oauth2/get-oauth2-user-information)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| avatar | ?string | The avatar hash of the user |
+| discriminator | string | The discriminator of the user |
+| email? | ?string | The email address of the user |
+| flags? | [PublicUserFlags](#publicuserflags) |  |
+| global_name | ?string | The global display name of the user |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier of the user |
+| sub | [SnowflakeType](#snowflaketype) | The subject identifier of the user |
+| username | string | The username of the user |
+| verified? | ?boolean | Whether the user has verified their email |
+
+<a id="revokerequestform"></a>
+
+## RevokeRequestForm
+
+**Related endpoints**
+
+- [`POST /oauth2/token/revoke`](/api-reference/oauth2/revoke-oauth2-token)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| client_id? | [SnowflakeType](#snowflaketype) |  |
+| client_secret? | string | The application client secret |
+| token | string | The token to revoke |
+| token_type_hint? | [RevokeRequestFormTokenTypeHint](#revokerequestformtokentypehint) | A hint about the type of token being revoked |
+
+<a id="tokenrequest"></a>
+
+## TokenRequest
+
+**Related endpoints**
+
+- [`POST /oauth2/token`](/api-reference/oauth2/exchange-oauth2-token)
+
+Type: [TokenRequestOneOf0](#tokenrequestoneof0) \| [TokenRequestOneOf1](#tokenrequestoneof1)
+
+<a id="revokerequestformtokentypehint"></a>
+
+## RevokeRequestFormTokenTypeHint
+
+A hint about the type of token being revoked
+
+| Value | Description |
+|-------|-------------|
+| `access_token` | An OAuth2 access token |
+| `refresh_token` | An OAuth2 refresh token |
+
+<a id="oauth2authorizationresponseapplication"></a>
+
+## OAuth2AuthorizationResponseApplication
+
+The application that was authorized
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bot_public | boolean | Whether the bot can be invited by anyone |
+| description | null | The description of the application |
+| icon | ?string | The icon hash of the application |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier of the application |
+| name | string | The name of the application |
+
+<a id="oauth2meresponseapplication"></a>
+
+## OAuth2MeResponseApplication
+
+The application associated with the token
+
+| Field | Type | Description |
+|-------|------|-------------|
+| bot_public | boolean | Whether the bot can be invited by anyone |
+| bot_require_code_grant | boolean | Whether the bot requires OAuth2 code grant |
+| description | null | The description of the application |
+| flags | [ApplicationFlags](#applicationflags) |  |
+| icon | null | The icon hash of the application |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier of the application |
+| name | string | The name of the application |
+
+<a id="oauth2meresponseuser"></a>
+
+## OAuth2MeResponseUser
+
+The user associated with the token
+
+| Field | Type | Description |
+|-------|------|-------------|
+| avatar | ?string | The avatar hash of the user |
+| avatar_color | ?[Int32Type](#int32type) | The default avatar color of the user |
+| bot? | boolean | Whether the user is a bot |
+| discriminator | string | The discriminator of the user |
+| email? | ?string | The email address of the user |
+| flags | [PublicUserFlags](#publicuserflags) |  |
+| global_name | ?string | The global display name of the user |
+| id | [SnowflakeType](#snowflaketype) | The unique identifier of the user |
+| system? | boolean | Whether the user is a system user |
+| username | string | The username of the user |
+| verified? | ?boolean | Whether the user has verified their email |
+
+<a id="tokenrequestoneof0"></a>
+
+## TokenRequestOneOf0
+
+| Field | Type | Description |
+|-------|------|-------------|
+| client_id? | [SnowflakeType](#snowflaketype) |  |
+| client_secret? | string | The application client secret |
+| code | string | The authorization code received from the authorize endpoint |
+| grant_type | enum&lt;`authorization_code`&gt; | The grant type for exchanging an authorization code |
+| redirect_uri | string | The redirect URI used in the authorization request |
+
+<a id="tokenrequestoneof1"></a>
+
+## TokenRequestOneOf1
+
+| Field | Type | Description |
+|-------|------|-------------|
+| client_id? | [SnowflakeType](#snowflaketype) |  |
+| client_secret? | string | The application client secret |
+| grant_type | enum&lt;`refresh_token`&gt; | The grant type for refreshing an access token |
+| refresh_token | string | The refresh token to exchange for a new access token |
+

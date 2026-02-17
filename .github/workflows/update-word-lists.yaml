@@ -7,8 +7,8 @@ on:
 
 jobs:
   update-word-lists:
-    runs-on: blacksmith-2vcpu-ubuntu-2404
-    timeout-minutes: 10
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    timeout-minutes: 25
     permissions:
       contents: write
       pull-requests: write
@@ -20,31 +20,15 @@ jobs:
           ref: canary
 
       - name: Download latest word lists
-        run: |
-          set -euo pipefail
-          curl -fsSL https://raw.githubusercontent.com/tailscale/tailscale/refs/heads/main/words/scales.txt -o /tmp/scales.txt
-          curl -fsSL https://raw.githubusercontent.com/tailscale/tailscale/refs/heads/main/words/tails.txt -o /tmp/tails.txt
+        run: python3 scripts/ci/workflows/update_word_lists.py --step download
 
       - name: Check for changes
         id: check_changes
-        run: |
-          set -euo pipefail
-          # Compare the downloaded files with the existing ones
-          if ! diff -q /tmp/scales.txt fluxer_api/src/words/scales.txt > /dev/null 2>&1 || \
-             ! diff -q /tmp/tails.txt fluxer_api/src/words/tails.txt > /dev/null 2>&1; then
-            printf 'changes_detected=true\n' >> "$GITHUB_OUTPUT"
-            echo "Changes detected in word lists"
-          else
-            printf 'changes_detected=false\n' >> "$GITHUB_OUTPUT"
-            echo "No changes detected in word lists"
-          fi
+        run: python3 scripts/ci/workflows/update_word_lists.py --step check_changes
 
       - name: Update word lists
         if: steps.check_changes.outputs.changes_detected == 'true'
-        run: |
-          set -euo pipefail
-          cp /tmp/scales.txt fluxer_api/src/words/scales.txt
-          cp /tmp/tails.txt fluxer_api/src/words/tails.txt
+        run: python3 scripts/ci/workflows/update_word_lists.py --step update
 
       - name: Create pull request for updated word lists
         if: steps.check_changes.outputs.changes_detected == 'true'
@@ -70,4 +54,4 @@ jobs:
 
       - name: No changes detected
         if: steps.check_changes.outputs.changes_detected == 'false'
-        run: echo "Word lists are already up to date."
+        run: python3 scripts/ci/workflows/update_word_lists.py --step no_changes

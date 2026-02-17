@@ -1,0 +1,52 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+.section {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	min-width: 0;
+}
+
+.moreCallsText {
+	align-self: flex-start;
+	padding: 2px 0;
+	color: var(--text-primary-muted);
+	font-size: 12px;
+	font-weight: 600;
+}
+
+.allCallsGrid {
+	display: grid;
+	grid-template-columns: repeat(1, minmax(0, 1fr));
+	gap: 8px;
+	max-height: min(56vh, 520px);
+	overflow-y: auto;
+	padding-right: 2px;
+}
+
+.gridItem {
+	min-width: 0;
+}
+
+@media (min-width: 768px) {
+	.allCallsGrid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+}

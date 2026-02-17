@@ -17,11 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getStreamKey} from '@app/components/voice/StreamKeys';
+import {Logger} from '@app/lib/Logger';
+import {makePersistent} from '@app/lib/MobXPersistence';
+import StreamAudioPrefsStore from '@app/stores/StreamAudioPrefsStore';
+import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
+import VoiceConnectionManager from '@app/stores/voice/VoiceConnectionManager';
+import {clampVoiceVolumePercent, voiceVolumePercentToTrackVolume} from '@app/utils/VoiceVolumeUtils';
 import type {RemoteAudioTrack, RemoteParticipant, Room} from 'livekit-client';
 import {Track} from 'livekit-client';
 import {makeAutoObservable} from 'mobx';
-import {Logger} from '~/lib/Logger';
-import {makePersistent} from '~/lib/MobXPersistence';
 
 const logger = new Logger('ParticipantVolumeStore');
 
@@ -33,12 +38,33 @@ const idUser = (identity: string): string | null => {
 	return m ? m[1] : null;
 };
 
+const idConnection = (identity: string): string | null => {
+	const match = identity.match(/^user_(\d+)_(.+)$/);
+	return match ? match[2] : null;
+};
+
+function composeVolumePercent(...volumeParts: Array<number>): number {
+	const composed = volumeParts.reduce((accumulator, currentValue) => {
+		return accumulator * (clampVoiceVolumePercent(currentValue) / 100);
+	}, 100);
+	return clampVoiceVolumePercent(composed);
+}
+
 class ParticipantVolumeStore {
 	volumes: Record<string, number> = {};
 	localMutes: Record<string, boolean> = {};
+	connectionVolumesByLocalConnectionId: Record<string, Record<string, number>> = {};
 
 	constructor() {
-		makeAutoObservable(this, {}, {autoBind: true});
+		makeAutoObservable(
+			this,
+			{
+				getVolume: false,
+				isLocalMuted: false,
+				getConnectionVolume: false,
+			},
+			{autoBind: true},
+		);
 		void this.initPersistence();
 	}
 
@@ -47,7 +73,7 @@ class ParticipantVolumeStore {
 	}
 
 	setVolume(userId: string, volume: number): void {
-		const clamped = Math.max(0, Math.min(200, volume));
+		const clamped = clampVoiceVolumePercent(volume);
 		this.volumes = {
 			...this.volumes,
 			[userId]: clamped,
@@ -63,8 +89,37 @@ class ParticipantVolumeStore {
 		logger.debug(`Set local mute for ${userId}: ${muted}`);
 	}
 
+	setConnectionVolume(connectionId: string, volume: number): void {
+		const localConnectionId = VoiceConnectionManager.connectionId;
+		if (!localConnectionId || !connectionId) {
+			return;
+		}
+		const clamped = clampVoiceVolumePercent(volume);
+		const existingBucket = this.connectionVolumesByLocalConnectionId[localConnectionId] ?? {};
+		this.connectionVolumesByLocalConnectionId = {
+			...this.connectionVolumesByLocalConnectionId,
+			[localConnectionId]: {
+				...existingBucket,
+				[connectionId]: clamped,
+			},
+		};
+		logger.debug(`Set connection volume for ${connectionId} from ${localConnectionId}: ${clamped}`);
+	}
+
 	getVolume(userId: string): number {
-		return this.volumes[userId] ?? 100;
+		return clampVoiceVolumePercent(this.volumes[userId] ?? 100);
+	}
+
+	getConnectionVolume(connectionId: string | null): number {
+		if (!connectionId) {
+			return 100;
+		}
+		const localConnectionId = VoiceConnectionManager.connectionId;
+		if (!localConnectionId) {
+			return 100;
+		}
+		const bucket = this.connectionVolumesByLocalConnectionId[localConnectionId];
+		return clampVoiceVolumePercent(bucket?.[connectionId] ?? 100);
 	}
 
 	isLocalMuted(userId: string): boolean {
@@ -93,18 +148,47 @@ class ParticipantVolumeStore {
 		const userId = idUser(participant.identity);
 		if (!userId) return;
 
-		const volume = this.getVolume(userId);
+		const connectionId = idConnection(participant.identity);
+		const streamKey = connectionId
+			? getStreamKey(VoiceConnectionManager.guildId, VoiceConnectionManager.channelId, connectionId)
+			: null;
+
+		const userVolume = this.getVolume(userId);
+		const connectionVolume = this.getConnectionVolume(connectionId);
+		const outputVolume = VoiceSettingsStore.getOutputVolume();
 		const locallyMuted = this.isLocalMuted(userId);
 
 		participant.audioTrackPublications.forEach((pub) => {
 			try {
+				const isScreenShareAudio = pub.source === Track.Source.ScreenShareAudio;
+				const streamVolume = streamKey ? StreamAudioPrefsStore.getVolume(streamKey) : 100;
+				const streamMuted = streamKey ? StreamAudioPrefsStore.isMuted(streamKey) : false;
 				const track = pub.track;
 				if (isRemoteAudioTrack(track)) {
-					track.setVolume(volume / 100);
+					const nextVolume = isScreenShareAudio
+						? voiceVolumePercentToTrackVolume(composeVolumePercent(streamVolume, outputVolume))
+						: voiceVolumePercentToTrackVolume(composeVolumePercent(userVolume, connectionVolume, outputVolume));
+					track.setVolume(nextVolume);
 				}
 
-				const shouldDisable = locallyMuted || selfDeaf;
+				const shouldDisable = locallyMuted || selfDeaf || (isScreenShareAudio && streamMuted);
+				if (isScreenShareAudio) {
+					logger.debug('Applying screen share audio prefs', {
+						participantIdentity: participant.identity,
+						trackSid: pub.trackSid,
+						streamKey,
+						streamVolume,
+						streamMuted,
+						locallyMuted,
+						selfDeaf,
+						shouldDisable,
+					});
+				}
 				pub.setEnabled(!shouldDisable);
+
+				if (isScreenShareAudio && streamKey && StreamAudioPrefsStore.hasEntry(streamKey)) {
+					StreamAudioPrefsStore.touchStream(streamKey);
+				}
 			} catch (error) {
 				logger.warn(`Failed to apply settings to participant ${userId}`, {error});
 			}

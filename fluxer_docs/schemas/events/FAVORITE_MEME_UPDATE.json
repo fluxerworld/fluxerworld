@@ -1,0 +1,11 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "FAVORITE_MEME_UPDATE",
+	"description": "A favourite meme was updated in the user's collection.",
+	"scope": "presence",
+	"dispatchedBy": ["PATCH /users/@me/memes/:meme_id"],
+	"payload": {
+		"$ref": "FavoriteMemeResponse",
+		"description": "The updated favourite meme"
+	}
+}

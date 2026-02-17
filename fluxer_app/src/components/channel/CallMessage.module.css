@@ -49,8 +49,7 @@
 	cursor: pointer;
 }
 
-.callLink:hover,
-.callLink:focus-visible {
+.callLink:hover {
 	text-decoration: underline;
 }
 

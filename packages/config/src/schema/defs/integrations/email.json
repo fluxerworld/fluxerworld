@@ -1,0 +1,81 @@
+{
+	"smtp_email": {
+		"type": "object",
+		"description": "SMTP transport configuration for email delivery.",
+		"additionalProperties": false,
+		"required": ["host", "port", "username", "password"],
+		"properties": {
+			"host": {
+				"type": "string",
+				"description": "SMTP server hostname."
+			},
+			"port": {
+				"type": "number",
+				"description": "SMTP port number.",
+				"default": 587
+			},
+			"username": {
+				"type": "string",
+				"description": "SMTP authentication username."
+			},
+			"password": {
+				"type": "string",
+				"description": "SMTP authentication password."
+			},
+			"secure": {
+				"type": "boolean",
+				"description": "Use TLS when connecting to the SMTP server.",
+				"default": true
+			}
+		}
+	},
+	"email_integration": {
+		"type": "object",
+		"description": "Email delivery service integration.",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"description": "Enable email sending.",
+				"default": false
+			},
+			"provider": {
+				"type": "string",
+				"description": "Email provider selection.",
+				"enum": ["smtp", "none"],
+				"default": "none"
+			},
+			"webhook_secret": {
+				"type": "string",
+				"description": "SendGrid signed event webhook public key (PEM or base64-encoded DER)."
+			},
+			"from_email": {
+				"type": "string",
+				"description": "Default sender email address.",
+				"default": ""
+			},
+			"from_name": {
+				"type": "string",
+				"description": "Default sender name.",
+				"default": "Fluxer"
+			},
+			"smtp": {
+				"$ref": "#/$defs/smtp_email"
+			}
+		},
+		"if": {
+			"required": ["enabled", "provider"],
+			"properties": {
+				"enabled": {
+					"const": true
+				},
+				"provider": {
+					"const": "smtp"
+				}
+			}
+		},
+		"then": {
+			"required": ["smtp"]
+		}
+	}
+}

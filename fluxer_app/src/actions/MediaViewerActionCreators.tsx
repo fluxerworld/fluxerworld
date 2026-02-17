@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {MessageRecord} from '~/records/MessageRecord';
-import MediaViewerStore, {type MediaViewerItem} from '~/stores/MediaViewerStore';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import MediaViewerStore, {type MediaViewerItem} from '@app/stores/MediaViewerStore';
 
 export function openMediaViewer(
 	items: ReadonlyArray<MediaViewerItem>,

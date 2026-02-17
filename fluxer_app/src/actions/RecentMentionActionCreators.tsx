@@ -17,16 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {Message} from '~/records/MessageRecord';
-import type {MentionFilters} from '~/stores/RecentMentionsStore';
-import RecentMentionsStore from '~/stores/RecentMentionsStore';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import type {MentionFilters} from '@app/stores/RecentMentionsStore';
+import RecentMentionsStore from '@app/stores/RecentMentionsStore';
+import {MAX_MESSAGES_PER_CHANNEL} from '@fluxer/constants/src/LimitConstants';
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 
 const logger = new Logger('Mentions');
 
-export const fetch = async (): Promise<Array<Message>> => {
+export async function fetch(): Promise<Array<Message>> {
 	RecentMentionsStore.handleFetchPending();
 	try {
 		const filters = RecentMentionsStore.getFilters();
@@ -37,7 +38,7 @@ export const fetch = async (): Promise<Array<Message>> => {
 				everyone: filters.includeEveryone,
 				roles: filters.includeRoles,
 				guilds: filters.includeGuilds,
-				limit: 25,
+				limit: MAX_MESSAGES_PER_CHANNEL,
 			},
 		});
 		const data = response.body ?? [];
@@ -49,9 +50,9 @@ export const fetch = async (): Promise<Array<Message>> => {
 		logger.error('Failed to fetch recent mentions:', error);
 		throw error;
 	}
-};
+}
 
-export const loadMore = async (): Promise<Array<Message>> => {
+export async function loadMore(): Promise<Array<Message>> {
 	const recentMentions = RecentMentionsStore.recentMentions;
 	if (recentMentions.length === 0) {
 		return [];
@@ -69,7 +70,7 @@ export const loadMore = async (): Promise<Array<Message>> => {
 				everyone: filters.includeEveryone,
 				roles: filters.includeRoles,
 				guilds: filters.includeGuilds,
-				limit: 25,
+				limit: MAX_MESSAGES_PER_CHANNEL,
 				before: lastMessage.id,
 			},
 		});
@@ -82,13 +83,13 @@ export const loadMore = async (): Promise<Array<Message>> => {
 		logger.error('Failed to load more mentions:', error);
 		throw error;
 	}
-};
+}
 
-export const updateFilters = (filters: Partial<MentionFilters>): void => {
+export function updateFilters(filters: Partial<MentionFilters>): void {
 	RecentMentionsStore.updateFilters(filters);
-};
+}
 
-export const remove = async (messageId: string): Promise<void> => {
+export async function remove(messageId: string): Promise<void> {
 	try {
 		RecentMentionsStore.handleMessageDelete(messageId);
 		logger.debug(`Removing message ${messageId} from recent mentions`);
@@ -98,4 +99,4 @@ export const remove = async (messageId: string): Promise<void> => {
 		logger.error(`Failed to remove message ${messageId} from recent mentions:`, error);
 		throw error;
 	}
-};
+}

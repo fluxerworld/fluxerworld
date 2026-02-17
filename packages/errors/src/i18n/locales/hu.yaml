@@ -1,0 +1,497 @@
+account.already_verified: A fiókod már hitelesítve van.
+account.communication_disabled: Az üzenetküldés le van tiltva.
+account.disabled: Ez a fiókle van tiltva.
+account.email_verification_required_for_guild: E-mail cím hitelesítése kell ahhoz, hogy üzeneteket kuldhess ezen a szerveren.
+account.guild_verification_required: Szerverhitelesítés szükséges.
+account.ip_authorization_required: IP-hitelesítés szükséges.
+account.locked_suspicious_activity: A fiókodat gyanús tevékenység miatt zaroltuk.
+account.phone_required_for_guild: Telefonszámot kell megadnod ahhoz, hogy üzeneteket kuldhess ezen a szerveren.
+account.scheduled_for_deletion: Ez a fióktörlésre van ütemezve.
+account.session_timeout: A munkamenet lejárt. Frissítsd az oldalt, es jelentkezz be újra.
+account.session_token_mismatch: A munkamenet-token nem egyezik.
+account.suspended_permanently: Ez a fiókvéglegesen fel van felfüggesztve.
+account.suspended_temporarily: Ez a fiókideiglenesen fel van felfüggesztve.
+account.too_new_for_guild: Túl új a fiókod, hogy üzeneteket kuldhess ezen a szerveren.
+account.unauthorized: Nincs jogosultsagod.
+admin_and_system.acls_must_be_non_empty: Az ACL-ek nem lehetnek uresek.
+admin_and_system.admin_api_key_not_found: Az admin API-kulcs nem található.
+admin_and_system.audit_log_indexing: Az auditnapló indexelése folyamatban van. Próbáld újra egy pillanat múlva.
+admin_and_system.channel_indexing: A csatornák indexelése folyamatban van. Próbáld újra egy pillanat múlva.
+admin_and_system.creation_failed: Nem sikerült létrehozni az erőforrást. Próbáld újra.
+admin_and_system.deletion_failed: Nem sikerült törölni az erőforrást. Próbáld újra.
+admin_and_system.decryption_failed: Nem sikerült visszafejteni az üzenetet. Az encryption kulcsok érvénytelenek vagy megsérültek.
+admin_and_system.empty_encrypted_body: Üres titkosított törzs.
+admin_and_system.encryption_failed: Nem sikerült titkosítani az üzenetet. Az encryption kulcsok érvénytelenek vagy megsérültek.
+admin_and_system.general_error: Valami felment. Próbáld újra később.
+admin_and_system.invalid_acls_format: Érvénytelen ACL formátum.
+admin_and_system.invalid_api_origin: Érvénytelen API forrás.
+admin_and_system.invalid_audit_log_reason: Érvénytelen auditnapló indoka.
+admin_and_system.invalid_bot_flag: Érvénytelen bot jelzőszám.
+admin_and_system.invalid_decrypted_json: Érvénytelen visszafejtett JSON.
+admin_and_system.invalid_ephemeral_key: Érvénytelen ideiglenes kulcs.
+admin_and_system.invalid_flags_format: Érvénytelen jelzőszám formátum.
+admin_and_system.invalid_form_body: Érvénytelen űrlap törzs.
+admin_and_system.invalid_format: A megadott érték érvénytelen formátumú.
+admin_and_system.invalid_integer_format: Érvénytelen egész szám formátum.
+admin_and_system.invalid_iv: Érvénytelen inicializálási vektor.
+admin_and_system.invalid_suspicious_flags_format: Érvénytelen gyanús jelzőszám formátum.
+admin_and_system.invalid_system_flag: Érvénytelen rendszer jelzőszám.
+admin_and_system.invalid_timeout_value: Érvénytelen időkorlát érték.
+admin_and_system.invalid_timestamp: Érvénytelen időbélyeg.
+admin_and_system.invalid_timezone_identifier: Érvénytelen időzóna azonosító.
+admin_and_system.missing_acl: Hiányzik az ACL.
+admin_and_system.missing_ephemeral_key: Hiányzik az ideiglenes kulcs.
+admin_and_system.missing_iv: Hiányzik az inicializálási vektor.
+admin_and_system.must_be_iso_timestamp: Érvényes ISO időbélyegnek kell lennie.
+admin_and_system.processing_failed: Nem sikerült feldolgozni a kérést. Próbáld újra.
+admin_and_system.response_validation_failed: 'A válasz ellenőrzése sikertelen: {errors}.'
+admin_and_system.test_harness_disabled: A tesztkészlet le van tiltva.
+admin_and_system.test_harness_forbidden: A tesztkészlet nem engedélyezett.
+admin_and_system.unknown_suspicious_flag: Ismeretlen gyanús jelzőszám.
+admin_and_system.update_failed: Nem sikerült frissíteni az erőforrást. Próbáld újra.
+admin_and_system.user_must_be_bot_for_system_user: A felhasználónak botnak kell lennie ahhoz, hogy rendszerfelhasználóként legyen megjelölve.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` és `expires_at` kötelezőek.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` és `message_id` érvényes egész számoknak kell lenniük.'
+attachments_and_uploads.cannot_edit_attachment_metadata: A MANAGE_MESSAGES engedéllyel rendelkező felhasználók csak a melléklet leírását szerkeszthetik, más metaadatokat nem.
+attachments_and_uploads.attachment_metadata_without_files: A melléklet metaadatai fájlnevet tartalmaztak, de nem lett fájl feltöltve.
+attachments_and_uploads.attachment_must_be_image: A melléklet "{filename}" csak képfájl lehet (png, jpg, jpeg, webp vagy gif).
+attachments_and_uploads.attachment_not_found_in_message: Az {attachmentId} azonosítóval ellátott melléklet nem található az üzenetben.
+attachments_and_uploads.attachments_metadata_required_when_uploading: A melléklet metaadatainak tömbje szükséges a fájlfeltöltéshez.
+attachments_and_uploads.attachments_not_allowed_for_message: Ehhez az üzenethez nem engedélyezettek a mellékletek.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Nem hivatkozhatsz mellekletekre, ha nem adtal meg mellekleteket.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Duplikalt attachment ID-k nem engedelyezettek.
+attachments_and_uploads.duplicate_file_index: 'Duplikált fájl index: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Nem sikerult feldolgozni a multipart form adatokat. Ellenorizd, hogy a mezok nevei es a fajlnevek helyesen vannak megadva.
+attachments_and_uploads.failed_to_parse_multipart_payload: Nem sikerult feldolgozni a multipart payloadot.
+attachments_and_uploads.failed_to_upload_image: Nem sikerult feltolteni a kepet. Próbáld újra.
+attachments_and_uploads.file_index_exceeds_maximum: 'A fajl indexe {index} meghaladja a megengedett maximumot: {maxIndex}.'
+attachments_and_uploads.file_not_found_for_scanning: A fajl nem található az atvizsgalashoz.
+attachments_and_uploads.file_not_found: Fajl nem található.
+attachments_and_uploads.file_size_too_large: 'A fájl túl nagy. Maximum fájlméret: {maxSize}.'
+attachments_and_uploads.filename_empty_after_normalization: A fajlnev nem lehet ures normalizalas utan.
+attachments_and_uploads.filename_invalid_characters: A fajlnev ervenytelen karaktereket tartalmaz.
+attachments_and_uploads.filename_length_invalid: A fájlnév hosszának {min} és {max} karakter között kell lennie.
+attachments_and_uploads.filename_mismatch_for_attachment: 'Fajlnev elteres a(z) {attachmentId} mellekletnel: a metadata ezt varja "{expectedFilename}", de nem egyezik.'
+attachments_and_uploads.image_size_exceeds_limit: 'A kep merete meghaladja a limitet: {maxSize} bajt.'
+attachments_and_uploads.invalid_file_field_name: 'Érvénytelen fajlmezonev: {key}. A vart formátum: `files[N]`, ahol N egy szam.'
+attachments_and_uploads.invalid_image_data: Érvénytelen kepadat.
+attachments_and_uploads.invalid_image_format: 'Érvénytelen kepformátum. Tamogatott kiterjesztesek: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: Érvénytelen JSON a `payload_json`-ban.
+attachments_and_uploads.multiple_files_for_index_not_allowed: 'Nem lehet tobb fajl ugyanahhoz az indexhez: {index}.'
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Nem lett fajl feltoltve a(z) {attachmentId} azonosítóju melleklet metadatajahoz.
+attachments_and_uploads.no_file_uploaded_for_attachment: Nem lett fajl feltoltve a(z) {attachmentId} azonosítóju melleklethez.
+attachments_and_uploads.no_metadata_for_file: Nem adtal meg metadatat a(z) {fileId} azonosítóju fajlhoz.
+attachments_and_uploads.no_valid_media_in_message: No valid media was found in the message.
+attachments_and_uploads.payload_json_required_for_multipart: Multipart üzenethez a `payload_json` mezo kötelező.
+attachments_and_uploads.preview_must_be_jpeg: Az elonezetnek JPEG-nek kell lennie.
+attachments_and_uploads.referenced_attachment_not_found: A hivatkozott melleklet "{filename}" nem található az uzenet mellekletei kozott.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` must be a valid integer.'
+attachments_and_uploads.too_many_files: Too many files. Maximum {maxFiles} {maxFiles, plural, one {file} other {files}} allowed.
+attachments_and_uploads.unknown_image_format: Ismeretlen kepformátum.
+attachments_and_uploads.unresolved_attachment_url: Feloldatlan `attachment://` URL eszlelve. Ezt az embed feldolgozasa elott fel kellett volna oldani.
+attachments_and_uploads.uploaded_attachment_not_found: A feltoltott melleklet {filename} nem található.
+auth_and_oauth.application_not_owned: Nem ezt az alkalmazást birtoklod.
+auth_and_oauth.bot_already_in_guild: Ez a bot már a guildben van.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Bot felhasználók nem hozhatnak letre hitelesítési munkamenetet.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Bot felhasználók nem használhatják a hitelesítési végpontokat.
+auth_and_oauth.handoff_code_expired: Az atadasi kod lejart.
+auth_and_oauth.handoff_code_invalid: Érvénytelen atadasi kod.
+auth_and_oauth.http_get_authorize_not_supported: A GET /oauth2/authorize nem tamogatott. Hasznald a POST /oauth2/authorize/consent-et.
+auth_and_oauth.invalid_client_secret: Érvénytelen kliens titok.
+auth_and_oauth.invalid_client: Érvénytelen kliens.
+auth_and_oauth.invalid_code: Érvénytelen kod.
+auth_and_oauth.invalid_grant: Érvénytelen grant.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Érvénytelen vagy lejárt hitelesítési jegy.
+auth_and_oauth.invalid_or_expired_authorization_token: Érvénytelen vagy lejárt hitelesítési token.
+auth_and_oauth.invalid_or_expired_ticket: Érvénytelen vagy lejárt jegy.
+auth_and_oauth.invalid_proof_token: Invalid proof token.
+auth_and_oauth.invalid_redirect_uri: Érvénytelen atiranyitasi URI.
+auth_and_oauth.invalid_request: Érvénytelen kerelem.
+auth_and_oauth.invalid_scope: Érvénytelen scope.
+auth_and_oauth.invalid_sudo_token: Érvénytelen sudo token.
+auth_and_oauth.invalid_token_admin_api_key: Érvénytelen admin API-kulcs.
+auth_and_oauth.missing_authorization: Hiányzik a hitelesítés.
+auth_and_oauth.missing_client_secret: Hiányzik a kliens titok.
+auth_and_oauth.missing_redirect_uri: Hiányzik az atiranyitasi URI.
+auth_and_oauth.must_start_session_before_sending_messages: Uzenetkuldes elott el kell inditanod egy munkamenetet.
+auth_and_oauth.oauth_admin_scope_required: Az admin vegpontok eleresehez az OAuth2 tokennek admin scope-ot kell tartalmaznia.
+auth_and_oauth.oauth_fields_missing: Hianyoznak az OAuth mezok.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Nem bot scope-okhoz redirect_uri kötelező.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Nem bot scope-okhoz a response_type-nak code-nak kell lennie.
+auth_and_oauth.sudo_mode_required: Sudo mod szukseges.
+auth_and_oauth.unknown_application: Ismeretlen alkalmazás.
+auth_and_oauth.unsupported_response_type: Nem tamogatott valasztipus.
+auth_and_registration.current_password_incorrect: A jelenlegi jelszó helytelen.
+auth_and_registration.password_is_too_common: Your password is too common. Please choose a more unique password.
+auth_and_registration.password_not_set: Password isn't set.
+bots.bot_application_not_found: A bot alkalmazás nem található.
+bots.bot_discriminator_cannot_be_changed: A bot diszkriminátor nem módosítható.
+bots.bot_is_private: Ez a bot privát.
+bots.bot_user_generation_failed: A bot felhasználó létrehozása sikertelen.
+bots.bot_user_not_found: A bot felhasználó nem található.
+bots.invalid_response_type_for_non_bot: Nem bot scope-okhoz a response_type-nak code-nak kell lennie.
+bots.not_a_bot_application: Ez az alkalmazás nem bot.
+calls_and_voice.call_already_exists: A hívás már létezik.
+calls_and_voice.cannot_modify_voice_state: A hangallapotot nem modositathatod.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Érvénytelen vagy korlatozott RTC regio: {region}.'
+calls_and_voice.invalid_rtc_region: 'Érvénytelen RTC regio: {region}. Elerheto regiok: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Hibas stream kulcs formátum.
+calls_and_voice.invalid_stream_thumbnail_payload: Érvénytelen stream miniaturok payload.
+calls_and_voice.no_active_call: Nincs aktiv hivas.
+calls_and_voice.stream_key_channel_mismatch: A stream kulcs csatornaja nem egyezik.
+calls_and_voice.stream_key_scope_mismatch: A stream kulcs scope-ja nem egyezik.
+calls_and_voice.stream_thumbnail_payload_empty: A stream miniaturok payload ures.
+calls_and_voice.unknown_voice_region: Ismeretlen hangregio.
+calls_and_voice.unknown_voice_server: Ismeretlen hangkiszolgalo.
+calls_and_voice.voice_message_duration_exceeds_limit: A hang üzenet hossza nem haladhatja meg a {maxDuration} másodpercet.
+calls_and_voice.voice_message_duration_required: A hangüzenet melleklethez időtartamot kell megadni.
+calls_and_voice.voice_message_waveform_required: A hangüzenet mellékletének waveform adatokat kell tartalmaznia.
+calls_and_voice.voice_messages_require_single_attachment: A hangüzeneteknek pontosan egy mellekletet kell tartalmazniuk.
+captcha.invalid: Érvénytelen CAPTCHA.
+captcha.required: A CAPTCHA kötelező.
+connections.bluesky_oauth_callback_failed: Nem sikerült befejezni a Bluesky-kapcsolatot. Próbáld újra.
+connections.bluesky_oauth_not_enabled: A Bluesky-kapcsolatok nincsenek engedélyezve ezen a szerveren.
+connections.bluesky_oauth_session_expired: A Bluesky-munkameneted lejárt. Kérlek csatlakoztasd újra a fiókodat.
+connections.bluesky_oauth_state_invalid: Az engedélyezési kérés lejárt vagy érvénytelen. Próbáld újra.
+connections.already_exists: Az ilyen típusú kapcsolat ezzel az azonosítóval már létezik.
+connections.invalid_identifier: A kapcsolat azonosítója érvénytelen.
+connections.initiation_token_invalid: A kapcsolat kezdeményezési tokenje érvénytelen vagy lejárt.
+connections.invalid_type: A kapcsolat típusa nem támogatott.
+connections.limit_reached: Elérted a maximális {limit} {limit, plural, one {kapcsolat} other {kapcsolat}} korlátot.
+connections.not_found: Ismeretlen kapcsolat.
+connections.verification_failed: A kapcsolat ellenőrzése sikertelen. Győződj meg arról, hogy az ellenőrzési token helyesen van elhelyezve.
+channels_and_guilds.afk_channel_must_be_in_guild: Az AFK csatornanak a szerveren belul kell lennie.
+channels_and_guilds.afk_channel_must_be_voice: Az AFK csatornanak hangcsatornanak kell lennie.
+channels_and_guilds.all_channels_must_belong_to_guild: Minden csatornanak ehhez a szerverhez kell tartoznia.
+channels_and_guilds.animated_guild_banner_requires_feature: Az animalt szerver bannerhez ANIMATED_BANNER feature kell.
+channels_and_guilds.cannot_execute_on_dm: Ezt a muveletet DM-ben nem lehet vegrehajtani.
+channels_and_guilds.cannot_transfer_ownership_to_bot: A szerver tulajdonjoga nem ruházható át botra.
+channels_and_guilds.cannot_leave_guild_as_owner: Tulajdonoskent nem lephetsz ki a szerverrol. Add at a tulajdonjogot, vagy torold a szervert.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Nem helyezhetsz csatornat sajat magahoz vagy a leszarmazottaihoz kepest.
+channels_and_guilds.cannot_report_own_guild: A sajat szerveredet nem jelentheted.
+channels_and_guilds.categories_cannot_have_parent_channel: A kategoriaknak nem lehet szulo csatornajuk.
+channels_and_guilds.categories_cannot_have_parents: A kategoriaknak nem lehet szulojuk.
+channels_and_guilds.channel_id_required: A `channel_id` kötelező.
+channels_and_guilds.channel_must_be_dm_or_group_dm: A csatornanak DM-nek vagy csoportos DM-nek kell lennie.
+channels_and_guilds.channel_must_be_voice: A csatornanak hangcsatornanak kell lennie.
+channels_and_guilds.channel_not_found: Csatorna nem található.
+channels_and_guilds.context_channel_or_guild_required: Kell egy kontextus csatorna vagy szerver azonosító.
+channels_and_guilds.guild_banner_requires_feature: A szerver bannerhez BANNER feature kell.
+channels_and_guilds.guild_id_must_match_referenced_message: A szerver ID-nek egyeznie kell azzal a csatornaval, ahonnan a hivatkozott uzenetet lekérték.
+channels_and_guilds.invalid_channel_id: 'Érvénytelen csatornaazonosító: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Ehhez a hivashoz nem megfelelo csatornatipus.
+channels_and_guilds.invalid_channel_type: Érvénytelen csatornatipus.
+channels_and_guilds.invalid_channel: Érvénytelen csatorna.
+channels_and_guilds.invalid_parent_channel: Invalid parent channel.
+channels_and_guilds.invite_splash_requires_feature: Az invite splash-hoz INVITE_SPLASH feature kell.
+channels_and_guilds.invites_disabled: A meghivok le vannak tiltva.
+channels_and_guilds.max_group_dm_recipients_reached: Elérted a csoportos DM-ben a maximum {count} {count, plural, one {címzett} other {címzett}} korlátot.
+channels_and_guilds.max_group_dms_reached: Elérted a maximum {count} {count, plural, one {csoportos DM} other {csoportos DM}} korlátot.
+channels_and_guilds.max_guild_channels_reached: Elérted a szerveren a maximum {count} {count, plural, one {csatorna} other {csatorna}} korlátot.
+channels_and_guilds.max_guild_members_reached: Elérted a szerveren a maximum {count} {count, plural, one {tag} other {tag}} korlátot.
+channels_and_guilds.max_guild_roles_reached: Elérted a szerveren a maximum {count} {count, plural, one {szerep} other {szerep}} korlátot.
+channels_and_guilds.max_guilds_reached: Elérted a maximum {count} {count, plural, one {szerver} other {szerver}} korlátot.
+channels_and_guilds.message_history_cutoff_before_guild_creation: Az üzenet előzmények vágási pontja nem lehet korábbi, mint a közösség létrehozásának dátuma.
+channels_and_guilds.message_history_cutoff_in_future: Az üzenet előzmények vágási pontja nem lehet a jövőben.
+channels_and_guilds.parent_channel_not_in_guild: A szulo csatorna nincs jelen a szerveren.
+channels_and_guilds.parent_must_be_category: A szulonek kategoriat kell megadni.
+channels_and_guilds.preceding_channel_must_share_parent: Az elozo csatornanak ugyanahhoz a szulohoz kell tartoznia, mint az athelyezett csatornanak.
+channels_and_guilds.preceding_channel_not_in_guild: Az elozo csatorna nincs jelen a szerveren.
+channels_and_guilds.system_channel_must_be_in_guild: A rendszer csatornanak a szerveren belul kell lennie.
+channels_and_guilds.system_channel_must_be_text: A rendszer csatornanak szoveges csatornanak kell lennie.
+channels_and_guilds.temporary_invite_requires_presence: Az ideiglenes meghivohoz jelenlet szukseges.
+channels_and_guilds.vanity_url_requires_feature: A vanity URL-hez VANITY_URL feature kell.
+channels_and_guilds.voice_channel_full: A hangcsatorna tele van.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: A hangcsatornak nem lehetnek a szoveges csatornak folott ugyanabban a kategoriaban.
+colors.color_value_too_high: A szinérték nem lehet nagyobb 0xffffff-nel.
+colors.color_value_too_low: A szinértéknek legalabb 0x000000-nek kell lennie.
+content_and_safety.content_blocked: Ezt a tartalmat a biztonsagi rendszerek blokkoltak.
+content_and_safety.csam_scan_failed: A CSAM-vizsgálat sikertelen.
+content_and_safety.csam_scan_parse_error: CSAM-vizsgálat elemzési hiba.
+content_and_safety.csam_scan_subscription_error: CSAM-vizsgálat előfizetési hiba.
+content_and_safety.csam_scan_timeout: A CSAM-vizsgálat időtúllépése.
+content_and_safety.explicit_content_cannot_be_sent: Explicit tartalmat nem lehet elkuldeni.
+content_and_safety.ncmec_already_submitted: Ezt a tartalmat mar bekuldtuk az NCMEC-nek.
+content_and_safety.ncmec_submission_failed: Nem sikerult bekuldeni a jelentest az NCMEC-nek. Próbáld újra kesobb.
+content_and_safety.nsfw_age_restricted: Az NSFW tartalom korhoz kotott.
+discovery.already_applied: Ez a közösség már jelentkezett a felfedezésbe.
+discovery.application_already_reviewed: Ezt a felfedezési kérelmet már elbírálták.
+discovery.application_not_found: A felfedezési kérelem nem található.
+discovery.description_required: A felfedezési listázáshoz leírás szükséges.
+discovery.insufficient_members: Ez a közösség nem éri el a felfedezéshez szükséges minimális taglétszámot.
+discovery.invalid_category: Érvénytelen felfedezési kategória.
+discovery.not_discoverable: Ez a közösség nem szerepel a felfedezésben.
+donation.amount_invalid: Az adomány összege érvénytelen.
+donation.donor_not_found: Adományozó nem található.
+donation.magic_link_expired: A varázslatos link lejárt.
+donation.magic_link_invalid: A varázslatos link érvénytelen.
+donation.magic_link_used: A varázslatos link már használva volt.
+email.email_already_in_use: Email is already in use.
+email.email_required: Email is required.
+email.email_service_not_testable: Az e-mail szolgaltatas nem tesztelheto.
+email.invalid_format: Hibas e-mail cim formátum.
+email.invalid_or_expired_reset_token: Invalid or expired password reset token.
+email.invalid_or_expired_revert_token: Invalid or expired revert token.
+email.invalid_or_expired_verification_token: Invalid or expired verification token.
+email.invalid_or_password: Hibas e-mail cim vagy jelszo.
+email.invalid_token: Invalid email token.
+email.invalid_verification_code: Invalid verification code.
+email.length_invalid: Az e-mail cím hosszának {min} és {max} karakter között kell lennie.
+email.must_be_changed_via_token: Email must be changed via token.
+email.must_change_via_token: Az e-mail cimet csak `email_token`-nel lehet megvaltoztatni.
+email.must_have_email_to_change_it: You must have an email address to change it.
+email.new_email_must_be_different: New email must be different from your current email.
+email.no_new_email_requested: Nem kertel uj e-mail cimet.
+email.no_original_email_on_record: Nincs rogzitett eredeti e-mail cim.
+email.original_email_already_verified: Az eredeti e-mail cim mar hitelesítve van.
+email.original_email_must_be_verified_first: Eloszor az eredeti e-mail cimet kell hitelesitened.
+email.original_verification_not_required: Ebben a folyamatban nem kell az eredeti hitelesítés.
+email.token_expired: Az e-mail token lejart.
+email.user_has_no_email_address: Ennek a felhasználónak nincs e-mail cime.
+email.user_is_not_pending_verification: This user isn't pending verification.
+email.verification_code_expired: Verification code has expired.
+email.verification_code_not_issued: No verification code has been issued.
+embeds.embed_index_out_of_bounds: Az embed index {embedIndex} kilog (az üzenetben {embedCount} {embedCount, plural, one {embed} other {embed}} van).
+embeds.embed_splash_requires_feature: Az embed splash-hoz INVITE_SPLASH feature kell.
+embeds.embeds_exceed_max_characters: Az embedek osszesen legfeljebb {maxCharacters} {maxCharacters, plural, one {karakter} other {karakter}} hosszuak lehetnek.
+embeds.too_many_embeds: Tul sok embed. Maximum {maxEmbeds} {maxEmbeds, plural, one {embed} other {embed}} engedelyezett.
+feature_flags.feature_not_available_self_hosted: Ez a funkció nem érhető el saját tárhelyen futó példányokon.
+feature_flags.feature_temporarily_disabled: Ez a funkcio atmenetileg le van tiltva.
+friends_and_dms.already_friends: Mar ismerosok vagytok.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Privat csatornak letrehozasahez legalabb egy cimzett szukseges.
+friends_and_dms.at_least_one_recipient_required: At least one recipient is required.
+friends_and_dms.bots_cannot_send_friend_requests: Botok nem kuldhetnek ismerosjelolest.
+friends_and_dms.cannot_add_yourself_to_group_dm: Sajat magadat nem adhatod hozza csoportos DM-hez.
+friends_and_dms.cannot_dm_yourself: Sajat magadnak nem irhatsz DM-et.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Letiltott felhasználónak nem kuldhetsz ismerosjelolest.
+friends_and_dms.cannot_send_friend_request_to_self: Sajat magadnak nem kuldhetsz ismerosjelolest.
+friends_and_dms.cannot_send_messages_to_user: Nem kuldhetsz uzenetet ennek a felhasználónak.
+friends_and_dms.duplicate_recipients_not_allowed: Duplikalt cimzettek nem engedelyezettek.
+friends_and_dms.friend_request_blocked: A felhasználó jelenleg nem fogad el ismerősjelöléseket.
+friends_and_dms.not_friends: Nem vagytok ismerosok.
+friends_and_dms.recipient_ids_cannot_be_empty: A cimzett ID-k nem lehetnek uresek.
+friends_and_dms.recipient_ids_must_be_strings: A cimzett ID-knak stringnek kell lenniuk.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: A cimzett ID-knak ervenyes snowflake-eknek kell lenniuk.
+harvest.expired: A harvest lejart.
+harvest.failed: A harvest sikertelen.
+harvest.not_ready: A harvest meg nincs kesz.
+harvest.on_cooldown: A harvest varakozasi idon van.
+harvest.unknown: Ismeretlen harvest.
+http.bad_gateway: Hibás átjáró.
+http.bad_request: Hibás kérés.
+http.conflict: Ütközés.
+http.forbidden: Tiltott.
+http.gateway_timeout: Átjáró időtúllépés.
+http.gone: Eltűnt.
+http.internal_server_error: Belső szerverhiba.
+http.method_not_allowed: Metódus nem engedélyezett.
+http.not_found: Nem található.
+http.not_implemented: Nincs megvalósítva.
+http.service_unavailable: Szolgáltatás nem érhető el.
+http.validation_error: Ellenőrzés sikertelen.
+invites_and_beta.invalid_or_already_used_beta_code: Invalid or already used beta code.
+invites_and_beta.max_beta_codes_reached: Elérted a maximum {count} {count, plural, one {béta kód} other {béta kód}} korlátot.
+invites_and_beta.unknown_beta_code: Ismeretlen beta kod.
+invites_and_gifts.gift_code_already_redeemed: Az ajandekkodot mar bevallottak.
+invites_and_gifts.stripe_gift_redemption_in_progress: Az ajandekkod bevaltasa folyamatban van. Próbáld újra egy pillanat mulva.
+invites_and_gifts.unknown_gift_code: Ismeretlen ajandekkod.
+invites_and_packs.emoji_requires_access: Ezt az emojit csak akkor hasznalhatod, ha van hozzaferesed a szerverehez vagy telepitett packhoz.
+invites_and_packs.invalid_pack_type: Érvénytelen pack tipus.
+invites_and_packs.max_animated_emojis_reached: Elérted a maximum {count} {count, plural, one {animált emoji} other {animált emoji}} korlátot.
+invites_and_packs.max_emojis_reached: Elérted a maximum {count} {count, plural, one {emoji} other {emoji}} korlátot.
+invites_and_packs.max_pack_expressions_reached: Elérted a maximum {count} {{count, plural, one {pack kifejezés} other {pack kifejezés}} korlátot.
+invites_and_packs.max_packs_reached: Elérted a maximum {count} {count, plural, one {pack} other {pack}} korlátot.
+invites_and_packs.pack_access_denied: Nincs hozzaferes a packhoz.
+limits.at_least_one_entry_required: Legalabb egy bejegyzes kötelező.
+limits.base64_length_invalid: A Base64 karakterlánc hosszának {min} és {maxLength} karakter között kell lennie.
+limits.bucket_required: A `bucket` kötelező.
+limits.cannot_shrink_reserved_slots: A foglalt helyeket nem csokkentheted.
+limits.cannot_specify_before_and_after: Nem adhatsz meg egyszerre `before`-t es `after`-t.
+limits.content_exceeds_max_length: A szoveg legfeljebb {maxLength} {maxLength, plural, one {karakter} other {karakter}} lehet.
+limits.integer_out_of_int64_range: Az egész szám érték az int64 érvényes tartományon kívül van.
+limits.rows_required: A `rows` kötelező.
+limits.string_length_exact: A szovegnek pontosan {length} karakter hosszanak kell lennie.
+limits.string_length_invalid: A szoveg hosszanak {min} es {max} karakter kozott kell lennie.
+limits.timeout_cannot_exceed_365_days: Az időkorlát nem lehet hosszabb {maxDays} {maxDays, plural, one {napnál} other {napnál}} az aktuális időponthoz képest.
+limits.value_must_be_integer_in_range: A `{name}` értékenek egész számnak kell lennie {minValue} es {maxValue} kozott.
+limits.value_too_small: Az érték tul kicsi.
+media_and_memes.favorite_meme_name_required: A kedvenc meme neve kötelező.
+media_and_memes.favorite_meme_not_found: A kedvenc meme nem található.
+media_and_memes.max_favorite_memes_reached: Elérted a maximum {count} {{count, plural, one {kedvenc mém} other {kedvenc mém}} korlátot.
+media_and_memes.media_already_in_favorites: Ez a media mar benne van a kedvenc memeidben.
+media_and_memes.media_metadata_error: Media metadata hiba.
+media_and_memes.unknown_favorite_meme: Ismeretlen kedvenc meme.
+messages.cannot_edit_others_message: Nem szerkesztheted mas uzenetet.
+messages.cannot_reply_to_system_message: Rendszeruzenetre nem valaszolhatsz.
+messages.cannot_delete_more_than_100: Nem tudsz egyszerre több mint {max} {max, plural, one {üzenetet} other {üzenetet}} törölni.
+messages.cannot_preload_more_than_100_channels: Nem tudsz egyszerre több mint {max} {max, plural, one {csatornát} other {csatornát}} előtölteni.
+messages.cannot_send_empty_message: Nem kuldhetsz ures uzenetet.
+messages.forward_messages_cannot_include_extra_content: Tovabbitott uzenetek nem tartalmazhatnak plusz szoveget, embedeket, mellekleteket vagy matricakat.
+messages.forward_reference_requires_channel_and_message: A tovabbitasi hivatkozasnak tartalmaznia kell a `channel_id`-t es a `message_id`-t.
+messages.invalid_message_data: Érvénytelen uzenetadat.
+messages.invalid_scheduled_message_payload: Érvénytelen utemezett uzenet payload.
+messages.message_ids_cannot_be_empty: A `message_ids` nem lehet ures.
+messages.messages_array_required: A `messages` tomb kötelező, es nem lehet ures.
+messages.messages_with_snapshots_cannot_be_edited: Snapshotot tartalmazo üzeneteket nem lehet szerkeszteni.
+messages.scheduled_send_datetime_invalid: Érvénytelen utemezett kuldesi datum vagy ido.
+messages.scheduled_messages_max_30_days: Az ütemezett üzenetek legfeljebb 30 nappal az aktuális időponthoz képest lehetnek.
+messages.scheduled_time_must_be_future: Az utemezett idopontnak a jovoben kell lennie.
+messages.voice_messages_attachment_must_be_audio: Voice message attachments must be audio files.
+messages.voice_messages_cannot_have_content: Voice messages can't have text content.
+messages.voice_messages_cannot_have_embeds: Voice messages can't have embeds.
+messages.voice_messages_cannot_have_favorite_memes: Voice messages can't have favorite memes.
+messages.voice_messages_cannot_have_stickers: Voice messages can't have stickers.
+mfa_and_passkeys.invalid_mfa_code: Érvénytelen MFA kod.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Érvénytelen WebAuthn hitelesítési szamlalo.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Érvénytelen WebAuthn credential szamlalo.
+mfa_and_passkeys.invalid_webauthn_credential: Érvénytelen WebAuthn credential.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Érvénytelen WebAuthn nyilvanos kulcs formátum.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: A moderátoroknak a 2FA kötelezővé tétele előtt engedélyeznünk kell a 2FA-t a fiókján.
+mfa_and_passkeys.no_passkeys_registered: Nincs regisztralt passkey.
+mfa_and_passkeys.passkey_authentication_failed: A passkey hitelesítés sikertelen.
+mfa_and_passkeys.passkeys_disabled: A passkey-ek le vannak tiltva.
+mfa_and_passkeys.two_factor_not_enabled: A ketlepcsos hitelesítés nincs bekapcsolva.
+mfa_and_passkeys.two_factor_required: Ketlepcsos hitelesítés kötelező.
+mfa_and_passkeys.unknown_webauthn_credential: Ismeretlen WebAuthn credential.
+mfa_and_passkeys.webauthn_credential_limit_reached: Elérted a maximum {count} {{count, plural, one {WebAuthn hitelesítés} other {WebAuthn hitelesítés}} korlátot.
+misc_limits.max_bookmarks_reached: Elérted a maximum {count} {count, plural, one {könyvjelző} other {könyvjelző}} korlátot.
+misc_limits.max_category_channels_reached: Elérted a maximum {count} {{count, plural, one {kategória csatorna} other {kategória csatorna}} korlátot.
+misc_limits.max_friends_reached: Elérted a maximum {count} {count, plural, one {ismerős} other {ismerős}} korlátot.
+misc_limits.max_invites_reached: Elérted a maximum {count} {count, plural, one {meghívás} other {meghívás}} korlátot.
+misc_limits.max_pins_per_channel_reached: Elérted a csatorna maximumát {count} {{count, plural, one {kitűzött üzenet} other {kitűzött üzenet}} esetén.
+misc.cannot_send_messages_in_non_text_channel: Nem kuldhetsz uzenetet nem szoveges csatornaban.
+misc.cannot_send_messages_in_this_guild_without_email_verification: E-mail hitelesítés nelkul nem kuldhetsz uzenetet ezen a szerveren.
+misc.invalid_job_id: Érvénytelen job ID.
+misc.invalid_permissions_integer: A jogosultsagoknak ervenyes egész számnak kell lenniuk.
+misc.invalid_permissions_negative: A jogosultsagok nem lehetnek negativak.
+misc.invalid_request_generic: Érvénytelen kerelem.
+misc.invalid_snowflake: Érvénytelen snowflake.
+misc.job_already_processed: A job mar fel van dolgozva.
+misc.job_id_required: A job ID kötelező.
+misc.job_not_found: A job nem található.
+misc.max_files_exceeded: Tul sok fajl. Maximum {maxFiles} {maxFiles, plural, one {fajl} other {fajl}} engedelyezett.
+misc.must_have_bot_to_mark_system_user: A felhasználónak botnak kell lennie, hogy rendszerfelhasználóként legyen megjelölve.
+moderation_and_reports.cannot_report_own_message: A sajat uzenetedet nem jelentheted.
+moderation_and_reports.cannot_report_yourself: Sajat magadat nem jelentheted.
+moderation_and_reports.invalid_dsa_report_target: Érvénytelen DSA jelentes celpont.
+moderation_and_reports.invalid_dsa_ticket: Érvénytelen DSA ticket.
+moderation_and_reports.invalid_dsa_verification_code: Érvénytelen DSA hitelesito kod.
+moderation_and_reports.report_already_resolved: A jelentes mar le van zarva.
+moderation_and_reports.report_banned: A jelentes tiltva van.
+moderation_and_reports.unknown_report: Ismeretlen jelentes.
+moderation_and_reports.user_is_not_banned: This user isn't banned.
+names_and_normalization.channel_name_empty_after_normalization: A csatornanev nem lehet ures normalizalas utan.
+names_and_normalization.name_empty_after_normalization: A nev nem lehet ures normalizalas utan.
+permissions.missing_access: Nincs hozzaferes.
+permissions.missing_permissions: Hiányzik a jogosultsag.
+permissions.not_owner_of_admin_api_key: Nincs jogod modositani ezt az admin API-kulcsot.
+permissions.user_banned_from_guild: Ez a felhasznalo ki van tiltva errol a szerverrol.
+permissions.user_ip_banned_from_guild: Ennek a felhasználónak az IP-je ki van tiltva errol a szerverrol.
+permissions.user_not_in_channel: Ez a felhasznalo nincs ebben a csatornaban.
+permissions.user_not_in_voice: Ez a felhasznalo nincs a hangcsatornaban.
+permissions.user_owns_guilds: Ez a felhasznalo szerverek tulajdonosa.
+phone.invalid_number: Érvénytelen telefonszam.
+phone.number_already_used: Ez a telefonszam mar hasznalatban van.
+phone.number_format_required: A telefonszamnak E.164 formátumban kell lennie (peldaul +1234567890).
+phone.phone_required_for_sms_mfa: SMS MFA-hoz telefonszam szukseges.
+phone.sms_mfa_not_enabled: Az SMS MFA nincs bekapcsolva.
+phone.sms_mfa_requires_totp: SMS MFA-hoz TOTP kell.
+phone.sms_verification_unavailable: Az SMS-es hitelesítés atmenetileg nem elerheto. Próbáld újra kesobb.
+phone.verification_code_invalid: Érvénytelen telefonos hitelesito kod.
+phone.verification_required: Telefonos hitelesítés kötelező.
+premium_and_plans.animated_avatars_require_premium: Az animalt avatarokhoz Premium kell.
+premium_and_plans.banners_require_premium: A bannerekhez Premium kell.
+premium_and_plans.bio_requires_premium_for_length: A bio longer than {maxLength} characters requires Premium.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Visionary csomaggal nem valthatod be a Plutoniumot.
+premium_and_plans.custom_emojis_outside_source_require_premium: Premium nelkul nem hasznalhatsz egyedi emojikat a forrasszerverukon kivul.
+premium_and_plans.custom_stickers_in_dms_require_premium: Premium nelkul nem hasznalhatsz egyedi matricakat DM-ben.
+premium_and_plans.custom_stickers_outside_source_require_premium: Premium nelkul nem hasznalhatsz egyedi matricakat a forrasszerverukon kivul.
+premium_and_plans.discriminator_change_requires_premium: A diszkriminator megvaltoztatasahoz Premium kell.
+premium_and_plans.no_active_subscription: Nincs aktiv elofizetes.
+premium_and_plans.no_visionary_slots_available: Nincs szabad Visionary hely.
+premium_and_plans.premium_required_for_custom_emoji: Egyedi emoji hasznalatahoz Premium kell.
+premium_and_plans.visionary_required_for_bot_discriminator: Bot diszkriminator testreszabasahoz a Visionary elethosszig tarto csomag kell.
+premium_and_plans.visionary_required_for_discriminator: Ehhez a diszkriminatorhoz a Visionary elethosszig tarto csomag kell.
+rate_limits.accent_color_changed_too_often: Mostanaban tul sokszor valtoztattad meg az akcentusszint. Próbáld újra {minutes} {minutes, plural, one {perc} other {perc}} mulva.
+rate_limits.avatar_changed_too_often: Mostanaban tul sokszor valtoztattad meg az avatarodat. Próbáld újra {minutes} {minutes, plural, one {perc} other {perc}} mulva.
+rate_limits.banner_changed_too_often: Mostanaban tul sokszor valtoztattad meg a banneredet. Próbáld újra {minutes} {minutes, plural, one {perc} other {perc}} mulva.
+rate_limits.bio_changed_too_often: Mostanaban tul sokszor valtoztattad meg a bio-dat. Próbáld újra {minutes} {minutes, plural, one {perc} other {perc}} mulva.
+rate_limits.ip_authorization_resend_cooldown: Az IP-hitelesítés ujrakuldese most varakozasi idon van.
+rate_limits.ip_authorization_resend_limit_exceeded: Tullepted az IP-hitelesítés ujrakuldeseinek limitjet.
+rate_limits.phone_rate_limit_exceeded: Tullepted a telefonos probalkozasok limitjet.
+rate_limits.pronouns_changed_too_often: Mostanaban tul sokszor valtoztattad meg a nevmasaidat. Próbáld újra {minutes} {minutes, plural, one {perc} other {perc}} mulva.
+rate_limits.rate_limited: Tul gyakran probalkozol, most idokorlatozas van.
+rate_limits.slowmode_rate_limited: 'Lassu mod: tul gyorsan probalkozol.'
+rate_limits.username_changed_too_often: Mostanaban tul sokszor valtoztattad meg a felhasznalonevedet. Próbáld újra {minutes} {minutes, plural, one {perc} other {perc}} mulva.
+roles.cannot_reorder_everyone_role: Az @everyone szerepkort nem rendezheted ujra.
+roles.cannot_set_everyone_hoist: Az @everyone szerepkorhoz nem allithatsz be kiemelesi poziciot.
+roles.cannot_use_same_role_as_preceding: Nem hasznalhatod ugyanazt a szerepkort, mint az elozo.
+roles.invalid_role_id: 'Érvénytelen szerepkor ID: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: You can't use `parse` together with `allowed_mentions.users` or `allowed_mentions.roles`.
+roles.preceding_role_not_in_guild: Az elozo szerepkor nincs jelen a szerveren.
+stickers_and_emojis.custom_emoji_not_found: Az egyedi emoji nem található.
+stickers_and_emojis.custom_sticker_not_found: Az egyedi matrica nem található.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: You can't use this emoji without access to its guild or installed pack.
+stickers_and_emojis.max_reactions_reached: Elérted a maximum {count} {count, plural, one {reakció} other {reakció}} korlátot.
+stickers_and_emojis.max_stickers_reached: Elérted a maximum {count} {count, plural, one {matrica} other {matrica}} korlátot.
+stickers_and_emojis.not_valid_unicode_emoji: Nem ervenyes Unicode emoji.
+stickers_and_emojis.unknown_emoji: Ismeretlen emoji.
+stickers_and_emojis.unknown_sticker: Ismeretlen matrica.
+stripe.error: Stripe hiba.
+stripe.invalid_product_configuration: Érvénytelen termekbeallitas.
+stripe.invalid_product_selection: Érvénytelen termekvalasztas.
+stripe.no_active_subscription_found: Nem található aktiv elofizetes.
+stripe.no_purchase_history_customer_portal_unavailable: Nem található vasarlasi elozo. Az ugyfelportal nem elerheto.
+stripe.no_subscription_found: Nem található elofizetes.
+stripe.payment_not_available: A fizetesfeldolgozas nem elerheto.
+stripe.subscription_already_canceling: Az elofizetes mar lemondasra van allitva a periodus vegevel.
+stripe.subscription_not_canceling: Az elofizetes nincs lemondasra allitva.
+stripe.subscription_period_end_missing: Hiányzik a subscription current_period_end.
+stripe.webhook_not_available: A webhook feldolgozas nem elerheto.
+stripe.webhook_signature_invalid: Érvénytelen Stripe webhook alairas.
+stripe.webhook_signature_missing: Hiányzik a Stripe webhook alairas.
+tickets.ticket_already_completed: Ez a ticket mar teljesitve van.
+tos_and_age.date_of_birth_format_invalid: Hibas szuletesi datum formátum.
+tos_and_age.must_agree_to_tos_and_privacy: El kell fogadnod az ASZF-et es az adatvedelmi szabalyzatot.
+tos_and_age.must_be_minimum_age: Fiok letrehozasahez legalabb {minAge} {minAge, plural, one {eves} other {eves}} kell lenned.
+unknown_entities.unknown_application: Ismeretlen alkalmazás.
+unknown_entities.unknown_channel: Ismeretlen csatorna.
+unknown_entities.unknown_guild: Ismeretlen szerver.
+unknown_entities.unknown_invite: Ismeretlen meghivo.
+unknown_entities.unknown_member: Ismeretlen tag.
+unknown_entities.unknown_message: Ismeretlen uzenet.
+unknown_entities.unknown_pack: Ismeretlen pack.
+unknown_entities.unknown_role: Ismeretlen szerepkor.
+unknown_entities.unknown_user_flag: Ismeretlen felhasznalo flag.
+unknown_entities.unknown_user: Ismeretlen felhasznalo.
+urls.invalid_url_format: Hibas URL formátum.
+urls.invalid_url_or_attachment_reference: Hibas URL formátum vagy melleklet hivatkozas.
+urls.url_length_invalid: Az URL hosszának {min} és {max} karakter között kell lennie.
+usernames_and_tags.discriminator_invalid_format: A diszkriminátor {min}–{max} számjegy lehet.
+usernames_and_tags.discriminator_out_of_range: A diszkriminátornak {min} és {max} között kell lennie.
+usernames_and_tags.discriminator_required: Diszkriminator kötelező.
+usernames_and_tags.display_name_length_invalid: A megjelenítési név hosszának {min} és {max} karakter között kell lennie.
+usernames_and_tags.display_name_reserved_terms: A megjelenitett nev nem tartalmazhatja a "system message" szot.
+usernames_and_tags.display_name_reserved_value: A megjelenitett nev nem lehet "everyone" vagy "here".
+usernames_and_tags.global_name_length_invalid: Global name must be between {min} and {max} characters.
+usernames_and_tags.global_name_reserved_value: Global name can't be "everyone" or "here".
+usernames_and_tags.tag_already_taken: Ez a tag mar foglalt.
+usernames_and_tags.too_many_users_with_this_username: Tul sok felhasznalo hasznalja ezt a felhasznalonevet.
+usernames_and_tags.too_many_users_with_username_try_different: Tul sok felhasznalo hasznalja ezt a felhasznalonevet. Probalkozz masikkal.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Unclaimed accounts can only set email via token.
+usernames_and_tags.username_invalid_characters: A felhasznalonev csak latin betuket (a-z, A-Z), szamokat (0-9) es alahuzast (_) tartalmazhat.
+usernames_and_tags.username_length_invalid: A felhasználónév hosszának {min} és {max} karakter között kell lennie.
+usernames_and_tags.username_not_available: Ez a felhasználónév nem elérhető.
+usernames_and_tags.username_reserved_terms: A felhasznalonev nem tartalmazhatja a "fluxer" vagy a "system message" szavakat.
+usernames_and_tags.username_reserved_value: A felhasznalonev nem lehet "everyone" vagy "here".
+vanity_urls.vanity_url_already_taken: Ez a vanity URL mar foglalt.
+vanity_urls.vanity_url_code_already_taken: Ez a vanity URL kod mar foglalt.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: A vanity URL kod nem tartalmazhatja a "fluxer" szot.
+vanity_urls.vanity_url_code_length_invalid: A vanity URL kód hosszának {min} és {max} karakter között kell lennie.
+vanity_urls.vanity_url_invalid_characters: A vanity URL csak kisbetuket (a-z), szamjegyeket (0-9) es kotojelet (-) tartalmazhat.
+webhooks.cannot_modify_system_webhook: A rendszer webhookot nem modositathatod.
+webhooks.max_webhooks_per_channel_reached: Elérted a csatornán a maximum {count} {{count, plural, one {webhook} other {webhook}} korlátot.
+webhooks.max_webhooks_per_guild_reached: Elérted a szerveren a maximum {count} {{count, plural, one {webhook} other {webhook}} korlátot.
+webhooks.max_webhooks_reached: Elérted a maximum {count} {count, plural, one {webhook} other {webhook}} korlátot.
+webhooks.unknown_webhook: Ismeretlen webhook.
+webhooks.webhook_name_length_invalid: A webhook nevének {min} és {max} karakter között kell lennie.

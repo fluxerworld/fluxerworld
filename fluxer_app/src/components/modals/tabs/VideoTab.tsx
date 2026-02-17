@@ -17,23 +17,30 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as PremiumModalActionCreators from '@app/actions/PremiumModalActionCreators';
+import * as VoiceSettingsActionCreators from '@app/actions/VoiceSettingsActionCreators';
+import {Select} from '@app/components/form/Select';
+import {Switch} from '@app/components/form/Switch';
+import {CameraPreviewModalStandalone} from '@app/components/modals/CameraPreviewModal';
+import {useMediaPermission} from '@app/components/modals/tabs/hooks/useMediaPermission';
+import styles from '@app/components/modals/tabs/VideoTab.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import type {RadioOption} from '@app/components/uikit/radio_group/RadioGroup';
+import {RadioGroup} from '@app/components/uikit/radio_group/RadioGroup';
+import {Slider} from '@app/components/uikit/Slider';
+import PiPStore from '@app/stores/PiPStore';
+import PrivacyPreferencesStore from '@app/stores/PrivacyPreferencesStore';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import type VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
+import {LimitResolver} from '@app/utils/limits/LimitResolverAdapter';
+import {isLimitToggleEnabled} from '@app/utils/limits/LimitUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CrownIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as PremiumModalActionCreators from '~/actions/PremiumModalActionCreators';
-import * as VoiceSettingsActionCreators from '~/actions/VoiceSettingsActionCreators';
-import {Select} from '~/components/form/Select';
-import {CameraPreviewModalStandalone} from '~/components/modals/CameraPreviewModal';
-import styles from '~/components/modals/tabs/VideoTab.module.css';
-import {Button} from '~/components/uikit/Button/Button';
-import type {RadioOption} from '~/components/uikit/RadioGroup/RadioGroup';
-import {RadioGroup} from '~/components/uikit/RadioGroup/RadioGroup';
-import {Slider} from '~/components/uikit/Slider';
-import type VoiceSettingsStore from '~/stores/VoiceSettingsStore';
-import {useMediaPermission} from './hooks/useMediaPermission';
+import type React from 'react';
+import {useCallback, useEffect, useMemo} from 'react';
 
 interface VideoTabProps {
 	voiceSettings: typeof VoiceSettingsStore;
@@ -42,9 +49,31 @@ interface VideoTabProps {
 }
 
 export const VideoTab: React.FC<VideoTabProps> = observer(
-	({voiceSettings, hasPremium, autoRequestPermission = true}) => {
+	({voiceSettings, hasPremium: _hasPremium, autoRequestPermission = true}) => {
 		const {t} = useLingui();
-		const {videoDeviceId, cameraResolution, screenshareResolution, videoFrameRate} = voiceSettings;
+		const {
+			videoDeviceId,
+			cameraResolution,
+			screenshareResolution,
+			videoFrameRate,
+			pauseOwnScreenSharePreviewOnUnfocus,
+			disablePictureInPicturePopout,
+		} = voiceSettings;
+		const disableStreamPreviews = PrivacyPreferencesStore.getDisableStreamPreviews();
+
+		const hasHigherQuality = useMemo(
+			() =>
+				isLimitToggleEnabled(
+					{
+						feature_higher_video_quality: LimitResolver.resolve({
+							key: 'feature_higher_video_quality',
+							fallback: 0,
+						}),
+					},
+					'feature_higher_video_quality',
+				),
+			[],
+		);
 
 		const {
 			devices,
@@ -54,7 +83,7 @@ export const VideoTab: React.FC<VideoTabProps> = observer(
 			autoRequest: autoRequestPermission,
 		});
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (videoDeviceId === 'default' && devices.length > 0) {
 				VoiceSettingsActionCreators.update({videoDeviceId: devices[0].deviceId});
 			}
@@ -85,20 +114,32 @@ export const VideoTab: React.FC<VideoTabProps> = observer(
 			{
 				value: 'high',
 				name: t`High (1080p)`,
-				desc: hasPremium ? t`Best quality for most users` : t`Requires Plutonium`,
-				disabled: !hasPremium,
+				desc: hasHigherQuality
+					? t`Best quality for most users`
+					: !RuntimeConfigStore.isSelfHosted()
+						? t`Requires Plutonium`
+						: t`Not available`,
+				disabled: !hasHigherQuality && !RuntimeConfigStore.isSelfHosted(),
 			},
 			{
 				value: 'ultra',
 				name: t`Ultra (1440p)`,
-				desc: hasPremium ? t`High quality, requires fast connection` : t`Requires Plutonium`,
-				disabled: !hasPremium,
+				desc: hasHigherQuality
+					? t`High quality, requires fast connection`
+					: !RuntimeConfigStore.isSelfHosted()
+						? t`Requires Plutonium`
+						: t`Not available`,
+				disabled: !hasHigherQuality && !RuntimeConfigStore.isSelfHosted(),
 			},
 			{
 				value: '4k',
 				name: t`4K (2160p)`,
-				desc: hasPremium ? t`Maximum quality, requires very fast connection` : t`Requires Plutonium`,
-				disabled: !hasPremium,
+				desc: hasHigherQuality
+					? t`Maximum quality, requires very fast connection`
+					: !RuntimeConfigStore.isSelfHosted()
+						? t`Requires Plutonium`
+						: t`Not available`,
+				disabled: !hasHigherQuality && !RuntimeConfigStore.isSelfHosted(),
 			},
 		];
 
@@ -108,6 +149,17 @@ export const VideoTab: React.FC<VideoTabProps> = observer(
 				ModalActionCreators.push(modal(() => <CameraPreviewModalStandalone showEnableCameraButton={false} />));
 			}
 		};
+
+		const handleDisableStreamPreviewToggle = useCallback((value: boolean) => {
+			PrivacyPreferencesStore.setDisableStreamPreviews(value);
+		}, []);
+
+		const handleDisablePopoutToggle = useCallback((value: boolean) => {
+			VoiceSettingsActionCreators.update({disablePictureInPicturePopout: value});
+			if (!value) {
+				PiPStore.setSessionDisable(false);
+			}
+		}, []);
 
 		return (
 			<>
@@ -180,7 +232,38 @@ export const VideoTab: React.FC<VideoTabProps> = observer(
 					/>
 				</div>
 
-				{!hasPremium && (
+				<Switch
+					label={<Trans>Pause my screen share preview when unfocused</Trans>}
+					description={<Trans>Freezes your preview while Fluxer is in the background to save resources.</Trans>}
+					value={pauseOwnScreenSharePreviewOnUnfocus}
+					onChange={(value) => VoiceSettingsActionCreators.update({pauseOwnScreenSharePreviewOnUnfocus: value})}
+				/>
+
+				<Switch
+					label={<Trans>Disable Picture-in-Picture Popout</Trans>}
+					description={
+						<Trans>
+							Prevents the floating pop-out from appearing when you navigate to another part of the application while
+							focused on a screen share or camera stream during a call.
+						</Trans>
+					}
+					value={disablePictureInPicturePopout}
+					onChange={handleDisablePopoutToggle}
+				/>
+
+				<Switch
+					label={<Trans>Disable Stream Previews</Trans>}
+					description={
+						<Trans>
+							When enabled, other people will not see a thumbnail preview of your screen share. Your stream content is
+							still visible to anyone watching.
+						</Trans>
+					}
+					value={disableStreamPreviews}
+					onChange={handleDisableStreamPreviewToggle}
+				/>
+
+				{!hasHigherQuality && !RuntimeConfigStore.isSelfHosted() && (
 					<div className={styles.premiumCard}>
 						<div className={styles.premiumHeader}>
 							<CrownIcon weight="fill" size={18} className={styles.premiumIcon} />
@@ -191,7 +274,7 @@ export const VideoTab: React.FC<VideoTabProps> = observer(
 						<p className={styles.premiumDescription}>
 							<Trans>
 								Get crystal clear screen sharing with High (1080p), Ultra (1440p), and 4K (2160p) resolutions, plus
-								unlock frame rates up to 60 fps for the smoothest experience.
+								unlock frame rates up to 60 FPS for the smoothest experience.
 							</Trans>
 						</p>
 						<Button variant="secondary" small={true} onClick={() => PremiumModalActionCreators.open()}>
@@ -211,16 +294,16 @@ export const VideoTab: React.FC<VideoTabProps> = observer(
 						defaultValue={videoFrameRate}
 						factoryDefaultValue={30}
 						minValue={15}
-						maxValue={hasPremium ? 60 : 30}
-						markers={hasPremium ? [15, 24, 30, 60] : [15, 24, 30]}
+						maxValue={hasHigherQuality ? 60 : 30}
+						markers={hasHigherQuality ? [15, 24, 30, 60] : [15, 24, 30]}
 						stickToMarkers={true}
-						onMarkerRender={(value) => `${Math.round(value)}fps`}
+						onMarkerRender={(value) => `${Math.round(value)}FPS`}
 						onValueChange={(value) => VoiceSettingsActionCreators.update({videoFrameRate: value})}
 					/>
-					{!hasPremium && (
+					{!hasHigherQuality && !RuntimeConfigStore.isSelfHosted() && (
 						<div className={styles.frameRateNote}>
 							<CrownIcon weight="fill" size={14} className={styles.frameRateIcon} />
-							<Trans>Frame rates above 30 fps require Plutonium</Trans>
+							<Trans>Frame rates above 30 FPS require Plutonium</Trans>
 						</div>
 					)}
 				</div>

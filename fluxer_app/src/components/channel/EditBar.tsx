@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import styles from '@app/components/channel/EditBar.module.css';
+import wrapperStyles from '@app/components/channel/textarea/InputWrapper.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
 import {Trans} from '@lingui/react/macro';
 import {XCircleIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import styles from './EditBar.module.css';
-import wrapperStyles from './textarea/InputWrapper.module.css';
 
 interface EditBarProps {
 	channel: ChannelRecord;

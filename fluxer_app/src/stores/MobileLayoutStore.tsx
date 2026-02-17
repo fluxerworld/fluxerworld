@@ -17,10 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {makePersistent} from '@app/lib/MobXPersistence';
+import {Platform} from '@app/lib/Platform';
+import WindowStore from '@app/stores/WindowStore';
 import {makeAutoObservable, reaction} from 'mobx';
-import {makePersistent} from '~/lib/MobXPersistence';
-import {Platform} from '~/lib/Platform';
-import WindowStore from '~/stores/WindowStore';
 
 const MOBILE_ENABLE_BREAKPOINT = 640;
 const MOBILE_DISABLE_BREAKPOINT = 768;

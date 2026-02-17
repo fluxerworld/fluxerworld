@@ -19,21 +19,20 @@
 
 -define(ALL_PERMISSIONS, 16#FFFFFFFFFFFFFFFF).
 
--export([get_member_permissions/3]).
--export([can_view_channel/4]).
--export([can_view_channel_by_permissions/4]).
--export([can_manage_channel/3]).
--export([apply_channel_overwrites/5]).
--export([get_max_role_position/2]).
--export([find_member_by_user_id/2]).
--export([find_role_by_id/2]).
--export([find_channel_by_id/2]).
+-export([
+    get_member_permissions/3,
+    can_view_channel/4,
+    can_view_channel_by_permissions/4,
+    can_manage_channel/3,
+    can_access_message_by_permissions/3,
+    apply_channel_overwrites/5,
+    get_max_role_position/2,
+    find_member_by_user_id/2,
+    find_role_by_id/2,
+    find_channel_by_id/2
+]).
 
 -export_type([permission/0]).
-
--ifdef(TEST).
--include_lib("eunit/include/eunit.hrl").
--endif.
 
 -type permission() :: non_neg_integer().
 -type user_id() :: integer().
@@ -61,13 +60,48 @@ can_view_channel(UserId, ChannelId, Member, State) ->
 -spec can_view_channel_by_permissions(user_id(), channel_id(), maybe_member(), guild_state()) ->
     boolean().
 can_view_channel_by_permissions(UserId, ChannelId, Member, State) ->
-    (compute_member_permissions(UserId, ChannelId, Member, State) band
-        constants:view_channel_permission()) =/= 0.
+    Perms = compute_member_permissions(UserId, ChannelId, Member, State),
+    (Perms band constants:view_channel_permission()) =/= 0.
 
 -spec can_manage_channel(user_id(), maybe_channel_id(), guild_state()) -> boolean().
 can_manage_channel(UserId, ChannelId, State) ->
-    (get_member_permissions(UserId, ChannelId, State) band
-        constants:manage_channels_permission()) =/= 0.
+    Perms = get_member_permissions(UserId, ChannelId, State),
+    (Perms band constants:manage_channels_permission()) =/= 0.
+
+-spec can_access_message_by_permissions(permission(), binary(), guild_state()) -> boolean().
+can_access_message_by_permissions(Permissions, MessageId, State) ->
+    HasReadHistory = (Permissions band constants:read_message_history_permission()) =/= 0,
+    case HasReadHistory of
+        true ->
+            true;
+        false ->
+            case get_message_history_cutoff(State) of
+                null ->
+                    false;
+                CutoffMs ->
+                    MessageMs = snowflake_util:extract_timestamp(MessageId),
+                    MessageMs >= CutoffMs
+            end
+    end.
+
+-spec get_message_history_cutoff(guild_state()) -> integer() | null.
+get_message_history_cutoff(State) ->
+    case resolve_data_map(State) of
+        undefined ->
+            null;
+        Data ->
+            Guild = maps:get(<<"guild">>, Data, #{}),
+            case maps:get(<<"message_history_cutoff">>, Guild, null) of
+                null ->
+                    null;
+                CutoffBin when is_binary(CutoffBin) ->
+                    calendar:rfc3339_to_system_time(
+                        binary_to_list(CutoffBin), [{unit, millisecond}]
+                    );
+                CutoffInt when is_integer(CutoffInt) ->
+                    CutoffInt
+            end
+    end.
 
 -spec apply_channel_overwrites(permission(), user_id(), member_roles(), channel(), role_id()) ->
     permission().
@@ -86,21 +120,25 @@ get_max_role_position(UserId, State) ->
         {_, undefined} ->
             -1;
         {Member, Data} ->
-            Roles = ensure_list(maps:get(<<"roles">>, Data, [])),
-            lists:foldl(
-                fun(RoleId, MaxPos) ->
-                    case find_role_by_id(RoleId, Roles) of
-                        undefined ->
-                            MaxPos;
-                        Role ->
-                            Position = maps:get(<<"position">>, Role, 0),
-                            max(Position, MaxPos)
-                    end
-                end,
-                -1,
-                member_role_ids(Member)
-            )
+            Roles = guild_data_index:role_index(Data),
+            compute_max_position(Member, Roles)
     end.
+
+-spec compute_max_position(member(), [role()] | map()) -> integer().
+compute_max_position(Member, Roles) ->
+    lists:foldl(
+        fun(RoleId, MaxPos) ->
+            case find_role_by_id(RoleId, Roles) of
+                undefined ->
+                    MaxPos;
+                Role ->
+                    Position = maps:get(<<"position">>, Role, 0),
+                    max(Position, MaxPos)
+            end
+        end,
+        -1,
+        member_role_ids(Member)
+    ).
 
 -spec find_member_by_user_id(user_id(), guild_state()) -> member() | undefined.
 find_member_by_user_id(UserId, State) when is_integer(UserId) ->
@@ -108,42 +146,25 @@ find_member_by_user_id(UserId, State) when is_integer(UserId) ->
         undefined ->
             undefined;
         Data ->
-            Members = ensure_list(maps:get(<<"members">>, Data, [])),
-            lists:foldl(
-                fun(Member, Acc) ->
-                    case Acc of
-                        undefined ->
-                            MUser = maps:get(<<"user">>, Member, #{}),
-                            MemberId = to_int(maps:get(<<"id">>, MUser, <<"0">>)),
-                            case MemberId =:= UserId of
-                                true -> Member;
-                                false -> undefined
-                            end;
-                        Found ->
-                            Found
-                    end
-                end,
-                undefined,
-                Members
-            )
+            Members = guild_data_index:member_map(Data),
+            maps:get(UserId, Members, undefined)
     end;
 find_member_by_user_id(_, _) ->
     undefined.
 
--spec find_role_by_id(role_id(), list()) -> role() | undefined.
+-spec find_role_by_id(role_id(), [role()] | map()) -> role() | undefined.
+find_role_by_id(RoleId, Roles) when is_map(Roles) ->
+    maps:get(to_int(RoleId), Roles, undefined);
 find_role_by_id(RoleId, Roles) ->
     TargetId = to_int(RoleId),
     lists:foldl(
-        fun(Role, Acc) ->
-            case Acc of
-                undefined ->
-                    case role_id(Role) =:= TargetId of
-                        true -> Role;
-                        false -> undefined
-                    end;
-                Found ->
-                    Found
-            end
+        fun
+            (_, Found) when Found =/= undefined -> Found;
+            (Role, undefined) ->
+                case role_id(Role) =:= TargetId of
+                    true -> Role;
+                    false -> undefined
+                end
         end,
         undefined,
         ensure_list(Roles)
@@ -155,23 +176,8 @@ find_channel_by_id(ChannelId, State) when is_integer(ChannelId) ->
         undefined ->
             undefined;
         Data ->
-            Channels = ensure_list(maps:get(<<"channels">>, Data, [])),
-            lists:foldl(
-                fun(Channel, Acc) ->
-                    case Acc of
-                        undefined ->
-                            ChanId = to_int(maps:get(<<"id">>, Channel, <<"0">>)),
-                            case ChanId =:= ChannelId of
-                                true -> Channel;
-                                false -> undefined
-                            end;
-                        Found ->
-                            Found
-                    end
-                end,
-                undefined,
-                Channels
-            )
+            Channels = guild_data_index:channel_index(Data),
+            maps:get(ChannelId, Channels, undefined)
     end;
 find_channel_by_id(_, _) ->
     undefined.
@@ -188,35 +194,35 @@ compute_member_permissions(UserId, ChannelId, ProvidedMember, State) when is_int
                 true ->
                     ?ALL_PERMISSIONS;
                 false ->
-                    case resolve_member(UserId, ProvidedMember, State) of
-                        undefined ->
-                            0;
-                        Member ->
-                            GuildId = guild_id(State),
-                            Roles = ensure_list(maps:get(<<"roles">>, Data, [])),
-                            BasePermissions = base_role_permissions(GuildId, Roles),
-                            MemberRoles = member_role_ids(Member),
-                            Permissions = aggregate_role_permissions(
-                                MemberRoles, Roles, BasePermissions
-                            ),
-                            case (Permissions band constants:administrator_permission()) =/= 0 of
-                                true ->
-                                    ?ALL_PERMISSIONS;
-                                false ->
-                                    maybe_apply_channel_overwrites(
-                                        Permissions,
-                                        UserId,
-                                        MemberRoles,
-                                        ChannelId,
-                                        GuildId,
-                                        State
-                                    )
-                            end
-                    end
+                    compute_non_owner_permissions(UserId, ChannelId, ProvidedMember, State, Data)
             end
     end;
 compute_member_permissions(_, _, _, _) ->
     0.
+
+-spec compute_non_owner_permissions(
+    user_id(), maybe_channel_id(), maybe_member(), guild_state(), guild_data()
+) ->
+    permission().
+compute_non_owner_permissions(UserId, ChannelId, ProvidedMember, State, Data) ->
+    case resolve_member(UserId, ProvidedMember, State) of
+        undefined ->
+            0;
+        Member ->
+            GuildId = guild_id(State),
+            Roles = guild_data_index:role_index(Data),
+            BasePermissions = base_role_permissions(GuildId, Roles),
+            MemberRoles = member_role_ids(Member),
+            Permissions = aggregate_role_permissions(MemberRoles, Roles, BasePermissions),
+            case (Permissions band constants:administrator_permission()) =/= 0 of
+                true ->
+                    ?ALL_PERMISSIONS;
+                false ->
+                    maybe_apply_channel_overwrites(
+                        Permissions, UserId, MemberRoles, ChannelId, GuildId, State
+                    )
+            end
+    end.
 
 -spec resolve_member(user_id(), maybe_member(), guild_state()) -> maybe_member().
 resolve_member(_UserId, Member, _State) when is_map(Member) ->
@@ -232,36 +238,25 @@ guild_owner_id(Data) ->
 -spec guild_id(guild_state()) -> integer().
 guild_id(State) ->
     case maps:get(id, State, undefined) of
-        undefined ->
-            to_int(maps:get(<<"id">>, State, 0));
-        GuildId when is_integer(GuildId) ->
-            GuildId;
-        GuildId ->
-            to_int(GuildId)
+        undefined -> to_int(maps:get(<<"id">>, State, 0));
+        GuildId when is_integer(GuildId) -> GuildId;
+        GuildId -> to_int(GuildId)
     end.
 
--spec base_role_permissions(role_id(), list()) -> permission().
+-spec base_role_permissions(role_id(), map()) -> permission().
 base_role_permissions(GuildId, Roles) ->
-    lists:foldl(
-        fun(Role, Acc) ->
-            case role_id(Role) =:= GuildId of
-                true -> role_permissions(Role);
-                false -> Acc
-            end
-        end,
-        0,
-        ensure_list(Roles)
-    ).
+    case find_role_by_id(GuildId, Roles) of
+        undefined -> 0;
+        Role -> role_permissions(Role)
+    end.
 
--spec aggregate_role_permissions(member_roles(), list(), permission()) -> permission().
+-spec aggregate_role_permissions(member_roles(), [role()] | map(), permission()) -> permission().
 aggregate_role_permissions(MemberRoles, Roles, BasePermissions) ->
     lists:foldl(
         fun(RoleId, Acc) ->
             case find_role_by_id(RoleId, Roles) of
-                undefined ->
-                    Acc;
-                Role ->
-                    Acc bor role_permissions(Role)
+                undefined -> Acc;
+                Role -> Acc bor role_permissions(Role)
             end
         end,
         BasePermissions,
@@ -277,10 +272,8 @@ maybe_apply_channel_overwrites(Permissions, UserId, MemberRoles, ChannelId, Guil
     is_integer(ChannelId)
 ->
     case find_channel_by_id(ChannelId, State) of
-        undefined ->
-            Permissions;
-        Channel ->
-            apply_channel_overwrites(Permissions, UserId, MemberRoles, Channel, GuildId)
+        undefined -> Permissions;
+        Channel -> apply_channel_overwrites(Permissions, UserId, MemberRoles, Channel, GuildId)
     end;
 maybe_apply_channel_overwrites(Permissions, _UserId, _MemberRoles, _ChannelId, _GuildId, _State) ->
     Permissions.
@@ -327,10 +320,8 @@ accumulate_role_overwrites(MemberRoles, Overwrites) ->
             lists:foldl(
                 fun(Overwrite, {A, D}) ->
                     case overwrite_matches_role(Overwrite, RoleId) of
-                        true ->
-                            {A bor overwrite_allow(Overwrite), D bor overwrite_deny(Overwrite)};
-                        false ->
-                            {A, D}
+                        true -> {A bor overwrite_allow(Overwrite), D bor overwrite_deny(Overwrite)};
+                        false -> {A, D}
                     end
                 end,
                 {AllowAcc, DenyAcc},
@@ -406,10 +397,8 @@ extract_integer_list(_) ->
     [].
 
 -spec ensure_list(term()) -> list().
-ensure_list(List) when is_list(List) ->
-    List;
-ensure_list(_) ->
-    [].
+ensure_list(List) when is_list(List) -> List;
+ensure_list(_) -> [].
 
 -spec to_int(term()) -> integer().
 to_int(Value) ->
@@ -421,22 +410,20 @@ to_int(Value) ->
 -spec resolve_data_map(guild_state() | map()) -> guild_data() | undefined.
 resolve_data_map(State) when is_map(State) ->
     case maps:find(data, State) of
-        {ok, Data} when is_map(Data) ->
-            Data;
-        {ok, Data} when is_map(Data) =:= false ->
+        {ok, Data} when is_map(Data) -> Data;
+        {ok, Data} ->
             Data;
         error ->
-            case State of
-                #{<<"members">> := _} ->
-                    State;
-                _ ->
-                    undefined
+            case maps:is_key(<<"members">>, State) of
+                true -> State;
+                false -> undefined
             end
     end;
 resolve_data_map(_) ->
     undefined.
 
 -ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
 
 owner_receives_full_permissions_test() ->
     OwnerId = 1,
@@ -537,24 +524,139 @@ administrator_role_grants_all_permissions_test() ->
         data => #{
             <<"guild">> => #{<<"owner_id">> => integer_to_binary(OwnerId)},
             <<"roles">> => [
-                #{<<"id">> => integer_to_binary(GuildId), <<"permissions">> => integer_to_binary(Admin)}
+                #{
+                    <<"id">> => integer_to_binary(GuildId),
+                    <<"permissions">> => integer_to_binary(Admin)
+                }
             ],
             <<"members">> => [
-                #{
-                    <<"user">> => #{<<"id">> => integer_to_binary(UserId)},
-                    <<"roles">> => []
-                }
+                #{<<"user">> => #{<<"id">> => integer_to_binary(UserId)}, <<"roles">> => []}
             ],
             <<"channels">> => [
-                #{
-                    <<"id">> => integer_to_binary(ChannelId),
-                    <<"permission_overwrites">> => []
-                }
+                #{<<"id">> => integer_to_binary(ChannelId), <<"permission_overwrites">> => []}
             ]
         }
     },
     ?assertEqual(?ALL_PERMISSIONS, get_member_permissions(UserId, undefined, State)),
     ?assertEqual(?ALL_PERMISSIONS, get_member_permissions(UserId, ChannelId, State)),
     ?assert(can_view_channel(UserId, ChannelId, undefined, State)).
+
+find_member_by_user_id_found_test() ->
+    State = #{
+        data => #{
+            <<"members">> => [
+                #{<<"user">> => #{<<"id">> => <<"123">>}, <<"nick">> => <<"Test">>}
+            ]
+        }
+    },
+    Result = find_member_by_user_id(123, State),
+    ?assertEqual(<<"Test">>, maps:get(<<"nick">>, Result)).
+
+find_member_by_user_id_not_found_test() ->
+    State = #{data => #{<<"members">> => []}},
+    ?assertEqual(undefined, find_member_by_user_id(123, State)).
+
+find_member_by_user_id_map_storage_test() ->
+    State = #{
+        data => #{
+            <<"members">> => #{
+                321 => #{<<"user">> => #{<<"id">> => <<"321">>}, <<"nick">> => <<"Mapped">>}
+            }
+        }
+    },
+    Result = find_member_by_user_id(321, State),
+    ?assertEqual(<<"Mapped">>, maps:get(<<"nick">>, Result)).
+
+find_role_by_id_found_test() ->
+    Roles = [#{<<"id">> => <<"100">>, <<"name">> => <<"Admin">>}],
+    Result = find_role_by_id(100, Roles),
+    ?assertEqual(<<"Admin">>, maps:get(<<"name">>, Result)).
+
+find_role_by_id_not_found_test() ->
+    Roles = [#{<<"id">> => <<"100">>}],
+    ?assertEqual(undefined, find_role_by_id(999, Roles)).
+
+find_role_by_id_map_index_test() ->
+    Roles = #{
+        100 => #{<<"id">> => <<"100">>, <<"name">> => <<"Admin">>}
+    },
+    Result = find_role_by_id(100, Roles),
+    ?assertEqual(<<"Admin">>, maps:get(<<"name">>, Result)).
+
+find_channel_by_id_with_index_test() ->
+    State = #{
+        data => #{
+            <<"channels">> => [#{<<"id">> => <<"900">>, <<"name">> => <<"general">>}],
+            <<"channel_index">> => #{900 => #{<<"id">> => <<"900">>, <<"name">> => <<"general">>}}
+        }
+    },
+    Result = find_channel_by_id(900, State),
+    ?assertEqual(<<"general">>, maps:get(<<"name">>, Result)).
+
+to_int_test() ->
+    ?assertEqual(123, to_int(123)),
+    ?assertEqual(123, to_int(<<"123">>)),
+    ?assertEqual(0, to_int(undefined)).
+
+ensure_list_test() ->
+    ?assertEqual([1, 2], ensure_list([1, 2])),
+    ?assertEqual([], ensure_list(undefined)),
+    ?assertEqual([], ensure_list(#{})).
+
+can_access_message_with_read_history_test() ->
+    ReadHistory = constants:read_message_history_permission(),
+    State = #{data => #{<<"guild">> => #{}}},
+    MessageId = <<"100">>,
+    ?assertEqual(true, can_access_message_by_permissions(ReadHistory, MessageId, State)).
+
+can_access_message_no_read_history_no_cutoff_test() ->
+    State = #{data => #{<<"guild">> => #{}}},
+    MessageId = <<"100">>,
+    ?assertEqual(false, can_access_message_by_permissions(0, MessageId, State)).
+
+can_access_message_no_read_history_null_cutoff_test() ->
+    State = #{data => #{<<"guild">> => #{<<"message_history_cutoff">> => null}}},
+    MessageId = <<"100">>,
+    ?assertEqual(false, can_access_message_by_permissions(0, MessageId, State)).
+
+can_access_message_no_read_history_message_before_cutoff_test() ->
+    CutoffMs = 1704067200000,
+    BeforeCutoffTimestamp = CutoffMs - 60000,
+    FluxerEpoch = 1420070400000,
+    RelativeTs = BeforeCutoffTimestamp - FluxerEpoch,
+    Snowflake = RelativeTs bsl 22,
+    MessageId = integer_to_binary(Snowflake),
+    State = #{data => #{<<"guild">> => #{<<"message_history_cutoff">> => CutoffMs}}},
+    ?assertEqual(false, can_access_message_by_permissions(0, MessageId, State)).
+
+can_access_message_no_read_history_message_after_cutoff_test() ->
+    CutoffMs = 1704067200000,
+    AfterCutoffTimestamp = CutoffMs + 60000,
+    FluxerEpoch = 1420070400000,
+    RelativeTs = AfterCutoffTimestamp - FluxerEpoch,
+    Snowflake = RelativeTs bsl 22,
+    MessageId = integer_to_binary(Snowflake),
+    State = #{data => #{<<"guild">> => #{<<"message_history_cutoff">> => CutoffMs}}},
+    ?assertEqual(true, can_access_message_by_permissions(0, MessageId, State)).
+
+can_access_message_no_read_history_message_at_cutoff_test() ->
+    CutoffMs = 1704067200000,
+    FluxerEpoch = 1420070400000,
+    RelativeTs = CutoffMs - FluxerEpoch,
+    Snowflake = RelativeTs bsl 22,
+    MessageId = integer_to_binary(Snowflake),
+    State = #{data => #{<<"guild">> => #{<<"message_history_cutoff">> => CutoffMs}}},
+    ?assertEqual(true, can_access_message_by_permissions(0, MessageId, State)).
+
+can_access_message_with_rfc3339_cutoff_test() ->
+    CutoffBin = <<"2024-01-01T00:00:00Z">>,
+    CutoffMs = calendar:rfc3339_to_system_time("2024-01-01T00:00:00Z", [{unit, millisecond}]),
+    AfterCutoffTimestamp = CutoffMs + 60000,
+    FluxerEpoch = 1420070400000,
+    RelativeTs = AfterCutoffTimestamp - FluxerEpoch,
+    Snowflake = RelativeTs bsl 22,
+    MessageId = integer_to_binary(Snowflake),
+    State = #{data => #{<<"guild">> => #{<<"message_history_cutoff">> => CutoffBin}}},
+    ?assertEqual(true, can_access_message_by_permissions(0, MessageId, State)).
 
 -endif.

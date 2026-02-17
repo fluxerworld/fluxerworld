@@ -17,8 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import GuildNSFWAgreeStore from '~/stores/GuildNSFWAgreeStore';
+import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
 
-export function agreeToNSFWChannel(channelId: string): void {
+export function agreeToChannel(channelId: string): void {
 	GuildNSFWAgreeStore.agreeToChannel(channelId);
+}
+
+export function agreeToGuild(guildId: string): void {
+	GuildNSFWAgreeStore.agreeToGuild(guildId);
 }

@@ -17,31 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import styles from '@app/components/voice/VoiceStatsOverlay.module.css';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import {formatDuration} from '@fluxer/date_utils/src/DateDuration';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {useRoomContext} from '@livekit/components-react';
 import {ArrowsClockwiseIcon, ChartBarIcon, MicrophoneIcon, VideoIcon, XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import styles from './VoiceStatsOverlay.module.css';
 
 interface VoiceStatsOverlayProps {
 	onClose: () => void;
 }
-
-const formatDuration = (seconds: number) => {
-	const hours = Math.floor(seconds / 3600);
-	const minutes = Math.floor((seconds % 3600) / 60);
-	const secs = seconds % 60;
-
-	if (hours > 0) {
-		return `${hours}:${minutes.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-	}
-
-	return `${minutes}:${secs.toString().padStart(2, '0')}`;
-};
 
 const formatBitrate = (kbps: number) => (kbps >= 1000 ? `${(kbps / 1000).toFixed(1)} Mbps` : `${kbps} kbps`);
 

@@ -17,12 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as UnsavedChangesActionCreators from '@app/actions/UnsavedChangesActionCreators';
+import * as WebhookActionCreators from '@app/actions/WebhookActionCreators';
+import {Logger} from '@app/lib/Logger';
+import type {WebhookRecord} from '@app/records/WebhookRecord';
 import {Trans} from '@lingui/react/macro';
-import React from 'react';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as UnsavedChangesActionCreators from '~/actions/UnsavedChangesActionCreators';
-import * as WebhookActionCreators from '~/actions/WebhookActionCreators';
-import type {WebhookRecord} from '~/records/WebhookRecord';
+import {useCallback, useEffect, useRef, useState} from 'react';
+
+const logger = new Logger('useWebhookUpdates');
 
 interface WebhookUpdate {
 	id: string;
@@ -38,24 +41,24 @@ interface UseWebhookUpdatesArgs {
 }
 
 export function useWebhookUpdates({tabId, canManage, originals}: UseWebhookUpdatesArgs) {
-	const [updates, setUpdates] = React.useState<Map<string, WebhookUpdate>>(new Map());
-	const [isSaving, setIsSaving] = React.useState(false);
-	const [formVersion, setFormVersion] = React.useState(0);
-	const originalsRef = React.useRef(originals);
+	const [updates, setUpdates] = useState<Map<string, WebhookUpdate>>(new Map());
+	const [isSaving, setIsSaving] = useState(false);
+	const [formVersion, setFormVersion] = useState(0);
+	const originalsRef = useRef(originals);
 	originalsRef.current = originals;
 
 	const hasUnsavedChanges = updates.size > 0;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		UnsavedChangesActionCreators.setUnsavedChanges(tabId, hasUnsavedChanges);
 	}, [tabId, hasUnsavedChanges]);
 
-	const reset = React.useCallback(() => {
+	const reset = useCallback(() => {
 		setUpdates(new Map());
 		setFormVersion((v) => v + 1);
 	}, []);
 
-	const save = React.useCallback(async () => {
+	const save = useCallback(async () => {
 		if (!canManage) return;
 
 		try {
@@ -81,14 +84,14 @@ export function useWebhookUpdates({tabId, canManage, originals}: UseWebhookUpdat
 			setFormVersion((v) => v + 1);
 			ToastActionCreators.createToast({type: 'success', children: <Trans>Webhooks updated</Trans>});
 		} catch (error) {
-			console.error('Failed to update webhooks:', error);
+			logger.error('Failed to update webhooks', error);
 			ToastActionCreators.createToast({type: 'error', children: <Trans>Failed to update webhooks</Trans>});
 		} finally {
 			setIsSaving(false);
 		}
 	}, [canManage, updates]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		UnsavedChangesActionCreators.setTabData(tabId, {
 			onReset: reset,
 			onSave: save,
@@ -96,7 +99,7 @@ export function useWebhookUpdates({tabId, canManage, originals}: UseWebhookUpdat
 		});
 	}, [tabId, reset, save, isSaving]);
 
-	const handleUpdate = React.useCallback((webhookId: string, patch: Partial<WebhookUpdate>) => {
+	const handleUpdate = useCallback((webhookId: string, patch: Partial<WebhookUpdate>) => {
 		setUpdates((prev) => {
 			const next = new Map(prev);
 			const existing = next.get(webhookId) || {id: webhookId};

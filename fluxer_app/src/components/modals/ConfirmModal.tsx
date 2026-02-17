@@ -17,22 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {Message} from '@app/components/channel/Message';
+import styles from '@app/components/modals/ConfirmModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {MessageRecord} from '@app/records/MessageRecord';
+import ChannelStore from '@app/stores/ChannelStore';
+import type {ModalProps} from '@app/utils/modals/ModalUtils';
+import {MessagePreviewContext} from '@fluxer/constants/src/ChannelConstants';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {MessagePreviewContext} from '~/Constants';
-import {Message} from '~/components/channel/Message';
-import styles from '~/components/modals/ConfirmModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {MessageRecord} from '~/records/MessageRecord';
-import ChannelStore from '~/stores/ChannelStore';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 
-type ConfirmModalCheckboxProps = {
+interface ConfirmModalCheckboxProps {
 	checked?: boolean;
 	onChange?: (checked: boolean) => void;
-};
+}
 
 type ConfirmModalPrimaryVariant = 'primary' | 'danger-primary';
 
@@ -44,7 +45,7 @@ type ConfirmModalProps =
 			primaryText: React.ReactNode;
 			primaryVariant?: ConfirmModalPrimaryVariant;
 			secondaryText?: React.ReactNode | false;
-			size?: Modal.ModalProps['size'];
+			size?: ModalProps['size'];
 			onPrimary: (checkboxChecked?: boolean) => Promise<void> | void;
 			onSecondary?: (checkboxChecked?: boolean) => void;
 			checkboxContent?: React.ReactElement<ConfirmModalCheckboxProps>;
@@ -56,7 +57,7 @@ type ConfirmModalProps =
 			primaryText?: never;
 			primaryVariant?: never;
 			secondaryText?: React.ReactNode | false;
-			size?: Modal.ModalProps['size'];
+			size?: ModalProps['size'];
 			onPrimary?: never;
 			onSecondary?: (checkboxChecked?: boolean) => void;
 			checkboxContent?: React.ReactElement<ConfirmModalCheckboxProps>;
@@ -76,10 +77,10 @@ export const ConfirmModal = observer(
 		checkboxContent,
 	}: ConfirmModalProps) => {
 		const {t} = useLingui();
-		const [submitting, setSubmitting] = React.useState(false);
-		const [checkboxChecked, setCheckboxChecked] = React.useState(false);
-		const initialFocusRef = React.useRef<HTMLButtonElement | null>(null);
-		const previewBehaviorOverrides = React.useMemo(
+		const [submitting, setSubmitting] = useState(false);
+		const [checkboxChecked, setCheckboxChecked] = useState(false);
+		const initialFocusRef = useRef<HTMLButtonElement | null>(null);
+		const previewBehaviorOverrides = useMemo(
 			() => ({
 				isEditing: false,
 				isHighlight: false,
@@ -90,12 +91,12 @@ export const ConfirmModal = observer(
 			[],
 		);
 
-		const messageSnapshot = React.useMemo(() => {
+		const messageSnapshot = useMemo(() => {
 			if (!message) return undefined;
 			return new MessageRecord(message.toJSON());
 		}, [message?.id]);
 
-		const handlePrimaryClick = React.useCallback(async () => {
+		const handlePrimaryClick = useCallback(async () => {
 			if (!onPrimary) {
 				return;
 			}
@@ -108,7 +109,7 @@ export const ConfirmModal = observer(
 			}
 		}, [onPrimary, checkboxChecked]);
 
-		const handleSecondaryClick = React.useCallback(() => {
+		const handleSecondaryClick = useCallback(() => {
 			if (onSecondary) {
 				onSecondary(checkboxChecked);
 			}
@@ -118,27 +119,26 @@ export const ConfirmModal = observer(
 		return (
 			<Modal.Root size={size} initialFocusRef={initialFocusRef} centered>
 				<Modal.Header title={title} />
-				<Modal.Content className={styles.content}>
-					<div className={styles.descriptionText}>{description}</div>
-					{React.isValidElement(checkboxContent) && (
-						<div style={{marginTop: '16px'}}>
-							{React.cloneElement(checkboxContent, {
+				<Modal.Content>
+					<Modal.ContentLayout>
+						<Modal.Description>{description}</Modal.Description>
+						{React.isValidElement(checkboxContent) &&
+							React.cloneElement(checkboxContent, {
 								checked: checkboxChecked,
 								onChange: (value: boolean) => setCheckboxChecked(value),
 							})}
-						</div>
-					)}
-					{messageSnapshot && (
-						<div className={styles.messagePreview}>
-							<Message
-								channel={ChannelStore.getChannel(messageSnapshot.channelId)!}
-								message={messageSnapshot}
-								previewContext={MessagePreviewContext.LIST_POPOUT}
-								removeTopSpacing={true}
-								behaviorOverrides={previewBehaviorOverrides}
-							/>
-						</div>
-					)}
+						{messageSnapshot && (
+							<div className={styles.messagePreview}>
+								<Message
+									channel={ChannelStore.getChannel(messageSnapshot.channelId)!}
+									message={messageSnapshot}
+									previewContext={MessagePreviewContext.LIST_POPOUT}
+									removeTopSpacing={true}
+									behaviorOverrides={previewBehaviorOverrides}
+								/>
+							</div>
+						)}
+					</Modal.ContentLayout>
 				</Modal.Content>
 				<Modal.Footer className={styles.footer}>
 					{secondaryText !== false && (

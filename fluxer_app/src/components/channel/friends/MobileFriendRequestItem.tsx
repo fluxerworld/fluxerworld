@@ -17,24 +17,25 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as RelationshipActionCreators from '@app/actions/RelationshipActionCreators';
+import * as UserProfileActionCreators from '@app/actions/UserProfileActionCreators';
+import styles from '@app/components/channel/friends/MobileFriendRequestItem.module.css';
+import {LongPressable} from '@app/components/LongPressable';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import type {MenuGroupType} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {MenuBottomSheet} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import UserStore from '@app/stores/UserStore';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CheckIcon, DotsThreeVerticalIcon, UserIcon, XIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as RelationshipActionCreators from '~/actions/RelationshipActionCreators';
-import * as UserProfileActionCreators from '~/actions/UserProfileActionCreators';
-import {RelationshipTypes} from '~/Constants';
-import {LongPressable} from '~/components/LongPressable';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import type {MenuGroupType} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import {MenuBottomSheet} from '~/components/uikit/MenuBottomSheet/MenuBottomSheet';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import UserStore from '~/stores/UserStore';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import styles from './MobileFriendRequestItem.module.css';
+import type React from 'react';
+import {useState} from 'react';
 
 interface MobileFriendRequestItemProps {
 	userId: string;
@@ -45,7 +46,7 @@ export const MobileFriendRequestItem: React.FC<MobileFriendRequestItemProps> = o
 	({userId, relationshipType}) => {
 		const {t} = useLingui();
 
-		const [menuOpen, setMenuOpen] = React.useState(false);
+		const [menuOpen, setMenuOpen] = useState(false);
 		const user = UserStore.getUser(userId);
 
 		if (!user) return null;

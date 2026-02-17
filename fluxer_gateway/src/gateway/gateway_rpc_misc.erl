@@ -19,6 +19,7 @@
 
 -export([execute_method/2, get_local_node_stats/0]).
 
+-spec execute_method(binary(), map()) -> map().
 execute_method(<<"process.memory_stats">>, Params) ->
     Limit =
         case maps:get(<<"limit">>, Params, undefined) of
@@ -27,42 +28,22 @@ execute_method(<<"process.memory_stats">>, Params) ->
             LimitValue ->
                 validation:snowflake_or_throw(<<"limit">>, LimitValue)
         end,
-
     Guilds = process_memory_stats:get_guild_memory_stats(Limit),
-    #{<<"guilds">> => Guilds};
+    GuildsWithStringMemory = [G#{memory := integer_to_binary(maps:get(memory, G))} || G <- Guilds],
+    #{<<"guilds">> => GuildsWithStringMemory};
 execute_method(<<"process.node_stats">>, _Params) ->
     get_local_node_stats().
 
+-spec get_local_node_stats() -> map().
 get_local_node_stats() ->
-    SessionCount =
-        case gen_server:call(session_manager, get_global_count, 1000) of
-            {ok, SC} -> SC;
-            _ -> 0
-        end,
-
-    GuildCount =
-        case gen_server:call(guild_manager, get_global_count, 1000) of
-            {ok, GC} -> GC;
-            _ -> 0
-        end,
-
-    PresenceCount =
-        case gen_server:call(presence_manager, get_global_count, 1000) of
-            {ok, PC} -> PC;
-            _ -> 0
-        end,
-
-    CallCount =
-        case gen_server:call(call_manager, get_global_count, 1000) of
-            {ok, CC} -> CC;
-            _ -> 0
-        end,
-
+    SessionCount = get_manager_count(session_manager),
+    GuildCount = get_manager_count(guild_manager),
+    PresenceCount = get_manager_count(presence_manager),
+    CallCount = get_manager_count(call_manager),
     MemoryInfo = erlang:memory(),
     TotalMemory = proplists:get_value(total, MemoryInfo, 0),
     ProcessMemory = proplists:get_value(processes, MemoryInfo, 0),
     SystemMemory = proplists:get_value(system, MemoryInfo, 0),
-
     #{
         <<"status">> => <<"healthy">>,
         <<"sessions">> => SessionCount,
@@ -70,11 +51,18 @@ get_local_node_stats() ->
         <<"presences">> => PresenceCount,
         <<"calls">> => CallCount,
         <<"memory">> => #{
-            <<"total">> => TotalMemory,
-            <<"processes">> => ProcessMemory,
-            <<"system">> => SystemMemory
+            <<"total">> => integer_to_binary(TotalMemory),
+            <<"processes">> => integer_to_binary(ProcessMemory),
+            <<"system">> => integer_to_binary(SystemMemory)
         },
         <<"process_count">> => erlang:system_info(process_count),
         <<"process_limit">> => erlang:system_info(process_limit),
         <<"uptime_seconds">> => element(1, erlang:statistics(wall_clock)) div 1000
     }.
+
+-spec get_manager_count(atom()) -> non_neg_integer().
+get_manager_count(Manager) ->
+    case gen_server:call(Manager, get_global_count, 1000) of
+        {ok, Count} -> Count;
+        _ -> 0
+    end.

@@ -57,16 +57,17 @@ export class MediaDimensionCalculator {
 
 	public calculate(dimensions: MediaDimensions, options?: DimensionOptions): DimensionResult {
 		const config = {...this.options, ...options};
+		const safeDimensions = this.normalizeDimensions(dimensions);
 
 		if (config.preserve) {
-			return this.preserveDimensions(dimensions);
+			return this.preserveDimensions(safeDimensions);
 		}
 
 		if (config.forceScale) {
-			return this.forceScaleDimensions(dimensions, config);
+			return this.forceScaleDimensions(safeDimensions, config);
 		}
 
-		return this.calculateResponsiveDimensions(dimensions, config);
+		return this.calculateResponsiveDimensions(safeDimensions, config);
 	}
 
 	public calculateImage(dimensions: MediaDimensions, options?: Omit<DimensionOptions, 'forceScale'>): DimensionResult {
@@ -89,17 +90,19 @@ export class MediaDimensionCalculator {
 	}
 
 	private forceScaleDimensions(dimensions: MediaDimensions, options: Required<DimensionOptions>): DimensionResult {
-		const scale = Math.min(1, options.maxWidth / dimensions.width, options.maxHeight / dimensions.height);
+		const maxWidth = this.normalizeLimit(options.maxWidth, DEFAULT_OPTIONS.maxWidth);
+		const maxHeight = this.normalizeLimit(options.maxHeight, DEFAULT_OPTIONS.maxHeight);
+		const scale = Math.min(1, maxWidth / dimensions.width, maxHeight / dimensions.height);
 
 		const scaledDimensions = {
-			width: Math.round(dimensions.width * scale),
-			height: Math.round(dimensions.height * scale),
+			width: Math.max(1, Math.round(dimensions.width * scale)),
+			height: Math.max(1, Math.round(dimensions.height * scale)),
 		};
 
 		return {
 			style: {
-				width: scaledDimensions.width,
-				height: scaledDimensions.height,
+				width: `min(100%, ${scaledDimensions.width}px)`,
+				height: 'auto',
 				maxWidth: '100%',
 				maxHeight: '100%',
 				...(options.aspectRatio && {
@@ -115,41 +118,43 @@ export class MediaDimensionCalculator {
 		dimensions: MediaDimensions,
 		options: Required<DimensionOptions>,
 	): DimensionResult {
+		const maxWidth = this.normalizeLimit(options.maxWidth, DEFAULT_OPTIONS.maxWidth);
+		const maxHeight = this.normalizeLimit(options.maxHeight, DEFAULT_OPTIONS.maxHeight);
 		const isPortrait = dimensions.height > dimensions.width;
 		let style: CSSProperties;
 		let scaledDimensions: MediaDimensions;
 		let scale: number;
 
 		if (isPortrait) {
-			const targetWidth = Math.round((options.maxHeight * dimensions.width) / dimensions.height);
-			const maxAllowedWidth = Math.min(options.maxWidth, targetWidth);
+			const targetWidth = Math.max(1, Math.round((maxHeight * dimensions.width) / dimensions.height));
+			const maxAllowedWidth = Math.max(1, Math.min(maxWidth, targetWidth));
 			scale = maxAllowedWidth / dimensions.width;
 
 			scaledDimensions = {
 				width: maxAllowedWidth,
-				height: Math.round(dimensions.height * scale),
+				height: Math.max(1, Math.round(dimensions.height * scale)),
 			};
 
 			style = {
-				maxWidth: `${maxAllowedWidth}px`,
-				width: options.responsive ? '100%' : maxAllowedWidth,
+				maxWidth: `min(100%, ${maxAllowedWidth}px)`,
+				width: options.responsive ? '100%' : `min(100%, ${maxAllowedWidth}px)`,
 				...(options.aspectRatio && {
-					aspectRatio: `${maxAllowedWidth}/${options.maxHeight}`,
+					aspectRatio: `${scaledDimensions.width}/${scaledDimensions.height}`,
 				}),
 			};
 		} else {
-			const scaleByWidth = options.maxWidth / dimensions.width;
-			const scaleByHeight = options.maxHeight / dimensions.height;
+			const scaleByWidth = maxWidth / dimensions.width;
+			const scaleByHeight = maxHeight / dimensions.height;
 			scale = Math.min(1, scaleByWidth, scaleByHeight);
 
 			scaledDimensions = {
-				width: Math.round(dimensions.width * scale),
-				height: Math.round(dimensions.height * scale),
+				width: Math.max(1, Math.round(dimensions.width * scale)),
+				height: Math.max(1, Math.round(dimensions.height * scale)),
 			};
 
 			style = {
-				maxWidth: `${options.maxWidth}px`,
-				width: options.responsive ? '100%' : scaledDimensions.width,
+				maxWidth: `min(100%, ${maxWidth}px)`,
+				width: options.responsive ? '100%' : `min(100%, ${scaledDimensions.width}px)`,
 				...(options.aspectRatio && {
 					aspectRatio: `${scaledDimensions.width}/${scaledDimensions.height}`,
 				}),
@@ -157,6 +162,21 @@ export class MediaDimensionCalculator {
 		}
 
 		return {style, dimensions: scaledDimensions, scale};
+	}
+
+	private normalizeDimensions(dimensions: MediaDimensions): MediaDimensions {
+		return {
+			width: this.normalizeLimit(dimensions.width, 1),
+			height: this.normalizeLimit(dimensions.height, 1),
+		};
+	}
+
+	private normalizeLimit(value: number, fallback: number): number {
+		if (!Number.isFinite(value) || value <= 0) {
+			return fallback;
+		}
+
+		return value;
 	}
 
 	public static scale(
@@ -171,6 +191,6 @@ export class MediaDimensionCalculator {
 	}
 }
 
-export const createCalculator = (options?: DimensionOptions): MediaDimensionCalculator => {
+export function createCalculator(options?: DimensionOptions): MediaDimensionCalculator {
 	return new MediaDimensionCalculator(options);
-};
+}

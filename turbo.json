@@ -1,0 +1,107 @@
+{
+	"$schema": "https://turborepo.dev/schema.json",
+	"ui": "tui",
+	"globalEnv": ["FLUXER_CONFIG"],
+	"tasks": {
+		"generate": {
+			"outputs": ["src/ConfigSchema.json", "src/MasterZodSchema.generated.tsx"],
+			"inputs": ["src/schema/**/*.json", "src/schema/bundle.ts"]
+		},
+		"@fluxer/i18n#generate:types": {
+			"outputs": [
+				"$TURBO_ROOT$/packages/errors/src/i18n/ErrorI18nTypes.generated.tsx",
+				"$TURBO_ROOT$/packages/email/src/email_i18n/EmailI18nTypes.generated.tsx",
+				"$TURBO_ROOT$/packages/marketing/src/marketing_i18n/MarketingI18nTypes.generated.tsx"
+			],
+			"inputs": [
+				"scripts/GenerateI18nTypes.ts",
+				"$TURBO_ROOT$/packages/errors/src/i18n/locales/messages.yaml",
+				"$TURBO_ROOT$/packages/email/src/email_i18n/locales/messages.yaml",
+				"$TURBO_ROOT$/packages/marketing/src/marketing_i18n/locales/messages.yaml"
+			]
+		},
+		"@fluxer/errors#typecheck": {
+			"dependsOn": ["^typecheck", "@fluxer/i18n#generate:types"],
+			"outputs": [],
+			"inputs": ["src/**/*.tsx", "tsconfig.json", "$TURBO_ROOT$/tsconfigs/base.json"]
+		},
+		"@fluxer/email#typecheck": {
+			"dependsOn": ["^typecheck", "@fluxer/i18n#generate:types"],
+			"outputs": [],
+			"inputs": ["src/**/*.tsx", "tsconfig.json", "$TURBO_ROOT$/tsconfigs/base.json"]
+		},
+		"@fluxer/marketing#typecheck": {
+			"dependsOn": ["^typecheck", "@fluxer/i18n#generate:types"],
+			"outputs": [],
+			"inputs": ["src/**/*.tsx", "tsconfig.json", "$TURBO_ROOT$/tsconfigs/base.json"]
+		},
+		"fluxer_app#typecheck": {
+			"dependsOn": ["^typecheck", "i18n:compile"],
+			"outputs": [],
+			"inputs": ["src/**/*.tsx", "tsconfig.json", "$TURBO_ROOT$/tsconfigs/base.json", "crates/**/*.rs"]
+		},
+		"fluxer_desktop#typecheck": {
+			"dependsOn": ["^typecheck"],
+			"outputs": [],
+			"inputs": ["src/**/*.ts", "tsconfig.json", "$TURBO_ROOT$/tsconfigs/base.json"]
+		},
+		"@fluxer/openapi#generate": {
+			"dependsOn": ["@fluxer/api#typecheck", "@fluxer/schema#typecheck"],
+			"outputs": ["$TURBO_ROOT$/fluxer_docs/api-reference/openapi.json"],
+			"inputs": ["src/**/*.tsx", "$TURBO_ROOT$/packages/api/src/**/*.tsx", "$TURBO_ROOT$/packages/schema/src/**/*.tsx"]
+		},
+		"fluxer_relay_directory#openapi:generate": {
+			"dependsOn": ["@fluxer/schema#typecheck", "@fluxer/openapi#typecheck"],
+			"outputs": ["$TURBO_ROOT$/fluxer_docs/relay-api/openapi.json"],
+			"inputs": ["scripts/GenerateOpenAPI.tsx", "$TURBO_ROOT$/packages/schema/src/domains/relay/RelaySchemas.tsx"]
+		},
+		"schema:generate": {
+			"outputs": [
+				"packages/config/src/ConfigSchema.json",
+				"packages/config/src/MasterZodSchema.generated.tsx",
+				"fluxer_docs/self_hosting/configuration.mdx"
+			],
+			"inputs": ["packages/config/src/schema/**/*.json"],
+			"cache": false
+		},
+		"i18n:extract": {
+			"cache": false
+		},
+		"i18n:auto": {
+			"dependsOn": ["i18n:extract"],
+			"cache": false
+		},
+		"i18n:compile": {
+			"dependsOn": ["i18n:auto"],
+			"cache": false
+		},
+		"build": {
+			"dependsOn": ["^build", "generate", "i18n:compile"],
+			"outputs": ["dist/**"],
+			"inputs": ["src/**/*.tsx", "tsconfig.json"]
+		},
+		"typecheck": {
+			"dependsOn": ["^typecheck", "generate", "i18n:compile", "schema:generate"],
+			"outputs": [],
+			"inputs": ["src/**/*.tsx", "tsconfig.json", "$TURBO_ROOT$/tsconfigs/base.json"]
+		},
+		"dev": {
+			"cache": false,
+			"persistent": true
+		},
+		"lint": {
+			"dependsOn": ["^lint"],
+			"outputs": [],
+			"inputs": ["src/**/*.tsx", "biome.json", "$TURBO_ROOT$/biome.json"]
+		},
+		"test": {
+			"dependsOn": ["^build", "generate"],
+			"outputs": [],
+			"inputs": ["src/**/*.tsx", "src/**/*.ts", "src/**/__tests__/**", "vitest.config.*"]
+		},
+		"test:watch": {
+			"cache": false,
+			"persistent": true
+		}
+	}
+}

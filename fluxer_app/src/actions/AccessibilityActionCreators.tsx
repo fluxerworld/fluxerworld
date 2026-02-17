@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import AccessibilityStore, {type AccessibilitySettings} from '~/stores/AccessibilityStore';
+import AccessibilityStore, {type AccessibilitySettings} from '@app/stores/AccessibilityStore';
 
-export const update = (settings: Partial<AccessibilitySettings>): void => {
+export function update(settings: Partial<AccessibilitySettings>): void {
 	AccessibilityStore.updateSettings(settings);
-};
+}

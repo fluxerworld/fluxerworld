@@ -17,49 +17,62 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Plural, Trans, useLingui} from '@lingui/react/macro';
+import {modal, push} from '@app/actions/ModalActionCreators';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {PremiumModal} from '@app/components/modals/PremiumModal';
+import UserStore from '@app/stores/UserStore';
+import {Limits} from '@app/utils/limits/UserLimits';
+import {shouldShowPremiumFeatures} from '@app/utils/PremiumUtils';
+import {MAX_BOOKMARKS_PREMIUM} from '@fluxer/constants/src/LimitConstants';
+import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import {modal, push} from '~/actions/ModalActionCreators';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {PremiumModal} from '~/components/modals/PremiumModal';
-import UserStore from '~/stores/UserStore';
 
 export const MaxBookmarksModal = observer(() => {
 	const {t} = useLingui();
 	const currentUser = UserStore.currentUser!;
-	const isPremium = currentUser.isPremium();
+	const showPremium = shouldShowPremiumFeatures();
 	const maxBookmarks = currentUser.maxBookmarks;
+	const premiumBookmarks = Limits.getPremiumValue('max_bookmarks', MAX_BOOKMARKS_PREMIUM);
+	const canUpgradeBookmarks = maxBookmarks < premiumBookmarks;
 
-	if (isPremium) {
+	const bookmarksText = maxBookmarks === 1 ? t`${maxBookmarks} bookmark` : t`${maxBookmarks} bookmarks`;
+
+	if (!showPremium) {
 		return (
 			<ConfirmModal
 				title={t`Bookmark Limit Reached`}
-				description={
-					<Trans>
-						You've reached the maximum number of bookmarks (
-						<Plural value={maxBookmarks} one="# bookmark" other="# bookmarks" />
-						). Please remove some bookmarks before adding new ones.
-					</Trans>
-				}
+				description={t`You've reached the maximum number of bookmarks (${bookmarksText}). This limit is configured by your instance administrator. Please remove some bookmarks before adding new ones.`}
 				primaryText={t`Understood`}
 				onPrimary={() => {}}
 			/>
 		);
 	}
 
+	if (!canUpgradeBookmarks) {
+		return (
+			<ConfirmModal
+				title={t`Bookmark Limit Reached`}
+				description={t`You've reached the maximum number of bookmarks (${bookmarksText}). Please remove some bookmarks before adding new ones.`}
+				primaryText={t`Understood`}
+				onPrimary={() => {}}
+			/>
+		);
+	}
+
+	const premiumBookmarksText =
+		premiumBookmarks === 1 ? t`${premiumBookmarks} bookmark` : t`${premiumBookmarks} bookmarks`;
+
 	return (
 		<ConfirmModal
 			title={t`Bookmark Limit Reached`}
-			description={
-				<Trans>
-					You've reached the maximum number of bookmarks for free users (
-					<Plural value={maxBookmarks} one="# bookmark" other="# bookmarks" />
-					). Upgrade to Plutonium to increase your limit to 300 bookmarks, or remove some bookmarks to add new ones.
-				</Trans>
-			}
+			description={t`You've reached the maximum number of bookmarks for free users (${bookmarksText}). Upgrade to Plutonium to increase your limit to ${premiumBookmarksText}, or remove some bookmarks to add new ones.`}
 			primaryText={t`Upgrade to Plutonium`}
 			primaryVariant="primary"
-			onPrimary={() => push(modal(() => <PremiumModal />))}
+			onPrimary={() => {
+				window.setTimeout(() => {
+					push(modal(() => <PremiumModal />));
+				}, 0);
+			}}
 			secondaryText={t`Dismiss`}
 		/>
 	);

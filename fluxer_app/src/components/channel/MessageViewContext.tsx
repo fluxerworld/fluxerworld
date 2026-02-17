@@ -17,14 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import type {MessagePreviewContext} from '~/Constants';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import type {MessagePreviewContext} from '@fluxer/constants/src/ChannelConstants';
+import React, {useContext} from 'react';
 
-export interface MessagePreviewOverrides {
+interface MessagePreviewOverrides {
 	usernameColor?: string;
 	displayName?: string;
+}
+
+export interface MessagePreviewPermissions {
+	isDM: boolean;
+	canSendMessages: boolean;
+	canAddReactions: boolean;
+	canEditMessage: boolean;
+	canDeleteMessage: boolean;
+	canDeleteAttachment: boolean;
+	canPinMessage: boolean;
+	canSuppressEmbeds: boolean;
+	shouldRenderSuppressEmbeds: boolean;
 }
 
 export interface MessageViewContextValue {
@@ -32,10 +44,13 @@ export interface MessageViewContextValue {
 	message: MessageRecord;
 	shouldGroup: boolean;
 	isHovering: boolean;
+	messageDisplayCompact: boolean;
 	previewContext?: keyof typeof MessagePreviewContext;
 	previewOverrides?: MessagePreviewOverrides;
+	previewPermissions?: MessagePreviewPermissions;
 	handleDelete: (bypassConfirm?: boolean) => void;
 	onPopoutToggle?: (isOpen: boolean) => void;
+	readonlyPreview?: boolean;
 }
 
 const MessageViewContext = React.createContext<MessageViewContextValue | null>(null);
@@ -43,11 +58,11 @@ const MessageViewContext = React.createContext<MessageViewContextValue | null>(n
 export const MessageViewContextProvider = MessageViewContext.Provider;
 
 export const useMessageViewContext = (): MessageViewContextValue => {
-	const context = React.useContext(MessageViewContext);
+	const context = useContext(MessageViewContext);
 	if (!context) {
 		throw new Error('useMessageViewContext must be used within a MessageViewContextProvider');
 	}
 	return context;
 };
 
-export const useMaybeMessageViewContext = (): MessageViewContextValue | null => React.useContext(MessageViewContext);
+export const useMaybeMessageViewContext = (): MessageViewContextValue | null => useContext(MessageViewContext);

@@ -17,22 +17,28 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getStatusTypeLabel} from '@app/AppConstants';
+import styles from '@app/components/common/GroupDMAvatar.module.css';
+import type {AvatarStatusLayout} from '@app/components/uikit/AvatarStatusLayout';
+import {getAvatarStatusLayout} from '@app/components/uikit/AvatarStatusLayout';
+import baseAvatarStyles from '@app/components/uikit/BaseAvatar.module.css';
+import {TYPING_BRIDGE_RIGHT_SHIFT_RATIO} from '@app/components/uikit/TypingConstants';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import i18n from '@app/I18n';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import PresenceStore from '@app/stores/PresenceStore';
+import UserStore from '@app/stores/UserStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {getGroupDMAccentColor} from '@app/utils/GroupDMColorUtils';
+import {cdnUrl} from '@app/utils/UrlUtils';
+import type {MediaProxyImageSize} from '@fluxer/constants/src/MediaProxyImageSizes';
+import type {StatusType} from '@fluxer/constants/src/StatusConstants';
+import {StatusTypes} from '@fluxer/constants/src/StatusConstants';
 import type {I18n} from '@lingui/core';
 import {UsersIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {getStatusTypeLabel, type StatusType, StatusTypes} from '~/Constants';
-import {type AvatarStatusLayout, getAvatarStatusLayout} from '~/components/uikit/AvatarStatusLayout';
-import baseAvatarStyles from '~/components/uikit/BaseAvatar.module.css';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import i18n from '~/i18n';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import PresenceStore from '~/stores/PresenceStore';
-import UserStore from '~/stores/UserStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import {getGroupDMAccentColor} from '~/utils/GroupDMColorUtils';
-import {cdnUrl} from '~/utils/UrlUtils';
-import styles from './GroupDMAvatar.module.css';
+import type React from 'react';
+import {useId, useMemo} from 'react';
 
 function computeGroupStatus(channel: ChannelRecord): string | null {
 	const memberIds = new Set<string>(channel.recipientIds);
@@ -113,7 +119,6 @@ function renderGroupStatusDot(status: string | null, size: number, isTyping?: bo
 						</div>
 					</div>
 				) : (
-					// biome-ignore lint/a11y/noSvgWithoutTitle: decorative SVG, parent has aria-label
 					<svg width={layout.innerStatusWidth} height={layout.innerStatusHeight} viewBox="0 0 1 1" aria-hidden>
 						<rect
 							x={0}
@@ -137,21 +142,25 @@ function renderTypingCutouts(layout: AvatarStatusLayout): Array<React.ReactNode>
 	const cy = layout.cutoutCy;
 	const r = layout.cutoutRadius;
 
+	const typingBridgeShift = extendW * TYPING_BRIDGE_RIGHT_SHIFT_RATIO;
+	const bridgeX = cx - extendW + typingBridgeShift;
+	const typingRightCapX = cx + typingBridgeShift;
+
 	if (r <= 0) return [];
 	if (extendW <= 0) {
 		return [<circle key="status-cutout" cx={cx} cy={cy} r={r} fill="black" />];
 	}
 
 	return [
-		<circle key="typing-right-cap" cx={cx} cy={cy} r={r} fill="black" />,
-		<rect key="typing-bridge" x={cx - extendW} y={cy - r} width={extendW} height={r * 2} fill="black" />,
-		<circle key="typing-left-cap" cx={cx - extendW} cy={cy} r={r} fill="black" />,
+		<circle key="typing-right-cap" cx={typingRightCapX} cy={cy} r={r} fill="black" />,
+		<rect key="typing-bridge" x={bridgeX} y={cy - r} width={extendW} height={r * 2} fill="black" />,
+		<circle key="typing-left-cap" cx={bridgeX} cy={cy} r={r} fill="black" />,
 	];
 }
 
 interface GroupDMAvatarProps {
 	channel: ChannelRecord;
-	size: number;
+	size: MediaProxyImageSize;
 	isTyping?: boolean;
 	disableStatusIndicator?: boolean;
 	statusOverride?: StatusType | null;
@@ -215,12 +224,12 @@ function getAvatarPosition(count: number, index: number, size: number): AvatarPo
 export const GroupDMAvatar: React.FC<GroupDMAvatarProps> = observer(
 	({channel, size, isTyping = false, disableStatusIndicator = false, statusOverride}) => {
 		const currentUser = UserStore.currentUser;
-		const iconUrl = AvatarUtils.getChannelIconURL({id: channel.id, icon: channel.icon}, size * 2);
-		const accentColor = React.useMemo(() => getGroupDMAccentColor(channel.id), [channel.id]);
+		const iconUrl = AvatarUtils.getChannelIconURL({id: channel.id, icon: channel.icon});
+		const accentColor = useMemo(() => getGroupDMAccentColor(channel.id), [channel.id]);
 		const shouldShowStatusIndicator = !disableStatusIndicator;
 		const status = shouldShowStatusIndicator ? (statusOverride ?? computeGroupStatus(channel)) : null;
 		const statusForIndicator = status === StatusTypes.ONLINE ? status : null;
-		const groupMaskId = React.useId();
+		const groupMaskId = useId();
 
 		if (iconUrl) {
 			const layout = getAvatarStatusLayout(size);

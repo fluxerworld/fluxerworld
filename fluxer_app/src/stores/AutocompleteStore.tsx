@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
 import {makeAutoObservable} from 'mobx';
-import {Logger} from '~/lib/Logger';
 
 const logger = new Logger('AutocompleteStore');
 

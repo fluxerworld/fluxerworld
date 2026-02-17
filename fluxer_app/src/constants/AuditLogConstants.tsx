@@ -17,22 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {AuditLogActionType} from '@fluxer/constants/src/AuditLogActionType';
+import type {ValueOf} from '@fluxer/constants/src/ValueOf';
 import type {I18n, MessageDescriptor} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
-import {AuditLogActionType} from './AuditLogActionType';
 
 export const AUDIT_LOG_TARGET_TYPES = {
+	ALL: 'all',
 	GUILD: 'guild',
 	MEMBER: 'member',
+	USER: 'user',
 	ROLE: 'role',
 	CHANNEL: 'channel',
 	EMOJI: 'emoji',
 	STICKER: 'sticker',
 	INVITE: 'invite',
 	WEBHOOK: 'webhook',
+	MESSAGE: 'message',
 } as const;
 
-export type AuditLogTargetType = (typeof AUDIT_LOG_TARGET_TYPES)[keyof typeof AUDIT_LOG_TARGET_TYPES];
+export type AuditLogTargetType = ValueOf<typeof AUDIT_LOG_TARGET_TYPES>;
 
 export interface AuditLogActionDefinition {
 	value: AuditLogActionType;
@@ -230,14 +234,17 @@ export function getTranslatedAuditLogActions(i18n: I18n): Array<{
 }
 
 export const AUDIT_LOG_TARGET_LABELS: Record<AuditLogTargetType, MessageDescriptor> = {
+	[AUDIT_LOG_TARGET_TYPES.ALL]: msg`All`,
 	[AUDIT_LOG_TARGET_TYPES.GUILD]: msg`Community`,
 	[AUDIT_LOG_TARGET_TYPES.MEMBER]: msg`Member`,
+	[AUDIT_LOG_TARGET_TYPES.USER]: msg`User`,
 	[AUDIT_LOG_TARGET_TYPES.ROLE]: msg`Role`,
 	[AUDIT_LOG_TARGET_TYPES.CHANNEL]: msg`Channel`,
 	[AUDIT_LOG_TARGET_TYPES.EMOJI]: msg`Emoji`,
 	[AUDIT_LOG_TARGET_TYPES.STICKER]: msg`Sticker`,
 	[AUDIT_LOG_TARGET_TYPES.INVITE]: msg`Invite`,
 	[AUDIT_LOG_TARGET_TYPES.WEBHOOK]: msg`Webhook`,
+	[AUDIT_LOG_TARGET_TYPES.MESSAGE]: msg`Message`,
 };
 
 export function getTranslatedAuditLogTargetLabels(i18n: I18n): Record<AuditLogTargetType, string> {

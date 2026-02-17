@@ -17,30 +17,31 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import styles from '@app/components/channel/MemberListItem.module.css';
+import {PreloadableUserPopout} from '@app/components/channel/PreloadableUserPopout';
+import {UserTag} from '@app/components/channel/UserTag';
+import {CustomStatusDisplay} from '@app/components/common/custom_status_display/CustomStatusDisplay';
+import {GroupDMMemberContextMenu} from '@app/components/uikit/context_menu/GroupDMContextMenu';
+import {GuildMemberContextMenu} from '@app/components/uikit/context_menu/GuildMemberContextMenu';
+import {FocusRingWrapper} from '@app/components/uikit/FocusRingWrapper';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useMemberListCustomStatus} from '@app/hooks/useMemberListCustomStatus';
+import {useMemberListPresence} from '@app/hooks/useMemberListPresence';
+import type {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import ContextMenuStore from '@app/stores/ContextMenuStore';
+import TypingStore from '@app/stores/TypingStore';
+import * as NicknameUtils from '@app/utils/NicknameUtils';
+import {isOfflineStatus} from '@fluxer/constants/src/StatusConstants';
 import {useLingui} from '@lingui/react/macro';
 import {CrownIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {autorun} from 'mobx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import {isOfflineStatus} from '~/Constants';
-import {PreloadableUserPopout} from '~/components/channel/PreloadableUserPopout';
-import {UserTag} from '~/components/channel/UserTag';
-import {CustomStatusDisplay} from '~/components/common/CustomStatusDisplay/CustomStatusDisplay';
-import {GroupDMMemberContextMenu} from '~/components/uikit/ContextMenu/GroupDMContextMenu';
-import {GuildMemberContextMenu} from '~/components/uikit/ContextMenu/GuildMemberContextMenu';
-import {FocusRingWrapper} from '~/components/uikit/FocusRingWrapper';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useMemberListCustomStatus} from '~/hooks/useMemberListCustomStatus';
-import {useMemberListPresence} from '~/hooks/useMemberListPresence';
-import type {UserRecord} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ContextMenuStore from '~/stores/ContextMenuStore';
-import TypingStore from '~/stores/TypingStore';
-import * as NicknameUtils from '~/utils/NicknameUtils';
-import styles from './MemberListItem.module.css';
+import type React from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 
 interface MemberListItemProps {
 	user: UserRecord;
@@ -56,7 +57,7 @@ export const MemberListItem: React.FC<MemberListItemProps> = observer((props) =>
 	const {t} = useLingui();
 	const {user, channelId, guildId, isOwner = false, roleColor, displayName, disableBackdrop = false} = props;
 
-	const itemRef = React.useRef<HTMLButtonElement>(null);
+	const itemRef = useRef<HTMLButtonElement>(null);
 	const status = useMemberListPresence({
 		guildId: guildId ?? '',
 		channelId,
@@ -69,12 +70,12 @@ export const MemberListItem: React.FC<MemberListItemProps> = observer((props) =>
 		userId: user.id,
 		enabled: guildId !== undefined,
 	});
-	const [contextMenuOpen, setContextMenuOpen] = React.useState(false);
+	const [contextMenuOpen, setContextMenuOpen] = useState(false);
 
 	const isTyping = TypingStore.isTyping(channelId, user.id);
 	const isCurrentUser = user.id === AuthenticationStore.currentUserId;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const disposer = autorun(() => {
 			const contextMenu = ContextMenuStore.contextMenu;
 			const targetElement = contextMenu?.target.target;
@@ -88,7 +89,7 @@ export const MemberListItem: React.FC<MemberListItemProps> = observer((props) =>
 		};
 	}, []);
 
-	const handleContextMenu = React.useCallback(
+	const handleContextMenu = useCallback(
 		(event: React.MouseEvent) => {
 			event.preventDefault();
 			event.stopPropagation();

@@ -1,0 +1,21 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "CHANNEL_RECIPIENT_REMOVE",
+	"description": "Sent when a user is removed from a group DM.",
+	"scope": "presence",
+	"dispatchedBy": ["DELETE /channels/:channel_id/recipients/:user_id"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID of the group DM"
+			},
+			"user": {
+				"$ref": "UserPartialResponse",
+				"description": "The user that was removed"
+			}
+		},
+		"required": ["channel_id", "user"]
+	}
+}

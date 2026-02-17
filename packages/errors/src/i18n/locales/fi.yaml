@@ -1,0 +1,497 @@
+account.already_verified: Tilisi on jo vahvistettu.
+account.communication_disabled: Viestintä on poistettu käytöstä.
+account.disabled: Tämä tili on poistettu käytöstä.
+account.email_verification_required_for_guild: Sinun pitää vahvistaa sähköpostisi, jotta voit lähettää viestejä tällä palvelimella.
+account.guild_verification_required: Palvelimen vahvistus vaaditaan.
+account.ip_authorization_required: IP-valtuutus vaaditaan.
+account.locked_suspicious_activity: Tilisi on lukittu epäilyttävän toiminnan vuoksi.
+account.phone_required_for_guild: Sinun pitää lisätä puhelinnumero, jotta voit lähettää viestejä tällä palvelimella.
+account.scheduled_for_deletion: Tämä tili on ajastettu poistettavaksi.
+account.session_timeout: Istunto vanheni. Päivitä sivu ja kirjaudu uudelleen.
+account.session_token_mismatch: Istuntotoken ei täsmää.
+account.suspended_permanently: Tämä tili on jäädytetty pysyvästi.
+account.suspended_temporarily: Tämä tili on jäädytetty väliaikaisesti.
+account.too_new_for_guild: Tilisi on liian uusi, jotta voit lähettää viestejä tällä palvelimella.
+account.unauthorized: Ei valtuutusta.
+admin_and_system.acls_must_be_non_empty: ACL:t eivät voi olla tyhjiä.
+admin_and_system.admin_api_key_not_found: Ylläpitäjän API-avainta ei löytynyt.
+admin_and_system.audit_log_indexing: Auditin lokeja indeksoidaan. Yritä uudelleen hetken päästä.
+admin_and_system.channel_indexing: Kanavia indeksoidaan. Yritä uudelleen hetken päästä.
+admin_and_system.creation_failed: Resurssia ei voitu luoda. Yritä uudelleen.
+admin_and_system.deletion_failed: Resurssia ei voitu poistaa. Yritä uudelleen.
+admin_and_system.decryption_failed: Viestin salauksen purkaminen epäonnistui. Salausavaimet voivat olla virheelliset tai korruptuneet.
+admin_and_system.empty_encrypted_body: Tyhjä salattu sisältö.
+admin_and_system.encryption_failed: Viestin salaaminen epäonnistui. Salausavaimet voivat olla virheelliset tai korruptuneet.
+admin_and_system.general_error: Jotain meni pieleen. Yritä uudelleen myöhemmin.
+admin_and_system.invalid_acls_format: Virheellinen ACL-muoto.
+admin_and_system.invalid_api_origin: Virheellinen API-alkuperä.
+admin_and_system.invalid_audit_log_reason: Virheellinen auditin lokien peruste.
+admin_and_system.invalid_bot_flag: Virheellinen bottilippu.
+admin_and_system.invalid_decrypted_json: Virheellinen purettu JSON.
+admin_and_system.invalid_ephemeral_key: Virheellinen satunnainen avain.
+admin_and_system.invalid_flags_format: Virheellinen lippujen muoto.
+admin_and_system.invalid_form_body: Virheellinen lomakkeen runko.
+admin_and_system.invalid_format: Annettu arvo on virheellisessä muodossa.
+admin_and_system.invalid_integer_format: Virheellinen kokonaisluvun muoto.
+admin_and_system.invalid_iv: Virheellinen alustamisvektori.
+admin_and_system.invalid_suspicious_flags_format: Virheellinen epäilyttävien lippujen muoto.
+admin_and_system.invalid_system_flag: Virheellinen järjestelmälippu.
+admin_and_system.invalid_timeout_value: Virheellinen aikakatkaisu-arvo.
+admin_and_system.invalid_timestamp: Virheellinen aikaleima.
+admin_and_system.invalid_timezone_identifier: Virheellinen aikavyöhykkeen tunnus.
+admin_and_system.missing_acl: ACL puuttuu.
+admin_and_system.missing_ephemeral_key: Satunnainen avain puuttuu.
+admin_and_system.missing_iv: Alustamisvektori puuttuu.
+admin_and_system.must_be_iso_timestamp: Pitää olla kelvollinen ISO-aikaleima.
+admin_and_system.processing_failed: Pyyntöä ei voitu käsitellä. Yritä uudelleen.
+admin_and_system.response_validation_failed: 'Vastausvalidointi epäonnistui: {errors}.'
+admin_and_system.test_harness_disabled: Testikehys on poistettu käytöstä.
+admin_and_system.test_harness_forbidden: Testikehykseen ei ole oikeutta.
+admin_and_system.unknown_suspicious_flag: Tuntematon epäilyttävä lippu.
+admin_and_system.update_failed: Resurssia ei voitu päivittää. Yritä uudelleen.
+admin_and_system.user_must_be_bot_for_system_user: Käyttäjän pitää olla botti, jotta sen voi merkitä järjestelmäkäyttäjäksi.
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` ja `expires_at` vaaditaan.'
+attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` ja `message_id` pitää olla kelvollisia kokonaislukuja.'
+attachments_and_uploads.cannot_edit_attachment_metadata: Käyttäjät, joilla on MANAGE_MESSAGES, voivat muokata vain liitteiden kuvauksia, eivät muita metatietoja.
+attachments_and_uploads.attachment_metadata_without_files: Liitteen metatiedoissa oli tiedostonimi, mutta tiedostoja ei ladattu.
+attachments_and_uploads.attachment_must_be_image: Liitteen '{filename}' pitää olla kuvatiedosto (png, jpg, jpeg, webp tai gif).
+attachments_and_uploads.attachment_not_found_in_message: Liitettä ID:llä {attachmentId} ei löytynyt viestistä.
+attachments_and_uploads.attachments_metadata_required_when_uploading: Liitteiden metatietotaulukko vaaditaan tiedostoja ladattaessa.
+attachments_and_uploads.attachments_not_allowed_for_message: Liitteitä ei sallita tälle viestille.
+attachments_and_uploads.cannot_reference_attachments_without_attachments: Et voi viitata liitteisiin, jos liitteitä ei ole annettu.
+attachments_and_uploads.duplicate_attachment_ids_not_allowed: Tuplaliite-ID:t eivät ole sallittuja.
+attachments_and_uploads.duplicate_file_index: 'Tuplatiedostoindeksi: {index}.'
+attachments_and_uploads.failed_to_parse_multipart_form_data: Multipart-form-dataa ei voitu jäsentää. Tarkista, että kenttien nimet ja tiedostonimet ovat oikein.
+attachments_and_uploads.failed_to_parse_multipart_payload: Multipart-payloadia ei voitu jäsentää.
+attachments_and_uploads.failed_to_upload_image: Kuvaa ei voitu ladata. Yritä uudelleen.
+attachments_and_uploads.file_index_exceeds_maximum: Tiedostoindeksi {index} ylittää suurimman sallitun indeksin {maxIndex}.
+attachments_and_uploads.file_not_found_for_scanning: Skannausta varten tiedostoa ei löytynyt.
+attachments_and_uploads.file_not_found: Tiedostoa ei löytynyt.
+attachments_and_uploads.file_size_too_large: Tiedosto on liian suuri. Suurin sallittu tiedoston koko on {maxSize}.
+attachments_and_uploads.filename_empty_after_normalization: Tiedostonimi ei voi olla tyhjä normalisoinnin jälkeen.
+attachments_and_uploads.filename_invalid_characters: Tiedostonimessä on virheellisiä merkkejä.
+attachments_and_uploads.filename_length_invalid: Tiedostonimen pituuden pitää olla {min}–{max} merkkiä.
+attachments_and_uploads.filename_mismatch_for_attachment: "Tiedostonimi ei täsmää liitteelle {attachmentId}: metatiedoissa on '{expectedFilename}', mutta se ei täsmää."
+attachments_and_uploads.image_size_exceeds_limit: Kuvan koko ylittää rajan {maxSize} tavua.
+attachments_and_uploads.invalid_file_field_name: 'Virheellinen tiedostokentän nimi: {key}. Odotettu muoto: `files[N]`, jossa N on numero.'
+attachments_and_uploads.invalid_image_data: Virheelliset kuvatiedot.
+attachments_and_uploads.invalid_image_format: 'Virheellinen kuvatiedostomuoto. Tuetut päätteet: {supportedExtensions}.'
+attachments_and_uploads.invalid_json_in_payload_json: Virheellinen JSON `payload_json`-kentässä.
+attachments_and_uploads.multiple_files_for_index_not_allowed: Useampi tiedosto indeksille {index} ei ole sallittu.
+attachments_and_uploads.no_file_uploaded_for_attachment_metadata: Liitteen metatiedoille ID:llä {attachmentId} ei ole ladattu tiedostoa.
+attachments_and_uploads.no_file_uploaded_for_attachment: Liitteelle ID:llä {attachmentId} ei ole ladattu tiedostoa.
+attachments_and_uploads.no_metadata_for_file: Tiedostolle ID:llä {fileId} ei annettu metatietoja.
+attachments_and_uploads.no_valid_media_in_message: Viestistä ei löytynyt kelvollista mediaa.
+attachments_and_uploads.payload_json_required_for_multipart: '`payload_json`-kenttä vaaditaan multipart-viesteissä.'
+attachments_and_uploads.preview_must_be_jpeg: Esikatselun pitää olla JPEG.
+attachments_and_uploads.referenced_attachment_not_found: Viitattua liitettä '{filename}' ei löytynyt viestin liitteistä.
+attachments_and_uploads.size_bytes_must_be_valid_integer: '`size_bytes` pitää olla kelvollinen kokonaisluku.'
+attachments_and_uploads.too_many_files: Liikaa tiedostoja. Enintään {maxFiles} {maxFiles, plural, one {tiedosto} other {tiedostoa}} sallitaan.
+attachments_and_uploads.unknown_image_format: Tuntematon kuvatiedostomuoto.
+attachments_and_uploads.unresolved_attachment_url: Havaittiin ratkaisematon `attachment://`-URL. Tämän olisi pitänyt ratketa ennen upotusten käsittelyä.
+attachments_and_uploads.uploaded_attachment_not_found: Ladattua liitettä '{filename}' ei löytynyt.
+auth_and_oauth.application_not_owned: Et omista tätä sovellusta.
+auth_and_oauth.bot_already_in_guild: Tämä botti on jo guildissa.
+auth_and_oauth.bot_users_cannot_create_auth_sessions: Bottikäyttäjät eivät voi luoda auth-istuntoja.
+auth_and_oauth.bot_users_cannot_use_auth_endpoints: Bottikäyttäjät eivät voi käyttää auth-endpointeja.
+auth_and_oauth.handoff_code_expired: Handoff-koodi on vanhentunut.
+auth_and_oauth.handoff_code_invalid: Virheellinen handoff-koodi.
+auth_and_oauth.http_get_authorize_not_supported: GET /oauth2/authorize ei ole tuettu. Käytä POST /oauth2/authorize/consent.
+auth_and_oauth.invalid_client_secret: Virheellinen client secret.
+auth_and_oauth.invalid_client: Virheellinen asiakas.
+auth_and_oauth.invalid_code: Virheellinen koodi.
+auth_and_oauth.invalid_grant: Virheellinen grant.
+auth_and_oauth.invalid_or_expired_authorization_ticket: Valtuutuslippu on virheellinen tai vanhentunut.
+auth_and_oauth.invalid_or_expired_authorization_token: Valtuutustoken on virheellinen tai vanhentunut.
+auth_and_oauth.invalid_or_expired_ticket: Lippu on virheellinen tai vanhentunut.
+auth_and_oauth.invalid_proof_token: Virheellinen proof-token.
+auth_and_oauth.invalid_redirect_uri: Virheellinen redirect URI.
+auth_and_oauth.invalid_request: Virheellinen pyyntö.
+auth_and_oauth.invalid_scope: Virheellinen scope.
+auth_and_oauth.invalid_sudo_token: Virheellinen sudo-token.
+auth_and_oauth.invalid_token_admin_api_key: Virheellinen ylläpitäjän API-avain.
+auth_and_oauth.missing_authorization: Valtuutus puuttuu.
+auth_and_oauth.missing_client_secret: Client secret puuttuu.
+auth_and_oauth.missing_redirect_uri: Redirect URI puuttuu.
+auth_and_oauth.must_start_session_before_sending_messages: Sinun pitää aloittaa istunto ennen viestien lähettämistä.
+auth_and_oauth.oauth_admin_scope_required: OAuth2-tokenit vaativat admin-scopen, jotta admin-endpointeihin pääsee.
+auth_and_oauth.oauth_fields_missing: OAuth-kenttiä puuttuu.
+auth_and_oauth.redirect_uri_required_for_non_bot_scopes: Redirect URI vaaditaan ei-botti-scopeille.
+auth_and_oauth.response_type_must_be_code_for_non_bot_scopes: Response typen täytyy olla code ei-botti-scopeille.
+auth_and_oauth.sudo_mode_required: Sudo-tila vaaditaan.
+auth_and_oauth.unknown_application: Tuntematon sovellus.
+auth_and_oauth.unsupported_response_type: Response type ei ole tuettu.
+auth_and_registration.current_password_incorrect: Nykyinen salasana on virheellinen.
+auth_and_registration.password_is_too_common: Salasanasi on liian yleinen. Valitse ainutlaatuisempi salasana.
+auth_and_registration.password_not_set: Salasanaa ei ole asetettu.
+bots.bot_application_not_found: Bottisovellusta ei löytynyt.
+bots.bot_discriminator_cannot_be_changed: Botin erotinta ei voi muuttaa.
+bots.bot_is_private: Tämä botti on yksityinen.
+bots.bot_user_generation_failed: Bottikäyttäjän luominen epäonnistui.
+bots.bot_user_not_found: Bottikäyttäjää ei löytynyt.
+bots.invalid_response_type_for_non_bot: Response typen täytyy olla code ei-botti-scopeille.
+bots.not_a_bot_application: Tämä sovellus ei ole botti.
+calls_and_voice.call_already_exists: Puhelu on jo olemassa.
+calls_and_voice.cannot_modify_voice_state: Et voi muokata puhetilaa.
+calls_and_voice.invalid_or_restricted_rtc_region: 'Virheellinen tai rajoitettu RTC-alue: {region}.'
+calls_and_voice.invalid_rtc_region: 'Virheellinen RTC-alue: {region}. Saatavilla olevat alueet: {availableRegions}.'
+calls_and_voice.invalid_stream_key_format: Virheellinen striimiavaimen muoto.
+calls_and_voice.invalid_stream_thumbnail_payload: Virheellinen striimin pikkukuvan payload.
+calls_and_voice.no_active_call: Ei aktiivista puhelua.
+calls_and_voice.stream_key_channel_mismatch: Striimiavaimen kanava ei täsmää.
+calls_and_voice.stream_key_scope_mismatch: Striimiavaimen scope ei täsmää.
+calls_and_voice.stream_thumbnail_payload_empty: Striimin pikkukuvan payload on tyhjä.
+calls_and_voice.unknown_voice_region: Tuntematon äänialue.
+calls_and_voice.unknown_voice_server: Tuntematon äänipalvelin.
+calls_and_voice.voice_message_duration_exceeds_limit: Ääniviestin kesto ei voi ylittää {maxDuration} sekuntia.
+calls_and_voice.voice_message_duration_required: Ääniviestin liitteissä pitää olla kesto.
+calls_and_voice.voice_message_waveform_required: Ääniviestin liitteissä pitää olla aaltomuotodata.
+calls_and_voice.voice_messages_require_single_attachment: Ääniviestissä pitää olla tasan yksi liite.
+captcha.invalid: Virheellinen captcha.
+captcha.required: Captcha vaaditaan.
+channels_and_guilds.afk_channel_must_be_in_guild: AFK-kanavan pitää olla tällä palvelimella.
+channels_and_guilds.afk_channel_must_be_voice: AFK-kanavan pitää olla puhekanava.
+channels_and_guilds.all_channels_must_belong_to_guild: Kaikkien kanavien pitää kuulua tälle palvelimelle.
+channels_and_guilds.animated_guild_banner_requires_feature: Animoitu palvelinbanneri vaatii ANIMATED_BANNER-ominaisuuden.
+channels_and_guilds.cannot_execute_on_dm: Tätä toimintoa ei voi tehdä yksityisviestissä.
+channels_and_guilds.cannot_transfer_ownership_to_bot: Palvelimen omistajuutta ei voi siirtää botille.
+channels_and_guilds.cannot_leave_guild_as_owner: Et voi poistua palvelimelta omistajana. Siirrä omistajuus tai poista palvelin.
+channels_and_guilds.cannot_position_channel_relative_to_itself: Et voi siirtää kanavaa suhteessa itseensä tai sen alikanaviin.
+channels_and_guilds.cannot_report_own_guild: Et voi ilmoittaa omasta palvelimestasi.
+channels_and_guilds.categories_cannot_have_parent_channel: Kategorioilla ei voi olla yläkanavaa.
+channels_and_guilds.categories_cannot_have_parents: Kategorioilla ei voi olla yläkategorioita.
+channels_and_guilds.channel_id_required: '`channel_id` vaaditaan.'
+channels_and_guilds.channel_must_be_dm_or_group_dm: Kanavan pitää olla yksityisviesti tai ryhmäyksityisviesti.
+channels_and_guilds.channel_must_be_voice: Kanavan pitää olla puhekanava.
+channels_and_guilds.channel_not_found: Kanavaa ei löytynyt.
+channels_and_guilds.context_channel_or_guild_required: Kontekstikanava tai palvelimen ID vaaditaan.
+channels_and_guilds.guild_banner_requires_feature: Palvelinbanneri vaatii BANNER-ominaisuuden.
+channels_and_guilds.guild_id_must_match_referenced_message: Palvelimen ID:n pitää täsmätä sen kanavan kanssa, josta viitattu viesti haettiin.
+channels_and_guilds.invalid_channel_id: 'Virheellinen kanavan ID: {channelId}.'
+channels_and_guilds.invalid_channel_type_for_call: Virheellinen kanavatyyppi puhelulle.
+channels_and_guilds.invalid_channel_type: Virheellinen kanavatyyppi.
+channels_and_guilds.invalid_channel: Virheellinen kanava.
+channels_and_guilds.invalid_parent_channel: Virheellinen yläkanava.
+channels_and_guilds.invite_splash_requires_feature: Kutsusivu vaatii INVITE_SPLASH-ominaisuuden.
+channels_and_guilds.invites_disabled: Kutsut on poistettu käytöstä.
+channels_and_guilds.max_group_dm_recipients_reached: Olet saavuttanut enimmäismäärän {count} ryhmäyksityisviestin {count, plural, one {vastaanottajasta} other {vastaanottajasta}}.
+channels_and_guilds.max_group_dms_reached: Olet saavuttanut enimmäismäärän {count} ryhmä{count, plural, one {yksityisviestistä} other {yksityisviestistä}}.
+channels_and_guilds.message_history_cutoff_before_guild_creation: Viestitietojen leikkauskohta ei voi olla ennen yhteisön luomista.
+channels_and_guilds.message_history_cutoff_in_future: Viestitietojen leikkauskohta ei voi olla tulevaisuudessa.
+channels_and_guilds.max_guild_channels_reached: Olet saavuttanut enimmäismäärän {count} palvelimen {count, plural, one {kanavasta} other {kanavasta}}.
+channels_and_guilds.max_guild_members_reached: Olet saavuttanut enimmäismäärän {count} palvelimen {count, plural, one {jäsenestä} other {jäsenestä}}.
+channels_and_guilds.max_guild_roles_reached: Olet saavuttanut enimmäismäärän {count} palvelimen {count, plural, one {roolista} other {roolista}}.
+channels_and_guilds.max_guilds_reached: Olet saavuttanut enimmäismäärän {count} {count, plural, one {palvelimesta} other {palvelimesta}}.
+channels_and_guilds.parent_channel_not_in_guild: Yläkanavaa ei ole tällä palvelimella.
+channels_and_guilds.parent_must_be_category: Ylätason pitää olla kategoria.
+channels_and_guilds.preceding_channel_must_share_parent: Edeltävän kanavan pitää olla samassa yläkategoriassa kuin siirrettävä kanava.
+channels_and_guilds.preceding_channel_not_in_guild: Edeltävää kanavaa ei ole tällä palvelimella.
+channels_and_guilds.system_channel_must_be_in_guild: Järjestelmäkanavan pitää olla tällä palvelimella.
+channels_and_guilds.system_channel_must_be_text: Järjestelmäkanavan pitää olla tekstikanava.
+channels_and_guilds.temporary_invite_requires_presence: Väliaikainen kutsu vaatii läsnäolon.
+channels_and_guilds.vanity_url_requires_feature: Oma URL vaatii VANITY_URL-ominaisuuden.
+channels_and_guilds.voice_channel_full: Puhekanava on täynnä.
+channels_and_guilds.voice_channels_cannot_be_above_text_channels: Puhekanavia ei voi siirtää tekstikanavien yläpuolelle saman kategorian sisällä.
+colors.color_value_too_high: Väriarvo ei saa ylittää 0xffffff.
+colors.color_value_too_low: Väriarvon pitää olla vähintään 0x000000.
+content_and_safety.content_blocked: Turvajärjestelmät estivät tämän sisällön.
+content_and_safety.csam_scan_failed: CSAM-skannaus epäonnistui.
+content_and_safety.csam_scan_parse_error: CSAM-skannaus jäsennyvirhe.
+content_and_safety.csam_scan_subscription_error: CSAM-skannaus tilausvirhe.
+content_and_safety.csam_scan_timeout: CSAM-skannaus aikakatkaisu.
+content_and_safety.explicit_content_cannot_be_sent: Seksuaalissävytteistä sisältöä ei voi lähettää.
+content_and_safety.ncmec_already_submitted: Tämä sisältö on jo ilmoitettu NCMEC:lle.
+content_and_safety.ncmec_submission_failed: Ilmoitusta ei voitu lähettää NCMEC:lle. Yritä myöhemmin uudelleen.
+content_and_safety.nsfw_age_restricted: NSFW-sisältö on ikärajoitettua.
+connections.already_exists: Tämän tyyppinen yhteys tällä tunnisteella on jo olemassa.
+connections.bluesky_oauth_callback_failed: Emme voineet suorittaa Bluesky-yhteyden muodostamista loppuun. Yritä uudelleen.
+connections.bluesky_oauth_not_enabled: Bluesky-yhteyksiä ei ole otettu käyttöön tällä palvelimella.
+connections.bluesky_oauth_session_expired: Bluesky-istuntosi on vanhentunut. Muodosta tilisi uudelleen.
+connections.bluesky_oauth_state_invalid: Valtuutuspyyntö on vanhentunut tai virheellinen. Yritä uudelleen.
+connections.invalid_identifier: Yhteyden tunniste on virheellinen.
+connections.initiation_token_invalid: Yhteyden alustamistoken on virheellinen tai vanhentunut.
+connections.invalid_type: Yhteyden tyyppi ei ole tuettu.
+connections.limit_reached: Olet saavuttanut enimmäismäärän {limit} {limit, plural, one {yhteydestä} other {yhteydestä}}.
+connections.not_found: Tuntematon yhteys.
+connections.verification_failed: Yhteyden vahvistus epäonnistui. Varmista, että vahvistustoken on oikeassa paikassa.
+discovery.already_applied: Tämä yhteisö on jo hakenut hakemistoon.
+discovery.application_already_reviewed: Tämä hakemistohakemus on jo käsitelty.
+discovery.application_not_found: Hakemistohakemusta ei löytynyt.
+discovery.description_required: Hakemistoluetteloa varten vaaditaan kuvaus.
+discovery.insufficient_members: Tällä yhteisöllä ei ole tarpeeksi jäseniä hakemistoon.
+discovery.invalid_category: Virheellinen hakemistokategoria.
+discovery.not_discoverable: Tämä yhteisö ei ole hakemistossa.
+donation.amount_invalid: Lahjoituksen määrä on virheellinen.
+donation.donor_not_found: Lahjoittajaa ei löytynyt.
+donation.magic_link_expired: Maaginen linkki on vanhentunut.
+donation.magic_link_invalid: Maaginen linkki on virheellinen.
+donation.magic_link_used: Maaginen linkki on jo käytetty.
+email.email_already_in_use: Sähköpostiosoite on jo käytössä.
+email.email_required: Sähköpostiosoite vaaditaan.
+email.email_service_not_testable: Sähköpostipalvelua ei voi testata.
+email.invalid_format: Virheellinen sähköpostiosoitteen muoto.
+email.invalid_or_expired_reset_token: Salasanan nollaamistoken on virheellinen tai vanhentunut.
+email.invalid_or_expired_revert_token: Palautustoken on virheellinen tai vanhentunut.
+email.invalid_or_expired_verification_token: Vahvistustoken on virheellinen tai vanhentunut.
+email.invalid_or_password: Virheellinen sähköposti tai salasana.
+email.invalid_token: Virheellinen sähköpostitoken.
+email.invalid_verification_code: Virheellinen vahvistuskoodi.
+email.length_invalid: Sähköpostiosoitteen pituuden pitää olla {min}–{max} merkkiä.
+email.must_be_changed_via_token: Sähköposti pitää vaihtaa tokenin kautta.
+email.must_change_via_token: Sähköposti pitää vaihtaa `email_token`-tokenin kautta.
+email.must_have_email_to_change_it: Sinulla pitää olla sähköpostiosoite, jotta voit vaihtaa sen.
+email.new_email_must_be_different: Uuden sähköpostin pitää olla eri kuin nykyinen sähköpostiosoitteesi.
+email.no_new_email_requested: Uutta sähköpostia ei ole pyydetty.
+email.no_original_email_on_record: Alkuperäistä sähköpostia ei ole tallessa.
+email.original_email_already_verified: Alkuperäinen sähköposti on jo vahvistettu.
+email.original_email_must_be_verified_first: Alkuperäinen sähköposti pitää vahvistaa ensin.
+email.original_verification_not_required: Alkuperäistä vahvistusta ei vaadita tässä vaiheessa.
+email.token_expired: Sähköpostitoken on vanhentunut.
+email.user_has_no_email_address: Tällä käyttäjällä ei ole sähköpostiosoitetta.
+email.user_is_not_pending_verification: Tämä käyttäjä ei ole vahvistuksen odotuksessa.
+email.verification_code_expired: Vahvistuskoodi on vanhentunut.
+email.verification_code_not_issued: Vahvistuskoodia ei ole annettu.
+embeds.embed_index_out_of_bounds: Upotuksen indeksi {embedIndex} on rajojen ulkopuolella (viestissä on {embedCount} {embedCount, plural, one {upotus} other {upotusta}}).
+embeds.embed_splash_requires_feature: Upotuksen splash vaatii INVITE_SPLASH-ominaisuuden.
+embeds.embeds_exceed_max_characters: Upotukset eivät saa ylittää yhteensä {maxCharacters} {maxCharacters, plural, one {merkkiä} other {merkkiä}}.
+embeds.too_many_embeds: Liikaa upotuksia. Enintään {maxEmbeds} {maxEmbeds, plural, one {upotus} other {upotusta}} sallitaan.
+feature_flags.feature_not_available_self_hosted: Tämä ominaisuus ei ole saatavilla itsepalveluissa.
+feature_flags.feature_temporarily_disabled: Tämä ominaisuus on väliaikaisesti poistettu käytöstä.
+friends_and_dms.already_friends: Olette jo kavereita tämän käyttäjän kanssa.
+friends_and_dms.at_least_one_recipient_required_to_seed_private_channels: Vähintään yksi vastaanottaja vaaditaan yksityisten kanavien alustamiseen.
+friends_and_dms.at_least_one_recipient_required: Vähintään yksi vastaanottaja vaaditaan.
+friends_and_dms.bots_cannot_send_friend_requests: Botit eivät voi lähettää kaveripyyntöjä.
+friends_and_dms.cannot_add_yourself_to_group_dm: Et voi lisätä itseäsi ryhmäyksityisviestiin.
+friends_and_dms.cannot_dm_yourself: Et voi lähettää itsellesi yksityisviestiä.
+friends_and_dms.cannot_send_friend_request_to_blocked_user: Et voi lähettää kaveripyyntöä estämällesi käyttäjälle.
+friends_and_dms.cannot_send_friend_request_to_self: Et voi lähettää kaveripyyntöä itsellesi.
+friends_and_dms.cannot_send_messages_to_user: Et voi lähettää viestejä tälle käyttäjälle.
+friends_and_dms.duplicate_recipients_not_allowed: Tuplavastaanottajat eivät ole sallittuja.
+friends_and_dms.friend_request_blocked: Käyttäjä ei hyväksy kaveripyyntöjä tällä hetkellä.
+friends_and_dms.not_friends: Et ole kaveri tämän käyttäjän kanssa.
+friends_and_dms.recipient_ids_cannot_be_empty: Vastaanottajien tunnukset eivät voi olla tyhjiä.
+friends_and_dms.recipient_ids_must_be_strings: Vastaanottajien tunnusten pitää olla merkkijonoja.
+friends_and_dms.recipient_ids_must_be_valid_snowflakes: Vastaanottajien tunnusten pitää olla kelvollisia snowflake-tunnuksia.
+harvest.expired: Harvest on vanhentunut.
+harvest.failed: Harvest epäonnistui.
+harvest.not_ready: Harvest ei ole vielä valmis.
+harvest.on_cooldown: Harvest on jäähdytyksellä.
+harvest.unknown: Tuntematon harvest.
+http.bad_gateway: Virheellinen yhdyskäytävä.
+http.bad_request: Virheellinen pyyntö.
+http.conflict: Ristiriita.
+http.forbidden: Kielletty.
+http.gateway_timeout: Yhdyskäytävän aikakatkaisu.
+http.gone: Poissa.
+http.internal_server_error: Sisäinen palvelinvirhe.
+http.method_not_allowed: Menetelmä ei ole sallittu.
+http.not_found: Ei löytynyt.
+http.not_implemented: Ei toteutettu.
+http.service_unavailable: Palvelu ei ole saatavilla.
+http.validation_error: Validointi epäonnistui.
+invites_and_beta.invalid_or_already_used_beta_code: Virheellinen tai jo käytetty beta-koodi.
+invites_and_beta.max_beta_codes_reached: Olet saavuttanut enimmäismäärän {count} beta {count, plural, one {koodista} other {koodista}}.
+invites_and_beta.unknown_beta_code: Tuntematon beta-koodi.
+invites_and_gifts.gift_code_already_redeemed: Lahjakoodi on jo lunastettu.
+invites_and_gifts.stripe_gift_redemption_in_progress: Lahjakoodin lunastus on kesken. Yritä hetken kuluttua uudelleen.
+invites_and_gifts.unknown_gift_code: Tuntematon lahjakoodi.
+invites_and_packs.emoji_requires_access: Et voi käyttää tätä emojia ilman pääsyä sen palvelimelle tai asennettuun pakettiin.
+invites_and_packs.invalid_pack_type: Virheellinen pakettityyppi.
+invites_and_packs.max_animated_emojis_reached: Olet saavuttanut enimmäismäärän {count} animoitua {count, plural, one {emojista} other {emojista}}.
+invites_and_packs.max_emojis_reached: Olet saavuttanut enimmäismäärän {count} {count, plural, one {emojista} other {emojista}}.
+invites_and_packs.max_pack_expressions_reached: Olet saavuttanut enimmäismäärän {count} paketin {count, plural, one {ilmaisusta} other {ilmaisusta}}.
+invites_and_packs.max_packs_reached: Olet saavuttanut enimmäismäärän {count} {count, plural, one {paketista} other {paketista}}.
+invites_and_packs.pack_access_denied: Pakettiin ei ole pääsyä.
+limits.at_least_one_entry_required: Vähintään yksi merkintä vaaditaan.
+limits.bucket_required: '`bucket` vaaditaan.'
+limits.cannot_shrink_reserved_slots: Et voi pienentää varattuja paikkoja.
+limits.cannot_specify_before_and_after: Et voi määrittää sekä `before` että `after`.
+limits.base64_length_invalid: Base64-merkkijonon pituuden pitää olla {min}–{maxLength} merkkiä.
+limits.content_exceeds_max_length: Teksti ei saa ylittää {maxLength} {maxLength, plural, one {merkkiä} other {merkkiä}}.
+limits.integer_out_of_int64_range: Kokonaisluvun arvo on int64-alueen ulkopuolella.
+limits.rows_required: '`rows` vaaditaan.'
+limits.string_length_exact: Merkkijonon pitää olla tasan {length} {length, plural, one {merkki} other {merkkiä}}.
+limits.timeout_cannot_exceed_365_days: Aikakatkaisu ei voi olla pidempi kuin {maxDays} {maxDays, plural, one {päivä} other {päivää}} nyt.
+limits.string_length_invalid: Merkkijonon pituuden pitää olla {min}–{max} merkkiä.
+limits.value_must_be_integer_in_range: Kentän `{name}` arvon pitää olla kokonaisluku välillä {minValue}–{maxValue}.
+limits.value_too_small: Arvo on liian pieni.
+media_and_memes.favorite_meme_name_required: Suosikkimeemin nimi vaaditaan.
+media_and_memes.favorite_meme_not_found: Suosikkimeemiä ei löytynyt.
+media_and_memes.max_favorite_memes_reached: Olet saavuttanut enimmäismäärän {count} suosikki {count, plural, one {meemistä} other {meemistä}}.
+media_and_memes.media_already_in_favorites: Tämä media on jo suosikkimeemeissäsi.
+media_and_memes.media_metadata_error: Median metatietovirhe.
+media_and_memes.unknown_favorite_meme: Tuntematon suosikkimeemi.
+messages.cannot_delete_more_than_100: Et voi poistaa enemmän kuin {max} {max, plural, one {viestiä} other {viestiä}} kerralla.
+messages.cannot_edit_others_message: Et voi muokata toisen käyttäjän viestiä.
+messages.cannot_preload_more_than_100_channels: Et voi ladata etukäteen enemmän kuin {max} {max, plural, one {kanavaa} other {kanavaa}} kerralla.
+messages.cannot_reply_to_system_message: Et voi vastata järjestelmäviestiin.
+messages.cannot_send_empty_message: Et voi lähettää tyhjää viestiä.
+messages.forward_messages_cannot_include_extra_content: Edelleenlähetetyt viestit eivät voi sisältää sisältöä, upotuksia, liitteitä tai tarroja.
+messages.scheduled_messages_max_30_days: Ajastetut viestit voivat olla enintään 30 päivää tulevaisuudessa.
+messages.forward_reference_requires_channel_and_message: Edelleenlähetyksen viite vaatii `channel_id`- ja `message_id`-kentät.
+messages.invalid_message_data: Virheelliset viestitiedot.
+messages.invalid_scheduled_message_payload: Virheellinen ajastetun viestin payload.
+messages.message_ids_cannot_be_empty: '`message_ids` ei voi olla tyhjä.'
+messages.messages_array_required: '`messages`-taulukko vaaditaan eikä se saa olla tyhjä.'
+messages.messages_with_snapshots_cannot_be_edited: Tilannekuvia sisältäviä viestejä ei voi muokata.
+messages.scheduled_send_datetime_invalid: Virheellinen ajastusajan päivämäärä tai kellonaika.
+messages.scheduled_time_must_be_future: Ajastetun ajan pitää olla tulevaisuudessa.
+messages.voice_messages_attachment_must_be_audio: Ääniviestien liitteiden pitää olla äänitiedostoja.
+messages.voice_messages_cannot_have_content: Ääniviestissä ei voi olla tekstisisältöä.
+messages.voice_messages_cannot_have_embeds: Ääniviestissä ei voi olla upotuksia.
+messages.voice_messages_cannot_have_favorite_memes: Ääniviestissä ei voi olla suosikkimeemejä.
+messages.voice_messages_cannot_have_stickers: Ääniviestissä ei voi olla tarroja.
+mfa_and_passkeys.invalid_mfa_code: Virheellinen MFA-koodi.
+mfa_and_passkeys.invalid_webauthn_authentication_counter: Virheellinen WebAuthn-tunnistautumislaskuri.
+mfa_and_passkeys.invalid_webauthn_credential_counter: Virheellinen WebAuthn-valtuustiedon laskuri.
+mfa_and_passkeys.must_enable_2fa_before_enforcing_for_mods: Sinun pitää ottaa 2FA käyttöön tilillään ennen kuin voit vaatia sen moderaattoreilta.
+mfa_and_passkeys.invalid_webauthn_credential: Virheellinen WebAuthn-valtuustieto.
+mfa_and_passkeys.invalid_webauthn_public_key_format: Virheellinen WebAuthn-julkisen avaimen muoto.
+mfa_and_passkeys.no_passkeys_registered: Passkeyjä ei ole rekisteröity.
+mfa_and_passkeys.passkey_authentication_failed: Passkey-tunnistautuminen epäonnistui.
+mfa_and_passkeys.passkeys_disabled: Passkeyt on poistettu käytöstä.
+mfa_and_passkeys.two_factor_not_enabled: Kaksivaiheinen tunnistautuminen ei ole käytössä.
+mfa_and_passkeys.two_factor_required: Kaksivaiheinen tunnistautuminen vaaditaan.
+mfa_and_passkeys.unknown_webauthn_credential: Tuntematon WebAuthn-valtuustieto.
+mfa_and_passkeys.webauthn_credential_limit_reached: Olet saavuttanut enimmäismäärän {count} WebAuthn {count, plural, one {valtuustiedosta} other {valtuustiedosta}}.
+misc_limits.max_bookmarks_reached: Olet saavuttanut enimmäismäärän {count} {count, plural, one {kirjanmerkistä} other {kirjanmerkistä}}.
+misc_limits.max_category_channels_reached: Olet saavuttanut enimmäismäärän {count} kategoria {count, plural, one {kanavasta} other {kanavasta}}.
+misc_limits.max_friends_reached: Olet saavuttanut enimmäismäärän {count} {count, plural, one {kaverista} other {kaverista}}.
+misc_limits.max_invites_reached: Olet saavuttanut enimmäismäärän {count} {count, plural, one {kutsusta} other {kutsusta}}.
+misc_limits.max_pins_per_channel_reached: Olet saavuttanut enimmäismäärän {count} {count, plural, one {kiinnityksestä} other {kiinnityksestä}} per kanava.
+misc.cannot_send_messages_in_non_text_channel: Et voi lähettää viestejä kanavalle, joka ei ole tekstikanava.
+misc.cannot_send_messages_in_this_guild_without_email_verification: Sinun pitää vahvistaa sähköpostisi, jotta voit lähettää viestejä tällä palvelimella.
+misc.invalid_job_id: Virheellinen job ID.
+misc.invalid_permissions_integer: Oikeuksien pitää olla kelvollinen kokonaisluku.
+misc.invalid_permissions_negative: Oikeudet eivät voi olla negatiivisia.
+misc.invalid_request_generic: Virheellinen pyyntö.
+misc.invalid_snowflake: Virheellinen snowflake.
+misc.job_already_processed: Työ on jo käsitelty.
+misc.job_id_required: Job ID vaaditaan.
+misc.job_not_found: Työtä ei löytynyt.
+misc.max_files_exceeded: Liikaa tiedostoja. Enintään {maxFiles} {maxFiles, plural, one {tiedosto} other {tiedostoa}} sallitaan.
+misc.must_have_bot_to_mark_system_user: Käyttäjän pitää olla botti, jotta sen voi merkitä järjestelmäkäyttäjäksi.
+moderation_and_reports.cannot_report_own_message: Et voi ilmoittaa omasta viestistäsi.
+moderation_and_reports.cannot_report_yourself: Et voi ilmoittaa itsestäsi.
+moderation_and_reports.invalid_dsa_report_target: Virheellinen DSA-ilmoituksen kohde.
+moderation_and_reports.invalid_dsa_ticket: Virheellinen DSA-lippu.
+moderation_and_reports.invalid_dsa_verification_code: Virheellinen DSA-vahvistuskoodi.
+moderation_and_reports.report_already_resolved: Ilmoitus on jo ratkaistu.
+moderation_and_reports.report_banned: Ilmoittaminen on estetty.
+moderation_and_reports.unknown_report: Tuntematon ilmoitus.
+moderation_and_reports.user_is_not_banned: Tämä käyttäjä ei ole bannattu.
+names_and_normalization.channel_name_empty_after_normalization: Kanavan nimi ei voi olla tyhjä normalisoinnin jälkeen.
+names_and_normalization.name_empty_after_normalization: Nimi ei voi olla tyhjä normalisoinnin jälkeen.
+permissions.missing_access: Pääsy puuttuu.
+permissions.missing_permissions: Oikeudet puuttuvat.
+permissions.not_owner_of_admin_api_key: Sinulla ei ole oikeutta muokata tätä ylläpitäjän API-avainta.
+permissions.user_banned_from_guild: Tämä käyttäjä on bannattu tältä palvelimelta.
+permissions.user_ip_banned_from_guild: Tämän käyttäjän IP on bannattu tältä palvelimelta.
+permissions.user_not_in_channel: Tämä käyttäjä ei ole tällä kanavalla.
+permissions.user_not_in_voice: Tämä käyttäjä ei ole puhekanavalla.
+permissions.user_owns_guilds: Tämä käyttäjä omistaa palvelimia.
+phone.invalid_number: Virheellinen puhelinnumero.
+phone.number_already_used: Puhelinnumero on jo käytössä.
+phone.number_format_required: Puhelinnumeron pitää olla E.164-muodossa (esimerkiksi +1234567890).
+phone.phone_required_for_sms_mfa: Puhelinnumero vaaditaan SMS-MFA:ta varten.
+phone.sms_mfa_not_enabled: SMS-MFA ei ole käytössä.
+phone.sms_mfa_requires_totp: SMS-MFA vaatii TOTP:n.
+phone.sms_verification_unavailable: SMS-vahvistus ei ole juuri nyt saatavilla. Yritä myöhemmin uudelleen.
+phone.verification_code_invalid: Virheellinen puhelinvahvistuskoodi.
+phone.verification_required: Puhelinvahvistus vaaditaan.
+premium_and_plans.animated_avatars_require_premium: Animoidut profiilikuvat vaativat Premiumin.
+premium_and_plans.banners_require_premium: Bannerit vaativat Premiumin.
+premium_and_plans.bio_requires_premium_for_length: Yli {maxLength} merkkiä pitkä esittely vaatii Premiumin.
+premium_and_plans.cannot_redeem_plutonium_with_visionary: Et voi lunastaa Plutoniumia Visionarylla.
+premium_and_plans.custom_emojis_outside_source_require_premium: Et voi käyttää omia emojeja niiden alkuperäisten palvelimien ulkopuolella ilman Premiumia.
+premium_and_plans.custom_stickers_in_dms_require_premium: Et voi käyttää omia tarroja yksityisviesteissä ilman Premiumia.
+premium_and_plans.custom_stickers_outside_source_require_premium: Et voi käyttää omia tarroja niiden alkuperäisten palvelimien ulkopuolella ilman Premiumia.
+premium_and_plans.discriminator_change_requires_premium: Tunnisteen vaihtaminen vaatii Premiumin.
+premium_and_plans.no_active_subscription: Ei aktiivista tilausta.
+premium_and_plans.no_visionary_slots_available: Visionary-paikkoja ei ole saatavilla.
+premium_and_plans.premium_required_for_custom_emoji: Oman emojin käyttö vaatii Premiumin.
+premium_and_plans.visionary_required_for_bot_discriminator: Sinun pitää olla Visionary-elinikäisellä paketilla, jotta voit muokata bottien tunnisteita.
+premium_and_plans.visionary_required_for_discriminator: Sinun pitää olla Visionary-elinikäisellä paketilla, jotta voit käyttää tuota tunnistetta.
+rate_limits.accent_color_changed_too_often: Olet vaihtanut korostusväriä liian monta kertaa viime aikoina. Yritä uudelleen {minutes} {minutes, plural, one {minuutin} other {minuutin}} kuluttua.
+rate_limits.avatar_changed_too_often: Olet vaihtanut profiilikuvan liian monta kertaa viime aikoina. Yritä uudelleen {minutes} {minutes, plural, one {minuutin} other {minuutin}} kuluttua.
+rate_limits.banner_changed_too_often: Olet vaihtanut bannerin liian monta kertaa viime aikoina. Yritä uudelleen {minutes} {minutes, plural, one {minuutin} other {minuutin}} kuluttua.
+rate_limits.bio_changed_too_often: Olet vaihtanut esittelyn liian monta kertaa viime aikoina. Yritä uudelleen {minutes} {minutes, plural, one {minuutin} other {minuutin}} kuluttua.
+rate_limits.ip_authorization_resend_cooldown: IP-valtuutuksen uudelleenlähetys on jäähdytyksellä.
+rate_limits.ip_authorization_resend_limit_exceeded: IP-valtuutuksen uudelleenlähetyksen raja ylittyi.
+rate_limits.phone_rate_limit_exceeded: Puhelinnumeron nopeusraja ylittyi.
+rate_limits.pronouns_changed_too_often: Olet vaihtanut pronominit liian monta kertaa viime aikoina. Yritä uudelleen {minutes} {minutes, plural, one {minuutin} other {minuutin}} kuluttua.
+rate_limits.rate_limited: Pyyntöjäsi rajoitetaan nyt.
+rate_limits.slowmode_rate_limited: 'Hidas tila: pyyntöjä rajoitetaan.'
+rate_limits.username_changed_too_often: Olet vaihtanut käyttäjänimeä liian monta kertaa viime aikoina. Yritä uudelleen {minutes} {minutes, plural, one {minuutin} other {minuutin}} kuluttua.
+roles.cannot_reorder_everyone_role: Et voi järjestää @everyone-roolia uudelleen.
+roles.cannot_set_everyone_hoist: Et voi asettaa @everyone-roolille hoist-sijaintia.
+roles.cannot_use_same_role_as_preceding: Et voi käyttää samaa roolia kuin edeltävä rooli.
+roles.invalid_role_id: 'Virheellinen roolin ID: {roleId}.'
+roles.parse_and_users_or_roles_cannot_be_used_together: Et voi käyttää `parse`-komentoa yhdessä `allowed_mentions.users` tai `allowed_mentions.roles` kanssa.
+roles.preceding_role_not_in_guild: Edeltävää roolia ei ole tällä palvelimella.
+stickers_and_emojis.custom_emoji_not_found: Omaa emojia ei löytynyt.
+stickers_and_emojis.custom_sticker_not_found: Omaa tarraa ei löytynyt.
+stickers_and_emojis.emoji_requires_guild_or_pack_access: Et voi käyttää tätä emojia ilman pääsyä sen palvelimelle tai asennettuun pakettiin.
+stickers_and_emojis.max_reactions_reached: Olet saavuttanut enimmäismäärän {count} {count, plural, one {reaktiosta} other {reaktiosta}}.
+stickers_and_emojis.max_stickers_reached: Olet saavuttanut enimmäismäärän {count} {count, plural, one {tarrasta} other {tarrasta}}.
+stickers_and_emojis.not_valid_unicode_emoji: Ei kelvollinen Unicode-emoji.
+stickers_and_emojis.unknown_emoji: Tuntematon emoji.
+stickers_and_emojis.unknown_sticker: Tuntematon tarra.
+stripe.error: Stripe-virhe.
+stripe.invalid_product_configuration: Virheellinen tuotekonfiguraatio.
+stripe.invalid_product_selection: Virheellinen tuotevalinta.
+stripe.no_active_subscription_found: Aktiivista tilausta ei löytynyt.
+stripe.no_purchase_history_customer_portal_unavailable: Ostohistoriaa ei löytynyt. Asiakasportaali ei ole saatavilla.
+stripe.no_subscription_found: Tilausta ei löytynyt.
+stripe.payment_not_available: Maksujen käsittely ei ole saatavilla.
+stripe.subscription_already_canceling: Tilaus on jo asetettu päättymään laskutuskauden lopussa.
+stripe.subscription_not_canceling: Tilausta ei ole asetettu päättymään.
+stripe.subscription_period_end_missing: subscription current_period_end puuttuu.
+stripe.webhook_not_available: Webhook-käsittely ei ole saatavilla.
+stripe.webhook_signature_invalid: Stripe-webhookin allekirjoitus on virheellinen.
+stripe.webhook_signature_missing: Stripe-webhookin allekirjoitus puuttuu.
+tickets.ticket_already_completed: Tämä tiketti on jo suoritettu.
+tos_and_age.date_of_birth_format_invalid: Virheellinen syntymäajan muoto.
+tos_and_age.must_agree_to_tos_and_privacy: Sinun pitää hyväksyä käyttöehdot ja tietosuojakäytäntö.
+tos_and_age.must_be_minimum_age: Sinun pitää olla vähintään {minAge} {minAge, plural, one {vuoden} other {vuoden}} ikäinen, jotta voit luoda tilin.
+unknown_entities.unknown_application: Tuntematon sovellus.
+unknown_entities.unknown_channel: Tuntematon kanava.
+unknown_entities.unknown_guild: Tuntematon palvelin.
+unknown_entities.unknown_invite: Tuntematon kutsu.
+unknown_entities.unknown_member: Tuntematon jäsen.
+unknown_entities.unknown_message: Tuntematon viesti.
+unknown_entities.unknown_pack: Tuntematon paketti.
+unknown_entities.unknown_role: Tuntematon rooli.
+unknown_entities.unknown_user_flag: Tuntematon käyttäjäflage.
+unknown_entities.unknown_user: Tuntematon käyttäjä.
+urls.invalid_url_format: Virheellinen URL-muoto.
+urls.invalid_url_or_attachment_reference: Virheellinen URL-muoto tai liiteviite.
+urls.url_length_invalid: URL:n pituuden pitää olla {min}–{max} merkkiä.
+usernames_and_tags.discriminator_invalid_format: Tunnisteen pitää olla {min}–{max} numeroa.
+usernames_and_tags.discriminator_out_of_range: Tunnisteen pitää olla välillä {min} ja {max}.
+usernames_and_tags.discriminator_required: Tunniste vaaditaan.
+usernames_and_tags.display_name_length_invalid: Näyttönimen pituuden pitää olla {min}–{max} merkkiä.
+usernames_and_tags.display_name_reserved_terms: Näyttönimi ei voi sisältää sanoja 'system message'.
+usernames_and_tags.display_name_reserved_value: Näyttönimi ei voi olla 'everyone' tai 'here'.
+usernames_and_tags.global_name_length_invalid: Globaalin nimen pituuden pitää olla {min}–{max} merkkiä.
+usernames_and_tags.global_name_reserved_value: Globaali nimi ei voi olla 'everyone' tai 'here'.
+usernames_and_tags.tag_already_taken: Tämä tagi on jo varattu.
+usernames_and_tags.too_many_users_with_this_username: Tällä käyttäjänimellä on liikaa käyttäjiä.
+usernames_and_tags.too_many_users_with_username_try_different: Tällä käyttäjänimellä on liikaa käyttäjiä. Kokeile toista käyttäjänimeä.
+usernames_and_tags.unclaimed_accounts_can_only_set_email_via_token: Lunastamattomilla tileillä voi asettaa sähköpostin vain tokenin kautta.
+usernames_and_tags.username_invalid_characters: Käyttäjänimi voi sisältää vain latinalaisia kirjaimia (a–z, A–Z), numeroita (0–9) ja alaviivoja (_).
+usernames_and_tags.username_length_invalid: Käyttäjänimen pituuden pitää olla {min}–{max} merkkiä.
+usernames_and_tags.username_not_available: Tämä käyttäjänimi ei ole saatavilla.
+usernames_and_tags.username_reserved_terms: Käyttäjänimi ei voi sisältää sanoja 'fluxer' tai 'system message'.
+usernames_and_tags.username_reserved_value: Käyttäjänimi ei voi olla 'everyone' tai 'here'.
+vanity_urls.vanity_url_already_taken: Tämä oma URL on jo varattu.
+vanity_urls.vanity_url_code_already_taken: Tämä oma URL -koodi on jo varattu.
+vanity_urls.vanity_url_code_cannot_contain_fluxer: Oman URL:n koodi ei voi sisältää sanaa 'fluxer'.
+vanity_urls.vanity_url_code_length_invalid: Oman URL:n koodin pituuden pitää olla {min}–{max} merkkiä.
+vanity_urls.vanity_url_invalid_characters: Oma URL voi sisältää vain pieniä kirjaimia (a–z), numeroita (0–9) ja yhdysmerkkejä (-).
+webhooks.cannot_modify_system_webhook: Et voi muokata järjestelmäviestejä.
+webhooks.max_webhooks_per_channel_reached: Olet saavuttanut enimmäismäärän {count} {count, plural, one {webhookista} other {webhookista}} per kanava.
+webhooks.max_webhooks_per_guild_reached: Olet saavuttanut enimmäismäärän {count} {count, plural, one {webhookista} other {webhookista}} per palvelin.
+webhooks.max_webhooks_reached: Olet saavuttanut enimmäismäärän {count} {count, plural, one {webhookista} other {webhookista}}.
+webhooks.unknown_webhook: Tuntematon webhook.
+webhooks.webhook_name_length_invalid: Webhookin nimen pituuden pitää olla {min}–{max} merkkiä.

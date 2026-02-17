@@ -17,12 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
-import {QuestionIcon, SealCheckIcon} from '@phosphor-icons/react';
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as InviteActionCreators from '~/actions/InviteActionCreators';
-import {GuildFeatures} from '~/Constants';
+import * as InviteActionCreators from '@app/actions/InviteActionCreators';
+import styles from '@app/components/channel/InviteEmbed.module.css';
+import {
+	getGroupDMTitle,
+	getGuildEmbedSplashAspectRatio,
+	getImageAspectRatioFromBase64,
+} from '@app/components/channel/invite_embed/InviteEmbedUtils';
+import {useMaybeMessageViewContext} from '@app/components/channel/MessageViewContext';
 import {
 	EmbedCard,
 	EmbedSkeletonButton,
@@ -32,35 +34,39 @@ import {
 	EmbedSkeletonStatLong,
 	EmbedSkeletonStatShort,
 	EmbedSkeletonTitle,
-} from '~/components/embeds/EmbedCard/EmbedCard';
-import cardStyles from '~/components/embeds/EmbedCard/EmbedCard.module.css';
-import {useEmbedSkeletonOverride} from '~/components/embeds/EmbedCard/useEmbedSkeletonOverride';
-import {GuildIcon} from '~/components/popouts/GuildIcon';
-import {Avatar} from '~/components/uikit/Avatar';
-import {Button} from '~/components/uikit/Button/Button';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import {Routes} from '~/Routes';
-import {UserRecord} from '~/records/UserRecord';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import GuildStore from '~/stores/GuildStore';
-import InviteStore from '~/stores/InviteStore';
-import PresenceStore from '~/stores/PresenceStore';
-import UserStore from '~/stores/UserStore';
-
-import {isGroupDmInvite, isGuildInvite, isPackInvite as isPackInviteGuard} from '~/types/InviteTypes';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import {getGroupDmInviteCounts} from '~/utils/invite/GroupDmInviteCounts';
+} from '@app/components/embeds/embed_card/EmbedCard';
+import cardStyles from '@app/components/embeds/embed_card/EmbedCard.module.css';
+import {useEmbedSkeletonOverride} from '@app/components/embeds/embed_card/useEmbedSkeletonOverride';
+import {GuildBadge} from '@app/components/guild/GuildBadge';
+import {GuildIcon} from '@app/components/popouts/GuildIcon';
+import {Avatar} from '@app/components/uikit/Avatar';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {Routes} from '@app/Routes';
+import {UserRecord} from '@app/records/UserRecord';
+import GuildMemberStore from '@app/stores/GuildMemberStore';
+import GuildStore from '@app/stores/GuildStore';
+import InviteStore from '@app/stores/InviteStore';
+import PresenceStore from '@app/stores/PresenceStore';
+import UserStore from '@app/stores/UserStore';
+import {isGroupDmInvite, isGuildInvite, isPackInvite as isPackInviteGuard} from '@app/types/InviteTypes';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {getGroupDmInviteCounts} from '@app/utils/invite/GroupDmInviteCounts';
 import {
 	GuildInvitePrimaryAction,
 	getGuildInviteActionState,
 	getGuildInvitePrimaryAction,
 	isGuildInviteActionDisabled,
-} from '~/utils/invite/GuildInviteActionState';
-import * as RouterUtils from '~/utils/RouterUtils';
-import {getGroupDMTitle, getGuildEmbedSplashAspectRatio, getImageAspectRatioFromBase64} from './InviteEmbed/utils';
-import styles from './InviteEmbed.module.css';
-import {useMaybeMessageViewContext} from './MessageViewContext';
+} from '@app/utils/invite/GuildInviteActionState';
+import {getCurrentLocale} from '@app/utils/LocaleUtils';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import {formatNumber} from '@fluxer/number_utils/src/NumberFormatting';
+import {Trans, useLingui} from '@lingui/react/macro';
+import {QuestionIcon} from '@phosphor-icons/react';
+import {observer} from 'mobx-react-lite';
+import type React from 'react';
+import {useEffect, useLayoutEffect, useMemo, useRef, useState} from 'react';
 
 const createTitleKeyDownHandler = (callback: () => void) => (event: React.KeyboardEvent<HTMLButtonElement>) => {
 	if (event.key === 'Enter' || event.key === ' ') {
@@ -68,6 +74,10 @@ const createTitleKeyDownHandler = (callback: () => void) => (event: React.Keyboa
 		callback();
 	}
 };
+
+function formatInviteCount(value: number): string {
+	return formatNumber(value, getCurrentLocale());
+}
 
 interface InviteEmbedProps {
 	code: string;
@@ -81,7 +91,7 @@ export const InviteEmbed = observer(function InviteEmbed({code}: InviteEmbedProp
 	const invite = inviteState?.data ?? null;
 	const isPackInvite = invite != null && isPackInviteGuard(invite);
 	const isGuildInviteType = invite != null && isGuildInvite(invite);
-	const packCreatorRecord = React.useMemo(() => {
+	const packCreatorRecord = useMemo(() => {
 		if (!isPackInvite || !invite) return null;
 		return new UserRecord(invite.pack.creator);
 	}, [invite, isPackInvite]);
@@ -92,10 +102,10 @@ export const InviteEmbed = observer(function InviteEmbed({code}: InviteEmbedProp
 		guild != null ? AvatarUtils.getGuildEmbedSplashURL({id: guild.id, embedSplash: embedSplash || null}) : null;
 	const messageViewContext = useMaybeMessageViewContext();
 	const currentChannelId = messageViewContext?.channel.id;
-	const inviteWrapperRef = React.useRef<HTMLDivElement | null>(null);
-	const previousHeightRef = React.useRef<number | null>(null);
+	const inviteWrapperRef = useRef<HTMLDivElement | null>(null);
+	const previousHeightRef = useRef<number | null>(null);
 
-	React.useLayoutEffect(() => {
+	useLayoutEffect(() => {
 		if (!currentChannelId) return;
 		const node = inviteWrapperRef.current;
 		if (!node || typeof ResizeObserver === 'undefined') return;
@@ -121,22 +131,22 @@ export const InviteEmbed = observer(function InviteEmbed({code}: InviteEmbedProp
 
 	const isLoading = shouldForceSkeleton || !inviteState || inviteState.loading;
 
-	const prevLoadingRef = React.useRef(true);
-	const prevCodeRef = React.useRef(code);
-	React.useLayoutEffect(() => {
+	const prevLoadingRef = useRef(true);
+	const prevCodeRef = useRef(code);
+	useLayoutEffect(() => {
 		if (prevCodeRef.current !== code) {
 			prevLoadingRef.current = true;
 			prevCodeRef.current = code;
 		}
 	}, [code]);
-	React.useLayoutEffect(() => {
+	useLayoutEffect(() => {
 		if (prevLoadingRef.current && !isLoading && currentChannelId) {
 			ComponentDispatch.dispatch('LAYOUT_RESIZED', {channelId: currentChannelId});
 		}
 		prevLoadingRef.current = isLoading;
 	}, [isLoading, currentChannelId]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!inviteState) {
 			void InviteActionCreators.fetchWithCoalescing(code).catch(() => {});
 		}
@@ -150,7 +160,7 @@ export const InviteEmbed = observer(function InviteEmbed({code}: InviteEmbedProp
 		content = <InviteNotFoundError />;
 	} else if (isGroupDmInvite(invite)) {
 		const inviter = UserStore.getUser(invite.inviter?.id ?? '');
-		const groupDMTitle = getGroupDMTitle(invite.channel);
+		const groupDMTitle = getGroupDMTitle(invite.channel, t`Unnamed Group`);
 		const groupDMPath = Routes.dmChannel(invite.channel.id);
 		const handleAcceptInvite = () => InviteActionCreators.acceptAndTransitionToChannel(invite.code, i18n);
 		const handleNavigateToGroup = () => RouterUtils.transitionTo(groupDMPath);
@@ -160,6 +170,7 @@ export const InviteEmbed = observer(function InviteEmbed({code}: InviteEmbedProp
 		});
 		const isAlreadyInGroupDM = groupDMCounts.hasLocalChannel;
 		const memberCount = groupDMCounts.memberCount;
+		const renderedMemberCount = formatInviteCount(memberCount);
 
 		content = (
 			<EmbedCard
@@ -175,14 +186,16 @@ export const InviteEmbed = observer(function InviteEmbed({code}: InviteEmbedProp
 				title={
 					<div className={styles.titleContainer}>
 						<h3 className={`${cardStyles.title} ${cardStyles.titlePrimary} ${styles.titleText}`}>
-							<button
-								type="button"
-								className={cardStyles.titleButton}
-								onClick={handleNavigateToGroup}
-								onKeyDown={createTitleKeyDownHandler(handleNavigateToGroup)}
-							>
-								{groupDMTitle}
-							</button>
+							<FocusRing offset={-2}>
+								<button
+									type="button"
+									className={cardStyles.titleButton}
+									onClick={handleNavigateToGroup}
+									onKeyDown={createTitleKeyDownHandler(handleNavigateToGroup)}
+								>
+									{groupDMTitle}
+								</button>
+							</FocusRing>
 						</h3>
 					</div>
 				}
@@ -191,7 +204,7 @@ export const InviteEmbed = observer(function InviteEmbed({code}: InviteEmbedProp
 						<div className={styles.stat}>
 							<div className={`${styles.statDot} ${styles.statDotMembers}`} />
 							<span className={styles.statText}>
-								{memberCount === 1 ? t`${memberCount} Member` : t`${memberCount} Members`}
+								{memberCount === 1 ? t`${renderedMemberCount} Member` : t`${renderedMemberCount} Members`}
 							</span>
 						</div>
 					</div>
@@ -250,11 +263,10 @@ export const InviteEmbed = observer(function InviteEmbed({code}: InviteEmbedProp
 	} else {
 		const guildActionState = getGuildInviteActionState({invite, guild});
 		const {features, presenceCount, memberCount} = guildActionState;
-		const isVerified = features.includes(GuildFeatures.VERIFIED);
 		const splashAspectRatio = getGuildEmbedSplashAspectRatio(guild);
 
-		const renderedPresenceCount = presenceCount;
-		const renderedMemberCount = memberCount;
+		const renderedPresenceCount = formatInviteCount(presenceCount);
+		const renderedMemberCount = formatInviteCount(memberCount);
 
 		const handleAcceptInvite = () => InviteActionCreators.acceptAndTransitionToChannel(invite.code, i18n);
 		const guildPath = Routes.guildChannel(guild.id, invite.channel.id);
@@ -283,20 +295,18 @@ export const InviteEmbed = observer(function InviteEmbed({code}: InviteEmbedProp
 					<div className={styles.titleContainer}>
 						<div className={styles.titleRowWithIcon}>
 							<h3 className={`${cardStyles.title} ${cardStyles.titlePrimary} ${styles.titleText}`}>
-								<button
-									type="button"
-									className={cardStyles.titleButton}
-									onClick={handleNavigateToGuild}
-									onKeyDown={createTitleKeyDownHandler(handleNavigateToGuild)}
-								>
-									{guild.name}
-								</button>
+								<FocusRing offset={-2}>
+									<button
+										type="button"
+										className={cardStyles.titleButton}
+										onClick={handleNavigateToGuild}
+										onKeyDown={createTitleKeyDownHandler(handleNavigateToGuild)}
+									>
+										{guild.name}
+									</button>
+								</FocusRing>
 							</h3>
-							{isVerified ? (
-								<Tooltip text={t`Verified Community`} position="top">
-									<SealCheckIcon className={styles.verifiedIcon} />
-								</Tooltip>
-							) : null}
+							<GuildBadge features={features} variant="large" />
 						</div>
 					</div>
 				}
@@ -309,7 +319,7 @@ export const InviteEmbed = observer(function InviteEmbed({code}: InviteEmbedProp
 						<div className={styles.stat}>
 							<div className={`${styles.statDot} ${styles.statDotMembers}`} />
 							<span className={styles.statText}>
-								{renderedMemberCount === 1 ? t`${renderedMemberCount} Member` : t`${renderedMemberCount} Members`}
+								{memberCount === 1 ? t`${renderedMemberCount} Member` : t`${renderedMemberCount} Members`}
 							</span>
 						</div>
 					</div>
@@ -397,9 +407,9 @@ export const GuildInviteEmbedPreview = observer(function GuildInviteEmbedPreview
 
 	const guild = GuildStore.getGuild(guildId);
 
-	const [base64AspectRatio, setBase64AspectRatio] = React.useState<number | undefined>();
+	const [base64AspectRatio, setBase64AspectRatio] = useState<number | undefined>();
 
-	const splashAspectRatio = React.useMemo(() => {
+	const splashAspectRatio = useMemo(() => {
 		if (!guild) return undefined;
 
 		if (splashURLOverride) {
@@ -408,7 +418,7 @@ export const GuildInviteEmbedPreview = observer(function GuildInviteEmbedPreview
 		return getGuildEmbedSplashAspectRatio(guild);
 	}, [guild, splashURLOverride, base64AspectRatio]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (splashURLOverride) {
 			getImageAspectRatioFromBase64(splashURLOverride)
 				.then(setBase64AspectRatio)
@@ -422,8 +432,6 @@ export const GuildInviteEmbedPreview = observer(function GuildInviteEmbedPreview
 
 	if (!guild) return null;
 
-	const isVerified = guild.features.has(GuildFeatures.VERIFIED);
-
 	const splashURL =
 		splashURLOverride !== undefined
 			? splashURLOverride
@@ -431,6 +439,8 @@ export const GuildInviteEmbedPreview = observer(function GuildInviteEmbedPreview
 
 	const presenceCount = PresenceStore.getPresenceCount(guild.id);
 	const memberCount = GuildMemberStore.getMemberCount(guild.id);
+	const renderedPresenceCount = formatInviteCount(presenceCount);
+	const renderedMemberCount = formatInviteCount(memberCount);
 
 	return (
 		<EmbedCard
@@ -442,11 +452,7 @@ export const GuildInviteEmbedPreview = observer(function GuildInviteEmbedPreview
 				<div className={styles.titleContainer}>
 					<div className={styles.titleRowWithIcon}>
 						<h3 className={`${cardStyles.title} ${cardStyles.titlePrimary} ${styles.titleText}`}>{guild.name}</h3>
-						{isVerified ? (
-							<Tooltip text={t`Verified Community`} position="top">
-								<SealCheckIcon className={styles.verifiedIcon} />
-							</Tooltip>
-						) : null}
+						<GuildBadge features={guild.features} variant="large" />
 					</div>
 				</div>
 			}
@@ -454,12 +460,12 @@ export const GuildInviteEmbedPreview = observer(function GuildInviteEmbedPreview
 				<div className={styles.stats}>
 					<div className={styles.stat}>
 						<div className={`${styles.statDot} ${styles.statDotOnline}`} />
-						<span className={styles.statText}>{t`${presenceCount} Online`}</span>
+						<span className={styles.statText}>{t`${renderedPresenceCount} Online`}</span>
 					</div>
 					<div className={styles.stat}>
 						<div className={`${styles.statDot} ${styles.statDotMembers}`} />
 						<span className={styles.statText}>
-							{memberCount === 1 ? t`${memberCount} Member` : t`${memberCount} Members`}
+							{memberCount === 1 ? t`${renderedMemberCount} Member` : t`${renderedMemberCount} Members`}
 						</span>
 					</div>
 				</div>

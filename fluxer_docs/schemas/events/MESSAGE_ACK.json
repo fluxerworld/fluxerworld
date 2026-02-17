@@ -1,0 +1,30 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "MESSAGE_ACK",
+	"description": "Sent when a message is acknowledged (marked as read).",
+	"scope": "presence",
+	"scopeNote": "Always dispatched to the user's presence scope only",
+	"dispatchedBy": ["POST /channels/:channel_id/messages/:message_id/ack"],
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID"
+			},
+			"message_id": {
+				"type": "string",
+				"description": "ID of the last read message"
+			},
+			"mention_count": {
+				"type": "integer",
+				"description": "Remaining unread mention count after this acknowledgement"
+			},
+			"manual": {
+				"type": "boolean",
+				"description": "Whether this was a manual acknowledgement"
+			}
+		},
+		"required": ["channel_id", "message_id", "mention_count"]
+	}
+}

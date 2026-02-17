@@ -17,11 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/guild/UploadDropZone.module.css';
 import {useLingui} from '@lingui/react/macro';
 import {UploadIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import styles from './UploadDropZone.module.css';
+import type React from 'react';
+import {useState} from 'react';
 
 interface UploadDropZoneProps {
 	onDrop: (files: Array<File>) => void;
@@ -32,7 +33,7 @@ interface UploadDropZoneProps {
 export const UploadDropZone: React.FC<UploadDropZoneProps> = observer(
 	({onDrop, description, acceptMultiple = true}) => {
 		const {t} = useLingui();
-		const [isDragging, setIsDragging] = React.useState(false);
+		const [isDragging, setIsDragging] = useState(false);
 
 		const handleDragOver = (e: React.DragEvent) => {
 			e.preventDefault();

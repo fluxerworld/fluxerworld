@@ -17,10 +17,11 @@
 
 -module(user_utils).
 
--export([normalize_user/1]).
+-export([normalize_user/1, partial_user_fields/0]).
 
-normalize_user(User) when is_map(User) ->
-    AllowedKeys = [
+-spec partial_user_fields() -> [binary()].
+partial_user_fields() ->
+    [
         <<"id">>,
         <<"username">>,
         <<"discriminator">>,
@@ -29,25 +30,82 @@ normalize_user(User) when is_map(User) ->
         <<"avatar_color">>,
         <<"bot">>,
         <<"system">>,
-        <<"flags">>,
-        <<"banner">>,
-        <<"banner_color">>
-    ],
+        <<"flags">>
+    ].
+
+-spec normalize_user(map() | term()) -> map().
+normalize_user(User) when is_map(User) ->
     CleanPairs =
         lists:foldl(
             fun(Key, Acc) ->
-                Value = maps:get(Key, User, undefined),
-                case is_undefined(Value) of
-                    true -> Acc;
-                    false -> [{Key, Value} | Acc]
+                case maps:get(Key, User, undefined) of
+                    undefined -> Acc;
+                    Value -> [{Key, Value} | Acc]
                 end
             end,
             [],
-            AllowedKeys
+            partial_user_fields()
         ),
     maps:from_list(lists:reverse(CleanPairs));
 normalize_user(_) ->
     #{}.
 
-is_undefined(undefined) -> true;
-is_undefined(_) -> false.
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+
+normalize_user_valid_test() ->
+    User = #{
+        <<"id">> => <<"123">>,
+        <<"username">> => <<"testuser">>,
+        <<"discriminator">> => <<"0001">>,
+        <<"email">> => <<"test@example.com">>
+    },
+    Result = normalize_user(User),
+    ?assertEqual(<<"123">>, maps:get(<<"id">>, Result)),
+    ?assertEqual(<<"testuser">>, maps:get(<<"username">>, Result)),
+    ?assertEqual(<<"0001">>, maps:get(<<"discriminator">>, Result)),
+    ?assertEqual(error, maps:find(<<"email">>, Result)).
+
+normalize_user_all_fields_test() ->
+    User = #{
+        <<"id">> => <<"123">>,
+        <<"username">> => <<"test">>,
+        <<"discriminator">> => <<"0">>,
+        <<"global_name">> => <<"Test User">>,
+        <<"avatar">> => <<"abc123">>,
+        <<"avatar_color">> => <<"#ff0000">>,
+        <<"bot">> => false,
+        <<"system">> => false,
+        <<"flags">> => 0
+    },
+    Result = normalize_user(User),
+    ?assertEqual(9, maps:size(Result)).
+
+normalize_user_undefined_values_test() ->
+    User = #{
+        <<"id">> => <<"123">>,
+        <<"username">> => <<"test">>,
+        <<"avatar">> => undefined
+    },
+    Result = normalize_user(User),
+    ?assertEqual(2, maps:size(Result)),
+    ?assertEqual(error, maps:find(<<"avatar">>, Result)).
+
+normalize_user_not_map_test() ->
+    ?assertEqual(#{}, normalize_user(not_a_map)),
+    ?assertEqual(#{}, normalize_user(123)),
+    ?assertEqual(#{}, normalize_user(<<"binary">>)),
+    ?assertEqual(#{}, normalize_user(undefined)).
+
+normalize_user_empty_map_test() ->
+    ?assertEqual(#{}, normalize_user(#{})).
+
+partial_user_fields_test() ->
+    Fields = partial_user_fields(),
+    ?assert(is_list(Fields)),
+    ?assertEqual(9, length(Fields)),
+    ?assert(lists:member(<<"id">>, Fields)),
+    ?assert(lists:member(<<"username">>, Fields)),
+    ?assert(lists:member(<<"flags">>, Fields)).
+
+-endif.

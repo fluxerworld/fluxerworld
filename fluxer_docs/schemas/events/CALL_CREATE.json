@@ -1,0 +1,36 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"name": "CALL_CREATE",
+	"description": "Sent when a DM or group DM call is started.",
+	"scope": "presence",
+	"dispatchedBy": ["gateway"],
+	"note": "Dispatched to all recipients of the DM/group DM when a call is initiated",
+	"payload": {
+		"type": "object",
+		"properties": {
+			"channel_id": {
+				"type": "string",
+				"description": "Channel ID of the call"
+			},
+			"message_id": {
+				"type": "string",
+				"description": "ID of the call message"
+			},
+			"region": {
+				"type": ["string", "null"],
+				"description": "Voice region for the call"
+			},
+			"ringing": {
+				"type": "array",
+				"items": {"type": "string"},
+				"description": "Array of user IDs currently being rung"
+			},
+			"voice_states": {
+				"type": "array",
+				"items": {"$ref": "VoiceStateResponse"},
+				"description": "Voice states of current participants in the call"
+			}
+		},
+		"required": ["channel_id", "message_id", "ringing", "voice_states"]
+	}
+}

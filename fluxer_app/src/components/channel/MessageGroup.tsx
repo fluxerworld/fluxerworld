@@ -17,13 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Message} from '@app/components/channel/Message';
+import {UnreadDividerSlot} from '@app/components/channel/UnreadDividerSlot';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {Fragment} from 'react';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {MessageRecord} from '~/records/MessageRecord';
-import {Message} from './Message';
-import {UnreadDividerSlot} from './UnreadDividerSlot';
+import {Fragment, useMemo} from 'react';
 
 interface MessageGroupProps {
 	messages: Array<MessageRecord>;
@@ -35,9 +36,14 @@ interface MessageGroupProps {
 	flashKey?: number;
 	getUnreadDividerVisibility?: (messageId: string, position: 'before' | 'after') => boolean;
 	idPrefix?: string;
+	messageRowClassName?: string;
+	messageActionsClassName?: string;
+	renderMessageActions?: (message: MessageRecord) => React.ReactNode;
+	readonlyPreview?: boolean;
 }
 
 export const MessageGroup: React.FC<MessageGroupProps> = observer((props) => {
+	const {t} = useLingui();
 	const {
 		messages,
 		channel,
@@ -47,13 +53,28 @@ export const MessageGroup: React.FC<MessageGroupProps> = observer((props) => {
 		messageDisplayCompact = false,
 		getUnreadDividerVisibility,
 		idPrefix,
+		messageRowClassName,
+		messageActionsClassName,
+		renderMessageActions,
+		readonlyPreview,
 	} = props;
 
-	const groupId = messages[0]?.id;
+	const groupId = useMemo(() => messages[0]?.id, [messages]);
 
-	return (
-		<div data-jump-sequence-id={jumpSequenceId} data-group-id={groupId} role="group" aria-label="Message group">
-			{messages.map((message, index) => {
+	const behaviorOverrides = useMemo(
+		() =>
+			readonlyPreview
+				? {
+						disableContextMenu: true,
+						prefersReducedMotion: true,
+					}
+				: undefined,
+		[readonlyPreview],
+	);
+
+	const renderedMessages = useMemo(
+		() =>
+			messages.map((message, index) => {
 				const prevMessage = messages[index - 1];
 				const isGroupStart = index === 0;
 
@@ -63,7 +84,12 @@ export const MessageGroup: React.FC<MessageGroupProps> = observer((props) => {
 							<UnreadDividerSlot beforeId={message.id} visible={getUnreadDividerVisibility(message.id, 'before')} />
 						)}
 
-						<div data-message-index={index} data-message-id={message.id} data-is-group-start={isGroupStart}>
+						<div
+							data-message-index={index}
+							data-message-id={message.id}
+							data-is-group-start={isGroupStart}
+							className={messageRowClassName}
+						>
 							<Message
 								channel={channel}
 								message={message}
@@ -73,11 +99,33 @@ export const MessageGroup: React.FC<MessageGroupProps> = observer((props) => {
 								isJumpTarget={highlightedMessageId === message.id}
 								compact={messageDisplayCompact}
 								idPrefix={idPrefix}
+								behaviorOverrides={behaviorOverrides}
+								readonlyPreview={readonlyPreview}
 							/>
+							{renderMessageActions && <div className={messageActionsClassName}>{renderMessageActions(message)}</div>}
 						</div>
 					</Fragment>
 				);
-			})}
+			}),
+		[
+			messages,
+			channel,
+			onEdit,
+			highlightedMessageId,
+			messageDisplayCompact,
+			idPrefix,
+			getUnreadDividerVisibility,
+			messageRowClassName,
+			messageActionsClassName,
+			renderMessageActions,
+			behaviorOverrides,
+			readonlyPreview,
+		],
+	);
+
+	return (
+		<div data-jump-sequence-id={jumpSequenceId} data-group-id={groupId} role="group" aria-label={t`Message group`}>
+			{renderedMessages}
 		</div>
 	);
 });

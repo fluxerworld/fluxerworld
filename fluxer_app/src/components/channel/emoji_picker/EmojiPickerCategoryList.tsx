@@ -1,0 +1,153 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import styles from '@app/components/channel/EmojiPicker.module.css';
+import {GuildIcon} from '@app/components/popouts/GuildIcon';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import UnicodeEmojis from '@app/lib/UnicodeEmojis';
+import GuildStore from '@app/stores/GuildStore';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
+import {useLingui} from '@lingui/react/macro';
+import {ClockIcon} from '@phosphor-icons/react';
+import {clsx} from 'clsx';
+import {observer} from 'mobx-react-lite';
+
+interface EmojiPickerCategoryListProps {
+	customEmojisByGuildId: Map<string, Array<FlatEmoji>>;
+	unicodeEmojisByCategory: Map<string, Array<FlatEmoji>>;
+	handleCategoryClick: (category: string) => void;
+	showFrequentlyUsedButton: boolean;
+	horizontal?: boolean;
+}
+
+export const EmojiPickerCategoryList = observer(
+	({
+		customEmojisByGuildId,
+		unicodeEmojisByCategory,
+		handleCategoryClick,
+		showFrequentlyUsedButton = false,
+		horizontal = false,
+	}: EmojiPickerCategoryListProps) => {
+		const {i18n} = useLingui();
+		if (horizontal) {
+			return (
+				<div className={styles.horizontalCategories}>
+					{showFrequentlyUsedButton && (
+						<button
+							type="button"
+							onClick={() => handleCategoryClick('frequently-used')}
+							className={clsx(styles.categoryListIcon, styles.textPrimaryMuted)}
+							aria-label={i18n._('Frequently Used')}
+						>
+							<ClockIcon className={styles.iconSize} />
+						</button>
+					)}
+					{Array.from(customEmojisByGuildId.keys()).map((guildId) => {
+						const guild = GuildStore.getGuild(guildId)!;
+						return (
+							<button
+								key={guild.id}
+								type="button"
+								onClick={() => handleCategoryClick(guild.id)}
+								className={clsx(styles.categoryListIcon, styles.textPrimaryMuted)}
+								aria-label={guild.name}
+							>
+								<GuildIcon id={guild.id} name={guild.name} icon={guild.icon} className={styles.iconSize} sizePx={24} />
+							</button>
+						);
+					})}
+					{Array.from(unicodeEmojisByCategory.keys()).map((category) => {
+						const Icon = UnicodeEmojis.getCategoryIcon(category);
+						return (
+							<button
+								key={category}
+								type="button"
+								onClick={() => handleCategoryClick(category)}
+								className={clsx(styles.categoryListIcon, styles.textPrimaryMuted)}
+								aria-label={UnicodeEmojis.getCategoryLabel(category, i18n)}
+							>
+								<Icon className={styles.iconSize} />
+							</button>
+						);
+					})}
+				</div>
+			);
+		}
+
+		return (
+			<div className={styles.categoryList}>
+				<Scroller
+					className={styles.categoryListScroll}
+					key="emoji-picker-category-list-scroller"
+					fade={false}
+					showTrack={false}
+				>
+					<div className={styles.listItems}>
+						{showFrequentlyUsedButton && (
+							<Tooltip text={i18n._('Frequently Used')} position="left">
+								<button
+									type="button"
+									onClick={() => handleCategoryClick('frequently-used')}
+									className={clsx(styles.categoryListIcon, styles.textPrimaryMuted)}
+								>
+									<ClockIcon className={styles.iconSize} />
+								</button>
+							</Tooltip>
+						)}
+						{Array.from(customEmojisByGuildId.keys()).map((guildId) => {
+							const guild = GuildStore.getGuild(guildId)!;
+							return (
+								<Tooltip key={guild.id} text={guild.name} position="left">
+									<button
+										type="button"
+										onClick={() => handleCategoryClick(guild.id)}
+										className={clsx(styles.categoryListIcon, styles.textPrimaryMuted)}
+									>
+										<GuildIcon
+											id={guild.id}
+											name={guild.name}
+											icon={guild.icon}
+											className={styles.iconSize}
+											sizePx={24}
+										/>
+									</button>
+								</Tooltip>
+							);
+						})}
+						{Array.from(unicodeEmojisByCategory.keys()).map((category) => {
+							const Icon = UnicodeEmojis.getCategoryIcon(category);
+							return (
+								<Tooltip key={category} text={UnicodeEmojis.getCategoryLabel(category, i18n)} position="left">
+									<button
+										type="button"
+										onClick={() => handleCategoryClick(category)}
+										className={clsx(styles.categoryListIcon, styles.textPrimaryMuted)}
+									>
+										<Icon className={styles.iconSize} />
+									</button>
+								</Tooltip>
+							);
+						})}
+					</div>
+				</Scroller>
+			</div>
+		);
+	},
+);

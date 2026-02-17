@@ -19,5 +19,6 @@
 
 -export([send_guild_sync/2]).
 
+-spec send_guild_sync(pid(), binary()) -> ok.
 send_guild_sync(GuildPid, SessionId) ->
     gen_server:cast(GuildPid, {send_guild_sync, SessionId}).

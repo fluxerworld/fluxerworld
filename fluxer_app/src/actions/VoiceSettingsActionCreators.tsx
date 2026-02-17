@@ -17,9 +17,10 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import VoiceSettingsStore from '~/stores/VoiceSettingsStore';
+import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
 
-export const update = (
+export function update(
 	settings: Partial<{
 		inputDeviceId: string;
 		outputDeviceId: string;
@@ -36,8 +37,20 @@ export const update = (
 		backgroundImages: Array<{id: string; createdAt: number}>;
 		showGridView: boolean;
 		showMyOwnCamera: boolean;
+		showMyOwnScreenShare: boolean;
 		showNonVideoParticipants: boolean;
+		showParticipantsCarousel: boolean;
+		showVoiceConnectionAvatarStack: boolean;
+		showVoiceConnectionId: boolean;
+		pauseOwnScreenSharePreviewOnUnfocus: boolean;
+		disablePictureInPicturePopout: boolean;
 	}>,
-): void => {
+): void {
 	VoiceSettingsStore.updateSettings(settings);
-};
+	if (settings.outputVolume !== undefined) {
+		MediaEngineStore.applyAllLocalAudioPreferences();
+	}
+	if (settings.inputVolume !== undefined) {
+		MediaEngineStore.applyLocalInputVolume();
+	}
+}

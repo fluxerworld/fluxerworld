@@ -1,0 +1,62 @@
+---
+title: 'Search'
+description: 'Search object schemas from the Fluxer API.'
+---
+
+<a id="globalsearchmessagesrequest"></a>
+
+## GlobalSearchMessagesRequest
+
+**Related endpoints**
+
+- [`POST /search/messages`](/api-reference/search/search-messages)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| attachment_extension? | string[] | File extensions to filter by |
+| attachment_filename? | string[] | Attachment filenames to filter by |
+| author_id? | [SnowflakeType](#snowflaketype)[] | Author user IDs to filter by |
+| author_type? | [MessageAuthorType](#messageauthortype)[] | Author types to filter by |
+| channel_id? | [SnowflakeType](#snowflaketype)[] | Channel IDs to search in |
+| channel_ids? | [SnowflakeType](#snowflaketype)[] | Specific channel IDs to search in |
+| content? | string | Text content to search for |
+| contents? | string[] | Multiple content queries to search for |
+| context_channel_id? | [SnowflakeType](#snowflaketype) |  |
+| context_guild_id? | [SnowflakeType](#snowflaketype) |  |
+| embed_provider? | string[] | Embed providers to filter by |
+| embed_type? | [MessageEmbedType](#messageembedtype)[] | Embed types to filter by |
+| exact_phrases? | string[] | Exact phrases that must appear contiguously in message content |
+| exclude_attachment_extension? | string[] | File extensions to exclude |
+| exclude_attachment_filename? | string[] | Attachment filenames to exclude |
+| exclude_author_id? | [SnowflakeType](#snowflaketype)[] | Author user IDs to exclude |
+| exclude_author_type? | [MessageAuthorType](#messageauthortype)[] | Author types to exclude |
+| exclude_channel_id? | [SnowflakeType](#snowflaketype)[] | Channel IDs to exclude from search |
+| exclude_embed_provider? | string[] | Embed providers to exclude |
+| exclude_embed_type? | [MessageEmbedType](#messageembedtype)[] | Embed types to exclude |
+| exclude_has? | [MessageContentType](#messagecontenttype)[] | Content types the message must not have |
+| exclude_link_hostname? | string[] | Link hostnames to exclude |
+| exclude_mentions? | [SnowflakeType](#snowflaketype)[] | User IDs that must not be mentioned |
+| has? | [MessageContentType](#messagecontenttype)[] | Content types the message must have |
+| hits_per_page? | integer (int32) | Number of results per page (1-25) |
+| include_nsfw? | boolean | Whether to include NSFW channel results |
+| link_hostname? | string[] | Link hostnames to filter by |
+| max_id? | [SnowflakeType](#snowflaketype) |  |
+| mention_everyone? | boolean | Filter by whether message mentions everyone |
+| mentions? | [SnowflakeType](#snowflaketype)[] | User IDs that must be mentioned |
+| min_id? | [SnowflakeType](#snowflaketype) |  |
+| page? | integer (int64) | Page number for pagination |
+| pinned? | boolean | Filter by pinned status |
+| scope? | [MessageSearchScope](#messagesearchscope) |  |
+| sort_by? | [MessageSortField](#messagesortfield) |  |
+| sort_order? | [MessageSortOrder](#messagesortorder) |  |
+
+<a id="messagesearchresponse"></a>
+
+## MessageSearchResponse
+
+**Related endpoints**
+
+- [`POST /search/messages`](/api-reference/search/search-messages)
+
+Type: [MessageSearchResultsResponse](#messagesearchresultsresponse) \| [MessageSearchIndexingResponse](#messagesearchindexingresponse)
+

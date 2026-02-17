@@ -1,0 +1,175 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Fluxer Config",
+	"type": "object",
+	"additionalProperties": false,
+	"required": ["env", "domain", "database", "services", "gateway", "auth"],
+	"if": {
+		"required": ["instance"],
+		"properties": {
+			"instance": {
+				"required": ["deployment_mode"],
+				"properties": {
+					"deployment_mode": {
+						"const": "microservices"
+					}
+				}
+			}
+		}
+	},
+	"then": {
+		"required": ["internal"],
+		"properties": {
+			"services": {
+				"required": ["app_proxy"],
+				"properties": {
+					"s3": {
+						"required": ["port"]
+					},
+					"queue": {
+						"required": ["port"]
+					},
+					"media_proxy": {
+						"required": ["port"]
+					},
+					"admin": {
+						"required": ["port"]
+					},
+					"marketing": {
+						"required": ["port"]
+					},
+					"api": {
+						"required": ["port"]
+					},
+					"app_proxy": {
+						"required": ["port"]
+					},
+					"gateway": {
+						"required": ["port"]
+					},
+					"server": {
+						"required": ["port"]
+					}
+				}
+			}
+		}
+	},
+	"properties": {
+		"$schema": {
+			"type": "string",
+			"description": "Optional reference to this JSON Schema for tooling support."
+		},
+		"env": {
+			"type": "string",
+			"description": "Runtime environment for the application. Controls behavior such as logging verbosity, error details, and optimization levels.",
+			"enum": ["development", "production", "test"]
+		},
+		"domain": {
+			"description": "Global domain and port configuration used to derive public endpoints for all services.",
+			"$ref": "#/$defs/domain"
+		},
+		"endpoint_overrides": {
+			"description": "Manual overrides for specific public endpoints. If set, these take precedence over automatically derived URLs.",
+			"$ref": "#/$defs/endpoint_overrides"
+		},
+		"internal": {
+			"description": "Internal network endpoints for service-to-service communication. Only required for microservices mode.",
+			"$ref": "#/$defs/internal",
+			"default": {}
+		},
+		"database": {
+			"description": "Primary database configuration. Selects the backend (Cassandra vs SQLite) and provides connection details.",
+			"$ref": "#/$defs/database"
+		},
+		"s3": {
+			"description": "S3-compatible object storage configuration.",
+			"$ref": "#/$defs/s3"
+		},
+		"services": {
+			"description": "Configuration for individual Fluxer services.",
+			"$ref": "#/$defs/services"
+		},
+		"gateway": {
+			"description": "Configuration for the real-time Gateway service connection.",
+			"$ref": "#/$defs/gateway_connection"
+		},
+		"auth": {
+			"description": "Authentication and security settings.",
+			"$ref": "#/$defs/auth"
+		},
+		"cookie": {
+			"description": "HTTP cookie settings.",
+			"$ref": "#/$defs/cookie",
+			"default": {}
+		},
+		"integrations": {
+			"description": "Third-party service integrations.",
+			"$ref": "#/$defs/integrations",
+			"default": {}
+		},
+		"instance": {
+			"description": "Instance-specific settings and policies.",
+			"$ref": "#/$defs/instance",
+			"default": {}
+		},
+		"csam": {
+			"description": "CSAM (Child Sexual Abuse Material) detection and reporting policies.",
+			"$ref": "#/$defs/csam",
+			"default": {}
+		},
+		"dev": {
+			"description": "Development-only overrides and flags. These should generally be disabled in production.",
+			"$ref": "#/$defs/dev",
+			"default": {}
+		},
+		"geoip": {
+			"description": "GeoIP database configuration.",
+			"$ref": "#/$defs/geoip",
+			"default": {}
+		},
+		"proxy": {
+			"description": "Reverse proxy and IP resolution settings.",
+			"$ref": "#/$defs/proxy",
+			"default": {}
+		},
+		"attachment_decay_enabled": {
+			"type": "boolean",
+			"description": "Whether to automatically delete old attachments.",
+			"default": true
+		},
+		"deletion_grace_period_hours": {
+			"type": "number",
+			"description": "Grace period in hours before soft-deleted items are permanently removed.",
+			"default": 72
+		},
+		"inactivity_deletion_threshold_days": {
+			"type": "number",
+			"description": "Days of inactivity after which data may be subject to deletion.",
+			"default": 365
+		},
+		"alerts": {
+			"description": "System alerting configuration.",
+			"$ref": "#/$defs/alerts"
+		},
+		"telemetry": {
+			"description": "OpenTelemetry configuration.",
+			"$ref": "#/$defs/telemetry",
+			"default": {}
+		},
+		"sentry": {
+			"description": "Sentry error reporting configuration.",
+			"$ref": "#/$defs/sentry",
+			"default": {}
+		},
+		"app_public": {
+			"description": "Public client-side configuration exposed to the frontend.",
+			"$ref": "#/$defs/app_public",
+			"default": {}
+		},
+		"federation": {
+			"description": "Federation configuration for connecting with other Fluxer instances.",
+			"$ref": "#/$defs/federation",
+			"default": {}
+		}
+	}
+}

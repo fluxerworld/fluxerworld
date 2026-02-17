@@ -1,0 +1,13 @@
+{
+	"extends": "../tsconfigs/base.json",
+	"compilerOptions": {
+		"outDir": "./dist",
+		"rootDir": "./src",
+		"types": ["node", "vitest/globals"],
+		"paths": {
+			"@fluxer/integration/*": ["./src/*"]
+		}
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "dist"]
+}

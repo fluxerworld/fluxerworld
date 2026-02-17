@@ -17,14 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
 import {observer} from 'mobx-react-lite';
 import qrCode from 'qrcode';
-import React from 'react';
+import {useEffect, useRef} from 'react';
+
+const logger = new Logger('QRCodeCanvas');
 
 export const QRCodeCanvas = observer(({data}: {data: string}) => {
-	const canvasRef = React.useRef<HTMLCanvasElement>(null);
+	const canvasRef = useRef<HTMLCanvasElement>(null);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const canvas = canvasRef.current;
 		const qrSize = 100;
 		const padding = 10;
@@ -57,7 +60,7 @@ export const QRCodeCanvas = observer(({data}: {data: string}) => {
 					{width: qrSize, margin: 0, color: {dark: '#000000', light: '#FFFFFF00'}},
 					(error: Error | null | undefined) => {
 						if (error) {
-							console.error(error);
+							logger.error(error);
 						} else {
 							context.drawImage(tempCanvas, padding, padding);
 						}

@@ -17,23 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {FavoritesWelcomeSection} from '@app/components/favorites/FavoritesWelcomeSection';
+import {FavoritesChannelListContent} from '@app/components/layout/FavoritesChannelListContent';
+import {FavoritesGuildHeader} from '@app/components/layout/FavoritesGuildHeader';
+import styles from '@app/components/layout/GuildLayout.module.css';
+import {GuildSidebar} from '@app/components/layout/GuildSidebar';
+import {useParams} from '@app/lib/router/React';
+import FavoritesStore from '@app/stores/FavoritesStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import NavigationStore from '@app/stores/NavigationStore';
+import SelectedChannelStore from '@app/stores/SelectedChannelStore';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as NavigationActionCreators from '~/actions/NavigationActionCreators';
-import {FAVORITES_GUILD_ID} from '~/Constants';
-import {FavoritesWelcomeSection} from '~/components/favorites/FavoritesWelcomeSection';
-import {FavoritesChannelListContent} from '~/components/layout/FavoritesChannelListContent';
-import {FavoritesGuildHeader} from '~/components/layout/FavoritesGuildHeader';
-import {GuildSidebar} from '~/components/layout/GuildSidebar';
-import {useParams} from '~/lib/router';
-import {Routes} from '~/Routes';
-import FavoritesStore from '~/stores/FavoritesStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import SelectedChannelStore from '~/stores/SelectedChannelStore';
-import * as RouterUtils from '~/utils/RouterUtils';
-import styles from './GuildLayout.module.css';
+import type React from 'react';
+import {useEffect} from 'react';
 
-export const FavoritesLayout = observer(({children}: {children?: React.ReactNode}) => {
+export const FavoritesLayout = observer(({children}: {children: React.ReactNode}) => {
 	const mobileLayout = MobileLayoutStore;
 	const {channelId} = useParams() as {channelId?: string};
 
@@ -41,13 +39,7 @@ export const FavoritesLayout = observer(({children}: {children?: React.ReactNode
 	const showWelcomeScreen = !channelId && !hasAccessibleChannels;
 	const shouldRenderWelcomeScreen = showWelcomeScreen && !mobileLayout.enabled;
 
-	React.useEffect(() => {
-		if (channelId) {
-			NavigationActionCreators.selectChannel(FAVORITES_GUILD_ID, channelId);
-		}
-	}, [channelId]);
-
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!channelId) return;
 
 		const isStillFavorited = FavoritesStore.getChannel(channelId);
@@ -56,9 +48,9 @@ export const FavoritesLayout = observer(({children}: {children?: React.ReactNode
 			const validChannelId = SelectedChannelStore.getValidatedFavoritesChannel();
 
 			if (validChannelId) {
-				RouterUtils.transitionTo(Routes.favoritesChannel(validChannelId));
+				NavigationStore.navigateToFavorites(validChannelId, undefined, 'push');
 			} else {
-				RouterUtils.transitionTo(Routes.FAVORITES);
+				NavigationStore.navigateToFavorites(undefined, undefined, 'push');
 			}
 		}
 	}, [channelId, FavoritesStore.channels]);

@@ -23,10 +23,10 @@
 	display: flex;
 	min-height: 0;
 	min-width: 0;
+	width: 100%;
 	height: 100%;
 	max-height: inherit;
-	flex: 1 1 0%;
-	padding-inline-end: var(--scroller-track-size);
+	flex: 1 1 auto;
 }
 
 .scroller {
@@ -34,63 +34,19 @@
 	flex-direction: column;
 	min-height: 0;
 	min-width: 0;
+	width: 100%;
 	height: 100%;
 	max-height: inherit;
-	flex: 1 1 0%;
+	flex: 1 1 auto;
 	overscroll-behavior: contain;
 	overflow-anchor: none;
-	scrollbar-gutter: stable;
-	scrollbar-width: thin;
-	scrollbar-color: var(--scrollbar-thumb-bg) var(--scrollbar-track-bg, transparent);
-	margin-inline-end: calc(var(--scroller-track-size) * -1);
+	scrollbar-width: none;
+	-ms-overflow-style: none;
 }
 
 .scroller::-webkit-scrollbar {
-	width: var(--scroller-track-size);
-	height: var(--scroller-track-size);
-}
-
-.scroller::-webkit-scrollbar-track {
-	background-color: var(--scrollbar-track-bg, transparent);
-}
-
-.scroller::-webkit-scrollbar-thumb {
-	background-color: var(--scrollbar-thumb-bg);
-	border-radius: 4px;
-	transition: background-color 0.2s ease;
-}
-
-.scroller::-webkit-scrollbar-thumb:hover {
-	background-color: var(--scrollbar-thumb-bg-hover);
-}
-
-.fade::-webkit-scrollbar-thumb {
-	background-color: transparent;
-	transition: background-color 0.15s ease-out;
-}
-
-.fade::-webkit-scrollbar-track {
-	background-color: transparent;
-}
-
-.fade:hover::-webkit-scrollbar-thumb,
-.fade.scrolling::-webkit-scrollbar-thumb {
-	background-color: var(--scrollbar-thumb-bg);
-}
-
-.fade:hover::-webkit-scrollbar-thumb:hover,
-.fade.scrolling::-webkit-scrollbar-thumb:hover {
-	background-color: var(--scrollbar-thumb-bg-hover);
-}
-
-.fade {
-	scrollbar-width: thin;
-	scrollbar-color: transparent transparent;
-}
-
-.fade:hover,
-.fade.scrolling {
-	scrollbar-color: var(--scrollbar-thumb-bg) transparent;
+	width: 0;
+	height: 0;
 }
 
 .horizontal .scroller {
@@ -98,21 +54,8 @@
 	overscroll-behavior-y: none;
 }
 
-.noScrollbarReserve {
-	padding-inline-end: 0;
-}
-
-.noScrollbarReserve .scroller {
-	margin-inline-end: 0;
-	scrollbar-gutter: auto;
-}
-
-.noScrollbarReserve.horizontal {
-	padding-block-end: 0;
-}
-
-.noScrollbarReserve.horizontal .scroller {
-	margin-block-end: 0;
+.scrollbarReserve {
+	padding-inline-end: var(--scroller-track-size);
 }
 
 .scrollerChildren {
@@ -125,56 +68,30 @@
 
 .horizontal .scrollerChildren {
 	margin-inline-end: 0;
+	flex-direction: row;
+}
+
+.dragging {
+	pointer-events: none;
 }
 
 .regular {
 	--scroller-track-size: 16px;
 }
 
-.scroller.regular {
-	scrollbar-width: auto;
-	scrollbar-color: var(--scrollbar-thumb-bg) var(--scrollbar-track-bg, transparent);
-}
-
-.regular::-webkit-scrollbar-thumb {
-	min-height: 40px;
-}
-
-.regular::-webkit-scrollbar-thumb,
-.regular::-webkit-scrollbar-track {
-	border: 4px solid transparent;
-	background-clip: padding-box;
-	border-radius: 8px;
-}
-
-.windowBlurred {
-	scrollbar-color: transparent transparent;
-}
-
-.windowBlurred::-webkit-scrollbar-track {
-	background-color: transparent;
-}
-
-.windowBlurred::-webkit-scrollbar-thumb,
-.windowBlurred:hover::-webkit-scrollbar-thumb,
-.windowBlurred.scrolling::-webkit-scrollbar-thumb,
-.windowBlurred.fade:hover::-webkit-scrollbar-thumb,
-.windowBlurred.fade.scrolling::-webkit-scrollbar-thumb {
-	background-color: transparent;
-}
-
 .horizontal.scrollerWrap {
-	padding-inline-end: 0;
-	padding-block-end: var(--scroller-track-size);
 	height: auto;
 	flex: 0 1 auto;
 	width: 100%;
 }
 
 .horizontal .scroller {
-	margin-inline-end: 0;
-	margin-block-end: calc(var(--scroller-track-size) * -1);
 	height: auto;
 	flex: 0 1 auto;
 	width: 100%;
+}
+
+.horizontal.scrollbarReserve {
+	padding-inline-end: 0;
+	padding-block-end: var(--scroller-track-size);
 }

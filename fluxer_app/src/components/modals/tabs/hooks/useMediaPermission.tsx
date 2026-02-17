@@ -17,17 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {CameraPermissionDeniedModal} from '~/components/alerts/CameraPermissionDeniedModal';
-import {MicrophonePermissionDeniedModal} from '~/components/alerts/MicrophonePermissionDeniedModal';
-import {mediaDeviceCache} from '~/lib/MediaDeviceCache';
-import {Platform} from '~/lib/Platform';
-import MediaPermissionStore from '~/stores/MediaPermissionStore';
-import NativePermissionStore from '~/stores/NativePermissionStore';
-import VoiceDevicePermissionStore from '~/stores/voice/VoiceDevicePermissionStore';
-import {ensureNativePermission} from '~/utils/NativePermissions';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {CameraPermissionDeniedModal} from '@app/components/alerts/CameraPermissionDeniedModal';
+import {MicrophonePermissionDeniedModal} from '@app/components/alerts/MicrophonePermissionDeniedModal';
+import {mediaDeviceCache} from '@app/lib/MediaDeviceCache';
+import {Platform} from '@app/lib/Platform';
+import MediaPermissionStore from '@app/stores/MediaPermissionStore';
+import NativePermissionStore from '@app/stores/NativePermissionStore';
+import VoiceDevicePermissionStore from '@app/stores/voice/VoiceDevicePermissionStore';
+import {ensureNativePermission} from '@app/utils/NativePermissions';
+import {useCallback, useEffect, useLayoutEffect, useRef, useState} from 'react';
 
 type PermissionType = 'audio' | 'video';
 
@@ -74,14 +74,14 @@ export const useMediaPermission = (type: PermissionType, options: UseMediaPermis
 		return 'idle';
 	};
 
-	const [state, setState] = React.useState<PermissionState>(() => ({
+	const [state, setState] = useState<PermissionState>(() => ({
 		status: getInitialStatus(),
 		devices: [],
 	}));
 
 	const isDesktop = NativePermissionStore.isDesktop;
 
-	const fetchDevices = React.useCallback(async (): Promise<Array<MediaDeviceInfo>> => {
+	const fetchDevices = useCallback(async (): Promise<Array<MediaDeviceInfo>> => {
 		const ensureBrowserPermission = async () => {
 			const constraints = type === 'audio' ? {audio: true} : {video: true};
 			const stream = await navigator.mediaDevices.getUserMedia(constraints);
@@ -128,7 +128,7 @@ export const useMediaPermission = (type: PermissionType, options: UseMediaPermis
 		return filteredDevices;
 	}, [type, isDesktop]);
 
-	const requestPermission = React.useCallback(async () => {
+	const requestPermission = useCallback(async () => {
 		if (isExplicitlyDenied) {
 			const Modal = type === 'audio' ? MicrophonePermissionDeniedModal : CameraPermissionDeniedModal;
 			ModalActionCreators.push(modal(() => <Modal />));
@@ -171,12 +171,12 @@ export const useMediaPermission = (type: PermissionType, options: UseMediaPermis
 		}
 	}, [type, isExplicitlyDenied, fetchDevices]);
 
-	const requestPermissionRef = React.useRef(requestPermission);
-	React.useLayoutEffect(() => {
+	const requestPermissionRef = useRef(requestPermission);
+	useLayoutEffect(() => {
 		requestPermissionRef.current = requestPermission;
 	}, [requestPermission]);
 
-	React.useLayoutEffect(() => {
+	useLayoutEffect(() => {
 		if (isExplicitlyDenied) {
 			setState((prev) => ({...prev, status: 'denied'}));
 			return;
@@ -205,7 +205,7 @@ export const useMediaPermission = (type: PermissionType, options: UseMediaPermis
 		}
 	}, [isExplicitlyDenied, type, autoRequest, cachedPermissionState, storeInitialized]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const cleanup = mediaDeviceCache.startDeviceChangeListener();
 
 		const handleDeviceChange = () => {
@@ -217,10 +217,13 @@ export const useMediaPermission = (type: PermissionType, options: UseMediaPermis
 		if (navigator.mediaDevices?.addEventListener) {
 			navigator.mediaDevices.addEventListener('devicechange', handleDeviceChange);
 		} else if ('ondevicechange' in (navigator.mediaDevices ?? {})) {
-			const previous = (navigator.mediaDevices as any).ondevicechange;
-			(navigator.mediaDevices as any).ondevicechange = (...args: Array<unknown>) => {
+			const mediaDevicesWithEvents = navigator.mediaDevices as MediaDevices & {
+				ondevicechange: ((this: MediaDevices, ev: Event) => unknown) | null;
+			};
+			const previous = mediaDevicesWithEvents.ondevicechange;
+			mediaDevicesWithEvents.ondevicechange = function (this: MediaDevices, ev: Event) {
 				handleDeviceChange();
-				previous?.(...args);
+				previous?.call(this, ev);
 			};
 		}
 
@@ -228,7 +231,10 @@ export const useMediaPermission = (type: PermissionType, options: UseMediaPermis
 			if (navigator.mediaDevices?.removeEventListener) {
 				navigator.mediaDevices.removeEventListener('devicechange', handleDeviceChange);
 			} else if (navigator.mediaDevices && 'ondevicechange' in navigator.mediaDevices) {
-				(navigator.mediaDevices as any).ondevicechange = null;
+				const mediaDevicesWithEvents = navigator.mediaDevices as MediaDevices & {
+					ondevicechange: ((this: MediaDevices, ev: Event) => unknown) | null;
+				};
+				mediaDevicesWithEvents.ondevicechange = null;
 			}
 			cleanup();
 		};

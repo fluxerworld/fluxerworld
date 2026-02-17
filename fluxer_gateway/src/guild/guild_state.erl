@@ -17,24 +17,26 @@
 
 -module(guild_state).
 
--export([
-    update_state/3
-]).
+-export([update_state/3]).
 
--import(guild_user_data, [maybe_update_cached_user_data/3]).
--import(guild_availability, [handle_unavailability_transition/2]).
--import(guild_visibility, [compute_and_dispatch_visibility_changes/2]).
--import(guild, [update_counts/1]).
+-type guild_state() :: map().
+-type guild_data() :: map().
+-type event() :: atom().
+-type event_data() :: map().
+-type user_id() :: integer().
+-type role_id() :: binary().
 
+-spec update_state(event(), event_data(), guild_state()) -> guild_state().
 update_state(Event, EventData, State) ->
-    StateWithUpdatedUser = maybe_update_cached_user_data(Event, EventData, State),
-    Data = maps:get(data, StateWithUpdatedUser),
-
+    StateWithUpdatedUser0 = guild_user_data:maybe_update_cached_user_data(Event, EventData, State),
+    Data0 = maps:get(data, StateWithUpdatedUser0),
+    Data = guild_data_index:normalize_data(Data0),
+    StateWithUpdatedUser = maps:put(data, Data, StateWithUpdatedUser0),
     UpdatedData = update_data_for_event(Event, EventData, Data, State),
     UpdatedState = maps:put(data, UpdatedData, StateWithUpdatedUser),
+    handle_post_update(Event, EventData, StateWithUpdatedUser, UpdatedState).
 
-    handle_post_update(Event, StateWithUpdatedUser, UpdatedState).
-
+-spec update_data_for_event(event(), event_data(), guild_data(), guild_state()) -> guild_data().
 update_data_for_event(guild_update, EventData, Data, _State) ->
     handle_guild_update(EventData, Data);
 update_data_for_event(guild_member_add, EventData, Data, _State) ->
@@ -70,23 +72,184 @@ update_data_for_event(guild_stickers_update, EventData, Data, _State) ->
 update_data_for_event(_Event, _EventData, Data, _State) ->
     Data.
 
-handle_post_update(guild_update, StateWithUpdatedUser, UpdatedState) ->
-    handle_unavailability_transition(StateWithUpdatedUser, UpdatedState),
+-spec handle_post_update(event(), event_data(), guild_state(), guild_state()) -> guild_state().
+handle_post_update(guild_update, _EventData, StateWithUpdatedUser, UpdatedState) ->
+    guild_availability:handle_unavailability_transition(StateWithUpdatedUser, UpdatedState);
+handle_post_update(guild_member_add, _EventData, _StateWithUpdatedUser, UpdatedState) ->
+    guild:update_counts(UpdatedState);
+handle_post_update(guild_member_update, EventData, StateWithUpdatedUser, UpdatedState) ->
+    UserId = extract_user_id(EventData),
+    case is_integer(UserId) andalso UserId > 0 of
+        true ->
+            guild_visibility:compute_and_dispatch_visibility_changes_for_users(
+                [UserId],
+                StateWithUpdatedUser,
+                UpdatedState
+            );
+        false ->
+            guild_visibility:compute_and_dispatch_visibility_changes(
+                StateWithUpdatedUser,
+                UpdatedState
+            )
+    end;
+handle_post_update(guild_role_create, _EventData, _StateWithUpdatedUser, UpdatedState) ->
     UpdatedState;
-handle_post_update(guild_member_add, _StateWithUpdatedUser, UpdatedState) ->
-    update_counts(UpdatedState);
-handle_post_update(guild_member_remove, _StateWithUpdatedUser, UpdatedState) ->
+handle_post_update(guild_role_update, EventData, StateWithUpdatedUser, UpdatedState) ->
+    recompute_visibility_for_roles(
+        extract_role_ids_from_role_update(EventData),
+        StateWithUpdatedUser,
+        UpdatedState
+    );
+handle_post_update(guild_role_update_bulk, EventData, StateWithUpdatedUser, UpdatedState) ->
+    recompute_visibility_for_roles(
+        extract_role_ids_from_role_update_bulk(EventData),
+        StateWithUpdatedUser,
+        UpdatedState
+    );
+handle_post_update(guild_role_delete, EventData, StateWithUpdatedUser, UpdatedState) ->
+    recompute_visibility_for_roles(
+        extract_role_ids_from_role_delete(EventData),
+        StateWithUpdatedUser,
+        UpdatedState
+    );
+handle_post_update(channel_update, EventData, StateWithUpdatedUser, UpdatedState) ->
+    ChannelIds = extract_channel_ids_from_channel_update(EventData),
+    guild_visibility:compute_and_dispatch_visibility_changes_for_channels(
+        ChannelIds,
+        StateWithUpdatedUser,
+        UpdatedState
+    );
+handle_post_update(channel_update_bulk, EventData, StateWithUpdatedUser, UpdatedState) ->
+    ChannelIds = extract_channel_ids_from_channel_update_bulk(EventData),
+    guild_visibility:compute_and_dispatch_visibility_changes_for_channels(
+        ChannelIds,
+        StateWithUpdatedUser,
+        UpdatedState
+    );
+handle_post_update(guild_member_remove, EventData, _StateWithUpdatedUser, UpdatedState) ->
+    UserId = extract_user_id(EventData),
     State1 = cleanup_removed_member_sessions(UpdatedState),
-    update_counts(State1);
-handle_post_update(Event, StateWithUpdatedUser, UpdatedState) ->
+    State2 = maybe_disconnect_removed_member(UserId, State1),
+    guild:update_counts(State2);
+handle_post_update(Event, _EventData, StateWithUpdatedUser, UpdatedState) ->
     case needs_visibility_check(Event) of
         true ->
-            compute_and_dispatch_visibility_changes(StateWithUpdatedUser, UpdatedState),
-            UpdatedState;
+            guild_visibility:compute_and_dispatch_visibility_changes(
+                StateWithUpdatedUser, UpdatedState
+            );
         false ->
             UpdatedState
     end.
 
+-spec maybe_disconnect_removed_member(user_id(), guild_state()) -> guild_state().
+maybe_disconnect_removed_member(UserId, State) when is_integer(UserId), UserId > 0 ->
+    {reply, _Result, NewState} =
+        guild_voice_disconnect:disconnect_voice_user(
+            #{user_id => UserId, connection_id => null},
+            State
+        ),
+    NewState;
+maybe_disconnect_removed_member(_, State) ->
+    State.
+
+-spec recompute_visibility_for_roles([integer()], guild_state(), guild_state()) -> guild_state().
+recompute_visibility_for_roles(RoleIds, StateWithUpdatedUser, UpdatedState) ->
+    GuildId = maps:get(id, UpdatedState, 0),
+    case lists:any(fun(RoleId) -> RoleId =:= GuildId end, RoleIds) of
+        true ->
+            guild_visibility:compute_and_dispatch_visibility_changes(
+                StateWithUpdatedUser,
+                UpdatedState
+            );
+        false ->
+            UserIds = affected_user_ids_for_roles(RoleIds, StateWithUpdatedUser, UpdatedState),
+            case UserIds of
+                [] ->
+                    UpdatedState;
+                _ ->
+                    guild_visibility:compute_and_dispatch_visibility_changes_for_users(
+                        UserIds,
+                        StateWithUpdatedUser,
+                        UpdatedState
+                    )
+            end
+    end.
+
+-spec affected_user_ids_for_roles([integer()], guild_state(), guild_state()) -> [user_id()].
+affected_user_ids_for_roles(RoleIds, StateWithUpdatedUser, UpdatedState) ->
+    OldData = maps:get(data, StateWithUpdatedUser, #{}),
+    NewData = maps:get(data, UpdatedState, #{}),
+    OldMemberRoleIndex = guild_data_index:member_role_index(OldData),
+    NewMemberRoleIndex = guild_data_index:member_role_index(NewData),
+    UserIdSet = lists:foldl(
+        fun(RoleId, AccSet) ->
+            OldUsers = maps:keys(maps:get(RoleId, OldMemberRoleIndex, #{})),
+            NewUsers = maps:keys(maps:get(RoleId, NewMemberRoleIndex, #{})),
+            RoleUsers = OldUsers ++ NewUsers,
+            lists:foldl(
+                fun(UserId, InnerSet) -> sets:add_element(UserId, InnerSet) end,
+                AccSet,
+                RoleUsers
+            )
+        end,
+        sets:new(),
+        lists:usort(RoleIds)
+    ),
+    sets:to_list(UserIdSet).
+
+-spec extract_role_ids_from_role_update(event_data()) -> [integer()].
+extract_role_ids_from_role_update(EventData) ->
+    RoleData = maps:get(<<"role">>, EventData, #{}),
+    case type_conv:to_integer(maps:get(<<"id">>, RoleData, undefined)) of
+        undefined -> [];
+        RoleId -> [RoleId]
+    end.
+
+-spec extract_role_ids_from_role_update_bulk(event_data()) -> [integer()].
+extract_role_ids_from_role_update_bulk(EventData) ->
+    Roles = maps:get(<<"roles">>, EventData, []),
+    lists:filtermap(
+        fun(RoleData) ->
+            case type_conv:to_integer(maps:get(<<"id">>, RoleData, undefined)) of
+                undefined ->
+                    false;
+                RoleId ->
+                    {true, RoleId}
+            end
+        end,
+        Roles
+    ).
+
+-spec extract_role_ids_from_role_delete(event_data()) -> [integer()].
+extract_role_ids_from_role_delete(EventData) ->
+    case type_conv:to_integer(maps:get(<<"role_id">>, EventData, undefined)) of
+        undefined -> [];
+        RoleId -> [RoleId]
+    end.
+
+-spec extract_channel_ids_from_channel_update(event_data()) -> [integer()].
+extract_channel_ids_from_channel_update(EventData) ->
+    case type_conv:to_integer(maps:get(<<"id">>, EventData, undefined)) of
+        undefined -> [];
+        ChannelId -> [ChannelId]
+    end.
+
+-spec extract_channel_ids_from_channel_update_bulk(event_data()) -> [integer()].
+extract_channel_ids_from_channel_update_bulk(EventData) ->
+    Channels = maps:get(<<"channels">>, EventData, []),
+    lists:filtermap(
+        fun(ChannelData) ->
+            case type_conv:to_integer(maps:get(<<"id">>, ChannelData, undefined)) of
+                undefined ->
+                    false;
+                ChannelId ->
+                    {true, ChannelId}
+            end
+        end,
+        Channels
+    ).
+
+-spec needs_visibility_check(event()) -> boolean().
 needs_visibility_check(guild_role_create) -> true;
 needs_visibility_check(guild_role_update) -> true;
 needs_visibility_check(guild_role_update_bulk) -> true;
@@ -96,33 +259,36 @@ needs_visibility_check(channel_update) -> true;
 needs_visibility_check(channel_update_bulk) -> true;
 needs_visibility_check(_) -> false.
 
+-spec handle_guild_update(event_data(), guild_data()) -> guild_data().
 handle_guild_update(EventData, Data) ->
     Guild = maps:get(<<"guild">>, Data),
     UpdatedGuild = maps:merge(Guild, EventData),
     maps:put(<<"guild">>, UpdatedGuild, Data).
 
+-spec handle_member_add(event_data(), guild_data()) -> guild_data().
 handle_member_add(EventData, Data) ->
-    Members = maps:get(<<"members">>, Data, []),
-    UpdatedData = maps:put(<<"members">>, Members ++ [EventData], Data),
-    UpdatedData.
+    guild_data_index:put_member(EventData, Data).
 
+-spec handle_member_update(event_data(), guild_data()) -> guild_data().
 handle_member_update(EventData, Data) ->
-    Members = maps:get(<<"members">>, Data, []),
     UserId = extract_user_id(EventData),
-    UpdatedMembers = replace_member_by_id(Members, UserId, EventData),
-    maps:put(<<"members">>, UpdatedMembers, Data).
+    Members = guild_data_index:member_map(Data),
+    case maps:is_key(UserId, Members) of
+        true ->
+            guild_data_index:put_member(EventData, Data);
+        false ->
+            Data
+    end.
 
+-spec handle_member_remove(event_data(), guild_data(), guild_state()) -> guild_data().
 handle_member_remove(EventData, Data, _State) ->
-    Members = maps:get(<<"members">>, Data, []),
     UserId = extract_user_id(EventData),
-    FilteredMembers = remove_member_by_id(Members, UserId),
-    maps:put(<<"members">>, FilteredMembers, Data).
+    guild_data_index:remove_member(UserId, Data).
 
+-spec cleanup_removed_member_sessions(guild_state()) -> guild_state().
 cleanup_removed_member_sessions(State) ->
     Data = maps:get(data, State),
-    Members = maps:get(<<"members">>, Data, []),
-    MemberUserIds = sets:from_list([extract_user_id_from_member(M) || M <- Members]),
-
+    MemberUserIds = sets:from_list(guild_data_index:member_ids(Data)),
     Sessions = maps:get(sessions, State, #{}),
     FilteredSessions = maps:filter(
         fun(_K, S) ->
@@ -131,158 +297,141 @@ cleanup_removed_member_sessions(State) ->
         end,
         Sessions
     ),
+    maps:put(sessions, FilteredSessions, State).
 
-    Presences = maps:get(presences, State, #{}),
-    FilteredPresences = maps:filter(
-        fun(UserId, _V) ->
-            sets:is_element(UserId, MemberUserIds)
-        end,
-        Presences
-    ),
-
-    State1 = maps:put(sessions, FilteredSessions, State),
-    maps:put(presences, FilteredPresences, State1).
-
-extract_user_id_from_member(Member) when is_map(Member) ->
-    MUser = maps:get(<<"user">>, Member, #{}),
-    utils:binary_to_integer_safe(maps:get(<<"id">>, MUser, <<"0">>));
-extract_user_id_from_member(_) ->
-    0.
-
+-spec extract_user_id(event_data()) -> user_id().
 extract_user_id(EventData) ->
     MUser = maps:get(<<"user">>, EventData, #{}),
     utils:binary_to_integer_safe(maps:get(<<"id">>, MUser, <<"0">>)).
 
-replace_member_by_id(Members, UserId, NewMember) ->
-    lists:map(
-        fun(M) when is_map(M) ->
-            MMUser = maps:get(<<"user">>, M, #{}),
-            MUserId = utils:binary_to_integer_safe(maps:get(<<"id">>, MMUser, <<"0">>)),
-            case MUserId =:= UserId of
-                true -> NewMember;
-                false -> M
-            end
-        end,
-        Members
-    ).
-
-remove_member_by_id(Members, UserId) ->
-    lists:filter(
-        fun(M) when is_map(M) ->
-            MMUser = maps:get(<<"user">>, M, #{}),
-            MUserId = utils:binary_to_integer_safe(maps:get(<<"id">>, MMUser, <<"0">>)),
-            MUserId =/= UserId
-        end,
-        Members
-    ).
-
+-spec handle_role_create(event_data(), guild_data()) -> guild_data().
 handle_role_create(EventData, Data) ->
-    Roles = maps:get(<<"roles">>, Data, []),
+    Roles = guild_data_index:role_list(Data),
     RoleData = maps:get(<<"role">>, EventData),
-    maps:put(<<"roles">>, Roles ++ [RoleData], Data).
+    guild_data_index:put_roles(Roles ++ [RoleData], Data).
 
+-spec handle_role_update(event_data(), guild_data()) -> guild_data().
 handle_role_update(EventData, Data) ->
-    Roles = maps:get(<<"roles">>, Data, []),
+    Roles = guild_data_index:role_list(Data),
     RoleData = maps:get(<<"role">>, EventData),
     RoleId = maps:get(<<"id">>, RoleData),
     UpdatedRoles = replace_item_by_id(Roles, RoleId, RoleData),
-    maps:put(<<"roles">>, UpdatedRoles, Data).
+    guild_data_index:put_roles(UpdatedRoles, Data).
 
+-spec handle_role_update_bulk(event_data(), guild_data()) -> guild_data().
 handle_role_update_bulk(EventData, Data) ->
-    Roles = maps:get(<<"roles">>, Data, []),
+    Roles = guild_data_index:role_list(Data),
     BulkRoles = maps:get(<<"roles">>, EventData, []),
     UpdatedRoles = bulk_update_items(Roles, BulkRoles),
-    maps:put(<<"roles">>, UpdatedRoles, Data).
+    guild_data_index:put_roles(UpdatedRoles, Data).
 
+-spec handle_role_delete(event_data(), guild_data()) -> guild_data().
 handle_role_delete(EventData, Data) ->
-    Roles = maps:get(<<"roles">>, Data, []),
+    Roles = guild_data_index:role_list(Data),
     RoleId = maps:get(<<"role_id">>, EventData),
     FilteredRoles = remove_item_by_id(Roles, RoleId),
-    Data1 = maps:put(<<"roles">>, FilteredRoles, Data),
+    Data1 = guild_data_index:put_roles(FilteredRoles, Data),
     Data2 = strip_role_from_members(RoleId, Data1),
     strip_role_from_channel_overwrites(RoleId, Data2).
 
+-spec strip_role_from_members(role_id(), guild_data()) -> guild_data().
 strip_role_from_members(RoleId, Data) ->
-    Members = maps:get(<<"members">>, Data, []),
-    UpdatedMembers = lists:map(
-        fun(Member) when is_map(Member) ->
-            MemberRoles = maps:get(<<"roles">>, Member, []),
-            FilteredRoles = lists:filter(
-                fun(R) ->
-                    RoleIdInt = utils:binary_to_integer_safe(RoleId),
-                    RInt = utils:binary_to_integer_safe(R),
-                    RInt =/= RoleIdInt
-                end,
-                MemberRoles
-            ),
-            maps:put(<<"roles">>, FilteredRoles, Member);
-        (Member) ->
-            Member
+    RoleIdInt = utils:binary_to_integer_safe(RoleId),
+    MemberRoleIndex = guild_data_index:member_role_index(Data),
+    AffectedUsers = maps:keys(maps:get(RoleIdInt, MemberRoleIndex, #{})),
+    lists:foldl(
+        fun(UserId, AccData) ->
+            case guild_data_index:get_member(UserId, AccData) of
+                undefined ->
+                    AccData;
+                Member ->
+                    MemberRoles = maps:get(<<"roles">>, Member, []),
+                    FilteredRoles = lists:filter(
+                        fun(R) ->
+                            RInt = utils:binary_to_integer_safe(R),
+                            RInt =/= RoleIdInt
+                        end,
+                        MemberRoles
+                    ),
+                    guild_data_index:put_member(maps:put(<<"roles">>, FilteredRoles, Member), AccData)
+            end
         end,
-        Members
-    ),
-    maps:put(<<"members">>, UpdatedMembers, Data).
+        Data,
+        AffectedUsers
+    ).
 
+-spec strip_role_from_channel_overwrites(role_id(), guild_data()) -> guild_data().
 strip_role_from_channel_overwrites(RoleId, Data) ->
-    Channels = maps:get(<<"channels">>, Data, []),
+    Channels = guild_data_index:channel_list(Data),
     RoleIdInt = utils:binary_to_integer_safe(RoleId),
     UpdatedChannels = lists:map(
-        fun(Channel) when is_map(Channel) ->
-            Overwrites = maps:get(<<"permission_overwrites">>, Channel, []),
-            FilteredOverwrites = lists:filter(
-                fun(Overwrite) when is_map(Overwrite) ->
-                    OverwriteType = maps:get(<<"type">>, Overwrite, 0),
-                    OverwriteId = utils:binary_to_integer_safe(maps:get(<<"id">>, Overwrite, <<"0">>)),
-                    not (OverwriteType =:= 0 andalso OverwriteId =:= RoleIdInt);
-                (_) ->
-                    true
-                end,
-                Overwrites
-            ),
-            maps:put(<<"permission_overwrites">>, FilteredOverwrites, Channel);
-        (Channel) ->
-            Channel
+        fun
+            (Channel) when is_map(Channel) ->
+                Overwrites = maps:get(<<"permission_overwrites">>, Channel, []),
+                FilteredOverwrites = lists:filter(
+                    fun
+                        (Overwrite) when is_map(Overwrite) ->
+                            OverwriteType = maps:get(<<"type">>, Overwrite, 0),
+                            OverwriteId = utils:binary_to_integer_safe(
+                                maps:get(<<"id">>, Overwrite, <<"0">>)
+                            ),
+                            not (OverwriteType =:= 0 andalso OverwriteId =:= RoleIdInt);
+                        (_) ->
+                            true
+                    end,
+                    Overwrites
+                ),
+                maps:put(<<"permission_overwrites">>, FilteredOverwrites, Channel);
+            (Channel) ->
+                Channel
         end,
         Channels
     ),
-    maps:put(<<"channels">>, UpdatedChannels, Data).
+    guild_data_index:put_channels(UpdatedChannels, Data).
 
+-spec handle_channel_create(event_data(), guild_data()) -> guild_data().
 handle_channel_create(EventData, Data) ->
-    Channels = maps:get(<<"channels">>, Data, []),
-    maps:put(<<"channels">>, Channels ++ [EventData], Data).
+    Channels = guild_data_index:channel_list(Data),
+    guild_data_index:put_channels(Channels ++ [EventData], Data).
 
+-spec handle_channel_update(event_data(), guild_data()) -> guild_data().
 handle_channel_update(EventData, Data) ->
-    Channels = maps:get(<<"channels">>, Data, []),
+    Channels = guild_data_index:channel_list(Data),
     ChannelId = maps:get(<<"id">>, EventData),
     UpdatedChannels = replace_item_by_id(Channels, ChannelId, EventData),
-    maps:put(<<"channels">>, UpdatedChannels, Data).
+    guild_data_index:put_channels(UpdatedChannels, Data).
 
+-spec handle_channel_update_bulk(event_data(), guild_data()) -> guild_data().
 handle_channel_update_bulk(EventData, Data) ->
-    Channels = maps:get(<<"channels">>, Data, []),
+    Channels = guild_data_index:channel_list(Data),
     BulkChannels = maps:get(<<"channels">>, EventData, []),
     UpdatedChannels = bulk_update_items(Channels, BulkChannels),
-    maps:put(<<"channels">>, UpdatedChannels, Data).
+    guild_data_index:put_channels(UpdatedChannels, Data).
 
+-spec handle_channel_delete(event_data(), guild_data()) -> guild_data().
 handle_channel_delete(EventData, Data) ->
-    Channels = maps:get(<<"channels">>, Data, []),
+    Channels = guild_data_index:channel_list(Data),
     ChannelId = maps:get(<<"id">>, EventData),
     FilteredChannels = remove_item_by_id(Channels, ChannelId),
-    maps:put(<<"channels">>, FilteredChannels, Data).
+    guild_data_index:put_channels(FilteredChannels, Data).
 
+-spec handle_message_create(event_data(), guild_data()) -> guild_data().
 handle_message_create(EventData, Data) ->
-    Channels = maps:get(<<"channels">>, Data, []),
+    Channels = guild_data_index:channel_list(Data),
     ChannelId = maps:get(<<"channel_id">>, EventData),
     MessageId = maps:get(<<"id">>, EventData),
     UpdatedChannels = update_channel_field(Channels, ChannelId, <<"last_message_id">>, MessageId),
-    maps:put(<<"channels">>, UpdatedChannels, Data).
+    guild_data_index:put_channels(UpdatedChannels, Data).
 
+-spec handle_channel_pins_update(event_data(), guild_data()) -> guild_data().
 handle_channel_pins_update(EventData, Data) ->
-    Channels = maps:get(<<"channels">>, Data, []),
+    Channels = guild_data_index:channel_list(Data),
     ChannelId = maps:get(<<"channel_id">>, EventData),
     LastPin = maps:get(<<"last_pin_timestamp">>, EventData),
     UpdatedChannels = update_channel_field(Channels, ChannelId, <<"last_pin_timestamp">>, LastPin),
-    maps:put(<<"channels">>, UpdatedChannels, Data).
+    guild_data_index:put_channels(UpdatedChannels, Data).
 
+-spec update_channel_field([map()], binary(), binary(), term()) -> [map()].
 update_channel_field(Channels, ChannelId, Field, Value) ->
     lists:map(
         fun(C) when is_map(C) ->
@@ -294,12 +443,15 @@ update_channel_field(Channels, ChannelId, Field, Value) ->
         Channels
     ).
 
+-spec handle_emojis_update(event_data(), guild_data()) -> guild_data().
 handle_emojis_update(EventData, Data) ->
     maps:put(<<"emojis">>, maps:get(<<"emojis">>, EventData, []), Data).
 
+-spec handle_stickers_update(event_data(), guild_data()) -> guild_data().
 handle_stickers_update(EventData, Data) ->
     maps:put(<<"stickers">>, maps:get(<<"stickers">>, EventData, []), Data).
 
+-spec replace_item_by_id([map()], binary(), map()) -> [map()].
 replace_item_by_id(Items, Id, NewItem) ->
     lists:map(
         fun(Item) when is_map(Item) ->
@@ -311,6 +463,7 @@ replace_item_by_id(Items, Id, NewItem) ->
         Items
     ).
 
+-spec remove_item_by_id([map()], binary()) -> [map()].
 remove_item_by_id(Items, Id) ->
     lists:filter(
         fun(Item) when is_map(Item) ->
@@ -319,6 +472,7 @@ remove_item_by_id(Items, Id) ->
         Items
     ).
 
+-spec bulk_update_items([map()], [map()]) -> [map()].
 bulk_update_items(Items, BulkItems) ->
     BulkMap = lists:foldl(
         fun
@@ -333,7 +487,6 @@ bulk_update_items(Items, BulkItems) ->
         #{},
         BulkItems
     ),
-
     lists:map(
         fun
             (Item) when is_map(Item) ->
@@ -358,26 +511,19 @@ handle_role_delete_strips_from_members_test() ->
             #{<<"id">> => <<"100">>, <<"name">> => <<"Admin">>},
             #{<<"id">> => <<"200">>, <<"name">> => <<"Moderator">>}
         ],
-        <<"members">> => [
-            #{
-                <<"user">> => #{<<"id">> => <<"1">>},
-                <<"roles">> => [<<"100">>, <<"200">>]
-            },
-            #{
-                <<"user">> => #{<<"id">> => <<"2">>},
-                <<"roles">> => [<<"200">>]
-            },
-            #{
-                <<"user">> => #{<<"id">> => <<"3">>},
-                <<"roles">> => [<<"100">>]
-            }
-        ],
+        <<"members">> => #{
+            1 => #{<<"user">> => #{<<"id">> => <<"1">>}, <<"roles">> => [<<"100">>, <<"200">>]},
+            2 => #{<<"user">> => #{<<"id">> => <<"2">>}, <<"roles">> => [<<"200">>]},
+            3 => #{<<"user">> => #{<<"id">> => <<"3">>}, <<"roles">> => [<<"100">>]}
+        },
         <<"channels">> => []
     },
     EventData = #{<<"role_id">> => RoleIdToDelete},
     Result = handle_role_delete(EventData, Data),
     Members = maps:get(<<"members">>, Result),
-    [M1, M2, M3] = Members,
+    M1 = maps:get(1, Members),
+    M2 = maps:get(2, Members),
+    M3 = maps:get(3, Members),
     ?assertEqual([<<"100">>], maps:get(<<"roles">>, M1)),
     ?assertEqual([], maps:get(<<"roles">>, M2)),
     ?assertEqual([<<"100">>], maps:get(<<"roles">>, M3)).
@@ -394,45 +540,24 @@ handle_role_delete_strips_from_channel_overwrites_test() ->
             #{
                 <<"id">> => <<"500">>,
                 <<"permission_overwrites">> => [
-                    #{<<"id">> => <<"100">>, <<"type">> => 0, <<"allow">> => <<"0">>, <<"deny">> => <<"1024">>},
-                    #{<<"id">> => <<"200">>, <<"type">> => 0, <<"allow">> => <<"1024">>, <<"deny">> => <<"0">>},
-                    #{<<"id">> => <<"1">>, <<"type">> => 1, <<"allow">> => <<"2048">>, <<"deny">> => <<"0">>}
-                ]
-            },
-            #{
-                <<"id">> => <<"501">>,
-                <<"permission_overwrites">> => [
-                    #{<<"id">> => <<"200">>, <<"type">> => 0, <<"allow">> => <<"1024">>, <<"deny">> => <<"0">>}
-                ]
-            }
-        ]
-    },
-    EventData = #{<<"role_id">> => RoleIdToDelete},
-    Result = handle_role_delete(EventData, Data),
-    Channels = maps:get(<<"channels">>, Result),
-    [Ch1, Ch2] = Channels,
-    Ch1Overwrites = maps:get(<<"permission_overwrites">>, Ch1),
-    Ch2Overwrites = maps:get(<<"permission_overwrites">>, Ch2),
-    ?assertEqual(2, length(Ch1Overwrites)),
-    ?assertEqual(0, length(Ch2Overwrites)),
-    OverwriteIds = [maps:get(<<"id">>, O) || O <- Ch1Overwrites],
-    ?assert(lists:member(<<"100">>, OverwriteIds)),
-    ?assert(lists:member(<<"1">>, OverwriteIds)),
-    ?assertNot(lists:member(<<"200">>, OverwriteIds)).
-
-handle_role_delete_preserves_user_overwrites_test() ->
-    RoleIdToDelete = <<"200">>,
-    Data = #{
-        <<"roles">> => [
-            #{<<"id">> => <<"200">>, <<"name">> => <<"Moderator">>}
-        ],
-        <<"members">> => [],
-        <<"channels">> => [
-            #{
-                <<"id">> => <<"500">>,
-                <<"permission_overwrites">> => [
-                    #{<<"id">> => <<"200">>, <<"type">> => 0, <<"allow">> => <<"1024">>, <<"deny">> => <<"0">>},
-                    #{<<"id">> => <<"200">>, <<"type">> => 1, <<"allow">> => <<"2048">>, <<"deny">> => <<"0">>}
+                    #{
+                        <<"id">> => <<"100">>,
+                        <<"type">> => 0,
+                        <<"allow">> => <<"0">>,
+                        <<"deny">> => <<"1024">>
+                    },
+                    #{
+                        <<"id">> => <<"200">>,
+                        <<"type">> => 0,
+                        <<"allow">> => <<"1024">>,
+                        <<"deny">> => <<"0">>
+                    },
+                    #{
+                        <<"id">> => <<"1">>,
+                        <<"type">> => 1,
+                        <<"allow">> => <<"2048">>,
+                        <<"deny">> => <<"0">>
+                    }
                 ]
             }
         ]
@@ -441,26 +566,141 @@ handle_role_delete_preserves_user_overwrites_test() ->
     Result = handle_role_delete(EventData, Data),
     Channels = maps:get(<<"channels">>, Result),
     [Ch1] = Channels,
-    Overwrites = maps:get(<<"permission_overwrites">>, Ch1),
-    ?assertEqual(1, length(Overwrites)),
-    [RemainingOverwrite] = Overwrites,
-    ?assertEqual(1, maps:get(<<"type">>, RemainingOverwrite)).
+    Ch1Overwrites = maps:get(<<"permission_overwrites">>, Ch1),
+    ?assertEqual(2, length(Ch1Overwrites)).
 
-handle_role_delete_removes_role_from_roles_list_test() ->
-    RoleIdToDelete = <<"200">>,
+handle_member_add_test() ->
+    Data = #{<<"members">> => #{1 => #{<<"user">> => #{<<"id">> => <<"1">>}}}},
+    EventData = #{<<"user">> => #{<<"id">> => <<"2">>}},
+    Result = handle_member_add(EventData, Data),
+    Members = maps:get(<<"members">>, Result),
+    ?assertEqual(2, map_size(Members)).
+
+handle_member_update_test() ->
     Data = #{
-        <<"roles">> => [
-            #{<<"id">> => <<"100">>, <<"name">> => <<"Admin">>},
-            #{<<"id">> => <<"200">>, <<"name">> => <<"Moderator">>}
-        ],
-        <<"members">> => [],
-        <<"channels">> => []
+        <<"members">> => #{
+            1 => #{<<"user">> => #{<<"id">> => <<"1">>}, <<"nick">> => <<"OldNick">>}
+        }
     },
-    EventData = #{<<"role_id">> => RoleIdToDelete},
-    Result = handle_role_delete(EventData, Data),
-    Roles = maps:get(<<"roles">>, Result),
-    ?assertEqual(1, length(Roles)),
-    [RemainingRole] = Roles,
-    ?assertEqual(<<"100">>, maps:get(<<"id">>, RemainingRole)).
+    EventData = #{<<"user">> => #{<<"id">> => <<"1">>}, <<"nick">> => <<"NewNick">>},
+    Result = handle_member_update(EventData, Data),
+    Members = maps:get(<<"members">>, Result),
+    Member = maps:get(1, Members),
+    ?assertEqual(<<"NewNick">>, maps:get(<<"nick">>, Member)).
+
+handle_channel_create_test() ->
+    Data = #{<<"channels">> => []},
+    EventData = #{<<"id">> => <<"100">>, <<"name">> => <<"general">>},
+    Result = handle_channel_create(EventData, Data),
+    Channels = maps:get(<<"channels">>, Result),
+    ?assertEqual(1, length(Channels)).
+
+bulk_update_items_test() ->
+    Items = [
+        #{<<"id">> => <<"1">>, <<"value">> => <<"old1">>},
+        #{<<"id">> => <<"2">>, <<"value">> => <<"old2">>}
+    ],
+    BulkItems = [
+        #{<<"id">> => <<"1">>, <<"value">> => <<"new1">>}
+    ],
+    Result = bulk_update_items(Items, BulkItems),
+    [Item1, Item2] = Result,
+    ?assertEqual(<<"new1">>, maps:get(<<"value">>, Item1)),
+    ?assertEqual(<<"old2">>, maps:get(<<"value">>, Item2)).
+
+needs_visibility_check_test() ->
+    ?assertEqual(true, needs_visibility_check(guild_role_update)),
+    ?assertEqual(true, needs_visibility_check(channel_update)),
+    ?assertEqual(false, needs_visibility_check(message_create)),
+    ?assertEqual(false, needs_visibility_check(unknown_event)).
+
+extract_channel_ids_from_channel_update_test() ->
+    ?assertEqual([42], extract_channel_ids_from_channel_update(#{<<"id">> => <<"42">>})),
+    ?assertEqual([], extract_channel_ids_from_channel_update(#{})).
+
+extract_channel_ids_from_channel_update_bulk_test() ->
+    EventData = #{
+        <<"channels">> => [
+            #{<<"id">> => <<"10">>},
+            #{<<"id">> => <<"11">>},
+            #{<<"name">> => <<"missing_id">>}
+        ]
+    },
+    ?assertEqual([10, 11], extract_channel_ids_from_channel_update_bulk(EventData)).
+
+guild_member_remove_disconnects_voice_test() ->
+    Self = self(),
+    TestFun = fun(GuildId, ChannelId, UserId, ConnectionId) ->
+        Self ! {force_disconnect, GuildId, ChannelId, UserId, ConnectionId},
+        {ok, #{success => true}}
+    end,
+    GuildId = 42,
+    UserId = 5,
+    ChannelId = 20,
+    Data = #{
+        <<"guild">> => #{<<"owner_id">> => <<"999">>},
+        <<"roles">> => [
+            #{<<"id">> => integer_to_binary(GuildId), <<"permissions">> => <<"0">>}
+        ],
+        <<"members">> => #{
+            UserId => #{<<"user">> => #{<<"id">> => integer_to_binary(UserId)}, <<"roles">> => []}
+        },
+        <<"channels">> => [#{<<"id">> => integer_to_binary(ChannelId)}]
+    },
+    VoiceStates = #{
+        <<"conn">> => #{
+            <<"user_id">> => integer_to_binary(UserId),
+            <<"guild_id">> => integer_to_binary(GuildId),
+            <<"channel_id">> => integer_to_binary(ChannelId),
+            <<"connection_id">> => <<"conn">>
+        }
+    },
+    Sessions = #{<<"s1">> => #{user_id => UserId, pid => self()}},
+    State = #{
+        id => GuildId,
+        data => Data,
+        voice_states => VoiceStates,
+        sessions => Sessions,
+        test_force_disconnect_fun => TestFun
+    },
+    EventData = #{<<"user">> => #{<<"id">> => integer_to_binary(UserId)}},
+    UpdatedState = update_state(guild_member_remove, EventData, State),
+    ?assertEqual(#{}, maps:get(voice_states, UpdatedState)),
+    ?assertEqual(#{}, maps:get(sessions, UpdatedState, #{})),
+    receive
+        {force_disconnect, GuildId, ChannelId, UserId, <<"conn">>} -> ok
+    after 200 ->
+        ?assert(false)
+    end.
+
+guild_update_syncs_unavailability_cache_test() ->
+    GuildId = 420042,
+    CleanupState = #{
+        id => GuildId,
+        data => #{
+            <<"guild">> => #{<<"features">> => []}
+        }
+    },
+    _ = guild_availability:update_unavailability_cache_for_state(CleanupState),
+    try
+        State0 = #{
+            id => GuildId,
+            data => #{
+                <<"guild">> => #{<<"features">> => []},
+                <<"members">> => []
+            },
+            sessions => #{}
+        },
+        State1 = update_state(
+            guild_update,
+            #{<<"features">> => [<<"UNAVAILABLE_FOR_EVERYONE">>]},
+            State0
+        ),
+        ?assertEqual(unavailable_for_everyone, guild_availability:get_cached_unavailability_mode(GuildId)),
+        _State2 = update_state(guild_update, #{<<"features">> => []}, State1),
+        ?assertEqual(available, guild_availability:get_cached_unavailability_mode(GuildId))
+    after
+        _ = guild_availability:update_unavailability_cache_for_state(CleanupState)
+    end.
 
 -endif.

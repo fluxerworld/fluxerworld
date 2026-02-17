@@ -127,6 +127,11 @@ button.clickable:active {
 	background: var(--background-modifier-hover);
 }
 
+.menuButtonActive {
+	color: var(--text-primary);
+	background: var(--background-modifier-hover);
+}
+
 .menuIcon {
 	width: 20px;
 	height: 20px;

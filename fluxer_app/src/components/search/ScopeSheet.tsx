@@ -17,6 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {ScopeValueOption} from '@app/components/channel/SearchScopeOptions';
+import styles from '@app/components/search/ScopeSheet.module.css';
+import {BottomSheet} from '@app/components/uikit/bottom_sheet/BottomSheet';
+import {Scroller} from '@app/components/uikit/Scroller';
+import type {MessageSearchScope} from '@app/utils/SearchUtils';
 import {useLingui} from '@lingui/react/macro';
 import type {IconProps} from '@phosphor-icons/react';
 import {
@@ -29,11 +34,6 @@ import {
 } from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import type React from 'react';
-import type {ScopeValueOption} from '~/components/channel/searchScopeOptions';
-import {BottomSheet} from '~/components/uikit/BottomSheet/BottomSheet';
-import {Scroller} from '~/components/uikit/Scroller';
-import type {MessageSearchScope} from '~/utils/SearchUtils';
-import styles from './ScopeSheet.module.css';
 
 const SCOPE_ICON_COMPONENTS: Record<MessageSearchScope, React.ComponentType<IconProps>> = {
 	current: HashIcon,
@@ -71,11 +71,11 @@ export const ScopeSheet: React.FC<ScopeSheetProps> = ({
 			onClose={onClose}
 			snapPoints={[0, 1]}
 			initialSnap={1}
-			title={t`Search in`}
+			title={t`Search In`}
 			disablePadding
 		>
 			<div className={styles.container}>
-				<Scroller className={styles.scroller} fade={false}>
+				<Scroller key="scope-sheet-scroller" className={styles.scroller} fade={false}>
 					<div className={styles.optionsContainer}>
 						{scopeOptions.map((option) => {
 							const isSelected = selectedScope === option.value;

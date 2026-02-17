@@ -17,13 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Input} from '@app/components/form/Input';
+import styles from '@app/components/pages/ReportPage.module.css';
+import {Button} from '@app/components/uikit/button/Button';
 import {Trans, useLingui} from '@lingui/react/macro';
 import type React from 'react';
-import {Input} from '~/components/form/Input';
-import {Button} from '~/components/uikit/Button/Button';
-import styles from '../ReportPage.module.css';
 
-type Props = {
+interface Props {
 	email: string;
 	verificationCode: string;
 	errorMessage: string | null;
@@ -35,7 +35,7 @@ type Props = {
 	onVerify: () => void;
 	onCodeChange: (value: string) => void;
 	onStartOver: () => void;
-};
+}
 
 export const ReportStepVerification: React.FC<Props> = ({
 	email,
@@ -136,5 +136,3 @@ export const ReportStepVerification: React.FC<Props> = ({
 		</div>
 	);
 };
-
-export default ReportStepVerification;

@@ -17,6 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {CheckboxItem} from '@app/components/uikit/context_menu/ContextMenu';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import SpellcheckStore from '@app/stores/SpellcheckStore';
+import {getElectronAPI, isElectron} from '@app/utils/NativeUtils';
 import {useLingui} from '@lingui/react/macro';
 import {
 	ArrowClockwiseIcon,
@@ -27,13 +32,8 @@ import {
 	SelectionIcon,
 } from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import {MenuGroup} from '~/components/uikit/ContextMenu/MenuGroup';
-import {MenuItem} from '~/components/uikit/ContextMenu/MenuItem';
-import {MenuItemCheckbox} from '~/components/uikit/ContextMenu/MenuItemCheckbox';
-import SpellcheckStore from '~/stores/SpellcheckStore';
-import {getElectronAPI, isElectron} from '~/utils/NativeUtils';
 
-interface TextareaContextMenuEditFlags {
+export interface TextareaContextMenuEditFlags {
 	canUndo: boolean;
 	canRedo: boolean;
 	canCut: boolean;
@@ -56,14 +56,14 @@ export const TextareaContextMenu = observer(
 		const showSpellMenu = isElectron() && (electronAPI?.platform === 'darwin' || electronAPI?.platform === 'win32');
 
 		const handleReplaceMisspelling = async (suggestion: string) => {
-			if (electronAPI) {
+			if (electronAPI?.spellcheckReplaceMisspelling) {
 				await electronAPI.spellcheckReplaceMisspelling(suggestion);
 			}
 			onClose();
 		};
 
 		const handleAddToDictionary = async () => {
-			if (!misspelledWord || !electronAPI) return;
+			if (!misspelledWord || !electronAPI?.spellcheckAddWordToDictionary) return;
 			await electronAPI.spellcheckAddWordToDictionary(misspelledWord);
 			onClose();
 		};
@@ -78,7 +78,7 @@ export const TextareaContextMenu = observer(
 		};
 
 		const handleOpenLanguageSettings = async () => {
-			if (!electronAPI) return;
+			if (!electronAPI?.spellcheckOpenLanguageSettings) return;
 			await electronAPI.spellcheckOpenLanguageSettings();
 			onClose();
 		};
@@ -137,9 +137,9 @@ export const TextareaContextMenu = observer(
 
 				{showSpellMenu && (
 					<MenuGroup>
-						<MenuItemCheckbox checked={spellcheckEnabled} onChange={handleToggleSpellcheck}>
+						<CheckboxItem checked={spellcheckEnabled} onCheckedChange={handleToggleSpellcheck}>
 							{t`Spellcheck`}
-						</MenuItemCheckbox>
+						</CheckboxItem>
 						<MenuItem onClick={handleOpenLanguageSettings}>{t`Languages…`}</MenuItem>
 					</MenuGroup>
 				)}

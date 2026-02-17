@@ -17,27 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as SoundActionCreators from '@app/actions/SoundActionCreators';
+import {MicrophonePermissionDeniedModal} from '@app/components/alerts/MicrophonePermissionDeniedModal';
+import {Logger} from '@app/lib/Logger';
+import ChannelStore from '@app/stores/ChannelStore';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import LocalVoiceStateStore from '@app/stores/LocalVoiceStateStore';
+import MediaPermissionStore from '@app/stores/MediaPermissionStore';
+import ParticipantVolumeStore from '@app/stores/ParticipantVolumeStore';
+import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
+import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import VoiceDevicePermissionStore from '@app/stores/voice/VoiceDevicePermissionStore';
+import {ensureNativePermission} from '@app/utils/NativePermissions';
+import {isDesktop} from '@app/utils/NativeUtils';
+import {SoundType} from '@app/utils/SoundUtils';
 import type {LocalTrackPublication, RemoteParticipant, Room} from 'livekit-client';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import * as SoundActionCreators from '~/actions/SoundActionCreators';
-import {MicrophonePermissionDeniedModal} from '~/components/alerts/MicrophonePermissionDeniedModal';
-import {Logger} from '~/lib/Logger';
-import ChannelStore from '~/stores/ChannelStore';
-import ConnectionStore from '~/stores/ConnectionStore';
-import LocalVoiceStateStore from '~/stores/LocalVoiceStateStore';
-import MediaPermissionStore from '~/stores/MediaPermissionStore';
-import ParticipantVolumeStore from '~/stores/ParticipantVolumeStore';
-import VoiceSettingsStore from '~/stores/VoiceSettingsStore';
-import MediaEngineStore from '~/stores/voice/MediaEngineFacade';
-import VoiceDevicePermissionStore from '~/stores/voice/VoiceDevicePermissionStore';
-import {ensureNativePermission} from '~/utils/NativePermissions';
-import {isDesktop} from '~/utils/NativeUtils';
-import {SoundType} from '~/utils/SoundUtils';
 
 const logger = new Logger('VoiceStateActionCreators');
 
-export const toggleSelfDeaf = async (_guildId: string | null = null): Promise<void> => {
+export async function toggleSelfDeaf(_guildId: string | null = null): Promise<void> {
 	const connectedGuildId = MediaEngineStore.guildId;
 	const connectedChannelId = MediaEngineStore.channelId;
 
@@ -80,22 +80,42 @@ export const toggleSelfDeaf = async (_guildId: string | null = null): Promise<vo
 
 	const room = MediaEngineStore.room;
 	if (room?.localParticipant) {
-		room.localParticipant.audioTrackPublications.forEach((publication: LocalTrackPublication) => {
-			const track = publication.track;
-			if (!track) return;
-			const operation = newMuteState ? track.mute() : track.unmute();
-			operation.catch((error) =>
-				logger.error(newMuteState ? 'Failed to mute local track' : 'Failed to unmute local track', {error}),
-			);
-		});
+		const hasAudioTracks = room.localParticipant.audioTrackPublications.size > 0;
+
+		if (!newMuteState && !hasAudioTracks) {
+			logger.info('No audio tracks found when undeafening/unmuting, enabling microphone');
+			const permissionGranted = await requestMicrophoneInVoiceChannel(room, connectedChannelId);
+			if (!permissionGranted) {
+				logger.warn('Failed to enable microphone, reverting to muted state');
+				LocalVoiceStateStore.updateSelfMute(true);
+				MediaEngineStore.syncLocalVoiceStateWithServer({self_mute: true, self_deaf: newDeafState});
+				if (!newDeafState) {
+					SoundActionCreators.playSound(SoundType.Undeaf);
+				}
+				return;
+			}
+
+			logger.info('Microphone enabled, explicitly unmuting newly created publications');
+			room.localParticipant.audioTrackPublications.forEach((publication: LocalTrackPublication) => {
+				publication.unmute().catch((error) => logger.error('Failed to unmute newly created publication', {error}));
+			});
+		} else {
+			room.localParticipant.audioTrackPublications.forEach((publication: LocalTrackPublication) => {
+				const operation = newMuteState ? publication.mute() : publication.unmute();
+				operation.catch((error) =>
+					logger.error(newMuteState ? 'Failed to mute publication' : 'Failed to unmute publication', {error}),
+				);
+			});
+		}
 
 		room.remoteParticipants.forEach((participant: RemoteParticipant) => {
 			ParticipantVolumeStore.applySettingsToParticipant(participant, newDeafState);
 		});
 
-		logger.debug('Applied mute/deafen state to LiveKit tracks immediately', {
+		logger.debug('Applied mute/deafen state to LiveKit tracks', {
 			newDeafState,
 			newMuteState,
+			hadAudioTracks: hasAudioTracks,
 			localTrackCount: room.localParticipant.audioTrackPublications.size,
 			remoteParticipantCount: room.remoteParticipants.size,
 		});
@@ -111,7 +131,7 @@ export const toggleSelfDeaf = async (_guildId: string | null = null): Promise<vo
 		self_mute: newMuteState,
 		self_deaf: newDeafState,
 	});
-};
+}
 
 const showMicrophonePermissionDeniedModal = () => {
 	ModalActionCreators.push(modal(() => <MicrophonePermissionDeniedModal />));
@@ -217,7 +237,7 @@ const requestMicrophoneDirectly = async (): Promise<boolean> => {
 	}
 };
 
-export const toggleSelfMute = async (_guildId: string | null = null): Promise<void> => {
+export async function toggleSelfMute(_guildId: string | null = null): Promise<void> {
 	const room = MediaEngineStore.room;
 	const connectedChannelId = MediaEngineStore.channelId;
 
@@ -285,18 +305,35 @@ export const toggleSelfMute = async (_guildId: string | null = null): Promise<vo
 	logger.debug('Voice state updated', {newMute, newDeaf});
 
 	if (room?.localParticipant) {
-		room.localParticipant.audioTrackPublications.forEach((publication: LocalTrackPublication) => {
-			const track = publication.track;
-			if (!track) return;
-			const operation = newMute ? track.mute() : track.unmute();
-			operation.catch((error) =>
-				logger.error(newMute ? 'Failed to mute local track' : 'Failed to unmute local track', {error}),
-			);
-		});
+		const hasAudioTracks = room.localParticipant.audioTrackPublications.size > 0;
 
-		logger.debug('Applied mute state to LiveKit tracks immediately', {
+		if (!newMute && !hasAudioTracks) {
+			logger.info('No audio tracks found when unmuting, enabling microphone');
+			const permissionGranted = await requestMicrophoneInVoiceChannel(room, connectedChannelId);
+			if (!permissionGranted) {
+				logger.warn('Failed to enable microphone, reverting to muted state');
+				LocalVoiceStateStore.updateSelfMute(true);
+				MediaEngineStore.syncLocalVoiceStateWithServer({self_mute: true, self_deaf: newDeaf});
+				return;
+			}
+
+			logger.info('Microphone enabled, explicitly unmuting newly created publications');
+			room.localParticipant.audioTrackPublications.forEach((publication: LocalTrackPublication) => {
+				publication.unmute().catch((error) => logger.error('Failed to unmute newly created publication', {error}));
+			});
+		} else {
+			room.localParticipant.audioTrackPublications.forEach((publication: LocalTrackPublication) => {
+				const operation = newMute ? publication.mute() : publication.unmute();
+				operation.catch((error) =>
+					logger.error(newMute ? 'Failed to mute publication' : 'Failed to unmute publication', {error}),
+				);
+			});
+		}
+
+		logger.debug('Applied mute state to LiveKit tracks', {
 			newMute,
 			newDeaf,
+			hadAudioTracks: hasAudioTracks,
 			localTrackCount: room.localParticipant.audioTrackPublications.size,
 		});
 	}
@@ -313,7 +350,7 @@ export const toggleSelfMute = async (_guildId: string | null = null): Promise<vo
 			self_deaf: newDeaf,
 		});
 	}
-};
+}
 
 type VoiceStateProperty = 'self_mute' | 'self_deaf' | 'self_video' | 'self_stream';
 
@@ -325,7 +362,7 @@ const updateConnectionProperty = async (
 	const voiceState = MediaEngineStore.getVoiceStateByConnectionId(connectionId);
 	if (!voiceState) return;
 
-	const socket = ConnectionStore.socket;
+	const socket = GatewayConnectionStore.socket;
 	if (!socket) return;
 
 	socket.updateVoiceState({
@@ -344,7 +381,7 @@ const updateConnectionsProperty = async (
 	property: VoiceStateProperty,
 	value: boolean,
 ): Promise<void> => {
-	const socket = ConnectionStore.socket;
+	const socket = GatewayConnectionStore.socket;
 	if (!socket) return;
 
 	for (const connectionId of connectionIds) {
@@ -363,46 +400,46 @@ const updateConnectionsProperty = async (
 	}
 };
 
-export const toggleSelfMuteForConnection = async (connectionId: string): Promise<void> => {
+export async function toggleSelfMuteForConnection(connectionId: string): Promise<void> {
 	const voiceState = MediaEngineStore.getVoiceStateByConnectionId(connectionId);
 	if (!voiceState) return;
 	const target = !voiceState.self_mute;
 	await updateConnectionProperty(connectionId, 'self_mute', target);
 	if (target) SoundActionCreators.playSound(SoundType.Mute);
 	else SoundActionCreators.playSound(SoundType.Unmute);
-};
+}
 
-export const toggleSelfDeafenForConnection = async (connectionId: string): Promise<void> => {
+export async function toggleSelfDeafenForConnection(connectionId: string): Promise<void> {
 	const voiceState = MediaEngineStore.getVoiceStateByConnectionId(connectionId);
 	if (!voiceState) return;
 	const target = !voiceState.self_deaf;
 	await updateConnectionProperty(connectionId, 'self_deaf', target);
 	if (target) SoundActionCreators.playSound(SoundType.Deaf);
 	else SoundActionCreators.playSound(SoundType.Undeaf);
-};
+}
 
-export const turnOffCameraForConnection = async (connectionId: string): Promise<void> => {
+export async function turnOffCameraForConnection(connectionId: string): Promise<void> {
 	await updateConnectionProperty(connectionId, 'self_video', false);
-};
+}
 
-export const turnOffStreamForConnection = async (connectionId: string): Promise<void> => {
+export async function turnOffStreamForConnection(connectionId: string): Promise<void> {
 	await updateConnectionProperty(connectionId, 'self_stream', false);
-};
+}
 
-export const bulkMuteConnections = async (connectionIds: Array<string>, mute: boolean = true): Promise<void> => {
+export async function bulkMuteConnections(connectionIds: Array<string>, mute: boolean = true): Promise<void> {
 	await updateConnectionsProperty(connectionIds, 'self_mute', mute);
-};
+}
 
-export const bulkDeafenConnections = async (connectionIds: Array<string>, deafen: boolean = true): Promise<void> => {
+export async function bulkDeafenConnections(connectionIds: Array<string>, deafen: boolean = true): Promise<void> {
 	await updateConnectionsProperty(connectionIds, 'self_deaf', deafen);
-};
+}
 
-export const bulkTurnOffCameras = async (connectionIds: Array<string>): Promise<void> => {
+export async function bulkTurnOffCameras(connectionIds: Array<string>): Promise<void> {
 	await updateConnectionsProperty(connectionIds, 'self_video', false);
-};
+}
 
-export const bulkDisconnect = async (connectionIds: Array<string>): Promise<void> => {
-	const socket = ConnectionStore.socket;
+export async function bulkDisconnect(connectionIds: Array<string>): Promise<void> {
+	const socket = GatewayConnectionStore.socket;
 	if (!socket) return;
 
 	for (const connectionId of connectionIds) {
@@ -419,15 +456,21 @@ export const bulkDisconnect = async (connectionIds: Array<string>): Promise<void
 			self_stream: false,
 		});
 	}
-};
+}
 
-export const bulkMoveConnections = async (connectionIds: Array<string>, targetChannelId: string): Promise<void> => {
-	const socket = ConnectionStore.socket;
+export async function bulkMoveConnections(connectionIds: Array<string>, targetChannelId: string): Promise<void> {
+	const socket = GatewayConnectionStore.socket;
 	if (!socket) return;
+	const localConnectionId = MediaEngineStore.connectionId;
 
 	for (const connectionId of connectionIds) {
 		const voiceState = MediaEngineStore.getVoiceStateByConnectionId(connectionId);
 		if (!voiceState) continue;
+
+		if (localConnectionId && connectionId === localConnectionId) {
+			await MediaEngineStore.connectToVoiceChannel(voiceState.guild_id ?? null, targetChannelId);
+			continue;
+		}
 
 		socket.updateVoiceState({
 			guild_id: voiceState.guild_id,
@@ -439,4 +482,4 @@ export const bulkMoveConnections = async (connectionIds: Array<string>, targetCh
 			self_stream: voiceState.self_stream,
 		});
 	}
-};
+}

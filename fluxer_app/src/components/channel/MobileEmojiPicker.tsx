@@ -17,25 +17,36 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {EmojiPickerCategoryList} from '~/components/channel/emoji-picker/EmojiPickerCategoryList';
-import {EMOJI_SPRITE_SIZE} from '~/components/channel/emoji-picker/EmojiPickerConstants';
-import {EmojiPickerSearchBar} from '~/components/channel/emoji-picker/EmojiPickerSearchBar';
-import {useEmojiCategories} from '~/components/channel/emoji-picker/hooks/useEmojiCategories';
-import {useVirtualRows} from '~/components/channel/emoji-picker/hooks/useVirtualRows';
-import {VirtualizedRow} from '~/components/channel/emoji-picker/VirtualRow';
-import mobileStyles from '~/components/channel/MobileEmojiPicker.module.css';
+import {EmojiPickerCategoryList} from '@app/components/channel/emoji_picker/EmojiPickerCategoryList';
+import {EMOJI_SPRITE_SIZE} from '@app/components/channel/emoji_picker/EmojiPickerConstants';
+import {EmojiPickerSearchBar} from '@app/components/channel/emoji_picker/EmojiPickerSearchBar';
+import {useEmojiCategories} from '@app/components/channel/emoji_picker/hooks/useEmojiCategories';
+import {useVirtualRows} from '@app/components/channel/emoji_picker/hooks/useVirtualRows';
+import {VirtualizedRow} from '@app/components/channel/emoji_picker/VirtualRow';
+import mobileStyles from '@app/components/channel/MobileEmojiPicker.module.css';
+import {PremiumUpsellBanner} from '@app/components/channel/PremiumUpsellBanner';
+import premiumStyles from '@app/components/channel/PremiumUpsellBanner.module.css';
 import {
 	ExpressionPickerHeaderPortal,
 	useExpressionPickerHeaderPortal,
-} from '~/components/popouts/ExpressionPickerPopout';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-import {useForceUpdate} from '~/hooks/useForceUpdate';
-import {ComponentDispatch} from '~/lib/ComponentDispatch';
-import UnicodeEmojis, {EMOJI_SPRITES} from '~/lib/UnicodeEmojis';
-import ChannelStore from '~/stores/ChannelStore';
-import EmojiStore, {type Emoji, normalizeEmojiSearchQuery} from '~/stores/EmojiStore';
+} from '@app/components/popouts/ExpressionPickerPopout';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import {usePremiumUpsellData} from '@app/hooks/usePremiumUpsellData';
+import {useSearchInputAutofocus} from '@app/hooks/useSearchInputAutofocus';
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import UnicodeEmojis, {EMOJI_SPRITES} from '@app/lib/UnicodeEmojis';
+import ChannelStore from '@app/stores/ChannelStore';
+import EmojiStore, {normalizeEmojiSearchQuery} from '@app/stores/EmojiStore';
+import PermissionStore from '@app/stores/PermissionStore';
+import UserSettingsStore from '@app/stores/UserSettingsStore';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
+import {shouldUseNativeEmoji} from '@app/utils/EmojiUtils';
+import {checkEmojiAvailability, shouldShowEmojiPremiumUpsell} from '@app/utils/ExpressionPermissionUtils';
+import {shouldShowPremiumFeatures} from '@app/utils/PremiumUtils';
+import {useLingui} from '@lingui/react/macro';
+import {observer} from 'mobx-react-lite';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore} from 'react';
 
 export const MobileEmojiPicker = observer(
 	({
@@ -46,31 +57,37 @@ export const MobileEmojiPicker = observer(
 		hideSearchBar = false,
 	}: {
 		channelId?: string;
-		handleSelect: (emoji: Emoji, shiftKey?: boolean) => void;
+		handleSelect: (emoji: FlatEmoji, shiftKey?: boolean) => void;
 		externalSearchTerm?: string;
 		externalSetSearchTerm?: (term: string) => void;
 		hideSearchBar?: boolean;
 	}) => {
 		const headerPortalContext = useExpressionPickerHeaderPortal();
 		const hasPortal = Boolean(headerPortalContext?.headerPortalElement);
+		const {i18n, t} = useLingui();
 
-		const [internalSearchTerm, setInternalSearchTerm] = React.useState('');
-		const [hoveredEmoji, setHoveredEmoji] = React.useState<Emoji | null>(null);
-		const [renderedEmojis, setRenderedEmojis] = React.useState<Array<Emoji>>([]);
-		const [allEmojis, setAllEmojis] = React.useState<Array<Emoji>>([]);
-		const scrollerRef = React.useRef<ScrollerHandle>(null);
-		const emojiRefs = React.useRef<Map<string, HTMLButtonElement>>(new Map());
+		const [internalSearchTerm, setInternalSearchTerm] = useState('');
+		const [hoveredEmoji, setHoveredEmoji] = useState<FlatEmoji | null>(null);
+		const scrollerRef = useRef<ScrollerHandle>(null);
+		const searchInputRef = useRef<HTMLInputElement>(null);
+		const emojiRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
 		const channel = channelId ? (ChannelStore.getChannel(channelId) ?? null) : null;
-		const categoryRefs = React.useRef<Map<string, HTMLDivElement>>(new Map());
-		const forceUpdate = useForceUpdate();
+		const categoryRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+		const [emojiDataVersion, setEmojiDataVersion] = useState(0);
+		const permissionVersion = useSyncExternalStore(
+			PermissionStore.subscribe.bind(PermissionStore),
+			() => PermissionStore.version,
+		);
+		const getEmojiAvailability = useCallback(
+			(emoji: FlatEmoji) => checkEmojiAvailability(i18n, emoji, channel),
+			[channel, i18n, permissionVersion],
+		);
+		const getEmojiGuildId = useCallback((emoji: FlatEmoji) => emoji.guildId, []);
 		const skinTone = EmojiStore.skinTone;
+		const shouldAnimateEmoji = UserSettingsStore.getAnimateEmoji();
 
-		const searchTerm = externalSearchTerm ?? internalSearchTerm;
-		const setSearchTerm = externalSetSearchTerm ?? setInternalSearchTerm;
-		const normalizedSearchTerm = React.useMemo(() => normalizeEmojiSearchQuery(searchTerm), [searchTerm]);
-
-		const spriteSheetSizes = React.useMemo(() => {
+		const spriteSheetSizes = useMemo(() => {
 			const nonDiversitySize = [
 				`${EMOJI_SPRITE_SIZE * EMOJI_SPRITES.NonDiversityPerRow}px`,
 				`${EMOJI_SPRITE_SIZE * Math.ceil(UnicodeEmojis.numNonDiversitySprites / EMOJI_SPRITES.NonDiversityPerRow)}px`,
@@ -84,22 +101,62 @@ export const MobileEmojiPicker = observer(
 			return {nonDiversitySize, diversitySize};
 		}, []);
 
-		React.useEffect(() => {
-			const emojis = EmojiStore.search(channel, normalizedSearchTerm).slice();
-			setRenderedEmojis(emojis);
-		}, [channel, normalizedSearchTerm]);
+		const searchTerm = externalSearchTerm ?? internalSearchTerm;
+		const setSearchTerm = externalSetSearchTerm ?? setInternalSearchTerm;
+		const normalizedSearchTerm = useMemo(() => normalizeEmojiSearchQuery(searchTerm), [searchTerm]);
 
-		React.useEffect(() => {
-			const emojis = EmojiStore.search(channel, '').slice();
-			setAllEmojis(emojis);
-		}, [channel]);
+		useEffect(() => {
+			const handleEmojiDataUpdated = () => {
+				setEmojiDataVersion((version) => version + 1);
+			};
+			return ComponentDispatch.subscribe('EMOJI_PICKER_RERENDER', handleEmojiDataUpdated);
+		}, []);
 
-		React.useEffect(() => {
-			return ComponentDispatch.subscribe('EMOJI_PICKER_RERENDER', forceUpdate);
+		const searchItems = useMemo(
+			() => EmojiStore.search(channel, normalizedSearchTerm).slice(),
+			[channel, normalizedSearchTerm, emojiDataVersion],
+		);
+		const searchUpsell = usePremiumUpsellData({
+			items: searchItems,
+			getAvailability: getEmojiAvailability,
+			getGuildId: getEmojiGuildId,
+		});
+		const renderedEmojis = searchUpsell.accessibleItems;
+
+		const allItems = useMemo(() => EmojiStore.search(channel, '').slice(), [channel, emojiDataVersion]);
+		const renderEmojiPreviewItem = useCallback(
+			(emoji: FlatEmoji) => {
+				const key = emoji.id ?? emoji.uniqueName ?? emoji.name ?? `${emoji.guildId ?? 'unicode'}-mobile`;
+				let content: React.ReactNode;
+				if (emoji.url) {
+					content = <img src={emoji.url} alt={emoji.name} loading="lazy" />;
+				} else if (shouldUseNativeEmoji && emoji.surrogates) {
+					const hasDiversity = emoji.hasDiversity && skinTone;
+					const displayEmoji = hasDiversity ? emoji.surrogates + skinTone : emoji.surrogates;
+					content = <span className={premiumStyles.previewEmojiText}>{displayEmoji}</span>;
+				} else {
+					content = <span className={premiumStyles.previewEmojiText}>{emoji.name ?? emoji.uniqueName}</span>;
+				}
+				return (
+					<div className={premiumStyles.previewItem} key={key}>
+						{content}
+					</div>
+				);
+			},
+			[skinTone],
+		);
+		const allUpsell = usePremiumUpsellData({
+			items: allItems,
+			getAvailability: getEmojiAvailability,
+			getGuildId: getEmojiGuildId,
+			renderPreviewItem: renderEmojiPreviewItem,
+			previewLimit: 4,
 		});
 
+		useSearchInputAutofocus(searchInputRef);
+
 		const {customEmojisByGuildId, unicodeEmojisByCategory, favoriteEmojis, frequentlyUsedEmojis} = useEmojiCategories(
-			allEmojis,
+			allUpsell.accessibleItems,
 			renderedEmojis,
 		);
 		const showFrequentlyUsedButton = frequentlyUsedEmojis.length > 0 && !normalizedSearchTerm;
@@ -113,6 +170,19 @@ export const MobileEmojiPicker = observer(
 			8,
 		);
 
+		const lockedEmojiCount = allUpsell.summary.lockedItems.length;
+		const communityCount = allUpsell.summary.communityCount;
+		const previewContent = allUpsell.previewContent;
+		const emojiLabel =
+			lockedEmojiCount === 1 ? t`${lockedEmojiCount} custom emoji` : t`${lockedEmojiCount} custom emojis`;
+		const communityLabel = communityCount === 1 ? t`${communityCount} community` : t`${communityCount} communities`;
+		const emojiUpsellMessage = t`Unlock ${emojiLabel} from ${communityLabel} with Plutonium.`;
+		const showPremiumUpsell =
+			shouldShowPremiumFeatures() &&
+			shouldShowEmojiPremiumUpsell(channel) &&
+			!normalizedSearchTerm &&
+			lockedEmojiCount > 0;
+
 		const handleCategoryClick = (category: string) => {
 			const element = categoryRefs.current.get(category);
 			if (element) {
@@ -120,7 +190,7 @@ export const MobileEmojiPicker = observer(
 			}
 		};
 
-		const handleHover = (emoji: Emoji | null) => {
+		const handleHover = (emoji: FlatEmoji | null) => {
 			setHoveredEmoji(emoji);
 		};
 
@@ -138,8 +208,17 @@ export const MobileEmojiPicker = observer(
 							<Scroller
 								ref={scrollerRef}
 								className={`${mobileStyles.list} ${mobileStyles.listWrapper}`}
-								key="mobile-emoji-picker-scroller"
+								key="mobile-emoji_picker-scroller"
+								data-emoji-picker-scroll-root="true"
 							>
+								{showPremiumUpsell && (
+									<PremiumUpsellBanner
+										message={emojiUpsellMessage}
+										communityIds={allUpsell.summary.lockedCommunityIds}
+										communityCount={communityCount}
+										previewContent={previewContent}
+									/>
+								)}
 								{virtualRows.map((row) => (
 									<div
 										key={`${row.type}-${row.index}`}
@@ -160,6 +239,7 @@ export const MobileEmojiPicker = observer(
 											skinTone={skinTone}
 											spriteSheetSizes={spriteSheetSizes}
 											channel={channel}
+											allowAnimation={shouldAnimateEmoji}
 											gridColumns={8}
 											hoveredEmoji={hoveredEmoji}
 											selectedRow={-1}
@@ -173,13 +253,24 @@ export const MobileEmojiPicker = observer(
 						</div>
 					</div>
 					<div className={mobileStyles.categoryListBottom}>
-						<EmojiPickerCategoryList
-							customEmojisByGuildId={customEmojisByGuildId}
-							unicodeEmojisByCategory={unicodeEmojisByCategory}
-							handleCategoryClick={handleCategoryClick}
-							horizontal={true}
-							showFrequentlyUsedButton={showFrequentlyUsedButton}
-						/>
+						<Scroller
+							className={mobileStyles.categoryListBottomScroller}
+							orientation="horizontal"
+							overflow="auto"
+							fade={false}
+							showTrack={false}
+							key="mobile-emoji-picker-category-scroller"
+						>
+							<div className={mobileStyles.categoryListBottomContent}>
+								<EmojiPickerCategoryList
+									customEmojisByGuildId={customEmojisByGuildId}
+									unicodeEmojisByCategory={unicodeEmojisByCategory}
+									handleCategoryClick={handleCategoryClick}
+									horizontal={true}
+									showFrequentlyUsedButton={showFrequentlyUsedButton}
+								/>
+							</div>
+						</Scroller>
 					</div>
 				</div>
 			</div>

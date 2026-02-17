@@ -17,52 +17,61 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import {GroupDMAvatar} from '@app/components/common/GroupDMAvatar';
+import channelItemStyles from '@app/components/layout/ChannelItem.module.css';
+import {ChannelItemIcon} from '@app/components/layout/ChannelItemIcon';
+import channelItemSurfaceStyles from '@app/components/layout/ChannelItemSurface.module.css';
+import styles from '@app/components/layout/ChannelListContent.module.css';
+import {ChannelListSkeleton} from '@app/components/layout/ChannelListSkeleton';
+import {computeVerticalDropPosition} from '@app/components/layout/dnd/DndDropPosition';
+import favoritesChannelListStyles from '@app/components/layout/FavoritesChannelListContent.module.css';
+import {GenericChannelItem} from '@app/components/layout/GenericChannelItem';
+import {getChannelUnreadState} from '@app/components/layout/utils/ChannelUnreadState';
+import {AddFavoriteChannelModal} from '@app/components/modals/AddFavoriteChannelModal';
+import {ExternalLinkWarningModal} from '@app/components/modals/ExternalLinkWarningModal';
+import {InviteModal} from '@app/components/modals/InviteModal';
+import {FavoritesCategoryContextMenu} from '@app/components/uikit/context_menu/FavoritesCategoryContextMenu';
+import {FavoritesChannelContextMenu} from '@app/components/uikit/context_menu/FavoritesChannelContextMenu';
+import {FavoritesChannelListContextMenu} from '@app/components/uikit/context_menu/FavoritesChannelListContextMenu';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {MentionBadge} from '@app/components/uikit/MentionBadge';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {StatusAwareAvatar} from '@app/components/uikit/StatusAwareAvatar';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useMergeRefs} from '@app/hooks/useMergeRefs';
+import {useLocation} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {GuildRecord} from '@app/records/GuildRecord';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import FavoritesStore, {type FavoriteChannel} from '@app/stores/FavoritesStore';
+import GuildStore from '@app/stores/GuildStore';
+import KeyboardModeStore from '@app/stores/KeyboardModeStore';
+import ReadStateStore from '@app/stores/ReadStateStore';
+import TrustedDomainStore from '@app/stores/TrustedDomainStore';
+import TypingStore from '@app/stores/TypingStore';
+import UserGuildSettingsStore from '@app/stores/UserGuildSettingsStore';
+import UserStore from '@app/stores/UserStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import * as InviteUtils from '@app/utils/InviteUtils';
+import {openExternalUrl} from '@app/utils/NativeUtils';
+import {FAVORITES_GUILD_ID, ME} from '@fluxer/constants/src/AppConstants';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import {useLingui} from '@lingui/react/macro';
 import {CaretDownIcon, HashIcon, PlusIcon, UserPlusIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
+import type React from 'react';
+import {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import type {ConnectableElement} from 'react-dnd';
 import {useDrag, useDrop} from 'react-dnd';
 import {getEmptyImage} from 'react-dnd-html5-backend';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {ME} from '~/Constants';
-import {GroupDMAvatar} from '~/components/common/GroupDMAvatar';
-import {ChannelItemIcon} from '~/components/layout/ChannelItemIcon';
-import {ChannelListSkeleton} from '~/components/layout/ChannelListSkeleton';
-import {GenericChannelItem} from '~/components/layout/GenericChannelItem';
-import {AddFavoriteChannelModal} from '~/components/modals/AddFavoriteChannelModal';
-import {InviteModal} from '~/components/modals/InviteModal';
-import {FavoritesCategoryContextMenu} from '~/components/uikit/ContextMenu/FavoritesCategoryContextMenu';
-import {FavoritesChannelContextMenu} from '~/components/uikit/ContextMenu/FavoritesChannelContextMenu';
-import {FavoritesChannelListContextMenu} from '~/components/uikit/ContextMenu/FavoritesChannelListContextMenu';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {MentionBadge} from '~/components/uikit/MentionBadge';
-import {Scroller} from '~/components/uikit/Scroller';
-import {StatusAwareAvatar} from '~/components/uikit/StatusAwareAvatar';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useMergeRefs} from '~/hooks/useMergeRefs';
-import {useLocation} from '~/lib/router';
-import {Routes} from '~/Routes';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {GuildRecord} from '~/records/GuildRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import FavoritesStore, {type FavoriteChannel} from '~/stores/FavoritesStore';
-import GuildStore from '~/stores/GuildStore';
-import KeyboardModeStore from '~/stores/KeyboardModeStore';
-import ReadStateStore from '~/stores/ReadStateStore';
-import TypingStore from '~/stores/TypingStore';
-import UserGuildSettingsStore from '~/stores/UserGuildSettingsStore';
-import UserStore from '~/stores/UserStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import * as InviteUtils from '~/utils/InviteUtils';
-import * as RouterUtils from '~/utils/RouterUtils';
-import channelItemSurfaceStyles from './ChannelItemSurface.module.css';
-import styles from './ChannelListContent.module.css';
-import favoritesChannelListStyles from './FavoritesChannelListContent.module.css';
 
 const DND_TYPES = {
 	FAVORITES_CHANNEL: 'favorites-channel',
@@ -95,19 +104,17 @@ const FavoriteChannelItem = observer(
 		guild: GuildRecord | null;
 	}) => {
 		const {t} = useLingui();
-		const elementRef = React.useRef<HTMLDivElement | null>(null);
-		const [dropIndicator, setDropIndicator] = React.useState<{position: 'top' | 'bottom'; isValid: boolean} | null>(
-			null,
-		);
+		const elementRef = useRef<HTMLDivElement | null>(null);
+		const [dropIndicator, setDropIndicator] = useState<{position: 'top' | 'bottom'; isValid: boolean} | null>(null);
 		const location = useLocation();
 		const isSelected = location.pathname === Routes.favoritesChannel(favoriteChannel.channelId);
 		const shouldShowSelectedState = isSelected;
-		React.useEffect(() => {
+		useEffect(() => {
 			if (isSelected) {
 				elementRef.current?.scrollIntoView({block: 'nearest'});
 			}
 		}, [isSelected]);
-		const [isFocused, setIsFocused] = React.useState(false);
+		const [isFocused, setIsFocused] = useState(false);
 		const {keyboardModeEnabled} = KeyboardModeStore;
 		const showKeyboardAffordances = keyboardModeEnabled && isFocused;
 
@@ -131,10 +138,9 @@ const FavoriteChannelItem = observer(
 				const hoverBoundingRect = node.getBoundingClientRect();
 				const clientOffset = monitor.getClientOffset();
 				if (!clientOffset) return;
-				const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-				const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+				const dropPos = computeVerticalDropPosition(clientOffset, hoverBoundingRect);
 				setDropIndicator({
-					position: hoverClientY < hoverMiddleY ? 'top' : 'bottom',
+					position: dropPos === 'before' ? 'top' : 'bottom',
 					isValid: true,
 				});
 			},
@@ -147,9 +153,8 @@ const FavoriteChannelItem = observer(
 				const hoverBoundingRect = node.getBoundingClientRect();
 				const clientOffset = monitor.getClientOffset();
 				if (!clientOffset) return;
-				const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-				const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-				const position = hoverClientY < hoverMiddleY ? 'before' : 'after';
+				const dropPos = computeVerticalDropPosition(clientOffset, hoverBoundingRect);
+				const position = dropPos === 'center' ? 'after' : dropPos;
 
 				const channels = FavoritesStore.getChannelsInCategory(favoriteChannel.parentId);
 				let targetIndex = channels.findIndex((ch) => ch.channelId === favoriteChannel.channelId);
@@ -166,21 +171,21 @@ const FavoriteChannelItem = observer(
 			}),
 		});
 
-		React.useEffect(() => {
+		useEffect(() => {
 			if (!isOver) setDropIndicator(null);
 		}, [isOver]);
 
-		React.useEffect(() => {
+		useEffect(() => {
 			preview(getEmptyImage());
 		}, [preview]);
 
-		const dragConnectorRef = React.useCallback(
+		const dragConnectorRef = useCallback(
 			(node: ConnectableElement | null) => {
 				dragRef(node);
 			},
 			[dragRef],
 		);
-		const dropConnectorRef = React.useCallback(
+		const dropConnectorRef = useCallback(
 			(node: ConnectableElement | null) => {
 				dropRef(node);
 			},
@@ -199,8 +204,6 @@ const FavoriteChannelItem = observer(
 
 		const unreadCount = ReadStateStore.getUnreadCount(channel.id);
 		const mentionCount = ReadStateStore.getMentionCount(channel.id);
-		const hasUnread = unreadCount > 0 || mentionCount > 0;
-
 		const isGroupDM = channel.isGroupDM();
 		const isDM = channel.isDM();
 		const recipientId = isDM ? (channel.recipientIds[0] ?? '') : '';
@@ -213,9 +216,29 @@ const FavoriteChannelItem = observer(
 		const guildIconUrl = guild ? AvatarUtils.getGuildIconURL({id: guild.id, icon: guild.icon}) : null;
 
 		const isMuted = channel.guildId ? UserGuildSettingsStore.isChannelMuted(channel.guildId, channel.id) : false;
+		const unreadState = getChannelUnreadState({
+			unreadCount,
+			mentionCount,
+			isMuted,
+			showFadedUnreadOnMutedChannels: AccessibilityStore.showFadedUnreadOnMutedChannels,
+		});
 
 		const handleClick = () => {
-			RouterUtils.transitionTo(Routes.favoritesChannel(favoriteChannel.channelId));
+			const channelUrl = channel.url;
+			if (channel.type === ChannelTypes.GUILD_LINK && channelUrl) {
+				try {
+					const parsedUrl = new URL(channelUrl);
+					const isTrusted = TrustedDomainStore.isTrustedDomain(parsedUrl.hostname);
+					if (!isTrusted) {
+						ModalActionCreators.push(modal(() => <ExternalLinkWarningModal url={channelUrl} />));
+					} else {
+						void openExternalUrl(channelUrl);
+					}
+				} catch {}
+				return;
+			}
+
+			NavigationActionCreators.selectChannel(FAVORITES_GUILD_ID, favoriteChannel.channelId);
 		};
 
 		const handleContextMenu = (event: React.MouseEvent) => {
@@ -244,6 +267,13 @@ const FavoriteChannelItem = observer(
 				style={{opacity: isDragging ? 0.5 : 1}}
 				isOver={isOver}
 				dropIndicator={dropIndicator}
+				extraContent={
+					unreadState.shouldShowUnreadIndicator ? (
+						<div
+							className={clsx(channelItemStyles.unreadIndicator, isMuted && channelItemStyles.unreadIndicatorMuted)}
+						/>
+					) : null
+				}
 				className={clsx(
 					favoritesChannelListStyles.favoriteItem,
 					shouldShowSelectedState && favoritesChannelListStyles.favoriteItemSelected,
@@ -308,7 +338,7 @@ const FavoriteChannelItem = observer(
 							/>
 						</div>
 					)}
-					{hasUnread && <MentionBadge mentionCount={mentionCount} size="small" />}
+					{unreadState.hasMentions && <MentionBadge mentionCount={mentionCount} size="small" />}
 				</div>
 			</GenericChannelItem>
 		);
@@ -328,7 +358,7 @@ const FavoriteCategoryItem = observer(
 		onAddChannel: () => void;
 	}) => {
 		const {t} = useLingui();
-		const [isFocused, setIsFocused] = React.useState(false);
+		const [isFocused, setIsFocused] = useState(false);
 		const {keyboardModeEnabled} = KeyboardModeStore;
 		const showKeyboardAffordances = keyboardModeEnabled && isFocused;
 
@@ -344,7 +374,7 @@ const FavoriteCategoryItem = observer(
 			}),
 		});
 
-		const dropConnectorRef = React.useCallback(
+		const dropConnectorRef = useCallback(
 			(node: ConnectableElement | null) => {
 				dropRef(node);
 			},
@@ -421,7 +451,7 @@ const UncategorizedGroup = ({children}: {children: React.ReactNode}) => {
 		}),
 	});
 
-	const dropConnectorRef = React.useCallback(
+	const dropConnectorRef = useCallback(
 		(node: ConnectableElement | null) => {
 			dropRef(node);
 		},
@@ -442,11 +472,12 @@ const UncategorizedGroup = ({children}: {children: React.ReactNode}) => {
 };
 
 export const FavoritesChannelListContent = observer(() => {
+	const {t} = useLingui();
 	const favorites = FavoritesStore.sortedChannels;
 	const categories = FavoritesStore.sortedCategories;
 	const hideMutedChannels = FavoritesStore.hideMutedChannels;
 
-	const channelGroups = React.useMemo(() => {
+	const channelGroups = useMemo(() => {
 		const groups: Array<FavoriteChannelGroup> = [];
 		const categoryMap = new Map<string | null, FavoriteChannelGroup>();
 
@@ -481,7 +512,7 @@ export const FavoritesChannelListContent = observer(() => {
 		return groups;
 	}, [favorites, categories, hideMutedChannels]);
 
-	const handleContextMenu = React.useCallback((event: React.MouseEvent) => {
+	const handleContextMenu = useCallback((event: React.MouseEvent) => {
 		ContextMenuActionCreators.openFromEvent(event, ({onClose}) => (
 			<FavoritesChannelListContextMenu onClose={onClose} />
 		));
@@ -489,12 +520,8 @@ export const FavoritesChannelListContent = observer(() => {
 
 	if (favorites.length === 0) {
 		return (
-			<Scroller
-				className={styles.channelListScroller}
-				reserveScrollbarTrack={false}
-				key="favorites-channel-list-empty-scroller"
-			>
-				<div onContextMenu={handleContextMenu} role="region" aria-label="Empty favorites">
+			<Scroller className={styles.channelListScroller} key="favorites-channel-list-empty-scroller">
+				<div onContextMenu={handleContextMenu} role="region" aria-label={t`Empty favorites`}>
 					<ChannelListSkeleton />
 				</div>
 			</Scroller>
@@ -502,11 +529,7 @@ export const FavoritesChannelListContent = observer(() => {
 	}
 
 	return (
-		<Scroller
-			className={styles.channelListScroller}
-			reserveScrollbarTrack={false}
-			key="favorites-channel-list-scroller"
-		>
+		<Scroller className={styles.channelListScroller} key="favorites-channel-list-scroller">
 			<div
 				className={favoritesChannelListStyles.navigationContainer}
 				onContextMenu={handleContextMenu}

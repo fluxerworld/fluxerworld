@@ -17,36 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {makePersistent} from '@app/lib/MobXPersistence';
+import UnicodeEmojis from '@app/lib/UnicodeEmojis';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import {GuildEmojiRecord} from '@app/records/GuildEmojiRecord';
+import EmojiPickerStore from '@app/stores/EmojiPickerStore';
+import {patchGuildEmojiCacheFromGateway} from '@app/stores/GuildExpressionTabCache';
+import GuildListStore from '@app/stores/GuildListStore';
+import type {FlatEmoji} from '@app/types/EmojiTypes';
+import type {GuildReadyData} from '@app/types/gateway/GatewayGuildTypes';
+import {filterEmojisForAutocomplete} from '@app/utils/ExpressionPermissionUtils';
+import * as RegexUtils from '@app/utils/RegexUtils';
+import type {GuildEmoji} from '@fluxer/schema/src/domains/guild/GuildEmojiSchemas';
+import type {Guild} from '@fluxer/schema/src/domains/guild/GuildResponseSchemas';
+import {sortBySnowflakeDesc} from '@fluxer/snowflake/src/SnowflakeUtils';
 import {i18n} from '@lingui/core';
 import {makeAutoObservable} from 'mobx';
-import {makePersistent} from '~/lib/MobXPersistence';
-import type {UnicodeEmoji} from '~/lib/UnicodeEmojis';
-import UnicodeEmojis from '~/lib/UnicodeEmojis';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import {type GuildEmoji, GuildEmojiRecord} from '~/records/GuildEmojiRecord';
-import type {GuildMember} from '~/records/GuildMemberRecord';
-import type {Guild, GuildReadyData} from '~/records/GuildRecord';
-import EmojiPickerStore from '~/stores/EmojiPickerStore';
-import {patchGuildEmojiCacheFromGateway} from '~/stores/GuildExpressionTabCache';
-import GuildListStore from '~/stores/GuildListStore';
-import GuildMemberStore from '~/stores/GuildMemberStore';
-import UserStore from '~/stores/UserStore';
-import {filterEmojisForAutocomplete} from '~/utils/ExpressionPermissionUtils';
-import * as RegexUtils from '~/utils/RegexUtils';
-import {sortBySnowflakeDesc} from '~/utils/SnowflakeUtils';
-
-export type Emoji = Readonly<
-	Partial<GuildEmojiRecord> &
-		Partial<UnicodeEmoji> & {
-			name: string;
-			allNamesString: string;
-			uniqueName: string;
-			useSpriteSheet?: boolean;
-			index?: number;
-			diversityIndex?: number;
-			hasDiversity?: boolean;
-		}
->;
 
 type GuildEmojiContext = Readonly<{
 	emojis: ReadonlyArray<GuildEmojiRecord>;
@@ -54,16 +41,16 @@ type GuildEmojiContext = Readonly<{
 }>;
 
 export function normalizeEmojiSearchQuery(query: string): string {
-	return query.trim().replace(/^:+/, '').replace(/:+$/, '');
+	return query['trim']().replace(/^:+/, '').replace(/:+$/, '');
 }
 
 class EmojiDisambiguations {
 	private static _lastInstance: EmojiDisambiguations | null = null;
 	private readonly guildId: string | null;
-	private disambiguatedEmoji: ReadonlyArray<Emoji> | null = null;
-	private customEmojis: ReadonlyMap<string, Emoji> | null = null;
-	private emojisByName: ReadonlyMap<string, Emoji> | null = null;
-	private emojisById: ReadonlyMap<string, Emoji> | null = null;
+	private disambiguatedEmoji: ReadonlyArray<FlatEmoji> | null = null;
+	private customEmojis: ReadonlyMap<string, FlatEmoji> | null = null;
+	private emojisByName: ReadonlyMap<string, FlatEmoji> | null = null;
+	private emojisById: ReadonlyMap<string, FlatEmoji> | null = null;
 
 	private constructor(guildId?: string | null) {
 		this.guildId = guildId ?? null;
@@ -86,27 +73,27 @@ class EmojiDisambiguations {
 		}
 	}
 
-	getDisambiguatedEmoji(): ReadonlyArray<Emoji> {
+	getDisambiguatedEmoji(): ReadonlyArray<FlatEmoji> {
 		this.ensureDisambiguated();
 		return this.disambiguatedEmoji ?? [];
 	}
 
-	getCustomEmoji(): ReadonlyMap<string, Emoji> {
+	getCustomEmoji(): ReadonlyMap<string, FlatEmoji> {
 		this.ensureDisambiguated();
 		return this.customEmojis ?? new Map();
 	}
 
-	getByName(disambiguatedEmojiName: string): Emoji | undefined {
+	getByName(disambiguatedEmojiName: string): FlatEmoji | undefined {
 		this.ensureDisambiguated();
 		return this.emojisByName?.get(disambiguatedEmojiName);
 	}
 
-	getById(emojiId: string): Emoji | undefined {
+	getById(emojiId: string): FlatEmoji | undefined {
 		this.ensureDisambiguated();
 		return this.emojisById?.get(emojiId);
 	}
 
-	nameMatchesChain(testName: (name: string) => boolean): ReadonlyArray<Emoji> {
+	nameMatchesChain(testName: (name: string) => boolean): ReadonlyArray<FlatEmoji> {
 		return this.getDisambiguatedEmoji().filter(({names, name}) => (names ? names.some(testName) : testName(name)));
 	}
 
@@ -122,12 +109,12 @@ class EmojiDisambiguations {
 
 	private buildDisambiguatedCustomEmoji() {
 		const emojiCountByName = new Map<string, number>();
-		const disambiguatedEmoji: Array<Emoji> = [];
-		const customEmojis = new Map<string, Emoji>();
-		const emojisByName = new Map<string, Emoji>();
-		const emojisById = new Map<string, Emoji>();
+		const disambiguatedEmoji: Array<FlatEmoji> = [];
+		const customEmojis = new Map<string, FlatEmoji>();
+		const emojisByName = new Map<string, FlatEmoji>();
+		const emojisById = new Map<string, FlatEmoji>();
 
-		const disambiguateEmoji = (emoji: Emoji): void => {
+		const disambiguateEmoji = (emoji: FlatEmoji): void => {
 			const uniqueName = emoji.name;
 			const existingCount = emojiCountByName.get(uniqueName) ?? 0;
 			emojiCountByName.set(uniqueName, existingCount + 1);
@@ -151,7 +138,7 @@ class EmojiDisambiguations {
 		};
 
 		UnicodeEmojis.forEachEmoji((unicodeEmoji) => {
-			const compatibleEmoji: Emoji = {
+			const compatibleEmoji: FlatEmoji = {
 				...unicodeEmoji,
 				name: unicodeEmoji.uniqueName,
 				url: unicodeEmoji.url || undefined,
@@ -167,7 +154,7 @@ class EmojiDisambiguations {
 			const guildEmoji = emojiGuildRegistry.get(guildId);
 			if (!guildEmoji) return;
 			guildEmoji.usableEmojis.forEach((emoji) => {
-				const emojiForDisambiguation: Emoji = {
+				const emojiForDisambiguation: FlatEmoji = {
 					...emoji,
 					name: emoji.name,
 					uniqueName: emoji.name,
@@ -230,12 +217,6 @@ class EmojiGuildRegistry {
 
 		if (!guildEmojis) return;
 
-		const currentUser = UserStore.getCurrentUser();
-		if (!currentUser) return;
-
-		const localUser = GuildMemberStore.getMember(guildId, currentUser.id);
-		if (!localUser) return;
-
 		const emojiRecords = guildEmojis.map((emoji) => new GuildEmojiRecord(guildId, emoji));
 		const sortedEmojis = sortBySnowflakeDesc(emojiRecords);
 		const frozenEmojis = Object.freeze(sortedEmojis);
@@ -274,7 +255,7 @@ class EmojiStore {
 		return emojiGuildRegistry.getGuildEmojis(guildId);
 	}
 
-	getEmojiById(emojiId: string): Emoji | undefined {
+	getEmojiById(emojiId: string): FlatEmoji | undefined {
 		return this.getDisambiguatedEmojiContext(null).getById(emojiId);
 	}
 
@@ -282,15 +263,24 @@ class EmojiStore {
 		return EmojiDisambiguations.getInstance(guildId);
 	}
 
-	getEmojiMarkdown(emoji: Emoji): string {
-		return emoji.id ? `<${emoji.animated ? 'a' : ''}:${emoji.uniqueName}:${emoji.id}>` : `:${emoji.uniqueName}:`;
+	getEmojiMarkdown(emoji: FlatEmoji): string {
+		if (emoji.id) {
+			return `<${emoji.animated ? 'a' : ''}:${emoji.uniqueName}:${emoji.id}>`;
+		}
+		if (emoji.hasDiversity && this.skinTone) {
+			const skinToneName = UnicodeEmojis.convertSurrogateToName(this.skinTone, false);
+			if (skinToneName) {
+				return `:${emoji.uniqueName}::${skinToneName}:`;
+			}
+		}
+		return `:${emoji.uniqueName}:`;
 	}
 
 	filterExternal(
 		channel: ChannelRecord | null,
 		nameTest: (name: string) => boolean,
 		count: number,
-	): ReadonlyArray<Emoji> {
+	): ReadonlyArray<FlatEmoji> {
 		const results = EmojiDisambiguations.getInstance(channel?.guildId).nameMatchesChain(nameTest);
 
 		const filtered = filterEmojisForAutocomplete(i18n, results, channel);
@@ -298,11 +288,11 @@ class EmojiStore {
 		return count > 0 ? filtered.slice(0, count) : filtered;
 	}
 
-	getAllEmojis(channel: ChannelRecord | null): ReadonlyArray<Emoji> {
+	getAllEmojis(channel: ChannelRecord | null): ReadonlyArray<FlatEmoji> {
 		return this.getDisambiguatedEmojiContext(channel?.guildId).getDisambiguatedEmoji();
 	}
 
-	search(channel: ChannelRecord | null, query: string, count = 0): ReadonlyArray<Emoji> {
+	search(channel: ChannelRecord | null, query: string, count = 0): ReadonlyArray<FlatEmoji> {
 		const normalizedQuery = normalizeEmojiSearchQuery(query);
 		const lowerCasedQuery = normalizedQuery.toLowerCase();
 		if (!lowerCasedQuery) {
@@ -360,36 +350,31 @@ class EmojiStore {
 			emojiGuildRegistry.updateGuild(guild.id, guild.emojis);
 		}
 		emojiGuildRegistry.rebuildRegistry();
+		ComponentDispatch.dispatch('EMOJI_PICKER_RERENDER');
 	}
 
 	handleGuildUpdate({guild}: {guild: Guild | GuildReadyData}): void {
-		emojiGuildRegistry.updateGuild(guild.id, 'emojis' in guild ? guild.emojis : undefined);
+		if (!('emojis' in guild)) {
+			ComponentDispatch.dispatch('EMOJI_PICKER_RERENDER');
+			return;
+		}
+
+		emojiGuildRegistry.updateGuild(guild.id, guild.emojis);
 		emojiGuildRegistry.rebuildRegistry();
+		ComponentDispatch.dispatch('EMOJI_PICKER_RERENDER');
 	}
 
 	handleGuildEmojiUpdated({guildId, emojis}: {guildId: string; emojis: ReadonlyArray<GuildEmoji>}): void {
 		emojiGuildRegistry.updateGuild(guildId, emojis);
 		emojiGuildRegistry.rebuildRegistry();
 		patchGuildEmojiCacheFromGateway(guildId, emojis);
+		ComponentDispatch.dispatch('EMOJI_PICKER_RERENDER');
 	}
 
 	handleGuildDelete({guildId}: {guildId: string}): void {
 		emojiGuildRegistry.deleteGuild(guildId);
 		emojiGuildRegistry.rebuildRegistry();
-	}
-
-	handleGuildMemberUpdate({guildId, member}: {guildId: string; member: GuildMember}): void {
-		if (member.user.id !== UserStore.getCurrentUser()?.id) {
-			return;
-		}
-
-		const currentGuildEmojis = emojiGuildRegistry.getGuildEmojis(guildId).map((emoji) => ({
-			...emoji.toJSON(),
-			guild_id: guildId,
-		}));
-
-		emojiGuildRegistry.updateGuild(guildId, currentGuildEmojis);
-		emojiGuildRegistry.rebuildRegistry();
+		ComponentDispatch.dispatch('EMOJI_PICKER_RERENDER');
 	}
 }
 

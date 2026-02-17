@@ -17,33 +17,34 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import styles from '@app/components/layout/AppLayout.module.css';
+import {useAppLayoutState} from '@app/components/layout/app_layout/AppLayoutHooks';
+import {SplashScreen} from '@app/components/layout/SplashScreen';
+import RequiredActionModal from '@app/components/modals/RequiredActionModal';
+import {NewDeviceMonitoringManager} from '@app/components/voice/NewDeviceMonitoringManager';
+import {VoiceReconnectionManager} from '@app/components/voice/VoiceReconnectionManager';
+import AccountManager from '@app/stores/AccountManager';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import GatewayConnectionStore from '@app/stores/gateway/GatewayConnectionStore';
+import InitializationStore from '@app/stores/InitializationStore';
+import ModalStore from '@app/stores/ModalStore';
+import UserStore from '@app/stores/UserStore';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {SplashScreen} from '~/components/layout/SplashScreen';
-import RequiredActionModal from '~/components/modals/RequiredActionModal';
-import {NewDeviceMonitoringManager} from '~/components/voice/NewDeviceMonitoringManager';
-import {VoiceReconnectionManager} from '~/components/voice/VoiceReconnectionManager';
-import AccountManager from '~/stores/AccountManager';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ConnectionStore from '~/stores/ConnectionStore';
-import InitializationStore from '~/stores/InitializationStore';
-import ModalStore from '~/stores/ModalStore';
-import UserStore from '~/stores/UserStore';
-import styles from './AppLayout.module.css';
-import {useAppLayoutState} from './app-layout/hooks';
+import type React from 'react';
+import {useEffect} from 'react';
 
 export const AppLayout = observer(({children}: {children: React.ReactNode}) => {
 	const isAuthenticated = AuthenticationStore.isAuthenticated;
-	const socket = ConnectionStore.socket;
+	const socket = GatewayConnectionStore.socket;
 	const user = UserStore.currentUser;
 
 	const appState = useAppLayoutState();
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (InitializationStore.isLoading) {
 			return;
 		}
@@ -51,13 +52,13 @@ export const AppLayout = observer(({children}: {children: React.ReactNode}) => {
 	}, [
 		isAuthenticated,
 		socket,
-		ConnectionStore.isConnected,
-		ConnectionStore.isConnecting,
+		GatewayConnectionStore.isConnected,
+		GatewayConnectionStore.isConnecting,
 		InitializationStore.isLoading,
 		AccountManager.isSwitching,
 	]);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		const hasRequired = !!(user?.requiredActions && user.requiredActions.length > 0);
 		const isOpen = ModalStore.getModal()?.key === 'required-actions';
 		if (hasRequired && !isOpen) {
@@ -74,7 +75,6 @@ export const AppLayout = observer(({children}: {children: React.ReactNode}) => {
 	return (
 		<>
 			{isAuthenticated && <SplashScreen />}
-
 			{isAuthenticated && socket && <VoiceReconnectionManager />}
 			{isAuthenticated && <NewDeviceMonitoringManager />}
 			<div className={clsx(styles.appLayout, appState.isStandalone && styles.appLayoutStandalone)}>{children}</div>

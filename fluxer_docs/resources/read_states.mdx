@@ -1,0 +1,17 @@
+---
+title: 'Read states'
+description: 'Read states object schemas from the Fluxer API.'
+---
+
+<a id="readstateackbulkrequest"></a>
+
+## ReadStateAckBulkRequest
+
+**Related endpoints**
+
+- [`POST /read-states/ack-bulk`](/api-reference/read-states/mark-channels-as-read)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| read_states | [DeleteMessageRequest](#deletemessagerequest)[] | Array of channel/message pairs to acknowledge |
+

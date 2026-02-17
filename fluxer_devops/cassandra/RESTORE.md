@@ -10,17 +10,17 @@ echo "Waiting for Cassandra to start..."
 sleep 30
 
 # 2. Extract backup and apply schema
-docker exec cass bash -c 'apt-get update -qq && apt-get install -y -qq age'
+docker exec cass sh -c 'apt-get update -qq && apt-get install -y -qq age'
 docker cp ~/Downloads/backup.tar.age cass:/tmp/
 docker cp ~/Downloads/key.txt cass:/tmp/
-docker exec cass bash -c 'age -d -i /tmp/key.txt /tmp/backup.tar.age | tar -C /tmp -xf -'
-docker exec cass bash -c 'sed "/^WARNING:/d" /tmp/cassandra-backup-*/schema.cql | cqlsh'
+docker exec cass sh -c 'age -d -i /tmp/key.txt /tmp/backup.tar.age | tar -C /tmp -xf -'
+docker exec cass sh -c 'sed "/^WARNING:/d" /tmp/cassandra-backup-*/schema.cql | cqlsh'
 
 # 3. Copy backup to volume and stop Cassandra
-docker exec cass bash -c 'cp -r /tmp/cassandra-backup-* /var/lib/cassandra/'
+docker exec cass sh -c 'cp -r /tmp/cassandra-backup-* /var/lib/cassandra/'
 docker stop cass
 docker run -d --name cass-util -v cassandra_data:/var/lib/cassandra --entrypoint sleep cassandra:5.0 infinity
-docker exec cass-util bash -c '
+docker exec cass-util sh -c '
   BACKUP_DIR=$(ls -d /var/lib/cassandra/cassandra-backup-* | head -1)
   DATA_DIR=/var/lib/cassandra/data
   for keyspace_dir in "$BACKUP_DIR"/*/; do
@@ -46,7 +46,7 @@ docker start cass
 sleep 30
 
 # 5. Run nodetool refresh on all tables
-docker exec cass bash -c '
+docker exec cass sh -c '
   BACKUP_DIR=$(ls -d /var/lib/cassandra/cassandra-backup-* | head -1)
   for keyspace_dir in "$BACKUP_DIR"/*/; do
     keyspace=$(basename "$keyspace_dir")
@@ -89,16 +89,16 @@ docker cp "/tmp/${BACKUP_NAME}" ${CASSANDRA_CONTAINER}:/tmp/
 docker cp /etc/cassandra/age_private_key.txt ${CASSANDRA_CONTAINER}:/tmp/key.txt
 
 # 3. Stop Cassandra and prepare
-docker exec ${CASSANDRA_CONTAINER} bash -c 'apt-get update -qq && apt-get install -y -qq age'
+docker exec ${CASSANDRA_CONTAINER} sh -c 'apt-get update -qq && apt-get install -y -qq age'
 docker stop ${CASSANDRA_CONTAINER}
 
 # 4. Extract backup in utility container
 docker run -d --name cass-restore-util --volumes-from ${CASSANDRA_CONTAINER} --entrypoint sleep cassandra:5.0 infinity
-docker exec cass-restore-util bash -c 'age -d -i /tmp/key.txt /tmp/${BACKUP_NAME} | tar -C /tmp -xf -'
-docker exec cass-restore-util bash -c 'cp -r /tmp/cassandra-backup-* /var/lib/cassandra/'
+docker exec cass-restore-util sh -c 'age -d -i /tmp/key.txt /tmp/${BACKUP_NAME} | tar -C /tmp -xf -'
+docker exec cass-restore-util sh -c 'cp -r /tmp/cassandra-backup-* /var/lib/cassandra/'
 
 # 5. Copy SSTable files to existing schema directories
-docker exec cass-restore-util bash -c '
+docker exec cass-restore-util sh -c '
   BACKUP_DIR=$(ls -d /var/lib/cassandra/cassandra-backup-* | head -1)
   DATA_DIR=/var/lib/cassandra/data
   for keyspace_dir in "$BACKUP_DIR"/*/; do
@@ -124,7 +124,7 @@ docker start ${CASSANDRA_CONTAINER}
 sleep 30
 
 # 7. Run nodetool refresh
-docker exec ${CASSANDRA_CONTAINER} bash -c '
+docker exec ${CASSANDRA_CONTAINER} sh -c '
   BACKUP_DIR=$(ls -d /var/lib/cassandra/cassandra-backup-* | head -1)
   for keyspace_dir in "$BACKUP_DIR"/*/; do
     keyspace=$(basename "$keyspace_dir")

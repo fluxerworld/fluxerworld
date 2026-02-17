@@ -17,21 +17,26 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {getAccountAvatarUrl} from '@app/components/accounts/AccountListItem';
+import styles from '@app/components/accounts/AccountRow.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {MockAvatar} from '@app/components/uikit/MockAvatar';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useContextMenuHoverState} from '@app/hooks/useContextMenuHoverState';
+import {Logger} from '@app/lib/Logger';
+import type {Account} from '@app/lib/SessionManager';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CaretRightIcon, CheckIcon, DotsThreeIcon, GlobeIcon} from '@phosphor-icons/react';
 import clsx from 'clsx';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {MockAvatar} from '~/components/uikit/MockAvatar';
-import {Tooltip} from '~/components/uikit/Tooltip';
-import type {AccountSummary} from '~/stores/AccountManager';
-import {getAccountAvatarUrl} from './AccountListItem';
-import styles from './AccountRow.module.css';
+import type React from 'react';
+import {useCallback, useRef} from 'react';
 
 const STANDARD_INSTANCES = new Set(['web.fluxer.app', 'web.canary.fluxer.app']);
 
-function getInstanceHost(account: AccountSummary): string | null {
+const logger = new Logger('AccountRow');
+
+function getInstanceHost(account: Account): string | null {
 	const endpoint = account.instance?.apiEndpoint;
 	if (!endpoint) {
 		return null;
@@ -40,19 +45,19 @@ function getInstanceHost(account: AccountSummary): string | null {
 	try {
 		return new URL(endpoint).hostname;
 	} catch (error) {
-		console.error('Failed to parse instance host:', error);
+		logger.error('Failed to parse instance host:', error);
 		return null;
 	}
 }
 
-function getInstanceEndpoint(account: AccountSummary): string | null {
+function getInstanceEndpoint(account: Account): string | null {
 	return account.instance?.apiEndpoint ?? null;
 }
 
 type AccountRowVariant = 'default' | 'manage' | 'compact';
 
 interface AccountRowProps {
-	account: AccountSummary;
+	account: Account;
 	variant?: AccountRowVariant;
 	isCurrent?: boolean;
 	isExpired?: boolean;
@@ -84,8 +89,10 @@ export const AccountRow = observer(
 		const instanceHost = showInstance ? getInstanceHost(account) : null;
 		const instanceEndpoint = showInstance ? getInstanceEndpoint(account) : null;
 		const shouldShowInstance = typeof instanceHost === 'string' && !STANDARD_INSTANCES.has(instanceHost);
+		const menuButtonRef = useRef<HTMLButtonElement | null>(null);
+		const isContextMenuOpen = useContextMenuHoverState(menuButtonRef, Boolean(onMenuClick));
 
-		const handleMenuClick = React.useCallback(
+		const handleMenuClick = useCallback(
 			(event: React.MouseEvent<HTMLButtonElement>) => {
 				event.stopPropagation();
 				event.preventDefault();
@@ -175,7 +182,13 @@ export const AccountRow = observer(
 					) : null}
 					{onMenuClick && variant !== 'compact' && !showCaretIndicator ? (
 						<FocusRing offset={-2}>
-							<button type="button" className={styles.menuButton} onClick={handleMenuClick} aria-label={t`More`}>
+							<button
+								ref={menuButtonRef}
+								type="button"
+								className={clsx(styles.menuButton, isContextMenuOpen && styles.menuButtonActive)}
+								onClick={handleMenuClick}
+								aria-label={t`More`}
+							>
 								<DotsThreeIcon size={20} weight="bold" className={styles.menuIcon} />
 							</button>
 						</FocusRing>

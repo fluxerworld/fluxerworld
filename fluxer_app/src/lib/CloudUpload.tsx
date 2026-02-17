@@ -17,11 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
+import {isEmbeddableImageFile} from '@app/utils/EmbeddableImageTypes';
+import {MessageAttachmentFlags} from '@fluxer/constants/src/ChannelConstants';
+import type {AllowedMentions} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {BehaviorSubject, firstValueFrom, interval, type Observable, type Subscription} from 'rxjs';
 import {filter, map, timeout as rxTimeout, take} from 'rxjs/operators';
-import {MessageAttachmentFlags} from '~/Constants';
-import {Logger} from '~/lib/Logger';
-import type {AllowedMentions} from '~/records/MessageRecord';
 
 const logger = new Logger('CloudUpload');
 const hasDOM = true;
@@ -44,6 +45,9 @@ export interface CloudAttachment {
 	status: UploadStatus;
 	uploadProgress?: number;
 	spoiler?: boolean;
+	duration?: number | null;
+	waveform?: string | null;
+	isVoiceMessage?: boolean;
 }
 
 export interface MessageUpload {
@@ -603,10 +607,11 @@ class CloudUploadManager {
 				let height = 0;
 				let thumbnailURL: string | null = null;
 				const spoiler = file.name.startsWith('SPOILER_');
+				const isEmbeddableImage = isEmbeddableImageFile(file);
 
 				if (hasDOM) {
 					try {
-						if (file.type.startsWith('image/')) {
+						if (isEmbeddableImage) {
 							const dims = await this.getImageDimensions(file);
 							width = dims.width;
 							height = dims.height;
@@ -621,9 +626,9 @@ class CloudUploadManager {
 					}
 				}
 
-				const isMedia =
-					file.type.startsWith('image/') || file.type.startsWith('video/') || file.type.startsWith('audio/');
-				const previewURL = hasDOM && isMedia ? URL.createObjectURL(file) : null;
+				const isPreviewableMedia =
+					isEmbeddableImage || file.type.startsWith('video/') || file.type.startsWith('audio/');
+				const previewURL = hasDOM && isPreviewableMedia ? URL.createObjectURL(file) : null;
 				const flags = spoiler ? MessageAttachmentFlags.IS_SPOILER : 0;
 
 				const attachment: CloudAttachment = {
@@ -640,6 +645,9 @@ class CloudUploadManager {
 					height,
 					uploadProgress: 0,
 					spoiler,
+					duration: null,
+					waveform: null,
+					isVoiceMessage: false,
 				};
 
 				return attachment;

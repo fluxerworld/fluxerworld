@@ -17,14 +17,27 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {ModalRender} from '@app/actions/ModalRender';
+import {Logger} from '@app/lib/Logger';
+import ToastStore from '@app/stores/ToastStore';
 import {makeAutoObservable} from 'mobx';
 import type React from 'react';
-import type {ModalRender} from '~/actions/ModalActionCreators';
-import {Logger} from '~/lib/Logger';
-import KeyboardModeStore from './KeyboardModeStore';
-import ToastStore from './ToastStore';
 
 const logger = new Logger('ModalStore');
+
+type KeyboardModeStateResolver = () => boolean;
+type KeyboardModeRestoreCallback = (showIntro: boolean) => void;
+
+let keyboardModeStateResolver: KeyboardModeStateResolver | undefined;
+let keyboardModeRestoreCallback: KeyboardModeRestoreCallback | undefined;
+
+export function registerKeyboardModeStateResolver(resolver: KeyboardModeStateResolver): void {
+	keyboardModeStateResolver = resolver;
+}
+
+export function registerKeyboardModeRestoreCallback(callback: KeyboardModeRestoreCallback): void {
+	keyboardModeRestoreCallback = callback;
+}
 
 const BASE_Z_INDEX = 10000;
 const Z_INDEX_INCREMENT = 2;
@@ -49,6 +62,7 @@ interface ModalWithStackInfo extends Modal {
 	stackIndex: number;
 	isVisible: boolean;
 	needsBackdrop: boolean;
+	isTopmost: boolean;
 }
 
 interface PushOptions {
@@ -66,11 +80,13 @@ class ModalStore {
 	push(modal: ModalRender, key: string | number, options: PushOptions = {}): void {
 		const isBackground = options.isBackground ?? false;
 
+		const keyboardModeEnabled = keyboardModeStateResolver ? keyboardModeStateResolver() : false;
+
 		this.modals.push({
 			modal,
 			key: key.toString(),
 			focusReturnTarget: this.getActiveElement(),
-			keyboardModeEnabled: KeyboardModeStore.keyboardModeEnabled,
+			keyboardModeEnabled,
 			isBackground,
 		});
 
@@ -148,19 +164,35 @@ class ModalStore {
 		}
 	}
 
+	popByType<T>(component: React.ComponentType<T>): void {
+		const modalIndex = this.modals.findLastIndex((modal) => modal.modal().type === component);
+		if (modalIndex === -1) return;
+
+		const wasTopmost = modalIndex === this.modals.length - 1;
+		const [removed] = this.modals.splice(modalIndex, 1);
+
+		if (removed && wasTopmost) {
+			logger.debug(
+				`ModalStore.popByType restoring focus topmost=${wasTopmost} keyboardMode=${removed.keyboardModeEnabled}`,
+			);
+			this.scheduleFocus(removed.focusReturnTarget, removed.keyboardModeEnabled);
+		}
+	}
+
 	get orderedModals(): Array<ModalWithStackInfo> {
 		const topmostRegularIndex = this.modals.findLastIndex((m) => !m.isBackground);
+		const topmostIndex = this.modals.length - 1;
 
 		return this.modals.map((modal, index) => {
 			const isVisible = modal.isBackground || index === topmostRegularIndex;
-
-			const needsBackdrop = modal.isBackground || index === 0 || (index > 0 && this.modals[index - 1].isBackground);
+			const needsBackdrop = modal.isBackground || (!modal.isBackground && index === topmostRegularIndex);
 
 			return {
 				...modal,
 				stackIndex: index,
 				isVisible,
 				needsBackdrop,
+				isTopmost: index === topmostIndex,
 			};
 		});
 	}
@@ -203,13 +235,12 @@ class ModalStore {
 				logger.error('ModalStore.scheduleFocus failed to focus target', error as Error);
 				return;
 			}
-			if (keyboardModeEnabled) {
+			if (keyboardModeEnabled && keyboardModeRestoreCallback) {
 				logger.debug('ModalStore.scheduleFocus re-entering keyboard mode');
-				KeyboardModeStore.enterKeyboardMode(false);
+				keyboardModeRestoreCallback(false);
 			}
 		});
 	}
 }
 
-export type {PushOptions};
 export default new ModalStore();

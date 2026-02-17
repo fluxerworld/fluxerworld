@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import type {ChannelRecord} from '@app/records/ChannelRecord';
+import type {UserRecord} from '@app/records/UserRecord';
 import {makeAutoObservable} from 'mobx';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import type {UserRecord} from '~/records/UserRecord';
 
 interface MockIncomingCallData {
 	channel: ChannelRecord;

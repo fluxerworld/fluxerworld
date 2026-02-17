@@ -17,11 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {Webhook} from '~/records/WebhookRecord';
-import WebhookStore from '~/stores/WebhookStore';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import WebhookStore from '@app/stores/WebhookStore';
+import type {Webhook} from '@fluxer/schema/src/domains/webhook/WebhookSchemas';
 
 const logger = new Logger('WebhookActionCreators');
 
@@ -37,7 +37,7 @@ export interface UpdateWebhookParams {
 	avatar?: string | null;
 }
 
-export const fetchGuildWebhooks = async (guildId: string): Promise<Array<Webhook>> => {
+export async function fetchGuildWebhooks(guildId: string): Promise<Array<Webhook>> {
 	WebhookStore.handleGuildWebhooksFetchPending(guildId);
 
 	try {
@@ -52,15 +52,15 @@ export const fetchGuildWebhooks = async (guildId: string): Promise<Array<Webhook
 		WebhookStore.handleGuildWebhooksFetchError(guildId);
 		throw error;
 	}
-};
+}
 
-export const fetchChannelWebhooks = async ({
+export async function fetchChannelWebhooks({
 	guildId,
 	channelId,
 }: {
 	guildId: string;
 	channelId: string;
-}): Promise<Array<Webhook>> => {
+}): Promise<Array<Webhook>> {
 	WebhookStore.handleChannelWebhooksFetchPending(channelId);
 
 	try {
@@ -75,9 +75,9 @@ export const fetchChannelWebhooks = async ({
 		WebhookStore.handleChannelWebhooksFetchError(channelId);
 		throw error;
 	}
-};
+}
 
-export const createWebhook = async ({channelId, name, avatar}: CreateWebhookParams): Promise<Webhook> => {
+export async function createWebhook({channelId, name, avatar}: CreateWebhookParams): Promise<Webhook> {
 	try {
 		const response = await http.post<Webhook>(Endpoints.CHANNEL_WEBHOOKS(channelId), {name, avatar: avatar ?? null});
 		const data = response.body;
@@ -89,9 +89,9 @@ export const createWebhook = async ({channelId, name, avatar}: CreateWebhookPara
 		logger.error(`Failed to create webhook for channel ${channelId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const deleteWebhook = async (webhookId: string): Promise<void> => {
+export async function deleteWebhook(webhookId: string): Promise<void> {
 	const existing = WebhookStore.getWebhook(webhookId);
 
 	try {
@@ -104,9 +104,9 @@ export const deleteWebhook = async (webhookId: string): Promise<void> => {
 		logger.error(`Failed to delete webhook ${webhookId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const moveWebhook = async (webhookId: string, newChannelId: string): Promise<Webhook> => {
+export async function moveWebhook(webhookId: string, newChannelId: string): Promise<Webhook> {
 	const existing = WebhookStore.getWebhook(webhookId);
 	if (!existing) {
 		throw new Error(`Webhook ${webhookId} not found`);
@@ -124,7 +124,7 @@ export const moveWebhook = async (webhookId: string, newChannelId: string): Prom
 		logger.error(`Failed to move webhook ${webhookId} to channel ${newChannelId}:`, error);
 		throw error;
 	}
-};
+}
 
 const updateWebhook = async ({webhookId, name, avatar}: UpdateWebhookParams): Promise<Webhook> => {
 	try {
@@ -140,7 +140,7 @@ const updateWebhook = async ({webhookId, name, avatar}: UpdateWebhookParams): Pr
 	}
 };
 
-export const updateWebhooks = async (updates: Array<UpdateWebhookParams>): Promise<Array<Webhook>> => {
+export async function updateWebhooks(updates: Array<UpdateWebhookParams>): Promise<Array<Webhook>> {
 	const results: Array<Webhook> = [];
 
 	for (const update of updates) {
@@ -153,4 +153,4 @@ export const updateWebhooks = async (updates: Array<UpdateWebhookParams>): Promi
 	}
 
 	return results;
-};
+}

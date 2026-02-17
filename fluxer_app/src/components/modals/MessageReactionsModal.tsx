@@ -17,150 +17,86 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as ReactionActionCreators from '@app/actions/ReactionActionCreators';
+import styles from '@app/components/modals/MessageReactionsModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {MessageReactionsFilters, MessageReactionsReactorsList} from '@app/components/shared/MessageReactionsContent';
+import {MenuGroup} from '@app/components/uikit/context_menu/MenuGroup';
+import {MenuItem} from '@app/components/uikit/context_menu/MenuItem';
+import {useMessageReactionsState} from '@app/hooks/useMessageReactionsState';
+import type {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import type {MessageReaction} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {Trans, useLingui} from '@lingui/react/macro';
-import {XIcon} from '@phosphor-icons/react';
-import {clsx} from 'clsx';
+import {TrashIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as ReactionActionCreators from '~/actions/ReactionActionCreators';
-import {Permissions} from '~/Constants';
-import reactionStyles from '~/components/channel/MessageReactions.module.css';
-import styles from '~/components/modals/MessageReactionsModal.module.css';
-import * as Modal from '~/components/modals/Modal';
-import {Avatar} from '~/components/uikit/Avatar';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Spinner} from '~/components/uikit/Spinner';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {useHover} from '~/hooks/useHover';
-import type {MessageReaction} from '~/records/MessageRecord';
-import ChannelStore from '~/stores/ChannelStore';
-import MessageReactionsStore from '~/stores/MessageReactionsStore';
-import MessageStore from '~/stores/MessageStore';
-import PermissionStore from '~/stores/PermissionStore';
-import {emojiEquals, getEmojiName, getEmojiNameWithColons, getReactionKey, useEmojiURL} from '~/utils/ReactionUtils';
-
-const MessageReactionItem = observer(
-	({
-		reaction,
-		selectedReaction,
-		setSelectedReaction,
-	}: {
-		reaction: MessageReaction;
-		selectedReaction: MessageReaction;
-		setSelectedReaction: (reaction: MessageReaction) => void;
-	}) => {
-		const {t} = useLingui();
-		const [hoverRef, isHovering] = useHover();
-		const emojiName = getEmojiName(reaction.emoji);
-		const emojiUrl = useEmojiURL({emoji: reaction.emoji, isHovering});
-		const isUnicodeEmoji = reaction.emoji.id == null;
-		const isSelected = emojiEquals(selectedReaction.emoji, reaction.emoji);
-
-		return (
-			<Tooltip text={getEmojiNameWithColons(reaction.emoji)} position="left">
-				<div className={styles.reactionFilterButtonContainer}>
-					<FocusRing offset={-2}>
-						<button
-							type="button"
-							aria-label={
-								reaction.count === 1
-									? t`${emojiName}, ${reaction.count} reaction`
-									: t`${emojiName}, ${reaction.count} reactions`
-							}
-							onClick={() => setSelectedReaction(reaction)}
-							ref={hoverRef}
-							className={clsx(
-								reactionStyles.reactionButton,
-								styles.reactionFilterButton,
-								isSelected ? styles.reactionFilterButtonSelected : styles.reactionFilterButtonIdle,
-							)}
-						>
-							<div className={reactionStyles.reactionInner}>
-								{emojiUrl ? (
-									<img
-										className={clsx('emoji', reactionStyles.emoji)}
-										src={emojiUrl}
-										alt={emojiName}
-										draggable={false}
-									/>
-								) : isUnicodeEmoji ? (
-									<span className={clsx('emoji', reactionStyles.emoji)}>{reaction.emoji.name}</span>
-								) : null}
-								<div className={reactionStyles.countWrapper}>{reaction.count}</div>
-							</div>
-						</button>
-					</FocusRing>
-				</div>
-			</Tooltip>
-		);
-	},
-);
+import {type MouseEvent, useCallback} from 'react';
 
 export const MessageReactionsModal = observer(
 	({channelId, messageId, openToReaction}: {channelId: string; messageId: string; openToReaction: MessageReaction}) => {
 		const {t, i18n} = useLingui();
-		const [selectedReaction, setSelectedReaction] = React.useState(openToReaction);
-		const message = MessageStore.getMessage(channelId, messageId);
-		const channel = ChannelStore.getChannel(channelId);
-		const guildId = channel?.guildId;
-		const canManageMessages = PermissionStore.can(Permissions.MANAGE_MESSAGES, {
+		const {
+			message,
+			reactions,
+			selectedReaction,
+			setSelectedReaction,
+			reactors,
+			isLoading,
+			canManageMessages,
 			guildId,
+			reactorScrollerKey,
+		} = useMessageReactionsState({
 			channelId,
+			messageId,
+			openToReaction,
+			isOpen: true,
+			onMissingMessage: () => ModalActionCreators.pop(),
 		});
 
-		const reactors = MessageReactionsStore.getReactions(messageId, selectedReaction.emoji);
-		const fetchStatus = MessageReactionsStore.getFetchStatus(messageId, selectedReaction.emoji);
-		const isLoading = fetchStatus === 'pending';
-		const reactorScrollerKey = React.useMemo(
-			() =>
-				message
-					? `message-reactions-reactor-scroller-${getReactionKey(message.id, selectedReaction.emoji)}`
-					: 'message-reactions-reactor-scroller',
-			[message?.id, selectedReaction.emoji],
+		const handleReactionContextMenu = useCallback(
+			(reaction: MessageReaction, event: MouseEvent<HTMLButtonElement>) => {
+				if (!canManageMessages) {
+					return;
+				}
+				ContextMenuActionCreators.openFromEvent(event, ({onClose}) => (
+					<MenuGroup>
+						<MenuItem
+							icon={<TrashIcon />}
+							onClick={() => {
+								ReactionActionCreators.removeReactionEmoji(i18n, channelId, messageId, reaction.emoji);
+								onClose();
+							}}
+							danger
+						>
+							{t`Remove Reaction`}
+						</MenuItem>
+					</MenuGroup>
+				));
+			},
+			[canManageMessages, channelId, i18n, messageId, t],
 		);
 
-		React.useEffect(() => {
-			if (!message || fetchStatus === 'pending') {
-				return;
-			}
+		const handleRemoveReactor = useCallback(
+			(reactor: UserRecord) => {
+				if (!selectedReaction) {
+					return;
+				}
+				const isOwnReaction =
+					AuthenticationStore.currentUserId != null && reactor.id === AuthenticationStore.currentUserId;
+				ReactionActionCreators.removeReaction(
+					i18n,
+					channelId,
+					messageId,
+					selectedReaction.emoji,
+					isOwnReaction ? undefined : reactor.id,
+				);
+			},
+			[channelId, i18n, messageId, selectedReaction],
+		);
 
-			if (!message?.reactions) return;
-
-			const reactionOnMessage = message.reactions.find((reaction) =>
-				emojiEquals(reaction.emoji, selectedReaction.emoji),
-			);
-
-			if (!reactionOnMessage || reactionOnMessage.count === 0) {
-				return;
-			}
-
-			const desired = Math.min(100, reactionOnMessage.count);
-			if (fetchStatus === 'idle' || reactors.length < desired) {
-				ReactionActionCreators.getReactions(channelId, messageId, selectedReaction.emoji, 100);
-			}
-		}, [channelId, messageId, selectedReaction.emoji, fetchStatus, reactors.length, message?.reactions]);
-
-		React.useEffect(() => {
-			if (!message) {
-				ModalActionCreators.pop();
-				return;
-			}
-
-			const reactions = message.reactions;
-			if (!reactions || reactions.length === 0) {
-				ModalActionCreators.pop();
-				return;
-			}
-
-			const selectedReactionExists = reactions.some((reaction) => emojiEquals(reaction.emoji, selectedReaction.emoji));
-			if (!selectedReactionExists) {
-				setSelectedReaction(reactions[0]);
-			}
-		}, [message, selectedReaction.emoji]);
-
-		if (!message) {
+		if (!message || !selectedReaction) {
 			return null;
 		}
 
@@ -171,76 +107,29 @@ export const MessageReactionsModal = observer(
 					<div className={styles.modalLayout}>
 						<div className={styles.sidebar}>
 							<div className={styles.reactionFiltersPane}>
-								<Scroller
-									className={clsx(styles.scrollerPadding, styles.sidebarScroller)}
-									key="message-reactions-filter-scroller"
-									reserveScrollbarTrack={false}
-								>
-									{message.reactions.length > 0 &&
-										message.reactions.map((reaction) => (
-											<MessageReactionItem
-												key={getReactionKey(message.id, reaction.emoji)}
-												reaction={reaction}
-												selectedReaction={selectedReaction}
-												setSelectedReaction={setSelectedReaction}
-											/>
-										))}
-									{message.reactions.length === 0 && (
-										<div className={styles.noReactionsContainer}>
-											<div className={styles.noReactionsText}>{t`No reactions`}</div>
-										</div>
-									)}
-								</Scroller>
+								<MessageReactionsFilters
+									messageId={messageId}
+									reactions={reactions}
+									selectedReaction={selectedReaction}
+									onSelectReaction={setSelectedReaction}
+									canManageMessages={canManageMessages}
+									variant="modal"
+									onReactionContextMenu={handleReactionContextMenu}
+								/>
 							</div>
 						</div>
 						<div className={styles.reactionListContainer}>
-							<div className={styles.reactionListPanel}>
-								<Scroller
-									className={clsx(styles.scrollerColumn, styles.reactorScroller)}
-									key={reactorScrollerKey}
-									reserveScrollbarTrack={false}
-								>
-									{reactors.map((reactor, index) => (
-										<div
-											key={reactor.id}
-											className={clsx(styles.reactorItem, index > 0 && styles.reactorItemBorder)}
-											data-user-id={reactor.id}
-											data-channel-id={channelId}
-										>
-											<Avatar user={reactor} size={24} guildId={guildId} />
-											<div className={styles.reactorInfo}>
-												<span className={styles.reactorName}>{reactor.displayName}</span>
-												<span className={styles.reactorTag}>{reactor.tag}</span>
-											</div>
-											{canManageMessages && (
-												<FocusRing offset={-2}>
-													<button
-														type="button"
-														onClick={() =>
-															ReactionActionCreators.removeReaction(
-																i18n,
-																channelId,
-																messageId,
-																selectedReaction.emoji,
-																reactor.id,
-															)
-														}
-														className={styles.removeReactionButton}
-													>
-														<XIcon weight="regular" className={styles.removeReactionIcon} />
-													</button>
-												</FocusRing>
-											)}
-										</div>
-									))}
-									{isLoading && reactors.length === 0 && (
-										<div className={styles.loadingContainer}>
-											<Spinner size="medium" />
-											<span className={styles.srOnly}>Loading reactions</span>
-										</div>
-									)}
-								</Scroller>
-							</div>
+							<MessageReactionsReactorsList
+								channelId={channelId}
+								reactors={reactors}
+								isLoading={isLoading}
+								canManageMessages={canManageMessages}
+								currentUserId={AuthenticationStore.currentUserId}
+								guildId={guildId}
+								scrollerKey={reactorScrollerKey}
+								loadingLabel={t`Loading reactions`}
+								onRemoveReactor={handleRemoveReactor}
+							/>
 						</div>
 					</div>
 				</Modal.Content>

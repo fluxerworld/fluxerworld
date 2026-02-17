@@ -1,0 +1,372 @@
+/*
+ * Copyright (C) 2026 Fluxer Contributors
+ *
+ * This file is part of Fluxer.
+ *
+ * Fluxer is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * Fluxer is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
+ */
+
+import {
+	createNamedStringLiteralUnion,
+	createStringType,
+	SnowflakeStringType,
+} from '@fluxer/schema/src/primitives/SchemaPrimitives';
+import {
+	EmailType,
+	GlobalNameType,
+	PasswordType,
+	PhoneNumberType,
+	UsernameType,
+} from '@fluxer/schema/src/primitives/UserValidators';
+import type {
+	AuthenticationResponseJSON,
+	PublicKeyCredentialCreationOptionsJSON,
+	RegistrationResponseJSON,
+} from '@simplewebauthn/server';
+import {z} from 'zod';
+
+export const RegisterRequest = z.object({
+	email: EmailType.optional().describe('Email address for the new account'),
+	username: UsernameType.optional().describe('Username for the new account (1-32 characters)'),
+	global_name: GlobalNameType.optional().describe('Display name shown to other users'),
+	password: PasswordType.optional().describe('Password for the new account'),
+	date_of_birth: createStringType(10, 10)
+		.refine((value) => /^\d{4}-\d{2}-\d{2}$/.test(value), 'Invalid date format')
+		.describe('Date of birth in YYYY-MM-DD format'),
+	consent: z.boolean().describe('Whether user consents to terms of service'),
+	invite_code: createStringType(0, 256).nullish().describe('Guild invite code to join after registration'),
+});
+export type RegisterRequest = z.infer<typeof RegisterRequest>;
+
+export const UsernameSuggestionsRequest = z.object({
+	global_name: GlobalNameType.describe('Display name to generate username suggestions from'),
+});
+export type UsernameSuggestionsRequest = z.infer<typeof UsernameSuggestionsRequest>;
+
+export const LoginRequest = z.object({
+	email: EmailType.describe('Email address for authentication'),
+	password: PasswordType.describe('Account password'),
+	invite_code: createStringType(0, 256).nullish().describe('Guild invite code to join after login'),
+});
+export type LoginRequest = z.infer<typeof LoginRequest>;
+
+export const LogoutAuthSessionsRequest = z.object({
+	session_id_hashes: z.array(createStringType()).max(100).describe('Array of session ID hashes to log out (max 100)'),
+	password: PasswordType.optional().describe('Account password for verification'),
+});
+export type LogoutAuthSessionsRequest = z.infer<typeof LogoutAuthSessionsRequest>;
+
+export const ForgotPasswordRequest = z.object({
+	email: EmailType.describe('Email address to send password reset link'),
+});
+export type ForgotPasswordRequest = z.infer<typeof ForgotPasswordRequest>;
+
+export const ResetPasswordRequest = z.object({
+	token: createStringType(64, 64).describe('Password reset token from email'),
+	password: PasswordType.describe('New password to set'),
+});
+export type ResetPasswordRequest = z.infer<typeof ResetPasswordRequest>;
+
+export const EmailRevertRequest = z.object({
+	token: createStringType(64, 64).describe('Email revert token from email'),
+	password: PasswordType.describe('Account password for verification'),
+});
+export type EmailRevertRequest = z.infer<typeof EmailRevertRequest>;
+
+export const VerifyEmailRequest = z.object({
+	token: createStringType(64, 64).describe('Email verification token from email'),
+});
+export type VerifyEmailRequest = z.infer<typeof VerifyEmailRequest>;
+
+export const SudoVerificationSchema = z.object({
+	password: PasswordType.optional().describe('Account password for sudo verification'),
+	mfa_method: createNamedStringLiteralUnion(
+		[
+			['totp', 'TOTP', 'Time-based one-time password authentication via authenticator app'],
+			['sms', 'SMS', 'One-time password sent via text message'],
+			['webauthn', 'WebAuthn', 'Security key or biometric authentication'],
+		],
+		'MFA method to use for verification',
+	).optional(),
+	mfa_code: createStringType(1, 32).optional().describe('MFA verification code from authenticator app or SMS'),
+	webauthn_response: z.custom<AuthenticationResponseJSON>().optional().describe('WebAuthn authentication response'),
+	webauthn_challenge: createStringType().optional().describe('WebAuthn challenge string'),
+});
+
+export const SsoStatusResponse = z.object({
+	enabled: z.boolean().describe('Whether SSO is enabled for this instance'),
+	enforced: z.boolean().describe('Whether SSO is required for all users'),
+	display_name: z.string().nullable().describe('Display name of the SSO provider'),
+	redirect_uri: z.string().describe('OAuth redirect URI for SSO'),
+});
+export type SsoStatusResponse = z.infer<typeof SsoStatusResponse>;
+
+export const SsoStartResponse = z.object({
+	authorization_url: z.string().describe('URL to redirect user to for SSO authentication'),
+	state: z.string().describe('State parameter for CSRF protection'),
+	redirect_uri: z.string().describe('Redirect URI after SSO completion'),
+});
+export type SsoStartResponse = z.infer<typeof SsoStartResponse>;
+
+export const SsoCompleteResponse = z.object({
+	token: z.string().describe('Authentication token for the session'),
+	user_id: SnowflakeStringType.describe('ID of the authenticated user'),
+	redirect_to: z.string().describe('URL to redirect the user to after completion'),
+});
+export type SsoCompleteResponse = z.infer<typeof SsoCompleteResponse>;
+
+export const AuthTokenResponse = z.object({
+	token: z.string().describe('Authentication token for API requests'),
+});
+export type AuthTokenResponse = z.infer<typeof AuthTokenResponse>;
+
+export const AuthTokenWithUserIdResponse = z.object({
+	token: z.string().describe('Authentication token for API requests'),
+	user_id: SnowflakeStringType.describe('ID of the authenticated user'),
+});
+export type AuthTokenWithUserIdResponse = z.infer<typeof AuthTokenWithUserIdResponse>;
+
+export const AuthMfaRequiredResponse = z.object({
+	mfa: z.literal(true).describe('Indicates MFA is required to complete authentication'),
+	ticket: z.string().describe('MFA ticket to use when completing MFA verification'),
+	allowed_methods: z.array(z.string()).max(10).describe('List of allowed MFA methods'),
+	sms_phone_hint: z.string().nullish().describe('Masked phone number hint for SMS MFA'),
+	sms: z.boolean().describe('Whether SMS MFA is available'),
+	totp: z.boolean().describe('Whether TOTP authenticator MFA is available'),
+	webauthn: z.boolean().describe('Whether WebAuthn security key MFA is available'),
+});
+export type AuthMfaRequiredResponse = z.infer<typeof AuthMfaRequiredResponse>;
+
+export const AuthLoginResponse = z.union([AuthTokenWithUserIdResponse, AuthMfaRequiredResponse]);
+export type AuthLoginResponse = z.infer<typeof AuthLoginResponse>;
+
+export const AuthRegisterResponse = z.union([AuthTokenWithUserIdResponse, AuthMfaRequiredResponse]);
+export type AuthRegisterResponse = z.infer<typeof AuthRegisterResponse>;
+
+export const AuthSessionLocation = z.object({
+	city: z.string().nullish().describe('The city name reported by the client'),
+	region: z.string().nullish().describe('The region reported by the client'),
+	country: z.string().nullish().describe('The country reported by the client'),
+});
+export type AuthSessionLocation = z.infer<typeof AuthSessionLocation>;
+
+export const AuthSessionClientInfo = z.object({
+	platform: z.string().nullish().describe('The platform reported by the client'),
+	os: z.string().nullish().describe('The operating system reported by the client'),
+	browser: z.string().nullish().describe('The browser reported by the client'),
+	location: AuthSessionLocation.nullish().describe('The geolocation data sent by the client'),
+});
+export type AuthSessionClientInfo = z.infer<typeof AuthSessionClientInfo>;
+
+export const AuthSessionResponse = z.object({
+	id_hash: z.string().describe('The base64url-encoded session id hash'),
+	client_info: AuthSessionClientInfo.nullish().describe('Client metadata recorded for this session'),
+	approx_last_used_at: z.iso.datetime().nullish().describe('Approximate timestamp of the last session activity'),
+	current: z.boolean().describe('Whether this is the current session making the request'),
+});
+export type AuthSessionResponse = z.infer<typeof AuthSessionResponse>;
+
+export const AuthSessionsResponse = z.array(AuthSessionResponse);
+export type AuthSessionsResponse = z.infer<typeof AuthSessionsResponse>;
+
+export const WebAuthnAuthenticationOptionsResponse = z.custom<PublicKeyCredentialCreationOptionsJSON>();
+export type WebAuthnAuthenticationOptionsResponse = z.infer<typeof WebAuthnAuthenticationOptionsResponse>;
+
+export const UsernameSuggestionsResponse = z.object({
+	suggestions: z.array(z.string()).max(20).describe('List of suggested usernames'),
+});
+export type UsernameSuggestionsResponse = z.infer<typeof UsernameSuggestionsResponse>;
+
+export const HandoffInitiateResponse = z.object({
+	code: z.string().describe('Handoff code to share with the receiving device'),
+	expires_at: z.iso.datetime().describe('ISO 8601 timestamp when the handoff code expires'),
+});
+export type HandoffInitiateResponse = z.infer<typeof HandoffInitiateResponse>;
+
+export const HandoffStatusResponse = z.object({
+	status: z.string().describe('Current status of the handoff (pending, completed, expired)'),
+	token: z.string().nullish().describe('Authentication token if handoff is complete'),
+	user_id: SnowflakeStringType.nullish().describe('User ID if handoff is complete'),
+});
+export type HandoffStatusResponse = z.infer<typeof HandoffStatusResponse>;
+
+export const SsoStartRequest = z.object({
+	redirect_to: createStringType(1, 2048).nullish().describe('URL to redirect to after SSO completion'),
+});
+export type SsoStartRequest = z.infer<typeof SsoStartRequest>;
+
+export const SsoCompleteRequest = z.object({
+	code: createStringType().describe('Authorization code from the SSO provider'),
+	state: createStringType().describe('State parameter for CSRF protection'),
+});
+export type SsoCompleteRequest = z.infer<typeof SsoCompleteRequest>;
+
+export const MfaTotpRequest = z.object({
+	code: createStringType().describe('The TOTP code from the authenticator app'),
+	ticket: createStringType().describe('The MFA ticket from the login response'),
+});
+export type MfaTotpRequest = z.infer<typeof MfaTotpRequest>;
+
+export const MfaSmsRequest = z.object({
+	code: createStringType().describe('The SMS verification code'),
+	ticket: createStringType().describe('The MFA ticket from the login response'),
+});
+export type MfaSmsRequest = z.infer<typeof MfaSmsRequest>;
+
+export const MfaTicketRequest = z.object({
+	ticket: createStringType().describe('The MFA ticket from the login response'),
+});
+export type MfaTicketRequest = z.infer<typeof MfaTicketRequest>;
+
+export const AuthorizeIpRequest = z.object({
+	token: createStringType().describe('The IP authorization token from email'),
+});
+export type AuthorizeIpRequest = z.infer<typeof AuthorizeIpRequest>;
+
+export const IpAuthorizationPollQuery = z.object({
+	ticket: createStringType().describe('The IP authorization ticket'),
+});
+export type IpAuthorizationPollQuery = z.infer<typeof IpAuthorizationPollQuery>;
+
+export const IpAuthorizationPollResponse = z.object({
+	completed: z.boolean().describe('Whether the IP authorization has been completed'),
+	token: z.string().nullish().describe('Authentication token if authorization is complete'),
+	user_id: SnowflakeStringType.nullish().describe('User ID if authorization is complete'),
+});
+export type IpAuthorizationPollResponse = z.infer<typeof IpAuthorizationPollResponse>;
+
+export const WebAuthnAuthenticateRequest = z.object({
+	response: z.custom<AuthenticationResponseJSON>().describe('WebAuthn authentication response'),
+	challenge: createStringType().describe('The challenge string from authentication options'),
+});
+export type WebAuthnAuthenticateRequest = z.infer<typeof WebAuthnAuthenticateRequest>;
+
+export const WebAuthnMfaRequest = z.object({
+	response: z.custom<AuthenticationResponseJSON>().describe('WebAuthn authentication response'),
+	challenge: createStringType().describe('The challenge string from authentication options'),
+	ticket: createStringType().describe('The MFA ticket from the login response'),
+});
+export type WebAuthnMfaRequest = z.infer<typeof WebAuthnMfaRequest>;
+
+export const HandoffCompleteRequest = z.object({
+	code: createStringType().describe('The handoff code from the initiating session'),
+	token: createStringType().describe('The authentication token to transfer'),
+	user_id: createStringType().describe('The user ID associated with the token'),
+});
+export type HandoffCompleteRequest = z.infer<typeof HandoffCompleteRequest>;
+
+export const HandoffCodeParam = z.object({
+	code: createStringType().describe('The handoff code'),
+});
+export type HandoffCodeParam = z.infer<typeof HandoffCodeParam>;
+
+export const EnableMfaTotpRequest = z
+	.object({
+		secret: createStringType(1, 256).describe('The TOTP secret key'),
+		code: createStringType(1, 32).describe('The TOTP verification code'),
+	})
+	.merge(SudoVerificationSchema);
+export type EnableMfaTotpRequest = z.infer<typeof EnableMfaTotpRequest>;
+
+export const DisableTotpRequest = z
+	.object({
+		code: createStringType(1, 32).describe('The TOTP code to verify'),
+		password: PasswordType.optional().describe('Account password for verification'),
+	})
+	.merge(SudoVerificationSchema);
+export type DisableTotpRequest = z.infer<typeof DisableTotpRequest>;
+
+export const MfaBackupCodesRequest = z
+	.object({
+		regenerate: z.boolean().describe('Whether to regenerate backup codes'),
+		password: PasswordType.optional().describe('Account password for verification'),
+	})
+	.merge(SudoVerificationSchema);
+export type MfaBackupCodesRequest = z.infer<typeof MfaBackupCodesRequest>;
+
+export const MfaBackupCodeResponse = z.object({
+	code: z.string().describe('The backup code'),
+	consumed: z.boolean().describe('Whether the code has been used'),
+});
+export type MfaBackupCodeResponse = z.infer<typeof MfaBackupCodeResponse>;
+
+export const MfaBackupCodesResponse = z.object({
+	backup_codes: z.array(MfaBackupCodeResponse).describe('List of backup codes'),
+});
+export type MfaBackupCodesResponse = z.infer<typeof MfaBackupCodesResponse>;
+
+export const PhoneSendVerificationRequest = z.object({
+	phone: PhoneNumberType.describe('Phone number to send verification code'),
+});
+export type PhoneSendVerificationRequest = z.infer<typeof PhoneSendVerificationRequest>;
+
+export const PhoneVerifyRequest = z.object({
+	phone: PhoneNumberType.describe('Phone number being verified'),
+	code: createStringType(1, 32).describe('The verification code'),
+});
+export type PhoneVerifyRequest = z.infer<typeof PhoneVerifyRequest>;
+
+export const PhoneVerifyResponse = z.object({
+	phone_token: z.string().describe('Token to use when adding phone to account'),
+});
+export type PhoneVerifyResponse = z.infer<typeof PhoneVerifyResponse>;
+
+export const PhoneAddRequest = z
+	.object({
+		phone_token: createStringType(1, 256).describe('Token from phone verification'),
+	})
+	.merge(SudoVerificationSchema);
+export type PhoneAddRequest = z.infer<typeof PhoneAddRequest>;
+
+export const WebAuthnCredentialResponse = z.object({
+	id: z.string().describe('The credential ID'),
+	name: z.string().describe('User-assigned name for the credential'),
+	created_at: z.string().describe('When the credential was registered'),
+	last_used_at: z.string().nullable().describe('When the credential was last used'),
+});
+export type WebAuthnCredentialResponse = z.infer<typeof WebAuthnCredentialResponse>;
+
+export const WebAuthnCredentialListResponse = z.array(WebAuthnCredentialResponse);
+export type WebAuthnCredentialListResponse = z.infer<typeof WebAuthnCredentialListResponse>;
+
+export const WebAuthnChallengeResponse = z
+	.object({
+		challenge: z.string().describe('The WebAuthn challenge'),
+	})
+	.passthrough();
+export type WebAuthnChallengeResponse = z.infer<typeof WebAuthnChallengeResponse>;
+
+export const WebAuthnRegisterRequest = z
+	.object({
+		response: z.custom<RegistrationResponseJSON>().describe('WebAuthn registration response'),
+		challenge: createStringType(1, 1024).describe('The challenge from registration options'),
+		name: createStringType(1, 100).describe('User-assigned name for the credential'),
+	})
+	.merge(SudoVerificationSchema);
+export type WebAuthnRegisterRequest = z.infer<typeof WebAuthnRegisterRequest>;
+
+export const WebAuthnCredentialUpdateRequest = z
+	.object({
+		name: createStringType(1, 100).describe('New name for the credential'),
+	})
+	.merge(SudoVerificationSchema);
+export type WebAuthnCredentialUpdateRequest = z.infer<typeof WebAuthnCredentialUpdateRequest>;
+
+export const SudoMfaMethodsResponse = z.object({
+	totp: z.boolean().describe('Whether TOTP is enabled'),
+	sms: z.boolean().describe('Whether SMS MFA is enabled'),
+	webauthn: z.boolean().describe('Whether WebAuthn is enabled'),
+	has_mfa: z.boolean().describe('Whether any MFA method is enabled'),
+});
+export type SudoMfaMethodsResponse = z.infer<typeof SudoMfaMethodsResponse>;

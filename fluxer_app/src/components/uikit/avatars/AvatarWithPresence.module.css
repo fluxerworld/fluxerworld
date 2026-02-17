@@ -21,6 +21,7 @@
 	position: relative;
 	flex-shrink: 0;
 	border-radius: 9999px;
+	container-type: inline-size;
 }
 
 .imageWrapper {
@@ -32,7 +33,7 @@
 
 .imageWrapperSpeaking {
 	outline-style: solid;
-	outline-width: 2px;
+	outline-width: min(3px, 10cqi);
 	outline-color: #22c55e;
 }
 
@@ -44,4 +45,35 @@
 	object-position: center;
 	border-radius: 9999px;
 	image-rendering: auto;
+}
+
+.voiceIndicators {
+	position: absolute;
+	bottom: -2px;
+	right: -2px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	pointer-events: none;
+}
+
+.muteIndicator,
+.deafenIndicator {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	background-color: var(--status-danger);
+	color: white;
+	width: min(14px, 55cqi);
+	height: min(14px, 55cqi);
+}
+
+.deafenIndicator {
+	background-color: var(--status-danger);
+}
+
+.voiceIndicatorIcon {
+	width: min(8px, 30cqi);
+	height: min(8px, 30cqi);
 }

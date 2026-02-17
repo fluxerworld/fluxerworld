@@ -17,31 +17,33 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Trans, useLingui} from '@lingui/react/macro';
+import * as GuildStickerActionCreators from '@app/actions/GuildStickerActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {ConfirmModal} from '@app/components/modals/ConfirmModal';
+import {EditGuildStickerModal} from '@app/components/modals/EditGuildStickerModal';
+import styles from '@app/components/stickers/StickerGridItem.module.css';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
+import {useStickerAnimation} from '@app/hooks/useStickerAnimation';
+import GuildStore from '@app/stores/GuildStore';
+import * as AvatarUtils from '@app/utils/AvatarUtils';
+import {GuildFeatures} from '@fluxer/constants/src/GuildConstants';
+import type {GuildStickerWithUser} from '@fluxer/schema/src/domains/guild/GuildEmojiSchemas';
+import {useLingui} from '@lingui/react/macro';
 import {PencilIcon, XIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
-import * as GuildStickerActionCreators from '~/actions/GuildStickerActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {GuildFeatures} from '~/Constants';
-import {ConfirmModal} from '~/components/modals/ConfirmModal';
-import {EditGuildStickerModal} from '~/components/modals/EditGuildStickerModal';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
-import {type GuildStickerWithUser, isStickerAnimated} from '~/records/GuildStickerRecord';
-import GuildStore from '~/stores/GuildStore';
-import * as AvatarUtils from '~/utils/AvatarUtils';
-import styles from './StickerGridItem.module.css';
 
-type StickerGridItemProps = {
+interface StickerGridItemProps {
 	guildId: string;
 	sticker: GuildStickerWithUser;
 	onUpdate: () => void;
-};
+}
 
 export const StickerGridItem = observer(function StickerGridItem({guildId, sticker, onUpdate}: StickerGridItemProps) {
 	const {t} = useLingui();
+	const {shouldAnimate} = useStickerAnimation();
 
 	const stickerName = sticker.name;
 	const guild = GuildStore.getGuild(guildId);
@@ -81,7 +83,7 @@ export const StickerGridItem = observer(function StickerGridItem({guildId, stick
 
 	const stickerUrl = AvatarUtils.getStickerURL({
 		id: sticker.id,
-		animated: isStickerAnimated(sticker),
+		animated: shouldAnimate,
 		size: 320,
 	});
 	const avatarUrl = sticker.user ? AvatarUtils.getUserAvatarURL(sticker.user, false) : null;
@@ -95,11 +97,6 @@ export const StickerGridItem = observer(function StickerGridItem({guildId, stick
 			<div className={styles.content}>
 				<div className={styles.header}>
 					<span className={styles.stickerName}>{stickerName}</span>
-					{isStickerAnimated(sticker) && (
-						<span className={styles.gifBadge}>
-							<Trans>GIF</Trans>
-						</span>
-					)}
 				</div>
 
 				{sticker.user && avatarUrl && (

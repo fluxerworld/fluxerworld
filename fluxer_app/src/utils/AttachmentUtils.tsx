@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {ATTACHMENT_MAX_SIZE_NON_PREMIUM, ATTACHMENT_MAX_SIZE_PREMIUM} from '~/Constants';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
+import {LimitResolver} from '@app/utils/limits/LimitResolverAdapter';
+import {ATTACHMENT_MAX_SIZE_NON_PREMIUM} from '@fluxer/constants/src/LimitConstants';
 
-export function getAttachmentMaxSize(isPremium: boolean): number {
-	if (RuntimeConfigStore.isSelfHosted()) {
-		return ATTACHMENT_MAX_SIZE_PREMIUM;
-	}
-	return isPremium ? ATTACHMENT_MAX_SIZE_PREMIUM : ATTACHMENT_MAX_SIZE_NON_PREMIUM;
+export function getMaxAttachmentFileSize(): number {
+	return LimitResolver.resolve({
+		key: 'max_attachment_file_size',
+		fallback: ATTACHMENT_MAX_SIZE_NON_PREMIUM,
+	});
 }

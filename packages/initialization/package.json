@@ -1,0 +1,25 @@
+{
+	"name": "@fluxer/initialization",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		".": "./src/Init.tsx",
+		"./src/*": "./src/*.tsx",
+		"./*": "./*"
+	},
+	"main": "./src/Init.tsx",
+	"types": "./src/Init.tsx",
+	"scripts": {
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@fluxer/config": "workspace:*",
+		"@fluxer/sentry": "workspace:*",
+		"@fluxer/telemetry": "workspace:*"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@typescript/native-preview": "catalog:"
+	}
+}

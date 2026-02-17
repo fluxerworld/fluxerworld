@@ -17,17 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {AccountRow} from '@app/components/accounts/AccountRow';
+import styles from '@app/components/accounts/AccountSwitcherModal.module.css';
+import * as Modal from '@app/components/modals/Modal';
+import {Button} from '@app/components/uikit/button/Button';
+import {Scroller} from '@app/components/uikit/Scroller';
+import {Spinner} from '@app/components/uikit/Spinner';
+import {openAccountContextMenu, useAccountSwitcherLogic} from '@app/utils/accounts/AccountSwitcherModalUtils';
 import {Trans} from '@lingui/react/macro';
 import {PlusIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import {Scroller} from '~/components/uikit/Scroller';
-import {Spinner} from '~/components/uikit/Spinner';
-import {openAccountContextMenu, useAccountSwitcherLogic} from '~/utils/accounts/AccountSwitcherModalUtils';
-import {AccountRow} from './AccountRow';
-import styles from './AccountSwitcherModal.module.css';
+import type React from 'react';
+import {useCallback} from 'react';
 
 const AccountSwitcherModal = observer(() => {
 	const {
@@ -38,12 +39,12 @@ const AccountSwitcherModal = observer(() => {
 		handleReLogin,
 		handleAddAccount,
 		handleLogout,
-		handleRemoveAccount,
+		handleLogoutStoredAccount,
 	} = useAccountSwitcherLogic();
 
 	const hasMultipleAccounts = accounts.length > 1;
 
-	const openMenu = React.useCallback(
+	const openMenu = useCallback(
 		(account: (typeof accounts)[number]) => (event: React.MouseEvent<HTMLButtonElement>) => {
 			event.preventDefault();
 			event.stopPropagation();
@@ -55,7 +56,7 @@ const AccountSwitcherModal = observer(() => {
 				onSwitch: handleSwitchAccount,
 				onReLogin: handleReLogin,
 				onLogout: handleLogout,
-				onRemoveAccount: handleRemoveAccount,
+				onLogoutStoredAccount: handleLogoutStoredAccount,
 			});
 		},
 		[
@@ -64,7 +65,7 @@ const AccountSwitcherModal = observer(() => {
 			handleSwitchAccount,
 			handleReLogin,
 			handleLogout,
-			handleRemoveAccount,
+			handleLogoutStoredAccount,
 		],
 	);
 

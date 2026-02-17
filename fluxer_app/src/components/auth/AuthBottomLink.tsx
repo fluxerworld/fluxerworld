@@ -17,9 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/auth/AuthPageStyles.module.css';
+import {AuthRouterLink} from '@app/components/auth/AuthRouterLink';
 import {Trans} from '@lingui/react/macro';
-import styles from './AuthPageStyles.module.css';
-import {AuthRouterLink} from './AuthRouterLink';
 
 interface AuthBottomLinkProps {
 	variant: 'login' | 'register';

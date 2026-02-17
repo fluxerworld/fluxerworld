@@ -17,14 +17,14 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import {AccountSelector} from '@app/components/accounts/AccountSelector';
+import {HandoffCodeDisplay} from '@app/components/auth/HandoffCodeDisplay';
+import {type Account, SessionExpiredError} from '@app/lib/SessionManager';
+import AccountManager from '@app/stores/AccountManager';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useCallback, useState} from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import {AccountSelector} from '~/components/accounts/AccountSelector';
-import {HandoffCodeDisplay} from '~/components/auth/HandoffCodeDisplay';
-import {SessionExpiredError} from '~/lib/SessionManager';
-import AccountManager, {type AccountSummary} from '~/stores/AccountManager';
 
 type HandoffState = 'selecting' | 'generating' | 'displaying' | 'error';
 
@@ -48,7 +48,7 @@ const DesktopHandoffAccountSelector = observer(function DesktopHandoffAccountSel
 	const accounts = excludeCurrentUser ? allAccounts.filter((account) => account.userId !== currentUserId) : allAccounts;
 	const isGenerating = handoffState === 'generating';
 
-	const handleSelectAccount = useCallback(async (account: AccountSummary) => {
+	const handleSelectAccount = useCallback(async (account: Account) => {
 		setSelectedAccountId(account.userId);
 		setHandoffState('generating');
 		setHandoffError(null);
@@ -105,7 +105,7 @@ const DesktopHandoffAccountSelector = observer(function DesktopHandoffAccountSel
 	return (
 		<AccountSelector
 			accounts={accounts}
-			title={<Trans>Choose an account</Trans>}
+			title={<Trans>Choose an Account</Trans>}
 			description={<Trans>Select the account you want to sign in with on the desktop app.</Trans>}
 			disabled={isGenerating}
 			showInstance

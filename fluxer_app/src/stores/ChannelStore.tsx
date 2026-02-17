@@ -17,19 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
+import {Routes} from '@app/Routes';
+import {ChannelRecord} from '@app/records/ChannelRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import ChannelDisplayNameStore from '@app/stores/ChannelDisplayNameStore';
+import UserStore from '@app/stores/UserStore';
+import type {GuildReadyData} from '@app/types/gateway/GatewayGuildTypes';
+import * as ChannelUtils from '@app/utils/ChannelUtils';
+import * as RouterUtils from '@app/utils/RouterUtils';
+import {ME} from '@fluxer/constants/src/AppConstants';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import type {Channel} from '@fluxer/schema/src/domains/channel/ChannelSchemas';
+import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
+import type {UserPartial} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
 import {action, makeAutoObservable} from 'mobx';
-import {ChannelTypes, ME} from '~/Constants';
-import {Routes} from '~/Routes';
-import {type Channel, ChannelRecord} from '~/records/ChannelRecord';
-import type {GuildReadyData} from '~/records/GuildRecord';
-import type {Message} from '~/records/MessageRecord';
-import type {UserPartial} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import ChannelDisplayNameStore from '~/stores/ChannelDisplayNameStore';
-import UserStore from '~/stores/UserStore';
-import * as ChannelUtils from '~/utils/ChannelUtils';
-import * as RouterUtils from '~/utils/RouterUtils';
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
 
 const sortDMs = (a: ChannelRecord, b: ChannelRecord) => {
 	const aTimestamp = a.lastMessageId ? SnowflakeUtils.extractTimestamp(a.lastMessageId) : null;
@@ -237,7 +240,7 @@ class ChannelStore {
 			const expectedPath = Routes.dmChannel(channelId);
 
 			if (currentPath.startsWith(expectedPath)) {
-				RouterUtils.transitionTo(Routes.ME);
+				NavigationActionCreators.selectChannel(ME);
 			}
 			return;
 		}
@@ -267,14 +270,14 @@ class ChannelStore {
 		}
 
 		if (guildId === ME) {
-			RouterUtils.transitionTo(Routes.ME);
+			NavigationActionCreators.selectChannel(ME);
 		} else {
 			const guildChannels = this.getGuildChannels(guildId);
 			const selectableChannel = guildChannels.find((c) => c.type !== ChannelTypes.GUILD_CATEGORY);
 			if (selectableChannel) {
-				RouterUtils.transitionTo(Routes.guildChannel(guildId, selectableChannel.id));
+				NavigationActionCreators.selectChannel(guildId, selectableChannel.id);
 			} else {
-				RouterUtils.transitionTo(Routes.ME);
+				NavigationActionCreators.selectChannel(ME);
 			}
 		}
 	}

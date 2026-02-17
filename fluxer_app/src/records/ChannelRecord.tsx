@@ -17,18 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {ChannelTypes} from '~/Constants';
-import type {UserPartial} from '~/records/UserRecord';
-import UserPinnedDMStore from '~/stores/UserPinnedDMStore';
-import UserStore from '~/stores/UserStore';
-import * as SnowflakeUtils from '~/utils/SnowflakeUtils';
-
-type ChannelOverwrite = Readonly<{
-	id: string;
-	type: number;
-	allow: string;
-	deny: string;
-}>;
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import UserPinnedDMStore from '@app/stores/UserPinnedDMStore';
+import UserStore from '@app/stores/UserStore';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import type {Channel, ChannelOverwrite, DefaultReactionEmoji} from '@fluxer/schema/src/domains/channel/ChannelSchemas';
+import type {UserPartial} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
+import * as SnowflakeUtils from '@fluxer/snowflake/src/SnowflakeUtils';
 
 export class ChannelOverwriteRecord {
 	readonly id: string;
@@ -66,40 +61,12 @@ export class ChannelOverwriteRecord {
 	}
 }
 
-export type DefaultReactionEmoji = Readonly<{
-	emoji_id: string | null;
-	emoji_name: string | null;
-}>;
-
-export type Channel = Readonly<{
-	id: string;
-	guild_id?: string;
-	name?: string;
-	topic?: string | null;
-	url?: string | null;
-	icon?: string | null;
-	owner_id?: string | null;
-	type: number;
-	position?: number;
-	parent_id?: string | null;
-	bitrate?: number | null;
-	user_limit?: number | null;
-	rtc_region?: string | null;
-	last_message_id?: string | null;
-	last_pin_timestamp?: string | null;
-	permission_overwrites?: ReadonlyArray<ChannelOverwrite>;
-	recipients?: ReadonlyArray<UserPartial>;
-	nsfw?: boolean;
-	rate_limit_per_user?: number;
-	nicks?: Readonly<Record<string, string>>;
-	flags?: number;
-	member_count?: number;
-	message_count?: number;
-	total_message_sent?: number;
-	default_reaction_emoji?: DefaultReactionEmoji | null;
-}>;
+interface ChannelRecordOptions {
+	instanceId?: string;
+}
 
 export class ChannelRecord {
+	readonly instanceId: string;
 	readonly id: string;
 	readonly guildId?: string;
 	readonly name?: string;
@@ -126,7 +93,8 @@ export class ChannelRecord {
 	readonly totalMessageSent?: number;
 	readonly defaultReactionEmoji?: DefaultReactionEmoji | null;
 
-	constructor(channel: Channel) {
+	constructor(channel: Channel, options?: ChannelRecordOptions) {
+		this.instanceId = options?.instanceId ?? RuntimeConfigStore.localInstanceDomain;
 		this.id = channel.id;
 		this.guildId = channel.guild_id;
 		this.name = channel.name;
@@ -257,35 +225,38 @@ export class ChannelRecord {
 			newRecipients = this.recipientIds.map((id) => UserStore.getUser(id)!.toJSON());
 		}
 
-		return new ChannelRecord({
-			id: this.id,
-			guild_id: updates.guild_id ?? this.guildId,
-			name: updates.name ?? this.name,
-			topic: updates.topic !== undefined ? updates.topic : this.topic,
-			url: updates.url !== undefined ? updates.url : this.url,
-			icon: updates.icon !== undefined ? updates.icon : this.icon,
-			owner_id: updates.owner_id !== undefined ? updates.owner_id : this.ownerId,
-			type: updates.type ?? this.type,
-			position: updates.position ?? this.position,
-			parent_id: updates.parent_id !== undefined ? updates.parent_id : this.parentId,
-			bitrate: updates.bitrate !== undefined ? updates.bitrate : this.bitrate,
-			user_limit: updates.user_limit !== undefined ? updates.user_limit : this.userLimit,
-			rtc_region: updates.rtc_region !== undefined ? updates.rtc_region : this.rtcRegion,
-			last_message_id: updates.last_message_id !== undefined ? updates.last_message_id : this.lastMessageId,
-			last_pin_timestamp: updates.last_pin_timestamp ?? this.lastPinTimestamp?.toISOString() ?? undefined,
-			permission_overwrites: !this.isPrivate()
-				? (updates.permission_overwrites ?? Object.values(this.permissionOverwrites).map((o) => o.toJSON()))
-				: undefined,
-			recipients: newRecipients.length > 0 ? newRecipients : undefined,
-			nsfw: updates.nsfw ?? this.nsfw,
-			rate_limit_per_user: updates.rate_limit_per_user ?? this.rateLimitPerUser,
-			nicks: updates.nicks ?? this.nicks,
-			flags: updates.flags ?? this.flags,
-			member_count: updates.member_count ?? this.memberCount,
-			message_count: updates.message_count ?? this.messageCount,
-			total_message_sent: updates.total_message_sent ?? this.totalMessageSent,
-			default_reaction_emoji: updates.default_reaction_emoji ?? this.defaultReactionEmoji,
-		});
+		return new ChannelRecord(
+			{
+				id: this.id,
+				guild_id: updates.guild_id ?? this.guildId,
+				name: updates.name ?? this.name,
+				topic: updates.topic !== undefined ? updates.topic : this.topic,
+				url: updates.url !== undefined ? updates.url : this.url,
+				icon: updates.icon !== undefined ? updates.icon : this.icon,
+				owner_id: updates.owner_id !== undefined ? updates.owner_id : this.ownerId,
+				type: updates.type ?? this.type,
+				position: updates.position ?? this.position,
+				parent_id: updates.parent_id !== undefined ? updates.parent_id : this.parentId,
+				bitrate: updates.bitrate !== undefined ? updates.bitrate : this.bitrate,
+				user_limit: updates.user_limit !== undefined ? updates.user_limit : this.userLimit,
+				rtc_region: updates.rtc_region !== undefined ? updates.rtc_region : this.rtcRegion,
+				last_message_id: updates.last_message_id !== undefined ? updates.last_message_id : this.lastMessageId,
+				last_pin_timestamp: updates.last_pin_timestamp ?? this.lastPinTimestamp?.toISOString() ?? undefined,
+				permission_overwrites: !this.isPrivate()
+					? (updates.permission_overwrites ?? Object.values(this.permissionOverwrites).map((o) => o.toJSON()))
+					: undefined,
+				recipients: newRecipients.length > 0 ? newRecipients : undefined,
+				nsfw: updates.nsfw ?? this.nsfw,
+				rate_limit_per_user: updates.rate_limit_per_user ?? this.rateLimitPerUser,
+				nicks: updates.nicks ?? this.nicks,
+				flags: updates.flags ?? this.flags,
+				member_count: updates.member_count ?? this.memberCount,
+				message_count: updates.message_count ?? this.messageCount,
+				total_message_sent: updates.total_message_sent ?? this.totalMessageSent,
+				default_reaction_emoji: updates.default_reaction_emoji ?? this.defaultReactionEmoji,
+			},
+			{instanceId: this.instanceId},
+		);
 	}
 
 	withOverwrite(overwrite: ChannelOverwriteRecord): ChannelRecord {
@@ -293,18 +264,22 @@ export class ChannelRecord {
 			return this;
 		}
 
-		return new ChannelRecord({
-			...this.toJSON(),
-			permission_overwrites: Object.values({
-				...this.permissionOverwrites,
-				[overwrite.id]: overwrite,
-			}).map((o) => o.toJSON()),
-		});
+		return new ChannelRecord(
+			{
+				...this.toJSON(),
+				permission_overwrites: Object.values({
+					...this.permissionOverwrites,
+					[overwrite.id]: overwrite,
+				}).map((o) => o.toJSON()),
+			},
+			{instanceId: this.instanceId},
+		);
 	}
 
 	equals(other: ChannelRecord): boolean {
 		if (this === other) return true;
 
+		if (this.instanceId !== other.instanceId) return false;
 		if (this.id !== other.id) return false;
 		if (this.guildId !== other.guildId) return false;
 		if (this.name !== other.name) return false;

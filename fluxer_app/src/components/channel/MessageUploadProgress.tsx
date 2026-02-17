@@ -17,17 +17,21 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import styles from '@app/components/channel/MessageUploadProgress.module.css';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {useMessageUpload} from '@app/hooks/useCloudUpload';
+import {CloudUpload} from '@app/lib/CloudUpload';
+import {Logger} from '@app/lib/Logger';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import {formatFileSize} from '@app/utils/FileUtils';
+import type {MessageAttachment} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 import {useLingui} from '@lingui/react/macro';
 import {FileIcon, XIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import FocusRing from '~/components/uikit/FocusRing/FocusRing';
-import {useMessageUpload} from '~/hooks/useCloudUpload';
-import {CloudUpload} from '~/lib/CloudUpload';
-import type {MessageAttachment, MessageRecord} from '~/records/MessageRecord';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import {formatFileSize} from '~/utils/FileUtils';
-import styles from './MessageUploadProgress.module.css';
+
+const logger = new Logger('MessageUploadProgress');
 
 interface MessageUploadProgressProps {
 	attachment: MessageAttachment;
@@ -71,7 +75,7 @@ export const MessageUploadProgress = observer(({attachment, message}: MessageUpl
 		try {
 			await Promise.all(messageUpload.attachments.map((att) => CloudUpload.cancelUpload(att.id)));
 		} catch (error) {
-			console.error('Failed to cancel some uploads:', error);
+			logger.error('Failed to cancel some uploads:', error);
 		}
 
 		CloudUpload.removeMessageUpload(message.nonce);

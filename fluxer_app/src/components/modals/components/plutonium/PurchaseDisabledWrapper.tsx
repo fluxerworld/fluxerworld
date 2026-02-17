@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
 import type React from 'react';
-import {Tooltip} from '~/components/uikit/Tooltip/Tooltip';
 
 interface PurchaseDisabledWrapperProps {
 	disabled: boolean;

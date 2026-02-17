@@ -17,7 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {buildServiceWorker} from './build/utils/service-worker.js';
+import {buildServiceWorker} from './build/utils/ServiceWorker';
 
 const isProduction = process.env.NODE_ENV === 'production';
 

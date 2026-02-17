@@ -44,7 +44,7 @@ delete(UserId) when is_integer(UserId) ->
 get(UserId) when is_integer(UserId) ->
     gen_server:call(?MODULE, {get, UserId}, ?DEFAULT_GEN_SERVER_TIMEOUT).
 
--spec bulk_get([term()]) -> [map()].
+-spec bulk_get([integer()]) -> [map()].
 bulk_get(UserIds) when is_list(UserIds) ->
     gen_server:call(?MODULE, {bulk_get, UserIds}, ?DEFAULT_GEN_SERVER_TIMEOUT).
 
@@ -55,9 +55,8 @@ get_memory_stats() ->
 -spec init(list()) -> {ok, state()}.
 init([]) ->
     process_flag(trap_exit, true),
-    {ShardCount, Source} = determine_shard_count(presence_cache_shards),
+    {ShardCount, _Source} = determine_shard_count(presence_cache_shards),
     Shards = start_shards(ShardCount, #{}),
-    maybe_log_shard_source(presence_cache, ShardCount, Source),
     {ok, #{shards => Shards, shard_count => ShardCount}}.
 
 -spec handle_call(term(), gen_server:from(), state()) -> {reply, term(), state()}.
@@ -76,23 +75,30 @@ handle_call({bulk_get, UserIds}, _From, State) ->
 handle_call(get_memory_stats, _From, State) ->
     Count = maps:get(shard_count, State),
     WordSize = erlang:system_info(wordsize),
-    TotalMemory = lists:foldl(fun(Index, Acc) ->
-        TableName = presence_cache_shard:table_name(Index),
-        case ets:info(TableName, memory) of
-            undefined -> Acc;
-            Words -> Acc + (Words * WordSize)
-        end
-    end, 0, lists:seq(0, Count - 1)),
-    TotalEntries = lists:foldl(fun(Index, Acc) ->
-        TableName = presence_cache_shard:table_name(Index),
-        case ets:info(TableName, size) of
-            undefined -> Acc;
-            Size -> Acc + Size
-        end
-    end, 0, lists:seq(0, Count - 1)),
+    TotalMemory = lists:foldl(
+        fun(Index, Acc) ->
+            TableName = presence_cache_shard:table_name(Index),
+            case ets:info(TableName, memory) of
+                undefined -> Acc;
+                Words -> Acc + (Words * WordSize)
+            end
+        end,
+        0,
+        lists:seq(0, Count - 1)
+    ),
+    TotalEntries = lists:foldl(
+        fun(Index, Acc) ->
+            TableName = presence_cache_shard:table_name(Index),
+            case ets:info(TableName, size) of
+                undefined -> Acc;
+                Size -> Acc + Size
+            end
+        end,
+        0,
+        lists:seq(0, Count - 1)
+    ),
     {reply, {ok, #{memory_bytes => TotalMemory, entry_count => TotalEntries}}, State};
-handle_call(Request, _From, State) ->
-    logger:warning("[presence_cache] unknown request ~p", [Request]),
+handle_call(_Request, _From, State) ->
     {reply, ok, State}.
 
 -spec handle_cast(term(), state()) -> {noreply, state()}.
@@ -100,21 +106,19 @@ handle_cast(_Msg, State) ->
     {noreply, State}.
 
 -spec handle_info(term(), state()) -> {noreply, state()}.
-handle_info({'DOWN', Ref, process, _Pid, Reason}, State) ->
+handle_info({'DOWN', Ref, process, _Pid, _Reason}, State) ->
     Shards = maps:get(shards, State),
     case find_shard_by_ref(Ref, Shards) of
         {ok, Index} ->
-            logger:warning("[presence_cache] shard ~p crashed: ~p", [Index, Reason]),
             {_Shard, NewState} = restart_shard(Index, State),
             {noreply, NewState};
         not_found ->
             {noreply, State}
     end;
-handle_info({'EXIT', Pid, Reason}, State) ->
+handle_info({'EXIT', Pid, _Reason}, State) ->
     Shards = maps:get(shards, State),
     case find_shard_by_pid(Pid, Shards) of
         {ok, Index} ->
-            logger:warning("[presence_cache] shard ~p exited: ~p", [Index, Reason]),
             {_Shard, NewState} = restart_shard(Index, State),
             {noreply, NewState};
         not_found ->
@@ -163,14 +167,6 @@ default_shard_count() ->
     ],
     lists:max([C || C <- Candidates, is_integer(C), C > 0] ++ [1]).
 
--spec maybe_log_shard_source(atom(), pos_integer(), configured | auto) -> ok.
-maybe_log_shard_source(Name, Count, configured) ->
-    logger:info("[~p] starting with ~p shards (configured)", [Name, Count]),
-    ok;
-maybe_log_shard_source(Name, Count, auto) ->
-    logger:info("[~p] starting with ~p shards (auto)", [Name, Count]),
-    ok.
-
 -spec start_shards(pos_integer(), #{}) -> #{non_neg_integer() => shard()}.
 start_shards(Count, Acc) ->
     lists:foldl(
@@ -178,8 +174,7 @@ start_shards(Count, Acc) ->
             case start_shard(Index) of
                 {ok, Shard} ->
                     maps:put(Index, Shard, MapAcc);
-                {error, Reason} ->
-                    logger:warning("[presence_cache] failed to start shard ~p: ~p", [Index, Reason]),
+                {error, _Reason} ->
                     MapAcc
             end
         end,
@@ -204,8 +199,7 @@ restart_shard(Index, State) ->
             Shards = maps:get(shards, State),
             Updated = State#{shards := maps:put(Index, Shard, Shards)},
             {Shard, Updated};
-        {error, Reason} ->
-            logger:error("[presence_cache] failed to restart shard ~p: ~p", [Index, Reason]),
+        {error, _Reason} ->
             Dummy = #{pid => spawn(fun() -> exit(normal) end), ref => make_ref()},
             {Dummy, State}
     end.
@@ -215,7 +209,7 @@ forward_call(Key, Request, State) ->
     {Index, State1} = ensure_shard(Key, State),
     call_shard(Index, Request, State1).
 
--spec forward_bulk_get([term()], state()) -> {term(), state()}.
+-spec forward_bulk_get([integer()], state()) -> {[map()], state()}.
 forward_bulk_get(UserIds, State) ->
     Count = maps:get(shard_count, State),
     Unique = lists:usort(UserIds),
@@ -325,6 +319,16 @@ bulk_get_across_shards_test() ->
     Results = bulk_get([3, 4, 3]),
     ?assertEqual(2, length(Results)),
     ?assertEqual(ok, gen_server:stop(Pid)).
+
+select_shard_test() ->
+    ?assert(select_shard(100, 4) >= 0),
+    ?assert(select_shard(100, 4) < 4).
+
+find_shard_by_ref_test() ->
+    Ref1 = make_ref(),
+    Shards = #{0 => #{pid => self(), ref => Ref1}},
+    ?assertEqual({ok, 0}, find_shard_by_ref(Ref1, Shards)),
+    ?assertEqual(not_found, find_shard_by_ref(make_ref(), Shards)).
 
 maybe_start_for_test() ->
     case whereis(?MODULE) of

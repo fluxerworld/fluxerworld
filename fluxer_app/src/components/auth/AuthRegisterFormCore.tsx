@@ -17,30 +17,33 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AuthenticationActionCreators from '@app/actions/AuthenticationActionCreators';
+import styles from '@app/components/auth/AuthPageStyles.module.css';
+import {DateOfBirthField} from '@app/components/auth/DateOfBirthField';
+import FormField from '@app/components/auth/FormField';
+import {type MissingField, SubmitTooltip, shouldDisableSubmit} from '@app/components/auth/SubmitTooltip';
+import {ExternalLink} from '@app/components/common/ExternalLink';
+import {Button} from '@app/components/uikit/button/Button';
+import {Checkbox} from '@app/components/uikit/checkbox/Checkbox';
+import {
+	type AuthRegisterFormDraft,
+	EMPTY_AUTH_REGISTER_FORM_DRAFT,
+	useAuthRegisterDraftContext,
+} from '@app/contexts/AuthRegisterDraftContext';
+import {useAuthForm} from '@app/hooks/useAuthForm';
+import {useUsernameSuggestions} from '@app/hooks/useUsernameSuggestions';
+import {useLocation} from '@app/lib/router/React';
+import {Routes} from '@app/Routes';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
 import {Trans, useLingui} from '@lingui/react/macro';
-import {AnimatePresence} from 'framer-motion';
-import {useId, useMemo, useState} from 'react';
-import * as AuthenticationActionCreators from '~/actions/AuthenticationActionCreators';
-import {DateOfBirthField} from '~/components/auth/DateOfBirthField';
-import FormField from '~/components/auth/FormField';
-import {type MissingField, SubmitTooltip, shouldDisableSubmit} from '~/components/auth/SubmitTooltip';
-import {UsernameSuggestions} from '~/components/auth/UsernameSuggestions';
-import {ExternalLink} from '~/components/common/ExternalLink';
-import {UsernameValidationRules} from '~/components/form/UsernameValidationRules';
-import {Button} from '~/components/uikit/Button/Button';
-import {Checkbox} from '~/components/uikit/Checkbox/Checkbox';
-import {useAuthForm} from '~/hooks/useAuthForm';
-import {useUsernameSuggestions} from '~/hooks/useUsernameSuggestions';
-import {MODE} from '~/lib/env';
-import {Routes} from '~/Routes';
-import styles from './AuthPageStyles.module.css';
+import {AnimatePresence, motion} from 'framer-motion';
+import {useCallback, useId, useMemo, useRef, useState} from 'react';
 
 interface FieldConfig {
 	showEmail?: boolean;
 	showPassword?: boolean;
+	showPasswordConfirmation?: boolean;
 	showUsernameValidation?: boolean;
-	showBetaCodeHint?: boolean;
-	requireBetaCode?: boolean;
 }
 
 interface AuthRegisterFormCoreProps {
@@ -64,31 +67,102 @@ export function AuthRegisterFormCore({
 	const {
 		showEmail = false,
 		showPassword = false,
+		showPasswordConfirmation = false,
 		showUsernameValidation = false,
-		requireBetaCode = MODE !== 'development',
 	} = fields;
+	const location = useLocation();
+	const draftKey = `register:${location.pathname}${location.search}`;
+	const {getRegisterFormDraft, setRegisterFormDraft, clearRegisterFormDraft} = useAuthRegisterDraftContext();
 
 	const emailId = useId();
 	const globalNameId = useId();
 	const usernameId = useId();
 	const passwordId = useId();
-	const betaCodeId = useId();
+	const confirmPasswordId = useId();
 
-	const [selectedMonth, setSelectedMonth] = useState('');
-	const [selectedDay, setSelectedDay] = useState('');
-	const [selectedYear, setSelectedYear] = useState('');
-	const [consent, setConsent] = useState(false);
-	const [usernameFocused, setUsernameFocused] = useState(false);
+	const initialDraft = useMemo<AuthRegisterFormDraft>(() => {
+		const persistedDraft = getRegisterFormDraft(draftKey);
+		if (!persistedDraft) {
+			return EMPTY_AUTH_REGISTER_FORM_DRAFT;
+		}
+		return {
+			...persistedDraft,
+			formValues: {...persistedDraft.formValues},
+		};
+	}, [draftKey, getRegisterFormDraft]);
+	const draftRef = useRef<AuthRegisterFormDraft>({
+		...initialDraft,
+		formValues: {...initialDraft.formValues},
+	});
+
+	const [selectedMonth, setSelectedMonthState] = useState(initialDraft.selectedMonth);
+	const [selectedDay, setSelectedDayState] = useState(initialDraft.selectedDay);
+	const [selectedYear, setSelectedYearState] = useState(initialDraft.selectedYear);
+	const [consent, setConsentState] = useState(initialDraft.consent);
+	const [_usernameFocused, setUsernameFocused] = useState(false);
 
 	const initialValues: Record<string, string> = {
-		global_name: '',
-		username: '',
-		betaCode: '',
+		global_name: initialDraft.formValues.global_name ?? '',
+		username: initialDraft.formValues.username ?? '',
 	};
-	if (showEmail) initialValues.email = '';
-	if (showPassword) initialValues.password = '';
+	if (showEmail) initialValues.email = initialDraft.formValues.email ?? '';
+	if (showPassword) initialValues.password = initialDraft.formValues.password ?? '';
+	if (showPassword && showPasswordConfirmation) {
+		initialValues.confirm_password = initialDraft.formValues.confirm_password ?? '';
+	}
+
+	const persistDraft = useCallback(
+		(partialDraft: Partial<AuthRegisterFormDraft>) => {
+			const currentDraft = draftRef.current;
+			const nextDraft: AuthRegisterFormDraft = {
+				...currentDraft,
+				...partialDraft,
+				formValues: partialDraft.formValues ? {...partialDraft.formValues} : currentDraft.formValues,
+			};
+			draftRef.current = nextDraft;
+			setRegisterFormDraft(draftKey, nextDraft);
+		},
+		[draftKey, setRegisterFormDraft],
+	);
+
+	const handleMonthChange = useCallback(
+		(month: string) => {
+			setSelectedMonthState(month);
+			persistDraft({selectedMonth: month});
+		},
+		[persistDraft],
+	);
+
+	const handleDayChange = useCallback(
+		(day: string) => {
+			setSelectedDayState(day);
+			persistDraft({selectedDay: day});
+		},
+		[persistDraft],
+	);
+
+	const handleYearChange = useCallback(
+		(year: string) => {
+			setSelectedYearState(year);
+			persistDraft({selectedYear: year});
+		},
+		[persistDraft],
+	);
+
+	const handleConsentChange = useCallback(
+		(nextConsent: boolean) => {
+			setConsentState(nextConsent);
+			persistDraft({consent: nextConsent});
+		},
+		[persistDraft],
+	);
 
 	const handleRegisterSubmit = async (values: Record<string, string>) => {
+		if (showPasswordConfirmation && showPassword && values.password !== values.confirm_password) {
+			form.setError('confirm_password', t`Passwords do not match`);
+			return;
+		}
+
 		const dateOfBirth =
 			selectedYear && selectedMonth && selectedDay
 				? `${selectedYear}-${selectedMonth.padStart(2, '0')}-${selectedDay.padStart(2, '0')}`
@@ -99,7 +173,6 @@ export function AuthRegisterFormCore({
 			username: values.username || undefined,
 			email: showEmail ? values.email : undefined,
 			password: showPassword ? values.password : undefined,
-			beta_code: values.betaCode || '',
 			date_of_birth: dateOfBirth,
 			consent,
 			invite_code: inviteCode,
@@ -113,6 +186,7 @@ export function AuthRegisterFormCore({
 				userId: response.user_id,
 			});
 		}
+		clearRegisterFormDraft(draftKey);
 	};
 
 	const {form, isLoading, fieldErrors} = useAuthForm({
@@ -121,6 +195,18 @@ export function AuthRegisterFormCore({
 		redirectPath,
 		firstFieldName: showEmail ? 'email' : 'global_name',
 	});
+
+	const setDraftedFormValue = useCallback(
+		(fieldName: string, value: string) => {
+			form.setValue(fieldName, value);
+			const nextFormValues = {
+				...draftRef.current.formValues,
+				[fieldName]: value,
+			};
+			persistDraft({formValues: nextFormValues});
+		},
+		[form, persistDraft],
+	);
 
 	const {suggestions} = useUsernameSuggestions({
 		globalName: form.getValue('global_name'),
@@ -135,17 +221,36 @@ export function AuthRegisterFormCore({
 		if (showPassword && !form.getValue('password')) {
 			missing.push({key: 'password', label: t`Password`});
 		}
-		if (!selectedMonth || !selectedDay || !selectedYear) {
-			missing.push({key: 'date_of_birth', label: t`Date of birth`});
+		if (showPassword && showPasswordConfirmation && !form.getValue('confirm_password')) {
+			missing.push({key: 'confirm_password', label: t`Confirm Password`});
 		}
-		if (requireBetaCode && !form.getValue('betaCode')) {
-			missing.push({key: 'betaCode', label: t`Beta code`});
+		if (!selectedMonth || !selectedDay || !selectedYear) {
+			missing.push({key: 'date_of_birth', label: t`Date of Birth`});
 		}
 		return missing;
-	}, [form, selectedMonth, selectedDay, selectedYear, showEmail, showPassword, requireBetaCode]);
+	}, [form, selectedMonth, selectedDay, selectedYear, showEmail, showPassword, showPasswordConfirmation]);
+
+	type HelperTextState = {type: 'error'; message: string} | {type: 'suggestion'; username: string} | {type: 'hint'};
 
 	const usernameValue = form.getValue('username');
-	const showValidationRules = showUsernameValidation && usernameValue && (usernameFocused || usernameValue.length > 0);
+	const helperTextState = useMemo<HelperTextState>(() => {
+		const trimmed = usernameValue?.trim() || '';
+
+		if (showUsernameValidation && trimmed.length > 0) {
+			if (trimmed.length > 32) {
+				return {type: 'error', message: t`Username must be 32 characters or less`};
+			}
+			if (!/^[a-zA-Z0-9_]+$/.test(trimmed)) {
+				return {type: 'error', message: t`Only letters, numbers, and underscores`};
+			}
+		}
+
+		if (trimmed.length === 0 && suggestions.length === 1) {
+			return {type: 'suggestion', username: suggestions[0]};
+		}
+
+		return {type: 'hint'};
+	}, [usernameValue, suggestions, showUsernameValidation, t]);
 
 	return (
 		<form className={styles.form} onSubmit={form.handleSubmit}>
@@ -158,7 +263,7 @@ export function AuthRegisterFormCore({
 					required
 					label={t`Email`}
 					value={form.getValue('email')}
-					onChange={(value) => form.setValue('email', value)}
+					onChange={(value) => setDraftedFormValue('email', value)}
 					error={form.getError('email') || fieldErrors?.email}
 				/>
 			)}
@@ -167,10 +272,10 @@ export function AuthRegisterFormCore({
 				id={globalNameId}
 				name="global_name"
 				type="text"
-				label={t`Display name (optional)`}
+				label={t`Display Name (Optional)`}
 				placeholder={t`What should people call you?`}
 				value={form.getValue('global_name')}
-				onChange={(value) => form.setValue('global_name', value)}
+				onChange={(value) => setDraftedFormValue('global_name', value)}
 				error={form.getError('global_name') || fieldErrors?.global_name}
 			/>
 
@@ -180,32 +285,60 @@ export function AuthRegisterFormCore({
 					name="username"
 					type="text"
 					autoComplete="username"
-					label={t`Username (optional)`}
+					label={t`Username (Optional)`}
 					placeholder={t`Leave blank for a random username`}
 					value={usernameValue}
-					onChange={(value) => form.setValue('username', value)}
+					onChange={(value) => setDraftedFormValue('username', value)}
 					onFocus={() => setUsernameFocused(true)}
 					onBlur={() => setUsernameFocused(false)}
 					error={form.getError('username') || fieldErrors?.username}
 				/>
-				<span className={styles.usernameHint}>
-					<Trans>A 4-digit tag will be added automatically to ensure uniqueness</Trans>
-				</span>
-			</div>
-
-			{showUsernameValidation && (
-				<AnimatePresence>
-					{showValidationRules && (
-						<div className={styles.usernameValidation}>
-							<UsernameValidationRules username={usernameValue} />
-						</div>
+				<AnimatePresence mode="wait" initial={false}>
+					{helperTextState.type === 'error' && (
+						<motion.span
+							key="error"
+							className={styles.usernameError}
+							initial={AccessibilityStore.useReducedMotion ? {opacity: 1, y: 0} : {opacity: 0, y: -5}}
+							animate={{opacity: 1, y: 0}}
+							exit={AccessibilityStore.useReducedMotion ? {opacity: 1, y: 0} : {opacity: 0, y: 5}}
+							transition={{duration: AccessibilityStore.useReducedMotion ? 0 : 0.2}}
+						>
+							{helperTextState.message}
+						</motion.span>
+					)}
+					{helperTextState.type === 'suggestion' && (
+						<motion.span
+							key="suggestion"
+							className={styles.usernameHint}
+							initial={AccessibilityStore.useReducedMotion ? {opacity: 1, y: 0} : {opacity: 0, y: -5}}
+							animate={{opacity: 1, y: 0}}
+							exit={AccessibilityStore.useReducedMotion ? {opacity: 1, y: 0} : {opacity: 0, y: 5}}
+							transition={{duration: AccessibilityStore.useReducedMotion ? 0 : 0.2}}
+						>
+							<Trans>How about:</Trans>{' '}
+							<button
+								type="button"
+								className={styles.suggestionLink}
+								onClick={() => setDraftedFormValue('username', helperTextState.username)}
+							>
+								{helperTextState.username}
+							</button>
+						</motion.span>
+					)}
+					{helperTextState.type === 'hint' && (
+						<motion.span
+							key="hint"
+							className={styles.usernameHint}
+							initial={AccessibilityStore.useReducedMotion ? {opacity: 1, y: 0} : {opacity: 0, y: -5}}
+							animate={{opacity: 1, y: 0}}
+							exit={AccessibilityStore.useReducedMotion ? {opacity: 1, y: 0} : {opacity: 0, y: 5}}
+							transition={{duration: AccessibilityStore.useReducedMotion ? 0 : 0.2}}
+						>
+							<Trans>A 4-digit tag will be added automatically to ensure uniqueness</Trans>
+						</motion.span>
 					)}
 				</AnimatePresence>
-			)}
-
-			{!usernameValue && (
-				<UsernameSuggestions suggestions={suggestions} onSelect={(username) => form.setValue('username', username)} />
-			)}
+			</div>
 
 			{showPassword && (
 				<FormField
@@ -216,31 +349,21 @@ export function AuthRegisterFormCore({
 					required
 					label={t`Password`}
 					value={form.getValue('password')}
-					onChange={(value) => form.setValue('password', value)}
+					onChange={(value) => setDraftedFormValue('password', value)}
 					error={form.getError('password') || fieldErrors?.password}
 				/>
 			)}
-
-			{requireBetaCode ? (
+			{showPassword && showPasswordConfirmation && (
 				<FormField
-					id={betaCodeId}
-					name="betaCode"
-					type="text"
+					id={confirmPasswordId}
+					name="confirm_password"
+					type="password"
+					autoComplete="new-password"
 					required
-					label={t`Beta code`}
-					value={form.getValue('betaCode')}
-					onChange={(value) => form.setValue('betaCode', value)}
-					error={form.getError('betaCode') || fieldErrors?.beta_code}
-				/>
-			) : (
-				<FormField
-					id={betaCodeId}
-					name="betaCode"
-					type="text"
-					label={t`Beta code (optional)`}
-					value={form.getValue('betaCode')}
-					onChange={(value) => form.setValue('betaCode', value)}
-					error={form.getError('betaCode') || fieldErrors?.beta_code}
+					label={t`Confirm Password`}
+					value={form.getValue('confirm_password')}
+					onChange={(value) => setDraftedFormValue('confirm_password', value)}
+					error={form.getError('confirm_password')}
 				/>
 			)}
 
@@ -248,16 +371,16 @@ export function AuthRegisterFormCore({
 				selectedMonth={selectedMonth}
 				selectedDay={selectedDay}
 				selectedYear={selectedYear}
-				onMonthChange={setSelectedMonth}
-				onDayChange={setSelectedDay}
-				onYearChange={setSelectedYear}
+				onMonthChange={handleMonthChange}
+				onDayChange={handleDayChange}
+				onYearChange={handleYearChange}
 				error={fieldErrors?.date_of_birth}
 			/>
 
 			{extraContent}
 
 			<div className={styles.consentRow}>
-				<Checkbox checked={consent} onChange={setConsent}>
+				<Checkbox checked={consent} onChange={handleConsentChange}>
 					<span className={styles.consentLabel}>
 						<Trans>I agree to the</Trans>{' '}
 						<ExternalLink href={Routes.terms()} className={styles.policyLink}>

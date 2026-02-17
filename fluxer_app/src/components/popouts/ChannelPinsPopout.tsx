@@ -17,12 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/popouts/ChannelPinsPopout.module.css';
+import {ChannelPinsContent} from '@app/components/shared/ChannelPinsContent';
+import type {ChannelRecord} from '@app/records/ChannelRecord';
 import {useLingui} from '@lingui/react/macro';
 import {PushPinIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import {ChannelPinsContent} from '~/components/shared/ChannelPinsContent';
-import type {ChannelRecord} from '~/records/ChannelRecord';
-import styles from './ChannelPinsPopout.module.css';
 
 export const ChannelPinsPopout = observer(({channel}: {channel: ChannelRecord}) => {
 	const {t} = useLingui();

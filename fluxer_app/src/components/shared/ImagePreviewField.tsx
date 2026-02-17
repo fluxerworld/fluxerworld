@@ -17,8 +17,8 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/shared/ImagePreviewField.module.css';
 import type React from 'react';
-import styles from './ImagePreviewField.module.css';
 
 export interface ImagePreviewFieldProps {
 	imageUrl: string | null | undefined;

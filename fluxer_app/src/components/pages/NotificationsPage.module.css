@@ -37,6 +37,16 @@
 	padding-right: 1rem;
 }
 
+.headerActions {
+	display: flex;
+	align-items: center;
+	gap: 0.5rem;
+}
+
+.filterTrigger {
+	min-width: 6.5rem;
+}
+
 .title {
 	font-weight: 600;
 	font-size: 1.125rem;
@@ -62,6 +72,12 @@
 .bookmarkIcon {
 	height: 1.25rem;
 	width: 1.25rem;
+}
+
+.content {
+	display: flex;
+	flex: 1 1 0%;
+	min-height: 0;
 }
 
 .emptyContainer {

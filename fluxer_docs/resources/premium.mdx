@@ -1,0 +1,41 @@
+---
+title: 'Premium'
+description: 'Premium object schemas from the Fluxer API.'
+---
+
+<a id="priceidsresponse"></a>
+
+## PriceIdsResponse
+
+**Related endpoints**
+
+- [`GET /premium/price-ids`](/api-reference/premium/get-stripe-price-ids)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| currency | [PriceIdsResponseCurrency](#priceidsresponsecurrency) | Currency for the prices |
+| gift_1_month? | ?[SnowflakeType](#snowflaketype) | Stripe price ID for the 1 month gift |
+| gift_1_year? | ?[SnowflakeType](#snowflaketype) | Stripe price ID for the 1 year gift |
+| monthly? | ?[SnowflakeType](#snowflaketype) | Stripe price ID for the monthly subscription |
+| yearly? | ?[SnowflakeType](#snowflaketype) | Stripe price ID for the yearly subscription |
+
+<a id="visionaryslotschema"></a>
+
+## VisionarySlotSchema
+
+| Field | Type | Description |
+|-------|------|-------------|
+| slot_index | integer (int32) | The slot index |
+| user_id | ?[SnowflakeType](#snowflaketype) \| enum&lt;`-1`&gt; | User ID that reserved this slot, or null if unreserved (special value -1 is also valid) |
+
+<a id="priceidsresponsecurrency"></a>
+
+## PriceIdsResponseCurrency
+
+Currency for the prices
+
+| Value | Description |
+|-------|-------------|
+| `USD` | - |
+| `EUR` | - |
+

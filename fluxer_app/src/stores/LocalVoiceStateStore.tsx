@@ -17,11 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {Logger} from '@app/lib/Logger';
+import {makePersistent} from '@app/lib/MobXPersistence';
+import MediaPermissionStore from '@app/stores/MediaPermissionStore';
+import VoiceDevicePermissionStore from '@app/stores/voice/VoiceDevicePermissionStore';
+import {syncLocalVoiceStateWithServer} from '@app/stores/voice/VoiceMediaEngineBridge';
+import type {VoiceDeviceState} from '@app/utils/VoiceDeviceManager';
 import {makeAutoObservable, runInAction} from 'mobx';
-import {Logger} from '~/lib/Logger';
-import {makePersistent} from '~/lib/MobXPersistence';
-import MediaPermissionStore from '~/stores/MediaPermissionStore';
-import VoiceDevicePermissionStore, {type VoiceDeviceState} from '~/stores/voice/VoiceDevicePermissionStore';
 
 const logger = new Logger('LocalVoiceStateStore');
 
@@ -33,7 +35,7 @@ class LocalVoiceStateStore {
 	selfStreamAudio = false;
 	selfStreamAudioMute = false;
 	noiseSuppressionEnabled = true;
-	viewerStreamKey: string | null = null;
+	viewerStreamKeys: Array<string> = [];
 
 	hasUserSetMute = false;
 	hasUserSetDeaf = false;
@@ -64,6 +66,19 @@ class LocalVoiceStateStore {
 				_disposers: false,
 				isNotifyingServerOfPermissionMute: false,
 				shouldUnmuteOnUndeafen: false,
+				getSelfMute: false,
+				getSelfDeaf: false,
+				getSelfVideo: false,
+				getSelfStream: false,
+				getSelfStreamAudio: false,
+				getSelfStreamAudioMute: false,
+				getViewerStreamKeys: false,
+				addViewerStreamKey: false,
+				removeViewerStreamKey: false,
+				hasViewerStreamKey: false,
+				getNoiseSuppressionEnabled: false,
+				getHasUserSetMute: false,
+				getHasUserSetDeaf: false,
 			},
 			{autoBind: true},
 		);
@@ -215,14 +230,10 @@ class LocalVoiceStateStore {
 
 		try {
 			this.isNotifyingServerOfPermissionMute = true;
-			const store = (
-				window as {_mediaEngineStore?: {syncLocalVoiceStateWithServer?: (p: {self_mute: boolean}) => void}}
-			)._mediaEngineStore;
-			if (store?.syncLocalVoiceStateWithServer) {
-				store.syncLocalVoiceStateWithServer({self_mute: true});
-			}
+			syncLocalVoiceStateWithServer({self_mute: true});
 		} catch (error) {
-			logger.debug('Failed to sync permission-mute to server', {error});
+			logger.error('Failed to sync permission-mute to server', {error});
+			throw error;
 		} finally {
 			this.isNotifyingServerOfPermissionMute = false;
 		}
@@ -256,14 +267,31 @@ class LocalVoiceStateStore {
 		return this.selfStreamAudioMute;
 	}
 
-	getViewerStreamKey(): string | null {
-		return this.viewerStreamKey;
+	getViewerStreamKeys(): Array<string> {
+		return this.viewerStreamKeys;
 	}
 
-	updateViewerStreamKey(value: string | null): void {
+	updateViewerStreamKeys(keys: Array<string>): void {
 		runInAction(() => {
-			this.viewerStreamKey = value;
+			this.viewerStreamKeys = keys;
 		});
+	}
+
+	addViewerStreamKey(key: string): void {
+		if (this.viewerStreamKeys.includes(key)) return;
+		runInAction(() => {
+			this.viewerStreamKeys = [...this.viewerStreamKeys, key];
+		});
+	}
+
+	removeViewerStreamKey(key: string): void {
+		runInAction(() => {
+			this.viewerStreamKeys = this.viewerStreamKeys.filter((k) => k !== key);
+		});
+	}
+
+	hasViewerStreamKey(key: string): boolean {
+		return this.viewerStreamKeys.includes(key);
 	}
 
 	getNoiseSuppressionEnabled(): boolean {
@@ -443,6 +471,7 @@ class LocalVoiceStateStore {
 			this.selfStream = false;
 			this.selfStreamAudio = false;
 			this.selfStreamAudioMute = false;
+			this.viewerStreamKeys = [];
 			this.noiseSuppressionEnabled = true;
 			this.mutedByPermission = false;
 			this.shouldUnmuteOnUndeafen = false;

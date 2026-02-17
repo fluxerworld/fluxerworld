@@ -1,0 +1,213 @@
+x-common: &common
+  networks:
+    - fluxer-shared
+  logging:
+    options:
+      max-size: 50m
+      max-file: '3'
+
+x-deploy-base: &deploy_base
+  restart_policy:
+    condition: on-failure
+    delay: 5s
+    max_attempts: 3
+
+x-clickhouse-defaults: &clickhouse_defaults
+  <<: *common
+  image: clickhouse/clickhouse-server:25.5.6
+  tty: true
+  environment:
+    - CLICKHOUSE_SKIP_USER_SETUP=1
+  deploy:
+    <<: *deploy_base
+    labels:
+      signoz.io/scrape: 'true'
+      signoz.io/port: '9363'
+      signoz.io/path: '/metrics'
+  healthcheck:
+    test:
+      - CMD
+      - wget
+      - --spider
+      - -q
+      - 0.0.0.0:8123/ping
+    interval: 30s
+    timeout: 5s
+    retries: 3
+  ulimits:
+    nproc: 65535
+    nofile:
+      soft: 262144
+      hard: 262144
+
+x-zookeeper-defaults: &zookeeper_defaults
+  <<: *common
+  image: signoz/zookeeper:3.7.1
+  user: root
+  deploy:
+    <<: *deploy_base
+    labels:
+      signoz.io/scrape: 'true'
+      signoz.io/port: '9141'
+      signoz.io/path: '/metrics'
+  healthcheck:
+    test:
+      - CMD-SHELL
+      - curl -s -m 2 http://localhost:8080/commands/ruok | grep error | grep null
+    interval: 30s
+    timeout: 5s
+    retries: 3
+
+services:
+  init-clickhouse:
+    <<: *common
+    image: clickhouse/clickhouse-server:25.5.6
+    command:
+      - bash
+      - -c
+      - |
+        version="v0.0.1"
+        node_os=$$(uname -s | tr '[:upper:]' '[:lower:]')
+        node_arch=$$(uname -m | sed s/aarch64/arm64/ | sed s/x86_64/amd64/)
+        echo "Fetching histogram-binary for $${node_os}/$${node_arch}"
+        cd /tmp
+        wget -O histogram-quantile.tar.gz "https://github.com/SigNoz/signoz/releases/download/histogram-quantile%2F$${version}/histogram-quantile_$${node_os}_$${node_arch}.tar.gz"
+        tar -xvzf histogram-quantile.tar.gz
+        mv histogram-quantile /var/lib/clickhouse/user_scripts/histogramQuantile
+    deploy:
+      restart_policy:
+        condition: on-failure
+    volumes:
+      - ./conf/clickhouse/user_scripts:/var/lib/clickhouse/user_scripts:rw
+
+  zookeeper-1:
+    <<: *zookeeper_defaults
+    environment:
+      - ZOO_SERVER_ID=1
+      - ALLOW_ANONYMOUS_LOGIN=yes
+      - ZOO_AUTOPURGE_INTERVAL=1
+      - ZOO_ENABLE_PROMETHEUS_METRICS=yes
+      - ZOO_PROMETHEUS_METRICS_PORT_NUMBER=9141
+    volumes:
+      - zookeeper-1:/bitnami/zookeeper
+
+  clickhouse:
+    <<: *clickhouse_defaults
+    hostname: clickhouse
+    configs:
+      - source: clickhouse-config
+        target: /etc/clickhouse-server/config.xml
+      - source: clickhouse-users
+        target: /etc/clickhouse-server/users.xml
+      - source: clickhouse-custom-function
+        target: /etc/clickhouse-server/custom-function.xml
+      - source: clickhouse-cluster
+        target: /etc/clickhouse-server/config.d/cluster.xml
+    volumes:
+      - clickhouse:/var/lib/clickhouse/
+
+  schema-migrator:
+    <<: *common
+    image: signoz/signoz-schema-migrator:${OTELCOL_TAG:-v0.129.12}
+    entrypoint: sh
+    command:
+      - -c
+      - /signoz-schema-migrator sync --dsn=tcp://clickhouse:9000 --up= && /signoz-schema-migrator async --dsn=tcp://clickhouse:9000 --up=
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+
+  signoz:
+    <<: *common
+    image: signoz/signoz:${SIGNOZ_IMAGE_TAG:-v0.108.0}
+    command:
+      - --config=/root/config/prometheus.yml
+    environment:
+      - SIGNOZ_ALERTMANAGER_PROVIDER=signoz
+      - SIGNOZ_TELEMETRYSTORE_CLICKHOUSE_DSN=tcp://clickhouse:9000
+      - SIGNOZ_SQLSTORE_SQLITE_PATH=/var/lib/signoz/signoz.db
+      - DASHBOARDS_PATH=/root/config/dashboards
+      - STORAGE=clickhouse
+      - GODEBUG=netdns=go
+      - TELEMETRY_ENABLED=true
+      - DEPLOYMENT_TYPE=docker-swarm
+      - DOT_METRICS_ENABLED=true
+    configs:
+      - source: signoz-prometheus-config
+        target: /root/config/prometheus.yml
+    volumes:
+      - sqlite:/var/lib/signoz/
+      - ./dashboards:/root/config/dashboards:ro
+    deploy:
+      <<: *deploy_base
+      replicas: 1
+      labels:
+        - 'caddy=signoz.fluxer.app'
+        - 'caddy.reverse_proxy={{upstreams 8080}}'
+        - 'caddy.header.Strict-Transport-Security="max-age=31536000; includeSubDomains; preload"'
+        - 'caddy.header.X-Xss-Protection="1; mode=block"'
+        - 'caddy.header.X-Content-Type-Options=nosniff'
+        - 'caddy.header.Referrer-Policy=strict-origin-when-cross-origin'
+        - 'caddy.header.X-Frame-Options=DENY'
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - --spider
+        - -q
+        - localhost:8080/api/v1/health
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  otel-collector:
+    <<: *common
+    image: signoz/signoz-otel-collector:${OTELCOL_TAG:-v0.129.12}
+    command:
+      - --config=/etc/otel-collector-config.yaml
+      - --manager-config=/etc/manager-config.yaml
+      - --copy-path=/var/tmp/collector-config.yaml
+      - --feature-gates=-pkg.translator.prometheus.NormalizeName
+    configs:
+      - source: otel-collector-config
+        target: /etc/otel-collector-config.yaml
+      - source: otel-manager-config
+        target: /etc/manager-config.yaml
+    environment:
+      - OTEL_RESOURCE_ATTRIBUTES=host.name={{.Node.Hostname}},os.type={{.Node.Platform.OS}}
+      - LOW_CARDINAL_EXCEPTION_GROUPING=false
+    ports:
+      - '4317:4317'
+      - '4318:4318'
+    deploy:
+      <<: *deploy_base
+      replicas: 3
+
+networks:
+  fluxer-shared:
+    external: true
+
+volumes:
+  clickhouse:
+    driver: local
+  sqlite:
+    driver: local
+  zookeeper-1:
+    driver: local
+
+configs:
+  clickhouse-config:
+    file: ./conf/clickhouse/config.xml
+  clickhouse-users:
+    file: ./conf/clickhouse/users.xml
+  clickhouse-custom-function:
+    file: ./conf/clickhouse/custom-function.xml
+  clickhouse-cluster:
+    file: ./conf/clickhouse/cluster.xml
+  signoz-prometheus-config:
+    file: ./conf/signoz/prometheus.yml
+  otel-collector-config:
+    file: ./conf/signoz/otel-collector-config.yaml
+  otel-manager-config:
+    file: ./conf/signoz/otel-collector-opamp-config.yaml

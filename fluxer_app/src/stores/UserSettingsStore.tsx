@@ -17,32 +17,35 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {camelCase, isArray, isEqual, isPlainObject, mapKeys, mapValues, snakeCase} from 'lodash';
-import {action, makeAutoObservable, reaction, runInAction} from 'mobx';
-import type {StatusType} from '~/Constants';
+import {Endpoints} from '@app/Endpoints';
+import {loadLocaleCatalog} from '@app/I18n';
+import {type CustomStatus, normalizeCustomStatus} from '@app/lib/CustomStatus';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import AccessibilityOverrideStore from '@app/stores/AccessibilityOverrideStore';
+import AccessibilityStore from '@app/stores/AccessibilityStore';
+import LocalPresenceStore from '@app/stores/LocalPresenceStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import ThemeStore from '@app/stores/ThemeStore';
+import type {StatusType} from '@fluxer/constants/src/StatusConstants';
+import {normalizeStatus, StatusTypes} from '@fluxer/constants/src/StatusConstants';
 import {
-	normalizeStatus,
+	DEFAULT_GUILD_FOLDER_ICON,
+	type GuildFolderIcon,
 	RenderSpoilers,
-	StatusTypes,
 	StickerAnimationOptions,
 	ThemeTypes,
 	TimeFormatTypes,
-} from '~/Constants';
-import {Endpoints} from '~/Endpoints';
-import {loadLocaleCatalog} from '~/i18n';
-import {type CustomStatus, normalizeCustomStatus} from '~/lib/customStatus';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import {persistTheme} from '~/lib/themePersistence';
-import AccessibilityOverrideStore from '~/stores/AccessibilityOverrideStore';
-import AccessibilityStore from '~/stores/AccessibilityStore';
-import LocalPresenceStore from '~/stores/LocalPresenceStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
+} from '@fluxer/constants/src/UserConstants';
+import {camelCase, isArray, isEqual, isPlainObject, mapKeys, mapValues, snakeCase} from 'lodash';
+import {action, makeAutoObservable, reaction, runInAction} from 'mobx';
 
-interface GuildFolder {
+export interface GuildFolder {
 	id: number | null;
 	name: string | null;
 	color: number | null;
+	flags: number;
+	icon: GuildFolderIcon;
 	guildIds: Array<string>;
 }
 
@@ -53,10 +56,11 @@ export interface UserSettings {
 	statusResetsTo: string | null;
 	theme: string;
 	timeFormat: number;
-	guildPositions: Array<string>;
 	locale: string;
 	restrictedGuilds: Array<string>;
+	botRestrictedGuilds: Array<string>;
 	defaultGuildsRestricted: boolean;
+	botDefaultGuildsRestricted: boolean;
 	inlineAttachmentMedia: boolean;
 	inlineEmbedMedia: boolean;
 	gifAutoPlay: boolean;
@@ -73,18 +77,11 @@ export interface UserSettings {
 	guildFolders: Array<GuildFolder>;
 	customStatus: CustomStatus | null;
 	afkTimeout: number;
+	trustedDomains: Array<string>;
+	defaultHideMutedChannels: boolean;
 }
 
 const logger = new Logger('UserSettingsStore');
-const VALID_THEME_VALUES = new Set<string>(Object.values(ThemeTypes));
-type ThemeValue = (typeof ThemeTypes)[keyof typeof ThemeTypes];
-
-function normalizeTheme(theme: string | null | undefined): ThemeValue | null {
-	if (theme && VALID_THEME_VALUES.has(theme)) {
-		return theme as ThemeValue;
-	}
-	return null;
-}
 
 function convertKeysToCamelCaseInternal(value: unknown): unknown {
 	if (isArray(value)) {
@@ -133,10 +130,11 @@ class UserSettingsStore {
 	statusResetsTo: string | null = null;
 	theme: string = ThemeTypes.SYSTEM;
 	timeFormat: number = TimeFormatTypes.AUTO;
-	guildPositions: Array<string> = [];
 	locale: string = 'en-US';
 	restrictedGuilds: Array<string> = [];
+	botRestrictedGuilds: Array<string> = [];
 	defaultGuildsRestricted: boolean = false;
+	botDefaultGuildsRestricted: boolean = false;
 	inlineAttachmentMedia: boolean = true;
 	inlineEmbedMedia: boolean = true;
 	gifAutoPlay: boolean = true;
@@ -153,32 +151,12 @@ class UserSettingsStore {
 	guildFolders: Array<GuildFolder> = [];
 	customStatus: CustomStatus | null = null;
 	afkTimeout: number = 600;
-	systemDarkMode = false;
-	mediaQuery: MediaQueryList | null = null;
+	trustedDomains: Array<string> = [];
+	defaultHideMutedChannels: boolean = false;
 	private hydrated = false;
 
 	constructor() {
-		makeAutoObservable(this, {mediaQuery: false}, {autoBind: true});
-		this.initializeSystemThemeDetection();
-	}
-
-	private initializeSystemThemeDetection() {
-		if (window.matchMedia) {
-			this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-			this.systemDarkMode = this.mediaQuery.matches;
-			this.mediaQuery.addEventListener('change', this.handleSystemThemeChange);
-		}
-	}
-
-	private handleSystemThemeChange = (event: MediaQueryListEvent) => {
-		this.systemDarkMode = event.matches;
-	};
-
-	destroy(): void {
-		if (this.mediaQuery) {
-			this.mediaQuery.removeEventListener('change', this.handleSystemThemeChange);
-			this.mediaQuery = null;
-		}
+		makeAutoObservable(this, {}, {autoBind: true});
 	}
 
 	getFlags(): number {
@@ -197,28 +175,12 @@ class UserSettingsStore {
 		return this.statusResetsTo;
 	}
 
-	getTheme(): string {
-		if (!AccessibilityStore.syncThemeAcrossDevices) {
-			const localOverride = AccessibilityStore.localThemeOverride;
-			if (localOverride !== null) {
-				if (localOverride === 'system') {
-					return this.systemDarkMode ? 'dark' : 'light';
-				}
-				return localOverride;
-			}
-		}
-		if (this.theme === 'system') {
-			return this.systemDarkMode ? 'dark' : 'light';
-		}
-		return this.theme;
-	}
-
 	getTimeFormat(): number {
 		return this.timeFormat;
 	}
 
 	getGuildPositions(): ReadonlyArray<string> {
-		return this.guildPositions;
+		return this.guildFolders.flatMap((folder) => folder.guildIds);
 	}
 
 	getLocale(): string {
@@ -227,6 +189,14 @@ class UserSettingsStore {
 
 	getRestrictedGuilds(): ReadonlyArray<string> {
 		return this.restrictedGuilds;
+	}
+
+	getBotRestrictedGuilds(): ReadonlyArray<string> {
+		return this.botRestrictedGuilds;
+	}
+
+	getBotDefaultGuildsRestricted(): boolean {
+		return this.botDefaultGuildsRestricted;
 	}
 
 	getDefaultGuildsRestricted(): boolean {
@@ -317,6 +287,18 @@ class UserSettingsStore {
 		return this.developerMode;
 	}
 
+	getTrustedDomains(): ReadonlyArray<string> {
+		return this.trustedDomains;
+	}
+
+	trustAllDomains(): boolean {
+		return this.trustedDomains.includes('*');
+	}
+
+	getDefaultHideMutedChannels(): boolean {
+		return this.defaultHideMutedChannels;
+	}
+
 	isHydrated(): boolean {
 		return this.hydrated;
 	}
@@ -351,18 +333,18 @@ class UserSettingsStore {
 		this.status = normalizedStatus;
 		this.statusResetsAt = camelCaseSettings.statusResetsAt ?? null;
 		this.statusResetsTo = camelCaseSettings.statusResetsTo ?? null;
-		const nextTheme = normalizeTheme(camelCaseSettings.theme);
-		if (nextTheme) {
-			this.theme = nextTheme;
-			persistTheme(nextTheme);
+		if (camelCaseSettings.theme) {
+			this.theme = camelCaseSettings.theme;
+			ThemeStore.updateServerTheme(camelCaseSettings.theme);
 		}
 		this.timeFormat = camelCaseSettings.timeFormat;
-		this.guildPositions = [...camelCaseSettings.guildPositions];
 		const localeToLoad = camelCaseSettings.locale ?? this.locale;
 		const normalizedLocale = loadLocaleCatalog(localeToLoad);
 		this.locale = normalizedLocale;
 		this.restrictedGuilds = [...camelCaseSettings.restrictedGuilds];
+		this.botRestrictedGuilds = [...camelCaseSettings.botRestrictedGuilds];
 		this.defaultGuildsRestricted = camelCaseSettings.defaultGuildsRestricted;
+		this.botDefaultGuildsRestricted = camelCaseSettings.botDefaultGuildsRestricted;
 		this.inlineAttachmentMedia = camelCaseSettings.inlineAttachmentMedia;
 		this.inlineEmbedMedia = camelCaseSettings.inlineEmbedMedia;
 		this.gifAutoPlay = camelCaseSettings.gifAutoPlay;
@@ -389,11 +371,19 @@ class UserSettingsStore {
 		this.groupDmAddPermissionFlags = camelCaseSettings.groupDmAddPermissionFlags;
 		this.guildFolders = camelCaseSettings.guildFolders.map((folder) => ({
 			...folder,
+			flags: folder.flags ?? 0,
+			icon: folder.icon ?? DEFAULT_GUILD_FOLDER_ICON,
 			guildIds: [...folder.guildIds],
 		}));
 		const newCustomStatus = normalizeCustomStatus(camelCaseSettings.customStatus ?? null);
 		this.customStatus = newCustomStatus ? {...newCustomStatus} : null;
 		this.afkTimeout = camelCaseSettings.afkTimeout;
+		if (camelCaseSettings.trustedDomains !== undefined) {
+			this.trustedDomains = [...camelCaseSettings.trustedDomains];
+		}
+		if (camelCaseSettings.defaultHideMutedChannels !== undefined) {
+			this.defaultHideMutedChannels = camelCaseSettings.defaultHideMutedChannels;
+		}
 
 		if (normalizedStatus !== previousStatus) {
 			const presence = LocalPresenceStore.getPresence();
@@ -417,10 +407,11 @@ class UserSettingsStore {
 			statusResetsTo: this.statusResetsTo,
 			theme: this.theme,
 			timeFormat: this.timeFormat,
-			guildPositions: [...this.guildPositions],
 			locale: this.locale,
 			restrictedGuilds: [...this.restrictedGuilds],
+			botRestrictedGuilds: [...this.botRestrictedGuilds],
 			defaultGuildsRestricted: this.defaultGuildsRestricted,
+			botDefaultGuildsRestricted: this.botDefaultGuildsRestricted,
 			inlineAttachmentMedia: this.inlineAttachmentMedia,
 			inlineEmbedMedia: this.inlineEmbedMedia,
 			gifAutoPlay: this.gifAutoPlay,
@@ -440,6 +431,8 @@ class UserSettingsStore {
 			})),
 			customStatus: this.customStatus ? {...this.customStatus} : null,
 			afkTimeout: this.afkTimeout,
+			trustedDomains: [...this.trustedDomains],
+			defaultHideMutedChannels: this.defaultHideMutedChannels,
 		};
 	}
 

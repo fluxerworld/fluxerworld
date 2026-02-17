@@ -23,22 +23,14 @@
 -export([start_link/0]).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
+-define(GUILD_PID_CACHE, guild_pid_cache).
+
 -type guild_id() :: integer().
--type shard_map() :: #{pid => pid(), ref => reference()}.
+-type shard_map() :: #{pid := pid(), ref := reference()}.
 -type state() :: #{
-    shards => #{non_neg_integer() => shard_map()},
-    shard_count => pos_integer()
+    shards := #{non_neg_integer() => shard_map()},
+    shard_count := pos_integer()
 }.
-
--record(shard, {
-    pid :: pid(),
-    ref :: reference()
-}).
-
--record(state, {
-    shards = #{} :: #{non_neg_integer() => #shard{}},
-    shard_count = 1 :: pos_integer()
-}).
 
 -spec start_link() -> {ok, pid()} | {error, term()}.
 start_link() ->
@@ -47,23 +39,23 @@ start_link() ->
 -spec init(list()) -> {ok, state()}.
 init([]) ->
     process_flag(trap_exit, true),
-    {ShardCount, Source} = determine_shard_count(),
-    ShardMap = start_shards(ShardCount, #{}),
-    maybe_log_shard_source(guild_manager, ShardCount, Source),
+    ets:new(?GUILD_PID_CACHE, [named_table, public, set, {read_concurrency, true}]),
+    {ShardCount, _Source} = determine_shard_count(),
+    ShardMap = start_shards(ShardCount),
     {ok, #{shards => ShardMap, shard_count => ShardCount}}.
 
 -spec handle_call(term(), gen_server:from(), state()) -> {reply, term(), state()}.
-handle_call({start_or_lookup, GuildId} = Request, _From, State) ->
-    {Reply, NewState} = forward_call(GuildId, Request, State),
+handle_call({start_or_lookup, GuildId}, _From, State) ->
+    {Reply, NewState} = forward_call(GuildId, {start_or_lookup, GuildId}, State),
     {reply, Reply, NewState};
-handle_call({stop_guild, GuildId} = Request, _From, State) ->
-    {Reply, NewState} = forward_call(GuildId, Request, State),
+handle_call({stop_guild, GuildId}, _From, State) ->
+    {Reply, NewState} = forward_call(GuildId, {stop_guild, GuildId}, State),
     {reply, Reply, NewState};
-handle_call({reload_guild, GuildId} = Request, _From, State) ->
-    {Reply, NewState} = forward_call(GuildId, Request, State),
+handle_call({reload_guild, GuildId}, _From, State) ->
+    {Reply, NewState} = forward_call(GuildId, {reload_guild, GuildId}, State),
     {reply, Reply, NewState};
-handle_call({shutdown_guild, GuildId} = Request, _From, State) ->
-    {Reply, NewState} = forward_call(GuildId, Request, State),
+handle_call({shutdown_guild, GuildId}, _From, State) ->
+    {Reply, NewState} = forward_call(GuildId, {shutdown_guild, GuildId}, State),
     {reply, Reply, NewState};
 handle_call({reload_all_guilds, GuildIds}, _From, State) ->
     {Reply, NewState} = handle_reload_all(GuildIds, State),
@@ -74,8 +66,7 @@ handle_call(get_local_count, _From, State) ->
 handle_call(get_global_count, _From, State) ->
     {Count, NewState} = aggregate_counts(get_global_count, State),
     {reply, {ok, Count}, NewState};
-handle_call(Request, _From, State) ->
-    logger:warning("[guild_manager] unknown request ~p", [Request]),
+handle_call(_Request, _From, State) ->
     {reply, ok, State}.
 
 -spec handle_cast(term(), state()) -> {noreply, state()}.
@@ -83,21 +74,20 @@ handle_cast(_Msg, State) ->
     {noreply, State}.
 
 -spec handle_info(term(), state()) -> {noreply, state()}.
-handle_info({'DOWN', Ref, process, _Pid, Reason}, State) ->
+handle_info({'DOWN', Ref, process, Pid, _Reason}, State) ->
     Shards = maps:get(shards, State),
     case find_shard_by_ref(Ref, Shards) of
         {ok, Index} ->
-            logger:warning("[guild_manager] shard ~p crashed: ~p", [Index, Reason]),
             {_Shard, NewState} = restart_shard(Index, State),
             {noreply, NewState};
         not_found ->
+            cleanup_guild_from_cache(Pid),
             {noreply, State}
     end;
-handle_info({'EXIT', Pid, Reason}, State) ->
+handle_info({'EXIT', Pid, _Reason}, State) ->
     Shards = maps:get(shards, State),
     case find_shard_by_pid(Pid, Shards) of
         {ok, Index} ->
-            logger:warning("[guild_manager] shard ~p exited: ~p", [Index, Reason]),
             {_Shard, NewState} = restart_shard(Index, State),
             {noreply, NewState};
         not_found ->
@@ -116,17 +106,10 @@ terminate(_Reason, State) ->
         end,
         maps:values(Shards)
     ),
+    catch ets:delete(?GUILD_PID_CACHE),
     ok.
 
 -spec code_change(term(), term(), term()) -> {ok, state()}.
-code_change(_OldVsn, #state{shards = OldShards, shard_count = ShardCount}, _Extra) ->
-    NewShards = maps:map(
-        fun(_Index, #shard{pid = Pid, ref = Ref}) ->
-            #{pid => Pid, ref => Ref}
-        end,
-        OldShards
-    ),
-    {ok, #{shards => NewShards, shard_count => ShardCount}};
 code_change(_OldVsn, State, _Extra) when is_map(State) ->
     {ok, State}.
 
@@ -139,19 +122,26 @@ determine_shard_count() ->
             {default_shard_count(), auto}
     end.
 
--spec start_shards(pos_integer(), #{}) -> #{non_neg_integer() => shard_map()}.
-start_shards(Count, Acc) ->
+-spec default_shard_count() -> pos_integer().
+default_shard_count() ->
+    Candidates = [
+        erlang:system_info(logical_processors_available),
+        erlang:system_info(schedulers_online)
+    ],
+    max(1, lists:max([C || C <- Candidates, is_integer(C), C > 0] ++ [1])).
+
+-spec start_shards(pos_integer()) -> #{non_neg_integer() => shard_map()}.
+start_shards(Count) ->
     lists:foldl(
         fun(Index, MapAcc) ->
             case start_shard(Index) of
                 {ok, Shard} ->
                     maps:put(Index, Shard, MapAcc);
-                {error, Reason} ->
-                    logger:warning("[guild_manager] failed to start shard ~p: ~p", [Index, Reason]),
+                {error, _Reason} ->
                     MapAcc
             end
         end,
-        Acc,
+        #{},
         lists:seq(0, Count - 1)
     ).
 
@@ -172,14 +162,31 @@ restart_shard(Index, State) ->
         {ok, Shard} ->
             Updated = State#{shards => maps:put(Index, Shard, Shards)},
             {Shard, Updated};
-        {error, Reason} ->
-            logger:error("[guild_manager] failed to restart shard ~p: ~p", [Index, Reason]),
-            Dummy = #{pid => spawn(fun() -> exit(normal) end), ref => make_ref()},
+        {error, _Reason} ->
+            DummyPid = spawn(fun() -> ok end),
+            Dummy = #{pid => DummyPid, ref => make_ref()},
             {Dummy, State}
     end.
 
 -spec forward_call(guild_id(), term(), state()) -> {term(), state()}.
+forward_call(GuildId, {start_or_lookup, _} = Request, State) ->
+    case ets:lookup(?GUILD_PID_CACHE, GuildId) of
+        [{GuildId, GuildPid}] when is_pid(GuildPid) ->
+            case erlang:is_process_alive(GuildPid) of
+                true ->
+                    {{ok, GuildPid}, State};
+                false ->
+                    ets:delete(?GUILD_PID_CACHE, GuildId),
+                    forward_call_to_shard(GuildId, Request, State)
+            end;
+        [] ->
+            forward_call_to_shard(GuildId, Request, State)
+    end;
 forward_call(GuildId, Request, State) ->
+    forward_call_to_shard(GuildId, Request, State).
+
+-spec forward_call_to_shard(guild_id(), term(), state()) -> {term(), state()}.
+forward_call_to_shard(GuildId, Request, State) ->
     {Index, State1} = ensure_shard(GuildId, State),
     Shards = maps:get(shards, State1),
     ShardMap = maps:get(Index, Shards),
@@ -187,7 +194,11 @@ forward_call(GuildId, Request, State) ->
     case catch gen_server:call(Pid, Request, ?DEFAULT_GEN_SERVER_TIMEOUT) of
         {'EXIT', _} ->
             {_Shard, State2} = restart_shard(Index, State1),
-            forward_call(GuildId, Request, State2);
+            forward_call_to_shard(GuildId, Request, State2);
+        {ok, GuildPid} = Reply ->
+            ets:insert(?GUILD_PID_CACHE, {GuildId, GuildPid}),
+            erlang:monitor(process, GuildPid),
+            {Reply, State1};
         Reply ->
             {Reply, State1}
     end.
@@ -223,146 +234,137 @@ select_shard(GuildId, Count) when Count > 0 ->
 -spec aggregate_counts(term(), state()) -> {non_neg_integer(), state()}.
 aggregate_counts(Request, State) ->
     Shards = maps:get(shards, State),
-    Counts =
-        [
-            begin
-                Pid = maps:get(pid, ShardMap),
-                case catch gen_server:call(Pid, Request, ?DEFAULT_GEN_SERVER_TIMEOUT) of
-                    {ok, Count} -> Count;
-                    _ -> 0
-                end
+    Counts = lists:map(
+        fun(ShardMap) ->
+            Pid = maps:get(pid, ShardMap),
+            case catch gen_server:call(Pid, Request, ?DEFAULT_GEN_SERVER_TIMEOUT) of
+                {ok, Count} -> Count;
+                _ -> 0
             end
-         || ShardMap <- maps:values(Shards)
-        ],
+        end,
+        maps:values(Shards)
+    ),
     {lists:sum(Counts), State}.
 
--spec handle_reload_all([guild_id()], state()) -> {#{count => non_neg_integer()}, state()}.
+-spec handle_reload_all([guild_id()], state()) -> {#{count := non_neg_integer()}, state()}.
 handle_reload_all([], State) ->
     Shards = maps:get(shards, State),
-    {Replies, FinalState} =
-        lists:foldl(
-            fun({_Index, ShardMap}, {AccReplies, AccState}) ->
-                Pid = maps:get(pid, ShardMap),
-                case catch gen_server:call(Pid, {reload_all_guilds, []}, 60000) of
-                    Reply ->
-                        {AccReplies ++ [Reply], AccState}
-                end
-            end,
-            {[], State},
-            maps:to_list(Shards)
-        ),
-    Count = lists:sum([maps:get(count, Reply, 0) || Reply <- Replies]),
+    {Replies, FinalState} = lists:foldl(
+        fun({_Index, ShardMap}, {AccReplies, AccState}) ->
+            Pid = maps:get(pid, ShardMap),
+            Reply = catch gen_server:call(Pid, {reload_all_guilds, []}, 15000),
+            {[Reply | AccReplies], AccState}
+        end,
+        {[], State},
+        maps:to_list(Shards)
+    ),
+    Count = lists:sum([maps:get(count, Reply, 0) || Reply <- Replies, is_map(Reply)]),
     {#{count => Count}, FinalState};
 handle_reload_all(GuildIds, State) ->
     Count = maps:get(shard_count, State),
     Groups = group_ids_by_shard(GuildIds, Count),
-    {TotalCount, FinalState} =
-        lists:foldl(
-            fun({Index, Ids}, {AccCount, AccState}) ->
-                {ShardIdx, State1} = ensure_shard_for_index(Index, AccState),
-                Shards = maps:get(shards, State1),
-                ShardMap = maps:get(ShardIdx, Shards),
-                Pid = maps:get(pid, ShardMap),
-                case catch gen_server:call(Pid, {reload_all_guilds, Ids}, 60000) of
-                    #{count := CountReply} ->
-                        {AccCount + CountReply, State1};
-                    _ ->
-                        {AccCount, State1}
-                end
-            end,
-            {0, State},
-            Groups
-        ),
+    {TotalCount, FinalState} = lists:foldl(
+        fun({Index, Ids}, {AccCount, AccState}) ->
+            {ShardIdx, State1} = ensure_shard_for_index(Index, AccState),
+            Shards = maps:get(shards, State1),
+            ShardMap = maps:get(ShardIdx, Shards),
+            Pid = maps:get(pid, ShardMap),
+            case catch gen_server:call(Pid, {reload_all_guilds, Ids}, 15000) of
+                #{count := CountReply} ->
+                    {AccCount + CountReply, State1};
+                _ ->
+                    {AccCount, State1}
+            end
+        end,
+        {0, State},
+        Groups
+    ),
     {#{count => TotalCount}, FinalState}.
 
 -spec group_ids_by_shard([guild_id()], pos_integer()) -> [{non_neg_integer(), [guild_id()]}].
 group_ids_by_shard(GuildIds, ShardCount) ->
-    lists:foldl(
-        fun(GuildId, Acc) ->
-            Index = select_shard(GuildId, ShardCount),
-            case lists:keytake(Index, 1, Acc) of
-                {value, {Index, Ids}, Rest} ->
-                    [{Index, [GuildId | Ids]} | Rest];
-                false ->
-                    [{Index, [GuildId]} | Acc]
-            end
-        end,
-        [],
-        GuildIds
-    ).
+    rendezvous_router:group_keys(GuildIds, ShardCount).
 
 -spec find_shard_by_ref(reference(), #{non_neg_integer() => shard_map()}) ->
     {ok, non_neg_integer()} | not_found.
 find_shard_by_ref(Ref, Shards) ->
-    maps:fold(
-        fun
-            (Index, ShardMap, _) when is_map(ShardMap) ->
-                case maps:get(ref, ShardMap) of
-                    R when R =:= Ref -> {ok, Index};
-                    _ -> not_found
-                end;
-            (_, _, Acc) ->
-                Acc
-        end,
-        not_found,
-        Shards
-    ).
+    find_shard_by(fun(#{ref := R}) -> R =:= Ref end, Shards).
 
 -spec find_shard_by_pid(pid(), #{non_neg_integer() => shard_map()}) ->
     {ok, non_neg_integer()} | not_found.
 find_shard_by_pid(Pid, Shards) ->
+    find_shard_by(fun(#{pid := P}) -> P =:= Pid end, Shards).
+
+-spec find_shard_by(fun((shard_map()) -> boolean()), #{non_neg_integer() => shard_map()}) ->
+    {ok, non_neg_integer()} | not_found.
+find_shard_by(Pred, Shards) ->
     maps:fold(
         fun
-            (Index, ShardMap, _) when is_map(ShardMap) ->
-                case maps:get(pid, ShardMap) of
-                    P when P =:= Pid -> {ok, Index};
-                    _ -> not_found
-                end;
-            (_, _, Acc) ->
-                Acc
+            (_, _, {ok, _} = Found) ->
+                Found;
+            (Index, ShardMap, not_found) ->
+                case Pred(ShardMap) of
+                    true -> {ok, Index};
+                    false -> not_found
+                end
         end,
         not_found,
         Shards
     ).
 
--spec default_shard_count() -> pos_integer().
-default_shard_count() ->
-    Candidates = [
-        erlang:system_info(logical_processors_available), erlang:system_info(schedulers_online)
-    ],
-    lists:max([C || C <- Candidates, is_integer(C), C > 0] ++ [1]).
-
--spec maybe_log_shard_source(atom(), pos_integer(), configured | auto) -> ok.
-maybe_log_shard_source(Name, Count, configured) ->
-    logger:info("[~p] starting with ~p shards (configured)", [Name, Count]),
-    ok;
-maybe_log_shard_source(Name, Count, auto) ->
-    logger:info("[~p] starting with ~p shards (auto)", [Name, Count]),
+-spec cleanup_guild_from_cache(pid()) -> ok.
+cleanup_guild_from_cache(Pid) ->
+    case ets:match_object(?GUILD_PID_CACHE, {'$1', Pid}) of
+        [{GuildId, _Pid}] ->
+            ets:delete(?GUILD_PID_CACHE, GuildId);
+        [] ->
+            ok
+    end,
     ok.
 
 -ifdef(TEST).
 -include_lib("eunit/include/eunit.hrl").
 
-determine_shard_count_configured_test() ->
-    with_runtime_config(guild_shards, 4, fun() ->
-        ?assertMatch({4, configured}, determine_shard_count())
-    end).
+default_shard_count_positive_test() ->
+    Count = default_shard_count(),
+    ?assert(Count >= 1).
 
-determine_shard_count_auto_test() ->
-    with_runtime_config(guild_shards, undefined, fun() ->
-        {Count, auto} = determine_shard_count(),
-        ?assert(Count > 0)
-    end).
+select_shard_deterministic_test() ->
+    GuildId = 12345,
+    ShardCount = 8,
+    Shard1 = select_shard(GuildId, ShardCount),
+    Shard2 = select_shard(GuildId, ShardCount),
+    ?assertEqual(Shard1, Shard2).
 
-with_runtime_config(Key, Value, Fun) ->
-    Original = fluxer_gateway_env:get(Key),
-    fluxer_gateway_env:patch(#{Key => Value}),
-    Result = Fun(),
-    fluxer_gateway_env:update(fun(Map) ->
-        case Original of
-            undefined -> maps:remove(Key, Map);
-            Val -> maps:put(Key, Val, Map)
-        end
-    end),
-    Result.
+select_shard_in_range_test() ->
+    ShardCount = 8,
+    lists:foreach(
+        fun(GuildId) ->
+            Shard = select_shard(GuildId, ShardCount),
+            ?assert(Shard >= 0 andalso Shard < ShardCount)
+        end,
+        lists:seq(1, 100)
+    ).
+
+group_ids_by_shard_test() ->
+    GuildIds = [1, 2, 3, 4, 5],
+    ShardCount = 2,
+    Groups = group_ids_by_shard(GuildIds, ShardCount),
+    AllIds = lists:flatten([Ids || {_, Ids} <- Groups]),
+    ?assertEqual(lists:sort(GuildIds), lists:sort(AllIds)).
+
+find_shard_by_ref_found_test() ->
+    Ref = make_ref(),
+    Shards = #{0 => #{pid => self(), ref => Ref}},
+    ?assertMatch({ok, 0}, find_shard_by_ref(Ref, Shards)).
+
+find_shard_by_ref_not_found_test() ->
+    Shards = #{0 => #{pid => self(), ref => make_ref()}},
+    ?assertEqual(not_found, find_shard_by_ref(make_ref(), Shards)).
+
+find_shard_by_pid_found_test() ->
+    Pid = self(),
+    Shards = #{0 => #{pid => Pid, ref => make_ref()}},
+    ?assertMatch({ok, 0}, find_shard_by_pid(Pid, Shards)).
+
 -endif.

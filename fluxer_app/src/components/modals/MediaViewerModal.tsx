@@ -17,36 +17,111 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as ContextMenuActionCreators from '@app/actions/ContextMenuActionCreators';
+import * as FavoriteMemeActionCreators from '@app/actions/FavoriteMemeActionCreators';
+import * as MediaViewerActionCreators from '@app/actions/MediaViewerActionCreators';
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import {modal} from '@app/actions/ModalActionCreators';
+import {deriveDefaultNameFromMessage} from '@app/components/channel/embeds/EmbedUtils';
+import {AudioPlayer} from '@app/components/media_player/components/AudioPlayer';
+import {VideoPlayer} from '@app/components/media_player/components/VideoPlayer';
+import {AddFavoriteMemeModal} from '@app/components/modals/AddFavoriteMemeModal';
+import {MediaModal} from '@app/components/modals/MediaModal';
+import styles from '@app/components/modals/MediaViewerModal.module.css';
+import {useMediaMenuData} from '@app/components/uikit/context_menu/items/MediaMenuData';
+import {MediaContextMenu} from '@app/components/uikit/context_menu/MediaContextMenu';
+import {MenuBottomSheet} from '@app/components/uikit/menu_bottom_sheet/MenuBottomSheet';
+import {Platform} from '@app/lib/Platform';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import FavoriteMemeStore from '@app/stores/FavoriteMemeStore';
+import MediaViewerStore, {type MediaViewerItem} from '@app/stores/MediaViewerStore';
+import MobileLayoutStore from '@app/stores/MobileLayoutStore';
+import {formatAttachmentDate} from '@app/utils/AttachmentExpiryUtils';
+import {createSaveHandler} from '@app/utils/FileDownloadUtils';
+import * as ImageCacheUtils from '@app/utils/ImageCacheUtils';
+import {buildMediaProxyURL, stripMediaProxyParams} from '@app/utils/MediaProxyUtils';
+import {openExternalUrl} from '@app/utils/NativeUtils';
 import {useLingui} from '@lingui/react/macro';
+import {TrashIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import {type FC, type MouseEvent, useCallback, useEffect, useMemo, useRef} from 'react';
-import * as ContextMenuActionCreators from '~/actions/ContextMenuActionCreators';
-import * as FavoriteMemeActionCreators from '~/actions/FavoriteMemeActionCreators';
-import * as MediaViewerActionCreators from '~/actions/MediaViewerActionCreators';
-import * as MessageActionCreators from '~/actions/MessageActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import {modal} from '~/actions/ModalActionCreators';
-import {deriveDefaultNameFromMessage} from '~/components/channel/embeds/EmbedUtils';
-import {AudioPlayer} from '~/components/media-player/components/AudioPlayer';
-import {VideoPlayer} from '~/components/media-player/components/VideoPlayer';
-import {AddFavoriteMemeModal} from '~/components/modals/AddFavoriteMemeModal';
-import {MediaModal} from '~/components/modals/MediaModal';
-import styles from '~/components/modals/MediaViewerModal.module.css';
-import {MediaContextMenu} from '~/components/uikit/ContextMenu/MediaContextMenu';
-import {Platform} from '~/lib/Platform';
-import FavoriteMemeStore from '~/stores/FavoriteMemeStore';
-import MediaViewerStore from '~/stores/MediaViewerStore';
-import MobileLayoutStore from '~/stores/MobileLayoutStore';
-import {formatAttachmentDate} from '~/utils/AttachmentExpiryUtils';
-import {createSaveHandler} from '~/utils/FileDownloadUtils';
-import {buildMediaProxyURL} from '~/utils/MediaProxyUtils';
-import {openExternalUrl} from '~/utils/NativeUtils';
+import {type CSSProperties, type FC, type MouseEvent, useCallback, useEffect, useMemo, useRef, useState} from 'react';
+
+interface MobileMediaOptionsSheetProps {
+	currentItem: MediaViewerItem;
+	defaultName: string;
+	isOpen: boolean;
+	message: MessageRecord;
+	onClose: () => void;
+	onDelete: (bypassConfirm?: boolean) => void;
+}
+
+function getBaseProxyURL(src: string): string {
+	if (src.startsWith('blob:')) {
+		return src;
+	}
+
+	return stripMediaProxyParams(src);
+}
+
+const MobileMediaOptionsSheet: FC<MobileMediaOptionsSheetProps> = observer(function MobileMediaOptionsSheet({
+	currentItem,
+	defaultName,
+	isOpen,
+	message,
+	onClose,
+	onDelete,
+}: MobileMediaOptionsSheetProps) {
+	const {t} = useLingui();
+
+	const mediaMenuData = useMediaMenuData(
+		{
+			message,
+			originalSrc: currentItem.originalSrc,
+			proxyURL: currentItem.src,
+			type: currentItem.type,
+			contentHash: currentItem.contentHash,
+			attachmentId: currentItem.attachmentId,
+			embedIndex: currentItem.embedIndex,
+			defaultName,
+			defaultAltText: undefined,
+		},
+		{
+			onClose,
+		},
+	);
+
+	const mediaMenuGroupsWithDelete = useMemo(
+		() => [
+			...mediaMenuData.groups,
+			{
+				items: [
+					{
+						label: t`Delete Message`,
+						icon: <TrashIcon size={20} />,
+						onClick: () => {
+							onDelete();
+							onClose();
+						},
+						danger: true,
+					},
+				],
+			},
+		],
+		[mediaMenuData.groups, onClose, onDelete, t],
+	);
+
+	return (
+		<MenuBottomSheet isOpen={isOpen} onClose={onClose} groups={mediaMenuGroupsWithDelete} title={t`Media Options`} />
+	);
+});
 
 const MediaViewerModalComponent: FC = observer(() => {
 	const {t, i18n} = useLingui();
 	const {isOpen, items, currentIndex, channelId, messageId, message} = MediaViewerStore;
 	const {enabled: isMobile} = MobileLayoutStore;
 	const videoRef = useRef<HTMLVideoElement>(null);
+	const [isMediaMenuOpen, setIsMediaMenuOpen] = useState(false);
 
 	const currentItem = items[currentIndex];
 
@@ -61,6 +136,66 @@ const MediaViewerModalComponent: FC = observer(() => {
 		video.playsInline = true;
 		void video.play().catch(() => {});
 	}, [currentItem?.src, currentItem?.type, currentIndex]);
+
+	useEffect(() => {
+		if (!isOpen || items.length <= 1) return;
+
+		const preloadIndices = [currentIndex - 1, currentIndex + 1].filter(
+			(i) => i >= 0 && i < items.length && i !== currentIndex,
+		);
+
+		for (const idx of preloadIndices) {
+			const item = items[idx];
+			if (!item) continue;
+
+			if (item.type === 'image' || item.type === 'gif') {
+				const isItemBlob = item.src.startsWith('blob:');
+				if (isItemBlob) continue;
+				const baseProxyURL = getBaseProxyURL(item.src);
+
+				const shouldRequestAnimated = item.animated || item.type === 'gif';
+				let preloadSrc: string;
+
+				if (shouldRequestAnimated) {
+					preloadSrc = buildMediaProxyURL(baseProxyURL, {
+						format: 'webp',
+						animated: true,
+					});
+				} else {
+					const maxPreviewSize = 1920;
+					const aspectRatio = item.naturalWidth / item.naturalHeight;
+					let targetWidth = item.naturalWidth;
+					let targetHeight = item.naturalHeight;
+
+					if (item.naturalWidth > maxPreviewSize || item.naturalHeight > maxPreviewSize) {
+						if (aspectRatio > 1) {
+							targetWidth = Math.min(item.naturalWidth, maxPreviewSize);
+							targetHeight = Math.round(targetWidth / aspectRatio);
+						} else {
+							targetHeight = Math.min(item.naturalHeight, maxPreviewSize);
+							targetWidth = Math.round(targetHeight * aspectRatio);
+						}
+					}
+
+					preloadSrc = buildMediaProxyURL(baseProxyURL, {
+						format: 'webp',
+						width: targetWidth,
+						height: targetHeight,
+						animated: item.animated,
+					});
+				}
+
+				if (!ImageCacheUtils.hasImage(preloadSrc)) {
+					ImageCacheUtils.loadImage(preloadSrc, () => {});
+				}
+			} else if (item.type === 'gifv' || item.type === 'video') {
+				const video = document.createElement('video');
+				video.preload = 'metadata';
+				video.src = item.src;
+				video.load();
+			}
+		}
+	}, [isOpen, currentIndex, items]);
 
 	const memes = FavoriteMemeStore.memes;
 	const isFavorited = currentItem?.contentHash
@@ -95,11 +230,15 @@ const MediaViewerModalComponent: FC = observer(() => {
 				)),
 			);
 		}
-	}, [channelId, messageId, currentItem, defaultName, isFavorited, memes]);
+	}, [channelId, messageId, currentItem, defaultName, i18n, isFavorited, memes]);
 
 	const handleSave = useCallback(() => {
 		if (!currentItem) return;
-		const mediaType = currentItem.type === 'audio' ? 'audio' : currentItem.type === 'video' ? 'video' : 'image';
+		const mediaType = (() => {
+			if (currentItem.type === 'audio') return 'audio';
+			if (currentItem.type === 'video') return 'video';
+			return 'image';
+		})();
 		createSaveHandler(currentItem.originalSrc, mediaType)();
 	}, [currentItem]);
 
@@ -123,15 +262,11 @@ const MediaViewerModalComponent: FC = observer(() => {
 	);
 
 	const handlePrevious = useCallback(() => {
-		if (currentIndex > 0) {
-			MediaViewerActionCreators.navigateMediaViewer(currentIndex - 1);
-		}
-	}, [currentIndex]);
+		MediaViewerActionCreators.navigateMediaViewer((currentIndex - 1 + items.length) % items.length);
+	}, [currentIndex, items.length]);
 
 	const handleNext = useCallback(() => {
-		if (currentIndex < items.length - 1) {
-			MediaViewerActionCreators.navigateMediaViewer(currentIndex + 1);
-		}
+		MediaViewerActionCreators.navigateMediaViewer((currentIndex + 1) % items.length);
 	}, [currentIndex, items.length]);
 
 	const handleThumbnailSelect = useCallback(
@@ -180,6 +315,28 @@ const MediaViewerModalComponent: FC = observer(() => {
 		[currentItem, defaultName, handleDelete, message],
 	);
 
+	const handleMenuOpen = useCallback(() => {
+		if (!currentItem || !message) return;
+		if (isMobile) {
+			setIsMediaMenuOpen(true);
+		} else {
+			ContextMenuActionCreators.openAtPoint({x: window.innerWidth / 2, y: window.innerHeight / 2}, ({onClose}) => (
+				<MediaContextMenu
+					message={message}
+					originalSrc={currentItem.originalSrc}
+					proxyURL={currentItem.src}
+					type={currentItem.type}
+					contentHash={currentItem.contentHash}
+					attachmentId={currentItem.attachmentId}
+					embedIndex={currentItem.embedIndex}
+					defaultName={defaultName}
+					onClose={onClose}
+					onDelete={handleDelete}
+				/>
+			));
+		}
+	}, [currentItem, defaultName, handleDelete, message, isMobile]);
+
 	const isBlob = currentItem?.src.startsWith('blob:');
 
 	const imageSrc = useMemo(() => {
@@ -187,15 +344,18 @@ const MediaViewerModalComponent: FC = observer(() => {
 		if (isBlob) {
 			return currentItem.src;
 		}
+		const baseProxyURL = getBaseProxyURL(currentItem.src);
 
-		if (currentItem.type === 'gif') {
-			return buildMediaProxyURL(currentItem.src, {
+		const shouldRequestAnimated = currentItem.animated || currentItem.type === 'gif';
+		if (shouldRequestAnimated) {
+			return buildMediaProxyURL(baseProxyURL, {
+				format: 'webp',
 				animated: true,
 			});
 		}
 
 		if (currentItem.type === 'gifv' || currentItem.type === 'video' || currentItem.type === 'audio') {
-			return currentItem.src;
+			return baseProxyURL;
 		}
 
 		const maxPreviewSize = 1920;
@@ -214,10 +374,11 @@ const MediaViewerModalComponent: FC = observer(() => {
 			}
 		}
 
-		return buildMediaProxyURL(currentItem.src, {
+		return buildMediaProxyURL(baseProxyURL, {
 			format: 'webp',
 			width: targetWidth,
 			height: targetHeight,
+			animated: currentItem.animated,
 		});
 	}, [currentItem, isBlob]);
 
@@ -225,12 +386,14 @@ const MediaViewerModalComponent: FC = observer(() => {
 		() =>
 			items.map((item, index) => {
 				const name = item.filename || item.originalSrc.split('/').pop()?.split('?')[0] || t`Attachment ${index + 1}`;
-				if ((item.type === 'image' || item.type === 'gif') && !item.src.startsWith('blob:')) {
+				if ((item.type === 'image' || item.type === 'gif' || item.animated) && !item.src.startsWith('blob:')) {
+					const baseProxyURL = getBaseProxyURL(item.src);
 					return {
-						src: buildMediaProxyURL(item.src, {
+						src: buildMediaProxyURL(baseProxyURL, {
 							format: 'webp',
 							width: 320,
 							height: 320,
+							animated: Boolean(item.animated),
 						}),
 						alt: name,
 						type: item.type,
@@ -243,7 +406,7 @@ const MediaViewerModalComponent: FC = observer(() => {
 					type: item.type,
 				};
 			}),
-		[items],
+		[items, t],
 	);
 
 	if (!isOpen || !currentItem) {
@@ -265,20 +428,19 @@ const MediaViewerModalComponent: FC = observer(() => {
 			: undefined;
 
 	const getTitle = () => {
-		switch (currentItem.type) {
-			case 'image':
-				return t`Image preview`;
-			case 'gif':
-				return t`GIF preview`;
-			case 'gifv':
-				return t`GIF preview`;
-			case 'video':
-				return t`Video preview`;
-			case 'audio':
-				return t`Audio preview`;
-			default:
-				return t`Media preview`;
+		if (currentItem.type === 'image') {
+			return currentItem.animated ? t`Animated image preview` : t`Image preview`;
 		}
+		if (currentItem.type === 'gif' || currentItem.type === 'gifv') {
+			return t`GIF preview`;
+		}
+		if (currentItem.type === 'video') {
+			return t`Video preview`;
+		}
+		if (currentItem.type === 'audio') {
+			return t`Audio preview`;
+		}
+		return t`Media preview`;
 	};
 
 	const modalTitle = getTitle();
@@ -323,16 +485,32 @@ const MediaViewerModalComponent: FC = observer(() => {
 		}
 
 		if (currentItem.type === 'video') {
+			const hasNaturalVideoDimensions = currentItem.naturalWidth > 0 && currentItem.naturalHeight > 0;
+			const videoAspectRatio = hasNaturalVideoDimensions
+				? `${currentItem.naturalWidth} / ${currentItem.naturalHeight}`
+				: '16 / 9';
+
 			return (
-				<div className={styles.videoPlayerContainer}>
+				<div
+					className={styles.videoPlayerContainer}
+					style={
+						{
+							'--video-natural-width': hasNaturalVideoDimensions ? `${currentItem.naturalWidth}px` : '960px',
+							'--video-aspect-ratio': hasNaturalVideoDimensions
+								? currentItem.naturalWidth / currentItem.naturalHeight
+								: 16 / 9,
+							aspectRatio: videoAspectRatio,
+						} as CSSProperties
+					}
+				>
 					<VideoPlayer
 						src={currentItem.src}
 						width={currentItem.naturalWidth}
 						height={currentItem.naturalHeight}
 						duration={currentItem.duration}
 						autoPlay
+						fillContainer
 						isMobile={isMobile}
-						fillContainer={isMobile}
 						className={styles.videoPlayer}
 					/>
 				</div>
@@ -356,10 +534,16 @@ const MediaViewerModalComponent: FC = observer(() => {
 			);
 		}
 
+		const imageAlt = (() => {
+			if (currentItem.type === 'gif') return t`Animated GIF`;
+			if (currentItem.animated) return t`Animated image`;
+			return t`Image`;
+		})();
+
 		return (
 			<img
 				src={imageSrc}
-				alt={currentItem.type === 'gif' ? t`Animated GIF` : t`Image`}
+				alt={imageAlt}
 				className={styles.image}
 				style={{
 					objectFit: 'contain',
@@ -369,52 +553,66 @@ const MediaViewerModalComponent: FC = observer(() => {
 		);
 	};
 
+	const canFavoriteCurrentItem =
+		Boolean(channelId) &&
+		Boolean(messageId) &&
+		(currentItem.type === 'image' ||
+			currentItem.type === 'gif' ||
+			currentItem.type === 'gifv' ||
+			currentItem.type === 'video');
+
 	return (
-		<MediaModal
-			title={modalTitle}
-			fileName={fileName}
-			expiryInfo={
-				expiryInfo
-					? {
-							expiresAt: expiryInfo.expiresAt,
-							isExpired: expiryInfo.isExpired,
-						}
-					: undefined
-			}
-			dimensions={dimensions}
-			isFavorited={
-				channelId &&
-				messageId &&
-				(currentItem.type === 'image' || currentItem.type === 'gif' || currentItem.type === 'gifv')
-					? isFavorited
-					: undefined
-			}
-			onFavorite={
-				channelId &&
-				messageId &&
-				(currentItem.type === 'image' || currentItem.type === 'gif' || currentItem.type === 'gifv')
-					? handleFavoriteClick
-					: undefined
-			}
-			onSave={currentItem.type !== 'gifv' ? handleSave : undefined}
-			onOpenInBrowser={handleOpenInBrowser}
-			enablePanZoom={currentItem.type === 'image' || currentItem.type === 'gif' || currentItem.type === 'gifv'}
-			currentIndex={currentIndex}
-			totalAttachments={items.length}
-			onPrevious={currentIndex > 0 ? handlePrevious : undefined}
-			onNext={currentIndex < items.length - 1 ? handleNext : undefined}
-			thumbnails={thumbnails}
-			onSelectThumbnail={handleThumbnailSelect}
-		>
-			<div
-				className={styles.mediaContextMenuWrapper}
-				onContextMenu={handleContextMenu}
-				role="region"
-				aria-label={modalTitle}
+		<>
+			<MediaModal
+				title={modalTitle}
+				fileName={fileName}
+				expiryInfo={
+					expiryInfo
+						? {
+								expiresAt: expiryInfo.expiresAt,
+								isExpired: expiryInfo.isExpired,
+							}
+						: undefined
+				}
+				dimensions={dimensions}
+				isFavorited={canFavoriteCurrentItem ? isFavorited : undefined}
+				onFavorite={canFavoriteCurrentItem ? handleFavoriteClick : undefined}
+				onSave={currentItem.type !== 'gifv' ? handleSave : undefined}
+				onOpenInBrowser={handleOpenInBrowser}
+				enablePanZoom={currentItem.type === 'image' || currentItem.type === 'gif' || currentItem.type === 'gifv'}
+				currentIndex={currentIndex}
+				totalAttachments={items.length}
+				onPrevious={items.length > 1 ? handlePrevious : undefined}
+				onNext={items.length > 1 ? handleNext : undefined}
+				thumbnails={thumbnails}
+				onSelectThumbnail={handleThumbnailSelect}
+				providerName={currentItem.providerName}
+				videoSrc={currentItem.type === 'video' ? currentItem.src : undefined}
+				initialTime={currentItem.initialTime}
+				mediaType={currentItem.type === 'audio' ? 'audio' : currentItem.type === 'video' ? 'video' : 'image'}
+				onMenuOpen={handleMenuOpen}
 			>
-				{renderMedia()}
-			</div>
-		</MediaModal>
+				<div
+					className={styles.mediaContextMenuWrapper}
+					onContextMenu={handleContextMenu}
+					role="region"
+					aria-label={modalTitle}
+				>
+					{renderMedia()}
+				</div>
+			</MediaModal>
+
+			{isMobile && message && (
+				<MobileMediaOptionsSheet
+					currentItem={currentItem}
+					defaultName={defaultName}
+					isOpen={isMediaMenuOpen}
+					message={message}
+					onClose={() => setIsMediaMenuOpen(false)}
+					onDelete={handleDelete}
+				/>
+			)}
+		</>
 	);
 });
 

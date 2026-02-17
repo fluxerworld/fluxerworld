@@ -17,41 +17,39 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as AccessibilityActionCreators from '@app/actions/AccessibilityActionCreators';
+import * as ModalActionCreators from '@app/actions/ModalActionCreators';
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import * as Modal from '@app/components/modals/Modal';
+import styles from '@app/components/modals/ThemeAcceptModal.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import {Logger} from '@app/lib/Logger';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import {buildThemeCssProxyUrl} from '@app/utils/ThemeUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CheckCircleIcon, ClipboardIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import highlight from 'highlight.js';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as AccessibilityActionCreators from '~/actions/AccessibilityActionCreators';
-import * as ModalActionCreators from '~/actions/ModalActionCreators';
-import * as TextCopyActionCreators from '~/actions/TextCopyActionCreators';
-import * as ToastActionCreators from '~/actions/ToastActionCreators';
-import * as Modal from '~/components/modals/Modal';
-import {Button} from '~/components/uikit/Button/Button';
-import RuntimeConfigStore from '~/stores/RuntimeConfigStore';
-import {buildMediaProxyURL} from '~/utils/MediaProxyUtils';
-import styles from './ThemeAcceptModal.module.css';
+import {useEffect, useState} from 'react';
+
+const logger = new Logger('ThemeAcceptModal');
 
 interface ThemeAcceptModalProps {
 	themeId: string;
 }
 
-const buildThemeUrl = (endpoint: string, themeId: string): string => {
-	const base = endpoint.replace(/\/$/, '');
-	return `${base}/themes/${themeId}.css`;
-};
-
 export const ThemeAcceptModal = observer(function ThemeAcceptModal({themeId}: ThemeAcceptModalProps) {
 	const {t, i18n} = useLingui();
-	const [isApplying, setIsApplying] = React.useState(false);
-	const [isCopied, setIsCopied] = React.useState(false);
-	const [css, setCss] = React.useState<string | null>(null);
-	const [fetchStatus, setFetchStatus] = React.useState<'idle' | 'loading' | 'error' | 'ready'>('idle');
-	const [fetchError, setFetchError] = React.useState<string | null>(null);
+	const [isApplying, setIsApplying] = useState(false);
+	const [isCopied, setIsCopied] = useState(false);
+	const [css, setCss] = useState<string | null>(null);
+	const [fetchStatus, setFetchStatus] = useState<'idle' | 'loading' | 'error' | 'ready'>('idle');
+	const [fetchError, setFetchError] = useState<string | null>(null);
 	const mediaEndpoint = RuntimeConfigStore.mediaEndpoint;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!mediaEndpoint) {
 			setCss(null);
 			setFetchStatus('idle');
@@ -66,7 +64,12 @@ export const ThemeAcceptModal = observer(function ThemeAcceptModal({themeId}: Th
 			setFetchError(null);
 
 			try {
-				const response = await fetch(buildMediaProxyURL(buildThemeUrl(mediaEndpoint, themeId)));
+				const themeUrl = buildThemeCssProxyUrl(mediaEndpoint, themeId);
+				if (!themeUrl) {
+					throw new Error('Media endpoint not configured');
+				}
+
+				const response = await fetch(themeUrl);
 				if (!response.ok) {
 					throw new Error('Theme not found');
 				}
@@ -78,7 +81,7 @@ export const ThemeAcceptModal = observer(function ThemeAcceptModal({themeId}: Th
 				setFetchStatus('ready');
 			} catch (error) {
 				if (cancelled) return;
-				console.error('Failed to fetch theme:', error);
+				logger.error('Failed to fetch theme:', error);
 				setCss(null);
 				setFetchStatus('error');
 				setFetchError(t`We couldn't read this theme. It may be corrupted or invalid.`);
@@ -115,7 +118,7 @@ export const ThemeAcceptModal = observer(function ThemeAcceptModal({themeId}: Th
 			ToastActionCreators.success(t`Theme applied successfully.`);
 			ModalActionCreators.pop();
 		} catch (error) {
-			console.error('Failed to apply theme:', error);
+			logger.error('Failed to apply theme:', error);
 			ToastActionCreators.error(t`We couldn't apply this theme.`);
 			setIsApplying(false);
 		}
@@ -137,10 +140,7 @@ export const ThemeAcceptModal = observer(function ThemeAcceptModal({themeId}: Th
 		}
 		try {
 			const highlighted = highlight.highlight(css, {language: 'css', ignoreIllegals: true});
-			return (
-				// biome-ignore lint/security/noDangerouslySetInnerHtml: highlight.js output is sanitized
-				<code className={styles.hljs} dangerouslySetInnerHTML={{__html: highlighted.value}} />
-			);
+			return <code className={styles.hljs} dangerouslySetInnerHTML={{__html: highlighted.value}} />;
 		} catch {
 			return <code className={styles.hljs}>{css}</code>;
 		}
@@ -148,7 +148,7 @@ export const ThemeAcceptModal = observer(function ThemeAcceptModal({themeId}: Th
 
 	return (
 		<Modal.Root size="medium">
-			<Modal.Header title={<Trans>Import theme</Trans>} />
+			<Modal.Header title={<Trans>Import Theme</Trans>} />
 			<Modal.Content padding="none" className={styles.content}>
 				<p className={styles.description}>
 					<Trans>This will replace your current custom theme. You can edit it later in your User Settings.</Trans>

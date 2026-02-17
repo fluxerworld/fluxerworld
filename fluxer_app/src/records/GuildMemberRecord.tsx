@@ -17,57 +17,44 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {GuildMemberProfileFlags} from '~/Constants';
-import type {GuildRoleRecord} from '~/records/GuildRoleRecord';
-import type {UserPartial} from '~/records/UserRecord';
-import {UserRecord} from '~/records/UserRecord';
-import AuthenticationStore from '~/stores/AuthenticationStore';
-import GuildStore from '~/stores/GuildStore';
-import UserStore from '~/stores/UserStore';
-import * as ColorUtils from '~/utils/ColorUtils';
+import type {GuildRoleRecord} from '@app/records/GuildRoleRecord';
+import {UserRecord} from '@app/records/UserRecord';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import GuildStore from '@app/stores/GuildStore';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import UserStore from '@app/stores/UserStore';
+import * as ColorUtils from '@app/utils/ColorUtils';
+import {GuildMemberProfileFlags} from '@fluxer/constants/src/GuildConstants';
+import type {GuildMemberData} from '@fluxer/schema/src/domains/guild/GuildMemberSchemas';
 
-export type GuildMember = Readonly<{
-	user: UserPartial;
-	nick?: string | null;
-	avatar?: string | null;
-	banner?: string | null;
-	accent_color?: string | null;
-	roles: ReadonlyArray<string>;
-	joined_at: string;
-	join_source_type?: number | null;
-	source_invite_code?: string | null;
-	inviter_id?: string | null;
-	mute?: boolean;
-	deaf?: boolean;
-	communication_disabled_until?: string | null;
-	profile_flags?: number | null;
-}>;
+interface GuildMemberRecordOptions {
+	instanceId?: string;
+}
 
 export class GuildMemberRecord {
+	readonly instanceId: string;
 	readonly guildId: string;
 	readonly user: UserRecord;
 	readonly nick: string | null;
 	readonly avatar: string | null;
 	readonly banner: string | null;
-	readonly accentColor: string | null;
+	readonly accentColor: number | null;
 	readonly roles: ReadonlySet<string>;
 	readonly joinedAt: Date;
-	readonly joinSourceType: number | null;
-	readonly sourceInviteCode: string | null;
-	readonly inviterId: string | null;
 	readonly mute: boolean;
 	readonly deaf: boolean;
 	readonly communicationDisabledUntil: Date | null;
 	readonly profileFlags: number;
 
-	constructor(guildId: string, guildMember: GuildMember) {
+	constructor(guildId: string, guildMember: GuildMemberData, options?: GuildMemberRecordOptions) {
+		this.instanceId = options?.instanceId ?? RuntimeConfigStore.localInstanceDomain;
 		this.guildId = guildId;
 
 		const cachedUser = UserStore.getUser(guildMember.user.id);
 		if (cachedUser) {
 			this.user = cachedUser;
 		} else {
-			this.user = new UserRecord(guildMember.user);
+			this.user = new UserRecord(guildMember.user, {instanceId: this.instanceId});
 			UserStore.cacheUsers([this.user.toJSON()]);
 		}
 
@@ -77,9 +64,6 @@ export class GuildMemberRecord {
 		this.accentColor = guildMember.accent_color ?? null;
 		this.roles = new Set(guildMember.roles);
 		this.joinedAt = new Date(guildMember.joined_at);
-		this.joinSourceType = guildMember.join_source_type ?? null;
-		this.sourceInviteCode = guildMember.source_invite_code ?? null;
-		this.inviterId = guildMember.inviter_id ?? null;
 		this.mute = guildMember.mute ?? false;
 		this.deaf = guildMember.deaf ?? false;
 		this.communicationDisabledUntil = guildMember.communication_disabled_until
@@ -96,31 +80,36 @@ export class GuildMemberRecord {
 		return (this.profileFlags & GuildMemberProfileFlags.BANNER_UNSET) !== 0;
 	}
 
-	withUpdates(updates: Partial<GuildMember>): GuildMemberRecord {
-		return new GuildMemberRecord(this.guildId, {
-			user: updates.user ?? this.user.toJSON(),
-			nick: updates.nick ?? this.nick,
-			avatar: updates.avatar ?? this.avatar,
-			banner: updates.banner ?? this.banner,
-			accent_color: updates.accent_color ?? this.accentColor,
-			roles: updates.roles ?? Array.from(this.roles),
-			joined_at: updates.joined_at ?? this.joinedAt.toISOString(),
-			join_source_type: updates.join_source_type ?? this.joinSourceType,
-			source_invite_code: updates.source_invite_code ?? this.sourceInviteCode,
-			inviter_id: updates.inviter_id ?? this.inviterId,
-			mute: updates.mute ?? this.mute,
-			deaf: updates.deaf ?? this.deaf,
-			communication_disabled_until:
-				updates.communication_disabled_until ?? this.communicationDisabledUntil?.toISOString() ?? null,
-			profile_flags: updates.profile_flags ?? this.profileFlags,
-		});
+	withUpdates(updates: Partial<GuildMemberData>): GuildMemberRecord {
+		return new GuildMemberRecord(
+			this.guildId,
+			{
+				user: updates.user ?? this.user.toJSON(),
+				nick: updates.nick ?? this.nick,
+				avatar: updates.avatar ?? this.avatar,
+				banner: updates.banner ?? this.banner,
+				accent_color: updates.accent_color ?? this.accentColor,
+				roles: updates.roles ?? Array.from(this.roles),
+				joined_at: updates.joined_at ?? this.joinedAt.toISOString(),
+				mute: updates.mute ?? this.mute,
+				deaf: updates.deaf ?? this.deaf,
+				communication_disabled_until:
+					updates.communication_disabled_until ?? this.communicationDisabledUntil?.toISOString() ?? null,
+				profile_flags: updates.profile_flags ?? this.profileFlags,
+			},
+			{instanceId: this.instanceId},
+		);
 	}
 
 	withRoles(roles: Iterable<string>): GuildMemberRecord {
-		return new GuildMemberRecord(this.guildId, {
-			...this.toJSON(),
-			roles: Array.from(roles),
-		});
+		return new GuildMemberRecord(
+			this.guildId,
+			{
+				...this.toJSON(),
+				roles: Array.from(roles),
+			},
+			{instanceId: this.instanceId},
+		);
 	}
 
 	getSortedRoles(): ReadonlyArray<GuildRoleRecord> {
@@ -170,7 +159,7 @@ export class GuildMemberRecord {
 		return this.communicationDisabledUntil.getTime() > Date.now();
 	}
 
-	toJSON(): GuildMember {
+	toJSON(): GuildMemberData {
 		return {
 			user: this.user.toJSON(),
 			nick: this.nick,
@@ -179,9 +168,6 @@ export class GuildMemberRecord {
 			accent_color: this.accentColor,
 			roles: Array.from(this.roles),
 			joined_at: this.joinedAt.toISOString(),
-			join_source_type: this.joinSourceType,
-			source_invite_code: this.sourceInviteCode,
-			inviter_id: this.inviterId,
 			mute: this.mute,
 			deaf: this.deaf,
 			communication_disabled_until: this.communicationDisabledUntil?.toISOString() ?? null,

@@ -17,23 +17,23 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as RecentMentionActionCreators from '@app/actions/RecentMentionActionCreators';
+import {MessageListPage} from '@app/components/pages/MessageListPage';
+import styles from '@app/components/pages/RecentMentionsPage.module.css';
+import previewStyles from '@app/components/shared/MessagePreview.module.css';
+import type {MessageRecord} from '@app/records/MessageRecord';
+import RecentMentionsStore from '@app/stores/RecentMentionsStore';
 import {useLingui} from '@lingui/react/macro';
 import {AtIcon, XIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import * as RecentMentionActionCreators from '~/actions/RecentMentionActionCreators';
-import {MessageListPage} from '~/components/pages/MessageListPage';
-import previewStyles from '~/components/shared/MessagePreview.module.css';
-import type {MessageRecord} from '~/records/MessageRecord';
-import RecentMentionsStore from '~/stores/RecentMentionsStore';
-import styles from './RecentMentionsPage.module.css';
+import {useEffect} from 'react';
 
 export const RecentMentionsPage = observer(() => {
 	const {t} = useLingui();
 	const recentMentions = RecentMentionsStore.recentMentions;
 	const fetched = RecentMentionsStore.fetched;
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!fetched) {
 			RecentMentionActionCreators.fetch();
 		}
@@ -45,7 +45,7 @@ export const RecentMentionsPage = observer(() => {
 			className={previewStyles.actionIconButton}
 			onClick={() => RecentMentionActionCreators.remove(message.id)}
 		>
-			<XIcon weight="regular" className={previewStyles.actionIcon} />
+			<XIcon weight="bold" className={previewStyles.actionIcon} />
 		</button>
 	);
 

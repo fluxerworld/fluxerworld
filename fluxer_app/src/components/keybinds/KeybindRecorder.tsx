@@ -17,18 +17,20 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import styles from '@app/components/keybinds/KeybindRecorder.module.css';
+import {Button} from '@app/components/uikit/button/Button';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
+import {Popout} from '@app/components/uikit/popout/Popout';
+import type {KeybindCommand, KeyCombo} from '@app/stores/KeybindStore';
+import {formatKeyCombo} from '@app/utils/KeybindUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {ArrowCounterClockwiseIcon, KeyboardIcon, PencilSimpleIcon, TrashIcon} from '@phosphor-icons/react';
 import clsx from 'clsx';
-import React from 'react';
-import {Button} from '~/components/uikit/Button/Button';
-import {Popout} from '~/components/uikit/Popout/Popout';
-import type {KeybindAction, KeyCombo} from '~/stores/KeybindStore';
-import {formatKeyCombo} from '~/utils/KeybindUtils';
-import styles from './KeybindRecorder.module.css';
+import type React from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 
 interface KeybindRecorderProps {
-	action: KeybindAction;
+	action: KeybindCommand;
 	value: KeyCombo;
 	defaultValue?: KeyCombo | null;
 	disabled?: boolean;
@@ -89,8 +91,8 @@ const KeybindEditorPopout: React.FC<KeybindEditorPopoutProps> = ({
 	onClose,
 }) => {
 	const {t} = useLingui();
-	const [recording, setRecording] = React.useState(false);
-	const [previewCombo, setPreviewCombo] = React.useState<KeyCombo | null>(null);
+	const [recording, setRecording] = useState(false);
+	const [previewCombo, setPreviewCombo] = useState<KeyCombo | null>(null);
 
 	const currentCombo = previewCombo ?? value;
 	const displayValue = formatKeyCombo(currentCombo) || '';
@@ -98,22 +100,22 @@ const KeybindEditorPopout: React.FC<KeybindEditorPopoutProps> = ({
 	const currentHasValue = !!(currentCombo?.key || currentCombo?.code);
 	const currentIsModified = defaultValue ? !combosEqual(currentCombo, defaultValue) : false;
 
-	const cancelRecording = React.useCallback(() => {
+	const cancelRecording = useCallback(() => {
 		setRecording(false);
 		setPreviewCombo(null);
 	}, []);
 
-	const finishRecording = React.useCallback((combo: KeyCombo) => {
+	const finishRecording = useCallback((combo: KeyCombo) => {
 		setRecording(false);
 		setPreviewCombo(combo);
 	}, []);
 
-	const startRecording = React.useCallback(() => {
+	const startRecording = useCallback(() => {
 		setPreviewCombo(null);
 		setRecording(true);
 	}, []);
 
-	React.useEffect(() => {
+	useEffect(() => {
 		if (!recording) return;
 
 		const handleKeyDown = (event: KeyboardEvent) => {
@@ -169,24 +171,26 @@ const KeybindEditorPopout: React.FC<KeybindEditorPopoutProps> = ({
 				</span>
 			</div>
 
-			<div
-				className={clsx(styles.recorderBox, recording && styles.recorderBoxRecording)}
-				onClick={startRecording}
-				onKeyDown={(e) => {
-					if (e.key === 'Enter' || e.key === ' ') {
-						e.preventDefault();
-						startRecording();
-					}
-				}}
-				tabIndex={0}
-				role="button"
-				aria-label={t`Record shortcut`}
-			>
-				<KeyboardIcon size={20} weight="bold" className={styles.recorderIcon} />
-				<span className={styles.recorderText}>
-					{recording ? <Trans>Press keys...</Trans> : currentHasValue ? displayValue : <Trans>Click to record</Trans>}
-				</span>
-			</div>
+			<FocusRing offset={-2}>
+				<div
+					className={clsx(styles.recorderBox, recording && styles.recorderBoxRecording)}
+					onClick={startRecording}
+					onKeyDown={(e) => {
+						if (e.key === 'Enter' || e.key === ' ') {
+							e.preventDefault();
+							startRecording();
+						}
+					}}
+					tabIndex={0}
+					role="button"
+					aria-label={t`Record shortcut`}
+				>
+					<KeyboardIcon size={20} weight="bold" className={styles.recorderIcon} />
+					<span className={styles.recorderText}>
+						{recording ? <Trans>Press keys...</Trans> : currentHasValue ? displayValue : <Trans>Click to record</Trans>}
+					</span>
+				</div>
+			</FocusRing>
 
 			{defaultDisplayValue && (
 				<div className={styles.defaultRow}>
@@ -235,7 +239,7 @@ export const KeybindRecorder: React.FC<KeybindRecorderProps> = ({
 	className,
 }) => {
 	const {t} = useLingui();
-	const triggerRef = React.useRef<HTMLButtonElement | null>(null);
+	const triggerRef = useRef<HTMLButtonElement | null>(null);
 
 	const isEmpty = !value?.key && !value?.code;
 	const hasValue = !isEmpty;

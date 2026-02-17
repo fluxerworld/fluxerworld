@@ -1,0 +1,28 @@
+port: 7880
+
+keys:
+  '{{API_KEY}}': '{{API_SECRET}}'
+
+rtc:
+  tcp_port: 7881
+  port_range_start: 50000
+  port_range_end: 50100
+  use_external_ip: false
+  node_ip: {{NODE_IP}}
+
+turn:
+  enabled: true
+  domain: {{TURN_DOMAIN}}
+  udp_port: 3478
+
+webhook:
+  api_key: '{{API_KEY}}'
+  urls:
+    - '{{WEBHOOK_URL}}'
+
+room:
+  auto_create: true
+  max_participants: 100
+  empty_timeout: 300
+
+development: true

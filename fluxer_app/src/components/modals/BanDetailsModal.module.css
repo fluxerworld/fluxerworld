@@ -17,12 +17,6 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-.container {
-	display: flex;
-	flex-direction: column;
-	gap: 1.25rem;
-}
-
 .userSection {
 	display: flex;
 	align-items: center;

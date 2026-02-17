@@ -17,14 +17,16 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {type AutocompleteOption, isGif} from '@app/components/channel/Autocomplete';
+import styles from '@app/components/channel/AutocompleteGif.module.css';
+import {Scroller, type ScrollerHandle} from '@app/components/uikit/Scroller';
+import PoweredByKlipySvg from '@app/images/powered-by-klipy.svg?react';
+import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import * as KlipyUtils from '@app/utils/KlipyUtils';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
-import React from 'react';
-import {Scroller, type ScrollerHandle} from '~/components/uikit/Scroller';
-import * as TenorUtils from '~/utils/TenorUtils';
-import {type AutocompleteOption, isGif} from './Autocomplete';
-
-import styles from './AutocompleteGif.module.css';
+import type React from 'react';
+import {useCallback, useLayoutEffect, useRef} from 'react';
 
 export const AutocompleteGif = observer(
 	({
@@ -45,10 +47,12 @@ export const AutocompleteGif = observer(
 		rowRefs?: React.MutableRefObject<Array<HTMLButtonElement | null>>;
 	}) => {
 		const {t} = useLingui();
+		const isKlipy = RuntimeConfigStore.gifProvider === 'klipy';
+		const fromKlipyText = t`From KLIPY`;
 		const gifs = options.filter(isGif);
-		const scrollerRef = React.useRef<ScrollerHandle>(null);
+		const scrollerRef = useRef<ScrollerHandle>(null);
 
-		const handleKeyDown = React.useCallback((event: React.KeyboardEvent) => {
+		const handleKeyDown = useCallback((event: React.KeyboardEvent) => {
 			switch (event.key) {
 				case 'ArrowDown':
 				case 'ArrowUp': {
@@ -58,7 +62,7 @@ export const AutocompleteGif = observer(
 			}
 		}, []);
 
-		React.useLayoutEffect(() => {
+		useLayoutEffect(() => {
 			const selectedElement = rowRefs?.current[keyboardFocusIndex];
 			if (selectedElement && scrollerRef.current) {
 				scrollerRef.current.scrollIntoViewNode({
@@ -75,18 +79,21 @@ export const AutocompleteGif = observer(
 
 		return (
 			<div className={styles.container} onKeyDown={handleKeyDown} role="application">
-				<div className={styles.heading}>{t`GIFs`}</div>
+				<div className={styles.heading}>
+					<span>{t`GIFs`}</span>
+					{isKlipy ? <PoweredByKlipySvg className={styles.attribution} /> : null}
+				</div>
 
 				<Scroller
 					ref={scrollerRef}
 					className={styles.scroller}
 					orientation="horizontal"
-					fade={false}
+					fade={true}
 					key="autocomplete-gif-scroller"
 				>
 					{gifs.map((option, index) => {
 						const gif = option.gif;
-						const title = gif.title || TenorUtils.parseTitleFromUrl(gif.url);
+						const title = gif.title || KlipyUtils.parseTitleFromUrl(gif.url);
 						const isActive = index === keyboardFocusIndex || index === hoverIndex;
 						return (
 							<button
@@ -101,7 +108,7 @@ export const AutocompleteGif = observer(
 								onClick={() => onSelect(option)}
 								onMouseEnter={() => onMouseEnter(index)}
 								onMouseLeave={onMouseLeave}
-								aria-label={`${title} - ${t`From Tenor`}`}
+								aria-label={isKlipy ? `${title} - ${fromKlipyText}` : title}
 							>
 								<div className={styles.gifVideoWrapper}>
 									<video src={gif.proxy_src} className={styles.gifVideo} muted autoPlay loop playsInline />

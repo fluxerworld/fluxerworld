@@ -1,25 +1,57 @@
 {
 	"name": "fluxer",
 	"private": true,
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "sh scripts/run_dev.sh",
+		"dev:docs": "cd fluxer_docs && npx mint dev --no-open",
+		"dev:cassandra": "FLUXER_DATABASE=cassandra sh scripts/run_dev.sh",
+		"docs:generate": "node fluxer_docs/scripts/generate_resources.mjs && node fluxer_docs/scripts/generate_config.mjs && node fluxer_docs/scripts/generate_media_proxy.mjs",
+		"docs:generate:config": "node fluxer_docs/scripts/generate_config.mjs",
+		"docs:generate:media-proxy": "node fluxer_docs/scripts/generate_media_proxy.mjs",
+		"docs:generate:resources": "node fluxer_docs/scripts/generate_resources.mjs",
+		"i18n:generate": "pnpm --filter @fluxer/i18n generate:types",
+		"i18n:prune:apply": "pnpm --filter @fluxer/i18n prune:apply",
+		"i18n:prune:dry": "pnpm --filter @fluxer/i18n prune:dry",
+		"i18n:typecheck": "pnpm --filter @fluxer/errors --filter @fluxer/email --filter @fluxer/marketing typecheck",
+		"knip": "pnpm --filter fluxer_app i18n:compile && FLUXER_CONFIG=config/config.test.json knip",
+		"lint": "turbo run lint",
+		"schema:generate": "pnpm --filter @fluxer/config run generate && node fluxer_docs/scripts/generate_config.mjs",
+		"test": "turbo run test --filter='!@fluxer/integration'",
+		"test:integration": "pnpm --filter @fluxer/integration test",
+		"typecheck": "turbo run typecheck"
+	},
 	"prettier": {
 		"bracketSpacing": false,
 		"printWidth": 120,
 		"singleQuote": true,
 		"tabWidth": 2,
-		"useTabs": true,
-		"plugins": [
-			"prettier-plugin-astro"
-		]
+		"useTabs": true
 	},
 	"devDependencies": {
-		"@biomejs/biome": "2.3.10",
-		"prettier": "3.7.4",
-		"prettier-plugin-astro": "0.14.1",
-		"typescript": "5.9.3"
+		"@biomejs/biome": "catalog:",
+		"@vitest/coverage-v8": "catalog:",
+		"knip": "catalog:",
+		"turbo": "^2.8.3"
 	},
+	"packageManager": "pnpm@10.29.3",
 	"pnpm": {
-		"onlyBuiltDependencies": [
-			"@biomejs/biome"
-		]
+		"peerDependencyRules": {
+			"allowedVersions": {
+				"react": "*"
+			},
+			"ignoreMissing": [
+				"webpack",
+				"babel-plugin-macros"
+			]
+		},
+		"overrides": {
+			"@lingui/swc-plugin": "catalog:",
+			"@rspack/cli": "catalog:",
+			"@rspack/core": "catalog:"
+		},
+		"patchedDependencies": {
+			"@phosphor-icons/react@2.1.10": "patches/@phosphor-icons__react@2.1.10.patch"
+		}
 	}
 }

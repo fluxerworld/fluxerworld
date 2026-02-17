@@ -17,10 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {ElectronAPI} from '../src-electron/common/types';
+import MediaEngineFacade from '@app/stores/voice/MediaEngineFacade';
+import type {ElectronAPI} from '@app/types/ElectronTypes';
+import {Buffer} from 'buffer';
 
-type MediaEngineStoreInstance = typeof import('~/stores/voice/MediaEngineFacade').default;
-type NodeBufferConstructor = typeof import('buffer').Buffer;
+type MediaEngineStoreInstance = typeof MediaEngineFacade;
+type NodeBufferConstructor = typeof Buffer;
 
 declare global {
 	interface FilePickerAcceptType {
@@ -51,29 +53,14 @@ declare global {
 		readonly MODE: 'development' | 'production' | 'test';
 		readonly DEV: boolean;
 		readonly PROD: boolean;
-		readonly PUBLIC_API_ENDPOINT?: string;
-		readonly PUBLIC_API_ENDPOINT_PROXY?: string | null;
-		readonly PUBLIC_API_VERSION?: string;
-		readonly PUBLIC_GATEWAY_ENDPOINT?: string;
-		readonly PUBLIC_MEDIA_PROXY_ENDPOINT?: string;
-		readonly PUBLIC_BUILD_SHA?: string;
 		readonly PUBLIC_BUILD_NUMBER?: string;
 		readonly PUBLIC_BUILD_TIMESTAMP?: string;
-		readonly PUBLIC_PROJECT_ENV?: 'stable' | 'canary' | 'development';
-		readonly PUBLIC_SENTRY_DSN?: string;
-		readonly PUBLIC_SENTRY_PROJECT_ID?: string;
-		readonly PUBLIC_SENTRY_PUBLIC_KEY?: string;
-		readonly PUBLIC_SENTRY_PROXY_PATH?: string;
-		readonly PUBLIC_CAPTCHA_PRIMARY_PROVIDER?: 'hcaptcha' | 'turnstile' | 'none';
-		readonly PUBLIC_HCAPTCHA_SITE_KEY?: string;
-		readonly PUBLIC_TURNSTILE_SITE_KEY?: string;
-		readonly PUBLIC_INVITE_ENDPOINT?: string;
-		readonly PUBLIC_GIFT_ENDPOINT?: string;
-		readonly PUBLIC_MARKETING_ENDPOINT?: string;
-		readonly PUBLIC_ADMIN_ENDPOINT?: string;
-		readonly PUBLIC_CDN_ENDPOINT?: string;
+		readonly PUBLIC_RELEASE_CHANNEL?: 'stable' | 'canary' | 'nightly';
+		readonly PUBLIC_BUILD_SHA?: string;
 		readonly PUBLIC_BOOTSTRAP_API_ENDPOINT?: string;
 		readonly PUBLIC_BOOTSTRAP_API_PUBLIC_ENDPOINT?: string;
+		readonly PUBLIC_RELAY_DIRECTORY_URL?: string;
+		readonly PUBLIC_RELAY_MODE_ENABLED?: string;
 	}
 
 	interface ImportMetaHot {
@@ -101,6 +88,7 @@ declare global {
 		electron?: ElectronAPI;
 		MSStream?: unknown;
 		webkitAudioContext?: typeof AudioContext;
+		styleMedia: StyleMedia;
 		showSaveFilePicker?: (options?: SaveFilePickerOptions) => Promise<FileSystemFileHandle>;
 	}
 
@@ -108,5 +96,3 @@ declare global {
 		Buffer?: NodeBufferConstructor;
 	}
 }
-
-export {};

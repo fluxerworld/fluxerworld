@@ -1,0 +1,15 @@
+---
+title: 'OAuth2'
+description: 'OAuth2 scopes in Fluxer and what each scope enables.'
+---
+
+OAuth2 scopes define the level of access that an application can request from a user. When a user authorizes an application, they grant permission for the application to access specific resources on their behalf.
+
+## Available scopes
+
+| Scope | Description |
+|-------|-------------|
+| `identify` | Allows access to basic user information including username, discriminator, avatar, and flags. |
+| `email` | Allows access to the user's email address. Requires the identify scope. |
+| `guilds` | Allows access to the list of guilds the user is a member of. |
+| `bot` | Used for bot authorization. Adds a bot to a guild on behalf of the authorizing user. |

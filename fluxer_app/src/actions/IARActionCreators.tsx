@@ -17,18 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
 
 const logger = new Logger('IAR');
 
-export const reportMessage = async (
+export async function reportMessage(
 	channelId: string,
 	messageId: string,
 	category: string,
 	additionalInfo?: string,
-): Promise<void> => {
+): Promise<void> {
 	try {
 		logger.debug(`Reporting message ${messageId} in channel ${channelId}`);
 		await http.post({
@@ -45,14 +45,14 @@ export const reportMessage = async (
 		logger.error('Failed to submit message report:', error);
 		throw error;
 	}
-};
+}
 
-export const reportUser = async (
+export async function reportUser(
 	userId: string,
 	category: string,
 	additionalInfo?: string,
 	guildId?: string,
-): Promise<void> => {
+): Promise<void> {
 	try {
 		logger.debug(`Reporting user ${userId}${guildId ? ` in guild ${guildId}` : ''}`);
 		await http.post({
@@ -69,9 +69,9 @@ export const reportUser = async (
 		logger.error('Failed to submit user report:', error);
 		throw error;
 	}
-};
+}
 
-export const reportGuild = async (guildId: string, category: string, additionalInfo?: string): Promise<void> => {
+export async function reportGuild(guildId: string, category: string, additionalInfo?: string): Promise<void> {
 	try {
 		logger.debug(`Reporting guild ${guildId}`);
 		await http.post({
@@ -87,4 +87,4 @@ export const reportGuild = async (guildId: string, category: string, additionalI
 		logger.error('Failed to submit guild report:', error);
 		throw error;
 	}
-};
+}

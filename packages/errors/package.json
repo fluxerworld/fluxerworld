@@ -1,0 +1,30 @@
+{
+	"name": "@fluxer/errors",
+	"version": "0.0.0",
+	"private": true,
+	"type": "module",
+	"exports": {
+		"./*": "./*"
+	},
+	"scripts": {
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"typecheck": "tsgo --noEmit"
+	},
+	"dependencies": {
+		"@fluxer/config": "workspace:*",
+		"@fluxer/constants": "workspace:*",
+		"@fluxer/hono_types": "workspace:*",
+		"@fluxer/i18n": "workspace:*",
+		"@fluxer/logger": "workspace:*",
+		"@fluxer/sentry": "workspace:*",
+		"@fluxer/telemetry": "workspace:*",
+		"hono": "catalog:"
+	},
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@typescript/native-preview": "catalog:",
+		"vite-tsconfig-paths": "catalog:",
+		"vitest": "catalog:"
+	}
+}

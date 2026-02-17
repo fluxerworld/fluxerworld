@@ -17,28 +17,28 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {Endpoints} from '~/Endpoints';
-import http from '~/lib/HttpClient';
-import {Logger} from '~/lib/Logger';
-import type {GuildMember} from '~/records/GuildMemberRecord';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
+import {Logger} from '@app/lib/Logger';
+import type {GuildMemberData} from '@fluxer/schema/src/domains/guild/GuildMemberSchemas';
 
 const logger = new Logger('GuildMembers');
 
-export const update = async (
+export async function update(
 	guildId: string,
 	userId: string,
-	params: Partial<GuildMember> & {channel_id?: string | null; connection_id?: string},
-): Promise<void> => {
+	params: Partial<GuildMemberData> & {channel_id?: string | null; connection_id?: string},
+): Promise<void> {
 	try {
 		await http.patch({url: Endpoints.GUILD_MEMBER(guildId, userId), body: params});
-		logger.debug(`Updated member ${userId} in guild ${guildId}`, {connection_id: params.connection_id});
+		logger.debug(`Updated member ${userId} in guild ${guildId}`, {connection_id: params['connection_id']});
 	} catch (error) {
 		logger.error(`Failed to update member ${userId} in guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const addRole = async (guildId: string, userId: string, roleId: string): Promise<void> => {
+export async function addRole(guildId: string, userId: string, roleId: string): Promise<void> {
 	try {
 		await http.put({url: Endpoints.GUILD_MEMBER_ROLE(guildId, userId, roleId)});
 		logger.debug(`Added role ${roleId} to member ${userId} in guild ${guildId}`);
@@ -46,9 +46,9 @@ export const addRole = async (guildId: string, userId: string, roleId: string): 
 		logger.error(`Failed to add role ${roleId} to member ${userId} in guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const removeRole = async (guildId: string, userId: string, roleId: string): Promise<void> => {
+export async function removeRole(guildId: string, userId: string, roleId: string): Promise<void> {
 	try {
 		await http.delete({url: Endpoints.GUILD_MEMBER_ROLE(guildId, userId, roleId)});
 		logger.debug(`Removed role ${roleId} from member ${userId} in guild ${guildId}`);
@@ -56,9 +56,9 @@ export const removeRole = async (guildId: string, userId: string, roleId: string
 		logger.error(`Failed to remove role ${roleId} from member ${userId} in guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const updateProfile = async (
+export async function updateProfile(
 	guildId: string,
 	params: {
 		avatar?: string | null;
@@ -69,7 +69,7 @@ export const updateProfile = async (
 		nick?: string | null;
 		profile_flags?: number | null;
 	},
-): Promise<void> => {
+): Promise<void> {
 	try {
 		await http.patch({url: Endpoints.GUILD_MEMBER(guildId), body: params});
 		logger.debug(`Updated current user's per-guild profile in guild ${guildId}`);
@@ -77,9 +77,9 @@ export const updateProfile = async (
 		logger.error(`Failed to update current user's per-guild profile in guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const kick = async (guildId: string, userId: string): Promise<void> => {
+export async function kick(guildId: string, userId: string): Promise<void> {
 	try {
 		await http.delete({url: Endpoints.GUILD_MEMBER(guildId, userId)});
 		logger.debug(`Kicked member ${userId} from guild ${guildId}`);
@@ -87,14 +87,14 @@ export const kick = async (guildId: string, userId: string): Promise<void> => {
 		logger.error(`Failed to kick member ${userId} from guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}
 
-export const timeout = async (
+export async function timeout(
 	guildId: string,
 	userId: string,
 	communicationDisabledUntil: string | null,
 	timeoutReason?: string | null,
-): Promise<void> => {
+): Promise<void> {
 	try {
 		const body: Record<string, string | null> = {
 			communication_disabled_until: communicationDisabledUntil,
@@ -111,4 +111,4 @@ export const timeout = async (
 		logger.error(`Failed to update timeout for member ${userId} in guild ${guildId}:`, error);
 		throw error;
 	}
-};
+}
