@@ -68,7 +68,7 @@ Type: [ApplicationResponse](#applicationresponse)[]
 |-------|------|-------------|
 | bot | ?[ApplicationBotResponse](#applicationbotresponse) | The bot user associated with the application |
 | bot_public | boolean | Whether the bot can be invited by anyone |
-| description | null | The description of the application |
+| description | ?string | The description of the application |
 | icon | ?string | The icon hash of the application |
 | id | [SnowflakeType](#snowflaketype) | The unique identifier of the application |
 | name | string | The name of the application |
@@ -109,9 +109,9 @@ Type: [ApplicationResponse](#applicationresponse)[]
 | bot? | [ApplicationBotResponse](#applicationbotresponse) |  |
 | bot_public | boolean | Whether the bot can be invited by anyone |
 | bot_require_code_grant | boolean | Whether the bot requires OAuth2 code grant |
-| description | null | The description of the application |
+| description | ?string | The description of the application |
 | flags | [ApplicationFlags](#applicationflags) |  |
-| icon | null | The icon hash of the application |
+| icon | ?string | The icon hash of the application |
 | id | [SnowflakeType](#snowflaketype) | The unique identifier of the application |
 | name | string | The name of the application |
 
@@ -381,7 +381,7 @@ The application that was authorized
 | Field | Type | Description |
 |-------|------|-------------|
 | bot_public | boolean | Whether the bot can be invited by anyone |
-| description | null | The description of the application |
+| description | ?string | The description of the application |
 | icon | ?string | The icon hash of the application |
 | id | [SnowflakeType](#snowflaketype) | The unique identifier of the application |
 | name | string | The name of the application |
@@ -396,9 +396,9 @@ The application associated with the token
 |-------|------|-------------|
 | bot_public | boolean | Whether the bot can be invited by anyone |
 | bot_require_code_grant | boolean | Whether the bot requires OAuth2 code grant |
-| description | null | The description of the application |
+| description | ?string | The description of the application |
 | flags | [ApplicationFlags](#applicationflags) |  |
-| icon | null | The icon hash of the application |
+| icon | ?string | The icon hash of the application |
 | id | [SnowflakeType](#snowflaketype) | The unique identifier of the application |
 | name | string | The name of the application |
 

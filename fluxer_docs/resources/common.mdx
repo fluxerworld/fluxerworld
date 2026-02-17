@@ -167,6 +167,20 @@ Type: [DiscoveryCategoryResponse](#discoverycategoryresponse)[]
 | online_count | number | Approximate online member count |
 | verification_level | number | Verification level |
 
+<a id="discoverystatusresponse"></a>
+
+## DiscoveryStatusResponse
+
+**Related endpoints**
+
+- [`GET /guilds/{guild_id}/discovery`](/api-reference/discovery/get-discovery-status)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| application? | ?[DiscoveryApplicationResponse](#discoveryapplicationresponse) | Current discovery application, if any |
+| eligible | boolean | Whether the guild meets the requirements to apply for discovery |
+| min_member_count | number | Minimum member count required for discovery eligibility |
+
 <a id="donationcheckoutrequest"></a>
 
 ## DonationCheckoutRequest

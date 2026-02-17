@@ -30215,7 +30215,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DiscoveryApplicationResponse"
+                  "$ref": "#/components/schemas/DiscoveryStatusResponse"
                 }
               }
             }
@@ -30326,7 +30326,7 @@
             "title": "Get discovery status"
           }
         },
-        "description": "Get the current discovery status of a guild. Requires MANAGE_GUILD permission.",
+        "description": "Get the current discovery status and eligibility of a guild. Requires MANAGE_GUILD permission.",
         "security": [
           {
             "sessionToken": []
@@ -60261,6 +60261,7 @@
           "DISCOVERY_APPLICATION_ALREADY_REVIEWED",
           "DISCOVERY_APPLICATION_NOT_FOUND",
           "DISCOVERY_DESCRIPTION_REQUIRED",
+          "DISCOVERY_DISABLED",
           "DISCOVERY_INSUFFICIENT_MEMBERS",
           "DISCOVERY_INVALID_CATEGORY",
           "DISCOVERY_NOT_DISCOVERABLE",
@@ -60543,6 +60544,7 @@
           "This discovery application has already been reviewed",
           "Discovery application not found",
           "A description is required for discovery",
+          "",
           "Community does not meet the minimum member count for discovery",
           "Invalid discovery category",
           "This community is not listed in discovery",
@@ -67236,18 +67238,14 @@
             "description": "The slot index"
           },
           "user_id": {
-            "anyOf": [
+            "oneOf": [
               {
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/SnowflakeType"
-                  },
-                  {
-                    "type": "string",
-                    "enum": [
-                      "-1"
-                    ]
-                  }
+                "$ref": "#/components/schemas/SnowflakeType"
+              },
+              {
+                "type": "string",
+                "enum": [
+                  "-1"
                 ]
               },
               {
@@ -67302,18 +67300,14 @@
             "description": "Slot index to reserve (must be >= 1)"
           },
           "user_id": {
-            "anyOf": [
+            "oneOf": [
               {
-                "oneOf": [
-                  {
-                    "$ref": "#/components/schemas/SnowflakeType"
-                  },
-                  {
-                    "type": "string",
-                    "enum": [
-                      "-1"
-                    ]
-                  }
+                "$ref": "#/components/schemas/SnowflakeType"
+              },
+              {
+                "type": "string",
+                "enum": [
+                  "-1"
                 ]
               },
               {
@@ -75272,6 +75266,34 @@
           }
         }
       },
+      "DiscoveryStatusResponse": {
+        "type": "object",
+        "properties": {
+          "application": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/DiscoveryApplicationResponse"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Current discovery application, if any"
+          },
+          "eligible": {
+            "type": "boolean",
+            "description": "Whether the guild meets the requirements to apply for discovery"
+          },
+          "min_member_count": {
+            "type": "number",
+            "description": "Minimum member count required for discovery eligibility"
+          }
+        },
+        "required": [
+          "eligible",
+          "min_member_count"
+        ]
+      },
       "GuildEmojiResponse": {
         "type": "object",
         "properties": {
@@ -81069,20 +81091,16 @@
                 "type": "object",
                 "properties": {
                   "end_time": {
-                    "anyOf": [
+                    "oneOf": [
                       {
-                        "oneOf": [
-                          {
-                            "type": "string",
-                            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})?$"
-                          },
-                          {
-                            "type": "integer",
-                            "minimum": 0,
-                            "maximum": 8640000000000000,
-                            "format": "int64"
-                          }
-                        ]
+                        "type": "string",
+                        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})?$"
+                      },
+                      {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 8640000000000000,
+                        "format": "int64"
                       },
                       {
                         "type": "null"
@@ -81147,20 +81165,16 @@
                           "type": "object",
                           "properties": {
                             "end_time": {
-                              "anyOf": [
+                              "oneOf": [
                                 {
-                                  "oneOf": [
-                                    {
-                                      "type": "string",
-                                      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})?$"
-                                    },
-                                    {
-                                      "type": "integer",
-                                      "minimum": 0,
-                                      "maximum": 8640000000000000,
-                                      "format": "int64"
-                                    }
-                                  ]
+                                  "type": "string",
+                                  "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})?$"
+                                },
+                                {
+                                  "type": "integer",
+                                  "minimum": 0,
+                                  "maximum": 8640000000000000,
+                                  "format": "int64"
                                 },
                                 {
                                   "type": "null"
@@ -81213,20 +81227,16 @@
                             "type": "object",
                             "properties": {
                               "end_time": {
-                                "anyOf": [
+                                "oneOf": [
                                   {
-                                    "oneOf": [
-                                      {
-                                        "type": "string",
-                                        "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})?$"
-                                      },
-                                      {
-                                        "type": "integer",
-                                        "minimum": 0,
-                                        "maximum": 8640000000000000,
-                                        "format": "int64"
-                                      }
-                                    ]
+                                    "type": "string",
+                                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})?$"
+                                  },
+                                  {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "maximum": 8640000000000000,
+                                    "format": "int64"
                                   },
                                   {
                                     "type": "null"
@@ -82889,20 +82899,16 @@
             "$ref": "#/components/schemas/UserStatusType"
           },
           "status_resets_at": {
-            "anyOf": [
+            "oneOf": [
               {
-                "oneOf": [
-                  {
-                    "type": "string",
-                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})?$"
-                  },
-                  {
-                    "type": "integer",
-                    "minimum": 0,
-                    "maximum": 8640000000000000,
-                    "format": "int64"
-                  }
-                ]
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})?$"
+              },
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 8640000000000000,
+                "format": "int64"
               },
               {
                 "type": "null"
@@ -83179,20 +83185,16 @@
             "description": "Custom status text (max 128 characters)"
           },
           "expires_at": {
-            "anyOf": [
+            "oneOf": [
               {
-                "oneOf": [
-                  {
-                    "type": "string",
-                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})?$"
-                  },
-                  {
-                    "type": "integer",
-                    "minimum": 0,
-                    "maximum": 8640000000000000,
-                    "format": "int64"
-                  }
-                ]
+                "type": "string",
+                "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:?\\d{2})?$"
+              },
+              {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 8640000000000000,
+                "format": "int64"
               },
               {
                 "type": "null"

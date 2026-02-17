@@ -648,7 +648,6 @@ description: 'Admin object schemas from the Fluxer API.'
 **Related endpoints**
 
 - [`GET /admin/discovery/applications`](/api-reference/admin/list-discovery-applications)
-- [`GET /guilds/{guild_id}/discovery`](/api-reference/discovery/get-discovery-status)
 - [`POST /admin/discovery/applications/{guild_id}/approve`](/api-reference/admin/approve-discovery-application)
 - [`POST /admin/discovery/applications/{guild_id}/reject`](/api-reference/admin/reject-discovery-application)
 - [`POST /admin/discovery/guilds/{guild_id}/remove`](/api-reference/admin/remove-guild-from-discovery)
@@ -2152,7 +2151,7 @@ Type: [MessageShredStatusNotFoundResponse](#messageshredstatusnotfoundresponse) 
 | Field | Type | Description |
 |-------|------|-------------|
 | slot_index | integer (int32) | Slot index to reserve (must be &gt;= 1) |
-| user_id | ?[SnowflakeType](#snowflaketype) \| enum&lt;`-1`&gt; | User ID to reserve the slot for, or null to unreserve (special value -1 is also valid) |
+| user_id | [SnowflakeType](#snowflaketype) \| enum&lt;`-1`&gt; \| null | User ID to reserve the slot for, or null to unreserve (special value -1 is also valid) |
 
 <a id="resolvereportrequest"></a>
 

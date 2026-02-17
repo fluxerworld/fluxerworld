@@ -24,7 +24,7 @@ description: 'Users object schemas from the Fluxer API.'
 |-------|------|-------------|
 | emoji_id? | ?[SnowflakeType](#snowflaketype) | ID of custom emoji to display |
 | emoji_name? | ?string | Unicode emoji or custom emoji name |
-| expires_at? | ?string \| integer (int64) | When the custom status expires |
+| expires_at? | string \| integer (int64) \| null | When the custom status expires |
 | text? | ?string | Custom status text (max 128 characters) |
 
 <a id="disabletotprequest"></a>
@@ -1186,7 +1186,7 @@ Category of the user report
 | render_spoilers? | [RenderSpoilers](#renderspoilers) | Spoiler rendering preference |
 | restricted_guilds? | [SnowflakeType](#snowflaketype)[] | Guilds with DM restrictions |
 | status? | [UserStatusType](#userstatustype) |  |
-| status_resets_at? | ?string \| integer (int64) | When status resets |
+| status_resets_at? | string \| integer (int64) \| null | When status resets |
 | status_resets_to? | ?[UserStatusType](#userstatustype) |  |
 | theme? | [UserThemeType](#userthemetype) |  |
 | time_format? | [TimeFormatTypes](#timeformattypes) | Time format preference |
@@ -1394,7 +1394,7 @@ Guild mute configuration
 
 | Field | Type | Description |
 |-------|------|-------------|
-| end_time? | ?string \| integer (int64) | When the mute expires |
+| end_time? | string \| integer (int64) \| null | When the mute expires |
 | selected_time_window | integer (int53) | Selected mute duration |
 
 <a id="userprivateresponsependingbulkmessagedeletion"></a>

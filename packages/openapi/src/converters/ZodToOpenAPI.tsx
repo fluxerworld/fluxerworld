@@ -1017,6 +1017,19 @@ function isOpenAPISchema(schema: OpenAPISchemaOrRef): schema is OpenAPISchema {
 }
 
 function makeNullableSchema(inner: OpenAPISchemaOrRef): OpenAPISchema {
+	if (isOpenAPISchema(inner)) {
+		const keys = Object.keys(inner).filter((k) => k !== 'description');
+		if (inner.oneOf && keys.length === 1) {
+			const result: OpenAPISchema = {oneOf: [...inner.oneOf, {type: 'null'}]};
+			if (inner.description) result.description = inner.description;
+			return result;
+		}
+		if (inner.anyOf && keys.length === 1) {
+			const result: OpenAPISchema = {anyOf: [...inner.anyOf, {type: 'null'}]};
+			if (inner.description) result.description = inner.description;
+			return result;
+		}
+	}
 	return {
 		anyOf: [inner, {type: 'null'}],
 	};
