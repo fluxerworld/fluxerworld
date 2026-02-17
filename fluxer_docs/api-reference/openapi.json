@@ -62477,9 +62477,9 @@
             "type": "string",
             "description": "Discovery description"
           },
-          "category_id": {
+          "category_type": {
             "type": "number",
-            "description": "Discovery category ID"
+            "description": "Discovery category type"
           },
           "applied_at": {
             "type": "string",
@@ -62512,7 +62512,7 @@
           "guild_id",
           "status",
           "description",
-          "category_id",
+          "category_type",
           "applied_at"
         ]
       },
@@ -67240,7 +67240,7 @@
           "user_id": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SnowflakeType"
+                "$ref": "#/components/schemas/Int64StringType"
               },
               {
                 "type": "null"
@@ -67296,7 +67296,7 @@
           "user_id": {
             "anyOf": [
               {
-                "$ref": "#/components/schemas/SnowflakeType"
+                "$ref": "#/components/schemas/Int64StringType"
               },
               {
                 "type": "null"
@@ -73535,9 +73535,9 @@
             ],
             "description": "Discovery description"
           },
-          "category_id": {
+          "category_type": {
             "type": "number",
-            "description": "Discovery category ID"
+            "description": "Discovery category type"
           },
           "member_count": {
             "type": "number",
@@ -73562,7 +73562,7 @@
         "required": [
           "id",
           "name",
-          "category_id",
+          "category_type",
           "member_count",
           "online_count",
           "features",
@@ -75223,17 +75223,17 @@
             "maxLength": 300,
             "description": "Description for discovery listing"
           },
-          "category_id": {
+          "category_type": {
             "type": "integer",
             "minimum": 0,
             "maximum": 8,
             "format": "int32",
-            "description": "Discovery category ID"
+            "description": "Discovery category type"
           }
         },
         "required": [
           "description",
-          "category_id"
+          "category_type"
         ]
       },
       "DiscoveryApplicationPatchRequest": {
@@ -75245,12 +75245,12 @@
             "maxLength": 300,
             "description": "Updated description for discovery listing"
           },
-          "category_id": {
+          "category_type": {
             "type": "integer",
             "minimum": 0,
             "maximum": 8,
             "format": "int32",
-            "description": "Updated discovery category ID"
+            "description": "Updated discovery category type"
           }
         }
       },

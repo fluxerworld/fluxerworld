@@ -657,7 +657,7 @@ description: 'Admin object schemas from the Fluxer API.'
 | Field | Type | Description |
 |-------|------|-------------|
 | applied_at | string | Application timestamp |
-| category_id | number | Discovery category ID |
+| category_type | number | Discovery category type |
 | description | string | Discovery description |
 | guild_id | [SnowflakeType](#snowflaketype) | Guild ID |
 | review_reason? | ?string | Review reason |
@@ -2151,7 +2151,7 @@ Type: [MessageShredStatusNotFoundResponse](#messageshredstatusnotfoundresponse) 
 | Field | Type | Description |
 |-------|------|-------------|
 | slot_index | integer (int32) | Slot index to reserve (must be &gt;= 1) |
-| user_id | ?[SnowflakeType](#snowflaketype) | User ID to reserve the slot for, or null to unreserve (special value -1 is also valid) |
+| user_id | ?[Int64StringType](#int64stringtype) | User ID to reserve the slot for, or null to unreserve (special value -1 is also valid) |
 
 <a id="resolvereportrequest"></a>
 
