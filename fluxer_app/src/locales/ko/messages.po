@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} 저장된 미디어 항목"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount} 회원"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount} 회원들"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount} 상호 커뮤니티들"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} 상호 커뮤니티"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:75
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} 온라인"
 
@@ -1462,6 +1462,10 @@ msgstr "8시간"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "고유성을 위해 자동으로 4자리 태그가 추가됩니다."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+msgid "A description is required."
+msgstr "설명이 필요합니다."
+
 #: src/components/channel/CallMessage.tsx:80
 #: src/components/channel/CallMessage.tsx:136
 msgid "a few seconds"
@@ -1744,7 +1748,7 @@ msgid "activity"
 msgstr "활동"
 
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:385
-#: src/components/modals/utils/GuildSettingsConstants.tsx:131
+#: src/components/modals/utils/GuildSettingsConstants.tsx:134
 msgid "Activity Log"
 msgstr "활동 기록"
 
@@ -2153,7 +2157,7 @@ msgstr "정렬 컨트롤은 화면이 넓을 때만 사용할 수 있습니다."
 #: src/components/channel/GuildMembersPage.tsx:816
 #: src/components/channel/MobileMemesPicker.tsx:101
 #: src/components/channel/pickers/memes/MemesPickerHeader.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:91
+#: src/components/modals/DiscoveryModal.tsx:97
 #: src/components/modals/GuildNotificationSettingsModal.tsx:226
 #: src/constants/AuditLogConstants.tsx:237
 msgid "All"
@@ -2248,7 +2252,7 @@ msgstr "전체 사용자"
 msgid "All your user account information"
 msgstr "사용자 계정에 관한 모든 정보"
 
-#: src/components/modals/shared/PermissionComponents.tsx:92
+#: src/components/modals/shared/PermissionComponents.tsx:91
 msgid "Allow"
 msgstr "허용"
 
@@ -2620,6 +2624,10 @@ msgstr "애니메이션"
 msgid "animations"
 msgstr "애니메이션들"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+msgid "Anime & Manga"
+msgstr "애니메이션 & 만화"
+
 #: src/components/modals/tabs/component_gallery_tab/SelectionsTab.tsx:198
 msgid "Another Checkbox"
 msgstr "다른 체크박스"
@@ -2714,6 +2722,7 @@ msgstr "이 설정은 이 장치의 데스크톱 앱에만 적용됩니다."
 msgid "Applies to both camera and screen sharing"
 msgstr "카메라와 화면 공유 모두에 적용됩니다"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2727,6 +2736,10 @@ msgstr "테마 적용"
 #: src/components/modals/tabs/chat_settings_tab/SidebarTab.tsx:49
 msgid "Apply to all communities"
 msgstr "모든 커뮤니티에 적용"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+msgid "Approved"
+msgstr "승인됨"
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:254
 msgid "apps"
@@ -3537,7 +3550,7 @@ msgstr "배너 모드 선택"
 msgid "Banner preview"
 msgstr "배너 미리보기"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:173
+#: src/components/modals/utils/GuildSettingsConstants.tsx:185
 msgid "Bans"
 msgstr "차단"
 
@@ -4198,6 +4211,7 @@ msgstr "카드 정렬 컨트롤"
 msgid "Careful! You have unsaved changes."
 msgstr "조심하세요! 저장되지 않은 변경 사항이 있습니다."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4742,6 +4756,10 @@ msgstr "앱 전반에서 시간 표시 방식 선택."
 #: src/components/modals/tabs/appearance_tab/InterfaceTab.tsx:109
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "누군가 채널에서 타이핑할 때 채널 목록에 표시되는 타이핑 인디케이터 방식 선택."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+msgid "Choose the category that best describes your community."
+msgstr "귀하의 커뮤니티를 가장 잘 설명하는 카테고리를 선택하세요."
 
 #: src/components/pages/OAuthAuthorizePage.tsx:605
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
@@ -5765,6 +5783,10 @@ msgstr "범위와 권한을 포함한 권한 부여 URL 생성"
 msgid "contact"
 msgstr "연락처"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+msgid "Content Creator"
+msgstr "콘텐츠 제작자"
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:227
 msgid "Content filtering"
 msgstr "콘텐츠 필터링"
@@ -6583,7 +6605,7 @@ msgstr "커스텀 기간"
 msgid "Custom Duration"
 msgstr "사용자 정의 지속 시간"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:107
+#: src/components/modals/utils/GuildSettingsConstants.tsx:110
 msgid "Custom Emoji"
 msgstr "커스텀 이모지"
 
@@ -6600,7 +6622,7 @@ msgid "Custom Hoist Order"
 msgstr "커스텀 호이스트 순서"
 
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:146
-#: src/components/modals/utils/GuildSettingsConstants.tsx:147
+#: src/components/modals/utils/GuildSettingsConstants.tsx:150
 msgid "Custom Invite URL"
 msgstr "커스텀 초대 URL"
 
@@ -6632,7 +6654,7 @@ msgstr "사용자 정의 사운드"
 msgid "Custom Status"
 msgstr "커스텀 상태"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:115
+#: src/components/modals/utils/GuildSettingsConstants.tsx:118
 msgid "Custom Stickers"
 msgstr "커스텀 스티커"
 
@@ -7275,7 +7297,7 @@ msgstr "조밀"
 msgid "Dense layout"
 msgstr "조밀한 레이아웃"
 
-#: src/components/modals/shared/PermissionComponents.tsx:72
+#: src/components/modals/shared/PermissionComponents.tsx:71
 msgid "Deny"
 msgstr "거부"
 
@@ -7304,12 +7326,17 @@ msgstr "이 팩에 어떤 표정이 들어 있는지 설명하세요."
 msgid "Describe what makes the content illegal"
 msgstr "내용이 불법인 이유를 설명하세요."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+msgid "Describe what your community is about..."
+msgstr "귀하의 커뮤니티에 대해 설명해 주세요..."
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:71
 msgid "description"
 msgstr "설명"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "설명"
@@ -7317,6 +7344,14 @@ msgstr "설명"
 #: src/components/modals/sticker_form/StickerFormFields.tsx:107
 msgid "Description must be 500 characters or less"
 msgstr "설명은 500자 이하여야 합니다"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
+msgstr "설명은 최소 {DISCOVERY_DESCRIPTION_MIN_LENGTH}자 이상이어야 합니다."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
+msgstr "설명은 최대 {DISCOVERY_DESCRIPTION_MAX_LENGTH}자 이하이어야 합니다."
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:540
 msgid "desktop"
@@ -7689,6 +7724,23 @@ msgstr "소켓 연결 끊기"
 #: src/components/voice/VoiceConnectionStatus.tsx:324
 msgid "Disconnected"
 msgstr "연결 끊김"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/utils/GuildSettingsConstants.tsx:160
+msgid "Discovery"
+msgstr "발견"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+msgid "Discovery application submitted"
+msgstr "발견 신청이 제출되었습니다."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+msgid "Discovery application withdrawn"
+msgstr "발견 신청이 철회되었습니다."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+msgid "Discovery listing updated"
+msgstr "발견 목록이 업데이트되었습니다."
 
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:113
 msgid "Discriminator"
@@ -8260,6 +8312,10 @@ msgstr "메시지 편집 중"
 msgid "Editing scheduled message"
 msgstr "예약된 메시지 편집 중"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+msgid "Education"
+msgstr "교육"
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:100
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:490
 msgid "email"
@@ -8805,6 +8861,10 @@ msgstr "비밀번호를 입력하세요."
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "전화번호를 입력하세요. SMS로 인증 코드를 보내드립니다."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+msgid "Entertainment"
+msgstr "엔터테인먼트"
+
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:49
 msgid "Entrance Sound"
 msgstr "입장 소리"
@@ -9003,7 +9063,8 @@ msgstr "노골적 콘텐츠 필터 설정"
 
 #: src/components/layout/guild_list/DiscoveryButton.tsx:49
 #: src/components/layout/guild_list/DiscoveryButton.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:73
+#: src/components/modals/DiscoveryModal.tsx:74
+#: src/components/modals/DiscoveryModal.tsx:82
 msgid "Explore Communities"
 msgstr "커뮤니티 탐색"
 
@@ -9250,6 +9311,10 @@ msgstr "이 이모지 팩을 설치하지 못했습니다. 나중에 다시 시�
 #: src/actions/InviteActionCreators.tsx:323
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "이 스티커 팩을 설치하지 못했습니다. 나중에 다시 시도하세요."
+
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+msgid "Failed to join this community. Please try again."
+msgstr "이 커뮤니티에 가입하지 못했습니다. 다시 시도해 주세요."
 
 #: src/components/modals/KickMemberModal.tsx:45
 msgid "Failed to kick member. Please try again."
@@ -9572,6 +9637,10 @@ msgstr "입장 소리를 업로드하지 못했습니다"
 #: src/actions/ConnectionActionCreators.tsx:116
 msgid "Failed to verify connection"
 msgstr "연결을 확인하지 못했습니다."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+msgid "Failed to withdraw application. Please try again."
+msgstr "신청을 철회하지 못했습니다. 다시 시도해 주세요."
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:634
 msgid "fake"
@@ -10330,6 +10399,10 @@ msgstr "게임 컨트롤러"
 msgid "Game Night"
 msgstr "게임 밤"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+msgid "Gaming"
+msgstr "게임"
+
 #: src/components/modals/AddGuildModal.tsx:180
 msgid "Gaming Community"
 msgstr "게임 커뮤니티"
@@ -10355,7 +10428,7 @@ msgstr "일반"
 #: src/components/modals/tabs/developer_options_tab/index.tsx:45
 #: src/components/modals/tabs/developer_options_tab/Inline.tsx:45
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:56
-#: src/components/modals/utils/GuildSettingsConstants.tsx:91
+#: src/components/modals/utils/GuildSettingsConstants.tsx:94
 #: src/components/modals/utils/SettingsConstants.tsx:301
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:619
 msgid "General"
@@ -11897,7 +11970,7 @@ msgstr "초대 링크 설정"
 #: src/components/modals/channel_tabs/ChannelInvitesTab.tsx:162
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:68
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:72
-#: src/components/modals/utils/GuildSettingsConstants.tsx:165
+#: src/components/modals/utils/GuildSettingsConstants.tsx:177
 msgid "Invite Links"
 msgstr "초대 링크"
 
@@ -12102,10 +12175,6 @@ msgstr "지터"
 msgid "join"
 msgstr "참여"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
-msgid "Join"
-msgstr "가입하기"
-
 #: src/components/modals/AddGuildModal.tsx:84
 msgid "Join a Community"
 msgstr "커뮤니티 참여"
@@ -12129,6 +12198,7 @@ msgstr "통화 참여"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12203,7 +12273,7 @@ msgstr "음성 채팅 참여"
 msgid "Join Voice Call"
 msgstr "음성 통화 참여"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 msgid "Joined"
 msgstr "가입됨"
 
@@ -12770,6 +12840,10 @@ msgstr "링크"
 msgid "Links"
 msgstr "링크"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+msgid "List your community in Discovery so others can find and join it."
+msgstr "다른 사람들이 귀하의 커뮤니티를 찾고 가입할 수 있도록 발견에 귀하의 커뮤니티를 나열하세요."
+
 #: src/components/modals/tabs/component_gallery_tab/MarkdownTab.tsx:109
 msgid "Lists"
 msgstr "목록"
@@ -12795,7 +12869,7 @@ msgid "Load more"
 msgstr "더 불러오기"
 
 #: src/components/channel/GuildMembersPage.tsx:1082
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 msgid "Load More"
 msgstr "더 보기"
 
@@ -12857,7 +12931,7 @@ msgstr "인증 방법 로딩 중..."
 msgid "Loading: {alt}"
 msgstr "로딩 중: {alt}"
 
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 #: src/components/uikit/Spinner.tsx:39
 msgid "Loading..."
 msgstr "로딩 중..."
@@ -13471,7 +13545,7 @@ msgstr "회원"
 #: src/components/channel/GuildMembersPage.tsx:1116
 #: src/components/layout/ChannelListContent.tsx:276
 #: src/components/modals/shared/AddOverridePopout.tsx:121
-#: src/components/modals/utils/GuildSettingsConstants.tsx:157
+#: src/components/modals/utils/GuildSettingsConstants.tsx:169
 msgid "Members"
 msgstr "회원"
 
@@ -14084,6 +14158,10 @@ msgstr "무비 클럽"
 msgid "Movie Night Crew"
 msgstr "무비 나이트 크루"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+msgid "Movies & TV"
+msgstr "영화 & TV"
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:580
 msgid "mp3"
 msgstr "mp3"
@@ -14091,6 +14169,10 @@ msgstr "mp3"
 #: src/components/modals/tabs/developer_options_tab/TypographyTab.tsx:330
 msgid "Multilingual Content"
 msgstr "다국어 콘텐츠"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+msgid "Music"
+msgstr "음악"
 
 #: src/components/modals/AddGuildModal.tsx:170
 msgid "Music Lovers"
@@ -14433,7 +14515,7 @@ msgstr "네트워크 오류"
 msgid "Networking & Performance"
 msgstr "네트워킹 및 성능"
 
-#: src/components/modals/shared/PermissionComponents.tsx:82
+#: src/components/modals/shared/PermissionComponents.tsx:81
 msgid "Neutral (Inherit)"
 msgstr "중립 (상속)"
 
@@ -14666,10 +14748,6 @@ msgstr "채널을 찾을 수 없습니다"
 msgid "No communities available with <0>Manage Community</0> permissions."
 msgstr "<0>커뮤니티 관리</0> 권한이 있는 커뮤니티가 없습니다."
 
-#: src/components/modals/DiscoveryModal.tsx:111
-msgid "No communities found"
-msgstr "찾은 커뮤니티가 없습니다."
-
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildBannerUploadField.tsx:142
 msgid "No community banner"
 msgstr "커뮤니티 배너 없음"
@@ -14680,7 +14758,7 @@ msgstr "아직 연결이 없습니다"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:68
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -15002,6 +15080,10 @@ msgstr "노르웨이어"
 #: src/components/modals/tabs/VideoTab.tsx:141
 msgid "Not available"
 msgstr "이용할 수 없음"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+msgid "Not enough members"
+msgstr "회원이 충분하지 않습니다."
 
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:57
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:58
@@ -15667,6 +15749,7 @@ msgstr "원본 메시지를 불러오지 못했습니다"
 msgid "Original message was deleted"
 msgstr "원본 메시지가 삭제되었습니다"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15833,7 +15916,7 @@ msgstr "참가자"
 msgid "Participants: {names}"
 msgstr "참여자: {names}"
 
-#: src/components/guild/GuildBadge.tsx:61
+#: src/components/guild/GuildBadge.tsx:58
 msgid "Partnered Community"
 msgstr "파트너 커뮤니티"
 
@@ -15943,6 +16026,7 @@ msgid "Payment Successful"
 msgstr "결제 완료"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
 msgid "Pending"
 msgstr "대기 중"
 
@@ -16972,6 +17056,11 @@ msgstr "사유"
 msgid "Reason (Optional)"
 msgstr "사유 (선택 사항)"
 
+#. placeholder {0}: application.review_reason
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+msgid "Reason: {0}"
+msgstr "이유: {0}"
+
 #: src/components/voice/VoiceStatsOverlay.tsx:130
 #: src/components/voice/VoiceStatsOverlay.tsx:142
 msgid "Receive"
@@ -17160,6 +17249,10 @@ msgstr "정기 사용자, 봇, 시스템 및 타임아웃된 사용자가 아늑
 #: src/components/voice/IncomingCallUI.tsx:322
 msgid "Reject"
 msgstr "거부"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+msgid "Rejected"
+msgstr "거부됨"
 
 #: src/components/channel/textarea/HoldToRecordButton.tsx:232
 msgid "Release to send"
@@ -17431,6 +17524,10 @@ msgstr "뱃지에서 Plutonium을 처음 구매한 순간 제거"
 #: src/components/modals/tabs/my_profile_tab/PremiumBadgeSettings.tsx:106
 msgid "Remove your Visionary ID badge"
 msgstr "Visionary ID 뱃지 제거"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+msgid "Removed"
+msgstr "제거됨"
 
 #. placeholder {0}: renderValueInline(value, guildId, i18n)
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:250
@@ -18136,7 +18233,7 @@ msgstr "역할: {0}."
 msgid "Roles"
 msgstr "역할"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:99
+#: src/components/modals/utils/GuildSettingsConstants.tsx:102
 msgid "Roles & Permissions"
 msgstr "역할 및 권한"
 
@@ -18193,7 +18290,7 @@ msgstr "러스트"
 msgid "Safe"
 msgstr "안전"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:123
+#: src/components/modals/utils/GuildSettingsConstants.tsx:126
 msgid "Safety & Moderation"
 msgstr "안전 및 운영"
 
@@ -18222,6 +18319,7 @@ msgstr "저장"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18353,6 +18451,10 @@ msgstr "{0}에 예약된 메시지"
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "예약 메시지는 최대 30일 후까지만 설정할 수 있습니다."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+msgid "Science & Technology"
+msgstr "과학 및 기술"
+
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:469
 msgid "Scope"
 msgstr "범위"
@@ -18463,7 +18565,7 @@ msgstr "채널 검색"
 msgid "Search channels or DMs"
 msgstr "채널 또는 DM 검색"
 
-#: src/components/modals/DiscoveryModal.tsx:78
+#: src/components/modals/DiscoveryModal.tsx:86
 msgid "Search communities..."
 msgstr "커뮤니티 검색..."
 
@@ -20321,6 +20423,10 @@ msgstr "상태 슬레이트"
 msgid "Status Slate"
 msgstr "상태 슬레이트"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+msgid "Status:"
+msgstr "상태:"
+
 #: src/components/pages/report/ReportStepSelection.tsx:39
 msgid "Step 1"
 msgstr "1단계"
@@ -22092,10 +22198,6 @@ msgstr "다른 필터나 검색어를 시도하세요"
 msgid "Try searching for something like \"theme\", \"notifications\", or \"privacy\""
 msgstr "\"테마\", \"알림\", \"개인정보\" 같은 것을 검색해 보세요"
 
-#: src/components/modals/DiscoveryModal.tsx:113
-msgid "Try searching with different keywords or browse a different category."
-msgstr "다른 키워드로 검색하거나 다른 카테고리를 탐색해 보세요."
-
 #: src/components/auth/MfaScreen.tsx:120
 msgid "Try security key / passkey instead"
 msgstr "보안 키/패스키를 대신 사용해 보세요"
@@ -23559,12 +23661,12 @@ msgstr "인증 실패"
 msgid "Verification may be required before viewing your backup codes."
 msgstr "백업 코드를 보기 전에 인증이 필요할 수 있어요."
 
-#: src/components/guild/GuildBadge.tsx:60
+#: src/components/guild/GuildBadge.tsx:57
 msgid "Verified & Partnered Community"
 msgstr "검증된 & 파트너 커뮤니티"
 
 #: src/components/emojis/EmojiAttributionSubtext.tsx:144
-#: src/components/guild/GuildBadge.tsx:62
+#: src/components/guild/GuildBadge.tsx:59
 msgid "Verified Community"
 msgstr "인증된 커뮤니티"
 
@@ -24355,7 +24457,7 @@ msgstr "웹훅 URL"
 #: src/components/modals/channel_tabs/ChannelWebhooksTab.tsx:99
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:98
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:80
-#: src/components/modals/utils/GuildSettingsConstants.tsx:139
+#: src/components/modals/utils/GuildSettingsConstants.tsx:142
 msgid "Webhooks"
 msgstr "웹훅"
 
@@ -24588,6 +24690,10 @@ msgstr "오류와 함께"
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:131
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "플루토늄을 사용하면 애니메이션 아바타와 배너(GIF, APNG, 애니메이션 WebP 또는 AVIF 형식)를 사용할 수 있으며, 4자리 태그를 사용자 정의하고 많은 다른 프리미엄 기능을 잠금 해제할 수 있습니다."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+msgid "Withdraw"
+msgstr "철회"
 
 #: src/components/modals/AddGuildModal.tsx:182
 msgid "Work Friends"
@@ -25319,6 +25425,10 @@ msgstr "아직 계정을 등록하지 않았습니다. 이메일과 비밀번호
 msgid "Your account is too new to send messages in this community."
 msgstr "이 커뮤니티에서 메시지를 보내기에는 계정이 너무 새롭습니다."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+msgid "Your application is pending review. You can still update your listing details or withdraw the application."
+msgstr "귀하의 신청은 검토 중입니다. 여전히 목록 세부정보를 업데이트하거나 신청을 철회할 수 있습니다."
+
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:53
 msgid "Your browser does not support desktop notifications."
 msgstr "브라우저에서 데스크톱 알림을 지원하지 않습니다."
@@ -25334,6 +25444,14 @@ msgstr "내 코드"
 #: src/components/auth/HandoffCodeDisplay.tsx:85
 msgid "Your code is ready!"
 msgstr "코드가 준비되었습니다!"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
+msgstr "귀하의 커뮤니티는 발견에 나열되어 있습니다. 아래에서 목록 세부정보를 업데이트하거나 철회하여 제거할 수 있습니다."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
+msgstr "귀하의 커뮤니티는 발견에 나열되기 위해 최소 {minMemberCount}명의 회원이 필요합니다."
 
 #. placeholder {0}: user?.email
 #: src/components/modals/RequiredActionModal.tsx:456

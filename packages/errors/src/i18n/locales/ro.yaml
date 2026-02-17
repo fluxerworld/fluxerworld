@@ -218,6 +218,7 @@ discovery.already_applied: Această comunitate a aplicat deja pentru descoperire
 discovery.application_already_reviewed: Această cerere de descoperire a fost deja analizată.
 discovery.application_not_found: Cererea de descoperire nu a fost găsită.
 discovery.description_required: O descriere este obligatorie pentru listarea în descoperire.
+discovery.disabled: Descoperirea nu este disponibilă pe această instanță.
 discovery.insufficient_members: Această comunitate nu întrunește numărul minim de membri pentru descoperire.
 discovery.invalid_category: Categorie de descoperire invalidă.
 discovery.not_discoverable: Această comunitate nu este listată în descoperire.

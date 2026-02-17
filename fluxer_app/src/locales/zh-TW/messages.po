@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} 個已儲存的媒體項目"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount} 位成員"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount} 位成員"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount} 個互通社群"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} 個共同社群"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:75
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} 在線"
 
@@ -1462,6 +1462,10 @@ msgstr "8 小時"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "系統將自動加入 4 位數標籤以確保唯一性"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+msgid "A description is required."
+msgstr "描述是必需的。"
+
 #: src/components/channel/CallMessage.tsx:80
 #: src/components/channel/CallMessage.tsx:136
 msgid "a few seconds"
@@ -1744,7 +1748,7 @@ msgid "activity"
 msgstr "活動"
 
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:385
-#: src/components/modals/utils/GuildSettingsConstants.tsx:131
+#: src/components/modals/utils/GuildSettingsConstants.tsx:134
 msgid "Activity Log"
 msgstr "活動紀錄"
 
@@ -2153,7 +2157,7 @@ msgstr "對齊控制僅在較寬螢幕上可用"
 #: src/components/channel/GuildMembersPage.tsx:816
 #: src/components/channel/MobileMemesPicker.tsx:101
 #: src/components/channel/pickers/memes/MemesPickerHeader.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:91
+#: src/components/modals/DiscoveryModal.tsx:97
 #: src/components/modals/GuildNotificationSettingsModal.tsx:226
 #: src/constants/AuditLogConstants.tsx:237
 msgid "All"
@@ -2248,7 +2252,7 @@ msgstr "所有使用者"
 msgid "All your user account information"
 msgstr "你的所有使用者帳戶資訊"
 
-#: src/components/modals/shared/PermissionComponents.tsx:92
+#: src/components/modals/shared/PermissionComponents.tsx:91
 msgid "Allow"
 msgstr "允許"
 
@@ -2620,6 +2624,10 @@ msgstr "動畫"
 msgid "animations"
 msgstr "動畫"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+msgid "Anime & Manga"
+msgstr "動畫與漫畫"
+
 #: src/components/modals/tabs/component_gallery_tab/SelectionsTab.tsx:198
 msgid "Another Checkbox"
 msgstr "另一個核取方塊"
@@ -2714,6 +2722,7 @@ msgstr "僅套用於這台裝置上的桌面應用程式。"
 msgid "Applies to both camera and screen sharing"
 msgstr "同時套用於攝影機與畫面分享"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2727,6 +2736,10 @@ msgstr "套用主題"
 #: src/components/modals/tabs/chat_settings_tab/SidebarTab.tsx:49
 msgid "Apply to all communities"
 msgstr "應用於所有社群"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+msgid "Approved"
+msgstr "已批准"
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:254
 msgid "apps"
@@ -3537,7 +3550,7 @@ msgstr "橫幅模式選擇"
 msgid "Banner preview"
 msgstr "橫幅預覽"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:173
+#: src/components/modals/utils/GuildSettingsConstants.tsx:185
 msgid "Bans"
 msgstr "封鎖"
 
@@ -4198,6 +4211,7 @@ msgstr "卡片對齊控制"
 msgid "Careful! You have unsaved changes."
 msgstr "小心！你有未儲存的變更。"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4742,6 +4756,10 @@ msgstr "選擇整個應用程式顯示時間的方式。"
 #: src/components/modals/tabs/appearance_tab/InterfaceTab.tsx:109
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "選擇有人在頻道輸入時，頻道列表中打字指示的顯示方式。"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+msgid "Choose the category that best describes your community."
+msgstr "選擇最能描述您社區的類別。"
 
 #: src/components/pages/OAuthAuthorizePage.tsx:605
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
@@ -5765,6 +5783,10 @@ msgstr "使用範圍與權限建立授權 URL。"
 msgid "contact"
 msgstr "聯絡"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+msgid "Content Creator"
+msgstr "內容創作者"
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:227
 msgid "Content filtering"
 msgstr "內容過濾"
@@ -6583,7 +6605,7 @@ msgstr "自訂時長"
 msgid "Custom Duration"
 msgstr "自定義持續時間"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:107
+#: src/components/modals/utils/GuildSettingsConstants.tsx:110
 msgid "Custom Emoji"
 msgstr "自訂表情符號"
 
@@ -6600,7 +6622,7 @@ msgid "Custom Hoist Order"
 msgstr "自訂置頂順序"
 
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:146
-#: src/components/modals/utils/GuildSettingsConstants.tsx:147
+#: src/components/modals/utils/GuildSettingsConstants.tsx:150
 msgid "Custom Invite URL"
 msgstr "自訂邀請網址"
 
@@ -6632,7 +6654,7 @@ msgstr "自訂聲音"
 msgid "Custom Status"
 msgstr "自訂狀態"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:115
+#: src/components/modals/utils/GuildSettingsConstants.tsx:118
 msgid "Custom Stickers"
 msgstr "自訂貼圖"
 
@@ -7275,7 +7297,7 @@ msgstr "緊密"
 msgid "Dense layout"
 msgstr "緊密佈局"
 
-#: src/components/modals/shared/PermissionComponents.tsx:72
+#: src/components/modals/shared/PermissionComponents.tsx:71
 msgid "Deny"
 msgstr "拒絕"
 
@@ -7304,12 +7326,17 @@ msgstr "描述此貼圖包有哪些表情。"
 msgid "Describe what makes the content illegal"
 msgstr "描述使該內容非法的原因"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+msgid "Describe what your community is about..."
+msgstr "描述您的社區是關於什麼的..."
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:71
 msgid "description"
 msgstr "描述"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "描述"
@@ -7317,6 +7344,14 @@ msgstr "描述"
 #: src/components/modals/sticker_form/StickerFormFields.tsx:107
 msgid "Description must be 500 characters or less"
 msgstr "描述必須少於 500 個字元"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
+msgstr "描述必須至少有 {DISCOVERY_DESCRIPTION_MIN_LENGTH} 個字符。"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
+msgstr "描述不得超過 {DISCOVERY_DESCRIPTION_MAX_LENGTH} 個字符。"
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:540
 msgid "desktop"
@@ -7689,6 +7724,23 @@ msgstr "斷開 Socket"
 #: src/components/voice/VoiceConnectionStatus.tsx:324
 msgid "Disconnected"
 msgstr "已斷線"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/utils/GuildSettingsConstants.tsx:160
+msgid "Discovery"
+msgstr "發現"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+msgid "Discovery application submitted"
+msgstr "發現申請已提交"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+msgid "Discovery application withdrawn"
+msgstr "發現申請已撤回"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+msgid "Discovery listing updated"
+msgstr "發現列表已更新"
 
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:113
 msgid "Discriminator"
@@ -8260,6 +8312,10 @@ msgstr "正在編輯訊息"
 msgid "Editing scheduled message"
 msgstr "正在編輯排程訊息"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+msgid "Education"
+msgstr "教育"
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:100
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:490
 msgid "email"
@@ -8805,6 +8861,10 @@ msgstr "輸入你的密碼。"
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "輸入你的電話號碼，我們會以簡訊寄送驗證碼給你。"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+msgid "Entertainment"
+msgstr "娛樂"
+
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:49
 msgid "Entrance Sound"
 msgstr "進場音效"
@@ -9003,7 +9063,8 @@ msgstr "限制級內容過濾設定"
 
 #: src/components/layout/guild_list/DiscoveryButton.tsx:49
 #: src/components/layout/guild_list/DiscoveryButton.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:73
+#: src/components/modals/DiscoveryModal.tsx:74
+#: src/components/modals/DiscoveryModal.tsx:82
 msgid "Explore Communities"
 msgstr "探索社群"
 
@@ -9250,6 +9311,10 @@ msgstr "安裝此表情符號套件失敗，請稍後再試。"
 #: src/actions/InviteActionCreators.tsx:323
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "安裝此貼圖包失敗，請稍後再試。"
+
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+msgid "Failed to join this community. Please try again."
+msgstr "加入此社區失敗。請再試一次。"
 
 #: src/components/modals/KickMemberModal.tsx:45
 msgid "Failed to kick member. Please try again."
@@ -9572,6 +9637,10 @@ msgstr "無法上傳進入音效"
 #: src/actions/ConnectionActionCreators.tsx:116
 msgid "Failed to verify connection"
 msgstr "無法驗證連接"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+msgid "Failed to withdraw application. Please try again."
+msgstr "撤回申請失敗。請再試一次。"
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:634
 msgid "fake"
@@ -10330,6 +10399,10 @@ msgstr "遊戲控制器"
 msgid "Game Night"
 msgstr "遊戲之夜"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+msgid "Gaming"
+msgstr "遊戲"
+
 #: src/components/modals/AddGuildModal.tsx:180
 msgid "Gaming Community"
 msgstr "遊戲社群"
@@ -10355,7 +10428,7 @@ msgstr "一般"
 #: src/components/modals/tabs/developer_options_tab/index.tsx:45
 #: src/components/modals/tabs/developer_options_tab/Inline.tsx:45
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:56
-#: src/components/modals/utils/GuildSettingsConstants.tsx:91
+#: src/components/modals/utils/GuildSettingsConstants.tsx:94
 #: src/components/modals/utils/SettingsConstants.tsx:301
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:619
 msgid "General"
@@ -11897,7 +11970,7 @@ msgstr "邀請連結設定"
 #: src/components/modals/channel_tabs/ChannelInvitesTab.tsx:162
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:68
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:72
-#: src/components/modals/utils/GuildSettingsConstants.tsx:165
+#: src/components/modals/utils/GuildSettingsConstants.tsx:177
 msgid "Invite Links"
 msgstr "邀請連結"
 
@@ -12102,10 +12175,6 @@ msgstr "延遲波動"
 msgid "join"
 msgstr "加入"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
-msgid "Join"
-msgstr "加入"
-
 #: src/components/modals/AddGuildModal.tsx:84
 msgid "Join a Community"
 msgstr "加入社群"
@@ -12129,6 +12198,7 @@ msgstr "加入通話"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12203,7 +12273,7 @@ msgstr "加入語音"
 msgid "Join Voice Call"
 msgstr "加入語音通話"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 msgid "Joined"
 msgstr "已加入"
 
@@ -12770,6 +12840,10 @@ msgstr "連結"
 msgid "Links"
 msgstr "連結"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+msgid "List your community in Discovery so others can find and join it."
+msgstr "在發現中列出您的社區，以便其他人可以找到並加入。"
+
 #: src/components/modals/tabs/component_gallery_tab/MarkdownTab.tsx:109
 msgid "Lists"
 msgstr "列表"
@@ -12795,7 +12869,7 @@ msgid "Load more"
 msgstr "載入更多"
 
 #: src/components/channel/GuildMembersPage.tsx:1082
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 msgid "Load More"
 msgstr "加載更多"
 
@@ -12857,7 +12931,7 @@ msgstr "正在載入驗證方式..."
 msgid "Loading: {alt}"
 msgstr "正在載入：{alt}"
 
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 #: src/components/uikit/Spinner.tsx:39
 msgid "Loading..."
 msgstr "載入中..."
@@ -13471,7 +13545,7 @@ msgstr "成員"
 #: src/components/channel/GuildMembersPage.tsx:1116
 #: src/components/layout/ChannelListContent.tsx:276
 #: src/components/modals/shared/AddOverridePopout.tsx:121
-#: src/components/modals/utils/GuildSettingsConstants.tsx:157
+#: src/components/modals/utils/GuildSettingsConstants.tsx:169
 msgid "Members"
 msgstr "成員"
 
@@ -14084,6 +14158,10 @@ msgstr "電影俱樂部"
 msgid "Movie Night Crew"
 msgstr "電影之夜團隊"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+msgid "Movies & TV"
+msgstr "電影與電視"
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:580
 msgid "mp3"
 msgstr "mp3"
@@ -14091,6 +14169,10 @@ msgstr "mp3"
 #: src/components/modals/tabs/developer_options_tab/TypographyTab.tsx:330
 msgid "Multilingual Content"
 msgstr "多語內容"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+msgid "Music"
+msgstr "音樂"
 
 #: src/components/modals/AddGuildModal.tsx:170
 msgid "Music Lovers"
@@ -14433,7 +14515,7 @@ msgstr "網路錯誤"
 msgid "Networking & Performance"
 msgstr "網絡與性能"
 
-#: src/components/modals/shared/PermissionComponents.tsx:82
+#: src/components/modals/shared/PermissionComponents.tsx:81
 msgid "Neutral (Inherit)"
 msgstr "中立（繼承）"
 
@@ -14666,10 +14748,6 @@ msgstr "找不到頻道"
 msgid "No communities available with <0>Manage Community</0> permissions."
 msgstr "沒有擁有 <0>管理社群</0> 權限的社群可用。"
 
-#: src/components/modals/DiscoveryModal.tsx:111
-msgid "No communities found"
-msgstr "未找到社群"
-
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildBannerUploadField.tsx:142
 msgid "No community banner"
 msgstr "沒有社群橫幅"
@@ -14680,7 +14758,7 @@ msgstr "尚未有連接"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:68
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -15002,6 +15080,10 @@ msgstr "挪威文"
 #: src/components/modals/tabs/VideoTab.tsx:141
 msgid "Not available"
 msgstr "暫時無法使用"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+msgid "Not enough members"
+msgstr "成員不足"
 
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:57
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:58
@@ -15667,6 +15749,7 @@ msgstr "原始訊息載入失敗"
 msgid "Original message was deleted"
 msgstr "原始訊息已刪除"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15833,7 +15916,7 @@ msgstr "參與者"
 msgid "Participants: {names}"
 msgstr "參與者：{names}"
 
-#: src/components/guild/GuildBadge.tsx:61
+#: src/components/guild/GuildBadge.tsx:58
 msgid "Partnered Community"
 msgstr "合作社群"
 
@@ -15943,6 +16026,7 @@ msgid "Payment Successful"
 msgstr "付款成功"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
 msgid "Pending"
 msgstr "待處理"
 
@@ -16972,6 +17056,11 @@ msgstr "原因"
 msgid "Reason (Optional)"
 msgstr "原因（可選）"
 
+#. placeholder {0}: application.review_reason
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+msgid "Reason: {0}"
+msgstr "原因：{0}"
+
 #: src/components/voice/VoiceStatsOverlay.tsx:130
 #: src/components/voice/VoiceStatsOverlay.tsx:142
 msgid "Receive"
@@ -17160,6 +17249,10 @@ msgstr "常規、機器人、系統和超時用戶以舒適和緊湊模式顯示
 #: src/components/voice/IncomingCallUI.tsx:322
 msgid "Reject"
 msgstr "拒絕"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+msgid "Rejected"
+msgstr "已拒絕"
 
 #: src/components/channel/textarea/HoldToRecordButton.tsx:232
 msgid "Release to send"
@@ -17431,6 +17524,10 @@ msgstr "從徽章中移除您初次購買 Plutonium 的紀錄"
 #: src/components/modals/tabs/my_profile_tab/PremiumBadgeSettings.tsx:106
 msgid "Remove your Visionary ID badge"
 msgstr "移除您的 Visionary ID 徽章"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+msgid "Removed"
+msgstr "已移除"
 
 #. placeholder {0}: renderValueInline(value, guildId, i18n)
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:250
@@ -18136,7 +18233,7 @@ msgstr "身分組：{0}。"
 msgid "Roles"
 msgstr "身分組"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:99
+#: src/components/modals/utils/GuildSettingsConstants.tsx:102
 msgid "Roles & Permissions"
 msgstr "身分組與權限"
 
@@ -18193,7 +18290,7 @@ msgstr "Rust"
 msgid "Safe"
 msgstr "安全"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:123
+#: src/components/modals/utils/GuildSettingsConstants.tsx:126
 msgid "Safety & Moderation"
 msgstr "安全與管理"
 
@@ -18222,6 +18319,7 @@ msgstr "保存"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18353,6 +18451,10 @@ msgstr "已排程訊息，時間：{0}"
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "排程訊息最遠可設定在未來 30 天內。"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+msgid "Science & Technology"
+msgstr "科學與技術"
+
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:469
 msgid "Scope"
 msgstr "範圍"
@@ -18463,7 +18565,7 @@ msgstr "搜尋頻道"
 msgid "Search channels or DMs"
 msgstr "搜尋頻道或私訊"
 
-#: src/components/modals/DiscoveryModal.tsx:78
+#: src/components/modals/DiscoveryModal.tsx:86
 msgid "Search communities..."
 msgstr "搜尋社群..."
 
@@ -20321,6 +20423,10 @@ msgstr "狀態面板"
 msgid "Status Slate"
 msgstr "狀態板"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+msgid "Status:"
+msgstr "狀態："
+
 #: src/components/pages/report/ReportStepSelection.tsx:39
 msgid "Step 1"
 msgstr "步驟 1"
@@ -22092,10 +22198,6 @@ msgstr "試試不同的篩選條件或搜尋詞"
 msgid "Try searching for something like \"theme\", \"notifications\", or \"privacy\""
 msgstr "試著搜尋像是「主題」、「通知」或「隱私」等關鍵字"
 
-#: src/components/modals/DiscoveryModal.tsx:113
-msgid "Try searching with different keywords or browse a different category."
-msgstr "嘗試使用不同的關鍵字搜尋或瀏覽其他類別。"
-
 #: src/components/auth/MfaScreen.tsx:120
 msgid "Try security key / passkey instead"
 msgstr "改試安全金鑰/通行碼"
@@ -23559,12 +23661,12 @@ msgstr "驗證失敗"
 msgid "Verification may be required before viewing your backup codes."
 msgstr "查看備份代碼前可能需要驗證。"
 
-#: src/components/guild/GuildBadge.tsx:60
+#: src/components/guild/GuildBadge.tsx:57
 msgid "Verified & Partnered Community"
 msgstr "已驗證及合作社群"
 
 #: src/components/emojis/EmojiAttributionSubtext.tsx:144
-#: src/components/guild/GuildBadge.tsx:62
+#: src/components/guild/GuildBadge.tsx:59
 msgid "Verified Community"
 msgstr "已驗證社群"
 
@@ -24355,7 +24457,7 @@ msgstr "Webhook 網址"
 #: src/components/modals/channel_tabs/ChannelWebhooksTab.tsx:99
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:98
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:80
-#: src/components/modals/utils/GuildSettingsConstants.tsx:139
+#: src/components/modals/utils/GuildSettingsConstants.tsx:142
 msgid "Webhooks"
 msgstr "Webhook"
 
@@ -24588,6 +24690,10 @@ msgstr "發生錯誤時"
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:131
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "使用 Plutonium，您可以使用動畫頭像和橫幅（格式為 GIF、APNG、動畫 WebP 或 AVIF），自訂您的 4 位數標籤，並解鎖許多其他高級功能。"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+msgid "Withdraw"
+msgstr "撤回"
 
 #: src/components/modals/AddGuildModal.tsx:182
 msgid "Work Friends"
@@ -25319,6 +25425,10 @@ msgstr "您的帳號尚未認領。若未設定電子郵件與密碼，將無法
 msgid "Your account is too new to send messages in this community."
 msgstr "您的帳號太新，尚無法在此社群發送訊息。"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+msgid "Your application is pending review. You can still update your listing details or withdraw the application."
+msgstr "您的申請正在審核中。您仍然可以更新您的列表詳細信息或撤回申請。"
+
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:53
 msgid "Your browser does not support desktop notifications."
 msgstr "您的瀏覽器不支援桌面通知。"
@@ -25334,6 +25444,14 @@ msgstr "您的代碼"
 #: src/components/auth/HandoffCodeDisplay.tsx:85
 msgid "Your code is ready!"
 msgstr "您的代碼已準備好！"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
+msgstr "您的社區已列在發現中。您可以在下方更新您的列表詳細信息或撤回以將其移除。"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
+msgstr "您的社區需要至少 {minMemberCount} 名成員才能在發現中列出。"
 
 #. placeholder {0}: user?.email
 #: src/components/modals/RequiredActionModal.tsx:456

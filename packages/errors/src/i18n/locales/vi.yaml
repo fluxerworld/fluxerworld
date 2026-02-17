@@ -218,6 +218,7 @@ discovery.already_applied: Cộng đồng này đã nộp đơn đăng ký khám
 discovery.application_already_reviewed: Đơn đăng ký khám phá này đã được xem xét rồi.
 discovery.application_not_found: Không tìm thấy đơn đăng ký khám phá.
 discovery.description_required: Cần có mô tả để đăng ký danh sách khám phá.
+discovery.disabled: Khám phá không có sẵn trên phiên bản này.
 discovery.insufficient_members: Cộng đồng này chưa đáp ứng số lượng thành viên tối thiểu để tham gia khám phá.
 discovery.invalid_category: Danh mục khám phá không hợp lệ.
 discovery.not_discoverable: Cộng đồng này không có trong danh sách khám phá.

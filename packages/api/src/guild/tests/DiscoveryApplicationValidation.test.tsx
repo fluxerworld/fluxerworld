@@ -24,11 +24,17 @@ import {HTTP_STATUS, TEST_IDS} from '@fluxer/api/src/test/TestConstants';
 import {createBuilder, createBuilderWithoutAuth} from '@fluxer/api/src/test/TestRequestBuilder';
 import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
 import {DiscoveryCategories} from '@fluxer/constants/src/DiscoveryConstants';
-import type {DiscoveryApplicationResponse} from '@fluxer/schema/src/domains/guild/GuildDiscoverySchemas';
+import type {
+	DiscoveryApplicationResponse,
+	DiscoveryStatusResponse,
+} from '@fluxer/schema/src/domains/guild/GuildDiscoverySchemas';
 import {afterEach, beforeEach, describe, expect, test} from 'vitest';
 
 async function setGuildMemberCount(harness: ApiTestHarness, guildId: string, memberCount: number): Promise<void> {
-	await createBuilder(harness, '').post(`/test/guilds/${guildId}/member-count`).body({member_count: memberCount}).execute();
+	await createBuilder(harness, '')
+		.post(`/test/guilds/${guildId}/member-count`)
+		.body({member_count: memberCount})
+		.execute();
 }
 
 describe('Discovery Application Validation', () => {
@@ -50,7 +56,7 @@ describe('Discovery Application Validation', () => {
 
 			const application = await createBuilder<DiscoveryApplicationResponse>(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'Small but active community', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'Small but active community', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.OK)
 				.execute();
 
@@ -64,7 +70,7 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'No members yet', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'No members yet', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.BAD_REQUEST, APIErrorCodes.DISCOVERY_INSUFFICIENT_MEMBERS)
 				.execute();
 		});
@@ -78,7 +84,7 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'Valid description here', category_id: 99})
+				.body({description: 'Valid description here', category_type: 99})
 				.expect(HTTP_STATUS.BAD_REQUEST)
 				.execute();
 		});
@@ -90,7 +96,7 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'Valid description here', category_id: -1})
+				.body({description: 'Valid description here', category_type: -1})
 				.expect(HTTP_STATUS.BAD_REQUEST)
 				.execute();
 		});
@@ -102,13 +108,13 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder<DiscoveryApplicationResponse>(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'Valid description here', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'Valid description here', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.OK)
 				.execute();
 
 			await createBuilder(harness, owner.token)
 				.patch(`/guilds/${guild.id}/discovery`)
-				.body({category_id: 99})
+				.body({category_type: 99})
 				.expect(HTTP_STATUS.BAD_REQUEST)
 				.execute();
 		});
@@ -122,7 +128,7 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'Too short', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'Too short', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.BAD_REQUEST)
 				.execute();
 		});
@@ -134,7 +140,7 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'A'.repeat(301), category_id: DiscoveryCategories.GAMING})
+				.body({description: 'A'.repeat(301), category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.BAD_REQUEST)
 				.execute();
 		});
@@ -146,12 +152,12 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({category_id: DiscoveryCategories.GAMING})
+				.body({category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.BAD_REQUEST)
 				.execute();
 		});
 
-		test('should reject missing category_id', async () => {
+		test('should reject missing category_type', async () => {
 			const owner = await createTestAccount(harness);
 			const guild = await createGuild(harness, owner.token, 'No Cat Guild');
 			await setGuildMemberCount(harness, guild.id, 1);
@@ -172,13 +178,13 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder<DiscoveryApplicationResponse>(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'First application attempt', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'First application attempt', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.OK)
 				.execute();
 
 			await createBuilder(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'Second application attempt', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'Second application attempt', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.CONFLICT, APIErrorCodes.DISCOVERY_ALREADY_APPLIED)
 				.execute();
 		});
@@ -192,7 +198,7 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder<DiscoveryApplicationResponse>(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'Application to be approved', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'Application to be approved', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.OK)
 				.execute();
 
@@ -204,7 +210,7 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'Trying to reapply while approved', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'Trying to reapply while approved', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.CONFLICT, APIErrorCodes.DISCOVERY_ALREADY_APPLIED)
 				.execute();
 		});
@@ -218,7 +224,7 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder(harness, member.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'Should not be allowed', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'Should not be allowed', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.FORBIDDEN, APIErrorCodes.MISSING_PERMISSIONS)
 				.execute();
 		});
@@ -230,7 +236,7 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder<DiscoveryApplicationResponse>(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'Owner applied for discovery', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'Owner applied for discovery', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.OK)
 				.execute();
 
@@ -248,7 +254,7 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder<DiscoveryApplicationResponse>(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'Owner applied for discovery', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'Owner applied for discovery', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.OK)
 				.execute();
 
@@ -273,7 +279,7 @@ describe('Discovery Application Validation', () => {
 		test('should require login to apply', async () => {
 			await createBuilderWithoutAuth(harness)
 				.post(`/guilds/${TEST_IDS.NONEXISTENT_GUILD}/discovery`)
-				.body({description: 'No auth attempt', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'No auth attempt', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.UNAUTHORIZED)
 				.execute();
 		});
@@ -302,14 +308,17 @@ describe('Discovery Application Validation', () => {
 	});
 
 	describe('non-existent application', () => {
-		test('should return error when getting status with no application', async () => {
+		test('should return null application when none exists', async () => {
 			const owner = await createTestAccount(harness);
 			const guild = await createGuild(harness, owner.token, 'No App Guild');
 
-			await createBuilder(harness, owner.token)
+			const status = await createBuilder<DiscoveryStatusResponse>(harness, owner.token)
 				.get(`/guilds/${guild.id}/discovery`)
-				.expect(HTTP_STATUS.NOT_FOUND, APIErrorCodes.DISCOVERY_APPLICATION_NOT_FOUND)
+				.expect(HTTP_STATUS.OK)
 				.execute();
+
+			expect(status.application).toBeNull();
+			expect(status.min_member_count).toBeGreaterThan(0);
 		});
 
 		test('should return error when editing non-existent application', async () => {
@@ -344,7 +353,7 @@ describe('Discovery Application Validation', () => {
 
 			await createBuilder<DiscoveryApplicationResponse>(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'To be rejected for edit test', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'To be rejected for edit test', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.OK)
 				.execute();
 

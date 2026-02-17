@@ -21,6 +21,7 @@ import type {GuildID, UserID} from '@fluxer/api/src/BrandedTypes';
 import type {IChannelRepository} from '@fluxer/api/src/channel/IChannelRepository';
 import type {ChannelService} from '@fluxer/api/src/channel/services/ChannelService';
 import type {GuildAuditLogService} from '@fluxer/api/src/guild/GuildAuditLogService';
+import {GuildDiscoveryRepository} from '@fluxer/api/src/guild/repositories/GuildDiscoveryRepository';
 import type {IGuildRepositoryAggregate} from '@fluxer/api/src/guild/repositories/IGuildRepositoryAggregate';
 import {GuildDataHelpers} from '@fluxer/api/src/guild/services/data/GuildDataHelpers';
 import {GuildOperationsService} from '@fluxer/api/src/guild/services/data/GuildOperationsService';
@@ -79,6 +80,7 @@ export class GuildDataService {
 			this.webhookRepository,
 			this.helpers,
 			this.limitConfigService,
+			new GuildDiscoveryRepository(),
 			this.guildManagedTraitService,
 		);
 

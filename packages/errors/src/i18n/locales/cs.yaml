@@ -218,6 +218,7 @@ discovery.already_applied: Tato komunita o zápis do discovery už požádala.
 discovery.application_already_reviewed: Tato žádost o zápis do discovery už byla přezkoumána.
 discovery.application_not_found: Žádost o zápis do discovery nebyla nalezena.
 discovery.description_required: Pro zápis do discovery je potřeba popis.
+discovery.disabled: Objevování není na této instanci k dispozici.
 discovery.insufficient_members: Tato komunita nesplňuje minimální počet členů pro zápis do discovery.
 discovery.invalid_category: Neplatná kategorie discovery.
 discovery.not_discoverable: Tato komunita není zapsaná v discovery.

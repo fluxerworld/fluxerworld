@@ -218,6 +218,7 @@ discovery.already_applied: Komunitas ini sudah mengajukan permohonan untuk penem
 discovery.application_already_reviewed: Permohonan penemuan ini sudah ditinjau.
 discovery.application_not_found: Permohonan penemuan tidak ditemukan.
 discovery.description_required: Deskripsi wajib diisi untuk pendaftaran penemuan.
+discovery.disabled: Penemuan tidak tersedia di instans ini.
 discovery.insufficient_members: Komunitas ini tidak memenuhi jumlah anggota minimum untuk penemuan.
 discovery.invalid_category: Kategori penemuan tidak valid.
 discovery.not_discoverable: Komunitas ini tidak terdaftar dalam penemuan.

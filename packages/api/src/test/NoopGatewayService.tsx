@@ -178,7 +178,7 @@ export class NoopGatewayService extends IGatewayService {
 	}
 
 	async getUserPermissions(params: {guildId: GuildID; userId: UserID; channelId?: ChannelID}): Promise<bigint> {
-		const {guildId, userId} = params;
+		const {guildId, userId, channelId} = params;
 
 		const guild = await guildRepository.findUnique(guildId);
 		if (!guild) {
@@ -195,8 +195,20 @@ export class NoopGatewayService extends IGatewayService {
 		}
 
 		const roles = await roleRepository.listRoles(guildId);
+		const guildPermissions = this.calculateGuildPermissions(member.roleIds, roles, guildId);
 
-		return this.calculatePermissions(Array.from(member.roleIds), roles, userId === guild.ownerId, guildId);
+		if (!channelId) {
+			return guildPermissions;
+		}
+
+		const {ChannelDataRepository} = await import('@fluxer/api/src/channel/repositories/ChannelDataRepository');
+		const channelRepo = new ChannelDataRepository();
+		const channel = await channelRepo.findUnique(channelId);
+		if (!channel) {
+			return guildPermissions;
+		}
+
+		return this.applyChannelOverwrites(guildPermissions, member.roleIds, channel, userId, guildId);
 	}
 
 	async getUserPermissionsBatch(_params: {
@@ -207,16 +219,12 @@ export class NoopGatewayService extends IGatewayService {
 		return new Map();
 	}
 
-	async canManageRoles(_params: {
+	async canManageRoles(params: {
 		guildId: GuildID;
 		userId: UserID;
 		targetUserId: UserID;
 		roleId: RoleID;
 	}): Promise<boolean> {
-		return false;
-	}
-
-	async canManageRole(params: {guildId: GuildID; userId: UserID; roleId: RoleID}): Promise<boolean> {
 		const {guildId, userId, roleId} = params;
 
 		const guild = await guildRepository.findUnique(guildId);
@@ -234,16 +242,10 @@ export class NoopGatewayService extends IGatewayService {
 		}
 
 		const roles = await roleRepository.listRoles(guildId);
+		const userPermissions = this.calculateGuildPermissions(member.roleIds, roles, guildId);
 
-		const userPermissions = this.calculatePermissions(
-			Array.from(member.roleIds),
-			roles,
-			userId === guild.ownerId,
-			guildId,
-		);
-
-		if ((userPermissions & Permissions.ADMINISTRATOR) !== 0n) {
-			return true;
+		if ((userPermissions & Permissions.MANAGE_ROLES) === 0n) {
+			return false;
 		}
 
 		const targetRole = roles.find((r) => r.id === roleId);
@@ -251,24 +253,70 @@ export class NoopGatewayService extends IGatewayService {
 			return false;
 		}
 
-		let userHighestPosition = -1;
-		for (const roleId of member.roleIds) {
-			const role = roles.find((r) => r.id === roleId);
-			if (role && (role as {position?: number}).position !== undefined) {
-				userHighestPosition = Math.max(userHighestPosition, (role as {position: number}).position);
+		const userMaxPosition = this.getMaxRolePosition(member.roleIds, roles);
+		return userMaxPosition > targetRole.position;
+	}
+
+	async canManageRole(params: {guildId: GuildID; userId: UserID; roleId: RoleID}): Promise<boolean> {
+		const {guildId, userId, roleId} = params;
+
+		const member = await guildMemberRepository.getMember(guildId, userId);
+		if (!member) {
+			return false;
+		}
+
+		const roles = await roleRepository.listRoles(guildId);
+		const targetRole = roles.find((r) => r.id === roleId);
+		if (!targetRole) {
+			return false;
+		}
+
+		const userMaxPosition = this.getMaxRolePosition(member.roleIds, roles);
+		if (userMaxPosition > targetRole.position) {
+			return true;
+		}
+
+		if (userMaxPosition === targetRole.position) {
+			const highestRole = this.getHighestRole(member.roleIds, roles);
+			if (highestRole) {
+				return String(highestRole.id) < String(targetRole.id);
 			}
 		}
 
-		const targetPosition = (targetRole as {position?: number}).position ?? 0;
-		return userHighestPosition > targetPosition;
+		return false;
+	}
+
+	private getHighestRole(
+		memberRoleIds: Set<RoleID>,
+		allRoles: Array<{id: RoleID; position: number}>,
+	): {id: RoleID; position: number} | null {
+		let highest: {id: RoleID; position: number} | null = null;
+		for (const roleId of memberRoleIds) {
+			const role = allRoles.find((r) => r.id === roleId);
+			if (!role) continue;
+			if (!highest) {
+				highest = role;
+			} else if (role.position > highest.position) {
+				highest = role;
+			} else if (role.position === highest.position && String(role.id) < String(highest.id)) {
+				highest = role;
+			}
+		}
+		return highest;
 	}
 
 	async getAssignableRoles(_params: {guildId: GuildID; userId: UserID}): Promise<Array<RoleID>> {
 		return [];
 	}
 
-	async getUserMaxRolePosition(_params: {guildId: GuildID; userId: UserID}): Promise<number> {
-		return 0;
+	async getUserMaxRolePosition(params: {guildId: GuildID; userId: UserID}): Promise<number> {
+		const {guildId, userId} = params;
+		const member = await guildMemberRepository.getMember(guildId, userId);
+		if (!member) {
+			return 0;
+		}
+		const roles = await roleRepository.listRoles(guildId);
+		return this.getMaxRolePosition(member.roleIds, roles);
 	}
 
 	async checkTargetMember(params: {guildId: GuildID; userId: UserID; targetUserId: UserID}): Promise<boolean> {
@@ -283,6 +331,10 @@ export class NoopGatewayService extends IGatewayService {
 			return true;
 		}
 
+		if (guild.ownerId === targetUserId) {
+			return false;
+		}
+
 		const member = await guildMemberRepository.getMember(guildId, userId);
 		const targetMember = await guildMemberRepository.getMember(guildId, targetUserId);
 		if (!member || !targetMember) {
@@ -290,35 +342,9 @@ export class NoopGatewayService extends IGatewayService {
 		}
 
 		const roles = await roleRepository.listRoles(guildId);
-
-		const userPermissions = this.calculatePermissions(
-			Array.from(member.roleIds),
-			roles,
-			userId === guild.ownerId,
-			guildId,
-		);
-
-		if ((userPermissions & Permissions.ADMINISTRATOR) !== 0n) {
-			return true;
-		}
-
-		let targetHighestPosition = -1;
-		for (const roleId of targetMember.roleIds) {
-			const role = roles.find((r) => r.id === roleId);
-			if (role && (role as {position?: number}).position !== undefined) {
-				targetHighestPosition = Math.max(targetHighestPosition, (role as {position: number}).position);
-			}
-		}
-
-		let userHighestPosition = -1;
-		for (const roleId of member.roleIds) {
-			const role = roles.find((r) => r.id === roleId);
-			if (role && (role as {position?: number}).position !== undefined) {
-				userHighestPosition = Math.max(userHighestPosition, (role as {position: number}).position);
-			}
-		}
-
-		return userHighestPosition > targetHighestPosition;
+		const userMaxPosition = this.getMaxRolePosition(member.roleIds, roles);
+		const targetMaxPosition = this.getMaxRolePosition(targetMember.roleIds, roles);
+		return userMaxPosition > targetMaxPosition;
 	}
 
 	async getViewableChannels(params: {guildId: GuildID; userId: UserID}): Promise<Array<ChannelID>> {
@@ -339,37 +365,21 @@ export class NoopGatewayService extends IGatewayService {
 		}
 
 		const roles = await roleRepository.listRoles(guildId);
-		const userPermissions = this.calculatePermissions(
-			Array.from(member.roleIds),
-			roles,
-			userId === guild?.ownerId,
-			guildId,
-		);
+		const guildPermissions = this.calculateGuildPermissions(member.roleIds, roles, guildId);
 
-		const everyoneRoleId = guildIdToRoleId(guildId);
+		if ((guildPermissions & Permissions.ADMINISTRATOR) !== 0n) {
+			return channels.map((ch) => ch.id);
+		}
+
 		const viewable: Array<ChannelID> = [];
 		for (const channel of channels) {
-			let channelPermissions = userPermissions;
-
-			if (channel.permissionOverwrites) {
-				const everyoneOverwrite = channel.permissionOverwrites.get(everyoneRoleId);
-				if (everyoneOverwrite) {
-					channelPermissions = (channelPermissions & ~everyoneOverwrite.deny) | everyoneOverwrite.allow;
-				}
-
-				for (const roleId of member.roleIds) {
-					const overwrite = channel.permissionOverwrites.get(roleId);
-					if (overwrite) {
-						channelPermissions = (channelPermissions & ~overwrite.deny) | overwrite.allow;
-					}
-				}
-
-				const userOverwrite = channel.permissionOverwrites.get(userId);
-				if (userOverwrite) {
-					channelPermissions = (channelPermissions & ~userOverwrite.deny) | userOverwrite.allow;
-				}
-			}
-
+			const channelPermissions = this.applyChannelOverwrites(
+				guildPermissions,
+				member.roleIds,
+				channel,
+				userId,
+				guildId,
+			);
 			if ((channelPermissions & Permissions.VIEW_CHANNEL) !== 0n) {
 				viewable.push(channel.id);
 			}
@@ -492,53 +502,32 @@ export class NoopGatewayService extends IGatewayService {
 		}
 
 		const roles = await roleRepository.listRoles(guildId);
+		const guildPermissions = this.calculateGuildPermissions(member.roleIds, roles, guildId);
 
-		let userPermissions = this.calculatePermissions(
-			Array.from(member.roleIds),
-			roles,
-			userId === guild.ownerId,
-			guildId,
-		);
+		if ((guildPermissions & Permissions.ADMINISTRATOR) !== 0n) {
+			return true;
+		}
+
+		let userPermissions = guildPermissions;
 
 		if (channelId) {
 			const {ChannelDataRepository} = await import('@fluxer/api/src/channel/repositories/ChannelDataRepository');
 			const channelRepo = new ChannelDataRepository();
 			const channel = await channelRepo.findUnique(channelId);
 
-			if (channel?.permissionOverwrites) {
-				const everyoneRoleId = guildIdToRoleId(guildId);
-				const everyoneOverwrite = channel.permissionOverwrites.get(everyoneRoleId);
-				if (everyoneOverwrite) {
-					userPermissions = (userPermissions & ~everyoneOverwrite.deny) | everyoneOverwrite.allow;
-				}
-
-				for (const roleId of member.roleIds) {
-					const overwrite = channel.permissionOverwrites.get(roleId);
-					if (overwrite) {
-						userPermissions = (userPermissions & ~overwrite.deny) | overwrite.allow;
-					}
-				}
-
-				const userOverwrite = channel.permissionOverwrites.get(userId);
-				if (userOverwrite) {
-					userPermissions = (userPermissions & ~userOverwrite.deny) | userOverwrite.allow;
-				}
+			if (channel) {
+				userPermissions = this.applyChannelOverwrites(guildPermissions, member.roleIds, channel, userId, guildId);
 			}
 		}
 
 		return (userPermissions & permission) === permission;
 	}
 
-	private calculatePermissions(
-		memberRoleIds: Array<RoleID>,
+	private calculateGuildPermissions(
+		memberRoleIds: Set<RoleID>,
 		allRoles: Array<{id: RoleID; permissions: bigint}>,
-		isOwner: boolean,
 		guildId: GuildID,
 	): bigint {
-		if (isOwner) {
-			return ALL_PERMISSIONS;
-		}
-
 		let permissions = 0n;
 
 		const everyoneRoleId = guildIdToRoleId(guildId);
@@ -550,16 +539,68 @@ export class NoopGatewayService extends IGatewayService {
 		for (const roleId of memberRoleIds) {
 			const role = allRoles.find((r) => r.id === roleId);
 			if (role) {
-				const rolePermissions = role.permissions;
-				permissions |= rolePermissions;
+				permissions |= role.permissions;
 
-				if ((rolePermissions & Permissions.ADMINISTRATOR) !== 0n) {
-					return Permissions.ADMINISTRATOR;
+				if ((permissions & Permissions.ADMINISTRATOR) !== 0n) {
+					return ALL_PERMISSIONS;
 				}
 			}
 		}
 
 		return permissions;
+	}
+
+	private applyChannelOverwrites(
+		basePermissions: bigint,
+		memberRoleIds: Set<RoleID>,
+		channel: {permissionOverwrites?: Map<RoleID | UserID, {allow: bigint; deny: bigint}>},
+		userId: UserID,
+		guildId: GuildID,
+	): bigint {
+		if ((basePermissions & Permissions.ADMINISTRATOR) !== 0n) {
+			return ALL_PERMISSIONS;
+		}
+
+		if (!channel.permissionOverwrites) {
+			return basePermissions;
+		}
+
+		let permissions = basePermissions;
+
+		const everyoneRoleId = guildIdToRoleId(guildId);
+		const everyoneOverwrite = channel.permissionOverwrites.get(everyoneRoleId);
+		if (everyoneOverwrite) {
+			permissions = (permissions & ~everyoneOverwrite.deny) | everyoneOverwrite.allow;
+		}
+
+		let roleAllow = 0n;
+		let roleDeny = 0n;
+		for (const roleId of memberRoleIds) {
+			const overwrite = channel.permissionOverwrites.get(roleId);
+			if (overwrite) {
+				roleAllow |= overwrite.allow;
+				roleDeny |= overwrite.deny;
+			}
+		}
+		permissions = (permissions & ~roleDeny) | roleAllow;
+
+		const userOverwrite = channel.permissionOverwrites.get(userId);
+		if (userOverwrite) {
+			permissions = (permissions & ~userOverwrite.deny) | userOverwrite.allow;
+		}
+
+		return permissions;
+	}
+
+	private getMaxRolePosition(memberRoleIds: Set<RoleID>, allRoles: Array<{id: RoleID; position: number}>): number {
+		let maxPosition = -1;
+		for (const roleId of memberRoleIds) {
+			const role = allRoles.find((r) => r.id === roleId);
+			if (role) {
+				maxPosition = Math.max(maxPosition, role.position);
+			}
+		}
+		return maxPosition;
 	}
 
 	async getVanityUrlChannel(_guildId: GuildID): Promise<ChannelID | null> {

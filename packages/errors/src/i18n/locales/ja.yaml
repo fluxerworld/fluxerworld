@@ -218,6 +218,7 @@ discovery.already_applied: このコミュニティはすでにディスカバ�
 discovery.application_already_reviewed: このディスカバリー申請はすでに審査済みだよ。
 discovery.application_not_found: ディスカバリー申請が見つからないよ。
 discovery.description_required: ディスカバリーの掲載には説明文が必要だよ。
+discovery.disabled: このインスタンスではDiscoveryを利用できません。
 discovery.insufficient_members: このコミュニティはディスカバリーに必要な最小メンバー数を満たしていないよ。
 discovery.invalid_category: ディスカバリーのカテゴリが無効だよ。
 discovery.not_discoverable: このコミュニティはディスカバリーに掲載されていないよ。

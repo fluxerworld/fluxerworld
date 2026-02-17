@@ -218,6 +218,7 @@ discovery.already_applied: Diese Community hat sich bereits für die Entdeckung 
 discovery.application_already_reviewed: Dieser Entdeckungsantrag wurde bereits geprüft.
 discovery.application_not_found: Entdeckungsantrag wurde nicht gefunden.
 discovery.description_required: Eine Beschreibung ist für den Entdeckungseintrag erforderlich.
+discovery.disabled: Entdeckung ist auf dieser Instanz nicht verfügbar.
 discovery.insufficient_members: Diese Community erfüllt nicht die Mindestanzahl an Mitgliedern für die Entdeckung.
 discovery.invalid_category: Ungültige Entdeckungskategorie.
 discovery.not_discoverable: Diese Community ist nicht in der Entdeckung gelistet.

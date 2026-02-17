@@ -218,6 +218,7 @@ discovery.already_applied: 该社区已申请过发现功能。
 discovery.application_already_reviewed: 该发现申请已审核过了。
 discovery.application_not_found: 未找到发现申请。
 discovery.description_required: 发现列表需要填写简介。
+discovery.disabled: 此实例上不提供发现。
 discovery.insufficient_members: 该社区的成员数量不满足发现功能的最低要求。
 discovery.invalid_category: 发现分类无效。
 discovery.not_discoverable: 该社区未在发现中列出。

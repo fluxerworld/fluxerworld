@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} збережені медіа-елементи"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount} учасник"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount} учасників"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount} спільних спільнот"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} взаємна спільнота"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:75
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} Онлайн"
 
@@ -1462,6 +1462,10 @@ msgstr "8 годин"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "4-значний тег буде додано автоматично, щоб забезпечити унікальність"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+msgid "A description is required."
+msgstr "Опис є обов'язковим."
+
 #: src/components/channel/CallMessage.tsx:80
 #: src/components/channel/CallMessage.tsx:136
 msgid "a few seconds"
@@ -1744,7 +1748,7 @@ msgid "activity"
 msgstr "активність"
 
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:385
-#: src/components/modals/utils/GuildSettingsConstants.tsx:131
+#: src/components/modals/utils/GuildSettingsConstants.tsx:134
 msgid "Activity Log"
 msgstr "Журнал активності"
 
@@ -2153,7 +2157,7 @@ msgstr "Контролі вирівнювання доступні лише на
 #: src/components/channel/GuildMembersPage.tsx:816
 #: src/components/channel/MobileMemesPicker.tsx:101
 #: src/components/channel/pickers/memes/MemesPickerHeader.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:91
+#: src/components/modals/DiscoveryModal.tsx:97
 #: src/components/modals/GuildNotificationSettingsModal.tsx:226
 #: src/constants/AuditLogConstants.tsx:237
 msgid "All"
@@ -2248,7 +2252,7 @@ msgstr "Усі користувачі"
 msgid "All your user account information"
 msgstr "Уся інформація твого акаунта"
 
-#: src/components/modals/shared/PermissionComponents.tsx:92
+#: src/components/modals/shared/PermissionComponents.tsx:91
 msgid "Allow"
 msgstr "Дозволити"
 
@@ -2620,6 +2624,10 @@ msgstr "Анімація"
 msgid "animations"
 msgstr "анімації"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+msgid "Anime & Manga"
+msgstr "Аніме та Манга"
+
 #: src/components/modals/tabs/component_gallery_tab/SelectionsTab.tsx:198
 msgid "Another Checkbox"
 msgstr "Ще один перемикач"
@@ -2714,6 +2722,7 @@ msgstr "Застосовується лише до десктопного дод
 msgid "Applies to both camera and screen sharing"
 msgstr "Застосовується до камери й трансляції екрана"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2727,6 +2736,10 @@ msgstr "Застосувати тему"
 #: src/components/modals/tabs/chat_settings_tab/SidebarTab.tsx:49
 msgid "Apply to all communities"
 msgstr "Застосувати до всіх спільнот"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+msgid "Approved"
+msgstr "Схвалено"
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:254
 msgid "apps"
@@ -3537,7 +3550,7 @@ msgstr "Вибір режиму банера"
 msgid "Banner preview"
 msgstr "Попередній перегляд банера"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:173
+#: src/components/modals/utils/GuildSettingsConstants.tsx:185
 msgid "Bans"
 msgstr "Бани"
 
@@ -4198,6 +4211,7 @@ msgstr "Керування вирівнюванням картки"
 msgid "Careful! You have unsaved changes."
 msgstr "Обережно! У вас є незбережені зміни."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4742,6 +4756,10 @@ msgstr "Оберіть формат відображення часу в усь�
 #: src/components/modals/tabs/appearance_tab/InterfaceTab.tsx:109
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "Оберіть, як індикатори набору з'являються в списку каналів, коли хтось щось пише."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+msgid "Choose the category that best describes your community."
+msgstr "Виберіть категорію, яка найкраще описує вашу спільноту."
 
 #: src/components/pages/OAuthAuthorizePage.tsx:605
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
@@ -5765,6 +5783,10 @@ msgstr "Створіть URL авторизації з областями та �
 msgid "contact"
 msgstr "контакт"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+msgid "Content Creator"
+msgstr "Контент-креатор"
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:227
 msgid "Content filtering"
 msgstr "Фільтрація контенту"
@@ -6583,7 +6605,7 @@ msgstr "Власна тривалість"
 msgid "Custom Duration"
 msgstr "Користувацька тривалість"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:107
+#: src/components/modals/utils/GuildSettingsConstants.tsx:110
 msgid "Custom Emoji"
 msgstr "Власні емодзі"
 
@@ -6600,7 +6622,7 @@ msgid "Custom Hoist Order"
 msgstr "Власний порядок підняття"
 
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:146
-#: src/components/modals/utils/GuildSettingsConstants.tsx:147
+#: src/components/modals/utils/GuildSettingsConstants.tsx:150
 msgid "Custom Invite URL"
 msgstr "Власне URL запрошення"
 
@@ -6632,7 +6654,7 @@ msgstr "кастомні звуки"
 msgid "Custom Status"
 msgstr "Власний статус"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:115
+#: src/components/modals/utils/GuildSettingsConstants.tsx:118
 msgid "Custom Stickers"
 msgstr "Власні стікери"
 
@@ -7275,7 +7297,7 @@ msgstr "Щільний"
 msgid "Dense layout"
 msgstr "Щільне розташування"
 
-#: src/components/modals/shared/PermissionComponents.tsx:72
+#: src/components/modals/shared/PermissionComponents.tsx:71
 msgid "Deny"
 msgstr "Відмовити"
 
@@ -7304,12 +7326,17 @@ msgstr "Опиши, які емоції містить цей набір."
 msgid "Describe what makes the content illegal"
 msgstr "Опишіть, що робить контент незаконним"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+msgid "Describe what your community is about..."
+msgstr "Опишіть, про що ваша спільнота..."
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:71
 msgid "description"
 msgstr "опис"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "Опис"
@@ -7317,6 +7344,14 @@ msgstr "Опис"
 #: src/components/modals/sticker_form/StickerFormFields.tsx:107
 msgid "Description must be 500 characters or less"
 msgstr "Опис має бути не більше 500 символів"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
+msgstr "Опис має містити щонайменше {DISCOVERY_DESCRIPTION_MIN_LENGTH} символів."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
+msgstr "Опис не може перевищувати {DISCOVERY_DESCRIPTION_MAX_LENGTH} символів."
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:540
 msgid "desktop"
@@ -7689,6 +7724,23 @@ msgstr "Відключити сокет"
 #: src/components/voice/VoiceConnectionStatus.tsx:324
 msgid "Disconnected"
 msgstr "Відключено"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/utils/GuildSettingsConstants.tsx:160
+msgid "Discovery"
+msgstr "Відкриття"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+msgid "Discovery application submitted"
+msgstr "Заявку на відкриття подано"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+msgid "Discovery application withdrawn"
+msgstr "Заявку на відкриття відкликано"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+msgid "Discovery listing updated"
+msgstr "Список відкриття оновлено"
 
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:113
 msgid "Discriminator"
@@ -8260,6 +8312,10 @@ msgstr "Редагування повідомлення"
 msgid "Editing scheduled message"
 msgstr "Редагування запланованого повідомлення"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+msgid "Education"
+msgstr "Освіта"
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:100
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:490
 msgid "email"
@@ -8805,6 +8861,10 @@ msgstr "Введи пароль."
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "Введи номер телефону. Ми надішлемо код підтвердження SMS."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+msgid "Entertainment"
+msgstr "Розваги"
+
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:49
 msgid "Entrance Sound"
 msgstr "Звук входу"
@@ -9003,7 +9063,8 @@ msgstr "Налаштування фільтра явного контенту"
 
 #: src/components/layout/guild_list/DiscoveryButton.tsx:49
 #: src/components/layout/guild_list/DiscoveryButton.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:73
+#: src/components/modals/DiscoveryModal.tsx:74
+#: src/components/modals/DiscoveryModal.tsx:82
 msgid "Explore Communities"
 msgstr "Досліджуйте спільноти"
 
@@ -9250,6 +9311,10 @@ msgstr "Не вдалося встановити цей пак емодзі. С�
 #: src/actions/InviteActionCreators.tsx:323
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Не вдалося встановити цей пак стікерів. Спробуй пізніше."
+
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+msgid "Failed to join this community. Please try again."
+msgstr "Не вдалося приєднатися до цієї спільноти. Будь ласка, спробуйте ще раз."
 
 #: src/components/modals/KickMemberModal.tsx:45
 msgid "Failed to kick member. Please try again."
@@ -9572,6 +9637,10 @@ msgstr "Не вдалося завантажити звук входу"
 #: src/actions/ConnectionActionCreators.tsx:116
 msgid "Failed to verify connection"
 msgstr "Не вдалося перевірити підключення"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+msgid "Failed to withdraw application. Please try again."
+msgstr "Не вдалося відкликати заявку. Будь ласка, спробуйте ще раз."
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:634
 msgid "fake"
@@ -10330,6 +10399,10 @@ msgstr "Ігровий контролер"
 msgid "Game Night"
 msgstr "Ігрова ніч"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+msgid "Gaming"
+msgstr "Ігри"
+
 #: src/components/modals/AddGuildModal.tsx:180
 msgid "Gaming Community"
 msgstr "Геймерська спільнота"
@@ -10355,7 +10428,7 @@ msgstr "загальний"
 #: src/components/modals/tabs/developer_options_tab/index.tsx:45
 #: src/components/modals/tabs/developer_options_tab/Inline.tsx:45
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:56
-#: src/components/modals/utils/GuildSettingsConstants.tsx:91
+#: src/components/modals/utils/GuildSettingsConstants.tsx:94
 #: src/components/modals/utils/SettingsConstants.tsx:301
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:619
 msgid "General"
@@ -11897,7 +11970,7 @@ msgstr "Налаштування посилань-запрошень"
 #: src/components/modals/channel_tabs/ChannelInvitesTab.tsx:162
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:68
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:72
-#: src/components/modals/utils/GuildSettingsConstants.tsx:165
+#: src/components/modals/utils/GuildSettingsConstants.tsx:177
 msgid "Invite Links"
 msgstr "Посилання-запрошення"
 
@@ -12102,10 +12175,6 @@ msgstr "Стрибки"
 msgid "join"
 msgstr "приєднатися"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
-msgid "Join"
-msgstr "Приєднатися"
-
 #: src/components/modals/AddGuildModal.tsx:84
 msgid "Join a Community"
 msgstr "Приєднатися до спільноти"
@@ -12129,6 +12198,7 @@ msgstr "Приєднатися до виклику"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12203,7 +12273,7 @@ msgstr "Приєднатися до голосового чату"
 msgid "Join Voice Call"
 msgstr "Приєднатися до голосового виклику"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 msgid "Joined"
 msgstr "Приєднано"
 
@@ -12770,6 +12840,10 @@ msgstr "посилання"
 msgid "Links"
 msgstr "Посилання"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+msgid "List your community in Discovery so others can find and join it."
+msgstr "Перерахуйте вашу спільноту в розділі Відкриття, щоб інші могли її знайти та приєднатися."
+
 #: src/components/modals/tabs/component_gallery_tab/MarkdownTab.tsx:109
 msgid "Lists"
 msgstr "Списки"
@@ -12795,7 +12869,7 @@ msgid "Load more"
 msgstr "Завантажити ще"
 
 #: src/components/channel/GuildMembersPage.tsx:1082
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 msgid "Load More"
 msgstr "Завантажити більше"
 
@@ -12857,7 +12931,7 @@ msgstr "Завантаження способів верифікації..."
 msgid "Loading: {alt}"
 msgstr "Завантаження: {alt}"
 
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 #: src/components/uikit/Spinner.tsx:39
 msgid "Loading..."
 msgstr "Завантаження..."
@@ -13471,7 +13545,7 @@ msgstr "учасники"
 #: src/components/channel/GuildMembersPage.tsx:1116
 #: src/components/layout/ChannelListContent.tsx:276
 #: src/components/modals/shared/AddOverridePopout.tsx:121
-#: src/components/modals/utils/GuildSettingsConstants.tsx:157
+#: src/components/modals/utils/GuildSettingsConstants.tsx:169
 msgid "Members"
 msgstr "Учасники"
 
@@ -14084,6 +14158,10 @@ msgstr "Кіноклуб"
 msgid "Movie Night Crew"
 msgstr "Команда кіношного вечора"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+msgid "Movies & TV"
+msgstr "Фільми та ТБ"
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:580
 msgid "mp3"
 msgstr "mp3"
@@ -14091,6 +14169,10 @@ msgstr "mp3"
 #: src/components/modals/tabs/developer_options_tab/TypographyTab.tsx:330
 msgid "Multilingual Content"
 msgstr "Багатомовний контент"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+msgid "Music"
+msgstr "Музика"
 
 #: src/components/modals/AddGuildModal.tsx:170
 msgid "Music Lovers"
@@ -14433,7 +14515,7 @@ msgstr "Помилка мережі"
 msgid "Networking & Performance"
 msgstr "Мережа та продуктивність"
 
-#: src/components/modals/shared/PermissionComponents.tsx:82
+#: src/components/modals/shared/PermissionComponents.tsx:81
 msgid "Neutral (Inherit)"
 msgstr "Нейтральний (успадкований)"
 
@@ -14666,10 +14748,6 @@ msgstr "Канали не знайдено"
 msgid "No communities available with <0>Manage Community</0> permissions."
 msgstr "Немає спільнот з правами <0>Управління спільнотою</0>."
 
-#: src/components/modals/DiscoveryModal.tsx:111
-msgid "No communities found"
-msgstr "Спільнот не знайдено"
-
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildBannerUploadField.tsx:142
 msgid "No community banner"
 msgstr "Банера спільноти немає"
@@ -14680,7 +14758,7 @@ msgstr "Ще немає підключень"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:68
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -15002,6 +15080,10 @@ msgstr "Норвезька"
 #: src/components/modals/tabs/VideoTab.tsx:141
 msgid "Not available"
 msgstr "Недоступно"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+msgid "Not enough members"
+msgstr "Недостатньо учасників"
 
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:57
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:58
@@ -15667,6 +15749,7 @@ msgstr "Оригінальне повідомлення не вдалося за
 msgid "Original message was deleted"
 msgstr "Оригінальне повідомлення видалено"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15833,7 +15916,7 @@ msgstr "Учасники"
 msgid "Participants: {names}"
 msgstr "Учасники: {names}"
 
-#: src/components/guild/GuildBadge.tsx:61
+#: src/components/guild/GuildBadge.tsx:58
 msgid "Partnered Community"
 msgstr "Партнерська спільнота"
 
@@ -15943,6 +16026,7 @@ msgid "Payment Successful"
 msgstr "Платіж успішний"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
 msgid "Pending"
 msgstr "Очікується"
 
@@ -16972,6 +17056,11 @@ msgstr "Причина"
 msgid "Reason (Optional)"
 msgstr "Причина (необов'язково)"
 
+#. placeholder {0}: application.review_reason
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+msgid "Reason: {0}"
+msgstr "Причина: {0}"
+
 #: src/components/voice/VoiceStatsOverlay.tsx:130
 #: src/components/voice/VoiceStatsOverlay.tsx:142
 msgid "Receive"
@@ -17160,6 +17249,10 @@ msgstr "Звичайні, бот, система та тайм-аут корис
 #: src/components/voice/IncomingCallUI.tsx:322
 msgid "Reject"
 msgstr "Відхилити"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+msgid "Rejected"
+msgstr "Відхилено"
 
 #: src/components/channel/textarea/HoldToRecordButton.tsx:232
 msgid "Release to send"
@@ -17431,6 +17524,10 @@ msgstr "Видалити позначку про першу покупку Pluto
 #: src/components/modals/tabs/my_profile_tab/PremiumBadgeSettings.tsx:106
 msgid "Remove your Visionary ID badge"
 msgstr "Видалити бейдж Visionary ID"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+msgid "Removed"
+msgstr "Видалено"
 
 #. placeholder {0}: renderValueInline(value, guildId, i18n)
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:250
@@ -18136,7 +18233,7 @@ msgstr "Роль: {0}."
 msgid "Roles"
 msgstr "Ролі"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:99
+#: src/components/modals/utils/GuildSettingsConstants.tsx:102
 msgid "Roles & Permissions"
 msgstr "Ролі та дозволи"
 
@@ -18193,7 +18290,7 @@ msgstr "Rust"
 msgid "Safe"
 msgstr "Безпечно"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:123
+#: src/components/modals/utils/GuildSettingsConstants.tsx:126
 msgid "Safety & Moderation"
 msgstr "Безпека та модерація"
 
@@ -18222,6 +18319,7 @@ msgstr "зберегти"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18353,6 +18451,10 @@ msgstr "Заплановане повідомлення на {0}"
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "Заплановані повідомлення можуть бути не більше ніж за 30 днів."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+msgid "Science & Technology"
+msgstr "Наука та технології"
+
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:469
 msgid "Scope"
 msgstr "Область доступу"
@@ -18463,7 +18565,7 @@ msgstr "Шукати канали"
 msgid "Search channels or DMs"
 msgstr "Шукати канали або особисті повідомлення"
 
-#: src/components/modals/DiscoveryModal.tsx:78
+#: src/components/modals/DiscoveryModal.tsx:86
 msgid "Search communities..."
 msgstr "Шукати спільноти..."
 
@@ -20321,6 +20423,10 @@ msgstr "статусний слайд"
 msgid "Status Slate"
 msgstr "Панель статусу"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+msgid "Status:"
+msgstr "Статус:"
+
 #: src/components/pages/report/ReportStepSelection.tsx:39
 msgid "Step 1"
 msgstr "Крок 1"
@@ -22092,10 +22198,6 @@ msgstr "Спробуй інші фільтри або пошукові терм�
 msgid "Try searching for something like \"theme\", \"notifications\", or \"privacy\""
 msgstr "Спробуй шукати щось на кшталт \"тема\", \"сповіщення\" або \"приватність\""
 
-#: src/components/modals/DiscoveryModal.tsx:113
-msgid "Try searching with different keywords or browse a different category."
-msgstr "Спробуйте шукати з іншими ключовими словами або перегляньте іншу категорію."
-
 #: src/components/auth/MfaScreen.tsx:120
 msgid "Try security key / passkey instead"
 msgstr "Спробуй замість цього ключ безпеки / пароль"
@@ -23559,12 +23661,12 @@ msgstr "Підтвердження не вдалося"
 msgid "Verification may be required before viewing your backup codes."
 msgstr "Перед переглядом резервних кодів може знадобитися підтвердження особи."
 
-#: src/components/guild/GuildBadge.tsx:60
+#: src/components/guild/GuildBadge.tsx:57
 msgid "Verified & Partnered Community"
 msgstr "Перевірена та партнерська спільнота"
 
 #: src/components/emojis/EmojiAttributionSubtext.tsx:144
-#: src/components/guild/GuildBadge.tsx:62
+#: src/components/guild/GuildBadge.tsx:59
 msgid "Verified Community"
 msgstr "Підтверджена спільнота"
 
@@ -24355,7 +24457,7 @@ msgstr "URL вебхука"
 #: src/components/modals/channel_tabs/ChannelWebhooksTab.tsx:99
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:98
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:80
-#: src/components/modals/utils/GuildSettingsConstants.tsx:139
+#: src/components/modals/utils/GuildSettingsConstants.tsx:142
 msgid "Webhooks"
 msgstr "Вебхуки"
 
@@ -24588,6 +24690,10 @@ msgstr "З помилкою"
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:131
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "З Plutonium ви можете використовувати анімовані аватари та банери (у форматах GIF, APNG, анімований WebP або AVIF), налаштувати свій 4-значний тег і отримати доступ до багатьох інших преміум-функцій."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+msgid "Withdraw"
+msgstr "Відкликати"
 
 #: src/components/modals/AddGuildModal.tsx:182
 msgid "Work Friends"
@@ -25319,6 +25425,10 @@ msgstr "Ваш обліковий запис ще не привласнено. �
 msgid "Your account is too new to send messages in this community."
 msgstr "Ваш обліковий запис надто новий, щоб надсилати повідомлення в цій спільноті."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+msgid "Your application is pending review. You can still update your listing details or withdraw the application."
+msgstr "Вашу заявку розглядають. Ви все ще можете оновити деталі вашого списку або відкликати заявку."
+
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:53
 msgid "Your browser does not support desktop notifications."
 msgstr "Ваш браузер не підтримує десктопні сповіщення."
@@ -25334,6 +25444,14 @@ msgstr "Ваш код"
 #: src/components/auth/HandoffCodeDisplay.tsx:85
 msgid "Your code is ready!"
 msgstr "Ваш код готовий!"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
+msgstr "Ваша спільнота зазначена в Discovery. Ви можете оновити деталі вашого списку нижче або відкликати, щоб видалити його."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
+msgstr "Вашій спільноті потрібно щонайменше {minMemberCount} учасників, перш ніж її можна буде зазначити в Discovery."
 
 #. placeholder {0}: user?.email
 #: src/components/modals/RequiredActionModal.tsx:456

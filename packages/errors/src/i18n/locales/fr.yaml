@@ -218,6 +218,7 @@ discovery.already_applied: Cette communauté a déjà postulé pour la découver
 discovery.application_already_reviewed: Cette candidature de découverte a déjà été examinée.
 discovery.application_not_found: La candidature de découverte est introuvable.
 discovery.description_required: Une description est requise pour le référencement dans la découverte.
+discovery.disabled: La découverte n'est pas disponible sur cette instance.
 discovery.insufficient_members: Cette communauté n'atteint pas le nombre minimum de membres requis pour la découverte.
 discovery.invalid_category: Catégorie de découverte invalide.
 discovery.not_discoverable: Cette communauté n'est pas référencée dans la découverte.

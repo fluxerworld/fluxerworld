@@ -26,7 +26,6 @@ import {HttpStatus, MimeType} from '@fluxer/constants/src/HttpConstants';
 import {isPressAssetId, PressAssets} from '@fluxer/constants/src/PressAssets';
 import {createSession} from '@fluxer/hono/src/Session';
 import {getLocaleFromCode} from '@fluxer/locale/src/LocaleService';
-import {type BadgeCache, createBadgeResponse} from '@fluxer/marketing/src/BadgeProxy';
 import type {MarketingConfig} from '@fluxer/marketing/src/MarketingConfig';
 import {sendMarketingRequest} from '@fluxer/marketing/src/MarketingHttpClient';
 import {renderCareersPage} from '@fluxer/marketing/src/pages/CareersPage';
@@ -54,8 +53,6 @@ export interface RegisterMarketingRoutesOptions {
 	app: Hono;
 	config: MarketingConfig;
 	contextFactory: MarketingContextFactory;
-	badgeFeaturedCache: BadgeCache;
-	badgeTopPostCache: BadgeCache;
 }
 
 interface LocaleCookieSession {
@@ -88,7 +85,6 @@ const PAGE_ROUTE_DEFINITIONS: ReadonlyArray<{
 ];
 
 export function registerMarketingRoutes(options: RegisterMarketingRoutesOptions): void {
-	registerBadgeRoutes(options.app, options.badgeFeaturedCache, options.badgeTopPostCache);
 	registerLocaleRoute(options.app, options.config);
 	registerExternalRedirects(options.app);
 	registerSystemContentRoutes(options.app, options.contextFactory);
@@ -97,16 +93,6 @@ export function registerMarketingRoutes(options: RegisterMarketingRoutesOptions)
 	registerPageRoutes(options.app, options.contextFactory);
 	registerPressDownloadRoute(options.app);
 	registerNotFoundRoute(options.app, options.contextFactory);
-}
-
-function registerBadgeRoutes(app: Hono, badgeFeaturedCache: BadgeCache, badgeTopPostCache: BadgeCache): void {
-	app.get('/api/badges/product-hunt', async (c) => {
-		return await createBadgeResponse(badgeFeaturedCache, c);
-	});
-
-	app.get('/api/badges/product-hunt-top-post', async (c) => {
-		return await createBadgeResponse(badgeTopPostCache, c);
-	});
 }
 
 function registerLocaleRoute(app: Hono, config: MarketingConfig): void {

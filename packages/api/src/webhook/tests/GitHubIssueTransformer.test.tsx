@@ -75,8 +75,8 @@ describe('GitHub Issue Transformer', () => {
 			expect(result?.url).toBe('https://github.com/org/repo/issues/99');
 			expect(result?.color).toBe(0xeb4841);
 			expect(result?.description).toContain('When I try to do X');
-			expect(result?.author?.name).toBe('reporter');
-			expect(result?.author?.url).toBe('https://github.com/reporter');
+			expect(result?.author?.name).toBe('testuser');
+			expect(result?.author?.url).toBe('https://github.com/testuser');
 		});
 
 		it('transforms a closed issue', async () => {
@@ -93,6 +93,7 @@ describe('GitHub Issue Transformer', () => {
 			expect(result?.title).toContain('Issue closed');
 			expect(result?.color).toBe(0x000000);
 			expect(result?.description).toBeUndefined();
+			expect(result?.author?.name).toBe('testuser');
 		});
 
 		it('transforms a reopened issue', async () => {
@@ -108,6 +109,7 @@ describe('GitHub Issue Transformer', () => {
 			expect(result).not.toBeNull();
 			expect(result?.title).toContain('Issue reopened');
 			expect(result?.color).toBe(0xfcbd1f);
+			expect(result?.author?.name).toBe('testuser');
 		});
 
 		it('returns null for unsupported action types', async () => {

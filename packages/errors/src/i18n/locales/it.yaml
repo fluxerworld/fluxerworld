@@ -218,6 +218,7 @@ discovery.already_applied: Questa comunità ha già fatto richiesta per la disco
 discovery.application_already_reviewed: Questa richiesta di discovery è già stata esaminata.
 discovery.application_not_found: Richiesta di discovery non trovata.
 discovery.description_required: È necessaria una descrizione per la scheda di discovery.
+discovery.disabled: La scoperta non è disponibile su questa istanza.
 discovery.insufficient_members: Questa comunità non soddisfa il numero minimo di membri per la discovery.
 discovery.invalid_category: Categoria di discovery non valida.
 discovery.not_discoverable: Questa comunità non è presente nella discovery.

@@ -30,7 +30,10 @@ import type {GuildResponse} from '@fluxer/schema/src/domains/guild/GuildResponse
 import {afterEach, beforeEach, describe, expect, test} from 'vitest';
 
 async function setGuildMemberCount(harness: ApiTestHarness, guildId: string, memberCount: number): Promise<void> {
-	await createBuilder(harness, '').post(`/test/guilds/${guildId}/member-count`).body({member_count: memberCount}).execute();
+	await createBuilder(harness, '')
+		.post(`/test/guilds/${guildId}/member-count`)
+		.body({member_count: memberCount})
+		.execute();
 }
 
 async function createGuildWithApplication(
@@ -45,7 +48,7 @@ async function createGuildWithApplication(
 
 	const application = await createBuilder<DiscoveryApplicationResponse>(harness, owner.token)
 		.post(`/guilds/${guild.id}/discovery`)
-		.body({description, category_id: categoryId})
+		.body({description, category_type: categoryId})
 		.expect(HTTP_STATUS.OK)
 		.execute();
 

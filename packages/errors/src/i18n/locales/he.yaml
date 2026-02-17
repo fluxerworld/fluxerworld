@@ -218,6 +218,7 @@ discovery.already_applied: הקהילה הזו כבר הגישה בקשה לגי
 discovery.application_already_reviewed: בקשת הגילוי הזו כבר נבדקה.
 discovery.application_not_found: בקשת הגילוי לא נמצאה.
 discovery.description_required: נדרש תיאור לרישום בגילוי.
+discovery.disabled: הגילוי אינו זמין בהופעה זו.
 discovery.insufficient_members: הקהילה הזו לא עומדת במספר המינימלי של חברים לגילוי.
 discovery.invalid_category: קטגוריית גילוי לא תקינה.
 discovery.not_discoverable: הקהילה הזו לא מופיעה ברשימת הגילוי.

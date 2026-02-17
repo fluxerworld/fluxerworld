@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} sparade mediapunkter"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount} medlem"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount} medlemmar"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount} ömsesidiga gemenskaper"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} gemensam community"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:75
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} Online"
 
@@ -1462,6 +1462,10 @@ msgstr "8 timmar"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "En 4-siffrig tagg läggs till automatiskt för att säkerställa unikhet"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+msgid "A description is required."
+msgstr "En beskrivning krävs."
+
 #: src/components/channel/CallMessage.tsx:80
 #: src/components/channel/CallMessage.tsx:136
 msgid "a few seconds"
@@ -1744,7 +1748,7 @@ msgid "activity"
 msgstr "aktivitet"
 
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:385
-#: src/components/modals/utils/GuildSettingsConstants.tsx:131
+#: src/components/modals/utils/GuildSettingsConstants.tsx:134
 msgid "Activity Log"
 msgstr "Aktivitetslogg"
 
@@ -2153,7 +2157,7 @@ msgstr "Justeringskontroller är endast tillgängliga på bredare skärmar"
 #: src/components/channel/GuildMembersPage.tsx:816
 #: src/components/channel/MobileMemesPicker.tsx:101
 #: src/components/channel/pickers/memes/MemesPickerHeader.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:91
+#: src/components/modals/DiscoveryModal.tsx:97
 #: src/components/modals/GuildNotificationSettingsModal.tsx:226
 #: src/constants/AuditLogConstants.tsx:237
 msgid "All"
@@ -2248,7 +2252,7 @@ msgstr "Alla användare"
 msgid "All your user account information"
 msgstr "All din användarkontoinformation"
 
-#: src/components/modals/shared/PermissionComponents.tsx:92
+#: src/components/modals/shared/PermissionComponents.tsx:91
 msgid "Allow"
 msgstr "Tillåt"
 
@@ -2620,6 +2624,10 @@ msgstr "Animation"
 msgid "animations"
 msgstr "animationer"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+msgid "Anime & Manga"
+msgstr "Anime & Manga"
+
 #: src/components/modals/tabs/component_gallery_tab/SelectionsTab.tsx:198
 msgid "Another Checkbox"
 msgstr "En annan kryssruta"
@@ -2714,6 +2722,7 @@ msgstr "Gäller endast skrivbordsappen på den här enheten."
 msgid "Applies to both camera and screen sharing"
 msgstr "Gäller både kamera och skärmdelning"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2727,6 +2736,10 @@ msgstr "Tillämpa tema"
 #: src/components/modals/tabs/chat_settings_tab/SidebarTab.tsx:49
 msgid "Apply to all communities"
 msgstr "Tillämpa på alla communities"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+msgid "Approved"
+msgstr "Godkänd"
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:254
 msgid "apps"
@@ -3537,7 +3550,7 @@ msgstr "Val av banderollläge"
 msgid "Banner preview"
 msgstr "Banderollförhandsvisning"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:173
+#: src/components/modals/utils/GuildSettingsConstants.tsx:185
 msgid "Bans"
 msgstr "Bannlysningar"
 
@@ -4198,6 +4211,7 @@ msgstr "Kortaligningskontroller"
 msgid "Careful! You have unsaved changes."
 msgstr "Försiktigt! Du har osparade ändringar."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4742,6 +4756,10 @@ msgstr "Välj hur tider visas i hela appen."
 #: src/components/modals/tabs/appearance_tab/InterfaceTab.tsx:109
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "Välj hur skrivindikatorer visas i kanallistan när någon skriver i en kanal."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+msgid "Choose the category that best describes your community."
+msgstr "Välj den kategori som bäst beskriver ditt community."
 
 #: src/components/pages/OAuthAuthorizePage.tsx:605
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
@@ -5765,6 +5783,10 @@ msgstr "Skapa en auktoriserings-URL med omfattningar och behörigheter."
 msgid "contact"
 msgstr "kontakt"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+msgid "Content Creator"
+msgstr "Innehållsskapare"
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:227
 msgid "Content filtering"
 msgstr "Innehållsfiltrering"
@@ -6583,7 +6605,7 @@ msgstr "Anpassad varaktighet"
 msgid "Custom Duration"
 msgstr "Anpassad varaktighet"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:107
+#: src/components/modals/utils/GuildSettingsConstants.tsx:110
 msgid "Custom Emoji"
 msgstr "Anpassad emoji"
 
@@ -6600,7 +6622,7 @@ msgid "Custom Hoist Order"
 msgstr "Anpassad hissordning"
 
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:146
-#: src/components/modals/utils/GuildSettingsConstants.tsx:147
+#: src/components/modals/utils/GuildSettingsConstants.tsx:150
 msgid "Custom Invite URL"
 msgstr "Anpassad inbjudnings-URL"
 
@@ -6632,7 +6654,7 @@ msgstr "anpassade ljud"
 msgid "Custom Status"
 msgstr "Anpassad status"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:115
+#: src/components/modals/utils/GuildSettingsConstants.tsx:118
 msgid "Custom Stickers"
 msgstr "Anpassade klistermärken"
 
@@ -7275,7 +7297,7 @@ msgstr "Tät"
 msgid "Dense layout"
 msgstr "Tät layout"
 
-#: src/components/modals/shared/PermissionComponents.tsx:72
+#: src/components/modals/shared/PermissionComponents.tsx:71
 msgid "Deny"
 msgstr "Neka"
 
@@ -7304,12 +7326,17 @@ msgstr "Beskriv vilka uttryck som finns i detta paket."
 msgid "Describe what makes the content illegal"
 msgstr "Beskriv vad som gör innehållet olagligt"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+msgid "Describe what your community is about..."
+msgstr "Beskriv vad ditt community handlar om..."
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:71
 msgid "description"
 msgstr "beskrivning"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "Beskrivning"
@@ -7317,6 +7344,14 @@ msgstr "Beskrivning"
 #: src/components/modals/sticker_form/StickerFormFields.tsx:107
 msgid "Description must be 500 characters or less"
 msgstr "Beskrivningen måste vara 500 tecken eller färre"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
+msgstr "Beskrivningen måste vara minst {DISCOVERY_DESCRIPTION_MIN_LENGTH} tecken."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
+msgstr "Beskrivningen får vara högst {DISCOVERY_DESCRIPTION_MAX_LENGTH} tecken."
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:540
 msgid "desktop"
@@ -7689,6 +7724,23 @@ msgstr "Koppla från socket"
 #: src/components/voice/VoiceConnectionStatus.tsx:324
 msgid "Disconnected"
 msgstr "Frånkopplad"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/utils/GuildSettingsConstants.tsx:160
+msgid "Discovery"
+msgstr "Upptäck"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+msgid "Discovery application submitted"
+msgstr "Ansökan om upptäckte skickad"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+msgid "Discovery application withdrawn"
+msgstr "Ansökan om upptäckte återkallad"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+msgid "Discovery listing updated"
+msgstr "Upptäcktslistan uppdaterad"
 
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:113
 msgid "Discriminator"
@@ -8260,6 +8312,10 @@ msgstr "Redigerar meddelande"
 msgid "Editing scheduled message"
 msgstr "Redigerar schemalagt meddelande"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+msgid "Education"
+msgstr "Utbildning"
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:100
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:490
 msgid "email"
@@ -8805,6 +8861,10 @@ msgstr "Ange ditt lösenord."
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "Ange ditt telefonnummer. Vi skickar en verifieringskod via SMS."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+msgid "Entertainment"
+msgstr "Underhållning"
+
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:49
 msgid "Entrance Sound"
 msgstr "Inträdesljud"
@@ -9003,7 +9063,8 @@ msgstr "Inställning för explicit innehållsfilter"
 
 #: src/components/layout/guild_list/DiscoveryButton.tsx:49
 #: src/components/layout/guild_list/DiscoveryButton.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:73
+#: src/components/modals/DiscoveryModal.tsx:74
+#: src/components/modals/DiscoveryModal.tsx:82
 msgid "Explore Communities"
 msgstr "Utforska gemenskaper"
 
@@ -9250,6 +9311,10 @@ msgstr "Det gick inte att installera detta emojipaket. Försök igen senare."
 #: src/actions/InviteActionCreators.tsx:323
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Det gick inte att installera detta klistermärkespaket. Försök igen senare."
+
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+msgid "Failed to join this community. Please try again."
+msgstr "Misslyckades med att gå med i detta community. Försök igen."
 
 #: src/components/modals/KickMemberModal.tsx:45
 msgid "Failed to kick member. Please try again."
@@ -9572,6 +9637,10 @@ msgstr "Det gick inte att ladda upp intågsljud"
 #: src/actions/ConnectionActionCreators.tsx:116
 msgid "Failed to verify connection"
 msgstr "Misslyckades med att verifiera anslutning"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+msgid "Failed to withdraw application. Please try again."
+msgstr "Misslyckades med att återkalla ansökan. Försök igen."
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:634
 msgid "fake"
@@ -10330,6 +10399,10 @@ msgstr "Spelkontroll"
 msgid "Game Night"
 msgstr "Spelkväll"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+msgid "Gaming"
+msgstr "Spel"
+
 #: src/components/modals/AddGuildModal.tsx:180
 msgid "Gaming Community"
 msgstr "Spelgemenskap"
@@ -10355,7 +10428,7 @@ msgstr "allmänt"
 #: src/components/modals/tabs/developer_options_tab/index.tsx:45
 #: src/components/modals/tabs/developer_options_tab/Inline.tsx:45
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:56
-#: src/components/modals/utils/GuildSettingsConstants.tsx:91
+#: src/components/modals/utils/GuildSettingsConstants.tsx:94
 #: src/components/modals/utils/SettingsConstants.tsx:301
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:619
 msgid "General"
@@ -11897,7 +11970,7 @@ msgstr "Inställningar för inbjudningslänkar"
 #: src/components/modals/channel_tabs/ChannelInvitesTab.tsx:162
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:68
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:72
-#: src/components/modals/utils/GuildSettingsConstants.tsx:165
+#: src/components/modals/utils/GuildSettingsConstants.tsx:177
 msgid "Invite Links"
 msgstr "Inbjudningslänkar"
 
@@ -12102,10 +12175,6 @@ msgstr "Jitter"
 msgid "join"
 msgstr "gå med"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
-msgid "Join"
-msgstr "Gå med"
-
 #: src/components/modals/AddGuildModal.tsx:84
 msgid "Join a Community"
 msgstr "Gå med i ett community"
@@ -12129,6 +12198,7 @@ msgstr "Gå med i samtal"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12203,7 +12273,7 @@ msgstr "Gå med i röst"
 msgid "Join Voice Call"
 msgstr "Gå med i röstsamtal"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 msgid "Joined"
 msgstr "Gick med"
 
@@ -12770,6 +12840,10 @@ msgstr "länkar"
 msgid "Links"
 msgstr "Länkar"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+msgid "List your community in Discovery so others can find and join it."
+msgstr "Lista ditt community i Upptäck så att andra kan hitta och gå med i det."
+
 #: src/components/modals/tabs/component_gallery_tab/MarkdownTab.tsx:109
 msgid "Lists"
 msgstr "Listor"
@@ -12795,7 +12869,7 @@ msgid "Load more"
 msgstr "Ladda fler"
 
 #: src/components/channel/GuildMembersPage.tsx:1082
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 msgid "Load More"
 msgstr "Ladda mer"
 
@@ -12857,7 +12931,7 @@ msgstr "Laddar verifieringsmetoder..."
 msgid "Loading: {alt}"
 msgstr "Laddar: {alt}"
 
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 #: src/components/uikit/Spinner.tsx:39
 msgid "Loading..."
 msgstr "Laddar..."
@@ -13471,7 +13545,7 @@ msgstr "medlemmar"
 #: src/components/channel/GuildMembersPage.tsx:1116
 #: src/components/layout/ChannelListContent.tsx:276
 #: src/components/modals/shared/AddOverridePopout.tsx:121
-#: src/components/modals/utils/GuildSettingsConstants.tsx:157
+#: src/components/modals/utils/GuildSettingsConstants.tsx:169
 msgid "Members"
 msgstr "Medlemmar"
 
@@ -14084,6 +14158,10 @@ msgstr "Filmklubb"
 msgid "Movie Night Crew"
 msgstr "Filmkvällsgruppen"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+msgid "Movies & TV"
+msgstr "Filmer & TV"
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:580
 msgid "mp3"
 msgstr "mp3"
@@ -14091,6 +14169,10 @@ msgstr "mp3"
 #: src/components/modals/tabs/developer_options_tab/TypographyTab.tsx:330
 msgid "Multilingual Content"
 msgstr "Flerspråkigt innehåll"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+msgid "Music"
+msgstr "Musik"
 
 #: src/components/modals/AddGuildModal.tsx:170
 msgid "Music Lovers"
@@ -14433,7 +14515,7 @@ msgstr "Nätverksfel"
 msgid "Networking & Performance"
 msgstr "Nätverk & Prestanda"
 
-#: src/components/modals/shared/PermissionComponents.tsx:82
+#: src/components/modals/shared/PermissionComponents.tsx:81
 msgid "Neutral (Inherit)"
 msgstr "Neutral (Ärv)"
 
@@ -14666,10 +14748,6 @@ msgstr "Inga kanaler hittades"
 msgid "No communities available with <0>Manage Community</0> permissions."
 msgstr "Inga gemenskaper tillgängliga med <0>Hantera gemenskap</0>-behörigheter."
 
-#: src/components/modals/DiscoveryModal.tsx:111
-msgid "No communities found"
-msgstr "Inga gemenskaper hittades"
-
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildBannerUploadField.tsx:142
 msgid "No community banner"
 msgstr "Ingen gemenskapsbanner"
@@ -14680,7 +14758,7 @@ msgstr "Inga anslutningar än"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:68
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -15002,6 +15080,10 @@ msgstr "Norska"
 #: src/components/modals/tabs/VideoTab.tsx:141
 msgid "Not available"
 msgstr "Inte tillgänglig"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+msgid "Not enough members"
+msgstr "Inte tillräckligt med medlemmar"
 
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:57
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:58
@@ -15667,6 +15749,7 @@ msgstr "Det ursprungliga meddelandet kunde inte laddas"
 msgid "Original message was deleted"
 msgstr "Det ursprungliga meddelandet har tagits bort"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15833,7 +15916,7 @@ msgstr "Deltagare"
 msgid "Participants: {names}"
 msgstr "Deltagare: {names}"
 
-#: src/components/guild/GuildBadge.tsx:61
+#: src/components/guild/GuildBadge.tsx:58
 msgid "Partnered Community"
 msgstr "Partnerad gemenskap"
 
@@ -15943,6 +16026,7 @@ msgid "Payment Successful"
 msgstr "Betalning lyckades"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
 msgid "Pending"
 msgstr "Väntande"
 
@@ -16972,6 +17056,11 @@ msgstr "Anledning"
 msgid "Reason (Optional)"
 msgstr "Orsak (Valfritt)"
 
+#. placeholder {0}: application.review_reason
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+msgid "Reason: {0}"
+msgstr "Orsak: {0}"
+
 #: src/components/voice/VoiceStatsOverlay.tsx:130
 #: src/components/voice/VoiceStatsOverlay.tsx:142
 msgid "Receive"
@@ -17160,6 +17249,10 @@ msgstr "Vanliga, botar, system och tidsbegränsade användare visas i mysiga och
 #: src/components/voice/IncomingCallUI.tsx:322
 msgid "Reject"
 msgstr "Avvisa"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+msgid "Rejected"
+msgstr "Avvisad"
 
 #: src/components/channel/textarea/HoldToRecordButton.tsx:232
 msgid "Release to send"
@@ -17431,6 +17524,10 @@ msgstr "Ta bort när du först köpte Plutonium från ditt märke"
 #: src/components/modals/tabs/my_profile_tab/PremiumBadgeSettings.tsx:106
 msgid "Remove your Visionary ID badge"
 msgstr "Ta bort ditt Visionary ID-märke"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+msgid "Removed"
+msgstr "Borttagen"
 
 #. placeholder {0}: renderValueInline(value, guildId, i18n)
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:250
@@ -18136,7 +18233,7 @@ msgstr "Roll: {0}."
 msgid "Roles"
 msgstr "Roller"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:99
+#: src/components/modals/utils/GuildSettingsConstants.tsx:102
 msgid "Roles & Permissions"
 msgstr "Roller & behörigheter"
 
@@ -18193,7 +18290,7 @@ msgstr "Rust"
 msgid "Safe"
 msgstr "Säker"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:123
+#: src/components/modals/utils/GuildSettingsConstants.tsx:126
 msgid "Safety & Moderation"
 msgstr "Säkerhet & moderering"
 
@@ -18222,6 +18319,7 @@ msgstr "spara"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18353,6 +18451,10 @@ msgstr "Schemalagt meddelande för {0}"
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "Schemalagda meddelanden kan vara högst 30 dagar i framtiden."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+msgid "Science & Technology"
+msgstr "Vetenskap & Teknik"
+
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:469
 msgid "Scope"
 msgstr "Omfattning"
@@ -18463,7 +18565,7 @@ msgstr "Sök kanaler"
 msgid "Search channels or DMs"
 msgstr "Sök kanaler eller DM"
 
-#: src/components/modals/DiscoveryModal.tsx:78
+#: src/components/modals/DiscoveryModal.tsx:86
 msgid "Search communities..."
 msgstr "Sök gemenskaper..."
 
@@ -20321,6 +20423,10 @@ msgstr "statusyta"
 msgid "Status Slate"
 msgstr "Statuspanel"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+msgid "Status:"
+msgstr "Status:"
+
 #: src/components/pages/report/ReportStepSelection.tsx:39
 msgid "Step 1"
 msgstr "Steg 1"
@@ -22092,10 +22198,6 @@ msgstr "Prova olika filter eller söktermer"
 msgid "Try searching for something like \"theme\", \"notifications\", or \"privacy\""
 msgstr "Försök söka efter något som \"tema\", \"aviseringar\" eller \"integritet\""
 
-#: src/components/modals/DiscoveryModal.tsx:113
-msgid "Try searching with different keywords or browse a different category."
-msgstr "Försök att söka med olika nyckelord eller bläddra i en annan kategori."
-
 #: src/components/auth/MfaScreen.tsx:120
 msgid "Try security key / passkey instead"
 msgstr "Prova säkerhetsnyckel / passkey istället"
@@ -23559,12 +23661,12 @@ msgstr "Verifiering misslyckades"
 msgid "Verification may be required before viewing your backup codes."
 msgstr "Verifiering kan krävas innan du kan se dina reservkoder."
 
-#: src/components/guild/GuildBadge.tsx:60
+#: src/components/guild/GuildBadge.tsx:57
 msgid "Verified & Partnered Community"
 msgstr "Verifierad & Partnerad gemenskap"
 
 #: src/components/emojis/EmojiAttributionSubtext.tsx:144
-#: src/components/guild/GuildBadge.tsx:62
+#: src/components/guild/GuildBadge.tsx:59
 msgid "Verified Community"
 msgstr "Verifierad gemenskap"
 
@@ -24355,7 +24457,7 @@ msgstr "Webhook-URL"
 #: src/components/modals/channel_tabs/ChannelWebhooksTab.tsx:99
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:98
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:80
-#: src/components/modals/utils/GuildSettingsConstants.tsx:139
+#: src/components/modals/utils/GuildSettingsConstants.tsx:142
 msgid "Webhooks"
 msgstr "Webhooks"
 
@@ -24588,6 +24690,10 @@ msgstr "Med fel"
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:131
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "Med Plutonium kan du använda animerade avatarer och banners (i GIF, APNG, animerad WebP eller AVIF), anpassa din 4-siffriga tagg och låsa upp många andra premiumfunktioner."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+msgid "Withdraw"
+msgstr "Dra tillbaka"
 
 #: src/components/modals/AddGuildModal.tsx:182
 msgid "Work Friends"
@@ -25319,6 +25425,10 @@ msgstr "Ditt konto har ännu inte hämtats. Utan en e-postadress och lösenord k
 msgid "Your account is too new to send messages in this community."
 msgstr "Ditt konto är för nytt för att skicka meddelanden i denna community."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+msgid "Your application is pending review. You can still update your listing details or withdraw the application."
+msgstr "Din ansökan är under granskning. Du kan fortfarande uppdatera dina listningsdetaljer eller dra tillbaka ansökan."
+
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:53
 msgid "Your browser does not support desktop notifications."
 msgstr "Din webbläsare stöder inte skrivbordsaviseringar."
@@ -25334,6 +25444,14 @@ msgstr "Din kod"
 #: src/components/auth/HandoffCodeDisplay.tsx:85
 msgid "Your code is ready!"
 msgstr "Din kod är klar!"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
+msgstr "Din gemenskap är listad i Discovery. Du kan uppdatera dina listningsdetaljer nedan eller dra tillbaka för att ta bort den."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
+msgstr "Din gemenskap behöver minst {minMemberCount} medlemmar innan den kan listas i Discovery."
 
 #. placeholder {0}: user?.email
 #: src/components/modals/RequiredActionModal.tsx:456

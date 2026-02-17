@@ -19,11 +19,13 @@
 
 import type {DiscoveryGuild} from '@app/actions/DiscoveryActionCreators';
 import * as DiscoveryActionCreators from '@app/actions/DiscoveryActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
 import {GuildBadge} from '@app/components/guild/GuildBadge';
 import styles from '@app/components/modals/discovery/DiscoveryGuildCard.module.css';
 import {GuildIcon} from '@app/components/popouts/GuildIcon';
 import {Button} from '@app/components/uikit/button/Button';
 import GuildStore from '@app/stores/GuildStore';
+import {getApiErrorMessage} from '@app/utils/ApiErrorUtils';
 import {getCurrentLocale} from '@app/utils/LocaleUtils';
 import type {DiscoveryCategory} from '@fluxer/constants/src/DiscoveryConstants';
 import {DiscoveryCategoryLabels} from '@fluxer/constants/src/DiscoveryConstants';
@@ -40,7 +42,7 @@ export const DiscoveryGuildCard = observer(function DiscoveryGuildCard({guild}: 
 	const {t} = useLingui();
 	const [joining, setJoining] = useState(false);
 	const isAlreadyMember = GuildStore.getGuild(guild.id) != null;
-	const categoryLabel = DiscoveryCategoryLabels[guild.category_id as DiscoveryCategory] ?? '';
+	const categoryLabel = DiscoveryCategoryLabels[guild.category_type as DiscoveryCategory] ?? '';
 	const memberCount = formatNumber(guild.member_count, getCurrentLocale());
 	const onlineCount = formatNumber(guild.online_count, getCurrentLocale());
 
@@ -49,10 +51,12 @@ export const DiscoveryGuildCard = observer(function DiscoveryGuildCard({guild}: 
 		setJoining(true);
 		try {
 			await DiscoveryActionCreators.joinGuild(guild.id);
-		} catch {
+		} catch (error) {
 			setJoining(false);
+			const message = getApiErrorMessage(error) ?? t`Failed to join this community. Please try again.`;
+			ToastActionCreators.error(message);
 		}
-	}, [guild.id, joining, isAlreadyMember]);
+	}, [guild.id, joining, isAlreadyMember, t]);
 
 	return (
 		<div className={styles.card}>
@@ -69,12 +73,10 @@ export const DiscoveryGuildCard = observer(function DiscoveryGuildCard({guild}: 
 			</div>
 			<div className={styles.footer}>
 				<div className={styles.stats}>
-					{guild.online_count > 0 && (
-						<div className={styles.stat}>
-							<div className={styles.statDotOnline} />
-							<span className={styles.statText}>{t`${onlineCount} Online`}</span>
-						</div>
-					)}
+					<div className={styles.stat}>
+						<div className={styles.statDotOnline} />
+						<span className={styles.statText}>{t`${onlineCount} Online`}</span>
+					</div>
 					<div className={styles.stat}>
 						<div className={styles.statDotMembers} />
 						<span className={styles.statText}>
@@ -82,8 +84,13 @@ export const DiscoveryGuildCard = observer(function DiscoveryGuildCard({guild}: 
 						</span>
 					</div>
 				</div>
-				<Button variant="primary" small onClick={handleJoin} disabled={joining || isAlreadyMember}>
-					{isAlreadyMember ? t`Joined` : t`Join`}
+				<Button
+					variant="primary"
+					className={styles.joinButton}
+					onClick={handleJoin}
+					disabled={joining || isAlreadyMember}
+				>
+					{isAlreadyMember ? t`Joined` : t`Join Community`}
 				</Button>
 			</div>
 		</div>

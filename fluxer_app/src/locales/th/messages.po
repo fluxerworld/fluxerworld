@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} สื่อที่บันทึกไว้"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount} สมาชิก"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount} สมาชิก"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount} ชุมชนที่มีร่วมกัน"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} ชุมชนร่วม"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:75
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} ออนไลน์"
 
@@ -1462,6 +1462,10 @@ msgstr "8 ชั่วโมง"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "แท็ก 4 หลักจะเพิ่มให้อัตโนมัติเพื่อให้แน่ใจว่าไม่ซ้ำกัน"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+msgid "A description is required."
+msgstr "ต้องระบุคำอธิบาย"
+
 #: src/components/channel/CallMessage.tsx:80
 #: src/components/channel/CallMessage.tsx:136
 msgid "a few seconds"
@@ -1744,7 +1748,7 @@ msgid "activity"
 msgstr "กิจกรรม"
 
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:385
-#: src/components/modals/utils/GuildSettingsConstants.tsx:131
+#: src/components/modals/utils/GuildSettingsConstants.tsx:134
 msgid "Activity Log"
 msgstr "บันทึกกิจกรรม"
 
@@ -2153,7 +2157,7 @@ msgstr "ตัวควบคุมการจัดแนวใช้ได้
 #: src/components/channel/GuildMembersPage.tsx:816
 #: src/components/channel/MobileMemesPicker.tsx:101
 #: src/components/channel/pickers/memes/MemesPickerHeader.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:91
+#: src/components/modals/DiscoveryModal.tsx:97
 #: src/components/modals/GuildNotificationSettingsModal.tsx:226
 #: src/constants/AuditLogConstants.tsx:237
 msgid "All"
@@ -2248,7 +2252,7 @@ msgstr "ผู้ใช้ทั้งหมด"
 msgid "All your user account information"
 msgstr "ข้อมูลบัญชีผู้ใช้ของคุณทั้งหมด"
 
-#: src/components/modals/shared/PermissionComponents.tsx:92
+#: src/components/modals/shared/PermissionComponents.tsx:91
 msgid "Allow"
 msgstr "อนุญาต"
 
@@ -2620,6 +2624,10 @@ msgstr "ภาพเคลื่อนไหว"
 msgid "animations"
 msgstr "อนิเมชัน"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+msgid "Anime & Manga"
+msgstr "อนิเมะ & มังงะ"
+
 #: src/components/modals/tabs/component_gallery_tab/SelectionsTab.tsx:198
 msgid "Another Checkbox"
 msgstr "ช่องเลือกอีกช่อง"
@@ -2714,6 +2722,7 @@ msgstr "ใช้กับแอปเดสก์ท็อปบนอุปก
 msgid "Applies to both camera and screen sharing"
 msgstr "ใช้ได้ทั้งการแชร์กล้องและหน้าจอ"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2727,6 +2736,10 @@ msgstr "ใช้ธีม"
 #: src/components/modals/tabs/chat_settings_tab/SidebarTab.tsx:49
 msgid "Apply to all communities"
 msgstr "ใช้กับชุมชนทั้งหมด"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+msgid "Approved"
+msgstr "ได้รับการอนุมัติ"
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:254
 msgid "apps"
@@ -3537,7 +3550,7 @@ msgstr "การเลือกโหมดแบนเนอร์"
 msgid "Banner preview"
 msgstr "ตัวอย่างแบนเนอร์"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:173
+#: src/components/modals/utils/GuildSettingsConstants.tsx:185
 msgid "Bans"
 msgstr "การแบน"
 
@@ -4198,6 +4211,7 @@ msgstr "การควบคุมการจัดแนวการ์ด"
 msgid "Careful! You have unsaved changes."
 msgstr "ระวัง! คุณมีการเปลี่ยนแปลงที่ยังไม่ได้บันทึก"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4742,6 +4756,10 @@ msgstr "เลือกวิธีการแสดงเวลาทั่ว
 #: src/components/modals/tabs/appearance_tab/InterfaceTab.tsx:109
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "เลือกวิธีแสดงตัวบ่งชี้กำลังพิมพ์ในรายการแชนแนลเมื่อมีคนพิมพ์อยู่ในแชนแนล"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+msgid "Choose the category that best describes your community."
+msgstr "เลือกหมวดหมู่ที่อธิบายชุมชนของคุณได้ดีที่สุด"
 
 #: src/components/pages/OAuthAuthorizePage.tsx:605
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
@@ -5765,6 +5783,10 @@ msgstr "สร้าง URL อนุญาตด้วยขอบเขตแ�
 msgid "contact"
 msgstr "ติดต่อ"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+msgid "Content Creator"
+msgstr "ผู้สร้างเนื้อหา"
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:227
 msgid "Content filtering"
 msgstr "การกรองเนื้อหา"
@@ -6583,7 +6605,7 @@ msgstr "ระยะเวลาที่กำหนดเอง"
 msgid "Custom Duration"
 msgstr "ระยะเวลาที่กำหนดเอง"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:107
+#: src/components/modals/utils/GuildSettingsConstants.tsx:110
 msgid "Custom Emoji"
 msgstr "อิโมจิแบบกำหนดเอง"
 
@@ -6600,7 +6622,7 @@ msgid "Custom Hoist Order"
 msgstr "ลำดับการยกแบบกำหนดเอง"
 
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:146
-#: src/components/modals/utils/GuildSettingsConstants.tsx:147
+#: src/components/modals/utils/GuildSettingsConstants.tsx:150
 msgid "Custom Invite URL"
 msgstr "URL คำเชิญแบบกำหนดเอง"
 
@@ -6632,7 +6654,7 @@ msgstr "เสียงที่กำหนดเอง"
 msgid "Custom Status"
 msgstr "สถานะแบบกำหนดเอง"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:115
+#: src/components/modals/utils/GuildSettingsConstants.tsx:118
 msgid "Custom Stickers"
 msgstr "สติ๊กเกอร์แบบกำหนดเอง"
 
@@ -7275,7 +7297,7 @@ msgstr "แน่น"
 msgid "Dense layout"
 msgstr "เค้าโครงแน่น"
 
-#: src/components/modals/shared/PermissionComponents.tsx:72
+#: src/components/modals/shared/PermissionComponents.tsx:71
 msgid "Deny"
 msgstr "ปฏิเสธ"
 
@@ -7304,12 +7326,17 @@ msgstr "อธิบายว่ามีอารมณ์แบบไหนใ
 msgid "Describe what makes the content illegal"
 msgstr "อธิบายว่าอะไรทำให้เนื้อหาไม่ถูกกฎหมาย"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+msgid "Describe what your community is about..."
+msgstr "อธิบายเกี่ยวกับชุมชนของคุณ..."
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:71
 msgid "description"
 msgstr "คำอธิบาย"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "คำอธิบาย"
@@ -7317,6 +7344,14 @@ msgstr "คำอธิบาย"
 #: src/components/modals/sticker_form/StickerFormFields.tsx:107
 msgid "Description must be 500 characters or less"
 msgstr "คำอธิบายต้องมีความยาวไม่เกิน 500 ตัวอักษร"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
+msgstr "คำอธิบายต้องมีความยาวอย่างน้อย {DISCOVERY_DESCRIPTION_MIN_LENGTH} ตัวอักษร"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
+msgstr "คำอธิบายต้องมีความยาวไม่เกิน {DISCOVERY_DESCRIPTION_MAX_LENGTH} ตัวอักษร"
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:540
 msgid "desktop"
@@ -7689,6 +7724,23 @@ msgstr "ตัดการเชื่อมต่อซ็อกเก็ต"
 #: src/components/voice/VoiceConnectionStatus.tsx:324
 msgid "Disconnected"
 msgstr "ตัดการเชื่อมต่อแล้ว"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/utils/GuildSettingsConstants.tsx:160
+msgid "Discovery"
+msgstr "การค้นพบ"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+msgid "Discovery application submitted"
+msgstr "ส่งใบสมัครการค้นพบแล้ว"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+msgid "Discovery application withdrawn"
+msgstr "ถอนใบสมัครการค้นพบแล้ว"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+msgid "Discovery listing updated"
+msgstr "อัปเดตการลงทะเบียนการค้นพบ"
 
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:113
 msgid "Discriminator"
@@ -8260,6 +8312,10 @@ msgstr "กำลังแก้ไขข้อความ"
 msgid "Editing scheduled message"
 msgstr "กำลังแก้ไขข้อความที่ตั้งเวลาไว้"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+msgid "Education"
+msgstr "การศึกษา"
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:100
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:490
 msgid "email"
@@ -8805,6 +8861,10 @@ msgstr "ใส่รหัสผ่านของคุณ"
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "ใส่หมายเลขโทรศัพท์ของคุณ เราจะส่งรหัสยืนยันทาง SMS"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+msgid "Entertainment"
+msgstr "ความบันเทิง"
+
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:49
 msgid "Entrance Sound"
 msgstr "เสียงเข้า"
@@ -9003,7 +9063,8 @@ msgstr "การตั้งค่ากรองเนื้อหาชัด
 
 #: src/components/layout/guild_list/DiscoveryButton.tsx:49
 #: src/components/layout/guild_list/DiscoveryButton.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:73
+#: src/components/modals/DiscoveryModal.tsx:74
+#: src/components/modals/DiscoveryModal.tsx:82
 msgid "Explore Communities"
 msgstr "สำรวจชุมชน"
 
@@ -9250,6 +9311,10 @@ msgstr "ติดตั้งชุดอีโมจิไม่สำเร็
 #: src/actions/InviteActionCreators.tsx:323
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "ติดตั้งชุดสติกเกอร์ไม่สำเร็จ โปรดลองอีกครั้งภายหลัง"
+
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+msgid "Failed to join this community. Please try again."
+msgstr "ไม่สามารถเข้าร่วมชุมชนนี้ได้ กรุณาลองอีกครั้ง"
 
 #: src/components/modals/KickMemberModal.tsx:45
 msgid "Failed to kick member. Please try again."
@@ -9572,6 +9637,10 @@ msgstr "อัปโหลดเสียงเข้าไม่สำเร็
 #: src/actions/ConnectionActionCreators.tsx:116
 msgid "Failed to verify connection"
 msgstr "ไม่สามารถตรวจสอบการเชื่อมต่อได้"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+msgid "Failed to withdraw application. Please try again."
+msgstr "ไม่สามารถถอนใบสมัครได้ กรุณาลองอีกครั้ง"
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:634
 msgid "fake"
@@ -10330,6 +10399,10 @@ msgstr "จอยสติ๊ก"
 msgid "Game Night"
 msgstr "คืนเกม"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+msgid "Gaming"
+msgstr "เกม"
+
 #: src/components/modals/AddGuildModal.tsx:180
 msgid "Gaming Community"
 msgstr "ชุมชนเกม"
@@ -10355,7 +10428,7 @@ msgstr "ทั่วไป"
 #: src/components/modals/tabs/developer_options_tab/index.tsx:45
 #: src/components/modals/tabs/developer_options_tab/Inline.tsx:45
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:56
-#: src/components/modals/utils/GuildSettingsConstants.tsx:91
+#: src/components/modals/utils/GuildSettingsConstants.tsx:94
 #: src/components/modals/utils/SettingsConstants.tsx:301
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:619
 msgid "General"
@@ -11897,7 +11970,7 @@ msgstr "การตั้งค่าลิงก์เชิญ"
 #: src/components/modals/channel_tabs/ChannelInvitesTab.tsx:162
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:68
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:72
-#: src/components/modals/utils/GuildSettingsConstants.tsx:165
+#: src/components/modals/utils/GuildSettingsConstants.tsx:177
 msgid "Invite Links"
 msgstr "ลิงก์เชิญ"
 
@@ -12102,10 +12175,6 @@ msgstr "การสั่น"
 msgid "join"
 msgstr "เข้าร่วม"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
-msgid "Join"
-msgstr "เข้าร่วม"
-
 #: src/components/modals/AddGuildModal.tsx:84
 msgid "Join a Community"
 msgstr "เข้าร่วมชุมชน"
@@ -12129,6 +12198,7 @@ msgstr "เข้าร่วมสาย"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12203,7 +12273,7 @@ msgstr "เข้าร่วมเสียง"
 msgid "Join Voice Call"
 msgstr "เข้าร่วมเสียง"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 msgid "Joined"
 msgstr "เข้าร่วมแล้ว"
 
@@ -12770,6 +12840,10 @@ msgstr "ลิงก์"
 msgid "Links"
 msgstr "ลิงก์"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+msgid "List your community in Discovery so others can find and join it."
+msgstr "ลงทะเบียนชุมชนของคุณใน Discovery เพื่อให้คนอื่นสามารถค้นหาและเข้าร่วมได้"
+
 #: src/components/modals/tabs/component_gallery_tab/MarkdownTab.tsx:109
 msgid "Lists"
 msgstr "รายการ"
@@ -12795,7 +12869,7 @@ msgid "Load more"
 msgstr "โหลดเพิ่ม"
 
 #: src/components/channel/GuildMembersPage.tsx:1082
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 msgid "Load More"
 msgstr "โหลดเพิ่มเติม"
 
@@ -12857,7 +12931,7 @@ msgstr "กำลังโหลดวิธีการยืนยันตั
 msgid "Loading: {alt}"
 msgstr "กำลังโหลด: {alt}"
 
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 #: src/components/uikit/Spinner.tsx:39
 msgid "Loading..."
 msgstr "กำลังโหลด..."
@@ -13471,7 +13545,7 @@ msgstr "สมาชิก"
 #: src/components/channel/GuildMembersPage.tsx:1116
 #: src/components/layout/ChannelListContent.tsx:276
 #: src/components/modals/shared/AddOverridePopout.tsx:121
-#: src/components/modals/utils/GuildSettingsConstants.tsx:157
+#: src/components/modals/utils/GuildSettingsConstants.tsx:169
 msgid "Members"
 msgstr "สมาชิก"
 
@@ -14084,6 +14158,10 @@ msgstr "ชมรมคนรักหนัง"
 msgid "Movie Night Crew"
 msgstr "ทีมค่ำคืนดูหนัง"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+msgid "Movies & TV"
+msgstr "ภาพยนตร์ & ทีวี"
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:580
 msgid "mp3"
 msgstr "mp3"
@@ -14091,6 +14169,10 @@ msgstr "mp3"
 #: src/components/modals/tabs/developer_options_tab/TypographyTab.tsx:330
 msgid "Multilingual Content"
 msgstr "เนื้อหาหลายภาษา"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+msgid "Music"
+msgstr "เพลง"
 
 #: src/components/modals/AddGuildModal.tsx:170
 msgid "Music Lovers"
@@ -14433,7 +14515,7 @@ msgstr "ข้อผิดพลาดของเครือข่าย"
 msgid "Networking & Performance"
 msgstr "การเชื่อมต่อและประสิทธิภาพ"
 
-#: src/components/modals/shared/PermissionComponents.tsx:82
+#: src/components/modals/shared/PermissionComponents.tsx:81
 msgid "Neutral (Inherit)"
 msgstr "กลาง (สืบทอด)"
 
@@ -14666,10 +14748,6 @@ msgstr "ไม่พบแชนแนล"
 msgid "No communities available with <0>Manage Community</0> permissions."
 msgstr "ไม่มีชุมชนที่สามารถใช้สิทธิ์ <0>จัดการชุมชน</0>"
 
-#: src/components/modals/DiscoveryModal.tsx:111
-msgid "No communities found"
-msgstr "ไม่พบชุมชน"
-
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildBannerUploadField.tsx:142
 msgid "No community banner"
 msgstr "ไม่มีแบนเนอร์ชุมชน"
@@ -14680,7 +14758,7 @@ msgstr "ยังไม่มีการเชื่อมต่อ"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:68
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -15002,6 +15080,10 @@ msgstr "นอร์เวย์"
 #: src/components/modals/tabs/VideoTab.tsx:141
 msgid "Not available"
 msgstr "ไม่สามารถใช้ได้"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+msgid "Not enough members"
+msgstr "สมาชิกไม่เพียงพอ"
 
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:57
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:58
@@ -15667,6 +15749,7 @@ msgstr "ไม่สามารถโหลดข้อความต้นฉ
 msgid "Original message was deleted"
 msgstr "ข้อความต้นฉบับถูกลบ"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15833,7 +15916,7 @@ msgstr "ผู้เข้าร่วม"
 msgid "Participants: {names}"
 msgstr "ผู้เข้าร่วม: {names}"
 
-#: src/components/guild/GuildBadge.tsx:61
+#: src/components/guild/GuildBadge.tsx:58
 msgid "Partnered Community"
 msgstr "ชุมชนที่เป็นพันธมิตร"
 
@@ -15943,6 +16026,7 @@ msgid "Payment Successful"
 msgstr "ชำระเงินสำเร็จ"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
 msgid "Pending"
 msgstr "รอดำเนินการ"
 
@@ -16972,6 +17056,11 @@ msgstr "เหตุผล"
 msgid "Reason (Optional)"
 msgstr "เหตุผล (ไม่บังคับ)"
 
+#. placeholder {0}: application.review_reason
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+msgid "Reason: {0}"
+msgstr "เหตุผล: {0}"
+
 #: src/components/voice/VoiceStatsOverlay.tsx:130
 #: src/components/voice/VoiceStatsOverlay.tsx:142
 msgid "Receive"
@@ -17160,6 +17249,10 @@ msgstr "ผู้ใช้ทั่วไป, บอท, ระบบ, และ
 #: src/components/voice/IncomingCallUI.tsx:322
 msgid "Reject"
 msgstr "ปฏิเสธ"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+msgid "Rejected"
+msgstr "ถูกปฏิเสธ"
 
 #: src/components/channel/textarea/HoldToRecordButton.tsx:232
 msgid "Release to send"
@@ -17431,6 +17524,10 @@ msgstr "ลบเมื่อคุณซื้อ Plutonium ครั้งแ�
 #: src/components/modals/tabs/my_profile_tab/PremiumBadgeSettings.tsx:106
 msgid "Remove your Visionary ID badge"
 msgstr "ลบป้าย Visionary ID ของคุณ"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+msgid "Removed"
+msgstr "ถูกลบ"
 
 #. placeholder {0}: renderValueInline(value, guildId, i18n)
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:250
@@ -18136,7 +18233,7 @@ msgstr "บทบาท: {0}."
 msgid "Roles"
 msgstr "บทบาท"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:99
+#: src/components/modals/utils/GuildSettingsConstants.tsx:102
 msgid "Roles & Permissions"
 msgstr "บทบาทและสิทธิ์"
 
@@ -18193,7 +18290,7 @@ msgstr "Rust"
 msgid "Safe"
 msgstr "ปลอดภัย"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:123
+#: src/components/modals/utils/GuildSettingsConstants.tsx:126
 msgid "Safety & Moderation"
 msgstr "ความปลอดภัย & การดูแล"
 
@@ -18222,6 +18319,7 @@ msgstr "บันทึก"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18353,6 +18451,10 @@ msgstr "ข้อความที่ตั้งเวลาไว้สำห
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "ข้อความที่ตั้งเวลาไว้ล่วงหน้าได้สูงสุด 30 วัน"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+msgid "Science & Technology"
+msgstr "วิทยาศาสตร์และเทคโนโลยี"
+
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:469
 msgid "Scope"
 msgstr "ขอบเขต"
@@ -18463,7 +18565,7 @@ msgstr "ค้นหาแชนแนล"
 msgid "Search channels or DMs"
 msgstr "ค้นหาแชนแนลหรือข้อความตรง"
 
-#: src/components/modals/DiscoveryModal.tsx:78
+#: src/components/modals/DiscoveryModal.tsx:86
 msgid "Search communities..."
 msgstr "ค้นหาชุมชน..."
 
@@ -20321,6 +20423,10 @@ msgstr "สถานะกระดาน"
 msgid "Status Slate"
 msgstr "แผ่นสถานะ"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+msgid "Status:"
+msgstr "สถานะ:"
+
 #: src/components/pages/report/ReportStepSelection.tsx:39
 msgid "Step 1"
 msgstr "ขั้นตอนที่ 1"
@@ -22092,10 +22198,6 @@ msgstr "ลองตัวกรองหรือคำค้นหาอื่
 msgid "Try searching for something like \"theme\", \"notifications\", or \"privacy\""
 msgstr "ลองค้นหาอะไรเช่น \"ธีม\", \"การแจ้งเตือน\", หรือ \"ความเป็นส่วนตัว\""
 
-#: src/components/modals/DiscoveryModal.tsx:113
-msgid "Try searching with different keywords or browse a different category."
-msgstr "ลองค้นหาด้วยคำค้นหาที่แตกต่างกันหรือลองเรียกดูหมวดหมู่ที่แตกต่างกัน."
-
 #: src/components/auth/MfaScreen.tsx:120
 msgid "Try security key / passkey instead"
 msgstr "ลองใช้กุญแจรักษาความปลอดภัย/พาสคีย์แทน"
@@ -23559,12 +23661,12 @@ msgstr "การยืนยันล้มเหลว"
 msgid "Verification may be required before viewing your backup codes."
 msgstr "อาจต้องยืนยันก่อนดูรหัสสำรอง"
 
-#: src/components/guild/GuildBadge.tsx:60
+#: src/components/guild/GuildBadge.tsx:57
 msgid "Verified & Partnered Community"
 msgstr "ชุมชนที่ได้รับการตรวจสอบ & เป็นพันธมิตร"
 
 #: src/components/emojis/EmojiAttributionSubtext.tsx:144
-#: src/components/guild/GuildBadge.tsx:62
+#: src/components/guild/GuildBadge.tsx:59
 msgid "Verified Community"
 msgstr "คอมมูนิตี้ที่ได้รับการยืนยัน"
 
@@ -24355,7 +24457,7 @@ msgstr "URL เว็บฮุค"
 #: src/components/modals/channel_tabs/ChannelWebhooksTab.tsx:99
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:98
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:80
-#: src/components/modals/utils/GuildSettingsConstants.tsx:139
+#: src/components/modals/utils/GuildSettingsConstants.tsx:142
 msgid "Webhooks"
 msgstr "เว็บฮุค"
 
@@ -24588,6 +24690,10 @@ msgstr "พร้อมข้อผิดพลาด"
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:131
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "ด้วย Plutonium คุณสามารถใช้ภาพอวตารและแบนเนอร์แบบเคลื่อนไหว (ในรูปแบบ GIF, APNG, WebP แบบเคลื่อนไหว หรือ AVIF) ปรับแต่งแท็ก 4 หลักของคุณ และปลดล็อกฟีเจอร์พรีเมียมอื่นๆ อีกมากมาย."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+msgid "Withdraw"
+msgstr "ถอน"
 
 #: src/components/modals/AddGuildModal.tsx:182
 msgid "Work Friends"
@@ -25319,6 +25425,10 @@ msgstr "บัญชีของคุณยังไม่ได้ยืนย
 msgid "Your account is too new to send messages in this community."
 msgstr "บัญชีของคุณใหม่เกินไปที่จะส่งข้อความในชุมชนนี้"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+msgid "Your application is pending review. You can still update your listing details or withdraw the application."
+msgstr "การสมัครของคุณกำลังรอการตรวจสอบ คุณยังสามารถอัปเดตรายละเอียดรายการของคุณหรือถอนการสมัครได้"
+
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:53
 msgid "Your browser does not support desktop notifications."
 msgstr "เบราว์เซอร์ของคุณไม่รองรับการแจ้งเตือนบนเดสก์ท็อป"
@@ -25334,6 +25444,14 @@ msgstr "รหัสของคุณ"
 #: src/components/auth/HandoffCodeDisplay.tsx:85
 msgid "Your code is ready!"
 msgstr "รหัสของคุณพร้อมแล้ว!"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
+msgstr "ชุมชนของคุณถูกระบุใน Discovery คุณสามารถอัปเดตรายละเอียดรายการด้านล่างหรือถอนเพื่อเอาออก"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
+msgstr "ชุมชนของคุณต้องมีสมาชิกอย่างน้อย {minMemberCount} คนก่อนที่จะสามารถระบุใน Discovery ได้"
 
 #. placeholder {0}: user?.email
 #: src/components/modals/RequiredActionModal.tsx:456

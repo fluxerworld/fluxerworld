@@ -27,6 +27,7 @@ import {AdminGuildUpdateService} from '@fluxer/api/src/admin/services/guild/Admi
 import {AdminGuildVanityService} from '@fluxer/api/src/admin/services/guild/AdminGuildVanityService';
 import type {GuildID, UserID} from '@fluxer/api/src/BrandedTypes';
 import type {IChannelRepository} from '@fluxer/api/src/channel/IChannelRepository';
+import type {IGuildDiscoveryRepository} from '@fluxer/api/src/guild/repositories/GuildDiscoveryRepository';
 import type {IGuildRepositoryAggregate} from '@fluxer/api/src/guild/repositories/IGuildRepositoryAggregate';
 import type {GuildService} from '@fluxer/api/src/guild/services/GuildService';
 import type {EntityAssetService} from '@fluxer/api/src/infrastructure/EntityAssetService';
@@ -60,6 +61,7 @@ interface AdminGuildServiceDeps {
 	gatewayService: IGatewayService;
 	entityAssetService: EntityAssetService;
 	auditService: AdminAuditService;
+	discoveryRepository: IGuildDiscoveryRepository;
 }
 
 export class AdminGuildService {
@@ -74,6 +76,7 @@ export class AdminGuildService {
 	constructor(deps: AdminGuildServiceDeps) {
 		this.updatePropagator = new AdminGuildUpdatePropagator({
 			gatewayService: deps.gatewayService,
+			discoveryRepository: deps.discoveryRepository,
 		});
 
 		this.lookupService = new AdminGuildLookupService({

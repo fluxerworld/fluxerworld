@@ -190,7 +190,7 @@ export const DiscoveryPage: FC<DiscoveryPageProps> = ({
 																{app.guild_id}
 															</a>
 														</TableCell>
-														<TableCell>{getCategoryLabel(app.category_id)}</TableCell>
+														<TableCell>{getCategoryLabel(app.category_type)}</TableCell>
 														<TableCell>
 															<span class="block max-w-xs truncate" title={app.description}>
 																{app.description}

@@ -83,7 +83,7 @@ export function buildMessageCreateRequest(payload: MessageCreatePayload): Messag
 
 	const requestBody: MessageCreateRequest = {};
 
-	if (content != null) {
+	if (content != null && content.length > 0) {
 		requestBody.content = content;
 	}
 
@@ -95,7 +95,7 @@ export function buildMessageCreateRequest(payload: MessageCreatePayload): Messag
 		requestBody.attachments = attachments;
 	}
 
-	if (shouldIncludeAllowedMentions(allowedMentions)) {
+	if (messageReference != null || shouldIncludeAllowedMentions(allowedMentions)) {
 		requestBody.allowed_mentions = allowedMentions;
 	}
 

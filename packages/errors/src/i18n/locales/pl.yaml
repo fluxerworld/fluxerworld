@@ -218,6 +218,7 @@ discovery.already_applied: Ta społeczność złożyła już wniosek o odkrywaln
 discovery.application_already_reviewed: Ten wniosek o odkrywalność został już rozpatrzony.
 discovery.application_not_found: Nie znaleziono wniosku o odkrywalność.
 discovery.description_required: Opis jest wymagany do umieszczenia w odkrywalności.
+discovery.disabled: Odkrywanie nie jest dostępne na tym serwerze.
 discovery.insufficient_members: Ta społeczność nie spełnia minimalnej liczby członków wymaganej do odkrywalności.
 discovery.invalid_category: Nieprawidłowa kategoria odkrywalności.
 discovery.not_discoverable: Ta społeczność nie jest wymieniona w odkrywalności.

@@ -238,18 +238,8 @@ class GuildReadStateStore {
 		}
 		newState.mentionCount.set(mentionTotal);
 
-		if (newState.unread.get() !== prevState.unread.get() && !newState.unread.get()) {
-			const oldUnreadChannelId = prevState.unreadChannelId.get();
-			const oldUnreadChannel = oldUnreadChannelId != null ? ChannelStore.getChannel(oldUnreadChannelId) : null;
-
-			if (
-				oldUnreadChannel != null &&
-				!channelIds.includes(oldUnreadChannel.id as ChannelId) &&
-				ReadStateStore.hasUnread(oldUnreadChannel.id) &&
-				canContributeToGuildUnread(oldUnreadChannel, 0)
-			) {
-				return this.recomputeAll(guildId);
-			}
+		if (prevState.unread.get() && !foundUnread) {
+			return this.recomputeAll(guildId);
 		}
 
 		return this.commitState(id, newState, prevState);

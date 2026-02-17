@@ -218,6 +218,7 @@ discovery.already_applied: This community has already applied for discovery.
 discovery.application_already_reviewed: This discovery application has already been reviewed.
 discovery.application_not_found: Discovery application wasn't found.
 discovery.description_required: A description is required for discovery listing.
+discovery.disabled: Discovery isn't available on this instance.
 discovery.insufficient_members: This community doesn't meet the minimum member count for discovery.
 discovery.invalid_category: Invalid discovery category.
 discovery.not_discoverable: This community isn't listed in discovery.

@@ -1,0 +1,19 @@
+{
+	"discovery": {
+		"type": "object",
+		"description": "Guild discovery listing configuration.",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"description": "Whether guild discovery is enabled on this instance.",
+				"default": true
+			},
+			"min_member_count": {
+				"type": "number",
+				"description": "Minimum number of members a guild needs before it can apply for discovery listing.",
+				"default": 50
+			}
+		}
+	}
+}

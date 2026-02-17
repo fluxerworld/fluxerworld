@@ -17,24 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-/** @jsxRuntime automatic */
-/** @jsxImportSource hono/jsx */
+import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
+import {BadRequestError} from '@fluxer/errors/src/domains/core/BadRequestError';
 
-import {Locales} from '@fluxer/constants/src/Locales';
-import {FlagSvg} from '@fluxer/marketing/src/components/Flags';
-import type {MarketingContext} from '@fluxer/marketing/src/MarketingContext';
-
-interface MadeInSwedenBadgeProps {
-	ctx: MarketingContext;
-}
-
-export function MadeInSwedenBadge(props: MadeInSwedenBadgeProps): JSX.Element {
-	const {ctx} = props;
-
-	return (
-		<span class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 font-medium text-[#4641D9] text-sm">
-			<FlagSvg locale={Locales.SV_SE} ctx={ctx} class="h-4 w-4 rounded-sm" />
-			<span>{ctx.i18n.getMessage('general.made_in_sweden', ctx.locale)}</span>
-		</span>
-	);
+export class DiscoveryDisabledError extends BadRequestError {
+	constructor() {
+		super({
+			code: APIErrorCodes.DISCOVERY_DISABLED,
+		});
+	}
 }

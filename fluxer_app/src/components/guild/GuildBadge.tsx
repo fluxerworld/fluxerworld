@@ -52,16 +52,30 @@ export function GuildBadge({
 		return null;
 	}
 
-	const className = variant === 'banner' ? styles.badgeBanner : variant === 'large' ? styles.badgeLarge : styles.badge;
-
-	const IconComponent = isPartnered ? InfinityIcon : SealCheckIcon;
 	const tooltipText = isPartnered
 		? isVerified
 			? t`Verified & Partnered Community`
 			: t`Partnered Community`
 		: t`Verified Community`;
 
-	const icon = <IconComponent className={className} />;
+	let icon: React.JSX.Element;
+	if (isPartnered) {
+		const partnerClassName =
+			variant === 'banner'
+				? styles.partnerBadgeBanner
+				: variant === 'large'
+					? styles.partnerBadgeLarge
+					: styles.partnerBadge;
+		icon = (
+			<span className={partnerClassName}>
+				<InfinityIcon className={styles.partnerIcon} weight="bold" />
+			</span>
+		);
+	} else {
+		const verifiedClassName =
+			variant === 'banner' ? styles.badgeBanner : variant === 'large' ? styles.badgeLarge : styles.badge;
+		icon = <SealCheckIcon className={verifiedClassName} />;
+	}
 
 	if (!showTooltip) {
 		return icon;

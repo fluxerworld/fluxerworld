@@ -26,8 +26,6 @@ import type {IGuildRepositoryAggregate} from '@fluxer/api/src/guild/repositories
 import type {IGatewayService} from '@fluxer/api/src/infrastructure/IGatewayService';
 import type {IGuildSearchService} from '@fluxer/api/src/search/IGuildSearchService';
 import {
-	DISCOVERY_MIN_MEMBER_COUNT,
-	DISCOVERY_MIN_MEMBER_COUNT_DEV,
 	DiscoveryApplicationStatus,
 	DiscoveryCategories,
 	type DiscoveryCategory,
@@ -42,7 +40,7 @@ import {DiscoveryNotDiscoverableError} from '@fluxer/errors/src/domains/discover
 import type {GuildSearchFilters} from '@fluxer/schema/src/contracts/search/SearchDocumentTypes';
 import type {DiscoveryApplicationPatchRequest} from '@fluxer/schema/src/domains/guild/GuildDiscoverySchemas';
 
-const VALID_CATEGORY_IDS = new Set<number>(Object.values(DiscoveryCategories));
+const VALID_CATEGORY_TYPES = new Set<number>(Object.values(DiscoveryCategories));
 
 export abstract class IGuildDiscoveryService {
 	abstract apply(params: {
@@ -68,6 +66,8 @@ export abstract class IGuildDiscoveryService {
 
 	abstract remove(params: {guildId: GuildID; adminUserId: UserID; reason: string}): Promise<GuildDiscoveryRow>;
 
+	abstract getEligibility(guildId: GuildID): Promise<{eligible: boolean; min_member_count: number}>;
+
 	abstract listByStatus(params: {status: string; limit: number}): Promise<Array<GuildDiscoveryRow>>;
 
 	abstract searchDiscoverable(params: {
@@ -84,7 +84,7 @@ export interface DiscoveryGuildResult {
 	name: string;
 	icon: string | null;
 	description: string | null;
-	category_id: number;
+	category_type: number;
 	member_count: number;
 	online_count: number;
 	features: Array<string>;
@@ -109,7 +109,7 @@ export class GuildDiscoveryService extends IGuildDiscoveryService {
 	}): Promise<GuildDiscoveryRow> {
 		const {guildId, description, categoryId} = params;
 
-		if (!VALID_CATEGORY_IDS.has(categoryId)) {
+		if (!VALID_CATEGORY_TYPES.has(categoryId)) {
 			throw new DiscoveryInvalidCategoryError();
 		}
 
@@ -118,8 +118,8 @@ export class GuildDiscoveryService extends IGuildDiscoveryService {
 			throw new DiscoveryApplicationNotFoundError();
 		}
 
-		const minMembers = Config.dev.testModeEnabled ? DISCOVERY_MIN_MEMBER_COUNT_DEV : DISCOVERY_MIN_MEMBER_COUNT;
-		if (guild.memberCount < minMembers) {
+		const {eligible} = await this.getEligibility(guildId);
+		if (!eligible) {
 			throw new DiscoveryInsufficientMembersError();
 		}
 
@@ -137,7 +137,7 @@ export class GuildDiscoveryService extends IGuildDiscoveryService {
 		const row: GuildDiscoveryRow = {
 			guild_id: guildId,
 			status: DiscoveryApplicationStatus.PENDING,
-			category_id: categoryId as DiscoveryCategory,
+			category_type: categoryId as DiscoveryCategory,
 			description,
 			applied_at: now,
 			reviewed_at: null,
@@ -175,14 +175,15 @@ export class GuildDiscoveryService extends IGuildDiscoveryService {
 			throw new DiscoveryApplicationAlreadyReviewedError();
 		}
 
-		if (data.category_id !== undefined && !VALID_CATEGORY_IDS.has(data.category_id)) {
+		if (data.category_type !== undefined && !VALID_CATEGORY_TYPES.has(data.category_type)) {
 			throw new DiscoveryInvalidCategoryError();
 		}
 
 		const updatedRow: GuildDiscoveryRow = {
 			...existing,
 			description: data.description ?? existing.description,
-			category_id: data.category_id !== undefined ? (data.category_id as DiscoveryCategory) : existing.category_id,
+			category_type:
+				data.category_type !== undefined ? (data.category_type as DiscoveryCategory) : existing.category_type,
 		};
 
 		await this.discoveryRepository.updateStatus(guildId, existing.status, existing.applied_at, updatedRow);
@@ -192,7 +193,7 @@ export class GuildDiscoveryService extends IGuildDiscoveryService {
 			if (guild) {
 				await this.guildSearchService.updateGuild(guild, {
 					description: updatedRow.description,
-					categoryId: updatedRow.category_id,
+					categoryId: updatedRow.category_type,
 				});
 			}
 		}
@@ -220,6 +221,13 @@ export class GuildDiscoveryService extends IGuildDiscoveryService {
 
 	async getStatus(guildId: GuildID): Promise<GuildDiscoveryRow | null> {
 		return this.discoveryRepository.findByGuildId(guildId);
+	}
+
+	async getEligibility(guildId: GuildID): Promise<{eligible: boolean; min_member_count: number}> {
+		const minMemberCount = Config.discovery.minMemberCount;
+		const guild = await this.guildRepository.findUnique(guildId);
+		const memberCount = guild?.memberCount ?? 0;
+		return {eligible: memberCount >= minMemberCount, min_member_count: minMemberCount};
 	}
 
 	async approve(params: {guildId: GuildID; adminUserId: UserID; reason?: string}): Promise<GuildDiscoveryRow> {
@@ -251,7 +259,7 @@ export class GuildDiscoveryService extends IGuildDiscoveryService {
 			if (guild) {
 				await this.guildSearchService.updateGuild(guild, {
 					description: updatedRow.description,
-					categoryId: updatedRow.category_id,
+					categoryId: updatedRow.category_type,
 				});
 			}
 		}
@@ -352,7 +360,7 @@ export class GuildDiscoveryService extends IGuildDiscoveryService {
 				name: hit.name,
 				icon: hit.iconHash,
 				description: hit.discoveryDescription,
-				category_id: hit.discoveryCategory ?? 0,
+				category_type: hit.discoveryCategory ?? 0,
 				member_count: hit.memberCount,
 				online_count: hit.onlineCount,
 				features: hit.features,
@@ -374,7 +382,7 @@ export class GuildDiscoveryService extends IGuildDiscoveryService {
 			const discoveryRow = await this.discoveryRepository.findByGuildId(statusRow.guild_id);
 			if (!discoveryRow) continue;
 
-			if (params.categoryId !== undefined && discoveryRow.category_id !== params.categoryId) {
+			if (params.categoryId !== undefined && discoveryRow.category_type !== params.categoryId) {
 				continue;
 			}
 
@@ -386,7 +394,7 @@ export class GuildDiscoveryService extends IGuildDiscoveryService {
 				name: guild.name,
 				icon: guild.iconHash,
 				description: discoveryRow.description,
-				category_id: discoveryRow.category_id,
+				category_type: discoveryRow.category_type,
 				member_count: guild.memberCount,
 				online_count: 0,
 				features: Array.from(guild.features),

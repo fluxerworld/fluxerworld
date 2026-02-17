@@ -48,4 +48,26 @@ describe('MessageRequestUtils', () => {
 
 		expect(request.allowed_mentions).toEqual({replied_user: false});
 	});
+
+	it('includes allowed_mentions when messageReference is present even with default values', () => {
+		const request = buildMessageCreateRequest({
+			content: 'hello',
+			allowedMentions: {replied_user: true},
+			messageReference: {channel_id: '123', message_id: '456', type: 0},
+		});
+
+		expect(request.allowed_mentions).toEqual({replied_user: true});
+	});
+
+	it('omits content when it is an empty string', () => {
+		const request = buildMessageCreateRequest({
+			content: '',
+			messageReference: {channel_id: '123', message_id: '456', type: 0},
+			allowedMentions: {replied_user: true},
+		});
+
+		expect(request.content).toBeUndefined();
+		expect(request.message_reference).toEqual({channel_id: '123', message_id: '456', type: 0});
+		expect(request.allowed_mentions).toEqual({replied_user: true});
+	});
 });

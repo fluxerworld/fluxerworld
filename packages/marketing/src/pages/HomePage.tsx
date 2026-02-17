@@ -24,7 +24,6 @@ import {CurrentFeaturesSection} from '@fluxer/marketing/src/components/CurrentFe
 import {FinalCtaSection} from '@fluxer/marketing/src/components/FinalCtaSection';
 import {GetInvolvedSection} from '@fluxer/marketing/src/components/GetInvolvedSection';
 import {Hero} from '@fluxer/marketing/src/components/Hero';
-import {LaunchBlogSection} from '@fluxer/marketing/src/components/LaunchBlogSection';
 import type {MarketingContext} from '@fluxer/marketing/src/MarketingContext';
 import {renderLayout} from '@fluxer/marketing/src/pages/Layout';
 import {defaultPageMeta} from '@fluxer/marketing/src/pages/layout/Meta';
@@ -34,7 +33,6 @@ export async function renderHomePage(c: Context, ctx: MarketingContext): Promise
 	const getInvolved = await GetInvolvedSection({ctx});
 	const content: ReadonlyArray<JSX.Element> = [
 		<Hero ctx={ctx} />,
-		<LaunchBlogSection ctx={ctx} />,
 		<CurrentFeaturesSection ctx={ctx} />,
 		getInvolved,
 		<FinalCtaSection ctx={ctx} />,

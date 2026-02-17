@@ -24,7 +24,7 @@ type Nullish<T> = T | null;
 export interface GuildDiscoveryRow {
 	guild_id: GuildID;
 	status: string;
-	category_id: number;
+	category_type: number;
 	description: string;
 	applied_at: Date;
 	reviewed_at: Nullish<Date>;
@@ -38,7 +38,7 @@ export interface GuildDiscoveryRow {
 export const GUILD_DISCOVERY_COLUMNS = [
 	'guild_id',
 	'status',
-	'category_id',
+	'category_type',
 	'description',
 	'applied_at',
 	'reviewed_at',

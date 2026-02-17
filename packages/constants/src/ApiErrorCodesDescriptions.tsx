@@ -86,6 +86,7 @@ export const APIErrorCodesDescriptions: Record<keyof typeof APIErrorCodes, strin
 	DISCOVERY_APPLICATION_ALREADY_REVIEWED: 'This discovery application has already been reviewed',
 	DISCOVERY_APPLICATION_NOT_FOUND: 'Discovery application not found',
 	DISCOVERY_DESCRIPTION_REQUIRED: 'A description is required for discovery',
+	DISCOVERY_DISABLED: 'Discovery is not available on this instance',
 	DISCOVERY_INSUFFICIENT_MEMBERS: 'Community does not meet the minimum member count for discovery',
 	DISCOVERY_INVALID_CATEGORY: 'Invalid discovery category',
 	DISCOVERY_NOT_DISCOVERABLE: 'This community is not listed in discovery',

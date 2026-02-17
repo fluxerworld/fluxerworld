@@ -18,6 +18,7 @@
  */
 
 import {createGuildID} from '@fluxer/api/src/BrandedTypes';
+import {Config} from '@fluxer/api/src/Config';
 import type {GuildDiscoveryRow} from '@fluxer/api/src/database/types/GuildDiscoveryTypes';
 import {LoginRequired} from '@fluxer/api/src/middleware/AuthMiddleware';
 import {RateLimitMiddleware} from '@fluxer/api/src/middleware/RateLimitMiddleware';
@@ -28,7 +29,7 @@ import {Validator} from '@fluxer/api/src/Validator';
 import {Permissions} from '@fluxer/constants/src/ChannelConstants';
 import {DiscoveryApplicationStatus, DiscoveryCategoryLabels} from '@fluxer/constants/src/DiscoveryConstants';
 import {MissingPermissionsError} from '@fluxer/errors/src/domains/core/MissingPermissionsError';
-import {DiscoveryApplicationNotFoundError} from '@fluxer/errors/src/domains/discovery/DiscoveryApplicationNotFoundError';
+import {DiscoveryDisabledError} from '@fluxer/errors/src/domains/discovery/DiscoveryDisabledError';
 import {DiscoveryNotDiscoverableError} from '@fluxer/errors/src/domains/discovery/DiscoveryNotDiscoverableError';
 import {GuildIdParam} from '@fluxer/schema/src/domains/common/CommonParamSchemas';
 import {
@@ -38,14 +39,21 @@ import {
 	DiscoveryCategoryListResponse,
 	DiscoveryGuildListResponse,
 	DiscoverySearchQuery,
+	DiscoveryStatusResponse,
 } from '@fluxer/schema/src/domains/guild/GuildDiscoverySchemas';
+
+function ensureDiscoveryEnabled(): void {
+	if (!Config.discovery.enabled) {
+		throw new DiscoveryDisabledError();
+	}
+}
 
 function mapDiscoveryRowToResponse(row: GuildDiscoveryRow) {
 	return {
 		guild_id: row.guild_id.toString(),
 		status: row.status,
 		description: row.description,
-		category_id: row.category_id,
+		category_type: row.category_type,
 		applied_at: row.applied_at.toISOString(),
 		reviewed_at: row.reviewed_at?.toISOString() ?? null,
 		review_reason: row.review_reason ?? null,
@@ -68,6 +76,7 @@ export function GuildDiscoveryController(app: HonoApp) {
 			tags: ['Discovery'],
 		}),
 		async (ctx) => {
+			ensureDiscoveryEnabled();
 			const query = ctx.req.valid('query');
 			const discoveryService = ctx.get('discoveryService');
 
@@ -120,6 +129,7 @@ export function GuildDiscoveryController(app: HonoApp) {
 			tags: ['Discovery'],
 		}),
 		async (ctx) => {
+			ensureDiscoveryEnabled();
 			const user = ctx.get('user');
 			const {guild_id} = ctx.req.valid('param');
 			const guildId = createGuildID(guild_id);
@@ -157,6 +167,7 @@ export function GuildDiscoveryController(app: HonoApp) {
 			tags: ['Discovery'],
 		}),
 		async (ctx) => {
+			ensureDiscoveryEnabled();
 			const user = ctx.get('user');
 			const {guild_id} = ctx.req.valid('param');
 			const guildId = createGuildID(guild_id);
@@ -175,7 +186,7 @@ export function GuildDiscoveryController(app: HonoApp) {
 				guildId,
 				userId: user.id,
 				description: data.description,
-				categoryId: data.category_id,
+				categoryId: data.category_type,
 			});
 
 			return ctx.json(mapDiscoveryRowToResponse(row));
@@ -199,6 +210,7 @@ export function GuildDiscoveryController(app: HonoApp) {
 			tags: ['Discovery'],
 		}),
 		async (ctx) => {
+			ensureDiscoveryEnabled();
 			const user = ctx.get('user');
 			const {guild_id} = ctx.req.valid('param');
 			const guildId = createGuildID(guild_id);
@@ -239,6 +251,7 @@ export function GuildDiscoveryController(app: HonoApp) {
 			tags: ['Discovery'],
 		}),
 		async (ctx) => {
+			ensureDiscoveryEnabled();
 			const user = ctx.get('user');
 			const {guild_id} = ctx.req.valid('param');
 			const guildId = createGuildID(guild_id);
@@ -266,8 +279,8 @@ export function GuildDiscoveryController(app: HonoApp) {
 		OpenAPI({
 			operationId: 'get_discovery_status',
 			summary: 'Get discovery status',
-			description: 'Get the current discovery status of a guild. Requires MANAGE_GUILD permission.',
-			responseSchema: DiscoveryApplicationResponse,
+			description: 'Get the current discovery status and eligibility of a guild. Requires MANAGE_GUILD permission.',
+			responseSchema: DiscoveryStatusResponse,
 			statusCode: 200,
 			security: ['sessionToken', 'bearerToken', 'botToken'],
 			tags: ['Discovery'],
@@ -286,12 +299,15 @@ export function GuildDiscoveryController(app: HonoApp) {
 				throw new MissingPermissionsError();
 			}
 
-			const row = await ctx.get('discoveryService').getStatus(guildId);
-			if (!row) {
-				throw new DiscoveryApplicationNotFoundError();
-			}
+			const discoveryService = ctx.get('discoveryService');
+			const row = await discoveryService.getStatus(guildId);
+			const eligibility = await discoveryService.getEligibility(guildId);
 
-			return ctx.json(mapDiscoveryRowToResponse(row));
+			return ctx.json({
+				application: row ? mapDiscoveryRowToResponse(row) : null,
+				eligible: Config.discovery.enabled && eligibility.eligible,
+				min_member_count: eligibility.min_member_count,
+			});
 		},
 	);
 }

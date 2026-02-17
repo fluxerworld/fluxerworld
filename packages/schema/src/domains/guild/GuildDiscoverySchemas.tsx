@@ -30,7 +30,7 @@ export const DiscoveryApplicationRequest = z.object({
 		.min(DISCOVERY_DESCRIPTION_MIN_LENGTH)
 		.max(DISCOVERY_DESCRIPTION_MAX_LENGTH)
 		.describe('Description for discovery listing'),
-	category_id: z.number().int().min(0).max(8).describe('Discovery category ID'),
+	category_type: z.number().int().min(0).max(8).describe('Discovery category type'),
 });
 
 export type DiscoveryApplicationRequest = z.infer<typeof DiscoveryApplicationRequest>;
@@ -42,7 +42,7 @@ export const DiscoveryApplicationPatchRequest = z.object({
 		.max(DISCOVERY_DESCRIPTION_MAX_LENGTH)
 		.optional()
 		.describe('Updated description for discovery listing'),
-	category_id: z.number().int().min(0).max(8).optional().describe('Updated discovery category ID'),
+	category_type: z.number().int().min(0).max(8).optional().describe('Updated discovery category type'),
 });
 
 export type DiscoveryApplicationPatchRequest = z.infer<typeof DiscoveryApplicationPatchRequest>;
@@ -62,7 +62,7 @@ export const DiscoveryGuildResponse = z.object({
 	name: z.string().describe('Guild name'),
 	icon: z.string().nullish().describe('Guild icon hash'),
 	description: z.string().nullish().describe('Discovery description'),
-	category_id: z.number().describe('Discovery category ID'),
+	category_type: z.number().describe('Discovery category type'),
 	member_count: z.number().describe('Approximate member count'),
 	online_count: z.number().describe('Approximate online member count'),
 	features: z.array(z.string()).describe('Guild feature flags'),
@@ -82,13 +82,21 @@ export const DiscoveryApplicationResponse = z.object({
 	guild_id: SnowflakeStringType.describe('Guild ID'),
 	status: z.string().describe('Application status'),
 	description: z.string().describe('Discovery description'),
-	category_id: z.number().describe('Discovery category ID'),
+	category_type: z.number().describe('Discovery category type'),
 	applied_at: z.string().describe('Application timestamp'),
 	reviewed_at: z.string().nullish().describe('Review timestamp'),
 	review_reason: z.string().nullish().describe('Review reason'),
 });
 
 export type DiscoveryApplicationResponse = z.infer<typeof DiscoveryApplicationResponse>;
+
+export const DiscoveryStatusResponse = z.object({
+	application: DiscoveryApplicationResponse.nullish().describe('Current discovery application, if any'),
+	eligible: z.boolean().describe('Whether the guild meets the requirements to apply for discovery'),
+	min_member_count: z.number().describe('Minimum member count required for discovery eligibility'),
+});
+
+export type DiscoveryStatusResponse = z.infer<typeof DiscoveryStatusResponse>;
 
 export const DiscoveryCategoryResponse = z.object({
 	id: z.number().describe('Category ID'),

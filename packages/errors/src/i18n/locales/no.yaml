@@ -218,6 +218,7 @@ discovery.already_applied: Dette fellesskapet har allerede søkt om oppføring i
 discovery.application_already_reviewed: Denne oppdagelsessøknaden er allerede gjennomgått.
 discovery.application_not_found: Fant ikke oppdagelsessøknaden.
 discovery.description_required: En beskrivelse er påkrevd for oppføring i oppdagelse.
+discovery.disabled: Oppdagelse er ikke tilgjengelig på denne instansen.
 discovery.insufficient_members: Dette fellesskapet oppfyller ikke minimumskravet for antall medlemmer for oppdagelse.
 discovery.invalid_category: Ugyldig oppdagelseskategori.
 discovery.not_discoverable: Dette fellesskapet er ikke oppført i oppdagelse.

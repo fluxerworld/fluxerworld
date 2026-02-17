@@ -218,6 +218,7 @@ discovery.already_applied: Bu topluluk keşif için zaten başvurmuş.
 discovery.application_already_reviewed: Bu keşif başvurusu zaten incelenmiş.
 discovery.application_not_found: Keşif başvurusu bulunamadı.
 discovery.description_required: Keşif listesi için bir açıklama gerekli.
+discovery.disabled: Keşif bu örnekte kullanılamaz.
 discovery.insufficient_members: Bu topluluk keşif için gereken minimum üye sayısını karşılamıyor.
 discovery.invalid_category: Geçersiz keşif kategorisi.
 discovery.not_discoverable: Bu topluluk keşifte listelenmemiş.

@@ -96,6 +96,25 @@ seed_hex_secret() {
     fi
 }
 
+sync_meilisearch_key_file() {
+    has_search="$1"
+    api_key="$2"
+
+    if [ "$has_search" != "true" ]; then
+        return 0
+    fi
+
+    meilisearch_key_path="$REPO_ROOT/dev/meilisearch_master_key"
+    meilisearch_key_file_value="$(cat "$meilisearch_key_path" 2>/dev/null || true)"
+
+    if [ "$meilisearch_key_file_value" != "$api_key" ]; then
+        printf '%s' "$api_key" > "$meilisearch_key_path"
+        chmod 600 "$meilisearch_key_path" 2>/dev/null || true
+    fi
+
+    mkdir -p "$REPO_ROOT/dev/data/meilisearch"
+}
+
 ensure_core_secrets() {
     config_path="${FLUXER_CONFIG:-$REPO_ROOT/config/config.json}"
 
@@ -178,6 +197,7 @@ ensure_core_secrets() {
 
     if [ "$has_changes" = false ]; then
         info "Development secrets already configured"
+        sync_meilisearch_key_file "$has_search" "$seeded_meilisearch_api_key"
         return 0
     fi
 
@@ -222,17 +242,7 @@ ensure_core_secrets() {
         mv "$temp_config" "$config_path"
         info "Development secrets configured"
 
-        if [ "$has_search" = "true" ]; then
-            # Keep a local copy for the devenv Meilisearch process to read.
-            meilisearch_key_path="$REPO_ROOT/dev/meilisearch_master_key"
-            meilisearch_key_file_value="$(cat "$meilisearch_key_path" 2>/dev/null || true)"
-            if is_empty_or_placeholder "$meilisearch_key_file_value" ""; then
-                printf '%s' "$seeded_meilisearch_api_key" > "$meilisearch_key_path"
-                chmod 600 "$meilisearch_key_path" 2>/dev/null || true
-            fi
-
-            mkdir -p "$REPO_ROOT/dev/data/meilisearch"
-        fi
+        sync_meilisearch_key_file "$has_search" "$seeded_meilisearch_api_key"
     else
         error "Failed to update config.json with development secrets"
         rm -f "$temp_config"

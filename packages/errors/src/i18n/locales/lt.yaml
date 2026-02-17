@@ -218,6 +218,7 @@ discovery.already_applied: Ši bendruomenė jau kreipėsi dėl atradimų.
 discovery.application_already_reviewed: Ši atradimų paraiška jau peržiūrėta.
 discovery.application_not_found: Atradimų paraiška nerasta.
 discovery.description_required: Atradimų sąraše reikalingas aprašymas.
+discovery.disabled: Atradimas nėra pasiekiamas šioje egzemplioriuje.
 discovery.insufficient_members: Ši bendruomenė neatitinka minimalaus narių skaičiaus atradimams.
 discovery.invalid_category: Neteisinga atradimų kategorija.
 discovery.not_discoverable: Ši bendruomenė nėra įtraukta į atradimų sąrašą.

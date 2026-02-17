@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS fluxer.guild_discovery (
     guild_id bigint,
     status text,
-    category_id int,
+    category_type int,
     description text,
     applied_at timestamp,
     reviewed_at timestamp,

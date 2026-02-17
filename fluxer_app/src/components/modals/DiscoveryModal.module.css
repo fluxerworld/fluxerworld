@@ -121,6 +121,7 @@
 	display: grid;
 	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
 	gap: var(--spacing-4);
+	padding-top: var(--spacing-5);
 	padding-bottom: var(--spacing-5);
 }
 

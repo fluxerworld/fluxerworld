@@ -23,6 +23,7 @@ import type {IChannelRepositoryAggregate} from '@fluxer/api/src/channel/reposito
 import type {ChannelAuthService} from '@fluxer/api/src/channel/services/channel_data/ChannelAuthService';
 import type {ChannelUtilsService} from '@fluxer/api/src/channel/services/channel_data/ChannelUtilsService';
 import type {GuildAuditLogService} from '@fluxer/api/src/guild/GuildAuditLogService';
+import {mapGuildToGuildResponse} from '@fluxer/api/src/guild/GuildModel';
 import type {IGuildRepositoryAggregate} from '@fluxer/api/src/guild/repositories/IGuildRepositoryAggregate';
 import {ChannelHelpers} from '@fluxer/api/src/guild/services/channel/ChannelHelpers';
 import type {IGatewayService} from '@fluxer/api/src/infrastructure/IGatewayService';
@@ -404,6 +405,30 @@ export class ChannelOperationsService {
 			});
 
 			await this.channelRepository.channelData.delete(channelId, guildId);
+
+			const guildModel = await this.guildRepository.findUnique(guildId);
+			if (guildModel) {
+				const guildRow = guildModel.toRow();
+				const needsUpdate =
+					guildRow.system_channel_id === channelId ||
+					guildRow.rules_channel_id === channelId ||
+					guildRow.afk_channel_id === channelId;
+
+				if (needsUpdate) {
+					const updatedGuild = await this.guildRepository.upsert({
+						...guildRow,
+						system_channel_id: guildRow.system_channel_id === channelId ? null : guildRow.system_channel_id,
+						rules_channel_id: guildRow.rules_channel_id === channelId ? null : guildRow.rules_channel_id,
+						afk_channel_id: guildRow.afk_channel_id === channelId ? null : guildRow.afk_channel_id,
+					});
+
+					await this.gatewayService.dispatchGuild({
+						guildId,
+						event: 'GUILD_UPDATE',
+						data: mapGuildToGuildResponse(updatedGuild),
+					});
+				}
+			}
 		} else {
 			await this.userRepository.closeDmForUser(userId, channelId);
 			await this.channelUtilsService.dispatchDmChannelDelete({channel, userId, requestCache});

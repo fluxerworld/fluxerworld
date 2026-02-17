@@ -246,7 +246,7 @@ export class MessageSendService {
 			await checkPermission(Permissions.READ_MESSAGE_HISTORY);
 		}
 
-		if (channel && !isForwardMessage && (data.content !== undefined || referencedMessage !== null)) {
+		if (channel && !isForwardMessage && (data.content !== undefined || data.message_reference != null)) {
 			const mentionContent = data.content ?? '';
 			const mentions = this.deps.mentionService.extractMentions({
 				content: mentionContent,
@@ -315,7 +315,7 @@ export class MessageSendService {
 
 		this.ensureForwardGuildMatches({data, referencedChannelGuildId});
 
-		if (channel && !isForwardMessage && (data.content !== undefined || referencedMessage !== null)) {
+		if (channel && !isForwardMessage && (data.content !== undefined || data.message_reference != null)) {
 			const mentionContent = data.content ?? '';
 			const mentions = this.deps.mentionService.extractMentions({
 				content: mentionContent,
@@ -785,7 +785,7 @@ export class MessageSendService {
 					mentionHere: boolean;
 			  }
 			| undefined;
-		if (channel && !isForwardMessage && (data.content !== undefined || referencedMessage !== null)) {
+		if (channel && !isForwardMessage && (data.content !== undefined || data.message_reference != null)) {
 			const mentionContent = data.content ?? '';
 			const mentions = this.deps.mentionService.extractMentions({
 				content: mentionContent,

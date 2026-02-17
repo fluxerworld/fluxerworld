@@ -237,7 +237,3 @@
 	color: var(--text-link);
 	text-decoration: underline;
 }
-
-.permissionWarning {
-	margin-top: 0.25rem;
-}

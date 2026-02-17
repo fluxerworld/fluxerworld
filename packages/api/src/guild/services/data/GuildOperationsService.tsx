@@ -24,6 +24,7 @@ import type {ChannelService} from '@fluxer/api/src/channel/services/ChannelServi
 import {BatchBuilder} from '@fluxer/api/src/database/Cassandra';
 import type {GuildRow} from '@fluxer/api/src/database/types/GuildTypes';
 import {mapGuildToGuildResponse, mapGuildToPartialResponse} from '@fluxer/api/src/guild/GuildModel';
+import type {IGuildDiscoveryRepository} from '@fluxer/api/src/guild/repositories/GuildDiscoveryRepository';
 import type {IGuildRepositoryAggregate} from '@fluxer/api/src/guild/repositories/IGuildRepositoryAggregate';
 import type {GuildDataHelpers} from '@fluxer/api/src/guild/services/data/GuildDataHelpers';
 import type {EntityAssetService, PreparedAssetUpload} from '@fluxer/api/src/infrastructure/EntityAssetService';
@@ -38,6 +39,7 @@ import type {RequestCache} from '@fluxer/api/src/middleware/RequestCacheMiddlewa
 import {Guild} from '@fluxer/api/src/models/Guild';
 import type {User} from '@fluxer/api/src/models/User';
 import {getGuildSearchService} from '@fluxer/api/src/SearchFactory';
+import type {GuildDiscoveryContext} from '@fluxer/api/src/search/guild/GuildSearchSerializer';
 import {
 	Channels,
 	ChannelsByGuild,
@@ -103,6 +105,7 @@ export class GuildOperationsService {
 		private readonly webhookRepository: IWebhookRepository,
 		private readonly helpers: GuildDataHelpers,
 		private readonly limitConfigService: LimitConfigService,
+		private readonly discoveryRepository: IGuildDiscoveryRepository,
 		private readonly guildManagedTraitService?: GuildManagedTraitService,
 	) {}
 
@@ -773,7 +776,17 @@ export class GuildOperationsService {
 
 		const guildSearchService = getGuildSearchService();
 		if (guildSearchService) {
-			await guildSearchService.updateGuild(updatedGuild).catch((error) => {
+			let discoveryContext: GuildDiscoveryContext | undefined;
+			if (updatedGuild.features.has(GuildFeatures.DISCOVERABLE)) {
+				const discoveryRow = await this.discoveryRepository.findByGuildId(updatedGuild.id).catch(() => null);
+				if (discoveryRow) {
+					discoveryContext = {
+						description: discoveryRow.description,
+						categoryId: discoveryRow.category_type,
+					};
+				}
+			}
+			await guildSearchService.updateGuild(updatedGuild, discoveryContext).catch((error) => {
 				Logger.error({guildId: updatedGuild.id, error}, 'Failed to update guild in search');
 			});
 		}

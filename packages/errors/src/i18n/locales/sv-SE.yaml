@@ -218,6 +218,7 @@ discovery.already_applied: Den här gemenskapen har redan ansökt om discovery.
 discovery.application_already_reviewed: Den här discovery-ansökan har redan granskats.
 discovery.application_not_found: Discovery-ansökan hittades inte.
 discovery.description_required: En beskrivning krävs för att listas i discovery.
+discovery.disabled: Upptäckten är inte tillgänglig på denna instans.
 discovery.insufficient_members: Den här gemenskapen uppfyller inte minimikravet för antal medlemmar för discovery.
 discovery.invalid_category: Ogiltig discovery-kategori.
 discovery.not_discoverable: Den här gemenskapen är inte listad i discovery.

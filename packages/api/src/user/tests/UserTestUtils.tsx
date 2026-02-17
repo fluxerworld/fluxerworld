@@ -378,9 +378,7 @@ export async function listPushSubscriptions(
 	harness: ApiTestHarness,
 	token: string,
 ): Promise<PushSubscriptionsListResponse> {
-	return createBuilder<PushSubscriptionsListResponse>(harness, token)
-		.get('/users/@me/push/subscriptions')
-		.execute();
+	return createBuilder<PushSubscriptionsListResponse>(harness, token).get('/users/@me/push/subscriptions').execute();
 }
 
 export async function deletePushSubscription(
@@ -388,7 +386,5 @@ export async function deletePushSubscription(
 	token: string,
 	subscriptionId: string,
 ): Promise<void> {
-	await createBuilder<void>(harness, token)
-		.delete(`/users/@me/push/subscriptions/${subscriptionId}`)
-		.execute();
+	await createBuilder<void>(harness, token).delete(`/users/@me/push/subscriptions/${subscriptionId}`).execute();
 }

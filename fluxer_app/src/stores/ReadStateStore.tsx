@@ -24,7 +24,6 @@ import type {MessageRecord} from '@app/records/MessageRecord';
 import AutoAckStore from '@app/stores/AutoAckStore';
 import ChannelStore from '@app/stores/ChannelStore';
 import DimensionStore from '@app/stores/DimensionStore';
-import GuildAvailabilityStore from '@app/stores/GuildAvailabilityStore';
 import GuildMemberStore from '@app/stores/GuildMemberStore';
 import GuildStore from '@app/stores/GuildStore';
 import MessageStore from '@app/stores/MessageStore';
@@ -784,7 +783,6 @@ class ReadStateStore {
 	handleConnectionOpen(action: {readState: Array<GatewayReadState>; channels: Array<ChannelPayload>}): void {
 		this.clearAll();
 
-		const allGuildsAvailable = GuildAvailabilityStore.totalUnavailableGuilds === 0;
 		const channelsWithReadState = new Set<ChannelId>();
 
 		for (const readState of action.readState) {
@@ -794,12 +792,6 @@ class ReadStateStore {
 			this.setMentionCount(state, readState.mention_count ?? 0);
 			state.ackMessageId = readState.last_message_id ?? null;
 			state.ackPinTimestamp = parseTimestamp(readState.last_pin_timestamp);
-
-			if (allGuildsAvailable && !state.canTrackUnreads()) {
-				state.ackMessageId = null;
-				this.setMentionCount(state, 0);
-				state.unreadCount = 0;
-			}
 		}
 
 		for (const channel of action.channels) {

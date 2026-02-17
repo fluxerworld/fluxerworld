@@ -19,6 +19,7 @@
 
 import GuildAuditLogTab from '@app/components/modals/guild_tabs/GuildAuditLogTab';
 import GuildBansTab from '@app/components/modals/guild_tabs/GuildBansTab';
+import GuildDiscoveryTab from '@app/components/modals/guild_tabs/GuildDiscoveryTab';
 import GuildEmojiTab from '@app/components/modals/guild_tabs/GuildEmojiTab';
 import GuildInvitesTab from '@app/components/modals/guild_tabs/GuildInvitesTab';
 import GuildModerationTab from '@app/components/modals/guild_tabs/GuildModerationTab';
@@ -33,6 +34,7 @@ import type {I18n, MessageDescriptor} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 import {
 	BookOpenIcon,
+	CompassIcon,
 	GearIcon,
 	HammerIcon,
 	type Icon,
@@ -57,6 +59,7 @@ export type GuildSettingsTabType =
 	| 'audit_log'
 	| 'webhooks'
 	| 'vanity_url'
+	| 'discovery'
 	| 'members'
 	| 'invites'
 	| 'bans';
@@ -150,6 +153,15 @@ const GUILD_SETTINGS_TABS_DESCRIPTORS: Array<GuildSettingsTabDescriptor> = [
 		component: GuildVanityURLTab,
 		permission: Permissions.MANAGE_GUILD,
 		requireFeature: GuildFeatures.VANITY_URL,
+	},
+	{
+		type: 'discovery',
+		category: 'guild_settings',
+		label: msg`Discovery`,
+		icon: CompassIcon,
+		iconWeight: 'fill',
+		component: GuildDiscoveryTab,
+		permission: Permissions.MANAGE_GUILD,
 	},
 	{
 		type: 'members',

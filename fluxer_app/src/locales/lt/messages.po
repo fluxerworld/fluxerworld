@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} išsaugoti medijos elementai"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount} Narys"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount} Nariai"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount} bendruomenės"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} bendruomenės"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:75
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} Prisijungę"
 
@@ -1462,6 +1462,10 @@ msgstr "8 valandos"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "4 skaitmenų žymė bus pridėta automatiškai, kad būtų užtikrintas unikalumas"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+msgid "A description is required."
+msgstr "Aprašymas yra privalomas."
+
 #: src/components/channel/CallMessage.tsx:80
 #: src/components/channel/CallMessage.tsx:136
 msgid "a few seconds"
@@ -1744,7 +1748,7 @@ msgid "activity"
 msgstr "veikla"
 
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:385
-#: src/components/modals/utils/GuildSettingsConstants.tsx:131
+#: src/components/modals/utils/GuildSettingsConstants.tsx:134
 msgid "Activity Log"
 msgstr "Veiklos žurnalas"
 
@@ -2153,7 +2157,7 @@ msgstr "Lygiuotės valdymas prieinamas tik platesniuose ekranuose"
 #: src/components/channel/GuildMembersPage.tsx:816
 #: src/components/channel/MobileMemesPicker.tsx:101
 #: src/components/channel/pickers/memes/MemesPickerHeader.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:91
+#: src/components/modals/DiscoveryModal.tsx:97
 #: src/components/modals/GuildNotificationSettingsModal.tsx:226
 #: src/constants/AuditLogConstants.tsx:237
 msgid "All"
@@ -2248,7 +2252,7 @@ msgstr "Visi naudotojai"
 msgid "All your user account information"
 msgstr "Visa jūsų naudotojo paskyros informacija"
 
-#: src/components/modals/shared/PermissionComponents.tsx:92
+#: src/components/modals/shared/PermissionComponents.tsx:91
 msgid "Allow"
 msgstr "Leisti"
 
@@ -2620,6 +2624,10 @@ msgstr "Animacija"
 msgid "animations"
 msgstr "animacijos"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+msgid "Anime & Manga"
+msgstr "Anime ir Manga"
+
 #: src/components/modals/tabs/component_gallery_tab/SelectionsTab.tsx:198
 msgid "Another Checkbox"
 msgstr "Kitas žymimasis langelis"
@@ -2714,6 +2722,7 @@ msgstr "Taikoma tik šio įrenginio darbalaukio programai."
 msgid "Applies to both camera and screen sharing"
 msgstr "Taikoma tiek kamerai, tiek ekrano dalijimuisi"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2727,6 +2736,10 @@ msgstr "Taikyti temą"
 #: src/components/modals/tabs/chat_settings_tab/SidebarTab.tsx:49
 msgid "Apply to all communities"
 msgstr "Taikyti visoms bendruomenėms"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+msgid "Approved"
+msgstr "Patvirtinta"
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:254
 msgid "apps"
@@ -3537,7 +3550,7 @@ msgstr "Banerio režimo pasirinkimas"
 msgid "Banner preview"
 msgstr "Banerio peržiūra"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:173
+#: src/components/modals/utils/GuildSettingsConstants.tsx:185
 msgid "Bans"
 msgstr "Draudimai"
 
@@ -4198,6 +4211,7 @@ msgstr "Kortelių lygiavimo valdikliai"
 msgid "Careful! You have unsaved changes."
 msgstr "Atsargiai! Turite neišsaugotų pakeitimų."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4742,6 +4756,10 @@ msgstr "Pasirinkite, kaip laikai rodomi visoje programėlėje."
 #: src/components/modals/tabs/appearance_tab/InterfaceTab.tsx:109
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "Pasirinkite, kaip rašymo indikatoriai atrodo kanalų sąraše, kai kažkas rašo kanale."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+msgid "Choose the category that best describes your community."
+msgstr "Pasirinkite kategoriją, kuri geriausiai apibūdina jūsų bendruomenę."
 
 #: src/components/pages/OAuthAuthorizePage.tsx:605
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
@@ -5765,6 +5783,10 @@ msgstr "Sukurkite autorizacijos URL su apimtimis ir leidimais."
 msgid "contact"
 msgstr "kontaktas"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+msgid "Content Creator"
+msgstr "Turinio kūrėjas"
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:227
 msgid "Content filtering"
 msgstr "Turinio filtravimas"
@@ -6583,7 +6605,7 @@ msgstr "Pasirinktinė trukmė"
 msgid "Custom Duration"
 msgstr "Pritaikyta trukmė"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:107
+#: src/components/modals/utils/GuildSettingsConstants.tsx:110
 msgid "Custom Emoji"
 msgstr "Pasirinktinis emodži"
 
@@ -6600,7 +6622,7 @@ msgid "Custom Hoist Order"
 msgstr "Pasirinktinis pakėlimo tvarka"
 
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:146
-#: src/components/modals/utils/GuildSettingsConstants.tsx:147
+#: src/components/modals/utils/GuildSettingsConstants.tsx:150
 msgid "Custom Invite URL"
 msgstr "Pasirinktinis kvietimo URL"
 
@@ -6632,7 +6654,7 @@ msgstr "pritaikyti garsai"
 msgid "Custom Status"
 msgstr "Pasirinktinė būsena"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:115
+#: src/components/modals/utils/GuildSettingsConstants.tsx:118
 msgid "Custom Stickers"
 msgstr "Pasirinktiniai lipdukai"
 
@@ -7275,7 +7297,7 @@ msgstr "Tankus"
 msgid "Dense layout"
 msgstr "Tankus išdėstymas"
 
-#: src/components/modals/shared/PermissionComponents.tsx:72
+#: src/components/modals/shared/PermissionComponents.tsx:71
 msgid "Deny"
 msgstr "Atmesti"
 
@@ -7304,12 +7326,17 @@ msgstr "Apibūdinkite, kokios išraiškos yra šiame rinkinyje."
 msgid "Describe what makes the content illegal"
 msgstr "Apibūdinkite, kas daro turinį neteisėtą"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+msgid "Describe what your community is about..."
+msgstr "Apibūdinkite, apie ką yra jūsų bendruomenė..."
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:71
 msgid "description"
 msgstr "aprašymas"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "Aprašymas"
@@ -7317,6 +7344,14 @@ msgstr "Aprašymas"
 #: src/components/modals/sticker_form/StickerFormFields.tsx:107
 msgid "Description must be 500 characters or less"
 msgstr "Aprašymas turi būti 500 simbolių arba mažiau"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
+msgstr "Aprašymas turi būti bent {DISCOVERY_DESCRIPTION_MIN_LENGTH} simbolių ilgio."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
+msgstr "Aprašymas negali būti ilgesnis nei {DISCOVERY_DESCRIPTION_MAX_LENGTH} simbolių."
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:540
 msgid "desktop"
@@ -7689,6 +7724,23 @@ msgstr "Atsijungti lizdą"
 #: src/components/voice/VoiceConnectionStatus.tsx:324
 msgid "Disconnected"
 msgstr "Atsijungta"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/utils/GuildSettingsConstants.tsx:160
+msgid "Discovery"
+msgstr "Atranka"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+msgid "Discovery application submitted"
+msgstr "Atrankos paraiška pateikta"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+msgid "Discovery application withdrawn"
+msgstr "Atrankos paraiška atšaukta"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+msgid "Discovery listing updated"
+msgstr "Atrankos sąrašas atnaujintas"
 
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:113
 msgid "Discriminator"
@@ -8260,6 +8312,10 @@ msgstr "Redaguojama žinutė"
 msgid "Editing scheduled message"
 msgstr "Redaguojama suplanuota žinutė"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+msgid "Education"
+msgstr "Išsilavinimas"
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:100
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:490
 msgid "email"
@@ -8805,6 +8861,10 @@ msgstr "Įveskite savo slaptažodį."
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "Įveskite savo telefono numerį. Mes jums nusiųsime patvirtinimo kodą SMS žinute."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+msgid "Entertainment"
+msgstr "Pramogos"
+
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:49
 msgid "Entrance Sound"
 msgstr "Įėjimo garsas"
@@ -9003,7 +9063,8 @@ msgstr "Aiškaus turinio filtro nustatymas"
 
 #: src/components/layout/guild_list/DiscoveryButton.tsx:49
 #: src/components/layout/guild_list/DiscoveryButton.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:73
+#: src/components/modals/DiscoveryModal.tsx:74
+#: src/components/modals/DiscoveryModal.tsx:82
 msgid "Explore Communities"
 msgstr "Tyrinėti bendruomenes"
 
@@ -9250,6 +9311,10 @@ msgstr "Nepavyko įdiegti šio emoji paketo. Bandykite dar kartą vėliau."
 #: src/actions/InviteActionCreators.tsx:323
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Nepavyko įdiegti šio lipdukų paketo. Bandykite dar kartą vėliau."
+
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+msgid "Failed to join this community. Please try again."
+msgstr "Nepavyko prisijungti prie šios bendruomenės. Prašome bandyti dar kartą."
 
 #: src/components/modals/KickMemberModal.tsx:45
 msgid "Failed to kick member. Please try again."
@@ -9572,6 +9637,10 @@ msgstr "Nepavyko įkelti įėjimo garso"
 #: src/actions/ConnectionActionCreators.tsx:116
 msgid "Failed to verify connection"
 msgstr "Nepavyko patvirtinti ryšio"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+msgid "Failed to withdraw application. Please try again."
+msgstr "Nepavyko atšaukti paraiškos. Prašome bandyti dar kartą."
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:634
 msgid "fake"
@@ -10330,6 +10399,10 @@ msgstr "Žaidimų valdiklis"
 msgid "Game Night"
 msgstr "Žaidimų naktis"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+msgid "Gaming"
+msgstr "Žaidimai"
+
 #: src/components/modals/AddGuildModal.tsx:180
 msgid "Gaming Community"
 msgstr "Žaidimų bendruomenė"
@@ -10355,7 +10428,7 @@ msgstr "bendras"
 #: src/components/modals/tabs/developer_options_tab/index.tsx:45
 #: src/components/modals/tabs/developer_options_tab/Inline.tsx:45
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:56
-#: src/components/modals/utils/GuildSettingsConstants.tsx:91
+#: src/components/modals/utils/GuildSettingsConstants.tsx:94
 #: src/components/modals/utils/SettingsConstants.tsx:301
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:619
 msgid "General"
@@ -11897,7 +11970,7 @@ msgstr "Pakvietimo nuorodos nustatymai"
 #: src/components/modals/channel_tabs/ChannelInvitesTab.tsx:162
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:68
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:72
-#: src/components/modals/utils/GuildSettingsConstants.tsx:165
+#: src/components/modals/utils/GuildSettingsConstants.tsx:177
 msgid "Invite Links"
 msgstr "Pakvietimo nuorodos"
 
@@ -12102,10 +12175,6 @@ msgstr "Truputis"
 msgid "join"
 msgstr "prisijungti"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
-msgid "Join"
-msgstr "Prisijungti"
-
 #: src/components/modals/AddGuildModal.tsx:84
 msgid "Join a Community"
 msgstr "Prisijungti prie bendruomenės"
@@ -12129,6 +12198,7 @@ msgstr "Prisijungti prie skambučio"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12203,7 +12273,7 @@ msgstr "Prisijungti prie Balsavimo"
 msgid "Join Voice Call"
 msgstr "Prisijungti prie balso skambučio"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 msgid "Joined"
 msgstr "Prisijungta"
 
@@ -12770,6 +12840,10 @@ msgstr "nuorodos"
 msgid "Links"
 msgstr "Nuorodos"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+msgid "List your community in Discovery so others can find and join it."
+msgstr "Pateikite savo bendruomenę Atrankoje, kad kiti galėtų ją rasti ir prisijungti."
+
 #: src/components/modals/tabs/component_gallery_tab/MarkdownTab.tsx:109
 msgid "Lists"
 msgstr "Sąrašai"
@@ -12795,7 +12869,7 @@ msgid "Load more"
 msgstr "Įkelti daugiau"
 
 #: src/components/channel/GuildMembersPage.tsx:1082
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 msgid "Load More"
 msgstr "Įkelti daugiau"
 
@@ -12857,7 +12931,7 @@ msgstr "Įkeliami patvirtinimo metodai..."
 msgid "Loading: {alt}"
 msgstr "Įkeliama: {alt}"
 
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 #: src/components/uikit/Spinner.tsx:39
 msgid "Loading..."
 msgstr "Įkeliama..."
@@ -13471,7 +13545,7 @@ msgstr "nariai"
 #: src/components/channel/GuildMembersPage.tsx:1116
 #: src/components/layout/ChannelListContent.tsx:276
 #: src/components/modals/shared/AddOverridePopout.tsx:121
-#: src/components/modals/utils/GuildSettingsConstants.tsx:157
+#: src/components/modals/utils/GuildSettingsConstants.tsx:169
 msgid "Members"
 msgstr "Nariai"
 
@@ -14084,6 +14158,10 @@ msgstr "Kino klubas"
 msgid "Movie Night Crew"
 msgstr "Kino nakties komanda"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+msgid "Movies & TV"
+msgstr "Filmai ir TV"
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:580
 msgid "mp3"
 msgstr "mp3"
@@ -14091,6 +14169,10 @@ msgstr "mp3"
 #: src/components/modals/tabs/developer_options_tab/TypographyTab.tsx:330
 msgid "Multilingual Content"
 msgstr "Daugiakalbis turinys"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+msgid "Music"
+msgstr "Muzika"
 
 #: src/components/modals/AddGuildModal.tsx:170
 msgid "Music Lovers"
@@ -14433,7 +14515,7 @@ msgstr "Tinklo klaida"
 msgid "Networking & Performance"
 msgstr "Tinklo Ryšys & Veikimas"
 
-#: src/components/modals/shared/PermissionComponents.tsx:82
+#: src/components/modals/shared/PermissionComponents.tsx:81
 msgid "Neutral (Inherit)"
 msgstr "Neutrali (paveldima)"
 
@@ -14666,10 +14748,6 @@ msgstr "Nerasta kanalų"
 msgid "No communities available with <0>Manage Community</0> permissions."
 msgstr "Nėra prieinamų bendruomenių su <0>Valdyti bendruomenę</0> leidimais."
 
-#: src/components/modals/DiscoveryModal.tsx:111
-msgid "No communities found"
-msgstr "Bendruomenių nerasta"
-
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildBannerUploadField.tsx:142
 msgid "No community banner"
 msgstr "Nėra bendruomenės reklaminės juostos"
@@ -14680,7 +14758,7 @@ msgstr "Dar nėra jokių ryšių"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:68
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -15002,6 +15080,10 @@ msgstr "Norvegų"
 #: src/components/modals/tabs/VideoTab.tsx:141
 msgid "Not available"
 msgstr "Nėra prieinama"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+msgid "Not enough members"
+msgstr "Neužtenka narių"
 
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:57
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:58
@@ -15667,6 +15749,7 @@ msgstr "Nepavyko įkelti originalios žinutės"
 msgid "Original message was deleted"
 msgstr "Originali žinutė buvo ištrinta"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15833,7 +15916,7 @@ msgstr "Dalyviai"
 msgid "Participants: {names}"
 msgstr "Dalyviai: {names}"
 
-#: src/components/guild/GuildBadge.tsx:61
+#: src/components/guild/GuildBadge.tsx:58
 msgid "Partnered Community"
 msgstr "Partnerių bendruomenė"
 
@@ -15943,6 +16026,7 @@ msgid "Payment Successful"
 msgstr "Mokėjimas sėkmingas"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
 msgid "Pending"
 msgstr "Laukiantis"
 
@@ -16972,6 +17056,11 @@ msgstr "Priežastis"
 msgid "Reason (Optional)"
 msgstr "Priežastis (Pasirinktinai)"
 
+#. placeholder {0}: application.review_reason
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+msgid "Reason: {0}"
+msgstr "Priežastis: {0}"
+
 #: src/components/voice/VoiceStatsOverlay.tsx:130
 #: src/components/voice/VoiceStatsOverlay.tsx:142
 msgid "Receive"
@@ -17160,6 +17249,10 @@ msgstr "Įprasti, botai, sistemos ir laiko pasibaigę vartotojai rodomi jaukiuos
 #: src/components/voice/IncomingCallUI.tsx:322
 msgid "Reject"
 msgstr "Atmesti"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+msgid "Rejected"
+msgstr "Atmestas"
 
 #: src/components/channel/textarea/HoldToRecordButton.tsx:232
 msgid "Release to send"
@@ -17431,6 +17524,10 @@ msgstr "Pašalinti, kai pirmą kartą nusipirkote Plutonium iš savo ženklo"
 #: src/components/modals/tabs/my_profile_tab/PremiumBadgeSettings.tsx:106
 msgid "Remove your Visionary ID badge"
 msgstr "Pašalinti savo Visionary ID ženklą"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+msgid "Removed"
+msgstr "Pašalintas"
 
 #. placeholder {0}: renderValueInline(value, guildId, i18n)
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:250
@@ -18136,7 +18233,7 @@ msgstr "Rolė: {0}."
 msgid "Roles"
 msgstr "Rolės"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:99
+#: src/components/modals/utils/GuildSettingsConstants.tsx:102
 msgid "Roles & Permissions"
 msgstr "Rolės ir leidimai"
 
@@ -18193,7 +18290,7 @@ msgstr "Rust"
 msgid "Safe"
 msgstr "Saugu"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:123
+#: src/components/modals/utils/GuildSettingsConstants.tsx:126
 msgid "Safety & Moderation"
 msgstr "Saugumas ir moderavimas"
 
@@ -18222,6 +18319,7 @@ msgstr "išsaugoti"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18353,6 +18451,10 @@ msgstr "Suplanuota žinutė {0}"
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "Suplanuotos žinutės gali būti daugiausia 30 dienų į priekį."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+msgid "Science & Technology"
+msgstr "Mokslas ir technologijos"
+
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:469
 msgid "Scope"
 msgstr "Apimtis"
@@ -18463,7 +18565,7 @@ msgstr "Ieškoti kanalų"
 msgid "Search channels or DMs"
 msgstr "Ieškoti kanalų ar tiesioginių žinučių"
 
-#: src/components/modals/DiscoveryModal.tsx:78
+#: src/components/modals/DiscoveryModal.tsx:86
 msgid "Search communities..."
 msgstr "Ieškoti bendruomenių..."
 
@@ -20321,6 +20423,10 @@ msgstr "būsenos lenta"
 msgid "Status Slate"
 msgstr "Būsenos lentelė"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+msgid "Status:"
+msgstr "Būsena:"
+
 #: src/components/pages/report/ReportStepSelection.tsx:39
 msgid "Step 1"
 msgstr "1 žingsnis"
@@ -22092,10 +22198,6 @@ msgstr "Išbandykite skirtingus filtrus arba paieškos terminus"
 msgid "Try searching for something like \"theme\", \"notifications\", or \"privacy\""
 msgstr "Pabandykite ieškoti ko nors panašaus į \"tema\", \"pranešimai\" ar \"privatumas\""
 
-#: src/components/modals/DiscoveryModal.tsx:113
-msgid "Try searching with different keywords or browse a different category."
-msgstr "Išbandykite ieškoti su kitais raktažodžiais arba naršykite kitą kategoriją."
-
 #: src/components/auth/MfaScreen.tsx:120
 msgid "Try security key / passkey instead"
 msgstr "Vietoj to išbandykite saugos raktą / prieigos raktą"
@@ -23559,12 +23661,12 @@ msgstr "Patvirtinti nepavyko"
 msgid "Verification may be required before viewing your backup codes."
 msgstr "Prieš peržiūrint atsarginius kodus gali būti reikalingas patvirtinimas."
 
-#: src/components/guild/GuildBadge.tsx:60
+#: src/components/guild/GuildBadge.tsx:57
 msgid "Verified & Partnered Community"
 msgstr "Patvirtinta ir partnerių bendruomenė"
 
 #: src/components/emojis/EmojiAttributionSubtext.tsx:144
-#: src/components/guild/GuildBadge.tsx:62
+#: src/components/guild/GuildBadge.tsx:59
 msgid "Verified Community"
 msgstr "Patvirtinta bendruomenė"
 
@@ -24355,7 +24457,7 @@ msgstr "Webhook URL"
 #: src/components/modals/channel_tabs/ChannelWebhooksTab.tsx:99
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:98
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:80
-#: src/components/modals/utils/GuildSettingsConstants.tsx:139
+#: src/components/modals/utils/GuildSettingsConstants.tsx:142
 msgid "Webhooks"
 msgstr "Webhooks"
 
@@ -24588,6 +24690,10 @@ msgstr "Su klaida"
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:131
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "Su Plutonium galite naudoti animuotus avatarus ir banerius (GIF, APNG, animuotas WebP arba AVIF), pritaikyti savo 4 skaitmenų žymą ir atrakinti daugybę kitų premium funkcijų."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+msgid "Withdraw"
+msgstr "Atsisakyti"
 
 #: src/components/modals/AddGuildModal.tsx:182
 msgid "Work Friends"
@@ -25319,6 +25425,10 @@ msgstr "Tavo paskyra dar nepriimta. Be el. pašto ir slaptažodžio negalėsi pr
 msgid "Your account is too new to send messages in this community."
 msgstr "Tavo paskyra per nauja, kad siųsti žinutes šioje bendruomenėje."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+msgid "Your application is pending review. You can still update your listing details or withdraw the application."
+msgstr "Jūsų paraiška laukia peržiūros. Vis dar galite atnaujinti savo sąrašo detales arba atsisakyti paraiškos."
+
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:53
 msgid "Your browser does not support desktop notifications."
 msgstr "Tavo naršyklė nepalaiko darbastalio pranešimų."
@@ -25334,6 +25444,14 @@ msgstr "Tavo kodas"
 #: src/components/auth/HandoffCodeDisplay.tsx:85
 msgid "Your code is ready!"
 msgstr "Tavo kodas paruoštas!"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
+msgstr "Jūsų bendruomenė yra įtraukta į Discovery. Galite atnaujinti savo sąrašo detales žemiau arba atsisakyti, kad ją pašalintumėte."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
+msgstr "Jūsų bendruomenei reikia bent {minMemberCount} narių, kad ji galėtų būti įtraukta į Discovery."
 
 #. placeholder {0}: user?.email
 #: src/components/modals/RequiredActionModal.tsx:456

@@ -30,7 +30,6 @@ import {createMarketingContextFactory} from '@fluxer/marketing/src/app/Marketing
 import {applyMarketingMiddlewareStack} from '@fluxer/marketing/src/app/MarketingMiddlewareStack';
 import {registerMarketingRoutes} from '@fluxer/marketing/src/app/MarketingRouteRegistrar';
 import {applyMarketingStaticAssets} from '@fluxer/marketing/src/app/MarketingStaticAssets';
-import {createBadgeCache, productHuntFeaturedUrl, productHuntTopPostUrl} from '@fluxer/marketing/src/BadgeProxy';
 import type {MarketingConfig} from '@fluxer/marketing/src/MarketingConfig';
 import {createMarketingMetricsMiddleware} from '@fluxer/marketing/src/MarketingTelemetry';
 import {initializeMarketingCsrf} from '@fluxer/marketing/src/middleware/Csrf';
@@ -59,14 +58,9 @@ export function createMarketingApp(options: CreateMarketingAppOptions): Marketin
 	const publicDir = resolve(publicDirOption ?? fileURLToPath(new URL('../public', import.meta.url)));
 	const app = new Hono();
 
-	const badgeFeaturedCache = createBadgeCache(productHuntFeaturedUrl);
-	const badgeTopPostCache = createBadgeCache(productHuntTopPostUrl);
-
 	const contextFactory = createMarketingContextFactory({
 		config,
 		publicDir,
-		badgeFeaturedCache,
-		badgeTopPostCache,
 	});
 
 	initializeMarketingCsrf(config.secretKeyBase, config.env === 'production');
@@ -93,8 +87,6 @@ export function createMarketingApp(options: CreateMarketingAppOptions): Marketin
 		app,
 		config,
 		contextFactory,
-		badgeFeaturedCache,
-		badgeTopPostCache,
 	});
 
 	const shutdown = (): void => {

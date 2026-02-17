@@ -21,7 +21,6 @@
 /** @jsxImportSource hono/jsx */
 
 import {CdnEndpoints} from '@fluxer/constants/src/CdnEndpoints';
-import type {BadgeCache} from '@fluxer/marketing/src/BadgeProxy';
 import {createI18n} from '@fluxer/marketing/src/I18n';
 import type {MarketingConfig} from '@fluxer/marketing/src/MarketingConfig';
 import type {MarketingContext} from '@fluxer/marketing/src/MarketingContext';
@@ -33,8 +32,6 @@ import type {Context as HonoContext} from 'hono';
 export interface CreateMarketingContextFactoryOptions {
 	config: MarketingConfig;
 	publicDir: string;
-	badgeFeaturedCache: BadgeCache;
-	badgeTopPostCache: BadgeCache;
 }
 
 export type MarketingContextFactory = (c: HonoContext) => Promise<MarketingContext>;
@@ -62,8 +59,6 @@ export function createMarketingContextFactory(options: CreateMarketingContextFac
 			platform: requestInfo.platform,
 			architecture: requestInfo.architecture,
 			releaseChannel: options.config.releaseChannel,
-			badgeFeaturedCache: options.badgeFeaturedCache,
-			badgeTopPostCache: options.badgeTopPostCache,
 			csrfToken,
 			isDev: options.config.env === 'development',
 		};

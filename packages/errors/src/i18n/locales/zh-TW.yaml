@@ -218,6 +218,7 @@ discovery.already_applied: 這個社群已經申請過探索功能了。
 discovery.application_already_reviewed: 這份探索申請已經審核過了。
 discovery.application_not_found: 找不到探索申請。
 discovery.description_required: 加入探索列表需要提供描述。
+discovery.disabled: 此實例上無法使用發現。
 discovery.insufficient_members: 這個社群的成員數量未達探索功能的最低要求。
 discovery.invalid_category: 探索分類無效。
 discovery.not_discoverable: 這個社群未列於探索列表中。

@@ -54,7 +54,5 @@ export const DiscoveryApplicationStatus = {
 
 export type DiscoveryApplicationStatusValue = ValueOf<typeof DiscoveryApplicationStatus>;
 
-export const DISCOVERY_MIN_MEMBER_COUNT = 50;
-export const DISCOVERY_MIN_MEMBER_COUNT_DEV = 1;
 export const DISCOVERY_DESCRIPTION_MIN_LENGTH = 10;
 export const DISCOVERY_DESCRIPTION_MAX_LENGTH = 300;

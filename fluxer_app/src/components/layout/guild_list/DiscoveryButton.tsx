@@ -64,7 +64,7 @@ export const DiscoveryButton = observer(() => {
 							transition={{duration: AccessibilityStore.useReducedMotion ? 0 : 0.07, ease: 'easeOut'}}
 							whileHover={AccessibilityStore.useReducedMotion ? undefined : {borderRadius: '30%'}}
 						>
-							<CompassIcon weight="bold" className={styles.iconText} />
+							<CompassIcon weight="fill" className={styles.iconText} />
 						</motion.div>
 					</button>
 				</FocusRing>

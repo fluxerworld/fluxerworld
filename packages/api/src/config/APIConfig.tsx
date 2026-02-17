@@ -248,6 +248,11 @@ export interface APIConfig {
 		enabled: boolean;
 	};
 
+	discovery: {
+		enabled: boolean;
+		minMemberCount: number;
+	};
+
 	dev: {
 		relaxRegistrationRateLimits: boolean;
 		disableRateLimits: boolean;

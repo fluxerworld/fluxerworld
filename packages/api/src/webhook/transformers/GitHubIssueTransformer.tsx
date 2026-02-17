@@ -26,9 +26,9 @@ export async function transformIssue(body: GitHubWebhook): Promise<RichEmbedRequ
 		return null;
 	}
 
-	const authorIconUrl = body.issue.user.avatar_url;
-	const authorName = body.issue.user.login;
-	const authorUrl = body.issue.user.html_url;
+	const authorIconUrl = body.sender.avatar_url;
+	const authorName = body.sender.login;
+	const authorUrl = body.sender.html_url;
 	const repoName = body.repository.full_name;
 	const issueNumber = body.issue.number;
 	const issueTitle = body.issue.title;

@@ -28,7 +28,7 @@ export interface DiscoveryGuild {
 	name: string;
 	icon: string | null;
 	description: string | null;
-	category_id: number;
+	category_type: number;
 	member_count: number;
 	online_count: number;
 	features: Array<string>;

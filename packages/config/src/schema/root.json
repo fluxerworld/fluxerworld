@@ -132,6 +132,11 @@
 			"$ref": "#/$defs/proxy",
 			"default": {}
 		},
+		"discovery": {
+			"description": "Guild discovery listing configuration.",
+			"$ref": "#/$defs/discovery",
+			"default": {}
+		},
 		"attachment_decay_enabled": {
 			"type": "boolean",
 			"description": "Whether to automatically delete old attachments.",

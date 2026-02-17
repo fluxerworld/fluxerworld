@@ -21,11 +21,7 @@ import {createTestAccount} from '@fluxer/api/src/auth/tests/AuthTestUtils';
 import {type ApiTestHarness, createApiTestHarness} from '@fluxer/api/src/test/ApiTestHarness';
 import {HTTP_STATUS} from '@fluxer/api/src/test/TestConstants';
 import {createBuilder} from '@fluxer/api/src/test/TestRequestBuilder';
-import {
-	deletePushSubscription,
-	listPushSubscriptions,
-	subscribePush,
-} from '@fluxer/api/src/user/tests/UserTestUtils';
+import {deletePushSubscription, listPushSubscriptions, subscribePush} from '@fluxer/api/src/user/tests/UserTestUtils';
 import {beforeEach, describe, expect, test} from 'vitest';
 
 describe('Push Subscription Lifecycle', () => {
@@ -180,10 +176,7 @@ describe('Push Subscription Lifecycle', () => {
 	});
 
 	test('list subscriptions requires authentication', async () => {
-		await createBuilder(harness, '')
-			.get('/users/@me/push/subscriptions')
-			.expect(HTTP_STATUS.UNAUTHORIZED)
-			.execute();
+		await createBuilder(harness, '').get('/users/@me/push/subscriptions').expect(HTTP_STATUS.UNAUTHORIZED).execute();
 	});
 
 	test('delete subscription requires authentication', async () => {

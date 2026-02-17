@@ -218,6 +218,7 @@ discovery.already_applied: Ez a közösség már jelentkezett a felfedezésbe.
 discovery.application_already_reviewed: Ezt a felfedezési kérelmet már elbírálták.
 discovery.application_not_found: A felfedezési kérelem nem található.
 discovery.description_required: A felfedezési listázáshoz leírás szükséges.
+discovery.disabled: A felfedezés nem érhető el ezen a példányon.
 discovery.insufficient_members: Ez a közösség nem éri el a felfedezéshez szükséges minimális taglétszámot.
 discovery.invalid_category: Érvénytelen felfedezési kategória.
 discovery.not_discoverable: Ez a közösség nem szerepel a felfedezésben.

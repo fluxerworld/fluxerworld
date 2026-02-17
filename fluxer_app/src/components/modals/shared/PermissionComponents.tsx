@@ -20,7 +20,6 @@
 import {Switch as UISwitch} from '@app/components/form/Switch';
 import styles from '@app/components/modals/shared/PermissionComponents.module.css';
 import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
-import {WarningAlert} from '@app/components/uikit/warning_alert/WarningAlert';
 import PermissionLayoutStore from '@app/stores/PermissionLayoutStore';
 import type * as PermissionUtils from '@app/utils/PermissionUtils';
 import {useLingui} from '@lingui/react/macro';
@@ -128,6 +127,7 @@ const PermissionOverwriteToggle: React.FC<{
 	const buttons = <PermissionStateButtons currentState={state} onStateChange={onChange} disabled={disabled} />;
 	const buttonsTooltipTrigger = <div className={styles.tooltipTriggerInline}>{buttons}</div>;
 	const showDescription = PermissionLayoutStore.isComfy;
+	const tooltipText = (disabled && disabledReason) || warning;
 
 	return (
 		<div className={clsx(styles.overwriteToggle, PermissionLayoutStore.isDense && styles.overwriteToggleDense)}>
@@ -142,10 +142,9 @@ const PermissionOverwriteToggle: React.FC<{
 				</div>
 				{showDescription && description && <p className={styles.overwriteToggleDescription}>{description}</p>}
 				{extra}
-				{warning && <WarningAlert className={styles.permissionWarning}>{warning}</WarningAlert>}
 			</div>
 			<div className={styles.overwriteToggleActions}>
-				{disabled && disabledReason ? <Tooltip text={disabledReason}>{buttonsTooltipTrigger}</Tooltip> : buttons}
+				{tooltipText ? <Tooltip text={tooltipText}>{buttonsTooltipTrigger}</Tooltip> : buttons}
 			</div>
 		</div>
 	);
@@ -238,12 +237,12 @@ const PermissionRoleToggle: React.FC<{
 			/>
 		);
 		const switchTooltipTrigger = <div className={styles.tooltipTriggerBlock}>{switchEl}</div>;
+		const tooltipText = (disabled && disabledReason) || warning;
 
 		return (
 			<div className={clsx(styles.roleToggle, PermissionLayoutStore.isDense && styles.roleToggleDense)}>
-				{disabled && disabledReason ? <Tooltip text={disabledReason}>{switchTooltipTrigger}</Tooltip> : switchEl}
+				{tooltipText ? <Tooltip text={tooltipText}>{switchTooltipTrigger}</Tooltip> : switchEl}
 				{extra}
-				{warning && <WarningAlert className={styles.permissionWarning}>{warning}</WarningAlert>}
 			</div>
 		);
 	},

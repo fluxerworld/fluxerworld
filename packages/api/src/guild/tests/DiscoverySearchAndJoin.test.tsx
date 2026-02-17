@@ -32,7 +32,10 @@ import type {
 import {afterEach, beforeEach, describe, expect, test} from 'vitest';
 
 async function setGuildMemberCount(harness: ApiTestHarness, guildId: string, memberCount: number): Promise<void> {
-	await createBuilder(harness, '').post(`/test/guilds/${guildId}/member-count`).body({member_count: memberCount}).execute();
+	await createBuilder(harness, '')
+		.post(`/test/guilds/${guildId}/member-count`)
+		.body({member_count: memberCount})
+		.execute();
 }
 
 async function applyAndApprove(
@@ -45,7 +48,7 @@ async function applyAndApprove(
 ): Promise<void> {
 	await createBuilder<DiscoveryApplicationResponse>(harness, ownerToken)
 		.post(`/guilds/${guildId}/discovery`)
-		.body({description, category_id: categoryId})
+		.body({description, category_type: categoryId})
 		.expect(HTTP_STATUS.OK)
 		.execute();
 
@@ -102,10 +105,7 @@ describe('Discovery Search and Join', () => {
 		});
 
 		test('should require login to list categories', async () => {
-			await createBuilderWithoutAuth(harness)
-				.get('/discovery/categories')
-				.expect(HTTP_STATUS.UNAUTHORIZED)
-				.execute();
+			await createBuilderWithoutAuth(harness).get('/discovery/categories').expect(HTTP_STATUS.UNAUTHORIZED).execute();
 		});
 	});
 
@@ -150,7 +150,7 @@ describe('Discovery Search and Join', () => {
 			expect(found).toBeDefined();
 			expect(found!.name).toBe('Searchable Guild');
 			expect(found!.description).toBe('A searchable community for all');
-			expect(found!.category_id).toBe(DiscoveryCategories.GAMING);
+			expect(found!.category_type).toBe(DiscoveryCategories.GAMING);
 		});
 
 		test('should not return pending guilds in search results', async () => {
@@ -160,7 +160,7 @@ describe('Discovery Search and Join', () => {
 
 			await createBuilder<DiscoveryApplicationResponse>(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'Pending application guild', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'Pending application guild', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.OK)
 				.execute();
 
@@ -181,12 +181,26 @@ describe('Discovery Search and Join', () => {
 			const owner1 = await createTestAccount(harness);
 			const gamingGuild = await createGuild(harness, owner1.token, 'Gaming Community');
 			await setGuildMemberCount(harness, gamingGuild.id, 10);
-			await applyAndApprove(harness, owner1.token, admin.token, gamingGuild.id, 'All about gaming', DiscoveryCategories.GAMING);
+			await applyAndApprove(
+				harness,
+				owner1.token,
+				admin.token,
+				gamingGuild.id,
+				'All about gaming',
+				DiscoveryCategories.GAMING,
+			);
 
 			const owner2 = await createTestAccount(harness);
 			const musicGuild = await createGuild(harness, owner2.token, 'Music Community');
 			await setGuildMemberCount(harness, musicGuild.id, 10);
-			await applyAndApprove(harness, owner2.token, admin.token, musicGuild.id, 'All about music', DiscoveryCategories.MUSIC);
+			await applyAndApprove(
+				harness,
+				owner2.token,
+				admin.token,
+				musicGuild.id,
+				'All about music',
+				DiscoveryCategories.MUSIC,
+			);
 
 			const searcher = await createTestAccount(harness);
 			const results = await createBuilder<DiscoveryGuildListResponse>(harness, searcher.token)
@@ -195,7 +209,7 @@ describe('Discovery Search and Join', () => {
 				.execute();
 
 			for (const guild of results.guilds) {
-				expect(guild.category_id).toBe(DiscoveryCategories.GAMING);
+				expect(guild.category_type).toBe(DiscoveryCategories.GAMING);
 			}
 		});
 
@@ -207,7 +221,14 @@ describe('Discovery Search and Join', () => {
 				const owner = await createTestAccount(harness);
 				const guild = await createGuild(harness, owner.token, `Limit Test Guild ${i}`);
 				await setGuildMemberCount(harness, guild.id, 10);
-				await applyAndApprove(harness, owner.token, admin.token, guild.id, `Community number ${i} for testing`, DiscoveryCategories.GAMING);
+				await applyAndApprove(
+					harness,
+					owner.token,
+					admin.token,
+					guild.id,
+					`Community number ${i} for testing`,
+					DiscoveryCategories.GAMING,
+				);
 			}
 
 			const searcher = await createTestAccount(harness);
@@ -220,10 +241,7 @@ describe('Discovery Search and Join', () => {
 		});
 
 		test('should require login to search', async () => {
-			await createBuilderWithoutAuth(harness)
-				.get('/discovery/guilds')
-				.expect(HTTP_STATUS.UNAUTHORIZED)
-				.execute();
+			await createBuilderWithoutAuth(harness).get('/discovery/guilds').expect(HTTP_STATUS.UNAUTHORIZED).execute();
 		});
 	});
 
@@ -235,7 +253,14 @@ describe('Discovery Search and Join', () => {
 
 			const admin = await createTestAccount(harness);
 			await setUserACLs(harness, admin, ['admin:authenticate', 'discovery:review']);
-			await applyAndApprove(harness, owner.token, admin.token, guild.id, 'Join this community', DiscoveryCategories.GAMING);
+			await applyAndApprove(
+				harness,
+				owner.token,
+				admin.token,
+				guild.id,
+				'Join this community',
+				DiscoveryCategories.GAMING,
+			);
 
 			const joiner = await createTestAccount(harness);
 			await createBuilder(harness, joiner.token)
@@ -266,7 +291,7 @@ describe('Discovery Search and Join', () => {
 
 			await createBuilder<DiscoveryApplicationResponse>(harness, owner.token)
 				.post(`/guilds/${guild.id}/discovery`)
-				.body({description: 'Pending but not yet approved', category_id: DiscoveryCategories.GAMING})
+				.body({description: 'Pending but not yet approved', category_type: DiscoveryCategories.GAMING})
 				.expect(HTTP_STATUS.OK)
 				.execute();
 

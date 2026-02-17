@@ -67,7 +67,7 @@ const syncDiscoveryIndex: WorkerTaskHandler = async (_payload, helpers) => {
 
 			await guildSearchService.updateGuild(guild, {
 				description: discoveryRow.description,
-				categoryId: discoveryRow.category_id,
+				categoryId: discoveryRow.category_type,
 				onlineCount: onlineCounts.get(guildId) ?? 0,
 			});
 

@@ -21,6 +21,7 @@ import type {GuildID} from '@fluxer/api/src/BrandedTypes';
 import {BatchBuilder, fetchMany, fetchOne} from '@fluxer/api/src/database/Cassandra';
 import type {GuildDiscoveryByStatusRow, GuildDiscoveryRow} from '@fluxer/api/src/database/types/GuildDiscoveryTypes';
 import {GuildDiscovery, GuildDiscoveryByStatus} from '@fluxer/api/src/Tables';
+import {DiscoveryCategories} from '@fluxer/constants/src/DiscoveryConstants';
 
 const FETCH_DISCOVERY_BY_GUILD_ID = GuildDiscovery.selectCql({
 	where: GuildDiscovery.where.eq('guild_id'),
@@ -46,9 +47,13 @@ export abstract class IGuildDiscoveryRepository {
 
 export class GuildDiscoveryRepository extends IGuildDiscoveryRepository {
 	async findByGuildId(guildId: GuildID): Promise<GuildDiscoveryRow | null> {
-		return fetchOne<GuildDiscoveryRow>(FETCH_DISCOVERY_BY_GUILD_ID, {
+		const row = await fetchOne<GuildDiscoveryRow>(FETCH_DISCOVERY_BY_GUILD_ID, {
 			guild_id: guildId,
 		});
+		if (row) {
+			row.category_type ??= DiscoveryCategories.GAMING;
+		}
+		return row;
 	}
 
 	async listByStatus(status: string, limit: number): Promise<Array<GuildDiscoveryByStatusRow>> {
@@ -64,7 +69,7 @@ export class GuildDiscoveryRepository extends IGuildDiscoveryRepository {
 			GuildDiscovery.insert({
 				guild_id: row.guild_id,
 				status: row.status,
-				category_id: row.category_id,
+				category_type: row.category_type,
 				description: row.description,
 				applied_at: row.applied_at,
 				reviewed_at: row.reviewed_at,
@@ -116,7 +121,7 @@ export class GuildDiscoveryRepository extends IGuildDiscoveryRepository {
 			GuildDiscovery.insert({
 				guild_id: updatedRow.guild_id,
 				status: updatedRow.status,
-				category_id: updatedRow.category_id,
+				category_type: updatedRow.category_type,
 				description: updatedRow.description,
 				applied_at: updatedRow.applied_at,
 				reviewed_at: updatedRow.reviewed_at,

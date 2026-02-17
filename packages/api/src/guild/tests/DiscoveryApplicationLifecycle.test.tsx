@@ -22,14 +22,19 @@ import {createGuild, getGuild} from '@fluxer/api/src/guild/tests/GuildTestUtils'
 import {type ApiTestHarness, createApiTestHarness} from '@fluxer/api/src/test/ApiTestHarness';
 import {HTTP_STATUS} from '@fluxer/api/src/test/TestConstants';
 import {createBuilder} from '@fluxer/api/src/test/TestRequestBuilder';
-import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
-import {DiscoveryCategories} from '@fluxer/constants/src/DiscoveryConstants';
+import {DiscoveryCategories, type DiscoveryCategory} from '@fluxer/constants/src/DiscoveryConstants';
 import {GuildFeatures} from '@fluxer/constants/src/GuildConstants';
-import type {DiscoveryApplicationResponse} from '@fluxer/schema/src/domains/guild/GuildDiscoverySchemas';
+import type {
+	DiscoveryApplicationResponse,
+	DiscoveryStatusResponse,
+} from '@fluxer/schema/src/domains/guild/GuildDiscoverySchemas';
 import {afterEach, beforeEach, describe, expect, test} from 'vitest';
 
 async function setGuildMemberCount(harness: ApiTestHarness, guildId: string, memberCount: number): Promise<void> {
-	await createBuilder(harness, '').post(`/test/guilds/${guildId}/member-count`).body({member_count: memberCount}).execute();
+	await createBuilder(harness, '')
+		.post(`/test/guilds/${guildId}/member-count`)
+		.body({member_count: memberCount})
+		.execute();
 }
 
 async function applyForDiscovery(
@@ -37,11 +42,11 @@ async function applyForDiscovery(
 	token: string,
 	guildId: string,
 	description = 'A great community for testing discovery features',
-	categoryId = DiscoveryCategories.GAMING,
+	categoryId: DiscoveryCategory = DiscoveryCategories.GAMING,
 ): Promise<DiscoveryApplicationResponse> {
 	return createBuilder<DiscoveryApplicationResponse>(harness, token)
 		.post(`/guilds/${guildId}/discovery`)
-		.body({description, category_id: categoryId})
+		.body({description, category_type: categoryId})
 		.expect(HTTP_STATUS.OK)
 		.execute();
 }
@@ -98,7 +103,7 @@ describe('Discovery Application Lifecycle', () => {
 		expect(application.guild_id).toBe(guild.id);
 		expect(application.status).toBe('pending');
 		expect(application.description).toBe('A great community for testing discovery features');
-		expect(application.category_id).toBe(DiscoveryCategories.GAMING);
+		expect(application.category_type).toBe(DiscoveryCategories.GAMING);
 		expect(application.applied_at).toBeTruthy();
 		expect(application.reviewed_at).toBeNull();
 		expect(application.review_reason).toBeNull();
@@ -111,13 +116,16 @@ describe('Discovery Application Lifecycle', () => {
 
 		await applyForDiscovery(harness, owner.token, guild.id);
 
-		const status = await createBuilder<DiscoveryApplicationResponse>(harness, owner.token)
+		const status = await createBuilder<DiscoveryStatusResponse>(harness, owner.token)
 			.get(`/guilds/${guild.id}/discovery`)
 			.expect(HTTP_STATUS.OK)
 			.execute();
 
-		expect(status.guild_id).toBe(guild.id);
-		expect(status.status).toBe('pending');
+		expect(status.application).not.toBeNull();
+		expect(status.application!.guild_id).toBe(guild.id);
+		expect(status.application!.status).toBe('pending');
+		expect(status.eligible).toBe(true);
+		expect(status.min_member_count).toBeGreaterThan(0);
 	});
 
 	test('should edit pending application description', async () => {
@@ -134,7 +142,7 @@ describe('Discovery Application Lifecycle', () => {
 			.execute();
 
 		expect(updated.description).toBe('Updated community description');
-		expect(updated.category_id).toBe(DiscoveryCategories.GAMING);
+		expect(updated.category_type).toBe(DiscoveryCategories.GAMING);
 	});
 
 	test('should edit pending application category', async () => {
@@ -146,11 +154,11 @@ describe('Discovery Application Lifecycle', () => {
 
 		const updated = await createBuilder<DiscoveryApplicationResponse>(harness, owner.token)
 			.patch(`/guilds/${guild.id}/discovery`)
-			.body({category_id: DiscoveryCategories.EDUCATION})
+			.body({category_type: DiscoveryCategories.EDUCATION})
 			.expect(HTTP_STATUS.OK)
 			.execute();
 
-		expect(updated.category_id).toBe(DiscoveryCategories.EDUCATION);
+		expect(updated.category_type).toBe(DiscoveryCategories.EDUCATION);
 	});
 
 	test('should withdraw pending application', async () => {
@@ -165,10 +173,12 @@ describe('Discovery Application Lifecycle', () => {
 			.expect(HTTP_STATUS.NO_CONTENT)
 			.execute();
 
-		await createBuilder(harness, owner.token)
+		const status = await createBuilder<DiscoveryStatusResponse>(harness, owner.token)
 			.get(`/guilds/${guild.id}/discovery`)
-			.expect(HTTP_STATUS.NOT_FOUND, APIErrorCodes.DISCOVERY_APPLICATION_NOT_FOUND)
+			.expect(HTTP_STATUS.OK)
 			.execute();
+
+		expect(status.application).toBeNull();
 	});
 
 	test('should complete full lifecycle: apply → approve → verify feature → withdraw', async () => {
@@ -207,11 +217,11 @@ describe('Discovery Application Lifecycle', () => {
 
 		await adminReject(harness, admin.token, guild.id, 'Needs more detail');
 
-		const status = await createBuilder<DiscoveryApplicationResponse>(harness, owner.token)
+		const status = await createBuilder<DiscoveryStatusResponse>(harness, owner.token)
 			.get(`/guilds/${guild.id}/discovery`)
 			.expect(HTTP_STATUS.OK)
 			.execute();
-		expect(status.status).toBe('rejected');
+		expect(status.application!.status).toBe('rejected');
 
 		const reapplication = await applyForDiscovery(
 			harness,
@@ -266,7 +276,7 @@ describe('Discovery Application Lifecycle', () => {
 				'Valid description for this category',
 				categoryId,
 			);
-			expect(application.category_id).toBe(categoryId);
+			expect(application.category_type).toBe(categoryId);
 		}
 	});
 

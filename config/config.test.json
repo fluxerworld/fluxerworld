@@ -47,6 +47,9 @@
 			"keys": []
 		}
 	},
+	"discovery": {
+		"min_member_count": 1
+	},
 	"dev": {
 		"disable_rate_limits": true,
 		"test_mode_enabled": true,

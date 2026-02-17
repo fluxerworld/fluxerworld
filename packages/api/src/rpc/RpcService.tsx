@@ -1236,7 +1236,8 @@ export class RpcService {
 			});
 		}
 
-		const repairedBannerGuild = await this.repairGuildBannerHeight(guildResult);
+		const repairedChannelRefsGuild = await this.repairDanglingChannelReferences({guild: guildResult, channels});
+		const repairedBannerGuild = await this.repairGuildBannerHeight(repairedChannelRefsGuild);
 		const repairedSplashGuild = await this.repairGuildSplashDimensions(repairedBannerGuild);
 		const repairedEmbedSplashGuild = await this.repairGuildEmbedSplashDimensions(repairedSplashGuild);
 		const updatedGuild = await this.updateGuildMemberCount(repairedEmbedSplashGuild, members.length);
@@ -1447,6 +1448,36 @@ export class RpcService {
 
 	private stripAnimationPrefix(hash: string): string {
 		return hash.startsWith('a_') ? hash.slice(2) : hash;
+	}
+
+	private async repairDanglingChannelReferences(params: {guild: Guild; channels: Array<Channel>}): Promise<Guild> {
+		const {guild, channels} = params;
+		const channelIds = new Set(channels.map((channel) => channel.id));
+
+		const danglingSystemChannel = guild.systemChannelId != null && !channelIds.has(guild.systemChannelId);
+		const danglingRulesChannel = guild.rulesChannelId != null && !channelIds.has(guild.rulesChannelId);
+		const danglingAfkChannel = guild.afkChannelId != null && !channelIds.has(guild.afkChannelId);
+
+		if (!danglingSystemChannel && !danglingRulesChannel && !danglingAfkChannel) {
+			return guild;
+		}
+
+		Logger.info(
+			{
+				guildId: guild.id.toString(),
+				danglingSystemChannel,
+				danglingRulesChannel,
+				danglingAfkChannel,
+			},
+			'Repairing dangling guild channel references',
+		);
+
+		return this.guildRepository.upsert({
+			...guild.toRow(),
+			system_channel_id: danglingSystemChannel ? null : guild.systemChannelId,
+			rules_channel_id: danglingRulesChannel ? null : guild.rulesChannelId,
+			afk_channel_id: danglingAfkChannel ? null : guild.afkChannelId,
+		});
 	}
 
 	private async repairGuildBannerHeight(guild: Guild): Promise<Guild> {

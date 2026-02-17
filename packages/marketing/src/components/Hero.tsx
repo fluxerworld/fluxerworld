@@ -20,11 +20,12 @@
 /** @jsxRuntime automatic */
 /** @jsxImportSource hono/jsx */
 
+import {Locales} from '@fluxer/constants/src/Locales';
+import {FlagSvg} from '@fluxer/marketing/src/components/Flags';
 import {HackernewsBanner} from '@fluxer/marketing/src/components/HackernewsBanner';
-import {MadeInSwedenBadge} from '@fluxer/marketing/src/components/MadeInSwedenBadge';
+import {ArrowRightIcon} from '@fluxer/marketing/src/components/icons/ArrowRightIcon';
 import {renderSecondaryButton, renderWithOverlay} from '@fluxer/marketing/src/components/PlatformDownloadButton';
 import type {MarketingContext} from '@fluxer/marketing/src/MarketingContext';
-import {href} from '@fluxer/marketing/src/UrlUtils';
 
 interface HeroProps {
 	ctx: MarketingContext;
@@ -41,13 +42,35 @@ export function Hero(props: HeroProps): JSX.Element {
 						<span class="font-bold text-3xl text-white">Fluxer（フラクサー）</span>
 					</div>
 				) : null}
-				<div class="flex flex-wrap justify-center gap-3 pb-2">
-					<span class="rounded-full bg-white px-4 py-1.5 font-medium text-[#4641D9] text-sm">
-						{ctx.i18n.getMessage('beta_and_access.public_beta', ctx.locale)}
-					</span>
-					<MadeInSwedenBadge ctx={ctx} />
+				<div class="flex flex-wrap items-center justify-center gap-3 pb-2">
+					<a
+						href="https://blog.fluxer.app/how-i-built-fluxer-a-discord-like-chat-app/"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-1.5 font-medium text-sm text-white transition-colors hover:bg-white/20"
+					>
+						{ctx.i18n.getMessage('launch.heading', ctx.locale)}
+						<ArrowRightIcon class="h-3.5 w-3.5" />
+					</a>
+					<a
+						href="https://blog.fluxer.app/roadmap-2026"
+						target="_blank"
+						rel="noopener noreferrer"
+						class="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-4 py-1.5 font-medium text-sm text-white transition-colors hover:bg-white/20"
+					>
+						{ctx.i18n.getMessage('launch.view_full_roadmap', ctx.locale)}
+						<ArrowRightIcon class="h-3.5 w-3.5" />
+					</a>
 				</div>
 				<h1 class="hero">{ctx.i18n.getMessage('general.tagline', ctx.locale)}</h1>
+				<div class="-mt-4 flex items-center justify-center gap-2 font-medium text-sm text-white/80">
+					<span>{ctx.i18n.getMessage('beta_and_access.public_beta', ctx.locale)}</span>
+					<span class="text-white/40">·</span>
+					<span class="inline-flex items-center gap-1.5">
+						<FlagSvg locale={Locales.SV_SE} ctx={ctx} class="h-3.5 w-3.5 rounded-sm" />
+						{ctx.i18n.getMessage('general.made_in_sweden', ctx.locale)}
+					</span>
+				</div>
 				<p class="lead mx-auto max-w-2xl text-white/90">
 					{ctx.i18n.getMessage('product_positioning.intro', ctx.locale)}
 				</p>
@@ -104,32 +127,6 @@ export function Hero(props: HeroProps): JSX.Element {
 						/>
 					</picture>
 				</div>
-			</div>
-			<div class="mt-10 flex flex-wrap items-center justify-center gap-4 md:mt-12">
-				<a
-					href="https://www.producthunt.com/products/fluxer?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-fluxer"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<img
-						alt="Fluxer - Open-source Discord-like instant messaging & VoIP platform | Product Hunt"
-						width="250"
-						height="54"
-						src={href(ctx, '/api/badges/product-hunt')}
-					/>
-				</a>
-				<a
-					href="https://www.producthunt.com/products/fluxer?embed=true&utm_source=badge-top-post-badge&utm_medium=badge&utm_campaign=badge-fluxer"
-					target="_blank"
-					rel="noopener noreferrer"
-				>
-					<img
-						alt={ctx.i18n.getMessage('misc_labels.product_hunt_badge_title', ctx.locale)}
-						width="250"
-						height="54"
-						src={href(ctx, '/api/badges/product-hunt-top-post')}
-					/>
-				</a>
 			</div>
 		</main>
 	);

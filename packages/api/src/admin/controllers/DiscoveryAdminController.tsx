@@ -41,7 +41,7 @@ function mapDiscoveryRowToResponse(row: GuildDiscoveryRow) {
 		guild_id: row.guild_id.toString(),
 		status: row.status,
 		description: row.description,
-		category_id: row.category_id,
+		category_type: row.category_type,
 		applied_at: row.applied_at.toISOString(),
 		reviewed_at: row.reviewed_at?.toISOString() ?? null,
 		review_reason: row.review_reason ?? null,

@@ -168,6 +168,11 @@
 			"$ref": "#/$defs/proxy",
 			"default": {}
 		},
+		"discovery": {
+			"description": "Guild discovery listing configuration.",
+			"$ref": "#/$defs/discovery",
+			"default": {}
+		},
 		"attachment_decay_enabled": {
 			"type": "boolean",
 			"description": "Whether to automatically delete old attachments.",
@@ -567,6 +572,22 @@
 					"description": "Mapping of logical buckets to actual S3 bucket names.",
 					"$ref": "#/$defs/s3_buckets",
 					"default": {}
+				}
+			}
+		},
+		"discovery": {
+			"type": "object",
+			"description": "Guild discovery listing configuration.",
+			"properties": {
+				"enabled": {
+					"type": "boolean",
+					"description": "Whether guild discovery is enabled on this instance.",
+					"default": true
+				},
+				"min_member_count": {
+					"type": "number",
+					"description": "Minimum number of members a guild needs before it can apply for discovery listing.",
+					"default": 50
 				}
 			}
 		},

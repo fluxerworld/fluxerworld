@@ -238,6 +238,7 @@ export type ErrorI18nKey =
 	| 'discovery.application_already_reviewed'
 	| 'discovery.application_not_found'
 	| 'discovery.description_required'
+	| 'discovery.disabled'
 	| 'discovery.insufficient_members'
 	| 'discovery.invalid_category'
 	| 'discovery.not_discoverable'

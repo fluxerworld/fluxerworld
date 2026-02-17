@@ -218,6 +218,7 @@ discovery.already_applied: Αυτή η κοινότητα έχει ήδη υπο
 discovery.application_already_reviewed: Αυτή η αίτηση ανακάλυψης έχει ήδη εξεταστεί.
 discovery.application_not_found: Η αίτηση ανακάλυψης δεν βρέθηκε.
 discovery.description_required: Απαιτείται περιγραφή για την καταχώρηση στην ανακάλυψη.
+discovery.disabled: Η ανακάλυψη δεν είναι διαθέσιμη σε αυτήν την παρουσία.
 discovery.insufficient_members: Αυτή η κοινότητα δεν πληροί τον ελάχιστο αριθμό μελών για ανακάλυψη.
 discovery.invalid_category: Μη έγκυρη κατηγορία ανακάλυψης.
 discovery.not_discoverable: Αυτή η κοινότητα δεν είναι καταχωρημένη στην ανακάλυψη.

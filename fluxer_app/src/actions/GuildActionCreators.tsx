@@ -27,6 +27,11 @@ import type {
 	AuditLogWebhookResponse,
 	GuildAuditLogEntryResponse,
 } from '@fluxer/schema/src/domains/guild/GuildAuditLogSchemas';
+import type {
+	DiscoveryApplicationRequest,
+	DiscoveryApplicationResponse,
+	DiscoveryStatusResponse,
+} from '@fluxer/schema/src/domains/guild/GuildDiscoverySchemas';
 import type {Guild} from '@fluxer/schema/src/domains/guild/GuildResponseSchemas';
 import type {GuildRole} from '@fluxer/schema/src/domains/guild/GuildRoleSchemas';
 import type {Invite} from '@fluxer/schema/src/domains/invite/InviteSchemas';
@@ -374,6 +379,55 @@ export async function fetchGuildAuditLogs(
 		return data;
 	} catch (error) {
 		logger.error(`Failed to fetch audit logs for guild ${guildId}:`, error);
+		throw error;
+	}
+}
+
+export async function getDiscoveryStatus(guildId: string): Promise<DiscoveryStatusResponse> {
+	try {
+		const response = await http.get<DiscoveryStatusResponse>(Endpoints.GUILD_DISCOVERY(guildId));
+		logger.debug(`Fetched discovery status for guild ${guildId}`);
+		return response.body;
+	} catch (error) {
+		logger.error(`Failed to fetch discovery status for guild ${guildId}:`, error);
+		throw error;
+	}
+}
+
+export async function applyForDiscovery(
+	guildId: string,
+	params: DiscoveryApplicationRequest,
+): Promise<DiscoveryApplicationResponse> {
+	try {
+		const response = await http.post<DiscoveryApplicationResponse>(Endpoints.GUILD_DISCOVERY(guildId), params);
+		logger.debug(`Applied for discovery for guild ${guildId}`);
+		return response.body;
+	} catch (error) {
+		logger.error(`Failed to apply for discovery for guild ${guildId}:`, error);
+		throw error;
+	}
+}
+
+export async function updateDiscoveryApplication(
+	guildId: string,
+	params: Partial<DiscoveryApplicationRequest>,
+): Promise<DiscoveryApplicationResponse> {
+	try {
+		const response = await http.patch<DiscoveryApplicationResponse>(Endpoints.GUILD_DISCOVERY(guildId), params);
+		logger.debug(`Updated discovery application for guild ${guildId}`);
+		return response.body;
+	} catch (error) {
+		logger.error(`Failed to update discovery application for guild ${guildId}:`, error);
+		throw error;
+	}
+}
+
+export async function withdrawDiscoveryApplication(guildId: string): Promise<void> {
+	try {
+		await http.delete({url: Endpoints.GUILD_DISCOVERY(guildId)});
+		logger.debug(`Withdrew discovery application for guild ${guildId}`);
+	} catch (error) {
+		logger.error(`Failed to withdraw discovery application for guild ${guildId}:`, error);
 		throw error;
 	}
 }

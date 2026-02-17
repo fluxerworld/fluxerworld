@@ -218,6 +218,7 @@ discovery.already_applied: 이 커뮤니티는 이미 디스커버리에 신청�
 discovery.application_already_reviewed: 이 디스커버리 신청서는 이미 검토됐어요.
 discovery.application_not_found: 디스커버리 신청서를 찾을 수 없어요.
 discovery.description_required: 디스커버리 등록에는 설명이 필요해요.
+discovery.disabled: 이 인스턴스에서는 발견을 사용할 수 없습니다.
 discovery.insufficient_members: 이 커뮤니티는 디스커버리에 필요한 최소 멤버 수를 충족하지 못해요.
 discovery.invalid_category: 디스커버리 카테고리가 올바르지 않아요.
 discovery.not_discoverable: 이 커뮤니티는 디스커버리에 등록돼 있지 않아요.

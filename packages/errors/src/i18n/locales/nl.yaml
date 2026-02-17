@@ -218,6 +218,7 @@ discovery.already_applied: Deze community heeft al een aanvraag ingediend voor o
 discovery.application_already_reviewed: Deze ontdekkingsaanvraag is al beoordeeld.
 discovery.application_not_found: Ontdekkingsaanvraag is niet gevonden.
 discovery.description_required: Een beschrijving is verplicht voor de ontdekkingsvermelding.
+discovery.disabled: Ontdekking is niet beschikbaar op deze instantie.
 discovery.insufficient_members: Deze community voldoet niet aan het minimale ledenaantal voor ontdekking.
 discovery.invalid_category: Ongeldige ontdekkingscategorie.
 discovery.not_discoverable: Deze community staat niet vermeld in ontdekking.

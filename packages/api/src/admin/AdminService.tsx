@@ -36,6 +36,7 @@ import {SystemDmService} from '@fluxer/api/src/admin/services/SystemDmService';
 import type {AuthService} from '@fluxer/api/src/auth/AuthService';
 import type {AttachmentID, ChannelID, GuildID, ReportID, UserID} from '@fluxer/api/src/BrandedTypes';
 import type {IChannelRepository} from '@fluxer/api/src/channel/IChannelRepository';
+import {GuildDiscoveryRepository} from '@fluxer/api/src/guild/repositories/GuildDiscoveryRepository';
 import type {IGuildRepositoryAggregate} from '@fluxer/api/src/guild/repositories/IGuildRepositoryAggregate';
 import type {GuildService} from '@fluxer/api/src/guild/services/GuildService';
 import type {IDiscriminatorService} from '@fluxer/api/src/infrastructure/DiscriminatorService';
@@ -206,6 +207,7 @@ export class AdminService {
 			gatewayService: this.gatewayService,
 			entityAssetService: this.entityAssetService,
 			auditService: this.auditService,
+			discoveryRepository: new GuildDiscoveryRepository(),
 		});
 		this.assetPurgeService = new AdminAssetPurgeService({
 			guildRepository: this.guildRepository,

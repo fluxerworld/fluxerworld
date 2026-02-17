@@ -218,6 +218,7 @@ discovery.already_applied: Ova zajednica se već prijavila za otkrivanje.
 discovery.application_already_reviewed: Ovaj zahtjev za otkrivanje je već pregledan.
 discovery.application_not_found: Zahtjev za otkrivanje nije pronađen.
 discovery.description_required: Opis je obavezan za popis u otkrivanju.
+discovery.disabled: Otkrivanje nije dostupno na ovoj instanci.
 discovery.insufficient_members: Ova zajednica ne ispunjava minimalan broj članova za otkrivanje.
 discovery.invalid_category: Neispravna kategorija otkrivanja.
 discovery.not_discoverable: Ova zajednica nije navedena u otkrivanju.

@@ -362,6 +362,10 @@ export function buildAPIConfigFromMaster(master: MasterConfig): APIConfig {
 					enabled: master.federation.enabled,
 				}
 			: undefined,
+		discovery: {
+			enabled: master.discovery.enabled,
+			minMemberCount: master.discovery.min_member_count,
+		},
 		dev: {
 			relaxRegistrationRateLimits: master.dev.relax_registration_rate_limits,
 			disableRateLimits: master.dev.disable_rate_limits,

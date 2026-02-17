@@ -24,13 +24,10 @@ import AuthenticationStore from '@app/stores/AuthenticationStore';
 import ChannelStore from '@app/stores/ChannelStore';
 import GuildAvailabilityStore from '@app/stores/GuildAvailabilityStore';
 import InitializationStore from '@app/stores/InitializationStore';
-import PermissionStore from '@app/stores/PermissionStore';
 import ReadStateStore from '@app/stores/ReadStateStore';
-import {Permissions} from '@fluxer/constants/src/ChannelConstants';
 import {reaction} from 'mobx';
 
 const logger = new Logger('ReadStateCleanup');
-const CAN_READ_PERMISSIONS = Permissions.VIEW_CHANNEL;
 const CLEANUP_INTERVAL_MS = 300;
 
 const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
@@ -41,16 +38,7 @@ let cleanupReactionDisposer: (() => void) | null = null;
 function collectStaleChannels(): Array<string> {
 	const channelIds = ReadStateStore.getChannelIds();
 	return channelIds.filter((channelId) => {
-		const channel = ChannelStore.getChannel(channelId);
-		if (channel == null) {
-			return true;
-		}
-
-		if (channel.guildId == null) {
-			return false;
-		}
-
-		return !PermissionStore.can(CAN_READ_PERMISSIONS, channel);
+		return ChannelStore.getChannel(channelId) == null;
 	});
 }
 

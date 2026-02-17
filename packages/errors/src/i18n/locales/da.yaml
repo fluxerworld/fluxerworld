@@ -218,6 +218,7 @@ discovery.already_applied: Dette fællesskab har allerede ansøgt om opdagelse.
 discovery.application_already_reviewed: Denne opdagelsesansøgning er allerede blevet behandlet.
 discovery.application_not_found: Opdagelsesansøgningen blev ikke fundet.
 discovery.description_required: En beskrivelse er påkrævet for at blive vist i opdagelse.
+discovery.disabled: Opdagelse er ikke tilgængelig på denne forekomst.
 discovery.insufficient_members: Dette fællesskab opfylder ikke minimumsantallet af medlemmer for opdagelse.
 discovery.invalid_category: Ugyldig opdagelseskategori.
 discovery.not_discoverable: Dette fællesskab er ikke vist i opdagelse.

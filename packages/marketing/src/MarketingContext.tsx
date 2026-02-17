@@ -21,7 +21,6 @@
 /** @jsxImportSource hono/jsx */
 
 import type {LocaleCode} from '@fluxer/constants/src/Locales';
-import type {BadgeCache} from '@fluxer/marketing/src/BadgeProxy';
 import type {MarketingI18nService} from '@fluxer/marketing/src/marketing_i18n/MarketingI18nService';
 
 export type MarketingPlatform = 'windows' | 'macos' | 'linux' | 'ios' | 'android' | 'unknown';
@@ -40,8 +39,6 @@ export interface MarketingContext {
 	platform: MarketingPlatform;
 	architecture: MarketingArchitecture;
 	releaseChannel: string;
-	badgeFeaturedCache: BadgeCache;
-	badgeTopPostCache: BadgeCache;
 	csrfToken: string;
 	isDev: boolean;
 }

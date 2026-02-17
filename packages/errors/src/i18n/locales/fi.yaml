@@ -218,6 +218,7 @@ discovery.already_applied: Tämä yhteisö on jo hakenut hakemistoon.
 discovery.application_already_reviewed: Tämä hakemistohakemus on jo käsitelty.
 discovery.application_not_found: Hakemistohakemusta ei löytynyt.
 discovery.description_required: Hakemistoluetteloa varten vaaditaan kuvaus.
+discovery.disabled: Haku ei ole saatavilla tässä instanssissa.
 discovery.insufficient_members: Tällä yhteisöllä ei ole tarpeeksi jäseniä hakemistoon.
 discovery.invalid_category: Virheellinen hakemistokategoria.
 discovery.not_discoverable: Tämä yhteisö ei ole hakemistossa.

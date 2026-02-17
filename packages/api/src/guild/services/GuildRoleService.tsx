@@ -51,11 +51,6 @@ import type {
 import type {GuildResponse} from '@fluxer/schema/src/domains/guild/GuildResponseSchemas';
 import type {GuildRoleResponse} from '@fluxer/schema/src/domains/guild/GuildRoleSchemas';
 
-interface RoleReorderOperation {
-	roleId: RoleID;
-	precedingRoleId: RoleID | null;
-}
-
 interface GuildAuth {
 	guildData: GuildResponse;
 	checkPermission: (permission: bigint) => Promise<void>;
@@ -580,15 +575,15 @@ export class GuildRoleService {
 		userId: UserID;
 		guildId: GuildID;
 		updates: Array<{roleId: RoleID; position?: number}>;
-		auditLogReason?: string | null;
 	}): Promise<void> {
 		const {userId, guildId, updates} = params;
 		const {guildData} = await this.getGuildAuthenticated({userId, guildId});
 		const allRoles = await this.guildRoleRepository.listRoles(guildId);
 		const roleMap = new Map(allRoles.map((r) => [r.id, r]));
+		const everyoneRoleId = guildIdToRoleId(guildId);
 
 		for (const update of updates) {
-			if (update.roleId === guildIdToRoleId(guildId)) {
+			if (update.roleId === everyoneRoleId) {
 				throw InputValidationError.fromCode('id', ValidationErrorCodes.CANNOT_REORDER_EVERYONE_ROLE);
 			}
 			if (!roleMap.has(update.roleId)) {
@@ -598,7 +593,6 @@ export class GuildRoleService {
 			}
 		}
 
-		const everyoneRoleId = guildIdToRoleId(guildId);
 		const isOwner = guildData && guildData.owner_id === userId.toString();
 
 		let myHighestRole: GuildRole | null = null;
@@ -642,137 +636,18 @@ export class GuildRoleService {
 			return 0;
 		});
 
-		for (const role of currentOrder) {
+		for (let i = 0; i < currentOrder.length; i++) {
+			const role = currentOrder[i]!;
 			if (!canManageRole(role)) {
-				const originalIndex = currentOrder.findIndex((r) => r.id === role.id);
 				const newIndex = targetOrder.findIndex((r) => r.id === role.id);
-				if (originalIndex !== newIndex) {
+				if (i !== newIndex) {
 					throw new MissingPermissionsError();
 				}
 			}
 		}
 
 		const reorderedIds = targetOrder.map((r) => r.id);
-		await this.updateRolePositionsLocked({
-			userId,
-			guildId,
-			operation: {roleId: reorderedIds[0]!, precedingRoleId: null},
-			customOrder: reorderedIds,
-		});
-	}
-
-	private async updateRolePositionsLocked(params: {
-		userId: UserID;
-		guildId: GuildID;
-		operation: RoleReorderOperation;
-		customOrder?: Array<RoleID>;
-	}): Promise<void> {
-		const {userId, guildId, operation, customOrder} = params;
-		const {guildData} = await this.getGuildAuthenticated({userId, guildId});
-
-		const allRoles = await this.guildRoleRepository.listRoles(guildId);
-		const roleMap = new Map(allRoles.map((r) => [r.id, r]));
-
-		const targetRole = roleMap.get(operation.roleId);
-		if (!targetRole) {
-			throw InputValidationError.fromCode('role_id', ValidationErrorCodes.INVALID_ROLE_ID, {
-				roleId: operation.roleId.toString(),
-			});
-		}
-
-		const everyoneRoleId = guildIdToRoleId(guildId);
-		if (targetRole.id === everyoneRoleId) {
-			throw InputValidationError.fromCode('role_id', ValidationErrorCodes.CANNOT_REORDER_EVERYONE_ROLE);
-		}
-
-		let precedingRole: GuildRole | null = null;
-		if (!customOrder) {
-			if (operation.precedingRoleId) {
-				if (operation.precedingRoleId === targetRole.id) {
-					throw InputValidationError.fromCode(
-						'preceding_role_id',
-						ValidationErrorCodes.CANNOT_USE_SAME_ROLE_AS_PRECEDING,
-					);
-				}
-				precedingRole = roleMap.get(operation.precedingRoleId) ?? null;
-				if (!precedingRole) {
-					throw InputValidationError.fromCode('preceding_role_id', ValidationErrorCodes.INVALID_ROLE_ID, {
-						roleId: operation.precedingRoleId.toString(),
-					});
-				}
-			}
-		}
-
-		const sortedRoles = [...allRoles].sort((a, b) => {
-			if (b.position !== a.position) {
-				return b.position - a.position;
-			}
-			return String(a.id).localeCompare(String(b.id));
-		});
-
-		const originalIndex = sortedRoles.findIndex((role) => role.id === targetRole.id);
-		if (originalIndex === -1) {
-			throw new Error('Role ordering inconsistency detected');
-		}
-
-		const baseList = sortedRoles.filter((role) => role.id !== targetRole.id);
-
-		let insertIndex = 0;
-		if (!customOrder) {
-			if (precedingRole) {
-				const precedingIndex = baseList.findIndex((role) => role.id === precedingRole!.id);
-				if (precedingIndex === -1) {
-					throw InputValidationError.fromCode('preceding_role_id', ValidationErrorCodes.PRECEDING_ROLE_NOT_IN_GUILD);
-				}
-				insertIndex = precedingIndex + 1;
-			}
-		}
-
-		const isOwner = guildData && guildData.owner_id === userId.toString();
-
-		let myHighestRole: GuildRole | null = null;
-		if (!isOwner) {
-			const member = await this.guildMemberRepository.getMember(guildId, userId);
-			if (member) {
-				myHighestRole = this.getUserHighestRole(member, allRoles);
-			}
-		}
-
-		const canManageRole = (role: GuildRole): boolean => {
-			if (isOwner) return true;
-			if (role.id === everyoneRoleId) return false;
-			if (!myHighestRole) return false;
-			return this.isRoleHigherThan(myHighestRole, role);
-		};
-
-		if (!canManageRole(targetRole)) {
-			throw new MissingPermissionsError();
-		}
-
-		if (insertIndex < originalIndex) {
-			const rolesToCross = sortedRoles.slice(insertIndex, originalIndex);
-			for (const role of rolesToCross) {
-				if (!canManageRole(role)) {
-					throw new MissingPermissionsError();
-				}
-			}
-		}
-
-		if (customOrder) {
-			baseList.splice(0, baseList.length, ...sortedRoles.filter((role) => role.id !== everyoneRoleId));
-		} else {
-			baseList.splice(insertIndex, 0, targetRole);
-		}
-
-		const finalOrder = customOrder
-			? customOrder.filter((roleId) => roleId !== everyoneRoleId)
-			: baseList.map((role) => role.id).filter((roleId) => roleId !== everyoneRoleId);
-
-		const reorderedRoles = this.reorderRolePositions({
-			allRoles,
-			reorderedIds: finalOrder,
-			guildId,
-		});
+		const reorderedRoles = this.reorderRolePositions({allRoles, reorderedIds, guildId});
 
 		const updatePromises = reorderedRoles.map((role) => this.guildRoleRepository.upsertRole(role.toRow()));
 		await Promise.all(updatePromises);

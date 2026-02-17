@@ -94,28 +94,34 @@
 
 .footer {
 	display: flex;
-	align-items: center;
-	justify-content: space-between;
+	flex-direction: column;
+	gap: var(--spacing-3);
 	padding: var(--spacing-3) var(--spacing-4);
 	border-top: 1px solid var(--background-modifier-accent);
 }
 
 .stats {
 	display: flex;
-	align-items: center;
-	gap: var(--spacing-3);
-}
-
-.stat {
-	display: flex;
-	align-items: center;
+	flex-direction: column;
 	gap: 0.25rem;
 }
 
+.stat {
+	display: inline-flex;
+	align-items: center;
+	min-width: 0;
+}
+
+.joinButton {
+	width: 100%;
+}
+
 .statDot {
+	margin-right: 0.3rem;
 	height: 0.5rem;
 	width: 0.5rem;
 	border-radius: var(--radius-full);
+	flex: 0 0 auto;
 }
 
 .statDotOnline {
@@ -125,10 +131,12 @@
 
 .statDotMembers {
 	composes: statDot;
-	background-color: var(--text-quaternary);
+	background-color: var(--text-tertiary-secondary);
 }
 
 .statText {
+	color: var(--text-tertiary);
 	font-size: 0.75rem;
-	color: var(--text-secondary);
+	line-height: 1.2;
+	white-space: nowrap;
 }

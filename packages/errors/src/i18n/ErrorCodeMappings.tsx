@@ -98,6 +98,7 @@ export const ErrorCodeToI18nKey = {
 	[APIErrorCodes.DISCOVERY_APPLICATION_ALREADY_REVIEWED]: 'discovery.application_already_reviewed',
 	[APIErrorCodes.DISCOVERY_APPLICATION_NOT_FOUND]: 'discovery.application_not_found',
 	[APIErrorCodes.DISCOVERY_DESCRIPTION_REQUIRED]: 'discovery.description_required',
+	[APIErrorCodes.DISCOVERY_DISABLED]: 'discovery.disabled',
 	[APIErrorCodes.DISCOVERY_INSUFFICIENT_MEMBERS]: 'discovery.insufficient_members',
 	[APIErrorCodes.DISCOVERY_INVALID_CATEGORY]: 'discovery.invalid_category',
 	[APIErrorCodes.DISCOVERY_NOT_DISCOVERABLE]: 'discovery.not_discoverable',

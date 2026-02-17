@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} item media yang disimpan"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount} Anggota"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:81
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount} Anggota"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount} komunitas saling"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} komunitas bersama"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:75
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} Online"
 
@@ -1462,6 +1462,10 @@ msgstr "8 jam"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "Tag 4 digit akan ditambahkan secara otomatis untuk memastikan keunikan"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+msgid "A description is required."
+msgstr "Deskripsi diperlukan."
+
 #: src/components/channel/CallMessage.tsx:80
 #: src/components/channel/CallMessage.tsx:136
 msgid "a few seconds"
@@ -1744,7 +1748,7 @@ msgid "activity"
 msgstr "aktivitas"
 
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:385
-#: src/components/modals/utils/GuildSettingsConstants.tsx:131
+#: src/components/modals/utils/GuildSettingsConstants.tsx:134
 msgid "Activity Log"
 msgstr "Log Aktivitas"
 
@@ -2153,7 +2157,7 @@ msgstr "Kontrol perataan hanya tersedia di layar yang lebih lebar"
 #: src/components/channel/GuildMembersPage.tsx:816
 #: src/components/channel/MobileMemesPicker.tsx:101
 #: src/components/channel/pickers/memes/MemesPickerHeader.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:91
+#: src/components/modals/DiscoveryModal.tsx:97
 #: src/components/modals/GuildNotificationSettingsModal.tsx:226
 #: src/constants/AuditLogConstants.tsx:237
 msgid "All"
@@ -2248,7 +2252,7 @@ msgstr "Semua Pengguna"
 msgid "All your user account information"
 msgstr "Semua informasi akun pengguna Anda"
 
-#: src/components/modals/shared/PermissionComponents.tsx:92
+#: src/components/modals/shared/PermissionComponents.tsx:91
 msgid "Allow"
 msgstr "Izinkan"
 
@@ -2620,6 +2624,10 @@ msgstr "Animasi"
 msgid "animations"
 msgstr "animasi"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+msgid "Anime & Manga"
+msgstr "Anime & Manga"
+
 #: src/components/modals/tabs/component_gallery_tab/SelectionsTab.tsx:198
 msgid "Another Checkbox"
 msgstr "Kotak centang lainnya"
@@ -2714,6 +2722,7 @@ msgstr "Hanya berlaku untuk aplikasi desktop di perangkat ini."
 msgid "Applies to both camera and screen sharing"
 msgstr "Berlaku untuk berbagi kamera dan layar"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2727,6 +2736,10 @@ msgstr "Terapkan Tema"
 #: src/components/modals/tabs/chat_settings_tab/SidebarTab.tsx:49
 msgid "Apply to all communities"
 msgstr "Terapkan ke semua komunitas"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+msgid "Approved"
+msgstr "Disetujui"
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:254
 msgid "apps"
@@ -3537,7 +3550,7 @@ msgstr "Pemilihan mode spanduk"
 msgid "Banner preview"
 msgstr "Pratinjau spanduk"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:173
+#: src/components/modals/utils/GuildSettingsConstants.tsx:185
 msgid "Bans"
 msgstr "Blokir"
 
@@ -4198,6 +4211,7 @@ msgstr "Kontrol penjajaran kartu"
 msgid "Careful! You have unsaved changes."
 msgstr "Hati-hati! Anda memiliki perubahan yang belum disimpan."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4742,6 +4756,10 @@ msgstr "Pilih cara waktu ditampilkan di seluruh aplikasi."
 #: src/components/modals/tabs/appearance_tab/InterfaceTab.tsx:109
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "Pilih cara indikator pengetikan muncul di daftar kanal saat seseorang sedang mengetik di kanal."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+msgid "Choose the category that best describes your community."
+msgstr "Pilih kategori yang paling menggambarkan komunitas Anda."
 
 #: src/components/pages/OAuthAuthorizePage.tsx:605
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
@@ -5765,6 +5783,10 @@ msgstr "Buat URL otorisasi dengan ruang lingkup dan izin."
 msgid "contact"
 msgstr "kontak"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+msgid "Content Creator"
+msgstr "Kreator Konten"
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:227
 msgid "Content filtering"
 msgstr "Penyaringan konten"
@@ -6583,7 +6605,7 @@ msgstr "Durasi kustom"
 msgid "Custom Duration"
 msgstr "Durasi Kustom"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:107
+#: src/components/modals/utils/GuildSettingsConstants.tsx:110
 msgid "Custom Emoji"
 msgstr "Emoji Kustom"
 
@@ -6600,7 +6622,7 @@ msgid "Custom Hoist Order"
 msgstr "Urutan Hoist Kustom"
 
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:146
-#: src/components/modals/utils/GuildSettingsConstants.tsx:147
+#: src/components/modals/utils/GuildSettingsConstants.tsx:150
 msgid "Custom Invite URL"
 msgstr "URL Undangan Kustom"
 
@@ -6632,7 +6654,7 @@ msgstr "suara kustom"
 msgid "Custom Status"
 msgstr "Status Kustom"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:115
+#: src/components/modals/utils/GuildSettingsConstants.tsx:118
 msgid "Custom Stickers"
 msgstr "Stiker Kustom"
 
@@ -7275,7 +7297,7 @@ msgstr "Padat"
 msgid "Dense layout"
 msgstr "Tata letak padat"
 
-#: src/components/modals/shared/PermissionComponents.tsx:72
+#: src/components/modals/shared/PermissionComponents.tsx:71
 msgid "Deny"
 msgstr "Tolak"
 
@@ -7304,12 +7326,17 @@ msgstr "Jelaskan ekspresi apa yang ada dalam paket ini."
 msgid "Describe what makes the content illegal"
 msgstr "Jelaskan apa yang membuat konten tersebut ilegal"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+msgid "Describe what your community is about..."
+msgstr "Jelaskan tentang komunitas Anda..."
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:71
 msgid "description"
 msgstr "deskripsi"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "Deskripsi"
@@ -7317,6 +7344,14 @@ msgstr "Deskripsi"
 #: src/components/modals/sticker_form/StickerFormFields.tsx:107
 msgid "Description must be 500 characters or less"
 msgstr "Deskripsi harus 500 karakter atau kurang"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
+msgstr "Deskripsi harus terdiri dari setidaknya {DISCOVERY_DESCRIPTION_MIN_LENGTH} karakter."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
+msgstr "Deskripsi tidak boleh lebih dari {DISCOVERY_DESCRIPTION_MAX_LENGTH} karakter."
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:540
 msgid "desktop"
@@ -7689,6 +7724,23 @@ msgstr "Putuskan Soket"
 #: src/components/voice/VoiceConnectionStatus.tsx:324
 msgid "Disconnected"
 msgstr "Terputus"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/utils/GuildSettingsConstants.tsx:160
+msgid "Discovery"
+msgstr "Penemuan"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+msgid "Discovery application submitted"
+msgstr "Aplikasi penemuan telah diajukan"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+msgid "Discovery application withdrawn"
+msgstr "Aplikasi penemuan telah ditarik"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+msgid "Discovery listing updated"
+msgstr "Daftar penemuan telah diperbarui"
 
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:113
 msgid "Discriminator"
@@ -8260,6 +8312,10 @@ msgstr "Mengedit pesan"
 msgid "Editing scheduled message"
 msgstr "Mengedit pesan terjadwal"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+msgid "Education"
+msgstr "Pendidikan"
+
 #: src/components/modals/utils/SettingsSearchIndex.tsx:100
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:490
 msgid "email"
@@ -8805,6 +8861,10 @@ msgstr "Masukkan kata sandi Anda."
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "Masukkan nomor telepon Anda. Kami akan mengirim kode verifikasi via SMS."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+msgid "Entertainment"
+msgstr "Hiburan"
+
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:49
 msgid "Entrance Sound"
 msgstr "Suara Masuk"
@@ -9003,7 +9063,8 @@ msgstr "Pengaturan filter konten eksplisit"
 
 #: src/components/layout/guild_list/DiscoveryButton.tsx:49
 #: src/components/layout/guild_list/DiscoveryButton.tsx:53
-#: src/components/modals/DiscoveryModal.tsx:73
+#: src/components/modals/DiscoveryModal.tsx:74
+#: src/components/modals/DiscoveryModal.tsx:82
 msgid "Explore Communities"
 msgstr "Jelajahi Komunitas"
 
@@ -9250,6 +9311,10 @@ msgstr "Gagal memasang paket emoji ini. Harap coba lagi nanti."
 #: src/actions/InviteActionCreators.tsx:323
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Gagal memasang paket stiker ini. Harap coba lagi nanti."
+
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+msgid "Failed to join this community. Please try again."
+msgstr "Gagal bergabung dengan komunitas ini. Silakan coba lagi."
 
 #: src/components/modals/KickMemberModal.tsx:45
 msgid "Failed to kick member. Please try again."
@@ -9572,6 +9637,10 @@ msgstr "Gagal mengunggah suara masuk"
 #: src/actions/ConnectionActionCreators.tsx:116
 msgid "Failed to verify connection"
 msgstr "Gagal untuk memverifikasi koneksi"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+msgid "Failed to withdraw application. Please try again."
+msgstr "Gagal menarik aplikasi. Silakan coba lagi."
 
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:634
 msgid "fake"
@@ -10330,6 +10399,10 @@ msgstr "Pengontrol game"
 msgid "Game Night"
 msgstr "Malam Permainan"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+msgid "Gaming"
+msgstr "Permainan"
+
 #: src/components/modals/AddGuildModal.tsx:180
 msgid "Gaming Community"
 msgstr "Komunitas Gaming"
@@ -10355,7 +10428,7 @@ msgstr "umum"
 #: src/components/modals/tabs/developer_options_tab/index.tsx:45
 #: src/components/modals/tabs/developer_options_tab/Inline.tsx:45
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:56
-#: src/components/modals/utils/GuildSettingsConstants.tsx:91
+#: src/components/modals/utils/GuildSettingsConstants.tsx:94
 #: src/components/modals/utils/SettingsConstants.tsx:301
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:619
 msgid "General"
@@ -11897,7 +11970,7 @@ msgstr "Pengaturan tautan undangan"
 #: src/components/modals/channel_tabs/ChannelInvitesTab.tsx:162
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:68
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:72
-#: src/components/modals/utils/GuildSettingsConstants.tsx:165
+#: src/components/modals/utils/GuildSettingsConstants.tsx:177
 msgid "Invite Links"
 msgstr "Tautan Undangan"
 
@@ -12102,10 +12175,6 @@ msgstr "Jitter"
 msgid "join"
 msgstr "bergabung"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
-msgid "Join"
-msgstr "Bergabung"
-
 #: src/components/modals/AddGuildModal.tsx:84
 msgid "Join a Community"
 msgstr "Bergabung dengan Komunitas"
@@ -12129,6 +12198,7 @@ msgstr "Gabung panggilan"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12203,7 +12273,7 @@ msgstr "Bergabung dengan Suara"
 msgid "Join Voice Call"
 msgstr "Bergabung Panggilan Suara"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:86
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
 msgid "Joined"
 msgstr "Bergabung"
 
@@ -12770,6 +12840,10 @@ msgstr "tautan"
 msgid "Links"
 msgstr "Tautan"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+msgid "List your community in Discovery so others can find and join it."
+msgstr "Daftarkan komunitas Anda di Penemuan agar orang lain dapat menemukannya dan bergabung."
+
 #: src/components/modals/tabs/component_gallery_tab/MarkdownTab.tsx:109
 msgid "Lists"
 msgstr "Daftar"
@@ -12795,7 +12869,7 @@ msgid "Load more"
 msgstr "Muat lebih banyak"
 
 #: src/components/channel/GuildMembersPage.tsx:1082
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 msgid "Load More"
 msgstr "Muat Lebih Banyak"
 
@@ -12857,7 +12931,7 @@ msgstr "Memuat metode verifikasi..."
 msgid "Loading: {alt}"
 msgstr "Memuat: {alt}"
 
-#: src/components/modals/DiscoveryModal.tsx:126
+#: src/components/modals/DiscoveryModal.tsx:130
 #: src/components/uikit/Spinner.tsx:39
 msgid "Loading..."
 msgstr "Memuat..."
@@ -13471,7 +13545,7 @@ msgstr "anggota"
 #: src/components/channel/GuildMembersPage.tsx:1116
 #: src/components/layout/ChannelListContent.tsx:276
 #: src/components/modals/shared/AddOverridePopout.tsx:121
-#: src/components/modals/utils/GuildSettingsConstants.tsx:157
+#: src/components/modals/utils/GuildSettingsConstants.tsx:169
 msgid "Members"
 msgstr "Anggota"
 
@@ -14084,6 +14158,10 @@ msgstr "Klub Film"
 msgid "Movie Night Crew"
 msgstr "Kru Malam Film"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+msgid "Movies & TV"
+msgstr "Film & TV"
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:580
 msgid "mp3"
 msgstr "mp3"
@@ -14091,6 +14169,10 @@ msgstr "mp3"
 #: src/components/modals/tabs/developer_options_tab/TypographyTab.tsx:330
 msgid "Multilingual Content"
 msgstr "Konten Multibahasa"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+msgid "Music"
+msgstr "Musik"
 
 #: src/components/modals/AddGuildModal.tsx:170
 msgid "Music Lovers"
@@ -14433,7 +14515,7 @@ msgstr "Kesalahan Jaringan"
 msgid "Networking & Performance"
 msgstr "Jaringan & Kinerja"
 
-#: src/components/modals/shared/PermissionComponents.tsx:82
+#: src/components/modals/shared/PermissionComponents.tsx:81
 msgid "Neutral (Inherit)"
 msgstr "Netral (Warisan)"
 
@@ -14666,10 +14748,6 @@ msgstr "Tidak ada kanal ditemukan"
 msgid "No communities available with <0>Manage Community</0> permissions."
 msgstr "Tidak ada komunitas tersedia dengan izin <0>Kelola Komunitas</0>."
 
-#: src/components/modals/DiscoveryModal.tsx:111
-msgid "No communities found"
-msgstr "Tidak ada komunitas yang ditemukan"
-
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildBannerUploadField.tsx:142
 msgid "No community banner"
 msgstr "Tidak ada spanduk komunitas"
@@ -14680,7 +14758,7 @@ msgstr "Belum ada koneksi"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:68
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -15002,6 +15080,10 @@ msgstr "Norwegia"
 #: src/components/modals/tabs/VideoTab.tsx:141
 msgid "Not available"
 msgstr "Tidak tersedia"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+msgid "Not enough members"
+msgstr "Anggota tidak cukup"
 
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:57
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:58
@@ -15667,6 +15749,7 @@ msgstr "Pesan asli gagal dimuat"
 msgid "Original message was deleted"
 msgstr "Pesan asli telah dihapus"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15833,7 +15916,7 @@ msgstr "Peserta"
 msgid "Participants: {names}"
 msgstr "Peserta: {names}"
 
-#: src/components/guild/GuildBadge.tsx:61
+#: src/components/guild/GuildBadge.tsx:58
 msgid "Partnered Community"
 msgstr "Komunitas Mitra"
 
@@ -15943,6 +16026,7 @@ msgid "Payment Successful"
 msgstr "Pembayaran Berhasil"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
 msgid "Pending"
 msgstr "Tertunda"
 
@@ -16972,6 +17056,11 @@ msgstr "Alasan"
 msgid "Reason (Optional)"
 msgstr "Alasan (Opsional)"
 
+#. placeholder {0}: application.review_reason
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+msgid "Reason: {0}"
+msgstr "Alasan: {0}"
+
 #: src/components/voice/VoiceStatsOverlay.tsx:130
 #: src/components/voice/VoiceStatsOverlay.tsx:142
 msgid "Receive"
@@ -17160,6 +17249,10 @@ msgstr "Pengguna reguler, bot, sistem, dan yang waktu habis ditampilkan dalam mo
 #: src/components/voice/IncomingCallUI.tsx:322
 msgid "Reject"
 msgstr "Tolak"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+msgid "Rejected"
+msgstr "Ditolak"
 
 #: src/components/channel/textarea/HoldToRecordButton.tsx:232
 msgid "Release to send"
@@ -17431,6 +17524,10 @@ msgstr "Hapus saat Anda pertama kali membeli Plutonium dari lencana Anda"
 #: src/components/modals/tabs/my_profile_tab/PremiumBadgeSettings.tsx:106
 msgid "Remove your Visionary ID badge"
 msgstr "Hapus lencana Visionary ID Anda"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+msgid "Removed"
+msgstr "Dihapus"
 
 #. placeholder {0}: renderValueInline(value, guildId, i18n)
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:250
@@ -18136,7 +18233,7 @@ msgstr "Peran: {0}."
 msgid "Roles"
 msgstr "Peran"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:99
+#: src/components/modals/utils/GuildSettingsConstants.tsx:102
 msgid "Roles & Permissions"
 msgstr "Peran & Izin"
 
@@ -18193,7 +18290,7 @@ msgstr "Rust"
 msgid "Safe"
 msgstr "Aman"
 
-#: src/components/modals/utils/GuildSettingsConstants.tsx:123
+#: src/components/modals/utils/GuildSettingsConstants.tsx:126
 msgid "Safety & Moderation"
 msgstr "Keamanan & Moderasi"
 
@@ -18222,6 +18319,7 @@ msgstr "simpan"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18353,6 +18451,10 @@ msgstr "Pesan terjadwal untuk {0}"
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "Pesan terjadwal paling lama 30 hari ke depan."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+msgid "Science & Technology"
+msgstr "Sains & Teknologi"
+
 #: src/components/bottomsheets/ChannelSearchBottomSheet.tsx:469
 msgid "Scope"
 msgstr "Cakupan"
@@ -18463,7 +18565,7 @@ msgstr "Cari kanal"
 msgid "Search channels or DMs"
 msgstr "Cari kanal atau DM"
 
-#: src/components/modals/DiscoveryModal.tsx:78
+#: src/components/modals/DiscoveryModal.tsx:86
 msgid "Search communities..."
 msgstr "Cari komunitas..."
 
@@ -20321,6 +20423,10 @@ msgstr "status slate"
 msgid "Status Slate"
 msgstr "Status Slate"
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+msgid "Status:"
+msgstr "Status:"
+
 #: src/components/pages/report/ReportStepSelection.tsx:39
 msgid "Step 1"
 msgstr "Langkah 1"
@@ -22092,10 +22198,6 @@ msgstr "Coba filter atau istilah pencarian yang berbeda"
 msgid "Try searching for something like \"theme\", \"notifications\", or \"privacy\""
 msgstr "Coba cari sesuatu seperti \"tema\", \"notifikasi\", atau \"privasi\""
 
-#: src/components/modals/DiscoveryModal.tsx:113
-msgid "Try searching with different keywords or browse a different category."
-msgstr "Coba cari dengan kata kunci yang berbeda atau jelajahi kategori yang berbeda."
-
 #: src/components/auth/MfaScreen.tsx:120
 msgid "Try security key / passkey instead"
 msgstr "Coba gunakan kunci keamanan / passkey"
@@ -23559,12 +23661,12 @@ msgstr "Verifikasi gagal"
 msgid "Verification may be required before viewing your backup codes."
 msgstr "Verifikasi mungkin diperlukan sebelum melihat kode cadangan Anda."
 
-#: src/components/guild/GuildBadge.tsx:60
+#: src/components/guild/GuildBadge.tsx:57
 msgid "Verified & Partnered Community"
 msgstr "Komunitas Terverifikasi & Mitra"
 
 #: src/components/emojis/EmojiAttributionSubtext.tsx:144
-#: src/components/guild/GuildBadge.tsx:62
+#: src/components/guild/GuildBadge.tsx:59
 msgid "Verified Community"
 msgstr "Komunitas Terverifikasi"
 
@@ -24355,7 +24457,7 @@ msgstr "URL Webhook"
 #: src/components/modals/channel_tabs/ChannelWebhooksTab.tsx:99
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:98
 #: src/components/modals/utils/ChannelSettingsConstants.tsx:80
-#: src/components/modals/utils/GuildSettingsConstants.tsx:139
+#: src/components/modals/utils/GuildSettingsConstants.tsx:142
 msgid "Webhooks"
 msgstr "Webhooks"
 
@@ -24588,6 +24690,10 @@ msgstr "Dengan Kesalahan"
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:131
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "Dengan Plutonium, Anda dapat menggunakan avatar dan spanduk animasi (dalam GIF, APNG, WebP animasi, atau AVIF), menyesuaikan tag 4-digit Anda, dan membuka banyak fitur premium lainnya."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+msgid "Withdraw"
+msgstr "Tarik"
 
 #: src/components/modals/AddGuildModal.tsx:182
 msgid "Work Friends"
@@ -25319,6 +25425,10 @@ msgstr "Akun Anda belum diklaim. Tanpa email dan kata sandi, Anda tidak akan bis
 msgid "Your account is too new to send messages in this community."
 msgstr "Akun Anda terlalu baru untuk mengirim pesan di komunitas ini."
 
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+msgid "Your application is pending review. You can still update your listing details or withdraw the application."
+msgstr "Permohonan Anda sedang dalam proses peninjauan. Anda masih dapat memperbarui rincian daftar Anda atau menarik permohonan tersebut."
+
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:53
 msgid "Your browser does not support desktop notifications."
 msgstr "Browser Anda tidak mendukung notifikasi desktop."
@@ -25334,6 +25444,14 @@ msgstr "Kode Anda"
 #: src/components/auth/HandoffCodeDisplay.tsx:85
 msgid "Your code is ready!"
 msgstr "Kode Anda sudah siap!"
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
+msgstr "Komunitas Anda terdaftar di Discovery. Anda dapat memperbarui rincian daftar Anda di bawah ini atau menarik untuk menghapusnya."
+
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
+msgstr "Komunitas Anda membutuhkan setidaknya {minMemberCount} anggota sebelum dapat terdaftar di Discovery."
 
 #. placeholder {0}: user?.email
 #: src/components/modals/RequiredActionModal.tsx:456
