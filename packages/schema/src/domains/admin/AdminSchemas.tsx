@@ -990,12 +990,16 @@ export const DeleteApiKeyResponse = z.object({
 	success: z.literal(true),
 });
 
+const SnowflakeOrSentinelType = z
+	.string()
+	.regex(/^(-1|0|[1-9][0-9]*)$/)
+	.describe('fluxer:SnowflakeStringType');
+
 export const VisionarySlotSchema = z.object({
 	slot_index: Int32Type.describe('The slot index'),
-	user_id: z
-		.union([SnowflakeStringType, z.literal('-1')])
-		.nullable()
-		.describe('User ID that reserved this slot, or null if unreserved (special value -1 is also valid)'),
+	user_id: SnowflakeOrSentinelType.nullable().describe(
+		'User ID that reserved this slot, or null if unreserved (special value -1 is also valid)',
+	),
 });
 
 export type VisionarySlotSchema = z.infer<typeof VisionarySlotSchema>;
@@ -1024,10 +1028,9 @@ export type ShrinkVisionarySlotsRequest = z.infer<typeof ShrinkVisionarySlotsReq
 
 export const ReserveVisionarySlotRequest = z.object({
 	slot_index: Int32Type.min(1).describe('Slot index to reserve (must be >= 1)'),
-	user_id: z
-		.union([SnowflakeStringType, z.literal('-1')])
-		.nullable()
-		.describe('User ID to reserve the slot for, or null to unreserve (special value -1 is also valid)'),
+	user_id: SnowflakeOrSentinelType.nullable().describe(
+		'User ID to reserve the slot for, or null to unreserve (special value -1 is also valid)',
+	),
 });
 
 export type ReserveVisionarySlotRequest = z.infer<typeof ReserveVisionarySlotRequest>;

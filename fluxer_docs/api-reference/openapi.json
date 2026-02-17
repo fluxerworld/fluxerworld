@@ -60544,7 +60544,7 @@
           "This discovery application has already been reviewed",
           "Discovery application not found",
           "A description is required for discovery",
-          "",
+          "Discovery is not available on this instance",
           "Community does not meet the minimum member count for discovery",
           "Invalid discovery category",
           "This community is not listed in discovery",
@@ -67238,15 +67238,9 @@
             "description": "The slot index"
           },
           "user_id": {
-            "oneOf": [
+            "anyOf": [
               {
                 "$ref": "#/components/schemas/SnowflakeType"
-              },
-              {
-                "type": "string",
-                "enum": [
-                  "-1"
-                ]
               },
               {
                 "type": "null"
@@ -67300,15 +67294,9 @@
             "description": "Slot index to reserve (must be >= 1)"
           },
           "user_id": {
-            "oneOf": [
+            "anyOf": [
               {
                 "$ref": "#/components/schemas/SnowflakeType"
-              },
-              {
-                "type": "string",
-                "enum": [
-                  "-1"
-                ]
               },
               {
                 "type": "null"

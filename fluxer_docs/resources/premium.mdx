@@ -26,7 +26,7 @@ description: 'Premium object schemas from the Fluxer API.'
 | Field | Type | Description |
 |-------|------|-------------|
 | slot_index | integer (int32) | The slot index |
-| user_id | [SnowflakeType](#snowflaketype) \| enum&lt;`-1`&gt; \| null | User ID that reserved this slot, or null if unreserved (special value -1 is also valid) |
+| user_id | ?[SnowflakeType](#snowflaketype) | User ID that reserved this slot, or null if unreserved (special value -1 is also valid) |
 
 <a id="priceidsresponsecurrency"></a>
 
