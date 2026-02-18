@@ -67,7 +67,7 @@ handle_presence_connect(Attempt, State) ->
             group_dm_recipients => GroupDmRecipients,
             custom_status => maps:get(custom_status, State, null)
         }},
-    case gen_server:call(presence_manager, Message, 5000) of
+    try gen_server:call(presence_manager, Message, 5000) of
         {ok, Pid} ->
             try_presence_session_connect(
                 Pid,
@@ -82,6 +82,13 @@ handle_presence_connect(Attempt, State) ->
                 State
             );
         _ ->
+            schedule_presence_retry(Attempt, State)
+    catch
+        exit:{noproc, _} ->
+            schedule_presence_retry(Attempt, State);
+        exit:{normal, _} ->
+            schedule_presence_retry(Attempt, State);
+        _:_ ->
             schedule_presence_retry(Attempt, State)
     end.
 
