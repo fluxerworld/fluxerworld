@@ -22,6 +22,10 @@
     handle_cast/2
 ]).
 
+-ifdef(TEST).
+-include_lib("eunit/include/eunit.hrl").
+-endif.
+
 -type guild_state() :: map().
 -type user_id() :: integer().
 -type session_id() :: binary().
@@ -43,29 +47,35 @@ handle_cast({very_large_guild_member_list_deliver, Deliveries}, State) when is_l
 
 -spec handle_lazy_subscribe(map(), guild_state()) -> {reply, ok, guild_state()}.
 handle_lazy_subscribe(Request, State) ->
-    case maps:get(disable_member_list_updates, State, false) of
+    #{session_id := SessionId, channel_id := ChannelId, ranges := Ranges} = Request,
+    case should_ignore_member_list_subscribe(Ranges, State) of
         true ->
             {reply, ok, State};
         false ->
-    #{session_id := SessionId, channel_id := ChannelId, ranges := Ranges} = Request,
-    Sessions0 = maps:get(sessions, State, #{}),
-    SessionUserId = get_session_user_id(SessionId, Sessions0),
-    case
-        is_integer(SessionUserId) andalso
-            guild_permissions:can_view_channel(SessionUserId, ChannelId, undefined, State)
-    of
-        true ->
-            GuildId = maps:get(id, State),
-            ListId = guild_member_list:calculate_list_id(ChannelId, State),
-            {NewState, ShouldSendSync, NormalizedRanges} =
-                guild_member_list:subscribe_ranges(SessionId, ListId, Ranges, State),
-            handle_lazy_subscribe_sync(
-                ShouldSendSync, NormalizedRanges, GuildId, ListId, ChannelId, SessionId, NewState
-            );
-        false ->
-            {reply, ok, State}
-    end
+            Sessions0 = maps:get(sessions, State, #{}),
+            SessionUserId = get_session_user_id(SessionId, Sessions0),
+            case
+                is_integer(SessionUserId) andalso
+                    guild_permissions:can_view_channel(SessionUserId, ChannelId, undefined, State)
+            of
+                true ->
+                    GuildId = maps:get(id, State),
+                    ListId = guild_member_list:calculate_list_id(ChannelId, State),
+                    {NewState, ShouldSendSync, NormalizedRanges} =
+                        guild_member_list:subscribe_ranges(SessionId, ListId, Ranges, State),
+                    handle_lazy_subscribe_sync(
+                        ShouldSendSync, NormalizedRanges, GuildId, ListId, ChannelId, SessionId, NewState
+                    );
+                false ->
+                    {reply, ok, State}
+            end
     end.
+
+-spec should_ignore_member_list_subscribe(list(), guild_state()) -> boolean().
+should_ignore_member_list_subscribe([], _State) ->
+    false;
+should_ignore_member_list_subscribe(_Ranges, State) ->
+    not guild_dispatch:is_member_list_updates_enabled(State).
 
 -spec handle_lazy_subscribe_sync(
     boolean(), list(), integer(), term(), channel_id(), session_id(), guild_state()
@@ -325,3 +335,29 @@ can_session_view_channel(SessionData, ChannelId, State) ->
         _ ->
             false
     end.
+
+-ifdef(TEST).
+
+-spec disabled_operations_state(integer() | binary()) -> guild_state().
+disabled_operations_state(Value) ->
+    #{data => #{<<"guild">> => #{<<"disabled_operations">> => Value}}}.
+
+should_ignore_member_list_subscribe_ignores_non_empty_ranges_when_disabled_test() ->
+    ?assertEqual(
+        true,
+        should_ignore_member_list_subscribe(
+            [{0, 99}],
+            disabled_operations_state(1 bsl 6)
+        )
+    ).
+
+should_ignore_member_list_subscribe_allows_empty_ranges_when_disabled_test() ->
+    ?assertEqual(
+        false,
+        should_ignore_member_list_subscribe(
+            [],
+            disabled_operations_state(1 bsl 6)
+        )
+    ).
+
+-endif.

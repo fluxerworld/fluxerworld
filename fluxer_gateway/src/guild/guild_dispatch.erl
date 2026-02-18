@@ -23,7 +23,8 @@
     decorate_member_data/3,
     extract_member_for_event/3,
     collect_and_send_push_notifications/3,
-    normalize_event/1
+    normalize_event/1,
+    is_member_list_updates_enabled/1
 ]).
 
 -type guild_state() :: map().
