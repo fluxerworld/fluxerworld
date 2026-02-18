@@ -127,9 +127,7 @@ execute_method(<<"guild.start">>, #{<<"guild_id">> := GuildIdBin}) ->
     case guild_manager:start_or_lookup(GuildId, ?GUILD_LOOKUP_TIMEOUT) of
         {ok, _Pid} -> true;
         {error, Reason} ->
-            throw({error, <<"guild_start_error:", (error_term_to_binary(Reason))/binary>>});
-        Other ->
-            throw({error, <<"guild_start_error:", (error_term_to_binary(Other))/binary>>})
+            throw({error, <<"guild_start_error:", (error_term_to_binary(Reason))/binary>>})
     end;
 execute_method(<<"guild.stop">>, #{<<"guild_id">> := GuildIdBin}) ->
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
