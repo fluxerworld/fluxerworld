@@ -75,18 +75,17 @@ export class GuildMemberRepository extends IGuildMemberRepository {
 		const userId = data.user_id;
 
 		const result = await executeVersionedUpdate<GuildMemberRow, 'guild_id' | 'user_id'>(
-			async () => {
-				if (oldData !== undefined) return oldData;
-				return await fetchOne<GuildMemberRow>(FETCH_GUILD_MEMBER_BY_GUILD_AND_USER_ID_QUERY, {
+			async () =>
+				fetchOne<GuildMemberRow>(FETCH_GUILD_MEMBER_BY_GUILD_AND_USER_ID_QUERY, {
 					guild_id: guildId,
 					user_id: userId,
-				});
-			},
+				}),
 			(current) => ({
 				pk: {guild_id: guildId, user_id: userId},
 				patch: buildPatchFromData(data, current, GUILD_MEMBER_COLUMNS, ['guild_id', 'user_id']),
 			}),
 			GuildMembers,
+			{initialData: oldData},
 		);
 
 		await fetchOne(

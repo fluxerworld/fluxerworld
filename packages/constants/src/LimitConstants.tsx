@@ -97,6 +97,10 @@ export const MAX_MESSAGE_CACHE_SIZE = MAX_MESSAGES_PER_CHANNEL * 5;
 
 export const NEW_MESSAGES_BAR_BUFFER = 32;
 
+export const CHUNKED_UPLOAD_CHUNK_SIZE = 8 * 1024 * 1024;
+export const CHUNKED_UPLOAD_MAX_CHUNKS = 128;
+export const CHUNKED_UPLOAD_SESSION_TTL_SECONDS = 3600;
+
 export const VALID_TEMP_BAN_DURATIONS: ReadonlySet<number> = new Set([
 	1 * 3600,
 	12 * 3600,

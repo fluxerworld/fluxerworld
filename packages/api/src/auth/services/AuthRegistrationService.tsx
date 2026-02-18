@@ -38,13 +38,7 @@ import {withBusinessSpan} from '@fluxer/api/src/telemetry/BusinessSpans';
 import type {IUserRepository} from '@fluxer/api/src/user/IUserRepository';
 import * as AgeUtils from '@fluxer/api/src/utils/AgeUtils';
 import * as FetchUtils from '@fluxer/api/src/utils/FetchUtils';
-import {
-	formatGeoipLocation,
-	type GeoipResult,
-	getIpAddressReverse,
-	lookupGeoip,
-	UNKNOWN_LOCATION,
-} from '@fluxer/api/src/utils/IpUtils';
+import {getIpAddressReverse, lookupGeoip} from '@fluxer/api/src/utils/IpUtils';
 import {generateRandomUsername} from '@fluxer/api/src/utils/UsernameGenerator';
 import {deriveUsernameFromDisplayName} from '@fluxer/api/src/utils/UsernameSuggestionUtils';
 import type {ICacheService} from '@fluxer/cache/src/ICacheService';
@@ -53,6 +47,7 @@ import {UserFlags} from '@fluxer/constants/src/UserConstants';
 import type {IEmailService} from '@fluxer/email/src/IEmailService';
 import {InputValidationError} from '@fluxer/errors/src/domains/core/InputValidationError';
 import {RateLimitError} from '@fluxer/errors/src/domains/core/RateLimitError';
+import {formatGeoipLocation, type GeoipResult, UNKNOWN_LOCATION} from '@fluxer/geoip/src/GeoipLookup';
 import {requireClientIp} from '@fluxer/ip_utils/src/ClientIp';
 import {parseAcceptLanguage} from '@fluxer/locale/src/LocaleService';
 import type {IRateLimitService, RateLimitResult} from '@fluxer/rate_limit/src/IRateLimitService';

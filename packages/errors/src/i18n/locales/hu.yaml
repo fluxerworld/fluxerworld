@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: A tesztkészlet nem engedélyezett.
 admin_and_system.unknown_suspicious_flag: Ismeretlen gyanús jelzőszám.
 admin_and_system.update_failed: Nem sikerült frissíteni az erőforrást. Próbáld újra.
 admin_and_system.user_must_be_bot_for_system_user: A felhasználónak botnak kell lennie ahhoz, hogy rendszerfelhasználóként legyen megjelölve.
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: A darab indexe kívül esik az érvényes tartományon ehhez a feltöltéshez.
+attachments_and_uploads.chunked_upload_incomplete: Nem minden darab lett feltöltve.
+attachments_and_uploads.chunked_upload_not_found: A feltöltési munkamenet nem található vagy lejárt.
+attachments_and_uploads.chunked_upload_not_owned: Ez a feltöltési munkamenet nem a tiéd.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` és `expires_at` kötelezőek.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` és `message_id` érvényes egész számoknak kell lenniük.'
 attachments_and_uploads.cannot_edit_attachment_metadata: A MANAGE_MESSAGES engedéllyel rendelkező felhasználók csak a melléklet leírását szerkeszthetik, más metaadatokat nem.
@@ -149,6 +153,7 @@ calls_and_voice.voice_message_waveform_required: A hangüzenet mellékletének w
 calls_and_voice.voice_messages_require_single_attachment: A hangüzeneteknek pontosan egy mellekletet kell tartalmazniuk.
 captcha.invalid: Érvénytelen CAPTCHA.
 captcha.required: A CAPTCHA kötelező.
+connections.bluesky_oauth_authorization_failed: Nem sikerült feloldani azt a Bluesky-azonosítót. Ellenőrizd és próbáld újra.
 connections.bluesky_oauth_callback_failed: Nem sikerült befejezni a Bluesky-kapcsolatot. Próbáld újra.
 connections.bluesky_oauth_not_enabled: A Bluesky-kapcsolatok nincsenek engedélyezve ezen a szerveren.
 connections.bluesky_oauth_session_expired: A Bluesky-munkameneted lejárt. Kérlek csatlakoztasd újra a fiókodat.

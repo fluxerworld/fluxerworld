@@ -38,10 +38,10 @@ export interface APIConfig {
 		url: string;
 	};
 
-	gateway: {
-		rpcEndpoint: string;
-		rpcSecret: string;
-		rpcTcpPort: number;
+	nats: {
+		coreUrl: string;
+		jetStreamUrl: string;
+		authToken: string;
 	};
 
 	mediaProxy: {

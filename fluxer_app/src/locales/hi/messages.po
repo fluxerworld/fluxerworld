@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} सहेजे गए मीडिया आइट�
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount} सदस्य"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount} सदस्यगण"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount} आपसी समुदायों"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} आपसी समुदाय"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:84
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} ऑनलाइन"
 
@@ -1095,7 +1095,7 @@ msgstr "<0>चेतावनी:</0> इससे SMS दो-कारक प�
 #: src/components/channel/CallMessage.tsx:69
 #: src/components/modals/BanMemberModal.tsx:58
 #: src/components/modals/InviteModal.tsx:80
-#: src/components/modals/InviteModal.tsx:210
+#: src/components/modals/InviteModal.tsx:207
 #: src/components/modals/PackInviteModal.tsx:51
 #: src/components/modals/TimeoutMemberOptions.tsx:38
 msgid "1 day"
@@ -1105,7 +1105,7 @@ msgstr "1 दिन"
 #: src/components/modals/BanMemberModal.tsx:56
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:171
 #: src/components/modals/InviteModal.tsx:77
-#: src/components/modals/InviteModal.tsx:204
+#: src/components/modals/InviteModal.tsx:201
 #: src/components/modals/PackInviteModal.tsx:48
 #: src/components/modals/TimeoutMemberOptions.tsx:37
 #: src/constants/TimeWindowPresets.tsx:58
@@ -1223,7 +1223,7 @@ msgstr "१०८०पी"
 
 #: src/components/modals/BanMemberModal.tsx:57
 #: src/components/modals/InviteModal.tsx:79
-#: src/components/modals/InviteModal.tsx:208
+#: src/components/modals/InviteModal.tsx:205
 #: src/components/modals/PackInviteModal.tsx:50
 msgid "12 hours"
 msgstr "12 घंटे"
@@ -1346,7 +1346,7 @@ msgstr "30 एफपीएस"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:170
 #: src/components/modals/InviteModal.tsx:76
-#: src/components/modals/InviteModal.tsx:202
+#: src/components/modals/InviteModal.tsx:199
 #: src/components/modals/PackInviteModal.tsx:47
 #: src/constants/TimeWindowPresets.tsx:57
 #: src/utils/modals/guild_tabs/GuildOverviewTabUtils.tsx:64
@@ -1417,7 +1417,7 @@ msgstr "50 उपयोग"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:173
 #: src/components/modals/InviteModal.tsx:78
-#: src/components/modals/InviteModal.tsx:206
+#: src/components/modals/InviteModal.tsx:203
 #: src/components/modals/PackInviteModal.tsx:49
 msgid "6 hours"
 msgstr "6 घंटे"
@@ -1437,7 +1437,7 @@ msgid "60 seconds"
 msgstr "60 सेकंड"
 
 #: src/components/modals/InviteModal.tsx:81
-#: src/components/modals/InviteModal.tsx:212
+#: src/components/modals/InviteModal.tsx:209
 #: src/components/modals/PackInviteModal.tsx:52
 msgid "7 days"
 msgstr "7 दिन"
@@ -1462,7 +1462,7 @@ msgstr "8 घंटे"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "अद्वितीयता सुनिश्चित करने के लिए एक 4-अंकीय टैग स्वचालित रूप से जोड़ा जाएगा"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:298
 msgid "A description is required."
 msgstr "विवरण आवश्यक है।"
 
@@ -1832,11 +1832,11 @@ msgstr "किसी कम्युनिटी में बॉट जोड�
 msgid "Add Channel"
 msgstr "चैनल जोड़ें"
 
-#: src/components/modals/AddConnectionModal.tsx:194
+#: src/components/modals/AddConnectionModal.tsx:197
 msgid "Add Connection"
 msgstr "कनेक्शन जोड़ें"
 
-#: src/components/modals/AddConnectionModal.tsx:193
+#: src/components/modals/AddConnectionModal.tsx:196
 msgid "Add connection form"
 msgstr "कनेक्शन जोड़ने का फॉर्म"
 
@@ -1879,8 +1879,8 @@ msgstr "ग्रुप में दोस्त जोड़ें"
 msgid "Add Item"
 msgstr "आइटम जोड़ें"
 
-#: src/utils/PermissionUtils.tsx:346
-#: src/utils/PermissionUtils.tsx:481
+#: src/utils/PermissionUtils.tsx:352
+#: src/utils/PermissionUtils.tsx:487
 msgid "Add new reactions to messages."
 msgstr "संदेशों में नई प्रतिक्रियाएँ जोड़ें।"
 
@@ -1929,8 +1929,8 @@ msgstr "फ़ोन नंबर फ़ॉर्म जोड़ें"
 msgid "Add Reaction"
 msgstr "प्रतिक्रिया जोड़ें"
 
-#: src/utils/PermissionUtils.tsx:345
-#: src/utils/PermissionUtils.tsx:480
+#: src/utils/PermissionUtils.tsx:351
+#: src/utils/PermissionUtils.tsx:486
 msgid "Add Reactions"
 msgstr "प्रतिक्रियाएँ जोड़ें"
 
@@ -2551,7 +2551,7 @@ msgid "animated emoji"
 msgstr "एनिमेटेड इमोजी"
 
 #. placeholder {0}: animatedEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:404
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:426
 msgid "Animated Emoji ({0})"
 msgstr "एनिमेटेड इमोजी ({0})"
 
@@ -2604,7 +2604,7 @@ msgstr "एनिमेटेड वीडियो"
 
 #. placeholder {0}: animatedEmojis.length
 #. placeholder {1}: maxAnimatedEmojis === Number.POSITIVE_INFINITY ? '∞' : maxAnimatedEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:354
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:373
 msgid "Animated: {0} / {1}"
 msgstr "एनिमेटेड: {0} / {1}"
 
@@ -2624,7 +2624,7 @@ msgstr "एनिमेशन"
 msgid "animations"
 msgstr "एनिमेशन"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:86
 msgid "Anime & Manga"
 msgstr "एनीमे और मंगा"
 
@@ -2722,7 +2722,7 @@ msgstr "यह केवल इस डिवाइस के डेस्कट�
 msgid "Applies to both camera and screen sharing"
 msgstr "कैमरा और स्क्रीन शेयरिंग दोनों पर लागू होता है"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2737,7 +2737,7 @@ msgstr "थीम लागू करें"
 msgid "Apply to all communities"
 msgstr "सभी समुदायों पर लागू करें"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:59
 msgid "Approved"
 msgstr "स्वीकृत"
 
@@ -2781,7 +2781,7 @@ msgid "Are you sure you want to deauthorize {appName}? This application will no 
 msgstr "क्या आप सुनिश्चित हैं कि आप {appName} को अधिकृत हटाना चाहते हैं? यह आवेदन आपकी खाते तक पहुंच नहीं करेगा।"
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:193
+#: src/components/emojis/EmojiListItem.tsx:194
 msgid "Are you sure you want to delete :{0}:? This action cannot be undone."
 msgstr "क्या तुम वाकई :{0}: को हटाना चाहते हो? इस कार्रवाई को पूर्ववत नहीं किया जा सकता।"
 
@@ -2791,7 +2791,7 @@ msgstr "क्या तुम वाकई :{0}: को हटाना चा�
 msgid "Are you sure you want to delete \"{0}\"? This action cannot be undone."
 msgstr "क्या तुम वाकई \"{0}\" को हटाना चाहते हो? इस कार्रवाई को पूर्ववत नहीं किया जा सकता।"
 
-#: src/components/stickers/StickerGridItem.tsx:65
+#: src/components/stickers/StickerGridItem.tsx:71
 msgid "Are you sure you want to delete \"{stickerName}\"? This action cannot be undone."
 msgstr "क्या आप सुनिश्चित हैं कि आप \"{stickerName}\" हटाना चाहते हैं? यह क्रिया पूर्ववत नहीं की जा सकती।"
 
@@ -2986,8 +2986,8 @@ msgstr "एक उपहार के रूप में"
 msgid "At least one channel must have \"View Channel\" permission enabled for @everyone in order for the vanity URL to work. Currently, no channels are viewable to @everyone."
 msgstr "वैनेटी URL के काम करने के लिए कम से कम एक चैनल में @everyone के लिए \"चैनल देखें\" अनुमति सक्षम होनी चाहिए। वर्तमान में किसी भी चैनल को @everyone देख नहीं सकता।"
 
-#: src/utils/PermissionUtils.tsx:323
-#: src/utils/PermissionUtils.tsx:470
+#: src/utils/PermissionUtils.tsx:329
+#: src/utils/PermissionUtils.tsx:476
 msgid "Attach Files"
 msgstr "फ़ाइलें संलग्न करें"
 
@@ -3077,8 +3077,8 @@ msgid "Audio"
 msgstr "ऑडियो"
 
 #: src/components/modals/utils/SettingsConstants.tsx:190
-#: src/utils/PermissionUtils.tsx:380
-#: src/utils/PermissionUtils.tsx:495
+#: src/utils/PermissionUtils.tsx:386
+#: src/utils/PermissionUtils.tsx:501
 msgid "Audio & Video"
 msgstr "ऑडियो और वीडियो"
 
@@ -3344,7 +3344,7 @@ msgid "Average ping:"
 msgstr "औसत पिंग:"
 
 #: src/components/auth/IpAuthorizationScreen.tsx:154
-#: src/components/modals/AddConnectionModal.tsx:309
+#: src/components/modals/AddConnectionModal.tsx:312
 #: src/components/modals/PhoneAddModal.tsx:237
 #: src/components/modals/RequiredActionModal.tsx:655
 #: src/components/pages/OAuthAuthorizePage.tsx:671
@@ -3932,8 +3932,8 @@ msgstr "खरीदारी करके, आप हमारी <0>सेव�
 msgid "By purchasing, you agreed to our <0>Terms of Service</0> and <1>Privacy Policy</1>. All purchases are refundable within 14 days by emailing <2>support@fluxer.app</2>. Chargebacks result in permanent account bans — if you want a refund, we're more than happy to give you one if you contact us first! Payment information is securely handled by Stripe — we never have access to your full card number."
 msgstr "खरीदारी करके, आप हमारी <0>सेवा की शर्तें</0> और <1>गोपनीयता नीति</1> से सहमत थे। सभी खरीदारी 14 दिनों के भीतर <2>support@fluxer.app</2> पर ईमेल करके रिफ़ंड योग्य है। चार्जबैक से स्थायी खाता प्रतिबंध होते हैं — यदि आप रिफ़ंड चाहते हैं, तो पहले हमसे संपर्क करें! भुगतान जानकारी सुरक्षित रूप से Stripe द्वारा संभाली जाती है — हमारे पास आपका पूरा कार्ड नंबर कभी नहीं होता।"
 
-#: src/utils/PermissionUtils.tsx:350
-#: src/utils/PermissionUtils.tsx:485
+#: src/utils/PermissionUtils.tsx:356
+#: src/utils/PermissionUtils.tsx:491
 msgid "Bypass Slowmode"
 msgstr "स्लोमोड बाईपास करें"
 
@@ -4063,7 +4063,7 @@ msgstr "जब प्रतिभागियों की संख्या {V
 #: src/components/layout/GuildLayout.tsx:76
 #: src/components/modals/AccountDeleteModal.tsx:95
 #: src/components/modals/AccountDisableModal.tsx:69
-#: src/components/modals/AddConnectionModal.tsx:215
+#: src/components/modals/AddConnectionModal.tsx:218
 #: src/components/modals/AddFavoriteMemeModal.tsx:98
 #: src/components/modals/AddGuildModal.tsx:290
 #: src/components/modals/AddGuildModal.tsx:413
@@ -4109,7 +4109,7 @@ msgstr "जब प्रतिभागियों की संख्या {V
 #: src/components/modals/HideOwnScreenShareConfirmModal.tsx:65
 #: src/components/modals/IARModal.tsx:255
 #: src/components/modals/ImageCropModal.tsx:943
-#: src/components/modals/InviteModal.tsx:332
+#: src/components/modals/InviteModal.tsx:336
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
@@ -4211,7 +4211,7 @@ msgstr "कार्ड संरेखण नियंत्रण"
 msgid "Careful! You have unsaved changes."
 msgstr "सावधान! आपके पास सहेजे बिना बदलाव हैं।"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:330
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4437,8 +4437,8 @@ msgstr "चैनल"
 msgid "Channel"
 msgstr "चैनल"
 
-#: src/utils/PermissionUtils.tsx:373
-#: src/utils/PermissionUtils.tsx:453
+#: src/utils/PermissionUtils.tsx:379
+#: src/utils/PermissionUtils.tsx:459
 msgid "Channel Access"
 msgstr "चैनल पहुंच"
 
@@ -4516,7 +4516,7 @@ msgstr "चैनल सूची टाइपिंग संकेतक म�
 msgid "Channel list typing indicators"
 msgstr "चैनल सूची टाइपिंग संकेतक"
 
-#: src/utils/PermissionUtils.tsx:426
+#: src/utils/PermissionUtils.tsx:432
 msgid "Channel Management"
 msgstr "चैनल प्रबंधन"
 
@@ -4757,7 +4757,7 @@ msgstr "ऐप में समय कैसे दिखे, यह चुन�
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "जब कोई चैनल में टाइप कर रहा हो तो चैनल सूची में टाइपिंग संकेत कैसे दिखें, यह चुनें।"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:346
 msgid "Choose the category that best describes your community."
 msgstr "उस श्रेणी का चयन करें जो आपकी समुदाय का सबसे अच्छा वर्णन करती है।"
 
@@ -5360,7 +5360,7 @@ msgstr "समुदाय निर्माता"
 msgid "Community Deafen"
 msgstr "समुदाय को म्यूट करें"
 
-#: src/components/layout/UserArea.tsx:159
+#: src/components/layout/UserArea.tsx:173
 #: src/components/layout/VoiceStateIcons.tsx:57
 #: src/components/voice/VoiceControlBar.tsx:607
 #: src/components/voice/VoiceParticipantTile.tsx:1466
@@ -5432,8 +5432,8 @@ msgstr "समुदाय के सदस्य"
 msgid "Community Mute"
 msgstr "समुदाय को म्यूट करें"
 
-#: src/components/layout/UserArea.tsx:146
-#: src/components/layout/UserArea.tsx:153
+#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:167
 #: src/components/layout/VoiceStateIcons.tsx:49
 #: src/components/voice/VoiceControlBar.tsx:596
 #: src/components/voice/VoiceParticipantTile.tsx:1457
@@ -5492,10 +5492,10 @@ msgid "Community Record"
 msgstr "समुदाय रिकॉर्ड"
 
 #: src/components/modals/components/DesktopGuildSettingsView.tsx:233
-#: src/components/modals/GuildSettingsModal.tsx:194
+#: src/components/modals/GuildSettingsModal.tsx:197
 #: src/components/popouts/GuildHeaderPopout.tsx:190
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:278
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:346
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:281
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:349
 msgid "Community Settings"
 msgstr "समुदाय सेटिंग्स"
 
@@ -5524,7 +5524,7 @@ msgstr "समुदाय भर में"
 msgid "compact"
 msgstr "संक्षिप्त"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:152
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:169
 msgid "Compact"
 msgstr "कॉम्पैक्ट"
 
@@ -5670,8 +5670,8 @@ msgstr "पासवर्ड की पुष्टि करें"
 msgid "Connect"
 msgstr "जोड़ें"
 
-#: src/utils/PermissionUtils.tsx:383
-#: src/utils/PermissionUtils.tsx:497
+#: src/utils/PermissionUtils.tsx:389
+#: src/utils/PermissionUtils.tsx:503
 msgid "Connect (Join Voice)"
 msgstr "कनेक्ट करें (वॉइस में शामिल हों)"
 
@@ -5679,7 +5679,7 @@ msgstr "कनेक्ट करें (वॉइस में शामिल 
 msgid "Connect to Voice"
 msgstr "वॉइस से कनेक्ट करें"
 
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 msgid "Connect with Bluesky"
 msgstr "ब्लूस्काई से कनेक्ट करें"
 
@@ -5730,7 +5730,7 @@ msgstr "संपर्क हटा दिया गया"
 msgid "Connection Stats"
 msgstr "कनेक्शन आँकड़े"
 
-#: src/components/modals/AddConnectionModal.tsx:198
+#: src/components/modals/AddConnectionModal.tsx:201
 msgid "Connection Type"
 msgstr "संपर्क प्रकार"
 
@@ -5783,7 +5783,7 @@ msgstr "स्कोप और अनुमतियों के साथ ए�
 msgid "contact"
 msgstr "संपर्क"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 msgid "Content Creator"
 msgstr "सामग्री निर्माता"
 
@@ -5822,7 +5822,7 @@ msgid "Context menus can be opened with left-click (on buttons) or right-click (
 msgstr "संदर्भ मेनू बाएं क्लिक (बटन पर) या दाएं क्लिक (अन्य तत्वों पर) से खोले जा सकते हैं। यह चेकबॉक्स, रेडियो बटन, स्लाइडर और सबमेनू सहित विभिन्न मेनू आइटम दिखाता है।"
 
 #: src/components/channel/ChannelTextarea.tsx:311
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:75
 #: src/components/modals/BackupCodesViewModal.tsx:73
 #: src/components/modals/DeviceRevokeModal.tsx:82
@@ -5958,8 +5958,8 @@ msgid "Copied URL to clipboard"
 msgstr "URL क्लिपबोर्ड में कॉपी किया गया"
 
 #: src/components/auth/HandoffCodeDisplay.tsx:106
-#: src/components/modals/AddConnectionModal.tsx:187
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:190
+#: src/components/modals/AddConnectionModal.tsx:191
 #: src/components/modals/shared/CopyLinkSection.tsx:52
 #: src/components/modals/ThemeAcceptModal.tsx:162
 #: src/lib/markdown/renderers/common/CodeElements.tsx:57
@@ -6017,7 +6017,7 @@ msgstr "चैनल लिंक कॉपी करें"
 msgid "Copy code"
 msgstr "कोड कॉपी करें"
 
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:372
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:375
 msgid "Copy Community ID"
 msgstr "समुदाय आईडी कॉपी करें"
 
@@ -6045,11 +6045,11 @@ msgstr "FluxerTag कॉपी करें"
 msgid "Copy GIF"
 msgstr "GIF कॉपी करें"
 
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:461
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:464
 msgid "Copy Guild ID"
 msgstr "गिल्ड आईडी कॉपी करें"
 
-#: src/components/modals/AddConnectionModal.tsx:187
+#: src/components/modals/AddConnectionModal.tsx:190
 msgid "Copy host"
 msgstr "होस्ट कॉपी करें"
 
@@ -6154,7 +6154,7 @@ msgstr "यूज़र आईडी कॉपी करें"
 msgid "Copy Username"
 msgstr "यूज़रनेम कॉपी करें"
 
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:191
 msgid "Copy value"
 msgstr "मान कॉपी करें"
 
@@ -6199,7 +6199,7 @@ msgstr "कवरेज"
 msgid "cozy"
 msgstr "आरामदायक"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:144
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
 msgid "Cozy"
 msgstr "आरामदायक"
 
@@ -6295,8 +6295,8 @@ msgstr "एप्लिकेशन बनाओ"
 #: src/components/popouts/GuildHeaderPopout.tsx:204
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:89
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:69
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:292
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:428
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:295
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:431
 msgid "Create Category"
 msgstr "कैटेगरी बनाओ"
 
@@ -6305,8 +6305,8 @@ msgstr "कैटेगरी बनाओ"
 #: src/components/modals/ChannelCreateModal.tsx:103
 #: src/components/popouts/GuildHeaderPopout.tsx:197
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:86
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:287
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:410
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:290
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:413
 msgid "Create Channel"
 msgstr "चैनल बनाओ"
 
@@ -6324,6 +6324,10 @@ msgstr "समुदाय फ़ॉर्म बनाओ"
 #: src/utils/modals/CreateDMModalUtils.tsx:154
 msgid "Create DM"
 msgstr "डीएम बनाओ"
+
+#: src/utils/PermissionUtils.tsx:284
+msgid "Create Emoji & Stickers"
+msgstr "इमोजी और स्टिकर्स बनाएं"
 
 #: src/components/modals/CreatePackModal.tsx:52
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:256
@@ -6346,7 +6350,7 @@ msgid "Create Invite"
 msgstr "आमंत्रण बनाएँ"
 
 #: src/utils/PermissionUtils.tsx:270
-#: src/utils/PermissionUtils.tsx:429
+#: src/utils/PermissionUtils.tsx:435
 msgid "Create Invite Links"
 msgstr "आमंत्रण लिंक बनाएँ"
 
@@ -6358,7 +6362,7 @@ msgstr "नया खाता बनाएँ"
 msgid "Create new group"
 msgstr "नया समूह बनाएँ"
 
-#: src/components/modals/InviteModal.tsx:335
+#: src/components/modals/InviteModal.tsx:339
 msgid "Create New Link"
 msgstr "नया लिंक बनाएँ"
 
@@ -6393,11 +6397,11 @@ msgstr "चैनल और श्रेणियाँ बनाएँ, सं�
 msgid "Create, edit, or delete roles below your highest role. Also allows editing channel permission overwrites."
 msgstr "अपनी सबसे ऊँची भूमिका से नीचे की भूमिकाएँ बनाएँ, संपादित करें या हटाएँ। चैनल अनुमति ओवरराइड्स संपादित करने की भी अनुमति देता है।"
 
-#: src/utils/PermissionUtils.tsx:444
+#: src/utils/PermissionUtils.tsx:450
 msgid "Create, edit, or delete webhooks for this channel."
 msgstr "इस चैनल के लिए वेबहुक बनाएँ, संपादित करें या हटाएँ।"
 
-#: src/utils/PermissionUtils.tsx:289
+#: src/utils/PermissionUtils.tsx:295
 msgid "Create, edit, or delete webhooks."
 msgstr "वेबहुक बनाएँ, संपादित करें या हटाएँ।"
 
@@ -6897,7 +6901,7 @@ msgstr "बहरा करें"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:161
+#: src/components/layout/UserArea.tsx:175
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:515
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:125
 #: src/components/voice/VoiceControlBar.tsx:613
@@ -6922,8 +6926,8 @@ msgstr "डिवाइस को म्यूट करें"
 msgid "Deafen Keybind"
 msgstr "डैफ़न कीबाइंड"
 
-#: src/utils/PermissionUtils.tsx:408
-#: src/utils/PermissionUtils.tsx:507
+#: src/utils/PermissionUtils.tsx:414
+#: src/utils/PermissionUtils.tsx:513
 msgid "Deafen Members"
 msgstr "सदस्यों को डैफ़न करें"
 
@@ -6962,7 +6966,7 @@ msgid "Debug Channel"
 msgstr "डिबग चैनल"
 
 #: src/components/uikit/context_menu/items/DebugMenuItems.tsx:90
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:362
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:365
 msgid "Debug Community"
 msgstr "समुदाय डिबग करें"
 
@@ -7062,17 +7066,17 @@ msgstr "हटाएं"
 #: src/components/channel/embeds/media/MediaContainer.tsx:116
 #: src/components/channel/MobileMemesPicker.tsx:546
 #: src/components/channel/pickers/memes/MemeGridItem.tsx:121
-#: src/components/emojis/EmojiListItem.tsx:194
-#: src/components/emojis/EmojiListItem.tsx:246
-#: src/components/emojis/EmojiListItem.tsx:296
+#: src/components/emojis/EmojiListItem.tsx:195
+#: src/components/emojis/EmojiListItem.tsx:252
+#: src/components/emojis/EmojiListItem.tsx:308
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:160
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:210
-#: src/components/stickers/StickerGridItem.tsx:66
-#: src/components/stickers/StickerGridItem.tsx:119
+#: src/components/stickers/StickerGridItem.tsx:72
+#: src/components/stickers/StickerGridItem.tsx:126
 msgid "Delete"
 msgstr "हटाएँ"
 
@@ -7162,11 +7166,11 @@ msgstr "समुदाय हटाएँ"
 msgid "Delete community form"
 msgstr "समुदाय हटाने का फ़ॉर्म"
 
-#: src/components/emojis/EmojiListItem.tsx:192
+#: src/components/emojis/EmojiListItem.tsx:193
 msgid "Delete Emoji"
 msgstr "इमोजी हटाएँ"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:147
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:163
 msgid "Delete Emoji Failed"
 msgstr "इमोजी हटाना विफल रहा।"
 
@@ -7205,8 +7209,8 @@ msgstr "पिछले दिन के संदेश हटाएँ"
 msgid "Delete messages from the last week"
 msgstr "पिछले सप्ताह के संदेश हटाएँ"
 
-#: src/utils/PermissionUtils.tsx:311
-#: src/utils/PermissionUtils.tsx:465
+#: src/utils/PermissionUtils.tsx:317
+#: src/utils/PermissionUtils.tsx:471
 msgid "Delete others' messages. (Pinning is separate below.)"
 msgstr "दूसरों के संदेश हटाएँ। (पिनिंग नीचे अलग है।)"
 
@@ -7235,7 +7239,7 @@ msgstr "सहेजे गए मीडिया हटाएँ"
 msgid "Delete Saved Media"
 msgstr "सहेजे गए मीडिया हटाएँ"
 
-#: src/components/stickers/StickerGridItem.tsx:64
+#: src/components/stickers/StickerGridItem.tsx:70
 msgid "Delete Sticker"
 msgstr "स्टिकर हटाएँ"
 
@@ -7326,7 +7330,7 @@ msgstr "बताएं कि इस पैक में कौन सी अ�
 msgid "Describe what makes the content illegal"
 msgstr "बताएं कि सामग्री को अवैध क्या बनाता है"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:317
 msgid "Describe what your community is about..."
 msgstr "अपने समुदाय के बारे में बताएं..."
 
@@ -7336,7 +7340,7 @@ msgstr "विवरण"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:292
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "विवरण"
@@ -7345,11 +7349,11 @@ msgstr "विवरण"
 msgid "Description must be 500 characters or less"
 msgstr "विवरण 500 अक्षरों या उससे कम होना चाहिए"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:301
 msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
 msgstr "विवरण कम से कम {DISCOVERY_DESCRIPTION_MIN_LENGTH} वर्णों का होना चाहिए।"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
 msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
 msgstr "विवरण अधिकतम {DISCOVERY_DESCRIPTION_MAX_LENGTH} वर्णों का नहीं होना चाहिए।"
 
@@ -7725,20 +7729,20 @@ msgstr "सॉकेट डिस्कनेक्ट करें"
 msgid "Disconnected"
 msgstr "डिस्कनेक्टेड"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
 #: src/components/modals/utils/GuildSettingsConstants.tsx:160
 msgid "Discovery"
 msgstr "खोज"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:166
 msgid "Discovery application submitted"
 msgstr "खोज आवेदन प्रस्तुत किया गया"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:187
 msgid "Discovery application withdrawn"
 msgstr "खोज आवेदन वापस लिया गया"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:155
 msgid "Discovery listing updated"
 msgstr "खोज सूची अपडेट की गई"
 
@@ -7854,7 +7858,7 @@ msgstr "DM सेटिंग्स"
 msgid "dm sidebar"
 msgstr "डीएम साइडबार"
 
-#: src/components/modals/AddConnectionModal.tsx:239
+#: src/components/modals/AddConnectionModal.tsx:242
 msgid "DNS TXT record"
 msgstr "DNS TXT रिकॉर्ड"
 
@@ -7904,7 +7908,7 @@ msgid "domain"
 msgstr "डोमेन"
 
 #: src/components/modals/AddConnectionModal.tsx:87
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:168
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:303
 #: src/components/popouts/UserProfileShared.tsx:283
@@ -7995,7 +7999,7 @@ msgstr "डाउनलोड"
 msgid "Download"
 msgstr "डाउनलोड"
 
-#: src/components/modals/AddConnectionModal.tsx:280
+#: src/components/modals/AddConnectionModal.tsx:283
 msgid "Download <0>fluxer-verification</0> and place it in your <1>.well-known</1> folder so we can validate the domain."
 msgstr "<0>फ्लक्सर2</0> डाउनलोड करें और इसे अपने <1>.well-known</1> फ़ोल्डर में रखें ताकि हम डोमेन को मान्य कर सकें।"
 
@@ -8012,7 +8016,7 @@ msgstr "डेस्कटॉप ऐप डाउनलोड करें"
 msgid "Download Fluxer"
 msgstr "Fluxer डाउनलोड करें"
 
-#: src/components/modals/AddConnectionModal.tsx:294
+#: src/components/modals/AddConnectionModal.tsx:297
 msgid "Download fluxer-verification"
 msgstr "फ्लक्सर2 डाउनलोड करें"
 
@@ -8024,7 +8028,7 @@ msgstr "मीडिया डाउनलोड करें"
 msgid "Download the desktop app for system-wide Push-to-Talk"
 msgstr "सिस्टम वाइड पुश-टू-टॉक के लिए डेस्कटॉप ऐप डाउनलोड करें"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:173
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:192
 msgid "Drag and drop a sticker file here (one at a time)"
 msgstr "यहाँ एक स्टिकर फ़ाइल ड्रैग और ड्रॉप करें (एक बार में एक)"
 
@@ -8032,12 +8036,12 @@ msgstr "यहाँ एक स्टिकर फ़ाइल ड्रैग �
 msgid "Drag and drop area for file upload"
 msgstr "फ़ाइल अपलोड के लिए ड्रैग एंड ड्रॉप क्षेत्र"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:363
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:382
 msgid "Drag and drop emoji files here"
 msgstr "यहाँ इमोजी फ़ाइलें ड्रैग और ड्रॉप करें"
 
-#: src/utils/PermissionUtils.tsx:413
-#: src/utils/PermissionUtils.tsx:510
+#: src/utils/PermissionUtils.tsx:419
+#: src/utils/PermissionUtils.tsx:516
 msgid "Drag members between channels they can access."
 msgstr "सदस्यों को उन चैनलों के बीच ड्रैग करें जिन तक उनकी पहुँच है।"
 
@@ -8159,7 +8163,7 @@ msgstr "इको रद्द करना"
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:90
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:186
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:187
-#: src/components/stickers/StickerGridItem.tsx:111
+#: src/components/stickers/StickerGridItem.tsx:118
 msgid "Edit"
 msgstr "संपादित करें"
 
@@ -8200,8 +8204,8 @@ msgid "Edit Channel"
 msgstr "चैनल संपादित करें"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:220
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:314
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:392
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:317
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:395
 msgid "Edit Community Profile"
 msgstr "समुदाय प्रोफ़ाइल संपादित करें"
 
@@ -8231,7 +8235,8 @@ msgstr "समूह संपादित करें"
 msgid "Edit group form"
 msgstr "समूह फॉर्म संपादित करें"
 
-#: src/components/modals/InviteModal.tsx:322
+#: src/components/modals/InviteModal.tsx:316
+#: src/components/modals/InviteModal.tsx:326
 msgid "Edit invite link"
 msgstr "निमंत्रण लिंक संपादित करें"
 
@@ -8255,7 +8260,11 @@ msgstr "संदेश संपादित करें"
 msgid "Edit Note"
 msgstr "नोट संपादित करें"
 
-#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:290
+msgid "Edit or delete emoji and stickers created by other members."
+msgstr "अन्य सदस्यों द्वारा बनाए गए इमोजी और स्टिकर्स को संपादित या हटाएं।"
+
+#: src/utils/PermissionUtils.tsx:445
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "इस चैनल में भूमिकाओं और सदस्यों के लिए ओवरराइट संपादित करें।"
 
@@ -8312,7 +8321,7 @@ msgstr "संदेश संपादित किया जा रहा ह�
 msgid "Editing scheduled message"
 msgstr "अनुसूचित संदेश संपादित किया जा रहा है"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
 msgid "Education"
 msgstr "शिक्षा"
 
@@ -8396,8 +8405,8 @@ msgstr "एम्बेड"
 msgid "Embed"
 msgstr "एम्बेड"
 
-#: src/utils/PermissionUtils.tsx:319
-#: src/utils/PermissionUtils.tsx:469
+#: src/utils/PermissionUtils.tsx:325
+#: src/utils/PermissionUtils.tsx:475
 msgid "Embed Links"
 msgstr "लिंक एम्बेड करें"
 
@@ -8456,16 +8465,16 @@ msgstr "इमोजी हटा दी गई"
 msgid "Emoji name"
 msgstr "इमोजी नाम"
 
-#: src/components/emojis/EmojiListItem.tsx:163
+#: src/components/emojis/EmojiListItem.tsx:164
 msgid "Emoji name must be at least 2 characters long"
 msgstr "इमोजी नाम कम से कम 2 अक्षर लंबा होना चाहिए"
 
-#: src/components/emojis/EmojiListItem.tsx:167
+#: src/components/emojis/EmojiListItem.tsx:168
 msgid "Emoji name must be at most 32 characters long"
 msgstr "इमोजी नाम अधिकतम 32 अक्षर तक हो सकता है"
 
 #. placeholder {0}: Math.round(GlobalLimits.getEmojiMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:340
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:358
 msgid "Emoji names must be at least 2 characters long and can only contain alphanumeric characters and underscores. Allowed file types: JPEG, PNG, WebP, GIF. We compress images to 128x128 pixels. Maximum size: {0} KB per emoji."
 msgstr "इमोजी नाम कम से कम 2 अक्षर के होने चाहिए और केवल अल्फ़ान्यूमेरिक अक्षर व अंडरस्कोर रख सकते हैं। अनुमत फ़ाइल प्रकार: JPEG, PNG, WebP, GIF। हम छवियों को 128x128 पिक्सेल में संपीड़ित करते हैं। अधिकतम आकार: प्रति इमोजी {0} KB।"
 
@@ -8492,7 +8501,7 @@ msgstr "इमोजी पैक की सीमा पूरी हो चु
 msgid "emoji picker"
 msgstr "इमोजी पिकर"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:326
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:344
 msgid "Emoji Slots"
 msgstr "इमोजी स्लॉट"
 
@@ -8861,7 +8870,7 @@ msgstr "अपना पासवर्ड दर्ज करें।"
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "अपना फ़ोन नंबर दर्ज करें। हम आपको SMS द्वारा सत्यापन कोड भेजेंगे।"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
 msgid "Entertainment"
 msgstr "मनोरंजन"
 
@@ -8993,7 +9002,7 @@ msgstr "श्रेणी विस्तृत करें"
 msgid "Expiration"
 msgstr "समाप्ति"
 
-#: src/components/modals/InviteModal.tsx:276
+#: src/components/modals/InviteModal.tsx:273
 msgid "Expire After"
 msgstr "समाप्त होने के बाद"
 
@@ -9260,7 +9269,7 @@ msgstr "श्रेणी हटाने में विफल"
 msgid "Failed to delete channel"
 msgstr "चैनल हटाने में विफल"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:149
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:165
 msgid "Failed to delete emoji. Please try again."
 msgstr "इमोजी हटाने में विफल। कृपया पुनः प्रयास करें।"
 
@@ -9312,7 +9321,7 @@ msgstr "इस इमोजी पैक को इंस्टॉल करन�
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "इस स्टिकर पैक को इंस्टॉल करने में विफल। कृपया बाद में प्रयास करें।"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:62
 msgid "Failed to join this community. Please try again."
 msgstr "इस समुदाय में शामिल होने में विफल। कृपया फिर से प्रयास करें।"
 
@@ -9341,7 +9350,7 @@ msgstr "अधिकार प्राप्त अनुप्रयोगो�
 msgid "Failed to load bans. Please try again."
 msgstr "बैन लोड करने में विफल। कृपया पुनः प्रयास करें।"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:320
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:336
 msgid "Failed to load emojis. Please try again later."
 msgstr "इमोजी लोड करने में विफल। कृपया बाद में पुनः प्रयास करें।"
 
@@ -9363,7 +9372,7 @@ msgstr "निमंत्रण लोड करने में विफल�
 msgid "Failed to load premium information. Please try again later."
 msgstr "प्रीमियम जानकारी लोड करने में विफल। कृपया बाद में प्रयास करें।"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:203
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:230
 msgid "Failed to Load Stickers"
 msgstr "स्टिकर लोड करने में विफल"
 
@@ -9406,7 +9415,7 @@ msgstr "ग्रुप DM को पिन करने में विफल"
 msgid "Failed to pin message"
 msgstr "मैसेज को पिन करने में विफल"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:225
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
 msgid "Failed to Prepare Emojis"
 msgstr "इमोजी तैयार करने में विफल"
 
@@ -9597,7 +9606,7 @@ msgstr "वैकल्पिक पाठ अपडेट करने मे�
 msgid "Failed to Update Channel Permissions"
 msgstr "चैनल अनुमतियों को अपडेट करने में विफल"
 
-#: src/components/emojis/EmojiListItem.tsx:180
+#: src/components/emojis/EmojiListItem.tsx:181
 msgid "Failed to update emoji name. Reverted to the previous name."
 msgstr "इमोजी नाम अपडेट करने में विफल। पिछले नाम पर वापस लौटाया गया।"
 
@@ -9622,11 +9631,11 @@ msgid "Failed to upload custom sound"
 msgstr "कस्टम साउंड अपलोड करने में विफल"
 
 #. placeholder {0}: startIndex + 1
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:277
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:293
 msgid "Failed to upload emojis starting at #{0}: {errorMsg}"
 msgstr "#{0} से शुरू होकर इमोजी अपलोड करने में विफल: {errorMsg}"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:273
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:289
 msgid "Failed to upload emojis. Please try again."
 msgstr "इमोजी अपलोड करने में विफल। कृपया पुनः प्रयास करें।"
 
@@ -9638,7 +9647,7 @@ msgstr "एंट्रेंस साउंड अपलोड करने �
 msgid "Failed to verify connection"
 msgstr "कनेक्शन सत्यापित करने में विफल"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:193
 msgid "Failed to withdraw application. Please try again."
 msgstr "आवेदन वापस लेने में विफल। कृपया फिर से प्रयास करें।"
 
@@ -10399,7 +10408,7 @@ msgstr "गेम कंट्रोलर"
 msgid "Game Night"
 msgstr "गेम नाइट"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
 msgid "Gaming"
 msgstr "गेमिंग"
 
@@ -10758,7 +10767,7 @@ msgstr "ग्रेस अवधि"
 msgid "Grace Period (Still Have Access)"
 msgstr "ग्रेस अवधि (अभी भी पहुँच है)"
 
-#: src/components/modals/InviteModal.tsx:296
+#: src/components/modals/InviteModal.tsx:293
 msgid "Grant Temporary Membership"
 msgstr "अस्थायी सदस्यता दें"
 
@@ -10922,7 +10931,7 @@ msgstr "गिल्ड साइडबार"
 msgid "handle"
 msgstr "हैंडल"
 
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 msgid "Handle"
 msgstr "हैंडल"
 
@@ -11116,7 +11125,7 @@ msgstr "म्यूट किए गए चैनल छिपाएँ"
 #: src/components/popouts/GuildHeaderPopout.tsx:228
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:79
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:60
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:332
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:335
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:304
 msgid "Hide Muted Channels"
 msgstr "म्यूट किए गए चैनल छिपाएँ"
@@ -11284,7 +11293,7 @@ msgstr "कूदो अंदर, {username}! मिस्टर फ्यू�
 msgid "Hope to see you back in the future"
 msgstr "भविष्य में फिर मिलने की उम्मीद"
 
-#: src/components/modals/AddConnectionModal.tsx:244
+#: src/components/modals/AddConnectionModal.tsx:247
 msgid "Host"
 msgstr "होस्ट"
 
@@ -11439,8 +11448,8 @@ msgstr "अवहेलना करें"
 msgid "Ignore Friend Request"
 msgstr "दोस्त अनुरोध को नज़रअंदाज़ करें"
 
-#: src/utils/PermissionUtils.tsx:351
-#: src/utils/PermissionUtils.tsx:486
+#: src/utils/PermissionUtils.tsx:357
+#: src/utils/PermissionUtils.tsx:492
 msgid "Ignore per-channel message rate limits."
 msgstr "प्रति-चैनल संदेश दर सीमाओं को अनदेखा करें।"
 
@@ -11915,7 +11924,7 @@ msgstr "अदृश्य"
 
 #: src/components/channel/GuildMembersPage.tsx:246
 #: src/components/channel/GuildMembersPage.tsx:254
-#: src/components/modals/InviteModal.tsx:265
+#: src/components/modals/InviteModal.tsx:262
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:87
 #: src/constants/AuditLogConstants.tsx:245
 msgid "Invite"
@@ -11955,7 +11964,7 @@ msgstr "मित्रों को आमंत्रित करें"
 msgid "Invite friends to {0}"
 msgstr "{0} में दोस्तों को निमंत्रण दें"
 
-#: src/components/modals/InviteModal.tsx:311
+#: src/components/modals/InviteModal.tsx:308
 msgid "Invite link"
 msgstr "निमंत्रण लिंक"
 
@@ -11963,7 +11972,7 @@ msgstr "निमंत्रण लिंक"
 msgid "Invite Link"
 msgstr "निमंत्रण लिंक"
 
-#: src/components/modals/InviteModal.tsx:222
+#: src/components/modals/InviteModal.tsx:219
 msgid "Invite link settings"
 msgstr "निमंत्रण लिंक सेटिंग्स"
 
@@ -11976,7 +11985,7 @@ msgstr "निमंत्रण लिंक"
 
 #: src/components/layout/ChannelItem.tsx:702
 #: src/components/popouts/GuildHeaderPopout.tsx:181
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:257
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:260
 msgid "Invite Members"
 msgstr "सदस्यों को आमंत्रित करें"
 
@@ -12087,7 +12096,7 @@ msgstr "निमंत्रण"
 msgid "Invites are currently disabled for this community."
 msgstr "इस कम्युनिटी के लिए फिलहाल निमंत्रण अक्षम हैं।"
 
-#: src/components/modals/InviteModal.tsx:235
+#: src/components/modals/InviteModal.tsx:232
 msgid "Invites are currently disabled in this community by an admin. While this invite can be created, it cannot be accepted until invites are re-enabled."
 msgstr "इस कम्युनिटी में एडमिन द्वारा फिलहाल निमंत्रण अक्षम किए गए हैं। यह निमंत्रण बनाया जा सकता है, लेकिन तब तक स्वीकार नहीं किया जा सकता जब तक निमंत्रण फिर से सक्षम न हो जाएँ।"
 
@@ -12198,7 +12207,7 @@ msgstr "कॉल में शामिल हों"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12273,7 +12282,7 @@ msgstr "आवाज में शामिल हों"
 msgid "Join Voice Call"
 msgstr "वॉइस कॉल में शामिल हों"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 msgid "Joined"
 msgstr "शामिल हो गए"
 
@@ -12618,8 +12627,8 @@ msgid "Leave call"
 msgstr "कॉल छोड़ें"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:237
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:344
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:447
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:347
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:450
 #: src/hooks/useLeaveGuild.tsx:42
 #: src/hooks/useLeaveGuild.tsx:44
 msgid "Leave Community"
@@ -12840,7 +12849,7 @@ msgstr "लिंक"
 msgid "Links"
 msgstr "लिंक"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:215
 msgid "List your community in Discovery so others can find and join it."
 msgstr "अपने समुदाय को खोज में सूचीबद्ध करें ताकि अन्य इसे खोज सकें और इसमें शामिल हो सकें।"
 
@@ -13121,13 +13130,13 @@ msgstr "अधिकृत एप्लिकेशन प्रबंधित 
 msgid "Manage blocked users"
 msgstr "ब्लॉक किए गए उपयोगकर्ता प्रबंधित करें"
 
-#: src/utils/PermissionUtils.tsx:433
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channel"
 msgstr "चैनल प्रबंधित करें"
 
 #: src/utils/PermissionUtils.tsx:257
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channels"
 msgstr "चैनल प्रबंधित करें"
 
@@ -13143,7 +13152,7 @@ msgstr "समुदाय सुविधाएँ प्रबंधित क
 msgid "Manage developer applications"
 msgstr "डेवलपर एप्लिकेशन प्रबंधित करें"
 
-#: src/utils/PermissionUtils.tsx:284
+#: src/utils/PermissionUtils.tsx:289
 msgid "Manage Emoji & Stickers"
 msgstr "इमोजी और स्टिकर प्रबंधित करें"
 
@@ -13163,8 +13172,8 @@ msgstr "आने वाले वेबहुक्स प्रबंधित
 msgid "Manage invites for this channel."
 msgstr "इस चैनल के लिए निमंत्रण प्रबंधित करें।"
 
-#: src/utils/PermissionUtils.tsx:310
-#: src/utils/PermissionUtils.tsx:464
+#: src/utils/PermissionUtils.tsx:316
+#: src/utils/PermissionUtils.tsx:470
 msgid "Manage Messages"
 msgstr "संदेश प्रबंधित करें"
 
@@ -13172,7 +13181,7 @@ msgstr "संदेश प्रबंधित करें"
 msgid "Manage Nicknames"
 msgstr "निकनेम प्रबंधित करें"
 
-#: src/utils/PermissionUtils.tsx:438
+#: src/utils/PermissionUtils.tsx:444
 msgid "Manage Permissions"
 msgstr "अनुमतियाँ प्रबंधित करें"
 
@@ -13191,8 +13200,8 @@ msgstr "सदस्यता प्रबंधित करें"
 msgid "Manage the email address you use to sign in to Fluxer"
 msgstr "Fluxer में साइन इन करने के लिए उपयोग किए गए ईमेल पते को प्रबंधित करें"
 
-#: src/utils/PermissionUtils.tsx:288
-#: src/utils/PermissionUtils.tsx:443
+#: src/utils/PermissionUtils.tsx:294
+#: src/utils/PermissionUtils.tsx:449
 msgid "Manage Webhooks"
 msgstr "वेबहुक्स प्रबंधित करें"
 
@@ -13231,7 +13240,7 @@ msgstr "अपनी सदस्यता प्रबंधित करें
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:85
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:522
 #: src/components/uikit/context_menu/items/DMMenuItems.tsx:53
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:249
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:252
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:95
 msgid "Mark as Read"
 msgstr "पढ़ा हुआ चिह्नित करें"
@@ -13346,7 +13355,7 @@ msgstr "marty@example.com"
 msgid "Mask Visionary as subscription"
 msgstr "Visionary को सब्सक्रिप्शन के रूप में छिपाएँ"
 
-#: src/components/modals/InviteModal.tsx:286
+#: src/components/modals/InviteModal.tsx:283
 msgid "Max Number of Uses"
 msgstr "उपयोगों की अधिकतम संख्या"
 
@@ -13581,7 +13590,7 @@ msgstr "सदस्य हटाए गए"
 msgid "Members receive notifications for every message"
 msgstr "सदस्यों को हर संदेश के लिए सूचना मिलती है"
 
-#: src/components/modals/InviteModal.tsx:297
+#: src/components/modals/InviteModal.tsx:294
 msgid "Members will be removed when they go offline unless a role is assigned"
 msgstr "जब सदस्य ऑफ़लाइन जाएँगे तब उन्हें हटा दिया जाएगा, जब तक कोई भूमिका असाइन न हो"
 
@@ -13627,8 +13636,8 @@ msgstr "@here का उल्लेख करें?"
 msgid "Mention Badges"
 msgstr "उल्लेख बैज"
 
-#: src/utils/PermissionUtils.tsx:332
-#: src/utils/PermissionUtils.tsx:474
+#: src/utils/PermissionUtils.tsx:338
+#: src/utils/PermissionUtils.tsx:480
 msgid "Mention everyone or any role (even if the role isn't set to be mentionable)."
 msgstr "सभी या किसी भी भूमिका का उल्लेख करें (भले ही भूमिका उल्लेख योग्य न हो)।"
 
@@ -13837,8 +13846,8 @@ msgid "Messages"
 msgstr "संदेश"
 
 #: src/components/modals/utils/SettingsConstants.tsx:184
-#: src/utils/PermissionUtils.tsx:298
-#: src/utils/PermissionUtils.tsx:460
+#: src/utils/PermissionUtils.tsx:304
+#: src/utils/PermissionUtils.tsx:466
 msgid "Messages & Media"
 msgstr "संदेश और मीडिया"
 
@@ -14021,7 +14030,7 @@ msgid "Mode C"
 msgstr "मोड C"
 
 #: src/components/uikit/context_menu/items/ModerationSubmenu.tsx:152
-#: src/utils/PermissionUtils.tsx:360
+#: src/utils/PermissionUtils.tsx:366
 msgid "Moderation"
 msgstr "मॉडरेशन"
 
@@ -14117,8 +14126,8 @@ msgstr "बटनों, इनपुट और लिंक के बीच �
 msgid "Move focus to the message composer"
 msgstr "फोकस संदेश रचना पर ले जाएँ"
 
-#: src/utils/PermissionUtils.tsx:412
-#: src/utils/PermissionUtils.tsx:509
+#: src/utils/PermissionUtils.tsx:418
+#: src/utils/PermissionUtils.tsx:515
 msgid "Move Members"
 msgstr "सदस्यों को स्थानांतरित करें"
 
@@ -14158,7 +14167,7 @@ msgstr "फ़िल्म क्लब"
 msgid "Movie Night Crew"
 msgstr "मूवी नाइट क्रू"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:87
 msgid "Movies & TV"
 msgstr "फिल्में और टीवी"
 
@@ -14170,7 +14179,7 @@ msgstr "mp3"
 msgid "Multilingual Content"
 msgstr "बहुभाषी सामग्री"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
 msgid "Music"
 msgstr "संगीत"
 
@@ -14191,8 +14200,8 @@ msgstr "म्यूट"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:270
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:149
-#: src/components/layout/UserArea.tsx:155
+#: src/components/layout/UserArea.tsx:163
+#: src/components/layout/UserArea.tsx:169
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
@@ -14255,7 +14264,7 @@ msgstr "चैनल म्यूट करें"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:95
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:172
 msgid "Mute Community"
 msgstr "कम्युनिटी म्यूट करें"
@@ -14285,8 +14294,8 @@ msgstr "पसंदीदा म्यूट करें"
 msgid "Mute Keybind"
 msgstr "म्यूट कीबाइंड"
 
-#: src/utils/PermissionUtils.tsx:404
-#: src/utils/PermissionUtils.tsx:506
+#: src/utils/PermissionUtils.tsx:410
+#: src/utils/PermissionUtils.tsx:512
 msgid "Mute Members"
 msgstr "सदस्यों को म्यूट करें"
 
@@ -14534,10 +14543,6 @@ msgstr "कभी एनिमेट न करें"
 msgid "Never Automatically"
 msgstr "कभी स्वचालित रूप से नहीं"
 
-#: src/components/modals/InviteModal.tsx:196
-msgid "never expires"
-msgstr "कभी समाप्त नहीं होता"
-
 #: src/components/channel/Divider.tsx:51
 #: src/components/channel/Divider.tsx:60
 #: src/components/channel/UnreadDividerSlot.tsx:47
@@ -14758,7 +14763,7 @@ msgstr "अभी तक कोई कनेक्शन नहीं"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -14768,11 +14773,11 @@ msgstr "कोई विवरण नहीं दिया गया।"
 msgid "No email address set"
 msgstr "कोई ईमेल पता सेट नहीं है"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:185
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:201
 msgid "No emoji slots available"
 msgstr "कोई इमोजी स्लॉट उपलब्ध नहीं"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:368
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:389
 msgid "No emojis found matching your search."
 msgstr "आपकी खोज से मेल खाते कोई इमोजी नहीं मिले।"
 
@@ -14986,11 +14991,11 @@ msgid "No Stickers Available"
 msgstr "कोई स्टिकर उपलब्ध नहीं"
 
 #: src/components/channel/MobileStickersPicker.tsx:206
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:186
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
 msgid "No Stickers Found"
 msgstr "कोई स्टिकर नहीं मिला"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:187
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:208
 msgid "No stickers found matching your search."
 msgstr "आपकी खोज से मेल खाता कोई स्टिकर नहीं मिला।"
 
@@ -15055,7 +15060,7 @@ msgid "Noise Suppression"
 msgstr "शोर दमन"
 
 #. placeholder {0}: staticEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:384
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:405
 msgid "Non-Animated Emoji ({0})"
 msgstr "गैर-एनिमेटेड इमोजी ({0})"
 
@@ -15081,7 +15086,7 @@ msgstr "नॉर्वेजियन"
 msgid "Not available"
 msgstr "उपलब्ध नहीं है"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
 msgid "Not enough members"
 msgstr "सदस्य पर्याप्त नहीं हैं"
 
@@ -15154,7 +15159,7 @@ msgstr "सूचना ओवरराइड"
 #: src/components/uikit/context_menu/items/CategoryMenuItems.tsx:230
 #: src/components/uikit/context_menu/items/ChannelMenuData.tsx:492
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:253
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:304
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:307
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:243
 msgid "Notification Settings"
 msgstr "सूचना सेटिंग्स"
@@ -15273,8 +15278,8 @@ msgstr "ऑफ़लाइन"
 #: src/components/guild/RoleManagement.tsx:306
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:56
 #: src/components/modals/components/plutonium/hooks/useCheckoutActions.tsx:108
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:151
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:167
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:257
 #: src/components/modals/GuildOwnershipWarningModal.tsx:73
 msgid "OK"
 msgstr "ठीक"
@@ -15733,7 +15738,7 @@ msgstr "या"
 msgid "Or copy the link:"
 msgstr "या लिंक कॉपी करें:"
 
-#: src/components/modals/InviteModal.tsx:307
+#: src/components/modals/InviteModal.tsx:304
 msgid "or send an invite link to a friend:"
 msgstr "या किसी मित्र को निमंत्रण लिंक भेजें:"
 
@@ -15749,7 +15754,7 @@ msgstr "मूल संदेश लोड नहीं हो सका"
 msgid "Original message was deleted"
 msgstr "मूल संदेश हटा दिया गया था"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:88
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15763,8 +15768,8 @@ msgstr "अन्य"
 msgid "Other Devices"
 msgstr "अन्य उपकरण"
 
-#: src/utils/PermissionUtils.tsx:396
-#: src/utils/PermissionUtils.tsx:502
+#: src/utils/PermissionUtils.tsx:402
+#: src/utils/PermissionUtils.tsx:508
 msgid "Otherwise Push-to-talk is required."
 msgstr "अन्यथा पुश-टू-टॉक आवश्यक है।"
 
@@ -16026,7 +16031,7 @@ msgid "Payment Successful"
 msgstr "भुगतान सफल"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
 msgid "Pending"
 msgstr "लंबित"
 
@@ -16236,8 +16241,8 @@ msgstr "इसे पिन करो। इसे अच्छे से पि
 msgid "Pin Message"
 msgstr "संदेश पिन करें"
 
-#: src/utils/PermissionUtils.tsx:315
-#: src/utils/PermissionUtils.tsx:468
+#: src/utils/PermissionUtils.tsx:321
+#: src/utils/PermissionUtils.tsx:474
 msgid "Pin Messages"
 msgstr "संदेश पिन करें"
 
@@ -16564,7 +16569,7 @@ msgstr "निर्दिष्ट अवधि के लिए <0>{0}</0> क
 msgid "Prevent <0>{0}</0> from sending messages, reacting, and joining voice channels for the specified duration."
 msgstr "निर्दिष्ट अवधि के लिए <0>{0}</0> को संदेश भेजने, प्रतिक्रिया देने और वॉइस चैनल से जुड़ने से रोकें।"
 
-#: src/utils/PermissionUtils.tsx:364
+#: src/utils/PermissionUtils.tsx:370
 msgid "Prevent members from sending messages, reacting, and joining voice for a duration."
 msgstr "सदस्यों को एक अवधि के लिए संदेश भेजने, प्रतिक्रिया देने और वॉइस में शामिल होने से रोकें।"
 
@@ -16668,8 +16673,8 @@ msgstr "प्राथमिक क्रिया"
 msgid "Primary button clicked!"
 msgstr "प्राथमिक बटन क्लिक किया गया!"
 
-#: src/utils/PermissionUtils.tsx:400
-#: src/utils/PermissionUtils.tsx:505
+#: src/utils/PermissionUtils.tsx:406
+#: src/utils/PermissionUtils.tsx:511
 msgid "Priority Speaker"
 msgstr "प्राथमिकता स्पीकर"
 
@@ -16691,8 +16696,8 @@ msgstr "गोपनीयता नीति"
 
 #: src/components/modals/GuildPrivacySettingsModal.tsx:72
 #: src/components/popouts/GuildHeaderPopout.tsx:215
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:309
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:378
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:312
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:381
 msgid "Privacy Settings"
 msgstr "गोपनीयता सेटिंग्स"
 
@@ -16841,11 +16846,11 @@ msgstr "खरीद मोड"
 msgid "Purchased {0}"
 msgstr "खरीदा गया {0}"
 
-#: src/components/emojis/EmojiListItem.tsx:197
+#: src/components/emojis/EmojiListItem.tsx:198
 msgid "Purge this emoji from storage and CDN"
 msgstr "इस इमोजी को स्टोरेज और CDN से हटाएँ"
 
-#: src/components/stickers/StickerGridItem.tsx:69
+#: src/components/stickers/StickerGridItem.tsx:75
 msgid "Purge this sticker from storage and CDN"
 msgstr "इस स्टिकर को स्टोरेज और CDN से हटाएँ"
 
@@ -16897,7 +16902,7 @@ msgstr "पुश-टू-टॉक (धारण करें)"
 msgid "Push-to-Talk (Limited)"
 msgstr "पुश-टू-टॉक (सीमित)"
 
-#: src/components/layout/UserArea.tsx:147
+#: src/components/layout/UserArea.tsx:161
 #: src/components/voice/VoiceControlBar.tsx:600
 msgid "Push-to-talk enabled — hold {pushToTalkHint} to speak"
 msgstr "पुश-टू-टॉक सक्षम है — बोलने के लिए {pushToTalkHint} दबाएँ रखें"
@@ -17017,8 +17022,8 @@ msgstr "पुनः सक्रिय करें"
 msgid "read aloud"
 msgstr "जोर से पढ़ें"
 
-#: src/utils/PermissionUtils.tsx:327
-#: src/utils/PermissionUtils.tsx:471
+#: src/utils/PermissionUtils.tsx:333
+#: src/utils/PermissionUtils.tsx:477
 msgid "Read Message History"
 msgstr "संदेश इतिहास पढ़ें"
 
@@ -17057,7 +17062,7 @@ msgid "Reason (Optional)"
 msgstr "कारण (वैकल्पिक)"
 
 #. placeholder {0}: application.review_reason
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:249
 msgid "Reason: {0}"
 msgstr "कारण: {0}"
 
@@ -17092,7 +17097,7 @@ msgstr "हाल की खोजें"
 
 #. placeholder {0}: ChannelUtils.getIcon(channel, {size: 16, className: styles.channelIcon})
 #. placeholder {1}: channel.name
-#: src/components/modals/InviteModal.tsx:226
+#: src/components/modals/InviteModal.tsx:223
 msgid "Recipients will be taken to {0} <0>{1}</0>"
 msgstr "प्राप्तकर्ताओं को {0} <0>{1}</0> पर ले जाया जाएगा"
 
@@ -17250,7 +17255,7 @@ msgstr "नियमित, बॉट, सिस्टम, और टाइम�
 msgid "Reject"
 msgstr "अस्वीकार करें"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:60
 msgid "Rejected"
 msgstr "अस्वीकृत"
 
@@ -17525,7 +17530,7 @@ msgstr "जब आपने पहली बार अपने बैज से
 msgid "Remove your Visionary ID badge"
 msgstr "अपनी विज़नरी आईडी बैज हटाएँ"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:61
 msgid "Removed"
 msgstr "हटाया गया"
 
@@ -17635,11 +17640,11 @@ msgid "Rename"
 msgstr "नाम बदलें"
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:238
+#: src/components/emojis/EmojiListItem.tsx:240
 msgid "Rename :{0}:"
 msgstr ":{0}: का नाम बदलें"
 
-#: src/utils/PermissionUtils.tsx:434
+#: src/utils/PermissionUtils.tsx:440
 msgid "Rename and edit this channel's settings."
 msgstr "इस चैनल का नाम बदलें और सेटिंग्स संपादित करें।"
 
@@ -17748,7 +17753,7 @@ msgid "Report a User Profile"
 msgstr "एक उपयोगकर्ता प्रोफ़ाइल रिपोर्ट करें"
 
 #: src/components/modals/IARModal.tsx:119
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:350
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:353
 #: src/components/uikit/context_menu/items/ReportGuildMenuItem.tsx:57
 msgid "Report Community"
 msgstr "समुदाय रिपोर्ट करें"
@@ -18045,7 +18050,7 @@ msgstr "फिर से सदस्यता लें"
 #: src/components/modals/BackgroundImageGalleryModal.tsx:210
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:649
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:125
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:234
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:138
 #: src/components/modals/tabs/applications_tab/ApplicationDetail.tsx:586
 #: src/components/modals/tabs/applications_tab/index.tsx:113
@@ -18319,7 +18324,7 @@ msgstr "सहेजें"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18451,7 +18456,7 @@ msgstr "{0} के लिए निर्धारित संदेश"
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "निर्धारित संदेश भविष्य में अधिकतम 30 दिनों के हो सकते हैं।"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
 msgid "Science & Technology"
 msgstr "विज्ञान और प्रौद्योगिकी"
 
@@ -18574,7 +18579,7 @@ msgstr "समुदाय खोजें..."
 msgid "Search countries..."
 msgstr "देश खोजें..."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:308
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:324
 msgid "Search emojis..."
 msgstr "इमोजी खोजें..."
 
@@ -18603,7 +18608,7 @@ msgstr "चैनल, लोग या समुदाय खोजें"
 #: src/components/common/FriendSelector.tsx:197
 #: src/components/modals/AddFriendsToGroupModal.tsx:53
 #: src/components/modals/CreateDMModal.tsx:68
-#: src/components/modals/InviteModal.tsx:246
+#: src/components/modals/InviteModal.tsx:243
 #: src/components/modals/shared/RecipientList.tsx:179
 #: src/components/modals/ShareThemeModal.tsx:141
 msgid "Search friends"
@@ -18692,7 +18697,7 @@ msgstr "सेटिंग्स खोजें"
 msgid "Search settings..."
 msgstr "सेटिंग्स खोजें..."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:130
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:147
 msgid "Search stickers..."
 msgstr "स्टिकर खोजें..."
 
@@ -19035,8 +19040,8 @@ msgstr "संदेश भेजना निष्क्रिय"
 msgid "Send messages"
 msgstr "संदेश भेजें"
 
-#: src/utils/PermissionUtils.tsx:301
-#: src/utils/PermissionUtils.tsx:462
+#: src/utils/PermissionUtils.tsx:307
+#: src/utils/PermissionUtils.tsx:468
 msgid "Send Messages"
 msgstr "संदेश भेजें"
 
@@ -19056,11 +19061,11 @@ msgstr "SMS कोड भेजें"
 msgid "Send SMS Code"
 msgstr "SMS कोड भेजें"
 
-#: src/utils/PermissionUtils.tsx:306
+#: src/utils/PermissionUtils.tsx:312
 msgid "Send text-to-speech messages."
 msgstr "टेक्स्ट-टू-स्पीच संदेश भेजें।"
 
-#: src/utils/PermissionUtils.tsx:305
+#: src/utils/PermissionUtils.tsx:311
 msgid "Send TTS Messages"
 msgstr "TTS संदेश भेजें"
 
@@ -19072,7 +19077,7 @@ msgstr "सत्यापन कोड भेजें"
 msgid "Send voice message"
 msgstr "स्वर संदेश भेजें"
 
-#: src/components/modals/InviteModal.tsx:266
+#: src/components/modals/InviteModal.tsx:263
 #: src/components/modals/shared/RecipientList.tsx:223
 #: src/components/modals/ShareThemeModal.tsx:159
 msgid "Sent"
@@ -19098,7 +19103,7 @@ msgstr "एक अटैचमेंट भेजा"
 msgid "sent an embed"
 msgstr "एक एम्बेड भेजा"
 
-#: src/components/modals/AddConnectionModal.tsx:277
+#: src/components/modals/AddConnectionModal.tsx:280
 msgid "Serve the token file"
 msgstr "टोकन फ़ाइल प्रदान करें"
 
@@ -19310,8 +19315,8 @@ msgstr "सत्यापन स्तर को <0>मध्यम</0> पर 
 msgid "Set verification level to <0>None</0>."
 msgstr "सत्यापन स्तर को <0>कोई नहीं</0> पर सेट करें।"
 
-#: src/utils/PermissionUtils.tsx:417
-#: src/utils/PermissionUtils.tsx:513
+#: src/utils/PermissionUtils.tsx:423
+#: src/utils/PermissionUtils.tsx:519
 msgid "Set Voice Region"
 msgstr "वॉइस क्षेत्र सेट करें"
 
@@ -20174,8 +20179,8 @@ msgstr "स्पेनिश (लैटिन अमेरिका)"
 msgid "Spanish (Spain)"
 msgstr "स्पेनिश (स्पेन)"
 
-#: src/utils/PermissionUtils.tsx:387
-#: src/utils/PermissionUtils.tsx:498
+#: src/utils/PermissionUtils.tsx:393
+#: src/utils/PermissionUtils.tsx:504
 msgid "Speak"
 msgstr "बोलें"
 
@@ -20397,7 +20402,7 @@ msgstr "वॉयस कॉल शुरू करें"
 
 #. placeholder {0}: staticEmojis.length
 #. placeholder {1}: maxStaticEmojis === Number.POSITIVE_INFINITY ? '∞' : maxStaticEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:349
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:367
 msgid "Static: {0} / {1}"
 msgstr "स्थैतिक: {0} / {1}"
 
@@ -20423,7 +20428,7 @@ msgstr "स्थिति स्लेट"
 msgid "Status Slate"
 msgstr "स्थिति स्लेट"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:243
 msgid "Status:"
 msgstr "स्थिति:"
 
@@ -20478,7 +20483,7 @@ msgstr "स्टिकर बनाया गया"
 msgid "Sticker Deleted"
 msgstr "स्टिकर हटाया गया"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:137
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:154
 msgid "Sticker density"
 msgstr "स्टिकर घनत्व"
 
@@ -20505,7 +20510,7 @@ msgstr "स्टिकर पैक सीमा पहुँच गई"
 msgid "sticker packs"
 msgstr "स्टिकर पैक"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:158
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:177
 msgid "Sticker Slots"
 msgstr "स्टिकर स्लॉट"
 
@@ -20529,7 +20534,7 @@ msgid "Stickers"
 msgstr "स्टिकर"
 
 #. placeholder {0}: Math.round(GlobalLimits.getStickerMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:164
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:183
 msgid "Stickers must be exactly 320x320 pixels and no larger than {0} KB, but we automatically resize and compress images for you. Allowed file types: JPEG, PNG, WebP, GIF."
 msgstr "स्टिकर बिल्कुल 320x320 पिक्सल के होने चाहिए और {0} KB से अधिक नहीं, लेकिन हम आपके लिए चित्रों को स्वचालित रूप से आकार देते और संपीड़ित करते हैं। अनुमत फ़ाइल प्रकार: JPEG, PNG, WebP, GIF।"
 
@@ -20611,8 +20616,8 @@ msgstr "स्ट्रीम पूर्वावलोकन"
 msgid "Stream Quality"
 msgstr "स्ट्रीम गुणवत्ता"
 
-#: src/utils/PermissionUtils.tsx:391
-#: src/utils/PermissionUtils.tsx:499
+#: src/utils/PermissionUtils.tsx:397
+#: src/utils/PermissionUtils.tsx:505
 msgid "Stream Video"
 msgstr "वीडियो स्ट्रीम करें"
 
@@ -21139,7 +21144,7 @@ msgstr "जिस कम्युनिटी की आप तलाश कर 
 msgid "The download link will be valid for 7 days"
 msgstr "डाउनलोड लिंक 7 दिनों तक मान्य रहेगा"
 
-#: src/components/modals/AddConnectionModal.tsx:298
+#: src/components/modals/AddConnectionModal.tsx:301
 msgid "The file contains the verification token we will fetch from <0>{dnsUrl}</0>."
 msgstr "फ़ाइल में वह सत्यापन टोकन है जिसे हम <0>{dnsUrl}</0> से प्राप्त करेंगे।"
 
@@ -21265,7 +21270,7 @@ msgstr "इस चैनल के इनवाइट लिंक लोड क
 msgid "There was an error loading the invites. Please try again."
 msgstr "इनवाइट लोड करते समय त्रुटि हुई। कृपया फिर से कोशिश करें।"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:204
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:231
 msgid "There was an error loading the stickers. Please try again."
 msgstr "स्टिकर्स लोड करते समय त्रुटि हुई। कृपया फिर से कोशिश करें।"
 
@@ -21528,7 +21533,7 @@ msgstr "यह निमंत्रण {seconds} सेकंडों मे�
 msgid "This invite has unlimited uses."
 msgstr "इस इनवाइट के असीमित उपयोग हैं।"
 
-#: src/components/modals/InviteModal.tsx:315
+#: src/components/modals/InviteModal.tsx:312
 msgid "This invite link never expires."
 msgstr "यह आमंत्रण लिंक कभी समाप्त नहीं होता।"
 
@@ -21836,7 +21841,7 @@ msgstr "टाइमआउट अवधि"
 msgid "Timeout ends {0} ({1})"
 msgstr "टाइमआउट {0} ({1}) पर समाप्त होता है"
 
-#: src/utils/PermissionUtils.tsx:363
+#: src/utils/PermissionUtils.tsx:369
 msgid "Timeout Members"
 msgstr "सदस्यों को टाइमआउट करें"
 
@@ -22431,7 +22436,7 @@ msgstr "पूर्वावलोकन लोड करने में अ�
 msgid "Unable to load profile banner, badges, and bio."
 msgstr "प्रोफ़ाइल बैनर, बैज, और जीवनी लोड करने में असमर्थ।"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:229
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:245
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "किसी भी इमोजी को अपलोड के लिए तैयार करने में असमर्थ। निम्न त्रुटियाँ हुईं:"
 
@@ -22532,7 +22537,7 @@ msgstr "अनदावी खाता ओवरराइड"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:174
 #: src/components/voice/VoiceControlBar.tsx:611
 msgid "Undeafen"
 msgstr "अनडिफ़्ड करें"
@@ -22569,7 +22574,7 @@ msgstr "नाबालिग उपयोगकर्ता"
 #: src/components/alerts/UserBannedFromGuildModal.tsx:30
 #: src/components/alerts/UserIpBannedFromGuildModal.tsx:31
 #: src/components/layout/ChannelListContent.tsx:149
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:192
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:208
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:160
 msgid "Understood"
 msgstr "समझ गया"
@@ -22614,7 +22619,7 @@ msgstr "विशिष्ट आमंत्रण"
 msgid "Unit"
 msgstr "इकाई"
 
-#: src/components/emojis/EmojiListItem.tsx:290
+#: src/components/emojis/EmojiListItem.tsx:301
 #: src/components/modals/BanDetailsModal.tsx:116
 msgid "Unknown"
 msgstr "अज्ञात"
@@ -22776,8 +22781,8 @@ msgstr "Plutonium के साथ DMs में स्टीकर्स अन
 #: src/components/bottomsheets/MuteDurationSheet.tsx:75
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:148
-#: src/components/layout/UserArea.tsx:154
+#: src/components/layout/UserArea.tsx:162
+#: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/MobileVideoViewer.tsx:272
@@ -22813,7 +22818,7 @@ msgstr "चैनल अनम्यूट करें"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:96
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:165
 msgid "Unmute Community"
 msgstr "कम्युनिटी अनम्यूट करें"
@@ -23146,7 +23151,7 @@ msgstr "कस्टम साउंड अपलोड करें"
 msgid "Upload directly to {displayName}"
 msgstr "{displayName} पर सीधे अपलोड करें"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:329
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:347
 msgid "Upload Emoji"
 msgstr "इमोजी अपलोड करें"
 
@@ -23170,11 +23175,15 @@ msgstr "आइकन अपलोड करें"
 msgid "Upload Image"
 msgstr "इमेज अपलोड करें"
 
+#: src/utils/PermissionUtils.tsx:285
+msgid "Upload new emoji and stickers, and manage your own creations."
+msgstr "नए इमोजी और स्टिकर्स अपलोड करें, और अपनी खुद की रचनाओं का प्रबंधन करें।"
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:577
 msgid "upload sound"
 msgstr "ध्वनि अपलोड करें"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:180
 msgid "Upload Sticker"
 msgstr "स्टिकर अपलोड करें"
 
@@ -23235,8 +23244,8 @@ msgstr "आपके मैसेज से किसी भी अटैचम�
 msgid "US East"
 msgstr "यूएस ईस्ट"
 
-#: src/utils/PermissionUtils.tsx:331
-#: src/utils/PermissionUtils.tsx:473
+#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:479
 msgid "Use @everyone/@here and @roles"
 msgstr "@everyone/@here और @roles का उपयोग करें"
 
@@ -23294,17 +23303,17 @@ msgstr "पूरे ऐप में डार्क थीम का उपय
 msgid "Use Different Email"
 msgstr "विभिन्न ईमेल का उपयोग करें"
 
-#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:343
 msgid "Use emoji from other communities."
 msgstr "दूसरे समुदायों से इमोजी का उपयोग करें।"
 
-#: src/utils/PermissionUtils.tsx:336
-#: src/utils/PermissionUtils.tsx:477
+#: src/utils/PermissionUtils.tsx:342
+#: src/utils/PermissionUtils.tsx:483
 msgid "Use External Emoji"
 msgstr "बाहरी इमोजी का उपयोग करें"
 
-#: src/utils/PermissionUtils.tsx:341
-#: src/utils/PermissionUtils.tsx:478
+#: src/utils/PermissionUtils.tsx:347
+#: src/utils/PermissionUtils.tsx:484
 msgid "Use External Stickers"
 msgstr "बाहरी स्टिकर का उपयोग करें"
 
@@ -23337,7 +23346,7 @@ msgstr "सुरक्षा कुंजी का उपयोग करे�
 msgid "Use system locale for time format"
 msgstr "समय प्रारूप के लिए सिस्टम लोकेल का उपयोग करें"
 
-#: src/components/modals/AddConnectionModal.tsx:233
+#: src/components/modals/AddConnectionModal.tsx:236
 msgid "Use the record below to prove domain ownership."
 msgstr "डोमेन स्वामित्व साबित करने के लिए नीचे दिया गया रिकॉर्ड उपयोग करें।"
 
@@ -23357,8 +23366,8 @@ msgstr "सभी अनुमतियाँ जल्दी साफ़ क�
 msgid "Use this shortcut system-wide"
 msgstr "इस शॉर्टकट का सिस्टम-व्यापी उपयोग करें"
 
-#: src/utils/PermissionUtils.tsx:395
-#: src/utils/PermissionUtils.tsx:501
+#: src/utils/PermissionUtils.tsx:401
+#: src/utils/PermissionUtils.tsx:507
 msgid "Use Voice Activity"
 msgstr "वॉइस एक्टिविटी का उपयोग करें"
 
@@ -23450,8 +23459,8 @@ msgstr "उपयोगकर्ता प्रोफाइल: {tag}"
 msgid "User Record"
 msgstr "उपयोगकर्ता रिकॉर्ड"
 
-#: src/components/layout/UserArea.tsx:272
-#: src/components/layout/UserArea.tsx:277
+#: src/components/layout/UserArea.tsx:286
+#: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
 #: src/components/modals/UserSettingsModal.tsx:154
 msgid "User Settings"
@@ -23570,7 +23579,7 @@ msgstr "उपकरण"
 msgid "value"
 msgstr "मान"
 
-#: src/components/modals/AddConnectionModal.tsx:258
+#: src/components/modals/AddConnectionModal.tsx:261
 msgid "Value"
 msgstr "मान"
 
@@ -23678,7 +23687,7 @@ msgstr "सत्यापित गिल्ड"
 msgid "verify"
 msgstr "पुष्टि करें"
 
-#: src/components/modals/AddConnectionModal.tsx:312
+#: src/components/modals/AddConnectionModal.tsx:315
 #: src/components/modals/EmailChangeModal.tsx:236
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
@@ -23690,11 +23699,11 @@ msgstr "सत्यापित करें"
 msgid "Verify Code"
 msgstr "कोड सत्यापित करें"
 
-#: src/components/modals/AddConnectionModal.tsx:229
+#: src/components/modals/AddConnectionModal.tsx:232
 msgid "Verify Connection"
 msgstr "कनेक्शन सत्यापित करें"
 
-#: src/components/modals/AddConnectionModal.tsx:228
+#: src/components/modals/AddConnectionModal.tsx:231
 msgid "Verify connection form"
 msgstr "कनेक्शन सत्यापन फॉर्म"
 
@@ -23874,8 +23883,8 @@ msgstr "कॉल देखें"
 msgid "View call controls"
 msgstr "कॉल नियंत्रण देखें"
 
-#: src/utils/PermissionUtils.tsx:374
-#: src/utils/PermissionUtils.tsx:454
+#: src/utils/PermissionUtils.tsx:380
+#: src/utils/PermissionUtils.tsx:460
 msgid "View Channel"
 msgstr "चैनल देखें"
 
@@ -24691,7 +24700,7 @@ msgstr "त्रुटि के साथ"
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "प्लूटोनियम के साथ, आप एनिमेटेड अवतार और बैनर (GIF, APNG, एनिमेटेड WebP, या AVIF में) का उपयोग कर सकते हैं, अपने 4-अंकीय टैग को कस्टमाइज़ कर सकते हैं, और कई अन्य प्रीमियम सुविधाएँ अनलॉक कर सकते हैं।"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:353
 msgid "Withdraw"
 msgstr "निकालें"
 
@@ -24759,7 +24768,7 @@ msgstr "आप"
 msgid "You already have a group with these users. Do you really want to create a new one? That's fine too!"
 msgstr "आपके पास इन यूज़र्स के साथ पहले से ही एक समूह है। क्या आप वाकई एक नया बनाना चाहते हैं? यह भी ठीक है!"
 
-#: src/components/modals/AddConnectionModal.tsx:98
+#: src/components/modals/AddConnectionModal.tsx:101
 msgid "You already have this connection."
 msgstr "आपके पास पहले से ही यह कनेक्शन है।"
 
@@ -25392,7 +25401,7 @@ msgstr "आपने शामिल होने के लिए अधिक�
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "आपने शामिल होने के लिए अधिकतम समुदायों की संख्या ({maxGuilds} समुदाय) तक पहुँच चुके हैं। कृपया किसी समुदाय को छोड़ें इससे पहले कि आप किसी अन्य में शामिल हों।"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:187
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:203
 msgid "You've reached the maximum number of static emojis. Delete some existing emojis or upgrade your server to increase the limit."
 msgstr "आपने स्थैतिक इमोजी की अधिकतम संख्या तक पहुँच गया है। कुछ मौजूदा इमोजी हटाएँ या अपनी सर्वर को अपग्रेड करें ताकि सीमा बढ़ सके।"
 
@@ -25425,7 +25434,7 @@ msgstr "तुम्हारा खाता अभी तक क्लेम �
 msgid "Your account is too new to send messages in this community."
 msgstr "इस कम्युनिटी में संदेश भेजने के लिए तुम्हारा खाता अभी बहुत नया है।"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:278
 msgid "Your application is pending review. You can still update your listing details or withdraw the application."
 msgstr "आपका आवेदन समीक्षा के लिए लंबित है। आप अभी भी अपनी लिस्टिंग विवरण अपडेट कर सकते हैं या आवेदन वापस ले सकते हैं।"
 
@@ -25445,11 +25454,11 @@ msgstr "तुम्हारा कोड"
 msgid "Your code is ready!"
 msgstr "तुम्हारा कोड तैयार है!"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:262
 msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
 msgstr "आपका समुदाय डिस्कवरी में सूचीबद्ध है। आप नीचे अपनी लिस्टिंग विवरण अपडेट कर सकते हैं या इसे हटाने के लिए वापस ले सकते हैं।"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:230
 msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
 msgstr "आपके समुदाय को डिस्कवरी में सूचीबद्ध होने से पहले कम से कम {minMemberCount} सदस्यों की आवश्यकता है।"
 
@@ -25499,7 +25508,7 @@ msgid "Your invite expires in 24 hours"
 msgstr "तुम्हारा आमंत्रण 24 घंटों में समाप्त हो जाएगा"
 
 #. placeholder {0}: getExpirationText()
-#: src/components/modals/InviteModal.tsx:319
+#: src/components/modals/InviteModal.tsx:323
 msgid "Your invite link expires in {0}."
 msgstr "तुम्हारा इनवाइट लिंक {0} में समाप्त हो जाएगा।"
 
@@ -25515,15 +25524,15 @@ msgstr "तुम्हारा IP पता इस कम्युनिटी
 msgid "Your IP is Banned"
 msgstr "तुम्हारा IP बैन है"
 
-#: src/lib/MessageQueue.tsx:386
+#: src/lib/MessageQueue.tsx:484
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "तुम्हारा संदेश भेजा नहीं जा सका। आमतौर पर ऐसा इसलिए होता है क्योंकि तुम और रिसीवर एक ही कम्युनिटी में नहीं हो या रिसीवर केवल दोस्तों से डायरेक्ट मैसेज स्वीकार कर रहा है।"
 
-#: src/lib/MessageQueue.tsx:398
+#: src/lib/MessageQueue.tsx:496
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "तुम्हारा संदेश भेजा नहीं जा सका। डायरेक्ट मैसेज भेजने के लिए तुम्हें अपना खाता क्लेम करना होगा।"
 
-#: src/lib/MessageQueue.tsx:399
+#: src/lib/MessageQueue.tsx:497
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "आपका संदेश नहीं भेजा जा सका। संदेश भेजने के लिए आपको अपने खाते का दावा करना होगा।"
 

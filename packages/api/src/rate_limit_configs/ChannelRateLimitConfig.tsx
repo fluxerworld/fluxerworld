@@ -140,4 +140,19 @@ export const ChannelRateLimitConfigs = {
 		bucket: 'channel:stream:preview:post::stream_key',
 		config: {limit: 20, windowMs: ms('10 seconds')},
 	} as RouteRateLimitConfig,
+
+	CHANNEL_CHUNKED_UPLOAD_CREATE: {
+		bucket: 'channel:chunked_upload:create::channel_id',
+		config: {limit: 5, windowMs: ms('10 seconds')},
+	} as RouteRateLimitConfig,
+
+	CHANNEL_CHUNKED_UPLOAD_CHUNK: {
+		bucket: 'channel:chunked_upload:chunk::channel_id',
+		config: {limit: 50, windowMs: ms('10 seconds')},
+	} as RouteRateLimitConfig,
+
+	CHANNEL_CHUNKED_UPLOAD_COMPLETE: {
+		bucket: 'channel:chunked_upload:complete::channel_id',
+		config: {limit: 5, windowMs: ms('10 seconds')},
+	} as RouteRateLimitConfig,
 } as const;

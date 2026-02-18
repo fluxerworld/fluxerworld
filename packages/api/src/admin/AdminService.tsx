@@ -99,10 +99,12 @@ import type {
 	ChangeEmailRequest,
 	ChangeUsernameRequest,
 	ClearUserFieldsRequest,
+	DeleteWebAuthnCredentialRequest,
 	DisableForSuspiciousActivityRequest,
 	DisableMfaRequest,
 	ListUserChangeLogRequest,
 	ListUserDmChannelsRequest,
+	ListWebAuthnCredentialsRequest,
 	LookupUserRequest,
 	SendPasswordResetRequest,
 	SetUserAclsRequest,
@@ -572,6 +574,22 @@ export class AdminService {
 		return this.userService.listUserSessions(userId, adminUserId, auditLogReason);
 	}
 
+	async listWebAuthnCredentials(
+		data: ListWebAuthnCredentialsRequest,
+		adminUserId: UserID,
+		auditLogReason: string | null,
+	) {
+		return this.userService.listWebAuthnCredentials(data, adminUserId, auditLogReason);
+	}
+
+	async deleteWebAuthnCredential(
+		data: DeleteWebAuthnCredentialRequest,
+		adminUserId: UserID,
+		auditLogReason: string | null,
+	) {
+		return this.userService.deleteWebAuthnCredential(data, adminUserId, auditLogReason);
+	}
+
 	async listUserDmChannels(data: ListUserDmChannelsRequest) {
 		return this.userService.listUserDmChannels(data);
 	}
@@ -781,7 +799,8 @@ export class AdminService {
 				| 'audit_logs'
 				| 'channel_messages'
 				| 'guild_members'
-				| 'favorite_memes';
+				| 'favorite_memes'
+				| 'discovery';
 			guild_id?: bigint;
 			user_id?: bigint;
 		},

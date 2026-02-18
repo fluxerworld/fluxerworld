@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} mục phương tiện đã lưu"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount} Thành viên"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount} Thành viên"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount} cộng đồng tương hỗ"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} cộng đồng chung"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:84
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} Đang trực tuyến"
 
@@ -1095,7 +1095,7 @@ msgstr "<0>Cảnh báo:</0> Điều này cũng sẽ tắt xác thực hai yếu 
 #: src/components/channel/CallMessage.tsx:69
 #: src/components/modals/BanMemberModal.tsx:58
 #: src/components/modals/InviteModal.tsx:80
-#: src/components/modals/InviteModal.tsx:210
+#: src/components/modals/InviteModal.tsx:207
 #: src/components/modals/PackInviteModal.tsx:51
 #: src/components/modals/TimeoutMemberOptions.tsx:38
 msgid "1 day"
@@ -1105,7 +1105,7 @@ msgstr "1 ngày"
 #: src/components/modals/BanMemberModal.tsx:56
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:171
 #: src/components/modals/InviteModal.tsx:77
-#: src/components/modals/InviteModal.tsx:204
+#: src/components/modals/InviteModal.tsx:201
 #: src/components/modals/PackInviteModal.tsx:48
 #: src/components/modals/TimeoutMemberOptions.tsx:37
 #: src/constants/TimeWindowPresets.tsx:58
@@ -1223,7 +1223,7 @@ msgstr "1080p"
 
 #: src/components/modals/BanMemberModal.tsx:57
 #: src/components/modals/InviteModal.tsx:79
-#: src/components/modals/InviteModal.tsx:208
+#: src/components/modals/InviteModal.tsx:205
 #: src/components/modals/PackInviteModal.tsx:50
 msgid "12 hours"
 msgstr "12 giờ"
@@ -1346,7 +1346,7 @@ msgstr "30 FPS"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:170
 #: src/components/modals/InviteModal.tsx:76
-#: src/components/modals/InviteModal.tsx:202
+#: src/components/modals/InviteModal.tsx:199
 #: src/components/modals/PackInviteModal.tsx:47
 #: src/constants/TimeWindowPresets.tsx:57
 #: src/utils/modals/guild_tabs/GuildOverviewTabUtils.tsx:64
@@ -1417,7 +1417,7 @@ msgstr "50 lần sử dụng"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:173
 #: src/components/modals/InviteModal.tsx:78
-#: src/components/modals/InviteModal.tsx:206
+#: src/components/modals/InviteModal.tsx:203
 #: src/components/modals/PackInviteModal.tsx:49
 msgid "6 hours"
 msgstr "6 giờ"
@@ -1437,7 +1437,7 @@ msgid "60 seconds"
 msgstr "60 giây"
 
 #: src/components/modals/InviteModal.tsx:81
-#: src/components/modals/InviteModal.tsx:212
+#: src/components/modals/InviteModal.tsx:209
 #: src/components/modals/PackInviteModal.tsx:52
 msgid "7 days"
 msgstr "7 ngày"
@@ -1462,7 +1462,7 @@ msgstr "8 giờ"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "Một thẻ 4 chữ số sẽ được thêm tự động để đảm bảo tính duy nhất"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:298
 msgid "A description is required."
 msgstr "Cần có mô tả."
 
@@ -1832,11 +1832,11 @@ msgstr "Thêm bot vào cộng đồng"
 msgid "Add Channel"
 msgstr "Thêm kênh"
 
-#: src/components/modals/AddConnectionModal.tsx:194
+#: src/components/modals/AddConnectionModal.tsx:197
 msgid "Add Connection"
 msgstr "Thêm Kết Nối"
 
-#: src/components/modals/AddConnectionModal.tsx:193
+#: src/components/modals/AddConnectionModal.tsx:196
 msgid "Add connection form"
 msgstr "Biểu mẫu thêm kết nối"
 
@@ -1879,8 +1879,8 @@ msgstr "Thêm bạn bè vào nhóm"
 msgid "Add Item"
 msgstr "Thêm mục"
 
-#: src/utils/PermissionUtils.tsx:346
-#: src/utils/PermissionUtils.tsx:481
+#: src/utils/PermissionUtils.tsx:352
+#: src/utils/PermissionUtils.tsx:487
 msgid "Add new reactions to messages."
 msgstr "Thêm phản ứng mới vào tin nhắn."
 
@@ -1929,8 +1929,8 @@ msgstr "Biểu mẫu thêm số điện thoại"
 msgid "Add Reaction"
 msgstr "Thêm phản ứng"
 
-#: src/utils/PermissionUtils.tsx:345
-#: src/utils/PermissionUtils.tsx:480
+#: src/utils/PermissionUtils.tsx:351
+#: src/utils/PermissionUtils.tsx:486
 msgid "Add Reactions"
 msgstr "Thêm phản ứng"
 
@@ -2551,7 +2551,7 @@ msgid "animated emoji"
 msgstr "emoji động"
 
 #. placeholder {0}: animatedEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:404
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:426
 msgid "Animated Emoji ({0})"
 msgstr "Biểu tượng cảm xúc hoạt hình ({0})"
 
@@ -2604,7 +2604,7 @@ msgstr "Video hoạt hình"
 
 #. placeholder {0}: animatedEmojis.length
 #. placeholder {1}: maxAnimatedEmojis === Number.POSITIVE_INFINITY ? '∞' : maxAnimatedEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:354
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:373
 msgid "Animated: {0} / {1}"
 msgstr "Hoạt hình: {0} / {1}"
 
@@ -2624,7 +2624,7 @@ msgstr "Hoạt hình"
 msgid "animations"
 msgstr "các hoạt hình"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:86
 msgid "Anime & Manga"
 msgstr "Anime & Manga"
 
@@ -2722,7 +2722,7 @@ msgstr "Chỉ áp dụng cho ứng dụng máy tính trên thiết bị này."
 msgid "Applies to both camera and screen sharing"
 msgstr "Áp dụng cho cả chia sẻ camera và màn hình"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2737,7 +2737,7 @@ msgstr "Áp dụng giao diện"
 msgid "Apply to all communities"
 msgstr "Áp dụng cho tất cả cộng đồng"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:59
 msgid "Approved"
 msgstr "Đã được phê duyệt"
 
@@ -2781,7 +2781,7 @@ msgid "Are you sure you want to deauthorize {appName}? This application will no 
 msgstr "Bạn có chắc chắn muốn hủy quyền {appName} không? Ứng dụng này sẽ không còn quyền truy cập vào tài khoản của bạn."
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:193
+#: src/components/emojis/EmojiListItem.tsx:194
 msgid "Are you sure you want to delete :{0}:? This action cannot be undone."
 msgstr "Bạn có chắc muốn xóa :{0}: không? Hành động này không thể hoàn tác."
 
@@ -2791,7 +2791,7 @@ msgstr "Bạn có chắc muốn xóa :{0}: không? Hành động này không th�
 msgid "Are you sure you want to delete \"{0}\"? This action cannot be undone."
 msgstr "Bạn có chắc muốn xóa \"{0}\" không? Hành động này không thể hoàn tác."
 
-#: src/components/stickers/StickerGridItem.tsx:65
+#: src/components/stickers/StickerGridItem.tsx:71
 msgid "Are you sure you want to delete \"{stickerName}\"? This action cannot be undone."
 msgstr "Bạn có chắc chắn muốn xóa \"{stickerName}\" không? Hành động này không thể hoàn tác."
 
@@ -2986,8 +2986,8 @@ msgstr "Dưới dạng Quà tặng"
 msgid "At least one channel must have \"View Channel\" permission enabled for @everyone in order for the vanity URL to work. Currently, no channels are viewable to @everyone."
 msgstr "Tối thiểu một kênh phải bật quyền \"Xem kênh\" cho @everyone để URL tùy chỉnh hoạt động. Hiện tại chưa có kênh nào có thể xem được bởi @everyone."
 
-#: src/utils/PermissionUtils.tsx:323
-#: src/utils/PermissionUtils.tsx:470
+#: src/utils/PermissionUtils.tsx:329
+#: src/utils/PermissionUtils.tsx:476
 msgid "Attach Files"
 msgstr "Đính kèm tệp"
 
@@ -3077,8 +3077,8 @@ msgid "Audio"
 msgstr "Âm thanh"
 
 #: src/components/modals/utils/SettingsConstants.tsx:190
-#: src/utils/PermissionUtils.tsx:380
-#: src/utils/PermissionUtils.tsx:495
+#: src/utils/PermissionUtils.tsx:386
+#: src/utils/PermissionUtils.tsx:501
 msgid "Audio & Video"
 msgstr "Âm thanh & Video"
 
@@ -3344,7 +3344,7 @@ msgid "Average ping:"
 msgstr "Ping trung bình:"
 
 #: src/components/auth/IpAuthorizationScreen.tsx:154
-#: src/components/modals/AddConnectionModal.tsx:309
+#: src/components/modals/AddConnectionModal.tsx:312
 #: src/components/modals/PhoneAddModal.tsx:237
 #: src/components/modals/RequiredActionModal.tsx:655
 #: src/components/pages/OAuthAuthorizePage.tsx:671
@@ -3932,8 +3932,8 @@ msgstr "Khi mua hàng, bạn đồng ý với <0>Điều khoản dịch vụ</0>
 msgid "By purchasing, you agreed to our <0>Terms of Service</0> and <1>Privacy Policy</1>. All purchases are refundable within 14 days by emailing <2>support@fluxer.app</2>. Chargebacks result in permanent account bans — if you want a refund, we're more than happy to give you one if you contact us first! Payment information is securely handled by Stripe — we never have access to your full card number."
 msgstr "Khi mua hàng, bạn đã đồng ý với <0>Điều khoản dịch vụ</0> và <1>Chính sách quyền riêng tư</1> của chúng tôi. Tất cả giao dịch được hoàn tiền trong vòng 14 ngày khi gửi email tới <2>support@fluxer.app</2>. Truy thu sẽ dẫn đến cấm tài khoản vĩnh viễn — nếu bạn muốn hoàn tiền, chúng tôi sẵn lòng nếu bạn liên hệ trước! Thông tin thanh toán được Stripe xử lý an toàn — chúng tôi không bao giờ thấy số thẻ đầy đủ của bạn."
 
-#: src/utils/PermissionUtils.tsx:350
-#: src/utils/PermissionUtils.tsx:485
+#: src/utils/PermissionUtils.tsx:356
+#: src/utils/PermissionUtils.tsx:491
 msgid "Bypass Slowmode"
 msgstr "Vượt qua slowmode"
 
@@ -4063,7 +4063,7 @@ msgstr "Camera bị tắt khi có hơn {VOICE_CHANNEL_CAMERA_USER_LIMIT} ngườ
 #: src/components/layout/GuildLayout.tsx:76
 #: src/components/modals/AccountDeleteModal.tsx:95
 #: src/components/modals/AccountDisableModal.tsx:69
-#: src/components/modals/AddConnectionModal.tsx:215
+#: src/components/modals/AddConnectionModal.tsx:218
 #: src/components/modals/AddFavoriteMemeModal.tsx:98
 #: src/components/modals/AddGuildModal.tsx:290
 #: src/components/modals/AddGuildModal.tsx:413
@@ -4109,7 +4109,7 @@ msgstr "Camera bị tắt khi có hơn {VOICE_CHANNEL_CAMERA_USER_LIMIT} ngườ
 #: src/components/modals/HideOwnScreenShareConfirmModal.tsx:65
 #: src/components/modals/IARModal.tsx:255
 #: src/components/modals/ImageCropModal.tsx:943
-#: src/components/modals/InviteModal.tsx:332
+#: src/components/modals/InviteModal.tsx:336
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
@@ -4211,7 +4211,7 @@ msgstr "Điều khiển căn chỉnh thẻ"
 msgid "Careful! You have unsaved changes."
 msgstr "Cẩn thận! Bạn có thay đổi chưa lưu."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:330
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4437,8 +4437,8 @@ msgstr "kênh"
 msgid "Channel"
 msgstr "Kênh"
 
-#: src/utils/PermissionUtils.tsx:373
-#: src/utils/PermissionUtils.tsx:453
+#: src/utils/PermissionUtils.tsx:379
+#: src/utils/PermissionUtils.tsx:459
 msgid "Channel Access"
 msgstr "Quyền truy cập kênh"
 
@@ -4516,7 +4516,7 @@ msgstr "Chế độ hiển thị đang gõ của danh sách kênh"
 msgid "Channel list typing indicators"
 msgstr "Chỉ báo gõ danh sách kênh"
 
-#: src/utils/PermissionUtils.tsx:426
+#: src/utils/PermissionUtils.tsx:432
 msgid "Channel Management"
 msgstr "Quản lý kênh"
 
@@ -4757,7 +4757,7 @@ msgstr "Chọn cách hiển thị thời gian trong toàn app."
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "Chọn cách hiển thị chỉ báo đang nhập trong danh sách kênh khi ai đó đang gõ trong kênh."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:346
 msgid "Choose the category that best describes your community."
 msgstr "Chọn danh mục mô tả tốt nhất cho cộng đồng của bạn."
 
@@ -5360,7 +5360,7 @@ msgstr "Người Tạo Cộng Đồng"
 msgid "Community Deafen"
 msgstr "Tắt tiếng cộng đồng"
 
-#: src/components/layout/UserArea.tsx:159
+#: src/components/layout/UserArea.tsx:173
 #: src/components/layout/VoiceStateIcons.tsx:57
 #: src/components/voice/VoiceControlBar.tsx:607
 #: src/components/voice/VoiceParticipantTile.tsx:1466
@@ -5432,8 +5432,8 @@ msgstr "Thành viên cộng đồng"
 msgid "Community Mute"
 msgstr "Tắt tiếng cộng đồng"
 
-#: src/components/layout/UserArea.tsx:146
-#: src/components/layout/UserArea.tsx:153
+#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:167
 #: src/components/layout/VoiceStateIcons.tsx:49
 #: src/components/voice/VoiceControlBar.tsx:596
 #: src/components/voice/VoiceParticipantTile.tsx:1457
@@ -5492,10 +5492,10 @@ msgid "Community Record"
 msgstr "Hồ Sơ Cộng Đồng"
 
 #: src/components/modals/components/DesktopGuildSettingsView.tsx:233
-#: src/components/modals/GuildSettingsModal.tsx:194
+#: src/components/modals/GuildSettingsModal.tsx:197
 #: src/components/popouts/GuildHeaderPopout.tsx:190
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:278
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:346
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:281
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:349
 msgid "Community Settings"
 msgstr "Cài đặt cộng đồng"
 
@@ -5524,7 +5524,7 @@ msgstr "Toàn cộng đồng"
 msgid "compact"
 msgstr "gọn gàng"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:152
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:169
 msgid "Compact"
 msgstr "Gọn nhẹ"
 
@@ -5670,8 +5670,8 @@ msgstr "Xác nhận mật khẩu"
 msgid "Connect"
 msgstr "Kết nối"
 
-#: src/utils/PermissionUtils.tsx:383
-#: src/utils/PermissionUtils.tsx:497
+#: src/utils/PermissionUtils.tsx:389
+#: src/utils/PermissionUtils.tsx:503
 msgid "Connect (Join Voice)"
 msgstr "Kết nối (Tham gia thoại)"
 
@@ -5679,7 +5679,7 @@ msgstr "Kết nối (Tham gia thoại)"
 msgid "Connect to Voice"
 msgstr "Kết nối thoại"
 
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 msgid "Connect with Bluesky"
 msgstr "Kết nối với Bluesky"
 
@@ -5730,7 +5730,7 @@ msgstr "Kết nối đã bị xóa"
 msgid "Connection Stats"
 msgstr "Thống kê kết nối"
 
-#: src/components/modals/AddConnectionModal.tsx:198
+#: src/components/modals/AddConnectionModal.tsx:201
 msgid "Connection Type"
 msgstr "Loại Kết nối"
 
@@ -5783,7 +5783,7 @@ msgstr "Tạo URL ủy quyền với phạm vi và quyền."
 msgid "contact"
 msgstr "liên hệ"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 msgid "Content Creator"
 msgstr "Người sáng tạo nội dung"
 
@@ -5822,7 +5822,7 @@ msgid "Context menus can be opened with left-click (on buttons) or right-click (
 msgstr "Menu ngữ cảnh có thể mở bằng cách nhấp trái (trên nút) hoặc nhấp phải (trên các phần tử khác). Đây minh họa nhiều mục menu bao gồm hộp chọn, nút radio, thanh trượt và menu con."
 
 #: src/components/channel/ChannelTextarea.tsx:311
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:75
 #: src/components/modals/BackupCodesViewModal.tsx:73
 #: src/components/modals/DeviceRevokeModal.tsx:82
@@ -5958,8 +5958,8 @@ msgid "Copied URL to clipboard"
 msgstr "Đã sao chép URL vào khay nhớ tạm"
 
 #: src/components/auth/HandoffCodeDisplay.tsx:106
-#: src/components/modals/AddConnectionModal.tsx:187
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:190
+#: src/components/modals/AddConnectionModal.tsx:191
 #: src/components/modals/shared/CopyLinkSection.tsx:52
 #: src/components/modals/ThemeAcceptModal.tsx:162
 #: src/lib/markdown/renderers/common/CodeElements.tsx:57
@@ -6017,7 +6017,7 @@ msgstr "Sao chép liên kết kênh"
 msgid "Copy code"
 msgstr "Sao chép mã"
 
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:372
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:375
 msgid "Copy Community ID"
 msgstr "Sao chép ID Cộng Đồng"
 
@@ -6045,11 +6045,11 @@ msgstr "Sao chép FluxerTag"
 msgid "Copy GIF"
 msgstr "Sao chép GIF"
 
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:461
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:464
 msgid "Copy Guild ID"
 msgstr "Sao chép ID máy chủ"
 
-#: src/components/modals/AddConnectionModal.tsx:187
+#: src/components/modals/AddConnectionModal.tsx:190
 msgid "Copy host"
 msgstr "Sao chép máy chủ"
 
@@ -6154,7 +6154,7 @@ msgstr "Sao chép ID người dùng"
 msgid "Copy Username"
 msgstr "Sao chép tên người dùng"
 
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:191
 msgid "Copy value"
 msgstr "Sao chép giá trị"
 
@@ -6199,7 +6199,7 @@ msgstr "bìa"
 msgid "cozy"
 msgstr "ấm áp"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:144
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
 msgid "Cozy"
 msgstr "Ấm cúng"
 
@@ -6295,8 +6295,8 @@ msgstr "Tạo ứng dụng"
 #: src/components/popouts/GuildHeaderPopout.tsx:204
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:89
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:69
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:292
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:428
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:295
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:431
 msgid "Create Category"
 msgstr "Tạo danh mục"
 
@@ -6305,8 +6305,8 @@ msgstr "Tạo danh mục"
 #: src/components/modals/ChannelCreateModal.tsx:103
 #: src/components/popouts/GuildHeaderPopout.tsx:197
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:86
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:287
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:410
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:290
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:413
 msgid "Create Channel"
 msgstr "Tạo kênh"
 
@@ -6324,6 +6324,10 @@ msgstr "Biểu mẫu tạo cộng đồng"
 #: src/utils/modals/CreateDMModalUtils.tsx:154
 msgid "Create DM"
 msgstr "Tạo tin nhắn riêng"
+
+#: src/utils/PermissionUtils.tsx:284
+msgid "Create Emoji & Stickers"
+msgstr "Tạo Biểu Tượng Cảm Xúc & Nhãn Dán"
 
 #: src/components/modals/CreatePackModal.tsx:52
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:256
@@ -6346,7 +6350,7 @@ msgid "Create Invite"
 msgstr "Tạo lời mời"
 
 #: src/utils/PermissionUtils.tsx:270
-#: src/utils/PermissionUtils.tsx:429
+#: src/utils/PermissionUtils.tsx:435
 msgid "Create Invite Links"
 msgstr "Tạo các liên kết mời"
 
@@ -6358,7 +6362,7 @@ msgstr "Tạo tài khoản mới"
 msgid "Create new group"
 msgstr "Tạo nhóm mới"
 
-#: src/components/modals/InviteModal.tsx:335
+#: src/components/modals/InviteModal.tsx:339
 msgid "Create New Link"
 msgstr "Tạo liên kết mới"
 
@@ -6393,11 +6397,11 @@ msgstr "Tạo, chỉnh sửa hoặc xóa kênh và danh mục."
 msgid "Create, edit, or delete roles below your highest role. Also allows editing channel permission overwrites."
 msgstr "Tạo, chỉnh sửa hoặc xóa các vai trò dưới vai trò cao nhất của bạn. Cũng cho phép chỉnh sửa ghi đè quyền kênh."
 
-#: src/utils/PermissionUtils.tsx:444
+#: src/utils/PermissionUtils.tsx:450
 msgid "Create, edit, or delete webhooks for this channel."
 msgstr "Tạo, chỉnh sửa hoặc xóa webhook cho kênh này."
 
-#: src/utils/PermissionUtils.tsx:289
+#: src/utils/PermissionUtils.tsx:295
 msgid "Create, edit, or delete webhooks."
 msgstr "Tạo, chỉnh sửa hoặc xóa webhook."
 
@@ -6897,7 +6901,7 @@ msgstr "làm ngơ"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:161
+#: src/components/layout/UserArea.tsx:175
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:515
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:125
 #: src/components/voice/VoiceControlBar.tsx:613
@@ -6922,8 +6926,8 @@ msgstr "Tắt tiếng thiết bị"
 msgid "Deafen Keybind"
 msgstr "Phím tắt tắt âm"
 
-#: src/utils/PermissionUtils.tsx:408
-#: src/utils/PermissionUtils.tsx:507
+#: src/utils/PermissionUtils.tsx:414
+#: src/utils/PermissionUtils.tsx:513
 msgid "Deafen Members"
 msgstr "Tắt tiếng thành viên"
 
@@ -6962,7 +6966,7 @@ msgid "Debug Channel"
 msgstr "Gỡ lỗi kênh"
 
 #: src/components/uikit/context_menu/items/DebugMenuItems.tsx:90
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:362
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:365
 msgid "Debug Community"
 msgstr "Gỡ lỗi Cộng Đồng"
 
@@ -7062,17 +7066,17 @@ msgstr "xóa"
 #: src/components/channel/embeds/media/MediaContainer.tsx:116
 #: src/components/channel/MobileMemesPicker.tsx:546
 #: src/components/channel/pickers/memes/MemeGridItem.tsx:121
-#: src/components/emojis/EmojiListItem.tsx:194
-#: src/components/emojis/EmojiListItem.tsx:246
-#: src/components/emojis/EmojiListItem.tsx:296
+#: src/components/emojis/EmojiListItem.tsx:195
+#: src/components/emojis/EmojiListItem.tsx:252
+#: src/components/emojis/EmojiListItem.tsx:308
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:160
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:210
-#: src/components/stickers/StickerGridItem.tsx:66
-#: src/components/stickers/StickerGridItem.tsx:119
+#: src/components/stickers/StickerGridItem.tsx:72
+#: src/components/stickers/StickerGridItem.tsx:126
 msgid "Delete"
 msgstr "Xóa"
 
@@ -7162,11 +7166,11 @@ msgstr "Xóa cộng đồng"
 msgid "Delete community form"
 msgstr "Biểu mẫu xóa cộng đồng"
 
-#: src/components/emojis/EmojiListItem.tsx:192
+#: src/components/emojis/EmojiListItem.tsx:193
 msgid "Delete Emoji"
 msgstr "Xóa biểu tượng cảm xúc"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:147
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:163
 msgid "Delete Emoji Failed"
 msgstr "Xóa emoji thất bại."
 
@@ -7205,8 +7209,8 @@ msgstr "Xóa tin nhắn trong ngày qua"
 msgid "Delete messages from the last week"
 msgstr "Xóa tin nhắn trong tuần qua"
 
-#: src/utils/PermissionUtils.tsx:311
-#: src/utils/PermissionUtils.tsx:465
+#: src/utils/PermissionUtils.tsx:317
+#: src/utils/PermissionUtils.tsx:471
 msgid "Delete others' messages. (Pinning is separate below.)"
 msgstr "Xóa tin nhắn của người khác. (Ghim riêng bên dưới.)"
 
@@ -7235,7 +7239,7 @@ msgstr "Xóa nội dung đã lưu"
 msgid "Delete Saved Media"
 msgstr "Xóa phương tiện đã lưu"
 
-#: src/components/stickers/StickerGridItem.tsx:64
+#: src/components/stickers/StickerGridItem.tsx:70
 msgid "Delete Sticker"
 msgstr "Xóa nhãn dán"
 
@@ -7326,7 +7330,7 @@ msgstr "Mô tả những biểu cảm có trong gói này."
 msgid "Describe what makes the content illegal"
 msgstr "Mô tả lý do khiến nội dung này trở nên bất hợp pháp"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:317
 msgid "Describe what your community is about..."
 msgstr "Mô tả về cộng đồng của bạn..."
 
@@ -7336,7 +7340,7 @@ msgstr "mô tả"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:292
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "Mô tả"
@@ -7345,11 +7349,11 @@ msgstr "Mô tả"
 msgid "Description must be 500 characters or less"
 msgstr "Mô tả phải có tối đa 500 ký tự"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:301
 msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
 msgstr "Mô tả phải có ít nhất {DISCOVERY_DESCRIPTION_MIN_LENGTH} ký tự."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
 msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
 msgstr "Mô tả không được vượt quá {DISCOVERY_DESCRIPTION_MAX_LENGTH} ký tự."
 
@@ -7725,20 +7729,20 @@ msgstr "Ngắt kết nối socket"
 msgid "Disconnected"
 msgstr "Đã ngắt kết nối"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
 #: src/components/modals/utils/GuildSettingsConstants.tsx:160
 msgid "Discovery"
 msgstr "Khám phá"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:166
 msgid "Discovery application submitted"
 msgstr "Đơn xin khám phá đã được gửi"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:187
 msgid "Discovery application withdrawn"
 msgstr "Đơn xin khám phá đã bị rút"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:155
 msgid "Discovery listing updated"
 msgstr "Danh sách khám phá đã được cập nhật"
 
@@ -7854,7 +7858,7 @@ msgstr "Cài đặt DM"
 msgid "dm sidebar"
 msgstr "thanh bên tin nhắn"
 
-#: src/components/modals/AddConnectionModal.tsx:239
+#: src/components/modals/AddConnectionModal.tsx:242
 msgid "DNS TXT record"
 msgstr "Bản ghi TXT DNS"
 
@@ -7904,7 +7908,7 @@ msgid "domain"
 msgstr "miền"
 
 #: src/components/modals/AddConnectionModal.tsx:87
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:168
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:303
 #: src/components/popouts/UserProfileShared.tsx:283
@@ -7995,7 +7999,7 @@ msgstr "tải xuống"
 msgid "Download"
 msgstr "Tải xuống"
 
-#: src/components/modals/AddConnectionModal.tsx:280
+#: src/components/modals/AddConnectionModal.tsx:283
 msgid "Download <0>fluxer-verification</0> and place it in your <1>.well-known</1> folder so we can validate the domain."
 msgstr "Tải xuống <0>fluxer-verification</0> và đặt nó vào thư mục <1>.well-known</1> của bạn để chúng tôi có thể xác thực miền."
 
@@ -8012,7 +8016,7 @@ msgstr "Tải ứng dụng máy tính"
 msgid "Download Fluxer"
 msgstr "Tải Fluxer"
 
-#: src/components/modals/AddConnectionModal.tsx:294
+#: src/components/modals/AddConnectionModal.tsx:297
 msgid "Download fluxer-verification"
 msgstr "Tải xuống fluxer-verification"
 
@@ -8024,7 +8028,7 @@ msgstr "Tải phương tiện"
 msgid "Download the desktop app for system-wide Push-to-Talk"
 msgstr "Tải ứng dụng máy tính để sử dụng Push-to-Talk toàn hệ thống"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:173
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:192
 msgid "Drag and drop a sticker file here (one at a time)"
 msgstr "Kéo thả tệp nhãn dán vào đây (mỗi lần một tệp)"
 
@@ -8032,12 +8036,12 @@ msgstr "Kéo thả tệp nhãn dán vào đây (mỗi lần một tệp)"
 msgid "Drag and drop area for file upload"
 msgstr "Khu vực kéo thả để tải tệp lên"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:363
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:382
 msgid "Drag and drop emoji files here"
 msgstr "Kéo thả tệp emoji vào đây"
 
-#: src/utils/PermissionUtils.tsx:413
-#: src/utils/PermissionUtils.tsx:510
+#: src/utils/PermissionUtils.tsx:419
+#: src/utils/PermissionUtils.tsx:516
 msgid "Drag members between channels they can access."
 msgstr "Kéo thành viên giữa các kênh mà họ có thể truy cập."
 
@@ -8159,7 +8163,7 @@ msgstr "Hủy tiếng vọng"
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:90
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:186
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:187
-#: src/components/stickers/StickerGridItem.tsx:111
+#: src/components/stickers/StickerGridItem.tsx:118
 msgid "Edit"
 msgstr "Chỉnh sửa"
 
@@ -8200,8 +8204,8 @@ msgid "Edit Channel"
 msgstr "Chỉnh sửa kênh"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:220
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:314
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:392
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:317
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:395
 msgid "Edit Community Profile"
 msgstr "Chỉnh sửa hồ sơ cộng đồng"
 
@@ -8231,7 +8235,8 @@ msgstr "Chỉnh sửa nhóm"
 msgid "Edit group form"
 msgstr "Biểu mẫu chỉnh sửa nhóm"
 
-#: src/components/modals/InviteModal.tsx:322
+#: src/components/modals/InviteModal.tsx:316
+#: src/components/modals/InviteModal.tsx:326
 msgid "Edit invite link"
 msgstr "Chỉnh sửa liên kết lời mời"
 
@@ -8255,7 +8260,11 @@ msgstr "Chỉnh sửa tin nhắn"
 msgid "Edit Note"
 msgstr "Chỉnh sửa ghi chú"
 
-#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:290
+msgid "Edit or delete emoji and stickers created by other members."
+msgstr "Chỉnh sửa hoặc xóa biểu tượng cảm xúc và nhãn dán được tạo bởi các thành viên khác."
+
+#: src/utils/PermissionUtils.tsx:445
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "Chỉnh sửa ghi đè cho vai trò và thành viên trong kênh này."
 
@@ -8312,7 +8321,7 @@ msgstr "Đang chỉnh sửa tin nhắn"
 msgid "Editing scheduled message"
 msgstr "Đang chỉnh sửa tin nhắn đã lên lịch"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
 msgid "Education"
 msgstr "Giáo dục"
 
@@ -8396,8 +8405,8 @@ msgstr "nhúng"
 msgid "Embed"
 msgstr "Nhúng"
 
-#: src/utils/PermissionUtils.tsx:319
-#: src/utils/PermissionUtils.tsx:469
+#: src/utils/PermissionUtils.tsx:325
+#: src/utils/PermissionUtils.tsx:475
 msgid "Embed Links"
 msgstr "Nhúng liên kết"
 
@@ -8456,16 +8465,16 @@ msgstr "Đã xóa biểu tượng cảm xúc"
 msgid "Emoji name"
 msgstr "Tên biểu tượng"
 
-#: src/components/emojis/EmojiListItem.tsx:163
+#: src/components/emojis/EmojiListItem.tsx:164
 msgid "Emoji name must be at least 2 characters long"
 msgstr "Tên biểu tượng phải có ít nhất 2 ký tự"
 
-#: src/components/emojis/EmojiListItem.tsx:167
+#: src/components/emojis/EmojiListItem.tsx:168
 msgid "Emoji name must be at most 32 characters long"
 msgstr "Tên biểu tượng không được vượt quá 32 ký tự"
 
 #. placeholder {0}: Math.round(GlobalLimits.getEmojiMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:340
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:358
 msgid "Emoji names must be at least 2 characters long and can only contain alphanumeric characters and underscores. Allowed file types: JPEG, PNG, WebP, GIF. We compress images to 128x128 pixels. Maximum size: {0} KB per emoji."
 msgstr "Tên biểu tượng phải có ít nhất 2 ký tự và chỉ chứa chữ số, chữ cái và dấu gạch dưới. Các loại tệp được phép: JPEG, PNG, WebP, GIF. Chúng tôi nén ảnh về kích thước 128x128 pixel. Kích thước tối đa: {0} KB cho mỗi biểu tượng."
 
@@ -8492,7 +8501,7 @@ msgstr "Đã đạt giới hạn gói biểu tượng"
 msgid "emoji picker"
 msgstr "bảng chọn emoji"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:326
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:344
 msgid "Emoji Slots"
 msgstr "Ổ biểu tượng"
 
@@ -8861,7 +8870,7 @@ msgstr "Nhập mật khẩu của bạn."
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "Nhập số điện thoại của bạn. Chúng tôi sẽ gửi mã xác minh qua SMS."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
 msgid "Entertainment"
 msgstr "Giải trí"
 
@@ -8993,7 +9002,7 @@ msgstr "Mở rộng mục"
 msgid "Expiration"
 msgstr "Hạn sử dụng"
 
-#: src/components/modals/InviteModal.tsx:276
+#: src/components/modals/InviteModal.tsx:273
 msgid "Expire After"
 msgstr "Hết hạn sau"
 
@@ -9260,7 +9269,7 @@ msgstr "Không thể xóa danh mục"
 msgid "Failed to delete channel"
 msgstr "Không thể xóa kênh"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:149
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:165
 msgid "Failed to delete emoji. Please try again."
 msgstr "Xóa emoji không thành công. Vui lòng thử lại."
 
@@ -9312,7 +9321,7 @@ msgstr "Không thể cài gói biểu tượng này. Vui lòng thử lại sau."
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Không thể cài gói nhãn dán này. Vui lòng thử lại sau."
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:62
 msgid "Failed to join this community. Please try again."
 msgstr "Tham gia cộng đồng này không thành công. Vui lòng thử lại."
 
@@ -9341,7 +9350,7 @@ msgstr "Tải ứng dụng được ủy quyền không thành công"
 msgid "Failed to load bans. Please try again."
 msgstr "Không thể tải danh sách bị cấm. Vui lòng thử lại."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:320
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:336
 msgid "Failed to load emojis. Please try again later."
 msgstr "Tải emoji không thành công. Vui lòng thử lại sau."
 
@@ -9363,7 +9372,7 @@ msgstr "Không thể tải lời mời. Vui lòng thử lại."
 msgid "Failed to load premium information. Please try again later."
 msgstr "Không thể tải thông tin cao cấp. Vui lòng thử lại sau."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:203
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:230
 msgid "Failed to Load Stickers"
 msgstr "Tải nhãn dán không thành công"
 
@@ -9406,7 +9415,7 @@ msgstr "Không thể ghim nhóm DM"
 msgid "Failed to pin message"
 msgstr "Không thể ghim tin nhắn"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:225
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
 msgid "Failed to Prepare Emojis"
 msgstr "Không thể chuẩn bị biểu tượng"
 
@@ -9597,7 +9606,7 @@ msgstr "Cập nhật văn bản thay thế không thành công"
 msgid "Failed to Update Channel Permissions"
 msgstr "Cập nhật quyền kênh không thành công"
 
-#: src/components/emojis/EmojiListItem.tsx:180
+#: src/components/emojis/EmojiListItem.tsx:181
 msgid "Failed to update emoji name. Reverted to the previous name."
 msgstr "Không cập nhật được tên emoji. Đã phục hồi tên trước đó."
 
@@ -9622,11 +9631,11 @@ msgid "Failed to upload custom sound"
 msgstr "Không tải lên được âm thanh tùy chỉnh"
 
 #. placeholder {0}: startIndex + 1
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:277
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:293
 msgid "Failed to upload emojis starting at #{0}: {errorMsg}"
 msgstr "Tải lên emoji không thành công bắt đầu từ #{0}: {errorMsg}."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:273
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:289
 msgid "Failed to upload emojis. Please try again."
 msgstr "Không tải lên được emoji. Vui lòng thử lại."
 
@@ -9638,7 +9647,7 @@ msgstr "Không tải lên được âm thanh chào mừng"
 msgid "Failed to verify connection"
 msgstr "Không thể xác minh kết nối"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:193
 msgid "Failed to withdraw application. Please try again."
 msgstr "Rút đơn xin không thành công. Vui lòng thử lại."
 
@@ -10399,7 +10408,7 @@ msgstr "Bộ điều khiển trò chơi"
 msgid "Game Night"
 msgstr "Đêm chơi game"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
 msgid "Gaming"
 msgstr "Trò chơi"
 
@@ -10758,7 +10767,7 @@ msgstr "Thời gian ân hạn"
 msgid "Grace Period (Still Have Access)"
 msgstr "Thời gian ân hạn (Vẫn còn truy cập)"
 
-#: src/components/modals/InviteModal.tsx:296
+#: src/components/modals/InviteModal.tsx:293
 msgid "Grant Temporary Membership"
 msgstr "Cấp quyền thành viên tạm thời"
 
@@ -10922,7 +10931,7 @@ msgstr "thanh bên guild"
 msgid "handle"
 msgstr "tên người dùng"
 
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 msgid "Handle"
 msgstr "Tài khoản"
 
@@ -11116,7 +11125,7 @@ msgstr "Ẩn các kênh tắt tiếng"
 #: src/components/popouts/GuildHeaderPopout.tsx:228
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:79
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:60
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:332
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:335
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:304
 msgid "Hide Muted Channels"
 msgstr "Ẩn các kênh đã tắt tiếng"
@@ -11284,7 +11293,7 @@ msgstr "Lên xe thôi, {username}! Mr Fusion đã sẵn sàng!"
 msgid "Hope to see you back in the future"
 msgstr "Hy vọng sẽ gặp lại bạn sau"
 
-#: src/components/modals/AddConnectionModal.tsx:244
+#: src/components/modals/AddConnectionModal.tsx:247
 msgid "Host"
 msgstr "Máy chủ"
 
@@ -11439,8 +11448,8 @@ msgstr "Bỏ qua"
 msgid "Ignore Friend Request"
 msgstr "Bỏ qua lời mời kết bạn"
 
-#: src/utils/PermissionUtils.tsx:351
-#: src/utils/PermissionUtils.tsx:486
+#: src/utils/PermissionUtils.tsx:357
+#: src/utils/PermissionUtils.tsx:492
 msgid "Ignore per-channel message rate limits."
 msgstr "Bỏ qua giới hạn tần suất tin nhắn từng kênh."
 
@@ -11915,7 +11924,7 @@ msgstr "Không hiển thị"
 
 #: src/components/channel/GuildMembersPage.tsx:246
 #: src/components/channel/GuildMembersPage.tsx:254
-#: src/components/modals/InviteModal.tsx:265
+#: src/components/modals/InviteModal.tsx:262
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:87
 #: src/constants/AuditLogConstants.tsx:245
 msgid "Invite"
@@ -11955,7 +11964,7 @@ msgstr "Mời bạn bè"
 msgid "Invite friends to {0}"
 msgstr "Mời bạn bè đến {0}"
 
-#: src/components/modals/InviteModal.tsx:311
+#: src/components/modals/InviteModal.tsx:308
 msgid "Invite link"
 msgstr "Liên kết mời"
 
@@ -11963,7 +11972,7 @@ msgstr "Liên kết mời"
 msgid "Invite Link"
 msgstr "Liên kết mời"
 
-#: src/components/modals/InviteModal.tsx:222
+#: src/components/modals/InviteModal.tsx:219
 msgid "Invite link settings"
 msgstr "Cài đặt liên kết mời"
 
@@ -11976,7 +11985,7 @@ msgstr "Liên kết mời"
 
 #: src/components/layout/ChannelItem.tsx:702
 #: src/components/popouts/GuildHeaderPopout.tsx:181
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:257
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:260
 msgid "Invite Members"
 msgstr "Mời thành viên"
 
@@ -12087,7 +12096,7 @@ msgstr "Lời mời"
 msgid "Invites are currently disabled for this community."
 msgstr "Hiện tại lời mời bị tắt cho cộng đồng này."
 
-#: src/components/modals/InviteModal.tsx:235
+#: src/components/modals/InviteModal.tsx:232
 msgid "Invites are currently disabled in this community by an admin. While this invite can be created, it cannot be accepted until invites are re-enabled."
 msgstr "Quản trị viên đã tắt lời mời trong cộng đồng này. Mặc dù có thể tạo lời mời, nhưng không thể chấp nhận cho đến khi bật lại lời mời."
 
@@ -12198,7 +12207,7 @@ msgstr "Tham gia cuộc gọi"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12273,7 +12282,7 @@ msgstr "Tham gia Giọng Nói"
 msgid "Join Voice Call"
 msgstr "Tham gia cuộc gọi thoại"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 msgid "Joined"
 msgstr "Đã tham gia"
 
@@ -12618,8 +12627,8 @@ msgid "Leave call"
 msgstr "Rời cuộc gọi"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:237
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:344
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:447
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:347
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:450
 #: src/hooks/useLeaveGuild.tsx:42
 #: src/hooks/useLeaveGuild.tsx:44
 msgid "Leave Community"
@@ -12840,7 +12849,7 @@ msgstr "liên kết"
 msgid "Links"
 msgstr "Liên kết"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:215
 msgid "List your community in Discovery so others can find and join it."
 msgstr "Liệt kê cộng đồng của bạn trong Khám phá để người khác có thể tìm thấy và tham gia."
 
@@ -13121,13 +13130,13 @@ msgstr "Quản lý ứng dụng được ủy quyền"
 msgid "Manage blocked users"
 msgstr "Quản lý người dùng bị chặn"
 
-#: src/utils/PermissionUtils.tsx:433
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channel"
 msgstr "Quản lý kênh"
 
 #: src/utils/PermissionUtils.tsx:257
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channels"
 msgstr "Quản lý các kênh"
 
@@ -13143,7 +13152,7 @@ msgstr "Quản lý Tính Năng Cộng Đồng"
 msgid "Manage developer applications"
 msgstr "Quản lý ứng dụng của nhà phát triển"
 
-#: src/utils/PermissionUtils.tsx:284
+#: src/utils/PermissionUtils.tsx:289
 msgid "Manage Emoji & Stickers"
 msgstr "Quản lý emoji & nhãn dán"
 
@@ -13163,8 +13172,8 @@ msgstr "Quản lý webhook đến có thể đăng tin nhắn vào kênh này."
 msgid "Manage invites for this channel."
 msgstr "Quản lý lời mời cho kênh này."
 
-#: src/utils/PermissionUtils.tsx:310
-#: src/utils/PermissionUtils.tsx:464
+#: src/utils/PermissionUtils.tsx:316
+#: src/utils/PermissionUtils.tsx:470
 msgid "Manage Messages"
 msgstr "Quản lý tin nhắn"
 
@@ -13172,7 +13181,7 @@ msgstr "Quản lý tin nhắn"
 msgid "Manage Nicknames"
 msgstr "Quản lý biệt danh"
 
-#: src/utils/PermissionUtils.tsx:438
+#: src/utils/PermissionUtils.tsx:444
 msgid "Manage Permissions"
 msgstr "Quản lý quyền"
 
@@ -13191,8 +13200,8 @@ msgstr "Quản lý gói đăng ký"
 msgid "Manage the email address you use to sign in to Fluxer"
 msgstr "Quản lý địa chỉ email bạn dùng để đăng nhập Fluxer"
 
-#: src/utils/PermissionUtils.tsx:288
-#: src/utils/PermissionUtils.tsx:443
+#: src/utils/PermissionUtils.tsx:294
+#: src/utils/PermissionUtils.tsx:449
 msgid "Manage Webhooks"
 msgstr "Quản lý webhook"
 
@@ -13231,7 +13240,7 @@ msgstr "Quản lý đăng ký của bạn"
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:85
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:522
 #: src/components/uikit/context_menu/items/DMMenuItems.tsx:53
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:249
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:252
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:95
 msgid "Mark as Read"
 msgstr "Đánh dấu đã đọc"
@@ -13346,7 +13355,7 @@ msgstr "marty@example.com"
 msgid "Mask Visionary as subscription"
 msgstr "Che Visionary dưới dạng gói đăng ký"
 
-#: src/components/modals/InviteModal.tsx:286
+#: src/components/modals/InviteModal.tsx:283
 msgid "Max Number of Uses"
 msgstr "Số lần sử dụng tối đa"
 
@@ -13581,7 +13590,7 @@ msgstr "Thành viên bị loại bỏ"
 msgid "Members receive notifications for every message"
 msgstr "Thành viên nhận thông báo cho mọi tin nhắn"
 
-#: src/components/modals/InviteModal.tsx:297
+#: src/components/modals/InviteModal.tsx:294
 msgid "Members will be removed when they go offline unless a role is assigned"
 msgstr "Thành viên sẽ bị gỡ khi họ offline trừ khi có vai trò được gán"
 
@@ -13627,8 +13636,8 @@ msgstr "Đề cập @here?"
 msgid "Mention Badges"
 msgstr "Huy hiệu đề cập"
 
-#: src/utils/PermissionUtils.tsx:332
-#: src/utils/PermissionUtils.tsx:474
+#: src/utils/PermissionUtils.tsx:338
+#: src/utils/PermissionUtils.tsx:480
 msgid "Mention everyone or any role (even if the role isn't set to be mentionable)."
 msgstr "Đề cập mọi người hoặc bất kỳ vai trò nào (dù vai trò đó không cho phép bị đề cập)."
 
@@ -13837,8 +13846,8 @@ msgid "Messages"
 msgstr "Tin nhắn"
 
 #: src/components/modals/utils/SettingsConstants.tsx:184
-#: src/utils/PermissionUtils.tsx:298
-#: src/utils/PermissionUtils.tsx:460
+#: src/utils/PermissionUtils.tsx:304
+#: src/utils/PermissionUtils.tsx:466
 msgid "Messages & Media"
 msgstr "Tin nhắn & Phương tiện"
 
@@ -14021,7 +14030,7 @@ msgid "Mode C"
 msgstr "Chế độ C"
 
 #: src/components/uikit/context_menu/items/ModerationSubmenu.tsx:152
-#: src/utils/PermissionUtils.tsx:360
+#: src/utils/PermissionUtils.tsx:366
 msgid "Moderation"
 msgstr "Giám sát"
 
@@ -14117,8 +14126,8 @@ msgstr "Di chuyển tiêu điểm qua các nút, trường nhập và liên kế
 msgid "Move focus to the message composer"
 msgstr "Di chuyển tiêu điểm đến ô soạn tin"
 
-#: src/utils/PermissionUtils.tsx:412
-#: src/utils/PermissionUtils.tsx:509
+#: src/utils/PermissionUtils.tsx:418
+#: src/utils/PermissionUtils.tsx:515
 msgid "Move Members"
 msgstr "Di chuyển thành viên"
 
@@ -14158,7 +14167,7 @@ msgstr "Câu lạc bộ phim"
 msgid "Movie Night Crew"
 msgstr "Đội đêm phim"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:87
 msgid "Movies & TV"
 msgstr "Phim & TV"
 
@@ -14170,7 +14179,7 @@ msgstr "mp3"
 msgid "Multilingual Content"
 msgstr "Nội dung đa ngôn ngữ"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
 msgid "Music"
 msgstr "Âm nhạc"
 
@@ -14191,8 +14200,8 @@ msgstr "tắt tiếng"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:270
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:149
-#: src/components/layout/UserArea.tsx:155
+#: src/components/layout/UserArea.tsx:163
+#: src/components/layout/UserArea.tsx:169
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
@@ -14255,7 +14264,7 @@ msgstr "Tắt âm kênh"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:95
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:172
 msgid "Mute Community"
 msgstr "Tắt âm cộng đồng"
@@ -14285,8 +14294,8 @@ msgstr "Tắt âm mục yêu thích"
 msgid "Mute Keybind"
 msgstr "Phím tắt tắt tiếng"
 
-#: src/utils/PermissionUtils.tsx:404
-#: src/utils/PermissionUtils.tsx:506
+#: src/utils/PermissionUtils.tsx:410
+#: src/utils/PermissionUtils.tsx:512
 msgid "Mute Members"
 msgstr "Tắt âm thành viên"
 
@@ -14534,10 +14543,6 @@ msgstr "Không bao giờ hoạt hình"
 msgid "Never Automatically"
 msgstr "Không bao giờ tự động"
 
-#: src/components/modals/InviteModal.tsx:196
-msgid "never expires"
-msgstr "không bao giờ hết hạn"
-
 #: src/components/channel/Divider.tsx:51
 #: src/components/channel/Divider.tsx:60
 #: src/components/channel/UnreadDividerSlot.tsx:47
@@ -14758,7 +14763,7 @@ msgstr "Chưa có kết nối nào"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -14768,11 +14773,11 @@ msgstr "Không có mô tả nào."
 msgid "No email address set"
 msgstr "Chưa đặt địa chỉ email"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:185
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:201
 msgid "No emoji slots available"
 msgstr "Không còn chỗ cho emoji"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:368
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:389
 msgid "No emojis found matching your search."
 msgstr "Không tìm thấy emoji phù hợp với tìm kiếm của bạn."
 
@@ -14986,11 +14991,11 @@ msgid "No Stickers Available"
 msgstr "Không có nhãn dán nào"
 
 #: src/components/channel/MobileStickersPicker.tsx:206
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:186
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
 msgid "No Stickers Found"
 msgstr "Không tìm thấy nhãn dán"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:187
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:208
 msgid "No stickers found matching your search."
 msgstr "Không có nhãn dán nào khớp với tìm kiếm của bạn."
 
@@ -15055,7 +15060,7 @@ msgid "Noise Suppression"
 msgstr "Loại bỏ tiếng ồn"
 
 #. placeholder {0}: staticEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:384
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:405
 msgid "Non-Animated Emoji ({0})"
 msgstr "Emoji tĩnh ({0})"
 
@@ -15081,7 +15086,7 @@ msgstr "Tiếng Na Uy"
 msgid "Not available"
 msgstr "Không khả dụng"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
 msgid "Not enough members"
 msgstr "Không đủ thành viên"
 
@@ -15154,7 +15159,7 @@ msgstr "Ghi đè thông báo"
 #: src/components/uikit/context_menu/items/CategoryMenuItems.tsx:230
 #: src/components/uikit/context_menu/items/ChannelMenuData.tsx:492
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:253
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:304
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:307
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:243
 msgid "Notification Settings"
 msgstr "Cài đặt thông báo"
@@ -15273,8 +15278,8 @@ msgstr "Ngoại tuyến"
 #: src/components/guild/RoleManagement.tsx:306
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:56
 #: src/components/modals/components/plutonium/hooks/useCheckoutActions.tsx:108
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:151
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:167
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:257
 #: src/components/modals/GuildOwnershipWarningModal.tsx:73
 msgid "OK"
 msgstr "OK"
@@ -15733,7 +15738,7 @@ msgstr "HOẶC"
 msgid "Or copy the link:"
 msgstr "Hoặc sao chép liên kết:"
 
-#: src/components/modals/InviteModal.tsx:307
+#: src/components/modals/InviteModal.tsx:304
 msgid "or send an invite link to a friend:"
 msgstr "hoặc gửi liên kết mời cho bạn bè:"
 
@@ -15749,7 +15754,7 @@ msgstr "Tin nhắn gốc không tải được"
 msgid "Original message was deleted"
 msgstr "Tin nhắn gốc đã bị xóa"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:88
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15763,8 +15768,8 @@ msgstr "Khác"
 msgid "Other Devices"
 msgstr "Thiết bị khác"
 
-#: src/utils/PermissionUtils.tsx:396
-#: src/utils/PermissionUtils.tsx:502
+#: src/utils/PermissionUtils.tsx:402
+#: src/utils/PermissionUtils.tsx:508
 msgid "Otherwise Push-to-talk is required."
 msgstr "Nếu không thì phải bật Push-to-talk."
 
@@ -16026,7 +16031,7 @@ msgid "Payment Successful"
 msgstr "Thanh toán thành công"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
 msgid "Pending"
 msgstr "Đang chờ"
 
@@ -16236,8 +16241,8 @@ msgstr "Ghim ngay. Ghim thật chuẩn."
 msgid "Pin Message"
 msgstr "Ghim tin nhắn"
 
-#: src/utils/PermissionUtils.tsx:315
-#: src/utils/PermissionUtils.tsx:468
+#: src/utils/PermissionUtils.tsx:321
+#: src/utils/PermissionUtils.tsx:474
 msgid "Pin Messages"
 msgstr "Ghim tin nhắn"
 
@@ -16564,7 +16569,7 @@ msgstr "Ngăn <0>{0}</0> gửi tin nhắn, phản ứng và kết nối kênh th
 msgid "Prevent <0>{0}</0> from sending messages, reacting, and joining voice channels for the specified duration."
 msgstr "Ngăn <0>{0}</0> gửi tin nhắn, phản ứng và tham gia kênh thoại trong khoảng thời gian chỉ định."
 
-#: src/utils/PermissionUtils.tsx:364
+#: src/utils/PermissionUtils.tsx:370
 msgid "Prevent members from sending messages, reacting, and joining voice for a duration."
 msgstr "Ngăn thành viên gửi tin nhắn, phản ứng và tham gia âm thanh trong một khoảng thời gian."
 
@@ -16668,8 +16673,8 @@ msgstr "Hành động chính"
 msgid "Primary button clicked!"
 msgstr "Đã nhấn nút chính!"
 
-#: src/utils/PermissionUtils.tsx:400
-#: src/utils/PermissionUtils.tsx:505
+#: src/utils/PermissionUtils.tsx:406
+#: src/utils/PermissionUtils.tsx:511
 msgid "Priority Speaker"
 msgstr "Người nói ưu tiên"
 
@@ -16691,8 +16696,8 @@ msgstr "Chính sách quyền riêng tư"
 
 #: src/components/modals/GuildPrivacySettingsModal.tsx:72
 #: src/components/popouts/GuildHeaderPopout.tsx:215
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:309
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:378
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:312
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:381
 msgid "Privacy Settings"
 msgstr "Cài đặt quyền riêng tư"
 
@@ -16841,11 +16846,11 @@ msgstr "Chế độ mua hàng"
 msgid "Purchased {0}"
 msgstr "Đã mua {0}"
 
-#: src/components/emojis/EmojiListItem.tsx:197
+#: src/components/emojis/EmojiListItem.tsx:198
 msgid "Purge this emoji from storage and CDN"
 msgstr "Xóa emoji này khỏi bộ nhớ và CDN"
 
-#: src/components/stickers/StickerGridItem.tsx:69
+#: src/components/stickers/StickerGridItem.tsx:75
 msgid "Purge this sticker from storage and CDN"
 msgstr "Xóa nhãn dán này khỏi bộ nhớ và CDN"
 
@@ -16897,7 +16902,7 @@ msgstr "Nhấn để nói (giữ)"
 msgid "Push-to-Talk (Limited)"
 msgstr "Nhấn để nói (giới hạn)"
 
-#: src/components/layout/UserArea.tsx:147
+#: src/components/layout/UserArea.tsx:161
 #: src/components/voice/VoiceControlBar.tsx:600
 msgid "Push-to-talk enabled — hold {pushToTalkHint} to speak"
 msgstr "Nhấn để nói đã bật — giữ {pushToTalkHint} để nói"
@@ -17017,8 +17022,8 @@ msgstr "Kích hoạt lại"
 msgid "read aloud"
 msgstr "đọc to"
 
-#: src/utils/PermissionUtils.tsx:327
-#: src/utils/PermissionUtils.tsx:471
+#: src/utils/PermissionUtils.tsx:333
+#: src/utils/PermissionUtils.tsx:477
 msgid "Read Message History"
 msgstr "Đọc lịch sử tin nhắn"
 
@@ -17057,7 +17062,7 @@ msgid "Reason (Optional)"
 msgstr "Lý do (Tùy chọn)"
 
 #. placeholder {0}: application.review_reason
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:249
 msgid "Reason: {0}"
 msgstr "Lý do: {0}"
 
@@ -17092,7 +17097,7 @@ msgstr "Tìm kiếm gần đây"
 
 #. placeholder {0}: ChannelUtils.getIcon(channel, {size: 16, className: styles.channelIcon})
 #. placeholder {1}: channel.name
-#: src/components/modals/InviteModal.tsx:226
+#: src/components/modals/InviteModal.tsx:223
 msgid "Recipients will be taken to {0} <0>{1}</0>"
 msgstr "Người nhận sẽ được đưa đến {0} <0>{1}</0>"
 
@@ -17250,7 +17255,7 @@ msgstr "Người dùng thường, bot, hệ thống và người dùng đã hế
 msgid "Reject"
 msgstr "Từ chối"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:60
 msgid "Rejected"
 msgstr "Bị từ chối"
 
@@ -17525,7 +17530,7 @@ msgstr "Gỡ khi bạn lần đầu mua Plutonium từ huy hiệu của mình"
 msgid "Remove your Visionary ID badge"
 msgstr "Gỡ huy hiệu Visionary ID của bạn"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:61
 msgid "Removed"
 msgstr "Đã xóa"
 
@@ -17635,11 +17640,11 @@ msgid "Rename"
 msgstr "Đổi tên"
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:238
+#: src/components/emojis/EmojiListItem.tsx:240
 msgid "Rename :{0}:"
 msgstr "Đổi tên :{0}:"
 
-#: src/utils/PermissionUtils.tsx:434
+#: src/utils/PermissionUtils.tsx:440
 msgid "Rename and edit this channel's settings."
 msgstr "Đổi tên và chỉnh cài đặt kênh này."
 
@@ -17748,7 +17753,7 @@ msgid "Report a User Profile"
 msgstr "Báo cáo hồ sơ người dùng"
 
 #: src/components/modals/IARModal.tsx:119
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:350
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:353
 #: src/components/uikit/context_menu/items/ReportGuildMenuItem.tsx:57
 msgid "Report Community"
 msgstr "Báo cáo cộng đồng"
@@ -18045,7 +18050,7 @@ msgstr "Đăng ký lại"
 #: src/components/modals/BackgroundImageGalleryModal.tsx:210
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:649
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:125
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:234
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:138
 #: src/components/modals/tabs/applications_tab/ApplicationDetail.tsx:586
 #: src/components/modals/tabs/applications_tab/index.tsx:113
@@ -18319,7 +18324,7 @@ msgstr "lưu"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18451,7 +18456,7 @@ msgstr "Tin nhắn đã lên lịch cho {0}"
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "Tin nhắn đã lên lịch chỉ có thể tối đa 30 ngày trong tương lai."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
 msgid "Science & Technology"
 msgstr "Khoa học & Công nghệ"
 
@@ -18574,7 +18579,7 @@ msgstr "Tìm kiếm cộng đồng..."
 msgid "Search countries..."
 msgstr "Tìm quốc gia..."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:308
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:324
 msgid "Search emojis..."
 msgstr "Tìm biểu tượng cảm xúc..."
 
@@ -18603,7 +18608,7 @@ msgstr "Tìm kênh, người dùng hoặc cộng đồng"
 #: src/components/common/FriendSelector.tsx:197
 #: src/components/modals/AddFriendsToGroupModal.tsx:53
 #: src/components/modals/CreateDMModal.tsx:68
-#: src/components/modals/InviteModal.tsx:246
+#: src/components/modals/InviteModal.tsx:243
 #: src/components/modals/shared/RecipientList.tsx:179
 #: src/components/modals/ShareThemeModal.tsx:141
 msgid "Search friends"
@@ -18692,7 +18697,7 @@ msgstr "Tìm cài đặt"
 msgid "Search settings..."
 msgstr "Tìm cài đặt..."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:130
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:147
 msgid "Search stickers..."
 msgstr "Tìm nhãn dán..."
 
@@ -19035,8 +19040,8 @@ msgstr "Gửi tin nhắn bị vô hiệu hóa"
 msgid "Send messages"
 msgstr "Gửi tin nhắn"
 
-#: src/utils/PermissionUtils.tsx:301
-#: src/utils/PermissionUtils.tsx:462
+#: src/utils/PermissionUtils.tsx:307
+#: src/utils/PermissionUtils.tsx:468
 msgid "Send Messages"
 msgstr "Gửi tin nhắn"
 
@@ -19056,11 +19061,11 @@ msgstr "Gửi mã SMS"
 msgid "Send SMS Code"
 msgstr "Gửi mã SMS"
 
-#: src/utils/PermissionUtils.tsx:306
+#: src/utils/PermissionUtils.tsx:312
 msgid "Send text-to-speech messages."
 msgstr "Gửi tin nhắn văn bản thành giọng nói."
 
-#: src/utils/PermissionUtils.tsx:305
+#: src/utils/PermissionUtils.tsx:311
 msgid "Send TTS Messages"
 msgstr "Gửi tin nhắn TTS"
 
@@ -19072,7 +19077,7 @@ msgstr "Gửi mã xác minh"
 msgid "Send voice message"
 msgstr "Gửi tin nhắn thoại"
 
-#: src/components/modals/InviteModal.tsx:266
+#: src/components/modals/InviteModal.tsx:263
 #: src/components/modals/shared/RecipientList.tsx:223
 #: src/components/modals/ShareThemeModal.tsx:159
 msgid "Sent"
@@ -19098,7 +19103,7 @@ msgstr "Đã gửi tệp đính kèm"
 msgid "sent an embed"
 msgstr "đã gửi một nhúng"
 
-#: src/components/modals/AddConnectionModal.tsx:277
+#: src/components/modals/AddConnectionModal.tsx:280
 msgid "Serve the token file"
 msgstr "Phục vụ tệp token"
 
@@ -19310,8 +19315,8 @@ msgstr "Đặt mức xác minh thành <0>Trung bình</0>."
 msgid "Set verification level to <0>None</0>."
 msgstr "Đặt mức xác minh thành <0>Không</0>."
 
-#: src/utils/PermissionUtils.tsx:417
-#: src/utils/PermissionUtils.tsx:513
+#: src/utils/PermissionUtils.tsx:423
+#: src/utils/PermissionUtils.tsx:519
 msgid "Set Voice Region"
 msgstr "Đặt khu vực giọng nói"
 
@@ -20174,8 +20179,8 @@ msgstr "Tiếng Tây Ban Nha (Châu Mỹ Latinh)"
 msgid "Spanish (Spain)"
 msgstr "Tiếng Tây Ban Nha (Tây Ban Nha)"
 
-#: src/utils/PermissionUtils.tsx:387
-#: src/utils/PermissionUtils.tsx:498
+#: src/utils/PermissionUtils.tsx:393
+#: src/utils/PermissionUtils.tsx:504
 msgid "Speak"
 msgstr "Nói"
 
@@ -20397,7 +20402,7 @@ msgstr "Bắt đầu cuộc gọi thoại"
 
 #. placeholder {0}: staticEmojis.length
 #. placeholder {1}: maxStaticEmojis === Number.POSITIVE_INFINITY ? '∞' : maxStaticEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:349
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:367
 msgid "Static: {0} / {1}"
 msgstr "Tĩnh: {0} / {1}"
 
@@ -20423,7 +20428,7 @@ msgstr "trạng thái bảng"
 msgid "Status Slate"
 msgstr "Bảng trạng thái"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:243
 msgid "Status:"
 msgstr "Trạng thái:"
 
@@ -20478,7 +20483,7 @@ msgstr "Nhãn dán đã tạo"
 msgid "Sticker Deleted"
 msgstr "Nhãn dán đã xóa"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:137
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:154
 msgid "Sticker density"
 msgstr "Mật độ nhãn dán"
 
@@ -20505,7 +20510,7 @@ msgstr "Đã đạt giới hạn bộ nhãn dán"
 msgid "sticker packs"
 msgstr "gói nhãn dán"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:158
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:177
 msgid "Sticker Slots"
 msgstr "Vị trí nhãn dán"
 
@@ -20529,7 +20534,7 @@ msgid "Stickers"
 msgstr "Nhãn dán"
 
 #. placeholder {0}: Math.round(GlobalLimits.getStickerMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:164
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:183
 msgid "Stickers must be exactly 320x320 pixels and no larger than {0} KB, but we automatically resize and compress images for you. Allowed file types: JPEG, PNG, WebP, GIF."
 msgstr "Nhãn dán phải đúng 320x320 pixel và không lớn hơn {0} KB, nhưng chúng tôi tự động thay đổi kích thước và nén hình ảnh cho bạn. Các định dạng được phép: JPEG, PNG, WebP, GIF."
 
@@ -20611,8 +20616,8 @@ msgstr "Xem trước luồng"
 msgid "Stream Quality"
 msgstr "Chất lượng luồng"
 
-#: src/utils/PermissionUtils.tsx:391
-#: src/utils/PermissionUtils.tsx:499
+#: src/utils/PermissionUtils.tsx:397
+#: src/utils/PermissionUtils.tsx:505
 msgid "Stream Video"
 msgstr "Phát video"
 
@@ -21139,7 +21144,7 @@ msgstr "Cộng đồng bạn đang tìm có thể đã bị xóa hoặc bạn kh
 msgid "The download link will be valid for 7 days"
 msgstr "Liên kết tải xuống sẽ hợp lệ trong 7 ngày"
 
-#: src/components/modals/AddConnectionModal.tsx:298
+#: src/components/modals/AddConnectionModal.tsx:301
 msgid "The file contains the verification token we will fetch from <0>{dnsUrl}</0>."
 msgstr "Tệp này chứa token xác minh mà chúng tôi sẽ lấy từ <0>{dnsUrl}</0>."
 
@@ -21265,7 +21270,7 @@ msgstr "Đã có lỗi khi tải liên kết mời cho kênh này. Vui lòng th�
 msgid "There was an error loading the invites. Please try again."
 msgstr "Đã có lỗi khi tải lời mời. Vui lòng thử lại."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:204
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:231
 msgid "There was an error loading the stickers. Please try again."
 msgstr "Đã có lỗi khi tải nhãn dán. Vui lòng thử lại."
 
@@ -21528,7 +21533,7 @@ msgstr "Lời mời này sẽ hết hạn trong {seconds} giây."
 msgid "This invite has unlimited uses."
 msgstr "Lời mời này có lượt dùng không giới hạn."
 
-#: src/components/modals/InviteModal.tsx:315
+#: src/components/modals/InviteModal.tsx:312
 msgid "This invite link never expires."
 msgstr "Liên kết mời này không bao giờ hết hạn."
 
@@ -21836,7 +21841,7 @@ msgstr "Thời lượng khóa"
 msgid "Timeout ends {0} ({1})"
 msgstr "Khóa kết thúc {0} ({1})"
 
-#: src/utils/PermissionUtils.tsx:363
+#: src/utils/PermissionUtils.tsx:369
 msgid "Timeout Members"
 msgstr "Thành viên bị khóa"
 
@@ -22431,7 +22436,7 @@ msgstr "Không thể tải xem trước."
 msgid "Unable to load profile banner, badges, and bio."
 msgstr "Không thể tải banner hồ sơ, huy hiệu và tiểu sử."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:229
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:245
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "Không thể chuẩn bị bất kỳ biểu tượng cảm xúc nào để tải lên. Đã xảy ra các lỗi sau:"
 
@@ -22532,7 +22537,7 @@ msgstr "Ghi đè tài khoản chưa nhận"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:174
 #: src/components/voice/VoiceControlBar.tsx:611
 msgid "Undeafen"
 msgstr "Mở tiếng"
@@ -22569,7 +22574,7 @@ msgstr "Người dùng vị thành niên"
 #: src/components/alerts/UserBannedFromGuildModal.tsx:30
 #: src/components/alerts/UserIpBannedFromGuildModal.tsx:31
 #: src/components/layout/ChannelListContent.tsx:149
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:192
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:208
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:160
 msgid "Understood"
 msgstr "Đã hiểu"
@@ -22614,7 +22619,7 @@ msgstr "Lời mời độc nhất"
 msgid "Unit"
 msgstr "Đơn vị"
 
-#: src/components/emojis/EmojiListItem.tsx:290
+#: src/components/emojis/EmojiListItem.tsx:301
 #: src/components/modals/BanDetailsModal.tsx:116
 msgid "Unknown"
 msgstr "Không rõ"
@@ -22776,8 +22781,8 @@ msgstr "Mở khóa nhãn dán trong DM với Plutonium"
 #: src/components/bottomsheets/MuteDurationSheet.tsx:75
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:148
-#: src/components/layout/UserArea.tsx:154
+#: src/components/layout/UserArea.tsx:162
+#: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/MobileVideoViewer.tsx:272
@@ -22813,7 +22818,7 @@ msgstr "Bỏ tắt tiếng kênh"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:96
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:165
 msgid "Unmute Community"
 msgstr "Bỏ tắt tiếng cộng đồng"
@@ -23146,7 +23151,7 @@ msgstr "Tải lên âm thanh tùy chỉnh"
 msgid "Upload directly to {displayName}"
 msgstr "Tải lên trực tiếp tới {displayName}"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:329
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:347
 msgid "Upload Emoji"
 msgstr "Tải lên biểu tượng cảm xúc"
 
@@ -23170,11 +23175,15 @@ msgstr "Tải lên biểu tượng"
 msgid "Upload Image"
 msgstr "Tải lên hình ảnh"
 
+#: src/utils/PermissionUtils.tsx:285
+msgid "Upload new emoji and stickers, and manage your own creations."
+msgstr "Tải lên biểu tượng cảm xúc và nhãn dán mới, và quản lý các tác phẩm của riêng bạn."
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:577
 msgid "upload sound"
 msgstr "tải lên âm thanh"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:180
 msgid "Upload Sticker"
 msgstr "Tải lên nhãn dán"
 
@@ -23235,8 +23244,8 @@ msgstr "URL để tải xuống bất kỳ tệp đính kèm nào từ tin nhắ
 msgid "US East"
 msgstr "Miền Đông Mỹ"
 
-#: src/utils/PermissionUtils.tsx:331
-#: src/utils/PermissionUtils.tsx:473
+#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:479
 msgid "Use @everyone/@here and @roles"
 msgstr "Sử dụng @everyone/@here và @roles"
 
@@ -23294,17 +23303,17 @@ msgstr "Dùng chủ đề tối cho toàn bộ ứng dụng"
 msgid "Use Different Email"
 msgstr "Sử dụng email khác"
 
-#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:343
 msgid "Use emoji from other communities."
 msgstr "Dùng biểu tượng cảm xúc từ cộng đồng khác."
 
-#: src/utils/PermissionUtils.tsx:336
-#: src/utils/PermissionUtils.tsx:477
+#: src/utils/PermissionUtils.tsx:342
+#: src/utils/PermissionUtils.tsx:483
 msgid "Use External Emoji"
 msgstr "Dùng biểu tượng cảm xúc bên ngoài"
 
-#: src/utils/PermissionUtils.tsx:341
-#: src/utils/PermissionUtils.tsx:478
+#: src/utils/PermissionUtils.tsx:347
+#: src/utils/PermissionUtils.tsx:484
 msgid "Use External Stickers"
 msgstr "Dùng nhãn dán bên ngoài"
 
@@ -23337,7 +23346,7 @@ msgstr "Dùng khóa bảo mật"
 msgid "Use system locale for time format"
 msgstr "Dùng ngôn ngữ hệ thống cho định dạng thời gian"
 
-#: src/components/modals/AddConnectionModal.tsx:233
+#: src/components/modals/AddConnectionModal.tsx:236
 msgid "Use the record below to prove domain ownership."
 msgstr "Sử dụng bản ghi bên dưới để chứng minh quyền sở hữu miền."
 
@@ -23357,8 +23366,8 @@ msgstr "Dùng nút này để nhanh chóng xóa tất cả quyền."
 msgid "Use this shortcut system-wide"
 msgstr "Dùng phím tắt này cho toàn hệ thống"
 
-#: src/utils/PermissionUtils.tsx:395
-#: src/utils/PermissionUtils.tsx:501
+#: src/utils/PermissionUtils.tsx:401
+#: src/utils/PermissionUtils.tsx:507
 msgid "Use Voice Activity"
 msgstr "Dùng hoạt động giọng nói"
 
@@ -23450,8 +23459,8 @@ msgstr "Hồ sơ người dùng: {tag}"
 msgid "User Record"
 msgstr "Hồ sơ hoạt động người dùng"
 
-#: src/components/layout/UserArea.tsx:272
-#: src/components/layout/UserArea.tsx:277
+#: src/components/layout/UserArea.tsx:286
+#: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
 #: src/components/modals/UserSettingsModal.tsx:154
 msgid "User Settings"
@@ -23570,7 +23579,7 @@ msgstr "tiện ích"
 msgid "value"
 msgstr "giá trị"
 
-#: src/components/modals/AddConnectionModal.tsx:258
+#: src/components/modals/AddConnectionModal.tsx:261
 msgid "Value"
 msgstr "Giá trị"
 
@@ -23678,7 +23687,7 @@ msgstr "Guild đã xác minh"
 msgid "verify"
 msgstr "xác minh"
 
-#: src/components/modals/AddConnectionModal.tsx:312
+#: src/components/modals/AddConnectionModal.tsx:315
 #: src/components/modals/EmailChangeModal.tsx:236
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
@@ -23690,11 +23699,11 @@ msgstr "Xác minh"
 msgid "Verify Code"
 msgstr "Xác minh mã"
 
-#: src/components/modals/AddConnectionModal.tsx:229
+#: src/components/modals/AddConnectionModal.tsx:232
 msgid "Verify Connection"
 msgstr "Xác minh kết nối"
 
-#: src/components/modals/AddConnectionModal.tsx:228
+#: src/components/modals/AddConnectionModal.tsx:231
 msgid "Verify connection form"
 msgstr "Mẫu xác minh kết nối"
 
@@ -23874,8 +23883,8 @@ msgstr "Xem cuộc gọi"
 msgid "View call controls"
 msgstr "Xem điều khiển cuộc gọi"
 
-#: src/utils/PermissionUtils.tsx:374
-#: src/utils/PermissionUtils.tsx:454
+#: src/utils/PermissionUtils.tsx:380
+#: src/utils/PermissionUtils.tsx:460
 msgid "View Channel"
 msgstr "Xem kênh"
 
@@ -24691,7 +24700,7 @@ msgstr "Có lỗi"
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "Với Plutonium, bạn có thể sử dụng hình đại diện và banner động (trong GIF, APNG, WebP động hoặc AVIF), tùy chỉnh thẻ 4 chữ số của bạn, và mở khóa nhiều tính năng cao cấp khác."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:353
 msgid "Withdraw"
 msgstr "Rút lại"
 
@@ -24759,7 +24768,7 @@ msgstr "Bạn"
 msgid "You already have a group with these users. Do you really want to create a new one? That's fine too!"
 msgstr "Bạn đã có một nhóm với những người dùng này rồi. Bạn thật sự muốn tạo nhóm mới? Cũng được thôi!"
 
-#: src/components/modals/AddConnectionModal.tsx:98
+#: src/components/modals/AddConnectionModal.tsx:101
 msgid "You already have this connection."
 msgstr "Bạn đã có kết nối này."
 
@@ -25392,7 +25401,7 @@ msgstr "Bạn đã đạt số lượng cộng đồng tối đa mà bạn có t
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "Bạn đã đạt số lượng cộng đồng tối đa mà bạn có thể tham gia ({maxGuilds} cộng đồng). Vui lòng rời khỏi một cộng đồng trước khi tham gia cộng đồng khác."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:187
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:203
 msgid "You've reached the maximum number of static emojis. Delete some existing emojis or upgrade your server to increase the limit."
 msgstr "Bạn đã đạt đến số lượng tối đa của các biểu tượng cảm xúc tĩnh. Xóa một số biểu tượng cảm xúc hiện có hoặc nâng cấp máy chủ của bạn để tăng giới hạn."
 
@@ -25425,7 +25434,7 @@ msgstr "Tài khoản của bạn chưa được xác nhận. Nếu không có em
 msgid "Your account is too new to send messages in this community."
 msgstr "Tài khoản của bạn còn quá mới để gửi tin nhắn trong cộng đồng này."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:278
 msgid "Your application is pending review. You can still update your listing details or withdraw the application."
 msgstr "Đơn của bạn đang chờ xem xét. Bạn vẫn có thể cập nhật chi tiết danh sách của mình hoặc rút lại đơn."
 
@@ -25445,11 +25454,11 @@ msgstr "Mã của bạn"
 msgid "Your code is ready!"
 msgstr "Mã của bạn đã sẵn sàng!"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:262
 msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
 msgstr "Cộng đồng của bạn đã được liệt kê trong Discovery. Bạn có thể cập nhật chi tiết danh sách bên dưới hoặc rút lại để xóa nó."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:230
 msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
 msgstr "Cộng đồng của bạn cần ít nhất {minMemberCount} thành viên trước khi có thể được liệt kê trong Discovery."
 
@@ -25499,7 +25508,7 @@ msgid "Your invite expires in 24 hours"
 msgstr "Lời mời của bạn hết hạn sau 24 giờ"
 
 #. placeholder {0}: getExpirationText()
-#: src/components/modals/InviteModal.tsx:319
+#: src/components/modals/InviteModal.tsx:323
 msgid "Your invite link expires in {0}."
 msgstr "Liên kết mời của bạn hết hạn trong {0}."
 
@@ -25515,15 +25524,15 @@ msgstr "Địa chỉ IP của bạn bị cấm khỏi cộng đồng này và b�
 msgid "Your IP is Banned"
 msgstr "IP của bạn bị cấm"
 
-#: src/lib/MessageQueue.tsx:386
+#: src/lib/MessageQueue.tsx:484
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Tin nhắn của bạn không thể gửi được. Thường là vì bạn không chung cộng đồng với người nhận hoặc người nhận chỉ cho phép bạn bè nhắn trực tiếp."
 
-#: src/lib/MessageQueue.tsx:398
+#: src/lib/MessageQueue.tsx:496
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Tin nhắn của bạn không thể gửi được. Bạn cần xác nhận tài khoản để gửi tin nhắn trực tiếp."
 
-#: src/lib/MessageQueue.tsx:399
+#: src/lib/MessageQueue.tsx:497
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Tin nhắn của bạn không thể được gửi. Bạn cần xác nhận tài khoản của mình để gửi tin nhắn."
 

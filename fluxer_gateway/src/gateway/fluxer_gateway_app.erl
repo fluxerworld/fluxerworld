@@ -23,11 +23,12 @@
 start(_StartType, _StartArgs) ->
     fluxer_gateway_env:load(),
     otel_metrics:init(),
+    passive_sync_registry:init(),
+    guild_counts_cache:init(),
     Port = fluxer_gateway_env:get(port),
     Dispatch = cowboy_router:compile([
         {'_', [
             {<<"/_health">>, health_handler, []},
-            {<<"/_rpc">>, gateway_rpc_http_handler, []},
             {<<"/_admin/reload">>, hot_reload_handler, []},
             {<<"/">>, gateway_handler, []}
         ]}

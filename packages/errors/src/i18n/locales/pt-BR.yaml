@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: O teste harness não é permitido.
 admin_and_system.unknown_suspicious_flag: Sinalizador suspeito desconhecido.
 admin_and_system.update_failed: Não conseguimos atualizar o recurso. Por favor, tente novamente.
 admin_and_system.user_must_be_bot_for_system_user: O usuário deve ser um bot para ser marcado como usuário do sistema.
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: O índice do fragmento está fora do intervalo para este envio.
+attachments_and_uploads.chunked_upload_incomplete: Nem todos os fragmentos foram enviados.
+attachments_and_uploads.chunked_upload_not_found: A sessão de envio não foi encontrada ou expirou.
+attachments_and_uploads.chunked_upload_not_owned: Você não é o dono desta sessão de envio.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` e `expires_at` são obrigatórios.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` e `message_id` devem ser inteiros válidos.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Usuários com MANAGE_MESSAGES só podem editar descrições de anexos, não outros metadados.
@@ -193,6 +197,7 @@ channels_and_guilds.vanity_url_requires_feature: A vanity URL exige o recurso VA
 channels_and_guilds.voice_channel_full: O canal de voz está cheio.
 channels_and_guilds.voice_channels_cannot_be_above_text_channels: Canais de voz não podem ficar acima de canais de texto dentro da mesma categoria.
 connections.already_exists: Uma conexão deste tipo com este identificador já existe.
+connections.bluesky_oauth_authorization_failed: Não conseguimos encontrar esse nome de usuário do Bluesky. Verifique-o e tente novamente.
 connections.bluesky_oauth_callback_failed: Não conseguimos completar a conexão com o Bluesky. Por favor, tente novamente.
 connections.bluesky_oauth_not_enabled: Conexões com o Bluesky não estão habilitadas neste servidor.
 connections.bluesky_oauth_session_expired: Sua sessão do Bluesky expirou. Por favor, reconecte sua conta.

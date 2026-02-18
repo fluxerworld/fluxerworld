@@ -50,7 +50,11 @@ admin_and_system.test_harness_forbidden: परीक्षण हार्न�
 admin_and_system.unknown_suspicious_flag: अज्ञात संदिग्ध ध्वज।
 admin_and_system.update_failed: हम संसाधन को अद्यतन करने में विफल रहे। कृपया दोबारा प्रयास करें।
 admin_and_system.user_must_be_bot_for_system_user: उपयोगकर्ता को सिस्टम उपयोगकर्ता के रूप में चिह्नित किए जाने के लिए बॉट होना चाहिए।
-attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id`, and `expires_at` are required.'
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: इस upload के लिए chunk index सीमा से बाहर है।
+attachments_and_uploads.chunked_upload_incomplete: सभी chunks upload नहीं हुए हैं।
+attachments_and_uploads.chunked_upload_not_found: Upload session नहीं मिला या expire हो गया है।
+attachments_and_uploads.chunked_upload_not_owned: यह upload session तुम्हारा नहीं है।
+attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id`, और `expires_at` जरूरी हैं।'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id`, and `message_id` must be valid integers.'
 attachments_and_uploads.cannot_edit_attachment_metadata: MANAGE_MESSAGES permission वाले users सिर्फ attachment descriptions edit कर सकते हैं, दूसरा metadata नहीं।
 attachments_and_uploads.attachment_metadata_without_files: Attachment metadata में filename है, लेकिन कोई files upload नहीं हुईं।
@@ -195,6 +199,7 @@ channels_and_guilds.voice_channels_cannot_be_above_text_channels: एक ही 
 colors.color_value_too_high: Color value 0xffffff से ज्यादा नहीं हो सकती।
 colors.color_value_too_low: Color value कम से कम 0x000000 होनी चाहिए।
 connections.already_exists: इस identifier के साथ इस प्रकार का connection पहले से मौजूद है।
+connections.bluesky_oauth_authorization_failed: हम उस Bluesky हैंडल को नहीं खोज सके। कृपया इसे जाँचें और फिर से कोशिश करें।
 connections.bluesky_oauth_callback_failed: हम Bluesky connection को पूरा नहीं कर सके। कृपया फिर से कोशिश करो।
 connections.bluesky_oauth_not_enabled: इस सर्वर पर Bluesky connections enabled नहीं हैं।
 connections.bluesky_oauth_session_expired: तुम्हारे Bluesky session की समय सीमा समाप्त हो गई है। कृपया अपना अकाउंट फिर से जोड़ो।

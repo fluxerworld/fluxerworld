@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} عناصر وسائط محفوظة"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount} عضو"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount} أعضاء"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount} مجتمعات مشتركة"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} مجتمع مشترك"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:84
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} متصل"
 
@@ -1095,7 +1095,7 @@ msgstr "<0>تحذير:</0> سيؤدي هذا أيضًا إلى تعطيل الم
 #: src/components/channel/CallMessage.tsx:69
 #: src/components/modals/BanMemberModal.tsx:58
 #: src/components/modals/InviteModal.tsx:80
-#: src/components/modals/InviteModal.tsx:210
+#: src/components/modals/InviteModal.tsx:207
 #: src/components/modals/PackInviteModal.tsx:51
 #: src/components/modals/TimeoutMemberOptions.tsx:38
 msgid "1 day"
@@ -1105,7 +1105,7 @@ msgstr "يوم واحد"
 #: src/components/modals/BanMemberModal.tsx:56
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:171
 #: src/components/modals/InviteModal.tsx:77
-#: src/components/modals/InviteModal.tsx:204
+#: src/components/modals/InviteModal.tsx:201
 #: src/components/modals/PackInviteModal.tsx:48
 #: src/components/modals/TimeoutMemberOptions.tsx:37
 #: src/constants/TimeWindowPresets.tsx:58
@@ -1223,7 +1223,7 @@ msgstr "١٠٨٠ب"
 
 #: src/components/modals/BanMemberModal.tsx:57
 #: src/components/modals/InviteModal.tsx:79
-#: src/components/modals/InviteModal.tsx:208
+#: src/components/modals/InviteModal.tsx:205
 #: src/components/modals/PackInviteModal.tsx:50
 msgid "12 hours"
 msgstr "12 ساعة"
@@ -1346,7 +1346,7 @@ msgstr "30 إطار في الثانية"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:170
 #: src/components/modals/InviteModal.tsx:76
-#: src/components/modals/InviteModal.tsx:202
+#: src/components/modals/InviteModal.tsx:199
 #: src/components/modals/PackInviteModal.tsx:47
 #: src/constants/TimeWindowPresets.tsx:57
 #: src/utils/modals/guild_tabs/GuildOverviewTabUtils.tsx:64
@@ -1417,7 +1417,7 @@ msgstr "50 استخدامًا"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:173
 #: src/components/modals/InviteModal.tsx:78
-#: src/components/modals/InviteModal.tsx:206
+#: src/components/modals/InviteModal.tsx:203
 #: src/components/modals/PackInviteModal.tsx:49
 msgid "6 hours"
 msgstr "6 ساعات"
@@ -1437,7 +1437,7 @@ msgid "60 seconds"
 msgstr "60 ثانية"
 
 #: src/components/modals/InviteModal.tsx:81
-#: src/components/modals/InviteModal.tsx:212
+#: src/components/modals/InviteModal.tsx:209
 #: src/components/modals/PackInviteModal.tsx:52
 msgid "7 days"
 msgstr "7 أيام"
@@ -1462,7 +1462,7 @@ msgstr "8 ساعات"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "سيتم إضافة علامة مكونة من 4 أرقام تلقائيًا لضمان التفرد"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:298
 msgid "A description is required."
 msgstr "الوصف مطلوب."
 
@@ -1832,11 +1832,11 @@ msgstr "إضافة بوت إلى مجتمع"
 msgid "Add Channel"
 msgstr "إضافة قناة"
 
-#: src/components/modals/AddConnectionModal.tsx:194
+#: src/components/modals/AddConnectionModal.tsx:197
 msgid "Add Connection"
 msgstr "إضافة اتصال"
 
-#: src/components/modals/AddConnectionModal.tsx:193
+#: src/components/modals/AddConnectionModal.tsx:196
 msgid "Add connection form"
 msgstr "نموذج إضافة اتصال"
 
@@ -1879,8 +1879,8 @@ msgstr "إضافة أصدقاء إلى المجموعة"
 msgid "Add Item"
 msgstr "إضافة عنصر"
 
-#: src/utils/PermissionUtils.tsx:346
-#: src/utils/PermissionUtils.tsx:481
+#: src/utils/PermissionUtils.tsx:352
+#: src/utils/PermissionUtils.tsx:487
 msgid "Add new reactions to messages."
 msgstr "إضافة تفاعلات جديدة للرسائل."
 
@@ -1929,8 +1929,8 @@ msgstr "نموذج إضافة رقم هاتف"
 msgid "Add Reaction"
 msgstr "إضافة تفاعل"
 
-#: src/utils/PermissionUtils.tsx:345
-#: src/utils/PermissionUtils.tsx:480
+#: src/utils/PermissionUtils.tsx:351
+#: src/utils/PermissionUtils.tsx:486
 msgid "Add Reactions"
 msgstr "إضافة تفاعلات"
 
@@ -2551,7 +2551,7 @@ msgid "animated emoji"
 msgstr "رموز تعبيرية متحركة"
 
 #. placeholder {0}: animatedEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:404
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:426
 msgid "Animated Emoji ({0})"
 msgstr "الرموز التعبيرية المتحركة ({0})"
 
@@ -2604,7 +2604,7 @@ msgstr "فيديو متحرك"
 
 #. placeholder {0}: animatedEmojis.length
 #. placeholder {1}: maxAnimatedEmojis === Number.POSITIVE_INFINITY ? '∞' : maxAnimatedEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:354
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:373
 msgid "Animated: {0} / {1}"
 msgstr "متحرك: {0} / {1}"
 
@@ -2624,7 +2624,7 @@ msgstr "رسوم متحركة"
 msgid "animations"
 msgstr "رسوم متحركة"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:86
 msgid "Anime & Manga"
 msgstr "الأنمي والمانغا"
 
@@ -2722,7 +2722,7 @@ msgstr "ينطبق فقط على تطبيق سطح المكتب على هذا ا
 msgid "Applies to both camera and screen sharing"
 msgstr "ينطبق على مشاركة الكاميرا والشاشة"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2737,7 +2737,7 @@ msgstr "تطبيق السمة"
 msgid "Apply to all communities"
 msgstr "تطبيق على جميع المجتمعات"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:59
 msgid "Approved"
 msgstr "موافق عليه"
 
@@ -2781,7 +2781,7 @@ msgid "Are you sure you want to deauthorize {appName}? This application will no 
 msgstr "هل أنت متأكد أنك تريد إلغاء تفويض {appName}؟ لن يكون لهذا التطبيق حق الوصول إلى حسابك بعد الآن."
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:193
+#: src/components/emojis/EmojiListItem.tsx:194
 msgid "Are you sure you want to delete :{0}:? This action cannot be undone."
 msgstr "هل أنت متأكد أنك تريد حذف :{0}:؟ لا يمكن التراجع عن هذا الإجراء."
 
@@ -2791,7 +2791,7 @@ msgstr "هل أنت متأكد أنك تريد حذف :{0}:؟ لا يمكن ال
 msgid "Are you sure you want to delete \"{0}\"? This action cannot be undone."
 msgstr "هل أنت متأكد أنك تريد حذف \"{0}\"؟ لا يمكن التراجع عن هذا الإجراء."
 
-#: src/components/stickers/StickerGridItem.tsx:65
+#: src/components/stickers/StickerGridItem.tsx:71
 msgid "Are you sure you want to delete \"{stickerName}\"? This action cannot be undone."
 msgstr "هل أنت متأكد أنك تريد حذف \"{stickerName}\"؟ لا يمكن التراجع عن هذا الإجراء."
 
@@ -2986,8 +2986,8 @@ msgstr "كهدية"
 msgid "At least one channel must have \"View Channel\" permission enabled for @everyone in order for the vanity URL to work. Currently, no channels are viewable to @everyone."
 msgstr "يجب أن يكون لدى قناة واحدة على الأقل إذن \"عرض القناة\" ممكّنًا لـ @everyone لكي يعمل رابط التخصيص. حاليًا، لا توجد قنوات مرئية لـ @everyone."
 
-#: src/utils/PermissionUtils.tsx:323
-#: src/utils/PermissionUtils.tsx:470
+#: src/utils/PermissionUtils.tsx:329
+#: src/utils/PermissionUtils.tsx:476
 msgid "Attach Files"
 msgstr "إرفاق ملفات"
 
@@ -3077,8 +3077,8 @@ msgid "Audio"
 msgstr "صوت"
 
 #: src/components/modals/utils/SettingsConstants.tsx:190
-#: src/utils/PermissionUtils.tsx:380
-#: src/utils/PermissionUtils.tsx:495
+#: src/utils/PermissionUtils.tsx:386
+#: src/utils/PermissionUtils.tsx:501
 msgid "Audio & Video"
 msgstr "الصوت والفيديو"
 
@@ -3344,7 +3344,7 @@ msgid "Average ping:"
 msgstr "متوسط البينغ:"
 
 #: src/components/auth/IpAuthorizationScreen.tsx:154
-#: src/components/modals/AddConnectionModal.tsx:309
+#: src/components/modals/AddConnectionModal.tsx:312
 #: src/components/modals/PhoneAddModal.tsx:237
 #: src/components/modals/RequiredActionModal.tsx:655
 #: src/components/pages/OAuthAuthorizePage.tsx:671
@@ -3932,8 +3932,8 @@ msgstr "بإتمام الشراء، فإنك توافق على <0>شروط ال�
 msgid "By purchasing, you agreed to our <0>Terms of Service</0> and <1>Privacy Policy</1>. All purchases are refundable within 14 days by emailing <2>support@fluxer.app</2>. Chargebacks result in permanent account bans — if you want a refund, we're more than happy to give you one if you contact us first! Payment information is securely handled by Stripe — we never have access to your full card number."
 msgstr "بإتمام الشراء، فإنك وافقت على <0>شروط الخدمة</0> و<1>سياسة الخصوصية</1> الخاصة بنا. جميع المشتريات قابلة للاسترداد خلال 14 يومًا عن طريق إرسال بريد إلكتروني إلى <2>support@fluxer.app</2>. عمليات الاسترجاع المالي تؤدي إلى حظر دائم للحساب — إذا كنت ترغب في استرداد المبلغ، فنحن سعداء بتقديمه لك إذا اتصلت بنا أولاً! تتم معالجة معلومات الدفع بأمان بواسطة Stripe — نحن لا نصل إلى رقم بطاقتك الكامل أبدًا."
 
-#: src/utils/PermissionUtils.tsx:350
-#: src/utils/PermissionUtils.tsx:485
+#: src/utils/PermissionUtils.tsx:356
+#: src/utils/PermissionUtils.tsx:491
 msgid "Bypass Slowmode"
 msgstr "تجاوز الوضع البطيء"
 
@@ -4063,7 +4063,7 @@ msgstr "تكون الكاميرات معطلة عندما يكون هناك أك
 #: src/components/layout/GuildLayout.tsx:76
 #: src/components/modals/AccountDeleteModal.tsx:95
 #: src/components/modals/AccountDisableModal.tsx:69
-#: src/components/modals/AddConnectionModal.tsx:215
+#: src/components/modals/AddConnectionModal.tsx:218
 #: src/components/modals/AddFavoriteMemeModal.tsx:98
 #: src/components/modals/AddGuildModal.tsx:290
 #: src/components/modals/AddGuildModal.tsx:413
@@ -4109,7 +4109,7 @@ msgstr "تكون الكاميرات معطلة عندما يكون هناك أك
 #: src/components/modals/HideOwnScreenShareConfirmModal.tsx:65
 #: src/components/modals/IARModal.tsx:255
 #: src/components/modals/ImageCropModal.tsx:943
-#: src/components/modals/InviteModal.tsx:332
+#: src/components/modals/InviteModal.tsx:336
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
@@ -4211,7 +4211,7 @@ msgstr "عناصر تحكم محاذاة البطاقة"
 msgid "Careful! You have unsaved changes."
 msgstr "احذر! لديك تغييرات غير محفوظة."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:330
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4437,8 +4437,8 @@ msgstr "قناة"
 msgid "Channel"
 msgstr "القناة"
 
-#: src/utils/PermissionUtils.tsx:373
-#: src/utils/PermissionUtils.tsx:453
+#: src/utils/PermissionUtils.tsx:379
+#: src/utils/PermissionUtils.tsx:459
 msgid "Channel Access"
 msgstr "وصول القناة"
 
@@ -4516,7 +4516,7 @@ msgstr "وضع مؤشر الكتابة في قائمة القنوات"
 msgid "Channel list typing indicators"
 msgstr "مؤشرات الكتابة في قائمة القنوات"
 
-#: src/utils/PermissionUtils.tsx:426
+#: src/utils/PermissionUtils.tsx:432
 msgid "Channel Management"
 msgstr "إدارة القناة"
 
@@ -4757,7 +4757,7 @@ msgstr "اختر كيفية عرض الأوقات في التطبيق."
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "اختر كيفية ظهور مؤشرات الكتابة في قائمة القنوات عندما يكتب أحدهم في قناة."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:346
 msgid "Choose the category that best describes your community."
 msgstr "اختر الفئة التي تصف مجتمعك بشكل أفضل."
 
@@ -5360,7 +5360,7 @@ msgstr "منشئ المجتمع"
 msgid "Community Deafen"
 msgstr "كتم المجتمع"
 
-#: src/components/layout/UserArea.tsx:159
+#: src/components/layout/UserArea.tsx:173
 #: src/components/layout/VoiceStateIcons.tsx:57
 #: src/components/voice/VoiceControlBar.tsx:607
 #: src/components/voice/VoiceParticipantTile.tsx:1466
@@ -5432,8 +5432,8 @@ msgstr "أعضاء المجتمع"
 msgid "Community Mute"
 msgstr "كتم المجتمع"
 
-#: src/components/layout/UserArea.tsx:146
-#: src/components/layout/UserArea.tsx:153
+#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:167
 #: src/components/layout/VoiceStateIcons.tsx:49
 #: src/components/voice/VoiceControlBar.tsx:596
 #: src/components/voice/VoiceParticipantTile.tsx:1457
@@ -5492,10 +5492,10 @@ msgid "Community Record"
 msgstr "سجل المجتمع"
 
 #: src/components/modals/components/DesktopGuildSettingsView.tsx:233
-#: src/components/modals/GuildSettingsModal.tsx:194
+#: src/components/modals/GuildSettingsModal.tsx:197
 #: src/components/popouts/GuildHeaderPopout.tsx:190
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:278
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:346
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:281
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:349
 msgid "Community Settings"
 msgstr "إعدادات المجتمع"
 
@@ -5524,7 +5524,7 @@ msgstr "على مستوى المجتمع"
 msgid "compact"
 msgstr "مضغوط"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:152
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:169
 msgid "Compact"
 msgstr "مضغوط"
 
@@ -5670,8 +5670,8 @@ msgstr "تأكيد كلمة المرور"
 msgid "Connect"
 msgstr "اتصل"
 
-#: src/utils/PermissionUtils.tsx:383
-#: src/utils/PermissionUtils.tsx:497
+#: src/utils/PermissionUtils.tsx:389
+#: src/utils/PermissionUtils.tsx:503
 msgid "Connect (Join Voice)"
 msgstr "اتصال (انضم إلى الصوت)"
 
@@ -5679,7 +5679,7 @@ msgstr "اتصال (انضم إلى الصوت)"
 msgid "Connect to Voice"
 msgstr "الاتصال بالصوت"
 
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 msgid "Connect with Bluesky"
 msgstr "الاتصال بـ Bluesky"
 
@@ -5730,7 +5730,7 @@ msgstr "تم إزالة الاتصال"
 msgid "Connection Stats"
 msgstr "إحصائيات الاتصال"
 
-#: src/components/modals/AddConnectionModal.tsx:198
+#: src/components/modals/AddConnectionModal.tsx:201
 msgid "Connection Type"
 msgstr "نوع الاتصال"
 
@@ -5783,7 +5783,7 @@ msgstr "أنشئ رابط تفويض بالنطاقات والأذونات."
 msgid "contact"
 msgstr "اتصال"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 msgid "Content Creator"
 msgstr "صانع محتوى"
 
@@ -5822,7 +5822,7 @@ msgid "Context menus can be opened with left-click (on buttons) or right-click (
 msgstr "يمكن فتح القوائم السياقية بالنقر الأيسر (على الأزرار) أو النقر الأيمن (على العناصر الأخرى). يوضح هذا عناصر قائمة متنوعة تشمل مربعات الاختيار، وأزرار الراديو، وأشرطة التمرير، والقوائم الفرعية."
 
 #: src/components/channel/ChannelTextarea.tsx:311
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:75
 #: src/components/modals/BackupCodesViewModal.tsx:73
 #: src/components/modals/DeviceRevokeModal.tsx:82
@@ -5958,8 +5958,8 @@ msgid "Copied URL to clipboard"
 msgstr "تم نسخ الرابط إلى الحافظة"
 
 #: src/components/auth/HandoffCodeDisplay.tsx:106
-#: src/components/modals/AddConnectionModal.tsx:187
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:190
+#: src/components/modals/AddConnectionModal.tsx:191
 #: src/components/modals/shared/CopyLinkSection.tsx:52
 #: src/components/modals/ThemeAcceptModal.tsx:162
 #: src/lib/markdown/renderers/common/CodeElements.tsx:57
@@ -6017,7 +6017,7 @@ msgstr "نسخ رابط القناة"
 msgid "Copy code"
 msgstr "نسخ الكود"
 
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:372
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:375
 msgid "Copy Community ID"
 msgstr "نسخ معرّف المجتمع"
 
@@ -6045,11 +6045,11 @@ msgstr "نسخ FluxerTag"
 msgid "Copy GIF"
 msgstr "نسخ GIF"
 
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:461
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:464
 msgid "Copy Guild ID"
 msgstr "نسخ معرف النقابة"
 
-#: src/components/modals/AddConnectionModal.tsx:187
+#: src/components/modals/AddConnectionModal.tsx:190
 msgid "Copy host"
 msgstr "نسخ المضيف"
 
@@ -6154,7 +6154,7 @@ msgstr "نسخ معرف المستخدم"
 msgid "Copy Username"
 msgstr "نسخ اسم المستخدم"
 
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:191
 msgid "Copy value"
 msgstr "نسخ القيمة"
 
@@ -6199,7 +6199,7 @@ msgstr "غطاء"
 msgid "cozy"
 msgstr "مريح"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:144
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
 msgid "Cozy"
 msgstr "مريح"
 
@@ -6295,8 +6295,8 @@ msgstr "إنشاء تطبيق"
 #: src/components/popouts/GuildHeaderPopout.tsx:204
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:89
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:69
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:292
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:428
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:295
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:431
 msgid "Create Category"
 msgstr "إنشاء فئة"
 
@@ -6305,8 +6305,8 @@ msgstr "إنشاء فئة"
 #: src/components/modals/ChannelCreateModal.tsx:103
 #: src/components/popouts/GuildHeaderPopout.tsx:197
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:86
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:287
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:410
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:290
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:413
 msgid "Create Channel"
 msgstr "إنشاء قناة"
 
@@ -6324,6 +6324,10 @@ msgstr "نموذج إنشاء المجتمع"
 #: src/utils/modals/CreateDMModalUtils.tsx:154
 msgid "Create DM"
 msgstr "إنشاء رسالة خاصة"
+
+#: src/utils/PermissionUtils.tsx:284
+msgid "Create Emoji & Stickers"
+msgstr "إنشاء رموز تعبيرية وملصقات"
 
 #: src/components/modals/CreatePackModal.tsx:52
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:256
@@ -6346,7 +6350,7 @@ msgid "Create Invite"
 msgstr "إنشاء دعوة"
 
 #: src/utils/PermissionUtils.tsx:270
-#: src/utils/PermissionUtils.tsx:429
+#: src/utils/PermissionUtils.tsx:435
 msgid "Create Invite Links"
 msgstr "إنشاء روابط دعوة"
 
@@ -6358,7 +6362,7 @@ msgstr "إنشاء حساب جديد"
 msgid "Create new group"
 msgstr "إنشاء مجموعة جديدة"
 
-#: src/components/modals/InviteModal.tsx:335
+#: src/components/modals/InviteModal.tsx:339
 msgid "Create New Link"
 msgstr "إنشاء رابط جديد"
 
@@ -6393,11 +6397,11 @@ msgstr "إنشاء أو تعديل أو حذف القنوات والفئات."
 msgid "Create, edit, or delete roles below your highest role. Also allows editing channel permission overwrites."
 msgstr "إنشاء أو تعديل أو حذف الأدوار الأقل من أعلى دور لك. كما يسمح بتعديل تجاوزات أذونات القناة."
 
-#: src/utils/PermissionUtils.tsx:444
+#: src/utils/PermissionUtils.tsx:450
 msgid "Create, edit, or delete webhooks for this channel."
 msgstr "إنشاء أو تعديل أو حذف Webhooks لهذه القناة."
 
-#: src/utils/PermissionUtils.tsx:289
+#: src/utils/PermissionUtils.tsx:295
 msgid "Create, edit, or delete webhooks."
 msgstr "إنشاء أو تعديل أو حذف Webhooks."
 
@@ -6897,7 +6901,7 @@ msgstr "إسكات"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:161
+#: src/components/layout/UserArea.tsx:175
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:515
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:125
 #: src/components/voice/VoiceControlBar.tsx:613
@@ -6922,8 +6926,8 @@ msgstr "إسكات الجهاز"
 msgid "Deafen Keybind"
 msgstr "مفتاح إسكات الصوت"
 
-#: src/utils/PermissionUtils.tsx:408
-#: src/utils/PermissionUtils.tsx:507
+#: src/utils/PermissionUtils.tsx:414
+#: src/utils/PermissionUtils.tsx:513
 msgid "Deafen Members"
 msgstr "كتم صوت الأعضاء"
 
@@ -6962,7 +6966,7 @@ msgid "Debug Channel"
 msgstr "تصحيح القناة"
 
 #: src/components/uikit/context_menu/items/DebugMenuItems.tsx:90
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:362
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:365
 msgid "Debug Community"
 msgstr "تصحيح المجتمع"
 
@@ -7062,17 +7066,17 @@ msgstr "حذف"
 #: src/components/channel/embeds/media/MediaContainer.tsx:116
 #: src/components/channel/MobileMemesPicker.tsx:546
 #: src/components/channel/pickers/memes/MemeGridItem.tsx:121
-#: src/components/emojis/EmojiListItem.tsx:194
-#: src/components/emojis/EmojiListItem.tsx:246
-#: src/components/emojis/EmojiListItem.tsx:296
+#: src/components/emojis/EmojiListItem.tsx:195
+#: src/components/emojis/EmojiListItem.tsx:252
+#: src/components/emojis/EmojiListItem.tsx:308
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:160
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:210
-#: src/components/stickers/StickerGridItem.tsx:66
-#: src/components/stickers/StickerGridItem.tsx:119
+#: src/components/stickers/StickerGridItem.tsx:72
+#: src/components/stickers/StickerGridItem.tsx:126
 msgid "Delete"
 msgstr "حذف"
 
@@ -7162,11 +7166,11 @@ msgstr "حذف المجتمع"
 msgid "Delete community form"
 msgstr "نموذج حذف المجتمع"
 
-#: src/components/emojis/EmojiListItem.tsx:192
+#: src/components/emojis/EmojiListItem.tsx:193
 msgid "Delete Emoji"
 msgstr "حذف الإيموجي"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:147
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:163
 msgid "Delete Emoji Failed"
 msgstr "فشل في حذف الرموز التعبيرية"
 
@@ -7205,8 +7209,8 @@ msgstr "حذف الرسائل من آخر يوم"
 msgid "Delete messages from the last week"
 msgstr "حذف الرسائل من آخر أسبوع"
 
-#: src/utils/PermissionUtils.tsx:311
-#: src/utils/PermissionUtils.tsx:465
+#: src/utils/PermissionUtils.tsx:317
+#: src/utils/PermissionUtils.tsx:471
 msgid "Delete others' messages. (Pinning is separate below.)"
 msgstr "حذف رسائل الآخرين. (التثبيت منفصل أدناه.)"
 
@@ -7235,7 +7239,7 @@ msgstr "حذف الوسائط المحفوظة"
 msgid "Delete Saved Media"
 msgstr "حذف الوسائط المحفوظة"
 
-#: src/components/stickers/StickerGridItem.tsx:64
+#: src/components/stickers/StickerGridItem.tsx:70
 msgid "Delete Sticker"
 msgstr "حذف الملصق"
 
@@ -7326,7 +7330,7 @@ msgstr "صف التعبيرات الموجودة داخل هذه الحزمة."
 msgid "Describe what makes the content illegal"
 msgstr "صف ما يجعل المحتوى غير قانوني"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:317
 msgid "Describe what your community is about..."
 msgstr "صف ما يدور حوله مجتمعك..."
 
@@ -7336,7 +7340,7 @@ msgstr "وصف"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:292
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "الوصف"
@@ -7345,11 +7349,11 @@ msgstr "الوصف"
 msgid "Description must be 500 characters or less"
 msgstr "يجب أن تكون الوصف 500 حرف أو أقل"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:301
 msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
 msgstr "يجب أن يكون الوصف على الأقل {DISCOVERY_DESCRIPTION_MIN_LENGTH} حرفًا."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
 msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
 msgstr "يجب أن يكون الوصف لا يزيد عن {DISCOVERY_DESCRIPTION_MAX_LENGTH} حرفًا."
 
@@ -7725,20 +7729,20 @@ msgstr "قطع اتصال المقبس"
 msgid "Disconnected"
 msgstr "تم قطع الاتصال"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
 #: src/components/modals/utils/GuildSettingsConstants.tsx:160
 msgid "Discovery"
 msgstr "اكتشاف"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:166
 msgid "Discovery application submitted"
 msgstr "تم تقديم طلب الاكتشاف"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:187
 msgid "Discovery application withdrawn"
 msgstr "تم سحب طلب الاكتشاف"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:155
 msgid "Discovery listing updated"
 msgstr "تم تحديث قائمة الاكتشاف"
 
@@ -7854,7 +7858,7 @@ msgstr "إعدادات الدردشة المباشرة"
 msgid "dm sidebar"
 msgstr "شريط جانبي للرسائل المباشرة"
 
-#: src/components/modals/AddConnectionModal.tsx:239
+#: src/components/modals/AddConnectionModal.tsx:242
 msgid "DNS TXT record"
 msgstr "سجل DNS TXT"
 
@@ -7904,7 +7908,7 @@ msgid "domain"
 msgstr "نطاق"
 
 #: src/components/modals/AddConnectionModal.tsx:87
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:168
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:303
 #: src/components/popouts/UserProfileShared.tsx:283
@@ -7995,7 +7999,7 @@ msgstr "تنزيل"
 msgid "Download"
 msgstr "تنزيل"
 
-#: src/components/modals/AddConnectionModal.tsx:280
+#: src/components/modals/AddConnectionModal.tsx:283
 msgid "Download <0>fluxer-verification</0> and place it in your <1>.well-known</1> folder so we can validate the domain."
 msgstr "قم بتنزيل <0>fluxer-verification</0> وضعه في مجلدك <1>.well-known</1> حتى نتمكن من التحقق من النطاق."
 
@@ -8012,7 +8016,7 @@ msgstr "تنزيل تطبيق سطح المكتب"
 msgid "Download Fluxer"
 msgstr "تنزيل Fluxer"
 
-#: src/components/modals/AddConnectionModal.tsx:294
+#: src/components/modals/AddConnectionModal.tsx:297
 msgid "Download fluxer-verification"
 msgstr "قم بتنزيل fluxer-verification"
 
@@ -8024,7 +8028,7 @@ msgstr "تنزيل الوسائط"
 msgid "Download the desktop app for system-wide Push-to-Talk"
 msgstr "قم بتنزيل تطبيق سطح المكتب للضغط للتحدث على مستوى النظام"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:173
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:192
 msgid "Drag and drop a sticker file here (one at a time)"
 msgstr "اسحب وأفلت ملف ملصق هنا (واحد في كل مرة)"
 
@@ -8032,12 +8036,12 @@ msgstr "اسحب وأفلت ملف ملصق هنا (واحد في كل مرة)"
 msgid "Drag and drop area for file upload"
 msgstr "منطقة السحب والإفلات لتحميل الملفات"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:363
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:382
 msgid "Drag and drop emoji files here"
 msgstr "اسحب وأفلت ملفات الإيموجي هنا"
 
-#: src/utils/PermissionUtils.tsx:413
-#: src/utils/PermissionUtils.tsx:510
+#: src/utils/PermissionUtils.tsx:419
+#: src/utils/PermissionUtils.tsx:516
 msgid "Drag members between channels they can access."
 msgstr "اسحب الأعضاء بين القنوات التي يمكنهم الوصول إليها."
 
@@ -8159,7 +8163,7 @@ msgstr "إلغاء الصدى"
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:90
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:186
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:187
-#: src/components/stickers/StickerGridItem.tsx:111
+#: src/components/stickers/StickerGridItem.tsx:118
 msgid "Edit"
 msgstr "تعديل"
 
@@ -8200,8 +8204,8 @@ msgid "Edit Channel"
 msgstr "تعديل القناة"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:220
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:314
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:392
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:317
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:395
 msgid "Edit Community Profile"
 msgstr "تعديل ملف المجتمع"
 
@@ -8231,7 +8235,8 @@ msgstr "تعديل المجموعة"
 msgid "Edit group form"
 msgstr "نموذج تعديل المجموعة"
 
-#: src/components/modals/InviteModal.tsx:322
+#: src/components/modals/InviteModal.tsx:316
+#: src/components/modals/InviteModal.tsx:326
 msgid "Edit invite link"
 msgstr "تعديل رابط الدعوة"
 
@@ -8255,7 +8260,11 @@ msgstr "تعديل الرسالة"
 msgid "Edit Note"
 msgstr "تعديل الملاحظة"
 
-#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:290
+msgid "Edit or delete emoji and stickers created by other members."
+msgstr "تحرير أو حذف الرموز التعبيرية والملصقات التي أنشأها أعضاء آخرون."
+
+#: src/utils/PermissionUtils.tsx:445
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "تعديل التجاوزات للأدوار والأعضاء في هذه القناة."
 
@@ -8312,7 +8321,7 @@ msgstr "جاري تعديل الرسالة"
 msgid "Editing scheduled message"
 msgstr "جاري تعديل الرسالة المجدولة"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
 msgid "Education"
 msgstr "تعليم"
 
@@ -8396,8 +8405,8 @@ msgstr "تضمين"
 msgid "Embed"
 msgstr "تضمين"
 
-#: src/utils/PermissionUtils.tsx:319
-#: src/utils/PermissionUtils.tsx:469
+#: src/utils/PermissionUtils.tsx:325
+#: src/utils/PermissionUtils.tsx:475
 msgid "Embed Links"
 msgstr "تضمين الروابط"
 
@@ -8456,16 +8465,16 @@ msgstr "تم حذف الإيموجي"
 msgid "Emoji name"
 msgstr "اسم الإيموجي"
 
-#: src/components/emojis/EmojiListItem.tsx:163
+#: src/components/emojis/EmojiListItem.tsx:164
 msgid "Emoji name must be at least 2 characters long"
 msgstr "يجب أن يكون اسم الإيموجي مكونًا من حرفين على الأقل"
 
-#: src/components/emojis/EmojiListItem.tsx:167
+#: src/components/emojis/EmojiListItem.tsx:168
 msgid "Emoji name must be at most 32 characters long"
 msgstr "يجب ألا يتجاوز اسم الإيموجي 32 حرفًا"
 
 #. placeholder {0}: Math.round(GlobalLimits.getEmojiMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:340
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:358
 msgid "Emoji names must be at least 2 characters long and can only contain alphanumeric characters and underscores. Allowed file types: JPEG, PNG, WebP, GIF. We compress images to 128x128 pixels. Maximum size: {0} KB per emoji."
 msgstr "يجب أن تكون أسماء الإيموجي مكونة من حرفين على الأقل، ويمكن أن تحتوي فقط على أحرف أبجدية رقمية وشرطات سفلية. أنواع الملفات المسموح بها: JPEG، PNG، WebP، GIF. نقوم بضغط الصور إلى 128×128 بكسل. الحد الأقصى للحجم: {0} كيلوبايت لكل إيموجي."
 
@@ -8492,7 +8501,7 @@ msgstr "تم الوصول إلى حد حزم الإيموجي"
 msgid "emoji picker"
 msgstr "اختيار الرموز التعبيرية"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:326
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:344
 msgid "Emoji Slots"
 msgstr "فتحات الإيموجي"
 
@@ -8861,7 +8870,7 @@ msgstr "أدخل كلمة المرور الخاصة بك."
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "أدخل رقم هاتفك. سنرسل لك رمز تحقق عبر الرسائل القصيرة."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
 msgid "Entertainment"
 msgstr "ترفيه"
 
@@ -8993,7 +9002,7 @@ msgstr "توسيع الفئة"
 msgid "Expiration"
 msgstr "انتهاء الصلاحية"
 
-#: src/components/modals/InviteModal.tsx:276
+#: src/components/modals/InviteModal.tsx:273
 msgid "Expire After"
 msgstr "تنتهي بعد"
 
@@ -9260,7 +9269,7 @@ msgstr "فشل حذف الفئة"
 msgid "Failed to delete channel"
 msgstr "فشل حذف القناة"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:149
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:165
 msgid "Failed to delete emoji. Please try again."
 msgstr "فشل في حذف الرموز التعبيرية. يرجى المحاولة مرة أخرى."
 
@@ -9312,7 +9321,7 @@ msgstr "فشل تثبيت حزمة الإيموجي هذه. يرجى المحا�
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "فشل تثبيت حزمة الملصقات هذه. يرجى المحاولة مرة أخرى لاحقًا."
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:62
 msgid "Failed to join this community. Please try again."
 msgstr "فشل الانضمام إلى هذا المجتمع. يرجى المحاولة مرة أخرى."
 
@@ -9341,7 +9350,7 @@ msgstr "فشل في تحميل التطبيقات المصرح بها"
 msgid "Failed to load bans. Please try again."
 msgstr "فشل تحميل الحظر. يرجى المحاولة مرة أخرى."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:320
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:336
 msgid "Failed to load emojis. Please try again later."
 msgstr "فشل في تحميل الرموز التعبيرية. يرجى المحاولة لاحقًا."
 
@@ -9363,7 +9372,7 @@ msgstr "فشل تحميل الدعوات. يرجى المحاولة مرة أخ�
 msgid "Failed to load premium information. Please try again later."
 msgstr "فشل تحميل معلومات البريميوم. يرجى المحاولة مرة أخرى لاحقًا."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:203
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:230
 msgid "Failed to Load Stickers"
 msgstr "فشل في تحميل الملصقات"
 
@@ -9406,7 +9415,7 @@ msgstr "فشل في تثبيت رسالة المجموعة"
 msgid "Failed to pin message"
 msgstr "فشل تثبيت الرسالة"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:225
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
 msgid "Failed to Prepare Emojis"
 msgstr "فشل تحضير الإيموجي"
 
@@ -9597,7 +9606,7 @@ msgstr "فشل في تحديث النص البديل"
 msgid "Failed to Update Channel Permissions"
 msgstr "فشل في تحديث أذونات القناة"
 
-#: src/components/emojis/EmojiListItem.tsx:180
+#: src/components/emojis/EmojiListItem.tsx:181
 msgid "Failed to update emoji name. Reverted to the previous name."
 msgstr "فشل تحديث اسم الإيموجي. تم العودة إلى الاسم السابق."
 
@@ -9622,11 +9631,11 @@ msgid "Failed to upload custom sound"
 msgstr "فشل تحميل الصوت المخصص"
 
 #. placeholder {0}: startIndex + 1
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:277
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:293
 msgid "Failed to upload emojis starting at #{0}: {errorMsg}"
 msgstr "فشل في رفع الرموز التعبيرية بدءًا من #{0}: {errorMsg}"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:273
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:289
 msgid "Failed to upload emojis. Please try again."
 msgstr "فشل تحميل الإيموجيات. يُرجى المحاولة مرة أخرى."
 
@@ -9638,7 +9647,7 @@ msgstr "فشل تحميل صوت الدخول"
 msgid "Failed to verify connection"
 msgstr "فشل في التحقق من الاتصال"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:193
 msgid "Failed to withdraw application. Please try again."
 msgstr "فشل سحب الطلب. يرجى المحاولة مرة أخرى."
 
@@ -10399,7 +10408,7 @@ msgstr "وحدة تحكم الألعاب"
 msgid "Game Night"
 msgstr "ليلة الألعاب"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
 msgid "Gaming"
 msgstr "ألعاب"
 
@@ -10758,7 +10767,7 @@ msgstr "فترة السماح"
 msgid "Grace Period (Still Have Access)"
 msgstr "فترة السماح (لا يزال لديك وصول)"
 
-#: src/components/modals/InviteModal.tsx:296
+#: src/components/modals/InviteModal.tsx:293
 msgid "Grant Temporary Membership"
 msgstr "منح عضوية مؤقتة"
 
@@ -10922,7 +10931,7 @@ msgstr "شريط جانبي النقابة"
 msgid "handle"
 msgstr "اسم المستخدم"
 
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 msgid "Handle"
 msgstr "معالجة"
 
@@ -11116,7 +11125,7 @@ msgstr "إخفاء القنوات المكتومة"
 #: src/components/popouts/GuildHeaderPopout.tsx:228
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:79
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:60
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:332
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:335
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:304
 msgid "Hide Muted Channels"
 msgstr "إخفاء القنوات المكتومة"
@@ -11284,7 +11293,7 @@ msgstr "انضم، {username}! السيد فيوجن جاهز!"
 msgid "Hope to see you back in the future"
 msgstr "نأمل أن نراك مجددًا في المستقبل"
 
-#: src/components/modals/AddConnectionModal.tsx:244
+#: src/components/modals/AddConnectionModal.tsx:247
 msgid "Host"
 msgstr "المضيف"
 
@@ -11439,8 +11448,8 @@ msgstr "تجاهل"
 msgid "Ignore Friend Request"
 msgstr "تجاهل طلب الصداقة"
 
-#: src/utils/PermissionUtils.tsx:351
-#: src/utils/PermissionUtils.tsx:486
+#: src/utils/PermissionUtils.tsx:357
+#: src/utils/PermissionUtils.tsx:492
 msgid "Ignore per-channel message rate limits."
 msgstr "تجاهل حدود معدل الرسائل لكل قناة."
 
@@ -11915,7 +11924,7 @@ msgstr "غير مرئي"
 
 #: src/components/channel/GuildMembersPage.tsx:246
 #: src/components/channel/GuildMembersPage.tsx:254
-#: src/components/modals/InviteModal.tsx:265
+#: src/components/modals/InviteModal.tsx:262
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:87
 #: src/constants/AuditLogConstants.tsx:245
 msgid "Invite"
@@ -11955,7 +11964,7 @@ msgstr "دعوة الأصدقاء"
 msgid "Invite friends to {0}"
 msgstr "دعوة الأصدقاء إلى {0}"
 
-#: src/components/modals/InviteModal.tsx:311
+#: src/components/modals/InviteModal.tsx:308
 msgid "Invite link"
 msgstr "رابط الدعوة"
 
@@ -11963,7 +11972,7 @@ msgstr "رابط الدعوة"
 msgid "Invite Link"
 msgstr "رابط الدعوة"
 
-#: src/components/modals/InviteModal.tsx:222
+#: src/components/modals/InviteModal.tsx:219
 msgid "Invite link settings"
 msgstr "إعدادات رابط الدعوة"
 
@@ -11976,7 +11985,7 @@ msgstr "روابط الدعوة"
 
 #: src/components/layout/ChannelItem.tsx:702
 #: src/components/popouts/GuildHeaderPopout.tsx:181
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:257
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:260
 msgid "Invite Members"
 msgstr "دعوة الأعضاء"
 
@@ -12087,7 +12096,7 @@ msgstr "الدعوات"
 msgid "Invites are currently disabled for this community."
 msgstr "الدعوات معطلة حاليًا لهذا المجتمع."
 
-#: src/components/modals/InviteModal.tsx:235
+#: src/components/modals/InviteModal.tsx:232
 msgid "Invites are currently disabled in this community by an admin. While this invite can be created, it cannot be accepted until invites are re-enabled."
 msgstr "الدعوات معطلة حاليًا في هذا المجتمع من قبل المشرف. بينما يمكن إنشاء هذه الدعوة، لا يمكن قبولها حتى يتم إعادة تمكين الدعوات."
 
@@ -12198,7 +12207,7 @@ msgstr "انضم إلى المكالمة"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12273,7 +12282,7 @@ msgstr "انضم إلى الصوت"
 msgid "Join Voice Call"
 msgstr "انضم إلى مكالمة الصوت"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 msgid "Joined"
 msgstr "تم الانضمام"
 
@@ -12618,8 +12627,8 @@ msgid "Leave call"
 msgstr "ترك المكالمة"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:237
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:344
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:447
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:347
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:450
 #: src/hooks/useLeaveGuild.tsx:42
 #: src/hooks/useLeaveGuild.tsx:44
 msgid "Leave Community"
@@ -12840,7 +12849,7 @@ msgstr "الروابط"
 msgid "Links"
 msgstr "روابط"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:215
 msgid "List your community in Discovery so others can find and join it."
 msgstr "قم بإدراج مجتمعك في الاكتشاف حتى يتمكن الآخرون من العثور عليه والانضمام إليه."
 
@@ -13121,13 +13130,13 @@ msgstr "إدارة التطبيقات المصرح بها"
 msgid "Manage blocked users"
 msgstr "إدارة المستخدمين المحظورين"
 
-#: src/utils/PermissionUtils.tsx:433
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channel"
 msgstr "إدارة القناة"
 
 #: src/utils/PermissionUtils.tsx:257
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channels"
 msgstr "إدارة القنوات"
 
@@ -13143,7 +13152,7 @@ msgstr "إدارة ميزات المجتمع"
 msgid "Manage developer applications"
 msgstr "إدارة تطبيقات المطورين"
 
-#: src/utils/PermissionUtils.tsx:284
+#: src/utils/PermissionUtils.tsx:289
 msgid "Manage Emoji & Stickers"
 msgstr "إدارة الإيموجي والملصقات"
 
@@ -13163,8 +13172,8 @@ msgstr "إدارة webhooks الواردة التي يمكنها نشر رسائ
 msgid "Manage invites for this channel."
 msgstr "إدارة الدعوات لهذه القناة."
 
-#: src/utils/PermissionUtils.tsx:310
-#: src/utils/PermissionUtils.tsx:464
+#: src/utils/PermissionUtils.tsx:316
+#: src/utils/PermissionUtils.tsx:470
 msgid "Manage Messages"
 msgstr "إدارة الرسائل"
 
@@ -13172,7 +13181,7 @@ msgstr "إدارة الرسائل"
 msgid "Manage Nicknames"
 msgstr "إدارة الألقاب"
 
-#: src/utils/PermissionUtils.tsx:438
+#: src/utils/PermissionUtils.tsx:444
 msgid "Manage Permissions"
 msgstr "إدارة الأذونات"
 
@@ -13191,8 +13200,8 @@ msgstr "إدارة الاشتراك"
 msgid "Manage the email address you use to sign in to Fluxer"
 msgstr "إدارة عنوان البريد الإلكتروني الذي تستخدمه لتسجيل الدخول إلى Fluxer"
 
-#: src/utils/PermissionUtils.tsx:288
-#: src/utils/PermissionUtils.tsx:443
+#: src/utils/PermissionUtils.tsx:294
+#: src/utils/PermissionUtils.tsx:449
 msgid "Manage Webhooks"
 msgstr "إدارة Webhooks"
 
@@ -13231,7 +13240,7 @@ msgstr "إدارة اشتراكك"
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:85
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:522
 #: src/components/uikit/context_menu/items/DMMenuItems.tsx:53
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:249
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:252
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:95
 msgid "Mark as Read"
 msgstr "تحديد كمقروء"
@@ -13346,7 +13355,7 @@ msgstr "marty@example.com"
 msgid "Mask Visionary as subscription"
 msgstr "إخفاء Visionary كاشتراك"
 
-#: src/components/modals/InviteModal.tsx:286
+#: src/components/modals/InviteModal.tsx:283
 msgid "Max Number of Uses"
 msgstr "الحد الأقصى لعدد الاستخدامات"
 
@@ -13581,7 +13590,7 @@ msgstr "الأعضاء المقطوعون"
 msgid "Members receive notifications for every message"
 msgstr "يتلقى الأعضاء إشعارات لكل رسالة"
 
-#: src/components/modals/InviteModal.tsx:297
+#: src/components/modals/InviteModal.tsx:294
 msgid "Members will be removed when they go offline unless a role is assigned"
 msgstr "سيتم إزالة الأعضاء عندما يصبحون غير متصلين ما لم يتم تعيين دور لهم"
 
@@ -13627,8 +13636,8 @@ msgstr "ذكر @here؟"
 msgid "Mention Badges"
 msgstr "شارات الذكر"
 
-#: src/utils/PermissionUtils.tsx:332
-#: src/utils/PermissionUtils.tsx:474
+#: src/utils/PermissionUtils.tsx:338
+#: src/utils/PermissionUtils.tsx:480
 msgid "Mention everyone or any role (even if the role isn't set to be mentionable)."
 msgstr "ذكر الجميع أو أي دور (حتى لو لم يتم تعيين الدور ليكون قابلًا للذكر)."
 
@@ -13837,8 +13846,8 @@ msgid "Messages"
 msgstr "الرسائل"
 
 #: src/components/modals/utils/SettingsConstants.tsx:184
-#: src/utils/PermissionUtils.tsx:298
-#: src/utils/PermissionUtils.tsx:460
+#: src/utils/PermissionUtils.tsx:304
+#: src/utils/PermissionUtils.tsx:466
 msgid "Messages & Media"
 msgstr "الرسائل والوسائط"
 
@@ -14021,7 +14030,7 @@ msgid "Mode C"
 msgstr "الوضع ج"
 
 #: src/components/uikit/context_menu/items/ModerationSubmenu.tsx:152
-#: src/utils/PermissionUtils.tsx:360
+#: src/utils/PermissionUtils.tsx:366
 msgid "Moderation"
 msgstr "الإشراف"
 
@@ -14117,8 +14126,8 @@ msgstr "تحريك التركيز عبر الأزرار وحقول الإدخا�
 msgid "Move focus to the message composer"
 msgstr "تحريك التركيز إلى محرر الرسائل"
 
-#: src/utils/PermissionUtils.tsx:412
-#: src/utils/PermissionUtils.tsx:509
+#: src/utils/PermissionUtils.tsx:418
+#: src/utils/PermissionUtils.tsx:515
 msgid "Move Members"
 msgstr "نقل الأعضاء"
 
@@ -14158,7 +14167,7 @@ msgstr "نادي الأفلام"
 msgid "Movie Night Crew"
 msgstr "طاقم ليلة الأفلام"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:87
 msgid "Movies & TV"
 msgstr "أفلام وتلفزيون"
 
@@ -14170,7 +14179,7 @@ msgstr "mp3"
 msgid "Multilingual Content"
 msgstr "محتوى متعدد اللغات"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
 msgid "Music"
 msgstr "موسيقى"
 
@@ -14191,8 +14200,8 @@ msgstr "كتم الصوت"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:270
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:149
-#: src/components/layout/UserArea.tsx:155
+#: src/components/layout/UserArea.tsx:163
+#: src/components/layout/UserArea.tsx:169
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
@@ -14255,7 +14264,7 @@ msgstr "كتم القناة"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:95
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:172
 msgid "Mute Community"
 msgstr "كتم المجتمع"
@@ -14285,8 +14294,8 @@ msgstr "كتم المفضلات"
 msgid "Mute Keybind"
 msgstr "مفتاح كتم الصوت"
 
-#: src/utils/PermissionUtils.tsx:404
-#: src/utils/PermissionUtils.tsx:506
+#: src/utils/PermissionUtils.tsx:410
+#: src/utils/PermissionUtils.tsx:512
 msgid "Mute Members"
 msgstr "كتم الأعضاء"
 
@@ -14534,10 +14543,6 @@ msgstr "لا تتحرك أبدًا"
 msgid "Never Automatically"
 msgstr "لا تلقائيًا أبدًا"
 
-#: src/components/modals/InviteModal.tsx:196
-msgid "never expires"
-msgstr "لا تنتهي صلاحيته أبدًا"
-
 #: src/components/channel/Divider.tsx:51
 #: src/components/channel/Divider.tsx:60
 #: src/components/channel/UnreadDividerSlot.tsx:47
@@ -14758,7 +14763,7 @@ msgstr "لا توجد اتصالات بعد"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -14768,11 +14773,11 @@ msgstr "لم يتم تقديم وصف."
 msgid "No email address set"
 msgstr "لم يتم تعيين عنوان بريد إلكتروني"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:185
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:201
 msgid "No emoji slots available"
 msgstr "لا توجد أماكن للرموز التعبيرية متاحة"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:368
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:389
 msgid "No emojis found matching your search."
 msgstr "لم يتم العثور على رموز تعبيرية تطابق بحثك."
 
@@ -14986,11 +14991,11 @@ msgid "No Stickers Available"
 msgstr "لا توجد ملصقات متاحة"
 
 #: src/components/channel/MobileStickersPicker.tsx:206
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:186
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
 msgid "No Stickers Found"
 msgstr "لم يتم العثور على ملصقات"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:187
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:208
 msgid "No stickers found matching your search."
 msgstr "لم يتم العثور على ملصقات تطابق بحثك."
 
@@ -15055,7 +15060,7 @@ msgid "Noise Suppression"
 msgstr "قمع الضوضاء"
 
 #. placeholder {0}: staticEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:384
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:405
 msgid "Non-Animated Emoji ({0})"
 msgstr "رموز تعبيرية غير متحركة ({0})"
 
@@ -15081,7 +15086,7 @@ msgstr "النرويجية"
 msgid "Not available"
 msgstr "غير متوفر"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
 msgid "Not enough members"
 msgstr "عدد الأعضاء غير كافٍ"
 
@@ -15154,7 +15159,7 @@ msgstr "تجاوزات الإشعارات"
 #: src/components/uikit/context_menu/items/CategoryMenuItems.tsx:230
 #: src/components/uikit/context_menu/items/ChannelMenuData.tsx:492
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:253
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:304
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:307
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:243
 msgid "Notification Settings"
 msgstr "إعدادات الإشعارات"
@@ -15273,8 +15278,8 @@ msgstr "غير متصل"
 #: src/components/guild/RoleManagement.tsx:306
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:56
 #: src/components/modals/components/plutonium/hooks/useCheckoutActions.tsx:108
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:151
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:167
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:257
 #: src/components/modals/GuildOwnershipWarningModal.tsx:73
 msgid "OK"
 msgstr "موافق"
@@ -15733,7 +15738,7 @@ msgstr "أو"
 msgid "Or copy the link:"
 msgstr "أو انسخ الرابط:"
 
-#: src/components/modals/InviteModal.tsx:307
+#: src/components/modals/InviteModal.tsx:304
 msgid "or send an invite link to a friend:"
 msgstr "أو أرسل رابط دعوة إلى صديق:"
 
@@ -15749,7 +15754,7 @@ msgstr "فشل تحميل الرسالة الأصلية"
 msgid "Original message was deleted"
 msgstr "تم حذف الرسالة الأصلية"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:88
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15763,8 +15768,8 @@ msgstr "آخر"
 msgid "Other Devices"
 msgstr "أجهزة أخرى"
 
-#: src/utils/PermissionUtils.tsx:396
-#: src/utils/PermissionUtils.tsx:502
+#: src/utils/PermissionUtils.tsx:402
+#: src/utils/PermissionUtils.tsx:508
 msgid "Otherwise Push-to-talk is required."
 msgstr "وإلا فإن الضغط للتحدث مطلوب."
 
@@ -16026,7 +16031,7 @@ msgid "Payment Successful"
 msgstr "تم الدفع بنجاح"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
 msgid "Pending"
 msgstr "قيد الانتظار"
 
@@ -16236,8 +16241,8 @@ msgstr "ثبته. ثبته جيدًا."
 msgid "Pin Message"
 msgstr "تثبيت الرسالة"
 
-#: src/utils/PermissionUtils.tsx:315
-#: src/utils/PermissionUtils.tsx:468
+#: src/utils/PermissionUtils.tsx:321
+#: src/utils/PermissionUtils.tsx:474
 msgid "Pin Messages"
 msgstr "تثبيت الرسائل"
 
@@ -16564,7 +16569,7 @@ msgstr "منع <0>{0}</0> من إرسال الرسائل والتفاعل وال
 msgid "Prevent <0>{0}</0> from sending messages, reacting, and joining voice channels for the specified duration."
 msgstr "منع <0>{0}</0> من إرسال الرسائل والتفاعل والانضمام إلى قنوات الصوت للمدة المحددة."
 
-#: src/utils/PermissionUtils.tsx:364
+#: src/utils/PermissionUtils.tsx:370
 msgid "Prevent members from sending messages, reacting, and joining voice for a duration."
 msgstr "منع الأعضاء من إرسال الرسائل والتفاعل والانضمام إلى الصوت لمدة محددة."
 
@@ -16668,8 +16673,8 @@ msgstr "الإجراء الأساسي"
 msgid "Primary button clicked!"
 msgstr "تم النقر على الزر الأساسي!"
 
-#: src/utils/PermissionUtils.tsx:400
-#: src/utils/PermissionUtils.tsx:505
+#: src/utils/PermissionUtils.tsx:406
+#: src/utils/PermissionUtils.tsx:511
 msgid "Priority Speaker"
 msgstr "المتكلم ذو الأولوية"
 
@@ -16691,8 +16696,8 @@ msgstr "سياسة الخصوصية"
 
 #: src/components/modals/GuildPrivacySettingsModal.tsx:72
 #: src/components/popouts/GuildHeaderPopout.tsx:215
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:309
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:378
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:312
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:381
 msgid "Privacy Settings"
 msgstr "إعدادات الخصوصية"
 
@@ -16841,11 +16846,11 @@ msgstr "وضع الشراء"
 msgid "Purchased {0}"
 msgstr "تم الشراء في {0}"
 
-#: src/components/emojis/EmojiListItem.tsx:197
+#: src/components/emojis/EmojiListItem.tsx:198
 msgid "Purge this emoji from storage and CDN"
 msgstr "احذف هذا الرمز التعبيري من التخزين وشبكة CDN"
 
-#: src/components/stickers/StickerGridItem.tsx:69
+#: src/components/stickers/StickerGridItem.tsx:75
 msgid "Purge this sticker from storage and CDN"
 msgstr "احذف هذا الملصق من التخزين وشبكة CDN"
 
@@ -16897,7 +16902,7 @@ msgstr "اضغط للتحدث (اضغط باستمرار)"
 msgid "Push-to-Talk (Limited)"
 msgstr "اضغط للتحدث (محدود)"
 
-#: src/components/layout/UserArea.tsx:147
+#: src/components/layout/UserArea.tsx:161
 #: src/components/voice/VoiceControlBar.tsx:600
 msgid "Push-to-talk enabled — hold {pushToTalkHint} to speak"
 msgstr "تم تمكين ضغط للتحدث — اضغط باستمرار على {pushToTalkHint} للتحدث"
@@ -17017,8 +17022,8 @@ msgstr "إعادة التنشيط"
 msgid "read aloud"
 msgstr "اقرأ بصوت عالٍ"
 
-#: src/utils/PermissionUtils.tsx:327
-#: src/utils/PermissionUtils.tsx:471
+#: src/utils/PermissionUtils.tsx:333
+#: src/utils/PermissionUtils.tsx:477
 msgid "Read Message History"
 msgstr "قراءة سجل الرسائل"
 
@@ -17057,7 +17062,7 @@ msgid "Reason (Optional)"
 msgstr "السبب (اختياري)"
 
 #. placeholder {0}: application.review_reason
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:249
 msgid "Reason: {0}"
 msgstr "السبب: {0}"
 
@@ -17092,7 +17097,7 @@ msgstr "عمليات البحث الحديثة"
 
 #. placeholder {0}: ChannelUtils.getIcon(channel, {size: 16, className: styles.channelIcon})
 #. placeholder {1}: channel.name
-#: src/components/modals/InviteModal.tsx:226
+#: src/components/modals/InviteModal.tsx:223
 msgid "Recipients will be taken to {0} <0>{1}</0>"
 msgstr "سيتم نقل المستلمين إلى {0} <0>{1}</0>"
 
@@ -17250,7 +17255,7 @@ msgstr "المستخدمون العاديون، والروبوتات، والن�
 msgid "Reject"
 msgstr "رفض"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:60
 msgid "Rejected"
 msgstr "مرفوض"
 
@@ -17525,7 +17530,7 @@ msgstr "إزالة عندما اشتريت Plutonium لأول مرة من شار
 msgid "Remove your Visionary ID badge"
 msgstr "إزالة شارة Visionary ID الخاصة بك"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:61
 msgid "Removed"
 msgstr "تم الإزالة"
 
@@ -17635,11 +17640,11 @@ msgid "Rename"
 msgstr "إعادة تسمية"
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:238
+#: src/components/emojis/EmojiListItem.tsx:240
 msgid "Rename :{0}:"
 msgstr "إعادة تسمية :{0}:"
 
-#: src/utils/PermissionUtils.tsx:434
+#: src/utils/PermissionUtils.tsx:440
 msgid "Rename and edit this channel's settings."
 msgstr "إعادة تسمية وتعديل إعدادات هذه القناة."
 
@@ -17748,7 +17753,7 @@ msgid "Report a User Profile"
 msgstr "الإبلاغ عن ملف مستخدم"
 
 #: src/components/modals/IARModal.tsx:119
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:350
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:353
 #: src/components/uikit/context_menu/items/ReportGuildMenuItem.tsx:57
 msgid "Report Community"
 msgstr "الإبلاغ عن المجتمع"
@@ -18045,7 +18050,7 @@ msgstr "إعادة الاشتراك"
 #: src/components/modals/BackgroundImageGalleryModal.tsx:210
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:649
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:125
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:234
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:138
 #: src/components/modals/tabs/applications_tab/ApplicationDetail.tsx:586
 #: src/components/modals/tabs/applications_tab/index.tsx:113
@@ -18319,7 +18324,7 @@ msgstr "حفظ"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18451,7 +18456,7 @@ msgstr "رسالة مجدولة لـ {0}"
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "يمكن أن تكون الرسائل المجدولة على الأكثر 30 يومًا في المستقبل."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
 msgid "Science & Technology"
 msgstr "العلوم والتكنولوجيا"
 
@@ -18574,7 +18579,7 @@ msgstr "ابحث عن المجتمعات..."
 msgid "Search countries..."
 msgstr "بحث عن الدول..."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:308
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:324
 msgid "Search emojis..."
 msgstr "بحث عن الرموز التعبيرية..."
 
@@ -18603,7 +18608,7 @@ msgstr "ابحث عن القنوات أو الأشخاص أو المجتمعات
 #: src/components/common/FriendSelector.tsx:197
 #: src/components/modals/AddFriendsToGroupModal.tsx:53
 #: src/components/modals/CreateDMModal.tsx:68
-#: src/components/modals/InviteModal.tsx:246
+#: src/components/modals/InviteModal.tsx:243
 #: src/components/modals/shared/RecipientList.tsx:179
 #: src/components/modals/ShareThemeModal.tsx:141
 msgid "Search friends"
@@ -18692,7 +18697,7 @@ msgstr "إعدادات البحث"
 msgid "Search settings..."
 msgstr "بحث في الإعدادات..."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:130
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:147
 msgid "Search stickers..."
 msgstr "بحث عن الملصقات..."
 
@@ -19035,8 +19040,8 @@ msgstr "إرسال الرسالة معطل"
 msgid "Send messages"
 msgstr "إرسال الرسائل"
 
-#: src/utils/PermissionUtils.tsx:301
-#: src/utils/PermissionUtils.tsx:462
+#: src/utils/PermissionUtils.tsx:307
+#: src/utils/PermissionUtils.tsx:468
 msgid "Send Messages"
 msgstr "إرسال الرسائل"
 
@@ -19056,11 +19061,11 @@ msgstr "إرسال رمز الرسالة القصيرة"
 msgid "Send SMS Code"
 msgstr "إرسال رمز الرسالة القصيرة"
 
-#: src/utils/PermissionUtils.tsx:306
+#: src/utils/PermissionUtils.tsx:312
 msgid "Send text-to-speech messages."
 msgstr "إرسال رسائل النص إلى كلام."
 
-#: src/utils/PermissionUtils.tsx:305
+#: src/utils/PermissionUtils.tsx:311
 msgid "Send TTS Messages"
 msgstr "إرسال رسائل النص إلى كلام"
 
@@ -19072,7 +19077,7 @@ msgstr "إرسال رمز التحقق"
 msgid "Send voice message"
 msgstr "إرسال رسالة صوتية"
 
-#: src/components/modals/InviteModal.tsx:266
+#: src/components/modals/InviteModal.tsx:263
 #: src/components/modals/shared/RecipientList.tsx:223
 #: src/components/modals/ShareThemeModal.tsx:159
 msgid "Sent"
@@ -19098,7 +19103,7 @@ msgstr "تم إرسال مرفق"
 msgid "sent an embed"
 msgstr "تم إرسال تضمين"
 
-#: src/components/modals/AddConnectionModal.tsx:277
+#: src/components/modals/AddConnectionModal.tsx:280
 msgid "Serve the token file"
 msgstr "قم بتقديم ملف الرمز المميز"
 
@@ -19310,8 +19315,8 @@ msgstr "تعيين مستوى التحقق إلى <0>متوسط</0>."
 msgid "Set verification level to <0>None</0>."
 msgstr "تعيين مستوى التحقق إلى <0>لا شيء</0>."
 
-#: src/utils/PermissionUtils.tsx:417
-#: src/utils/PermissionUtils.tsx:513
+#: src/utils/PermissionUtils.tsx:423
+#: src/utils/PermissionUtils.tsx:519
 msgid "Set Voice Region"
 msgstr "تعيين منطقة الصوت"
 
@@ -20174,8 +20179,8 @@ msgstr "الإسبانية (أمريكا اللاتينية)"
 msgid "Spanish (Spain)"
 msgstr "الإسبانية (إسبانيا)"
 
-#: src/utils/PermissionUtils.tsx:387
-#: src/utils/PermissionUtils.tsx:498
+#: src/utils/PermissionUtils.tsx:393
+#: src/utils/PermissionUtils.tsx:504
 msgid "Speak"
 msgstr "تحدث"
 
@@ -20397,7 +20402,7 @@ msgstr "ابدأ مكالمة صوتية"
 
 #. placeholder {0}: staticEmojis.length
 #. placeholder {1}: maxStaticEmojis === Number.POSITIVE_INFINITY ? '∞' : maxStaticEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:349
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:367
 msgid "Static: {0} / {1}"
 msgstr "ثابت: {0} / {1}"
 
@@ -20423,7 +20428,7 @@ msgstr "لوحة الحالة"
 msgid "Status Slate"
 msgstr "لوحة الحالة"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:243
 msgid "Status:"
 msgstr "الحالة:"
 
@@ -20478,7 +20483,7 @@ msgstr "تم إنشاء الملصق"
 msgid "Sticker Deleted"
 msgstr "تم حذف الملصق"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:137
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:154
 msgid "Sticker density"
 msgstr "كثافة الملصقات"
 
@@ -20505,7 +20510,7 @@ msgstr "تم الوصول إلى حد حزم الملصقات"
 msgid "sticker packs"
 msgstr "حزم الملصقات"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:158
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:177
 msgid "Sticker Slots"
 msgstr "فتحات الملصقات"
 
@@ -20529,7 +20534,7 @@ msgid "Stickers"
 msgstr "ملصقات"
 
 #. placeholder {0}: Math.round(GlobalLimits.getStickerMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:164
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:183
 msgid "Stickers must be exactly 320x320 pixels and no larger than {0} KB, but we automatically resize and compress images for you. Allowed file types: JPEG, PNG, WebP, GIF."
 msgstr "يجب أن تكون الملصقات بالضبط 320x320 بكسل وألا يتجاوز حجمها {0} كيلوبايت، لكننا نغير حجم الصور ونضغطها تلقائيًا لك. أنواع الملفات المسموح بها: JPEG، PNG، WebP، GIF."
 
@@ -20611,8 +20616,8 @@ msgstr "معاينة البث"
 msgid "Stream Quality"
 msgstr "جودة البث"
 
-#: src/utils/PermissionUtils.tsx:391
-#: src/utils/PermissionUtils.tsx:499
+#: src/utils/PermissionUtils.tsx:397
+#: src/utils/PermissionUtils.tsx:505
 msgid "Stream Video"
 msgstr "بث الفيديو"
 
@@ -21139,7 +21144,7 @@ msgstr "قد يكون المجتمع الذي تبحث عنه قد حُذف أو
 msgid "The download link will be valid for 7 days"
 msgstr "سيكون رابط التنزيل صالحًا لمدة 7 أيام"
 
-#: src/components/modals/AddConnectionModal.tsx:298
+#: src/components/modals/AddConnectionModal.tsx:301
 msgid "The file contains the verification token we will fetch from <0>{dnsUrl}</0>."
 msgstr "الملف يحتوي على رمز التحقق الذي سنقوم بجلبه من <0>{dnsUrl}</0>."
 
@@ -21265,7 +21270,7 @@ msgstr "حدث خطأ في تحميل روابط الدعوة لهذه القن�
 msgid "There was an error loading the invites. Please try again."
 msgstr "حدث خطأ في تحميل الدعوات. يرجى المحاولة مرة أخرى."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:204
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:231
 msgid "There was an error loading the stickers. Please try again."
 msgstr "حدث خطأ في تحميل الملصقات. يرجى المحاولة مرة أخرى."
 
@@ -21528,7 +21533,7 @@ msgstr "تنتهي صلاحية هذه الدعوة في {seconds} ثوان."
 msgid "This invite has unlimited uses."
 msgstr "هذه الدعوة لها استخدامات غير محدودة."
 
-#: src/components/modals/InviteModal.tsx:315
+#: src/components/modals/InviteModal.tsx:312
 msgid "This invite link never expires."
 msgstr "رابط الدعوة هذا لا ينتهي صلاحيته أبدًا."
 
@@ -21836,7 +21841,7 @@ msgstr "مدة المهلة"
 msgid "Timeout ends {0} ({1})"
 msgstr "تنتهي المهلة {0} ({1})"
 
-#: src/utils/PermissionUtils.tsx:363
+#: src/utils/PermissionUtils.tsx:369
 msgid "Timeout Members"
 msgstr "أعضاء المهلة"
 
@@ -22431,7 +22436,7 @@ msgstr "غير قادر على تحميل المعاينة."
 msgid "Unable to load profile banner, badges, and bio."
 msgstr "غير قادر على تحميل لافتة الملف الشخصي، والشارات، والسيرة."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:229
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:245
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "تعذر تحضير أي إيموجي للرفع. حدثت الأخطاء التالية:"
 
@@ -22532,7 +22537,7 @@ msgstr "تجاوز الحساب غير المُطالب به"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:174
 #: src/components/voice/VoiceControlBar.tsx:611
 msgid "Undeafen"
 msgstr "إلغاء كتم الصوت"
@@ -22569,7 +22574,7 @@ msgstr "مستخدم قاصر"
 #: src/components/alerts/UserBannedFromGuildModal.tsx:30
 #: src/components/alerts/UserIpBannedFromGuildModal.tsx:31
 #: src/components/layout/ChannelListContent.tsx:149
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:192
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:208
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:160
 msgid "Understood"
 msgstr "مفهوم"
@@ -22614,7 +22619,7 @@ msgstr "دعوة فريدة"
 msgid "Unit"
 msgstr "وحدة"
 
-#: src/components/emojis/EmojiListItem.tsx:290
+#: src/components/emojis/EmojiListItem.tsx:301
 #: src/components/modals/BanDetailsModal.tsx:116
 msgid "Unknown"
 msgstr "غير معروف"
@@ -22776,8 +22781,8 @@ msgstr "فتح الملصقات في الرسائل المباشرة مع Pluton
 #: src/components/bottomsheets/MuteDurationSheet.tsx:75
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:148
-#: src/components/layout/UserArea.tsx:154
+#: src/components/layout/UserArea.tsx:162
+#: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/MobileVideoViewer.tsx:272
@@ -22813,7 +22818,7 @@ msgstr "إلغاء كتم الصوت للقناة"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:96
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:165
 msgid "Unmute Community"
 msgstr "إلغاء كتم الصوت للمجتمع"
@@ -23146,7 +23151,7 @@ msgstr "تحميل صوت مخصص"
 msgid "Upload directly to {displayName}"
 msgstr "الرفع مباشرة إلى {displayName}"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:329
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:347
 msgid "Upload Emoji"
 msgstr "رفع رمز تعبيري"
 
@@ -23170,11 +23175,15 @@ msgstr "رفع أيقونة"
 msgid "Upload Image"
 msgstr "رفع صورة"
 
+#: src/utils/PermissionUtils.tsx:285
+msgid "Upload new emoji and stickers, and manage your own creations."
+msgstr "رفع رموز تعبيرية وملصقات جديدة، وإدارة إبداعاتك الخاصة."
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:577
 msgid "upload sound"
 msgstr "رفع الصوت"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:180
 msgid "Upload Sticker"
 msgstr "رفع ملصق"
 
@@ -23235,8 +23244,8 @@ msgstr "روابط لتحميل أي مرفقات من رسائلك"
 msgid "US East"
 msgstr "الولايات المتحدة الشرقية"
 
-#: src/utils/PermissionUtils.tsx:331
-#: src/utils/PermissionUtils.tsx:473
+#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:479
 msgid "Use @everyone/@here and @roles"
 msgstr "استخدم @everyone/@here و @roles"
 
@@ -23294,17 +23303,17 @@ msgstr "استخدم السمة الداكنة عبر التطبيق"
 msgid "Use Different Email"
 msgstr "استخدام بريد إلكتروني مختلف"
 
-#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:343
 msgid "Use emoji from other communities."
 msgstr "استخدم الرموز التعبيرية من المجتمعات الأخرى."
 
-#: src/utils/PermissionUtils.tsx:336
-#: src/utils/PermissionUtils.tsx:477
+#: src/utils/PermissionUtils.tsx:342
+#: src/utils/PermissionUtils.tsx:483
 msgid "Use External Emoji"
 msgstr "استخدم الرموز التعبيرية الخارجية"
 
-#: src/utils/PermissionUtils.tsx:341
-#: src/utils/PermissionUtils.tsx:478
+#: src/utils/PermissionUtils.tsx:347
+#: src/utils/PermissionUtils.tsx:484
 msgid "Use External Stickers"
 msgstr "استخدم الملصقات الخارجية"
 
@@ -23337,7 +23346,7 @@ msgstr "استخدم مفتاح الأمان"
 msgid "Use system locale for time format"
 msgstr "استخدم إعدادات اللغة للنظام لتنسيق الوقت"
 
-#: src/components/modals/AddConnectionModal.tsx:233
+#: src/components/modals/AddConnectionModal.tsx:236
 msgid "Use the record below to prove domain ownership."
 msgstr "استخدم السجل أدناه لإثبات ملكية النطاق."
 
@@ -23357,8 +23366,8 @@ msgstr "استخدم هذا الزر لمسح جميع الأذونات بسرع
 msgid "Use this shortcut system-wide"
 msgstr "استخدم هذا الاختصار عبر النظام"
 
-#: src/utils/PermissionUtils.tsx:395
-#: src/utils/PermissionUtils.tsx:501
+#: src/utils/PermissionUtils.tsx:401
+#: src/utils/PermissionUtils.tsx:507
 msgid "Use Voice Activity"
 msgstr "استخدم نشاط الصوت"
 
@@ -23450,8 +23459,8 @@ msgstr "ملف المستخدم: {tag}"
 msgid "User Record"
 msgstr "سجل المستخدم"
 
-#: src/components/layout/UserArea.tsx:272
-#: src/components/layout/UserArea.tsx:277
+#: src/components/layout/UserArea.tsx:286
+#: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
 #: src/components/modals/UserSettingsModal.tsx:154
 msgid "User Settings"
@@ -23570,7 +23579,7 @@ msgstr "أدوات"
 msgid "value"
 msgstr "قيمة"
 
-#: src/components/modals/AddConnectionModal.tsx:258
+#: src/components/modals/AddConnectionModal.tsx:261
 msgid "Value"
 msgstr "القيمة"
 
@@ -23678,7 +23687,7 @@ msgstr "نقابة موثّقة"
 msgid "verify"
 msgstr "تحقق"
 
-#: src/components/modals/AddConnectionModal.tsx:312
+#: src/components/modals/AddConnectionModal.tsx:315
 #: src/components/modals/EmailChangeModal.tsx:236
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
@@ -23690,11 +23699,11 @@ msgstr "تحقق"
 msgid "Verify Code"
 msgstr "تحقق من الرمز"
 
-#: src/components/modals/AddConnectionModal.tsx:229
+#: src/components/modals/AddConnectionModal.tsx:232
 msgid "Verify Connection"
 msgstr "تحقق من الاتصال"
 
-#: src/components/modals/AddConnectionModal.tsx:228
+#: src/components/modals/AddConnectionModal.tsx:231
 msgid "Verify connection form"
 msgstr "نموذج تحقق الاتصال"
 
@@ -23874,8 +23883,8 @@ msgstr "عرض المكالمة"
 msgid "View call controls"
 msgstr "عرض عناصر تحكم المكالمة"
 
-#: src/utils/PermissionUtils.tsx:374
-#: src/utils/PermissionUtils.tsx:454
+#: src/utils/PermissionUtils.tsx:380
+#: src/utils/PermissionUtils.tsx:460
 msgid "View Channel"
 msgstr "عرض القناة"
 
@@ -24691,7 +24700,7 @@ msgstr "مع خطأ"
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "مع بلوتونيوم، يمكنك استخدام الصور الرمزية المتحركة واللافتات (بصيغة GIF، APNG، WebP المتحركة، أو AVIF)، تخصيص علامة الـ 4 أرقام الخاصة بك، وفتح العديد من الميزات المميزة الأخرى."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:353
 msgid "Withdraw"
 msgstr "انسحب"
 
@@ -24759,7 +24768,7 @@ msgstr "أنت"
 msgid "You already have a group with these users. Do you really want to create a new one? That's fine too!"
 msgstr "لديك بالفعل مجموعة مع هؤلاء المستخدمين. هل تريد حقًا إنشاء مجموعة جديدة؟ لا بأس بذلك أيضًا!"
 
-#: src/components/modals/AddConnectionModal.tsx:98
+#: src/components/modals/AddConnectionModal.tsx:101
 msgid "You already have this connection."
 msgstr "لديك بالفعل هذا الاتصال."
 
@@ -25392,7 +25401,7 @@ msgstr "لقد وصلت إلى الحد الأقصى من عدد المجتمع�
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "لقد وصلت إلى الحد الأقصى من عدد المجتمعات التي يمكنك الانضمام إليها ({maxGuilds} مجتمع). يرجى مغادرة مجتمع قبل الانضمام إلى آخر."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:187
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:203
 msgid "You've reached the maximum number of static emojis. Delete some existing emojis or upgrade your server to increase the limit."
 msgstr "لقد reached الحد الأقصى لعدد الرموز التعبيرية الثابتة. احذف بعض الرموز التعبيرية الحالية أو قم بترقية خادمك لزيادة الحد."
 
@@ -25425,7 +25434,7 @@ msgstr "لم يتم المطالبة بحسابك بعد. بدون بريد إل
 msgid "Your account is too new to send messages in this community."
 msgstr "حسابك جديد جدًا لإرسال الرسائل في هذا المجتمع."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:278
 msgid "Your application is pending review. You can still update your listing details or withdraw the application."
 msgstr "طلبك قيد المراجعة. يمكنك تحديث تفاصيل القائمة الخاصة بك أو سحب الطلب."
 
@@ -25445,11 +25454,11 @@ msgstr "رمزك"
 msgid "Your code is ready!"
 msgstr "رمزك جاهز!"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:262
 msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
 msgstr "مجتمعك مدرج في الاكتشاف. يمكنك تحديث تفاصيل القائمة أدناه أو الانسحاب لإزالته."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:230
 msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
 msgstr "يحتاج مجتمعك إلى {minMemberCount} أعضاء على الأقل قبل أن يتم إدراجه في الاكتشاف."
 
@@ -25499,7 +25508,7 @@ msgid "Your invite expires in 24 hours"
 msgstr "دعوتك تنتهي خلال 24 ساعة"
 
 #. placeholder {0}: getExpirationText()
-#: src/components/modals/InviteModal.tsx:319
+#: src/components/modals/InviteModal.tsx:323
 msgid "Your invite link expires in {0}."
 msgstr "رابط دعوتك ينتهي في {0}."
 
@@ -25515,15 +25524,15 @@ msgstr "عنوان IP الخاص بك محظور من هذا المجتمع ول
 msgid "Your IP is Banned"
 msgstr "عنوان IP الخاص بك محظور"
 
-#: src/lib/MessageQueue.tsx:386
+#: src/lib/MessageQueue.tsx:484
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "تعذر تسليم رسالتك. هذا عادة لأنك لا تشارك مجتمعًا مع المستلم أو أن المستلم يقبل فقط الرسائل المباشرة من الأصدقاء."
 
-#: src/lib/MessageQueue.tsx:398
+#: src/lib/MessageQueue.tsx:496
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "تعذر تسليم رسالتك. تحتاج إلى المطالبة بحسابك لإرسال رسائل مباشرة."
 
-#: src/lib/MessageQueue.tsx:399
+#: src/lib/MessageQueue.tsx:497
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "لم يتم تسليم رسالتك. تحتاج إلى المطالبة بحسابك لإرسال الرسائل."
 

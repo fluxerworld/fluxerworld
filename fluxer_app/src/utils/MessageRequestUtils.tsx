@@ -34,6 +34,7 @@ export interface ApiAttachmentMetadata {
 	flags?: number;
 	duration?: number;
 	waveform?: string;
+	uploaded_filename?: string;
 }
 
 export interface MessageCreateRequest {

@@ -31,6 +31,7 @@ import type {IBlueskyOAuthService} from '@fluxer/api/src/bluesky/IBlueskyOAuthSe
 import type {IChannelRepository} from '@fluxer/api/src/channel/IChannelRepository';
 import type {ChannelRequestService} from '@fluxer/api/src/channel/services/ChannelRequestService';
 import type {ChannelService} from '@fluxer/api/src/channel/services/ChannelService';
+import type {ChunkedUploadService} from '@fluxer/api/src/channel/services/ChunkedUploadService';
 import type {MessageRequestService} from '@fluxer/api/src/channel/services/message/MessageRequestService';
 import type {ScheduledMessageService} from '@fluxer/api/src/channel/services/ScheduledMessageService';
 import type {StreamPreviewService} from '@fluxer/api/src/channel/services/StreamPreviewService';
@@ -95,7 +96,7 @@ import type {UserContactChangeLogService} from '@fluxer/api/src/user/services/Us
 import type {UserContentRequestService} from '@fluxer/api/src/user/services/UserContentRequestService';
 import type {UserRelationshipRequestService} from '@fluxer/api/src/user/services/UserRelationshipRequestService';
 import type {UserService} from '@fluxer/api/src/user/services/UserService';
-import type {SendGridWebhookService} from '@fluxer/api/src/webhook/SendGridWebhookService';
+import type {SweegoWebhookService} from '@fluxer/api/src/webhook/SweegoWebhookService';
 import type {WebhookRequestService} from '@fluxer/api/src/webhook/WebhookRequestService';
 import type {WebhookService} from '@fluxer/api/src/webhook/WebhookService';
 import type {ICacheService} from '@fluxer/cache/src/ICacheService';
@@ -133,6 +134,7 @@ export interface HonoEnv {
 		cacheService: ICacheService;
 		channelService: ChannelService;
 		channelRequestService: ChannelRequestService;
+		chunkedUploadService: ChunkedUploadService;
 		messageRequestService: MessageRequestService;
 		channelRepository: IChannelRepository;
 		connectionService: ConnectionService;
@@ -188,7 +190,7 @@ export interface HonoEnv {
 		userChannelRequestService: UserChannelRequestService;
 		userContentRequestService: UserContentRequestService;
 		userRelationshipRequestService: UserRelationshipRequestService;
-		sendGridWebhookService: SendGridWebhookService;
+		sweegoWebhookService: SweegoWebhookService;
 		webhookService: WebhookService;
 		webhookRequestService: WebhookRequestService;
 		workerService: IWorkerService;

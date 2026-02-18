@@ -7,7 +7,6 @@
 		"domain",
 		"database",
 		"services",
-		"gateway",
 		"auth"
 	],
 	"if": {
@@ -124,10 +123,6 @@
 		"services": {
 			"description": "Configuration for individual Fluxer services.",
 			"$ref": "#/$defs/services"
-		},
-		"gateway": {
-			"description": "Configuration for the real-time Gateway service connection.",
-			"$ref": "#/$defs/gateway_connection"
 		},
 		"auth": {
 			"description": "Authentication and security settings.",
@@ -406,24 +401,6 @@
 				}
 			}
 		},
-		"gateway_connection": {
-			"type": "object",
-			"description": "Configuration for backend services to call the Gateway via RPC.",
-			"required": [
-				"rpc_secret"
-			],
-			"properties": {
-				"rpc_endpoint": {
-					"type": "string",
-					"description": "Gateway RPC endpoint URL (e.g. http://gateway:8080).",
-					"default": "http://127.0.0.1:8088"
-				},
-				"rpc_secret": {
-					"type": "string",
-					"description": "Shared secret for authenticating RPC calls to the Gateway."
-				}
-			}
-		},
 		"rate_limit": {
 			"type": "object",
 			"description": "Rate limiting parameters.",
@@ -587,7 +564,7 @@
 				"min_member_count": {
 					"type": "number",
 					"description": "Minimum number of members a guild needs before it can apply for discovery listing.",
-					"default": 50
+					"default": 1
 				}
 			}
 		},
@@ -1095,7 +1072,7 @@
 				},
 				"webhook_secret": {
 					"type": "string",
-					"description": "SendGrid signed event webhook public key (PEM or base64-encoded DER)."
+					"description": "Sweego webhook signing secret (base64-encoded)."
 				},
 				"from_email": {
 					"type": "string",
@@ -1706,7 +1683,6 @@
 			"type": "object",
 			"description": "Configuration for the Gateway service (WebSocket).",
 			"required": [
-				"api_host",
 				"admin_reload_secret",
 				"media_proxy_endpoint"
 			],
@@ -1715,20 +1691,6 @@
 					"type": "number",
 					"description": "Port to listen on.",
 					"default": 8771
-				},
-				"rpc_tcp_port": {
-					"type": "number",
-					"description": "Port for API-to-Gateway internal RPC over TCP.",
-					"default": 8772
-				},
-				"api_host": {
-					"type": "string",
-					"description": "Host/Port of the API service to communicate with."
-				},
-				"api_canary_host": {
-					"type": "string",
-					"description": "Host/Port of the Canary API service (optional).",
-					"default": ""
 				},
 				"admin_reload_secret": {
 					"type": "string",
@@ -1885,6 +1847,27 @@
 				}
 			}
 		},
+		"nats_services": {
+			"type": "object",
+			"description": "Configuration for NATS messaging.",
+			"properties": {
+				"core_url": {
+					"type": "string",
+					"description": "NATS Core server URL for RPC.",
+					"default": "nats://127.0.0.1:4222"
+				},
+				"jetstream_url": {
+					"type": "string",
+					"description": "NATS JetStream server URL for job queues.",
+					"default": "nats://127.0.0.1:4223"
+				},
+				"auth_token": {
+					"type": "string",
+					"description": "Authentication token for NATS connections.",
+					"default": ""
+				}
+			}
+		},
 		"queue_service": {
 			"type": "object",
 			"description": "Configuration for the Job Queue service.",
@@ -1892,12 +1875,12 @@
 				"port": {
 					"type": "number",
 					"description": "Port to listen on.",
-					"default": 8080
+					"default": 8088
 				},
-				"host": {
-					"type": "string",
-					"description": "Network interface to bind to.",
-					"default": "0.0.0.0"
+				"concurrency": {
+					"type": "number",
+					"description": "Number of concurrent worker threads.",
+					"default": 1
 				},
 				"data_dir": {
 					"type": "string",
@@ -1922,42 +1905,12 @@
 				"snapshot_zstd_level": {
 					"type": "number",
 					"description": "Zstd compression level for snapshots (1-22).",
-					"minimum": 1,
-					"maximum": 22,
 					"default": 3
-				},
-				"visibility_timeout_backoff_ms": {
-					"type": "number",
-					"description": "Backoff duration in milliseconds for visibility timeouts.",
-					"default": 1000
-				},
-				"max_receive_batch": {
-					"type": "number",
-					"description": "Maximum number of messages to retrieve in a single batch.",
-					"default": 10
-				},
-				"command_buffer": {
-					"type": "number",
-					"description": "Size of the internal command buffer.",
-					"default": 1000
-				},
-				"export_timeout": {
-					"type": "number",
-					"description": "Timeout in milliseconds for data export operations.",
-					"default": 30000
-				},
-				"concurrency": {
-					"type": "number",
-					"description": "Number of concurrent worker threads.",
-					"default": 2
-				},
-				"rate_limit": {
-					"description": "Rate limiting configuration for the Queue service.",
-					"$ref": "#/$defs/rate_limit"
 				},
 				"secret": {
 					"type": "string",
-					"description": "Authentication secret for the Queue service."
+					"description": "Secret for queue API authentication.",
+					"default": ""
 				}
 			}
 		},
@@ -2022,6 +1975,10 @@
 			"properties": {
 				"s3": {
 					"$ref": "#/$defs/s3_service",
+					"default": {}
+				},
+				"nats": {
+					"$ref": "#/$defs/nats_services",
 					"default": {}
 				},
 				"queue": {

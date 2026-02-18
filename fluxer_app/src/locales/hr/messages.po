@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} spremljene medijske stavke"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount} Član"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount} Članova"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount} zajedničkih zajednica"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} zajedničkih zajednica"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:84
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} Online"
 
@@ -1095,7 +1095,7 @@ msgstr "<0>Upozorenje:</0> Ovo će također onemogućiti SMS dvofaktorsku autent
 #: src/components/channel/CallMessage.tsx:69
 #: src/components/modals/BanMemberModal.tsx:58
 #: src/components/modals/InviteModal.tsx:80
-#: src/components/modals/InviteModal.tsx:210
+#: src/components/modals/InviteModal.tsx:207
 #: src/components/modals/PackInviteModal.tsx:51
 #: src/components/modals/TimeoutMemberOptions.tsx:38
 msgid "1 day"
@@ -1105,7 +1105,7 @@ msgstr "1 dan"
 #: src/components/modals/BanMemberModal.tsx:56
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:171
 #: src/components/modals/InviteModal.tsx:77
-#: src/components/modals/InviteModal.tsx:204
+#: src/components/modals/InviteModal.tsx:201
 #: src/components/modals/PackInviteModal.tsx:48
 #: src/components/modals/TimeoutMemberOptions.tsx:37
 #: src/constants/TimeWindowPresets.tsx:58
@@ -1223,7 +1223,7 @@ msgstr "1080p"
 
 #: src/components/modals/BanMemberModal.tsx:57
 #: src/components/modals/InviteModal.tsx:79
-#: src/components/modals/InviteModal.tsx:208
+#: src/components/modals/InviteModal.tsx:205
 #: src/components/modals/PackInviteModal.tsx:50
 msgid "12 hours"
 msgstr "12 sati"
@@ -1346,7 +1346,7 @@ msgstr "30 FPS"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:170
 #: src/components/modals/InviteModal.tsx:76
-#: src/components/modals/InviteModal.tsx:202
+#: src/components/modals/InviteModal.tsx:199
 #: src/components/modals/PackInviteModal.tsx:47
 #: src/constants/TimeWindowPresets.tsx:57
 #: src/utils/modals/guild_tabs/GuildOverviewTabUtils.tsx:64
@@ -1417,7 +1417,7 @@ msgstr "50 upotreba"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:173
 #: src/components/modals/InviteModal.tsx:78
-#: src/components/modals/InviteModal.tsx:206
+#: src/components/modals/InviteModal.tsx:203
 #: src/components/modals/PackInviteModal.tsx:49
 msgid "6 hours"
 msgstr "6 sati"
@@ -1437,7 +1437,7 @@ msgid "60 seconds"
 msgstr "60 sekundi"
 
 #: src/components/modals/InviteModal.tsx:81
-#: src/components/modals/InviteModal.tsx:212
+#: src/components/modals/InviteModal.tsx:209
 #: src/components/modals/PackInviteModal.tsx:52
 msgid "7 days"
 msgstr "7 dana"
@@ -1462,7 +1462,7 @@ msgstr "8 sati"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "Četveroznamenkasti tag će se automatski dodati kako bi se osigurala jedinstvenost"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:298
 msgid "A description is required."
 msgstr "Opis je obavezan."
 
@@ -1832,11 +1832,11 @@ msgstr "Dodaj bota u zajednicu"
 msgid "Add Channel"
 msgstr "Dodaj kanal"
 
-#: src/components/modals/AddConnectionModal.tsx:194
+#: src/components/modals/AddConnectionModal.tsx:197
 msgid "Add Connection"
 msgstr "Dodaj vezu"
 
-#: src/components/modals/AddConnectionModal.tsx:193
+#: src/components/modals/AddConnectionModal.tsx:196
 msgid "Add connection form"
 msgstr "Obrazac za dodavanje veze"
 
@@ -1879,8 +1879,8 @@ msgstr "Dodaj prijatelje u grupu"
 msgid "Add Item"
 msgstr "Dodaj stavku"
 
-#: src/utils/PermissionUtils.tsx:346
-#: src/utils/PermissionUtils.tsx:481
+#: src/utils/PermissionUtils.tsx:352
+#: src/utils/PermissionUtils.tsx:487
 msgid "Add new reactions to messages."
 msgstr "Dodaj nove reakcije na poruke."
 
@@ -1929,8 +1929,8 @@ msgstr "Obrazac za dodavanje broja telefona"
 msgid "Add Reaction"
 msgstr "Dodaj reakciju"
 
-#: src/utils/PermissionUtils.tsx:345
-#: src/utils/PermissionUtils.tsx:480
+#: src/utils/PermissionUtils.tsx:351
+#: src/utils/PermissionUtils.tsx:486
 msgid "Add Reactions"
 msgstr "Dodaj reakcije"
 
@@ -2551,7 +2551,7 @@ msgid "animated emoji"
 msgstr "animirani emoji"
 
 #. placeholder {0}: animatedEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:404
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:426
 msgid "Animated Emoji ({0})"
 msgstr "Animirani emoji ({0})"
 
@@ -2604,7 +2604,7 @@ msgstr "Animirani video"
 
 #. placeholder {0}: animatedEmojis.length
 #. placeholder {1}: maxAnimatedEmojis === Number.POSITIVE_INFINITY ? '∞' : maxAnimatedEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:354
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:373
 msgid "Animated: {0} / {1}"
 msgstr "Animacije: {0} / {1}"
 
@@ -2624,7 +2624,7 @@ msgstr "Animacija"
 msgid "animations"
 msgstr "animacije"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:86
 msgid "Anime & Manga"
 msgstr "Anime i Manga"
 
@@ -2722,7 +2722,7 @@ msgstr "Primjenjuje se samo na desktop aplikaciju na ovom uređaju."
 msgid "Applies to both camera and screen sharing"
 msgstr "Primjenjuje se i na kameru i na dijeljenje zaslona"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2737,7 +2737,7 @@ msgstr "Primijeni temu"
 msgid "Apply to all communities"
 msgstr "Primijeni na sve zajednice"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:59
 msgid "Approved"
 msgstr "Odobreno"
 
@@ -2781,7 +2781,7 @@ msgid "Are you sure you want to deauthorize {appName}? This application will no 
 msgstr "Jesi li siguran da želiš poništiti ovlaštenje za {appName}? Ova aplikacija više neće imati pristup tvom računu."
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:193
+#: src/components/emojis/EmojiListItem.tsx:194
 msgid "Are you sure you want to delete :{0}:? This action cannot be undone."
 msgstr "Jesi li siguran da želiš izbrisati :{0}:? Ova radnja se ne može poništiti."
 
@@ -2791,7 +2791,7 @@ msgstr "Jesi li siguran da želiš izbrisati :{0}:? Ova radnja se ne može poni�
 msgid "Are you sure you want to delete \"{0}\"? This action cannot be undone."
 msgstr "Jesi li siguran da želiš izbrisati \"{0}\"? Ova radnja se ne može poništiti."
 
-#: src/components/stickers/StickerGridItem.tsx:65
+#: src/components/stickers/StickerGridItem.tsx:71
 msgid "Are you sure you want to delete \"{stickerName}\"? This action cannot be undone."
 msgstr "Jesi li siguran da želiš izbrisati \"{stickerName}\"? Ova radnja se ne može poništiti."
 
@@ -2986,8 +2986,8 @@ msgstr "Kao dar"
 msgid "At least one channel must have \"View Channel\" permission enabled for @everyone in order for the vanity URL to work. Currently, no channels are viewable to @everyone."
 msgstr "Najmanje jedan kanal mora imati omogućeno dopuštenje \"Pregledaj kanal\" za @everyone kako bi se vanitetski URL mogao koristiti. Trenutno, nijedan kanal nije vidljiv za @everyone."
 
-#: src/utils/PermissionUtils.tsx:323
-#: src/utils/PermissionUtils.tsx:470
+#: src/utils/PermissionUtils.tsx:329
+#: src/utils/PermissionUtils.tsx:476
 msgid "Attach Files"
 msgstr "Priloži datoteke"
 
@@ -3077,8 +3077,8 @@ msgid "Audio"
 msgstr "Audio"
 
 #: src/components/modals/utils/SettingsConstants.tsx:190
-#: src/utils/PermissionUtils.tsx:380
-#: src/utils/PermissionUtils.tsx:495
+#: src/utils/PermissionUtils.tsx:386
+#: src/utils/PermissionUtils.tsx:501
 msgid "Audio & Video"
 msgstr "Audio i video"
 
@@ -3344,7 +3344,7 @@ msgid "Average ping:"
 msgstr "Prosječan ping:"
 
 #: src/components/auth/IpAuthorizationScreen.tsx:154
-#: src/components/modals/AddConnectionModal.tsx:309
+#: src/components/modals/AddConnectionModal.tsx:312
 #: src/components/modals/PhoneAddModal.tsx:237
 #: src/components/modals/RequiredActionModal.tsx:655
 #: src/components/pages/OAuthAuthorizePage.tsx:671
@@ -3932,8 +3932,8 @@ msgstr "Kupnjom pristajete na naše <0>Uvjete korištenja</0> i <1>Pravila priva
 msgid "By purchasing, you agreed to our <0>Terms of Service</0> and <1>Privacy Policy</1>. All purchases are refundable within 14 days by emailing <2>support@fluxer.app</2>. Chargebacks result in permanent account bans — if you want a refund, we're more than happy to give you one if you contact us first! Payment information is securely handled by Stripe — we never have access to your full card number."
 msgstr "Kupnjom ste pristali na naše <0>Uvjete korištenja</0> i <1>Pravila privatnosti</1>. Sve kupnje se mogu vratiti u roku od 14 dana slanjem e-pošte na <2>support@fluxer.app</2>. Povrati rezultiraju trajnim blokadama računa — ako želite povrat novca, rado ćemo vam ga dati ako nas prvi kontaktirate! Podaci o plaćanju sigurno se obrađuju putem Stripea — mi nikada nemamo pristup vašem punom broju kartice."
 
-#: src/utils/PermissionUtils.tsx:350
-#: src/utils/PermissionUtils.tsx:485
+#: src/utils/PermissionUtils.tsx:356
+#: src/utils/PermissionUtils.tsx:491
 msgid "Bypass Slowmode"
 msgstr "Zaobiđi spori način"
 
@@ -4063,7 +4063,7 @@ msgstr "Kamere su onemogućene kada ima više od {VOICE_CHANNEL_CAMERA_USER_LIMI
 #: src/components/layout/GuildLayout.tsx:76
 #: src/components/modals/AccountDeleteModal.tsx:95
 #: src/components/modals/AccountDisableModal.tsx:69
-#: src/components/modals/AddConnectionModal.tsx:215
+#: src/components/modals/AddConnectionModal.tsx:218
 #: src/components/modals/AddFavoriteMemeModal.tsx:98
 #: src/components/modals/AddGuildModal.tsx:290
 #: src/components/modals/AddGuildModal.tsx:413
@@ -4109,7 +4109,7 @@ msgstr "Kamere su onemogućene kada ima više od {VOICE_CHANNEL_CAMERA_USER_LIMI
 #: src/components/modals/HideOwnScreenShareConfirmModal.tsx:65
 #: src/components/modals/IARModal.tsx:255
 #: src/components/modals/ImageCropModal.tsx:943
-#: src/components/modals/InviteModal.tsx:332
+#: src/components/modals/InviteModal.tsx:336
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
@@ -4211,7 +4211,7 @@ msgstr "Kontrole poravnanja kartica"
 msgid "Careful! You have unsaved changes."
 msgstr "Oprez! Imaš nespremljene promjene."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:330
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4437,8 +4437,8 @@ msgstr "kanal"
 msgid "Channel"
 msgstr "Kanal"
 
-#: src/utils/PermissionUtils.tsx:373
-#: src/utils/PermissionUtils.tsx:453
+#: src/utils/PermissionUtils.tsx:379
+#: src/utils/PermissionUtils.tsx:459
 msgid "Channel Access"
 msgstr "Pristup kanalu"
 
@@ -4516,7 +4516,7 @@ msgstr "Način indikatora upisivanja na popisu kanala"
 msgid "Channel list typing indicators"
 msgstr "Pokazatelji tipkanja na popisu kanala"
 
-#: src/utils/PermissionUtils.tsx:426
+#: src/utils/PermissionUtils.tsx:432
 msgid "Channel Management"
 msgstr "Upravljanje kanalima"
 
@@ -4757,7 +4757,7 @@ msgstr "Odaberi kako se vremena prikazuju u cijeloj aplikaciji."
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "Odaberi kako se indikatori tipkanja prikazuju na popisu kanala kada netko tipka u kanalu."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:346
 msgid "Choose the category that best describes your community."
 msgstr "Odaberite kategoriju koja najbolje opisuje vašu zajednicu."
 
@@ -5360,7 +5360,7 @@ msgstr "Zajednica Kreator"
 msgid "Community Deafen"
 msgstr "Zagluši zajednicu"
 
-#: src/components/layout/UserArea.tsx:159
+#: src/components/layout/UserArea.tsx:173
 #: src/components/layout/VoiceStateIcons.tsx:57
 #: src/components/voice/VoiceControlBar.tsx:607
 #: src/components/voice/VoiceParticipantTile.tsx:1466
@@ -5432,8 +5432,8 @@ msgstr "Članovi zajednice"
 msgid "Community Mute"
 msgstr "Utišaj zajednicu"
 
-#: src/components/layout/UserArea.tsx:146
-#: src/components/layout/UserArea.tsx:153
+#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:167
 #: src/components/layout/VoiceStateIcons.tsx:49
 #: src/components/voice/VoiceControlBar.tsx:596
 #: src/components/voice/VoiceParticipantTile.tsx:1457
@@ -5492,10 +5492,10 @@ msgid "Community Record"
 msgstr "Zapis zajednice"
 
 #: src/components/modals/components/DesktopGuildSettingsView.tsx:233
-#: src/components/modals/GuildSettingsModal.tsx:194
+#: src/components/modals/GuildSettingsModal.tsx:197
 #: src/components/popouts/GuildHeaderPopout.tsx:190
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:278
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:346
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:281
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:349
 msgid "Community Settings"
 msgstr "Postavke zajednice"
 
@@ -5524,7 +5524,7 @@ msgstr "Za cijelu zajednicu"
 msgid "compact"
 msgstr "kompaktno"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:152
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:169
 msgid "Compact"
 msgstr "Kompaktno"
 
@@ -5670,8 +5670,8 @@ msgstr "Potvrdite lozinku"
 msgid "Connect"
 msgstr "Poveži"
 
-#: src/utils/PermissionUtils.tsx:383
-#: src/utils/PermissionUtils.tsx:497
+#: src/utils/PermissionUtils.tsx:389
+#: src/utils/PermissionUtils.tsx:503
 msgid "Connect (Join Voice)"
 msgstr "Poveži se (Pridruži se glasu)"
 
@@ -5679,7 +5679,7 @@ msgstr "Poveži se (Pridruži se glasu)"
 msgid "Connect to Voice"
 msgstr "Poveži se s glasom"
 
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 msgid "Connect with Bluesky"
 msgstr "Povežite se s Bluesky-jem"
 
@@ -5730,7 +5730,7 @@ msgstr "Veza uklonjena"
 msgid "Connection Stats"
 msgstr "Statistika veze"
 
-#: src/components/modals/AddConnectionModal.tsx:198
+#: src/components/modals/AddConnectionModal.tsx:201
 msgid "Connection Type"
 msgstr "Vrsta veze"
 
@@ -5783,7 +5783,7 @@ msgstr "Izradi URL za autorizaciju s opsezima i dozvolama."
 msgid "contact"
 msgstr "kontakt"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 msgid "Content Creator"
 msgstr "Kreator sadržaja"
 
@@ -5822,7 +5822,7 @@ msgid "Context menus can be opened with left-click (on buttons) or right-click (
 msgstr "Kontekstni izbornici mogu se otvoriti lijevim klikom (na gumbima) ili desnim klikom (na drugim elementima). Ovo pokazuje razne stavke izbornika uključujući potvrdne okvire, radio gumbe, klizače i podizbornike."
 
 #: src/components/channel/ChannelTextarea.tsx:311
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:75
 #: src/components/modals/BackupCodesViewModal.tsx:73
 #: src/components/modals/DeviceRevokeModal.tsx:82
@@ -5958,8 +5958,8 @@ msgid "Copied URL to clipboard"
 msgstr "URL kopiran u međuspremnik"
 
 #: src/components/auth/HandoffCodeDisplay.tsx:106
-#: src/components/modals/AddConnectionModal.tsx:187
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:190
+#: src/components/modals/AddConnectionModal.tsx:191
 #: src/components/modals/shared/CopyLinkSection.tsx:52
 #: src/components/modals/ThemeAcceptModal.tsx:162
 #: src/lib/markdown/renderers/common/CodeElements.tsx:57
@@ -6017,7 +6017,7 @@ msgstr "Kopiraj vezu kanala"
 msgid "Copy code"
 msgstr "Kopiraj kod"
 
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:372
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:375
 msgid "Copy Community ID"
 msgstr "Kopiraj ID zajednice"
 
@@ -6045,11 +6045,11 @@ msgstr "Kopiraj FluxerTag"
 msgid "Copy GIF"
 msgstr "Kopiraj GIF"
 
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:461
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:464
 msgid "Copy Guild ID"
 msgstr "Kopiraj ID zajednice"
 
-#: src/components/modals/AddConnectionModal.tsx:187
+#: src/components/modals/AddConnectionModal.tsx:190
 msgid "Copy host"
 msgstr "Kopiraj domaćina"
 
@@ -6154,7 +6154,7 @@ msgstr "Kopiraj ID korisnika"
 msgid "Copy Username"
 msgstr "Kopiraj korisničko ime"
 
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:191
 msgid "Copy value"
 msgstr "Kopiraj vrijednost"
 
@@ -6199,7 +6199,7 @@ msgstr "naslovnica"
 msgid "cozy"
 msgstr "prijatan"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:144
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
 msgid "Cozy"
 msgstr "Ugodno"
 
@@ -6295,8 +6295,8 @@ msgstr "Stvori aplikaciju"
 #: src/components/popouts/GuildHeaderPopout.tsx:204
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:89
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:69
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:292
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:428
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:295
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:431
 msgid "Create Category"
 msgstr "Stvori kategoriju"
 
@@ -6305,8 +6305,8 @@ msgstr "Stvori kategoriju"
 #: src/components/modals/ChannelCreateModal.tsx:103
 #: src/components/popouts/GuildHeaderPopout.tsx:197
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:86
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:287
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:410
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:290
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:413
 msgid "Create Channel"
 msgstr "Stvori kanal"
 
@@ -6324,6 +6324,10 @@ msgstr "Obrazac za stvaranje zajednice"
 #: src/utils/modals/CreateDMModalUtils.tsx:154
 msgid "Create DM"
 msgstr "Stvori DM"
+
+#: src/utils/PermissionUtils.tsx:284
+msgid "Create Emoji & Stickers"
+msgstr "Izradi emotikone i naljepnice"
 
 #: src/components/modals/CreatePackModal.tsx:52
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:256
@@ -6346,7 +6350,7 @@ msgid "Create Invite"
 msgstr "Stvori pozivnicu"
 
 #: src/utils/PermissionUtils.tsx:270
-#: src/utils/PermissionUtils.tsx:429
+#: src/utils/PermissionUtils.tsx:435
 msgid "Create Invite Links"
 msgstr "Stvori poveznice za pozivnice"
 
@@ -6358,7 +6362,7 @@ msgstr "Stvori novi račun"
 msgid "Create new group"
 msgstr "Stvori novu grupu"
 
-#: src/components/modals/InviteModal.tsx:335
+#: src/components/modals/InviteModal.tsx:339
 msgid "Create New Link"
 msgstr "Stvori novu poveznicu"
 
@@ -6393,11 +6397,11 @@ msgstr "Stvaraj, uređuj ili briši kanale i kategorije."
 msgid "Create, edit, or delete roles below your highest role. Also allows editing channel permission overwrites."
 msgstr "Stvaraj, uređuj ili briši uloge ispod svoje najviše uloge. Također omogućuje uređivanje nadjačavanja dopuštenja kanala."
 
-#: src/utils/PermissionUtils.tsx:444
+#: src/utils/PermissionUtils.tsx:450
 msgid "Create, edit, or delete webhooks for this channel."
 msgstr "Stvaraj, uređuj ili briši webhookove za ovaj kanal."
 
-#: src/utils/PermissionUtils.tsx:289
+#: src/utils/PermissionUtils.tsx:295
 msgid "Create, edit, or delete webhooks."
 msgstr "Stvaraj, uređuj ili briši webhookove."
 
@@ -6897,7 +6901,7 @@ msgstr "utišaj"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:161
+#: src/components/layout/UserArea.tsx:175
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:515
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:125
 #: src/components/voice/VoiceControlBar.tsx:613
@@ -6922,8 +6926,8 @@ msgstr "Isključi uređaj"
 msgid "Deafen Keybind"
 msgstr "Prečac za zaglušenje"
 
-#: src/utils/PermissionUtils.tsx:408
-#: src/utils/PermissionUtils.tsx:507
+#: src/utils/PermissionUtils.tsx:414
+#: src/utils/PermissionUtils.tsx:513
 msgid "Deafen Members"
 msgstr "Zagluši članove"
 
@@ -6962,7 +6966,7 @@ msgid "Debug Channel"
 msgstr "Otkloni greške kanala"
 
 #: src/components/uikit/context_menu/items/DebugMenuItems.tsx:90
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:362
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:365
 msgid "Debug Community"
 msgstr "Otkloni greške u zajednici"
 
@@ -7062,17 +7066,17 @@ msgstr "izbriši"
 #: src/components/channel/embeds/media/MediaContainer.tsx:116
 #: src/components/channel/MobileMemesPicker.tsx:546
 #: src/components/channel/pickers/memes/MemeGridItem.tsx:121
-#: src/components/emojis/EmojiListItem.tsx:194
-#: src/components/emojis/EmojiListItem.tsx:246
-#: src/components/emojis/EmojiListItem.tsx:296
+#: src/components/emojis/EmojiListItem.tsx:195
+#: src/components/emojis/EmojiListItem.tsx:252
+#: src/components/emojis/EmojiListItem.tsx:308
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:160
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:210
-#: src/components/stickers/StickerGridItem.tsx:66
-#: src/components/stickers/StickerGridItem.tsx:119
+#: src/components/stickers/StickerGridItem.tsx:72
+#: src/components/stickers/StickerGridItem.tsx:126
 msgid "Delete"
 msgstr "Izbriši"
 
@@ -7162,11 +7166,11 @@ msgstr "Izbriši zajednicu"
 msgid "Delete community form"
 msgstr "Obrazac za brisanje zajednice"
 
-#: src/components/emojis/EmojiListItem.tsx:192
+#: src/components/emojis/EmojiListItem.tsx:193
 msgid "Delete Emoji"
 msgstr "Izbriši emoji"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:147
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:163
 msgid "Delete Emoji Failed"
 msgstr "Brisanje emojija nije uspjelo"
 
@@ -7205,8 +7209,8 @@ msgstr "Izbriši poruke iz zadnjeg dana"
 msgid "Delete messages from the last week"
 msgstr "Izbriši poruke iz zadnjeg tjedna"
 
-#: src/utils/PermissionUtils.tsx:311
-#: src/utils/PermissionUtils.tsx:465
+#: src/utils/PermissionUtils.tsx:317
+#: src/utils/PermissionUtils.tsx:471
 msgid "Delete others' messages. (Pinning is separate below.)"
 msgstr "Brisanje tuđih poruka. (Pribadanje je zasebno ispod.)"
 
@@ -7235,7 +7239,7 @@ msgstr "Izbriši spremljeni medij"
 msgid "Delete Saved Media"
 msgstr "Izbriši spremljeni medij"
 
-#: src/components/stickers/StickerGridItem.tsx:64
+#: src/components/stickers/StickerGridItem.tsx:70
 msgid "Delete Sticker"
 msgstr "Izbriši naljepnicu"
 
@@ -7326,7 +7330,7 @@ msgstr "Opiši koje izraze sadrži ovaj paket."
 msgid "Describe what makes the content illegal"
 msgstr "Opiši što čini sadržaj nezakonitim"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:317
 msgid "Describe what your community is about..."
 msgstr "Opišite o čemu se radi u vašoj zajednici..."
 
@@ -7336,7 +7340,7 @@ msgstr "opis"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:292
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "Opis"
@@ -7345,11 +7349,11 @@ msgstr "Opis"
 msgid "Description must be 500 characters or less"
 msgstr "Opis mora imati 500 znakova ili manje"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:301
 msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
 msgstr "Opis mora imati najmanje {DISCOVERY_DESCRIPTION_MIN_LENGTH} znakova."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
 msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
 msgstr "Opis ne smije imati više od {DISCOVERY_DESCRIPTION_MAX_LENGTH} znakova."
 
@@ -7725,20 +7729,20 @@ msgstr "Prekini vezu utičnice"
 msgid "Disconnected"
 msgstr "Veza prekinuta"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
 #: src/components/modals/utils/GuildSettingsConstants.tsx:160
 msgid "Discovery"
 msgstr "Otkriće"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:166
 msgid "Discovery application submitted"
 msgstr "Zahtjev za otkriće poslan"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:187
 msgid "Discovery application withdrawn"
 msgstr "Zahtjev za otkriće povučen"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:155
 msgid "Discovery listing updated"
 msgstr "Popis otkrića ažuriran"
 
@@ -7854,7 +7858,7 @@ msgstr "Postavke DM-ova"
 msgid "dm sidebar"
 msgstr "dm bočna traka"
 
-#: src/components/modals/AddConnectionModal.tsx:239
+#: src/components/modals/AddConnectionModal.tsx:242
 msgid "DNS TXT record"
 msgstr "DNS TXT zapis"
 
@@ -7904,7 +7908,7 @@ msgid "domain"
 msgstr "domena"
 
 #: src/components/modals/AddConnectionModal.tsx:87
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:168
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:303
 #: src/components/popouts/UserProfileShared.tsx:283
@@ -7995,7 +7999,7 @@ msgstr "preuzmi"
 msgid "Download"
 msgstr "Preuzmi"
 
-#: src/components/modals/AddConnectionModal.tsx:280
+#: src/components/modals/AddConnectionModal.tsx:283
 msgid "Download <0>fluxer-verification</0> and place it in your <1>.well-known</1> folder so we can validate the domain."
 msgstr "Preuzmite <0>fluxer-verification</0> i stavite ga u svoju <1>.well-known</1> mapu kako bismo mogli potvrditi domenu."
 
@@ -8012,7 +8016,7 @@ msgstr "Preuzmi desktop aplikaciju"
 msgid "Download Fluxer"
 msgstr "Preuzmi Fluxer"
 
-#: src/components/modals/AddConnectionModal.tsx:294
+#: src/components/modals/AddConnectionModal.tsx:297
 msgid "Download fluxer-verification"
 msgstr "Preuzmi fluxer-verification"
 
@@ -8024,7 +8028,7 @@ msgstr "Preuzmi medije"
 msgid "Download the desktop app for system-wide Push-to-Talk"
 msgstr "Preuzmi desktop aplikaciju za Push-to-Talk u cijelom sustavu"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:173
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:192
 msgid "Drag and drop a sticker file here (one at a time)"
 msgstr "Povuci i ispusti datoteku naljepnice ovdje (jednu po jednu)"
 
@@ -8032,12 +8036,12 @@ msgstr "Povuci i ispusti datoteku naljepnice ovdje (jednu po jednu)"
 msgid "Drag and drop area for file upload"
 msgstr "Područje za povlačenje i ispuštanje za prijenos datoteka"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:363
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:382
 msgid "Drag and drop emoji files here"
 msgstr "Povuci i ispusti datoteke emojija ovdje"
 
-#: src/utils/PermissionUtils.tsx:413
-#: src/utils/PermissionUtils.tsx:510
+#: src/utils/PermissionUtils.tsx:419
+#: src/utils/PermissionUtils.tsx:516
 msgid "Drag members between channels they can access."
 msgstr "Povuci članove između kanala kojima mogu pristupiti."
 
@@ -8159,7 +8163,7 @@ msgstr "Otklanjanje jeke"
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:90
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:186
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:187
-#: src/components/stickers/StickerGridItem.tsx:111
+#: src/components/stickers/StickerGridItem.tsx:118
 msgid "Edit"
 msgstr "Uredi"
 
@@ -8200,8 +8204,8 @@ msgid "Edit Channel"
 msgstr "Uredi kanal"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:220
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:314
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:392
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:317
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:395
 msgid "Edit Community Profile"
 msgstr "Uredi profil zajednice"
 
@@ -8231,7 +8235,8 @@ msgstr "Uredi grupu"
 msgid "Edit group form"
 msgstr "Obrazac za uređivanje grupe"
 
-#: src/components/modals/InviteModal.tsx:322
+#: src/components/modals/InviteModal.tsx:316
+#: src/components/modals/InviteModal.tsx:326
 msgid "Edit invite link"
 msgstr "Uredi pozivnicu"
 
@@ -8255,7 +8260,11 @@ msgstr "Uredi poruku"
 msgid "Edit Note"
 msgstr "Uredi bilješku"
 
-#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:290
+msgid "Edit or delete emoji and stickers created by other members."
+msgstr "Uredi ili izbriši emotikone i naljepnice koje su stvorili drugi članovi."
+
+#: src/utils/PermissionUtils.tsx:445
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "Uredi nadjačavanja za uloge i članove u ovom kanalu."
 
@@ -8312,7 +8321,7 @@ msgstr "Uređivanje poruke"
 msgid "Editing scheduled message"
 msgstr "Uređivanje zakazane poruke"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
 msgid "Education"
 msgstr "Obrazovanje"
 
@@ -8396,8 +8405,8 @@ msgstr "ugraditi"
 msgid "Embed"
 msgstr "Ugradi"
 
-#: src/utils/PermissionUtils.tsx:319
-#: src/utils/PermissionUtils.tsx:469
+#: src/utils/PermissionUtils.tsx:325
+#: src/utils/PermissionUtils.tsx:475
 msgid "Embed Links"
 msgstr "Ugradi poveznice"
 
@@ -8456,16 +8465,16 @@ msgstr "Emotikon je izbrisan"
 msgid "Emoji name"
 msgstr "Naziv emotikona"
 
-#: src/components/emojis/EmojiListItem.tsx:163
+#: src/components/emojis/EmojiListItem.tsx:164
 msgid "Emoji name must be at least 2 characters long"
 msgstr "Naziv emotikona mora imati najmanje 2 znaka"
 
-#: src/components/emojis/EmojiListItem.tsx:167
+#: src/components/emojis/EmojiListItem.tsx:168
 msgid "Emoji name must be at most 32 characters long"
 msgstr "Naziv emotikona mora imati najviše 32 znaka"
 
 #. placeholder {0}: Math.round(GlobalLimits.getEmojiMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:340
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:358
 msgid "Emoji names must be at least 2 characters long and can only contain alphanumeric characters and underscores. Allowed file types: JPEG, PNG, WebP, GIF. We compress images to 128x128 pixels. Maximum size: {0} KB per emoji."
 msgstr "Nazivi emotikona moraju imati najmanje 2 znaka i mogu sadržavati samo alfanumeričke znakove i donje crte. Dopuštene vrste datoteka: JPEG, PNG, WebP, GIF. Slike komprimiramo na 128x128 piksela. Maksimalna veličina: {0} KB po emotikonu."
 
@@ -8492,7 +8501,7 @@ msgstr "Dosegnuto je ograničenje za paket emotikona"
 msgid "emoji picker"
 msgstr "odabir emojija"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:326
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:344
 msgid "Emoji Slots"
 msgstr "Mjesta za emotikone"
 
@@ -8861,7 +8870,7 @@ msgstr "Unesi svoju lozinku."
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "Unesi svoj broj telefona. Poslat ćemo ti kod za provjeru putem SMS-a."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
 msgid "Entertainment"
 msgstr "Zabava"
 
@@ -8993,7 +9002,7 @@ msgstr "Proširi kategoriju"
 msgid "Expiration"
 msgstr "Istek"
 
-#: src/components/modals/InviteModal.tsx:276
+#: src/components/modals/InviteModal.tsx:273
 msgid "Expire After"
 msgstr "Istek nakon"
 
@@ -9260,7 +9269,7 @@ msgstr "Brisanje kategorije nije uspjelo"
 msgid "Failed to delete channel"
 msgstr "Brisanje kanala nije uspjelo"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:149
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:165
 msgid "Failed to delete emoji. Please try again."
 msgstr "Nije uspjelo brisanje emojija. Pokušaj ponovo."
 
@@ -9312,7 +9321,7 @@ msgstr "Instalacija ovog paketa emojija nije uspjela. Pokušajte ponovno kasnije
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Instalacija ovog paketa naljepnica nije uspjela. Pokušajte ponovno kasnije."
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:62
 msgid "Failed to join this community. Please try again."
 msgstr "Nije uspjelo pridružiti se ovoj zajednici. Pokušajte ponovo."
 
@@ -9341,7 +9350,7 @@ msgstr "Neuspješno učitavanje autoriziranih aplikacija"
 msgid "Failed to load bans. Please try again."
 msgstr "Učitavanje zabrana nije uspjelo. Pokušajte ponovno."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:320
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:336
 msgid "Failed to load emojis. Please try again later."
 msgstr "Nije uspjelo učitati emojije. Pokušaj ponovo kasnije."
 
@@ -9363,7 +9372,7 @@ msgstr "Učitavanje pozivnica nije uspjelo. Pokušajte ponovno."
 msgid "Failed to load premium information. Please try again later."
 msgstr "Učitavanje premium informacija nije uspjelo. Pokušajte ponovno kasnije."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:203
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:230
 msgid "Failed to Load Stickers"
 msgstr "Neuspješno učitavanje naljepnica"
 
@@ -9406,7 +9415,7 @@ msgstr "Nije uspjelo pričvršćivanje grupnog DM-a"
 msgid "Failed to pin message"
 msgstr "Prikvačivanje poruke nije uspjelo"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:225
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
 msgid "Failed to Prepare Emojis"
 msgstr "Priprema emojija nije uspjela"
 
@@ -9597,7 +9606,7 @@ msgstr "Ažuriranje alternativnog teksta nije uspjelo"
 msgid "Failed to Update Channel Permissions"
 msgstr "Neuspješno ažuriranje dozvola kanala"
 
-#: src/components/emojis/EmojiListItem.tsx:180
+#: src/components/emojis/EmojiListItem.tsx:181
 msgid "Failed to update emoji name. Reverted to the previous name."
 msgstr "Ažuriranje imena emojija nije uspjelo. Vraćeno na prethodno ime."
 
@@ -9622,11 +9631,11 @@ msgid "Failed to upload custom sound"
 msgstr "Prijenos prilagođenog zvuka nije uspjelo"
 
 #. placeholder {0}: startIndex + 1
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:277
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:293
 msgid "Failed to upload emojis starting at #{0}: {errorMsg}"
 msgstr "Nije uspjelo učitavanje emojija počevši od #{0}: {errorMsg}"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:273
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:289
 msgid "Failed to upload emojis. Please try again."
 msgstr "Prijenos emojija nije uspjelo. Pokušajte ponovno."
 
@@ -9638,7 +9647,7 @@ msgstr "Prijenos ulaznog zvuka nije uspjelo"
 msgid "Failed to verify connection"
 msgstr "Nije uspjelo provjeriti vezu"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:193
 msgid "Failed to withdraw application. Please try again."
 msgstr "Nije uspjelo povući zahtjev. Pokušajte ponovo."
 
@@ -10399,7 +10408,7 @@ msgstr "Igraća konzola"
 msgid "Game Night"
 msgstr "Večer igara"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
 msgid "Gaming"
 msgstr "Igranje"
 
@@ -10758,7 +10767,7 @@ msgstr "Razdoblje odgode"
 msgid "Grace Period (Still Have Access)"
 msgstr "Razdoblje odgode (još uvijek imate pristup)"
 
-#: src/components/modals/InviteModal.tsx:296
+#: src/components/modals/InviteModal.tsx:293
 msgid "Grant Temporary Membership"
 msgstr "Dodijeli privremeno članstvo"
 
@@ -10922,7 +10931,7 @@ msgstr "bočna traka ceha"
 msgid "handle"
 msgstr "korisničko ime"
 
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 msgid "Handle"
 msgstr "Rukovanje"
 
@@ -11116,7 +11125,7 @@ msgstr "Sakrij prigušene kanale"
 #: src/components/popouts/GuildHeaderPopout.tsx:228
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:79
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:60
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:332
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:335
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:304
 msgid "Hide Muted Channels"
 msgstr "Sakrij prigušene kanale"
@@ -11284,7 +11293,7 @@ msgstr "Uđi, {username}! Mr Fusion je spreman!"
 msgid "Hope to see you back in the future"
 msgstr "Nadam se da ćemo te opet vidjeti u budućnosti"
 
-#: src/components/modals/AddConnectionModal.tsx:244
+#: src/components/modals/AddConnectionModal.tsx:247
 msgid "Host"
 msgstr "Domaćin"
 
@@ -11439,8 +11448,8 @@ msgstr "Zanemari"
 msgid "Ignore Friend Request"
 msgstr "Zanemari zahtjev za prijateljstvo"
 
-#: src/utils/PermissionUtils.tsx:351
-#: src/utils/PermissionUtils.tsx:486
+#: src/utils/PermissionUtils.tsx:357
+#: src/utils/PermissionUtils.tsx:492
 msgid "Ignore per-channel message rate limits."
 msgstr "Zanemari ograničenja brzine poruka po kanalu."
 
@@ -11915,7 +11924,7 @@ msgstr "Nevidljiv"
 
 #: src/components/channel/GuildMembersPage.tsx:246
 #: src/components/channel/GuildMembersPage.tsx:254
-#: src/components/modals/InviteModal.tsx:265
+#: src/components/modals/InviteModal.tsx:262
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:87
 #: src/constants/AuditLogConstants.tsx:245
 msgid "Invite"
@@ -11955,7 +11964,7 @@ msgstr "Pozovi prijatelje"
 msgid "Invite friends to {0}"
 msgstr "Pozovi prijatelje u {0}"
 
-#: src/components/modals/InviteModal.tsx:311
+#: src/components/modals/InviteModal.tsx:308
 msgid "Invite link"
 msgstr "Poveznica za pozivnicu"
 
@@ -11963,7 +11972,7 @@ msgstr "Poveznica za pozivnicu"
 msgid "Invite Link"
 msgstr "Poveznica za pozivnicu"
 
-#: src/components/modals/InviteModal.tsx:222
+#: src/components/modals/InviteModal.tsx:219
 msgid "Invite link settings"
 msgstr "Postavke poveznice za pozivnicu"
 
@@ -11976,7 +11985,7 @@ msgstr "Poveznice za pozivnice"
 
 #: src/components/layout/ChannelItem.tsx:702
 #: src/components/popouts/GuildHeaderPopout.tsx:181
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:257
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:260
 msgid "Invite Members"
 msgstr "Pozovi članove"
 
@@ -12087,7 +12096,7 @@ msgstr "Pozivnice"
 msgid "Invites are currently disabled for this community."
 msgstr "Pozivnice su trenutno onemogućene za ovu zajednicu."
 
-#: src/components/modals/InviteModal.tsx:235
+#: src/components/modals/InviteModal.tsx:232
 msgid "Invites are currently disabled in this community by an admin. While this invite can be created, it cannot be accepted until invites are re-enabled."
 msgstr "Pozivnice su trenutno onemogućene u ovoj zajednici od strane administratora. Iako se ova pozivnica može stvoriti, ne može se prihvatiti dok se pozivnice ponovno ne omoguće."
 
@@ -12198,7 +12207,7 @@ msgstr "Pridruži se pozivu"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12273,7 +12282,7 @@ msgstr "Pridruži se glasu"
 msgid "Join Voice Call"
 msgstr "Pridruži se glasovnom pozivu"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 msgid "Joined"
 msgstr "Pridruženo"
 
@@ -12618,8 +12627,8 @@ msgid "Leave call"
 msgstr "Napusti poziv"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:237
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:344
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:447
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:347
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:450
 #: src/hooks/useLeaveGuild.tsx:42
 #: src/hooks/useLeaveGuild.tsx:44
 msgid "Leave Community"
@@ -12840,7 +12849,7 @@ msgstr "poveznice"
 msgid "Links"
 msgstr "Linkovi"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:215
 msgid "List your community in Discovery so others can find and join it."
 msgstr "Nabrojite svoju zajednicu u Otkriću kako bi je drugi mogli pronaći i pridružiti se."
 
@@ -13121,13 +13130,13 @@ msgstr "Upravljaj ovlaštenim aplikacijama"
 msgid "Manage blocked users"
 msgstr "Upravljaj blokiranim korisnicima"
 
-#: src/utils/PermissionUtils.tsx:433
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channel"
 msgstr "Upravljaj kanalom"
 
 #: src/utils/PermissionUtils.tsx:257
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channels"
 msgstr "Upravljaj kanalima"
 
@@ -13143,7 +13152,7 @@ msgstr "Upravljaj značajkama zajednice"
 msgid "Manage developer applications"
 msgstr "Upravljaj aplikacijama programera"
 
-#: src/utils/PermissionUtils.tsx:284
+#: src/utils/PermissionUtils.tsx:289
 msgid "Manage Emoji & Stickers"
 msgstr "Upravljaj emojijima i naljepnicama"
 
@@ -13163,8 +13172,8 @@ msgstr "Upravljaj dolaznim webhookovima koji mogu objavljivati poruke u ovaj kan
 msgid "Manage invites for this channel."
 msgstr "Upravljaj pozivnicama za ovaj kanal."
 
-#: src/utils/PermissionUtils.tsx:310
-#: src/utils/PermissionUtils.tsx:464
+#: src/utils/PermissionUtils.tsx:316
+#: src/utils/PermissionUtils.tsx:470
 msgid "Manage Messages"
 msgstr "Upravljaj porukama"
 
@@ -13172,7 +13181,7 @@ msgstr "Upravljaj porukama"
 msgid "Manage Nicknames"
 msgstr "Upravljaj nadimcima"
 
-#: src/utils/PermissionUtils.tsx:438
+#: src/utils/PermissionUtils.tsx:444
 msgid "Manage Permissions"
 msgstr "Upravljaj dopuštenjima"
 
@@ -13191,8 +13200,8 @@ msgstr "Upravljaj pretplatom"
 msgid "Manage the email address you use to sign in to Fluxer"
 msgstr "Upravljaj adresom e-pošte koju koristiš za prijavu na Fluxer"
 
-#: src/utils/PermissionUtils.tsx:288
-#: src/utils/PermissionUtils.tsx:443
+#: src/utils/PermissionUtils.tsx:294
+#: src/utils/PermissionUtils.tsx:449
 msgid "Manage Webhooks"
 msgstr "Upravljaj webhookovima"
 
@@ -13231,7 +13240,7 @@ msgstr "Upravljaj svojom pretplatom"
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:85
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:522
 #: src/components/uikit/context_menu/items/DMMenuItems.tsx:53
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:249
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:252
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:95
 msgid "Mark as Read"
 msgstr "Označi kao pročitano"
@@ -13346,7 +13355,7 @@ msgstr "marty@example.com"
 msgid "Mask Visionary as subscription"
 msgstr "Maskiraj Visionary kao pretplatu"
 
-#: src/components/modals/InviteModal.tsx:286
+#: src/components/modals/InviteModal.tsx:283
 msgid "Max Number of Uses"
 msgstr "Maksimalni broj korištenja"
 
@@ -13581,7 +13590,7 @@ msgstr "Članovi očišćeni"
 msgid "Members receive notifications for every message"
 msgstr "Članovi primaju obavijesti za svaku poruku"
 
-#: src/components/modals/InviteModal.tsx:297
+#: src/components/modals/InviteModal.tsx:294
 msgid "Members will be removed when they go offline unless a role is assigned"
 msgstr "Članovi će biti uklonjeni kada odu izvan mreže osim ako im je dodijeljena uloga"
 
@@ -13627,8 +13636,8 @@ msgstr "Spomenuti @here?"
 msgid "Mention Badges"
 msgstr "Značke za spominjanje"
 
-#: src/utils/PermissionUtils.tsx:332
-#: src/utils/PermissionUtils.tsx:474
+#: src/utils/PermissionUtils.tsx:338
+#: src/utils/PermissionUtils.tsx:480
 msgid "Mention everyone or any role (even if the role isn't set to be mentionable)."
 msgstr "Spomeni sve ili bilo koju ulogu (čak i ako uloga nije postavljena da bude spomenuta)."
 
@@ -13837,8 +13846,8 @@ msgid "Messages"
 msgstr "Poruke"
 
 #: src/components/modals/utils/SettingsConstants.tsx:184
-#: src/utils/PermissionUtils.tsx:298
-#: src/utils/PermissionUtils.tsx:460
+#: src/utils/PermissionUtils.tsx:304
+#: src/utils/PermissionUtils.tsx:466
 msgid "Messages & Media"
 msgstr "Poruke i mediji"
 
@@ -14021,7 +14030,7 @@ msgid "Mode C"
 msgstr "Način rada C"
 
 #: src/components/uikit/context_menu/items/ModerationSubmenu.tsx:152
-#: src/utils/PermissionUtils.tsx:360
+#: src/utils/PermissionUtils.tsx:366
 msgid "Moderation"
 msgstr "Moderacija"
 
@@ -14117,8 +14126,8 @@ msgstr "Pomakni fokus preko gumba, unosa i poveznica."
 msgid "Move focus to the message composer"
 msgstr "Pomakni fokus na sastavljač poruka"
 
-#: src/utils/PermissionUtils.tsx:412
-#: src/utils/PermissionUtils.tsx:509
+#: src/utils/PermissionUtils.tsx:418
+#: src/utils/PermissionUtils.tsx:515
 msgid "Move Members"
 msgstr "Premjesti članove"
 
@@ -14158,7 +14167,7 @@ msgstr "Klub filmofila"
 msgid "Movie Night Crew"
 msgstr "Ekipa za noć filma"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:87
 msgid "Movies & TV"
 msgstr "Filmovi i TV"
 
@@ -14170,7 +14179,7 @@ msgstr "mp3"
 msgid "Multilingual Content"
 msgstr "Višejezični sadržaj"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
 msgid "Music"
 msgstr "Glazba"
 
@@ -14191,8 +14200,8 @@ msgstr "utišaj"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:270
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:149
-#: src/components/layout/UserArea.tsx:155
+#: src/components/layout/UserArea.tsx:163
+#: src/components/layout/UserArea.tsx:169
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
@@ -14255,7 +14264,7 @@ msgstr "Utišaj kanal"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:95
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:172
 msgid "Mute Community"
 msgstr "Utišaj zajednicu"
@@ -14285,8 +14294,8 @@ msgstr "Utišaj favorite"
 msgid "Mute Keybind"
 msgstr "Tipkovni prečac za utišavanje"
 
-#: src/utils/PermissionUtils.tsx:404
-#: src/utils/PermissionUtils.tsx:506
+#: src/utils/PermissionUtils.tsx:410
+#: src/utils/PermissionUtils.tsx:512
 msgid "Mute Members"
 msgstr "Utišaj članove"
 
@@ -14534,10 +14543,6 @@ msgstr "Nikad ne animiraj"
 msgid "Never Automatically"
 msgstr "Nikad automatski"
 
-#: src/components/modals/InviteModal.tsx:196
-msgid "never expires"
-msgstr "nikada ne istječe"
-
 #: src/components/channel/Divider.tsx:51
 #: src/components/channel/Divider.tsx:60
 #: src/components/channel/UnreadDividerSlot.tsx:47
@@ -14758,7 +14763,7 @@ msgstr "Još nema veza"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -14768,11 +14773,11 @@ msgstr "Nije naveden opis."
 msgid "No email address set"
 msgstr "Nije postavljena adresa e-pošte"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:185
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:201
 msgid "No emoji slots available"
 msgstr "Nema dostupnih emoji slotova"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:368
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:389
 msgid "No emojis found matching your search."
 msgstr "Nema emojija koji odgovaraju vašoj pretrazi."
 
@@ -14986,11 +14991,11 @@ msgid "No Stickers Available"
 msgstr "Nema dostupnih naljepnica"
 
 #: src/components/channel/MobileStickersPicker.tsx:206
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:186
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
 msgid "No Stickers Found"
 msgstr "Nema pronađenih naljepnica"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:187
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:208
 msgid "No stickers found matching your search."
 msgstr "Nema naljepnica koje odgovaraju vašoj pretrazi."
 
@@ -15055,7 +15060,7 @@ msgid "Noise Suppression"
 msgstr "Suzbijanje buke"
 
 #. placeholder {0}: staticEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:384
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:405
 msgid "Non-Animated Emoji ({0})"
 msgstr "Neanimirani emoji ({0})"
 
@@ -15081,7 +15086,7 @@ msgstr "Norveški"
 msgid "Not available"
 msgstr "Nije dostupno"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
 msgid "Not enough members"
 msgstr "Nema dovoljno članova"
 
@@ -15154,7 +15159,7 @@ msgstr "Nadjačavanje obavijesti"
 #: src/components/uikit/context_menu/items/CategoryMenuItems.tsx:230
 #: src/components/uikit/context_menu/items/ChannelMenuData.tsx:492
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:253
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:304
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:307
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:243
 msgid "Notification Settings"
 msgstr "Postavke obavijesti"
@@ -15273,8 +15278,8 @@ msgstr "Izvan mreže"
 #: src/components/guild/RoleManagement.tsx:306
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:56
 #: src/components/modals/components/plutonium/hooks/useCheckoutActions.tsx:108
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:151
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:167
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:257
 #: src/components/modals/GuildOwnershipWarningModal.tsx:73
 msgid "OK"
 msgstr "U redu"
@@ -15733,7 +15738,7 @@ msgstr "ILI"
 msgid "Or copy the link:"
 msgstr "Ili kopiraj poveznicu:"
 
-#: src/components/modals/InviteModal.tsx:307
+#: src/components/modals/InviteModal.tsx:304
 msgid "or send an invite link to a friend:"
 msgstr "ili pošalji pozivnicu prijatelju:"
 
@@ -15749,7 +15754,7 @@ msgstr "Učitavanje izvorne poruke nije uspjelo"
 msgid "Original message was deleted"
 msgstr "Izvorna poruka je izbrisana"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:88
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15763,8 +15768,8 @@ msgstr "Ostalo"
 msgid "Other Devices"
 msgstr "Ostali uređaji"
 
-#: src/utils/PermissionUtils.tsx:396
-#: src/utils/PermissionUtils.tsx:502
+#: src/utils/PermissionUtils.tsx:402
+#: src/utils/PermissionUtils.tsx:508
 msgid "Otherwise Push-to-talk is required."
 msgstr "Inače je potreban Push-to-talk."
 
@@ -16026,7 +16031,7 @@ msgid "Payment Successful"
 msgstr "Plaćanje uspješno"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
 msgid "Pending"
 msgstr "Na čekanju"
 
@@ -16236,8 +16241,8 @@ msgstr "Prikači je. Prikači je dobro."
 msgid "Pin Message"
 msgstr "Prikači poruku"
 
-#: src/utils/PermissionUtils.tsx:315
-#: src/utils/PermissionUtils.tsx:468
+#: src/utils/PermissionUtils.tsx:321
+#: src/utils/PermissionUtils.tsx:474
 msgid "Pin Messages"
 msgstr "Prikači poruke"
 
@@ -16564,7 +16569,7 @@ msgstr "Spriječi <0>{0}</0> u slanju poruka, reagiranju i povezivanju na glasov
 msgid "Prevent <0>{0}</0> from sending messages, reacting, and joining voice channels for the specified duration."
 msgstr "Spriječi <0>{0}</0> u slanju poruka, reagiranju i pridruživanju glasovnim kanalima tijekom određenog vremena."
 
-#: src/utils/PermissionUtils.tsx:364
+#: src/utils/PermissionUtils.tsx:370
 msgid "Prevent members from sending messages, reacting, and joining voice for a duration."
 msgstr "Spriječi članove u slanju poruka, reagiranju i pridruživanju glasovnim kanalima na određeno vrijeme."
 
@@ -16668,8 +16673,8 @@ msgstr "Primarna radnja"
 msgid "Primary button clicked!"
 msgstr "Primarni gumb kliknut!"
 
-#: src/utils/PermissionUtils.tsx:400
-#: src/utils/PermissionUtils.tsx:505
+#: src/utils/PermissionUtils.tsx:406
+#: src/utils/PermissionUtils.tsx:511
 msgid "Priority Speaker"
 msgstr "Govornik s prioritetom"
 
@@ -16691,8 +16696,8 @@ msgstr "Pravila privatnosti"
 
 #: src/components/modals/GuildPrivacySettingsModal.tsx:72
 #: src/components/popouts/GuildHeaderPopout.tsx:215
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:309
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:378
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:312
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:381
 msgid "Privacy Settings"
 msgstr "Postavke privatnosti"
 
@@ -16841,11 +16846,11 @@ msgstr "Način kupnje"
 msgid "Purchased {0}"
 msgstr "Kupljeno {0}"
 
-#: src/components/emojis/EmojiListItem.tsx:197
+#: src/components/emojis/EmojiListItem.tsx:198
 msgid "Purge this emoji from storage and CDN"
 msgstr "Očisti ovaj emoji iz pohrane i CDN-a"
 
-#: src/components/stickers/StickerGridItem.tsx:69
+#: src/components/stickers/StickerGridItem.tsx:75
 msgid "Purge this sticker from storage and CDN"
 msgstr "Očisti ovaj naljepnicu iz pohrane i CDN-a"
 
@@ -16897,7 +16902,7 @@ msgstr "Pritisni-za-govor (drži)"
 msgid "Push-to-Talk (Limited)"
 msgstr "Pritisni-za-govor (ograničeno)"
 
-#: src/components/layout/UserArea.tsx:147
+#: src/components/layout/UserArea.tsx:161
 #: src/components/voice/VoiceControlBar.tsx:600
 msgid "Push-to-talk enabled — hold {pushToTalkHint} to speak"
 msgstr "Pritisni-za-govor omogućen — držite {pushToTalkHint} za govor"
@@ -17017,8 +17022,8 @@ msgstr "Ponovno aktiviraj"
 msgid "read aloud"
 msgstr "pročitaj naglas"
 
-#: src/utils/PermissionUtils.tsx:327
-#: src/utils/PermissionUtils.tsx:471
+#: src/utils/PermissionUtils.tsx:333
+#: src/utils/PermissionUtils.tsx:477
 msgid "Read Message History"
 msgstr "Čitaj povijest poruka"
 
@@ -17057,7 +17062,7 @@ msgid "Reason (Optional)"
 msgstr "Razlog (Opcionalno)"
 
 #. placeholder {0}: application.review_reason
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:249
 msgid "Reason: {0}"
 msgstr "Razlog: {0}"
 
@@ -17092,7 +17097,7 @@ msgstr "Nedavna pretraživanja"
 
 #. placeholder {0}: ChannelUtils.getIcon(channel, {size: 16, className: styles.channelIcon})
 #. placeholder {1}: channel.name
-#: src/components/modals/InviteModal.tsx:226
+#: src/components/modals/InviteModal.tsx:223
 msgid "Recipients will be taken to {0} <0>{1}</0>"
 msgstr "Primatelji će biti preusmjereni u {0} <0>{1}</0>"
 
@@ -17250,7 +17255,7 @@ msgstr "Redovni, bot, sustav i korisnici koji su istekli prikazani u udobnim i k
 msgid "Reject"
 msgstr "Odbij"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:60
 msgid "Rejected"
 msgstr "Odbijeno"
 
@@ -17525,7 +17530,7 @@ msgstr "Ukloni kada ste prvi put kupili Plutonium sa svoje značke"
 msgid "Remove your Visionary ID badge"
 msgstr "Ukloni svoju značku Visionary ID"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:61
 msgid "Removed"
 msgstr "Uklonjeno"
 
@@ -17635,11 +17640,11 @@ msgid "Rename"
 msgstr "Preimenuj"
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:238
+#: src/components/emojis/EmojiListItem.tsx:240
 msgid "Rename :{0}:"
 msgstr "Preimenuj :{0}:"
 
-#: src/utils/PermissionUtils.tsx:434
+#: src/utils/PermissionUtils.tsx:440
 msgid "Rename and edit this channel's settings."
 msgstr "Preimenuj i uredi postavke ovog kanala."
 
@@ -17748,7 +17753,7 @@ msgid "Report a User Profile"
 msgstr "Prijavi korisnički profil"
 
 #: src/components/modals/IARModal.tsx:119
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:350
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:353
 #: src/components/uikit/context_menu/items/ReportGuildMenuItem.tsx:57
 msgid "Report Community"
 msgstr "Prijavi zajednicu"
@@ -18045,7 +18050,7 @@ msgstr "Ponovno se pretplati"
 #: src/components/modals/BackgroundImageGalleryModal.tsx:210
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:649
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:125
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:234
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:138
 #: src/components/modals/tabs/applications_tab/ApplicationDetail.tsx:586
 #: src/components/modals/tabs/applications_tab/index.tsx:113
@@ -18319,7 +18324,7 @@ msgstr "spremi"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18451,7 +18456,7 @@ msgstr "Zakazana poruka za {0}"
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "Zakazane poruke mogu biti najviše 30 dana u budućnosti."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
 msgid "Science & Technology"
 msgstr "Znanost i tehnologija"
 
@@ -18574,7 +18579,7 @@ msgstr "Pretraži zajednice..."
 msgid "Search countries..."
 msgstr "Traži zemlje..."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:308
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:324
 msgid "Search emojis..."
 msgstr "Traži emojije..."
 
@@ -18603,7 +18608,7 @@ msgstr "Traži kanale, ljude ili zajednice"
 #: src/components/common/FriendSelector.tsx:197
 #: src/components/modals/AddFriendsToGroupModal.tsx:53
 #: src/components/modals/CreateDMModal.tsx:68
-#: src/components/modals/InviteModal.tsx:246
+#: src/components/modals/InviteModal.tsx:243
 #: src/components/modals/shared/RecipientList.tsx:179
 #: src/components/modals/ShareThemeModal.tsx:141
 msgid "Search friends"
@@ -18692,7 +18697,7 @@ msgstr "Postavke pretrage"
 msgid "Search settings..."
 msgstr "Traži postavke..."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:130
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:147
 msgid "Search stickers..."
 msgstr "Traži naljepnice..."
 
@@ -19035,8 +19040,8 @@ msgstr "Slanje poruka onemogućeno"
 msgid "Send messages"
 msgstr "Slanje poruka"
 
-#: src/utils/PermissionUtils.tsx:301
-#: src/utils/PermissionUtils.tsx:462
+#: src/utils/PermissionUtils.tsx:307
+#: src/utils/PermissionUtils.tsx:468
 msgid "Send Messages"
 msgstr "Slanje poruka"
 
@@ -19056,11 +19061,11 @@ msgstr "Pošalji SMS kod"
 msgid "Send SMS Code"
 msgstr "Pošalji SMS kod"
 
-#: src/utils/PermissionUtils.tsx:306
+#: src/utils/PermissionUtils.tsx:312
 msgid "Send text-to-speech messages."
 msgstr "Slanje poruka tekst-u-govor."
 
-#: src/utils/PermissionUtils.tsx:305
+#: src/utils/PermissionUtils.tsx:311
 msgid "Send TTS Messages"
 msgstr "Slanje TTS poruka"
 
@@ -19072,7 +19077,7 @@ msgstr "Pošalji verifikacijski kod"
 msgid "Send voice message"
 msgstr "Pošalji glasovnu poruku"
 
-#: src/components/modals/InviteModal.tsx:266
+#: src/components/modals/InviteModal.tsx:263
 #: src/components/modals/shared/RecipientList.tsx:223
 #: src/components/modals/ShareThemeModal.tsx:159
 msgid "Sent"
@@ -19098,7 +19103,7 @@ msgstr "Poslana je priloga"
 msgid "sent an embed"
 msgstr "poslan ugradbeni sadržaj"
 
-#: src/components/modals/AddConnectionModal.tsx:277
+#: src/components/modals/AddConnectionModal.tsx:280
 msgid "Serve the token file"
 msgstr "Poslužite datoteku s tokenom"
 
@@ -19310,8 +19315,8 @@ msgstr "Postavi razinu provjere na <0>Srednja</0>."
 msgid "Set verification level to <0>None</0>."
 msgstr "Postavi razinu provjere na <0>Nema</0>."
 
-#: src/utils/PermissionUtils.tsx:417
-#: src/utils/PermissionUtils.tsx:513
+#: src/utils/PermissionUtils.tsx:423
+#: src/utils/PermissionUtils.tsx:519
 msgid "Set Voice Region"
 msgstr "Postavi glasovnu regiju"
 
@@ -20174,8 +20179,8 @@ msgstr "Španjolski (Latinska Amerika)"
 msgid "Spanish (Spain)"
 msgstr "Španjolski (Španjolska)"
 
-#: src/utils/PermissionUtils.tsx:387
-#: src/utils/PermissionUtils.tsx:498
+#: src/utils/PermissionUtils.tsx:393
+#: src/utils/PermissionUtils.tsx:504
 msgid "Speak"
 msgstr "Govori"
 
@@ -20397,7 +20402,7 @@ msgstr "Pokreni glasovni poziv"
 
 #. placeholder {0}: staticEmojis.length
 #. placeholder {1}: maxStaticEmojis === Number.POSITIVE_INFINITY ? '∞' : maxStaticEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:349
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:367
 msgid "Static: {0} / {1}"
 msgstr "Statički: {0} / {1}"
 
@@ -20423,7 +20428,7 @@ msgstr "statusna ploča"
 msgid "Status Slate"
 msgstr "Statusna ploča"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:243
 msgid "Status:"
 msgstr "Status:"
 
@@ -20478,7 +20483,7 @@ msgstr "Naljepnica stvorena"
 msgid "Sticker Deleted"
 msgstr "Naljepnica izbrisana"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:137
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:154
 msgid "Sticker density"
 msgstr "Gustoća naljepnica"
 
@@ -20505,7 +20510,7 @@ msgstr "Dosegnuto je ograničenje paketa naljepnica"
 msgid "sticker packs"
 msgstr "paketi naljepnica"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:158
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:177
 msgid "Sticker Slots"
 msgstr "Mjesta za naljepnice"
 
@@ -20529,7 +20534,7 @@ msgid "Stickers"
 msgstr "Naljepnice"
 
 #. placeholder {0}: Math.round(GlobalLimits.getStickerMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:164
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:183
 msgid "Stickers must be exactly 320x320 pixels and no larger than {0} KB, but we automatically resize and compress images for you. Allowed file types: JPEG, PNG, WebP, GIF."
 msgstr "Naljepnice moraju biti točno 320x320 piksela i ne veće od {0} KB, ali mi automatski mijenjamo veličinu i komprimiramo slike za vas. Dopuštene vrste datoteka: JPEG, PNG, WebP, GIF."
 
@@ -20611,8 +20616,8 @@ msgstr "Pregled strujanja"
 msgid "Stream Quality"
 msgstr "Kvaliteta Streama"
 
-#: src/utils/PermissionUtils.tsx:391
-#: src/utils/PermissionUtils.tsx:499
+#: src/utils/PermissionUtils.tsx:397
+#: src/utils/PermissionUtils.tsx:505
 msgid "Stream Video"
 msgstr "Strujanje videozapisa"
 
@@ -21139,7 +21144,7 @@ msgstr "Zajednica koju tražiš možda je izbrisana ili nemaš pristup njoj."
 msgid "The download link will be valid for 7 days"
 msgstr "Veza za preuzimanje bit će valjana 7 dana"
 
-#: src/components/modals/AddConnectionModal.tsx:298
+#: src/components/modals/AddConnectionModal.tsx:301
 msgid "The file contains the verification token we will fetch from <0>{dnsUrl}</0>."
 msgstr "Datoteka sadrži verifikacijski token koji ćemo preuzeti s <0>{dnsUrl}</0>."
 
@@ -21265,7 +21270,7 @@ msgstr "Došlo je do pogreške pri učitavanju veza za pozivnice za ovaj kanal. 
 msgid "There was an error loading the invites. Please try again."
 msgstr "Došlo je do pogreške pri učitavanju pozivnica. Molimo pokušajte ponovno."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:204
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:231
 msgid "There was an error loading the stickers. Please try again."
 msgstr "Došlo je do pogreške pri učitavanju naljepnica. Molimo pokušajte ponovno."
 
@@ -21528,7 +21533,7 @@ msgstr "Ova pozivnica ističe za {seconds} sekundi."
 msgid "This invite has unlimited uses."
 msgstr "Ovaj poziv ima neograničeno korištenje."
 
-#: src/components/modals/InviteModal.tsx:315
+#: src/components/modals/InviteModal.tsx:312
 msgid "This invite link never expires."
 msgstr "Ova poveznica za pozivnicu nikad ne istječe."
 
@@ -21836,7 +21841,7 @@ msgstr "Trajanje isteka vremena"
 msgid "Timeout ends {0} ({1})"
 msgstr "Istek vremena završava {0} ({1})"
 
-#: src/utils/PermissionUtils.tsx:363
+#: src/utils/PermissionUtils.tsx:369
 msgid "Timeout Members"
 msgstr "Članovi s istekom vremena"
 
@@ -22431,7 +22436,7 @@ msgstr "Nije moguće učitati pregled."
 msgid "Unable to load profile banner, badges, and bio."
 msgstr "Nije moguće učitati profilni banner, oznake i biografiju."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:229
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:245
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "Nije moguće pripremiti emojije za prijenos. Došlo je do sljedećih pogrešaka:"
 
@@ -22532,7 +22537,7 @@ msgstr "Zaobilaženje nepreuzetog računa"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:174
 #: src/components/voice/VoiceControlBar.tsx:611
 msgid "Undeafen"
 msgstr "Ukloni gluhoću"
@@ -22569,7 +22574,7 @@ msgstr "Maloljetni korisnik"
 #: src/components/alerts/UserBannedFromGuildModal.tsx:30
 #: src/components/alerts/UserIpBannedFromGuildModal.tsx:31
 #: src/components/layout/ChannelListContent.tsx:149
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:192
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:208
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:160
 msgid "Understood"
 msgstr "Razumijem"
@@ -22614,7 +22619,7 @@ msgstr "Jedinstveni poziv"
 msgid "Unit"
 msgstr "Jedinica"
 
-#: src/components/emojis/EmojiListItem.tsx:290
+#: src/components/emojis/EmojiListItem.tsx:301
 #: src/components/modals/BanDetailsModal.tsx:116
 msgid "Unknown"
 msgstr "Nepoznato"
@@ -22776,8 +22781,8 @@ msgstr "Otključajte naljepnice u DM-ovima s Plutoniumom"
 #: src/components/bottomsheets/MuteDurationSheet.tsx:75
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:148
-#: src/components/layout/UserArea.tsx:154
+#: src/components/layout/UserArea.tsx:162
+#: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/MobileVideoViewer.tsx:272
@@ -22813,7 +22818,7 @@ msgstr "Uključi zvuk kanala"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:96
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:165
 msgid "Unmute Community"
 msgstr "Uključi zvuk zajednice"
@@ -23146,7 +23151,7 @@ msgstr "Otpremi prilagođeni zvuk"
 msgid "Upload directly to {displayName}"
 msgstr "Učitaj izravno na {displayName}"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:329
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:347
 msgid "Upload Emoji"
 msgstr "Učitaj emotikon"
 
@@ -23170,11 +23175,15 @@ msgstr "Učitaj ikonu"
 msgid "Upload Image"
 msgstr "Učitaj sliku"
 
+#: src/utils/PermissionUtils.tsx:285
+msgid "Upload new emoji and stickers, and manage your own creations."
+msgstr "Otpremi nove emotikone i naljepnice, i upravljaj svojim kreacijama."
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:577
 msgid "upload sound"
 msgstr "učitaj zvuk"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:180
 msgid "Upload Sticker"
 msgstr "Učitaj naljepnicu"
 
@@ -23235,8 +23244,8 @@ msgstr "URL-ovi za preuzimanje bilo kojih privitaka iz tvojih poruka"
 msgid "US East"
 msgstr "SAD Istok"
 
-#: src/utils/PermissionUtils.tsx:331
-#: src/utils/PermissionUtils.tsx:473
+#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:479
 msgid "Use @everyone/@here and @roles"
 msgstr "Koristi @everyone/@here i @uloge"
 
@@ -23294,17 +23303,17 @@ msgstr "Koristi tamnu temu u cijeloj aplikaciji"
 msgid "Use Different Email"
 msgstr "Koristi drugačiju e-poštu"
 
-#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:343
 msgid "Use emoji from other communities."
 msgstr "Koristi emojije iz drugih zajednica."
 
-#: src/utils/PermissionUtils.tsx:336
-#: src/utils/PermissionUtils.tsx:477
+#: src/utils/PermissionUtils.tsx:342
+#: src/utils/PermissionUtils.tsx:483
 msgid "Use External Emoji"
 msgstr "Koristi vanjske emojije"
 
-#: src/utils/PermissionUtils.tsx:341
-#: src/utils/PermissionUtils.tsx:478
+#: src/utils/PermissionUtils.tsx:347
+#: src/utils/PermissionUtils.tsx:484
 msgid "Use External Stickers"
 msgstr "Koristi vanjske naljepnice"
 
@@ -23337,7 +23346,7 @@ msgstr "Koristi sigurnosni ključ"
 msgid "Use system locale for time format"
 msgstr "Koristi jezik sustava za format vremena"
 
-#: src/components/modals/AddConnectionModal.tsx:233
+#: src/components/modals/AddConnectionModal.tsx:236
 msgid "Use the record below to prove domain ownership."
 msgstr "Koristite zapis u nastavku za dokazivanje vlasništva domene."
 
@@ -23357,8 +23366,8 @@ msgstr "Koristi ovaj gumb za brzo brisanje svih dopuštenja."
 msgid "Use this shortcut system-wide"
 msgstr "Koristi ovu prečicu u cijelom sustavu"
 
-#: src/utils/PermissionUtils.tsx:395
-#: src/utils/PermissionUtils.tsx:501
+#: src/utils/PermissionUtils.tsx:401
+#: src/utils/PermissionUtils.tsx:507
 msgid "Use Voice Activity"
 msgstr "Koristi glasovnu aktivnost"
 
@@ -23450,8 +23459,8 @@ msgstr "Profil korisnika: {tag}"
 msgid "User Record"
 msgstr "Zapis korisnika"
 
-#: src/components/layout/UserArea.tsx:272
-#: src/components/layout/UserArea.tsx:277
+#: src/components/layout/UserArea.tsx:286
+#: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
 #: src/components/modals/UserSettingsModal.tsx:154
 msgid "User Settings"
@@ -23570,7 +23579,7 @@ msgstr "alatke"
 msgid "value"
 msgstr "vrijednost"
 
-#: src/components/modals/AddConnectionModal.tsx:258
+#: src/components/modals/AddConnectionModal.tsx:261
 msgid "Value"
 msgstr "Vrijednost"
 
@@ -23678,7 +23687,7 @@ msgstr "Verificirani ceh"
 msgid "verify"
 msgstr "verificirati"
 
-#: src/components/modals/AddConnectionModal.tsx:312
+#: src/components/modals/AddConnectionModal.tsx:315
 #: src/components/modals/EmailChangeModal.tsx:236
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
@@ -23690,11 +23699,11 @@ msgstr "Potvrdi"
 msgid "Verify Code"
 msgstr "Potvrdi kod"
 
-#: src/components/modals/AddConnectionModal.tsx:229
+#: src/components/modals/AddConnectionModal.tsx:232
 msgid "Verify Connection"
 msgstr "Provjeri vezu"
 
-#: src/components/modals/AddConnectionModal.tsx:228
+#: src/components/modals/AddConnectionModal.tsx:231
 msgid "Verify connection form"
 msgstr "Obrazac za provjeru veze"
 
@@ -23874,8 +23883,8 @@ msgstr "Pogledaj poziv"
 msgid "View call controls"
 msgstr "Pogledaj kontrole poziva"
 
-#: src/utils/PermissionUtils.tsx:374
-#: src/utils/PermissionUtils.tsx:454
+#: src/utils/PermissionUtils.tsx:380
+#: src/utils/PermissionUtils.tsx:460
 msgid "View Channel"
 msgstr "Pogledaj kanal"
 
@@ -24691,7 +24700,7 @@ msgstr "S greškom"
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "S Plutoniumom možete koristiti animirane avatare i bannere (u GIF, APNG, animiranom WebP ili AVIF formatu), prilagoditi svoj 4-cifreni tag i otključati mnoge druge premium značajke."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:353
 msgid "Withdraw"
 msgstr "Povuci"
 
@@ -24759,7 +24768,7 @@ msgstr "Ti"
 msgid "You already have a group with these users. Do you really want to create a new one? That's fine too!"
 msgstr "Već imate grupu s ovim korisnicima. Stvarno želite stvoriti novu? I to je u redu!"
 
-#: src/components/modals/AddConnectionModal.tsx:98
+#: src/components/modals/AddConnectionModal.tsx:101
 msgid "You already have this connection."
 msgstr "Već imate ovu vezu."
 
@@ -25392,7 +25401,7 @@ msgstr "Dosegnuli ste maksimalni broj zajednica koje možete pridružiti ({maxGu
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "Dosegnuli ste maksimalni broj zajednica koje možete pridružiti ({maxGuilds} zajednica). Molimo napustite jednu zajednicu prije nego što se pridružite drugoj."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:187
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:203
 msgid "You've reached the maximum number of static emojis. Delete some existing emojis or upgrade your server to increase the limit."
 msgstr "Dosegnuli ste maksimalan broj statičnih emotikona. Izbrišite neke postojeće emotikone ili nadogradite svoj poslužitelj da biste povećali granicu."
 
@@ -25425,7 +25434,7 @@ msgstr "Tvoj račun još nije preuzet. Bez e-pošte i lozinke, nećeš se moći 
 msgid "Your account is too new to send messages in this community."
 msgstr "Tvoj račun je previše nov da bi slao/la poruke u ovoj zajednici."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:278
 msgid "Your application is pending review. You can still update your listing details or withdraw the application."
 msgstr "Vaša prijava čeka na pregled. Još uvijek možete ažurirati detalje svoje liste ili povući prijavu."
 
@@ -25445,11 +25454,11 @@ msgstr "Tvoj kod"
 msgid "Your code is ready!"
 msgstr "Tvoj kod je spreman!"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:262
 msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
 msgstr "Vaša zajednica je navedena u Otkriću. Možete ažurirati detalje svoje liste u nastavku ili povući kako biste je uklonili."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:230
 msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
 msgstr "Vaša zajednica treba najmanje {minMemberCount} članova prije nego što može biti navedena u Otkriću."
 
@@ -25499,7 +25508,7 @@ msgid "Your invite expires in 24 hours"
 msgstr "Tvoj poziv istječe za 24 sata"
 
 #. placeholder {0}: getExpirationText()
-#: src/components/modals/InviteModal.tsx:319
+#: src/components/modals/InviteModal.tsx:323
 msgid "Your invite link expires in {0}."
 msgstr "Tvoj pozivni link istječe za {0}."
 
@@ -25515,15 +25524,15 @@ msgstr "Tvoja IP adresa je zabranjena u ovoj zajednici i ne možeš se pridruži
 msgid "Your IP is Banned"
 msgstr "Tvoj IP je zabranjen"
 
-#: src/lib/MessageQueue.tsx:386
+#: src/lib/MessageQueue.tsx:484
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Tvoja poruka nije mogla biti dostavljena. To je obično zato što ne dijeliš zajednicu s primateljem ili primatelj prihvaća samo izravne poruke od prijatelja."
 
-#: src/lib/MessageQueue.tsx:398
+#: src/lib/MessageQueue.tsx:496
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Tvoja poruka nije mogla biti dostavljena. Moraš preuzeti svoj račun da bi slao/la izravne poruke."
 
-#: src/lib/MessageQueue.tsx:399
+#: src/lib/MessageQueue.tsx:497
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Vaša poruka nije mogla biti isporučena. Morate preuzeti svoj račun kako biste slali poruke."
 

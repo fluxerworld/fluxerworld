@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: Test harness is niet toegestaan.
 admin_and_system.unknown_suspicious_flag: Onbekende suspicious flag.
 admin_and_system.update_failed: We konden de resource niet bijwerken. Probeer het opnieuw.
 admin_and_system.user_must_be_bot_for_system_user: Gebruiker moet een bot zijn om als systeemgebruiker gemarkeerd te worden.
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: De chunk-index valt buiten het bereik voor deze upload.
+attachments_and_uploads.chunked_upload_incomplete: Niet alle chunks zijn geüpload.
+attachments_and_uploads.chunked_upload_not_found: De uploadsessie is niet gevonden of is verlopen.
+attachments_and_uploads.chunked_upload_not_owned: Je bent niet de eigenaar van deze uploadsessie.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` en `expires_at` zijn verplicht.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` en `message_id` moeten geldige integers zijn.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Gebruikers met MANAGE_MESSAGES kunnen alleen bijlagebeschrijvingen bewerken, niet andere metadata.
@@ -149,6 +153,7 @@ calls_and_voice.voice_message_waveform_required: Bijlagen bij voice-berichten mo
 calls_and_voice.voice_messages_require_single_attachment: Voice-berichten moeten precies 1 bijlage bevatten.
 captcha.invalid: Ongeldige captcha.
 captcha.required: Captcha is verplicht.
+connections.bluesky_oauth_authorization_failed: We konden dat Bluesky-handle niet vinden. Controleer het en probeer het opnieuw.
 connections.bluesky_oauth_callback_failed: We konden de Bluesky-verbinding niet voltooien. Probeer het opnieuw.
 connections.bluesky_oauth_not_enabled: Bluesky-verbindingen zijn niet ingeschakeld op deze server.
 connections.bluesky_oauth_session_expired: Je Bluesky-sessie is verlopen. Verbind je account opnieuw.

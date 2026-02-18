@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: Test harness is forbidden.
 admin_and_system.unknown_suspicious_flag: Unknown suspicious flag.
 admin_and_system.update_failed: We couldn't update the resource. Please try again.
 admin_and_system.user_must_be_bot_for_system_user: User must be a bot to be marked as a system user.
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Chunk index is out of range for this upload.
+attachments_and_uploads.chunked_upload_incomplete: Not all chunks have been uploaded.
+attachments_and_uploads.chunked_upload_not_found: Upload session wasn't found or has expired.
+attachments_and_uploads.chunked_upload_not_owned: You don't own this upload session.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id`, and `expires_at` are required.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id`, and `message_id` must be valid integers.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Users with MANAGE_MESSAGES can only edit attachment descriptions, not other metadata.
@@ -150,6 +154,7 @@ calls_and_voice.voice_messages_require_single_attachment: Voice messages must co
 captcha.invalid: Invalid captcha.
 captcha.required: Captcha is required.
 connections.already_exists: A connection of this type with this identifier already exists.
+connections.bluesky_oauth_authorization_failed: We couldn't resolve that Bluesky handle. Please check it and try again.
 connections.bluesky_oauth_callback_failed: We couldn't complete the Bluesky connection. Please try again.
 connections.bluesky_oauth_not_enabled: Bluesky connections aren't enabled on this server.
 connections.bluesky_oauth_session_expired: Your Bluesky session has expired. Please reconnect your account.

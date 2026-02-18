@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: 테스트 하네스 사용이 금지돼
 admin_and_system.unknown_suspicious_flag: 알 수 없는 의심 플래그예요.
 admin_and_system.update_failed: 리소스를 업데이트하지 못했어요. 잠시 후 다시 시도해 주세요.
 admin_and_system.user_must_be_bot_for_system_user: 시스템 유저로 표시하려면 사용자는 봇이어야 해요.
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: 청크 인덱스가 이 업로드의 범위를 벗어났어요.
+attachments_and_uploads.chunked_upload_incomplete: 아직 모든 청크가 업로드되지 않았어요.
+attachments_and_uploads.chunked_upload_not_found: 업로드 세션을 찾을 수 없거나 만료됐어요.
+attachments_and_uploads.chunked_upload_not_owned: 이 업로드 세션의 소유자가 아니에요.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id`, `expires_at` 필드가 필요해요.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id`, `message_id`는 올바른 정수여야 해요.'
 attachments_and_uploads.cannot_edit_attachment_metadata: MANAGE_MESSAGES 권한을 가진 사용자는 첨부 파일 설명만 수정할 수 있고, 다른 메타데이터는 수정할 수 없어요.
@@ -148,6 +152,7 @@ calls_and_voice.voice_message_duration_required: 음성 메시지 첨부 파일�
 calls_and_voice.voice_message_waveform_required: 음성 메시지 첨부 파일에는 파형 데이터가 포함돼야 해요.
 calls_and_voice.voice_messages_require_single_attachment: 음성 메시지는 첨부 파일이 정확히 1개여야 해요.
 connections.already_exists: 이 유형의 이 식별자로는 이미 연결이 존재해요.
+connections.bluesky_oauth_authorization_failed: 해당 Bluesky 핸들을 확인할 수 없었어요. 확인 후 다시 시도해 주세요.
 connections.bluesky_oauth_callback_failed: Bluesky 연결을 완료하지 못했어요. 다시 시도해 주세요.
 connections.bluesky_oauth_not_enabled: 이 서버에서는 Bluesky 연결을 지원하지 않아요.
 connections.bluesky_oauth_session_expired: Bluesky 세션이 만료됐어요. 계정을 다시 연결해 주세요.

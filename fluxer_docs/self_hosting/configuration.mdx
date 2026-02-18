@@ -601,7 +601,7 @@ When `enabled` = `true` and `provider` = `smtp`, the following properties are re
 | from_name? | string | Default sender name. Default: `Fluxer` |
 | provider? | enum&lt;`smtp`, `none`&gt; | Email provider selection. Default: `none` |
 | smtp? | [smtp_email](#smtp-email) |  |
-| webhook_secret? | string | SendGrid signed event webhook public key (PEM or base64-encoded DER). |
+| webhook_secret? | string | Sweego webhook signing secret (base64-encoded). |
 
 <Expandable title="Example JSON">
 ```json
@@ -1446,7 +1446,6 @@ Configuration for the Gateway service (WebSocket).
 | Property | Type | Description |
 |----------|------|-------------|
 | admin_reload_secret | string | Secret used to trigger code hot-swapping/reloads. |
-| api_canary_host? | string | Host/Port of the Canary API service (optional). Default: `""` |
 | api_host | string | Host/Port of the API service to communicate with. |
 | gateway_metrics_enabled? | boolean | Enable collection of gateway metrics. Default: `false` |
 | gateway_metrics_report_interval_ms? | number | Interval in milliseconds to report gateway metrics. Default: `30000` |
@@ -1473,7 +1472,6 @@ Configuration for the Gateway service (WebSocket).
   "admin_reload_secret": "your_admin_reload_secret",
   "api_host": "your_api_host",
   "media_proxy_endpoint": "your_media_proxy_endpoint",
-  "api_canary_host": "",
   "gateway_metrics_enabled": false,
   "gateway_metrics_report_interval_ms": 30000,
   "guild_shards": 1,

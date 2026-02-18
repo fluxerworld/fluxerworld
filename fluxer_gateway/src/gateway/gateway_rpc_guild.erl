@@ -35,15 +35,11 @@ execute_method(<<"guild.dispatch">>, #{
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
     with_guild(GuildId, fun(Pid) ->
         EventAtom = constants:dispatch_event_atom(Event),
-        case
-            gen_server:call(
-                Pid, {dispatch, #{event => EventAtom, data => Data}}, ?GUILD_CALL_TIMEOUT
-            )
-        of
-            ok ->
-                true;
-            _ -> throw({error, <<"dispatch_error">>})
-        end
+        IsAlive = erlang:is_process_alive(Pid),
+        logger:info("rpc guild.dispatch: guild_id=~p event=~p pid=~p alive=~p",
+            [GuildId, EventAtom, Pid, IsAlive]),
+        gen_server:cast(Pid, {dispatch, #{event => EventAtom, data => Data}}),
+        true
     end);
 execute_method(<<"guild.get_counts">>, #{<<"guild_id">> := GuildIdBin}) ->
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
@@ -78,29 +74,23 @@ execute_method(<<"guild.get_data">>, #{<<"guild_id">> := GuildIdBin, <<"user_id"
 execute_method(<<"guild.get_member">>, #{<<"guild_id">> := GuildIdBin, <<"user_id">> := UserIdBin}) ->
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
-    with_guild(GuildId, fun(Pid) ->
-        Request = #{user_id => UserId},
-        case gen_server:call(Pid, {get_guild_member, Request}, ?GUILD_CALL_TIMEOUT) of
-            #{success := true, member_data := MemberData} ->
-                #{<<"success">> => true, <<"member_data">> => MemberData};
-            #{success := false} ->
-                #{<<"success">> => false};
-            _ ->
-                throw({error, <<"guild_member_error">>})
-        end
-    end);
+    case get_member_cached_or_rpc(GuildId, UserId) of
+        {ok, MemberData} when is_map(MemberData) ->
+            #{<<"success">> => true, <<"member_data">> => MemberData};
+        {ok, undefined} ->
+            #{<<"success">> => false};
+        error ->
+            throw({error, <<"guild_member_error">>})
+    end;
 execute_method(<<"guild.has_member">>, #{<<"guild_id">> := GuildIdBin, <<"user_id">> := UserIdBin}) ->
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
-    with_guild(GuildId, fun(Pid) ->
-        Request = #{user_id => UserId},
-        case gen_server:call(Pid, {has_member, Request}, ?GUILD_CALL_TIMEOUT) of
-            #{has_member := HasMember} when is_boolean(HasMember) ->
-                #{<<"has_member">> => HasMember};
-            _ ->
-                throw({error, <<"membership_check_error">>})
-        end
-    end);
+    case get_has_member_cached_or_rpc(GuildId, UserId) of
+        {ok, HasMember} ->
+            #{<<"has_member">> => HasMember};
+        error ->
+            throw({error, <<"membership_check_error">>})
+    end;
 execute_method(<<"guild.list_members">>, #{
     <<"guild_id">> := GuildIdBin, <<"limit">> := Limit, <<"offset">> := Offset
 }) ->
@@ -429,9 +419,9 @@ execute_method(<<"guild.update_member_voice">>, #{
 }) ->
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
-    with_guild(GuildId, fun(Pid) ->
+    with_voice_server(GuildId, fun(VoicePid, _GuildPid) ->
         Request = #{user_id => UserId, mute => Mute, deaf => Deaf},
-        case gen_server:call(Pid, {update_member_voice, Request}, ?GUILD_CALL_TIMEOUT) of
+        case gen_server:call(VoicePid, {update_member_voice, Request}, ?GUILD_CALL_TIMEOUT) of
             #{success := true} -> #{<<"success">> => true};
             #{error := Error} -> throw({error, normalize_voice_rpc_error(Error)})
         end
@@ -443,9 +433,9 @@ execute_method(
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
     ConnectionId = maps:get(<<"connection_id">>, Params, null),
-    with_guild(GuildId, fun(Pid) ->
+    with_voice_server(GuildId, fun(VoicePid, _GuildPid) ->
         Request = #{user_id => UserId, connection_id => ConnectionId},
-        case gen_server:call(Pid, {disconnect_voice_user, Request}, ?GUILD_CALL_TIMEOUT) of
+        case gen_server:call(VoicePid, {disconnect_voice_user, Request}, ?GUILD_CALL_TIMEOUT) of
             #{success := true} -> #{<<"success">> => true};
             #{error := Error} -> throw({error, normalize_voice_rpc_error(Error)})
         end
@@ -464,11 +454,11 @@ execute_method(
         <<"expected_channel_id">>, ExpectedChannelIdBin
     ),
     ConnectionId = maps:get(<<"connection_id">>, Params, undefined),
-    with_guild(GuildId, fun(Pid) ->
+    with_voice_server(GuildId, fun(VoicePid, _GuildPid) ->
         Request = build_disconnect_request(UserId, ExpectedChannelId, ConnectionId),
         case
             gen_server:call(
-                Pid, {disconnect_voice_user_if_in_channel, Request}, ?GUILD_CALL_TIMEOUT
+                VoicePid, {disconnect_voice_user_if_in_channel, Request}, ?GUILD_CALL_TIMEOUT
             )
         of
             #{success := true, ignored := true} -> #{<<"success">> => true, <<"ignored">> => true};
@@ -481,11 +471,11 @@ execute_method(<<"guild.disconnect_all_voice_users_in_channel">>, #{
 }) ->
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
     ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
-    with_guild(GuildId, fun(Pid) ->
+    with_voice_server(GuildId, fun(VoicePid, _GuildPid) ->
         Request = #{channel_id => ChannelId},
         case
             gen_server:call(
-                Pid, {disconnect_all_voice_users_in_channel, Request}, ?GUILD_CALL_TIMEOUT
+                VoicePid, {disconnect_all_voice_users_in_channel, Request}, ?GUILD_CALL_TIMEOUT
             )
         of
             #{success := true, disconnected_count := Count} ->
@@ -499,11 +489,11 @@ execute_method(<<"guild.confirm_voice_connection_from_livekit">>, Params) ->
     ConnectionId = maps:get(<<"connection_id">>, Params),
     TokenNonce = maps:get(<<"token_nonce">>, Params, undefined),
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
-    with_guild(GuildId, fun(Pid) ->
+    with_voice_server(GuildId, fun(VoicePid, _GuildPid) ->
         Request = #{connection_id => ConnectionId, token_nonce => TokenNonce},
         case
             gen_server:call(
-                Pid, {confirm_voice_connection_from_livekit, Request}, ?GUILD_CALL_TIMEOUT
+                VoicePid, {confirm_voice_connection_from_livekit, Request}, ?GUILD_CALL_TIMEOUT
             )
         of
             #{success := true} -> #{<<"success">> => true};
@@ -518,8 +508,8 @@ execute_method(<<"guild.get_voice_states_for_channel">>, Params) ->
     GuildIdBin = maps:get(<<"guild_id">>, Params),
     ChannelIdBin = maps:get(<<"channel_id">>, Params),
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
-    with_guild(GuildId, fun(Pid) ->
-        case gen_server:call(Pid, {get_voice_states_for_channel, ChannelIdBin}, 10000) of
+    with_voice_server(GuildId, fun(VoicePid, _GuildPid) ->
+        case gen_server:call(VoicePid, {get_voice_states_for_channel, ChannelIdBin}, 10000) of
             #{voice_states := VoiceStates} ->
                 #{<<"voice_states">> => VoiceStates};
             _ ->
@@ -530,8 +520,8 @@ execute_method(<<"guild.get_pending_joins_for_channel">>, Params) ->
     GuildIdBin = maps:get(<<"guild_id">>, Params),
     ChannelIdBin = maps:get(<<"channel_id">>, Params),
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
-    with_guild(GuildId, fun(Pid) ->
-        case gen_server:call(Pid, {get_pending_joins_for_channel, ChannelIdBin}, 10000) of
+    with_voice_server(GuildId, fun(VoicePid, _GuildPid) ->
+        case gen_server:call(VoicePid, {get_pending_joins_for_channel, ChannelIdBin}, 10000) of
             #{pending_joins := PendingJoins} ->
                 #{<<"pending_joins">> => PendingJoins};
             _ ->
@@ -559,7 +549,7 @@ execute_method(<<"guild.move_member">>, #{
             connection_id => ConnectionId
         }
     ),
-    with_guild(GuildId, fun(Pid) ->
+    with_voice_server(GuildId, fun(VoicePid, GuildPid) ->
         Request = #{
             user_id => UserId,
             moderator_id => ModeratorId,
@@ -567,10 +557,10 @@ execute_method(<<"guild.move_member">>, #{
             connection_id => ConnectionId
         },
         handle_move_member_result(
-            gen_server:call(Pid, {move_member, Request}, ?GUILD_CALL_TIMEOUT),
+            gen_server:call(VoicePid, {move_member, Request}, ?GUILD_CALL_TIMEOUT),
             GuildId,
             ChannelId,
-            Pid
+            GuildPid
         )
     end);
 execute_method(<<"guild.get_voice_state">>, #{
@@ -578,9 +568,9 @@ execute_method(<<"guild.get_voice_state">>, #{
 }) ->
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
     UserId = validation:snowflake_or_throw(<<"user_id">>, UserIdBin),
-    with_guild(GuildId, fun(Pid) ->
+    with_voice_server(GuildId, fun(VoicePid, _GuildPid) ->
         Request = #{user_id => UserId},
-        case gen_server:call(Pid, {get_voice_state, Request}, ?GUILD_CALL_TIMEOUT) of
+        case gen_server:call(VoicePid, {get_voice_state, Request}, ?GUILD_CALL_TIMEOUT) of
             #{voice_state := null} -> #{<<"voice_state">> => null};
             #{voice_state := VoiceState} -> #{<<"voice_state">> => VoiceState};
             _ -> throw({error, <<"voice_state_error">>})
@@ -591,11 +581,11 @@ execute_method(<<"guild.switch_voice_region">>, #{
 }) ->
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
     ChannelId = validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin),
-    with_guild(GuildId, fun(Pid) ->
+    with_voice_server(GuildId, fun(VoicePid, GuildPid) ->
         Request = #{channel_id => ChannelId},
-        case gen_server:call(Pid, {switch_voice_region, Request}, ?GUILD_CALL_TIMEOUT) of
+        case gen_server:call(VoicePid, {switch_voice_region, Request}, ?GUILD_CALL_TIMEOUT) of
             #{success := true} ->
-                spawn(fun() -> guild_voice:switch_voice_region(GuildId, ChannelId, Pid) end),
+                spawn(fun() -> guild_voice:switch_voice_region(GuildId, ChannelId, GuildPid) end),
                 #{<<"success">> => true};
             #{error := Error} ->
                 throw({error, normalize_voice_rpc_error(Error)})
@@ -644,12 +634,26 @@ execute_method(<<"guild.batch_voice_state_update">>, #{<<"updates">> := UpdatesB
 
 -spec fetch_online_count_entry(integer()) -> map() | undefined.
 fetch_online_count_entry(GuildId) ->
+    case guild_counts_cache:get(GuildId) of
+        {ok, MemberCount, OnlineCount} ->
+            #{
+                <<"guild_id">> => integer_to_binary(GuildId),
+                <<"member_count">> => MemberCount,
+                <<"online_count">> => OnlineCount
+            };
+        miss ->
+            fetch_online_count_entry_from_process(GuildId)
+    end.
+
+-spec fetch_online_count_entry_from_process(integer()) -> map() | undefined.
+fetch_online_count_entry_from_process(GuildId) ->
     case get_guild_pid(GuildId) of
         {ok, Pid} ->
             case gen_server:call(Pid, {get_counts}, ?GUILD_CALL_TIMEOUT) of
-                #{presence_count := PresenceCount} ->
+                #{member_count := MemberCount, presence_count := PresenceCount} ->
                     #{
                         <<"guild_id">> => integer_to_binary(GuildId),
+                        <<"member_count">> => MemberCount,
                         <<"online_count">> => PresenceCount
                     };
                 _ ->
@@ -668,6 +672,23 @@ with_guild(GuildId, Fun, NotFoundError) ->
     case get_guild_pid(GuildId) of
         {ok, Pid} -> Fun(Pid);
         _ -> throw({error, NotFoundError})
+    end.
+
+-spec with_voice_server(integer(), fun((pid(), pid()) -> T)) -> T when T :: term().
+with_voice_server(GuildId, Fun) ->
+    case get_guild_pid(GuildId) of
+        {ok, GuildPid} ->
+            VoicePid = resolve_voice_pid(GuildId, GuildPid),
+            Fun(VoicePid, GuildPid);
+        _ ->
+            throw({error, <<"guild_not_found">>})
+    end.
+
+-spec resolve_voice_pid(integer(), pid()) -> pid().
+resolve_voice_pid(GuildId, FallbackGuildPid) ->
+    case guild_voice_server:lookup(GuildId) of
+        {ok, VoicePid} -> VoicePid;
+        {error, not_found} -> FallbackGuildPid
     end.
 
 -spec get_guild_pid(integer()) -> {ok, pid()} | error.
@@ -792,6 +813,56 @@ get_viewable_channels_via_rpc(GuildId, UserId) ->
             error
     end.
 
+-spec get_has_member_cached_or_rpc(integer(), integer()) -> {ok, boolean()} | error.
+get_has_member_cached_or_rpc(GuildId, UserId) ->
+    case guild_permission_cache:has_member(GuildId, UserId) of
+        {ok, HasMember} ->
+            {ok, HasMember};
+        {error, not_found} ->
+            get_has_member_via_rpc(GuildId, UserId)
+    end.
+
+-spec get_has_member_via_rpc(integer(), integer()) -> {ok, boolean()} | error.
+get_has_member_via_rpc(GuildId, UserId) ->
+    case get_guild_pid(GuildId) of
+        {ok, Pid} ->
+            Request = #{user_id => UserId},
+            case gen_server:call(Pid, {has_member, Request}, ?GUILD_CALL_TIMEOUT) of
+                #{has_member := HasMember} when is_boolean(HasMember) ->
+                    {ok, HasMember};
+                _ ->
+                    error
+            end;
+        error ->
+            error
+    end.
+
+-spec get_member_cached_or_rpc(integer(), integer()) -> {ok, map() | undefined} | error.
+get_member_cached_or_rpc(GuildId, UserId) ->
+    case guild_permission_cache:get_member(GuildId, UserId) of
+        {ok, MemberOrUndefined} ->
+            {ok, MemberOrUndefined};
+        {error, not_found} ->
+            get_member_via_rpc(GuildId, UserId)
+    end.
+
+-spec get_member_via_rpc(integer(), integer()) -> {ok, map() | undefined} | error.
+get_member_via_rpc(GuildId, UserId) ->
+    case get_guild_pid(GuildId) of
+        {ok, Pid} ->
+            Request = #{user_id => UserId},
+            case gen_server:call(Pid, {get_guild_member, Request}, ?GUILD_CALL_TIMEOUT) of
+                #{success := true, member_data := MemberData} ->
+                    {ok, MemberData};
+                #{success := false} ->
+                    {ok, undefined};
+                _ ->
+                    error
+            end;
+        error ->
+            error
+    end.
+
 -spec parse_channel_id(binary()) -> integer() | undefined.
 parse_channel_id(<<"0">>) -> undefined;
 parse_channel_id(ChannelIdBin) -> validation:snowflake_or_throw(<<"channel_id">>, ChannelIdBin).
@@ -892,11 +963,12 @@ parse_voice_update(
 -spec process_voice_update({integer(), integer(), boolean(), boolean(), term()}) -> map().
 process_voice_update({GuildId, UserId, Mute, Deaf, ConnectionId}) ->
     case gen_server:call(guild_manager, {start_or_lookup, GuildId}, ?GUILD_LOOKUP_TIMEOUT) of
-        {ok, Pid} ->
+        {ok, GuildPid} ->
+            VoicePid = resolve_voice_pid(GuildId, GuildPid),
             Request = #{
                 user_id => UserId, mute => Mute, deaf => Deaf, connection_id => ConnectionId
             },
-            case gen_server:call(Pid, {update_member_voice, Request}, ?GUILD_CALL_TIMEOUT) of
+            case gen_server:call(VoicePid, {update_member_voice, Request}, ?GUILD_CALL_TIMEOUT) of
                 #{success := true} ->
                     #{
                         <<"guild_id">> => integer_to_binary(GuildId),
@@ -1058,6 +1130,52 @@ get_viewable_channels_cached_or_rpc_prefers_cache_test() ->
     ok = guild_permission_cache:put_data(GuildId, Data),
     try
         ?assertEqual({ok, [ChannelId]}, get_viewable_channels_cached_or_rpc(GuildId, UserId))
+    after
+        ok = guild_permission_cache:delete(GuildId)
+    end.
+
+get_has_member_cached_or_rpc_prefers_cache_test() ->
+    GuildId = 12348,
+    UserId = 502,
+    Data = #{
+        <<"guild">> => #{<<"owner_id">> => <<"999">>},
+        <<"roles">> => [],
+        <<"members">> => #{
+            UserId => #{
+                <<"user">> => #{<<"id">> => integer_to_binary(UserId)},
+                <<"roles">> => []
+            }
+        },
+        <<"channels">> => []
+    },
+    ok = guild_permission_cache:put_data(GuildId, Data),
+    try
+        ?assertEqual({ok, true}, get_has_member_cached_or_rpc(GuildId, UserId)),
+        ?assertEqual({ok, false}, get_has_member_cached_or_rpc(GuildId, 99999))
+    after
+        ok = guild_permission_cache:delete(GuildId)
+    end.
+
+get_member_cached_or_rpc_prefers_cache_test() ->
+    GuildId = 12349,
+    UserId = 503,
+    Data = #{
+        <<"guild">> => #{<<"owner_id">> => <<"999">>},
+        <<"roles">> => [],
+        <<"members">> => #{
+            UserId => #{
+                <<"user">> => #{<<"id">> => integer_to_binary(UserId)},
+                <<"roles">> => [],
+                <<"nick">> => <<"CacheNick">>
+            }
+        },
+        <<"channels">> => []
+    },
+    ok = guild_permission_cache:put_data(GuildId, Data),
+    try
+        {ok, MemberData} = get_member_cached_or_rpc(GuildId, UserId),
+        ?assertEqual(<<"CacheNick">>, maps:get(<<"nick">>, MemberData)),
+        ?assertEqual({ok, undefined}, get_member_cached_or_rpc(GuildId, 99999))
     after
         ok = guild_permission_cache:delete(GuildId)
     end.

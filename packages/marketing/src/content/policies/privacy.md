@@ -70,7 +70,7 @@ We may also receive information about you from:
 
 - **Other users:** When other users mention you, add you to Communities, send you messages, share content involving you, or otherwise interact with your account.
 
-- **Service providers:** Limited operational information from our service providers, such as transactional email records from SendGrid, account verification records from Twilio, payment confirmations from Stripe, or security-related alerts from infrastructure providers.
+- **Service providers:** Limited operational information from our service providers, such as transactional email records from Sweego, account verification records from Twilio, payment confirmations from Stripe, or security-related alerts from infrastructure providers.
 
 - **Public or third-party sources:** In some cases, we may receive information from publicly available sources or trusted partners for security, anti-fraud, or compliance purposes (for example, checking whether an IP address is associated with known abuse).
 
@@ -179,7 +179,7 @@ To protect your privacy, we route all traffic to KLIPY through our servers, whet
 #### Payment and Communications
 
 - **Stripe** – payment processing for subscriptions and other purchases.
-- **SendGrid** – transactional email services.
+- **Sweego** – transactional email services.
 - **Twilio** – SMS-based account verification services.
 - **Fastmail** – support email infrastructure.
 
@@ -187,7 +187,7 @@ To protect your privacy, we route all traffic to KLIPY through our servers, whet
 
 - **Porkbun** – domain registration services.
 
-Many of these providers (for example, OVHcloud, Backblaze, Cloudflare, Stripe, SendGrid, Twilio, Fastmail, and Porkbun in its role as registrar) act as processors and process personal data only on our behalf, according to our instructions.
+Many of these providers (for example, OVHcloud, Backblaze, Cloudflare, Stripe, Sweego, Twilio, Fastmail, and Porkbun in its role as registrar) act as processors and process personal data only on our behalf, according to our instructions.
 
 Other providers, such as Google (for YouTube videos), Cloudflare Turnstile, and hCaptcha, may also process some data as independent controllers when you interact directly with their services (for example, when you play an embedded YouTube video or complete a CAPTCHA). In those cases, your use of those services is also governed by their own terms and privacy policies.
 

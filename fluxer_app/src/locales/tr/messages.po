@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} kaydedilmiş medya öğeleri"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount} Üye"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount} Üyeler"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount} karşılıklı topluluklar"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} karşılıklı topluluk"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:84
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} Çevrimiçi"
 
@@ -1095,7 +1095,7 @@ msgstr "<0>Uyarı:</0> Bu aynı zamanda SMS iki faktörlü kimlik doğrulamayı 
 #: src/components/channel/CallMessage.tsx:69
 #: src/components/modals/BanMemberModal.tsx:58
 #: src/components/modals/InviteModal.tsx:80
-#: src/components/modals/InviteModal.tsx:210
+#: src/components/modals/InviteModal.tsx:207
 #: src/components/modals/PackInviteModal.tsx:51
 #: src/components/modals/TimeoutMemberOptions.tsx:38
 msgid "1 day"
@@ -1105,7 +1105,7 @@ msgstr "1 gün"
 #: src/components/modals/BanMemberModal.tsx:56
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:171
 #: src/components/modals/InviteModal.tsx:77
-#: src/components/modals/InviteModal.tsx:204
+#: src/components/modals/InviteModal.tsx:201
 #: src/components/modals/PackInviteModal.tsx:48
 #: src/components/modals/TimeoutMemberOptions.tsx:37
 #: src/constants/TimeWindowPresets.tsx:58
@@ -1223,7 +1223,7 @@ msgstr "1080p"
 
 #: src/components/modals/BanMemberModal.tsx:57
 #: src/components/modals/InviteModal.tsx:79
-#: src/components/modals/InviteModal.tsx:208
+#: src/components/modals/InviteModal.tsx:205
 #: src/components/modals/PackInviteModal.tsx:50
 msgid "12 hours"
 msgstr "12 saat"
@@ -1346,7 +1346,7 @@ msgstr "30 FPS"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:170
 #: src/components/modals/InviteModal.tsx:76
-#: src/components/modals/InviteModal.tsx:202
+#: src/components/modals/InviteModal.tsx:199
 #: src/components/modals/PackInviteModal.tsx:47
 #: src/constants/TimeWindowPresets.tsx:57
 #: src/utils/modals/guild_tabs/GuildOverviewTabUtils.tsx:64
@@ -1417,7 +1417,7 @@ msgstr "50 kullanım"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:173
 #: src/components/modals/InviteModal.tsx:78
-#: src/components/modals/InviteModal.tsx:206
+#: src/components/modals/InviteModal.tsx:203
 #: src/components/modals/PackInviteModal.tsx:49
 msgid "6 hours"
 msgstr "6 saat"
@@ -1437,7 +1437,7 @@ msgid "60 seconds"
 msgstr "60 saniye"
 
 #: src/components/modals/InviteModal.tsx:81
-#: src/components/modals/InviteModal.tsx:212
+#: src/components/modals/InviteModal.tsx:209
 #: src/components/modals/PackInviteModal.tsx:52
 msgid "7 days"
 msgstr "7 gün"
@@ -1462,7 +1462,7 @@ msgstr "8 saat"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "Benzersizliği sağlamak için otomatik olarak 4 haneli bir etiket eklenecek"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:298
 msgid "A description is required."
 msgstr "Bir açıklama gereklidir."
 
@@ -1832,11 +1832,11 @@ msgstr "Bir topluluğa bot ekle"
 msgid "Add Channel"
 msgstr "Kanal Ekle"
 
-#: src/components/modals/AddConnectionModal.tsx:194
+#: src/components/modals/AddConnectionModal.tsx:197
 msgid "Add Connection"
 msgstr "Bağlantı Ekle"
 
-#: src/components/modals/AddConnectionModal.tsx:193
+#: src/components/modals/AddConnectionModal.tsx:196
 msgid "Add connection form"
 msgstr "Bağlantı ekleme formu"
 
@@ -1879,8 +1879,8 @@ msgstr "Gruba Arkadaş Ekle"
 msgid "Add Item"
 msgstr "Öğe Ekle"
 
-#: src/utils/PermissionUtils.tsx:346
-#: src/utils/PermissionUtils.tsx:481
+#: src/utils/PermissionUtils.tsx:352
+#: src/utils/PermissionUtils.tsx:487
 msgid "Add new reactions to messages."
 msgstr "Mesajlara yeni tepkiler ekle."
 
@@ -1929,8 +1929,8 @@ msgstr "Telefon numarası ekleme formu"
 msgid "Add Reaction"
 msgstr "Tepki Ekle"
 
-#: src/utils/PermissionUtils.tsx:345
-#: src/utils/PermissionUtils.tsx:480
+#: src/utils/PermissionUtils.tsx:351
+#: src/utils/PermissionUtils.tsx:486
 msgid "Add Reactions"
 msgstr "Tepkiler Ekle"
 
@@ -2551,7 +2551,7 @@ msgid "animated emoji"
 msgstr "animasyonlu emoji"
 
 #. placeholder {0}: animatedEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:404
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:426
 msgid "Animated Emoji ({0})"
 msgstr "Hareketli Emoji ({0})"
 
@@ -2604,7 +2604,7 @@ msgstr "Animasyonlu video"
 
 #. placeholder {0}: animatedEmojis.length
 #. placeholder {1}: maxAnimatedEmojis === Number.POSITIVE_INFINITY ? '∞' : maxAnimatedEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:354
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:373
 msgid "Animated: {0} / {1}"
 msgstr "Animasyonlu: {0} / {1}"
 
@@ -2624,7 +2624,7 @@ msgstr "Animasyon"
 msgid "animations"
 msgstr "animasyonlar"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:86
 msgid "Anime & Manga"
 msgstr "Anime & Manga"
 
@@ -2722,7 +2722,7 @@ msgstr "Yalnızca bu cihazdaki masaüstü uygulaması için geçerlidir."
 msgid "Applies to both camera and screen sharing"
 msgstr "Hem kameraya hem de ekran paylaşımına uygulanır"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2737,7 +2737,7 @@ msgstr "Temayı Uygula"
 msgid "Apply to all communities"
 msgstr "Tüm topluluklara uygula"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:59
 msgid "Approved"
 msgstr "Onaylandı"
 
@@ -2781,7 +2781,7 @@ msgid "Are you sure you want to deauthorize {appName}? This application will no 
 msgstr "{appName} uygulamasının yetkisini kaldırmak istediğinize emin misiniz? Bu uygulama hesabınıza artık erişim sağlayamayacak."
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:193
+#: src/components/emojis/EmojiListItem.tsx:194
 msgid "Are you sure you want to delete :{0}:? This action cannot be undone."
 msgstr ":{0}: emojisini silmek istediğine emin misin? Bu işlem geri alınamaz."
 
@@ -2791,7 +2791,7 @@ msgstr ":{0}: emojisini silmek istediğine emin misin? Bu işlem geri alınamaz.
 msgid "Are you sure you want to delete \"{0}\"? This action cannot be undone."
 msgstr "\"{0}\"ı silmek istediğine emin misin? Bu işlem geri alınamaz."
 
-#: src/components/stickers/StickerGridItem.tsx:65
+#: src/components/stickers/StickerGridItem.tsx:71
 msgid "Are you sure you want to delete \"{stickerName}\"? This action cannot be undone."
 msgstr "\"{stickerName}\" silmek istediğinize emin misiniz? Bu işlem geri alınamaz."
 
@@ -2986,8 +2986,8 @@ msgstr "Hediye Olarak"
 msgid "At least one channel must have \"View Channel\" permission enabled for @everyone in order for the vanity URL to work. Currently, no channels are viewable to @everyone."
 msgstr "Özel URL'nin çalışması için en az bir kanalda @everyone için \"Kanalı Görüntüle\" izni etkin olmalıdır. Şu anda hiçbir kanal @everyone tarafından görüntülenemiyor."
 
-#: src/utils/PermissionUtils.tsx:323
-#: src/utils/PermissionUtils.tsx:470
+#: src/utils/PermissionUtils.tsx:329
+#: src/utils/PermissionUtils.tsx:476
 msgid "Attach Files"
 msgstr "Dosya Ekle"
 
@@ -3077,8 +3077,8 @@ msgid "Audio"
 msgstr "Ses"
 
 #: src/components/modals/utils/SettingsConstants.tsx:190
-#: src/utils/PermissionUtils.tsx:380
-#: src/utils/PermissionUtils.tsx:495
+#: src/utils/PermissionUtils.tsx:386
+#: src/utils/PermissionUtils.tsx:501
 msgid "Audio & Video"
 msgstr "Ses ve Video"
 
@@ -3344,7 +3344,7 @@ msgid "Average ping:"
 msgstr "Ortalama ping:"
 
 #: src/components/auth/IpAuthorizationScreen.tsx:154
-#: src/components/modals/AddConnectionModal.tsx:309
+#: src/components/modals/AddConnectionModal.tsx:312
 #: src/components/modals/PhoneAddModal.tsx:237
 #: src/components/modals/RequiredActionModal.tsx:655
 #: src/components/pages/OAuthAuthorizePage.tsx:671
@@ -3932,8 +3932,8 @@ msgstr "Satın alarak, <0>Hizmet Şartları</0>'mızı ve <1>Gizlilik Politikas�
 msgid "By purchasing, you agreed to our <0>Terms of Service</0> and <1>Privacy Policy</1>. All purchases are refundable within 14 days by emailing <2>support@fluxer.app</2>. Chargebacks result in permanent account bans — if you want a refund, we're more than happy to give you one if you contact us first! Payment information is securely handled by Stripe — we never have access to your full card number."
 msgstr "Satın alarak, <0>Hizmet Şartları</0>'mızı ve <1>Gizlilik Politikası</1>'mızı kabul etmiştiniz. Tüm satın alımlar, <2>support@fluxer.app</2> adresine e-posta göndererek 14 gün içinde iade edilebilir. Geri ödemeler kalıcı hesap yasaklarına yol açar — iade istiyorsanız, önce bizimle iletişime geçerseniz size vermekten mutluluk duyarız! Ödeme bilgileri Stripe tarafından güvenli bir şekilde işlenir — kart numaranızın tamamına asla erişimimiz olmaz."
 
-#: src/utils/PermissionUtils.tsx:350
-#: src/utils/PermissionUtils.tsx:485
+#: src/utils/PermissionUtils.tsx:356
+#: src/utils/PermissionUtils.tsx:491
 msgid "Bypass Slowmode"
 msgstr "Yavaş Modu Atlat"
 
@@ -4063,7 +4063,7 @@ msgstr "Kamera sayısı {VOICE_CHANNEL_CAMERA_USER_LIMIT} katılımcıdan fazla 
 #: src/components/layout/GuildLayout.tsx:76
 #: src/components/modals/AccountDeleteModal.tsx:95
 #: src/components/modals/AccountDisableModal.tsx:69
-#: src/components/modals/AddConnectionModal.tsx:215
+#: src/components/modals/AddConnectionModal.tsx:218
 #: src/components/modals/AddFavoriteMemeModal.tsx:98
 #: src/components/modals/AddGuildModal.tsx:290
 #: src/components/modals/AddGuildModal.tsx:413
@@ -4109,7 +4109,7 @@ msgstr "Kamera sayısı {VOICE_CHANNEL_CAMERA_USER_LIMIT} katılımcıdan fazla 
 #: src/components/modals/HideOwnScreenShareConfirmModal.tsx:65
 #: src/components/modals/IARModal.tsx:255
 #: src/components/modals/ImageCropModal.tsx:943
-#: src/components/modals/InviteModal.tsx:332
+#: src/components/modals/InviteModal.tsx:336
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
@@ -4211,7 +4211,7 @@ msgstr "Kart hizalama kontrolleri"
 msgid "Careful! You have unsaved changes."
 msgstr "Dikkat! Kaydedilmemiş değişiklikleriniz var."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:330
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4437,8 +4437,8 @@ msgstr "kanal"
 msgid "Channel"
 msgstr "Kanal"
 
-#: src/utils/PermissionUtils.tsx:373
-#: src/utils/PermissionUtils.tsx:453
+#: src/utils/PermissionUtils.tsx:379
+#: src/utils/PermissionUtils.tsx:459
 msgid "Channel Access"
 msgstr "Kanal Erişimi"
 
@@ -4516,7 +4516,7 @@ msgstr "Kanal listesi yazma göstergesi modu"
 msgid "Channel list typing indicators"
 msgstr "Kanal listesi yazma göstergeleri"
 
-#: src/utils/PermissionUtils.tsx:426
+#: src/utils/PermissionUtils.tsx:432
 msgid "Channel Management"
 msgstr "Kanal Yönetimi"
 
@@ -4757,7 +4757,7 @@ msgstr "Uygulama genelinde saatlerin nasıl görüntüleneceğini seç."
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "Birisi bir kanalda yazı yazarken, yazma göstergelerinin kanal listesinde nasıl görüneceğini seç."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:346
 msgid "Choose the category that best describes your community."
 msgstr "Topluluğunuzu en iyi tanımlayan kategoriyi seçin."
 
@@ -5360,7 +5360,7 @@ msgstr "Topluluk Oluşturucu"
 msgid "Community Deafen"
 msgstr "Toplulukta Sesleri Kapat"
 
-#: src/components/layout/UserArea.tsx:159
+#: src/components/layout/UserArea.tsx:173
 #: src/components/layout/VoiceStateIcons.tsx:57
 #: src/components/voice/VoiceControlBar.tsx:607
 #: src/components/voice/VoiceParticipantTile.tsx:1466
@@ -5432,8 +5432,8 @@ msgstr "Topluluk Üyeleri"
 msgid "Community Mute"
 msgstr "Topluluk Sessize Al"
 
-#: src/components/layout/UserArea.tsx:146
-#: src/components/layout/UserArea.tsx:153
+#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:167
 #: src/components/layout/VoiceStateIcons.tsx:49
 #: src/components/voice/VoiceControlBar.tsx:596
 #: src/components/voice/VoiceParticipantTile.tsx:1457
@@ -5492,10 +5492,10 @@ msgid "Community Record"
 msgstr "Topluluk Kaydı"
 
 #: src/components/modals/components/DesktopGuildSettingsView.tsx:233
-#: src/components/modals/GuildSettingsModal.tsx:194
+#: src/components/modals/GuildSettingsModal.tsx:197
 #: src/components/popouts/GuildHeaderPopout.tsx:190
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:278
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:346
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:281
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:349
 msgid "Community Settings"
 msgstr "Topluluk Ayarları"
 
@@ -5524,7 +5524,7 @@ msgstr "Topluluk çapında"
 msgid "compact"
 msgstr "kompakt"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:152
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:169
 msgid "Compact"
 msgstr "Kompakt"
 
@@ -5670,8 +5670,8 @@ msgstr "Şifreyi Onayla"
 msgid "Connect"
 msgstr "Bağlan"
 
-#: src/utils/PermissionUtils.tsx:383
-#: src/utils/PermissionUtils.tsx:497
+#: src/utils/PermissionUtils.tsx:389
+#: src/utils/PermissionUtils.tsx:503
 msgid "Connect (Join Voice)"
 msgstr "Bağlan (Sese Katıl)"
 
@@ -5679,7 +5679,7 @@ msgstr "Bağlan (Sese Katıl)"
 msgid "Connect to Voice"
 msgstr "Sese Bağlan"
 
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 msgid "Connect with Bluesky"
 msgstr "Bluesky ile bağlan"
 
@@ -5730,7 +5730,7 @@ msgstr "Bağlantı kaldırıldı"
 msgid "Connection Stats"
 msgstr "Bağlantı İstatistikleri"
 
-#: src/components/modals/AddConnectionModal.tsx:198
+#: src/components/modals/AddConnectionModal.tsx:201
 msgid "Connection Type"
 msgstr "Bağlantı Türü"
 
@@ -5783,7 +5783,7 @@ msgstr "Kapsamlar ve izinlerle bir yetkilendirme URL'si oluşturun."
 msgid "contact"
 msgstr "iletişim"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 msgid "Content Creator"
 msgstr "İçerik Üreticisi"
 
@@ -5822,7 +5822,7 @@ msgid "Context menus can be opened with left-click (on buttons) or right-click (
 msgstr "Bağlam menüleri sol tıkla (düğmelerde) veya sağ tıkla (diğer öğelerde) açılabilir. Bu, onay kutuları, radyo düğmeleri, kaydırıcılar ve alt menüler dahil çeşitli menü öğelerini gösterir."
 
 #: src/components/channel/ChannelTextarea.tsx:311
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:75
 #: src/components/modals/BackupCodesViewModal.tsx:73
 #: src/components/modals/DeviceRevokeModal.tsx:82
@@ -5958,8 +5958,8 @@ msgid "Copied URL to clipboard"
 msgstr "URL panoya kopyalandı"
 
 #: src/components/auth/HandoffCodeDisplay.tsx:106
-#: src/components/modals/AddConnectionModal.tsx:187
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:190
+#: src/components/modals/AddConnectionModal.tsx:191
 #: src/components/modals/shared/CopyLinkSection.tsx:52
 #: src/components/modals/ThemeAcceptModal.tsx:162
 #: src/lib/markdown/renderers/common/CodeElements.tsx:57
@@ -6017,7 +6017,7 @@ msgstr "Kanal Bağlantısını Kopyala"
 msgid "Copy code"
 msgstr "Kodu Kopyala"
 
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:372
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:375
 msgid "Copy Community ID"
 msgstr "Topluluk ID'sini Kopyala"
 
@@ -6045,11 +6045,11 @@ msgstr "FluxerTag'ı Kopyala"
 msgid "Copy GIF"
 msgstr "GIF'i Kopyala"
 
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:461
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:464
 msgid "Copy Guild ID"
 msgstr "Sunucu Kimliğini Kopyala"
 
-#: src/components/modals/AddConnectionModal.tsx:187
+#: src/components/modals/AddConnectionModal.tsx:190
 msgid "Copy host"
 msgstr "Ana bilgisayarı kopyala"
 
@@ -6154,7 +6154,7 @@ msgstr "Kullanıcı Kimliğini Kopyala"
 msgid "Copy Username"
 msgstr "Kullanıcı Adını Kopyala"
 
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:191
 msgid "Copy value"
 msgstr "Değeri kopyala"
 
@@ -6199,7 +6199,7 @@ msgstr "kapak"
 msgid "cozy"
 msgstr "sıcak"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:144
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
 msgid "Cozy"
 msgstr "Rahat"
 
@@ -6295,8 +6295,8 @@ msgstr "Uygulama Oluştur"
 #: src/components/popouts/GuildHeaderPopout.tsx:204
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:89
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:69
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:292
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:428
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:295
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:431
 msgid "Create Category"
 msgstr "Kategori Oluştur"
 
@@ -6305,8 +6305,8 @@ msgstr "Kategori Oluştur"
 #: src/components/modals/ChannelCreateModal.tsx:103
 #: src/components/popouts/GuildHeaderPopout.tsx:197
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:86
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:287
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:410
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:290
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:413
 msgid "Create Channel"
 msgstr "Kanal Oluştur"
 
@@ -6324,6 +6324,10 @@ msgstr "Topluluk oluşturma formu"
 #: src/utils/modals/CreateDMModalUtils.tsx:154
 msgid "Create DM"
 msgstr "DM Oluştur"
+
+#: src/utils/PermissionUtils.tsx:284
+msgid "Create Emoji & Stickers"
+msgstr "Emoji ve Çıkartmalar Oluştur"
 
 #: src/components/modals/CreatePackModal.tsx:52
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:256
@@ -6346,7 +6350,7 @@ msgid "Create Invite"
 msgstr "Davet oluştur"
 
 #: src/utils/PermissionUtils.tsx:270
-#: src/utils/PermissionUtils.tsx:429
+#: src/utils/PermissionUtils.tsx:435
 msgid "Create Invite Links"
 msgstr "Davet bağlantıları oluştur"
 
@@ -6358,7 +6362,7 @@ msgstr "Yeni hesap oluştur"
 msgid "Create new group"
 msgstr "Yeni grup oluştur"
 
-#: src/components/modals/InviteModal.tsx:335
+#: src/components/modals/InviteModal.tsx:339
 msgid "Create New Link"
 msgstr "Yeni Bağlantı Oluştur"
 
@@ -6393,11 +6397,11 @@ msgstr "Kanalları ve kategorileri oluşturun, düzenleyin veya silin."
 msgid "Create, edit, or delete roles below your highest role. Also allows editing channel permission overwrites."
 msgstr "En yüksek rolünüzün altındaki rolleri oluşturun, düzenleyin veya silin. Ayrıca kanal izin geçersiz kılmalarını düzenlemeye izin verir."
 
-#: src/utils/PermissionUtils.tsx:444
+#: src/utils/PermissionUtils.tsx:450
 msgid "Create, edit, or delete webhooks for this channel."
 msgstr "Bu kanal için webhook'ları oluşturun, düzenleyin veya silin."
 
-#: src/utils/PermissionUtils.tsx:289
+#: src/utils/PermissionUtils.tsx:295
 msgid "Create, edit, or delete webhooks."
 msgstr "Webhook'ları oluşturun, düzenleyin veya silin."
 
@@ -6897,7 +6901,7 @@ msgstr "duyma yetisini kaybettir"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:161
+#: src/components/layout/UserArea.tsx:175
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:515
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:125
 #: src/components/voice/VoiceControlBar.tsx:613
@@ -6922,8 +6926,8 @@ msgstr "Cihazı Kapat"
 msgid "Deafen Keybind"
 msgstr "Sağırlaştırma Tuş Ataması"
 
-#: src/utils/PermissionUtils.tsx:408
-#: src/utils/PermissionUtils.tsx:507
+#: src/utils/PermissionUtils.tsx:414
+#: src/utils/PermissionUtils.tsx:513
 msgid "Deafen Members"
 msgstr "Üyeleri Sağırlaştır"
 
@@ -6962,7 +6966,7 @@ msgid "Debug Channel"
 msgstr "Kanalı Hata Ayıkla"
 
 #: src/components/uikit/context_menu/items/DebugMenuItems.tsx:90
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:362
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:365
 msgid "Debug Community"
 msgstr "Topluluğu Hata Ayıkla"
 
@@ -7062,17 +7066,17 @@ msgstr "sil"
 #: src/components/channel/embeds/media/MediaContainer.tsx:116
 #: src/components/channel/MobileMemesPicker.tsx:546
 #: src/components/channel/pickers/memes/MemeGridItem.tsx:121
-#: src/components/emojis/EmojiListItem.tsx:194
-#: src/components/emojis/EmojiListItem.tsx:246
-#: src/components/emojis/EmojiListItem.tsx:296
+#: src/components/emojis/EmojiListItem.tsx:195
+#: src/components/emojis/EmojiListItem.tsx:252
+#: src/components/emojis/EmojiListItem.tsx:308
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:160
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:210
-#: src/components/stickers/StickerGridItem.tsx:66
-#: src/components/stickers/StickerGridItem.tsx:119
+#: src/components/stickers/StickerGridItem.tsx:72
+#: src/components/stickers/StickerGridItem.tsx:126
 msgid "Delete"
 msgstr "Sil"
 
@@ -7162,11 +7166,11 @@ msgstr "Topluluğu Sil"
 msgid "Delete community form"
 msgstr "Topluluk silme formu"
 
-#: src/components/emojis/EmojiListItem.tsx:192
+#: src/components/emojis/EmojiListItem.tsx:193
 msgid "Delete Emoji"
 msgstr "Emojiyi Sil"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:147
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:163
 msgid "Delete Emoji Failed"
 msgstr "Emojiyi Silme Başarısız"
 
@@ -7205,8 +7209,8 @@ msgstr "Son bir günün mesajlarını sil"
 msgid "Delete messages from the last week"
 msgstr "Son bir haftanın mesajlarını sil"
 
-#: src/utils/PermissionUtils.tsx:311
-#: src/utils/PermissionUtils.tsx:465
+#: src/utils/PermissionUtils.tsx:317
+#: src/utils/PermissionUtils.tsx:471
 msgid "Delete others' messages. (Pinning is separate below.)"
 msgstr "Başkalarının mesajlarını sil. (Sabitleme aşağıda ayrıdır.)"
 
@@ -7235,7 +7239,7 @@ msgstr "Kaydedilmiş medyayı sil"
 msgid "Delete Saved Media"
 msgstr "Kaydedilen Medyayı Sil"
 
-#: src/components/stickers/StickerGridItem.tsx:64
+#: src/components/stickers/StickerGridItem.tsx:70
 msgid "Delete Sticker"
 msgstr "Çıkartmayı Sil"
 
@@ -7326,7 +7330,7 @@ msgstr "Bu pakette hangi ifadelerin olduğunu tanımla."
 msgid "Describe what makes the content illegal"
 msgstr "İçeriği yasa dışı yapanı tanımlayın"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:317
 msgid "Describe what your community is about..."
 msgstr "Topluluğunuzun ne hakkında olduğunu tanımlayın..."
 
@@ -7336,7 +7340,7 @@ msgstr "açıklama"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:292
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "Açıklama"
@@ -7345,11 +7349,11 @@ msgstr "Açıklama"
 msgid "Description must be 500 characters or less"
 msgstr "Açıklama 500 karakter veya daha az olmalıdır"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:301
 msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
 msgstr "Açıklama en az {DISCOVERY_DESCRIPTION_MIN_LENGTH} karakter olmalıdır."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
 msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
 msgstr "Açıklama en fazla {DISCOVERY_DESCRIPTION_MAX_LENGTH} karakter olmalıdır."
 
@@ -7725,20 +7729,20 @@ msgstr "Soket Bağlantısını Kes"
 msgid "Disconnected"
 msgstr "Bağlantı Kesildi"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
 #: src/components/modals/utils/GuildSettingsConstants.tsx:160
 msgid "Discovery"
 msgstr "Keşif"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:166
 msgid "Discovery application submitted"
 msgstr "Keşif başvurusu gönderildi"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:187
 msgid "Discovery application withdrawn"
 msgstr "Keşif başvurusu geri alındı"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:155
 msgid "Discovery listing updated"
 msgstr "Keşif listesi güncellendi"
 
@@ -7854,7 +7858,7 @@ msgstr "DM Ayarları"
 msgid "dm sidebar"
 msgstr "dm yan çubuğu"
 
-#: src/components/modals/AddConnectionModal.tsx:239
+#: src/components/modals/AddConnectionModal.tsx:242
 msgid "DNS TXT record"
 msgstr "DNS TXT kaydı"
 
@@ -7904,7 +7908,7 @@ msgid "domain"
 msgstr "alan adı"
 
 #: src/components/modals/AddConnectionModal.tsx:87
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:168
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:303
 #: src/components/popouts/UserProfileShared.tsx:283
@@ -7995,7 +7999,7 @@ msgstr "indir"
 msgid "Download"
 msgstr "İndir"
 
-#: src/components/modals/AddConnectionModal.tsx:280
+#: src/components/modals/AddConnectionModal.tsx:283
 msgid "Download <0>fluxer-verification</0> and place it in your <1>.well-known</1> folder so we can validate the domain."
 msgstr "<0>fluxer-verification</0>'yi indirip <1>.well-known</1> klasörünüze yerleştirin, böylece alan adını doğrulayabiliriz."
 
@@ -8012,7 +8016,7 @@ msgstr "Masaüstü Uygulamasını İndir"
 msgid "Download Fluxer"
 msgstr "Fluxer'ı İndir"
 
-#: src/components/modals/AddConnectionModal.tsx:294
+#: src/components/modals/AddConnectionModal.tsx:297
 msgid "Download fluxer-verification"
 msgstr "fluxer-verification'yi indir"
 
@@ -8024,7 +8028,7 @@ msgstr "Medyayı indir"
 msgid "Download the desktop app for system-wide Push-to-Talk"
 msgstr "Sistem genelinde Bas-Konuş için masaüstü uygulamasını indirin"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:173
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:192
 msgid "Drag and drop a sticker file here (one at a time)"
 msgstr "Bir çıkartma dosyasını buraya sürükleyip bırakın (bir seferde bir tane)"
 
@@ -8032,12 +8036,12 @@ msgstr "Bir çıkartma dosyasını buraya sürükleyip bırakın (bir seferde bi
 msgid "Drag and drop area for file upload"
 msgstr "Dosya yükleme için sürükle ve bırak alanı"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:363
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:382
 msgid "Drag and drop emoji files here"
 msgstr "Emoji dosyalarını buraya sürükleyip bırakın"
 
-#: src/utils/PermissionUtils.tsx:413
-#: src/utils/PermissionUtils.tsx:510
+#: src/utils/PermissionUtils.tsx:419
+#: src/utils/PermissionUtils.tsx:516
 msgid "Drag members between channels they can access."
 msgstr "Üyeleri erişebilecekleri kanallar arasında sürükleyin."
 
@@ -8159,7 +8163,7 @@ msgstr "Yankı Bastırma"
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:90
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:186
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:187
-#: src/components/stickers/StickerGridItem.tsx:111
+#: src/components/stickers/StickerGridItem.tsx:118
 msgid "Edit"
 msgstr "Düzenle"
 
@@ -8200,8 +8204,8 @@ msgid "Edit Channel"
 msgstr "Kanalı Düzenle"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:220
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:314
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:392
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:317
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:395
 msgid "Edit Community Profile"
 msgstr "Topluluk Profilini Düzenle"
 
@@ -8231,7 +8235,8 @@ msgstr "Grubu Düzenle"
 msgid "Edit group form"
 msgstr "Grup formunu düzenle"
 
-#: src/components/modals/InviteModal.tsx:322
+#: src/components/modals/InviteModal.tsx:316
+#: src/components/modals/InviteModal.tsx:326
 msgid "Edit invite link"
 msgstr "Davet bağlantısını düzenle"
 
@@ -8255,7 +8260,11 @@ msgstr "Mesajı Düzenle"
 msgid "Edit Note"
 msgstr "Notu Düzenle"
 
-#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:290
+msgid "Edit or delete emoji and stickers created by other members."
+msgstr "Diğer üyeler tarafından oluşturulan emoji ve çıkartmaları düzenleyin veya silin."
+
+#: src/utils/PermissionUtils.tsx:445
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "Bu kanaldaki roller ve üyeler için geçersiz kılmaları düzenle."
 
@@ -8312,7 +8321,7 @@ msgstr "Mesaj düzenleniyor"
 msgid "Editing scheduled message"
 msgstr "Zamanlanmış mesaj düzenleniyor"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
 msgid "Education"
 msgstr "Eğitim"
 
@@ -8396,8 +8405,8 @@ msgstr "göm"
 msgid "Embed"
 msgstr "Göm"
 
-#: src/utils/PermissionUtils.tsx:319
-#: src/utils/PermissionUtils.tsx:469
+#: src/utils/PermissionUtils.tsx:325
+#: src/utils/PermissionUtils.tsx:475
 msgid "Embed Links"
 msgstr "Bağlantıları Göm"
 
@@ -8456,16 +8465,16 @@ msgstr "Emoji Silindi"
 msgid "Emoji name"
 msgstr "Emoji adı"
 
-#: src/components/emojis/EmojiListItem.tsx:163
+#: src/components/emojis/EmojiListItem.tsx:164
 msgid "Emoji name must be at least 2 characters long"
 msgstr "Emoji adı en az 2 karakter uzunluğunda olmalıdır"
 
-#: src/components/emojis/EmojiListItem.tsx:167
+#: src/components/emojis/EmojiListItem.tsx:168
 msgid "Emoji name must be at most 32 characters long"
 msgstr "Emoji adı en fazla 32 karakter uzunluğunda olmalıdır"
 
 #. placeholder {0}: Math.round(GlobalLimits.getEmojiMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:340
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:358
 msgid "Emoji names must be at least 2 characters long and can only contain alphanumeric characters and underscores. Allowed file types: JPEG, PNG, WebP, GIF. We compress images to 128x128 pixels. Maximum size: {0} KB per emoji."
 msgstr "Emoji adları en az 2 karakter uzunluğunda olmalı ve yalnızca alfasayısal karakterler ve alt çizgi içerebilir. İzin verilen dosya türleri: JPEG, PNG, WebP, GIF. Görselleri 128x128 piksel olarak sıkıştırıyoruz. Maksimum boyut: emoji başına {0} KB."
 
@@ -8492,7 +8501,7 @@ msgstr "Emoji paketi sınırına ulaşıldı"
 msgid "emoji picker"
 msgstr "emoji seçici"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:326
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:344
 msgid "Emoji Slots"
 msgstr "Emoji Yuvaları"
 
@@ -8861,7 +8870,7 @@ msgstr "Şifrenizi girin."
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "Telefon numaranızı girin. Size SMS yoluyla bir doğrulama kodu göndereceğiz."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
 msgid "Entertainment"
 msgstr "Eğlence"
 
@@ -8993,7 +9002,7 @@ msgstr "Kategoriyi Genişlet"
 msgid "Expiration"
 msgstr "Süre Sonu"
 
-#: src/components/modals/InviteModal.tsx:276
+#: src/components/modals/InviteModal.tsx:273
 msgid "Expire After"
 msgstr "Son Kullanma Tarihi"
 
@@ -9260,7 +9269,7 @@ msgstr "Kategori silinemedi"
 msgid "Failed to delete channel"
 msgstr "Kanal silinemedi"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:149
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:165
 msgid "Failed to delete emoji. Please try again."
 msgstr "Emojiyi silme işlemi başarısız oldu. Lütfen tekrar deneyin."
 
@@ -9312,7 +9321,7 @@ msgstr "Bu emoji paketi yüklenemedi. Lütfen daha sonra tekrar deneyin."
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Bu sticker paketi yüklenemedi. Lütfen daha sonra tekrar deneyin."
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:62
 msgid "Failed to join this community. Please try again."
 msgstr "Bu topluluğa katılamadı. Lütfen tekrar deneyin."
 
@@ -9341,7 +9350,7 @@ msgstr "Yetkilendirilmiş Uygulamaları Yükleme Başarısız"
 msgid "Failed to load bans. Please try again."
 msgstr "Yasaklar yüklenemedi. Lütfen tekrar deneyin."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:320
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:336
 msgid "Failed to load emojis. Please try again later."
 msgstr "Emojileri yükleme işlemi başarısız oldu. Lütfen daha sonra tekrar deneyin."
 
@@ -9363,7 +9372,7 @@ msgstr "Davetler yüklenemedi. Lütfen tekrar deneyin."
 msgid "Failed to load premium information. Please try again later."
 msgstr "Premium bilgileri yüklenemedi. Lütfen daha sonra tekrar deneyin."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:203
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:230
 msgid "Failed to Load Stickers"
 msgstr "Çıkartmaları Yükleme Başarısız"
 
@@ -9406,7 +9415,7 @@ msgstr "Grup DM'yi sabitleme başarısız oldu"
 msgid "Failed to pin message"
 msgstr "Mesaj sabitlenemedi"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:225
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
 msgid "Failed to Prepare Emojis"
 msgstr "Emojiler hazırlanamadı"
 
@@ -9597,7 +9606,7 @@ msgstr "Alternatif metni güncellemeye başarısız oldu"
 msgid "Failed to Update Channel Permissions"
 msgstr "Kanal İzinlerini Güncelleme Başarısız"
 
-#: src/components/emojis/EmojiListItem.tsx:180
+#: src/components/emojis/EmojiListItem.tsx:181
 msgid "Failed to update emoji name. Reverted to the previous name."
 msgstr "Emoji adı güncellenemedi. Önceki adına geri dönüldü."
 
@@ -9622,11 +9631,11 @@ msgid "Failed to upload custom sound"
 msgstr "Özel ses yüklenemedi"
 
 #. placeholder {0}: startIndex + 1
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:277
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:293
 msgid "Failed to upload emojis starting at #{0}: {errorMsg}"
 msgstr "#{0}'den itibaren emojileri yükleme başarısız oldu: {errorMsg}"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:273
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:289
 msgid "Failed to upload emojis. Please try again."
 msgstr "Emojiler yüklenemedi. Lütfen tekrar deneyin."
 
@@ -9638,7 +9647,7 @@ msgstr "Giriş sesi yüklenemedi"
 msgid "Failed to verify connection"
 msgstr "Bağlantıyı doğrulama başarısız oldu"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:193
 msgid "Failed to withdraw application. Please try again."
 msgstr "Başvuruyu geri alamadı. Lütfen tekrar deneyin."
 
@@ -10399,7 +10408,7 @@ msgstr "Oyun kumandası"
 msgid "Game Night"
 msgstr "Oyun Gecesi"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
 msgid "Gaming"
 msgstr "Oyun"
 
@@ -10758,7 +10767,7 @@ msgstr "Geçiş Süresi"
 msgid "Grace Period (Still Have Access)"
 msgstr "Geçiş Süresi (Hâlâ Erişiminiz Var)"
 
-#: src/components/modals/InviteModal.tsx:296
+#: src/components/modals/InviteModal.tsx:293
 msgid "Grant Temporary Membership"
 msgstr "Geçici Üyelik Ver"
 
@@ -10922,7 +10931,7 @@ msgstr "gild yan menüsü"
 msgid "handle"
 msgstr "kullanıcı adı"
 
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 msgid "Handle"
 msgstr "Kullanıcı Adı"
 
@@ -11116,7 +11125,7 @@ msgstr "Sessize alınan kanalları gizle"
 #: src/components/popouts/GuildHeaderPopout.tsx:228
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:79
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:60
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:332
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:335
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:304
 msgid "Hide Muted Channels"
 msgstr "Sessize Alınan Kanalları Gizle"
@@ -11284,7 +11293,7 @@ msgstr "Atla içeri, {username}! Mr Fusion hazır!"
 msgid "Hope to see you back in the future"
 msgstr "Gelecekte tekrar görüşmek dileğiyle"
 
-#: src/components/modals/AddConnectionModal.tsx:244
+#: src/components/modals/AddConnectionModal.tsx:247
 msgid "Host"
 msgstr "Sunucu"
 
@@ -11439,8 +11448,8 @@ msgstr "Yoksay"
 msgid "Ignore Friend Request"
 msgstr "Arkadaşlık İsteğini Yoksay"
 
-#: src/utils/PermissionUtils.tsx:351
-#: src/utils/PermissionUtils.tsx:486
+#: src/utils/PermissionUtils.tsx:357
+#: src/utils/PermissionUtils.tsx:492
 msgid "Ignore per-channel message rate limits."
 msgstr "Kanal başına mesaj hızı sınırlarını yoksay."
 
@@ -11915,7 +11924,7 @@ msgstr "Görünmez"
 
 #: src/components/channel/GuildMembersPage.tsx:246
 #: src/components/channel/GuildMembersPage.tsx:254
-#: src/components/modals/InviteModal.tsx:265
+#: src/components/modals/InviteModal.tsx:262
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:87
 #: src/constants/AuditLogConstants.tsx:245
 msgid "Invite"
@@ -11955,7 +11964,7 @@ msgstr "Arkadaşları Davet Et"
 msgid "Invite friends to {0}"
 msgstr "Arkadaşlarını {0} sunucusuna davet et"
 
-#: src/components/modals/InviteModal.tsx:311
+#: src/components/modals/InviteModal.tsx:308
 msgid "Invite link"
 msgstr "Davet bağlantısı"
 
@@ -11963,7 +11972,7 @@ msgstr "Davet bağlantısı"
 msgid "Invite Link"
 msgstr "Davet Bağlantısı"
 
-#: src/components/modals/InviteModal.tsx:222
+#: src/components/modals/InviteModal.tsx:219
 msgid "Invite link settings"
 msgstr "Davet bağlantısı ayarları"
 
@@ -11976,7 +11985,7 @@ msgstr "Davet Bağlantıları"
 
 #: src/components/layout/ChannelItem.tsx:702
 #: src/components/popouts/GuildHeaderPopout.tsx:181
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:257
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:260
 msgid "Invite Members"
 msgstr "Üyeleri Davet Et"
 
@@ -12087,7 +12096,7 @@ msgstr "Davetler"
 msgid "Invites are currently disabled for this community."
 msgstr "Bu topluluk için davetler şu anda devre dışı."
 
-#: src/components/modals/InviteModal.tsx:235
+#: src/components/modals/InviteModal.tsx:232
 msgid "Invites are currently disabled in this community by an admin. While this invite can be created, it cannot be accepted until invites are re-enabled."
 msgstr "Bu toplulukta davetler bir yönetici tarafından şu anda devre dışı. Bu davet oluşturulabilir ancak davetler yeniden etkinleştirilene kadar kabul edilemez."
 
@@ -12198,7 +12207,7 @@ msgstr "Aramaya katıl"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12273,7 +12282,7 @@ msgstr "Sese Katıl"
 msgid "Join Voice Call"
 msgstr "Sesli Aramaya Katıl"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 msgid "Joined"
 msgstr "Katıldı"
 
@@ -12618,8 +12627,8 @@ msgid "Leave call"
 msgstr "Çağrıyı bırak"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:237
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:344
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:447
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:347
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:450
 #: src/hooks/useLeaveGuild.tsx:42
 #: src/hooks/useLeaveGuild.tsx:44
 msgid "Leave Community"
@@ -12840,7 +12849,7 @@ msgstr "bağlantılar"
 msgid "Links"
 msgstr "Bağlantılar"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:215
 msgid "List your community in Discovery so others can find and join it."
 msgstr "Topluluğunuzu Keşif'te listeleyin, böylece diğerleri bulup katılabilir."
 
@@ -13121,13 +13130,13 @@ msgstr "Yetkili uygulamaları yönet"
 msgid "Manage blocked users"
 msgstr "Engellenen kullanıcıları yönet"
 
-#: src/utils/PermissionUtils.tsx:433
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channel"
 msgstr "Kanalı Yönet"
 
 #: src/utils/PermissionUtils.tsx:257
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channels"
 msgstr "Kanalları Yönet"
 
@@ -13143,7 +13152,7 @@ msgstr "Topluluk Özelliklerini Yönet"
 msgid "Manage developer applications"
 msgstr "Geliştirici uygulamalarını yönet"
 
-#: src/utils/PermissionUtils.tsx:284
+#: src/utils/PermissionUtils.tsx:289
 msgid "Manage Emoji & Stickers"
 msgstr "Emoji & Çıkartmaları Yönet"
 
@@ -13163,8 +13172,8 @@ msgstr "Bu kanala mesaj gönderebilen gelen webhook'ları yönetin."
 msgid "Manage invites for this channel."
 msgstr "Bu kanal için davetleri yönetin."
 
-#: src/utils/PermissionUtils.tsx:310
-#: src/utils/PermissionUtils.tsx:464
+#: src/utils/PermissionUtils.tsx:316
+#: src/utils/PermissionUtils.tsx:470
 msgid "Manage Messages"
 msgstr "Mesajları Yönet"
 
@@ -13172,7 +13181,7 @@ msgstr "Mesajları Yönet"
 msgid "Manage Nicknames"
 msgstr "Takma Adları Yönet"
 
-#: src/utils/PermissionUtils.tsx:438
+#: src/utils/PermissionUtils.tsx:444
 msgid "Manage Permissions"
 msgstr "İzinleri Yönet"
 
@@ -13191,8 +13200,8 @@ msgstr "Aboneliği Yönet"
 msgid "Manage the email address you use to sign in to Fluxer"
 msgstr "Fluxer'da oturum açmak için kullandığınız e-posta adresini yönetin"
 
-#: src/utils/PermissionUtils.tsx:288
-#: src/utils/PermissionUtils.tsx:443
+#: src/utils/PermissionUtils.tsx:294
+#: src/utils/PermissionUtils.tsx:449
 msgid "Manage Webhooks"
 msgstr "Webhook'ları Yönet"
 
@@ -13231,7 +13240,7 @@ msgstr "Aboneliğini yönet"
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:85
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:522
 #: src/components/uikit/context_menu/items/DMMenuItems.tsx:53
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:249
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:252
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:95
 msgid "Mark as Read"
 msgstr "Okundu Olarak İşaretle"
@@ -13346,7 +13355,7 @@ msgstr "marty@example.com"
 msgid "Mask Visionary as subscription"
 msgstr "Visionary'yi abonelik olarak gizle"
 
-#: src/components/modals/InviteModal.tsx:286
+#: src/components/modals/InviteModal.tsx:283
 msgid "Max Number of Uses"
 msgstr "Maksimum Kullanım Sayısı"
 
@@ -13581,7 +13590,7 @@ msgstr "Üyeler Temizlendi"
 msgid "Members receive notifications for every message"
 msgstr "Üyeler her mesaj için bildirim alır"
 
-#: src/components/modals/InviteModal.tsx:297
+#: src/components/modals/InviteModal.tsx:294
 msgid "Members will be removed when they go offline unless a role is assigned"
 msgstr "Üyelere bir rol atanmadığı sürece çevrimdışı olduklarında kaldırılırlar"
 
@@ -13627,8 +13636,8 @@ msgstr "@here anılsın mı?"
 msgid "Mention Badges"
 msgstr "Anma Rozetleri"
 
-#: src/utils/PermissionUtils.tsx:332
-#: src/utils/PermissionUtils.tsx:474
+#: src/utils/PermissionUtils.tsx:338
+#: src/utils/PermissionUtils.tsx:480
 msgid "Mention everyone or any role (even if the role isn't set to be mentionable)."
 msgstr "Herkesi veya herhangi bir rolü an (rol anılabilir olarak ayarlanmamış olsa bile)."
 
@@ -13837,8 +13846,8 @@ msgid "Messages"
 msgstr "Mesajlar"
 
 #: src/components/modals/utils/SettingsConstants.tsx:184
-#: src/utils/PermissionUtils.tsx:298
-#: src/utils/PermissionUtils.tsx:460
+#: src/utils/PermissionUtils.tsx:304
+#: src/utils/PermissionUtils.tsx:466
 msgid "Messages & Media"
 msgstr "Mesajlar ve Medya"
 
@@ -14021,7 +14030,7 @@ msgid "Mode C"
 msgstr "Mod C"
 
 #: src/components/uikit/context_menu/items/ModerationSubmenu.tsx:152
-#: src/utils/PermissionUtils.tsx:360
+#: src/utils/PermissionUtils.tsx:366
 msgid "Moderation"
 msgstr "Moderasyon"
 
@@ -14117,8 +14126,8 @@ msgstr "Odak noktasını düğmeler, girdiler ve bağlantılar arasında hareket
 msgid "Move focus to the message composer"
 msgstr "Odak noktasını mesaj oluşturucuya taşı"
 
-#: src/utils/PermissionUtils.tsx:412
-#: src/utils/PermissionUtils.tsx:509
+#: src/utils/PermissionUtils.tsx:418
+#: src/utils/PermissionUtils.tsx:515
 msgid "Move Members"
 msgstr "Üyeleri Taşı"
 
@@ -14158,7 +14167,7 @@ msgstr "Film Kulübü"
 msgid "Movie Night Crew"
 msgstr "Film Gecesi Ekibi"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:87
 msgid "Movies & TV"
 msgstr "Filmler & TV"
 
@@ -14170,7 +14179,7 @@ msgstr "mp3"
 msgid "Multilingual Content"
 msgstr "Çok Dilli İçerik"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
 msgid "Music"
 msgstr "Müzik"
 
@@ -14191,8 +14200,8 @@ msgstr "sessiz"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:270
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:149
-#: src/components/layout/UserArea.tsx:155
+#: src/components/layout/UserArea.tsx:163
+#: src/components/layout/UserArea.tsx:169
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
@@ -14255,7 +14264,7 @@ msgstr "Kanalı Sustur"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:95
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:172
 msgid "Mute Community"
 msgstr "Topluluğu Sustur"
@@ -14285,8 +14294,8 @@ msgstr "Favorileri Sustur"
 msgid "Mute Keybind"
 msgstr "Sessize Alma Tuş Ataması"
 
-#: src/utils/PermissionUtils.tsx:404
-#: src/utils/PermissionUtils.tsx:506
+#: src/utils/PermissionUtils.tsx:410
+#: src/utils/PermissionUtils.tsx:512
 msgid "Mute Members"
 msgstr "Üyeleri Sustur"
 
@@ -14534,10 +14543,6 @@ msgstr "Asla Animasyon Yapma"
 msgid "Never Automatically"
 msgstr "Asla Otomatik Olarak"
 
-#: src/components/modals/InviteModal.tsx:196
-msgid "never expires"
-msgstr "süresi hiç dolmaz"
-
 #: src/components/channel/Divider.tsx:51
 #: src/components/channel/Divider.tsx:60
 #: src/components/channel/UnreadDividerSlot.tsx:47
@@ -14758,7 +14763,7 @@ msgstr "Henüz bağlantı yok"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -14768,11 +14773,11 @@ msgstr "Açıklama sağlanmadı."
 msgid "No email address set"
 msgstr "E-posta adresi ayarlanmadı"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:185
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:201
 msgid "No emoji slots available"
 msgstr "Emoji slotu mevcut değil"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:368
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:389
 msgid "No emojis found matching your search."
 msgstr "Aramanızla eşleşen emoji bulunamadı."
 
@@ -14986,11 +14991,11 @@ msgid "No Stickers Available"
 msgstr "Kullanılabilir Çıkartma Yok"
 
 #: src/components/channel/MobileStickersPicker.tsx:206
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:186
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
 msgid "No Stickers Found"
 msgstr "Çıkartma Bulunamadı"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:187
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:208
 msgid "No stickers found matching your search."
 msgstr "Aramanızla eşleşen çıkartma bulunamadı."
 
@@ -15055,7 +15060,7 @@ msgid "Noise Suppression"
 msgstr "Gürültü Bastırma"
 
 #. placeholder {0}: staticEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:384
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:405
 msgid "Non-Animated Emoji ({0})"
 msgstr "Hareketli Olmayan Emoji ({0})"
 
@@ -15081,7 +15086,7 @@ msgstr "Norveççe"
 msgid "Not available"
 msgstr "Mevcut değil"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
 msgid "Not enough members"
 msgstr "Yeterli üye yok"
 
@@ -15154,7 +15159,7 @@ msgstr "Bildirim Geçersiz Kılmaları"
 #: src/components/uikit/context_menu/items/CategoryMenuItems.tsx:230
 #: src/components/uikit/context_menu/items/ChannelMenuData.tsx:492
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:253
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:304
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:307
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:243
 msgid "Notification Settings"
 msgstr "Bildirim Ayarları"
@@ -15273,8 +15278,8 @@ msgstr "Çevrimdışı"
 #: src/components/guild/RoleManagement.tsx:306
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:56
 #: src/components/modals/components/plutonium/hooks/useCheckoutActions.tsx:108
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:151
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:167
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:257
 #: src/components/modals/GuildOwnershipWarningModal.tsx:73
 msgid "OK"
 msgstr "Tamam"
@@ -15733,7 +15738,7 @@ msgstr "VEYA"
 msgid "Or copy the link:"
 msgstr "Veya bağlantıyı kopyala:"
 
-#: src/components/modals/InviteModal.tsx:307
+#: src/components/modals/InviteModal.tsx:304
 msgid "or send an invite link to a friend:"
 msgstr "veya bir arkadaşına davet bağlantısı gönder:"
 
@@ -15749,7 +15754,7 @@ msgstr "Orijinal mesaj yüklenemedi"
 msgid "Original message was deleted"
 msgstr "Orijinal mesaj silindi"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:88
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15763,8 +15768,8 @@ msgstr "Diğer"
 msgid "Other Devices"
 msgstr "Diğer Cihazlar"
 
-#: src/utils/PermissionUtils.tsx:396
-#: src/utils/PermissionUtils.tsx:502
+#: src/utils/PermissionUtils.tsx:402
+#: src/utils/PermissionUtils.tsx:508
 msgid "Otherwise Push-to-talk is required."
 msgstr "Aksi takdirde Push-to-talk gereklidir."
 
@@ -16026,7 +16031,7 @@ msgid "Payment Successful"
 msgstr "Ödeme Başarılı"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
 msgid "Pending"
 msgstr "Beklemede"
 
@@ -16236,8 +16241,8 @@ msgstr "Sabitle. İyice sabitle."
 msgid "Pin Message"
 msgstr "Mesajı Sabitle"
 
-#: src/utils/PermissionUtils.tsx:315
-#: src/utils/PermissionUtils.tsx:468
+#: src/utils/PermissionUtils.tsx:321
+#: src/utils/PermissionUtils.tsx:474
 msgid "Pin Messages"
 msgstr "Mesajları Sabitle"
 
@@ -16564,7 +16569,7 @@ msgstr "Belirtilen süre boyunca <0>{0}</0>'ın mesaj göndermesini, tepki verme
 msgid "Prevent <0>{0}</0> from sending messages, reacting, and joining voice channels for the specified duration."
 msgstr "Belirtilen süre boyunca <0>{0}</0>'ın mesaj göndermesini, tepki vermesini ve ses kanallarına katılmasını engelle."
 
-#: src/utils/PermissionUtils.tsx:364
+#: src/utils/PermissionUtils.tsx:370
 msgid "Prevent members from sending messages, reacting, and joining voice for a duration."
 msgstr "Üyelerin bir süre boyunca mesaj göndermesini, tepki vermesini ve sese katılmasını engelle."
 
@@ -16668,8 +16673,8 @@ msgstr "Birincil Eylem"
 msgid "Primary button clicked!"
 msgstr "Birincil düğmeye tıklandı!"
 
-#: src/utils/PermissionUtils.tsx:400
-#: src/utils/PermissionUtils.tsx:505
+#: src/utils/PermissionUtils.tsx:406
+#: src/utils/PermissionUtils.tsx:511
 msgid "Priority Speaker"
 msgstr "Öncelikli Konuşmacı"
 
@@ -16691,8 +16696,8 @@ msgstr "Gizlilik Politikası"
 
 #: src/components/modals/GuildPrivacySettingsModal.tsx:72
 #: src/components/popouts/GuildHeaderPopout.tsx:215
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:309
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:378
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:312
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:381
 msgid "Privacy Settings"
 msgstr "Gizlilik Ayarları"
 
@@ -16841,11 +16846,11 @@ msgstr "Satın alma modu"
 msgid "Purchased {0}"
 msgstr "{0} tarihinde satın alındı"
 
-#: src/components/emojis/EmojiListItem.tsx:197
+#: src/components/emojis/EmojiListItem.tsx:198
 msgid "Purge this emoji from storage and CDN"
 msgstr "Bu emojiyi depolama ve CDN'den temizle"
 
-#: src/components/stickers/StickerGridItem.tsx:69
+#: src/components/stickers/StickerGridItem.tsx:75
 msgid "Purge this sticker from storage and CDN"
 msgstr "Bu çıkartmayı depolama ve CDN'den temizle"
 
@@ -16897,7 +16902,7 @@ msgstr "Bas-Konuş (basılı tut)"
 msgid "Push-to-Talk (Limited)"
 msgstr "Bas-Konuş (Sınırlı)"
 
-#: src/components/layout/UserArea.tsx:147
+#: src/components/layout/UserArea.tsx:161
 #: src/components/voice/VoiceControlBar.tsx:600
 msgid "Push-to-talk enabled — hold {pushToTalkHint} to speak"
 msgstr "Bas-Konuş etkin — konuşmak için {pushToTalkHint} tuşunu basılı tut"
@@ -17017,8 +17022,8 @@ msgstr "Yeniden etkinleştir"
 msgid "read aloud"
 msgstr "sesli oku"
 
-#: src/utils/PermissionUtils.tsx:327
-#: src/utils/PermissionUtils.tsx:471
+#: src/utils/PermissionUtils.tsx:333
+#: src/utils/PermissionUtils.tsx:477
 msgid "Read Message History"
 msgstr "Mesaj Geçmişini Oku"
 
@@ -17057,7 +17062,7 @@ msgid "Reason (Optional)"
 msgstr "Sebep (İsteğe Bağlı)"
 
 #. placeholder {0}: application.review_reason
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:249
 msgid "Reason: {0}"
 msgstr "Sebep: {0}"
 
@@ -17092,7 +17097,7 @@ msgstr "Son Aramalar"
 
 #. placeholder {0}: ChannelUtils.getIcon(channel, {size: 16, className: styles.channelIcon})
 #. placeholder {1}: channel.name
-#: src/components/modals/InviteModal.tsx:226
+#: src/components/modals/InviteModal.tsx:223
 msgid "Recipients will be taken to {0} <0>{1}</0>"
 msgstr "Alıcılar {0} <0>{1}</0> sayfasına yönlendirilecek"
 
@@ -17250,7 +17255,7 @@ msgstr "Normal, bot, sistem ve zaman aşımına uğramış kullanıcılar rahat 
 msgid "Reject"
 msgstr "Reddet"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:60
 msgid "Rejected"
 msgstr "Reddedildi"
 
@@ -17525,7 +17530,7 @@ msgstr "İlk Plutonium'u satın aldığınızda rozetinizden kaldırın"
 msgid "Remove your Visionary ID badge"
 msgstr "Visionary ID rozetinizi kaldırın"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:61
 msgid "Removed"
 msgstr "Kaldırıldı"
 
@@ -17635,11 +17640,11 @@ msgid "Rename"
 msgstr "Yeniden Adlandır"
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:238
+#: src/components/emojis/EmojiListItem.tsx:240
 msgid "Rename :{0}:"
 msgstr "Yeniden Adlandır :{0}:"
 
-#: src/utils/PermissionUtils.tsx:434
+#: src/utils/PermissionUtils.tsx:440
 msgid "Rename and edit this channel's settings."
 msgstr "Bu kanalın adını değiştirin ve ayarlarını düzenleyin."
 
@@ -17748,7 +17753,7 @@ msgid "Report a User Profile"
 msgstr "Bir Kullanıcı Profilini Bildir"
 
 #: src/components/modals/IARModal.tsx:119
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:350
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:353
 #: src/components/uikit/context_menu/items/ReportGuildMenuItem.tsx:57
 msgid "Report Community"
 msgstr "Topluluğu Bildir"
@@ -18045,7 +18050,7 @@ msgstr "Yeniden Abone Ol"
 #: src/components/modals/BackgroundImageGalleryModal.tsx:210
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:649
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:125
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:234
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:138
 #: src/components/modals/tabs/applications_tab/ApplicationDetail.tsx:586
 #: src/components/modals/tabs/applications_tab/index.tsx:113
@@ -18319,7 +18324,7 @@ msgstr "kaydet"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18451,7 +18456,7 @@ msgstr "{0} için zamanlanmış mesaj"
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "Zamanlanmış mesajlar en fazla 30 gün sonrası için ayarlanabilir."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
 msgid "Science & Technology"
 msgstr "Bilim & Teknoloji"
 
@@ -18574,7 +18579,7 @@ msgstr "Toplulukları ara..."
 msgid "Search countries..."
 msgstr "Ülkeleri ara..."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:308
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:324
 msgid "Search emojis..."
 msgstr "Emojileri ara..."
 
@@ -18603,7 +18608,7 @@ msgstr "Kanalları, kişileri veya toplulukları ara"
 #: src/components/common/FriendSelector.tsx:197
 #: src/components/modals/AddFriendsToGroupModal.tsx:53
 #: src/components/modals/CreateDMModal.tsx:68
-#: src/components/modals/InviteModal.tsx:246
+#: src/components/modals/InviteModal.tsx:243
 #: src/components/modals/shared/RecipientList.tsx:179
 #: src/components/modals/ShareThemeModal.tsx:141
 msgid "Search friends"
@@ -18692,7 +18697,7 @@ msgstr "Arama ayarları"
 msgid "Search settings..."
 msgstr "Ayarları ara..."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:130
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:147
 msgid "Search stickers..."
 msgstr "Çıkartmaları ara..."
 
@@ -19035,8 +19040,8 @@ msgstr "Mesaj Gönderme Devre Dışı"
 msgid "Send messages"
 msgstr "Mesaj gönder"
 
-#: src/utils/PermissionUtils.tsx:301
-#: src/utils/PermissionUtils.tsx:462
+#: src/utils/PermissionUtils.tsx:307
+#: src/utils/PermissionUtils.tsx:468
 msgid "Send Messages"
 msgstr "Mesajları Gönder"
 
@@ -19056,11 +19061,11 @@ msgstr "SMS kodu gönder"
 msgid "Send SMS Code"
 msgstr "SMS Kodu Gönder"
 
-#: src/utils/PermissionUtils.tsx:306
+#: src/utils/PermissionUtils.tsx:312
 msgid "Send text-to-speech messages."
 msgstr "Metinden konuşmaya mesajlar gönder."
 
-#: src/utils/PermissionUtils.tsx:305
+#: src/utils/PermissionUtils.tsx:311
 msgid "Send TTS Messages"
 msgstr "TTS Mesajları Gönder"
 
@@ -19072,7 +19077,7 @@ msgstr "Doğrulama Kodu Gönder"
 msgid "Send voice message"
 msgstr "Sesli mesaj gönder"
 
-#: src/components/modals/InviteModal.tsx:266
+#: src/components/modals/InviteModal.tsx:263
 #: src/components/modals/shared/RecipientList.tsx:223
 #: src/components/modals/ShareThemeModal.tsx:159
 msgid "Sent"
@@ -19098,7 +19103,7 @@ msgstr "Bir dosya gönderildi"
 msgid "sent an embed"
 msgstr "bir gömme gönderildi"
 
-#: src/components/modals/AddConnectionModal.tsx:277
+#: src/components/modals/AddConnectionModal.tsx:280
 msgid "Serve the token file"
 msgstr "Token dosyasını sun"
 
@@ -19310,8 +19315,8 @@ msgstr "Doğrulama seviyesini <0>Orta</0> olarak ayarla."
 msgid "Set verification level to <0>None</0>."
 msgstr "Doğrulama seviyesini <0>Hiçbiri</0> olarak ayarla."
 
-#: src/utils/PermissionUtils.tsx:417
-#: src/utils/PermissionUtils.tsx:513
+#: src/utils/PermissionUtils.tsx:423
+#: src/utils/PermissionUtils.tsx:519
 msgid "Set Voice Region"
 msgstr "Ses Bölgesini Ayarla"
 
@@ -20174,8 +20179,8 @@ msgstr "İspanyolca (Latin Amerika)"
 msgid "Spanish (Spain)"
 msgstr "İspanyolca (İspanya)"
 
-#: src/utils/PermissionUtils.tsx:387
-#: src/utils/PermissionUtils.tsx:498
+#: src/utils/PermissionUtils.tsx:393
+#: src/utils/PermissionUtils.tsx:504
 msgid "Speak"
 msgstr "Konuş"
 
@@ -20397,7 +20402,7 @@ msgstr "Sesli Aramayı Başlat"
 
 #. placeholder {0}: staticEmojis.length
 #. placeholder {1}: maxStaticEmojis === Number.POSITIVE_INFINITY ? '∞' : maxStaticEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:349
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:367
 msgid "Static: {0} / {1}"
 msgstr "Statik: {0} / {1}"
 
@@ -20423,7 +20428,7 @@ msgstr "durum tahtası"
 msgid "Status Slate"
 msgstr "Durum Panosu"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:243
 msgid "Status:"
 msgstr "Durum:"
 
@@ -20478,7 +20483,7 @@ msgstr "Çıkartma Oluşturuldu"
 msgid "Sticker Deleted"
 msgstr "Çıkartma Silindi"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:137
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:154
 msgid "Sticker density"
 msgstr "Çıkartma yoğunluğu"
 
@@ -20505,7 +20510,7 @@ msgstr "Çıkartma paketi sınırına ulaşıldı"
 msgid "sticker packs"
 msgstr "sticker paketleri"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:158
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:177
 msgid "Sticker Slots"
 msgstr "Çıkartma Yuvaları"
 
@@ -20529,7 +20534,7 @@ msgid "Stickers"
 msgstr "Çıkartmalar"
 
 #. placeholder {0}: Math.round(GlobalLimits.getStickerMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:164
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:183
 msgid "Stickers must be exactly 320x320 pixels and no larger than {0} KB, but we automatically resize and compress images for you. Allowed file types: JPEG, PNG, WebP, GIF."
 msgstr "Çıkartmalar tam olarak 320x320 piksel olmalı ve {0} KB'dan büyük olmamalıdır, ancak görüntüleri sizin için otomatik olarak yeniden boyutlandırıp sıkıştırıyoruz. İzin verilen dosya türleri: JPEG, PNG, WebP, GIF."
 
@@ -20611,8 +20616,8 @@ msgstr "Yayın önizlemesi"
 msgid "Stream Quality"
 msgstr "Akış Kalitesi"
 
-#: src/utils/PermissionUtils.tsx:391
-#: src/utils/PermissionUtils.tsx:499
+#: src/utils/PermissionUtils.tsx:397
+#: src/utils/PermissionUtils.tsx:505
 msgid "Stream Video"
 msgstr "Video Yayınla"
 
@@ -21139,7 +21144,7 @@ msgstr "Aradığınız topluluk silinmiş olabilir veya ona erişiminiz olmayabi
 msgid "The download link will be valid for 7 days"
 msgstr "İndirme bağlantısı 7 gün geçerli olacak"
 
-#: src/components/modals/AddConnectionModal.tsx:298
+#: src/components/modals/AddConnectionModal.tsx:301
 msgid "The file contains the verification token we will fetch from <0>{dnsUrl}</0>."
 msgstr "Dosya, <0>{dnsUrl}</0>'dan alacağımız doğrulama tokenını içeriyor."
 
@@ -21265,7 +21270,7 @@ msgstr "Bu kanalın davet bağlantıları yüklenirken bir hata oluştu. Lütfen
 msgid "There was an error loading the invites. Please try again."
 msgstr "Davetler yüklenirken bir hata oluştu. Lütfen tekrar deneyin."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:204
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:231
 msgid "There was an error loading the stickers. Please try again."
 msgstr "Çıkartmalar yüklenirken bir hata oluştu. Lütfen tekrar deneyin."
 
@@ -21528,7 +21533,7 @@ msgstr "Bu davet {seconds} saniye içinde sona erecek."
 msgid "This invite has unlimited uses."
 msgstr "Bu davetin sınırsız kullanımı var."
 
-#: src/components/modals/InviteModal.tsx:315
+#: src/components/modals/InviteModal.tsx:312
 msgid "This invite link never expires."
 msgstr "Bu davet bağlantısı asla sona ermez."
 
@@ -21836,7 +21841,7 @@ msgstr "Zaman Aşımı Süresi"
 msgid "Timeout ends {0} ({1})"
 msgstr "Zaman aşımı {0} tarihinde sona eriyor ({1})"
 
-#: src/utils/PermissionUtils.tsx:363
+#: src/utils/PermissionUtils.tsx:369
 msgid "Timeout Members"
 msgstr "Üyelere Zaman Aşımı Uygula"
 
@@ -22431,7 +22436,7 @@ msgstr "Önizleme yüklenemedi."
 msgid "Unable to load profile banner, badges, and bio."
 msgstr "Profil afişi, rozetler ve biyografi yüklenemedi."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:229
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:245
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "Yükleme için hiçbir emoji hazırlanamadı. Aşağıdaki hatalar oluştu:"
 
@@ -22532,7 +22537,7 @@ msgstr "Talep Edilmemiş Hesap Geçersiz Kılma"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:174
 #: src/components/voice/VoiceControlBar.tsx:611
 msgid "Undeafen"
 msgstr "Sağırlaştırmayı Kaldır"
@@ -22569,7 +22574,7 @@ msgstr "Yaşı Küçük Kullanıcı"
 #: src/components/alerts/UserBannedFromGuildModal.tsx:30
 #: src/components/alerts/UserIpBannedFromGuildModal.tsx:31
 #: src/components/layout/ChannelListContent.tsx:149
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:192
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:208
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:160
 msgid "Understood"
 msgstr "Anlaşıldı"
@@ -22614,7 +22619,7 @@ msgstr "Benzersiz davetiye"
 msgid "Unit"
 msgstr "Birim"
 
-#: src/components/emojis/EmojiListItem.tsx:290
+#: src/components/emojis/EmojiListItem.tsx:301
 #: src/components/modals/BanDetailsModal.tsx:116
 msgid "Unknown"
 msgstr "Bilinmiyor"
@@ -22776,8 +22781,8 @@ msgstr "Plutonium ile DM'lerde çıkartmaları aç"
 #: src/components/bottomsheets/MuteDurationSheet.tsx:75
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:148
-#: src/components/layout/UserArea.tsx:154
+#: src/components/layout/UserArea.tsx:162
+#: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/MobileVideoViewer.tsx:272
@@ -22813,7 +22818,7 @@ msgstr "Kanal Sesini Aç"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:96
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:165
 msgid "Unmute Community"
 msgstr "Topluluk Sesini Aç"
@@ -23146,7 +23151,7 @@ msgstr "Özel Ses Yükle"
 msgid "Upload directly to {displayName}"
 msgstr "Doğrudan {displayName} üzerine yükle"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:329
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:347
 msgid "Upload Emoji"
 msgstr "Emoji Yükle"
 
@@ -23170,11 +23175,15 @@ msgstr "Simge Yükle"
 msgid "Upload Image"
 msgstr "Resim Yükle"
 
+#: src/utils/PermissionUtils.tsx:285
+msgid "Upload new emoji and stickers, and manage your own creations."
+msgstr "Yeni emoji ve çıkartmalar yükleyin ve kendi oluşturduğunuz içerikleri yönetin."
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:577
 msgid "upload sound"
 msgstr "ses yükle"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:180
 msgid "Upload Sticker"
 msgstr "Çıkartma Yükle"
 
@@ -23235,8 +23244,8 @@ msgstr "Mesajlarınızdaki ekleri indirmek için URL'ler"
 msgid "US East"
 msgstr "ABD Doğu"
 
-#: src/utils/PermissionUtils.tsx:331
-#: src/utils/PermissionUtils.tsx:473
+#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:479
 msgid "Use @everyone/@here and @roles"
 msgstr "@everyone/@here ve @rolleri kullan"
 
@@ -23294,17 +23303,17 @@ msgstr "Uygulama genelinde koyu tema kullan"
 msgid "Use Different Email"
 msgstr "Farklı E-posta Kullan"
 
-#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:343
 msgid "Use emoji from other communities."
 msgstr "Diğer topluluklardan emoji kullan."
 
-#: src/utils/PermissionUtils.tsx:336
-#: src/utils/PermissionUtils.tsx:477
+#: src/utils/PermissionUtils.tsx:342
+#: src/utils/PermissionUtils.tsx:483
 msgid "Use External Emoji"
 msgstr "Harici Emoji Kullan"
 
-#: src/utils/PermissionUtils.tsx:341
-#: src/utils/PermissionUtils.tsx:478
+#: src/utils/PermissionUtils.tsx:347
+#: src/utils/PermissionUtils.tsx:484
 msgid "Use External Stickers"
 msgstr "Harici Çıkartma Kullan"
 
@@ -23337,7 +23346,7 @@ msgstr "Güvenlik anahtarı kullan"
 msgid "Use system locale for time format"
 msgstr "Zaman formatı için sistem yerel ayarını kullan"
 
-#: src/components/modals/AddConnectionModal.tsx:233
+#: src/components/modals/AddConnectionModal.tsx:236
 msgid "Use the record below to prove domain ownership."
 msgstr "Alan adı sahipliğini kanıtlamak için aşağıdaki kaydı kullanın."
 
@@ -23357,8 +23366,8 @@ msgstr "Tüm izinleri hızlıca temizlemek için bu düğmeyi kullan."
 msgid "Use this shortcut system-wide"
 msgstr "Bu kısayolu sistem genelinde kullan"
 
-#: src/utils/PermissionUtils.tsx:395
-#: src/utils/PermissionUtils.tsx:501
+#: src/utils/PermissionUtils.tsx:401
+#: src/utils/PermissionUtils.tsx:507
 msgid "Use Voice Activity"
 msgstr "Ses Etkinliğini Kullan"
 
@@ -23450,8 +23459,8 @@ msgstr "Kullanıcı Profili: {tag}"
 msgid "User Record"
 msgstr "Kullanıcı Kaydı"
 
-#: src/components/layout/UserArea.tsx:272
-#: src/components/layout/UserArea.tsx:277
+#: src/components/layout/UserArea.tsx:286
+#: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
 #: src/components/modals/UserSettingsModal.tsx:154
 msgid "User Settings"
@@ -23570,7 +23579,7 @@ msgstr "araçlar"
 msgid "value"
 msgstr "değer"
 
-#: src/components/modals/AddConnectionModal.tsx:258
+#: src/components/modals/AddConnectionModal.tsx:261
 msgid "Value"
 msgstr "Değer"
 
@@ -23678,7 +23687,7 @@ msgstr "Doğrulanmış lonca"
 msgid "verify"
 msgstr "doğrula"
 
-#: src/components/modals/AddConnectionModal.tsx:312
+#: src/components/modals/AddConnectionModal.tsx:315
 #: src/components/modals/EmailChangeModal.tsx:236
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
@@ -23690,11 +23699,11 @@ msgstr "Doğrula"
 msgid "Verify Code"
 msgstr "Kodu Doğrula"
 
-#: src/components/modals/AddConnectionModal.tsx:229
+#: src/components/modals/AddConnectionModal.tsx:232
 msgid "Verify Connection"
 msgstr "Bağlantıyı Doğrula"
 
-#: src/components/modals/AddConnectionModal.tsx:228
+#: src/components/modals/AddConnectionModal.tsx:231
 msgid "Verify connection form"
 msgstr "Bağlantı doğrulama formu"
 
@@ -23874,8 +23883,8 @@ msgstr "Görüntülü aramayı görüntüle"
 msgid "View call controls"
 msgstr "Arama kontrollerini görüntüle"
 
-#: src/utils/PermissionUtils.tsx:374
-#: src/utils/PermissionUtils.tsx:454
+#: src/utils/PermissionUtils.tsx:380
+#: src/utils/PermissionUtils.tsx:460
 msgid "View Channel"
 msgstr "Kanalı Görüntüle"
 
@@ -24691,7 +24700,7 @@ msgstr "Hata ile"
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "Plütonyum ile animasyonlu avatarlar ve afişler (GIF, APNG, animasyonlu WebP veya AVIF formatında) kullanabilir, 4 haneli etiketinizi özelleştirebilir ve birçok diğer premium özelliği açabilirsiniz."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:353
 msgid "Withdraw"
 msgstr "Geri çek"
 
@@ -24759,7 +24768,7 @@ msgstr "Sen"
 msgid "You already have a group with these users. Do you really want to create a new one? That's fine too!"
 msgstr "Bu kullanıcılarla zaten bir grubunuz var. Gerçekten yeni bir tane oluşturmak istiyor musunuz? Bu da iyi!"
 
-#: src/components/modals/AddConnectionModal.tsx:98
+#: src/components/modals/AddConnectionModal.tsx:101
 msgid "You already have this connection."
 msgstr "Bu bağlantıya zaten sahipsiniz."
 
@@ -25392,7 +25401,7 @@ msgstr "Katılabileceğin maksimum topluluk sayısına ulaştın ({maxGuilds} to
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "Katılabileceğin maksimum topluluk sayısına ulaştın ({maxGuilds} topluluk). Başka birine katılmadan önce bir topluluktan ayrıl."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:187
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:203
 msgid "You've reached the maximum number of static emojis. Delete some existing emojis or upgrade your server to increase the limit."
 msgstr "Statik emojilerin maksimum sayısına ulaştınız. Mevcut emojilerden bazılarını silin veya limitinizi artırmak için sunucunuzu yükseltin."
 
@@ -25425,7 +25434,7 @@ msgstr "Hesabın henüz sahiplenilmedi. Bir e-posta ve şifre olmadan, diğer ci
 msgid "Your account is too new to send messages in this community."
 msgstr "Hesabın bu toplulukta mesaj göndermek için çok yeni."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:278
 msgid "Your application is pending review. You can still update your listing details or withdraw the application."
 msgstr "Başvurunuz inceleme aşamasında. Listeleme detaylarınızı güncelleyebilir veya başvurunuzu geri çekebilirsiniz."
 
@@ -25445,11 +25454,11 @@ msgstr "Kodun"
 msgid "Your code is ready!"
 msgstr "Kodun hazır!"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:262
 msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
 msgstr "Topluluğunuz Keşif'te listeleniyor. Aşağıda listeleme detaylarınızı güncelleyebilir veya kaldırmak için geri çekebilirsiniz."
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:230
 msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
 msgstr "Topluluğunuzun Keşif'te listelenebilmesi için en az {minMemberCount} üyesi olmalıdır."
 
@@ -25499,7 +25508,7 @@ msgid "Your invite expires in 24 hours"
 msgstr "Davetin 24 saat içinde geçerliliğini yitirir"
 
 #. placeholder {0}: getExpirationText()
-#: src/components/modals/InviteModal.tsx:319
+#: src/components/modals/InviteModal.tsx:323
 msgid "Your invite link expires in {0}."
 msgstr "Davet bağlantın {0} içinde sona eriyor."
 
@@ -25515,15 +25524,15 @@ msgstr "IP adresin bu topluluktan yasaklandı ve katılamazsın."
 msgid "Your IP is Banned"
 msgstr "IP Adresin Yasaklandı"
 
-#: src/lib/MessageQueue.tsx:386
+#: src/lib/MessageQueue.tsx:484
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Mesajın teslim edilemedi. Bu genellikle alıcıyla bir topluluğu paylaşmaman veya alıcının yalnızca arkadaşlardan gelen doğrudan mesajları kabul etmesi nedeniyle olur."
 
-#: src/lib/MessageQueue.tsx:398
+#: src/lib/MessageQueue.tsx:496
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Mesajın teslim edilemedi. Doğrudan mesaj göndermek için hesabını sahiplenmen gerekiyor."
 
-#: src/lib/MessageQueue.tsx:399
+#: src/lib/MessageQueue.tsx:497
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Mesajınız ulaştırılamadı. Mesaj göndermek için hesabınızı talep etmeniz gerekiyor."
 

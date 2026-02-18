@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} 个保存的媒体项目"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount} 位成员"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount} 位成员"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount} 个共同社区"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} 个共同社区"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:84
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} 在线"
 
@@ -1095,7 +1095,7 @@ msgstr "<0>警告：</0>这也会禁用短信双重身份验证。"
 #: src/components/channel/CallMessage.tsx:69
 #: src/components/modals/BanMemberModal.tsx:58
 #: src/components/modals/InviteModal.tsx:80
-#: src/components/modals/InviteModal.tsx:210
+#: src/components/modals/InviteModal.tsx:207
 #: src/components/modals/PackInviteModal.tsx:51
 #: src/components/modals/TimeoutMemberOptions.tsx:38
 msgid "1 day"
@@ -1105,7 +1105,7 @@ msgstr "1 天"
 #: src/components/modals/BanMemberModal.tsx:56
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:171
 #: src/components/modals/InviteModal.tsx:77
-#: src/components/modals/InviteModal.tsx:204
+#: src/components/modals/InviteModal.tsx:201
 #: src/components/modals/PackInviteModal.tsx:48
 #: src/components/modals/TimeoutMemberOptions.tsx:37
 #: src/constants/TimeWindowPresets.tsx:58
@@ -1223,7 +1223,7 @@ msgstr "1080p"
 
 #: src/components/modals/BanMemberModal.tsx:57
 #: src/components/modals/InviteModal.tsx:79
-#: src/components/modals/InviteModal.tsx:208
+#: src/components/modals/InviteModal.tsx:205
 #: src/components/modals/PackInviteModal.tsx:50
 msgid "12 hours"
 msgstr "12小时"
@@ -1346,7 +1346,7 @@ msgstr "30 帧每秒"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:170
 #: src/components/modals/InviteModal.tsx:76
-#: src/components/modals/InviteModal.tsx:202
+#: src/components/modals/InviteModal.tsx:199
 #: src/components/modals/PackInviteModal.tsx:47
 #: src/constants/TimeWindowPresets.tsx:57
 #: src/utils/modals/guild_tabs/GuildOverviewTabUtils.tsx:64
@@ -1417,7 +1417,7 @@ msgstr "50次使用"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:173
 #: src/components/modals/InviteModal.tsx:78
-#: src/components/modals/InviteModal.tsx:206
+#: src/components/modals/InviteModal.tsx:203
 #: src/components/modals/PackInviteModal.tsx:49
 msgid "6 hours"
 msgstr "6小时"
@@ -1437,7 +1437,7 @@ msgid "60 seconds"
 msgstr "60秒"
 
 #: src/components/modals/InviteModal.tsx:81
-#: src/components/modals/InviteModal.tsx:212
+#: src/components/modals/InviteModal.tsx:209
 #: src/components/modals/PackInviteModal.tsx:52
 msgid "7 days"
 msgstr "7天"
@@ -1462,7 +1462,7 @@ msgstr "8小时"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "将自动添加一个4位数字标签以确保唯一性"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:298
 msgid "A description is required."
 msgstr "描述是必需的。"
 
@@ -1832,11 +1832,11 @@ msgstr "将机器人添加到社区"
 msgid "Add Channel"
 msgstr "添加频道"
 
-#: src/components/modals/AddConnectionModal.tsx:194
+#: src/components/modals/AddConnectionModal.tsx:197
 msgid "Add Connection"
 msgstr "添加连接"
 
-#: src/components/modals/AddConnectionModal.tsx:193
+#: src/components/modals/AddConnectionModal.tsx:196
 msgid "Add connection form"
 msgstr "添加连接表单"
 
@@ -1879,8 +1879,8 @@ msgstr "添加好友到群组"
 msgid "Add Item"
 msgstr "添加项目"
 
-#: src/utils/PermissionUtils.tsx:346
-#: src/utils/PermissionUtils.tsx:481
+#: src/utils/PermissionUtils.tsx:352
+#: src/utils/PermissionUtils.tsx:487
 msgid "Add new reactions to messages."
 msgstr "为消息添加新反应。"
 
@@ -1929,8 +1929,8 @@ msgstr "添加电话号码表单"
 msgid "Add Reaction"
 msgstr "添加反应"
 
-#: src/utils/PermissionUtils.tsx:345
-#: src/utils/PermissionUtils.tsx:480
+#: src/utils/PermissionUtils.tsx:351
+#: src/utils/PermissionUtils.tsx:486
 msgid "Add Reactions"
 msgstr "添加反应"
 
@@ -2551,7 +2551,7 @@ msgid "animated emoji"
 msgstr "动态表情"
 
 #. placeholder {0}: animatedEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:404
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:426
 msgid "Animated Emoji ({0})"
 msgstr "动画表情 ({0})"
 
@@ -2604,7 +2604,7 @@ msgstr "动画视频"
 
 #. placeholder {0}: animatedEmojis.length
 #. placeholder {1}: maxAnimatedEmojis === Number.POSITIVE_INFINITY ? '∞' : maxAnimatedEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:354
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:373
 msgid "Animated: {0} / {1}"
 msgstr "动画: {0} / {1}"
 
@@ -2624,7 +2624,7 @@ msgstr "动画"
 msgid "animations"
 msgstr "动画效果"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:86
 msgid "Anime & Manga"
 msgstr "动漫与漫画"
 
@@ -2722,7 +2722,7 @@ msgstr "仅适用于此设备上的桌面应用。"
 msgid "Applies to both camera and screen sharing"
 msgstr "适用于摄像头和屏幕共享"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2737,7 +2737,7 @@ msgstr "应用主题"
 msgid "Apply to all communities"
 msgstr "应用于所有社区"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:59
 msgid "Approved"
 msgstr "已批准"
 
@@ -2781,7 +2781,7 @@ msgid "Are you sure you want to deauthorize {appName}? This application will no 
 msgstr "您确定要撤销对 {appName} 的授权吗？该应用将不再访问您的帐户。"
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:193
+#: src/components/emojis/EmojiListItem.tsx:194
 msgid "Are you sure you want to delete :{0}:? This action cannot be undone."
 msgstr "确定要删除 :{0}: 吗？此操作无法撤销。"
 
@@ -2791,7 +2791,7 @@ msgstr "确定要删除 :{0}: 吗？此操作无法撤销。"
 msgid "Are you sure you want to delete \"{0}\"? This action cannot be undone."
 msgstr "确定要删除“{0}”吗？此操作无法撤销。"
 
-#: src/components/stickers/StickerGridItem.tsx:65
+#: src/components/stickers/StickerGridItem.tsx:71
 msgid "Are you sure you want to delete \"{stickerName}\"? This action cannot be undone."
 msgstr "您确定要删除 \"{stickerName}\" 吗？此操作无法撤销。"
 
@@ -2986,8 +2986,8 @@ msgstr "作为礼物"
 msgid "At least one channel must have \"View Channel\" permission enabled for @everyone in order for the vanity URL to work. Currently, no channels are viewable to @everyone."
 msgstr "至少有一个频道必须为@everyone启用“查看频道”权限，自定义URL才能生效。目前没有频道对@everyone可见。"
 
-#: src/utils/PermissionUtils.tsx:323
-#: src/utils/PermissionUtils.tsx:470
+#: src/utils/PermissionUtils.tsx:329
+#: src/utils/PermissionUtils.tsx:476
 msgid "Attach Files"
 msgstr "附加文件"
 
@@ -3077,8 +3077,8 @@ msgid "Audio"
 msgstr "音频"
 
 #: src/components/modals/utils/SettingsConstants.tsx:190
-#: src/utils/PermissionUtils.tsx:380
-#: src/utils/PermissionUtils.tsx:495
+#: src/utils/PermissionUtils.tsx:386
+#: src/utils/PermissionUtils.tsx:501
 msgid "Audio & Video"
 msgstr "音频和视频"
 
@@ -3344,7 +3344,7 @@ msgid "Average ping:"
 msgstr "平均延迟："
 
 #: src/components/auth/IpAuthorizationScreen.tsx:154
-#: src/components/modals/AddConnectionModal.tsx:309
+#: src/components/modals/AddConnectionModal.tsx:312
 #: src/components/modals/PhoneAddModal.tsx:237
 #: src/components/modals/RequiredActionModal.tsx:655
 #: src/components/pages/OAuthAuthorizePage.tsx:671
@@ -3932,8 +3932,8 @@ msgstr "购买即表示您同意我们的 <0>服务条款</0> 和 <1>隐私政�
 msgid "By purchasing, you agreed to our <0>Terms of Service</0> and <1>Privacy Policy</1>. All purchases are refundable within 14 days by emailing <2>support@fluxer.app</2>. Chargebacks result in permanent account bans — if you want a refund, we're more than happy to give you one if you contact us first! Payment information is securely handled by Stripe — we never have access to your full card number."
 msgstr "购买即表示您已同意我们的 <0>服务条款</0> 和 <1>隐私政策</1>。所有购买在 14 天内可通过发送电子邮件至 <2>support@fluxer.app</2> 退款。拒付将导致永久账户封禁 — 如果您想要退款，只要先联系我们，我们非常乐意提供！支付信息由 Stripe 安全处理 — 我们无法访问您的完整卡号。"
 
-#: src/utils/PermissionUtils.tsx:350
-#: src/utils/PermissionUtils.tsx:485
+#: src/utils/PermissionUtils.tsx:356
+#: src/utils/PermissionUtils.tsx:491
 msgid "Bypass Slowmode"
 msgstr "绕过慢速模式"
 
@@ -4063,7 +4063,7 @@ msgstr "当参与者超过 {VOICE_CHANNEL_CAMERA_USER_LIMIT} 人时，摄像头�
 #: src/components/layout/GuildLayout.tsx:76
 #: src/components/modals/AccountDeleteModal.tsx:95
 #: src/components/modals/AccountDisableModal.tsx:69
-#: src/components/modals/AddConnectionModal.tsx:215
+#: src/components/modals/AddConnectionModal.tsx:218
 #: src/components/modals/AddFavoriteMemeModal.tsx:98
 #: src/components/modals/AddGuildModal.tsx:290
 #: src/components/modals/AddGuildModal.tsx:413
@@ -4109,7 +4109,7 @@ msgstr "当参与者超过 {VOICE_CHANNEL_CAMERA_USER_LIMIT} 人时，摄像头�
 #: src/components/modals/HideOwnScreenShareConfirmModal.tsx:65
 #: src/components/modals/IARModal.tsx:255
 #: src/components/modals/ImageCropModal.tsx:943
-#: src/components/modals/InviteModal.tsx:332
+#: src/components/modals/InviteModal.tsx:336
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
@@ -4211,7 +4211,7 @@ msgstr "卡片对齐控制"
 msgid "Careful! You have unsaved changes."
 msgstr "注意！您有未保存的更改。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:330
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4437,8 +4437,8 @@ msgstr "频道"
 msgid "Channel"
 msgstr "频道"
 
-#: src/utils/PermissionUtils.tsx:373
-#: src/utils/PermissionUtils.tsx:453
+#: src/utils/PermissionUtils.tsx:379
+#: src/utils/PermissionUtils.tsx:459
 msgid "Channel Access"
 msgstr "频道访问"
 
@@ -4516,7 +4516,7 @@ msgstr "频道列表输入指示器模式"
 msgid "Channel list typing indicators"
 msgstr "频道列表输入指示"
 
-#: src/utils/PermissionUtils.tsx:426
+#: src/utils/PermissionUtils.tsx:432
 msgid "Channel Management"
 msgstr "频道管理"
 
@@ -4757,7 +4757,7 @@ msgstr "选择应用内时间的显示方式。"
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "选择当有人在频道内输入时，频道列表中输入指示器的显示方式。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:346
 msgid "Choose the category that best describes your community."
 msgstr "选择最能描述您社区的类别。"
 
@@ -5360,7 +5360,7 @@ msgstr "社区创作者"
 msgid "Community Deafen"
 msgstr "社区静音"
 
-#: src/components/layout/UserArea.tsx:159
+#: src/components/layout/UserArea.tsx:173
 #: src/components/layout/VoiceStateIcons.tsx:57
 #: src/components/voice/VoiceControlBar.tsx:607
 #: src/components/voice/VoiceParticipantTile.tsx:1466
@@ -5432,8 +5432,8 @@ msgstr "社区成员"
 msgid "Community Mute"
 msgstr "社区静音"
 
-#: src/components/layout/UserArea.tsx:146
-#: src/components/layout/UserArea.tsx:153
+#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:167
 #: src/components/layout/VoiceStateIcons.tsx:49
 #: src/components/voice/VoiceControlBar.tsx:596
 #: src/components/voice/VoiceParticipantTile.tsx:1457
@@ -5492,10 +5492,10 @@ msgid "Community Record"
 msgstr "社区记录"
 
 #: src/components/modals/components/DesktopGuildSettingsView.tsx:233
-#: src/components/modals/GuildSettingsModal.tsx:194
+#: src/components/modals/GuildSettingsModal.tsx:197
 #: src/components/popouts/GuildHeaderPopout.tsx:190
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:278
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:346
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:281
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:349
 msgid "Community Settings"
 msgstr "社区设置"
 
@@ -5524,7 +5524,7 @@ msgstr "全社区范围"
 msgid "compact"
 msgstr "紧凑"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:152
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:169
 msgid "Compact"
 msgstr "紧凑"
 
@@ -5670,8 +5670,8 @@ msgstr "确认密码"
 msgid "Connect"
 msgstr "连接"
 
-#: src/utils/PermissionUtils.tsx:383
-#: src/utils/PermissionUtils.tsx:497
+#: src/utils/PermissionUtils.tsx:389
+#: src/utils/PermissionUtils.tsx:503
 msgid "Connect (Join Voice)"
 msgstr "连接（加入语音）"
 
@@ -5679,7 +5679,7 @@ msgstr "连接（加入语音）"
 msgid "Connect to Voice"
 msgstr "连接到语音"
 
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 msgid "Connect with Bluesky"
 msgstr "连接到 Bluesky"
 
@@ -5730,7 +5730,7 @@ msgstr "连接已移除"
 msgid "Connection Stats"
 msgstr "连接统计"
 
-#: src/components/modals/AddConnectionModal.tsx:198
+#: src/components/modals/AddConnectionModal.tsx:201
 msgid "Connection Type"
 msgstr "连接类型"
 
@@ -5783,7 +5783,7 @@ msgstr "构建一个包含作用域和权限的授权URL。"
 msgid "contact"
 msgstr "联系"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 msgid "Content Creator"
 msgstr "内容创作者"
 
@@ -5822,7 +5822,7 @@ msgid "Context menus can be opened with left-click (on buttons) or right-click (
 msgstr "上下文菜单可通过左键单击（在按钮上）或右键单击（在其他元素上）打开。此示例展示了各种菜单项，包括复选框、单选按钮、滑块和子菜单。"
 
 #: src/components/channel/ChannelTextarea.tsx:311
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:75
 #: src/components/modals/BackupCodesViewModal.tsx:73
 #: src/components/modals/DeviceRevokeModal.tsx:82
@@ -5958,8 +5958,8 @@ msgid "Copied URL to clipboard"
 msgstr "已复制URL到剪贴板"
 
 #: src/components/auth/HandoffCodeDisplay.tsx:106
-#: src/components/modals/AddConnectionModal.tsx:187
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:190
+#: src/components/modals/AddConnectionModal.tsx:191
 #: src/components/modals/shared/CopyLinkSection.tsx:52
 #: src/components/modals/ThemeAcceptModal.tsx:162
 #: src/lib/markdown/renderers/common/CodeElements.tsx:57
@@ -6017,7 +6017,7 @@ msgstr "复制频道链接"
 msgid "Copy code"
 msgstr "复制代码"
 
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:372
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:375
 msgid "Copy Community ID"
 msgstr "复制社区 ID"
 
@@ -6045,11 +6045,11 @@ msgstr "复制FluxerTag"
 msgid "Copy GIF"
 msgstr "复制GIF"
 
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:461
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:464
 msgid "Copy Guild ID"
 msgstr "复制服务器ID"
 
-#: src/components/modals/AddConnectionModal.tsx:187
+#: src/components/modals/AddConnectionModal.tsx:190
 msgid "Copy host"
 msgstr "复制主机"
 
@@ -6154,7 +6154,7 @@ msgstr "复制用户ID"
 msgid "Copy Username"
 msgstr "复制用户名"
 
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:191
 msgid "Copy value"
 msgstr "复制值"
 
@@ -6199,7 +6199,7 @@ msgstr "封面"
 msgid "cozy"
 msgstr "温馨"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:144
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
 msgid "Cozy"
 msgstr "温馨"
 
@@ -6295,8 +6295,8 @@ msgstr "创建应用程序"
 #: src/components/popouts/GuildHeaderPopout.tsx:204
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:89
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:69
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:292
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:428
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:295
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:431
 msgid "Create Category"
 msgstr "创建类别"
 
@@ -6305,8 +6305,8 @@ msgstr "创建类别"
 #: src/components/modals/ChannelCreateModal.tsx:103
 #: src/components/popouts/GuildHeaderPopout.tsx:197
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:86
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:287
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:410
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:290
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:413
 msgid "Create Channel"
 msgstr "创建频道"
 
@@ -6324,6 +6324,10 @@ msgstr "创建社区表单"
 #: src/utils/modals/CreateDMModalUtils.tsx:154
 msgid "Create DM"
 msgstr "创建私信"
+
+#: src/utils/PermissionUtils.tsx:284
+msgid "Create Emoji & Stickers"
+msgstr "创建表情符号和贴纸"
 
 #: src/components/modals/CreatePackModal.tsx:52
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:256
@@ -6346,7 +6350,7 @@ msgid "Create Invite"
 msgstr "创建邀请"
 
 #: src/utils/PermissionUtils.tsx:270
-#: src/utils/PermissionUtils.tsx:429
+#: src/utils/PermissionUtils.tsx:435
 msgid "Create Invite Links"
 msgstr "创建邀请链接"
 
@@ -6358,7 +6362,7 @@ msgstr "创建新账户"
 msgid "Create new group"
 msgstr "创建新群组"
 
-#: src/components/modals/InviteModal.tsx:335
+#: src/components/modals/InviteModal.tsx:339
 msgid "Create New Link"
 msgstr "创建新链接"
 
@@ -6393,11 +6397,11 @@ msgstr "创建、编辑或删除频道和分类。"
 msgid "Create, edit, or delete roles below your highest role. Also allows editing channel permission overwrites."
 msgstr "创建、编辑或删除低于你最高角色的角色。还允许编辑频道权限覆盖。"
 
-#: src/utils/PermissionUtils.tsx:444
+#: src/utils/PermissionUtils.tsx:450
 msgid "Create, edit, or delete webhooks for this channel."
 msgstr "为此频道创建、编辑或删除Webhook。"
 
-#: src/utils/PermissionUtils.tsx:289
+#: src/utils/PermissionUtils.tsx:295
 msgid "Create, edit, or delete webhooks."
 msgstr "创建、编辑或删除Webhook。"
 
@@ -6897,7 +6901,7 @@ msgstr "静音"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:161
+#: src/components/layout/UserArea.tsx:175
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:515
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:125
 #: src/components/voice/VoiceControlBar.tsx:613
@@ -6922,8 +6926,8 @@ msgstr "静音设备"
 msgid "Deafen Keybind"
 msgstr "静音按键绑定"
 
-#: src/utils/PermissionUtils.tsx:408
-#: src/utils/PermissionUtils.tsx:507
+#: src/utils/PermissionUtils.tsx:414
+#: src/utils/PermissionUtils.tsx:513
 msgid "Deafen Members"
 msgstr "静音成员"
 
@@ -6962,7 +6966,7 @@ msgid "Debug Channel"
 msgstr "调试频道"
 
 #: src/components/uikit/context_menu/items/DebugMenuItems.tsx:90
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:362
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:365
 msgid "Debug Community"
 msgstr "调试社区"
 
@@ -7062,17 +7066,17 @@ msgstr "删除"
 #: src/components/channel/embeds/media/MediaContainer.tsx:116
 #: src/components/channel/MobileMemesPicker.tsx:546
 #: src/components/channel/pickers/memes/MemeGridItem.tsx:121
-#: src/components/emojis/EmojiListItem.tsx:194
-#: src/components/emojis/EmojiListItem.tsx:246
-#: src/components/emojis/EmojiListItem.tsx:296
+#: src/components/emojis/EmojiListItem.tsx:195
+#: src/components/emojis/EmojiListItem.tsx:252
+#: src/components/emojis/EmojiListItem.tsx:308
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:160
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:210
-#: src/components/stickers/StickerGridItem.tsx:66
-#: src/components/stickers/StickerGridItem.tsx:119
+#: src/components/stickers/StickerGridItem.tsx:72
+#: src/components/stickers/StickerGridItem.tsx:126
 msgid "Delete"
 msgstr "删除"
 
@@ -7162,11 +7166,11 @@ msgstr "删除社区"
 msgid "Delete community form"
 msgstr "删除社区表单"
 
-#: src/components/emojis/EmojiListItem.tsx:192
+#: src/components/emojis/EmojiListItem.tsx:193
 msgid "Delete Emoji"
 msgstr "删除表情"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:147
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:163
 msgid "Delete Emoji Failed"
 msgstr "删除表情失败"
 
@@ -7205,8 +7209,8 @@ msgstr "删除过去一天的消息"
 msgid "Delete messages from the last week"
 msgstr "删除过去一周的消息"
 
-#: src/utils/PermissionUtils.tsx:311
-#: src/utils/PermissionUtils.tsx:465
+#: src/utils/PermissionUtils.tsx:317
+#: src/utils/PermissionUtils.tsx:471
 msgid "Delete others' messages. (Pinning is separate below.)"
 msgstr "删除他人的消息。（置顶功能在下方单独设置。）"
 
@@ -7235,7 +7239,7 @@ msgstr "删除保存的媒体"
 msgid "Delete Saved Media"
 msgstr "删除已保存媒体"
 
-#: src/components/stickers/StickerGridItem.tsx:64
+#: src/components/stickers/StickerGridItem.tsx:70
 msgid "Delete Sticker"
 msgstr "删除贴纸"
 
@@ -7326,7 +7330,7 @@ msgstr "描述此包内包含的表情。"
 msgid "Describe what makes the content illegal"
 msgstr "描述内容为何违法"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:317
 msgid "Describe what your community is about..."
 msgstr "描述您的社区是关于什么的..."
 
@@ -7336,7 +7340,7 @@ msgstr "描述"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:292
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "描述"
@@ -7345,11 +7349,11 @@ msgstr "描述"
 msgid "Description must be 500 characters or less"
 msgstr "描述必须在 500 个字符以内"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:301
 msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
 msgstr "描述必须至少包含 {DISCOVERY_DESCRIPTION_MIN_LENGTH} 个字符。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
 msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
 msgstr "描述不得超过 {DISCOVERY_DESCRIPTION_MAX_LENGTH} 个字符。"
 
@@ -7725,20 +7729,20 @@ msgstr "断开套接字"
 msgid "Disconnected"
 msgstr "已断开连接"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
 #: src/components/modals/utils/GuildSettingsConstants.tsx:160
 msgid "Discovery"
 msgstr "发现"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:166
 msgid "Discovery application submitted"
 msgstr "发现申请已提交"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:187
 msgid "Discovery application withdrawn"
 msgstr "发现申请已撤回"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:155
 msgid "Discovery listing updated"
 msgstr "发现列表已更新"
 
@@ -7854,7 +7858,7 @@ msgstr "私信设置"
 msgid "dm sidebar"
 msgstr "私信侧边栏"
 
-#: src/components/modals/AddConnectionModal.tsx:239
+#: src/components/modals/AddConnectionModal.tsx:242
 msgid "DNS TXT record"
 msgstr "DNS TXT 记录"
 
@@ -7904,7 +7908,7 @@ msgid "domain"
 msgstr "域名"
 
 #: src/components/modals/AddConnectionModal.tsx:87
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:168
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:303
 #: src/components/popouts/UserProfileShared.tsx:283
@@ -7995,7 +7999,7 @@ msgstr "下载"
 msgid "Download"
 msgstr "下载"
 
-#: src/components/modals/AddConnectionModal.tsx:280
+#: src/components/modals/AddConnectionModal.tsx:283
 msgid "Download <0>fluxer-verification</0> and place it in your <1>.well-known</1> folder so we can validate the domain."
 msgstr "下载 <0>fluxer-verification</0> 并将其放置在你的 <1>.well-known</1> 文件夹中，以便我们可以验证域名。"
 
@@ -8012,7 +8016,7 @@ msgstr "下载桌面应用"
 msgid "Download Fluxer"
 msgstr "下载Fluxer"
 
-#: src/components/modals/AddConnectionModal.tsx:294
+#: src/components/modals/AddConnectionModal.tsx:297
 msgid "Download fluxer-verification"
 msgstr "下载 fluxer-verification"
 
@@ -8024,7 +8028,7 @@ msgstr "下载媒体"
 msgid "Download the desktop app for system-wide Push-to-Talk"
 msgstr "下载桌面应用以使用系统级按键通话"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:173
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:192
 msgid "Drag and drop a sticker file here (one at a time)"
 msgstr "将贴纸文件拖放到此处（一次一个）"
 
@@ -8032,12 +8036,12 @@ msgstr "将贴纸文件拖放到此处（一次一个）"
 msgid "Drag and drop area for file upload"
 msgstr "文件上传的拖放区域"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:363
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:382
 msgid "Drag and drop emoji files here"
 msgstr "将表情符号文件拖放到此处"
 
-#: src/utils/PermissionUtils.tsx:413
-#: src/utils/PermissionUtils.tsx:510
+#: src/utils/PermissionUtils.tsx:419
+#: src/utils/PermissionUtils.tsx:516
 msgid "Drag members between channels they can access."
 msgstr "在成员可访问的频道之间拖拽成员。"
 
@@ -8159,7 +8163,7 @@ msgstr "回声消除"
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:90
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:186
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:187
-#: src/components/stickers/StickerGridItem.tsx:111
+#: src/components/stickers/StickerGridItem.tsx:118
 msgid "Edit"
 msgstr "编辑"
 
@@ -8200,8 +8204,8 @@ msgid "Edit Channel"
 msgstr "编辑频道"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:220
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:314
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:392
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:317
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:395
 msgid "Edit Community Profile"
 msgstr "编辑社区资料"
 
@@ -8231,7 +8235,8 @@ msgstr "编辑群组"
 msgid "Edit group form"
 msgstr "编辑群组表单"
 
-#: src/components/modals/InviteModal.tsx:322
+#: src/components/modals/InviteModal.tsx:316
+#: src/components/modals/InviteModal.tsx:326
 msgid "Edit invite link"
 msgstr "编辑邀请链接"
 
@@ -8255,7 +8260,11 @@ msgstr "编辑消息"
 msgid "Edit Note"
 msgstr "编辑备注"
 
-#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:290
+msgid "Edit or delete emoji and stickers created by other members."
+msgstr "编辑或删除其他成员创建的表情符号和贴纸。"
+
+#: src/utils/PermissionUtils.tsx:445
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "编辑此频道中角色和成员的覆盖权限。"
 
@@ -8312,7 +8321,7 @@ msgstr "正在编辑消息"
 msgid "Editing scheduled message"
 msgstr "正在编辑定时消息"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
 msgid "Education"
 msgstr "教育"
 
@@ -8396,8 +8405,8 @@ msgstr "嵌入"
 msgid "Embed"
 msgstr "嵌入"
 
-#: src/utils/PermissionUtils.tsx:319
-#: src/utils/PermissionUtils.tsx:469
+#: src/utils/PermissionUtils.tsx:325
+#: src/utils/PermissionUtils.tsx:475
 msgid "Embed Links"
 msgstr "嵌入链接"
 
@@ -8456,16 +8465,16 @@ msgstr "表情符号已删除"
 msgid "Emoji name"
 msgstr "表情符号名称"
 
-#: src/components/emojis/EmojiListItem.tsx:163
+#: src/components/emojis/EmojiListItem.tsx:164
 msgid "Emoji name must be at least 2 characters long"
 msgstr "表情符号名称长度至少为2个字符"
 
-#: src/components/emojis/EmojiListItem.tsx:167
+#: src/components/emojis/EmojiListItem.tsx:168
 msgid "Emoji name must be at most 32 characters long"
 msgstr "表情符号名称长度最多为32个字符"
 
 #. placeholder {0}: Math.round(GlobalLimits.getEmojiMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:340
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:358
 msgid "Emoji names must be at least 2 characters long and can only contain alphanumeric characters and underscores. Allowed file types: JPEG, PNG, WebP, GIF. We compress images to 128x128 pixels. Maximum size: {0} KB per emoji."
 msgstr "表情符号名称长度至少为2个字符，只能包含字母数字字符和下划线。允许的文件类型：JPEG、PNG、WebP、GIF。我们将图像压缩至128x128像素。最大大小：每个表情符号{0} KB。"
 
@@ -8492,7 +8501,7 @@ msgstr "已达到表情符号包上限"
 msgid "emoji picker"
 msgstr "表情符号选择器"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:326
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:344
 msgid "Emoji Slots"
 msgstr "表情符号槽位"
 
@@ -8861,7 +8870,7 @@ msgstr "输入你的密码。"
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "输入你的手机号。我们将通过短信发送验证码。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
 msgid "Entertainment"
 msgstr "娱乐"
 
@@ -8993,7 +9002,7 @@ msgstr "展开分类"
 msgid "Expiration"
 msgstr "过期时间"
 
-#: src/components/modals/InviteModal.tsx:276
+#: src/components/modals/InviteModal.tsx:273
 msgid "Expire After"
 msgstr "过期时间"
 
@@ -9260,7 +9269,7 @@ msgstr "删除类别失败"
 msgid "Failed to delete channel"
 msgstr "删除频道失败"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:149
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:165
 msgid "Failed to delete emoji. Please try again."
 msgstr "删除表情失败。请再试一次。"
 
@@ -9312,7 +9321,7 @@ msgstr "安装此表情包失败。请稍后重试。"
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "安装此贴纸包失败。请稍后重试。"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:62
 msgid "Failed to join this community. Please try again."
 msgstr "加入此社区失败。请再试一次。"
 
@@ -9341,7 +9350,7 @@ msgstr "加载授权应用失败"
 msgid "Failed to load bans. Please try again."
 msgstr "加载封禁列表失败。请重试。"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:320
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:336
 msgid "Failed to load emojis. Please try again later."
 msgstr "加载表情失败。请稍后再试。"
 
@@ -9363,7 +9372,7 @@ msgstr "加载邀请失败。请重试。"
 msgid "Failed to load premium information. Please try again later."
 msgstr "加载高级信息失败。请稍后重试。"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:203
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:230
 msgid "Failed to Load Stickers"
 msgstr "加载贴纸失败"
 
@@ -9406,7 +9415,7 @@ msgstr "无法固定群组 DM"
 msgid "Failed to pin message"
 msgstr "置顶消息失败"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:225
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
 msgid "Failed to Prepare Emojis"
 msgstr "准备表情失败"
 
@@ -9597,7 +9606,7 @@ msgstr "更新替代文本失败"
 msgid "Failed to Update Channel Permissions"
 msgstr "更新频道权限失败"
 
-#: src/components/emojis/EmojiListItem.tsx:180
+#: src/components/emojis/EmojiListItem.tsx:181
 msgid "Failed to update emoji name. Reverted to the previous name."
 msgstr "更新表情名称失败。已恢复为之前的名称。"
 
@@ -9622,11 +9631,11 @@ msgid "Failed to upload custom sound"
 msgstr "上传自定义声音失败"
 
 #. placeholder {0}: startIndex + 1
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:277
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:293
 msgid "Failed to upload emojis starting at #{0}: {errorMsg}"
 msgstr "上传从#{0}开始的表情失败：{errorMsg}"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:273
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:289
 msgid "Failed to upload emojis. Please try again."
 msgstr "上传表情失败。请重试。"
 
@@ -9638,7 +9647,7 @@ msgstr "上传入场声音失败"
 msgid "Failed to verify connection"
 msgstr "验证连接失败"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:193
 msgid "Failed to withdraw application. Please try again."
 msgstr "撤回申请失败。请再试一次。"
 
@@ -10399,7 +10408,7 @@ msgstr "游戏控制器"
 msgid "Game Night"
 msgstr "游戏之夜"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
 msgid "Gaming"
 msgstr "游戏"
 
@@ -10758,7 +10767,7 @@ msgstr "宽限期"
 msgid "Grace Period (Still Have Access)"
 msgstr "宽限期（仍可访问）"
 
-#: src/components/modals/InviteModal.tsx:296
+#: src/components/modals/InviteModal.tsx:293
 msgid "Grant Temporary Membership"
 msgstr "授予临时会员资格"
 
@@ -10922,7 +10931,7 @@ msgstr "公会侧边栏"
 msgid "handle"
 msgstr "处理"
 
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 msgid "Handle"
 msgstr "处理"
 
@@ -11116,7 +11125,7 @@ msgstr "隐藏已静音的频道"
 #: src/components/popouts/GuildHeaderPopout.tsx:228
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:79
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:60
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:332
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:335
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:304
 msgid "Hide Muted Channels"
 msgstr "隐藏已静音的频道"
@@ -11284,7 +11293,7 @@ msgstr "快进来，{username}！聚变先生已就绪！"
 msgid "Hope to see you back in the future"
 msgstr "期待未来再见"
 
-#: src/components/modals/AddConnectionModal.tsx:244
+#: src/components/modals/AddConnectionModal.tsx:247
 msgid "Host"
 msgstr "主机"
 
@@ -11439,8 +11448,8 @@ msgstr "忽略"
 msgid "Ignore Friend Request"
 msgstr "忽略好友请求"
 
-#: src/utils/PermissionUtils.tsx:351
-#: src/utils/PermissionUtils.tsx:486
+#: src/utils/PermissionUtils.tsx:357
+#: src/utils/PermissionUtils.tsx:492
 msgid "Ignore per-channel message rate limits."
 msgstr "忽略各频道的消息速率限制。"
 
@@ -11915,7 +11924,7 @@ msgstr "隐身"
 
 #: src/components/channel/GuildMembersPage.tsx:246
 #: src/components/channel/GuildMembersPage.tsx:254
-#: src/components/modals/InviteModal.tsx:265
+#: src/components/modals/InviteModal.tsx:262
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:87
 #: src/constants/AuditLogConstants.tsx:245
 msgid "Invite"
@@ -11955,7 +11964,7 @@ msgstr "邀请朋友"
 msgid "Invite friends to {0}"
 msgstr "邀请好友加入{0}"
 
-#: src/components/modals/InviteModal.tsx:311
+#: src/components/modals/InviteModal.tsx:308
 msgid "Invite link"
 msgstr "邀请链接"
 
@@ -11963,7 +11972,7 @@ msgstr "邀请链接"
 msgid "Invite Link"
 msgstr "邀请链接"
 
-#: src/components/modals/InviteModal.tsx:222
+#: src/components/modals/InviteModal.tsx:219
 msgid "Invite link settings"
 msgstr "邀请链接设置"
 
@@ -11976,7 +11985,7 @@ msgstr "邀请链接"
 
 #: src/components/layout/ChannelItem.tsx:702
 #: src/components/popouts/GuildHeaderPopout.tsx:181
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:257
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:260
 msgid "Invite Members"
 msgstr "邀请成员"
 
@@ -12087,7 +12096,7 @@ msgstr "邀请"
 msgid "Invites are currently disabled for this community."
 msgstr "该社区目前禁用了邀请功能。"
 
-#: src/components/modals/InviteModal.tsx:235
+#: src/components/modals/InviteModal.tsx:232
 msgid "Invites are currently disabled in this community by an admin. While this invite can be created, it cannot be accepted until invites are re-enabled."
 msgstr "管理员已在该社区禁用邀请功能。虽然可以创建此邀请，但在重新启用邀请功能前无法接受。"
 
@@ -12198,7 +12207,7 @@ msgstr "加入通话"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12273,7 +12282,7 @@ msgstr "加入语音通话"
 msgid "Join Voice Call"
 msgstr "加入语音通话"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 msgid "Joined"
 msgstr "已加入"
 
@@ -12618,8 +12627,8 @@ msgid "Leave call"
 msgstr "离开通话"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:237
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:344
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:447
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:347
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:450
 #: src/hooks/useLeaveGuild.tsx:42
 #: src/hooks/useLeaveGuild.tsx:44
 msgid "Leave Community"
@@ -12840,7 +12849,7 @@ msgstr "链接"
 msgid "Links"
 msgstr "链接"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:215
 msgid "List your community in Discovery so others can find and join it."
 msgstr "在发现中列出您的社区，以便其他人可以找到并加入。"
 
@@ -13121,13 +13130,13 @@ msgstr "管理已授权应用"
 msgid "Manage blocked users"
 msgstr "管理已屏蔽用户"
 
-#: src/utils/PermissionUtils.tsx:433
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channel"
 msgstr "管理频道"
 
 #: src/utils/PermissionUtils.tsx:257
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channels"
 msgstr "管理频道"
 
@@ -13143,7 +13152,7 @@ msgstr "管理社区功能"
 msgid "Manage developer applications"
 msgstr "管理开发者应用"
 
-#: src/utils/PermissionUtils.tsx:284
+#: src/utils/PermissionUtils.tsx:289
 msgid "Manage Emoji & Stickers"
 msgstr "管理表情与贴纸"
 
@@ -13163,8 +13172,8 @@ msgstr "管理可向此频道发布消息的传入 Webhook。"
 msgid "Manage invites for this channel."
 msgstr "管理此频道的邀请。"
 
-#: src/utils/PermissionUtils.tsx:310
-#: src/utils/PermissionUtils.tsx:464
+#: src/utils/PermissionUtils.tsx:316
+#: src/utils/PermissionUtils.tsx:470
 msgid "Manage Messages"
 msgstr "管理消息"
 
@@ -13172,7 +13181,7 @@ msgstr "管理消息"
 msgid "Manage Nicknames"
 msgstr "管理昵称"
 
-#: src/utils/PermissionUtils.tsx:438
+#: src/utils/PermissionUtils.tsx:444
 msgid "Manage Permissions"
 msgstr "管理权限"
 
@@ -13191,8 +13200,8 @@ msgstr "管理订阅"
 msgid "Manage the email address you use to sign in to Fluxer"
 msgstr "管理您用于登录 Fluxer 的电子邮件地址"
 
-#: src/utils/PermissionUtils.tsx:288
-#: src/utils/PermissionUtils.tsx:443
+#: src/utils/PermissionUtils.tsx:294
+#: src/utils/PermissionUtils.tsx:449
 msgid "Manage Webhooks"
 msgstr "管理 Webhook"
 
@@ -13231,7 +13240,7 @@ msgstr "管理你的订阅"
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:85
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:522
 #: src/components/uikit/context_menu/items/DMMenuItems.tsx:53
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:249
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:252
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:95
 msgid "Mark as Read"
 msgstr "标记为已读"
@@ -13346,7 +13355,7 @@ msgstr "marty@example.com"
 msgid "Mask Visionary as subscription"
 msgstr "将Visionary伪装为订阅"
 
-#: src/components/modals/InviteModal.tsx:286
+#: src/components/modals/InviteModal.tsx:283
 msgid "Max Number of Uses"
 msgstr "最大使用次数"
 
@@ -13581,7 +13590,7 @@ msgstr "已清理成员"
 msgid "Members receive notifications for every message"
 msgstr "成员接收每条消息的通知"
 
-#: src/components/modals/InviteModal.tsx:297
+#: src/components/modals/InviteModal.tsx:294
 msgid "Members will be removed when they go offline unless a role is assigned"
 msgstr "成员离线时将被移除，除非已分配角色"
 
@@ -13627,8 +13636,8 @@ msgstr "提及@在线成员？"
 msgid "Mention Badges"
 msgstr "提及徽章"
 
-#: src/utils/PermissionUtils.tsx:332
-#: src/utils/PermissionUtils.tsx:474
+#: src/utils/PermissionUtils.tsx:338
+#: src/utils/PermissionUtils.tsx:480
 msgid "Mention everyone or any role (even if the role isn't set to be mentionable)."
 msgstr "提及所有人或任何角色（即使该角色未设置为可提及）。"
 
@@ -13837,8 +13846,8 @@ msgid "Messages"
 msgstr "消息"
 
 #: src/components/modals/utils/SettingsConstants.tsx:184
-#: src/utils/PermissionUtils.tsx:298
-#: src/utils/PermissionUtils.tsx:460
+#: src/utils/PermissionUtils.tsx:304
+#: src/utils/PermissionUtils.tsx:466
 msgid "Messages & Media"
 msgstr "消息和媒体"
 
@@ -14021,7 +14030,7 @@ msgid "Mode C"
 msgstr "模式 C"
 
 #: src/components/uikit/context_menu/items/ModerationSubmenu.tsx:152
-#: src/utils/PermissionUtils.tsx:360
+#: src/utils/PermissionUtils.tsx:366
 msgid "Moderation"
 msgstr "审核"
 
@@ -14117,8 +14126,8 @@ msgstr "在按钮、输入框和链接之间移动焦点。"
 msgid "Move focus to the message composer"
 msgstr "将焦点移至消息撰写框"
 
-#: src/utils/PermissionUtils.tsx:412
-#: src/utils/PermissionUtils.tsx:509
+#: src/utils/PermissionUtils.tsx:418
+#: src/utils/PermissionUtils.tsx:515
 msgid "Move Members"
 msgstr "移动成员"
 
@@ -14158,7 +14167,7 @@ msgstr "电影俱乐部"
 msgid "Movie Night Crew"
 msgstr "电影之夜小队"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:87
 msgid "Movies & TV"
 msgstr "电影与电视"
 
@@ -14170,7 +14179,7 @@ msgstr "mp3"
 msgid "Multilingual Content"
 msgstr "多语言内容"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
 msgid "Music"
 msgstr "音乐"
 
@@ -14191,8 +14200,8 @@ msgstr "静音"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:270
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:149
-#: src/components/layout/UserArea.tsx:155
+#: src/components/layout/UserArea.tsx:163
+#: src/components/layout/UserArea.tsx:169
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
@@ -14255,7 +14264,7 @@ msgstr "静音频道"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:95
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:172
 msgid "Mute Community"
 msgstr "静音社区"
@@ -14285,8 +14294,8 @@ msgstr "静音收藏夹"
 msgid "Mute Keybind"
 msgstr "静音快捷键"
 
-#: src/utils/PermissionUtils.tsx:404
-#: src/utils/PermissionUtils.tsx:506
+#: src/utils/PermissionUtils.tsx:410
+#: src/utils/PermissionUtils.tsx:512
 msgid "Mute Members"
 msgstr "静音成员"
 
@@ -14534,10 +14543,6 @@ msgstr "从不动画"
 msgid "Never Automatically"
 msgstr "从不自动"
 
-#: src/components/modals/InviteModal.tsx:196
-msgid "never expires"
-msgstr "永不过期"
-
 #: src/components/channel/Divider.tsx:51
 #: src/components/channel/Divider.tsx:60
 #: src/components/channel/UnreadDividerSlot.tsx:47
@@ -14758,7 +14763,7 @@ msgstr "还没有连接"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -14768,11 +14773,11 @@ msgstr "未提供描述。"
 msgid "No email address set"
 msgstr "未设置电子邮件地址"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:185
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:201
 msgid "No emoji slots available"
 msgstr "没有可用的表情符号槽"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:368
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:389
 msgid "No emojis found matching your search."
 msgstr "未找到匹配搜索的表情符号。"
 
@@ -14986,11 +14991,11 @@ msgid "No Stickers Available"
 msgstr "无可用贴纸"
 
 #: src/components/channel/MobileStickersPicker.tsx:206
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:186
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
 msgid "No Stickers Found"
 msgstr "未找到贴纸"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:187
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:208
 msgid "No stickers found matching your search."
 msgstr "未找到匹配您搜索的贴纸。"
 
@@ -15055,7 +15060,7 @@ msgid "Noise Suppression"
 msgstr "噪声抑制"
 
 #. placeholder {0}: staticEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:384
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:405
 msgid "Non-Animated Emoji ({0})"
 msgstr "非动态表情 ({0})"
 
@@ -15081,7 +15086,7 @@ msgstr "挪威语"
 msgid "Not available"
 msgstr "不可用"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
 msgid "Not enough members"
 msgstr "成员数量不足"
 
@@ -15154,7 +15159,7 @@ msgstr "通知覆盖"
 #: src/components/uikit/context_menu/items/CategoryMenuItems.tsx:230
 #: src/components/uikit/context_menu/items/ChannelMenuData.tsx:492
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:253
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:304
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:307
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:243
 msgid "Notification Settings"
 msgstr "通知设置"
@@ -15273,8 +15278,8 @@ msgstr "离线"
 #: src/components/guild/RoleManagement.tsx:306
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:56
 #: src/components/modals/components/plutonium/hooks/useCheckoutActions.tsx:108
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:151
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:167
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:257
 #: src/components/modals/GuildOwnershipWarningModal.tsx:73
 msgid "OK"
 msgstr "确定"
@@ -15733,7 +15738,7 @@ msgstr "或"
 msgid "Or copy the link:"
 msgstr "或复制链接："
 
-#: src/components/modals/InviteModal.tsx:307
+#: src/components/modals/InviteModal.tsx:304
 msgid "or send an invite link to a friend:"
 msgstr "或向朋友发送邀请链接："
 
@@ -15749,7 +15754,7 @@ msgstr "原始消息加载失败"
 msgid "Original message was deleted"
 msgstr "原始消息已被删除"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:88
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15763,8 +15768,8 @@ msgstr "其他"
 msgid "Other Devices"
 msgstr "其他设备"
 
-#: src/utils/PermissionUtils.tsx:396
-#: src/utils/PermissionUtils.tsx:502
+#: src/utils/PermissionUtils.tsx:402
+#: src/utils/PermissionUtils.tsx:508
 msgid "Otherwise Push-to-talk is required."
 msgstr "否则需要按住说话。"
 
@@ -16026,7 +16031,7 @@ msgid "Payment Successful"
 msgstr "付款成功"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
 msgid "Pending"
 msgstr "待处理"
 
@@ -16236,8 +16241,8 @@ msgstr "钉住它，好好钉住。"
 msgid "Pin Message"
 msgstr "置顶消息"
 
-#: src/utils/PermissionUtils.tsx:315
-#: src/utils/PermissionUtils.tsx:468
+#: src/utils/PermissionUtils.tsx:321
+#: src/utils/PermissionUtils.tsx:474
 msgid "Pin Messages"
 msgstr "置顶消息"
 
@@ -16564,7 +16569,7 @@ msgstr "在指定时间内阻止<0>{0}</0>发送消息、添加反应和连接�
 msgid "Prevent <0>{0}</0> from sending messages, reacting, and joining voice channels for the specified duration."
 msgstr "在指定时间内阻止<0>{0}</0>发送消息、添加反应和加入语音频道。"
 
-#: src/utils/PermissionUtils.tsx:364
+#: src/utils/PermissionUtils.tsx:370
 msgid "Prevent members from sending messages, reacting, and joining voice for a duration."
 msgstr "在一段时间内阻止成员发送消息、添加反应和加入语音。"
 
@@ -16668,8 +16673,8 @@ msgstr "主要操作"
 msgid "Primary button clicked!"
 msgstr "主要按钮已点击！"
 
-#: src/utils/PermissionUtils.tsx:400
-#: src/utils/PermissionUtils.tsx:505
+#: src/utils/PermissionUtils.tsx:406
+#: src/utils/PermissionUtils.tsx:511
 msgid "Priority Speaker"
 msgstr "优先发言者"
 
@@ -16691,8 +16696,8 @@ msgstr "隐私政策"
 
 #: src/components/modals/GuildPrivacySettingsModal.tsx:72
 #: src/components/popouts/GuildHeaderPopout.tsx:215
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:309
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:378
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:312
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:381
 msgid "Privacy Settings"
 msgstr "隐私设置"
 
@@ -16841,11 +16846,11 @@ msgstr "购买模式"
 msgid "Purchased {0}"
 msgstr "已购买{0}"
 
-#: src/components/emojis/EmojiListItem.tsx:197
+#: src/components/emojis/EmojiListItem.tsx:198
 msgid "Purge this emoji from storage and CDN"
 msgstr "从存储和CDN中清除此表情"
 
-#: src/components/stickers/StickerGridItem.tsx:69
+#: src/components/stickers/StickerGridItem.tsx:75
 msgid "Purge this sticker from storage and CDN"
 msgstr "从存储和CDN中清除此贴纸"
 
@@ -16897,7 +16902,7 @@ msgstr "按键通话（按住）"
 msgid "Push-to-Talk (Limited)"
 msgstr "按键通话（受限）"
 
-#: src/components/layout/UserArea.tsx:147
+#: src/components/layout/UserArea.tsx:161
 #: src/components/voice/VoiceControlBar.tsx:600
 msgid "Push-to-talk enabled — hold {pushToTalkHint} to speak"
 msgstr "按键通话已启用 — 按住{pushToTalkHint}说话"
@@ -17017,8 +17022,8 @@ msgstr "重新激活"
 msgid "read aloud"
 msgstr "朗读"
 
-#: src/utils/PermissionUtils.tsx:327
-#: src/utils/PermissionUtils.tsx:471
+#: src/utils/PermissionUtils.tsx:333
+#: src/utils/PermissionUtils.tsx:477
 msgid "Read Message History"
 msgstr "读取消息历史"
 
@@ -17057,7 +17062,7 @@ msgid "Reason (Optional)"
 msgstr "原因（可选）"
 
 #. placeholder {0}: application.review_reason
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:249
 msgid "Reason: {0}"
 msgstr "原因：{0}"
 
@@ -17092,7 +17097,7 @@ msgstr "最近搜索"
 
 #. placeholder {0}: ChannelUtils.getIcon(channel, {size: 16, className: styles.channelIcon})
 #. placeholder {1}: channel.name
-#: src/components/modals/InviteModal.tsx:226
+#: src/components/modals/InviteModal.tsx:223
 msgid "Recipients will be taken to {0} <0>{1}</0>"
 msgstr "接收者将被带到 {0} <0>{1}</0>"
 
@@ -17250,7 +17255,7 @@ msgstr "常规、机器人、系统和超时用户以舒适和紧凑模式呈现
 msgid "Reject"
 msgstr "拒绝"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:60
 msgid "Rejected"
 msgstr "已拒绝"
 
@@ -17525,7 +17530,7 @@ msgstr "移除首次购买Plutonium时获得的徽章"
 msgid "Remove your Visionary ID badge"
 msgstr "移除你的Visionary ID徽章"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:61
 msgid "Removed"
 msgstr "已移除"
 
@@ -17635,11 +17640,11 @@ msgid "Rename"
 msgstr "重命名"
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:238
+#: src/components/emojis/EmojiListItem.tsx:240
 msgid "Rename :{0}:"
 msgstr "重命名:{0}:"
 
-#: src/utils/PermissionUtils.tsx:434
+#: src/utils/PermissionUtils.tsx:440
 msgid "Rename and edit this channel's settings."
 msgstr "重命名并编辑此频道的设置。"
 
@@ -17748,7 +17753,7 @@ msgid "Report a User Profile"
 msgstr "举报用户资料"
 
 #: src/components/modals/IARModal.tsx:119
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:350
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:353
 #: src/components/uikit/context_menu/items/ReportGuildMenuItem.tsx:57
 msgid "Report Community"
 msgstr "举报社区"
@@ -18045,7 +18050,7 @@ msgstr "重新订阅"
 #: src/components/modals/BackgroundImageGalleryModal.tsx:210
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:649
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:125
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:234
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:138
 #: src/components/modals/tabs/applications_tab/ApplicationDetail.tsx:586
 #: src/components/modals/tabs/applications_tab/index.tsx:113
@@ -18319,7 +18324,7 @@ msgstr "保存"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18451,7 +18456,7 @@ msgstr "计划于{0}发送的消息"
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "计划消息最多只能设置在30天后发送。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
 msgid "Science & Technology"
 msgstr "科学与技术"
 
@@ -18574,7 +18579,7 @@ msgstr "搜索社区..."
 msgid "Search countries..."
 msgstr "搜索国家..."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:308
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:324
 msgid "Search emojis..."
 msgstr "搜索表情..."
 
@@ -18603,7 +18608,7 @@ msgstr "搜索频道、人员或社区"
 #: src/components/common/FriendSelector.tsx:197
 #: src/components/modals/AddFriendsToGroupModal.tsx:53
 #: src/components/modals/CreateDMModal.tsx:68
-#: src/components/modals/InviteModal.tsx:246
+#: src/components/modals/InviteModal.tsx:243
 #: src/components/modals/shared/RecipientList.tsx:179
 #: src/components/modals/ShareThemeModal.tsx:141
 msgid "Search friends"
@@ -18692,7 +18697,7 @@ msgstr "搜索设置"
 msgid "Search settings..."
 msgstr "搜索设置..."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:130
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:147
 msgid "Search stickers..."
 msgstr "搜索贴纸..."
 
@@ -19035,8 +19040,8 @@ msgstr "发送消息已禁用"
 msgid "Send messages"
 msgstr "发送消息"
 
-#: src/utils/PermissionUtils.tsx:301
-#: src/utils/PermissionUtils.tsx:462
+#: src/utils/PermissionUtils.tsx:307
+#: src/utils/PermissionUtils.tsx:468
 msgid "Send Messages"
 msgstr "发送消息"
 
@@ -19056,11 +19061,11 @@ msgstr "发送短信验证码"
 msgid "Send SMS Code"
 msgstr "发送短信验证码"
 
-#: src/utils/PermissionUtils.tsx:306
+#: src/utils/PermissionUtils.tsx:312
 msgid "Send text-to-speech messages."
 msgstr "发送文本转语音消息。"
 
-#: src/utils/PermissionUtils.tsx:305
+#: src/utils/PermissionUtils.tsx:311
 msgid "Send TTS Messages"
 msgstr "发送TTS消息"
 
@@ -19072,7 +19077,7 @@ msgstr "发送验证码"
 msgid "Send voice message"
 msgstr "发送语音消息"
 
-#: src/components/modals/InviteModal.tsx:266
+#: src/components/modals/InviteModal.tsx:263
 #: src/components/modals/shared/RecipientList.tsx:223
 #: src/components/modals/ShareThemeModal.tsx:159
 msgid "Sent"
@@ -19098,7 +19103,7 @@ msgstr "发送了附件"
 msgid "sent an embed"
 msgstr "发送了一个嵌入"
 
-#: src/components/modals/AddConnectionModal.tsx:277
+#: src/components/modals/AddConnectionModal.tsx:280
 msgid "Serve the token file"
 msgstr "提供令牌文件"
 
@@ -19310,8 +19315,8 @@ msgstr "将验证级别设为<0>中</0>。"
 msgid "Set verification level to <0>None</0>."
 msgstr "将验证级别设为<0>无</0>。"
 
-#: src/utils/PermissionUtils.tsx:417
-#: src/utils/PermissionUtils.tsx:513
+#: src/utils/PermissionUtils.tsx:423
+#: src/utils/PermissionUtils.tsx:519
 msgid "Set Voice Region"
 msgstr "设置语音区域"
 
@@ -20174,8 +20179,8 @@ msgstr "西班牙语（拉丁美洲）"
 msgid "Spanish (Spain)"
 msgstr "西班牙语（西班牙）"
 
-#: src/utils/PermissionUtils.tsx:387
-#: src/utils/PermissionUtils.tsx:498
+#: src/utils/PermissionUtils.tsx:393
+#: src/utils/PermissionUtils.tsx:504
 msgid "Speak"
 msgstr "说话"
 
@@ -20397,7 +20402,7 @@ msgstr "开始语音通话"
 
 #. placeholder {0}: staticEmojis.length
 #. placeholder {1}: maxStaticEmojis === Number.POSITIVE_INFINITY ? '∞' : maxStaticEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:349
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:367
 msgid "Static: {0} / {1}"
 msgstr "静态：{0} / {1}"
 
@@ -20423,7 +20428,7 @@ msgstr "状态面板"
 msgid "Status Slate"
 msgstr "状态面板"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:243
 msgid "Status:"
 msgstr "状态："
 
@@ -20478,7 +20483,7 @@ msgstr "贴纸已创建"
 msgid "Sticker Deleted"
 msgstr "贴纸已删除"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:137
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:154
 msgid "Sticker density"
 msgstr "贴纸密度"
 
@@ -20505,7 +20510,7 @@ msgstr "已达到贴纸包上限"
 msgid "sticker packs"
 msgstr "贴纸包"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:158
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:177
 msgid "Sticker Slots"
 msgstr "贴纸槽位"
 
@@ -20529,7 +20534,7 @@ msgid "Stickers"
 msgstr "贴纸"
 
 #. placeholder {0}: Math.round(GlobalLimits.getStickerMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:164
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:183
 msgid "Stickers must be exactly 320x320 pixels and no larger than {0} KB, but we automatically resize and compress images for you. Allowed file types: JPEG, PNG, WebP, GIF."
 msgstr "贴纸必须为320x320像素且大小不超过{0}KB，但我们会自动为您调整图像大小并压缩。允许的文件类型：JPEG、PNG、WebP、GIF。"
 
@@ -20611,8 +20616,8 @@ msgstr "直播预览"
 msgid "Stream Quality"
 msgstr "流质量"
 
-#: src/utils/PermissionUtils.tsx:391
-#: src/utils/PermissionUtils.tsx:499
+#: src/utils/PermissionUtils.tsx:397
+#: src/utils/PermissionUtils.tsx:505
 msgid "Stream Video"
 msgstr "直播视频"
 
@@ -21139,7 +21144,7 @@ msgstr "你寻找的社区可能已被删除，或者你可能没有访问权限
 msgid "The download link will be valid for 7 days"
 msgstr "下载链接将在7天内有效"
 
-#: src/components/modals/AddConnectionModal.tsx:298
+#: src/components/modals/AddConnectionModal.tsx:301
 msgid "The file contains the verification token we will fetch from <0>{dnsUrl}</0>."
 msgstr "该文件包含我们将从 <0>{dnsUrl}</0> 获取的验证令牌。"
 
@@ -21265,7 +21270,7 @@ msgstr "加载此频道的邀请链接时出错，请重试。"
 msgid "There was an error loading the invites. Please try again."
 msgstr "加载邀请时出错，请重试。"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:204
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:231
 msgid "There was an error loading the stickers. Please try again."
 msgstr "加载贴纸时出错，请重试。"
 
@@ -21528,7 +21533,7 @@ msgstr "此邀请将在 {seconds} 秒后过期。"
 msgid "This invite has unlimited uses."
 msgstr "此邀请使用次数无限制。"
 
-#: src/components/modals/InviteModal.tsx:315
+#: src/components/modals/InviteModal.tsx:312
 msgid "This invite link never expires."
 msgstr "此邀请链接永不过期。"
 
@@ -21836,7 +21841,7 @@ msgstr "超时时长"
 msgid "Timeout ends {0} ({1})"
 msgstr "超时结束于 {0} ({1})"
 
-#: src/utils/PermissionUtils.tsx:363
+#: src/utils/PermissionUtils.tsx:369
 msgid "Timeout Members"
 msgstr "超时成员"
 
@@ -22431,7 +22436,7 @@ msgstr "无法加载预览。"
 msgid "Unable to load profile banner, badges, and bio."
 msgstr "无法加载个人资料横幅、徽章和个人简介。"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:229
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:245
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "无法准备任何表情用于上传。发生以下错误："
 
@@ -22532,7 +22537,7 @@ msgstr "未认领账户覆盖"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:174
 #: src/components/voice/VoiceControlBar.tsx:611
 msgid "Undeafen"
 msgstr "取消静音"
@@ -22569,7 +22574,7 @@ msgstr "未成年用户"
 #: src/components/alerts/UserBannedFromGuildModal.tsx:30
 #: src/components/alerts/UserIpBannedFromGuildModal.tsx:31
 #: src/components/layout/ChannelListContent.tsx:149
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:192
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:208
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:160
 msgid "Understood"
 msgstr "明白了"
@@ -22614,7 +22619,7 @@ msgstr "唯一邀请"
 msgid "Unit"
 msgstr "单位"
 
-#: src/components/emojis/EmojiListItem.tsx:290
+#: src/components/emojis/EmojiListItem.tsx:301
 #: src/components/modals/BanDetailsModal.tsx:116
 msgid "Unknown"
 msgstr "未知"
@@ -22776,8 +22781,8 @@ msgstr "使用Plutonium解锁私信中的贴纸"
 #: src/components/bottomsheets/MuteDurationSheet.tsx:75
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:148
-#: src/components/layout/UserArea.tsx:154
+#: src/components/layout/UserArea.tsx:162
+#: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/MobileVideoViewer.tsx:272
@@ -22813,7 +22818,7 @@ msgstr "取消频道静音"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:96
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:165
 msgid "Unmute Community"
 msgstr "取消社区静音"
@@ -23146,7 +23151,7 @@ msgstr "上传自定义声音"
 msgid "Upload directly to {displayName}"
 msgstr "直接上传至{displayName}"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:329
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:347
 msgid "Upload Emoji"
 msgstr "上传表情"
 
@@ -23170,11 +23175,15 @@ msgstr "上传图标"
 msgid "Upload Image"
 msgstr "上传图片"
 
+#: src/utils/PermissionUtils.tsx:285
+msgid "Upload new emoji and stickers, and manage your own creations."
+msgstr "上传新的表情符号和贴纸，并管理您自己的创作。"
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:577
 msgid "upload sound"
 msgstr "上传声音"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:180
 msgid "Upload Sticker"
 msgstr "上传贴纸"
 
@@ -23235,8 +23244,8 @@ msgstr "用于下载您消息中任何附件的URL"
 msgid "US East"
 msgstr "美国东部"
 
-#: src/utils/PermissionUtils.tsx:331
-#: src/utils/PermissionUtils.tsx:473
+#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:479
 msgid "Use @everyone/@here and @roles"
 msgstr "使用@everyone/@here和@roles"
 
@@ -23294,17 +23303,17 @@ msgstr "在整个应用中使用深色主题"
 msgid "Use Different Email"
 msgstr "使用不同的电子邮件"
 
-#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:343
 msgid "Use emoji from other communities."
 msgstr "使用其他社区的表情。"
 
-#: src/utils/PermissionUtils.tsx:336
-#: src/utils/PermissionUtils.tsx:477
+#: src/utils/PermissionUtils.tsx:342
+#: src/utils/PermissionUtils.tsx:483
 msgid "Use External Emoji"
 msgstr "使用外部表情"
 
-#: src/utils/PermissionUtils.tsx:341
-#: src/utils/PermissionUtils.tsx:478
+#: src/utils/PermissionUtils.tsx:347
+#: src/utils/PermissionUtils.tsx:484
 msgid "Use External Stickers"
 msgstr "使用外部贴纸"
 
@@ -23337,7 +23346,7 @@ msgstr "使用安全密钥"
 msgid "Use system locale for time format"
 msgstr "使用系统区域设置作为时间格式"
 
-#: src/components/modals/AddConnectionModal.tsx:233
+#: src/components/modals/AddConnectionModal.tsx:236
 msgid "Use the record below to prove domain ownership."
 msgstr "使用下面的记录证明域名所有权。"
 
@@ -23357,8 +23366,8 @@ msgstr "使用此按钮快速清除所有权限。"
 msgid "Use this shortcut system-wide"
 msgstr "在全系统使用此快捷键"
 
-#: src/utils/PermissionUtils.tsx:395
-#: src/utils/PermissionUtils.tsx:501
+#: src/utils/PermissionUtils.tsx:401
+#: src/utils/PermissionUtils.tsx:507
 msgid "Use Voice Activity"
 msgstr "使用语音活动"
 
@@ -23450,8 +23459,8 @@ msgstr "用户资料：{tag}"
 msgid "User Record"
 msgstr "用户记录"
 
-#: src/components/layout/UserArea.tsx:272
-#: src/components/layout/UserArea.tsx:277
+#: src/components/layout/UserArea.tsx:286
+#: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
 #: src/components/modals/UserSettingsModal.tsx:154
 msgid "User Settings"
@@ -23570,7 +23579,7 @@ msgstr "工具"
 msgid "value"
 msgstr "值"
 
-#: src/components/modals/AddConnectionModal.tsx:258
+#: src/components/modals/AddConnectionModal.tsx:261
 msgid "Value"
 msgstr "值"
 
@@ -23678,7 +23687,7 @@ msgstr "已验证服务器"
 msgid "verify"
 msgstr "验证"
 
-#: src/components/modals/AddConnectionModal.tsx:312
+#: src/components/modals/AddConnectionModal.tsx:315
 #: src/components/modals/EmailChangeModal.tsx:236
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
@@ -23690,11 +23699,11 @@ msgstr "验证"
 msgid "Verify Code"
 msgstr "验证代码"
 
-#: src/components/modals/AddConnectionModal.tsx:229
+#: src/components/modals/AddConnectionModal.tsx:232
 msgid "Verify Connection"
 msgstr "验证连接"
 
-#: src/components/modals/AddConnectionModal.tsx:228
+#: src/components/modals/AddConnectionModal.tsx:231
 msgid "Verify connection form"
 msgstr "验证连接表单"
 
@@ -23874,8 +23883,8 @@ msgstr "查看通话"
 msgid "View call controls"
 msgstr "查看通话控制"
 
-#: src/utils/PermissionUtils.tsx:374
-#: src/utils/PermissionUtils.tsx:454
+#: src/utils/PermissionUtils.tsx:380
+#: src/utils/PermissionUtils.tsx:460
 msgid "View Channel"
 msgstr "查看频道"
 
@@ -24691,7 +24700,7 @@ msgstr "出错"
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "使用 Plutonium，您可以使用动画头像和横幅（支持 GIF、APNG、动画 WebP 或 AVIF），自定义您的 4 位数字标签，并解锁许多其他高级功能。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:353
 msgid "Withdraw"
 msgstr "撤回"
 
@@ -24759,7 +24768,7 @@ msgstr "您"
 msgid "You already have a group with these users. Do you really want to create a new one? That's fine too!"
 msgstr "您已经与这些用户有一个群组了。您真的想创建一个新的吗？那也没问题！"
 
-#: src/components/modals/AddConnectionModal.tsx:98
+#: src/components/modals/AddConnectionModal.tsx:101
 msgid "You already have this connection."
 msgstr "您已经拥有此连接。"
 
@@ -25392,7 +25401,7 @@ msgstr "您已达到可以加入的社区最大数量 ({maxGuilds} 个社区)。
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "您已达到可以加入的社区最大数量 ({maxGuilds} 个社区)。请在加入另一个社区之前离开一个社区。"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:187
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:203
 msgid "You've reached the maximum number of static emojis. Delete some existing emojis or upgrade your server to increase the limit."
 msgstr "您已达到静态表情符号的最大数量。删除一些现有表情符号或升级您的服务器以增加限制。"
 
@@ -25425,7 +25434,7 @@ msgstr "您的账户尚未认领。没有邮箱和密码，您将无法从其他
 msgid "Your account is too new to send messages in this community."
 msgstr "您的账户太新，无法在此社区发送消息。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:278
 msgid "Your application is pending review. You can still update your listing details or withdraw the application."
 msgstr "您的申请正在审核中。您仍然可以更新您的列表详情或撤回申请。"
 
@@ -25445,11 +25454,11 @@ msgstr "您的代码"
 msgid "Your code is ready!"
 msgstr "您的代码已就绪！"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:262
 msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
 msgstr "您的社区已在发现中列出。您可以在下面更新您的列表详情或撤回以将其移除。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:230
 msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
 msgstr "您的社区需要至少 {minMemberCount} 名成员才能在发现中列出。"
 
@@ -25499,7 +25508,7 @@ msgid "Your invite expires in 24 hours"
 msgstr "您的邀请将在24小时后过期"
 
 #. placeholder {0}: getExpirationText()
-#: src/components/modals/InviteModal.tsx:319
+#: src/components/modals/InviteModal.tsx:323
 msgid "Your invite link expires in {0}."
 msgstr "您的邀请链接将在{0}后过期。"
 
@@ -25515,15 +25524,15 @@ msgstr "您的IP地址被此社区封禁，无法加入。"
 msgid "Your IP is Banned"
 msgstr "您的IP被封禁"
 
-#: src/lib/MessageQueue.tsx:386
+#: src/lib/MessageQueue.tsx:484
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "您的消息无法送达。这通常是因为您与收件人不共享社区，或收件人仅接受来自朋友的私聊消息。"
 
-#: src/lib/MessageQueue.tsx:398
+#: src/lib/MessageQueue.tsx:496
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "您的消息无法送达。您需要认领您的账户才能发送私聊消息。"
 
-#: src/lib/MessageQueue.tsx:399
+#: src/lib/MessageQueue.tsx:497
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "您的消息无法发送。您需要验证您的账户才能发送消息。"
 

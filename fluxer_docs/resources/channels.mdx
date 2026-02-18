@@ -360,6 +360,60 @@ Type: [ChannelUpdateTextRequest](#channelupdatetextrequest) \| [ChannelUpdateVoi
 | url? | ?string | External URL for link channels |
 | user_limit? | ?integer (int32) | Maximum users allowed in voice channel (0-99, 0 means unlimited) |
 
+<a id="completechunkeduploadrequest"></a>
+
+## CompleteChunkedUploadRequest
+
+**Related endpoints**
+
+- [`POST /channels/{channel_id}/chunked-uploads/{upload_id}/complete`](/api-reference/channels/complete-a-chunked-upload)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| etags | [CompleteChunkedUploadRequestEtagsItem](#completechunkeduploadrequestetagsitem)[] | Array of chunk ETags in order |
+
+<a id="completechunkeduploadresponse"></a>
+
+## CompleteChunkedUploadResponse
+
+**Related endpoints**
+
+- [`POST /channels/{channel_id}/chunked-uploads/{upload_id}/complete`](/api-reference/channels/complete-a-chunked-upload)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| content_type | string | The MIME type of the uploaded file |
+| file_size | integer (int53) | The total size of the uploaded file in bytes |
+| upload_filename | string | The temporary filename used to reference this upload |
+
+<a id="createchunkeduploadrequest"></a>
+
+## CreateChunkedUploadRequest
+
+**Related endpoints**
+
+- [`POST /channels/{channel_id}/chunked-uploads`](/api-reference/channels/initiate-a-chunked-upload-session)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| file_size | integer (int64) | The total size of the file in bytes |
+| filename | string | The name of the file being uploaded |
+
+<a id="createchunkeduploadresponse"></a>
+
+## CreateChunkedUploadResponse
+
+**Related endpoints**
+
+- [`POST /channels/{channel_id}/chunked-uploads`](/api-reference/channels/initiate-a-chunked-upload-session)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| chunk_count | integer (int53) | The total number of chunks to upload |
+| chunk_size | integer (int53) | The size of each chunk in bytes |
+| upload_filename | string | The temporary filename used to reference this upload |
+| upload_id | [SnowflakeType](#snowflaketype) | The unique identifier for the upload session |
+
 <a id="embedauthorresponse"></a>
 
 ## EmbedAuthorResponse
@@ -945,6 +999,18 @@ Type: [UserPartialResponse](#userpartialresponse)[]
 |-------|------|-------------|
 | region? | string | The preferred voice region for the stream (1-64 characters) |
 
+<a id="uploadchunkresponse"></a>
+
+## UploadChunkResponse
+
+**Related endpoints**
+
+- [`PUT /channels/{channel_id}/chunked-uploads/{upload_id}/chunks/{chunk_index}`](/api-reference/channels/upload-a-file-chunk)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| etag | string | The ETag of the uploaded chunk |
+
 <a id="voiceregionadminresponse"></a>
 
 ## VoiceRegionAdminResponse
@@ -1081,6 +1147,17 @@ The type of message
 | `6` | A system message indicating a message was pinned |
 | `7` | A system message indicating a user joined |
 | `19` | A reply message |
+
+<a id="completechunkeduploadrequestetagsitem"></a>
+
+## CompleteChunkedUploadRequestEtagsItem
+
+Array of chunk ETags in order
+
+| Field | Type | Description |
+|-------|------|-------------|
+| chunk_index | integer (int64) | The zero-based index of the chunk |
+| etag | string | The ETag returned when the chunk was uploaded |
 
 <a id="messagereactionresponseemoji"></a>
 

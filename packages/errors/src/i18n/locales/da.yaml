@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: Test harness er ikke tilladt.
 admin_and_system.unknown_suspicious_flag: Ukendt mistænkeligt flag.
 admin_and_system.update_failed: Opdatering mislykkedes.
 admin_and_system.user_must_be_bot_for_system_user: Brugeren skal være en bot for at blive markeret som systembruger.
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Chunk-indekset er uden for intervallet for denne upload.
+attachments_and_uploads.chunked_upload_incomplete: Ikke alle chunks er blevet uploadet.
+attachments_and_uploads.chunked_upload_not_found: Uploadsessionen blev ikke fundet eller er udløbet.
+attachments_and_uploads.chunked_upload_not_owned: Du ejer ikke denne uploadsession.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` og `expires_at` er påkrævet.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` og `message_id` skal være gyldige heltal.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Brugere med MANAGE_MESSAGES kan kun redigere vedhæftningsbeskrivelser, ikke andre metadata.
@@ -149,6 +153,7 @@ calls_and_voice.voice_message_waveform_required: Vedhæftninger til voice-besked
 calls_and_voice.voice_messages_require_single_attachment: Voice-beskeder skal indeholde præcis én vedhæftning.
 captcha.invalid: Ugyldig captcha.
 captcha.required: Captcha er påkrævet.
+connections.bluesky_oauth_authorization_failed: Vi kunne ikke finde det Bluesky-håndtag. Tjek det og prøv igen.
 connections.bluesky_oauth_callback_failed: Vi kunne ikke fuldføre Bluesky-forbindelsen. Prøv igen.
 connections.bluesky_oauth_not_enabled: Bluesky-forbindelser er ikke aktiveret på denne server.
 connections.bluesky_oauth_session_expired: Din Bluesky-session er udløbet. Forbind din konto igen.

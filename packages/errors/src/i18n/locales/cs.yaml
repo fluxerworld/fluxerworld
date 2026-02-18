@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: Test harness je zakázaný.
 admin_and_system.unknown_suspicious_flag: Neznámý suspicious flag.
 admin_and_system.update_failed: Zdroj se nepodařilo aktualizovat. Zkus to znovu.
 admin_and_system.user_must_be_bot_for_system_user: Uživatel musí být bot, aby mohl být označený jako systémový uživatel.
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Index části je mimo rozsah pro toto nahrávání.
+attachments_and_uploads.chunked_upload_incomplete: Nebyly nahrány všechny části.
+attachments_and_uploads.chunked_upload_not_found: Relace nahrávání nebyla nalezena nebo vypršela.
+attachments_and_uploads.chunked_upload_not_owned: Tato relace nahrávání ti nepatří.
 attachments_and_uploads.attachment_fields_required: Pole `attachment_id`, `channel_id`, `message_id` a `expires_at` jsou povinná.
 attachments_and_uploads.attachment_ids_must_be_valid_integers: Pole `attachment_id`, `channel_id` a `message_id` musí být platná celá čísla.
 attachments_and_uploads.cannot_edit_attachment_metadata: Uživatelé s oprávněním MANAGE_MESSAGES můžou upravovat jen popisy příloh, ne další metadata.
@@ -193,6 +197,7 @@ channels_and_guilds.vanity_url_requires_feature: Vanity URL vyžaduje funkci VAN
 channels_and_guilds.voice_channel_full: Hlasový kanál je plný.
 channels_and_guilds.voice_channels_cannot_be_above_text_channels: Hlasové kanály nemůžou být v rámci stejné kategorie nad textovými kanály.
 connections.already_exists: Připojení tohoto typu s tímto identifikátorem už existuje.
+connections.bluesky_oauth_authorization_failed: Nepodařilo se nám ověřit tento Bluesky identifikátor. Zkontroluj ho a zkus to znovu.
 connections.bluesky_oauth_callback_failed: Nepodařilo se nám dokončit připojení Bluesky. Zkus to znovu.
 connections.bluesky_oauth_not_enabled: Připojení přes Bluesky na tomhle serveru není povolené.
 connections.bluesky_oauth_session_expired: Tvá Bluesky relace vypršela. Prosím, připoj si znovu svůj účet.

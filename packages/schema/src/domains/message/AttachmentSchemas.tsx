@@ -48,6 +48,7 @@ const ClientAttachmentBase = z.object({
 export const ClientAttachmentRequest = ClientAttachmentBase.extend({
 	id: coerceNumberFromString(Int32Type).describe('The client-side identifier for this attachment'),
 	filename: FilenameType.describe('The name of the file being uploaded'),
+	uploaded_filename: z.string().optional().describe('The temporary filename from a completed chunked upload'),
 });
 export type ClientAttachmentRequest = z.infer<typeof ClientAttachmentRequest>;
 

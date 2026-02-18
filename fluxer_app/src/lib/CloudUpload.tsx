@@ -48,6 +48,7 @@ export interface CloudAttachment {
 	duration?: number | null;
 	waveform?: string | null;
 	isVoiceMessage?: boolean;
+	uploadedFilename?: string;
 }
 
 export interface MessageUpload {

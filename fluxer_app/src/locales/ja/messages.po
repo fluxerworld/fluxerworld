@@ -651,14 +651,14 @@ msgstr "{maxFavoriteMemes} 保存されたメディアイテム"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Member"
 msgstr "{memberCount}人のメンバー"
 
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:77
 #: src/components/channel/ChannelSourcePreview.tsx:206
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:83
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:89
 #: src/components/modals/UserProfileModal.tsx:839
 msgid "{memberCount} Members"
 msgstr "{memberCount}人のメンバー"
@@ -698,7 +698,7 @@ msgstr "{mutualGuildCount}の相互コミュニティ"
 msgid "{mutualGuildCount} mutual community"
 msgstr "{mutualGuildCount} の共通コミュニティ"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:84
 msgid "{onlineCount} Online"
 msgstr "{onlineCount} 人がオンライン"
 
@@ -1095,7 +1095,7 @@ msgstr "<0>警告:</0> これによりSMS二要素認証も無効になります
 #: src/components/channel/CallMessage.tsx:69
 #: src/components/modals/BanMemberModal.tsx:58
 #: src/components/modals/InviteModal.tsx:80
-#: src/components/modals/InviteModal.tsx:210
+#: src/components/modals/InviteModal.tsx:207
 #: src/components/modals/PackInviteModal.tsx:51
 #: src/components/modals/TimeoutMemberOptions.tsx:38
 msgid "1 day"
@@ -1105,7 +1105,7 @@ msgstr "1日"
 #: src/components/modals/BanMemberModal.tsx:56
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:171
 #: src/components/modals/InviteModal.tsx:77
-#: src/components/modals/InviteModal.tsx:204
+#: src/components/modals/InviteModal.tsx:201
 #: src/components/modals/PackInviteModal.tsx:48
 #: src/components/modals/TimeoutMemberOptions.tsx:37
 #: src/constants/TimeWindowPresets.tsx:58
@@ -1223,7 +1223,7 @@ msgstr "1080p"
 
 #: src/components/modals/BanMemberModal.tsx:57
 #: src/components/modals/InviteModal.tsx:79
-#: src/components/modals/InviteModal.tsx:208
+#: src/components/modals/InviteModal.tsx:205
 #: src/components/modals/PackInviteModal.tsx:50
 msgid "12 hours"
 msgstr "12時間"
@@ -1346,7 +1346,7 @@ msgstr "30 FPS"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:170
 #: src/components/modals/InviteModal.tsx:76
-#: src/components/modals/InviteModal.tsx:202
+#: src/components/modals/InviteModal.tsx:199
 #: src/components/modals/PackInviteModal.tsx:47
 #: src/constants/TimeWindowPresets.tsx:57
 #: src/utils/modals/guild_tabs/GuildOverviewTabUtils.tsx:64
@@ -1417,7 +1417,7 @@ msgstr "50回使用"
 
 #: src/components/modals/channel_tabs/ChannelOverviewTab.tsx:173
 #: src/components/modals/InviteModal.tsx:78
-#: src/components/modals/InviteModal.tsx:206
+#: src/components/modals/InviteModal.tsx:203
 #: src/components/modals/PackInviteModal.tsx:49
 msgid "6 hours"
 msgstr "6時間"
@@ -1437,7 +1437,7 @@ msgid "60 seconds"
 msgstr "60秒"
 
 #: src/components/modals/InviteModal.tsx:81
-#: src/components/modals/InviteModal.tsx:212
+#: src/components/modals/InviteModal.tsx:209
 #: src/components/modals/PackInviteModal.tsx:52
 msgid "7 days"
 msgstr "7日間"
@@ -1462,7 +1462,7 @@ msgstr "8時間"
 msgid "A 4-digit tag will be added automatically to ensure uniqueness"
 msgstr "一意性を保証するために4桁のタグが自動的に追加されます"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:293
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:298
 msgid "A description is required."
 msgstr "説明は必須です。"
 
@@ -1832,11 +1832,11 @@ msgstr "コミュニティにボットを追加"
 msgid "Add Channel"
 msgstr "チャンネルを追加"
 
-#: src/components/modals/AddConnectionModal.tsx:194
+#: src/components/modals/AddConnectionModal.tsx:197
 msgid "Add Connection"
 msgstr "接続を追加"
 
-#: src/components/modals/AddConnectionModal.tsx:193
+#: src/components/modals/AddConnectionModal.tsx:196
 msgid "Add connection form"
 msgstr "接続追加フォーム"
 
@@ -1879,8 +1879,8 @@ msgstr "グループに友達を追加"
 msgid "Add Item"
 msgstr "アイテムを追加"
 
-#: src/utils/PermissionUtils.tsx:346
-#: src/utils/PermissionUtils.tsx:481
+#: src/utils/PermissionUtils.tsx:352
+#: src/utils/PermissionUtils.tsx:487
 msgid "Add new reactions to messages."
 msgstr "メッセージに新しいリアクションを追加します。"
 
@@ -1929,8 +1929,8 @@ msgstr "電話番号追加フォーム"
 msgid "Add Reaction"
 msgstr "リアクションを追加"
 
-#: src/utils/PermissionUtils.tsx:345
-#: src/utils/PermissionUtils.tsx:480
+#: src/utils/PermissionUtils.tsx:351
+#: src/utils/PermissionUtils.tsx:486
 msgid "Add Reactions"
 msgstr "リアクションを追加"
 
@@ -2551,7 +2551,7 @@ msgid "animated emoji"
 msgstr "アニメーション絵文字"
 
 #. placeholder {0}: animatedEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:404
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:426
 msgid "Animated Emoji ({0})"
 msgstr "アニメーション絵文字（{0}）"
 
@@ -2604,7 +2604,7 @@ msgstr "アニメーションビデオ"
 
 #. placeholder {0}: animatedEmojis.length
 #. placeholder {1}: maxAnimatedEmojis === Number.POSITIVE_INFINITY ? '∞' : maxAnimatedEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:354
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:373
 msgid "Animated: {0} / {1}"
 msgstr "アニメーション: {0} / {1}"
 
@@ -2624,7 +2624,7 @@ msgstr "アニメーション"
 msgid "animations"
 msgstr "アニメーション"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:86
 msgid "Anime & Manga"
 msgstr "アニメ & マンガ"
 
@@ -2722,7 +2722,7 @@ msgstr "このデバイスのデスクトップアプリにのみ適用されま
 msgid "Applies to both camera and screen sharing"
 msgstr "カメラと画面共有の両方に適用されます"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildMembersDateRangeModal.tsx:75
 #: src/components/modals/ThemeAcceptModal.tsx:180
 msgid "Apply"
@@ -2737,7 +2737,7 @@ msgstr "テーマを適用"
 msgid "Apply to all communities"
 msgstr "すべてのコミュニティに適用"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:56
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:59
 msgid "Approved"
 msgstr "承認済み"
 
@@ -2781,7 +2781,7 @@ msgid "Are you sure you want to deauthorize {appName}? This application will no 
 msgstr "{appName}の認可を解除してもよろしいですか？このアプリケーションはあなたのアカウントにアクセスできなくなります。"
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:193
+#: src/components/emojis/EmojiListItem.tsx:194
 msgid "Are you sure you want to delete :{0}:? This action cannot be undone."
 msgstr ":{0}:を削除してもよろしいですか？ この操作は元に戻せません。"
 
@@ -2791,7 +2791,7 @@ msgstr ":{0}:を削除してもよろしいですか？ この操作は元に戻
 msgid "Are you sure you want to delete \"{0}\"? This action cannot be undone."
 msgstr "\"{0}\"を削除してもよろしいですか？ この操作は元に戻せません。"
 
-#: src/components/stickers/StickerGridItem.tsx:65
+#: src/components/stickers/StickerGridItem.tsx:71
 msgid "Are you sure you want to delete \"{stickerName}\"? This action cannot be undone."
 msgstr "\"{stickerName}\"を削除してもよろしいですか？この操作は元に戻せません。"
 
@@ -2986,8 +2986,8 @@ msgstr "ギフトとして"
 msgid "At least one channel must have \"View Channel\" permission enabled for @everyone in order for the vanity URL to work. Currently, no channels are viewable to @everyone."
 msgstr "バニティURLを機能させるには、少なくとも1つのチャンネルで@everyoneに対して「チャンネルを表示」の権限が有効になっている必要があります。現在、@everyoneが閲覧可能なチャンネルはありません。"
 
-#: src/utils/PermissionUtils.tsx:323
-#: src/utils/PermissionUtils.tsx:470
+#: src/utils/PermissionUtils.tsx:329
+#: src/utils/PermissionUtils.tsx:476
 msgid "Attach Files"
 msgstr "ファイルを添付"
 
@@ -3077,8 +3077,8 @@ msgid "Audio"
 msgstr "オーディオ"
 
 #: src/components/modals/utils/SettingsConstants.tsx:190
-#: src/utils/PermissionUtils.tsx:380
-#: src/utils/PermissionUtils.tsx:495
+#: src/utils/PermissionUtils.tsx:386
+#: src/utils/PermissionUtils.tsx:501
 msgid "Audio & Video"
 msgstr "オーディオとビデオ"
 
@@ -3344,7 +3344,7 @@ msgid "Average ping:"
 msgstr "平均ピング:"
 
 #: src/components/auth/IpAuthorizationScreen.tsx:154
-#: src/components/modals/AddConnectionModal.tsx:309
+#: src/components/modals/AddConnectionModal.tsx:312
 #: src/components/modals/PhoneAddModal.tsx:237
 #: src/components/modals/RequiredActionModal.tsx:655
 #: src/components/pages/OAuthAuthorizePage.tsx:671
@@ -3932,8 +3932,8 @@ msgstr "購入することで、<0>利用規約</0>および<1>プライバシ�
 msgid "By purchasing, you agreed to our <0>Terms of Service</0> and <1>Privacy Policy</1>. All purchases are refundable within 14 days by emailing <2>support@fluxer.app</2>. Chargebacks result in permanent account bans — if you want a refund, we're more than happy to give you one if you contact us first! Payment information is securely handled by Stripe — we never have access to your full card number."
 msgstr "購入することで、<0>利用規約</0>および<1>プライバシーポリシー</1>に同意したものとみなされます。すべての購入は14日以内に<2>support@fluxer.app</2>にメールすることで返金可能です。チャージバックはアカウントの永久停止につながります — 返金をご希望の場合は、まずご連絡いただければ喜んで対応いたします！お支払い情報はStripeによって安全に処理され、私たちがカード番号の全桁にアクセスすることはありません。"
 
-#: src/utils/PermissionUtils.tsx:350
-#: src/utils/PermissionUtils.tsx:485
+#: src/utils/PermissionUtils.tsx:356
+#: src/utils/PermissionUtils.tsx:491
 msgid "Bypass Slowmode"
 msgstr "スローモードをバイパス"
 
@@ -4063,7 +4063,7 @@ msgstr "{VOICE_CHANNEL_CAMERA_USER_LIMIT} 人以上の参加者がいるとカ�
 #: src/components/layout/GuildLayout.tsx:76
 #: src/components/modals/AccountDeleteModal.tsx:95
 #: src/components/modals/AccountDisableModal.tsx:69
-#: src/components/modals/AddConnectionModal.tsx:215
+#: src/components/modals/AddConnectionModal.tsx:218
 #: src/components/modals/AddFavoriteMemeModal.tsx:98
 #: src/components/modals/AddGuildModal.tsx:290
 #: src/components/modals/AddGuildModal.tsx:413
@@ -4109,7 +4109,7 @@ msgstr "{VOICE_CHANNEL_CAMERA_USER_LIMIT} 人以上の参加者がいるとカ�
 #: src/components/modals/HideOwnScreenShareConfirmModal.tsx:65
 #: src/components/modals/IARModal.tsx:255
 #: src/components/modals/ImageCropModal.tsx:943
-#: src/components/modals/InviteModal.tsx:332
+#: src/components/modals/InviteModal.tsx:336
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
@@ -4211,7 +4211,7 @@ msgstr "カード配置のコントロール"
 msgid "Careful! You have unsaved changes."
 msgstr "注意！保存されていない変更があります。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:316
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:330
 #: src/utils/ChannelUtils.tsx:69
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:229
 msgid "Category"
@@ -4437,8 +4437,8 @@ msgstr "チャンネル"
 msgid "Channel"
 msgstr "チャンネル"
 
-#: src/utils/PermissionUtils.tsx:373
-#: src/utils/PermissionUtils.tsx:453
+#: src/utils/PermissionUtils.tsx:379
+#: src/utils/PermissionUtils.tsx:459
 msgid "Channel Access"
 msgstr "チャンネルアクセス"
 
@@ -4516,7 +4516,7 @@ msgstr "チャンネルリストの入力インジケーターモード"
 msgid "Channel list typing indicators"
 msgstr "チャンネルリストの入力インジケーター"
 
-#: src/utils/PermissionUtils.tsx:426
+#: src/utils/PermissionUtils.tsx:432
 msgid "Channel Management"
 msgstr "チャンネル管理"
 
@@ -4757,7 +4757,7 @@ msgstr "アプリ全体での時刻の表示方法を選択します。"
 msgid "Choose how typing indicators appear in the channel list when someone is typing in a channel."
 msgstr "誰かがチャンネルで入力しているとき、チャンネルリストで入力インジケーターがどのように表示されるかを選択します。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:332
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:346
 msgid "Choose the category that best describes your community."
 msgstr "あなたのコミュニティを最もよく表すカテゴリを選んでください。"
 
@@ -5360,7 +5360,7 @@ msgstr "コミュニティクリエイター"
 msgid "Community Deafen"
 msgstr "コミュニティミュート"
 
-#: src/components/layout/UserArea.tsx:159
+#: src/components/layout/UserArea.tsx:173
 #: src/components/layout/VoiceStateIcons.tsx:57
 #: src/components/voice/VoiceControlBar.tsx:607
 #: src/components/voice/VoiceParticipantTile.tsx:1466
@@ -5432,8 +5432,8 @@ msgstr "コミュニティメンバー"
 msgid "Community Mute"
 msgstr "コミュニティをミュート"
 
-#: src/components/layout/UserArea.tsx:146
-#: src/components/layout/UserArea.tsx:153
+#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:167
 #: src/components/layout/VoiceStateIcons.tsx:49
 #: src/components/voice/VoiceControlBar.tsx:596
 #: src/components/voice/VoiceParticipantTile.tsx:1457
@@ -5492,10 +5492,10 @@ msgid "Community Record"
 msgstr "コミュニティ記録"
 
 #: src/components/modals/components/DesktopGuildSettingsView.tsx:233
-#: src/components/modals/GuildSettingsModal.tsx:194
+#: src/components/modals/GuildSettingsModal.tsx:197
 #: src/components/popouts/GuildHeaderPopout.tsx:190
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:278
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:346
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:281
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:349
 msgid "Community Settings"
 msgstr "コミュニティ設定"
 
@@ -5524,7 +5524,7 @@ msgstr "コミュニティ全体"
 msgid "compact"
 msgstr "コンパクト"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:152
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:169
 msgid "Compact"
 msgstr "コンパクト"
 
@@ -5670,8 +5670,8 @@ msgstr "パスワードを確認"
 msgid "Connect"
 msgstr "接続"
 
-#: src/utils/PermissionUtils.tsx:383
-#: src/utils/PermissionUtils.tsx:497
+#: src/utils/PermissionUtils.tsx:389
+#: src/utils/PermissionUtils.tsx:503
 msgid "Connect (Join Voice)"
 msgstr "接続（ボイス参加）"
 
@@ -5679,7 +5679,7 @@ msgstr "接続（ボイス参加）"
 msgid "Connect to Voice"
 msgstr "ボイスに接続"
 
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 msgid "Connect with Bluesky"
 msgstr "Blueskyと接続する"
 
@@ -5730,7 +5730,7 @@ msgstr "接続が削除されました"
 msgid "Connection Stats"
 msgstr "接続統計"
 
-#: src/components/modals/AddConnectionModal.tsx:198
+#: src/components/modals/AddConnectionModal.tsx:201
 msgid "Connection Type"
 msgstr "接続タイプ"
 
@@ -5783,7 +5783,7 @@ msgstr "スコープと権限を含む認可URLを構築します。"
 msgid "contact"
 msgstr "連絡先"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
 msgid "Content Creator"
 msgstr "コンテンツクリエイター"
 
@@ -5822,7 +5822,7 @@ msgid "Context menus can be opened with left-click (on buttons) or right-click (
 msgstr "コンテキストメニューは、左クリック（ボタン上）または右クリック（その他の要素上）で開くことができます。これは、チェックボックス、ラジオボタン、スライダー、サブメニューを含むさまざまなメニュー項目を示しています。"
 
 #: src/components/channel/ChannelTextarea.tsx:311
-#: src/components/modals/AddConnectionModal.tsx:218
+#: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:75
 #: src/components/modals/BackupCodesViewModal.tsx:73
 #: src/components/modals/DeviceRevokeModal.tsx:82
@@ -5958,8 +5958,8 @@ msgid "Copied URL to clipboard"
 msgstr "URLをクリップボードにコピーしました"
 
 #: src/components/auth/HandoffCodeDisplay.tsx:106
-#: src/components/modals/AddConnectionModal.tsx:187
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:190
+#: src/components/modals/AddConnectionModal.tsx:191
 #: src/components/modals/shared/CopyLinkSection.tsx:52
 #: src/components/modals/ThemeAcceptModal.tsx:162
 #: src/lib/markdown/renderers/common/CodeElements.tsx:57
@@ -6017,7 +6017,7 @@ msgstr "チャンネルリンクをコピー"
 msgid "Copy code"
 msgstr "コードをコピー"
 
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:372
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:375
 msgid "Copy Community ID"
 msgstr "コミュニティIDをコピー"
 
@@ -6045,11 +6045,11 @@ msgstr "FluxerTagをコピー"
 msgid "Copy GIF"
 msgstr "GIFをコピー"
 
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:461
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:464
 msgid "Copy Guild ID"
 msgstr "ギルドIDをコピー"
 
-#: src/components/modals/AddConnectionModal.tsx:187
+#: src/components/modals/AddConnectionModal.tsx:190
 msgid "Copy host"
 msgstr "ホストをコピー"
 
@@ -6154,7 +6154,7 @@ msgstr "ユーザーIDをコピー"
 msgid "Copy Username"
 msgstr "ユーザー名をコピー"
 
-#: src/components/modals/AddConnectionModal.tsx:188
+#: src/components/modals/AddConnectionModal.tsx:191
 msgid "Copy value"
 msgstr "値をコピー"
 
@@ -6199,7 +6199,7 @@ msgstr "カバー"
 msgid "cozy"
 msgstr "居心地が良い"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:144
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
 msgid "Cozy"
 msgstr "居心地の良い"
 
@@ -6295,8 +6295,8 @@ msgstr "アプリケーションを作成"
 #: src/components/popouts/GuildHeaderPopout.tsx:204
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:89
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:69
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:292
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:428
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:295
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:431
 msgid "Create Category"
 msgstr "カテゴリを作成"
 
@@ -6305,8 +6305,8 @@ msgstr "カテゴリを作成"
 #: src/components/modals/ChannelCreateModal.tsx:103
 #: src/components/popouts/GuildHeaderPopout.tsx:197
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:86
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:287
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:410
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:290
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:413
 msgid "Create Channel"
 msgstr "チャンネルを作成"
 
@@ -6324,6 +6324,10 @@ msgstr "コミュニティ作成フォーム"
 #: src/utils/modals/CreateDMModalUtils.tsx:154
 msgid "Create DM"
 msgstr "DMを作成"
+
+#: src/utils/PermissionUtils.tsx:284
+msgid "Create Emoji & Stickers"
+msgstr "絵文字とステッカーを作成"
 
 #: src/components/modals/CreatePackModal.tsx:52
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:256
@@ -6346,7 +6350,7 @@ msgid "Create Invite"
 msgstr "招待を作成"
 
 #: src/utils/PermissionUtils.tsx:270
-#: src/utils/PermissionUtils.tsx:429
+#: src/utils/PermissionUtils.tsx:435
 msgid "Create Invite Links"
 msgstr "招待リンクを作成"
 
@@ -6358,7 +6362,7 @@ msgstr "新しいアカウントを作成"
 msgid "Create new group"
 msgstr "新しいグループを作成"
 
-#: src/components/modals/InviteModal.tsx:335
+#: src/components/modals/InviteModal.tsx:339
 msgid "Create New Link"
 msgstr "新しいリンクを作成"
 
@@ -6393,11 +6397,11 @@ msgstr "チャンネルとカテゴリを作成、編集、または削除しま
 msgid "Create, edit, or delete roles below your highest role. Also allows editing channel permission overwrites."
 msgstr "あなたの最高ロール以下のロールを作成、編集、または削除します。また、チャンネル権限の上書きを編集することもできます。"
 
-#: src/utils/PermissionUtils.tsx:444
+#: src/utils/PermissionUtils.tsx:450
 msgid "Create, edit, or delete webhooks for this channel."
 msgstr "このチャンネルのWebhookを作成、編集、または削除します。"
 
-#: src/utils/PermissionUtils.tsx:289
+#: src/utils/PermissionUtils.tsx:295
 msgid "Create, edit, or delete webhooks."
 msgstr "Webhookを作成、編集、または削除します。"
 
@@ -6897,7 +6901,7 @@ msgstr "ミュート"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:161
+#: src/components/layout/UserArea.tsx:175
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:515
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:125
 #: src/components/voice/VoiceControlBar.tsx:613
@@ -6922,8 +6926,8 @@ msgstr "デバイスをミュート"
 msgid "Deafen Keybind"
 msgstr "デフンキーバインド"
 
-#: src/utils/PermissionUtils.tsx:408
-#: src/utils/PermissionUtils.tsx:507
+#: src/utils/PermissionUtils.tsx:414
+#: src/utils/PermissionUtils.tsx:513
 msgid "Deafen Members"
 msgstr "メンバーの音声を無効化"
 
@@ -6962,7 +6966,7 @@ msgid "Debug Channel"
 msgstr "チャンネルをデバッグ"
 
 #: src/components/uikit/context_menu/items/DebugMenuItems.tsx:90
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:362
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:365
 msgid "Debug Community"
 msgstr "コミュニティのデバッグ"
 
@@ -7062,17 +7066,17 @@ msgstr "削除"
 #: src/components/channel/embeds/media/MediaContainer.tsx:116
 #: src/components/channel/MobileMemesPicker.tsx:546
 #: src/components/channel/pickers/memes/MemeGridItem.tsx:121
-#: src/components/emojis/EmojiListItem.tsx:194
-#: src/components/emojis/EmojiListItem.tsx:246
-#: src/components/emojis/EmojiListItem.tsx:296
+#: src/components/emojis/EmojiListItem.tsx:195
+#: src/components/emojis/EmojiListItem.tsx:252
+#: src/components/emojis/EmojiListItem.tsx:308
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:160
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:210
-#: src/components/stickers/StickerGridItem.tsx:66
-#: src/components/stickers/StickerGridItem.tsx:119
+#: src/components/stickers/StickerGridItem.tsx:72
+#: src/components/stickers/StickerGridItem.tsx:126
 msgid "Delete"
 msgstr "削除"
 
@@ -7162,11 +7166,11 @@ msgstr "コミュニティを削除"
 msgid "Delete community form"
 msgstr "コミュニティ削除フォーム"
 
-#: src/components/emojis/EmojiListItem.tsx:192
+#: src/components/emojis/EmojiListItem.tsx:193
 msgid "Delete Emoji"
 msgstr "絵文字を削除"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:147
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:163
 msgid "Delete Emoji Failed"
 msgstr "絵文字の削除に失敗しました"
 
@@ -7205,8 +7209,8 @@ msgstr "過去1日間のメッセージを削除"
 msgid "Delete messages from the last week"
 msgstr "過去1週間のメッセージを削除"
 
-#: src/utils/PermissionUtils.tsx:311
-#: src/utils/PermissionUtils.tsx:465
+#: src/utils/PermissionUtils.tsx:317
+#: src/utils/PermissionUtils.tsx:471
 msgid "Delete others' messages. (Pinning is separate below.)"
 msgstr "他のユーザーのメッセージを削除します。（ピン留めは以下で別途設定。）"
 
@@ -7235,7 +7239,7 @@ msgstr "保存したメディアを削除"
 msgid "Delete Saved Media"
 msgstr "保存されたメディアを削除"
 
-#: src/components/stickers/StickerGridItem.tsx:64
+#: src/components/stickers/StickerGridItem.tsx:70
 msgid "Delete Sticker"
 msgstr "ステッカーを削除"
 
@@ -7326,7 +7330,7 @@ msgstr "このパックに含まれる表現を説明してください。"
 msgid "Describe what makes the content illegal"
 msgstr "コンテンツが違法である理由を説明してください"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:317
 msgid "Describe what your community is about..."
 msgstr "あなたのコミュニティについて説明してください..."
 
@@ -7336,7 +7340,7 @@ msgstr "説明"
 
 #: src/components/modals/CreatePackModal.tsx:95
 #: src/components/modals/EditPackModal.tsx:91
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:289
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:292
 #: src/components/modals/sticker_form/StickerFormFields.tsx:111
 msgid "Description"
 msgstr "説明"
@@ -7345,11 +7349,11 @@ msgstr "説明"
 msgid "Description must be 500 characters or less"
 msgstr "説明は500文字以内でなければなりません"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:296
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:301
 msgid "Description must be at least {DISCOVERY_DESCRIPTION_MIN_LENGTH} characters."
 msgstr "説明は少なくとも {DISCOVERY_DESCRIPTION_MIN_LENGTH} 文字である必要があります。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:300
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:305
 msgid "Description must be no more than {DISCOVERY_DESCRIPTION_MAX_LENGTH} characters."
 msgstr "説明は {DISCOVERY_DESCRIPTION_MAX_LENGTH} 文字以下である必要があります。"
 
@@ -7725,20 +7729,20 @@ msgstr "ソケットを切断"
 msgid "Disconnected"
 msgstr "切断済み"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:209
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
 #: src/components/modals/utils/GuildSettingsConstants.tsx:160
 msgid "Discovery"
 msgstr "ディスカバリー"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:163
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:166
 msgid "Discovery application submitted"
 msgstr "ディスカバリー申請が提出されました"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:184
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:187
 msgid "Discovery application withdrawn"
 msgstr "ディスカバリー申請が取り下げられました"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:152
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:155
 msgid "Discovery listing updated"
 msgstr "ディスカバリーリストが更新されました"
 
@@ -7854,7 +7858,7 @@ msgstr "DM設定"
 msgid "dm sidebar"
 msgstr "DMサイドバー"
 
-#: src/components/modals/AddConnectionModal.tsx:239
+#: src/components/modals/AddConnectionModal.tsx:242
 msgid "DNS TXT record"
 msgstr "DNS TXTレコード"
 
@@ -7904,7 +7908,7 @@ msgid "domain"
 msgstr "ドメイン"
 
 #: src/components/modals/AddConnectionModal.tsx:87
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:168
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:303
 #: src/components/popouts/UserProfileShared.tsx:283
@@ -7995,7 +7999,7 @@ msgstr "ダウンロード"
 msgid "Download"
 msgstr "ダウンロード"
 
-#: src/components/modals/AddConnectionModal.tsx:280
+#: src/components/modals/AddConnectionModal.tsx:283
 msgid "Download <0>fluxer-verification</0> and place it in your <1>.well-known</1> folder so we can validate the domain."
 msgstr "<0>fluxer-verification</0>をダウンロードして、あなたの<1>.well-known</1>フォルダーに置いて、ドメインを検証できるようにしてください。"
 
@@ -8012,7 +8016,7 @@ msgstr "デスクトップアプリをダウンロード"
 msgid "Download Fluxer"
 msgstr "Fluxerをダウンロード"
 
-#: src/components/modals/AddConnectionModal.tsx:294
+#: src/components/modals/AddConnectionModal.tsx:297
 msgid "Download fluxer-verification"
 msgstr "fluxer2をダウンロード"
 
@@ -8024,7 +8028,7 @@ msgstr "メディアをダウンロード"
 msgid "Download the desktop app for system-wide Push-to-Talk"
 msgstr "システム全体のPush-to-Talkにはデスクトップアプリをダウンロード"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:173
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:192
 msgid "Drag and drop a sticker file here (one at a time)"
 msgstr "ここにステッカーファイルをドラッグ＆ドロップ（一度に1つ）"
 
@@ -8032,12 +8036,12 @@ msgstr "ここにステッカーファイルをドラッグ＆ドロップ（一
 msgid "Drag and drop area for file upload"
 msgstr "ファイルアップロード用のドラッグ＆ドロップエリア"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:363
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:382
 msgid "Drag and drop emoji files here"
 msgstr "ここに絵文字ファイルをドラッグ＆ドロップ"
 
-#: src/utils/PermissionUtils.tsx:413
-#: src/utils/PermissionUtils.tsx:510
+#: src/utils/PermissionUtils.tsx:419
+#: src/utils/PermissionUtils.tsx:516
 msgid "Drag members between channels they can access."
 msgstr "メンバーをアクセス可能なチャンネル間でドラッグします。"
 
@@ -8159,7 +8163,7 @@ msgstr "エコーキャンセレーション"
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:90
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:186
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:187
-#: src/components/stickers/StickerGridItem.tsx:111
+#: src/components/stickers/StickerGridItem.tsx:118
 msgid "Edit"
 msgstr "編集"
 
@@ -8200,8 +8204,8 @@ msgid "Edit Channel"
 msgstr "チャンネルを編集"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:220
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:314
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:392
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:317
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:395
 msgid "Edit Community Profile"
 msgstr "コミュニティプロフィールを編集"
 
@@ -8231,7 +8235,8 @@ msgstr "グループを編集"
 msgid "Edit group form"
 msgstr "グループフォームを編集"
 
-#: src/components/modals/InviteModal.tsx:322
+#: src/components/modals/InviteModal.tsx:316
+#: src/components/modals/InviteModal.tsx:326
 msgid "Edit invite link"
 msgstr "招待リンクを編集"
 
@@ -8255,7 +8260,11 @@ msgstr "メッセージを編集"
 msgid "Edit Note"
 msgstr "ノートを編集"
 
-#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:290
+msgid "Edit or delete emoji and stickers created by other members."
+msgstr "他のメンバーが作成した絵文字とステッカーを編集または削除します。"
+
+#: src/utils/PermissionUtils.tsx:445
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "このチャンネル内のロールとメンバーの上書きを編集します。"
 
@@ -8312,7 +8321,7 @@ msgstr "メッセージを編集中"
 msgid "Editing scheduled message"
 msgstr "予約済みメッセージを編集中"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:83
 msgid "Education"
 msgstr "教育"
 
@@ -8396,8 +8405,8 @@ msgstr "埋め込み"
 msgid "Embed"
 msgstr "埋め込み"
 
-#: src/utils/PermissionUtils.tsx:319
-#: src/utils/PermissionUtils.tsx:469
+#: src/utils/PermissionUtils.tsx:325
+#: src/utils/PermissionUtils.tsx:475
 msgid "Embed Links"
 msgstr "リンクを埋め込む"
 
@@ -8456,16 +8465,16 @@ msgstr "絵文字を削除しました"
 msgid "Emoji name"
 msgstr "絵文字名"
 
-#: src/components/emojis/EmojiListItem.tsx:163
+#: src/components/emojis/EmojiListItem.tsx:164
 msgid "Emoji name must be at least 2 characters long"
 msgstr "絵文字名は2文字以上である必要があります"
 
-#: src/components/emojis/EmojiListItem.tsx:167
+#: src/components/emojis/EmojiListItem.tsx:168
 msgid "Emoji name must be at most 32 characters long"
 msgstr "絵文字名は32文字以内である必要があります"
 
 #. placeholder {0}: Math.round(GlobalLimits.getEmojiMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:340
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:358
 msgid "Emoji names must be at least 2 characters long and can only contain alphanumeric characters and underscores. Allowed file types: JPEG, PNG, WebP, GIF. We compress images to 128x128 pixels. Maximum size: {0} KB per emoji."
 msgstr "絵文字名は2文字以上で、英数字とアンダースコアのみ使用できます。使用可能なファイル形式: JPEG、PNG、WebP、GIF。画像は128x128ピクセルに圧縮されます。最大サイズ: 絵文字あたり{0}KB。"
 
@@ -8492,7 +8501,7 @@ msgstr "絵文字パックの上限に達しました"
 msgid "emoji picker"
 msgstr "絵文字ピッカー"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:326
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:344
 msgid "Emoji Slots"
 msgstr "絵文字スロット"
 
@@ -8861,7 +8870,7 @@ msgstr "パスワードを入力してください。"
 msgid "Enter your phone number. We'll send you a verification code via SMS."
 msgstr "電話番号を入力してください。SMS で確認コードを送信します。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:79
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:82
 msgid "Entertainment"
 msgstr "エンターテイメント"
 
@@ -8993,7 +9002,7 @@ msgstr "カテゴリを展開"
 msgid "Expiration"
 msgstr "有効期限"
 
-#: src/components/modals/InviteModal.tsx:276
+#: src/components/modals/InviteModal.tsx:273
 msgid "Expire After"
 msgstr "期限後"
 
@@ -9260,7 +9269,7 @@ msgstr "カテゴリの削除に失敗しました"
 msgid "Failed to delete channel"
 msgstr "チャンネルの削除に失敗しました"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:149
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:165
 msgid "Failed to delete emoji. Please try again."
 msgstr "絵文字の削除に失敗しました。もう一度お試しください。"
 
@@ -9312,7 +9321,7 @@ msgstr "この絵文字パックのインストールに失敗しました。後
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "このステッカーパックのインストールに失敗しました。後でもう一度お試しください。"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:56
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:62
 msgid "Failed to join this community. Please try again."
 msgstr "このコミュニティに参加できませんでした。もう一度お試しください。"
 
@@ -9341,7 +9350,7 @@ msgstr "承認されたアプリケーションの読み込みに失敗しまし
 msgid "Failed to load bans. Please try again."
 msgstr "BANリストの読み込みに失敗しました。もう一度お試しください。"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:320
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:336
 msgid "Failed to load emojis. Please try again later."
 msgstr "絵文字の読み込みに失敗しました。後で再度お試しください。"
 
@@ -9363,7 +9372,7 @@ msgstr "招待の読み込みに失敗しました。もう一度お試しくだ
 msgid "Failed to load premium information. Please try again later."
 msgstr "プレミアム情報の読み込みに失敗しました。後でもう一度お試しください。"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:203
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:230
 msgid "Failed to Load Stickers"
 msgstr "ステッカーの読み込みに失敗しました"
 
@@ -9406,7 +9415,7 @@ msgstr "グループDMのピン留めに失敗しました"
 msgid "Failed to pin message"
 msgstr "メッセージのピン留めに失敗しました"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:225
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
 msgid "Failed to Prepare Emojis"
 msgstr "絵文字の準備に失敗しました"
 
@@ -9597,7 +9606,7 @@ msgstr "代替テキストの更新に失敗しました"
 msgid "Failed to Update Channel Permissions"
 msgstr "チャンネルの権限の更新に失敗しました"
 
-#: src/components/emojis/EmojiListItem.tsx:180
+#: src/components/emojis/EmojiListItem.tsx:181
 msgid "Failed to update emoji name. Reverted to the previous name."
 msgstr "絵文字名の更新に失敗しました。前の名前に戻しました。"
 
@@ -9622,11 +9631,11 @@ msgid "Failed to upload custom sound"
 msgstr "カスタムサウンドのアップロードに失敗しました"
 
 #. placeholder {0}: startIndex + 1
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:277
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:293
 msgid "Failed to upload emojis starting at #{0}: {errorMsg}"
 msgstr "絵文字のアップロードに失敗しました。#{0} から: {errorMsg}"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:273
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:289
 msgid "Failed to upload emojis. Please try again."
 msgstr "絵文字のアップロードに失敗しました。もう一度お試しください。"
 
@@ -9638,7 +9647,7 @@ msgstr "入場音のアップロードに失敗しました"
 msgid "Failed to verify connection"
 msgstr "接続の確認に失敗しました"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:190
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:193
 msgid "Failed to withdraw application. Please try again."
 msgstr "申請の取り下げに失敗しました。もう一度お試しください。"
 
@@ -10399,7 +10408,7 @@ msgstr "ゲームコントローラー"
 msgid "Game Night"
 msgstr "ゲームナイト"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:77
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:80
 msgid "Gaming"
 msgstr "ゲーム"
 
@@ -10758,7 +10767,7 @@ msgstr "猶予期間"
 msgid "Grace Period (Still Have Access)"
 msgstr "猶予期間（アクセス権は維持）"
 
-#: src/components/modals/InviteModal.tsx:296
+#: src/components/modals/InviteModal.tsx:293
 msgid "Grant Temporary Membership"
 msgstr "一時的なメンバーシップを付与"
 
@@ -10922,7 +10931,7 @@ msgstr "ギルドサイドバー"
 msgid "handle"
 msgstr "ハンドル"
 
-#: src/components/modals/AddConnectionModal.tsx:207
+#: src/components/modals/AddConnectionModal.tsx:210
 msgid "Handle"
 msgstr "ハンドル"
 
@@ -11116,7 +11125,7 @@ msgstr "ミュートされたチャンネルを非表示にする"
 #: src/components/popouts/GuildHeaderPopout.tsx:228
 #: src/components/uikit/context_menu/ChannelListContextMenu.tsx:79
 #: src/components/uikit/context_menu/FavoritesChannelListContextMenu.tsx:60
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:332
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:335
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:304
 msgid "Hide Muted Channels"
 msgstr "ミュートされたチャンネルを非表示にする"
@@ -11284,7 +11293,7 @@ msgstr "さあ、{username}さん！Mr Fusionが準備できました！"
 msgid "Hope to see you back in the future"
 msgstr "またのご利用をお待ちしております"
 
-#: src/components/modals/AddConnectionModal.tsx:244
+#: src/components/modals/AddConnectionModal.tsx:247
 msgid "Host"
 msgstr "ホスト"
 
@@ -11439,8 +11448,8 @@ msgstr "無視"
 msgid "Ignore Friend Request"
 msgstr "フレンドリクエストを無視"
 
-#: src/utils/PermissionUtils.tsx:351
-#: src/utils/PermissionUtils.tsx:486
+#: src/utils/PermissionUtils.tsx:357
+#: src/utils/PermissionUtils.tsx:492
 msgid "Ignore per-channel message rate limits."
 msgstr "チャンネルごとのメッセージレート制限を無視します。"
 
@@ -11915,7 +11924,7 @@ msgstr "非表示"
 
 #: src/components/channel/GuildMembersPage.tsx:246
 #: src/components/channel/GuildMembersPage.tsx:254
-#: src/components/modals/InviteModal.tsx:265
+#: src/components/modals/InviteModal.tsx:262
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:87
 #: src/constants/AuditLogConstants.tsx:245
 msgid "Invite"
@@ -11955,7 +11964,7 @@ msgstr "友達を招待"
 msgid "Invite friends to {0}"
 msgstr "{0}に友達を招待"
 
-#: src/components/modals/InviteModal.tsx:311
+#: src/components/modals/InviteModal.tsx:308
 msgid "Invite link"
 msgstr "招待リンク"
 
@@ -11963,7 +11972,7 @@ msgstr "招待リンク"
 msgid "Invite Link"
 msgstr "招待リンク"
 
-#: src/components/modals/InviteModal.tsx:222
+#: src/components/modals/InviteModal.tsx:219
 msgid "Invite link settings"
 msgstr "招待リンク設定"
 
@@ -11976,7 +11985,7 @@ msgstr "招待リンク"
 
 #: src/components/layout/ChannelItem.tsx:702
 #: src/components/popouts/GuildHeaderPopout.tsx:181
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:257
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:260
 msgid "Invite Members"
 msgstr "メンバーを招待"
 
@@ -12087,7 +12096,7 @@ msgstr "招待"
 msgid "Invites are currently disabled for this community."
 msgstr "このコミュニティでは招待が現在無効になっています。"
 
-#: src/components/modals/InviteModal.tsx:235
+#: src/components/modals/InviteModal.tsx:232
 msgid "Invites are currently disabled in this community by an admin. While this invite can be created, it cannot be accepted until invites are re-enabled."
 msgstr "このコミュニティでは管理者によって招待が現在無効になっています。この招待は作成できますが、招待が再有効化されるまで受け入れられません。"
 
@@ -12198,7 +12207,7 @@ msgstr "通話に参加"
 #: src/components/modals/AddGuildModal.tsx:132
 #: src/components/modals/AddGuildModal.tsx:416
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:289
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 #: src/components/modals/InviteAcceptModal.tsx:119
 #: src/components/modals/InviteAcceptModalPreview.tsx:111
 msgid "Join Community"
@@ -12273,7 +12282,7 @@ msgstr "ボイスチャットに参加"
 msgid "Join Voice Call"
 msgstr "ボイス通話に参加"
 
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:93
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:99
 msgid "Joined"
 msgstr "参加済み"
 
@@ -12618,8 +12627,8 @@ msgid "Leave call"
 msgstr "通話を離れる"
 
 #: src/components/popouts/GuildHeaderPopout.tsx:237
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:344
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:447
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:347
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:450
 #: src/hooks/useLeaveGuild.tsx:42
 #: src/hooks/useLeaveGuild.tsx:44
 msgid "Leave Community"
@@ -12840,7 +12849,7 @@ msgstr "リンク"
 msgid "Links"
 msgstr "リンク"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:212
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:215
 msgid "List your community in Discovery so others can find and join it."
 msgstr "他の人があなたのコミュニティを見つけて参加できるように、ディスカバリーにリストしてください。"
 
@@ -13121,13 +13130,13 @@ msgstr "承認済みアプリケーションの管理"
 msgid "Manage blocked users"
 msgstr "ブロックしたユーザーの管理"
 
-#: src/utils/PermissionUtils.tsx:433
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:439
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channel"
 msgstr "チャンネル管理"
 
 #: src/utils/PermissionUtils.tsx:257
-#: src/utils/PermissionUtils.tsx:562
+#: src/utils/PermissionUtils.tsx:568
 msgid "Manage Channels"
 msgstr "チャンネル管理"
 
@@ -13143,7 +13152,7 @@ msgstr "コミュニティ機能を管理"
 msgid "Manage developer applications"
 msgstr "開発者アプリケーションの管理"
 
-#: src/utils/PermissionUtils.tsx:284
+#: src/utils/PermissionUtils.tsx:289
 msgid "Manage Emoji & Stickers"
 msgstr "絵文字とステッカーの管理"
 
@@ -13163,8 +13172,8 @@ msgstr "このチャンネルにメッセージを投稿できる着信Webhook�
 msgid "Manage invites for this channel."
 msgstr "このチャンネルの招待を管理します。"
 
-#: src/utils/PermissionUtils.tsx:310
-#: src/utils/PermissionUtils.tsx:464
+#: src/utils/PermissionUtils.tsx:316
+#: src/utils/PermissionUtils.tsx:470
 msgid "Manage Messages"
 msgstr "メッセージ管理"
 
@@ -13172,7 +13181,7 @@ msgstr "メッセージ管理"
 msgid "Manage Nicknames"
 msgstr "ニックネーム管理"
 
-#: src/utils/PermissionUtils.tsx:438
+#: src/utils/PermissionUtils.tsx:444
 msgid "Manage Permissions"
 msgstr "権限管理"
 
@@ -13191,8 +13200,8 @@ msgstr "サブスクリプション管理"
 msgid "Manage the email address you use to sign in to Fluxer"
 msgstr "Fluxerへのサインインに使用するメールアドレスを管理する"
 
-#: src/utils/PermissionUtils.tsx:288
-#: src/utils/PermissionUtils.tsx:443
+#: src/utils/PermissionUtils.tsx:294
+#: src/utils/PermissionUtils.tsx:449
 msgid "Manage Webhooks"
 msgstr "Webhook管理"
 
@@ -13231,7 +13240,7 @@ msgstr "サブスクリプションの管理"
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:85
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:522
 #: src/components/uikit/context_menu/items/DMMenuItems.tsx:53
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:249
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:252
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:95
 msgid "Mark as Read"
 msgstr "既読にする"
@@ -13346,7 +13355,7 @@ msgstr "marty@example.com"
 msgid "Mask Visionary as subscription"
 msgstr "Visionaryをサブスクリプションとしてマスクする"
 
-#: src/components/modals/InviteModal.tsx:286
+#: src/components/modals/InviteModal.tsx:283
 msgid "Max Number of Uses"
 msgstr "最大使用回数"
 
@@ -13581,7 +13590,7 @@ msgstr "メンバーを整理しました"
 msgid "Members receive notifications for every message"
 msgstr "メンバーはすべてのメッセージについて通知を受け取ります"
 
-#: src/components/modals/InviteModal.tsx:297
+#: src/components/modals/InviteModal.tsx:294
 msgid "Members will be removed when they go offline unless a role is assigned"
 msgstr "役割が割り当てられていない限り、メンバーはオフラインになると削除されます"
 
@@ -13627,8 +13636,8 @@ msgstr "@hereをメンションしますか？"
 msgid "Mention Badges"
 msgstr "メンションバッジ"
 
-#: src/utils/PermissionUtils.tsx:332
-#: src/utils/PermissionUtils.tsx:474
+#: src/utils/PermissionUtils.tsx:338
+#: src/utils/PermissionUtils.tsx:480
 msgid "Mention everyone or any role (even if the role isn't set to be mentionable)."
 msgstr "全員または任意の役割をメンションします（役割がメンション可能に設定されていなくても）。"
 
@@ -13837,8 +13846,8 @@ msgid "Messages"
 msgstr "メッセージ"
 
 #: src/components/modals/utils/SettingsConstants.tsx:184
-#: src/utils/PermissionUtils.tsx:298
-#: src/utils/PermissionUtils.tsx:460
+#: src/utils/PermissionUtils.tsx:304
+#: src/utils/PermissionUtils.tsx:466
 msgid "Messages & Media"
 msgstr "メッセージとメディア"
 
@@ -14021,7 +14030,7 @@ msgid "Mode C"
 msgstr "モードC"
 
 #: src/components/uikit/context_menu/items/ModerationSubmenu.tsx:152
-#: src/utils/PermissionUtils.tsx:360
+#: src/utils/PermissionUtils.tsx:366
 msgid "Moderation"
 msgstr "モデレーション"
 
@@ -14117,8 +14126,8 @@ msgstr "ボタン、入力、リンク間でフォーカスを移動します。
 msgid "Move focus to the message composer"
 msgstr "メッセージ作成欄にフォーカスを移動"
 
-#: src/utils/PermissionUtils.tsx:412
-#: src/utils/PermissionUtils.tsx:509
+#: src/utils/PermissionUtils.tsx:418
+#: src/utils/PermissionUtils.tsx:515
 msgid "Move Members"
 msgstr "メンバーを移動"
 
@@ -14158,7 +14167,7 @@ msgstr "映画クラブ"
 msgid "Movie Night Crew"
 msgstr "ムービーナイトクルー"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:87
 msgid "Movies & TV"
 msgstr "映画 & テレビ"
 
@@ -14170,7 +14179,7 @@ msgstr "mp3"
 msgid "Multilingual Content"
 msgstr "多言語コンテンツ"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:78
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
 msgid "Music"
 msgstr "音楽"
 
@@ -14191,8 +14200,8 @@ msgstr "ミュート"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:270
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:149
-#: src/components/layout/UserArea.tsx:155
+#: src/components/layout/UserArea.tsx:163
+#: src/components/layout/UserArea.tsx:169
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
@@ -14255,7 +14264,7 @@ msgstr "チャンネルをミュート"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:95
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:172
 msgid "Mute Community"
 msgstr "コミュニティをミュート"
@@ -14285,8 +14294,8 @@ msgstr "お気に入りをミュート"
 msgid "Mute Keybind"
 msgstr "ミュートキーバインド"
 
-#: src/utils/PermissionUtils.tsx:404
-#: src/utils/PermissionUtils.tsx:506
+#: src/utils/PermissionUtils.tsx:410
+#: src/utils/PermissionUtils.tsx:512
 msgid "Mute Members"
 msgstr "メンバーをミュート"
 
@@ -14534,10 +14543,6 @@ msgstr "アニメーションしない"
 msgid "Never Automatically"
 msgstr "自動的にしない"
 
-#: src/components/modals/InviteModal.tsx:196
-msgid "never expires"
-msgstr "期限切れなし"
-
 #: src/components/channel/Divider.tsx:51
 #: src/components/channel/Divider.tsx:60
 #: src/components/channel/UnreadDividerSlot.tsx:47
@@ -14758,7 +14763,7 @@ msgstr "まだ接続はありません"
 
 #: src/components/auth/InviteHeader.tsx:159
 #: src/components/channel/InviteEmbed.tsx:240
-#: src/components/modals/discovery/DiscoveryGuildCard.tsx:72
+#: src/components/modals/discovery/DiscoveryGuildCard.tsx:78
 #: src/components/modals/InviteAcceptModal.tsx:165
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:77
 msgid "No description provided."
@@ -14768,11 +14773,11 @@ msgstr "説明は提供されていません。"
 msgid "No email address set"
 msgstr "メールアドレスが設定されていません"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:185
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:201
 msgid "No emoji slots available"
 msgstr "利用可能な絵文字スロットはありません"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:368
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:389
 msgid "No emojis found matching your search."
 msgstr "検索に一致する絵文字は見つかりませんでした。"
 
@@ -14986,11 +14991,11 @@ msgid "No Stickers Available"
 msgstr "利用可能なステッカーはありません"
 
 #: src/components/channel/MobileStickersPicker.tsx:206
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:186
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
 msgid "No Stickers Found"
 msgstr "ステッカーが見つかりません"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:187
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:208
 msgid "No stickers found matching your search."
 msgstr "検索に一致するステッカーは見つかりませんでした。"
 
@@ -15055,7 +15060,7 @@ msgid "Noise Suppression"
 msgstr "ノイズ抑制"
 
 #. placeholder {0}: staticEmojis.length
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:384
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:405
 msgid "Non-Animated Emoji ({0})"
 msgstr "非アニメーション絵文字 ({0})"
 
@@ -15081,7 +15086,7 @@ msgstr "ノルウェー語"
 msgid "Not available"
 msgstr "利用できません"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:224
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
 msgid "Not enough members"
 msgstr "メンバーが足りません"
 
@@ -15154,7 +15159,7 @@ msgstr "通知の上書き"
 #: src/components/uikit/context_menu/items/CategoryMenuItems.tsx:230
 #: src/components/uikit/context_menu/items/ChannelMenuData.tsx:492
 #: src/components/uikit/context_menu/items/ChannelMenuItems.tsx:253
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:304
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:307
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:243
 msgid "Notification Settings"
 msgstr "通知設定"
@@ -15273,8 +15278,8 @@ msgstr "オフライン"
 #: src/components/guild/RoleManagement.tsx:306
 #: src/components/layout/app_layout/nagbars/DesktopNotificationNagbar.tsx:56
 #: src/components/modals/components/plutonium/hooks/useCheckoutActions.tsx:108
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:151
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:241
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:167
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:257
 #: src/components/modals/GuildOwnershipWarningModal.tsx:73
 msgid "OK"
 msgstr "OK"
@@ -15733,7 +15738,7 @@ msgstr "または"
 msgid "Or copy the link:"
 msgstr "またはリンクをコピー:"
 
-#: src/components/modals/InviteModal.tsx:307
+#: src/components/modals/InviteModal.tsx:304
 msgid "or send an invite link to a friend:"
 msgstr "または友人に招待リンクを送信:"
 
@@ -15749,7 +15754,7 @@ msgstr "元のメッセージの読み込みに失敗しました"
 msgid "Original message was deleted"
 msgstr "元のメッセージは削除されました"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:85
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:88
 #: src/components/pages/report/OptionDescriptors.tsx:54
 #: src/components/pages/report/OptionDescriptors.tsx:65
 #: src/components/pages/report/OptionDescriptors.tsx:78
@@ -15763,8 +15768,8 @@ msgstr "その他"
 msgid "Other Devices"
 msgstr "その他のデバイス"
 
-#: src/utils/PermissionUtils.tsx:396
-#: src/utils/PermissionUtils.tsx:502
+#: src/utils/PermissionUtils.tsx:402
+#: src/utils/PermissionUtils.tsx:508
 msgid "Otherwise Push-to-talk is required."
 msgstr "そうでない場合はプッシュトゥトークが必要です。"
 
@@ -16026,7 +16031,7 @@ msgid "Payment Successful"
 msgstr "支払いが成功しました"
 
 #: src/components/channel/direct_message/DMFriendsView.tsx:196
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:55
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
 msgid "Pending"
 msgstr "保留中"
 
@@ -16236,8 +16241,8 @@ msgstr "ピン留め。しっかりピン留め。"
 msgid "Pin Message"
 msgstr "メッセージをピン留め"
 
-#: src/utils/PermissionUtils.tsx:315
-#: src/utils/PermissionUtils.tsx:468
+#: src/utils/PermissionUtils.tsx:321
+#: src/utils/PermissionUtils.tsx:474
 msgid "Pin Messages"
 msgstr "メッセージをピン留め"
 
@@ -16564,7 +16569,7 @@ msgstr "<0>{0}</0>が指定された期間、メッセージの送信、リア�
 msgid "Prevent <0>{0}</0> from sending messages, reacting, and joining voice channels for the specified duration."
 msgstr "<0>{0}</0>が指定された期間、メッセージの送信、リアクション、ボイスチャンネルへの参加を行えないようにします。"
 
-#: src/utils/PermissionUtils.tsx:364
+#: src/utils/PermissionUtils.tsx:370
 msgid "Prevent members from sending messages, reacting, and joining voice for a duration."
 msgstr "メンバーが一定期間、メッセージの送信、リアクション、ボイスへの参加を行えないようにします。"
 
@@ -16668,8 +16673,8 @@ msgstr "プライマリアクション"
 msgid "Primary button clicked!"
 msgstr "プライマリボタンがクリックされました！"
 
-#: src/utils/PermissionUtils.tsx:400
-#: src/utils/PermissionUtils.tsx:505
+#: src/utils/PermissionUtils.tsx:406
+#: src/utils/PermissionUtils.tsx:511
 msgid "Priority Speaker"
 msgstr "優先スピーカー"
 
@@ -16691,8 +16696,8 @@ msgstr "プライバシーポリシー"
 
 #: src/components/modals/GuildPrivacySettingsModal.tsx:72
 #: src/components/popouts/GuildHeaderPopout.tsx:215
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:309
-#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:378
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:312
+#: src/components/uikit/context_menu/items/GuildMenuItems.tsx:381
 msgid "Privacy Settings"
 msgstr "プライバシー設定"
 
@@ -16841,11 +16846,11 @@ msgstr "購入モード"
 msgid "Purchased {0}"
 msgstr "{0} を購入しました"
 
-#: src/components/emojis/EmojiListItem.tsx:197
+#: src/components/emojis/EmojiListItem.tsx:198
 msgid "Purge this emoji from storage and CDN"
 msgstr "この絵文字をストレージとCDNから削除する"
 
-#: src/components/stickers/StickerGridItem.tsx:69
+#: src/components/stickers/StickerGridItem.tsx:75
 msgid "Purge this sticker from storage and CDN"
 msgstr "このステッカーをストレージとCDNから削除する"
 
@@ -16897,7 +16902,7 @@ msgstr "プッシュトゥトーク（長押し）"
 msgid "Push-to-Talk (Limited)"
 msgstr "プッシュトゥトーク（制限付き）"
 
-#: src/components/layout/UserArea.tsx:147
+#: src/components/layout/UserArea.tsx:161
 #: src/components/voice/VoiceControlBar.tsx:600
 msgid "Push-to-talk enabled — hold {pushToTalkHint} to speak"
 msgstr "プッシュトゥトークが有効です — {pushToTalkHint}を長押しして話してください"
@@ -17017,8 +17022,8 @@ msgstr "再有効化"
 msgid "read aloud"
 msgstr "音声で読み上げる"
 
-#: src/utils/PermissionUtils.tsx:327
-#: src/utils/PermissionUtils.tsx:471
+#: src/utils/PermissionUtils.tsx:333
+#: src/utils/PermissionUtils.tsx:477
 msgid "Read Message History"
 msgstr "メッセージ履歴を読む"
 
@@ -17057,7 +17062,7 @@ msgid "Reason (Optional)"
 msgstr "理由（オプション）"
 
 #. placeholder {0}: application.review_reason
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:246
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:249
 msgid "Reason: {0}"
 msgstr "理由: {0}"
 
@@ -17092,7 +17097,7 @@ msgstr "最近の検索"
 
 #. placeholder {0}: ChannelUtils.getIcon(channel, {size: 16, className: styles.channelIcon})
 #. placeholder {1}: channel.name
-#: src/components/modals/InviteModal.tsx:226
+#: src/components/modals/InviteModal.tsx:223
 msgid "Recipients will be taken to {0} <0>{1}</0>"
 msgstr "受信者は {0} <0>{1}</0> に移動します"
 
@@ -17250,7 +17255,7 @@ msgstr "通常、ボット、システム、およびタイムアウトしたユ
 msgid "Reject"
 msgstr "拒否"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:57
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:60
 msgid "Rejected"
 msgstr "拒否されました"
 
@@ -17525,7 +17530,7 @@ msgstr "Plutoniumを初めて購入したときにバッジから削除"
 msgid "Remove your Visionary ID badge"
 msgstr "Visionary IDバッジを削除"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:58
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:61
 msgid "Removed"
 msgstr "削除されました"
 
@@ -17635,11 +17640,11 @@ msgid "Rename"
 msgstr "名前を変更"
 
 #. placeholder {0}: emoji.name
-#: src/components/emojis/EmojiListItem.tsx:238
+#: src/components/emojis/EmojiListItem.tsx:240
 msgid "Rename :{0}:"
 msgstr ":{0}:の名前を変更"
 
-#: src/utils/PermissionUtils.tsx:434
+#: src/utils/PermissionUtils.tsx:440
 msgid "Rename and edit this channel's settings."
 msgstr "このチャンネルの設定を名前変更および編集します。"
 
@@ -17748,7 +17753,7 @@ msgid "Report a User Profile"
 msgstr "ユーザープロフィールを報告"
 
 #: src/components/modals/IARModal.tsx:119
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:350
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:353
 #: src/components/uikit/context_menu/items/ReportGuildMenuItem.tsx:57
 msgid "Report Community"
 msgstr "コミュニティを報告"
@@ -18045,7 +18050,7 @@ msgstr "再購読"
 #: src/components/modals/BackgroundImageGalleryModal.tsx:210
 #: src/components/modals/guild_tabs/GuildAuditLogTab.tsx:649
 #: src/components/modals/guild_tabs/GuildInvitesTab.tsx:125
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:207
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:234
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:138
 #: src/components/modals/tabs/applications_tab/ApplicationDetail.tsx:586
 #: src/components/modals/tabs/applications_tab/index.tsx:113
@@ -18319,7 +18324,7 @@ msgstr "保存"
 #: src/components/modals/EditGroupModal.tsx:230
 #: src/components/modals/EditGuildStickerModal.tsx:116
 #: src/components/modals/EditPackModal.tsx:106
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:343
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:357
 #: src/components/modals/guild_tabs/GuildVanityURLTab.tsx:220
 #: src/components/modals/GuildFolderSettingsModal.tsx:202
 #: src/components/modals/MessageHistoryThresholdModal.tsx:106
@@ -18451,7 +18456,7 @@ msgstr "{0}にスケジュールされたメッセージ"
 msgid "Scheduled messages can be at most 30 days in the future."
 msgstr "スケジュールメッセージは最大30日先まで設定できます。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:81
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:84
 msgid "Science & Technology"
 msgstr "科学 & 技術"
 
@@ -18574,7 +18579,7 @@ msgstr "コミュニティを検索..."
 msgid "Search countries..."
 msgstr "国を検索..."
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:308
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:324
 msgid "Search emojis..."
 msgstr "絵文字を検索..."
 
@@ -18603,7 +18608,7 @@ msgstr "チャンネル、人、コミュニティを検索"
 #: src/components/common/FriendSelector.tsx:197
 #: src/components/modals/AddFriendsToGroupModal.tsx:53
 #: src/components/modals/CreateDMModal.tsx:68
-#: src/components/modals/InviteModal.tsx:246
+#: src/components/modals/InviteModal.tsx:243
 #: src/components/modals/shared/RecipientList.tsx:179
 #: src/components/modals/ShareThemeModal.tsx:141
 msgid "Search friends"
@@ -18692,7 +18697,7 @@ msgstr "設定を検索"
 msgid "Search settings..."
 msgstr "設定を検索..."
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:130
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:147
 msgid "Search stickers..."
 msgstr "ステッカーを検索..."
 
@@ -19035,8 +19040,8 @@ msgstr "メッセージ送信無効"
 msgid "Send messages"
 msgstr "メッセージを送信する"
 
-#: src/utils/PermissionUtils.tsx:301
-#: src/utils/PermissionUtils.tsx:462
+#: src/utils/PermissionUtils.tsx:307
+#: src/utils/PermissionUtils.tsx:468
 msgid "Send Messages"
 msgstr "メッセージを送信"
 
@@ -19056,11 +19061,11 @@ msgstr "SMSコードを送信"
 msgid "Send SMS Code"
 msgstr "SMSコードを送信"
 
-#: src/utils/PermissionUtils.tsx:306
+#: src/utils/PermissionUtils.tsx:312
 msgid "Send text-to-speech messages."
 msgstr "テキスト読み上げメッセージを送信します。"
 
-#: src/utils/PermissionUtils.tsx:305
+#: src/utils/PermissionUtils.tsx:311
 msgid "Send TTS Messages"
 msgstr "TTSメッセージを送信"
 
@@ -19072,7 +19077,7 @@ msgstr "確認コードを送信"
 msgid "Send voice message"
 msgstr "音声メッセージを送信"
 
-#: src/components/modals/InviteModal.tsx:266
+#: src/components/modals/InviteModal.tsx:263
 #: src/components/modals/shared/RecipientList.tsx:223
 #: src/components/modals/ShareThemeModal.tsx:159
 msgid "Sent"
@@ -19098,7 +19103,7 @@ msgstr "添付ファイルを送信しました"
 msgid "sent an embed"
 msgstr "埋め込みを送信しました"
 
-#: src/components/modals/AddConnectionModal.tsx:277
+#: src/components/modals/AddConnectionModal.tsx:280
 msgid "Serve the token file"
 msgstr "トークンファイルを提供する"
 
@@ -19310,8 +19315,8 @@ msgstr "認証レベルを <0>中</0> に設定します。"
 msgid "Set verification level to <0>None</0>."
 msgstr "認証レベルを <0>なし</0> に設定します。"
 
-#: src/utils/PermissionUtils.tsx:417
-#: src/utils/PermissionUtils.tsx:513
+#: src/utils/PermissionUtils.tsx:423
+#: src/utils/PermissionUtils.tsx:519
 msgid "Set Voice Region"
 msgstr "ボイスリージョンを設定"
 
@@ -20174,8 +20179,8 @@ msgstr "スペイン語（ラテンアメリカ）"
 msgid "Spanish (Spain)"
 msgstr "スペイン語（スペイン）"
 
-#: src/utils/PermissionUtils.tsx:387
-#: src/utils/PermissionUtils.tsx:498
+#: src/utils/PermissionUtils.tsx:393
+#: src/utils/PermissionUtils.tsx:504
 msgid "Speak"
 msgstr "話す"
 
@@ -20397,7 +20402,7 @@ msgstr "音声通話を開始"
 
 #. placeholder {0}: staticEmojis.length
 #. placeholder {1}: maxStaticEmojis === Number.POSITIVE_INFINITY ? '∞' : maxStaticEmojis
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:349
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:367
 msgid "Static: {0} / {1}"
 msgstr "静的: {0} / {1}"
 
@@ -20423,7 +20428,7 @@ msgstr "ステータススレート"
 msgid "Status Slate"
 msgstr "ステータススレート"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:240
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:243
 msgid "Status:"
 msgstr "ステータス:"
 
@@ -20478,7 +20483,7 @@ msgstr "ステッカーを作成しました"
 msgid "Sticker Deleted"
 msgstr "ステッカーを削除しました"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:137
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:154
 msgid "Sticker density"
 msgstr "ステッカーの密度"
 
@@ -20505,7 +20510,7 @@ msgstr "ステッカーパック上限に達しました"
 msgid "sticker packs"
 msgstr "ステッカーパック"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:158
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:177
 msgid "Sticker Slots"
 msgstr "ステッカースロット"
 
@@ -20529,7 +20534,7 @@ msgid "Stickers"
 msgstr "ステッカー"
 
 #. placeholder {0}: Math.round(GlobalLimits.getStickerMaxSize() / 1024)
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:164
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:183
 msgid "Stickers must be exactly 320x320 pixels and no larger than {0} KB, but we automatically resize and compress images for you. Allowed file types: JPEG, PNG, WebP, GIF."
 msgstr "ステッカーは正確に320x320ピクセルで、{0}KB以下である必要がありますが、画像は自動的にリサイズおよび圧縮されます。許可されるファイル形式：JPEG、PNG、WebP、GIF。"
 
@@ -20611,8 +20616,8 @@ msgstr "ストリームプレビュー"
 msgid "Stream Quality"
 msgstr "ストリーム品質"
 
-#: src/utils/PermissionUtils.tsx:391
-#: src/utils/PermissionUtils.tsx:499
+#: src/utils/PermissionUtils.tsx:397
+#: src/utils/PermissionUtils.tsx:505
 msgid "Stream Video"
 msgstr "ビデオをストリーミング"
 
@@ -21139,7 +21144,7 @@ msgstr "お探しのコミュニティは削除されたか、アクセス権限
 msgid "The download link will be valid for 7 days"
 msgstr "ダウンロードリンクは7日間有効です"
 
-#: src/components/modals/AddConnectionModal.tsx:298
+#: src/components/modals/AddConnectionModal.tsx:301
 msgid "The file contains the verification token we will fetch from <0>{dnsUrl}</0>."
 msgstr "ファイルには、<0>{dnsUrl}</0>から取得する検証トークンが含まれています。"
 
@@ -21265,7 +21270,7 @@ msgstr "このチャンネルの招待リンクの読み込み中にエラーが
 msgid "There was an error loading the invites. Please try again."
 msgstr "招待の読み込み中にエラーが発生しました。もう一度お試しください。"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:204
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:231
 msgid "There was an error loading the stickers. Please try again."
 msgstr "ステッカーの読み込み中にエラーが発生しました。もう一度お試しください。"
 
@@ -21528,7 +21533,7 @@ msgstr "この招待は{seconds}秒で期限切れになります。"
 msgid "This invite has unlimited uses."
 msgstr "この招待は無制限に使用できます。"
 
-#: src/components/modals/InviteModal.tsx:315
+#: src/components/modals/InviteModal.tsx:312
 msgid "This invite link never expires."
 msgstr "この招待リンクは無期限です。"
 
@@ -21836,7 +21841,7 @@ msgstr "タイムアウト期間"
 msgid "Timeout ends {0} ({1})"
 msgstr "タイムアウト終了: {0} ({1})"
 
-#: src/utils/PermissionUtils.tsx:363
+#: src/utils/PermissionUtils.tsx:369
 msgid "Timeout Members"
 msgstr "メンバーをタイムアウト"
 
@@ -22431,7 +22436,7 @@ msgstr "プレビューを読み込めません。"
 msgid "Unable to load profile banner, badges, and bio."
 msgstr "プロフィールバナー、バッジ、およびプロフィールを読み込めません。"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:229
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:245
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "アップロード用の絵文字を準備できません。以下のエラーが発生しました："
 
@@ -22532,7 +22537,7 @@ msgstr "未請求アカウントの上書き"
 #: src/components/bottomsheets/DirectCallLobbyBottomSheet.tsx:286
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:211
 #: src/components/bottomsheets/VoiceSettingsBottomSheets.tsx:155
-#: src/components/layout/UserArea.tsx:160
+#: src/components/layout/UserArea.tsx:174
 #: src/components/voice/VoiceControlBar.tsx:611
 msgid "Undeafen"
 msgstr "スピーカー解除"
@@ -22569,7 +22574,7 @@ msgstr "未成年ユーザー"
 #: src/components/alerts/UserBannedFromGuildModal.tsx:30
 #: src/components/alerts/UserIpBannedFromGuildModal.tsx:31
 #: src/components/layout/ChannelListContent.tsx:149
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:192
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:208
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:160
 msgid "Understood"
 msgstr "了解しました"
@@ -22614,7 +22619,7 @@ msgstr "固有の招待"
 msgid "Unit"
 msgstr "単位"
 
-#: src/components/emojis/EmojiListItem.tsx:290
+#: src/components/emojis/EmojiListItem.tsx:301
 #: src/components/modals/BanDetailsModal.tsx:116
 msgid "Unknown"
 msgstr "不明"
@@ -22776,8 +22781,8 @@ msgstr "PlutoniumでDMのステッカーをアンロック"
 #: src/components/bottomsheets/MuteDurationSheet.tsx:75
 #: src/components/bottomsheets/VoiceLobbyBottomSheet.tsx:195
 #: src/components/channel/embeds/media/EmbedVideo.tsx:436
-#: src/components/layout/UserArea.tsx:148
-#: src/components/layout/UserArea.tsx:154
+#: src/components/layout/UserArea.tsx:162
+#: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/MobileVideoViewer.tsx:272
@@ -22813,7 +22818,7 @@ msgstr "チャンネルのミュート解除"
 #: src/components/bottomsheets/GuildHeaderBottomSheet.tsx:96
 #: src/components/uikit/context_menu/FavoritesGuildContextMenu.tsx:54
 #: src/components/uikit/context_menu/GuildContextMenu.tsx:40
-#: src/components/uikit/context_menu/items/GuildMenuData.tsx:326
+#: src/components/uikit/context_menu/items/GuildMenuData.tsx:329
 #: src/components/uikit/context_menu/items/GuildMenuItems.tsx:165
 msgid "Unmute Community"
 msgstr "コミュニティのミュート解除"
@@ -23146,7 +23151,7 @@ msgstr "カスタムサウンドをアップロード"
 msgid "Upload directly to {displayName}"
 msgstr "{displayName}に直接アップロード"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:329
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:347
 msgid "Upload Emoji"
 msgstr "絵文字をアップロード"
 
@@ -23170,11 +23175,15 @@ msgstr "アイコンをアップロード"
 msgid "Upload Image"
 msgstr "画像をアップロード"
 
+#: src/utils/PermissionUtils.tsx:285
+msgid "Upload new emoji and stickers, and manage your own creations."
+msgstr "新しい絵文字とステッカーをアップロードし、自分の作品を管理します。"
+
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:577
 msgid "upload sound"
 msgstr "音声をアップロード"
 
-#: src/components/modals/guild_tabs/GuildStickersTab.tsx:161
+#: src/components/modals/guild_tabs/GuildStickersTab.tsx:180
 msgid "Upload Sticker"
 msgstr "ステッカーをアップロード"
 
@@ -23235,8 +23244,8 @@ msgstr "メッセージの添付ファイルをダウンロードするための
 msgid "US East"
 msgstr "US East"
 
-#: src/utils/PermissionUtils.tsx:331
-#: src/utils/PermissionUtils.tsx:473
+#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:479
 msgid "Use @everyone/@here and @roles"
 msgstr "@everyone/@hereおよび@rolesを使用"
 
@@ -23294,17 +23303,17 @@ msgstr "アプリケーション全体でダークテーマを使用"
 msgid "Use Different Email"
 msgstr "別のメールを使用"
 
-#: src/utils/PermissionUtils.tsx:337
+#: src/utils/PermissionUtils.tsx:343
 msgid "Use emoji from other communities."
 msgstr "他のコミュニティの絵文字を使用。"
 
-#: src/utils/PermissionUtils.tsx:336
-#: src/utils/PermissionUtils.tsx:477
+#: src/utils/PermissionUtils.tsx:342
+#: src/utils/PermissionUtils.tsx:483
 msgid "Use External Emoji"
 msgstr "外部絵文字を使用"
 
-#: src/utils/PermissionUtils.tsx:341
-#: src/utils/PermissionUtils.tsx:478
+#: src/utils/PermissionUtils.tsx:347
+#: src/utils/PermissionUtils.tsx:484
 msgid "Use External Stickers"
 msgstr "外部ステッカーを使用"
 
@@ -23337,7 +23346,7 @@ msgstr "セキュリティキーを使用"
 msgid "Use system locale for time format"
 msgstr "時間形式にシステムのロケールを使用"
 
-#: src/components/modals/AddConnectionModal.tsx:233
+#: src/components/modals/AddConnectionModal.tsx:236
 msgid "Use the record below to prove domain ownership."
 msgstr "以下のレコードを使用してドメインの所有権を証明してください。"
 
@@ -23357,8 +23366,8 @@ msgstr "このボタンを使用してすべての権限をすばやくクリア
 msgid "Use this shortcut system-wide"
 msgstr "このショートカットをシステム全体で使用"
 
-#: src/utils/PermissionUtils.tsx:395
-#: src/utils/PermissionUtils.tsx:501
+#: src/utils/PermissionUtils.tsx:401
+#: src/utils/PermissionUtils.tsx:507
 msgid "Use Voice Activity"
 msgstr "音声アクティビティを使用"
 
@@ -23450,8 +23459,8 @@ msgstr "ユーザープロフィール: {tag}"
 msgid "User Record"
 msgstr "ユーザーレコード"
 
-#: src/components/layout/UserArea.tsx:272
-#: src/components/layout/UserArea.tsx:277
+#: src/components/layout/UserArea.tsx:286
+#: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
 #: src/components/modals/UserSettingsModal.tsx:154
 msgid "User Settings"
@@ -23570,7 +23579,7 @@ msgstr "ユーティリティ"
 msgid "value"
 msgstr "値"
 
-#: src/components/modals/AddConnectionModal.tsx:258
+#: src/components/modals/AddConnectionModal.tsx:261
 msgid "Value"
 msgstr "値"
 
@@ -23678,7 +23687,7 @@ msgstr "認証済みギルド"
 msgid "verify"
 msgstr "確認する"
 
-#: src/components/modals/AddConnectionModal.tsx:312
+#: src/components/modals/AddConnectionModal.tsx:315
 #: src/components/modals/EmailChangeModal.tsx:236
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
@@ -23690,11 +23699,11 @@ msgstr "認証"
 msgid "Verify Code"
 msgstr "コードを認証"
 
-#: src/components/modals/AddConnectionModal.tsx:229
+#: src/components/modals/AddConnectionModal.tsx:232
 msgid "Verify Connection"
 msgstr "接続を確認"
 
-#: src/components/modals/AddConnectionModal.tsx:228
+#: src/components/modals/AddConnectionModal.tsx:231
 msgid "Verify connection form"
 msgstr "接続確認フォーム"
 
@@ -23874,8 +23883,8 @@ msgstr "通話を表示"
 msgid "View call controls"
 msgstr "通話コントロールを表示"
 
-#: src/utils/PermissionUtils.tsx:374
-#: src/utils/PermissionUtils.tsx:454
+#: src/utils/PermissionUtils.tsx:380
+#: src/utils/PermissionUtils.tsx:460
 msgid "View Channel"
 msgstr "チャンネルを表示"
 
@@ -24691,7 +24700,7 @@ msgstr "エラーあり"
 msgid "With Plutonium, you can use animated avatars and banners (in GIF, APNG, animated WebP, or AVIF), customize your 4-digit tag, and unlock many other premium features."
 msgstr "Plutoniumを使えば、アニメーションアバターやバナー（GIF、APNG、アニメーションWebP、またはAVIF形式）を使用し、4桁のタグをカスタマイズし、他の多くのプレミアム機能をアンロックできます。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:339
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:353
 msgid "Withdraw"
 msgstr "取り下げる"
 
@@ -24759,7 +24768,7 @@ msgstr "あなた"
 msgid "You already have a group with these users. Do you really want to create a new one? That's fine too!"
 msgstr "これらのユーザーとは既にグループがあります。本当に新しく作成しますか？それでも構いません！"
 
-#: src/components/modals/AddConnectionModal.tsx:98
+#: src/components/modals/AddConnectionModal.tsx:101
 msgid "You already have this connection."
 msgstr "この接続はすでにあります。"
 
@@ -25392,7 +25401,7 @@ msgstr "あなたは参加できるコミュニティの最大数 ({maxGuilds} �
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "あなたは参加できるコミュニティの最大数 ({maxGuilds} コミュニティ) に達しました。別のコミュニティに参加する前に、1つのコミュニティを退会してください。"
 
-#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:187
+#: src/components/modals/guild_tabs/GuildEmojiTab.tsx:203
 msgid "You've reached the maximum number of static emojis. Delete some existing emojis or upgrade your server to increase the limit."
 msgstr "静的絵文字の最大数に達しました。既存の絵文字をいくつか削除するか、サーバーをアップグレードして制限を増やしてください。"
 
@@ -25425,7 +25434,7 @@ msgstr "アカウントはまだ所有権が主張されていません。メー
 msgid "Your account is too new to send messages in this community."
 msgstr "アカウントが新しすぎるため、このコミュニティでメッセージを送信できません。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:275
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:278
 msgid "Your application is pending review. You can still update your listing details or withdraw the application."
 msgstr "あなたの申請は審査中です。リスティングの詳細を更新するか、申請を取り下げることができます。"
 
@@ -25445,11 +25454,11 @@ msgstr "あなたのコード"
 msgid "Your code is ready!"
 msgstr "コードの準備ができました！"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:259
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:262
 msgid "Your community is listed in Discovery. You can update your listing details below or withdraw to remove it."
 msgstr "あなたのコミュニティはディスカバリーにリストされています。以下でリスティングの詳細を更新するか、取り下げて削除できます。"
 
-#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:227
+#: src/components/modals/guild_tabs/GuildDiscoveryTab.tsx:230
 msgid "Your community needs at least {minMemberCount} members before it can be listed in Discovery."
 msgstr "あなたのコミュニティはディスカバリーにリストされる前に、少なくとも {minMemberCount} 人のメンバーが必要です。"
 
@@ -25499,7 +25508,7 @@ msgid "Your invite expires in 24 hours"
 msgstr "招待は24時間で期限切れになります"
 
 #. placeholder {0}: getExpirationText()
-#: src/components/modals/InviteModal.tsx:319
+#: src/components/modals/InviteModal.tsx:323
 msgid "Your invite link expires in {0}."
 msgstr "招待リンクの有効期限は{0}です。"
 
@@ -25515,15 +25524,15 @@ msgstr "IPアドレスがこのコミュニティから禁止されており、�
 msgid "Your IP is Banned"
 msgstr "IPが禁止されています"
 
-#: src/lib/MessageQueue.tsx:386
+#: src/lib/MessageQueue.tsx:484
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "メッセージを配信できませんでした。これは通常、受信者とコミュニティを共有していないか、受信者が友達からのダイレクトメッセージのみを受け入れているためです。"
 
-#: src/lib/MessageQueue.tsx:398
+#: src/lib/MessageQueue.tsx:496
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "メッセージを配信できませんでした。ダイレクトメッセージを送信するには、アカウントを所有権主張する必要があります。"
 
-#: src/lib/MessageQueue.tsx:399
+#: src/lib/MessageQueue.tsx:497
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "あなたのメッセージは配信できませんでした。メッセージを送信するにはアカウントを取得する必要があります。"
 

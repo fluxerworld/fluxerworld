@@ -193,8 +193,13 @@ forward_call_to_shard(GuildId, Request, State) ->
     Pid = maps:get(pid, ShardMap),
     case catch gen_server:call(Pid, Request, ?DEFAULT_GEN_SERVER_TIMEOUT) of
         {'EXIT', _} ->
-            {_Shard, State2} = restart_shard(Index, State1),
-            forward_call_to_shard(GuildId, Request, State2);
+            case erlang:is_process_alive(Pid) of
+                true ->
+                    {{error, timeout}, State1};
+                false ->
+                    {_Shard, State2} = restart_shard(Index, State1),
+                    forward_call_to_shard(GuildId, Request, State2)
+            end;
         {ok, GuildPid} = Reply ->
             ets:insert(?GUILD_PID_CACHE, {GuildId, GuildPid}),
             erlang:monitor(process, GuildPid),
@@ -366,5 +371,55 @@ find_shard_by_pid_found_test() ->
     Pid = self(),
     Shards = #{0 => #{pid => Pid, ref => make_ref()}},
     ?assertMatch({ok, 0}, find_shard_by_pid(Pid, Shards)).
+
+forward_call_to_shard_timeout_does_not_restart_shard_test_() ->
+    {timeout, 15, fun() ->
+        catch ets:delete(guild_pid_cache),
+        SlowShardPid = spawn(fun() -> slow_shard_loop() end),
+        ShardRef = erlang:monitor(process, SlowShardPid),
+        State = #{
+            shards => #{0 => #{pid => SlowShardPid, ref => ShardRef}},
+            shard_count => 1
+        },
+        ets:new(guild_pid_cache, [named_table, public, set, {read_concurrency, true}]),
+        try
+            GuildId = 99999,
+            {Reply, NewState} = forward_call_to_shard(GuildId, {start_or_lookup, GuildId}, State),
+            ?assertMatch({error, timeout}, Reply),
+            ?assert(is_process_alive(SlowShardPid)),
+            NewShards = maps:get(shards, NewState),
+            #{pid := ShardPidAfter} = maps:get(0, NewShards),
+            ?assertEqual(SlowShardPid, ShardPidAfter)
+        after
+            SlowShardPid ! stop,
+            catch ets:delete(guild_pid_cache)
+        end
+    end}.
+
+slow_shard_loop() ->
+    receive
+        {'$gen_call', _From, _Msg} ->
+            timer:sleep(10000),
+            slow_shard_loop();
+        stop ->
+            ok;
+        _ ->
+            slow_shard_loop()
+    end.
+
+cleanup_guild_from_cache_does_not_remove_new_pid_test() ->
+    catch ets:delete(guild_pid_cache),
+    ets:new(guild_pid_cache, [named_table, public, set, {read_concurrency, true}]),
+    try
+        OldPid = spawn(fun() -> ok end),
+        timer:sleep(10),
+        NewPid = spawn(fun() -> timer:sleep(1000) end),
+        ets:insert(guild_pid_cache, {42, NewPid}),
+        cleanup_guild_from_cache(OldPid),
+        [{42, FoundPid}] = ets:lookup(guild_pid_cache, 42),
+        ?assertEqual(NewPid, FoundPid)
+    after
+        catch ets:delete(guild_pid_cache)
+    end.
 
 -endif.

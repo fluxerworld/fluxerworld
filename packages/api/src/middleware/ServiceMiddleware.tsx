@@ -35,6 +35,7 @@ import {Config} from '@fluxer/api/src/Config';
 import {ChannelRepository} from '@fluxer/api/src/channel/ChannelRepository';
 import {ChannelRequestService} from '@fluxer/api/src/channel/services/ChannelRequestService';
 import {ChannelService} from '@fluxer/api/src/channel/services/ChannelService';
+import {ChunkedUploadService} from '@fluxer/api/src/channel/services/ChunkedUploadService';
 import {MessageRequestService} from '@fluxer/api/src/channel/services/message/MessageRequestService';
 import {ScheduledMessageService} from '@fluxer/api/src/channel/services/ScheduledMessageService';
 import {StreamPreviewService} from '@fluxer/api/src/channel/services/StreamPreviewService';
@@ -153,17 +154,19 @@ import {UserService} from '@fluxer/api/src/user/services/UserService';
 import {UserPermissionUtils} from '@fluxer/api/src/utils/UserPermissionUtils';
 import {VoiceRepository} from '@fluxer/api/src/voice/VoiceRepository';
 import {VoiceService} from '@fluxer/api/src/voice/VoiceService';
-import {SendGridWebhookService} from '@fluxer/api/src/webhook/SendGridWebhookService';
+import {SweegoWebhookService} from '@fluxer/api/src/webhook/SweegoWebhookService';
 import {WebhookRepository} from '@fluxer/api/src/webhook/WebhookRepository';
 import {WebhookRequestService} from '@fluxer/api/src/webhook/WebhookRequestService';
 import {WebhookService} from '@fluxer/api/src/webhook/WebhookService';
 import type {ICacheService} from '@fluxer/cache/src/ICacheService';
 import {KVCacheProvider} from '@fluxer/cache/src/providers/KVCacheProvider';
+import {TEXT_BASED_CHANNEL_TYPES} from '@fluxer/constants/src/ChannelConstants';
 import {EmailI18nService} from '@fluxer/email/src/EmailI18nService';
 import type {EmailConfig, UserBouncedEmailChecker} from '@fluxer/email/src/EmailProviderTypes';
 import {EmailService} from '@fluxer/email/src/EmailService';
 import type {IEmailService} from '@fluxer/email/src/IEmailService';
 import {TestEmailService} from '@fluxer/email/src/TestEmailService';
+import {CannotSendMessageToNonTextChannelError} from '@fluxer/errors/src/domains/channel/CannotSendMessageToNonTextChannelError';
 import {createMockLogger} from '@fluxer/logger/src/mock';
 import {RateLimitService} from '@fluxer/rate_limit/src/RateLimitService';
 import type {ISmsProvider} from '@fluxer/sms/src/providers/ISmsProvider';
@@ -469,6 +472,19 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 		channelRepository,
 		userCacheService,
 		mediaService,
+	);
+
+	const chunkedUploadService = new ChunkedUploadService(
+		storageService,
+		kvClient,
+		userRepository,
+		limitConfigService,
+		channelService.getChannelAuthenticated.bind(channelService),
+		(channel) => {
+			if (!TEXT_BASED_CHANNEL_TYPES.has(channel.type)) {
+				throw new CannotSendMessageToNonTextChannelError();
+			}
+		},
 	);
 
 	const scheduledMessageRepository = new ScheduledMessageRepository();
@@ -793,7 +809,7 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 		donationService = new DonationService(donationMagicLinkService, donationCheckoutService);
 	}
 
-	const sendGridWebhookService = new SendGridWebhookService(userRepository, gatewayService);
+	const sweegoWebhookService = new SweegoWebhookService(userRepository, gatewayService);
 
 	const applicationService = new ApplicationService({
 		applicationRepository,
@@ -853,7 +869,7 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 		userCacheService,
 		mediaService,
 		liveKitWebhookService ?? null,
-		sendGridWebhookService,
+		sweegoWebhookService,
 	);
 	const packRequestService = new PackRequestService(packService);
 
@@ -870,6 +886,7 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 	ctx.set('cacheService', cacheService);
 	ctx.set('channelService', channelService);
 	ctx.set('channelRequestService', channelRequestService);
+	ctx.set('chunkedUploadService', chunkedUploadService);
 	ctx.set('messageRequestService', messageRequestService);
 	ctx.set('channelRepository', channelRepository);
 	ctx.set('connectionService', connectionService);
@@ -912,7 +929,7 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 	ctx.set('reportRequestService', reportRequestService);
 	ctx.set('rpcService', rpcService);
 	ctx.set('searchService', searchService);
-	ctx.set('sendGridWebhookService', sendGridWebhookService);
+	ctx.set('sweegoWebhookService', sweegoWebhookService);
 	ctx.set('snowflakeService', snowflakeService);
 	ctx.set('storageService', storageService);
 	ctx.set('themeService', themeService);

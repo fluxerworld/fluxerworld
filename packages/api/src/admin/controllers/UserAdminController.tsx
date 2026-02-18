@@ -34,6 +34,7 @@ import {
 	ChangeEmailRequest,
 	ChangeUsernameRequest,
 	ClearUserFieldsRequest,
+	DeleteWebAuthnCredentialRequest,
 	DisableForSuspiciousActivityRequest,
 	DisableMfaRequest,
 	ListUserChangeLogRequest,
@@ -42,6 +43,7 @@ import {
 	ListUserDmChannelsResponse,
 	ListUserSessionsRequest,
 	ListUserSessionsResponse,
+	ListWebAuthnCredentialsRequest,
 	LookupUserRequest,
 	LookupUserResponse,
 	ScheduleAccountDeletionRequest,
@@ -59,6 +61,7 @@ import {
 	UserMutationResponse,
 	VerifyUserEmailRequest,
 } from '@fluxer/schema/src/domains/admin/AdminUserSchemas';
+import {WebAuthnCredentialListResponse} from '@fluxer/schema/src/domains/auth/AuthSchemas';
 
 export function UserAdminController(app: HonoApp) {
 	app.get(
@@ -166,6 +169,53 @@ export function UserAdminController(app: HonoApp) {
 			const adminUserId = ctx.get('adminUserId');
 			const auditLogReason = ctx.get('auditLogReason');
 			await adminService.disableMfa(ctx.req.valid('json'), adminUserId, auditLogReason);
+			return ctx.body(null, 204);
+		},
+	);
+
+	app.post(
+		'/admin/users/list-webauthn-credentials',
+		RateLimitMiddleware(RateLimitConfigs.ADMIN_USER_MODIFY),
+		requireAdminACL(AdminACLs.USER_UPDATE_MFA),
+		Validator('json', ListWebAuthnCredentialsRequest),
+		OpenAPI({
+			operationId: 'list_user_webauthn_credentials',
+			summary: 'List user WebAuthn credentials',
+			responseSchema: WebAuthnCredentialListResponse,
+			statusCode: 200,
+			security: 'adminApiKey',
+			tags: 'Admin',
+			description:
+				'List all WebAuthn credentials (passkeys/security keys) registered for a user. Returns credential names, creation dates, and last usage. Creates audit log entry. Requires USER_UPDATE_MFA permission.',
+		}),
+		async (ctx) => {
+			const adminService = ctx.get('adminService');
+			const adminUserId = ctx.get('adminUserId');
+			const auditLogReason = ctx.get('auditLogReason');
+			return ctx.json(await adminService.listWebAuthnCredentials(ctx.req.valid('json'), adminUserId, auditLogReason));
+		},
+	);
+
+	app.post(
+		'/admin/users/delete-webauthn-credential',
+		RateLimitMiddleware(RateLimitConfigs.ADMIN_USER_MODIFY),
+		requireAdminACL(AdminACLs.USER_UPDATE_MFA),
+		Validator('json', DeleteWebAuthnCredentialRequest),
+		OpenAPI({
+			operationId: 'delete_user_webauthn_credential',
+			summary: 'Delete user WebAuthn credential',
+			responseSchema: null,
+			statusCode: 204,
+			security: 'adminApiKey',
+			tags: 'Admin',
+			description:
+				'Delete a specific WebAuthn credential (passkey/security key) from a user account. Creates audit log entry. Requires USER_UPDATE_MFA permission.',
+		}),
+		async (ctx) => {
+			const adminService = ctx.get('adminService');
+			const adminUserId = ctx.get('adminUserId');
+			const auditLogReason = ctx.get('auditLogReason');
+			await adminService.deleteWebAuthnCredential(ctx.req.valid('json'), adminUserId, auditLogReason);
 			return ctx.body(null, 204);
 		},
 	);

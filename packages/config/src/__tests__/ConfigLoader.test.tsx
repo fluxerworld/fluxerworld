@@ -63,13 +63,9 @@ function makeMinimalConfig(overrides: Record<string, unknown> = {}): Record<stri
 			},
 			gateway: {
 				port: 8771,
-				api_host: 'http://localhost:8772/api',
 				admin_reload_secret: 'deadbeef0123456789abcdef0123456789abcdef0123456789abcdef01234567',
 				media_proxy_endpoint: 'http://localhost:8772/media',
 			},
-		},
-		gateway: {
-			rpc_secret: 'rpc-test-secret',
 		},
 		auth: {
 			sudo_mode_secret: 'sudo-test-secret',

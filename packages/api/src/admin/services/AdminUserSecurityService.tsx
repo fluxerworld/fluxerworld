@@ -37,8 +37,10 @@ import {ServiceUnavailableError} from '@fluxer/errors/src/domains/core/ServiceUn
 import {UnknownUserError} from '@fluxer/errors/src/domains/user/UnknownUserError';
 import type {
 	BulkUpdateUserFlagsRequest,
+	DeleteWebAuthnCredentialRequest,
 	DisableForSuspiciousActivityRequest,
 	DisableMfaRequest,
+	ListWebAuthnCredentialsRequest,
 	SendPasswordResetRequest,
 	SetUserAclsRequest,
 	SetUserTraitsRequest,
@@ -46,6 +48,7 @@ import type {
 	UnlinkPhoneRequest,
 	UpdateSuspiciousActivityFlagsRequest,
 } from '@fluxer/schema/src/domains/admin/AdminUserSchemas';
+import type {WebAuthnCredentialListResponse} from '@fluxer/schema/src/domains/auth/AuthSchemas';
 
 interface AdminUserSecurityServiceDeps {
 	userRepository: IUserRepository;
@@ -428,6 +431,66 @@ export class AdminUserSecurityService {
 			successful,
 			failed,
 		};
+	}
+
+	async listWebAuthnCredentials(
+		data: ListWebAuthnCredentialsRequest,
+		adminUserId: UserID,
+		auditLogReason: string | null,
+	): Promise<WebAuthnCredentialListResponse> {
+		const {userRepository, auditService} = this.deps;
+		const userId = createUserID(data.user_id);
+		const user = await userRepository.findUnique(userId);
+		if (!user) {
+			throw new UnknownUserError();
+		}
+
+		const credentials = await userRepository.listWebAuthnCredentials(userId);
+
+		await auditService.createAuditLog({
+			adminUserId,
+			targetType: 'user',
+			targetId: BigInt(userId),
+			action: 'list_webauthn_credentials',
+			auditLogReason,
+			metadata: new Map([['credential_count', credentials.length.toString()]]),
+		});
+
+		return credentials.map((cred) => ({
+			id: cred.credentialId,
+			name: cred.name,
+			created_at: cred.createdAt.toISOString(),
+			last_used_at: cred.lastUsedAt?.toISOString() ?? null,
+		}));
+	}
+
+	async deleteWebAuthnCredential(
+		data: DeleteWebAuthnCredentialRequest,
+		adminUserId: UserID,
+		auditLogReason: string | null,
+	) {
+		const {userRepository, auditService} = this.deps;
+		const userId = createUserID(data.user_id);
+		const user = await userRepository.findUnique(userId);
+		if (!user) {
+			throw new UnknownUserError();
+		}
+
+		const credential = await userRepository.getWebAuthnCredential(userId, data.credential_id);
+		if (!credential) {
+			throw new UnknownUserError();
+		}
+
+		await userRepository.deleteWebAuthnCredential(userId, data.credential_id);
+
+		await auditService.createAuditLog({
+			adminUserId,
+			targetType: 'user',
+			targetId: BigInt(userId),
+			action: 'delete_webauthn_credential',
+			auditLogReason,
+			metadata: new Map([['credential_id', data.credential_id]]),
+		});
 	}
 
 	async listUserSessions(userId: bigint, adminUserId: UserID, auditLogReason: string | null) {

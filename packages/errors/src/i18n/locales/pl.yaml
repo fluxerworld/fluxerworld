@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: Test harness jest zabroniony.
 admin_and_system.unknown_suspicious_flag: Nieznana podejrzana flaga.
 admin_and_system.update_failed: Nie mogliśmy zaktualizować zasobu. Spróbuj ponownie.
 admin_and_system.user_must_be_bot_for_system_user: Użytkownik musi być botem, aby został oznaczony jako użytkownik systemowy.
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Indeks fragmentu jest poza zakresem dla tego przesyłania.
+attachments_and_uploads.chunked_upload_incomplete: Nie wszystkie fragmenty zostały przesłane.
+attachments_and_uploads.chunked_upload_not_found: Sesja przesyłania nie została znaleziona lub wygasła.
+attachments_and_uploads.chunked_upload_not_owned: Ta sesja przesyłania nie należy do ciebie.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` i `expires_at` są wymagane.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` i `message_id` muszą być prawidłowymi liczbami całkowitymi.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Użytkownicy z uprawnieniem MANAGE_MESSAGES mogą edytować tylko opisy załączników, a nie inne metadane.
@@ -150,6 +154,7 @@ calls_and_voice.voice_messages_require_single_attachment: Wiadomości głosowe m
 captcha.invalid: Nieprawidłowa captcha.
 captcha.required: Captcha jest wymagana.
 connections.already_exists: Połączenie tego typu z tym identyfikatorem już istnieje.
+connections.bluesky_oauth_authorization_failed: Nie mogliśmy znaleźć tego identyfikatora Bluesky. Sprawdź go i spróbuj ponownie.
 connections.bluesky_oauth_callback_failed: Nie mogliśmy dokończyć połączenia z Bluesky. Spróbuj ponownie.
 connections.bluesky_oauth_not_enabled: Połączenia Bluesky nie są włączone na tym serwerze.
 connections.bluesky_oauth_session_expired: Twoja sesja Bluesky wygasła. Połącz ponownie swoje konto.

@@ -142,10 +142,10 @@ export function buildAPIConfigFromMaster(master: MasterConfig): APIConfig {
 			url: master.internal.kv,
 		},
 
-		gateway: {
-			rpcEndpoint: master.gateway.rpc_endpoint,
-			rpcSecret: master.gateway.rpc_secret,
-			rpcTcpPort: master.services.gateway.rpc_tcp_port,
+		nats: {
+			coreUrl: master.services.nats?.core_url ?? 'nats://127.0.0.1:4222',
+			jetStreamUrl: master.services.nats?.jetstream_url ?? 'nats://127.0.0.1:4223',
+			authToken: master.services.nats?.auth_token ?? '',
 		},
 
 		mediaProxy: {
@@ -392,8 +392,8 @@ export function buildAPIConfigFromMaster(master: MasterConfig): APIConfig {
 		},
 
 		queue: {
-			baseUrl: master.internal.queue,
-			authSecret: master.services.queue?.secret,
+			baseUrl: 'queue' in master.internal ? String(master.internal.queue) : 'http://localhost:8088/queue',
+			authSecret: 'queue' in master.services ? (master.services.queue as {secret?: string}).secret : undefined,
 		},
 	};
 }

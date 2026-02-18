@@ -48,10 +48,12 @@ import type {
 	ChangeEmailRequest,
 	ChangeUsernameRequest,
 	ClearUserFieldsRequest,
+	DeleteWebAuthnCredentialRequest,
 	DisableForSuspiciousActivityRequest,
 	DisableMfaRequest,
 	ListUserChangeLogRequest,
 	ListUserDmChannelsRequest,
+	ListWebAuthnCredentialsRequest,
 	LookupUserRequest,
 	ScheduleAccountDeletionRequest,
 	SendPasswordResetRequest,
@@ -257,6 +259,22 @@ export class AdminUserService {
 
 	async listUserSessions(userId: bigint, adminUserId: UserID, auditLogReason: string | null) {
 		return this.securityService.listUserSessions(userId, adminUserId, auditLogReason);
+	}
+
+	async listWebAuthnCredentials(
+		data: ListWebAuthnCredentialsRequest,
+		adminUserId: UserID,
+		auditLogReason: string | null,
+	) {
+		return this.securityService.listWebAuthnCredentials(data, adminUserId, auditLogReason);
+	}
+
+	async deleteWebAuthnCredential(
+		data: DeleteWebAuthnCredentialRequest,
+		adminUserId: UserID,
+		auditLogReason: string | null,
+	) {
+		return this.securityService.deleteWebAuthnCredential(data, adminUserId, auditLogReason);
 	}
 
 	async listUserDmChannels(data: ListUserDmChannelsRequest) {

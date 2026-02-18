@@ -39,7 +39,8 @@ export async function prepareAttachmentsForNonce(
 		throw new Error('No message upload found');
 	}
 
-	const files = messageUpload.attachments.map((att) => att.file);
+	const inlineAttachments = messageUpload.attachments.filter((att) => !att.uploadedFilename);
+	const files = inlineAttachments.map((att) => att.file);
 	const attachments = favoriteMemeId ? undefined : mapMessageUploadAttachments(messageUpload.attachments);
 
 	return {attachments, files};
@@ -54,5 +55,6 @@ export function mapMessageUploadAttachments(attachments: Array<CloudAttachment>)
 		flags: att.flags,
 		duration: att.duration != null ? Math.ceil(att.duration) : undefined,
 		waveform: att.waveform ?? undefined,
+		uploaded_filename: att.uploadedFilename,
 	}));
 }

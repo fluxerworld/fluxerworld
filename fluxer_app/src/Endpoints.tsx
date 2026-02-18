@@ -96,6 +96,11 @@ export const Endpoints = {
 	CHANNEL_TYPING: (channelId: string) => `/channels/${channelId}/typing`,
 	CHANNEL_WEBHOOKS: (channelId: string) => `/channels/${channelId}/webhooks`,
 	CHANNEL_RTC_REGIONS: (channelId: string) => `/channels/${channelId}/rtc-regions`,
+	CHANNEL_CHUNKED_UPLOADS: (channelId: string) => `/channels/${channelId}/chunked-uploads`,
+	CHANNEL_CHUNKED_UPLOAD_CHUNK: (channelId: string, uploadId: string, chunkIndex: number) =>
+		`/channels/${channelId}/chunked-uploads/${uploadId}/chunks/${chunkIndex}`,
+	CHANNEL_CHUNKED_UPLOAD_COMPLETE: (channelId: string, uploadId: string) =>
+		`/channels/${channelId}/chunked-uploads/${uploadId}/complete`,
 	CHANNEL_CALL: (channelId: string) => `/channels/${channelId}/call`,
 	CHANNEL_CALL_RING: (channelId: string) => `/channels/${channelId}/call/ring`,
 	CHANNEL_CALL_STOP_RINGING: (channelId: string) => `/channels/${channelId}/call/stop-ringing`,

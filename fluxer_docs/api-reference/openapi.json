@@ -12355,6 +12355,141 @@
         }
       }
     },
+    "/admin/users/delete-webauthn-credential": {
+      "post": {
+        "operationId": "delete_user_webauthn_credential",
+        "summary": "Delete user WebAuthn credential",
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request - The request was malformed or contained invalid data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication is required or the token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - You do not have permission to perform this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - You are being rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "RATE_LIMITED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "retry_after": {
+                      "type": "number",
+                      "description": "Seconds to wait before retrying"
+                    },
+                    "global": {
+                      "type": "boolean",
+                      "description": "Whether this is a global rate limit"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "retry_after"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Number of seconds to wait before retrying (only on 429)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "The number of requests that can be made in the current window",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "The number of remaining requests that can be made",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the rate limit resets",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An unexpected error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "title": "Delete user WebAuthn credential"
+          }
+        },
+        "description": "Delete a specific WebAuthn credential (passkey/security key) from a user account. Creates audit log entry. Requires USER_UPDATE_MFA permission.",
+        "security": [
+          {
+            "adminApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteWebAuthnCredentialRequest"
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin/users/disable-mfa": {
       "post": {
         "operationId": "disable_user_mfa",
@@ -13052,6 +13187,148 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ListUserSessionsRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/users/list-webauthn-credentials": {
+      "post": {
+        "operationId": "list_user_webauthn_credentials",
+        "summary": "List user WebAuthn credentials",
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WebAuthnCredentialListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - The request was malformed or contained invalid data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication is required or the token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - You do not have permission to perform this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - You are being rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "RATE_LIMITED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "retry_after": {
+                      "type": "number",
+                      "description": "Seconds to wait before retrying"
+                    },
+                    "global": {
+                      "type": "boolean",
+                      "description": "Whether this is a global rate limit"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "retry_after"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Number of seconds to wait before retrying (only on 429)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "The number of requests that can be made in the current window",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "The number of remaining requests that can be made",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the rate limit resets",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An unexpected error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "title": "List user WebAuthn credentials"
+          }
+        },
+        "description": "List all WebAuthn credentials (passkeys/security keys) registered for a user. Returns credential names, creation dates, and last usage. Creates audit log entry. Requires USER_UPDATE_MFA permission.",
+        "security": [
+          {
+            "adminApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ListWebAuthnCredentialsRequest"
               }
             }
           }
@@ -21949,6 +22226,485 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CallRingBodySchema"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/channels/{channel_id}/chunked-uploads": {
+      "post": {
+        "operationId": "create_chunked_upload",
+        "summary": "Initiate a chunked upload session",
+        "tags": [
+          "Channels",
+          "Attachments"
+        ],
+        "responses": {
+          "201": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateChunkedUploadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - The request was malformed or contained invalid data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication is required or the token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - You do not have permission to perform this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - You are being rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "RATE_LIMITED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "retry_after": {
+                      "type": "number",
+                      "description": "Seconds to wait before retrying"
+                    },
+                    "global": {
+                      "type": "boolean",
+                      "description": "Whether this is a global rate limit"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "retry_after"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Number of seconds to wait before retrying (only on 429)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "The number of requests that can be made in the current window",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "The number of remaining requests that can be made",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the rate limit resets",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An unexpected error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "title": "Initiate a chunked upload session"
+          }
+        },
+        "description": "Creates a new chunked upload session for uploading large files. Returns the upload ID, expected chunk size, and total chunk count. The client should then upload each chunk individually and complete the upload when all chunks are uploaded.",
+        "security": [
+          {
+            "sessionToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "channel_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "description": "The ID of the channel"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateChunkedUploadRequest"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/channels/{channel_id}/chunked-uploads/{upload_id}/chunks/{chunk_index}": {
+      "put": {
+        "operationId": "upload_chunk",
+        "summary": "Upload a file chunk",
+        "tags": [
+          "Channels",
+          "Attachments"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UploadChunkResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - The request was malformed or contained invalid data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication is required or the token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - You do not have permission to perform this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - You are being rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "RATE_LIMITED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "retry_after": {
+                      "type": "number",
+                      "description": "Seconds to wait before retrying"
+                    },
+                    "global": {
+                      "type": "boolean",
+                      "description": "Whether this is a global rate limit"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "retry_after"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Number of seconds to wait before retrying (only on 429)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "The number of requests that can be made in the current window",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "The number of remaining requests that can be made",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the rate limit resets",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An unexpected error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "title": "Upload a file chunk"
+          }
+        },
+        "description": "Uploads a single chunk of a file as part of a chunked upload session. The chunk index is zero-based. Returns an ETag that must be provided when completing the upload.",
+        "security": [
+          {
+            "sessionToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "channel_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "description": "The ID of the channel"
+          },
+          {
+            "name": "upload_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The upload id"
+          },
+          {
+            "name": "chunk_index",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The chunk index"
+          }
+        ]
+      }
+    },
+    "/channels/{channel_id}/chunked-uploads/{upload_id}/complete": {
+      "post": {
+        "operationId": "complete_chunked_upload",
+        "summary": "Complete a chunked upload",
+        "tags": [
+          "Channels",
+          "Attachments"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CompleteChunkedUploadResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request - The request was malformed or contained invalid data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication is required or the token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - You do not have permission to perform this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - You are being rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "RATE_LIMITED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "retry_after": {
+                      "type": "number",
+                      "description": "Seconds to wait before retrying"
+                    },
+                    "global": {
+                      "type": "boolean",
+                      "description": "Whether this is a global rate limit"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "retry_after"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Number of seconds to wait before retrying (only on 429)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "The number of requests that can be made in the current window",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "The number of remaining requests that can be made",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the rate limit resets",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An unexpected error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "title": "Complete a chunked upload"
+          }
+        },
+        "description": "Completes a chunked upload session by assembling all uploaded chunks. Requires ETags for all chunks. Returns the upload filename that can be referenced when sending a message with the uploaded file.",
+        "security": [
+          {
+            "sessionToken": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "channel_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/SnowflakeType"
+            },
+            "description": "The ID of the channel"
+          },
+          {
+            "name": "upload_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The upload id"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CompleteChunkedUploadRequest"
               }
             }
           }
@@ -60199,6 +60955,7 @@
           "ACCOUNT_DISABLED",
           "BAD_GATEWAY",
           "BAD_REQUEST",
+          "BLUESKY_OAUTH_AUTHORIZATION_FAILED",
           "BLUESKY_OAUTH_CALLBACK_FAILED",
           "BLUESKY_OAUTH_NOT_ENABLED",
           "BLUESKY_OAUTH_SESSION_EXPIRED",
@@ -60240,6 +60997,10 @@
           "CANNOT_SHRINK_RESERVED_SLOTS",
           "CAPTCHA_REQUIRED",
           "CHANNEL_INDEXING",
+          "CHUNKED_UPLOAD_CHUNK_INDEX_OUT_OF_RANGE",
+          "CHUNKED_UPLOAD_INCOMPLETE",
+          "CHUNKED_UPLOAD_NOT_FOUND",
+          "CHUNKED_UPLOAD_NOT_OWNED",
           "COMMUNICATION_DISABLED",
           "CONNECTION_ALREADY_EXISTS",
           "CONNECTION_INITIATION_TOKEN_INVALID",
@@ -60482,6 +61243,7 @@
           "This account has been disabled",
           "Bad gateway",
           "Bad request",
+          "The Bluesky handle could not be resolved for authorisation",
           "The Bluesky OAuth callback could not be processed",
           "Bluesky OAuth connections are not enabled on this instance",
           "The Bluesky OAuth session has expired or been revoked",
@@ -60523,6 +61285,10 @@
           "Cannot shrink reserved slots",
           "Captcha verification is required",
           "Channel is currently being indexed",
+          "Chunk index is out of range for this upload",
+          "Not all chunks have been uploaded",
+          "Chunked upload session was not found",
+          "You do not own this chunked upload session",
           "You are timed out in this guild",
           "A connection of this type with this identifier already exists",
           "The connection initiation token is invalid or has expired",
@@ -65643,7 +66409,8 @@
               "audit_logs",
               "channel_messages",
               "guild_members",
-              "favorite_memes"
+              "favorite_memes",
+              "discovery"
             ],
             "x-enumNames": [
               "guilds",
@@ -65652,7 +66419,8 @@
               "audit_logs",
               "channel_messages",
               "guild_members",
-              "favorite_memes"
+              "favorite_memes",
+              "discovery"
             ],
             "x-enumDescriptions": [
               "Guild search index",
@@ -65661,7 +66429,8 @@
               "Audit log search index",
               "Channel message search index",
               "Guild member search index",
-              "Favourite meme search index"
+              "Favourite meme search index",
+              "Discovery guild search index"
             ],
             "description": "Type of search index to refresh"
           },
@@ -66632,6 +67401,22 @@
           "fields"
         ]
       },
+      "DeleteWebAuthnCredentialRequest": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          },
+          "credential_id": {
+            "type": "string",
+            "description": "ID of the WebAuthn credential to delete"
+          }
+        },
+        "required": [
+          "user_id",
+          "credential_id"
+        ]
+      },
       "DisableForSuspiciousActivityRequest": {
         "type": "object",
         "properties": {
@@ -66863,6 +67648,57 @@
         ]
       },
       "ListUserSessionsRequest": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        },
+        "required": [
+          "user_id"
+        ]
+      },
+      "WebAuthnCredentialListResponse": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/WebAuthnCredentialResponse"
+        }
+      },
+      "WebAuthnCredentialResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The credential ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "User-assigned name for the credential"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "When the credential was registered"
+          },
+          "last_used_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "When the credential was last used"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "created_at",
+          "last_used_at"
+        ]
+      },
+      "ListWebAuthnCredentialsRequest": {
         "type": "object",
         "properties": {
           "user_id": {
@@ -69485,7 +70321,7 @@
             "items": {
               "$ref": "#/components/schemas/UserPartialResponse"
             },
-            "maxItems": 10,
+            "maxItems": 25,
             "description": "The recipients of the DM channel"
           },
           "nsfw": {
@@ -70371,6 +71207,123 @@
           }
         }
       },
+      "CreateChunkedUploadResponse": {
+        "type": "object",
+        "properties": {
+          "upload_id": {
+            "type": "string",
+            "description": "The unique identifier for the upload session"
+          },
+          "upload_filename": {
+            "type": "string",
+            "description": "The temporary filename used to reference this upload"
+          },
+          "chunk_size": {
+            "type": "integer",
+            "format": "int53",
+            "description": "The size of each chunk in bytes"
+          },
+          "chunk_count": {
+            "type": "integer",
+            "format": "int53",
+            "description": "The total number of chunks to upload"
+          }
+        },
+        "required": [
+          "upload_id",
+          "upload_filename",
+          "chunk_size",
+          "chunk_count"
+        ]
+      },
+      "CreateChunkedUploadRequest": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string",
+            "description": "The name of the file being uploaded"
+          },
+          "file_size": {
+            "type": "integer",
+            "maximum": 9007199254740991,
+            "exclusiveMinimum": 0,
+            "format": "int64",
+            "description": "The total size of the file in bytes"
+          }
+        },
+        "required": [
+          "filename",
+          "file_size"
+        ]
+      },
+      "UploadChunkResponse": {
+        "type": "object",
+        "properties": {
+          "etag": {
+            "type": "string",
+            "description": "The ETag of the uploaded chunk"
+          }
+        },
+        "required": [
+          "etag"
+        ]
+      },
+      "CompleteChunkedUploadResponse": {
+        "type": "object",
+        "properties": {
+          "upload_filename": {
+            "type": "string",
+            "description": "The temporary filename used to reference this upload"
+          },
+          "file_size": {
+            "type": "integer",
+            "format": "int53",
+            "description": "The total size of the uploaded file in bytes"
+          },
+          "content_type": {
+            "type": "string",
+            "description": "The MIME type of the uploaded file"
+          }
+        },
+        "required": [
+          "upload_filename",
+          "file_size",
+          "content_type"
+        ]
+      },
+      "CompleteChunkedUploadRequest": {
+        "type": "object",
+        "properties": {
+          "etags": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "chunk_index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 9007199254740991,
+                  "format": "int64",
+                  "description": "The zero-based index of the chunk"
+                },
+                "etag": {
+                  "type": "string",
+                  "description": "The ETag returned when the chunk was uploaded"
+                }
+              },
+              "required": [
+                "chunk_index",
+                "etag"
+              ]
+            },
+            "minItems": 1,
+            "description": "Array of chunk ETags in order"
+          }
+        },
+        "required": [
+          "etags"
+        ]
+      },
       "InviteMetadataResponseSchema": {
         "oneOf": [
           {
@@ -70662,7 +71615,7 @@
             "items": {
               "$ref": "#/components/schemas/ChannelPartialRecipientResponse"
             },
-            "maxItems": 10,
+            "maxItems": 25,
             "description": "The recipients of the DM channel"
           }
         },
@@ -81752,46 +82705,6 @@
           "code"
         ]
       },
-      "WebAuthnCredentialListResponse": {
-        "type": "array",
-        "items": {
-          "$ref": "#/components/schemas/WebAuthnCredentialResponse"
-        }
-      },
-      "WebAuthnCredentialResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "description": "The credential ID"
-          },
-          "name": {
-            "type": "string",
-            "description": "User-assigned name for the credential"
-          },
-          "created_at": {
-            "type": "string",
-            "description": "When the credential was registered"
-          },
-          "last_used_at": {
-            "anyOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "description": "When the credential was last used"
-          }
-        },
-        "required": [
-          "id",
-          "name",
-          "created_at",
-          "last_used_at"
-        ]
-      },
       "WebAuthnRegisterRequest": {
         "type": "object",
         "properties": {
@@ -84957,6 +85870,9 @@
     },
     {
       "name": "Connections"
+    },
+    {
+      "name": "Attachments"
     },
     {
       "name": "Messages"

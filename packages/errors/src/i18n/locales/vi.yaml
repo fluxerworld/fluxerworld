@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: Thiết bị kiểm thử bị cấm.
 admin_and_system.unknown_suspicious_flag: Cờ đáng ngờ không xác định.
 admin_and_system.update_failed: Không thể cập nhật tài nguyên. Vui lòng thử lại.
 admin_and_system.user_must_be_bot_for_system_user: Người dùng phải là bot để được đánh dấu là người dùng hệ thống.
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Chỉ mục phần nằm ngoài phạm vi cho lần tải lên này.
+attachments_and_uploads.chunked_upload_incomplete: Chưa tải lên hết tất cả các phần.
+attachments_and_uploads.chunked_upload_not_found: Phiên tải lên không tìm thấy hoặc đã hết hạn.
+attachments_and_uploads.chunked_upload_not_owned: Bạn không sở hữu phiên tải lên này.
 attachments_and_uploads.attachment_fields_required: Cần có `attachment_id`, `channel_id`, `message_id`, và `expires_at`.
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id`, và `message_id` phải là số nguyên hợp lệ.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Người dùng có quyền MANAGE_MESSAGES chỉ có thể chỉnh sửa mô tả attachment, không thể sửa metadata khác.
@@ -195,6 +199,7 @@ channels_and_guilds.voice_channels_cannot_be_above_text_channels: Kênh thoại 
 colors.color_value_too_high: Giá trị màu không được vượt quá 0xffffff.
 colors.color_value_too_low: Giá trị màu phải ít nhất là 0x000000.
 connections.already_exists: Một kết nối loại này với định danh này đã tồn tại.
+connections.bluesky_oauth_authorization_failed: Chúng tôi không thể xác định tên người dùng Bluesky đó. Vui lòng kiểm tra và thử lại.
 connections.bluesky_oauth_callback_failed: Chúng tôi không thể hoàn thành kết nối Bluesky. Vui lòng thử lại.
 connections.bluesky_oauth_not_enabled: Các kết nối Bluesky không được bật trên máy chủ này.
 connections.bluesky_oauth_session_expired: Phiên Bluesky của bạn đã hết hạn. Vui lòng kết nối lại tài khoản của bạn.

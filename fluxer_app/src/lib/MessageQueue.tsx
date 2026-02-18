@@ -32,6 +32,7 @@ import {NSFWContentRejectedModal} from '@app/components/alerts/NSFWContentReject
 import {SlowmodeRateLimitedModal} from '@app/components/alerts/SlowmodeRateLimitedModal';
 import {Endpoints} from '@app/Endpoints';
 import i18n from '@app/I18n';
+import {shouldUseChunkedUpload, uploadFileChunked} from '@app/lib/ChunkedUploadService';
 import {CloudUpload} from '@app/lib/CloudUpload';
 import http, {type HttpResponse} from '@app/lib/HttpClient';
 import type {HttpError} from '@app/lib/HttpError';
@@ -224,6 +225,32 @@ class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | un
 			files = result.files;
 		}
 
+		if (hasAttachments && files?.length && attachments?.length) {
+			const abortController = new AbortController();
+			this.abortControllers.set(nonce, abortController);
+
+			try {
+				const chunkedResult = await this.performChunkedUploads(
+					channelId,
+					nonce,
+					files,
+					attachments,
+					abortController.signal,
+				);
+				files = chunkedResult.files;
+				attachments = chunkedResult.attachments;
+			} catch (error) {
+				this.abortControllers.delete(nonce);
+				const httpError = error as HttpError;
+				logger.error(`Chunked upload failed for channel ${channelId}:`, error);
+				this.handleSendError(channelId, nonce, httpError, i18n, payload.hasAttachments);
+				completed(null, undefined, error);
+				return;
+			}
+
+			this.abortControllers.delete(nonce);
+		}
+
 		const requestBody = buildMessageCreateRequest({
 			content: payload.content,
 			nonce,
@@ -292,6 +319,77 @@ class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | un
 		} finally {
 			this.abortControllers.delete(nonce);
 		}
+	}
+
+	private async performChunkedUploads(
+		channelId: string,
+		nonce: string,
+		files: Array<File>,
+		attachments: Array<ApiAttachmentMetadata>,
+		signal: AbortSignal,
+	): Promise<{files: Array<File>; attachments: Array<ApiAttachmentMetadata>}> {
+		const largeFileIndices = new Set<number>();
+
+		for (let i = 0; i < files.length; i++) {
+			if (shouldUseChunkedUpload(files[i])) {
+				largeFileIndices.add(i);
+			}
+		}
+
+		if (largeFileIndices.size === 0) {
+			return {files, attachments};
+		}
+
+		const totalChunkedSize = Array.from(largeFileIndices).reduce((sum, i) => sum + files[i].size, 0);
+		const totalOverallSize = files.reduce((sum, f) => sum + f.size, 0);
+		const chunkedRatio = totalOverallSize > 0 ? totalChunkedSize / totalOverallSize : 0;
+		const chunkedProgressWeight = chunkedRatio * 90;
+
+		const perFileProgress = new Map<number, number>();
+		for (const i of largeFileIndices) {
+			perFileProgress.set(i, 0);
+		}
+
+		const updatedAttachments = [...attachments];
+
+		await Promise.all(
+			Array.from(largeFileIndices).map(async (fileIndex) => {
+				const file = files[fileIndex];
+				const result = await uploadFileChunked(
+					channelId,
+					file,
+					(loaded, _total) => {
+						perFileProgress.set(fileIndex, loaded);
+						const totalLoaded = Array.from(perFileProgress.values()).reduce((s, v) => s + v, 0);
+						const ratio = totalChunkedSize > 0 ? totalLoaded / totalChunkedSize : 0;
+						const overallProgress = ratio * chunkedProgressWeight;
+						CloudUpload.updateSendingProgress(nonce, overallProgress);
+					},
+					signal,
+				);
+
+				if (updatedAttachments[fileIndex]) {
+					updatedAttachments[fileIndex] = {
+						...updatedAttachments[fileIndex],
+						uploaded_filename: result.upload_filename,
+					};
+				}
+			}),
+		);
+
+		const inlineFiles: Array<File> = [];
+		let inlineIndex = 0;
+		const remappedAttachments = updatedAttachments.map((att, originalIndex) => {
+			if (largeFileIndices.has(originalIndex)) {
+				return att;
+			}
+			const newId = String(inlineIndex);
+			inlineFiles.push(files[originalIndex]);
+			inlineIndex++;
+			return {...att, id: newId};
+		});
+
+		return {files: inlineFiles, attachments: remappedAttachments};
 	}
 
 	private async sendMultipartMessage(

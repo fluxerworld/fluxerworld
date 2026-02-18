@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: Testhärnessen är förbjuden.
 admin_and_system.unknown_suspicious_flag: Okänd flagga för misstänkt aktivitet.
 admin_and_system.update_failed: Vi kunde inte uppdatera resursen. Försök igen.
 admin_and_system.user_must_be_bot_for_system_user: Användaren måste vara en bot för att kunna markeras som systemanvändare.
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Chunk-indexet är utanför det giltiga intervallet för den här uppladdningen.
+attachments_and_uploads.chunked_upload_incomplete: Inte alla chunks har laddats upp.
+attachments_and_uploads.chunked_upload_not_found: Uppladdningssessionen hittades inte eller har gått ut.
+attachments_and_uploads.chunked_upload_not_owned: Du äger inte den här uppladdningssessionen.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` och `expires_at` krävs.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` och `message_id` måste vara giltiga heltal.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Användare med MANAGE_MESSAGES kan bara redigera bilagebeskrivningar, inte annan metadata.
@@ -203,6 +207,7 @@ content_and_safety.explicit_content_cannot_be_sent: Explicit innehåll kan inte 
 content_and_safety.ncmec_already_submitted: Det här innehållet har redan skickats in till NCMEC.
 content_and_safety.ncmec_submission_failed: Vi kunde inte skicka rapporten till NCMEC. Försök igen senare.
 content_and_safety.nsfw_age_restricted: NSFW-innehåll är åldersbegränsat.
+connections.bluesky_oauth_authorization_failed: Vi kunde inte hitta det Bluesky-handtaget. Kontrollera det och försök igen.
 connections.bluesky_oauth_callback_failed: Vi kunde inte slutföra Bluesky-anslutningen. Försök igen.
 connections.bluesky_oauth_not_enabled: Bluesky-anslutningar är inte aktiverade på den här servern.
 connections.bluesky_oauth_session_expired: Din Bluesky-session har gått ut. Anslut ditt konto på nytt.

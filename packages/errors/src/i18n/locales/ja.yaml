@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: テストハーネスは許可されて
 admin_and_system.unknown_suspicious_flag: 不明な不審フラグです。
 admin_and_system.update_failed: リソースを更新できませんでした。もう一度お試しください。
 admin_and_system.user_must_be_bot_for_system_user: ユーザーをシステムユーザーとしてマークするには、ボットである必要があります。
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: チャンクのインデックスがこのアップロードの範囲外だよ。
+attachments_and_uploads.chunked_upload_incomplete: まだすべてのチャンクがアップロードされてないよ。
+attachments_and_uploads.chunked_upload_not_found: アップロードセッションが見つからないか、有効期限が切れてるよ。
+attachments_and_uploads.chunked_upload_not_owned: このアップロードセッションはあなたのものじゃないよ。
 attachments_and_uploads.attachment_fields_required: '`attachment_id`、`channel_id`、`message_id`、`expires_at`が全て必要だよ。'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`、`channel_id`、`message_id`は有効な整数じゃないとダメだよ。'
 attachments_and_uploads.cannot_edit_attachment_metadata: MANAGE_MESSAGES権限を持つユーザーは添付ファイルの説明だけを編集できて、他のメタデータは編集できないよ。
@@ -204,6 +208,7 @@ content_and_safety.ncmec_already_submitted: この内容はすでにNCMECに提�
 content_and_safety.ncmec_submission_failed: NCMECに報告を送れなかったよ。あとでもう一度試してね。
 content_and_safety.nsfw_age_restricted: NSFWコンテンツは年齢制限があるよ。
 connections.already_exists: このタイプの接続はこの識別子で既に存在しているよ。
+connections.bluesky_oauth_authorization_failed: そのBlueskyハンドルを確認できなかったよ。確認してもう一度試してね。
 connections.bluesky_oauth_callback_failed: Blueskyへの接続が完了できなかったよ。もう一度試してね。
 connections.bluesky_oauth_not_enabled: このサーバーではBlueskyへの接続が有効になってないよ。
 connections.bluesky_oauth_session_expired: Blueskyのセッションの期限が切れたよ。アカウントを再接続してね。

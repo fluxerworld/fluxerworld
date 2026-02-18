@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: Тестовая инфраструкт
 admin_and_system.unknown_suspicious_flag: Неизвестный флаг подозрительности.
 admin_and_system.update_failed: Не удалось обновить ресурс. Попробуй еще раз.
 admin_and_system.user_must_be_bot_for_system_user: Пользователь должен быть ботом, чтобы его пометить как системного.
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Индекс части выходит за допустимый диапазон для этой загрузки.
+attachments_and_uploads.chunked_upload_incomplete: Не все части были загружены.
+attachments_and_uploads.chunked_upload_not_found: Сессия загрузки не найдена или истекла.
+attachments_and_uploads.chunked_upload_not_owned: Эта сессия загрузки не принадлежит тебе.
 attachments_and_uploads.attachment_fields_required: Обязательны `attachment_id`, `channel_id`, `message_id` и `expires_at`.
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` и `message_id` должны быть валидными целыми числами.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Пользователи с правом MANAGE_MESSAGES могут редактировать только описания вложений, но не другие метаданные.
@@ -204,6 +208,7 @@ content_and_safety.ncmec_already_submitted: Этот контент уже от�
 content_and_safety.ncmec_submission_failed: Не удалось отправить отчет в NCMEC. Попробуй позже.
 content_and_safety.nsfw_age_restricted: NSFW-контент доступен только по возрасту.
 connections.already_exists: Соединение этого типа с таким идентификатором уже существует.
+connections.bluesky_oauth_authorization_failed: Не удалось найти этот аккаунт Bluesky. Проверь его и попробуй ещё раз.
 connections.bluesky_oauth_callback_failed: Не удалось завершить подключение Bluesky. Попробуй еще раз.
 connections.bluesky_oauth_not_enabled: Подключения Bluesky не включены на этом сервере.
 connections.bluesky_oauth_session_expired: Твоя сессия Bluesky истекла. Переподключи свой аккаунт.

@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: Test harness nije dopušten.
 admin_and_system.unknown_suspicious_flag: Nepoznat suspicious flag.
 admin_and_system.update_failed: Ažuriranje nije uspjelo.
 admin_and_system.user_must_be_bot_for_system_user: Korisnik mora biti bot da bi bio označen kao sistemski korisnik.
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Indeks dijela je izvan raspona za ovaj upload.
+attachments_and_uploads.chunked_upload_incomplete: Nisu svi dijelovi uploadani.
+attachments_and_uploads.chunked_upload_not_found: Sesija uploada nije pronađena ili je istekla.
+attachments_and_uploads.chunked_upload_not_owned: Ne posjeduješ ovu sesiju uploada.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` i `expires_at` su obavezni.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` i `message_id` moraju biti valjani cijeli brojevi.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Korisnici s MANAGE_MESSAGES mogu uređivati samo opise privitaka, ne ostale metapodatke.
@@ -195,6 +199,7 @@ channels_and_guilds.voice_channels_cannot_be_above_text_channels: Glasovni kanal
 colors.color_value_too_high: Vrijednost boje ne smije prelaziti 0xffffff.
 colors.color_value_too_low: Vrijednost boje mora biti barem 0x000000.
 connections.already_exists: Veza ovog tipa s ovim identifikatorom već postoji.
+connections.bluesky_oauth_authorization_failed: Nismo uspjeli razriješiti taj Bluesky identifikator. Provjeri ga i pokušaj opet.
 connections.bluesky_oauth_callback_failed: Nismo uspjeli dovršiti povezivanje s Blueskyem. Pokušaj opet.
 connections.bluesky_oauth_not_enabled: Veze s Blueskyem nisu uključene na ovom serveru.
 connections.bluesky_oauth_session_expired: Tvoja Bluesky sesija je istekla. Ponovno poveži svoj račun.

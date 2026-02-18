@@ -50,6 +50,10 @@ admin_and_system.test_harness_forbidden: Το test harness δεν επιτρέπ
 admin_and_system.unknown_suspicious_flag: Άγνωστο suspicious flag.
 admin_and_system.update_failed: Δεν μπορέσαμε να ενημερώσουμε τον πόρο. Παρακαλώ προσπάθησε ξανά.
 admin_and_system.user_must_be_bot_for_system_user: Ο χρήστης πρέπει να είναι bot για να σημειωθεί ως system user.
+attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Ο δείκτης του τμήματος είναι εκτός εύρους για αυτό το ανέβασμα.
+attachments_and_uploads.chunked_upload_incomplete: Δεν έχουν ανέβει όλα τα τμήματα.
+attachments_and_uploads.chunked_upload_not_found: Η συνεδρία ανεβάσματος δεν βρέθηκε ή έχει λήξει.
+attachments_and_uploads.chunked_upload_not_owned: Δεν σου ανήκει αυτή η συνεδρία ανεβάσματος.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` και `expires_at` είναι υποχρεωτικά.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` και `message_id` πρέπει να είναι έγκυροι ακέραιοι αριθμοί.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Οι χρήστες με MANAGE_MESSAGES μπορούν να επεξεργαστούν μόνο τις περιγραφές συνημμένων, όχι άλλα metadata.
@@ -195,6 +199,7 @@ channels_and_guilds.voice_channels_cannot_be_above_text_channels: Τα voice κ�
 colors.color_value_too_high: Η τιμή χρώματος δεν πρέπει να ξεπερνά το 0xffffff.
 colors.color_value_too_low: Η τιμή χρώματος πρέπει να είναι τουλάχιστον 0x000000.
 connections.already_exists: Μια σύνδεση αυτού του τύπου με αυτό το αναγνωριστικό υπάρχει ήδη.
+connections.bluesky_oauth_authorization_failed: Δεν μπορέσαμε να επιλύσουμε αυτό το αναγνωριστικό Bluesky. Έλεγξέ το και δοκίμασε ξανά.
 connections.bluesky_oauth_callback_failed: Δεν μπορέσαμε να ολοκληρώσουμε τη σύνδεση Bluesky. Παρακαλώ δοκίμασε ξανά.
 connections.bluesky_oauth_not_enabled: Οι συνδέσεις Bluesky δεν είναι ενεργοποιημένες σε αυτόν τον server.
 connections.bluesky_oauth_session_expired: Η συνεδρία σου στο Bluesky έληξε. Παρακαλώ επανασύνδεσε τον λογαριασμό σου.
