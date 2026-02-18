@@ -46,6 +46,7 @@ import {
 	ListWebAuthnCredentialsRequest,
 	LookupUserRequest,
 	LookupUserResponse,
+	ResendVerificationEmailRequest,
 	ScheduleAccountDeletionRequest,
 	SendPasswordResetRequest,
 	SetUserAclsRequest,
@@ -309,6 +310,30 @@ export function UserAdminController(app: HonoApp) {
 			const adminUserId = ctx.get('adminUserId');
 			const auditLogReason = ctx.get('auditLogReason');
 			return ctx.json(await adminService.verifyUserEmail(ctx.req.valid('json'), adminUserId, auditLogReason));
+		},
+	);
+
+	app.post(
+		'/admin/users/resend-verification-email',
+		RateLimitMiddleware(RateLimitConfigs.ADMIN_USER_MODIFY),
+		requireAdminACL(AdminACLs.USER_UPDATE_EMAIL),
+		Validator('json', ResendVerificationEmailRequest),
+		OpenAPI({
+			operationId: 'admin_resend_verification_email',
+			summary: 'Resend verification email',
+			responseSchema: null,
+			statusCode: 204,
+			security: 'adminApiKey',
+			tags: 'Admin',
+			description:
+				'Resend the account verification email for a user. Creates audit log entry and honours email verification resend limits. Requires USER_UPDATE_EMAIL permission.',
+		}),
+		async (ctx) => {
+			const adminService = ctx.get('adminService');
+			const adminUserId = ctx.get('adminUserId');
+			const auditLogReason = ctx.get('auditLogReason');
+			await adminService.resendVerificationEmail(ctx.req.valid('json'), adminUserId, auditLogReason);
+			return ctx.body(null, 204);
 		},
 	);
 

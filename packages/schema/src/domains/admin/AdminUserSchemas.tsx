@@ -272,6 +272,12 @@ export const VerifyUserEmailRequest = z.object({
 
 export type VerifyUserEmailRequest = z.infer<typeof VerifyUserEmailRequest>;
 
+export const ResendVerificationEmailRequest = z.object({
+	user_id: SnowflakeType.describe('ID of the user to resend verification email to'),
+});
+
+export type ResendVerificationEmailRequest = z.infer<typeof ResendVerificationEmailRequest>;
+
 export const SendPasswordResetRequest = z.object({
 	user_id: SnowflakeType.describe('ID of the user to send password reset to'),
 });

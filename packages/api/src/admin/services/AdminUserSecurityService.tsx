@@ -41,6 +41,7 @@ import type {
 	DisableForSuspiciousActivityRequest,
 	DisableMfaRequest,
 	ListWebAuthnCredentialsRequest,
+	ResendVerificationEmailRequest,
 	SendPasswordResetRequest,
 	SetUserAclsRequest,
 	SetUserTraitsRequest,
@@ -181,6 +182,34 @@ export class AdminUserSecurityService {
 			targetType: 'user',
 			targetId: BigInt(userId),
 			action: 'send_password_reset',
+			auditLogReason,
+			metadata: new Map([['email', user.email]]),
+		});
+	}
+
+	async resendVerificationEmail(
+		data: ResendVerificationEmailRequest,
+		adminUserId: UserID,
+		auditLogReason: string | null,
+	) {
+		const {userRepository, authService, auditService} = this.deps;
+		const userId = createUserID(data.user_id);
+		const user = await userRepository.findUnique(userId);
+		if (!user) {
+			throw new UnknownUserError();
+		}
+
+		if (!user.email) {
+			throw InputValidationError.fromCode('email', ValidationErrorCodes.USER_DOES_NOT_HAVE_AN_EMAIL_ADDRESS);
+		}
+
+		await authService.resendVerificationEmail(user);
+
+		await auditService.createAuditLog({
+			adminUserId,
+			targetType: 'user',
+			targetId: BigInt(userId),
+			action: 'resend_verification_email',
 			auditLogReason,
 			metadata: new Map([['email', user.email]]),
 		});

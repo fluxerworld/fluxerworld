@@ -55,6 +55,7 @@ import type {
 	ListUserDmChannelsRequest,
 	ListWebAuthnCredentialsRequest,
 	LookupUserRequest,
+	ResendVerificationEmailRequest,
 	ScheduleAccountDeletionRequest,
 	SendPasswordResetRequest,
 	SetUserAclsRequest,
@@ -219,6 +220,14 @@ export class AdminUserService {
 
 	async sendPasswordReset(data: SendPasswordResetRequest, adminUserId: UserID, auditLogReason: string | null) {
 		return this.securityService.sendPasswordReset(data, adminUserId, auditLogReason);
+	}
+
+	async resendVerificationEmail(
+		data: ResendVerificationEmailRequest,
+		adminUserId: UserID,
+		auditLogReason: string | null,
+	) {
+		return this.securityService.resendVerificationEmail(data, adminUserId, auditLogReason);
 	}
 
 	async terminateSessions(data: TerminateSessionsRequest, adminUserId: UserID, auditLogReason: string | null) {
