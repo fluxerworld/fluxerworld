@@ -872,6 +872,7 @@ description: 'Admin object schemas from the Fluxer API.'
 - [`POST /admin/users/list-sessions`](/api-reference/admin/list-user-sessions)
 - [`POST /admin/users/list-webauthn-credentials`](/api-reference/admin/list-user-webauthn-credentials)
 - [`POST /admin/users/lookup`](/api-reference/admin/lookup-user)
+- [`POST /admin/users/resend-verification-email`](/api-reference/admin/resend-verification-email)
 - [`POST /admin/users/schedule-deletion`](/api-reference/admin/schedule-account-deletion)
 - [`POST /admin/users/search`](/api-reference/admin/search-users)
 - [`POST /admin/users/send-password-reset`](/api-reference/admin/send-password-reset)
@@ -2169,6 +2170,18 @@ Type: [MessageShredStatusNotFoundResponse](#messageshredstatusnotfoundresponse) 
 | resolved_at | ?string |  |
 | resolved_by_admin_id | ?[SnowflakeType](#snowflaketype) |  |
 | status | [ReportStatus](#reportstatus) |  |
+
+<a id="resendverificationemailrequest"></a>
+
+## ResendVerificationEmailRequest
+
+**Related endpoints**
+
+- [`POST /admin/users/resend-verification-email`](/api-reference/admin/resend-verification-email)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| user_id | [SnowflakeType](#snowflaketype) |  |
 
 <a id="reservevisionaryslotrequest"></a>
 

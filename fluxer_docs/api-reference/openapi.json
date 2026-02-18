@@ -13609,6 +13609,141 @@
         ]
       }
     },
+    "/admin/users/resend-verification-email": {
+      "post": {
+        "operationId": "admin_resend_verification_email",
+        "summary": "Resend verification email",
+        "tags": [
+          "Admin"
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content"
+          },
+          "400": {
+            "description": "Bad Request - The request was malformed or contained invalid data",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized - Authentication is required or the token is invalid",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden - You do not have permission to perform this action",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "429": {
+            "description": "Too Many Requests - You are being rate limited",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "enum": [
+                        "RATE_LIMITED"
+                      ]
+                    },
+                    "message": {
+                      "type": "string"
+                    },
+                    "retry_after": {
+                      "type": "number",
+                      "description": "Seconds to wait before retrying"
+                    },
+                    "global": {
+                      "type": "boolean",
+                      "description": "Whether this is a global rate limit"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "retry_after"
+                  ]
+                }
+              }
+            },
+            "headers": {
+              "Retry-After": {
+                "description": "Number of seconds to wait before retrying (only on 429)",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "description": "The number of requests that can be made in the current window",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "description": "The number of remaining requests that can be made",
+                "schema": {
+                  "type": "integer"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "description": "Unix timestamp when the rate limit resets",
+                "schema": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error - An unexpected error occurred",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-mint": {
+          "metadata": {
+            "title": "Resend verification email"
+          }
+        },
+        "description": "Resend the account verification email for a user. Creates audit log entry and honours email verification resend limits. Requires USER_UPDATE_EMAIL permission.",
+        "security": [
+          {
+            "adminApiKey": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResendVerificationEmailRequest"
+              }
+            }
+          }
+        }
+      }
+    },
     "/admin/users/schedule-deletion": {
       "post": {
         "operationId": "schedule_account_deletion",
@@ -67769,6 +67904,17 @@
         },
         "required": [
           "user"
+        ]
+      },
+      "ResendVerificationEmailRequest": {
+        "type": "object",
+        "properties": {
+          "user_id": {
+            "$ref": "#/components/schemas/SnowflakeType"
+          }
+        },
+        "required": [
+          "user_id"
         ]
       },
       "ScheduleAccountDeletionRequest": {
