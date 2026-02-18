@@ -32,6 +32,7 @@
 -define(MAX_GUILD_UNAVAILABLE_RETRY_DELAY_MS, 30000).
 -define(MAX_GUILD_UNAVAILABLE_BACKOFF_ATTEMPT, 5).
 -define(GUILD_UNAVAILABLE_JITTER_DIVISOR, 5).
+-define(GUILD_SLOW_RETRY_DELAY_MS, 60000).
 
 -type session_state() :: session:session_state().
 -type guild_id() :: session:guild_id().
@@ -173,6 +174,15 @@ maybe_handle_cached_unavailability(GuildId, Attempt, SessionId, UserId, State) -
     UserData = maps:get(user_data, State, #{}),
     case guild_availability:is_guild_unavailable_for_user_from_cache(GuildId, UserData) of
         true ->
+            case Attempt of
+                0 ->
+                    logger:info(
+                        "guild_connect_cached_unavailable: guild_id=~p user_id=~p",
+                        [GuildId, UserId]
+                    );
+                _ ->
+                    ok
+            end,
             mark_cached_guild_unavailable_and_retry(GuildId, Attempt, State);
         false ->
             Guilds = maps:get(guilds, State, #{}),
@@ -219,6 +229,11 @@ handle_guild_connect_timeout(GuildId, Attempt, State) ->
     Inflight0 = maps:get(guild_connect_inflight, State, #{}),
     case maps:get(GuildId, Inflight0, undefined) of
         Attempt ->
+            UserId = maps:get(user_id, State),
+            logger:warning(
+                "guild_connect_timeout: guild_id=~p user_id=~p attempt=~p",
+                [GuildId, UserId, Attempt]
+            ),
             Inflight = maps:remove(GuildId, Inflight0),
             State1 = maps:put(guild_connect_inflight, Inflight, State),
             retry_or_fail(GuildId, Attempt, State1, fun(GId, St) ->
@@ -352,9 +367,19 @@ handle_guild_connect_result_internal(GuildId, _Attempt, {ok, GuildPid, GuildStat
     finalize_guild_connection(GuildId, GuildPid, State, fun(St) ->
         session_ready:process_guild_state(GuildState, St)
     end);
-handle_guild_connect_result_internal(GuildId, Attempt, {error, {session_connect_failed, _}}, State) ->
+handle_guild_connect_result_internal(GuildId, Attempt, {error, {session_connect_failed, Reason}}, State) ->
+    UserId = maps:get(user_id, State),
+    logger:warning(
+        "guild_session_connect_failed: guild_id=~p user_id=~p attempt=~p reason=~p",
+        [GuildId, UserId, Attempt, Reason]
+    ),
     retry_or_fail(GuildId, Attempt, State, fun(_GId, St) -> {noreply, St} end);
-handle_guild_connect_result_internal(GuildId, Attempt, {error, _Reason}, State) ->
+handle_guild_connect_result_internal(GuildId, Attempt, {error, Reason}, State) ->
+    UserId = maps:get(user_id, State),
+    logger:warning(
+        "guild_connect_failed: guild_id=~p user_id=~p attempt=~p reason=~p",
+        [GuildId, UserId, Attempt, Reason]
+    ),
     retry_or_fail(GuildId, Attempt, State, fun(GId, St) ->
         session_ready:mark_guild_unavailable(GId, St)
     end).
@@ -383,8 +408,15 @@ retry_or_fail(GuildId, Attempt, State, _FailureFun) when Attempt < ?MAX_RETRY_AT
     BackoffMs = backoff_utils:calculate(Attempt),
     erlang:send_after(BackoffMs, self(), {guild_connect, GuildId, Attempt + 1}),
     {noreply, State};
-retry_or_fail(GuildId, _Attempt, State, FailureFun) ->
-    FailureFun(GuildId, State).
+retry_or_fail(GuildId, Attempt, State, FailureFun) ->
+    UserId = maps:get(user_id, State),
+    logger:warning(
+        "guild_connect_exhausted: guild_id=~p user_id=~p total_attempts=~p slow_retry_ms=~p",
+        [GuildId, UserId, Attempt, ?GUILD_SLOW_RETRY_DELAY_MS]
+    ),
+    {noreply, MarkedState} = FailureFun(GuildId, State),
+    erlang:send_after(?GUILD_SLOW_RETRY_DELAY_MS, self(), {guild_connect, GuildId, 0}),
+    {noreply, MarkedState}.
 
 -spec schedule_cached_unavailable_retry(guild_id(), attempt(), session_state()) ->
     {noreply, session_state()}.
