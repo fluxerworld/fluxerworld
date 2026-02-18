@@ -169,7 +169,7 @@ handle_cast({dispatch, Request}, State) ->
     PendingCount = maps:fold(fun(_, S, Acc) ->
         case maps:get(pending_connect, S, false) of true -> Acc + 1; _ -> Acc end
     end, 0, Sessions),
-    logger:info("guild dispatch: event=~p guild_id=~p sessions=~p pending=~p",
+    logger:debug("guild dispatch: event=~p guild_id=~p sessions=~p pending=~p",
         [Event, maps:get(id, State, unknown), SessionCount, PendingCount]),
     ParsedEventData = parse_event_data(EventData),
     {noreply, NewState} = guild_dispatch:handle_dispatch(Event, ParsedEventData, State),

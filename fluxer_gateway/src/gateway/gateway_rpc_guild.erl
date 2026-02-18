@@ -36,7 +36,7 @@ execute_method(<<"guild.dispatch">>, #{
     with_guild(GuildId, fun(Pid) ->
         EventAtom = constants:dispatch_event_atom(Event),
         IsAlive = erlang:is_process_alive(Pid),
-        logger:info("rpc guild.dispatch: guild_id=~p event=~p pid=~p alive=~p",
+        logger:debug("rpc guild.dispatch: guild_id=~p event=~p pid=~p alive=~p",
             [GuildId, EventAtom, Pid, IsAlive]),
         gen_server:cast(Pid, {dispatch, #{event => EventAtom, data => Data}}),
         true

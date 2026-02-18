@@ -29,6 +29,8 @@
 -define(MAX_RETRY_ATTEMPTS, 25).
 -define(MAX_CALL_RETRY_ATTEMPTS, 15).
 -define(GUILD_CONNECT_ASYNC_TIMEOUT_MS, 30000).
+-define(GUILD_MANAGER_START_TIMEOUT_MS, 20000).
+-define(GUILD_MANAGER_LOOKUP_FALLBACK_TIMEOUT_MS, 200).
 -define(MAX_GUILD_UNAVAILABLE_RETRY_DELAY_MS, 30000).
 -define(MAX_GUILD_UNAVAILABLE_BACKOFF_ATTEMPT, 5).
 -define(GUILD_UNAVAILABLE_JITTER_DIVISOR, 5).
@@ -58,17 +60,16 @@ handle_presence_connect(Attempt, State) ->
     SocketPid = maps:get(socket_pid, State, undefined),
     FriendIds = presence_targets:friend_ids_from_state(State),
     GroupDmRecipients = presence_targets:group_dm_recipients_from_state(State),
-    Message =
-        {start_or_lookup, #{
-            user_id => UserId,
-            user_data => UserData,
-            guild_ids => maps:keys(Guilds),
-            status => Status,
-            friend_ids => FriendIds,
-            group_dm_recipients => GroupDmRecipients,
-            custom_status => maps:get(custom_status, State, null)
-        }},
-    try gen_server:call(presence_manager, Message, 5000) of
+    Request = #{
+        user_id => UserId,
+        user_data => UserData,
+        guild_ids => maps:keys(Guilds),
+        status => Status,
+        friend_ids => FriendIds,
+        group_dm_recipients => GroupDmRecipients,
+        custom_status => maps:get(custom_status, State, null)
+    },
+    try presence_manager:start_or_lookup(Request) of
         {ok, Pid} ->
             try_presence_session_connect(
                 Pid,
@@ -288,34 +289,27 @@ maybe_spawn_guild_connect(GuildId, Attempt, SessionId, UserId, State) ->
 do_guild_connect(SessionPid, GuildId, Attempt, SessionId, UserId, Bot, InitialGuildId, UserData) ->
     Result =
         try
-            case guild_manager:start_or_lookup(GuildId) of
+            case guild_manager:lookup(GuildId, ?GUILD_MANAGER_LOOKUP_FALLBACK_TIMEOUT_MS) of
                 {ok, GuildPid} ->
-                    case maybe_build_unavailable_response_from_cache(GuildId, UserData) of
-                        {ok, UnavailableResponse} ->
-                            {ok_cached_unavailable, UnavailableResponse};
-                        not_unavailable ->
-                            ActiveGuilds = build_initial_active_guilds(InitialGuildId, GuildId),
-                            IsStaff = maps:get(<<"is_staff">>, UserData, false),
-                            Request = #{
-                                session_id => SessionId,
-                                user_id => UserId,
-                                session_pid => SessionPid,
-                                bot => Bot,
-                                is_staff => IsStaff,
-                                initial_guild_id => InitialGuildId,
-                                active_guilds => ActiveGuilds
-                            },
-                            gen_server:cast(GuildPid, {session_connect_async, #{
-                                guild_id => GuildId,
-                                attempt => Attempt,
-                                request => Request
-                            }}),
-                            _ = erlang:send_after(
-                                ?GUILD_CONNECT_ASYNC_TIMEOUT_MS,
-                                SessionPid,
-                                {guild_connect_timeout, GuildId, Attempt}
-                            ),
-                            pending
+                    start_guild_session_connect_async(
+                        GuildPid,
+                        SessionPid,
+                        GuildId,
+                        Attempt,
+                        SessionId,
+                        UserId,
+                        Bot,
+                        InitialGuildId,
+                        UserData
+                    );
+                {error, not_found} ->
+                    case guild_manager:ensure_started(GuildId, ?GUILD_MANAGER_START_TIMEOUT_MS) of
+                        ok ->
+                            {error, {guild_manager_failed, {error, loading}}};
+                        {error, timeout} ->
+                            {error, {guild_manager_failed, {error, timeout}}};
+                        {error, EnsureReason} ->
+                            {error, {guild_manager_failed, {error, EnsureReason}}}
                     end;
                 Error ->
                     {error, {guild_manager_failed, Error}}
@@ -335,6 +329,41 @@ do_guild_connect(SessionPid, GuildId, Attempt, SessionId, UserId, Bot, InitialGu
             SessionPid ! {guild_connect_result, GuildId, Attempt, Result}
     end,
     ok.
+
+-spec start_guild_session_connect_async(
+    pid(), pid(), guild_id(), attempt(), binary(), integer(), boolean(), guild_id() | undefined, map()
+) ->
+    pending | {ok_cached_unavailable, map()}.
+start_guild_session_connect_async(
+    GuildPid, SessionPid, GuildId, Attempt, SessionId, UserId, Bot, InitialGuildId, UserData
+) ->
+    case maybe_build_unavailable_response_from_cache(GuildId, UserData) of
+        {ok, UnavailableResponse} ->
+            {ok_cached_unavailable, UnavailableResponse};
+        not_unavailable ->
+            ActiveGuilds = build_initial_active_guilds(InitialGuildId, GuildId),
+            IsStaff = maps:get(<<"is_staff">>, UserData, false),
+            Request = #{
+                session_id => SessionId,
+                user_id => UserId,
+                session_pid => SessionPid,
+                bot => Bot,
+                is_staff => IsStaff,
+                initial_guild_id => InitialGuildId,
+                active_guilds => ActiveGuilds
+            },
+            gen_server:cast(GuildPid, {session_connect_async, #{
+                guild_id => GuildId,
+                attempt => Attempt,
+                request => Request
+            }}),
+            _ = erlang:send_after(
+                ?GUILD_CONNECT_ASYNC_TIMEOUT_MS,
+                SessionPid,
+                {guild_connect_timeout, GuildId, Attempt}
+            ),
+            pending
+    end.
 
 -spec maybe_build_unavailable_response_from_cache(guild_id(), map()) ->
     {ok, map()} | not_unavailable.
@@ -374,6 +403,50 @@ handle_guild_connect_result_internal(GuildId, Attempt, {error, {session_connect_
         [GuildId, UserId, Attempt, Reason]
     ),
     retry_or_fail(GuildId, Attempt, State, fun(_GId, St) -> {noreply, St} end);
+handle_guild_connect_result_internal(
+    GuildId,
+    Attempt,
+    {error, {guild_manager_failed, {error, timeout}}},
+    State
+) ->
+    UserId = maps:get(user_id, State),
+    case Attempt of
+        0 ->
+            logger:debug(
+                "guild_connect_deferred_timeout: guild_id=~p user_id=~p attempt=~p",
+                [GuildId, UserId, Attempt]
+            );
+        _ when Attempt rem 5 =:= 0 ->
+            logger:debug(
+                "guild_connect_deferred_timeout: guild_id=~p user_id=~p attempt=~p",
+                [GuildId, UserId, Attempt]
+            );
+        _ ->
+            ok
+    end,
+    retry_timeout_without_penalty(GuildId, Attempt, State);
+handle_guild_connect_result_internal(
+    GuildId,
+    Attempt,
+    {error, {guild_manager_failed, {error, loading}}},
+    State
+) ->
+    UserId = maps:get(user_id, State),
+    case Attempt of
+        0 ->
+            logger:debug(
+                "guild_connect_deferred_loading: guild_id=~p user_id=~p attempt=~p",
+                [GuildId, UserId, Attempt]
+            );
+        _ when Attempt rem 5 =:= 0 ->
+            logger:debug(
+                "guild_connect_deferred_loading: guild_id=~p user_id=~p attempt=~p",
+                [GuildId, UserId, Attempt]
+            );
+        _ ->
+            ok
+    end,
+    retry_timeout_without_penalty(GuildId, Attempt, State);
 handle_guild_connect_result_internal(GuildId, Attempt, {error, Reason}, State) ->
     UserId = maps:get(user_id, State),
     logger:warning(
@@ -383,6 +456,14 @@ handle_guild_connect_result_internal(GuildId, Attempt, {error, Reason}, State) -
     retry_or_fail(GuildId, Attempt, State, fun(GId, St) ->
         session_ready:mark_guild_unavailable(GId, St)
     end).
+
+-spec retry_timeout_without_penalty(guild_id(), attempt(), session_state()) ->
+    {noreply, session_state()}.
+retry_timeout_without_penalty(GuildId, Attempt, State) ->
+    NextAttempt = min(Attempt + 1, 4),
+    DelayMs = backoff_utils:calculate(NextAttempt),
+    erlang:send_after(DelayMs, self(), {guild_connect, GuildId, NextAttempt}),
+    {noreply, State}.
 
 -spec finalize_guild_connection(guild_id(), pid(), session_state(), fun(
     (session_state()) -> {noreply, session_state()}
@@ -732,6 +813,12 @@ manager_stub_loop(GuildId, GuildPid) ->
     receive
         stop ->
             ok;
+        {'$gen_call', From, {lookup, GuildId}} ->
+            gen_server:reply(From, {ok, GuildPid}),
+            manager_stub_loop(GuildId, GuildPid);
+        {'$gen_call', From, {ensure_started, GuildId}} ->
+            gen_server:reply(From, ok),
+            manager_stub_loop(GuildId, GuildPid);
         {'$gen_call', From, {start_or_lookup, GuildId}} ->
             gen_server:reply(From, {ok, GuildPid}),
             manager_stub_loop(GuildId, GuildPid);

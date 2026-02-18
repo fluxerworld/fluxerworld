@@ -74,7 +74,7 @@ process_dispatch(Event, EventData, State) ->
     FilteredSessions = filter_sessions_for_event(
         Event, FinalData, SessionIdOpt, Sessions, FilterState
     ),
-    logger:info("process_dispatch: event=~p guild_id=~p total_sessions=~p filtered_sessions=~p",
+    logger:debug("process_dispatch: event=~p guild_id=~p total_sessions=~p filtered_sessions=~p",
         [Event, GuildId, map_size(Sessions), length(FilteredSessions)]),
     DispatchSuccess = dispatch_to_sessions(FilteredSessions, Event, FinalData, UpdatedState),
     track_dispatch_metrics(Event, DispatchSuccess),
@@ -262,7 +262,7 @@ dispatch_bulk_to_session(_, _, _, _, Acc) ->
 -spec dispatch_standard([session_pair()], event(), event_data(), guild_id(), guild_state()) ->
     non_neg_integer().
 dispatch_standard(FilteredSessions, Event, FinalData, GuildId, State) ->
-    logger:info("dispatch_standard: event=~p guild_id=~p filtered_sessions=~p member_count=~p",
+    logger:debug("dispatch_standard: event=~p guild_id=~p filtered_sessions=~p member_count=~p",
         [Event, GuildId, length(FilteredSessions), maps:get(member_count, State, undefined)]),
     SuccessCount = lists:foldl(
         fun({Sid, SessionData}, Acc) ->
@@ -281,7 +281,7 @@ dispatch_standard(FilteredSessions, Event, FinalData, GuildId, State) ->
                         _:_ -> Acc
                     end;
                 false ->
-                    logger:info("dispatch_standard skip: sid=~p is_pid=~p passive=~p small=~p",
+                    logger:debug("dispatch_standard skip: sid=~p is_pid=~p passive=~p small=~p",
                         [Sid,
                          is_pid(Pid),
                          session_passive:is_passive(GuildId, SessionData),

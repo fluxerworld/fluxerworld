@@ -20,7 +20,15 @@
 
 -include_lib("fluxer_gateway/include/timeout_config.hrl").
 
--export([start_link/0, start_or_lookup/1, start_or_lookup/2, lookup/1, lookup/2]).
+-export([
+    start_link/0,
+    start_or_lookup/1,
+    start_or_lookup/2,
+    lookup/1,
+    lookup/2,
+    ensure_started/1,
+    ensure_started/2
+]).
 -export([init/1, handle_call/3, handle_cast/2, handle_info/2, terminate/2, code_change/3]).
 
 -define(GUILD_PID_CACHE, guild_pid_cache).
@@ -58,6 +66,24 @@ lookup(GuildId, Timeout) ->
             call_shard(GuildId, {lookup, GuildId}, Timeout)
     end.
 
+-spec ensure_started(guild_id()) -> ok | {error, term()}.
+ensure_started(GuildId) ->
+    ensure_started(GuildId, ?DEFAULT_GEN_SERVER_TIMEOUT).
+
+-spec ensure_started(guild_id(), pos_integer()) -> ok | {error, term()}.
+ensure_started(GuildId, Timeout) ->
+    case call_shard(GuildId, {ensure_started, GuildId}, Timeout) of
+        ok ->
+            ok;
+        {ok, GuildPid} when is_pid(GuildPid) ->
+            ets:insert(?GUILD_PID_CACHE, {GuildId, GuildPid}),
+            ok;
+        {error, _} = Error ->
+            Error;
+        _ ->
+            {error, unavailable}
+    end.
+
 -spec init(list()) -> {ok, state()}.
 init([]) ->
     process_flag(trap_exit, true),
@@ -75,6 +101,9 @@ handle_call({start_or_lookup, GuildId}, _From, State) ->
     {reply, Reply, NewState};
 handle_call({lookup, GuildId}, _From, State) ->
     {Reply, NewState} = forward_call(GuildId, {lookup, GuildId}, State),
+    {reply, Reply, NewState};
+handle_call({ensure_started, GuildId}, _From, State) ->
+    {Reply, NewState} = forward_call(GuildId, {ensure_started, GuildId}, State),
     {reply, Reply, NewState};
 handle_call({stop_guild, GuildId}, _From, State) ->
     {Reply, NewState} = forward_call(GuildId, {stop_guild, GuildId}, State),

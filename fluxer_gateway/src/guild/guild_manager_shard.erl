@@ -57,6 +57,8 @@ handle_call({start_or_lookup, GuildId}, From, State) ->
     do_start_or_lookup(GuildId, From, State);
 handle_call({lookup, GuildId}, _From, State) ->
     do_lookup(GuildId, State);
+handle_call({ensure_started, GuildId}, _From, State) ->
+    do_ensure_started(GuildId, State);
 handle_call({stop_guild, GuildId}, _From, State) ->
     do_stop_guild(GuildId, State);
 handle_call({reload_guild, GuildId}, From, State) ->
@@ -134,6 +136,30 @@ do_lookup(GuildId, State) ->
             end
     end.
 
+-spec do_ensure_started(guild_id(), state()) ->
+    {reply, ok | {ok, pid()} | {error, term()}, state()}.
+do_ensure_started(GuildId, State) ->
+    Guilds = maps:get(guilds, State),
+    case maps:get(GuildId, Guilds, undefined) of
+        {Pid, _Ref} ->
+            {reply, {ok, Pid}, State};
+        loading ->
+            {reply, ok, State};
+        undefined ->
+            GuildName = process_registry:build_process_name(guild, GuildId),
+            case whereis(GuildName) of
+                undefined ->
+                    {reply, ok, start_fetch_without_pending(GuildId, State)};
+                _ExistingPid ->
+                    case process_registry:lookup_or_monitor(GuildName, GuildId, Guilds) of
+                        {ok, Pid, _Ref, NewGuilds} ->
+                            {reply, {ok, Pid}, State#{guilds => NewGuilds}};
+                        {error, not_found} ->
+                            {reply, {error, process_died}, State}
+                    end
+            end
+    end.
+
 -spec lookup_or_fetch(guild_id(), gen_server:from(), state()) ->
     {reply, {ok, pid()}, state()} | {noreply, state()}.
 lookup_or_fetch(GuildId, From, State) ->
@@ -160,6 +186,14 @@ start_fetch(GuildId, From, State) ->
     NewState = State#{guilds => NewGuilds, pending_requests => NewPending},
     spawn_fetch(GuildId, State),
     {noreply, NewState}.
+
+-spec start_fetch_without_pending(guild_id(), state()) -> state().
+start_fetch_without_pending(GuildId, State) ->
+    Guilds = maps:get(guilds, State),
+    NewGuilds = maps:put(GuildId, loading, Guilds),
+    NewState = State#{guilds => NewGuilds},
+    spawn_fetch(GuildId, State),
+    NewState.
 
 -spec spawn_fetch(guild_id(), state()) -> pid().
 spawn_fetch(GuildId, _State) ->
