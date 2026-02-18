@@ -13527,7 +13527,7 @@ msgstr "Tag szerepei frissítve"
 #: src/components/channel/GuildMembersPage.tsx:974
 #: src/components/popouts/UserProfileShared.tsx:203
 msgid "Member Since"
-msgstr "Tag ekkor óta"
+msgstr "Tag ezóta"
 
 #: src/constants/AuditLogConstants.tsx:100
 msgid "Member Unbanned"
