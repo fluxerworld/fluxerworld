@@ -288,7 +288,7 @@ maybe_spawn_guild_connect(GuildId, Attempt, SessionId, UserId, State) ->
 do_guild_connect(SessionPid, GuildId, Attempt, SessionId, UserId, Bot, InitialGuildId, UserData) ->
     Result =
         try
-            case gen_server:call(guild_manager, {start_or_lookup, GuildId}, 5000) of
+            case guild_manager:start_or_lookup(GuildId) of
                 {ok, GuildPid} ->
                     case maybe_build_unavailable_response_from_cache(GuildId, UserData) of
                         {ok, UnavailableResponse} ->

@@ -124,7 +124,7 @@ execute_method(<<"guild.list_members_cursor">>, Request) ->
     end);
 execute_method(<<"guild.start">>, #{<<"guild_id">> := GuildIdBin}) ->
     GuildId = validation:snowflake_or_throw(<<"guild_id">>, GuildIdBin),
-    case gen_server:call(guild_manager, {start_or_lookup, GuildId}, ?GUILD_LOOKUP_TIMEOUT) of
+    case guild_manager:start_or_lookup(GuildId, ?GUILD_LOOKUP_TIMEOUT) of
         {ok, _Pid} -> true;
         {error, Reason} ->
             throw({error, <<"guild_start_error:", (error_term_to_binary(Reason))/binary>>});
@@ -143,7 +143,7 @@ execute_method(<<"guild.reload">>, #{<<"guild_id">> := GuildIdBin}) ->
         ok ->
             true;
         {error, not_found} ->
-            case gen_server:call(guild_manager, {start_or_lookup, GuildId}, 20000) of
+            case guild_manager:start_or_lookup(GuildId, 20000) of
                 {ok, _Pid} -> true;
                 _ -> throw({error, <<"guild_reload_error">>})
             end;
@@ -717,7 +717,7 @@ lookup_guild_pid_from_cache(GuildId) ->
 
 -spec lookup_guild_pid_from_manager(integer()) -> {ok, pid()} | error.
 lookup_guild_pid_from_manager(GuildId) ->
-    case gen_server:call(guild_manager, {start_or_lookup, GuildId}, ?GUILD_LOOKUP_TIMEOUT) of
+    case guild_manager:start_or_lookup(GuildId, ?GUILD_LOOKUP_TIMEOUT) of
         {ok, Pid} when is_pid(Pid) ->
             {ok, Pid};
         _ ->
@@ -962,7 +962,7 @@ parse_voice_update(
 
 -spec process_voice_update({integer(), integer(), boolean(), boolean(), term()}) -> map().
 process_voice_update({GuildId, UserId, Mute, Deaf, ConnectionId}) ->
-    case gen_server:call(guild_manager, {start_or_lookup, GuildId}, ?GUILD_LOOKUP_TIMEOUT) of
+    case guild_manager:start_or_lookup(GuildId, ?GUILD_LOOKUP_TIMEOUT) of
         {ok, GuildPid} ->
             VoicePid = resolve_voice_pid(GuildId, GuildPid),
             Request = #{

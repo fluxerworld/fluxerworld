@@ -55,6 +55,8 @@ init(Args) ->
     {reply, term(), state()} | {noreply, state()}.
 handle_call({start_or_lookup, GuildId}, From, State) ->
     do_start_or_lookup(GuildId, From, State);
+handle_call({lookup, GuildId}, _From, State) ->
+    do_lookup(GuildId, State);
 handle_call({stop_guild, GuildId}, _From, State) ->
     do_stop_guild(GuildId, State);
 handle_call({reload_guild, GuildId}, From, State) ->
@@ -112,6 +114,24 @@ do_start_or_lookup(GuildId, From, State) ->
             add_pending_request(GuildId, From, State);
         undefined ->
             lookup_or_fetch(GuildId, From, State)
+    end.
+
+-spec do_lookup(guild_id(), state()) -> {reply, {ok, pid()} | {error, not_found}, state()}.
+do_lookup(GuildId, State) ->
+    Guilds = maps:get(guilds, State),
+    case maps:get(GuildId, Guilds, undefined) of
+        {Pid, _Ref} ->
+            {reply, {ok, Pid}, State};
+        loading ->
+            {reply, {error, not_found}, State};
+        undefined ->
+            GuildName = process_registry:build_process_name(guild, GuildId),
+            case process_registry:lookup_or_monitor(GuildName, GuildId, Guilds) of
+                {ok, Pid, _Ref, NewGuilds} ->
+                    {reply, {ok, Pid}, State#{guilds => NewGuilds}};
+                {error, not_found} ->
+                    {reply, {error, not_found}, State}
+            end
     end.
 
 -spec lookup_or_fetch(guild_id(), gen_server:from(), state()) ->
@@ -457,6 +477,26 @@ do_start_or_lookup_loading_deduplicates_requests_test() ->
     ?assertEqual(2, length(Requests)),
     ?assert(lists:member(From1, Requests)),
     ?assert(lists:member(From2, Requests)).
+
+do_lookup_returns_existing_pid_from_state_test() ->
+    GuildId = 5151,
+    GuildPid = self(),
+    State0 = #{
+        guilds => #{GuildId => {GuildPid, make_ref()}},
+        pending_requests => #{},
+        shard_index => 0
+    },
+    {reply, {ok, GuildPid}, State1} = do_lookup(GuildId, State0),
+    ?assertEqual(State0, State1).
+
+do_lookup_returns_not_found_when_loading_test() ->
+    GuildId = 6161,
+    State0 = #{
+        guilds => #{GuildId => loading},
+        pending_requests => #{},
+        shard_index => 0
+    },
+    ?assertEqual({reply, {error, not_found}, State0}, do_lookup(GuildId, State0)).
 
 start_new_guild_skips_start_when_already_registered_test() ->
     GuildId = 77777,
