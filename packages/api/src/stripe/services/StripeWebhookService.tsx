@@ -699,7 +699,10 @@ export class StripeWebhookService {
 			// so the PaymentsByPaymentIntent index is never populated. Fall back to customer ID lookup.
 			const customerId = extractId(charge.customer);
 			if (!customerId) {
-				Logger.error({paymentIntentId, chargeId: charge.id}, 'No payment found for refund and charge has no customer ID');
+				Logger.error(
+					{paymentIntentId, chargeId: charge.id},
+					'No payment found for refund and charge has no customer ID',
+				);
 				throw new StripeError('No payment found for refund');
 			}
 
