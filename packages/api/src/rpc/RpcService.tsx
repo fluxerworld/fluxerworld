@@ -59,9 +59,7 @@ import type {AuthSession} from '@fluxer/api/src/models/AuthSession';
 import type {Channel} from '@fluxer/api/src/models/Channel';
 import type {FavoriteMeme} from '@fluxer/api/src/models/FavoriteMeme';
 import type {Guild} from '@fluxer/api/src/models/Guild';
-import type {GuildEmoji} from '@fluxer/api/src/models/GuildEmoji';
 import type {GuildMember} from '@fluxer/api/src/models/GuildMember';
-import type {GuildRole} from '@fluxer/api/src/models/GuildRole';
 import type {GuildSticker} from '@fluxer/api/src/models/GuildSticker';
 import type {ReadState} from '@fluxer/api/src/models/ReadState';
 import type {Relationship} from '@fluxer/api/src/models/Relationship';
@@ -110,7 +108,6 @@ import type {
 	RpcRequest,
 	RpcResponse,
 	RpcResponseGuildCollectionData,
-	RpcResponseGuildData,
 	RpcResponseSessionData,
 } from '@fluxer/schema/src/domains/rpc/RpcSchemas';
 import type {RelationshipResponse} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
@@ -132,11 +129,6 @@ interface HandleSessionRequestParams {
 	longitude?: string;
 }
 
-interface HandleGuildRequestParams {
-	guildId: GuildID;
-	requestCache: RequestCache;
-}
-
 interface HandleGuildCollectionRequestParams {
 	guildId: GuildID;
 	collection: RpcGuildCollectionType;
@@ -145,22 +137,9 @@ interface HandleGuildCollectionRequestParams {
 	limit?: number;
 }
 
-interface GetGuildDataParams {
-	guildId: GuildID;
-}
-
 interface GetUserDataParams {
 	userId: UserID;
 	includePrivateChannels?: boolean;
-}
-
-interface GuildData {
-	guild: Guild;
-	channels: Array<Channel>;
-	emojis: Array<GuildEmoji>;
-	stickers: Array<GuildSticker>;
-	members: Array<GuildMember>;
-	roles: Array<GuildRole>;
 }
 
 interface UserData {
@@ -419,14 +398,6 @@ export class RpcService {
 					data: {success: true},
 				};
 			}
-			case 'guild':
-				return {
-					type: 'guild',
-					data: await this.handleGuildRequest({
-						guildId: createGuildID(request.guild_id),
-						requestCache,
-					}),
-				};
 			case 'guild_collection':
 				return {
 					type: 'guild_collection',
@@ -1207,37 +1178,6 @@ export class RpcService {
 		};
 	}
 
-	private async handleGuildRequest({guildId, requestCache}: HandleGuildRequestParams): Promise<RpcResponseGuildData> {
-		const guildData = await this.getGuildData({guildId});
-
-		if (!guildData) {
-			throw new UnknownGuildError();
-		}
-
-		const [channels, members] = await Promise.all([
-			Promise.all(
-				guildData.channels.map((channel) =>
-					mapChannelToResponse({
-						channel,
-						currentUserId: null,
-						userCacheService: this.userCacheService,
-						requestCache,
-					}),
-				),
-			),
-			this.mapRpcGuildMembers({guildId, members: guildData.members, requestCache}),
-		]);
-
-		return {
-			guild: mapGuildToGuildResponse(guildData.guild),
-			roles: guildData.roles.map(mapGuildRoleToResponse),
-			channels,
-			emojis: guildData.emojis.map(mapGuildEmojiToResponse),
-			stickers: guildData.stickers.map(mapGuildStickerToResponse),
-			members,
-		};
-	}
-
 	private async handleGuildCollectionRequest({
 		guildId,
 		collection,
@@ -1300,7 +1240,9 @@ export class RpcService {
 		guildId: GuildID;
 	}): Promise<RpcResponseGuildCollectionData> {
 		const guild = await this.getGuildOrThrow(guildId);
-		const repairedBannerGuild = await this.repairGuildBannerHeight(guild);
+		const memberCount = await this.guildRepository.countMembers(guildId);
+		const repairedMemberCountGuild = await this.updateGuildMemberCount(guild, memberCount);
+		const repairedBannerGuild = await this.repairGuildBannerHeight(repairedMemberCountGuild);
 		const repairedSplashGuild = await this.repairGuildSplashDimensions(repairedBannerGuild);
 		const repairedEmbedSplashGuild = await this.repairGuildEmbedSplashDimensions(repairedSplashGuild);
 		return {
@@ -1425,39 +1367,6 @@ export class RpcService {
 			const migratedSticker = migrated.find((candidate) => candidate.id === sticker.id);
 			return migratedSticker ?? sticker;
 		});
-	}
-
-	private async getGuildData({guildId}: GetGuildDataParams): Promise<GuildData | null> {
-		const [guildResult, channels, emojis, stickers, members, roles] = await Promise.all([
-			this.guildRepository.findUnique(guildId),
-			this.channelRepository.listGuildChannels(guildId),
-			this.guildRepository.listEmojis(guildId),
-			this.guildRepository.listStickers(guildId),
-			this.guildRepository.listMembers(guildId),
-			this.guildRepository.listRoles(guildId),
-		]);
-		if (!guildResult) return null;
-
-		const migratedStickers = await this.migrateGuildStickersForRpc(guildId, stickers);
-
-		const repairedChannelRefsGuild = await this.repairDanglingChannelReferences({guild: guildResult, channels});
-		const repairedBannerGuild = await this.repairGuildBannerHeight(repairedChannelRefsGuild);
-		const repairedSplashGuild = await this.repairGuildSplashDimensions(repairedBannerGuild);
-		const repairedEmbedSplashGuild = await this.repairGuildEmbedSplashDimensions(repairedSplashGuild);
-		const updatedGuild = await this.updateGuildMemberCount(repairedEmbedSplashGuild, members.length);
-
-		this.repairOrphanedInvitesAndWebhooks({guild: updatedGuild, channels}).catch((error) => {
-			Logger.warn({guildId: guildId.toString(), error}, 'Failed to repair orphaned invites/webhooks');
-		});
-
-		return {
-			guild: updatedGuild,
-			channels,
-			emojis,
-			stickers: migratedStickers,
-			members,
-			roles,
-		};
 	}
 
 	private async getUserData({userId, includePrivateChannels = true}: GetUserDataParams): Promise<UserData | null> {

@@ -40,6 +40,10 @@ const FETCH_GUILD_MEMBERS_BY_GUILD_ID_QUERY = GuildMembers.selectCql({
 	where: GuildMembers.where.eq('guild_id'),
 });
 
+const COUNT_GUILD_MEMBERS_BY_GUILD_ID_QUERY = GuildMembers.selectCountCql({
+	where: GuildMembers.where.eq('guild_id'),
+});
+
 function createPaginatedFirstPageQuery(limit: number) {
 	return GuildMembers.selectCql({
 		where: GuildMembers.where.eq('guild_id'),
@@ -68,6 +72,13 @@ export class GuildMemberRepository extends IGuildMemberRepository {
 			guild_id: guildId,
 		});
 		return members.map((member) => new GuildMember(member));
+	}
+
+	async countMembers(guildId: GuildID): Promise<number> {
+		const result = await fetchOne<{count: bigint}>(COUNT_GUILD_MEMBERS_BY_GUILD_ID_QUERY, {
+			guild_id: guildId,
+		});
+		return result ? Number(result.count) : 0;
 	}
 
 	async upsertMember(data: GuildMemberRow, oldData?: GuildMemberRow | null): Promise<GuildMember> {

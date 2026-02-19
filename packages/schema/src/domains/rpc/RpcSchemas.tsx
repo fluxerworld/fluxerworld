@@ -58,10 +58,6 @@ export const RpcRequest = z.discriminatedUnion('type', [
 		longitude: createStringType(1, 32).optional().describe('Client longitude for region selection'),
 	}),
 	z.object({
-		type: z.literal('guild').describe('Request type for fetching guild data'),
-		guild_id: SnowflakeType.describe('ID of the guild to fetch'),
-	}),
-	z.object({
 		type: z.literal('guild_collection').describe('Request type for fetching a single guild collection chunk'),
 		guild_id: SnowflakeType.describe('ID of the guild to fetch'),
 		collection: RpcGuildCollectionType.describe('Guild collection to fetch'),
@@ -204,17 +200,6 @@ export const RpcResponseSessionData = z.object({
 
 export type RpcResponseSessionData = z.infer<typeof RpcResponseSessionData>;
 
-export const RpcResponseGuildData = z.object({
-	guild: GuildResponse.describe('Guild information'),
-	roles: z.array(GuildRoleResponse).describe('List of roles in the guild'),
-	channels: z.array(ChannelResponse).describe('List of channels in the guild'),
-	emojis: z.array(GuildEmojiResponse).describe('List of custom emojis in the guild'),
-	stickers: z.array(GuildStickerResponse).describe('List of custom stickers in the guild'),
-	members: z.array(GuildMemberResponse).describe('List of guild members'),
-});
-
-export type RpcResponseGuildData = z.infer<typeof RpcResponseGuildData>;
-
 export const RpcResponseGuildCollectionData = z.object({
 	collection: RpcGuildCollectionType.describe('Guild collection returned in this response'),
 	guild: GuildResponse.nullish().describe('Guild information'),
@@ -247,10 +232,6 @@ export const RpcResponse = z.discriminatedUnion('type', [
 				success: z.boolean().describe('Whether the crash was logged successfully'),
 			})
 			.describe('Crash logging result'),
-	}),
-	z.object({
-		type: z.literal('guild').describe('Response type for guild data'),
-		data: RpcResponseGuildData.describe('Guild data'),
 	}),
 	z.object({
 		type: z.literal('guild_collection').describe('Response type for guild collection chunks'),

@@ -102,6 +102,7 @@ import {UnknownHarvestError} from '@fluxer/errors/src/domains/moderation/Unknown
 import {InvalidBotFlagError} from '@fluxer/errors/src/domains/oauth/InvalidBotFlagError';
 import {UnknownUserError} from '@fluxer/errors/src/domains/user/UnknownUserError';
 import {UnknownUserFlagError} from '@fluxer/errors/src/domains/user/UnknownUserFlagError';
+import {RpcRequest} from '@fluxer/schema/src/domains/rpc/RpcSchemas';
 import {createSnowflakeFromTimestamp, snowflakeToDate} from '@fluxer/snowflake/src/Snowflake';
 import * as BucketUtils from '@fluxer/snowflake/src/SnowflakeBuckets';
 import type {Context} from 'hono';
@@ -3149,7 +3150,7 @@ export function TestHarnessController(app: HonoApp) {
 	});
 
 	app.post('/test/rpc-session-init', async (ctx) => {
-		const request = await ctx.req.json();
+		const request = RpcRequest.parse(await ctx.req.json());
 		const response = await ctx.get('rpcService').handleRpcRequest({request, requestCache: ctx.get('requestCache')});
 		return ctx.json(response);
 	});
