@@ -126,13 +126,13 @@ export class SweegoWebhookService {
 	}
 
 	async processEvent(event: SweegoEvent): Promise<void> {
-		if (event.event_type !== 'soft-bounce' && event.event_type !== 'hard_bounce') {
+		if (event.event_type !== 'soft-bounce' && event.event_type !== 'hard_bounce' && event.event_type !== 'complaint') {
 			Logger.debug({eventType: event.event_type, recipient: event.recipient}, 'Sweego event received (ignored)');
 			return;
 		}
 
-		if (event.event_type === 'hard_bounce') {
-			await this.handleHardBounce(event);
+		if (event.event_type === 'hard_bounce' || event.event_type === 'complaint') {
+			await this.handleHardBounceOrComplaint(event);
 			return;
 		}
 
@@ -142,7 +142,7 @@ export class SweegoWebhookService {
 		);
 	}
 
-	private async handleHardBounce(event: SweegoEvent): Promise<void> {
+	private async handleHardBounceOrComplaint(event: SweegoEvent): Promise<void> {
 		Logger.warn(
 			{
 				recipient: event.recipient,
@@ -150,7 +150,7 @@ export class SweegoWebhookService {
 				details: event.details,
 				eventId: event.event_id,
 			},
-			'Processing hard bounce - marking email as invalid',
+			'Processing hard bounce or complaint - marking email as invalid',
 		);
 
 		const user = await this.userRepository.findByEmail(event.recipient);

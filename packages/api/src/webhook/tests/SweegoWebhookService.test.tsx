@@ -170,6 +170,43 @@ describe('SweegoWebhookService', () => {
 			);
 		});
 
+		it('marks complaints as unverified', async () => {
+			const userRepo = createMockUserRepository();
+			const gateway = createMockGatewayService();
+			const service = new SweegoWebhookService(userRepo, gateway);
+
+			const mockUser = {
+				id: BigInt(124),
+				email: 'complaint@example.com',
+				emailBounced: false,
+				emailVerified: true,
+				suspiciousActivityFlags: 0,
+				toRow: () => ({}),
+			};
+			(userRepo.findByEmail as ReturnType<typeof vi.fn>).mockResolvedValue(mockUser);
+			(userRepo.patchUpsert as ReturnType<typeof vi.fn>).mockResolvedValue(null);
+
+			const event: SweegoEvent = {
+				event_type: 'complaint',
+				timestamp: '2026-01-29T14:21:46.729251+00:00',
+				recipient: 'complaint@example.com',
+				event_id: 'event-2',
+			};
+
+			await service.processEvent(event);
+
+			expect(userRepo.findByEmail).toHaveBeenCalledWith('complaint@example.com');
+			expect(userRepo.patchUpsert).toHaveBeenCalledWith(
+				mockUser.id,
+				{
+					email_bounced: true,
+					email_verified: false,
+					suspicious_activity_flags: SuspiciousActivityFlags.REQUIRE_REVERIFIED_EMAIL,
+				},
+				mockUser.toRow(),
+			);
+		});
+
 		it('skips already bounced users', async () => {
 			const userRepo = createMockUserRepository();
 			const gateway = createMockGatewayService();
