@@ -2714,7 +2714,7 @@ msgstr "Uygulamalar"
 msgid "Applications & Bots"
 msgstr "Uygulamalar & Botlar"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "Yalnızca bu cihazdaki masaüstü uygulaması için geçerlidir."
 
@@ -3301,7 +3301,7 @@ msgstr "Sisteminizin azaltılmış hareket tercihini otomatik kullanın veya aş
 msgid "autoplay"
 msgstr "otomatik oynatma"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "Otomatik başlatma, Windows ve Linux için yakında geliyor. Şimdilik yalnızca macOS'ta mevcut."
 
@@ -4740,6 +4740,10 @@ msgstr "Koyu, kömür veya açık görünüm arasında seçim yapın. Aşağıda
 msgid "Choose destination for system and welcome messages"
 msgstr "Sistem ve hoş geldin mesajları için hedef seç"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "Fluxer'ın ekran paylaşımı için video kodekini nasıl seçeceğini seçin."
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "Fluxer'ın bu topluluğu yaş sınırlaması için nasıl yöneteceğini seçin. Yaşa Bağlı Kısıtlı, 18 yaş altındaki kullanıcılar için erişimi engeller ve yetişkinler için bir içerik uyarısı gösterir, yerel yasalara tabi olarak."
@@ -4765,7 +4769,7 @@ msgstr "Topluluğunuzu en iyi tanımlayan kategoriyi seçin."
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "{clientLabel}'ın topluluğunuzda neler yapabileceğini seçin. Vermek istemediğiniz izinlerin işaretini kaldırın."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "Fluxer'ın bu cihazda yeniden başlatmalar ve yeniden yüklemeler arasında pencereniz hakkında neleri hatırlayacağını seçin."
 
@@ -7373,11 +7377,11 @@ msgstr "Masaüstü Bildirim Hatırlatıcısı"
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "Masaüstü bildirimleri engellendi. Daha sonra tarayıcı ayarlarınızdan veya Kullanıcı Ayarları > Bildirimler'den etkinleştirebilirsiniz."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "Masaüstü Başlangıcı"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "Masaüstü Penceresi"
 
@@ -7435,12 +7439,12 @@ msgstr "Geliştirici Uygulamaları"
 msgid "developer mode"
 msgstr "geliştirici modu"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "Geliştirici Modu"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "Geliştirici Seçenekleri"
 
@@ -8541,7 +8545,7 @@ msgstr "TTS Ses Oynatmayı Etkinleştir"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "Bu ayarı değiştirmek için hesabınızda 2FA'yı etkinleştirin."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Hata ayıklama ve geliştirme için gelişmiş özellikleri etkinleştirin. Not: Varlıklar için snowflake ID'lerini kopyalama, geliştirici moduna gerek kalmadan tüm kullanıcılara her zaman açıktır."
 
@@ -10950,6 +10954,7 @@ msgstr "Taciz veya Zorbalık"
 msgid "hardware"
 msgstr "donanım"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "Donanım Hızlandırma"
@@ -12441,7 +12446,7 @@ msgstr "{viewerStreamCount} yayını izlemeye devam et ve bunu ekle"
 msgid "Keep watching 1 stream and add this one"
 msgstr "1 yayını izlemeye devam et ve bunu ekle"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "Uygulamayı yeniden yüklediğinizde bile pencere boyutlarınızı ve konumunuzu koruyun."
 
@@ -12601,7 +12606,7 @@ msgstr "Gecikme grafiği"
 msgid "Latvia"
 msgstr "Letonya"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "Girişte Fluxer'ı Başlat"
 
@@ -17266,7 +17271,7 @@ msgstr "Uygulamayı yeniden yükle"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "/tts manuel olarak çalıştırılmadıkça sessiz kal."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "Boyut ve Konumu Hatırla"
 
@@ -17689,7 +17694,7 @@ msgstr "Tüm mesajlarını bilinmeyen mesaj tipi olarak göster"
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "<0>{renewalDate}</0> tarihinde yenilenir."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "Fluxer'ı en son böyle kullandıysan, tam ekran modunda tekrar aç."
 
@@ -18016,11 +18021,11 @@ msgstr "Çözünürlük"
 msgid "Restore account"
 msgstr "Hesabı geri yükle"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "Tam Ekranı Geri Yükle"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "Maksimize Edilmiş Olarak Geri Yükle"
 
@@ -18050,7 +18055,7 @@ msgstr "Yeniden Abone Ol"
 msgid "Retry"
 msgstr "Yeniden Dene"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "Son seferinde etkinleştirdiğinde otomatik olarak tam ekrana dön."
 
@@ -18264,7 +18269,7 @@ msgstr "Yuvarlak Stil Onay Kutusu"
 msgid "Ruby"
 msgstr "Ruby"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "Bilgisayarın açıldığında Fluxer'ı otomatik çalıştır. Ya da çalıştırma! Seçim senin!"
 
@@ -18488,6 +18493,7 @@ msgstr "Ekran Paylaşımını Durdur"
 msgid "screen sharing"
 msgstr "ekran paylaşımı"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "Ekran Paylaşımı"
@@ -23525,6 +23531,10 @@ msgstr "Kullanıcılar"
 msgid "Uses"
 msgstr "Kullanımlar"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "Açıldığında ekran paylaşımı için H.265 kullanır. Bunu kapatın, VP9'u tercih edin. Değişiklikler, ekranınızı paylaşmaya başladığınızda uygulanır."
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "İşletim sistemi bildirim merkezini kullanır. Kanal/komünite başına kontroller için bir komünite simgesine sağ tıklayın ve Bildirim Ayarları'nı açın."
@@ -24561,7 +24571,7 @@ msgstr "Açık olduğunda, diğer insanlar ekran paylaşımının küçük resim
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "Etkinleştirildiğinde, push-to-talk kısayoluna hızlıca dokunmak mikrofonunu tekrar basılana kadar açık tutar."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "Etkinleştirildiğinde, mesajlar, kanallar, kullanıcılar ve topluluklar gibi dahili veri yapılarının ham JSON nesnelerini incelemek ve kopyalamak için uygulama genelinde hata ayıklama menülerini gösterir. Ayrıca herhangi bir mesaj için Fluxer Markdown ayrıştırıcı performansını ve AST'yi hata ayıklamak için araçlar içerir."
 
@@ -25510,15 +25520,15 @@ msgstr "IP adresin bu topluluktan yasaklandı ve katılamazsın."
 msgid "Your IP is Banned"
 msgstr "IP Adresin Yasaklandı"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Mesajın teslim edilemedi. Bu genellikle alıcıyla bir topluluğu paylaşmaman veya alıcının yalnızca arkadaşlardan gelen doğrudan mesajları kabul etmesi nedeniyle olur."
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Mesajın teslim edilemedi. Doğrudan mesaj göndermek için hesabını sahiplenmen gerekiyor."
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Mesajınız ulaştırılamadı. Mesaj göndermek için hesabınızı talep etmeniz gerekiyor."
 

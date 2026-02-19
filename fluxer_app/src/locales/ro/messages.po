@@ -2714,7 +2714,7 @@ msgstr "Aplicații"
 msgid "Applications & Bots"
 msgstr "Aplicații și boți"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "Se aplică doar aplicației desktop de pe acest dispozitiv."
 
@@ -3301,7 +3301,7 @@ msgstr "Folosește automat preferința sistemului pentru mișcare redusă sau pe
 msgid "autoplay"
 msgstr "redare automată"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "Autostart va veni în curând pentru Windows și Linux. Deocamdată, este disponibil doar pe macOS."
 
@@ -4740,6 +4740,10 @@ msgstr "Alege între aspectul întunecat, carbune sau deschis. Poți adăuga tot
 msgid "Choose destination for system and welcome messages"
 msgstr "Alege destinația pentru mesajele de sistem și de bun venit"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "Alege cum Fluxer selectează codec-ul video pentru partajarea ecranului."
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "Alege cum tratează Fluxer această comunitate pentru restricționarea pe vârstă. Restricționat pe vârstă blochează accesul utilizatorilor sub 18 ani și afișează un avertisment de conținut pentru adulți, în conformitate cu legile locale."
@@ -4765,7 +4769,7 @@ msgstr "Alege categoria care descrie cel mai bine comunitatea ta."
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "Alege ce poate face {clientLabel} în comunitatea ta. Debifează permisiunile pe care nu vrei să le acorzi."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "Alege ce își amintește Fluxer despre fereastra ta între reporniri și reîncărcări pe acest dispozitiv."
 
@@ -7373,11 +7377,11 @@ msgstr "Bară de notificări desktop"
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "Notificările desktop au fost blocate. Le poți activa mai târziu din setările browserului sau din Setări utilizator > Notificări."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "Pornire desktop"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "Fereastră desktop"
 
@@ -7435,12 +7439,12 @@ msgstr "Aplicații pentru dezvoltatori"
 msgid "developer mode"
 msgstr "mod dezvoltator"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "Mod dezvoltator"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "Opțiuni dezvoltator"
 
@@ -8541,7 +8545,7 @@ msgstr "Activează redarea /tts"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "Activează 2FA pe contul tău pentru a schimba această setare"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Activează funcțiile avansate pentru depanare și dezvoltare. Reține că copierea ID-urilor snowflake pentru entități este disponibilă tuturor utilizatorilor fără modul dezvoltator."
 
@@ -10950,6 +10954,7 @@ msgstr "Hărțuire sau intimidare"
 msgid "hardware"
 msgstr "hardware"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "Accelerare hardware"
@@ -12441,7 +12446,7 @@ msgstr "Continuă să te uiți la {viewerStreamCount} fluxuri și adaugă-l pe a
 msgid "Keep watching 1 stream and add this one"
 msgstr "Continuă să te uiți la 1 flux și adaugă-l pe acesta"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "Păstrează dimensiunile și poziția ferestrei chiar și când reîncarci aplicația."
 
@@ -12601,7 +12606,7 @@ msgstr "Grafic latență"
 msgid "Latvia"
 msgstr "Letonia"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "Lansează Fluxer la Autentificare"
 
@@ -17266,7 +17271,7 @@ msgstr "Reîncarcă aplicația"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "Rămâi tăcut, cu excepția cazului în care cineva rulează /tts manual."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "Amintește-ți dimensiunea și poziția"
 
@@ -17689,7 +17694,7 @@ msgstr "Randează toate mesajele tale ca tip de mesaj necunoscut"
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "Se reînnoiește pe <0>{renewalDate}</0>."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "Redeschide în modul maximizat dacă așa ai folosit ultima dată Fluxer."
 
@@ -18016,11 +18021,11 @@ msgstr "Rezoluție"
 msgid "Restore account"
 msgstr "Restabilește contul"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "Restaurare pe tot ecranul"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "Restaurare maximizată"
 
@@ -18050,7 +18055,7 @@ msgstr "Reabonează-te"
 msgid "Retry"
 msgstr "Reîncearcă"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "Reia automat fullscreenul dacă l-ai avut activ ultima dată."
 
@@ -18264,7 +18269,7 @@ msgstr "Casetă de selectare stil rotund"
 msgid "Ruby"
 msgstr "Ruby"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "Rulează Fluxer automat când pornește computerul. Sau nu. Alegerea e a ta!"
 
@@ -18488,6 +18493,7 @@ msgstr "Oprește partajarea ecranului"
 msgid "screen sharing"
 msgstr "partajare ecran"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "Partajare ecran"
@@ -23525,6 +23531,10 @@ msgstr "Utilizatori"
 msgid "Uses"
 msgstr "Utilizări"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "Folosește H.265 pentru partajarea ecranului când este activat. Dezactivează aceasta pentru a prefera VP9. Modificările se aplică data viitoare când începi să îți partajezi ecranul."
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "Folosește centrul de notificări al sistemului de operare. Pentru controale pe canal/comunitate, dă clic dreapta pe o pictogramă a comunității și deschide Setările de notificări."
@@ -24561,7 +24571,7 @@ msgstr "Când este activat, alte persoane nu vor vedea o previzualizare miniatur
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "Când este activat, atingerea rapidă a scurtăturii push-to-talk va menține microfonul activ până când e apăsat din nou."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "Când este activat, dezvăluie meniuri de depanare în aplicație pentru a inspecta și copia obiecte JSON brute ale structurilor interne cum sunt mesajele, canalele, utilizatorii și comunitățile. Include și unelte pentru depanarea performanței parserului Fluxer Markdown și AST-ului unui mesaj."
 
@@ -25510,15 +25520,15 @@ msgstr "Adresa ta IP este banată din această comunitate și nu te poți alătu
 msgid "Your IP is Banned"
 msgstr "IP-ul tău este banat"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Mesajul tău nu a putut fi livrat. De obicei, asta se întâmplă pentru că nu împărtășești o comunitate cu destinatarul sau destinatarul primește mesaje directe doar de la prieteni."
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Mesajul tău nu a putut fi livrat. Trebuie să revendici contul pentru a trimite mesaje directe."
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Mesajul tău nu a putut fi livrat. Trebuie să îți revendici contul pentru a trimite mesaje."
 

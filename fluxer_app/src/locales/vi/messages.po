@@ -2714,7 +2714,7 @@ msgstr "Ứng dụng"
 msgid "Applications & Bots"
 msgstr "Ứng dụng & Bot"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "Chỉ áp dụng cho ứng dụng máy tính trên thiết bị này."
 
@@ -3301,7 +3301,7 @@ msgstr "Tự động sử dụng sở thích giảm chuyển động của hệ 
 msgid "autoplay"
 msgstr "tự động phát"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "Chế độ tự khởi động sẽ sớm có mặt trên Windows và Linux. Hiện tại, nó chỉ khả dụng trên macOS."
 
@@ -4740,6 +4740,10 @@ msgstr "Chọn giữa giao diện tối, than hoặc sáng. Bạn vẫn có th�
 msgid "Choose destination for system and welcome messages"
 msgstr "Chọn nơi nhận tin nhắn hệ thống và chào mừng"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "Chọn cách mà Fluxer chọn codec video cho việc chia sẻ màn hình."
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "Chọn cách mà Fluxer xử lý cộng đồng này cho việc hạn chế độ tuổi. Hạn chế độ tuổi chặn truy cập cho người dùng dưới 18 tuổi và hiển thị cảnh báo nội dung cho người lớn, tùy thuộc vào luật địa phương."
@@ -4765,7 +4769,7 @@ msgstr "Chọn danh mục mô tả tốt nhất cho cộng đồng của bạn."
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "Chọn những gì {clientLabel} có thể làm trong cộng đồng của bạn. Bỏ chọn những quyền bạn không muốn cấp."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "Chọn những gì Fluxer nhớ về cửa sổ của bạn giữa các lần khởi động lại và tải lại trên thiết bị này."
 
@@ -7373,11 +7377,11 @@ msgstr "Thanh cảnh báo thông báo máy tính"
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "Thông báo trên máy tính đã bị chặn. Bạn có thể bật lại trong cài đặt trình duyệt hoặc Cài đặt người dùng > Thông báo."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "Khởi động máy tính"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "Cửa sổ máy tính"
 
@@ -7435,12 +7439,12 @@ msgstr "Ứng dụng dành cho nhà phát triển"
 msgid "developer mode"
 msgstr "chế độ nhà phát triển"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "Chế độ nhà phát triển"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "Tuỳ chọn nhà phát triển"
 
@@ -8541,7 +8545,7 @@ msgstr "Bật phát lại giọng nói /tts"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "Bật 2FA trên tài khoản của bạn để thay đổi cài đặt này"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Bật tính năng nâng cao để gỡ lỗi và phát triển. Lưu ý rằng sao chép ID tuyết cho các thực thể luôn có sẵn với mọi người dùng mà không cần chế độ nhà phát triển."
 
@@ -10950,6 +10954,7 @@ msgstr "Quấy rối hoặc bắt nạt"
 msgid "hardware"
 msgstr "phần cứng"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "Tăng tốc phần cứng"
@@ -12441,7 +12446,7 @@ msgstr "Tiếp tục xem {viewerStreamCount} luồng và thêm cái này"
 msgid "Keep watching 1 stream and add this one"
 msgstr "Tiếp tục xem 1 luồng và thêm cái này"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "Giữ kích thước và vị trí cửa sổ ngay cả khi bạn tải lại app."
 
@@ -12601,7 +12606,7 @@ msgstr "Đồ thị độ trễ"
 msgid "Latvia"
 msgstr "Latvia"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "Khởi động Fluxer khi đăng nhập"
 
@@ -17266,7 +17271,7 @@ msgstr "Tải lại ứng dụng"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "Giữ im lặng trừ khi ai đó chạy /tts thủ công."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "Nhớ kích thước & vị trí"
 
@@ -17689,7 +17694,7 @@ msgstr "Hiển thị tất cả tin nhắn của bạn dưới dạng loại tin
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "Gia hạn vào <0>{renewalDate}</0>."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "Mở lại ở chế độ tối đa nếu bạn đã sử dụng Fluxer như vậy lần trước."
 
@@ -18016,11 +18021,11 @@ msgstr "Độ phân giải"
 msgid "Restore account"
 msgstr "Khôi phục tài khoản"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "Khôi phục chế độ toàn màn hình"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "Khôi phục chế độ tối đa"
 
@@ -18050,7 +18055,7 @@ msgstr "Đăng ký lại"
 msgid "Retry"
 msgstr "Thử lại"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "Tự động trở lại toàn màn hình nếu bạn đã bật lần trước."
 
@@ -18264,7 +18269,7 @@ msgstr "Hộp kiểm kiểu tròn"
 msgid "Ruby"
 msgstr "Ruby"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "Chạy Fluxer tự động khi máy tính bạn khởi động. Hoặc không. Lựa chọn của bạn!"
 
@@ -18488,6 +18493,7 @@ msgstr "Dừng chia sẻ màn hình"
 msgid "screen sharing"
 msgstr "chia sẻ màn hình"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "Đang chia sẻ màn hình"
@@ -23525,6 +23531,10 @@ msgstr "Người dùng"
 msgid "Uses"
 msgstr "Lượt dùng"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "Sử dụng H.265 cho việc chia sẻ màn hình khi được bật. Tắt cái này để ưu tiên VP9. Thay đổi sẽ được áp dụng lần tới khi bạn bắt đầu chia sẻ màn hình."
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "Dùng trung tâm thông báo của hệ điều hành. Để điều khiển theo kênh/cộng đồng, nhấp phải vào biểu tượng cộng đồng và mở Cài đặt Thông báo."
@@ -24561,7 +24571,7 @@ msgstr "Khi được bật, những người khác sẽ không thấy bản xem 
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "Khi bật, chạm nhanh vào phím tắt nhấn để nói sẽ giữ mic luôn bật cho đến khi nhấn lại."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "Khi bật, sẽ hiển thị các menu gỡ lỗi trong toàn ứng dụng để kiểm tra và sao chép đối tượng JSON thô của cấu trúc dữ liệu nội bộ như tin nhắn, kênh, người dùng và cộng đồng. Cũng bao gồm công cụ gỡ lỗi hiệu năng trình phân tích cú pháp Fluxer Markdown và AST cho bất kỳ tin nhắn nào."
 
@@ -25510,15 +25520,15 @@ msgstr "Địa chỉ IP của bạn bị cấm khỏi cộng đồng này và b�
 msgid "Your IP is Banned"
 msgstr "IP của bạn bị cấm"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Tin nhắn của bạn không thể gửi được. Thường là vì bạn không chung cộng đồng với người nhận hoặc người nhận chỉ cho phép bạn bè nhắn trực tiếp."
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Tin nhắn của bạn không thể gửi được. Bạn cần xác nhận tài khoản để gửi tin nhắn trực tiếp."
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Tin nhắn của bạn không thể được gửi. Bạn cần xác nhận tài khoản của mình để gửi tin nhắn."
 

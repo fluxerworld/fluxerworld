@@ -2714,7 +2714,7 @@ msgstr "Programos"
 msgid "Applications & Bots"
 msgstr "Programos ir botai"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "Taikoma tik šio įrenginio darbalaukio programai."
 
@@ -3301,7 +3301,7 @@ msgstr "Automatiškai naudoti sistemos sumažinto judėjimo nuostatą arba prita
 msgid "autoplay"
 msgstr "automatinis atkūrimas"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "Autostart netrukus bus prieinamas Windows ir Linux. Šiuo metu jis prieinamas tik macOS."
 
@@ -4740,6 +4740,10 @@ msgstr "Pasirinkite tarp tamsaus, anglies ar šviesaus išvaizdos. Žemiau vis t
 msgid "Choose destination for system and welcome messages"
 msgstr "Pasirinkite paskirties vietą sisteminėms ir pasveikinimo žinutėms"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "Pasirinkite, kaip Fluxer pasirenka vaizdo kodeką ekrano dalijimuisi."
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "Pasirinkite, kaip Fluxer tvarko šią bendruomenę dėl amžiaus apribojimų. Amžiaus apribota blokuoja prieigą vartotojams, jaunesniems nei 18 metų, ir rodo turinio įspėjimą suaugusiems, atsižvelgiant į vietinius įstatymus."
@@ -4765,7 +4769,7 @@ msgstr "Pasirinkite kategoriją, kuri geriausiai apibūdina jūsų bendruomenę.
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "Pasirinkite, ką {clientLabel} gali daryti jūsų bendruomenėje. Atžymėkite bet kokias leidimus, kurių nenorite suteikti."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "Pasirinkite, ką Fluxer prisimena apie jūsų langą tarp perkrovimų ir paleidimų šiame įrenginyje."
 
@@ -7373,11 +7377,11 @@ msgstr "Darbalaukio pranešimų juosta"
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "Darbalaukio pranešimai buvo užblokuoti. Galite juos įjungti vėliau naršyklės nustatymuose arba Vartotojo nustatymuose > Pranešimai."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "Darbalaukio paleidimas"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "Darbalaukio langas"
 
@@ -7435,12 +7439,12 @@ msgstr "Kūrėjų programos"
 msgid "developer mode"
 msgstr "vystymo režimas"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "Kūrėjo režimas"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "Kūrėjo parinktys"
 
@@ -8541,7 +8545,7 @@ msgstr "Įjungti /tts kalbos atkūrimą"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "Įjunkite 2FA savo paskyroje, kad pakeistumėte šią nustatymą"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Įjunkite pažangias funkcijas derinimui ir plėtrai. Atkreipkite dėmesį, kad entitetų „snowflake“ ID kopijavimas visada yra prieinamas visiems vartotojams nereikalingant kūrėjo režimo."
 
@@ -10950,6 +10954,7 @@ msgstr "Priekabiavimas arba patyčios"
 msgid "hardware"
 msgstr "įranga"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "Aparatinis pagreitėjimas"
@@ -12441,7 +12446,7 @@ msgstr "Tęskite žiūrėjimą {viewerStreamCount} srautų ir pridėkite šį"
 msgid "Keep watching 1 stream and add this one"
 msgstr "Tęskite žiūrėjimą 1 srautą ir pridėkite šį"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "Išsaugokite lango matmenis ir vietą net perkraunant programą."
 
@@ -12601,7 +12606,7 @@ msgstr "Delsos grafikas"
 msgid "Latvia"
 msgstr "Latvija"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "Paleisti Fluxer prisijungus"
 
@@ -17266,7 +17271,7 @@ msgstr "Įkelti programą iš naujo"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "Išlik tylus, nebent kažkas paleidžia /tts rankiniu būdu."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "Įsiminti dydį ir padėtį"
 
@@ -17689,7 +17694,7 @@ msgstr "Rodyti visas tavo žinutes kaip nežinomą žinutės tipą"
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "Atnaujinama <0>{renewalDate}</0>."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "Atidarykite vėl didžiausiu režimu, jei taip paskutinį kartą naudojote Fluxer."
 
@@ -18016,11 +18021,11 @@ msgstr "Rezoliucija"
 msgid "Restore account"
 msgstr "Atkurti paskyrą"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "Atkurti viso ekrano režimą"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "Atkurti maksimalų režimą"
 
@@ -18050,7 +18055,7 @@ msgstr "Prenumeruoti dar kartą"
 msgid "Retry"
 msgstr "Bandyti dar kartą"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "Automatiškai grįžti į visą ekraną, kai jį paskutinį kartą įjungėte."
 
@@ -18264,7 +18269,7 @@ msgstr "Apvalaus stiliaus žymimasis langelis"
 msgid "Ruby"
 msgstr "Ruby"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "Paleiskite Fluxer automatiškai, kai įsijungia jūsų kompiuteris. Arba ne. Jūsų pasirinkimas!"
 
@@ -18488,6 +18493,7 @@ msgstr "Stabdyti ekrano dalijimąsi"
 msgid "screen sharing"
 msgstr "ekrano dalijimasis"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "Ekrano dalijimasis"
@@ -23525,6 +23531,10 @@ msgstr "Vartotojai"
 msgid "Uses"
 msgstr "Naudoja"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "Naudoja H.265 ekrano dalijimuisi, kai tai įjungta. Išjunkite tai, kad teiktumėte pirmenybę VP9. Pakeitimai įsigalios kitą kartą pradėjus dalintis ekranu."
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "Naudoja OS pranešimų centrą. Norėdami valdyti pranešimus pagal kanalą/bendruomenę, dešiniuoju pelės mygtuku spustelėkite bendruomenės piktogramą ir atidarykite Pranešimų nustatymus."
@@ -24561,7 +24571,7 @@ msgstr "Kai įjungta, kiti žmonės nematys miniatiūrinės jūsų ekrano daliji
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "Kai įjungta, greitai paspaudus jūsų 'kalbėti paspaudus' sparčiąją klavišą, jūsų mikrofonas liks įjungtas, kol bus paspausta dar kartą."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "Kai įjungta, atskleidžia derinimo meniu visoje programėlėje, kad galėtumėte apžiūrėti ir nukopijuoti neapdorotus JSON objektus vidinių duomenų struktūrų, tokių kaip žinutės, kanalai, vartotojai ir bendruomenės. Taip pat apima įrankius, skirtus derinti Fluxer Markdown analizatoriaus veikimą ir AST bet kuriai nurodytai žinutei."
 
@@ -25510,15 +25520,15 @@ msgstr "Tavo IP adresas uždraustas šioje bendruomenėje ir tu negali prisijung
 msgid "Your IP is Banned"
 msgstr "Tavo IP uždraustas"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Tavo žinutė negali būti pristatyta. Paprastai taip yra todėl, kad tu nedalyvauji bendruomenėje su gavėju arba gavėjas priima tik tiesiogines žinutes iš draugų."
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Tavo žinutė negali būti pristatyta. Turi priimti savo paskyrą, kad siųsti tiesiogines žinutes."
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Jūsų žinutės negalima pristatyti. Turite patvirtinti savo paskyrą, kad galėtumėte siųsti žinutes."
 

@@ -2714,7 +2714,7 @@ msgstr "التطبيقات"
 msgid "Applications & Bots"
 msgstr "التطبيقات والروبوتات"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "ينطبق فقط على تطبيق سطح المكتب على هذا الجهاز."
 
@@ -3301,7 +3301,7 @@ msgstr "استخدم تفضيل الحركة المخفّض لنظامك تلق�
 msgid "autoplay"
 msgstr "التشغيل التلقائي"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "سيتم طرح التشغيل التلقائي قريبًا لنظامي ويندوز ولينكس. حاليًا، هو متاح فقط على نظام macOS."
 
@@ -4740,6 +4740,10 @@ msgstr "اختر بين المظهر الداكن أو الفحمي أو الف�
 msgid "Choose destination for system and welcome messages"
 msgstr "اختر وجهة رسائل النظام والترحيب"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "اختر كيف يختار Fluxer ترميز الفيديو لمشاركة الشاشة."
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "اختر كيف يتعامل Fluxer مع هذا المجتمع بالنسبة لتحديد العمر. المحتوى المقيد بالعمر يمنع الوصول للمستخدمين تحت سن 18 ويظهر تحذير محتوى للبالغين، وفقًا للقوانين المحلية."
@@ -4765,7 +4769,7 @@ msgstr "اختر الفئة التي تصف مجتمعك بشكل أفضل."
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "اختر ما يمكن لـ{clientLabel} فعله في مجتمعك. ألغِ تحديد أي أذونات لا تريد منحها."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "اختر ما يتذكره Fluxer عن نافذتك بين عمليات إعادة التشغيل والتحديث على هذا الجهاز."
 
@@ -7373,11 +7377,11 @@ msgstr "شريط إشعارات سطح المكتب"
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "تم حظر إشعارات سطح المكتب. يمكنك تمكينها لاحقًا في إعدادات المتصفح أو في إعدادات المستخدم > الإشعارات."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "بدء تشغيل سطح المكتب"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "نافذة سطح المكتب"
 
@@ -7435,12 +7439,12 @@ msgstr "تطبيقات المطور"
 msgid "developer mode"
 msgstr "وضع المطور"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "وضع المطور"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "خيارات المطور"
 
@@ -8541,7 +8545,7 @@ msgstr "تفعيل تشغيل الكلام /tts"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "قم بتمكين 2FA على حسابك لتغيير هذا الإعداد"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "قم بتمكين الميزات المتقدمة للتصحيح والتطوير. لاحظ أن نسخ معرفات Snowflake للكيانات متاح دائمًا لجميع المستخدمين دون الحاجة إلى وضع المطور."
 
@@ -10950,6 +10954,7 @@ msgstr "تحرش أو تنمر"
 msgid "hardware"
 msgstr "عتاد"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "تسريع العتاد"
@@ -12441,7 +12446,7 @@ msgstr "استمر في مشاهدة {viewerStreamCount} بثوث وأضف هذ�
 msgid "Keep watching 1 stream and add this one"
 msgstr "استمر في مشاهدة 1 بث وأضف هذا البث"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "احتفظ بأبعاد نافذتك وموضعها حتى عند إعادة تحميل التطبيق."
 
@@ -12601,7 +12606,7 @@ msgstr "رسم بياني لزمن الوصول"
 msgid "Latvia"
 msgstr "لاتفيا"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "تشغيل Fluxer عند تسجيل الدخول"
 
@@ -17266,7 +17271,7 @@ msgstr "إعادة تحميل التطبيق"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "ابق صامتًا ما لم يقم أحد بتشغيل /tts يدويًا."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "تذكر الحجم والموقع"
 
@@ -17689,7 +17694,7 @@ msgstr "عرض جميع رسائلك كنوع رسالة مجهول"
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "يتم التجديد في <0>{renewalDate}</0>."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "أعد الفتح في وضع مكبر إذا كان هذا هو آخر استخدام لك لـ Fluxer."
 
@@ -18016,11 +18021,11 @@ msgstr "الدقة"
 msgid "Restore account"
 msgstr "استعادة الحساب"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "استعادة وضع ملء الشاشة"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "استعادة الوضع المكبر"
 
@@ -18050,7 +18055,7 @@ msgstr "إعادة الاشتراك"
 msgid "Retry"
 msgstr "إعادة المحاولة"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "العودة إلى وضع ملء الشاشة تلقائيًا عندما قمت بتمكينه آخر مرة."
 
@@ -18264,7 +18269,7 @@ msgstr "خانة اختيار دائرية"
 msgid "Ruby"
 msgstr "روبي"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "تشغيل Fluxer تلقائيًا عند بدء تشغيل حاسوبك. أو لا تفعل. الأمر لك!"
 
@@ -18488,6 +18493,7 @@ msgstr "إيقاف مشاركة الشاشة"
 msgid "screen sharing"
 msgstr "مشاركة الشاشة"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "مشاركة الشاشة"
@@ -23525,6 +23531,10 @@ msgstr "المستخدمون"
 msgid "Uses"
 msgstr "يستخدم"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "يستخدم H.265 لمشاركة الشاشة عند التفعيل. قم بإيقاف تشغيل هذا لتفضيل VP9. ستطبق التغييرات في المرة القادمة التي تبدأ فيها بمشاركة شاشتك."
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "يستخدم مركز إشعارات نظام التشغيل. للتحكم في كل قناة/مجتمع، انقر بزر الماوس الأيمن على رمز المجتمع وافتح إعدادات الإشعارات."
@@ -24561,7 +24571,7 @@ msgstr "عند التمكين، لن يتمكن الآخرون من رؤية م�
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "عند التمكين، سيحافظ النقر السريع على اختصار الدفع للتحدث على تشغيل الميكروفون حتى الضغط مرة أخرى."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "عند التمكين، يكشف قوائم التصحيح عبر التطبيق لفحص ونسخ كائنات JSON الخام لهياكل البيانات الداخلية مثل الرسائل والقنوات والمستخدمين والمجتمعات. يتضمن أيضًا أدوات لتصحيح أداء محلل Markdown في Fluxer و AST لأي رسالة معينة."
 
@@ -25510,15 +25520,15 @@ msgstr "عنوان IP الخاص بك محظور من هذا المجتمع ول
 msgid "Your IP is Banned"
 msgstr "عنوان IP الخاص بك محظور"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "تعذر تسليم رسالتك. هذا عادة لأنك لا تشارك مجتمعًا مع المستلم أو أن المستلم يقبل فقط الرسائل المباشرة من الأصدقاء."
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "تعذر تسليم رسالتك. تحتاج إلى المطالبة بحسابك لإرسال رسائل مباشرة."
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "لم يتم تسليم رسالتك. تحتاج إلى المطالبة بحسابك لإرسال الرسائل."
 

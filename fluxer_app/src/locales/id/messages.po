@@ -2714,7 +2714,7 @@ msgstr "Aplikasi"
 msgid "Applications & Bots"
 msgstr "Aplikasi & Bot"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "Hanya berlaku untuk aplikasi desktop di perangkat ini."
 
@@ -3301,7 +3301,7 @@ msgstr "Gunakan preferensi gerakan berkurang sistem Anda secara otomatis, atau k
 msgid "autoplay"
 msgstr "putar otomatis"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "Autostart akan segera hadir untuk Windows dan Linux. Saat ini, hanya tersedia di macOS."
 
@@ -4740,6 +4740,10 @@ msgstr "Pilih antara tampilan gelap, batu bara, atau terang. Anda masih dapat me
 msgid "Choose destination for system and welcome messages"
 msgstr "Pilih tujuan untuk pesan sistem dan selamat datang"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "Pilih bagaimana Fluxer memilih codec video untuk berbagi layar."
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "Pilih bagaimana Fluxer memperlakukan komunitas ini untuk pembatasan usia. Terbatas usia memblokir akses untuk pengguna di bawah 18 tahun dan menampilkan peringatan konten untuk orang dewasa, sesuai dengan hukum setempat."
@@ -4765,7 +4769,7 @@ msgstr "Pilih kategori yang paling menggambarkan komunitas Anda."
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "Pilih apa yang dapat dilakukan {clientLabel} di komunitas Anda. Hapus centang izin apa pun yang tidak ingin Anda berikan."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "Pilih apa yang diingat Fluxer tentang jendela Anda di antara restart dan muat ulang di perangkat ini."
 
@@ -7373,11 +7377,11 @@ msgstr "Bilah Notifikasi Desktop"
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "Notifikasi desktop telah diblokir. Anda dapat mengaktifkannya nanti di pengaturan browser atau di Pengaturan Pengguna > Notifikasi."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "Startup Desktop"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "Jendela Desktop"
 
@@ -7435,12 +7439,12 @@ msgstr "Aplikasi Pengembang"
 msgid "developer mode"
 msgstr "mode pengembang"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "Mode Pengembang"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "Opsi Pengembang"
 
@@ -8541,7 +8545,7 @@ msgstr "Aktifkan Pemutaran Suara /tts"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "Aktifkan 2FA di akun Anda untuk mengubah pengaturan ini"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Aktifkan fitur canggih untuk debugging dan pengembangan. Perhatikan bahwa menyalin ID snowflake untuk entitas selalu tersedia untuk semua pengguna tanpa memerlukan mode pengembang."
 
@@ -10950,6 +10954,7 @@ msgstr "Pelecehan atau Perundungan"
 msgid "hardware"
 msgstr "perangkat keras"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "Akselerasi Perangkat Keras"
@@ -12441,7 +12446,7 @@ msgstr "Terus tonton {viewerStreamCount} siaran dan tambahkan yang ini"
 msgid "Keep watching 1 stream and add this one"
 msgstr "Terus tonton 1 siaran dan tambahkan yang ini"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "Pertahankan dimensi dan penempatan jendela Anda bahkan saat memuat ulang aplikasi."
 
@@ -12601,7 +12606,7 @@ msgstr "Grafik latensi"
 msgid "Latvia"
 msgstr "Latvia"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "Luncurkan Fluxer saat Masuk"
 
@@ -17266,7 +17271,7 @@ msgstr "Muat ulang aplikasi"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "Tetap diam kecuali ada yang menjalankan /tts secara manual."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "Ingat Ukuran & Posisi"
 
@@ -17689,7 +17694,7 @@ msgstr "Tampilkan semua pesan Anda sebagai tipe pesan tidak dikenal"
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "Diperbarui pada <0>{renewalDate}</0>."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "Buka kembali dalam mode diperbesar jika itu cara terakhir Anda menggunakan Fluxer."
 
@@ -18016,11 +18021,11 @@ msgstr "Resolusi"
 msgid "Restore account"
 msgstr "Pulihkan akun"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "Pulihkan Layar Penuh"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "Pulihkan Maksimal"
 
@@ -18050,7 +18055,7 @@ msgstr "Berlangganan Ulang"
 msgid "Retry"
 msgstr "Coba Lagi"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "Kembali ke layar penuh secara otomatis saat Anda mengaktifkannya terakhir kali."
 
@@ -18264,7 +18269,7 @@ msgstr "Kotak Centang Gaya Bulat"
 msgid "Ruby"
 msgstr "Ruby"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "Jalankan Fluxer secara otomatis saat komputer Anda mulai. Atau jangan. Pilihan Anda!"
 
@@ -18488,6 +18493,7 @@ msgstr "Hentikan Berbagi Layar"
 msgid "screen sharing"
 msgstr "berbagi layar"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "Berbagi Layar"
@@ -23525,6 +23531,10 @@ msgstr "Pengguna"
 msgid "Uses"
 msgstr "Penggunaan"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "Menggunakan H.265 untuk berbagi layar saat diaktifkan. Matikan ini untuk lebih memilih VP9. Perubahan akan diterapkan saat Anda mulai berbagi layar berikutnya."
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "Menggunakan pusat notifikasi OS. Untuk kontrol per-kanal/per-komunitas, klik kanan ikon komunitas dan buka Pengaturan Notifikasi."
@@ -24561,7 +24571,7 @@ msgstr "Saat diaktifkan, orang lain tidak akan melihat pratinjau thumbnail dari 
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "Saat diaktifkan, mengetuk cepat pintasan push-to-talk Anda akan membuat mikrofon tetap menyala hingga ditekan lagi."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "Saat diaktifkan, mengungkap menu debug di seluruh aplikasi untuk memeriksa dan menyalin objek JSON mentah dari struktur data internal seperti pesan, kanal, pengguna, dan komunitas. Juga mencakup alat untuk mendebug kinerja parser Markdown Fluxer dan AST untuk pesan apa pun."
 
@@ -25510,15 +25520,15 @@ msgstr "Alamat IP Anda dilarang dari komunitas ini dan Anda tidak dapat bergabun
 msgid "Your IP is Banned"
 msgstr "IP Anda Dilarang"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Pesan Anda tidak dapat dikirimkan. Ini biasanya karena Anda tidak berbagi komunitas dengan penerima atau penerima hanya menerima pesan langsung dari teman."
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Pesan Anda tidak dapat dikirimkan. Anda perlu mengklaim akun Anda untuk mengirim pesan langsung."
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Pesan Anda tidak dapat dikirim. Anda perlu mengklaim akun Anda untuk mengirim pesan."
 

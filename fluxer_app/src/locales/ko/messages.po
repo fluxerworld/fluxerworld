@@ -2714,7 +2714,7 @@ msgstr "애플리케이션"
 msgid "Applications & Bots"
 msgstr "애플리케이션 및 봇"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "이 설정은 이 장치의 데스크톱 앱에만 적용됩니다."
 
@@ -3301,7 +3301,7 @@ msgstr "시스템의 축소된 모션 설정을 자동으로 사용하거나 아
 msgid "autoplay"
 msgstr "자동 재생"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "자동 시작 기능이 곧 Windows와 Linux에 출시됩니다. 현재는 macOS에서만 사용할 수 있습니다."
 
@@ -4740,6 +4740,10 @@ msgstr "어두운, 콜, 밝은 테마 중 하나를 선택하세요. 아래에�
 msgid "Choose destination for system and welcome messages"
 msgstr "시스템 및 환영 메시지 전송 위치 선택"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "Fluxer가 화면 공유를 위해 비디오 코덱을 선택하는 방법을 선택하세요."
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "Fluxer가 이 커뮤니티를 연령 제한으로 처리하는 방법을 선택하세요. 연령 제한은 18세 미만 사용자의 접근을 차단하고 성인에게 콘텐츠 경고를 표시하며, 지역 법률에 따라 달라질 수 있습니다."
@@ -4765,7 +4769,7 @@ msgstr "귀하의 커뮤니티를 가장 잘 설명하는 카테고리를 선택
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "{clientLabel}이 커뮤니티에서 수행할 수 있는 권한 선택. 원하지 않는 권한의 체크를 해제하세요."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "Fluxer가 기기에서 재시작/리로드 중에 창 정보를 기억할 내용을 선택하세요."
 
@@ -7373,11 +7377,11 @@ msgstr "데스크톱 알림 알림 표시줄"
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "데스크톱 알림이 차단되었습니다. 브라우저 설정이나 사용자 설정 > 알림에서 나중에 켤 수 있습니다."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "데스크톱 시작"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "데스크톱 창"
 
@@ -7435,12 +7439,12 @@ msgstr "개발자 애플리케이션"
 msgid "developer mode"
 msgstr "개발자 모드"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "개발자 모드"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "개발자 옵션"
 
@@ -8541,7 +8545,7 @@ msgstr "음성 재생 /tts 활성화"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "이 설정을 변경하려면 계정에서 2FA를 활성화하세요."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "디버깅 및 개발을 위한 고급 기능을 활성화합니다. 개체의 스노우플레이크 ID 복사는 개발자 모드 없이도 모든 사용자에게 항상 가능합니다."
 
@@ -10950,6 +10954,7 @@ msgstr "괴롭힘 또는 왕따"
 msgid "hardware"
 msgstr "하드웨어"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "하드웨어 가속"
@@ -12441,7 +12446,7 @@ msgstr "{viewerStreamCount}개의 스트림을 계속 시청하고 이 스트림
 msgid "Keep watching 1 stream and add this one"
 msgstr "1개의 스트림을 계속 시청하고 이 스트림을 추가하세요"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "앱을 다시 로드해도 창 크기와 위치를 유지하세요."
 
@@ -12601,7 +12606,7 @@ msgstr "지연 시간 그래프"
 msgid "Latvia"
 msgstr "라트비아"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "로그인 시 Fluxer 실행"
 
@@ -17266,7 +17271,7 @@ msgstr "앱 다시 로드"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "/tts가 수동으로 실행되지 않는 한 침묵을 유지합니다."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "크기 및 위치 기억하기"
 
@@ -17689,7 +17694,7 @@ msgstr "모든 메시지를 알 수 없는 메시지 유형으로 렌더링"
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "<0>{renewalDate}</0>에 갱신됩니다."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "마지막으로 Fluxer를 그렇게 사용하셨다면 최대화 모드로 다시 열기."
 
@@ -18016,11 +18021,11 @@ msgstr "해상도"
 msgid "Restore account"
 msgstr "계정 복원"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "전체 화면 복원"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "최대화 복원"
 
@@ -18050,7 +18055,7 @@ msgstr "다시 가입"
 msgid "Retry"
 msgstr "다시 시도"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "마지막에 전체 화면을 사용 중이었다면 자동으로 전체 화면으로 돌아갑니다."
 
@@ -18264,7 +18269,7 @@ msgstr "둥근 스타일 체크박스"
 msgid "Ruby"
 msgstr "루비"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "컴퓨터가 시작될 때 Fluxer를 자동으로 실행하거나 아니면 말고. 선택은 당신의 몫이에요!"
 
@@ -18488,6 +18493,7 @@ msgstr "화면 공유 중지"
 msgid "screen sharing"
 msgstr "화면 공유"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "화면 공유"
@@ -23525,6 +23531,10 @@ msgstr "사용자"
 msgid "Uses"
 msgstr "사용 수"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "활성화되면 화면 공유에 H.265를 사용합니다. VP9을 선호하려면 이 옵션을 끄세요. 변경 사항은 다음에 화면 공유를 시작할 때 적용됩니다."
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "OS 알림 센터를 사용해요. 채널/커뮤니티별 제어를 하려면 커뮤니티 아이콘을 오른쪽 클릭하고 알림 설정을 여세요."
@@ -24561,7 +24571,7 @@ msgstr "활성화되면 다른 사람들은 당신의 화면 공유 미리보기
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "활성화하면 푸시 투 토크 단축키를 빠르게 눌러도 다시 누를 때까지 마이크가 켜진 채로 유지됩니다."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "활성화하면 앱 전체에서 디버깅 메뉴가 표시되어 메시지, 채널, 사용자, 커뮤니티 같은 내부 데이터 구조의 JSON 객체를 살펴보고 복사할 수 있습니다. 또한 Fluxer 마크다운 파서 성능 및 특정 메시지의 AST를 디버그하는 도구도 포함됩니다."
 
@@ -25510,15 +25520,15 @@ msgstr "이 커뮤니티에서 이 IP 주소가 차단되어 참여할 수 없�
 msgid "Your IP is Banned"
 msgstr "IP가 차단되었습니다"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "메시지를 전달할 수 없습니다. 일반적으로 수신자와 커뮤니티를 공유하지 않거나 수신자가 친구에게만 DM을 허용하고 있기 때문입니다."
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "메시지를 전달할 수 없습니다. DM을 보내려면 계정을 등록해야 합니다."
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "메시지를 전달할 수 없습니다. 메시지를 보내려면 계정을 인증해야 합니다."
 

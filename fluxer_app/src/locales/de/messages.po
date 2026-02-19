@@ -2714,7 +2714,7 @@ msgstr "Anwendungen"
 msgid "Applications & Bots"
 msgstr "Anwendungen & Bots"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "Gilt nur für die Desktop-App auf diesem Gerät."
 
@@ -3301,7 +3301,7 @@ msgstr "Nutze automatisch die reduzierte Bewegungsoption deines Systems oder pas
 msgid "autoplay"
 msgstr "Automatische Wiedergabe"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "Der Autostart kommt bald für Windows und Linux. Für jetzt ist es nur auf macOS verfügbar."
 
@@ -4740,6 +4740,10 @@ msgstr "Wähle zwischen dunkler, kohlefarbener oder heller Optik. Du kannst unte
 msgid "Choose destination for system and welcome messages"
 msgstr "Wähle Ziel für System- und Willkommensnachrichten"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "Wähle, wie Fluxer den Video-Codec für die Bildschirmfreigabe auswählt."
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "Wählen Sie, wie Fluxer diese Community für die Altersbeschränkung behandelt. Altersbeschränkt blockiert den Zugriff für Nutzer unter 18 Jahren und zeigt eine Inhaltswarnung für Erwachsene an, vorbehaltlich der lokalen Gesetze."
@@ -4765,7 +4769,7 @@ msgstr "Wählen Sie die Kategorie, die Ihre Community am besten beschreibt."
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "Wähle, was {clientLabel} in deiner Community darf. Deaktiviere Berechtigungen, die du nicht gewähren willst."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "Wähle, was Fluxer über dein Fenster zwischen Neustarts und Neuladen auf diesem Gerät speichert."
 
@@ -7373,11 +7377,11 @@ msgstr "Desktop-Benachrichtigungsleiste"
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "Desktop-Benachrichtigungen wurden blockiert. Du kannst sie später in den Browsereinstellungen oder unter Benutzereinstellungen > Benachrichtigungen aktivieren."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "Desktop-Start"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "Desktop-Fenster"
 
@@ -7435,12 +7439,12 @@ msgstr "Entwickleranwendungen"
 msgid "developer mode"
 msgstr "Entwicklermodus"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "Entwicklermodus"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "Entwickleroptionen"
 
@@ -8541,7 +8545,7 @@ msgstr "Sprachwiedergabe mit /tts aktivieren"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "Aktiviere 2FA für dein Konto, um diese Einstellung zu ändern."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Aktiviere erweiterte Funktionen für Debugging und Entwicklung. Beachte, dass das Kopieren von Snowflake-IDs für Entitäten für alle Nutzer verfügbar ist, ohne Entwicklermodus."
 
@@ -10950,6 +10954,7 @@ msgstr "Belästigung oder Mobbing"
 msgid "hardware"
 msgstr "Hardware"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "Hardwarebeschleunigung"
@@ -12441,7 +12446,7 @@ msgstr "Schau dir {viewerStreamCount} Streams an und füge diesen hinzu"
 msgid "Keep watching 1 stream and add this one"
 msgstr "Schau dir 1 Stream an und füge diesen hinzu"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "Behalte Fenstergröße und -position auch bei einem Neuladen der App bei."
 
@@ -12601,7 +12606,7 @@ msgstr "Latenzdiagramm"
 msgid "Latvia"
 msgstr "Lettland"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "Fluxer beim Login starten"
 
@@ -17266,7 +17271,7 @@ msgstr "App neu laden"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "Schweige, es sei denn, jemand führt /tts manuell aus."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "Größe & Position merken"
 
@@ -17689,7 +17694,7 @@ msgstr "Alle deine Nachrichten als unbekannten Nachrichtentyp rendern"
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "Erneuert sich am <0>{renewalDate}</0>."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "Wieder im maximierten Modus öffnen, wenn du Fluxer zuletzt so verwendet hast."
 
@@ -18016,11 +18021,11 @@ msgstr "Auflösung"
 msgid "Restore account"
 msgstr "Konto wiederherstellen"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "Vollbild wiederherstellen"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "Maximiert wiederherstellen"
 
@@ -18050,7 +18055,7 @@ msgstr "Erneut abonnieren"
 msgid "Retry"
 msgstr "Erneut versuchen"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "Automatisch zum Vollbild zurückkehren, wenn du es zuletzt aktiviert hattest."
 
@@ -18264,7 +18269,7 @@ msgstr "Rundes Kontrollkästchen"
 msgid "Ruby"
 msgstr "Ruby"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "Starte Fluxer automatisch beim Hochfahren deines Rechners. Oder auch nicht. Deine Entscheidung!"
 
@@ -18488,6 +18493,7 @@ msgstr "Bildschirmfreigabe beenden"
 msgid "screen sharing"
 msgstr "Bildschirmfreigabe"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "Bildschirmfreigabe"
@@ -23525,6 +23531,10 @@ msgstr "Benutzer"
 msgid "Uses"
 msgstr "Verwendet"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "Verwendet H.265 für die Bildschirmfreigabe, wenn aktiviert. Deaktiviere dies, um VP9 zu bevorzugen. Änderungen werden beim nächsten Starten der Bildschirmfreigabe angewendet."
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "Verwendet das Benachrichtigungszentrum des Betriebssystems. Für Kanal-/Community-spezifische Steuerungen rechtsklicke auf ein Community-Symbol und öffne die Benachrichtigungseinstellungen."
@@ -24561,7 +24571,7 @@ msgstr "Wenn aktiviert, werden andere Personen keine Miniaturansicht deiner Bild
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "Wenn aktiviert, hält ein kurzer Tastendruck auf dein Push-to-Talk-Kürzel dein Mikrofon an, bis du erneut drückst."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "Wenn aktiviert, werden Debug-Menüs in der ganzen App sichtbar, mit denen du rohe JSON-Objekte interner Datenstrukturen wie Nachrichten, Kanäle, Benutzer und Communities inspizieren und kopieren kannst. Enthält auch Werkzeuge zur Fehlersuche für die Fluxer Markdown-Parser-Leistung und AST für jede Nachricht."
 
@@ -25510,15 +25520,15 @@ msgstr "Deine IP-Adresse ist von dieser Community gesperrt und du kannst nicht b
 msgid "Your IP is Banned"
 msgstr "Deine IP ist gesperrt"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Deine Nachricht konnte nicht zugestellt werden. Das liegt meist daran, dass ihr keine Community teilt oder der Empfänger nur Direktnachrichten von Freunden akzeptiert."
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Deine Nachricht konnte nicht zugestellt werden. Du musst dein Konto beanspruchen, um Direktnachrichten zu senden."
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Ihre Nachricht konnte nicht zugestellt werden. Sie müssen Ihr Konto bestätigen, um Nachrichten zu senden."
 

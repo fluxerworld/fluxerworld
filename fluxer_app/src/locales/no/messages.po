@@ -2714,7 +2714,7 @@ msgstr "Applikasjoner"
 msgid "Applications & Bots"
 msgstr "Applikasjoner og roboter"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "Gjelder bare skrivebordsappen på denne enheten."
 
@@ -3301,7 +3301,7 @@ msgstr "Bruk automatisk systemets preferanse for redusert bevegelse, eller tilpa
 msgid "autoplay"
 msgstr "autoplay"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "Autostart kommer snart for Windows og Linux. For nå er det kun tilgjengelig på macOS."
 
@@ -4740,6 +4740,10 @@ msgstr "Velg mellom mørk, kull eller lys stil. Du kan fortsatt legge til egende
 msgid "Choose destination for system and welcome messages"
 msgstr "Velg destinasjon for system- og velkomstmeldinger"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "Velg hvordan Fluxer velger videokodeken for skjermdeling."
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "Velg hvordan Fluxer behandler dette fellesskapet for aldersgrense. Aldersbegrenset blokkerer tilgang for brukere under 18 og viser en innholdsadvarsel for voksne, i henhold til lokale lover."
@@ -4765,7 +4769,7 @@ msgstr "Velg kategorien som best beskriver fellesskapet ditt."
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "Velg hva {clientLabel} kan gjøre i fellesskapet ditt. Fjern avhukingen for tillatelser du ikke vil gi."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "Velg hva Fluxer husker om vinduet ditt mellom omstarter og oppdateringer på denne enheten."
 
@@ -7373,11 +7377,11 @@ msgstr "Varsel for skrivebordsvarsler"
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "Skrivebordsvarsler er blokkert. Du kan aktivere dem senere i nettleserinnstillingene eller i Brukerinnstillinger > Varsler."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "Oppstart på skrivebordet"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "Skrivebordsvindu"
 
@@ -7435,12 +7439,12 @@ msgstr "Utviklerapplikasjoner"
 msgid "developer mode"
 msgstr "utviklermodus"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "Utviklermodus"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "Utvikleralternativer"
 
@@ -8541,7 +8545,7 @@ msgstr "Aktiver /tts taleavspilling"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "Aktiver 2FA på kontoen din for å endre denne innstillingen"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Aktiver avanserte funksjoner for feilsøking og utvikling. Kopiering av snøfnugg-ID-er for enheter er alltid tilgjengelig for alle brukere uten utviklermodus."
 
@@ -10950,6 +10954,7 @@ msgstr "Trakassering eller mobbing"
 msgid "hardware"
 msgstr "maskinvare"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "Maskinvareakselerasjon"
@@ -12441,7 +12446,7 @@ msgstr "Fortsett å se {viewerStreamCount} strømmer og legg til denne"
 msgid "Keep watching 1 stream and add this one"
 msgstr "Fortsett å se 1 strøm og legg til denne"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "Behold vindusdimensjonene og plasseringen selv når du laster inn appen på nytt."
 
@@ -12601,7 +12606,7 @@ msgstr "Forsinkelsesdiagram"
 msgid "Latvia"
 msgstr "Latvia"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "Start Fluxer ved innlogging"
 
@@ -17266,7 +17271,7 @@ msgstr "Last app på nytt"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "Forbli stille med mindre noen kjører /tts manuelt."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "Husk størrelse og posisjon"
 
@@ -17689,7 +17694,7 @@ msgstr "Vis alle meldingene dine som ukjent meldingstype"
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "Fornyes <0>{renewalDate}</0>."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "Åpne på nytt i maksimerte modus hvis det er slik du sist brukte Fluxer."
 
@@ -18016,11 +18021,11 @@ msgstr "Oppløsning"
 msgid "Restore account"
 msgstr "Gjenopprett konto"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "Gjenopprett fullskjerm"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "Gjenopprett maksimerte"
 
@@ -18050,7 +18055,7 @@ msgstr "Abonner igjen"
 msgid "Retry"
 msgstr "Prøv igjen"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "Gå automatisk tilbake til fullskjerm hvis du hadde det aktivert sist."
 
@@ -18264,7 +18269,7 @@ msgstr "Avmerkingsboks med rund stil"
 msgid "Ruby"
 msgstr "Ruby"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "Start Fluxer automatisk når datamaskinen starter. Eller ikke. Valget er ditt!"
 
@@ -18488,6 +18493,7 @@ msgstr "Stopp skjermdeling"
 msgid "screen sharing"
 msgstr "skjermdeling"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "Skjermdeling"
@@ -23525,6 +23531,10 @@ msgstr "Brukere"
 msgid "Uses"
 msgstr "Bruker"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "Bruker H.265 for skjermdeling når det er aktivert. Slå dette av for å foretrekke VP9. Endringer trer i kraft neste gang du begynner å dele skjermen."
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "Bruker operativsystemets varslingssenter. For kanal-/fellesskapskontroller høyreklikker du et fellesskapsikon og åpner Varslingsinnstillinger."
@@ -24561,7 +24571,7 @@ msgstr "Når det er aktivert, vil ikke andre se en miniaturer forhåndsvisning a
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "Når aktivert, holder et raskt trykk på snarveien for push-to-talk mikrofonen aktivert til du trykker igjen."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "Når aktivert, viser feilsøkingsmenyer i hele appen for å inspisere og kopiere rå JSON-objekter for interne datastrukturer som meldinger, kanaler, brukere og fellesskap. Inkluderer også verktøy for å feilsøke Fluxer Markdown-parserens ytelse og AST for enhver melding."
 
@@ -25510,15 +25520,15 @@ msgstr "IP-adressen din er utestengt fra dette fellesskapet og du kan ikke bli m
 msgid "Your IP is Banned"
 msgstr "IP-adressen din er utestengt"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Meldingen din kunne ikke leveres. Dette skyldes vanligvis at dere ikke deler et fellesskap, eller at mottakeren bare godtar direktemeldinger fra venner."
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Meldingen din kunne ikke leveres. Du må gjøre krav på kontoen din for å sende direktemeldinger."
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Meldingen din kunne ikke leveres. Du må kreve kontoen din for å sende meldinger."
 

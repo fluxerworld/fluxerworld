@@ -2714,7 +2714,7 @@ msgstr "एप्लिकेशन"
 msgid "Applications & Bots"
 msgstr "एप्लिकेशन और बॉट"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "यह केवल इस डिवाइस के डेस्कटॉप ऐप पर लागू होता है।"
 
@@ -3301,7 +3301,7 @@ msgstr "अपने सिस्टम की कम गति की प्र
 msgid "autoplay"
 msgstr "स्वतः चलाना"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "ऑटोस्टार्ट जल्द ही विंडोज और लिनक्स के लिए आ रहा है। फिलहाल, यह केवल macOS पर उपलब्ध है।"
 
@@ -4740,6 +4740,10 @@ msgstr "डार्क, कोल या लाइट लुक में स�
 msgid "Choose destination for system and welcome messages"
 msgstr "सिस्टम और वेलकम संदेशों के लिए गंतव्य चुनें"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "चुनें कि Fluxer स्क्रीन साझा करने के लिए वीडियो कोडेक कैसे चुनता है।"
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "चुनें कि Fluxer इस समुदाय को उम्र-गेटिंग के लिए कैसे संभालता है। उम्र-सीमित 18 वर्ष से कम उम्र के उपयोगकर्ताओं के लिए पहुँच अवरुद्ध करता है और वयस्कों के लिए एक सामग्री चेतावनी दिखाता है, स्थानीय कानूनों के अधीन।"
@@ -4765,7 +4769,7 @@ msgstr "उस श्रेणी का चयन करें जो आपक
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "आपके समुदाय में {clientLabel} क्या कर सकता है, यह चुनें। जिन अनुमतियों को देना नहीं चाहते, उन्हें अनचेक करें।"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "इस डिवाइस पर रीस्टार्ट और रीलोड के बीच Fluxer आपकी विंडो के बारे में क्या याद रखे, यह चुनें।"
 
@@ -7373,11 +7377,11 @@ msgstr "डेस्कटॉप नोटिफिकेशन नॅगबा�
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "डेस्कटॉप नोटिफिकेशन ब्लॉक कर दिए गए हैं। आप इन्हें बाद में ब्राउज़र सेटिंग्स या यूज़र सेटिंग्स > नोटिफिकेशन में सक्षम कर सकते हैं।"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "डेस्कटॉप स्टार्टअप"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "डेस्कटॉप विंडो"
 
@@ -7435,12 +7439,12 @@ msgstr "डेवलपर एप्लिकेशन"
 msgid "developer mode"
 msgstr "डेवलपर मोड"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "डेवलपर मोड"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "डेवलपर विकल्प"
 
@@ -8541,7 +8545,7 @@ msgstr "टीटीएस स्पीच प्लेबैक सक्षम
 msgid "Enable 2FA on your account to change this setting"
 msgstr "इस सेटिंग को बदलने के लिए अपने खाते पर 2FA सक्षम करें"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "डिबगिंग और विकास के लिए उन्नत सुविधाएँ सक्षम करें। ध्यान दें कि डेवलपर मोड की ज़रूरत नहीं है—एंटिटी के स्नोफ्लेक आईडी कॉपी करना सभी उपयोगकर्ताओं के लिए हमेशा उपलब्ध रहता है।"
 
@@ -10950,6 +10954,7 @@ msgstr "उत्पीड़न या धमकाना"
 msgid "hardware"
 msgstr "हार्डवेयर"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "हार्डवेयर त्वरण"
@@ -12441,7 +12446,7 @@ msgstr "{viewerStreamCount} स्ट्रीम्स देखते रह�
 msgid "Keep watching 1 stream and add this one"
 msgstr "1 स्ट्रीम देखते रहें और इसे जोड़ें"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "ऐप को रीलोड करने पर भी अपनी विंडो की आयाम और स्थिति बनाए रखें।"
 
@@ -12601,7 +12606,7 @@ msgstr "लेटेंसी ग्राफ"
 msgid "Latvia"
 msgstr "लातविया"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "लॉगिन पर फ्लक्सर लॉन्च करें"
 
@@ -17266,7 +17271,7 @@ msgstr "ऐप फिर से लोड करें"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "चुप रहें जब तक कि कोई व्यक्ति मैन्युअल रूप से /tts न चलाए।"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "आकार और स्थिति याद रखें"
 
@@ -17689,7 +17694,7 @@ msgstr "अपने सभी संदेशों को अज्ञात �
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "<0>{renewalDate}</0> को नवीनीकरण होता है।"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "अगर आपने आखिरी बार फ्लक्सर ऐसे ही उपयोग किया था, तो अधिकतम मोड में फिर से खोलें।"
 
@@ -18016,11 +18021,11 @@ msgstr "रिज़ॉल्यूशन"
 msgid "Restore account"
 msgstr "खाता पुनर्स्थापित करें"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "पूर्ण स्क्रीन पुनर्स्थापित करें"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "अधिकतम पुनर्स्थापित करें"
 
@@ -18050,7 +18055,7 @@ msgstr "फिर से सदस्यता लें"
 msgid "Retry"
 msgstr "पुनः प्रयास करें"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "पिछली बार फुलस्क्रीन सक्षम था तो स्वचालित रूप से फुलस्क्रीन पर लौटें।"
 
@@ -18264,7 +18269,7 @@ msgstr "गोल स्टाइल चेकबॉक्स"
 msgid "Ruby"
 msgstr "रूबी"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "जब आपका कंप्यूटर शुरू हो तो Fluxer को स्वचालित रूप से चलाएं। या न चलाएं। आपकी पसंद!"
 
@@ -18488,6 +18493,7 @@ msgstr "स्क्रीन शेयर बंद करें"
 msgid "screen sharing"
 msgstr "स्क्रीन शेयरिंग"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "स्क्रीन शेयरिंग"
@@ -23525,6 +23531,10 @@ msgstr "उपयोगकर्ता"
 msgid "Uses"
 msgstr "उपयोग"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "स्क्रीन साझा करने के लिए H.265 का उपयोग करता है जब यह सक्षम होता है। VP9 को प्राथमिकता देने के लिए इसे बंद करें। परिवर्तन अगली बार जब आप अपना स्क्रीन साझा करना शुरू करेंगे, लागू होंगे।"
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "OS नोटिफिकेशन सेंटर का उपयोग करता है। चैनल/समुदाय नियंत्रण के लिए किसी समुदाय आइकन पर राइट-क्लिक करें और नोटिफिकेशन सेटिंग्स खोलें।"
@@ -24561,7 +24571,7 @@ msgstr "जब सक्षम किया जाता है, तो अन�
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "जब सक्षम हो, तो पुश-टू-टॉक शॉर्टकट पर जल्दी टैप करने से माइक्रोफ़ोन तब तक चालू रहेगा जब तक फिर से दबाया न जाए।"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "जब सक्षम हो, तो ऐप में डिबगिंग मेनू दिखाता है ताकि संदेशों, चैनलों, यूज़र्स और समुदायों जैसी आंतरिक डेटा स्ट्रक्चर के रॉ JSON ऑब्जेक्ट्स को जांचा और कॉपी किया जा सके। इसमें Fluxer Markdown पार्सर के प्रदर्शन और किसी भी संदेश के AST को डिबग करने के टूल भी शामिल हैं।"
 
@@ -25510,15 +25520,15 @@ msgstr "तुम्हारा IP पता इस कम्युनिटी
 msgid "Your IP is Banned"
 msgstr "तुम्हारा IP बैन है"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "तुम्हारा संदेश भेजा नहीं जा सका। आमतौर पर ऐसा इसलिए होता है क्योंकि तुम और रिसीवर एक ही कम्युनिटी में नहीं हो या रिसीवर केवल दोस्तों से डायरेक्ट मैसेज स्वीकार कर रहा है।"
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "तुम्हारा संदेश भेजा नहीं जा सका। डायरेक्ट मैसेज भेजने के लिए तुम्हें अपना खाता क्लेम करना होगा।"
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "आपका संदेश नहीं भेजा जा सका। संदेश भेजने के लिए आपको अपने खाते का दावा करना होगा।"
 

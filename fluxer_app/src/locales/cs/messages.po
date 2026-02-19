@@ -2714,7 +2714,7 @@ msgstr "Aplikace"
 msgid "Applications & Bots"
 msgstr "Aplikace a boti"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "Platí pouze pro desktopovou aplikaci na tomto zařízení."
 
@@ -3301,7 +3301,7 @@ msgstr "Automaticky používat systémové nastavení omezené animace nebo jej 
 msgid "autoplay"
 msgstr "automatické přehrávání"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "Automatické spuštění brzy přijde pro Windows a Linux. Zatím je k dispozici pouze na macOS."
 
@@ -4740,6 +4740,10 @@ msgstr "Vyberte tmavé, uhlové nebo světlé zobrazení. Níže můžete přida
 msgid "Choose destination for system and welcome messages"
 msgstr "Vyberte cíl pro systémové a uvítací zprávy"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "Vyberte, jak Fluxer vybírá video kodek pro sdílení obrazovky."
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "Vyberte, jak by měl Fluxer zacházet s touto komunitou pro věkové omezení. Omezená komunita podle věku blokuje přístup pro uživatele mladší 18 let a zobrazuje varování o obsahu pro dospělé, v souladu s místními zákony."
@@ -4765,7 +4769,7 @@ msgstr "Vyberte kategorii, která nejlépe popisuje vaši komunitu."
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "Vyberte, co může {clientLabel} dělat ve vaší komunitě. Zrušte zaškrtnutí oprávnění, která nechcete udělit."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "Určete, co si Fluxer má pamatovat o tomto okně mezi restartem a obnovením na tomto zařízení."
 
@@ -7373,11 +7377,11 @@ msgstr "Panel upozornění pro desktop"
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "Desktopová oznámení byla zablokována. Můžeš je povolit později v nastavení prohlížeče nebo v Uživatelském nastavení > Oznámení."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "Spouštění desktopu"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "Desktopové okno"
 
@@ -7435,12 +7439,12 @@ msgstr "Aplikace pro vývojáře"
 msgid "developer mode"
 msgstr "režim vývojáře"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "Režim vývojáře"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "Možnosti vývojáře"
 
@@ -8541,7 +8545,7 @@ msgstr "Povolit přehrávání /tts řeči"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "Povolte 2FA na svém účtu, abyste mohli změnit toto nastavení"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Povolte pokročilé funkce pro ladění a vývoj. Kopírování ID (snowflake) entit je dostupné všem uživatelům bez vývojářského režimu."
 
@@ -10950,6 +10954,7 @@ msgstr "Obtěžování nebo šikana"
 msgid "hardware"
 msgstr "hardware"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "Hardwarová akcelerace"
@@ -12441,7 +12446,7 @@ msgstr "Sledujte {viewerStreamCount} streamů a přidejte tento"
 msgid "Keep watching 1 stream and add this one"
 msgstr "Sledujte 1 stream a přidejte tento"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "Zachovejte rozměry a umístění okna i po obnovení aplikace."
 
@@ -12601,7 +12606,7 @@ msgstr "Graf latence"
 msgid "Latvia"
 msgstr "Lotyšsko"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "Spustit Fluxer při přihlášení"
 
@@ -17266,7 +17271,7 @@ msgstr "Znovu načíst aplikaci"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "Zůstaňte potichu, pokud někdo manuálně nespustí /tts."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "Pamatuj si velikost a pozici"
 
@@ -17689,7 +17694,7 @@ msgstr "Zobrazit všechny vaše zprávy jako neznámý typ zprávy"
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "Obnovuje se <0>{renewalDate}</0>."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "Znovu otevřete v maximalizovaném režimu, pokud jste naposledy používali Fluxer tímto způsobem."
 
@@ -18016,11 +18021,11 @@ msgstr "Rozlišení"
 msgid "Restore account"
 msgstr "Obnovit účet"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "Obnovit celoobrazovkový režim"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "Obnovit maximalizované okno"
 
@@ -18050,7 +18055,7 @@ msgstr "Znovu odebírat"
 msgid "Retry"
 msgstr "Zkusit znovu"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "Automaticky se vrátit do režimu na celou obrazovku, pokud jste ho naposledy měl zapnutý."
 
@@ -18264,7 +18269,7 @@ msgstr "Kulaté zaškrtávací políčko"
 msgid "Ruby"
 msgstr "Ruby"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "Spouštět Fluxer automaticky při startu počítače. Nebo ne. Je to na vás!"
 
@@ -18488,6 +18493,7 @@ msgstr "Zastavit sdílení obrazovky"
 msgid "screen sharing"
 msgstr "sdílení obrazovky"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "Sdílení obrazovky"
@@ -23525,6 +23531,10 @@ msgstr "Uživatelé"
 msgid "Uses"
 msgstr "Použití"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "Používá H.265 pro sdílení obrazovky, když je povoleno. Vypněte to, abyste upřednostnili VP9. Změny se projeví při příštím spuštění sdílení obrazovky."
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "Používá systémové centrum oznámení. Pro ovládání podle kanálu nebo komunity klikněte pravým tlačítkem na ikonu komunity a otevřete Nastavení oznámení."
@@ -24561,7 +24571,7 @@ msgstr "Když je povoleno, ostatní lidé neuvidí náhled vaší sdílené obra
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "Když je zapnuto, rychlé stisknutí zkratky pro tlačítko mluvení nechá mikrofon zapnutý, dokud znovu nestiskneš."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "Po zapnutí odhalí ladicí nabídky v celé aplikaci pro inspekci a kopírování surových objektů JSON interních struktur jako zprávy, kanály, uživatelé a komunity. Obsahuje i nástroje pro ladění výkonu Fluxer Markdown parseru a AST pro libovolnou zprávu."
 
@@ -25510,15 +25520,15 @@ msgstr "Vaše IP adresa je z této komunity zabanovaná a nemůžete se připoji
 msgid "Your IP is Banned"
 msgstr "Vaše IP je zabanovaná"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Vaše zpráva nemohla být doručena. Obvykle je to proto, že s příjemcem nesdílíte komunitu, nebo přijímá soukromé zprávy jen od přátel."
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Vaše zpráva nemohla být doručena. Abyste mohl(a) posílat soukromé zprávy, musíte převzít svůj účet."
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Vaše zpráva nemohla být doručena. Musíte si nárokovat svůj účet, abyste mohli posílat zprávy."
 

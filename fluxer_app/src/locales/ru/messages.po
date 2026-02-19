@@ -2714,7 +2714,7 @@ msgstr "Приложения"
 msgid "Applications & Bots"
 msgstr "Приложения и боты"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "Применимо только к десктопному приложению на этом устройстве."
 
@@ -3301,7 +3301,7 @@ msgstr "Автоматически применять системные нас�
 msgid "autoplay"
 msgstr "автовоспроизведение"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "Автозапуск скоро появится для Windows и Linux. Пока он доступен только на macOS."
 
@@ -4740,6 +4740,10 @@ msgstr "Выбери тёмную, угольную или светлую тем
 msgid "Choose destination for system and welcome messages"
 msgstr "Выбери место для системных и приветственных сообщений"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "Выберите, как Fluxer выбирает видеокодек для совместного использования экрана."
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "Выберите, как Fluxer будет обрабатывать это сообщество для ограничения по возрасту. Ограничение по возрасту блокирует доступ для пользователей младше 18 лет и показывает предупреждение о контенте для взрослых, в соответствии с местными законами."
@@ -4765,7 +4769,7 @@ msgstr "Выберите категорию, которая лучше всег�
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "Выбери, что {clientLabel} может делать в твоём сообществе. Сними галочки с разрешений, которые не хочешь давать."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "Выбери, что Fluxer будет запоминать о твоём окне между перезапусками и обновлениями на этом устройстве."
 
@@ -7373,11 +7377,11 @@ msgstr "Панель предупреждений настольных увед�
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "Настольные уведомления заблокированы. Их можно включить позже в настройках браузера или в Настройках пользователя > Уведомления."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "Автозапуск для рабочего стола"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "Окно рабочего стола"
 
@@ -7435,12 +7439,12 @@ msgstr "Приложения разработчика"
 msgid "developer mode"
 msgstr "режим разработчика"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "Режим разработчика"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "Опции разработчика"
 
@@ -8541,7 +8545,7 @@ msgstr "Включить воспроизведение речи /tts"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "Включите 2FA в вашем аккаунте, чтобы изменить эту настройку"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Включи расширенные функции для отладки и разработки. Учти, что копировать идентификаторы объектов (snowflake) всегда можно без режима разработчика."
 
@@ -10950,6 +10954,7 @@ msgstr "Преследование или травля"
 msgid "hardware"
 msgstr "аппаратное обеспечение"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "Аппаратное ускорение"
@@ -12441,7 +12446,7 @@ msgstr "Продолжайте смотреть {viewerStreamCount} стримо
 msgid "Keep watching 1 stream and add this one"
 msgstr "Продолжайте смотреть 1 стрим и добавьте этот"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "Сохраняй размеры и расположение окна даже при перезагрузке приложения."
 
@@ -12601,7 +12606,7 @@ msgstr "График задержки"
 msgid "Latvia"
 msgstr "Латвия"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "Запускать Fluxer при входе"
 
@@ -17266,7 +17271,7 @@ msgstr "Перезагрузить приложение"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "Оставаться в тишине, если кто-то не запустит /tts вручную."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "Запомнить размер и положение"
 
@@ -17689,7 +17694,7 @@ msgstr "Отображать все ваши сообщения как неиз�
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "Продлевается <0>{renewalDate}</0>."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "Открой в развернутом режиме, если ты так в последний раз использовал Fluxer."
 
@@ -18016,11 +18021,11 @@ msgstr "Разрешение"
 msgid "Restore account"
 msgstr "Восстановить аккаунт"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "Восстановить полноэкранный режим"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "Восстановить максимизированный режим"
 
@@ -18050,7 +18055,7 @@ msgstr "Подписаться снова"
 msgid "Retry"
 msgstr "Повторить"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "Автоматически возвращать полноэкранный режим, если он был включён в прошлый раз."
 
@@ -18264,7 +18269,7 @@ msgstr "Чекбокс круглого стиля"
 msgid "Ruby"
 msgstr "Ruby"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "Запускай Fluxer автоматически при включении компьютера. Или нет. Выбор за тобой!"
 
@@ -18488,6 +18493,7 @@ msgstr "Остановить демонстрацию экрана"
 msgid "screen sharing"
 msgstr "совместное использование экрана"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "Демонстрация экрана"
@@ -23525,6 +23531,10 @@ msgstr "Пользователи"
 msgid "Uses"
 msgstr "Использования"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "Использует H.265 для совместного использования экрана, когда это включено. Отключите это, чтобы предпочесть VP9. Изменения применятся в следующий раз, когда вы начнете делиться экраном."
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "Использует центр уведомлений ОС. Чтобы настроить уведомления для канала или сообщества, кликни правой кнопкой по иконке сообщества и открой «Настройки уведомлений»."
@@ -24561,7 +24571,7 @@ msgstr "Когда включено, другие люди не увидят м�
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "Когда включено, быстрое нажатие сочетания push-to-talk удержит микрофон включённым до следующего нажатия."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "Когда включено, открываются отладочные меню по всему приложению для просмотра и копирования сырых JSON-объектов внутренних структур (сообщений, каналов, пользователей и сообществ). Также включаются инструменты для отладки парсера Fluxer Markdown и AST любого сообщения."
 
@@ -25510,15 +25520,15 @@ msgstr "Твой IP-адрес заблокирован в этом сообще
 msgid "Your IP is Banned"
 msgstr "Твой IP заблокирован"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Твоё сообщение не удалось доставить. Обычно это происходит, потому что ты не в одном сообществе или получатель принимает личные сообщения только от друзей."
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Твоё сообщение не удалось доставить. Тебе нужно закрепить аккаунт, чтобы отправлять личные сообщения."
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Ваше сообщение не может быть доставлено. Вам нужно подтвердить свою учетную запись, чтобы отправлять сообщения."
 

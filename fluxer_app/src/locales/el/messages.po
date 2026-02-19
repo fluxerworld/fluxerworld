@@ -2714,7 +2714,7 @@ msgstr "Εφαρμογές"
 msgid "Applications & Bots"
 msgstr "Εφαρμογές & Bots"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "Ισχύει μόνο για την εφαρμογή υπολογιστή σε αυτή τη συσκευή."
 
@@ -3301,7 +3301,7 @@ msgstr "Χρησιμοποιείται αυτόματα η προτίμηση μ
 msgid "autoplay"
 msgstr "αυτόματη αναπαραγωγή"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "Η αυτόματη εκκίνηση έρχεται σύντομα για Windows και Linux. Προς το παρόν, είναι διαθέσιμη μόνο σε macOS."
 
@@ -4740,6 +4740,10 @@ msgstr "Επιλέξτε ανάμεσα σε σκοτεινή, ανθρακί ή
 msgid "Choose destination for system and welcome messages"
 msgstr "Επιλέξτε προορισμό για συστήματα και μηνύματα καλωσορίσματος"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "Επιλέξτε πώς ο Fluxer επιλέγει τον κωδικοποιητή βίντεο για την κοινή χρήση οθόνης."
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "Επιλέξτε πώς θα αντιμετωπίζει το Fluxer αυτή την κοινότητα για περιορισμούς ηλικίας. Το Περιορισμένο από ηλικία αποκλείει την πρόσβαση για χρήστες κάτω των 18 ετών και εμφανίζει προειδοποίηση περιεχομένου για ενήλικες, σύμφωνα με τους τοπικούς νόμους."
@@ -4765,7 +4769,7 @@ msgstr "Επιλέξτε την κατηγορία που περιγράφει �
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "Επιλέξτε τι μπορεί να κάνει το {clientLabel} στην κοινότητά σας. Αποεπιλέξτε οποιαδήποτε δικαιώματα δεν θέλετε να παραχωρήσετε."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "Επιλέξτε τι θυμάται το Fluxer για το παράθυρό σας μεταξύ επανεκκινήσεων και επαναφορτώσεων στη συσκευή αυτή."
 
@@ -7373,11 +7377,11 @@ msgstr "Μπάρα ειδοποιήσεων επιφάνειας εργασία�
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "Οι ειδοποιήσεις επιφάνειας εργασίας έχουν αποκλειστεί. Μπορείς να τις ενεργοποιήσεις αργότερα στις ρυθμίσεις του προγράμματος περιήγησης ή στις Ρυθμίσεις χρήστη > Ειδοποιήσεις."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "Εκκίνηση επιφάνειας εργασίας"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "Παράθυρο επιφάνειας εργασίας"
 
@@ -7435,12 +7439,12 @@ msgstr "Εφαρμογές προγραμματιστών"
 msgid "developer mode"
 msgstr "λειτουργία προγραμματιστή"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "Λειτουργία προγραμματιστή"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "Επιλογές προγραμματιστή"
 
@@ -8541,7 +8545,7 @@ msgstr "Ενεργοποίηση αναπαραγωγής ομιλίας /tts"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "Ενεργοποιήστε την 2FA στον λογαριασμό σας για να αλλάξετε αυτή τη ρύθμιση"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Ενεργοποιήστε προηγμένες δυνατότητες για αποσφαλμάτωση και ανάπτυξη. Σημειώστε ότι η αντιγραφή των αναγνωριστικών snowflake για οντότητες είναι πάντοτε διαθέσιμη σε όλους τους χρήστες χωρίς λειτουργία προγραμματιστή."
 
@@ -10950,6 +10954,7 @@ msgstr "Παρενόχληση ή εκφοβισμός"
 msgid "hardware"
 msgstr "υλικό"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "Επιτάχυνση υλικού"
@@ -12441,7 +12446,7 @@ msgstr "Συνεχίστε να παρακολουθείτε {viewerStreamCount}
 msgid "Keep watching 1 stream and add this one"
 msgstr "Συνεχίστε να παρακολουθείτε 1 ροή και προσθέστε αυτήν"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "Διατήρησε τις διαστάσεις και τη θέση του παραθύρου ακόμα και μετά την επαναφόρτωση της εφαρμογής."
 
@@ -12601,7 +12606,7 @@ msgstr "Γράφημα καθυστέρησης"
 msgid "Latvia"
 msgstr "Λετονία"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "Εκκίνηση Fluxer κατά την Σύνδεση"
 
@@ -17266,7 +17271,7 @@ msgstr "Επαναφόρτωση εφαρμογής"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "Μείνετε σιωπηλοί εκτός αν κάποιος εκτελέσει το /tts χειροκίνητα."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "Θυμήσου Μέγεθος & Θέση"
 
@@ -17689,7 +17694,7 @@ msgstr "Απόδοση όλων των μηνυμάτων σας ως άγνωσ
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "Ανανεώνεται στις <0>{renewalDate}</0>."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "Ξανά άνοιγμα σε μέγιστη προβολή αν έτσι το χρησιμοποίησες τελευταία φορά το Fluxer."
 
@@ -18016,11 +18021,11 @@ msgstr "Ανάλυση"
 msgid "Restore account"
 msgstr "Αποκατάσταση λογαριασμού"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "Επαναφορά Πλήρους Οθόνης"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "Επαναφορά Μεγιστοποιημένης"
 
@@ -18050,7 +18055,7 @@ msgstr "Επανασυνδρομή"
 msgid "Retry"
 msgstr "Επανάληψη"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "Επιστροφή σε πλήρη οθόνη αυτόματα όταν ήταν ενεργή την τελευταία φορά."
 
@@ -18264,7 +18269,7 @@ msgstr "Πλαίσιο επιλογής στρογγυλού στυλ"
 msgid "Ruby"
 msgstr "Ruby"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "Εκκίνηση του Fluxer αυτόματα με την εκκίνηση του υπολογιστή σας. Ή όχι. Επιλογή σας!"
 
@@ -18488,6 +18493,7 @@ msgstr "Διακοπή κοινής χρήσης οθόνης"
 msgid "screen sharing"
 msgstr "κοινή χρήση οθόνης"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "Κοινή χρήση οθόνης"
@@ -23525,6 +23531,10 @@ msgstr "Χρήστες"
 msgid "Uses"
 msgstr "Χρήσεις"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "Χρησιμοποιεί H.265 για την κοινή χρήση οθόνης όταν είναι ενεργοποιημένο. Απενεργοποιήστε το αυτό για να προτιμήσετε το VP9. Οι αλλαγές θα εφαρμοστούν την επόμενη φορά που θα ξεκινήσετε την κοινή χρήση της οθόνης σας."
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "Χρησιμοποιεί το κέντρο ειδοποιήσεων του λειτουργικού συστήματος. Για έλεγχο ανά κανάλι/κοινότητα, κάντε δεξί κλικ σε ένα εικονίδιο κοινότητας και ανοίξτε τις Ρυθμίσεις Ειδοποιήσεων."
@@ -24561,7 +24571,7 @@ msgstr "Όταν είναι ενεργοποιημένο, οι άλλοι δεν
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "Όταν είναι ενεργοποιημένο, ένα γρήγορο πάτημα του συντόμευσης push-to-talk θα κρατήσει το μικρόφωνό σου ενεργό μέχρι να πατηθεί ξανά."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "Όταν είναι ενεργοποιημένο, αποκαλύπτει μενού εντοπισμού σφαλμάτων σε όλη την εφαρμογή για να ελέγξετε και να αντιγράψετε ακατέργαστα αντικείμενα JSON εσωτερικών δομών δεδομένων όπως μηνύματα, κανάλια, χρήστες και κοινότητες. Περιλαμβάνει επίσης εργαλεία για τον εντοπισμό σφαλμάτων της απόδοσης του Fluxer Markdown parser και του AST για οποιοδήποτε μήνυμα."
 
@@ -25510,15 +25520,15 @@ msgstr "Η διεύθυνση IP σου έχει αποκλειστεί από �
 msgid "Your IP is Banned"
 msgstr "Η IP σου έχει αποκλειστεί"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Το μήνυμά σου δεν μπόρεσε να παραδοθεί. Αυτό συμβαίνει συνήθως επειδή δεν μοιράζεστε κοινότητα με τον παραλήπτη ή ο παραλήπτης δέχεται μόνο άμεσα μηνύματα από φίλους."
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Το μήνυμά σου δεν μπόρεσε να παραδοθεί. Πρέπει να διεκδικήσεις τον λογαριασμό σου για να στείλεις άμεσα μηνύματα."
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Το μήνυμά σας δεν μπόρεσε να παραδοθεί. Πρέπει να διεκδικήσετε τον λογαριασμό σας για να στείλετε μηνύματα."
 

@@ -2714,7 +2714,7 @@ msgstr "アプリケーション"
 msgid "Applications & Bots"
 msgstr "アプリケーションとボット"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "このデバイスのデスクトップアプリにのみ適用されます。"
 
@@ -3301,7 +3301,7 @@ msgstr "システムの動きを抑える設定を自動的に使用するか、
 msgid "autoplay"
 msgstr "自動再生"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "オートスタートはWindowsとLinux向けにもうすぐ登場します。今のところ、macOSでのみ利用可能です。"
 
@@ -4740,6 +4740,10 @@ msgstr "ダーク、コール、ライトの外観から選択できます。さ
 msgid "Choose destination for system and welcome messages"
 msgstr "システムメッセージとウェルカムメッセージの送信先を選択"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "Fluxerが画面共有のためのビデオコーデックを選択する方法を選んでください。"
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "Fluxerがこのコミュニティを年齢制限として扱う方法を選択してください。年齢制限は18歳未満のユーザーのアクセスをブロックし、大人向けのコンテンツ警告を表示します。これは地域の法律に従います。"
@@ -4765,7 +4769,7 @@ msgstr "あなたのコミュニティを最もよく表すカテゴリを選ん
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "{clientLabel}がコミュニティでできることを選択します。付与したくない権限のチェックを外してください。"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "このデバイスで再起動や再読み込みの間に、Fluxerがウィンドウについて何を記憶するかを選択します。"
 
@@ -7373,11 +7377,11 @@ msgstr "デスクトップ通知ナグバー"
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "デスクトップ通知がブロックされています。後でブラウザの設定またはユーザー設定 > 通知から有効にできます。"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "デスクトップ起動"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "デスクトップウィンドウ"
 
@@ -7435,12 +7439,12 @@ msgstr "開発者アプリケーション"
 msgid "developer mode"
 msgstr "開発者モード"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "開発者モード"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "開発者オプション"
 
@@ -8541,7 +8545,7 @@ msgstr "音声再生を有効にする /tts"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "この設定を変更するには、アカウントで2FAを有効にしてください。"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "デバッグと開発のための高度な機能を有効にします。エンティティのスノーフレークIDのコピーは、開発者モードを必要とせずにすべてのユーザーが常に利用できます。"
 
@@ -10950,6 +10954,7 @@ msgstr "ハラスメントまたはいじめ"
 msgid "hardware"
 msgstr "ハードウェア"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "ハードウェアアクセラレーション"
@@ -12441,7 +12446,7 @@ msgstr "{viewerStreamCount}のストリームを引き続き視聴し、この�
 msgid "Keep watching 1 stream and add this one"
 msgstr "1つのストリームを引き続き視聴し、このストリームを追加します"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "アプリを再読み込みしても、ウィンドウのサイズと配置を維持します。"
 
@@ -12601,7 +12606,7 @@ msgstr "レイテンシグラフ"
 msgid "Latvia"
 msgstr "ラトビア"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "ログイン時にFluxerを起動"
 
@@ -17266,7 +17271,7 @@ msgstr "アプリを再読み込み"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "/ttsが手動で実行されない限り、静かにします。"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "サイズと位置を記憶"
 
@@ -17689,7 +17694,7 @@ msgstr "すべてのメッセージを不明なメッセージタイプとして
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "<0>{renewalDate}</0> に更新されます。"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "最後にFluxerを使用した際の最大化モードで再オープンします。"
 
@@ -18016,11 +18021,11 @@ msgstr "解像度"
 msgid "Restore account"
 msgstr "アカウントを復元"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "全画面表示を復元"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "最大化を復元"
 
@@ -18050,7 +18055,7 @@ msgstr "再購読"
 msgid "Retry"
 msgstr "再試行"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "前回有効にしていた場合は自動的にフルスクリーンに戻ります。"
 
@@ -18264,7 +18269,7 @@ msgstr "丸型スタイルのチェックボックス"
 msgid "Ruby"
 msgstr "Ruby"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "コンピューター起動時にFluxerを自動で実行します。または実行しません。あなたの選択です！"
 
@@ -18488,6 +18493,7 @@ msgstr "画面共有停止"
 msgid "screen sharing"
 msgstr "スクリーンシェア"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "画面共有"
@@ -23525,6 +23531,10 @@ msgstr "ユーザー"
 msgid "Uses"
 msgstr "使用回数"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "有効にすると、画面共有のためにH.265を使用します。これをオフにすると、VP9を優先します。変更は次回画面共有を開始する際に適用されます。"
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "OSの通知センターを使用します。チャンネルごと/コミュニティごとの制御については、コミュニティアイコンを右クリックして「通知設定」を開いてください。"
@@ -24561,7 +24571,7 @@ msgstr "有効にすると、他の人はあなたのスクリーンシェアの
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "有効時、プッシュトゥトークのショートカットを素早くタップすると、再度押すまでマイクがオンになります。"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "有効時、アプリ全体にデバッグメニューが表示され、メッセージ、チャンネル、ユーザー、コミュニティなどの内部データ構造の生JSONオブジェクトを検査・コピーできます。また、任意のメッセージに対するFluxer MarkdownパーサーのパフォーマンスとASTをデバッグするツールも含まれます。"
 
@@ -25510,15 +25520,15 @@ msgstr "IPアドレスがこのコミュニティから禁止されており、�
 msgid "Your IP is Banned"
 msgstr "IPが禁止されています"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "メッセージを配信できませんでした。これは通常、受信者とコミュニティを共有していないか、受信者が友達からのダイレクトメッセージのみを受け入れているためです。"
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "メッセージを配信できませんでした。ダイレクトメッセージを送信するには、アカウントを所有権主張する必要があります。"
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "あなたのメッセージは配信できませんでした。メッセージを送信するにはアカウントを取得する必要があります。"
 

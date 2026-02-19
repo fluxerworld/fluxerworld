@@ -2714,7 +2714,7 @@ msgstr "Alkalmazások"
 msgid "Applications & Bots"
 msgstr "Alkalmazások és botok"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "Csak az ezen eszközön található asztali alkalmazásra vonatkozik."
 
@@ -3301,7 +3301,7 @@ msgstr "Automatikusan használja a rendszered csökkentett mozgás preferenciáj
 msgid "autoplay"
 msgstr "automatikus lejátszás"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "Az automatikus indítás hamarosan érkezik Windowsra és Linuxra. Jelenleg csak macOS-en érhető el."
 
@@ -4740,6 +4740,10 @@ msgstr "Válassz a sötét, szénszürke vagy világos megjelenés között. Len
 msgid "Choose destination for system and welcome messages"
 msgstr "Válaszd ki a rendszer- és üdvözlőüzenetek célhelyét"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "Válaszd ki, hogyan válassza a Fluxer a videó kodeket a képernyőmegosztáshoz."
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "Válaszd ki, hogyan kezelje a Fluxer ezt a közösséget a korhatáros beállításokhoz. A Korhatáros blokkolja a hozzáférést a 18 év alatti felhasználók számára, és tartalmi figyelmeztetést mutat a felnőtteknek, a helyi törvényeknek megfelelően."
@@ -4765,7 +4769,7 @@ msgstr "Válaszd ki azt a kategóriát, amely a legjobban leírja a közössége
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "Válaszd ki, mit tehet a(z) {clientLabel} a közösségedben. Távolítsd el a pipát azoktól az engedélyektől, amelyeket nem akarsz megadni."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "Válaszd ki, mit jegyezzen meg a Fluxer az ablakodról az újraindítások és újratöltések között ezen az eszközön."
 
@@ -7373,11 +7377,11 @@ msgstr "Asztali értesítési sáv"
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "Az asztali értesítések letiltásra kerültek. Később a böngésző beállításaiban vagy a Felhasználói beállítások > Értesítések menüpontban engedélyezheted őket."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "Asztali indítás"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "Asztali ablak"
 
@@ -7435,12 +7439,12 @@ msgstr "Fejlesztői alkalmazások"
 msgid "developer mode"
 msgstr "fejlesztői mód"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "Fejlesztői mód"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "Fejlesztői beállítások"
 
@@ -8541,7 +8545,7 @@ msgstr "TTS beszédlejátszás engedélyezése"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "Engedélyezd a 2FA-t a fiókodban ennek a beállításnak a megváltoztatásához"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Fejlett funkciók engedélyezése hibakereséshez és fejlesztéshez. Megjegyzés: az entitások hópelyhezős azonosítójának másolása minden felhasználó számára mindig elérhető, fejlesztői mód nélkül is."
 
@@ -10950,6 +10954,7 @@ msgstr "Zaklatás vagy bántalmazás"
 msgid "hardware"
 msgstr "hardver"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "Hardveres gyorsítás"
@@ -12441,7 +12446,7 @@ msgstr "Tartsd szemmel a {viewerStreamCount} streamet, és add hozzá ezt is"
 msgid "Keep watching 1 stream and add this one"
 msgstr "Tartsd szemmel az 1 streamet, és add hozzá ezt is"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "Tartsd meg az ablak méreteit és elhelyezését, amikor újratöltöd az alkalmazást."
 
@@ -12601,7 +12606,7 @@ msgstr "Késleltetési grafikon"
 msgid "Latvia"
 msgstr "Lettország"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "Fluxer Indítása Bejelentkezéskor"
 
@@ -17266,7 +17271,7 @@ msgstr "Alkalmazás újratöltése"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "Maradj csendben, hacsak valaki nem futtatja a /tts-t manuálisan."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "Méret és pozíció megjegyzése"
 
@@ -17689,7 +17694,7 @@ msgstr "Minden üzenetet ismeretlen üzenettípusként jelenít meg"
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "Megújul <0>{renewalDate}</0>."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "Nyisd meg újra maximalizált módban, ha így használtad utoljára a Fluxert."
 
@@ -18016,11 +18021,11 @@ msgstr "Felbontás"
 msgid "Restore account"
 msgstr "Fiók visszaállítása"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "Teljes képernyő visszaállítása"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "Maximalizált állapot visszaállítása"
 
@@ -18050,7 +18055,7 @@ msgstr "Újra feliratkozás"
 msgid "Retry"
 msgstr "Újrapróbálás"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "Automatikus visszatérés teljes képernyőre, ha legutóbb engedélyezve volt."
 
@@ -18264,7 +18269,7 @@ msgstr "Kerek stílusú jelölőnégyzet"
 msgid "Ruby"
 msgstr "Ruby"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "Indítsd el a Fluxert automatikusan, amikor a számítógéped elindul. Vagy ne. A te döntésed!"
 
@@ -18488,6 +18493,7 @@ msgstr "Képernyőmegosztás leállítása"
 msgid "screen sharing"
 msgstr "képernyőmegosztás"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "Képernyőmegosztás"
@@ -23525,6 +23531,10 @@ msgstr "Felhasználók"
 msgid "Uses"
 msgstr "Használat"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "H.265-öt használ a képernyőmegosztáshoz, amikor engedélyezve van. Kapcsold ki ezt, hogy a VP9-et részesítse előnyben. A változtatások a következő alkalommal lépnek életbe, amikor megosztod a képernyődet."
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "Az operációs rendszer értesítési központját használja. Csatornánkénti/közösségenkénti vezérléshez kattints jobb gombbal egy közösség ikonjára, és nyisd meg az Értesítési beállításokat."
@@ -24561,7 +24571,7 @@ msgstr "Ha engedélyezve van, mások nem látják a képernyőmegosztásod előn
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "Ha be van kapcsolva, a push-to-talk gyorsbillentyű gyors megérintése bekapcsolva hagyja a mikrofonodat, amíg újra meg nem nyomod."
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "Ha be van kapcsolva, hibakeresési menüket tár fel az alkalmazásban, hogy megvizsgálhasd és másolhassad a belső adatstruktúrák (pl. üzenetek, csatornák, felhasználók, közösségek) nyers JSON objektumait. Tartalmazza a Fluxer Markdown elemző teljesítményének és bármely üzenet AST-jának hibakeresésére szolgáló eszközöket is."
 
@@ -25510,15 +25520,15 @@ msgstr "Az IP-címed ki van tiltva ebből a közösségből, és nem csatlakozha
 msgid "Your IP is Banned"
 msgstr "Az IP-címed ki van tiltva"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "Az üzeneted nem kézbesíthető. Ez általában azért történik, mert nincs közös közösséged a címzettel, vagy a címzett csak barátoktól fogad közvetlen üzeneteket."
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "Az üzeneted nem kézbesíthető. Igényelned kell a fiókodat, hogy közvetlen üzeneteket küldhess."
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "Az üzenetedet nem lehetett kézbesíteni. El kell foglalnod a fiókodat az üzenetek küldéséhez."
 

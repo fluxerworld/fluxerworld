@@ -2714,7 +2714,7 @@ msgstr "應用程式"
 msgid "Applications & Bots"
 msgstr "應用程式與機器人"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:90
+#: src/components/modals/tabs/AdvancedTab.tsx:93
 msgid "Applies only to the desktop app on this device."
 msgstr "僅套用於這台裝置上的桌面應用程式。"
 
@@ -3301,7 +3301,7 @@ msgstr "自動使用系統的減少動態偏好，或在下方自訂。"
 msgid "autoplay"
 msgstr "自動播放"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:97
+#: src/components/modals/tabs/AdvancedTab.tsx:100
 msgid "Autostart is coming soon for Windows and Linux. For now, it is only available on macOS."
 msgstr "自動啟動功能即將推出 Windows 和 Linux，目前僅在 macOS 上可用。"
 
@@ -4740,6 +4740,10 @@ msgstr "在深色、煤色或淺色外觀之間選擇。下方仍可新增自訂
 msgid "Choose destination for system and welcome messages"
 msgstr "選擇系統與歡迎訊息的目的地"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:134
+msgid "Choose how Fluxer selects the video codec for screen sharing."
+msgstr "選擇 Fluxer 如何為螢幕共享選擇視頻編碼器。"
+
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:268
 msgid "Choose how Fluxer treats this community for age-gating. Age Restricted blocks access for users under 18 and shows a content warning for adults, subject to local laws."
 msgstr "選擇Fluxer如何對待此社群的年齡限制。年齡限制會阻止18歲以下的用戶訪問並顯示成人內容警告，受當地法律約束。"
@@ -4765,7 +4769,7 @@ msgstr "選擇最能描述您社區的類別。"
 msgid "Choose what {clientLabel} can do in your community. Uncheck any permissions you don't want to grant."
 msgstr "選擇 {clientLabel} 在您的社群可以做什麼。取消勾選不想授予的權限。"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:106
+#: src/components/modals/tabs/AdvancedTab.tsx:109
 msgid "Choose what Fluxer remembers about your window between restarts and reloads on this device."
 msgstr "選擇 Fluxer 在此裝置重新啟動或重新載入時記住視窗哪些內容。"
 
@@ -7373,11 +7377,11 @@ msgstr "桌面通知提示列"
 msgid "Desktop notifications have been blocked. You can enable them later in your browser settings or in User Settings > Notifications."
 msgstr "桌面通知已被封鎖。您可以稍後在瀏覽器設定或使用者設定 > 通知中啟用。"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:85
+#: src/components/modals/tabs/AdvancedTab.tsx:88
 msgid "Desktop Startup"
 msgstr "桌面啟動"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:104
+#: src/components/modals/tabs/AdvancedTab.tsx:107
 msgid "Desktop Window"
 msgstr "桌面視窗"
 
@@ -7435,12 +7439,12 @@ msgstr "開發者應用程式"
 msgid "developer mode"
 msgstr "開發者模式"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:139
+#: src/components/modals/tabs/AdvancedTab.tsx:158
 #: src/components/modals/utils/SettingsSearchIndex.tsx:215
 msgid "Developer Mode"
 msgstr "開發者模式"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:130
+#: src/components/modals/tabs/AdvancedTab.tsx:149
 msgid "Developer Options"
 msgstr "開發者選項"
 
@@ -8541,7 +8545,7 @@ msgstr "啟用 /tts 語音播放"
 msgid "Enable 2FA on your account to change this setting"
 msgstr "啟用 2FA 以更改此設置"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:132
+#: src/components/modals/tabs/AdvancedTab.tsx:151
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "啟用進階功能以進行除錯與開發。請注意，所有使用者都能複製實體的雪花 ID，不需要開發者模式。"
 
@@ -10950,6 +10954,7 @@ msgstr "騷擾或霸凌"
 msgid "hardware"
 msgstr "硬體"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:137
 #: src/components/modals/utils/SettingsSearchIndex.tsx:222
 msgid "Hardware Acceleration"
 msgstr "硬體加速"
@@ -12441,7 +12446,7 @@ msgstr "繼續觀看 {viewerStreamCount} 個串流並添加這個"
 msgid "Keep watching 1 stream and add this one"
 msgstr "繼續觀看 1 個串流並添加這個"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:111
+#: src/components/modals/tabs/AdvancedTab.tsx:114
 msgid "Keep your window dimensions and placement even when you reload the app."
 msgstr "即使重新載入應用程式，也保留視窗尺寸與位置。"
 
@@ -12601,7 +12606,7 @@ msgstr "延遲圖表"
 msgid "Latvia"
 msgstr "拉脫維亞"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:89
+#: src/components/modals/tabs/AdvancedTab.tsx:92
 msgid "Launch Fluxer at Login"
 msgstr "在登錄時啟動 Fluxer"
 
@@ -17266,7 +17271,7 @@ msgstr "重新載入應用程式"
 msgid "Remain silent unless someone runs /tts manually."
 msgstr "保持靜音，除非有人手動運行/tts。"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:110
+#: src/components/modals/tabs/AdvancedTab.tsx:113
 msgid "Remember Size & Position"
 msgstr "記住大小和位置"
 
@@ -17689,7 +17694,7 @@ msgstr "將所有訊息渲染為未知訊息類型"
 msgid "Renews on <0>{renewalDate}</0>."
 msgstr "將於 <0>{renewalDate}</0> 續訂。"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:117
+#: src/components/modals/tabs/AdvancedTab.tsx:120
 msgid "Reopen in maximized mode if that’s how you last used Fluxer."
 msgstr "如果您上次使用Fluxer是最大化模式，請重新打開。"
 
@@ -18016,11 +18021,11 @@ msgstr "解析度"
 msgid "Restore account"
 msgstr "還原帳戶"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:122
+#: src/components/modals/tabs/AdvancedTab.tsx:125
 msgid "Restore Fullscreen"
 msgstr "恢復全螢幕"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:116
+#: src/components/modals/tabs/AdvancedTab.tsx:119
 msgid "Restore Maximized"
 msgstr "恢復最大化"
 
@@ -18050,7 +18055,7 @@ msgstr "重新訂閱"
 msgid "Retry"
 msgstr "重試"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:123
+#: src/components/modals/tabs/AdvancedTab.tsx:126
 msgid "Return to fullscreen automatically when you had it enabled last time."
 msgstr "若上次啟用全螢幕，將自動返回全螢幕。"
 
@@ -18264,7 +18269,7 @@ msgstr "圓形樣式核取方塊"
 msgid "Ruby"
 msgstr "Ruby"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:86
+#: src/components/modals/tabs/AdvancedTab.tsx:89
 msgid "Run Fluxer automatically when your computer starts. Or don't. Your choice!"
 msgstr "電腦啟動時自動執行 Fluxer。或是不啟動，由你決定！"
 
@@ -18488,6 +18493,7 @@ msgstr "停止螢幕共享"
 msgid "screen sharing"
 msgstr "螢幕分享"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:133
 #: src/components/uikit/LiveBadge.tsx:36
 msgid "Screen Sharing"
 msgstr "螢幕共享"
@@ -23525,6 +23531,10 @@ msgstr "使用者"
 msgid "Uses"
 msgstr "使用次數"
 
+#: src/components/modals/tabs/AdvancedTab.tsx:139
+msgid "Uses H.265 for screen sharing when enabled. Turn this off to prefer VP9. Changes apply the next time you start sharing your screen."
+msgstr "啟用時使用 H.265 進行螢幕共享。關閉此選項以優先使用 VP9。更改將在您下次開始共享螢幕時生效。"
+
 #: src/components/modals/tabs/notifications_tab/Notifications.tsx:93
 msgid "Uses the OS notification center. For per-channel/per-community controls, right-click a community icon and open Notification Settings."
 msgstr "使用作業系統通知中心。若要針對單一頻道或社群進行控制，請在社群圖示上按右鍵並開啟通知設定。"
@@ -24561,7 +24571,7 @@ msgstr "啟用後，其他人將不會看到您的螢幕分享縮圖預覽。您
 msgid "When enabled, quickly tapping your push-to-talk shortcut will keep your microphone on until pressed again."
 msgstr "啟用後，快速點擊按鍵說話捷徑會持續開啟麥克風，直到再次按下。"
 
-#: src/components/modals/tabs/AdvancedTab.tsx:141
+#: src/components/modals/tabs/AdvancedTab.tsx:160
 msgid "When enabled, reveals debugging menus throughout the app to inspect and copy raw JSON objects of internal data structures like messages, channels, users, and communities. Also includes tools to debug the Fluxer Markdown parser performance and AST for any given message."
 msgstr "啟用後，會顯示整個應用程式的除錯選單，讓您檢視並複製訊息、頻道、使用者與社群等內部資料結構的原始 JSON，也包含 Fluxer Markdown 解析器效能與任一訊息 AST 的除錯工具。"
 
@@ -25510,15 +25520,15 @@ msgstr "您的 IP 位址已被此社群封鎖，無法加入。"
 msgid "Your IP is Banned"
 msgstr "您的 IP 已被封鎖"
 
-#: src/lib/MessageQueue.tsx:484
+#: src/lib/MessageQueue.tsx:386
 msgid "Your message could not be delivered. This is usually because you don't share a community with the recipient or the recipient is only accepting direct messages from friends."
 msgstr "您的訊息無法送達。通常是因為您與收件人未在同一社群，或收件人僅接受好友私訊。"
 
-#: src/lib/MessageQueue.tsx:496
+#: src/lib/MessageQueue.tsx:398
 msgid "Your message could not be delivered. You need to claim your account to send direct messages."
 msgstr "您的訊息無法送達。您需要認領帳號才能發送私訊。"
 
-#: src/lib/MessageQueue.tsx:497
+#: src/lib/MessageQueue.tsx:399
 msgid "Your message could not be delivered. You need to claim your account to send messages."
 msgstr "您的訊息無法送達。您需要驗證您的帳戶才能發送訊息。"
 
