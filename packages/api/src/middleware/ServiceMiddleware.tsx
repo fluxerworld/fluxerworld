@@ -72,6 +72,7 @@ import {
 import {DisabledLiveKitService} from '@fluxer/api/src/infrastructure/DisabledLiveKitService';
 import {DisabledVirusScanService} from '@fluxer/api/src/infrastructure/DisabledVirusScanService';
 import {DiscriminatorService} from '@fluxer/api/src/infrastructure/DiscriminatorService';
+import {EmailDnsValidationService} from '@fluxer/api/src/infrastructure/EmailDnsValidationService';
 import {EmbedService} from '@fluxer/api/src/infrastructure/EmbedService';
 import {EntityAssetService} from '@fluxer/api/src/infrastructure/EntityAssetService';
 import {ErrorI18nService} from '@fluxer/api/src/infrastructure/ErrorI18nService';
@@ -199,6 +200,14 @@ function getRateLimitService(): RateLimitService {
 		_rateLimitService = new RateLimitService(getCacheService());
 	}
 	return _rateLimitService;
+}
+
+let _emailDnsValidationService: EmailDnsValidationService | null = null;
+function getEmailDnsValidationService(): EmailDnsValidationService {
+	if (!_emailDnsValidationService) {
+		_emailDnsValidationService = new EmailDnsValidationService();
+	}
+	return _emailDnsValidationService;
 }
 
 function createRuntimeSmsProvider(): ISmsProvider {
@@ -351,6 +360,7 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 	const cacheService = getCacheService();
 	const kvClient = getKVClient();
 	const rateLimitService = getRateLimitService();
+	const emailDnsValidationService = getEmailDnsValidationService();
 	const purgeQueue = getPurgeQueue();
 	const assetDeletionQueue = getAssetDeletionQueue();
 	const csamLegalHoldService = getCsamLegalHoldService();
@@ -592,6 +602,7 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 		gatewayService,
 		rateLimitService,
 		emailService,
+		emailDnsValidationService,
 		smsService,
 		snowflakeService,
 		snowflakeReservationService,
@@ -622,6 +633,7 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 		userRepository,
 		inviteRepository,
 		emailService,
+		emailDnsValidationService,
 		snowflakeService,
 		storageService,
 		reportSearchService,
@@ -717,6 +729,7 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 		emailService,
 		userRepository,
 		rateLimitService,
+		emailDnsValidationService,
 	);
 
 	const passwordChangeRepository = new PasswordChangeRepository();
@@ -788,8 +801,16 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 			donationRepository,
 		);
 
-		const donationMagicLinkService = new DonationMagicLinkService(donationRepository, emailService);
-		const donationCheckoutService = new DonationCheckoutService(stripeService.getStripe(), donationRepository);
+		const donationMagicLinkService = new DonationMagicLinkService(
+			donationRepository,
+			emailService,
+			emailDnsValidationService,
+		);
+		const donationCheckoutService = new DonationCheckoutService(
+			stripeService.getStripe(),
+			donationRepository,
+			emailDnsValidationService,
+		);
 		donationService = new DonationService(donationMagicLinkService, donationCheckoutService);
 	}
 
