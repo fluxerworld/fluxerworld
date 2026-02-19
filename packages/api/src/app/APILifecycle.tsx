@@ -90,31 +90,39 @@ export function createInitializer(config: APIConfig, logger: ILogger): () => Pro
 		}
 
 		logger.info({search_url: config.search.url}, 'Initializing search...');
-		await initializeSearch();
-		logger.info('Search initialized');
+		let searchInitialized = false;
+		try {
+			await initializeSearch();
+			searchInitialized = true;
+			logger.info('Search initialized');
+		} catch (error) {
+			logger.warn({error}, 'Search initialisation failed; continuing startup without search');
+		}
 
 		// All API replicas share the same Meilisearch cluster, so only one should warm it.
-		const warmupLockKey = 'fluxer:search:warmup:admin';
-		const warmupLockToken = randomUUID();
-		const warmupLockTtlSeconds = 60 * 60;
-		const acquiredWarmupLock = await kvClient.setnx(warmupLockKey, warmupLockToken, warmupLockTtlSeconds);
-		if (!acquiredWarmupLock) {
-			logger.info('Another API instance is warming search indexes, skipping warmup');
-		} else {
-			try {
-				await warmupAdminSearchIndexes({
-					userRepository: new UserRepository(),
-					guildRepository: new GuildDataRepository(),
-					reportRepository: new ReportRepository(),
-					logger,
-				});
-			} catch (error) {
-				logger.error({error}, 'Admin search warmup failed (continuing startup)');
-			} finally {
+		if (searchInitialized) {
+			const warmupLockKey = 'fluxer:search:warmup:admin';
+			const warmupLockToken = randomUUID();
+			const warmupLockTtlSeconds = 60 * 60;
+			const acquiredWarmupLock = await kvClient.setnx(warmupLockKey, warmupLockToken, warmupLockTtlSeconds);
+			if (!acquiredWarmupLock) {
+				logger.info('Another API instance is warming search indexes, skipping warmup');
+			} else {
 				try {
-					await kvClient.releaseLock(warmupLockKey, warmupLockToken);
+					await warmupAdminSearchIndexes({
+						userRepository: new UserRepository(),
+						guildRepository: new GuildDataRepository(),
+						reportRepository: new ReportRepository(),
+						logger,
+					});
 				} catch (error) {
-					logger.warn({error}, 'Failed to release admin search warmup lock');
+					logger.error({error}, 'Admin search warmup failed (continuing startup)');
+				} finally {
+					try {
+						await kvClient.releaseLock(warmupLockKey, warmupLockToken);
+					} catch (error) {
+						logger.warn({error}, 'Failed to release admin search warmup lock');
+					}
 				}
 			}
 		}
