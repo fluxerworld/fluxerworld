@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: Тестовий стенд забор�
 admin_and_system.unknown_suspicious_flag: Невідомий прапор підозрілої діяльності.
 admin_and_system.update_failed: Не вдалося оновити ресурс. Спробуй ще раз.
 admin_and_system.user_must_be_bot_for_system_user: Користувач має бути ботом, щоб його позначити як системного.
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Індекс частини виходить за межі допустимого діапазону для цього завантаження.
-attachments_and_uploads.chunked_upload_incomplete: Не всі частини було завантажено.
-attachments_and_uploads.chunked_upload_not_found: Сеанс завантаження не знайдено або він закінчився.
-attachments_and_uploads.chunked_upload_not_owned: Цей сеанс завантаження не належить тобі.
 attachments_and_uploads.attachment_fields_required: Обов'язкові `attachment_id`, `channel_id`, `message_id` і `expires_at`.
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` і `message_id` мають бути валідними цілими числами.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Користувачі з правом MANAGE_MESSAGES можуть редагувати лише описи вкладень, а не інші метадані.

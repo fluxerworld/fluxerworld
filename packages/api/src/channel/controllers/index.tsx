@@ -19,7 +19,6 @@
 
 import {CallController} from '@fluxer/api/src/channel/controllers/CallController';
 import {ChannelController} from '@fluxer/api/src/channel/controllers/ChannelController';
-import {ChunkedUploadController} from '@fluxer/api/src/channel/controllers/ChunkedUploadController';
 import {MessageController} from '@fluxer/api/src/channel/controllers/MessageController';
 import {MessageInteractionController} from '@fluxer/api/src/channel/controllers/MessageInteractionController';
 import {ScheduledMessageController} from '@fluxer/api/src/channel/controllers/ScheduledMessageController';
@@ -31,7 +30,6 @@ export function registerChannelControllers(app: HonoApp) {
 	MessageInteractionController(app);
 	MessageController(app);
 	ScheduledMessageController(app);
-	ChunkedUploadController(app);
 	CallController(app);
 	StreamController(app);
 }

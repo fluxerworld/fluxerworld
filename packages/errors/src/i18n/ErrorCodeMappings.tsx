@@ -78,11 +78,6 @@ export const ErrorCodeToI18nKey = {
 	[APIErrorCodes.CANNOT_SHRINK_RESERVED_SLOTS]: 'limits.cannot_shrink_reserved_slots',
 	[APIErrorCodes.CAPTCHA_REQUIRED]: 'captcha.required',
 	[APIErrorCodes.CHANNEL_INDEXING]: 'admin_and_system.channel_indexing',
-	[APIErrorCodes.CHUNKED_UPLOAD_CHUNK_INDEX_OUT_OF_RANGE]:
-		'attachments_and_uploads.chunked_upload_chunk_index_out_of_range',
-	[APIErrorCodes.CHUNKED_UPLOAD_INCOMPLETE]: 'attachments_and_uploads.chunked_upload_incomplete',
-	[APIErrorCodes.CHUNKED_UPLOAD_NOT_FOUND]: 'attachments_and_uploads.chunked_upload_not_found',
-	[APIErrorCodes.CHUNKED_UPLOAD_NOT_OWNED]: 'attachments_and_uploads.chunked_upload_not_owned',
 	[APIErrorCodes.COMMUNICATION_DISABLED]: 'account.communication_disabled',
 	[APIErrorCodes.CONNECTION_ALREADY_EXISTS]: 'connections.already_exists',
 	[APIErrorCodes.CONNECTION_INITIATION_TOKEN_INVALID]: 'connections.initiation_token_invalid',

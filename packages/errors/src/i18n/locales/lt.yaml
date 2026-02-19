@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: Bandymo arklys uždrausta.
 admin_and_system.unknown_suspicious_flag: Nežinoma įtartina žyma.
 admin_and_system.update_failed: Nepavyko atnaujinti resurso. Prašau bandyti dar kartą.
 admin_and_system.user_must_be_bot_for_system_user: Naudotojas turi būti botas, kad būtų pažymėtas kaip sistemos naudotojas.
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Dalies indeksas yra už leistino diapazono šiam įkėlimui.
-attachments_and_uploads.chunked_upload_incomplete: Ne visos dalys buvo įkeltos.
-attachments_and_uploads.chunked_upload_not_found: Įkėlimo sesija nerasta arba pasibaigė jos galiojimas.
-attachments_and_uploads.chunked_upload_not_owned: Ši įkėlimo sesija tau nepriklauso.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` ir `expires_at` yra būtini.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` ir `message_id` turi būti galiojantys sveikieji skaičiai.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Naudotojai su MANAGE_MESSAGES gali redaguoti tik priedu aprašus, o ne kitus metaduomenis.

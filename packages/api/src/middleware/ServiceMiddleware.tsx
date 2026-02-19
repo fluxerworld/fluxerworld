@@ -35,7 +35,6 @@ import {Config} from '@fluxer/api/src/Config';
 import {ChannelRepository} from '@fluxer/api/src/channel/ChannelRepository';
 import {ChannelRequestService} from '@fluxer/api/src/channel/services/ChannelRequestService';
 import {ChannelService} from '@fluxer/api/src/channel/services/ChannelService';
-import {ChunkedUploadService} from '@fluxer/api/src/channel/services/ChunkedUploadService';
 import {MessageRequestService} from '@fluxer/api/src/channel/services/message/MessageRequestService';
 import {ScheduledMessageService} from '@fluxer/api/src/channel/services/ScheduledMessageService';
 import {StreamPreviewService} from '@fluxer/api/src/channel/services/StreamPreviewService';
@@ -160,13 +159,11 @@ import {WebhookRequestService} from '@fluxer/api/src/webhook/WebhookRequestServi
 import {WebhookService} from '@fluxer/api/src/webhook/WebhookService';
 import type {ICacheService} from '@fluxer/cache/src/ICacheService';
 import {KVCacheProvider} from '@fluxer/cache/src/providers/KVCacheProvider';
-import {TEXT_BASED_CHANNEL_TYPES} from '@fluxer/constants/src/ChannelConstants';
 import {EmailI18nService} from '@fluxer/email/src/EmailI18nService';
 import type {EmailConfig, UserBouncedEmailChecker} from '@fluxer/email/src/EmailProviderTypes';
 import {EmailService} from '@fluxer/email/src/EmailService';
 import type {IEmailService} from '@fluxer/email/src/IEmailService';
 import {TestEmailService} from '@fluxer/email/src/TestEmailService';
-import {CannotSendMessageToNonTextChannelError} from '@fluxer/errors/src/domains/channel/CannotSendMessageToNonTextChannelError';
 import {createMockLogger} from '@fluxer/logger/src/mock';
 import {RateLimitService} from '@fluxer/rate_limit/src/RateLimitService';
 import type {ISmsProvider} from '@fluxer/sms/src/providers/ISmsProvider';
@@ -472,19 +469,6 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 		channelRepository,
 		userCacheService,
 		mediaService,
-	);
-
-	const chunkedUploadService = new ChunkedUploadService(
-		storageService,
-		kvClient,
-		userRepository,
-		limitConfigService,
-		channelService.getChannelAuthenticated.bind(channelService),
-		(channel) => {
-			if (!TEXT_BASED_CHANNEL_TYPES.has(channel.type)) {
-				throw new CannotSendMessageToNonTextChannelError();
-			}
-		},
 	);
 
 	const scheduledMessageRepository = new ScheduledMessageRepository();
@@ -886,7 +870,6 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 	ctx.set('cacheService', cacheService);
 	ctx.set('channelService', channelService);
 	ctx.set('channelRequestService', channelRequestService);
-	ctx.set('chunkedUploadService', chunkedUploadService);
 	ctx.set('messageRequestService', messageRequestService);
 	ctx.set('channelRepository', channelRepository);
 	ctx.set('connectionService', connectionService);

@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: El soporte de pruebas no está permitid
 admin_and_system.unknown_suspicious_flag: El indicador sospechoso no es conocido.
 admin_and_system.update_failed: No hemos podido actualizar el recurso. Por favor, inténtalo de nuevo.
 admin_and_system.user_must_be_bot_for_system_user: El usuario debe ser un bot para marcarse como usuario del sistema.
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: El índice del fragmento está fuera de rango para esta subida.
-attachments_and_uploads.chunked_upload_incomplete: No se han subido todos los fragmentos.
-attachments_and_uploads.chunked_upload_not_found: La sesión de subida no se encontró o ha expirado.
-attachments_and_uploads.chunked_upload_not_owned: No eres el propietario de esta sesión de subida.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` y `expires_at` son obligatorios.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` y `message_id` deben ser números enteros válidos.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Los usuarios con MANAGE_MESSAGES solo pueden editar descripciones de adjuntos, no otros metadatos.

@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: ห้ามใช้ test harness
 admin_and_system.unknown_suspicious_flag: แฟล็กที่น่าสงสัยไม่รู้จัก
 admin_and_system.update_failed: ไม่สามารถอัปเดตทรัพยากรได้ โปรดลองใหม่
 admin_and_system.user_must_be_bot_for_system_user: ผู้ใช้ต้องเป็น bot เพื่อให้ทำเครื่องหมายว่าเป็นผู้ใช้ระบบ
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: ดัชนี chunk อยู่นอกช่วงที่อนุญาตสำหรับการอัปโหลดนี้
-attachments_and_uploads.chunked_upload_incomplete: ยังไม่ได้อัปโหลด chunk ทั้งหมด
-attachments_and_uploads.chunked_upload_not_found: ไม่พบเซสชันการอัปโหลดหรือหมดอายุแล้ว
-attachments_and_uploads.chunked_upload_not_owned: เซสชันการอัปโหลดนี้ไม่ใช่ของคุณ
 attachments_and_uploads.attachment_fields_required: ต้องระบุ `attachment_id`, `channel_id`, `message_id` และ `expires_at`
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` และ `message_id` ต้องเป็นจำนวนเต็มที่ถูกต้อง'
 attachments_and_uploads.cannot_edit_attachment_metadata: ผู้ใช้ที่มีสิทธิ์ MANAGE_MESSAGES สามารถแก้ไขเฉพาะคำอธิบายไฟล์แนบเท่านั้น

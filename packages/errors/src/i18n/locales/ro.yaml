@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: Harnesul de testare este interzis.
 admin_and_system.unknown_suspicious_flag: Steag suspect necunoscut.
 admin_and_system.update_failed: Nu am putut actualiza resursa. Te rugăm să încerci din nou.
 admin_and_system.user_must_be_bot_for_system_user: Utilizatorul trebuie să fie bot ca să fie marcat ca utilizator de sistem.
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Indexul fragmentului este în afara intervalului pentru această încărcare.
-attachments_and_uploads.chunked_upload_incomplete: Nu toate fragmentele au fost încărcate.
-attachments_and_uploads.chunked_upload_not_found: Sesiunea de încărcare nu a fost găsită sau a expirat.
-attachments_and_uploads.chunked_upload_not_owned: Nu ești proprietarul acestei sesiuni de încărcare.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` și `expires_at` sunt obligatorii.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` și `message_id` trebuie să fie numere întregi valide.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Utilizatorii cu MANAGE_MESSAGES pot edita doar descrierile atașamentelor, nu alte metadate.

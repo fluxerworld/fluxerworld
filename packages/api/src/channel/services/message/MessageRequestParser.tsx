@@ -18,7 +18,6 @@
  */
 
 import type {ChannelID} from '@fluxer/api/src/BrandedTypes';
-import {Config} from '@fluxer/api/src/Config';
 import {
 	type AttachmentRequestData,
 	mergeUploadWithClientData,
@@ -26,7 +25,6 @@ import {
 } from '@fluxer/api/src/channel/AttachmentDTOs';
 import type {IChannelRepository} from '@fluxer/api/src/channel/IChannelRepository';
 import type {MessageRequest, MessageUpdateRequest} from '@fluxer/api/src/channel/MessageTypes';
-import {getContentType} from '@fluxer/api/src/channel/services/message/MessageHelpers';
 import type {GuildService} from '@fluxer/api/src/guild/services/GuildService';
 import type {LimitConfigService} from '@fluxer/api/src/limits/LimitConfigService';
 import {resolveLimitSafe} from '@fluxer/api/src/limits/LimitConfigUtils';
@@ -172,14 +170,11 @@ export async function parseMultipartMessageData(
 		const fileIds = new Set(filesWithIndices.map((f) => f.index));
 
 		const inlineNewAttachments: Array<ClientAttachmentRequest> = [];
-		const preUploadedNewAttachments: Array<ClientAttachmentRequest> = [];
 
 		for (const att of newAttachments) {
 			const id = typeof att.id === 'string' ? parseInt(att.id, 10) : att.id;
 			if (fileIds.has(id)) {
 				inlineNewAttachments.push(att);
-			} else if (att.uploaded_filename) {
-				preUploadedNewAttachments.push(att);
 			} else {
 				throw InputValidationError.fromCode('attachments', ValidationErrorCodes.NO_FILE_FOR_ATTACHMENT_METADATA, {
 					attachmentId: att.id,
@@ -232,32 +227,7 @@ export async function parseMultipartMessageData(
 			});
 		}
 
-		let processedPreUploadedAttachments: Array<AttachmentRequestData> = [];
-		if (preUploadedNewAttachments.length > 0) {
-			const storageService = ctx.get('storageService');
-
-			processedPreUploadedAttachments = await Promise.all(
-				preUploadedNewAttachments.map(async (clientData) => {
-					const uploadFilename = clientData.uploaded_filename!;
-					const metadata = await storageService.getObjectMetadata(Config.s3.buckets.uploads, uploadFilename);
-					if (!metadata) {
-						throw InputValidationError.fromCode('attachments', ValidationErrorCodes.NO_FILE_FOR_ATTACHMENT_METADATA, {
-							attachmentId: clientData.id,
-						});
-					}
-					const uploaded: UploadedAttachment = {
-						id: typeof clientData.id === 'string' ? parseInt(clientData.id, 10) : clientData.id,
-						upload_filename: uploadFilename,
-						filename: clientData.filename,
-						file_size: metadata.contentLength,
-						content_type: getContentType(clientData.filename),
-					};
-					return mergeUploadWithClientData(uploaded, clientData);
-				}),
-			);
-		}
-
-		data.attachments = [...existingAttachments, ...processedInlineAttachments, ...processedPreUploadedAttachments];
+		data.attachments = [...existingAttachments, ...processedInlineAttachments];
 	}
 
 	return data as MessageRequest | MessageUpdateRequest;

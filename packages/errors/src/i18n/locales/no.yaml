@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: Test harness er ikke tillatt.
 admin_and_system.unknown_suspicious_flag: Ukjent mistenkelig flagg.
 admin_and_system.update_failed: Vi klarte ikke å oppdatere ressursen. Prøv igjen.
 admin_and_system.user_must_be_bot_for_system_user: Brukeren må være en bot for å bli markert som systembruker.
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Chunk-indeksen er utenfor gyldig område for denne opplastinga.
-attachments_and_uploads.chunked_upload_incomplete: Ikke alle chunks er lasta opp.
-attachments_and_uploads.chunked_upload_not_found: Opplastingsøkta ble ikke funnet eller har utløpt.
-attachments_and_uploads.chunked_upload_not_owned: Du eier ikke denne opplastingsøkta.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id`, og `expires_at` er påkrevd.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` og `message_id` må være gyldige heltall.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Brukere med MANAGE_MESSAGES kan bare redigere vedleggsbeskrivelser, ikke andre metadata.

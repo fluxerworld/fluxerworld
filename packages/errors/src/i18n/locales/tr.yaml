@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: Test harness yasaklı.
 admin_and_system.unknown_suspicious_flag: Bilinmeyen şüpheli bayrak.
 admin_and_system.update_failed: Kaynağı güncellemedik. Lütfen tekrar dene.
 admin_and_system.user_must_be_bot_for_system_user: Bir kullanıcının sistem kullanıcısı olarak işaretlenmesi için bot olması gerekir.
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Parça indeksi bu yükleme için geçerli aralığın dışında.
-attachments_and_uploads.chunked_upload_incomplete: Tüm parçalar henüz yüklenmedi.
-attachments_and_uploads.chunked_upload_not_found: Yükleme oturumu bulunamadı veya süresi dolmuş.
-attachments_and_uploads.chunked_upload_not_owned: Bu yükleme oturumu sana ait değil.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` ve `expires_at` gerekli.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` ve `message_id` geçerli integer olmalı.'
 attachments_and_uploads.cannot_edit_attachment_metadata: MANAGE_MESSAGES yetkisine sahip kullanıcılar yalnızca ek açıklamalarını düzenleyebilir, diğer metadataları düzenleyemez.

@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: بيئة الاختبار محظورة.
 admin_and_system.unknown_suspicious_flag: suspicious flag غير معروف.
 admin_and_system.update_failed: ما قدرنا نحدّث المورد. جرّب مرة ثانية.
 admin_and_system.user_must_be_bot_for_system_user: المستخدم لازم يكون بوت عشان يتم تعيينه كمستخدم نظام.
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: فهرس الجزء خارج النطاق المسموح لهذا الرفع.
-attachments_and_uploads.chunked_upload_incomplete: لم يتم رفع جميع الأجزاء بعد.
-attachments_and_uploads.chunked_upload_not_found: جلسة الرفع غير موجودة أو انتهت صلاحيتها.
-attachments_and_uploads.chunked_upload_not_owned: أنت لا تملك جلسة الرفع هذه.
 attachments_and_uploads.attachment_fields_required: '`attachment_id` و `channel_id` و `message_id` و `expires_at` مطلوبين.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id` و `channel_id` و `message_id` لازم تكون أرقام صحيحة.'
 attachments_and_uploads.cannot_edit_attachment_metadata: المستخدمون الذين لديهم صلاحية MANAGE_MESSAGES يمكنهم تعديل أوصاف المرفقات فقط، وليس البيانات الوصفية الأخرى.

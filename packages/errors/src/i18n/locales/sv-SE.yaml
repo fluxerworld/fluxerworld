@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: Testhärnessen är förbjuden.
 admin_and_system.unknown_suspicious_flag: Okänd flagga för misstänkt aktivitet.
 admin_and_system.update_failed: Vi kunde inte uppdatera resursen. Försök igen.
 admin_and_system.user_must_be_bot_for_system_user: Användaren måste vara en bot för att kunna markeras som systemanvändare.
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Chunk-indexet är utanför det giltiga intervallet för den här uppladdningen.
-attachments_and_uploads.chunked_upload_incomplete: Inte alla chunks har laddats upp.
-attachments_and_uploads.chunked_upload_not_found: Uppladdningssessionen hittades inte eller har gått ut.
-attachments_and_uploads.chunked_upload_not_owned: Du äger inte den här uppladdningssessionen.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` och `expires_at` krävs.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` och `message_id` måste vara giltiga heltal.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Användare med MANAGE_MESSAGES kan bara redigera bilagebeskrivningar, inte annan metadata.

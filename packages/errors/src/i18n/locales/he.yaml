@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: ניסיון בדיקה אסור.
 admin_and_system.unknown_suspicious_flag: דגל חשוד לא מוכר.
 admin_and_system.update_failed: לא הצלחנו לעדכן את המשאב. נא לנסות שוב.
 admin_and_system.user_must_be_bot_for_system_user: משתמש חייב להיות בוט כדי לסמן אותו כמשתמש מערכת.
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: אינדקס החלק מחוץ לטווח להעלאה זו.
-attachments_and_uploads.chunked_upload_incomplete: לא כל החלקים הועלו.
-attachments_and_uploads.chunked_upload_not_found: סשן ההעלאה לא נמצא או שפג תוקפו.
-attachments_and_uploads.chunked_upload_not_owned: סשן ההעלאה הזה לא שייך לך.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` ו-`expires_at` הם שדות חובה.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id`, and `message_id` must be valid integers.'
 attachments_and_uploads.cannot_edit_attachment_metadata: משתמשים עם MANAGE_MESSAGES יכולים לערוך רק תיאורי קבצים מצורפים, לא מטא-דאטה אחרת.

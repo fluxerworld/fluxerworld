@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: 禁止使用测试工具。
 admin_and_system.unknown_suspicious_flag: 未知的可疑标记。
 admin_and_system.update_failed: 无法更新该资源，请重试。
 admin_and_system.user_must_be_bot_for_system_user: 要标记为系统用户，该用户必须是机器人。
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: 分片索引超出此上传的有效范围。
-attachments_and_uploads.chunked_upload_incomplete: 尚未上传所有分片。
-attachments_and_uploads.chunked_upload_not_found: 上传会话未找到或已过期。
-attachments_and_uploads.chunked_upload_not_owned: 你不是这个上传会话的所有者。
 attachments_and_uploads.attachment_fields_required: 必须提供 `attachment_id`、`channel_id`、`message_id` 和 `expires_at`。
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`、`channel_id` 和 `message_id` 必须为有效的整数。'
 attachments_and_uploads.cannot_edit_attachment_metadata: 仅具有 MANAGE_MESSAGES 权限的用户可以编辑附件描述，不能编辑其他元数据。

@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: Test harness е забранен.
 admin_and_system.unknown_suspicious_flag: Непознат suspicious flag.
 admin_and_system.update_failed: Не успяхме да обновим ресурса. Моля, опитай пак.
 admin_and_system.user_must_be_bot_for_system_user: Потребителят трябва да е бот, за да бъде маркиран като системен потребител.
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Индексът на частта е извън обхвата за това качване.
-attachments_and_uploads.chunked_upload_incomplete: Не всички части са качени.
-attachments_and_uploads.chunked_upload_not_found: Сесията за качване не беше намерена или е изтекла.
-attachments_and_uploads.chunked_upload_not_owned: Тази сесия за качване не е твоя.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` и `expires_at` са задължителни.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` и `message_id` трябва да са валидни цели числа.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Потребителите с MANAGE_MESSAGES могат да редактират само описанията на прикачените файлове, не и други metadata.

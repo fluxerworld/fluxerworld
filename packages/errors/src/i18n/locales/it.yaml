@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: Test harness non consentito.
 admin_and_system.unknown_suspicious_flag: Suspicious flag sconosciuta.
 admin_and_system.update_failed: Aggiornamento non riuscito.
 admin_and_system.user_must_be_bot_for_system_user: Per essere marcato come utente di sistema, deve essere un bot.
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: L'indice del frammento è fuori dall'intervallo per questo caricamento.
-attachments_and_uploads.chunked_upload_incomplete: Non tutti i frammenti sono stati caricati.
-attachments_and_uploads.chunked_upload_not_found: La sessione di caricamento non è stata trovata o è scaduta.
-attachments_and_uploads.chunked_upload_not_owned: Questa sessione di caricamento non è tua.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` e `expires_at` sono obbligatori.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id`, and `message_id` must be valid integers.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Gli utenti con MANAGE_MESSAGES possono modificare solo le descrizioni degli allegati, non altri metadati.

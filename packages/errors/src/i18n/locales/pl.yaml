@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: Test harness jest zabroniony.
 admin_and_system.unknown_suspicious_flag: Nieznana podejrzana flaga.
 admin_and_system.update_failed: Nie mogliśmy zaktualizować zasobu. Spróbuj ponownie.
 admin_and_system.user_must_be_bot_for_system_user: Użytkownik musi być botem, aby został oznaczony jako użytkownik systemowy.
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Indeks fragmentu jest poza zakresem dla tego przesyłania.
-attachments_and_uploads.chunked_upload_incomplete: Nie wszystkie fragmenty zostały przesłane.
-attachments_and_uploads.chunked_upload_not_found: Sesja przesyłania nie została znaleziona lub wygasła.
-attachments_and_uploads.chunked_upload_not_owned: Ta sesja przesyłania nie należy do ciebie.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` i `expires_at` są wymagane.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` i `message_id` muszą być prawidłowymi liczbami całkowitymi.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Użytkownicy z uprawnieniem MANAGE_MESSAGES mogą edytować tylko opisy załączników, a nie inne metadane.

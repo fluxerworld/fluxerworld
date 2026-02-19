@@ -31,7 +31,6 @@ import type {IBlueskyOAuthService} from '@fluxer/api/src/bluesky/IBlueskyOAuthSe
 import type {IChannelRepository} from '@fluxer/api/src/channel/IChannelRepository';
 import type {ChannelRequestService} from '@fluxer/api/src/channel/services/ChannelRequestService';
 import type {ChannelService} from '@fluxer/api/src/channel/services/ChannelService';
-import type {ChunkedUploadService} from '@fluxer/api/src/channel/services/ChunkedUploadService';
 import type {MessageRequestService} from '@fluxer/api/src/channel/services/message/MessageRequestService';
 import type {ScheduledMessageService} from '@fluxer/api/src/channel/services/ScheduledMessageService';
 import type {StreamPreviewService} from '@fluxer/api/src/channel/services/StreamPreviewService';
@@ -134,7 +133,6 @@ export interface HonoEnv {
 		cacheService: ICacheService;
 		channelService: ChannelService;
 		channelRequestService: ChannelRequestService;
-		chunkedUploadService: ChunkedUploadService;
 		messageRequestService: MessageRequestService;
 		channelRepository: IChannelRepository;
 		connectionService: ConnectionService;

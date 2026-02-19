@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: परीक्षण हार्न�
 admin_and_system.unknown_suspicious_flag: अज्ञात संदिग्ध ध्वज।
 admin_and_system.update_failed: हम संसाधन को अद्यतन करने में विफल रहे। कृपया दोबारा प्रयास करें।
 admin_and_system.user_must_be_bot_for_system_user: उपयोगकर्ता को सिस्टम उपयोगकर्ता के रूप में चिह्नित किए जाने के लिए बॉट होना चाहिए।
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: इस upload के लिए chunk index सीमा से बाहर है।
-attachments_and_uploads.chunked_upload_incomplete: सभी chunks upload नहीं हुए हैं।
-attachments_and_uploads.chunked_upload_not_found: Upload session नहीं मिला या expire हो गया है।
-attachments_and_uploads.chunked_upload_not_owned: यह upload session तुम्हारा नहीं है।
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id`, और `expires_at` जरूरी हैं।'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id`, and `message_id` must be valid integers.'
 attachments_and_uploads.cannot_edit_attachment_metadata: MANAGE_MESSAGES permission वाले users सिर्फ attachment descriptions edit कर सकते हैं, दूसरा metadata नहीं।

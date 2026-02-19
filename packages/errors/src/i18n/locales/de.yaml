@@ -50,10 +50,6 @@ admin_and_system.test_harness_forbidden: Test-Harness ist nicht erlaubt.
 admin_and_system.unknown_suspicious_flag: Unbekanntes verdächtiges Flag.
 admin_and_system.update_failed: Wir konnten die Ressource nicht aktualisieren. Bitte versuche es nochmal.
 admin_and_system.user_must_be_bot_for_system_user: Nutzer muss ein Bot sein, um als Systemnutzer markiert zu werden.
-attachments_and_uploads.chunked_upload_chunk_index_out_of_range: Der Chunk-Index liegt außerhalb des gültigen Bereichs für diesen Upload.
-attachments_and_uploads.chunked_upload_incomplete: Es wurden nicht alle Chunks hochgeladen.
-attachments_and_uploads.chunked_upload_not_found: Die Upload-Sitzung wurde nicht gefunden oder ist abgelaufen.
-attachments_and_uploads.chunked_upload_not_owned: Diese Upload-Sitzung gehört nicht dir.
 attachments_and_uploads.attachment_fields_required: '`attachment_id`, `channel_id`, `message_id` und `expires_at` sind erforderlich.'
 attachments_and_uploads.attachment_ids_must_be_valid_integers: '`attachment_id`, `channel_id` und `message_id` müssen gültige Integer sein.'
 attachments_and_uploads.cannot_edit_attachment_metadata: Nutzer mit MANAGE_MESSAGES können nur Attachment-Beschreibungen bearbeiten, keine anderen Metadaten.
