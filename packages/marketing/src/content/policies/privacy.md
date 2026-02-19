@@ -169,6 +169,10 @@ We work with trusted third-party service providers who process data on our behal
 - **hCaptcha** – backup CAPTCHA provider; users can choose hCaptcha instead of Cloudflare Turnstile for bot prevention challenges.
 - **Arachnid Shield API** – CSAM scanning for user-uploaded media, operated by the Canadian Centre for Child Protection (C3P), as described in [Section 5](#5-content-scanning-for-safety).
 
+#### Observability and error reporting
+
+- **Sentry** – application error monitoring. We send error and crash diagnostics directly to Sentry over HTTPS so we can investigate reliability and security issues. This may include stack traces, runtime metadata (for example browser, OS, and device details), release/build identifiers, and account identifiers associated with the active session (for example user ID, username, and email). We do not use this data for advertising, and routine error reports do not include private message content or uploaded file attachments.
+
 #### Third-Party Content
 
 - **Google** – YouTube embeds.

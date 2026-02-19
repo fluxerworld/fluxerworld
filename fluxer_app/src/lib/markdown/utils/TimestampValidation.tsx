@@ -17,22 +17,22 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {loadConfig} from '@fluxer/config/src/ConfigLoader';
-import {extractBaseServiceConfig} from '@fluxer/config/src/ServiceConfigSlices';
+const MILLISECONDS_PER_SECOND = 1000;
 
-const master = await loadConfig();
-const appProxy = master.services.app_proxy;
+export function getDateFromUnixTimestampSeconds(timestamp: number): Date | null {
+	if (!Number.isFinite(timestamp)) {
+		return null;
+	}
 
-if (!appProxy) {
-	throw new Error('Application proxy requires `services.app_proxy` configuration');
+	const timestampMillis = timestamp * MILLISECONDS_PER_SECOND;
+	if (!Number.isFinite(timestampMillis)) {
+		return null;
+	}
+
+	const date = new Date(timestampMillis);
+	if (Number.isNaN(date.getTime())) {
+		return null;
+	}
+
+	return date;
 }
-
-export const Config = {
-	...extractBaseServiceConfig(master),
-	port: appProxy.port,
-	static_cdn_endpoint: appProxy.static_cdn_endpoint,
-	sentry_dsn: master.app_public.sentry_dsn,
-	assets_dir: appProxy.assets_dir,
-};
-
-export type Config = typeof Config;

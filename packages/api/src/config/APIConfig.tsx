@@ -96,10 +96,6 @@ export interface APIConfig {
 
 	appPublic: {
 		sentryDsn: string;
-		sentryProxyPath: string;
-		sentryReportHost: string;
-		sentryProjectId: string;
-		sentryPublicKey: string;
 	};
 
 	email: {

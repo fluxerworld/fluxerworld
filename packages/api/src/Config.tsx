@@ -308,10 +308,6 @@ export function buildAPIConfigFromMaster(master: MasterConfig): APIConfig {
 
 		appPublic: {
 			sentryDsn: master.app_public.sentry_dsn,
-			sentryProxyPath: master.app_public.sentry_proxy_path,
-			sentryReportHost: master.app_public.sentry_report_host,
-			sentryProjectId: master.app_public.sentry_project_id,
-			sentryPublicKey: master.app_public.sentry_public_key,
 		},
 
 		auth: {

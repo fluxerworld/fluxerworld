@@ -60902,30 +60902,10 @@
               "sentry_dsn": {
                 "type": "string",
                 "description": "Sentry DSN for client-side error reporting"
-              },
-              "sentry_proxy_path": {
-                "type": "string",
-                "description": "Proxy path for Sentry requests"
-              },
-              "sentry_report_host": {
-                "type": "string",
-                "description": "Host for Sentry error reports"
-              },
-              "sentry_project_id": {
-                "type": "string",
-                "description": "Sentry project ID"
-              },
-              "sentry_public_key": {
-                "type": "string",
-                "description": "Sentry public key"
               }
             },
             "required": [
-              "sentry_dsn",
-              "sentry_proxy_path",
-              "sentry_report_host",
-              "sentry_project_id",
-              "sentry_public_key"
+              "sentry_dsn"
             ],
             "description": "Public application configuration for client-side features"
           },
