@@ -82,7 +82,7 @@ msgstr "(zobrazeno max. 15)"
 msgid "(No content)"
 msgstr "(Žádný obsah)"
 
-#: src/components/modals/UserProfileMobileSheet.tsx:602
+#: src/components/modals/UserProfileMobileSheet.tsx:608
 #: src/components/pages/YouPage.tsx:147
 msgid "(only visible to you)"
 msgstr "(viditelné jen pro vás)"
@@ -1450,7 +1450,7 @@ msgstr "7 dní"
 msgid "720p"
 msgstr "720p"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:62
+#: src/components/modals/components/FeatureComparisonTable.tsx:61
 msgid "720p/30fps"
 msgstr "720p/30fps"
 
@@ -1512,7 +1512,7 @@ msgid "about me"
 msgstr "o mně"
 
 #: src/components/modals/tabs/my_profile_tab/BioEditor.tsx:130
-#: src/components/modals/UserProfileMobileSheet.tsx:578
+#: src/components/modals/UserProfileMobileSheet.tsx:584
 #: src/components/pages/YouPage.tsx:132
 msgid "About Me"
 msgstr "O mně"
@@ -2522,7 +2522,7 @@ msgstr "Animované avatary (GIF, APNG, animovaný WebP, AVIF) jsou prémiová fu
 msgid "Animated avatars (GIF, APNG, animated WebP, AVIF) are not available on this instance. Please upload a static image instead."
 msgstr "Animované avatary (GIF, APNG, animovaný WebP, AVIF) nejsou na této instanci k dispozici. Prosím, nahrajte místo toho statický obrázek."
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:59
+#: src/components/modals/components/FeatureComparisonTable.tsx:58
 msgid "Animated avatars & banners"
 msgstr "Animované avatary a bannery"
 
@@ -2914,7 +2914,7 @@ msgstr "Opravdu chcete udělat z {0} vlastníka skupiny? Ztratíte oprávnění 
 #. placeholder {0}: user.username
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:184
 #: src/components/modals/UserProfileActionsSheet.tsx:117
-#: src/components/modals/UserProfileMobileSheet.tsx:345
+#: src/components/modals/UserProfileMobileSheet.tsx:351
 #: src/utils/RelationshipActionUtils.tsx:120
 msgid "Are you sure you want to remove {0} as a friend?"
 msgstr "Opravdu chcete odebrat {0} ze seznamu přátel?"
@@ -2961,7 +2961,7 @@ msgstr "Opravdu chcete převést vlastnictví skupiny na {0}?"
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:218
 #: src/components/modals/tabs/BlockedUsersTab.tsx:64
 #: src/components/modals/UserProfileActionsSheet.tsx:151
-#: src/components/modals/UserProfileMobileSheet.tsx:361
+#: src/components/modals/UserProfileMobileSheet.tsx:367
 #: src/utils/RelationshipActionUtils.tsx:174
 msgid "Are you sure you want to unblock {0}?"
 msgstr "Opravdu chcete odblokovat {0}?"
@@ -3740,7 +3740,7 @@ msgstr "Přidat zprávu do záložek"
 msgid "Bookmark messages to save them for later."
 msgstr "Ukládejte zprávy do záložek pro pozdější použití."
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:52
+#: src/components/modals/components/FeatureComparisonTable.tsx:51
 msgid "Bookmarked messages"
 msgstr "Zprávy v záložkách"
 
@@ -5041,7 +5041,7 @@ msgstr "Klikni nebo přetáhni"
 msgid "Click the text below to edit it inline. Press Enter to save or Escape to cancel."
 msgstr "Klikni na text níže pro úpravu přímo. Stiskni Enter pro uložení nebo Esc pro zrušení."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:97
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:70
 msgid "Click the upload icon next to any sound to customize it with your own audio file. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM (max 2MB)."
 msgstr "Klikni na ikonu nahrávání u zvuku a nahraj vlastní audio soubor. Podporované formáty: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM (max 2 MB)."
 
@@ -5328,7 +5328,7 @@ msgstr "Pohodlné rozložení"
 msgid "Communication"
 msgstr "Komunikace"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:50
+#: src/components/modals/components/FeatureComparisonTable.tsx:49
 #: src/stores/QuickSwitcherStore.tsx:1354
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
@@ -5630,7 +5630,7 @@ msgstr "Nastav přepsání pro tuto roli"
 msgid "Configure role settings and permissions"
 msgstr "Nastav role a oprávnění"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:65
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:60
 msgid "Configure which sounds to play and when."
 msgstr "Nastav, jaké zvuky a kdy se přehrávají."
 
@@ -5893,8 +5893,8 @@ msgstr "Nastav připojování do hlasových kanálů v komunitách."
 msgid "Control how your Plutonium badge is displayed to others"
 msgstr "Nastav, jak ostatní vidí tvůj odznak Plutonium"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:87
-#: src/components/modals/tabs/NotificationsTab.tsx:90
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:85
+#: src/components/modals/tabs/NotificationsTab.tsx:88
 msgid "Control speech commands and narration for incoming content."
 msgstr "Control speech commands and narration for incoming content."
 
@@ -6642,11 +6642,11 @@ msgstr "Vlastní rozsah..."
 msgid "custom ringtone"
 msgstr "vlastní vyzvánění"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:159
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:139
 msgid "Custom sound removed"
 msgstr "Vlastní zvuk odstraněn"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:137
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:117
 msgid "Custom sound uploaded successfully"
 msgstr "Vlastní zvuk byl úspěšně nahrán"
 
@@ -6666,7 +6666,7 @@ msgstr "Vlastní nálepky"
 msgid "Custom Theme Tokens"
 msgstr "Vlastní téma tokenů"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:61
+#: src/components/modals/components/FeatureComparisonTable.tsx:60
 msgid "Custom themes"
 msgstr "Vlastní motivy"
 
@@ -6730,10 +6730,6 @@ msgstr "Přizpůsobte si čtyřmístný tag (#{discriminator}) podle sebe s Plut
 #: src/components/modals/FluxerTagChangeModal.tsx:272
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Přizpůsobte si čtyřmístný tag nebo si ho ponechte při změně uživatelského jména"
-
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:71
-msgid "Customize your notification sounds with Plutonium"
-msgstr "Přizpůsobte si zvuky notifikací s Plutonium"
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:58
 msgid "Customize your profile banner"
@@ -7542,11 +7538,11 @@ msgstr "Zakázat"
 msgid "Disable Account"
 msgstr "Deaktivovat účet"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:172
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:132
 msgid "Disable All"
 msgstr "Zakázat vše"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:89
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:63
 msgid "Disable all notification sounds"
 msgstr "Deaktivovat všechny zvuky notifikací"
 
@@ -8146,7 +8142,7 @@ msgstr "Každá zpráva níže demonstruje jednu funkci markdownu s náhledem v 
 msgid "Each unique invite can only be used once."
 msgstr "Každá jedinečná pozvánka může být použita pouze jednou."
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:60
+#: src/components/modals/components/FeatureComparisonTable.tsx:59
 msgid "Early access to new features"
 msgstr "Předběžný přístup k novým funkcím"
 
@@ -8268,11 +8264,11 @@ msgstr "Upravte nebo smažte emoji a nálepky vytvořené jinými členy."
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "Uprav přepsání pro role a členy v tomto kanálu."
 
-#: src/components/modals/UserProfileMobileSheet.tsx:532
+#: src/components/modals/UserProfileMobileSheet.tsx:538
 #: src/components/modals/UserProfileModal.tsx:1262
 #: src/components/pages/YouPage.tsx:123
 #: src/components/popouts/UserAreaPopout.tsx:540
-#: src/components/popouts/UserProfilePopout.tsx:323
+#: src/components/popouts/UserProfilePopout.tsx:344
 msgid "Edit Profile"
 msgstr "Upravit profil"
 
@@ -8449,7 +8445,7 @@ msgstr "Emoji"
 msgid "emoji {emojiName}"
 msgstr "emoji {emojiName}"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:54
+#: src/components/modals/components/FeatureComparisonTable.tsx:53
 msgid "Emoji & sticker packs"
 msgstr "Sady emoji a samolepek"
 
@@ -8549,7 +8545,7 @@ msgstr "Povolte 2FA na svém účtu, abyste mohli změnit toto nastavení"
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Povolte pokročilé funkce pro ladění a vývoj. Kopírování ID (snowflake) entit je dostupné všem uživatelům bez vývojářského režimu."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:163
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:123
 msgid "Enable All"
 msgstr "Povolit vše"
 
@@ -9453,7 +9449,7 @@ msgstr "Nepodařilo se znovu připojit ke komunitě Visionary. Zkuste to prosím
 msgid "Failed to remove background image. Please try again."
 msgstr "Nepodařilo se odstranit pozadí. Zkuste to prosím znovu."
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:164
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:144
 msgid "Failed to remove custom sound"
 msgstr "Nepodařilo se odstranit vlastní zvuk"
 
@@ -9626,7 +9622,7 @@ msgstr "Nepodařilo se aktualizovat webhooky"
 msgid "Failed to upload background image. Please try again."
 msgstr "Nepodařilo se nahrát obrázek pozadí. Zkuste to prosím znovu."
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:142
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:122
 msgid "Failed to upload custom sound"
 msgstr "Nepodařilo se nahrát vlastní zvuk"
 
@@ -9721,7 +9717,7 @@ msgstr "oblíbené"
 msgid "Favorites"
 msgstr "Oblíbené"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:120
+#: src/components/modals/components/FeatureComparisonTable.tsx:119
 msgid "Feature"
 msgstr "Funkce"
 
@@ -9762,7 +9758,7 @@ msgstr "Limit velikosti souboru byl překročen"
 msgid "File size too large"
 msgstr "Velikost souboru je příliš velká"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:53
+#: src/components/modals/components/FeatureComparisonTable.tsx:52
 msgid "File upload size"
 msgstr "Velikost nahrávání souboru"
 
@@ -10247,7 +10243,7 @@ msgstr "Snímkové frekvence nad 30 FPS vyžadují Plutonium"
 msgid "France"
 msgstr "Francie"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:125
+#: src/components/modals/components/FeatureComparisonTable.tsx:124
 msgid "Free"
 msgstr "Zdarma"
 
@@ -10493,7 +10489,6 @@ msgstr "Dostávejte oznámení, když obdržíte zprávy. Možná budete muset p
 #: src/components/modals/FluxerTagChangeModal.tsx:221
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:83
 #: src/components/modals/tabs/VideoTab.tsx:281
 #: src/components/uikit/plutonium_upsell/PlutoniumUpsell.tsx:72
 #: src/components/uikit/plutonium_upsell/PlutoniumUpsell.tsx:74
@@ -10666,7 +10661,7 @@ msgstr "Dárky a kódy"
 msgid "Glad you're here, {username}! Watch out for Biff!"
 msgstr "Jsem rád, že tu jsi, {username}! Dej si pozor na Biffa!"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:57
+#: src/components/modals/components/FeatureComparisonTable.tsx:56
 msgid "Global emoji & sticker access"
 msgstr "Globální přístup k emoji a nálepkám"
 
@@ -11866,7 +11861,7 @@ msgid "Invalid"
 msgstr "Neplatné"
 
 #: src/components/modals/tabs/hooks/useEntranceSound.tsx:68
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:123
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:103
 msgid "Invalid audio file"
 msgstr "Neplatný audio soubor"
 
@@ -13674,11 +13669,11 @@ msgstr "menu"
 
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:268
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:164
-#: src/components/modals/UserProfileMobileSheet.tsx:547
+#: src/components/modals/UserProfileMobileSheet.tsx:553
 #: src/components/modals/UserProfileModal.tsx:1246
 #: src/components/modals/UserProfileModal.tsx:1372
-#: src/components/popouts/UserProfilePopout.tsx:313
-#: src/components/popouts/UserProfilePopout.tsx:332
+#: src/components/popouts/UserProfilePopout.tsx:334
+#: src/components/popouts/UserProfilePopout.tsx:353
 #: src/components/profile/ProfilePreview.tsx:276
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:109
 #: src/components/uikit/context_menu/items/MessageUserMenuItem.tsx:77
@@ -13712,7 +13707,7 @@ msgstr "Nastavení akční lišty zpráv jsou k dispozici pouze na desktopu."
 msgid "Message AST"
 msgstr "Zpráva AST"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:51
+#: src/components/modals/components/FeatureComparisonTable.tsx:50
 msgid "Message character limit"
 msgstr "Limit znaků ve zprávě"
 
@@ -15108,7 +15103,7 @@ msgstr "Ne teď"
 msgid "Not your cup of tea? You can disable this feature anytime."
 msgstr "Není to váš šálek čaje? Tuto funkci můžete kdykoli vypnout."
 
-#: src/components/modals/UserProfileMobileSheet.tsx:599
+#: src/components/modals/UserProfileMobileSheet.tsx:605
 #: src/components/modals/UserProfileModal.tsx:243
 #: src/components/modals/UserProfileModal.tsx:247
 #: src/components/pages/YouPage.tsx:144
@@ -15172,17 +15167,13 @@ msgstr "Nastavení oznámení (ztlumené)"
 msgid "notification sound"
 msgstr "zvuk oznámení"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:49
-msgid "Notification sounds"
-msgstr "Zvuky upozornění"
-
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:539
 msgid "notifications"
 msgstr "oznámení"
 
 #: src/components/layout/MobileBottomNav.tsx:117
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:63
-#: src/components/modals/tabs/NotificationsTab.tsx:64
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:62
+#: src/components/modals/tabs/NotificationsTab.tsx:63
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:537
 #: src/components/pages/NotificationsPage.tsx:51
 msgid "Notifications"
@@ -15509,15 +15500,15 @@ msgstr "Otevřít výběr data"
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:143
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:145
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:268
-#: src/components/modals/UserProfileMobileSheet.tsx:318
-#: src/components/modals/UserProfileMobileSheet.tsx:320
-#: src/components/modals/UserProfileMobileSheet.tsx:547
+#: src/components/modals/UserProfileMobileSheet.tsx:324
+#: src/components/modals/UserProfileMobileSheet.tsx:326
+#: src/components/modals/UserProfileMobileSheet.tsx:553
 #: src/components/modals/UserProfileModal.tsx:1014
 #: src/components/modals/UserProfileModal.tsx:1016
 #: src/components/modals/UserProfileModal.tsx:1372
-#: src/components/popouts/UserProfilePopout.tsx:193
-#: src/components/popouts/UserProfilePopout.tsx:195
-#: src/components/popouts/UserProfilePopout.tsx:332
+#: src/components/popouts/UserProfilePopout.tsx:214
+#: src/components/popouts/UserProfilePopout.tsx:216
+#: src/components/popouts/UserProfilePopout.tsx:353
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:73
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:75
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:109
@@ -16446,7 +16437,7 @@ msgstr "plutonium"
 
 #: src/components/channel/direct_message/DMList.tsx:1326
 #: src/components/channel/direct_message/DMList.tsx:1405
-#: src/components/modals/components/FeatureComparisonTable.tsx:128
+#: src/components/modals/components/FeatureComparisonTable.tsx:127
 msgid "Plutonium"
 msgstr "Plutonium"
 
@@ -16870,8 +16861,8 @@ msgstr "push notifikace"
 msgid "Push notifications"
 msgstr "Push oznámení"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:91
-#: src/components/modals/tabs/NotificationsTab.tsx:95
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:89
+#: src/components/modals/tabs/NotificationsTab.tsx:93
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:612
 msgid "Push Settings"
 msgstr "Nastavení push"
@@ -17388,7 +17379,7 @@ msgstr "Odstranit záložku"
 msgid "Remove Connection"
 msgstr "Odstranit připojení"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:146
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:106
 msgid "Remove Custom Sound"
 msgstr "Odstranit vlastní zvuk"
 
@@ -17410,8 +17401,8 @@ msgstr "Odstranit filtr"
 #: src/components/modals/UserProfileActionsSheet.tsx:116
 #: src/components/modals/UserProfileActionsSheet.tsx:118
 #: src/components/modals/UserProfileActionsSheet.tsx:279
-#: src/components/modals/UserProfileMobileSheet.tsx:344
-#: src/components/modals/UserProfileMobileSheet.tsx:346
+#: src/components/modals/UserProfileMobileSheet.tsx:350
+#: src/components/modals/UserProfileMobileSheet.tsx:352
 #: src/components/modals/UserProfileModal.tsx:1199
 #: src/components/modals/UserProfileModal.tsx:1285
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:643
@@ -17864,7 +17855,6 @@ msgstr "Vyžaduje vše z úrovně Vysoká a navíc ověřené telefonní číslo
 msgid "Requires everything in Medium, plus being a member of the server for at least 10 minutes."
 msgstr "Vyžaduje vše z úrovně Střední a navíc být členem serveru alespoň 10 minut."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:135
 #: src/components/modals/tabs/VideoTab.tsx:120
 #: src/components/modals/tabs/VideoTab.tsx:130
 #: src/components/modals/tabs/VideoTab.tsx:140
@@ -18407,7 +18397,7 @@ msgstr "Uložit video"
 msgid "saved"
 msgstr "uloženo"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:55
+#: src/components/modals/components/FeatureComparisonTable.tsx:54
 msgid "Saved media"
 msgstr "Uložená média"
 
@@ -20126,8 +20116,8 @@ msgstr "zvukový efekt"
 msgid "sounds"
 msgstr "zvuky"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:69
-#: src/components/modals/tabs/NotificationsTab.tsx:71
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:68
+#: src/components/modals/tabs/NotificationsTab.tsx:70
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:557
 msgid "Sounds"
 msgstr "Zvuky"
@@ -21056,8 +21046,8 @@ msgid "text to speech"
 msgstr "text na řeč"
 
 #: src/components/modals/tabs/AccessibilityTab.tsx:209
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:86
-#: src/components/modals/tabs/NotificationsTab.tsx:89
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:84
+#: src/components/modals/tabs/NotificationsTab.tsx:87
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:261
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:589
 msgid "Text-to-speech"
@@ -22492,7 +22482,7 @@ msgstr "odblokovat"
 #: src/components/modals/tabs/BlockedUsersTab.tsx:178
 #: src/components/modals/UserProfileActionsSheet.tsx:152
 #: src/components/modals/UserProfileActionsSheet.tsx:306
-#: src/components/modals/UserProfileMobileSheet.tsx:362
+#: src/components/modals/UserProfileMobileSheet.tsx:368
 #: src/components/modals/UserProfileModal.tsx:1105
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:668
 #: src/components/uikit/context_menu/items/RelationshipMenuItems.tsx:231
@@ -22508,7 +22498,7 @@ msgstr "Než pošlete žádost o přátelství, odblokujte tohoto uživatele."
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:217
 #: src/components/modals/tabs/BlockedUsersTab.tsx:63
 #: src/components/modals/UserProfileActionsSheet.tsx:150
-#: src/components/modals/UserProfileMobileSheet.tsx:360
+#: src/components/modals/UserProfileMobileSheet.tsx:366
 #: src/components/modals/UserProfileModal.tsx:1300
 #: src/utils/RelationshipActionUtils.tsx:173
 msgid "Unblock User"
@@ -22962,7 +22952,7 @@ msgstr "Dokud to znovu nezapnu"
 msgid "Unverified Email"
 msgstr "Neověřený e-mail"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:63
+#: src/components/modals/components/FeatureComparisonTable.tsx:62
 msgid "Up to 4K/60fps"
 msgstr "Až 4K/60fps"
 
@@ -23143,7 +23133,7 @@ msgstr "Nahrát vlastní pozadí"
 msgid "Upload Custom Background"
 msgstr "Nahrát vlastní pozadí"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:125
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:96
 msgid "Upload Custom Sound"
 msgstr "Nahrajte vlastní zvuk"
 
@@ -23195,10 +23185,6 @@ msgstr "Nahrát do {displayName}"
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:81
 msgid "Upload your message as a file"
 msgstr "Nahrajte svou zprávu jako soubor"
-
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:74
-msgid "Upload your own custom notification sounds and ringtones. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM. Maximum file size: 2MB per sound."
-msgstr "Nahrajte své vlastní zvuky oznámení a vyzvánění. Podporované formáty: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM. Maximální velikost souboru: 2MB na zvuk."
 
 #: src/components/modals/tabs/chat_settings_tab/MediaTab.tsx:148
 msgid "Uploaded attachments"
@@ -23265,7 +23251,7 @@ msgstr "Použijte skutečný prémiový typ"
 msgid "Use an authenticator app to generate codes for two-factor authentication"
 msgstr "Použijte aplikaci autentifikátoru k vygenerování kódů pro dvoufázové ověření"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:56
+#: src/components/modals/components/FeatureComparisonTable.tsx:55
 msgid "Use animated emojis"
 msgstr "Použít animované emoji"
 
@@ -23768,7 +23754,7 @@ msgid "Video"
 msgstr "Video"
 
 #: src/components/channel/ChannelHeader.tsx:652
-#: src/components/modals/UserProfileMobileSheet.tsx:565
+#: src/components/modals/UserProfileMobileSheet.tsx:571
 msgid "Video Call"
 msgstr "Videohovor"
 
@@ -23793,7 +23779,7 @@ msgstr "Náhled videa"
 msgid "Video progress"
 msgstr "Pokrok videa"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:58
+#: src/components/modals/components/FeatureComparisonTable.tsx:57
 msgid "Video quality"
 msgstr "Kvalita videa"
 
@@ -24073,7 +24059,7 @@ msgstr "Hlasový hovor"
 
 #: src/components/channel/ChannelHeader.tsx:642
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:275
-#: src/components/modals/UserProfileMobileSheet.tsx:557
+#: src/components/modals/UserProfileMobileSheet.tsx:563
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:553
 msgid "Voice Call"
 msgstr "Hlasový hovor"
@@ -24804,9 +24790,9 @@ msgstr "Nyní přecházíš na Stripe pro dokončení platby. Po dokončení se 
 #. placeholder {0}: displayUser.username
 #. placeholder {0}: user.username
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:144
-#: src/components/modals/UserProfileMobileSheet.tsx:319
+#: src/components/modals/UserProfileMobileSheet.tsx:325
 #: src/components/modals/UserProfileModal.tsx:1015
-#: src/components/popouts/UserProfilePopout.tsx:194
+#: src/components/popouts/UserProfilePopout.tsx:215
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:74
 #: src/components/uikit/context_menu/items/MessageUserMenuItem.tsx:66
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:208
@@ -24924,7 +24910,7 @@ msgid "You can't join while you're on timeout."
 msgstr "Když máš timeout, nemůžeš se připojit."
 
 #: src/components/modals/UserProfileModal.tsx:1239
-#: src/components/popouts/UserProfilePopout.tsx:306
+#: src/components/popouts/UserProfilePopout.tsx:327
 #: src/components/profile/ProfilePreview.tsx:268
 msgid "You can't message yourself"
 msgstr "Nemůžeš si psát sám se sebou"
@@ -25487,7 +25473,7 @@ msgstr "Vaše e-mailová adresa byla aktualizována."
 msgid "Your email has been verified. You can now log in to your account."
 msgstr "Váš e-mail byl ověřen. Nyní se můžete přihlásit ke svému účtu."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:90
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:64
 msgid "Your existing notification sound settings will be preserved."
 msgstr "Stávající nastavení zvuku upozornění zůstane zachováno."
 

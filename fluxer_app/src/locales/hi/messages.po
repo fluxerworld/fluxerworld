@@ -82,7 +82,7 @@ msgstr "(अधिकतम 15 दिखाए गए)"
 msgid "(No content)"
 msgstr "(कोई सामग्री नहीं)"
 
-#: src/components/modals/UserProfileMobileSheet.tsx:602
+#: src/components/modals/UserProfileMobileSheet.tsx:608
 #: src/components/pages/YouPage.tsx:147
 msgid "(only visible to you)"
 msgstr "(केवल आपको दिखता है)"
@@ -1450,7 +1450,7 @@ msgstr "7 दिन"
 msgid "720p"
 msgstr "७२०पी"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:62
+#: src/components/modals/components/FeatureComparisonTable.tsx:61
 msgid "720p/30fps"
 msgstr "720p/30fps"
 
@@ -1512,7 +1512,7 @@ msgid "about me"
 msgstr "मेरे बारे में"
 
 #: src/components/modals/tabs/my_profile_tab/BioEditor.tsx:130
-#: src/components/modals/UserProfileMobileSheet.tsx:578
+#: src/components/modals/UserProfileMobileSheet.tsx:584
 #: src/components/pages/YouPage.tsx:132
 msgid "About Me"
 msgstr "मेरे बारे में"
@@ -2522,7 +2522,7 @@ msgstr "एनिमेटेड अवतार (GIF, APNG, एनिमेट�
 msgid "Animated avatars (GIF, APNG, animated WebP, AVIF) are not available on this instance. Please upload a static image instead."
 msgstr "एनिमेटेड अवतार (GIF, APNG, एनिमेटेड WebP, AVIF) इस उदाहरण पर उपलब्ध नहीं हैं। कृपया इसके बजाय एक स्थिर छवि अपलोड करें।"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:59
+#: src/components/modals/components/FeatureComparisonTable.tsx:58
 msgid "Animated avatars & banners"
 msgstr "एनिमेटेड अवतार और बैनर"
 
@@ -2914,7 +2914,7 @@ msgstr "क्या तुम वाकई {0} को समूह मालि
 #. placeholder {0}: user.username
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:184
 #: src/components/modals/UserProfileActionsSheet.tsx:117
-#: src/components/modals/UserProfileMobileSheet.tsx:345
+#: src/components/modals/UserProfileMobileSheet.tsx:351
 #: src/utils/RelationshipActionUtils.tsx:120
 msgid "Are you sure you want to remove {0} as a friend?"
 msgstr "क्या तुम वाकई {0} को मित्र से हटाना चाहते हो?"
@@ -2961,7 +2961,7 @@ msgstr "क्या तुम वाकई समूह की स्वाम�
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:218
 #: src/components/modals/tabs/BlockedUsersTab.tsx:64
 #: src/components/modals/UserProfileActionsSheet.tsx:151
-#: src/components/modals/UserProfileMobileSheet.tsx:361
+#: src/components/modals/UserProfileMobileSheet.tsx:367
 #: src/utils/RelationshipActionUtils.tsx:174
 msgid "Are you sure you want to unblock {0}?"
 msgstr "क्या तुम वाकई {0} को अनब्लॉक करना चाहते हो?"
@@ -3740,7 +3740,7 @@ msgstr "संदेश बुकमार्क करें"
 msgid "Bookmark messages to save them for later."
 msgstr "संदेशों को बाद के लिए सुरक्षित करने हेतु बुकमार्क करें।"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:52
+#: src/components/modals/components/FeatureComparisonTable.tsx:51
 msgid "Bookmarked messages"
 msgstr "बुकमार्क किए गए संदेश"
 
@@ -5041,7 +5041,7 @@ msgstr "क्लिक करें या ड्रैग और ड्रॉ�
 msgid "Click the text below to edit it inline. Press Enter to save or Escape to cancel."
 msgstr "इसे इनलाइन संपादित करने के लिए नीचे के टेक्स्ट पर क्लिक करें। सेव करने के लिए Enter और रद्द करने के लिए Escape दबाएं।"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:97
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:70
 msgid "Click the upload icon next to any sound to customize it with your own audio file. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM (max 2MB)."
 msgstr "किसी भी ध्वनि के बगल में अपलोड आइकन पर क्लिक करके उसे अपनी ऑडियो फ़ाइल से अनुकूलित करें। समर्थित फ़ॉर्मेट: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM (अधिकतम 2MB)।"
 
@@ -5328,7 +5328,7 @@ msgstr "आरामदायक लेआउट"
 msgid "Communication"
 msgstr "संचार"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:50
+#: src/components/modals/components/FeatureComparisonTable.tsx:49
 #: src/stores/QuickSwitcherStore.tsx:1354
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
@@ -5630,7 +5630,7 @@ msgstr "इस भूमिका के लिए ओवरराइड कॉ�
 msgid "Configure role settings and permissions"
 msgstr "भूमिका सेटिंग्स और अनुमतियाँ कॉन्फ़िगर करें"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:65
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:60
 msgid "Configure which sounds to play and when."
 msgstr "कौन सी ध्वनियाँ बजें और कब, यह कॉन्फ़िगर करें।"
 
@@ -5893,8 +5893,8 @@ msgstr "समुदायों में वॉइस चैनल कैस�
 msgid "Control how your Plutonium badge is displayed to others"
 msgstr "दूसरों को आपका प्लूटोनियम बैज कैसे दिखाई दे, यह नियंत्रित करें"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:87
-#: src/components/modals/tabs/NotificationsTab.tsx:90
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:85
+#: src/components/modals/tabs/NotificationsTab.tsx:88
 msgid "Control speech commands and narration for incoming content."
 msgstr "Control speech commands and narration for incoming content."
 
@@ -6642,11 +6642,11 @@ msgstr "कस्टम रेंज..."
 msgid "custom ringtone"
 msgstr "कस्टम रिंगटोन"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:159
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:139
 msgid "Custom sound removed"
 msgstr "कस्टम ध्वनि हटाई गई"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:137
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:117
 msgid "Custom sound uploaded successfully"
 msgstr "कस्टम ध्वनि सफलतापूर्वक अपलोड हुई"
 
@@ -6666,7 +6666,7 @@ msgstr "कस्टम स्टिकर"
 msgid "Custom Theme Tokens"
 msgstr "कस्टम थीम टोकन"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:61
+#: src/components/modals/components/FeatureComparisonTable.tsx:60
 msgid "Custom themes"
 msgstr "कस्टम थीम"
 
@@ -6730,10 +6730,6 @@ msgstr "Plutonium के साथ अपना 4-अंकीय टैग (#{d
 #: src/components/modals/FluxerTagChangeModal.tsx:272
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "अपना 4-अंकीय टैग कस्टमाइज़ करें या यूज़रनेम बदलते समय वही रखें"
-
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:71
-msgid "Customize your notification sounds with Plutonium"
-msgstr "प्लूटोनियम के साथ अपने नोटिफिकेशन ध्वनियों को कस्टमाइज़ करें"
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:58
 msgid "Customize your profile banner"
@@ -7542,11 +7538,11 @@ msgstr "अक्षम करें"
 msgid "Disable Account"
 msgstr "खाता अक्षम करें"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:172
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:132
 msgid "Disable All"
 msgstr "सभी अक्षम करें"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:89
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:63
 msgid "Disable all notification sounds"
 msgstr "सभी नोटिफिकेशन ध्वनियों को अक्षम करें"
 
@@ -8146,7 +8142,7 @@ msgstr "नीचे प्रत्येक संदेश एक एकल �
 msgid "Each unique invite can only be used once."
 msgstr "हर अद्वितीय निमंत्रण केवल एक बार इस्तेमाल किया जा सकता है।"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:60
+#: src/components/modals/components/FeatureComparisonTable.tsx:59
 msgid "Early access to new features"
 msgstr "नई सुविधाओं के लिए शीघ्र पहुँच"
 
@@ -8268,11 +8264,11 @@ msgstr "अन्य सदस्यों द्वारा बनाए ग�
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "इस चैनल में भूमिकाओं और सदस्यों के लिए ओवरराइट संपादित करें।"
 
-#: src/components/modals/UserProfileMobileSheet.tsx:532
+#: src/components/modals/UserProfileMobileSheet.tsx:538
 #: src/components/modals/UserProfileModal.tsx:1262
 #: src/components/pages/YouPage.tsx:123
 #: src/components/popouts/UserAreaPopout.tsx:540
-#: src/components/popouts/UserProfilePopout.tsx:323
+#: src/components/popouts/UserProfilePopout.tsx:344
 msgid "Edit Profile"
 msgstr "प्रोफ़ाइल संपादित करें"
 
@@ -8449,7 +8445,7 @@ msgstr "इमोजी"
 msgid "emoji {emojiName}"
 msgstr "इमोजी {emojiName}"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:54
+#: src/components/modals/components/FeatureComparisonTable.tsx:53
 msgid "Emoji & sticker packs"
 msgstr "इमोजी और स्टिकर पैक"
 
@@ -8549,7 +8545,7 @@ msgstr "इस सेटिंग को बदलने के लिए अप
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "डिबगिंग और विकास के लिए उन्नत सुविधाएँ सक्षम करें। ध्यान दें कि डेवलपर मोड की ज़रूरत नहीं है—एंटिटी के स्नोफ्लेक आईडी कॉपी करना सभी उपयोगकर्ताओं के लिए हमेशा उपलब्ध रहता है।"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:163
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:123
 msgid "Enable All"
 msgstr "सभी सक्षम करें"
 
@@ -9453,7 +9449,7 @@ msgstr "विजनरी समुदाय में फिर से शा�
 msgid "Failed to remove background image. Please try again."
 msgstr "पृष्ठभूमि छवि हटाने में विफल। कृपया पुनः प्रयास करें।"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:164
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:144
 msgid "Failed to remove custom sound"
 msgstr "कस्टम साउंड हटाने में विफल"
 
@@ -9626,7 +9622,7 @@ msgstr "वेबहुक्स अपडेट करने में वि�
 msgid "Failed to upload background image. Please try again."
 msgstr "पृष्ठभूमि छवि अपलोड करने में विफल। कृपया पुनः प्रयास करें।"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:142
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:122
 msgid "Failed to upload custom sound"
 msgstr "कस्टम साउंड अपलोड करने में विफल"
 
@@ -9721,7 +9717,7 @@ msgstr "पसंदीदा"
 msgid "Favorites"
 msgstr "पसंदीदा"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:120
+#: src/components/modals/components/FeatureComparisonTable.tsx:119
 msgid "Feature"
 msgstr "फ़ीचर"
 
@@ -9762,7 +9758,7 @@ msgstr "फाइल आकार सीमा पार कर गई"
 msgid "File size too large"
 msgstr "फ़ाइल आकार बहुत बड़ा"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:53
+#: src/components/modals/components/FeatureComparisonTable.tsx:52
 msgid "File upload size"
 msgstr "फ़ाइल अपलोड आकार"
 
@@ -10247,7 +10243,7 @@ msgstr "30 एफपीएस से ऊपर के फ्रेम दरो�
 msgid "France"
 msgstr "फ्रांस"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:125
+#: src/components/modals/components/FeatureComparisonTable.tsx:124
 msgid "Free"
 msgstr "नि:शुल्क"
 
@@ -10493,7 +10489,6 @@ msgstr "जब आपको संदेश मिलें तो सूचन�
 #: src/components/modals/FluxerTagChangeModal.tsx:221
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:83
 #: src/components/modals/tabs/VideoTab.tsx:281
 #: src/components/uikit/plutonium_upsell/PlutoniumUpsell.tsx:72
 #: src/components/uikit/plutonium_upsell/PlutoniumUpsell.tsx:74
@@ -10666,7 +10661,7 @@ msgstr "उपहार और कोड"
 msgid "Glad you're here, {username}! Watch out for Biff!"
 msgstr "खुशी है कि आप यहाँ हैं, {username}! बिफ से सावधान रहें!"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:57
+#: src/components/modals/components/FeatureComparisonTable.tsx:56
 msgid "Global emoji & sticker access"
 msgstr "वैश्विक इमोजी और स्टीकर पहुँच"
 
@@ -11866,7 +11861,7 @@ msgid "Invalid"
 msgstr "अवैध"
 
 #: src/components/modals/tabs/hooks/useEntranceSound.tsx:68
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:123
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:103
 msgid "Invalid audio file"
 msgstr "अमान्य ऑडियो फ़ाइल"
 
@@ -13674,11 +13669,11 @@ msgstr "मेनू"
 
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:268
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:164
-#: src/components/modals/UserProfileMobileSheet.tsx:547
+#: src/components/modals/UserProfileMobileSheet.tsx:553
 #: src/components/modals/UserProfileModal.tsx:1246
 #: src/components/modals/UserProfileModal.tsx:1372
-#: src/components/popouts/UserProfilePopout.tsx:313
-#: src/components/popouts/UserProfilePopout.tsx:332
+#: src/components/popouts/UserProfilePopout.tsx:334
+#: src/components/popouts/UserProfilePopout.tsx:353
 #: src/components/profile/ProfilePreview.tsx:276
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:109
 #: src/components/uikit/context_menu/items/MessageUserMenuItem.tsx:77
@@ -13712,7 +13707,7 @@ msgstr "संदेश क्रिया बार सेटिंग्स �
 msgid "Message AST"
 msgstr "संदेश AST"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:51
+#: src/components/modals/components/FeatureComparisonTable.tsx:50
 msgid "Message character limit"
 msgstr "संदेश वर्ण सीमा"
 
@@ -15108,7 +15103,7 @@ msgstr "अभी नहीं"
 msgid "Not your cup of tea? You can disable this feature anytime."
 msgstr "यह आपकी पसंद नहीं है? आप कभी भी इस फीचर को बंद कर सकते हैं।"
 
-#: src/components/modals/UserProfileMobileSheet.tsx:599
+#: src/components/modals/UserProfileMobileSheet.tsx:605
 #: src/components/modals/UserProfileModal.tsx:243
 #: src/components/modals/UserProfileModal.tsx:247
 #: src/components/pages/YouPage.tsx:144
@@ -15172,17 +15167,13 @@ msgstr "सूचना सेटिंग्स (म्यूट)"
 msgid "notification sound"
 msgstr "सूचना ध्वनि"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:49
-msgid "Notification sounds"
-msgstr "सूचना ध्वनियाँ"
-
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:539
 msgid "notifications"
 msgstr "सूचनाएँ"
 
 #: src/components/layout/MobileBottomNav.tsx:117
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:63
-#: src/components/modals/tabs/NotificationsTab.tsx:64
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:62
+#: src/components/modals/tabs/NotificationsTab.tsx:63
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:537
 #: src/components/pages/NotificationsPage.tsx:51
 msgid "Notifications"
@@ -15509,15 +15500,15 @@ msgstr "तारीख चयनकर्ता खोलें"
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:143
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:145
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:268
-#: src/components/modals/UserProfileMobileSheet.tsx:318
-#: src/components/modals/UserProfileMobileSheet.tsx:320
-#: src/components/modals/UserProfileMobileSheet.tsx:547
+#: src/components/modals/UserProfileMobileSheet.tsx:324
+#: src/components/modals/UserProfileMobileSheet.tsx:326
+#: src/components/modals/UserProfileMobileSheet.tsx:553
 #: src/components/modals/UserProfileModal.tsx:1014
 #: src/components/modals/UserProfileModal.tsx:1016
 #: src/components/modals/UserProfileModal.tsx:1372
-#: src/components/popouts/UserProfilePopout.tsx:193
-#: src/components/popouts/UserProfilePopout.tsx:195
-#: src/components/popouts/UserProfilePopout.tsx:332
+#: src/components/popouts/UserProfilePopout.tsx:214
+#: src/components/popouts/UserProfilePopout.tsx:216
+#: src/components/popouts/UserProfilePopout.tsx:353
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:73
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:75
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:109
@@ -16446,7 +16437,7 @@ msgstr "प्लूटोनियम"
 
 #: src/components/channel/direct_message/DMList.tsx:1326
 #: src/components/channel/direct_message/DMList.tsx:1405
-#: src/components/modals/components/FeatureComparisonTable.tsx:128
+#: src/components/modals/components/FeatureComparisonTable.tsx:127
 msgid "Plutonium"
 msgstr "प्लूटोनियम"
 
@@ -16870,8 +16861,8 @@ msgstr "पुश सूचनाएँ"
 msgid "Push notifications"
 msgstr "पुश नोटिफिकेशन"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:91
-#: src/components/modals/tabs/NotificationsTab.tsx:95
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:89
+#: src/components/modals/tabs/NotificationsTab.tsx:93
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:612
 msgid "Push Settings"
 msgstr "पुश सेटिंग्स"
@@ -17388,7 +17379,7 @@ msgstr "बुकमार्क हटाएँ"
 msgid "Remove Connection"
 msgstr "कनेक्शन हटाएं"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:146
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:106
 msgid "Remove Custom Sound"
 msgstr "कस्टम ध्वनि हटाएं"
 
@@ -17410,8 +17401,8 @@ msgstr "फ़िल्टर हटाएँ"
 #: src/components/modals/UserProfileActionsSheet.tsx:116
 #: src/components/modals/UserProfileActionsSheet.tsx:118
 #: src/components/modals/UserProfileActionsSheet.tsx:279
-#: src/components/modals/UserProfileMobileSheet.tsx:344
-#: src/components/modals/UserProfileMobileSheet.tsx:346
+#: src/components/modals/UserProfileMobileSheet.tsx:350
+#: src/components/modals/UserProfileMobileSheet.tsx:352
 #: src/components/modals/UserProfileModal.tsx:1199
 #: src/components/modals/UserProfileModal.tsx:1285
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:643
@@ -17864,7 +17855,6 @@ msgstr "हाई में जो कुछ भी है उसके सा�
 msgid "Requires everything in Medium, plus being a member of the server for at least 10 minutes."
 msgstr "माध्यम में जो कुछ भी है उसके साथ-साथ कम से कम 10 मिनट से सर्वर का सदस्य होना आवश्यक है।"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:135
 #: src/components/modals/tabs/VideoTab.tsx:120
 #: src/components/modals/tabs/VideoTab.tsx:130
 #: src/components/modals/tabs/VideoTab.tsx:140
@@ -18407,7 +18397,7 @@ msgstr "वीडियो सहेजें"
 msgid "saved"
 msgstr "सहेजा गया"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:55
+#: src/components/modals/components/FeatureComparisonTable.tsx:54
 msgid "Saved media"
 msgstr "सहेजा गया मीडिया"
 
@@ -20126,8 +20116,8 @@ msgstr "ध्वनि प्रभाव"
 msgid "sounds"
 msgstr "ध्वनियाँ"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:69
-#: src/components/modals/tabs/NotificationsTab.tsx:71
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:68
+#: src/components/modals/tabs/NotificationsTab.tsx:70
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:557
 msgid "Sounds"
 msgstr "ध्वनियाँ"
@@ -21056,8 +21046,8 @@ msgid "text to speech"
 msgstr "पाठ से वाणी"
 
 #: src/components/modals/tabs/AccessibilityTab.tsx:209
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:86
-#: src/components/modals/tabs/NotificationsTab.tsx:89
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:84
+#: src/components/modals/tabs/NotificationsTab.tsx:87
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:261
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:589
 msgid "Text-to-speech"
@@ -22492,7 +22482,7 @@ msgstr "अनब्लॉक करें"
 #: src/components/modals/tabs/BlockedUsersTab.tsx:178
 #: src/components/modals/UserProfileActionsSheet.tsx:152
 #: src/components/modals/UserProfileActionsSheet.tsx:306
-#: src/components/modals/UserProfileMobileSheet.tsx:362
+#: src/components/modals/UserProfileMobileSheet.tsx:368
 #: src/components/modals/UserProfileModal.tsx:1105
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:668
 #: src/components/uikit/context_menu/items/RelationshipMenuItems.tsx:231
@@ -22508,7 +22498,7 @@ msgstr "फ्रेंड रिक्वेस्ट भेजने से �
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:217
 #: src/components/modals/tabs/BlockedUsersTab.tsx:63
 #: src/components/modals/UserProfileActionsSheet.tsx:150
-#: src/components/modals/UserProfileMobileSheet.tsx:360
+#: src/components/modals/UserProfileMobileSheet.tsx:366
 #: src/components/modals/UserProfileModal.tsx:1300
 #: src/utils/RelationshipActionUtils.tsx:173
 msgid "Unblock User"
@@ -22962,7 +22952,7 @@ msgstr "जब तक मैं इसे फिर से चालू न क�
 msgid "Unverified Email"
 msgstr "असत्यापित ईमेल"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:63
+#: src/components/modals/components/FeatureComparisonTable.tsx:62
 msgid "Up to 4K/60fps"
 msgstr "4K/60fps तक"
 
@@ -23143,7 +23133,7 @@ msgstr "कस्टम बैकग्राउंड अपलोड करे
 msgid "Upload Custom Background"
 msgstr "कस्टम बैकग्राउंड अपलोड करें"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:125
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:96
 msgid "Upload Custom Sound"
 msgstr "कस्टम साउंड अपलोड करें"
 
@@ -23195,10 +23185,6 @@ msgstr "{displayName} पर अपलोड करें"
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:81
 msgid "Upload your message as a file"
 msgstr "अपना संदेश फ़ाइल के रूप में अपलोड करें"
-
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:74
-msgid "Upload your own custom notification sounds and ringtones. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM. Maximum file size: 2MB per sound."
-msgstr "अपने कस्टम नोटिफिकेशन साउंड और रिंगटोन अपलोड करें। समर्थित फॉर्मेट: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM। प्रत्येक साउंड का अधिकतम फ़ाइल साइज़: 2MB।"
 
 #: src/components/modals/tabs/chat_settings_tab/MediaTab.tsx:148
 msgid "Uploaded attachments"
@@ -23265,7 +23251,7 @@ msgstr "वास्तविक प्रीमियम प्रकार क
 msgid "Use an authenticator app to generate codes for two-factor authentication"
 msgstr "दो-कारक प्रमाणीकरण के लिए कोड जनरेट करने के लिए एक ऑथेंटिकेटर ऐप का उपयोग करें"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:56
+#: src/components/modals/components/FeatureComparisonTable.tsx:55
 msgid "Use animated emojis"
 msgstr "एनिमेटेड इमोजी का उपयोग करें"
 
@@ -23768,7 +23754,7 @@ msgid "Video"
 msgstr "वीडियो"
 
 #: src/components/channel/ChannelHeader.tsx:652
-#: src/components/modals/UserProfileMobileSheet.tsx:565
+#: src/components/modals/UserProfileMobileSheet.tsx:571
 msgid "Video Call"
 msgstr "वीडियो कॉल"
 
@@ -23793,7 +23779,7 @@ msgstr "वीडियो पूर्वावलोकन"
 msgid "Video progress"
 msgstr "वीडियो प्रगति"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:58
+#: src/components/modals/components/FeatureComparisonTable.tsx:57
 msgid "Video quality"
 msgstr "वीडियो गुणवत्ता"
 
@@ -24073,7 +24059,7 @@ msgstr "वॉइस कॉल"
 
 #: src/components/channel/ChannelHeader.tsx:642
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:275
-#: src/components/modals/UserProfileMobileSheet.tsx:557
+#: src/components/modals/UserProfileMobileSheet.tsx:563
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:553
 msgid "Voice Call"
 msgstr "वॉइस कॉल"
@@ -24804,9 +24790,9 @@ msgstr "आप अब भुगतान पूरा करने के लि
 #. placeholder {0}: displayUser.username
 #. placeholder {0}: user.username
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:144
-#: src/components/modals/UserProfileMobileSheet.tsx:319
+#: src/components/modals/UserProfileMobileSheet.tsx:325
 #: src/components/modals/UserProfileModal.tsx:1015
-#: src/components/popouts/UserProfilePopout.tsx:194
+#: src/components/popouts/UserProfilePopout.tsx:215
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:74
 #: src/components/uikit/context_menu/items/MessageUserMenuItem.tsx:66
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:208
@@ -24924,7 +24910,7 @@ msgid "You can't join while you're on timeout."
 msgstr "जब आप टाइमआउट में हैं तो शामिल नहीं हो सकते।"
 
 #: src/components/modals/UserProfileModal.tsx:1239
-#: src/components/popouts/UserProfilePopout.tsx:306
+#: src/components/popouts/UserProfilePopout.tsx:327
 #: src/components/profile/ProfilePreview.tsx:268
 msgid "You can't message yourself"
 msgstr "आप खुद को मैसेज नहीं भेज सकते"
@@ -25487,7 +25473,7 @@ msgstr "आपका ईमेल पता अपडेट कर दिया 
 msgid "Your email has been verified. You can now log in to your account."
 msgstr "तुम्हारा ईमेल सत्यापित हो चुका है। अब तुम अपने खाते में लॉग इन कर सकते हो।"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:90
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:64
 msgid "Your existing notification sound settings will be preserved."
 msgstr "तुम्हारी मौजूदा नोटिफिकेशन साउंड सेटिंग्स सुरक्षित रखी जाएंगी।"
 

@@ -82,7 +82,7 @@ msgstr "(15 maximum affichés)"
 msgid "(No content)"
 msgstr "(Aucun contenu)"
 
-#: src/components/modals/UserProfileMobileSheet.tsx:602
+#: src/components/modals/UserProfileMobileSheet.tsx:608
 #: src/components/pages/YouPage.tsx:147
 msgid "(only visible to you)"
 msgstr "(visible seulement par toi)"
@@ -1450,7 +1450,7 @@ msgstr "7 jours"
 msgid "720p"
 msgstr "720p"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:62
+#: src/components/modals/components/FeatureComparisonTable.tsx:61
 msgid "720p/30fps"
 msgstr "720p/30 ips"
 
@@ -1512,7 +1512,7 @@ msgid "about me"
 msgstr "à propos de moi"
 
 #: src/components/modals/tabs/my_profile_tab/BioEditor.tsx:130
-#: src/components/modals/UserProfileMobileSheet.tsx:578
+#: src/components/modals/UserProfileMobileSheet.tsx:584
 #: src/components/pages/YouPage.tsx:132
 msgid "About Me"
 msgstr "À propos de moi"
@@ -2522,7 +2522,7 @@ msgstr "Les avatars animés (GIF, APNG, WebP animé, AVIF) sont une fonctionnali
 msgid "Animated avatars (GIF, APNG, animated WebP, AVIF) are not available on this instance. Please upload a static image instead."
 msgstr "Les avatars animés (GIF, APNG, WebP animé, AVIF) ne sont pas disponibles sur cette instance. Veuillez télécharger une image statique à la place."
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:59
+#: src/components/modals/components/FeatureComparisonTable.tsx:58
 msgid "Animated avatars & banners"
 msgstr "Avatars et bannières animés"
 
@@ -2914,7 +2914,7 @@ msgstr "Es-tu sûr de vouloir faire de {0} le propriétaire du groupe ? Tu perdr
 #. placeholder {0}: user.username
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:184
 #: src/components/modals/UserProfileActionsSheet.tsx:117
-#: src/components/modals/UserProfileMobileSheet.tsx:345
+#: src/components/modals/UserProfileMobileSheet.tsx:351
 #: src/utils/RelationshipActionUtils.tsx:120
 msgid "Are you sure you want to remove {0} as a friend?"
 msgstr "Es-tu sûr de vouloir supprimer {0} de ta liste d'amis ?"
@@ -2961,7 +2961,7 @@ msgstr "Es-tu sûr de vouloir transférer la propriété du groupe à {0} ?"
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:218
 #: src/components/modals/tabs/BlockedUsersTab.tsx:64
 #: src/components/modals/UserProfileActionsSheet.tsx:151
-#: src/components/modals/UserProfileMobileSheet.tsx:361
+#: src/components/modals/UserProfileMobileSheet.tsx:367
 #: src/utils/RelationshipActionUtils.tsx:174
 msgid "Are you sure you want to unblock {0}?"
 msgstr "Es-tu sûr de vouloir débloquer {0} ?"
@@ -3740,7 +3740,7 @@ msgstr "Marquer le message"
 msgid "Bookmark messages to save them for later."
 msgstr "Ajoute des messages aux marque-pages pour les consulter plus tard."
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:52
+#: src/components/modals/components/FeatureComparisonTable.tsx:51
 msgid "Bookmarked messages"
 msgstr "Messages en marque-page"
 
@@ -5041,7 +5041,7 @@ msgstr "Clique ou glisse-dépose"
 msgid "Click the text below to edit it inline. Press Enter to save or Escape to cancel."
 msgstr "Clique sur le texte ci-dessous pour le modifier en ligne. Appuie sur Entrée pour enregistrer ou Échap pour annuler."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:97
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:70
 msgid "Click the upload icon next to any sound to customize it with your own audio file. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM (max 2MB)."
 msgstr "Clique sur l'icône de téléchargement à côté d'un son pour le personnaliser avec ton propre fichier audio. Formats pris en charge : MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM (max 2\\u202fMo)."
 
@@ -5328,7 +5328,7 @@ msgstr "Disposition confortable"
 msgid "Communication"
 msgstr "Communication"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:50
+#: src/components/modals/components/FeatureComparisonTable.tsx:49
 #: src/stores/QuickSwitcherStore.tsx:1354
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
@@ -5630,7 +5630,7 @@ msgstr "Configure les surcharges pour ce rôle"
 msgid "Configure role settings and permissions"
 msgstr "Configure les paramètres et permissions du rôle"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:65
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:60
 msgid "Configure which sounds to play and when."
 msgstr "Configure quels sons jouer et quand."
 
@@ -5893,8 +5893,8 @@ msgstr "Contrôle comment tu rejoins les salons vocaux dans les communautés."
 msgid "Control how your Plutonium badge is displayed to others"
 msgstr "Contrôle l'affichage de ton badge Plutonium aux autres"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:87
-#: src/components/modals/tabs/NotificationsTab.tsx:90
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:85
+#: src/components/modals/tabs/NotificationsTab.tsx:88
 msgid "Control speech commands and narration for incoming content."
 msgstr "Control speech commands and narration for incoming content."
 
@@ -6642,11 +6642,11 @@ msgstr "Plage personnalisée..."
 msgid "custom ringtone"
 msgstr "sonnerie personnalisée"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:159
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:139
 msgid "Custom sound removed"
 msgstr "Son personnalisé supprimé"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:137
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:117
 msgid "Custom sound uploaded successfully"
 msgstr "Son personnalisé téléchargé avec succès"
 
@@ -6666,7 +6666,7 @@ msgstr "Stickers personnalisés"
 msgid "Custom Theme Tokens"
 msgstr "Jetons de thème personnalisés"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:61
+#: src/components/modals/components/FeatureComparisonTable.tsx:60
 msgid "Custom themes"
 msgstr "Thèmes personnalisés"
 
@@ -6730,10 +6730,6 @@ msgstr "Personnalise ton tag à 4 chiffres (#{discriminator}) comme tu veux avec
 #: src/components/modals/FluxerTagChangeModal.tsx:272
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Personnalise ton tag à 4 chiffres ou garde-le en changeant ton nom d'utilisateur"
-
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:71
-msgid "Customize your notification sounds with Plutonium"
-msgstr "Personnalisez vos sons de notification avec Plutonium"
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:58
 msgid "Customize your profile banner"
@@ -7542,11 +7538,11 @@ msgstr "Désactiver"
 msgid "Disable Account"
 msgstr "Désactiver le compte"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:172
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:132
 msgid "Disable All"
 msgstr "Tout désactiver"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:89
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:63
 msgid "Disable all notification sounds"
 msgstr "Désactiver tous les sons de notification"
 
@@ -8146,7 +8142,7 @@ msgstr "Chaque message ci-dessous montre une seule fonctionnalité Markdown avec
 msgid "Each unique invite can only be used once."
 msgstr "Chaque invitation unique ne peut être utilisée qu'une seule fois."
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:60
+#: src/components/modals/components/FeatureComparisonTable.tsx:59
 msgid "Early access to new features"
 msgstr "Accès anticipé aux nouvelles fonctionnalités"
 
@@ -8268,11 +8264,11 @@ msgstr "Modifier ou supprimer les émojis et autocollants créés par d'autres m
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "Modifier les permissions spécifiques pour les rôles et membres dans ce canal."
 
-#: src/components/modals/UserProfileMobileSheet.tsx:532
+#: src/components/modals/UserProfileMobileSheet.tsx:538
 #: src/components/modals/UserProfileModal.tsx:1262
 #: src/components/pages/YouPage.tsx:123
 #: src/components/popouts/UserAreaPopout.tsx:540
-#: src/components/popouts/UserProfilePopout.tsx:323
+#: src/components/popouts/UserProfilePopout.tsx:344
 msgid "Edit Profile"
 msgstr "Modifier le profil"
 
@@ -8449,7 +8445,7 @@ msgstr "Emoji"
 msgid "emoji {emojiName}"
 msgstr "emoji {emojiName}"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:54
+#: src/components/modals/components/FeatureComparisonTable.tsx:53
 msgid "Emoji & sticker packs"
 msgstr "Packs d'emojis et d'autocollants"
 
@@ -8549,7 +8545,7 @@ msgstr "Activez la 2FA sur votre compte pour changer ce paramètre"
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Active des fonctionnalités avancées pour le débogage et le développement. Copier les identifiants snowflake des entités reste toujours possible pour tous les utilisateurs sans besoin du mode développeur."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:163
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:123
 msgid "Enable All"
 msgstr "Tout activer"
 
@@ -9453,7 +9449,7 @@ msgstr "Impossible de rejoindre à nouveau la communauté Visionary. Réessaie."
 msgid "Failed to remove background image. Please try again."
 msgstr "Impossible de supprimer l'image de fond. Réessaie."
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:164
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:144
 msgid "Failed to remove custom sound"
 msgstr "Impossible de supprimer le son personnalisé"
 
@@ -9626,7 +9622,7 @@ msgstr "Impossible de mettre à jour les webhooks"
 msgid "Failed to upload background image. Please try again."
 msgstr "Impossible de télécharger l'image de fond. Réessaie."
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:142
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:122
 msgid "Failed to upload custom sound"
 msgstr "Impossible de télécharger le son personnalisé"
 
@@ -9721,7 +9717,7 @@ msgstr "favoris"
 msgid "Favorites"
 msgstr "Favoris"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:120
+#: src/components/modals/components/FeatureComparisonTable.tsx:119
 msgid "Feature"
 msgstr "Fonctionnalité"
 
@@ -9762,7 +9758,7 @@ msgstr "Limite de taille de fichier dépassée"
 msgid "File size too large"
 msgstr "Fichier trop volumineux"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:53
+#: src/components/modals/components/FeatureComparisonTable.tsx:52
 msgid "File upload size"
 msgstr "Taille maximale de téléchargement"
 
@@ -10247,7 +10243,7 @@ msgstr "Les fréquences d'images supérieures à 30 FPS nécessitent Plutonium"
 msgid "France"
 msgstr "France"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:125
+#: src/components/modals/components/FeatureComparisonTable.tsx:124
 msgid "Free"
 msgstr "Gratuit"
 
@@ -10493,7 +10489,6 @@ msgstr "Reçois une notification à chaque message. Tu dois peut-être autoriser
 #: src/components/modals/FluxerTagChangeModal.tsx:221
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:83
 #: src/components/modals/tabs/VideoTab.tsx:281
 #: src/components/uikit/plutonium_upsell/PlutoniumUpsell.tsx:72
 #: src/components/uikit/plutonium_upsell/PlutoniumUpsell.tsx:74
@@ -10666,7 +10661,7 @@ msgstr "Cadeaux et codes"
 msgid "Glad you're here, {username}! Watch out for Biff!"
 msgstr "Content que tu sois là, {username} ! Fais gaffe à Biff !"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:57
+#: src/components/modals/components/FeatureComparisonTable.tsx:56
 msgid "Global emoji & sticker access"
 msgstr "Accès global aux émojis et autocollants"
 
@@ -11866,7 +11861,7 @@ msgid "Invalid"
 msgstr "Invalide"
 
 #: src/components/modals/tabs/hooks/useEntranceSound.tsx:68
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:123
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:103
 msgid "Invalid audio file"
 msgstr "Fichier audio invalide"
 
@@ -13674,11 +13669,11 @@ msgstr "menus"
 
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:268
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:164
-#: src/components/modals/UserProfileMobileSheet.tsx:547
+#: src/components/modals/UserProfileMobileSheet.tsx:553
 #: src/components/modals/UserProfileModal.tsx:1246
 #: src/components/modals/UserProfileModal.tsx:1372
-#: src/components/popouts/UserProfilePopout.tsx:313
-#: src/components/popouts/UserProfilePopout.tsx:332
+#: src/components/popouts/UserProfilePopout.tsx:334
+#: src/components/popouts/UserProfilePopout.tsx:353
 #: src/components/profile/ProfilePreview.tsx:276
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:109
 #: src/components/uikit/context_menu/items/MessageUserMenuItem.tsx:77
@@ -13712,7 +13707,7 @@ msgstr "Les paramètres de la barre d'action de message ne sont disponibles que 
 msgid "Message AST"
 msgstr "Message AST"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:51
+#: src/components/modals/components/FeatureComparisonTable.tsx:50
 msgid "Message character limit"
 msgstr "Limite de caractères du message"
 
@@ -15108,7 +15103,7 @@ msgstr "Pas maintenant"
 msgid "Not your cup of tea? You can disable this feature anytime."
 msgstr "Ça ne te plaît pas ? Tu peux désactiver cette fonctionnalité à tout moment."
 
-#: src/components/modals/UserProfileMobileSheet.tsx:599
+#: src/components/modals/UserProfileMobileSheet.tsx:605
 #: src/components/modals/UserProfileModal.tsx:243
 #: src/components/modals/UserProfileModal.tsx:247
 #: src/components/pages/YouPage.tsx:144
@@ -15172,17 +15167,13 @@ msgstr "Paramètres de notification (muets)"
 msgid "notification sound"
 msgstr "son de notification"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:49
-msgid "Notification sounds"
-msgstr "Sons de notification"
-
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:539
 msgid "notifications"
 msgstr "notifications"
 
 #: src/components/layout/MobileBottomNav.tsx:117
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:63
-#: src/components/modals/tabs/NotificationsTab.tsx:64
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:62
+#: src/components/modals/tabs/NotificationsTab.tsx:63
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:537
 #: src/components/pages/NotificationsPage.tsx:51
 msgid "Notifications"
@@ -15509,15 +15500,15 @@ msgstr "Ouvrir le sélecteur de date"
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:143
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:145
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:268
-#: src/components/modals/UserProfileMobileSheet.tsx:318
-#: src/components/modals/UserProfileMobileSheet.tsx:320
-#: src/components/modals/UserProfileMobileSheet.tsx:547
+#: src/components/modals/UserProfileMobileSheet.tsx:324
+#: src/components/modals/UserProfileMobileSheet.tsx:326
+#: src/components/modals/UserProfileMobileSheet.tsx:553
 #: src/components/modals/UserProfileModal.tsx:1014
 #: src/components/modals/UserProfileModal.tsx:1016
 #: src/components/modals/UserProfileModal.tsx:1372
-#: src/components/popouts/UserProfilePopout.tsx:193
-#: src/components/popouts/UserProfilePopout.tsx:195
-#: src/components/popouts/UserProfilePopout.tsx:332
+#: src/components/popouts/UserProfilePopout.tsx:214
+#: src/components/popouts/UserProfilePopout.tsx:216
+#: src/components/popouts/UserProfilePopout.tsx:353
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:73
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:75
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:109
@@ -16446,7 +16437,7 @@ msgstr "plutonium"
 
 #: src/components/channel/direct_message/DMList.tsx:1326
 #: src/components/channel/direct_message/DMList.tsx:1405
-#: src/components/modals/components/FeatureComparisonTable.tsx:128
+#: src/components/modals/components/FeatureComparisonTable.tsx:127
 msgid "Plutonium"
 msgstr "Plutonium"
 
@@ -16870,8 +16861,8 @@ msgstr "notifications push"
 msgid "Push notifications"
 msgstr "Notifications push"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:91
-#: src/components/modals/tabs/NotificationsTab.tsx:95
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:89
+#: src/components/modals/tabs/NotificationsTab.tsx:93
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:612
 msgid "Push Settings"
 msgstr "Paramètres push"
@@ -17388,7 +17379,7 @@ msgstr "Supprimer le signet"
 msgid "Remove Connection"
 msgstr "Supprimer la connexion"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:146
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:106
 msgid "Remove Custom Sound"
 msgstr "Supprimer le son personnalisé"
 
@@ -17410,8 +17401,8 @@ msgstr "Supprimer le filtre"
 #: src/components/modals/UserProfileActionsSheet.tsx:116
 #: src/components/modals/UserProfileActionsSheet.tsx:118
 #: src/components/modals/UserProfileActionsSheet.tsx:279
-#: src/components/modals/UserProfileMobileSheet.tsx:344
-#: src/components/modals/UserProfileMobileSheet.tsx:346
+#: src/components/modals/UserProfileMobileSheet.tsx:350
+#: src/components/modals/UserProfileMobileSheet.tsx:352
 #: src/components/modals/UserProfileModal.tsx:1199
 #: src/components/modals/UserProfileModal.tsx:1285
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:643
@@ -17864,7 +17855,6 @@ msgstr "Requiert tout ce qui est dans Élevé, plus un numéro de téléphone v�
 msgid "Requires everything in Medium, plus being a member of the server for at least 10 minutes."
 msgstr "Requiert tout ce qui est dans Moyen, plus être membre du serveur depuis au moins 10 minutes."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:135
 #: src/components/modals/tabs/VideoTab.tsx:120
 #: src/components/modals/tabs/VideoTab.tsx:130
 #: src/components/modals/tabs/VideoTab.tsx:140
@@ -18407,7 +18397,7 @@ msgstr "Enregistrer la vidéo"
 msgid "saved"
 msgstr "enregistré"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:55
+#: src/components/modals/components/FeatureComparisonTable.tsx:54
 msgid "Saved media"
 msgstr "Médias enregistrés"
 
@@ -20126,8 +20116,8 @@ msgstr "effet sonore"
 msgid "sounds"
 msgstr "sons"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:69
-#: src/components/modals/tabs/NotificationsTab.tsx:71
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:68
+#: src/components/modals/tabs/NotificationsTab.tsx:70
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:557
 msgid "Sounds"
 msgstr "Sons"
@@ -21056,8 +21046,8 @@ msgid "text to speech"
 msgstr "texte en parole"
 
 #: src/components/modals/tabs/AccessibilityTab.tsx:209
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:86
-#: src/components/modals/tabs/NotificationsTab.tsx:89
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:84
+#: src/components/modals/tabs/NotificationsTab.tsx:87
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:261
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:589
 msgid "Text-to-speech"
@@ -22492,7 +22482,7 @@ msgstr "débloquer"
 #: src/components/modals/tabs/BlockedUsersTab.tsx:178
 #: src/components/modals/UserProfileActionsSheet.tsx:152
 #: src/components/modals/UserProfileActionsSheet.tsx:306
-#: src/components/modals/UserProfileMobileSheet.tsx:362
+#: src/components/modals/UserProfileMobileSheet.tsx:368
 #: src/components/modals/UserProfileModal.tsx:1105
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:668
 #: src/components/uikit/context_menu/items/RelationshipMenuItems.tsx:231
@@ -22508,7 +22498,7 @@ msgstr "Débloque cet utilisateur avant d'envoyer une demande d'ami."
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:217
 #: src/components/modals/tabs/BlockedUsersTab.tsx:63
 #: src/components/modals/UserProfileActionsSheet.tsx:150
-#: src/components/modals/UserProfileMobileSheet.tsx:360
+#: src/components/modals/UserProfileMobileSheet.tsx:366
 #: src/components/modals/UserProfileModal.tsx:1300
 #: src/utils/RelationshipActionUtils.tsx:173
 msgid "Unblock User"
@@ -22962,7 +22952,7 @@ msgstr "Jusqu'à ce que je le rallume"
 msgid "Unverified Email"
 msgstr "E-mail non vérifié"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:63
+#: src/components/modals/components/FeatureComparisonTable.tsx:62
 msgid "Up to 4K/60fps"
 msgstr "Jusqu'à 4K/60fps"
 
@@ -23143,7 +23133,7 @@ msgstr "Télécharger un fond personnalisé"
 msgid "Upload Custom Background"
 msgstr "Télécharger un fond personnalisé"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:125
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:96
 msgid "Upload Custom Sound"
 msgstr "Télécharger un son personnalisé"
 
@@ -23195,10 +23185,6 @@ msgstr "Télécharger sur {displayName}"
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:81
 msgid "Upload your message as a file"
 msgstr "Téléchargez votre message en tant que fichier"
-
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:74
-msgid "Upload your own custom notification sounds and ringtones. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM. Maximum file size: 2MB per sound."
-msgstr "Télécharge tes propres sons de notification et sonneries personnalisés. Formats pris en charge : MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM. Taille maximale : 2 Mo par son."
 
 #: src/components/modals/tabs/chat_settings_tab/MediaTab.tsx:148
 msgid "Uploaded attachments"
@@ -23265,7 +23251,7 @@ msgstr "Utiliser le type premium réel"
 msgid "Use an authenticator app to generate codes for two-factor authentication"
 msgstr "Utilise une application d'authentification pour générer les codes de validation à deux facteurs"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:56
+#: src/components/modals/components/FeatureComparisonTable.tsx:55
 msgid "Use animated emojis"
 msgstr "Utiliser des emojis animés"
 
@@ -23768,7 +23754,7 @@ msgid "Video"
 msgstr "Vidéo"
 
 #: src/components/channel/ChannelHeader.tsx:652
-#: src/components/modals/UserProfileMobileSheet.tsx:565
+#: src/components/modals/UserProfileMobileSheet.tsx:571
 msgid "Video Call"
 msgstr "Appel vidéo"
 
@@ -23793,7 +23779,7 @@ msgstr "Aperçu vidéo"
 msgid "Video progress"
 msgstr "Progression de la vidéo"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:58
+#: src/components/modals/components/FeatureComparisonTable.tsx:57
 msgid "Video quality"
 msgstr "Qualité vidéo"
 
@@ -24073,7 +24059,7 @@ msgstr "Appel vocal"
 
 #: src/components/channel/ChannelHeader.tsx:642
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:275
-#: src/components/modals/UserProfileMobileSheet.tsx:557
+#: src/components/modals/UserProfileMobileSheet.tsx:563
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:553
 msgid "Voice Call"
 msgstr "Appel vocal"
@@ -24804,9 +24790,9 @@ msgstr "Tu es redirigé vers Stripe pour finaliser le paiement. Reviens sur Flux
 #. placeholder {0}: displayUser.username
 #. placeholder {0}: user.username
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:144
-#: src/components/modals/UserProfileMobileSheet.tsx:319
+#: src/components/modals/UserProfileMobileSheet.tsx:325
 #: src/components/modals/UserProfileModal.tsx:1015
-#: src/components/popouts/UserProfilePopout.tsx:194
+#: src/components/popouts/UserProfilePopout.tsx:215
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:74
 #: src/components/uikit/context_menu/items/MessageUserMenuItem.tsx:66
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:208
@@ -24924,7 +24910,7 @@ msgid "You can't join while you're on timeout."
 msgstr "Tu ne peux pas rejoindre pendant ton timeout."
 
 #: src/components/modals/UserProfileModal.tsx:1239
-#: src/components/popouts/UserProfilePopout.tsx:306
+#: src/components/popouts/UserProfilePopout.tsx:327
 #: src/components/profile/ProfilePreview.tsx:268
 msgid "You can't message yourself"
 msgstr "Tu ne peux pas t'envoyer de message"
@@ -25487,7 +25473,7 @@ msgstr "Votre adresse email a été mise à jour."
 msgid "Your email has been verified. You can now log in to your account."
 msgstr "Ton e-mail a été vérifié. Tu peux maintenant te connecter à ton compte."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:90
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:64
 msgid "Your existing notification sound settings will be preserved."
 msgstr "Tes paramètres de son de notification actuels seront conservés."
 

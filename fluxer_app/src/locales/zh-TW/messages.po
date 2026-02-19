@@ -82,7 +82,7 @@ msgstr "(最多顯示 15 個)"
 msgid "(No content)"
 msgstr "(無內容)"
 
-#: src/components/modals/UserProfileMobileSheet.tsx:602
+#: src/components/modals/UserProfileMobileSheet.tsx:608
 #: src/components/pages/YouPage.tsx:147
 msgid "(only visible to you)"
 msgstr "(僅你可見)"
@@ -1450,7 +1450,7 @@ msgstr "7 天"
 msgid "720p"
 msgstr "720p"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:62
+#: src/components/modals/components/FeatureComparisonTable.tsx:61
 msgid "720p/30fps"
 msgstr "720p/30fps"
 
@@ -1512,7 +1512,7 @@ msgid "about me"
 msgstr "關於我"
 
 #: src/components/modals/tabs/my_profile_tab/BioEditor.tsx:130
-#: src/components/modals/UserProfileMobileSheet.tsx:578
+#: src/components/modals/UserProfileMobileSheet.tsx:584
 #: src/components/pages/YouPage.tsx:132
 msgid "About Me"
 msgstr "關於我"
@@ -2522,7 +2522,7 @@ msgstr "動態頭像（GIF、APNG、動態WebP、AVIF）是僅限於Plutonium訂
 msgid "Animated avatars (GIF, APNG, animated WebP, AVIF) are not available on this instance. Please upload a static image instead."
 msgstr "此實例不支援動畫頭像（GIF、APNG、動畫 WebP、AVIF）。請上傳靜態圖片。"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:59
+#: src/components/modals/components/FeatureComparisonTable.tsx:58
 msgid "Animated avatars & banners"
 msgstr "動畫大頭貼與橫幅"
 
@@ -2914,7 +2914,7 @@ msgstr "確定要將 {0} 設為群組擁有者嗎？你將失去擁有者權限�
 #. placeholder {0}: user.username
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:184
 #: src/components/modals/UserProfileActionsSheet.tsx:117
-#: src/components/modals/UserProfileMobileSheet.tsx:345
+#: src/components/modals/UserProfileMobileSheet.tsx:351
 #: src/utils/RelationshipActionUtils.tsx:120
 msgid "Are you sure you want to remove {0} as a friend?"
 msgstr "確定要移除 {0} 為好友嗎？"
@@ -2961,7 +2961,7 @@ msgstr "確定要將群組所有權轉移給 {0} 嗎？"
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:218
 #: src/components/modals/tabs/BlockedUsersTab.tsx:64
 #: src/components/modals/UserProfileActionsSheet.tsx:151
-#: src/components/modals/UserProfileMobileSheet.tsx:361
+#: src/components/modals/UserProfileMobileSheet.tsx:367
 #: src/utils/RelationshipActionUtils.tsx:174
 msgid "Are you sure you want to unblock {0}?"
 msgstr "確定要解除封鎖 {0} 嗎？"
@@ -3740,7 +3740,7 @@ msgstr "加入書籤"
 msgid "Bookmark messages to save them for later."
 msgstr "將訊息加入書籤以便稍後查看。"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:52
+#: src/components/modals/components/FeatureComparisonTable.tsx:51
 msgid "Bookmarked messages"
 msgstr "已加書籤的訊息"
 
@@ -5041,7 +5041,7 @@ msgstr "點擊或拖放"
 msgid "Click the text below to edit it inline. Press Enter to save or Escape to cancel."
 msgstr "點擊下方文字即可直接編輯。按 Enter 儲存，按 Esc 取消。"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:97
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:70
 msgid "Click the upload icon next to any sound to customize it with your own audio file. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM (max 2MB)."
 msgstr "點擊任一音效旁的上傳圖示即可自訂音訊檔。支援格式：MP3、WAV、OGG、M4A、AAC、FLAC、Opus、WebM（最大 2MB）。"
 
@@ -5328,7 +5328,7 @@ msgstr "舒適佈局"
 msgid "Communication"
 msgstr "溝通"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:50
+#: src/components/modals/components/FeatureComparisonTable.tsx:49
 #: src/stores/QuickSwitcherStore.tsx:1354
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
@@ -5630,7 +5630,7 @@ msgstr "設定此身分組的覆寫"
 msgid "Configure role settings and permissions"
 msgstr "設定身分組的設定與權限"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:65
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:60
 msgid "Configure which sounds to play and when."
 msgstr "設定何時播放哪些聲音。"
 
@@ -5893,8 +5893,8 @@ msgstr "控制您如何加入社群語音頻道。"
 msgid "Control how your Plutonium badge is displayed to others"
 msgstr "控制其他人看到您的 Plutonium 徽章方式"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:87
-#: src/components/modals/tabs/NotificationsTab.tsx:90
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:85
+#: src/components/modals/tabs/NotificationsTab.tsx:88
 msgid "Control speech commands and narration for incoming content."
 msgstr "Control speech commands and narration for incoming content."
 
@@ -6642,11 +6642,11 @@ msgstr "自定義範圍..."
 msgid "custom ringtone"
 msgstr "自訂鈴聲"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:159
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:139
 msgid "Custom sound removed"
 msgstr "自訂音效已移除"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:137
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:117
 msgid "Custom sound uploaded successfully"
 msgstr "自訂音效上傳成功"
 
@@ -6666,7 +6666,7 @@ msgstr "自訂貼圖"
 msgid "Custom Theme Tokens"
 msgstr "自定義主題標記"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:61
+#: src/components/modals/components/FeatureComparisonTable.tsx:60
 msgid "Custom themes"
 msgstr "自訂主題"
 
@@ -6730,10 +6730,6 @@ msgstr "透過 Plutonium 自訂你的 4 位數標籤（#{discriminator}）"
 #: src/components/modals/FluxerTagChangeModal.tsx:272
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "更改使用者名稱時可同時自訂或保留 4 位數標籤"
-
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:71
-msgid "Customize your notification sounds with Plutonium"
-msgstr "使用 Plutonium 自定義你的通知聲音"
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:58
 msgid "Customize your profile banner"
@@ -7542,11 +7538,11 @@ msgstr "停用"
 msgid "Disable Account"
 msgstr "停用帳號"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:172
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:132
 msgid "Disable All"
 msgstr "全部停用"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:89
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:63
 msgid "Disable all notification sounds"
 msgstr "禁用所有通知聲音"
 
@@ -8146,7 +8142,7 @@ msgstr "以下每則訊息示範一項 Markdown 功能並提供即時預覽。"
 msgid "Each unique invite can only be used once."
 msgstr "每個邀請皆僅能使用一次。"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:60
+#: src/components/modals/components/FeatureComparisonTable.tsx:59
 msgid "Early access to new features"
 msgstr "搶先使用新功能"
 
@@ -8268,11 +8264,11 @@ msgstr "編輯或刪除其他成員創建的表情符號和貼紙。"
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "編輯此頻道中角色與成員的覆寫權限。"
 
-#: src/components/modals/UserProfileMobileSheet.tsx:532
+#: src/components/modals/UserProfileMobileSheet.tsx:538
 #: src/components/modals/UserProfileModal.tsx:1262
 #: src/components/pages/YouPage.tsx:123
 #: src/components/popouts/UserAreaPopout.tsx:540
-#: src/components/popouts/UserProfilePopout.tsx:323
+#: src/components/popouts/UserProfilePopout.tsx:344
 msgid "Edit Profile"
 msgstr "編輯個人檔案"
 
@@ -8449,7 +8445,7 @@ msgstr "表情符號"
 msgid "emoji {emojiName}"
 msgstr "表情符號 {emojiName}"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:54
+#: src/components/modals/components/FeatureComparisonTable.tsx:53
 msgid "Emoji & sticker packs"
 msgstr "表情符號與貼圖包"
 
@@ -8549,7 +8545,7 @@ msgstr "啟用 2FA 以更改此設置"
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "啟用進階功能以進行除錯與開發。請注意，所有使用者都能複製實體的雪花 ID，不需要開發者模式。"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:163
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:123
 msgid "Enable All"
 msgstr "全部啟用"
 
@@ -9453,7 +9449,7 @@ msgstr "無法重新加入 Visionary 社群。請再試一次。"
 msgid "Failed to remove background image. Please try again."
 msgstr "無法移除背景圖片。請再試一次。"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:164
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:144
 msgid "Failed to remove custom sound"
 msgstr "無法移除自訂音效"
 
@@ -9626,7 +9622,7 @@ msgstr "無法更新 Webhook"
 msgid "Failed to upload background image. Please try again."
 msgstr "無法上傳背景圖片。請再試一次。"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:142
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:122
 msgid "Failed to upload custom sound"
 msgstr "無法上傳自訂音效"
 
@@ -9721,7 +9717,7 @@ msgstr "最愛"
 msgid "Favorites"
 msgstr "我的最愛"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:120
+#: src/components/modals/components/FeatureComparisonTable.tsx:119
 msgid "Feature"
 msgstr "功能"
 
@@ -9762,7 +9758,7 @@ msgstr "檔案大小限制超過"
 msgid "File size too large"
 msgstr "檔案過大"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:53
+#: src/components/modals/components/FeatureComparisonTable.tsx:52
 msgid "File upload size"
 msgstr "檔案上傳大小"
 
@@ -10247,7 +10243,7 @@ msgstr "超過 30 幀數的幀率需要 Plutonium"
 msgid "France"
 msgstr "法國"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:125
+#: src/components/modals/components/FeatureComparisonTable.tsx:124
 msgid "Free"
 msgstr "免費"
 
@@ -10493,7 +10489,6 @@ msgstr "收到訊息時會通知你。可能需要在瀏覽器設定中允許通
 #: src/components/modals/FluxerTagChangeModal.tsx:221
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:83
 #: src/components/modals/tabs/VideoTab.tsx:281
 #: src/components/uikit/plutonium_upsell/PlutoniumUpsell.tsx:72
 #: src/components/uikit/plutonium_upsell/PlutoniumUpsell.tsx:74
@@ -10666,7 +10661,7 @@ msgstr "禮物與代碼"
 msgid "Glad you're here, {username}! Watch out for Biff!"
 msgstr "很高興你來了，{username}！小心 Biff！"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:57
+#: src/components/modals/components/FeatureComparisonTable.tsx:56
 msgid "Global emoji & sticker access"
 msgstr "全球表情符號與貼圖存取"
 
@@ -11866,7 +11861,7 @@ msgid "Invalid"
 msgstr "無效"
 
 #: src/components/modals/tabs/hooks/useEntranceSound.tsx:68
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:123
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:103
 msgid "Invalid audio file"
 msgstr "無效的音訊檔案"
 
@@ -13674,11 +13669,11 @@ msgstr "選單"
 
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:268
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:164
-#: src/components/modals/UserProfileMobileSheet.tsx:547
+#: src/components/modals/UserProfileMobileSheet.tsx:553
 #: src/components/modals/UserProfileModal.tsx:1246
 #: src/components/modals/UserProfileModal.tsx:1372
-#: src/components/popouts/UserProfilePopout.tsx:313
-#: src/components/popouts/UserProfilePopout.tsx:332
+#: src/components/popouts/UserProfilePopout.tsx:334
+#: src/components/popouts/UserProfilePopout.tsx:353
 #: src/components/profile/ProfilePreview.tsx:276
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:109
 #: src/components/uikit/context_menu/items/MessageUserMenuItem.tsx:77
@@ -13712,7 +13707,7 @@ msgstr "訊息操作列設定僅在桌面上可用。"
 msgid "Message AST"
 msgstr "訊息 AST"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:51
+#: src/components/modals/components/FeatureComparisonTable.tsx:50
 msgid "Message character limit"
 msgstr "訊息字元限制"
 
@@ -15108,7 +15103,7 @@ msgstr "稍後再說"
 msgid "Not your cup of tea? You can disable this feature anytime."
 msgstr "不合你的胃口嗎？你可以隨時關閉此功能。"
 
-#: src/components/modals/UserProfileMobileSheet.tsx:599
+#: src/components/modals/UserProfileMobileSheet.tsx:605
 #: src/components/modals/UserProfileModal.tsx:243
 #: src/components/modals/UserProfileModal.tsx:247
 #: src/components/pages/YouPage.tsx:144
@@ -15172,17 +15167,13 @@ msgstr "通知設定（靜音）"
 msgid "notification sound"
 msgstr "通知聲音"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:49
-msgid "Notification sounds"
-msgstr "通知音效"
-
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:539
 msgid "notifications"
 msgstr "通知"
 
 #: src/components/layout/MobileBottomNav.tsx:117
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:63
-#: src/components/modals/tabs/NotificationsTab.tsx:64
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:62
+#: src/components/modals/tabs/NotificationsTab.tsx:63
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:537
 #: src/components/pages/NotificationsPage.tsx:51
 msgid "Notifications"
@@ -15509,15 +15500,15 @@ msgstr "打開日期選擇器"
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:143
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:145
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:268
-#: src/components/modals/UserProfileMobileSheet.tsx:318
-#: src/components/modals/UserProfileMobileSheet.tsx:320
-#: src/components/modals/UserProfileMobileSheet.tsx:547
+#: src/components/modals/UserProfileMobileSheet.tsx:324
+#: src/components/modals/UserProfileMobileSheet.tsx:326
+#: src/components/modals/UserProfileMobileSheet.tsx:553
 #: src/components/modals/UserProfileModal.tsx:1014
 #: src/components/modals/UserProfileModal.tsx:1016
 #: src/components/modals/UserProfileModal.tsx:1372
-#: src/components/popouts/UserProfilePopout.tsx:193
-#: src/components/popouts/UserProfilePopout.tsx:195
-#: src/components/popouts/UserProfilePopout.tsx:332
+#: src/components/popouts/UserProfilePopout.tsx:214
+#: src/components/popouts/UserProfilePopout.tsx:216
+#: src/components/popouts/UserProfilePopout.tsx:353
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:73
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:75
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:109
@@ -16446,7 +16437,7 @@ msgstr "鈽"
 
 #: src/components/channel/direct_message/DMList.tsx:1326
 #: src/components/channel/direct_message/DMList.tsx:1405
-#: src/components/modals/components/FeatureComparisonTable.tsx:128
+#: src/components/modals/components/FeatureComparisonTable.tsx:127
 msgid "Plutonium"
 msgstr "Plutonium"
 
@@ -16870,8 +16861,8 @@ msgstr "推送通知"
 msgid "Push notifications"
 msgstr "推播通知"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:91
-#: src/components/modals/tabs/NotificationsTab.tsx:95
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:89
+#: src/components/modals/tabs/NotificationsTab.tsx:93
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:612
 msgid "Push Settings"
 msgstr "推播設定"
@@ -17388,7 +17379,7 @@ msgstr "移除書籤"
 msgid "Remove Connection"
 msgstr "移除連接"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:146
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:106
 msgid "Remove Custom Sound"
 msgstr "移除自訂音效"
 
@@ -17410,8 +17401,8 @@ msgstr "移除篩選器"
 #: src/components/modals/UserProfileActionsSheet.tsx:116
 #: src/components/modals/UserProfileActionsSheet.tsx:118
 #: src/components/modals/UserProfileActionsSheet.tsx:279
-#: src/components/modals/UserProfileMobileSheet.tsx:344
-#: src/components/modals/UserProfileMobileSheet.tsx:346
+#: src/components/modals/UserProfileMobileSheet.tsx:350
+#: src/components/modals/UserProfileMobileSheet.tsx:352
 #: src/components/modals/UserProfileModal.tsx:1199
 #: src/components/modals/UserProfileModal.tsx:1285
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:643
@@ -17864,7 +17855,6 @@ msgstr "需要包含高級別所有項目，另加驗證過的電話號碼。"
 msgid "Requires everything in Medium, plus being a member of the server for at least 10 minutes."
 msgstr "需要包含中等級別所有項目，另加在此伺服器成員身份至少 10 分鐘。"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:135
 #: src/components/modals/tabs/VideoTab.tsx:120
 #: src/components/modals/tabs/VideoTab.tsx:130
 #: src/components/modals/tabs/VideoTab.tsx:140
@@ -18407,7 +18397,7 @@ msgstr "儲存影片"
 msgid "saved"
 msgstr "已儲存"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:55
+#: src/components/modals/components/FeatureComparisonTable.tsx:54
 msgid "Saved media"
 msgstr "已儲存媒體"
 
@@ -20126,8 +20116,8 @@ msgstr "音效"
 msgid "sounds"
 msgstr "聲音"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:69
-#: src/components/modals/tabs/NotificationsTab.tsx:71
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:68
+#: src/components/modals/tabs/NotificationsTab.tsx:70
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:557
 msgid "Sounds"
 msgstr "聲音"
@@ -21056,8 +21046,8 @@ msgid "text to speech"
 msgstr "文字轉語音"
 
 #: src/components/modals/tabs/AccessibilityTab.tsx:209
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:86
-#: src/components/modals/tabs/NotificationsTab.tsx:89
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:84
+#: src/components/modals/tabs/NotificationsTab.tsx:87
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:261
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:589
 msgid "Text-to-speech"
@@ -22492,7 +22482,7 @@ msgstr "解除封鎖"
 #: src/components/modals/tabs/BlockedUsersTab.tsx:178
 #: src/components/modals/UserProfileActionsSheet.tsx:152
 #: src/components/modals/UserProfileActionsSheet.tsx:306
-#: src/components/modals/UserProfileMobileSheet.tsx:362
+#: src/components/modals/UserProfileMobileSheet.tsx:368
 #: src/components/modals/UserProfileModal.tsx:1105
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:668
 #: src/components/uikit/context_menu/items/RelationshipMenuItems.tsx:231
@@ -22508,7 +22498,7 @@ msgstr "寄送好友邀請前請先解除封鎖此用戶。"
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:217
 #: src/components/modals/tabs/BlockedUsersTab.tsx:63
 #: src/components/modals/UserProfileActionsSheet.tsx:150
-#: src/components/modals/UserProfileMobileSheet.tsx:360
+#: src/components/modals/UserProfileMobileSheet.tsx:366
 #: src/components/modals/UserProfileModal.tsx:1300
 #: src/utils/RelationshipActionUtils.tsx:173
 msgid "Unblock User"
@@ -22962,7 +22952,7 @@ msgstr "直到我重新開啟"
 msgid "Unverified Email"
 msgstr "未驗證電子郵件"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:63
+#: src/components/modals/components/FeatureComparisonTable.tsx:62
 msgid "Up to 4K/60fps"
 msgstr "最高 4K/60fps"
 
@@ -23143,7 +23133,7 @@ msgstr "上傳自訂背景"
 msgid "Upload Custom Background"
 msgstr "上傳自訂背景"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:125
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:96
 msgid "Upload Custom Sound"
 msgstr "上傳自定義聲音"
 
@@ -23195,10 +23185,6 @@ msgstr "上傳至 {displayName}"
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:81
 msgid "Upload your message as a file"
 msgstr "將您的訊息上傳為檔案"
-
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:74
-msgid "Upload your own custom notification sounds and ringtones. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM. Maximum file size: 2MB per sound."
-msgstr "上傳自訂通知音效與鈴聲。支援格式：MP3、WAV、OGG、M4A、AAC、FLAC、Opus、WebM。每個音效最大 2MB。"
 
 #: src/components/modals/tabs/chat_settings_tab/MediaTab.tsx:148
 msgid "Uploaded attachments"
@@ -23265,7 +23251,7 @@ msgstr "使用實際的高級類型"
 msgid "Use an authenticator app to generate codes for two-factor authentication"
 msgstr "使用驗證器 App 產生雙重驗證代碼"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:56
+#: src/components/modals/components/FeatureComparisonTable.tsx:55
 msgid "Use animated emojis"
 msgstr "使用動態表情符號"
 
@@ -23768,7 +23754,7 @@ msgid "Video"
 msgstr "影片"
 
 #: src/components/channel/ChannelHeader.tsx:652
-#: src/components/modals/UserProfileMobileSheet.tsx:565
+#: src/components/modals/UserProfileMobileSheet.tsx:571
 msgid "Video Call"
 msgstr "視訊通話"
 
@@ -23793,7 +23779,7 @@ msgstr "影片預覽"
 msgid "Video progress"
 msgstr "視頻進度"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:58
+#: src/components/modals/components/FeatureComparisonTable.tsx:57
 msgid "Video quality"
 msgstr "影片品質"
 
@@ -24073,7 +24059,7 @@ msgstr "語音通話"
 
 #: src/components/channel/ChannelHeader.tsx:642
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:275
-#: src/components/modals/UserProfileMobileSheet.tsx:557
+#: src/components/modals/UserProfileMobileSheet.tsx:563
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:553
 msgid "Voice Call"
 msgstr "語音通話"
@@ -24804,9 +24790,9 @@ msgstr "您現在將導向 Stripe 完成付款，完成後請回到 Fluxer！"
 #. placeholder {0}: displayUser.username
 #. placeholder {0}: user.username
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:144
-#: src/components/modals/UserProfileMobileSheet.tsx:319
+#: src/components/modals/UserProfileMobileSheet.tsx:325
 #: src/components/modals/UserProfileModal.tsx:1015
-#: src/components/popouts/UserProfilePopout.tsx:194
+#: src/components/popouts/UserProfilePopout.tsx:215
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:74
 #: src/components/uikit/context_menu/items/MessageUserMenuItem.tsx:66
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:208
@@ -24924,7 +24910,7 @@ msgid "You can't join while you're on timeout."
 msgstr "您在冷卻期間無法加入。"
 
 #: src/components/modals/UserProfileModal.tsx:1239
-#: src/components/popouts/UserProfilePopout.tsx:306
+#: src/components/popouts/UserProfilePopout.tsx:327
 #: src/components/profile/ProfilePreview.tsx:268
 msgid "You can't message yourself"
 msgstr "您無法傳送訊息給自己"
@@ -25487,7 +25473,7 @@ msgstr "您的電子郵件地址已更新。"
 msgid "Your email has been verified. You can now log in to your account."
 msgstr "您的電子郵件已驗證。您現在可以登入帳號。"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:90
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:64
 msgid "Your existing notification sound settings will be preserved."
 msgstr "您現有的通知音效設定將予以保留。"
 

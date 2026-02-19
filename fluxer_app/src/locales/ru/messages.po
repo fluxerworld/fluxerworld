@@ -82,7 +82,7 @@ msgstr "(показано максимум 15)"
 msgid "(No content)"
 msgstr "(Нет содержимого)"
 
-#: src/components/modals/UserProfileMobileSheet.tsx:602
+#: src/components/modals/UserProfileMobileSheet.tsx:608
 #: src/components/pages/YouPage.tsx:147
 msgid "(only visible to you)"
 msgstr "(видно только тебе)"
@@ -1450,7 +1450,7 @@ msgstr "7 дней"
 msgid "720p"
 msgstr "720p"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:62
+#: src/components/modals/components/FeatureComparisonTable.tsx:61
 msgid "720p/30fps"
 msgstr "720p/30fps"
 
@@ -1512,7 +1512,7 @@ msgid "about me"
 msgstr "обо мне"
 
 #: src/components/modals/tabs/my_profile_tab/BioEditor.tsx:130
-#: src/components/modals/UserProfileMobileSheet.tsx:578
+#: src/components/modals/UserProfileMobileSheet.tsx:584
 #: src/components/pages/YouPage.tsx:132
 msgid "About Me"
 msgstr "Обо мне"
@@ -2522,7 +2522,7 @@ msgstr "Анимированные аватары (GIF, APNG, анимирова
 msgid "Animated avatars (GIF, APNG, animated WebP, AVIF) are not available on this instance. Please upload a static image instead."
 msgstr "Анимированные аватары (GIF, APNG, анимированный WebP, AVIF) недоступны в этой инстанции. Пожалуйста, загрузите статическое изображение."
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:59
+#: src/components/modals/components/FeatureComparisonTable.tsx:58
 msgid "Animated avatars & banners"
 msgstr "Анимированные аватары и баннеры"
 
@@ -2914,7 +2914,7 @@ msgstr "Ты уверен, что хочешь передать владение
 #. placeholder {0}: user.username
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:184
 #: src/components/modals/UserProfileActionsSheet.tsx:117
-#: src/components/modals/UserProfileMobileSheet.tsx:345
+#: src/components/modals/UserProfileMobileSheet.tsx:351
 #: src/utils/RelationshipActionUtils.tsx:120
 msgid "Are you sure you want to remove {0} as a friend?"
 msgstr "Ты уверен, что хочешь удалить {0} из друзей?"
@@ -2961,7 +2961,7 @@ msgstr "Ты уверен, что хочешь передать владение
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:218
 #: src/components/modals/tabs/BlockedUsersTab.tsx:64
 #: src/components/modals/UserProfileActionsSheet.tsx:151
-#: src/components/modals/UserProfileMobileSheet.tsx:361
+#: src/components/modals/UserProfileMobileSheet.tsx:367
 #: src/utils/RelationshipActionUtils.tsx:174
 msgid "Are you sure you want to unblock {0}?"
 msgstr "Ты уверен, что хочешь разблокировать {0}?"
@@ -3740,7 +3740,7 @@ msgstr "Добавить сообщение в закладки"
 msgid "Bookmark messages to save them for later."
 msgstr "Сохраняйте сообщения в закладки, чтобы вернуться к ним позже."
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:52
+#: src/components/modals/components/FeatureComparisonTable.tsx:51
 msgid "Bookmarked messages"
 msgstr "Сохранённые сообщения"
 
@@ -5041,7 +5041,7 @@ msgstr "Нажми или перетащи"
 msgid "Click the text below to edit it inline. Press Enter to save or Escape to cancel."
 msgstr "Нажми текст ниже, чтобы редактировать прямо в поле. Enter — сохранить, Escape — отменить."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:97
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:70
 msgid "Click the upload icon next to any sound to customize it with your own audio file. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM (max 2MB)."
 msgstr "Нажми значок загрузки рядом с любым звуком, чтобы заменить его своим файлом. Поддерживаемые форматы: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM (макс 2 МБ)."
 
@@ -5328,7 +5328,7 @@ msgstr "Комфортная верстка"
 msgid "Communication"
 msgstr "Общение"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:50
+#: src/components/modals/components/FeatureComparisonTable.tsx:49
 #: src/stores/QuickSwitcherStore.tsx:1354
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
@@ -5630,7 +5630,7 @@ msgstr "Настроить переопределения для этой рол
 msgid "Configure role settings and permissions"
 msgstr "Настроить параметры и разрешения роли"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:65
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:60
 msgid "Configure which sounds to play and when."
 msgstr "Выберите, какие звуки и когда проигрывать."
 
@@ -5893,8 +5893,8 @@ msgstr "Управляйте подключением к голосовым ка
 msgid "Control how your Plutonium badge is displayed to others"
 msgstr "Управляйте отображением вашего значка Plutonium для других"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:87
-#: src/components/modals/tabs/NotificationsTab.tsx:90
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:85
+#: src/components/modals/tabs/NotificationsTab.tsx:88
 msgid "Control speech commands and narration for incoming content."
 msgstr "Control speech commands and narration for incoming content."
 
@@ -6642,11 +6642,11 @@ msgstr "Пользовательский диапазон..."
 msgid "custom ringtone"
 msgstr "пользовательский рингтон"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:159
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:139
 msgid "Custom sound removed"
 msgstr "Пользовательский звук удалён"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:137
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:117
 msgid "Custom sound uploaded successfully"
 msgstr "Пользовательский звук успешно загружен"
 
@@ -6666,7 +6666,7 @@ msgstr "Пользовательские стикеры"
 msgid "Custom Theme Tokens"
 msgstr "Пользовательские токены темы"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:61
+#: src/components/modals/components/FeatureComparisonTable.tsx:60
 msgid "Custom themes"
 msgstr "Пользовательские темы"
 
@@ -6730,10 +6730,6 @@ msgstr "Настрой свой 4-значный тег (#{discriminator}) по 
 #: src/components/modals/FluxerTagChangeModal.tsx:272
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Настрой 4-значный тег или сохрани его при смене имени"
-
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:71
-msgid "Customize your notification sounds with Plutonium"
-msgstr "Настройте свои звуки уведомлений с помощью Plutonium"
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:58
 msgid "Customize your profile banner"
@@ -7542,11 +7538,11 @@ msgstr "Отключить"
 msgid "Disable Account"
 msgstr "Отключить аккаунт"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:172
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:132
 msgid "Disable All"
 msgstr "Отключить всё"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:89
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:63
 msgid "Disable all notification sounds"
 msgstr "Отключить все звуки уведомлений"
 
@@ -8146,7 +8142,7 @@ msgstr "Каждое сообщение ниже демонстрирует од
 msgid "Each unique invite can only be used once."
 msgstr "Каждое уникальное приглашение можно использовать только один раз."
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:60
+#: src/components/modals/components/FeatureComparisonTable.tsx:59
 msgid "Early access to new features"
 msgstr "Ранний доступ к новым функциям"
 
@@ -8268,11 +8264,11 @@ msgstr "Редактируйте или удаляйте эмодзи и сти�
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "Измени переопределения для ролей и участников в этом канале."
 
-#: src/components/modals/UserProfileMobileSheet.tsx:532
+#: src/components/modals/UserProfileMobileSheet.tsx:538
 #: src/components/modals/UserProfileModal.tsx:1262
 #: src/components/pages/YouPage.tsx:123
 #: src/components/popouts/UserAreaPopout.tsx:540
-#: src/components/popouts/UserProfilePopout.tsx:323
+#: src/components/popouts/UserProfilePopout.tsx:344
 msgid "Edit Profile"
 msgstr "Редактировать профиль"
 
@@ -8449,7 +8445,7 @@ msgstr "Эмодзи"
 msgid "emoji {emojiName}"
 msgstr "эмодзи {emojiName}"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:54
+#: src/components/modals/components/FeatureComparisonTable.tsx:53
 msgid "Emoji & sticker packs"
 msgstr "Пакеты эмодзи и стикеров"
 
@@ -8549,7 +8545,7 @@ msgstr "Включите 2FA в вашем аккаунте, чтобы изме
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Включи расширенные функции для отладки и разработки. Учти, что копировать идентификаторы объектов (snowflake) всегда можно без режима разработчика."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:163
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:123
 msgid "Enable All"
 msgstr "Включить всё"
 
@@ -9453,7 +9449,7 @@ msgstr "Не удалось снова присоединиться к сооб�
 msgid "Failed to remove background image. Please try again."
 msgstr "Не удалось удалить фоновое изображение. Попробуй снова."
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:164
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:144
 msgid "Failed to remove custom sound"
 msgstr "Не удалось удалить пользовательский звук"
 
@@ -9626,7 +9622,7 @@ msgstr "Не удалось обновить вебхуки"
 msgid "Failed to upload background image. Please try again."
 msgstr "Не удалось загрузить фоновое изображение. Повторите попытку."
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:142
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:122
 msgid "Failed to upload custom sound"
 msgstr "Не удалось загрузить пользовательский звук"
 
@@ -9721,7 +9717,7 @@ msgstr "избранное"
 msgid "Favorites"
 msgstr "Избранные"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:120
+#: src/components/modals/components/FeatureComparisonTable.tsx:119
 msgid "Feature"
 msgstr "Функция"
 
@@ -9762,7 +9758,7 @@ msgstr "Превышен лимит размера файла"
 msgid "File size too large"
 msgstr "Размер файла слишком большой"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:53
+#: src/components/modals/components/FeatureComparisonTable.tsx:52
 msgid "File upload size"
 msgstr "Размер загружаемого файла"
 
@@ -10247,7 +10243,7 @@ msgstr "Частота кадров выше 30 FPS требует Plutonium"
 msgid "France"
 msgstr "Франция"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:125
+#: src/components/modals/components/FeatureComparisonTable.tsx:124
 msgid "Free"
 msgstr "Бесплатно"
 
@@ -10493,7 +10489,6 @@ msgstr "Получай уведомления о новых сообщениях
 #: src/components/modals/FluxerTagChangeModal.tsx:221
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:83
 #: src/components/modals/tabs/VideoTab.tsx:281
 #: src/components/uikit/plutonium_upsell/PlutoniumUpsell.tsx:72
 #: src/components/uikit/plutonium_upsell/PlutoniumUpsell.tsx:74
@@ -10666,7 +10661,7 @@ msgstr "Подарки и коды"
 msgid "Glad you're here, {username}! Watch out for Biff!"
 msgstr "Рад видеть тебя, {username}! Берегись Бифа!"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:57
+#: src/components/modals/components/FeatureComparisonTable.tsx:56
 msgid "Global emoji & sticker access"
 msgstr "Глобальный доступ к эмодзи и стикерам"
 
@@ -11866,7 +11861,7 @@ msgid "Invalid"
 msgstr "Недействительно"
 
 #: src/components/modals/tabs/hooks/useEntranceSound.tsx:68
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:123
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:103
 msgid "Invalid audio file"
 msgstr "Неверный аудиофайл"
 
@@ -13674,11 +13669,11 @@ msgstr "меню"
 
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:268
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:164
-#: src/components/modals/UserProfileMobileSheet.tsx:547
+#: src/components/modals/UserProfileMobileSheet.tsx:553
 #: src/components/modals/UserProfileModal.tsx:1246
 #: src/components/modals/UserProfileModal.tsx:1372
-#: src/components/popouts/UserProfilePopout.tsx:313
-#: src/components/popouts/UserProfilePopout.tsx:332
+#: src/components/popouts/UserProfilePopout.tsx:334
+#: src/components/popouts/UserProfilePopout.tsx:353
 #: src/components/profile/ProfilePreview.tsx:276
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:109
 #: src/components/uikit/context_menu/items/MessageUserMenuItem.tsx:77
@@ -13712,7 +13707,7 @@ msgstr "Настройки панели действий сообщения до
 msgid "Message AST"
 msgstr "AST сообщения"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:51
+#: src/components/modals/components/FeatureComparisonTable.tsx:50
 msgid "Message character limit"
 msgstr "Ограничение символов в сообщении"
 
@@ -15108,7 +15103,7 @@ msgstr "Не сейчас"
 msgid "Not your cup of tea? You can disable this feature anytime."
 msgstr "Не твоё? Ты всегда можешь отключить эту функцию."
 
-#: src/components/modals/UserProfileMobileSheet.tsx:599
+#: src/components/modals/UserProfileMobileSheet.tsx:605
 #: src/components/modals/UserProfileModal.tsx:243
 #: src/components/modals/UserProfileModal.tsx:247
 #: src/components/pages/YouPage.tsx:144
@@ -15172,17 +15167,13 @@ msgstr "Настройки уведомлений (без звука)"
 msgid "notification sound"
 msgstr "звук уведомления"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:49
-msgid "Notification sounds"
-msgstr "Звуки уведомлений"
-
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:539
 msgid "notifications"
 msgstr "уведомления"
 
 #: src/components/layout/MobileBottomNav.tsx:117
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:63
-#: src/components/modals/tabs/NotificationsTab.tsx:64
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:62
+#: src/components/modals/tabs/NotificationsTab.tsx:63
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:537
 #: src/components/pages/NotificationsPage.tsx:51
 msgid "Notifications"
@@ -15509,15 +15500,15 @@ msgstr "Открыть выбор даты"
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:143
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:145
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:268
-#: src/components/modals/UserProfileMobileSheet.tsx:318
-#: src/components/modals/UserProfileMobileSheet.tsx:320
-#: src/components/modals/UserProfileMobileSheet.tsx:547
+#: src/components/modals/UserProfileMobileSheet.tsx:324
+#: src/components/modals/UserProfileMobileSheet.tsx:326
+#: src/components/modals/UserProfileMobileSheet.tsx:553
 #: src/components/modals/UserProfileModal.tsx:1014
 #: src/components/modals/UserProfileModal.tsx:1016
 #: src/components/modals/UserProfileModal.tsx:1372
-#: src/components/popouts/UserProfilePopout.tsx:193
-#: src/components/popouts/UserProfilePopout.tsx:195
-#: src/components/popouts/UserProfilePopout.tsx:332
+#: src/components/popouts/UserProfilePopout.tsx:214
+#: src/components/popouts/UserProfilePopout.tsx:216
+#: src/components/popouts/UserProfilePopout.tsx:353
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:73
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:75
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:109
@@ -16446,7 +16437,7 @@ msgstr "плутоний"
 
 #: src/components/channel/direct_message/DMList.tsx:1326
 #: src/components/channel/direct_message/DMList.tsx:1405
-#: src/components/modals/components/FeatureComparisonTable.tsx:128
+#: src/components/modals/components/FeatureComparisonTable.tsx:127
 msgid "Plutonium"
 msgstr "Plutonium"
 
@@ -16870,8 +16861,8 @@ msgstr "уведомления о пушах"
 msgid "Push notifications"
 msgstr "Push-уведомления"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:91
-#: src/components/modals/tabs/NotificationsTab.tsx:95
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:89
+#: src/components/modals/tabs/NotificationsTab.tsx:93
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:612
 msgid "Push Settings"
 msgstr "Настройки push"
@@ -17388,7 +17379,7 @@ msgstr "Удалить закладку"
 msgid "Remove Connection"
 msgstr "Удалить подключение"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:146
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:106
 msgid "Remove Custom Sound"
 msgstr "Удалить пользовательский звук"
 
@@ -17410,8 +17401,8 @@ msgstr "Удалить фильтр"
 #: src/components/modals/UserProfileActionsSheet.tsx:116
 #: src/components/modals/UserProfileActionsSheet.tsx:118
 #: src/components/modals/UserProfileActionsSheet.tsx:279
-#: src/components/modals/UserProfileMobileSheet.tsx:344
-#: src/components/modals/UserProfileMobileSheet.tsx:346
+#: src/components/modals/UserProfileMobileSheet.tsx:350
+#: src/components/modals/UserProfileMobileSheet.tsx:352
 #: src/components/modals/UserProfileModal.tsx:1199
 #: src/components/modals/UserProfileModal.tsx:1285
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:643
@@ -17864,7 +17855,6 @@ msgstr "Требуется всё из уровня «Высокий», плюс
 msgid "Requires everything in Medium, plus being a member of the server for at least 10 minutes."
 msgstr "Требуется всё из уровня «Средний», плюс минимум 10 минут в участниках сервера."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:135
 #: src/components/modals/tabs/VideoTab.tsx:120
 #: src/components/modals/tabs/VideoTab.tsx:130
 #: src/components/modals/tabs/VideoTab.tsx:140
@@ -18407,7 +18397,7 @@ msgstr "Сохранить видео"
 msgid "saved"
 msgstr "сохранено"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:55
+#: src/components/modals/components/FeatureComparisonTable.tsx:54
 msgid "Saved media"
 msgstr "Сохранённые медиа"
 
@@ -20126,8 +20116,8 @@ msgstr "звуковой эффект"
 msgid "sounds"
 msgstr "звуки"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:69
-#: src/components/modals/tabs/NotificationsTab.tsx:71
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:68
+#: src/components/modals/tabs/NotificationsTab.tsx:70
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:557
 msgid "Sounds"
 msgstr "Звуки"
@@ -21056,8 +21046,8 @@ msgid "text to speech"
 msgstr "текст в речь"
 
 #: src/components/modals/tabs/AccessibilityTab.tsx:209
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:86
-#: src/components/modals/tabs/NotificationsTab.tsx:89
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:84
+#: src/components/modals/tabs/NotificationsTab.tsx:87
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:261
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:589
 msgid "Text-to-speech"
@@ -22492,7 +22482,7 @@ msgstr "разблокировать"
 #: src/components/modals/tabs/BlockedUsersTab.tsx:178
 #: src/components/modals/UserProfileActionsSheet.tsx:152
 #: src/components/modals/UserProfileActionsSheet.tsx:306
-#: src/components/modals/UserProfileMobileSheet.tsx:362
+#: src/components/modals/UserProfileMobileSheet.tsx:368
 #: src/components/modals/UserProfileModal.tsx:1105
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:668
 #: src/components/uikit/context_menu/items/RelationshipMenuItems.tsx:231
@@ -22508,7 +22498,7 @@ msgstr "Разблокируй этого пользователя, прежде
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:217
 #: src/components/modals/tabs/BlockedUsersTab.tsx:63
 #: src/components/modals/UserProfileActionsSheet.tsx:150
-#: src/components/modals/UserProfileMobileSheet.tsx:360
+#: src/components/modals/UserProfileMobileSheet.tsx:366
 #: src/components/modals/UserProfileModal.tsx:1300
 #: src/utils/RelationshipActionUtils.tsx:173
 msgid "Unblock User"
@@ -22962,7 +22952,7 @@ msgstr "Пока я снова не включу"
 msgid "Unverified Email"
 msgstr "Неподтверждённый email"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:63
+#: src/components/modals/components/FeatureComparisonTable.tsx:62
 msgid "Up to 4K/60fps"
 msgstr "До 4K/60fps"
 
@@ -23143,7 +23133,7 @@ msgstr "Загрузить пользовательский фон"
 msgid "Upload Custom Background"
 msgstr "Загрузить пользовательский фон"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:125
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:96
 msgid "Upload Custom Sound"
 msgstr "Загрузить пользовательский звук"
 
@@ -23195,10 +23185,6 @@ msgstr "Загрузить в {displayName}"
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:81
 msgid "Upload your message as a file"
 msgstr "Загрузите ваше сообщение как файл"
-
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:74
-msgid "Upload your own custom notification sounds and ringtones. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM. Maximum file size: 2MB per sound."
-msgstr "Загрузите свои пользовательские звуки уведомлений и рингтоны. Поддерживаемые форматы: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM. Максимальный размер файла: 2 МБ на звук."
 
 #: src/components/modals/tabs/chat_settings_tab/MediaTab.tsx:148
 msgid "Uploaded attachments"
@@ -23265,7 +23251,7 @@ msgstr "Использовать фактический тип премиум"
 msgid "Use an authenticator app to generate codes for two-factor authentication"
 msgstr "Используй приложение-аутентификатор для генерации кодов двухфакторной аутентификации"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:56
+#: src/components/modals/components/FeatureComparisonTable.tsx:55
 msgid "Use animated emojis"
 msgstr "Использовать анимированные эмодзи"
 
@@ -23768,7 +23754,7 @@ msgid "Video"
 msgstr "Видео"
 
 #: src/components/channel/ChannelHeader.tsx:652
-#: src/components/modals/UserProfileMobileSheet.tsx:565
+#: src/components/modals/UserProfileMobileSheet.tsx:571
 msgid "Video Call"
 msgstr "Видеозвонок"
 
@@ -23793,7 +23779,7 @@ msgstr "Предпросмотр видео"
 msgid "Video progress"
 msgstr "Прогресс видео"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:58
+#: src/components/modals/components/FeatureComparisonTable.tsx:57
 msgid "Video quality"
 msgstr "Качество видео"
 
@@ -24073,7 +24059,7 @@ msgstr "Голосовой вызов"
 
 #: src/components/channel/ChannelHeader.tsx:642
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:275
-#: src/components/modals/UserProfileMobileSheet.tsx:557
+#: src/components/modals/UserProfileMobileSheet.tsx:563
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:553
 msgid "Voice Call"
 msgstr "Голосовой вызов"
@@ -24804,9 +24790,9 @@ msgstr "Ты сейчас переходишь в Stripe для оплаты. В
 #. placeholder {0}: displayUser.username
 #. placeholder {0}: user.username
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:144
-#: src/components/modals/UserProfileMobileSheet.tsx:319
+#: src/components/modals/UserProfileMobileSheet.tsx:325
 #: src/components/modals/UserProfileModal.tsx:1015
-#: src/components/popouts/UserProfilePopout.tsx:194
+#: src/components/popouts/UserProfilePopout.tsx:215
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:74
 #: src/components/uikit/context_menu/items/MessageUserMenuItem.tsx:66
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:208
@@ -24924,7 +24910,7 @@ msgid "You can't join while you're on timeout."
 msgstr "Ты не можешь присоединиться, пока на тайм-ауте."
 
 #: src/components/modals/UserProfileModal.tsx:1239
-#: src/components/popouts/UserProfilePopout.tsx:306
+#: src/components/popouts/UserProfilePopout.tsx:327
 #: src/components/profile/ProfilePreview.tsx:268
 msgid "You can't message yourself"
 msgstr "Ты не можешь писать себе"
@@ -25487,7 +25473,7 @@ msgstr "Ваш адрес электронной почты был обновл�
 msgid "Your email has been verified. You can now log in to your account."
 msgstr "Твоя почта подтверждена. Теперь ты можешь войти в аккаунт."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:90
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:64
 msgid "Your existing notification sound settings will be preserved."
 msgstr "Текущие настройки звуков уведомлений сохранятся."
 

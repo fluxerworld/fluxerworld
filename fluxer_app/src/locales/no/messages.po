@@ -82,7 +82,7 @@ msgstr "(maks 15 vist)"
 msgid "(No content)"
 msgstr "(Ingen innhold)"
 
-#: src/components/modals/UserProfileMobileSheet.tsx:602
+#: src/components/modals/UserProfileMobileSheet.tsx:608
 #: src/components/pages/YouPage.tsx:147
 msgid "(only visible to you)"
 msgstr "(kun synlig for deg)"
@@ -1450,7 +1450,7 @@ msgstr "7 dager"
 msgid "720p"
 msgstr "720p"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:62
+#: src/components/modals/components/FeatureComparisonTable.tsx:61
 msgid "720p/30fps"
 msgstr "720p/30fps"
 
@@ -1512,7 +1512,7 @@ msgid "about me"
 msgstr "om meg"
 
 #: src/components/modals/tabs/my_profile_tab/BioEditor.tsx:130
-#: src/components/modals/UserProfileMobileSheet.tsx:578
+#: src/components/modals/UserProfileMobileSheet.tsx:584
 #: src/components/pages/YouPage.tsx:132
 msgid "About Me"
 msgstr "Om meg"
@@ -2522,7 +2522,7 @@ msgstr "Animerte avatarer (GIF, APNG, animert WebP, AVIF) er en premiumfunksjon 
 msgid "Animated avatars (GIF, APNG, animated WebP, AVIF) are not available on this instance. Please upload a static image instead."
 msgstr "Animerte avatarer (GIF, APNG, animert WebP, AVIF) er ikke tilgjengelige på denne instansen. Vennligst last opp et statisk bilde i stedet."
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:59
+#: src/components/modals/components/FeatureComparisonTable.tsx:58
 msgid "Animated avatars & banners"
 msgstr "Animerte avatarer og bannere"
 
@@ -2914,7 +2914,7 @@ msgstr "Er du sikker på at du vil gjøre {0} til gruppeeier? Du mister eierrett
 #. placeholder {0}: user.username
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:184
 #: src/components/modals/UserProfileActionsSheet.tsx:117
-#: src/components/modals/UserProfileMobileSheet.tsx:345
+#: src/components/modals/UserProfileMobileSheet.tsx:351
 #: src/utils/RelationshipActionUtils.tsx:120
 msgid "Are you sure you want to remove {0} as a friend?"
 msgstr "Er du sikker på at du vil fjerne {0} som venn?"
@@ -2961,7 +2961,7 @@ msgstr "Er du sikker på at du vil overføre gruppeeierskapet til {0}?"
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:218
 #: src/components/modals/tabs/BlockedUsersTab.tsx:64
 #: src/components/modals/UserProfileActionsSheet.tsx:151
-#: src/components/modals/UserProfileMobileSheet.tsx:361
+#: src/components/modals/UserProfileMobileSheet.tsx:367
 #: src/utils/RelationshipActionUtils.tsx:174
 msgid "Are you sure you want to unblock {0}?"
 msgstr "Er du sikker på at du vil oppheve blokkeringen av {0}?"
@@ -3740,7 +3740,7 @@ msgstr "Bokmerk melding"
 msgid "Bookmark messages to save them for later."
 msgstr "Bokmerk meldinger for å lagre dem til senere."
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:52
+#: src/components/modals/components/FeatureComparisonTable.tsx:51
 msgid "Bookmarked messages"
 msgstr "Bokmerkede meldinger"
 
@@ -5041,7 +5041,7 @@ msgstr "Klikk eller dra og slipp"
 msgid "Click the text below to edit it inline. Press Enter to save or Escape to cancel."
 msgstr "Klikk teksten nedenfor for å redigere den direkte. Trykk Enter for å lagre eller Escape for å avbryte."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:97
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:70
 msgid "Click the upload icon next to any sound to customize it with your own audio file. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM (max 2MB)."
 msgstr "Klikk opplastingsikonet ved siden av en lyd for å tilpasse den med din egen lydfil. Støttede formater: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM (maks 2 MB)."
 
@@ -5328,7 +5328,7 @@ msgstr "Komfortabelt oppsett"
 msgid "Communication"
 msgstr "Kommunikasjon"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:50
+#: src/components/modals/components/FeatureComparisonTable.tsx:49
 #: src/stores/QuickSwitcherStore.tsx:1354
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
@@ -5630,7 +5630,7 @@ msgstr "Konfigurer overstyringer for denne rollen"
 msgid "Configure role settings and permissions"
 msgstr "Konfigurer rolleinstillinger og tillatelser"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:65
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:60
 msgid "Configure which sounds to play and when."
 msgstr "Konfigurer hvilke lyder som skal spilles og når."
 
@@ -5893,8 +5893,8 @@ msgstr "Kontroller hvordan du kobler deg til stemmekanaler i fellesskap."
 msgid "Control how your Plutonium badge is displayed to others"
 msgstr "Kontroller hvordan Plutonium-merket ditt vises for andre"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:87
-#: src/components/modals/tabs/NotificationsTab.tsx:90
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:85
+#: src/components/modals/tabs/NotificationsTab.tsx:88
 msgid "Control speech commands and narration for incoming content."
 msgstr "Control speech commands and narration for incoming content."
 
@@ -6642,11 +6642,11 @@ msgstr "Egendefinert intervall..."
 msgid "custom ringtone"
 msgstr "tilpasset ringetone"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:159
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:139
 msgid "Custom sound removed"
 msgstr "Egendefinert lyd fjernet"
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:137
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:117
 msgid "Custom sound uploaded successfully"
 msgstr "Egendefinert lyd lastet opp"
 
@@ -6666,7 +6666,7 @@ msgstr "Egendefinerte klistremerker"
 msgid "Custom Theme Tokens"
 msgstr "Egendefinerte tema-tokens"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:61
+#: src/components/modals/components/FeatureComparisonTable.tsx:60
 msgid "Custom themes"
 msgstr "Egendefinerte temaer"
 
@@ -6730,10 +6730,6 @@ msgstr "Tilpass din 4-sifrede tagg (#{discriminator}) med Plutonium"
 #: src/components/modals/FluxerTagChangeModal.tsx:272
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Tilpass din 4-sifrede tagg eller behold den når du endrer brukernavn"
-
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:71
-msgid "Customize your notification sounds with Plutonium"
-msgstr "Tilpass varslingslydene dine med Plutonium"
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:58
 msgid "Customize your profile banner"
@@ -7542,11 +7538,11 @@ msgstr "Deaktiver"
 msgid "Disable Account"
 msgstr "Deaktiver konto"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:172
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:132
 msgid "Disable All"
 msgstr "Deaktiver alt"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:89
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:63
 msgid "Disable all notification sounds"
 msgstr "Deaktiver alle varslingslyder"
 
@@ -8146,7 +8142,7 @@ msgstr "Hver melding nedenfor viser én markdown-funksjon med live forhåndsvisn
 msgid "Each unique invite can only be used once."
 msgstr "Hver unike invitasjon kan bare brukes én gang."
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:60
+#: src/components/modals/components/FeatureComparisonTable.tsx:59
 msgid "Early access to new features"
 msgstr "Tidlig tilgang til nye funksjoner"
 
@@ -8268,11 +8264,11 @@ msgstr "Rediger eller slett emoji og klistermerker laget av andre medlemmer."
 msgid "Edit overwrites for roles and members in this channel."
 msgstr "Rediger overskrivinger for roller og medlemmer i denne kanalen."
 
-#: src/components/modals/UserProfileMobileSheet.tsx:532
+#: src/components/modals/UserProfileMobileSheet.tsx:538
 #: src/components/modals/UserProfileModal.tsx:1262
 #: src/components/pages/YouPage.tsx:123
 #: src/components/popouts/UserAreaPopout.tsx:540
-#: src/components/popouts/UserProfilePopout.tsx:323
+#: src/components/popouts/UserProfilePopout.tsx:344
 msgid "Edit Profile"
 msgstr "Rediger profil"
 
@@ -8449,7 +8445,7 @@ msgstr "Emoji"
 msgid "emoji {emojiName}"
 msgstr "emoji {emojiName}"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:54
+#: src/components/modals/components/FeatureComparisonTable.tsx:53
 msgid "Emoji & sticker packs"
 msgstr "Emoji- og klistremerke-pakker"
 
@@ -8549,7 +8545,7 @@ msgstr "Aktiver 2FA på kontoen din for å endre denne innstillingen"
 msgid "Enable advanced features for debugging and development. Note that copying snowflake IDs for entities is always available to all users without needing developer mode."
 msgstr "Aktiver avanserte funksjoner for feilsøking og utvikling. Kopiering av snøfnugg-ID-er for enheter er alltid tilgjengelig for alle brukere uten utviklermodus."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:163
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:123
 msgid "Enable All"
 msgstr "Aktiver alle"
 
@@ -9453,7 +9449,7 @@ msgstr "Kunne ikke bli med i Visionary-fellesskapet igjen. Prøv igjen."
 msgid "Failed to remove background image. Please try again."
 msgstr "Kunne ikke fjerne bakgrunnsbilde. Prøv igjen."
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:164
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:144
 msgid "Failed to remove custom sound"
 msgstr "Kunne ikke fjerne egendefinert lyd"
 
@@ -9626,7 +9622,7 @@ msgstr "Kunne ikke oppdatere webhooks"
 msgid "Failed to upload background image. Please try again."
 msgstr "Kunne ikke laste opp bakgrunnsbilde. Prøv på nytt."
 
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:142
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:122
 msgid "Failed to upload custom sound"
 msgstr "Kunne ikke laste opp egendefinert lyd"
 
@@ -9721,7 +9717,7 @@ msgstr "favoritter"
 msgid "Favorites"
 msgstr "Favoritter"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:120
+#: src/components/modals/components/FeatureComparisonTable.tsx:119
 msgid "Feature"
 msgstr "Funksjon"
 
@@ -9762,7 +9758,7 @@ msgstr "Filstørrelsesgrensen er overskredet"
 msgid "File size too large"
 msgstr "Filstørrelse for stor"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:53
+#: src/components/modals/components/FeatureComparisonTable.tsx:52
 msgid "File upload size"
 msgstr "Filopplastingsstørrelse"
 
@@ -10247,7 +10243,7 @@ msgstr "Bildehastigheter over 30 FPS krever Plutonium"
 msgid "France"
 msgstr "Frankrike"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:125
+#: src/components/modals/components/FeatureComparisonTable.tsx:124
 msgid "Free"
 msgstr "Gratis"
 
@@ -10493,7 +10489,6 @@ msgstr "Få beskjed når du mottar meldinger. Du må kanskje tillate varsler i n
 #: src/components/modals/FluxerTagChangeModal.tsx:221
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:83
 #: src/components/modals/tabs/VideoTab.tsx:281
 #: src/components/uikit/plutonium_upsell/PlutoniumUpsell.tsx:72
 #: src/components/uikit/plutonium_upsell/PlutoniumUpsell.tsx:74
@@ -10666,7 +10661,7 @@ msgstr "Gaver og koder"
 msgid "Glad you're here, {username}! Watch out for Biff!"
 msgstr "Glad du er her, {username}! Pass på Biff!"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:57
+#: src/components/modals/components/FeatureComparisonTable.tsx:56
 msgid "Global emoji & sticker access"
 msgstr "Global tilgang til emoji og klistremerker"
 
@@ -11866,7 +11861,7 @@ msgid "Invalid"
 msgstr "Ugyldig"
 
 #: src/components/modals/tabs/hooks/useEntranceSound.tsx:68
-#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:123
+#: src/components/modals/tabs/notifications_tab/useSoundSettings.tsx:103
 msgid "Invalid audio file"
 msgstr "Ugyldig lydfil"
 
@@ -13674,11 +13669,11 @@ msgstr "menyer"
 
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:268
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:164
-#: src/components/modals/UserProfileMobileSheet.tsx:547
+#: src/components/modals/UserProfileMobileSheet.tsx:553
 #: src/components/modals/UserProfileModal.tsx:1246
 #: src/components/modals/UserProfileModal.tsx:1372
-#: src/components/popouts/UserProfilePopout.tsx:313
-#: src/components/popouts/UserProfilePopout.tsx:332
+#: src/components/popouts/UserProfilePopout.tsx:334
+#: src/components/popouts/UserProfilePopout.tsx:353
 #: src/components/profile/ProfilePreview.tsx:276
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:109
 #: src/components/uikit/context_menu/items/MessageUserMenuItem.tsx:77
@@ -13712,7 +13707,7 @@ msgstr "Innstillinger for handlingslinjen for meldinger er kun tilgjengelige på
 msgid "Message AST"
 msgstr "Melding AST"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:51
+#: src/components/modals/components/FeatureComparisonTable.tsx:50
 msgid "Message character limit"
 msgstr "Tegnbegrensning for melding"
 
@@ -15108,7 +15103,7 @@ msgstr "Ikke nå"
 msgid "Not your cup of tea? You can disable this feature anytime."
 msgstr "Ikke din greie? Du kan slå av denne funksjonen når som helst."
 
-#: src/components/modals/UserProfileMobileSheet.tsx:599
+#: src/components/modals/UserProfileMobileSheet.tsx:605
 #: src/components/modals/UserProfileModal.tsx:243
 #: src/components/modals/UserProfileModal.tsx:247
 #: src/components/pages/YouPage.tsx:144
@@ -15172,17 +15167,13 @@ msgstr "Varslingsinnstillinger (dempet)"
 msgid "notification sound"
 msgstr "varsellyd"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:49
-msgid "Notification sounds"
-msgstr "Varslingslyder"
-
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:539
 msgid "notifications"
 msgstr "varsler"
 
 #: src/components/layout/MobileBottomNav.tsx:117
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:63
-#: src/components/modals/tabs/NotificationsTab.tsx:64
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:62
+#: src/components/modals/tabs/NotificationsTab.tsx:63
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:537
 #: src/components/pages/NotificationsPage.tsx:51
 msgid "Notifications"
@@ -15509,15 +15500,15 @@ msgstr "Åpne datovelger"
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:143
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:145
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:268
-#: src/components/modals/UserProfileMobileSheet.tsx:318
-#: src/components/modals/UserProfileMobileSheet.tsx:320
-#: src/components/modals/UserProfileMobileSheet.tsx:547
+#: src/components/modals/UserProfileMobileSheet.tsx:324
+#: src/components/modals/UserProfileMobileSheet.tsx:326
+#: src/components/modals/UserProfileMobileSheet.tsx:553
 #: src/components/modals/UserProfileModal.tsx:1014
 #: src/components/modals/UserProfileModal.tsx:1016
 #: src/components/modals/UserProfileModal.tsx:1372
-#: src/components/popouts/UserProfilePopout.tsx:193
-#: src/components/popouts/UserProfilePopout.tsx:195
-#: src/components/popouts/UserProfilePopout.tsx:332
+#: src/components/popouts/UserProfilePopout.tsx:214
+#: src/components/popouts/UserProfilePopout.tsx:216
+#: src/components/popouts/UserProfilePopout.tsx:353
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:73
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:75
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:109
@@ -16446,7 +16437,7 @@ msgstr "plutonium"
 
 #: src/components/channel/direct_message/DMList.tsx:1326
 #: src/components/channel/direct_message/DMList.tsx:1405
-#: src/components/modals/components/FeatureComparisonTable.tsx:128
+#: src/components/modals/components/FeatureComparisonTable.tsx:127
 msgid "Plutonium"
 msgstr "Plutonium"
 
@@ -16870,8 +16861,8 @@ msgstr "push-varsler"
 msgid "Push notifications"
 msgstr "Push-varslinger"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:91
-#: src/components/modals/tabs/NotificationsTab.tsx:95
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:89
+#: src/components/modals/tabs/NotificationsTab.tsx:93
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:612
 msgid "Push Settings"
 msgstr "Push-innstillinger"
@@ -17388,7 +17379,7 @@ msgstr "Fjern bokmerke"
 msgid "Remove Connection"
 msgstr "Fjern tilkobling"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:146
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:106
 msgid "Remove Custom Sound"
 msgstr "Fjern tilpasset lyd"
 
@@ -17410,8 +17401,8 @@ msgstr "Fjern filter"
 #: src/components/modals/UserProfileActionsSheet.tsx:116
 #: src/components/modals/UserProfileActionsSheet.tsx:118
 #: src/components/modals/UserProfileActionsSheet.tsx:279
-#: src/components/modals/UserProfileMobileSheet.tsx:344
-#: src/components/modals/UserProfileMobileSheet.tsx:346
+#: src/components/modals/UserProfileMobileSheet.tsx:350
+#: src/components/modals/UserProfileMobileSheet.tsx:352
 #: src/components/modals/UserProfileModal.tsx:1199
 #: src/components/modals/UserProfileModal.tsx:1285
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:643
@@ -17864,7 +17855,6 @@ msgstr "Krever alt fra Høy, pluss et bekreftet telefonnummer."
 msgid "Requires everything in Medium, plus being a member of the server for at least 10 minutes."
 msgstr "Krever alt fra Medium, pluss å ha vært medlem av serveren i minst 10 minutter."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:135
 #: src/components/modals/tabs/VideoTab.tsx:120
 #: src/components/modals/tabs/VideoTab.tsx:130
 #: src/components/modals/tabs/VideoTab.tsx:140
@@ -18407,7 +18397,7 @@ msgstr "Lagre video"
 msgid "saved"
 msgstr "lagret"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:55
+#: src/components/modals/components/FeatureComparisonTable.tsx:54
 msgid "Saved media"
 msgstr "Lagret media"
 
@@ -20126,8 +20116,8 @@ msgstr "lyd effekt"
 msgid "sounds"
 msgstr "lyder"
 
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:69
-#: src/components/modals/tabs/NotificationsTab.tsx:71
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:68
+#: src/components/modals/tabs/NotificationsTab.tsx:70
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:557
 msgid "Sounds"
 msgstr "Lyder"
@@ -21056,8 +21046,8 @@ msgid "text to speech"
 msgstr "tekst til tale"
 
 #: src/components/modals/tabs/AccessibilityTab.tsx:209
-#: src/components/modals/tabs/notifications_tab/Inline.tsx:86
-#: src/components/modals/tabs/NotificationsTab.tsx:89
+#: src/components/modals/tabs/notifications_tab/Inline.tsx:84
+#: src/components/modals/tabs/NotificationsTab.tsx:87
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:261
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:589
 msgid "Text-to-speech"
@@ -22492,7 +22482,7 @@ msgstr "fjerne blokkering"
 #: src/components/modals/tabs/BlockedUsersTab.tsx:178
 #: src/components/modals/UserProfileActionsSheet.tsx:152
 #: src/components/modals/UserProfileActionsSheet.tsx:306
-#: src/components/modals/UserProfileMobileSheet.tsx:362
+#: src/components/modals/UserProfileMobileSheet.tsx:368
 #: src/components/modals/UserProfileModal.tsx:1105
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:668
 #: src/components/uikit/context_menu/items/RelationshipMenuItems.tsx:231
@@ -22508,7 +22498,7 @@ msgstr "Opphev blokkering av brukeren før du sender venneforespørsel."
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:217
 #: src/components/modals/tabs/BlockedUsersTab.tsx:63
 #: src/components/modals/UserProfileActionsSheet.tsx:150
-#: src/components/modals/UserProfileMobileSheet.tsx:360
+#: src/components/modals/UserProfileMobileSheet.tsx:366
 #: src/components/modals/UserProfileModal.tsx:1300
 #: src/utils/RelationshipActionUtils.tsx:173
 msgid "Unblock User"
@@ -22962,7 +22952,7 @@ msgstr "Til jeg slår det på igjen"
 msgid "Unverified Email"
 msgstr "Uverifisert e-post"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:63
+#: src/components/modals/components/FeatureComparisonTable.tsx:62
 msgid "Up to 4K/60fps"
 msgstr "Opptil 4K/60fps"
 
@@ -23143,7 +23133,7 @@ msgstr "Last opp tilpasset bakgrunn"
 msgid "Upload Custom Background"
 msgstr "Last opp tilpasset bakgrunn"
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:125
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:96
 msgid "Upload Custom Sound"
 msgstr "Last opp egendefinert lyd"
 
@@ -23195,10 +23185,6 @@ msgstr "Last opp til {displayName}"
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:81
 msgid "Upload your message as a file"
 msgstr "Last opp meldingen din som en fil"
-
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:74
-msgid "Upload your own custom notification sounds and ringtones. Supported formats: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM. Maximum file size: 2MB per sound."
-msgstr "Last opp dine egne tilpassede varslingslyder og ringetoner. Støttede formater: MP3, WAV, OGG, M4A, AAC, FLAC, Opus, WebM. Maks filstørrelse: 2 MB per lyd."
 
 #: src/components/modals/tabs/chat_settings_tab/MediaTab.tsx:148
 msgid "Uploaded attachments"
@@ -23265,7 +23251,7 @@ msgstr "Bruk faktisk premiumtype"
 msgid "Use an authenticator app to generate codes for two-factor authentication"
 msgstr "Bruk en autentiseringsapp for å generere koder til tofaktorautentisering"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:56
+#: src/components/modals/components/FeatureComparisonTable.tsx:55
 msgid "Use animated emojis"
 msgstr "Bruk animerte emojier"
 
@@ -23768,7 +23754,7 @@ msgid "Video"
 msgstr "Video"
 
 #: src/components/channel/ChannelHeader.tsx:652
-#: src/components/modals/UserProfileMobileSheet.tsx:565
+#: src/components/modals/UserProfileMobileSheet.tsx:571
 msgid "Video Call"
 msgstr "Videosamtale"
 
@@ -23793,7 +23779,7 @@ msgstr "Videoforhåndsvisning"
 msgid "Video progress"
 msgstr "Videofremdrift"
 
-#: src/components/modals/components/FeatureComparisonTable.tsx:58
+#: src/components/modals/components/FeatureComparisonTable.tsx:57
 msgid "Video quality"
 msgstr "Videokvalitet"
 
@@ -24073,7 +24059,7 @@ msgstr "Lydanrop"
 
 #: src/components/channel/ChannelHeader.tsx:642
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:275
-#: src/components/modals/UserProfileMobileSheet.tsx:557
+#: src/components/modals/UserProfileMobileSheet.tsx:563
 #: src/components/uikit/context_menu/items/DMMenuData.tsx:553
 msgid "Voice Call"
 msgstr "Lydanrop"
@@ -24804,9 +24790,9 @@ msgstr "Du blir nå sendt til Stripe for å fullføre betalingen. Kom tilbake ti
 #. placeholder {0}: displayUser.username
 #. placeholder {0}: user.username
 #: src/components/modals/guild_tabs/GuildMemberActionsSheet.tsx:144
-#: src/components/modals/UserProfileMobileSheet.tsx:319
+#: src/components/modals/UserProfileMobileSheet.tsx:325
 #: src/components/modals/UserProfileModal.tsx:1015
-#: src/components/popouts/UserProfilePopout.tsx:194
+#: src/components/popouts/UserProfilePopout.tsx:215
 #: src/components/uikit/context_menu/items/ActionsSubmenu.tsx:74
 #: src/components/uikit/context_menu/items/MessageUserMenuItem.tsx:66
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:208
@@ -24924,7 +24910,7 @@ msgid "You can't join while you're on timeout."
 msgstr "Du kan ikke bli med mens du er i timeout."
 
 #: src/components/modals/UserProfileModal.tsx:1239
-#: src/components/popouts/UserProfilePopout.tsx:306
+#: src/components/popouts/UserProfilePopout.tsx:327
 #: src/components/profile/ProfilePreview.tsx:268
 msgid "You can't message yourself"
 msgstr "Du kan ikke sende melding til deg selv"
@@ -25487,7 +25473,7 @@ msgstr "Din e-postadresse har blitt oppdatert."
 msgid "Your email has been verified. You can now log in to your account."
 msgstr "E-posten din er bekreftet. Du kan nå logge inn på kontoen din."
 
-#: src/components/modals/tabs/notifications_tab/Sounds.tsx:90
+#: src/components/modals/tabs/notifications_tab/Sounds.tsx:64
 msgid "Your existing notification sound settings will be preserved."
 msgstr "Dine eksisterende varslingslydinnstillinger beholdes."
 
