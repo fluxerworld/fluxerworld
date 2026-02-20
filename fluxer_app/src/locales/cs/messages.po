@@ -875,11 +875,11 @@ msgstr "{username} odebral(a) někoho ze skupiny."
 msgid "{username} started a call."
 msgstr "{username} zahájil(a) hovor."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:100
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:102
 msgid "{v} gift"
 msgstr "{v} dárek"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:100
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:102
 msgid "{v} gifts"
 msgstr "{v} dárky"
 
@@ -1634,7 +1634,7 @@ msgstr "Účet byl úspěšně nárokován"
 msgid "Account Connected"
 msgstr "Účet připojen"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:55
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:57
 msgid "Account State Overrides"
 msgstr "Přepsání stavu účtu"
 
@@ -3395,7 +3395,7 @@ msgstr "Zpět na role"
 msgid "Back to Settings"
 msgstr "Zpět na nastavení"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:118
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:120
 msgid "Backend Premium Override"
 msgstr "Přepsání prémiového backendu"
 
@@ -7895,7 +7895,7 @@ msgid "Do you want to send this pin back to the future?"
 msgstr "Chceš tento připínáček poslat zpět do budoucnosti?"
 
 #: src/components/modals/tabs/AccessibilityTab.tsx:148
-#: src/components/modals/tabs/MyProfileTab.tsx:768
+#: src/components/modals/tabs/MyProfileTab.tsx:767
 msgid "Doc, I'm from the future. I came here in a time machine that you invented. Now, I need your help to get back to the year 1985."
 msgstr "Pane doktore, jsem z budoucnosti. Přijel jsem sem časovým strojem, který jste vynalezl. Teď potřebuji vaši pomoc vrátit se do roku 1985."
 
@@ -8388,7 +8388,7 @@ msgstr "Panel upozornění na ověření e-mailu"
 msgid "Email Verification Required"
 msgstr "Vyžaduje se verifikace e-mailu"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:57
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:59
 msgid "Email Verified Override"
 msgstr "Přepsání ověření e-mailu"
 
@@ -9872,11 +9872,11 @@ msgstr "Symbol aplikace Fluxer"
 msgid "Fluxer avoids sending push notifications to your mobile devices when you are at your computer. Use this setting to control how long you need to be inactive on desktop for before you receive push notifications, ranging from 1 minute to 10 minutes."
 msgstr "Fluxer se vyhýbá posílání push oznámení na mobilní zařízení, když jste u počítače. Nastavením určíte, jak dlouho musíte být neaktivní na desktopu, než obdržíte push oznámení, od 1 do 10 minut."
 
-#: src/components/popouts/UserProfileBadges.tsx:89
+#: src/components/popouts/UserProfileBadges.tsx:115
 msgid "Fluxer Bug Hunter"
 msgstr "Fluxer lovec chyb"
 
-#: src/components/popouts/UserProfileBadges.tsx:71
+#: src/components/popouts/UserProfileBadges.tsx:95
 msgid "Fluxer Community Team"
 msgstr "Komunitní tým Fluxer"
 
@@ -9944,18 +9944,18 @@ msgstr "Fluxer potřebuje oprávnění sledovat vstupy, aby push-to-talk a glob�
 msgid "Fluxer needs permission to monitor keyboard and mouse input so that <0>Push-to-Talk</0> and <1>Global Shortcuts</1> work even when you're in another app or game."
 msgstr "Fluxer potřebuje oprávnění sledovat klávesnici a myš, aby <0>Push-to-Talk</0> a <1>Globální zkratky</1> fungovaly i v jiné aplikaci nebo hře."
 
-#: src/components/popouts/UserProfileBadges.tsx:80
+#: src/components/popouts/UserProfileBadges.tsx:105
 msgid "Fluxer Partner"
 msgstr "Partner Fluxer"
 
 #: src/components/modals/components/PlutoniumContent.tsx:165
 #: src/components/modals/PremiumModal.tsx:34
 #: src/components/modals/utils/SettingsConstants.tsx:124
-#: src/components/popouts/UserProfileBadges.tsx:95
+#: src/components/popouts/UserProfileBadges.tsx:121
 msgid "Fluxer Plutonium"
 msgstr "Fluxer Plutonium"
 
-#: src/components/popouts/UserProfileBadges.tsx:62
+#: src/components/popouts/UserProfileBadges.tsx:85
 msgid "Fluxer Staff"
 msgstr "Tým Fluxer"
 
@@ -10963,7 +10963,7 @@ msgstr "Hardwarová akcelerace"
 msgid "Has"
 msgstr "Má"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:126
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:128
 msgid "Has ever purchased override"
 msgstr "Někdy zakoupil přepsání"
 
@@ -12634,6 +12634,10 @@ msgstr "Opustit hovor"
 msgid "Leave Community"
 msgstr "Opustit komunitu"
 
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:142
+msgid "Leave empty for actual value"
+msgstr "Nechte prázdné pro aktuální hodnotu"
+
 #: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1317
 #: src/components/channel/direct_message/DMList.tsx:569
 #: src/components/uikit/context_menu/items/ChannelMenuData.tsx:370
@@ -12713,7 +12717,7 @@ msgid "Letters (a-z, A-Z), numbers (0-9), and underscores (_) only"
 msgstr "Pouze písmena (a-z, A-Z), číslice (0-9) a podtržítka (_)"
 
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:131
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:50
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:52
 #: src/components/modals/tabs/developer_options_tab/MockingTab.tsx:317
 msgid "Lifetime"
 msgstr "Doživotně"
@@ -15066,7 +15070,7 @@ msgstr "Neanimované emoji ({0})"
 
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:157
 #: src/components/modals/tabs/accessibility_tab/VisualTab.tsx:48
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:48
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:50
 msgid "None"
 msgstr "Žádné"
 
@@ -15828,7 +15832,7 @@ msgstr "Override"
 msgid "Override {0}"
 msgstr "Override {0}"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:59
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:61
 msgid "Override email verification status"
 msgstr "Přepsat stav ověření e-mailu"
 
@@ -15836,15 +15840,15 @@ msgstr "Přepsat stav ověření e-mailu"
 msgid "Override instance limits locally for testing. Changes only affect your client."
 msgstr "Override instance limits locally for testing. Changes only affect your client."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:109
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:111
 msgid "Override Premium Type"
 msgstr "Přepsat typ Premium"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:67
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:69
 msgid "Override unclaimed account status"
 msgstr "Přepsat stav nepřiřazeného účtu"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:75
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:77
 msgid "Override unread gift inventory status"
 msgstr "Přepsat stav nepřečteného inventáře dárků"
 
@@ -16526,11 +16530,11 @@ msgstr "Výhody prémiového"
 msgid "Premium state reset on the backend."
 msgstr "Prémiový stav obnoven na backendu."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:135
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:155
 msgid "Premium Subscription Scenarios"
 msgstr "Scénáře prémiového předplatného"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:107
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:109
 msgid "Premium Type Override"
 msgstr "Přepsání typu prémiového"
 
@@ -19261,7 +19265,7 @@ msgstr "Nastavit typ kanálu na {0}."
 msgid "Set the invite splash alignment to {0}."
 msgstr "Nastavit zarovnání pozvánkového splash na {0}."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:88
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:90
 msgid "Set the number of unread gifts in inventory."
 msgstr "Nastavit počet nepřečtených dárků v inventáři."
 
@@ -19837,7 +19841,7 @@ msgstr "Tiché hovory od všech"
 msgid "simulate"
 msgstr "simulovat"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:128
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:130
 msgid "Simulates having a Stripe customer ID (for testing purchase history access)"
 msgstr "Simuluje existenci Stripe ID zákazníka (pro testování přístupu k historii nákupů)"
 
@@ -20674,7 +20678,7 @@ msgstr "Odesílání"
 msgid "subscription"
 msgstr "předplatné"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:49
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:51
 #: src/components/modals/utils/SettingsSearchIndex.tsx:261
 msgid "Subscription"
 msgstr "Předplatné"
@@ -20989,7 +20993,7 @@ msgstr "Podmínky služby"
 msgid "Test Bulk Delete (60s)"
 msgstr "Otestovat hromadné smazání (60 s)"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:137
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:157
 msgid "Test Subscription State"
 msgstr "Otestovat stav předplatného"
 
@@ -21298,10 +21302,6 @@ msgstr "oni"
 #: src/components/channel/channel_view/DMChannelView.tsx:932
 msgid "They might have taken the DeLorean elsewhere."
 msgstr "Možná DeLorean odvezli jinam."
-
-#: src/components/modals/tabs/MyProfileTab.tsx:711
-msgid "they/them"
-msgstr "oni/jejich"
 
 #: src/components/channel/channel_view/DMChannelView.tsx:918
 msgid "Think, McFly! Did you type the right address?"
@@ -21963,7 +21963,7 @@ msgstr "Přepnout ztlumení"
 msgid "Toggle Pins Popout"
 msgstr "Přepnout připnuté zprávy"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:120
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:122
 msgid "Toggle premium_enabled_override on the backend"
 msgstr "Přepnout přepsání premium_enabled na backendu"
 
@@ -22526,7 +22526,7 @@ msgstr "Nevyzvednutý účet"
 msgid "Unclaimed Account Nagbar"
 msgstr "Nástěnka nevyzvednutého účtu"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:65
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:67
 msgid "Unclaimed Account Override"
 msgstr "Přepsání nevyzvednutého účtu"
 
@@ -22915,11 +22915,11 @@ msgstr "Nepřečtené"
 msgid "Unread DMs only"
 msgstr "Pouze nepřečtené soukromé zprávy"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:85
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:87
 msgid "Unread Gift Count"
 msgstr "Počet nepřečtených dárků"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:73
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:75
 msgid "Unread gift inventory override"
 msgstr "Přepsání nepřečteného inventáře dárků"
 
@@ -23249,7 +23249,7 @@ msgstr "Použijte specializovaný modální okno pro nastavení data prahové ho
 msgid "Use Actual"
 msgstr "Použít aktuální"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:47
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:49
 msgid "Use actual premium type"
 msgstr "Použijte skutečný prémiový typ"
 
@@ -24015,6 +24015,19 @@ msgstr "Visionary (doživotní Plutonium)"
 #: src/components/modals/tabs/developer_options_tab/NagbarControls.tsx:172
 msgid "Visionary 2FA Nagbar"
 msgstr "Visionary 2FA Nagbar"
+
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:137
+msgid "Visionary Badge Override"
+msgstr "Překrytí odznaku Visionary"
+
+#. placeholder {0}: profile.premiumLifetimeSequence
+#: src/components/popouts/UserProfileBadges.tsx:150
+msgid "Visionary ID #{0}"
+msgstr "ID Visionary #{0}"
+
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:139
+msgid "Visionary ID Number"
+msgstr "Číslo ID Visionary"
 
 #: src/components/modals/ExternalLinkWarningModal.tsx:111
 msgid "Visit Site"

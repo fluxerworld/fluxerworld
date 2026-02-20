@@ -875,11 +875,11 @@ msgstr "{username} เอาใครบางคนออกจากกลุ�
 msgid "{username} started a call."
 msgstr "{username} เริ่มการโทร"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:100
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:102
 msgid "{v} gift"
 msgstr "{v} ของขวัญ"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:100
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:102
 msgid "{v} gifts"
 msgstr "{v} ของขวัญ"
 
@@ -1634,7 +1634,7 @@ msgstr "ยืนยันบัญชีเรียบร้อยแล้ว
 msgid "Account Connected"
 msgstr "บัญชีที่เชื่อมต่อแล้ว"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:55
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:57
 msgid "Account State Overrides"
 msgstr "การยกเว้นสถานะบัญชี"
 
@@ -3395,7 +3395,7 @@ msgstr "กลับไปยังบทบาท"
 msgid "Back to Settings"
 msgstr "กลับไปยังการตั้งค่า"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:118
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:120
 msgid "Backend Premium Override"
 msgstr "การแทนค่าพรีเมียมฝั่งหลัง"
 
@@ -7895,7 +7895,7 @@ msgid "Do you want to send this pin back to the future?"
 msgstr "คุณต้องการส่งปักหมุดนี้กลับไปอนาคตไหม"
 
 #: src/components/modals/tabs/AccessibilityTab.tsx:148
-#: src/components/modals/tabs/MyProfileTab.tsx:768
+#: src/components/modals/tabs/MyProfileTab.tsx:767
 msgid "Doc, I'm from the future. I came here in a time machine that you invented. Now, I need your help to get back to the year 1985."
 msgstr "ด็อก ผมมาจากอนาคต ผมมาในเครื่องย้อนเวลาที่คุณประดิษฐ์ไว้ ตอนนี้ผมต้องการความช่วยเหลือให้กลับไปปี 1985"
 
@@ -8388,7 +8388,7 @@ msgstr "แถบเตือนยืนยันอีเมล"
 msgid "Email Verification Required"
 msgstr "ต้องยืนยันอีเมล"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:57
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:59
 msgid "Email Verified Override"
 msgstr "แทนที่การยืนยันอีเมล"
 
@@ -9872,11 +9872,11 @@ msgstr "สัญลักษณ์แอป Fluxer"
 msgid "Fluxer avoids sending push notifications to your mobile devices when you are at your computer. Use this setting to control how long you need to be inactive on desktop for before you receive push notifications, ranging from 1 minute to 10 minutes."
 msgstr "Fluxer จะหลีกเลี่ยงการส่งการแจ้งเตือนไปยังอุปกรณ์มือถือ เมื่อคุณอยู่หน้าคอมพิวเตอร์ ใช้การตั้งค่านี้เพื่อกำหนดระยะเวลาที่ต้องไม่เคลื่อนไหวบนเดสก์ท็อปก่อนจะรับการแจ้งเตือน ตั้งแต่ 1 นาที ถึง 10 นาที"
 
-#: src/components/popouts/UserProfileBadges.tsx:89
+#: src/components/popouts/UserProfileBadges.tsx:115
 msgid "Fluxer Bug Hunter"
 msgstr "นักล่าบั๊ก Fluxer"
 
-#: src/components/popouts/UserProfileBadges.tsx:71
+#: src/components/popouts/UserProfileBadges.tsx:95
 msgid "Fluxer Community Team"
 msgstr "ทีมชุมชน Fluxer"
 
@@ -9944,18 +9944,18 @@ msgstr "Fluxer ต้องการสิทธิ์ตรวจสอบอ�
 msgid "Fluxer needs permission to monitor keyboard and mouse input so that <0>Push-to-Talk</0> and <1>Global Shortcuts</1> work even when you're in another app or game."
 msgstr "Fluxer ต้องการสิทธิ์ติดตามอินพุตจากแป้นพิมพ์และเมาส์ เพื่อให้ฟีเจอร์ <0>กดคุย</0> และ <1>ทางลัดทั่วไป</1> ทำงานแม้คุณจะอยู่ในแอปหรือเกมอื่น"
 
-#: src/components/popouts/UserProfileBadges.tsx:80
+#: src/components/popouts/UserProfileBadges.tsx:105
 msgid "Fluxer Partner"
 msgstr "พาร์ทเนอร์ Fluxer"
 
 #: src/components/modals/components/PlutoniumContent.tsx:165
 #: src/components/modals/PremiumModal.tsx:34
 #: src/components/modals/utils/SettingsConstants.tsx:124
-#: src/components/popouts/UserProfileBadges.tsx:95
+#: src/components/popouts/UserProfileBadges.tsx:121
 msgid "Fluxer Plutonium"
 msgstr "Fluxer Plutonium"
 
-#: src/components/popouts/UserProfileBadges.tsx:62
+#: src/components/popouts/UserProfileBadges.tsx:85
 msgid "Fluxer Staff"
 msgstr "ทีมงาน Fluxer"
 
@@ -10963,7 +10963,7 @@ msgstr "การเร่งความเร็วด้วยฮาร์ด
 msgid "Has"
 msgstr "มี"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:126
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:128
 msgid "Has ever purchased override"
 msgstr "เคยซื้อการข้าม"
 
@@ -12634,6 +12634,10 @@ msgstr "ออกจากการโทร"
 msgid "Leave Community"
 msgstr "ออกจากชุมชน"
 
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:142
+msgid "Leave empty for actual value"
+msgstr "เว้นว่างไว้สำหรับค่าจริง"
+
 #: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1317
 #: src/components/channel/direct_message/DMList.tsx:569
 #: src/components/uikit/context_menu/items/ChannelMenuData.tsx:370
@@ -12713,7 +12717,7 @@ msgid "Letters (a-z, A-Z), numbers (0-9), and underscores (_) only"
 msgstr "เฉพาะตัวอักษร (a-z, A-Z) ตัวเลข (0-9) และขีดล่าง (_)"
 
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:131
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:50
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:52
 #: src/components/modals/tabs/developer_options_tab/MockingTab.tsx:317
 msgid "Lifetime"
 msgstr "ตลอดชีพ"
@@ -15066,7 +15070,7 @@ msgstr "อิโมจิไม่เคลื่อนไหว ({0})"
 
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:157
 #: src/components/modals/tabs/accessibility_tab/VisualTab.tsx:48
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:48
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:50
 msgid "None"
 msgstr "ไม่มี"
 
@@ -15828,7 +15832,7 @@ msgstr "Override"
 msgid "Override {0}"
 msgstr "Override {0}"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:59
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:61
 msgid "Override email verification status"
 msgstr "แทนที่สถานะยืนยันอีเมล"
 
@@ -15836,15 +15840,15 @@ msgstr "แทนที่สถานะยืนยันอีเมล"
 msgid "Override instance limits locally for testing. Changes only affect your client."
 msgstr "Override instance limits locally for testing. Changes only affect your client."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:109
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:111
 msgid "Override Premium Type"
 msgstr "แทนที่ประเภทพรีเมียม"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:67
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:69
 msgid "Override unclaimed account status"
 msgstr "แทนที่สถานะบัญชียังไม่รับสิทธิ์"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:75
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:77
 msgid "Override unread gift inventory status"
 msgstr "แทนที่สถานะคลังของขวัญที่ยังไม่อ่าน"
 
@@ -16526,11 +16530,11 @@ msgstr "สิทธิพิเศษพรีเมียม"
 msgid "Premium state reset on the backend."
 msgstr "รีเซ็ตสถานะพรีเมียมในแบ็คเอนด์"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:135
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:155
 msgid "Premium Subscription Scenarios"
 msgstr "สถานการณ์การสมัครสมาชิกพรีเมียม"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:107
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:109
 msgid "Premium Type Override"
 msgstr "การแทนที่ชนิดพรีเมียม"
 
@@ -19261,7 +19265,7 @@ msgstr "ตั้งค่าประเภทแชนแนลเป็น {0
 msgid "Set the invite splash alignment to {0}."
 msgstr "ตั้งค่าการจัดแนวภาพพื้นหลังคำเชิญเป็น {0}"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:88
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:90
 msgid "Set the number of unread gifts in inventory."
 msgstr "ตั้งค่าจำนวนของขวัญที่ยังไม่อ่านในคลัง"
 
@@ -19837,7 +19841,7 @@ msgstr "ปิดเสียงการโทรจากทุกคน"
 msgid "simulate"
 msgstr "จำลอง"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:128
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:130
 msgid "Simulates having a Stripe customer ID (for testing purchase history access)"
 msgstr "จำลองการมีรหัสลูกค้า Stripe (เพื่อทดสอบการเข้าถึงประวัติการซื้อ)"
 
@@ -20674,7 +20678,7 @@ msgstr "กำลังส่ง"
 msgid "subscription"
 msgstr "การสมัครสมาชิก"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:49
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:51
 #: src/components/modals/utils/SettingsSearchIndex.tsx:261
 msgid "Subscription"
 msgstr "การสมัครสมาชิก"
@@ -20989,7 +20993,7 @@ msgstr "ข้อกำหนดในการให้บริการ"
 msgid "Test Bulk Delete (60s)"
 msgstr "ทดสอบลบจำนวนมาก (60 วินาที)"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:137
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:157
 msgid "Test Subscription State"
 msgstr "ทดสอบสถานะการสมัครสมาชิก"
 
@@ -21298,10 +21302,6 @@ msgstr "พวกเขา"
 #: src/components/channel/channel_view/DMChannelView.tsx:932
 msgid "They might have taken the DeLorean elsewhere."
 msgstr "พวกเขาอาจพา DeLorean ไปที่อื่นแล้ว"
-
-#: src/components/modals/tabs/MyProfileTab.tsx:711
-msgid "they/them"
-msgstr "พวกเขา/ของพวกเขา"
 
 #: src/components/channel/channel_view/DMChannelView.tsx:918
 msgid "Think, McFly! Did you type the right address?"
@@ -21963,7 +21963,7 @@ msgstr "สลับปิดเสียง"
 msgid "Toggle Pins Popout"
 msgstr "สลับหน้าต่างปักหมุด"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:120
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:122
 msgid "Toggle premium_enabled_override on the backend"
 msgstr "สลับ premium_enabled_override ด้านหลังระบบ"
 
@@ -22526,7 +22526,7 @@ msgstr "บัญชีที่ยังไม่ได้อ้างสิท
 msgid "Unclaimed Account Nagbar"
 msgstr "แถบแจ้งเตือนบัญชีที่ยังไม่ได้อ้างสิทธิ์"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:65
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:67
 msgid "Unclaimed Account Override"
 msgstr "เปลี่ยนแปลงบัญชีที่ยังไม่ได้อ้างสิทธิ์"
 
@@ -22915,11 +22915,11 @@ msgstr "ยังไม่ได้อ่าน"
 msgid "Unread DMs only"
 msgstr "เฉพาะ DM ที่ยังไม่อ่าน"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:85
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:87
 msgid "Unread Gift Count"
 msgstr "จำนวนของขวัญที่ยังไม่อ่าน"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:73
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:75
 msgid "Unread gift inventory override"
 msgstr "การแทนที่สินค้าของขวัญที่ยังไม่ได้อ่าน"
 
@@ -23249,7 +23249,7 @@ msgstr "ใช้โมดัลเฉพาะเพื่อกำหนดว
 msgid "Use Actual"
 msgstr "ใช้ข้อมูลจริง"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:47
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:49
 msgid "Use actual premium type"
 msgstr "ใช้ประเภทพรีเมียมจริง"
 
@@ -24015,6 +24015,19 @@ msgstr "Visionary (Lifetime Plutonium)"
 #: src/components/modals/tabs/developer_options_tab/NagbarControls.tsx:172
 msgid "Visionary 2FA Nagbar"
 msgstr "Visionary 2FA Nagbar"
+
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:137
+msgid "Visionary Badge Override"
+msgstr "การแทนที่เหรียญวิสัยทัศน์"
+
+#. placeholder {0}: profile.premiumLifetimeSequence
+#: src/components/popouts/UserProfileBadges.tsx:150
+msgid "Visionary ID #{0}"
+msgstr "รหัสวิสัยทัศน์ #{0}"
+
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:139
+msgid "Visionary ID Number"
+msgstr "หมายเลขรหัสวิสัยทัศน์"
 
 #: src/components/modals/ExternalLinkWarningModal.tsx:111
 msgid "Visit Site"

@@ -875,11 +875,11 @@ msgstr "{username} αφαίρεσε κάποιον από την ομάδα."
 msgid "{username} started a call."
 msgstr "{username} ξεκίνησε μια κλήση."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:100
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:102
 msgid "{v} gift"
 msgstr "{v} δώρο"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:100
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:102
 msgid "{v} gifts"
 msgstr "{v} δώρα"
 
@@ -1634,7 +1634,7 @@ msgstr "Ο λογαριασμός δηλώθηκε με επιτυχία"
 msgid "Account Connected"
 msgstr "Λογαριασμός Συνδεδεμένος"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:55
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:57
 msgid "Account State Overrides"
 msgstr "Παράκαμψη κατάστασης λογαριασμού"
 
@@ -3395,7 +3395,7 @@ msgstr "Επιστροφή στους Ρόλους"
 msgid "Back to Settings"
 msgstr "Επιστροφή στις Ρυθμίσεις"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:118
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:120
 msgid "Backend Premium Override"
 msgstr "Παρακάμψη backend Premium"
 
@@ -7895,7 +7895,7 @@ msgid "Do you want to send this pin back to the future?"
 msgstr "Θέλεις να στείλεις αυτό το καρφί πίσω στο μέλλον;"
 
 #: src/components/modals/tabs/AccessibilityTab.tsx:148
-#: src/components/modals/tabs/MyProfileTab.tsx:768
+#: src/components/modals/tabs/MyProfileTab.tsx:767
 msgid "Doc, I'm from the future. I came here in a time machine that you invented. Now, I need your help to get back to the year 1985."
 msgstr "Δόκτορα, έρχομαι από το μέλλον. Ήρθα με μια μηχανή του χρόνου που εφεύρες. Τώρα, χρειάζομαι τη βοήθειά σου για να γυρίσω στο 1985."
 
@@ -8388,7 +8388,7 @@ msgstr "Μπάρα ειδοποίησης επαλήθευσης email"
 msgid "Email Verification Required"
 msgstr "Απαιτείται επαλήθευση email"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:57
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:59
 msgid "Email Verified Override"
 msgstr "Παράκαμψη επαλήθευσης email"
 
@@ -9872,11 +9872,11 @@ msgstr "Σύμβολο εφαρμογής Fluxer"
 msgid "Fluxer avoids sending push notifications to your mobile devices when you are at your computer. Use this setting to control how long you need to be inactive on desktop for before you receive push notifications, ranging from 1 minute to 10 minutes."
 msgstr "Το Fluxer αποφεύγει την αποστολή ειδοποιήσεων push στις κινητές συσκευές όταν βρίσκεστε στον υπολογιστή. Χρησιμοποιήστε αυτήν τη ρύθμιση για να ελέγξετε πόσο πρέπει να είστε ανενεργοί στον υπολογιστή πριν λάβετε ειδοποιήσεις push, από 1 έως 10 λεπτά."
 
-#: src/components/popouts/UserProfileBadges.tsx:89
+#: src/components/popouts/UserProfileBadges.tsx:115
 msgid "Fluxer Bug Hunter"
 msgstr "Fluxer Bug Hunter"
 
-#: src/components/popouts/UserProfileBadges.tsx:71
+#: src/components/popouts/UserProfileBadges.tsx:95
 msgid "Fluxer Community Team"
 msgstr "Ομάδα Κοινότητας Fluxer"
 
@@ -9944,18 +9944,18 @@ msgstr "Το Fluxer χρειάζεται άδεια παρακολούθησης
 msgid "Fluxer needs permission to monitor keyboard and mouse input so that <0>Push-to-Talk</0> and <1>Global Shortcuts</1> work even when you're in another app or game."
 msgstr "Το Fluxer χρειάζεται άδεια να παρακολουθεί την είσοδο πληκτρολογίου και ποντικιού ώστε τα <0>Push-to-Talk</0> και <1>Global Shortcuts</1> να λειτουργούν ακόμα κι όταν βρίσκεστε σε άλλη εφαρμογή ή παιχνίδι."
 
-#: src/components/popouts/UserProfileBadges.tsx:80
+#: src/components/popouts/UserProfileBadges.tsx:105
 msgid "Fluxer Partner"
 msgstr "Συνεργάτης Fluxer"
 
 #: src/components/modals/components/PlutoniumContent.tsx:165
 #: src/components/modals/PremiumModal.tsx:34
 #: src/components/modals/utils/SettingsConstants.tsx:124
-#: src/components/popouts/UserProfileBadges.tsx:95
+#: src/components/popouts/UserProfileBadges.tsx:121
 msgid "Fluxer Plutonium"
 msgstr "Fluxer Plutonium"
 
-#: src/components/popouts/UserProfileBadges.tsx:62
+#: src/components/popouts/UserProfileBadges.tsx:85
 msgid "Fluxer Staff"
 msgstr "Προσωπικό Fluxer"
 
@@ -10963,7 +10963,7 @@ msgstr "Επιτάχυνση υλικού"
 msgid "Has"
 msgstr "Έχει"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:126
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:128
 msgid "Has ever purchased override"
 msgstr "Έχει ποτέ αγοράσει ανατροπή"
 
@@ -12634,6 +12634,10 @@ msgstr "Αποχώρηση από την κλήση"
 msgid "Leave Community"
 msgstr "Αποχώρηση από την κοινότητα"
 
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:142
+msgid "Leave empty for actual value"
+msgstr "Αφήστε κενό για την πραγματική τιμή"
+
 #: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1317
 #: src/components/channel/direct_message/DMList.tsx:569
 #: src/components/uikit/context_menu/items/ChannelMenuData.tsx:370
@@ -12713,7 +12717,7 @@ msgid "Letters (a-z, A-Z), numbers (0-9), and underscores (_) only"
 msgstr "Μόνο γράμματα (a-z, A-Z), αριθμοί (0-9) και κάτω παύλες (_)"
 
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:131
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:50
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:52
 #: src/components/modals/tabs/developer_options_tab/MockingTab.tsx:317
 msgid "Lifetime"
 msgstr "Διά βίου"
@@ -15066,7 +15070,7 @@ msgstr "Μη κινούμενο emoji ({0})"
 
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:157
 #: src/components/modals/tabs/accessibility_tab/VisualTab.tsx:48
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:48
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:50
 msgid "None"
 msgstr "Κανένα"
 
@@ -15828,7 +15832,7 @@ msgstr "Override"
 msgid "Override {0}"
 msgstr "Override {0}"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:59
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:61
 msgid "Override email verification status"
 msgstr "Παράκαμψε την κατάσταση επαλήθευσης email"
 
@@ -15836,15 +15840,15 @@ msgstr "Παράκαμψε την κατάσταση επαλήθευσης emai
 msgid "Override instance limits locally for testing. Changes only affect your client."
 msgstr "Override instance limits locally for testing. Changes only affect your client."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:109
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:111
 msgid "Override Premium Type"
 msgstr "Παράκαμψε τον τύπο Premium"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:67
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:69
 msgid "Override unclaimed account status"
 msgstr "Παράκαμψε την κατάσταση μη διεκδικούμενου λογαριασμού"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:75
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:77
 msgid "Override unread gift inventory status"
 msgstr "Παράκαμψε την κατάσταση μη αναγνωσμένου αποθέματος δώρων"
 
@@ -16526,11 +16530,11 @@ msgstr "Πλεονεκτήματα Premium"
 msgid "Premium state reset on the backend."
 msgstr "Η κατάσταση premium επαναφέρθηκε στο backend."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:135
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:155
 msgid "Premium Subscription Scenarios"
 msgstr "Σενάρια συνδρομής Premium"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:107
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:109
 msgid "Premium Type Override"
 msgstr "Παράκαμψη τύπου Premium"
 
@@ -19261,7 +19265,7 @@ msgstr "Ορίστε τον τύπο καναλιού σε {0}."
 msgid "Set the invite splash alignment to {0}."
 msgstr "Ορίστε την ευθυγράμμιση της εικόνας πρόσκλησης σε {0}."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:88
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:90
 msgid "Set the number of unread gifts in inventory."
 msgstr "Ορίστε τον αριθμό των μη αναγνωσμένων δώρων στο απόθεμα."
 
@@ -19837,7 +19841,7 @@ msgstr "Σιγανές κλήσεις από όλους"
 msgid "simulate"
 msgstr "προσομοίωση"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:128
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:130
 msgid "Simulates having a Stripe customer ID (for testing purchase history access)"
 msgstr "Προσομοιώνει ότι έχεις ID πελάτη Stripe (για δοκιμές πρόσβασης ιστορικού αγορών)"
 
@@ -20674,7 +20678,7 @@ msgstr "Υποβολή"
 msgid "subscription"
 msgstr "συνδρομή"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:49
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:51
 #: src/components/modals/utils/SettingsSearchIndex.tsx:261
 msgid "Subscription"
 msgstr "Συνδρομή"
@@ -20989,7 +20993,7 @@ msgstr "Όροι Παροχής Υπηρεσιών"
 msgid "Test Bulk Delete (60s)"
 msgstr "Δοκιμή μαζικής διαγραφής (60 δευτ.)"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:137
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:157
 msgid "Test Subscription State"
 msgstr "Δοκιμή κατάστασης συνδρομής"
 
@@ -21298,10 +21302,6 @@ msgstr "αυτοί"
 #: src/components/channel/channel_view/DMChannelView.tsx:932
 msgid "They might have taken the DeLorean elsewhere."
 msgstr "Ίσως πήραν τη DeLorean αλλού."
-
-#: src/components/modals/tabs/MyProfileTab.tsx:711
-msgid "they/them"
-msgstr "αυτοί/αυτές"
 
 #: src/components/channel/channel_view/DMChannelView.tsx:918
 msgid "Think, McFly! Did you type the right address?"
@@ -21963,7 +21963,7 @@ msgstr "Εναλλαγή σίγασης"
 msgid "Toggle Pins Popout"
 msgstr "Εναλλαγή αναδυόμενου καρφιτσωμένων"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:120
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:122
 msgid "Toggle premium_enabled_override on the backend"
 msgstr "Εναλλαγή premium_enabled_override στο backend"
 
@@ -22526,7 +22526,7 @@ msgstr "Ανεξαργύρωτος λογαριασμός"
 msgid "Unclaimed Account Nagbar"
 msgstr "Μπάρα ειδοποίησης ανεξαργύρωτου λογαριασμού"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:65
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:67
 msgid "Unclaimed Account Override"
 msgstr "Παράκαμψη ανεξαργύρωτου λογαριασμού"
 
@@ -22915,11 +22915,11 @@ msgstr "Μη Αναγνωσμένα"
 msgid "Unread DMs only"
 msgstr "Μόνο μη αναγνωσμένες προσωπικές συνομιλίες"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:85
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:87
 msgid "Unread Gift Count"
 msgstr "Αριθμός μη αναγνωσμένων δώρων"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:73
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:75
 msgid "Unread gift inventory override"
 msgstr "Αναγνωριστικό δώρου που δεν έχει διαβαστεί"
 
@@ -23249,7 +23249,7 @@ msgstr "Χρησιμοποιήστε μια αφιερωμένη αναδυόμ�
 msgid "Use Actual"
 msgstr "Χρήση πραγματικού"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:47
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:49
 msgid "Use actual premium type"
 msgstr "Χρήση πραγματικού τύπου premium"
 
@@ -24015,6 +24015,19 @@ msgstr "Visionary (Διάρκειας ζωής Plutonium)"
 #: src/components/modals/tabs/developer_options_tab/NagbarControls.tsx:172
 msgid "Visionary 2FA Nagbar"
 msgstr "Visionary 2FA Nagbar"
+
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:137
+msgid "Visionary Badge Override"
+msgstr "Ανατροπή Σήματος Οραματιστή"
+
+#. placeholder {0}: profile.premiumLifetimeSequence
+#: src/components/popouts/UserProfileBadges.tsx:150
+msgid "Visionary ID #{0}"
+msgstr "Αριθμός ID Οραματιστή #{0}"
+
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:139
+msgid "Visionary ID Number"
+msgstr "Αριθμός ID Οραματιστή"
 
 #: src/components/modals/ExternalLinkWarningModal.tsx:111
 msgid "Visit Site"

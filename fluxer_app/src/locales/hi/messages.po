@@ -875,11 +875,11 @@ msgstr "{username} ने किसी को समूह से निका�
 msgid "{username} started a call."
 msgstr "{username} ने एक कॉल शुरू की।"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:100
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:102
 msgid "{v} gift"
 msgstr "{v} उपहार"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:100
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:102
 msgid "{v} gifts"
 msgstr "{v} उपहार"
 
@@ -1634,7 +1634,7 @@ msgstr "खाता सफलतापूर्वक दावा किया
 msgid "Account Connected"
 msgstr "खाता जुड़ा हुआ"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:55
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:57
 msgid "Account State Overrides"
 msgstr "खाता स्थिति ओवरराइड्स"
 
@@ -3395,7 +3395,7 @@ msgstr "रोल पर वापस"
 msgid "Back to Settings"
 msgstr "सेटिंग्स पर वापस"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:118
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:120
 msgid "Backend Premium Override"
 msgstr "बैकएंड प्रीमियम ओवरराइड"
 
@@ -7895,7 +7895,7 @@ msgid "Do you want to send this pin back to the future?"
 msgstr "क्या आप इस पिन को भविष्य में वापस भेजना चाहते हैं?"
 
 #: src/components/modals/tabs/AccessibilityTab.tsx:148
-#: src/components/modals/tabs/MyProfileTab.tsx:768
+#: src/components/modals/tabs/MyProfileTab.tsx:767
 msgid "Doc, I'm from the future. I came here in a time machine that you invented. Now, I need your help to get back to the year 1985."
 msgstr "डॉक्टर, मैं भविष्य से आया हूँ। मैं उस टाइम मशीन से आया जो तुमने बनाई थी। अब, मुझे 1985 में वापस जाने में तुम्हारी मदद चाहिए।"
 
@@ -8388,7 +8388,7 @@ msgstr "ईमेल सत्यापन नॅगबार"
 msgid "Email Verification Required"
 msgstr "ईमेल सत्यापन आवश्यक है"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:57
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:59
 msgid "Email Verified Override"
 msgstr "ईमेल सत्यापित ओवरराइड"
 
@@ -9872,11 +9872,11 @@ msgstr "Fluxer एप्लिकेशन प्रतीक"
 msgid "Fluxer avoids sending push notifications to your mobile devices when you are at your computer. Use this setting to control how long you need to be inactive on desktop for before you receive push notifications, ranging from 1 minute to 10 minutes."
 msgstr "जब आप अपने कंप्यूटर पर होते हैं तो Fluxer आपके मोबाइल उपकरणों को पुश नोटिफिकेशन भेजने से बचता है। इस सेटिंग का उपयोग करके निर्धारित करें कि पुश नोटिफिकेशन आने से पहले आपको डेस्कटॉप पर कितनी देर तक निष्क्रिय रहना होगा, 1 मिनट से 10 मिनट तक।"
 
-#: src/components/popouts/UserProfileBadges.tsx:89
+#: src/components/popouts/UserProfileBadges.tsx:115
 msgid "Fluxer Bug Hunter"
 msgstr "Fluxer बग हंटर"
 
-#: src/components/popouts/UserProfileBadges.tsx:71
+#: src/components/popouts/UserProfileBadges.tsx:95
 msgid "Fluxer Community Team"
 msgstr "Fluxer कम्युनिटी टीम"
 
@@ -9944,18 +9944,18 @@ msgstr "जब विंडो बैकग्राउंड में हो �
 msgid "Fluxer needs permission to monitor keyboard and mouse input so that <0>Push-to-Talk</0> and <1>Global Shortcuts</1> work even when you're in another app or game."
 msgstr "Fluxer को कीबोर्ड और माउस इनपुट मॉनिटर करने की अनुमति चाहिए ताकि <0>Push-to-Talk</0> और <1>Global Shortcuts</1> तब भी काम करें जब आप किसी अन्य ऐप या गेम में हों।"
 
-#: src/components/popouts/UserProfileBadges.tsx:80
+#: src/components/popouts/UserProfileBadges.tsx:105
 msgid "Fluxer Partner"
 msgstr "Fluxer पार्टनर"
 
 #: src/components/modals/components/PlutoniumContent.tsx:165
 #: src/components/modals/PremiumModal.tsx:34
 #: src/components/modals/utils/SettingsConstants.tsx:124
-#: src/components/popouts/UserProfileBadges.tsx:95
+#: src/components/popouts/UserProfileBadges.tsx:121
 msgid "Fluxer Plutonium"
 msgstr "Fluxer Plutonium"
 
-#: src/components/popouts/UserProfileBadges.tsx:62
+#: src/components/popouts/UserProfileBadges.tsx:85
 msgid "Fluxer Staff"
 msgstr "Fluxer स्टाफ"
 
@@ -10963,7 +10963,7 @@ msgstr "हार्डवेयर त्वरण"
 msgid "Has"
 msgstr "है"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:126
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:128
 msgid "Has ever purchased override"
 msgstr "कभी भी खरीदी गई ओवरराइड"
 
@@ -12634,6 +12634,10 @@ msgstr "कॉल छोड़ें"
 msgid "Leave Community"
 msgstr "कम्युनिटी छोड़ें"
 
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:142
+msgid "Leave empty for actual value"
+msgstr "वास्तविक मान के लिए खाली छोड़ें"
+
 #: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1317
 #: src/components/channel/direct_message/DMList.tsx:569
 #: src/components/uikit/context_menu/items/ChannelMenuData.tsx:370
@@ -12713,7 +12717,7 @@ msgid "Letters (a-z, A-Z), numbers (0-9), and underscores (_) only"
 msgstr "केवल अक्षर (a-z, A-Z), अंक (0-9) और अंडरस्कोर (_)"
 
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:131
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:50
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:52
 #: src/components/modals/tabs/developer_options_tab/MockingTab.tsx:317
 msgid "Lifetime"
 msgstr "सदाबी"
@@ -15066,7 +15070,7 @@ msgstr "गैर-एनिमेटेड इमोजी ({0})"
 
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:157
 #: src/components/modals/tabs/accessibility_tab/VisualTab.tsx:48
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:48
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:50
 msgid "None"
 msgstr "कोई नहीं"
 
@@ -15828,7 +15832,7 @@ msgstr "Override"
 msgid "Override {0}"
 msgstr "Override {0}"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:59
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:61
 msgid "Override email verification status"
 msgstr "ईमेल सत्यापन स्थिति को ओवरराइड करें"
 
@@ -15836,15 +15840,15 @@ msgstr "ईमेल सत्यापन स्थिति को ओवर�
 msgid "Override instance limits locally for testing. Changes only affect your client."
 msgstr "Override instance limits locally for testing. Changes only affect your client."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:109
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:111
 msgid "Override Premium Type"
 msgstr "प्रीमियम प्रकार को ओवरराइड करें"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:67
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:69
 msgid "Override unclaimed account status"
 msgstr "अदाबी खाते की स्थिति को ओवरराइड करें"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:75
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:77
 msgid "Override unread gift inventory status"
 msgstr "अनपढ़े उपहार इन्वेंटरी स्थिति को ओवरराइड करें"
 
@@ -16526,11 +16530,11 @@ msgstr "प्रीमियम सुविधाएं"
 msgid "Premium state reset on the backend."
 msgstr "बैकएंड पर प्रीमियम स्थिति रीसेट की गई।"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:135
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:155
 msgid "Premium Subscription Scenarios"
 msgstr "प्रीमियम सदस्यता परिदृश्य"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:107
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:109
 msgid "Premium Type Override"
 msgstr "प्रीमियम प्रकार ओवरराइड"
 
@@ -19261,7 +19265,7 @@ msgstr "चैनल प्रकार को {0} पर सेट करें
 msgid "Set the invite splash alignment to {0}."
 msgstr "निमंत्रण स्प्लैश संरेखण को {0} पर सेट करें।"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:88
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:90
 msgid "Set the number of unread gifts in inventory."
 msgstr "इन्वेंट्री में न पढ़े गए गिफ्ट्स की संख्या सेट करें।"
 
@@ -19837,7 +19841,7 @@ msgstr "सभी से मूक कॉल"
 msgid "simulate"
 msgstr "अनुकरण करें"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:128
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:130
 msgid "Simulates having a Stripe customer ID (for testing purchase history access)"
 msgstr "स्ट्राइप ग्राहक आईडी का अनुकरण करता है (खरीद इतिहास एक्सेस का परीक्षण करने के लिए)"
 
@@ -20674,7 +20678,7 @@ msgstr "जमा हो रहा है"
 msgid "subscription"
 msgstr "सदस्यता"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:49
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:51
 #: src/components/modals/utils/SettingsSearchIndex.tsx:261
 msgid "Subscription"
 msgstr "सदस्यता"
@@ -20989,7 +20993,7 @@ msgstr "सेवा की शर्तें"
 msgid "Test Bulk Delete (60s)"
 msgstr "बल्क डिलीट टेस्ट (60s)"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:137
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:157
 msgid "Test Subscription State"
 msgstr "सदस्यता स्थिति टेस्ट"
 
@@ -21298,10 +21302,6 @@ msgstr "वे"
 #: src/components/channel/channel_view/DMChannelView.tsx:932
 msgid "They might have taken the DeLorean elsewhere."
 msgstr "शायद उन्होंने DeLorean को कहीं और ले जाया होगा।"
-
-#: src/components/modals/tabs/MyProfileTab.tsx:711
-msgid "they/them"
-msgstr "वो/उनका"
 
 #: src/components/channel/channel_view/DMChannelView.tsx:918
 msgid "Think, McFly! Did you type the right address?"
@@ -21963,7 +21963,7 @@ msgstr "म्यूट चालू/बंद करें"
 msgid "Toggle Pins Popout"
 msgstr "पिन पॉपआउट चालू/बंद करें"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:120
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:122
 msgid "Toggle premium_enabled_override on the backend"
 msgstr "बैकएंड पर premium_enabled_override चालू/बंद करें"
 
@@ -22526,7 +22526,7 @@ msgstr "अनदावी खाता"
 msgid "Unclaimed Account Nagbar"
 msgstr "अनदावी खाता नोटिफिकेशन"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:65
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:67
 msgid "Unclaimed Account Override"
 msgstr "अनदावी खाता ओवरराइड"
 
@@ -22915,11 +22915,11 @@ msgstr "अनपढ़"
 msgid "Unread DMs only"
 msgstr "केवल अनपढ़ी हुई DMs"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:85
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:87
 msgid "Unread Gift Count"
 msgstr "अनपढ़े उपहारों की संख्या"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:73
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:75
 msgid "Unread gift inventory override"
 msgstr "अवांछित उपहार इन्वेंटरी ओवरराइड"
 
@@ -23249,7 +23249,7 @@ msgstr "उन सदस्यों के लिए संदेश इति�
 msgid "Use Actual"
 msgstr "वास्तविक का उपयोग करें"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:47
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:49
 msgid "Use actual premium type"
 msgstr "वास्तविक प्रीमियम प्रकार का उपयोग करें"
 
@@ -24015,6 +24015,19 @@ msgstr "Visionary (लाइफटाइम Plutonium)"
 #: src/components/modals/tabs/developer_options_tab/NagbarControls.tsx:172
 msgid "Visionary 2FA Nagbar"
 msgstr "Visionary 2FA नागबार"
+
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:137
+msgid "Visionary Badge Override"
+msgstr "विजनरी बैज ओवरराइड"
+
+#. placeholder {0}: profile.premiumLifetimeSequence
+#: src/components/popouts/UserProfileBadges.tsx:150
+msgid "Visionary ID #{0}"
+msgstr "विजनरी आईडी #{0}"
+
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:139
+msgid "Visionary ID Number"
+msgstr "विजनरी आईडी नंबर"
 
 #: src/components/modals/ExternalLinkWarningModal.tsx:111
 msgid "Visit Site"

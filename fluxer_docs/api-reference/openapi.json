@@ -75628,6 +75628,17 @@
               ],
               "description": "New parent category ID"
             },
+            "preceding_sibling_id": {
+              "anyOf": [
+                {
+                  "$ref": "#/components/schemas/SnowflakeType"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "ID of the sibling channel that should directly precede this channel after reordering"
+            },
             "lock_permissions": {
               "type": "boolean",
               "description": "Whether to sync permissions with the new parent"

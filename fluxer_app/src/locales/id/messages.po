@@ -875,11 +875,11 @@ msgstr "{username} menghapus seseorang dari grup."
 msgid "{username} started a call."
 msgstr "{username} memulai panggilan."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:100
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:102
 msgid "{v} gift"
 msgstr "{v} hadiah"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:100
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:102
 msgid "{v} gifts"
 msgstr "{v} hadiah"
 
@@ -1634,7 +1634,7 @@ msgstr "Akun berhasil diklaim"
 msgid "Account Connected"
 msgstr "Akun Terhubung"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:55
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:57
 msgid "Account State Overrides"
 msgstr "Penggantian Status Akun"
 
@@ -3395,7 +3395,7 @@ msgstr "Kembali ke Roles"
 msgid "Back to Settings"
 msgstr "Kembali ke Pengaturan"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:118
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:120
 msgid "Backend Premium Override"
 msgstr "Override Premium Backend"
 
@@ -7895,7 +7895,7 @@ msgid "Do you want to send this pin back to the future?"
 msgstr "Apakah Anda ingin mengirim pin ini kembali ke masa depan?"
 
 #: src/components/modals/tabs/AccessibilityTab.tsx:148
-#: src/components/modals/tabs/MyProfileTab.tsx:768
+#: src/components/modals/tabs/MyProfileTab.tsx:767
 msgid "Doc, I'm from the future. I came here in a time machine that you invented. Now, I need your help to get back to the year 1985."
 msgstr "Dok, saya dari masa depan. Saya datang ke sini dengan mesin waktu yang Anda ciptakan. Sekarang, saya butuh bantuan Anda untuk kembali ke tahun 1985."
 
@@ -8388,7 +8388,7 @@ msgstr "Bar Notifikasi Verifikasi Email"
 msgid "Email Verification Required"
 msgstr "Verifikasi Email Diperlukan"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:57
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:59
 msgid "Email Verified Override"
 msgstr "Penggantian Email Terverifikasi"
 
@@ -9872,11 +9872,11 @@ msgstr "Simbol aplikasi Fluxer"
 msgid "Fluxer avoids sending push notifications to your mobile devices when you are at your computer. Use this setting to control how long you need to be inactive on desktop for before you receive push notifications, ranging from 1 minute to 10 minutes."
 msgstr "Fluxer menghindari mengirim notifikasi push ke perangkat seluler Anda saat Anda berada di komputer. Gunakan pengaturan ini untuk mengontrol berapa lama Anda perlu tidak aktif di desktop sebelum menerima notifikasi push, mulai dari 1 menit hingga 10 menit."
 
-#: src/components/popouts/UserProfileBadges.tsx:89
+#: src/components/popouts/UserProfileBadges.tsx:115
 msgid "Fluxer Bug Hunter"
 msgstr "Fluxer Bug Hunter"
 
-#: src/components/popouts/UserProfileBadges.tsx:71
+#: src/components/popouts/UserProfileBadges.tsx:95
 msgid "Fluxer Community Team"
 msgstr "Tim Komunitas Fluxer"
 
@@ -9944,18 +9944,18 @@ msgstr "Fluxer memerlukan izin Pemantauan Input agar push-to-talk dan pintasan g
 msgid "Fluxer needs permission to monitor keyboard and mouse input so that <0>Push-to-Talk</0> and <1>Global Shortcuts</1> work even when you're in another app or game."
 msgstr "Fluxer memerlukan izin untuk memantau input keyboard dan mouse agar <0>Push-to-Talk</0> dan <1>Pintasan Global</1> tetap berfungsi bahkan saat Anda berada di aplikasi atau game lain."
 
-#: src/components/popouts/UserProfileBadges.tsx:80
+#: src/components/popouts/UserProfileBadges.tsx:105
 msgid "Fluxer Partner"
 msgstr "Mitra Fluxer"
 
 #: src/components/modals/components/PlutoniumContent.tsx:165
 #: src/components/modals/PremiumModal.tsx:34
 #: src/components/modals/utils/SettingsConstants.tsx:124
-#: src/components/popouts/UserProfileBadges.tsx:95
+#: src/components/popouts/UserProfileBadges.tsx:121
 msgid "Fluxer Plutonium"
 msgstr "Fluxer Plutonium"
 
-#: src/components/popouts/UserProfileBadges.tsx:62
+#: src/components/popouts/UserProfileBadges.tsx:85
 msgid "Fluxer Staff"
 msgstr "Staf Fluxer"
 
@@ -10963,7 +10963,7 @@ msgstr "Akselerasi Perangkat Keras"
 msgid "Has"
 msgstr "Memiliki"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:126
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:128
 msgid "Has ever purchased override"
 msgstr "Pernah membeli override"
 
@@ -12634,6 +12634,10 @@ msgstr "Tinggalkan panggilan"
 msgid "Leave Community"
 msgstr "Keluar dari Komunitas"
 
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:142
+msgid "Leave empty for actual value"
+msgstr "Biarkan kosong untuk nilai sebenarnya"
+
 #: src/components/bottomsheets/ChannelDetailsBottomSheet.tsx:1317
 #: src/components/channel/direct_message/DMList.tsx:569
 #: src/components/uikit/context_menu/items/ChannelMenuData.tsx:370
@@ -12713,7 +12717,7 @@ msgid "Letters (a-z, A-Z), numbers (0-9), and underscores (_) only"
 msgstr "Hanya huruf (a-z, A-Z), angka (0-9), dan garis bawah (_)"
 
 #: src/components/modals/components/plutonium/SubscriptionCard.tsx:131
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:50
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:52
 #: src/components/modals/tabs/developer_options_tab/MockingTab.tsx:317
 msgid "Lifetime"
 msgstr "Seumur hidup"
@@ -15066,7 +15070,7 @@ msgstr "Emoji Tidak Animasi ({0})"
 
 #: src/components/modals/guild_tabs/GuildModerationTab.tsx:157
 #: src/components/modals/tabs/accessibility_tab/VisualTab.tsx:48
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:48
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:50
 msgid "None"
 msgstr "Tidak Ada"
 
@@ -15828,7 +15832,7 @@ msgstr "Override"
 msgid "Override {0}"
 msgstr "Override {0}"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:59
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:61
 msgid "Override email verification status"
 msgstr "Timpa status verifikasi email"
 
@@ -15836,15 +15840,15 @@ msgstr "Timpa status verifikasi email"
 msgid "Override instance limits locally for testing. Changes only affect your client."
 msgstr "Override instance limits locally for testing. Changes only affect your client."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:109
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:111
 msgid "Override Premium Type"
 msgstr "Timpa Tipe Premium"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:67
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:69
 msgid "Override unclaimed account status"
 msgstr "Timpa status akun yang belum diklaim"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:75
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:77
 msgid "Override unread gift inventory status"
 msgstr "Timpa status inventaris hadiah yang belum dibaca"
 
@@ -16526,11 +16530,11 @@ msgstr "Keuntungan Premium"
 msgid "Premium state reset on the backend."
 msgstr "Status premium direset di backend."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:135
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:155
 msgid "Premium Subscription Scenarios"
 msgstr "Skenario Langganan Premium"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:107
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:109
 msgid "Premium Type Override"
 msgstr "Pengganti Jenis Premium"
 
@@ -19261,7 +19265,7 @@ msgstr "Atur tipe kanal ke {0}."
 msgid "Set the invite splash alignment to {0}."
 msgstr "Atur perataan splash undangan ke {0}."
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:88
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:90
 msgid "Set the number of unread gifts in inventory."
 msgstr "Atur jumlah hadiah belum dibaca di inventaris."
 
@@ -19837,7 +19841,7 @@ msgstr "Panggilan diam dari semua orang"
 msgid "simulate"
 msgstr "simulasikan"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:128
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:130
 msgid "Simulates having a Stripe customer ID (for testing purchase history access)"
 msgstr "Menyimulasikan memiliki ID pelanggan Stripe (untuk menguji akses riwayat pembelian)"
 
@@ -20674,7 +20678,7 @@ msgstr "Mengirim"
 msgid "subscription"
 msgstr "langganan"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:49
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:51
 #: src/components/modals/utils/SettingsSearchIndex.tsx:261
 msgid "Subscription"
 msgstr "Langganan"
@@ -20989,7 +20993,7 @@ msgstr "Syarat Layanan"
 msgid "Test Bulk Delete (60s)"
 msgstr "Uji Hapus Massal (60 detik)"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:137
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:157
 msgid "Test Subscription State"
 msgstr "Uji Status Langganan"
 
@@ -21298,10 +21302,6 @@ msgstr "mereka"
 #: src/components/channel/channel_view/DMChannelView.tsx:932
 msgid "They might have taken the DeLorean elsewhere."
 msgstr "Mereka mungkin telah membawa DeLorean ke tempat lain."
-
-#: src/components/modals/tabs/MyProfileTab.tsx:711
-msgid "they/them"
-msgstr "mereka/mereka"
 
 #: src/components/channel/channel_view/DMChannelView.tsx:918
 msgid "Think, McFly! Did you type the right address?"
@@ -21963,7 +21963,7 @@ msgstr "Alihkan Bisu"
 msgid "Toggle Pins Popout"
 msgstr "Alihkan Popout Sematan"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:120
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:122
 msgid "Toggle premium_enabled_override on the backend"
 msgstr "Alihkan premium_enabled_override di backend"
 
@@ -22526,7 +22526,7 @@ msgstr "Akun Tidak Diklaim"
 msgid "Unclaimed Account Nagbar"
 msgstr "Nagbar Akun Tidak Diklaim"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:65
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:67
 msgid "Unclaimed Account Override"
 msgstr "Penimpaan Akun Tidak Diklaim"
 
@@ -22915,11 +22915,11 @@ msgstr "Belum Dibaca"
 msgid "Unread DMs only"
 msgstr "Hanya DM yang belum dibaca"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:85
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:87
 msgid "Unread Gift Count"
 msgstr "Jumlah Hadiah Belum Dibaca"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:73
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:75
 msgid "Unread gift inventory override"
 msgstr "Override inventaris hadiah yang belum dibaca"
 
@@ -23249,7 +23249,7 @@ msgstr "Gunakan modal khusus untuk mengatur tanggal ambang riwayat pesan bagi an
 msgid "Use Actual"
 msgstr "Gunakan Aktual"
 
-#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:47
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:49
 msgid "Use actual premium type"
 msgstr "Gunakan jenis premium yang sebenarnya"
 
@@ -24015,6 +24015,19 @@ msgstr "Visionary (Lifetime Plutonium)"
 #: src/components/modals/tabs/developer_options_tab/NagbarControls.tsx:172
 msgid "Visionary 2FA Nagbar"
 msgstr "Nagbar 2FA Visionary"
+
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:137
+msgid "Visionary Badge Override"
+msgstr "Override Lencana Visionary"
+
+#. placeholder {0}: profile.premiumLifetimeSequence
+#: src/components/popouts/UserProfileBadges.tsx:150
+msgid "Visionary ID #{0}"
+msgstr "ID Visionary #{0}"
+
+#: src/components/modals/tabs/developer_options_tab/AccountPremiumTab.tsx:139
+msgid "Visionary ID Number"
+msgstr "Nomor ID Visionary"
 
 #: src/components/modals/ExternalLinkWarningModal.tsx:111
 msgid "Visit Site"
