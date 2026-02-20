@@ -184,7 +184,6 @@ describe('ChannelMoveOperation', () => {
 			position: 1,
 		});
 	});
-
 	it('returns null when dropping to the same effective placement', () => {
 		const category = createChannel({id: 'category', type: ChannelTypes.GUILD_CATEGORY, position: 0});
 		const textOne = createChannel({
