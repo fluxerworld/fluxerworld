@@ -41,6 +41,15 @@ import type React from 'react';
 
 const logger = new Logger('SecurityTab');
 
+const maskPhone = (phone: string): string => {
+	if (phone.length <= 4) {
+		return phone.replace(/./g, '*');
+	}
+	const lastTwo = phone.slice(-2);
+	const masked = phone.slice(0, -2).replace(/\d/g, '*');
+	return `${masked}${lastTwo}`;
+};
+
 interface SecurityTabProps {
 	user: UserRecord;
 	isClaimed: boolean;
@@ -51,9 +60,11 @@ interface SecurityTabProps {
 	loadingPasskeys: boolean;
 	enablingSmsMfa: boolean;
 	disablingSmsMfa: boolean;
+	showMaskedPhone: boolean;
 	loadPasskeys: () => Promise<void>;
 	setEnablingSmsMfa: React.Dispatch<React.SetStateAction<boolean>>;
 	setDisablingSmsMfa: React.Dispatch<React.SetStateAction<boolean>>;
+	setShowMaskedPhone: (show: boolean) => void;
 }
 
 export const SecurityTabContent: React.FC<SecurityTabProps> = observer(
@@ -67,9 +78,11 @@ export const SecurityTabContent: React.FC<SecurityTabProps> = observer(
 		loadingPasskeys,
 		enablingSmsMfa,
 		disablingSmsMfa,
+		showMaskedPhone,
 		loadPasskeys,
 		setEnablingSmsMfa,
 		setDisablingSmsMfa,
+		setShowMaskedPhone,
 	}) => {
 		const {t, i18n} = useLingui();
 
@@ -344,13 +357,24 @@ export const SecurityTabContent: React.FC<SecurityTabProps> = observer(
 									<div className={styles.label}>
 										<Trans>Phone Number</Trans>
 									</div>
-									<div className={styles.description}>
-										{user.phone ? (
-											<Trans>Phone number added: {user.phone}</Trans>
-										) : (
+									{user.phone ? (
+										<div className={styles.phoneRow}>
+											<span className={`${styles.phoneText} ${showMaskedPhone ? styles.phoneTextSelectable : ''}`}>
+												{showMaskedPhone ? user.phone : maskPhone(user.phone)}
+											</span>
+											<button
+												type="button"
+												className={styles.toggleButton}
+												onClick={() => setShowMaskedPhone(!showMaskedPhone)}
+											>
+												{showMaskedPhone ? t`Hide` : t`Reveal`}
+											</button>
+										</div>
+									) : (
+										<div className={styles.description}>
 											<Trans>Add a phone number to enable SMS two-factor authentication</Trans>
-										)}
-									</div>
+										</div>
+									)}
 								</div>
 								{user.phone ? (
 									<Button
