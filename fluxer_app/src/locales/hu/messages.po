@@ -134,12 +134,12 @@ msgid "{0} of {totalAttachments}"
 msgstr "{0} a(z) {totalAttachments} közül"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:285
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:288
 msgid "{0} passkey registered (max 10)"
 msgstr "{0} passkey regisztrálva (max 10)"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:289
 msgid "{0} passkeys registered (max 10)"
 msgstr "{0} passkey regisztrálva (max 10)"
 
@@ -1088,7 +1088,7 @@ msgstr "<0>Feloldotta a siketítést</0> a tagon."
 msgid "<0>Unmuted</0> the member."
 msgstr "<0>Feloldotta a némítást</0> a tagon."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:370
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:373
 msgid "<0>Warning:</0> This will also disable SMS two-factor authentication."
 msgstr "<0>Figyelem:</0> Ez letiltja az SMS kétfaktoros hitelesítést is."
 
@@ -1362,9 +1362,9 @@ msgstr "30 másodperc"
 msgid "4 hours"
 msgstr "4 óra"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:203
-#: src/components/modals/FluxerTagChangeModal.tsx:231
-#: src/components/modals/FluxerTagChangeModal.tsx:248
+#: src/components/modals/FluxerTagChangeModal.tsx:206
+#: src/components/modals/FluxerTagChangeModal.tsx:234
+#: src/components/modals/FluxerTagChangeModal.tsx:251
 msgid "4-digit tag"
 msgstr "4 számjegyű címke"
 
@@ -1763,7 +1763,7 @@ msgstr "Hozzáad"
 msgid "Add a bot to a community with requested permissions"
 msgstr "Bot hozzáadása egy közösséghez a kért engedélyekkel"
 
-#: src/components/modals/ForwardModal.tsx:309
+#: src/components/modals/ForwardModal.tsx:314
 msgid "Add a comment (optional)"
 msgstr "Hozzászólás hozzáadása (opcionális)"
 
@@ -1782,7 +1782,7 @@ msgstr "Egyedi háttér hozzáadása"
 msgid "Add a different account"
 msgstr "Másik fiók hozzáadása"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:348
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:351
 msgid "Add a phone number to enable SMS two-factor authentication"
 msgstr "Adj meg egy telefonszámot az SMS kétlépcsős azonosítás engedélyezéséhez"
 
@@ -1844,7 +1844,7 @@ msgstr "Kapcsolat hozzáadása űrlap"
 msgid "Add domain connection"
 msgstr "Domain kapcsolat hozzáadása"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:98
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:101
 msgid "Add Email"
 msgstr "E-mail hozzáadása"
 
@@ -1902,12 +1902,12 @@ msgstr "Telefonszám hozzáadása vagy módosítása"
 msgid "Add Override"
 msgstr "Felülbírálás hozzáadása"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:290
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:293
 msgid "Add Passkey"
 msgstr "Jelszókulcs hozzáadása"
 
 #: src/components/channel/barriers/BarrierComponents.tsx:198
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:395
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:398
 msgid "Add Phone"
 msgstr "Telefon hozzáadása"
 
@@ -2028,11 +2028,11 @@ msgstr "Hozzáadva a Kedvencekhez"
 msgid "Added to saved media"
 msgstr "Hozzáadva a mentett médiához"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:313
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:316
 msgid "Added: {createdDate}"
 msgstr "Hozzáadva: {createdDate}"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:309
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:312
 msgid "Added: {createdDate} • Last used: {lastUsedDate}"
 msgstr "Hozzáadva: {createdDate} • Utoljára használva: {lastUsedDate}"
 
@@ -2930,7 +2930,7 @@ msgid "Are you sure you want to remove this connection? This action cannot be un
 msgstr "Biztosan el akarod távolítani ezt a kapcsolatot? Ez a művelet nem vonható vissza."
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:364
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:367
 msgid "Are you sure you want to remove your phone number <0>{0}</0>?"
 msgstr "Biztosan el szeretnéd távolítani a telefonszámodat <0>{0}</0>?"
 
@@ -3438,12 +3438,12 @@ msgid "backup codes"
 msgstr "biztonsági kódok"
 
 #: src/components/modals/BackupCodesModal.tsx:43
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:254
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
 #: src/components/modals/utils/SettingsSearchIndex.tsx:140
 msgid "Backup Codes"
 msgstr "Biztonsági kódok"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:48
+#: src/components/modals/BackupCodesRegenerateModal.tsx:55
 msgid "Backup codes regenerated"
 msgstr "Biztonsági kódok újragenerálva"
 
@@ -4069,8 +4069,8 @@ msgstr "A kamerák le vannak tiltva, ha több mint {VOICE_CHANNEL_CAMERA_USER_LI
 #: src/components/modals/AddGuildModal.tsx:413
 #: src/components/modals/AddGuildStickerModal.tsx:120
 #: src/components/modals/AttachmentEditModal.tsx:122
-#: src/components/modals/BackupCodesRegenerateModal.tsx:72
-#: src/components/modals/BackupCodesViewModal.tsx:70
+#: src/components/modals/BackupCodesRegenerateModal.tsx:79
+#: src/components/modals/BackupCodesViewModal.tsx:75
 #: src/components/modals/BanMemberModal.tsx:143
 #: src/components/modals/CameraPreviewModal.tsx:485
 #: src/components/modals/CaptchaModal.tsx:187
@@ -4094,14 +4094,14 @@ msgstr "A kamerák le vannak tiltva, ha több mint {VOICE_CHANNEL_CAMERA_USER_LI
 #: src/components/modals/EditFavoriteMemeModal.tsx:85
 #: src/components/modals/EditGuildStickerModal.tsx:113
 #: src/components/modals/EditPackModal.tsx:103
-#: src/components/modals/EmailChangeModal.tsx:199
-#: src/components/modals/EmailChangeModal.tsx:230
-#: src/components/modals/EmailChangeModal.tsx:267
-#: src/components/modals/EmailChangeModal.tsx:298
+#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:117
-#: src/components/modals/FluxerTagChangeModal.tsx:280
-#: src/components/modals/ForwardModal.tsx:373
+#: src/components/modals/FluxerTagChangeModal.tsx:120
+#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
 #: src/components/modals/GuildFolderSettingsModal.tsx:199
@@ -4113,7 +4113,7 @@ msgstr "A kamerák le vannak tiltva, ha több mint {VOICE_CHANNEL_CAMERA_USER_LI
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
-#: src/components/modals/MfaTotpEnableModal.tsx:103
+#: src/components/modals/MfaTotpEnableModal.tsx:106
 #: src/components/modals/PasskeyNameModal.tsx:62
 #: src/components/modals/PasswordChangeModal.tsx:145
 #: src/components/modals/PasswordChangeModal.tsx:176
@@ -4146,7 +4146,7 @@ msgstr "Mégse"
 msgid "Cancel Friend Request"
 msgstr "Barátkérelem visszavonása"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:112
+#: src/components/modals/FluxerTagChangeModal.tsx:115
 msgid "Cancel if you want to choose a different username instead."
 msgstr "Vond vissza, ha más felhasználónevet szeretnél választani."
 
@@ -4279,7 +4279,7 @@ msgstr "Banner módosítása"
 msgid "Change email"
 msgstr "E-mail változtatás"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:81
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:84
 msgid "Change Email"
 msgstr "E-mail módosítása"
 
@@ -4288,12 +4288,12 @@ msgstr "E-mail módosítása"
 msgid "Change emoji"
 msgstr "Emoji módosítása"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:59
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:69
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:60
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:70
 msgid "Change FluxerTag"
 msgstr "FluxerTag módosítása"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:158
+#: src/components/modals/FluxerTagChangeModal.tsx:161
 msgid "Change FluxerTag form"
 msgstr "FluxerTag módosítása űrlap"
 
@@ -4360,7 +4360,7 @@ msgid "change password"
 msgstr "jelszó megváltoztatása"
 
 #: src/components/modals/PasswordChangeModal.tsx:227
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:124
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:127
 msgid "Change Password"
 msgstr "Jelszó módosítása"
 
@@ -4372,7 +4372,7 @@ msgstr "Jelszóváltoztatási űrlap"
 msgid "Change what users without Read Message History can see"
 msgstr "Változtasd meg, hogy mit láthatnak a Felhasználók, akiknek nincs Üzenetelőzmények olvasási joga"
 
-#: src/components/modals/EmailChangeModal.tsx:183
+#: src/components/modals/EmailChangeModal.tsx:186
 msgid "Change Your Email"
 msgstr "Email címed megváltoztatása"
 
@@ -4380,7 +4380,7 @@ msgstr "Email címed megváltoztatása"
 msgid "Change your email address"
 msgstr "E-mail címed módosítása"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:159
+#: src/components/modals/FluxerTagChangeModal.tsx:162
 msgid "Change Your FluxerTag"
 msgstr "FluxerTag megváltoztatása"
 
@@ -4392,7 +4392,7 @@ msgstr "Beceneved módosítása ebben a közösségben."
 msgid "Change your password"
 msgstr "Jelszavad módosítása"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:106
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:109
 msgid "Change your password to keep your account secure"
 msgstr "Módosítsd a jelszavad, hogy biztonságos maradjon a fiókod"
 
@@ -4404,7 +4404,7 @@ msgstr "Profilképed módosítása"
 msgid "Change your username"
 msgstr "Felhasználóneved módosítása"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:90
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:91
 msgid "Change your username and 4-digit tag"
 msgstr "Felhasználóneved és 4 számjegyű tag-od módosítása"
 
@@ -4846,7 +4846,7 @@ msgstr "Igényeld a fiókod a biztonsági funkciók eléréséhez, mint a kétl�
 msgid "Claim your account to call"
 msgstr "Igényeld az accountod, hogy hívhass."
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:56
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:57
 msgid "Claim your account to change your FluxerTag"
 msgstr "Igényeld a fiókodat a FluxerTag módosításához"
 
@@ -5144,7 +5144,7 @@ msgstr "Kliens titok újragenerálva. Frissítsd minden kódot, amely a régi ti
 #: src/components/modals/components/SettingsModalHeader.tsx:98
 #: src/components/modals/InviteModal.tsx:135
 #: src/components/modals/MediaModal.tsx:349
-#: src/components/modals/MobileVideoViewer.tsx:252
+#: src/components/modals/MobileVideoViewer.tsx:260
 #: src/components/modals/Modal.tsx:382
 #: src/components/modals/Modal.tsx:460
 #: src/components/modals/PackInviteModal.tsx:152
@@ -5201,7 +5201,7 @@ msgstr "Szén téma"
 #: src/components/auth/MfaScreen.tsx:131
 #: src/components/invites/InviteListItem.tsx:56
 #: src/components/modals/MfaTotpDisableModal.tsx:63
-#: src/components/modals/MfaTotpEnableModal.tsx:91
+#: src/components/modals/MfaTotpEnableModal.tsx:94
 #: src/components/pages/report/ReportBreadcrumbs.tsx:48
 msgid "Code"
 msgstr "Kód"
@@ -5651,7 +5651,7 @@ msgid "Configure your profile badge"
 msgstr "Profiljelvény beállítása"
 
 #: src/components/channel/MentionEveryonePopout.tsx:134
-#: src/components/modals/EmailChangeModal.tsx:304
+#: src/components/modals/EmailChangeModal.tsx:307
 msgid "Confirm"
 msgstr "Megerősítés"
 
@@ -5827,13 +5827,13 @@ msgstr "A helyi menüket bal kattintással (gombokon) vagy jobb kattintással (e
 
 #: src/components/channel/ChannelTextarea.tsx:311
 #: src/components/modals/AddConnectionModal.tsx:221
-#: src/components/modals/BackupCodesRegenerateModal.tsx:75
-#: src/components/modals/BackupCodesViewModal.tsx:73
+#: src/components/modals/BackupCodesRegenerateModal.tsx:82
+#: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:116
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:119
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 #: src/components/modals/MfaTotpDisableModal.tsx:78
-#: src/components/modals/MfaTotpEnableModal.tsx:106
+#: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
 msgid "Continue"
 msgstr "Folytatás"
@@ -6555,7 +6555,7 @@ msgstr "Jelenlegi eszköz"
 msgid "Current DM"
 msgstr "Jelenlegi DM"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:113
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:116
 msgid "Current Password"
 msgstr "Jelenlegi jelszó"
 
@@ -6601,7 +6601,7 @@ msgstr "Egyedi CSS felülírások"
 msgid "Custom Date Range"
 msgstr "Egyedi dátumtartomány"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:227
+#: src/components/modals/FluxerTagChangeModal.tsx:230
 msgid "Custom discriminators are not available on this instance"
 msgstr "Egyéni megkülönböztetők nem elérhetők ezen az instancián"
 
@@ -6727,11 +6727,12 @@ msgstr "Testreszabhatod, hogy mely gombok jelenjenek meg a médiacsatolmányokon
 msgid "Customize which buttons are visible in the message input area. Keyboard shortcuts will continue to work even if buttons are hidden."
 msgstr "Testreszabhatod, hogy mely gombok láthatók az üzenetbeviteli területen. A billentyűparancsok továbbra is működni fognak, még akkor is, ha a gombok rejtve vannak."
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:74
-msgid "Customize your 4-digit tag (#{discriminator}) to your liking with Plutonium"
-msgstr "Testreszabhatod a 4 számjegyű címkédet (#{discriminator}) tetszésed szerint Plutoniummal"
+#. placeholder {0}: user.discriminator
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:75
+msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
+msgstr "Személyre szabhatod a 4 számjegyű címkédet (#{0}) a Plutónium segítségével"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:272
+#: src/components/modals/FluxerTagChangeModal.tsx:275
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Testreszabhatod a 4 számjegyű címkédet, vagy megtarthatod felhasználónév váltáskor"
 
@@ -7069,7 +7070,7 @@ msgstr "törlés"
 #: src/components/emojis/EmojiListItem.tsx:195
 #: src/components/emojis/EmojiListItem.tsx:252
 #: src/components/emojis/EmojiListItem.tsx:308
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:325
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
@@ -7530,7 +7531,7 @@ msgstr "letiltás"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:240
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:426
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
 msgid "Disable"
 msgstr "Letiltás"
 
@@ -7890,7 +7891,7 @@ msgstr "Szeretnéd blokkolni a közvetlen üzeneteket is a meglévő közösség
 msgid "Do you want to send this pin back in time?"
 msgstr "Szeretnéd visszaküldeni ezt a rögzítést az időben?"
 
-#: src/components/channel/MessageActionUtils.tsx:410
+#: src/components/channel/MessageActionUtils.tsx:411
 msgid "Do you want to send this pin back to the future?"
 msgstr "Szeretnéd visszaküldeni ezt a rögzítést a jövőbe?"
 
@@ -8344,13 +8345,13 @@ msgid "Email"
 msgstr "E-mail"
 
 #: src/components/modals/tabs/account_security_tab/AccountTab.tsx:65
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:91
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:107
 #: src/components/pages/report/ReportStepEmail.tsx:76
 msgid "Email Address"
 msgstr "E-mail cím"
 
-#: src/components/modals/EmailChangeModal.tsx:165
+#: src/components/modals/EmailChangeModal.tsx:168
 msgid "Email changed"
 msgstr "E-mail cím megváltozott"
 
@@ -8426,11 +8427,11 @@ msgstr "beágyazások"
 msgid "Embeds"
 msgstr "Beágyazások"
 
-#: src/components/channel/MessageActionUtils.tsx:520
+#: src/components/channel/MessageActionUtils.tsx:526
 msgid "Embeds suppressed"
 msgstr "Beágyazások elrejtve"
 
-#: src/components/channel/MessageActionUtils.tsx:506
+#: src/components/channel/MessageActionUtils.tsx:512
 msgid "Embeds unsuppressed"
 msgstr "Beágyazások megjelenítve"
 
@@ -8530,9 +8531,9 @@ msgstr "üres állapot"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/layout/GuildLayout.tsx:74
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:244
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:438
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:247
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:435
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:441
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:85
 msgid "Enable"
 msgstr "Engedélyezés"
@@ -8658,7 +8659,7 @@ msgstr "Shift engedélyezése a kibővítéshez"
 msgid "Enable SMS 2FA"
 msgstr "SMS kétfaktoros hitelesítés engedélyezése"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:415
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:418
 msgid "Enable SMS codes as a backup for your authenticator app"
 msgstr "SMS kódok engedélyezése biztonsági mentésként az autentikátor alkalmazásodhoz"
 
@@ -8678,7 +8679,7 @@ msgstr "Kétfaktoros hitelesítés engedélyezése"
 msgid "Enable two-factor authentication"
 msgstr "Kétfaktoros hitelesítés bekapcsolása"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:70
+#: src/components/modals/MfaTotpEnableModal.tsx:73
 msgid "Enable two-factor authentication form"
 msgstr "Kétfaktoros hitelesítés űrlap engedélyezése"
 
@@ -8782,7 +8783,7 @@ msgid "Enter the 6-digit code from your authenticator app or one of your backup 
 msgstr "Írd be a 6 számjegyű kódot a hitelesítő alkalmazásodból vagy egy tartalék kódodat."
 
 #: src/components/modals/MfaTotpDisableModal.tsx:67
-#: src/components/modals/MfaTotpEnableModal.tsx:95
+#: src/components/modals/MfaTotpEnableModal.tsx:98
 msgid "Enter the 6-digit code from your authenticator app."
 msgstr "Írd be a 6 számjegyű kódot a hitelesítő alkalmazásodból."
 
@@ -8804,7 +8805,7 @@ msgstr "Írd be a kódot, mielőtt folytatnád."
 msgid "Enter the code from your authenticator app."
 msgstr "Írd be a kódot a hitelesítő alkalmazásodból."
 
-#: src/components/modals/EmailChangeModal.tsx:213
+#: src/components/modals/EmailChangeModal.tsx:216
 msgid "Enter the code sent to your current email."
 msgstr "Írd be a jelenlegi e-mail címedre küldött kódot."
 
@@ -8812,7 +8813,7 @@ msgstr "Írd be a jelenlegi e-mail címedre küldött kódot."
 msgid "Enter the code sent to your email address."
 msgstr "Írd be a kódot, amelyet az email címedre küldtünk."
 
-#: src/components/modals/EmailChangeModal.tsx:281
+#: src/components/modals/EmailChangeModal.tsx:284
 msgid "Enter the code we emailed to your new address."
 msgstr "Írd be az új címedre e-mailben küldött kódot."
 
@@ -8824,7 +8825,7 @@ msgstr "Írd be az e-mail címedre küldött kódot a megerősítéshez. A jelsz
 msgid "Enter the invite link to join a community."
 msgstr "Írd be a meghívó linket, hogy csatlakozz egy közösséghez."
 
-#: src/components/modals/EmailChangeModal.tsx:247
+#: src/components/modals/EmailChangeModal.tsx:250
 msgid "Enter the new email you want to use. We'll send a code there next."
 msgstr "Írd be az új e-mail címet, amit használni szeretnél. Ezután oda küldünk egy kódot."
 
@@ -9963,16 +9964,16 @@ msgstr "Fluxer Staff"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "A Fluxer push-értesítéseket használ, ha mobil PWA-ként van telepítve. A regisztráció biztosítja, hogy az átjáró elérje az eszközöd, még ha a böngésző háttérben is van."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:176
+#: src/components/modals/FluxerTagChangeModal.tsx:179
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:102
+#: src/components/modals/FluxerTagChangeModal.tsx:105
 msgid "FluxerTag already taken"
 msgstr "A FluxerTag már foglalt"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:144
+#: src/components/modals/FluxerTagChangeModal.tsx:147
 msgid "FluxerTag updated"
 msgstr "FluxerTag frissítve"
 
@@ -10208,7 +10209,7 @@ msgstr "Továbbítás"
 msgid "Forward {DEFAULT_SEEK_AMOUNT} seconds"
 msgstr "{DEFAULT_SEEK_AMOUNT} másodperc előreugrás"
 
-#: src/components/modals/ForwardModal.tsx:198
+#: src/components/modals/ForwardModal.tsx:203
 #: src/stores/KeybindStore.tsx:361
 msgid "Forward Message"
 msgstr "Üzenet továbbítása"
@@ -10490,7 +10491,7 @@ msgstr "Kapj értesítést, amikor üzenetet kapsz. Lehet, hogy engedélyezned k
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:221
+#: src/components/modals/FluxerTagChangeModal.tsx:224
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10503,11 +10504,11 @@ msgstr "Plutonium beszerzése"
 msgid "Get Plutonium for yourself and unlock higher limits and exclusive features."
 msgstr "Szerezd meg magadnak a Plutoniumot, és nyisd fel a magasabb korlátokat és exkluzív funkciókat."
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:81
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:82
 msgid "Get Plutonium to customize your tag"
 msgstr "Szerezd meg a Plutoniumot, hogy személyre szabhassad a címkédet"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:199
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "Szerezd meg a Plutoniumot, hogy személyre szabhassad a címkédet, vagy megtartsd, amikor megváltoztatod a felhasználóneved"
 
@@ -11883,8 +11884,8 @@ msgstr "Érvénytelen ajándékkód"
 msgid "Invalid instance URL. Try something like \"example.com\" or \"https://example.com\"."
 msgstr "Érvénytelen példány URL. Próbáljon valami ilyesmit: \"example.com\" vagy \"https://example.com\"."
 
-#: src/components/modals/EmailChangeModal.tsx:107
-#: src/components/modals/EmailChangeModal.tsx:168
+#: src/components/modals/EmailChangeModal.tsx:110
+#: src/components/modals/EmailChangeModal.tsx:171
 #: src/components/modals/PasswordChangeModal.tsx:90
 msgid "Invalid or expired code"
 msgstr "Érvénytelen vagy lejárt kód"
@@ -12569,11 +12570,11 @@ msgid "Last active {0}"
 msgstr "Utoljára aktív: {0}"
 
 #. placeholder {0}: DateUtils.getRelativeDateString(user.passwordLastChangedAt, i18n)
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:117
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:120
 msgid "Last changed: {0}"
 msgstr "Utoljára módosítva: {0}"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:119
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:122
 msgid "Last changed: Never"
 msgstr "Utoljára módosítva: Soha"
 
@@ -13221,7 +13222,7 @@ msgstr "E-mail címed, jelszavad és fiókbeállításaid kezelése"
 msgid "Manage your gifts"
 msgstr "Ajándékaid kezelése"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:337
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:340
 msgid "Manage your phone number for SMS two-factor authentication"
 msgstr "Telefonszámod kezelése SMS-es kétlépcsős hitelesítéshez"
 
@@ -13346,12 +13347,12 @@ msgstr "A tag átmenetinek jelölve."
 msgid "Markers Below Slider"
 msgstr "Jelölők a csúszka alatt"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:188
+#: src/components/modals/FluxerTagChangeModal.tsx:191
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
 #: src/components/modals/ClaimAccountModal.tsx:157
-#: src/components/modals/EmailChangeModal.tsx:258
+#: src/components/modals/EmailChangeModal.tsx:261
 msgid "marty@example.com"
 msgstr "marty@example.com"
 
@@ -13750,7 +13751,7 @@ msgstr "Üzenet megjelenítési mód"
 msgid "Message display settings are only available on desktop."
 msgstr "Az üzenet megjelenítési beállítások csak asztali gépen érhetők el."
 
-#: src/components/modals/ForwardModal.tsx:148
+#: src/components/modals/ForwardModal.tsx:153
 msgid "Message forwarded"
 msgstr "Üzenet továbbítva"
 
@@ -13776,7 +13777,7 @@ msgstr "Üzeneti előzmény küszöbérték frissítve"
 msgid "Message Input Buttons"
 msgstr "Üzenet Beviteli Gombok"
 
-#: src/components/modals/ForwardModal.tsx:84
+#: src/components/modals/ForwardModal.tsx:89
 #: src/components/uikit/character_counter/CharacterCounter.tsx:52
 msgid "Message is too long"
 msgstr "Az üzenet túl hosszú"
@@ -14077,7 +14078,7 @@ msgstr "Több emoji hely"
 #: src/components/channel/embeds/attachments/TextualAttachmentPreviewFooter.tsx:66
 #: src/components/modals/guild_tabs/UserListItem.tsx:113
 #: src/components/modals/MediaModal.tsx:353
-#: src/components/modals/MobileVideoViewer.tsx:260
+#: src/components/modals/MobileVideoViewer.tsx:268
 msgid "More options"
 msgstr "További lehetőségek"
 
@@ -14209,7 +14210,7 @@ msgstr "némítás"
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:319
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:506
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:92
@@ -14576,12 +14577,12 @@ msgstr "Az új közösségek, amelyekhez csatlakozol, automatikusan elrejtik a n
 msgid "New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?"
 msgstr "Az új közösségek, amelyekhez csatlakozol, már nem rejtik el automatikusan a némított csatornákat. Szeretnéd megjeleníteni a némított csatornákat az összes meglévő közösségedben is?"
 
-#: src/components/modals/EmailChangeModal.tsx:255
+#: src/components/modals/EmailChangeModal.tsx:258
 #: src/components/modals/RequiredActionModal.tsx:471
 msgid "New Email"
 msgstr "Új Email"
 
-#: src/components/modals/EmailChangeModal.tsx:243
+#: src/components/modals/EmailChangeModal.tsx:246
 msgid "New email form"
 msgstr "Új e-mail űrlap"
 
@@ -14736,7 +14737,7 @@ msgid "No cameras detected"
 msgstr "Nincs kamera észlelve"
 
 #: src/components/invites/InviteListItem.tsx:179
-#: src/components/modals/ForwardModal.tsx:246
+#: src/components/modals/ForwardModal.tsx:251
 #: src/components/modals/GuildNotificationSettingsModal.tsx:258
 msgid "No Category"
 msgstr "Nincs kategória"
@@ -14749,7 +14750,7 @@ msgstr "Nincs mentendő változás"
 msgid "No channels available"
 msgstr "Nincs elérhető csatorna"
 
-#: src/components/modals/ForwardModal.tsx:216
+#: src/components/modals/ForwardModal.tsx:221
 msgid "No channels found"
 msgstr "Nem található csatorna"
 
@@ -14773,7 +14774,7 @@ msgstr "Még nincs kapcsolat"
 msgid "No description provided."
 msgstr "Nincs leírás megadva."
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:97
 msgid "No email address set"
 msgstr "Nincs e-mail cím beállítva"
 
@@ -14883,11 +14884,11 @@ msgstr "Nem található közös barát."
 msgid "No mutual groups found."
 msgstr "Nem található közös csoport."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:283
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
 msgid "No passkeys registered"
 msgstr "Nincsenek regisztrált jelszavak."
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:137
 msgid "No password set"
 msgstr "Nincs jelszó beállítva"
 
@@ -15929,7 +15930,7 @@ msgstr "Partnerek közössége"
 msgid "Passkey Name"
 msgstr "Passkey neve"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:273
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:276
 msgid "Passkeys"
 msgstr "Passkeyek"
 
@@ -15953,8 +15954,8 @@ msgstr "jelszó"
 #: src/components/modals/ClaimAccountModal.tsx:207
 #: src/components/modals/SudoVerificationModal.tsx:174
 #: src/components/modals/SudoVerificationModal.tsx:239
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:105
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:131
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:108
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:114
 #: src/components/modals/utils/SettingsSearchIndex.tsx:107
 msgid "Password"
@@ -16010,7 +16011,7 @@ msgstr "Illessze be oda, ahonnan jött, hogy befejezze a bejelentkezést."
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 msgid "Pause"
 msgstr "Szünet"
 
@@ -16147,8 +16148,8 @@ msgstr "Telefon"
 
 #: src/components/modals/PhoneAddModal.tsx:192
 #: src/components/modals/RequiredActionModal.tsx:616
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:336
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:342
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:339
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:345
 #: src/components/modals/utils/SettingsSearchIndex.tsx:115
 msgid "Phone Number"
 msgstr "Telefonszám"
@@ -16158,7 +16159,7 @@ msgid "Phone number added"
 msgstr "Telefonszám hozzáadva"
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:346
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:349
 msgid "Phone number added: {0}"
 msgstr "Telefonszám hozzáadva: {0}"
 
@@ -16225,11 +16226,11 @@ msgstr "DM rögzítése"
 msgid "Pin Group DM"
 msgstr "Csoport DM rögzítése"
 
-#: src/components/channel/MessageActionUtils.tsx:429
+#: src/components/channel/MessageActionUtils.tsx:430
 msgid "Pin it real good"
 msgstr "Rögzítsd rendesen"
 
-#: src/components/channel/MessageActionUtils.tsx:426
+#: src/components/channel/MessageActionUtils.tsx:427
 msgid "Pin it. Pin it good."
 msgstr "Rögzítsd. Jól rögzítsd."
 
@@ -16250,7 +16251,7 @@ msgstr "Üzenetek rögzítése"
 msgid "Pin or unpin the focused message"
 msgstr "Rögzítsd vagy távolítsd el a fókuszált üzenetet"
 
-#: src/components/channel/MessageActionUtils.tsx:427
+#: src/components/channel/MessageActionUtils.tsx:428
 msgid "Pin this message to the channel for all to see. Unless ... you're chicken."
 msgstr "Rögzítsd ezt az üzenetet a csatornára, hogy mindenki láthassa. Kivéve ... ha gyáva vagy."
 
@@ -16323,7 +16324,7 @@ msgstr "Platform Admin"
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:215
 msgid "Play"
 msgstr "Lejátszás"
@@ -17075,7 +17076,7 @@ msgstr "Fogadás"
 msgid "Receive notifications when someone mentions you"
 msgstr "Értesítések fogadása, amikor valaki megemlít"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:404
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:407
 msgid "Receive verification codes via SMS as a backup authentication method"
 msgstr "Ellenőrző kódok fogadása SMS-ben tartalék hitelesítési módszerként"
 
@@ -17202,7 +17203,7 @@ msgstr "Push feliratkozás frissítése"
 msgid "Regenerate"
 msgstr "Újragenerálás"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:61
+#: src/components/modals/BackupCodesRegenerateModal.tsx:68
 msgid "Regenerate Backup Codes"
 msgstr "Biztonsági mentési kódok regenerálása"
 
@@ -17232,7 +17233,7 @@ msgstr "Az újragenerálás érvényteleníti a jelenlegi tokent. Frissítsd a r
 msgid "Register"
 msgstr "Regisztráció"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:279
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:282
 msgid "Registered Passkeys"
 msgstr "Regisztrált passkey-ek"
 
@@ -17302,7 +17303,7 @@ msgstr "eltávolítás"
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildEmbedSplashUploadField.tsx:101
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildIconUploadField.tsx:107
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildInviteSplashUploadField.tsx:113
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:391
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:394
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:96
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:226
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:191
@@ -17476,11 +17477,11 @@ msgstr "Felülbírálás eltávolítása"
 msgid "Remove Pack"
 msgstr "Csomag eltávolítása"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:377
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:380
 msgid "Remove Phone"
 msgstr "Telefon eltávolítása"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:360
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:363
 msgid "Remove Phone Number"
 msgstr "Telefonszám eltávolítása"
 
@@ -17635,7 +17636,7 @@ msgstr "A csomag eltávolítása eltávolítja a fiókodról."
 msgid "Removing the timeout will allow <0>{0}</0> to send messages, react, and join voice channels again."
 msgstr "Az időtúllépés eltávolítása lehetővé teszi, hogy <0>{0}</0> újra küldjön üzeneteket, reagáljon és csatlakozzon hangcsatornákhoz."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:319
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 msgid "Rename"
 msgstr "Átnevezés"
 
@@ -17875,17 +17876,17 @@ msgid "Reschedule Message"
 msgstr "Üzenet időpontjának áthelyezése"
 
 #: src/components/modals/ClaimAccountModal.tsx:222
-#: src/components/modals/EmailChangeModal.tsx:233
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:304
 #: src/components/modals/PasswordChangeModal.tsx:179
 msgid "Resend"
 msgstr "Újraküldés"
 
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:304
 msgid "Resend ({newSecondsRemaining}s)"
 msgstr "Újraküldés ({newSecondsRemaining}s)"
 
-#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:236
 msgid "Resend ({originalSecondsRemaining}s)"
 msgstr "Újraküldés ({originalSecondsRemaining}s)"
 
@@ -18429,7 +18430,7 @@ msgstr "mentések"
 msgid "scale"
 msgstr "skála"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:78
+#: src/components/modals/MfaTotpEnableModal.tsx:81
 msgid "Scan the QR code with your authenticator app to generate codes for two-factor authentication."
 msgstr "Olvasd be a QR-kódot a hitelesítő alkalmazásoddal, hogy kódokat generálj a kétfaktoros hitelesítéshez."
 
@@ -18566,7 +18567,7 @@ msgstr "Keresés felhasználónév vagy ID alapján"
 msgid "Search channels"
 msgstr "Csatornák keresése"
 
-#: src/components/modals/ForwardModal.tsx:204
+#: src/components/modals/ForwardModal.tsx:209
 msgid "Search channels or DMs"
 msgstr "Csatornák vagy privát üzenetek keresése"
 
@@ -18967,7 +18968,7 @@ msgid "Send"
 msgstr "Küldés"
 
 #. placeholder {0}: selectedChannelIds.size
-#: src/components/modals/ForwardModal.tsx:380
+#: src/components/modals/ForwardModal.tsx:385
 msgid "Send ({0}/5)"
 msgstr "Küldés ({0}/5)"
 
@@ -19004,7 +19005,7 @@ msgid "Send an SMS code first."
 msgstr "Először küldj egy SMS-kódot."
 
 #: src/components/modals/ClaimAccountModal.tsx:180
-#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:273
 #: src/components/modals/PhoneAddModal.tsx:208
 msgid "Send code"
 msgstr "Kód küldése"
@@ -19199,7 +19200,7 @@ msgstr "Állítsd a becenevet erre: {0}."
 msgid "Set NSFW level to {0}."
 msgstr "Állítsd a NSFW szintet erre: {0}."
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:138
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:141
 msgid "Set Password"
 msgstr "Jelszó beállítása"
 
@@ -19361,7 +19362,7 @@ msgstr "Beállítási szakaszok"
 msgid "Settings!"
 msgstr "Beállítások!"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:71
+#: src/components/modals/MfaTotpEnableModal.tsx:74
 msgid "Setup Authenticator App"
 msgstr "Hitelesítő alkalmazás beállítása"
 
@@ -19989,11 +19990,11 @@ msgstr "Kisebb média méret"
 msgid "sms"
 msgstr "sms"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:409
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:412
 msgid "SMS Backup"
 msgstr "SMS biztonsági mentés"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
 msgid "SMS backup is disabled for partners"
 msgstr "Az SMS biztonsági mentés le van tiltva partnerek számára"
 
@@ -20006,7 +20007,7 @@ msgstr "SMS kód"
 msgid "SMS Code"
 msgstr "SMS kód"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:403
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:406
 msgid "SMS Two-Factor Authentication"
 msgstr "SMS kétfaktoros hitelesítés"
 
@@ -20014,7 +20015,7 @@ msgstr "SMS kétfaktoros hitelesítés"
 msgid "SMS two-factor authentication adds an additional layer of security to your account by requiring a verification code sent to your phone number when signing in."
 msgstr "Az SMS kétfaktoros hitelesítés egy további biztonsági réteget ad a fiókodhoz, mivel bejelentkezéskor egy ellenőrző kódot igényel, amelyet a telefonszámodra küldenek."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:413
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:416
 msgid "SMS two-factor authentication is enabled"
 msgstr "Az SMS kétfaktoros hitelesítés engedélyezve van"
 
@@ -20338,7 +20339,7 @@ msgstr "Csillag"
 msgid "starred"
 msgstr "csillagozott"
 
-#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:205
 #: src/components/modals/PasswordChangeModal.tsx:148
 msgid "Start"
 msgstr "Indítás"
@@ -21152,7 +21153,7 @@ msgstr "A fájl tartalmazza a hitelesítési tokent, amelyet a <0>{dnsUrl}</0> c
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "A feltölteni kívánt fájl meghaladja a maximális méretkorlátot, ami {maxSizeFormatted}."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:106
+#: src/components/modals/FluxerTagChangeModal.tsx:109
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "A(z) <0>{fluxerTag}</0> FluxerTag már foglalt. A folytatás automatikusan újragenerálja a diszkriminátorodat."
 
@@ -21717,7 +21718,7 @@ msgstr "Ez repedést okoz a téridő kontinuumban, és nem vonható vissza."
 msgid "This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from <0>User Settings → Look & Feel → Favorites</0>."
 msgstr "Ez elrejti az összes kedvencekhez kapcsolódó felhasználói felületi elemet, beleértve a gombokat és a menüpontokat. A meglévő kedvenceid megmaradnak, és bármikor újra bekapcsolhatod őket a <0>Felhasználói beállítások → Megjelenés és érzés → Kedvencek</0> menüpontból."
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:65
+#: src/components/modals/BackupCodesRegenerateModal.tsx:72
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "Ez érvényteleníti a meglévő biztonsági kódjaidat, és újakat generál."
 
@@ -21911,7 +21912,7 @@ msgstr "Csatornatagok lista be/ki"
 msgid "Toggle Compact Mode"
 msgstr "Kompakt mód be/ki"
 
-#: src/components/modals/MobileVideoViewer.tsx:239
+#: src/components/modals/MobileVideoViewer.tsx:247
 msgid "Toggle controls"
 msgstr "Vezérlők váltása"
 
@@ -22307,7 +22308,7 @@ msgstr "Kétfaktoros hitelesítés"
 msgid "Two-factor authentication disabled"
 msgstr "Kétfaktoros hitelesítés letiltva"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:55
+#: src/components/modals/MfaTotpEnableModal.tsx:58
 msgid "Two-factor authentication enabled"
 msgstr "Kétfaktoros hitelesítés engedélyezve"
 
@@ -22436,13 +22437,13 @@ msgstr "Nem lehet betölteni a profil bannert, jelvényeket és a bemutatkozást
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "Nem sikerült felkészíteni egyetlen emojit sem a feltöltésre. A következő hibák történtek:"
 
-#: src/components/modals/EmailChangeModal.tsx:121
-#: src/components/modals/EmailChangeModal.tsx:151
+#: src/components/modals/EmailChangeModal.tsx:124
+#: src/components/modals/EmailChangeModal.tsx:154
 #: src/components/modals/PasswordChangeModal.tsx:104
 msgid "Unable to resend code right now"
 msgstr "A kód újraküldése jelenleg nem lehetséges"
 
-#: src/components/modals/EmailChangeModal.tsx:136
+#: src/components/modals/EmailChangeModal.tsx:139
 msgid "Unable to send code to new email"
 msgstr "A kód küldése az új e-mail címre sikertelen"
 
@@ -22455,7 +22456,7 @@ msgstr "Nem sikerült hangüzenetet küldeni. Kérjük, próbálja újra."
 msgid "Unable to Start Call"
 msgstr "Nem lehet hívást kezdeményezni"
 
-#: src/components/modals/EmailChangeModal.tsx:91
+#: src/components/modals/EmailChangeModal.tsx:94
 msgid "Unable to start email change"
 msgstr "Nem lehet elindítani az e-mail cím módosítását"
 
@@ -22781,7 +22782,7 @@ msgstr "Nyiss ki matricákat privát üzenetekben Plutoniummal"
 #: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/voice/VoiceControlBar.tsx:602
 msgid "Unmute"
 msgstr "Némítás feloldása"
@@ -22872,7 +22873,7 @@ msgstr "Privát üzenet rögzítésének feloldása"
 msgid "Unpin Group DM"
 msgstr "Csoport privát üzenet rögzítésének feloldása"
 
-#: src/components/channel/MessageActionUtils.tsx:412
+#: src/components/channel/MessageActionUtils.tsx:413
 #: src/components/shared/ChannelPinsContent.tsx:102
 msgid "Unpin it"
 msgstr "Rögzítés feloldása"
@@ -22880,7 +22881,7 @@ msgstr "Rögzítés feloldása"
 #: src/components/channel/MessageActionBar.tsx:519
 #: src/components/channel/MessageActionBar.tsx:735
 #: src/components/channel/MessageActionMenu.tsx:243
-#: src/components/channel/MessageActionUtils.tsx:409
+#: src/components/channel/MessageActionUtils.tsx:410
 #: src/components/shared/ChannelPinsContent.tsx:99
 #: src/components/shared/ChannelPinsContent.tsx:260
 #: src/components/uikit/context_menu/items/MessageMenuItems.tsx:163
@@ -23322,7 +23323,7 @@ msgstr "Használja a globális profilt"
 msgid "Use light theme"
 msgstr "Világos téma használata"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:274
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:277
 msgid "Use passkeys for passwordless sign-in and two-factor authentication"
 msgstr "Passkey-k használata jelszó nélküli bejelentkezéshez és kétfaktoros azonosításhoz"
 
@@ -23475,9 +23476,9 @@ msgstr "felhasználó, bot vagy webhook"
 msgid "username"
 msgstr "felhasználónév"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:187
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:51
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
 msgid "Username"
 msgstr "Felhasználónév"
@@ -23510,11 +23511,11 @@ msgstr "A felhasználónév legfeljebb 32 karakter lehet"
 msgid "Username#0000"
 msgstr "Felhasználónév#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:169
+#: src/components/modals/FluxerTagChangeModal.tsx:172
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "A felhasználónevek csak betűket (a-z, A-Z), számokat (0-9) és aláhúzásjeleket tartalmazhatnak. A felhasználónevek kis- és nagybetű érzéketlenek."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:164
+#: src/components/modals/FluxerTagChangeModal.tsx:167
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
 msgstr "A felhasználónevek csak betűket (a-z, A-Z), számokat (0-9) és aláhúzásjeleket tartalmazhatnak. A felhasználónevek kis- és nagybetű érzéketlenek. Választhatsz saját 4 számjegyű címkét, ha elérhető."
 
@@ -23634,8 +23635,8 @@ msgid "Verification Barriers"
 msgstr "Ellenőrzési akadályok"
 
 #: src/components/modals/ClaimAccountModal.tsx:198
-#: src/components/modals/EmailChangeModal.tsx:220
-#: src/components/modals/EmailChangeModal.tsx:288
+#: src/components/modals/EmailChangeModal.tsx:223
+#: src/components/modals/EmailChangeModal.tsx:291
 #: src/components/modals/PasswordChangeModal.tsx:166
 #: src/components/modals/PhoneAddModal.tsx:226
 #: src/components/modals/RequiredActionModal.tsx:495
@@ -23662,7 +23663,7 @@ msgstr "Ellenőrző e-mail elküldve! Kérjük, ellenőrizd a bejövő leveleide
 msgid "Verification failed"
 msgstr "Ellenőrzés sikertelen"
 
-#: src/components/modals/BackupCodesViewModal.tsx:63
+#: src/components/modals/BackupCodesViewModal.tsx:68
 msgid "Verification may be required before viewing your backup codes."
 msgstr "Előfordulhat, hogy ellenőrzés szükséges a tartalék kódjaid megtekintése előtt."
 
@@ -23684,7 +23685,7 @@ msgid "verify"
 msgstr "ellenőrizni"
 
 #: src/components/modals/AddConnectionModal.tsx:315
-#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:239
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
 #: src/components/modals/RequiredActionModal.tsx:652
@@ -23785,7 +23786,7 @@ msgstr "videó előnézet"
 msgid "Video preview"
 msgstr "Videó előnézet"
 
-#: src/components/modals/MobileVideoViewer.tsx:311
+#: src/components/modals/MobileVideoViewer.tsx:319
 msgid "Video progress"
 msgstr "Videó előrehaladás"
 
@@ -23859,15 +23860,15 @@ msgstr "Tekintsd meg és kezeld a kitiltott felhasználókat."
 msgid "View and manage every webhook configured across your community."
 msgstr "Tekintsd meg és kezeld a közösségedben beállított összes webhookot."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:260
 msgid "View and manage your backup codes for account recovery"
 msgstr "Tekintsd meg és kezeld a biztonsági kódjaidat a fiók helyreállításához"
 
-#: src/components/modals/BackupCodesViewModal.tsx:59
+#: src/components/modals/BackupCodesViewModal.tsx:64
 msgid "View Backup Codes"
 msgstr "Biztonsági kódok megtekintése"
 
-#: src/components/modals/BackupCodesViewModal.tsx:58
+#: src/components/modals/BackupCodesViewModal.tsx:63
 msgid "View backup codes form"
 msgstr "Biztonsági kódok űrlap megtekintése"
 
@@ -23884,7 +23885,7 @@ msgstr "Hívásvezérlők megtekintése"
 msgid "View Channel"
 msgstr "Csatorna megtekintése"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:265
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:268
 msgid "View Codes"
 msgstr "Kódok megtekintése"
 
@@ -24387,11 +24388,11 @@ msgstr "Ellenőrző kódot fogunk küldeni erre az email címre."
 msgid "We'll send a verification code to your email before you can change your password."
 msgstr "Egy megerősítő kódot küldünk az email címedre, mielőtt megváltoztathatod a jelszavadat."
 
-#: src/components/modals/EmailChangeModal.tsx:190
+#: src/components/modals/EmailChangeModal.tsx:193
 msgid "We'll verify your current email and then your new email with one-time codes."
 msgstr "Ellenőrizzük a jelenlegi e-mail címedet, majd az új e-mail címedet egyszer használatos kódokkal."
 
-#: src/components/modals/EmailChangeModal.tsx:192
+#: src/components/modals/EmailChangeModal.tsx:195
 msgid "We'll verify your new email with a one-time code."
 msgstr "Ellenőrizzük az új e-mail címedet egy egyszer használatos kóddal."
 

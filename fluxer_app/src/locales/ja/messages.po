@@ -134,12 +134,12 @@ msgid "{0} of {totalAttachments}"
 msgstr "{0} / {totalAttachments}"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:285
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:288
 msgid "{0} passkey registered (max 10)"
 msgstr "{0} パスキーが登録されました (最大 10)"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:289
 msgid "{0} passkeys registered (max 10)"
 msgstr "{0} パスキーが登録されました (最大 10)"
 
@@ -1088,7 +1088,7 @@ msgstr "<0>スピーカーミュートを解除</0>しました。"
 msgid "<0>Unmuted</0> the member."
 msgstr "<0>ミュートを解除</0>しました。"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:370
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:373
 msgid "<0>Warning:</0> This will also disable SMS two-factor authentication."
 msgstr "<0>警告:</0> これによりSMS二要素認証も無効になります。"
 
@@ -1362,9 +1362,9 @@ msgstr "30秒"
 msgid "4 hours"
 msgstr "4時間"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:203
-#: src/components/modals/FluxerTagChangeModal.tsx:231
-#: src/components/modals/FluxerTagChangeModal.tsx:248
+#: src/components/modals/FluxerTagChangeModal.tsx:206
+#: src/components/modals/FluxerTagChangeModal.tsx:234
+#: src/components/modals/FluxerTagChangeModal.tsx:251
 msgid "4-digit tag"
 msgstr "4桁タグ"
 
@@ -1763,7 +1763,7 @@ msgstr "追加"
 msgid "Add a bot to a community with requested permissions"
 msgstr "要求された権限を持つボットをコミュニティに追加"
 
-#: src/components/modals/ForwardModal.tsx:309
+#: src/components/modals/ForwardModal.tsx:314
 msgid "Add a comment (optional)"
 msgstr "コメントを追加（任意）"
 
@@ -1782,7 +1782,7 @@ msgstr "カスタム背景を追加"
 msgid "Add a different account"
 msgstr "別のアカウントを追加"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:348
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:351
 msgid "Add a phone number to enable SMS two-factor authentication"
 msgstr "SMS二要素認証を有効にするために電話番号を追加"
 
@@ -1844,7 +1844,7 @@ msgstr "接続追加フォーム"
 msgid "Add domain connection"
 msgstr "ドメイン接続を追加"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:98
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:101
 msgid "Add Email"
 msgstr "メールを追加"
 
@@ -1902,12 +1902,12 @@ msgstr "電話番号を追加または変更"
 msgid "Add Override"
 msgstr "オーバーライドを追加"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:290
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:293
 msgid "Add Passkey"
 msgstr "パスキーを追加"
 
 #: src/components/channel/barriers/BarrierComponents.tsx:198
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:395
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:398
 msgid "Add Phone"
 msgstr "電話を追加"
 
@@ -2028,11 +2028,11 @@ msgstr "お気に入りに追加しました"
 msgid "Added to saved media"
 msgstr "保存済みメディアに追加しました"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:313
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:316
 msgid "Added: {createdDate}"
 msgstr "追加日: {createdDate}"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:309
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:312
 msgid "Added: {createdDate} • Last used: {lastUsedDate}"
 msgstr "追加日: {createdDate} • 最終使用日: {lastUsedDate}"
 
@@ -2930,7 +2930,7 @@ msgid "Are you sure you want to remove this connection? This action cannot be un
 msgstr "この接続を削除してもよろしいですか？この操作は元に戻せません。"
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:364
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:367
 msgid "Are you sure you want to remove your phone number <0>{0}</0>?"
 msgstr "電話番号<0>{0}</0>を削除してもよろしいですか？"
 
@@ -3438,12 +3438,12 @@ msgid "backup codes"
 msgstr "バックアップコード"
 
 #: src/components/modals/BackupCodesModal.tsx:43
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:254
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
 #: src/components/modals/utils/SettingsSearchIndex.tsx:140
 msgid "Backup Codes"
 msgstr "バックアップコード"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:48
+#: src/components/modals/BackupCodesRegenerateModal.tsx:55
 msgid "Backup codes regenerated"
 msgstr "バックアップコードを再生成しました"
 
@@ -4069,8 +4069,8 @@ msgstr "{VOICE_CHANNEL_CAMERA_USER_LIMIT} 人以上の参加者がいるとカ�
 #: src/components/modals/AddGuildModal.tsx:413
 #: src/components/modals/AddGuildStickerModal.tsx:120
 #: src/components/modals/AttachmentEditModal.tsx:122
-#: src/components/modals/BackupCodesRegenerateModal.tsx:72
-#: src/components/modals/BackupCodesViewModal.tsx:70
+#: src/components/modals/BackupCodesRegenerateModal.tsx:79
+#: src/components/modals/BackupCodesViewModal.tsx:75
 #: src/components/modals/BanMemberModal.tsx:143
 #: src/components/modals/CameraPreviewModal.tsx:485
 #: src/components/modals/CaptchaModal.tsx:187
@@ -4094,14 +4094,14 @@ msgstr "{VOICE_CHANNEL_CAMERA_USER_LIMIT} 人以上の参加者がいるとカ�
 #: src/components/modals/EditFavoriteMemeModal.tsx:85
 #: src/components/modals/EditGuildStickerModal.tsx:113
 #: src/components/modals/EditPackModal.tsx:103
-#: src/components/modals/EmailChangeModal.tsx:199
-#: src/components/modals/EmailChangeModal.tsx:230
-#: src/components/modals/EmailChangeModal.tsx:267
-#: src/components/modals/EmailChangeModal.tsx:298
+#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:117
-#: src/components/modals/FluxerTagChangeModal.tsx:280
-#: src/components/modals/ForwardModal.tsx:373
+#: src/components/modals/FluxerTagChangeModal.tsx:120
+#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
 #: src/components/modals/GuildFolderSettingsModal.tsx:199
@@ -4113,7 +4113,7 @@ msgstr "{VOICE_CHANNEL_CAMERA_USER_LIMIT} 人以上の参加者がいるとカ�
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
-#: src/components/modals/MfaTotpEnableModal.tsx:103
+#: src/components/modals/MfaTotpEnableModal.tsx:106
 #: src/components/modals/PasskeyNameModal.tsx:62
 #: src/components/modals/PasswordChangeModal.tsx:145
 #: src/components/modals/PasswordChangeModal.tsx:176
@@ -4146,7 +4146,7 @@ msgstr "キャンセル"
 msgid "Cancel Friend Request"
 msgstr "フレンドリクエストをキャンセル"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:112
+#: src/components/modals/FluxerTagChangeModal.tsx:115
 msgid "Cancel if you want to choose a different username instead."
 msgstr "別のユーザー名を選択したい場合はキャンセルしてください。"
 
@@ -4279,7 +4279,7 @@ msgstr "バナーを変更"
 msgid "Change email"
 msgstr "メールアドレスを変更"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:81
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:84
 msgid "Change Email"
 msgstr "メールアドレスを変更"
 
@@ -4288,12 +4288,12 @@ msgstr "メールアドレスを変更"
 msgid "Change emoji"
 msgstr "絵文字を変更"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:59
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:69
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:60
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:70
 msgid "Change FluxerTag"
 msgstr "FluxerTagを変更"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:158
+#: src/components/modals/FluxerTagChangeModal.tsx:161
 msgid "Change FluxerTag form"
 msgstr "FluxerTag変更フォーム"
 
@@ -4360,7 +4360,7 @@ msgid "change password"
 msgstr "パスワードを変更"
 
 #: src/components/modals/PasswordChangeModal.tsx:227
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:124
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:127
 msgid "Change Password"
 msgstr "パスワードを変更"
 
@@ -4372,7 +4372,7 @@ msgstr "パスワード変更フォーム"
 msgid "Change what users without Read Message History can see"
 msgstr "メッセージ履歴を読み取れないユーザーが見ることができる内容を変更する"
 
-#: src/components/modals/EmailChangeModal.tsx:183
+#: src/components/modals/EmailChangeModal.tsx:186
 msgid "Change Your Email"
 msgstr "メールアドレスを変更"
 
@@ -4380,7 +4380,7 @@ msgstr "メールアドレスを変更"
 msgid "Change your email address"
 msgstr "メールアドレスを変更"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:159
+#: src/components/modals/FluxerTagChangeModal.tsx:162
 msgid "Change Your FluxerTag"
 msgstr "FluxerTagを変更"
 
@@ -4392,7 +4392,7 @@ msgstr "このコミュニティでのニックネームを変更します。"
 msgid "Change your password"
 msgstr "パスワードを変更"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:106
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:109
 msgid "Change your password to keep your account secure"
 msgstr "アカウントのセキュリティを保つためにパスワードを変更する"
 
@@ -4404,7 +4404,7 @@ msgstr "プロフィール画像を変更"
 msgid "Change your username"
 msgstr "ユーザー名を変更"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:90
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:91
 msgid "Change your username and 4-digit tag"
 msgstr "ユーザー名と4桁のタグを変更する"
 
@@ -4846,7 +4846,7 @@ msgstr "二要素認証やパスキーなどのセキュリティ機能にアク
 msgid "Claim your account to call"
 msgstr "通話するにはアカウントを取得してください。"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:56
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:57
 msgid "Claim your account to change your FluxerTag"
 msgstr "FluxerTagを変更するにはアカウントを請求してください"
 
@@ -5144,7 +5144,7 @@ msgstr "クライアントシークレットが再生成されました。古い
 #: src/components/modals/components/SettingsModalHeader.tsx:98
 #: src/components/modals/InviteModal.tsx:135
 #: src/components/modals/MediaModal.tsx:349
-#: src/components/modals/MobileVideoViewer.tsx:252
+#: src/components/modals/MobileVideoViewer.tsx:260
 #: src/components/modals/Modal.tsx:382
 #: src/components/modals/Modal.tsx:460
 #: src/components/modals/PackInviteModal.tsx:152
@@ -5201,7 +5201,7 @@ msgstr "Coal テーマ"
 #: src/components/auth/MfaScreen.tsx:131
 #: src/components/invites/InviteListItem.tsx:56
 #: src/components/modals/MfaTotpDisableModal.tsx:63
-#: src/components/modals/MfaTotpEnableModal.tsx:91
+#: src/components/modals/MfaTotpEnableModal.tsx:94
 #: src/components/pages/report/ReportBreadcrumbs.tsx:48
 msgid "Code"
 msgstr "コード"
@@ -5651,7 +5651,7 @@ msgid "Configure your profile badge"
 msgstr "プロフィールバッジを設定"
 
 #: src/components/channel/MentionEveryonePopout.tsx:134
-#: src/components/modals/EmailChangeModal.tsx:304
+#: src/components/modals/EmailChangeModal.tsx:307
 msgid "Confirm"
 msgstr "確認"
 
@@ -5827,13 +5827,13 @@ msgstr "コンテキストメニューは、左クリック（ボタン上）ま
 
 #: src/components/channel/ChannelTextarea.tsx:311
 #: src/components/modals/AddConnectionModal.tsx:221
-#: src/components/modals/BackupCodesRegenerateModal.tsx:75
-#: src/components/modals/BackupCodesViewModal.tsx:73
+#: src/components/modals/BackupCodesRegenerateModal.tsx:82
+#: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:116
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:119
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 #: src/components/modals/MfaTotpDisableModal.tsx:78
-#: src/components/modals/MfaTotpEnableModal.tsx:106
+#: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
 msgid "Continue"
 msgstr "続行"
@@ -6555,7 +6555,7 @@ msgstr "現在のデバイス"
 msgid "Current DM"
 msgstr "現在のDM"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:113
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:116
 msgid "Current Password"
 msgstr "現在のパスワード"
 
@@ -6601,7 +6601,7 @@ msgstr "カスタムCSSオーバーライド"
 msgid "Custom Date Range"
 msgstr "カスタム日付範囲"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:227
+#: src/components/modals/FluxerTagChangeModal.tsx:230
 msgid "Custom discriminators are not available on this instance"
 msgstr "カスタム識別子はこのインスタンスでは利用できません"
 
@@ -6727,11 +6727,12 @@ msgstr "メッセージにマウスをホバーしたときにメディア添付
 msgid "Customize which buttons are visible in the message input area. Keyboard shortcuts will continue to work even if buttons are hidden."
 msgstr "メッセージ入力エリアに表示されるボタンをカスタマイズします。ボタンが隠れていてもキーボードショートカットは引き続き機能します。"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:74
-msgid "Customize your 4-digit tag (#{discriminator}) to your liking with Plutonium"
-msgstr "Plutoniumでお好みの4桁タグ（#{discriminator}）をカスタマイズ"
+#. placeholder {0}: user.discriminator
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:75
+msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
+msgstr "プルトニウムを使って、あなたの好みに合わせて4桁のタグ(#{0})をカスタマイズしてください"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:272
+#: src/components/modals/FluxerTagChangeModal.tsx:275
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "4桁タグをカスタマイズ、またはユーザー名変更時に維持"
 
@@ -7069,7 +7070,7 @@ msgstr "削除"
 #: src/components/emojis/EmojiListItem.tsx:195
 #: src/components/emojis/EmojiListItem.tsx:252
 #: src/components/emojis/EmojiListItem.tsx:308
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:325
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
@@ -7530,7 +7531,7 @@ msgstr "無効にする"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:240
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:426
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
 msgid "Disable"
 msgstr "無効化"
 
@@ -7890,7 +7891,7 @@ msgstr "既存のコミュニティのメンバーからのダイレクトメッ
 msgid "Do you want to send this pin back in time?"
 msgstr "このピンを過去に送り返しますか？"
 
-#: src/components/channel/MessageActionUtils.tsx:410
+#: src/components/channel/MessageActionUtils.tsx:411
 msgid "Do you want to send this pin back to the future?"
 msgstr "このピンを未来に送り返しますか？"
 
@@ -8344,13 +8345,13 @@ msgid "Email"
 msgstr "メール"
 
 #: src/components/modals/tabs/account_security_tab/AccountTab.tsx:65
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:91
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:107
 #: src/components/pages/report/ReportStepEmail.tsx:76
 msgid "Email Address"
 msgstr "メールアドレス"
 
-#: src/components/modals/EmailChangeModal.tsx:165
+#: src/components/modals/EmailChangeModal.tsx:168
 msgid "Email changed"
 msgstr "メールアドレスが変更されました"
 
@@ -8426,11 +8427,11 @@ msgstr "埋め込み"
 msgid "Embeds"
 msgstr "埋め込み"
 
-#: src/components/channel/MessageActionUtils.tsx:520
+#: src/components/channel/MessageActionUtils.tsx:526
 msgid "Embeds suppressed"
 msgstr "埋め込みを抑制"
 
-#: src/components/channel/MessageActionUtils.tsx:506
+#: src/components/channel/MessageActionUtils.tsx:512
 msgid "Embeds unsuppressed"
 msgstr "埋め込みを抑制解除"
 
@@ -8530,9 +8531,9 @@ msgstr "空の状態"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/layout/GuildLayout.tsx:74
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:244
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:438
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:247
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:435
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:441
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:85
 msgid "Enable"
 msgstr "有効にする"
@@ -8658,7 +8659,7 @@ msgstr "拡張するためにShiftを有効にする"
 msgid "Enable SMS 2FA"
 msgstr "SMS 2FAを有効にする"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:415
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:418
 msgid "Enable SMS codes as a backup for your authenticator app"
 msgstr "認証アプリのバックアップとしてSMSコードを有効にする"
 
@@ -8678,7 +8679,7 @@ msgstr "二要素認証を有効にする"
 msgid "Enable two-factor authentication"
 msgstr "二要素認証を有効にする"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:70
+#: src/components/modals/MfaTotpEnableModal.tsx:73
 msgid "Enable two-factor authentication form"
 msgstr "二段階認証フォームを有効にする"
 
@@ -8782,7 +8783,7 @@ msgid "Enter the 6-digit code from your authenticator app or one of your backup 
 msgstr "認証アプリの 6 桁のコードまたはバックアップコードのいずれかを入力してください。"
 
 #: src/components/modals/MfaTotpDisableModal.tsx:67
-#: src/components/modals/MfaTotpEnableModal.tsx:95
+#: src/components/modals/MfaTotpEnableModal.tsx:98
 msgid "Enter the 6-digit code from your authenticator app."
 msgstr "認証アプリの 6 桁のコードを入力してください。"
 
@@ -8804,7 +8805,7 @@ msgstr "続行する前にコードを入力してください。"
 msgid "Enter the code from your authenticator app."
 msgstr "認証アプリのコードを入力してください。"
 
-#: src/components/modals/EmailChangeModal.tsx:213
+#: src/components/modals/EmailChangeModal.tsx:216
 msgid "Enter the code sent to your current email."
 msgstr "現在のメールアドレスに送信されたコードを入力してください。"
 
@@ -8812,7 +8813,7 @@ msgstr "現在のメールアドレスに送信されたコードを入力して
 msgid "Enter the code sent to your email address."
 msgstr "あなたのメールアドレスに送信されたコードを入力してください。"
 
-#: src/components/modals/EmailChangeModal.tsx:281
+#: src/components/modals/EmailChangeModal.tsx:284
 msgid "Enter the code we emailed to your new address."
 msgstr "新しいアドレスにメールで送信したコードを入力してください。"
 
@@ -8824,7 +8825,7 @@ msgstr "確認のためにメールで送信したコードを入力してくだ
 msgid "Enter the invite link to join a community."
 msgstr "コミュニティに参加するための招待リンクを入力してください。"
 
-#: src/components/modals/EmailChangeModal.tsx:247
+#: src/components/modals/EmailChangeModal.tsx:250
 msgid "Enter the new email you want to use. We'll send a code there next."
 msgstr "使用したい新しいメールアドレスを入力してください。次にそこにコードを送信します。"
 
@@ -9963,16 +9964,16 @@ msgstr "Fluxer スタッフ"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "FluxerはモバイルPWAとしてインストールされるとプッシュ通知を使用します。登録することで、ブラウザがバックグラウンドになっている時でもゲートウェイがデバイスに到達できることを保証します。"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:176
+#: src/components/modals/FluxerTagChangeModal.tsx:179
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "Fluxerタグ"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:102
+#: src/components/modals/FluxerTagChangeModal.tsx:105
 msgid "FluxerTag already taken"
 msgstr "Fluxerタグはすでに使用されています"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:144
+#: src/components/modals/FluxerTagChangeModal.tsx:147
 msgid "FluxerTag updated"
 msgstr "Fluxerタグを更新しました"
 
@@ -10208,7 +10209,7 @@ msgstr "転送"
 msgid "Forward {DEFAULT_SEEK_AMOUNT} seconds"
 msgstr "{DEFAULT_SEEK_AMOUNT}秒進む"
 
-#: src/components/modals/ForwardModal.tsx:198
+#: src/components/modals/ForwardModal.tsx:203
 #: src/stores/KeybindStore.tsx:361
 msgid "Forward Message"
 msgstr "メッセージを転送"
@@ -10490,7 +10491,7 @@ msgstr "メッセージを受け取ったときに通知されます。ブラウ
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:221
+#: src/components/modals/FluxerTagChangeModal.tsx:224
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10503,11 +10504,11 @@ msgstr "Plutoniumを入手"
 msgid "Get Plutonium for yourself and unlock higher limits and exclusive features."
 msgstr "自分用にPlutoniumを入手して、上限の引き上げと限定機能をアンロックしましょう。"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:81
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:82
 msgid "Get Plutonium to customize your tag"
 msgstr "タグをカスタマイズするにはPlutoniumを入手"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:199
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "タグをカスタマイズするか、ユーザー名変更時に保持するにはPlutoniumを入手"
 
@@ -11883,8 +11884,8 @@ msgstr "無効なギフトコード"
 msgid "Invalid instance URL. Try something like \"example.com\" or \"https://example.com\"."
 msgstr "無効なインスタンスURLです。「example.com」や「https://example.com」のようなものを試してください。"
 
-#: src/components/modals/EmailChangeModal.tsx:107
-#: src/components/modals/EmailChangeModal.tsx:168
+#: src/components/modals/EmailChangeModal.tsx:110
+#: src/components/modals/EmailChangeModal.tsx:171
 #: src/components/modals/PasswordChangeModal.tsx:90
 msgid "Invalid or expired code"
 msgstr "無効または期限切れのコード"
@@ -12569,11 +12570,11 @@ msgid "Last active {0}"
 msgstr "最終アクティブ {0}"
 
 #. placeholder {0}: DateUtils.getRelativeDateString(user.passwordLastChangedAt, i18n)
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:117
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:120
 msgid "Last changed: {0}"
 msgstr "最終変更: {0}"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:119
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:122
 msgid "Last changed: Never"
 msgstr "最終変更: なし"
 
@@ -13221,7 +13222,7 @@ msgstr "メール、パスワード、アカウント設定を管理する"
 msgid "Manage your gifts"
 msgstr "ギフトの管理"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:337
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:340
 msgid "Manage your phone number for SMS two-factor authentication"
 msgstr "SMS二要素認証用の電話番号を管理する"
 
@@ -13346,12 +13347,12 @@ msgstr "メンバーを一時的としてマークしました。"
 msgid "Markers Below Slider"
 msgstr "スライダーの下のマーカー"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:188
+#: src/components/modals/FluxerTagChangeModal.tsx:191
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
 #: src/components/modals/ClaimAccountModal.tsx:157
-#: src/components/modals/EmailChangeModal.tsx:258
+#: src/components/modals/EmailChangeModal.tsx:261
 msgid "marty@example.com"
 msgstr "marty@example.com"
 
@@ -13750,7 +13751,7 @@ msgstr "メッセージ表示モード"
 msgid "Message display settings are only available on desktop."
 msgstr "メッセージ表示設定はデスクトップでのみ利用可能です。"
 
-#: src/components/modals/ForwardModal.tsx:148
+#: src/components/modals/ForwardModal.tsx:153
 msgid "Message forwarded"
 msgstr "メッセージを転送しました"
 
@@ -13776,7 +13777,7 @@ msgstr "メッセージ履歴の閾値が更新されました"
 msgid "Message Input Buttons"
 msgstr "メッセージ入力ボタン"
 
-#: src/components/modals/ForwardModal.tsx:84
+#: src/components/modals/ForwardModal.tsx:89
 #: src/components/uikit/character_counter/CharacterCounter.tsx:52
 msgid "Message is too long"
 msgstr "メッセージが長すぎます"
@@ -14077,7 +14078,7 @@ msgstr "絵文字スロットを増やす"
 #: src/components/channel/embeds/attachments/TextualAttachmentPreviewFooter.tsx:66
 #: src/components/modals/guild_tabs/UserListItem.tsx:113
 #: src/components/modals/MediaModal.tsx:353
-#: src/components/modals/MobileVideoViewer.tsx:260
+#: src/components/modals/MobileVideoViewer.tsx:268
 msgid "More options"
 msgstr "その他のオプション"
 
@@ -14209,7 +14210,7 @@ msgstr "ミュート"
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:319
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:506
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:92
@@ -14576,12 +14577,12 @@ msgstr "参加する新しいコミュニティでは、自動的にミュート
 msgid "New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?"
 msgstr "参加する新しいコミュニティでは、もはやミュートされたチャンネルが自動的に非表示になりません。既存のすべてのコミュニティでミュートされたチャンネルを表示しますか？"
 
-#: src/components/modals/EmailChangeModal.tsx:255
+#: src/components/modals/EmailChangeModal.tsx:258
 #: src/components/modals/RequiredActionModal.tsx:471
 msgid "New Email"
 msgstr "新しいメール"
 
-#: src/components/modals/EmailChangeModal.tsx:243
+#: src/components/modals/EmailChangeModal.tsx:246
 msgid "New email form"
 msgstr "新規メールフォーム"
 
@@ -14736,7 +14737,7 @@ msgid "No cameras detected"
 msgstr "カメラが検出されませんでした"
 
 #: src/components/invites/InviteListItem.tsx:179
-#: src/components/modals/ForwardModal.tsx:246
+#: src/components/modals/ForwardModal.tsx:251
 #: src/components/modals/GuildNotificationSettingsModal.tsx:258
 msgid "No Category"
 msgstr "カテゴリなし"
@@ -14749,7 +14750,7 @@ msgstr "保存する変更がありません"
 msgid "No channels available"
 msgstr "利用可能なチャンネルはありません"
 
-#: src/components/modals/ForwardModal.tsx:216
+#: src/components/modals/ForwardModal.tsx:221
 msgid "No channels found"
 msgstr "チャンネルが見つかりません"
 
@@ -14773,7 +14774,7 @@ msgstr "まだ接続はありません"
 msgid "No description provided."
 msgstr "説明は提供されていません。"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:97
 msgid "No email address set"
 msgstr "メールアドレスが設定されていません"
 
@@ -14883,11 +14884,11 @@ msgstr "共通の友達は見つかりませんでした。"
 msgid "No mutual groups found."
 msgstr "共通のグループは見つかりませんでした。"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:283
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
 msgid "No passkeys registered"
 msgstr "登録されたパスキーはありません"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:137
 msgid "No password set"
 msgstr "パスワードが設定されていません"
 
@@ -15929,7 +15930,7 @@ msgstr "提携コミュニティ"
 msgid "Passkey Name"
 msgstr "パスキー名"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:273
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:276
 msgid "Passkeys"
 msgstr "パスキー"
 
@@ -15953,8 +15954,8 @@ msgstr "パスワード"
 #: src/components/modals/ClaimAccountModal.tsx:207
 #: src/components/modals/SudoVerificationModal.tsx:174
 #: src/components/modals/SudoVerificationModal.tsx:239
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:105
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:131
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:108
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:114
 #: src/components/modals/utils/SettingsSearchIndex.tsx:107
 msgid "Password"
@@ -16010,7 +16011,7 @@ msgstr "元の場所に貼り付けてサインインを完了してください
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 msgid "Pause"
 msgstr "一時停止"
 
@@ -16147,8 +16148,8 @@ msgstr "電話"
 
 #: src/components/modals/PhoneAddModal.tsx:192
 #: src/components/modals/RequiredActionModal.tsx:616
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:336
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:342
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:339
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:345
 #: src/components/modals/utils/SettingsSearchIndex.tsx:115
 msgid "Phone Number"
 msgstr "電話番号"
@@ -16158,7 +16159,7 @@ msgid "Phone number added"
 msgstr "電話番号が追加されました"
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:346
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:349
 msgid "Phone number added: {0}"
 msgstr "電話番号が追加されました: {0}"
 
@@ -16225,11 +16226,11 @@ msgstr "DMをピン留め"
 msgid "Pin Group DM"
 msgstr "グループDMをピン留め"
 
-#: src/components/channel/MessageActionUtils.tsx:429
+#: src/components/channel/MessageActionUtils.tsx:430
 msgid "Pin it real good"
 msgstr "しっかりピン留め"
 
-#: src/components/channel/MessageActionUtils.tsx:426
+#: src/components/channel/MessageActionUtils.tsx:427
 msgid "Pin it. Pin it good."
 msgstr "ピン留め。しっかりピン留め。"
 
@@ -16250,7 +16251,7 @@ msgstr "メッセージをピン留め"
 msgid "Pin or unpin the focused message"
 msgstr "フォーカスしたメッセージをピン留めまたはピン留め解除する"
 
-#: src/components/channel/MessageActionUtils.tsx:427
+#: src/components/channel/MessageActionUtils.tsx:428
 msgid "Pin this message to the channel for all to see. Unless ... you're chicken."
 msgstr "このメッセージをチャンネルにピン留めして、全員に見えるようにします。ただし…臆病なら別です。"
 
@@ -16323,7 +16324,7 @@ msgstr "プラットフォーム管理者"
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:215
 msgid "Play"
 msgstr "再生"
@@ -17075,7 +17076,7 @@ msgstr "受信"
 msgid "Receive notifications when someone mentions you"
 msgstr "メンションされたときに通知を受信"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:404
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:407
 msgid "Receive verification codes via SMS as a backup authentication method"
 msgstr "SMSで認証コードを受信（バックアップ認証方法）"
 
@@ -17202,7 +17203,7 @@ msgstr "プッシュ購読を更新"
 msgid "Regenerate"
 msgstr "再生成"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:61
+#: src/components/modals/BackupCodesRegenerateModal.tsx:68
 msgid "Regenerate Backup Codes"
 msgstr "バックアップコードを再生成"
 
@@ -17232,7 +17233,7 @@ msgstr "再生成すると現在のトークンが無効になります。古い
 msgid "Register"
 msgstr "登録"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:279
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:282
 msgid "Registered Passkeys"
 msgstr "登録済みパスキー"
 
@@ -17302,7 +17303,7 @@ msgstr "削除"
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildEmbedSplashUploadField.tsx:101
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildIconUploadField.tsx:107
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildInviteSplashUploadField.tsx:113
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:391
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:394
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:96
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:226
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:191
@@ -17476,11 +17477,11 @@ msgstr "上書きを削除"
 msgid "Remove Pack"
 msgstr "パックを削除"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:377
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:380
 msgid "Remove Phone"
 msgstr "電話を削除"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:360
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:363
 msgid "Remove Phone Number"
 msgstr "電話番号を削除"
 
@@ -17635,7 +17636,7 @@ msgstr "パックを削除すると、アカウントからアンインストー
 msgid "Removing the timeout will allow <0>{0}</0> to send messages, react, and join voice channels again."
 msgstr "タイムアウトを削除すると、<0>{0}</0>はメッセージの送信、リアクション、ボイスチャンネルへの参加が再び可能になります。"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:319
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 msgid "Rename"
 msgstr "名前を変更"
 
@@ -17875,17 +17876,17 @@ msgid "Reschedule Message"
 msgstr "メッセージの再スケジュール"
 
 #: src/components/modals/ClaimAccountModal.tsx:222
-#: src/components/modals/EmailChangeModal.tsx:233
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:304
 #: src/components/modals/PasswordChangeModal.tsx:179
 msgid "Resend"
 msgstr "再送信"
 
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:304
 msgid "Resend ({newSecondsRemaining}s)"
 msgstr "再送信 ({newSecondsRemaining}秒)"
 
-#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:236
 msgid "Resend ({originalSecondsRemaining}s)"
 msgstr "再送信 ({originalSecondsRemaining}秒)"
 
@@ -18429,7 +18430,7 @@ msgstr "保存しました"
 msgid "scale"
 msgstr "スケール"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:78
+#: src/components/modals/MfaTotpEnableModal.tsx:81
 msgid "Scan the QR code with your authenticator app to generate codes for two-factor authentication."
 msgstr "二要素認証のコードを生成するには、認証アプリでQRコードをスキャンしてください。"
 
@@ -18566,7 +18567,7 @@ msgstr "ユーザー名またはIDで検索"
 msgid "Search channels"
 msgstr "チャンネルを検索"
 
-#: src/components/modals/ForwardModal.tsx:204
+#: src/components/modals/ForwardModal.tsx:209
 msgid "Search channels or DMs"
 msgstr "チャンネルまたはDMを検索"
 
@@ -18967,7 +18968,7 @@ msgid "Send"
 msgstr "送信"
 
 #. placeholder {0}: selectedChannelIds.size
-#: src/components/modals/ForwardModal.tsx:380
+#: src/components/modals/ForwardModal.tsx:385
 msgid "Send ({0}/5)"
 msgstr "送信 ({0}/5)"
 
@@ -19004,7 +19005,7 @@ msgid "Send an SMS code first."
 msgstr "最初にSMSコードを送信します。"
 
 #: src/components/modals/ClaimAccountModal.tsx:180
-#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:273
 #: src/components/modals/PhoneAddModal.tsx:208
 msgid "Send code"
 msgstr "コードを送信"
@@ -19199,7 +19200,7 @@ msgstr "ニックネームを{0}に設定します。"
 msgid "Set NSFW level to {0}."
 msgstr "NSFWレベルを{0}に設定します。"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:138
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:141
 msgid "Set Password"
 msgstr "パスワードを設定"
 
@@ -19361,7 +19362,7 @@ msgstr "設定セクション"
 msgid "Settings!"
 msgstr "設定！"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:71
+#: src/components/modals/MfaTotpEnableModal.tsx:74
 msgid "Setup Authenticator App"
 msgstr "認証アプリを設定"
 
@@ -19989,11 +19990,11 @@ msgstr "小さいメディアサイズ"
 msgid "sms"
 msgstr "SMS"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:409
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:412
 msgid "SMS Backup"
 msgstr "SMSバックアップ"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
 msgid "SMS backup is disabled for partners"
 msgstr "パートナー向けのSMSバックアップは無効です"
 
@@ -20006,7 +20007,7 @@ msgstr "SMSコード"
 msgid "SMS Code"
 msgstr "SMSコード"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:403
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:406
 msgid "SMS Two-Factor Authentication"
 msgstr "SMS二要素認証"
 
@@ -20014,7 +20015,7 @@ msgstr "SMS二要素認証"
 msgid "SMS two-factor authentication adds an additional layer of security to your account by requiring a verification code sent to your phone number when signing in."
 msgstr "SMS二要素認証は、サインイン時に電話番号に送信される確認コードを要求することで、アカウントに追加のセキュリティ層を追加します。"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:413
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:416
 msgid "SMS two-factor authentication is enabled"
 msgstr "SMS二要素認証が有効です"
 
@@ -20338,7 +20339,7 @@ msgstr "星"
 msgid "starred"
 msgstr "スター付き"
 
-#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:205
 #: src/components/modals/PasswordChangeModal.tsx:148
 msgid "Start"
 msgstr "開始"
@@ -21152,7 +21153,7 @@ msgstr "ファイルには、<0>{dnsUrl}</0>から取得する検証トークン
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "アップロードしようとしているファイルは、最大サイズ制限の{maxSizeFormatted}を超えています。"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:106
+#: src/components/modals/FluxerTagChangeModal.tsx:109
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "FluxerTag <0>{fluxerTag}</0>は既に使用されています。続行すると、識別子が自動的に再抽選されます。"
 
@@ -21717,7 +21718,7 @@ msgstr "これは時空連続体に亀裂を生じさせ、元に戻せません
 msgid "This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from <0>User Settings → Look & Feel → Favorites</0>."
 msgstr "これにより、ボタンやメニュー項目を含むすべてのお気に入り関連UI要素が非表示になります。既存のお気に入りは保持され、いつでも<0>ユーザー設定 → 外観 → お気に入り</0>から再有効化できます。"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:65
+#: src/components/modals/BackupCodesRegenerateModal.tsx:72
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "これにより、既存のバックアップコードが無効になり、新しいコードが生成されます。"
 
@@ -21911,7 +21912,7 @@ msgstr "チャンネルメンバーリストの切り替え"
 msgid "Toggle Compact Mode"
 msgstr "コンパクトモードの切り替え"
 
-#: src/components/modals/MobileVideoViewer.tsx:239
+#: src/components/modals/MobileVideoViewer.tsx:247
 msgid "Toggle controls"
 msgstr "コントロールを切り替える"
 
@@ -22307,7 +22308,7 @@ msgstr "二要素認証"
 msgid "Two-factor authentication disabled"
 msgstr "二要素認証が無効です"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:55
+#: src/components/modals/MfaTotpEnableModal.tsx:58
 msgid "Two-factor authentication enabled"
 msgstr "二要素認証が有効です"
 
@@ -22436,13 +22437,13 @@ msgstr "プロフィールバナー、バッジ、およびプロフィールを
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "アップロード用の絵文字を準備できません。以下のエラーが発生しました："
 
-#: src/components/modals/EmailChangeModal.tsx:121
-#: src/components/modals/EmailChangeModal.tsx:151
+#: src/components/modals/EmailChangeModal.tsx:124
+#: src/components/modals/EmailChangeModal.tsx:154
 #: src/components/modals/PasswordChangeModal.tsx:104
 msgid "Unable to resend code right now"
 msgstr "現在コードを再送できません"
 
-#: src/components/modals/EmailChangeModal.tsx:136
+#: src/components/modals/EmailChangeModal.tsx:139
 msgid "Unable to send code to new email"
 msgstr "新しいメールにコードを送信できません"
 
@@ -22455,7 +22456,7 @@ msgstr "音声メッセージを送信できませんでした。再試行して
 msgid "Unable to Start Call"
 msgstr "通話を開始できません"
 
-#: src/components/modals/EmailChangeModal.tsx:91
+#: src/components/modals/EmailChangeModal.tsx:94
 msgid "Unable to start email change"
 msgstr "メールアドレスの変更を開始できません"
 
@@ -22781,7 +22782,7 @@ msgstr "PlutoniumでDMのステッカーをアンロック"
 #: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/voice/VoiceControlBar.tsx:602
 msgid "Unmute"
 msgstr "ミュート解除"
@@ -22872,7 +22873,7 @@ msgstr "DMのピン留め解除"
 msgid "Unpin Group DM"
 msgstr "グループDMのピン留め解除"
 
-#: src/components/channel/MessageActionUtils.tsx:412
+#: src/components/channel/MessageActionUtils.tsx:413
 #: src/components/shared/ChannelPinsContent.tsx:102
 msgid "Unpin it"
 msgstr "ピン留め解除"
@@ -22880,7 +22881,7 @@ msgstr "ピン留め解除"
 #: src/components/channel/MessageActionBar.tsx:519
 #: src/components/channel/MessageActionBar.tsx:735
 #: src/components/channel/MessageActionMenu.tsx:243
-#: src/components/channel/MessageActionUtils.tsx:409
+#: src/components/channel/MessageActionUtils.tsx:410
 #: src/components/shared/ChannelPinsContent.tsx:99
 #: src/components/shared/ChannelPinsContent.tsx:260
 #: src/components/uikit/context_menu/items/MessageMenuItems.tsx:163
@@ -23322,7 +23323,7 @@ msgstr "グローバルプロフィールを使用"
 msgid "Use light theme"
 msgstr "ライトテーマを使用"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:274
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:277
 msgid "Use passkeys for passwordless sign-in and two-factor authentication"
 msgstr "パスキーを使用してパスワード不要のサインインと二要素認証を行う"
 
@@ -23475,9 +23476,9 @@ msgstr "ユーザー、ボット、またはウェブフック"
 msgid "username"
 msgstr "ユーザー名"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:187
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:51
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
 msgid "Username"
 msgstr "ユーザー名"
@@ -23510,11 +23511,11 @@ msgstr "ユーザー名は最大32文字までです"
 msgid "Username#0000"
 msgstr "ユーザー名#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:169
+#: src/components/modals/FluxerTagChangeModal.tsx:172
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "ユーザー名には英字（a-z、A-Z）、数字（0-9）、アンダースコアのみ使用できます。ユーザー名は大文字小文字を区別しません。"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:164
+#: src/components/modals/FluxerTagChangeModal.tsx:167
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
 msgstr "ユーザー名には英字（a-z、A-Z）、数字（0-9）、アンダースコアのみ使用できます。ユーザー名は大文字小文字を区別しません。利用可能な場合、独自の4桁のタグを選択できます。"
 
@@ -23634,8 +23635,8 @@ msgid "Verification Barriers"
 msgstr "認証バリア"
 
 #: src/components/modals/ClaimAccountModal.tsx:198
-#: src/components/modals/EmailChangeModal.tsx:220
-#: src/components/modals/EmailChangeModal.tsx:288
+#: src/components/modals/EmailChangeModal.tsx:223
+#: src/components/modals/EmailChangeModal.tsx:291
 #: src/components/modals/PasswordChangeModal.tsx:166
 #: src/components/modals/PhoneAddModal.tsx:226
 #: src/components/modals/RequiredActionModal.tsx:495
@@ -23662,7 +23663,7 @@ msgstr "認証メールを送信しました！受信トレイを確認してく
 msgid "Verification failed"
 msgstr "認証に失敗しました"
 
-#: src/components/modals/BackupCodesViewModal.tsx:63
+#: src/components/modals/BackupCodesViewModal.tsx:68
 msgid "Verification may be required before viewing your backup codes."
 msgstr "バックアップコードを表示する前に認証が必要な場合があります。"
 
@@ -23684,7 +23685,7 @@ msgid "verify"
 msgstr "確認する"
 
 #: src/components/modals/AddConnectionModal.tsx:315
-#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:239
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
 #: src/components/modals/RequiredActionModal.tsx:652
@@ -23785,7 +23786,7 @@ msgstr "ビデオプレビュー"
 msgid "Video preview"
 msgstr "ビデオプレビュー"
 
-#: src/components/modals/MobileVideoViewer.tsx:311
+#: src/components/modals/MobileVideoViewer.tsx:319
 msgid "Video progress"
 msgstr "ビデオの進行状況"
 
@@ -23859,15 +23860,15 @@ msgstr "BANされたユーザーを表示・管理します。"
 msgid "View and manage every webhook configured across your community."
 msgstr "コミュニティ全体で設定されたすべてのWebhookを表示・管理します。"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:260
 msgid "View and manage your backup codes for account recovery"
 msgstr "アカウント回復用のバックアップコードを表示・管理します"
 
-#: src/components/modals/BackupCodesViewModal.tsx:59
+#: src/components/modals/BackupCodesViewModal.tsx:64
 msgid "View Backup Codes"
 msgstr "バックアップコードを表示"
 
-#: src/components/modals/BackupCodesViewModal.tsx:58
+#: src/components/modals/BackupCodesViewModal.tsx:63
 msgid "View backup codes form"
 msgstr "バックアップコードフォームを表示"
 
@@ -23884,7 +23885,7 @@ msgstr "通話コントロールを表示"
 msgid "View Channel"
 msgstr "チャンネルを表示"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:265
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:268
 msgid "View Codes"
 msgstr "コードを表示"
 
@@ -24387,11 +24388,11 @@ msgstr "このメールアドレスに確認コードを送信します。"
 msgid "We'll send a verification code to your email before you can change your password."
 msgstr "パスワードを変更する前に、あなたのメールに確認コードを送信します。"
 
-#: src/components/modals/EmailChangeModal.tsx:190
+#: src/components/modals/EmailChangeModal.tsx:193
 msgid "We'll verify your current email and then your new email with one-time codes."
 msgstr "現在のメールアドレスと新しいメールアドレスをワンタイムコードで確認します。"
 
-#: src/components/modals/EmailChangeModal.tsx:192
+#: src/components/modals/EmailChangeModal.tsx:195
 msgid "We'll verify your new email with a one-time code."
 msgstr "新しいメールアドレスをワンタイムコードで確認します。"
 

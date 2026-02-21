@@ -134,12 +134,12 @@ msgid "{0} of {totalAttachments}"
 msgstr "{0} din {totalAttachments}"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:285
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:288
 msgid "{0} passkey registered (max 10)"
 msgstr "{0} cheie de acces înregistrată (max 10)"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:289
 msgid "{0} passkeys registered (max 10)"
 msgstr "{0} chei de acces înregistrate (max 10)"
 
@@ -1088,7 +1088,7 @@ msgstr "<0>Undeafened</0> membrul."
 msgid "<0>Unmuted</0> the member."
 msgstr "<0>Unmuted</0> membrul."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:370
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:373
 msgid "<0>Warning:</0> This will also disable SMS two-factor authentication."
 msgstr "<0>Warning:</0> Acest lucru va dezactiva și autentificarea în doi pași prin SMS."
 
@@ -1362,9 +1362,9 @@ msgstr "30 de secunde"
 msgid "4 hours"
 msgstr "4 ore"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:203
-#: src/components/modals/FluxerTagChangeModal.tsx:231
-#: src/components/modals/FluxerTagChangeModal.tsx:248
+#: src/components/modals/FluxerTagChangeModal.tsx:206
+#: src/components/modals/FluxerTagChangeModal.tsx:234
+#: src/components/modals/FluxerTagChangeModal.tsx:251
 msgid "4-digit tag"
 msgstr "Tag de 4 cifre"
 
@@ -1763,7 +1763,7 @@ msgstr "Adaugă"
 msgid "Add a bot to a community with requested permissions"
 msgstr "Adaugă un bot într-o comunitate cu permisiunile cerute"
 
-#: src/components/modals/ForwardModal.tsx:309
+#: src/components/modals/ForwardModal.tsx:314
 msgid "Add a comment (optional)"
 msgstr "Adaugă un comentariu (opțional)"
 
@@ -1782,7 +1782,7 @@ msgstr "Adaugă un fundal personalizat"
 msgid "Add a different account"
 msgstr "Adaugă un alt cont"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:348
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:351
 msgid "Add a phone number to enable SMS two-factor authentication"
 msgstr "Adaugă un număr de telefon pentru a activa autentificarea în doi pași prin SMS"
 
@@ -1844,7 +1844,7 @@ msgstr "Formular de adăugare a conexiunii"
 msgid "Add domain connection"
 msgstr "Adaugă conexiune domeniu"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:98
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:101
 msgid "Add Email"
 msgstr "Adaugă email"
 
@@ -1902,12 +1902,12 @@ msgstr "Adaugă sau schimbă numărul tău de telefon"
 msgid "Add Override"
 msgstr "Adaugă suprascriere"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:290
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:293
 msgid "Add Passkey"
 msgstr "Adaugă cheie de acces"
 
 #: src/components/channel/barriers/BarrierComponents.tsx:198
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:395
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:398
 msgid "Add Phone"
 msgstr "Adaugă telefon"
 
@@ -2028,11 +2028,11 @@ msgstr "Adăugat la Favorite"
 msgid "Added to saved media"
 msgstr "Adăugat la media salvată"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:313
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:316
 msgid "Added: {createdDate}"
 msgstr "Adăugat: {createdDate}"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:309
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:312
 msgid "Added: {createdDate} • Last used: {lastUsedDate}"
 msgstr "Adăugat: {createdDate} • Ultima utilizare: {lastUsedDate}"
 
@@ -2930,7 +2930,7 @@ msgid "Are you sure you want to remove this connection? This action cannot be un
 msgstr "Ești sigur că vrei să elimini această conexiune? Această acțiune nu poate fi anulată."
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:364
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:367
 msgid "Are you sure you want to remove your phone number <0>{0}</0>?"
 msgstr "Ești sigur că vrei să îți elimini numărul de telefon <0>{0}</0>?"
 
@@ -3438,12 +3438,12 @@ msgid "backup codes"
 msgstr "coduri de rezervă"
 
 #: src/components/modals/BackupCodesModal.tsx:43
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:254
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
 #: src/components/modals/utils/SettingsSearchIndex.tsx:140
 msgid "Backup Codes"
 msgstr "Coduri de rezervă"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:48
+#: src/components/modals/BackupCodesRegenerateModal.tsx:55
 msgid "Backup codes regenerated"
 msgstr "Codurile de rezervă au fost regenerate"
 
@@ -4069,8 +4069,8 @@ msgstr "Camerele sunt dezactivate când sunt mai mult de {VOICE_CHANNEL_CAMERA_U
 #: src/components/modals/AddGuildModal.tsx:413
 #: src/components/modals/AddGuildStickerModal.tsx:120
 #: src/components/modals/AttachmentEditModal.tsx:122
-#: src/components/modals/BackupCodesRegenerateModal.tsx:72
-#: src/components/modals/BackupCodesViewModal.tsx:70
+#: src/components/modals/BackupCodesRegenerateModal.tsx:79
+#: src/components/modals/BackupCodesViewModal.tsx:75
 #: src/components/modals/BanMemberModal.tsx:143
 #: src/components/modals/CameraPreviewModal.tsx:485
 #: src/components/modals/CaptchaModal.tsx:187
@@ -4094,14 +4094,14 @@ msgstr "Camerele sunt dezactivate când sunt mai mult de {VOICE_CHANNEL_CAMERA_U
 #: src/components/modals/EditFavoriteMemeModal.tsx:85
 #: src/components/modals/EditGuildStickerModal.tsx:113
 #: src/components/modals/EditPackModal.tsx:103
-#: src/components/modals/EmailChangeModal.tsx:199
-#: src/components/modals/EmailChangeModal.tsx:230
-#: src/components/modals/EmailChangeModal.tsx:267
-#: src/components/modals/EmailChangeModal.tsx:298
+#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:117
-#: src/components/modals/FluxerTagChangeModal.tsx:280
-#: src/components/modals/ForwardModal.tsx:373
+#: src/components/modals/FluxerTagChangeModal.tsx:120
+#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
 #: src/components/modals/GuildFolderSettingsModal.tsx:199
@@ -4113,7 +4113,7 @@ msgstr "Camerele sunt dezactivate când sunt mai mult de {VOICE_CHANNEL_CAMERA_U
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
-#: src/components/modals/MfaTotpEnableModal.tsx:103
+#: src/components/modals/MfaTotpEnableModal.tsx:106
 #: src/components/modals/PasskeyNameModal.tsx:62
 #: src/components/modals/PasswordChangeModal.tsx:145
 #: src/components/modals/PasswordChangeModal.tsx:176
@@ -4146,7 +4146,7 @@ msgstr "Anulează"
 msgid "Cancel Friend Request"
 msgstr "Anulează cererea de prietenie"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:112
+#: src/components/modals/FluxerTagChangeModal.tsx:115
 msgid "Cancel if you want to choose a different username instead."
 msgstr "Anulează dacă vrei să alegi un alt nume de utilizator."
 
@@ -4279,7 +4279,7 @@ msgstr "Schimbă bannerul"
 msgid "Change email"
 msgstr "Schimbă emailul"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:81
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:84
 msgid "Change Email"
 msgstr "Schimbă emailul"
 
@@ -4288,12 +4288,12 @@ msgstr "Schimbă emailul"
 msgid "Change emoji"
 msgstr "Schimbă emoji"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:59
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:69
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:60
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:70
 msgid "Change FluxerTag"
 msgstr "Schimbă FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:158
+#: src/components/modals/FluxerTagChangeModal.tsx:161
 msgid "Change FluxerTag form"
 msgstr "Formular schimbare FluxerTag"
 
@@ -4360,7 +4360,7 @@ msgid "change password"
 msgstr "schimbă parola"
 
 #: src/components/modals/PasswordChangeModal.tsx:227
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:124
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:127
 msgid "Change Password"
 msgstr "Schimbă parola"
 
@@ -4372,7 +4372,7 @@ msgstr "Formular de schimbare a parolei"
 msgid "Change what users without Read Message History can see"
 msgstr "Schimbă ce pot vedea utilizatorii fără permisiunea de a citi istoricul mesajelor"
 
-#: src/components/modals/EmailChangeModal.tsx:183
+#: src/components/modals/EmailChangeModal.tsx:186
 msgid "Change Your Email"
 msgstr "Schimbă-ți Emailul"
 
@@ -4380,7 +4380,7 @@ msgstr "Schimbă-ți Emailul"
 msgid "Change your email address"
 msgstr "Schimbă adresa ta de email"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:159
+#: src/components/modals/FluxerTagChangeModal.tsx:162
 msgid "Change Your FluxerTag"
 msgstr "Schimbă-ți FluxerTag-ul"
 
@@ -4392,7 +4392,7 @@ msgstr "Schimbă-ți porecla în această comunitate."
 msgid "Change your password"
 msgstr "Schimbă parola ta"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:106
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:109
 msgid "Change your password to keep your account secure"
 msgstr "Schimbă-ți parola pentru a-ți păstra contul sigur"
 
@@ -4404,7 +4404,7 @@ msgstr "Schimbă poza ta de profil"
 msgid "Change your username"
 msgstr "Schimbă numele tău de utilizator"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:90
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:91
 msgid "Change your username and 4-digit tag"
 msgstr "Schimbă-ți numele de utilizator și tagul de 4 cifre"
 
@@ -4846,7 +4846,7 @@ msgstr "Revendică-ți contul pentru a accesa funcții de securitate precum aute
 msgid "Claim your account to call"
 msgstr "Revendică-ți contul pentru a apela"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:56
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:57
 msgid "Claim your account to change your FluxerTag"
 msgstr "Revendică-ți contul pentru a-ți schimba FluxerTag-ul"
 
@@ -5144,7 +5144,7 @@ msgstr "Secretul clientului a fost regenerat. Actualizează orice cod care folos
 #: src/components/modals/components/SettingsModalHeader.tsx:98
 #: src/components/modals/InviteModal.tsx:135
 #: src/components/modals/MediaModal.tsx:349
-#: src/components/modals/MobileVideoViewer.tsx:252
+#: src/components/modals/MobileVideoViewer.tsx:260
 #: src/components/modals/Modal.tsx:382
 #: src/components/modals/Modal.tsx:460
 #: src/components/modals/PackInviteModal.tsx:152
@@ -5201,7 +5201,7 @@ msgstr "Temă Cărbune"
 #: src/components/auth/MfaScreen.tsx:131
 #: src/components/invites/InviteListItem.tsx:56
 #: src/components/modals/MfaTotpDisableModal.tsx:63
-#: src/components/modals/MfaTotpEnableModal.tsx:91
+#: src/components/modals/MfaTotpEnableModal.tsx:94
 #: src/components/pages/report/ReportBreadcrumbs.tsx:48
 msgid "Code"
 msgstr "Cod"
@@ -5651,7 +5651,7 @@ msgid "Configure your profile badge"
 msgstr "Configurează insigna ta de profil"
 
 #: src/components/channel/MentionEveryonePopout.tsx:134
-#: src/components/modals/EmailChangeModal.tsx:304
+#: src/components/modals/EmailChangeModal.tsx:307
 msgid "Confirm"
 msgstr "Confirmă"
 
@@ -5827,13 +5827,13 @@ msgstr "Meniurile contextuale pot fi deschise cu click stânga (pe butoane) sau 
 
 #: src/components/channel/ChannelTextarea.tsx:311
 #: src/components/modals/AddConnectionModal.tsx:221
-#: src/components/modals/BackupCodesRegenerateModal.tsx:75
-#: src/components/modals/BackupCodesViewModal.tsx:73
+#: src/components/modals/BackupCodesRegenerateModal.tsx:82
+#: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:116
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:119
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 #: src/components/modals/MfaTotpDisableModal.tsx:78
-#: src/components/modals/MfaTotpEnableModal.tsx:106
+#: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
 msgid "Continue"
 msgstr "Continuă"
@@ -6555,7 +6555,7 @@ msgstr "Dispozitivul curent"
 msgid "Current DM"
 msgstr "DM-ul curent"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:113
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:116
 msgid "Current Password"
 msgstr "Parola curentă"
 
@@ -6601,7 +6601,7 @@ msgstr "Suprascrieri CSS personalizate"
 msgid "Custom Date Range"
 msgstr "Interval de date personalizat"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:227
+#: src/components/modals/FluxerTagChangeModal.tsx:230
 msgid "Custom discriminators are not available on this instance"
 msgstr "Discriminatorii personalizați nu sunt disponibili pe această instanță"
 
@@ -6727,11 +6727,12 @@ msgstr "Personalizează ce butoane apar pe atașamentele media și încorporări
 msgid "Customize which buttons are visible in the message input area. Keyboard shortcuts will continue to work even if buttons are hidden."
 msgstr "Personalizează ce butoane sunt vizibile în zona de introducere a mesajelor. Comenzile rapide de la tastatură vor continua să funcționeze chiar dacă butoanele sunt ascunse."
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:74
-msgid "Customize your 4-digit tag (#{discriminator}) to your liking with Plutonium"
-msgstr "Personalizează-ți eticheta de 4 cifre (#{discriminator}) după gust cu Plutonium"
+#. placeholder {0}: user.discriminator
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:75
+msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
+msgstr "Personalizează-ți eticheta de 4 cifre (#{0}) după bunul plac cu Plutonium"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:272
+#: src/components/modals/FluxerTagChangeModal.tsx:275
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Personalizează-ți eticheta de 4 cifre sau păstreaz-o când îți schimbi numele de utilizator"
 
@@ -7069,7 +7070,7 @@ msgstr "șterge"
 #: src/components/emojis/EmojiListItem.tsx:195
 #: src/components/emojis/EmojiListItem.tsx:252
 #: src/components/emojis/EmojiListItem.tsx:308
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:325
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
@@ -7530,7 +7531,7 @@ msgstr "dezactivează"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:240
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:426
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
 msgid "Disable"
 msgstr "Dezactivează"
 
@@ -7890,7 +7891,7 @@ msgstr "Vrei să blochezi și mesajele directe de la membrii comunităților tal
 msgid "Do you want to send this pin back in time?"
 msgstr "Vrei să trimiți acest pin înapoi în timp?"
 
-#: src/components/channel/MessageActionUtils.tsx:410
+#: src/components/channel/MessageActionUtils.tsx:411
 msgid "Do you want to send this pin back to the future?"
 msgstr "Vrei să trimiți acest pin înapoi în viitor?"
 
@@ -8344,13 +8345,13 @@ msgid "Email"
 msgstr "Email"
 
 #: src/components/modals/tabs/account_security_tab/AccountTab.tsx:65
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:91
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:107
 #: src/components/pages/report/ReportStepEmail.tsx:76
 msgid "Email Address"
 msgstr "Adresă de email"
 
-#: src/components/modals/EmailChangeModal.tsx:165
+#: src/components/modals/EmailChangeModal.tsx:168
 msgid "Email changed"
 msgstr "Email modificat"
 
@@ -8426,11 +8427,11 @@ msgstr "înglobări"
 msgid "Embeds"
 msgstr "Încorporări"
 
-#: src/components/channel/MessageActionUtils.tsx:520
+#: src/components/channel/MessageActionUtils.tsx:526
 msgid "Embeds suppressed"
 msgstr "Încorporări suprimare"
 
-#: src/components/channel/MessageActionUtils.tsx:506
+#: src/components/channel/MessageActionUtils.tsx:512
 msgid "Embeds unsuppressed"
 msgstr "Încorporări permise"
 
@@ -8530,9 +8531,9 @@ msgstr "stare goală"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/layout/GuildLayout.tsx:74
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:244
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:438
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:247
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:435
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:441
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:85
 msgid "Enable"
 msgstr "Activează"
@@ -8658,7 +8659,7 @@ msgstr "Activează Shift pentru a extinde"
 msgid "Enable SMS 2FA"
 msgstr "Activează 2FA prin SMS"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:415
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:418
 msgid "Enable SMS codes as a backup for your authenticator app"
 msgstr "Activează codurile SMS ca backup pentru aplicația de autentificare"
 
@@ -8678,7 +8679,7 @@ msgstr "Activează autentificarea în doi pași"
 msgid "Enable two-factor authentication"
 msgstr "Activează autentificarea cu doi factori"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:70
+#: src/components/modals/MfaTotpEnableModal.tsx:73
 msgid "Enable two-factor authentication form"
 msgstr "Activează formularul de autentificare în doi pași"
 
@@ -8782,7 +8783,7 @@ msgid "Enter the 6-digit code from your authenticator app or one of your backup 
 msgstr "Introdu codul de 6 cifre din aplicația ta de autentificare sau unul dintre codurile de rezervă."
 
 #: src/components/modals/MfaTotpDisableModal.tsx:67
-#: src/components/modals/MfaTotpEnableModal.tsx:95
+#: src/components/modals/MfaTotpEnableModal.tsx:98
 msgid "Enter the 6-digit code from your authenticator app."
 msgstr "Introdu codul de 6 cifre din aplicația de autentificare."
 
@@ -8804,7 +8805,7 @@ msgstr "Introdu codul înainte de a continua."
 msgid "Enter the code from your authenticator app."
 msgstr "Introdu codul din aplicația de autentificare."
 
-#: src/components/modals/EmailChangeModal.tsx:213
+#: src/components/modals/EmailChangeModal.tsx:216
 msgid "Enter the code sent to your current email."
 msgstr "Introdu codul trimis pe emailul tău curent."
 
@@ -8812,7 +8813,7 @@ msgstr "Introdu codul trimis pe emailul tău curent."
 msgid "Enter the code sent to your email address."
 msgstr "Introduceți codul trimis la adresa dvs. de email."
 
-#: src/components/modals/EmailChangeModal.tsx:281
+#: src/components/modals/EmailChangeModal.tsx:284
 msgid "Enter the code we emailed to your new address."
 msgstr "Introdu codul pe care ți l-am trimis pe noua adresă."
 
@@ -8824,7 +8825,7 @@ msgstr "Introdu codul pe care ți l-am trimis pe email pentru a-l verifica. Paro
 msgid "Enter the invite link to join a community."
 msgstr "Introduce linkul de invitație pentru a te alătura unei comunități."
 
-#: src/components/modals/EmailChangeModal.tsx:247
+#: src/components/modals/EmailChangeModal.tsx:250
 msgid "Enter the new email you want to use. We'll send a code there next."
 msgstr "Introdu noul email pe care vrei să îl folosești. Îți vom trimite acolo un cod."
 
@@ -9963,16 +9964,16 @@ msgstr "Personal Fluxer"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer folosește notificări push atunci când este instalat ca PWA mobil. Înregistrarea asigură că gateway-ul poate accesa dispozitivul tău chiar și când browserul este în fundal."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:176
+#: src/components/modals/FluxerTagChangeModal.tsx:179
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:102
+#: src/components/modals/FluxerTagChangeModal.tsx:105
 msgid "FluxerTag already taken"
 msgstr "FluxerTag este deja folosit"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:144
+#: src/components/modals/FluxerTagChangeModal.tsx:147
 msgid "FluxerTag updated"
 msgstr "FluxerTag actualizat"
 
@@ -10208,7 +10209,7 @@ msgstr "Înainte"
 msgid "Forward {DEFAULT_SEEK_AMOUNT} seconds"
 msgstr "Înainte cu {DEFAULT_SEEK_AMOUNT} secunde"
 
-#: src/components/modals/ForwardModal.tsx:198
+#: src/components/modals/ForwardModal.tsx:203
 #: src/stores/KeybindStore.tsx:361
 msgid "Forward Message"
 msgstr "Redirecționează mesajul"
@@ -10490,7 +10491,7 @@ msgstr "Primești notificări când primești mesaje. S-ar putea să fie nevoie 
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:221
+#: src/components/modals/FluxerTagChangeModal.tsx:224
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10503,11 +10504,11 @@ msgstr "Ia Plutonium"
 msgid "Get Plutonium for yourself and unlock higher limits and exclusive features."
 msgstr "Ia Plutonium pentru tine și deblochează limite mai mari și funcții exclusive."
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:81
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:82
 msgid "Get Plutonium to customize your tag"
 msgstr "Ia Plutonium ca să-ți personalizezi eticheta"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:199
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "Ia Plutonium ca să-ți personalizezi eticheta sau s-o păstrezi când îți schimbi numele de utilizator"
 
@@ -11883,8 +11884,8 @@ msgstr "Cod cadou invalid"
 msgid "Invalid instance URL. Try something like \"example.com\" or \"https://example.com\"."
 msgstr "URL-ul instanței este invalid. Încearcă ceva de genul \"example.com\" sau \"https://example.com\"."
 
-#: src/components/modals/EmailChangeModal.tsx:107
-#: src/components/modals/EmailChangeModal.tsx:168
+#: src/components/modals/EmailChangeModal.tsx:110
+#: src/components/modals/EmailChangeModal.tsx:171
 #: src/components/modals/PasswordChangeModal.tsx:90
 msgid "Invalid or expired code"
 msgstr "Cod invalid sau expirat"
@@ -12569,11 +12570,11 @@ msgid "Last active {0}"
 msgstr "Ultima activitate {0}"
 
 #. placeholder {0}: DateUtils.getRelativeDateString(user.passwordLastChangedAt, i18n)
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:117
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:120
 msgid "Last changed: {0}"
 msgstr "Ultima modificare: {0}"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:119
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:122
 msgid "Last changed: Never"
 msgstr "Ultima modificare: niciodată"
 
@@ -13221,7 +13222,7 @@ msgstr "Gestionează emailul, parola și setările contului"
 msgid "Manage your gifts"
 msgstr "Gestionează-ți cadourile"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:337
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:340
 msgid "Manage your phone number for SMS two-factor authentication"
 msgstr "Gestionează numărul tău de telefon pentru autentificarea în doi pași prin SMS"
 
@@ -13346,12 +13347,12 @@ msgstr "Membru marcat ca temporar."
 msgid "Markers Below Slider"
 msgstr "Marcatori sub cursor"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:188
+#: src/components/modals/FluxerTagChangeModal.tsx:191
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
 #: src/components/modals/ClaimAccountModal.tsx:157
-#: src/components/modals/EmailChangeModal.tsx:258
+#: src/components/modals/EmailChangeModal.tsx:261
 msgid "marty@example.com"
 msgstr "marty@example.com"
 
@@ -13750,7 +13751,7 @@ msgstr "Mod de afișare a mesajelor"
 msgid "Message display settings are only available on desktop."
 msgstr "Setările de afișare a mesajelor sunt disponibile doar pe desktop."
 
-#: src/components/modals/ForwardModal.tsx:148
+#: src/components/modals/ForwardModal.tsx:153
 msgid "Message forwarded"
 msgstr "Mesaj redirecționat"
 
@@ -13776,7 +13777,7 @@ msgstr "Limita istoricului mesajelor actualizată"
 msgid "Message Input Buttons"
 msgstr "Butonuri de introducere mesaj"
 
-#: src/components/modals/ForwardModal.tsx:84
+#: src/components/modals/ForwardModal.tsx:89
 #: src/components/uikit/character_counter/CharacterCounter.tsx:52
 msgid "Message is too long"
 msgstr "Mesajul este prea lung"
@@ -14077,7 +14078,7 @@ msgstr "Mai multe sloturi pentru emoji-uri"
 #: src/components/channel/embeds/attachments/TextualAttachmentPreviewFooter.tsx:66
 #: src/components/modals/guild_tabs/UserListItem.tsx:113
 #: src/components/modals/MediaModal.tsx:353
-#: src/components/modals/MobileVideoViewer.tsx:260
+#: src/components/modals/MobileVideoViewer.tsx:268
 msgid "More options"
 msgstr "Mai multe opțiuni"
 
@@ -14209,7 +14210,7 @@ msgstr "dezactivează sunetul"
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:319
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:506
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:92
@@ -14576,12 +14577,12 @@ msgstr "Comunitățile noi la care te alături vor avea automat canale mute ascu
 msgid "New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?"
 msgstr "Comunitățile noi la care te alături nu vor mai avea canale mute ascunse automat. Ai dori să arăți canalele mute în toate comunitățile tale existente?"
 
-#: src/components/modals/EmailChangeModal.tsx:255
+#: src/components/modals/EmailChangeModal.tsx:258
 #: src/components/modals/RequiredActionModal.tsx:471
 msgid "New Email"
 msgstr "Email nou"
 
-#: src/components/modals/EmailChangeModal.tsx:243
+#: src/components/modals/EmailChangeModal.tsx:246
 msgid "New email form"
 msgstr "Formular email nou"
 
@@ -14736,7 +14737,7 @@ msgid "No cameras detected"
 msgstr "Nu s-au detectat camere"
 
 #: src/components/invites/InviteListItem.tsx:179
-#: src/components/modals/ForwardModal.tsx:246
+#: src/components/modals/ForwardModal.tsx:251
 #: src/components/modals/GuildNotificationSettingsModal.tsx:258
 msgid "No Category"
 msgstr "Fără categorie"
@@ -14749,7 +14750,7 @@ msgstr "Nicio modificare de salvat"
 msgid "No channels available"
 msgstr "Nu există canale disponibile"
 
-#: src/components/modals/ForwardModal.tsx:216
+#: src/components/modals/ForwardModal.tsx:221
 msgid "No channels found"
 msgstr "Nu au fost găsite canale"
 
@@ -14773,7 +14774,7 @@ msgstr "Încă nu există conexiuni"
 msgid "No description provided."
 msgstr "Nu a fost furnizată nicio descriere."
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:97
 msgid "No email address set"
 msgstr "Nu a fost setată nicio adresă de email"
 
@@ -14883,11 +14884,11 @@ msgstr "Nu s-au găsit prieteni comuni."
 msgid "No mutual groups found."
 msgstr "Nu s-au găsit grupuri comune."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:283
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
 msgid "No passkeys registered"
 msgstr "Niciun cod de acces înregistrat"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:137
 msgid "No password set"
 msgstr "Nu a fost setată nicio parolă"
 
@@ -15929,7 +15930,7 @@ msgstr "Comunitate Partener"
 msgid "Passkey Name"
 msgstr "Numele cheii de acces"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:273
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:276
 msgid "Passkeys"
 msgstr "Chei de acces"
 
@@ -15953,8 +15954,8 @@ msgstr "parolă"
 #: src/components/modals/ClaimAccountModal.tsx:207
 #: src/components/modals/SudoVerificationModal.tsx:174
 #: src/components/modals/SudoVerificationModal.tsx:239
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:105
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:131
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:108
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:114
 #: src/components/modals/utils/SettingsSearchIndex.tsx:107
 msgid "Password"
@@ -16010,7 +16011,7 @@ msgstr "Lipește-l de unde ai venit pentru a finaliza autentificarea."
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 msgid "Pause"
 msgstr "Pauză"
 
@@ -16147,8 +16148,8 @@ msgstr "Telefon"
 
 #: src/components/modals/PhoneAddModal.tsx:192
 #: src/components/modals/RequiredActionModal.tsx:616
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:336
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:342
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:339
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:345
 #: src/components/modals/utils/SettingsSearchIndex.tsx:115
 msgid "Phone Number"
 msgstr "Număr de telefon"
@@ -16158,7 +16159,7 @@ msgid "Phone number added"
 msgstr "Număr de telefon adăugat"
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:346
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:349
 msgid "Phone number added: {0}"
 msgstr "Număr de telefon adăugat: {0}"
 
@@ -16225,11 +16226,11 @@ msgstr "Fixează mesaj direct"
 msgid "Pin Group DM"
 msgstr "Fixează conversația de grup"
 
-#: src/components/channel/MessageActionUtils.tsx:429
+#: src/components/channel/MessageActionUtils.tsx:430
 msgid "Pin it real good"
 msgstr "Fixeaz-o bine tare"
 
-#: src/components/channel/MessageActionUtils.tsx:426
+#: src/components/channel/MessageActionUtils.tsx:427
 msgid "Pin it. Pin it good."
 msgstr "Fixeaz-o. Fixeaz-o bine."
 
@@ -16250,7 +16251,7 @@ msgstr "Fixează mesaje"
 msgid "Pin or unpin the focused message"
 msgstr "Fixează sau desfă fixează mesajul selectat"
 
-#: src/components/channel/MessageActionUtils.tsx:427
+#: src/components/channel/MessageActionUtils.tsx:428
 msgid "Pin this message to the channel for all to see. Unless ... you're chicken."
 msgstr "Fixează acest mesaj în canal pentru ca toată lumea să îl vadă. Cu excepția cazului în care ... ești lași."
 
@@ -16323,7 +16324,7 @@ msgstr "Administrator de platformă"
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:215
 msgid "Play"
 msgstr "Redă"
@@ -17075,7 +17076,7 @@ msgstr "Primește"
 msgid "Receive notifications when someone mentions you"
 msgstr "Primește notificări când cineva te menționează"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:404
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:407
 msgid "Receive verification codes via SMS as a backup authentication method"
 msgstr "Primește coduri de verificare prin SMS ca metodă secundară de autentificare"
 
@@ -17202,7 +17203,7 @@ msgstr "Reîmprospătează abonamentul push"
 msgid "Regenerate"
 msgstr "Regenerare"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:61
+#: src/components/modals/BackupCodesRegenerateModal.tsx:68
 msgid "Regenerate Backup Codes"
 msgstr "Regenerare coduri de rezervă"
 
@@ -17232,7 +17233,7 @@ msgstr "Regenerarea va invalida token-ul curent. Actualizează orice cod care fo
 msgid "Register"
 msgstr "Înregistrează-te"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:279
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:282
 msgid "Registered Passkeys"
 msgstr "Chei de acces înregistrate"
 
@@ -17302,7 +17303,7 @@ msgstr "elimină"
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildEmbedSplashUploadField.tsx:101
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildIconUploadField.tsx:107
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildInviteSplashUploadField.tsx:113
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:391
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:394
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:96
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:226
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:191
@@ -17476,11 +17477,11 @@ msgstr "Anulează setarea"
 msgid "Remove Pack"
 msgstr "Elimină pachetul"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:377
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:380
 msgid "Remove Phone"
 msgstr "Elimină telefonul"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:360
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:363
 msgid "Remove Phone Number"
 msgstr "Elimină numărul de telefon"
 
@@ -17635,7 +17636,7 @@ msgstr "Eliminarea pachetului îl va dezinstala din contul tău."
 msgid "Removing the timeout will allow <0>{0}</0> to send messages, react, and join voice channels again."
 msgstr "Eliminarea timeout-ului îi va permite lui <0>{0}</0> să trimită mesaje, să reacționeze și să se alăture canalelor vocale din nou."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:319
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 msgid "Rename"
 msgstr "Redenumește"
 
@@ -17875,17 +17876,17 @@ msgid "Reschedule Message"
 msgstr "Reprogramează mesajul"
 
 #: src/components/modals/ClaimAccountModal.tsx:222
-#: src/components/modals/EmailChangeModal.tsx:233
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:304
 #: src/components/modals/PasswordChangeModal.tsx:179
 msgid "Resend"
 msgstr "Retrimite"
 
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:304
 msgid "Resend ({newSecondsRemaining}s)"
 msgstr "Retrimite ({newSecondsRemaining}s)"
 
-#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:236
 msgid "Resend ({originalSecondsRemaining}s)"
 msgstr "Retrimite ({originalSecondsRemaining}s)"
 
@@ -18429,7 +18430,7 @@ msgstr "salvează"
 msgid "scale"
 msgstr "scală"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:78
+#: src/components/modals/MfaTotpEnableModal.tsx:81
 msgid "Scan the QR code with your authenticator app to generate codes for two-factor authentication."
 msgstr "Scanează codul QR cu aplicația ta de autentificare pentru a genera coduri pentru autentificarea în doi pași."
 
@@ -18566,7 +18567,7 @@ msgstr "Căutați după numele de utilizator sau ID"
 msgid "Search channels"
 msgstr "Caută canale"
 
-#: src/components/modals/ForwardModal.tsx:204
+#: src/components/modals/ForwardModal.tsx:209
 msgid "Search channels or DMs"
 msgstr "Caută canale sau mesaje directe"
 
@@ -18967,7 +18968,7 @@ msgid "Send"
 msgstr "Trimite"
 
 #. placeholder {0}: selectedChannelIds.size
-#: src/components/modals/ForwardModal.tsx:380
+#: src/components/modals/ForwardModal.tsx:385
 msgid "Send ({0}/5)"
 msgstr "Trimite ({0}/5)"
 
@@ -19004,7 +19005,7 @@ msgid "Send an SMS code first."
 msgstr "Trimite mai întâi un cod SMS."
 
 #: src/components/modals/ClaimAccountModal.tsx:180
-#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:273
 #: src/components/modals/PhoneAddModal.tsx:208
 msgid "Send code"
 msgstr "Trimite cod"
@@ -19199,7 +19200,7 @@ msgstr "Setează porecla la {0}."
 msgid "Set NSFW level to {0}."
 msgstr "Setează nivelul NSFW la {0}."
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:138
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:141
 msgid "Set Password"
 msgstr "Setează parolă"
 
@@ -19361,7 +19362,7 @@ msgstr "Secțiuni de setări"
 msgid "Settings!"
 msgstr "Setări!"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:71
+#: src/components/modals/MfaTotpEnableModal.tsx:74
 msgid "Setup Authenticator App"
 msgstr "Configurați aplicația Authenticator"
 
@@ -19989,11 +19990,11 @@ msgstr "Dimensiune mai mică a media"
 msgid "sms"
 msgstr "sms"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:409
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:412
 msgid "SMS Backup"
 msgstr "Backup SMS"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
 msgid "SMS backup is disabled for partners"
 msgstr "Backup-ul SMS este dezactivat pentru parteneri"
 
@@ -20006,7 +20007,7 @@ msgstr "Cod SMS"
 msgid "SMS Code"
 msgstr "Cod SMS"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:403
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:406
 msgid "SMS Two-Factor Authentication"
 msgstr "Autentificare în doi pași prin SMS"
 
@@ -20014,7 +20015,7 @@ msgstr "Autentificare în doi pași prin SMS"
 msgid "SMS two-factor authentication adds an additional layer of security to your account by requiring a verification code sent to your phone number when signing in."
 msgstr "Autentificarea în doi pași prin SMS adaugă un nivel suplimentar de securitate contului tău cerând un cod de verificare trimis la numărul tău de telefon când te autentifici."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:413
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:416
 msgid "SMS two-factor authentication is enabled"
 msgstr "Autentificarea în doi pași prin SMS este activată"
 
@@ -20338,7 +20339,7 @@ msgstr "Stea"
 msgid "starred"
 msgstr "marcate cu stea"
 
-#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:205
 #: src/components/modals/PasswordChangeModal.tsx:148
 msgid "Start"
 msgstr "Pornește"
@@ -21152,7 +21153,7 @@ msgstr "Fișierul conține tokenul de verificare pe care îl vom obține de la <
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "Fișierul pe care încerci să-l încarci depășește limita maximă de dimensiune de {maxSizeFormatted}."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:106
+#: src/components/modals/FluxerTagChangeModal.tsx:109
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "FluxerTag-ul <0>{fluxerTag}</0> este deja folosit. Continuarea va reatribuie discriminatorul automat."
 
@@ -21717,7 +21718,7 @@ msgstr "Aceasta va crea o ruptură în continuumul spațiu-timp și nu poate fi 
 msgid "This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from <0>User Settings → Look & Feel → Favorites</0>."
 msgstr "Aceasta va ascunde toate elementele UI legate de favorite, inclusiv butoanele și elementele de meniu. Favoritele existente vor fi păstrate și pot fi reactivat oricând din <0>Setări utilizator → Aspect și senzație → Favorite</0>."
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:65
+#: src/components/modals/BackupCodesRegenerateModal.tsx:72
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "Aceasta va invalida codurile de rezervă existente și va genera altele noi."
 
@@ -21911,7 +21912,7 @@ msgstr "Comută lista membrilor canalului"
 msgid "Toggle Compact Mode"
 msgstr "Comută modul compact"
 
-#: src/components/modals/MobileVideoViewer.tsx:239
+#: src/components/modals/MobileVideoViewer.tsx:247
 msgid "Toggle controls"
 msgstr "Comută controalele"
 
@@ -22307,7 +22308,7 @@ msgstr "Autentificare în doi pași"
 msgid "Two-factor authentication disabled"
 msgstr "Autentificarea în doi pași dezactivată"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:55
+#: src/components/modals/MfaTotpEnableModal.tsx:58
 msgid "Two-factor authentication enabled"
 msgstr "Autentificarea în doi pași activată"
 
@@ -22436,13 +22437,13 @@ msgstr "Imposibil de încărcat banner-ul profilului, insignile și biografia."
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "Nu s-au putut pregăti emoji-uri pentru încărcare. Au apărut următoarele erori:"
 
-#: src/components/modals/EmailChangeModal.tsx:121
-#: src/components/modals/EmailChangeModal.tsx:151
+#: src/components/modals/EmailChangeModal.tsx:124
+#: src/components/modals/EmailChangeModal.tsx:154
 #: src/components/modals/PasswordChangeModal.tsx:104
 msgid "Unable to resend code right now"
 msgstr "Nu se poate retrimite codul chiar acum"
 
-#: src/components/modals/EmailChangeModal.tsx:136
+#: src/components/modals/EmailChangeModal.tsx:139
 msgid "Unable to send code to new email"
 msgstr "Nu se poate trimite codul pe noul e-mail"
 
@@ -22455,7 +22456,7 @@ msgstr "Imposibil de trimis mesaj vocal. Te rugăm să încerci din nou."
 msgid "Unable to Start Call"
 msgstr "Nu se poate iniția apelul"
 
-#: src/components/modals/EmailChangeModal.tsx:91
+#: src/components/modals/EmailChangeModal.tsx:94
 msgid "Unable to start email change"
 msgstr "Nu se poate începe schimbarea adresei de email"
 
@@ -22781,7 +22782,7 @@ msgstr "Deblochează stickere în DM-uri cu Plutonium"
 #: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/voice/VoiceControlBar.tsx:602
 msgid "Unmute"
 msgstr "Activează sunetul"
@@ -22872,7 +22873,7 @@ msgstr "Dezapune DM-ul"
 msgid "Unpin Group DM"
 msgstr "Dezapune grupul DM"
 
-#: src/components/channel/MessageActionUtils.tsx:412
+#: src/components/channel/MessageActionUtils.tsx:413
 #: src/components/shared/ChannelPinsContent.tsx:102
 msgid "Unpin it"
 msgstr "Dezapune-l"
@@ -22880,7 +22881,7 @@ msgstr "Dezapune-l"
 #: src/components/channel/MessageActionBar.tsx:519
 #: src/components/channel/MessageActionBar.tsx:735
 #: src/components/channel/MessageActionMenu.tsx:243
-#: src/components/channel/MessageActionUtils.tsx:409
+#: src/components/channel/MessageActionUtils.tsx:410
 #: src/components/shared/ChannelPinsContent.tsx:99
 #: src/components/shared/ChannelPinsContent.tsx:260
 #: src/components/uikit/context_menu/items/MessageMenuItems.tsx:163
@@ -23322,7 +23323,7 @@ msgstr "Folosește profil global"
 msgid "Use light theme"
 msgstr "Folosește tema deschisă"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:274
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:277
 msgid "Use passkeys for passwordless sign-in and two-factor authentication"
 msgstr "Folosește chei de acces pentru autentificarea fără parolă și autentificarea în doi pași"
 
@@ -23475,9 +23476,9 @@ msgstr "utilizator, bot sau webhook"
 msgid "username"
 msgstr "nume utilizator"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:187
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:51
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
 msgid "Username"
 msgstr "Nume de utilizator"
@@ -23510,11 +23511,11 @@ msgstr "Numele de utilizator trebuie să aibă cel mult 32 de caractere"
 msgid "Username#0000"
 msgstr "NumeDeUtilizator#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:169
+#: src/components/modals/FluxerTagChangeModal.tsx:172
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "Numele de utilizator pot conține doar litere (a-z, A-Z), cifre (0-9) și underscore. Numele de utilizator nu țin cont de majuscule/minuscule."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:164
+#: src/components/modals/FluxerTagChangeModal.tsx:167
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
 msgstr "Numele de utilizator pot conține doar litere (a-z, A-Z), cifre (0-9) și underscore. Numele de utilizator nu țin cont de majuscule/minuscule. Poți alege propriul tag de 4 cifre dacă este disponibil."
 
@@ -23634,8 +23635,8 @@ msgid "Verification Barriers"
 msgstr "Bariere de verificare"
 
 #: src/components/modals/ClaimAccountModal.tsx:198
-#: src/components/modals/EmailChangeModal.tsx:220
-#: src/components/modals/EmailChangeModal.tsx:288
+#: src/components/modals/EmailChangeModal.tsx:223
+#: src/components/modals/EmailChangeModal.tsx:291
 #: src/components/modals/PasswordChangeModal.tsx:166
 #: src/components/modals/PhoneAddModal.tsx:226
 #: src/components/modals/RequiredActionModal.tsx:495
@@ -23662,7 +23663,7 @@ msgstr "Emailul de verificare a fost trimis! Verifică-ți inboxul."
 msgid "Verification failed"
 msgstr "Verificarea a eșuat"
 
-#: src/components/modals/BackupCodesViewModal.tsx:63
+#: src/components/modals/BackupCodesViewModal.tsx:68
 msgid "Verification may be required before viewing your backup codes."
 msgstr "Poate fi necesară verificarea înainte de a vedea codurile de rezervă."
 
@@ -23684,7 +23685,7 @@ msgid "verify"
 msgstr "verifică"
 
 #: src/components/modals/AddConnectionModal.tsx:315
-#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:239
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
 #: src/components/modals/RequiredActionModal.tsx:652
@@ -23785,7 +23786,7 @@ msgstr "previzualizare video"
 msgid "Video preview"
 msgstr "Previzualizare video"
 
-#: src/components/modals/MobileVideoViewer.tsx:311
+#: src/components/modals/MobileVideoViewer.tsx:319
 msgid "Video progress"
 msgstr "Progres video"
 
@@ -23859,15 +23860,15 @@ msgstr "Vezi și gestionează utilizatorii blocați."
 msgid "View and manage every webhook configured across your community."
 msgstr "Vezi și gestionează fiecare webhook configurat în comunitatea ta."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:260
 msgid "View and manage your backup codes for account recovery"
 msgstr "Vezi și gestionează codurile de rezervă pentru recuperarea contului"
 
-#: src/components/modals/BackupCodesViewModal.tsx:59
+#: src/components/modals/BackupCodesViewModal.tsx:64
 msgid "View Backup Codes"
 msgstr "Vezi codurile de rezervă"
 
-#: src/components/modals/BackupCodesViewModal.tsx:58
+#: src/components/modals/BackupCodesViewModal.tsx:63
 msgid "View backup codes form"
 msgstr "Formular pentru vizualizarea codurilor de rezervă"
 
@@ -23884,7 +23885,7 @@ msgstr "Vezi controalele apelului"
 msgid "View Channel"
 msgstr "Vezi canalul"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:265
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:268
 msgid "View Codes"
 msgstr "Vezi codurile"
 
@@ -24387,11 +24388,11 @@ msgstr "Vom trimite un cod de verificare la această adresă de email."
 msgid "We'll send a verification code to your email before you can change your password."
 msgstr "Vă vom trimite un cod de verificare la emailul dvs. înainte să puteți schimba parola."
 
-#: src/components/modals/EmailChangeModal.tsx:190
+#: src/components/modals/EmailChangeModal.tsx:193
 msgid "We'll verify your current email and then your new email with one-time codes."
 msgstr "Vom verifica prima dată emailul actual, apoi pe cel nou cu coduri unice."
 
-#: src/components/modals/EmailChangeModal.tsx:192
+#: src/components/modals/EmailChangeModal.tsx:195
 msgid "We'll verify your new email with a one-time code."
 msgstr "Vom verifica emailul nou cu un cod unic."
 

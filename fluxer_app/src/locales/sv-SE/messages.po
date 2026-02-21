@@ -134,12 +134,12 @@ msgid "{0} of {totalAttachments}"
 msgstr "{0} av {totalAttachments}"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:285
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:288
 msgid "{0} passkey registered (max 10)"
 msgstr "{0} passnyckel registrerad (max 10)"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:289
 msgid "{0} passkeys registered (max 10)"
 msgstr "{0} passnycklar registrerade (max 10)"
 
@@ -1088,7 +1088,7 @@ msgstr "<0>Återställde hörseln</0> för medlemmen."
 msgid "<0>Unmuted</0> the member."
 msgstr "<0>Återställde ljudet</0> för medlemmen."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:370
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:373
 msgid "<0>Warning:</0> This will also disable SMS two-factor authentication."
 msgstr "<0>Varning:</0> Detta kommer också att inaktivera SMS-tvåfaktorsautentisering."
 
@@ -1362,9 +1362,9 @@ msgstr "30 sekunder"
 msgid "4 hours"
 msgstr "4 timmar"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:203
-#: src/components/modals/FluxerTagChangeModal.tsx:231
-#: src/components/modals/FluxerTagChangeModal.tsx:248
+#: src/components/modals/FluxerTagChangeModal.tsx:206
+#: src/components/modals/FluxerTagChangeModal.tsx:234
+#: src/components/modals/FluxerTagChangeModal.tsx:251
 msgid "4-digit tag"
 msgstr "4-siffrig tagg"
 
@@ -1763,7 +1763,7 @@ msgstr "Lägg till"
 msgid "Add a bot to a community with requested permissions"
 msgstr "Lägg till en bot i en gemenskap med begärda behörigheter"
 
-#: src/components/modals/ForwardModal.tsx:309
+#: src/components/modals/ForwardModal.tsx:314
 msgid "Add a comment (optional)"
 msgstr "Lägg till en kommentar (valfritt)"
 
@@ -1782,7 +1782,7 @@ msgstr "Lägg till en anpassad bakgrund"
 msgid "Add a different account"
 msgstr "Lägg till ett annat konto"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:348
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:351
 msgid "Add a phone number to enable SMS two-factor authentication"
 msgstr "Lägg till ett telefonnummer för att aktivera SMS tvåfaktorsautentisering"
 
@@ -1844,7 +1844,7 @@ msgstr "Lägg till anslutningsformulär"
 msgid "Add domain connection"
 msgstr "Lägg till domänanslutning"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:98
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:101
 msgid "Add Email"
 msgstr "Lägg till e-post"
 
@@ -1902,12 +1902,12 @@ msgstr "Lägg till eller ändra ditt telefonnummer"
 msgid "Add Override"
 msgstr "Lägg till överskridande"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:290
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:293
 msgid "Add Passkey"
 msgstr "Lägg till passnyckel"
 
 #: src/components/channel/barriers/BarrierComponents.tsx:198
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:395
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:398
 msgid "Add Phone"
 msgstr "Lägg till telefon"
 
@@ -2028,11 +2028,11 @@ msgstr "Lagt till i favoriter"
 msgid "Added to saved media"
 msgstr "Lades till i sparade medier"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:313
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:316
 msgid "Added: {createdDate}"
 msgstr "Tillagd: {createdDate}"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:309
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:312
 msgid "Added: {createdDate} • Last used: {lastUsedDate}"
 msgstr "Tillagd: {createdDate} • Senast använd: {lastUsedDate}"
 
@@ -2930,7 +2930,7 @@ msgid "Are you sure you want to remove this connection? This action cannot be un
 msgstr "Är du säker på att du vill ta bort denna anslutning? Denna åtgärd kan inte ångras."
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:364
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:367
 msgid "Are you sure you want to remove your phone number <0>{0}</0>?"
 msgstr "Är du säker på att du vill ta bort ditt telefonnummer <0>{0}</0>?"
 
@@ -3438,12 +3438,12 @@ msgid "backup codes"
 msgstr "backupkoder"
 
 #: src/components/modals/BackupCodesModal.tsx:43
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:254
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
 #: src/components/modals/utils/SettingsSearchIndex.tsx:140
 msgid "Backup Codes"
 msgstr "Säkerhetskopieringskoder"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:48
+#: src/components/modals/BackupCodesRegenerateModal.tsx:55
 msgid "Backup codes regenerated"
 msgstr "Säkerhetskopieringskoder har återskapats"
 
@@ -4069,8 +4069,8 @@ msgstr "Kameror är inaktiverade när det finns fler än {VOICE_CHANNEL_CAMERA_U
 #: src/components/modals/AddGuildModal.tsx:413
 #: src/components/modals/AddGuildStickerModal.tsx:120
 #: src/components/modals/AttachmentEditModal.tsx:122
-#: src/components/modals/BackupCodesRegenerateModal.tsx:72
-#: src/components/modals/BackupCodesViewModal.tsx:70
+#: src/components/modals/BackupCodesRegenerateModal.tsx:79
+#: src/components/modals/BackupCodesViewModal.tsx:75
 #: src/components/modals/BanMemberModal.tsx:143
 #: src/components/modals/CameraPreviewModal.tsx:485
 #: src/components/modals/CaptchaModal.tsx:187
@@ -4094,14 +4094,14 @@ msgstr "Kameror är inaktiverade när det finns fler än {VOICE_CHANNEL_CAMERA_U
 #: src/components/modals/EditFavoriteMemeModal.tsx:85
 #: src/components/modals/EditGuildStickerModal.tsx:113
 #: src/components/modals/EditPackModal.tsx:103
-#: src/components/modals/EmailChangeModal.tsx:199
-#: src/components/modals/EmailChangeModal.tsx:230
-#: src/components/modals/EmailChangeModal.tsx:267
-#: src/components/modals/EmailChangeModal.tsx:298
+#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:117
-#: src/components/modals/FluxerTagChangeModal.tsx:280
-#: src/components/modals/ForwardModal.tsx:373
+#: src/components/modals/FluxerTagChangeModal.tsx:120
+#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
 #: src/components/modals/GuildFolderSettingsModal.tsx:199
@@ -4113,7 +4113,7 @@ msgstr "Kameror är inaktiverade när det finns fler än {VOICE_CHANNEL_CAMERA_U
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
-#: src/components/modals/MfaTotpEnableModal.tsx:103
+#: src/components/modals/MfaTotpEnableModal.tsx:106
 #: src/components/modals/PasskeyNameModal.tsx:62
 #: src/components/modals/PasswordChangeModal.tsx:145
 #: src/components/modals/PasswordChangeModal.tsx:176
@@ -4146,7 +4146,7 @@ msgstr "Avbryt"
 msgid "Cancel Friend Request"
 msgstr "Avbryt vänförfrågan"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:112
+#: src/components/modals/FluxerTagChangeModal.tsx:115
 msgid "Cancel if you want to choose a different username instead."
 msgstr "Avbryt om du vill välja ett annat användarnamn istället."
 
@@ -4279,7 +4279,7 @@ msgstr "Ändra banner"
 msgid "Change email"
 msgstr "Ändra e-post"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:81
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:84
 msgid "Change Email"
 msgstr "Ändra e-post"
 
@@ -4288,12 +4288,12 @@ msgstr "Ändra e-post"
 msgid "Change emoji"
 msgstr "Ändra emoji"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:59
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:69
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:60
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:70
 msgid "Change FluxerTag"
 msgstr "Ändra FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:158
+#: src/components/modals/FluxerTagChangeModal.tsx:161
 msgid "Change FluxerTag form"
 msgstr "Ändra FluxerTag-formulär"
 
@@ -4360,7 +4360,7 @@ msgid "change password"
 msgstr "ändra lösenord"
 
 #: src/components/modals/PasswordChangeModal.tsx:227
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:124
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:127
 msgid "Change Password"
 msgstr "Ändra lösenord"
 
@@ -4372,7 +4372,7 @@ msgstr "Ändra lösenordsformulär"
 msgid "Change what users without Read Message History can see"
 msgstr "Ändra vad användare utan läsmeddelandehistorik kan se"
 
-#: src/components/modals/EmailChangeModal.tsx:183
+#: src/components/modals/EmailChangeModal.tsx:186
 msgid "Change Your Email"
 msgstr "Ändra din e-post"
 
@@ -4380,7 +4380,7 @@ msgstr "Ändra din e-post"
 msgid "Change your email address"
 msgstr "Ändra din e-postadress"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:159
+#: src/components/modals/FluxerTagChangeModal.tsx:162
 msgid "Change Your FluxerTag"
 msgstr "Ändra din FluxerTag"
 
@@ -4392,7 +4392,7 @@ msgstr "Ändra ditt smeknamn i detta community."
 msgid "Change your password"
 msgstr "Ändra ditt lösenord"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:106
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:109
 msgid "Change your password to keep your account secure"
 msgstr "Ändra ditt lösenord för att hålla ditt konto säkert"
 
@@ -4404,7 +4404,7 @@ msgstr "Ändra din profilbild"
 msgid "Change your username"
 msgstr "Ändra ditt användarnamn"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:90
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:91
 msgid "Change your username and 4-digit tag"
 msgstr "Ändra ditt användarnamn och 4-siffrig tagg"
 
@@ -4846,7 +4846,7 @@ msgstr "Gör anspråk på ditt konto för att komma åt säkerhetsfunktioner som
 msgid "Claim your account to call"
 msgstr "Bekräfta ditt konto för att ringa"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:56
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:57
 msgid "Claim your account to change your FluxerTag"
 msgstr "Ta anspråk på ditt konto för att ändra din FluxerTag"
 
@@ -5144,7 +5144,7 @@ msgstr "Klienthemligheten har återskapats. Uppdatera all kod som använder den 
 #: src/components/modals/components/SettingsModalHeader.tsx:98
 #: src/components/modals/InviteModal.tsx:135
 #: src/components/modals/MediaModal.tsx:349
-#: src/components/modals/MobileVideoViewer.tsx:252
+#: src/components/modals/MobileVideoViewer.tsx:260
 #: src/components/modals/Modal.tsx:382
 #: src/components/modals/Modal.tsx:460
 #: src/components/modals/PackInviteModal.tsx:152
@@ -5201,7 +5201,7 @@ msgstr "Kol-tema"
 #: src/components/auth/MfaScreen.tsx:131
 #: src/components/invites/InviteListItem.tsx:56
 #: src/components/modals/MfaTotpDisableModal.tsx:63
-#: src/components/modals/MfaTotpEnableModal.tsx:91
+#: src/components/modals/MfaTotpEnableModal.tsx:94
 #: src/components/pages/report/ReportBreadcrumbs.tsx:48
 msgid "Code"
 msgstr "Kod"
@@ -5651,7 +5651,7 @@ msgid "Configure your profile badge"
 msgstr "Konfigurera ditt profilmärke"
 
 #: src/components/channel/MentionEveryonePopout.tsx:134
-#: src/components/modals/EmailChangeModal.tsx:304
+#: src/components/modals/EmailChangeModal.tsx:307
 msgid "Confirm"
 msgstr "Bekräfta"
 
@@ -5827,13 +5827,13 @@ msgstr "Snabbmenyer kan öppnas med vänsterklick (på knappar) eller högerklic
 
 #: src/components/channel/ChannelTextarea.tsx:311
 #: src/components/modals/AddConnectionModal.tsx:221
-#: src/components/modals/BackupCodesRegenerateModal.tsx:75
-#: src/components/modals/BackupCodesViewModal.tsx:73
+#: src/components/modals/BackupCodesRegenerateModal.tsx:82
+#: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:116
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:119
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 #: src/components/modals/MfaTotpDisableModal.tsx:78
-#: src/components/modals/MfaTotpEnableModal.tsx:106
+#: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
 msgid "Continue"
 msgstr "Fortsätt"
@@ -6555,7 +6555,7 @@ msgstr "Nuvarande enhet"
 msgid "Current DM"
 msgstr "Nuvarande DM"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:113
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:116
 msgid "Current Password"
 msgstr "Nuvarande lösenord"
 
@@ -6601,7 +6601,7 @@ msgstr "Anpassade CSS-överskrivningar"
 msgid "Custom Date Range"
 msgstr "Anpassat dataintervall"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:227
+#: src/components/modals/FluxerTagChangeModal.tsx:230
 msgid "Custom discriminators are not available on this instance"
 msgstr "Anpassade diskriminatorer är inte tillgängliga på denna instans"
 
@@ -6727,11 +6727,12 @@ msgstr "Anpassa vilka knappar som visas på mediebilagor och inbäddningar när 
 msgid "Customize which buttons are visible in the message input area. Keyboard shortcuts will continue to work even if buttons are hidden."
 msgstr "Anpassa vilka knappar som är synliga i meddelandeinmatningsområdet. Tangentbordsgenvägar kommer att fortsätta fungera även om knapparna är dolda."
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:74
-msgid "Customize your 4-digit tag (#{discriminator}) to your liking with Plutonium"
-msgstr "Anpassa din 4-siffriga tagg (#{discriminator}) efter dina önskemål med Plutonium"
+#. placeholder {0}: user.discriminator
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:75
+msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
+msgstr "Anpassa din 4-siffriga tagg (#{0}) efter eget tycke med Plutonium"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:272
+#: src/components/modals/FluxerTagChangeModal.tsx:275
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Anpassa din 4-siffriga tagg eller behåll den när du byter användarnamn"
 
@@ -7069,7 +7070,7 @@ msgstr "ta bort"
 #: src/components/emojis/EmojiListItem.tsx:195
 #: src/components/emojis/EmojiListItem.tsx:252
 #: src/components/emojis/EmojiListItem.tsx:308
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:325
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
@@ -7530,7 +7531,7 @@ msgstr "inaktivera"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:240
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:426
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
 msgid "Disable"
 msgstr "Inaktivera"
 
@@ -7890,7 +7891,7 @@ msgstr "Vill du också blockera direktmeddelanden från medlemmar i dina befintl
 msgid "Do you want to send this pin back in time?"
 msgstr "Vill du skicka denna nål tillbaka i tiden?"
 
-#: src/components/channel/MessageActionUtils.tsx:410
+#: src/components/channel/MessageActionUtils.tsx:411
 msgid "Do you want to send this pin back to the future?"
 msgstr "Vill du skicka denna nål tillbaka till framtiden?"
 
@@ -8344,13 +8345,13 @@ msgid "Email"
 msgstr "E-post"
 
 #: src/components/modals/tabs/account_security_tab/AccountTab.tsx:65
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:91
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:107
 #: src/components/pages/report/ReportStepEmail.tsx:76
 msgid "Email Address"
 msgstr "E-postadress"
 
-#: src/components/modals/EmailChangeModal.tsx:165
+#: src/components/modals/EmailChangeModal.tsx:168
 msgid "Email changed"
 msgstr "E-post ändrad"
 
@@ -8426,11 +8427,11 @@ msgstr "inbäddningar"
 msgid "Embeds"
 msgstr "Inbäddningar"
 
-#: src/components/channel/MessageActionUtils.tsx:520
+#: src/components/channel/MessageActionUtils.tsx:526
 msgid "Embeds suppressed"
 msgstr "Inbäddningar undertryckta"
 
-#: src/components/channel/MessageActionUtils.tsx:506
+#: src/components/channel/MessageActionUtils.tsx:512
 msgid "Embeds unsuppressed"
 msgstr "Inbäddningar ej undertryckta"
 
@@ -8530,9 +8531,9 @@ msgstr "tomt tillstånd"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/layout/GuildLayout.tsx:74
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:244
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:438
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:247
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:435
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:441
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:85
 msgid "Enable"
 msgstr "Aktivera"
@@ -8658,7 +8659,7 @@ msgstr "Aktivera Shift för att expandera"
 msgid "Enable SMS 2FA"
 msgstr "Aktivera SMS 2FA"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:415
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:418
 msgid "Enable SMS codes as a backup for your authenticator app"
 msgstr "Aktivera SMS-koder som en backup för din autentiseringsapp"
 
@@ -8678,7 +8679,7 @@ msgstr "Aktivera tvåfaktorsautentisering"
 msgid "Enable two-factor authentication"
 msgstr "Aktivera tvåfaktorsautentisering"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:70
+#: src/components/modals/MfaTotpEnableModal.tsx:73
 msgid "Enable two-factor authentication form"
 msgstr "Aktivera formulär för tvåfaktorsautentisering"
 
@@ -8782,7 +8783,7 @@ msgid "Enter the 6-digit code from your authenticator app or one of your backup 
 msgstr "Ange den 6-siffriga koden från din autentiseringsapp eller en av dina reservkoder."
 
 #: src/components/modals/MfaTotpDisableModal.tsx:67
-#: src/components/modals/MfaTotpEnableModal.tsx:95
+#: src/components/modals/MfaTotpEnableModal.tsx:98
 msgid "Enter the 6-digit code from your authenticator app."
 msgstr "Ange den 6-siffriga koden från din autentiseringsapp."
 
@@ -8804,7 +8805,7 @@ msgstr "Ange koden innan du fortsätter."
 msgid "Enter the code from your authenticator app."
 msgstr "Ange koden från din autentiseringsapp."
 
-#: src/components/modals/EmailChangeModal.tsx:213
+#: src/components/modals/EmailChangeModal.tsx:216
 msgid "Enter the code sent to your current email."
 msgstr "Ange koden som skickades till din nuvarande e-post."
 
@@ -8812,7 +8813,7 @@ msgstr "Ange koden som skickades till din nuvarande e-post."
 msgid "Enter the code sent to your email address."
 msgstr "Ange koden som skickades till din e-postadress."
 
-#: src/components/modals/EmailChangeModal.tsx:281
+#: src/components/modals/EmailChangeModal.tsx:284
 msgid "Enter the code we emailed to your new address."
 msgstr "Ange koden vi e-postade till din nya adress."
 
@@ -8824,7 +8825,7 @@ msgstr "Ange koden vi skickade till din e-post för att verifiera den. Ditt lös
 msgid "Enter the invite link to join a community."
 msgstr "Ange inbjudningslänken för att gå med i ett community."
 
-#: src/components/modals/EmailChangeModal.tsx:247
+#: src/components/modals/EmailChangeModal.tsx:250
 msgid "Enter the new email you want to use. We'll send a code there next."
 msgstr "Ange den nya e-postadressen du vill använda. Vi skickar en kod dit härnäst."
 
@@ -9963,16 +9964,16 @@ msgstr "Fluxer-personal"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer använder push-meddelanden när det är installerat som en mobil PWA. Registrering säkerställer att gatewayen kan nå din enhet även när webbläsaren är i bakgrunden."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:176
+#: src/components/modals/FluxerTagChangeModal.tsx:179
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:102
+#: src/components/modals/FluxerTagChangeModal.tsx:105
 msgid "FluxerTag already taken"
 msgstr "FluxerTag redan upptaget"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:144
+#: src/components/modals/FluxerTagChangeModal.tsx:147
 msgid "FluxerTag updated"
 msgstr "FluxerTag uppdaterat"
 
@@ -10208,7 +10209,7 @@ msgstr "Vidarebefordra"
 msgid "Forward {DEFAULT_SEEK_AMOUNT} seconds"
 msgstr "Vidarebefordra {DEFAULT_SEEK_AMOUNT} sekunder"
 
-#: src/components/modals/ForwardModal.tsx:198
+#: src/components/modals/ForwardModal.tsx:203
 #: src/stores/KeybindStore.tsx:361
 msgid "Forward Message"
 msgstr "Vidarebefordra meddelande"
@@ -10490,7 +10491,7 @@ msgstr "Få notiser när du får meddelanden. Du kan behöva tillåta notiser i 
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:221
+#: src/components/modals/FluxerTagChangeModal.tsx:224
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10503,11 +10504,11 @@ msgstr "Skaffa Plutonium"
 msgid "Get Plutonium for yourself and unlock higher limits and exclusive features."
 msgstr "Skaffa Plutonium för dig själv och lås upp högre gränser och exklusiva funktioner."
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:81
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:82
 msgid "Get Plutonium to customize your tag"
 msgstr "Skaffa Plutonium för att anpassa din tagg"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:199
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "Skaffa Plutonium för att anpassa din tagg eller behålla den när du byter användarnamn"
 
@@ -11883,8 +11884,8 @@ msgstr "Ogiltig presentkod"
 msgid "Invalid instance URL. Try something like \"example.com\" or \"https://example.com\"."
 msgstr "Ogiltig instans-URL. Försök något som \"example.com\" eller \"https://example.com\"."
 
-#: src/components/modals/EmailChangeModal.tsx:107
-#: src/components/modals/EmailChangeModal.tsx:168
+#: src/components/modals/EmailChangeModal.tsx:110
+#: src/components/modals/EmailChangeModal.tsx:171
 #: src/components/modals/PasswordChangeModal.tsx:90
 msgid "Invalid or expired code"
 msgstr "Ogiltig eller utgången kod"
@@ -12569,11 +12570,11 @@ msgid "Last active {0}"
 msgstr "Senast aktiv {0}"
 
 #. placeholder {0}: DateUtils.getRelativeDateString(user.passwordLastChangedAt, i18n)
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:117
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:120
 msgid "Last changed: {0}"
 msgstr "Senast ändrad: {0}"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:119
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:122
 msgid "Last changed: Never"
 msgstr "Senast ändrad: Aldrig"
 
@@ -13221,7 +13222,7 @@ msgstr "Hantera din e-post, lösenord och kontoinställningar"
 msgid "Manage your gifts"
 msgstr "Hantera dina gåvor"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:337
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:340
 msgid "Manage your phone number for SMS two-factor authentication"
 msgstr "Hantera ditt telefonnummer för SMS tvåfaktorsautentisering"
 
@@ -13346,12 +13347,12 @@ msgstr "Markerade medlemmen som tillfällig."
 msgid "Markers Below Slider"
 msgstr "Markörer under reglaget"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:188
+#: src/components/modals/FluxerTagChangeModal.tsx:191
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
 #: src/components/modals/ClaimAccountModal.tsx:157
-#: src/components/modals/EmailChangeModal.tsx:258
+#: src/components/modals/EmailChangeModal.tsx:261
 msgid "marty@example.com"
 msgstr "marty@example.com"
 
@@ -13750,7 +13751,7 @@ msgstr "Meddelandevisningsläge"
 msgid "Message display settings are only available on desktop."
 msgstr "Inställningar för meddelandevisning är endast tillgängliga på dator."
 
-#: src/components/modals/ForwardModal.tsx:148
+#: src/components/modals/ForwardModal.tsx:153
 msgid "Message forwarded"
 msgstr "Meddelande vidarebefordrat"
 
@@ -13776,7 +13777,7 @@ msgstr "Meddelandehistoriktröskel uppdaterad"
 msgid "Message Input Buttons"
 msgstr "Meddelandetangentknappar"
 
-#: src/components/modals/ForwardModal.tsx:84
+#: src/components/modals/ForwardModal.tsx:89
 #: src/components/uikit/character_counter/CharacterCounter.tsx:52
 msgid "Message is too long"
 msgstr "Meddelandet är för långt"
@@ -14077,7 +14078,7 @@ msgstr "Fler emoji-platser"
 #: src/components/channel/embeds/attachments/TextualAttachmentPreviewFooter.tsx:66
 #: src/components/modals/guild_tabs/UserListItem.tsx:113
 #: src/components/modals/MediaModal.tsx:353
-#: src/components/modals/MobileVideoViewer.tsx:260
+#: src/components/modals/MobileVideoViewer.tsx:268
 msgid "More options"
 msgstr "Fler alternativ"
 
@@ -14209,7 +14210,7 @@ msgstr "stum"
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:319
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:506
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:92
@@ -14576,12 +14577,12 @@ msgstr "Nya gemenskaper du går med i kommer automatiskt att ha dolda tysta kana
 msgid "New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?"
 msgstr "Nya gemenskaper du går med i kommer inte längre att ha dolda tysta kanaler automatiskt. Vill du också visa tysta kanaler i alla dina befintliga gemenskaper?"
 
-#: src/components/modals/EmailChangeModal.tsx:255
+#: src/components/modals/EmailChangeModal.tsx:258
 #: src/components/modals/RequiredActionModal.tsx:471
 msgid "New Email"
 msgstr "Ny e-post"
 
-#: src/components/modals/EmailChangeModal.tsx:243
+#: src/components/modals/EmailChangeModal.tsx:246
 msgid "New email form"
 msgstr "Nytt e-postformulär"
 
@@ -14736,7 +14737,7 @@ msgid "No cameras detected"
 msgstr "Inga kameror upptäckta"
 
 #: src/components/invites/InviteListItem.tsx:179
-#: src/components/modals/ForwardModal.tsx:246
+#: src/components/modals/ForwardModal.tsx:251
 #: src/components/modals/GuildNotificationSettingsModal.tsx:258
 msgid "No Category"
 msgstr "Ingen kategori"
@@ -14749,7 +14750,7 @@ msgstr "Inga ändringar att spara"
 msgid "No channels available"
 msgstr "Inga kanaler tillgängliga"
 
-#: src/components/modals/ForwardModal.tsx:216
+#: src/components/modals/ForwardModal.tsx:221
 msgid "No channels found"
 msgstr "Inga kanaler hittades"
 
@@ -14773,7 +14774,7 @@ msgstr "Inga anslutningar än"
 msgid "No description provided."
 msgstr "Ingen beskrivning angiven."
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:97
 msgid "No email address set"
 msgstr "Ingen e-postadress angiven"
 
@@ -14883,11 +14884,11 @@ msgstr "Inga gemensamma vänner hittades."
 msgid "No mutual groups found."
 msgstr "Inga gemensamma grupper hittades."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:283
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
 msgid "No passkeys registered"
 msgstr "Inga lösenord registrerade"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:137
 msgid "No password set"
 msgstr "Inget lösenord angivet"
 
@@ -15929,7 +15930,7 @@ msgstr "Partnerad gemenskap"
 msgid "Passkey Name"
 msgstr "Passkey-namn"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:273
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:276
 msgid "Passkeys"
 msgstr "Passkeys"
 
@@ -15953,8 +15954,8 @@ msgstr "lösenord"
 #: src/components/modals/ClaimAccountModal.tsx:207
 #: src/components/modals/SudoVerificationModal.tsx:174
 #: src/components/modals/SudoVerificationModal.tsx:239
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:105
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:131
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:108
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:114
 #: src/components/modals/utils/SettingsSearchIndex.tsx:107
 msgid "Password"
@@ -16010,7 +16011,7 @@ msgstr "Klistra in den där du kom ifrån för att slutföra inloggningen."
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 msgid "Pause"
 msgstr "Pausa"
 
@@ -16147,8 +16148,8 @@ msgstr "Telefon"
 
 #: src/components/modals/PhoneAddModal.tsx:192
 #: src/components/modals/RequiredActionModal.tsx:616
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:336
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:342
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:339
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:345
 #: src/components/modals/utils/SettingsSearchIndex.tsx:115
 msgid "Phone Number"
 msgstr "Telefonnummer"
@@ -16158,7 +16159,7 @@ msgid "Phone number added"
 msgstr "Telefonnummer tillagt"
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:346
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:349
 msgid "Phone number added: {0}"
 msgstr "Telefonnummer tillagt: {0}"
 
@@ -16225,11 +16226,11 @@ msgstr "Fäst DM"
 msgid "Pin Group DM"
 msgstr "Fäst grupp-DM"
 
-#: src/components/channel/MessageActionUtils.tsx:429
+#: src/components/channel/MessageActionUtils.tsx:430
 msgid "Pin it real good"
 msgstr "Fäst den riktigt bra"
 
-#: src/components/channel/MessageActionUtils.tsx:426
+#: src/components/channel/MessageActionUtils.tsx:427
 msgid "Pin it. Pin it good."
 msgstr "Fäst den. Fäst den bra."
 
@@ -16250,7 +16251,7 @@ msgstr "Fäst meddelanden"
 msgid "Pin or unpin the focused message"
 msgstr "Fäst eller avfäst det markerade meddelandet"
 
-#: src/components/channel/MessageActionUtils.tsx:427
+#: src/components/channel/MessageActionUtils.tsx:428
 msgid "Pin this message to the channel for all to see. Unless ... you're chicken."
 msgstr "Fäst detta meddelande i kanalen så alla kan se det. Om du inte ... är feg."
 
@@ -16323,7 +16324,7 @@ msgstr "Plattformsadministratör"
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:215
 msgid "Play"
 msgstr "Spela upp"
@@ -17075,7 +17076,7 @@ msgstr "Ta emot"
 msgid "Receive notifications when someone mentions you"
 msgstr "Få aviseringar när någon nämner dig"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:404
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:407
 msgid "Receive verification codes via SMS as a backup authentication method"
 msgstr "Ta emot verifieringskoder via SMS som en reservautentiseringsmetod"
 
@@ -17202,7 +17203,7 @@ msgstr "Uppdatera push-prenumeration"
 msgid "Regenerate"
 msgstr "Återskapa"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:61
+#: src/components/modals/BackupCodesRegenerateModal.tsx:68
 msgid "Regenerate Backup Codes"
 msgstr "Återgenerera säkerhetskoder"
 
@@ -17232,7 +17233,7 @@ msgstr "Återskapande kommer att ogiltigförklara den nuvarande token. Uppdatera
 msgid "Register"
 msgstr "Registrera"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:279
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:282
 msgid "Registered Passkeys"
 msgstr "Registrerade passnycklar"
 
@@ -17302,7 +17303,7 @@ msgstr "ta bort"
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildEmbedSplashUploadField.tsx:101
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildIconUploadField.tsx:107
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildInviteSplashUploadField.tsx:113
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:391
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:394
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:96
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:226
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:191
@@ -17476,11 +17477,11 @@ msgstr "Ta bort åsidosättning"
 msgid "Remove Pack"
 msgstr "Ta bort paket"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:377
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:380
 msgid "Remove Phone"
 msgstr "Ta bort telefon"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:360
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:363
 msgid "Remove Phone Number"
 msgstr "Ta bort telefonnummer"
 
@@ -17635,7 +17636,7 @@ msgstr "Att ta bort paketet kommer att avinstallera det från ditt konto."
 msgid "Removing the timeout will allow <0>{0}</0> to send messages, react, and join voice channels again."
 msgstr "Att ta bort timeouten kommer att låta <0>{0}</0> skicka meddelanden, reagera och gå med i röstkanaler igen."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:319
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 msgid "Rename"
 msgstr "Byt namn"
 
@@ -17875,17 +17876,17 @@ msgid "Reschedule Message"
 msgstr "Schemalägg om meddelande"
 
 #: src/components/modals/ClaimAccountModal.tsx:222
-#: src/components/modals/EmailChangeModal.tsx:233
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:304
 #: src/components/modals/PasswordChangeModal.tsx:179
 msgid "Resend"
 msgstr "Skicka igen"
 
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:304
 msgid "Resend ({newSecondsRemaining}s)"
 msgstr "Skicka igen ({newSecondsRemaining}s)"
 
-#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:236
 msgid "Resend ({originalSecondsRemaining}s)"
 msgstr "Skicka igen ({originalSecondsRemaining}s)"
 
@@ -18429,7 +18430,7 @@ msgstr "sparar"
 msgid "scale"
 msgstr "skala"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:78
+#: src/components/modals/MfaTotpEnableModal.tsx:81
 msgid "Scan the QR code with your authenticator app to generate codes for two-factor authentication."
 msgstr "Skanna QR-koden med din autentiseringsapp för att generera koder för tvåfaktorsautentisering."
 
@@ -18566,7 +18567,7 @@ msgstr "Sök med användarnamn eller ID"
 msgid "Search channels"
 msgstr "Sök kanaler"
 
-#: src/components/modals/ForwardModal.tsx:204
+#: src/components/modals/ForwardModal.tsx:209
 msgid "Search channels or DMs"
 msgstr "Sök kanaler eller DM"
 
@@ -18967,7 +18968,7 @@ msgid "Send"
 msgstr "Skicka"
 
 #. placeholder {0}: selectedChannelIds.size
-#: src/components/modals/ForwardModal.tsx:380
+#: src/components/modals/ForwardModal.tsx:385
 msgid "Send ({0}/5)"
 msgstr "Skicka ({0}/5)"
 
@@ -19004,7 +19005,7 @@ msgid "Send an SMS code first."
 msgstr "Skicka en SMS-kod först."
 
 #: src/components/modals/ClaimAccountModal.tsx:180
-#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:273
 #: src/components/modals/PhoneAddModal.tsx:208
 msgid "Send code"
 msgstr "Skicka kod"
@@ -19199,7 +19200,7 @@ msgstr "Ange smeknamn till {0}."
 msgid "Set NSFW level to {0}."
 msgstr "Ange NSFW-nivå till {0}."
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:138
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:141
 msgid "Set Password"
 msgstr "Ange lösenord"
 
@@ -19361,7 +19362,7 @@ msgstr "Inställningssektioner"
 msgid "Settings!"
 msgstr "Inställningar!"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:71
+#: src/components/modals/MfaTotpEnableModal.tsx:74
 msgid "Setup Authenticator App"
 msgstr "Ställ in autentiseringsapp"
 
@@ -19989,11 +19990,11 @@ msgstr "Mindre mediastorlek"
 msgid "sms"
 msgstr "sms"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:409
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:412
 msgid "SMS Backup"
 msgstr "SMS-säkerhetskopia"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
 msgid "SMS backup is disabled for partners"
 msgstr "SMS-säkerhetskopia är inaktiverad för partners"
 
@@ -20006,7 +20007,7 @@ msgstr "SMS-kod"
 msgid "SMS Code"
 msgstr "SMS-kod"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:403
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:406
 msgid "SMS Two-Factor Authentication"
 msgstr "SMS tvåfaktorsautentisering"
 
@@ -20014,7 +20015,7 @@ msgstr "SMS tvåfaktorsautentisering"
 msgid "SMS two-factor authentication adds an additional layer of security to your account by requiring a verification code sent to your phone number when signing in."
 msgstr "SMS tvåfaktorsautentisering lägger till ett extra säkerhetslager till ditt konto genom att kräva en verifieringskod som skickas till ditt telefonnummer vid inloggning."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:413
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:416
 msgid "SMS two-factor authentication is enabled"
 msgstr "SMS tvåfaktorsautentisering är aktiverad"
 
@@ -20338,7 +20339,7 @@ msgstr "Stjärna"
 msgid "starred"
 msgstr "stjärnmärkt"
 
-#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:205
 #: src/components/modals/PasswordChangeModal.tsx:148
 msgid "Start"
 msgstr "Start"
@@ -21152,7 +21153,7 @@ msgstr "Filen innehåller verifieringstoken som vi kommer att hämta från <0>{d
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "Filen du försöker ladda upp överskrider den maximala storleksgränsen på {maxSizeFormatted}."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:106
+#: src/components/modals/FluxerTagChangeModal.tsx:109
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "FluxerTaggen <0>{fluxerTag}</0> är redan upptagen. Om du fortsätter kommer din diskriminator att omrullas automatiskt."
 
@@ -21717,7 +21718,7 @@ msgstr "Det här kommer att skapa en rift i rumtidskontinuumet och kan inte ång
 msgid "This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from <0>User Settings → Look & Feel → Favorites</0>."
 msgstr "Det här kommer att dölja alla favoritrelaterade UI-element inklusive knappar och menyalternativ. Dina befintliga favoriter kommer att bevaras och kan aktiveras igen när som helst från <0>Användarinställningar → Utseende & känsla → Favoriter</0>."
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:65
+#: src/components/modals/BackupCodesRegenerateModal.tsx:72
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "Detta kommer att ogiltigförklara dina befintliga säkerhetskoder och generera nya."
 
@@ -21911,7 +21912,7 @@ msgstr "Växla kanalmedlemslista"
 msgid "Toggle Compact Mode"
 msgstr "Växla kompakt läge"
 
-#: src/components/modals/MobileVideoViewer.tsx:239
+#: src/components/modals/MobileVideoViewer.tsx:247
 msgid "Toggle controls"
 msgstr "Växla kontroller"
 
@@ -22307,7 +22308,7 @@ msgstr "Tvåfaktorsautentisering"
 msgid "Two-factor authentication disabled"
 msgstr "Tvåfaktorsautentisering inaktiverad"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:55
+#: src/components/modals/MfaTotpEnableModal.tsx:58
 msgid "Two-factor authentication enabled"
 msgstr "Tvåfaktorsautentisering aktiverad"
 
@@ -22436,13 +22437,13 @@ msgstr "Kunde inte ladda profilbanner, utmärkelser och biografi."
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "Kan inte förbereda några emojis för uppladdning. Följande fel inträffade:"
 
-#: src/components/modals/EmailChangeModal.tsx:121
-#: src/components/modals/EmailChangeModal.tsx:151
+#: src/components/modals/EmailChangeModal.tsx:124
+#: src/components/modals/EmailChangeModal.tsx:154
 #: src/components/modals/PasswordChangeModal.tsx:104
 msgid "Unable to resend code right now"
 msgstr "Kan inte skicka koden igen just nu"
 
-#: src/components/modals/EmailChangeModal.tsx:136
+#: src/components/modals/EmailChangeModal.tsx:139
 msgid "Unable to send code to new email"
 msgstr "Kan inte skicka kod till ny e-post"
 
@@ -22455,7 +22456,7 @@ msgstr "Kunde inte skicka röstmeddelande. Vänligen försök igen."
 msgid "Unable to Start Call"
 msgstr "Kan inte starta samtal"
 
-#: src/components/modals/EmailChangeModal.tsx:91
+#: src/components/modals/EmailChangeModal.tsx:94
 msgid "Unable to start email change"
 msgstr "Kan inte starta e-poständring"
 
@@ -22781,7 +22782,7 @@ msgstr "Lås upp stickers i DMs med Plutonium"
 #: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/voice/VoiceControlBar.tsx:602
 msgid "Unmute"
 msgstr "Avmuta"
@@ -22872,7 +22873,7 @@ msgstr "Ta bort fäst DM"
 msgid "Unpin Group DM"
 msgstr "Ta bort fäst grupp-DM"
 
-#: src/components/channel/MessageActionUtils.tsx:412
+#: src/components/channel/MessageActionUtils.tsx:413
 #: src/components/shared/ChannelPinsContent.tsx:102
 msgid "Unpin it"
 msgstr "Ta bort fäst"
@@ -22880,7 +22881,7 @@ msgstr "Ta bort fäst"
 #: src/components/channel/MessageActionBar.tsx:519
 #: src/components/channel/MessageActionBar.tsx:735
 #: src/components/channel/MessageActionMenu.tsx:243
-#: src/components/channel/MessageActionUtils.tsx:409
+#: src/components/channel/MessageActionUtils.tsx:410
 #: src/components/shared/ChannelPinsContent.tsx:99
 #: src/components/shared/ChannelPinsContent.tsx:260
 #: src/components/uikit/context_menu/items/MessageMenuItems.tsx:163
@@ -23322,7 +23323,7 @@ msgstr "Använd global profil"
 msgid "Use light theme"
 msgstr "Använd ljust tema"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:274
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:277
 msgid "Use passkeys for passwordless sign-in and two-factor authentication"
 msgstr "Använd passkeys för lösenordsfri inloggning och tvåfaktorsautentisering"
 
@@ -23475,9 +23476,9 @@ msgstr "användare, bot eller webhook"
 msgid "username"
 msgstr "användarnamn"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:187
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:51
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
 msgid "Username"
 msgstr "Användarnamn"
@@ -23510,11 +23511,11 @@ msgstr "Användarnamnet får vara högst 32 tecken"
 msgid "Username#0000"
 msgstr "Användarnamn#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:169
+#: src/components/modals/FluxerTagChangeModal.tsx:172
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "Användarnamn får bara innehålla bokstäver (a-z, A-Z), siffror (0-9) och understreck. Användarnamn är skiftlägesokänsliga."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:164
+#: src/components/modals/FluxerTagChangeModal.tsx:167
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
 msgstr "Användarnamn får bara innehålla bokstäver (a-z, A-Z), siffror (0-9) och understreck. Användarnamn är skiftlägesokänsliga. Du kan välja din egen 4-siffriga tagg om den är tillgänglig."
 
@@ -23634,8 +23635,8 @@ msgid "Verification Barriers"
 msgstr "Verifieringsbarriärer"
 
 #: src/components/modals/ClaimAccountModal.tsx:198
-#: src/components/modals/EmailChangeModal.tsx:220
-#: src/components/modals/EmailChangeModal.tsx:288
+#: src/components/modals/EmailChangeModal.tsx:223
+#: src/components/modals/EmailChangeModal.tsx:291
 #: src/components/modals/PasswordChangeModal.tsx:166
 #: src/components/modals/PhoneAddModal.tsx:226
 #: src/components/modals/RequiredActionModal.tsx:495
@@ -23662,7 +23663,7 @@ msgstr "Verifieringsmejl skickat! Kolla din inkorg."
 msgid "Verification failed"
 msgstr "Verifiering misslyckades"
 
-#: src/components/modals/BackupCodesViewModal.tsx:63
+#: src/components/modals/BackupCodesViewModal.tsx:68
 msgid "Verification may be required before viewing your backup codes."
 msgstr "Verifiering kan krävas innan du kan se dina reservkoder."
 
@@ -23684,7 +23685,7 @@ msgid "verify"
 msgstr "verifiera"
 
 #: src/components/modals/AddConnectionModal.tsx:315
-#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:239
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
 #: src/components/modals/RequiredActionModal.tsx:652
@@ -23785,7 +23786,7 @@ msgstr "videoförhandsvisning"
 msgid "Video preview"
 msgstr "Videoförhandsvisning"
 
-#: src/components/modals/MobileVideoViewer.tsx:311
+#: src/components/modals/MobileVideoViewer.tsx:319
 msgid "Video progress"
 msgstr "Videoprogress"
 
@@ -23859,15 +23860,15 @@ msgstr "Visa och hantera blockerade användare."
 msgid "View and manage every webhook configured across your community."
 msgstr "Visa och hantera alla webhooks som konfigurerats i din community."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:260
 msgid "View and manage your backup codes for account recovery"
 msgstr "Visa och hantera dina reservkoder för kontorecupering"
 
-#: src/components/modals/BackupCodesViewModal.tsx:59
+#: src/components/modals/BackupCodesViewModal.tsx:64
 msgid "View Backup Codes"
 msgstr "Visa säkerhetskoder"
 
-#: src/components/modals/BackupCodesViewModal.tsx:58
+#: src/components/modals/BackupCodesViewModal.tsx:63
 msgid "View backup codes form"
 msgstr "Visa formulär för reservkoder"
 
@@ -23884,7 +23885,7 @@ msgstr "Visa samtalskontroller"
 msgid "View Channel"
 msgstr "Visa kanal"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:265
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:268
 msgid "View Codes"
 msgstr "Visa koder"
 
@@ -24387,11 +24388,11 @@ msgstr "Vi skickar en verifieringskod till denna e-postadress."
 msgid "We'll send a verification code to your email before you can change your password."
 msgstr "Vi skickar en verifieringskod till din e-post innan du kan ändra ditt lösenord."
 
-#: src/components/modals/EmailChangeModal.tsx:190
+#: src/components/modals/EmailChangeModal.tsx:193
 msgid "We'll verify your current email and then your new email with one-time codes."
 msgstr "Vi verifierar din nuvarande e-post och sedan din nya e-post med engångskoder."
 
-#: src/components/modals/EmailChangeModal.tsx:192
+#: src/components/modals/EmailChangeModal.tsx:195
 msgid "We'll verify your new email with a one-time code."
 msgstr "Vi verifierar din nya e-post med en engångskod."
 

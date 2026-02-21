@@ -134,12 +134,12 @@ msgid "{0} of {totalAttachments}"
 msgstr "{0} iš {totalAttachments}"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:285
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:288
 msgid "{0} passkey registered (max 10)"
 msgstr "{0} prisijungimo raktas užregistruotas (maks. 10)"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:289
 msgid "{0} passkeys registered (max 10)"
 msgstr "{0} prisijungimo raktai užregistruoti (maks. 10)"
 
@@ -1088,7 +1088,7 @@ msgstr "<0>Atgirdino</0> narį."
 msgid "<0>Unmuted</0> the member."
 msgstr "<0>Atitildė</0> narį."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:370
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:373
 msgid "<0>Warning:</0> This will also disable SMS two-factor authentication."
 msgstr "<0>Įspėjimas:</0> Tai taip pat išjungs SMS dviejų faktorių autentifikaciją."
 
@@ -1362,9 +1362,9 @@ msgstr "30 sekundžių"
 msgid "4 hours"
 msgstr "4 valandos"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:203
-#: src/components/modals/FluxerTagChangeModal.tsx:231
-#: src/components/modals/FluxerTagChangeModal.tsx:248
+#: src/components/modals/FluxerTagChangeModal.tsx:206
+#: src/components/modals/FluxerTagChangeModal.tsx:234
+#: src/components/modals/FluxerTagChangeModal.tsx:251
 msgid "4-digit tag"
 msgstr "4 skaitmenų žymė"
 
@@ -1763,7 +1763,7 @@ msgstr "Pridėti"
 msgid "Add a bot to a community with requested permissions"
 msgstr "Pridėti botą į bendruomenę su prašomomis teisėmis"
 
-#: src/components/modals/ForwardModal.tsx:309
+#: src/components/modals/ForwardModal.tsx:314
 msgid "Add a comment (optional)"
 msgstr "Pridėti komentarą (neprivaloma)"
 
@@ -1782,7 +1782,7 @@ msgstr "Pridėti pasirinktinį foną"
 msgid "Add a different account"
 msgstr "Pridėti kitą paskyrą"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:348
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:351
 msgid "Add a phone number to enable SMS two-factor authentication"
 msgstr "Pridėkite telefono numerį, kad įjungtumėte SMS dviejų faktorių autentifikaciją"
 
@@ -1844,7 +1844,7 @@ msgstr "Prijungti ryšio forma"
 msgid "Add domain connection"
 msgstr "Pridėti domeno ryšį"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:98
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:101
 msgid "Add Email"
 msgstr "Pridėti el. paštą"
 
@@ -1902,12 +1902,12 @@ msgstr "Pridėti arba pakeisti savo telefono numerį"
 msgid "Add Override"
 msgstr "Pridėti perrašymą"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:290
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:293
 msgid "Add Passkey"
 msgstr "Pridėti prieigos raktą"
 
 #: src/components/channel/barriers/BarrierComponents.tsx:198
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:395
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:398
 msgid "Add Phone"
 msgstr "Pridėti telefoną"
 
@@ -2028,11 +2028,11 @@ msgstr "Pridėta prie mėgstamiausių"
 msgid "Added to saved media"
 msgstr "Pridėta į išsaugotas medijas"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:313
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:316
 msgid "Added: {createdDate}"
 msgstr "Pridėta: {createdDate}"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:309
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:312
 msgid "Added: {createdDate} • Last used: {lastUsedDate}"
 msgstr "Pridėta: {createdDate} • Paskutinį kartą naudota: {lastUsedDate}"
 
@@ -2930,7 +2930,7 @@ msgid "Are you sure you want to remove this connection? This action cannot be un
 msgstr "Ar tikrai norite pašalinti šį ryšį? Šios veiksmos negalima atšaukti."
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:364
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:367
 msgid "Are you sure you want to remove your phone number <0>{0}</0>?"
 msgstr "Ar tikrai norite pašalinti savo telefono numerį <0>{0}</0>?"
 
@@ -3438,12 +3438,12 @@ msgid "backup codes"
 msgstr "atsarginiai kodai"
 
 #: src/components/modals/BackupCodesModal.tsx:43
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:254
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
 #: src/components/modals/utils/SettingsSearchIndex.tsx:140
 msgid "Backup Codes"
 msgstr "Atsarginiai kodai"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:48
+#: src/components/modals/BackupCodesRegenerateModal.tsx:55
 msgid "Backup codes regenerated"
 msgstr "Atsarginiai kodai atnaujinti"
 
@@ -4069,8 +4069,8 @@ msgstr "Kameros yra išjungtos, kai dalyvių yra daugiau nei {VOICE_CHANNEL_CAME
 #: src/components/modals/AddGuildModal.tsx:413
 #: src/components/modals/AddGuildStickerModal.tsx:120
 #: src/components/modals/AttachmentEditModal.tsx:122
-#: src/components/modals/BackupCodesRegenerateModal.tsx:72
-#: src/components/modals/BackupCodesViewModal.tsx:70
+#: src/components/modals/BackupCodesRegenerateModal.tsx:79
+#: src/components/modals/BackupCodesViewModal.tsx:75
 #: src/components/modals/BanMemberModal.tsx:143
 #: src/components/modals/CameraPreviewModal.tsx:485
 #: src/components/modals/CaptchaModal.tsx:187
@@ -4094,14 +4094,14 @@ msgstr "Kameros yra išjungtos, kai dalyvių yra daugiau nei {VOICE_CHANNEL_CAME
 #: src/components/modals/EditFavoriteMemeModal.tsx:85
 #: src/components/modals/EditGuildStickerModal.tsx:113
 #: src/components/modals/EditPackModal.tsx:103
-#: src/components/modals/EmailChangeModal.tsx:199
-#: src/components/modals/EmailChangeModal.tsx:230
-#: src/components/modals/EmailChangeModal.tsx:267
-#: src/components/modals/EmailChangeModal.tsx:298
+#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:117
-#: src/components/modals/FluxerTagChangeModal.tsx:280
-#: src/components/modals/ForwardModal.tsx:373
+#: src/components/modals/FluxerTagChangeModal.tsx:120
+#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
 #: src/components/modals/GuildFolderSettingsModal.tsx:199
@@ -4113,7 +4113,7 @@ msgstr "Kameros yra išjungtos, kai dalyvių yra daugiau nei {VOICE_CHANNEL_CAME
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
-#: src/components/modals/MfaTotpEnableModal.tsx:103
+#: src/components/modals/MfaTotpEnableModal.tsx:106
 #: src/components/modals/PasskeyNameModal.tsx:62
 #: src/components/modals/PasswordChangeModal.tsx:145
 #: src/components/modals/PasswordChangeModal.tsx:176
@@ -4146,7 +4146,7 @@ msgstr "Atšaukti"
 msgid "Cancel Friend Request"
 msgstr "Atšaukti draugų užklausą"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:112
+#: src/components/modals/FluxerTagChangeModal.tsx:115
 msgid "Cancel if you want to choose a different username instead."
 msgstr "Atšauk, jei nori pasirinkti kitą naudotojo vardą."
 
@@ -4279,7 +4279,7 @@ msgstr "Keisti reklamjuostę"
 msgid "Change email"
 msgstr "Keisti el. paštą"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:81
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:84
 msgid "Change Email"
 msgstr "Keisti el. paštą"
 
@@ -4288,12 +4288,12 @@ msgstr "Keisti el. paštą"
 msgid "Change emoji"
 msgstr "Keisti emodži"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:59
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:69
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:60
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:70
 msgid "Change FluxerTag"
 msgstr "Keisti FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:158
+#: src/components/modals/FluxerTagChangeModal.tsx:161
 msgid "Change FluxerTag form"
 msgstr "FluxerTag keitimo forma"
 
@@ -4360,7 +4360,7 @@ msgid "change password"
 msgstr "keisti slaptažodį"
 
 #: src/components/modals/PasswordChangeModal.tsx:227
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:124
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:127
 msgid "Change Password"
 msgstr "Keisti slaptažodį"
 
@@ -4372,7 +4372,7 @@ msgstr "Slaptažodžio keitimo forma"
 msgid "Change what users without Read Message History can see"
 msgstr "Pakeiskite, ką naudotojai be Skaityti žinučių istoriją gali matyti"
 
-#: src/components/modals/EmailChangeModal.tsx:183
+#: src/components/modals/EmailChangeModal.tsx:186
 msgid "Change Your Email"
 msgstr "Pakeisti savo el. paštą"
 
@@ -4380,7 +4380,7 @@ msgstr "Pakeisti savo el. paštą"
 msgid "Change your email address"
 msgstr "Pakeisti savo el. pašto adresą"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:159
+#: src/components/modals/FluxerTagChangeModal.tsx:162
 msgid "Change Your FluxerTag"
 msgstr "Pakeisti savo FluxerTag"
 
@@ -4392,7 +4392,7 @@ msgstr "Pakeiskite savo slapyvardį šioje bendruomenėje."
 msgid "Change your password"
 msgstr "Pakeisti savo slaptažodį"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:106
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:109
 msgid "Change your password to keep your account secure"
 msgstr "Pakeiskite slaptažodį, kad apsaugotumėte savo paskyrą"
 
@@ -4404,7 +4404,7 @@ msgstr "Pakeisti savo profilio paveikslėlį"
 msgid "Change your username"
 msgstr "Pakeisti savo vartotojo vardą"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:90
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:91
 msgid "Change your username and 4-digit tag"
 msgstr "Pakeiskite savo vartotojo vardą ir 4 skaitmenų žymę"
 
@@ -4846,7 +4846,7 @@ msgstr "Pareikškite savo paskyrą, kad pasiektumėte saugumo funkcijas, tokias 
 msgid "Claim your account to call"
 msgstr "Patvirtinkite savo paskyrą, kad galėtumėte skambinti"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:56
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:57
 msgid "Claim your account to change your FluxerTag"
 msgstr "Pareikškite savo paskyrą, kad pakeistumėte savo FluxerTag"
 
@@ -5144,7 +5144,7 @@ msgstr "Kliento slaptažodis atkurtas. Atnaujinkite bet kurį kodą, naudojantį
 #: src/components/modals/components/SettingsModalHeader.tsx:98
 #: src/components/modals/InviteModal.tsx:135
 #: src/components/modals/MediaModal.tsx:349
-#: src/components/modals/MobileVideoViewer.tsx:252
+#: src/components/modals/MobileVideoViewer.tsx:260
 #: src/components/modals/Modal.tsx:382
 #: src/components/modals/Modal.tsx:460
 #: src/components/modals/PackInviteModal.tsx:152
@@ -5201,7 +5201,7 @@ msgstr "Anglies tema"
 #: src/components/auth/MfaScreen.tsx:131
 #: src/components/invites/InviteListItem.tsx:56
 #: src/components/modals/MfaTotpDisableModal.tsx:63
-#: src/components/modals/MfaTotpEnableModal.tsx:91
+#: src/components/modals/MfaTotpEnableModal.tsx:94
 #: src/components/pages/report/ReportBreadcrumbs.tsx:48
 msgid "Code"
 msgstr "Kodas"
@@ -5651,7 +5651,7 @@ msgid "Configure your profile badge"
 msgstr "Konfigūruoti savo profilio ženklelį"
 
 #: src/components/channel/MentionEveryonePopout.tsx:134
-#: src/components/modals/EmailChangeModal.tsx:304
+#: src/components/modals/EmailChangeModal.tsx:307
 msgid "Confirm"
 msgstr "Patvirtinti"
 
@@ -5827,13 +5827,13 @@ msgstr "Kontekstiniai meniu gali būti atidaromi kairiuoju paspaudimu (ant mygtu
 
 #: src/components/channel/ChannelTextarea.tsx:311
 #: src/components/modals/AddConnectionModal.tsx:221
-#: src/components/modals/BackupCodesRegenerateModal.tsx:75
-#: src/components/modals/BackupCodesViewModal.tsx:73
+#: src/components/modals/BackupCodesRegenerateModal.tsx:82
+#: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:116
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:119
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 #: src/components/modals/MfaTotpDisableModal.tsx:78
-#: src/components/modals/MfaTotpEnableModal.tsx:106
+#: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
 msgid "Continue"
 msgstr "Tęsti"
@@ -6555,7 +6555,7 @@ msgstr "Dabartinis įrenginys"
 msgid "Current DM"
 msgstr "Dabartinis DM"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:113
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:116
 msgid "Current Password"
 msgstr "Dabartinis slaptažodis"
 
@@ -6601,7 +6601,7 @@ msgstr "Pritaikyti CSS perrašymai"
 msgid "Custom Date Range"
 msgstr "Pasirinktinis datų intervalas"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:227
+#: src/components/modals/FluxerTagChangeModal.tsx:230
 msgid "Custom discriminators are not available on this instance"
 msgstr "Pritaikyti diskriminatoriai šioje instancijoje nėra prieinami"
 
@@ -6727,11 +6727,12 @@ msgstr "Pritaikykite, kurie mygtukai rodomi žiniasklaidos prieduose ir įterpim
 msgid "Customize which buttons are visible in the message input area. Keyboard shortcuts will continue to work even if buttons are hidden."
 msgstr "Pritaikykite, kurie mygtukai matomi žinutės įvedimo srityje. Klaviatūros spartieji klavišai ir toliau veiks, net jei mygtukai yra paslėpti."
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:74
-msgid "Customize your 4-digit tag (#{discriminator}) to your liking with Plutonium"
-msgstr "Tinkinkite savo 4 skaitmenų žymą (#{discriminator}) pagal savo skonį su Plutonium"
+#. placeholder {0}: user.discriminator
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:75
+msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
+msgstr "Pridėkite savo 4 skaitmenų žymą (#{0}) pagal savo pageidavimus su Plutonium"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:272
+#: src/components/modals/FluxerTagChangeModal.tsx:275
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Tinkinkite savo 4 skaitmenų žymą arba palikite ją keisdami vartotojo vardą"
 
@@ -7069,7 +7070,7 @@ msgstr "ištrinti"
 #: src/components/emojis/EmojiListItem.tsx:195
 #: src/components/emojis/EmojiListItem.tsx:252
 #: src/components/emojis/EmojiListItem.tsx:308
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:325
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
@@ -7530,7 +7531,7 @@ msgstr "išjungti"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:240
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:426
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
 msgid "Disable"
 msgstr "Išjungti"
 
@@ -7890,7 +7891,7 @@ msgstr "Ar taip pat norite blokuoti tiesiogines žinutes iš jūsų esamų bendr
 msgid "Do you want to send this pin back in time?"
 msgstr "Ar norite išsiųsti šią prisegimą atgal į praeitį?"
 
-#: src/components/channel/MessageActionUtils.tsx:410
+#: src/components/channel/MessageActionUtils.tsx:411
 msgid "Do you want to send this pin back to the future?"
 msgstr "Ar norite išsiųsti šią prisegimą atgal į ateitį?"
 
@@ -8344,13 +8345,13 @@ msgid "Email"
 msgstr "El. paštas"
 
 #: src/components/modals/tabs/account_security_tab/AccountTab.tsx:65
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:91
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:107
 #: src/components/pages/report/ReportStepEmail.tsx:76
 msgid "Email Address"
 msgstr "El. pašto adresas"
 
-#: src/components/modals/EmailChangeModal.tsx:165
+#: src/components/modals/EmailChangeModal.tsx:168
 msgid "Email changed"
 msgstr "El. paštas pakeistas"
 
@@ -8426,11 +8427,11 @@ msgstr "įterpimai"
 msgid "Embeds"
 msgstr "Įterpimai"
 
-#: src/components/channel/MessageActionUtils.tsx:520
+#: src/components/channel/MessageActionUtils.tsx:526
 msgid "Embeds suppressed"
 msgstr "Įterpimai slopinti"
 
-#: src/components/channel/MessageActionUtils.tsx:506
+#: src/components/channel/MessageActionUtils.tsx:512
 msgid "Embeds unsuppressed"
 msgstr "Įterpimai neslopinti"
 
@@ -8530,9 +8531,9 @@ msgstr "tuščia būsena"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/layout/GuildLayout.tsx:74
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:244
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:438
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:247
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:435
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:441
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:85
 msgid "Enable"
 msgstr "Įjungti"
@@ -8658,7 +8659,7 @@ msgstr "Įjungti Shift, kad išplėstumėte"
 msgid "Enable SMS 2FA"
 msgstr "Įjungti SMS 2FA"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:415
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:418
 msgid "Enable SMS codes as a backup for your authenticator app"
 msgstr "Įjungti SMS kodus kaip atsarginę parinktį jūsų autentifikavimo programėlei"
 
@@ -8678,7 +8679,7 @@ msgstr "Įjungti dviejų faktorių autentifikavimą"
 msgid "Enable two-factor authentication"
 msgstr "Įjungti dviejų faktorių autentifikaciją"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:70
+#: src/components/modals/MfaTotpEnableModal.tsx:73
 msgid "Enable two-factor authentication form"
 msgstr "Įjungti dviejų faktorių autentifikavimo formą"
 
@@ -8782,7 +8783,7 @@ msgid "Enter the 6-digit code from your authenticator app or one of your backup 
 msgstr "Įveskite 6 skaitmenų kodą iš savo autentifikavimo programėlės arba vieną iš atsarginių kodų."
 
 #: src/components/modals/MfaTotpDisableModal.tsx:67
-#: src/components/modals/MfaTotpEnableModal.tsx:95
+#: src/components/modals/MfaTotpEnableModal.tsx:98
 msgid "Enter the 6-digit code from your authenticator app."
 msgstr "Įveskite 6 skaitmenų kodą iš savo autentifikavimo programėlės."
 
@@ -8804,7 +8805,7 @@ msgstr "Įveskite kodą prieš tęsiant."
 msgid "Enter the code from your authenticator app."
 msgstr "Įveskite kodą iš savo autentifikavimo programėlės."
 
-#: src/components/modals/EmailChangeModal.tsx:213
+#: src/components/modals/EmailChangeModal.tsx:216
 msgid "Enter the code sent to your current email."
 msgstr "Įveskite kodą, išsiųstą į jūsų dabartinį el. paštą."
 
@@ -8812,7 +8813,7 @@ msgstr "Įveskite kodą, išsiųstą į jūsų dabartinį el. paštą."
 msgid "Enter the code sent to your email address."
 msgstr "Įveskite kodą, išsiųstą į jūsų el. pašto adresą."
 
-#: src/components/modals/EmailChangeModal.tsx:281
+#: src/components/modals/EmailChangeModal.tsx:284
 msgid "Enter the code we emailed to your new address."
 msgstr "Įveskite kodą, kurį nusiuntėme el. paštu į jūsų naują adresą."
 
@@ -8824,7 +8825,7 @@ msgstr "Įveskite kodą, kurį nusiuntėme į jūsų el. paštą, kad jį patvir
 msgid "Enter the invite link to join a community."
 msgstr "Įveskite kvietimo nuorodą, kad prisijungtumėte prie bendruomenės."
 
-#: src/components/modals/EmailChangeModal.tsx:247
+#: src/components/modals/EmailChangeModal.tsx:250
 msgid "Enter the new email you want to use. We'll send a code there next."
 msgstr "Įveskite naują el. pašto adresą, kurį norite naudoti. Toliau ten nusiųsime kodą."
 
@@ -9963,16 +9964,16 @@ msgstr "Fluxer Personalas"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer naudoja pranešimus, kai įdiegtas kaip mobilusis PWA. Registracija užtikrina, kad šliuzas gali pasiekti jūsų įrenginį net kai naršyklė yra fone."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:176
+#: src/components/modals/FluxerTagChangeModal.tsx:179
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:102
+#: src/components/modals/FluxerTagChangeModal.tsx:105
 msgid "FluxerTag already taken"
 msgstr "FluxerTag jau užimtas"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:144
+#: src/components/modals/FluxerTagChangeModal.tsx:147
 msgid "FluxerTag updated"
 msgstr "FluxerTag atnaujintas"
 
@@ -10208,7 +10209,7 @@ msgstr "Persiųsti"
 msgid "Forward {DEFAULT_SEEK_AMOUNT} seconds"
 msgstr "Persiųsti {DEFAULT_SEEK_AMOUNT} sekundžių"
 
-#: src/components/modals/ForwardModal.tsx:198
+#: src/components/modals/ForwardModal.tsx:203
 #: src/stores/KeybindStore.tsx:361
 msgid "Forward Message"
 msgstr "Persiųsti žinutę"
@@ -10490,7 +10491,7 @@ msgstr "Gaukite pranešimą, kai gaunate žinutes. Gali tekti leisti pranešimus
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:221
+#: src/components/modals/FluxerTagChangeModal.tsx:224
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10503,11 +10504,11 @@ msgstr "Gauti Plutonium"
 msgid "Get Plutonium for yourself and unlock higher limits and exclusive features."
 msgstr "Gaukite Plutonium sau ir atrakinkite aukštesnes ribas bei išskirtines funkcijas."
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:81
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:82
 msgid "Get Plutonium to customize your tag"
 msgstr "Gaukite Plutonium, kad tinkintumėte savo žymę"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:199
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "Gaukite Plutonium, kad tinkintumėte savo žymę arba išlaikytumėte ją keisdami vartotojo vardą"
 
@@ -11883,8 +11884,8 @@ msgstr "Netinkamas dovanų kodas"
 msgid "Invalid instance URL. Try something like \"example.com\" or \"https://example.com\"."
 msgstr "Neteisingas instancijos URL. Išbandykite kažką panašaus į \"example.com\" arba \"https://example.com\"."
 
-#: src/components/modals/EmailChangeModal.tsx:107
-#: src/components/modals/EmailChangeModal.tsx:168
+#: src/components/modals/EmailChangeModal.tsx:110
+#: src/components/modals/EmailChangeModal.tsx:171
 #: src/components/modals/PasswordChangeModal.tsx:90
 msgid "Invalid or expired code"
 msgstr "Netinkamas arba pasibaigęs kodas"
@@ -12569,11 +12570,11 @@ msgid "Last active {0}"
 msgstr "Paskutinį kartą aktyvus {0}"
 
 #. placeholder {0}: DateUtils.getRelativeDateString(user.passwordLastChangedAt, i18n)
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:117
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:120
 msgid "Last changed: {0}"
 msgstr "Paskutinį kartą pakeista: {0}"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:119
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:122
 msgid "Last changed: Never"
 msgstr "Paskutinį kartą pakeista: niekada"
 
@@ -13221,7 +13222,7 @@ msgstr "Tvarkykite savo el. paštą, slaptažodį ir paskyros nustatymus"
 msgid "Manage your gifts"
 msgstr "Tvarkykite savo dovanas"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:337
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:340
 msgid "Manage your phone number for SMS two-factor authentication"
 msgstr "Tvarkykite savo telefono numerį SMS dviejų faktorių autentifikacijai"
 
@@ -13346,12 +13347,12 @@ msgstr "Pažymėtas narys kaip laikinas."
 msgid "Markers Below Slider"
 msgstr "Žymekliai po slankikliu"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:188
+#: src/components/modals/FluxerTagChangeModal.tsx:191
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
 #: src/components/modals/ClaimAccountModal.tsx:157
-#: src/components/modals/EmailChangeModal.tsx:258
+#: src/components/modals/EmailChangeModal.tsx:261
 msgid "marty@example.com"
 msgstr "marty@example.com"
 
@@ -13750,7 +13751,7 @@ msgstr "Žinutės rodymo režimas"
 msgid "Message display settings are only available on desktop."
 msgstr "Žinutės rodymo nustatymai prieinami tik kompiuteryje."
 
-#: src/components/modals/ForwardModal.tsx:148
+#: src/components/modals/ForwardModal.tsx:153
 msgid "Message forwarded"
 msgstr "Žinutė persiųsta"
 
@@ -13776,7 +13777,7 @@ msgstr "Žinučių istorijos slenkstis atnaujintas"
 msgid "Message Input Buttons"
 msgstr "Žinutės įvedimo mygtukai"
 
-#: src/components/modals/ForwardModal.tsx:84
+#: src/components/modals/ForwardModal.tsx:89
 #: src/components/uikit/character_counter/CharacterCounter.tsx:52
 msgid "Message is too long"
 msgstr "Žinutė per ilga"
@@ -14077,7 +14078,7 @@ msgstr "Daugiau emoji vietų"
 #: src/components/channel/embeds/attachments/TextualAttachmentPreviewFooter.tsx:66
 #: src/components/modals/guild_tabs/UserListItem.tsx:113
 #: src/components/modals/MediaModal.tsx:353
-#: src/components/modals/MobileVideoViewer.tsx:260
+#: src/components/modals/MobileVideoViewer.tsx:268
 msgid "More options"
 msgstr "Daugiau parinkčių"
 
@@ -14209,7 +14210,7 @@ msgstr "nutildyti"
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:319
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:506
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:92
@@ -14576,12 +14577,12 @@ msgstr "Naujos bendruomenės, kurias prisijungiate, automatiškai turės nutildy
 msgid "New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?"
 msgstr "Naujos bendruomenės, kurias prisijungiate, nebeturės nutildytų kanalų paslėptų automatiškai. Ar norėtumėte rodyti nutildytus kanalus visose esamose bendruomenėse?"
 
-#: src/components/modals/EmailChangeModal.tsx:255
+#: src/components/modals/EmailChangeModal.tsx:258
 #: src/components/modals/RequiredActionModal.tsx:471
 msgid "New Email"
 msgstr "Naujas el. paštas"
 
-#: src/components/modals/EmailChangeModal.tsx:243
+#: src/components/modals/EmailChangeModal.tsx:246
 msgid "New email form"
 msgstr "Nauja el. pašto forma"
 
@@ -14736,7 +14737,7 @@ msgid "No cameras detected"
 msgstr "Nerasta kamerų"
 
 #: src/components/invites/InviteListItem.tsx:179
-#: src/components/modals/ForwardModal.tsx:246
+#: src/components/modals/ForwardModal.tsx:251
 #: src/components/modals/GuildNotificationSettingsModal.tsx:258
 msgid "No Category"
 msgstr "Nėra kategorijos"
@@ -14749,7 +14750,7 @@ msgstr "Nėra pakeitimų išsaugoti"
 msgid "No channels available"
 msgstr "Nėra prieinamų kanalų"
 
-#: src/components/modals/ForwardModal.tsx:216
+#: src/components/modals/ForwardModal.tsx:221
 msgid "No channels found"
 msgstr "Nerasta kanalų"
 
@@ -14773,7 +14774,7 @@ msgstr "Dar nėra jokių ryšių"
 msgid "No description provided."
 msgstr "Aprašymas nepateiktas."
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:97
 msgid "No email address set"
 msgstr "Nenustatytas el. pašto adresas"
 
@@ -14883,11 +14884,11 @@ msgstr "Bendrų draugų nerasta."
 msgid "No mutual groups found."
 msgstr "Bendrų grupių nerasta."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:283
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
 msgid "No passkeys registered"
 msgstr "Nėra užregistruotų prisijungimo raktų"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:137
 msgid "No password set"
 msgstr "Slaptažodis nenustatytas"
 
@@ -15929,7 +15930,7 @@ msgstr "Partnerių bendruomenė"
 msgid "Passkey Name"
 msgstr "Prieigos rakto pavadinimas"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:273
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:276
 msgid "Passkeys"
 msgstr "Prieigos raktai"
 
@@ -15953,8 +15954,8 @@ msgstr "slaptažodis"
 #: src/components/modals/ClaimAccountModal.tsx:207
 #: src/components/modals/SudoVerificationModal.tsx:174
 #: src/components/modals/SudoVerificationModal.tsx:239
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:105
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:131
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:108
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:114
 #: src/components/modals/utils/SettingsSearchIndex.tsx:107
 msgid "Password"
@@ -16010,7 +16011,7 @@ msgstr "Įklijuokite tai ten, iš kur atėjote, kad užbaigtumėte prisijungimą
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 msgid "Pause"
 msgstr "Pristabdyti"
 
@@ -16147,8 +16148,8 @@ msgstr "Telefonas"
 
 #: src/components/modals/PhoneAddModal.tsx:192
 #: src/components/modals/RequiredActionModal.tsx:616
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:336
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:342
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:339
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:345
 #: src/components/modals/utils/SettingsSearchIndex.tsx:115
 msgid "Phone Number"
 msgstr "Telefono numeris"
@@ -16158,7 +16159,7 @@ msgid "Phone number added"
 msgstr "Telefono numeris pridėtas"
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:346
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:349
 msgid "Phone number added: {0}"
 msgstr "Telefono numeris pridėtas: {0}"
 
@@ -16225,11 +16226,11 @@ msgstr "Prisegti DM"
 msgid "Pin Group DM"
 msgstr "Prisegti grupės DM"
 
-#: src/components/channel/MessageActionUtils.tsx:429
+#: src/components/channel/MessageActionUtils.tsx:430
 msgid "Pin it real good"
 msgstr "Prisek gerai"
 
-#: src/components/channel/MessageActionUtils.tsx:426
+#: src/components/channel/MessageActionUtils.tsx:427
 msgid "Pin it. Pin it good."
 msgstr "Prisek. Prisek gerai."
 
@@ -16250,7 +16251,7 @@ msgstr "Prisegti žinutes"
 msgid "Pin or unpin the focused message"
 msgstr "Prisegti arba atsegti pasirinktą žinutę"
 
-#: src/components/channel/MessageActionUtils.tsx:427
+#: src/components/channel/MessageActionUtils.tsx:428
 msgid "Pin this message to the channel for all to see. Unless ... you're chicken."
 msgstr "Prisek šią žinutę prie kanalo, kad visi matytų. Nebent... tu baidarėlis."
 
@@ -16323,7 +16324,7 @@ msgstr "Platformos administratorius"
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:215
 msgid "Play"
 msgstr "Leisti"
@@ -17075,7 +17076,7 @@ msgstr "Gauti"
 msgid "Receive notifications when someone mentions you"
 msgstr "Gauk pranešimus, kai kas nors tave paminėjo"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:404
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:407
 msgid "Receive verification codes via SMS as a backup authentication method"
 msgstr "Gauk patvirtinimo kodus per SMS kaip atsarginį autentifikavimo metodą"
 
@@ -17202,7 +17203,7 @@ msgstr "Atnaujinti push prenumeratą"
 msgid "Regenerate"
 msgstr "Sugeneruoti iš naujo"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:61
+#: src/components/modals/BackupCodesRegenerateModal.tsx:68
 msgid "Regenerate Backup Codes"
 msgstr "Regeneruoti atsarginių kodų rinkinį"
 
@@ -17232,7 +17233,7 @@ msgstr "Sugeneravus iš naujo, dabartinis žetonas bus negaliojantis. Atnaujinki
 msgid "Register"
 msgstr "Registruotis"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:279
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:282
 msgid "Registered Passkeys"
 msgstr "Užregistruoti prieigos raktai"
 
@@ -17302,7 +17303,7 @@ msgstr "pašalinti"
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildEmbedSplashUploadField.tsx:101
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildIconUploadField.tsx:107
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildInviteSplashUploadField.tsx:113
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:391
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:394
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:96
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:226
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:191
@@ -17476,11 +17477,11 @@ msgstr "Pašalinti perrašymą"
 msgid "Remove Pack"
 msgstr "Pašalinti paketą"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:377
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:380
 msgid "Remove Phone"
 msgstr "Pašalinti telefoną"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:360
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:363
 msgid "Remove Phone Number"
 msgstr "Pašalinti telefono numerį"
 
@@ -17635,7 +17636,7 @@ msgstr "Rinkinio pašalinimas jį išinstaliuos iš jūsų paskyros."
 msgid "Removing the timeout will allow <0>{0}</0> to send messages, react, and join voice channels again."
 msgstr "Laiko limito pašalinimas leis <0>{0}</0> vėl siųsti žinutes, reaguoti ir prisijungti prie balso kanalų."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:319
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 msgid "Rename"
 msgstr "Pervadinti"
 
@@ -17875,17 +17876,17 @@ msgid "Reschedule Message"
 msgstr "Perplanuoti žinutę"
 
 #: src/components/modals/ClaimAccountModal.tsx:222
-#: src/components/modals/EmailChangeModal.tsx:233
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:304
 #: src/components/modals/PasswordChangeModal.tsx:179
 msgid "Resend"
 msgstr "Siųsti iš naujo"
 
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:304
 msgid "Resend ({newSecondsRemaining}s)"
 msgstr "Siųsti iš naujo ({newSecondsRemaining}s)"
 
-#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:236
 msgid "Resend ({originalSecondsRemaining}s)"
 msgstr "Siųsti iš naujo ({originalSecondsRemaining}s)"
 
@@ -18429,7 +18430,7 @@ msgstr "išsaugo"
 msgid "scale"
 msgstr "mastelis"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:78
+#: src/components/modals/MfaTotpEnableModal.tsx:81
 msgid "Scan the QR code with your authenticator app to generate codes for two-factor authentication."
 msgstr "Nuskaitykite QR kodą su savo autentifikavimo programa, kad sugeneruotumėte dviejų faktorių autentifikavimo kodus."
 
@@ -18566,7 +18567,7 @@ msgstr "Ieškoti pagal vartotojo vardą arba ID"
 msgid "Search channels"
 msgstr "Ieškoti kanalų"
 
-#: src/components/modals/ForwardModal.tsx:204
+#: src/components/modals/ForwardModal.tsx:209
 msgid "Search channels or DMs"
 msgstr "Ieškoti kanalų ar tiesioginių žinučių"
 
@@ -18967,7 +18968,7 @@ msgid "Send"
 msgstr "Siųsti"
 
 #. placeholder {0}: selectedChannelIds.size
-#: src/components/modals/ForwardModal.tsx:380
+#: src/components/modals/ForwardModal.tsx:385
 msgid "Send ({0}/5)"
 msgstr "Siųsti ({0}/5)"
 
@@ -19004,7 +19005,7 @@ msgid "Send an SMS code first."
 msgstr "Pirmiausia siųskite SMS kodą."
 
 #: src/components/modals/ClaimAccountModal.tsx:180
-#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:273
 #: src/components/modals/PhoneAddModal.tsx:208
 msgid "Send code"
 msgstr "Siųsti kodą"
@@ -19199,7 +19200,7 @@ msgstr "Nustatyti slapyvardį į {0}."
 msgid "Set NSFW level to {0}."
 msgstr "Nustatyti NSFW lygį į {0}."
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:138
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:141
 msgid "Set Password"
 msgstr "Nustatyti slaptažodį"
 
@@ -19361,7 +19362,7 @@ msgstr "Nustatymų skyriai"
 msgid "Settings!"
 msgstr "Nustatymai!"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:71
+#: src/components/modals/MfaTotpEnableModal.tsx:74
 msgid "Setup Authenticator App"
 msgstr "Nustatyti autentifikavimo programėlę"
 
@@ -19989,11 +19990,11 @@ msgstr "Mažesnis laikmenos dydis"
 msgid "sms"
 msgstr "sms"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:409
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:412
 msgid "SMS Backup"
 msgstr "SMS atsarginė kopija"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
 msgid "SMS backup is disabled for partners"
 msgstr "SMS atsarginė kopija partneriams išjungta"
 
@@ -20006,7 +20007,7 @@ msgstr "SMS kodas"
 msgid "SMS Code"
 msgstr "SMS kodas"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:403
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:406
 msgid "SMS Two-Factor Authentication"
 msgstr "SMS dviejų faktorių autentifikacija"
 
@@ -20014,7 +20015,7 @@ msgstr "SMS dviejų faktorių autentifikacija"
 msgid "SMS two-factor authentication adds an additional layer of security to your account by requiring a verification code sent to your phone number when signing in."
 msgstr "SMS dviejų faktorių autentifikacija prideda papildomą saugumo sluoksnį jūsų paskyrai, reikalaujant patvirtinimo kodo, siunčiamo į jūsų telefono numerį prisijungiant."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:413
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:416
 msgid "SMS two-factor authentication is enabled"
 msgstr "SMS dviejų faktorių autentifikacija įjungta"
 
@@ -20338,7 +20339,7 @@ msgstr "Žvaigždė"
 msgid "starred"
 msgstr "žvaigždutė"
 
-#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:205
 #: src/components/modals/PasswordChangeModal.tsx:148
 msgid "Start"
 msgstr "Pradėti"
@@ -21152,7 +21153,7 @@ msgstr "Failas turi patvirtinimo žetoną, kurį mes gausime iš <0>{dnsUrl}</0>
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "Failas, kurį bandote įkelti, viršija maksimalų dydžio limitą: {maxSizeFormatted}."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:106
+#: src/components/modals/FluxerTagChangeModal.tsx:109
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "FluxerTag <0>{fluxerTag}</0> jau užimtas. Tęsdami jūsų diskriminatorius bus automatiškai pergeneruotas."
 
@@ -21717,7 +21718,7 @@ msgstr "Tai sukurs įtrūkimą erdvės-laiko kontinuume ir negali būti atšaukt
 msgid "This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from <0>User Settings → Look & Feel → Favorites</0>."
 msgstr "Tai paslėps visus su mėgstamaisiais susijusius vartotojo sąsajos elementus, įskaitant mygtukus ir meniu punktus. Jūsų esami mėgstamieji bus išsaugoti ir gali būti vėl įjungti bet kuriuo metu iš <0>Naudotojo nustatymai → Išvaizda → Mėgstamiausi</0>."
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:65
+#: src/components/modals/BackupCodesRegenerateModal.tsx:72
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "Tai invaliduos jūsų esamus atsarginių kodų ir sugeneruos naujus."
 
@@ -21911,7 +21912,7 @@ msgstr "Perjungti kanalo narių sąrašą"
 msgid "Toggle Compact Mode"
 msgstr "Perjungti kompaktišką režimą"
 
-#: src/components/modals/MobileVideoViewer.tsx:239
+#: src/components/modals/MobileVideoViewer.tsx:247
 msgid "Toggle controls"
 msgstr "Perjungti valdiklius"
 
@@ -22307,7 +22308,7 @@ msgstr "Dviejų faktorių autentifikacija"
 msgid "Two-factor authentication disabled"
 msgstr "Dviejų faktorių autentifikacija išjungta"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:55
+#: src/components/modals/MfaTotpEnableModal.tsx:58
 msgid "Two-factor authentication enabled"
 msgstr "Dviejų faktorių autentifikacija įjungta"
 
@@ -22436,13 +22437,13 @@ msgstr "Nepavyko įkelti profilio banerio, ženkliukų ir bio."
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "Nepavyko paruošti jokių emodžių įkėlimui. Įvyko šios klaidos:"
 
-#: src/components/modals/EmailChangeModal.tsx:121
-#: src/components/modals/EmailChangeModal.tsx:151
+#: src/components/modals/EmailChangeModal.tsx:124
+#: src/components/modals/EmailChangeModal.tsx:154
 #: src/components/modals/PasswordChangeModal.tsx:104
 msgid "Unable to resend code right now"
 msgstr "Šiuo metu nepavyksta persiųsti kodo"
 
-#: src/components/modals/EmailChangeModal.tsx:136
+#: src/components/modals/EmailChangeModal.tsx:139
 msgid "Unable to send code to new email"
 msgstr "Nepavyko išsiųsti kodo į naują el. paštą"
 
@@ -22455,7 +22456,7 @@ msgstr "Nepavyko siųsti balso pranešimo. Prašome bandyti vėl."
 msgid "Unable to Start Call"
 msgstr "Nepavyko pradėti skambučio"
 
-#: src/components/modals/EmailChangeModal.tsx:91
+#: src/components/modals/EmailChangeModal.tsx:94
 msgid "Unable to start email change"
 msgstr "Nepavyko pradėti el. pašto keitimo"
 
@@ -22781,7 +22782,7 @@ msgstr "Atrakinkite lipdukus DM su Plutonium"
 #: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/voice/VoiceControlBar.tsx:602
 msgid "Unmute"
 msgstr "Įjungti garsą"
@@ -22872,7 +22873,7 @@ msgstr "Atsegti DM"
 msgid "Unpin Group DM"
 msgstr "Atsegti grupės DM"
 
-#: src/components/channel/MessageActionUtils.tsx:412
+#: src/components/channel/MessageActionUtils.tsx:413
 #: src/components/shared/ChannelPinsContent.tsx:102
 msgid "Unpin it"
 msgstr "Atsegti"
@@ -22880,7 +22881,7 @@ msgstr "Atsegti"
 #: src/components/channel/MessageActionBar.tsx:519
 #: src/components/channel/MessageActionBar.tsx:735
 #: src/components/channel/MessageActionMenu.tsx:243
-#: src/components/channel/MessageActionUtils.tsx:409
+#: src/components/channel/MessageActionUtils.tsx:410
 #: src/components/shared/ChannelPinsContent.tsx:99
 #: src/components/shared/ChannelPinsContent.tsx:260
 #: src/components/uikit/context_menu/items/MessageMenuItems.tsx:163
@@ -23322,7 +23323,7 @@ msgstr "Naudoti globalų profilį"
 msgid "Use light theme"
 msgstr "Naudoti šviesią temą"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:274
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:277
 msgid "Use passkeys for passwordless sign-in and two-factor authentication"
 msgstr "Naudokite prieigos raktus be slaptažodžio prisijungimui ir dviejų faktorių autentifikavimui"
 
@@ -23475,9 +23476,9 @@ msgstr "vartotojas, botas ar webhook"
 msgid "username"
 msgstr "naudotojo vardas"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:187
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:51
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
 msgid "Username"
 msgstr "Vartotojo vardas"
@@ -23510,11 +23511,11 @@ msgstr "Vartotojo vardas turi būti ne ilgesnis nei 32 simboliai"
 msgid "Username#0000"
 msgstr "Vartotojo vardas#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:169
+#: src/components/modals/FluxerTagChangeModal.tsx:172
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "Vartotojo vardai gali būti sudaryti tik iš raidžių (a-z, A-Z), skaičių (0-9) ir apatinių brūkšnių. Vartotojo vardai neskiria didžiųjų ir mažųjų raidžių."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:164
+#: src/components/modals/FluxerTagChangeModal.tsx:167
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
 msgstr "Vartotojo vardai gali būti sudaryti tik iš raidžių (a-z, A-Z), skaičių (0-9) ir apatinių brūkšnių. Vartotojo vardai neskiria didžiųjų ir mažųjų raidžių. Galite pasirinkti savo 4 skaitmenų žymę, jei ji yra laisva."
 
@@ -23634,8 +23635,8 @@ msgid "Verification Barriers"
 msgstr "Patvirtinimo barjerai"
 
 #: src/components/modals/ClaimAccountModal.tsx:198
-#: src/components/modals/EmailChangeModal.tsx:220
-#: src/components/modals/EmailChangeModal.tsx:288
+#: src/components/modals/EmailChangeModal.tsx:223
+#: src/components/modals/EmailChangeModal.tsx:291
 #: src/components/modals/PasswordChangeModal.tsx:166
 #: src/components/modals/PhoneAddModal.tsx:226
 #: src/components/modals/RequiredActionModal.tsx:495
@@ -23662,7 +23663,7 @@ msgstr "Patvirtinimo el. laiškas išsiųstas! Patikrinkite savo gautuosius."
 msgid "Verification failed"
 msgstr "Patvirtinti nepavyko"
 
-#: src/components/modals/BackupCodesViewModal.tsx:63
+#: src/components/modals/BackupCodesViewModal.tsx:68
 msgid "Verification may be required before viewing your backup codes."
 msgstr "Prieš peržiūrint atsarginius kodus gali būti reikalingas patvirtinimas."
 
@@ -23684,7 +23685,7 @@ msgid "verify"
 msgstr "patvirtinti"
 
 #: src/components/modals/AddConnectionModal.tsx:315
-#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:239
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
 #: src/components/modals/RequiredActionModal.tsx:652
@@ -23785,7 +23786,7 @@ msgstr "vaizdo peržiūra"
 msgid "Video preview"
 msgstr "Vaizdo įrašo peržiūra"
 
-#: src/components/modals/MobileVideoViewer.tsx:311
+#: src/components/modals/MobileVideoViewer.tsx:319
 msgid "Video progress"
 msgstr "Vaizdo įrašo pažanga"
 
@@ -23859,15 +23860,15 @@ msgstr "Peržiūrėkite ir tvarkykite užblokuotus naudotojus."
 msgid "View and manage every webhook configured across your community."
 msgstr "Peržiūrėkite ir tvarkykite visus jūsų bendruomenėje sukonfigūruotus webhook'us."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:260
 msgid "View and manage your backup codes for account recovery"
 msgstr "Peržiūrėkite ir tvarkykite savo atsarginius kodus paskyros atkūrimui"
 
-#: src/components/modals/BackupCodesViewModal.tsx:59
+#: src/components/modals/BackupCodesViewModal.tsx:64
 msgid "View Backup Codes"
 msgstr "Peržiūrėti atsarginius kodus"
 
-#: src/components/modals/BackupCodesViewModal.tsx:58
+#: src/components/modals/BackupCodesViewModal.tsx:63
 msgid "View backup codes form"
 msgstr "Peržiūrėti atsarginių kodų formą"
 
@@ -23884,7 +23885,7 @@ msgstr "Peržiūrėti skambučių valdymą"
 msgid "View Channel"
 msgstr "Peržiūrėti kanalą"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:265
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:268
 msgid "View Codes"
 msgstr "Peržiūrėti kodus"
 
@@ -24387,11 +24388,11 @@ msgstr "Išsiųsime patvirtinimo kodą į šį el. pašto adresą."
 msgid "We'll send a verification code to your email before you can change your password."
 msgstr "Prieš keisdami slaptažodį, išsiųsime patvirtinimo kodą į jūsų el. paštą."
 
-#: src/components/modals/EmailChangeModal.tsx:190
+#: src/components/modals/EmailChangeModal.tsx:193
 msgid "We'll verify your current email and then your new email with one-time codes."
 msgstr "Mes patikrinsime jūsų dabartinį el. paštą, o tada jūsų naują el. paštą vienkartiniais kodais."
 
-#: src/components/modals/EmailChangeModal.tsx:192
+#: src/components/modals/EmailChangeModal.tsx:195
 msgid "We'll verify your new email with a one-time code."
 msgstr "Mes patikrinsime jūsų naują el. paštą vienkartiniu kodu."
 

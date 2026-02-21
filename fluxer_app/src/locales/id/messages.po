@@ -134,12 +134,12 @@ msgid "{0} of {totalAttachments}"
 msgstr "{0} dari {totalAttachments}"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:285
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:288
 msgid "{0} passkey registered (max 10)"
 msgstr "{0} kunci akses terdaftar (maks 10)"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:289
 msgid "{0} passkeys registered (max 10)"
 msgstr "{0} kunci akses terdaftar (maks 10)"
 
@@ -1088,7 +1088,7 @@ msgstr "<0>Membuka pembisuan</0> anggota tersebut."
 msgid "<0>Unmuted</0> the member."
 msgstr "<0>Membuka pembisuan</0> anggota tersebut."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:370
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:373
 msgid "<0>Warning:</0> This will also disable SMS two-factor authentication."
 msgstr "<0>Peringatan:</0> Ini juga akan menonaktifkan autentikasi dua faktor SMS."
 
@@ -1362,9 +1362,9 @@ msgstr "30 detik"
 msgid "4 hours"
 msgstr "4 jam"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:203
-#: src/components/modals/FluxerTagChangeModal.tsx:231
-#: src/components/modals/FluxerTagChangeModal.tsx:248
+#: src/components/modals/FluxerTagChangeModal.tsx:206
+#: src/components/modals/FluxerTagChangeModal.tsx:234
+#: src/components/modals/FluxerTagChangeModal.tsx:251
 msgid "4-digit tag"
 msgstr "tag 4 digit"
 
@@ -1763,7 +1763,7 @@ msgstr "Tambah"
 msgid "Add a bot to a community with requested permissions"
 msgstr "Tambahkan bot ke komunitas dengan izin yang diminta"
 
-#: src/components/modals/ForwardModal.tsx:309
+#: src/components/modals/ForwardModal.tsx:314
 msgid "Add a comment (optional)"
 msgstr "Tambahkan komentar (opsional)"
 
@@ -1782,7 +1782,7 @@ msgstr "Tambahkan latar belakang kustom"
 msgid "Add a different account"
 msgstr "Tambahkan akun berbeda"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:348
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:351
 msgid "Add a phone number to enable SMS two-factor authentication"
 msgstr "Tambahkan nomor telepon untuk mengaktifkan autentikasi dua faktor SMS"
 
@@ -1844,7 +1844,7 @@ msgstr "Form koneksi baru"
 msgid "Add domain connection"
 msgstr "Tambahkan koneksi domain"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:98
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:101
 msgid "Add Email"
 msgstr "Tambahkan Email"
 
@@ -1902,12 +1902,12 @@ msgstr "Tambahkan atau ubah nomor telepon Anda"
 msgid "Add Override"
 msgstr "Tambahkan Penggantian"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:290
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:293
 msgid "Add Passkey"
 msgstr "Tambahkan Kunci Akses"
 
 #: src/components/channel/barriers/BarrierComponents.tsx:198
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:395
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:398
 msgid "Add Phone"
 msgstr "Tambahkan Telepon"
 
@@ -2028,11 +2028,11 @@ msgstr "Ditambahkan ke Favorit"
 msgid "Added to saved media"
 msgstr "Ditambahkan ke media tersimpan"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:313
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:316
 msgid "Added: {createdDate}"
 msgstr "Ditambahkan: {createdDate}"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:309
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:312
 msgid "Added: {createdDate} • Last used: {lastUsedDate}"
 msgstr "Ditambahkan: {createdDate} • Terakhir digunakan: {lastUsedDate}"
 
@@ -2930,7 +2930,7 @@ msgid "Are you sure you want to remove this connection? This action cannot be un
 msgstr "Apakah Anda yakin ingin menghapus koneksi ini? Tindakan ini tidak dapat dibatalkan."
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:364
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:367
 msgid "Are you sure you want to remove your phone number <0>{0}</0>?"
 msgstr "Apakah Anda yakin ingin menghapus nomor telepon Anda <0>{0}</0>?"
 
@@ -3438,12 +3438,12 @@ msgid "backup codes"
 msgstr "kode cadangan"
 
 #: src/components/modals/BackupCodesModal.tsx:43
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:254
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
 #: src/components/modals/utils/SettingsSearchIndex.tsx:140
 msgid "Backup Codes"
 msgstr "Kode Cadangan"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:48
+#: src/components/modals/BackupCodesRegenerateModal.tsx:55
 msgid "Backup codes regenerated"
 msgstr "Kode cadangan dibuat ulang"
 
@@ -4069,8 +4069,8 @@ msgstr "Kamera dinonaktifkan ketika ada lebih dari {VOICE_CHANNEL_CAMERA_USER_LI
 #: src/components/modals/AddGuildModal.tsx:413
 #: src/components/modals/AddGuildStickerModal.tsx:120
 #: src/components/modals/AttachmentEditModal.tsx:122
-#: src/components/modals/BackupCodesRegenerateModal.tsx:72
-#: src/components/modals/BackupCodesViewModal.tsx:70
+#: src/components/modals/BackupCodesRegenerateModal.tsx:79
+#: src/components/modals/BackupCodesViewModal.tsx:75
 #: src/components/modals/BanMemberModal.tsx:143
 #: src/components/modals/CameraPreviewModal.tsx:485
 #: src/components/modals/CaptchaModal.tsx:187
@@ -4094,14 +4094,14 @@ msgstr "Kamera dinonaktifkan ketika ada lebih dari {VOICE_CHANNEL_CAMERA_USER_LI
 #: src/components/modals/EditFavoriteMemeModal.tsx:85
 #: src/components/modals/EditGuildStickerModal.tsx:113
 #: src/components/modals/EditPackModal.tsx:103
-#: src/components/modals/EmailChangeModal.tsx:199
-#: src/components/modals/EmailChangeModal.tsx:230
-#: src/components/modals/EmailChangeModal.tsx:267
-#: src/components/modals/EmailChangeModal.tsx:298
+#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:117
-#: src/components/modals/FluxerTagChangeModal.tsx:280
-#: src/components/modals/ForwardModal.tsx:373
+#: src/components/modals/FluxerTagChangeModal.tsx:120
+#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
 #: src/components/modals/GuildFolderSettingsModal.tsx:199
@@ -4113,7 +4113,7 @@ msgstr "Kamera dinonaktifkan ketika ada lebih dari {VOICE_CHANNEL_CAMERA_USER_LI
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
-#: src/components/modals/MfaTotpEnableModal.tsx:103
+#: src/components/modals/MfaTotpEnableModal.tsx:106
 #: src/components/modals/PasskeyNameModal.tsx:62
 #: src/components/modals/PasswordChangeModal.tsx:145
 #: src/components/modals/PasswordChangeModal.tsx:176
@@ -4146,7 +4146,7 @@ msgstr "Batal"
 msgid "Cancel Friend Request"
 msgstr "Batalkan Permintaan Pertemanan"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:112
+#: src/components/modals/FluxerTagChangeModal.tsx:115
 msgid "Cancel if you want to choose a different username instead."
 msgstr "Batalkan jika Anda ingin memilih nama pengguna yang berbeda."
 
@@ -4279,7 +4279,7 @@ msgstr "Ubah Banner"
 msgid "Change email"
 msgstr "Ubah email"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:81
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:84
 msgid "Change Email"
 msgstr "Ubah Email"
 
@@ -4288,12 +4288,12 @@ msgstr "Ubah Email"
 msgid "Change emoji"
 msgstr "Ubah emoji"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:59
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:69
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:60
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:70
 msgid "Change FluxerTag"
 msgstr "Ubah FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:158
+#: src/components/modals/FluxerTagChangeModal.tsx:161
 msgid "Change FluxerTag form"
 msgstr "Formulir Ubah FluxerTag"
 
@@ -4360,7 +4360,7 @@ msgid "change password"
 msgstr "ganti kata sandi"
 
 #: src/components/modals/PasswordChangeModal.tsx:227
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:124
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:127
 msgid "Change Password"
 msgstr "Ubah Kata Sandi"
 
@@ -4372,7 +4372,7 @@ msgstr "Form ubah kata sandi"
 msgid "Change what users without Read Message History can see"
 msgstr "Ubah apa yang dapat dilihat pengguna tanpa Riwayat Pesan"
 
-#: src/components/modals/EmailChangeModal.tsx:183
+#: src/components/modals/EmailChangeModal.tsx:186
 msgid "Change Your Email"
 msgstr "Ubah Email Anda"
 
@@ -4380,7 +4380,7 @@ msgstr "Ubah Email Anda"
 msgid "Change your email address"
 msgstr "Ubah alamat email Anda"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:159
+#: src/components/modals/FluxerTagChangeModal.tsx:162
 msgid "Change Your FluxerTag"
 msgstr "Ubah FluxerTag Anda"
 
@@ -4392,7 +4392,7 @@ msgstr "Ubah nama panggilan Anda di komunitas ini."
 msgid "Change your password"
 msgstr "Ubah kata sandi Anda"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:106
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:109
 msgid "Change your password to keep your account secure"
 msgstr "Ubah kata sandi Anda untuk menjaga keamanan akun"
 
@@ -4404,7 +4404,7 @@ msgstr "Ubah foto profil Anda"
 msgid "Change your username"
 msgstr "Ubah nama pengguna Anda"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:90
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:91
 msgid "Change your username and 4-digit tag"
 msgstr "Ubah nama pengguna dan tag 4 digit Anda"
 
@@ -4846,7 +4846,7 @@ msgstr "Klaim akun Anda untuk mengakses fitur keamanan seperti autentikasi dua f
 msgid "Claim your account to call"
 msgstr "Klaim akunmu untuk menelepon"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:56
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:57
 msgid "Claim your account to change your FluxerTag"
 msgstr "Klaim akun Anda untuk mengubah FluxerTag Anda"
 
@@ -5144,7 +5144,7 @@ msgstr "Rahasia klien dibuat ulang. Perbarui kode apa pun yang menggunakan rahas
 #: src/components/modals/components/SettingsModalHeader.tsx:98
 #: src/components/modals/InviteModal.tsx:135
 #: src/components/modals/MediaModal.tsx:349
-#: src/components/modals/MobileVideoViewer.tsx:252
+#: src/components/modals/MobileVideoViewer.tsx:260
 #: src/components/modals/Modal.tsx:382
 #: src/components/modals/Modal.tsx:460
 #: src/components/modals/PackInviteModal.tsx:152
@@ -5201,7 +5201,7 @@ msgstr "Tema Batu Bara"
 #: src/components/auth/MfaScreen.tsx:131
 #: src/components/invites/InviteListItem.tsx:56
 #: src/components/modals/MfaTotpDisableModal.tsx:63
-#: src/components/modals/MfaTotpEnableModal.tsx:91
+#: src/components/modals/MfaTotpEnableModal.tsx:94
 #: src/components/pages/report/ReportBreadcrumbs.tsx:48
 msgid "Code"
 msgstr "Kode"
@@ -5651,7 +5651,7 @@ msgid "Configure your profile badge"
 msgstr "Konfigurasi lencana profil Anda"
 
 #: src/components/channel/MentionEveryonePopout.tsx:134
-#: src/components/modals/EmailChangeModal.tsx:304
+#: src/components/modals/EmailChangeModal.tsx:307
 msgid "Confirm"
 msgstr "Konfirmasi"
 
@@ -5827,13 +5827,13 @@ msgstr "Menu konteks dapat dibuka dengan klik kiri (pada tombol) atau klik kanan
 
 #: src/components/channel/ChannelTextarea.tsx:311
 #: src/components/modals/AddConnectionModal.tsx:221
-#: src/components/modals/BackupCodesRegenerateModal.tsx:75
-#: src/components/modals/BackupCodesViewModal.tsx:73
+#: src/components/modals/BackupCodesRegenerateModal.tsx:82
+#: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:116
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:119
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 #: src/components/modals/MfaTotpDisableModal.tsx:78
-#: src/components/modals/MfaTotpEnableModal.tsx:106
+#: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
 msgid "Continue"
 msgstr "Lanjutkan"
@@ -6555,7 +6555,7 @@ msgstr "Perangkat Saat Ini"
 msgid "Current DM"
 msgstr "DM Saat Ini"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:113
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:116
 msgid "Current Password"
 msgstr "Kata Sandi Saat Ini"
 
@@ -6601,7 +6601,7 @@ msgstr "Override CSS Kustom"
 msgid "Custom Date Range"
 msgstr "Rentang Tanggal Kustom"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:227
+#: src/components/modals/FluxerTagChangeModal.tsx:230
 msgid "Custom discriminators are not available on this instance"
 msgstr "Discriminator kustom tidak tersedia di instance ini"
 
@@ -6727,11 +6727,12 @@ msgstr "Sesuaikan tombol mana yang muncul pada lampiran media dan sematan saat m
 msgid "Customize which buttons are visible in the message input area. Keyboard shortcuts will continue to work even if buttons are hidden."
 msgstr "Sesuaikan tombol mana yang terlihat di area input pesan. Pintasan keyboard akan tetap berfungsi meskipun tombol disembunyikan."
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:74
-msgid "Customize your 4-digit tag (#{discriminator}) to your liking with Plutonium"
-msgstr "Sesuaikan tag 4-digit (#{discriminator}) sesuai keinginan Anda dengan Plutonium"
+#. placeholder {0}: user.discriminator
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:75
+msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
+msgstr "Sesuaikan tag 4-digit Anda (#{0}) sesuai keinginan Anda dengan Plutonium"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:272
+#: src/components/modals/FluxerTagChangeModal.tsx:275
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Sesuaikan tag 4-digit Anda atau pertahankan saat mengubah nama pengguna"
 
@@ -7069,7 +7070,7 @@ msgstr "hapus"
 #: src/components/emojis/EmojiListItem.tsx:195
 #: src/components/emojis/EmojiListItem.tsx:252
 #: src/components/emojis/EmojiListItem.tsx:308
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:325
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
@@ -7530,7 +7531,7 @@ msgstr "nonaktifkan"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:240
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:426
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
 msgid "Disable"
 msgstr "Nonaktifkan"
 
@@ -7890,7 +7891,7 @@ msgstr "Apakah Anda juga ingin memblokir pesan langsung dari anggota komunitas A
 msgid "Do you want to send this pin back in time?"
 msgstr "Apakah Anda ingin mengirim pin ini kembali ke masa lalu?"
 
-#: src/components/channel/MessageActionUtils.tsx:410
+#: src/components/channel/MessageActionUtils.tsx:411
 msgid "Do you want to send this pin back to the future?"
 msgstr "Apakah Anda ingin mengirim pin ini kembali ke masa depan?"
 
@@ -8344,13 +8345,13 @@ msgid "Email"
 msgstr "Email"
 
 #: src/components/modals/tabs/account_security_tab/AccountTab.tsx:65
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:91
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:107
 #: src/components/pages/report/ReportStepEmail.tsx:76
 msgid "Email Address"
 msgstr "Alamat Email"
 
-#: src/components/modals/EmailChangeModal.tsx:165
+#: src/components/modals/EmailChangeModal.tsx:168
 msgid "Email changed"
 msgstr "Email diubah"
 
@@ -8426,11 +8427,11 @@ msgstr "embed"
 msgid "Embeds"
 msgstr "Embed"
 
-#: src/components/channel/MessageActionUtils.tsx:520
+#: src/components/channel/MessageActionUtils.tsx:526
 msgid "Embeds suppressed"
 msgstr "Semat ditekan"
 
-#: src/components/channel/MessageActionUtils.tsx:506
+#: src/components/channel/MessageActionUtils.tsx:512
 msgid "Embeds unsuppressed"
 msgstr "Semat tidak ditekan"
 
@@ -8530,9 +8531,9 @@ msgstr "status kosong"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/layout/GuildLayout.tsx:74
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:244
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:438
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:247
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:435
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:441
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:85
 msgid "Enable"
 msgstr "Aktifkan"
@@ -8658,7 +8659,7 @@ msgstr "Aktifkan Shift untuk Memperluas"
 msgid "Enable SMS 2FA"
 msgstr "Aktifkan 2FA SMS"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:415
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:418
 msgid "Enable SMS codes as a backup for your authenticator app"
 msgstr "Aktifkan kode SMS sebagai cadangan untuk aplikasi autentikator Anda"
 
@@ -8678,7 +8679,7 @@ msgstr "Aktifkan Autentikasi Dua Faktor"
 msgid "Enable two-factor authentication"
 msgstr "Aktifkan autentikasi dua faktor"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:70
+#: src/components/modals/MfaTotpEnableModal.tsx:73
 msgid "Enable two-factor authentication form"
 msgstr "Aktifkan formulir autentikasi dua faktor"
 
@@ -8782,7 +8783,7 @@ msgid "Enter the 6-digit code from your authenticator app or one of your backup 
 msgstr "Masukkan kode 6 digit dari aplikasi autentikator Anda atau salah satu kode cadangan Anda."
 
 #: src/components/modals/MfaTotpDisableModal.tsx:67
-#: src/components/modals/MfaTotpEnableModal.tsx:95
+#: src/components/modals/MfaTotpEnableModal.tsx:98
 msgid "Enter the 6-digit code from your authenticator app."
 msgstr "Masukkan kode 6 digit dari aplikasi autentikator Anda."
 
@@ -8804,7 +8805,7 @@ msgstr "Masukkan kode sebelum melanjutkan."
 msgid "Enter the code from your authenticator app."
 msgstr "Masukkan kode dari aplikasi autentikator Anda."
 
-#: src/components/modals/EmailChangeModal.tsx:213
+#: src/components/modals/EmailChangeModal.tsx:216
 msgid "Enter the code sent to your current email."
 msgstr "Masukkan kode yang dikirim ke email Anda saat ini."
 
@@ -8812,7 +8813,7 @@ msgstr "Masukkan kode yang dikirim ke email Anda saat ini."
 msgid "Enter the code sent to your email address."
 msgstr "Masukkan kode yang dikirim ke alamat email Anda."
 
-#: src/components/modals/EmailChangeModal.tsx:281
+#: src/components/modals/EmailChangeModal.tsx:284
 msgid "Enter the code we emailed to your new address."
 msgstr "Masukkan kode yang kami kirim via email ke alamat baru Anda."
 
@@ -8824,7 +8825,7 @@ msgstr "Masukkan kode yang kami kirim ke email Anda untuk memverifikasinya. Kata
 msgid "Enter the invite link to join a community."
 msgstr "Masukkan tautan undangan untuk bergabung dengan komunitas."
 
-#: src/components/modals/EmailChangeModal.tsx:247
+#: src/components/modals/EmailChangeModal.tsx:250
 msgid "Enter the new email you want to use. We'll send a code there next."
 msgstr "Masukkan email baru yang ingin Anda gunakan. Kami akan mengirim kode ke sana selanjutnya."
 
@@ -9963,16 +9964,16 @@ msgstr "Staf Fluxer"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer menggunakan notifikasi push saat diinstal sebagai PWA seluler. Pendaftaran memastikan gateway dapat menjangkau perangkat Anda bahkan saat browser di latar belakang."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:176
+#: src/components/modals/FluxerTagChangeModal.tsx:179
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:102
+#: src/components/modals/FluxerTagChangeModal.tsx:105
 msgid "FluxerTag already taken"
 msgstr "FluxerTag sudah digunakan"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:144
+#: src/components/modals/FluxerTagChangeModal.tsx:147
 msgid "FluxerTag updated"
 msgstr "FluxerTag diperbarui"
 
@@ -10208,7 +10209,7 @@ msgstr "Teruskan"
 msgid "Forward {DEFAULT_SEEK_AMOUNT} seconds"
 msgstr "Teruskan {DEFAULT_SEEK_AMOUNT} detik"
 
-#: src/components/modals/ForwardModal.tsx:198
+#: src/components/modals/ForwardModal.tsx:203
 #: src/stores/KeybindStore.tsx:361
 msgid "Forward Message"
 msgstr "Teruskan Pesan"
@@ -10490,7 +10491,7 @@ msgstr "Dapatkan pemberitahuan saat Anda menerima pesan. Anda mungkin perlu meng
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:221
+#: src/components/modals/FluxerTagChangeModal.tsx:224
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10503,11 +10504,11 @@ msgstr "Dapatkan Plutonium"
 msgid "Get Plutonium for yourself and unlock higher limits and exclusive features."
 msgstr "Dapatkan Plutonium untuk diri sendiri dan buka kunci batas yang lebih tinggi dan fitur eksklusif."
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:81
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:82
 msgid "Get Plutonium to customize your tag"
 msgstr "Dapatkan Plutonium untuk menyesuaikan tag Anda"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:199
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "Dapatkan Plutonium untuk menyesuaikan tag Anda atau menyimpannya saat mengubah nama pengguna"
 
@@ -11883,8 +11884,8 @@ msgstr "Kode Hadiah Tidak Valid"
 msgid "Invalid instance URL. Try something like \"example.com\" or \"https://example.com\"."
 msgstr "URL instance tidak valid. Coba sesuatu seperti \"example.com\" atau \"https://example.com\"."
 
-#: src/components/modals/EmailChangeModal.tsx:107
-#: src/components/modals/EmailChangeModal.tsx:168
+#: src/components/modals/EmailChangeModal.tsx:110
+#: src/components/modals/EmailChangeModal.tsx:171
 #: src/components/modals/PasswordChangeModal.tsx:90
 msgid "Invalid or expired code"
 msgstr "Kode tidak valid atau kedaluwarsa"
@@ -12569,11 +12570,11 @@ msgid "Last active {0}"
 msgstr "Terakhir aktif {0}"
 
 #. placeholder {0}: DateUtils.getRelativeDateString(user.passwordLastChangedAt, i18n)
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:117
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:120
 msgid "Last changed: {0}"
 msgstr "Terakhir diubah: {0}"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:119
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:122
 msgid "Last changed: Never"
 msgstr "Terakhir diubah: Tidak pernah"
 
@@ -13221,7 +13222,7 @@ msgstr "Kelola email, kata sandi, dan pengaturan akun Anda"
 msgid "Manage your gifts"
 msgstr "Kelola hadiah Anda"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:337
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:340
 msgid "Manage your phone number for SMS two-factor authentication"
 msgstr "Kelola nomor telepon Anda untuk autentikasi dua faktor SMS"
 
@@ -13346,12 +13347,12 @@ msgstr "Menandai anggota sebagai sementara."
 msgid "Markers Below Slider"
 msgstr "Penanda di Bawah Penggeser"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:188
+#: src/components/modals/FluxerTagChangeModal.tsx:191
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
 #: src/components/modals/ClaimAccountModal.tsx:157
-#: src/components/modals/EmailChangeModal.tsx:258
+#: src/components/modals/EmailChangeModal.tsx:261
 msgid "marty@example.com"
 msgstr "marty@example.com"
 
@@ -13750,7 +13751,7 @@ msgstr "Mode tampilan pesan"
 msgid "Message display settings are only available on desktop."
 msgstr "Pengaturan tampilan pesan hanya tersedia di desktop."
 
-#: src/components/modals/ForwardModal.tsx:148
+#: src/components/modals/ForwardModal.tsx:153
 msgid "Message forwarded"
 msgstr "Pesan diteruskan"
 
@@ -13776,7 +13777,7 @@ msgstr "Ambang batas riwayat pesan diperbarui"
 msgid "Message Input Buttons"
 msgstr "Tombol Input Pesan"
 
-#: src/components/modals/ForwardModal.tsx:84
+#: src/components/modals/ForwardModal.tsx:89
 #: src/components/uikit/character_counter/CharacterCounter.tsx:52
 msgid "Message is too long"
 msgstr "Pesan terlalu panjang"
@@ -14077,7 +14078,7 @@ msgstr "Slot emoji lebih banyak"
 #: src/components/channel/embeds/attachments/TextualAttachmentPreviewFooter.tsx:66
 #: src/components/modals/guild_tabs/UserListItem.tsx:113
 #: src/components/modals/MediaModal.tsx:353
-#: src/components/modals/MobileVideoViewer.tsx:260
+#: src/components/modals/MobileVideoViewer.tsx:268
 msgid "More options"
 msgstr "Opsi lainnya"
 
@@ -14209,7 +14210,7 @@ msgstr "bisukan"
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:319
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:506
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:92
@@ -14576,12 +14577,12 @@ msgstr "Komunitas baru yang kamu bergabung akan secara otomatis menyembunyikan s
 msgid "New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?"
 msgstr "Komunitas baru yang kamu bergabung tidak akan lagi secara otomatis menyembunyikan saluran yang dibisukan. Apakah kamu juga ingin menampilkan saluran yang dibisukan di semua komunitas yang sudah ada?"
 
-#: src/components/modals/EmailChangeModal.tsx:255
+#: src/components/modals/EmailChangeModal.tsx:258
 #: src/components/modals/RequiredActionModal.tsx:471
 msgid "New Email"
 msgstr "Email Baru"
 
-#: src/components/modals/EmailChangeModal.tsx:243
+#: src/components/modals/EmailChangeModal.tsx:246
 msgid "New email form"
 msgstr "Formulir email baru"
 
@@ -14736,7 +14737,7 @@ msgid "No cameras detected"
 msgstr "Tidak ada kamera yang terdeteksi"
 
 #: src/components/invites/InviteListItem.tsx:179
-#: src/components/modals/ForwardModal.tsx:246
+#: src/components/modals/ForwardModal.tsx:251
 #: src/components/modals/GuildNotificationSettingsModal.tsx:258
 msgid "No Category"
 msgstr "Tidak Ada Kategori"
@@ -14749,7 +14750,7 @@ msgstr "Tidak ada perubahan untuk disimpan"
 msgid "No channels available"
 msgstr "Tidak ada kanal tersedia"
 
-#: src/components/modals/ForwardModal.tsx:216
+#: src/components/modals/ForwardModal.tsx:221
 msgid "No channels found"
 msgstr "Tidak ada kanal ditemukan"
 
@@ -14773,7 +14774,7 @@ msgstr "Belum ada koneksi"
 msgid "No description provided."
 msgstr "Tidak ada deskripsi yang diberikan."
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:97
 msgid "No email address set"
 msgstr "Tidak ada alamat email yang diatur"
 
@@ -14883,11 +14884,11 @@ msgstr "Tidak ada teman bersama ditemukan."
 msgid "No mutual groups found."
 msgstr "Tidak ada grup bersama ditemukan."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:283
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
 msgid "No passkeys registered"
 msgstr "Tidak ada kunci akses yang terdaftar"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:137
 msgid "No password set"
 msgstr "Tidak ada kata sandi diatur"
 
@@ -15929,7 +15930,7 @@ msgstr "Komunitas Mitra"
 msgid "Passkey Name"
 msgstr "Nama Kunci Akses"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:273
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:276
 msgid "Passkeys"
 msgstr "Kunci Akses"
 
@@ -15953,8 +15954,8 @@ msgstr "kata sandi"
 #: src/components/modals/ClaimAccountModal.tsx:207
 #: src/components/modals/SudoVerificationModal.tsx:174
 #: src/components/modals/SudoVerificationModal.tsx:239
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:105
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:131
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:108
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:114
 #: src/components/modals/utils/SettingsSearchIndex.tsx:107
 msgid "Password"
@@ -16010,7 +16011,7 @@ msgstr "Tempel di tempat asal Anda untuk menyelesaikan masuk."
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 msgid "Pause"
 msgstr "Jeda"
 
@@ -16147,8 +16148,8 @@ msgstr "Telepon"
 
 #: src/components/modals/PhoneAddModal.tsx:192
 #: src/components/modals/RequiredActionModal.tsx:616
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:336
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:342
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:339
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:345
 #: src/components/modals/utils/SettingsSearchIndex.tsx:115
 msgid "Phone Number"
 msgstr "Nomor Telepon"
@@ -16158,7 +16159,7 @@ msgid "Phone number added"
 msgstr "Nomor telepon ditambahkan"
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:346
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:349
 msgid "Phone number added: {0}"
 msgstr "Nomor telepon ditambahkan: {0}"
 
@@ -16225,11 +16226,11 @@ msgstr "Sematkan DM"
 msgid "Pin Group DM"
 msgstr "Sematkan Grup DM"
 
-#: src/components/channel/MessageActionUtils.tsx:429
+#: src/components/channel/MessageActionUtils.tsx:430
 msgid "Pin it real good"
 msgstr "Sematkan dengan sangat baik"
 
-#: src/components/channel/MessageActionUtils.tsx:426
+#: src/components/channel/MessageActionUtils.tsx:427
 msgid "Pin it. Pin it good."
 msgstr "Sematkan. Sematkan dengan baik."
 
@@ -16250,7 +16251,7 @@ msgstr "Sematkan Pesan-pesan"
 msgid "Pin or unpin the focused message"
 msgstr "Sematkan atau lepaskan sematan pesan yang difokuskan"
 
-#: src/components/channel/MessageActionUtils.tsx:427
+#: src/components/channel/MessageActionUtils.tsx:428
 msgid "Pin this message to the channel for all to see. Unless ... you're chicken."
 msgstr "Sematkan pesan ini ke kanal agar semua bisa melihat. Kecuali ... kamu pengecut."
 
@@ -16323,7 +16324,7 @@ msgstr "Admin Platform"
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:215
 msgid "Play"
 msgstr "Putar"
@@ -17075,7 +17076,7 @@ msgstr "Terima"
 msgid "Receive notifications when someone mentions you"
 msgstr "Terima notifikasi saat seseorang menyebut Anda"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:404
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:407
 msgid "Receive verification codes via SMS as a backup authentication method"
 msgstr "Terima kode verifikasi via SMS sebagai metode autentikasi cadangan"
 
@@ -17202,7 +17203,7 @@ msgstr "Segarkan langganan push"
 msgid "Regenerate"
 msgstr "Buat ulang"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:61
+#: src/components/modals/BackupCodesRegenerateModal.tsx:68
 msgid "Regenerate Backup Codes"
 msgstr "Regenerasi Kode Cadangan"
 
@@ -17232,7 +17233,7 @@ msgstr "Membuat ulang akan membatalkan token saat ini. Perbarui kode apa pun yan
 msgid "Register"
 msgstr "Daftar"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:279
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:282
 msgid "Registered Passkeys"
 msgstr "Kunci Lolos Terdaftar"
 
@@ -17302,7 +17303,7 @@ msgstr "hapus"
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildEmbedSplashUploadField.tsx:101
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildIconUploadField.tsx:107
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildInviteSplashUploadField.tsx:113
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:391
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:394
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:96
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:226
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:191
@@ -17476,11 +17477,11 @@ msgstr "Hapus Penggantian"
 msgid "Remove Pack"
 msgstr "Hapus Paket"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:377
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:380
 msgid "Remove Phone"
 msgstr "Hapus Telepon"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:360
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:363
 msgid "Remove Phone Number"
 msgstr "Hapus Nomor Telepon"
 
@@ -17635,7 +17636,7 @@ msgstr "Menghapus paket akan mencopotnya dari akun Anda."
 msgid "Removing the timeout will allow <0>{0}</0> to send messages, react, and join voice channels again."
 msgstr "Menghapus timeout akan memungkinkan <0>{0}</0> untuk mengirim pesan, bereaksi, dan bergabung dengan kanal suara lagi."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:319
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 msgid "Rename"
 msgstr "Ubah Nama"
 
@@ -17875,17 +17876,17 @@ msgid "Reschedule Message"
 msgstr "Jadwal Ulang Pesan"
 
 #: src/components/modals/ClaimAccountModal.tsx:222
-#: src/components/modals/EmailChangeModal.tsx:233
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:304
 #: src/components/modals/PasswordChangeModal.tsx:179
 msgid "Resend"
 msgstr "Kirim Ulang"
 
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:304
 msgid "Resend ({newSecondsRemaining}s)"
 msgstr "Kirim Ulang ({newSecondsRemaining}s)"
 
-#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:236
 msgid "Resend ({originalSecondsRemaining}s)"
 msgstr "Kirim Ulang ({originalSecondsRemaining}s)"
 
@@ -18429,7 +18430,7 @@ msgstr "menyimpan"
 msgid "scale"
 msgstr "skala"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:78
+#: src/components/modals/MfaTotpEnableModal.tsx:81
 msgid "Scan the QR code with your authenticator app to generate codes for two-factor authentication."
 msgstr "Pindai kode QR dengan aplikasi autentikator Anda untuk membuat kode untuk autentikasi dua faktor."
 
@@ -18566,7 +18567,7 @@ msgstr "Cari berdasarkan nama pengguna atau ID"
 msgid "Search channels"
 msgstr "Cari kanal"
 
-#: src/components/modals/ForwardModal.tsx:204
+#: src/components/modals/ForwardModal.tsx:209
 msgid "Search channels or DMs"
 msgstr "Cari kanal atau DM"
 
@@ -18967,7 +18968,7 @@ msgid "Send"
 msgstr "Kirim"
 
 #. placeholder {0}: selectedChannelIds.size
-#: src/components/modals/ForwardModal.tsx:380
+#: src/components/modals/ForwardModal.tsx:385
 msgid "Send ({0}/5)"
 msgstr "Kirim ({0}/5)"
 
@@ -19004,7 +19005,7 @@ msgid "Send an SMS code first."
 msgstr "Kirim kode SMS terlebih dahulu."
 
 #: src/components/modals/ClaimAccountModal.tsx:180
-#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:273
 #: src/components/modals/PhoneAddModal.tsx:208
 msgid "Send code"
 msgstr "Kirim kode"
@@ -19199,7 +19200,7 @@ msgstr "Atur nama panggilan ke {0}."
 msgid "Set NSFW level to {0}."
 msgstr "Atur level NSFW ke {0}."
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:138
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:141
 msgid "Set Password"
 msgstr "Atur Kata Sandi"
 
@@ -19361,7 +19362,7 @@ msgstr "Bagian pengaturan"
 msgid "Settings!"
 msgstr "Pengaturan!"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:71
+#: src/components/modals/MfaTotpEnableModal.tsx:74
 msgid "Setup Authenticator App"
 msgstr "Siapkan Aplikasi Authenticator"
 
@@ -19989,11 +19990,11 @@ msgstr "Ukuran media lebih kecil"
 msgid "sms"
 msgstr "sms"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:409
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:412
 msgid "SMS Backup"
 msgstr "Cadangan SMS"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
 msgid "SMS backup is disabled for partners"
 msgstr "Cadangan SMS dinonaktifkan untuk mitra"
 
@@ -20006,7 +20007,7 @@ msgstr "Kode SMS"
 msgid "SMS Code"
 msgstr "Kode SMS"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:403
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:406
 msgid "SMS Two-Factor Authentication"
 msgstr "Autentikasi Dua Faktor SMS"
 
@@ -20014,7 +20015,7 @@ msgstr "Autentikasi Dua Faktor SMS"
 msgid "SMS two-factor authentication adds an additional layer of security to your account by requiring a verification code sent to your phone number when signing in."
 msgstr "Autentikasi dua faktor SMS menambahkan lapisan keamanan tambahan ke akun Anda dengan memerlukan kode verifikasi yang dikirim ke nomor telepon Anda saat masuk."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:413
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:416
 msgid "SMS two-factor authentication is enabled"
 msgstr "Autentikasi dua faktor SMS diaktifkan"
 
@@ -20338,7 +20339,7 @@ msgstr "Bintang"
 msgid "starred"
 msgstr "ditandai"
 
-#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:205
 #: src/components/modals/PasswordChangeModal.tsx:148
 msgid "Start"
 msgstr "Mulai"
@@ -21152,7 +21153,7 @@ msgstr "File ini berisi token verifikasi yang akan kami ambil dari <0>{dnsUrl}</
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "File yang Anda coba unggah melebihi batas ukuran maksimum {maxSizeFormatted}."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:106
+#: src/components/modals/FluxerTagChangeModal.tsx:109
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "FluxerTag <0>{fluxerTag}</0> sudah digunakan. Melanjutkan akan menggulir ulang diskriminator Anda secara otomatis."
 
@@ -21717,7 +21718,7 @@ msgstr "Ini akan menciptakan celah dalam kontinum ruang-waktu dan tidak dapat di
 msgid "This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from <0>User Settings → Look & Feel → Favorites</0>."
 msgstr "Ini akan menyembunyikan semua elemen UI terkait favorit termasuk tombol dan item menu. Favorit Anda yang ada akan disimpan dan dapat diaktifkan kembali kapan saja dari <0>Pengaturan Pengguna → Tampilan & Rasa → Favorit</0>."
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:65
+#: src/components/modals/BackupCodesRegenerateModal.tsx:72
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "Ini akan membatalkan kode cadangan Anda yang ada dan menghasilkan yang baru."
 
@@ -21911,7 +21912,7 @@ msgstr "Alihkan Daftar Anggota Kanal"
 msgid "Toggle Compact Mode"
 msgstr "Alihkan Mode Ringkas"
 
-#: src/components/modals/MobileVideoViewer.tsx:239
+#: src/components/modals/MobileVideoViewer.tsx:247
 msgid "Toggle controls"
 msgstr "Alihkan kontrol"
 
@@ -22307,7 +22308,7 @@ msgstr "Autentikasi Dua Faktor"
 msgid "Two-factor authentication disabled"
 msgstr "Autentikasi dua faktor dinonaktifkan"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:55
+#: src/components/modals/MfaTotpEnableModal.tsx:58
 msgid "Two-factor authentication enabled"
 msgstr "Autentikasi dua faktor diaktifkan"
 
@@ -22436,13 +22437,13 @@ msgstr "Tidak dapat memuat spanduk profil, lencana, dan bio."
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "Tidak dapat menyiapkan emoji untuk diunggah. Kesalahan berikut terjadi:"
 
-#: src/components/modals/EmailChangeModal.tsx:121
-#: src/components/modals/EmailChangeModal.tsx:151
+#: src/components/modals/EmailChangeModal.tsx:124
+#: src/components/modals/EmailChangeModal.tsx:154
 #: src/components/modals/PasswordChangeModal.tsx:104
 msgid "Unable to resend code right now"
 msgstr "Tidak dapat mengirim ulang kode saat ini"
 
-#: src/components/modals/EmailChangeModal.tsx:136
+#: src/components/modals/EmailChangeModal.tsx:139
 msgid "Unable to send code to new email"
 msgstr "Tidak dapat mengirim kode ke email baru"
 
@@ -22455,7 +22456,7 @@ msgstr "Tidak dapat mengirim pesan suara. Silakan coba lagi."
 msgid "Unable to Start Call"
 msgstr "Tidak Dapat Memulai Panggilan"
 
-#: src/components/modals/EmailChangeModal.tsx:91
+#: src/components/modals/EmailChangeModal.tsx:94
 msgid "Unable to start email change"
 msgstr "Tidak dapat memulai perubahan email"
 
@@ -22781,7 +22782,7 @@ msgstr "Buka stiker di DM dengan Plutonium"
 #: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/voice/VoiceControlBar.tsx:602
 msgid "Unmute"
 msgstr "Hidupkan suara"
@@ -22872,7 +22873,7 @@ msgstr "Lepas sematan DM"
 msgid "Unpin Group DM"
 msgstr "Lepas sematan Grup DM"
 
-#: src/components/channel/MessageActionUtils.tsx:412
+#: src/components/channel/MessageActionUtils.tsx:413
 #: src/components/shared/ChannelPinsContent.tsx:102
 msgid "Unpin it"
 msgstr "Lepas sematannya"
@@ -22880,7 +22881,7 @@ msgstr "Lepas sematannya"
 #: src/components/channel/MessageActionBar.tsx:519
 #: src/components/channel/MessageActionBar.tsx:735
 #: src/components/channel/MessageActionMenu.tsx:243
-#: src/components/channel/MessageActionUtils.tsx:409
+#: src/components/channel/MessageActionUtils.tsx:410
 #: src/components/shared/ChannelPinsContent.tsx:99
 #: src/components/shared/ChannelPinsContent.tsx:260
 #: src/components/uikit/context_menu/items/MessageMenuItems.tsx:163
@@ -23322,7 +23323,7 @@ msgstr "Gunakan Profil Global"
 msgid "Use light theme"
 msgstr "Gunakan tema terang"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:274
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:277
 msgid "Use passkeys for passwordless sign-in and two-factor authentication"
 msgstr "Gunakan kunci akses untuk masuk tanpa kata sandi dan autentikasi dua faktor"
 
@@ -23475,9 +23476,9 @@ msgstr "pengguna, bot, atau webhook"
 msgid "username"
 msgstr "nama pengguna"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:187
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:51
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
 msgid "Username"
 msgstr "Nama Pengguna"
@@ -23510,11 +23511,11 @@ msgstr "Nama pengguna maksimal 32 karakter"
 msgid "Username#0000"
 msgstr "NamaPengguna#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:169
+#: src/components/modals/FluxerTagChangeModal.tsx:172
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "Nama pengguna hanya boleh berisi huruf (a-z, A-Z), angka (0-9), dan garis bawah. Nama pengguna tidak peka huruf besar/kecil."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:164
+#: src/components/modals/FluxerTagChangeModal.tsx:167
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
 msgstr "Nama pengguna hanya boleh berisi huruf (a-z, A-Z), angka (0-9), dan garis bawah. Nama pengguna tidak peka huruf besar/kecil. Anda dapat memilih tag 4 digit sendiri jika tersedia."
 
@@ -23634,8 +23635,8 @@ msgid "Verification Barriers"
 msgstr "Penghalang Verifikasi"
 
 #: src/components/modals/ClaimAccountModal.tsx:198
-#: src/components/modals/EmailChangeModal.tsx:220
-#: src/components/modals/EmailChangeModal.tsx:288
+#: src/components/modals/EmailChangeModal.tsx:223
+#: src/components/modals/EmailChangeModal.tsx:291
 #: src/components/modals/PasswordChangeModal.tsx:166
 #: src/components/modals/PhoneAddModal.tsx:226
 #: src/components/modals/RequiredActionModal.tsx:495
@@ -23662,7 +23663,7 @@ msgstr "Email verifikasi terkirim! Silakan periksa kotak masuk Anda."
 msgid "Verification failed"
 msgstr "Verifikasi gagal"
 
-#: src/components/modals/BackupCodesViewModal.tsx:63
+#: src/components/modals/BackupCodesViewModal.tsx:68
 msgid "Verification may be required before viewing your backup codes."
 msgstr "Verifikasi mungkin diperlukan sebelum melihat kode cadangan Anda."
 
@@ -23684,7 +23685,7 @@ msgid "verify"
 msgstr "verifikasi"
 
 #: src/components/modals/AddConnectionModal.tsx:315
-#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:239
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
 #: src/components/modals/RequiredActionModal.tsx:652
@@ -23785,7 +23786,7 @@ msgstr "prabaca video"
 msgid "Video preview"
 msgstr "Pratinjau video"
 
-#: src/components/modals/MobileVideoViewer.tsx:311
+#: src/components/modals/MobileVideoViewer.tsx:319
 msgid "Video progress"
 msgstr "Kemajuan video"
 
@@ -23859,15 +23860,15 @@ msgstr "Lihat dan kelola pengguna yang diblokir."
 msgid "View and manage every webhook configured across your community."
 msgstr "Lihat dan kelola setiap webhook yang dikonfigurasi di seluruh komunitas Anda."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:260
 msgid "View and manage your backup codes for account recovery"
 msgstr "Lihat dan kelola kode cadangan Anda untuk pemulihan akun"
 
-#: src/components/modals/BackupCodesViewModal.tsx:59
+#: src/components/modals/BackupCodesViewModal.tsx:64
 msgid "View Backup Codes"
 msgstr "Lihat Kode Cadangan"
 
-#: src/components/modals/BackupCodesViewModal.tsx:58
+#: src/components/modals/BackupCodesViewModal.tsx:63
 msgid "View backup codes form"
 msgstr "Lihat formulir kode cadangan"
 
@@ -23884,7 +23885,7 @@ msgstr "Lihat kontrol panggilan"
 msgid "View Channel"
 msgstr "Lihat Kanal"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:265
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:268
 msgid "View Codes"
 msgstr "Lihat Kode"
 
@@ -24387,11 +24388,11 @@ msgstr "Kami akan mengirimkan kode verifikasi ke alamat email ini."
 msgid "We'll send a verification code to your email before you can change your password."
 msgstr "Kami akan mengirimkan kode verifikasi ke email Anda sebelum Anda dapat mengubah kata sandi Anda."
 
-#: src/components/modals/EmailChangeModal.tsx:190
+#: src/components/modals/EmailChangeModal.tsx:193
 msgid "We'll verify your current email and then your new email with one-time codes."
 msgstr "Kami akan memverifikasi email saat ini Anda dan kemudian email baru Anda dengan kode satu kali."
 
-#: src/components/modals/EmailChangeModal.tsx:192
+#: src/components/modals/EmailChangeModal.tsx:195
 msgid "We'll verify your new email with a one-time code."
 msgstr "Kami akan memverifikasi email baru Anda dengan kode satu kali."
 

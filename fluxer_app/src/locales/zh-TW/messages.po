@@ -134,12 +134,12 @@ msgid "{0} of {totalAttachments}"
 msgstr "{0} / {totalAttachments}"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:285
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:288
 msgid "{0} passkey registered (max 10)"
 msgstr "{0} 個通行碼已註冊（最多 10 個）"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:289
 msgid "{0} passkeys registered (max 10)"
 msgstr "{0} 個通行碼已註冊（最多 10 個）"
 
@@ -1088,7 +1088,7 @@ msgstr "<0>解除禁聽</0> 該成員。"
 msgid "<0>Unmuted</0> the member."
 msgstr "<0>解除靜音</0> 該成員。"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:370
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:373
 msgid "<0>Warning:</0> This will also disable SMS two-factor authentication."
 msgstr "<0>警告：</0> 此操作也會停用簡訊雙重驗證。"
 
@@ -1362,9 +1362,9 @@ msgstr "30 秒"
 msgid "4 hours"
 msgstr "4 小時"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:203
-#: src/components/modals/FluxerTagChangeModal.tsx:231
-#: src/components/modals/FluxerTagChangeModal.tsx:248
+#: src/components/modals/FluxerTagChangeModal.tsx:206
+#: src/components/modals/FluxerTagChangeModal.tsx:234
+#: src/components/modals/FluxerTagChangeModal.tsx:251
 msgid "4-digit tag"
 msgstr "4 位數標籤"
 
@@ -1763,7 +1763,7 @@ msgstr "新增"
 msgid "Add a bot to a community with requested permissions"
 msgstr "將機器人以要求的權限新增至社群"
 
-#: src/components/modals/ForwardModal.tsx:309
+#: src/components/modals/ForwardModal.tsx:314
 msgid "Add a comment (optional)"
 msgstr "新增留言（選填）"
 
@@ -1782,7 +1782,7 @@ msgstr "新增自訂背景"
 msgid "Add a different account"
 msgstr "新增其他帳戶"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:348
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:351
 msgid "Add a phone number to enable SMS two-factor authentication"
 msgstr "新增電話號碼以啟用簡訊雙因素驗證"
 
@@ -1844,7 +1844,7 @@ msgstr "新增連接表單"
 msgid "Add domain connection"
 msgstr "添加域名連接"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:98
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:101
 msgid "Add Email"
 msgstr "新增電子郵件"
 
@@ -1902,12 +1902,12 @@ msgstr "新增或變更您的電話號碼"
 msgid "Add Override"
 msgstr "新增覆寫"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:290
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:293
 msgid "Add Passkey"
 msgstr "新增通行金鑰"
 
 #: src/components/channel/barriers/BarrierComponents.tsx:198
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:395
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:398
 msgid "Add Phone"
 msgstr "新增電話"
 
@@ -2028,11 +2028,11 @@ msgstr "已加入最愛"
 msgid "Added to saved media"
 msgstr "已加入已保存媒體"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:313
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:316
 msgid "Added: {createdDate}"
 msgstr "新增於：{createdDate}"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:309
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:312
 msgid "Added: {createdDate} • Last used: {lastUsedDate}"
 msgstr "新增於：{createdDate} • 最後使用：{lastUsedDate}"
 
@@ -2930,7 +2930,7 @@ msgid "Are you sure you want to remove this connection? This action cannot be un
 msgstr "您確定要刪除此連接嗎？此操作無法撤銷。"
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:364
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:367
 msgid "Are you sure you want to remove your phone number <0>{0}</0>?"
 msgstr "確定要移除你的電話號碼 <0>{0}</0> 嗎？"
 
@@ -3438,12 +3438,12 @@ msgid "backup codes"
 msgstr "備份代碼"
 
 #: src/components/modals/BackupCodesModal.tsx:43
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:254
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
 #: src/components/modals/utils/SettingsSearchIndex.tsx:140
 msgid "Backup Codes"
 msgstr "備用代碼"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:48
+#: src/components/modals/BackupCodesRegenerateModal.tsx:55
 msgid "Backup codes regenerated"
 msgstr "備用代碼已重新生成"
 
@@ -4069,8 +4069,8 @@ msgstr "當參與者超過 {VOICE_CHANNEL_CAMERA_USER_LIMIT} 人時，攝影機�
 #: src/components/modals/AddGuildModal.tsx:413
 #: src/components/modals/AddGuildStickerModal.tsx:120
 #: src/components/modals/AttachmentEditModal.tsx:122
-#: src/components/modals/BackupCodesRegenerateModal.tsx:72
-#: src/components/modals/BackupCodesViewModal.tsx:70
+#: src/components/modals/BackupCodesRegenerateModal.tsx:79
+#: src/components/modals/BackupCodesViewModal.tsx:75
 #: src/components/modals/BanMemberModal.tsx:143
 #: src/components/modals/CameraPreviewModal.tsx:485
 #: src/components/modals/CaptchaModal.tsx:187
@@ -4094,14 +4094,14 @@ msgstr "當參與者超過 {VOICE_CHANNEL_CAMERA_USER_LIMIT} 人時，攝影機�
 #: src/components/modals/EditFavoriteMemeModal.tsx:85
 #: src/components/modals/EditGuildStickerModal.tsx:113
 #: src/components/modals/EditPackModal.tsx:103
-#: src/components/modals/EmailChangeModal.tsx:199
-#: src/components/modals/EmailChangeModal.tsx:230
-#: src/components/modals/EmailChangeModal.tsx:267
-#: src/components/modals/EmailChangeModal.tsx:298
+#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:117
-#: src/components/modals/FluxerTagChangeModal.tsx:280
-#: src/components/modals/ForwardModal.tsx:373
+#: src/components/modals/FluxerTagChangeModal.tsx:120
+#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
 #: src/components/modals/GuildFolderSettingsModal.tsx:199
@@ -4113,7 +4113,7 @@ msgstr "當參與者超過 {VOICE_CHANNEL_CAMERA_USER_LIMIT} 人時，攝影機�
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
-#: src/components/modals/MfaTotpEnableModal.tsx:103
+#: src/components/modals/MfaTotpEnableModal.tsx:106
 #: src/components/modals/PasskeyNameModal.tsx:62
 #: src/components/modals/PasswordChangeModal.tsx:145
 #: src/components/modals/PasswordChangeModal.tsx:176
@@ -4146,7 +4146,7 @@ msgstr "取消"
 msgid "Cancel Friend Request"
 msgstr "取消好友邀請"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:112
+#: src/components/modals/FluxerTagChangeModal.tsx:115
 msgid "Cancel if you want to choose a different username instead."
 msgstr "如果想選擇其他使用者名稱，請取消。"
 
@@ -4279,7 +4279,7 @@ msgstr "更換橫幅"
 msgid "Change email"
 msgstr "更改電子郵件"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:81
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:84
 msgid "Change Email"
 msgstr "更換電子郵件"
 
@@ -4288,12 +4288,12 @@ msgstr "更換電子郵件"
 msgid "Change emoji"
 msgstr "更換表情符號"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:59
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:69
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:60
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:70
 msgid "Change FluxerTag"
 msgstr "更換 FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:158
+#: src/components/modals/FluxerTagChangeModal.tsx:161
 msgid "Change FluxerTag form"
 msgstr "更換 FluxerTag 表單"
 
@@ -4360,7 +4360,7 @@ msgid "change password"
 msgstr "更改密碼"
 
 #: src/components/modals/PasswordChangeModal.tsx:227
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:124
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:127
 msgid "Change Password"
 msgstr "更改密碼"
 
@@ -4372,7 +4372,7 @@ msgstr "更改密碼表單"
 msgid "Change what users without Read Message History can see"
 msgstr "更改沒有閱讀消息歷史權限的用戶可以看到的內容"
 
-#: src/components/modals/EmailChangeModal.tsx:183
+#: src/components/modals/EmailChangeModal.tsx:186
 msgid "Change Your Email"
 msgstr "更改您的電子郵件"
 
@@ -4380,7 +4380,7 @@ msgstr "更改您的電子郵件"
 msgid "Change your email address"
 msgstr "變更您的電子郵件地址"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:159
+#: src/components/modals/FluxerTagChangeModal.tsx:162
 msgid "Change Your FluxerTag"
 msgstr "更改您的 FluxerTag"
 
@@ -4392,7 +4392,7 @@ msgstr "在此社群中更改你的暱稱。"
 msgid "Change your password"
 msgstr "變更您的密碼"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:106
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:109
 msgid "Change your password to keep your account secure"
 msgstr "更改密碼以保持帳號安全"
 
@@ -4404,7 +4404,7 @@ msgstr "變更您的個人資料圖片"
 msgid "Change your username"
 msgstr "變更您的使用者名稱"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:90
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:91
 msgid "Change your username and 4-digit tag"
 msgstr "更改你的使用者名稱與四位數標籤"
 
@@ -4846,7 +4846,7 @@ msgstr "認領帳戶後即可使用雙因素驗證與通行碼等安全功能。
 msgid "Claim your account to call"
 msgstr "認領您的帳號以進行通話"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:56
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:57
 msgid "Claim your account to change your FluxerTag"
 msgstr "認領帳戶以變更您的 FluxerTag"
 
@@ -5144,7 +5144,7 @@ msgstr "用戶端密鑰已重新產生。請更新所有使用舊密鑰的程式
 #: src/components/modals/components/SettingsModalHeader.tsx:98
 #: src/components/modals/InviteModal.tsx:135
 #: src/components/modals/MediaModal.tsx:349
-#: src/components/modals/MobileVideoViewer.tsx:252
+#: src/components/modals/MobileVideoViewer.tsx:260
 #: src/components/modals/Modal.tsx:382
 #: src/components/modals/Modal.tsx:460
 #: src/components/modals/PackInviteModal.tsx:152
@@ -5201,7 +5201,7 @@ msgstr "煤炭主題"
 #: src/components/auth/MfaScreen.tsx:131
 #: src/components/invites/InviteListItem.tsx:56
 #: src/components/modals/MfaTotpDisableModal.tsx:63
-#: src/components/modals/MfaTotpEnableModal.tsx:91
+#: src/components/modals/MfaTotpEnableModal.tsx:94
 #: src/components/pages/report/ReportBreadcrumbs.tsx:48
 msgid "Code"
 msgstr "程式碼"
@@ -5651,7 +5651,7 @@ msgid "Configure your profile badge"
 msgstr "設定您的個人資料徽章"
 
 #: src/components/channel/MentionEveryonePopout.tsx:134
-#: src/components/modals/EmailChangeModal.tsx:304
+#: src/components/modals/EmailChangeModal.tsx:307
 msgid "Confirm"
 msgstr "確認"
 
@@ -5827,13 +5827,13 @@ msgstr "內容選單可用左鍵（按鈕）或右鍵（其他元件）開啟。
 
 #: src/components/channel/ChannelTextarea.tsx:311
 #: src/components/modals/AddConnectionModal.tsx:221
-#: src/components/modals/BackupCodesRegenerateModal.tsx:75
-#: src/components/modals/BackupCodesViewModal.tsx:73
+#: src/components/modals/BackupCodesRegenerateModal.tsx:82
+#: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:116
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:119
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 #: src/components/modals/MfaTotpDisableModal.tsx:78
-#: src/components/modals/MfaTotpEnableModal.tsx:106
+#: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
 msgid "Continue"
 msgstr "繼續"
@@ -6555,7 +6555,7 @@ msgstr "目前裝置"
 msgid "Current DM"
 msgstr "目前私訊"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:113
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:116
 msgid "Current Password"
 msgstr "目前密碼"
 
@@ -6601,7 +6601,7 @@ msgstr "自定義 CSS 覆蓋"
 msgid "Custom Date Range"
 msgstr "自定義日期範圍"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:227
+#: src/components/modals/FluxerTagChangeModal.tsx:230
 msgid "Custom discriminators are not available on this instance"
 msgstr "此實例不支援自訂識別碼"
 
@@ -6727,11 +6727,12 @@ msgstr "自定義在懸停消息時顯示在媒體附件和嵌入中的按鈕。
 msgid "Customize which buttons are visible in the message input area. Keyboard shortcuts will continue to work even if buttons are hidden."
 msgstr "自定義在消息輸入區域中可見的按鈕。即使按鈕被隱藏，鍵盤快捷鍵仍然會繼續工作。"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:74
-msgid "Customize your 4-digit tag (#{discriminator}) to your liking with Plutonium"
-msgstr "透過 Plutonium 自訂你的 4 位數標籤（#{discriminator}）"
+#. placeholder {0}: user.discriminator
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:75
+msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
+msgstr "使用鉑金自訂您的 4 位數標籤 (#{0})，讓它符合您的喜好"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:272
+#: src/components/modals/FluxerTagChangeModal.tsx:275
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "更改使用者名稱時可同時自訂或保留 4 位數標籤"
 
@@ -7069,7 +7070,7 @@ msgstr "刪除"
 #: src/components/emojis/EmojiListItem.tsx:195
 #: src/components/emojis/EmojiListItem.tsx:252
 #: src/components/emojis/EmojiListItem.tsx:308
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:325
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
@@ -7530,7 +7531,7 @@ msgstr "禁用"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:240
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:426
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
 msgid "Disable"
 msgstr "停用"
 
@@ -7890,7 +7891,7 @@ msgstr "是否也想封鎖現有社群的成員私訊？"
 msgid "Do you want to send this pin back in time?"
 msgstr "要把這個釘選傳回過去嗎？"
 
-#: src/components/channel/MessageActionUtils.tsx:410
+#: src/components/channel/MessageActionUtils.tsx:411
 msgid "Do you want to send this pin back to the future?"
 msgstr "要把這個釘選送回未來嗎？"
 
@@ -8344,13 +8345,13 @@ msgid "Email"
 msgstr "電子郵件"
 
 #: src/components/modals/tabs/account_security_tab/AccountTab.tsx:65
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:91
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:107
 #: src/components/pages/report/ReportStepEmail.tsx:76
 msgid "Email Address"
 msgstr "電子郵件地址"
 
-#: src/components/modals/EmailChangeModal.tsx:165
+#: src/components/modals/EmailChangeModal.tsx:168
 msgid "Email changed"
 msgstr "電子郵件已更改"
 
@@ -8426,11 +8427,11 @@ msgstr "嵌入"
 msgid "Embeds"
 msgstr "嵌入內容"
 
-#: src/components/channel/MessageActionUtils.tsx:520
+#: src/components/channel/MessageActionUtils.tsx:526
 msgid "Embeds suppressed"
 msgstr "已隱藏內嵌內容"
 
-#: src/components/channel/MessageActionUtils.tsx:506
+#: src/components/channel/MessageActionUtils.tsx:512
 msgid "Embeds unsuppressed"
 msgstr "已還原內嵌內容"
 
@@ -8530,9 +8531,9 @@ msgstr "空狀態"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/layout/GuildLayout.tsx:74
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:244
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:438
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:247
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:435
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:441
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:85
 msgid "Enable"
 msgstr "啟用"
@@ -8658,7 +8659,7 @@ msgstr "啟用 Shift 以展開"
 msgid "Enable SMS 2FA"
 msgstr "啟用簡訊雙重驗證"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:415
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:418
 msgid "Enable SMS codes as a backup for your authenticator app"
 msgstr "啟用簡訊碼作為驗證器的備援"
 
@@ -8678,7 +8679,7 @@ msgstr "啟用雙重身份驗證"
 msgid "Enable two-factor authentication"
 msgstr "啟用雙重驗證"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:70
+#: src/components/modals/MfaTotpEnableModal.tsx:73
 msgid "Enable two-factor authentication form"
 msgstr "啟用雙重驗證表單"
 
@@ -8782,7 +8783,7 @@ msgid "Enter the 6-digit code from your authenticator app or one of your backup 
 msgstr "輸入驗證器產生的六位數代碼或其中一組備援代碼。"
 
 #: src/components/modals/MfaTotpDisableModal.tsx:67
-#: src/components/modals/MfaTotpEnableModal.tsx:95
+#: src/components/modals/MfaTotpEnableModal.tsx:98
 msgid "Enter the 6-digit code from your authenticator app."
 msgstr "輸入驗證器產生的六位數代碼。"
 
@@ -8804,7 +8805,7 @@ msgstr "請先輸入代碼再繼續。"
 msgid "Enter the code from your authenticator app."
 msgstr "輸入驗證器產生的代碼。"
 
-#: src/components/modals/EmailChangeModal.tsx:213
+#: src/components/modals/EmailChangeModal.tsx:216
 msgid "Enter the code sent to your current email."
 msgstr "輸入寄到目前電子郵件的代碼。"
 
@@ -8812,7 +8813,7 @@ msgstr "輸入寄到目前電子郵件的代碼。"
 msgid "Enter the code sent to your email address."
 msgstr "輸入發送到您電子郵件地址的代碼。"
 
-#: src/components/modals/EmailChangeModal.tsx:281
+#: src/components/modals/EmailChangeModal.tsx:284
 msgid "Enter the code we emailed to your new address."
 msgstr "輸入我們寄到新信箱的代碼。"
 
@@ -8824,7 +8825,7 @@ msgstr "輸入我們寄到信箱的驗證代碼。代碼確認後即設定密碼
 msgid "Enter the invite link to join a community."
 msgstr "輸入邀請連結以加入社群。"
 
-#: src/components/modals/EmailChangeModal.tsx:247
+#: src/components/modals/EmailChangeModal.tsx:250
 msgid "Enter the new email you want to use. We'll send a code there next."
 msgstr "輸入你想使用的新電子郵件，我們會接著寄送一組驗證碼。"
 
@@ -9963,16 +9964,16 @@ msgstr "Fluxer 員工"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer 以行動 PWA 安裝時會使用推播通知。註冊可確保即使瀏覽器在背景執行，推播閘道也能連絡你的裝置。"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:176
+#: src/components/modals/FluxerTagChangeModal.tsx:179
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:102
+#: src/components/modals/FluxerTagChangeModal.tsx:105
 msgid "FluxerTag already taken"
 msgstr "FluxerTag 已被使用"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:144
+#: src/components/modals/FluxerTagChangeModal.tsx:147
 msgid "FluxerTag updated"
 msgstr "FluxerTag 已更新"
 
@@ -10208,7 +10209,7 @@ msgstr "轉寄"
 msgid "Forward {DEFAULT_SEEK_AMOUNT} seconds"
 msgstr "快轉 {DEFAULT_SEEK_AMOUNT} 秒"
 
-#: src/components/modals/ForwardModal.tsx:198
+#: src/components/modals/ForwardModal.tsx:203
 #: src/stores/KeybindStore.tsx:361
 msgid "Forward Message"
 msgstr "轉寄訊息"
@@ -10490,7 +10491,7 @@ msgstr "收到訊息時會通知你。可能需要在瀏覽器設定中允許通
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:221
+#: src/components/modals/FluxerTagChangeModal.tsx:224
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10503,11 +10504,11 @@ msgstr "取得 Plutonium"
 msgid "Get Plutonium for yourself and unlock higher limits and exclusive features."
 msgstr "為自己取得 Plutonium，解鎖更高限制和專屬功能。"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:81
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:82
 msgid "Get Plutonium to customize your tag"
 msgstr "取得 Plutonium 以自訂你的標籤"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:199
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "取得 Plutonium 以自訂標籤或在更改使用者名稱時保留它"
 
@@ -11883,8 +11884,8 @@ msgstr "禮物代碼無效"
 msgid "Invalid instance URL. Try something like \"example.com\" or \"https://example.com\"."
 msgstr "無效的實例 URL。請嘗試類似 \"example.com\" 或 \"https://example.com\"。"
 
-#: src/components/modals/EmailChangeModal.tsx:107
-#: src/components/modals/EmailChangeModal.tsx:168
+#: src/components/modals/EmailChangeModal.tsx:110
+#: src/components/modals/EmailChangeModal.tsx:171
 #: src/components/modals/PasswordChangeModal.tsx:90
 msgid "Invalid or expired code"
 msgstr "代碼無效或已過期"
@@ -12569,11 +12570,11 @@ msgid "Last active {0}"
 msgstr "最後上線 {0}"
 
 #. placeholder {0}: DateUtils.getRelativeDateString(user.passwordLastChangedAt, i18n)
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:117
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:120
 msgid "Last changed: {0}"
 msgstr "最後變更：{0}"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:119
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:122
 msgid "Last changed: Never"
 msgstr "最後變更：從未"
 
@@ -13221,7 +13222,7 @@ msgstr "管理您的電子郵件、密碼與帳號設定"
 msgid "Manage your gifts"
 msgstr "管理你的禮物"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:337
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:340
 msgid "Manage your phone number for SMS two-factor authentication"
 msgstr "管理用於 SMS 雙重驗證的電話號碼"
 
@@ -13346,12 +13347,12 @@ msgstr "已將成員標記為臨時。"
 msgid "Markers Below Slider"
 msgstr "滑桿下方標記"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:188
+#: src/components/modals/FluxerTagChangeModal.tsx:191
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
 #: src/components/modals/ClaimAccountModal.tsx:157
-#: src/components/modals/EmailChangeModal.tsx:258
+#: src/components/modals/EmailChangeModal.tsx:261
 msgid "marty@example.com"
 msgstr "marty@example.com"
 
@@ -13750,7 +13751,7 @@ msgstr "訊息顯示模式"
 msgid "Message display settings are only available on desktop."
 msgstr "訊息顯示設定僅在桌面版提供。"
 
-#: src/components/modals/ForwardModal.tsx:148
+#: src/components/modals/ForwardModal.tsx:153
 msgid "Message forwarded"
 msgstr "訊息已轉發"
 
@@ -13776,7 +13777,7 @@ msgstr "消息歷史閾值已更新"
 msgid "Message Input Buttons"
 msgstr "訊息輸入按鈕"
 
-#: src/components/modals/ForwardModal.tsx:84
+#: src/components/modals/ForwardModal.tsx:89
 #: src/components/uikit/character_counter/CharacterCounter.tsx:52
 msgid "Message is too long"
 msgstr "訊息過長"
@@ -14077,7 +14078,7 @@ msgstr "更多表情符號格"
 #: src/components/channel/embeds/attachments/TextualAttachmentPreviewFooter.tsx:66
 #: src/components/modals/guild_tabs/UserListItem.tsx:113
 #: src/components/modals/MediaModal.tsx:353
-#: src/components/modals/MobileVideoViewer.tsx:260
+#: src/components/modals/MobileVideoViewer.tsx:268
 msgid "More options"
 msgstr "更多選項"
 
@@ -14209,7 +14210,7 @@ msgstr "靜音"
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:319
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:506
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:92
@@ -14576,12 +14577,12 @@ msgstr "您加入的新社群將自動隱藏靜音頻道。您是否也希望將
 msgid "New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?"
 msgstr "您加入的新社群將不再自動隱藏靜音頻道。您是否也希望在您所有現有的社群中顯示靜音頻道？"
 
-#: src/components/modals/EmailChangeModal.tsx:255
+#: src/components/modals/EmailChangeModal.tsx:258
 #: src/components/modals/RequiredActionModal.tsx:471
 msgid "New Email"
 msgstr "新電子郵件"
 
-#: src/components/modals/EmailChangeModal.tsx:243
+#: src/components/modals/EmailChangeModal.tsx:246
 msgid "New email form"
 msgstr "新電子郵件表單"
 
@@ -14736,7 +14737,7 @@ msgid "No cameras detected"
 msgstr "未偵測到相機"
 
 #: src/components/invites/InviteListItem.tsx:179
-#: src/components/modals/ForwardModal.tsx:246
+#: src/components/modals/ForwardModal.tsx:251
 #: src/components/modals/GuildNotificationSettingsModal.tsx:258
 msgid "No Category"
 msgstr "沒有分類"
@@ -14749,7 +14750,7 @@ msgstr "沒有變更可儲存"
 msgid "No channels available"
 msgstr "沒有可用頻道"
 
-#: src/components/modals/ForwardModal.tsx:216
+#: src/components/modals/ForwardModal.tsx:221
 msgid "No channels found"
 msgstr "找不到頻道"
 
@@ -14773,7 +14774,7 @@ msgstr "尚未有連接"
 msgid "No description provided."
 msgstr "未提供描述。"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:97
 msgid "No email address set"
 msgstr "未設定電子郵件地址"
 
@@ -14883,11 +14884,11 @@ msgstr "找不到共同好友。"
 msgid "No mutual groups found."
 msgstr "找不到共同群組。"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:283
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
 msgid "No passkeys registered"
 msgstr "沒有註冊的通行碼"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:137
 msgid "No password set"
 msgstr "未設定密碼"
 
@@ -15929,7 +15930,7 @@ msgstr "合作社群"
 msgid "Passkey Name"
 msgstr "通行金鑰名稱"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:273
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:276
 msgid "Passkeys"
 msgstr "通行金鑰"
 
@@ -15953,8 +15954,8 @@ msgstr "密碼"
 #: src/components/modals/ClaimAccountModal.tsx:207
 #: src/components/modals/SudoVerificationModal.tsx:174
 #: src/components/modals/SudoVerificationModal.tsx:239
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:105
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:131
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:108
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:114
 #: src/components/modals/utils/SettingsSearchIndex.tsx:107
 msgid "Password"
@@ -16010,7 +16011,7 @@ msgstr "貼回原處以完成登入。"
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 msgid "Pause"
 msgstr "暫停"
 
@@ -16147,8 +16148,8 @@ msgstr "電話"
 
 #: src/components/modals/PhoneAddModal.tsx:192
 #: src/components/modals/RequiredActionModal.tsx:616
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:336
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:342
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:339
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:345
 #: src/components/modals/utils/SettingsSearchIndex.tsx:115
 msgid "Phone Number"
 msgstr "電話號碼"
@@ -16158,7 +16159,7 @@ msgid "Phone number added"
 msgstr "電話號碼已新增"
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:346
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:349
 msgid "Phone number added: {0}"
 msgstr "電話號碼已新增：{0}"
 
@@ -16225,11 +16226,11 @@ msgstr "釘選私訊"
 msgid "Pin Group DM"
 msgstr "釘選群組私訊"
 
-#: src/components/channel/MessageActionUtils.tsx:429
+#: src/components/channel/MessageActionUtils.tsx:430
 msgid "Pin it real good"
 msgstr "釘得超棒"
 
-#: src/components/channel/MessageActionUtils.tsx:426
+#: src/components/channel/MessageActionUtils.tsx:427
 msgid "Pin it. Pin it good."
 msgstr "釘上去。釘得很棒。"
 
@@ -16250,7 +16251,7 @@ msgstr "釘選訊息"
 msgid "Pin or unpin the focused message"
 msgstr "釘選或取消釘選專注的訊息"
 
-#: src/components/channel/MessageActionUtils.tsx:427
+#: src/components/channel/MessageActionUtils.tsx:428
 msgid "Pin this message to the channel for all to see. Unless ... you're chicken."
 msgstr "將此訊息釘選到頻道讓大家都能看到。除非你膽小。"
 
@@ -16323,7 +16324,7 @@ msgstr "平台管理員"
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:215
 msgid "Play"
 msgstr "播放"
@@ -17075,7 +17076,7 @@ msgstr "接收"
 msgid "Receive notifications when someone mentions you"
 msgstr "有人提及你時接收通知"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:404
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:407
 msgid "Receive verification codes via SMS as a backup authentication method"
 msgstr "透過簡訊接收驗證碼作為備援驗證方式"
 
@@ -17202,7 +17203,7 @@ msgstr "重新整理推播訂閱"
 msgid "Regenerate"
 msgstr "重新生成"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:61
+#: src/components/modals/BackupCodesRegenerateModal.tsx:68
 msgid "Regenerate Backup Codes"
 msgstr "重新生成備份代碼"
 
@@ -17232,7 +17233,7 @@ msgstr "重新生成將使目前令牌失效。請更新使用舊值的程式碼
 msgid "Register"
 msgstr "註冊"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:279
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:282
 msgid "Registered Passkeys"
 msgstr "已註冊通行金鑰"
 
@@ -17302,7 +17303,7 @@ msgstr "移除"
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildEmbedSplashUploadField.tsx:101
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildIconUploadField.tsx:107
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildInviteSplashUploadField.tsx:113
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:391
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:394
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:96
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:226
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:191
@@ -17476,11 +17477,11 @@ msgstr "移除覆寫"
 msgid "Remove Pack"
 msgstr "移除套件"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:377
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:380
 msgid "Remove Phone"
 msgstr "移除電話"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:360
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:363
 msgid "Remove Phone Number"
 msgstr "移除電話號碼"
 
@@ -17635,7 +17636,7 @@ msgstr "移除套件會從您的帳戶卸載它。"
 msgid "Removing the timeout will allow <0>{0}</0> to send messages, react, and join voice channels again."
 msgstr "移除限制後 <0>{0}</0> 將可以重新發送訊息、反應及加入語音頻道。"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:319
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 msgid "Rename"
 msgstr "重新命名"
 
@@ -17875,17 +17876,17 @@ msgid "Reschedule Message"
 msgstr "重新排程訊息"
 
 #: src/components/modals/ClaimAccountModal.tsx:222
-#: src/components/modals/EmailChangeModal.tsx:233
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:304
 #: src/components/modals/PasswordChangeModal.tsx:179
 msgid "Resend"
 msgstr "重新發送"
 
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:304
 msgid "Resend ({newSecondsRemaining}s)"
 msgstr "重新發送（剩餘 {newSecondsRemaining} 秒）"
 
-#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:236
 msgid "Resend ({originalSecondsRemaining}s)"
 msgstr "重新發送（原始剩餘 {originalSecondsRemaining} 秒）"
 
@@ -18429,7 +18430,7 @@ msgstr "已保存"
 msgid "scale"
 msgstr "縮放"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:78
+#: src/components/modals/MfaTotpEnableModal.tsx:81
 msgid "Scan the QR code with your authenticator app to generate codes for two-factor authentication."
 msgstr "使用驗證器應用程式掃描 QR 碼以生成雙重驗證碼。"
 
@@ -18566,7 +18567,7 @@ msgstr "按用戶名或 ID 搜尋"
 msgid "Search channels"
 msgstr "搜尋頻道"
 
-#: src/components/modals/ForwardModal.tsx:204
+#: src/components/modals/ForwardModal.tsx:209
 msgid "Search channels or DMs"
 msgstr "搜尋頻道或私訊"
 
@@ -18967,7 +18968,7 @@ msgid "Send"
 msgstr "傳送"
 
 #. placeholder {0}: selectedChannelIds.size
-#: src/components/modals/ForwardModal.tsx:380
+#: src/components/modals/ForwardModal.tsx:385
 msgid "Send ({0}/5)"
 msgstr "傳送（{0}/5）"
 
@@ -19004,7 +19005,7 @@ msgid "Send an SMS code first."
 msgstr "先傳送 SMS 驗證碼。"
 
 #: src/components/modals/ClaimAccountModal.tsx:180
-#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:273
 #: src/components/modals/PhoneAddModal.tsx:208
 msgid "Send code"
 msgstr "傳送代碼"
@@ -19199,7 +19200,7 @@ msgstr "將暱稱設定為 {0}。"
 msgid "Set NSFW level to {0}."
 msgstr "將不適宜場合等級設定為 {0}。"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:138
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:141
 msgid "Set Password"
 msgstr "設定密碼"
 
@@ -19361,7 +19362,7 @@ msgstr "設定區段"
 msgid "Settings!"
 msgstr "設定！"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:71
+#: src/components/modals/MfaTotpEnableModal.tsx:74
 msgid "Setup Authenticator App"
 msgstr "設置身份驗證器應用程式"
 
@@ -19989,11 +19990,11 @@ msgstr "較小的媒體尺寸"
 msgid "sms"
 msgstr "簡訊"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:409
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:412
 msgid "SMS Backup"
 msgstr "簡訊備份"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
 msgid "SMS backup is disabled for partners"
 msgstr "合作夥伴停用簡訊備份"
 
@@ -20006,7 +20007,7 @@ msgstr "簡訊驗證碼"
 msgid "SMS Code"
 msgstr "簡訊驗證碼"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:403
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:406
 msgid "SMS Two-Factor Authentication"
 msgstr "簡訊雙重驗證"
 
@@ -20014,7 +20015,7 @@ msgstr "簡訊雙重驗證"
 msgid "SMS two-factor authentication adds an additional layer of security to your account by requiring a verification code sent to your phone number when signing in."
 msgstr "簡訊雙重驗證在登入時要求傳送至手機號碼的驗證碼，為帳戶增加一層安全性。"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:413
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:416
 msgid "SMS two-factor authentication is enabled"
 msgstr "簡訊雙重驗證已啟用"
 
@@ -20338,7 +20339,7 @@ msgstr "星星"
 msgid "starred"
 msgstr "已加星"
 
-#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:205
 #: src/components/modals/PasswordChangeModal.tsx:148
 msgid "Start"
 msgstr "開始"
@@ -21152,7 +21153,7 @@ msgstr "該檔案包含我們將從 <0>{dnsUrl}</0> 獲取的驗證令牌。"
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "您嘗試上傳的文件超過了最大大小限制 {maxSizeFormatted}。"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:106
+#: src/components/modals/FluxerTagChangeModal.tsx:109
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "FluxerTag <0>{fluxerTag}</0> 已被使用。繼續將自動重新抽取辨識碼。"
 
@@ -21717,7 +21718,7 @@ msgstr "這會在時空連續體中創造裂縫，無法還原。"
 msgid "This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from <0>User Settings → Look & Feel → Favorites</0>."
 msgstr "這會隱藏所有與收藏相關的 UI 元素（包括按鈕與選單項目）。現有收藏會保留，隨時可在 <0>使用者設定 → 外觀與感受 → 收藏</0> 中重新啟用。"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:65
+#: src/components/modals/BackupCodesRegenerateModal.tsx:72
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "這將使您現有的備份代碼失效並生成新的代碼。"
 
@@ -21911,7 +21912,7 @@ msgstr "切換頻道成員列表"
 msgid "Toggle Compact Mode"
 msgstr "切換緊湊模式"
 
-#: src/components/modals/MobileVideoViewer.tsx:239
+#: src/components/modals/MobileVideoViewer.tsx:247
 msgid "Toggle controls"
 msgstr "切換控制"
 
@@ -22307,7 +22308,7 @@ msgstr "雙重驗證"
 msgid "Two-factor authentication disabled"
 msgstr "已停用雙重驗證"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:55
+#: src/components/modals/MfaTotpEnableModal.tsx:58
 msgid "Two-factor authentication enabled"
 msgstr "已啟用雙重驗證"
 
@@ -22436,13 +22437,13 @@ msgstr "無法加載個人檔案橫幅、徽章和簡介。"
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "無法準備任何表情符號上傳。發生以下錯誤："
 
-#: src/components/modals/EmailChangeModal.tsx:121
-#: src/components/modals/EmailChangeModal.tsx:151
+#: src/components/modals/EmailChangeModal.tsx:124
+#: src/components/modals/EmailChangeModal.tsx:154
 #: src/components/modals/PasswordChangeModal.tsx:104
 msgid "Unable to resend code right now"
 msgstr "目前無法重新發送代碼"
 
-#: src/components/modals/EmailChangeModal.tsx:136
+#: src/components/modals/EmailChangeModal.tsx:139
 msgid "Unable to send code to new email"
 msgstr "無法將代碼發送至新電子郵件"
 
@@ -22455,7 +22456,7 @@ msgstr "無法發送語音訊息。請再試一次。"
 msgid "Unable to Start Call"
 msgstr "無法開始通話"
 
-#: src/components/modals/EmailChangeModal.tsx:91
+#: src/components/modals/EmailChangeModal.tsx:94
 msgid "Unable to start email change"
 msgstr "無法開始更換電子郵件"
 
@@ -22781,7 +22782,7 @@ msgstr "使用 Plutonium 在私訊中解鎖貼圖"
 #: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/voice/VoiceControlBar.tsx:602
 msgid "Unmute"
 msgstr "解除靜音"
@@ -22872,7 +22873,7 @@ msgstr "解除釘選私訊"
 msgid "Unpin Group DM"
 msgstr "解除釘選群組私訊"
 
-#: src/components/channel/MessageActionUtils.tsx:412
+#: src/components/channel/MessageActionUtils.tsx:413
 #: src/components/shared/ChannelPinsContent.tsx:102
 msgid "Unpin it"
 msgstr "解除釘選"
@@ -22880,7 +22881,7 @@ msgstr "解除釘選"
 #: src/components/channel/MessageActionBar.tsx:519
 #: src/components/channel/MessageActionBar.tsx:735
 #: src/components/channel/MessageActionMenu.tsx:243
-#: src/components/channel/MessageActionUtils.tsx:409
+#: src/components/channel/MessageActionUtils.tsx:410
 #: src/components/shared/ChannelPinsContent.tsx:99
 #: src/components/shared/ChannelPinsContent.tsx:260
 #: src/components/uikit/context_menu/items/MessageMenuItems.tsx:163
@@ -23322,7 +23323,7 @@ msgstr "使用全球個人檔案"
 msgid "Use light theme"
 msgstr "使用淺色主題"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:274
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:277
 msgid "Use passkeys for passwordless sign-in and two-factor authentication"
 msgstr "使用通行金鑰來進行免密登入與雙重驗證"
 
@@ -23475,9 +23476,9 @@ msgstr "使用者、機器人或 Webhook"
 msgid "username"
 msgstr "用戶名"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:187
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:51
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
 msgid "Username"
 msgstr "使用者名稱"
@@ -23510,11 +23511,11 @@ msgstr "使用者名稱最多 32 個字元"
 msgid "Username#0000"
 msgstr "使用者名稱#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:169
+#: src/components/modals/FluxerTagChangeModal.tsx:172
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "使用者名稱只能包含字母（a-z、A-Z）、數字（0-9）與底線，且不區分大小寫。"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:164
+#: src/components/modals/FluxerTagChangeModal.tsx:167
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
 msgstr "使用者名稱只能包含字母（a-z、A-Z）、數字（0-9）與底線，且不區分大小寫。若可用，您可以自行選擇 4 位數標籤。"
 
@@ -23634,8 +23635,8 @@ msgid "Verification Barriers"
 msgstr "驗證障礙"
 
 #: src/components/modals/ClaimAccountModal.tsx:198
-#: src/components/modals/EmailChangeModal.tsx:220
-#: src/components/modals/EmailChangeModal.tsx:288
+#: src/components/modals/EmailChangeModal.tsx:223
+#: src/components/modals/EmailChangeModal.tsx:291
 #: src/components/modals/PasswordChangeModal.tsx:166
 #: src/components/modals/PhoneAddModal.tsx:226
 #: src/components/modals/RequiredActionModal.tsx:495
@@ -23662,7 +23663,7 @@ msgstr "驗證電子郵件已寄出！請檢查收件匣。"
 msgid "Verification failed"
 msgstr "驗證失敗"
 
-#: src/components/modals/BackupCodesViewModal.tsx:63
+#: src/components/modals/BackupCodesViewModal.tsx:68
 msgid "Verification may be required before viewing your backup codes."
 msgstr "查看備份代碼前可能需要驗證。"
 
@@ -23684,7 +23685,7 @@ msgid "verify"
 msgstr "驗證"
 
 #: src/components/modals/AddConnectionModal.tsx:315
-#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:239
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
 #: src/components/modals/RequiredActionModal.tsx:652
@@ -23785,7 +23786,7 @@ msgstr "視頻預覽"
 msgid "Video preview"
 msgstr "影片預覽"
 
-#: src/components/modals/MobileVideoViewer.tsx:311
+#: src/components/modals/MobileVideoViewer.tsx:319
 msgid "Video progress"
 msgstr "視頻進度"
 
@@ -23859,15 +23860,15 @@ msgstr "檢視並管理已封鎖的使用者。"
 msgid "View and manage every webhook configured across your community."
 msgstr "檢視並管理整個社群中設定的所有 Webhook。"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:260
 msgid "View and manage your backup codes for account recovery"
 msgstr "檢視並管理您的帳號復原備份代碼"
 
-#: src/components/modals/BackupCodesViewModal.tsx:59
+#: src/components/modals/BackupCodesViewModal.tsx:64
 msgid "View Backup Codes"
 msgstr "查看備份代碼"
 
-#: src/components/modals/BackupCodesViewModal.tsx:58
+#: src/components/modals/BackupCodesViewModal.tsx:63
 msgid "View backup codes form"
 msgstr "檢視備份代碼表單"
 
@@ -23884,7 +23885,7 @@ msgstr "檢視通話控制"
 msgid "View Channel"
 msgstr "檢視頻道"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:265
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:268
 msgid "View Codes"
 msgstr "檢視代碼"
 
@@ -24387,11 +24388,11 @@ msgstr "我們將向此電子郵件地址發送驗證碼。"
 msgid "We'll send a verification code to your email before you can change your password."
 msgstr "在您可以更改密碼之前，我們將向您的電子郵件發送驗證代碼。"
 
-#: src/components/modals/EmailChangeModal.tsx:190
+#: src/components/modals/EmailChangeModal.tsx:193
 msgid "We'll verify your current email and then your new email with one-time codes."
 msgstr "我們將以一次性代碼驗證您目前與新的電子郵件。"
 
-#: src/components/modals/EmailChangeModal.tsx:192
+#: src/components/modals/EmailChangeModal.tsx:195
 msgid "We'll verify your new email with a one-time code."
 msgstr "我們將以一次性代碼驗證您的新電子郵件。"
 

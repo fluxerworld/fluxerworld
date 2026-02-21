@@ -134,12 +134,12 @@ msgid "{0} of {totalAttachments}"
 msgstr "{0}/{totalAttachments}"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:285
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:288
 msgid "{0} passkey registered (max 10)"
 msgstr "{0} avain rekisteröity (max 10)"
 
 #. placeholder {0}: passkeys.length
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:289
 msgid "{0} passkeys registered (max 10)"
 msgstr "{0} avainta rekisteröity (max 10)"
 
@@ -1088,7 +1088,7 @@ msgstr "<0>Mykistys poistettiin</0> jäseneltä."
 msgid "<0>Unmuted</0> the member."
 msgstr "<0>Mykistys poistettiin</0> jäseneltä."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:370
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:373
 msgid "<0>Warning:</0> This will also disable SMS two-factor authentication."
 msgstr "<0>Varoitus:</0> Tämä poistaa myös SMS-kaksivaiheisen tunnistautumisen käytöstä."
 
@@ -1362,9 +1362,9 @@ msgstr "30 sekuntia"
 msgid "4 hours"
 msgstr "4 tuntia"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:203
-#: src/components/modals/FluxerTagChangeModal.tsx:231
-#: src/components/modals/FluxerTagChangeModal.tsx:248
+#: src/components/modals/FluxerTagChangeModal.tsx:206
+#: src/components/modals/FluxerTagChangeModal.tsx:234
+#: src/components/modals/FluxerTagChangeModal.tsx:251
 msgid "4-digit tag"
 msgstr "4-numeroinen tunnus"
 
@@ -1763,7 +1763,7 @@ msgstr "Lisää"
 msgid "Add a bot to a community with requested permissions"
 msgstr "Lisää botti yhteisöön pyydetyillä oikeuksilla"
 
-#: src/components/modals/ForwardModal.tsx:309
+#: src/components/modals/ForwardModal.tsx:314
 msgid "Add a comment (optional)"
 msgstr "Lisää kommentti (valinnainen)"
 
@@ -1782,7 +1782,7 @@ msgstr "Lisää mukautettu tausta"
 msgid "Add a different account"
 msgstr "Lisää toinen tili"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:348
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:351
 msgid "Add a phone number to enable SMS two-factor authentication"
 msgstr "Lisää puhelinnumero ottaaksesi käyttöön SMS-kaksitekijäisen todennuksen"
 
@@ -1844,7 +1844,7 @@ msgstr "Lisää yhteyslomake"
 msgid "Add domain connection"
 msgstr "Lisää verkkotunnusyhteys"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:98
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:101
 msgid "Add Email"
 msgstr "Lisää sähköposti"
 
@@ -1902,12 +1902,12 @@ msgstr "Lisää tai vaihda puhelinnumerosi"
 msgid "Add Override"
 msgstr "Lisää ylikirjoitus"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:290
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:293
 msgid "Add Passkey"
 msgstr "Lisää pääsyavain"
 
 #: src/components/channel/barriers/BarrierComponents.tsx:198
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:395
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:398
 msgid "Add Phone"
 msgstr "Lisää puhelin"
 
@@ -2028,11 +2028,11 @@ msgstr "Lisätty suosikkeihin"
 msgid "Added to saved media"
 msgstr "Lisätty tallennettuihin tiedostoihin"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:313
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:316
 msgid "Added: {createdDate}"
 msgstr "Lisätty: {createdDate}"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:309
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:312
 msgid "Added: {createdDate} • Last used: {lastUsedDate}"
 msgstr "Lisätty: {createdDate} • Viimeksi käytetty: {lastUsedDate}"
 
@@ -2930,7 +2930,7 @@ msgid "Are you sure you want to remove this connection? This action cannot be un
 msgstr "Oletko varma, että haluat poistaa tämän yhteyden? Tätä toimintoa ei voi peruuttaa."
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:364
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:367
 msgid "Are you sure you want to remove your phone number <0>{0}</0>?"
 msgstr "Haluatko varmasti poistaa puhelinnumerosi <0>{0}</0>?"
 
@@ -3438,12 +3438,12 @@ msgid "backup codes"
 msgstr "varmuuskoodit"
 
 #: src/components/modals/BackupCodesModal.tsx:43
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:254
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
 #: src/components/modals/utils/SettingsSearchIndex.tsx:140
 msgid "Backup Codes"
 msgstr "Varmuuskoodit"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:48
+#: src/components/modals/BackupCodesRegenerateModal.tsx:55
 msgid "Backup codes regenerated"
 msgstr "Varmuuskoodit luotu uudelleen"
 
@@ -4069,8 +4069,8 @@ msgstr "Kamerat ovat pois päältä, kun osallistujia on enemmän kuin {VOICE_CH
 #: src/components/modals/AddGuildModal.tsx:413
 #: src/components/modals/AddGuildStickerModal.tsx:120
 #: src/components/modals/AttachmentEditModal.tsx:122
-#: src/components/modals/BackupCodesRegenerateModal.tsx:72
-#: src/components/modals/BackupCodesViewModal.tsx:70
+#: src/components/modals/BackupCodesRegenerateModal.tsx:79
+#: src/components/modals/BackupCodesViewModal.tsx:75
 #: src/components/modals/BanMemberModal.tsx:143
 #: src/components/modals/CameraPreviewModal.tsx:485
 #: src/components/modals/CaptchaModal.tsx:187
@@ -4094,14 +4094,14 @@ msgstr "Kamerat ovat pois päältä, kun osallistujia on enemmän kuin {VOICE_CH
 #: src/components/modals/EditFavoriteMemeModal.tsx:85
 #: src/components/modals/EditGuildStickerModal.tsx:113
 #: src/components/modals/EditPackModal.tsx:103
-#: src/components/modals/EmailChangeModal.tsx:199
-#: src/components/modals/EmailChangeModal.tsx:230
-#: src/components/modals/EmailChangeModal.tsx:267
-#: src/components/modals/EmailChangeModal.tsx:298
+#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:117
-#: src/components/modals/FluxerTagChangeModal.tsx:280
-#: src/components/modals/ForwardModal.tsx:373
+#: src/components/modals/FluxerTagChangeModal.tsx:120
+#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
 #: src/components/modals/GuildFolderSettingsModal.tsx:199
@@ -4113,7 +4113,7 @@ msgstr "Kamerat ovat pois päältä, kun osallistujia on enemmän kuin {VOICE_CH
 #: src/components/modals/KickMemberModal.tsx:63
 #: src/components/modals/MessageHistoryThresholdModal.tsx:103
 #: src/components/modals/MfaTotpDisableModal.tsx:75
-#: src/components/modals/MfaTotpEnableModal.tsx:103
+#: src/components/modals/MfaTotpEnableModal.tsx:106
 #: src/components/modals/PasskeyNameModal.tsx:62
 #: src/components/modals/PasswordChangeModal.tsx:145
 #: src/components/modals/PasswordChangeModal.tsx:176
@@ -4146,7 +4146,7 @@ msgstr "Peruuta"
 msgid "Cancel Friend Request"
 msgstr "Peruuta ystäväpyyntö"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:112
+#: src/components/modals/FluxerTagChangeModal.tsx:115
 msgid "Cancel if you want to choose a different username instead."
 msgstr "Peruuta, jos haluat valita toisen käyttäjänimen."
 
@@ -4279,7 +4279,7 @@ msgstr "Vaihda banneri"
 msgid "Change email"
 msgstr "Vaihda sähköpostia"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:81
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:84
 msgid "Change Email"
 msgstr "Vaihda sähköposti"
 
@@ -4288,12 +4288,12 @@ msgstr "Vaihda sähköposti"
 msgid "Change emoji"
 msgstr "Vaihda emoji"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:59
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:69
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:60
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:70
 msgid "Change FluxerTag"
 msgstr "Vaihda FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:158
+#: src/components/modals/FluxerTagChangeModal.tsx:161
 msgid "Change FluxerTag form"
 msgstr "FluxerTagin vaihtolomake"
 
@@ -4360,7 +4360,7 @@ msgid "change password"
 msgstr "vaihda salasana"
 
 #: src/components/modals/PasswordChangeModal.tsx:227
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:124
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:127
 msgid "Change Password"
 msgstr "Vaihda salasana"
 
@@ -4372,7 +4372,7 @@ msgstr "Vaihda salasana -lomake"
 msgid "Change what users without Read Message History can see"
 msgstr "Muuta, mitä käyttäjät, joilla ei ole Lue viestihistoria -oikeutta, voivat nähdä"
 
-#: src/components/modals/EmailChangeModal.tsx:183
+#: src/components/modals/EmailChangeModal.tsx:186
 msgid "Change Your Email"
 msgstr "Vaihda sähköpostiosoitteesi"
 
@@ -4380,7 +4380,7 @@ msgstr "Vaihda sähköpostiosoitteesi"
 msgid "Change your email address"
 msgstr "Vaihda sähköpostiosoitteesi"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:159
+#: src/components/modals/FluxerTagChangeModal.tsx:162
 msgid "Change Your FluxerTag"
 msgstr "Vaihda FluxerTagisi"
 
@@ -4392,7 +4392,7 @@ msgstr "Vaihda lempinimesi tässä yhteisössä."
 msgid "Change your password"
 msgstr "Vaihda salasanasi"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:106
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:109
 msgid "Change your password to keep your account secure"
 msgstr "Vaihda salasanasi tilin turvaamiseksi"
 
@@ -4404,7 +4404,7 @@ msgstr "Vaihda profiilikuvasi"
 msgid "Change your username"
 msgstr "Vaihda käyttäjänimesi"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:90
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:91
 msgid "Change your username and 4-digit tag"
 msgstr "Vaihda käyttäjänimesi ja nelinumeroinen tagisi"
 
@@ -4846,7 +4846,7 @@ msgstr "Vahvista tilisi päästäksesi käyttämään turvallisuusominaisuuksia 
 msgid "Claim your account to call"
 msgstr "Vaatimasi tili puhelua varten"
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:56
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:57
 msgid "Claim your account to change your FluxerTag"
 msgstr "Vahvista tilisi muuttaaksesi FluxerTagia"
 
@@ -5144,7 +5144,7 @@ msgstr "Asiakassalaisuus on luotu uudelleen. Päivitä kaikki koodit, jotka käy
 #: src/components/modals/components/SettingsModalHeader.tsx:98
 #: src/components/modals/InviteModal.tsx:135
 #: src/components/modals/MediaModal.tsx:349
-#: src/components/modals/MobileVideoViewer.tsx:252
+#: src/components/modals/MobileVideoViewer.tsx:260
 #: src/components/modals/Modal.tsx:382
 #: src/components/modals/Modal.tsx:460
 #: src/components/modals/PackInviteModal.tsx:152
@@ -5201,7 +5201,7 @@ msgstr "Hiiliteema"
 #: src/components/auth/MfaScreen.tsx:131
 #: src/components/invites/InviteListItem.tsx:56
 #: src/components/modals/MfaTotpDisableModal.tsx:63
-#: src/components/modals/MfaTotpEnableModal.tsx:91
+#: src/components/modals/MfaTotpEnableModal.tsx:94
 #: src/components/pages/report/ReportBreadcrumbs.tsx:48
 msgid "Code"
 msgstr "Koodi"
@@ -5651,7 +5651,7 @@ msgid "Configure your profile badge"
 msgstr "Määritä profiilimerkkisi"
 
 #: src/components/channel/MentionEveryonePopout.tsx:134
-#: src/components/modals/EmailChangeModal.tsx:304
+#: src/components/modals/EmailChangeModal.tsx:307
 msgid "Confirm"
 msgstr "Vahvista"
 
@@ -5827,13 +5827,13 @@ msgstr "Kontekstivalikot voi avata vasemmalla klikkauksella (painikkeissa) tai o
 
 #: src/components/channel/ChannelTextarea.tsx:311
 #: src/components/modals/AddConnectionModal.tsx:221
-#: src/components/modals/BackupCodesRegenerateModal.tsx:75
-#: src/components/modals/BackupCodesViewModal.tsx:73
+#: src/components/modals/BackupCodesRegenerateModal.tsx:82
+#: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:116
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:119
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 #: src/components/modals/MfaTotpDisableModal.tsx:78
-#: src/components/modals/MfaTotpEnableModal.tsx:106
+#: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
 msgid "Continue"
 msgstr "Jatka"
@@ -6555,7 +6555,7 @@ msgstr "Nykyinen laite"
 msgid "Current DM"
 msgstr "Nykyinen yksityisviesti"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:113
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:116
 msgid "Current Password"
 msgstr "Nykyinen salasana"
 
@@ -6601,7 +6601,7 @@ msgstr "Mukautetut CSS-ylipeitteet"
 msgid "Custom Date Range"
 msgstr "Mukautettu aikaväli"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:227
+#: src/components/modals/FluxerTagChangeModal.tsx:230
 msgid "Custom discriminators are not available on this instance"
 msgstr "Mukautetut erottimet eivät ole saatavilla tässä instanssissa"
 
@@ -6727,11 +6727,12 @@ msgstr "Mukauta, mitkä painikkeet näkyvät medioiden liitteissä ja upotuksiss
 msgid "Customize which buttons are visible in the message input area. Keyboard shortcuts will continue to work even if buttons are hidden."
 msgstr "Mukauta, mitkä painikkeet ovat näkyvissä viestin syöttöalueella. Näppäinoikopolut toimivat edelleen, vaikka painikkeet olisivat piilotettu."
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:74
-msgid "Customize your 4-digit tag (#{discriminator}) to your liking with Plutonium"
-msgstr "Mukauta nelinumeroista tunnistettasi (#{discriminator}) mieleiseksi Plutoniumin avulla"
+#. placeholder {0}: user.discriminator
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:75
+msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
+msgstr "Mukauta 4-numeroinen tunnuksesi (#{0}) mieleiseksesi Plutoniumilla"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:272
+#: src/components/modals/FluxerTagChangeModal.tsx:275
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Mukauta nelinumeroista tunnistettasi tai säilytä se käyttäjänimeä vaihtaessa"
 
@@ -7069,7 +7070,7 @@ msgstr "poista"
 #: src/components/emojis/EmojiListItem.tsx:195
 #: src/components/emojis/EmojiListItem.tsx:252
 #: src/components/emojis/EmojiListItem.tsx:308
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:325
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:157
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:242
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:165
@@ -7530,7 +7531,7 @@ msgstr "poista käytöstä"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:240
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:426
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
 msgid "Disable"
 msgstr "Poista käytöstä"
 
@@ -7890,7 +7891,7 @@ msgstr "Haluatko myös estää yksityisviestit nykyisten yhteisöjesi jäsenilt�
 msgid "Do you want to send this pin back in time?"
 msgstr "Haluatko lähettää tämän kiinnityksen ajassa taaksepäin?"
 
-#: src/components/channel/MessageActionUtils.tsx:410
+#: src/components/channel/MessageActionUtils.tsx:411
 msgid "Do you want to send this pin back to the future?"
 msgstr "Haluatko lähettää tämän kiinnityksen takaisin tulevaisuuteen?"
 
@@ -8344,13 +8345,13 @@ msgid "Email"
 msgstr "Sähköposti"
 
 #: src/components/modals/tabs/account_security_tab/AccountTab.tsx:65
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:91
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:107
 #: src/components/pages/report/ReportStepEmail.tsx:76
 msgid "Email Address"
 msgstr "Sähköpostiosoite"
 
-#: src/components/modals/EmailChangeModal.tsx:165
+#: src/components/modals/EmailChangeModal.tsx:168
 msgid "Email changed"
 msgstr "Sähköposti vaihdettu"
 
@@ -8426,11 +8427,11 @@ msgstr "upotukset"
 msgid "Embeds"
 msgstr "Upotukset"
 
-#: src/components/channel/MessageActionUtils.tsx:520
+#: src/components/channel/MessageActionUtils.tsx:526
 msgid "Embeds suppressed"
 msgstr "Upotukset piilotettu"
 
-#: src/components/channel/MessageActionUtils.tsx:506
+#: src/components/channel/MessageActionUtils.tsx:512
 msgid "Embeds unsuppressed"
 msgstr "Upotukset palautettu"
 
@@ -8530,9 +8531,9 @@ msgstr "tyhjät tila"
 
 #: src/components/invites/DisableInvitesButton.tsx:60
 #: src/components/layout/GuildLayout.tsx:74
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:244
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:438
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:247
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:435
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:441
 #: src/components/modals/tabs/components/InputMonitoringSection.tsx:85
 msgid "Enable"
 msgstr "Ota käyttöön"
@@ -8658,7 +8659,7 @@ msgstr "Ota käyttöön Shift laajentamiseen"
 msgid "Enable SMS 2FA"
 msgstr "Ota SMS-kaksivaiheinen tunnistus käyttöön"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:415
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:418
 msgid "Enable SMS codes as a backup for your authenticator app"
 msgstr "Ota SMS-koodit käyttöön autentikointisovelluksesi varalle"
 
@@ -8678,7 +8679,7 @@ msgstr "Ota käyttöön kaksivaiheinen todennus"
 msgid "Enable two-factor authentication"
 msgstr "Ota kaksivaiheinen tunnistautuminen käyttöön"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:70
+#: src/components/modals/MfaTotpEnableModal.tsx:73
 msgid "Enable two-factor authentication form"
 msgstr "Ota kaksivaiheisen tunnistautumisen lomake käyttöön"
 
@@ -8782,7 +8783,7 @@ msgid "Enter the 6-digit code from your authenticator app or one of your backup 
 msgstr "Syötä autentikointisovelluksesi kuusinumeroinen koodi tai yksi varakoodistasi."
 
 #: src/components/modals/MfaTotpDisableModal.tsx:67
-#: src/components/modals/MfaTotpEnableModal.tsx:95
+#: src/components/modals/MfaTotpEnableModal.tsx:98
 msgid "Enter the 6-digit code from your authenticator app."
 msgstr "Syötä autentikointisovelluksesi kuusinumeroinen koodi."
 
@@ -8804,7 +8805,7 @@ msgstr "Syötä koodi ennen kuin jatkat."
 msgid "Enter the code from your authenticator app."
 msgstr "Syötä autentikointisovelluksesi koodi."
 
-#: src/components/modals/EmailChangeModal.tsx:213
+#: src/components/modals/EmailChangeModal.tsx:216
 msgid "Enter the code sent to your current email."
 msgstr "Syötä nykyiseen sähköpostiisi lähetetty koodi."
 
@@ -8812,7 +8813,7 @@ msgstr "Syötä nykyiseen sähköpostiisi lähetetty koodi."
 msgid "Enter the code sent to your email address."
 msgstr "Syötä koodi, joka on lähetetty sähköpostiosoitteeseesi."
 
-#: src/components/modals/EmailChangeModal.tsx:281
+#: src/components/modals/EmailChangeModal.tsx:284
 msgid "Enter the code we emailed to your new address."
 msgstr "Syötä uuteen osoitteeseesi lähettämämme koodi."
 
@@ -8824,7 +8825,7 @@ msgstr "Syötä sähköpostiisi lähettämä koodi vahvistaaksesi sen. Salasanas
 msgid "Enter the invite link to join a community."
 msgstr "Syötä kutsulinkki liittyäksesi yhteisöön."
 
-#: src/components/modals/EmailChangeModal.tsx:247
+#: src/components/modals/EmailChangeModal.tsx:250
 msgid "Enter the new email you want to use. We'll send a code there next."
 msgstr "Syötä uusi sähköpostiosoitteesi. Lähetämme sinne vahvistuskoodin."
 
@@ -9963,16 +9964,16 @@ msgstr "Fluxer-henkilökunta"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer käyttää push-ilmoituksia, kun se on asennettu mobiili-PWA:na. Rekisteröinti varmistaa, että käyttöportti tavoittaa laitteesi, vaikka selain olisi taustalla."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:176
+#: src/components/modals/FluxerTagChangeModal.tsx:179
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:102
+#: src/components/modals/FluxerTagChangeModal.tsx:105
 msgid "FluxerTag already taken"
 msgstr "FluxerTag on jo käytössä"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:144
+#: src/components/modals/FluxerTagChangeModal.tsx:147
 msgid "FluxerTag updated"
 msgstr "FluxerTag päivitetty"
 
@@ -10208,7 +10209,7 @@ msgstr "Eteenpäin"
 msgid "Forward {DEFAULT_SEEK_AMOUNT} seconds"
 msgstr "Siirry {DEFAULT_SEEK_AMOUNT} sekuntia eteenpäin"
 
-#: src/components/modals/ForwardModal.tsx:198
+#: src/components/modals/ForwardModal.tsx:203
 #: src/stores/KeybindStore.tsx:361
 msgid "Forward Message"
 msgstr "Välitä viesti"
@@ -10490,7 +10491,7 @@ msgstr "Saat ilmoituksen, kun saat viestejä. Saatat joutua sallimaan ilmoitukse
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:221
+#: src/components/modals/FluxerTagChangeModal.tsx:224
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10503,11 +10504,11 @@ msgstr "Hanki Plutonium"
 msgid "Get Plutonium for yourself and unlock higher limits and exclusive features."
 msgstr "Hanki Plutonium itsellesi ja avaa suuremmat rajat sekä eksklusiiviset ominaisuudet."
 
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:81
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:82
 msgid "Get Plutonium to customize your tag"
 msgstr "Hanki Plutonium muokataksesi tunnustasi"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:199
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "Hanki Plutonium muokataksesi tunnustasi tai säilyttääksesi sen käyttäjänimeä vaihtaessasi"
 
@@ -11883,8 +11884,8 @@ msgstr "Virheellinen lahjakoodi"
 msgid "Invalid instance URL. Try something like \"example.com\" or \"https://example.com\"."
 msgstr "Virheellinen instanssin URL. Kokeile jotain kuten \"example.com\" tai \"https://example.com\"."
 
-#: src/components/modals/EmailChangeModal.tsx:107
-#: src/components/modals/EmailChangeModal.tsx:168
+#: src/components/modals/EmailChangeModal.tsx:110
+#: src/components/modals/EmailChangeModal.tsx:171
 #: src/components/modals/PasswordChangeModal.tsx:90
 msgid "Invalid or expired code"
 msgstr "Virheellinen tai vanhentunut koodi"
@@ -12569,11 +12570,11 @@ msgid "Last active {0}"
 msgstr "Viimeksi aktiivinen {0}"
 
 #. placeholder {0}: DateUtils.getRelativeDateString(user.passwordLastChangedAt, i18n)
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:117
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:120
 msgid "Last changed: {0}"
 msgstr "Viimeksi muutettu: {0}"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:119
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:122
 msgid "Last changed: Never"
 msgstr "Viimeksi muutettu: ei koskaan"
 
@@ -13221,7 +13222,7 @@ msgstr "Hallitse sähköpostiasi, salasanaasi ja tiliasetuksiasi"
 msgid "Manage your gifts"
 msgstr "Hallitse lahjojasi"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:337
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:340
 msgid "Manage your phone number for SMS two-factor authentication"
 msgstr "Hallitse puhelinnumeroasi SMS-kaksivaiheista tunnistautumista varten"
 
@@ -13346,12 +13347,12 @@ msgstr "Merkittiin jäsen väliaikaiseksi."
 msgid "Markers Below Slider"
 msgstr "Merkinnät liukusäätimen alapuolella"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:188
+#: src/components/modals/FluxerTagChangeModal.tsx:191
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
 #: src/components/modals/ClaimAccountModal.tsx:157
-#: src/components/modals/EmailChangeModal.tsx:258
+#: src/components/modals/EmailChangeModal.tsx:261
 msgid "marty@example.com"
 msgstr "marty@example.com"
 
@@ -13750,7 +13751,7 @@ msgstr "Viestin näyttötila"
 msgid "Message display settings are only available on desktop."
 msgstr "Viestin näyttöasetukset ovat käytettävissä vain työpöydällä."
 
-#: src/components/modals/ForwardModal.tsx:148
+#: src/components/modals/ForwardModal.tsx:153
 msgid "Message forwarded"
 msgstr "Viesti välitetty"
 
@@ -13776,7 +13777,7 @@ msgstr "Viestihistorian kynnys päivitetty"
 msgid "Message Input Buttons"
 msgstr "Viesti syöttöpainikkeet"
 
-#: src/components/modals/ForwardModal.tsx:84
+#: src/components/modals/ForwardModal.tsx:89
 #: src/components/uikit/character_counter/CharacterCounter.tsx:52
 msgid "Message is too long"
 msgstr "Viesti on liian pitkä"
@@ -14077,7 +14078,7 @@ msgstr "Lisää emoji-paikkoja"
 #: src/components/channel/embeds/attachments/TextualAttachmentPreviewFooter.tsx:66
 #: src/components/modals/guild_tabs/UserListItem.tsx:113
 #: src/components/modals/MediaModal.tsx:353
-#: src/components/modals/MobileVideoViewer.tsx:260
+#: src/components/modals/MobileVideoViewer.tsx:268
 msgid "More options"
 msgstr "Lisävaihtoehtoja"
 
@@ -14209,7 +14210,7 @@ msgstr "mykistä"
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
 #: src/components/modals/GuildNotificationSettingsModal.tsx:229
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:319
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuData.tsx:506
 #: src/components/uikit/context_menu/items/VoiceParticipantMenuItems.tsx:92
@@ -14576,12 +14577,12 @@ msgstr "Uudet yhteisöt, joihin liityt, tulevat automaattisesti piilottamaan myk
 msgid "New communities you join will no longer have muted channels hidden automatically. Would you also like to show muted channels in all your existing communities?"
 msgstr "Uudet yhteisöt, joihin liityt, eivät enää piilota mykistettyjä kanavia automaattisesti. Haluaisitko näyttää mykistetyt kanavat kaikissa olemassa olevissa yhteisöissäsi?"
 
-#: src/components/modals/EmailChangeModal.tsx:255
+#: src/components/modals/EmailChangeModal.tsx:258
 #: src/components/modals/RequiredActionModal.tsx:471
 msgid "New Email"
 msgstr "Uusi sähköposti"
 
-#: src/components/modals/EmailChangeModal.tsx:243
+#: src/components/modals/EmailChangeModal.tsx:246
 msgid "New email form"
 msgstr "Uusi sähköpostilomake"
 
@@ -14736,7 +14737,7 @@ msgid "No cameras detected"
 msgstr "Kamerat eivät ole tunnistettuja"
 
 #: src/components/invites/InviteListItem.tsx:179
-#: src/components/modals/ForwardModal.tsx:246
+#: src/components/modals/ForwardModal.tsx:251
 #: src/components/modals/GuildNotificationSettingsModal.tsx:258
 msgid "No Category"
 msgstr "Ei luokkaa"
@@ -14749,7 +14750,7 @@ msgstr "Tallennettavia muutoksia ei ole"
 msgid "No channels available"
 msgstr "Ei käytettävissä olevia kanavia"
 
-#: src/components/modals/ForwardModal.tsx:216
+#: src/components/modals/ForwardModal.tsx:221
 msgid "No channels found"
 msgstr "Kanavia ei löytynyt"
 
@@ -14773,7 +14774,7 @@ msgstr "Ei vielä yhteyksiä"
 msgid "No description provided."
 msgstr "Kuvausta ei ole annettu."
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:94
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:97
 msgid "No email address set"
 msgstr "Sähköpostiosoitetta ei ole asetettu"
 
@@ -14883,11 +14884,11 @@ msgstr "Yhteisiä ystäviä ei löytynyt."
 msgid "No mutual groups found."
 msgstr "Yhteisiä ryhmiä ei löytynyt."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:283
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:286
 msgid "No passkeys registered"
 msgstr "Ei rekisteröityjä salasanoja"
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:137
 msgid "No password set"
 msgstr "Salasanaa ei ole asetettu"
 
@@ -15929,7 +15930,7 @@ msgstr "Kumppanuusyhteisö"
 msgid "Passkey Name"
 msgstr "Passkey-nimi"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:273
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:276
 msgid "Passkeys"
 msgstr "Passkeyt"
 
@@ -15953,8 +15954,8 @@ msgstr "salasana"
 #: src/components/modals/ClaimAccountModal.tsx:207
 #: src/components/modals/SudoVerificationModal.tsx:174
 #: src/components/modals/SudoVerificationModal.tsx:239
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:105
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:131
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:108
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:134
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:114
 #: src/components/modals/utils/SettingsSearchIndex.tsx:107
 msgid "Password"
@@ -16010,7 +16011,7 @@ msgstr "Liitä se sinne, mistä tulit, viimeistelläksesi kirjautumisen."
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 msgid "Pause"
 msgstr "Tauko"
 
@@ -16147,8 +16148,8 @@ msgstr "Puhelin"
 
 #: src/components/modals/PhoneAddModal.tsx:192
 #: src/components/modals/RequiredActionModal.tsx:616
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:336
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:342
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:339
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:345
 #: src/components/modals/utils/SettingsSearchIndex.tsx:115
 msgid "Phone Number"
 msgstr "Puhelinnumero"
@@ -16158,7 +16159,7 @@ msgid "Phone number added"
 msgstr "Puhelinnumero lisätty"
 
 #. placeholder {0}: user.phone
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:346
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:349
 msgid "Phone number added: {0}"
 msgstr "Puhelinnumero lisätty: {0}"
 
@@ -16225,11 +16226,11 @@ msgstr "Kiinnitä yksityisviesti"
 msgid "Pin Group DM"
 msgstr "Kiinnitä ryhmäviesti"
 
-#: src/components/channel/MessageActionUtils.tsx:429
+#: src/components/channel/MessageActionUtils.tsx:430
 msgid "Pin it real good"
 msgstr "Kiinnitä se todella hyvin"
 
-#: src/components/channel/MessageActionUtils.tsx:426
+#: src/components/channel/MessageActionUtils.tsx:427
 msgid "Pin it. Pin it good."
 msgstr "Kiinnitä se. Kiinnitä se hyvin."
 
@@ -16250,7 +16251,7 @@ msgstr "Kiinnitä viestit"
 msgid "Pin or unpin the focused message"
 msgstr "Kiinnitä tai poista kiinnitys kohdistetusta viestistä"
 
-#: src/components/channel/MessageActionUtils.tsx:427
+#: src/components/channel/MessageActionUtils.tsx:428
 msgid "Pin this message to the channel for all to see. Unless ... you're chicken."
 msgstr "Kiinnitä tämä viesti kanavaan kaikkien nähtäväksi. Ellet ... pelkää."
 
@@ -16323,7 +16324,7 @@ msgstr "Alustanhallinta"
 #: src/components/media_player/components/InlineAudioPlayer.tsx:201
 #: src/components/media_player/components/InlineAudioPlayer.tsx:296
 #: src/components/media_player/components/MediaPlayButton.tsx:70
-#: src/components/modals/MobileVideoViewer.tsx:286
+#: src/components/modals/MobileVideoViewer.tsx:294
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:215
 msgid "Play"
 msgstr "Toista"
@@ -17075,7 +17076,7 @@ msgstr "Vastaanota"
 msgid "Receive notifications when someone mentions you"
 msgstr "Saa ilmoitukset, kun sinua mainitaan"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:404
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:407
 msgid "Receive verification codes via SMS as a backup authentication method"
 msgstr "Vastaanota varmistuskoodit tekstiviestinä varamenetelmänä"
 
@@ -17202,7 +17203,7 @@ msgstr "Päivitä push-tilaus"
 msgid "Regenerate"
 msgstr "Luo uudelleen"
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:61
+#: src/components/modals/BackupCodesRegenerateModal.tsx:68
 msgid "Regenerate Backup Codes"
 msgstr "Uudelleenluo varmuuskopiot"
 
@@ -17232,7 +17233,7 @@ msgstr "Uudelleenluominen mitätöi nykyisen tokenin. Päivitä kaikki koodit, j
 msgid "Register"
 msgstr "Rekisteröidy"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:279
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:282
 msgid "Registered Passkeys"
 msgstr "Rekisteröidyt pääsyluvut"
 
@@ -17302,7 +17303,7 @@ msgstr "poista"
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildEmbedSplashUploadField.tsx:101
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildIconUploadField.tsx:107
 #: src/components/modals/guild_tabs/guild_overview_tab/fields/GuildInviteSplashUploadField.tsx:113
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:391
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:394
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:96
 #: src/components/modals/tabs/ExpressionPacksTab.tsx:226
 #: src/components/modals/tabs/LinkedAccountsTab.tsx:191
@@ -17476,11 +17477,11 @@ msgstr "Poista ylitys"
 msgid "Remove Pack"
 msgstr "Poista paketti"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:377
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:380
 msgid "Remove Phone"
 msgstr "Poista puhelin"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:360
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:363
 msgid "Remove Phone Number"
 msgstr "Poista puhelinnumero"
 
@@ -17635,7 +17636,7 @@ msgstr "Paketin poistaminen poistaa sen tililtäsi."
 msgid "Removing the timeout will allow <0>{0}</0> to send messages, react, and join voice channels again."
 msgstr "Aikakatkaisun poistaminen sallii <0>{0}</0>:n lähettää viestejä, reagoida ja liittyä puhekanaviin uudelleen."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:319
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:322
 msgid "Rename"
 msgstr "Nimeä uudelleen"
 
@@ -17875,17 +17876,17 @@ msgid "Reschedule Message"
 msgstr "Ajoita viesti uudelleen"
 
 #: src/components/modals/ClaimAccountModal.tsx:222
-#: src/components/modals/EmailChangeModal.tsx:233
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:304
 #: src/components/modals/PasswordChangeModal.tsx:179
 msgid "Resend"
 msgstr "Lähetä uudelleen"
 
-#: src/components/modals/EmailChangeModal.tsx:301
+#: src/components/modals/EmailChangeModal.tsx:304
 msgid "Resend ({newSecondsRemaining}s)"
 msgstr "Lähetä uudelleen ({newSecondsRemaining}s)"
 
-#: src/components/modals/EmailChangeModal.tsx:233
+#: src/components/modals/EmailChangeModal.tsx:236
 msgid "Resend ({originalSecondsRemaining}s)"
 msgstr "Lähetä uudelleen ({originalSecondsRemaining}s)"
 
@@ -18429,7 +18430,7 @@ msgstr "tallennuksia"
 msgid "scale"
 msgstr "skaala"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:78
+#: src/components/modals/MfaTotpEnableModal.tsx:81
 msgid "Scan the QR code with your authenticator app to generate codes for two-factor authentication."
 msgstr "Skannaa QR-koodi todentajasovelluksella luodaksesi kaksivaiheisen tunnistautumisen koodeja."
 
@@ -18566,7 +18567,7 @@ msgstr "Hae käyttäjänimen tai ID:n mukaan"
 msgid "Search channels"
 msgstr "Etsi kanavia"
 
-#: src/components/modals/ForwardModal.tsx:204
+#: src/components/modals/ForwardModal.tsx:209
 msgid "Search channels or DMs"
 msgstr "Etsi kanavia tai yksityisviestejä"
 
@@ -18967,7 +18968,7 @@ msgid "Send"
 msgstr "Lähetä"
 
 #. placeholder {0}: selectedChannelIds.size
-#: src/components/modals/ForwardModal.tsx:380
+#: src/components/modals/ForwardModal.tsx:385
 msgid "Send ({0}/5)"
 msgstr "Lähetä ({0}/5)"
 
@@ -19004,7 +19005,7 @@ msgid "Send an SMS code first."
 msgstr "Lähetä ensin tekstiviestikoodi."
 
 #: src/components/modals/ClaimAccountModal.tsx:180
-#: src/components/modals/EmailChangeModal.tsx:270
+#: src/components/modals/EmailChangeModal.tsx:273
 #: src/components/modals/PhoneAddModal.tsx:208
 msgid "Send code"
 msgstr "Lähetä koodi"
@@ -19199,7 +19200,7 @@ msgstr "Aseta lempinimeksi {0}."
 msgid "Set NSFW level to {0}."
 msgstr "Aseta NSFW-taso {0}."
 
-#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:138
+#: src/components/modals/tabs/account_security_tab/AccountTab.tsx:141
 msgid "Set Password"
 msgstr "Aseta salasana"
 
@@ -19361,7 +19362,7 @@ msgstr "Asetusosiot"
 msgid "Settings!"
 msgstr "Asetukset!"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:71
+#: src/components/modals/MfaTotpEnableModal.tsx:74
 msgid "Setup Authenticator App"
 msgstr "Aseta autentikoija-sovellus"
 
@@ -19989,11 +19990,11 @@ msgstr "Pienempi median koko"
 msgid "sms"
 msgstr "sms"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:409
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:412
 msgid "SMS Backup"
 msgstr "SMS-varmuuskopio"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:429
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:432
 msgid "SMS backup is disabled for partners"
 msgstr "SMS-varmuuskopiointi on poistettu käytöstä kumppaneille"
 
@@ -20006,7 +20007,7 @@ msgstr "SMS-koodi"
 msgid "SMS Code"
 msgstr "SMS-koodi"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:403
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:406
 msgid "SMS Two-Factor Authentication"
 msgstr "SMS-kaksivaiheinen todentaminen"
 
@@ -20014,7 +20015,7 @@ msgstr "SMS-kaksivaiheinen todentaminen"
 msgid "SMS two-factor authentication adds an additional layer of security to your account by requiring a verification code sent to your phone number when signing in."
 msgstr "SMS-kaksivaiheinen todentaminen lisää tilillesi ylimääräisen suojaustason vaatimalla kirjautuessa puhelinnumeroosi lähetettyä varmennuskoodia."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:413
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:416
 msgid "SMS two-factor authentication is enabled"
 msgstr "SMS-kaksivaiheinen todentaminen on käytössä"
 
@@ -20338,7 +20339,7 @@ msgstr "Tähti"
 msgid "starred"
 msgstr "tähtimerkitty"
 
-#: src/components/modals/EmailChangeModal.tsx:202
+#: src/components/modals/EmailChangeModal.tsx:205
 #: src/components/modals/PasswordChangeModal.tsx:148
 msgid "Start"
 msgstr "Aloita"
@@ -21152,7 +21153,7 @@ msgstr "Tiedosto sisältää vahvistustokenin, jonka haemme osoitteesta <0>{dnsU
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "Tiedosto, jota yrität ladata, ylittää enimmäiskoko rajan {maxSizeFormatted}."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:106
+#: src/components/modals/FluxerTagChangeModal.tsx:109
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "FluxerTag <0>{fluxerTag}</0> on jo käytössä. Jatkaminen arpoo erottimen automaattisesti uudelleen."
 
@@ -21717,7 +21718,7 @@ msgstr "Tämä aiheuttaa repeämän aika-avaruuden jatkuvuuteen eikä sitä voi 
 msgid "This will hide all favorites-related UI elements including buttons and menu items. Your existing favorites will be preserved and can be re-enabled anytime from <0>User Settings → Look & Feel → Favorites</0>."
 msgstr "Tämä piilottaa kaikki suosikkeihin liittyvät käyttöliittymäelementit, mukaan lukien painikkeet ja valikkokohteet. Olemassa olevat suosikit säilyvät ja ne voi ottaa uudelleen käyttöön milloin tahansa kohdasta <0>Käyttäjäasetukset → Ulkoasu → Suosikit</0>."
 
-#: src/components/modals/BackupCodesRegenerateModal.tsx:65
+#: src/components/modals/BackupCodesRegenerateModal.tsx:72
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "Tämä mitätöi nykyiset varmuuskoodisi ja luo uusia."
 
@@ -21911,7 +21912,7 @@ msgstr "Näytä/piilota kanavan jäsenlista"
 msgid "Toggle Compact Mode"
 msgstr "Kytke tiivis tila päälle/pois"
 
-#: src/components/modals/MobileVideoViewer.tsx:239
+#: src/components/modals/MobileVideoViewer.tsx:247
 msgid "Toggle controls"
 msgstr "Vaihda ohjaimia"
 
@@ -22307,7 +22308,7 @@ msgstr "Kaksivaiheinen tunnistus"
 msgid "Two-factor authentication disabled"
 msgstr "Kaksivaiheinen tunnistus pois käytöstä"
 
-#: src/components/modals/MfaTotpEnableModal.tsx:55
+#: src/components/modals/MfaTotpEnableModal.tsx:58
 msgid "Two-factor authentication enabled"
 msgstr "Kaksivaiheinen tunnistus käytössä"
 
@@ -22436,13 +22437,13 @@ msgstr "Profiilibanneria, merkkejä ja esittelyä ei voi ladata."
 msgid "Unable to prepare any emojis for upload. The following errors occurred:"
 msgstr "Emojeita ei voi valmistella lähetykseen. Seuraavat virheet ilmenivät:"
 
-#: src/components/modals/EmailChangeModal.tsx:121
-#: src/components/modals/EmailChangeModal.tsx:151
+#: src/components/modals/EmailChangeModal.tsx:124
+#: src/components/modals/EmailChangeModal.tsx:154
 #: src/components/modals/PasswordChangeModal.tsx:104
 msgid "Unable to resend code right now"
 msgstr "Koodin uudelleenlähetys ei onnistu nyt"
 
-#: src/components/modals/EmailChangeModal.tsx:136
+#: src/components/modals/EmailChangeModal.tsx:139
 msgid "Unable to send code to new email"
 msgstr "Koodia ei voi lähettää uudelle sähköpostille"
 
@@ -22455,7 +22456,7 @@ msgstr "Ääniviestin lähettäminen epäonnistui. Yritä uudelleen."
 msgid "Unable to Start Call"
 msgstr "Puhelua ei voi aloittaa"
 
-#: src/components/modals/EmailChangeModal.tsx:91
+#: src/components/modals/EmailChangeModal.tsx:94
 msgid "Unable to start email change"
 msgstr "Sähköpostin vaihto ei lähde käyntiin"
 
@@ -22781,7 +22782,7 @@ msgstr "Avaa tarroja DM:ssä Plutoniumin avulla"
 #: src/components/layout/UserArea.tsx:168
 #: src/components/media_player/components/MediaVerticalVolumeControl.tsx:249
 #: src/components/media_player/components/MediaVolumeControl.tsx:208
-#: src/components/modals/MobileVideoViewer.tsx:272
+#: src/components/modals/MobileVideoViewer.tsx:280
 #: src/components/voice/VoiceControlBar.tsx:602
 msgid "Unmute"
 msgstr "Poista mykistys"
@@ -22872,7 +22873,7 @@ msgstr "Poista DM:n kiinnitys"
 msgid "Unpin Group DM"
 msgstr "Poista ryhmä-DM:n kiinnitys"
 
-#: src/components/channel/MessageActionUtils.tsx:412
+#: src/components/channel/MessageActionUtils.tsx:413
 #: src/components/shared/ChannelPinsContent.tsx:102
 msgid "Unpin it"
 msgstr "Poista kiinnitys"
@@ -22880,7 +22881,7 @@ msgstr "Poista kiinnitys"
 #: src/components/channel/MessageActionBar.tsx:519
 #: src/components/channel/MessageActionBar.tsx:735
 #: src/components/channel/MessageActionMenu.tsx:243
-#: src/components/channel/MessageActionUtils.tsx:409
+#: src/components/channel/MessageActionUtils.tsx:410
 #: src/components/shared/ChannelPinsContent.tsx:99
 #: src/components/shared/ChannelPinsContent.tsx:260
 #: src/components/uikit/context_menu/items/MessageMenuItems.tsx:163
@@ -23322,7 +23323,7 @@ msgstr "Käytä globaalia profiilia"
 msgid "Use light theme"
 msgstr "Käytä vaaleaa teemaa"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:274
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:277
 msgid "Use passkeys for passwordless sign-in and two-factor authentication"
 msgstr "Käytä passkeytä salasanattomaan sisäänkirjautumiseen ja kaksivaiheiseen tunnistautumiseen"
 
@@ -23475,9 +23476,9 @@ msgstr "käyttäjä, botti tai webhook"
 msgid "username"
 msgstr "käyttäjänimi"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:187
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
-#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:51
+#: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
 msgid "Username"
 msgstr "Käyttäjänimi"
@@ -23510,11 +23511,11 @@ msgstr "Käyttäjänimen on oltava enintään 32 merkkiä"
 msgid "Username#0000"
 msgstr "Käyttäjänimi#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:169
+#: src/components/modals/FluxerTagChangeModal.tsx:172
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "Käyttäjänimet voivat sisältää vain kirjaimia (a-z, A-Z), numeroita (0-9) ja alaviivoja. Käyttäjänimet eivät erota isoja ja pieniä kirjaimia."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:164
+#: src/components/modals/FluxerTagChangeModal.tsx:167
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
 msgstr "Käyttäjänimet voivat sisältää vain kirjaimia (a-z, A-Z), numeroita (0-9) ja alaviivoja. Käyttäjänimet eivät erota isoja ja pieniä kirjaimia. Voit valita oman nelinumeroisen tagin, jos se on vapaana."
 
@@ -23634,8 +23635,8 @@ msgid "Verification Barriers"
 msgstr "Varmistuksen esteet"
 
 #: src/components/modals/ClaimAccountModal.tsx:198
-#: src/components/modals/EmailChangeModal.tsx:220
-#: src/components/modals/EmailChangeModal.tsx:288
+#: src/components/modals/EmailChangeModal.tsx:223
+#: src/components/modals/EmailChangeModal.tsx:291
 #: src/components/modals/PasswordChangeModal.tsx:166
 #: src/components/modals/PhoneAddModal.tsx:226
 #: src/components/modals/RequiredActionModal.tsx:495
@@ -23662,7 +23663,7 @@ msgstr "Varmennussähköposti lähetetty! Tarkista sähköpostisi."
 msgid "Verification failed"
 msgstr "Varmistus epäonnistui"
 
-#: src/components/modals/BackupCodesViewModal.tsx:63
+#: src/components/modals/BackupCodesViewModal.tsx:68
 msgid "Verification may be required before viewing your backup codes."
 msgstr "Varmistus voi olla pakollinen ennen varmistuskoodien katselua."
 
@@ -23684,7 +23685,7 @@ msgid "verify"
 msgstr "vahvista"
 
 #: src/components/modals/AddConnectionModal.tsx:315
-#: src/components/modals/EmailChangeModal.tsx:236
+#: src/components/modals/EmailChangeModal.tsx:239
 #: src/components/modals/PasswordChangeModal.tsx:182
 #: src/components/modals/PhoneAddModal.tsx:240
 #: src/components/modals/RequiredActionModal.tsx:652
@@ -23785,7 +23786,7 @@ msgstr "videokeskustelu"
 msgid "Video preview"
 msgstr "Esikatseluvideo"
 
-#: src/components/modals/MobileVideoViewer.tsx:311
+#: src/components/modals/MobileVideoViewer.tsx:319
 msgid "Video progress"
 msgstr "Videon edistyminen"
 
@@ -23859,15 +23860,15 @@ msgstr "Näytä ja hallinnoi estettyjä käyttäjiä."
 msgid "View and manage every webhook configured across your community."
 msgstr "Näytä ja hallinnoi kaikkia yhteisössä määritettyjä webhookeja."
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:257
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:260
 msgid "View and manage your backup codes for account recovery"
 msgstr "Näytä ja hallinnoi varmistuskoodejasi tilin palautusta varten"
 
-#: src/components/modals/BackupCodesViewModal.tsx:59
+#: src/components/modals/BackupCodesViewModal.tsx:64
 msgid "View Backup Codes"
 msgstr "Näytä varakoodit"
 
-#: src/components/modals/BackupCodesViewModal.tsx:58
+#: src/components/modals/BackupCodesViewModal.tsx:63
 msgid "View backup codes form"
 msgstr "Varmistuskoodilomake"
 
@@ -23884,7 +23885,7 @@ msgstr "Näytä puhelun hallinta"
 msgid "View Channel"
 msgstr "Näytä kanava"
 
-#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:265
+#: src/components/modals/tabs/account_security_tab/SecurityTab.tsx:268
 msgid "View Codes"
 msgstr "Näytä koodit"
 
@@ -24387,11 +24388,11 @@ msgstr "Lähetämme vahvistuskoodin tähän sähköpostiosoitteeseen."
 msgid "We'll send a verification code to your email before you can change your password."
 msgstr "Lähetämme vahvistuskoodin sähköpostiisi ennen kuin voit vaihtaa salasanaasi."
 
-#: src/components/modals/EmailChangeModal.tsx:190
+#: src/components/modals/EmailChangeModal.tsx:193
 msgid "We'll verify your current email and then your new email with one-time codes."
 msgstr "Vahvistamme nykyisen sähköpostisi ja sitten uuden sähköpostisi kertakoodien avulla."
 
-#: src/components/modals/EmailChangeModal.tsx:192
+#: src/components/modals/EmailChangeModal.tsx:195
 msgid "We'll verify your new email with a one-time code."
 msgstr "Vahvistamme uuden sähköpostisi kertakoodilla."
 

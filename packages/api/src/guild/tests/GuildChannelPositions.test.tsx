@@ -440,7 +440,6 @@ describe('Guild Channel Positions', () => {
 		expect(frontDoorIndex).toBeGreaterThan(milsimsIndex);
 		expect(frontDoorIndex).toBeLessThan(coopGamesIndex);
 	});
-
 	test('should reject text channels being positioned below voice channels via preceding_sibling_id', async () => {
 		const account = await createTestAccount(harness);
 		const guild = await createGuild(harness, account.token, 'Test Guild');
