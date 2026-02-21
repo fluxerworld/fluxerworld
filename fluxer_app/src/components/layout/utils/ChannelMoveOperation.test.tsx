@@ -150,6 +150,41 @@ describe('ChannelMoveOperation', () => {
 		});
 	});
 
+	it('moves a top-level category above another category with root-level preceding sibling', () => {
+		const milsims = createChannel({id: 'milsims', type: ChannelTypes.GUILD_CATEGORY, position: 3});
+		const coopGames = createChannel({id: 'coop-games', type: ChannelTypes.GUILD_CATEGORY, position: 11});
+		const frontDoor = createChannel({id: 'front-door', type: ChannelTypes.GUILD_CATEGORY, position: 30});
+		const coopVoice = createChannel({
+			id: 'coop-voice',
+			type: ChannelTypes.GUILD_VOICE,
+			position: 12,
+			parentId: coopGames.id,
+		});
+		const coopText = createChannel({
+			id: 'coop-text',
+			type: ChannelTypes.GUILD_TEXT,
+			position: 13,
+			parentId: coopGames.id,
+		});
+
+		const operation = createChannelMoveOperation({
+			channels: [milsims, coopGames, frontDoor, coopVoice, coopText],
+			dragItem: createDragItem(frontDoor),
+			dropResult: {
+				targetId: coopGames.id,
+				position: 'before',
+				targetParentId: null,
+			},
+		});
+
+		expect(operation).toEqual({
+			channelId: frontDoor.id,
+			newParentId: null,
+			precedingSiblingId: milsims.id,
+			position: 1,
+		});
+	});
+
 	it('returns null when dropping to the same effective placement', () => {
 		const category = createChannel({id: 'category', type: ChannelTypes.GUILD_CATEGORY, position: 0});
 		const textOne = createChannel({

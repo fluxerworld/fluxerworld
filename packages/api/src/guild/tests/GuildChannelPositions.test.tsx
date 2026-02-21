@@ -18,6 +18,8 @@
  */
 
 import {createTestAccount} from '@fluxer/api/src/auth/tests/AuthTestUtils';
+import {createGuildID} from '@fluxer/api/src/BrandedTypes';
+import {ChannelRepository} from '@fluxer/api/src/channel/ChannelRepository';
 import {
 	acceptInvite,
 	addMemberRole,
@@ -383,6 +385,60 @@ describe('Guild Channel Positions', () => {
 		expect(response.code).toBe('INVALID_FORM_BODY');
 		expect(response.errors[0]?.path).toBe('preceding_sibling_id');
 		expect(response.errors[0]?.code).toBe(ValidationErrorCodes.CANNOT_POSITION_CHANNEL_RELATIVE_TO_ITSELF);
+	});
+
+	test('should reorder top-level categories despite unrelated legacy voice and text ordering', async () => {
+		const account = await createTestAccount(harness);
+		const guild = await createGuild(harness, account.token, 'Test Guild');
+
+		const milsims = await createChannel(harness, account.token, guild.id, 'MILSIMS', ChannelTypes.GUILD_CATEGORY);
+		const coopGames = await createChannel(harness, account.token, guild.id, 'COOP GAMES', ChannelTypes.GUILD_CATEGORY);
+		const frontDoor = await createChannel(harness, account.token, guild.id, 'FRONT DOOR', ChannelTypes.GUILD_CATEGORY);
+		const coopText = await createChannel(harness, account.token, guild.id, 'coop-text', ChannelTypes.GUILD_TEXT);
+		const coopVoice = await createChannel(harness, account.token, guild.id, 'coop-voice', ChannelTypes.GUILD_VOICE);
+
+		await updateChannelPositions(harness, account.token, guild.id, [
+			{id: coopText.id, parent_id: coopGames.id},
+			{id: coopVoice.id, parent_id: coopGames.id},
+		]);
+
+		const channelRepository = new ChannelRepository();
+		const channelsBeforeMove = await channelRepository.listGuildChannels(createGuildID(BigInt(guild.id)));
+		const storedCoopText = channelsBeforeMove.find((channel) => channel.id.toString() === coopText.id);
+		const storedCoopVoice = channelsBeforeMove.find((channel) => channel.id.toString() === coopVoice.id);
+
+		expect(storedCoopText).toBeDefined();
+		expect(storedCoopVoice).toBeDefined();
+		if (!storedCoopText || !storedCoopVoice) {
+			return;
+		}
+
+		await channelRepository.upsert({...storedCoopVoice.toRow(), position: 1});
+		await channelRepository.upsert({...storedCoopText.toRow(), position: 2});
+
+		await updateChannelPositions(harness, account.token, guild.id, [
+			{
+				id: frontDoor.id,
+				parent_id: null,
+				preceding_sibling_id: milsims.id,
+			},
+		]);
+
+		const channels = await getGuildChannels(harness, account.token, guild.id);
+		const orderedRootCategories = channels
+			.filter((channel) => channel.type === ChannelTypes.GUILD_CATEGORY && channel.parent_id == null)
+			.sort((a, b) => (a.position ?? 0) - (b.position ?? 0))
+			.map((channel) => channel.id);
+
+		const milsimsIndex = orderedRootCategories.indexOf(milsims.id);
+		const frontDoorIndex = orderedRootCategories.indexOf(frontDoor.id);
+		const coopGamesIndex = orderedRootCategories.indexOf(coopGames.id);
+
+		expect(milsimsIndex).toBeGreaterThanOrEqual(0);
+		expect(frontDoorIndex).toBeGreaterThanOrEqual(0);
+		expect(coopGamesIndex).toBeGreaterThanOrEqual(0);
+		expect(frontDoorIndex).toBeGreaterThan(milsimsIndex);
+		expect(frontDoorIndex).toBeLessThan(coopGamesIndex);
 	});
 
 	test('should reject text channels being positioned below voice channels via preceding_sibling_id', async () => {

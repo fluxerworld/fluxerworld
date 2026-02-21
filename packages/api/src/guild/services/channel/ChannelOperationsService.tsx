@@ -570,11 +570,18 @@ export class ChannelOperationsService {
 		const desiredParentId = plan.desiredParentById.get(operation.channelId) ?? null;
 		const targetChannel = allChannels.find((ch) => ch.id === operation.channelId);
 		const currentParentId = targetChannel?.parentId ?? null;
+		const parentIdsToValidate = new Set<ChannelID>();
+		if (currentParentId) {
+			parentIdsToValidate.add(currentParentId);
+		}
+		if (desiredParentId) {
+			parentIdsToValidate.add(desiredParentId);
+		}
 		if (desiredParentId && desiredParentId !== currentParentId) {
 			await this.ensureCategoryHasCapacity({guildId, categoryId: desiredParentId});
 		}
 
-		ChannelHelpers.validateChannelVoicePlacement(plan.finalChannels, plan.desiredParentById);
+		ChannelHelpers.validateChannelVoicePlacement(plan.finalChannels, plan.desiredParentById, parentIdsToValidate);
 
 		if (plan.orderUnchanged) {
 			return;

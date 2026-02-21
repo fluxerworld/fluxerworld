@@ -33,7 +33,7 @@ import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
 import {PlutoniumUpsell} from '@app/components/uikit/plutonium_upsell/PlutoniumUpsell';
 import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
 import {useFormSubmit} from '@app/hooks/useFormSubmit';
-import UserStore from '@app/stores/UserStore';
+import type {UserRecord} from '@app/records/UserRecord';
 import {LimitResolver} from '@app/utils/limits/LimitResolverAdapter';
 import {isLimitToggleEnabled} from '@app/utils/limits/LimitUtils';
 import {shouldShowPremiumFeatures} from '@app/utils/PremiumUtils';
@@ -47,9 +47,12 @@ interface FormInputs {
 	discriminator: string;
 }
 
-export const FluxerTagChangeModal = observer(() => {
+interface FluxerTagChangeModalProps {
+	user: UserRecord;
+}
+
+export const FluxerTagChangeModal = observer(({user}: FluxerTagChangeModalProps) => {
 	const {t} = useLingui();
-	const user = UserStore.getCurrentUser()!;
 	const usernameRef = useRef<HTMLInputElement>(null);
 	const hasCustomDiscriminator = isLimitToggleEnabled(
 		{feature_custom_discriminator: LimitResolver.resolve({key: 'feature_custom_discriminator', fallback: 0})},
@@ -143,7 +146,7 @@ export const FluxerTagChangeModal = observer(() => {
 			ModalActionCreators.pop();
 			ToastActionCreators.createToast({type: 'success', children: t`FluxerTag updated`});
 		},
-		[hasCustomDiscriminator, user.username, user.discriminator],
+		[hasCustomDiscriminator],
 	);
 
 	const {handleSubmit, isSubmitting} = useFormSubmit({

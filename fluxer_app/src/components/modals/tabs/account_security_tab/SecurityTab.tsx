@@ -240,7 +240,10 @@ export const SecurityTabContent: React.FC<SecurityTabProps> = observer(
 								<Trans>Disable</Trans>
 							</Button>
 						) : (
-							<Button small={true} onClick={() => ModalActionCreators.push(modal(() => <MfaTotpEnableModal />))}>
+							<Button
+								small={true}
+								onClick={() => ModalActionCreators.push(modal(() => <MfaTotpEnableModal user={user} />))}
+							>
 								<Trans>Enable</Trans>
 							</Button>
 						)}
@@ -260,7 +263,7 @@ export const SecurityTabContent: React.FC<SecurityTabProps> = observer(
 								<Button
 									variant="secondary"
 									small={true}
-									onClick={() => ModalActionCreators.push(modal(() => <BackupCodesViewModal />))}
+									onClick={() => ModalActionCreators.push(modal(() => <BackupCodesViewModal user={user} />))}
 								>
 									<Trans>View Codes</Trans>
 								</Button>
