@@ -63,16 +63,10 @@
 	font-variant-numeric: tabular-nums;
 	white-space: nowrap;
 	pointer-events: none;
-	text-shadow:
-		0 0 6px var(--glow-color),
-		0 0 14px color-mix(in srgb, var(--glow-color) 50%, transparent);
 }
 
 :global(.theme-light) .sequenceBadge {
 	color: var(--brand-primary);
-	text-shadow:
-		0 0 5px color-mix(in srgb, var(--glow-color) 60%, transparent),
-		0 0 12px color-mix(in srgb, var(--glow-color) 30%, transparent);
 }
 
 .sequenceBadgeMobile {

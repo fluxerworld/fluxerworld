@@ -45,22 +45,8 @@ interface IconBadge extends BaseBadge {
 interface TextBadge extends BaseBadge {
 	type: 'text';
 	text: string;
-	glowColor: string;
 }
 type Badge = IconBadge | TextBadge;
-
-const GLOW_COLORS = [
-	'#ff6b9d', // rose
-	'#c084fc', // violet
-	'#60a5fa', // sky blue
-	'#34d399', // emerald
-	'#fbbf24', // amber
-	'#f472b6', // pink
-	'#818cf8', // indigo
-	'#2dd4bf', // teal
-	'#fb923c', // orange
-	'#a78bfa', // purple
-] as const;
 
 interface UserProfileBadgesProps {
 	user: UserRecord;
@@ -149,7 +135,6 @@ export const UserProfileBadges: React.FC<UserProfileBadgesProps> = observer(
 						text: `#${profile.premiumLifetimeSequence}`,
 						tooltip: t`Visionary ID #${profile.premiumLifetimeSequence}`,
 						url: badgeUrl,
-						glowColor: GLOW_COLORS[profile.premiumLifetimeSequence % GLOW_COLORS.length],
 					});
 				}
 			}
@@ -188,11 +173,7 @@ export const UserProfileBadges: React.FC<UserProfileBadgesProps> = observer(
 						badge.type === 'icon' ? (
 							<img src={badge.iconUrl} alt={badge.tooltip} className={badgeClassName} />
 						) : (
-							<span
-								className={clsx(styles.sequenceBadge, sequenceClassName)}
-								style={{'--glow-color': badge.glowColor} as React.CSSProperties}
-								aria-hidden="true"
-							>
+							<span className={clsx(styles.sequenceBadge, sequenceClassName)} aria-hidden="true">
 								{badge.text}
 							</span>
 						);
