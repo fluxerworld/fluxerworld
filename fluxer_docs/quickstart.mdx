@@ -1,6 +1,6 @@
 ---
 title: "Quickstart: ping-pong bot"
-description: "Create a bot application, invite it to a guild, and reply "pong" to "ping"."
+description: 'Create a bot application, invite it to a guild, and reply "pong" to "ping".'
 ---
 
 <Warning>
@@ -97,13 +97,13 @@ Second, install the required dependencies:
 npm i -E @discordjs/core@2.4.0 @discordjs/rest@2.6.0 @discordjs/ws@2.0.4
 ```
 
-Second, store your token from Step 4 in a `.env` file in this folder:
+Third, store your token from Step 4 in a `.env` file in this folder:
 
 ```
 FLUXER_BOT_TOKEN=<your token goes here>
 ```
 
-Third, create a new `bot.mjs` file, looking like so:
+Fourth, create a new `bot.mjs` file, looking like so:
 
 ```javascript
 import {Client, GatewayDispatchEvents} from '@discordjs/core';
