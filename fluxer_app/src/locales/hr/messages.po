@@ -633,11 +633,11 @@ msgstr "{lockedStickerCount} naljepnica"
 msgid "{lockedStickerCount} stickers"
 msgstr "{lockedStickerCount} naljepnice"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmark"
 msgstr "{maxBookmarks} oznaka"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmarks"
 msgstr "{maxBookmarks} oznaka"
 
@@ -718,11 +718,11 @@ msgstr "{participantCount} sudionik u pozivu"
 msgid "{participantCount} participants in call"
 msgstr "{participantCount} sudionika u pozivu"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmark"
 msgstr "{premiumBookmarks} oznaka"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmarks"
 msgstr "{premiumBookmarks} oznaka"
 
@@ -1362,9 +1362,9 @@ msgstr "30 sekundi"
 msgid "4 hours"
 msgstr "4 sata"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:206
-#: src/components/modals/FluxerTagChangeModal.tsx:234
-#: src/components/modals/FluxerTagChangeModal.tsx:251
+#: src/components/modals/FluxerTagChangeModal.tsx:217
+#: src/components/modals/FluxerTagChangeModal.tsx:245
+#: src/components/modals/FluxerTagChangeModal.tsx:262
 msgid "4-digit tag"
 msgstr "4-znamenkasta oznaka"
 
@@ -1642,7 +1642,7 @@ msgstr "Nadjačavanja stanja računa"
 msgid "Account Too New"
 msgstr "Račun previše nov"
 
-#: src/actions/InviteActionCreators.tsx:178
+#: src/actions/InviteActionCreators.tsx:182
 #: src/components/modals/RequiredActionModal.tsx:143
 #: src/components/modals/RequiredActionModal.tsx:416
 msgid "Account Verification Required"
@@ -2010,7 +2010,7 @@ msgstr "Dodano {0}."
 msgid "Added roles."
 msgstr "Dodane uloge."
 
-#: src/actions/SavedMessageActionCreators.tsx:58
+#: src/actions/SavedMessageActionCreators.tsx:59
 msgid "Added to bookmarks"
 msgstr "Dodano u oznake"
 
@@ -3720,9 +3720,9 @@ msgstr "Književni klub"
 msgid "Bookmark"
 msgstr "Označi"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:43
-#: src/components/alerts/MaxBookmarksModal.tsx:54
-#: src/components/alerts/MaxBookmarksModal.tsx:67
+#: src/components/alerts/MaxBookmarksModal.tsx:46
+#: src/components/alerts/MaxBookmarksModal.tsx:57
+#: src/components/alerts/MaxBookmarksModal.tsx:70
 msgid "Bookmark Limit Reached"
 msgstr "Dosegnuto ograničenje oznaka"
 
@@ -3750,7 +3750,7 @@ msgstr "Označeno!"
 
 #: src/components/modals/BookmarksBottomSheet.tsx:109
 #: src/components/pages/SavedMessagesPage.tsx:67
-#: src/components/popouts/InboxPopout.tsx:58
+#: src/components/popouts/InboxPopout.tsx:57
 msgid "Bookmarks"
 msgstr "Oznake"
 
@@ -4055,7 +4055,7 @@ msgstr "Kamere su onemogućene kada ima više od {VOICE_CHANNEL_CAMERA_USER_LIMI
 #: src/components/alerts/FileSizeTooLargeModal.tsx:87
 #: src/components/auth/BrowserLoginHandoffModal.tsx:269
 #: src/components/bottomsheets/CreateDMBottomSheet.tsx:130
-#: src/components/channel/ChannelTextarea.tsx:312
+#: src/components/channel/ChannelTextarea.tsx:310
 #: src/components/channel/friends/FriendListItem.tsx:259
 #: src/components/channel/MentionEveryonePopout.tsx:128
 #: src/components/emojis/EmojiListItem.tsx:125
@@ -4099,8 +4099,8 @@ msgstr "Kamere su onemogućene kada ima više od {VOICE_CHANNEL_CAMERA_USER_LIMI
 #: src/components/modals/EmailChangeModal.tsx:270
 #: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:120
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:122
+#: src/components/modals/FluxerTagChangeModal.tsx:294
 #: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
@@ -4146,7 +4146,7 @@ msgstr "Odustani"
 msgid "Cancel Friend Request"
 msgstr "Otkazivanje zahtjeva za prijateljstvo"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:115
+#: src/components/modals/FluxerTagChangeModal.tsx:117
 msgid "Cancel if you want to choose a different username instead."
 msgstr "Otkaži ako želiš odabrati drugo korisničko ime."
 
@@ -4178,11 +4178,11 @@ msgstr "Nije moguće uređivati"
 msgid "Cannot Delete Account"
 msgstr "Nije moguće izbrisati račun"
 
-#: src/actions/InviteActionCreators.tsx:313
+#: src/actions/InviteActionCreators.tsx:317
 msgid "Cannot install emoji pack"
 msgstr "Nije moguće instalirati paket emojija"
 
-#: src/actions/InviteActionCreators.tsx:314
+#: src/actions/InviteActionCreators.tsx:318
 msgid "Cannot install sticker pack"
 msgstr "Nije moguće instalirati paket naljepnica"
 
@@ -4293,7 +4293,7 @@ msgstr "Promijeni emoji"
 msgid "Change FluxerTag"
 msgstr "Promijeni FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:161
+#: src/components/modals/FluxerTagChangeModal.tsx:163
 msgid "Change FluxerTag form"
 msgstr "Obrazac za promjenu FluxerTaga"
 
@@ -4380,7 +4380,7 @@ msgstr "Promijeni svoju e-poštu"
 msgid "Change your email address"
 msgstr "Promijeni svoju adresu e-pošte"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:162
+#: src/components/modals/FluxerTagChangeModal.tsx:164
 msgid "Change Your FluxerTag"
 msgstr "Promijeni svoj FluxerTag"
 
@@ -4424,7 +4424,7 @@ msgstr "Promijenjena brzina prijenosa na {0}."
 msgid "Changed the voice region to {0}."
 msgstr "Promijenjena je glasovna regija u {0}."
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 #: src/utils/SearchUtils.tsx:268
 msgid "channel"
 msgstr "kanal"
@@ -5333,7 +5333,7 @@ msgid "Communication"
 msgstr "Komunikacija"
 
 #: src/components/modals/components/FeatureComparisonTable.tsx:49
-#: src/stores/QuickSwitcherStore.tsx:1354
+#: src/stores/QuickSwitcherStore.tsx:1352
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
 msgstr "Zajednice"
@@ -5825,13 +5825,13 @@ msgstr "Kontekstni izbornici"
 msgid "Context menus can be opened with left-click (on buttons) or right-click (on other elements). This demonstrates various menu items including checkboxes, radio buttons, sliders, and submenus."
 msgstr "Kontekstni izbornici mogu se otvoriti lijevim klikom (na gumbima) ili desnim klikom (na drugim elementima). Ovo pokazuje razne stavke izbornika uključujući potvrdne okvire, radio gumbe, klizače i podizbornike."
 
-#: src/components/channel/ChannelTextarea.tsx:311
+#: src/components/channel/ChannelTextarea.tsx:309
 #: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:82
 #: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:119
-#: src/components/modals/FluxerTagChangeModal.tsx:286
+#: src/components/modals/FluxerTagChangeModal.tsx:121
+#: src/components/modals/FluxerTagChangeModal.tsx:297
 #: src/components/modals/MfaTotpDisableModal.tsx:78
 #: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
@@ -6601,7 +6601,7 @@ msgstr "Prilagodbe CSS-a"
 msgid "Custom Date Range"
 msgstr "Prilagođeni raspon datuma"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:230
+#: src/components/modals/FluxerTagChangeModal.tsx:241
 msgid "Custom discriminators are not available on this instance"
 msgstr "Prilagođeni diskriminatori nisu dostupni na ovoj instanci"
 
@@ -6732,7 +6732,7 @@ msgstr "Prilagodite koje su tipke vidljive u području za unos poruka. Prečaci 
 msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
 msgstr "Prilagodite svoj 4-znamenkasti oznaku (#{0}) prema vlastitom ukusu s Plutoniumom"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:275
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Prilagodi svoju 4-znamenkastu oznaku ili je zadrži pri promjeni korisničkog imena"
 
@@ -7516,7 +7516,7 @@ msgstr "Izravna poruka"
 #: src/components/layout/guild_list/FluxerButton.tsx:80
 #: src/components/modals/GuildPrivacySettingsModal.tsx:76
 #: src/components/modals/tabs/privacy_safety_tab/ConnectionsTab.tsx:221
-#: src/stores/QuickSwitcherStore.tsx:833
+#: src/stores/QuickSwitcherStore.tsx:831
 msgid "Direct Messages"
 msgstr "Izravne poruke"
 
@@ -7559,7 +7559,7 @@ msgstr "Onemogući animacije i prijelaze u cijeloj aplikaciji."
 msgid "Disable animations and transitions. Currently controlled by your system setting."
 msgstr "Onemogući animacije i prijelaze. Trenutno kontrolirano postavkama tvog sustava."
 
-#: src/stores/QuickSwitcherStore.tsx:915
+#: src/stores/QuickSwitcherStore.tsx:913
 msgid "Disable Compact Mode"
 msgstr "Onemogući kompaktni način rada"
 
@@ -7586,7 +7586,7 @@ msgstr "Onemogući suzbijanje buke"
 msgid "Disable Picture-in-Picture Popout"
 msgstr "Onemogući sliku u slici"
 
-#: src/stores/QuickSwitcherStore.tsx:931
+#: src/stores/QuickSwitcherStore.tsx:929
 msgid "Disable Reduced Motion"
 msgstr "Onemogući smanjeno kretanje"
 
@@ -7755,7 +7755,7 @@ msgstr "Diskriminator"
 msgid "Discussion or promotion of illegal activities"
 msgstr "Rasprava ili promicanje nezakonitih aktivnosti"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:76
+#: src/components/alerts/MaxBookmarksModal.tsx:79
 #: src/components/layout/GuildLayout.tsx:106
 #: src/components/layout/NagbarContent.tsx:42
 #: src/components/modals/GiftAcceptModal.tsx:110
@@ -8486,7 +8486,7 @@ msgstr "Nazivi emotikona moraju imati najmanje 2 znaka i mogu sadržavati samo a
 msgid "Emoji pack"
 msgstr "Paket emotikona"
 
-#: src/actions/InviteActionCreators.tsx:255
+#: src/actions/InviteActionCreators.tsx:259
 msgid "Emoji pack creation limit reached"
 msgstr "Dosegnuto je ograničenje za stvaranje paketa emotikona"
 
@@ -8494,7 +8494,7 @@ msgstr "Dosegnuto je ograničenje za stvaranje paketa emotikona"
 msgid "Emoji Pack Invite"
 msgstr "Pozivnica za paket emotikona"
 
-#: src/actions/InviteActionCreators.tsx:241
+#: src/actions/InviteActionCreators.tsx:245
 msgid "Emoji pack limit reached"
 msgstr "Dosegnuto je ograničenje za paket emotikona"
 
@@ -8567,7 +8567,7 @@ msgstr "Omogući beta značajku"
 msgid "Enable Browser Notifications"
 msgstr "Omogući obavijesti preglednika"
 
-#: src/stores/QuickSwitcherStore.tsx:916
+#: src/stores/QuickSwitcherStore.tsx:914
 msgid "Enable Compact Mode"
 msgstr "Omogući kompaktni način rada"
 
@@ -8643,7 +8643,7 @@ msgstr "Omogući push za ovaj uređaj"
 msgid "Enable push notifications for this installed PWA to keep receiving messages when the browser is backgrounded."
 msgstr "Omogući push obavijesti za ovu instaliranu PWA kako bi nastavio primati poruke kada je preglednik u pozadini."
 
-#: src/stores/QuickSwitcherStore.tsx:932
+#: src/stores/QuickSwitcherStore.tsx:930
 msgid "Enable Reduced Motion"
 msgstr "Omogući smanjeno kretanje"
 
@@ -9314,11 +9314,11 @@ msgstr "Zanemarivanje zahtjeva za prijateljstvo nije uspjelo. Pokušajte ponovno
 msgid "Failed to initiate connection"
 msgstr "Nije uspjelo iniciranje veze"
 
-#: src/actions/InviteActionCreators.tsx:322
+#: src/actions/InviteActionCreators.tsx:326
 msgid "Failed to install this emoji pack. Please try again later."
 msgstr "Instalacija ovog paketa emojija nije uspjela. Pokušajte ponovno kasnije."
 
-#: src/actions/InviteActionCreators.tsx:323
+#: src/actions/InviteActionCreators.tsx:327
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Instalacija ovog paketa naljepnica nije uspjela. Pokušajte ponovno kasnije."
 
@@ -9716,9 +9716,9 @@ msgstr "omiljeni"
 #: src/components/modals/tabs/AppearanceTab.tsx:116
 #: src/components/modals/utils/SettingsConstants.tsx:279
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:233
-#: src/stores/QuickSwitcherStore.tsx:843
-#: src/stores/QuickSwitcherStore.tsx:1261
-#: src/stores/QuickSwitcherStore.tsx:1273
+#: src/stores/QuickSwitcherStore.tsx:841
+#: src/stores/QuickSwitcherStore.tsx:1259
+#: src/stores/QuickSwitcherStore.tsx:1271
 msgid "Favorites"
 msgstr "Omiljeno"
 
@@ -9964,16 +9964,16 @@ msgstr "Fluxer Staff"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer koristi push obavijesti kad je instaliran kao mobilni PWA. Registracija osigurava da pristupnik može doći do tvog uređaja čak i kad je preglednik u pozadini."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:179
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:105
+#: src/components/modals/FluxerTagChangeModal.tsx:107
 msgid "FluxerTag already taken"
 msgstr "FluxerTag je već zauzet"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:147
+#: src/components/modals/FluxerTagChangeModal.tsx:149
 msgid "FluxerTag updated"
 msgstr "FluxerTag ažuriran"
 
@@ -10491,7 +10491,7 @@ msgstr "Budi obaviješten kada primiš poruke. Možda ćeš morati dopustiti oba
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:224
+#: src/components/modals/FluxerTagChangeModal.tsx:235
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10508,7 +10508,7 @@ msgstr "Nabavi Plutonium za sebe i otključaj više granice i ekskluzivne znača
 msgid "Get Plutonium to customize your tag"
 msgstr "Nabavi Plutonium da prilagodiš svoj tag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:202
+#: src/components/modals/FluxerTagChangeModal.tsx:213
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "Nabavi Plutonium da prilagodiš svoj tag ili ga zadržiš pri promjeni korisničkog imena"
 
@@ -10726,7 +10726,7 @@ msgstr "Idi na Početnu"
 msgid "Go to login"
 msgstr "Idi na prijavu"
 
-#: src/stores/QuickSwitcherStore.tsx:528
+#: src/stores/QuickSwitcherStore.tsx:526
 msgid "Go to message"
 msgstr "Idi na poruku"
 
@@ -10867,12 +10867,12 @@ msgstr "Ikona grupe"
 msgid "Group Invites"
 msgstr "Pozivnice u grupu"
 
-#: src/stores/QuickSwitcherStore.tsx:667
+#: src/stores/QuickSwitcherStore.tsx:665
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:235
 msgid "Group message"
 msgstr "Grupna poruka"
 
-#: src/stores/QuickSwitcherStore.tsx:1347
+#: src/stores/QuickSwitcherStore.tsx:1345
 msgid "Group messages"
 msgstr "Grupne poruke"
 
@@ -11278,7 +11278,7 @@ msgid "Hold to temporarily unmute when push-to-talk is enabled"
 msgstr "Drži za privremeno uključivanje zvuka kad je push-to-talk omogućen"
 
 #: src/components/layout/MobileBottomNav.tsx:93
-#: src/stores/QuickSwitcherStore.tsx:832
+#: src/stores/QuickSwitcherStore.tsx:830
 msgid "Home"
 msgstr "Početna"
 
@@ -11620,7 +11620,7 @@ msgstr "Neprikladan profil"
 msgid "Inbox"
 msgstr "Primljeno"
 
-#: src/components/popouts/InboxPopout.tsx:89
+#: src/components/popouts/InboxPopout.tsx:88
 msgid "Inbox tabs"
 msgstr "Kartice primljenog"
 
@@ -13347,7 +13347,7 @@ msgstr "Označeno člana kao privremenog."
 msgid "Markers Below Slider"
 msgstr "Oznake ispod klizača"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:191
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
@@ -13657,7 +13657,7 @@ msgstr "spominjanja"
 
 #: src/components/modals/GuildNotificationSettingsModal.tsx:227
 #: src/components/pages/NotificationsPage.tsx:42
-#: src/components/popouts/InboxPopout.tsx:63
+#: src/components/popouts/InboxPopout.tsx:62
 msgid "Mentions"
 msgstr "Spominjanja"
 
@@ -13692,15 +13692,15 @@ msgstr "izbornici"
 msgid "Message"
 msgstr "Poruka"
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message "
 msgstr "Poruka "
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message @"
 msgstr "Poruka @"
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 msgid "Message #"
 msgstr "Poruka #"
 
@@ -15579,7 +15579,7 @@ msgstr "Otvori u novoj kartici"
 msgid "Open Link"
 msgstr "Otvori poveznicu"
 
-#: src/components/channel/ChannelTextarea.tsx:953
+#: src/components/channel/ChannelTextarea.tsx:951
 #: src/components/channel/textarea/MobileTextareaLayout.tsx:112
 msgid "Open menu"
 msgstr "Otvori izbornik"
@@ -16045,7 +16045,7 @@ msgid "Pending deletion canceled"
 msgstr "Brisanje na čekanju otkazano"
 
 #: src/lib/UnicodeEmojis.tsx:234
-#: src/stores/QuickSwitcherStore.tsx:1345
+#: src/stores/QuickSwitcherStore.tsx:1343
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:96
 msgid "People"
 msgstr "Ljudi"
@@ -16421,7 +16421,7 @@ msgstr "Pokušaj ponovno kasnije."
 msgid "Please update Fluxer to view this message."
 msgstr "Ažuriraj Fluxer da vidiš ovu poruku."
 
-#: src/actions/InviteActionCreators.tsx:180
+#: src/actions/InviteActionCreators.tsx:184
 msgid "Please verify your account by setting an email and password before joining communities."
 msgstr "Verificiraj svoj račun postavljanjem e-pošte i lozinke prije pridruživanja zajednicama."
 
@@ -16933,7 +16933,7 @@ msgstr "Python"
 msgid "quick access"
 msgstr "brzi pristup"
 
-#: src/stores/QuickSwitcherStore.tsx:1358
+#: src/stores/QuickSwitcherStore.tsx:1356
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:100
 msgid "Quick Actions"
 msgstr "Brze radnje"
@@ -17562,7 +17562,7 @@ msgstr "Uklonjeno dopuštanje za {0}."
 msgid "Removed deny for {0}."
 msgstr "Uklonjeno odbijanje za {0}."
 
-#: src/actions/SavedMessageActionCreators.tsx:80
+#: src/actions/SavedMessageActionCreators.tsx:85
 msgid "Removed from bookmarks"
 msgstr "Uklonjeno iz oznaka"
 
@@ -17871,7 +17871,7 @@ msgstr "Zahtijeva sve iz Srednjeg, plus članstvo na poslužitelju najmanje 10 m
 msgid "Requires Plutonium"
 msgstr "Zahtijeva Plutonium"
 
-#: src/components/channel/ChannelTextarea.tsx:1032
+#: src/components/channel/ChannelTextarea.tsx:1030
 msgid "Reschedule Message"
 msgstr "Ponovno zakazivanje poruke"
 
@@ -18442,7 +18442,7 @@ msgstr "Zakazano"
 msgid "Schedule Message"
 msgstr "Zakaži poruku"
 
-#: src/components/popouts/InboxPopout.tsx:70
+#: src/components/popouts/InboxPopout.tsx:69
 #: src/components/popouts/ScheduledMessagesContent.tsx:89
 msgid "Scheduled"
 msgstr "Zakazano"
@@ -19346,7 +19346,7 @@ msgstr "Postavi svoju vremensku zonu"
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:221
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:95
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:90
-#: src/stores/QuickSwitcherStore.tsx:1356
+#: src/stores/QuickSwitcherStore.tsx:1354
 msgid "Settings"
 msgstr "Postavke"
 
@@ -20495,7 +20495,7 @@ msgstr "Gustoća naljepnica"
 msgid "Sticker pack"
 msgstr "Paket naljepnica"
 
-#: src/actions/InviteActionCreators.tsx:287
+#: src/actions/InviteActionCreators.tsx:291
 msgid "Sticker pack creation limit reached"
 msgstr "Dosegnuto je ograničenje stvaranja paketa naljepnica"
 
@@ -20503,7 +20503,7 @@ msgstr "Dosegnuto je ograničenje stvaranja paketa naljepnica"
 msgid "Sticker Pack Invite"
 msgstr "Pozivnica za paket naljepnica"
 
-#: src/actions/InviteActionCreators.tsx:273
+#: src/actions/InviteActionCreators.tsx:277
 msgid "Sticker pack limit reached"
 msgstr "Dosegnuto je ograničenje paketa naljepnica"
 
@@ -20801,7 +20801,7 @@ msgstr "Promijeni račun"
 msgid "Switch Accounts"
 msgstr "Promijeni račune"
 
-#: src/stores/QuickSwitcherStore.tsx:900
+#: src/stores/QuickSwitcherStore.tsx:898
 msgid "Switch between Light and Dark mode"
 msgstr "Prebacuj se između svijetlog i tamnog načina rada"
 
@@ -21030,7 +21030,7 @@ msgstr "Tekstualni kanal"
 msgid "Text Channel Names"
 msgstr "Nazivi tekstualnih kanala"
 
-#: src/stores/QuickSwitcherStore.tsx:1349
+#: src/stores/QuickSwitcherStore.tsx:1347
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:97
 msgid "Text channels"
 msgstr "Tekstualni kanali"
@@ -21111,7 +21111,7 @@ msgid "That message didn't delete"
 msgstr "Ta poruka nije izbrisana"
 
 #. placeholder {0}: invite.pack.name
-#: src/actions/InviteActionCreators.tsx:103
+#: src/actions/InviteActionCreators.tsx:104
 msgid "The {packLabel} {0} has been installed."
 msgstr "{packLabel} {0} je instaliran."
 
@@ -21153,7 +21153,7 @@ msgstr "Datoteka sadrži verifikacijski token koji ćemo preuzeti s <0>{dnsUrl}<
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "Datoteka koju pokušavate prenijeti premašuje maksimalnu veličinu od {maxSizeFormatted}."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:109
+#: src/components/modals/FluxerTagChangeModal.tsx:111
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "FluxerTag <0>{fluxerTag}</0> je već zauzet. Nastavak će automatski ponovno generirati tvoj diskriminator."
 
@@ -21722,7 +21722,7 @@ msgstr "Ovo će sakriti sve elemente korisničkog sučelja povezane s favoritima
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "Ovo će poništiti vaše postojeće kodove za sigurnosnu kopiju i generirati nove."
 
-#: src/components/channel/ChannelTextarea.tsx:1036
+#: src/components/channel/ChannelTextarea.tsx:1034
 msgid "This will modify the existing scheduled message rather than sending immediately."
 msgstr "Ovo će izmijeniti postojeću zakazanu poruku umjesto da je odmah pošalje."
 
@@ -21908,7 +21908,7 @@ msgstr "prekidač"
 msgid "Toggle Channel Member List"
 msgstr "Uključi/isključi popis članova kanala"
 
-#: src/stores/QuickSwitcherStore.tsx:913
+#: src/stores/QuickSwitcherStore.tsx:911
 msgid "Toggle Compact Mode"
 msgstr "Uključi/isključi kompaktni način rada"
 
@@ -21968,7 +21968,7 @@ msgstr "Uključi/isključi iskačući prozor prikvačenih"
 msgid "Toggle premium_enabled_override on the backend"
 msgstr "Uključi/isključi premium_enabled_override na pozadini"
 
-#: src/stores/QuickSwitcherStore.tsx:929
+#: src/stores/QuickSwitcherStore.tsx:927
 msgid "Toggle Reduced Motion"
 msgstr "Uključi/isključi smanjeno kretanje"
 
@@ -21984,7 +21984,7 @@ msgstr "Uključi/isključi odabir naljepnica"
 msgid "Toggle switches on and off to see state changes."
 msgstr "Uključuj i isključuj prekidače da vidiš promjene stanja."
 
-#: src/stores/QuickSwitcherStore.tsx:899
+#: src/stores/QuickSwitcherStore.tsx:897
 msgid "Toggle Theme"
 msgstr "Uključi/isključi temu"
 
@@ -22009,7 +22009,7 @@ msgstr "Tonirajte HDR slike u standardni raspon, smanjujući vrhunsku svjetlinu.
 msgid "Too Loud"
 msgstr "Previše glasno"
 
-#: src/components/alerts/MaxGuildsModal.tsx:32
+#: src/components/alerts/MaxGuildsModal.tsx:35
 msgid "Too Many Communities"
 msgstr "Previše zajednica"
 
@@ -22405,11 +22405,11 @@ msgstr "Ukrajinski"
 msgid "Ultra (1440p)"
 msgstr "Ultra (1440p)"
 
-#: src/actions/InviteActionCreators.tsx:319
+#: src/actions/InviteActionCreators.tsx:323
 msgid "Unable to install emoji pack"
 msgstr "Nije moguće instalirati paket emojija"
 
-#: src/actions/InviteActionCreators.tsx:320
+#: src/actions/InviteActionCreators.tsx:324
 msgid "Unable to install sticker pack"
 msgstr "Nije moguće instalirati paket naljepnica"
 
@@ -22555,10 +22555,10 @@ msgstr "Maloljetni korisnik"
 #: src/components/alerts/GenericErrorModal.tsx:31
 #: src/components/alerts/GuildAtCapacityModal.tsx:31
 #: src/components/alerts/InvitesDisabledModal.tsx:31
-#: src/components/alerts/MaxBookmarksModal.tsx:45
-#: src/components/alerts/MaxBookmarksModal.tsx:56
+#: src/components/alerts/MaxBookmarksModal.tsx:48
+#: src/components/alerts/MaxBookmarksModal.tsx:59
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:46
-#: src/components/alerts/MaxGuildsModal.tsx:38
+#: src/components/alerts/MaxGuildsModal.tsx:41
 #: src/components/alerts/MicrophonePermissionDeniedModal.tsx:50
 #: src/components/alerts/NSFWContentRejectedModal.tsx:31
 #: src/components/alerts/ReactionInteractionDisabledModal.tsx:30
@@ -22633,7 +22633,7 @@ msgstr "nepoznati kanal"
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:479
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:61
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:67
-#: src/stores/QuickSwitcherStore.tsx:690
+#: src/stores/QuickSwitcherStore.tsx:688
 msgid "Unknown channel"
 msgstr "nepoznati kanal"
 
@@ -22908,7 +22908,7 @@ msgstr "Uklonjen grupni DM iz pričvršćenih"
 msgid "unread"
 msgstr "nepročitano"
 
-#: src/components/popouts/InboxPopout.tsx:53
+#: src/components/popouts/InboxPopout.tsx:52
 msgid "Unread"
 msgstr "Nep pročitan"
 
@@ -22963,7 +22963,7 @@ msgstr "Nepotvrđena e-pošta"
 msgid "Up to 4K/60fps"
 msgstr "Do 4K/60fps"
 
-#: src/components/channel/ChannelTextarea.tsx:1033
+#: src/components/channel/ChannelTextarea.tsx:1031
 msgid "Update"
 msgstr "Ažuriraj"
 
@@ -23086,7 +23086,7 @@ msgstr "nadogradi"
 msgid "Upgrade Now"
 msgstr "Nadogradi odmah"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:69
+#: src/components/alerts/MaxBookmarksModal.tsx:72
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:70
 msgid "Upgrade to Plutonium"
 msgstr "Nadogradi na Plutonium"
@@ -23455,7 +23455,7 @@ msgstr "Zapis korisnika"
 #: src/components/layout/UserArea.tsx:286
 #: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
-#: src/components/modals/UserSettingsModal.tsx:154
+#: src/components/modals/UserSettingsModal.tsx:153
 msgid "User Settings"
 msgstr "Postavke korisnika"
 
@@ -23476,7 +23476,7 @@ msgstr "korisnik, bot ili webhook"
 msgid "username"
 msgstr "korisničko ime"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:190
+#: src/components/modals/FluxerTagChangeModal.tsx:201
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
 #: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
@@ -23511,13 +23511,17 @@ msgstr "Korisničko ime može imati najviše 32 znaka"
 msgid "Username#0000"
 msgstr "Korisničko ime#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:172
+#: src/components/modals/FluxerTagChangeModal.tsx:183
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "Korisnička imena mogu sadržavati samo slova (a-z, A-Z), brojeve (0-9) i podvlake. Korisnička imena nisu osjetljiva na velika i mala slova."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:167
-msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
-msgstr "Korisnička imena mogu sadržavati samo slova (a-z, A-Z), brojeve (0-9) i podvlake. Korisnička imena nisu osjetljiva na velika i mala slova. Možeš odabrati vlastitu 4-znamenkastu oznaku ako je dostupna."
+#: src/components/modals/FluxerTagChangeModal.tsx:170
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999."
+msgstr "Korisnička imena smiju sadržavati samo slova (a-z, A-Z), brojeve (0-9) i donje crte. Korisnička imena ne razlikuju velika i mala slova. Možeš odabrati bilo koju dostupnu 4-znamenkastu oznaku od #0000 do #9999."
+
+#: src/components/modals/FluxerTagChangeModal.tsx:176
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999."
+msgstr "Korisnička imena smiju sadržavati samo slova (a-z, A-Z), brojeve (0-9) i donje crte. Korisnička imena ne razlikuju velika i mala slova. Možeš odabrati bilo koju dostupnu 4-znamenkastu oznaku od #0001 do #9999."
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:246
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:172
@@ -24100,7 +24104,7 @@ msgstr "Glasovni pozivi"
 msgid "voice channel"
 msgstr "glasovni kanal"
 
-#: src/stores/QuickSwitcherStore.tsx:720
+#: src/stores/QuickSwitcherStore.tsx:718
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:227
 msgid "Voice channel"
 msgstr "Glasovni kanal"
@@ -24120,7 +24124,7 @@ msgstr "Glasovni kanal je pun"
 msgid "Voice channel join behavior"
 msgstr "Ponašanje pridruživanja glasovnom kanalu"
 
-#: src/stores/QuickSwitcherStore.tsx:1351
+#: src/stores/QuickSwitcherStore.tsx:1349
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:98
 msgid "Voice channels"
 msgstr "Glasovni kanali"
@@ -24998,7 +25002,7 @@ msgstr "Ne možeš se odutiti jer te moderator utišao."
 msgid "You do not have access to the channel where this message was sent."
 msgstr "Nemaš pristup kanalu u kojem je ova poruka poslana."
 
-#: src/components/channel/ChannelTextarea.tsx:749
+#: src/components/channel/ChannelTextarea.tsx:747
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:52
 msgid "You do not have permission to send messages in this channel."
 msgstr "Nemaš dopuštenje za slanje poruka u ovom kanalu."
@@ -25019,11 +25023,11 @@ msgstr "Još nemaš prilagođenih nadjačavanja teme za dijeljenje."
 msgid "You don't have permission to connect to this voice channel."
 msgstr "Nemaš dopuštenje za povezivanje s ovim glasovnim kanalom."
 
-#: src/actions/InviteActionCreators.tsx:316
+#: src/actions/InviteActionCreators.tsx:320
 msgid "You don't have permission to install this emoji pack."
 msgstr "Nemaš dopuštenje za instaliranje ovog paketa emojija."
 
-#: src/actions/InviteActionCreators.tsx:317
+#: src/actions/InviteActionCreators.tsx:321
 msgid "You don't have permission to install this sticker pack."
 msgstr "Nemaš dopuštenje za instaliranje ovog paketa naljepnica."
 
@@ -25079,35 +25083,35 @@ msgstr "Imaš sve <0/> putem <1>poklon pretplate</1> do <2>{giftEndDate}</2>. On
 msgid "You have blocked {username}. Unblock them to send messages."
 msgstr "Blokirao si {username}. Odblokiraj ih da bi slao poruke."
 
-#: src/actions/InviteActionCreators.tsx:260
+#: src/actions/InviteActionCreators.tsx:264
 msgid "You have created the maximum of {limit} emoji pack. Delete one to create another."
 msgstr "Stvorio si maksimalnih {limit} paketa emoji. Izbriši jedan da stvoriš drugi."
 
-#: src/actions/InviteActionCreators.tsx:261
+#: src/actions/InviteActionCreators.tsx:265
 msgid "You have created the maximum of {limit} emoji packs. Delete one to create another."
 msgstr "Stvorio si maksimalnih {limit} paketa emojija. Izbriši jedan da stvoriš drugi."
 
-#: src/actions/InviteActionCreators.tsx:292
+#: src/actions/InviteActionCreators.tsx:296
 msgid "You have created the maximum of {limit} sticker pack. Delete one to create another."
 msgstr "Stvorio si maksimalnih {limit} paketa sličica. Izbriši jedan da stvoriš drugi."
 
-#: src/actions/InviteActionCreators.tsx:293
+#: src/actions/InviteActionCreators.tsx:297
 msgid "You have created the maximum of {limit} sticker packs. Delete one to create another."
 msgstr "Stvorio si maksimalnih {limit} paketa sličica. Izbriši jedan da stvoriš drugi."
 
-#: src/actions/InviteActionCreators.tsx:246
+#: src/actions/InviteActionCreators.tsx:250
 msgid "You have installed the maximum of {limit} emoji pack. Remove one to install another."
 msgstr "Instalirao si maksimalnih {limit} paketa emoji. Ukloni jedan da instaliraš drugi."
 
-#: src/actions/InviteActionCreators.tsx:247
+#: src/actions/InviteActionCreators.tsx:251
 msgid "You have installed the maximum of {limit} emoji packs. Remove one to install another."
 msgstr "Instalirao si maksimalnih {limit} paketa emojija. Ukloni jedan da instaliraš drugi."
 
-#: src/actions/InviteActionCreators.tsx:278
+#: src/actions/InviteActionCreators.tsx:282
 msgid "You have installed the maximum of {limit} sticker pack. Remove one to install another."
 msgstr "Instalirao si maksimalnih {limit} paketa sličica. Ukloni jedan da instaliraš drugi."
 
-#: src/actions/InviteActionCreators.tsx:279
+#: src/actions/InviteActionCreators.tsx:283
 msgid "You have installed the maximum of {limit} sticker packs. Remove one to install another."
 msgstr "Instalirao si maksimalnih {limit} paketa sličica. Ukloni jedan da instaliraš drugi."
 
@@ -25115,19 +25119,19 @@ msgstr "Instalirao si maksimalnih {limit} paketa sličica. Ukloni jedan da insta
 msgid "You have no friends yet"
 msgstr "Još nemaš prijatelja"
 
-#: src/actions/InviteActionCreators.tsx:264
+#: src/actions/InviteActionCreators.tsx:268
 msgid "You have reached the limit for creating emoji packs. Delete one of your packs to create another."
 msgstr "Dosegao si ograničenje za stvaranje emoji paketa. Izbriši jedan od svojih paketa da stvoriš drugi."
 
-#: src/actions/InviteActionCreators.tsx:296
+#: src/actions/InviteActionCreators.tsx:300
 msgid "You have reached the limit for creating sticker packs. Delete one of your packs to create another."
 msgstr "Dosegao si ograničenje za stvaranje paketa naljepnica. Izbriši jedan od svojih paketa da stvoriš drugi."
 
-#: src/actions/InviteActionCreators.tsx:250
+#: src/actions/InviteActionCreators.tsx:254
 msgid "You have reached the limit for installing emoji packs. Remove one of your installed packs to install another."
 msgstr "Dosegao si ograničenje za instaliranje emoji paketa. Ukloni jedan od instaliranih paketa da instaliraš drugi."
 
-#: src/actions/InviteActionCreators.tsx:282
+#: src/actions/InviteActionCreators.tsx:286
 msgid "You have reached the limit for installing sticker packs. Remove one of your installed packs to install another."
 msgstr "Dosegao si ograničenje za instaliranje paketa naljepnica. Ukloni jedan od instaliranih paketa da instaliraš drugi."
 
@@ -25391,23 +25395,23 @@ msgstr "Dosegnuli ste maksimalni limit od {maxFavoriteMemes} spremljenih medijsk
 msgid "You've reached the maximum limit of {maxFavoriteMemes} saved media items. To add more, you'll need to remove some existing items from your collection."
 msgstr "Dosegnuli ste maksimalni limit od {maxFavoriteMemes} spremljenih medijskih stavki. Da biste dodali više, morat ćete ukloniti neke postojeće stavke iz svoje kolekcije."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:55
+#: src/components/alerts/MaxBookmarksModal.tsx:58
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). Please remove some bookmarks before adding new ones."
 msgstr "Dosegnuli ste maksimalni broj oznaka ({bookmarksText}). Molimo uklonite neke oznake prije nego što dodate nove."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:44
+#: src/components/alerts/MaxBookmarksModal.tsx:47
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). This limit is configured by your instance administrator. Please remove some bookmarks before adding new ones."
 msgstr "Dosegnuli ste maksimalni broj oznaka ({bookmarksText}). Ovaj limit je postavljen od strane vašeg administratora instance. Molimo uklonite neke oznake prije nego što dodate nove."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:68
+#: src/components/alerts/MaxBookmarksModal.tsx:71
 msgid "You've reached the maximum number of bookmarks for free users ({bookmarksText}). Upgrade to Plutonium to increase your limit to {premiumBookmarksText}, or remove some bookmarks to add new ones."
 msgstr "Dosegnuli ste maksimalni broj oznaka za besplatne korisnike ({bookmarksText}). Nadogradite na Plutonium kako biste povećali svoj limit na {premiumBookmarksText}, ili uklonite neke oznake kako biste dodali nove."
 
-#: src/components/alerts/MaxGuildsModal.tsx:36
+#: src/components/alerts/MaxGuildsModal.tsx:39
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} communities). Please leave a community before joining another one."
 msgstr "Dosegnuli ste maksimalni broj zajednica koje možete pridružiti ({maxGuilds} zajednica). Molimo napustite jednu zajednicu prije nego što se pridružite drugoj."
 
-#: src/components/alerts/MaxGuildsModal.tsx:35
+#: src/components/alerts/MaxGuildsModal.tsx:38
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "Dosegnuli ste maksimalni broj zajednica koje možete pridružiti ({maxGuilds} zajednica). Molimo napustite jednu zajednicu prije nego što se pridružite drugoj."
 

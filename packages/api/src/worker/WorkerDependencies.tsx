@@ -322,7 +322,6 @@ export async function initializeWorkerDependencies(snowflakeService: SnowflakeSe
 		webhookRepository,
 		guildAuditLogService,
 		limitConfigService,
-		undefined,
 	);
 	const inviteService = new InviteService(
 		inviteRepository,

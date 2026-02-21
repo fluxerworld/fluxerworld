@@ -633,11 +633,11 @@ msgstr "{lockedStickerCount} מדבקה"
 msgid "{lockedStickerCount} stickers"
 msgstr "{lockedStickerCount} מדבקות"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmark"
 msgstr "{maxBookmarks} סימניה"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmarks"
 msgstr "{maxBookmarks} סימניות"
 
@@ -718,11 +718,11 @@ msgstr "{participantCount} משתתף בשיחה"
 msgid "{participantCount} participants in call"
 msgstr "{participantCount} משתתפים בשיחה"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmark"
 msgstr "{premiumBookmarks} סימניה"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmarks"
 msgstr "{premiumBookmarks} סימניות"
 
@@ -1362,9 +1362,9 @@ msgstr "30 שניות"
 msgid "4 hours"
 msgstr "4 שעות"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:206
-#: src/components/modals/FluxerTagChangeModal.tsx:234
-#: src/components/modals/FluxerTagChangeModal.tsx:251
+#: src/components/modals/FluxerTagChangeModal.tsx:217
+#: src/components/modals/FluxerTagChangeModal.tsx:245
+#: src/components/modals/FluxerTagChangeModal.tsx:262
 msgid "4-digit tag"
 msgstr "תג בן 4 ספרות"
 
@@ -1642,7 +1642,7 @@ msgstr "התאמות מצבי חשבון"
 msgid "Account Too New"
 msgstr "החשבון חדש מדי"
 
-#: src/actions/InviteActionCreators.tsx:178
+#: src/actions/InviteActionCreators.tsx:182
 #: src/components/modals/RequiredActionModal.tsx:143
 #: src/components/modals/RequiredActionModal.tsx:416
 msgid "Account Verification Required"
@@ -2010,7 +2010,7 @@ msgstr "נוסף {0}."
 msgid "Added roles."
 msgstr "תפקידים נוספו."
 
-#: src/actions/SavedMessageActionCreators.tsx:58
+#: src/actions/SavedMessageActionCreators.tsx:59
 msgid "Added to bookmarks"
 msgstr "נוסף לסימניות"
 
@@ -3720,9 +3720,9 @@ msgstr "מועדון קריאה"
 msgid "Bookmark"
 msgstr "סימניה"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:43
-#: src/components/alerts/MaxBookmarksModal.tsx:54
-#: src/components/alerts/MaxBookmarksModal.tsx:67
+#: src/components/alerts/MaxBookmarksModal.tsx:46
+#: src/components/alerts/MaxBookmarksModal.tsx:57
+#: src/components/alerts/MaxBookmarksModal.tsx:70
 msgid "Bookmark Limit Reached"
 msgstr "הגעת למגבלת הסימניות"
 
@@ -3750,7 +3750,7 @@ msgstr "נשמר!"
 
 #: src/components/modals/BookmarksBottomSheet.tsx:109
 #: src/components/pages/SavedMessagesPage.tsx:67
-#: src/components/popouts/InboxPopout.tsx:58
+#: src/components/popouts/InboxPopout.tsx:57
 msgid "Bookmarks"
 msgstr "סימניות"
 
@@ -4055,7 +4055,7 @@ msgstr "מצלמות מושבתות כאשר יש יותר מ-{VOICE_CHANNEL_CAM
 #: src/components/alerts/FileSizeTooLargeModal.tsx:87
 #: src/components/auth/BrowserLoginHandoffModal.tsx:269
 #: src/components/bottomsheets/CreateDMBottomSheet.tsx:130
-#: src/components/channel/ChannelTextarea.tsx:312
+#: src/components/channel/ChannelTextarea.tsx:310
 #: src/components/channel/friends/FriendListItem.tsx:259
 #: src/components/channel/MentionEveryonePopout.tsx:128
 #: src/components/emojis/EmojiListItem.tsx:125
@@ -4099,8 +4099,8 @@ msgstr "מצלמות מושבתות כאשר יש יותר מ-{VOICE_CHANNEL_CAM
 #: src/components/modals/EmailChangeModal.tsx:270
 #: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:120
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:122
+#: src/components/modals/FluxerTagChangeModal.tsx:294
 #: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
@@ -4146,7 +4146,7 @@ msgstr "ביטול"
 msgid "Cancel Friend Request"
 msgstr "בטל בקשת חברות"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:115
+#: src/components/modals/FluxerTagChangeModal.tsx:117
 msgid "Cancel if you want to choose a different username instead."
 msgstr "בטל אם אתה רוצה לבחור שם משתמש אחר במקום."
 
@@ -4178,11 +4178,11 @@ msgstr "לא ניתן לעריכה"
 msgid "Cannot Delete Account"
 msgstr "לא ניתן למחוק חשבון"
 
-#: src/actions/InviteActionCreators.tsx:313
+#: src/actions/InviteActionCreators.tsx:317
 msgid "Cannot install emoji pack"
 msgstr "לא ניתן להתקין חבילת אימוג'י"
 
-#: src/actions/InviteActionCreators.tsx:314
+#: src/actions/InviteActionCreators.tsx:318
 msgid "Cannot install sticker pack"
 msgstr "לא ניתן להתקין חבילת מדבקות"
 
@@ -4293,7 +4293,7 @@ msgstr "שנה אימוג'י"
 msgid "Change FluxerTag"
 msgstr "שנה FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:161
+#: src/components/modals/FluxerTagChangeModal.tsx:163
 msgid "Change FluxerTag form"
 msgstr "טופס שינוי FluxerTag"
 
@@ -4380,7 +4380,7 @@ msgstr "שנה את האימייל שלך"
 msgid "Change your email address"
 msgstr "שנה את כתובת הדוא\"ל שלך"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:162
+#: src/components/modals/FluxerTagChangeModal.tsx:164
 msgid "Change Your FluxerTag"
 msgstr "שנה את ה-FluxerTag שלך"
 
@@ -4424,7 +4424,7 @@ msgstr "קצב הסיביות שונה ל־{0}."
 msgid "Changed the voice region to {0}."
 msgstr "אזור הקול שונה ל־{0}."
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 #: src/utils/SearchUtils.tsx:268
 msgid "channel"
 msgstr "ערוץ"
@@ -5333,7 +5333,7 @@ msgid "Communication"
 msgstr "תקשורת"
 
 #: src/components/modals/components/FeatureComparisonTable.tsx:49
-#: src/stores/QuickSwitcherStore.tsx:1354
+#: src/stores/QuickSwitcherStore.tsx:1352
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
 msgstr "קהילות"
@@ -5825,13 +5825,13 @@ msgstr "תפריטי הקשר"
 msgid "Context menus can be opened with left-click (on buttons) or right-click (on other elements). This demonstrates various menu items including checkboxes, radio buttons, sliders, and submenus."
 msgstr "ניתן לפתוח תפריטי הקשר עם לחיצה שמאלית (על כפתורים) או לחיצה ימנית (על אלמנטים אחרים). זה מציג פריטים שונים בתפריט כולל תיבות סימון, כפתורי רדיו, מחוונים ותפריטי משנה."
 
-#: src/components/channel/ChannelTextarea.tsx:311
+#: src/components/channel/ChannelTextarea.tsx:309
 #: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:82
 #: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:119
-#: src/components/modals/FluxerTagChangeModal.tsx:286
+#: src/components/modals/FluxerTagChangeModal.tsx:121
+#: src/components/modals/FluxerTagChangeModal.tsx:297
 #: src/components/modals/MfaTotpDisableModal.tsx:78
 #: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
@@ -6601,7 +6601,7 @@ msgstr "הגדרות CSS מותאמות אישית"
 msgid "Custom Date Range"
 msgstr "טווח תאריכים מותאם אישית"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:230
+#: src/components/modals/FluxerTagChangeModal.tsx:241
 msgid "Custom discriminators are not available on this instance"
 msgstr "מבחינים מותאמים אישית אינם זמינים במופע הזה"
 
@@ -6732,7 +6732,7 @@ msgstr "התאם אילו כפתורים נראים באזור הקלט של ה�
 msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
 msgstr "התאם את התג שלך בן 4 הספרות (#{0}) לפי רצונך עם פלוטוניום"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:275
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "התאם אישית את התג בן 4 הספרות או שמור אותו כשאתה משנה את שם המשתמש"
 
@@ -7516,7 +7516,7 @@ msgstr "הודעה ישירה"
 #: src/components/layout/guild_list/FluxerButton.tsx:80
 #: src/components/modals/GuildPrivacySettingsModal.tsx:76
 #: src/components/modals/tabs/privacy_safety_tab/ConnectionsTab.tsx:221
-#: src/stores/QuickSwitcherStore.tsx:833
+#: src/stores/QuickSwitcherStore.tsx:831
 msgid "Direct Messages"
 msgstr "הודעות ישירות"
 
@@ -7559,7 +7559,7 @@ msgstr "השבת הנפשות ומעברים בכל האפליקציה."
 msgid "Disable animations and transitions. Currently controlled by your system setting."
 msgstr "השבת הנפשות ומעברים. נשלט כרגע על ידי הגדרת המערכת שלך."
 
-#: src/stores/QuickSwitcherStore.tsx:915
+#: src/stores/QuickSwitcherStore.tsx:913
 msgid "Disable Compact Mode"
 msgstr "השבת מצב קומפקטי"
 
@@ -7586,7 +7586,7 @@ msgstr "השבת דיכוי רעשים"
 msgid "Disable Picture-in-Picture Popout"
 msgstr "כבה את פופ-אוט התמונה בתמונה"
 
-#: src/stores/QuickSwitcherStore.tsx:931
+#: src/stores/QuickSwitcherStore.tsx:929
 msgid "Disable Reduced Motion"
 msgstr "השבת תנועה מופחתת"
 
@@ -7755,7 +7755,7 @@ msgstr "מספר זהות"
 msgid "Discussion or promotion of illegal activities"
 msgstr "דיון או קידום פעילויות בלתי חוקיות"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:76
+#: src/components/alerts/MaxBookmarksModal.tsx:79
 #: src/components/layout/GuildLayout.tsx:106
 #: src/components/layout/NagbarContent.tsx:42
 #: src/components/modals/GiftAcceptModal.tsx:110
@@ -8486,7 +8486,7 @@ msgstr "שמות האימוג'י חייבים להיות באורך של לפח�
 msgid "Emoji pack"
 msgstr "חבילת אימוג'י"
 
-#: src/actions/InviteActionCreators.tsx:255
+#: src/actions/InviteActionCreators.tsx:259
 msgid "Emoji pack creation limit reached"
 msgstr "הגעת למקסימום יצירת חבילות אימוג'י"
 
@@ -8494,7 +8494,7 @@ msgstr "הגעת למקסימום יצירת חבילות אימוג'י"
 msgid "Emoji Pack Invite"
 msgstr "הזמנה לחבילת אימוג'י"
 
-#: src/actions/InviteActionCreators.tsx:241
+#: src/actions/InviteActionCreators.tsx:245
 msgid "Emoji pack limit reached"
 msgstr "הגעת למגבלת חבילות האימוג'י"
 
@@ -8567,7 +8567,7 @@ msgstr "הפעל תכונת בטא"
 msgid "Enable Browser Notifications"
 msgstr "הפעל התראות בדפדפן"
 
-#: src/stores/QuickSwitcherStore.tsx:916
+#: src/stores/QuickSwitcherStore.tsx:914
 msgid "Enable Compact Mode"
 msgstr "הפעל מצב קומפקטי"
 
@@ -8643,7 +8643,7 @@ msgstr "הפעל דחיפות עבור התקן זה"
 msgid "Enable push notifications for this installed PWA to keep receiving messages when the browser is backgrounded."
 msgstr "הפעל התראות דחיפה עבור PWA זה כדי להמשיך לקבל הודעות כשהדפדפן במצב רקע."
 
-#: src/stores/QuickSwitcherStore.tsx:932
+#: src/stores/QuickSwitcherStore.tsx:930
 msgid "Enable Reduced Motion"
 msgstr "הפעל תנועה מופחתת"
 
@@ -9314,11 +9314,11 @@ msgstr "התעלמות מבקשת החברות נכשלה. נסה שוב."
 msgid "Failed to initiate connection"
 msgstr "נכשל בהתחלת החיבור"
 
-#: src/actions/InviteActionCreators.tsx:322
+#: src/actions/InviteActionCreators.tsx:326
 msgid "Failed to install this emoji pack. Please try again later."
 msgstr "התקנת חבילת האימוג'י הזו נכשלה. נסה שוב מאוחר יותר."
 
-#: src/actions/InviteActionCreators.tsx:323
+#: src/actions/InviteActionCreators.tsx:327
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "התקנת חבילת הסטיקרים הזו נכשלה. נסה שוב מאוחר יותר."
 
@@ -9716,9 +9716,9 @@ msgstr "מועדפים"
 #: src/components/modals/tabs/AppearanceTab.tsx:116
 #: src/components/modals/utils/SettingsConstants.tsx:279
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:233
-#: src/stores/QuickSwitcherStore.tsx:843
-#: src/stores/QuickSwitcherStore.tsx:1261
-#: src/stores/QuickSwitcherStore.tsx:1273
+#: src/stores/QuickSwitcherStore.tsx:841
+#: src/stores/QuickSwitcherStore.tsx:1259
+#: src/stores/QuickSwitcherStore.tsx:1271
 msgid "Favorites"
 msgstr "מועדפים"
 
@@ -9964,16 +9964,16 @@ msgstr "צוות Fluxer"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer משתמש בהודעות דחיפה כשמותקן כ-PWA נייד. הרישום מבטיח שהשער יוכל להגיע למכשיר גם כשהדפדפן ברקע."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:179
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:105
+#: src/components/modals/FluxerTagChangeModal.tsx:107
 msgid "FluxerTag already taken"
 msgstr "ה-FluxerTag כבר בשימוש"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:147
+#: src/components/modals/FluxerTagChangeModal.tsx:149
 msgid "FluxerTag updated"
 msgstr "ה-FluxerTag עודכן"
 
@@ -10491,7 +10491,7 @@ msgstr "קבל התראה כשאתה מקבל הודעות. ייתכן שתצט�
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:224
+#: src/components/modals/FluxerTagChangeModal.tsx:235
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10508,7 +10508,7 @@ msgstr "קבל Plutonium בשבילך ופתח מגבלות גבוהות יות�
 msgid "Get Plutonium to customize your tag"
 msgstr "קבל Plutonium כדי להתאים אישית את התג שלך"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:202
+#: src/components/modals/FluxerTagChangeModal.tsx:213
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "קבל Plutonium כדי להתאים אישית את התג שלך או לשמור עליו כשאתה משנה שם משתמש"
 
@@ -10726,7 +10726,7 @@ msgstr "עבור לדף הבית"
 msgid "Go to login"
 msgstr "עבור להתחברות"
 
-#: src/stores/QuickSwitcherStore.tsx:528
+#: src/stores/QuickSwitcherStore.tsx:526
 msgid "Go to message"
 msgstr "עבור להודעה"
 
@@ -10867,12 +10867,12 @@ msgstr "אייקון קבוצה"
 msgid "Group Invites"
 msgstr "הזמנות לקבוצה"
 
-#: src/stores/QuickSwitcherStore.tsx:667
+#: src/stores/QuickSwitcherStore.tsx:665
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:235
 msgid "Group message"
 msgstr "הודעה קבוצתית"
 
-#: src/stores/QuickSwitcherStore.tsx:1347
+#: src/stores/QuickSwitcherStore.tsx:1345
 msgid "Group messages"
 msgstr "הודעות קבוצתיות"
 
@@ -11278,7 +11278,7 @@ msgid "Hold to temporarily unmute when push-to-talk is enabled"
 msgstr "החזק כדי לבטל השתקה זמנית כאשר פוש-טו-טוק פעיל"
 
 #: src/components/layout/MobileBottomNav.tsx:93
-#: src/stores/QuickSwitcherStore.tsx:832
+#: src/stores/QuickSwitcherStore.tsx:830
 msgid "Home"
 msgstr "בית"
 
@@ -11620,7 +11620,7 @@ msgstr "פרופיל בלתי הולם"
 msgid "Inbox"
 msgstr "תיבת נכנסים"
 
-#: src/components/popouts/InboxPopout.tsx:89
+#: src/components/popouts/InboxPopout.tsx:88
 msgid "Inbox tabs"
 msgstr "כרטיסיות תיבת נכנסים"
 
@@ -13347,7 +13347,7 @@ msgstr "סומן החבר כזמני."
 msgid "Markers Below Slider"
 msgstr "סמנים מתחת למחוון"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:191
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
@@ -13657,7 +13657,7 @@ msgstr "אזכורים"
 
 #: src/components/modals/GuildNotificationSettingsModal.tsx:227
 #: src/components/pages/NotificationsPage.tsx:42
-#: src/components/popouts/InboxPopout.tsx:63
+#: src/components/popouts/InboxPopout.tsx:62
 msgid "Mentions"
 msgstr "הזכרות"
 
@@ -13692,15 +13692,15 @@ msgstr "תפריטים"
 msgid "Message"
 msgstr "הודעה"
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message "
 msgstr "הודעה "
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message @"
 msgstr "הודעה @"
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 msgid "Message #"
 msgstr "הודעה #"
 
@@ -15579,7 +15579,7 @@ msgstr "פתח בכרטיסייה חדשה"
 msgid "Open Link"
 msgstr "פתח קישור"
 
-#: src/components/channel/ChannelTextarea.tsx:953
+#: src/components/channel/ChannelTextarea.tsx:951
 #: src/components/channel/textarea/MobileTextareaLayout.tsx:112
 msgid "Open menu"
 msgstr "פתח תפריט"
@@ -16045,7 +16045,7 @@ msgid "Pending deletion canceled"
 msgstr "המחיקה בהמתנה בוטלה"
 
 #: src/lib/UnicodeEmojis.tsx:234
-#: src/stores/QuickSwitcherStore.tsx:1345
+#: src/stores/QuickSwitcherStore.tsx:1343
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:96
 msgid "People"
 msgstr "אנשים"
@@ -16421,7 +16421,7 @@ msgstr "נסה שוב מאוחר יותר."
 msgid "Please update Fluxer to view this message."
 msgstr "עדכן את Fluxer כדי לצפות בהודעה הזו."
 
-#: src/actions/InviteActionCreators.tsx:180
+#: src/actions/InviteActionCreators.tsx:184
 msgid "Please verify your account by setting an email and password before joining communities."
 msgstr "אשר את החשבון על ידי הגדרת אימייל וסיסמה לפני הצטרפות לקהילות."
 
@@ -16933,7 +16933,7 @@ msgstr "Python"
 msgid "quick access"
 msgstr "גישה מהירה"
 
-#: src/stores/QuickSwitcherStore.tsx:1358
+#: src/stores/QuickSwitcherStore.tsx:1356
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:100
 msgid "Quick Actions"
 msgstr "פעולות מהירות"
@@ -17562,7 +17562,7 @@ msgstr "הסרת אישור עבור {0}."
 msgid "Removed deny for {0}."
 msgstr "הסרת סירוב עבור {0}."
 
-#: src/actions/SavedMessageActionCreators.tsx:80
+#: src/actions/SavedMessageActionCreators.tsx:85
 msgid "Removed from bookmarks"
 msgstr "הוסר מהסימניות"
 
@@ -17871,7 +17871,7 @@ msgstr "דורש את כל הדרישות ברמת Medium, בנוסף להיות
 msgid "Requires Plutonium"
 msgstr "דורש Plutonium"
 
-#: src/components/channel/ChannelTextarea.tsx:1032
+#: src/components/channel/ChannelTextarea.tsx:1030
 msgid "Reschedule Message"
 msgstr "קבע מחדש הודעה"
 
@@ -18442,7 +18442,7 @@ msgstr "תזמן"
 msgid "Schedule Message"
 msgstr "תזמן הודעה"
 
-#: src/components/popouts/InboxPopout.tsx:70
+#: src/components/popouts/InboxPopout.tsx:69
 #: src/components/popouts/ScheduledMessagesContent.tsx:89
 msgid "Scheduled"
 msgstr "מתוזמן"
@@ -19346,7 +19346,7 @@ msgstr "הגדר את אזור הזמן שלך"
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:221
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:95
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:90
-#: src/stores/QuickSwitcherStore.tsx:1356
+#: src/stores/QuickSwitcherStore.tsx:1354
 msgid "Settings"
 msgstr "הגדרות"
 
@@ -20495,7 +20495,7 @@ msgstr "צפיפות מדבקות"
 msgid "Sticker pack"
 msgstr "חבילת מדבקות"
 
-#: src/actions/InviteActionCreators.tsx:287
+#: src/actions/InviteActionCreators.tsx:291
 msgid "Sticker pack creation limit reached"
 msgstr "הגענו למגבלת יצירת חבילות מדבקות"
 
@@ -20503,7 +20503,7 @@ msgstr "הגענו למגבלת יצירת חבילות מדבקות"
 msgid "Sticker Pack Invite"
 msgstr "הזמנה לחבילת מדבקות"
 
-#: src/actions/InviteActionCreators.tsx:273
+#: src/actions/InviteActionCreators.tsx:277
 msgid "Sticker pack limit reached"
 msgstr "הגענו למגבלת חבילות מדבקות"
 
@@ -20801,7 +20801,7 @@ msgstr "החלף חשבון"
 msgid "Switch Accounts"
 msgstr "החלפת חשבונות"
 
-#: src/stores/QuickSwitcherStore.tsx:900
+#: src/stores/QuickSwitcherStore.tsx:898
 msgid "Switch between Light and Dark mode"
 msgstr "החלף בין מצב בהיר למצב כהה"
 
@@ -21030,7 +21030,7 @@ msgstr "ערוץ טקסט"
 msgid "Text Channel Names"
 msgstr "שמות ערוצי טקסט"
 
-#: src/stores/QuickSwitcherStore.tsx:1349
+#: src/stores/QuickSwitcherStore.tsx:1347
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:97
 msgid "Text channels"
 msgstr "ערוצי טקסט"
@@ -21111,7 +21111,7 @@ msgid "That message didn't delete"
 msgstr "ההודעה הזו לא נמחקה"
 
 #. placeholder {0}: invite.pack.name
-#: src/actions/InviteActionCreators.tsx:103
+#: src/actions/InviteActionCreators.tsx:104
 msgid "The {packLabel} {0} has been installed."
 msgstr "ה-{packLabel} {0} הותקן."
 
@@ -21153,7 +21153,7 @@ msgstr "הקובץ מכיל את טוקן האימות שנשיג מ-<0>{dnsUrl}
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "הקובץ שאתה מנסה להעלות חורג מהמגבלה המקסימלית של {maxSizeFormatted}."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:109
+#: src/components/modals/FluxerTagChangeModal.tsx:111
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "התווית FluxerTag <0>{fluxerTag}</0> כבר בשימוש. אם תמשיך יוקצה לך באופן אוטומטי מספר זיהוי חדש."
 
@@ -21722,7 +21722,7 @@ msgstr "זה יסתיר את כל רכיבי הממשק הקשורים למוע�
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "זה יביא לפקיעת תוקף של קודי הגיבוי הקיימים שלך וייצור חדשים."
 
-#: src/components/channel/ChannelTextarea.tsx:1036
+#: src/components/channel/ChannelTextarea.tsx:1034
 msgid "This will modify the existing scheduled message rather than sending immediately."
 msgstr "זה ישנה את ההודעה המתוזמנת הקיימת במקום לשלוח מיד."
 
@@ -21908,7 +21908,7 @@ msgstr "החלף"
 msgid "Toggle Channel Member List"
 msgstr "הצג/הסתר רשימת חברי הערוץ"
 
-#: src/stores/QuickSwitcherStore.tsx:913
+#: src/stores/QuickSwitcherStore.tsx:911
 msgid "Toggle Compact Mode"
 msgstr "הפעל/כבה מצב צפוף"
 
@@ -21968,7 +21968,7 @@ msgstr "הפעל/כבה חלון סיכות"
 msgid "Toggle premium_enabled_override on the backend"
 msgstr "הפעל/כבה את premium_enabled_override בצד השרת"
 
-#: src/stores/QuickSwitcherStore.tsx:929
+#: src/stores/QuickSwitcherStore.tsx:927
 msgid "Toggle Reduced Motion"
 msgstr "הפעל/כבה תנועה מופחתת"
 
@@ -21984,7 +21984,7 @@ msgstr "הפעל/כבה בחירת מדבקות"
 msgid "Toggle switches on and off to see state changes."
 msgstr "הפעל/כבה מתגים כדי לראות את השינויים במצב."
 
-#: src/stores/QuickSwitcherStore.tsx:899
+#: src/stores/QuickSwitcherStore.tsx:897
 msgid "Toggle Theme"
 msgstr "החלף ערכת נושא"
 
@@ -22009,7 +22009,7 @@ msgstr "מפה טונאלית של תמונות HDR לטווח סטנדרטי, �
 msgid "Too Loud"
 msgstr "קולני מדי"
 
-#: src/components/alerts/MaxGuildsModal.tsx:32
+#: src/components/alerts/MaxGuildsModal.tsx:35
 msgid "Too Many Communities"
 msgstr "יותר מדי קהילות"
 
@@ -22405,11 +22405,11 @@ msgstr "אוקראינית"
 msgid "Ultra (1440p)"
 msgstr "אולטרה (1440p)"
 
-#: src/actions/InviteActionCreators.tsx:319
+#: src/actions/InviteActionCreators.tsx:323
 msgid "Unable to install emoji pack"
 msgstr "לא ניתן להתקין חבילת אימוג'ים"
 
-#: src/actions/InviteActionCreators.tsx:320
+#: src/actions/InviteActionCreators.tsx:324
 msgid "Unable to install sticker pack"
 msgstr "לא ניתן להתקין חבילת מדבקות"
 
@@ -22555,10 +22555,10 @@ msgstr "משתמש קטין"
 #: src/components/alerts/GenericErrorModal.tsx:31
 #: src/components/alerts/GuildAtCapacityModal.tsx:31
 #: src/components/alerts/InvitesDisabledModal.tsx:31
-#: src/components/alerts/MaxBookmarksModal.tsx:45
-#: src/components/alerts/MaxBookmarksModal.tsx:56
+#: src/components/alerts/MaxBookmarksModal.tsx:48
+#: src/components/alerts/MaxBookmarksModal.tsx:59
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:46
-#: src/components/alerts/MaxGuildsModal.tsx:38
+#: src/components/alerts/MaxGuildsModal.tsx:41
 #: src/components/alerts/MicrophonePermissionDeniedModal.tsx:50
 #: src/components/alerts/NSFWContentRejectedModal.tsx:31
 #: src/components/alerts/ReactionInteractionDisabledModal.tsx:30
@@ -22633,7 +22633,7 @@ msgstr "ערוץ לא ידוע"
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:479
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:61
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:67
-#: src/stores/QuickSwitcherStore.tsx:690
+#: src/stores/QuickSwitcherStore.tsx:688
 msgid "Unknown channel"
 msgstr "ערוץ לא ידוע"
 
@@ -22908,7 +22908,7 @@ msgstr "DM קבוצתי הוסר מההצמדה"
 msgid "unread"
 msgstr "לא נקרא"
 
-#: src/components/popouts/InboxPopout.tsx:53
+#: src/components/popouts/InboxPopout.tsx:52
 msgid "Unread"
 msgstr "לא נקראו"
 
@@ -22963,7 +22963,7 @@ msgstr "אימייל לא מאומת"
 msgid "Up to 4K/60fps"
 msgstr "עד 4K/60fps"
 
-#: src/components/channel/ChannelTextarea.tsx:1033
+#: src/components/channel/ChannelTextarea.tsx:1031
 msgid "Update"
 msgstr "עדכן"
 
@@ -23086,7 +23086,7 @@ msgstr "שדרג"
 msgid "Upgrade Now"
 msgstr "שדרוג כעת"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:69
+#: src/components/alerts/MaxBookmarksModal.tsx:72
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:70
 msgid "Upgrade to Plutonium"
 msgstr "שדרוג ל־Plutonium"
@@ -23455,7 +23455,7 @@ msgstr "רשומת משתמש"
 #: src/components/layout/UserArea.tsx:286
 #: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
-#: src/components/modals/UserSettingsModal.tsx:154
+#: src/components/modals/UserSettingsModal.tsx:153
 msgid "User Settings"
 msgstr "הגדרות משתמש"
 
@@ -23476,7 +23476,7 @@ msgstr "משתמש, בוט או webhook"
 msgid "username"
 msgstr "שם משתמש"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:190
+#: src/components/modals/FluxerTagChangeModal.tsx:201
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
 #: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
@@ -23511,13 +23511,17 @@ msgstr "שם המשתמש יכול להכיל עד 32 תווים"
 msgid "Username#0000"
 msgstr "שם משתמש#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:172
+#: src/components/modals/FluxerTagChangeModal.tsx:183
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "שמות משתמש יכולים להכיל רק אותיות (a-z, A-Z), מספרים (0-9), וקו תחתון. שמות משתמש אינם תלויי רישיות."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:167
-msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
-msgstr "שמות משתמש יכולים להכיל רק אותיות (a-z, A-Z), מספרים (0-9), וקו תחתון. שמות משתמש אינם תלויי רישיות. תוכל לבחור תג בן 4 ספרות אם הוא זמין."
+#: src/components/modals/FluxerTagChangeModal.tsx:170
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999."
+msgstr "שמות משתמש יכולים להכיל רק אותיות (a-z, A-Z), מספרים (0-9) וקווים תחתונים. שמות משתמש אינם רגישים לאותיות גדולות וקטנות. אפשר לבחור כל תג 4 ספרות זמין מ-#0000 עד #9999."
+
+#: src/components/modals/FluxerTagChangeModal.tsx:176
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999."
+msgstr "שמות משתמש יכולים להכיל רק אותיות (a-z, A-Z), מספרים (0-9) וקווים תחתונים. שמות משתמש אינם רגישים לאותיות גדולות וקטנות. אפשר לבחור כל תג 4 ספרות זמין מ-#0001 עד #9999."
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:246
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:172
@@ -24100,7 +24104,7 @@ msgstr "שיחות קול"
 msgid "voice channel"
 msgstr "ערוץ קול"
 
-#: src/stores/QuickSwitcherStore.tsx:720
+#: src/stores/QuickSwitcherStore.tsx:718
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:227
 msgid "Voice channel"
 msgstr "ערוץ קול"
@@ -24120,7 +24124,7 @@ msgstr "הערוץ הקולי מלא"
 msgid "Voice channel join behavior"
 msgstr "התנהגות הצטרפות לערוץ הקול"
 
-#: src/stores/QuickSwitcherStore.tsx:1351
+#: src/stores/QuickSwitcherStore.tsx:1349
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:98
 msgid "Voice channels"
 msgstr "ערוצי קול"
@@ -24998,7 +25002,7 @@ msgstr "אין באפשרותך להסיר את ההשתקה משום שמנהל
 msgid "You do not have access to the channel where this message was sent."
 msgstr "אין לך גישה לערוץ שבו נשלחה ההודעה הזו."
 
-#: src/components/channel/ChannelTextarea.tsx:749
+#: src/components/channel/ChannelTextarea.tsx:747
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:52
 msgid "You do not have permission to send messages in this channel."
 msgstr "אין לך הרשאה לשלוח הודעות בערוץ הזה."
@@ -25019,11 +25023,11 @@ msgstr "אין לך עדיין התאמות אישיות לנושאים לשתף
 msgid "You don't have permission to connect to this voice channel."
 msgstr "אין לך הרשאה להתחבר לערוץ הקול הזה."
 
-#: src/actions/InviteActionCreators.tsx:316
+#: src/actions/InviteActionCreators.tsx:320
 msgid "You don't have permission to install this emoji pack."
 msgstr "אין לך הרשאה להתקין את חבילת האימוג'ים הזו."
 
-#: src/actions/InviteActionCreators.tsx:317
+#: src/actions/InviteActionCreators.tsx:321
 msgid "You don't have permission to install this sticker pack."
 msgstr "אין לך הרשאה להתקין את חבילת המדבקות הזו."
 
@@ -25079,35 +25083,35 @@ msgstr "יש לך את כל <0/> דרך <1>מנוי מתנה</1> עד <2>{giftEn
 msgid "You have blocked {username}. Unblock them to send messages."
 msgstr "חסמת את {username}. הסר חסימה כדי לשלוח הודעות."
 
-#: src/actions/InviteActionCreators.tsx:260
+#: src/actions/InviteActionCreators.tsx:264
 msgid "You have created the maximum of {limit} emoji pack. Delete one to create another."
 msgstr "יצרת את המספר המרבי של {limit} חבילת אימוג'י. מחק אחת כדי ליצור אחרת."
 
-#: src/actions/InviteActionCreators.tsx:261
+#: src/actions/InviteActionCreators.tsx:265
 msgid "You have created the maximum of {limit} emoji packs. Delete one to create another."
 msgstr "יצרת את המספר המרבי של {limit} חבילות אימוג'ים. מחק אחת כדי ליצור אחרת."
 
-#: src/actions/InviteActionCreators.tsx:292
+#: src/actions/InviteActionCreators.tsx:296
 msgid "You have created the maximum of {limit} sticker pack. Delete one to create another."
 msgstr "יצרת את המספר המרבי של {limit} חבילת מדבקות. מחק אחת כדי ליצור אחרת."
 
-#: src/actions/InviteActionCreators.tsx:293
+#: src/actions/InviteActionCreators.tsx:297
 msgid "You have created the maximum of {limit} sticker packs. Delete one to create another."
 msgstr "יצרת את המספר המרבי של {limit} חבילות מדבקות. מחק אחת כדי ליצור אחרת."
 
-#: src/actions/InviteActionCreators.tsx:246
+#: src/actions/InviteActionCreators.tsx:250
 msgid "You have installed the maximum of {limit} emoji pack. Remove one to install another."
 msgstr "התקנת את המספר המרבי של {limit} חבילת אימוג'י. הסר אחת כדי להתקין אחרת."
 
-#: src/actions/InviteActionCreators.tsx:247
+#: src/actions/InviteActionCreators.tsx:251
 msgid "You have installed the maximum of {limit} emoji packs. Remove one to install another."
 msgstr "התקנת את המספר המרבי של {limit} חבילות אימוג'ים. הסר אחת כדי להתקין אחרת."
 
-#: src/actions/InviteActionCreators.tsx:278
+#: src/actions/InviteActionCreators.tsx:282
 msgid "You have installed the maximum of {limit} sticker pack. Remove one to install another."
 msgstr "התקנת את המספר המרבי של {limit} חבילת מדבקות. הסר אחת כדי להתקין אחרת."
 
-#: src/actions/InviteActionCreators.tsx:279
+#: src/actions/InviteActionCreators.tsx:283
 msgid "You have installed the maximum of {limit} sticker packs. Remove one to install another."
 msgstr "התקנת את המספר המרבי של {limit} חבילות מדבקות. הסר אחת כדי להתקין אחרת."
 
@@ -25115,19 +25119,19 @@ msgstr "התקנת את המספר המרבי של {limit} חבילות מדבק
 msgid "You have no friends yet"
 msgstr "עדיין אין לך חברים"
 
-#: src/actions/InviteActionCreators.tsx:264
+#: src/actions/InviteActionCreators.tsx:268
 msgid "You have reached the limit for creating emoji packs. Delete one of your packs to create another."
 msgstr "הגעת למגבלת יצירת חבילות אימוג'י. מחק אחת מהחבילות כדי ליצור אחרת."
 
-#: src/actions/InviteActionCreators.tsx:296
+#: src/actions/InviteActionCreators.tsx:300
 msgid "You have reached the limit for creating sticker packs. Delete one of your packs to create another."
 msgstr "הגעת למגבלת יצירת חבילות מדבקות. מחק אחת מהחבילות כדי ליצור אחרת."
 
-#: src/actions/InviteActionCreators.tsx:250
+#: src/actions/InviteActionCreators.tsx:254
 msgid "You have reached the limit for installing emoji packs. Remove one of your installed packs to install another."
 msgstr "הגעת למגבלת התקנת חבילות אימוג'י. הסר חבילה מותקנת כדי להתקין חדשה."
 
-#: src/actions/InviteActionCreators.tsx:282
+#: src/actions/InviteActionCreators.tsx:286
 msgid "You have reached the limit for installing sticker packs. Remove one of your installed packs to install another."
 msgstr "הגעת למגבלת התקנת חבילות מדבקות. הסר חבילה מותקנת כדי להתקין חדשה."
 
@@ -25391,23 +25395,23 @@ msgstr "הגעת למגבלה המקסימלית של {maxFavoriteMemes} פרי�
 msgid "You've reached the maximum limit of {maxFavoriteMemes} saved media items. To add more, you'll need to remove some existing items from your collection."
 msgstr "הגעת למגבלה המקסימלית של {maxFavoriteMemes} פריטי מדיה שמורים. כדי להוסיף יותר, תצטרך להסיר כמה פריטים קיימים מהאוסף שלך."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:55
+#: src/components/alerts/MaxBookmarksModal.tsx:58
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). Please remove some bookmarks before adding new ones."
 msgstr "הגעת למספר המקסימלי של סימניות ({bookmarksText}). אנא הסר כמה סימניות לפני הוספת חדשות."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:44
+#: src/components/alerts/MaxBookmarksModal.tsx:47
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). This limit is configured by your instance administrator. Please remove some bookmarks before adding new ones."
 msgstr "הגעת למספר המקסימלי של סימניות ({bookmarksText}). מגבלה זו מוגדרת על ידי מנהל המערכת שלך. אנא הסר כמה סימניות לפני הוספת חדשות."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:68
+#: src/components/alerts/MaxBookmarksModal.tsx:71
 msgid "You've reached the maximum number of bookmarks for free users ({bookmarksText}). Upgrade to Plutonium to increase your limit to {premiumBookmarksText}, or remove some bookmarks to add new ones."
 msgstr "הגעת למספר המקסימלי של סימניות עבור משתמשים חינמיים ({bookmarksText}). שדרג לפלוטוניום כדי להגדיל את המגבלה שלך ל-{premiumBookmarksText}, או הסר כמה סימניות כדי להוסיף חדשות."
 
-#: src/components/alerts/MaxGuildsModal.tsx:36
+#: src/components/alerts/MaxGuildsModal.tsx:39
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} communities). Please leave a community before joining another one."
 msgstr "הגעת למספר המקסימלי של קהילות שאתה יכול להצטרף אליהן ({maxGuilds} קהילות). אנא עזוב קהילה אחת לפני שתצטרף לאחרת."
 
-#: src/components/alerts/MaxGuildsModal.tsx:35
+#: src/components/alerts/MaxGuildsModal.tsx:38
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "הגעת למספר המקסימלי של קהילות שאתה יכול להצטרף אליהן ({maxGuilds} קהילה). אנא עזוב קהילה אחת לפני שתצטרף לאחרת."
 

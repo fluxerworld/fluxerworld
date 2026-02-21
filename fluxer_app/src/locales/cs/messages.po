@@ -633,11 +633,11 @@ msgstr "{lockedStickerCount} nálepka"
 msgid "{lockedStickerCount} stickers"
 msgstr "{lockedStickerCount} nálepky"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmark"
 msgstr "{maxBookmarks} záložka"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmarks"
 msgstr "{maxBookmarks} záložky"
 
@@ -718,11 +718,11 @@ msgstr "{participantCount} účastník ve hovoru"
 msgid "{participantCount} participants in call"
 msgstr "{participantCount} účastníků ve hovoru"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmark"
 msgstr "{premiumBookmarks} záložka"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmarks"
 msgstr "{premiumBookmarks} záložky"
 
@@ -1362,9 +1362,9 @@ msgstr "30 sekund"
 msgid "4 hours"
 msgstr "4 hodiny"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:206
-#: src/components/modals/FluxerTagChangeModal.tsx:234
-#: src/components/modals/FluxerTagChangeModal.tsx:251
+#: src/components/modals/FluxerTagChangeModal.tsx:217
+#: src/components/modals/FluxerTagChangeModal.tsx:245
+#: src/components/modals/FluxerTagChangeModal.tsx:262
 msgid "4-digit tag"
 msgstr "4místná značka"
 
@@ -1642,7 +1642,7 @@ msgstr "Přepsání stavu účtu"
 msgid "Account Too New"
 msgstr "Účet je příliš nový"
 
-#: src/actions/InviteActionCreators.tsx:178
+#: src/actions/InviteActionCreators.tsx:182
 #: src/components/modals/RequiredActionModal.tsx:143
 #: src/components/modals/RequiredActionModal.tsx:416
 msgid "Account Verification Required"
@@ -2010,7 +2010,7 @@ msgstr "Přidáno {0}."
 msgid "Added roles."
 msgstr "Přidány role."
 
-#: src/actions/SavedMessageActionCreators.tsx:58
+#: src/actions/SavedMessageActionCreators.tsx:59
 msgid "Added to bookmarks"
 msgstr "Přidáno do záložek"
 
@@ -3720,9 +3720,9 @@ msgstr "Knižní klub"
 msgid "Bookmark"
 msgstr "Záložka"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:43
-#: src/components/alerts/MaxBookmarksModal.tsx:54
-#: src/components/alerts/MaxBookmarksModal.tsx:67
+#: src/components/alerts/MaxBookmarksModal.tsx:46
+#: src/components/alerts/MaxBookmarksModal.tsx:57
+#: src/components/alerts/MaxBookmarksModal.tsx:70
 msgid "Bookmark Limit Reached"
 msgstr "Dosaženo limitu záložek"
 
@@ -3750,7 +3750,7 @@ msgstr "Uloženo do záložek!"
 
 #: src/components/modals/BookmarksBottomSheet.tsx:109
 #: src/components/pages/SavedMessagesPage.tsx:67
-#: src/components/popouts/InboxPopout.tsx:58
+#: src/components/popouts/InboxPopout.tsx:57
 msgid "Bookmarks"
 msgstr "Záložky"
 
@@ -4055,7 +4055,7 @@ msgstr "Kamery jsou zakázány, když je více než {VOICE_CHANNEL_CAMERA_USER_L
 #: src/components/alerts/FileSizeTooLargeModal.tsx:87
 #: src/components/auth/BrowserLoginHandoffModal.tsx:269
 #: src/components/bottomsheets/CreateDMBottomSheet.tsx:130
-#: src/components/channel/ChannelTextarea.tsx:312
+#: src/components/channel/ChannelTextarea.tsx:310
 #: src/components/channel/friends/FriendListItem.tsx:259
 #: src/components/channel/MentionEveryonePopout.tsx:128
 #: src/components/emojis/EmojiListItem.tsx:125
@@ -4099,8 +4099,8 @@ msgstr "Kamery jsou zakázány, když je více než {VOICE_CHANNEL_CAMERA_USER_L
 #: src/components/modals/EmailChangeModal.tsx:270
 #: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:120
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:122
+#: src/components/modals/FluxerTagChangeModal.tsx:294
 #: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
@@ -4146,7 +4146,7 @@ msgstr "Zrušit"
 msgid "Cancel Friend Request"
 msgstr "Zrušit žádost o přátelství"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:115
+#: src/components/modals/FluxerTagChangeModal.tsx:117
 msgid "Cancel if you want to choose a different username instead."
 msgstr "Zrušit, pokud chcete místo toho vybrat jiné uživatelské jméno."
 
@@ -4178,11 +4178,11 @@ msgstr "Nelze upravit"
 msgid "Cannot Delete Account"
 msgstr "Nelze odstranit účet"
 
-#: src/actions/InviteActionCreators.tsx:313
+#: src/actions/InviteActionCreators.tsx:317
 msgid "Cannot install emoji pack"
 msgstr "Nelze nainstalovat balíček emoji"
 
-#: src/actions/InviteActionCreators.tsx:314
+#: src/actions/InviteActionCreators.tsx:318
 msgid "Cannot install sticker pack"
 msgstr "Nelze nainstalovat balíček samolepek"
 
@@ -4293,7 +4293,7 @@ msgstr "Změnit emoji"
 msgid "Change FluxerTag"
 msgstr "Změnit FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:161
+#: src/components/modals/FluxerTagChangeModal.tsx:163
 msgid "Change FluxerTag form"
 msgstr "Formulář pro změnu FluxerTagu"
 
@@ -4380,7 +4380,7 @@ msgstr "Změnit svůj e-mail"
 msgid "Change your email address"
 msgstr "Změnit e-mailovou adresu"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:162
+#: src/components/modals/FluxerTagChangeModal.tsx:164
 msgid "Change Your FluxerTag"
 msgstr "Změnit svůj FluxerTag"
 
@@ -4424,7 +4424,7 @@ msgstr "Bitrate změněn na {0}."
 msgid "Changed the voice region to {0}."
 msgstr "Hlasový region změněn na {0}."
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 #: src/utils/SearchUtils.tsx:268
 msgid "channel"
 msgstr "kanál"
@@ -5333,7 +5333,7 @@ msgid "Communication"
 msgstr "Komunikace"
 
 #: src/components/modals/components/FeatureComparisonTable.tsx:49
-#: src/stores/QuickSwitcherStore.tsx:1354
+#: src/stores/QuickSwitcherStore.tsx:1352
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
 msgstr "Komunity"
@@ -5825,13 +5825,13 @@ msgstr "Kontextová menu"
 msgid "Context menus can be opened with left-click (on buttons) or right-click (on other elements). This demonstrates various menu items including checkboxes, radio buttons, sliders, and submenus."
 msgstr "Kontextová menu otevřeš levým kliknutím (na tlačítka) nebo pravým kliknutím (jinde). Ukazuje různé položky jako zaškrtávací políčka, přepínače, posuvníky a podmenu."
 
-#: src/components/channel/ChannelTextarea.tsx:311
+#: src/components/channel/ChannelTextarea.tsx:309
 #: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:82
 #: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:119
-#: src/components/modals/FluxerTagChangeModal.tsx:286
+#: src/components/modals/FluxerTagChangeModal.tsx:121
+#: src/components/modals/FluxerTagChangeModal.tsx:297
 #: src/components/modals/MfaTotpDisableModal.tsx:78
 #: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
@@ -6601,7 +6601,7 @@ msgstr "Vlastní CSS přepsání"
 msgid "Custom Date Range"
 msgstr "Vlastní časový rozsah"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:230
+#: src/components/modals/FluxerTagChangeModal.tsx:241
 msgid "Custom discriminators are not available on this instance"
 msgstr "Vlastní diskriminátory nejsou na této instanci k dispozici"
 
@@ -6732,7 +6732,7 @@ msgstr "Přizpůsobte, která tlačítka jsou viditelná v oblasti pro zadáván
 msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
 msgstr "Přizpůsobte si svůj 4místný štítek (#{0}) podle svých představ s Plutonium"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:275
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Přizpůsobte si čtyřmístný tag nebo si ho ponechte při změně uživatelského jména"
 
@@ -7516,7 +7516,7 @@ msgstr "Soukromá zpráva"
 #: src/components/layout/guild_list/FluxerButton.tsx:80
 #: src/components/modals/GuildPrivacySettingsModal.tsx:76
 #: src/components/modals/tabs/privacy_safety_tab/ConnectionsTab.tsx:221
-#: src/stores/QuickSwitcherStore.tsx:833
+#: src/stores/QuickSwitcherStore.tsx:831
 msgid "Direct Messages"
 msgstr "Soukromé zprávy"
 
@@ -7559,7 +7559,7 @@ msgstr "Vypnout animace a přechody v celé aplikaci."
 msgid "Disable animations and transitions. Currently controlled by your system setting."
 msgstr "Vypnout animace a přechody. Momentálně řízeno nastavením systému."
 
-#: src/stores/QuickSwitcherStore.tsx:915
+#: src/stores/QuickSwitcherStore.tsx:913
 msgid "Disable Compact Mode"
 msgstr "Vypnout kompaktní režim"
 
@@ -7586,7 +7586,7 @@ msgstr "Vypnout potlačení šumu"
 msgid "Disable Picture-in-Picture Popout"
 msgstr "Zakázat zobrazení obrazu v obraze"
 
-#: src/stores/QuickSwitcherStore.tsx:931
+#: src/stores/QuickSwitcherStore.tsx:929
 msgid "Disable Reduced Motion"
 msgstr "Vypnout omezený pohyb"
 
@@ -7755,7 +7755,7 @@ msgstr "Discriminator"
 msgid "Discussion or promotion of illegal activities"
 msgstr "Diskuze nebo propagace nezákonných činností"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:76
+#: src/components/alerts/MaxBookmarksModal.tsx:79
 #: src/components/layout/GuildLayout.tsx:106
 #: src/components/layout/NagbarContent.tsx:42
 #: src/components/modals/GiftAcceptModal.tsx:110
@@ -8486,7 +8486,7 @@ msgstr "Názvy emoji musí mít alespoň 2 znaky a mohou obsahovat jen alfanumer
 msgid "Emoji pack"
 msgstr "Balíček emoji"
 
-#: src/actions/InviteActionCreators.tsx:255
+#: src/actions/InviteActionCreators.tsx:259
 msgid "Emoji pack creation limit reached"
 msgstr "Byl dosažen limit vytvořených balíčků emoji"
 
@@ -8494,7 +8494,7 @@ msgstr "Byl dosažen limit vytvořených balíčků emoji"
 msgid "Emoji Pack Invite"
 msgstr "Pozvánka k balíčku emoji"
 
-#: src/actions/InviteActionCreators.tsx:241
+#: src/actions/InviteActionCreators.tsx:245
 msgid "Emoji pack limit reached"
 msgstr "Limit balíčků emoji byl dosažen"
 
@@ -8567,7 +8567,7 @@ msgstr "Povolit beta funkci"
 msgid "Enable Browser Notifications"
 msgstr "Povolit oznámení v prohlížeči"
 
-#: src/stores/QuickSwitcherStore.tsx:916
+#: src/stores/QuickSwitcherStore.tsx:914
 msgid "Enable Compact Mode"
 msgstr "Povolit kompaktní režim"
 
@@ -8643,7 +8643,7 @@ msgstr "Povolit push oznámení pro toto zařízení"
 msgid "Enable push notifications for this installed PWA to keep receiving messages when the browser is backgrounded."
 msgstr "Povolením push oznámení pro tuto nainstalovanou PWA budete dostávat zprávy i při běhu prohlížeče na pozadí."
 
-#: src/stores/QuickSwitcherStore.tsx:932
+#: src/stores/QuickSwitcherStore.tsx:930
 msgid "Enable Reduced Motion"
 msgstr "Povolit omezený pohyb"
 
@@ -9314,11 +9314,11 @@ msgstr "Nepodařilo se ignorovat žádost o přátelství. Zkuste to prosím zno
 msgid "Failed to initiate connection"
 msgstr "Nepodařilo se zahájit připojení"
 
-#: src/actions/InviteActionCreators.tsx:322
+#: src/actions/InviteActionCreators.tsx:326
 msgid "Failed to install this emoji pack. Please try again later."
 msgstr "Nepodařilo se nainstalovat tento balíček emoji. Zkuste to prosím později."
 
-#: src/actions/InviteActionCreators.tsx:323
+#: src/actions/InviteActionCreators.tsx:327
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Nepodařilo se nainstalovat tento balíček nálepek. Zkuste to prosím později."
 
@@ -9716,9 +9716,9 @@ msgstr "oblíbené"
 #: src/components/modals/tabs/AppearanceTab.tsx:116
 #: src/components/modals/utils/SettingsConstants.tsx:279
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:233
-#: src/stores/QuickSwitcherStore.tsx:843
-#: src/stores/QuickSwitcherStore.tsx:1261
-#: src/stores/QuickSwitcherStore.tsx:1273
+#: src/stores/QuickSwitcherStore.tsx:841
+#: src/stores/QuickSwitcherStore.tsx:1259
+#: src/stores/QuickSwitcherStore.tsx:1271
 msgid "Favorites"
 msgstr "Oblíbené"
 
@@ -9964,16 +9964,16 @@ msgstr "Tým Fluxer"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer používá push oznámení, když je nainstalován jako mobilní PWA. Registrace zajistí, že brána může vaše zařízení kontaktovat i když je prohlížeč v pozadí."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:179
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:105
+#: src/components/modals/FluxerTagChangeModal.tsx:107
 msgid "FluxerTag already taken"
 msgstr "FluxerTag je již obsazený"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:147
+#: src/components/modals/FluxerTagChangeModal.tsx:149
 msgid "FluxerTag updated"
 msgstr "FluxerTag aktualizován"
 
@@ -10491,7 +10491,7 @@ msgstr "Dostávejte oznámení, když obdržíte zprávy. Možná budete muset p
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:224
+#: src/components/modals/FluxerTagChangeModal.tsx:235
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10508,7 +10508,7 @@ msgstr "Pořiďte si Plutonium a odemkněte vyšší limity a exkluzivní funkce
 msgid "Get Plutonium to customize your tag"
 msgstr "Získejte Plutonium, abyste si mohli upravit štítek"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:202
+#: src/components/modals/FluxerTagChangeModal.tsx:213
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "Získejte Plutonium, abyste si mohli upravit štítek nebo si ho ponechat při změně uživatelského jména"
 
@@ -10726,7 +10726,7 @@ msgstr "Přejít na domovskou stránku"
 msgid "Go to login"
 msgstr "Přejít na přihlášení"
 
-#: src/stores/QuickSwitcherStore.tsx:528
+#: src/stores/QuickSwitcherStore.tsx:526
 msgid "Go to message"
 msgstr "Přejít ke zprávě"
 
@@ -10867,12 +10867,12 @@ msgstr "Ikona skupiny"
 msgid "Group Invites"
 msgstr "Pozvánky do skupiny"
 
-#: src/stores/QuickSwitcherStore.tsx:667
+#: src/stores/QuickSwitcherStore.tsx:665
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:235
 msgid "Group message"
 msgstr "Skupinová zpráva"
 
-#: src/stores/QuickSwitcherStore.tsx:1347
+#: src/stores/QuickSwitcherStore.tsx:1345
 msgid "Group messages"
 msgstr "Skupinové zprávy"
 
@@ -11278,7 +11278,7 @@ msgid "Hold to temporarily unmute when push-to-talk is enabled"
 msgstr "Držte pro dočasné zapnutí zvuku při zapnutém push-to-talk"
 
 #: src/components/layout/MobileBottomNav.tsx:93
-#: src/stores/QuickSwitcherStore.tsx:832
+#: src/stores/QuickSwitcherStore.tsx:830
 msgid "Home"
 msgstr "Domů"
 
@@ -11620,7 +11620,7 @@ msgstr "Nevhodný profil"
 msgid "Inbox"
 msgstr "Doručená pošta"
 
-#: src/components/popouts/InboxPopout.tsx:89
+#: src/components/popouts/InboxPopout.tsx:88
 msgid "Inbox tabs"
 msgstr "Záložky doručené pošty"
 
@@ -13347,7 +13347,7 @@ msgstr "Člen označen jako dočasný."
 msgid "Markers Below Slider"
 msgstr "Značky pod posuvníkem"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:191
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
@@ -13657,7 +13657,7 @@ msgstr "zmínky"
 
 #: src/components/modals/GuildNotificationSettingsModal.tsx:227
 #: src/components/pages/NotificationsPage.tsx:42
-#: src/components/popouts/InboxPopout.tsx:63
+#: src/components/popouts/InboxPopout.tsx:62
 msgid "Mentions"
 msgstr "Zmínky"
 
@@ -13692,15 +13692,15 @@ msgstr "menu"
 msgid "Message"
 msgstr "Zpráva"
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message "
 msgstr "Zpráva "
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message @"
 msgstr "Zpráva @"
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 msgid "Message #"
 msgstr "Zpráva #"
 
@@ -15579,7 +15579,7 @@ msgstr "Otevřít v nové záložce"
 msgid "Open Link"
 msgstr "Otevřít odkaz"
 
-#: src/components/channel/ChannelTextarea.tsx:953
+#: src/components/channel/ChannelTextarea.tsx:951
 #: src/components/channel/textarea/MobileTextareaLayout.tsx:112
 msgid "Open menu"
 msgstr "Otevřít menu"
@@ -16045,7 +16045,7 @@ msgid "Pending deletion canceled"
 msgstr "Čekající smazání zrušeno"
 
 #: src/lib/UnicodeEmojis.tsx:234
-#: src/stores/QuickSwitcherStore.tsx:1345
+#: src/stores/QuickSwitcherStore.tsx:1343
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:96
 msgid "People"
 msgstr "Lidé"
@@ -16421,7 +16421,7 @@ msgstr "Zkuste to prosím později."
 msgid "Please update Fluxer to view this message."
 msgstr "Aktualizujte prosím Fluxer, abyste zobrazili tuto zprávu."
 
-#: src/actions/InviteActionCreators.tsx:180
+#: src/actions/InviteActionCreators.tsx:184
 msgid "Please verify your account by setting an email and password before joining communities."
 msgstr "Než se připojíte ke komunitám, ověřte prosím svůj účet zadáním e-mailu a hesla."
 
@@ -16933,7 +16933,7 @@ msgstr "Python"
 msgid "quick access"
 msgstr "rychlý přístup"
 
-#: src/stores/QuickSwitcherStore.tsx:1358
+#: src/stores/QuickSwitcherStore.tsx:1356
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:100
 msgid "Quick Actions"
 msgstr "Rychlé akce"
@@ -17562,7 +17562,7 @@ msgstr "Povolení odstraněno pro {0}."
 msgid "Removed deny for {0}."
 msgstr "Zamítnutí odstraněno pro {0}."
 
-#: src/actions/SavedMessageActionCreators.tsx:80
+#: src/actions/SavedMessageActionCreators.tsx:85
 msgid "Removed from bookmarks"
 msgstr "Odstraněno ze záložek"
 
@@ -17871,7 +17871,7 @@ msgstr "Vyžaduje vše z úrovně Střední a navíc být členem serveru alespo
 msgid "Requires Plutonium"
 msgstr "Vyžaduje Plutonium"
 
-#: src/components/channel/ChannelTextarea.tsx:1032
+#: src/components/channel/ChannelTextarea.tsx:1030
 msgid "Reschedule Message"
 msgstr "Přeplánovat zprávu"
 
@@ -18442,7 +18442,7 @@ msgstr "Naplánovat"
 msgid "Schedule Message"
 msgstr "Naplánovat zprávu"
 
-#: src/components/popouts/InboxPopout.tsx:70
+#: src/components/popouts/InboxPopout.tsx:69
 #: src/components/popouts/ScheduledMessagesContent.tsx:89
 msgid "Scheduled"
 msgstr "Naplánováno"
@@ -19346,7 +19346,7 @@ msgstr "Nastavit si časové pásmo"
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:221
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:95
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:90
-#: src/stores/QuickSwitcherStore.tsx:1356
+#: src/stores/QuickSwitcherStore.tsx:1354
 msgid "Settings"
 msgstr "Nastavení"
 
@@ -20495,7 +20495,7 @@ msgstr "Hustota nálepek"
 msgid "Sticker pack"
 msgstr "Balíček nálepek"
 
-#: src/actions/InviteActionCreators.tsx:287
+#: src/actions/InviteActionCreators.tsx:291
 msgid "Sticker pack creation limit reached"
 msgstr "Byl dosažen limit vytváření balíčků nálepek"
 
@@ -20503,7 +20503,7 @@ msgstr "Byl dosažen limit vytváření balíčků nálepek"
 msgid "Sticker Pack Invite"
 msgstr "Pozvánka do balíčku nálepek"
 
-#: src/actions/InviteActionCreators.tsx:273
+#: src/actions/InviteActionCreators.tsx:277
 msgid "Sticker pack limit reached"
 msgstr "Byl dosažen limit balíčků nálepek"
 
@@ -20801,7 +20801,7 @@ msgstr "Přepnout účet"
 msgid "Switch Accounts"
 msgstr "Přepnout účty"
 
-#: src/stores/QuickSwitcherStore.tsx:900
+#: src/stores/QuickSwitcherStore.tsx:898
 msgid "Switch between Light and Dark mode"
 msgstr "Přepínat mezi světlým a tmavým režimem"
 
@@ -21030,7 +21030,7 @@ msgstr "Textový kanál"
 msgid "Text Channel Names"
 msgstr "Názvy textových kanálů"
 
-#: src/stores/QuickSwitcherStore.tsx:1349
+#: src/stores/QuickSwitcherStore.tsx:1347
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:97
 msgid "Text channels"
 msgstr "Textové kanály"
@@ -21111,7 +21111,7 @@ msgid "That message didn't delete"
 msgstr "Ta zpráva se nesmazala"
 
 #. placeholder {0}: invite.pack.name
-#: src/actions/InviteActionCreators.tsx:103
+#: src/actions/InviteActionCreators.tsx:104
 msgid "The {packLabel} {0} has been installed."
 msgstr "Balíček {packLabel} {0} byl nainstalován."
 
@@ -21153,7 +21153,7 @@ msgstr "Soubor obsahuje ověřovací token, který získáme z <0>{dnsUrl}</0>."
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "Soubor, který se snažíte nahrát, překračuje maximální velikost {maxSizeFormatted}."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:109
+#: src/components/modals/FluxerTagChangeModal.tsx:111
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "FluxerTag <0>{fluxerTag}</0> je již obsazený. Pokračování automaticky přegeneruje váš diskriminátor."
 
@@ -21722,7 +21722,7 @@ msgstr "Tímto skryjete všechny prvky uživatelského rozhraní související s
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "Tímto zneplatníte své stávající záložní kódy a vygenerujete nové."
 
-#: src/components/channel/ChannelTextarea.tsx:1036
+#: src/components/channel/ChannelTextarea.tsx:1034
 msgid "This will modify the existing scheduled message rather than sending immediately."
 msgstr "Tímto upravíte existující naplánovanou zprávu místo okamžitého odeslání."
 
@@ -21908,7 +21908,7 @@ msgstr "přepínač"
 msgid "Toggle Channel Member List"
 msgstr "Přepnout seznam členů kanálu"
 
-#: src/stores/QuickSwitcherStore.tsx:913
+#: src/stores/QuickSwitcherStore.tsx:911
 msgid "Toggle Compact Mode"
 msgstr "Přepnout kompaktní režim"
 
@@ -21968,7 +21968,7 @@ msgstr "Přepnout připnuté zprávy"
 msgid "Toggle premium_enabled_override on the backend"
 msgstr "Přepnout přepsání premium_enabled na backendu"
 
-#: src/stores/QuickSwitcherStore.tsx:929
+#: src/stores/QuickSwitcherStore.tsx:927
 msgid "Toggle Reduced Motion"
 msgstr "Přepnout redukovaný pohyb"
 
@@ -21984,7 +21984,7 @@ msgstr "Přepnout výběr samolepek"
 msgid "Toggle switches on and off to see state changes."
 msgstr "Přepínej přepínače pro zobrazení změn stavu."
 
-#: src/stores/QuickSwitcherStore.tsx:899
+#: src/stores/QuickSwitcherStore.tsx:897
 msgid "Toggle Theme"
 msgstr "Přepnout téma"
 
@@ -22009,7 +22009,7 @@ msgstr "Tone-map HDR obrázky na standardní rozsah, čímž se sníží maximá
 msgid "Too Loud"
 msgstr "Příliš hlasité"
 
-#: src/components/alerts/MaxGuildsModal.tsx:32
+#: src/components/alerts/MaxGuildsModal.tsx:35
 msgid "Too Many Communities"
 msgstr "Příliš mnoho komunit"
 
@@ -22405,11 +22405,11 @@ msgstr "Ukrajinština"
 msgid "Ultra (1440p)"
 msgstr "Ultra (1440p)"
 
-#: src/actions/InviteActionCreators.tsx:319
+#: src/actions/InviteActionCreators.tsx:323
 msgid "Unable to install emoji pack"
 msgstr "Nelze nainstalovat balíček emoji"
 
-#: src/actions/InviteActionCreators.tsx:320
+#: src/actions/InviteActionCreators.tsx:324
 msgid "Unable to install sticker pack"
 msgstr "Nelze nainstalovat balíček samolepek"
 
@@ -22555,10 +22555,10 @@ msgstr "Nezletilý uživatel"
 #: src/components/alerts/GenericErrorModal.tsx:31
 #: src/components/alerts/GuildAtCapacityModal.tsx:31
 #: src/components/alerts/InvitesDisabledModal.tsx:31
-#: src/components/alerts/MaxBookmarksModal.tsx:45
-#: src/components/alerts/MaxBookmarksModal.tsx:56
+#: src/components/alerts/MaxBookmarksModal.tsx:48
+#: src/components/alerts/MaxBookmarksModal.tsx:59
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:46
-#: src/components/alerts/MaxGuildsModal.tsx:38
+#: src/components/alerts/MaxGuildsModal.tsx:41
 #: src/components/alerts/MicrophonePermissionDeniedModal.tsx:50
 #: src/components/alerts/NSFWContentRejectedModal.tsx:31
 #: src/components/alerts/ReactionInteractionDisabledModal.tsx:30
@@ -22633,7 +22633,7 @@ msgstr "neznámý kanál"
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:479
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:61
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:67
-#: src/stores/QuickSwitcherStore.tsx:690
+#: src/stores/QuickSwitcherStore.tsx:688
 msgid "Unknown channel"
 msgstr "Neznámý kanál"
 
@@ -22908,7 +22908,7 @@ msgstr "Skupinový DM odepnout"
 msgid "unread"
 msgstr "nepřečtené"
 
-#: src/components/popouts/InboxPopout.tsx:53
+#: src/components/popouts/InboxPopout.tsx:52
 msgid "Unread"
 msgstr "Nepřečtené"
 
@@ -22963,7 +22963,7 @@ msgstr "Neověřený e-mail"
 msgid "Up to 4K/60fps"
 msgstr "Až 4K/60fps"
 
-#: src/components/channel/ChannelTextarea.tsx:1033
+#: src/components/channel/ChannelTextarea.tsx:1031
 msgid "Update"
 msgstr "Aktualizovat"
 
@@ -23086,7 +23086,7 @@ msgstr "upgradovat"
 msgid "Upgrade Now"
 msgstr "Upgradovat nyní"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:69
+#: src/components/alerts/MaxBookmarksModal.tsx:72
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:70
 msgid "Upgrade to Plutonium"
 msgstr "Upgradovat na Plutonium"
@@ -23455,7 +23455,7 @@ msgstr "Záznam uživatele"
 #: src/components/layout/UserArea.tsx:286
 #: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
-#: src/components/modals/UserSettingsModal.tsx:154
+#: src/components/modals/UserSettingsModal.tsx:153
 msgid "User Settings"
 msgstr "Nastavení uživatele"
 
@@ -23476,7 +23476,7 @@ msgstr "uživatel, bot nebo webhook"
 msgid "username"
 msgstr "uživatelské jméno"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:190
+#: src/components/modals/FluxerTagChangeModal.tsx:201
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
 #: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
@@ -23511,13 +23511,17 @@ msgstr "Uživatelské jméno smí mít nejvýše 32 znaků"
 msgid "Username#0000"
 msgstr "UživatelskéJméno#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:172
+#: src/components/modals/FluxerTagChangeModal.tsx:183
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "Uživatelská jména mohou obsahovat pouze písmena (a-z, A-Z), čísla (0-9) a podtržítka. Na velikosti písmen nezáleží."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:167
-msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
-msgstr "Uživatelská jména mohou obsahovat pouze písmena (a-z, A-Z), čísla (0-9) a podtržítka. Na velikosti písmen nezáleží. Pokud je volný, můžete si vybrat vlastní čtyřmístný tag."
+#: src/components/modals/FluxerTagChangeModal.tsx:170
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999."
+msgstr "Uživatelská jména mohou obsahovat pouze písmena (a-z, A-Z), čísla (0-9) a podtržítka. Uživatelská jména nerozlišují velká a malá písmena. Můžeš si vybrat jakýkoli dostupný 4místný tag od #0000 do #9999."
+
+#: src/components/modals/FluxerTagChangeModal.tsx:176
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999."
+msgstr "Uživatelská jména mohou obsahovat pouze písmena (a-z, A-Z), čísla (0-9) a podtržítka. Uživatelská jména nerozlišují velká a malá písmena. Můžeš si vybrat jakýkoli dostupný 4místný tag od #0001 do #9999."
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:246
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:172
@@ -24100,7 +24104,7 @@ msgstr "Hlasové hovory"
 msgid "voice channel"
 msgstr "hlasový kanál"
 
-#: src/stores/QuickSwitcherStore.tsx:720
+#: src/stores/QuickSwitcherStore.tsx:718
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:227
 msgid "Voice channel"
 msgstr "Hlasový kanál"
@@ -24120,7 +24124,7 @@ msgstr "Hlasový kanál je plný"
 msgid "Voice channel join behavior"
 msgstr "Chování při připojení k hlasovému kanálu"
 
-#: src/stores/QuickSwitcherStore.tsx:1351
+#: src/stores/QuickSwitcherStore.tsx:1349
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:98
 msgid "Voice channels"
 msgstr "Hlasové kanály"
@@ -24998,7 +25002,7 @@ msgstr "Nemůžeš si zapnout mikrofon, protože tě ztlumil moderátor."
 msgid "You do not have access to the channel where this message was sent."
 msgstr "Nemáš přístup do kanálu, kde byla tato zpráva odeslána."
 
-#: src/components/channel/ChannelTextarea.tsx:749
+#: src/components/channel/ChannelTextarea.tsx:747
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:52
 msgid "You do not have permission to send messages in this channel."
 msgstr "V tomto kanálu nemáš oprávnění posílat zprávy."
@@ -25019,11 +25023,11 @@ msgstr "Zatím nemáš žádné vlastní úpravy tématu k sdílení."
 msgid "You don't have permission to connect to this voice channel."
 msgstr "Nemáš oprávnění připojit se k tomuto hlasovému kanálu."
 
-#: src/actions/InviteActionCreators.tsx:316
+#: src/actions/InviteActionCreators.tsx:320
 msgid "You don't have permission to install this emoji pack."
 msgstr "Nemáš oprávnění nainstalovat tento balíček emoji."
 
-#: src/actions/InviteActionCreators.tsx:317
+#: src/actions/InviteActionCreators.tsx:321
 msgid "You don't have permission to install this sticker pack."
 msgstr "Nemáš oprávnění nainstalovat tento balíček samolepek."
 
@@ -25079,35 +25083,35 @@ msgstr "Máš všechny <0/> díky <1>dárkovému předplatnému</1> až do <2>{g
 msgid "You have blocked {username}. Unblock them to send messages."
 msgstr "Blokoval(a) jsi {username}. Odblokuj ho/ji, abys mohl(a) posílat zprávy."
 
-#: src/actions/InviteActionCreators.tsx:260
+#: src/actions/InviteActionCreators.tsx:264
 msgid "You have created the maximum of {limit} emoji pack. Delete one to create another."
 msgstr "Vytvořil(a) jsi maximální počet {limit} balíčků emoji. Smaž jeden, abys vytvořil(a) další."
 
-#: src/actions/InviteActionCreators.tsx:261
+#: src/actions/InviteActionCreators.tsx:265
 msgid "You have created the maximum of {limit} emoji packs. Delete one to create another."
 msgstr "Vytvořil(a) jsi maximální počet {limit} balíčků emoji. Smaž jeden, abys vytvořil(a) další."
 
-#: src/actions/InviteActionCreators.tsx:292
+#: src/actions/InviteActionCreators.tsx:296
 msgid "You have created the maximum of {limit} sticker pack. Delete one to create another."
 msgstr "Vytvořil(a) jsi maximální počet {limit} balíčků nálepek. Smaž jeden, abys vytvořil(a) další."
 
-#: src/actions/InviteActionCreators.tsx:293
+#: src/actions/InviteActionCreators.tsx:297
 msgid "You have created the maximum of {limit} sticker packs. Delete one to create another."
 msgstr "Vytvořil(a) jsi maximální počet {limit} balíčků nálepek. Smaž jeden, abys vytvořil(a) další."
 
-#: src/actions/InviteActionCreators.tsx:246
+#: src/actions/InviteActionCreators.tsx:250
 msgid "You have installed the maximum of {limit} emoji pack. Remove one to install another."
 msgstr "Nainstaloval(a) jsi maximální počet {limit} balíčků emoji. Odstraň jeden, abys nainstaloval(a) další."
 
-#: src/actions/InviteActionCreators.tsx:247
+#: src/actions/InviteActionCreators.tsx:251
 msgid "You have installed the maximum of {limit} emoji packs. Remove one to install another."
 msgstr "Nainstaloval(a) jsi maximální počet {limit} balíčků emoji. Odstraň jeden, abys nainstaloval(a) další."
 
-#: src/actions/InviteActionCreators.tsx:278
+#: src/actions/InviteActionCreators.tsx:282
 msgid "You have installed the maximum of {limit} sticker pack. Remove one to install another."
 msgstr "Nainstaloval(a) jsi maximální počet {limit} balíčků nálepek. Odstraň jeden, abys nainstaloval(a) další."
 
-#: src/actions/InviteActionCreators.tsx:279
+#: src/actions/InviteActionCreators.tsx:283
 msgid "You have installed the maximum of {limit} sticker packs. Remove one to install another."
 msgstr "Nainstaloval(a) jsi maximální počet {limit} balíčků nálepek. Odstraň jeden, abys nainstaloval(a) další."
 
@@ -25115,19 +25119,19 @@ msgstr "Nainstaloval(a) jsi maximální počet {limit} balíčků nálepek. Odst
 msgid "You have no friends yet"
 msgstr "Ještě nemáš žádné přátele"
 
-#: src/actions/InviteActionCreators.tsx:264
+#: src/actions/InviteActionCreators.tsx:268
 msgid "You have reached the limit for creating emoji packs. Delete one of your packs to create another."
 msgstr "Dosáhl(a) jsi limitu pro vytváření balíčků emoji. Odstraň jeden z nich, abys mohl(a) vytvořit nový."
 
-#: src/actions/InviteActionCreators.tsx:296
+#: src/actions/InviteActionCreators.tsx:300
 msgid "You have reached the limit for creating sticker packs. Delete one of your packs to create another."
 msgstr "Dosáhl(a) jsi limitu pro vytváření balíčků samolepek. Odstraň jeden z nich, abys mohl(a) vytvořit nový."
 
-#: src/actions/InviteActionCreators.tsx:250
+#: src/actions/InviteActionCreators.tsx:254
 msgid "You have reached the limit for installing emoji packs. Remove one of your installed packs to install another."
 msgstr "Dosáhl(a) jsi limitu pro instalaci balíčků emoji. Odeber jeden z nainstalovaných balíčků, abys mohl(a) nainstalovat jiný."
 
-#: src/actions/InviteActionCreators.tsx:282
+#: src/actions/InviteActionCreators.tsx:286
 msgid "You have reached the limit for installing sticker packs. Remove one of your installed packs to install another."
 msgstr "Dosáhl(a) jsi limitu pro instalaci balíčků samolepek. Odeber jeden z nainstalovaných balíčků, abys mohl(a) nainstalovat jiný."
 
@@ -25391,23 +25395,23 @@ msgstr "Dosáhli jste maximálního limitu {maxFavoriteMemes} uložených mediá
 msgid "You've reached the maximum limit of {maxFavoriteMemes} saved media items. To add more, you'll need to remove some existing items from your collection."
 msgstr "Dosáhli jste maximálního limitu {maxFavoriteMemes} uložených mediálních položek. Abyste přidali více, budete muset odstranit některé stávající položky ze své sbírky."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:55
+#: src/components/alerts/MaxBookmarksModal.tsx:58
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). Please remove some bookmarks before adding new ones."
 msgstr "Dosáhli jste maximálního počtu záložek ({bookmarksText}). Prosím, odstraňte některé záložky před přidáním nových."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:44
+#: src/components/alerts/MaxBookmarksModal.tsx:47
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). This limit is configured by your instance administrator. Please remove some bookmarks before adding new ones."
 msgstr "Dosáhli jste maximálního počtu záložek ({bookmarksText}). Tento limit je nastaven správcem vaší instance. Prosím, odstraňte některé záložky před přidáním nových."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:68
+#: src/components/alerts/MaxBookmarksModal.tsx:71
 msgid "You've reached the maximum number of bookmarks for free users ({bookmarksText}). Upgrade to Plutonium to increase your limit to {premiumBookmarksText}, or remove some bookmarks to add new ones."
 msgstr "Dosáhli jste maximálního počtu záložek pro bezplatné uživatele ({bookmarksText}). Přepněte na Plutonium, abyste zvýšili svůj limit na {premiumBookmarksText}, nebo odstraňte některé záložky, abyste přidali nové."
 
-#: src/components/alerts/MaxGuildsModal.tsx:36
+#: src/components/alerts/MaxGuildsModal.tsx:39
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} communities). Please leave a community before joining another one."
 msgstr "Dosáhli jste maximálního počtu komunit, které můžete připojit ({maxGuilds} komunit). Prosím, opusťte komunitu před připojením k jiné."
 
-#: src/components/alerts/MaxGuildsModal.tsx:35
+#: src/components/alerts/MaxGuildsModal.tsx:38
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "Dosáhli jste maximálního počtu komunit, které můžete připojit ({maxGuilds} komunitu). Prosím, opusťte komunitu před připojením k jiné."
 

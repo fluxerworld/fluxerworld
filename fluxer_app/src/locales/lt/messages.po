@@ -633,11 +633,11 @@ msgstr "{lockedStickerCount} lipdukas"
 msgid "{lockedStickerCount} stickers"
 msgstr "{lockedStickerCount} lipdukai"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmark"
 msgstr "{maxBookmarks} žymė"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmarks"
 msgstr "{maxBookmarks} žymės"
 
@@ -718,11 +718,11 @@ msgstr "{participantCount} dalyvis pokalbyje"
 msgid "{participantCount} participants in call"
 msgstr "{participantCount} dalyviai pokalbyje"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmark"
 msgstr "{premiumBookmarks} žymė"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmarks"
 msgstr "{premiumBookmarks} žymės"
 
@@ -1362,9 +1362,9 @@ msgstr "30 sekundžių"
 msgid "4 hours"
 msgstr "4 valandos"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:206
-#: src/components/modals/FluxerTagChangeModal.tsx:234
-#: src/components/modals/FluxerTagChangeModal.tsx:251
+#: src/components/modals/FluxerTagChangeModal.tsx:217
+#: src/components/modals/FluxerTagChangeModal.tsx:245
+#: src/components/modals/FluxerTagChangeModal.tsx:262
 msgid "4-digit tag"
 msgstr "4 skaitmenų žymė"
 
@@ -1642,7 +1642,7 @@ msgstr "Paskyros būsenos perrašymai"
 msgid "Account Too New"
 msgstr "Paskyra per nauja"
 
-#: src/actions/InviteActionCreators.tsx:178
+#: src/actions/InviteActionCreators.tsx:182
 #: src/components/modals/RequiredActionModal.tsx:143
 #: src/components/modals/RequiredActionModal.tsx:416
 msgid "Account Verification Required"
@@ -2010,7 +2010,7 @@ msgstr "Pridėta {0}."
 msgid "Added roles."
 msgstr "Pridėti vaidmenys."
 
-#: src/actions/SavedMessageActionCreators.tsx:58
+#: src/actions/SavedMessageActionCreators.tsx:59
 msgid "Added to bookmarks"
 msgstr "Pridėta į žymes"
 
@@ -3720,9 +3720,9 @@ msgstr "Knygų klubas"
 msgid "Bookmark"
 msgstr "Žymė"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:43
-#: src/components/alerts/MaxBookmarksModal.tsx:54
-#: src/components/alerts/MaxBookmarksModal.tsx:67
+#: src/components/alerts/MaxBookmarksModal.tsx:46
+#: src/components/alerts/MaxBookmarksModal.tsx:57
+#: src/components/alerts/MaxBookmarksModal.tsx:70
 msgid "Bookmark Limit Reached"
 msgstr "Pasiektas žymių limitas"
 
@@ -3750,7 +3750,7 @@ msgstr "Pažymėta!"
 
 #: src/components/modals/BookmarksBottomSheet.tsx:109
 #: src/components/pages/SavedMessagesPage.tsx:67
-#: src/components/popouts/InboxPopout.tsx:58
+#: src/components/popouts/InboxPopout.tsx:57
 msgid "Bookmarks"
 msgstr "Žymės"
 
@@ -4055,7 +4055,7 @@ msgstr "Kameros yra išjungtos, kai dalyvių yra daugiau nei {VOICE_CHANNEL_CAME
 #: src/components/alerts/FileSizeTooLargeModal.tsx:87
 #: src/components/auth/BrowserLoginHandoffModal.tsx:269
 #: src/components/bottomsheets/CreateDMBottomSheet.tsx:130
-#: src/components/channel/ChannelTextarea.tsx:312
+#: src/components/channel/ChannelTextarea.tsx:310
 #: src/components/channel/friends/FriendListItem.tsx:259
 #: src/components/channel/MentionEveryonePopout.tsx:128
 #: src/components/emojis/EmojiListItem.tsx:125
@@ -4099,8 +4099,8 @@ msgstr "Kameros yra išjungtos, kai dalyvių yra daugiau nei {VOICE_CHANNEL_CAME
 #: src/components/modals/EmailChangeModal.tsx:270
 #: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:120
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:122
+#: src/components/modals/FluxerTagChangeModal.tsx:294
 #: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
@@ -4146,7 +4146,7 @@ msgstr "Atšaukti"
 msgid "Cancel Friend Request"
 msgstr "Atšaukti draugų užklausą"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:115
+#: src/components/modals/FluxerTagChangeModal.tsx:117
 msgid "Cancel if you want to choose a different username instead."
 msgstr "Atšauk, jei nori pasirinkti kitą naudotojo vardą."
 
@@ -4178,11 +4178,11 @@ msgstr "Negali būti redaguojama"
 msgid "Cannot Delete Account"
 msgstr "Negalima ištrinti paskyros"
 
-#: src/actions/InviteActionCreators.tsx:313
+#: src/actions/InviteActionCreators.tsx:317
 msgid "Cannot install emoji pack"
 msgstr "Negalima įdiegti emodžių rinkinio"
 
-#: src/actions/InviteActionCreators.tsx:314
+#: src/actions/InviteActionCreators.tsx:318
 msgid "Cannot install sticker pack"
 msgstr "Negalima įdiegti lipdukų rinkinio"
 
@@ -4293,7 +4293,7 @@ msgstr "Keisti emodži"
 msgid "Change FluxerTag"
 msgstr "Keisti FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:161
+#: src/components/modals/FluxerTagChangeModal.tsx:163
 msgid "Change FluxerTag form"
 msgstr "FluxerTag keitimo forma"
 
@@ -4380,7 +4380,7 @@ msgstr "Pakeisti savo el. paštą"
 msgid "Change your email address"
 msgstr "Pakeisti savo el. pašto adresą"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:162
+#: src/components/modals/FluxerTagChangeModal.tsx:164
 msgid "Change Your FluxerTag"
 msgstr "Pakeisti savo FluxerTag"
 
@@ -4424,7 +4424,7 @@ msgstr "Bitų dažnis pakeistas į {0}."
 msgid "Changed the voice region to {0}."
 msgstr "Balso regionas pakeistas į {0}."
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 #: src/utils/SearchUtils.tsx:268
 msgid "channel"
 msgstr "kanalas"
@@ -5333,7 +5333,7 @@ msgid "Communication"
 msgstr "Bendravimas"
 
 #: src/components/modals/components/FeatureComparisonTable.tsx:49
-#: src/stores/QuickSwitcherStore.tsx:1354
+#: src/stores/QuickSwitcherStore.tsx:1352
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
 msgstr "Bendruomenės"
@@ -5825,13 +5825,13 @@ msgstr "Kontekstiniai meniu"
 msgid "Context menus can be opened with left-click (on buttons) or right-click (on other elements). This demonstrates various menu items including checkboxes, radio buttons, sliders, and submenus."
 msgstr "Kontekstiniai meniu gali būti atidaromi kairiuoju paspaudimu (ant mygtukų) arba dešiniuoju paspaudimu (ant kitų elementų). Tai demonstruoja įvairius meniu elementus, įskaitant žymimąsias dėžutes, pasirinkimo mygtukus, slankiklius ir submeniu."
 
-#: src/components/channel/ChannelTextarea.tsx:311
+#: src/components/channel/ChannelTextarea.tsx:309
 #: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:82
 #: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:119
-#: src/components/modals/FluxerTagChangeModal.tsx:286
+#: src/components/modals/FluxerTagChangeModal.tsx:121
+#: src/components/modals/FluxerTagChangeModal.tsx:297
 #: src/components/modals/MfaTotpDisableModal.tsx:78
 #: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
@@ -6601,7 +6601,7 @@ msgstr "Pritaikyti CSS perrašymai"
 msgid "Custom Date Range"
 msgstr "Pasirinktinis datų intervalas"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:230
+#: src/components/modals/FluxerTagChangeModal.tsx:241
 msgid "Custom discriminators are not available on this instance"
 msgstr "Pritaikyti diskriminatoriai šioje instancijoje nėra prieinami"
 
@@ -6732,7 +6732,7 @@ msgstr "Pritaikykite, kurie mygtukai matomi žinutės įvedimo srityje. Klaviat�
 msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
 msgstr "Pridėkite savo 4 skaitmenų žymą (#{0}) pagal savo pageidavimus su Plutonium"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:275
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Tinkinkite savo 4 skaitmenų žymą arba palikite ją keisdami vartotojo vardą"
 
@@ -7516,7 +7516,7 @@ msgstr "Tiesioginė žinutė"
 #: src/components/layout/guild_list/FluxerButton.tsx:80
 #: src/components/modals/GuildPrivacySettingsModal.tsx:76
 #: src/components/modals/tabs/privacy_safety_tab/ConnectionsTab.tsx:221
-#: src/stores/QuickSwitcherStore.tsx:833
+#: src/stores/QuickSwitcherStore.tsx:831
 msgid "Direct Messages"
 msgstr "Tiesioginės žinutės"
 
@@ -7559,7 +7559,7 @@ msgstr "Išjungti animacijas ir perėjimus visoje programoje."
 msgid "Disable animations and transitions. Currently controlled by your system setting."
 msgstr "Išjungti animacijas ir perėjimus. Šiuo metu valdoma pagal jūsų sistemos nustatymus."
 
-#: src/stores/QuickSwitcherStore.tsx:915
+#: src/stores/QuickSwitcherStore.tsx:913
 msgid "Disable Compact Mode"
 msgstr "Išjungti kompaktišką režimą"
 
@@ -7586,7 +7586,7 @@ msgstr "Išjungti triukšmo slopinimą"
 msgid "Disable Picture-in-Picture Popout"
 msgstr "Išjungti vaizdo įrašo iššokimą"
 
-#: src/stores/QuickSwitcherStore.tsx:931
+#: src/stores/QuickSwitcherStore.tsx:929
 msgid "Disable Reduced Motion"
 msgstr "Išjungti sumažintą judėjimą"
 
@@ -7755,7 +7755,7 @@ msgstr "Diskriminatorius"
 msgid "Discussion or promotion of illegal activities"
 msgstr "Nelegalių veiklų aptarimas ar skatinimas"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:76
+#: src/components/alerts/MaxBookmarksModal.tsx:79
 #: src/components/layout/GuildLayout.tsx:106
 #: src/components/layout/NagbarContent.tsx:42
 #: src/components/modals/GiftAcceptModal.tsx:110
@@ -8486,7 +8486,7 @@ msgstr "Jaustukų pavadinimai turi būti bent 2 simbolių ilgio ir gali būti su
 msgid "Emoji pack"
 msgstr "Jaustukų paketas"
 
-#: src/actions/InviteActionCreators.tsx:255
+#: src/actions/InviteActionCreators.tsx:259
 msgid "Emoji pack creation limit reached"
 msgstr "Pasiektas jaustukų paketų kūrimo limitas"
 
@@ -8494,7 +8494,7 @@ msgstr "Pasiektas jaustukų paketų kūrimo limitas"
 msgid "Emoji Pack Invite"
 msgstr "Jaustukų paketo pakvietimas"
 
-#: src/actions/InviteActionCreators.tsx:241
+#: src/actions/InviteActionCreators.tsx:245
 msgid "Emoji pack limit reached"
 msgstr "Pasiektas jaustukų paketų limitas"
 
@@ -8567,7 +8567,7 @@ msgstr "Įjungti beta funkciją"
 msgid "Enable Browser Notifications"
 msgstr "Įjungti naršyklės pranešimus"
 
-#: src/stores/QuickSwitcherStore.tsx:916
+#: src/stores/QuickSwitcherStore.tsx:914
 msgid "Enable Compact Mode"
 msgstr "Įjungti kompaktišką režimą"
 
@@ -8643,7 +8643,7 @@ msgstr "Įjungti stumtukus šiam įrenginiui"
 msgid "Enable push notifications for this installed PWA to keep receiving messages when the browser is backgrounded."
 msgstr "Įjunkite stumtuko pranešimus šiai įdiegtai PWA, kad ir toliau gautumėte žinutes, kai naršyklė yra fone."
 
-#: src/stores/QuickSwitcherStore.tsx:932
+#: src/stores/QuickSwitcherStore.tsx:930
 msgid "Enable Reduced Motion"
 msgstr "Įjungti sumažintą judėjimą"
 
@@ -9314,11 +9314,11 @@ msgstr "Nepavyko ignoruoti draugystės užklausos. Bandykite dar kartą."
 msgid "Failed to initiate connection"
 msgstr "Nepavyko inicijuoti ryšio"
 
-#: src/actions/InviteActionCreators.tsx:322
+#: src/actions/InviteActionCreators.tsx:326
 msgid "Failed to install this emoji pack. Please try again later."
 msgstr "Nepavyko įdiegti šio emoji paketo. Bandykite dar kartą vėliau."
 
-#: src/actions/InviteActionCreators.tsx:323
+#: src/actions/InviteActionCreators.tsx:327
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Nepavyko įdiegti šio lipdukų paketo. Bandykite dar kartą vėliau."
 
@@ -9716,9 +9716,9 @@ msgstr "mėgstamiausi"
 #: src/components/modals/tabs/AppearanceTab.tsx:116
 #: src/components/modals/utils/SettingsConstants.tsx:279
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:233
-#: src/stores/QuickSwitcherStore.tsx:843
-#: src/stores/QuickSwitcherStore.tsx:1261
-#: src/stores/QuickSwitcherStore.tsx:1273
+#: src/stores/QuickSwitcherStore.tsx:841
+#: src/stores/QuickSwitcherStore.tsx:1259
+#: src/stores/QuickSwitcherStore.tsx:1271
 msgid "Favorites"
 msgstr "Mėgstami"
 
@@ -9964,16 +9964,16 @@ msgstr "Fluxer Personalas"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer naudoja pranešimus, kai įdiegtas kaip mobilusis PWA. Registracija užtikrina, kad šliuzas gali pasiekti jūsų įrenginį net kai naršyklė yra fone."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:179
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:105
+#: src/components/modals/FluxerTagChangeModal.tsx:107
 msgid "FluxerTag already taken"
 msgstr "FluxerTag jau užimtas"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:147
+#: src/components/modals/FluxerTagChangeModal.tsx:149
 msgid "FluxerTag updated"
 msgstr "FluxerTag atnaujintas"
 
@@ -10491,7 +10491,7 @@ msgstr "Gaukite pranešimą, kai gaunate žinutes. Gali tekti leisti pranešimus
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:224
+#: src/components/modals/FluxerTagChangeModal.tsx:235
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10508,7 +10508,7 @@ msgstr "Gaukite Plutonium sau ir atrakinkite aukštesnes ribas bei išskirtines 
 msgid "Get Plutonium to customize your tag"
 msgstr "Gaukite Plutonium, kad tinkintumėte savo žymę"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:202
+#: src/components/modals/FluxerTagChangeModal.tsx:213
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "Gaukite Plutonium, kad tinkintumėte savo žymę arba išlaikytumėte ją keisdami vartotojo vardą"
 
@@ -10726,7 +10726,7 @@ msgstr "Eiti į Pagrindinį"
 msgid "Go to login"
 msgstr "Eiti į prisijungimą"
 
-#: src/stores/QuickSwitcherStore.tsx:528
+#: src/stores/QuickSwitcherStore.tsx:526
 msgid "Go to message"
 msgstr "Eiti į žinutę"
 
@@ -10867,12 +10867,12 @@ msgstr "Grupės piktograma"
 msgid "Group Invites"
 msgstr "Grupės pakvietimai"
 
-#: src/stores/QuickSwitcherStore.tsx:667
+#: src/stores/QuickSwitcherStore.tsx:665
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:235
 msgid "Group message"
 msgstr "Grupės žinutė"
 
-#: src/stores/QuickSwitcherStore.tsx:1347
+#: src/stores/QuickSwitcherStore.tsx:1345
 msgid "Group messages"
 msgstr "Grupės žinutės"
 
@@ -11278,7 +11278,7 @@ msgid "Hold to temporarily unmute when push-to-talk is enabled"
 msgstr "Laikykite, kad laikinai išjungtumėte nutildymą, kai įjungtas 'spausk-kalbėk'"
 
 #: src/components/layout/MobileBottomNav.tsx:93
-#: src/stores/QuickSwitcherStore.tsx:832
+#: src/stores/QuickSwitcherStore.tsx:830
 msgid "Home"
 msgstr "Pagrindinis"
 
@@ -11620,7 +11620,7 @@ msgstr "Netinkamas profilis"
 msgid "Inbox"
 msgstr "Gautieji"
 
-#: src/components/popouts/InboxPopout.tsx:89
+#: src/components/popouts/InboxPopout.tsx:88
 msgid "Inbox tabs"
 msgstr "Gautųjų skirtukai"
 
@@ -13347,7 +13347,7 @@ msgstr "Pažymėtas narys kaip laikinas."
 msgid "Markers Below Slider"
 msgstr "Žymekliai po slankikliu"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:191
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
@@ -13657,7 +13657,7 @@ msgstr "minėjimai"
 
 #: src/components/modals/GuildNotificationSettingsModal.tsx:227
 #: src/components/pages/NotificationsPage.tsx:42
-#: src/components/popouts/InboxPopout.tsx:63
+#: src/components/popouts/InboxPopout.tsx:62
 msgid "Mentions"
 msgstr "Paminėjimai"
 
@@ -13692,15 +13692,15 @@ msgstr "meniu"
 msgid "Message"
 msgstr "Žinutė"
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message "
 msgstr "Žinutė "
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message @"
 msgstr "Žinutė @"
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 msgid "Message #"
 msgstr "Žinutė #"
 
@@ -15579,7 +15579,7 @@ msgstr "Atidaryti naujame skirtuke"
 msgid "Open Link"
 msgstr "Atidaryti nuorodą"
 
-#: src/components/channel/ChannelTextarea.tsx:953
+#: src/components/channel/ChannelTextarea.tsx:951
 #: src/components/channel/textarea/MobileTextareaLayout.tsx:112
 msgid "Open menu"
 msgstr "Atidaryti meniu"
@@ -16045,7 +16045,7 @@ msgid "Pending deletion canceled"
 msgstr "Laukiamas ištrynimas atšauktas"
 
 #: src/lib/UnicodeEmojis.tsx:234
-#: src/stores/QuickSwitcherStore.tsx:1345
+#: src/stores/QuickSwitcherStore.tsx:1343
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:96
 msgid "People"
 msgstr "Žmonės"
@@ -16421,7 +16421,7 @@ msgstr "Bandykite vėliau."
 msgid "Please update Fluxer to view this message."
 msgstr "Atnaujinkite Fluxer, kad pamatytumėte šią žinutę."
 
-#: src/actions/InviteActionCreators.tsx:180
+#: src/actions/InviteActionCreators.tsx:184
 msgid "Please verify your account by setting an email and password before joining communities."
 msgstr "Patvirtinkite savo paskyrą nustatydami el. paštą ir slaptažodį prieš prisijungdami prie bendruomenių."
 
@@ -16933,7 +16933,7 @@ msgstr "Python"
 msgid "quick access"
 msgstr "greitas prisijungimas"
 
-#: src/stores/QuickSwitcherStore.tsx:1358
+#: src/stores/QuickSwitcherStore.tsx:1356
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:100
 msgid "Quick Actions"
 msgstr "Greitieji veiksmai"
@@ -17562,7 +17562,7 @@ msgstr "Pašalintas leidimas {0}."
 msgid "Removed deny for {0}."
 msgstr "Pašalintas draudimas {0}."
 
-#: src/actions/SavedMessageActionCreators.tsx:80
+#: src/actions/SavedMessageActionCreators.tsx:85
 msgid "Removed from bookmarks"
 msgstr "Pašalinta iš žymių"
 
@@ -17871,7 +17871,7 @@ msgstr "Reikia visko, kas nurodyta Vidutiniame lygyje, ir būti serverio nariu m
 msgid "Requires Plutonium"
 msgstr "Reikia Plutonium"
 
-#: src/components/channel/ChannelTextarea.tsx:1032
+#: src/components/channel/ChannelTextarea.tsx:1030
 msgid "Reschedule Message"
 msgstr "Perplanuoti žinutę"
 
@@ -18442,7 +18442,7 @@ msgstr "Suplanuoti"
 msgid "Schedule Message"
 msgstr "Suplanuoti žinutę"
 
-#: src/components/popouts/InboxPopout.tsx:70
+#: src/components/popouts/InboxPopout.tsx:69
 #: src/components/popouts/ScheduledMessagesContent.tsx:89
 msgid "Scheduled"
 msgstr "Suplanuota"
@@ -19346,7 +19346,7 @@ msgstr "Nustatyti savo laiko juostą"
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:221
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:95
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:90
-#: src/stores/QuickSwitcherStore.tsx:1356
+#: src/stores/QuickSwitcherStore.tsx:1354
 msgid "Settings"
 msgstr "Nustatymai"
 
@@ -20495,7 +20495,7 @@ msgstr "Lipdukų tankis"
 msgid "Sticker pack"
 msgstr "Lipdukų rinkinys"
 
-#: src/actions/InviteActionCreators.tsx:287
+#: src/actions/InviteActionCreators.tsx:291
 msgid "Sticker pack creation limit reached"
 msgstr "Pasiektas lipdukų rinkinių kūrimo limitas"
 
@@ -20503,7 +20503,7 @@ msgstr "Pasiektas lipdukų rinkinių kūrimo limitas"
 msgid "Sticker Pack Invite"
 msgstr "Lipdukų rinkinio kvietimas"
 
-#: src/actions/InviteActionCreators.tsx:273
+#: src/actions/InviteActionCreators.tsx:277
 msgid "Sticker pack limit reached"
 msgstr "Pasiektas lipdukų rinkinių limitas"
 
@@ -20801,7 +20801,7 @@ msgstr "Perjungti paskyrą"
 msgid "Switch Accounts"
 msgstr "Perjungti paskyras"
 
-#: src/stores/QuickSwitcherStore.tsx:900
+#: src/stores/QuickSwitcherStore.tsx:898
 msgid "Switch between Light and Dark mode"
 msgstr "Perjungti tarp šviesios ir tamsios temos"
 
@@ -21030,7 +21030,7 @@ msgstr "Teksto kanalas"
 msgid "Text Channel Names"
 msgstr "Teksto kanalų pavadinimai"
 
-#: src/stores/QuickSwitcherStore.tsx:1349
+#: src/stores/QuickSwitcherStore.tsx:1347
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:97
 msgid "Text channels"
 msgstr "Teksto kanalai"
@@ -21111,7 +21111,7 @@ msgid "That message didn't delete"
 msgstr "Ta žinutė nebuvo ištrinta"
 
 #. placeholder {0}: invite.pack.name
-#: src/actions/InviteActionCreators.tsx:103
+#: src/actions/InviteActionCreators.tsx:104
 msgid "The {packLabel} {0} has been installed."
 msgstr "{packLabel} {0} buvo įdiegtas."
 
@@ -21153,7 +21153,7 @@ msgstr "Failas turi patvirtinimo žetoną, kurį mes gausime iš <0>{dnsUrl}</0>
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "Failas, kurį bandote įkelti, viršija maksimalų dydžio limitą: {maxSizeFormatted}."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:109
+#: src/components/modals/FluxerTagChangeModal.tsx:111
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "FluxerTag <0>{fluxerTag}</0> jau užimtas. Tęsdami jūsų diskriminatorius bus automatiškai pergeneruotas."
 
@@ -21722,7 +21722,7 @@ msgstr "Tai paslėps visus su mėgstamaisiais susijusius vartotojo sąsajos elem
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "Tai invaliduos jūsų esamus atsarginių kodų ir sugeneruos naujus."
 
-#: src/components/channel/ChannelTextarea.tsx:1036
+#: src/components/channel/ChannelTextarea.tsx:1034
 msgid "This will modify the existing scheduled message rather than sending immediately."
 msgstr "Tai modifikuos esamą suplanuotą žinutę, o ne išsiųs iš karto."
 
@@ -21908,7 +21908,7 @@ msgstr "perjungti"
 msgid "Toggle Channel Member List"
 msgstr "Perjungti kanalo narių sąrašą"
 
-#: src/stores/QuickSwitcherStore.tsx:913
+#: src/stores/QuickSwitcherStore.tsx:911
 msgid "Toggle Compact Mode"
 msgstr "Perjungti kompaktišką režimą"
 
@@ -21968,7 +21968,7 @@ msgstr "Perjungti prisegimų iššokantį langą"
 msgid "Toggle premium_enabled_override on the backend"
 msgstr "Perjungti premium_enabled_override serveryje"
 
-#: src/stores/QuickSwitcherStore.tsx:929
+#: src/stores/QuickSwitcherStore.tsx:927
 msgid "Toggle Reduced Motion"
 msgstr "Perjungti sumažintą judėjimą"
 
@@ -21984,7 +21984,7 @@ msgstr "Perjungti lipdukų pasirinkimą"
 msgid "Toggle switches on and off to see state changes."
 msgstr "Perjunkite jungiklius įjungti ir išjungti, kad pamatytumėte būsenos pokyčius."
 
-#: src/stores/QuickSwitcherStore.tsx:899
+#: src/stores/QuickSwitcherStore.tsx:897
 msgid "Toggle Theme"
 msgstr "Perjungti temą"
 
@@ -22009,7 +22009,7 @@ msgstr "Tonizuoti HDR vaizdus į standartinį diapazoną, sumažinant piką ryš
 msgid "Too Loud"
 msgstr "Per garsu"
 
-#: src/components/alerts/MaxGuildsModal.tsx:32
+#: src/components/alerts/MaxGuildsModal.tsx:35
 msgid "Too Many Communities"
 msgstr "Per daug bendruomenių"
 
@@ -22405,11 +22405,11 @@ msgstr "Ukrainiečių"
 msgid "Ultra (1440p)"
 msgstr "Ultra (1440p)"
 
-#: src/actions/InviteActionCreators.tsx:319
+#: src/actions/InviteActionCreators.tsx:323
 msgid "Unable to install emoji pack"
 msgstr "Nepavyko įdiegti emodžių paketo"
 
-#: src/actions/InviteActionCreators.tsx:320
+#: src/actions/InviteActionCreators.tsx:324
 msgid "Unable to install sticker pack"
 msgstr "Nepavyko įdiegti lipdukų paketo"
 
@@ -22555,10 +22555,10 @@ msgstr "Nepilnametis naudotojas"
 #: src/components/alerts/GenericErrorModal.tsx:31
 #: src/components/alerts/GuildAtCapacityModal.tsx:31
 #: src/components/alerts/InvitesDisabledModal.tsx:31
-#: src/components/alerts/MaxBookmarksModal.tsx:45
-#: src/components/alerts/MaxBookmarksModal.tsx:56
+#: src/components/alerts/MaxBookmarksModal.tsx:48
+#: src/components/alerts/MaxBookmarksModal.tsx:59
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:46
-#: src/components/alerts/MaxGuildsModal.tsx:38
+#: src/components/alerts/MaxGuildsModal.tsx:41
 #: src/components/alerts/MicrophonePermissionDeniedModal.tsx:50
 #: src/components/alerts/NSFWContentRejectedModal.tsx:31
 #: src/components/alerts/ReactionInteractionDisabledModal.tsx:30
@@ -22633,7 +22633,7 @@ msgstr "nežinomas kanalas"
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:479
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:61
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:67
-#: src/stores/QuickSwitcherStore.tsx:690
+#: src/stores/QuickSwitcherStore.tsx:688
 msgid "Unknown channel"
 msgstr "Nežinomas kanalas"
 
@@ -22908,7 +22908,7 @@ msgstr "Atsegta grupinė DM"
 msgid "unread"
 msgstr "neperskaitytas"
 
-#: src/components/popouts/InboxPopout.tsx:53
+#: src/components/popouts/InboxPopout.tsx:52
 msgid "Unread"
 msgstr "Neperskaitytas"
 
@@ -22963,7 +22963,7 @@ msgstr "Nepatvirtintas el. paštas"
 msgid "Up to 4K/60fps"
 msgstr "Iki 4K/60 kadrų per sekundę"
 
-#: src/components/channel/ChannelTextarea.tsx:1033
+#: src/components/channel/ChannelTextarea.tsx:1031
 msgid "Update"
 msgstr "Atnaujinti"
 
@@ -23086,7 +23086,7 @@ msgstr "atnaujinti"
 msgid "Upgrade Now"
 msgstr "Pagerink dabar"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:69
+#: src/components/alerts/MaxBookmarksModal.tsx:72
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:70
 msgid "Upgrade to Plutonium"
 msgstr "Pagerink iki Plutonium"
@@ -23455,7 +23455,7 @@ msgstr "Vartotojo įrašas"
 #: src/components/layout/UserArea.tsx:286
 #: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
-#: src/components/modals/UserSettingsModal.tsx:154
+#: src/components/modals/UserSettingsModal.tsx:153
 msgid "User Settings"
 msgstr "Vartotojo nustatymai"
 
@@ -23476,7 +23476,7 @@ msgstr "vartotojas, botas ar webhook"
 msgid "username"
 msgstr "naudotojo vardas"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:190
+#: src/components/modals/FluxerTagChangeModal.tsx:201
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
 #: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
@@ -23511,13 +23511,17 @@ msgstr "Vartotojo vardas turi būti ne ilgesnis nei 32 simboliai"
 msgid "Username#0000"
 msgstr "Vartotojo vardas#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:172
+#: src/components/modals/FluxerTagChangeModal.tsx:183
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "Vartotojo vardai gali būti sudaryti tik iš raidžių (a-z, A-Z), skaičių (0-9) ir apatinių brūkšnių. Vartotojo vardai neskiria didžiųjų ir mažųjų raidžių."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:167
-msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
-msgstr "Vartotojo vardai gali būti sudaryti tik iš raidžių (a-z, A-Z), skaičių (0-9) ir apatinių brūkšnių. Vartotojo vardai neskiria didžiųjų ir mažųjų raidžių. Galite pasirinkti savo 4 skaitmenų žymę, jei ji yra laisva."
+#: src/components/modals/FluxerTagChangeModal.tsx:170
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999."
+msgstr "Naudotojo vardai gali turėti tik raides (a-z, A-Z), skaitmenis (0-9) ir apatinius brūkšnius. Naudotojo vardai neskiria didžiųjų ir mažųjų raidžių. Gali pasirinkti bet kurią laisvą 4 skaitmenų žymę nuo #0000 iki #9999."
+
+#: src/components/modals/FluxerTagChangeModal.tsx:176
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999."
+msgstr "Naudotojo vardai gali turėti tik raides (a-z, A-Z), skaitmenis (0-9) ir apatinius brūkšnius. Naudotojo vardai neskiria didžiųjų ir mažųjų raidžių. Gali pasirinkti bet kurią laisvą 4 skaitmenų žymę nuo #0001 iki #9999."
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:246
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:172
@@ -24100,7 +24104,7 @@ msgstr "Balsiniai skambučiai"
 msgid "voice channel"
 msgstr "balsinis kanalas"
 
-#: src/stores/QuickSwitcherStore.tsx:720
+#: src/stores/QuickSwitcherStore.tsx:718
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:227
 msgid "Voice channel"
 msgstr "balsinis kanalas"
@@ -24120,7 +24124,7 @@ msgstr "Balsinis kanalas pilnas"
 msgid "Voice channel join behavior"
 msgstr "Balsų kanalo prisijungimo elgesys"
 
-#: src/stores/QuickSwitcherStore.tsx:1351
+#: src/stores/QuickSwitcherStore.tsx:1349
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:98
 msgid "Voice channels"
 msgstr "balsiniai kanalai"
@@ -24998,7 +25002,7 @@ msgstr "Negalite atjungti savo nutildymo, nes moderatorius jus nutildė."
 msgid "You do not have access to the channel where this message was sent."
 msgstr "Neturite prieigos prie kanalo, kuriame buvo išsiųsta ši žinutė."
 
-#: src/components/channel/ChannelTextarea.tsx:749
+#: src/components/channel/ChannelTextarea.tsx:747
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:52
 msgid "You do not have permission to send messages in this channel."
 msgstr "Neturite leidimo siųsti žinučių šiame kanale."
@@ -25019,11 +25023,11 @@ msgstr "Dar neturite jokių tinkintų temos perrašymų, kuriais galėtumėte pa
 msgid "You don't have permission to connect to this voice channel."
 msgstr "Neturite leidimo prisijungti prie šio balso kanalo."
 
-#: src/actions/InviteActionCreators.tsx:316
+#: src/actions/InviteActionCreators.tsx:320
 msgid "You don't have permission to install this emoji pack."
 msgstr "Neturite leidimo įdiegti šį emodžių rinkinį."
 
-#: src/actions/InviteActionCreators.tsx:317
+#: src/actions/InviteActionCreators.tsx:321
 msgid "You don't have permission to install this sticker pack."
 msgstr "Neturite leidimo įdiegti šį lipdukų rinkinį."
 
@@ -25079,35 +25083,35 @@ msgstr "Jūs turite visus <0/> per <1>dovanų prenumeratą</1> iki <2>{giftEndDa
 msgid "You have blocked {username}. Unblock them to send messages."
 msgstr "Jūs užblokavote {username}. Atblokuokite juos, kad galėtumėte siųsti žinutes."
 
-#: src/actions/InviteActionCreators.tsx:260
+#: src/actions/InviteActionCreators.tsx:264
 msgid "You have created the maximum of {limit} emoji pack. Delete one to create another."
 msgstr "Sukūrėte maksimalų {limit} emocijų rinkinį. Ištrinkite vieną, kad sukurtumėte kitą."
 
-#: src/actions/InviteActionCreators.tsx:261
+#: src/actions/InviteActionCreators.tsx:265
 msgid "You have created the maximum of {limit} emoji packs. Delete one to create another."
 msgstr "Sukūrėte maksimalų {limit} emocijų rinkinių. Ištrinkite vieną, kad sukurtumėte kitą."
 
-#: src/actions/InviteActionCreators.tsx:292
+#: src/actions/InviteActionCreators.tsx:296
 msgid "You have created the maximum of {limit} sticker pack. Delete one to create another."
 msgstr "Sukūrėte maksimalų {limit} lipdukų rinkinį. Ištrinkite vieną, kad sukurtumėte kitą."
 
-#: src/actions/InviteActionCreators.tsx:293
+#: src/actions/InviteActionCreators.tsx:297
 msgid "You have created the maximum of {limit} sticker packs. Delete one to create another."
 msgstr "Sukūrėte maksimalų {limit} lipdukų rinkinių. Ištrinkite vieną, kad sukurtumėte kitą."
 
-#: src/actions/InviteActionCreators.tsx:246
+#: src/actions/InviteActionCreators.tsx:250
 msgid "You have installed the maximum of {limit} emoji pack. Remove one to install another."
 msgstr "Įdiegėte maksimalų {limit} emocijų rinkinį. Pašalinkite vieną, kad įdiegtumėte kitą."
 
-#: src/actions/InviteActionCreators.tsx:247
+#: src/actions/InviteActionCreators.tsx:251
 msgid "You have installed the maximum of {limit} emoji packs. Remove one to install another."
 msgstr "Įdiegėte maksimalų {limit} emocijų rinkinių. Pašalinkite vieną, kad įdiegtumėte kitą."
 
-#: src/actions/InviteActionCreators.tsx:278
+#: src/actions/InviteActionCreators.tsx:282
 msgid "You have installed the maximum of {limit} sticker pack. Remove one to install another."
 msgstr "Įdiegėte maksimalų {limit} lipdukų rinkinį. Pašalinkite vieną, kad įdiegtumėte kitą."
 
-#: src/actions/InviteActionCreators.tsx:279
+#: src/actions/InviteActionCreators.tsx:283
 msgid "You have installed the maximum of {limit} sticker packs. Remove one to install another."
 msgstr "Įdiegėte maksimalų {limit} lipdukų rinkinių. Pašalinkite vieną, kad įdiegtumėte kitą."
 
@@ -25115,19 +25119,19 @@ msgstr "Įdiegėte maksimalų {limit} lipdukų rinkinių. Pašalinkite vieną, k
 msgid "You have no friends yet"
 msgstr "Jūs dar neturite draugų"
 
-#: src/actions/InviteActionCreators.tsx:264
+#: src/actions/InviteActionCreators.tsx:268
 msgid "You have reached the limit for creating emoji packs. Delete one of your packs to create another."
 msgstr "Pasiekėte emoji rinkinių kūrimo limitą. Ištrinkite vieną iš savo rinkinių, kad galėtumėte sukurti kitą."
 
-#: src/actions/InviteActionCreators.tsx:296
+#: src/actions/InviteActionCreators.tsx:300
 msgid "You have reached the limit for creating sticker packs. Delete one of your packs to create another."
 msgstr "Pasiekėte lipdukų rinkinių kūrimo limitą. Ištrinkite vieną iš savo rinkinių, kad galėtumėte sukurti kitą."
 
-#: src/actions/InviteActionCreators.tsx:250
+#: src/actions/InviteActionCreators.tsx:254
 msgid "You have reached the limit for installing emoji packs. Remove one of your installed packs to install another."
 msgstr "Pasiekėte emoji rinkinių įdiegimo limitą. Pašalinkite vieną iš savo įdiegtų rinkinių, kad galėtumėte įdiegti kitą."
 
-#: src/actions/InviteActionCreators.tsx:282
+#: src/actions/InviteActionCreators.tsx:286
 msgid "You have reached the limit for installing sticker packs. Remove one of your installed packs to install another."
 msgstr "Pasiekėte lipdukų rinkinių įdiegimo limitą. Pašalinkite vieną iš savo įdiegtų rinkinių, kad galėtumėte įdiegti kitą."
 
@@ -25391,23 +25395,23 @@ msgstr "Pasiekėte maksimalų {maxFavoriteMemes} išsaugotų medijos elementų l
 msgid "You've reached the maximum limit of {maxFavoriteMemes} saved media items. To add more, you'll need to remove some existing items from your collection."
 msgstr "Pasiekėte maksimalų {maxFavoriteMemes} išsaugotų medijos elementų limitą. Norėdami pridėti daugiau, turėsite pašalinti kai kuriuos esamus elementus iš savo kolekcijos."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:55
+#: src/components/alerts/MaxBookmarksModal.tsx:58
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). Please remove some bookmarks before adding new ones."
 msgstr "Pasiekėte maksimalų žymių skaičių ({bookmarksText}). Prašome pašalinti keletą žymių prieš pridėdami naujas."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:44
+#: src/components/alerts/MaxBookmarksModal.tsx:47
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). This limit is configured by your instance administrator. Please remove some bookmarks before adding new ones."
 msgstr "Pasiekėte maksimalų žymių skaičių ({bookmarksText}). Šis limitas yra nustatytas jūsų instancijos administratorius. Prašome pašalinti keletą žymių prieš pridėdami naujas."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:68
+#: src/components/alerts/MaxBookmarksModal.tsx:71
 msgid "You've reached the maximum number of bookmarks for free users ({bookmarksText}). Upgrade to Plutonium to increase your limit to {premiumBookmarksText}, or remove some bookmarks to add new ones."
 msgstr "Pasiekėte maksimalų žymių skaičių nemokamiems vartotojams ({bookmarksText}). Atnaujinkite į Plutonium, kad padidintumėte savo limitą iki {premiumBookmarksText}, arba pašalinkite keletą žymių, kad pridėtumėte naujas."
 
-#: src/components/alerts/MaxGuildsModal.tsx:36
+#: src/components/alerts/MaxGuildsModal.tsx:39
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} communities). Please leave a community before joining another one."
 msgstr "Pasiekėte maksimalų bendruomenių skaičių, kurias galite prisijungti ({maxGuilds} bendruomenių). Prašome palikti bendruomenę prieš prisijungdami prie kitos."
 
-#: src/components/alerts/MaxGuildsModal.tsx:35
+#: src/components/alerts/MaxGuildsModal.tsx:38
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "Pasiekėte maksimalų bendruomenių skaičių, kurias galite prisijungti ({maxGuilds} bendruomenė). Prašome palikti bendruomenę prieš prisijungdami prie kitos."
 

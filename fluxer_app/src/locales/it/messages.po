@@ -633,11 +633,11 @@ msgstr "{lockedStickerCount} sticker"
 msgid "{lockedStickerCount} stickers"
 msgstr "{lockedStickerCount} sticker"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmark"
 msgstr "{maxBookmarks} segnalibro"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmarks"
 msgstr "{maxBookmarks} segnalibri"
 
@@ -718,11 +718,11 @@ msgstr "{participantCount} partecipante in chiamata"
 msgid "{participantCount} participants in call"
 msgstr "{participantCount} partecipanti in chiamata"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmark"
 msgstr "{premiumBookmarks} segnalibro"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmarks"
 msgstr "{premiumBookmarks} segnalibri"
 
@@ -1362,9 +1362,9 @@ msgstr "30 secondi"
 msgid "4 hours"
 msgstr "4 ore"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:206
-#: src/components/modals/FluxerTagChangeModal.tsx:234
-#: src/components/modals/FluxerTagChangeModal.tsx:251
+#: src/components/modals/FluxerTagChangeModal.tsx:217
+#: src/components/modals/FluxerTagChangeModal.tsx:245
+#: src/components/modals/FluxerTagChangeModal.tsx:262
 msgid "4-digit tag"
 msgstr "Tag di 4 cifre"
 
@@ -1642,7 +1642,7 @@ msgstr "Sovrascritture stato account"
 msgid "Account Too New"
 msgstr "Account troppo nuovo"
 
-#: src/actions/InviteActionCreators.tsx:178
+#: src/actions/InviteActionCreators.tsx:182
 #: src/components/modals/RequiredActionModal.tsx:143
 #: src/components/modals/RequiredActionModal.tsx:416
 msgid "Account Verification Required"
@@ -2010,7 +2010,7 @@ msgstr "Aggiunto {0}."
 msgid "Added roles."
 msgstr "Ruoli aggiunti."
 
-#: src/actions/SavedMessageActionCreators.tsx:58
+#: src/actions/SavedMessageActionCreators.tsx:59
 msgid "Added to bookmarks"
 msgstr "Aggiunto ai segnalibri"
 
@@ -3720,9 +3720,9 @@ msgstr "Club del libro"
 msgid "Bookmark"
 msgstr "Segnalibro"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:43
-#: src/components/alerts/MaxBookmarksModal.tsx:54
-#: src/components/alerts/MaxBookmarksModal.tsx:67
+#: src/components/alerts/MaxBookmarksModal.tsx:46
+#: src/components/alerts/MaxBookmarksModal.tsx:57
+#: src/components/alerts/MaxBookmarksModal.tsx:70
 msgid "Bookmark Limit Reached"
 msgstr "Limite segnalibri raggiunto"
 
@@ -3750,7 +3750,7 @@ msgstr "Salvato!"
 
 #: src/components/modals/BookmarksBottomSheet.tsx:109
 #: src/components/pages/SavedMessagesPage.tsx:67
-#: src/components/popouts/InboxPopout.tsx:58
+#: src/components/popouts/InboxPopout.tsx:57
 msgid "Bookmarks"
 msgstr "Segnalibri"
 
@@ -4055,7 +4055,7 @@ msgstr "Le telecamere sono disabilitate quando ci sono più di {VOICE_CHANNEL_CA
 #: src/components/alerts/FileSizeTooLargeModal.tsx:87
 #: src/components/auth/BrowserLoginHandoffModal.tsx:269
 #: src/components/bottomsheets/CreateDMBottomSheet.tsx:130
-#: src/components/channel/ChannelTextarea.tsx:312
+#: src/components/channel/ChannelTextarea.tsx:310
 #: src/components/channel/friends/FriendListItem.tsx:259
 #: src/components/channel/MentionEveryonePopout.tsx:128
 #: src/components/emojis/EmojiListItem.tsx:125
@@ -4099,8 +4099,8 @@ msgstr "Le telecamere sono disabilitate quando ci sono più di {VOICE_CHANNEL_CA
 #: src/components/modals/EmailChangeModal.tsx:270
 #: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:120
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:122
+#: src/components/modals/FluxerTagChangeModal.tsx:294
 #: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
@@ -4146,7 +4146,7 @@ msgstr "Annulla"
 msgid "Cancel Friend Request"
 msgstr "Annulla richiesta di amicizia"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:115
+#: src/components/modals/FluxerTagChangeModal.tsx:117
 msgid "Cancel if you want to choose a different username instead."
 msgstr "Annulla se preferisci scegliere un nome utente diverso."
 
@@ -4178,11 +4178,11 @@ msgstr "Non può essere modificato"
 msgid "Cannot Delete Account"
 msgstr "Impossibile eliminare l'account"
 
-#: src/actions/InviteActionCreators.tsx:313
+#: src/actions/InviteActionCreators.tsx:317
 msgid "Cannot install emoji pack"
 msgstr "Impossibile installare il pacchetto emoji"
 
-#: src/actions/InviteActionCreators.tsx:314
+#: src/actions/InviteActionCreators.tsx:318
 msgid "Cannot install sticker pack"
 msgstr "Impossibile installare il pacchetto sticker"
 
@@ -4293,7 +4293,7 @@ msgstr "Cambia emoji"
 msgid "Change FluxerTag"
 msgstr "Cambia FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:161
+#: src/components/modals/FluxerTagChangeModal.tsx:163
 msgid "Change FluxerTag form"
 msgstr "Modulo cambio FluxerTag"
 
@@ -4380,7 +4380,7 @@ msgstr "Cambia la tua Email"
 msgid "Change your email address"
 msgstr "Cambia il tuo indirizzo email"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:162
+#: src/components/modals/FluxerTagChangeModal.tsx:164
 msgid "Change Your FluxerTag"
 msgstr "Cambia il tuo FluxerTag"
 
@@ -4424,7 +4424,7 @@ msgstr "Bitrate modificato in {0}."
 msgid "Changed the voice region to {0}."
 msgstr "Regione vocale cambiata in {0}."
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 #: src/utils/SearchUtils.tsx:268
 msgid "channel"
 msgstr "canale"
@@ -5333,7 +5333,7 @@ msgid "Communication"
 msgstr "Comunicazione"
 
 #: src/components/modals/components/FeatureComparisonTable.tsx:49
-#: src/stores/QuickSwitcherStore.tsx:1354
+#: src/stores/QuickSwitcherStore.tsx:1352
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
 msgstr "Community"
@@ -5825,13 +5825,13 @@ msgstr "Menu contestuali"
 msgid "Context menus can be opened with left-click (on buttons) or right-click (on other elements). This demonstrates various menu items including checkboxes, radio buttons, sliders, and submenus."
 msgstr "I menu contestuali si aprono con clic sinistro (sui pulsanti) o destro (su altri elementi). Qui vengono mostrati vari elementi di menu come checkbox, radio button, slider e sottomenu."
 
-#: src/components/channel/ChannelTextarea.tsx:311
+#: src/components/channel/ChannelTextarea.tsx:309
 #: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:82
 #: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:119
-#: src/components/modals/FluxerTagChangeModal.tsx:286
+#: src/components/modals/FluxerTagChangeModal.tsx:121
+#: src/components/modals/FluxerTagChangeModal.tsx:297
 #: src/components/modals/MfaTotpDisableModal.tsx:78
 #: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
@@ -6601,7 +6601,7 @@ msgstr "Sovrascritture CSS personalizzate"
 msgid "Custom Date Range"
 msgstr "Intervallo di date personalizzato"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:230
+#: src/components/modals/FluxerTagChangeModal.tsx:241
 msgid "Custom discriminators are not available on this instance"
 msgstr "Discriminatori personalizzati non disponibili su questa istanza"
 
@@ -6732,7 +6732,7 @@ msgstr "Personalizza quali pulsanti sono visibili nell'area di input del messagg
 msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
 msgstr "Personalizza il tuo tag a 4 cifre (#{0}) come preferisci con Plutonium"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:275
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Personalizza il tuo tag di 4 cifre o mantienilo quando cambi nome utente"
 
@@ -7516,7 +7516,7 @@ msgstr "Messaggio diretto"
 #: src/components/layout/guild_list/FluxerButton.tsx:80
 #: src/components/modals/GuildPrivacySettingsModal.tsx:76
 #: src/components/modals/tabs/privacy_safety_tab/ConnectionsTab.tsx:221
-#: src/stores/QuickSwitcherStore.tsx:833
+#: src/stores/QuickSwitcherStore.tsx:831
 msgid "Direct Messages"
 msgstr "Messaggi diretti"
 
@@ -7559,7 +7559,7 @@ msgstr "Disabilita animazioni e transizioni in tutta l'app."
 msgid "Disable animations and transitions. Currently controlled by your system setting."
 msgstr "Disabilita animazioni e transizioni. Attualmente controllato dalle impostazioni di sistema."
 
-#: src/stores/QuickSwitcherStore.tsx:915
+#: src/stores/QuickSwitcherStore.tsx:913
 msgid "Disable Compact Mode"
 msgstr "Disabilita modalità compatta"
 
@@ -7586,7 +7586,7 @@ msgstr "Disabilita soppressione rumore"
 msgid "Disable Picture-in-Picture Popout"
 msgstr "Disabilita il Picture-in-Picture Popout"
 
-#: src/stores/QuickSwitcherStore.tsx:931
+#: src/stores/QuickSwitcherStore.tsx:929
 msgid "Disable Reduced Motion"
 msgstr "Disabilita movimento ridotto"
 
@@ -7755,7 +7755,7 @@ msgstr "Discriminatore"
 msgid "Discussion or promotion of illegal activities"
 msgstr "Discussione o promozione di attività illegali"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:76
+#: src/components/alerts/MaxBookmarksModal.tsx:79
 #: src/components/layout/GuildLayout.tsx:106
 #: src/components/layout/NagbarContent.tsx:42
 #: src/components/modals/GiftAcceptModal.tsx:110
@@ -8486,7 +8486,7 @@ msgstr "I nomi delle emoji devono avere almeno 2 caratteri e possono contenere s
 msgid "Emoji pack"
 msgstr "Pacchetto emoji"
 
-#: src/actions/InviteActionCreators.tsx:255
+#: src/actions/InviteActionCreators.tsx:259
 msgid "Emoji pack creation limit reached"
 msgstr "Raggiunto il limite di creazione dei pacchetti emoji"
 
@@ -8494,7 +8494,7 @@ msgstr "Raggiunto il limite di creazione dei pacchetti emoji"
 msgid "Emoji Pack Invite"
 msgstr "Invito al pacchetto emoji"
 
-#: src/actions/InviteActionCreators.tsx:241
+#: src/actions/InviteActionCreators.tsx:245
 msgid "Emoji pack limit reached"
 msgstr "Limite pacchetti emoji raggiunto"
 
@@ -8567,7 +8567,7 @@ msgstr "Attiva funzione beta"
 msgid "Enable Browser Notifications"
 msgstr "Abilita notifiche del browser"
 
-#: src/stores/QuickSwitcherStore.tsx:916
+#: src/stores/QuickSwitcherStore.tsx:914
 msgid "Enable Compact Mode"
 msgstr "Attiva modalità compatta"
 
@@ -8643,7 +8643,7 @@ msgstr "Attiva le push per questo dispositivo"
 msgid "Enable push notifications for this installed PWA to keep receiving messages when the browser is backgrounded."
 msgstr "Abilita le notifiche push per questa PWA installata per ricevere messaggi anche quando il browser è in background."
 
-#: src/stores/QuickSwitcherStore.tsx:932
+#: src/stores/QuickSwitcherStore.tsx:930
 msgid "Enable Reduced Motion"
 msgstr "Attiva movimento ridotto"
 
@@ -9314,11 +9314,11 @@ msgstr "Impossibile ignorare la richiesta d'amicizia. Riprova."
 msgid "Failed to initiate connection"
 msgstr "Impossibile avviare la connessione"
 
-#: src/actions/InviteActionCreators.tsx:322
+#: src/actions/InviteActionCreators.tsx:326
 msgid "Failed to install this emoji pack. Please try again later."
 msgstr "Impossibile installare questo pacchetto emoji. Riprova più tardi."
 
-#: src/actions/InviteActionCreators.tsx:323
+#: src/actions/InviteActionCreators.tsx:327
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Impossibile installare questo pacchetto sticker. Riprova più tardi."
 
@@ -9716,9 +9716,9 @@ msgstr "preferiti"
 #: src/components/modals/tabs/AppearanceTab.tsx:116
 #: src/components/modals/utils/SettingsConstants.tsx:279
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:233
-#: src/stores/QuickSwitcherStore.tsx:843
-#: src/stores/QuickSwitcherStore.tsx:1261
-#: src/stores/QuickSwitcherStore.tsx:1273
+#: src/stores/QuickSwitcherStore.tsx:841
+#: src/stores/QuickSwitcherStore.tsx:1259
+#: src/stores/QuickSwitcherStore.tsx:1271
 msgid "Favorites"
 msgstr "Preferiti"
 
@@ -9964,16 +9964,16 @@ msgstr "Staff Fluxer"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer usa notifiche push quando installato come PWA mobile. La registrazione garantisce che il gateway possa raggiungere il tuo dispositivo anche quando il browser è in background."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:179
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:105
+#: src/components/modals/FluxerTagChangeModal.tsx:107
 msgid "FluxerTag already taken"
 msgstr "FluxerTag già usato"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:147
+#: src/components/modals/FluxerTagChangeModal.tsx:149
 msgid "FluxerTag updated"
 msgstr "FluxerTag aggiornato"
 
@@ -10491,7 +10491,7 @@ msgstr "Ricevi notifiche quando arrivano nuovi messaggi. Potrebbe essere necessa
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:224
+#: src/components/modals/FluxerTagChangeModal.tsx:235
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10508,7 +10508,7 @@ msgstr "Prendi Plutonium per te e sblocca limiti più alti e funzionalità esclu
 msgid "Get Plutonium to customize your tag"
 msgstr "Acquista Plutonium per personalizzare il tuo tag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:202
+#: src/components/modals/FluxerTagChangeModal.tsx:213
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "Acquista Plutonium per personalizzare il tuo tag o mantenerlo quando cambi username"
 
@@ -10726,7 +10726,7 @@ msgstr "Vai alla Home"
 msgid "Go to login"
 msgstr "Vai al login"
 
-#: src/stores/QuickSwitcherStore.tsx:528
+#: src/stores/QuickSwitcherStore.tsx:526
 msgid "Go to message"
 msgstr "Vai al messaggio"
 
@@ -10867,12 +10867,12 @@ msgstr "Icona del gruppo"
 msgid "Group Invites"
 msgstr "Inviti di gruppo"
 
-#: src/stores/QuickSwitcherStore.tsx:667
+#: src/stores/QuickSwitcherStore.tsx:665
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:235
 msgid "Group message"
 msgstr "Messaggio di gruppo"
 
-#: src/stores/QuickSwitcherStore.tsx:1347
+#: src/stores/QuickSwitcherStore.tsx:1345
 msgid "Group messages"
 msgstr "Messaggi di gruppo"
 
@@ -11278,7 +11278,7 @@ msgid "Hold to temporarily unmute when push-to-talk is enabled"
 msgstr "Tieni premuto per attivare temporaneamente l'audio quando push-to-talk è attivo"
 
 #: src/components/layout/MobileBottomNav.tsx:93
-#: src/stores/QuickSwitcherStore.tsx:832
+#: src/stores/QuickSwitcherStore.tsx:830
 msgid "Home"
 msgstr "Home"
 
@@ -11620,7 +11620,7 @@ msgstr "Profilo inappropriato"
 msgid "Inbox"
 msgstr "Posta in arrivo"
 
-#: src/components/popouts/InboxPopout.tsx:89
+#: src/components/popouts/InboxPopout.tsx:88
 msgid "Inbox tabs"
 msgstr "Schede della posta in arrivo"
 
@@ -13347,7 +13347,7 @@ msgstr "Membro contrassegnato come temporaneo."
 msgid "Markers Below Slider"
 msgstr "Indicatori sotto il cursore"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:191
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
@@ -13657,7 +13657,7 @@ msgstr "menzioni"
 
 #: src/components/modals/GuildNotificationSettingsModal.tsx:227
 #: src/components/pages/NotificationsPage.tsx:42
-#: src/components/popouts/InboxPopout.tsx:63
+#: src/components/popouts/InboxPopout.tsx:62
 msgid "Mentions"
 msgstr "Menzioni"
 
@@ -13692,15 +13692,15 @@ msgstr "menu"
 msgid "Message"
 msgstr "Messaggio"
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message "
 msgstr "Messaggio "
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message @"
 msgstr "Messaggio @"
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 msgid "Message #"
 msgstr "Messaggio #"
 
@@ -15579,7 +15579,7 @@ msgstr "Apri in una nuova scheda"
 msgid "Open Link"
 msgstr "Apri link"
 
-#: src/components/channel/ChannelTextarea.tsx:953
+#: src/components/channel/ChannelTextarea.tsx:951
 #: src/components/channel/textarea/MobileTextareaLayout.tsx:112
 msgid "Open menu"
 msgstr "Apri menu"
@@ -16045,7 +16045,7 @@ msgid "Pending deletion canceled"
 msgstr "Eliminazione in sospeso annullata"
 
 #: src/lib/UnicodeEmojis.tsx:234
-#: src/stores/QuickSwitcherStore.tsx:1345
+#: src/stores/QuickSwitcherStore.tsx:1343
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:96
 msgid "People"
 msgstr "Persone"
@@ -16421,7 +16421,7 @@ msgstr "Riprova più tardi."
 msgid "Please update Fluxer to view this message."
 msgstr "Aggiorna Fluxer per vedere questo messaggio."
 
-#: src/actions/InviteActionCreators.tsx:180
+#: src/actions/InviteActionCreators.tsx:184
 msgid "Please verify your account by setting an email and password before joining communities."
 msgstr "Verifica il tuo account impostando email e password prima di entrare nelle community."
 
@@ -16933,7 +16933,7 @@ msgstr "Python"
 msgid "quick access"
 msgstr "accesso rapido"
 
-#: src/stores/QuickSwitcherStore.tsx:1358
+#: src/stores/QuickSwitcherStore.tsx:1356
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:100
 msgid "Quick Actions"
 msgstr "Azioni rapide"
@@ -17562,7 +17562,7 @@ msgstr "Eliminato consenti per {0}."
 msgid "Removed deny for {0}."
 msgstr "Eliminato nega per {0}."
 
-#: src/actions/SavedMessageActionCreators.tsx:80
+#: src/actions/SavedMessageActionCreators.tsx:85
 msgid "Removed from bookmarks"
 msgstr "Rimosso dai segnalibri"
 
@@ -17871,7 +17871,7 @@ msgstr "Richiede tutto ciò che serve per 'Medio', più essere membro del server
 msgid "Requires Plutonium"
 msgstr "Richiede Plutonium"
 
-#: src/components/channel/ChannelTextarea.tsx:1032
+#: src/components/channel/ChannelTextarea.tsx:1030
 msgid "Reschedule Message"
 msgstr "Ripianifica messaggio"
 
@@ -18442,7 +18442,7 @@ msgstr "Pianifica"
 msgid "Schedule Message"
 msgstr "Pianifica messaggio"
 
-#: src/components/popouts/InboxPopout.tsx:70
+#: src/components/popouts/InboxPopout.tsx:69
 #: src/components/popouts/ScheduledMessagesContent.tsx:89
 msgid "Scheduled"
 msgstr "Pianificato"
@@ -19346,7 +19346,7 @@ msgstr "Imposta il tuo fuso orario"
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:221
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:95
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:90
-#: src/stores/QuickSwitcherStore.tsx:1356
+#: src/stores/QuickSwitcherStore.tsx:1354
 msgid "Settings"
 msgstr "Impostazioni"
 
@@ -20495,7 +20495,7 @@ msgstr "Densità adesivi"
 msgid "Sticker pack"
 msgstr "Pacchetto adesivi"
 
-#: src/actions/InviteActionCreators.tsx:287
+#: src/actions/InviteActionCreators.tsx:291
 msgid "Sticker pack creation limit reached"
 msgstr "Limite creazione pacchetto adesivi raggiunto"
 
@@ -20503,7 +20503,7 @@ msgstr "Limite creazione pacchetto adesivi raggiunto"
 msgid "Sticker Pack Invite"
 msgstr "Invito pacchetto adesivi"
 
-#: src/actions/InviteActionCreators.tsx:273
+#: src/actions/InviteActionCreators.tsx:277
 msgid "Sticker pack limit reached"
 msgstr "Limite pacchetti adesivi raggiunto"
 
@@ -20801,7 +20801,7 @@ msgstr "Cambia account"
 msgid "Switch Accounts"
 msgstr "Cambia account"
 
-#: src/stores/QuickSwitcherStore.tsx:900
+#: src/stores/QuickSwitcherStore.tsx:898
 msgid "Switch between Light and Dark mode"
 msgstr "Passa tra modalità chiara e scura"
 
@@ -21030,7 +21030,7 @@ msgstr "Canale di testo"
 msgid "Text Channel Names"
 msgstr "Nomi dei canali di testo"
 
-#: src/stores/QuickSwitcherStore.tsx:1349
+#: src/stores/QuickSwitcherStore.tsx:1347
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:97
 msgid "Text channels"
 msgstr "Canali di testo"
@@ -21111,7 +21111,7 @@ msgid "That message didn't delete"
 msgstr "Quel messaggio non è stato eliminato"
 
 #. placeholder {0}: invite.pack.name
-#: src/actions/InviteActionCreators.tsx:103
+#: src/actions/InviteActionCreators.tsx:104
 msgid "The {packLabel} {0} has been installed."
 msgstr "Il {packLabel} {0} è stato installato."
 
@@ -21153,7 +21153,7 @@ msgstr "Il file contiene il token di verifica che recupereremo da <0>{dnsUrl}</0
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "Il file che stai cercando di caricare supera il limite massimo di dimensione di {maxSizeFormatted}."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:109
+#: src/components/modals/FluxerTagChangeModal.tsx:111
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "Il FluxerTag <0>{fluxerTag}</0> è già in uso. Procedendo verrà riassegnato automaticamente il tuo discriminatore."
 
@@ -21722,7 +21722,7 @@ msgstr "Questo nasconderà tutti gli elementi dell'interfaccia legati ai preferi
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "Questo invaliderà i tuoi codici di backup esistenti e ne genererà di nuovi."
 
-#: src/components/channel/ChannelTextarea.tsx:1036
+#: src/components/channel/ChannelTextarea.tsx:1034
 msgid "This will modify the existing scheduled message rather than sending immediately."
 msgstr "Questo modificherà il messaggio programmato esistente anziché inviarlo subito."
 
@@ -21908,7 +21908,7 @@ msgstr "attiva/disattiva"
 msgid "Toggle Channel Member List"
 msgstr "Mostra/nascondi elenco membri del canale"
 
-#: src/stores/QuickSwitcherStore.tsx:913
+#: src/stores/QuickSwitcherStore.tsx:911
 msgid "Toggle Compact Mode"
 msgstr "Attiva/disattiva modalità compatta"
 
@@ -21968,7 +21968,7 @@ msgstr "Mostra/nascondi popup messaggi appuntati"
 msgid "Toggle premium_enabled_override on the backend"
 msgstr "Attiva/disattiva override premium_enabled nel backend"
 
-#: src/stores/QuickSwitcherStore.tsx:929
+#: src/stores/QuickSwitcherStore.tsx:927
 msgid "Toggle Reduced Motion"
 msgstr "Attiva/disattiva movimento ridotto"
 
@@ -21984,7 +21984,7 @@ msgstr "Mostra/nascondi selettore sticker"
 msgid "Toggle switches on and off to see state changes."
 msgstr "Attiva o disattiva gli interruttori per vedere i cambiamenti di stato."
 
-#: src/stores/QuickSwitcherStore.tsx:899
+#: src/stores/QuickSwitcherStore.tsx:897
 msgid "Toggle Theme"
 msgstr "Cambiare tema"
 
@@ -22009,7 +22009,7 @@ msgstr "Mappa il tono delle immagini HDR nella gamma standard, riducendo la lumi
 msgid "Too Loud"
 msgstr "Troppo alto"
 
-#: src/components/alerts/MaxGuildsModal.tsx:32
+#: src/components/alerts/MaxGuildsModal.tsx:35
 msgid "Too Many Communities"
 msgstr "Troppo molte community"
 
@@ -22405,11 +22405,11 @@ msgstr "Ucraino"
 msgid "Ultra (1440p)"
 msgstr "Ultra (1440p)"
 
-#: src/actions/InviteActionCreators.tsx:319
+#: src/actions/InviteActionCreators.tsx:323
 msgid "Unable to install emoji pack"
 msgstr "Impossibile installare il pacchetto emoji"
 
-#: src/actions/InviteActionCreators.tsx:320
+#: src/actions/InviteActionCreators.tsx:324
 msgid "Unable to install sticker pack"
 msgstr "Impossibile installare il pacchetto sticker"
 
@@ -22555,10 +22555,10 @@ msgstr "Utente minorenne"
 #: src/components/alerts/GenericErrorModal.tsx:31
 #: src/components/alerts/GuildAtCapacityModal.tsx:31
 #: src/components/alerts/InvitesDisabledModal.tsx:31
-#: src/components/alerts/MaxBookmarksModal.tsx:45
-#: src/components/alerts/MaxBookmarksModal.tsx:56
+#: src/components/alerts/MaxBookmarksModal.tsx:48
+#: src/components/alerts/MaxBookmarksModal.tsx:59
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:46
-#: src/components/alerts/MaxGuildsModal.tsx:38
+#: src/components/alerts/MaxGuildsModal.tsx:41
 #: src/components/alerts/MicrophonePermissionDeniedModal.tsx:50
 #: src/components/alerts/NSFWContentRejectedModal.tsx:31
 #: src/components/alerts/ReactionInteractionDisabledModal.tsx:30
@@ -22633,7 +22633,7 @@ msgstr "canale sconosciuto"
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:479
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:61
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:67
-#: src/stores/QuickSwitcherStore.tsx:690
+#: src/stores/QuickSwitcherStore.tsx:688
 msgid "Unknown channel"
 msgstr "Canale sconosciuto"
 
@@ -22908,7 +22908,7 @@ msgstr "DM di gruppo non fissato"
 msgid "unread"
 msgstr "non letto"
 
-#: src/components/popouts/InboxPopout.tsx:53
+#: src/components/popouts/InboxPopout.tsx:52
 msgid "Unread"
 msgstr "Non letto"
 
@@ -22963,7 +22963,7 @@ msgstr "Email non verificata"
 msgid "Up to 4K/60fps"
 msgstr "Fino a 4K/60fps"
 
-#: src/components/channel/ChannelTextarea.tsx:1033
+#: src/components/channel/ChannelTextarea.tsx:1031
 msgid "Update"
 msgstr "Aggiorna"
 
@@ -23086,7 +23086,7 @@ msgstr "aggiorna"
 msgid "Upgrade Now"
 msgstr "Effettua l'upgrade ora"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:69
+#: src/components/alerts/MaxBookmarksModal.tsx:72
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:70
 msgid "Upgrade to Plutonium"
 msgstr "Passa a Plutonium"
@@ -23455,7 +23455,7 @@ msgstr "Registro utente"
 #: src/components/layout/UserArea.tsx:286
 #: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
-#: src/components/modals/UserSettingsModal.tsx:154
+#: src/components/modals/UserSettingsModal.tsx:153
 msgid "User Settings"
 msgstr "Impostazioni utente"
 
@@ -23476,7 +23476,7 @@ msgstr "utente, bot o webhook"
 msgid "username"
 msgstr "nome utente"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:190
+#: src/components/modals/FluxerTagChangeModal.tsx:201
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
 #: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
@@ -23511,13 +23511,17 @@ msgstr "Il nome utente può avere al massimo 32 caratteri"
 msgid "Username#0000"
 msgstr "NomeUtente#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:172
+#: src/components/modals/FluxerTagChangeModal.tsx:183
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "I nomi utente possono contenere solo lettere (a-z, A-Z), numeri (0-9) e underscore. Non sono case-sensitive."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:167
-msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
-msgstr "I nomi utente possono contenere solo lettere (a-z, A-Z), numeri (0-9) e underscore. Non sono case-sensitive. Puoi scegliere il tuo tag a 4 cifre se è disponibile."
+#: src/components/modals/FluxerTagChangeModal.tsx:170
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999."
+msgstr "I nomi utente possono contenere solo lettere (a-z, A-Z), numeri (0-9) e trattini bassi. I nomi utente non fanno distinzione tra maiuscole e minuscole. Puoi scegliere un tag a 4 cifre disponibile da #0000 a #9999."
+
+#: src/components/modals/FluxerTagChangeModal.tsx:176
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999."
+msgstr "I nomi utente possono contenere solo lettere (a-z, A-Z), numeri (0-9) e trattini bassi. I nomi utente non fanno distinzione tra maiuscole e minuscole. Puoi scegliere un tag a 4 cifre disponibile da #0001 a #9999."
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:246
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:172
@@ -24100,7 +24104,7 @@ msgstr "Chiamate vocali"
 msgid "voice channel"
 msgstr "canale vocale"
 
-#: src/stores/QuickSwitcherStore.tsx:720
+#: src/stores/QuickSwitcherStore.tsx:718
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:227
 msgid "Voice channel"
 msgstr "Canale vocale"
@@ -24120,7 +24124,7 @@ msgstr "Canale vocale pieno"
 msgid "Voice channel join behavior"
 msgstr "Comportamento di ingresso nel canale vocale"
 
-#: src/stores/QuickSwitcherStore.tsx:1351
+#: src/stores/QuickSwitcherStore.tsx:1349
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:98
 msgid "Voice channels"
 msgstr "Canali vocali"
@@ -24998,7 +25002,7 @@ msgstr "Non puoi riattivare il microfono perché sei stato silenziato da un mode
 msgid "You do not have access to the channel where this message was sent."
 msgstr "Non hai accesso al canale in cui è stato inviato questo messaggio."
 
-#: src/components/channel/ChannelTextarea.tsx:749
+#: src/components/channel/ChannelTextarea.tsx:747
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:52
 msgid "You do not have permission to send messages in this channel."
 msgstr "Non hai il permesso di inviare messaggi in questo canale."
@@ -25019,11 +25023,11 @@ msgstr "Non hai ancora sovrascritture di tema personalizzate da condividere."
 msgid "You don't have permission to connect to this voice channel."
 msgstr "Non hai il permesso di connetterti a questo canale vocale."
 
-#: src/actions/InviteActionCreators.tsx:316
+#: src/actions/InviteActionCreators.tsx:320
 msgid "You don't have permission to install this emoji pack."
 msgstr "Non hai il permesso di installare questo pacchetto di emoji."
 
-#: src/actions/InviteActionCreators.tsx:317
+#: src/actions/InviteActionCreators.tsx:321
 msgid "You don't have permission to install this sticker pack."
 msgstr "Non hai il permesso di installare questo pacchetto di sticker."
 
@@ -25079,35 +25083,35 @@ msgstr "Hai tutto <0/> tramite un <1>abbonamento regalo</1> fino al <2>{giftEndD
 msgid "You have blocked {username}. Unblock them to send messages."
 msgstr "Hai bloccato {username}. Sbloccalo per inviare messaggi."
 
-#: src/actions/InviteActionCreators.tsx:260
+#: src/actions/InviteActionCreators.tsx:264
 msgid "You have created the maximum of {limit} emoji pack. Delete one to create another."
 msgstr "Hai creato il massimo di {limit} pacco emoji. Elimina uno per crearne un altro."
 
-#: src/actions/InviteActionCreators.tsx:261
+#: src/actions/InviteActionCreators.tsx:265
 msgid "You have created the maximum of {limit} emoji packs. Delete one to create another."
 msgstr "Hai creato il massimo di {limit} pacchi emoji. Elimina uno per crearne un altro."
 
-#: src/actions/InviteActionCreators.tsx:292
+#: src/actions/InviteActionCreators.tsx:296
 msgid "You have created the maximum of {limit} sticker pack. Delete one to create another."
 msgstr "Hai creato il massimo di {limit} pacco adesivi. Elimina uno per crearne un altro."
 
-#: src/actions/InviteActionCreators.tsx:293
+#: src/actions/InviteActionCreators.tsx:297
 msgid "You have created the maximum of {limit} sticker packs. Delete one to create another."
 msgstr "Hai creato il massimo di {limit} pacchi adesivi. Elimina uno per crearne un altro."
 
-#: src/actions/InviteActionCreators.tsx:246
+#: src/actions/InviteActionCreators.tsx:250
 msgid "You have installed the maximum of {limit} emoji pack. Remove one to install another."
 msgstr "Hai installato il massimo di {limit} pacco emoji. Rimuovine uno per installarne un altro."
 
-#: src/actions/InviteActionCreators.tsx:247
+#: src/actions/InviteActionCreators.tsx:251
 msgid "You have installed the maximum of {limit} emoji packs. Remove one to install another."
 msgstr "Hai installato il massimo di {limit} pacchi emoji. Rimuovine uno per installarne un altro."
 
-#: src/actions/InviteActionCreators.tsx:278
+#: src/actions/InviteActionCreators.tsx:282
 msgid "You have installed the maximum of {limit} sticker pack. Remove one to install another."
 msgstr "Hai installato il massimo di {limit} pacco adesivi. Rimuovine uno per installarne un altro."
 
-#: src/actions/InviteActionCreators.tsx:279
+#: src/actions/InviteActionCreators.tsx:283
 msgid "You have installed the maximum of {limit} sticker packs. Remove one to install another."
 msgstr "Hai installato il massimo di {limit} pacchi adesivi. Rimuovine uno per installarne un altro."
 
@@ -25115,19 +25119,19 @@ msgstr "Hai installato il massimo di {limit} pacchi adesivi. Rimuovine uno per i
 msgid "You have no friends yet"
 msgstr "Non hai ancora amici"
 
-#: src/actions/InviteActionCreators.tsx:264
+#: src/actions/InviteActionCreators.tsx:268
 msgid "You have reached the limit for creating emoji packs. Delete one of your packs to create another."
 msgstr "Hai raggiunto il limite per creare pacchetti di emoji. Elimina uno dei tuoi pacchetti per crearne un altro."
 
-#: src/actions/InviteActionCreators.tsx:296
+#: src/actions/InviteActionCreators.tsx:300
 msgid "You have reached the limit for creating sticker packs. Delete one of your packs to create another."
 msgstr "Hai raggiunto il limite per creare pacchetti di sticker. Elimina uno dei tuoi pacchetti per crearne un altro."
 
-#: src/actions/InviteActionCreators.tsx:250
+#: src/actions/InviteActionCreators.tsx:254
 msgid "You have reached the limit for installing emoji packs. Remove one of your installed packs to install another."
 msgstr "Hai raggiunto il limite per installare pacchetti di emoji. Rimuovi uno dei pacchetti installati per installarne un altro."
 
-#: src/actions/InviteActionCreators.tsx:282
+#: src/actions/InviteActionCreators.tsx:286
 msgid "You have reached the limit for installing sticker packs. Remove one of your installed packs to install another."
 msgstr "Hai raggiunto il limite per installare pacchetti di sticker. Rimuovi uno dei pacchetti installati per installarne un altro."
 
@@ -25391,23 +25395,23 @@ msgstr "Hai raggiunto il limite massimo di {maxFavoriteMemes} elemento multimedi
 msgid "You've reached the maximum limit of {maxFavoriteMemes} saved media items. To add more, you'll need to remove some existing items from your collection."
 msgstr "Hai raggiunto il limite massimo di {maxFavoriteMemes} elementi multimediali salvati. Per aggiungerne di più, dovrai rimuovere alcuni elementi esistenti dalla tua collezione."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:55
+#: src/components/alerts/MaxBookmarksModal.tsx:58
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). Please remove some bookmarks before adding new ones."
 msgstr "Hai raggiunto il numero massimo di segnalibri ({bookmarksText}). Rimuovi alcuni segnalibri prima di aggiungerne di nuovi."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:44
+#: src/components/alerts/MaxBookmarksModal.tsx:47
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). This limit is configured by your instance administrator. Please remove some bookmarks before adding new ones."
 msgstr "Hai raggiunto il numero massimo di segnalibri ({bookmarksText}). Questo limite è configurato dall'amministratore della tua istanza. Rimuovi alcuni segnalibri prima di aggiungerne di nuovi."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:68
+#: src/components/alerts/MaxBookmarksModal.tsx:71
 msgid "You've reached the maximum number of bookmarks for free users ({bookmarksText}). Upgrade to Plutonium to increase your limit to {premiumBookmarksText}, or remove some bookmarks to add new ones."
 msgstr "Hai raggiunto il numero massimo di segnalibri per gli utenti gratuiti ({bookmarksText}). Aggiorna a Plutonium per aumentare il tuo limite a {premiumBookmarksText}, oppure rimuovi alcuni segnalibri per aggiungerne di nuovi."
 
-#: src/components/alerts/MaxGuildsModal.tsx:36
+#: src/components/alerts/MaxGuildsModal.tsx:39
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} communities). Please leave a community before joining another one."
 msgstr "Hai raggiunto il numero massimo di comunità a cui puoi unirti ({maxGuilds} comunità). Per favore, lascia una comunità prima di unirti a un'altra."
 
-#: src/components/alerts/MaxGuildsModal.tsx:35
+#: src/components/alerts/MaxGuildsModal.tsx:38
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "Hai raggiunto il numero massimo di comunità a cui puoi unirti ({maxGuilds} comunità). Per favore, lascia una comunità prima di unirti a un'altra."
 

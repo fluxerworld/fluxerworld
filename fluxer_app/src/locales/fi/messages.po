@@ -633,11 +633,11 @@ msgstr "{lockedStickerCount} tarra"
 msgid "{lockedStickerCount} stickers"
 msgstr "{lockedStickerCount} tarraa"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmark"
 msgstr "{maxBookmarks} kirjanmerkki"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmarks"
 msgstr "{maxBookmarks} kirjanmerkkiä"
 
@@ -718,11 +718,11 @@ msgstr "{participantCount} osallistuja puhelussa"
 msgid "{participantCount} participants in call"
 msgstr "{participantCount} osallistujaa puhelussa"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmark"
 msgstr "{premiumBookmarks} kirjanmerkki"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmarks"
 msgstr "{premiumBookmarks} kirjanmerkkiä"
 
@@ -1362,9 +1362,9 @@ msgstr "30 sekuntia"
 msgid "4 hours"
 msgstr "4 tuntia"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:206
-#: src/components/modals/FluxerTagChangeModal.tsx:234
-#: src/components/modals/FluxerTagChangeModal.tsx:251
+#: src/components/modals/FluxerTagChangeModal.tsx:217
+#: src/components/modals/FluxerTagChangeModal.tsx:245
+#: src/components/modals/FluxerTagChangeModal.tsx:262
 msgid "4-digit tag"
 msgstr "4-numeroinen tunnus"
 
@@ -1642,7 +1642,7 @@ msgstr "Tilin tilan ylitykset"
 msgid "Account Too New"
 msgstr "Tili liian uusi"
 
-#: src/actions/InviteActionCreators.tsx:178
+#: src/actions/InviteActionCreators.tsx:182
 #: src/components/modals/RequiredActionModal.tsx:143
 #: src/components/modals/RequiredActionModal.tsx:416
 msgid "Account Verification Required"
@@ -2010,7 +2010,7 @@ msgstr "Lisättiin {0}."
 msgid "Added roles."
 msgstr "Roolit lisätty."
 
-#: src/actions/SavedMessageActionCreators.tsx:58
+#: src/actions/SavedMessageActionCreators.tsx:59
 msgid "Added to bookmarks"
 msgstr "Lisätty kirjanmerkkeihin"
 
@@ -3720,9 +3720,9 @@ msgstr "Kirjakerho"
 msgid "Bookmark"
 msgstr "Kirjanmerkki"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:43
-#: src/components/alerts/MaxBookmarksModal.tsx:54
-#: src/components/alerts/MaxBookmarksModal.tsx:67
+#: src/components/alerts/MaxBookmarksModal.tsx:46
+#: src/components/alerts/MaxBookmarksModal.tsx:57
+#: src/components/alerts/MaxBookmarksModal.tsx:70
 msgid "Bookmark Limit Reached"
 msgstr "Kirjanmerkkiraja saavutettu"
 
@@ -3750,7 +3750,7 @@ msgstr "Kirjanmerkki lisätty!"
 
 #: src/components/modals/BookmarksBottomSheet.tsx:109
 #: src/components/pages/SavedMessagesPage.tsx:67
-#: src/components/popouts/InboxPopout.tsx:58
+#: src/components/popouts/InboxPopout.tsx:57
 msgid "Bookmarks"
 msgstr "Kirjanmerkit"
 
@@ -4055,7 +4055,7 @@ msgstr "Kamerat ovat pois päältä, kun osallistujia on enemmän kuin {VOICE_CH
 #: src/components/alerts/FileSizeTooLargeModal.tsx:87
 #: src/components/auth/BrowserLoginHandoffModal.tsx:269
 #: src/components/bottomsheets/CreateDMBottomSheet.tsx:130
-#: src/components/channel/ChannelTextarea.tsx:312
+#: src/components/channel/ChannelTextarea.tsx:310
 #: src/components/channel/friends/FriendListItem.tsx:259
 #: src/components/channel/MentionEveryonePopout.tsx:128
 #: src/components/emojis/EmojiListItem.tsx:125
@@ -4099,8 +4099,8 @@ msgstr "Kamerat ovat pois päältä, kun osallistujia on enemmän kuin {VOICE_CH
 #: src/components/modals/EmailChangeModal.tsx:270
 #: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:120
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:122
+#: src/components/modals/FluxerTagChangeModal.tsx:294
 #: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
@@ -4146,7 +4146,7 @@ msgstr "Peruuta"
 msgid "Cancel Friend Request"
 msgstr "Peruuta ystäväpyyntö"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:115
+#: src/components/modals/FluxerTagChangeModal.tsx:117
 msgid "Cancel if you want to choose a different username instead."
 msgstr "Peruuta, jos haluat valita toisen käyttäjänimen."
 
@@ -4178,11 +4178,11 @@ msgstr "Sitä ei voi muokata"
 msgid "Cannot Delete Account"
 msgstr "Tiliä ei voi poistaa"
 
-#: src/actions/InviteActionCreators.tsx:313
+#: src/actions/InviteActionCreators.tsx:317
 msgid "Cannot install emoji pack"
 msgstr "Emojipakettia ei voi asentaa"
 
-#: src/actions/InviteActionCreators.tsx:314
+#: src/actions/InviteActionCreators.tsx:318
 msgid "Cannot install sticker pack"
 msgstr "Tarrapakettia ei voi asentaa"
 
@@ -4293,7 +4293,7 @@ msgstr "Vaihda emoji"
 msgid "Change FluxerTag"
 msgstr "Vaihda FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:161
+#: src/components/modals/FluxerTagChangeModal.tsx:163
 msgid "Change FluxerTag form"
 msgstr "FluxerTagin vaihtolomake"
 
@@ -4380,7 +4380,7 @@ msgstr "Vaihda sähköpostiosoitteesi"
 msgid "Change your email address"
 msgstr "Vaihda sähköpostiosoitteesi"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:162
+#: src/components/modals/FluxerTagChangeModal.tsx:164
 msgid "Change Your FluxerTag"
 msgstr "Vaihda FluxerTagisi"
 
@@ -4424,7 +4424,7 @@ msgstr "Bitrate muutettiin arvoon {0}."
 msgid "Changed the voice region to {0}."
 msgstr "Puhealue vaihdettiin {0}:aan."
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 #: src/utils/SearchUtils.tsx:268
 msgid "channel"
 msgstr "kanava"
@@ -5333,7 +5333,7 @@ msgid "Communication"
 msgstr "Viestintä"
 
 #: src/components/modals/components/FeatureComparisonTable.tsx:49
-#: src/stores/QuickSwitcherStore.tsx:1354
+#: src/stores/QuickSwitcherStore.tsx:1352
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
 msgstr "Yhteisöt"
@@ -5825,13 +5825,13 @@ msgstr "Kontekstivalikot"
 msgid "Context menus can be opened with left-click (on buttons) or right-click (on other elements). This demonstrates various menu items including checkboxes, radio buttons, sliders, and submenus."
 msgstr "Kontekstivalikot voi avata vasemmalla klikkauksella (painikkeissa) tai oikealla klikkauksella (muissa elementeissä). Tämä havainnollistaa eri valikkokohteita, kuten valintaruutuja, radiopainikkeita, liukusäätimiä ja alivalikoita."
 
-#: src/components/channel/ChannelTextarea.tsx:311
+#: src/components/channel/ChannelTextarea.tsx:309
 #: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:82
 #: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:119
-#: src/components/modals/FluxerTagChangeModal.tsx:286
+#: src/components/modals/FluxerTagChangeModal.tsx:121
+#: src/components/modals/FluxerTagChangeModal.tsx:297
 #: src/components/modals/MfaTotpDisableModal.tsx:78
 #: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
@@ -6601,7 +6601,7 @@ msgstr "Mukautetut CSS-ylipeitteet"
 msgid "Custom Date Range"
 msgstr "Mukautettu aikaväli"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:230
+#: src/components/modals/FluxerTagChangeModal.tsx:241
 msgid "Custom discriminators are not available on this instance"
 msgstr "Mukautetut erottimet eivät ole saatavilla tässä instanssissa"
 
@@ -6732,7 +6732,7 @@ msgstr "Mukauta, mitkä painikkeet ovat näkyvissä viestin syöttöalueella. N�
 msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
 msgstr "Mukauta 4-numeroinen tunnuksesi (#{0}) mieleiseksesi Plutoniumilla"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:275
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Mukauta nelinumeroista tunnistettasi tai säilytä se käyttäjänimeä vaihtaessa"
 
@@ -7516,7 +7516,7 @@ msgstr "Yksityisviesti"
 #: src/components/layout/guild_list/FluxerButton.tsx:80
 #: src/components/modals/GuildPrivacySettingsModal.tsx:76
 #: src/components/modals/tabs/privacy_safety_tab/ConnectionsTab.tsx:221
-#: src/stores/QuickSwitcherStore.tsx:833
+#: src/stores/QuickSwitcherStore.tsx:831
 msgid "Direct Messages"
 msgstr "Yksityisviestit"
 
@@ -7559,7 +7559,7 @@ msgstr "Poista animaatiot ja siirtymät koko sovelluksesta."
 msgid "Disable animations and transitions. Currently controlled by your system setting."
 msgstr "Poista animaatiot ja siirtymät. Tällä hetkellä järjestelmäasetuksesi määrää niiden tilan."
 
-#: src/stores/QuickSwitcherStore.tsx:915
+#: src/stores/QuickSwitcherStore.tsx:913
 msgid "Disable Compact Mode"
 msgstr "Poista tiivis tila käytöstä"
 
@@ -7586,7 +7586,7 @@ msgstr "Poista kohinanvaimennus käytöstä"
 msgid "Disable Picture-in-Picture Popout"
 msgstr "Poista käytöstä Picture-in-Picture -ikkuna"
 
-#: src/stores/QuickSwitcherStore.tsx:931
+#: src/stores/QuickSwitcherStore.tsx:929
 msgid "Disable Reduced Motion"
 msgstr "Poista vähennetty liike käytöstä"
 
@@ -7755,7 +7755,7 @@ msgstr "Erottaja"
 msgid "Discussion or promotion of illegal activities"
 msgstr "Laittoman toiminnan keskustelu tai edistäminen"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:76
+#: src/components/alerts/MaxBookmarksModal.tsx:79
 #: src/components/layout/GuildLayout.tsx:106
 #: src/components/layout/NagbarContent.tsx:42
 #: src/components/modals/GiftAcceptModal.tsx:110
@@ -8486,7 +8486,7 @@ msgstr "Emojien nimien on oltava vähintään 2 merkkiä pitkiä ja niissä saa 
 msgid "Emoji pack"
 msgstr "Emojipaketti"
 
-#: src/actions/InviteActionCreators.tsx:255
+#: src/actions/InviteActionCreators.tsx:259
 msgid "Emoji pack creation limit reached"
 msgstr "Emojipaketin luontiraja saavutettu"
 
@@ -8494,7 +8494,7 @@ msgstr "Emojipaketin luontiraja saavutettu"
 msgid "Emoji Pack Invite"
 msgstr "Kutsu emojipakettiin"
 
-#: src/actions/InviteActionCreators.tsx:241
+#: src/actions/InviteActionCreators.tsx:245
 msgid "Emoji pack limit reached"
 msgstr "Emojipakettien raja saavutettu"
 
@@ -8567,7 +8567,7 @@ msgstr "Ota beetatoiminto käyttöön"
 msgid "Enable Browser Notifications"
 msgstr "Ota selaimen ilmoitukset käyttöön"
 
-#: src/stores/QuickSwitcherStore.tsx:916
+#: src/stores/QuickSwitcherStore.tsx:914
 msgid "Enable Compact Mode"
 msgstr "Ota kompakti tila käyttöön"
 
@@ -8643,7 +8643,7 @@ msgstr "Ota push-ilmoitukset käyttöön tälle laitteelle"
 msgid "Enable push notifications for this installed PWA to keep receiving messages when the browser is backgrounded."
 msgstr "Ota push-ilmoitukset käyttöön tälle asennetulle PWA:lle vastaanottaaksesi viestejä myös taustalla."
 
-#: src/stores/QuickSwitcherStore.tsx:932
+#: src/stores/QuickSwitcherStore.tsx:930
 msgid "Enable Reduced Motion"
 msgstr "Ota vähennetty liike käyttöön"
 
@@ -9314,11 +9314,11 @@ msgstr "Kaveripyynnön ohittaminen epäonnistui. Yritä uudelleen."
 msgid "Failed to initiate connection"
 msgstr "Yhteyden aloittaminen epäonnistui"
 
-#: src/actions/InviteActionCreators.tsx:322
+#: src/actions/InviteActionCreators.tsx:326
 msgid "Failed to install this emoji pack. Please try again later."
 msgstr "Emojipaketin asentaminen epäonnistui. Yritä myöhemmin uudelleen."
 
-#: src/actions/InviteActionCreators.tsx:323
+#: src/actions/InviteActionCreators.tsx:327
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Tarrapaketin asentaminen epäonnistui. Yritä myöhemmin uudelleen."
 
@@ -9716,9 +9716,9 @@ msgstr "suosikit"
 #: src/components/modals/tabs/AppearanceTab.tsx:116
 #: src/components/modals/utils/SettingsConstants.tsx:279
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:233
-#: src/stores/QuickSwitcherStore.tsx:843
-#: src/stores/QuickSwitcherStore.tsx:1261
-#: src/stores/QuickSwitcherStore.tsx:1273
+#: src/stores/QuickSwitcherStore.tsx:841
+#: src/stores/QuickSwitcherStore.tsx:1259
+#: src/stores/QuickSwitcherStore.tsx:1271
 msgid "Favorites"
 msgstr "Suosikit"
 
@@ -9964,16 +9964,16 @@ msgstr "Fluxer-henkilökunta"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer käyttää push-ilmoituksia, kun se on asennettu mobiili-PWA:na. Rekisteröinti varmistaa, että käyttöportti tavoittaa laitteesi, vaikka selain olisi taustalla."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:179
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:105
+#: src/components/modals/FluxerTagChangeModal.tsx:107
 msgid "FluxerTag already taken"
 msgstr "FluxerTag on jo käytössä"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:147
+#: src/components/modals/FluxerTagChangeModal.tsx:149
 msgid "FluxerTag updated"
 msgstr "FluxerTag päivitetty"
 
@@ -10491,7 +10491,7 @@ msgstr "Saat ilmoituksen, kun saat viestejä. Saatat joutua sallimaan ilmoitukse
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:224
+#: src/components/modals/FluxerTagChangeModal.tsx:235
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10508,7 +10508,7 @@ msgstr "Hanki Plutonium itsellesi ja avaa suuremmat rajat sekä eksklusiiviset o
 msgid "Get Plutonium to customize your tag"
 msgstr "Hanki Plutonium muokataksesi tunnustasi"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:202
+#: src/components/modals/FluxerTagChangeModal.tsx:213
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "Hanki Plutonium muokataksesi tunnustasi tai säilyttääksesi sen käyttäjänimeä vaihtaessasi"
 
@@ -10726,7 +10726,7 @@ msgstr "Siirry kotiin"
 msgid "Go to login"
 msgstr "Siirry kirjautumiseen"
 
-#: src/stores/QuickSwitcherStore.tsx:528
+#: src/stores/QuickSwitcherStore.tsx:526
 msgid "Go to message"
 msgstr "Siirry viestiin"
 
@@ -10867,12 +10867,12 @@ msgstr "Ryhmän kuvake"
 msgid "Group Invites"
 msgstr "Ryhmäkutsut"
 
-#: src/stores/QuickSwitcherStore.tsx:667
+#: src/stores/QuickSwitcherStore.tsx:665
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:235
 msgid "Group message"
 msgstr "Ryhmäviesti"
 
-#: src/stores/QuickSwitcherStore.tsx:1347
+#: src/stores/QuickSwitcherStore.tsx:1345
 msgid "Group messages"
 msgstr "Ryhmäviestit"
 
@@ -11278,7 +11278,7 @@ msgid "Hold to temporarily unmute when push-to-talk is enabled"
 msgstr "Pidä painettuna poistaaksesi mykistyksen tilapäisesti kun paina-puhu on käytössä"
 
 #: src/components/layout/MobileBottomNav.tsx:93
-#: src/stores/QuickSwitcherStore.tsx:832
+#: src/stores/QuickSwitcherStore.tsx:830
 msgid "Home"
 msgstr "Koti"
 
@@ -11620,7 +11620,7 @@ msgstr "Sopimaton profiili"
 msgid "Inbox"
 msgstr "Saapuneet"
 
-#: src/components/popouts/InboxPopout.tsx:89
+#: src/components/popouts/InboxPopout.tsx:88
 msgid "Inbox tabs"
 msgstr "Saapuneet-välilehdet"
 
@@ -13347,7 +13347,7 @@ msgstr "Merkittiin jäsen väliaikaiseksi."
 msgid "Markers Below Slider"
 msgstr "Merkinnät liukusäätimen alapuolella"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:191
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
@@ -13657,7 +13657,7 @@ msgstr "maininnat"
 
 #: src/components/modals/GuildNotificationSettingsModal.tsx:227
 #: src/components/pages/NotificationsPage.tsx:42
-#: src/components/popouts/InboxPopout.tsx:63
+#: src/components/popouts/InboxPopout.tsx:62
 msgid "Mentions"
 msgstr "Maininnat"
 
@@ -13692,15 +13692,15 @@ msgstr "valikot"
 msgid "Message"
 msgstr "Viesti"
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message "
 msgstr "Viesti "
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message @"
 msgstr "Viesti @"
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 msgid "Message #"
 msgstr "Viesti #"
 
@@ -15579,7 +15579,7 @@ msgstr "Avaa uudessa välilehdessä"
 msgid "Open Link"
 msgstr "Avaa linkki"
 
-#: src/components/channel/ChannelTextarea.tsx:953
+#: src/components/channel/ChannelTextarea.tsx:951
 #: src/components/channel/textarea/MobileTextareaLayout.tsx:112
 msgid "Open menu"
 msgstr "Avaa valikko"
@@ -16045,7 +16045,7 @@ msgid "Pending deletion canceled"
 msgstr "Poisto peruutettu"
 
 #: src/lib/UnicodeEmojis.tsx:234
-#: src/stores/QuickSwitcherStore.tsx:1345
+#: src/stores/QuickSwitcherStore.tsx:1343
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:96
 msgid "People"
 msgstr "Ihmiset"
@@ -16421,7 +16421,7 @@ msgstr "Yritä myöhemmin uudelleen."
 msgid "Please update Fluxer to view this message."
 msgstr "Päivitä Fluxer nähdäksesi tämän viestin."
 
-#: src/actions/InviteActionCreators.tsx:180
+#: src/actions/InviteActionCreators.tsx:184
 msgid "Please verify your account by setting an email and password before joining communities."
 msgstr "Vahvista tilisi asettamalla sähköposti ja salasana ennen yhteisöihin liittymistä."
 
@@ -16933,7 +16933,7 @@ msgstr "Python"
 msgid "quick access"
 msgstr "nopea pääsy"
 
-#: src/stores/QuickSwitcherStore.tsx:1358
+#: src/stores/QuickSwitcherStore.tsx:1356
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:100
 msgid "Quick Actions"
 msgstr "Pikatoiminnot"
@@ -17562,7 +17562,7 @@ msgstr "Poistettu sallinta kohteelle {0}."
 msgid "Removed deny for {0}."
 msgstr "Poistettu kielto kohteelle {0}."
 
-#: src/actions/SavedMessageActionCreators.tsx:80
+#: src/actions/SavedMessageActionCreators.tsx:85
 msgid "Removed from bookmarks"
 msgstr "Poistettu kirjanmerkeistä"
 
@@ -17871,7 +17871,7 @@ msgstr "Vaatii kaikki keskitason vaatimukset ja vähintään 10 minuutin jäseny
 msgid "Requires Plutonium"
 msgstr "Vaatii Plutoniumin"
 
-#: src/components/channel/ChannelTextarea.tsx:1032
+#: src/components/channel/ChannelTextarea.tsx:1030
 msgid "Reschedule Message"
 msgstr "Ajoita viesti uudelleen"
 
@@ -18442,7 +18442,7 @@ msgstr "Aikataulu"
 msgid "Schedule Message"
 msgstr "Ajoita viesti"
 
-#: src/components/popouts/InboxPopout.tsx:70
+#: src/components/popouts/InboxPopout.tsx:69
 #: src/components/popouts/ScheduledMessagesContent.tsx:89
 msgid "Scheduled"
 msgstr "Ajoitettu"
@@ -19346,7 +19346,7 @@ msgstr "Aseta aikavyöhykkeesi"
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:221
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:95
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:90
-#: src/stores/QuickSwitcherStore.tsx:1356
+#: src/stores/QuickSwitcherStore.tsx:1354
 msgid "Settings"
 msgstr "Asetukset"
 
@@ -20495,7 +20495,7 @@ msgstr "Tarrasuhde"
 msgid "Sticker pack"
 msgstr "Tarrapaketti"
 
-#: src/actions/InviteActionCreators.tsx:287
+#: src/actions/InviteActionCreators.tsx:291
 msgid "Sticker pack creation limit reached"
 msgstr "Tarrapaketin luomisraja saavutettu"
 
@@ -20503,7 +20503,7 @@ msgstr "Tarrapaketin luomisraja saavutettu"
 msgid "Sticker Pack Invite"
 msgstr "Tarrapakettikutsu"
 
-#: src/actions/InviteActionCreators.tsx:273
+#: src/actions/InviteActionCreators.tsx:277
 msgid "Sticker pack limit reached"
 msgstr "Tarrapakettien raja saavutettu"
 
@@ -20801,7 +20801,7 @@ msgstr "Vaihda tiliä"
 msgid "Switch Accounts"
 msgstr "Vaihda tilejä"
 
-#: src/stores/QuickSwitcherStore.tsx:900
+#: src/stores/QuickSwitcherStore.tsx:898
 msgid "Switch between Light and Dark mode"
 msgstr "Vaihda vaalean ja tumman tilan välillä"
 
@@ -21030,7 +21030,7 @@ msgstr "Tekstikanava"
 msgid "Text Channel Names"
 msgstr "Tekstikanavien nimet"
 
-#: src/stores/QuickSwitcherStore.tsx:1349
+#: src/stores/QuickSwitcherStore.tsx:1347
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:97
 msgid "Text channels"
 msgstr "Tekstikanavat"
@@ -21111,7 +21111,7 @@ msgid "That message didn't delete"
 msgstr "Viestiä ei poistettu"
 
 #. placeholder {0}: invite.pack.name
-#: src/actions/InviteActionCreators.tsx:103
+#: src/actions/InviteActionCreators.tsx:104
 msgid "The {packLabel} {0} has been installed."
 msgstr "{packLabel} {0} on asennettu."
 
@@ -21153,7 +21153,7 @@ msgstr "Tiedosto sisältää vahvistustokenin, jonka haemme osoitteesta <0>{dnsU
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "Tiedosto, jota yrität ladata, ylittää enimmäiskoko rajan {maxSizeFormatted}."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:109
+#: src/components/modals/FluxerTagChangeModal.tsx:111
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "FluxerTag <0>{fluxerTag}</0> on jo käytössä. Jatkaminen arpoo erottimen automaattisesti uudelleen."
 
@@ -21722,7 +21722,7 @@ msgstr "Tämä piilottaa kaikki suosikkeihin liittyvät käyttöliittymäelement
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "Tämä mitätöi nykyiset varmuuskoodisi ja luo uusia."
 
-#: src/components/channel/ChannelTextarea.tsx:1036
+#: src/components/channel/ChannelTextarea.tsx:1034
 msgid "This will modify the existing scheduled message rather than sending immediately."
 msgstr "Tämä muokkaa olemassa olevaa ajastettua viestiä sen sijaan, että se lähetettäisiin heti."
 
@@ -21908,7 +21908,7 @@ msgstr "kytkeä"
 msgid "Toggle Channel Member List"
 msgstr "Näytä/piilota kanavan jäsenlista"
 
-#: src/stores/QuickSwitcherStore.tsx:913
+#: src/stores/QuickSwitcherStore.tsx:911
 msgid "Toggle Compact Mode"
 msgstr "Kytke tiivis tila päälle/pois"
 
@@ -21968,7 +21968,7 @@ msgstr "Näytä/piilota kiinnitykset-hyppyrinä"
 msgid "Toggle premium_enabled_override on the backend"
 msgstr "Kytke premium_enabled_override taustapalvelimella"
 
-#: src/stores/QuickSwitcherStore.tsx:929
+#: src/stores/QuickSwitcherStore.tsx:927
 msgid "Toggle Reduced Motion"
 msgstr "Kytke vähennetyt liikkeet päälle/pois"
 
@@ -21984,7 +21984,7 @@ msgstr "Näytä/piilota tarra-valitsin"
 msgid "Toggle switches on and off to see state changes."
 msgstr "Kytke kytkimiä päälle/pois nähdäksesi tilan muutokset."
 
-#: src/stores/QuickSwitcherStore.tsx:899
+#: src/stores/QuickSwitcherStore.tsx:897
 msgid "Toggle Theme"
 msgstr "Vaihda teema"
 
@@ -22009,7 +22009,7 @@ msgstr "Sävykartta HDR-kuvat normaaliin alueeseen, vähentäen huippu kirkkaus.
 msgid "Too Loud"
 msgstr "Liian kova"
 
-#: src/components/alerts/MaxGuildsModal.tsx:32
+#: src/components/alerts/MaxGuildsModal.tsx:35
 msgid "Too Many Communities"
 msgstr "Liian monta yhteisöä"
 
@@ -22405,11 +22405,11 @@ msgstr "ukraina"
 msgid "Ultra (1440p)"
 msgstr "Ultra (1440p)"
 
-#: src/actions/InviteActionCreators.tsx:319
+#: src/actions/InviteActionCreators.tsx:323
 msgid "Unable to install emoji pack"
 msgstr "Emoji-pakettia ei voi asentaa"
 
-#: src/actions/InviteActionCreators.tsx:320
+#: src/actions/InviteActionCreators.tsx:324
 msgid "Unable to install sticker pack"
 msgstr "Tarrapakettia ei voi asentaa"
 
@@ -22555,10 +22555,10 @@ msgstr "Alaikäinen käyttäjä"
 #: src/components/alerts/GenericErrorModal.tsx:31
 #: src/components/alerts/GuildAtCapacityModal.tsx:31
 #: src/components/alerts/InvitesDisabledModal.tsx:31
-#: src/components/alerts/MaxBookmarksModal.tsx:45
-#: src/components/alerts/MaxBookmarksModal.tsx:56
+#: src/components/alerts/MaxBookmarksModal.tsx:48
+#: src/components/alerts/MaxBookmarksModal.tsx:59
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:46
-#: src/components/alerts/MaxGuildsModal.tsx:38
+#: src/components/alerts/MaxGuildsModal.tsx:41
 #: src/components/alerts/MicrophonePermissionDeniedModal.tsx:50
 #: src/components/alerts/NSFWContentRejectedModal.tsx:31
 #: src/components/alerts/ReactionInteractionDisabledModal.tsx:30
@@ -22633,7 +22633,7 @@ msgstr "tuntematon kanava"
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:479
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:61
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:67
-#: src/stores/QuickSwitcherStore.tsx:690
+#: src/stores/QuickSwitcherStore.tsx:688
 msgid "Unknown channel"
 msgstr "Tuntematon kanava"
 
@@ -22908,7 +22908,7 @@ msgstr "Irrotettu ryhmän DM"
 msgid "unread"
 msgstr "lukematon"
 
-#: src/components/popouts/InboxPopout.tsx:53
+#: src/components/popouts/InboxPopout.tsx:52
 msgid "Unread"
 msgstr "Lukematon"
 
@@ -22963,7 +22963,7 @@ msgstr "Vahvistamaton sähköposti"
 msgid "Up to 4K/60fps"
 msgstr "Jopa 4K/60fps"
 
-#: src/components/channel/ChannelTextarea.tsx:1033
+#: src/components/channel/ChannelTextarea.tsx:1031
 msgid "Update"
 msgstr "Päivitä"
 
@@ -23086,7 +23086,7 @@ msgstr "päivitä"
 msgid "Upgrade Now"
 msgstr "Päivitä nyt"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:69
+#: src/components/alerts/MaxBookmarksModal.tsx:72
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:70
 msgid "Upgrade to Plutonium"
 msgstr "Päivitä Plutoniumiin"
@@ -23455,7 +23455,7 @@ msgstr "Käyttäjätiedot"
 #: src/components/layout/UserArea.tsx:286
 #: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
-#: src/components/modals/UserSettingsModal.tsx:154
+#: src/components/modals/UserSettingsModal.tsx:153
 msgid "User Settings"
 msgstr "Käyttäjäasetukset"
 
@@ -23476,7 +23476,7 @@ msgstr "käyttäjä, botti tai webhook"
 msgid "username"
 msgstr "käyttäjänimi"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:190
+#: src/components/modals/FluxerTagChangeModal.tsx:201
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
 #: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
@@ -23511,13 +23511,17 @@ msgstr "Käyttäjänimen on oltava enintään 32 merkkiä"
 msgid "Username#0000"
 msgstr "Käyttäjänimi#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:172
+#: src/components/modals/FluxerTagChangeModal.tsx:183
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "Käyttäjänimet voivat sisältää vain kirjaimia (a-z, A-Z), numeroita (0-9) ja alaviivoja. Käyttäjänimet eivät erota isoja ja pieniä kirjaimia."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:167
-msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
-msgstr "Käyttäjänimet voivat sisältää vain kirjaimia (a-z, A-Z), numeroita (0-9) ja alaviivoja. Käyttäjänimet eivät erota isoja ja pieniä kirjaimia. Voit valita oman nelinumeroisen tagin, jos se on vapaana."
+#: src/components/modals/FluxerTagChangeModal.tsx:170
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999."
+msgstr "Käyttäjänimet voivat sisältää vain kirjaimia (a-z, A-Z), numeroita (0-9) ja alaviivoja. Käyttäjänimet eivät erota isoja ja pieniä kirjaimia. Voit valita minkä tahansa saatavilla olevan 4-numeroisen tunnisteen väliltä #0000–#9999."
+
+#: src/components/modals/FluxerTagChangeModal.tsx:176
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999."
+msgstr "Käyttäjänimet voivat sisältää vain kirjaimia (a-z, A-Z), numeroita (0-9) ja alaviivoja. Käyttäjänimet eivät erota isoja ja pieniä kirjaimia. Voit valita minkä tahansa saatavilla olevan 4-numeroisen tunnisteen väliltä #0001–#9999."
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:246
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:172
@@ -24100,7 +24104,7 @@ msgstr "Puhelut"
 msgid "voice channel"
 msgstr "äänikanava"
 
-#: src/stores/QuickSwitcherStore.tsx:720
+#: src/stores/QuickSwitcherStore.tsx:718
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:227
 msgid "Voice channel"
 msgstr "Puhekanava"
@@ -24120,7 +24124,7 @@ msgstr "Puhekanava täynnä"
 msgid "Voice channel join behavior"
 msgstr "Äänikanavan liittymis käyttäytyminen"
 
-#: src/stores/QuickSwitcherStore.tsx:1351
+#: src/stores/QuickSwitcherStore.tsx:1349
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:98
 msgid "Voice channels"
 msgstr "Puhekanavat"
@@ -24998,7 +25002,7 @@ msgstr "Et voi poistaa hiljentämistäsi, koska moderaattori on hiljentänyt sin
 msgid "You do not have access to the channel where this message was sent."
 msgstr "Sinulla ei ole pääsyä kanavaan, johon tämä viesti lähetettiin."
 
-#: src/components/channel/ChannelTextarea.tsx:749
+#: src/components/channel/ChannelTextarea.tsx:747
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:52
 msgid "You do not have permission to send messages in this channel."
 msgstr "Sinulla ei ole oikeutta lähettää viestejä tässä kanavassa."
@@ -25019,11 +25023,11 @@ msgstr "Sinulla ei vielä ole jaettavia mukautettuja teemamuutoksia."
 msgid "You don't have permission to connect to this voice channel."
 msgstr "Sinulla ei ole oikeutta liittyä tähän puhekanavaan."
 
-#: src/actions/InviteActionCreators.tsx:316
+#: src/actions/InviteActionCreators.tsx:320
 msgid "You don't have permission to install this emoji pack."
 msgstr "Sinulla ei ole oikeutta asentaa tätä emojipakettia."
 
-#: src/actions/InviteActionCreators.tsx:317
+#: src/actions/InviteActionCreators.tsx:321
 msgid "You don't have permission to install this sticker pack."
 msgstr "Sinulla ei ole oikeutta asentaa tätä tarrapakettia."
 
@@ -25079,35 +25083,35 @@ msgstr "Sinulla on kaikki <0/> <1>lahjatilauksen</1> kautta asti <2>{giftEndDate
 msgid "You have blocked {username}. Unblock them to send messages."
 msgstr "Olet estänyt {username}. Poista esto lähettääksesi viestejä."
 
-#: src/actions/InviteActionCreators.tsx:260
+#: src/actions/InviteActionCreators.tsx:264
 msgid "You have created the maximum of {limit} emoji pack. Delete one to create another."
 msgstr "Olet luonut maksimimäärän {limit} emoji-paketteja. Poista yksi luodaksesi toisen."
 
-#: src/actions/InviteActionCreators.tsx:261
+#: src/actions/InviteActionCreators.tsx:265
 msgid "You have created the maximum of {limit} emoji packs. Delete one to create another."
 msgstr "Olet luonut maksimimäärän {limit} emoji-paketteja. Poista yksi luodaksesi toisen."
 
-#: src/actions/InviteActionCreators.tsx:292
+#: src/actions/InviteActionCreators.tsx:296
 msgid "You have created the maximum of {limit} sticker pack. Delete one to create another."
 msgstr "Olet luonut maksimimäärän {limit} tarra-paketteja. Poista yksi luodaksesi toisen."
 
-#: src/actions/InviteActionCreators.tsx:293
+#: src/actions/InviteActionCreators.tsx:297
 msgid "You have created the maximum of {limit} sticker packs. Delete one to create another."
 msgstr "Olet luonut maksimimäärän {limit} tarra-paketteja. Poista yksi luodaksesi toisen."
 
-#: src/actions/InviteActionCreators.tsx:246
+#: src/actions/InviteActionCreators.tsx:250
 msgid "You have installed the maximum of {limit} emoji pack. Remove one to install another."
 msgstr "Olet asentanut maksimimäärän {limit} emoji-paketteja. Poista yksi asentaaksesi toisen."
 
-#: src/actions/InviteActionCreators.tsx:247
+#: src/actions/InviteActionCreators.tsx:251
 msgid "You have installed the maximum of {limit} emoji packs. Remove one to install another."
 msgstr "Olet asentanut maksimimäärän {limit} emoji-paketteja. Poista yksi asentaaksesi toisen."
 
-#: src/actions/InviteActionCreators.tsx:278
+#: src/actions/InviteActionCreators.tsx:282
 msgid "You have installed the maximum of {limit} sticker pack. Remove one to install another."
 msgstr "Olet asentanut maksimimäärän {limit} tarra-paketteja. Poista yksi asentaaksesi toisen."
 
-#: src/actions/InviteActionCreators.tsx:279
+#: src/actions/InviteActionCreators.tsx:283
 msgid "You have installed the maximum of {limit} sticker packs. Remove one to install another."
 msgstr "Olet asentanut maksimimäärän {limit} tarra-paketteja. Poista yksi asentaaksesi toisen."
 
@@ -25115,19 +25119,19 @@ msgstr "Olet asentanut maksimimäärän {limit} tarra-paketteja. Poista yksi ase
 msgid "You have no friends yet"
 msgstr "Sinulla ei ole vielä ystäviä"
 
-#: src/actions/InviteActionCreators.tsx:264
+#: src/actions/InviteActionCreators.tsx:268
 msgid "You have reached the limit for creating emoji packs. Delete one of your packs to create another."
 msgstr "Olet saavuttanut emojipakettien luomisrajan. Poista yksi paketeistasi luodaksesi uuden."
 
-#: src/actions/InviteActionCreators.tsx:296
+#: src/actions/InviteActionCreators.tsx:300
 msgid "You have reached the limit for creating sticker packs. Delete one of your packs to create another."
 msgstr "Olet saavuttanut tarrapakettien luomisrajan. Poista yksi paketeistasi luodaksesi uuden."
 
-#: src/actions/InviteActionCreators.tsx:250
+#: src/actions/InviteActionCreators.tsx:254
 msgid "You have reached the limit for installing emoji packs. Remove one of your installed packs to install another."
 msgstr "Olet saavuttanut emojipakettien asentamisrajan. Poista yksi asennetuista paketeista asentaaksesi toisen."
 
-#: src/actions/InviteActionCreators.tsx:282
+#: src/actions/InviteActionCreators.tsx:286
 msgid "You have reached the limit for installing sticker packs. Remove one of your installed packs to install another."
 msgstr "Olet saavuttanut tarrapakettien asentamisrajan. Poista yksi asennetuista paketeista asentaaksesi toisen."
 
@@ -25391,23 +25395,23 @@ msgstr "Olet saavuttanut maksimi rajan {maxFavoriteMemes} tallennetulle mediaesi
 msgid "You've reached the maximum limit of {maxFavoriteMemes} saved media items. To add more, you'll need to remove some existing items from your collection."
 msgstr "Olet saavuttanut maksimi rajan {maxFavoriteMemes} tallennetulle mediaesineelle. Lisätäksesi lisää, sinun on poistettava joitakin olemassa olevia esineitä kokoelmastasi."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:55
+#: src/components/alerts/MaxBookmarksModal.tsx:58
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). Please remove some bookmarks before adding new ones."
 msgstr "Olet saavuttanut maksimi määrän kirjanmerkkejä ({bookmarksText}). Poista joitakin kirjanmerkkejä ennen uusien lisäämistä."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:44
+#: src/components/alerts/MaxBookmarksModal.tsx:47
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). This limit is configured by your instance administrator. Please remove some bookmarks before adding new ones."
 msgstr "Olet saavuttanut maksimi määrän kirjanmerkkejä ({bookmarksText}). Tämä raja on määritetty instanssisi ylläpitäjän toimesta. Poista joitakin kirjanmerkkejä ennen uusien lisäämistä."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:68
+#: src/components/alerts/MaxBookmarksModal.tsx:71
 msgid "You've reached the maximum number of bookmarks for free users ({bookmarksText}). Upgrade to Plutonium to increase your limit to {premiumBookmarksText}, or remove some bookmarks to add new ones."
 msgstr "Olet saavuttanut maksimi määrän kirjanmerkkejä ilmaisille käyttäjille ({bookmarksText}). Päivitä Plutoniumiin kasvattaaksesi rajasi {premiumBookmarksText}, tai poista joitakin kirjanmerkkejä lisätäksesi uusia."
 
-#: src/components/alerts/MaxGuildsModal.tsx:36
+#: src/components/alerts/MaxGuildsModal.tsx:39
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} communities). Please leave a community before joining another one."
 msgstr "Olet saavuttanut maksimi määrän yhteisöjä, joihin voit liittyä ({maxGuilds} yhteisöä). Poista yksi yhteisö ennen kuin liityt toiseen."
 
-#: src/components/alerts/MaxGuildsModal.tsx:35
+#: src/components/alerts/MaxGuildsModal.tsx:38
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "Olet saavuttanut maksimi määrän yhteisöjä, joihin voit liittyä ({maxGuilds} yhteisö). Poista yksi yhteisö ennen kuin liityt toiseen."
 

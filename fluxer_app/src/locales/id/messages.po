@@ -633,11 +633,11 @@ msgstr "{lockedStickerCount} stiker"
 msgid "{lockedStickerCount} stickers"
 msgstr "{lockedStickerCount} stiker"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmark"
 msgstr "{maxBookmarks} bookmark"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmarks"
 msgstr "{maxBookmarks} bookmark"
 
@@ -718,11 +718,11 @@ msgstr "{participantCount} peserta dalam panggilan"
 msgid "{participantCount} participants in call"
 msgstr "{participantCount} peserta dalam panggilan"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmark"
 msgstr "{premiumBookmarks} bookmark"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmarks"
 msgstr "{premiumBookmarks} bookmark"
 
@@ -1362,9 +1362,9 @@ msgstr "30 detik"
 msgid "4 hours"
 msgstr "4 jam"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:206
-#: src/components/modals/FluxerTagChangeModal.tsx:234
-#: src/components/modals/FluxerTagChangeModal.tsx:251
+#: src/components/modals/FluxerTagChangeModal.tsx:217
+#: src/components/modals/FluxerTagChangeModal.tsx:245
+#: src/components/modals/FluxerTagChangeModal.tsx:262
 msgid "4-digit tag"
 msgstr "tag 4 digit"
 
@@ -1642,7 +1642,7 @@ msgstr "Penggantian Status Akun"
 msgid "Account Too New"
 msgstr "Akun Terlalu Baru"
 
-#: src/actions/InviteActionCreators.tsx:178
+#: src/actions/InviteActionCreators.tsx:182
 #: src/components/modals/RequiredActionModal.tsx:143
 #: src/components/modals/RequiredActionModal.tsx:416
 msgid "Account Verification Required"
@@ -2010,7 +2010,7 @@ msgstr "Menambahkan {0}."
 msgid "Added roles."
 msgstr "Menambahkan peran."
 
-#: src/actions/SavedMessageActionCreators.tsx:58
+#: src/actions/SavedMessageActionCreators.tsx:59
 msgid "Added to bookmarks"
 msgstr "Ditambahkan ke penanda"
 
@@ -3720,9 +3720,9 @@ msgstr "Klub Buku"
 msgid "Bookmark"
 msgstr "Penanda"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:43
-#: src/components/alerts/MaxBookmarksModal.tsx:54
-#: src/components/alerts/MaxBookmarksModal.tsx:67
+#: src/components/alerts/MaxBookmarksModal.tsx:46
+#: src/components/alerts/MaxBookmarksModal.tsx:57
+#: src/components/alerts/MaxBookmarksModal.tsx:70
 msgid "Bookmark Limit Reached"
 msgstr "Batas Penanda Tercapai"
 
@@ -3750,7 +3750,7 @@ msgstr "Ditandai!"
 
 #: src/components/modals/BookmarksBottomSheet.tsx:109
 #: src/components/pages/SavedMessagesPage.tsx:67
-#: src/components/popouts/InboxPopout.tsx:58
+#: src/components/popouts/InboxPopout.tsx:57
 msgid "Bookmarks"
 msgstr "Penanda"
 
@@ -4055,7 +4055,7 @@ msgstr "Kamera dinonaktifkan ketika ada lebih dari {VOICE_CHANNEL_CAMERA_USER_LI
 #: src/components/alerts/FileSizeTooLargeModal.tsx:87
 #: src/components/auth/BrowserLoginHandoffModal.tsx:269
 #: src/components/bottomsheets/CreateDMBottomSheet.tsx:130
-#: src/components/channel/ChannelTextarea.tsx:312
+#: src/components/channel/ChannelTextarea.tsx:310
 #: src/components/channel/friends/FriendListItem.tsx:259
 #: src/components/channel/MentionEveryonePopout.tsx:128
 #: src/components/emojis/EmojiListItem.tsx:125
@@ -4099,8 +4099,8 @@ msgstr "Kamera dinonaktifkan ketika ada lebih dari {VOICE_CHANNEL_CAMERA_USER_LI
 #: src/components/modals/EmailChangeModal.tsx:270
 #: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:120
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:122
+#: src/components/modals/FluxerTagChangeModal.tsx:294
 #: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
@@ -4146,7 +4146,7 @@ msgstr "Batal"
 msgid "Cancel Friend Request"
 msgstr "Batalkan Permintaan Pertemanan"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:115
+#: src/components/modals/FluxerTagChangeModal.tsx:117
 msgid "Cancel if you want to choose a different username instead."
 msgstr "Batalkan jika Anda ingin memilih nama pengguna yang berbeda."
 
@@ -4178,11 +4178,11 @@ msgstr "Tidak dapat diedit"
 msgid "Cannot Delete Account"
 msgstr "Tidak Dapat Menghapus Akun"
 
-#: src/actions/InviteActionCreators.tsx:313
+#: src/actions/InviteActionCreators.tsx:317
 msgid "Cannot install emoji pack"
 msgstr "Tidak dapat menginstal paket emoji"
 
-#: src/actions/InviteActionCreators.tsx:314
+#: src/actions/InviteActionCreators.tsx:318
 msgid "Cannot install sticker pack"
 msgstr "Tidak dapat menginstal paket stiker"
 
@@ -4293,7 +4293,7 @@ msgstr "Ubah emoji"
 msgid "Change FluxerTag"
 msgstr "Ubah FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:161
+#: src/components/modals/FluxerTagChangeModal.tsx:163
 msgid "Change FluxerTag form"
 msgstr "Formulir Ubah FluxerTag"
 
@@ -4380,7 +4380,7 @@ msgstr "Ubah Email Anda"
 msgid "Change your email address"
 msgstr "Ubah alamat email Anda"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:162
+#: src/components/modals/FluxerTagChangeModal.tsx:164
 msgid "Change Your FluxerTag"
 msgstr "Ubah FluxerTag Anda"
 
@@ -4424,7 +4424,7 @@ msgstr "Bitrate diubah menjadi {0}."
 msgid "Changed the voice region to {0}."
 msgstr "Wilayah suara diubah menjadi {0}."
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 #: src/utils/SearchUtils.tsx:268
 msgid "channel"
 msgstr "kanal"
@@ -5333,7 +5333,7 @@ msgid "Communication"
 msgstr "Komunikasi"
 
 #: src/components/modals/components/FeatureComparisonTable.tsx:49
-#: src/stores/QuickSwitcherStore.tsx:1354
+#: src/stores/QuickSwitcherStore.tsx:1352
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
 msgstr "Komunitas"
@@ -5825,13 +5825,13 @@ msgstr "Menu Konteks"
 msgid "Context menus can be opened with left-click (on buttons) or right-click (on other elements). This demonstrates various menu items including checkboxes, radio buttons, sliders, and submenus."
 msgstr "Menu konteks dapat dibuka dengan klik kiri (pada tombol) atau klik kanan (pada elemen lain). Ini mendemonstrasikan berbagai item menu termasuk kotak centang, tombol radio, penggeser, dan submenu."
 
-#: src/components/channel/ChannelTextarea.tsx:311
+#: src/components/channel/ChannelTextarea.tsx:309
 #: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:82
 #: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:119
-#: src/components/modals/FluxerTagChangeModal.tsx:286
+#: src/components/modals/FluxerTagChangeModal.tsx:121
+#: src/components/modals/FluxerTagChangeModal.tsx:297
 #: src/components/modals/MfaTotpDisableModal.tsx:78
 #: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
@@ -6601,7 +6601,7 @@ msgstr "Override CSS Kustom"
 msgid "Custom Date Range"
 msgstr "Rentang Tanggal Kustom"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:230
+#: src/components/modals/FluxerTagChangeModal.tsx:241
 msgid "Custom discriminators are not available on this instance"
 msgstr "Discriminator kustom tidak tersedia di instance ini"
 
@@ -6732,7 +6732,7 @@ msgstr "Sesuaikan tombol mana yang terlihat di area input pesan. Pintasan keyboa
 msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
 msgstr "Sesuaikan tag 4-digit Anda (#{0}) sesuai keinginan Anda dengan Plutonium"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:275
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "Sesuaikan tag 4-digit Anda atau pertahankan saat mengubah nama pengguna"
 
@@ -7516,7 +7516,7 @@ msgstr "Pesan Langsung"
 #: src/components/layout/guild_list/FluxerButton.tsx:80
 #: src/components/modals/GuildPrivacySettingsModal.tsx:76
 #: src/components/modals/tabs/privacy_safety_tab/ConnectionsTab.tsx:221
-#: src/stores/QuickSwitcherStore.tsx:833
+#: src/stores/QuickSwitcherStore.tsx:831
 msgid "Direct Messages"
 msgstr "Pesan Langsung"
 
@@ -7559,7 +7559,7 @@ msgstr "Nonaktifkan animasi dan transisi di seluruh aplikasi."
 msgid "Disable animations and transitions. Currently controlled by your system setting."
 msgstr "Nonaktifkan animasi dan transisi. Saat ini dikendalikan oleh pengaturan sistem Anda."
 
-#: src/stores/QuickSwitcherStore.tsx:915
+#: src/stores/QuickSwitcherStore.tsx:913
 msgid "Disable Compact Mode"
 msgstr "Nonaktifkan Mode Ringkas"
 
@@ -7586,7 +7586,7 @@ msgstr "Nonaktifkan Penekanan Kebisingan"
 msgid "Disable Picture-in-Picture Popout"
 msgstr "Nonaktifkan Popout Gambar-dalam-Gambar"
 
-#: src/stores/QuickSwitcherStore.tsx:931
+#: src/stores/QuickSwitcherStore.tsx:929
 msgid "Disable Reduced Motion"
 msgstr "Nonaktifkan Gerakan yang Dikurangi"
 
@@ -7755,7 +7755,7 @@ msgstr "Diskriminator"
 msgid "Discussion or promotion of illegal activities"
 msgstr "Diskusi atau promosi aktivitas ilegal"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:76
+#: src/components/alerts/MaxBookmarksModal.tsx:79
 #: src/components/layout/GuildLayout.tsx:106
 #: src/components/layout/NagbarContent.tsx:42
 #: src/components/modals/GiftAcceptModal.tsx:110
@@ -8486,7 +8486,7 @@ msgstr "Nama emoji harus setidaknya 2 karakter dan hanya boleh berisi karakter a
 msgid "Emoji pack"
 msgstr "Paket emoji"
 
-#: src/actions/InviteActionCreators.tsx:255
+#: src/actions/InviteActionCreators.tsx:259
 msgid "Emoji pack creation limit reached"
 msgstr "Batas pembuatan paket emoji tercapai"
 
@@ -8494,7 +8494,7 @@ msgstr "Batas pembuatan paket emoji tercapai"
 msgid "Emoji Pack Invite"
 msgstr "Undangan Paket Emoji"
 
-#: src/actions/InviteActionCreators.tsx:241
+#: src/actions/InviteActionCreators.tsx:245
 msgid "Emoji pack limit reached"
 msgstr "Batas paket emoji tercapai"
 
@@ -8567,7 +8567,7 @@ msgstr "Aktifkan Fitur Beta"
 msgid "Enable Browser Notifications"
 msgstr "Aktifkan Notifikasi Browser"
 
-#: src/stores/QuickSwitcherStore.tsx:916
+#: src/stores/QuickSwitcherStore.tsx:914
 msgid "Enable Compact Mode"
 msgstr "Aktifkan Mode Kompak"
 
@@ -8643,7 +8643,7 @@ msgstr "Aktifkan push untuk perangkat ini"
 msgid "Enable push notifications for this installed PWA to keep receiving messages when the browser is backgrounded."
 msgstr "Aktifkan notifikasi push untuk PWA yang terpasang ini agar tetap menerima pesan saat browser di-background."
 
-#: src/stores/QuickSwitcherStore.tsx:932
+#: src/stores/QuickSwitcherStore.tsx:930
 msgid "Enable Reduced Motion"
 msgstr "Aktifkan Gerakan Berkurang"
 
@@ -9314,11 +9314,11 @@ msgstr "Gagal mengabaikan permintaan pertemanan. Harap coba lagi."
 msgid "Failed to initiate connection"
 msgstr "Gagal untuk memulai koneksi"
 
-#: src/actions/InviteActionCreators.tsx:322
+#: src/actions/InviteActionCreators.tsx:326
 msgid "Failed to install this emoji pack. Please try again later."
 msgstr "Gagal memasang paket emoji ini. Harap coba lagi nanti."
 
-#: src/actions/InviteActionCreators.tsx:323
+#: src/actions/InviteActionCreators.tsx:327
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Gagal memasang paket stiker ini. Harap coba lagi nanti."
 
@@ -9716,9 +9716,9 @@ msgstr "favorit"
 #: src/components/modals/tabs/AppearanceTab.tsx:116
 #: src/components/modals/utils/SettingsConstants.tsx:279
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:233
-#: src/stores/QuickSwitcherStore.tsx:843
-#: src/stores/QuickSwitcherStore.tsx:1261
-#: src/stores/QuickSwitcherStore.tsx:1273
+#: src/stores/QuickSwitcherStore.tsx:841
+#: src/stores/QuickSwitcherStore.tsx:1259
+#: src/stores/QuickSwitcherStore.tsx:1271
 msgid "Favorites"
 msgstr "Favorit"
 
@@ -9964,16 +9964,16 @@ msgstr "Staf Fluxer"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer menggunakan notifikasi push saat diinstal sebagai PWA seluler. Pendaftaran memastikan gateway dapat menjangkau perangkat Anda bahkan saat browser di latar belakang."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:179
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:105
+#: src/components/modals/FluxerTagChangeModal.tsx:107
 msgid "FluxerTag already taken"
 msgstr "FluxerTag sudah digunakan"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:147
+#: src/components/modals/FluxerTagChangeModal.tsx:149
 msgid "FluxerTag updated"
 msgstr "FluxerTag diperbarui"
 
@@ -10491,7 +10491,7 @@ msgstr "Dapatkan pemberitahuan saat Anda menerima pesan. Anda mungkin perlu meng
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:224
+#: src/components/modals/FluxerTagChangeModal.tsx:235
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10508,7 +10508,7 @@ msgstr "Dapatkan Plutonium untuk diri sendiri dan buka kunci batas yang lebih ti
 msgid "Get Plutonium to customize your tag"
 msgstr "Dapatkan Plutonium untuk menyesuaikan tag Anda"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:202
+#: src/components/modals/FluxerTagChangeModal.tsx:213
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "Dapatkan Plutonium untuk menyesuaikan tag Anda atau menyimpannya saat mengubah nama pengguna"
 
@@ -10726,7 +10726,7 @@ msgstr "Pergi ke Beranda"
 msgid "Go to login"
 msgstr "Pergi ke login"
 
-#: src/stores/QuickSwitcherStore.tsx:528
+#: src/stores/QuickSwitcherStore.tsx:526
 msgid "Go to message"
 msgstr "Pergi ke pesan"
 
@@ -10867,12 +10867,12 @@ msgstr "Ikon Grup"
 msgid "Group Invites"
 msgstr "Undangan Grup"
 
-#: src/stores/QuickSwitcherStore.tsx:667
+#: src/stores/QuickSwitcherStore.tsx:665
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:235
 msgid "Group message"
 msgstr "Pesan grup"
 
-#: src/stores/QuickSwitcherStore.tsx:1347
+#: src/stores/QuickSwitcherStore.tsx:1345
 msgid "Group messages"
 msgstr "Pesan grup"
 
@@ -11278,7 +11278,7 @@ msgid "Hold to temporarily unmute when push-to-talk is enabled"
 msgstr "Tahan untuk membunyikan sementara saat push-to-talk diaktifkan"
 
 #: src/components/layout/MobileBottomNav.tsx:93
-#: src/stores/QuickSwitcherStore.tsx:832
+#: src/stores/QuickSwitcherStore.tsx:830
 msgid "Home"
 msgstr "Beranda"
 
@@ -11620,7 +11620,7 @@ msgstr "Profil Tidak Pantas"
 msgid "Inbox"
 msgstr "Kotak Masuk"
 
-#: src/components/popouts/InboxPopout.tsx:89
+#: src/components/popouts/InboxPopout.tsx:88
 msgid "Inbox tabs"
 msgstr "Tab kotak masuk"
 
@@ -13347,7 +13347,7 @@ msgstr "Menandai anggota sebagai sementara."
 msgid "Markers Below Slider"
 msgstr "Penanda di Bawah Penggeser"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:191
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
@@ -13657,7 +13657,7 @@ msgstr "sebutan"
 
 #: src/components/modals/GuildNotificationSettingsModal.tsx:227
 #: src/components/pages/NotificationsPage.tsx:42
-#: src/components/popouts/InboxPopout.tsx:63
+#: src/components/popouts/InboxPopout.tsx:62
 msgid "Mentions"
 msgstr "Sebutan"
 
@@ -13692,15 +13692,15 @@ msgstr "menu"
 msgid "Message"
 msgstr "Pesan"
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message "
 msgstr "Pesan "
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message @"
 msgstr "Pesan @"
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 msgid "Message #"
 msgstr "Pesan #"
 
@@ -15579,7 +15579,7 @@ msgstr "Buka di tab baru"
 msgid "Open Link"
 msgstr "Buka Tautan"
 
-#: src/components/channel/ChannelTextarea.tsx:953
+#: src/components/channel/ChannelTextarea.tsx:951
 #: src/components/channel/textarea/MobileTextareaLayout.tsx:112
 msgid "Open menu"
 msgstr "Buka menu"
@@ -16045,7 +16045,7 @@ msgid "Pending deletion canceled"
 msgstr "Penghapusan tertunda dibatalkan"
 
 #: src/lib/UnicodeEmojis.tsx:234
-#: src/stores/QuickSwitcherStore.tsx:1345
+#: src/stores/QuickSwitcherStore.tsx:1343
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:96
 msgid "People"
 msgstr "Orang"
@@ -16421,7 +16421,7 @@ msgstr "Silakan coba lagi nanti."
 msgid "Please update Fluxer to view this message."
 msgstr "Silakan perbarui Fluxer untuk melihat pesan ini."
 
-#: src/actions/InviteActionCreators.tsx:180
+#: src/actions/InviteActionCreators.tsx:184
 msgid "Please verify your account by setting an email and password before joining communities."
 msgstr "Silakan verifikasi akun Anda dengan mengatur email dan kata sandi sebelum bergabung dengan komunitas."
 
@@ -16933,7 +16933,7 @@ msgstr "Python"
 msgid "quick access"
 msgstr "akses cepat"
 
-#: src/stores/QuickSwitcherStore.tsx:1358
+#: src/stores/QuickSwitcherStore.tsx:1356
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:100
 msgid "Quick Actions"
 msgstr "Aksi Cepat"
@@ -17562,7 +17562,7 @@ msgstr "Menghapus izin untuk {0}."
 msgid "Removed deny for {0}."
 msgstr "Menghapus penolakan untuk {0}."
 
-#: src/actions/SavedMessageActionCreators.tsx:80
+#: src/actions/SavedMessageActionCreators.tsx:85
 msgid "Removed from bookmarks"
 msgstr "Dihapus dari bookmark"
 
@@ -17871,7 +17871,7 @@ msgstr "Memerlukan semua yang ada di Sedang, ditambah menjadi anggota server set
 msgid "Requires Plutonium"
 msgstr "Memerlukan Plutonium"
 
-#: src/components/channel/ChannelTextarea.tsx:1032
+#: src/components/channel/ChannelTextarea.tsx:1030
 msgid "Reschedule Message"
 msgstr "Jadwal Ulang Pesan"
 
@@ -18442,7 +18442,7 @@ msgstr "Jadwalkan"
 msgid "Schedule Message"
 msgstr "Jadwalkan Pesan"
 
-#: src/components/popouts/InboxPopout.tsx:70
+#: src/components/popouts/InboxPopout.tsx:69
 #: src/components/popouts/ScheduledMessagesContent.tsx:89
 msgid "Scheduled"
 msgstr "Terjadwal"
@@ -19346,7 +19346,7 @@ msgstr "Atur zona waktu Anda"
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:221
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:95
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:90
-#: src/stores/QuickSwitcherStore.tsx:1356
+#: src/stores/QuickSwitcherStore.tsx:1354
 msgid "Settings"
 msgstr "Pengaturan"
 
@@ -20495,7 +20495,7 @@ msgstr "Kepadatan stiker"
 msgid "Sticker pack"
 msgstr "Paket stiker"
 
-#: src/actions/InviteActionCreators.tsx:287
+#: src/actions/InviteActionCreators.tsx:291
 msgid "Sticker pack creation limit reached"
 msgstr "Batas pembuatan paket stiker tercapai"
 
@@ -20503,7 +20503,7 @@ msgstr "Batas pembuatan paket stiker tercapai"
 msgid "Sticker Pack Invite"
 msgstr "Undangan Paket Stiker"
 
-#: src/actions/InviteActionCreators.tsx:273
+#: src/actions/InviteActionCreators.tsx:277
 msgid "Sticker pack limit reached"
 msgstr "Batas paket stiker tercapai"
 
@@ -20801,7 +20801,7 @@ msgstr "Ganti akun"
 msgid "Switch Accounts"
 msgstr "Ganti Akun"
 
-#: src/stores/QuickSwitcherStore.tsx:900
+#: src/stores/QuickSwitcherStore.tsx:898
 msgid "Switch between Light and Dark mode"
 msgstr "Beralih antara mode Terang dan Gelap"
 
@@ -21030,7 +21030,7 @@ msgstr "Kanal Teks"
 msgid "Text Channel Names"
 msgstr "Nama Kanal Teks"
 
-#: src/stores/QuickSwitcherStore.tsx:1349
+#: src/stores/QuickSwitcherStore.tsx:1347
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:97
 msgid "Text channels"
 msgstr "Kanal teks"
@@ -21111,7 +21111,7 @@ msgid "That message didn't delete"
 msgstr "Pesan itu tidak terhapus"
 
 #. placeholder {0}: invite.pack.name
-#: src/actions/InviteActionCreators.tsx:103
+#: src/actions/InviteActionCreators.tsx:104
 msgid "The {packLabel} {0} has been installed."
 msgstr "{packLabel} {0} telah diinstal."
 
@@ -21153,7 +21153,7 @@ msgstr "File ini berisi token verifikasi yang akan kami ambil dari <0>{dnsUrl}</
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "File yang Anda coba unggah melebihi batas ukuran maksimum {maxSizeFormatted}."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:109
+#: src/components/modals/FluxerTagChangeModal.tsx:111
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "FluxerTag <0>{fluxerTag}</0> sudah digunakan. Melanjutkan akan menggulir ulang diskriminator Anda secara otomatis."
 
@@ -21722,7 +21722,7 @@ msgstr "Ini akan menyembunyikan semua elemen UI terkait favorit termasuk tombol 
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "Ini akan membatalkan kode cadangan Anda yang ada dan menghasilkan yang baru."
 
-#: src/components/channel/ChannelTextarea.tsx:1036
+#: src/components/channel/ChannelTextarea.tsx:1034
 msgid "This will modify the existing scheduled message rather than sending immediately."
 msgstr "Ini akan mengubah pesan terjadwal yang ada daripada mengirim segera."
 
@@ -21908,7 +21908,7 @@ msgstr "toggle"
 msgid "Toggle Channel Member List"
 msgstr "Alihkan Daftar Anggota Kanal"
 
-#: src/stores/QuickSwitcherStore.tsx:913
+#: src/stores/QuickSwitcherStore.tsx:911
 msgid "Toggle Compact Mode"
 msgstr "Alihkan Mode Ringkas"
 
@@ -21968,7 +21968,7 @@ msgstr "Alihkan Popout Sematan"
 msgid "Toggle premium_enabled_override on the backend"
 msgstr "Alihkan premium_enabled_override di backend"
 
-#: src/stores/QuickSwitcherStore.tsx:929
+#: src/stores/QuickSwitcherStore.tsx:927
 msgid "Toggle Reduced Motion"
 msgstr "Alihkan Gerakan Berkurang"
 
@@ -21984,7 +21984,7 @@ msgstr "Alihkan Pilih Stiker"
 msgid "Toggle switches on and off to see state changes."
 msgstr "Alihkan sakelar hidup dan mati untuk melihat perubahan status."
 
-#: src/stores/QuickSwitcherStore.tsx:899
+#: src/stores/QuickSwitcherStore.tsx:897
 msgid "Toggle Theme"
 msgstr "Alihkan Tema"
 
@@ -22009,7 +22009,7 @@ msgstr "Peta nada gambar HDR ke rentang standar, mengurangi kecerahan puncak."
 msgid "Too Loud"
 msgstr "Terlalu Keras"
 
-#: src/components/alerts/MaxGuildsModal.tsx:32
+#: src/components/alerts/MaxGuildsModal.tsx:35
 msgid "Too Many Communities"
 msgstr "Terlalu Banyak Komunitas"
 
@@ -22405,11 +22405,11 @@ msgstr "Ukraina"
 msgid "Ultra (1440p)"
 msgstr "Ultra (1440p)"
 
-#: src/actions/InviteActionCreators.tsx:319
+#: src/actions/InviteActionCreators.tsx:323
 msgid "Unable to install emoji pack"
 msgstr "Tidak dapat menginstal paket emoji"
 
-#: src/actions/InviteActionCreators.tsx:320
+#: src/actions/InviteActionCreators.tsx:324
 msgid "Unable to install sticker pack"
 msgstr "Tidak dapat menginstal paket stiker"
 
@@ -22555,10 +22555,10 @@ msgstr "Pengguna di Bawah Umur"
 #: src/components/alerts/GenericErrorModal.tsx:31
 #: src/components/alerts/GuildAtCapacityModal.tsx:31
 #: src/components/alerts/InvitesDisabledModal.tsx:31
-#: src/components/alerts/MaxBookmarksModal.tsx:45
-#: src/components/alerts/MaxBookmarksModal.tsx:56
+#: src/components/alerts/MaxBookmarksModal.tsx:48
+#: src/components/alerts/MaxBookmarksModal.tsx:59
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:46
-#: src/components/alerts/MaxGuildsModal.tsx:38
+#: src/components/alerts/MaxGuildsModal.tsx:41
 #: src/components/alerts/MicrophonePermissionDeniedModal.tsx:50
 #: src/components/alerts/NSFWContentRejectedModal.tsx:31
 #: src/components/alerts/ReactionInteractionDisabledModal.tsx:30
@@ -22633,7 +22633,7 @@ msgstr "saluran tidak dikenal"
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:479
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:61
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:67
-#: src/stores/QuickSwitcherStore.tsx:690
+#: src/stores/QuickSwitcherStore.tsx:688
 msgid "Unknown channel"
 msgstr "kanal tidak diketahui"
 
@@ -22908,7 +22908,7 @@ msgstr "DM grup dihapus sematan"
 msgid "unread"
 msgstr "belum dibaca"
 
-#: src/components/popouts/InboxPopout.tsx:53
+#: src/components/popouts/InboxPopout.tsx:52
 msgid "Unread"
 msgstr "Belum Dibaca"
 
@@ -22963,7 +22963,7 @@ msgstr "Email Belum Terverifikasi"
 msgid "Up to 4K/60fps"
 msgstr "Hingga 4K/60fps"
 
-#: src/components/channel/ChannelTextarea.tsx:1033
+#: src/components/channel/ChannelTextarea.tsx:1031
 msgid "Update"
 msgstr "Perbarui"
 
@@ -23086,7 +23086,7 @@ msgstr "tingkatkan"
 msgid "Upgrade Now"
 msgstr "Tingkatkan Sekarang"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:69
+#: src/components/alerts/MaxBookmarksModal.tsx:72
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:70
 msgid "Upgrade to Plutonium"
 msgstr "Tingkatkan ke Plutonium"
@@ -23455,7 +23455,7 @@ msgstr "Rekaman Pengguna"
 #: src/components/layout/UserArea.tsx:286
 #: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
-#: src/components/modals/UserSettingsModal.tsx:154
+#: src/components/modals/UserSettingsModal.tsx:153
 msgid "User Settings"
 msgstr "Pengaturan Pengguna"
 
@@ -23476,7 +23476,7 @@ msgstr "pengguna, bot, atau webhook"
 msgid "username"
 msgstr "nama pengguna"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:190
+#: src/components/modals/FluxerTagChangeModal.tsx:201
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
 #: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
@@ -23511,13 +23511,17 @@ msgstr "Nama pengguna maksimal 32 karakter"
 msgid "Username#0000"
 msgstr "NamaPengguna#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:172
+#: src/components/modals/FluxerTagChangeModal.tsx:183
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "Nama pengguna hanya boleh berisi huruf (a-z, A-Z), angka (0-9), dan garis bawah. Nama pengguna tidak peka huruf besar/kecil."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:167
-msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
-msgstr "Nama pengguna hanya boleh berisi huruf (a-z, A-Z), angka (0-9), dan garis bawah. Nama pengguna tidak peka huruf besar/kecil. Anda dapat memilih tag 4 digit sendiri jika tersedia."
+#: src/components/modals/FluxerTagChangeModal.tsx:170
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999."
+msgstr "Username hanya boleh berisi huruf (a-z, A-Z), angka (0-9), dan garis bawah. Username tidak membedakan huruf besar dan kecil. Kamu bisa memilih tag 4 digit yang tersedia dari #0000 sampai #9999."
+
+#: src/components/modals/FluxerTagChangeModal.tsx:176
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999."
+msgstr "Username hanya boleh berisi huruf (a-z, A-Z), angka (0-9), dan garis bawah. Username tidak membedakan huruf besar dan kecil. Kamu bisa memilih tag 4 digit yang tersedia dari #0001 sampai #9999."
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:246
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:172
@@ -24100,7 +24104,7 @@ msgstr "Panggilan Suara"
 msgid "voice channel"
 msgstr "saluran suara"
 
-#: src/stores/QuickSwitcherStore.tsx:720
+#: src/stores/QuickSwitcherStore.tsx:718
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:227
 msgid "Voice channel"
 msgstr "Kanal suara"
@@ -24120,7 +24124,7 @@ msgstr "Kanal Suara Penuh"
 msgid "Voice channel join behavior"
 msgstr "Perilaku bergabung saluran suara"
 
-#: src/stores/QuickSwitcherStore.tsx:1351
+#: src/stores/QuickSwitcherStore.tsx:1349
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:98
 msgid "Voice channels"
 msgstr "Kanal suara"
@@ -24998,7 +25002,7 @@ msgstr "Anda tidak dapat membatalkan pembungkaman diri sendiri karena Anda telah
 msgid "You do not have access to the channel where this message was sent."
 msgstr "Anda tidak memiliki akses ke kanal tempat pesan ini dikirim."
 
-#: src/components/channel/ChannelTextarea.tsx:749
+#: src/components/channel/ChannelTextarea.tsx:747
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:52
 msgid "You do not have permission to send messages in this channel."
 msgstr "Anda tidak memiliki izin untuk mengirim pesan di kanal ini."
@@ -25019,11 +25023,11 @@ msgstr "Anda belum memiliki penggantian tema kustom untuk dibagikan."
 msgid "You don't have permission to connect to this voice channel."
 msgstr "Anda tidak memiliki izin untuk terhubung ke saluran suara ini."
 
-#: src/actions/InviteActionCreators.tsx:316
+#: src/actions/InviteActionCreators.tsx:320
 msgid "You don't have permission to install this emoji pack."
 msgstr "Anda tidak memiliki izin untuk menginstal paket emoji ini."
 
-#: src/actions/InviteActionCreators.tsx:317
+#: src/actions/InviteActionCreators.tsx:321
 msgid "You don't have permission to install this sticker pack."
 msgstr "Anda tidak memiliki izin untuk menginstal paket stiker ini."
 
@@ -25079,35 +25083,35 @@ msgstr "Anda memiliki semua <0/> melalui <1>langganan hadiah</1> hingga <2>{gift
 msgid "You have blocked {username}. Unblock them to send messages."
 msgstr "Anda telah memblokir {username}. Batalkan blokir untuk mengirim pesan."
 
-#: src/actions/InviteActionCreators.tsx:260
+#: src/actions/InviteActionCreators.tsx:264
 msgid "You have created the maximum of {limit} emoji pack. Delete one to create another."
 msgstr "Kamu telah membuat maksimum {limit} paket emoji. Hapus satu untuk membuat yang lain."
 
-#: src/actions/InviteActionCreators.tsx:261
+#: src/actions/InviteActionCreators.tsx:265
 msgid "You have created the maximum of {limit} emoji packs. Delete one to create another."
 msgstr "Kamu telah membuat maksimum {limit} paket emoji. Hapus satu untuk membuat yang lain."
 
-#: src/actions/InviteActionCreators.tsx:292
+#: src/actions/InviteActionCreators.tsx:296
 msgid "You have created the maximum of {limit} sticker pack. Delete one to create another."
 msgstr "Kamu telah membuat maksimum {limit} paket stiker. Hapus satu untuk membuat yang lain."
 
-#: src/actions/InviteActionCreators.tsx:293
+#: src/actions/InviteActionCreators.tsx:297
 msgid "You have created the maximum of {limit} sticker packs. Delete one to create another."
 msgstr "Kamu telah membuat maksimum {limit} paket stiker. Hapus satu untuk membuat yang lain."
 
-#: src/actions/InviteActionCreators.tsx:246
+#: src/actions/InviteActionCreators.tsx:250
 msgid "You have installed the maximum of {limit} emoji pack. Remove one to install another."
 msgstr "Kamu telah menginstal maksimum {limit} paket emoji. Hapus satu untuk menginstal yang lain."
 
-#: src/actions/InviteActionCreators.tsx:247
+#: src/actions/InviteActionCreators.tsx:251
 msgid "You have installed the maximum of {limit} emoji packs. Remove one to install another."
 msgstr "Kamu telah menginstal maksimum {limit} paket emoji. Hapus satu untuk menginstal yang lain."
 
-#: src/actions/InviteActionCreators.tsx:278
+#: src/actions/InviteActionCreators.tsx:282
 msgid "You have installed the maximum of {limit} sticker pack. Remove one to install another."
 msgstr "Kamu telah menginstal maksimum {limit} paket stiker. Hapus satu untuk menginstal yang lain."
 
-#: src/actions/InviteActionCreators.tsx:279
+#: src/actions/InviteActionCreators.tsx:283
 msgid "You have installed the maximum of {limit} sticker packs. Remove one to install another."
 msgstr "Kamu telah menginstal maksimum {limit} paket stiker. Hapus satu untuk menginstal yang lain."
 
@@ -25115,19 +25119,19 @@ msgstr "Kamu telah menginstal maksimum {limit} paket stiker. Hapus satu untuk me
 msgid "You have no friends yet"
 msgstr "Anda belum punya teman"
 
-#: src/actions/InviteActionCreators.tsx:264
+#: src/actions/InviteActionCreators.tsx:268
 msgid "You have reached the limit for creating emoji packs. Delete one of your packs to create another."
 msgstr "Anda telah mencapai batas untuk membuat paket emoji. Hapus salah satu paket Anda untuk membuat yang lain."
 
-#: src/actions/InviteActionCreators.tsx:296
+#: src/actions/InviteActionCreators.tsx:300
 msgid "You have reached the limit for creating sticker packs. Delete one of your packs to create another."
 msgstr "Anda telah mencapai batas untuk membuat paket stiker. Hapus salah satu paket Anda untuk membuat yang lain."
 
-#: src/actions/InviteActionCreators.tsx:250
+#: src/actions/InviteActionCreators.tsx:254
 msgid "You have reached the limit for installing emoji packs. Remove one of your installed packs to install another."
 msgstr "Anda telah mencapai batas untuk memasang paket emoji. Hapus salah satu paket terpasang Anda untuk memasang yang lain."
 
-#: src/actions/InviteActionCreators.tsx:282
+#: src/actions/InviteActionCreators.tsx:286
 msgid "You have reached the limit for installing sticker packs. Remove one of your installed packs to install another."
 msgstr "Anda telah mencapai batas untuk memasang paket stiker. Hapus salah satu paket terpasang Anda untuk memasang yang lain."
 
@@ -25391,23 +25395,23 @@ msgstr "Anda telah mencapai batas maksimum {maxFavoriteMemes} item media yang di
 msgid "You've reached the maximum limit of {maxFavoriteMemes} saved media items. To add more, you'll need to remove some existing items from your collection."
 msgstr "Anda telah mencapai batas maksimum {maxFavoriteMemes} item media yang disimpan. Untuk menambahkan lebih banyak, Anda perlu menghapus beberapa item yang ada dari koleksi Anda."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:55
+#: src/components/alerts/MaxBookmarksModal.tsx:58
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). Please remove some bookmarks before adding new ones."
 msgstr "Anda telah mencapai jumlah maksimum bookmark ({bookmarksText}). Silakan hapus beberapa bookmark sebelum menambahkan yang baru."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:44
+#: src/components/alerts/MaxBookmarksModal.tsx:47
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). This limit is configured by your instance administrator. Please remove some bookmarks before adding new ones."
 msgstr "Anda telah mencapai jumlah maksimum bookmark ({bookmarksText}). Batas ini dikonfigurasi oleh administrator instance Anda. Silakan hapus beberapa bookmark sebelum menambahkan yang baru."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:68
+#: src/components/alerts/MaxBookmarksModal.tsx:71
 msgid "You've reached the maximum number of bookmarks for free users ({bookmarksText}). Upgrade to Plutonium to increase your limit to {premiumBookmarksText}, or remove some bookmarks to add new ones."
 msgstr "Anda telah mencapai jumlah maksimum bookmark untuk pengguna gratis ({bookmarksText}). Tingkatkan ke Plutonium untuk meningkatkan batas Anda menjadi {premiumBookmarksText}, atau hapus beberapa bookmark untuk menambahkan yang baru."
 
-#: src/components/alerts/MaxGuildsModal.tsx:36
+#: src/components/alerts/MaxGuildsModal.tsx:39
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} communities). Please leave a community before joining another one."
 msgstr "Anda telah mencapai jumlah maksimum komunitas yang dapat Anda ikuti ({maxGuilds} komunitas). Silakan keluar dari satu komunitas sebelum bergabung dengan yang lain."
 
-#: src/components/alerts/MaxGuildsModal.tsx:35
+#: src/components/alerts/MaxGuildsModal.tsx:38
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "Anda telah mencapai jumlah maksimum komunitas yang dapat Anda ikuti ({maxGuilds} komunitas). Silakan keluar dari satu komunitas sebelum bergabung dengan yang lain."
 

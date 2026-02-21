@@ -633,11 +633,11 @@ msgstr "{lockedStickerCount} çıkartma"
 msgid "{lockedStickerCount} stickers"
 msgstr "{lockedStickerCount} çıkartmalar"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmark"
 msgstr "{maxBookmarks} yer imi"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:38
+#: src/components/alerts/MaxBookmarksModal.tsx:41
 msgid "{maxBookmarks} bookmarks"
 msgstr "{maxBookmarks} yer imleri"
 
@@ -718,11 +718,11 @@ msgstr "{participantCount} katılımcı çağrıda"
 msgid "{participantCount} participants in call"
 msgstr "{participantCount} katılımcı çağrıda"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmark"
 msgstr "{premiumBookmarks} yer imi"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:63
+#: src/components/alerts/MaxBookmarksModal.tsx:66
 msgid "{premiumBookmarks} bookmarks"
 msgstr "{premiumBookmarks} yer imleri"
 
@@ -1362,9 +1362,9 @@ msgstr "30 saniye"
 msgid "4 hours"
 msgstr "4 saat"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:206
-#: src/components/modals/FluxerTagChangeModal.tsx:234
-#: src/components/modals/FluxerTagChangeModal.tsx:251
+#: src/components/modals/FluxerTagChangeModal.tsx:217
+#: src/components/modals/FluxerTagChangeModal.tsx:245
+#: src/components/modals/FluxerTagChangeModal.tsx:262
 msgid "4-digit tag"
 msgstr "4 haneli etiket"
 
@@ -1642,7 +1642,7 @@ msgstr "Hesap Durumu Geçersiz Kılmaları"
 msgid "Account Too New"
 msgstr "Hesap Çok Yeni"
 
-#: src/actions/InviteActionCreators.tsx:178
+#: src/actions/InviteActionCreators.tsx:182
 #: src/components/modals/RequiredActionModal.tsx:143
 #: src/components/modals/RequiredActionModal.tsx:416
 msgid "Account Verification Required"
@@ -2010,7 +2010,7 @@ msgstr "{0} eklendi."
 msgid "Added roles."
 msgstr "Roller eklendi."
 
-#: src/actions/SavedMessageActionCreators.tsx:58
+#: src/actions/SavedMessageActionCreators.tsx:59
 msgid "Added to bookmarks"
 msgstr "Yer imlerine eklendi"
 
@@ -3720,9 +3720,9 @@ msgstr "Kitap Kulübü"
 msgid "Bookmark"
 msgstr "Yer İmi"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:43
-#: src/components/alerts/MaxBookmarksModal.tsx:54
-#: src/components/alerts/MaxBookmarksModal.tsx:67
+#: src/components/alerts/MaxBookmarksModal.tsx:46
+#: src/components/alerts/MaxBookmarksModal.tsx:57
+#: src/components/alerts/MaxBookmarksModal.tsx:70
 msgid "Bookmark Limit Reached"
 msgstr "Yer İmi Sınırına Ulaşıldı"
 
@@ -3750,7 +3750,7 @@ msgstr "Yer İmi Olarak İşaretlendi!"
 
 #: src/components/modals/BookmarksBottomSheet.tsx:109
 #: src/components/pages/SavedMessagesPage.tsx:67
-#: src/components/popouts/InboxPopout.tsx:58
+#: src/components/popouts/InboxPopout.tsx:57
 msgid "Bookmarks"
 msgstr "Yer İmleri"
 
@@ -4055,7 +4055,7 @@ msgstr "Kamera sayısı {VOICE_CHANNEL_CAMERA_USER_LIMIT} katılımcıdan fazla 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:87
 #: src/components/auth/BrowserLoginHandoffModal.tsx:269
 #: src/components/bottomsheets/CreateDMBottomSheet.tsx:130
-#: src/components/channel/ChannelTextarea.tsx:312
+#: src/components/channel/ChannelTextarea.tsx:310
 #: src/components/channel/friends/FriendListItem.tsx:259
 #: src/components/channel/MentionEveryonePopout.tsx:128
 #: src/components/emojis/EmojiListItem.tsx:125
@@ -4099,8 +4099,8 @@ msgstr "Kamera sayısı {VOICE_CHANNEL_CAMERA_USER_LIMIT} katılımcıdan fazla 
 #: src/components/modals/EmailChangeModal.tsx:270
 #: src/components/modals/EmailChangeModal.tsx:301
 #: src/components/modals/ExternalLinkWarningModal.tsx:102
-#: src/components/modals/FluxerTagChangeModal.tsx:120
-#: src/components/modals/FluxerTagChangeModal.tsx:283
+#: src/components/modals/FluxerTagChangeModal.tsx:122
+#: src/components/modals/FluxerTagChangeModal.tsx:294
 #: src/components/modals/ForwardModal.tsx:378
 #: src/components/modals/guild_tabs/GuildBansTab.tsx:103
 #: src/components/modals/guild_tabs/GuildRolesTab.tsx:624
@@ -4146,7 +4146,7 @@ msgstr "İptal"
 msgid "Cancel Friend Request"
 msgstr "Arkadaşlık İsteğini İptal Et"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:115
+#: src/components/modals/FluxerTagChangeModal.tsx:117
 msgid "Cancel if you want to choose a different username instead."
 msgstr "Farklı bir kullanıcı adı seçmek istiyorsanız iptal edin."
 
@@ -4178,11 +4178,11 @@ msgstr "Düzenlenemez"
 msgid "Cannot Delete Account"
 msgstr "Hesap Silinemiyor"
 
-#: src/actions/InviteActionCreators.tsx:313
+#: src/actions/InviteActionCreators.tsx:317
 msgid "Cannot install emoji pack"
 msgstr "Emoji paketi yüklenemiyor"
 
-#: src/actions/InviteActionCreators.tsx:314
+#: src/actions/InviteActionCreators.tsx:318
 msgid "Cannot install sticker pack"
 msgstr "Sticker paketi yüklenemiyor"
 
@@ -4293,7 +4293,7 @@ msgstr "Emojiyi değiştir"
 msgid "Change FluxerTag"
 msgstr "FluxerTag'ı Değiştir"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:161
+#: src/components/modals/FluxerTagChangeModal.tsx:163
 msgid "Change FluxerTag form"
 msgstr "FluxerTag değiştirme formu"
 
@@ -4380,7 +4380,7 @@ msgstr "E-posta Adresinizi Değiştirin"
 msgid "Change your email address"
 msgstr "E-posta adresinizi değiştirin"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:162
+#: src/components/modals/FluxerTagChangeModal.tsx:164
 msgid "Change Your FluxerTag"
 msgstr "FluxerTag'inizi Değiştirin"
 
@@ -4424,7 +4424,7 @@ msgstr "Bit hızı {0} olarak değiştirildi."
 msgid "Changed the voice region to {0}."
 msgstr "Ses bölgesi {0} olarak değiştirildi."
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 #: src/utils/SearchUtils.tsx:268
 msgid "channel"
 msgstr "kanal"
@@ -5333,7 +5333,7 @@ msgid "Communication"
 msgstr "İletişim"
 
 #: src/components/modals/components/FeatureComparisonTable.tsx:49
-#: src/stores/QuickSwitcherStore.tsx:1354
+#: src/stores/QuickSwitcherStore.tsx:1352
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:99
 msgid "Communities"
 msgstr "Topluluklar"
@@ -5825,13 +5825,13 @@ msgstr "Bağlam Menüleri"
 msgid "Context menus can be opened with left-click (on buttons) or right-click (on other elements). This demonstrates various menu items including checkboxes, radio buttons, sliders, and submenus."
 msgstr "Bağlam menüleri sol tıkla (düğmelerde) veya sağ tıkla (diğer öğelerde) açılabilir. Bu, onay kutuları, radyo düğmeleri, kaydırıcılar ve alt menüler dahil çeşitli menü öğelerini gösterir."
 
-#: src/components/channel/ChannelTextarea.tsx:311
+#: src/components/channel/ChannelTextarea.tsx:309
 #: src/components/modals/AddConnectionModal.tsx:221
 #: src/components/modals/BackupCodesRegenerateModal.tsx:82
 #: src/components/modals/BackupCodesViewModal.tsx:78
 #: src/components/modals/DeviceRevokeModal.tsx:82
-#: src/components/modals/FluxerTagChangeModal.tsx:119
-#: src/components/modals/FluxerTagChangeModal.tsx:286
+#: src/components/modals/FluxerTagChangeModal.tsx:121
+#: src/components/modals/FluxerTagChangeModal.tsx:297
 #: src/components/modals/MfaTotpDisableModal.tsx:78
 #: src/components/modals/MfaTotpEnableModal.tsx:109
 #: src/components/modals/SudoVerificationModal.tsx:410
@@ -6601,7 +6601,7 @@ msgstr "Özel CSS Üstü"
 msgid "Custom Date Range"
 msgstr "Özel Tarih Aralığı"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:230
+#: src/components/modals/FluxerTagChangeModal.tsx:241
 msgid "Custom discriminators are not available on this instance"
 msgstr "Özel ayırtıcılar bu örnekte mevcut değil"
 
@@ -6732,7 +6732,7 @@ msgstr "Mesaj girişi alanında hangi düğmelerin görünür olduğunu özelle�
 msgid "Customize your 4-digit tag (#{0}) to your liking with Plutonium"
 msgstr "Plutonium ile 4 haneli etiketinizi (#{0}) istediğiniz gibi özelleştirin"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:275
+#: src/components/modals/FluxerTagChangeModal.tsx:286
 msgid "Customize your 4-digit tag or keep it when changing your username"
 msgstr "4 haneli etiketinizi özelleştirin veya kullanıcı adınızı değiştirirken koruyun"
 
@@ -7516,7 +7516,7 @@ msgstr "Doğrudan Mesaj"
 #: src/components/layout/guild_list/FluxerButton.tsx:80
 #: src/components/modals/GuildPrivacySettingsModal.tsx:76
 #: src/components/modals/tabs/privacy_safety_tab/ConnectionsTab.tsx:221
-#: src/stores/QuickSwitcherStore.tsx:833
+#: src/stores/QuickSwitcherStore.tsx:831
 msgid "Direct Messages"
 msgstr "Doğrudan Mesajlar"
 
@@ -7559,7 +7559,7 @@ msgstr "Uygulama genelinde animasyonları ve geçişleri devre dışı bırak."
 msgid "Disable animations and transitions. Currently controlled by your system setting."
 msgstr "Animasyonları ve geçişleri devre dışı bırak. Şu anda sistem ayarınız tarafından kontrol ediliyor."
 
-#: src/stores/QuickSwitcherStore.tsx:915
+#: src/stores/QuickSwitcherStore.tsx:913
 msgid "Disable Compact Mode"
 msgstr "Kompakt Modu Devre Dışı Bırak"
 
@@ -7586,7 +7586,7 @@ msgstr "Gürültü Bastırmayı Devre Dışı Bırak"
 msgid "Disable Picture-in-Picture Popout"
 msgstr "Resim içinde Resim Pop-out'u Devre Dışı Bırak"
 
-#: src/stores/QuickSwitcherStore.tsx:931
+#: src/stores/QuickSwitcherStore.tsx:929
 msgid "Disable Reduced Motion"
 msgstr "Azaltılmış Hareketi Devre Dışı Bırak"
 
@@ -7755,7 +7755,7 @@ msgstr "Ayırıcı"
 msgid "Discussion or promotion of illegal activities"
 msgstr "Yasadışı faaliyetlerin tartışılması veya teşvik edilmesi"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:76
+#: src/components/alerts/MaxBookmarksModal.tsx:79
 #: src/components/layout/GuildLayout.tsx:106
 #: src/components/layout/NagbarContent.tsx:42
 #: src/components/modals/GiftAcceptModal.tsx:110
@@ -8486,7 +8486,7 @@ msgstr "Emoji adları en az 2 karakter uzunluğunda olmalı ve yalnızca alfasay
 msgid "Emoji pack"
 msgstr "Emoji paketi"
 
-#: src/actions/InviteActionCreators.tsx:255
+#: src/actions/InviteActionCreators.tsx:259
 msgid "Emoji pack creation limit reached"
 msgstr "Emoji paketi oluşturma sınırına ulaşıldı"
 
@@ -8494,7 +8494,7 @@ msgstr "Emoji paketi oluşturma sınırına ulaşıldı"
 msgid "Emoji Pack Invite"
 msgstr "Emoji Paketi Daveti"
 
-#: src/actions/InviteActionCreators.tsx:241
+#: src/actions/InviteActionCreators.tsx:245
 msgid "Emoji pack limit reached"
 msgstr "Emoji paketi sınırına ulaşıldı"
 
@@ -8567,7 +8567,7 @@ msgstr "Beta Özelliğini Etkinleştir"
 msgid "Enable Browser Notifications"
 msgstr "Tarayıcı Bildirimlerini Etkinleştir"
 
-#: src/stores/QuickSwitcherStore.tsx:916
+#: src/stores/QuickSwitcherStore.tsx:914
 msgid "Enable Compact Mode"
 msgstr "Kompakt Modu Etkinleştir"
 
@@ -8643,7 +8643,7 @@ msgstr "Bu cihaz için push'ı etkinleştir"
 msgid "Enable push notifications for this installed PWA to keep receiving messages when the browser is backgrounded."
 msgstr "Tarayıcı arka plandayken mesaj almaya devam etmek için bu yüklü PWA için push bildirimlerini etkinleştirin."
 
-#: src/stores/QuickSwitcherStore.tsx:932
+#: src/stores/QuickSwitcherStore.tsx:930
 msgid "Enable Reduced Motion"
 msgstr "Azaltılmış Hareketi Etkinleştir"
 
@@ -9314,11 +9314,11 @@ msgstr "Arkadaşlık isteği reddedilemedi. Lütfen tekrar deneyin."
 msgid "Failed to initiate connection"
 msgstr "Bağlantıyı başlatma başarısız oldu"
 
-#: src/actions/InviteActionCreators.tsx:322
+#: src/actions/InviteActionCreators.tsx:326
 msgid "Failed to install this emoji pack. Please try again later."
 msgstr "Bu emoji paketi yüklenemedi. Lütfen daha sonra tekrar deneyin."
 
-#: src/actions/InviteActionCreators.tsx:323
+#: src/actions/InviteActionCreators.tsx:327
 msgid "Failed to install this sticker pack. Please try again later."
 msgstr "Bu sticker paketi yüklenemedi. Lütfen daha sonra tekrar deneyin."
 
@@ -9716,9 +9716,9 @@ msgstr "favoriler"
 #: src/components/modals/tabs/AppearanceTab.tsx:116
 #: src/components/modals/utils/SettingsConstants.tsx:279
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:233
-#: src/stores/QuickSwitcherStore.tsx:843
-#: src/stores/QuickSwitcherStore.tsx:1261
-#: src/stores/QuickSwitcherStore.tsx:1273
+#: src/stores/QuickSwitcherStore.tsx:841
+#: src/stores/QuickSwitcherStore.tsx:1259
+#: src/stores/QuickSwitcherStore.tsx:1271
 msgid "Favorites"
 msgstr "Favoriler"
 
@@ -9964,16 +9964,16 @@ msgstr "Fluxer Staff"
 msgid "Fluxer uses push notifications when installed as a mobile PWA. Registering ensures the gateway can reach your device even when the browser is backgrounded."
 msgstr "Fluxer, mobil PWA olarak kurulduğunda anlık bildirimleri kullanır. Kayıt olmak, tarayıcı arka planda olsa bile ağ geçidinin cihazınıza ulaşmasını sağlar."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:179
+#: src/components/modals/FluxerTagChangeModal.tsx:190
 #: src/components/modals/tabs/applications_tab/application_detail/BotProfileSection.tsx:103
 msgid "FluxerTag"
 msgstr "FluxerTag"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:105
+#: src/components/modals/FluxerTagChangeModal.tsx:107
 msgid "FluxerTag already taken"
 msgstr "FluxerTag zaten alınmış"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:147
+#: src/components/modals/FluxerTagChangeModal.tsx:149
 msgid "FluxerTag updated"
 msgstr "FluxerTag güncellendi"
 
@@ -10491,7 +10491,7 @@ msgstr "Mesaj aldığınızda bildirim alın. Tarayıcı ayarlarınızda bildiri
 
 #: src/components/alerts/FileSizeTooLargeModal.tsx:84
 #: src/components/modals/BackgroundImageGalleryModal.tsx:678
-#: src/components/modals/FluxerTagChangeModal.tsx:224
+#: src/components/modals/FluxerTagChangeModal.tsx:235
 #: src/components/modals/tabs/components/EntranceSoundSection.tsx:67
 #: src/components/modals/tabs/my_profile_tab/AvatarUploader.tsx:138
 #: src/components/modals/tabs/VideoTab.tsx:281
@@ -10508,7 +10508,7 @@ msgstr "Kendiniz için Plutonium edinin ve daha yüksek limitler ile özel özel
 msgid "Get Plutonium to customize your tag"
 msgstr "Etiketinizi özelleştirmek için Plutonium edinin"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:202
+#: src/components/modals/FluxerTagChangeModal.tsx:213
 msgid "Get Plutonium to customize your tag or keep it when changing your username"
 msgstr "Etiketinizi özelleştirmek veya kullanıcı adınızı değiştirirken onu korumak için Plutonium edinin"
 
@@ -10726,7 +10726,7 @@ msgstr "Ana Sayfaya Git"
 msgid "Go to login"
 msgstr "Giriş yap"
 
-#: src/stores/QuickSwitcherStore.tsx:528
+#: src/stores/QuickSwitcherStore.tsx:526
 msgid "Go to message"
 msgstr "Mesaja git"
 
@@ -10867,12 +10867,12 @@ msgstr "Grup Simgesi"
 msgid "Group Invites"
 msgstr "Grup Davetleri"
 
-#: src/stores/QuickSwitcherStore.tsx:667
+#: src/stores/QuickSwitcherStore.tsx:665
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:235
 msgid "Group message"
 msgstr "Grup mesajı"
 
-#: src/stores/QuickSwitcherStore.tsx:1347
+#: src/stores/QuickSwitcherStore.tsx:1345
 msgid "Group messages"
 msgstr "Grup mesajları"
 
@@ -11278,7 +11278,7 @@ msgid "Hold to temporarily unmute when push-to-talk is enabled"
 msgstr "Push-to-talk etkinleştirildiğinde geçici olarak sesi açmak için basılı tut"
 
 #: src/components/layout/MobileBottomNav.tsx:93
-#: src/stores/QuickSwitcherStore.tsx:832
+#: src/stores/QuickSwitcherStore.tsx:830
 msgid "Home"
 msgstr "Ana Sayfa"
 
@@ -11620,7 +11620,7 @@ msgstr "Uygunsuz Profil"
 msgid "Inbox"
 msgstr "Gelen Kutusu"
 
-#: src/components/popouts/InboxPopout.tsx:89
+#: src/components/popouts/InboxPopout.tsx:88
 msgid "Inbox tabs"
 msgstr "Gelen kutusu sekmeleri"
 
@@ -13347,7 +13347,7 @@ msgstr "Üye geçici olarak işaretlendi."
 msgid "Markers Below Slider"
 msgstr "Kaydırıcının Altındaki İşaretçiler"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:191
+#: src/components/modals/FluxerTagChangeModal.tsx:202
 msgid "Marty_McFly"
 msgstr "Marty_McFly"
 
@@ -13657,7 +13657,7 @@ msgstr "bahsetmeler"
 
 #: src/components/modals/GuildNotificationSettingsModal.tsx:227
 #: src/components/pages/NotificationsPage.tsx:42
-#: src/components/popouts/InboxPopout.tsx:63
+#: src/components/popouts/InboxPopout.tsx:62
 msgid "Mentions"
 msgstr "Anmalar"
 
@@ -13692,15 +13692,15 @@ msgstr "menüler"
 msgid "Message"
 msgstr "Mesaj"
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message "
 msgstr "Mesaj "
 
-#: src/components/channel/ChannelTextarea.tsx:754
+#: src/components/channel/ChannelTextarea.tsx:752
 msgid "Message @"
 msgstr "Mesaj @"
 
-#: src/components/channel/ChannelTextarea.tsx:751
+#: src/components/channel/ChannelTextarea.tsx:749
 msgid "Message #"
 msgstr "Mesaj #"
 
@@ -15579,7 +15579,7 @@ msgstr "Yeni sekmede aç"
 msgid "Open Link"
 msgstr "Bağlantıyı Aç"
 
-#: src/components/channel/ChannelTextarea.tsx:953
+#: src/components/channel/ChannelTextarea.tsx:951
 #: src/components/channel/textarea/MobileTextareaLayout.tsx:112
 msgid "Open menu"
 msgstr "Menüyü aç"
@@ -16045,7 +16045,7 @@ msgid "Pending deletion canceled"
 msgstr "Bekleyen silme iptal edildi"
 
 #: src/lib/UnicodeEmojis.tsx:234
-#: src/stores/QuickSwitcherStore.tsx:1345
+#: src/stores/QuickSwitcherStore.tsx:1343
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:96
 msgid "People"
 msgstr "Kişiler"
@@ -16421,7 +16421,7 @@ msgstr "Lütfen daha sonra tekrar deneyin."
 msgid "Please update Fluxer to view this message."
 msgstr "Bu mesajı görüntülemek için lütfen Fluxer'ı güncelleyin."
 
-#: src/actions/InviteActionCreators.tsx:180
+#: src/actions/InviteActionCreators.tsx:184
 msgid "Please verify your account by setting an email and password before joining communities."
 msgstr "Lütfen topluluklara katılmadan önce bir e-posta ve şifre belirleyerek hesabınızı doğrulayın."
 
@@ -16933,7 +16933,7 @@ msgstr "Python"
 msgid "quick access"
 msgstr "hızlı erişim"
 
-#: src/stores/QuickSwitcherStore.tsx:1358
+#: src/stores/QuickSwitcherStore.tsx:1356
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:100
 msgid "Quick Actions"
 msgstr "Hızlı İşlemler"
@@ -17562,7 +17562,7 @@ msgstr "{0} için izin kaldırıldı."
 msgid "Removed deny for {0}."
 msgstr "{0} için red kaldırıldı."
 
-#: src/actions/SavedMessageActionCreators.tsx:80
+#: src/actions/SavedMessageActionCreators.tsx:85
 msgid "Removed from bookmarks"
 msgstr "Yer işaretlerinden kaldırıldı"
 
@@ -17871,7 +17871,7 @@ msgstr "Orta'daki her şeyi ve sunucu üyesi olarak en az 10 dakika geçirmiş o
 msgid "Requires Plutonium"
 msgstr "Plutonium gerektirir"
 
-#: src/components/channel/ChannelTextarea.tsx:1032
+#: src/components/channel/ChannelTextarea.tsx:1030
 msgid "Reschedule Message"
 msgstr "Mesajı Yeniden Planla"
 
@@ -18442,7 +18442,7 @@ msgstr "Zamanla"
 msgid "Schedule Message"
 msgstr "Mesajı Zamanla"
 
-#: src/components/popouts/InboxPopout.tsx:70
+#: src/components/popouts/InboxPopout.tsx:69
 #: src/components/popouts/ScheduledMessagesContent.tsx:89
 msgid "Scheduled"
 msgstr "Zamanlanmış"
@@ -19346,7 +19346,7 @@ msgstr "Saat dilimini ayarla"
 #: src/components/modals/tabs/component_gallery_tab/ButtonsTab.tsx:221
 #: src/components/modals/tabs/component_gallery_tab/index.tsx:95
 #: src/components/modals/tabs/component_gallery_tab/Inline.tsx:90
-#: src/stores/QuickSwitcherStore.tsx:1356
+#: src/stores/QuickSwitcherStore.tsx:1354
 msgid "Settings"
 msgstr "Ayarlar"
 
@@ -20495,7 +20495,7 @@ msgstr "Çıkartma yoğunluğu"
 msgid "Sticker pack"
 msgstr "Çıkartma paketi"
 
-#: src/actions/InviteActionCreators.tsx:287
+#: src/actions/InviteActionCreators.tsx:291
 msgid "Sticker pack creation limit reached"
 msgstr "Çıkartma paketi oluşturma sınırına ulaşıldı"
 
@@ -20503,7 +20503,7 @@ msgstr "Çıkartma paketi oluşturma sınırına ulaşıldı"
 msgid "Sticker Pack Invite"
 msgstr "Çıkartma Paketi Daveti"
 
-#: src/actions/InviteActionCreators.tsx:273
+#: src/actions/InviteActionCreators.tsx:277
 msgid "Sticker pack limit reached"
 msgstr "Çıkartma paketi sınırına ulaşıldı"
 
@@ -20801,7 +20801,7 @@ msgstr "Hesap değiştir"
 msgid "Switch Accounts"
 msgstr "Hesapları Değiştir"
 
-#: src/stores/QuickSwitcherStore.tsx:900
+#: src/stores/QuickSwitcherStore.tsx:898
 msgid "Switch between Light and Dark mode"
 msgstr "Açık ve Koyu mod arasında geçiş yap"
 
@@ -21030,7 +21030,7 @@ msgstr "Metin Kanalı"
 msgid "Text Channel Names"
 msgstr "Metin Kanalı İsimleri"
 
-#: src/stores/QuickSwitcherStore.tsx:1349
+#: src/stores/QuickSwitcherStore.tsx:1347
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:97
 msgid "Text channels"
 msgstr "Metin kanalları"
@@ -21111,7 +21111,7 @@ msgid "That message didn't delete"
 msgstr "Bu mesaj silinmedi"
 
 #. placeholder {0}: invite.pack.name
-#: src/actions/InviteActionCreators.tsx:103
+#: src/actions/InviteActionCreators.tsx:104
 msgid "The {packLabel} {0} has been installed."
 msgstr "{packLabel} {0} yüklendi."
 
@@ -21153,7 +21153,7 @@ msgstr "Dosya, <0>{dnsUrl}</0>'dan alacağımız doğrulama tokenını içeriyor
 msgid "The file you're trying to upload exceeds the maximum size limit of {maxSizeFormatted}."
 msgstr "Yüklemeye çalıştığınız dosya, {maxSizeFormatted} maksimum boyut sınırını aşıyor."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:109
+#: src/components/modals/FluxerTagChangeModal.tsx:111
 msgid "The FluxerTag <0>{fluxerTag}</0> is already taken. Continuing will reroll your discriminator automatically."
 msgstr "<0>{fluxerTag}</0> FluxerTag'i zaten alınmış. Devam etmek, ayırıcınızı otomatik olarak yeniden atayacaktır."
 
@@ -21722,7 +21722,7 @@ msgstr "Bu, düğmeler ve menü öğeleri dahil tüm favorilerle ilgili kullanı
 msgid "This will invalidate your existing backup codes and generate new ones."
 msgstr "Bu, mevcut yedekleme kodlarınızı geçersiz kılacak ve yenilerini oluşturacaktır."
 
-#: src/components/channel/ChannelTextarea.tsx:1036
+#: src/components/channel/ChannelTextarea.tsx:1034
 msgid "This will modify the existing scheduled message rather than sending immediately."
 msgstr "Bu, hemen göndermek yerine mevcut zamanlanmış mesajı değiştirecek."
 
@@ -21908,7 +21908,7 @@ msgstr "aç/kapa"
 msgid "Toggle Channel Member List"
 msgstr "Kanal Üye Listesini Aç/Kapat"
 
-#: src/stores/QuickSwitcherStore.tsx:913
+#: src/stores/QuickSwitcherStore.tsx:911
 msgid "Toggle Compact Mode"
 msgstr "Kompakt Modu Aç/Kapat"
 
@@ -21968,7 +21968,7 @@ msgstr "Sabitlemeler Açılır Penceresini Aç/Kapat"
 msgid "Toggle premium_enabled_override on the backend"
 msgstr "Arka uçta premium_enabled_override'ı aç/kapat"
 
-#: src/stores/QuickSwitcherStore.tsx:929
+#: src/stores/QuickSwitcherStore.tsx:927
 msgid "Toggle Reduced Motion"
 msgstr "Azaltılmış Hareketi Aç/Kapat"
 
@@ -21984,7 +21984,7 @@ msgstr "Çıkartma Seçiciyi Aç/Kapat"
 msgid "Toggle switches on and off to see state changes."
 msgstr "Durum değişikliklerini görmek için anahtarları açıp kapatın."
 
-#: src/stores/QuickSwitcherStore.tsx:899
+#: src/stores/QuickSwitcherStore.tsx:897
 msgid "Toggle Theme"
 msgstr "Temayı Aç/Kapat"
 
@@ -22009,7 +22009,7 @@ msgstr "HDR görüntüleri standart aralığa ton haritalandır, pik parlaklığ
 msgid "Too Loud"
 msgstr "Çok Yüksek"
 
-#: src/components/alerts/MaxGuildsModal.tsx:32
+#: src/components/alerts/MaxGuildsModal.tsx:35
 msgid "Too Many Communities"
 msgstr "Çok Fazla Topluluk"
 
@@ -22405,11 +22405,11 @@ msgstr "Ukraynaca"
 msgid "Ultra (1440p)"
 msgstr "Ultra (1440p)"
 
-#: src/actions/InviteActionCreators.tsx:319
+#: src/actions/InviteActionCreators.tsx:323
 msgid "Unable to install emoji pack"
 msgstr "Emoji paketi yüklenemedi"
 
-#: src/actions/InviteActionCreators.tsx:320
+#: src/actions/InviteActionCreators.tsx:324
 msgid "Unable to install sticker pack"
 msgstr "Sticker paketi yüklenemedi"
 
@@ -22555,10 +22555,10 @@ msgstr "Yaşı Küçük Kullanıcı"
 #: src/components/alerts/GenericErrorModal.tsx:31
 #: src/components/alerts/GuildAtCapacityModal.tsx:31
 #: src/components/alerts/InvitesDisabledModal.tsx:31
-#: src/components/alerts/MaxBookmarksModal.tsx:45
-#: src/components/alerts/MaxBookmarksModal.tsx:56
+#: src/components/alerts/MaxBookmarksModal.tsx:48
+#: src/components/alerts/MaxBookmarksModal.tsx:59
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:46
-#: src/components/alerts/MaxGuildsModal.tsx:38
+#: src/components/alerts/MaxGuildsModal.tsx:41
 #: src/components/alerts/MicrophonePermissionDeniedModal.tsx:50
 #: src/components/alerts/NSFWContentRejectedModal.tsx:31
 #: src/components/alerts/ReactionInteractionDisabledModal.tsx:30
@@ -22633,7 +22633,7 @@ msgstr "bilinmeyen kanal"
 #: src/components/modals/guild_tabs/GuildAuditLogTab.Utils.tsx:479
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:61
 #: src/components/modals/guild_tabs/GuildWebhooksTab.tsx:67
-#: src/stores/QuickSwitcherStore.tsx:690
+#: src/stores/QuickSwitcherStore.tsx:688
 msgid "Unknown channel"
 msgstr "Bilinmeyen kanal"
 
@@ -22908,7 +22908,7 @@ msgstr "Sabitlenmemiş grup DM"
 msgid "unread"
 msgstr "okunmamış"
 
-#: src/components/popouts/InboxPopout.tsx:53
+#: src/components/popouts/InboxPopout.tsx:52
 msgid "Unread"
 msgstr "Okunmamış"
 
@@ -22963,7 +22963,7 @@ msgstr "Doğrulanmamış E-posta"
 msgid "Up to 4K/60fps"
 msgstr "4K/60fps'ye kadar"
 
-#: src/components/channel/ChannelTextarea.tsx:1033
+#: src/components/channel/ChannelTextarea.tsx:1031
 msgid "Update"
 msgstr "Güncelle"
 
@@ -23086,7 +23086,7 @@ msgstr "yükselt"
 msgid "Upgrade Now"
 msgstr "Şimdi Yükselt"
 
-#: src/components/alerts/MaxBookmarksModal.tsx:69
+#: src/components/alerts/MaxBookmarksModal.tsx:72
 #: src/components/alerts/MaxFavoriteMemesModal.tsx:70
 msgid "Upgrade to Plutonium"
 msgstr "Plutonium'a Yükselt"
@@ -23455,7 +23455,7 @@ msgstr "Kullanıcı Kaydı"
 #: src/components/layout/UserArea.tsx:286
 #: src/components/layout/UserArea.tsx:291
 #: src/components/modals/components/DesktopSettingsView.tsx:357
-#: src/components/modals/UserSettingsModal.tsx:154
+#: src/components/modals/UserSettingsModal.tsx:153
 msgid "User Settings"
 msgstr "Kullanıcı Ayarları"
 
@@ -23476,7 +23476,7 @@ msgstr "kullanıcı, bot veya webhook"
 msgid "username"
 msgstr "kullanıcı adı"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:190
+#: src/components/modals/FluxerTagChangeModal.tsx:201
 #: src/components/modals/tabs/component_gallery_tab/InputsTab.tsx:101
 #: src/components/modals/tabs/my_profile_tab/UsernameSection.tsx:52
 #: src/components/modals/utils/SettingsSearchIndex.tsx:63
@@ -23511,13 +23511,17 @@ msgstr "Kullanıcı adı en fazla 32 karakter olmalıdır"
 msgid "Username#0000"
 msgstr "KullanıcıAdı#0000"
 
-#: src/components/modals/FluxerTagChangeModal.tsx:172
+#: src/components/modals/FluxerTagChangeModal.tsx:183
 msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive."
 msgstr "Kullanıcı adları yalnızca harfler (a-z, A-Z), sayılar (0-9) ve alt çizgi içerebilir. Kullanıcı adları büyük/küçük harf duyarlı değildir."
 
-#: src/components/modals/FluxerTagChangeModal.tsx:167
-msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick your own 4-digit tag if it's available."
-msgstr "Kullanıcı adları yalnızca harfler (a-z, A-Z), sayılar (0-9) ve alt çizgi içerebilir. Kullanıcı adları büyük/küçük harf duyarlı değildir. Müsaitse kendi 4 haneli etiketini seçebilirsin."
+#: src/components/modals/FluxerTagChangeModal.tsx:170
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0000 to #9999."
+msgstr "Kullanıcı adları yalnızca harf (a-z, A-Z), rakam (0-9) ve alt çizgi içerebilir. Kullanıcı adları büyük/küçük harf duyarsızdır. #0000'dan #9999'a kadar uygun bir 4 haneli etiket seçebilirsin."
+
+#: src/components/modals/FluxerTagChangeModal.tsx:176
+msgid "Usernames can only contain letters (a-z, A-Z), numbers (0-9), and underscores. Usernames are case-insensitive. You can pick any available 4-digit tag from #0001 to #9999."
+msgstr "Kullanıcı adları yalnızca harf (a-z, A-Z), rakam (0-9) ve alt çizgi içerebilir. Kullanıcı adları büyük/küçük harf duyarsızdır. #0001'den #9999'a kadar uygun bir 4 haneli etiket seçebilirsin."
 
 #: src/components/modals/utils/SettingsSearchIndex.tsx:246
 #: src/components/modals/utils/SettingsSectionRegistry.tsx:172
@@ -24100,7 +24104,7 @@ msgstr "Sesli Aramalar"
 msgid "voice channel"
 msgstr "ses kanalı"
 
-#: src/stores/QuickSwitcherStore.tsx:720
+#: src/stores/QuickSwitcherStore.tsx:718
 #: src/utils/modals/guild_tabs/GuildAuditLogTabUtils.tsx:227
 msgid "Voice channel"
 msgstr "Ses kanalı"
@@ -24120,7 +24124,7 @@ msgstr "Ses Kanalı Dolu"
 msgid "Voice channel join behavior"
 msgstr "Ses kanalı katılım davranışı"
 
-#: src/stores/QuickSwitcherStore.tsx:1351
+#: src/stores/QuickSwitcherStore.tsx:1349
 #: src/utils/quick_switcher/QuickSwitcherModalUtils.tsx:98
 msgid "Voice channels"
 msgstr "Ses kanalları"
@@ -24998,7 +25002,7 @@ msgstr "Bir moderatör tarafından susturulduğun için kendini sessizden çıka
 msgid "You do not have access to the channel where this message was sent."
 msgstr "Bu mesajın gönderildiği kanala erişimin yok."
 
-#: src/components/channel/ChannelTextarea.tsx:749
+#: src/components/channel/ChannelTextarea.tsx:747
 #: src/components/channel/textarea/TextareaPlusMenu.tsx:52
 msgid "You do not have permission to send messages in this channel."
 msgstr "Bu kanalda mesaj gönderme iznin yok."
@@ -25019,11 +25023,11 @@ msgstr "Henüz paylaşacak özel tema geçersiz kılmaların yok."
 msgid "You don't have permission to connect to this voice channel."
 msgstr "Bu ses kanalına bağlanma iznin yok."
 
-#: src/actions/InviteActionCreators.tsx:316
+#: src/actions/InviteActionCreators.tsx:320
 msgid "You don't have permission to install this emoji pack."
 msgstr "Bu emoji paketini yükleme iznin yok."
 
-#: src/actions/InviteActionCreators.tsx:317
+#: src/actions/InviteActionCreators.tsx:321
 msgid "You don't have permission to install this sticker pack."
 msgstr "Bu çıkartma paketini yükleme iznin yok."
 
@@ -25079,35 +25083,35 @@ msgstr "<2>{giftEndDate}</2> tarihine kadar <1>hediye aboneliği</1> ile tüm <0
 msgid "You have blocked {username}. Unblock them to send messages."
 msgstr "{username}'yi engelledin. Mesaj göndermek için engelini kaldır."
 
-#: src/actions/InviteActionCreators.tsx:260
+#: src/actions/InviteActionCreators.tsx:264
 msgid "You have created the maximum of {limit} emoji pack. Delete one to create another."
 msgstr "Maksimum {limit} emoji paketi oluşturdun. Başka birini oluşturmak için birini sil."
 
-#: src/actions/InviteActionCreators.tsx:261
+#: src/actions/InviteActionCreators.tsx:265
 msgid "You have created the maximum of {limit} emoji packs. Delete one to create another."
 msgstr "Maksimum {limit} emoji paketi oluşturdun. Başka birini oluşturmak için birini sil."
 
-#: src/actions/InviteActionCreators.tsx:292
+#: src/actions/InviteActionCreators.tsx:296
 msgid "You have created the maximum of {limit} sticker pack. Delete one to create another."
 msgstr "Maksimum {limit} etiket paketi oluşturdun. Başka birini oluşturmak için birini sil."
 
-#: src/actions/InviteActionCreators.tsx:293
+#: src/actions/InviteActionCreators.tsx:297
 msgid "You have created the maximum of {limit} sticker packs. Delete one to create another."
 msgstr "Maksimum {limit} etiket paketi oluşturdun. Başka birini oluşturmak için birini sil."
 
-#: src/actions/InviteActionCreators.tsx:246
+#: src/actions/InviteActionCreators.tsx:250
 msgid "You have installed the maximum of {limit} emoji pack. Remove one to install another."
 msgstr "Maksimum {limit} emoji paketi kurdun. Başka birini kurmak için birini kaldır."
 
-#: src/actions/InviteActionCreators.tsx:247
+#: src/actions/InviteActionCreators.tsx:251
 msgid "You have installed the maximum of {limit} emoji packs. Remove one to install another."
 msgstr "Maksimum {limit} emoji paketi kurdun. Başka birini kurmak için birini kaldır."
 
-#: src/actions/InviteActionCreators.tsx:278
+#: src/actions/InviteActionCreators.tsx:282
 msgid "You have installed the maximum of {limit} sticker pack. Remove one to install another."
 msgstr "Maksimum {limit} etiket paketi kurdun. Başka birini kurmak için birini kaldır."
 
-#: src/actions/InviteActionCreators.tsx:279
+#: src/actions/InviteActionCreators.tsx:283
 msgid "You have installed the maximum of {limit} sticker packs. Remove one to install another."
 msgstr "Maksimum {limit} etiket paketi kurdun. Başka birini kurmak için birini kaldır."
 
@@ -25115,19 +25119,19 @@ msgstr "Maksimum {limit} etiket paketi kurdun. Başka birini kurmak için birini
 msgid "You have no friends yet"
 msgstr "Henüz arkadaşın yok"
 
-#: src/actions/InviteActionCreators.tsx:264
+#: src/actions/InviteActionCreators.tsx:268
 msgid "You have reached the limit for creating emoji packs. Delete one of your packs to create another."
 msgstr "Emoji paketi oluşturma limitine ulaştın. Başka bir paket oluşturmak için mevcut paketlerinden birini sil."
 
-#: src/actions/InviteActionCreators.tsx:296
+#: src/actions/InviteActionCreators.tsx:300
 msgid "You have reached the limit for creating sticker packs. Delete one of your packs to create another."
 msgstr "Çıkartma paketi oluşturma limitine ulaştın. Başka bir paket oluşturmak için mevcut paketlerinden birini sil."
 
-#: src/actions/InviteActionCreators.tsx:250
+#: src/actions/InviteActionCreators.tsx:254
 msgid "You have reached the limit for installing emoji packs. Remove one of your installed packs to install another."
 msgstr "Emoji paketi yükleme limitine ulaştın. Başka bir paket yüklemek için yüklü paketlerinden birini kaldır."
 
-#: src/actions/InviteActionCreators.tsx:282
+#: src/actions/InviteActionCreators.tsx:286
 msgid "You have reached the limit for installing sticker packs. Remove one of your installed packs to install another."
 msgstr "Çıkartma paketi yükleme limitine ulaştın. Başka bir paket yüklemek için yüklü paketlerinden birini kaldır."
 
@@ -25391,23 +25395,23 @@ msgstr "Kaydedilen medya öğeleri için {maxFavoriteMemes} maksimum sınırına
 msgid "You've reached the maximum limit of {maxFavoriteMemes} saved media items. To add more, you'll need to remove some existing items from your collection."
 msgstr "Kaydedilen medya öğeleri için {maxFavoriteMemes} maksimum sınırına ulaştın. Daha fazla eklemek için, koleksiyonundan bazı mevcut öğeleri kaldırman gerekecek."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:55
+#: src/components/alerts/MaxBookmarksModal.tsx:58
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). Please remove some bookmarks before adding new ones."
 msgstr "Yer imleri sayısı maksimuma ulaştı ({bookmarksText}). Lütfen yeni yer imleri eklemeden önce bazı yer imlerini kaldır."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:44
+#: src/components/alerts/MaxBookmarksModal.tsx:47
 msgid "You've reached the maximum number of bookmarks ({bookmarksText}). This limit is configured by your instance administrator. Please remove some bookmarks before adding new ones."
 msgstr "Yer imleri sayısı maksimuma ulaştı ({bookmarksText}). Bu sınır, örneğin yöneticin tarafından yapılandırılmıştır. Lütfen yeni yer imleri eklemeden önce bazı yer imlerini kaldır."
 
-#: src/components/alerts/MaxBookmarksModal.tsx:68
+#: src/components/alerts/MaxBookmarksModal.tsx:71
 msgid "You've reached the maximum number of bookmarks for free users ({bookmarksText}). Upgrade to Plutonium to increase your limit to {premiumBookmarksText}, or remove some bookmarks to add new ones."
 msgstr "Ücretsiz kullanıcılar için yer imleri sayısı maksimuma ulaştı ({bookmarksText}). Sınırını {premiumBookmarksText} olarak artırmak için Plutonium'a geç veya yeni yer imleri eklemek için bazı yer imlerini kaldır."
 
-#: src/components/alerts/MaxGuildsModal.tsx:36
+#: src/components/alerts/MaxGuildsModal.tsx:39
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} communities). Please leave a community before joining another one."
 msgstr "Katılabileceğin maksimum topluluk sayısına ulaştın ({maxGuilds} topluluk). Başka birine katılmadan önce bir topluluktan ayrıl."
 
-#: src/components/alerts/MaxGuildsModal.tsx:35
+#: src/components/alerts/MaxGuildsModal.tsx:38
 msgid "You've reached the maximum number of communities you can join ({maxGuilds} community). Please leave a community before joining another one."
 msgstr "Katılabileceğin maksimum topluluk sayısına ulaştın ({maxGuilds} topluluk). Başka birine katılmadan önce bir topluluktan ayrıl."
 
