@@ -70,6 +70,7 @@ export class JetStreamWorkerQueue {
 		} catch {
 			await jsm.consumers.add(STREAM_NAME, {
 				durable_name: CONSUMER_NAME,
+				filter_subject: `${SUBJECT_PREFIX}>`,
 				ack_policy: AckPolicy.Explicit,
 				max_deliver: MAX_DELIVER,
 				ack_wait: nanos(ACK_WAIT_MS),
