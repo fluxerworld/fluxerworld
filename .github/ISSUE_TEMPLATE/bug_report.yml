@@ -7,7 +7,7 @@ body:
       value: |
         Thanks for the report.
 
-        Please check for existing issues before filing.
+        Please check our status page at https://fluxerstatus.com and search for existing issues before filing.
         Security issues should go to https://fluxer.app/security.
   - type: textarea
     id: summary
