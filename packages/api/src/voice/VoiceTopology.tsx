@@ -34,6 +34,7 @@ export class VoiceTopology {
 	private subscribers: Set<Subscriber> = new Set();
 	private serverRotationIndex: Map<string, number> = new Map();
 	private kvSubscription: IKVSubscription | null = null;
+	private messageHandler: ((channel: string) => void) | null = null;
 
 	constructor(
 		private voiceRepository: IVoiceRepository,
@@ -53,13 +54,14 @@ export class VoiceTopology {
 				this.kvSubscription = subscription;
 				await subscription.connect();
 				await subscription.subscribe(VOICE_CONFIGURATION_CHANNEL);
-				subscription.on('message', (channel) => {
+				this.messageHandler = (channel: string) => {
 					if (channel === VOICE_CONFIGURATION_CHANNEL) {
 						this.reload().catch((error) => {
 							Logger.error({error}, 'Failed to reload voice topology from KV notification');
 						});
 					}
-				});
+				};
+				subscription.on('message', this.messageHandler);
 			} catch (error) {
 				Logger.error({error}, 'Failed to subscribe to voice configuration channel');
 			}
@@ -239,9 +241,13 @@ export class VoiceTopology {
 	}
 
 	shutdown(): void {
+		if (this.kvSubscription && this.messageHandler) {
+			this.kvSubscription.removeAllListeners('message');
+		}
 		if (this.kvSubscription) {
 			this.kvSubscription.disconnect();
 			this.kvSubscription = null;
 		}
+		this.messageHandler = null;
 	}
 }

@@ -173,6 +173,15 @@ import {createMiddleware} from 'hono/factory';
 
 const errorI18nService = new ErrorI18nService();
 
+let _reportService: ReportService | null = null;
+
+export function shutdownReportService(): void {
+	if (_reportService) {
+		_reportService.shutdown();
+		_reportService = null;
+	}
+}
+
 let _testEmailService: TestEmailService | null = null;
 function getTestEmailService(): TestEmailService {
 	if (!_testEmailService) {
@@ -617,19 +626,21 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 	const desktopHandoffService = new DesktopHandoffService(cacheService);
 	const authRequestService = new AuthRequestService(authService, ssoService, cacheService, desktopHandoffService);
 
-	const reportSearchService = getReportSearchService();
-	const reportService = new ReportService(
-		reportRepository,
-		channelRepository,
-		guildRepository,
-		userRepository,
-		inviteRepository,
-		emailService,
-		emailDnsValidationService,
-		snowflakeService,
-		storageService,
-		reportSearchService,
-	);
+	if (!_reportService) {
+		_reportService = new ReportService(
+			reportRepository,
+			channelRepository,
+			guildRepository,
+			userRepository,
+			inviteRepository,
+			emailService,
+			emailDnsValidationService,
+			snowflakeService,
+			storageService,
+			getReportSearchService(),
+		);
+	}
+	const reportService = _reportService;
 	const reportRequestService = new ReportRequestService(reportService);
 
 	const adminService = new AdminService(

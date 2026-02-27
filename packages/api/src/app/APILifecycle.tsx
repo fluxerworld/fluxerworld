@@ -25,7 +25,7 @@ import {KVAccountDeletionQueueService} from '@fluxer/api/src/infrastructure/KVAc
 import {initializeMetricsService} from '@fluxer/api/src/infrastructure/MetricsService';
 import {InstanceConfigRepository} from '@fluxer/api/src/instance/InstanceConfigRepository';
 import {ipBanCache} from '@fluxer/api/src/middleware/IpBanMiddleware';
-import {initializeServiceSingletons} from '@fluxer/api/src/middleware/ServiceMiddleware';
+import {initializeServiceSingletons, shutdownReportService} from '@fluxer/api/src/middleware/ServiceMiddleware';
 import {
 	ensureVoiceResourcesInitialized,
 	getKVClient,
@@ -205,6 +205,13 @@ export function createShutdown(logger: ILogger): () => Promise<void> {
 			logger.info('IP ban cache shut down');
 		} catch (error) {
 			logger.error({error}, 'Error shutting down IP ban cache');
+		}
+
+		try {
+			shutdownReportService();
+			logger.info('Report service shut down');
+		} catch (error) {
+			logger.error({error}, 'Error shutting down report service');
 		}
 
 		logger.info('API service shutdown complete');

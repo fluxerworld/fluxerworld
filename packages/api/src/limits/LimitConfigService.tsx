@@ -45,6 +45,7 @@ export class LimitConfigService {
 	private kvSubscription: IKVSubscription | null = null;
 	private subscriberInitialized = false;
 	private readonly cacheKey: string;
+	private messageHandler: ((channel: string) => void) | null = null;
 
 	constructor(repository: InstanceConfigRepository, cacheService: ICacheService, kvClient: IKVProvider | null = null) {
 		this.repository = repository;
@@ -144,17 +145,21 @@ export class LimitConfigService {
 		const subscription = this.kvClient.duplicate();
 		this.kvSubscription = subscription;
 
+		this.messageHandler = (channel: string) => {
+			if (channel === LIMIT_CONFIG_REFRESH_CHANNEL) {
+				this.refreshCache().catch((err) => {
+					Logger.error({err}, 'Failed to refresh limit config from pubsub');
+				});
+			}
+		};
+
 		subscription
 			.connect()
 			.then(() => subscription.subscribe(LIMIT_CONFIG_REFRESH_CHANNEL))
 			.then(() => {
-				subscription.on('message', (channel) => {
-					if (channel === LIMIT_CONFIG_REFRESH_CHANNEL) {
-						this.refreshCache().catch((err) => {
-							Logger.error({err}, 'Failed to refresh limit config from pubsub');
-						});
-					}
-				});
+				if (this.messageHandler) {
+					subscription.on('message', this.messageHandler);
+				}
 			})
 			.catch((error) => {
 				Logger.error({error}, 'Failed to subscribe to limit config refresh channel');
@@ -164,12 +169,16 @@ export class LimitConfigService {
 	}
 
 	shutdown(): void {
+		if (this.kvSubscription && this.messageHandler) {
+			this.kvSubscription.removeAllListeners('message');
+		}
 		if (this.kvSubscription) {
 			this.kvSubscription.quit().catch((err) => {
 				Logger.error({err}, 'Failed to close KV subscription');
 			});
 			this.kvSubscription = null;
 		}
+		this.messageHandler = null;
 	}
 }
 

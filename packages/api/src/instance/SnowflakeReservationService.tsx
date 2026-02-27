@@ -30,6 +30,7 @@ export class SnowflakeReservationService {
 	private initialized = false;
 	private reloadPromise: Promise<void> | null = null;
 	private kvSubscription: IKVSubscription | null = null;
+	private messageHandler: ((channel: string) => void) | null = null;
 
 	constructor(
 		private repository: SnowflakeReservationRepository,
@@ -50,13 +51,14 @@ export class SnowflakeReservationService {
 				this.kvSubscription = subscription;
 				await subscription.connect();
 				await subscription.subscribe(SNOWFLAKE_RESERVATION_REFRESH_CHANNEL);
-				subscription.on('message', (channel) => {
+				this.messageHandler = (channel: string) => {
 					if (channel === SNOWFLAKE_RESERVATION_REFRESH_CHANNEL) {
 						this.reload().catch((error) => {
 							Logger.error({error}, 'Failed to reload snowflake reservations');
 						});
 					}
-				});
+				};
+				subscription.on('message', this.messageHandler);
 			} catch (error) {
 				Logger.error({error}, 'Failed to subscribe to snowflake reservation refresh channel');
 			}
@@ -99,9 +101,13 @@ export class SnowflakeReservationService {
 	}
 
 	shutdown(): void {
+		if (this.kvSubscription && this.messageHandler) {
+			this.kvSubscription.removeAllListeners('message');
+		}
 		if (this.kvSubscription) {
 			this.kvSubscription.disconnect();
 			this.kvSubscription = null;
 		}
+		this.messageHandler = null;
 	}
 }

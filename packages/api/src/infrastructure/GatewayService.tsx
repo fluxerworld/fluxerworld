@@ -246,6 +246,7 @@ export class GatewayService {
 	private circuitBreakerOpenUntilMs = 0;
 	private readonly CIRCUIT_BREAKER_FAILURE_THRESHOLD = 5;
 	private readonly CIRCUIT_BREAKER_COOLDOWN_MS = ms('10 seconds');
+	private readonly PENDING_REQUEST_TIMEOUT_MS = ms('30 seconds');
 
 	constructor() {
 		this.rpcClient = GatewayRpcClient.getInstance();
@@ -260,7 +261,27 @@ export class GatewayService {
 			this.circuitBreakerOpenUntilMs = 0;
 			return false;
 		}
+		this.rejectAllPendingRequests(new ServiceUnavailableError('Gateway circuit breaker open'));
 		return true;
+	}
+
+	private rejectAllPendingRequests(error: Error): void {
+		this.pendingGuildDataRequests.forEach((requests) => {
+			requests.forEach((req) => req.reject(error));
+		});
+		this.pendingGuildDataRequests.clear();
+
+		this.pendingGuildMemberRequests.forEach((requests) => {
+			requests.forEach((req) => req.reject(error));
+		});
+		this.pendingGuildMemberRequests.clear();
+
+		this.pendingPermissionRequests.forEach((requests) => {
+			requests.forEach((req) => req.reject(error));
+		});
+		this.pendingPermissionRequests.clear();
+
+		this.pendingBatchRequestCount = 0;
 	}
 
 	private recordCircuitBreakerSuccess(): void {
@@ -626,8 +647,25 @@ export class GatewayService {
 				return;
 			}
 
+			let timeoutId: NodeJS.Timeout | null = setTimeout(() => {
+				reject(new GatewayTimeoutError());
+				this.removePendingRequest(this.pendingGuildDataRequests, key, wrappedResolve, wrappedReject);
+			}, this.PENDING_REQUEST_TIMEOUT_MS);
+
+			const wrappedResolve = (value: GuildResponse) => {
+				if (timeoutId) clearTimeout(timeoutId);
+				timeoutId = null;
+				resolve(value);
+			};
+
+			const wrappedReject = (error: Error) => {
+				if (timeoutId) clearTimeout(timeoutId);
+				timeoutId = null;
+				reject(error);
+			};
+
 			const pending = this.pendingGuildDataRequests.get(key) || [];
-			pending.push({resolve, reject});
+			pending.push({resolve: wrappedResolve, reject: wrappedReject});
 			this.pendingGuildDataRequests.set(key, pending);
 			this.pendingBatchRequestCount += 1;
 
@@ -651,8 +689,25 @@ export class GatewayService {
 				return;
 			}
 
+			let timeoutId: NodeJS.Timeout | null = setTimeout(() => {
+				reject(new GatewayTimeoutError());
+				this.removePendingRequest(this.pendingGuildMemberRequests, key, wrappedResolve, wrappedReject);
+			}, this.PENDING_REQUEST_TIMEOUT_MS);
+
+			const wrappedResolve = (value: {success: boolean; memberData?: GuildMemberResponse}) => {
+				if (timeoutId) clearTimeout(timeoutId);
+				timeoutId = null;
+				resolve(value);
+			};
+
+			const wrappedReject = (error: Error) => {
+				if (timeoutId) clearTimeout(timeoutId);
+				timeoutId = null;
+				reject(error);
+			};
+
 			const pending = this.pendingGuildMemberRequests.get(key) || [];
-			pending.push({resolve, reject});
+			pending.push({resolve: wrappedResolve, reject: wrappedReject});
 			this.pendingGuildMemberRequests.set(key, pending);
 			this.pendingBatchRequestCount += 1;
 
@@ -804,8 +859,25 @@ export class GatewayService {
 				return;
 			}
 
+			let timeoutId: NodeJS.Timeout | null = setTimeout(() => {
+				reject(new GatewayTimeoutError());
+				this.removePendingRequest(this.pendingPermissionRequests, key, wrappedResolve, wrappedReject);
+			}, this.PENDING_REQUEST_TIMEOUT_MS);
+
+			const wrappedResolve = (value: boolean) => {
+				if (timeoutId) clearTimeout(timeoutId);
+				timeoutId = null;
+				resolve(value);
+			};
+
+			const wrappedReject = (error: Error) => {
+				if (timeoutId) clearTimeout(timeoutId);
+				timeoutId = null;
+				reject(error);
+			};
+
 			const pending = this.pendingPermissionRequests.get(key) || [];
-			pending.push({resolve, reject});
+			pending.push({resolve: wrappedResolve, reject: wrappedReject});
 			this.pendingPermissionRequests.set(key, pending);
 			this.pendingBatchRequestCount += 1;
 
@@ -815,6 +887,25 @@ export class GatewayService {
 
 			this.scheduleBatch();
 		});
+	}
+
+	private removePendingRequest<T>(
+		map: Map<string, Array<PendingRequest<T>>>,
+		key: string,
+		resolve: (value: T) => void,
+		reject: (error: Error) => void,
+	): void {
+		const pending = map.get(key);
+		if (pending) {
+			const index = pending.findIndex((r) => r.resolve === resolve || r.reject === reject);
+			if (index >= 0) {
+				pending.splice(index, 1);
+				this.pendingBatchRequestCount--;
+				if (pending.length === 0) {
+					map.delete(key);
+				}
+			}
+		}
 	}
 
 	async canManageRoles({guildId, userId, targetUserId, roleId}: CanManageRolesParams): Promise<boolean> {

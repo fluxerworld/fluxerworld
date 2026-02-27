@@ -52,6 +52,7 @@ class IpBanCache {
 	private kvClient: IKVProvider | null = null;
 	private kvSubscription: IKVSubscription | null = null;
 	private subscriberInitialized = false;
+	private messageHandler: ((channel: string) => void) | null = null;
 
 	constructor() {
 		this.singleIpBans = this.createFamilyMaps();
@@ -78,23 +79,27 @@ class IpBanCache {
 		const subscription = this.kvClient.duplicate();
 		this.kvSubscription = subscription;
 
+		this.messageHandler = (channel: string) => {
+			if (channel === IP_BAN_REFRESH_CHANNEL) {
+				this.refresh().catch((err) => {
+					this.consecutiveFailures++;
+					const message = err instanceof Error ? err.message : String(err);
+					if (this.consecutiveFailures >= this.maxConsecutiveFailures) {
+						Logger.error({error: message}, 'Failed to refresh IP ban cache after notification');
+					} else {
+						Logger.warn({error: message}, 'Failed to refresh IP ban cache after notification');
+					}
+				});
+			}
+		};
+
 		subscription
 			.connect()
 			.then(() => subscription.subscribe(IP_BAN_REFRESH_CHANNEL))
 			.then(() => {
-				subscription.on('message', (channel) => {
-					if (channel === IP_BAN_REFRESH_CHANNEL) {
-						this.refresh().catch((err) => {
-							this.consecutiveFailures++;
-							const message = err instanceof Error ? err.message : String(err);
-							if (this.consecutiveFailures >= this.maxConsecutiveFailures) {
-								Logger.error({error: message}, 'Failed to refresh IP ban cache after notification');
-							} else {
-								Logger.warn({error: message}, 'Failed to refresh IP ban cache after notification');
-							}
-						});
-					}
-				});
+				if (this.messageHandler) {
+					subscription.on('message', this.messageHandler);
+				}
 			})
 			.catch((error) => {
 				Logger.error({error}, 'Failed to subscribe to IP ban refresh channel');
@@ -203,10 +208,14 @@ class IpBanCache {
 	}
 
 	shutdown(): void {
+		if (this.kvSubscription && this.messageHandler) {
+			this.kvSubscription.removeAllListeners('message');
+		}
 		if (this.kvSubscription) {
 			this.kvSubscription.disconnect();
 			this.kvSubscription = null;
 		}
+		this.messageHandler = null;
 	}
 }
 

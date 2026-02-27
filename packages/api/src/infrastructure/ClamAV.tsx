@@ -42,8 +42,17 @@ export class ClamAV {
 			const socket = createConnection(this.port, this.host);
 			let response = '';
 			let isResolved = false;
+			const MAX_RESPONSE_SIZE = 10 * 1024 * 1024;
+			const CONNECT_TIMEOUT_MS = 5000;
+
+			const connectTimeout = setTimeout(() => {
+				if (!isResolved) {
+					doReject(new Error('ClamAV connection timeout (5s)'));
+				}
+			}, CONNECT_TIMEOUT_MS);
 
 			const cleanup = () => {
+				clearTimeout(connectTimeout);
 				if (!socket.destroyed) {
 					socket.destroy();
 				}
@@ -64,6 +73,7 @@ export class ClamAV {
 			};
 
 			socket.on('connect', () => {
+				clearTimeout(connectTimeout);
 				try {
 					socket.write('zINSTREAM\0');
 
@@ -92,6 +102,9 @@ export class ClamAV {
 
 			socket.on('data', (data) => {
 				response += data.toString();
+				if (response.length > MAX_RESPONSE_SIZE) {
+					doReject(new Error(`ClamAV response exceeded ${(MAX_RESPONSE_SIZE / 1024 / 1024).toFixed(0)} MB limit`));
+				}
 			});
 
 			socket.on('end', () => {
