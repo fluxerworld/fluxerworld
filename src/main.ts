@@ -253,7 +253,7 @@ function trayIconPath(): string {
   // macOS: template image (named *Template.png) is auto-tinted for dark/light.
   return process.platform === 'darwin'
     ? path.join(base, 'trayTemplate.png')
-    : path.join(base, 'tray.png');
+    : path.join(base, 'tray-linux.png');
 }
 
 function buildTrayMenu(): Menu {

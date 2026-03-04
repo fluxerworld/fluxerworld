@@ -116,15 +116,7 @@ jobs:
             -e "s|sha256: REPLACE_WITH_ACTUAL_SHA256|sha256: ${SHA256}|" \
             flatpak/org.fluxer.World.yml
 
-      # Generate scaled icons from master source
-      - name: Generate Flatpak icons
-        run: |
-          sudo apt-get install -y imagemagick
-          mkdir -p flatpak/icons
-          for s in 16 32 48 64 128 256 512; do
-            convert assets/icons/icon.png -resize ${s}x${s} \
-              flatpak/icons/icon_${s}.png
-          done
+      # Icons are pre-committed in flatpak/icons/ — no generation needed.
 
       - uses: flatpak/flatpak-github-actions/flatpak-builder@v6
         with:
@@ -138,10 +130,82 @@ jobs:
           path: fluxer-world.flatpak
           retention-days: 30
 
+  # ── Android APK ───────────────────────────────────────────────────────────────
+  build-android:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Make gradlew executable
+        run: chmod +x android/gradlew
+
+      - name: Build release APK
+        run: ./gradlew assembleRelease
+        working-directory: android
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-apk
+          path: android/app/build/outputs/apk/release/*.apk
+          retention-days: 30
+
+  # ── iOS IPA ───────────────────────────────────────────────────────────────────
+  build-ios:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build (unsigned archive)
+        run: |
+          xcodebuild \
+            -project ios/FluxerWorld.xcodeproj \
+            -scheme FluxerWorld \
+            -configuration Release \
+            -sdk iphoneos \
+            -archivePath ios/build/FluxerWorld.xcarchive \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+            archive
+
+      - name: Export IPA
+        run: |
+          mkdir -p ios/build/ipa
+          xcodebuild \
+            -exportArchive \
+            -archivePath ios/build/FluxerWorld.xcarchive \
+            -exportPath ios/build/ipa \
+            -exportOptionsPlist ios/ExportOptions.plist \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO \
+          || true
+          # Fallback: package the .app directly if export fails without signing
+          if [ ! -f ios/build/ipa/*.ipa ]; then
+            cd ios/build/FluxerWorld.xcarchive/Products/Applications
+            mkdir -p Payload
+            cp -r FluxerWorld.app Payload/
+            zip -r ../../../ipa/FluxerWorld.ipa Payload/
+          fi
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa
+          path: ios/build/ipa/*.ipa
+          retention-days: 30
+
   # ── Create GitHub Release ─────────────────────────────────────────────────────
   release:
     if: startsWith(github.ref, 'refs/tags/')
-    needs: [build-windows, build-macos, build-linux, build-flatpak]
+    needs: [build-windows, build-macos, build-linux, build-flatpak, build-android, build-ios]
     runs-on: ubuntu-latest
     permissions:
       contents: write

@@ -1,3 +1,15 @@
 node_modules/
 dist/
 release/
+
+# Android
+android/.gradle/
+android/local.properties
+android/app/build/
+android/build/
+
+# iOS
+ios/build/
+ios/*.xcworkspace/xcuserdata/
+ios/**/*.xcuserstate
+ios/DerivedData/
