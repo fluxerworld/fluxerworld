@@ -1,0 +1,103 @@
+# electron-builder configuration
+# Docs: https://www.electron.build/configuration/configuration
+
+appId: org.fluxer.World
+productName: Fluxer World
+copyright: Copyright © 2026 Fluxer Contributors
+
+# Where electron-builder will find build resources (icons, entitlements, etc.)
+directories:
+  buildResources: assets
+  output: release
+
+# ── Files to bundle inside the asar ─────────────────────────────────────────
+files:
+  - dist/**/*
+  - package.json
+
+# Put the icons/tray folder next to the asar so main.ts can reach it at runtime
+# via process.resourcesPath.
+extraResources:
+  - from: assets
+    to:   assets
+    filter:
+      - "**/*"
+
+# ── Protocol handler (registers fluxerworld:// in the OS) ───────────────────
+protocols:
+  name: Fluxer World
+  schemes:
+    - fluxerworld
+
+# ── Windows ──────────────────────────────────────────────────────────────────
+win:
+  icon: assets/icons/icon.ico
+  # Prefer 64-bit; also ship arm64 if you add arm64 to the arch list below.
+  target:
+    - target: nsis
+      arch: [x64, arm64]
+    - target: portable
+      arch: [x64]
+  # Signed builds: set CSC_LINK / CSC_KEY_PASSWORD env vars in CI.
+  # signingHashAlgorithms: [sha256]
+
+nsis:
+  oneClick:                       false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut:          true
+  createStartMenuShortcut:        true
+  shortcutName:                   "Fluxer World"
+  # Shown in Programs & Features
+  displayLanguageSelector:        false
+  installerIcon:                  assets/icons/icon.ico
+  uninstallerIcon:                assets/icons/icon.ico
+
+portable:
+  # The portable exe embeds everything; no installer needed.
+  artifactName: "${productName}-${version}-portable-${arch}.exe"
+
+# ── macOS ─────────────────────────────────────────────────────────────────────
+mac:
+  icon:              assets/icons/icon.icns
+  hardenedRuntime:   true
+  gatekeeperAssess:  false
+  entitlements:      build/entitlements.mac.plist
+  entitlementsInherit: build/entitlements.mac.plist
+  # Notarisation: set APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID
+  # notarize: true
+  target:
+    - target: dmg
+      arch: [x64, arm64]
+
+dmg:
+  title:    "${productName} ${version}"
+  iconSize: 128
+  window:
+    width:  540
+    height: 380
+  contents:
+    - x: 140
+      y: 200
+      type: file
+    - x: 400
+      y: 200
+      type: link
+      path: /Applications
+
+# ── Linux ─────────────────────────────────────────────────────────────────────
+linux:
+  icon:        assets/icons/icon.png
+  category:    Network
+  # Used in .desktop file
+  description: "Fluxer World desktop client"
+  target:
+    - target: tar.gz
+      arch: [x64, arm64]
+
+# ── Artifact naming ───────────────────────────────────────────────────────────
+artifactName: "${productName}-${version}-${os}-${arch}.${ext}"
+
+# ── Publish (optional – configure for GitHub Releases) ───────────────────────
+# publish:
+#   provider: github
+#   releaseType: release

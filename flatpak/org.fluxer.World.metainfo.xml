@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.fluxer.World</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>AGPL-3.0</project_license>
+  <name>Fluxer World</name>
+  <summary>Fluxer World desktop client</summary>
+  <description>
+    <p>Fluxer World is a desktop wrapper for the Fluxer messaging platform,
+    providing a native window, system tray integration, and custom protocol
+    handling for fluxerworld:// links.</p>
+  </description>
+  <url type="homepage">https://fluxer.world</url>
+  <launchable type="desktop-id">org.fluxer.World.desktop</launchable>
+  <provides>
+    <binary>fluxer-world</binary>
+  </provides>
+  <releases>
+    <release version="1.0.0" date="2026-01-01"/>
+  </releases>
+  <content_rating type="oars-1.1"/>
+</component>

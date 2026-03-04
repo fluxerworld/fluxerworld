@@ -1,0 +1,30 @@
+{
+  "name": "fluxer-desktop",
+  "productName": "Fluxer World",
+  "version": "1.0.0",
+  "description": "Fluxer World – desktop client",
+  "main": "dist/main.js",
+  "author": "Fluxer Contributors",
+  "license": "AGPL-3.0",
+  "private": true,
+
+  "scripts": {
+    "compile":        "tsc --project tsconfig.json",
+    "compile:watch":  "tsc --project tsconfig.json --watch",
+    "dev":            "npm run compile && electron .",
+    "build:win":      "npm run compile && electron-builder --win",
+    "build:mac":      "npm run compile && electron-builder --mac",
+    "build:linux":    "npm run compile && electron-builder --linux",
+    "build:all":      "npm run compile && electron-builder --win --mac --linux",
+    "postinstall":    "electron-builder install-app-deps"
+  },
+
+  "dependencies": {},
+
+  "devDependencies": {
+    "electron":          "^33.2.0",
+    "electron-builder":  "^25.1.8",
+    "@types/node":       "^20.17.0",
+    "typescript":        "^5.7.0"
+  }
+}
