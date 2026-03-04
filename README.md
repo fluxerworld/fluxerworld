@@ -1,3 +1,22 @@
+> [!CAUTION]
+> I'm repeating it again: Holy smokes, what a ride. Fluxer is taking off much earlier than I'd expected.
+>
+> I know it's hard to resist, but please wait a little longer before you dive deep into the current codebase or try to set up self-hosting. I'm aware the current stack isn't very lightweight. I'm working on making self-hosting as straightforward as possible and the development environment likewise.
+>
+> Self-hosted deployments won't include any traces of Plutonium, and nothing is paywalled. You can still configure your own tiers and limits in the admin panel.
+>
+> Thanks for bearing with me. Development on Fluxer is about to get much easier, and the project will be made sustainable through community contributions and bounties for development work. Stay tuned – there's not much left now.
+>
+> I thought I could take it a bit easier while shipping this stabilising update, but Discord's announcement in Februrary has changed things.
+>
+> There's just been a lot of work involved in keeping the production deployment up and running, handling trust & safety concerns, answering support emails, handling billing issues, and working on the refactor at the same time. I'm really excited to open up development and make it easier for others to contribute, and I can't wait to see what the community builds on Fluxer!
+>
+> As soon as the refactor is ready (not much longer now!), I'll enable PRs and interact more actively and push updates to this repository more frequently. The remaining parts of the refactor are currently being worked on and being tested live in production that has over 125,000 users (and we're only two full-time employees for now). After that, all work will happen openly in public.
+>
+> The team is also growing, though we remain small and can't offer very competitive salaries just yet – but if you want to work part-time or contract on projects, or you think you're a great fit for the roles we're hiring for (though not as actively across all roles at this time, but we'll keep you on file for when we are), check out the [careers page](https://fluxer.app/careers) :D
+>
+> ❤️
+
 > [!NOTE]
 > Learn about the developer behind Fluxer, the goals of the project, the tech stack, and what's coming next.
 >

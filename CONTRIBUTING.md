@@ -37,11 +37,13 @@ If you're unsure whether something needs an issue first, it probably does.
 
 ### 4) Understand the code you submit
 
-You must have sufficient understanding of every change in your PR to explain it and defend it during review. You don't need to write an essay, but you should be able to give a short summary of what the patch does and why it's correct.
+You should understand every change in your PR well enough to explain and defend it during review. You don’t need to write an essay, but you should be able to give a brief summary of what the patch does and why it’s correct. You may not use AI to generate a bug report, pull request description, or GitHub comment in any form, except for a 1:1 translation if English isn't your native language.
 
-**LLM-assisted contributions.** You're welcome to use LLMs as a tool for automating mechanical work. We don't ask you to disclose this, since we assume you're acting in good faith: you're the one who signs off on the patch you submit in your own name, and you have the technical understanding to verify that it's accurate.
+The maintainer [uses LLMs in a limited capacity](https://blog.fluxer.app/how-i-built-fluxer-a-discord-like-chat-app/#:~:text=The%20LLMephant%20in%20the%20room). That’s how he was able to build the final version of Fluxer largely on his own over five years, with help from a supportive group of early testers. Without limited, controlled LLM use, he likely would have needed more starting capital to achieve the same result and hire a team of engineers.
 
-That said, don't use LLMs on areas of the codebase you don't understand well enough to verify the output. If part of your change touches code you aren't confident reviewing yourself, say so in the issue you opened beforehand and defer that work to someone else. The maintainers will be happy to help.
+If you use LLMs, use them responsibly. They can be helpful for rubber-ducking and for scaffolding boilerplate from thorough specifications, detailed guidance, and test coverage that verifies behaviour rather than implementation. This kind of platform cannot be built via autonomous code generation. Please disclose any LLM usage in your contribution.
+
+We also ask contributors to treat each other with respect on this topic. People hold a wide range of views on LLMs, often rooted in ethical conviction. A contribution that is reviewable, understandable, and properly tested should be evaluated on its merits.
 
 ## Workflow
 

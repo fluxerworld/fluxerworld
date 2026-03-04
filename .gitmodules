@@ -1,0 +1,3 @@
+[submodule "fluxer_static"]
+	path = fluxer_static
+	url = https://github.com/fluxerapp/static.git
