@@ -317,11 +317,12 @@ export class AdminUserService {
 			beforeEventId: data.page_token,
 		});
 
+		const validEntries = entries.filter((entry) => entry.event_id != null);
 		const nextPageToken =
-			entries.length === data.limit && entries.length > 0 ? entries.at(-1)!.event_id.toString() : null;
+			validEntries.length === data.limit && validEntries.length > 0 ? validEntries.at(-1)!.event_id.toString() : null;
 
 		return {
-			entries: entries.map((entry) => ({
+			entries: validEntries.map((entry) => ({
 				event_id: entry.event_id.toString(),
 				field: entry.field,
 				old_value: entry.old_value ?? null,
