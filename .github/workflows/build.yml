@@ -128,6 +128,7 @@ jobs:
           bundle: fluxer-world.flatpak
           manifest-path: flatpak/org.fluxer.World.yml
           cache-key: flatpak-builder-${{ github.sha }}
+          upload-artifact: false
 
       - uses: actions/upload-artifact@v4
         with:
