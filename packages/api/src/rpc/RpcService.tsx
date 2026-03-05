@@ -890,6 +890,7 @@ export class RpcService {
 		const needsPremiumStrip = shouldStripExpiredPremium(user);
 		const hasBeenSanitized = !!(user.flags & UserFlags.PREMIUM_PERKS_SANITIZED);
 		const hasInvalidNonLifetimeDiscriminator =
+			!Config.instance.selfHosted &&
 			user.discriminator === 0 && user.premiumType !== UserPremiumTypes.LIFETIME;
 
 		if (needsPremiumStrip) {
