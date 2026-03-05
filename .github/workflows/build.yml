@@ -160,7 +160,7 @@ jobs:
         working-directory: android
         run: |
           if [ -n "$ANDROID_KEYSTORE_BASE64" ]; then
-            echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > app/release.keystore
+            printf '%s' "$ANDROID_KEYSTORE_BASE64" | tr -d '[:space:]' | base64 -d > app/release.keystore
             echo "keystore_path=app/release.keystore" >> $GITHUB_OUTPUT
           fi
 
