@@ -1,189 +1,100 @@
-> [!CAUTION]
-> I'm repeating it again: Holy smokes, what a ride. Fluxer is taking off much earlier than I'd expected.
->
-> I know it's hard to resist, but please wait a little longer before you dive deep into the current codebase or try to set up self-hosting. I'm aware the current stack isn't very lightweight. I'm working on making self-hosting as straightforward as possible and the development environment likewise.
->
-> Self-hosted deployments won't include any traces of Plutonium, and nothing is paywalled. You can still configure your own tiers and limits in the admin panel.
->
-> Thanks for bearing with me. Development on Fluxer is about to get much easier, and the project will be made sustainable through community contributions and bounties for development work. Stay tuned – there's not much left now.
->
-> I thought I could take it a bit easier while shipping this stabilising update, but Discord's announcement in Februrary has changed things.
->
-> There's just been a lot of work involved in keeping the production deployment up and running, handling trust & safety concerns, answering support emails, handling billing issues, and working on the refactor at the same time. I'm really excited to open up development and make it easier for others to contribute, and I can't wait to see what the community builds on Fluxer!
->
-> As soon as the refactor is ready (not much longer now!), I'll enable PRs and interact more actively and push updates to this repository more frequently. The remaining parts of the refactor are currently being worked on and being tested live in production that has over 125,000 users (and we're only two full-time employees for now). After that, all work will happen openly in public.
->
-> The team is also growing, though we remain small and can't offer very competitive salaries just yet – but if you want to work part-time or contract on projects, or you think you're a great fit for the roles we're hiring for (though not as actively across all roles at this time, but we'll keep you on file for when we are), check out the [careers page](https://fluxer.app/careers) :D
->
-> ❤️
+# Fluxer World
 
-> [!NOTE]
-> Learn about the developer behind Fluxer, the goals of the project, the tech stack, and what's coming next.
->
-> [Read the launch blog post](https://blog.fluxer.app/how-i-built-fluxer-a-discord-like-chat-app/) · [View full roadmap](https://blog.fluxer.app/roadmap-2026/)
+**Fluxer World** is an independent public community instance powered by the open-source Fluxer platform.
 
-<p align="center">
-  <img src="./media/logo-graphic.png" alt="Fluxer graphic logo" width="400">
-</p>
+🌐 Website: [fluxer.world](https://fluxer.world)  
+💬 Join the instance: [Join Fluxer World](https://fluxer.world)  
+📦 GitHub Organization: [fluxerworld](https://github.com/fluxerworld)
 
-<p align="center">
-  <a href="https://fluxer.app/donate">
-    <img src="https://img.shields.io/badge/Donate-fluxer.app%2Fdonate-brightgreen" alt="Donate" /></a>
-  <a href="https://docs.fluxer.app">
-    <img src="https://img.shields.io/badge/Docs-docs.fluxer.app-blue" alt="Documentation" /></a>
-  <a href="./LICENSE">
-    <img src="https://img.shields.io/badge/License-AGPLv3-purple" alt="AGPLv3 License" /></a>
-</p>
+> ⚠️ **Disclaimer:**  
+> Fluxer World is **not the official Fluxer platform** and is **not affiliated with the Fluxer project**.  
+> This is a community-run instance built using the open source Fluxer software.
 
-# Fluxer
+---
 
-Fluxer is a **free and open source instant messaging and VoIP platform** for friends, groups, and communities. Self-host it and every feature is unlocked.
+# What is Fluxer World?
 
-## Quick links
+Fluxer World exists to provide a stable public Fluxer instance with **polished clients and reliable infrastructure**.
 
-- [Self-hosting guide](https://docs.fluxer.app/self-hosting)
-- [Documentation](https://docs.fluxer.app)
-- [Donate to support development](https://fluxer.app/donate)
-- [Security](https://fluxer.app/security)
+Our goal is to make Fluxer easy to use by providing:
 
-## Features
+- Stable desktop clients
+- Android and iOS mobile apps
+- Linux builds for multiple distributions
+- A clean and simple web interface
 
-<img src="./media/app-showcase.png" alt="Fluxer showcase" align="right" width="45%" />
+---
 
-**Real-time messaging** – typing indicators, reactions, and threaded replies.
+# Clients
 
-**Voice & video** – calls in communities and DMs with screen sharing, powered by LiveKit.
+Fluxer World provides clients for multiple platforms:
 
-**Rich media** – link previews, image and video attachments, and GIF search via KLIPY.
+- Windows  
+- macOS  
+- Linux (tar.gz and Flatpak)  
+- Android  
+- iOS
 
-**Communities and channels** – text and voice channels organised into categories with granular permissions.
+Downloads are available on the website:
 
-**Custom expressions** – upload custom emojis and stickers for your community.
+➡️ **[Download Clients](https://fluxer.world)**
 
-**Self-hostable** – run your own instance with full control of your data and no vendor lock-in.
+---
 
-> [!NOTE]
-> Native mobile apps and federation are top priorities. If you'd like to support this work, [donations](https://fluxer.app/donate) are greatly appreciated. You can also share feedback by emailing developers@fluxer.app.
+# Self Hosting Fluxer
 
-## Self-hosting
+Fluxer is fully open source and can be self hosted.
 
-> [!NOTE]
-> New to Fluxer? Follow the [self-hosting guide](https://docs.fluxer.app/self-hosting) for step-by-step setup instructions.
+If you would like to run your own server, see the official documentation:
 
-TBD
+📘 **[Fluxer Self-Hosting Guide](https://github.com/fluxerapp/fluxer)**
 
-### Deployment helpers
+Fluxer World will also provide additional guides to make deploying a server easier.
 
-- [`livekitctl`](./fluxer_devops/livekitctl/README.md) – bootstrap a LiveKit SFU for voice and video
+---
 
-## Development
+# Contributing
 
-### Tech stack
+Contributions are welcome.
 
-- [TypeScript](https://www.typescriptlang.org/) and [Node.js](https://nodejs.org/) for backend services
-- [Hono](https://hono.dev/) as the web framework for all HTTP services
-- [Erlang/OTP](https://www.erlang.org/) for the real-time WebSocket gateway (message routing and presence)
-- [React](https://react.dev/) and [Electron](https://www.electronjs.org/) for the desktop and web client
-- [Rust](https://www.rust-lang.org/) compiled to WebAssembly for performance-critical client code
-- [SQLite](https://www.sqlite.org/) for storage by default, with optional [Cassandra](https://cassandra.apache.org/) for distributed deployments
-- [Meilisearch](https://www.meilisearch.com/) for full-text search and indexing
-- [Valkey](https://valkey.io/) (Redis-compatible) for caching, rate limiting, and ephemeral coordination
-- [LiveKit](https://livekit.io/) for voice and video infrastructure
+You can help by:
 
-### Devenv development environment
+- Reporting bugs  
+- Suggesting features  
+- Testing clients  
+- Improving documentation  
+- Contributing code  
 
-Fluxer supports development through **devenv** only. It provides a reproducible Nix environment and a single, declarative process manager for the dev stack.
+➡️ **[Contribute on GitHub](https://github.com/fluxerworld)**
 
-1. Install Nix and devenv using the [devenv getting started guide](https://devenv.sh/getting-started/).
-2. Enter the environment:
+---
 
-```bash
-devenv shell
-```
+# Donations
 
-If you use direnv, the repo includes a `.envrc` that loads devenv automatically – run `direnv allow` once.
+Running a public instance requires servers, storage, and bandwidth.
 
-### Getting started
+If you would like to support Fluxer World you can donate here:
 
-Start all services and the development server with:
+💖 **[Donate via PayPal](https://paypal.me/fluxerworld)**
 
-```bash
-devenv up
-```
+All donations go toward server and infrastructure costs.
 
-Open the instance in a browser at your dev server URL (e.g. `http://localhost:48763/`).
+---
 
-Emails sent during development (verification codes, notifications, etc.) are captured by a local Mailpit instance. Access the inbox at your dev server URL + `/mailpit/` (e.g. `http://localhost:48763/mailpit/`).
+# Roadmap
 
-### Voice on a remote VM
+Planned improvements include:
 
-If you develop on a remote VM behind Cloudflare Tunnels (or a similar HTTP-only tunnel), voice and video won't work out of the box. Cloudflare Tunnels only proxy HTTP/WebSocket traffic, so WebRTC media transport needs a direct path to the server. Open these ports on the VM's firewall:
+- Improved client polish
+- Better search functionality
+- Fixing DM and role issues
+- Expanded mobile support
+- Additional Linux packaging (Flatpak, tar.gz, Arch PKGBUILD)
 
-| Port        | Protocol | Purpose          |
-| ----------- | -------- | ---------------- |
-| 3478        | UDP      | TURN/STUN        |
-| 7881        | TCP      | ICE-TCP fallback |
-| 50000-50100 | UDP      | RTP/RTCP media   |
+---
 
-The bootstrap script configures LiveKit automatically based on `domain.base_domain` in your `config.json`. When set to a non-localhost domain, it enables external IP discovery so clients can connect directly for media while signaling continues through the tunnel.
+# License
 
-### Devcontainer (experimental)
+Fluxer World runs on the open-source Fluxer platform.
 
-There is experimental support for developing in a **VS Code Dev Container** / GitHub Codespace without Nix. The `.devcontainer/` directory provides a Docker Compose setup with all required tooling and backing services.
-
-```bash
-# Inside the dev container, start all processes:
-process-compose -f .devcontainer/process-compose.yml up
-```
-
-Open the app at `http://localhost:48763` and the dev email inbox at `http://localhost:48763/mailpit/`. Predefined VS Code debugging targets are available in `.vscode/launch.json`.
-
-> [!WARNING]
-> Bluesky OAuth is disabled in the devcontainer because it requires HTTPS. All other features work normally.
-
-### Documentation
-
-To develop the documentation site with live preview:
-
-```bash
-pnpm dev:docs
-```
-
-## Contributing
-
-Fluxer is **free and open source software** licensed under **AGPLv3**. Contributions are welcome.
-
-See [`CONTRIBUTING.md`](./CONTRIBUTING.md) for development processes and how to propose changes, and [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md) for community guidelines.
-
-## Security
-
-Report vulnerabilities at [fluxer.app/security](https://fluxer.app/security). Do not use public issues for security reports.
-
-<details>
-<summary><strong>License</strong></summary>
-<br>
-
-Copyright (c) 2026 Fluxer Contributors
-
-Licensed under the [GNU Affero General Public License v3](./LICENSE):
-
-```text
-Copyright (c) 2026 Fluxer Contributors
-
-This program is free software: you can redistribute it and/or modify it under
-the terms of the GNU Affero General Public License as published by the Free
-Software Foundation, either version 3 of the License, or (at your option) any
-later version.
-
-This program is distributed in the hope that it will be useful, but WITHOUT
-ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE. See the GNU Affero General Public License for more
-details.
-
-You should have received a copy of the GNU Affero General Public License along
-with this program. If not, see https://www.gnu.org/licenses/
-```
-
-See [`LICENSING.md`](./LICENSING.md) for details on commercial licensing and the CLA.
-
-</details>
+Please refer to the upstream Fluxer project for licensing details.
