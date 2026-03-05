@@ -15,10 +15,29 @@ android {
         versionName "1.0.0"
     }
 
+    signingConfigs {
+        release {
+            // Set these env vars in CI (GitHub Secrets) or locally via ~/.gradle/gradle.properties
+            def ksPath  = System.getenv("ANDROID_KEYSTORE_PATH") ?: project.findProperty("ANDROID_KEYSTORE_PATH") ?: ""
+            def ksPass  = System.getenv("ANDROID_KEYSTORE_PASSWORD") ?: project.findProperty("ANDROID_KEYSTORE_PASSWORD") ?: ""
+            def ksAlias = System.getenv("ANDROID_KEY_ALIAS") ?: project.findProperty("ANDROID_KEY_ALIAS") ?: ""
+            def ksKey   = System.getenv("ANDROID_KEY_PASSWORD") ?: project.findProperty("ANDROID_KEY_PASSWORD") ?: ""
+
+            if (ksPath) {
+                storeFile file(ksPath)
+                storePassword ksPass
+                keyAlias ksAlias
+                keyPassword ksKey
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            def ksPath = System.getenv("ANDROID_KEYSTORE_PATH") ?: project.findProperty("ANDROID_KEYSTORE_PATH") ?: ""
+            signingConfig ksPath ? signingConfigs.release : null
         }
     }
 

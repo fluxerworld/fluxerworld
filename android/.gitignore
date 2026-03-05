@@ -1,0 +1,4 @@
+# Keystore files — never commit these to a public repo
+*.keystore
+*.jks
+release.keystore
