@@ -153,9 +153,25 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x android/gradlew
 
+      - name: Decode keystore
+        id: keystore
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        working-directory: android
+        run: |
+          if [ -n "$ANDROID_KEYSTORE_BASE64" ]; then
+            echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > app/release.keystore
+            echo "keystore_path=app/release.keystore" >> $GITHUB_OUTPUT
+          fi
+
       - name: Build release APK
         run: ./gradlew assembleRelease --stacktrace
         working-directory: android
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ steps.keystore.outputs.keystore_path }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
       - uses: actions/upload-artifact@v4
         with:
