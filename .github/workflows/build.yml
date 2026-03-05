@@ -48,8 +48,13 @@ jobs:
 
       - run: npm ci
 
-      - name: Build (dmg – universal / arm64 + x64)
-        run: npm run build:mac
+      - name: Build (dmg x64)
+        run: npm run compile && electron-builder --mac --x64
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build (dmg arm64)
+        run: electron-builder --mac --arm64
         env:
           # Notarisation: set these secrets to enable notarisation.
           # APPLE_ID:                   ${{ secrets.APPLE_ID }}
