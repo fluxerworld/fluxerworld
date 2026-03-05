@@ -70,7 +70,7 @@ mac:
       arch: [x64, arm64]
 
 dmg:
-  title:    "${productName} ${version}"
+  title:    "${productName}-${version}"
   iconSize: 128
   window:
     width:  540

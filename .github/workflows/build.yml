@@ -109,7 +109,7 @@ jobs:
       # Inside the container we're already root; sudo is unavailable/broken.
       # Pre-install imagemagick so flatpak-github-actions doesn't try sudo.
       - name: Install imagemagick
-        run: apt-get install -y --no-install-recommends imagemagick
+        run: dnf install -y ImageMagick
 
       - name: Patch manifest with actual tarball path + sha256
         run: |
