@@ -161,7 +161,7 @@ jobs:
         run: |
           if [ -n "$ANDROID_KEYSTORE_BASE64" ]; then
             printf '%s' "$ANDROID_KEYSTORE_BASE64" | tr -d '[:space:]' | base64 -d > app/release.keystore
-            echo "keystore_path=app/release.keystore" >> $GITHUB_OUTPUT
+            echo "keystore_path=$(pwd)/app/release.keystore" >> $GITHUB_OUTPUT
           fi
 
       - name: Build release APK
