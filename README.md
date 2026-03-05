@@ -47,7 +47,7 @@ Fluxer is fully open source and can be self hosted.
 
 If you would like to run your own server, see the official documentation:
 
-📘 **[Fluxer Self-Hosting Guide](https://github.com/fluxerapp/fluxer)**
+📘 **[Fluxer Self-Hosting Guide](https://fluxer.world/selfhost.html)**
 
 Fluxer World will also provide additional guides to make deploying a server easier.
 
