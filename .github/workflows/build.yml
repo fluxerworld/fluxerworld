@@ -219,7 +219,28 @@ jobs:
     steps:
       - uses: actions/download-artifact@v4
         with:
-          path: artifacts
+          name: windows-installers
+          path: artifacts/windows
+      - uses: actions/download-artifact@v4
+        with:
+          name: macos-dmg
+          path: artifacts/macos
+      - uses: actions/download-artifact@v4
+        with:
+          name: linux-tarballs
+          path: artifacts/linux
+      - uses: actions/download-artifact@v4
+        with:
+          name: flatpak-bundle
+          path: artifacts/flatpak
+      - uses: actions/download-artifact@v4
+        with:
+          name: android-apk
+          path: artifacts/android
+      - uses: actions/download-artifact@v4
+        with:
+          name: ios-ipa
+          path: artifacts/ios
 
       - name: Create release and upload assets
         uses: softprops/action-gh-release@v2
