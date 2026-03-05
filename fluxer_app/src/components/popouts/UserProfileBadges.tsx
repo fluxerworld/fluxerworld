@@ -103,7 +103,7 @@ export const UserProfileBadges: React.FC<UserProfileBadgesProps> = observer(
 				});
 			}
 
-			if (!selfHosted && profile?.premiumType && profile.premiumType !== UserPremiumTypes.NONE) {
+			if (profile?.premiumType && profile.premiumType !== UserPremiumTypes.NONE) {
 				let tooltipText = t`Fluxer Plutonium`;
 				let badgeUrl = Routes.plutonium();
 

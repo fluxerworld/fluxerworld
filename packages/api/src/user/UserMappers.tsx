@@ -170,7 +170,7 @@ export function mapUserToPrivateResponse(user: User): UserPrivateResponse {
 		mfa_enabled: (user.authenticatorTypes?.size ?? 0) > 0,
 		authenticator_types: user.authenticatorTypes ? Array.from(user.authenticatorTypes) : undefined,
 		verified: user.emailVerified,
-		premium_type: isActuallyPremium ? user.premiumType : 0,
+		premium_type: isActuallyPremium ? (user.premiumType && user.premiumType > 0 ? user.premiumType : 1) : 0,
 		premium_since: isActuallyPremium ? (user.premiumSince?.toISOString() ?? null) : null,
 		premium_until: user.premiumUntil?.toISOString() ?? null,
 		premium_will_cancel: user.premiumWillCancel ?? false,

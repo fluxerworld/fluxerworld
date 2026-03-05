@@ -98,7 +98,8 @@ export class UserAccountLookupService {
 			}
 		}
 
-		let premiumType = user.premiumType ?? undefined;
+		const isActuallyPremium = user.isPremium();
+		let premiumType = isActuallyPremium ? (user.premiumType && user.premiumType > 0 ? user.premiumType : 1) : (user.premiumType ?? undefined);
 		let premiumSince = user.premiumSince ?? undefined;
 		let premiumLifetimeSequence = user.premiumLifetimeSequence ?? undefined;
 
