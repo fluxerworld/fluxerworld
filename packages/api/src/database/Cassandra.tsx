@@ -737,12 +737,15 @@ async function executeQuerySqlite<T = RowObject, P extends CassandraParams = Cas
 		case 'upsert': {
 			const row = applyNowColumn(paramsToRow(meta.table, bound), meta.nowColumn);
 			const pk = pkFromParams(meta.table, bound);
+			if (meta.nowColumn && row[meta.nowColumn] !== undefined) {
+				pk[meta.nowColumn] = row[meta.nowColumn];
+			}
 			const key = encodeKey(meta.table.primaryKey.map((c) => pk[c]));
 			const existing = kv.get<RowObject>(meta.table.name, key) ?? {};
 			kv.put(
 				meta.table.name,
 				key,
-				{...existing, ...row, ...pk},
+				{...existing, ...pk, ...row},
 				meta.ttlSeconds ?? (meta.ttlParamName ? (bound[meta.ttlParamName] as number) : undefined),
 			);
 			return [];
@@ -803,12 +806,15 @@ async function executeQuerySqlite<T = RowObject, P extends CassandraParams = Cas
 		}
 
 		case 'insertIfNotExists': {
+			const row = applyNowColumn(paramsToRow(meta.table, bound), meta.nowColumn);
 			const pk = pkFromParams(meta.table, bound);
+			if (meta.nowColumn && row[meta.nowColumn] !== undefined) {
+				pk[meta.nowColumn] = row[meta.nowColumn];
+			}
 			const key = encodeKey(meta.table.primaryKey.map((c) => pk[c]));
 			const existing = kv.get<RowObject>(meta.table.name, key);
 			if (existing) return [];
-			const row = applyNowColumn(paramsToRow(meta.table, bound), meta.nowColumn);
-			kv.put(meta.table.name, key, {...row, ...pk}, meta.ttlSeconds);
+			kv.put(meta.table.name, key, {...pk, ...row}, meta.ttlSeconds);
 			return [];
 		}
 
@@ -828,14 +834,17 @@ async function executeConditionalSqlite<P extends CassandraParams = CassandraPar
 
 	switch (meta.action) {
 		case 'insertIfNotExists': {
+			const row = applyNowColumn(paramsToRow(meta.table, bound), meta.nowColumn);
 			const pk = pkFromParams(meta.table, bound);
+			if (meta.nowColumn && row[meta.nowColumn] !== undefined) {
+				pk[meta.nowColumn] = row[meta.nowColumn];
+			}
 			const key = encodeKey(meta.table.primaryKey.map((c) => pk[c]));
 			const existing = kv.get<RowObject>(meta.table.name, key);
 			if (existing) {
 				return {applied: false, rows: [existing]};
 			}
-			const row = applyNowColumn(paramsToRow(meta.table, bound), meta.nowColumn);
-			kv.put(meta.table.name, key, {...row, ...pk}, meta.ttlSeconds);
+			kv.put(meta.table.name, key, {...pk, ...row}, meta.ttlSeconds);
 			return {applied: true, rows: []};
 		}
 
