@@ -116,14 +116,12 @@ jobs:
       - name: Install imagemagick
         run: dnf install -y ImageMagick
 
-      - name: Patch manifest with actual tarball path + sha256
+      - name: Patch manifest with actual tarball path
         run: |
           TARBALL=$(ls flatpak-tarballs/*.tar.gz | head -1)
-          SHA256=$(sha256sum "$TARBALL" | awk '{print $1}')
           cp "$TARBALL" flatpak/fluxer-world.tar.gz
           sed -i \
-            -e "s|url: .*tar.gz|url: file:///$(pwd)/flatpak/fluxer-world.tar.gz|" \
-            -e "s|sha256: REPLACE_WITH_ACTUAL_SHA256|sha256: ${SHA256}|" \
+            's|path: ../release/.*|path: fluxer-world.tar.gz|' \
             flatpak/org.fluxer.World.yml
 
       # Icons are pre-committed in flatpak/icons/ — no generation needed.
