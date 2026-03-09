@@ -13,3 +13,8 @@ ios/build/
 ios/*.xcworkspace/xcuserdata/
 ios/**/*.xcuserstate
 ios/DerivedData/
+
+# Flatpak build artifacts
+flatpak/.flatpak-builder/
+flatpak/build-dir/
+flatpak/repo/

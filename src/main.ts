@@ -1,6 +1,7 @@
 import {
   app,
   BrowserWindow,
+  Notification,
   Tray,
   Menu,
   MenuItem,
@@ -9,8 +10,10 @@ import {
   ipcMain,
   session,
   dialog,
+  clipboard,
 } from 'electron';
 import * as path from 'path';
+import * as crypto from 'crypto';
 import { Store } from './store';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -29,6 +32,9 @@ const store       = new Store();
 let mainWindow:   BrowserWindow | null = null;
 let tray:         Tray | null = null;
 let isQuitting    = false;
+
+/** Track active native notifications so we can close them by id. */
+const activeNotifications = new Map<string, Notification>();
 
 // ─── Single-instance lock ─────────────────────────────────────────────────────
 
@@ -75,8 +81,13 @@ function isAllowedUrl(rawUrl: string): boolean {
 
 // ─── Deep-link handler ────────────────────────────────────────────────────────
 
+let pendingDeepLink: string | null = null;
+
 function handleDeepLink(rawUrl: string): void {
-  if (!mainWindow) return;
+  if (!mainWindow) {
+    pendingDeepLink = rawUrl;
+    return;
+  }
 
   showWindow();
 
@@ -174,6 +185,14 @@ function createWindow(): BrowserWindow {
   win.on('resize', saveWindowState);
   win.on('move',   saveWindowState);
 
+  // ── Maximize state tracking ─────────────────────────────────────────────
+  win.on('maximize', () => {
+    win.webContents.send('window-maximize-change', true);
+  });
+  win.on('unmaximize', () => {
+    win.webContents.send('window-maximize-change', false);
+  });
+
   // ── Close → hide to tray ─────────────────────────────────────────────────
   win.on('close', (e) => {
     if (!isQuitting && store.get('closeToTray')) {
@@ -219,6 +238,7 @@ function createWindow(): BrowserWindow {
     'notifications',
     'media',
     'clipboard-read',
+    'clipboard-sanitized-write',
     'fullscreen',
     'pointerLock',
   ]);
@@ -342,8 +362,21 @@ function applyLoginItem(enable: boolean): void {
   });
 }
 
-// ─── IPC ─────────────────────────────────────────────────────────────────────
+// ─── IPC handlers ────────────────────────────────────────────────────────────
 
+// Open external URL
+ipcMain.handle('open-external', async (_e, url: string) => {
+  try {
+    const u = new URL(url);
+    if (u.protocol === 'https:' || u.protocol === 'http:') {
+      await shell.openExternal(url);
+    }
+  } catch {
+    // drop
+  }
+});
+
+// Legacy fire-and-forget version
 ipcMain.on('open-external', (_e, url: string) => {
   try {
     const u = new URL(url);
@@ -354,6 +387,165 @@ ipcMain.on('open-external', (_e, url: string) => {
     // drop
   }
 });
+
+// ── Notifications ────────────────────────────────────────────────────────────
+
+ipcMain.handle('show-notification', (_e, payload: { title: string; body: string; icon?: string; url?: string }) => {
+  const id = crypto.randomBytes(16).toString('hex');
+
+  const options: Electron.NotificationConstructorOptions = {
+    title: payload.title,
+    body: payload.body,
+  };
+
+  if (payload.icon) {
+    try {
+      options.icon = nativeImage.createFromDataURL(payload.icon);
+    } catch {
+      // icon might be a URL, not a data URL – just skip it
+    }
+  }
+
+  const notification = new Notification(options);
+
+  notification.on('click', () => {
+    if (mainWindow) {
+      mainWindow.webContents.send('notification-click', id, payload.url);
+      showWindow();
+    }
+  });
+
+  notification.on('close', () => {
+    activeNotifications.delete(id);
+  });
+
+  activeNotifications.set(id, notification);
+  notification.show();
+
+  return { id };
+});
+
+ipcMain.on('close-notification', (_e, id: string) => {
+  const notification = activeNotifications.get(id);
+  if (notification) {
+    notification.close();
+    activeNotifications.delete(id);
+  }
+});
+
+ipcMain.on('close-notifications', (_e, ids: string[]) => {
+  for (const id of ids) {
+    const notification = activeNotifications.get(id);
+    if (notification) {
+      notification.close();
+      activeNotifications.delete(id);
+    }
+  }
+});
+
+// ── Downloads ────────────────────────────────────────────────────────────────
+
+ipcMain.handle('download-file', async (_e, url: string, suggestedName: string) => {
+  if (!mainWindow) return { success: false, error: 'No window' };
+
+  try {
+    const { filePath } = await dialog.showSaveDialog(mainWindow, {
+      defaultPath: suggestedName,
+    });
+
+    if (!filePath) return { success: false, error: 'Cancelled' };
+
+    return new Promise((resolve) => {
+      const ses = mainWindow!.webContents.session;
+      ses.once('will-download', (_event, item) => {
+        item.setSavePath(filePath);
+        item.once('done', (_doneEvent, state) => {
+          if (state === 'completed') {
+            resolve({ success: true, path: filePath });
+          } else {
+            resolve({ success: false, error: state });
+          }
+        });
+      });
+      mainWindow!.webContents.downloadURL(url);
+    });
+  } catch (err: any) {
+    return { success: false, error: err?.message ?? 'Download failed' };
+  }
+});
+
+// ── Desktop info ─────────────────────────────────────────────────────────────
+
+ipcMain.handle('get-desktop-info', () => {
+  return {
+    version: app.getVersion(),
+    arch: process.arch,
+    os: process.platform,
+    osVersion: process.getSystemVersion?.() ?? 'unknown',
+  };
+});
+
+// ── Deep links ───────────────────────────────────────────────────────────────
+
+ipcMain.handle('get-initial-deep-link', () => {
+  const link = pendingDeepLink;
+  pendingDeepLink = null;
+  return link;
+});
+
+// ── Clipboard ────────────────────────────────────────────────────────────────
+
+ipcMain.handle('clipboard-write-text', (_e, text: string) => {
+  clipboard.writeText(text);
+});
+
+// ── Badge count ──────────────────────────────────────────────────────────────
+
+ipcMain.on('set-badge-count', (_e, count: number) => {
+  app.setBadgeCount(count);
+});
+
+// ── Window controls ──────────────────────────────────────────────────────────
+
+ipcMain.on('window-minimize', () => mainWindow?.minimize());
+ipcMain.on('window-maximize', () => {
+  if (mainWindow?.isMaximized()) {
+    mainWindow.unmaximize();
+  } else {
+    mainWindow?.maximize();
+  }
+});
+ipcMain.on('window-close', () => mainWindow?.close());
+
+// ── Autostart ────────────────────────────────────────────────────────────────
+
+ipcMain.handle('autostart-enable', () => {
+  store.set('startOnBoot', true);
+  applyLoginItem(true);
+});
+
+ipcMain.handle('autostart-disable', () => {
+  store.set('startOnBoot', false);
+  applyLoginItem(false);
+});
+
+ipcMain.handle('autostart-is-enabled', () => store.get('startOnBoot'));
+ipcMain.handle('autostart-is-initialized', () => store.get('autostartInitialized') ?? false);
+ipcMain.handle('autostart-mark-initialized', () => store.set('autostartInitialized', true));
+
+// ── Updater stubs ────────────────────────────────────────────────────────────
+
+ipcMain.handle('updater-check', () => {});
+ipcMain.handle('updater-install', () => {});
+
+// ── Spellcheck stubs ─────────────────────────────────────────────────────────
+
+ipcMain.handle('spellcheck-get-available-languages', () => []);
+ipcMain.handle('spellcheck-set-state', (_e, state: any) => state);
+
+// ── Desktop sources stub ─────────────────────────────────────────────────────
+
+ipcMain.handle('get-desktop-sources', () => []);
 
 // ─── App lifecycle ────────────────────────────────────────────────────────────
 
