@@ -16,6 +16,7 @@ finish-args:
   # Display
   - --share=ipc
   - --socket=x11
+  - --socket=fallback-x11
   - --socket=wayland
   # Network (the entire app is a web client)
   - --share=network
@@ -53,22 +54,24 @@ modules:
       # the real sandbox here) and sets the app-id for proper Wayland XDG
       # desktop integration.
       - |
-        cat > /app/bin/fluxer-world <<'EOF'
+        cat > /app/bin/fluxer-world <<'WRAPPER'
         #!/bin/sh
         export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
-        exec /app/fluxer-world/fluxer-world \
+        # Zygote and GPU crash inside Flatpak – disable them
+        exec /app/fluxer-world/fluxer-desktop \
           --no-sandbox \
+          --no-zygote \
+          --disable-gpu \
+          --disable-gpu-sandbox \
           --enable-features=UseOzonePlatform,WaylandWindowDecorations \
+          --ozone-platform-hint=auto \
           "$@"
-        EOF
+        WRAPPER
       - chmod +x /app/bin/fluxer-world
 
       # Desktop integration
       - install -Dm 644 org.fluxer.World.desktop
           /app/share/applications/org.fluxer.World.desktop
-      - install -Dm 644 org.fluxer.World.metainfo.xml
-          /app/share/metainfo/org.fluxer.World.metainfo.xml
-
       # Icons (source must be present in the flatpak/ directory at build time)
       - install -Dm 644 icons/icon_16.png
           /app/share/icons/hicolor/16x16/apps/org.fluxer.World.png
@@ -86,18 +89,12 @@ modules:
           /app/share/icons/hicolor/512x512/apps/org.fluxer.World.png
 
     sources:
-      # Replace the url/sha256 with your actual release artifact.
-      # Generate sha256 with: sha256sum Fluxer\ World-*-linux-x64.tar.gz
       - type: file
-        url: https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.0/Fluxer World-1.0.0-linux-x64.tar.gz
-        sha256: REPLACE_WITH_ACTUAL_SHA256
+        path: ../release/Fluxer World-1.0.0-linux-x64.tar.gz
         dest-filename: fluxer-world.tar.gz
 
       - type: file
         path: org.fluxer.World.desktop
-
-      - type: file
-        path: org.fluxer.World.metainfo.xml
 
       # Icon sizes – generate from your master icon.png with ImageMagick:
       # for s in 16 32 48 64 128 256 512; do

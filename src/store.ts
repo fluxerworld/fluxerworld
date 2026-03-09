@@ -15,6 +15,7 @@ export interface AppSettings {
   closeToTray: boolean;
   startMinimized: boolean;
   startOnBoot: boolean;
+  autostartInitialized: boolean;
 }
 
 const DEFAULTS: AppSettings = {
@@ -22,6 +23,7 @@ const DEFAULTS: AppSettings = {
   closeToTray: true,
   startMinimized: false,
   startOnBoot: false,
+  autostartInitialized: false,
 };
 
 type DeepPartial<T> = { [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K] };
