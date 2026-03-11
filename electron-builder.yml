@@ -65,9 +65,9 @@ mac:
   entitlementsInherit: build/entitlements.mac.plist
   # Notarisation: set APPLE_ID, APPLE_APP_SPECIFIC_PASSWORD, APPLE_TEAM_ID
   # notarize: true
-  target:
-    - target: dmg
-      arch: [x64, arm64]
+  # Arch is controlled by CI workflow flags (--x64 / --arm64) to avoid
+  # hdiutil volume conflicts when building both DMGs on the same runner.
+  target: dmg
 
 dmg:
   title:    "FluxerWorld-${version}"
