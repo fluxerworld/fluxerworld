@@ -53,6 +53,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Detach DMG volumes
+        run: hdiutil detach /Volumes/FluxerWorld-* 2>/dev/null || true
+
       - name: Build (dmg arm64)
         run: npx electron-builder --mac --arm64
         env:
