@@ -2,6 +2,10 @@ package org.fluxer.world
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -12,7 +16,12 @@ import android.webkit.*
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
+import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
+import androidx.webkit.ServiceWorkerClientCompat
+import androidx.webkit.ServiceWorkerControllerCompat
+import androidx.webkit.ServiceWorkerWebSettingsCompat
 import androidx.webkit.WebSettingsCompat
 import androidx.webkit.WebViewFeature
 
@@ -20,10 +29,16 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
     private var filePathCallback: ValueCallback<Array<Uri>>? = null
+    private var notificationId = 1000
 
     companion object {
         private const val APP_URL = "https://fluxer.world"
+        private const val CHANNEL_ID = "fluxer_messages"
         private val ALLOWED_HOSTS = setOf("fluxer.world", "cdn.fluxer.world", "media.fluxer.world")
+
+        // Keep WebView instance alive across activity recreation
+        @SuppressLint("StaticFieldLeak")
+        private var persistentWebView: WebView? = null
     }
 
     // File chooser launcher
@@ -48,10 +63,25 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        webView = WebView(this)
-        setContentView(webView)
+        createNotificationChannel()
+        setupServiceWorker()
 
-        setupWebView()
+        val existing = persistentWebView
+        if (existing != null) {
+            // Reuse the existing WebView - just re-attach it
+            (existing.parent as? android.view.ViewGroup)?.removeView(existing)
+            webView = existing
+            setContentView(webView)
+        } else {
+            webView = WebView(this)
+            setContentView(webView)
+            setupWebView()
+
+            // Handle deep link or load default URL
+            val startUrl = resolveIntentUrl(intent) ?: APP_URL
+            webView.loadUrl(startUrl)
+            persistentWebView = webView
+        }
 
         // Ask for notification permission on Android 13+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -60,13 +90,38 @@ class MainActivity : AppCompatActivity() {
                 notificationPermLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
+    }
 
-        // Handle deep link or load default URL
-        val startUrl = resolveIntentUrl(intent) ?: APP_URL
-        if (savedInstanceState != null) {
-            webView.restoreState(savedInstanceState)
-        } else {
-            webView.loadUrl(startUrl)
+    private fun createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                CHANNEL_ID,
+                "Messages",
+                NotificationManager.IMPORTANCE_HIGH
+            ).apply {
+                description = "Fluxer message notifications"
+                enableVibration(true)
+            }
+            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            manager.createNotificationChannel(channel)
+        }
+    }
+
+    private fun setupServiceWorker() {
+        // Enable service worker support for push notifications
+        if (WebViewFeature.isFeatureSupported(WebViewFeature.SERVICE_WORKER_BASIC_USAGE)) {
+            val swController = ServiceWorkerControllerCompat.getInstance()
+            swController.setServiceWorkerClient(object : ServiceWorkerClientCompat() {
+                override fun shouldInterceptRequest(request: WebResourceRequest): WebResourceResponse? {
+                    return null // let all service worker requests through
+                }
+            })
+            if (WebViewFeature.isFeatureSupported(WebViewFeature.SERVICE_WORKER_CACHE_MODE)) {
+                swController.serviceWorkerWebSettings.cacheMode = WebSettings.LOAD_DEFAULT
+            }
+            if (WebViewFeature.isFeatureSupported(WebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST)) {
+                swController.serviceWorkerWebSettings.allowContentAccess = false
+            }
         }
     }
 
@@ -89,6 +144,9 @@ class MainActivity : AppCompatActivity() {
         // Cache
         settings.cacheMode = WebSettings.LOAD_DEFAULT
 
+        // Add JS bridge for native notifications
+        webView.addJavascriptInterface(NotificationBridge(this), "FluxerAndroid")
+
         webView.webViewClient = object : WebViewClient() {
             override fun shouldOverrideUrlLoading(view: WebView, request: WebResourceRequest): Boolean {
                 val url = request.url ?: return false
@@ -98,6 +156,12 @@ class MainActivity : AppCompatActivity() {
                     openExternal(url.toString())
                     true
                 }
+            }
+
+            override fun onPageFinished(view: WebView?, url: String?) {
+                super.onPageFinished(view, url)
+                // Inject notification override so the web app uses native Android notifications
+                injectNotificationBridge()
             }
         }
 
@@ -153,6 +217,76 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     request.deny()
                 }
+            }
+        }
+    }
+
+    private fun injectNotificationBridge() {
+        // Override the Notification API to use native Android notifications
+        val js = """
+            (function() {
+                if (window._fluxerNotificationPatched) return;
+                window._fluxerNotificationPatched = true;
+
+                var OriginalNotification = window.Notification;
+
+                var FluxerNotification = function(title, options) {
+                    options = options || {};
+                    try {
+                        FluxerAndroid.showNotification(
+                            title || '',
+                            options.body || '',
+                            options.icon || '',
+                            (options.data && options.data.url) || ''
+                        );
+                    } catch(e) {}
+                    this.close = function() {};
+                };
+
+                FluxerNotification.permission = 'granted';
+                FluxerNotification.requestPermission = function(cb) {
+                    if (cb) cb('granted');
+                    return Promise.resolve('granted');
+                };
+
+                Object.defineProperty(window, 'Notification', {
+                    value: FluxerNotification,
+                    writable: true,
+                    configurable: true
+                });
+            })();
+        """.trimIndent()
+        webView.evaluateJavascript(js, null)
+    }
+
+    @Suppress("unused")
+    inner class NotificationBridge(private val context: Context) {
+        @JavascriptInterface
+        fun showNotification(title: String, body: String, icon: String, url: String) {
+            val intent = Intent(context, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                if (url.isNotEmpty()) {
+                    data = Uri.parse(url)
+                }
+            }
+            val pendingIntent = PendingIntent.getActivity(
+                context, notificationId, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+
+            val builder = NotificationCompat.Builder(context, CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(title)
+                .setContentText(body)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setAutoCancel(true)
+                .setContentIntent(pendingIntent)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+
+            try {
+                NotificationManagerCompat.from(context).notify(notificationId++, builder.build())
+            } catch (e: SecurityException) {
+                // Notification permission not granted
             }
         }
     }
