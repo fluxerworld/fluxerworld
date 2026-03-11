@@ -153,6 +153,8 @@ function createWindow(): BrowserWindow {
     backgroundColor: '#13141a',
     // Don't flash the window before content is ready.
     show: false,
+    // Hide the default menu bar (removes duplicate window controls + File menu)
+    autoHideMenuBar: true,
 
     webPreferences: {
       preload:                  path.join(__dirname, 'preload.js'),
@@ -165,6 +167,9 @@ function createWindow(): BrowserWindow {
       backgroundThrottling:     false,
     },
   });
+
+  // Remove the application menu bar entirely (no File/Edit/View etc.)
+  win.setMenu(null);
 
   // Restore maximised state
   if (saved.isMaximized) win.maximize();
