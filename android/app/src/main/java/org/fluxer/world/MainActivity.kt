@@ -77,9 +77,13 @@ class MainActivity : AppCompatActivity() {
             setContentView(webView)
             setupWebView()
 
-            // Handle deep link or load default URL
-            val startUrl = resolveIntentUrl(intent) ?: APP_URL
-            webView.loadUrl(startUrl)
+            // Try to restore state from saved instance, otherwise load URL
+            if (savedInstanceState != null) {
+                webView.restoreState(savedInstanceState)
+            } else {
+                val startUrl = resolveIntentUrl(intent) ?: APP_URL
+                webView.loadUrl(startUrl)
+            }
             persistentWebView = webView
         }
 
@@ -289,6 +293,18 @@ class MainActivity : AppCompatActivity() {
                 // Notification permission not granted
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        webView.onPause()
+        webView.pauseTimers()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        webView.onResume()
+        webView.resumeTimers()
     }
 
     override fun onNewIntent(intent: Intent) {

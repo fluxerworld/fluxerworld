@@ -57,13 +57,12 @@ modules:
         cat > /app/bin/fluxer-world <<'WRAPPER'
         #!/bin/sh
         export TMPDIR="${XDG_RUNTIME_DIR}/app/${FLATPAK_ID}"
-        # Zygote and GPU crash inside Flatpak – disable them
+        # Zygote crashes inside Flatpak; GPU sandbox conflicts with Bubblewrap
         exec /app/fluxer-world/fluxer-desktop \
           --no-sandbox \
           --no-zygote \
-          --disable-gpu \
           --disable-gpu-sandbox \
-          --enable-features=UseOzonePlatform,WaylandWindowDecorations \
+          --enable-features=UseOzonePlatform,WaylandWindowDecorations,VaapiVideoDecoder \
           --ozone-platform-hint=auto \
           "$@"
         WRAPPER
