@@ -93,6 +93,11 @@ linux:
   target:
     - target: tar.gz
       arch: [x64, arm64]
+  extraFiles:
+    - from: linux/install.sh
+      to:   install.sh
+    - from: linux/uninstall.sh
+      to:   uninstall.sh
 
 # ── Artifact naming ───────────────────────────────────────────────────────────
 artifactName: "${productName}-${version}-${os}-${arch}.${ext}"
