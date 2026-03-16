@@ -45,11 +45,23 @@ Downloads are available on the website:
 
 Fluxer is fully open source and can be self hosted.
 
-If you would like to run your own server, see the official documentation:
+## Docker Images
+
+Pull the Fluxer World server image from either registry:
+
+```bash
+# GitHub Container Registry
+docker pull ghcr.io/fluxerworld/fluxer-server:stable
+
+# Docker Hub
+docker pull fluxerworld/fluxer-server:stable
+```
+
+## Getting Started
+
+For a full step-by-step guide on deploying your own instance:
 
 📘 **[Fluxer Self-Hosting Guide](https://fluxer.world/selfhost.html)**
-
-Fluxer World will also provide additional guides to make deploying a server easier.
 
 ---
 
