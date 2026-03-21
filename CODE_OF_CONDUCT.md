@@ -40,7 +40,7 @@ If you experience or witness unacceptable behavior, please report it as soon as 
 
 How to report:
 
-- Email the maintainers at: developers@fluxer.app
+- Email the maintainers at: admin@fluxer.world
 - If your report involves someone who may have access to that inbox, you can instead contact a maintainer privately on GitHub.
 
 All complaints will be reviewed and investigated promptly and fairly.
