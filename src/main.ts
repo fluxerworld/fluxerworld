@@ -196,18 +196,20 @@ function createWindow(): BrowserWindow {
   // ── Show/hide on ready ────────────────────────────────────────────────────
   win.once('ready-to-show', () => {
     if (!store.get('startMinimized')) {
+      // KDE Wayland aggressively prevents focus stealing, so we briefly pin
+      // the window on top to ensure it's visible, then unpin it.
+      win.setAlwaysOnTop(true);
       win.show();
-      win.moveTop();
       win.focus();
-      app.focus({ steal: true });
+      setTimeout(() => win.setAlwaysOnTop(false), 300);
     } else if (tray) {
       // If tray exists we can stay hidden; otherwise show anyway so the user
       // isn't left with an invisible window.
     } else {
+      win.setAlwaysOnTop(true);
       win.show();
-      win.moveTop();
       win.focus();
-      app.focus({ steal: true });
+      setTimeout(() => win.setAlwaysOnTop(false), 300);
     }
   });
 

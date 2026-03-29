@@ -94,6 +94,12 @@ linux:
   target:
     - target: tar.gz
       arch: [x64, arm64]
+    - target: deb
+      arch: [x64, arm64]
+    - target: rpm
+      arch: [x64, arm64]
+    - target: AppImage
+      arch: [x64, arm64]
   extraFiles:
     - from: linux/install.sh
       to:   install.sh
