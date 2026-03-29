@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "description": "Fluxer World – desktop client",
   "main": "dist/main.js",
-  "author": "Fluxer Contributors",
+  "author": "Fluxer Contributors <xuruh@tuta.io>",
   "license": "AGPL-3.0",
   "private": true,
 
