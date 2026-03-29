@@ -166,6 +166,9 @@ function createWindow(): BrowserWindow {
     show: false,
     // Hide the default menu bar (removes duplicate window controls + File menu)
     autoHideMenuBar: true,
+    // Remove the native window frame on Linux so the web app's own title bar
+    // controls are the only set of min/max/close buttons.
+    ...(process.platform === 'linux' && { frame: false }),
     // Dark title bar on Windows — prevents the OS accent colour from bleeding in.
     ...(process.platform === 'win32' && {
       titleBarStyle: 'hidden' as const,
