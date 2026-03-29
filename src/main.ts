@@ -29,7 +29,6 @@ const ALLOWED_HOSTS = new Set(['fluxer.world', 'cdn.fluxer.world', 'media.fluxer
 // ─── Wayland app_id / WM_CLASS ────────────────────────────────────────────────
 // Must be set before any BrowserWindow is created so that Wayland compositors
 // can match the window to the .desktop file and show the correct icon.
-app.setDesktopName('org.fluxer.World.desktop');
 if (process.platform === 'linux') {
   app.commandLine.appendSwitch('wayland-app-id', APP_ID);
 }
