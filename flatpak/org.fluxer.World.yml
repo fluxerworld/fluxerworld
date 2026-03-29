@@ -13,11 +13,10 @@ command: fluxer-world
 
 # ── Sandbox permissions ───────────────────────────────────────────────────────
 finish-args:
-  # Display
+  # Display (fallback-x11 gives X11 only when Wayland is unavailable)
   - --share=ipc
-  - --socket=x11
-  - --socket=fallback-x11
   - --socket=wayland
+  - --socket=fallback-x11
   # Network (the entire app is a web client)
   - --share=network
   # Sound
@@ -25,21 +24,10 @@ finish-args:
   # Notifications via the host portal
   - --talk-name=org.freedesktop.Notifications
   # System tray via StatusNotifierItem (KDE/xfce/etc.)
-  # GNOME requires the AppIndicator shell extension; app still runs without it.
   - --talk-name=org.kde.StatusNotifierWatcher
   - --talk-name=com.canonical.indicator.application
-  - --talk-name=org.freedesktop.portal.Notification
-  # Auto-start / login item
-  - --talk-name=org.freedesktop.portal.Background
-  # File system: only user data dir
-  - --filesystem=xdg-run/dconf
-  - --filesystem=~/.config/dconf:ro
-  - --talk-name=ca.desrt.dconf
-  - --env=DCONF_USER_CONFIG_DIR=.config/dconf
-  # Electron needs this to locate its own GPU process inside the Flatpak.
+  # GPU access for Electron/Chromium rendering
   - --device=dri
-  # --no-sandbox is required because Chrome's setuid sandbox conflicts with
-  # Bubblewrap.  The Flatpak container itself is the sandbox boundary.
   - --env=ELECTRON_OZONE_PLATFORM_HINT=auto
 
 modules:
@@ -71,7 +59,9 @@ modules:
       # Desktop integration
       - install -Dm 644 org.fluxer.World.desktop
           /app/share/applications/org.fluxer.World.desktop
-      # Icons (source must be present in the flatpak/ directory at build time)
+      - install -Dm 644 org.fluxer.World.metainfo.xml
+          /app/share/metainfo/org.fluxer.World.metainfo.xml
+      # Icons
       - install -Dm 644 icons/icon_16.png
           /app/share/icons/hicolor/16x16/apps/org.fluxer.World.png
       - install -Dm 644 icons/icon_32.png
@@ -89,16 +79,21 @@ modules:
 
     sources:
       - type: file
-        path: ../release/Fluxer World-1.0.0-linux-x64.tar.gz
+        url: https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.23/Fluxer.World-1.0.0-linux-x64.tar.gz
+        sha256: a0d64bb5442f510c5b518934a2d234ab2b545f66eafa22cc08110c6216cffbb6
         dest-filename: fluxer-world.tar.gz
+        x-checker-data:
+          type: json
+          url: https://api.github.com/repos/fluxerworld/fluxerworld/releases/latest
+          version-query: .tag_name | sub("^v"; "")
+          url-query: .assets[] | select(.name | test("linux-x64.tar.gz$")) | .browser_download_url
 
       - type: file
         path: org.fluxer.World.desktop
 
-      # Icon sizes – generate from your master icon.png with ImageMagick:
-      # for s in 16 32 48 64 128 256 512; do
-      #   convert assets/icons/icon.png -resize ${s}x${s} flatpak/icons/icon_${s}.png
-      # done
+      - type: file
+        path: org.fluxer.World.metainfo.xml
+
       - type: dir
         path: icons
         dest: icons

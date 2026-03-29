@@ -28,11 +28,13 @@ const ALLOWED_HOSTS = new Set(['fluxer.world', 'cdn.fluxer.world', 'media.fluxer
 
 // ─── Wayland app_id / WM_CLASS ────────────────────────────────────────────────
 // Must be set before any BrowserWindow is created so that Wayland compositors
-// can match the window to the .desktop file and show the correct icon.
+// and KDE/GNOME can match the window to the .desktop file and show the correct icon.
 if (process.platform === 'linux') {
   app.commandLine.appendSwitch('wayland-app-id', APP_ID);
+  app.commandLine.appendSwitch('wm-class', APP_ID);
 }
 app.name = APP_ID;
+app.setName(APP_ID);
 
 // ─── Globals ──────────────────────────────────────────────────────────────────
 
@@ -195,13 +197,17 @@ function createWindow(): BrowserWindow {
   win.once('ready-to-show', () => {
     if (!store.get('startMinimized')) {
       win.show();
+      win.moveTop();
       win.focus();
+      app.focus({ steal: true });
     } else if (tray) {
       // If tray exists we can stay hidden; otherwise show anyway so the user
       // isn't left with an invisible window.
     } else {
       win.show();
+      win.moveTop();
       win.focus();
+      app.focus({ steal: true });
     }
   });
 
