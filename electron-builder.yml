@@ -89,7 +89,6 @@ dmg:
 linux:
   icon:        assets/icons/icon.png
   category:    Network
-  desktopName: org.fluxer.World
   # Used in .desktop file
   description: "Fluxer World desktop client"
   target:
