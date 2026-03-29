@@ -161,9 +161,9 @@ function createWindow(): BrowserWindow {
     icon:      nativeImage.createFromPath(iconPath),
     // Subtle dark background colour shown while the SPA is loading.
     backgroundColor: '#13141a',
-    // Show immediately — KDE Wayland ignores focus requests from hidden windows,
-    // so `show: false` + `ready-to-show` leaves the window stuck in the taskbar.
-    show: !store.get('startMinimized'),
+    // Start hidden; we show explicitly in ready-to-show to work around
+    // KDE Wayland focus-stealing prevention.
+    show: false,
     // Hide the default menu bar (removes duplicate window controls + File menu)
     autoHideMenuBar: true,
     // Dark title bar on Windows — prevents the OS accent colour from bleeding in.
@@ -193,6 +193,23 @@ function createWindow(): BrowserWindow {
 
   // Restore maximised state
   if (saved.isMaximized) win.maximize();
+
+  // ── Show window (KDE Wayland workaround) ──────────────────────────────
+  // KDE Wayland aggressively prevents focus stealing.  We use setAlwaysOnTop
+  // briefly to force the window onto the screen, then unpin it.
+  if (!store.get('startMinimized')) {
+    win.once('ready-to-show', () => {
+      win.show();
+      win.focus();
+      if (process.platform === 'linux') {
+        win.setAlwaysOnTop(true);
+        setTimeout(() => {
+          win.setAlwaysOnTop(false);
+          win.focus();
+        }, 300);
+      }
+    });
+  }
 
   // ── Window state persistence ─────────────────────────────────────────────
   win.on('resize', saveWindowState);
@@ -281,12 +298,11 @@ function createWindow(): BrowserWindow {
 
 // ─── Tray ─────────────────────────────────────────────────────────────────────
 
-function trayIconPath(): string {
+function trayIconPath(unread = false): string {
   const base = asset('icons', 'tray');
   // macOS: template image (named *Template.png) is auto-tinted for dark/light.
-  return process.platform === 'darwin'
-    ? path.join(base, 'trayTemplate.png')
-    : path.join(base, 'tray-linux.png');
+  if (process.platform === 'darwin') return path.join(base, 'trayTemplate.png');
+  return path.join(base, unread ? 'tray-linux-unread.png' : 'tray-linux.png');
 }
 
 function buildTrayMenu(): Menu {
@@ -516,18 +532,23 @@ ipcMain.handle('clipboard-write-text', (_e, text: string) => {
 
 ipcMain.on('set-badge-count', (_e, count: number) => {
   app.setBadgeCount(count);
-  if (mainWindow && !mainWindow.isFocused()) {
-    // flashFrame sets the X11 urgency hint and triggers taskbar attention on
-    // most Linux DEs.  On macOS/Windows the badge count above handles it.
+  const hasUnread = count > 0;
+
+  if (mainWindow && !mainWindow.isFocused() && hasUnread) {
+    // flashFrame sets the urgency hint (X11) or xdg-activation (Wayland).
     if (process.platform === 'linux') {
-      mainWindow.flashFrame(count > 0);
+      mainWindow.flashFrame(true);
     }
-    // Tray tooltip update so KDE shows the count even without Unity support.
-    if (tray) {
-      tray.setToolTip(count > 0 ? `${APP_NAME} (${count} unread)` : APP_NAME);
-    }
-  } else if (tray) {
-    tray.setToolTip(APP_NAME);
+  } else if (mainWindow && !hasUnread) {
+    mainWindow.flashFrame(false);
+  }
+
+  // Swap tray icon to show/hide the unread indicator dot.
+  if (tray) {
+    try {
+      tray.setImage(nativeImage.createFromPath(trayIconPath(hasUnread)));
+    } catch { /* ignore */ }
+    tray.setToolTip(hasUnread ? `${APP_NAME} (${count} unread)` : APP_NAME);
   }
 });
 
