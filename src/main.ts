@@ -161,8 +161,9 @@ function createWindow(): BrowserWindow {
     icon:      nativeImage.createFromPath(iconPath),
     // Subtle dark background colour shown while the SPA is loading.
     backgroundColor: '#13141a',
-    // Don't flash the window before content is ready.
-    show: false,
+    // Show immediately — KDE Wayland ignores focus requests from hidden windows,
+    // so `show: false` + `ready-to-show` leaves the window stuck in the taskbar.
+    show: !store.get('startMinimized'),
     // Hide the default menu bar (removes duplicate window controls + File menu)
     autoHideMenuBar: true,
     // Dark title bar on Windows — prevents the OS accent colour from bleeding in.
@@ -192,26 +193,6 @@ function createWindow(): BrowserWindow {
 
   // Restore maximised state
   if (saved.isMaximized) win.maximize();
-
-  // ── Show/hide on ready ────────────────────────────────────────────────────
-  win.once('ready-to-show', () => {
-    if (!store.get('startMinimized')) {
-      // KDE Wayland aggressively prevents focus stealing, so we briefly pin
-      // the window on top to ensure it's visible, then unpin it.
-      win.setAlwaysOnTop(true);
-      win.show();
-      win.focus();
-      setTimeout(() => win.setAlwaysOnTop(false), 300);
-    } else if (tray) {
-      // If tray exists we can stay hidden; otherwise show anyway so the user
-      // isn't left with an invisible window.
-    } else {
-      win.setAlwaysOnTop(true);
-      win.show();
-      win.focus();
-      setTimeout(() => win.setAlwaysOnTop(false), 300);
-    }
-  });
 
   // ── Window state persistence ─────────────────────────────────────────────
   win.on('resize', saveWindowState);
@@ -535,10 +516,18 @@ ipcMain.handle('clipboard-write-text', (_e, text: string) => {
 
 ipcMain.on('set-badge-count', (_e, count: number) => {
   app.setBadgeCount(count);
-  // On Linux, setBadgeCount only works with Unity. Use the urgent/attention
-  // hint so most desktops (GNOME, KDE, etc.) highlight the taskbar icon.
-  if (process.platform === 'linux' && mainWindow && !mainWindow.isFocused()) {
-    mainWindow.flashFrame(count > 0);
+  if (mainWindow && !mainWindow.isFocused()) {
+    // flashFrame sets the X11 urgency hint and triggers taskbar attention on
+    // most Linux DEs.  On macOS/Windows the badge count above handles it.
+    if (process.platform === 'linux') {
+      mainWindow.flashFrame(count > 0);
+    }
+    // Tray tooltip update so KDE shows the count even without Unity support.
+    if (tray) {
+      tray.setToolTip(count > 0 ? `${APP_NAME} (${count} unread)` : APP_NAME);
+    }
+  } else if (tray) {
+    tray.setToolTip(APP_NAME);
   }
 });
 
