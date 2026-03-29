@@ -26,6 +26,15 @@ const PROTOCOL    = 'fluxerworld';
 /** Hostnames we consider "internal" – navigation and new windows are allowed. */
 const ALLOWED_HOSTS = new Set(['fluxer.world', 'cdn.fluxer.world', 'media.fluxer.world']);
 
+// ─── Wayland app_id / WM_CLASS ────────────────────────────────────────────────
+// Must be set before any BrowserWindow is created so that Wayland compositors
+// can match the window to the .desktop file and show the correct icon.
+app.setDesktopName('org.fluxer.World.desktop');
+if (process.platform === 'linux') {
+  app.commandLine.appendSwitch('wayland-app-id', APP_ID);
+}
+app.name = APP_ID;
+
 // ─── Globals ──────────────────────────────────────────────────────────────────
 
 const store       = new Store();
@@ -508,6 +517,11 @@ ipcMain.handle('clipboard-write-text', (_e, text: string) => {
 
 ipcMain.on('set-badge-count', (_e, count: number) => {
   app.setBadgeCount(count);
+  // On Linux, setBadgeCount only works with Unity. Use the urgent/attention
+  // hint so most desktops (GNOME, KDE, etc.) highlight the taskbar icon.
+  if (process.platform === 'linux' && mainWindow && !mainWindow.isFocused()) {
+    mainWindow.flashFrame(count > 0);
+  }
 });
 
 // ── Window controls ──────────────────────────────────────────────────────────
