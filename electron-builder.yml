@@ -3,6 +3,7 @@
 
 appId: org.fluxer.World
 productName: Fluxer World
+executableName: fluxer-world
 copyright: Copyright © 2026 Fluxer Contributors
 
 # Where electron-builder will find build resources (icons, entitlements, etc.)
