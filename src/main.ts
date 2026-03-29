@@ -163,6 +163,15 @@ function createWindow(): BrowserWindow {
     show: false,
     // Hide the default menu bar (removes duplicate window controls + File menu)
     autoHideMenuBar: true,
+    // Dark title bar on Windows — prevents the OS accent colour from bleeding in.
+    ...(process.platform === 'win32' && {
+      titleBarStyle: 'hidden' as const,
+      titleBarOverlay: {
+        color: '#13141a',
+        symbolColor: '#e4e4e7',
+        height: 32,
+      },
+    }),
 
     webPreferences: {
       preload:                  path.join(__dirname, 'preload.js'),
@@ -186,11 +195,13 @@ function createWindow(): BrowserWindow {
   win.once('ready-to-show', () => {
     if (!store.get('startMinimized')) {
       win.show();
+      win.focus();
     } else if (tray) {
       // If tray exists we can stay hidden; otherwise show anyway so the user
       // isn't left with an invisible window.
     } else {
       win.show();
+      win.focus();
     }
   });
 
