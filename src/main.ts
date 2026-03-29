@@ -161,9 +161,8 @@ function createWindow(): BrowserWindow {
     icon:      nativeImage.createFromPath(iconPath),
     // Subtle dark background colour shown while the SPA is loading.
     backgroundColor: '#13141a',
-    // Start hidden; we show explicitly in ready-to-show to work around
-    // KDE Wayland focus-stealing prevention.
-    show: false,
+    // Show the window immediately on creation.
+    show: !store.get('startMinimized'),
     // Hide the default menu bar (removes duplicate window controls + File menu)
     autoHideMenuBar: true,
     // Remove the native window frame on Linux so the web app's own title bar
@@ -197,20 +196,16 @@ function createWindow(): BrowserWindow {
   // Restore maximised state
   if (saved.isMaximized) win.maximize();
 
-  // ── Show window (KDE Wayland workaround) ──────────────────────────────
-  // KDE Wayland aggressively prevents focus stealing.  We use setAlwaysOnTop
-  // briefly to force the window onto the screen, then unpin it.
+  // ── KDE Wayland focus workaround ────────────────────────────────────────
+  // KDE Wayland prevents focus stealing.  We request activation at multiple
+  // points to maximise the chance the window actually appears on screen.
   if (!store.get('startMinimized')) {
+    app.focus({ steal: true });
     win.once('ready-to-show', () => {
-      win.show();
+      win.showInactive();
+      win.moveTop();
+      app.focus({ steal: true });
       win.focus();
-      if (process.platform === 'linux') {
-        win.setAlwaysOnTop(true);
-        setTimeout(() => {
-          win.setAlwaysOnTop(false);
-          win.focus();
-        }, 300);
-      }
     });
   }
 
@@ -301,11 +296,13 @@ function createWindow(): BrowserWindow {
 
 // ─── Tray ─────────────────────────────────────────────────────────────────────
 
-function trayIconPath(unread = false): string {
+function trayIconPath(count = 0): string {
   const base = asset('icons', 'tray');
   // macOS: template image (named *Template.png) is auto-tinted for dark/light.
   if (process.platform === 'darwin') return path.join(base, 'trayTemplate.png');
-  return path.join(base, unread ? 'tray-linux-unread.png' : 'tray-linux.png');
+  if (count <= 0) return path.join(base, 'tray-linux.png');
+  if (count >= 10) return path.join(base, 'tray-linux-9plus.png');
+  return path.join(base, `tray-linux-${count}.png`);
 }
 
 function buildTrayMenu(): Menu {
@@ -546,10 +543,10 @@ ipcMain.on('set-badge-count', (_e, count: number) => {
     mainWindow.flashFrame(false);
   }
 
-  // Swap tray icon to show/hide the unread indicator dot.
+  // Swap tray icon to show the unread count badge.
   if (tray) {
     try {
-      tray.setImage(nativeImage.createFromPath(trayIconPath(hasUnread)));
+      tray.setImage(nativeImage.createFromPath(trayIconPath(count)));
     } catch { /* ignore */ }
     tray.setToolTip(hasUnread ? `${APP_NAME} (${count} unread)` : APP_NAME);
   }
