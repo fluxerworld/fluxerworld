@@ -13,6 +13,7 @@ import {
   clipboard,
 } from 'electron';
 import * as path from 'path';
+import * as fs from 'fs';
 import * as crypto from 'crypto';
 import { Store } from './store';
 
@@ -32,6 +33,18 @@ const ALLOWED_HOSTS = new Set(['fluxer.world', 'cdn.fluxer.world', 'media.fluxer
 if (process.platform === 'linux') {
   app.commandLine.appendSwitch('wayland-app-id', APP_ID);
   app.commandLine.appendSwitch('wm-class', APP_ID);
+
+  // Use Vulkan ANGLE backend if a Vulkan driver is installed.
+  // Fixes EGL/ANGLE crashes on some AMD + Wayland setups.
+  try {
+    const icdDir = '/usr/share/vulkan/icd.d';
+    const hasVulkan = fs.existsSync(icdDir) &&
+      fs.readdirSync(icdDir).some(f => f.endsWith('.json'));
+    if (hasVulkan) {
+      app.commandLine.appendSwitch('use-angle', 'vulkan');
+      app.commandLine.appendSwitch('enable-features', 'Vulkan');
+    }
+  } catch {}
 }
 app.name = APP_ID;
 app.setName(APP_ID);

@@ -52,10 +52,13 @@ chmod -f 4755 "$INSTALL_DIR/chrome-sandbox" 2>/dev/null || true
 mkdir -p "$BIN_DIR"
 cat > "$BIN_DIR/$APP_NAME" <<'EOF'
 #!/bin/sh
+export GDK_BACKEND=wayland,x11
 exec "$HOME/.local/share/fluxer-world/fluxer-desktop" \
   --no-sandbox \
   --enable-features=UseOzonePlatform,WaylandWindowDecorations \
   --ozone-platform-hint=auto \
+  --class=org.fluxer.World \
+  --wayland-app-id=org.fluxer.World \
   "$@"
 EOF
 chmod +x "$BIN_DIR/$APP_NAME"
