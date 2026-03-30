@@ -697,9 +697,9 @@ app.on('before-quit', () => {
 // Must happen synchronously before createWindow, so we check argv here.
 if (process.argv.includes('--hidden')) {
   store.set('startMinimized', true);
-  // One-shot: don't persist this as a user preference across relaunches.
-  // We only want to start hidden on this particular launch.
+  // One-shot: only start hidden for this launch (autostart), then reset
+  // so manual relaunches open the window normally.
   app.once('ready', () => {
-    // Already in the store for this session; nothing else needed.
+    store.set('startMinimized', false);
   });
 }
