@@ -380,15 +380,48 @@ function createTray(): Tray {
 // ─── Login-item (start on boot) ───────────────────────────────────────────────
 
 function applyLoginItem(enable: boolean): void {
-  // app.setLoginItemSettings works on macOS + Windows; on Linux it silently
-  // does nothing – distros vary too much.
+  if (process.platform === 'linux') {
+    applyLinuxAutostart(enable);
+    return;
+  }
   app.setLoginItemSettings({
     openAtLogin: enable,
-    // Windows only: registry key name
     name: APP_NAME,
-    // Pass --hidden so the window starts minimised when launched at boot
     args: enable ? ['--hidden'] : [],
   });
+}
+
+function applyLinuxAutostart(enable: boolean): void {
+  const fs = require('fs');
+  const os = require('os');
+  const autostartDir = path.join(os.homedir(), '.config', 'autostart');
+  const desktopFile = path.join(autostartDir, `${APP_ID}.desktop`);
+
+  if (enable) {
+    const entry = [
+      '[Desktop Entry]',
+      'Type=Application',
+      `Name=${APP_NAME}`,
+      `Exec=fluxer-world --hidden`,
+      `Icon=${APP_ID}`,
+      'Terminal=false',
+      `StartupWMClass=${APP_NAME}`,
+      'X-GNOME-Autostart-enabled=true',
+    ].join('\n') + '\n';
+
+    try {
+      fs.mkdirSync(autostartDir, { recursive: true });
+      fs.writeFileSync(desktopFile, entry, 'utf8');
+    } catch (err) {
+      console.warn('[autostart] Failed to create autostart entry:', err);
+    }
+  } else {
+    try {
+      fs.unlinkSync(desktopFile);
+    } catch {
+      // file doesn't exist, that's fine
+    }
+  }
 }
 
 // ─── IPC handlers ────────────────────────────────────────────────────────────
