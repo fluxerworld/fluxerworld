@@ -22,7 +22,7 @@ jobs:
 
       - name: Set version from tag
         if: startsWith(github.ref, 'refs/tags/v')
-        run: npm version --no-git-tag-version "${GITHUB_REF_NAME#v}"
+        run: npm version --no-git-tag-version "${GITHUB_REF_NAME#v}" || true
         shell: bash
 
       - name: Build (NSIS + portable)
@@ -55,7 +55,7 @@ jobs:
 
       - name: Set version from tag
         if: startsWith(github.ref, 'refs/tags/v')
-        run: npm version --no-git-tag-version "${GITHUB_REF_NAME#v}"
+        run: npm version --no-git-tag-version "${GITHUB_REF_NAME#v}" || true
 
       - name: Build (dmg x64)
         run: npm run compile && npx electron-builder --mac --x64
@@ -99,7 +99,7 @@ jobs:
 
       - name: Set version from tag
         if: startsWith(github.ref, 'refs/tags/v')
-        run: npm version --no-git-tag-version "${GITHUB_REF_NAME#v}"
+        run: npm version --no-git-tag-version "${GITHUB_REF_NAME#v}" || true
 
       - name: Build (tar.gz)
         run: npm run build:linux
