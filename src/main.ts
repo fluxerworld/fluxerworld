@@ -175,7 +175,7 @@ function createWindow(): BrowserWindow {
     // Subtle dark background colour shown while the SPA is loading.
     backgroundColor: '#13141a',
     // Show the window immediately on creation.
-    show: !store.get('startMinimized'),
+    show: !(store.get('startMinimized') || launchHidden),
     // Hide the default menu bar (removes duplicate window controls + File menu)
     autoHideMenuBar: true,
     // Remove the native window frame on Linux so the web app's own title bar
@@ -212,7 +212,7 @@ function createWindow(): BrowserWindow {
   // ── KDE Wayland focus workaround ────────────────────────────────────────
   // KDE Wayland prevents focus stealing.  We request activation at multiple
   // points to maximise the chance the window actually appears on screen.
-  if (!store.get('startMinimized')) {
+  if (!(store.get('startMinimized') || launchHidden)) {
     app.focus({ steal: true });
     win.once('ready-to-show', () => {
       win.showInactive();
@@ -693,13 +693,13 @@ app.on('before-quit', () => {
   isQuitting = true;
 });
 
-// ─── Handle --hidden launch arg (set by login-item on boot) ──────────────────
-// Must happen synchronously before createWindow, so we check argv here.
-if (process.argv.includes('--hidden')) {
-  store.set('startMinimized', true);
-  // One-shot: only start hidden for this launch (autostart), then reset
-  // so manual relaunches open the window normally.
-  app.once('ready', () => {
-    store.set('startMinimized', false);
-  });
+// ─── One-time migration: clear startMinimized stuck by ≤1.0.34 bug ───────────
+if (store.get('startMinimized') && !store.get('startMinimizedMigrated')) {
+  store.set('startMinimized', false);
 }
+store.set('startMinimizedMigrated', true);
+
+// ─── Handle --hidden launch arg (set by login-item on boot) ──────────────────
+// Runtime-only flag: --hidden makes this single launch start minimized without
+// touching the persistent store (which is controlled by the tray menu toggle).
+const launchHidden = process.argv.includes('--hidden');
