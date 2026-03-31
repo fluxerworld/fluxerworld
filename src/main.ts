@@ -793,6 +793,11 @@ function manualInstallUpdate(): void {
   const tmpExtract = path.join(app.getPath('temp'), 'fluxer-world-update');
   const localDir = path.join(process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local', 'share'), 'fluxer-world');
 
+  // Disable Electron's special .asar handling so fs operations treat
+  // app.asar as a regular file instead of a virtual directory.
+  const origAsar = process.noAsar;
+  process.noAsar = true;
+
   try {
     // Clean up any previous extraction
     fs.rmSync(tmpExtract, { recursive: true, force: true });
@@ -817,12 +822,11 @@ function manualInstallUpdate(): void {
     app.relaunch();
     app.exit(0);
   } catch (err) {
-    // Log the error so we can debug, then fallback to release page
     console.error('[updater-install] Failed:', err);
     dialog.showErrorBox('Update Failed', `${err}\n\nManual download page will open.`);
     shell.openExternal(`https://github.com/${GITHUB_REPO}/releases/tag/v${manualUpdateVersion}`);
   } finally {
-    // Clean up temp files
+    process.noAsar = origAsar;
     try { fs.rmSync(tmpExtract, { recursive: true, force: true }); } catch {}
     try { fs.unlinkSync(manualDownloadedPath!); } catch {}
   }
