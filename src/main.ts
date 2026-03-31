@@ -626,10 +626,217 @@ ipcMain.handle('autostart-is-enabled', () => store.get('startOnBoot'));
 ipcMain.handle('autostart-is-initialized', () => store.get('autostartInitialized') ?? false);
 ipcMain.handle('autostart-mark-initialized', () => store.set('autostartInitialized', true));
 
-// ── Updater stubs ────────────────────────────────────────────────────────────
+// ── Updater ──────────────────────────────────────────────────────────────────
 
-ipcMain.handle('updater-check', () => {});
-ipcMain.handle('updater-install', () => {});
+const GITHUB_REPO = 'fluxerworld/fluxerworld';
+let pendingUpdateVersion: string | null = null;
+let downloadedUpdatePath: string | null = null;
+const isAppImage = !!process.env.APPIMAGE;
+
+function sendUpdaterEvent(event: Record<string, unknown>): void {
+  mainWindow?.webContents.send('updater-event', event);
+}
+
+function compareVersions(current: string, latest: string): number {
+  const a = current.replace(/^v/, '').split('.').map(Number);
+  const b = latest.replace(/^v/, '').split('.').map(Number);
+  for (let i = 0; i < Math.max(a.length, b.length); i++) {
+    const diff = (b[i] ?? 0) - (a[i] ?? 0);
+    if (diff !== 0) return diff;
+  }
+  return 0;
+}
+
+/** Determine the correct release asset suffix for this platform/arch/format. */
+function getAssetPattern(): { suffix: string; ext: string } {
+  const arch = process.arch; // 'x64' | 'arm64' | ...
+
+  if (process.platform === 'win32') {
+    const winArch = arch === 'arm64' ? 'arm64' : 'x64';
+    return { suffix: `win-${winArch}.exe`, ext: '.exe' };
+  }
+
+  if (process.platform === 'darwin') {
+    const macArch = arch === 'arm64' ? 'arm64' : 'x64';
+    return { suffix: `mac-${macArch}.dmg`, ext: '.dmg' };
+  }
+
+  // Linux — pick format based on how the app was installed
+  if (isAppImage) {
+    const imgArch = arch === 'arm64' ? 'arm64' : 'x86_64';
+    return { suffix: `${imgArch}.AppImage`, ext: '.AppImage' };
+  }
+
+  // Check for deb-based install
+  try {
+    const result = require('child_process')
+      .execSync('dpkg -s fluxer-world-bin 2>/dev/null || dpkg -s fluxer-world 2>/dev/null', { encoding: 'utf8', timeout: 3000 });
+    if (result.includes('Status: install ok')) {
+      const debArch = arch === 'arm64' ? 'arm64' : 'amd64';
+      return { suffix: `linux-${debArch}.deb`, ext: '.deb' };
+    }
+  } catch {}
+
+  // Check for rpm-based install
+  try {
+    const result = require('child_process')
+      .execSync('rpm -q fluxer-world-bin 2>/dev/null || rpm -q fluxer-world 2>/dev/null', { encoding: 'utf8', timeout: 3000 });
+    if (result.trim().length > 0) {
+      const rpmArch = arch === 'arm64' ? 'aarch64' : 'x86_64';
+      return { suffix: `linux-${rpmArch}.rpm`, ext: '.rpm' };
+    }
+  } catch {}
+
+  // Default: tar.gz (AUR, manual install)
+  const tgzArch = arch === 'arm64' ? 'arm64' : 'x64';
+  return { suffix: `linux-${tgzArch}.tar.gz`, ext: '.tar.gz' };
+}
+
+function httpsGet(url: string): Promise<string> {
+  const https = require('https') as typeof import('https');
+  return new Promise((resolve, reject) => {
+    https.get(url, { headers: { 'User-Agent': `FluxerWorld/${app.getVersion()}` } }, (res) => {
+      if ((res.statusCode === 301 || res.statusCode === 302) && res.headers.location) {
+        httpsGet(res.headers.location).then(resolve, reject);
+        return;
+      }
+      let body = '';
+      res.on('data', (chunk: Buffer) => { body += chunk; });
+      res.on('end', () => resolve(body));
+      res.on('error', reject);
+    }).on('error', reject);
+  });
+}
+
+async function checkForUpdate(context: string): Promise<void> {
+  sendUpdaterEvent({ type: 'checking', context });
+
+  try {
+    const data = await httpsGet(`https://api.github.com/repos/${GITHUB_REPO}/releases/latest`);
+    const release = JSON.parse(data);
+    const latestTag = release.tag_name as string;
+    const latestVersion = latestTag.replace(/^v/, '');
+    const currentVersion = app.getVersion();
+
+    if (compareVersions(currentVersion, latestVersion) <= 0) {
+      sendUpdaterEvent({ type: 'not-available', context });
+      return;
+    }
+
+    const assets = (release.assets ?? []) as Array<{ name: string; browser_download_url: string }>;
+    const pattern = getAssetPattern();
+    const asset = assets.find(a => a.name.endsWith(pattern.suffix));
+
+    if (!asset) {
+      sendUpdaterEvent({ type: 'error', context, message: `No matching asset found for ${pattern.suffix}` });
+      return;
+    }
+
+    pendingUpdateVersion = latestVersion;
+    sendUpdaterEvent({ type: 'available', context, version: latestVersion });
+    downloadUpdate(asset.browser_download_url, pattern.ext, context);
+  } catch (err) {
+    sendUpdaterEvent({ type: 'error', context, message: String(err) });
+  }
+}
+
+function downloadUpdate(url: string, ext: string, context: string): void {
+  const tmpPath = path.join(app.getPath('temp'), `fluxer-world-update${ext}`);
+  const file = fs.createWriteStream(tmpPath);
+  const https = require('https') as typeof import('https');
+  let startTime = Date.now();
+  let lastTransferred = 0;
+
+  const doRequest = (requestUrl: string) => {
+    https.get(requestUrl, {
+      headers: { 'User-Agent': `FluxerWorld/${app.getVersion()}` },
+    }, (res) => {
+      if ((res.statusCode === 301 || res.statusCode === 302) && res.headers.location) {
+        doRequest(res.headers.location);
+        return;
+      }
+
+      const total = parseInt(res.headers['content-length'] ?? '0', 10);
+      let transferred = 0;
+
+      res.on('data', (chunk: Buffer) => {
+        transferred += chunk.length;
+        file.write(chunk);
+
+        const now = Date.now();
+        const elapsed = (now - startTime) / 1000;
+        const bytesPerSecond = elapsed > 0 ? transferred / elapsed : 0;
+
+        sendUpdaterEvent({
+          type: 'progress', context,
+          percent: total > 0 ? (transferred / total) * 100 : 0,
+          transferred, total,
+          bytesPerSecond: Math.round(bytesPerSecond),
+        });
+      });
+
+      res.on('end', () => {
+        file.end(() => {
+          if (ext === '.AppImage') fs.chmodSync(tmpPath, 0o755);
+          downloadedUpdatePath = tmpPath;
+          sendUpdaterEvent({ type: 'downloaded', context, version: pendingUpdateVersion });
+        });
+      });
+
+      res.on('error', (err) => {
+        file.close();
+        try { fs.unlinkSync(tmpPath); } catch {}
+        sendUpdaterEvent({ type: 'error', context, message: String(err) });
+      });
+    }).on('error', (err) => {
+      file.close();
+      try { fs.unlinkSync(tmpPath); } catch {}
+      sendUpdaterEvent({ type: 'error', context, message: String(err) });
+    });
+  };
+
+  doRequest(url);
+}
+
+ipcMain.handle('updater-check', (_e, context: string) => {
+  checkForUpdate(context);
+});
+
+ipcMain.handle('updater-install', () => {
+  if (!downloadedUpdatePath) return;
+
+  const ext = path.extname(downloadedUpdatePath);
+
+  if (isAppImage && ext === '.AppImage') {
+    // AppImage: replace current binary and relaunch
+    const currentAppImage = process.env.APPIMAGE!;
+    try {
+      fs.copyFileSync(downloadedUpdatePath, currentAppImage);
+      fs.chmodSync(currentAppImage, 0o755);
+      app.relaunch();
+      app.exit(0);
+    } catch {
+      shell.openPath(downloadedUpdatePath);
+    }
+  } else if (process.platform === 'win32' && ext === '.exe') {
+    // Windows NSIS: run installer and quit
+    shell.openPath(downloadedUpdatePath);
+    app.quit();
+  } else if (process.platform === 'darwin' && ext === '.dmg') {
+    // macOS: open the DMG
+    shell.openPath(downloadedUpdatePath);
+    app.quit();
+  } else if (ext === '.deb') {
+    // Debian: open with default handler (Software Center / dpkg)
+    shell.openPath(downloadedUpdatePath);
+  } else if (ext === '.rpm') {
+    // RPM: open with default handler
+    shell.openPath(downloadedUpdatePath);
+  } else {
+    // tar.gz or anything else: show the file in the folder
+    shell.showItemInFolder(downloadedUpdatePath);
+  }
+});
 
 // ── Spellcheck stubs ─────────────────────────────────────────────────────────
 
