@@ -817,7 +817,9 @@ function manualInstallUpdate(): void {
     app.relaunch();
     app.exit(0);
   } catch (err) {
-    // Fallback: open the release page
+    // Log the error so we can debug, then fallback to release page
+    console.error('[updater-install] Failed:', err);
+    dialog.showErrorBox('Update Failed', `${err}\n\nManual download page will open.`);
     shell.openExternal(`https://github.com/${GITHUB_REPO}/releases/tag/v${manualUpdateVersion}`);
   } finally {
     // Clean up temp files
