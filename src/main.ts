@@ -628,14 +628,61 @@ ipcMain.handle('autostart-mark-initialized', () => store.set('autostartInitializ
 
 // ── Updater ──────────────────────────────────────────────────────────────────
 
-const GITHUB_REPO = 'fluxerworld/fluxerworld';
-let pendingUpdateVersion: string | null = null;
-let downloadedUpdatePath: string | null = null;
-const isAppImage = !!process.env.APPIMAGE;
+import { autoUpdater } from 'electron-updater';
+
+const GITHUB_REPO  = 'fluxerworld/fluxerworld';
+const isAppImage   = !!process.env.APPIMAGE;
+
+// Detect if this is a Linux install that electron-updater can't handle natively
+// (i.e. not AppImage — tar.gz, deb, rpm, AUR all install to /opt/fluxer-world)
+const useManualLinuxUpdater = process.platform === 'linux' && !isAppImage;
+
+let manualUpdateVersion: string | null = null;
+let manualDownloadedPath: string | null = null;
+let updaterContext: string = 'background';
 
 function sendUpdaterEvent(event: Record<string, unknown>): void {
   mainWindow?.webContents.send('updater-event', event);
 }
+
+// ── electron-updater (Windows, macOS, AppImage) ─────────────────────────────
+
+if (!useManualLinuxUpdater) {
+  autoUpdater.autoDownload = true;
+  autoUpdater.autoInstallOnAppQuit = false;
+
+  autoUpdater.on('checking-for-update', () => {
+    sendUpdaterEvent({ type: 'checking', context: updaterContext });
+  });
+
+  autoUpdater.on('update-available', (info) => {
+    sendUpdaterEvent({ type: 'available', context: updaterContext, version: info.version });
+  });
+
+  autoUpdater.on('update-not-available', () => {
+    sendUpdaterEvent({ type: 'not-available', context: updaterContext });
+  });
+
+  autoUpdater.on('download-progress', (progress) => {
+    sendUpdaterEvent({
+      type: 'progress', context: updaterContext,
+      percent: progress.percent,
+      transferred: progress.transferred,
+      total: progress.total,
+      bytesPerSecond: progress.bytesPerSecond,
+    });
+  });
+
+  autoUpdater.on('update-downloaded', (info) => {
+    sendUpdaterEvent({ type: 'downloaded', context: updaterContext, version: info.version });
+  });
+
+  autoUpdater.on('error', (err) => {
+    sendUpdaterEvent({ type: 'error', context: updaterContext, message: String(err) });
+  });
+}
+
+// ── Manual updater (Linux tar.gz, deb, rpm, AUR) ───────────────────────────
 
 function compareVersions(current: string, latest: string): number {
   const a = current.replace(/^v/, '').split('.').map(Number);
@@ -645,51 +692,6 @@ function compareVersions(current: string, latest: string): number {
     if (diff !== 0) return diff;
   }
   return 0;
-}
-
-/** Determine the correct release asset suffix for this platform/arch/format. */
-function getAssetPattern(): { suffix: string; ext: string } {
-  const arch = process.arch; // 'x64' | 'arm64' | ...
-
-  if (process.platform === 'win32') {
-    const winArch = arch === 'arm64' ? 'arm64' : 'x64';
-    return { suffix: `win-${winArch}.exe`, ext: '.exe' };
-  }
-
-  if (process.platform === 'darwin') {
-    const macArch = arch === 'arm64' ? 'arm64' : 'x64';
-    return { suffix: `mac-${macArch}.dmg`, ext: '.dmg' };
-  }
-
-  // Linux — pick format based on how the app was installed
-  if (isAppImage) {
-    const imgArch = arch === 'arm64' ? 'arm64' : 'x86_64';
-    return { suffix: `${imgArch}.AppImage`, ext: '.AppImage' };
-  }
-
-  // Check for deb-based install
-  try {
-    const result = require('child_process')
-      .execSync('dpkg -s fluxer-world-bin 2>/dev/null || dpkg -s fluxer-world 2>/dev/null', { encoding: 'utf8', timeout: 3000 });
-    if (result.includes('Status: install ok')) {
-      const debArch = arch === 'arm64' ? 'arm64' : 'amd64';
-      return { suffix: `linux-${debArch}.deb`, ext: '.deb' };
-    }
-  } catch {}
-
-  // Check for rpm-based install
-  try {
-    const result = require('child_process')
-      .execSync('rpm -q fluxer-world-bin 2>/dev/null || rpm -q fluxer-world 2>/dev/null', { encoding: 'utf8', timeout: 3000 });
-    if (result.trim().length > 0) {
-      const rpmArch = arch === 'arm64' ? 'aarch64' : 'x86_64';
-      return { suffix: `linux-${rpmArch}.rpm`, ext: '.rpm' };
-    }
-  } catch {}
-
-  // Default: tar.gz (AUR, manual install)
-  const tgzArch = arch === 'arm64' ? 'arm64' : 'x64';
-  return { suffix: `linux-${tgzArch}.tar.gz`, ext: '.tar.gz' };
 }
 
 function httpsGet(url: string): Promise<string> {
@@ -708,133 +710,139 @@ function httpsGet(url: string): Promise<string> {
   });
 }
 
-async function checkForUpdate(context: string): Promise<void> {
+function httpsDownload(url: string, dest: string, context: string): Promise<void> {
+  const https = require('https') as typeof import('https');
+  return new Promise((resolve, reject) => {
+    const file = fs.createWriteStream(dest);
+    const startTime = Date.now();
+
+    const doRequest = (requestUrl: string) => {
+      https.get(requestUrl, {
+        headers: { 'User-Agent': `FluxerWorld/${app.getVersion()}` },
+      }, (res) => {
+        if ((res.statusCode === 301 || res.statusCode === 302) && res.headers.location) {
+          doRequest(res.headers.location);
+          return;
+        }
+
+        const total = parseInt(res.headers['content-length'] ?? '0', 10);
+        let transferred = 0;
+
+        res.on('data', (chunk: Buffer) => {
+          transferred += chunk.length;
+          file.write(chunk);
+          const elapsed = (Date.now() - startTime) / 1000;
+          sendUpdaterEvent({
+            type: 'progress', context,
+            percent: total > 0 ? (transferred / total) * 100 : 0,
+            transferred, total,
+            bytesPerSecond: elapsed > 0 ? Math.round(transferred / elapsed) : 0,
+          });
+        });
+
+        res.on('end', () => file.end(() => resolve()));
+        res.on('error', (err) => { file.close(); reject(err); });
+      }).on('error', (err) => { file.close(); reject(err); });
+    };
+
+    doRequest(url);
+  });
+}
+
+async function manualCheckForUpdate(context: string): Promise<void> {
   sendUpdaterEvent({ type: 'checking', context });
 
   try {
     const data = await httpsGet(`https://api.github.com/repos/${GITHUB_REPO}/releases/latest`);
     const release = JSON.parse(data);
-    const latestTag = release.tag_name as string;
-    const latestVersion = latestTag.replace(/^v/, '');
-    const currentVersion = app.getVersion();
+    const latestVersion = (release.tag_name as string).replace(/^v/, '');
 
-    if (compareVersions(currentVersion, latestVersion) <= 0) {
+    if (compareVersions(app.getVersion(), latestVersion) <= 0) {
       sendUpdaterEvent({ type: 'not-available', context });
       return;
     }
 
+    // Find the tar.gz asset (all non-AppImage Linux installs use the same files)
     const assets = (release.assets ?? []) as Array<{ name: string; browser_download_url: string }>;
-    const pattern = getAssetPattern();
-    const asset = assets.find(a => a.name.endsWith(pattern.suffix));
+    const arch = process.arch === 'arm64' ? 'arm64' : 'x64';
+    const asset = assets.find(a => a.name.endsWith(`linux-${arch}.tar.gz`));
 
     if (!asset) {
-      sendUpdaterEvent({ type: 'error', context, message: `No matching asset found for ${pattern.suffix}` });
+      sendUpdaterEvent({ type: 'error', context, message: 'No tar.gz asset found for this architecture' });
       return;
     }
 
-    pendingUpdateVersion = latestVersion;
+    manualUpdateVersion = latestVersion;
     sendUpdaterEvent({ type: 'available', context, version: latestVersion });
-    downloadUpdate(asset.browser_download_url, pattern.ext, context);
+
+    // Download to temp
+    const tmpPath = path.join(app.getPath('temp'), `fluxer-world-${latestVersion}.tar.gz`);
+    await httpsDownload(asset.browser_download_url, tmpPath, context);
+    manualDownloadedPath = tmpPath;
+    sendUpdaterEvent({ type: 'downloaded', context, version: latestVersion });
   } catch (err) {
     sendUpdaterEvent({ type: 'error', context, message: String(err) });
   }
 }
 
-function downloadUpdate(url: string, ext: string, context: string): void {
-  const tmpPath = path.join(app.getPath('temp'), `fluxer-world-update${ext}`);
-  const file = fs.createWriteStream(tmpPath);
-  const https = require('https') as typeof import('https');
-  let startTime = Date.now();
-  let lastTransferred = 0;
+function manualInstallUpdate(): void {
+  if (!manualDownloadedPath || !manualUpdateVersion) return;
 
-  const doRequest = (requestUrl: string) => {
-    https.get(requestUrl, {
-      headers: { 'User-Agent': `FluxerWorld/${app.getVersion()}` },
-    }, (res) => {
-      if ((res.statusCode === 301 || res.statusCode === 302) && res.headers.location) {
-        doRequest(res.headers.location);
-        return;
-      }
+  const { execSync } = require('child_process') as typeof import('child_process');
+  const os = require('os') as typeof import('os');
+  const tmpExtract = path.join(app.getPath('temp'), 'fluxer-world-update');
+  const localDir = path.join(process.env.XDG_DATA_HOME || path.join(os.homedir(), '.local', 'share'), 'fluxer-world');
 
-      const total = parseInt(res.headers['content-length'] ?? '0', 10);
-      let transferred = 0;
+  try {
+    // Clean up any previous extraction
+    fs.rmSync(tmpExtract, { recursive: true, force: true });
+    fs.mkdirSync(tmpExtract, { recursive: true });
 
-      res.on('data', (chunk: Buffer) => {
-        transferred += chunk.length;
-        file.write(chunk);
+    // Extract the tar.gz
+    execSync(`tar -xzf "${manualDownloadedPath}" -C "${tmpExtract}"`, { timeout: 30000 });
 
-        const now = Date.now();
-        const elapsed = (now - startTime) / 1000;
-        const bytesPerSecond = elapsed > 0 ? transferred / elapsed : 0;
+    // The tar.gz extracts to "Fluxer World-{version}-linux-x64/" or similar
+    const entries = fs.readdirSync(tmpExtract);
+    const extractedDir = entries.find(e => fs.statSync(path.join(tmpExtract, e)).isDirectory());
+    if (!extractedDir) throw new Error('No directory found in extracted archive');
 
-        sendUpdaterEvent({
-          type: 'progress', context,
-          percent: total > 0 ? (transferred / total) * 100 : 0,
-          transferred, total,
-          bytesPerSecond: Math.round(bytesPerSecond),
-        });
-      });
+    const sourcePath = path.join(tmpExtract, extractedDir);
 
-      res.on('end', () => {
-        file.end(() => {
-          if (ext === '.AppImage') fs.chmodSync(tmpPath, 0o755);
-          downloadedUpdatePath = tmpPath;
-          sendUpdaterEvent({ type: 'downloaded', context, version: pendingUpdateVersion });
-        });
-      });
+    // Copy to user-local directory (no root needed)
+    fs.rmSync(localDir, { recursive: true, force: true });
+    fs.mkdirSync(localDir, { recursive: true });
+    execSync(`cp -rf "${sourcePath}/"* "${localDir}/"`, { timeout: 30000 });
+    fs.chmodSync(path.join(localDir, 'fluxer-world'), 0o755);
 
-      res.on('error', (err) => {
-        file.close();
-        try { fs.unlinkSync(tmpPath); } catch {}
-        sendUpdaterEvent({ type: 'error', context, message: String(err) });
-      });
-    }).on('error', (err) => {
-      file.close();
-      try { fs.unlinkSync(tmpPath); } catch {}
-      sendUpdaterEvent({ type: 'error', context, message: String(err) });
-    });
-  };
-
-  doRequest(url);
+    // Relaunch — the wrapper script will pick up the local copy
+    app.relaunch();
+    app.exit(0);
+  } catch (err) {
+    // Fallback: open the release page
+    shell.openExternal(`https://github.com/${GITHUB_REPO}/releases/tag/v${manualUpdateVersion}`);
+  } finally {
+    // Clean up temp files
+    try { fs.rmSync(tmpExtract, { recursive: true, force: true }); } catch {}
+    try { fs.unlinkSync(manualDownloadedPath!); } catch {}
+  }
 }
 
+// ── IPC handlers ────────────────────────────────────────────────────────────
+
 ipcMain.handle('updater-check', (_e, context: string) => {
-  checkForUpdate(context);
+  updaterContext = context;
+  if (useManualLinuxUpdater) {
+    manualCheckForUpdate(context);
+  } else {
+    autoUpdater.checkForUpdates();
+  }
 });
 
 ipcMain.handle('updater-install', () => {
-  if (!downloadedUpdatePath) return;
-
-  const ext = path.extname(downloadedUpdatePath);
-
-  if (isAppImage && ext === '.AppImage') {
-    // AppImage: replace current binary and relaunch
-    const currentAppImage = process.env.APPIMAGE!;
-    try {
-      fs.copyFileSync(downloadedUpdatePath, currentAppImage);
-      fs.chmodSync(currentAppImage, 0o755);
-      app.relaunch();
-      app.exit(0);
-    } catch {
-      shell.openPath(downloadedUpdatePath);
-    }
-  } else if (process.platform === 'win32' && ext === '.exe') {
-    // Windows NSIS: run installer and quit
-    shell.openPath(downloadedUpdatePath);
-    app.quit();
-  } else if (process.platform === 'darwin' && ext === '.dmg') {
-    // macOS: open the DMG
-    shell.openPath(downloadedUpdatePath);
-    app.quit();
-  } else if (ext === '.deb') {
-    // Debian: open with default handler (Software Center / dpkg)
-    shell.openPath(downloadedUpdatePath);
-  } else if (ext === '.rpm') {
-    // RPM: open with default handler
-    shell.openPath(downloadedUpdatePath);
+  if (useManualLinuxUpdater) {
+    manualInstallUpdate();
   } else {
-    // tar.gz or anything else: show the file in the folder
-    shell.showItemInFolder(downloadedUpdatePath);
+    autoUpdater.quitAndInstall();
   }
 });
 

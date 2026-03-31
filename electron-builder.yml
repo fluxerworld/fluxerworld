@@ -106,10 +106,18 @@ linux:
     - from: linux/uninstall.sh
       to:   uninstall.sh
 
+deb:
+  afterInstall: linux/afterInstall.sh
+
+rpm:
+  afterInstall: linux/afterInstall.sh
+
 # ── Artifact naming ───────────────────────────────────────────────────────────
 artifactName: "${productName}-${version}-${os}-${arch}.${ext}"
 
 # ── Publish (optional – configure for GitHub Releases) ───────────────────────
-# publish:
-#   provider: github
-#   releaseType: release
+publish:
+  provider: github
+  owner: fluxerworld
+  repo: fluxerworld
+  releaseType: release
