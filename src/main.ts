@@ -810,8 +810,7 @@ function manualInstallUpdate(): void {
 
     // Copy to user-local directory (no root needed)
     fs.rmSync(localDir, { recursive: true, force: true });
-    fs.mkdirSync(localDir, { recursive: true });
-    execSync(`cp -rf "${sourcePath}/"* "${localDir}/"`, { timeout: 30000 });
+    fs.cpSync(sourcePath, localDir, { recursive: true });
     fs.chmodSync(path.join(localDir, 'fluxer-world'), 0o755);
 
     // Relaunch — the wrapper script will pick up the local copy
