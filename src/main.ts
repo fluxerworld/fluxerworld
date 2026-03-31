@@ -818,12 +818,17 @@ function manualInstallUpdate(): void {
     fs.cpSync(sourcePath, localDir, { recursive: true });
     fs.chmodSync(path.join(localDir, 'fluxer-world'), 0o755);
 
-    // Relaunch — the wrapper script will pick up the local copy
-    app.relaunch();
+    // Relaunch via the wrapper script so it picks up the local copy.
+    // app.relaunch() uses process.execPath which bypasses the wrapper.
+    const { spawn, execSync: execSyncCmd } = require('child_process') as typeof import('child_process');
+    let wrapperPath = '/usr/bin/fluxer-world';
+    try {
+      wrapperPath = execSyncCmd('which fluxer-world', { encoding: 'utf8', timeout: 3000 }).trim();
+    } catch {}
+    spawn(wrapperPath, [], { detached: true, stdio: 'ignore' }).unref();
     app.exit(0);
   } catch (err) {
     console.error('[updater-install] Failed:', err);
-    dialog.showErrorBox('Update Failed', `${err}\n\nManual download page will open.`);
     shell.openExternal(`https://github.com/${GITHUB_REPO}/releases/tag/v${manualUpdateVersion}`);
   } finally {
     process.noAsar = origAsar;
