@@ -1,7 +1,7 @@
 {
   "name": "fluxer-desktop",
   "productName": "Fluxer World",
-  "version": "1.0.40",
+  "version": "1.0.41",
   "description": "Fluxer World – desktop client",
   "main": "dist/main.js",
   "author": "Fluxer Contributors <xuruh@tuta.io>",
