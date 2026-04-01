@@ -38,6 +38,8 @@ jobs:
           name: windows-installers
           path: |
             release/*.exe
+            release/*.yml
+            release/*.blockmap
           retention-days: 30
 
   # ── macOS ─────────────────────────────────────────────────────────────────────
@@ -81,7 +83,10 @@ jobs:
       - uses: actions/upload-artifact@v4
         with:
           name: macos-dmg
-          path: release/*.dmg
+          path: |
+            release/*.dmg
+            release/*.yml
+            release/*.blockmap
           retention-days: 30
 
   # ── Linux tar.gz ──────────────────────────────────────────────────────────────
@@ -114,6 +119,8 @@ jobs:
             release/*.deb
             release/*.rpm
             release/*.AppImage
+            release/*.yml
+            release/*.blockmap
           retention-days: 30
 
   # ── Flatpak ───────────────────────────────────────────────────────────────────
