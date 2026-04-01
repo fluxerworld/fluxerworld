@@ -293,13 +293,13 @@ function createWindow(): BrowserWindow {
     }
   });
 
-  // Make `Notification.permission` report "granted" immediately after we've
-  // said yes, so the site doesn't ask again on next load.
+  // Report granted for permissions we auto-allow, so the web app doesn't
+  // think it needs to re-request them.
   session.defaultSession.setPermissionCheckHandler((_wc, permission, requestingOrigin) => {
-    if (permission === 'notifications' && requestingOrigin.startsWith(APP_URL)) {
+    if (allowedPerms.has(permission) && requestingOrigin.startsWith(APP_URL)) {
       return true;
     }
-    return false; // use Electron's default for everything else
+    return false;
   });
 
   win.loadURL(APP_URL);
