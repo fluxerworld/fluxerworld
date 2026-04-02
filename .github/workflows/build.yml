@@ -85,12 +85,14 @@ jobs:
 
       - name: Merge latest-mac.yml (x64 + arm64)
         run: |
-          # arm64 build overwrites latest-mac.yml; merge x64 entry back in
-          X64_URL=$(grep 'url:' release/latest-mac-x64.yml | head -1 | sed 's/.*url: //')
-          X64_SHA=$(grep 'sha512:' release/latest-mac-x64.yml | head -1 | sed 's/.*sha512: //')
-          X64_SIZE=$(grep 'size:' release/latest-mac-x64.yml | head -1 | sed 's/.*size: //')
-          # Append x64 entry to the files list in the arm64 yml
-          sed -i "/^files:/a\\  - url: ${X64_URL}\n    sha512: ${X64_SHA}\n    size: ${X64_SIZE}" release/latest-mac.yml
+          node -e "
+          const fs = require('fs');
+          const x64 = fs.readFileSync('release/latest-mac-x64.yml','utf8');
+          let arm64 = fs.readFileSync('release/latest-mac.yml','utf8');
+          const x64Entry = x64.split('\n').filter(l => l.startsWith('  - url:') || l.startsWith('    sha512:') || l.startsWith('    size:')).join('\n');
+          arm64 = arm64.replace('files:\n', 'files:\n' + x64Entry + '\n');
+          fs.writeFileSync('release/latest-mac.yml', arm64);
+          "
           rm release/latest-mac-x64.yml
 
       - uses: actions/upload-artifact@v4
