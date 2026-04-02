@@ -69,6 +69,9 @@ jobs:
           hdiutil detach /Volumes/FluxerWorld-* 2>/dev/null || true
           sleep 2
 
+      - name: Save x64 yml
+        run: cp release/latest-mac.yml release/latest-mac-x64.yml
+
       - name: Build (dmg arm64)
         run: npx electron-builder --mac --arm64 --publish never
         env:
@@ -79,6 +82,16 @@ jobs:
           # CSC_LINK:                   ${{ secrets.MAC_CSC_LINK }}
           # CSC_KEY_PASSWORD:           ${{ secrets.MAC_CSC_KEY_PASSWORD }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Merge latest-mac.yml (x64 + arm64)
+        run: |
+          # arm64 build overwrites latest-mac.yml; merge x64 entry back in
+          X64_URL=$(grep 'url:' release/latest-mac-x64.yml | head -1 | sed 's/.*url: //')
+          X64_SHA=$(grep 'sha512:' release/latest-mac-x64.yml | head -1 | sed 's/.*sha512: //')
+          X64_SIZE=$(grep 'size:' release/latest-mac-x64.yml | head -1 | sed 's/.*size: //')
+          # Append x64 entry to the files list in the arm64 yml
+          sed -i "/^files:/a\\  - url: ${X64_URL}\n    sha512: ${X64_SHA}\n    size: ${X64_SIZE}" release/latest-mac.yml
+          rm release/latest-mac-x64.yml
 
       - uses: actions/upload-artifact@v4
         with:

@@ -9,23 +9,12 @@ WRAPPER="/usr/bin/fluxer-world"
 if [ -f "$WRAPPER" ]; then
   cat > "$WRAPPER" <<'EOF'
 #!/bin/sh
-export GDK_BACKEND=wayland,x11
-
-# Prefer user-local updated copy over system install
-LOCAL_DIR="${XDG_DATA_HOME:-$HOME/.local/share}/fluxer-world"
+LOCAL_DIR="$HOME/.local/share/fluxer-world"
 if [ -x "$LOCAL_DIR/fluxer-world" ]; then
-  FLUXER_BIN="$LOCAL_DIR/fluxer-world"
+  exec "$LOCAL_DIR/fluxer-world" --no-sandbox "$@"
 else
-  FLUXER_BIN="/opt/Fluxer World/fluxer-world"
+  exec "/opt/Fluxer World/fluxer-world" --no-sandbox "$@"
 fi
-
-exec "$FLUXER_BIN" \
-  --no-sandbox \
-  --enable-features=UseOzonePlatform,WaylandWindowDecorations \
-  --ozone-platform-hint=auto \
-  --class=org.fluxer.World \
-  --wayland-app-id=org.fluxer.World \
-  "$@"
 EOF
   chmod 755 "$WRAPPER"
 fi

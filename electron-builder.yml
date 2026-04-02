@@ -113,7 +113,7 @@ rpm:
   afterInstall: linux/afterInstall.sh
 
 # ── Artifact naming ───────────────────────────────────────────────────────────
-artifactName: "${productName}-${version}-${os}-${arch}.${ext}"
+# Default naming is used so filenames match what electron-updater puts in latest.yml.
 
 # ── Publish (optional – configure for GitHub Releases) ───────────────────────
 publish:
