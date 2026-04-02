@@ -55,7 +55,7 @@ nsis:
 
 portable:
   # The portable exe embeds everything; no installer needed.
-  artifactName: "${productName}-${version}-portable-${arch}.exe"
+  artifactName: "Fluxer-World-${version}-portable-${arch}.exe"
 
 # ── macOS ─────────────────────────────────────────────────────────────────────
 mac:
@@ -113,7 +113,9 @@ rpm:
   afterInstall: linux/afterInstall.sh
 
 # ── Artifact naming ───────────────────────────────────────────────────────────
-# Default naming is used so filenames match what electron-updater puts in latest.yml.
+# Use dashes in the name to match what electron-updater writes in latest.yml.
+# electron-builder converts spaces to dots for filenames but dashes for yml.
+artifactName: "Fluxer-World-${version}-${os}-${arch}.${ext}"
 
 # ── Publish (optional – configure for GitHub Releases) ───────────────────────
 publish:
