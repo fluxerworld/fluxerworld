@@ -198,8 +198,9 @@ jobs:
       - name: Patch snapcraft.yaml with local tarball
         run: |
           TARBALL=$(ls snap-tarballs/*linux-x64.tar.gz | head -1)
-          cp "$TARBALL" snap/fluxer-world.tar.gz
-          sed -i "s|source:.*|source: fluxer-world.tar.gz|" snap/snapcraft.yaml
+          mkdir -p snap/local
+          cp "$TARBALL" snap/local/fluxer-world.tar.gz
+          sed -i "s|source:.*tar.gz|source: snap/local/fluxer-world.tar.gz|" snap/snapcraft.yaml
           sed -i "s|source-type:.*|source-type: tar|" snap/snapcraft.yaml
 
       - uses: snapcore/action-build@v1
