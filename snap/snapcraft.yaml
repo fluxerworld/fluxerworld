@@ -1,0 +1,82 @@
+name: fluxer-world
+version: '1.0.50'
+summary: Fluxer World desktop client
+description: |
+  Fluxer World is an open-source chat, voice, and community platform.
+  Connect with friends through text, voice, and video — all in one place.
+
+base: core22
+grade: stable
+confinement: strict
+compression: lzo
+
+architectures:
+  - build-on: amd64
+
+apps:
+  fluxer-world:
+    command: opt/fluxer-world/fluxer-world --no-sandbox
+    desktop: usr/share/applications/org.fluxer.World.desktop
+    extensions: [gnome]
+    plugs:
+      - audio-playback
+      - audio-record
+      - browser-support
+      - camera
+      - desktop
+      - desktop-legacy
+      - gsettings
+      - home
+      - mount-observe
+      - network
+      - network-bind
+      - opengl
+      - pulseaudio
+      - removable-media
+      - screen-inhibit-control
+      - unity7
+      - wayland
+      - x11
+
+parts:
+  fluxer-world:
+    plugin: dump
+    source: https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.50/Fluxer-World-1.0.50-linux-x64.tar.gz
+    source-type: tar
+    override-build: |
+      # Install app files
+      mkdir -p $SNAPCRAFT_PART_INSTALL/opt/fluxer-world
+      cp -r * $SNAPCRAFT_PART_INSTALL/opt/fluxer-world/
+      chmod 755 $SNAPCRAFT_PART_INSTALL/opt/fluxer-world/fluxer-world
+
+      # Desktop entry
+      mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/applications
+      cat > $SNAPCRAFT_PART_INSTALL/usr/share/applications/org.fluxer.World.desktop <<EOF
+      [Desktop Entry]
+      Name=Fluxer World
+      Comment=Fluxer World desktop client
+      Exec=fluxer-world %U
+      Icon=\${SNAP}/opt/fluxer-world/resources/assets/icons/icon.png
+      Terminal=false
+      Type=Application
+      Categories=Network;InstantMessaging;Chat;
+      StartupWMClass=Fluxer World
+      MimeType=x-scheme-handler/fluxerworld;
+      EOF
+
+      # Icons
+      for size in 16 32 48 64 128 256 512; do
+        mkdir -p $SNAPCRAFT_PART_INSTALL/usr/share/icons/hicolor/${size}x${size}/apps
+        cp $SNAPCRAFT_PART_INSTALL/opt/fluxer-world/resources/assets/icons/icon.png \
+          $SNAPCRAFT_PART_INSTALL/usr/share/icons/hicolor/${size}x${size}/apps/org.fluxer.World.png
+      done
+    stage-packages:
+      - libnss3
+      - libatk-bridge2.0-0
+      - libcups2
+      - libgtk-3-0
+      - libasound2
+      - libdrm2
+      - libgbm1
+      - libxss1
+      - libxtst6

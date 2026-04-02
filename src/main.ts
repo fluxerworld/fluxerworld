@@ -852,7 +852,7 @@ ipcMain.handle('updater-install', () => {
   if (useManualLinuxUpdater) {
     manualInstallUpdate();
   } else {
-    autoUpdater.quitAndInstall();
+    autoUpdater.quitAndInstall(true, true);
   }
 });
 
