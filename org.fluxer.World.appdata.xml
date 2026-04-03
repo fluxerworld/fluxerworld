@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.fluxer.World</id>
+  <name>Fluxer World</name>
+  <summary>Open-source chat, voice, and community platform</summary>
+  <metadata_license>FSFAP</metadata_license>
+  <project_license>AGPL-3.0-or-later</project_license>
+  <description>
+    <p>
+      Fluxer World is an open-source chat, voice, and community platform.
+      Connect with friends through text, voice, and video — all in one place.
+    </p>
+  </description>
+  <url type="homepage">https://fluxer.world</url>
+  <url type="bugtracker">https://github.com/fluxerworld/fluxerworld/issues</url>
+  <launchable type="desktop-id">org.fluxer.World.desktop</launchable>
+  <categories>
+    <category>Network</category>
+    <category>InstantMessaging</category>
+    <category>Chat</category>
+  </categories>
+  <provides>
+    <binary>fluxer-world</binary>
+  </provides>
+</component>

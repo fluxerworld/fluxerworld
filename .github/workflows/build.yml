@@ -195,13 +195,17 @@ jobs:
           name: linux-packages
           path: snap-tarballs
 
-      - name: Patch snapcraft.yaml with local tarball
+      - name: Patch snapcraft.yaml with local tarball and version
         run: |
           TARBALL=$(ls snap-tarballs/*linux-x64.tar.gz | head -1)
           mkdir -p snap/local
           cp "$TARBALL" snap/local/fluxer-world.tar.gz
           sed -i "s|source:.*tar.gz|source: snap/local/fluxer-world.tar.gz|" snap/snapcraft.yaml
           sed -i "s|source-type:.*|source-type: tar|" snap/snapcraft.yaml
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            VERSION="${GITHUB_REF_NAME#v}"
+            sed -i "s|^version:.*|version: '${VERSION}'|" snap/snapcraft.yaml
+          fi
 
       - uses: snapcore/action-build@v1
         id: build
@@ -243,7 +247,10 @@ jobs:
           fi
 
       - name: Build release APK
-        run: ./gradlew assembleRelease --stacktrace
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          VERSION_CODE=$(echo "$VERSION" | awk -F. '{printf "%d%03d%03d", $1, $2, $3}')
+          ./gradlew assembleRelease --stacktrace -PVERSION_NAME="$VERSION" -PVERSION_CODE="$VERSION_CODE"
         working-directory: android
         env:
           ANDROID_KEYSTORE_PATH: ${{ steps.keystore.outputs.keystore_path }}

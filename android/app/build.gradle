@@ -11,8 +11,8 @@ android {
         applicationId "org.fluxer.world"
         minSdk 26
         targetSdk 34
-        versionCode 1
-        versionName "1.0.0"
+        versionCode Integer.parseInt(project.findProperty("VERSION_CODE") ?: "1")
+        versionName project.findProperty("VERSION_NAME") ?: "1.0.0"
     }
 
     signingConfigs {

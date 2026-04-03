@@ -1,0 +1,18 @@
+Categories:
+  - Internet
+License: AGPL-3.0-or-later
+AuthorName: Fluxer Contributors
+AuthorEmail: xuruh@fluxer.world
+AuthorWebSite: https://fluxer.world
+WebSite: https://fluxer.world
+SourceCode: https://github.com/fluxerworld/fluxerworld
+IssueTracker: https://github.com/fluxerworld/fluxerworld/issues
+
+AutoName: Fluxer World
+Summary: Open-source chat, voice, and community platform
+Description: |
+  Fluxer World is an open-source chat, voice, and community platform.
+  Connect with friends through text, voice, and video — all in one place.
+
+CurrentVersion: 1.0.51
+CurrentVersionCode: 10051
