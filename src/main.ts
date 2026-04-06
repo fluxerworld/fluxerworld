@@ -1,6 +1,7 @@
 import {
   app,
   BrowserWindow,
+  desktopCapturer,
   Notification,
   Tray,
   Menu,
@@ -272,6 +273,18 @@ function createWindow(): BrowserWindow {
     return { action: 'deny' };
   });
 
+  // ── Native context menu (Cut / Copy / Paste / Select All) ───────────────
+  win.webContents.on('context-menu', (_e, params) => {
+    const menu = Menu.buildFromTemplate([
+      { role: 'cut', enabled: params.editFlags.canCut },
+      { role: 'copy', enabled: params.editFlags.canCopy },
+      { role: 'paste', enabled: params.editFlags.canPaste },
+      { type: 'separator' },
+      { role: 'selectAll', enabled: params.editFlags.canSelectAll },
+    ]);
+    menu.popup();
+  });
+
   // ── Permissions ──────────────────────────────────────────────────────────
   // Grant notifications + media only for our own origin.  Everything else
   // (geolocation, camera, etc.) is denied unless the site explicitly needs it.
@@ -300,6 +313,38 @@ function createWindow(): BrowserWindow {
       return true;
     }
     return false;
+  });
+
+  // ── Screen share display media handler ────────────────────────────────
+  // Let the web app handle source selection via IPC instead of the default
+  // Electron dialog. This enables screen share with audio support.
+  session.defaultSession.setDisplayMediaRequestHandler((request, callback) => {
+    const requestId = crypto.randomUUID();
+
+    // Notify the renderer that a display media request is pending
+    win.webContents.send('display-media-requested', requestId, {
+      videoRequested: request.videoRequested,
+      audioRequested: request.audioRequested,
+      supportsLoopbackAudio: true,
+      supportsSystemAudioCapture: process.platform !== 'darwin',
+    });
+
+    // Wait for the renderer to pick a source
+    const handler = (_e: Electron.Event, respRequestId: string, sourceId: string | null, withAudio: boolean) => {
+      if (respRequestId !== requestId) return;
+      ipcMain.removeListener('select-display-media-source', handler);
+
+      if (sourceId) {
+        callback({
+          video: { id: sourceId, name: '' } as Electron.DesktopCapturerSource,
+          audio: withAudio ? 'loopback' as const : undefined,
+        });
+      } else {
+        callback({});
+      }
+    };
+
+    ipcMain.on('select-display-media-source', handler);
   });
 
   win.loadURL(APP_URL);
@@ -861,9 +906,35 @@ ipcMain.handle('updater-install', () => {
 ipcMain.handle('spellcheck-get-available-languages', () => []);
 ipcMain.handle('spellcheck-set-state', (_e, state: any) => state);
 
-// ── Desktop sources stub ─────────────────────────────────────────────────────
+// ── Desktop screen share sources ─────────────────────────────────────────────
 
-ipcMain.handle('get-desktop-sources', () => []);
+ipcMain.handle('get-desktop-sources', async (_e, types: string[]) => {
+  try {
+    const sources = await desktopCapturer.getSources({
+      types: types as Array<'window' | 'screen'>,
+      thumbnailSize: { width: 320, height: 180 },
+    });
+    return sources.map(source => ({
+      id: source.id,
+      name: source.name,
+      thumbnail: source.thumbnail.toDataURL(),
+      display_id: source.display_id,
+      appIcon: source.appIcon?.toDataURL() ?? null,
+    }));
+  } catch (err) {
+    console.error('[desktop-sources] Failed to get sources:', err);
+    return [];
+  }
+});
+
+ipcMain.on('select-display-media-source', (_e, requestId: string, sourceId: string | null, withAudio: boolean) => {
+  if (!mainWindow) return;
+  if (sourceId) {
+    mainWindow.webContents.send('display-media-source-selected', requestId, sourceId, withAudio);
+  } else {
+    mainWindow.webContents.send('display-media-source-selected', requestId, null, false);
+  }
+});
 
 // ─── App lifecycle ────────────────────────────────────────────────────────────
 

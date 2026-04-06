@@ -100,11 +100,6 @@ linux:
       arch: [x64, arm64]
     - target: AppImage
       arch: [x64, arm64]
-  extraFiles:
-    - from: linux/install.sh
-      to:   install.sh
-    - from: linux/uninstall.sh
-      to:   uninstall.sh
 
 deb:
   afterInstall: linux/afterInstall.sh

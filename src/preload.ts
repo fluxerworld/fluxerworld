@@ -66,6 +66,11 @@ contextBridge.exposeInMainWorld('electron', {
   selectDisplayMediaSource: (requestId: string, sourceId: string | null, withAudio: boolean) => {
     ipcRenderer.send('select-display-media-source', requestId, sourceId, withAudio);
   },
+  onDisplayMediaRequested: (callback: (requestId: string, info: any) => void): (() => void) => {
+    const handler = (_event: Electron.IpcRendererEvent, requestId: string, info: any) => callback(requestId, info);
+    ipcRenderer.on('display-media-requested', handler);
+    return () => ipcRenderer.removeListener('display-media-requested', handler);
+  },
 
   // ── Deep links ─────────────────────────────────────────────────────────────
   getInitialDeepLink: () => {
