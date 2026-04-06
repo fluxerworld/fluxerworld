@@ -34,6 +34,7 @@ import type {User} from '@fluxer/api/src/models/User';
 import type {ReadStateService} from '@fluxer/api/src/read_state/ReadStateService';
 import type {IUserRepository} from '@fluxer/api/src/user/IUserRepository';
 import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import type {IWorkerService} from '@fluxer/worker/src/contracts/IWorkerService';
 import {CannotEditOtherUserMessageError} from '@fluxer/errors/src/domains/channel/CannotEditOtherUserMessageError';
 import type {GuildResponse} from '@fluxer/schema/src/domains/guild/GuildResponseSchemas';
 import type {AllowedMentionsRequest} from '@fluxer/schema/src/domains/message/SharedMessageSchemas';
@@ -51,6 +52,7 @@ export class MessageProcessingService {
 		private gatewayService: IGatewayService,
 		private readStateService: ReadStateService,
 		private mentionService: MessageMentionService,
+		private workerService?: IWorkerService,
 	) {}
 
 	async processMessageAfterCreation(params: {
@@ -62,7 +64,7 @@ export class MessageProcessingService {
 		referencedMessage: Message | null;
 		mentionHere?: boolean;
 	}): Promise<void> {
-		const {message, guild, user, mentionHere = false} = params;
+		const {message, channel, guild, user, mentionHere = false} = params;
 
 		await this.mentionService.handleMentionTasks({
 			guildId: guild ? createGuildID(BigInt(guild.id)) : null,
@@ -70,6 +72,38 @@ export class MessageProcessingService {
 			authorId: user.id,
 			mentionHere,
 		});
+
+		// Queue push notifications for offline recipients
+		if (this.workerService && !isPersonalNotesChannel({userId: user.id, channelId: channel.id})) {
+			const recipientUserIds = this.getPushRecipients(channel, user.id);
+			if (recipientUserIds.length > 0) {
+				this.workerService
+					.addJob('sendPushNotifications', {
+						channelId: channel.id.toString(),
+						authorId: user.id.toString(),
+						authorUsername: user.username,
+						authorAvatar: user.avatar ?? undefined,
+						channelName: channel.name ?? undefined,
+						guildName: guild?.name ?? undefined,
+						guildId: guild?.id ?? undefined,
+						content: message.content ?? undefined,
+						recipientUserIds: recipientUserIds.map((id) => id.toString()),
+					})
+					.catch(() => {
+						// Push notification failures should not affect message sending
+					});
+			}
+		}
+	}
+
+	private getPushRecipients(channel: Channel, authorId: UserID): Array<UserID> {
+		if (channel.guildId) {
+			// For guild channels, we don't have the member list here.
+			// Skip push for guild channels for now - they get in-app notifications via gateway.
+			return [];
+		}
+		// DM channels: send push to all recipients except the author
+		return Array.from(channel.recipientIds).filter((id) => id !== authorId);
 	}
 
 	async updateDMRecipients({

@@ -18,11 +18,13 @@
  */
 
 import {DebugModal, type DebugTab} from '@app/components/debug/DebugModal';
+import http from '@app/lib/HttpClient';
 import type {UserRecord} from '@app/records/UserRecord';
+import UserStore from '@app/stores/UserStore';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {useMemo} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 
 interface UserDebugModalProps {
 	title: string;
@@ -31,7 +33,23 @@ interface UserDebugModalProps {
 
 export const UserDebugModal: React.FC<UserDebugModalProps> = observer(({title, user}) => {
 	const {t} = useLingui();
-	const recordJsonData = useMemo(() => user.toJSON(), [user]);
+	const [staffEmail, setStaffEmail] = useState<string | null>(null);
+	const isStaff = UserStore.currentUser?.isStaff?.() ?? false;
+
+	useEffect(() => {
+		if (!isStaff) return;
+		http.get<{email: string | null}>(`/users/${user.id}/staff-info`)
+			.then((res) => setStaffEmail(res.body.email))
+			.catch(() => {});
+	}, [isStaff, user.id]);
+
+	const recordJsonData = useMemo(() => {
+		const json = user.toJSON();
+		if (isStaff && staffEmail !== null) {
+			return {...json, email: staffEmail};
+		}
+		return json;
+	}, [user, isStaff, staffEmail]);
 
 	const tabs: Array<DebugTab> = [
 		{

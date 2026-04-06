@@ -313,6 +313,7 @@ class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | un
 			body: formData,
 			signal,
 			rejectWithError: true,
+			timeout: 5 * 60 * 1000,
 			onRequestProgress: nonce
 				? (event) => {
 						if (event.lengthComputable && event.total > 0) {

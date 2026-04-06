@@ -82,6 +82,30 @@ export function ConnectionController(app: HonoApp) {
 	);
 
 	app.post(
+		'/users/@me/connections/social',
+		RateLimitMiddleware(ConnectionRateLimitConfigs.CONNECTION_CREATE),
+		LoginRequired,
+		DefaultUserOnly,
+		Validator('json', CreateConnectionRequest),
+		OpenAPI({
+			operationId: 'create_social_connection',
+			summary: 'Create social connection',
+			responseSchema: ConnectionResponse,
+			statusCode: 201,
+			security: ['botToken', 'bearerToken', 'sessionToken'],
+			tags: ['Connections'],
+			description:
+				'Creates a social profile connection (e.g. GitHub, Steam, Twitch) without requiring verification. The connection is immediately marked as verified.',
+		}),
+		async (ctx) => {
+			const connection = await ctx
+				.get('connectionRequestService')
+				.createSocialConnection(ctx.get('user').id, ctx.req.valid('json'));
+			return ctx.json(connection, 201);
+		},
+	);
+
+	app.post(
 		'/users/@me/connections/verify',
 		RateLimitMiddleware(ConnectionRateLimitConfigs.CONNECTION_VERIFY_AND_CREATE),
 		LoginRequired,

@@ -52,6 +52,12 @@ export abstract class IConnectionService {
 		connectionType: ConnectionType,
 		connectionId: string,
 	): Promise<UserConnectionRow>;
+	abstract createSocialConnection(
+		userId: UserID,
+		type: ConnectionType,
+		identifier: string,
+		visibilityFlags: number,
+	): Promise<UserConnectionRow>;
 	abstract reorderConnections(userId: UserID, connectionIds: Array<string>): Promise<void>;
 	abstract revalidateConnection(connection: UserConnectionRow): Promise<{
 		isValid: boolean;

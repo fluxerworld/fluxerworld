@@ -75,9 +75,10 @@ export function UserRelationshipController(app: HonoApp) {
 				'Sends a friend request to a user identified by username tag (username#discriminator). Returns the new relationship object. Can fail if user not found or request already sent.',
 		}),
 		async (ctx) => {
+			const validatedData = ctx.req.valid('json');
 			const response = await ctx.get('userRelationshipRequestService').sendFriendRequestByTag({
 				userId: ctx.get('user').id,
-				data: ctx.req.valid('json'),
+				data: validatedData,
 				requestCache: ctx.get('requestCache'),
 			});
 			return ctx.json(response);

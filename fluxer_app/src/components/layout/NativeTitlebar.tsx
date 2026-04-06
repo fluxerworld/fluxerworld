@@ -19,7 +19,6 @@
 
 import styles from '@app/components/layout/NativeTitlebar.module.css';
 import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
-import FluxerWordmark from '@app/images/fluxer-wordmark.svg?react';
 import {getElectronAPI, type NativePlatform} from '@app/utils/NativeUtils';
 import {useLingui} from '@lingui/react/macro';
 import {CopySimpleIcon, MinusIcon, SquareIcon, XIcon} from '@phosphor-icons/react';
@@ -73,7 +72,7 @@ export const NativeTitlebar: React.FC<NativeTitlebarProps> = ({platform}) => {
 		// biome-ignore lint/a11y/noStaticElementInteractions: Titlebar needs to capture double clicks
 		<div className={styles.titlebar} onDoubleClick={handleDoubleClick} data-platform={platform}>
 			<div className={styles.left}>
-				<FluxerWordmark className={styles.wordmark} />
+				<span className={styles.wordmark}>Fluxerworld</span>
 			</div>
 			<div className={styles.spacer} />
 			<div className={styles.controls}>

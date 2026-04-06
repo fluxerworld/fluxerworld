@@ -20,9 +20,10 @@
 import * as ConnectionActionCreators from '@app/actions/ConnectionActionCreators';
 import * as ModalActionCreators from '@app/actions/ModalActionCreators';
 import {modal} from '@app/actions/ModalActionCreators';
-import {BlueskyIcon} from '@app/components/icons/BlueskyIcon';
+import {ConnectionIcon} from '@app/components/icons/ConnectionIcons';
 import {UnverifiedConnectionIcon} from '@app/components/icons/UnverifiedConnectionIcon';
 import {VerifiedConnectionIcon} from '@app/components/icons/VerifiedConnectionIcon';
+import {getConnectionMeta} from '@app/utils/ConnectionMetadata';
 import {computeVerticalDropPosition} from '@app/components/layout/dnd/DndDropPosition';
 import type {ConnectionDragItem} from '@app/components/layout/types/DndTypes';
 import {DND_TYPES} from '@app/components/layout/types/DndTypes';
@@ -43,7 +44,7 @@ import type {ConnectionRecord} from '@app/records/ConnectionRecord';
 import UserConnectionStore from '@app/stores/UserConnectionStore';
 import {type ConnectionType, ConnectionTypes} from '@fluxer/constants/src/ConnectionConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
-import {DotsSixVerticalIcon, GlobeSimpleIcon, PencilSimpleIcon, TrashIcon, UserListIcon} from '@phosphor-icons/react';
+import {DotsSixVerticalIcon, PencilSimpleIcon, TrashIcon, UserListIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
@@ -145,12 +146,7 @@ const ConnectionCard: React.FC<ConnectionCardProps> = observer(
 		);
 		const mergedRef = useMergeRefs([dropConnectorRef, cardRef]);
 
-		const icon =
-			connection.type === ConnectionTypes.BLUESKY ? (
-				<BlueskyIcon size={20} />
-			) : (
-				<GlobeSimpleIcon size={20} className={styles.domainIcon} />
-			);
+		const icon = <ConnectionIcon type={connection.type} size={20} />;
 
 		return (
 			<div
@@ -165,7 +161,7 @@ const ConnectionCard: React.FC<ConnectionCardProps> = observer(
 				<div ref={dragConnectorRef} className={styles.cardDragHandle}>
 					<DotsSixVerticalIcon size={20} weight="bold" />
 				</div>
-				<Tooltip text={connection.type === ConnectionTypes.BLUESKY ? t`Bluesky` : t`Domain`}>
+				<Tooltip text={getConnectionMeta(connection.type).name}>
 					<div className={styles.cardIconSquircle}>{icon}</div>
 				</Tooltip>
 				<div className={styles.cardInfo}>
@@ -290,26 +286,21 @@ const LinkedAccountsTab: React.FC = observer(() => {
 
 			<SettingsTabSection>
 				<div className={styles.platformRow}>
-					<Tooltip text={t`Bluesky`}>
-						<button
-							type="button"
-							className={styles.platformIconButton}
-							onClick={() => handleAddConnection(ConnectionTypes.BLUESKY)}
-							aria-label={t`Add Bluesky connection`}
-						>
-							<BlueskyIcon size={28} />
-						</button>
-					</Tooltip>
-					<Tooltip text={t`Domain`}>
-						<button
-							type="button"
-							className={styles.platformIconButton}
-							onClick={() => handleAddConnection(ConnectionTypes.DOMAIN)}
-							aria-label={t`Add domain connection`}
-						>
-							<GlobeSimpleIcon size={28} className={styles.domainIcon} />
-						</button>
-					</Tooltip>
+					{(Object.values(ConnectionTypes) as ConnectionType[]).map((type) => {
+						const meta = getConnectionMeta(type);
+						return (
+							<Tooltip key={type} text={meta.name}>
+								<button
+									type="button"
+									className={styles.platformIconButton}
+									onClick={() => handleAddConnection(type)}
+									aria-label={t`Add ${meta.name} connection`}
+								>
+									<ConnectionIcon type={type} size={28} />
+								</button>
+							</Tooltip>
+						);
+					})}
 				</div>
 
 				{connections.length === 0 ? (
@@ -318,7 +309,7 @@ const LinkedAccountsTab: React.FC = observer(() => {
 							Icon={UserListIcon}
 							title={<Trans>No connections yet</Trans>}
 							description={
-								<Trans>Link your Bluesky account or verify domain ownership to display them on your profile.</Trans>
+								<Trans>Link your accounts to display them on your profile.</Trans>
 							}
 						/>
 					</div>

@@ -29,7 +29,7 @@ import {observer} from 'mobx-react-lite';
 
 export const DesktopDownloadNagbar = observer(({isMobile}: {isMobile: boolean}) => {
 	const handleDownload = () => {
-		openExternalUrl('https://fluxer.app/download');
+		openExternalUrl('https://fluxer.world/download');
 	};
 
 	const handleDismiss = () => {

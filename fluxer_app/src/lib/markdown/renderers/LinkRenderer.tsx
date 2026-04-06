@@ -281,13 +281,12 @@ export const LinkRenderer = observer(function LinkRenderer({
 			}
 
 			if (!isInternal && !inviteCode) {
-				const isTrusted = TrustedDomainStore.isTrustedDomain(parsed.hostname);
-				if (!isTrusted) {
-					handleClick = (e) => {
+				handleClick = (e) => {
+					if (!TrustedDomainStore.isTrustedDomain(parsed.hostname)) {
 						e.preventDefault();
 						ModalActionCreators.push(modal(() => <ExternalLinkWarningModal url={url} />));
-					};
-				}
+					}
+				};
 			}
 		} catch (_error) {
 			logger.warn('Invalid URL in link:', url);

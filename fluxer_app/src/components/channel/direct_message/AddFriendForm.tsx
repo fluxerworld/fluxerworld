@@ -66,9 +66,12 @@ export const AddFriendForm: React.FC<AddFriendFormProps> = observer(({onSuccess}
 	}
 
 	const parseInput = (input: string): [string, string] => {
-		const parts = input['split']('#');
-		if (parts.length > 1) {
-			return [parts[0], parts.slice(1).join('#')];
+		// Support both # and @ as tag separators
+		const hashIdx = input.lastIndexOf('#');
+		const atIdx = input.lastIndexOf('@');
+		const sepIdx = Math.max(hashIdx, atIdx);
+		if (sepIdx > 0) {
+			return [input.slice(0, sepIdx), input.slice(sepIdx + 1)];
 		}
 		return [input, '0000'];
 	};

@@ -138,6 +138,11 @@ export const UserSettingsUpdateRequest = z
 		afk_timeout: z.number().int().min(60).max(600).describe('AFK timeout in seconds (60-600)'),
 		time_format: z.number().int().min(0).max(2).describe('Time format preference (0=12h, 1=24h, 2=relative)'),
 		developer_mode: z.boolean().describe('Enable developer mode features'),
+		trusted_domains: z
+			.array(z.string().min(1).max(253))
+			.max(1000)
+			.describe('Trusted external link domains. Use "*" to trust all domains.'),
+		default_hide_muted_channels: z.boolean().describe('Hide muted channels by default in new guilds'),
 	})
 	.partial();
 

@@ -250,6 +250,7 @@ export const Endpoints = {
 	GUILD_DISCOVERY: (guildId: string) => `/guilds/${guildId}/discovery`,
 
 	CONNECTIONS: '/users/@me/connections',
+	CONNECTIONS_SOCIAL: '/users/@me/connections/social',
 	CONNECTIONS_VERIFY_AND_CREATE: '/users/@me/connections/verify',
 	BLUESKY_AUTHORIZE: '/users/@me/connections/bluesky/authorize',
 	CONNECTION: (type: string, connectionId: string) => `/users/@me/connections/${type}/${connectionId}`,

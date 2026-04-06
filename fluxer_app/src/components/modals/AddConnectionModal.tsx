@@ -29,8 +29,9 @@ import * as Modal from '@app/components/modals/Modal';
 import {Button} from '@app/components/uikit/button/Button';
 import {useFormSubmit} from '@app/hooks/useFormSubmit';
 import UserConnectionStore from '@app/stores/UserConnectionStore';
-import {type ConnectionType, ConnectionTypes} from '@fluxer/constants/src/ConnectionConstants';
+import {type ConnectionType, ConnectionTypes, SOCIAL_CONNECTION_TYPES} from '@fluxer/constants/src/ConnectionConstants';
 import type {ConnectionVerificationResponse} from '@fluxer/schema/src/domains/connection/ConnectionSchemas';
+import {getConnectionMeta} from '@app/utils/ConnectionMetadata';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {CheckCircleIcon, ClipboardIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
@@ -81,12 +82,16 @@ export const AddConnectionModal = observer(({defaultType}: AddConnectionModalPro
 	const initiateForm = useForm<InitiateFormInputs>();
 	const verifyForm = useForm<VerifyFormInputs>();
 
+	const isSocial = SOCIAL_CONNECTION_TYPES.has(type);
+	const meta = getConnectionMeta(type);
+
 	const connectionTypeOptions = useMemo(
-		() => [
-			{value: ConnectionTypes.BLUESKY, label: t`Bluesky`},
-			{value: ConnectionTypes.DOMAIN, label: t`Domain`},
-		],
-		[t],
+		() =>
+			(Object.values(ConnectionTypes) as ConnectionType[]).map((t) => ({
+				value: t,
+				label: getConnectionMeta(t).name,
+			})),
+		[],
 	);
 
 	const handleTypeChange = useCallback((value: ConnectionType) => setType(value), []);
@@ -99,6 +104,12 @@ export const AddConnectionModal = observer(({defaultType}: AddConnectionModalPro
 			}
 			if (UserConnectionStore.hasConnectionByTypeAndName(type, identifier)) {
 				initiateForm.setError('identifier', {type: 'validate', message: t`You already have this connection.`});
+				return;
+			}
+			// Social connections: create directly, no verification needed
+			if (SOCIAL_CONNECTION_TYPES.has(type)) {
+				await ConnectionActionCreators.createSocialConnection(i18n, type, identifier);
+				ModalActionCreators.pop();
 				return;
 			}
 			if (type === ConnectionTypes.BLUESKY) {
@@ -207,8 +218,8 @@ export const AddConnectionModal = observer(({defaultType}: AddConnectionModalPro
 								{...initiateForm.register('identifier', {required: true})}
 								autoFocus={true}
 								error={initiateForm.formState.errors.identifier?.message}
-								label={type === ConnectionTypes.BLUESKY ? t`Handle` : t`Domain`}
-								placeholder={type === ConnectionTypes.BLUESKY ? 'username.bsky.social' : 'example.com'}
+								label={meta.name}
+								placeholder={meta.placeholder}
 								required={true}
 							/>
 						</div>
@@ -218,7 +229,7 @@ export const AddConnectionModal = observer(({defaultType}: AddConnectionModalPro
 							<Trans>Cancel</Trans>
 						</Button>
 						<Button type="submit" submitting={initiateForm.formState.isSubmitting}>
-							{type === ConnectionTypes.BLUESKY ? <Trans>Connect with Bluesky</Trans> : <Trans>Continue</Trans>}
+							{isSocial ? <Trans>Add</Trans> : type === ConnectionTypes.BLUESKY ? <Trans>Connect with Bluesky</Trans> : <Trans>Continue</Trans>}
 						</Button>
 					</Modal.Footer>
 				</Form>

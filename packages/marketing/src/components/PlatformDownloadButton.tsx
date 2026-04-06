@@ -53,24 +53,27 @@ export function getPlatformDownloadInfo(ctx: MarketingContext): PlatformDownload
 	switch (ctx.platform) {
 		case 'windows': {
 			const arch = defaultArchitecture(ctx, 'windows');
+			const filename = arch === 'arm64' ? 'Fluxer.World-1.0.0-win-arm64.exe' : 'Fluxer.World-1.0.0-win-x64.exe';
 			return {
-				url: desktopRedirectUrl(ctx, 'win32', arch, 'setup'),
+				url: githubReleaseUrl(filename),
 				label: ctx.i18n.getMessage('platform_support.platforms.windows.download_label', ctx.locale),
 				icon: <WindowsIcon class="h-5 w-5" />,
 			};
 		}
 		case 'macos': {
 			const arch = defaultArchitecture(ctx, 'macos');
+			const filename = arch === 'arm64' ? 'Fluxer.World-1.0.0-mac-arm64.dmg' : 'Fluxer.World-1.0.0-mac-x64.dmg';
 			return {
-				url: desktopRedirectUrl(ctx, 'darwin', arch, 'dmg'),
+				url: githubReleaseUrl(filename),
 				label: ctx.i18n.getMessage('platform_support.platforms.macos.download_label', ctx.locale),
 				icon: <AppleIcon class="h-5 w-5" />,
 			};
 		}
 		case 'linux': {
 			const arch = defaultArchitecture(ctx, 'linux');
+			const filename = arch === 'arm64' ? 'Fluxer.World-1.0.0-linux-arm64.tar.gz' : 'Fluxer.World-1.0.0-linux-x64.tar.gz';
 			return {
-				url: desktopRedirectUrl(ctx, 'linux', arch, 'deb'),
+				url: githubReleaseUrl(filename),
 				label: ctx.i18n.getMessage('platform_support.platforms.linux.choose_distribution', ctx.locale),
 				icon: <LinuxIcon class="h-5 w-5" />,
 			};
@@ -210,14 +213,14 @@ function getMobileConfig(ctx: MarketingContext, platform: MarketingPlatform): Mo
 			return {
 				platformName: ctx.i18n.getMessage('platform_support.platforms.ios.name', ctx.locale),
 				icon: <AppleIcon class="h-6 w-6 shrink-0" />,
-				url: apiUrl(ctx, '/dl/ios/testflight'),
+				url: githubReleaseUrl('FluxerWorld.ipa'),
 				helperText: ctx.i18n.getMessage('platform_support.platforms.ios.testflight', ctx.locale),
 			};
 		case 'android':
 			return {
 				platformName: ctx.i18n.getMessage('platform_support.platforms.android.name', ctx.locale),
 				icon: <AndroidIcon class="h-6 w-6 shrink-0" />,
-				url: apiUrl(ctx, '/dl/android/arm64/apk'),
+				url: 'https://github.com/fluxerworld/fluxerworld/releases/latest/download/app-release.apk',
 				helperText: ctx.i18n.getMessage('platform_support.platforms.android.apk', ctx.locale),
 			};
 		default:
@@ -304,8 +307,9 @@ function getPlatformConfig(ctx: MarketingContext, platform: MarketingPlatform): 
 				platformName: ctx.i18n.getMessage('platform_support.platforms.windows.name', ctx.locale),
 				icon: <WindowsIcon class="h-6 w-6 shrink-0" />,
 				options: [
-					{arch: 'x64', format: 'EXE', url: desktopRedirectUrl(ctx, 'win32', 'x64', 'setup')},
-					{arch: 'arm64', format: 'EXE', url: desktopRedirectUrl(ctx, 'win32', 'arm64', 'setup')},
+					{arch: 'x64', format: 'EXE', url: githubReleaseUrl('Fluxer.World-1.0.0-win-x64.exe')},
+					{arch: 'arm64', format: 'EXE', url: githubReleaseUrl('Fluxer.World-1.0.0-win-arm64.exe')},
+					{arch: 'x64', format: 'Portable', url: githubReleaseUrl('Fluxer.World-1.0.0-portable-x64.exe')},
 				],
 			};
 		case 'macos':
@@ -314,8 +318,8 @@ function getPlatformConfig(ctx: MarketingContext, platform: MarketingPlatform): 
 				platformName: ctx.i18n.getMessage('platform_support.platforms.macos.name', ctx.locale),
 				icon: <AppleIcon class="h-6 w-6 shrink-0" />,
 				options: [
-					{arch: 'arm64', format: 'DMG', url: desktopRedirectUrl(ctx, 'darwin', 'arm64', 'dmg')},
-					{arch: 'x64', format: 'DMG', url: desktopRedirectUrl(ctx, 'darwin', 'x64', 'dmg')},
+					{arch: 'arm64', format: 'DMG', url: githubReleaseUrl('Fluxer.World-1.0.0-mac-arm64.dmg')},
+					{arch: 'x64', format: 'DMG', url: githubReleaseUrl('Fluxer.World-1.0.0-mac-x64.dmg')},
 				],
 			};
 		case 'linux':
@@ -330,16 +334,11 @@ function getPlatformConfig(ctx: MarketingContext, platform: MarketingPlatform): 
 	}
 }
 
-function linuxDownloadOptions(ctx: MarketingContext): ReadonlyArray<PlatformOption> {
+function linuxDownloadOptions(_ctx: MarketingContext): ReadonlyArray<PlatformOption> {
 	return [
-		{arch: 'x64', format: 'AppImage', url: desktopRedirectUrl(ctx, 'linux', 'x64', 'appimage')},
-		{arch: 'arm64', format: 'AppImage', url: desktopRedirectUrl(ctx, 'linux', 'arm64', 'appimage')},
-		{arch: 'x64', format: 'DEB', url: desktopRedirectUrl(ctx, 'linux', 'x64', 'deb')},
-		{arch: 'arm64', format: 'DEB', url: desktopRedirectUrl(ctx, 'linux', 'arm64', 'deb')},
-		{arch: 'x64', format: 'RPM', url: desktopRedirectUrl(ctx, 'linux', 'x64', 'rpm')},
-		{arch: 'arm64', format: 'RPM', url: desktopRedirectUrl(ctx, 'linux', 'arm64', 'rpm')},
-		{arch: 'x64', format: 'tar.gz', url: desktopRedirectUrl(ctx, 'linux', 'x64', 'tar_gz')},
-		{arch: 'arm64', format: 'tar.gz', url: desktopRedirectUrl(ctx, 'linux', 'arm64', 'tar_gz')},
+		{arch: 'x64', format: 'tar.gz', url: githubReleaseUrl('Fluxer.World-1.0.0-linux-x64.tar.gz')},
+		{arch: 'arm64', format: 'tar.gz', url: githubReleaseUrl('Fluxer.World-1.0.0-linux-arm64.tar.gz')},
+		{arch: 'x64', format: 'Flatpak', url: githubReleaseUrl('fluxer-world.flatpak')},
 	];
 }
 
@@ -373,6 +372,12 @@ function defaultArchitecture(ctx: MarketingContext, platform: MarketingPlatform)
 	}
 	if (ctx.architecture === 'arm64') return 'arm64';
 	return 'x64';
+}
+
+const GITHUB_RELEASE_BASE = 'https://github.com/fluxerworld/fluxerworld/releases/latest/download';
+
+function githubReleaseUrl(filename: string): string {
+	return `${GITHUB_RELEASE_BASE}/${filename}`;
 }
 
 function channelSegment(ctx: MarketingContext): string {

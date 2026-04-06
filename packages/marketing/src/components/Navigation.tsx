@@ -81,12 +81,6 @@ export function Navigation(props: NavigationProps): JSX.Element {
 									{ctx.i18n.getMessage('company_and_resources.help.label', ctx.locale)}
 								</a>
 								<a
-									href="https://docs.fluxer.app"
-									class="body-lg font-semibold text-gray-900/90 transition-colors hover:text-gray-900"
-								>
-									{ctx.i18n.getMessage('company_and_resources.docs', ctx.locale)}
-								</a>
-								<a
 									href="https://blog.fluxer.app"
 									class="body-lg font-semibold text-gray-900/90 transition-colors hover:text-gray-900"
 								>

@@ -118,6 +118,36 @@ export async function verifyAndCreateConnection(
 	}
 }
 
+export async function createSocialConnection(
+	i18n: I18n,
+	type: ConnectionType,
+	identifier: string,
+	visibilityFlags?: number,
+): Promise<ConnectionResponse> {
+	try {
+		const payload: CreateConnectionRequest = {
+			type,
+			identifier,
+			visibility_flags: visibilityFlags,
+		};
+
+		const response = await http.post<ConnectionResponse>(Endpoints.CONNECTIONS_SOCIAL, payload);
+		UserConnectionStore.addConnection(response.body);
+
+		ToastActionCreators.createToast({
+			type: 'success',
+			children: i18n._(msg`Connection added`),
+		});
+
+		logger.debug(`Successfully created social connection: ${type}/${identifier}`);
+		return response.body;
+	} catch (error) {
+		logger.error(`Failed to create social connection ${type}/${identifier}:`, error);
+		showErrorToast(i18n, error, msg`Failed to add connection`);
+		throw error;
+	}
+}
+
 export async function updateConnection(
 	i18n: I18n,
 	type: string,

@@ -149,7 +149,7 @@ export const VoiceTab: React.FC<VoiceTabProps> = observer(({voiceSettings, autoR
 						primaryVariant="primary"
 						secondaryText={t`I understand`}
 						onPrimary={() => {
-							void openExternalUrl('https://fluxer.app/download');
+							void openExternalUrl('https://fluxer.world/download');
 						}}
 						onSecondary={() => {
 							KeybindStore.setTransmitMode(mode);
@@ -312,7 +312,7 @@ export const VoiceTab: React.FC<VoiceTabProps> = observer(({voiceSettings, autoR
 								!isNativeDesktop
 									? {
 											label: <Trans>Download the desktop app for system-wide Push-to-Talk</Trans>,
-											onClick: () => void openExternalUrl('https://fluxer.app/download'),
+											onClick: () => void openExternalUrl('https://fluxer.world/download'),
 										}
 									: {
 											label: <Trans>Enable Input Monitoring permission</Trans>,

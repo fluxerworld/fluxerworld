@@ -37,6 +37,7 @@ import processInactivityDeletions from '@fluxer/api/src/worker/tasks/ProcessInac
 import processPendingBulkMessageDeletions from '@fluxer/api/src/worker/tasks/ProcessPendingBulkMessageDeletions';
 import refreshSearchIndex from '@fluxer/api/src/worker/tasks/RefreshSearchIndex';
 import revalidateUserConnections from '@fluxer/api/src/worker/tasks/RevalidateUserConnections';
+import sendPushNotifications from '@fluxer/api/src/worker/tasks/SendPushNotifications';
 import {sendScheduledMessage} from '@fluxer/api/src/worker/tasks/SendScheduledMessage';
 import {sendSystemDm} from '@fluxer/api/src/worker/tasks/SendSystemDm';
 import syncDiscoveryIndex from '@fluxer/api/src/worker/tasks/SyncDiscoveryIndex';
@@ -65,6 +66,7 @@ export const workerTasks: Record<string, WorkerTaskHandler> = {
 	processPendingBulkMessageDeletions,
 	refreshSearchIndex,
 	revalidateUserConnections,
+	sendPushNotifications,
 	sendScheduledMessage,
 	sendSystemDm,
 	syncDiscoveryIndex,

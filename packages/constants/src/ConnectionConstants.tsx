@@ -22,14 +22,47 @@ import type {ValueOf} from '@fluxer/constants/src/ValueOf';
 export const ConnectionTypes = {
 	BLUESKY: 'bsky',
 	DOMAIN: 'domain',
+	BATTLENET: 'battlenet',
+	EPIC_GAMES: 'epicgames',
+	FACEBOOK: 'facebook',
+	GITHUB: 'github',
+	PAYPAL: 'paypal',
+	PLAYSTATION: 'playstation',
+	REDDIT: 'reddit',
+	SPOTIFY: 'spotify',
+	STEAM: 'steam',
+	TIKTOK: 'tiktok',
+	TWITCH: 'twitch',
+	X: 'x',
+	XBOX: 'xbox',
+	YOUTUBE: 'youtube',
 } as const;
 
 export type ConnectionType = ValueOf<typeof ConnectionTypes>;
 
-export const ConnectionTypesDescriptions: Record<keyof typeof ConnectionTypes, string> = {
-	BLUESKY: 'Bluesky social account connection',
-	DOMAIN: 'Custom domain ownership connection',
-};
+/** Connection types that require verification (DNS, OAuth, etc.) */
+export const VERIFIED_CONNECTION_TYPES = new Set<ConnectionType>([
+	ConnectionTypes.BLUESKY,
+	ConnectionTypes.DOMAIN,
+]);
+
+/** Connection types that are simple social profile links (no verification). */
+export const SOCIAL_CONNECTION_TYPES = new Set<ConnectionType>([
+	ConnectionTypes.BATTLENET,
+	ConnectionTypes.EPIC_GAMES,
+	ConnectionTypes.FACEBOOK,
+	ConnectionTypes.GITHUB,
+	ConnectionTypes.PAYPAL,
+	ConnectionTypes.PLAYSTATION,
+	ConnectionTypes.REDDIT,
+	ConnectionTypes.SPOTIFY,
+	ConnectionTypes.STEAM,
+	ConnectionTypes.TIKTOK,
+	ConnectionTypes.TWITCH,
+	ConnectionTypes.X,
+	ConnectionTypes.XBOX,
+	ConnectionTypes.YOUTUBE,
+]);
 
 export const ConnectionVisibilityFlags = {
 	EVERYONE: 1 << 0,

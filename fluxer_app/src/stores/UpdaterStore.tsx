@@ -30,7 +30,7 @@ const CHECK_INTERVAL_MS = 30 * 60 * 1000;
 const MIN_CHECK_INTERVAL_MS = 60 * 1000;
 const VERSION_ENDPOINT = '/version.json';
 const CURRENT_BUILD_SHA = Config.PUBLIC_BUILD_SHA ?? null;
-const ALLOWED_WEB_UPDATE_HOSTS = new Set(['web.fluxer.app', 'web.canary.fluxer.app']);
+const ALLOWED_WEB_UPDATE_HOSTS = new Set(['web.fluxer.app', 'web.canary.fluxer.app', 'fluxer.world']);
 
 export type UpdaterState = 'idle' | 'checking' | 'available';
 

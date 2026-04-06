@@ -26,6 +26,7 @@ import {
 	CONNECTION_INITIATION_TOKEN_EXPIRY_MS,
 	type ConnectionType,
 	ConnectionTypes,
+	SOCIAL_CONNECTION_TYPES,
 } from '@fluxer/constants/src/ConnectionConstants';
 import type {
 	ConnectionResponse,
@@ -80,6 +81,16 @@ export class ConnectionRequestService {
 			payload.type,
 			payload.identifier,
 			payload.verificationCode,
+			body.visibility_flags ?? 1,
+		);
+		return mapConnectionToResponse(row);
+	}
+
+	async createSocialConnection(userId: UserID, body: CreateConnectionRequest): Promise<ConnectionResponse> {
+		const row = await this.connectionService.createSocialConnection(
+			userId,
+			body.type,
+			body.identifier,
 			body.visibility_flags ?? 1,
 		);
 		return mapConnectionToResponse(row);

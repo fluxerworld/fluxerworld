@@ -46,6 +46,9 @@ export class SmtpEmailProvider implements IEmailProvider {
 				user: config.username,
 				pass: config.password,
 			},
+			tls: {
+				rejectUnauthorized: false,
+			},
 			connectionTimeout: config.connectionTimeoutMs,
 			greetingTimeout: config.greetingTimeoutMs,
 			socketTimeout: config.socketTimeoutMs,

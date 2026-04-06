@@ -399,15 +399,25 @@ export function WebhookController(app: HonoApp) {
 			tags: ['Webhooks'],
 		}),
 		Validator('param', WebhookIdTokenParam),
-		Validator('json', GitHubWebhook),
 		async (ctx) => {
 			const {webhook_id: webhookId, token} = ctx.req.valid('param');
+			const contentType = ctx.req.header('content-type') ?? '';
+			let data: GitHubWebhook;
+			if (contentType.includes('application/x-www-form-urlencoded')) {
+				const raw = await ctx.req.text();
+				const params = new URLSearchParams(raw);
+				const payload = params.get('payload');
+				data = payload ? (JSON.parse(payload) as GitHubWebhook) : {};
+			} else {
+				const raw = await ctx.req.text();
+				data = raw.trim().length === 0 ? {} : (JSON.parse(raw) as GitHubWebhook);
+			}
 			await ctx.get('webhookRequestService').executeGitHubWebhook({
 				webhookId: createWebhookID(webhookId),
 				token: createWebhookToken(token),
 				event: ctx.req.header('X-GitHub-Event') ?? '',
 				delivery: ctx.req.header('X-GitHub-Delivery') ?? '',
-				data: ctx.req.valid('json'),
+				data,
 				requestCache: ctx.get('requestCache'),
 			});
 			return ctx.body(null, 204);

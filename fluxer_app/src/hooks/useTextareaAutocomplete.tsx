@@ -799,7 +799,8 @@ export function useTextareaAutocomplete({
 					const specialMentions = canMentionEveryone
 						? SPECIAL_MENTIONS.filter((mention) => {
 								if (!queryForMatching) return true;
-								return mention.kind.toLowerCase().includes(queryForMatching.toLowerCase());
+								const kindWithoutPrefix = mention.kind.startsWith('@') ? mention.kind.substring(1) : mention.kind;
+								return kindWithoutPrefix.toLowerCase().includes(queryForMatching.toLowerCase());
 							})
 						: [];
 

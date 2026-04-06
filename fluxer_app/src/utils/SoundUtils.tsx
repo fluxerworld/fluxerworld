@@ -210,14 +210,32 @@ export async function playSound(
 	}
 
 	try {
+		const soundUrl = await getSoundUrl(type);
+
 		const ctx = await resumeAudioContextIfNeeded();
 		if (ctx.state === 'suspended') {
-			logger.debug('Audio context still suspended; skipping sound', {type});
+			// AudioContext is suspended – fall back to plain HTMLAudioElement
+			// which works without a user gesture in Electron and most browsers.
+			if (!loop) {
+				try {
+					const fallback = new Audio(soundUrl);
+					fallback.volume = clamp(volume, 0, MAX_EFFECTIVE_VOLUME);
+					await fallback.play();
+					return fallback;
+				} catch (fallbackError) {
+					if (isAutoplayBlockedError(fallbackError)) {
+						onAutoplayBlocked?.();
+					} else {
+						logger.warn('Fallback audio play failed', fallbackError);
+					}
+					return null;
+				}
+			}
+			logger.debug('Audio context still suspended; skipping looped sound', {type});
 			onAutoplayBlocked?.();
 			return null;
 		}
 
-		const soundUrl = await getSoundUrl(type);
 		const audio = createAudioElement(soundUrl);
 
 		audio.currentTime = 0;

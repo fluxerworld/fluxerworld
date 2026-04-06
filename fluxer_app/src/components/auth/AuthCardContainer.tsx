@@ -20,7 +20,6 @@
 import styles from '@app/components/auth/AuthCardContainer.module.css';
 import authLayoutStyles from '@app/components/layout/AuthLayout.module.css';
 import FluxerLogo from '@app/images/fluxer-logo-color.svg?react';
-import FluxerWordmark from '@app/images/fluxer-wordmark.svg?react';
 import clsx from 'clsx';
 import type {ReactNode} from 'react';
 
@@ -38,7 +37,7 @@ export function AuthCardContainer({showLogoSide = true, children, isInert = fals
 				{showLogoSide && (
 					<div className={authLayoutStyles.logoSide}>
 						<FluxerLogo className={authLayoutStyles.logo} />
-						<FluxerWordmark className={authLayoutStyles.wordmark} />
+						<span className={authLayoutStyles.wordmark}>Fluxerworld</span>
 					</div>
 				)}
 				<div className={clsx(authLayoutStyles.formSide, !showLogoSide && authLayoutStyles.formSideSingle)}>

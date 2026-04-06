@@ -87,7 +87,7 @@ export function supportsDesktopScreenShareAudioCapture(): boolean {
 	if (!electronApi) {
 		return true;
 	}
-	return electronApi.platform === 'win32';
+	return electronApi.platform === 'win32' || electronApi.platform === 'linux';
 }
 
 let externalLinkHandlerAttached = false;

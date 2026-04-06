@@ -21,12 +21,11 @@ import * as UserSettingsActionCreators from '@app/actions/UserSettingsActionCrea
 import * as VoiceSettingsActionCreators from '@app/actions/VoiceSettingsActionCreators';
 import {Switch} from '@app/components/form/Switch';
 import {SettingsTabContainer, SettingsTabSection} from '@app/components/modals/shared/SettingsTabLayout';
-import {WarningAlert} from '@app/components/uikit/warning_alert/WarningAlert';
 import NativeWindowStateStore from '@app/stores/NativeWindowStateStore';
 import UserSettingsStore from '@app/stores/UserSettingsStore';
 import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
 import {getAutostartStatus, setAutostartEnabled} from '@app/utils/AutostartUtils';
-import {getNativePlatform, isDesktop, type NativePlatform} from '@app/utils/NativeUtils';
+import {isDesktop} from '@app/utils/NativeUtils';
 import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
@@ -37,19 +36,12 @@ const AdvancedTab: React.FC = observer(() => {
 	const screenShareHardwareAcceleration = VoiceSettingsStore.getScreenShareHardwareAcceleration();
 	const [autostartEnabled, setAutostartEnabledState] = useState(false);
 	const [autostartBusy, setAutostartBusy] = useState(false);
-	const [platform, setPlatform] = useState<NativePlatform>('unknown');
 
 	useLayoutEffect(() => {
 		let mounted = true;
 
 		const initAutostart = async () => {
 			if (!isDesktop()) return;
-
-			const detectedPlatform = await getNativePlatform();
-			if (!mounted) return;
-
-			setPlatform(detectedPlatform);
-			if (detectedPlatform !== 'macos') return;
 
 			setAutostartBusy(true);
 			const enabled = await getAutostartStatus();
@@ -70,7 +62,6 @@ const AdvancedTab: React.FC = observer(() => {
 	}, []);
 
 	const handleAutostartChange = async (value: boolean) => {
-		if (platform !== 'macos') return;
 		setAutostartBusy(true);
 		const nextState = await setAutostartEnabled(value);
 		if (nextState !== null) {
@@ -78,8 +69,6 @@ const AdvancedTab: React.FC = observer(() => {
 		}
 		setAutostartBusy(false);
 	};
-
-	const showAutostartWarning = platform !== 'unknown' && platform !== 'macos';
 
 	return (
 		<SettingsTabContainer>
@@ -91,15 +80,10 @@ const AdvancedTab: React.FC = observer(() => {
 					<Switch
 						label={<Trans>Launch Fluxer at Login</Trans>}
 						description={<Trans>Applies only to the desktop app on this device.</Trans>}
-						value={platform === 'macos' ? autostartEnabled : false}
-						disabled={platform !== 'macos' || autostartBusy}
+						value={autostartEnabled}
+						disabled={autostartBusy}
 						onChange={handleAutostartChange}
 					/>
-					{showAutostartWarning && (
-						<WarningAlert>
-							<Trans>Autostart is coming soon for Windows and Linux. For now, it is only available on macOS.</Trans>
-						</WarningAlert>
-					)}
 				</SettingsTabSection>
 			)}
 			{isDesktop() && (

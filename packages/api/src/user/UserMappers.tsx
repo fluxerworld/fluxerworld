@@ -186,9 +186,8 @@ export function mapUserToPrivateResponse(user: User): UserPrivateResponse {
 		required_actions: requiredActions ?? null,
 		nsfw_allowed: isUserAdult(user.dateOfBirth),
 		has_dismissed_premium_onboarding:
-			user.premiumSince != null &&
 			user.premiumOnboardingDismissedAt != null &&
-			user.premiumOnboardingDismissedAt >= user.premiumSince,
+			(user.premiumSince == null || user.premiumOnboardingDismissedAt >= user.premiumSince),
 		has_ever_purchased: user.hasEverPurchased,
 		has_unread_gift_inventory:
 			user.giftInventoryServerSeq != null &&

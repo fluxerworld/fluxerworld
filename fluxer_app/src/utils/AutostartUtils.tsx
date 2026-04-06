@@ -56,10 +56,6 @@ export async function ensureAutostartDefaultEnabled(): Promise<boolean | null> {
 	if (!electronApi) return null;
 
 	try {
-		if (electronApi.platform !== 'darwin') {
-			return await electronApi.autostartIsEnabled();
-		}
-
 		const initialized = await electronApi.autostartIsInitialized();
 		let enabled = await electronApi.autostartIsEnabled();
 

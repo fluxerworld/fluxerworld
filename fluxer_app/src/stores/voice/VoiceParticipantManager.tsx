@@ -165,6 +165,9 @@ class VoiceParticipantManager {
 		logger.info('Hydrated participants', {count: Object.keys(next).length});
 	}
 
+	private _speakingTimers = new Map<string, ReturnType<typeof setTimeout>>();
+	private static readonly SPEAKING_DEBOUNCE_MS = 300;
+
 	updateActiveSpeakers(speakers: Array<Participant>): void {
 		const speakerIds = new Set(speakers.map((s) => s.identity));
 		let changed = false;
@@ -172,9 +175,29 @@ class VoiceParticipantManager {
 
 		for (const [identity, snap] of Object.entries(this._participants)) {
 			const shouldBeSpeaking = speakerIds.has(identity);
-			if (snap.isSpeaking !== shouldBeSpeaking) {
-				next[identity] = {...snap, isSpeaking: shouldBeSpeaking};
+
+			if (shouldBeSpeaking && !snap.isSpeaking) {
+				// Start speaking immediately
+				const existingTimer = this._speakingTimers.get(identity);
+				if (existingTimer) {
+					clearTimeout(existingTimer);
+					this._speakingTimers.delete(identity);
+				}
+				next[identity] = {...snap, isSpeaking: true};
 				changed = true;
+			} else if (!shouldBeSpeaking && snap.isSpeaking) {
+				// Debounce stop speaking to prevent flickering
+				if (!this._speakingTimers.has(identity)) {
+					this._speakingTimers.set(identity, setTimeout(() => {
+						this._speakingTimers.delete(identity);
+						runInAction(() => {
+							const current = this._participants[identity];
+							if (current && current.isSpeaking) {
+								this._participants = {...this._participants, [identity]: {...current, isSpeaking: false}};
+							}
+						});
+					}, VoiceParticipantManager.SPEAKING_DEBOUNCE_MS));
+				}
 			}
 		}
 

@@ -41,9 +41,10 @@
 }
 
 .wordmark {
-	height: 14px;
-	width: auto;
-	color: var(--text-muted);
+	font-size: 13px;
+	font-weight: 700;
+	color: var(--text-primary);
+	letter-spacing: -0.01em;
 }
 
 .spacer {

@@ -44,8 +44,8 @@ export const NetworkErrorScreen = () => {
 				<p className={styles.errorFallbackDescription}>
 					<Trans>
 						Check our{' '}
-						<a href="https://bsky.app/profile/fluxer.app" target="_blank" rel="noopener noreferrer">
-							Bluesky (@fluxer.app)
+						<a href="https://github.com/fluxerworld/fluxerworld" target="_blank" rel="noopener noreferrer">
+							GitHub
 						</a>{' '}
 						for status updates.
 					</Trans>

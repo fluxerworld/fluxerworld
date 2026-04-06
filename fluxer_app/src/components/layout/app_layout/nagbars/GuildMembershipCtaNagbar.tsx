@@ -35,7 +35,7 @@ import {Trans} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import {useEffect, useState} from 'react';
 
-const FLUXER_HQ_INVITE_CODE = 'fluxer-hq';
+const FLUXER_HQ_INVITE_CODE = 'tR6IRdXW';
 
 export const GuildMembershipCtaNagbar = observer(({isMobile}: {isMobile: boolean}) => {
 	const isSelfHosted = RuntimeConfigStore.isSelfHosted();
@@ -95,10 +95,10 @@ export const GuildMembershipCtaNagbar = observer(({isMobile}: {isMobile: boolean
 			<NagbarContent
 				isMobile={isMobile}
 				onDismiss={handleDismiss}
-				message={<Trans>Join Fluxer HQ to chat with the team and stay up to date on the latest!</Trans>}
+				message={<Trans>Join Fluxer World to chat with the community and stay up to date on the latest!</Trans>}
 				actions={
 					<NagbarButton isMobile={isMobile} onClick={handleJoinGuild} submitting={isSubmitting} disabled={isSubmitting}>
-						<Trans>Join Fluxer HQ</Trans>
+						<Trans>Join Fluxer World</Trans>
 					</NagbarButton>
 				}
 			/>

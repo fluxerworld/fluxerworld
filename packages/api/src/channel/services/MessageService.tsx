@@ -108,6 +108,7 @@ export class MessageService {
 			gatewayService,
 			readStateService,
 			this.mentionService,
+			workerService,
 		);
 		this.systemService = new MessageSystemService(
 			channelRepository,

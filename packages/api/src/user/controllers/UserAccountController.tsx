@@ -86,6 +86,7 @@ import {
 } from '@fluxer/schema/src/domains/user/UserResponseSchemas';
 import {ms} from 'itty-time';
 import {uint8ArrayToBase64} from 'uint8array-extras';
+import {z} from 'zod';
 
 export function UserAccountController(app: HonoApp) {
 	app.get(
@@ -562,6 +563,32 @@ export function UserAccountController(app: HonoApp) {
 					requestCache: ctx.get('requestCache'),
 				}),
 			);
+		},
+	);
+
+	app.get(
+		'/users/:target_id/staff-info',
+		RateLimitMiddleware(RateLimitConfigs.USER_GET_PROFILE),
+		LoginRequired,
+		Validator('param', TargetIdParam),
+		OpenAPI({
+			operationId: 'get_user_staff_info',
+			summary: 'Get user staff info',
+			responseSchema: z.object({email: z.string().nullable()}),
+			statusCode: 200,
+			security: ['sessionToken'],
+			tags: ['Users'],
+			description: 'Staff-only endpoint to retrieve a user\'s email address.',
+		}),
+		async (ctx) => {
+			const currentUser = ctx.get('user');
+			if ((currentUser.flags & UserFlags.STAFF) === 0n) {
+				throw new MissingAccessError();
+			}
+			const targetUserId = createUserID(ctx.req.valid('param').target_id);
+			const targetUser = await ctx.get('userRepository').findUnique(targetUserId);
+			if (!targetUser) throw new UnknownUserError();
+			return ctx.json({email: targetUser.email ?? null});
 		},
 	);
 

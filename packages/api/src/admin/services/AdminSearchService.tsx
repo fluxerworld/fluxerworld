@@ -113,12 +113,13 @@ export class AdminSearchService {
 	async searchUsers(data: {query?: string; limit: number; offset: number}) {
 		const {userRepository, cacheService} = this.deps;
 		const userSearchService = getUserSearchService();
-		if (!userSearchService) {
-			throw new Error('Search is not enabled');
-		}
 
 		const query = data.query?.trim() || '';
 		const isIdQuery = /^\d+$/.test(query);
+
+		if (!userSearchService) {
+			return this.searchUsersFallback(data, query, isIdQuery);
+		}
 
 		const [searchResult, directUser] = await Promise.all([
 			userSearchService.search(query, {}, {limit: data.limit, offset: data.offset}),
@@ -144,6 +145,60 @@ export class AdminSearchService {
 			users: response,
 			total: directUser && !hits.some((h) => h.id === query) ? total + 1 : total,
 		};
+	}
+
+	private async searchUsersFallback(
+		data: {query?: string; limit: number; offset: number},
+		query: string,
+		isIdQuery: boolean,
+	) {
+		const {userRepository, cacheService} = this.deps;
+
+		if (isIdQuery) {
+			const user = await userRepository.findUnique(createUserID(BigInt(query))).catch(() => null);
+			if (user) {
+				const response = await mapUserToAdminResponse(user, cacheService);
+				return {users: [response], total: 1};
+			}
+			return {users: [], total: 0};
+		}
+
+		let searchUsername = query.toLowerCase();
+		let searchDiscriminator: number | null = null;
+		const hashMatch = query.match(/^(.+)#(\d{1,4})$/);
+		if (hashMatch) {
+			searchUsername = hashMatch[1]!.toLowerCase();
+			searchDiscriminator = parseInt(hashMatch[2]!, 10);
+		}
+
+		const allUsers: Array<Awaited<ReturnType<typeof mapUserToAdminResponse>>> = [];
+		let lastUserId: ReturnType<typeof createUserID> | undefined;
+		const PAGE_SIZE = 500;
+
+		while (true) {
+			const page = await userRepository.listAllUsersPaginated(PAGE_SIZE, lastUserId);
+			if (page.length === 0) break;
+
+			for (const user of page) {
+				if (!query) {
+					allUsers.push(await mapUserToAdminResponse(user, cacheService));
+				} else {
+					const usernameMatch = user.username.toLowerCase().includes(searchUsername);
+					const emailMatch = user.email?.toLowerCase().includes(searchUsername);
+					const discrimMatch = searchDiscriminator == null || user.discriminator === searchDiscriminator;
+					if ((usernameMatch || emailMatch) && discrimMatch) {
+						allUsers.push(await mapUserToAdminResponse(user, cacheService));
+					}
+				}
+			}
+
+			lastUserId = page[page.length - 1]!.id;
+			if (page.length < PAGE_SIZE) break;
+		}
+
+		const total = allUsers.length;
+		const sliced = allUsers.slice(data.offset, data.offset + data.limit);
+		return {users: sliced, total};
 	}
 
 	async refreshSearchIndex(

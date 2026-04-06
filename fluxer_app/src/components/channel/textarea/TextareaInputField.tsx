@@ -111,7 +111,7 @@ export const TextareaInputField = React.forwardRef<HTMLTextAreaElement, Textarea
 						onAutocompleteSelect(selectedOption);
 					}
 				}
-			} else if (event.key === 'Enter' && !event.shiftKey && !isMobile) {
+			} else if (event.key === 'Enter' && !event.shiftKey && !(isMobile && 'ontouchstart' in window)) {
 				event.preventDefault();
 				onEnter();
 			} else if (event.key === 'ArrowUp') {

@@ -43,7 +43,7 @@ const KeybindRow = observer(
 			KeybindStore.toggleGlobal(entry.action, value);
 		};
 		const defaultCombo = getDefaultKeybind(entry.action, i18n);
-		const downloadUrl = 'https://fluxer.app/download';
+		const downloadUrl = 'https://fluxer.world/download';
 
 		return (
 			<div className={`${styles.rowWrapper} ${entry.allowGlobal ? styles.hasFooterWrapper : ''}`}>

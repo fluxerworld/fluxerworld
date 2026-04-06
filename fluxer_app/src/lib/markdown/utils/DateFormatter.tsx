@@ -20,34 +20,14 @@
 import {getDateFromUnixTimestampSeconds} from '@app/lib/markdown/utils/TimestampValidation';
 import {shouldUse12HourFormat} from '@app/utils/DateUtils';
 import {getCurrentLocale} from '@app/utils/LocaleUtils';
-import {
-	getDaysDiff,
-	getHoursDiff,
-	getMinutesDiff,
-	getSecondsDiff,
-	isSameDay,
-	isYesterday,
-} from '@fluxer/date_utils/src/DateComparison';
-import {getFormattedTime} from '@fluxer/date_utils/src/DateFormatting';
+import {getDaysDiff, getHoursDiff, getMinutesDiff, getSecondsDiff} from '@fluxer/date_utils/src/DateComparison';
 import {formatTimestampWithStyle} from '@fluxer/date_utils/src/DateTimestampStyle';
 import {TimestampStyle} from '@fluxer/markdown_parser/src/types/Enums';
 import type {I18n} from '@lingui/core';
 import {msg} from '@lingui/core/macro';
 
 function formatRelativeTime(date: Date, i18n: I18n): string {
-	const locale = getCurrentLocale();
 	const now = new Date();
-
-	if (isSameDay(date, now)) {
-		const timeString = getFormattedTime(date, locale, shouldUse12HourFormat(locale));
-		return i18n._(msg`Today at ${timeString}`);
-	}
-
-	if (isYesterday(date, now)) {
-		const timeString = getFormattedTime(date, locale, shouldUse12HourFormat(locale));
-		return i18n._(msg`Yesterday at ${timeString}`);
-	}
-
 	const daysDiff = getDaysDiff(date, now);
 	const absDays = Math.abs(daysDiff);
 

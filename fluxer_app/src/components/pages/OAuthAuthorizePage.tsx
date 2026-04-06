@@ -34,7 +34,6 @@ import {Tooltip} from '@app/components/uikit/tooltip/Tooltip';
 import {useAuthLayoutContext} from '@app/contexts/AuthLayoutContext';
 import {Endpoints} from '@app/Endpoints';
 import {useFluxerDocumentTitle} from '@app/hooks/useFluxerDocumentTitle';
-import FluxerWordmarkMonochrome from '@app/images/fluxer-logo-wordmark-monochrome.svg?react';
 import http from '@app/lib/HttpClient';
 import {HttpError} from '@app/lib/HttpError';
 import {Logger} from '@app/lib/Logger';
@@ -557,7 +556,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 		return (
 			<div className={styles.page}>
 				<div className={styles.pageLogo}>
-					<FluxerWordmarkMonochrome className={styles.pageWordmark} />
+					<span className={styles.pageWordmark}>Fluxerworld</span>
 				</div>
 
 				<div className={styles.breadcrumbs}>
@@ -682,7 +681,7 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 	return (
 		<div className={styles.page}>
 			<div className={styles.pageLogo}>
-				<FluxerWordmarkMonochrome className={styles.pageWordmark} />
+				<span className={styles.pageWordmark}>Fluxerworld</span>
 			</div>
 
 			{needsPermissionsStep && (

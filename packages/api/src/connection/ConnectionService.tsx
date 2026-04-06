@@ -40,6 +40,8 @@ import {
 	ConnectionTypes,
 	ConnectionVisibilityFlags,
 	MAX_CONNECTIONS_PER_USER,
+	SOCIAL_CONNECTION_TYPES,
+	VERIFIED_CONNECTION_TYPES,
 } from '@fluxer/constants/src/ConnectionConstants';
 
 export class ConnectionService extends IConnectionService {
@@ -63,7 +65,7 @@ export class ConnectionService extends IConnectionService {
 		if (type === ConnectionTypes.BLUESKY) {
 			throw new BlueskyOAuthNotEnabledError();
 		}
-		if (type !== ConnectionTypes.DOMAIN) {
+		if (!VERIFIED_CONNECTION_TYPES.has(type) && !SOCIAL_CONNECTION_TYPES.has(type)) {
 			throw new ConnectionInvalidTypeError();
 		}
 
@@ -79,6 +81,53 @@ export class ConnectionService extends IConnectionService {
 
 		const verificationCode = randomBytes(CONNECTION_VERIFICATION_TOKEN_LENGTH).toString('hex');
 		return {verificationCode};
+	}
+
+	async createSocialConnection(
+		userId: UserID,
+		type: ConnectionType,
+		identifier: string,
+		visibilityFlags: number,
+	): Promise<UserConnectionRow> {
+		if (!SOCIAL_CONNECTION_TYPES.has(type)) {
+			throw new ConnectionInvalidTypeError();
+		}
+
+		const count = await this.repository.count(userId);
+		if (count >= MAX_CONNECTIONS_PER_USER) {
+			throw new ConnectionLimitReachedError();
+		}
+
+		const existing = await this.repository.findByTypeAndIdentifier(userId, type, identifier);
+		if (existing) {
+			throw new ConnectionAlreadyExistsError();
+		}
+
+		const connectionId = randomUUID();
+		const now = new Date();
+
+		const created = await this.repository.create({
+			user_id: userId,
+			connection_id: connectionId,
+			connection_type: type,
+			identifier,
+			name: identifier,
+			visibility_flags: this.normalizeVisibilityFlags(visibilityFlags),
+			sort_order: count,
+			verification_token: '',
+			verified: true,
+			verified_at: now,
+			last_verified_at: now,
+		});
+
+		const connections = await this.repository.findByUserId(userId);
+		await this.gateway.dispatchPresence({
+			userId,
+			event: 'USER_CONNECTIONS_UPDATE',
+			data: {connections: connections.map(mapConnectionToResponse)},
+		});
+
+		return created;
 	}
 
 	private normalizeVisibilityFlags(flags: number): number {
@@ -109,7 +158,7 @@ export class ConnectionService extends IConnectionService {
 		if (type === ConnectionTypes.BLUESKY) {
 			throw new BlueskyOAuthNotEnabledError();
 		}
-		if (type !== ConnectionTypes.DOMAIN) {
+		if (!VERIFIED_CONNECTION_TYPES.has(type)) {
 			throw new ConnectionInvalidTypeError();
 		}
 
@@ -313,6 +362,11 @@ export class ConnectionService extends IConnectionService {
 		isValid: boolean;
 		updateParams: UpdateConnectionParams | null;
 	}> {
+		// Social connections are always considered valid (no verification)
+		if (SOCIAL_CONNECTION_TYPES.has(connection.connection_type)) {
+			return {isValid: true, updateParams: null};
+		}
+
 		const verifier = this.getVerifier(connection.connection_type);
 		const isValid = await verifier.verify({
 			identifier: connection.identifier,

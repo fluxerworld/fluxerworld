@@ -29,7 +29,6 @@ import {useSetLayoutVariant} from '@app/contexts/LayoutVariantContext';
 import {useAuthBackground} from '@app/hooks/useAuthBackground';
 import {useNativePlatform} from '@app/hooks/useNativePlatform';
 import i18n, {initI18n} from '@app/I18n';
-import FluxerWordmarkMonochrome from '@app/images/fluxer-logo-wordmark-monochrome.svg?react';
 import foodPatternUrl from '@app/images/i-like-food.svg';
 import {useLocation} from '@app/lib/router/React';
 import {isMobileExperienceEnabled} from '@app/utils/MobileExperience';
@@ -154,7 +153,7 @@ const AuthLayoutContent = observer(function AuthLayoutContent({children}: {child
 						>
 							<div className={styles.mobileContent}>
 								<div className={styles.mobileLogoContainer}>
-									<FluxerWordmarkMonochrome className={styles.mobileWordmark} />
+									<span className={styles.mobileWordmark}>Fluxerworld</span>
 								</div>
 								{children}
 							</div>
