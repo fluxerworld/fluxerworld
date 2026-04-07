@@ -95,13 +95,16 @@ function appIcon(): string {
 // ─── URL allow-list ───────────────────────────────────────────────────────────
 
 /** Static pages that should open in the browser, not the app. */
-const EXTERNAL_PATHS = new Set(['/status', '/selfhost', '/help', '/contact', '/privacy', '/terms']);
+const EXTERNAL_PATHS = ['/status', '/selfhost', '/help', '/contact', '/privacy', '/terms'];
 
 function isAllowedUrl(rawUrl: string): boolean {
   try {
     const u = new URL(rawUrl);
     if (u.protocol !== 'https:' || !ALLOWED_HOSTS.has(u.hostname)) return false;
-    if (u.hostname === 'fluxer.world' && EXTERNAL_PATHS.has(u.pathname)) return false;
+    if (u.hostname === 'fluxer.world') {
+      const path = u.pathname.replace(/\.html$/, '');
+      if (EXTERNAL_PATHS.includes(path)) return false;
+    }
     return true;
   } catch {
     return false;
