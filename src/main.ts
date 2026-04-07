@@ -94,10 +94,15 @@ function appIcon(): string {
 
 // ─── URL allow-list ───────────────────────────────────────────────────────────
 
+/** Static pages that should open in the browser, not the app. */
+const EXTERNAL_PATHS = new Set(['/status', '/selfhost', '/help', '/contact', '/privacy', '/terms']);
+
 function isAllowedUrl(rawUrl: string): boolean {
   try {
     const u = new URL(rawUrl);
-    return u.protocol === 'https:' && ALLOWED_HOSTS.has(u.hostname);
+    if (u.protocol !== 'https:' || !ALLOWED_HOSTS.has(u.hostname)) return false;
+    if (u.hostname === 'fluxer.world' && EXTERNAL_PATHS.has(u.pathname)) return false;
+    return true;
   } catch {
     return false;
   }
@@ -283,6 +288,16 @@ function createWindow(): BrowserWindow {
       { role: 'selectAll', enabled: params.editFlags.canSelectAll },
     ]);
     menu.popup();
+  });
+
+  // ── DevTools (Ctrl+Shift+I / F12) ───────────────────────────────────────
+  win.webContents.on('before-input-event', (_e, input) => {
+    if (
+      (input.control && input.shift && input.key.toLowerCase() === 'i') ||
+      input.key === 'F12'
+    ) {
+      win.webContents.toggleDevTools();
+    }
   });
 
   // ── Permissions ──────────────────────────────────────────────────────────
