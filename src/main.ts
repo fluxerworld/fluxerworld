@@ -956,9 +956,13 @@ ipcMain.on('select-display-media-source', (_e, requestId: string, sourceId: stri
 
 // ─── App lifecycle ────────────────────────────────────────────────────────────
 
-app.whenReady().then(() => {
+app.whenReady().then(async () => {
   // Sync login-item state in case the setting was persisted across a reinstall.
   applyLoginItem(store.get('startOnBoot'));
+
+  // Clear HTTP cache on startup so the app always fetches the latest web client.
+  // Hashed assets will still be served from disk cache until the HTML references new ones.
+  await session.defaultSession.clearCache();
 
   mainWindow = createWindow();
 
