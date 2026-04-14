@@ -258,10 +258,16 @@ jobs:
           ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
           ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
 
+      - name: Rename APK
+        run: |
+          APK=$(ls android/app/build/outputs/apk/release/*.apk | head -1)
+          VERSION="${GITHUB_REF_NAME#v}"
+          cp "$APK" "android/app/build/outputs/apk/release/Fluxer-World-${VERSION:-dev}.apk"
+
       - uses: actions/upload-artifact@v4
         with:
           name: android-apk
-          path: android/app/build/outputs/apk/release/*.apk
+          path: android/app/build/outputs/apk/release/Fluxer-World-*.apk
           retention-days: 30
 
   # ── iOS IPA ───────────────────────────────────────────────────────────────────
