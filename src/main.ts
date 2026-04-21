@@ -35,17 +35,28 @@ if (process.platform === 'linux') {
   app.commandLine.appendSwitch('wayland-app-id', APP_ID);
   app.commandLine.appendSwitch('wm-class', APP_ID);
 
-  // Use Vulkan ANGLE backend if a Vulkan driver is installed.
-  // Fixes EGL/ANGLE crashes on some AMD + Wayland setups.
-  try {
-    const icdDir = '/usr/share/vulkan/icd.d';
-    const hasVulkan = fs.existsSync(icdDir) &&
-      fs.readdirSync(icdDir).some(f => f.endsWith('.json'));
-    if (hasVulkan) {
-      app.commandLine.appendSwitch('use-angle', 'vulkan');
-      app.commandLine.appendSwitch('enable-features', 'Vulkan');
-    }
-  } catch {}
+  const isWayland = process.env.XDG_SESSION_TYPE === 'wayland' ||
+                    Boolean(process.env.WAYLAND_DISPLAY);
+  const hasNvidia = fs.existsSync('/proc/driver/nvidia/version');
+
+  // Nvidia proprietary drivers on Wayland hang vkAcquireNextImageKHR()
+  // which kills Chromium's GPU process. Force-disable Vulkan on that combo
+  // so the compositor falls back to OpenGL (stable on Nvidia for years).
+  if (hasNvidia && isWayland) {
+    app.commandLine.appendSwitch('disable-features', 'Vulkan');
+  } else {
+    // Use Vulkan ANGLE backend if a Vulkan driver is installed.
+    // Fixes EGL/ANGLE crashes on some AMD + Wayland setups.
+    try {
+      const icdDir = '/usr/share/vulkan/icd.d';
+      const hasVulkan = fs.existsSync(icdDir) &&
+        fs.readdirSync(icdDir).some(f => f.endsWith('.json'));
+      if (hasVulkan) {
+        app.commandLine.appendSwitch('use-angle', 'vulkan');
+        app.commandLine.appendSwitch('enable-features', 'Vulkan');
+      }
+    } catch {}
+  }
 }
 app.name = APP_ID;
 app.setName(APP_ID);
@@ -177,8 +188,8 @@ function createWindow(): BrowserWindow {
     y:         saved.y,
     width:     saved.width,
     height:    saved.height,
-    minWidth:  480,
-    minHeight: 320,
+    minWidth:  300,
+    minHeight: 500,
     title:     APP_NAME,
     icon:      nativeImage.createFromPath(iconPath),
     // Subtle dark background colour shown while the SPA is loading.
