@@ -183,8 +183,8 @@ function createWindow(): BrowserWindow {
   const saved    = store.get('windowState');
   const iconPath = appIcon();
 
-  const MIN_W = 910;
-  const MIN_H = 674;
+  const MIN_W = 800;
+  const MIN_H = 500;
 
   // Clamp saved dimensions to the current minimum so a stored size
   // from a previous version (or a badly serialized state) can't force
