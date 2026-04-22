@@ -258,6 +258,20 @@ function createWindow(): BrowserWindow {
     }
   });
 
+  // Last-resort poll — some Wayland compositors (confirmed: KWin on
+  // Plasma 6 with xdg_toplevel frameless surfaces) silently drop min-size
+  // hints AND never fire will-resize/resize for compositor-driven
+  // resizes. Check every 250ms and snap back. Cheap (~0 CPU when idle)
+  // and guarantees the floor holds regardless of event-layer bugs.
+  const sizeEnforcer = setInterval(() => {
+    if (win.isDestroyed() || win.isMinimized()) return;
+    const [w, h] = win.getSize();
+    if (w < MIN_W || h < MIN_H) {
+      win.setSize(Math.max(w, MIN_W), Math.max(h, MIN_H));
+    }
+  }, 250);
+  win.on('closed', () => clearInterval(sizeEnforcer));
+
   // Restore maximised state
   if (saved.isMaximized) win.maximize();
 
