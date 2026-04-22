@@ -240,6 +240,24 @@ function createWindow(): BrowserWindow {
   // like KWin/GNOME to respect our floor during resize.
   win.setMinimumSize(MIN_W, MIN_H);
 
+  // Belt-and-suspenders: some Wayland compositors still let the user drag
+  // the window below the minimum despite setMinimumSize. Intercept the
+  // resize event at the Electron layer and reject any attempt to go below
+  // the floor — works regardless of compositor quirks.
+  win.on('will-resize', (event, newBounds) => {
+    if (newBounds.width < MIN_W || newBounds.height < MIN_H) {
+      event.preventDefault();
+    }
+  });
+  // Backstop: if a resize somehow gets through (e.g. programmatic),
+  // snap the window back to the minimum afterwards.
+  win.on('resize', () => {
+    const [w, h] = win.getSize();
+    if (w < MIN_W || h < MIN_H) {
+      win.setSize(Math.max(w, MIN_W), Math.max(h, MIN_H));
+    }
+  });
+
   // Restore maximised state
   if (saved.isMaximized) win.maximize();
 
