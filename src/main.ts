@@ -183,8 +183,8 @@ function createWindow(): BrowserWindow {
   const saved    = store.get('windowState');
   const iconPath = appIcon();
 
-  const MIN_W = 300;
-  const MIN_H = 500;
+  const MIN_W = 910;
+  const MIN_H = 674;
 
   // Clamp saved dimensions to the current minimum so a stored size
   // from a previous version (or a badly serialized state) can't force
@@ -263,24 +263,11 @@ function createWindow(): BrowserWindow {
   // hints AND never fire will-resize/resize for compositor-driven
   // resizes. Check every 250ms and snap back. Cheap (~0 CPU when idle)
   // and guarantees the floor holds regardless of event-layer bugs.
-  console.log(`[min-size] enforcer started, floor=${MIN_W}x${MIN_H}`);
-  let tickCount = 0;
   const sizeEnforcer = setInterval(() => {
     if (win.isDestroyed() || win.isMinimized()) return;
-    tickCount++;
     const [w, h] = win.getSize();
-    if (tickCount % 20 === 0) {
-      // Every ~5 seconds, log the current observed size so we can
-      // tell whether the poll is actually running.
-      console.log(`[min-size] tick=${tickCount} observed=${w}x${h}`);
-    }
     if (w < MIN_W || h < MIN_H) {
-      const targetW = Math.max(w, MIN_W);
-      const targetH = Math.max(h, MIN_H);
-      console.log(`[min-size] BELOW FLOOR — observed=${w}x${h}, snapping to ${targetW}x${targetH}`);
-      win.setSize(targetW, targetH);
-      const [w2, h2] = win.getSize();
-      console.log(`[min-size] post-setSize observed=${w2}x${h2}`);
+      win.setSize(Math.max(w, MIN_W), Math.max(h, MIN_H));
     }
   }, 250);
   win.on('closed', () => clearInterval(sizeEnforcer));
