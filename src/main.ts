@@ -183,13 +183,22 @@ function createWindow(): BrowserWindow {
   const saved    = store.get('windowState');
   const iconPath = appIcon();
 
+  const MIN_W = 300;
+  const MIN_H = 500;
+
+  // Clamp saved dimensions to the current minimum so a stored size
+  // from a previous version (or a badly serialized state) can't force
+  // the window below our floor at startup.
+  const initialWidth  = Math.max(saved.width,  MIN_W);
+  const initialHeight = Math.max(saved.height, MIN_H);
+
   const win = new BrowserWindow({
     x:         saved.x,
     y:         saved.y,
-    width:     saved.width,
-    height:    saved.height,
-    minWidth:  300,
-    minHeight: 500,
+    width:     initialWidth,
+    height:    initialHeight,
+    minWidth:  MIN_W,
+    minHeight: MIN_H,
     title:     APP_NAME,
     icon:      nativeImage.createFromPath(iconPath),
     // Subtle dark background colour shown while the SPA is loading.
@@ -225,6 +234,11 @@ function createWindow(): BrowserWindow {
 
   // Remove the application menu bar entirely (no File/Edit/View etc.)
   win.setMenu(null);
+
+  // Explicit setMinimumSize — Wayland + frame: false sometimes ignores the
+  // constructor minWidth/minHeight, so re-apply here to force compositors
+  // like KWin/GNOME to respect our floor during resize.
+  win.setMinimumSize(MIN_W, MIN_H);
 
   // Restore maximised state
   if (saved.isMaximized) win.maximize();
