@@ -196,7 +196,7 @@ function handleDeepLink(rawUrl: string): void {
       (src.hash ?? '');
 
     if (isAllowedUrl(reconstructed)) {
-      mainWindow.loadURL(reconstructed);
+      mainWindow.loadURL(reconstructed).catch((err) => console.log("[loadURL] rejected (handled):", err?.message ?? String(err)));
     }
   } catch {
     // Bad URL – just bring the window forward
@@ -378,7 +378,7 @@ function createWindow(): BrowserWindow {
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (isAllowedUrl(url)) {
       // Internal deep link – load it in the same window instead of a popup.
-      setImmediate(() => win.loadURL(url));
+      setImmediate(() => win.loadURL(url).catch((err) => console.log("[loadURL] rejected (handled):", err?.message ?? String(err))));
     } else {
       shell.openExternal(url).catch(() => {});
     }
@@ -498,11 +498,16 @@ function createWindow(): BrowserWindow {
       retryAttempt++;
       const actualDelay = Date.now() - scheduledAt;
       console.log(`[load-retry] firing attempt=${retryAttempt} (scheduled=${thisDelay}ms actual=${actualDelay}ms)`);
-      try {
-        win.webContents.loadURL(validatedURL || APP_URL);
-      } catch (err) {
-        console.error(`[load-retry] loadURL threw:`, err);
-      }
+      // loadURL returns a Promise that REJECTS on failure. Unhandled
+      // rejections crash the main process in modern Node, which killed
+      // our retry entirely (the setTimeout never got to fire a second
+      // time). Swallow the rejection here — did-fail-load still fires
+      // with the details.
+      win.webContents
+        .loadURL(validatedURL || APP_URL)
+        .catch((err) => {
+          console.log(`[load-retry] loadURL rejected (handled):`, err && err.message ? err.message : String(err));
+        });
       retryDelay = Math.min(retryDelay * 2, 30000);
       retryTimer = null;
     }, retryDelay);
@@ -515,7 +520,7 @@ function createWindow(): BrowserWindow {
     retryAttempt = 0;
   });
 
-  win.loadURL(APP_URL);
+  win.loadURL(APP_URL).catch((err) => console.log("[loadURL] rejected (handled):", err?.message ?? String(err)));
 
   return win;
 }
