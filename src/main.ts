@@ -98,6 +98,12 @@ try {
   console.warn  = tee(console.warn.bind(console),  'WARN');
   console.error = tee(console.error.bind(console), 'ERROR');
   console.log(`[boot] Fluxer ${app.getVersion()} starting, platform=${process.platform}, arch=${process.arch}`);
+  // Flush buffered log lines on exit so nothing is lost if the user
+  // quits the app mid-retry or during an error path.
+  const flush = () => { try { logStream.end(); } catch {} };
+  process.on('exit', flush);
+  app.on('before-quit', flush);
+  app.on('will-quit',   flush);
 } catch (err) {
   // Logging is best-effort; never block app startup on it.
 }
@@ -455,23 +461,30 @@ function createWindow(): BrowserWindow {
 
   // Retry the initial load if it fails (common when the app launches
   // before wifi is ready — user sees "no connection" and has to quit
-  // and relaunch). Keep retrying every 3s until we get a successful
-  // load, with exponential-ish backoff capped at 30s.
-  let retryDelay = 3000;
+  // and relaunch). Keep retrying until we get a successful load, with
+  // short first attempt (1s) and backoff up to 30s.
+  let retryDelay = 1000;
+  let retryAttempt = 0;
   let retryTimer: NodeJS.Timeout | null = null;
   win.webContents.on('did-fail-load', (_e, errorCode, errorDescription, validatedURL, isMainFrame) => {
     if (!isMainFrame) return;
     if (errorCode === -3) return; // ERR_ABORTED (user navigation), don't retry
-    console.log(`[load-retry] failed (${errorCode} ${errorDescription}), retrying in ${retryDelay}ms`);
+    console.log(`[load-retry] failed attempt=${retryAttempt} err=${errorCode} ${errorDescription}, retrying in ${retryDelay}ms`);
     if (retryTimer) clearTimeout(retryTimer);
     retryTimer = setTimeout(() => {
+      retryAttempt++;
+      console.log(`[load-retry] firing attempt=${retryAttempt}`);
       win.webContents.loadURL(validatedURL || APP_URL);
       retryDelay = Math.min(retryDelay * 2, 30000);
     }, retryDelay);
   });
   win.webContents.on('did-finish-load', () => {
+    if (retryAttempt > 0) {
+      console.log(`[load-retry] success after ${retryAttempt} retries`);
+    }
     if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
-    retryDelay = 3000;
+    retryDelay = 1000;
+    retryAttempt = 0;
   });
 
   win.loadURL(APP_URL);
