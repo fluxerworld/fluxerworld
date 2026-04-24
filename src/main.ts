@@ -422,6 +422,27 @@ function createWindow(): BrowserWindow {
     ipcMain.on('select-display-media-source', handler);
   });
 
+  // Retry the initial load if it fails (common when the app launches
+  // before wifi is ready — user sees "no connection" and has to quit
+  // and relaunch). Keep retrying every 3s until we get a successful
+  // load, with exponential-ish backoff capped at 30s.
+  let retryDelay = 3000;
+  let retryTimer: NodeJS.Timeout | null = null;
+  win.webContents.on('did-fail-load', (_e, errorCode, errorDescription, validatedURL, isMainFrame) => {
+    if (!isMainFrame) return;
+    if (errorCode === -3) return; // ERR_ABORTED (user navigation), don't retry
+    console.log(`[load-retry] failed (${errorCode} ${errorDescription}), retrying in ${retryDelay}ms`);
+    if (retryTimer) clearTimeout(retryTimer);
+    retryTimer = setTimeout(() => {
+      win.webContents.loadURL(validatedURL || APP_URL);
+      retryDelay = Math.min(retryDelay * 2, 30000);
+    }, retryDelay);
+  });
+  win.webContents.on('did-finish-load', () => {
+    if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
+    retryDelay = 3000;
+  });
+
   win.loadURL(APP_URL);
 
   return win;
