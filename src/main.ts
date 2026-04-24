@@ -85,12 +85,15 @@ try {
       fs.renameSync(logPath, logPath + '.old');
     }
   } catch {}
-  const logStream = fs.createWriteStream(logPath, { flags: 'a' });
   const stamp = () => new Date().toISOString();
+  // Write each line synchronously with appendFileSync so the log is
+  // always up-to-date on disk. If the app is killed (SIGKILL, crash,
+  // force-quit), nothing sits in a buffer waiting to be flushed.
+  // The slight per-write cost is fine for startup diagnostics.
   const tee = (orig: (...args: unknown[]) => void, level: string) =>
     (...args: unknown[]) => {
       const line = args.map((a) => typeof a === 'string' ? a : JSON.stringify(a)).join(' ');
-      logStream.write(`${stamp()} ${level} ${line}\n`);
+      try { fs.appendFileSync(logPath, `${stamp()} ${level} ${line}\n`); } catch {}
       orig(...args);
     };
   console.log   = tee(console.log.bind(console),   'INFO');
@@ -98,12 +101,6 @@ try {
   console.warn  = tee(console.warn.bind(console),  'WARN');
   console.error = tee(console.error.bind(console), 'ERROR');
   console.log(`[boot] Fluxer ${app.getVersion()} starting, platform=${process.platform}, arch=${process.arch}`);
-  // Flush buffered log lines on exit so nothing is lost if the user
-  // quits the app mid-retry or during an error path.
-  const flush = () => { try { logStream.end(); } catch {} };
-  process.on('exit', flush);
-  app.on('before-quit', flush);
-  app.on('will-quit',   flush);
 } catch (err) {
   // Logging is best-effort; never block app startup on it.
 }
