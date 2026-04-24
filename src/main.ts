@@ -108,10 +108,23 @@ try {
 // ─── Single-instance lock ─────────────────────────────────────────────────────
 
 const gotLock = app.requestSingleInstanceLock();
+console.log(`[boot] single-instance lock: gotLock=${gotLock} pid=${process.pid}`);
 if (!gotLock) {
+  console.log(`[boot] another instance detected, quitting pid=${process.pid}`);
   app.quit();
   process.exit(0);
 }
+// If another instance tries to start after us, Electron fires this event
+// instead of letting it continue. Focus our existing window so the user
+// sees the already-running Fluxer instead of a dead second process.
+app.on('second-instance', (_event, _argv, _cwd) => {
+  console.log('[boot] second-instance fired — focusing existing window');
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    if (!mainWindow.isVisible()) mainWindow.show();
+    mainWindow.focus();
+  }
+});
 
 // ─── Protocol registration ────────────────────────────────────────────────────
 

@@ -1,5 +1,5 @@
 name: fluxer-world
-version: '1.0.68'
+version: '1.0.69'
 summary: Fluxer World desktop client
 description: |
   Fluxer World is an open-source chat, voice, and community platform.
@@ -41,7 +41,7 @@ apps:
 parts:
   fluxer-world:
     plugin: dump
-    source: https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.68/Fluxer-World-1.0.68-linux-x64.tar.gz
+    source: https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.69/Fluxer-World-1.0.69-linux-x64.tar.gz
     source-type: tar
     override-build: |
       # Install app files
