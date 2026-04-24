@@ -599,11 +599,64 @@ function applyLoginItem(enable: boolean): void {
   });
 }
 
-function applyLinuxAutostart(enable: boolean): void {
-  const fs = require('fs');
+// Filenames a Fluxer autostart .desktop file might appear under.
+// Canonical is the first; rest are legacy names from older versions
+// or OS tools that may have written them. We always clean up non-
+// canonical names to prevent duplicate-launch races.
+const AUTOSTART_FILENAMES = [
+  `${APP_ID}.desktop`,
+  'fluxer-world.desktop',
+  'Fluxer World.desktop',
+  'fluxer.desktop',
+];
+
+function getAutostartDir(): string {
   const os = require('os');
-  const autostartDir = path.join(os.homedir(), '.config', 'autostart');
-  const desktopFile = path.join(autostartDir, `${APP_ID}.desktop`);
+  return path.join(os.homedir(), '.config', 'autostart');
+}
+
+/**
+ * Remove any non-canonical Fluxer autostart .desktop files. Prevents the
+ * dual-launch race where two different filenames both point at Fluxer and
+ * the session manager fires them both at login.
+ */
+function cleanupStaleAutostart(): void {
+  const autostartDir = getAutostartDir();
+  const canonical = AUTOSTART_FILENAMES[0];
+  for (const name of AUTOSTART_FILENAMES.slice(1)) {
+    try {
+      fs.unlinkSync(path.join(autostartDir, name));
+      console.log(`[autostart] removed stale entry: ${name}`);
+    } catch {
+      // doesn't exist, fine
+    }
+  }
+  void canonical;
+}
+
+/**
+ * Reconcile the in-app `startOnBoot` store value with the actual
+ * presence of an autostart .desktop file. If they disagree, trust the
+ * store as the source of truth and rewrite/delete the file to match.
+ * Called on startup so users can never end up in a split-brain state.
+ */
+function reconcileAutostart(): void {
+  const autostartDir = getAutostartDir();
+  const canonicalPath = path.join(autostartDir, AUTOSTART_FILENAMES[0]);
+  const wantEnabled = !!store.get('startOnBoot');
+  const fileExists = fs.existsSync(canonicalPath);
+  if (wantEnabled !== fileExists) {
+    console.log(`[autostart] reconcile: store=${wantEnabled} file=${fileExists}, fixing`);
+    applyLinuxAutostart(wantEnabled);
+  }
+}
+
+function applyLinuxAutostart(enable: boolean): void {
+  const autostartDir = getAutostartDir();
+  const desktopFile = path.join(autostartDir, AUTOSTART_FILENAMES[0]);
+
+  // Always clean up legacy filenames first, regardless of enable/disable.
+  cleanupStaleAutostart();
 
   if (enable) {
     const entry = [
@@ -1089,8 +1142,16 @@ ipcMain.on('select-display-media-source', (_e, requestId: string, sourceId: stri
 // ─── App lifecycle ────────────────────────────────────────────────────────────
 
 app.whenReady().then(async () => {
-  // Sync login-item state in case the setting was persisted across a reinstall.
-  applyLoginItem(store.get('startOnBoot'));
+  // Reconcile autostart on every launch so the OS autostart dir can't
+  // drift out of sync with the user's in-app preference. Also clears
+  // out legacy .desktop filenames from older installs which could
+  // otherwise fire a duplicate launch at login.
+  if (process.platform === 'linux') {
+    cleanupStaleAutostart();
+    reconcileAutostart();
+  } else {
+    applyLoginItem(store.get('startOnBoot'));
+  }
 
   // Clear HTTP cache on startup so the app always fetches the latest web client.
   // Hashed assets will still be served from disk cache until the HTML references new ones.
