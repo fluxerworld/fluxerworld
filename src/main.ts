@@ -71,6 +71,37 @@ let isQuitting    = false;
 /** Track active native notifications so we can close them by id. */
 const activeNotifications = new Map<string, Notification>();
 
+// ─── Persistent launch log ────────────────────────────────────────────────────
+// Tee console output to ~/.cache/fluxer-world/launch.log (or the XDG/Win/Mac
+// equivalent) so we can diagnose issues that happen at startup — black
+// screens, pre-wifi failures, autostart races, etc. Rotates at ~1 MB.
+try {
+  const logDir = path.join(app.getPath('userData'), 'logs');
+  fs.mkdirSync(logDir, { recursive: true });
+  const logPath = path.join(logDir, 'launch.log');
+  try {
+    const st = fs.statSync(logPath);
+    if (st.size > 1024 * 1024) {
+      fs.renameSync(logPath, logPath + '.old');
+    }
+  } catch {}
+  const logStream = fs.createWriteStream(logPath, { flags: 'a' });
+  const stamp = () => new Date().toISOString();
+  const tee = (orig: (...args: unknown[]) => void, level: string) =>
+    (...args: unknown[]) => {
+      const line = args.map((a) => typeof a === 'string' ? a : JSON.stringify(a)).join(' ');
+      logStream.write(`${stamp()} ${level} ${line}\n`);
+      orig(...args);
+    };
+  console.log   = tee(console.log.bind(console),   'INFO');
+  console.info  = tee(console.info.bind(console),  'INFO');
+  console.warn  = tee(console.warn.bind(console),  'WARN');
+  console.error = tee(console.error.bind(console), 'ERROR');
+  console.log(`[boot] Fluxer ${app.getVersion()} starting, platform=${process.platform}, arch=${process.arch}`);
+} catch (err) {
+  // Logging is best-effort; never block app startup on it.
+}
+
 // ─── Single-instance lock ─────────────────────────────────────────────────────
 
 const gotLock = app.requestSingleInstanceLock();
