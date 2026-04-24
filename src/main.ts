@@ -476,22 +476,40 @@ function createWindow(): BrowserWindow {
   let retryDelay = 1000;
   let retryAttempt = 0;
   let retryTimer: NodeJS.Timeout | null = null;
+  let heartbeat: NodeJS.Timeout | null = null;
+  const startHeartbeat = () => {
+    if (heartbeat) return;
+    heartbeat = setInterval(() => {
+      console.log(`[load-retry] heartbeat attempt=${retryAttempt} delay=${retryDelay}ms timerActive=${retryTimer !== null}`);
+    }, 5000);
+  };
+  const stopHeartbeat = () => {
+    if (heartbeat) { clearInterval(heartbeat); heartbeat = null; }
+  };
   win.webContents.on('did-fail-load', (_e, errorCode, errorDescription, validatedURL, isMainFrame) => {
     if (!isMainFrame) return;
     if (errorCode === -3) return; // ERR_ABORTED (user navigation), don't retry
-    console.log(`[load-retry] failed attempt=${retryAttempt} err=${errorCode} ${errorDescription}, retrying in ${retryDelay}ms`);
+    console.log(`[load-retry] failed attempt=${retryAttempt} err=${errorCode} ${errorDescription}, scheduling retry in ${retryDelay}ms`);
     if (retryTimer) clearTimeout(retryTimer);
+    startHeartbeat();
+    const thisDelay = retryDelay;
+    const scheduledAt = Date.now();
     retryTimer = setTimeout(() => {
       retryAttempt++;
-      console.log(`[load-retry] firing attempt=${retryAttempt}`);
-      win.webContents.loadURL(validatedURL || APP_URL);
+      const actualDelay = Date.now() - scheduledAt;
+      console.log(`[load-retry] firing attempt=${retryAttempt} (scheduled=${thisDelay}ms actual=${actualDelay}ms)`);
+      try {
+        win.webContents.loadURL(validatedURL || APP_URL);
+      } catch (err) {
+        console.error(`[load-retry] loadURL threw:`, err);
+      }
       retryDelay = Math.min(retryDelay * 2, 30000);
+      retryTimer = null;
     }, retryDelay);
   });
   win.webContents.on('did-finish-load', () => {
-    if (retryAttempt > 0) {
-      console.log(`[load-retry] success after ${retryAttempt} retries`);
-    }
+    console.log(`[load-retry] did-finish-load (attempt=${retryAttempt})`);
+    stopHeartbeat();
     if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
     retryDelay = 1000;
     retryAttempt = 0;
