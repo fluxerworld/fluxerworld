@@ -477,6 +477,12 @@ function createWindow(): BrowserWindow {
   let retryAttempt = 0;
   let retryTimer: NodeJS.Timeout | null = null;
   let heartbeat: NodeJS.Timeout | null = null;
+  // True if did-fail-load fired for the current navigation. Reset on
+  // did-start-loading (a new navigation begins). did-finish-load checks
+  // this — when true, the "finish" is just the chrome-error page render
+  // and shouldn't be treated as success.
+  let currentLoadFailed = false;
+  win.webContents.on('did-start-loading', () => { currentLoadFailed = false; });
   const startHeartbeat = () => {
     if (heartbeat) return;
     heartbeat = setInterval(() => {
@@ -489,6 +495,7 @@ function createWindow(): BrowserWindow {
   win.webContents.on('did-fail-load', (_e, errorCode, errorDescription, validatedURL, isMainFrame) => {
     if (!isMainFrame) return;
     if (errorCode === -3) return; // ERR_ABORTED (user navigation), don't retry
+    currentLoadFailed = true;
     console.log(`[load-retry] failed attempt=${retryAttempt} err=${errorCode} ${errorDescription}, scheduling retry in ${retryDelay}ms`);
     if (retryTimer) clearTimeout(retryTimer);
     startHeartbeat();
@@ -513,17 +520,12 @@ function createWindow(): BrowserWindow {
     }, retryDelay);
   });
   win.webContents.on('did-finish-load', () => {
-    // did-finish-load fires for both real successes AND for the error
-    // page Electron renders after a did-fail-load. Only treat it as a
-    // real load success if the current URL is actually on our app
-    // domain — otherwise it's the error page and we still want the
-    // retry timer to fire.
-    const url = win.webContents.getURL();
-    const isRealSuccess = url.startsWith('https://fluxer.world') ||
-                          url.startsWith('https://cdn.fluxer.world') ||
-                          url.startsWith('https://media.fluxer.world');
-    console.log(`[load-retry] did-finish-load url=${url} isRealSuccess=${isRealSuccess} (attempt=${retryAttempt})`);
-    if (!isRealSuccess) return;
+    // did-finish-load fires for both real successes AND for the
+    // chrome-error page Electron renders after did-fail-load. We can't
+    // tell from getURL() (it returns the attempted URL either way), so
+    // we use the currentLoadFailed flag set by did-fail-load.
+    console.log(`[load-retry] did-finish-load currentLoadFailed=${currentLoadFailed} (attempt=${retryAttempt})`);
+    if (currentLoadFailed) return;
     stopHeartbeat();
     if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
     retryDelay = 1000;
