@@ -513,7 +513,17 @@ function createWindow(): BrowserWindow {
     }, retryDelay);
   });
   win.webContents.on('did-finish-load', () => {
-    console.log(`[load-retry] did-finish-load (attempt=${retryAttempt})`);
+    // did-finish-load fires for both real successes AND for the error
+    // page Electron renders after a did-fail-load. Only treat it as a
+    // real load success if the current URL is actually on our app
+    // domain — otherwise it's the error page and we still want the
+    // retry timer to fire.
+    const url = win.webContents.getURL();
+    const isRealSuccess = url.startsWith('https://fluxer.world') ||
+                          url.startsWith('https://cdn.fluxer.world') ||
+                          url.startsWith('https://media.fluxer.world');
+    console.log(`[load-retry] did-finish-load url=${url} isRealSuccess=${isRealSuccess} (attempt=${retryAttempt})`);
+    if (!isRealSuccess) return;
     stopHeartbeat();
     if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
     retryDelay = 1000;
