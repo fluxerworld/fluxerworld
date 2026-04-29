@@ -153,7 +153,7 @@ function appIcon(): string {
 // ─── URL allow-list ───────────────────────────────────────────────────────────
 
 /** Static pages that should open in the browser, not the app. */
-const EXTERNAL_PATHS = ['/status', '/selfhost', '/help', '/contact', '/privacy', '/terms'];
+const EXTERNAL_PATHS = ['/status', '/selfhost', '/help', '/contact', '/privacy', '/terms', '/premium', '/oauth2/authorize'];
 
 function isAllowedUrl(rawUrl: string): boolean {
   try {
