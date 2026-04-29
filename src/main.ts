@@ -469,52 +469,19 @@ function createWindow(): BrowserWindow {
     ipcMain.on('select-display-media-source', handler);
   });
 
-  // Retry the initial load if it fails (common when the app launches
-  // before wifi is ready — user sees "no connection" and has to quit
-  // and relaunch). Keep retrying until we get a successful load, with
-  // short first attempt (1s) and backoff up to 30s.
+  // ── Connection-aware load orchestration ─────────────────────────────────
+  // Show loading.html FIRST and keep it visible until a Node fetch HEAD
+  // probe confirms fluxer.world is reachable. Only then do we navigate the
+  // visible window with loadURL. This eliminates the chrome-error flicker
+  // that happened when each retry's loadURL briefly rendered the chromium
+  // error page before did-fail-load swapped it back to loading.html.
+  const loadingPagePath = asset('loading.html');
   let retryDelay = 1000;
   let retryAttempt = 0;
   let retryTimer: NodeJS.Timeout | null = null;
-  let heartbeat: NodeJS.Timeout | null = null;
-  // True if did-fail-load fired for the current navigation. Reset on
-  // did-start-loading (a new navigation begins). did-finish-load checks
-  // this — when true, the "finish" is just the chrome-error page render
-  // and shouldn't be treated as success.
-  let currentLoadFailed = false;
-  win.webContents.on('did-start-loading', () => { currentLoadFailed = false; });
-  const startHeartbeat = () => {
-    if (heartbeat) return;
-    heartbeat = setInterval(() => {
-      console.log(`[load-retry] heartbeat attempt=${retryAttempt} delay=${retryDelay}ms timerActive=${retryTimer !== null}`);
-    }, 5000);
-  };
-  const stopHeartbeat = () => {
-    if (heartbeat) { clearInterval(heartbeat); heartbeat = null; }
-  };
-  // Path to bundled assets/loading.html — shown during retry loops so the
-  // user sees what's happening instead of a blank chrome-error page.
-  const loadingPagePath = asset('loading.html');
-  let onLoadingPage = false;
-  const showLoadingPage = (statusInfo: Record<string, unknown> | null) => {
-    onLoadingPage = true;
-    win.loadFile(loadingPagePath).then(() => {
-      // Push the user's last-known theme so the loading page matches the
-      // colour scheme they last used in the SPA. Falls through to system
-      // prefers-color-scheme if no theme is recorded yet.
-      const savedTheme = store.get('lastKnownTheme');
-      if (savedTheme) {
-        try { win.webContents.send('loading-theme', savedTheme); } catch {}
-      }
-      if (statusInfo) {
-        try { win.webContents.send('loading-status', statusInfo); } catch {}
-      }
-    }).catch((err) => {
-      console.log('[load-retry] failed to show loading page:', err && err.message ? err.message : String(err));
-    });
-  };
-  // After the SPA finishes loading, capture its current theme choice so
-  // the loading page can match it on next launch / next retry.
+  let connecting = false;   // loadURL(APP_URL) is in flight
+  let appLoaded = false;    // SPA has loaded successfully at least once
+
   const captureTheme = () => {
     win.webContents
       .executeJavaScript('localStorage.getItem("theme")', true)
@@ -525,80 +492,138 @@ function createWindow(): BrowserWindow {
       })
       .catch(() => { /* ignore */ });
   };
-  // When the user clicks "Try again" on the loading page, fire an
-  // immediate retry instead of waiting for the timer.
-  ipcMain.on('loading-retry-now', () => {
-    console.log('[load-retry] manual retry-now from loading page');
-    if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
-    retryAttempt++;
-    onLoadingPage = false;
-    try { win.webContents.send('loading-retrying'); } catch {}
-    win.loadURL(APP_URL).catch((err) =>
-      console.log('[load-retry] manual loadURL rejected (handled):', err && err.message ? err.message : String(err)),
-    );
-    retryDelay = 1000; // reset backoff after a manual retry
-  });
 
-  win.webContents.on('did-fail-load', (_e, errorCode, errorDescription, validatedURL, isMainFrame) => {
-    if (!isMainFrame) return;
-    if (errorCode === -3) return; // ERR_ABORTED (user navigation), don't retry
-    currentLoadFailed = true;
-    console.log(`[load-retry] failed attempt=${retryAttempt} err=${errorCode} ${errorDescription}, scheduling retry in ${retryDelay}ms`);
-    if (retryTimer) clearTimeout(retryTimer);
-    startHeartbeat();
+  const sendLoadingTheme = () => {
+    const saved = store.get('lastKnownTheme');
+    if (saved) {
+      try { win.webContents.send('loading-theme', saved); } catch {}
+    }
+  };
+  const sendLoadingStatus = (info: Record<string, unknown>) => {
+    try { win.webContents.send('loading-status', info); } catch {}
+  };
+  const sendLoadingRetrying = () => {
+    try { win.webContents.send('loading-retrying'); } catch {}
+  };
+
+  const showLoadingPage = (): Promise<void> =>
+    win.loadFile(loadingPagePath).then(() => sendLoadingTheme());
+
+  // Probe APP_URL via Node fetch — runs in the main process, does NOT
+  // navigate the visible window. Any HTTP response (even 4xx/5xx) means
+  // the host is reachable.
+  type ProbeResult = { ok: true } | { ok: false; errorCode: number; errorDescription: string };
+  const probeServer = async (): Promise<ProbeResult> => {
+    const ac = new AbortController();
+    const timer = setTimeout(() => ac.abort(), 8000);
+    try {
+      await fetch(APP_URL, { method: 'HEAD', signal: ac.signal });
+      return { ok: true };
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      let code = -2;
+      if (/abort|timeout|TIMED_OUT/i.test(msg))   code = -7;
+      else if (/ENOTFOUND|EAI_NONAME/.test(msg))  code = -105;
+      else if (/EAI_AGAIN/.test(msg))             code = -106;
+      else if (/ENETUNREACH/.test(msg))           code = -109;
+      return { ok: false, errorCode: code, errorDescription: msg };
+    } finally {
+      clearTimeout(timer);
+    }
+  };
+
+  const scheduleProbe = async () => {
+    if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
+    if (appLoaded || win.isDestroyed()) return;
+
+    const result = await probeServer();
+    if (appLoaded || win.isDestroyed()) return;
+
+    if (result.ok) {
+      console.log(`[load-retry] probe ok (attempt=${retryAttempt}) → loadURL ${APP_URL}`);
+      connecting = true;
+      sendLoadingRetrying();
+      win.webContents
+        .loadURL(APP_URL)
+        .catch((err: unknown) =>
+          console.log('[load-retry] loadURL rejected (handled):', err instanceof Error ? err.message : String(err)),
+        );
+      return;
+    }
+
+    retryAttempt++;
     const thisDelay = retryDelay;
-    const scheduledAt = Date.now();
-    // Show the loading page with friendly status so the user isn't
-    // staring at a chrome-error screen during the retry wait.
-    showLoadingPage({
-      errorCode,
-      errorDescription,
+    console.log(`[load-retry] probe failed attempt=${retryAttempt} err=${result.errorCode} ${result.errorDescription}, retry in ${thisDelay}ms`);
+    sendLoadingStatus({
+      errorCode: result.errorCode,
+      errorDescription: result.errorDescription,
       retryInMs: thisDelay,
       attempt: retryAttempt + 1,
     });
     retryTimer = setTimeout(() => {
-      retryAttempt++;
-      const actualDelay = Date.now() - scheduledAt;
-      console.log(`[load-retry] firing attempt=${retryAttempt} (scheduled=${thisDelay}ms actual=${actualDelay}ms)`);
-      onLoadingPage = false;
-      try { win.webContents.send('loading-retrying'); } catch {}
-      // loadURL returns a Promise that REJECTS on failure. Unhandled
-      // rejections crash the main process in modern Node, which killed
-      // our retry entirely (the setTimeout never got to fire a second
-      // time). Swallow the rejection here — did-fail-load still fires
-      // with the details.
-      win.webContents
-        .loadURL(validatedURL || APP_URL)
-        .catch((err) => {
-          console.log(`[load-retry] loadURL rejected (handled):`, err && err.message ? err.message : String(err));
-        });
-      retryDelay = Math.min(retryDelay * 2, 30000);
       retryTimer = null;
-    }, retryDelay);
+      void scheduleProbe();
+    }, thisDelay);
+    retryDelay = Math.min(retryDelay * 2, 30000);
+  };
+
+  // Manual retry from "Try again" button — reset backoff, probe immediately.
+  ipcMain.on('loading-retry-now', () => {
+    console.log('[load-retry] manual retry-now from loading page');
+    if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
+    retryDelay = 1000;
+    sendLoadingRetrying();
+    void scheduleProbe();
   });
+
+  // If loadURL itself fails (HEAD probe succeeded but the navigation did
+  // not — server 5xx, mid-flight network drop, certificate error), revert
+  // to the loading page and resume probing.
+  win.webContents.on('did-fail-load', (_e, errorCode, errorDescription, _validatedURL, isMainFrame) => {
+    if (!isMainFrame) return;
+    if (errorCode === -3) return;     // ERR_ABORTED — user/programmatic nav
+    if (!connecting) return;          // not from our load attempt
+    connecting = false;
+    console.log(`[load-retry] loadURL did-fail-load attempt=${retryAttempt} err=${errorCode} ${errorDescription}, returning to loading page`);
+    void showLoadingPage().then(() => {
+      sendLoadingStatus({
+        errorCode,
+        errorDescription,
+        retryInMs: retryDelay,
+        attempt: retryAttempt + 1,
+      });
+      retryTimer = setTimeout(() => {
+        retryTimer = null;
+        void scheduleProbe();
+      }, retryDelay);
+      retryDelay = Math.min(retryDelay * 2, 30000);
+    });
+  });
+
   win.webContents.on('did-finish-load', () => {
-    // did-finish-load fires for: real successes, chrome-error pages
-    // after did-fail-load, AND our local loading.html. We must skip
-    // both error and loading-page cases — only treat real https loads
-    // as success.
-    if (onLoadingPage) {
-      console.log('[load-retry] did-finish-load on loading page (ignoring)');
-      return;
-    }
-    if (currentLoadFailed) {
-      console.log(`[load-retry] did-finish-load with currentLoadFailed=true (ignoring) attempt=${retryAttempt}`);
-      return;
-    }
+    if (!connecting) return;          // loading.html render — not real success
+    connecting = false;
+    appLoaded = true;
     console.log(`[load-retry] did-finish-load real success (attempt=${retryAttempt})`);
-    stopHeartbeat();
     if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
     retryDelay = 1000;
     retryAttempt = 0;
-    // Stash the user's theme choice for next time.
     captureTheme();
   });
 
-  win.loadURL(APP_URL).catch((err) => console.log("[loadURL] rejected (handled):", err?.message ?? String(err)));
+  // Show the loading page first, then begin probing.
+  showLoadingPage()
+    .then(() => scheduleProbe())
+    .catch((err: unknown) => {
+      console.error('[load-retry] failed to show loading page on init:', err);
+      // Fallback: try direct loadURL so the user isn't stuck on a blank window.
+      connecting = true;
+      win.webContents
+        .loadURL(APP_URL)
+        .catch((e: unknown) =>
+          console.log('[load-retry] init loadURL fallback rejected (handled):', e instanceof Error ? e.message : String(e)),
+        );
+    });
 
   return win;
 }
