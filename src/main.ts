@@ -492,6 +492,34 @@ function createWindow(): BrowserWindow {
   const stopHeartbeat = () => {
     if (heartbeat) { clearInterval(heartbeat); heartbeat = null; }
   };
+  // Path to bundled assets/loading.html — shown during retry loops so the
+  // user sees what's happening instead of a blank chrome-error page.
+  const loadingPagePath = asset('loading.html');
+  let onLoadingPage = false;
+  const showLoadingPage = (statusInfo: Record<string, unknown> | null) => {
+    onLoadingPage = true;
+    win.loadFile(loadingPagePath).then(() => {
+      if (statusInfo) {
+        try { win.webContents.send('loading-status', statusInfo); } catch {}
+      }
+    }).catch((err) => {
+      console.log('[load-retry] failed to show loading page:', err && err.message ? err.message : String(err));
+    });
+  };
+  // When the user clicks "Try again" on the loading page, fire an
+  // immediate retry instead of waiting for the timer.
+  ipcMain.on('loading-retry-now', () => {
+    console.log('[load-retry] manual retry-now from loading page');
+    if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
+    retryAttempt++;
+    onLoadingPage = false;
+    try { win.webContents.send('loading-retrying'); } catch {}
+    win.loadURL(APP_URL).catch((err) =>
+      console.log('[load-retry] manual loadURL rejected (handled):', err && err.message ? err.message : String(err)),
+    );
+    retryDelay = 1000; // reset backoff after a manual retry
+  });
+
   win.webContents.on('did-fail-load', (_e, errorCode, errorDescription, validatedURL, isMainFrame) => {
     if (!isMainFrame) return;
     if (errorCode === -3) return; // ERR_ABORTED (user navigation), don't retry
@@ -501,10 +529,20 @@ function createWindow(): BrowserWindow {
     startHeartbeat();
     const thisDelay = retryDelay;
     const scheduledAt = Date.now();
+    // Show the loading page with friendly status so the user isn't
+    // staring at a chrome-error screen during the retry wait.
+    showLoadingPage({
+      errorCode,
+      errorDescription,
+      retryInMs: thisDelay,
+      attempt: retryAttempt + 1,
+    });
     retryTimer = setTimeout(() => {
       retryAttempt++;
       const actualDelay = Date.now() - scheduledAt;
       console.log(`[load-retry] firing attempt=${retryAttempt} (scheduled=${thisDelay}ms actual=${actualDelay}ms)`);
+      onLoadingPage = false;
+      try { win.webContents.send('loading-retrying'); } catch {}
       // loadURL returns a Promise that REJECTS on failure. Unhandled
       // rejections crash the main process in modern Node, which killed
       // our retry entirely (the setTimeout never got to fire a second
@@ -520,12 +558,19 @@ function createWindow(): BrowserWindow {
     }, retryDelay);
   });
   win.webContents.on('did-finish-load', () => {
-    // did-finish-load fires for both real successes AND for the
-    // chrome-error page Electron renders after did-fail-load. We can't
-    // tell from getURL() (it returns the attempted URL either way), so
-    // we use the currentLoadFailed flag set by did-fail-load.
-    console.log(`[load-retry] did-finish-load currentLoadFailed=${currentLoadFailed} (attempt=${retryAttempt})`);
-    if (currentLoadFailed) return;
+    // did-finish-load fires for: real successes, chrome-error pages
+    // after did-fail-load, AND our local loading.html. We must skip
+    // both error and loading-page cases — only treat real https loads
+    // as success.
+    if (onLoadingPage) {
+      console.log('[load-retry] did-finish-load on loading page (ignoring)');
+      return;
+    }
+    if (currentLoadFailed) {
+      console.log(`[load-retry] did-finish-load with currentLoadFailed=true (ignoring) attempt=${retryAttempt}`);
+      return;
+    }
+    console.log(`[load-retry] did-finish-load real success (attempt=${retryAttempt})`);
     stopHeartbeat();
     if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
     retryDelay = 1000;

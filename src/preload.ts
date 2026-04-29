@@ -16,13 +16,16 @@ function onEvent(channel: string, callback: (...args: any[]) => void): () => voi
   return () => ipcRenderer.removeListener(channel, handler);
 }
 
-contextBridge.exposeInMainWorld('electron', {
-  platform: process.platform,
+// Tiny bridge for the bundled loading.html page — exposed alongside the
+// main `electron` API. This bridge is what assets/loading.html uses to
+// receive status updates and trigger immediate retries.
+contextBridge.exposeInMainWorld('fluxerLoading', {
+  retry: () => ipcRenderer.send('loading-retry-now'),
+  onStatus: (cb: (info: unknown) => void) => onEvent('loading-status', (info) => cb(info)),
+  onRetrying: (cb: () => void) => onEvent('loading-retrying', () => cb()),
+});
 
-  // ── Navigation / External ──────────────────────────────────────────────────
-  openExternal: (url: string): Promise<void> => {
-    return ipcRenderer.invoke('open-external', url);
-  },
+contextBridge.exposeInMainWorld('electron', {
 
   // ── Downloads ──────────────────────────────────────────────────────────────
   downloadFile: (url: string, suggestedName: string) => {

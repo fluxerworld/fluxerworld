@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Fluxer World</title>
+  <style>
+    :root {
+      /* Mirrors Fluxer's color-system.css tokens so the loading page
+       * looks indistinguishable from the SPA's first paint. */
+      /* Light theme (.theme-light) values */
+      --bg:           hsl(220, 10%, 98.5%);
+      --text:         hsl(220, 13%, 10%);
+      --text-muted:   hsl(220, 13%, 38%);
+      --accent:       hsl(242, 70%, 55%);
+      --accent-hover: hsl(242, 70%, 48%);
+      --danger:       hsl(0, 75%, 50%);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg:           hsl(220, 13%, 5%);
+        --text:         hsl(220, 13%, 96%);
+        --text-muted:   hsl(220, 13%, 78%);
+        --accent:       hsl(242, 70%, 55%);
+        --accent-hover: hsl(242, 100%, 70%);
+        --danger:       hsl(0, 75%, 70%);
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .card {
+      max-width: 420px;
+      width: 90%;
+      text-align: center;
+      padding: 2rem 2rem 1.75rem;
+    }
+    .brand {
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+      color: var(--text);
+    }
+    .logo-wrap {
+      width: 96px; height: 96px;
+      margin: 0 auto 1.5rem;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .logo {
+      width: 64px; height: 64px;
+      animation: pulse 1.6s ease-in-out infinite;
+      object-fit: contain;
+    }
+    /* Soft glow ring around the logo while connecting — uses the
+     * brand-primary hue from Fluxer's color tokens. */
+    .logo-wrap::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, hsla(242, 70%, 55%, 0.25) 0%, hsla(242, 70%, 55%, 0) 70%);
+      animation: glow 1.6s ease-in-out infinite;
+    }
+    .logo-wrap.error .logo {
+      animation: none;
+      filter: grayscale(0.3) brightness(0.8);
+    }
+    .logo-wrap.error::before {
+      background: radial-gradient(circle, hsla(0, 75%, 60%, 0.25) 0%, hsla(0, 75%, 60%, 0) 70%);
+      animation: none;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1);   opacity: 1; }
+      50%      { transform: scale(1.06); opacity: 0.85; }
+    }
+    @keyframes glow {
+      0%, 100% { transform: scale(0.95); opacity: 0.55; }
+      50%      { transform: scale(1.1);  opacity: 0.85; }
+    }
+    .status {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 0.4rem;
+      line-height: 1.4;
+    }
+    .detail {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+      min-height: 1.3em;
+      margin-bottom: 1.5rem;
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.6rem 1.4rem;
+      background: var(--accent);
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 600;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .btn:hover { background: var(--accent-hover); }
+    .btn:active { transform: scale(0.97); }
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .footer {
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      opacity: 0.7;
+    }
+    .footer a { color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div id="logo-wrap" class="logo-wrap">
+      <img src="icons/icon.png" alt="" class="logo" />
+    </div>
+    <div class="brand">Fluxer World</div>
+    <div id="status" class="status">Connecting…</div>
+    <div id="detail" class="detail">This usually takes a moment.</div>
+    <button id="retry" class="btn" disabled>Try again</button>
+    <div class="footer">
+      <span id="hint"></span>
+    </div>
+  </div>
+  <script>
+    const $status   = document.getElementById('status');
+    const $detail   = document.getElementById('detail');
+    const $retry    = document.getElementById('retry');
+    const $logoWrap = document.getElementById('logo-wrap');
+    const $hint     = document.getElementById('hint');
+
+    // Friendly mappings for common Chromium error codes.
+    const ERROR_MAP = {
+      '-3':   { status: 'Loading interrupted', detail: 'Switching pages...', isError: false },
+      '-2':   { status: 'Connection failed',   detail: 'Unable to reach fluxer.world. Check your internet connection and try again.' },
+      '-7':   { status: 'Connection timed out', detail: 'fluxer.world is taking too long to respond. We\'ll keep trying.' },
+      '-105': { status: 'DNS lookup failed',    detail: 'Cannot resolve fluxer.world. Your DNS server may be unreachable.' },
+      '-106': { status: 'No internet',          detail: 'Your computer has no internet connection. We\'ll reconnect automatically when it\'s back.' },
+      '-109': { status: 'Network unreachable',  detail: 'Your network has no route to the internet. Check wifi or ethernet.' },
+      '-118': { status: 'Connection timed out', detail: 'fluxer.world isn\'t responding. We\'ll keep trying.' },
+      '-501': { status: 'Insecure connection',  detail: 'A man-in-the-middle is interfering with the connection. This may be a captive portal.' },
+    };
+
+    function setStatus({ errorCode, errorDescription, retryInMs, attempt }) {
+      const map = ERROR_MAP[String(errorCode)] || {
+        status: 'Connection failed',
+        detail: errorDescription
+          ? `Unable to load fluxer.world (${errorDescription}). We'll keep trying.`
+          : 'Unable to reach fluxer.world. We\'ll keep trying.',
+      };
+      $status.textContent = map.status;
+      $detail.textContent = map.detail;
+      if (map.isError === false) {
+        $logoWrap.className = 'logo-wrap';
+      } else {
+        $logoWrap.className = 'logo-wrap error';
+      }
+      $retry.disabled = false;
+      if (typeof retryInMs === 'number' && typeof attempt === 'number') {
+        const seconds = Math.round(retryInMs / 1000);
+        $hint.textContent = `Auto-retrying in ${seconds}s · attempt ${attempt}`;
+      } else {
+        $hint.textContent = '';
+      }
+    }
+
+    function setRetrying() {
+      $logoWrap.className = 'logo-wrap';
+      $status.textContent = 'Reconnecting…';
+      $detail.textContent = 'Trying to reach fluxer.world.';
+      $retry.disabled = true;
+      $hint.textContent = '';
+    }
+
+    if (window.fluxerLoading) {
+      window.fluxerLoading.onStatus(setStatus);
+      window.fluxerLoading.onRetrying(setRetrying);
+      $retry.addEventListener('click', () => {
+        setRetrying();
+        window.fluxerLoading.retry();
+      });
+    } else {
+      // Standalone preview / no preload
+      $detail.textContent = 'Preload not loaded — running in preview mode.';
+      $retry.disabled = false;
+    }
+  </script>
+</body>
+</html>
