@@ -2,12 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Fluxer World</title>
+  <title>Fluxerworld</title>
   <style>
     :root {
-      /* Mirrors Fluxer's color-system.css tokens so the loading page
-       * looks indistinguishable from the SPA's first paint. */
-      /* Light theme (.theme-light) values */
+      /* Mirrors Fluxer's color-system.css tokens. */
       --bg:           hsl(220, 10%, 98.5%);
       --text:         hsl(220, 13%, 10%);
       --text-muted:   hsl(220, 13%, 38%);
@@ -25,91 +23,127 @@
         --danger:       hsl(0, 75%, 70%);
       }
     }
+    /* Explicit theme overrides — set by Electron when the user has a
+     * known last-used theme (overrides prefers-color-scheme). */
+    html.theme-light {
+      --bg:           hsl(220, 10%, 98.5%);
+      --text:         hsl(220, 13%, 10%);
+      --text-muted:   hsl(220, 13%, 38%);
+      --accent:       hsl(242, 70%, 55%);
+      --accent-hover: hsl(242, 70%, 48%);
+      --danger:       hsl(0, 75%, 50%);
+    }
+    html.theme-dark {
+      --bg:           hsl(220, 13%, 5%);
+      --text:         hsl(220, 13%, 96%);
+      --text-muted:   hsl(220, 13%, 78%);
+      --accent:       hsl(242, 70%, 55%);
+      --accent-hover: hsl(242, 100%, 70%);
+      --danger:       hsl(0, 75%, 70%);
+    }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, sans-serif;
       background: var(--bg);
       color: var(--text);
-      display: flex;
-      align-items: center;
-      justify-content: center;
       -webkit-font-smoothing: antialiased;
       user-select: none;
       -webkit-user-select: none;
+      overflow: hidden;
     }
-    .card {
-      max-width: 420px;
-      width: 90%;
-      text-align: center;
-      padding: 2rem 2rem 1.75rem;
-    }
-    .brand {
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: -0.01em;
-      margin-bottom: 1.5rem;
+    /* Top-left brand text — matches SPA's window title placement */
+    .brand-corner {
+      position: fixed;
+      top: 1rem;
+      left: 1.25rem;
+      font-size: 0.95rem;
+      font-weight: 600;
       color: var(--text);
+      letter-spacing: -0.01em;
     }
+    /* Centered logo + (conditionally shown) status block */
+    .center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 1.75rem;
+    }
+    /* Logo with strong purple glow around it — matches the SPA splash */
     .logo-wrap {
-      width: 96px; height: 96px;
-      margin: 0 auto 1.5rem;
-      position: relative;
+      width: 180px;
+      height: 180px;
       display: flex;
       align-items: center;
       justify-content: center;
+      position: relative;
     }
-    .logo {
-      width: 64px; height: 64px;
-      animation: pulse 1.6s ease-in-out infinite;
-      object-fit: contain;
-    }
-    /* Soft glow ring around the logo while connecting — uses the
-     * brand-primary hue from Fluxer's color tokens. */
     .logo-wrap::before {
       content: "";
       position: absolute;
       inset: 0;
       border-radius: 50%;
-      background: radial-gradient(circle, hsla(242, 70%, 55%, 0.25) 0%, hsla(242, 70%, 55%, 0) 70%);
-      animation: glow 1.6s ease-in-out infinite;
+      background: radial-gradient(circle, hsla(242, 70%, 60%, 0.45) 0%, hsla(242, 70%, 60%, 0) 65%);
+      animation: glow 2s ease-in-out infinite;
+    }
+    .logo {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      object-fit: cover;
+      animation: pulse 2s ease-in-out infinite;
+      box-shadow: 0 0 36px hsla(242, 70%, 60%, 0.55);
     }
     .logo-wrap.error .logo {
       animation: none;
-      filter: grayscale(0.3) brightness(0.8);
+      filter: grayscale(0.35) brightness(0.85);
+      box-shadow: 0 0 36px hsla(0, 75%, 60%, 0.45);
     }
     .logo-wrap.error::before {
-      background: radial-gradient(circle, hsla(0, 75%, 60%, 0.25) 0%, hsla(0, 75%, 60%, 0) 70%);
+      background: radial-gradient(circle, hsla(0, 75%, 60%, 0.35) 0%, hsla(0, 75%, 60%, 0) 65%);
       animation: none;
     }
     @keyframes pulse {
       0%, 100% { transform: scale(1);   opacity: 1; }
-      50%      { transform: scale(1.06); opacity: 0.85; }
+      50%      { transform: scale(1.04); opacity: 0.92; }
     }
     @keyframes glow {
-      0%, 100% { transform: scale(0.95); opacity: 0.55; }
-      50%      { transform: scale(1.1);  opacity: 0.85; }
+      0%, 100% { transform: scale(1);   opacity: 0.65; }
+      50%      { transform: scale(1.15); opacity: 0.95; }
     }
-    .status {
+    /* Status block — invisible until JS un-hides it (only on error) */
+    .status-block {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      max-width: 420px;
+      text-align: center;
+      padding: 0 1.5rem;
+    }
+    .status-block.show {
+      display: flex;
+    }
+    .status-text {
       font-size: 1rem;
-      font-weight: 500;
+      font-weight: 600;
       color: var(--text);
-      margin-bottom: 0.4rem;
-      line-height: 1.4;
     }
-    .detail {
-      font-size: 0.85rem;
+    .detail-text {
+      font-size: 0.875rem;
       color: var(--text-muted);
       line-height: 1.5;
-      min-height: 1.3em;
-      margin-bottom: 1.5rem;
     }
     .btn {
       display: inline-block;
-      padding: 0.6rem 1.4rem;
+      margin-top: 0.5rem;
+      padding: 0.55rem 1.4rem;
       background: var(--accent);
       color: #fff;
-      font-size: 0.9rem;
+      font-size: 0.875rem;
       font-weight: 600;
       border: none;
       border-radius: 8px;
@@ -118,59 +152,58 @@
     }
     .btn:hover { background: var(--accent-hover); }
     .btn:active { transform: scale(0.97); }
-    .btn:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      transform: none;
-    }
-    .footer {
-      margin-top: 1.5rem;
+    .hint {
+      margin-top: 0.5rem;
       font-size: 0.75rem;
       color: var(--text-muted);
-      opacity: 0.7;
+      opacity: 0.75;
     }
-    .footer a { color: var(--text-muted); }
   </style>
 </head>
 <body>
-  <div class="card">
+  <div class="brand-corner">Fluxerworld</div>
+  <div class="center">
     <div id="logo-wrap" class="logo-wrap">
       <img src="icons/icon.png" alt="" class="logo" />
     </div>
-    <div class="brand">Fluxer World</div>
-    <div id="status" class="status">Connecting…</div>
-    <div id="detail" class="detail">This usually takes a moment.</div>
-    <button id="retry" class="btn" disabled>Try again</button>
-    <div class="footer">
-      <span id="hint"></span>
+    <div id="status-block" class="status-block">
+      <div id="status" class="status-text">Connecting…</div>
+      <div id="detail" class="detail-text"></div>
+      <button id="retry" class="btn">Try again</button>
+      <div id="hint" class="hint"></div>
     </div>
   </div>
   <script>
-    const $status   = document.getElementById('status');
-    const $detail   = document.getElementById('detail');
-    const $retry    = document.getElementById('retry');
-    const $logoWrap = document.getElementById('logo-wrap');
-    const $hint     = document.getElementById('hint');
+    const $status      = document.getElementById('status');
+    const $detail      = document.getElementById('detail');
+    const $retry       = document.getElementById('retry');
+    const $logoWrap    = document.getElementById('logo-wrap');
+    const $hint        = document.getElementById('hint');
+    const $statusBlock = document.getElementById('status-block');
 
     // Friendly mappings for common Chromium error codes.
     const ERROR_MAP = {
-      '-3':   { status: 'Loading interrupted', detail: 'Switching pages...', isError: false },
-      '-2':   { status: 'Connection failed',   detail: 'Unable to reach fluxer.world. Check your internet connection and try again.' },
-      '-7':   { status: 'Connection timed out', detail: 'fluxer.world is taking too long to respond. We\'ll keep trying.' },
-      '-105': { status: 'DNS lookup failed',    detail: 'Cannot resolve fluxer.world. Your DNS server may be unreachable.' },
-      '-106': { status: 'No internet',          detail: 'Your computer has no internet connection. We\'ll reconnect automatically when it\'s back.' },
-      '-109': { status: 'Network unreachable',  detail: 'Your network has no route to the internet. Check wifi or ethernet.' },
-      '-118': { status: 'Connection timed out', detail: 'fluxer.world isn\'t responding. We\'ll keep trying.' },
-      '-501': { status: 'Insecure connection',  detail: 'A man-in-the-middle is interfering with the connection. This may be a captive portal.' },
+      '-3':   { status: 'Loading…', detail: '', isError: false, hideBlock: true },
+      '-2':   { status: 'Connection failed',     detail: 'Unable to reach fluxer.world. Check your internet connection.' },
+      '-7':   { status: 'Connection timed out',  detail: 'fluxer.world is taking too long to respond. We\'ll keep trying.' },
+      '-105': { status: 'DNS lookup failed',     detail: 'Cannot resolve fluxer.world. Your DNS server may be unreachable.' },
+      '-106': { status: 'No internet',           detail: 'Your computer has no internet connection. We\'ll reconnect automatically.' },
+      '-109': { status: 'Network unreachable',   detail: 'Your network has no route to the internet. Check wifi or ethernet.' },
+      '-118': { status: 'Connection timed out',  detail: 'fluxer.world isn\'t responding. We\'ll keep trying.' },
+      '-501': { status: 'Insecure connection',   detail: 'Connection blocked. This may be a captive portal needing sign-in.' },
     };
 
     function setStatus({ errorCode, errorDescription, retryInMs, attempt }) {
       const map = ERROR_MAP[String(errorCode)] || {
         status: 'Connection failed',
         detail: errorDescription
-          ? `Unable to load fluxer.world (${errorDescription}). We'll keep trying.`
-          : 'Unable to reach fluxer.world. We\'ll keep trying.',
+          ? `Unable to load fluxer.world (${errorDescription}).`
+          : 'Unable to reach fluxer.world.',
       };
+      if (map.hideBlock) {
+        $statusBlock.classList.remove('show');
+        return;
+      }
       $status.textContent = map.status;
       $detail.textContent = map.detail;
       if (map.isError === false) {
@@ -178,34 +211,57 @@
       } else {
         $logoWrap.className = 'logo-wrap error';
       }
-      $retry.disabled = false;
       if (typeof retryInMs === 'number' && typeof attempt === 'number') {
         const seconds = Math.round(retryInMs / 1000);
         $hint.textContent = `Auto-retrying in ${seconds}s · attempt ${attempt}`;
       } else {
         $hint.textContent = '';
       }
+      $statusBlock.classList.add('show');
     }
 
     function setRetrying() {
       $logoWrap.className = 'logo-wrap';
-      $status.textContent = 'Reconnecting…';
-      $detail.textContent = 'Trying to reach fluxer.world.';
-      $retry.disabled = true;
-      $hint.textContent = '';
+      $statusBlock.classList.remove('show');
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.classList.remove('theme-light', 'theme-dark');
+      if (theme === 'light' || theme === 'dark') {
+        document.documentElement.classList.add('theme-' + theme);
+      }
     }
 
     if (window.fluxerLoading) {
       window.fluxerLoading.onStatus(setStatus);
       window.fluxerLoading.onRetrying(setRetrying);
+      window.fluxerLoading.onTheme(applyTheme);
       $retry.addEventListener('click', () => {
         setRetrying();
         window.fluxerLoading.retry();
       });
-    } else {
-      // Standalone preview / no preload
-      $detail.textContent = 'Preload not loaded — running in preview mode.';
-      $retry.disabled = false;
+    }
+
+    // ── Preview mode (browser, not Electron) ────────────────────────────
+    // Append ?preview=error or ?preview=dns / ?preview=offline to see the
+    // failure UI side-by-side with the SPA splash.
+    const params = new URLSearchParams(location.search);
+    const previewMode = params.get('preview');
+    if (previewMode) {
+      const themeOverride = params.get('theme');
+      if (themeOverride) applyTheme(themeOverride);
+      const fakeErrors = {
+        offline: { errorCode: -106, errorDescription: 'ERR_INTERNET_DISCONNECTED', retryInMs: 1000, attempt: 1 },
+        dns:     { errorCode: -105, errorDescription: 'ERR_NAME_NOT_RESOLVED',     retryInMs: 2000, attempt: 2 },
+        timeout: { errorCode: -7,   errorDescription: 'ERR_TIMED_OUT',             retryInMs: 4000, attempt: 3 },
+        error:   { errorCode: -2,   errorDescription: 'ERR_FAILED',                retryInMs: 1000, attempt: 1 },
+      };
+      const info = fakeErrors[previewMode] || fakeErrors.error;
+      setTimeout(() => setStatus(info), 100);
+      $retry.addEventListener('click', () => {
+        setRetrying();
+        setTimeout(() => setStatus(info), 1500);
+      });
     }
   </script>
 </body>

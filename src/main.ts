@@ -499,12 +499,31 @@ function createWindow(): BrowserWindow {
   const showLoadingPage = (statusInfo: Record<string, unknown> | null) => {
     onLoadingPage = true;
     win.loadFile(loadingPagePath).then(() => {
+      // Push the user's last-known theme so the loading page matches the
+      // colour scheme they last used in the SPA. Falls through to system
+      // prefers-color-scheme if no theme is recorded yet.
+      const savedTheme = store.get('lastKnownTheme') as string | null;
+      if (savedTheme) {
+        try { win.webContents.send('loading-theme', savedTheme); } catch {}
+      }
       if (statusInfo) {
         try { win.webContents.send('loading-status', statusInfo); } catch {}
       }
     }).catch((err) => {
       console.log('[load-retry] failed to show loading page:', err && err.message ? err.message : String(err));
     });
+  };
+  // After the SPA finishes loading, capture its current theme choice so
+  // the loading page can match it on next launch / next retry.
+  const captureTheme = () => {
+    win.webContents
+      .executeJavaScript('localStorage.getItem("theme")', true)
+      .then((t: unknown) => {
+        if (typeof t === 'string' && (t === 'light' || t === 'dark')) {
+          store.set('lastKnownTheme', t);
+        }
+      })
+      .catch(() => { /* ignore */ });
   };
   // When the user clicks "Try again" on the loading page, fire an
   // immediate retry instead of waiting for the timer.
@@ -575,6 +594,8 @@ function createWindow(): BrowserWindow {
     if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
     retryDelay = 1000;
     retryAttempt = 0;
+    // Stash the user's theme choice for next time.
+    captureTheme();
   });
 
   win.loadURL(APP_URL).catch((err) => console.log("[loadURL] rejected (handled):", err?.message ?? String(err)));

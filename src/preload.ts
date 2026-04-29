@@ -23,6 +23,7 @@ contextBridge.exposeInMainWorld('fluxerLoading', {
   retry: () => ipcRenderer.send('loading-retry-now'),
   onStatus: (cb: (info: unknown) => void) => onEvent('loading-status', (info) => cb(info)),
   onRetrying: (cb: () => void) => onEvent('loading-retrying', () => cb()),
+  onTheme: (cb: (theme: string) => void) => onEvent('loading-theme', (theme) => cb(theme)),
 });
 
 contextBridge.exposeInMainWorld('electron', {
