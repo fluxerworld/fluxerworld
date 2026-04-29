@@ -17,6 +17,11 @@ export interface AppSettings {
   startOnBoot: boolean;
   autostartInitialized: boolean;
   startMinimizedMigrated: boolean;
+  /** Last theme the user had selected in the SPA (light|dark). Captured
+   * by main.ts after each successful load via executeJavaScript on the
+   * SPA's localStorage so the bundled loading page can match it on next
+   * launch instead of falling back to system prefers-color-scheme. */
+  lastKnownTheme: 'light' | 'dark' | null;
 }
 
 const DEFAULTS: AppSettings = {
@@ -26,6 +31,7 @@ const DEFAULTS: AppSettings = {
   startOnBoot: false,
   autostartInitialized: false,
   startMinimizedMigrated: false,
+  lastKnownTheme: null,
 };
 
 type DeepPartial<T> = { [K in keyof T]?: T[K] extends object ? DeepPartial<T[K]> : T[K] };

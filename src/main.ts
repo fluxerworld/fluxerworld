@@ -502,7 +502,7 @@ function createWindow(): BrowserWindow {
       // Push the user's last-known theme so the loading page matches the
       // colour scheme they last used in the SPA. Falls through to system
       // prefers-color-scheme if no theme is recorded yet.
-      const savedTheme = store.get('lastKnownTheme') as string | null;
+      const savedTheme = store.get('lastKnownTheme');
       if (savedTheme) {
         try { win.webContents.send('loading-theme', savedTheme); } catch {}
       }
