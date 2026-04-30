@@ -201,8 +201,49 @@ derive_member_view(UserId, Member, State, Channels) ->
             end,
             Channels
         ),
+    %% Include parent categories of any visible non-category channel even if
+    %% the user can't VIEW the category itself. This matches Discord's
+    %% behaviour: if you can see a private mod-only channel inside a category
+    %% the @everyone role is denied, the category header still appears so the
+    %% sidebar layout matches what the guild owner laid out.
+    FilteredIds = sets:from_list(
+        [map_utils:get_integer(C, <<"id">>, 0) || C <- Filtered]
+    ),
+    NeededParentIds = sets:from_list(
+        lists:filtermap(
+            fun(C) ->
+                Type = maps:get(<<"type">>, C, 0),
+                ParentBin = maps:get(<<"parent_id">>, C, null),
+                case {is_category_type(Type), ParentBin} of
+                    {false, null} -> false;
+                    {false, undefined} -> false;
+                    {false, P} when is_binary(P) -> {true, utils:binary_to_integer_safe(P)};
+                    {false, P} when is_integer(P) -> {true, P};
+                    _ -> false
+                end
+            end,
+            Filtered
+        )
+    ),
+    MissingParents = sets:subtract(NeededParentIds, FilteredIds),
+    Patches =
+        case sets:size(MissingParents) of
+            0 -> [];
+            _ ->
+                lists:filter(
+                    fun(C) ->
+                        Id = map_utils:get_integer(C, <<"id">>, 0),
+                        sets:is_element(Id, MissingParents) andalso
+                            is_category_type(maps:get(<<"type">>, C, 0))
+                    end,
+                    Channels
+                )
+        end,
     JoinedAt = maps:get(<<"joined_at">>, Member, null),
-    {Filtered, JoinedAt}.
+    {Filtered ++ Patches, JoinedAt}.
+
+-spec is_category_type(integer()) -> boolean().
+is_category_type(Type) -> Type =:= 4.
 
 -spec voice_members_from_states([map()], [guild_member()]) -> [guild_member()].
 voice_members_from_states(VoiceStates, Members) ->
