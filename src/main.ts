@@ -434,7 +434,39 @@ function createWindow(): BrowserWindow {
     if (allowedPerms.has(permission) && requestingOrigin.startsWith(APP_URL)) {
       return true;
     }
+    if ((permission === 'usb' || permission === 'hid') && requestingOrigin.startsWith(APP_URL)) {
+      return true;
+    }
     return false;
+  });
+
+  // ── WebAuthn / FIDO2 security key support ────────────────────────────────
+  // Linux Electron doesn't ship the Chromium device picker UI, so when the
+  // WebAuthn flow asks the browser to select a USB/HID security key the
+  // request hangs and "Use Security Key" appears to do nothing. Auto-select
+  // the first available device for fluxer.world only — the underlying
+  // WebAuthn handshake still requires the user to physically tap the key.
+  session.defaultSession.on('select-hid-device', (event, details, callback) => {
+    if (!details.frame || !details.frame.url.startsWith(APP_URL)) {
+      callback();
+      return;
+    }
+    event.preventDefault();
+    const device = details.deviceList[0];
+    callback(device ? device.deviceId : undefined);
+  });
+  session.defaultSession.on('select-usb-device', (event, details, callback) => {
+    if (!details.frame || !details.frame.url.startsWith(APP_URL)) {
+      callback();
+      return;
+    }
+    event.preventDefault();
+    const device = details.deviceList[0];
+    callback(device ? device.deviceId : undefined);
+  });
+  session.defaultSession.setDevicePermissionHandler((details) => {
+    if (details.deviceType !== 'hid' && details.deviceType !== 'usb') return false;
+    return details.origin.startsWith(APP_URL);
   });
 
   // ── Screen share display media handler ────────────────────────────────
