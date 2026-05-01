@@ -1049,10 +1049,14 @@ class KeybindManager {
 		if (!this.globalShortcutUnsubscribe) {
 			this.globalShortcutUnsubscribe =
 				electronApi.onGlobalShortcut?.((id: string) => {
-					const keybind = keybinds.find((k) => comboToShortcutString(k.combo) === id);
-					if (!keybind) return;
+					// Re-resolve from current state on every fire. The previous
+					// implementation closed over the keybinds snapshot from first
+					// subscribe, so any later rebind (changing the key, toggling
+					// global on/off) left the new accelerator routed to nothing.
+					const current = this.activeGlobalKeybinds.find((k) => comboToShortcutString(k.combo) === id);
+					if (!current) return;
 
-					const handler = this.handlers.get(keybind.action);
+					const handler = this.handlers.get(current.action);
 					if (!handler) return;
 
 					handler({
