@@ -92,6 +92,16 @@ export const MessageStickerResponse = z.object({
 
 export type MessageStickerResponse = z.infer<typeof MessageStickerResponse>;
 
+export const MessageChannelMentionResponse = z.object({
+	id: SnowflakeStringType.describe('The unique identifier of the mentioned channel'),
+	guild_id: SnowflakeStringType.describe('The guild ID the mentioned channel belongs to'),
+	type: z.number().int().describe('The channel type'),
+	name: z.string().describe('The channel name at the time the message was sent'),
+	parent_id: SnowflakeStringType.nullish().describe('The ID of the parent category, if any'),
+});
+
+export type MessageChannelMentionResponse = z.infer<typeof MessageChannelMentionResponse>;
+
 export const MessageSnapshotResponse = z.object({
 	content: z.string().nullish().describe('The text content of the snapshot'),
 	timestamp: z.iso.datetime().describe('The ISO 8601 timestamp of when the original message was created'),
@@ -150,6 +160,11 @@ export const MessageBaseResponseSchema = z.object({
 		.nullish()
 		.describe('The users mentioned in the message'),
 	mention_roles: z.array(z.string()).max(100).nullish().describe('The role IDs mentioned in the message'),
+	mention_channels: z
+		.array(MessageChannelMentionResponse)
+		.max(100)
+		.nullish()
+		.describe('The cross-referenced channels mentioned in the message'),
 	embeds: z.array(MessageEmbedResponse).max(10).nullish().describe('The embeds attached to the message'),
 	attachments: z.array(MessageAttachmentResponse).max(10).nullish().describe('The files attached to the message'),
 	stickers: z.array(MessageStickerResponse).max(3).nullish().describe('The stickers sent with the message'),

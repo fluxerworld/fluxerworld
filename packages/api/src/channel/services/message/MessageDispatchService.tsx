@@ -95,6 +95,7 @@ export class MessageDispatchService {
 			attachmentDecayMap,
 			getReferencedMessage: (channelId: ChannelID, messageId: MessageID) =>
 				this.channelRepository.messages.getMessage(channelId, messageId),
+			getChannel: (channelId: ChannelID) => this.channelRepository.channelData.findUnique(channelId),
 		});
 
 		await this.dispatchEvent({
@@ -130,6 +131,7 @@ export class MessageDispatchService {
 			attachmentDecayMap,
 			getReferencedMessage: (channelId: ChannelID, messageId: MessageID) =>
 				this.channelRepository.messages.getMessage(channelId, messageId),
+			getChannel: (channelId: ChannelID) => this.channelRepository.channelData.findUnique(channelId),
 		});
 
 		await this.dispatchEvent({

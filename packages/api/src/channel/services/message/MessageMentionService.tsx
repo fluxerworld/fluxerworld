@@ -17,7 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {createRoleID, createUserID, type GuildID, type RoleID, type UserID} from '@fluxer/api/src/BrandedTypes';
+import {
+	createChannelID,
+	createRoleID,
+	createUserID,
+	type ChannelID,
+	type GuildID,
+	type RoleID,
+	type UserID,
+} from '@fluxer/api/src/BrandedTypes';
 import {
 	cleanTextForMentions,
 	isOperationDisabled,
@@ -28,7 +36,7 @@ import type {Channel} from '@fluxer/api/src/models/Channel';
 import type {Message} from '@fluxer/api/src/models/Message';
 import type {IUserRepository} from '@fluxer/api/src/user/IUserRepository';
 import {ChannelTypes, MessageTypes, SENDABLE_MESSAGE_FLAGS} from '@fluxer/constants/src/ChannelConstants';
-import {ROLE_MENTION_REGEX, USER_MENTION_REGEX} from '@fluxer/constants/src/Core';
+import {CHANNEL_MENTION_REGEX, ROLE_MENTION_REGEX, USER_MENTION_REGEX} from '@fluxer/constants/src/Core';
 import {GuildOperations} from '@fluxer/constants/src/GuildConstants';
 import {ValidationErrorCodes} from '@fluxer/constants/src/ValidationErrorCodes';
 import {InputValidationError} from '@fluxer/errors/src/domains/core/InputValidationError';
@@ -42,6 +50,7 @@ import type {IWorkerService} from '@fluxer/worker/src/contracts/IWorkerService';
 interface MentionData {
 	userMentions: Set<UserID>;
 	roleMentions: Set<RoleID>;
+	channelMentions: Set<ChannelID>;
 	flags: number;
 	mentionsEveryone: boolean;
 	mentionsHere: boolean;
@@ -92,6 +101,12 @@ export class MessageMentionService {
 				.filter((id) => id !== createRoleID(0n)),
 		);
 
+		const channelMentions = new Set(
+			[...content.matchAll(CHANNEL_MENTION_REGEX)]
+				.map((m) => createChannelID(BigInt(m.groups?.['channelId'] ?? '0')))
+				.filter((id) => id !== createChannelID(0n)),
+		);
+
 		const isDMChannel = channelType === ChannelTypes.DM || channelType === ChannelTypes.DM_PERSONAL_NOTES;
 		const shouldAddReferencedUser =
 			referencedMessage?.authorId &&
@@ -126,7 +141,7 @@ export class MessageMentionService {
 			mentionsHere = false;
 		}
 
-		return {userMentions, roleMentions, flags: flags | sendableFlags, mentionsEveryone, mentionsHere};
+		return {userMentions, roleMentions, channelMentions, flags: flags | sendableFlags, mentionsEveryone, mentionsHere};
 	}
 
 	private applyAllowedMentions({

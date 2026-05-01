@@ -23,6 +23,7 @@ import type {IMediaService} from '@fluxer/api/src/infrastructure/IMediaService';
 import type {UserCacheService} from '@fluxer/api/src/infrastructure/UserCacheService';
 import type {RequestCache} from '@fluxer/api/src/middleware/RequestCacheMiddleware';
 import type {Attachment} from '@fluxer/api/src/models/Attachment';
+import type {Channel} from '@fluxer/api/src/models/Channel';
 import type {Embed} from '@fluxer/api/src/models/Embed';
 import type {EmbedField} from '@fluxer/api/src/models/EmbedField';
 import type {Message} from '@fluxer/api/src/models/Message';
@@ -59,6 +60,7 @@ interface MapMessageToResponseParams {
 	getAuthor?: (userId: UserID) => Promise<User | null>;
 	getReactions?: (channelId: ChannelID, messageId: MessageID) => Promise<Array<MessageReaction>>;
 	getReferencedMessage?: (channelId: ChannelID, messageId: MessageID) => Promise<Message | null>;
+	getChannel?: (channelId: ChannelID) => Promise<Channel | null>;
 	setHasReaction?: (channelId: ChannelID, messageId: MessageID, hasReaction: boolean) => Promise<void>;
 	userCacheService: UserCacheService;
 	requestCache: RequestCache;
@@ -295,6 +297,7 @@ export async function mapMessageToResponse({
 	getAuthor,
 	getReactions,
 	getReferencedMessage,
+	getChannel,
 	setHasReaction,
 	userCacheService,
 	requestCache,
@@ -370,6 +373,26 @@ export async function mapMessageToResponse({
 		response.mention_roles = Array.from(message.mentionedRoleIds).map(String);
 	}
 
+	if (message.mentionedChannelIds.size > 0 && getChannel) {
+		const mentioned = await Promise.all(
+			Array.from(message.mentionedChannelIds).map(async (channelId) => {
+				const channel = await getChannel(channelId);
+				if (!channel) return null;
+				return {
+					id: channel.id.toString(),
+					guild_id: (channel.guildId ?? 0n).toString(),
+					type: channel.type,
+					name: channel.name ?? '',
+					parent_id: channel.parentId?.toString() ?? null,
+				};
+			}),
+		);
+		const resolved = mentioned.filter((entry): entry is NonNullable<typeof entry> => entry !== null);
+		if (resolved.length > 0) {
+			response.mention_channels = resolved;
+		}
+	}
+
 	if (currentUserId != null && getReactions && message.hasReaction !== false) {
 		const reactions = await getReactions(message.channelId, message.id);
 		const hasReactions = reactions && reactions.length > 0;
@@ -404,6 +427,7 @@ export async function mapMessageToResponse({
 						getAuthor,
 						getReactions,
 						getReferencedMessage,
+						getChannel,
 						setHasReaction,
 						userCacheService,
 						requestCache,

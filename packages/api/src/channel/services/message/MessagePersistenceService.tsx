@@ -96,6 +96,7 @@ interface CreateMessageParams {
 		flags: number;
 		mentionUserIds: Array<UserID>;
 		mentionRoleIds: Array<RoleID>;
+		mentionChannelIds: Array<ChannelID>;
 		mentionEveryone: boolean;
 	};
 	allowEmbeds?: boolean;
@@ -156,6 +157,7 @@ export class MessagePersistenceService {
 				flags: params.flags,
 				mentionUserIds: [],
 				mentionRoleIds: [],
+				mentionChannelIds: [],
 				mentionEveryone: false,
 			} as const);
 
@@ -234,7 +236,7 @@ export class MessagePersistenceService {
 			mention_everyone: mentionData.mentionEveryone,
 			mention_users: mentionData.mentionUserIds.length > 0 ? new Set(mentionData.mentionUserIds) : null,
 			mention_roles: mentionData.mentionRoleIds.length > 0 ? new Set(mentionData.mentionRoleIds) : null,
-			mention_channels: null,
+			mention_channels: mentionData.mentionChannelIds.length > 0 ? new Set(mentionData.mentionChannelIds) : null,
 			attachments: processedAttachments.length > 0 ? processedAttachments : null,
 			embeds: allowEmbeds ? initialEmbeds : null,
 			sticker_items: processedStickers.length > 0 ? processedStickers : null,
@@ -621,6 +623,7 @@ export class MessagePersistenceService {
 				flags: 0,
 				mentionUserIds: params.mentionUserIds ?? [],
 				mentionRoleIds: [],
+				mentionChannelIds: [],
 				mentionEveryone: false,
 			},
 		});

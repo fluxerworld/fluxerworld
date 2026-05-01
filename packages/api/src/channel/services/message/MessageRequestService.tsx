@@ -172,6 +172,7 @@ export class MessageRequestService {
 			attachmentDecayMap: params.attachmentDecayMap,
 			getReferencedMessage: (channelId: ChannelID, messageId: MessageID) =>
 				this.channelRepository.getMessage(channelId, messageId),
+			getChannel: (channelId: ChannelID) => this.channelRepository.findUnique(channelId),
 		};
 
 		if (!params.includeReactions) {

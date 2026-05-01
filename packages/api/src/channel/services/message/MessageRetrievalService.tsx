@@ -273,6 +273,7 @@ export class MessageRetrievalService {
 						this.channelRepository.messageInteractions.setHasReaction(channelId, messageId, hasReaction),
 					getReferencedMessage: (channelId, messageId) =>
 						this.channelRepository.messages.getMessage(channelId, messageId),
+					getChannel: (channelId) => this.channelRepository.channelData.findUnique(channelId),
 				}),
 			),
 		);

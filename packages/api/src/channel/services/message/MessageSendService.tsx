@@ -790,6 +790,7 @@ export class MessageSendService {
 					flags: number;
 					mentionUserIds: Array<UserID>;
 					mentionRoleIds: Array<RoleID>;
+					mentionChannelIds: Array<ChannelID>;
 					mentionEveryone: boolean;
 					mentionHere: boolean;
 			  }
@@ -823,6 +824,7 @@ export class MessageSendService {
 				flags: mentions.flags,
 				mentionUserIds: validUserIds,
 				mentionRoleIds: validRoleIds,
+				mentionChannelIds: Array.from(mentions.channelMentions),
 				mentionEveryone: mentions.mentionsEveryone || mentions.mentionsHere,
 				mentionHere: mentions.mentionsHere,
 			};
@@ -951,6 +953,7 @@ export class MessageSendService {
 					flags: number;
 					mentionUserIds: Array<UserID>;
 					mentionRoleIds: Array<RoleID>;
+					mentionChannelIds: Array<ChannelID>;
 					mentionEveryone: boolean;
 					mentionHere: boolean;
 			  }
@@ -981,6 +984,7 @@ export class MessageSendService {
 				flags: mentions.flags,
 				mentionUserIds: validUserIds,
 				mentionRoleIds: validRoleIds,
+				mentionChannelIds: Array.from(mentions.channelMentions),
 				mentionEveryone: mentions.mentionsEveryone || mentions.mentionsHere,
 				mentionHere: mentions.mentionsHere,
 			};

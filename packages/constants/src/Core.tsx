@@ -24,6 +24,7 @@ export const ADMIN_OAUTH2_APPLICATION_ID = 1234567890123456789n;
 
 export const USER_MENTION_REGEX = /<@!?(?<userId>\d+)>/g;
 export const ROLE_MENTION_REGEX = /<@&(?<roleId>\d+)>/g;
+export const CHANNEL_MENTION_REGEX = /<#(?<channelId>\d+)>/g;
 export const URL_REGEX = /https?:\/\/[^\s/$.?#].[^\s]*/g;
 
 export const DeletionReasons = {
