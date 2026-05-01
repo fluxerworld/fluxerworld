@@ -401,8 +401,17 @@ check_can_manage_roles(UserId, RoleId, _OwnerId, Data, State) ->
                 undefined ->
                     false;
                 Role ->
+                    %% Match the tiebreaker behaviour of can_manage_role/2 so
+                    %% role add/remove succeeds when the actor's highest role
+                    %% shares a position with the role being assigned (e.g. all
+                    %% non-privileged roles default to position 1 in fresh
+                    %% guilds — a strict `>` would fail on `1 > 1`). Upstream
+                    %% issue: fluxerapp/fluxer#791.
                     UserMax = guild_permissions:get_max_role_position(UserId, State),
-                    UserMax > role_position(Role)
+                    RolePos = role_position(Role),
+                    UserMax > RolePos orelse
+                        (UserMax =:= RolePos andalso
+                            compare_role_ids_for_equal_position(UserId, RoleId, State))
             end
     end.
 
