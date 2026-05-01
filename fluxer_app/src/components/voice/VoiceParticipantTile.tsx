@@ -1242,7 +1242,18 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 		}
 
 		if (isTrackReference(trackRef) && hasVideo && !shouldHideOwnScreenShareVideo) {
-			return <VideoTrack ref={videoRef} trackRef={trackRef} manageSubscription={false} />;
+			// Mirror your own camera preview (matches Discord, Zoom, Meet, etc.).
+			// Only the local view is flipped — remote viewers and screen shares
+			// stay unmirrored so text on screen reads correctly.
+			const shouldMirror = isLocalParticipant && !isScreenShare;
+			return (
+				<VideoTrack
+					ref={videoRef}
+					trackRef={trackRef}
+					manageSubscription={false}
+					style={shouldMirror ? {transform: 'scaleX(-1)'} : undefined}
+				/>
+			);
 		}
 
 		if (shouldHideOwnScreenShareVideo && frozenFrameUrl) {
@@ -1277,6 +1288,7 @@ const VoiceParticipantTileInner = observer(function VoiceParticipantTileInner({
 		hasVideo,
 		isActuallySpeaking,
 		isFocusedPlaceholderTile,
+		isLocalParticipant,
 		isOwnScreenShare,
 		isScreenShare,
 		participantUser,
