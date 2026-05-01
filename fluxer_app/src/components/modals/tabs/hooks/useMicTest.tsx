@@ -223,8 +223,14 @@ export const useMicTest = (settings: MicTestSettings) => {
 
 			sourceRef.current.connect(analyserRef.current);
 			analyserRef.current.connect(gainNodeRef.current);
+			// Only route through the MediaStreamDestination feeding the
+			// <audio> element. Connecting to audioContext.destination as well
+			// would play the mic feedback directly to the default speakers
+			// (bypassing setSinkId and the output volume slider) AND in
+			// parallel with the audio element — that double, full-volume
+			// playback is what gets picked back up by the mic, creating the
+			// echo loop reported as "system audio in the mic".
 			gainNodeRef.current.connect(destinationRef.current);
-			gainNodeRef.current.connect(audioContextRef.current.destination);
 
 			audioElementRef.current = new Audio();
 			audioElementRef.current.srcObject = destinationRef.current.stream;
