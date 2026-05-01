@@ -98,7 +98,9 @@ export class GuildSearchService {
 			if (!user) {
 				throw new UnknownUserError();
 			}
-			userIsAdultResult = isUserAdult(user.dateOfBirth);
+			// Bots inherit adult status from their creating account; they have
+			// no date_of_birth of their own. See #477.
+			userIsAdultResult = user.isBot || isUserAdult(user.dateOfBirth);
 			return userIsAdultResult;
 		};
 

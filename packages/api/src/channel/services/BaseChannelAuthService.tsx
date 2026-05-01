@@ -191,7 +191,11 @@ export abstract class BaseChannelAuthService {
 			const user = await this.userRepository.findUnique(userId);
 			if (!user) throw new UnknownUserError();
 
-			if (!isUserAdult(user.dateOfBirth)) {
+			// Bots don't store a date_of_birth — they inherit the adult status
+			// of their creating account, which is verified at app/bot creation
+			// time. Without this skip, every bot is treated as a minor and
+			// blocked from NSFW / age-restricted servers (#477).
+			if (!user.isBot && !isUserAdult(user.dateOfBirth)) {
 				throw new NsfwContentRequiresAgeVerificationError();
 			}
 		}
