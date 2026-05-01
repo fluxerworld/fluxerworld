@@ -551,7 +551,6 @@ class KeybindStore {
 	private pushToTalkLatched = false;
 	private pushToTalkPressTime = 0;
 	private i18n: I18n | null = null;
-	private initialized = false;
 
 	constructor() {
 		makeAutoObservable(this, {}, {autoBind: true});
@@ -565,11 +564,13 @@ class KeybindStore {
 	}
 
 	setI18n(i18n: I18n): void {
+		// Don't blanket-reset on first init: makePersistent hydrates keybinds
+		// from localStorage asynchronously, and resetToDefaults() here would
+		// race against (and frequently win over) the hydrated user state,
+		// silently throwing away rebound shortcuts on every launch.
+		// getAll / getByAction already fall back to defaults for any action
+		// that isn't present in this.keybinds, so no upfront seed is needed.
 		this.i18n = i18n;
-		if (!this.initialized) {
-			this.resetToDefaults();
-			this.initialized = true;
-		}
 	}
 
 	getAll(): Array<KeybindConfig & {combo: KeyCombo}> {
