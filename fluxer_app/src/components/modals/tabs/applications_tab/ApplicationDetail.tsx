@@ -503,8 +503,10 @@ export const ApplicationDetail: React.FC<ApplicationDetailProps> = observer(
 				authorizeUrl.searchParams.set('scope', builderScopeList.join(' '));
 			}
 
-			const isBotOnly = builderScopeList.length === 1 && builderScopeList[0] === 'bot';
-			const requireRedirectUri = builderScopeList.length > 0 && (!isBotOnly || botRequireCodeGrant);
+			const isBotInstallFlow =
+				builderScopeList.includes('bot') &&
+				builderScopeList.every((s) => s === 'bot' || s === 'applications.commands');
+			const requireRedirectUri = builderScopeList.length > 0 && (!isBotInstallFlow || botRequireCodeGrant);
 
 			const botPerms = Object.entries(builderPermissions)
 				.filter(([, enabled]) => enabled)

@@ -222,8 +222,13 @@ export class OAuth2RequestService {
 	}): Promise<OAuth2ConsentResponse> {
 		const scopeStr = params.body.scope;
 		const scopeSet = new Set(scopeStr.split(/\s+/).filter(Boolean));
-		const isBotOnly = scopeSet.size === 1 && scopeSet.has('bot');
-		const responseType = params.body.response_type ?? (isBotOnly ? undefined : 'code');
+		// Bot install flows don't have a user-auth callback: 'bot' is the
+		// minimum, and 'applications.commands' is a normal companion for
+		// slash-command bots that Discord (and tools like oceanic.js) pair
+		// with it. Either combination should skip the redirect_uri check.
+		const isBotInstallFlow =
+			scopeSet.has('bot') && [...scopeSet].every((s) => s === 'bot' || s === 'applications.commands');
+		const responseType = params.body.response_type ?? (isBotInstallFlow ? undefined : 'code');
 		const guildId = params.body.guild_id ? createGuildID(params.body.guild_id) : null;
 		let requestedPermissions: bigint | null = null;
 		if (params.body.permissions !== undefined) {
@@ -238,10 +243,10 @@ export class OAuth2RequestService {
 			requestedPermissions = requestedPermissions & ALL_PERMISSIONS;
 		}
 
-		if (!isBotOnly && responseType !== 'code') {
+		if (!isBotInstallFlow && responseType !== 'code') {
 			throw new InvalidResponseTypeForNonBotError();
 		}
-		if (!isBotOnly && !params.body.redirect_uri) {
+		if (!isBotInstallFlow && !params.body.redirect_uri) {
 			throw new RedirectUriRequiredForNonBotError();
 		}
 

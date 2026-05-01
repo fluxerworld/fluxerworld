@@ -188,8 +188,11 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 	const botPermissionOptions = useMemo(() => getAllBotPermissions(i18n), [i18n]);
 
 	const hasBotScope = useMemo(() => scopes.includes('bot'), [scopes]);
-	const isBotOnly = useMemo(() => {
-		return scopes.length === 1 && scopes[0] === 'bot';
+	// Bot install flows skip the user-auth callback. Pairing 'bot' with
+	// 'applications.commands' is a common slash-command bot install and
+	// shouldn't trip the redirect_uri requirement.
+	const isBotInstallFlow = useMemo(() => {
+		return scopes.includes('bot') && scopes.every((s) => s === 'bot' || s === 'applications.commands');
 	}, [scopes]);
 
 	useEffect(() => {
@@ -337,17 +340,17 @@ const OAuthAuthorizePage: React.FC = observer(() => {
 
 	const validationError = useMemo(() => {
 		if (!authParams) return null;
-		if (!isBotOnly && !authParams.redirectUri) {
+		if (!isBotInstallFlow && !authParams.redirectUri) {
 			return t`A redirect_uri is required when the bot scope is not the only scope.`;
 		}
-		if (!isBotOnly && publicApp && authParams.redirectUri) {
+		if (!isBotInstallFlow && publicApp && authParams.redirectUri) {
 			const allowed = publicApp.redirect_uris?.includes(authParams.redirectUri);
 			if (!allowed) {
 				return t`The provided redirect_uri is not registered for this application.`;
 			}
 		}
 		return null;
-	}, [authParams, isBotOnly, publicApp]);
+	}, [authParams, isBotInstallFlow, publicApp]);
 
 	const currentUser = UserStore.currentUser;
 

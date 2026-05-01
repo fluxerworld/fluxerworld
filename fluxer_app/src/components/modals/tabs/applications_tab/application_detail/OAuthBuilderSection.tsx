@@ -52,12 +52,13 @@ export const OAuthBuilderSection: React.FC<OAuthBuilderSectionProps> = ({
 	const builderRedirectUri = form.watch('builderRedirectUri');
 	const botRequireCodeGrant = form.watch('botRequireCodeGrant') ?? false;
 
-	const isBotOnly = builderScopeList.length === 1 && builderScopeList[0] === 'bot';
-	const redirectRequired = builderScopeList.length > 0 && (!isBotOnly || botRequireCodeGrant);
+	const isBotInstallFlow =
+		builderScopeList.includes('bot') && builderScopeList.every((s) => s === 'bot' || s === 'applications.commands');
+	const redirectRequired = builderScopeList.length > 0 && (!isBotInstallFlow || botRequireCodeGrant);
 
 	let redirectError: string | undefined;
 	if (redirectRequired && !builderRedirectUri) {
-		if (isBotOnly && botRequireCodeGrant) {
+		if (isBotInstallFlow && botRequireCodeGrant) {
 			redirectError = t`Redirect URI is required because this bot requires OAuth2 code grant.`;
 		} else {
 			redirectError = t`Redirect URI is required when not using only the bot scope.`;

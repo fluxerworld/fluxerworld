@@ -125,10 +125,14 @@ export class OAuth2Service {
 			throw new AccessDeniedError();
 		}
 
-		const isBotOnly = scopeSet.size === 1 && scopeSet.has('bot');
+		// Bot install flows skip the user-auth callback. 'bot' is the
+		// minimum, and 'applications.commands' is a normal companion that
+		// shouldn't force a redirect_uri to be provided.
+		const isBotInstallFlow =
+			scopeSet.has('bot') && [...scopeSet].every((s) => s === 'bot' || s === 'applications.commands');
 
 		const redirectUri = params.redirectUri;
-		const requireRedirect = !isBotOnly || application.botRequireCodeGrant;
+		const requireRedirect = !isBotInstallFlow || application.botRequireCodeGrant;
 
 		if (!redirectUri && requireRedirect) {
 			throw new MissingRedirectUriError();
