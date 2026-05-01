@@ -21,6 +21,7 @@ import * as ModalActionCreators from '@app/actions/ModalActionCreators';
 import {modal} from '@app/actions/ModalActionCreators';
 import * as PopoutActionCreators from '@app/actions/PopoutActionCreators';
 import * as PrivateChannelActionCreators from '@app/actions/PrivateChannelActionCreators';
+import * as TextCopyActionCreators from '@app/actions/TextCopyActionCreators';
 import * as UserProfileActionCreators from '@app/actions/UserProfileActionCreators';
 import {CustomStatusDisplay} from '@app/components/common/custom_status_display/CustomStatusDisplay';
 import {ConfirmModal} from '@app/components/modals/ConfirmModal';
@@ -65,7 +66,8 @@ import {Permissions} from '@fluxer/constants/src/ChannelConstants';
 import {MEDIA_PROXY_PROFILE_BANNER_SIZE_POPOUT} from '@fluxer/constants/src/MediaProxyAssetSizes';
 import {RelationshipTypes} from '@fluxer/constants/src/UserConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
-import {ChatTeardropIcon, PencilIcon} from '@phosphor-icons/react';
+import {ChatTeardropIcon, CopyIcon, PencilIcon} from '@phosphor-icons/react';
+import FocusRing from '@app/components/uikit/focus_ring/FocusRing';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useCallback, useEffect, useRef, useState} from 'react';
@@ -82,7 +84,7 @@ interface UserProfilePopoutProps {
 
 export const UserProfilePopout: React.FC<UserProfilePopoutProps> = observer(
 	({popoutKey, user, isWebhook, guildId, isPreview}) => {
-		const {t} = useLingui();
+		const {t, i18n} = useLingui();
 		const [hoverRef, isHovering] = useHover();
 		const [profile, setProfile] = useState<ProfileRecord | null>(() => {
 			const cachedProfile = UserProfileStore.getProfile(user.id, guildId);
@@ -286,6 +288,22 @@ export const UserProfilePopout: React.FC<UserProfilePopoutProps> = observer(
 											isHovering={isHovering}
 											onNoteClick={() => openFullProfile(true)}
 										/>
+									)
+								}
+								usernameActions={
+									!isWebhook && (
+										<Tooltip text={t`Copy Username`} position="top">
+											<FocusRing offset={-2}>
+												<button
+													type="button"
+													className={styles.copyUsernameButton}
+													onClick={() => TextCopyActionCreators.copy(i18n, user.tag)}
+													aria-label={t`Copy Username`}
+												>
+													<CopyIcon size={14} weight="fill" />
+												</button>
+											</FocusRing>
+										</Tooltip>
 									)
 								}
 							/>

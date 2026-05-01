@@ -66,3 +66,25 @@
 .profileDataWarning {
 	margin-bottom: 0.5rem;
 }
+
+.copyUsernameButton {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 1.25rem;
+	height: 1.25rem;
+	padding: 0;
+	border: none;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: var(--text-tertiary);
+	cursor: pointer;
+	transition:
+		color 0.1s ease,
+		background-color 0.1s ease;
+}
+
+.copyUsernameButton:hover {
+	background: var(--background-modifier-hover);
+	color: var(--text-primary);
+}
