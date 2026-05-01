@@ -57,14 +57,34 @@ function sortMembers(members: Array<GuildMemberRecord>, guildId: string): Array<
 	);
 }
 
-function getHighestHoistedRole(member: GuildMemberRecord, guild: GuildRecord) {
+function guildHasCustomHoistOrder(guild: GuildRecord): boolean {
+	for (const role of Object.values(guild.roles)) {
+		if (role.hoistPosition !== null) return true;
+	}
+	return false;
+}
+
+// effectiveHoistPosition on the role record falls back from hoist_position
+// to position, but those are two unrelated scales (custom hoist order vs.
+// role-list hierarchy). Mixing them — e.g. ranks were reordered into a
+// custom hoist order, then costume roles were added later with no
+// hoist_position — lets a null-hoist costume role outrank an explicitly-
+// ordered rank role. Pick one scale per guild: if any role has a custom
+// hoist_position, treat unset as the bottom of that scale; otherwise fall
+// back to the plain role-list position uniformly.
+function hoistKey(role: {hoistPosition: number | null; position: number}, useCustomScale: boolean): number {
+	if (useCustomScale) return role.hoistPosition ?? Number.NEGATIVE_INFINITY;
+	return role.position;
+}
+
+function getHighestHoistedRole(member: GuildMemberRecord, guild: GuildRecord, useCustomScale: boolean) {
 	const hoistedRoles = [...member.roles].map((roleId) => guild.getRole(roleId)).filter((role) => role?.hoist);
 
 	if (hoistedRoles.length === 0) return null;
 
 	hoistedRoles.sort((a, b) => {
-		const aPos = a!.effectiveHoistPosition;
-		const bPos = b!.effectiveHoistPosition;
+		const aPos = hoistKey(a!, useCustomScale);
+		const bPos = hoistKey(b!, useCustomScale);
 		if (bPos !== aPos) {
 			return bPos - aPos;
 		}
@@ -75,17 +95,18 @@ function getHighestHoistedRole(member: GuildMemberRecord, guild: GuildRecord) {
 	return {
 		id: highestRole.id,
 		name: highestRole.name,
-		hoistPosition: highestRole.effectiveHoistPosition,
+		hoistPosition: hoistKey(highestRole, useCustomScale),
 	};
 }
 
 function groupMembersByRole(members: Array<GuildMemberRecord>, guild: GuildRecord): Array<GuildMemberGroup> {
+	const useCustomScale = guildHasCustomHoistOrder(guild);
 	const roleGroups: Record<string, Array<GuildMemberRecord>> = {};
 	const roleHoistPositions: Record<string, number> = {};
 	const roleNames: Record<string, string> = {};
 
 	for (const member of members) {
-		const highestRole = getHighestHoistedRole(member, guild);
+		const highestRole = getHighestHoistedRole(member, guild, useCustomScale);
 		if (!highestRole) continue;
 
 		if (!roleGroups[highestRole.id]) {
@@ -114,8 +135,9 @@ function groupMembersByRole(members: Array<GuildMemberRecord>, guild: GuildRecor
 }
 
 function getOnlineWithoutHoistedRole(members: Array<GuildMemberRecord>, guild: GuildRecord): Array<GuildMemberRecord> {
+	const useCustomScale = guildHasCustomHoistOrder(guild);
 	return sortMembers(
-		members.filter((member) => !getHighestHoistedRole(member, guild)),
+		members.filter((member) => !getHighestHoistedRole(member, guild, useCustomScale)),
 		guild.id,
 	);
 }
