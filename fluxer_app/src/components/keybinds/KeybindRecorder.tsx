@@ -73,6 +73,23 @@ const keyboardEventToCombo = (event: KeyboardEvent): KeyCombo => ({
 	shift: event.shiftKey,
 });
 
+// MouseEvent.button: 0=left, 1=middle, 2=right, 3=back (Mouse4), 4=forward (Mouse5).
+// Skip the primary three so the recording UI itself can still be clicked. Capture
+// extra buttons using the same Discord-style "MouseN" label users expect.
+const mouseEventToCombo = (event: MouseEvent): KeyCombo | null => {
+	if (event.button <= 2) return null;
+	const label = `Mouse${event.button + 1}`;
+	return {
+		key: label,
+		code: label,
+		ctrlOrMeta: event.metaKey || event.ctrlKey,
+		ctrl: event.ctrlKey,
+		alt: event.altKey,
+		shift: event.shiftKey,
+		meta: event.metaKey,
+	};
+};
+
 interface KeybindEditorPopoutProps {
 	value: KeyCombo;
 	defaultValue: KeyCombo | null;
@@ -144,9 +161,29 @@ const KeybindEditorPopout: React.FC<KeybindEditorPopoutProps> = ({
 			finishRecording(savedCombo);
 		};
 
+		const handleMouseDown = (event: MouseEvent) => {
+			const combo = mouseEventToCombo(event);
+			if (!combo) return;
+
+			event.preventDefault();
+			event.stopPropagation();
+
+			setPreviewCombo(combo);
+
+			const savedCombo = {
+				...combo,
+				global: value.global,
+				enabled: true,
+			};
+			onSave(savedCombo);
+			finishRecording(savedCombo);
+		};
+
 		window.addEventListener('keydown', handleKeyDown, true);
+		window.addEventListener('mousedown', handleMouseDown, true);
 		return () => {
 			window.removeEventListener('keydown', handleKeyDown, true);
+			window.removeEventListener('mousedown', handleMouseDown, true);
 		};
 	}, [recording, onSave, cancelRecording, finishRecording, value.global]);
 
@@ -167,7 +204,7 @@ const KeybindEditorPopout: React.FC<KeybindEditorPopoutProps> = ({
 					<Trans>Edit Shortcut</Trans>
 				</span>
 				<span className={styles.popoutHint}>
-					<Trans>Click to record a new shortcut, or press Escape to cancel.</Trans>
+					<Trans>Click to record a new shortcut. Use any key or extra mouse button (4/5). Press Escape to cancel.</Trans>
 				</span>
 			</div>
 

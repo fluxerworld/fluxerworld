@@ -39,7 +39,10 @@ export function formatKeyCombo(combo: KeyCombo): string {
 	}
 	if (combo.alt) parts.push(isMac() ? '⌥' : 'Alt');
 	const key = combo.code ?? combo.key ?? '';
-	if (key === ' ') {
+	const mouseMatch = /^Mouse(\d+)$/.exec(key);
+	if (mouseMatch) {
+		parts.push(`Mouse ${mouseMatch[1]}`);
+	} else if (key === ' ') {
 		parts.push('Space');
 	} else if (key.length === 1) {
 		parts.push(key.toUpperCase());

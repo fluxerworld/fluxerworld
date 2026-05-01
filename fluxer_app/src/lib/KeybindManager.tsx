@@ -203,6 +203,32 @@ const comboToCombokeysString = (combo: KeyCombo): string | null => {
 	return parts.join('+');
 };
 
+// MouseEvent.button uses 0-based indexing while we display "Mouse4" / "Mouse5"
+// (the 4th and 5th mouse buttons). Convert between the two here.
+const mouseButtonFromCombo = (combo: KeyCombo): number | null => {
+	const raw = combo.code ?? combo.key;
+	if (!raw) return null;
+	const match = /^Mouse(\d+)$/.exec(raw);
+	if (!match) return null;
+	const labelIndex = parseInt(match[1], 10);
+	if (Number.isNaN(labelIndex) || labelIndex < 4) return null;
+	return labelIndex - 1;
+};
+
+const comboModifiersMatchMouseEvent = (combo: KeyCombo, event: MouseEvent): boolean => {
+	if (!!combo.shift !== event.shiftKey) return false;
+	if (!!combo.alt !== event.altKey) return false;
+	if (combo.ctrl) {
+		if (!event.ctrlKey) return false;
+	} else if (combo.ctrlOrMeta) {
+		if (!event.ctrlKey && !event.metaKey) return false;
+	} else if (event.ctrlKey) {
+		return false;
+	}
+	if (combo.meta && !event.metaKey) return false;
+	return true;
+};
+
 class KeybindManager {
 	private handlers = new Map<KeybindCommand, KeybindHandler>();
 	private initialized = false;
@@ -210,6 +236,7 @@ class KeybindManager {
 	private suspended = false;
 	private disposers: Array<() => void> = [];
 	private combokeys: CombokeysInstance | null = null;
+	private localMouseListener: ((event: MouseEvent) => void) | null = null;
 	private accessibilityStatus: 'unknown' | 'granted' | 'denied' = 'unknown';
 	private pttReleaseTimer: ReturnType<typeof setTimeout> | null = null;
 	private globalShortcutUnsubscribe: (() => void) | null = null;
@@ -364,8 +391,14 @@ class KeybindManager {
 		if (shouldUseGlobalHook) {
 			const started = await this.startGlobalKeyHook();
 			if (started) {
-				this.pttKeycode = jsKeyToUiohookKeycode(pttKeybind.combo.code ?? pttKeybind.combo.key);
-				this.pttMouseButton = null;
+				const mouseButton = mouseButtonFromCombo(pttKeybind.combo);
+				if (mouseButton !== null) {
+					this.pttKeycode = null;
+					this.pttMouseButton = mouseButton;
+				} else {
+					this.pttKeycode = jsKeyToUiohookKeycode(pttKeybind.combo.code ?? pttKeybind.combo.key);
+					this.pttMouseButton = null;
+				}
 			}
 		} else {
 			this.stopGlobalKeyHook();
@@ -402,6 +435,12 @@ class KeybindManager {
 
 		this.combokeys?.detach();
 		this.combokeys = null;
+
+		if (this.localMouseListener) {
+			window.removeEventListener('mousedown', this.localMouseListener, true);
+			window.removeEventListener('mouseup', this.localMouseListener, true);
+			this.localMouseListener = null;
+		}
 	}
 
 	async startGlobalKeyHook(): Promise<boolean> {
@@ -477,6 +516,11 @@ class KeybindManager {
 	suspend(): void {
 		this.suspended = true;
 		this.combokeys?.reset();
+		if (this.localMouseListener) {
+			window.removeEventListener('mousedown', this.localMouseListener, true);
+			window.removeEventListener('mouseup', this.localMouseListener, true);
+			this.localMouseListener = null;
+		}
 	}
 
 	resume(): void {
@@ -1007,6 +1051,60 @@ class KeybindManager {
 		this.combokeys.reset();
 
 		this.activeKeybinds.forEach((entry) => this.bindLocalShortcut(entry));
+
+		this.refreshLocalMouseListener();
+	}
+
+	private refreshLocalMouseListener(): void {
+		if (this.localMouseListener) {
+			window.removeEventListener('mousedown', this.localMouseListener, true);
+			window.removeEventListener('mouseup', this.localMouseListener, true);
+			this.localMouseListener = null;
+		}
+
+		if (this.suspended) return;
+
+		const mouseEntries = this.activeKeybinds
+			.filter((entry) => !(entry.combo.global ?? false))
+			.map((entry) => ({entry, button: mouseButtonFromCombo(entry.combo)}))
+			.filter((m): m is {entry: KeybindConfig & {combo: KeyCombo}; button: number} => m.button !== null);
+
+		if (!mouseEntries.length) return;
+
+		const listener = (event: MouseEvent) => {
+			if (isEditableElement(event.target ?? null)) return;
+
+			for (const {entry, button} of mouseEntries) {
+				if (event.button !== button) continue;
+				if (!comboModifiersMatchMouseEvent(entry.combo, event)) continue;
+
+				const handler = this.handlers.get(entry.action);
+				if (!handler) continue;
+
+				if (entry.requiresKeyboardMode && !KeyboardModeStore.keyboardModeEnabled) continue;
+				let focusedMessage: MessageRecord | null = null;
+				if (entry.requiresMessageFocus) {
+					focusedMessage = MessageFocusStore.getFocusedMessage();
+					if (!focusedMessage) continue;
+				}
+
+				handler({
+					type: event.type === 'mousedown' ? 'press' : 'release',
+					source: 'local',
+					context: focusedMessage ? {focusedMessage} : undefined,
+				});
+
+				if (event.type === 'mousedown') {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+				break;
+			}
+		};
+
+		window.addEventListener('mousedown', listener, true);
+		window.addEventListener('mouseup', listener, true);
+		this.localMouseListener = listener;
 	}
 
 	private bindLocalShortcut(entry: KeybindConfig & {combo: KeyCombo}) {
