@@ -29,7 +29,7 @@ import * as DateUtils from '@app/utils/DateUtils';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {useCallback, useState} from 'react';
+import {useCallback} from 'react';
 
 interface BanDetailsModalProps {
 	ban: GuildBan;
@@ -40,18 +40,16 @@ export const BanDetailsModal: React.FC<BanDetailsModalProps> = observer(({ban, o
 	const {t} = useLingui();
 	const moderator = UserStore.getUser(ban.moderator_id);
 	const avatarUrl = AvatarUtils.getUserAvatarURL(ban.user, false);
-	const [isRevoking, setIsRevoking] = useState(false);
 	const userTag = ban.user.tag ?? `${ban.user.username}#${(ban.user.discriminator ?? '').padStart(4, '0')}`;
 
-	const handleRevoke = useCallback(async () => {
+	const handleRevoke = useCallback(() => {
 		if (!onRevoke) return;
-		setIsRevoking(true);
-		try {
-			await onRevoke();
-			ModalActionCreators.pop();
-		} finally {
-			setIsRevoking(false);
-		}
+		// onRevoke pushes a ConfirmModal — close ourselves first so the
+		// confirmation surfaces on top instead of getting popped right back
+		// off after a (synchronous) await. Matches the context menu flow,
+		// which closes its menu and then calls onRevoke.
+		ModalActionCreators.pop();
+		onRevoke();
 	}, [onRevoke]);
 
 	return (
@@ -126,7 +124,7 @@ export const BanDetailsModal: React.FC<BanDetailsModalProps> = observer(({ban, o
 					<Trans>Close</Trans>
 				</Button>
 				{onRevoke && (
-					<Button variant="danger-primary" submitting={isRevoking} onClick={handleRevoke}>
+					<Button variant="danger-primary" onClick={handleRevoke}>
 						<Trans>Revoke Ban</Trans>
 					</Button>
 				)}
