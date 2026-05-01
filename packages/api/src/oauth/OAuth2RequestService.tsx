@@ -316,6 +316,7 @@ export class OAuth2RequestService {
 							color: 0,
 							permissions: requestedPermissions,
 						},
+						managed: true,
 					});
 
 					await this.guildService.members.systemAddMemberRole({

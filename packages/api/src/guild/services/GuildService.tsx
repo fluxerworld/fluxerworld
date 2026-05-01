@@ -491,6 +491,7 @@ export class GuildService {
 		initiatorId: UserID;
 		guildId: GuildID;
 		data: GuildRoleCreateRequest;
+		managed?: boolean;
 	}): Promise<GuildRoleResponse> {
 		return this.roles.systemCreateRole(params);
 	}

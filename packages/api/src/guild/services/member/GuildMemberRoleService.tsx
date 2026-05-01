@@ -24,6 +24,7 @@ import type {GuildMemberValidationService} from '@fluxer/api/src/guild/services/
 import type {IGatewayService} from '@fluxer/api/src/infrastructure/IGatewayService';
 import {getMetricsService} from '@fluxer/api/src/infrastructure/MetricsService';
 import type {RequestCache} from '@fluxer/api/src/middleware/RequestCacheMiddleware';
+import {MissingPermissionsError} from '@fluxer/errors/src/domains/core/MissingPermissionsError';
 import {UnknownGuildMemberError} from '@fluxer/errors/src/domains/guild/UnknownGuildMemberError';
 
 export class GuildMemberRoleService {
@@ -124,6 +125,14 @@ export class GuildMemberRoleService {
 
 		const targetMember = await this.guildRepository.getMember(guildId, targetId);
 		if (!targetMember) throw new UnknownGuildMemberError();
+
+		// Block stripping integration-managed roles. Removing the role from the
+		// bot would leave it without the perms its author requested at invite
+		// time. Discord requires kicking the bot to remove the role.
+		const roleRecord = await this.guildRepository.getRole(roleId, guildId);
+		if (roleRecord?.isManaged) {
+			throw new MissingPermissionsError();
+		}
 
 		await this.validationService.validateRoleAssignment({
 			guildData,

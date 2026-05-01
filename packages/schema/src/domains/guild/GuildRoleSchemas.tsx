@@ -31,6 +31,7 @@ export const GuildRoleResponse = z.object({
 	hoist: z.boolean().describe('Whether this role is displayed separately in the member list'),
 	mentionable: z.boolean().describe('Whether this role can be mentioned by anyone'),
 	unicode_emoji: z.string().nullish().describe('The unicode emoji for this role'),
+	managed: z.boolean().optional().describe('Whether this role is auto-managed by an integration (e.g. a bot) and cannot be deleted or have its permissions edited'),
 });
 
 export type GuildRoleResponse = z.infer<typeof GuildRoleResponse>;

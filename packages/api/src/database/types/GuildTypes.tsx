@@ -182,6 +182,11 @@ export interface GuildRoleRow {
 	unicode_emoji: Nullish<string>;
 	hoist: boolean;
 	mentionable: boolean;
+	/** True when the role is auto-created and managed by an integration
+	 * (currently only the bot OAuth flow). Managed roles cannot be deleted
+	 * or have their permissions edited by guild admins — kicking the bot is
+	 * the only way to remove the role. */
+	managed?: boolean;
 	version: number;
 }
 
@@ -197,6 +202,7 @@ export const GUILD_ROLE_COLUMNS = [
 	'unicode_emoji',
 	'hoist',
 	'mentionable',
+	'managed',
 	'version',
 ] as const satisfies ReadonlyArray<keyof GuildRoleRow>;
 

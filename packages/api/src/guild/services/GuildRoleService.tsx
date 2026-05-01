@@ -84,8 +84,9 @@ export class GuildRoleService {
 		initiatorId: UserID;
 		guildId: GuildID;
 		data: GuildRoleCreateRequest;
+		managed?: boolean;
 	}): Promise<GuildRoleResponse> {
-		const {initiatorId, guildId, data} = params;
+		const {initiatorId, guildId, data, managed = false} = params;
 		const guildData = await this.gatewayService.getGuildData({guildId, userId: initiatorId, skipMembershipCheck: true});
 
 		const currentRoleCount = await this.guildRoleRepository.countRoles(guildId);
@@ -108,6 +109,7 @@ export class GuildRoleService {
 			unicode_emoji: null,
 			hoist: false,
 			mentionable: false,
+			managed,
 			version: 1,
 		});
 
@@ -226,6 +228,12 @@ export class GuildRoleService {
 		if (!role || (role.id === guildIdToRoleId(guildId) && roleId !== guildIdToRoleId(guildId))) {
 			throw new UnknownGuildRoleError();
 		}
+		// Block edits to integration-managed roles. The bot OAuth flow created
+		// this role with the permissions the bot author requested; allowing
+		// guild admins to mutate them would silently break the bot.
+		if (role.isManaged) {
+			throw new MissingPermissionsError();
+		}
 		const isOwner = guildData && guildData.owner_id === userId.toString();
 		if (!isOwner) {
 			const canManageRole = await this.checkCanManageRole({guildId, userId, targetRole: role});
@@ -289,6 +297,11 @@ export class GuildRoleService {
 		const role = await this.guildRoleRepository.getRole(roleId, guildId);
 		if (!role || role.id === guildIdToRoleId(guildId)) {
 			throw new UnknownGuildRoleError();
+		}
+		// Bot/integration-managed roles can't be deleted directly. Match
+		// Discord behaviour: kick the bot to remove the role.
+		if (role.isManaged) {
+			throw new MissingPermissionsError();
 		}
 		const isOwner = guildData && guildData.owner_id === userId.toString();
 		if (!isOwner) {

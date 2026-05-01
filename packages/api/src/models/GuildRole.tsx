@@ -32,6 +32,7 @@ export class GuildRole {
 	readonly unicodeEmoji: string | null;
 	readonly isHoisted: boolean;
 	readonly isMentionable: boolean;
+	readonly isManaged: boolean;
 	readonly version: number;
 
 	constructor(row: GuildRoleRow) {
@@ -46,6 +47,7 @@ export class GuildRole {
 		this.unicodeEmoji = row.unicode_emoji ?? null;
 		this.isHoisted = row.hoist ?? false;
 		this.isMentionable = row.mentionable ?? false;
+		this.isManaged = row.managed ?? false;
 		this.version = row.version;
 	}
 
@@ -66,6 +68,7 @@ export class GuildRole {
 			unicode_emoji: this.unicodeEmoji,
 			hoist: this.isHoisted,
 			mentionable: this.isMentionable,
+			managed: this.isManaged,
 			version: this.version,
 		};
 	}
