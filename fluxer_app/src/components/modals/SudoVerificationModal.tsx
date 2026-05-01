@@ -146,11 +146,17 @@ const SudoVerificationModal: React.FC = observer(() => {
 		const fallbackField = getDefaultFieldForMethod(selectedMethod);
 		if (rawError) {
 			FormUtils.handleError(i18n, form, rawError, fallbackField);
-			return;
+		} else if (verificationError) {
+			form.setError(fallbackField, {type: 'server', message: verificationError});
 		}
 
-		if (verificationError) {
-			form.setError(fallbackField, {type: 'server', message: verificationError});
+		// Reset the WebAuthn UI on error so the user can start a fresh
+		// assertion. Without this the modal shows the verifying spinner
+		// forever — the consumed challenge can't be reused, and the submit
+		// effect's no-op resubmit (Promise can only resolve once) leaves
+		// isVerifying stuck on whatever it was last flipped to.
+		if (selectedMethod === SudoVerificationMethod.WEBAUTHN) {
+			setWebAuthnPayload(null);
 		}
 	}, [form, verificationError, rawError, selectedMethod, i18n]);
 
