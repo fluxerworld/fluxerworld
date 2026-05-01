@@ -229,6 +229,28 @@ const comboModifiersMatchMouseEvent = (combo: KeyCombo, event: MouseEvent): bool
 	return true;
 };
 
+const comboModifiersMatchKeyEvent = (combo: KeyCombo, event: KeyboardEvent): boolean => {
+	const isModifierKeyCode = /^(Shift|Control|Alt|Meta)(Left|Right)$/.test(event.code);
+	if (!isModifierKeyCode && !!combo.shift !== event.shiftKey) return false;
+	if (!isModifierKeyCode && !!combo.alt !== event.altKey) return false;
+	if (combo.ctrl) {
+		if (!event.ctrlKey && event.code !== 'ControlLeft' && event.code !== 'ControlRight') return false;
+	} else if (combo.ctrlOrMeta) {
+		const ctrlOrMetaSatisfied =
+			event.ctrlKey ||
+			event.metaKey ||
+			event.code === 'ControlLeft' ||
+			event.code === 'ControlRight' ||
+			event.code === 'MetaLeft' ||
+			event.code === 'MetaRight';
+		if (!ctrlOrMetaSatisfied) return false;
+	} else if (!isModifierKeyCode && event.ctrlKey) {
+		return false;
+	}
+	if (combo.meta && !event.metaKey && event.code !== 'MetaLeft' && event.code !== 'MetaRight') return false;
+	return true;
+};
+
 class KeybindManager {
 	private handlers = new Map<KeybindCommand, KeybindHandler>();
 	private initialized = false;
@@ -237,6 +259,7 @@ class KeybindManager {
 	private disposers: Array<() => void> = [];
 	private combokeys: CombokeysInstance | null = null;
 	private localMouseListener: ((event: MouseEvent) => void) | null = null;
+	private localPttListener: ((event: KeyboardEvent) => void) | null = null;
 	private accessibilityStatus: 'unknown' | 'granted' | 'denied' = 'unknown';
 	private pttReleaseTimer: ReturnType<typeof setTimeout> | null = null;
 	private globalShortcutUnsubscribe: (() => void) | null = null;
@@ -441,6 +464,12 @@ class KeybindManager {
 			window.removeEventListener('mouseup', this.localMouseListener, true);
 			this.localMouseListener = null;
 		}
+
+		if (this.localPttListener) {
+			window.removeEventListener('keydown', this.localPttListener, true);
+			window.removeEventListener('keyup', this.localPttListener, true);
+			this.localPttListener = null;
+		}
 	}
 
 	async startGlobalKeyHook(): Promise<boolean> {
@@ -520,6 +549,11 @@ class KeybindManager {
 			window.removeEventListener('mousedown', this.localMouseListener, true);
 			window.removeEventListener('mouseup', this.localMouseListener, true);
 			this.localMouseListener = null;
+		}
+		if (this.localPttListener) {
+			window.removeEventListener('keydown', this.localPttListener, true);
+			window.removeEventListener('keyup', this.localPttListener, true);
+			this.localPttListener = null;
 		}
 	}
 
@@ -1053,6 +1087,71 @@ class KeybindManager {
 		this.activeKeybinds.forEach((entry) => this.bindLocalShortcut(entry));
 
 		this.refreshLocalMouseListener();
+		this.refreshLocalPttListener();
+	}
+
+	// PTT bypasses combokeys entirely. combokeys' keydown/keypress duality and
+	// editable-element gating both swallow PTT events in real-world usage (the
+	// recurring "press does nothing, release sometimes mutes" symptom). Match
+	// directly on event.code so layout swaps and IME state don't break it, and
+	// always fire keyup release regardless of modifier state — when users
+	// release the modifier first, the bare keyup must still end transmission.
+	private refreshLocalPttListener(): void {
+		if (this.localPttListener) {
+			window.removeEventListener('keydown', this.localPttListener, true);
+			window.removeEventListener('keyup', this.localPttListener, true);
+			this.localPttListener = null;
+		}
+
+		if (this.suspended) return;
+
+		const pttEntry = this.activeKeybinds.find((e) => e.action === 'push_to_talk');
+		if (!pttEntry) return;
+		const combo = pttEntry.combo;
+		if (combo.global ?? false) return;
+		if (mouseButtonFromCombo(combo) !== null) return;
+
+		const expectedCode = combo.code ?? null;
+		const expectedKey = combo.key ?? null;
+		if (!expectedCode && !expectedKey) return;
+
+		const handler = this.handlers.get('push_to_talk');
+		if (!handler) return;
+
+		const isTextProducingCode = expectedCode
+			? /^(Key[A-Z]|Digit[0-9]|Numpad[0-9]|Numpad(Decimal|Comma))$/.test(expectedCode)
+			: expectedKey != null && expectedKey.length === 1;
+
+		const matchesEvent = (event: KeyboardEvent): boolean => {
+			if (expectedCode && event.code === expectedCode) return true;
+			if (!expectedCode && expectedKey && event.key === expectedKey) return true;
+			return false;
+		};
+
+		const listener = (event: KeyboardEvent) => {
+			if (!matchesEvent(event)) return;
+
+			if (event.type === 'keyup') {
+				handler({type: 'release', source: 'local'});
+				return;
+			}
+
+			if (event.repeat) return;
+
+			if (!comboModifiersMatchKeyEvent(combo, event)) return;
+
+			if (isTextProducingCode && isEditableElement(event.target ?? null)) return;
+
+			handler({type: 'press', source: 'local'});
+
+			if (!isTextProducingCode || !isEditableElement(event.target ?? null)) {
+				event.preventDefault();
+			}
+		};
+
+		window.addEventListener('keydown', listener, true);
+		window.addEventListener('keyup', listener, true);
+		this.localPttListener = listener;
 	}
 
 	private refreshLocalMouseListener(): void {
@@ -1109,6 +1208,8 @@ class KeybindManager {
 
 	private bindLocalShortcut(entry: KeybindConfig & {combo: KeyCombo}) {
 		const {combo, action} = entry;
+		if (action === 'push_to_talk') return;
+		if (mouseButtonFromCombo(combo) !== null) return;
 		const requiresKeyboardMode = entry.requiresKeyboardMode ?? false;
 		const requiresMessageFocus = entry.requiresMessageFocus ?? false;
 		const handler = this.handlers.get(action);

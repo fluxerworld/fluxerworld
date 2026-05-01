@@ -71,10 +71,13 @@ export function applyPushToTalkHold(
 	const serverVoiceState = getCurrentUserVoiceState();
 	if (serverVoiceState?.mute) return;
 
-	const userMuted = LocalVoiceStateStore.getHasUserSetMute() && LocalVoiceStateStore.getSelfMute();
-	const shouldMute = userMuted || !held;
+	// Mirror handlePushToTalkModeChange: if the user has explicitly toggled
+	// their mute state via the UI, treat that as the source of truth and let
+	// PTT key events pass through untouched. Without this, releasing the PTT
+	// key after a manual unmute would silently re-mute the user.
+	if (LocalVoiceStateStore.getHasUserSetMute()) return;
 
-	applyLocalMuteState(shouldMute, room, syncVoiceState);
+	applyLocalMuteState(!held, room, syncVoiceState);
 }
 
 export function handlePushToTalkModeChange(
