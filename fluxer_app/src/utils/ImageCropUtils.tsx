@@ -36,7 +36,35 @@ export async function optimizeEmojiImage(
 		throw new Error('Animated GIF exceeds size limit and cannot be compressed further');
 	}
 
+	// Animated WebPs lose their animation when run through a canvas (canvas
+	// only paints the first frame and we re-encode as PNG). Detect the ANIM
+	// chunk and short-circuit the same way we do for GIFs.
+	if (file.type === 'image/webp' && (await isAnimatedWebp(file))) {
+		if (file.size <= maxSizeBytes) {
+			return fileToBase64NoPrefix(file);
+		}
+		throw new Error('Animated WebP exceeds size limit and cannot be compressed further');
+	}
+
 	return containToSquareBase64(file, targetSize, maxSizeBytes, 'image/png');
+}
+
+// WebP file structure: 12-byte RIFF header, then a chain of chunks. Animated
+// WebPs use the VP8X extended container with an "ANIM" chunk. We sniff the
+// first 64 bytes for the ASCII string "ANIM" — fast, no decoder required.
+async function isAnimatedWebp(file: File): Promise<boolean> {
+	try {
+		const head = await file.slice(0, 64).arrayBuffer();
+		const bytes = new Uint8Array(head);
+		for (let i = 0; i + 3 < bytes.length; i++) {
+			if (bytes[i] === 0x41 && bytes[i + 1] === 0x4e && bytes[i + 2] === 0x49 && bytes[i + 3] === 0x4d) {
+				return true;
+			}
+		}
+		return false;
+	} catch {
+		return false;
+	}
 }
 
 export async function optimizeStickerImage(
