@@ -18,6 +18,8 @@
  */
 
 import * as SoundActionCreators from '@app/actions/SoundActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {t as i18nMacroT} from '@lingui/core/macro';
 import {getStreamKey} from '@app/components/voice/StreamKeys';
 import {Logger} from '@app/lib/Logger';
 import {Platform} from '@app/lib/Platform';
@@ -206,6 +208,35 @@ class VoiceScreenShareManager {
 				updateLocalParticipantFromRoom(room);
 				this.syncLocalStreamWatchState(actual);
 				return;
+			}
+
+			// If audio capture from getDisplayMedia rejected on a platform that
+			// doesn't support it (Firefox, some Linux configs, Safari), the
+			// whole publish aborts. Retry without audio so the user at least
+			// gets a video stream up — they can re-enable audio via the
+			// platform's separate audio sharing pickers if available.
+			const isAudioCaptureFailure =
+				enabled &&
+				restOptions.audio === true &&
+				e instanceof Error &&
+				/audio/i.test(e.message ?? '');
+			if (isAudioCaptureFailure) {
+				logger.warn('Screen share audio capture not supported, retrying without audio', {error: e});
+				try {
+					const retryOptions = {...restOptions, audio: false};
+					await participant.setScreenShareEnabled(true, retryOptions, effectivePublishOptions);
+					applyState(true);
+					updateLocalParticipantFromRoom(room);
+					this.syncLocalStreamWatchState(true);
+					if (playSound) SoundActionCreators.playSound(SoundType.ScreenShareStart);
+					ToastActionCreators.createToast({
+						type: 'info',
+						children: i18nMacroT`Screen share started without audio — your platform doesn't support capturing system audio.`,
+					});
+					return;
+				} catch (retryError) {
+					logger.error('Audio-less retry also failed', {error: retryError});
+				}
 			}
 
 			logger.error('Failed', {enabled, error: e});
