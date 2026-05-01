@@ -129,6 +129,7 @@ interface SendMessageParams {
 	favoriteMemeId?: string;
 	stickers?: Array<MessageStickerItem>;
 	tts?: boolean;
+	isRetry?: boolean;
 }
 
 export function jumpToPresent(channelId: string, limit = MAX_MESSAGES_PER_CHANNEL): void {
@@ -316,6 +317,7 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 				favoriteMemeId: params.favoriteMemeId,
 				stickers: params.stickers,
 				tts: params.tts,
+				isRetry: params.isRetry,
 			},
 			(result, error) => {
 				if (result?.body) {

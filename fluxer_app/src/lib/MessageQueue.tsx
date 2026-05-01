@@ -76,6 +76,11 @@ interface SendMessagePayload extends BaseMessagePayload {
 	favoriteMemeId?: string;
 	stickers?: Array<MessageStickerItem>;
 	tts?: boolean;
+	/** True when this send is from a "Resend" action on a previously failed
+	 * message. Skips the auto-restore-to-draft fallback on second failure so
+	 * the failed message stays visible in chat with its resend button instead
+	 * of disappearing into the textarea. */
+	isRetry?: boolean;
 }
 
 interface EditMessagePayload extends BaseMessagePayload {
@@ -210,7 +215,7 @@ class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | un
 		if (DeveloperOptionsStore.forceFailMessageSends) {
 			const forcedError = new Error('Forced message send failure');
 			logger.error(`Failed to send message to channel ${channelId}:`, forcedError);
-			this.handleSendError(channelId, nonce, forcedError as HttpError, i18n, payload.hasAttachments);
+			this.handleSendError(channelId, nonce, forcedError as HttpError, i18n, payload.hasAttachments, payload.isRetry);
 			completed(null, undefined, forcedError);
 			return;
 		}
@@ -256,7 +261,7 @@ class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | un
 		if (outcome.status === 'rateLimit') {
 			this.handleSendRateLimit(outcome.error, completed);
 		} else {
-			this.handleSendError(channelId, nonce, outcome.error, i18n, payload.hasAttachments);
+			this.handleSendError(channelId, nonce, outcome.error, i18n, payload.hasAttachments, payload.isRetry);
 			completed(null, undefined, outcome.error);
 		}
 	}
@@ -373,10 +378,15 @@ class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | un
 		error: HttpError,
 		i18n: I18n,
 		hasAttachments?: boolean,
+		isRetry?: boolean,
 	): void {
 		MessageActionCreators.sendError(channelId, nonce);
 
-		if (hasAttachments) {
+		// Restore-to-draft is a friendly fallback ONLY on the first failure of
+		// an attachment message. On a user-triggered resend we keep the failed
+		// message visible in chat (with the resend button) instead, so they
+		// can hit retry again rather than have their message vanish.
+		if (hasAttachments && !isRetry) {
 			this.restoreFailedMessage(channelId, nonce);
 		}
 

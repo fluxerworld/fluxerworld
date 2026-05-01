@@ -336,6 +336,7 @@ export function createMessageActionHandlers(
 			flags: message.flags,
 			favoriteMemeId: message._favoriteMemeId,
 			stickers: [...(message.stickers ?? [])],
+			isRetry: true,
 		});
 		onClose?.();
 	};
