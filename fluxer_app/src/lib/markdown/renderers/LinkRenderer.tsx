@@ -250,9 +250,12 @@ export const LinkRenderer = observer(function LinkRenderer({
 			isInternal = isInternalChannelHost(parsed.host) && parsed.pathname.startsWith('/channels/');
 
 			if (inviteCode) {
+				// Show the invite preview modal first instead of auto-joining.
+				// Bios, messages, and other markdown contexts should never
+				// silently drop the user into a community on a single click.
 				handleClick = (e) => {
 					e.preventDefault();
-					InviteActionCreators.acceptAndTransitionToChannel(inviteCode, i18n);
+					void InviteActionCreators.openAcceptModal(inviteCode);
 				};
 			} else if (themeCode) {
 				handleClick = (e) => {
