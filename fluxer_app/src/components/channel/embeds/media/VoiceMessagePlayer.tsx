@@ -159,7 +159,12 @@ const VoiceMessagePlayer: React.FC<VoiceMessagePlayerProps> = observer(
 			return result;
 		}, [waveformValues]);
 
-		const displayDuration = duration > 0 ? duration : (initialDuration ?? 0);
+		// Trust the server-provided duration over the browser's audio.duration:
+		// chunked Opus webm blobs report bogus values to <audio> (Infinity, or
+		// inflated finite numbers like 8740s for a 2-second clip) until the
+		// whole file is buffered, which is what the user sees in the timestamp.
+		const displayDuration =
+			initialDuration !== undefined && initialDuration > 0 ? initialDuration : duration > 0 ? duration : 0;
 		const isLoading = hasStarted && state.isBuffering;
 		const isActive = state.isPlaying || isLoading;
 

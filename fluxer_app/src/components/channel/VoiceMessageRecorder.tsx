@@ -337,7 +337,8 @@ export default function VoiceMessageRecorder({channelId, disabled, tooltipAnchor
 			setLockPreview(false);
 
 			try {
-				const {duration, waveform} = await computeVoiceWaveform(blob);
+				const wallClockSeconds = recordingDurationRef.current / 1000;
+				const {duration, waveform} = await computeVoiceWaveform(blob, wallClockSeconds);
 				const file = new File([blob], `voice-message-${Date.now()}.ogg`, {
 					type: blob.type || 'audio/ogg',
 				});

@@ -70,12 +70,23 @@ function buildWaveformBytes(
 	return bytes;
 }
 
-export async function computeVoiceWaveform(blob: Blob): Promise<VoiceWaveformResult> {
+export async function computeVoiceWaveform(blob: Blob, fallbackDurationSeconds?: number): Promise<VoiceWaveformResult> {
+	// blob.size / 1000 is not a duration — bitrate varies per codec, so a
+	// 4-second Opus clip can read out as 25s and a stuck recording can read
+	// out as 145m. Prefer the recorder's wall-clock time when the decoder
+	// can't give us a real duration, and only fall back to the size estimate
+	// as a last resort.
+	const safeFallback = (): number => {
+		if (fallbackDurationSeconds !== undefined && Number.isFinite(fallbackDurationSeconds) && fallbackDurationSeconds > 0) {
+			return Math.max(1, Math.round(fallbackDurationSeconds));
+		}
+		return Math.max(1, Math.round(blob.size / 1000));
+	};
+
 	const contextClass =
 		window.AudioContext || (window as typeof window & {webkitAudioContext?: typeof AudioContext}).webkitAudioContext;
 	if (!contextClass) {
-		const estimatedDuration = Math.max(1, Math.round(blob.size / 1000));
-		return {duration: estimatedDuration, waveform: ''};
+		return {duration: safeFallback(), waveform: ''};
 	}
 
 	const audioContext = new contextClass();
@@ -89,7 +100,7 @@ export async function computeVoiceWaveform(blob: Blob): Promise<VoiceWaveformRes
 		return {duration, waveform: btoa(binary)};
 	} catch (error) {
 		logger.warn({error, size: blob.size}, 'Unable to decode waveform');
-		return {duration: Math.max(1, Math.round(blob.size / 1000)), waveform: ''};
+		return {duration: safeFallback(), waveform: ''};
 	} finally {
 		audioContext.close().catch(() => {});
 	}
