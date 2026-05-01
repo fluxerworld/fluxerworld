@@ -21,7 +21,10 @@
 	position: fixed;
 	top: 0;
 	left: 0;
-	z-index: calc(var(--z-index-modal) + 1);
+	/* Sit above in-app content but below modals, popouts, and toasts so
+	 * opening user/server settings cleanly hides the popout and frees up
+	 * the close button area instead of stacking on top of it. */
+	z-index: calc(var(--z-index-modal) - 1);
 	width: 320px;
 	aspect-ratio: 16 / 9;
 	border-radius: 12px;
