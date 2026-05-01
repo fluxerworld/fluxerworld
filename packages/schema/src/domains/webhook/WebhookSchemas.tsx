@@ -28,6 +28,9 @@ const WebhookBaseResponse = {
 	name: z.string().describe('The display name of the webhook'),
 	avatar: z.string().nullish().describe('The hash of the webhook avatar image'),
 	token: z.string().describe('The secure token used to execute the webhook'),
+	application_id: SnowflakeStringType.nullish().describe(
+		'The application that created this webhook (set when the creator is a bot)',
+	),
 };
 
 export const WebhookTokenResponse = z.object(WebhookBaseResponse);
@@ -50,4 +53,5 @@ export interface Webhook {
 	readonly name: string;
 	readonly avatar: string | null;
 	readonly token: string;
+	readonly application_id?: string | null;
 }

@@ -24,7 +24,19 @@ import {getCachedUserPartialResponse} from '@fluxer/api/src/user/UserCacheHelper
 import type {WebhookResponse, WebhookTokenResponse} from '@fluxer/schema/src/domains/webhook/WebhookSchemas';
 import type {z} from 'zod';
 
-export function mapWebhookToTokenResponse(webhook: Webhook): z.infer<typeof WebhookTokenResponse> {
+// Bot user IDs and application IDs share the same snowflake (see
+// applicationIdToUserId), so when the creator is a bot we can surface the
+// owning application without a second lookup. Plain-user webhooks leave
+// application_id null, matching Discord's shape.
+function applicationIdForCreator(creator: {bot?: boolean; id: string} | null): string | null {
+	if (!creator || creator.bot !== true) return null;
+	return creator.id;
+}
+
+export function mapWebhookToTokenResponse(
+	webhook: Webhook,
+	creator?: {bot?: boolean; id: string} | null,
+): z.infer<typeof WebhookTokenResponse> {
 	return {
 		id: webhook.id.toString(),
 		guild_id: webhook.guildId?.toString() || '',
@@ -32,6 +44,7 @@ export function mapWebhookToTokenResponse(webhook: Webhook): z.infer<typeof Webh
 		name: webhook.name || '',
 		avatar: webhook.avatarHash,
 		token: webhook.token,
+		application_id: applicationIdForCreator(creator ?? null),
 	};
 }
 
@@ -53,9 +66,33 @@ export async function mapWebhookToResponseWithCache({
 		throw new Error(`Creator user ${webhook.creatorId} not found for webhook`);
 	}
 	return {
-		...mapWebhookToTokenResponse(webhook),
+		...mapWebhookToTokenResponse(webhook, creatorPartial),
 		user: creatorPartial,
 	};
+}
+
+// Token-authenticated callers (executing or fetching a webhook with its
+// secret) don't get the user object back, but should still see
+// application_id so bot SDKs can identify which application owns the
+// webhook. Look up just enough of the creator to populate that field.
+export async function mapWebhookToTokenResponseWithCache({
+	webhook,
+	userCacheService,
+	requestCache,
+}: {
+	webhook: Webhook;
+	userCacheService: UserCacheService;
+	requestCache: RequestCache;
+}): Promise<z.infer<typeof WebhookTokenResponse>> {
+	if (!webhook.creatorId) {
+		return mapWebhookToTokenResponse(webhook);
+	}
+	const creatorPartial = await getCachedUserPartialResponse({
+		userId: webhook.creatorId,
+		userCacheService,
+		requestCache,
+	});
+	return mapWebhookToTokenResponse(webhook, creatorPartial ?? null);
 }
 
 export async function mapWebhooksToResponse({

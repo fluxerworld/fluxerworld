@@ -32,7 +32,7 @@ import {transformSlackWebhookRequest} from '@fluxer/api/src/webhook/transformers
 import {
 	mapWebhooksToResponse,
 	mapWebhookToResponseWithCache,
-	mapWebhookToTokenResponse,
+	mapWebhookToTokenResponseWithCache,
 } from '@fluxer/api/src/webhook/WebhookModel';
 import type {WebhookExecuteMessageData, WebhookService} from '@fluxer/api/src/webhook/WebhookService';
 import type {MessageResponse} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
@@ -213,7 +213,11 @@ export class WebhookRequestService {
 	async getWebhook(params: WebhookGetParams): Promise<WebhookResponse | WebhookTokenResponse> {
 		if ('token' in params) {
 			const webhook = await this.webhookService.getWebhookByToken({webhookId: params.webhookId, token: params.token});
-			return mapWebhookToTokenResponse(webhook);
+			return mapWebhookToTokenResponseWithCache({
+				webhook,
+				userCacheService: this.userCacheService,
+				requestCache: params.requestCache,
+			});
 		}
 
 		const webhook = await this.webhookService.getWebhook({userId: params.userId, webhookId: params.webhookId});
@@ -233,7 +237,11 @@ export class WebhookRequestService {
 				token: params.token,
 				data: params.data,
 			});
-			return mapWebhookToTokenResponse(webhook);
+			return mapWebhookToTokenResponseWithCache({
+				webhook,
+				userCacheService: this.userCacheService,
+				requestCache: params.requestCache,
+			});
 		}
 
 		const webhook = await this.webhookService.updateWebhook(
