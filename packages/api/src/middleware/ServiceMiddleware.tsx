@@ -119,6 +119,8 @@ import {OAuth2ApplicationsRequestService} from '@fluxer/api/src/oauth/OAuth2Appl
 import {OAuth2RequestService} from '@fluxer/api/src/oauth/OAuth2RequestService';
 import {OAuth2Service} from '@fluxer/api/src/oauth/OAuth2Service';
 import {ApplicationRepository} from '@fluxer/api/src/oauth/repositories/ApplicationRepository';
+import {E2EERepository} from '@fluxer/api/src/e2ee/E2EERepository';
+import {E2EEService} from '@fluxer/api/src/e2ee/E2EEService';
 import {OAuth2TokenRepository} from '@fluxer/api/src/oauth/repositories/OAuth2TokenRepository';
 import {PackRepository} from '@fluxer/api/src/pack/PackRepository';
 import {PackRequestService} from '@fluxer/api/src/pack/PackRequestService';
@@ -132,6 +134,10 @@ import {ReportService} from '@fluxer/api/src/report/ReportService';
 import {RpcService} from '@fluxer/api/src/rpc/RpcService';
 import {getGuildSearchService, getReportSearchService} from '@fluxer/api/src/SearchFactory';
 import {SearchService} from '@fluxer/api/src/search/SearchService';
+import {PolarService} from '@fluxer/api/src/polar/PolarService';
+import {PolarCheckoutService} from '@fluxer/api/src/polar/services/PolarCheckoutService';
+import {PolarSubscriptionService} from '@fluxer/api/src/polar/services/PolarSubscriptionService';
+import {PolarWebhookService} from '@fluxer/api/src/polar/services/PolarWebhookService';
 import {StripeService} from '@fluxer/api/src/stripe/StripeService';
 import {TenorService} from '@fluxer/api/src/tenor/TenorService';
 import {ThemeService} from '@fluxer/api/src/theme/ThemeService';
@@ -638,6 +644,7 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 			snowflakeService,
 			storageService,
 			getReportSearchService(),
+			channelService,
 		);
 	}
 	const reportService = _reportService;
@@ -817,6 +824,24 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 		donationService = new DonationService(donationMagicLinkService, donationCheckoutService);
 	}
 
+	// Polar payment provider — parallel to Stripe while we migrate.
+	// Only instantiated when explicitly enabled; currently consumes the
+	// existing StripePremiumService (provider-neutral logic) for premium
+	// grants/revokes.
+	let polarCheckoutService: PolarCheckoutService | null = null;
+	let polarSubscriptionService: PolarSubscriptionService | null = null;
+	let polarWebhookService: PolarWebhookService | null = null;
+	if (!Config.instance.selfHosted && Config.polar?.enabled && stripeService) {
+		const polar = new PolarService();
+		polarCheckoutService = new PolarCheckoutService(polar);
+		polarSubscriptionService = new PolarSubscriptionService(polar, userRepository);
+		polarWebhookService = new PolarWebhookService(
+			stripeService.getPremiumService(),
+			stripeService.getGiftService(),
+			userRepository,
+		);
+	}
+
 	const sweegoWebhookService = new SweegoWebhookService(userRepository, gatewayService);
 
 	const applicationService = new ApplicationService({
@@ -881,6 +906,9 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 	);
 	const packRequestService = new PackRequestService(packService);
 
+	const e2eeRepository = new E2EERepository();
+	const e2eeService = new E2EEService(e2eeRepository);
+
 	ctx.set('adminService', adminService);
 	ctx.set('adminArchiveService', adminArchiveService);
 	ctx.set('adminApiKeyService', adminApiKeyService);
@@ -943,6 +971,9 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 	if (stripeService) {
 		ctx.set('stripeService', stripeService);
 	}
+	if (polarCheckoutService) ctx.set('polarCheckoutService', polarCheckoutService);
+	if (polarSubscriptionService) ctx.set('polarSubscriptionService', polarSubscriptionService);
+	if (polarWebhookService) ctx.set('polarWebhookService', polarWebhookService);
 	if (donationService) {
 		ctx.set('donationService', donationService);
 	}
@@ -960,6 +991,7 @@ export const ServiceMiddleware = createMiddleware<HonoEnv>(async (ctx, next) => 
 	ctx.set('scheduledMessageService', scheduledMessageService);
 	ctx.set('webhookService', webhookService);
 	ctx.set('webhookRequestService', webhookRequestService);
+	ctx.set('e2eeService', e2eeService);
 	ctx.set('workerService', workerService);
 	ctx.set('contactChangeLogService', contactChangeLogService);
 	ctx.set('csamLegalHoldService', csamLegalHoldService);
