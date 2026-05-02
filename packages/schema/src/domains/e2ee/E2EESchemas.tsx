@@ -94,3 +94,21 @@ export type E2EEPrekeyBundleResponse = z.infer<typeof E2EEPrekeyBundleResponse>;
 
 export const E2EEPrekeyBundleListResponse = z.array(E2EEPrekeyBundleResponse);
 export type E2EEPrekeyBundleListResponse = z.infer<typeof E2EEPrekeyBundleListResponse>;
+
+// Read-only counterpart to E2EEDeviceResponse used when one user looks up
+// another user's published devices for fingerprint verification. Omits
+// last_seen_at and the one-time prekey count — those leak metadata about
+// the target's activity and aren't needed for verification.
+export const E2EEPublicDeviceResponse = z.object({
+	user_id: SnowflakeStringType,
+	device_id: z.string(),
+	device_name: z.string().nullish(),
+	identity_key: Base64String,
+	registration_id: z.number().int(),
+	signed_prekey: SignedPrekeyPayload,
+	created_at: z.iso.datetime(),
+});
+export type E2EEPublicDeviceResponse = z.infer<typeof E2EEPublicDeviceResponse>;
+
+export const E2EEPublicDeviceListResponse = z.array(E2EEPublicDeviceResponse);
+export type E2EEPublicDeviceListResponse = z.infer<typeof E2EEPublicDeviceListResponse>;

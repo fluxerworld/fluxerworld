@@ -23,6 +23,7 @@ import type {E2EEDevice} from '@fluxer/api/src/models/E2EEDevice';
 import type {
 	E2EEDeviceResponse,
 	E2EEPrekeyBundleResponse,
+	E2EEPublicDeviceResponse,
 	OneTimePrekeyPayload,
 	RegisterDeviceRequest,
 	RotateSignedPrekeyRequest,
@@ -132,6 +133,23 @@ export class E2EEService {
 		if (!existing) return false;
 		await this.repository.deleteDevice(userId, deviceId);
 		return true;
+	}
+
+	async listPublicDevicesForUser(targetUserId: UserID): Promise<Array<E2EEPublicDeviceResponse>> {
+		const devices = await this.repository.listDevices(targetUserId);
+		return devices.map((device) => ({
+			user_id: device.userId.toString(),
+			device_id: device.deviceId,
+			device_name: device.deviceName,
+			identity_key: device.identityKey,
+			registration_id: device.registrationId,
+			signed_prekey: {
+				id: device.signedPrekeyId,
+				public_key: device.signedPrekeyPublic,
+				signature: device.signedPrekeySignature,
+			},
+			created_at: device.createdAt.toISOString(),
+		}));
 	}
 
 	async claimPrekeyBundlesForUser(targetUserId: UserID): Promise<Array<E2EEPrekeyBundleResponse>> {

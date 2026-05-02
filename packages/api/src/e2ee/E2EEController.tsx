@@ -29,6 +29,7 @@ import {
 	E2EEDeviceListResponse,
 	E2EEDeviceResponse,
 	E2EEPrekeyBundleListResponse,
+	E2EEPublicDeviceListResponse,
 	RegisterDeviceRequest,
 	RotateSignedPrekeyRequest,
 	TopUpOneTimePrekeysRequest,
@@ -156,6 +157,30 @@ export function E2EEController(app: HonoApp): void {
 				.topUpOneTimePrekeys(ctx.get('user').id, ctx.req.valid('param').device_id, ctx.req.valid('json'));
 			if (!result) return ctx.json({error: 'Device not found'}, 404);
 			return ctx.json(result);
+		},
+	);
+
+	app.get(
+		'/users/:user_id/e2ee/devices',
+		RateLimitMiddleware(RateLimitConfigs.USER_E2EE_LIST_PUBLIC_DEVICES),
+		LoginRequired,
+		DefaultUserOnly,
+		Validator('param', UserIdParam),
+		OpenAPI({
+			operationId: 'list_public_e2ee_devices',
+			summary: "List a user's public encryption devices",
+			responseSchema: E2EEPublicDeviceListResponse,
+			statusCode: 200,
+			security: ['sessionToken', 'bearerToken'],
+			tags: ['E2EE'],
+			description:
+				"Returns the public-facing key material for every device the target user has registered, intended for fingerprint comparison ('verify your friend out-of-band'). Does not claim any one-time prekeys.",
+		}),
+		async (ctx) => {
+			const devices = await ctx
+				.get('e2eeService')
+				.listPublicDevicesForUser(createUserID(ctx.req.valid('param').user_id));
+			return ctx.json(devices);
 		},
 	);
 

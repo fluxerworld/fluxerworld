@@ -276,6 +276,11 @@ export const UserRateLimitConfigs = {
 		config: {limit: 60, windowMs: ms('10 seconds')},
 	} as RouteRateLimitConfig,
 
+	USER_E2EE_LIST_PUBLIC_DEVICES: {
+		bucket: 'user:e2ee:list_public_devices',
+		config: {limit: 30, windowMs: ms('10 seconds')},
+	} as RouteRateLimitConfig,
+
 	USER_HARVEST_LATEST: {
 		bucket: 'user:harvest:latest',
 		config: {limit: 40, windowMs: ms('10 seconds')},

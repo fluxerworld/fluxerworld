@@ -93,3 +93,18 @@ export async function claimPrekeyBundles(targetUserId: string): Promise<Array<E2
 	const resp = await http.post<Array<E2EEPrekeyBundleResponse>>(Endpoints.USER_E2EE_CLAIM_KEYS(targetUserId), {});
 	return resp.body;
 }
+
+export interface E2EEPublicDeviceResponse {
+	user_id: string;
+	device_id: string;
+	device_name?: string | null;
+	identity_key: string;
+	registration_id: number;
+	signed_prekey: {id: number; public_key: string; signature: string};
+	created_at: string;
+}
+
+export async function listPublicDevices(targetUserId: string): Promise<Array<E2EEPublicDeviceResponse>> {
+	const resp = await http.get<Array<E2EEPublicDeviceResponse>>({url: Endpoints.USER_E2EE_USER_DEVICES(targetUserId)});
+	return resp.body;
+}
