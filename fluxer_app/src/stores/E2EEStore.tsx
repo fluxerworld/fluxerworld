@@ -31,9 +31,21 @@ class E2EEStore {
 	deviceId: string | null = null;
 	registrationStatus: RegistrationStatus = 'idle';
 	lastError: string | null = null;
+	encryptedChannelIds = new Set<string>();
 
 	constructor() {
 		makeAutoObservable(this, {}, {autoBind: true});
+	}
+
+	isChannelEncrypted(channelId: string): boolean {
+		return this.encryptedChannelIds.has(channelId);
+	}
+
+	setChannelEncrypted(channelId: string, enabled: boolean): void {
+		runInAction(() => {
+			if (enabled) this.encryptedChannelIds.add(channelId);
+			else this.encryptedChannelIds.delete(channelId);
+		});
 	}
 
 	get isReady(): boolean {

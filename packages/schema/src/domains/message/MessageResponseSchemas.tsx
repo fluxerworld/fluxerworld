@@ -353,6 +353,12 @@ export interface Message {
 	readonly mentions?: ReadonlyArray<MessageMention>;
 	readonly mention_roles?: ReadonlyArray<string>;
 	readonly mention_channels?: ReadonlyArray<ChannelMention>;
+	readonly encrypted_payload?: {
+		v: number;
+		sender_device_id: string;
+		sender_identity_key: string;
+		ciphertexts: Record<string, {type: number; body: string}>;
+	} | null;
 	readonly embeds?: ReadonlyArray<MessageEmbed>;
 	readonly attachments?: ReadonlyArray<MessageAttachment>;
 	readonly stickers?: ReadonlyArray<MessageStickerItem>;

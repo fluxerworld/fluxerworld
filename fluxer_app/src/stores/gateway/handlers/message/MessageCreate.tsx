@@ -17,10 +17,12 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {tryDecryptForCurrentDevice} from '@app/lib/e2ee/E2EEMessageIntegration';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
 import CallStateStore from '@app/stores/CallStateStore';
+import type {GatewayHandlerContext} from '@app/stores/gateway/handlers';
 import GuildMemberStore from '@app/stores/GuildMemberStore';
 import GuildReadStateStore from '@app/stores/GuildReadStateStore';
-import type {GatewayHandlerContext} from '@app/stores/gateway/handlers';
 import MessageReferenceStore from '@app/stores/MessageReferenceStore';
 import MessageStore from '@app/stores/MessageStore';
 import NotificationStore from '@app/stores/NotificationStore';
@@ -28,8 +30,11 @@ import ReadStateStore from '@app/stores/ReadStateStore';
 import RecentMentionsStore from '@app/stores/RecentMentionsStore';
 import TypingStore from '@app/stores/TypingStore';
 import TtsUtils from '@app/utils/TtsUtils';
+import {MessageFlags} from '@fluxer/constants/src/ChannelConstants';
 import type {GuildMemberData} from '@fluxer/schema/src/domains/guild/GuildMemberSchemas';
 import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
+
+const ENCRYPTED_FAILURE_PLACEHOLDER = '\u26a0\ufe0f Encrypted message could not be decrypted on this device.';
 
 export function handleMessageCreate(data: Message, _context: GatewayHandlerContext): void {
 	if (data.guild_id && data.member) {
@@ -51,7 +56,32 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 	}
 
 	TypingStore.stopTypingOnMessageCreate(data);
-	MessageStore.handleIncomingMessage({channelId: data.channel_id, message: data});
+
+	const isEncrypted = ((data.flags ?? 0) & MessageFlags.ENCRYPTED) !== 0;
+	if (isEncrypted && data.encrypted_payload) {
+		// Surface a placeholder immediately so the bubble appears in chat,
+		// then swap in the decrypted text once Olm finishes. Failures stay
+		// on the placeholder text so the user knows something arrived but
+		// couldn't be decrypted on this device (lost session, wrong device,
+		// etc.).
+		const placeholder: Message = {...data, content: ''};
+		MessageStore.handleIncomingMessage({channelId: data.channel_id, message: placeholder});
+
+		void (async () => {
+			const currentUserId = AuthenticationStore.currentUserId;
+			const senderUserId = data.author?.id;
+			if (!currentUserId || !senderUserId) return;
+			const plaintext = await tryDecryptForCurrentDevice(currentUserId, senderUserId, data.encrypted_payload);
+			const decryptedMessage: Message = {
+				...data,
+				content: plaintext ?? ENCRYPTED_FAILURE_PLACEHOLDER,
+			};
+			MessageStore.handleIncomingMessage({channelId: data.channel_id, message: decryptedMessage});
+		})();
+	} else {
+		MessageStore.handleIncomingMessage({channelId: data.channel_id, message: data});
+	}
+
 	MessageReferenceStore.handleMessageCreate(data, false);
 	NotificationStore.handleMessageCreate({message: data});
 	ReadStateStore.handleIncomingMessage({channelId: data.channel_id, message: data});

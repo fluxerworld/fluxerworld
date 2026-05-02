@@ -36,8 +36,10 @@ import type {MessageRecord} from '@app/records/MessageRecord';
 import AuthenticationStore from '@app/stores/AuthenticationStore';
 import ChannelStore from '@app/stores/ChannelStore';
 import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import E2EEStore from '@app/stores/E2EEStore';
 import GuildMemberStore from '@app/stores/GuildMemberStore';
 import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
+import {tryEncryptForChannel} from '@app/lib/e2ee/E2EEMessageIntegration';
 import MessageEditMobileStore from '@app/stores/MessageEditMobileStore';
 import MessageEditStore from '@app/stores/MessageEditStore';
 import MessageReferenceStore from '@app/stores/MessageReferenceStore';
@@ -130,6 +132,12 @@ interface SendMessageParams {
 	stickers?: Array<MessageStickerItem>;
 	tts?: boolean;
 	isRetry?: boolean;
+	encryptedPayload?: {
+		v: number;
+		sender_device_id: string;
+		sender_identity_key: string;
+		ciphertexts: Record<string, {type: number; body: string}>;
+	};
 }
 
 export function jumpToPresent(channelId: string, limit = MAX_MESSAGES_PER_CHANNEL): void {
@@ -304,33 +312,53 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 	return new Promise<Message | null>((resolve) => {
 		logger.debug(`Enqueueing message for channel ${channelId}`);
 
-		MessageQueue.enqueue(
-			{
-				type: 'send',
-				channelId,
-				nonce: params.nonce,
-				content: params.content,
-				hasAttachments: params.hasAttachments,
-				allowedMentions: params.allowedMentions,
-				messageReference: params.messageReference,
-				flags: params.flags,
-				favoriteMemeId: params.favoriteMemeId,
-				stickers: params.stickers,
-				tts: params.tts,
-				isRetry: params.isRetry,
-			},
-			(result, error) => {
-				if (result?.body) {
-					logger.debug(`Message sent successfully in channel ${channelId}`);
-					resolve(result.body);
-				} else {
-					if (error) {
-						logger.debug(`Message send failed in channel ${channelId}`, error);
+		void (async () => {
+			let encryptedPayload: SendMessageParams['encryptedPayload'] | undefined;
+			let effectiveContent = params.content;
+			let effectiveFlags = params.flags;
+
+			if (E2EEStore.isChannelEncrypted(channelId) && !params.hasAttachments && !params.stickers?.length) {
+				const channel = ChannelStore.getChannel(channelId);
+				const userId = AuthenticationStore.currentUserId;
+				if (channel && userId) {
+					const encrypted = await tryEncryptForChannel(channel, userId, params.content);
+					if (encrypted) {
+						encryptedPayload = encrypted.encrypted_payload;
+						effectiveContent = '';
+						effectiveFlags = (effectiveFlags ?? 0) | MessageFlags.ENCRYPTED;
 					}
-					resolve(null);
 				}
-			},
-		);
+			}
+
+			MessageQueue.enqueue(
+				{
+					type: 'send',
+					channelId,
+					nonce: params.nonce,
+					content: effectiveContent,
+					hasAttachments: params.hasAttachments,
+					allowedMentions: params.allowedMentions,
+					messageReference: params.messageReference,
+					flags: effectiveFlags,
+					favoriteMemeId: params.favoriteMemeId,
+					stickers: params.stickers,
+					tts: params.tts,
+					isRetry: params.isRetry,
+					encryptedPayload,
+				},
+				(result, error) => {
+					if (result?.body) {
+						logger.debug(`Message sent successfully in channel ${channelId}`);
+						resolve(result.body);
+					} else {
+						if (error) {
+							logger.debug(`Message send failed in channel ${channelId}`, error);
+						}
+						resolve(null);
+					}
+				},
+			);
+		})();
 	});
 }
 

@@ -231,7 +231,12 @@ export class E2EEManager {
 		return out;
 	}
 
-	async decrypt(remoteUserId: string, remoteDeviceId: string, message: EncryptedMessage): Promise<string> {
+	async decrypt(
+		remoteUserId: string,
+		remoteDeviceId: string,
+		remoteIdentityKey: string,
+		message: EncryptedMessage,
+	): Promise<string> {
 		const Olm = await ensureOlmInitialised();
 		const {account} = this.requireAccount();
 		const pickleKey = await getPickleKey();
@@ -264,7 +269,7 @@ export class E2EEManager {
 		}
 		const session = new Olm.Session();
 		const accountTyped = account as InstanceType<Awaited<ReturnType<typeof ensureOlmInitialised>>['Account']>;
-		session.create_inbound_from(accountTyped, await this.identityKeyForRemote(remoteUserId, remoteDeviceId), message.body);
+		session.create_inbound_from(accountTyped, remoteIdentityKey, message.body);
 		const plaintext = session.decrypt(message.type, message.body);
 		accountTyped.remove_one_time_keys(session);
 
@@ -311,17 +316,6 @@ export class E2EEManager {
 		return session;
 	}
 
-	private async identityKeyForRemote(remoteUserId: string, remoteDeviceId: string): Promise<string> {
-		// We get the sender's curve25519 identity key as part of the
-		// MESSAGE_CREATE payload (sender device metadata), but for now
-		// surface a clear error if the caller didn't supply it via a
-		// session-establishment helper. This will be tightened up once
-		// we wire in the message integration that ships the device
-		// fingerprint alongside ciphertext.
-		throw new Error(
-			`Cannot create inbound session: identity key for ${remoteUserId}:${remoteDeviceId} not provided`,
-		);
-	}
 }
 
 // Stable mapping from libolm one-time key IDs (base64 strings of varying
