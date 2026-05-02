@@ -23,6 +23,7 @@ import {CommunicationTabContent} from '@app/components/modals/tabs/privacy_safet
 import {ConnectionsTabContent} from '@app/components/modals/tabs/privacy_safety_tab/ConnectionsTab';
 import {DataDeletionTabContent} from '@app/components/modals/tabs/privacy_safety_tab/DataDeletionTab';
 import {DataExportTabContent} from '@app/components/modals/tabs/privacy_safety_tab/DataExportTab';
+import {E2EETabContent} from '@app/components/modals/tabs/privacy_safety_tab/E2EETabContent';
 import {useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
@@ -46,6 +47,14 @@ const PrivacySafetyTab: React.FC = observer(() => {
 					description={t`Control who can call you and add you to group chats`}
 				>
 					<CommunicationTabContent />
+				</SettingsSection>
+
+				<SettingsSection
+					id="end-to-end-encryption"
+					title={t`End-to-End Encryption`}
+					description={t`Manage encryption devices, view fingerprints, and revoke access from devices you no longer use`}
+				>
+					<E2EETabContent />
 				</SettingsSection>
 
 				<SettingsSection
