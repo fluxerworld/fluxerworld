@@ -50,7 +50,7 @@ import {FLUXERBOT_ID} from '@fluxer/constants/src/AppConstants';
 import {MessageEmbedTypes, MessageFlags, MessageStates, MessageTypes} from '@fluxer/constants/src/ChannelConstants';
 import {NodeType} from '@fluxer/markdown_parser/src/types/Enums';
 import {Trans, useLingui} from '@lingui/react/macro';
-import {BellSlashIcon, EyeIcon, WarningCircleIcon} from '@phosphor-icons/react';
+import {BellSlashIcon, EyeIcon, LockKeyIcon, WarningCircleIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {autorun} from 'mobx';
 import {observer} from 'mobx-react-lite';
@@ -204,6 +204,14 @@ export const UserMessage = observer(() => {
 							<span className={styles.editedLabel}> {t`(edited)`}</span>
 						</TimestampWithTooltip>
 					))}
+				{message.isEncrypted && (
+					<Tooltip text={t`This message is end-to-end encrypted`} position="top">
+						<span className={styles.editedLabel} aria-label={t`End-to-end encrypted`}>
+							{' '}
+							<LockKeyIcon size={12} weight="fill" style={{verticalAlign: 'text-bottom'}} />
+						</span>
+					</Tooltip>
+				)}
 			</div>
 		);
 	}, [
@@ -214,6 +222,7 @@ export const UserMessage = observer(() => {
 		message.channelId,
 		message.editedTimestamp,
 		message.isEditing,
+		message.isEncrypted,
 		channel,
 		cancelEditing,
 		onSubmit,
