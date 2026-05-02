@@ -26,6 +26,8 @@ import type {HonoApp} from '@fluxer/api/src/types/HonoEnv';
 import {Validator} from '@fluxer/api/src/Validator';
 import {UserIdParam} from '@fluxer/schema/src/domains/common/CommonParamSchemas';
 import {
+	E2EEBackupResponse,
+	E2EEBackupUploadRequest,
 	E2EEDeviceListResponse,
 	E2EEDeviceResponse,
 	E2EEPrekeyBundleListResponse,
@@ -205,6 +207,70 @@ export function E2EEController(app: HonoApp): void {
 				.get('e2eeService')
 				.claimPrekeyBundlesForUser(createUserID(ctx.req.valid('param').user_id));
 			return ctx.json(bundles);
+		},
+	);
+
+	app.get(
+		'/users/@me/e2ee/backup',
+		RateLimitMiddleware(RateLimitConfigs.USER_E2EE_BACKUP_GET),
+		LoginRequired,
+		DefaultUserOnly,
+		OpenAPI({
+			operationId: 'get_e2ee_backup',
+			summary: 'Fetch the encrypted E2EE backup',
+			responseSchema: E2EEBackupResponse,
+			statusCode: 200,
+			security: ['sessionToken', 'bearerToken'],
+			tags: ['E2EE'],
+			description:
+				'Returns the user-uploaded encrypted backup blob plus the KDF parameters needed to derive the unwrap key from the passphrase. The server cannot read the contents.',
+		}),
+		async (ctx) => {
+			const backup = await ctx.get('e2eeService').getBackup(ctx.get('user').id);
+			if (!backup) return ctx.json({error: 'No backup'}, 404);
+			return ctx.json(backup);
+		},
+	);
+
+	app.put(
+		'/users/@me/e2ee/backup',
+		RateLimitMiddleware(RateLimitConfigs.USER_E2EE_BACKUP_PUT),
+		LoginRequired,
+		DefaultUserOnly,
+		Validator('json', E2EEBackupUploadRequest),
+		OpenAPI({
+			operationId: 'upload_e2ee_backup',
+			summary: 'Upload or replace the encrypted E2EE backup',
+			responseSchema: E2EEBackupResponse,
+			statusCode: 200,
+			security: ['sessionToken', 'bearerToken'],
+			tags: ['E2EE'],
+			description:
+				'Stores an opaque ciphertext blob plus the KDF parameters needed to recover from a fresh install. Replaces any existing backup. The server never inspects ciphertext or holds the passphrase.',
+		}),
+		async (ctx) => {
+			const result = await ctx.get('e2eeService').uploadBackup(ctx.get('user').id, ctx.req.valid('json'));
+			return ctx.json(result);
+		},
+	);
+
+	app.delete(
+		'/users/@me/e2ee/backup',
+		RateLimitMiddleware(RateLimitConfigs.USER_E2EE_BACKUP_DELETE),
+		LoginRequired,
+		DefaultUserOnly,
+		OpenAPI({
+			operationId: 'delete_e2ee_backup',
+			summary: 'Delete the encrypted E2EE backup',
+			responseSchema: z.object({success: z.boolean()}),
+			statusCode: 200,
+			security: ['sessionToken', 'bearerToken'],
+			tags: ['E2EE'],
+			description: 'Permanently removes the encrypted backup blob from the server.',
+		}),
+		async (ctx) => {
+			await ctx.get('e2eeService').deleteBackup(ctx.get('user').id);
+			return ctx.json({success: true});
 		},
 	);
 }

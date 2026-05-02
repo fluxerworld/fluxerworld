@@ -81,3 +81,35 @@ export const E2EE_ONE_TIME_PREKEY_COLUMNS = [
 	'public_key',
 	'claimed_at',
 ] as const satisfies ReadonlyArray<keyof E2EEOneTimePrekeyRow>;
+
+// Opaque encrypted blob holding a user's full E2EE state (pickled
+// account + sessions + verifications). The server never sees plaintext.
+// Salt and iterations come from the client's passphrase-derivation
+// parameters so a recovering install can run the same KDF and get the
+// same key. Algorithm is bumped via algorithm/version when we ever
+// migrate (e.g. AES-GCM -> XChaCha20-Poly1305).
+export interface E2EEBackupRow {
+	user_id: UserID;
+	version: number;
+	algorithm: string;
+	kdf: string;
+	salt: string;
+	iterations: number;
+	iv: string;
+	ciphertext: string;
+	created_at: Date;
+	updated_at: Date;
+}
+
+export const E2EE_BACKUP_COLUMNS = [
+	'user_id',
+	'version',
+	'algorithm',
+	'kdf',
+	'salt',
+	'iterations',
+	'iv',
+	'ciphertext',
+	'created_at',
+	'updated_at',
+] as const satisfies ReadonlyArray<keyof E2EEBackupRow>;

@@ -20,10 +20,13 @@
 import * as E2EEActionCreators from '@app/actions/E2EEActionCreators';
 import {Button} from '@app/components/uikit/button/Button';
 import {Spinner} from '@app/components/uikit/Spinner';
+import * as E2EEBackup from '@app/lib/e2ee/E2EEBackup';
 import {Logger} from '@app/lib/Logger';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
 import E2EEStore from '@app/stores/E2EEStore';
 import {Trans, useLingui} from '@lingui/react/macro';
 import {observer} from 'mobx-react-lite';
+import type React from 'react';
 import {useCallback, useEffect, useState} from 'react';
 
 const logger = new Logger('E2EETabContent');
@@ -40,6 +43,154 @@ const formatDate = (iso: string): string => {
 		return iso;
 	}
 };
+
+const BackupControls: React.FC = observer(() => {
+	const {t} = useLingui();
+	const [backupExists, setBackupExists] = useState<boolean | null>(null);
+	const [backupUpdatedAt, setBackupUpdatedAt] = useState<string | null>(null);
+	const [passphrase, setPassphrase] = useState('');
+	const [busy, setBusy] = useState<'save' | 'restore' | 'delete' | null>(null);
+	const [feedback, setFeedback] = useState<{kind: 'ok' | 'err'; message: string} | null>(null);
+
+	const refresh = useCallback(async () => {
+		try {
+			const meta = await E2EEBackup.fetchBackupMetadata();
+			setBackupExists(meta !== null);
+			setBackupUpdatedAt(meta?.updated_at ?? null);
+		} catch (err) {
+			logger.warn('Failed to read backup metadata', {err});
+			setBackupExists(null);
+		}
+	}, []);
+
+	useEffect(() => {
+		void refresh();
+	}, [refresh]);
+
+	const handleSave = useCallback(async () => {
+		const userId = AuthenticationStore.currentUserId;
+		if (!userId) return;
+		setBusy('save');
+		setFeedback(null);
+		try {
+			await E2EEBackup.buildAndUploadBackup(userId, passphrase);
+			setFeedback({kind: 'ok', message: t`Backup saved. Keep your passphrase somewhere safe.`});
+			setPassphrase('');
+			await refresh();
+		} catch (err) {
+			setFeedback({kind: 'err', message: err instanceof Error ? err.message : String(err)});
+		} finally {
+			setBusy(null);
+		}
+	}, [passphrase, refresh, t]);
+
+	const handleRestore = useCallback(async () => {
+		setBusy('restore');
+		setFeedback(null);
+		try {
+			const result = await E2EEBackup.downloadAndRestoreBackup(passphrase);
+			setFeedback({
+				kind: 'ok',
+				message: t`Restored ${result.sessionsRestored} sessions and ${result.verificationsRestored} verified peers. Reload the app to start using them.`,
+			});
+			setPassphrase('');
+		} catch (err) {
+			setFeedback({kind: 'err', message: err instanceof Error ? err.message : String(err)});
+		} finally {
+			setBusy(null);
+		}
+	}, [passphrase, t]);
+
+	const handleDelete = useCallback(async () => {
+		setBusy('delete');
+		setFeedback(null);
+		try {
+			await E2EEBackup.deleteBackup();
+			setFeedback({kind: 'ok', message: t`Backup deleted.`});
+			await refresh();
+		} catch (err) {
+			setFeedback({kind: 'err', message: err instanceof Error ? err.message : String(err)});
+		} finally {
+			setBusy(null);
+		}
+	}, [refresh, t]);
+
+	return (
+		<div
+			style={{
+				border: '1px solid var(--background-modifier-accent)',
+				borderRadius: '8px',
+				padding: '0.75rem 1rem',
+				display: 'flex',
+				flexDirection: 'column',
+				gap: '0.5rem',
+			}}
+		>
+			<strong>
+				<Trans>Encrypted key backup</Trans>
+			</strong>
+			<p style={{fontSize: '0.875rem', color: 'var(--text-secondary)', margin: 0}}>
+				<Trans>
+					Save an encrypted backup of your E2EE state to the server. The passphrase is the only thing that can decrypt
+					it — there's no recovery if you lose it.
+				</Trans>
+			</p>
+			{backupExists !== null && (
+				<p style={{fontSize: '0.75rem', color: 'var(--text-tertiary)', margin: 0}}>
+					{backupExists ? (
+						<Trans>Server has a backup, last updated {formatDate(backupUpdatedAt ?? '')}.</Trans>
+					) : (
+						<Trans>No backup on the server yet.</Trans>
+					)}
+				</p>
+			)}
+			<input
+				type="password"
+				value={passphrase}
+				onChange={(e) => setPassphrase(e.target.value)}
+				placeholder={t`Passphrase (min 8 characters)`}
+				autoComplete="off"
+				style={{
+					padding: '0.5rem 0.75rem',
+					borderRadius: '6px',
+					border: '1px solid var(--background-modifier-accent)',
+					background: 'var(--background-secondary)',
+					color: 'var(--text-primary)',
+				}}
+			/>
+			<div style={{display: 'flex', gap: '0.5rem', flexWrap: 'wrap'}}>
+				<Button variant="primary" small submitting={busy === 'save'} disabled={passphrase.length < 8} onClick={() => void handleSave()}>
+					<Trans>Save backup</Trans>
+				</Button>
+				<Button
+					variant="secondary"
+					small
+					submitting={busy === 'restore'}
+					disabled={passphrase.length < 8 || backupExists !== true}
+					onClick={() => void handleRestore()}
+				>
+					<Trans>Restore</Trans>
+				</Button>
+				{backupExists && (
+					<Button variant="danger-secondary" small submitting={busy === 'delete'} onClick={() => void handleDelete()}>
+						<Trans>Delete backup</Trans>
+					</Button>
+				)}
+			</div>
+			{feedback && (
+				<p
+					style={{
+						fontSize: '0.75rem',
+						color: feedback.kind === 'ok' ? 'var(--status-positive)' : 'var(--status-danger)',
+						margin: 0,
+					}}
+				>
+					{feedback.message}
+				</p>
+			)}
+		</div>
+	);
+});
 
 export const E2EETabContent = observer(() => {
 	const {t} = useLingui();
@@ -116,6 +267,8 @@ export const E2EETabContent = observer(() => {
 
 	return (
 		<div style={{display: 'flex', flexDirection: 'column', gap: '0.75rem'}}>
+			<BackupControls />
+
 			<p>
 				<Trans>
 					Each device you sign in on registers its own keys. Removing a device drops its sessions immediately — you'll

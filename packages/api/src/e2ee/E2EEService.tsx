@@ -21,6 +21,8 @@ import type {UserID} from '@fluxer/api/src/BrandedTypes';
 import type {E2EERepository} from '@fluxer/api/src/e2ee/E2EERepository';
 import type {E2EEDevice} from '@fluxer/api/src/models/E2EEDevice';
 import type {
+	E2EEBackupResponse,
+	E2EEBackupUploadRequest,
 	E2EEDeviceResponse,
 	E2EEPrekeyBundleResponse,
 	E2EEPublicDeviceResponse,
@@ -183,5 +185,54 @@ export class E2EEService {
 			public_key: payload.public_key,
 			claimed_at: null,
 		});
+	}
+
+	async getBackup(userId: UserID): Promise<E2EEBackupResponse | null> {
+		const row = await this.repository.getBackup(userId);
+		if (!row) return null;
+		return {
+			version: row.version,
+			algorithm: row.algorithm,
+			kdf: row.kdf,
+			salt: row.salt,
+			iterations: row.iterations,
+			iv: row.iv,
+			ciphertext: row.ciphertext,
+			created_at: row.created_at.toISOString(),
+			updated_at: row.updated_at.toISOString(),
+		};
+	}
+
+	async uploadBackup(userId: UserID, body: E2EEBackupUploadRequest): Promise<E2EEBackupResponse> {
+		const existing = await this.repository.getBackup(userId);
+		const now = new Date();
+		const row = {
+			user_id: userId,
+			version: body.version,
+			algorithm: body.algorithm,
+			kdf: body.kdf,
+			salt: body.salt,
+			iterations: body.iterations,
+			iv: body.iv,
+			ciphertext: body.ciphertext,
+			created_at: existing?.created_at ?? now,
+			updated_at: now,
+		};
+		await this.repository.upsertBackup(row);
+		return {
+			version: row.version,
+			algorithm: row.algorithm,
+			kdf: row.kdf,
+			salt: row.salt,
+			iterations: row.iterations,
+			iv: row.iv,
+			ciphertext: row.ciphertext,
+			created_at: row.created_at.toISOString(),
+			updated_at: row.updated_at.toISOString(),
+		};
+	}
+
+	async deleteBackup(userId: UserID): Promise<void> {
+		await this.repository.deleteBackup(userId);
 	}
 }

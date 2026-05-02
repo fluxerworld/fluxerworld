@@ -91,6 +91,8 @@ import {
 	type NcmecSubmissionRow,
 } from '@fluxer/api/src/database/types/CsamTypes';
 import {
+	E2EE_BACKUP_COLUMNS,
+	type E2EEBackupRow,
 	E2EE_DEVICE_COLUMNS,
 	type E2EEDeviceRow,
 	E2EE_ONE_TIME_PREKEY_COLUMNS,
@@ -1060,4 +1062,10 @@ export const E2EEOneTimePrekeys = defineTable<E2EEOneTimePrekeyRow, 'user_id' | 
 	name: 'e2ee_one_time_prekeys',
 	columns: E2EE_ONE_TIME_PREKEY_COLUMNS,
 	primaryKey: ['user_id', 'device_id', 'key_id'],
+});
+
+export const E2EEBackups = defineTable<E2EEBackupRow, 'user_id'>({
+	name: 'e2ee_backups',
+	columns: E2EE_BACKUP_COLUMNS,
+	primaryKey: ['user_id'],
 });

@@ -19,10 +19,10 @@
 
 import type {UserID} from '@fluxer/api/src/BrandedTypes';
 import {deleteOneOrMany, fetchMany, fetchOne, upsertOne} from '@fluxer/api/src/database/Cassandra';
-import type {E2EEDeviceRow, E2EEOneTimePrekeyRow} from '@fluxer/api/src/database/types/E2EETypes';
+import type {E2EEBackupRow, E2EEDeviceRow, E2EEOneTimePrekeyRow} from '@fluxer/api/src/database/types/E2EETypes';
 import {E2EEDevice} from '@fluxer/api/src/models/E2EEDevice';
 import {E2EEOneTimePrekey} from '@fluxer/api/src/models/E2EEOneTimePrekey';
-import {E2EEDevices, E2EEOneTimePrekeys} from '@fluxer/api/src/Tables';
+import {E2EEBackups, E2EEDevices, E2EEOneTimePrekeys} from '@fluxer/api/src/Tables';
 
 const FETCH_DEVICE_CQL = E2EEDevices.selectCql({
 	where: [E2EEDevices.where.eq('user_id'), E2EEDevices.where.eq('device_id')],
@@ -110,5 +110,20 @@ export class E2EERepository {
 	async countUnclaimedPrekeys(userId: UserID, deviceId: string): Promise<number> {
 		const all = await this.listPrekeys(userId, deviceId);
 		return all.reduce((acc, p) => acc + (p.claimedAt === null ? 1 : 0), 0);
+	}
+
+	async getBackup(userId: UserID): Promise<E2EEBackupRow | null> {
+		const row = await fetchOne<E2EEBackupRow>(E2EEBackups.selectCql({where: E2EEBackups.where.eq('user_id')}), {
+			user_id: userId,
+		});
+		return row ?? null;
+	}
+
+	async upsertBackup(row: E2EEBackupRow): Promise<void> {
+		await upsertOne(E2EEBackups.upsertAll(row));
+	}
+
+	async deleteBackup(userId: UserID): Promise<void> {
+		await deleteOneOrMany(E2EEBackups.deleteByPk({user_id: userId}));
 	}
 }

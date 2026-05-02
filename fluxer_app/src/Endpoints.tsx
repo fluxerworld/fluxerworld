@@ -178,6 +178,7 @@ export const Endpoints = {
 		`/users/@me/e2ee/devices/${deviceId}/one-time-prekeys`,
 	USER_E2EE_CLAIM_KEYS: (userId: string) => `/users/${userId}/e2ee/keys/claim`,
 	USER_E2EE_USER_DEVICES: (userId: string) => `/users/${userId}/e2ee/devices`,
+	USER_E2EE_BACKUP: '/users/@me/e2ee/backup',
 	USER_MENTION: (messageId: string) => `/users/@me/mentions/${messageId}`,
 	USER_MENTIONS: '/users/@me/mentions',
 	USER_MFA_BACKUP_CODES: '/users/@me/mfa/backup-codes',

@@ -112,3 +112,26 @@ export type E2EEPublicDeviceResponse = z.infer<typeof E2EEPublicDeviceResponse>;
 
 export const E2EEPublicDeviceListResponse = z.array(E2EEPublicDeviceResponse);
 export type E2EEPublicDeviceListResponse = z.infer<typeof E2EEPublicDeviceListResponse>;
+
+// The encrypted backup blob that lets a user restore their E2EE state on
+// a fresh install. Server stores everything verbatim — only the client
+// holds the passphrase that derives the actual encryption key.
+export const E2EEBackupBlob = z.object({
+	version: z.number().int().min(1),
+	algorithm: z.string().min(1).max(64),
+	kdf: z.string().min(1).max(64),
+	salt: Base64String,
+	iterations: z.number().int().min(1).max(10_000_000),
+	iv: Base64String,
+	ciphertext: z.string().min(1).max(2_000_000),
+});
+export type E2EEBackupBlob = z.infer<typeof E2EEBackupBlob>;
+
+export const E2EEBackupUploadRequest = E2EEBackupBlob;
+export type E2EEBackupUploadRequest = z.infer<typeof E2EEBackupUploadRequest>;
+
+export const E2EEBackupResponse = E2EEBackupBlob.extend({
+	created_at: z.iso.datetime(),
+	updated_at: z.iso.datetime(),
+});
+export type E2EEBackupResponse = z.infer<typeof E2EEBackupResponse>;

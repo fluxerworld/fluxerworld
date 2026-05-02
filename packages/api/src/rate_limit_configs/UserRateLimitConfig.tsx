@@ -281,6 +281,21 @@ export const UserRateLimitConfigs = {
 		config: {limit: 30, windowMs: ms('10 seconds')},
 	} as RouteRateLimitConfig,
 
+	USER_E2EE_BACKUP_GET: {
+		bucket: 'user:e2ee:backup_get',
+		config: {limit: 10, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+
+	USER_E2EE_BACKUP_PUT: {
+		bucket: 'user:e2ee:backup_put',
+		config: {limit: 6, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+
+	USER_E2EE_BACKUP_DELETE: {
+		bucket: 'user:e2ee:backup_delete',
+		config: {limit: 3, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+
 	USER_HARVEST_LATEST: {
 		bucket: 'user:harvest:latest',
 		config: {limit: 40, windowMs: ms('10 seconds')},
