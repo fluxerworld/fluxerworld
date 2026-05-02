@@ -18,6 +18,7 @@
  */
 
 import * as E2EEActionCreators from '@app/actions/E2EEActionCreators';
+import * as E2EEBackup from '@app/lib/e2ee/E2EEBackup';
 import {
 	deleteVerification as deleteVerificationFromIDB,
 	getVerification,
@@ -31,13 +32,25 @@ import {makeAutoObservable, runInAction} from 'mobx';
 
 const logger = new Logger('E2EEStore');
 
-export type RegistrationStatus = 'idle' | 'initialising' | 'registering' | 'ready' | 'error';
+export type RegistrationStatus =
+	| 'idle'
+	| 'initialising'
+	| 'awaiting_backup_decision'
+	| 'registering'
+	| 'ready'
+	| 'error';
+
+export interface PendingBackup {
+	created_at: string;
+	updated_at: string;
+}
 
 class E2EEStore {
 	currentUserId: string | null = null;
 	deviceId: string | null = null;
 	registrationStatus: RegistrationStatus = 'idle';
 	lastError: string | null = null;
+	pendingBackup: PendingBackup | null = null;
 	encryptedChannelIds = new Set<string>();
 
 	// In-memory cache mirroring the IndexedDB verification store. Populated
@@ -195,6 +208,7 @@ class E2EEStore {
 			this.currentUserId = userId;
 			this.registrationStatus = 'initialising';
 			this.lastError = null;
+			this.pendingBackup = null;
 		});
 
 		await e2eeManager.initForUser(userId);
@@ -209,8 +223,31 @@ class E2EEStore {
 			return;
 		}
 
+		// No local account on this install. Before generating a fresh device
+		// (which would orphan the user's existing sessions and verifications),
+		// check whether they have an encrypted backup on the server. If so,
+		// pause registration and let the UI prompt for a passphrase.
+		try {
+			const meta = await E2EEBackup.fetchBackupMetadata();
+			if (meta) {
+				runInAction(() => {
+					this.pendingBackup = {created_at: meta.created_at, updated_at: meta.updated_at};
+					this.registrationStatus = 'awaiting_backup_decision';
+				});
+				logger.info('E2EE backup found on server, awaiting decision', meta);
+				return;
+			}
+		} catch (error) {
+			logger.warn('Backup metadata check failed, proceeding to fresh registration', {error});
+		}
+
+		await this.registerFreshDevice(userId);
+	}
+
+	private async registerFreshDevice(userId: string): Promise<void> {
 		runInAction(() => {
 			this.registrationStatus = 'registering';
+			this.pendingBackup = null;
 		});
 
 		const deviceId = generateDeviceId();
@@ -229,6 +266,36 @@ class E2EEStore {
 			this.registrationStatus = 'ready';
 		});
 		logger.info('Registered new E2EE device', {deviceId});
+	}
+
+	// User-driven decisions out of the awaiting_backup_decision state.
+	async restorePendingBackup(passphrase: string): Promise<void> {
+		const userId = this.currentUserId;
+		if (!userId) throw new Error('No active session');
+		if (this.registrationStatus !== 'awaiting_backup_decision') {
+			throw new Error('No backup decision pending');
+		}
+		await E2EEBackup.downloadAndRestoreBackup(passphrase);
+		await e2eeManager.initForUser(userId);
+		if (!e2eeManager.hasAccount() || !e2eeManager.currentDeviceId) {
+			throw new Error('Backup did not contain a device account');
+		}
+		runInAction(() => {
+			this.deviceId = e2eeManager.currentDeviceId;
+			this.registrationStatus = 'ready';
+			this.pendingBackup = null;
+			this.bootstrapPromise = null;
+		});
+		void this.maybeReplenishOneTimeKeys();
+	}
+
+	async skipPendingBackupAndRegister(): Promise<void> {
+		const userId = this.currentUserId;
+		if (!userId) throw new Error('No active session');
+		if (this.registrationStatus !== 'awaiting_backup_decision') {
+			throw new Error('No backup decision pending');
+		}
+		await this.registerFreshDevice(userId);
 	}
 
 	// Called periodically (and after every encrypt) by E2EEManager wiring
@@ -262,6 +329,7 @@ class E2EEStore {
 			this.deviceId = null;
 			this.registrationStatus = 'idle';
 			this.lastError = null;
+			this.pendingBackup = null;
 			this.bootstrapPromise = null;
 			this.verificationCache.clear();
 			this.verificationLoadPromises.clear();
