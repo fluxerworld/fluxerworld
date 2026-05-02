@@ -102,6 +102,7 @@ describe('MessageSearchSerializer', () => {
 			message_snapshots: [],
 			call: null,
 			has_reaction: null,
+			encrypted_payload: null,
 			version: 1,
 		};
 

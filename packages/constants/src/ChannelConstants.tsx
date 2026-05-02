@@ -126,6 +126,7 @@ export const MessageFlags = {
 	SUPPRESS_EMBEDS: 1 << 2,
 	SUPPRESS_NOTIFICATIONS: 1 << 12,
 	VOICE_MESSAGE: 1 << 13,
+	ENCRYPTED: 1 << 18,
 	COMPACT_ATTACHMENTS: 1 << 17,
 } as const;
 
@@ -133,6 +134,7 @@ export const MessageFlagsDescriptions: Record<keyof typeof MessageFlags, string>
 	SUPPRESS_EMBEDS: 'Do not include embeds when serialising this message',
 	SUPPRESS_NOTIFICATIONS: 'This message will not trigger push or desktop notifications',
 	VOICE_MESSAGE: 'This message is a voice message',
+	ENCRYPTED: 'This message is end-to-end encrypted; content is opaque to the server',
 	COMPACT_ATTACHMENTS: 'Display attachments in a compact format',
 };
 
@@ -140,7 +142,8 @@ export const SENDABLE_MESSAGE_FLAGS =
 	MessageFlags.SUPPRESS_EMBEDS |
 	MessageFlags.SUPPRESS_NOTIFICATIONS |
 	MessageFlags.COMPACT_ATTACHMENTS |
-	MessageFlags.VOICE_MESSAGE;
+	MessageFlags.VOICE_MESSAGE |
+	MessageFlags.ENCRYPTED;
 
 export const MessageAttachmentFlags = {
 	IS_SPOILER: 1 << 3,

@@ -2466,6 +2466,7 @@ export function TestHarnessController(app: HonoApp) {
 				message_snapshots: null,
 				call: null,
 				has_reaction: false,
+				encrypted_payload: null,
 				version: 1,
 			};
 

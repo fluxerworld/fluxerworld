@@ -263,6 +263,23 @@ export const MessageRequestSchema = z
 		favorite_meme_id: SnowflakeType.nullish().describe('ID of a favorite meme to attach'),
 		sticker_ids: z.array(SnowflakeType).max(3).nullish().describe('Array of sticker IDs to include (max 3)'),
 		tts: z.boolean().optional().describe('Whether this is a text-to-speech message'),
+		encrypted_payload: z
+			.object({
+				v: z.number().int().min(1),
+				sender_device_id: z.string().min(8).max(64),
+				sender_identity_key: z.string().min(1).max(2048),
+				ciphertexts: z.record(
+					z.string().min(1).max(128),
+					z.object({
+						type: z.number().int().min(0).max(1),
+						body: z.string().min(1).max(65536),
+					}),
+				),
+			})
+			.nullish()
+			.describe(
+				'End-to-end encrypted ciphertext. Required when the ENCRYPTED flag is set; ignored otherwise. Server stores verbatim, never inspects content.',
+			),
 	})
 	.partial();
 

@@ -161,7 +161,17 @@ export interface MessageRow {
 	message_snapshots: Nullish<Array<MessageSnapshot>>;
 	call: Nullish<MessageCall>;
 	has_reaction: Nullish<boolean>;
+	encrypted_payload: Nullish<MessageEncryptedPayload>;
 	version: number;
+}
+
+// Stored verbatim — the server never reads inside this. The shape is
+// agreed on between sender and recipient clients via the wire schema.
+export interface MessageEncryptedPayload {
+	v: number;
+	sender_device_id: string;
+	sender_identity_key: string;
+	ciphertexts: Record<string, {type: number; body: string}>;
 }
 
 export const MESSAGE_COLUMNS = [
@@ -188,6 +198,7 @@ export const MESSAGE_COLUMNS = [
 	'message_snapshots',
 	'call',
 	'has_reaction',
+	'encrypted_payload',
 	'version',
 ] as const satisfies ReadonlyArray<keyof MessageRow>;
 
