@@ -71,10 +71,22 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			const currentUserId = AuthenticationStore.currentUserId;
 			const senderUserId = data.author?.id;
 			if (!currentUserId || !senderUserId) return;
-			const plaintext = await tryDecryptForCurrentDevice(currentUserId, senderUserId, data.encrypted_payload);
+			const result = await tryDecryptForCurrentDevice(currentUserId, senderUserId, data.encrypted_payload);
+			let decryptedContent: string;
+			if (!result) {
+				decryptedContent = ENCRYPTED_FAILURE_PLACEHOLDER;
+			} else if (result.verificationStatus === 'changed') {
+				// The peer was previously verified but is now using a different
+				// identity key. That's the classic "is this still your friend or
+				// did someone hijack the session" moment, so we prepend a
+				// warning to the plaintext until the user re-verifies.
+				decryptedContent = `\u26a0\ufe0f ${'Identity key changed since you last verified — re-verify before trusting this message.'}\n\n${result.plaintext}`;
+			} else {
+				decryptedContent = result.plaintext;
+			}
 			const decryptedMessage: Message = {
 				...data,
-				content: plaintext ?? ENCRYPTED_FAILURE_PLACEHOLDER,
+				content: decryptedContent,
 			};
 			MessageStore.handleIncomingMessage({channelId: data.channel_id, message: decryptedMessage});
 		})();

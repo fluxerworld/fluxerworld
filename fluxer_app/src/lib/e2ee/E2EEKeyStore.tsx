@@ -18,10 +18,11 @@
  */
 
 const DB_NAME = 'FluxerE2EE';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const ACCOUNT_STORE = 'accounts';
 const SESSION_STORE = 'sessions';
 const META_STORE = 'meta';
+const VERIFICATION_STORE = 'verifications';
 
 // Pickled Olm state is encrypted at rest using a per-install random key
 // stored in the same IndexedDB. That's not "secure" against a privileged
@@ -49,6 +50,21 @@ export interface MetaEntry {
 	value: string;
 }
 
+// Verification is bound to the (remote_user, remote_device, identity_key)
+// triple. If the peer rotates their identity (new device after a key
+// compromise, lost device, etc.) the verification entry no longer
+// matches and we treat the peer as unverified again until the user
+// re-verifies. Source captures how the verification happened so we can
+// surface it in the UI: 'manual' for an out-of-band fingerprint check,
+// future entries for QR code, signed device exchange, etc.
+export interface VerificationEntry {
+	remote_user_id: string;
+	remote_device_id: string;
+	identity_key: string;
+	verified_at: number;
+	source: 'manual' | 'qr_code' | 'signed';
+}
+
 let dbInstance: IDBDatabase | null = null;
 
 async function openDB(): Promise<IDBDatabase> {
@@ -71,6 +87,12 @@ async function openDB(): Promise<IDBDatabase> {
 			}
 			if (!db.objectStoreNames.contains(META_STORE)) {
 				db.createObjectStore(META_STORE, {keyPath: 'key'});
+			}
+			if (!db.objectStoreNames.contains(VERIFICATION_STORE)) {
+				const store = db.createObjectStore(VERIFICATION_STORE, {
+					keyPath: ['remote_user_id', 'remote_device_id'],
+				});
+				store.createIndex('by_remote_user', 'remote_user_id', {unique: false});
 			}
 		};
 	});
@@ -149,6 +171,36 @@ export async function setMeta(key: string, value: string): Promise<void> {
 	const db = await openDB();
 	const tx = db.transaction([META_STORE], 'readwrite');
 	await reqToPromise(tx.objectStore(META_STORE).put({key, value}));
+}
+
+export async function getVerification(
+	remoteUserId: string,
+	remoteDeviceId: string,
+): Promise<VerificationEntry | null> {
+	const db = await openDB();
+	const tx = db.transaction([VERIFICATION_STORE], 'readonly');
+	const result = await reqToPromise(tx.objectStore(VERIFICATION_STORE).get([remoteUserId, remoteDeviceId]));
+	return (result as VerificationEntry | undefined) ?? null;
+}
+
+export async function getVerificationsForUser(remoteUserId: string): Promise<Array<VerificationEntry>> {
+	const db = await openDB();
+	const tx = db.transaction([VERIFICATION_STORE], 'readonly');
+	const idx = tx.objectStore(VERIFICATION_STORE).index('by_remote_user');
+	const result = await reqToPromise(idx.getAll(IDBKeyRange.only(remoteUserId)));
+	return (result as Array<VerificationEntry>) ?? [];
+}
+
+export async function putVerification(entry: VerificationEntry): Promise<void> {
+	const db = await openDB();
+	const tx = db.transaction([VERIFICATION_STORE], 'readwrite');
+	await reqToPromise(tx.objectStore(VERIFICATION_STORE).put(entry));
+}
+
+export async function deleteVerification(remoteUserId: string, remoteDeviceId: string): Promise<void> {
+	const db = await openDB();
+	const tx = db.transaction([VERIFICATION_STORE], 'readwrite');
+	await reqToPromise(tx.objectStore(VERIFICATION_STORE).delete([remoteUserId, remoteDeviceId]));
 }
 
 const PICKLE_KEY_META = 'pickle_key';

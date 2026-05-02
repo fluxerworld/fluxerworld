@@ -18,6 +18,13 @@
  */
 
 import * as E2EEActionCreators from '@app/actions/E2EEActionCreators';
+import {
+	deleteVerification as deleteVerificationFromIDB,
+	getVerification,
+	getVerificationsForUser,
+	putVerification,
+	type VerificationEntry,
+} from '@app/lib/e2ee/E2EEKeyStore';
 import {e2eeManager} from '@app/lib/e2ee/E2EEManager';
 import {Logger} from '@app/lib/Logger';
 import {makeAutoObservable, runInAction} from 'mobx';
@@ -33,6 +40,13 @@ class E2EEStore {
 	lastError: string | null = null;
 	encryptedChannelIds = new Set<string>();
 
+	// In-memory cache mirroring the IndexedDB verification store. Populated
+	// lazily per remote user the first time the UI asks. Keyed by
+	// remote_user_id -> Map<remote_device_id, VerificationEntry>. Components
+	// observe this cache instead of going to IDB on every render.
+	private verificationCache = new Map<string, Map<string, VerificationEntry>>();
+	private verificationLoadPromises = new Map<string, Promise<void>>();
+
 	constructor() {
 		makeAutoObservable(this, {}, {autoBind: true});
 	}
@@ -46,6 +60,109 @@ class E2EEStore {
 			if (enabled) this.encryptedChannelIds.add(channelId);
 			else this.encryptedChannelIds.delete(channelId);
 		});
+	}
+
+	// Returns the cached verification entry, or null if either no entry
+	// exists or the cache hasn't been hydrated yet. Call ensureVerifications
+	// once before relying on a synchronous result.
+	getVerification(remoteUserId: string, remoteDeviceId: string): VerificationEntry | null {
+		return this.verificationCache.get(remoteUserId)?.get(remoteDeviceId) ?? null;
+	}
+
+	getVerificationsForUser(remoteUserId: string): Array<VerificationEntry> {
+		const map = this.verificationCache.get(remoteUserId);
+		return map ? Array.from(map.values()) : [];
+	}
+
+	async ensureVerificationsForUser(remoteUserId: string): Promise<void> {
+		if (this.verificationCache.has(remoteUserId)) return;
+		const inflight = this.verificationLoadPromises.get(remoteUserId);
+		if (inflight) return inflight;
+		const promise = (async () => {
+			const entries = await getVerificationsForUser(remoteUserId);
+			runInAction(() => {
+				const map = new Map<string, VerificationEntry>();
+				for (const e of entries) map.set(e.remote_device_id, e);
+				this.verificationCache.set(remoteUserId, map);
+			});
+		})();
+		this.verificationLoadPromises.set(remoteUserId, promise);
+		try {
+			await promise;
+		} finally {
+			this.verificationLoadPromises.delete(remoteUserId);
+		}
+	}
+
+	async markVerified(
+		remoteUserId: string,
+		remoteDeviceId: string,
+		identityKey: string,
+		source: VerificationEntry['source'] = 'manual',
+	): Promise<void> {
+		const entry: VerificationEntry = {
+			remote_user_id: remoteUserId,
+			remote_device_id: remoteDeviceId,
+			identity_key: identityKey,
+			verified_at: Date.now(),
+			source,
+		};
+		await putVerification(entry);
+		runInAction(() => {
+			let map = this.verificationCache.get(remoteUserId);
+			if (!map) {
+				map = new Map<string, VerificationEntry>();
+				this.verificationCache.set(remoteUserId, map);
+			}
+			map.set(remoteDeviceId, entry);
+		});
+	}
+
+	async clearVerification(remoteUserId: string, remoteDeviceId: string): Promise<void> {
+		await deleteVerificationFromIDB(remoteUserId, remoteDeviceId);
+		runInAction(() => {
+			this.verificationCache.get(remoteUserId)?.delete(remoteDeviceId);
+		});
+	}
+
+	// Compares a freshly observed identity key against the cached
+	// verification. Returns:
+	//   'verified' — verified entry exists and the keys match
+	//   'changed'  — verified entry exists but the keys disagree (warn!)
+	//   'unverified' — no entry, never verified
+	checkVerificationStatus(
+		remoteUserId: string,
+		remoteDeviceId: string,
+		observedIdentityKey: string,
+	): 'verified' | 'changed' | 'unverified' {
+		const entry = this.getVerification(remoteUserId, remoteDeviceId);
+		if (!entry) return 'unverified';
+		return entry.identity_key === observedIdentityKey ? 'verified' : 'changed';
+	}
+
+	// One-shot load that uses IDB synchronously after caching, used by code
+	// paths that can't await before the first read (e.g. message rendering
+	// the first time a peer's bubble appears).
+	async checkVerificationStatusAsync(
+		remoteUserId: string,
+		remoteDeviceId: string,
+		observedIdentityKey: string,
+	): Promise<'verified' | 'changed' | 'unverified'> {
+		const cached = this.verificationCache.get(remoteUserId)?.get(remoteDeviceId);
+		if (cached) {
+			return cached.identity_key === observedIdentityKey ? 'verified' : 'changed';
+		}
+		const stored = await getVerification(remoteUserId, remoteDeviceId);
+		if (!stored) return 'unverified';
+		runInAction(() => {
+			let map = this.verificationCache.get(remoteUserId);
+			if (!map) {
+				map = new Map<string, VerificationEntry>();
+				this.verificationCache.set(remoteUserId, map);
+			}
+			map.set(remoteDeviceId, stored);
+		});
+		return stored.identity_key === observedIdentityKey ? 'verified' : 'changed';
 	}
 
 	get isReady(): boolean {
@@ -146,6 +263,8 @@ class E2EEStore {
 			this.registrationStatus = 'idle';
 			this.lastError = null;
 			this.bootstrapPromise = null;
+			this.verificationCache.clear();
+			this.verificationLoadPromises.clear();
 		});
 	}
 }

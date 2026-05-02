@@ -129,11 +129,16 @@ export async function tryEncryptForChannel(
 	};
 }
 
+export interface DecryptionResult {
+	plaintext: string;
+	verificationStatus: 'verified' | 'changed' | 'unverified';
+}
+
 export async function tryDecryptForCurrentDevice(
 	currentUserId: string,
 	senderUserId: string,
 	encryptedPayload: EncryptedPayload | null | undefined,
-): Promise<string | null> {
+): Promise<DecryptionResult | null> {
 	if (!encryptedPayload) return null;
 	if (!E2EEStore.isReady) return null;
 	const deviceId = E2EEStore.deviceId;
@@ -144,7 +149,7 @@ export async function tryDecryptForCurrentDevice(
 	if (!ciphertext) return null;
 
 	try {
-		return await e2eeManager.decrypt(
+		const plaintext = await e2eeManager.decrypt(
 			senderUserId,
 			encryptedPayload.sender_device_id,
 			encryptedPayload.sender_identity_key,
@@ -154,6 +159,12 @@ export async function tryDecryptForCurrentDevice(
 				body: ciphertext.body,
 			},
 		);
+		const verificationStatus = await E2EEStore.checkVerificationStatusAsync(
+			senderUserId,
+			encryptedPayload.sender_device_id,
+			encryptedPayload.sender_identity_key,
+		);
+		return {plaintext, verificationStatus};
 	} catch (error) {
 		logger.warn('Failed to decrypt incoming message', {error});
 		return null;
