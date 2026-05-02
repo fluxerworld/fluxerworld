@@ -27,6 +27,7 @@ import AuthenticationStore from '@app/stores/AuthenticationStore';
 import AuthSessionStore from '@app/stores/AuthSessionStore';
 import ChannelStore from '@app/stores/ChannelStore';
 import CountryCodeStore from '@app/stores/CountryCodeStore';
+import E2EEStore from '@app/stores/E2EEStore';
 import EmojiStore from '@app/stores/EmojiStore';
 import FavoriteMemeStore from '@app/stores/FavoriteMemeStore';
 import GuildAvailabilityStore from '@app/stores/GuildAvailabilityStore';
@@ -41,6 +42,7 @@ import MemberSearchStore from '@app/stores/MemberSearchStore';
 import MemberSidebarStore from '@app/stores/MemberSidebarStore';
 import MessageReactionsStore from '@app/stores/MessageReactionsStore';
 import MessageStore from '@app/stores/MessageStore';
+import PackStore from '@app/stores/PackStore';
 import PermissionStore from '@app/stores/PermissionStore';
 import PresenceStore from '@app/stores/PresenceStore';
 import ReadStateStore, {type GatewayReadState} from '@app/stores/ReadStateStore';
@@ -54,6 +56,17 @@ import UserSettingsStore, {type UserSettings} from '@app/stores/UserSettingsStor
 import UserStore from '@app/stores/UserStore';
 import VoiceSettingsStore from '@app/stores/VoiceSettingsStore';
 import MediaEngineStore from '@app/stores/voice/MediaEngineFacade';
+import {LimitResolver} from '@app/utils/limits/LimitResolverAdapter';
+
+async function hydratePacksIfEligible(): Promise<void> {
+	try {
+		const enabled = LimitResolver.resolve({key: 'feature_global_expressions', fallback: 0}) > 0;
+		if (!enabled) return;
+		await PackStore.fetch();
+	} catch {
+		// Best effort — 403 from non-staff users is expected.
+	}
+}
 import type {GuildReadyData} from '@app/types/gateway/GatewayGuildTypes';
 import type {PresenceRecord} from '@app/types/gateway/GatewayPresenceTypes';
 import type {Channel, RtcRegionResponse} from '@fluxer/schema/src/domains/channel/ChannelSchemas';
@@ -150,6 +163,7 @@ export function handleReady(data: ReadyPayload, context: GatewayHandlerContext):
 
 	VoiceSettingsStore.handleConnectionOpen(data.user);
 	AuthenticationStore.handleConnectionOpen({user: data.user});
+	void E2EEStore.bootstrap(data.user.id).catch(() => {});
 	GuildStore.handleConnectionOpen({guilds});
 	UserSettingsStore.handleConnectionOpen(data.user_settings);
 	GuildListStore.handleConnectionOpen(guilds);
@@ -166,6 +180,10 @@ export function handleReady(data: ReadyPayload, context: GatewayHandlerContext):
 	MessageReactionsStore.handleConnectionOpen();
 	StickerStore.handleConnectionOpen(guilds);
 	EmojiStore.handleConnectionOpen({guilds});
+
+	// Hydrate the picker with pack emojis for users who have access. Best
+	// effort — failure is fine, the picker just won't show pack emojis.
+	void hydratePacksIfEligible();
 	PermissionStore.handleConnectionOpen();
 	MemberSearchStore.handleConnectionOpen();
 	UserGuildSettingsStore.handleConnectionOpen(data.user_guild_settings ?? []);

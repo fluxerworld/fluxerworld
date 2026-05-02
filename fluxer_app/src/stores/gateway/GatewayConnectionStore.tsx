@@ -21,6 +21,7 @@ import {getPreferredCompression} from '@app/lib/GatewayCompression';
 import {type GatewayErrorData, GatewaySocket, type GatewaySocketProperties, GatewayState} from '@app/lib/GatewaySocket';
 import {Logger} from '@app/lib/Logger';
 import SessionManager from '@app/lib/SessionManager';
+import E2EEStore from '@app/stores/E2EEStore';
 import FavoriteMemeStore from '@app/stores/FavoriteMemeStore';
 import GeoIPStore from '@app/stores/GeoIPStore';
 import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
@@ -456,6 +457,7 @@ class GatewayConnectionStore {
 		GuildNSFWAgreeStore.reset();
 		InitializationStore.reset();
 		MemberSearchStore.handleLogout();
+		E2EEStore.reset();
 
 		this.isConnected = false;
 		this.isConnecting = false;
