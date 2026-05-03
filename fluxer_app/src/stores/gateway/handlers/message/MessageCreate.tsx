@@ -17,7 +17,11 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {buildDecryptedContent, tryDecryptForCurrentDevice} from '@app/lib/e2ee/E2EEMessageIntegration';
+import {
+	buildDecryptedContent,
+	recordAttachmentKeys,
+	tryDecryptForCurrentDevice,
+} from '@app/lib/e2ee/E2EEMessageIntegration';
 import AuthenticationStore from '@app/stores/AuthenticationStore';
 import CallStateStore from '@app/stores/CallStateStore';
 import type {GatewayHandlerContext} from '@app/stores/gateway/handlers';
@@ -70,6 +74,9 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			const senderUserId = data.author?.id;
 			if (!currentUserId || !senderUserId) return;
 			const result = await tryDecryptForCurrentDevice(currentUserId, senderUserId, data.encrypted_payload);
+			if (result?.attachments.length) {
+				recordAttachmentKeys(data.id, result.attachments);
+			}
 			const decryptedMessage: Message = {
 				...data,
 				content: buildDecryptedContent(result),

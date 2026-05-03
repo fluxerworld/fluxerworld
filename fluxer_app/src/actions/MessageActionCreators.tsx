@@ -42,6 +42,7 @@ import GuildMemberStore from '@app/stores/GuildMemberStore';
 import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
 import {
 	buildDecryptedContent,
+	recordAttachmentKeys,
 	tryDecryptForCurrentDevice,
 	tryEncryptForChannel,
 } from '@app/lib/e2ee/E2EEMessageIntegration';
@@ -228,6 +229,9 @@ async function decryptHistoryMessages(messages: ReadonlyArray<Message>): Promise
 		if (!senderId) continue;
 		try {
 			const result = await tryDecryptForCurrentDevice(currentUserId, senderId, msg.encrypted_payload);
+			if (result?.attachments.length) {
+				recordAttachmentKeys(msg.id, result.attachments);
+			}
 			MessageStore.handleMessageUpdate({
 				message: {...msg, content: buildDecryptedContent(result)},
 			});

@@ -46,13 +46,30 @@ const SUPPORTED_CHANNEL_TYPES = new Set<number>([ChannelTypes.DM]);
 // per-attachment AES keys (and any future per-message metadata) without
 // changing the wire shape outside of Olm. v1 string and v2 envelope
 // coexist on the wire — the receiver detects format on decrypt.
+export interface EnvelopeAttachmentEntry {
+	id: string;          // matches MessageAttachment.id from the server
+	key: string;         // base64 raw 32-byte AES-256 key
+	iv: string;          // base64 raw 12-byte GCM nonce
+	mime: string;        // original mime (the wire content_type is octet-stream)
+	name: string;        // original filename
+	width?: number;
+	height?: number;
+}
+
 interface EnvelopePayloadV2 {
 	v: 2;
 	text: string;
+	attachments?: Array<EnvelopeAttachmentEntry>;
 }
 
-function wrapPlaintext(text: string): string {
+interface UnwrappedPlaintext {
+	text: string;
+	attachments: Array<EnvelopeAttachmentEntry>;
+}
+
+function wrapPlaintext(text: string, attachments?: ReadonlyArray<EnvelopeAttachmentEntry>): string {
 	const envelope: EnvelopePayloadV2 = {v: 2, text};
+	if (attachments && attachments.length > 0) envelope.attachments = [...attachments];
 	return JSON.stringify(envelope);
 }
 
@@ -62,17 +79,44 @@ function wrapPlaintext(text: string): string {
 // text counts as v2; anything else is treated as a v1 raw string. That
 // way a user who legitimately types `{"v":1,"text":"hi"}` as their
 // actual message body doesn't get mis-parsed.
-function unwrapPlaintext(decrypted: string): string {
-	if (decrypted.length === 0 || decrypted[0] !== '{') return decrypted;
+function unwrapPlaintext(decrypted: string): UnwrappedPlaintext {
+	if (decrypted.length === 0 || decrypted[0] !== '{') return {text: decrypted, attachments: []};
 	try {
 		const parsed = JSON.parse(decrypted) as Partial<EnvelopePayloadV2>;
 		if (parsed && parsed.v === 2 && typeof parsed.text === 'string') {
-			return parsed.text;
+			const attachments = Array.isArray(parsed.attachments) ? parsed.attachments : [];
+			return {text: parsed.text, attachments};
 		}
 	} catch {
 		// JSON parse failures fall through to v1.
 	}
-	return decrypted;
+	return {text: decrypted, attachments: []};
+}
+
+// Per-message cache of the AES keys we extracted from the v2 envelope.
+// Keyed by message id and then attachment id so the renderer can do a
+// constant-time lookup. The cache is intentionally module-local — it
+// doesn't survive a hard refresh, but neither does the in-memory
+// MessageStore, so the contract holds: any message visible in the UI
+// that had encrypted attachments will have its keys here.
+const attachmentKeyCache = new Map<string, Map<string, EnvelopeAttachmentEntry>>();
+
+export function recordAttachmentKeys(messageId: string, entries: ReadonlyArray<EnvelopeAttachmentEntry>): void {
+	if (entries.length === 0) return;
+	let bucket = attachmentKeyCache.get(messageId);
+	if (!bucket) {
+		bucket = new Map();
+		attachmentKeyCache.set(messageId, bucket);
+	}
+	for (const entry of entries) bucket.set(entry.id, entry);
+}
+
+export function getAttachmentKey(messageId: string, attachmentId: string): EnvelopeAttachmentEntry | null {
+	return attachmentKeyCache.get(messageId)?.get(attachmentId) ?? null;
+}
+
+export function hasAttachmentKey(messageId: string, attachmentId: string): boolean {
+	return attachmentKeyCache.get(messageId)?.has(attachmentId) ?? false;
 }
 
 // Returns null if the channel isn't E2EE-eligible (not a 1:1 DM, missing
@@ -165,6 +209,7 @@ export async function tryEncryptForChannel(
 
 export interface DecryptionResult {
 	plaintext: string;
+	attachments: Array<EnvelopeAttachmentEntry>;
 	verificationStatus: 'verified' | 'changed' | 'unverified';
 }
 
@@ -215,7 +260,8 @@ export async function tryDecryptForCurrentDevice(
 			encryptedPayload.sender_device_id,
 			encryptedPayload.sender_identity_key,
 		);
-		return {plaintext: unwrapPlaintext(decrypted), verificationStatus};
+		const unwrapped = unwrapPlaintext(decrypted);
+		return {plaintext: unwrapped.text, attachments: unwrapped.attachments, verificationStatus};
 	} catch (error) {
 		logger.warn('Failed to decrypt incoming message', {error});
 		return null;
