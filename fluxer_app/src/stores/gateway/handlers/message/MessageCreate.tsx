@@ -86,10 +86,13 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			// Sender's own gateway echo: we never put a ciphertext slot for
 			// our own device, so decrypt returns null. Substitute the
 			// plaintext we cached at send-time so we don't show our own
-			// message as un-decryptable.
+			// message as un-decryptable. The cache may be keyed by nonce
+			// (populated before the send) or by server id (populated after
+			// the HTTP response), depending on whether the gateway beat
+			// the response back to us.
 			let content = buildDecryptedContent(result);
 			if (!result && senderUserId === currentUserId) {
-				const cached = getSentPlaintext(data.id);
+				const cached = getSentPlaintext(data.id) ?? (data.nonce ? getSentPlaintext(data.nonce) : null);
 				if (cached !== null) content = cached;
 			}
 			const decryptedMessage: Message = {

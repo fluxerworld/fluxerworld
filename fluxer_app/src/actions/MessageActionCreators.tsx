@@ -452,6 +452,13 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 						encryptedPayload = encrypted.encrypted_payload;
 						effectiveContent = '';
 						effectiveFlags = (effectiveFlags ?? 0) | MessageFlags.ENCRYPTED;
+						// Pre-populate the sender plaintext cache by nonce so
+						// the gateway echo can find it even if it arrives
+						// before the HTTP response (we don't know the server
+						// id yet — that gets added below in the success
+						// callback for any look-up paths that already have
+						// the canonical id).
+						recordSentPlaintext(params.nonce, params.content);
 					} else {
 						promptUnencryptedFallback(channelId, params, 'failure');
 						resolve(null);
