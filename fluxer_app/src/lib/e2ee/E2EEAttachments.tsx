@@ -82,11 +82,3 @@ export async function encryptFileForUpload(
 	return {encryptedFile, envelopeEntry};
 }
 
-// Any non-empty mime is encryptable — the receiver bubble renders
-// images inline and falls back to a decrypt-on-demand download card
-// for everything else. Voice messages (waveform metadata exposed
-// pre-encryption) are filtered upstream by the VOICE_MESSAGE flag,
-// not here.
-export function isMimeEncryptable(mime: string | undefined): boolean {
-	return Boolean(mime);
-}

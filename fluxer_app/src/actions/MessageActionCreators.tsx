@@ -41,7 +41,7 @@ import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
 import E2EEStore from '@app/stores/E2EEStore';
 import GuildMemberStore from '@app/stores/GuildMemberStore';
 import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
-import {encryptFileForUpload, isMimeEncryptable} from '@app/lib/e2ee/E2EEAttachments';
+import {encryptFileForUpload} from '@app/lib/e2ee/E2EEAttachments';
 import {
 	buildDecryptedContent,
 	type EnvelopeAttachmentEntry,
@@ -356,17 +356,17 @@ export async function fetchMessages(
 	return promise;
 }
 
-// Pop a confirmation modal when an E2EE channel send can't be encrypted
-// (peer has no E2EE devices, or the message has attachments/stickers
-// which aren't on an encryption path yet). The caller has already
-// abandoned the original send attempt; primary action re-issues with
-// skipE2EE=true so the message goes plaintext exactly once at the user's
-// explicit request. Secondary leaves the optimistic message marked
-// failed so the existing retry button still works.
+// Pop a confirmation modal when an E2EE channel send can't be
+// encrypted. Stickers stay on this prompt (no E2EE path for them yet
+// — they're a server-side reference, not a payload we can wrap), and
+// the 'failure' branch fires when encryption itself can't run because
+// the peer hasn't set up E2EE on their end. Primary re-issues with
+// skipE2EE=true so the message goes plaintext exactly once at the
+// user's explicit request.
 function promptUnencryptedFallback(
 	channelId: string,
 	params: SendMessageParams,
-	reason: 'media' | 'failure',
+	reason: 'stickers' | 'failure',
 ): void {
 	MessageStore.handleSendFailed({channelId, nonce: params.nonce});
 	ModalActionCreators.push(
@@ -374,9 +374,9 @@ function promptUnencryptedFallback(
 			<ConfirmModal
 				title={i18n._(msg`Couldn't encrypt this message`)}
 				description={
-					reason === 'media'
+					reason === 'stickers'
 						? i18n._(
-								msg`Attachments and stickers aren't encrypted yet. Send this message without encryption?`,
+								msg`Stickers aren't encrypted yet. Remove them or send this message without encryption?`,
 							)
 						: i18n._(
 								msg`Your contact doesn't have end-to-end encryption set up. Send this message without encryption?`,
@@ -405,7 +405,7 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 
 			if (E2EEStore.isChannelEncrypted(channelId) && !params.skipE2EE) {
 				if (params.stickers?.length) {
-					promptUnencryptedFallback(channelId, params, 'media');
+					promptUnencryptedFallback(channelId, params, 'stickers');
 					resolve(null);
 					return;
 				}
@@ -413,12 +413,11 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 				if (params.hasAttachments) {
 					const upload = CloudUpload.getMessageUpload(params.nonce);
 					if (!upload || upload.attachments.length === 0) {
-						promptUnencryptedFallback(channelId, params, 'media');
-						resolve(null);
-						return;
-					}
-					if (!upload.attachments.every((att) => isMimeEncryptable(att.file.type))) {
-						promptUnencryptedFallback(channelId, params, 'media');
+						// No upload context found for this nonce — defensive fallback.
+						// The user attached files but the local upload state went away
+						// (cancelled, cleared on tab close, etc.), so there's nothing
+						// to encrypt. Treat as a generic encrypt failure.
+						promptUnencryptedFallback(channelId, params, 'failure');
 						resolve(null);
 						return;
 					}
