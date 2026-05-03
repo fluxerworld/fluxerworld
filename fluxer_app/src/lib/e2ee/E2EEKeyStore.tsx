@@ -116,6 +116,12 @@ export async function putStoredAccount(account: PickledAccount): Promise<void> {
 	const db = await openDB();
 	const tx = db.transaction([ACCOUNT_STORE], 'readwrite');
 	await reqToPromise(tx.objectStore(ACCOUNT_STORE).put(account));
+	// Account writes happen on initial registration and on inbound prekey
+	// message handling (one-time-key consumption). The latter is "session-
+	// shaped" state that doesn't need to be backed up urgently, but it's
+	// rare enough that bumping here is fine — keeps the staleness check
+	// simple by treating any account-level write as worth backing up.
+	await bumpStateVersion();
 }
 
 export async function deleteStoredAccount(userId: string): Promise<void> {
@@ -195,15 +201,47 @@ export async function putVerification(entry: VerificationEntry): Promise<void> {
 	const db = await openDB();
 	const tx = db.transaction([VERIFICATION_STORE], 'readwrite');
 	await reqToPromise(tx.objectStore(VERIFICATION_STORE).put(entry));
+	await bumpStateVersion();
 }
 
 export async function deleteVerification(remoteUserId: string, remoteDeviceId: string): Promise<void> {
 	const db = await openDB();
 	const tx = db.transaction([VERIFICATION_STORE], 'readwrite');
 	await reqToPromise(tx.objectStore(VERIFICATION_STORE).delete([remoteUserId, remoteDeviceId]));
+	await bumpStateVersion();
 }
 
 const PICKLE_KEY_META = 'pickle_key';
+const STATE_VERSION_META = 'state_version';
+const LAST_BACKUP_VERSION_META = 'last_backup_state_version';
+
+// Monotonic counter bumped every time a meaningful piece of E2EE state
+// changes locally — new account, new session, new verification. We
+// compare against the last value seen at backup time to decide whether
+// the user is sitting on un-backed-up changes.
+export async function getStateVersion(): Promise<number> {
+	const raw = await getMeta(STATE_VERSION_META);
+	if (!raw) return 0;
+	const n = Number.parseInt(raw, 10);
+	return Number.isFinite(n) ? n : 0;
+}
+
+export async function bumpStateVersion(): Promise<number> {
+	const next = (await getStateVersion()) + 1;
+	await setMeta(STATE_VERSION_META, String(next));
+	return next;
+}
+
+export async function getLastBackupStateVersion(): Promise<number | null> {
+	const raw = await getMeta(LAST_BACKUP_VERSION_META);
+	if (!raw) return null;
+	const n = Number.parseInt(raw, 10);
+	return Number.isFinite(n) ? n : null;
+}
+
+export async function recordBackupStateVersion(version: number): Promise<void> {
+	await setMeta(LAST_BACKUP_VERSION_META, String(version));
+}
 
 // Per-install random key used to obfuscate pickled state. Generated lazily
 // on first access and cached in-memory for the session.

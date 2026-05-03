@@ -19,13 +19,16 @@
 
 import {Endpoints} from '@app/Endpoints';
 import {
+	getLastBackupStateVersion,
 	getMeta,
+	getStateVersion,
 	getStoredAccount,
 	type PickledAccount,
 	type PickledSession,
 	putSession,
 	putStoredAccount,
 	putVerification,
+	recordBackupStateVersion,
 	setMeta,
 	type VerificationEntry,
 } from '@app/lib/e2ee/E2EEKeyStore';
@@ -175,7 +178,19 @@ export async function buildAndUploadBackup(userId: string, passphrase: string): 
 	};
 
 	await http.put(Endpoints.USER_E2EE_BACKUP, body);
-	logger.info('E2EE backup uploaded', {userId, ciphertextBytes: ciphertextBuf.byteLength});
+	const stateVersion = await getStateVersion();
+	await recordBackupStateVersion(stateVersion);
+	logger.info('E2EE backup uploaded', {userId, ciphertextBytes: ciphertextBuf.byteLength, stateVersion});
+}
+
+// "Backup is stale" predicate. True when local state has advanced since
+// the last successful upload, or when there's a backup on the server but
+// we've never matched it locally (likely because we just restored).
+export async function isBackupStale(): Promise<boolean> {
+	const lastBackedUp = await getLastBackupStateVersion();
+	if (lastBackedUp === null) return true;
+	const current = await getStateVersion();
+	return current > lastBackedUp;
 }
 
 export async function fetchBackupMetadata(): Promise<BackupServerResponse | null> {
@@ -237,7 +252,14 @@ export async function downloadAndRestoreBackup(passphrase: string): Promise<{
 		verificationsRestored++;
 	}
 
-	logger.info('E2EE backup restored', {sessionsRestored, verificationsRestored});
+	// The restore writes bumped the local state version; reset
+	// last-backup-version to current so the staleness banner doesn't
+	// immediately fire ("you just restored, that means your local state
+	// matches the server backup").
+	const stateVersion = await getStateVersion();
+	await recordBackupStateVersion(stateVersion);
+
+	logger.info('E2EE backup restored', {sessionsRestored, verificationsRestored, stateVersion});
 	return {sessionsRestored, verificationsRestored};
 }
 

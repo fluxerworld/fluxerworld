@@ -48,15 +48,20 @@ const BackupControls: React.FC = observer(() => {
 	const {t} = useLingui();
 	const [backupExists, setBackupExists] = useState<boolean | null>(null);
 	const [backupUpdatedAt, setBackupUpdatedAt] = useState<string | null>(null);
+	const [stale, setStale] = useState(false);
 	const [passphrase, setPassphrase] = useState('');
 	const [busy, setBusy] = useState<'save' | 'restore' | 'delete' | null>(null);
 	const [feedback, setFeedback] = useState<{kind: 'ok' | 'err'; message: string} | null>(null);
 
 	const refresh = useCallback(async () => {
 		try {
-			const meta = await E2EEBackup.fetchBackupMetadata();
+			const [meta, isStale] = await Promise.all([
+				E2EEBackup.fetchBackupMetadata(),
+				E2EEBackup.isBackupStale(),
+			]);
 			setBackupExists(meta !== null);
 			setBackupUpdatedAt(meta?.updated_at ?? null);
+			setStale(isStale);
 		} catch (err) {
 			logger.warn('Failed to read backup metadata', {err});
 			setBackupExists(null);
@@ -94,12 +99,13 @@ const BackupControls: React.FC = observer(() => {
 				message: t`Restored ${result.sessionsRestored} sessions and ${result.verificationsRestored} verified peers. Reload the app to start using them.`,
 			});
 			setPassphrase('');
+			await refresh();
 		} catch (err) {
 			setFeedback({kind: 'err', message: err instanceof Error ? err.message : String(err)});
 		} finally {
 			setBusy(null);
 		}
-	}, [passphrase, t]);
+	}, [passphrase, refresh, t]);
 
 	const handleDelete = useCallback(async () => {
 		setBusy('delete');
@@ -141,6 +147,21 @@ const BackupControls: React.FC = observer(() => {
 						<Trans>Server has a backup, last updated {formatDate(backupUpdatedAt ?? '')}.</Trans>
 					) : (
 						<Trans>No backup on the server yet.</Trans>
+					)}
+				</p>
+			)}
+			{stale && (
+				<p
+					style={{
+						fontSize: '0.75rem',
+						color: 'var(--status-warning, var(--status-danger))',
+						margin: 0,
+					}}
+				>
+					{backupExists ? (
+						<Trans>Your local encryption state has changed since the last backup. Save a new backup to keep it recoverable.</Trans>
+					) : (
+						<Trans>You don't have a backup yet — without one, you can't recover your sessions on a new device.</Trans>
 					)}
 				</p>
 			)}
