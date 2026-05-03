@@ -220,27 +220,43 @@ export class E2EEManager {
 
 	// Encrypt a plaintext for every device in the supplied bundle list. If
 	// no session exists for a device, X3DH is run inline using the
-	// claimed prekey bundle.
-	async encryptForBundles(bundles: Array<PrekeyBundle>, plaintext: string): Promise<Array<EncryptedMessage>> {
+	// claimed prekey bundle. The output array has the same length as
+	// `bundles`; entries are null for devices we couldn't reach (no
+	// existing session and no claimable one-time prekey, Olm internal
+	// failure, etc.) so the caller can skip them while preserving the
+	// indexing it relies on.
+	async encryptForBundles(
+		bundles: Array<PrekeyBundle>,
+		plaintext: string,
+	): Promise<Array<EncryptedMessage | null>> {
 		const Olm = await ensureOlmInitialised();
 		const {account, deviceId: ourDeviceId} = this.requireAccount();
 		const pickleKey = await getPickleKey();
-		const out: Array<EncryptedMessage> = [];
+		const out: Array<EncryptedMessage | null> = [];
 
 		for (const bundle of bundles) {
-			const session = await this.loadOrCreateOutboundSession(Olm, account, bundle, pickleKey);
-			const message = session.encrypt(plaintext) as {type: 0 | 1; body: string};
-			out.push({device_id: ourDeviceId, type: message.type, body: message.body});
+			try {
+				const session = await this.loadOrCreateOutboundSession(Olm, account, bundle, pickleKey);
+				const message = session.encrypt(plaintext) as {type: 0 | 1; body: string};
+				out.push({device_id: ourDeviceId, type: message.type, body: message.body});
 
-			await putSession({
-				remote_user_id: bundle.user_id,
-				remote_device_id: bundle.device_id,
-				session_id: session.session_id(),
-				pickle: session.pickle(pickleKey),
-				created_at: Date.now(),
-				last_used_at: Date.now(),
-			});
-			session.free();
+				await putSession({
+					remote_user_id: bundle.user_id,
+					remote_device_id: bundle.device_id,
+					session_id: session.session_id(),
+					pickle: session.pickle(pickleKey),
+					created_at: Date.now(),
+					last_used_at: Date.now(),
+				});
+				session.free();
+			} catch (error) {
+				logger.warn('Skipping unreachable peer bundle', {
+					userId: bundle.user_id,
+					deviceId: bundle.device_id,
+					error,
+				});
+				out.push(null);
+			}
 		}
 
 		return out;

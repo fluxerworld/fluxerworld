@@ -305,6 +305,15 @@ export async function tryEncryptForChannel(
 		ciphertexts[`${bundle.user_id}:${bundle.device_id}`] = {type: enc.type, body: enc.body};
 	}
 
+	// If every bundle was unreachable (claim returned no prekeys for any
+	// peer device, Olm refused all of them) the message would go out
+	// with no ciphertext slots — a black hole. Surface as a regular
+	// encrypt failure so the caller can prompt for plaintext fallback.
+	if (Object.keys(ciphertexts).length === 0) {
+		logger.warn('No reachable peer devices for encrypt');
+		return null;
+	}
+
 	const senderIdentityKey = recipientBundles[0]
 		? '' // we don't surface the local identity key from the manager today;
 		: '';
