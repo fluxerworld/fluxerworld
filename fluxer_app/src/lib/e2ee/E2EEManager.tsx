@@ -19,6 +19,7 @@
 
 import {
 	deleteSessionsForRemoteDevice,
+	deleteStoredAccount,
 	getPickleKey,
 	getSessionsForRemoteDevice,
 	getStoredAccount,
@@ -111,6 +112,20 @@ export class E2EEManager {
 
 	hasAccount(): boolean {
 		return this.accountInstance !== null;
+	}
+
+	// Wipe the cached account + the IDB record for the current user so
+	// that a follow-up generateInitialKeys/registerFreshDevice flow
+	// produces a brand new identity. Used when we detect the local
+	// device isn't on the server (failed prior registration, etc.).
+	async resetForFreshRegistration(): Promise<void> {
+		const userId = this.accountUserId;
+		this.accountInstance = null;
+		this.deviceId = null;
+		if (userId) {
+			await deleteStoredAccount(userId);
+		}
+		this.accountUserId = null;
 	}
 
 	private requireAccount(): {account: unknown; userId: string; deviceId: string} {

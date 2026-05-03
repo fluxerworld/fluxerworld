@@ -398,12 +398,24 @@ class E2EEStore {
 	// so the bootstrap flow can run a check on startup; harmless to call
 	// when the device already has plenty of keys queued.
 	async maybeReplenishOneTimeKeys(): Promise<void> {
-		if (!this.deviceId) return;
+		if (!this.deviceId || !this.currentUserId) return;
 		try {
 			const devices = await E2EEActionCreators.listOwnDevices();
 			const ours = devices.find((d) => d.device_id === this.deviceId);
 			if (!ours) {
-				logger.warn('Own device missing from server-side device list, re-registering on next bootstrap');
+				// Local IDB has a device the server doesn't know about —
+				// almost always because the previous registration call
+				// failed or the device was wiped server-side. Force a
+				// fresh registration so the rest of the flow has a real
+				// device to point at instead of silently sending requests
+				// the server rejects.
+				logger.warn('Own device missing from server-side device list, re-registering');
+				const userId = this.currentUserId;
+				await e2eeManager.resetForFreshRegistration();
+				runInAction(() => {
+					this.deviceId = null;
+				});
+				await this.registerFreshDevice(userId);
 				return;
 			}
 			if (ours.one_time_prekey_count > 10) return;
