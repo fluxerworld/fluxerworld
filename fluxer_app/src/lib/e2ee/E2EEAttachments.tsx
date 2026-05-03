@@ -82,11 +82,11 @@ export async function encryptFileForUpload(
 	return {encryptedFile, envelopeEntry};
 }
 
-// Heuristic: which mime types do we currently know how to render
-// post-decrypt? Slice 1 of attachments is image-only — anything else
-// flows through the existing "send unencrypted" prompt rather than
-// silently encrypting media the recipient can't view.
+// Any non-empty mime is encryptable — the receiver bubble renders
+// images inline and falls back to a decrypt-on-demand download card
+// for everything else. Voice messages (waveform metadata exposed
+// pre-encryption) are filtered upstream by the VOICE_MESSAGE flag,
+// not here.
 export function isMimeEncryptable(mime: string | undefined): boolean {
-	if (!mime) return false;
-	return mime.startsWith('image/');
+	return Boolean(mime);
 }

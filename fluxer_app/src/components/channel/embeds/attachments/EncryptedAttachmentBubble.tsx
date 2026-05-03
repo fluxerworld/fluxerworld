@@ -22,8 +22,9 @@ import {getAttachmentKey} from '@app/lib/e2ee/E2EEMessageIntegration';
 import {useDecryptedAttachment} from '@app/lib/e2ee/EncryptedAttachmentLoader';
 import type {MessageRecord} from '@app/records/MessageRecord';
 import type {MessageAttachment} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
-import {Trans} from '@lingui/react/macro';
-import type {FC} from 'react';
+import {Trans, useLingui} from '@lingui/react/macro';
+import {DownloadSimpleIcon, FileIcon, LockKeyIcon} from '@phosphor-icons/react';
+import {type FC, useCallback, useEffect, useRef, useState} from 'react';
 
 interface Props {
 	attachment: MessageAttachment;
@@ -32,20 +33,48 @@ interface Props {
 
 const MAX_INLINE_DIMENSION = 400;
 
-// Renders an encrypted attachment in three phases: skeleton while
-// fetching+decrypting, an inline <img> once the AES-GCM decrypt
-// resolves, or a placeholder if the key is missing or decryption fails.
-// Image-only for v1 — non-image mimes get a download link to the
-// decrypted blob, video/audio playback is deferred to a later slice.
+// Renders an encrypted attachment in two modes:
+//   - image/* — fetch + decrypt eagerly so the inline preview is
+//     ready by the time the user looks at the bubble (matches the
+//     non-encrypted UX);
+//   - everything else — a download card that defers fetch + decrypt
+//     until the user clicks. Decrypting a 50MB upload off-screen is
+//     wasteful and feels unsafe; the user should opt in.
 export const EncryptedAttachmentBubble: FC<Props> = ({attachment, message}) => {
+	const {t} = useLingui();
 	const entry = getAttachmentKey(message.id, attachment.id);
 	const ciphertextUrl = attachment.url ?? '';
+
+	const isImageMime = entry?.mime.startsWith('image/') ?? false;
+	const [requested, setRequested] = useState(false);
+	const downloadFiredRef = useRef(false);
+
 	const result = useDecryptedAttachment({
 		messageId: message.id,
 		attachmentId: attachment.id,
 		ciphertextUrl,
-		enabled: Boolean(entry) && Boolean(ciphertextUrl),
+		enabled: Boolean(entry) && Boolean(ciphertextUrl) && (isImageMime || requested),
 	});
+
+	// Auto-download once a user-requested decrypt resolves.
+	useEffect(() => {
+		if (isImageMime) return;
+		if (!requested) return;
+		if (result.status !== 'ready' || !result.blobUrl) return;
+		if (downloadFiredRef.current) return;
+		downloadFiredRef.current = true;
+		const a = document.createElement('a');
+		a.href = result.blobUrl;
+		a.download = entry?.name ?? attachment.filename;
+		document.body.appendChild(a);
+		a.click();
+		a.remove();
+	}, [isImageMime, requested, result.status, result.blobUrl, entry?.name, attachment.filename]);
+
+	const handleDownload = useCallback(() => {
+		downloadFiredRef.current = false;
+		setRequested(true);
+	}, []);
 
 	if (!entry) {
 		return (
@@ -55,35 +84,25 @@ export const EncryptedAttachmentBubble: FC<Props> = ({attachment, message}) => {
 		);
 	}
 
-	const targetWidth = Math.min(entry.width ?? MAX_INLINE_DIMENSION, MAX_INLINE_DIMENSION);
-	const targetHeight = entry.width && entry.height
-		? Math.round((entry.height / entry.width) * targetWidth)
-		: undefined;
+	if (isImageMime) {
+		const targetWidth = Math.min(entry.width ?? MAX_INLINE_DIMENSION, MAX_INLINE_DIMENSION);
+		const targetHeight =
+			entry.width && entry.height ? Math.round((entry.height / entry.width) * targetWidth) : undefined;
 
-	if (result.status === 'loading' || result.status === 'idle') {
-		return (
-			<div
-				style={{
-					...skeletonStyle,
-					width: targetWidth,
-					height: targetHeight ?? 200,
-				}}
-			>
-				<Spinner />
-			</div>
-		);
-	}
-
-	if (result.status === 'error' || !result.blobUrl) {
-		return (
-			<div style={placeholderStyle}>
-				<Trans>Couldn't decrypt this attachment.</Trans>
-			</div>
-		);
-	}
-
-	const mime = result.mime ?? entry.mime;
-	if (mime.startsWith('image/')) {
+		if (result.status === 'loading' || result.status === 'idle') {
+			return (
+				<div style={{...skeletonStyle, width: targetWidth, height: targetHeight ?? 200}}>
+					<Spinner />
+				</div>
+			);
+		}
+		if (result.status === 'error' || !result.blobUrl) {
+			return (
+				<div style={placeholderStyle}>
+					<Trans>Couldn't decrypt this attachment.</Trans>
+				</div>
+			);
+		}
 		return (
 			<a
 				href={result.blobUrl}
@@ -103,11 +122,40 @@ export const EncryptedAttachmentBubble: FC<Props> = ({attachment, message}) => {
 		);
 	}
 
-	// Non-image v1: render a download-the-decrypted-file link.
+	const isWorking = requested && (result.status === 'idle' || result.status === 'loading');
+	const isError = requested && (result.status === 'error' || (result.status === 'ready' && !result.blobUrl));
+	const downloadable = Boolean(requested && result.status === 'ready' && result.blobUrl);
+
 	return (
-		<a href={result.blobUrl} download={entry.name} style={downloadLinkStyle}>
-			<Trans>Download decrypted attachment ({entry.name})</Trans>
-		</a>
+		<button
+			type="button"
+			onClick={handleDownload}
+			disabled={isWorking || downloadable}
+			aria-label={t`Decrypt and download ${entry.name}`}
+			style={fileCardStyle}
+		>
+			<FileIcon size={28} weight="regular" />
+			<div style={fileCardTextColumnStyle}>
+				<span style={fileCardNameStyle}>{entry.name}</span>
+				<span style={fileCardSubStyle}>
+					<LockKeyIcon size={12} weight="fill" style={{verticalAlign: 'text-bottom'}} />{' '}
+					{isError ? (
+						<Trans>Couldn't decrypt — try again</Trans>
+					) : isWorking ? (
+						<Trans>Decrypting…</Trans>
+					) : downloadable ? (
+						<Trans>Downloaded</Trans>
+					) : (
+						<Trans>Encrypted attachment — click to decrypt and download</Trans>
+					)}
+				</span>
+			</div>
+			{isWorking ? (
+				<Spinner />
+			) : (
+				<DownloadSimpleIcon size={20} weight="regular" />
+			)}
+		</button>
 	);
 };
 
@@ -127,11 +175,36 @@ const skeletonStyle: React.CSSProperties = {
 	borderRadius: '0.25rem',
 };
 
-const downloadLinkStyle: React.CSSProperties = {
-	display: 'inline-block',
+const fileCardStyle: React.CSSProperties = {
+	display: 'inline-flex',
+	alignItems: 'center',
+	gap: '0.75rem',
 	padding: '0.5rem 0.75rem',
 	border: '1px solid var(--background-modifier-accent)',
 	borderRadius: '0.5rem',
-	color: 'var(--text-link)',
-	textDecoration: 'none',
+	background: 'var(--background-secondary)',
+	color: 'var(--text-primary)',
+	cursor: 'pointer',
+	maxWidth: '100%',
+	font: 'inherit',
+};
+
+const fileCardTextColumnStyle: React.CSSProperties = {
+	display: 'flex',
+	flexDirection: 'column',
+	textAlign: 'left',
+	minWidth: 0,
+};
+
+const fileCardNameStyle: React.CSSProperties = {
+	fontSize: '0.875rem',
+	overflow: 'hidden',
+	textOverflow: 'ellipsis',
+	whiteSpace: 'nowrap',
+	maxWidth: '24rem',
+};
+
+const fileCardSubStyle: React.CSSProperties = {
+	fontSize: '0.75rem',
+	color: 'var(--text-secondary)',
 };
