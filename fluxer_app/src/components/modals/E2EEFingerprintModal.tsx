@@ -42,6 +42,21 @@ const formatFingerprint = (key: string): string => {
 	return groups.join(' ');
 };
 
+const formatVerifiedAgo = (timestamp: number): string => {
+	const seconds = Math.floor((Date.now() - timestamp) / 1000);
+	if (seconds < 60) return 'just now';
+	const minutes = Math.floor(seconds / 60);
+	if (minutes < 60) return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
+	const hours = Math.floor(minutes / 60);
+	if (hours < 24) return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+	const days = Math.floor(hours / 24);
+	if (days < 30) return `${days} day${days === 1 ? '' : 's'} ago`;
+	const months = Math.floor(days / 30);
+	if (months < 12) return `${months} month${months === 1 ? '' : 's'} ago`;
+	const years = Math.floor(months / 12);
+	return `${years} year${years === 1 ? '' : 's'} ago`;
+};
+
 const VerificationBadge: React.FC<{status: 'verified' | 'changed' | 'unverified'}> = ({status}) => {
 	if (status === 'verified') {
 		return (
@@ -90,6 +105,9 @@ const Section: React.FC<SectionProps> = observer(({title, devices, verifiable}) 
 					const status = verifiable
 						? E2EEStore.checkVerificationStatus(device.user_id, device.device_id, device.identity_key)
 						: 'unverified';
+					const verificationEntry = verifiable
+						? E2EEStore.getVerification(device.user_id, device.device_id)
+						: null;
 					const handleVerify = () =>
 						void E2EEStore.markVerified(device.user_id, device.device_id, device.identity_key);
 					const handleUnverify = () => void E2EEStore.clearVerification(device.user_id, device.device_id);
@@ -112,6 +130,11 @@ const Section: React.FC<SectionProps> = observer(({title, devices, verifiable}) 
 							<span style={{fontFamily: 'monospace', fontSize: '0.75rem', wordBreak: 'break-all'}}>
 								{formatFingerprint(device.identity_key)}
 							</span>
+							{verifiable && status === 'verified' && verificationEntry && (
+								<span style={{fontSize: '0.75rem', color: 'var(--text-tertiary)'}}>
+									<Trans>Verified {formatVerifiedAgo(verificationEntry.verified_at)}</Trans>
+								</span>
+							)}
 							{verifiable && (
 								<div style={{display: 'flex', gap: '0.5rem', marginTop: '0.25rem'}}>
 									{status !== 'verified' && (
