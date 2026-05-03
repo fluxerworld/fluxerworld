@@ -214,6 +214,31 @@ export async function deleteVerification(remoteUserId: string, remoteDeviceId: s
 const PICKLE_KEY_META = 'pickle_key';
 const STATE_VERSION_META = 'state_version';
 const LAST_BACKUP_VERSION_META = 'last_backup_state_version';
+const PEER_IDENTITY_KEY_PREFIX = 'peer_identity:';
+
+// Track the identity key we last saw for each peer device so we can
+// detect when a peer has re-registered (different identity_key for
+// the same device_id is unusual but happens; new device_id is the
+// common case). Sessions tied to the previous identity are dead and
+// must be wiped before we encrypt again.
+function peerIdentityKey(remoteUserId: string, remoteDeviceId: string): string {
+	return `${PEER_IDENTITY_KEY_PREFIX}${remoteUserId}:${remoteDeviceId}`;
+}
+
+export async function getPeerIdentityKey(
+	remoteUserId: string,
+	remoteDeviceId: string,
+): Promise<string | null> {
+	return getMeta(peerIdentityKey(remoteUserId, remoteDeviceId));
+}
+
+export async function setPeerIdentityKey(
+	remoteUserId: string,
+	remoteDeviceId: string,
+	identityKey: string,
+): Promise<void> {
+	await setMeta(peerIdentityKey(remoteUserId, remoteDeviceId), identityKey);
+}
 
 // Monotonic counter bumped every time a meaningful piece of E2EE state
 // changes locally — new account, new session, new verification. We

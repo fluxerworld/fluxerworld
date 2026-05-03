@@ -18,6 +18,11 @@
  */
 
 import * as E2EEActionCreators from '@app/actions/E2EEActionCreators';
+import {
+	deleteSessionsForRemoteDevice,
+	getPeerIdentityKey,
+	setPeerIdentityKey,
+} from '@app/lib/e2ee/E2EEKeyStore';
 import {e2eeManager} from '@app/lib/e2ee/E2EEManager';
 import {Logger} from '@app/lib/Logger';
 import type {ChannelRecord} from '@app/records/ChannelRecord';
@@ -206,6 +211,29 @@ export async function tryEncryptForChannel(
 		signed_prekey: b.signed_prekey,
 		one_time_prekey: b.one_time_prekey ?? null,
 	}));
+
+	// Detect peer identity rotation: if a device's published
+	// identity_key has changed since we last cached one, any locally
+	// stored Olm session for that device was tied to the old identity
+	// and is now dead. Wipe those sessions so loadOrCreateOutboundSession
+	// builds a fresh one against the current keys.
+	for (const bundle of targetBundles) {
+		try {
+			const cached = await getPeerIdentityKey(bundle.user_id, bundle.device_id);
+			if (cached !== null && cached !== bundle.identity_key) {
+				logger.info('Peer identity rotated, dropping stored sessions', {
+					userId: bundle.user_id,
+					deviceId: bundle.device_id,
+				});
+				await deleteSessionsForRemoteDevice(bundle.user_id, bundle.device_id);
+			}
+			if (cached !== bundle.identity_key) {
+				await setPeerIdentityKey(bundle.user_id, bundle.device_id, bundle.identity_key);
+			}
+		} catch (error) {
+			logger.warn('Peer identity check failed, proceeding without rotation guard', {error});
+		}
+	}
 
 	if (targetBundles.length === 0) {
 		// Nobody to send to (recipient has no devices and we're alone). The
