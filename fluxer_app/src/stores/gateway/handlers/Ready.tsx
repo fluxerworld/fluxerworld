@@ -27,6 +27,7 @@ import AuthenticationStore from '@app/stores/AuthenticationStore';
 import AuthSessionStore from '@app/stores/AuthSessionStore';
 import ChannelStore from '@app/stores/ChannelStore';
 import CountryCodeStore from '@app/stores/CountryCodeStore';
+import {isE2EEFeatureEnabled} from '@app/lib/e2ee/E2EEFeatureFlag';
 import E2EEStore from '@app/stores/E2EEStore';
 import EmojiStore from '@app/stores/EmojiStore';
 import FavoriteMemeStore from '@app/stores/FavoriteMemeStore';
@@ -163,7 +164,9 @@ export function handleReady(data: ReadyPayload, context: GatewayHandlerContext):
 
 	VoiceSettingsStore.handleConnectionOpen(data.user);
 	AuthenticationStore.handleConnectionOpen({user: data.user});
-	void E2EEStore.bootstrap(data.user.id).catch(() => {});
+	if (isE2EEFeatureEnabled()) {
+		void E2EEStore.bootstrap(data.user.id).catch(() => {});
+	}
 	GuildStore.handleConnectionOpen({guilds});
 	UserSettingsStore.handleConnectionOpen(data.user_settings);
 	GuildListStore.handleConnectionOpen(guilds);
