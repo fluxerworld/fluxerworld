@@ -55,6 +55,7 @@ export interface VoiceConnectionState {
 	reconnecting: boolean;
 	voiceServerEndpoint: string | null;
 	connectionId: string | null;
+	e2eeEnabled: boolean;
 }
 
 const initialConnectionState: VoiceConnectionState = {
@@ -66,6 +67,7 @@ const initialConnectionState: VoiceConnectionState = {
 	reconnecting: false,
 	voiceServerEndpoint: null,
 	connectionId: null,
+	e2eeEnabled: false,
 };
 
 class VoiceConnectionManager {
@@ -105,6 +107,10 @@ class VoiceConnectionManager {
 
 	get connectionId(): string | null {
 		return this.connectionState.connectionId;
+	}
+
+	get e2eeEnabled(): boolean {
+		return this.connectionState.e2eeEnabled;
 	}
 
 	get voiceServerEndpoint(): string | null {
@@ -268,6 +274,7 @@ class VoiceConnectionManager {
 				channelId: resolvedChannelId,
 				voiceServerEndpoint: endpoint,
 				connectionId: connectionId ?? this.connectionState.connectionId,
+				e2eeEnabled: false,
 			};
 		});
 
@@ -297,7 +304,12 @@ class VoiceConnectionManager {
 					currentUserId,
 					otherUserId,
 				})
-					.then((key) => applyVoiceE2EEKey(room, key))
+					.then(async (key) => {
+						await applyVoiceE2EEKey(room, key);
+						runInAction(() => {
+							this.connectionState = {...this.connectionState, e2eeEnabled: true};
+						});
+					})
 					.catch((error) => logger.warn('Voice E2EE setup failed', {error}));
 			}
 		}
