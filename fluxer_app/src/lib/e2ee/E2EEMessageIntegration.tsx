@@ -242,6 +242,12 @@ export async function tryEncryptForChannel(
 	const senderBundle = ownBundles.find((b) => b.device_id === ownDeviceId);
 	const finalSenderIdentityKey = senderBundle?.identity_key ?? senderIdentityKey;
 
+	// Each pre-key message consumes one of the recipient's published
+	// one-time prekeys. New sessions pop ours too. Schedule a throttled
+	// /devices check so a chatty session keeps the queue topped up
+	// without us hammering the server.
+	E2EEStore.scheduleReplenishCheck();
+
 	return {
 		content: '',
 		flags_to_set: 0, // caller sets MessageFlags.ENCRYPTED itself

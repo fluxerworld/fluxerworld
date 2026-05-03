@@ -69,6 +69,14 @@ class E2EEStore {
 	private peerDeviceFetchedAt = new Map<string, number>();
 	private peerDeviceInflight = new Map<string, Promise<void>>();
 
+	// Throttle for opportunistic one-time-prekey replenish checks. Each
+	// successful encrypt schedules a check, but we don't want N parallel
+	// /devices fetches per chatty session — once every five minutes is
+	// plenty given the 50-key initial budget and the 10-key replenish
+	// threshold.
+	private lastReplenishCheckAt = 0;
+	private replenishInflight: Promise<void> | null = null;
+
 	constructor() {
 		makeAutoObservable(this, {}, {autoBind: true});
 	}
@@ -391,6 +399,20 @@ class E2EEStore {
 			throw new Error('No backup decision pending');
 		}
 		await this.registerFreshDevice(userId);
+	}
+
+	// Throttled wrapper around maybeReplenishOneTimeKeys. Safe to call on
+	// every successful encrypt — back-to-back calls within the throttle
+	// window resolve to the inflight check rather than firing a fresh
+	// /devices fetch each time.
+	scheduleReplenishCheck(): void {
+		const REPLENISH_INTERVAL_MS = 5 * 60_000;
+		if (this.replenishInflight) return;
+		if (Date.now() - this.lastReplenishCheckAt < REPLENISH_INTERVAL_MS) return;
+		this.lastReplenishCheckAt = Date.now();
+		this.replenishInflight = this.maybeReplenishOneTimeKeys().finally(() => {
+			this.replenishInflight = null;
+		});
 	}
 
 	// Called periodically (and after every encrypt) by E2EEManager wiring
