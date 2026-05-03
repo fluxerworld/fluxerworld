@@ -25,6 +25,7 @@ import {Logger} from '@app/lib/Logger';
 import AuthenticationStore from '@app/stores/AuthenticationStore';
 import E2EEStore from '@app/stores/E2EEStore';
 import {Trans, useLingui} from '@lingui/react/macro';
+import {LockKeyIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useCallback, useEffect, useState} from 'react';
@@ -43,6 +44,34 @@ const formatDate = (iso: string): string => {
 		return iso;
 	}
 };
+
+const E2EEExplainer: React.FC = () => (
+	<div
+		style={{
+			border: '1px solid var(--background-modifier-accent)',
+			borderRadius: '8px',
+			padding: '0.75rem 1rem',
+			display: 'flex',
+			gap: '0.75rem',
+			alignItems: 'flex-start',
+		}}
+	>
+		<LockKeyIcon size={20} weight="fill" style={{flexShrink: 0, marginTop: '0.125rem'}} />
+		<div style={{display: 'flex', flexDirection: 'column', gap: '0.25rem'}}>
+			<strong style={{fontSize: '0.875rem'}}>
+				<Trans>What end-to-end encryption gets you</Trans>
+			</strong>
+			<p style={{fontSize: '0.875rem', color: 'var(--text-secondary)', margin: 0, lineHeight: 1.4}}>
+				<Trans>
+					When you turn on the lock in a 1:1 DM, your messages are encrypted on your device before they leave it.
+					The server only sees opaque ciphertext — no one running this server (including us) can read your DMs or
+					listen to your calls. Verify a peer's fingerprint over a separate channel to confirm the keys are theirs.
+					Phase 1 covers DMs and 1:1 voice; group chats are not yet protected.
+				</Trans>
+			</p>
+		</div>
+	</div>
+);
 
 const BackupControls: React.FC = observer(() => {
 	const {t} = useLingui();
@@ -288,6 +317,8 @@ export const E2EETabContent = observer(() => {
 
 	return (
 		<div style={{display: 'flex', flexDirection: 'column', gap: '0.75rem'}}>
+			<E2EEExplainer />
+
 			<BackupControls />
 
 			<p>
