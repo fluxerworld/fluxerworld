@@ -21,6 +21,8 @@ import * as ModalActionCreators from '@app/actions/ModalActionCreators';
 import {modal} from '@app/actions/ModalActionCreators';
 import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
 import * as ReadStateActionCreators from '@app/actions/ReadStateActionCreators';
+import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {i18n} from '@lingui/core';
 import {FeatureTemporarilyDisabledModal} from '@app/components/alerts/FeatureTemporarilyDisabledModal';
 import {MessageDeleteFailedModal} from '@app/components/alerts/MessageDeleteFailedModal';
 import {MessageDeleteTooQuickModal} from '@app/components/alerts/MessageDeleteTooQuickModal';
@@ -351,7 +353,20 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 			let effectiveContent = params.content;
 			let effectiveFlags = params.flags;
 
-			if (E2EEStore.isChannelEncrypted(channelId) && !params.hasAttachments && !params.stickers?.length) {
+			if (E2EEStore.isChannelEncrypted(channelId)) {
+				if (params.hasAttachments || params.stickers?.length) {
+					// Attachments and stickers don't have an E2EE path yet.
+					// Falling back to plaintext silently would defeat the
+					// security promise of the lock toggle, so block the send
+					// outright and let the user choose between disabling
+					// encryption or removing the media.
+					ToastActionCreators.error(
+						i18n._(msg`Attachments and stickers aren't encrypted yet. Remove them, or turn off encryption for this DM to send.`),
+					);
+					resolve(null);
+					return;
+				}
+
 				const channel = ChannelStore.getChannel(channelId);
 				const userId = AuthenticationStore.currentUserId;
 				if (channel && userId) {
@@ -360,6 +375,15 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 						encryptedPayload = encrypted.encrypted_payload;
 						effectiveContent = '';
 						effectiveFlags = (effectiveFlags ?? 0) | MessageFlags.ENCRYPTED;
+					} else {
+						// Same reasoning: rather than ship plaintext under an
+						// encryption-on UI, surface the failure so the user
+						// can decide how to proceed.
+						ToastActionCreators.error(
+							i18n._(msg`Couldn't encrypt this message — your contact may not have set up end-to-end encryption yet.`),
+						);
+						resolve(null);
+						return;
 					}
 				}
 			}
