@@ -22,6 +22,7 @@ import {
 	getSentPlaintext,
 	pairEnvelopeAttachments,
 	recordAttachmentKeys,
+	recordMessageVerification,
 	tryDecryptForCurrentDevice,
 } from '@app/lib/e2ee/E2EEMessageIntegration';
 import AuthenticationStore from '@app/stores/AuthenticationStore';
@@ -78,6 +79,9 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			const result = await tryDecryptForCurrentDevice(currentUserId, senderUserId, data.encrypted_payload);
 			if (result?.attachments.length && data.attachments?.length) {
 				recordAttachmentKeys(data.id, pairEnvelopeAttachments(data.attachments, result.attachments));
+			}
+			if (result) {
+				recordMessageVerification(data.id, result.verificationStatus);
 			}
 			// Sender's own gateway echo: we never put a ciphertext slot for
 			// our own device, so decrypt returns null. Substitute the

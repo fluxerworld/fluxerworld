@@ -131,6 +131,21 @@ export function getSentPlaintext(messageId: string): string | null {
 	return sentPlaintextCache.get(messageId) ?? null;
 }
 
+// Cache the verification status produced by tryDecryptForCurrentDevice so
+// the message bubble can render a per-message lock/shield icon without
+// re-running the verification lookup on every render. Populated from the
+// gateway MESSAGE_CREATE handler and the history-fetch decrypt loop.
+export type MessageVerificationStatus = 'verified' | 'changed' | 'unverified';
+const messageVerificationCache = new Map<string, MessageVerificationStatus>();
+
+export function recordMessageVerification(messageId: string, status: MessageVerificationStatus): void {
+	messageVerificationCache.set(messageId, status);
+}
+
+export function getMessageVerification(messageId: string): MessageVerificationStatus | null {
+	return messageVerificationCache.get(messageId) ?? null;
+}
+
 export function recordAttachmentKeys(messageId: string, entries: ReadonlyArray<CachedAttachmentEntry>): void {
 	if (entries.length === 0) return;
 	let bucket = attachmentKeyCache.get(messageId);

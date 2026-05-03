@@ -47,6 +47,7 @@ import {
 	type EnvelopeAttachmentEntry,
 	pairEnvelopeAttachments,
 	recordAttachmentKeys,
+	recordMessageVerification,
 	recordSentPlaintext,
 	tryDecryptForCurrentDevice,
 	tryEncryptForChannel,
@@ -236,6 +237,9 @@ async function decryptHistoryMessages(messages: ReadonlyArray<Message>): Promise
 			const result = await tryDecryptForCurrentDevice(currentUserId, senderId, msg.encrypted_payload);
 			if (result?.attachments.length && msg.attachments?.length) {
 				recordAttachmentKeys(msg.id, pairEnvelopeAttachments(msg.attachments, result.attachments));
+			}
+			if (result) {
+				recordMessageVerification(msg.id, result.verificationStatus);
 			}
 			MessageStore.handleMessageUpdate({
 				message: {...msg, content: buildDecryptedContent(result)},
