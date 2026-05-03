@@ -17,7 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {tryDecryptForCurrentDevice} from '@app/lib/e2ee/E2EEMessageIntegration';
+import {buildDecryptedContent, tryDecryptForCurrentDevice} from '@app/lib/e2ee/E2EEMessageIntegration';
 import AuthenticationStore from '@app/stores/AuthenticationStore';
 import CallStateStore from '@app/stores/CallStateStore';
 import type {GatewayHandlerContext} from '@app/stores/gateway/handlers';
@@ -33,8 +33,6 @@ import TtsUtils from '@app/utils/TtsUtils';
 import {MessageFlags} from '@fluxer/constants/src/ChannelConstants';
 import type {GuildMemberData} from '@fluxer/schema/src/domains/guild/GuildMemberSchemas';
 import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
-
-const ENCRYPTED_FAILURE_PLACEHOLDER = '\u26a0\ufe0f Encrypted message could not be decrypted on this device.';
 
 export function handleMessageCreate(data: Message, _context: GatewayHandlerContext): void {
 	if (data.guild_id && data.member) {
@@ -72,21 +70,9 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			const senderUserId = data.author?.id;
 			if (!currentUserId || !senderUserId) return;
 			const result = await tryDecryptForCurrentDevice(currentUserId, senderUserId, data.encrypted_payload);
-			let decryptedContent: string;
-			if (!result) {
-				decryptedContent = ENCRYPTED_FAILURE_PLACEHOLDER;
-			} else if (result.verificationStatus === 'changed') {
-				// The peer was previously verified but is now using a different
-				// identity key. That's the classic "is this still your friend or
-				// did someone hijack the session" moment, so we prepend a
-				// warning to the plaintext until the user re-verifies.
-				decryptedContent = `\u26a0\ufe0f ${'Identity key changed since you last verified — re-verify before trusting this message.'}\n\n${result.plaintext}`;
-			} else {
-				decryptedContent = result.plaintext;
-			}
 			const decryptedMessage: Message = {
 				...data,
-				content: decryptedContent,
+				content: buildDecryptedContent(result),
 			};
 			MessageStore.handleIncomingMessage({channelId: data.channel_id, message: decryptedMessage});
 		})();

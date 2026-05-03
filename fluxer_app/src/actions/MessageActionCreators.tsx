@@ -39,7 +39,11 @@ import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
 import E2EEStore from '@app/stores/E2EEStore';
 import GuildMemberStore from '@app/stores/GuildMemberStore';
 import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
-import {tryEncryptForChannel} from '@app/lib/e2ee/E2EEMessageIntegration';
+import {
+	buildDecryptedContent,
+	tryDecryptForCurrentDevice,
+	tryEncryptForChannel,
+} from '@app/lib/e2ee/E2EEMessageIntegration';
 import MessageEditMobileStore from '@app/stores/MessageEditMobileStore';
 import MessageEditStore from '@app/stores/MessageEditStore';
 import MessageReferenceStore from '@app/stores/MessageReferenceStore';
@@ -199,6 +203,35 @@ const tryFetchMessagesCached = (
 	return false;
 };
 
+// Walk a freshly-fetched page of messages and decrypt anything tagged
+// ENCRYPTED in the background. The store-level handleLoadMessagesSuccess
+// has already painted the page with placeholder (empty) content, so this
+// just patches the decrypted plaintext in via handleMessageUpdate as
+// each message resolves. Failures are surfaced with a placeholder string.
+async function decryptHistoryMessages(messages: ReadonlyArray<Message>): Promise<void> {
+	if (!E2EEStore.isReady) return;
+	const currentUserId = AuthenticationStore.currentUserId;
+	if (!currentUserId) return;
+
+	const encrypted = messages.filter(
+		(m) => ((m.flags ?? 0) & MessageFlags.ENCRYPTED) !== 0 && m.encrypted_payload,
+	);
+	if (encrypted.length === 0) return;
+
+	for (const msg of encrypted) {
+		const senderId = msg.author?.id;
+		if (!senderId) continue;
+		try {
+			const result = await tryDecryptForCurrentDevice(currentUserId, senderId, msg.encrypted_payload);
+			MessageStore.handleMessageUpdate({
+				message: {...msg, content: buildDecryptedContent(result)},
+			});
+		} catch (error) {
+			logger.warn('Decrypt history message failed', {messageId: msg.id, error});
+		}
+	}
+}
+
 export async function fetchMessages(
 	channelId: string,
 	before: string | null,
@@ -294,6 +327,7 @@ export async function fetchMessages(
 			MessageReferenceStore.handleMessagesFetchSuccess(channelId, messages);
 
 			void requestMissingGuildMembers(channelId, messages);
+			void decryptHistoryMessages(messages);
 
 			return messages;
 		} catch (error) {

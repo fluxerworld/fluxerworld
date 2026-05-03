@@ -134,6 +134,23 @@ export interface DecryptionResult {
 	verificationStatus: 'verified' | 'changed' | 'unverified';
 }
 
+export const ENCRYPTED_FAILURE_PLACEHOLDER =
+	'\u26a0\ufe0f Encrypted message could not be decrypted on this device.';
+export const ENCRYPTED_KEY_CHANGED_PREFIX =
+	'\u26a0\ufe0f Identity key changed since you last verified — re-verify before trusting this message.';
+
+// Builds the user-visible content string for an incoming or historical
+// encrypted message: plaintext on success, a failure placeholder on
+// decrypt failure, and a re-verify warning prepended when the sender's
+// identity key has rotated since the last verification.
+export function buildDecryptedContent(result: DecryptionResult | null): string {
+	if (!result) return ENCRYPTED_FAILURE_PLACEHOLDER;
+	if (result.verificationStatus === 'changed') {
+		return `${ENCRYPTED_KEY_CHANGED_PREFIX}\n\n${result.plaintext}`;
+	}
+	return result.plaintext;
+}
+
 export async function tryDecryptForCurrentDevice(
 	currentUserId: string,
 	senderUserId: string,
