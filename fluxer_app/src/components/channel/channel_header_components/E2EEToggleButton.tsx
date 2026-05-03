@@ -26,10 +26,10 @@ import E2EEStore from '@app/stores/E2EEStore';
 import UserStore from '@app/stores/UserStore';
 import * as NicknameUtils from '@app/utils/NicknameUtils';
 import {useLingui} from '@lingui/react/macro';
-import {LockKeyIcon, LockKeyOpenIcon, ShieldCheckIcon} from '@phosphor-icons/react';
+import {LockKeyIcon, LockKeyOpenIcon, ShieldCheckIcon, ShieldIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
-import {useCallback} from 'react';
+import {useCallback, useEffect, useMemo} from 'react';
 
 interface E2EEToggleButtonProps {
 	channelId: string;
@@ -40,15 +40,25 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 	const enabled = E2EEStore.isChannelEncrypted(channelId);
 	const ready = E2EEStore.isReady;
 
+	const recipientId = useMemo(() => {
+		const channel = ChannelStore.getChannel(channelId);
+		if (!channel) return null;
+		const ownId = E2EEStore.currentUserId;
+		return channel.recipientIds.find((id) => id !== ownId) ?? null;
+	}, [channelId]);
+
+	useEffect(() => {
+		if (!enabled || !recipientId) return;
+		void E2EEStore.ensureVerificationsForUser(recipientId);
+	}, [enabled, recipientId]);
+
+	const peerVerified = recipientId ? E2EEStore.isPeerVerified(recipientId) : false;
+
 	const handleToggle = useCallback(() => {
 		E2EEStore.setChannelEncrypted(channelId, !enabled);
 	}, [channelId, enabled]);
 
 	const handleVerify = useCallback(() => {
-		const channel = ChannelStore.getChannel(channelId);
-		if (!channel) return;
-		const ownId = E2EEStore.currentUserId;
-		const recipientId = channel.recipientIds.find((id) => id !== ownId);
 		if (!recipientId) return;
 		const recipient = UserStore.getUser(recipientId);
 		const recipientName = recipient
@@ -57,7 +67,7 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 		ModalActionCreators.push(
 			modal(() => <E2EEFingerprintModal recipientUserId={recipientId} recipientName={recipientName} />),
 		);
-	}, [channelId, t]);
+	}, [channelId, recipientId, t]);
 
 	if (!ready) return null;
 
@@ -75,8 +85,13 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 			/>
 			{enabled && (
 				<ChannelHeaderIcon
-					icon={ShieldCheckIcon}
-					label={t`Verify encryption fingerprints`}
+					icon={peerVerified ? ShieldCheckIcon : ShieldIcon}
+					isSelected={peerVerified}
+					label={
+						peerVerified
+							? t`Peer's identity verified — click to review fingerprints`
+							: t`Peer not yet verified — click to compare fingerprints`
+					}
 					onClick={handleVerify}
 				/>
 			)}

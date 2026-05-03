@@ -87,6 +87,17 @@ class E2EEStore {
 		return map ? Array.from(map.values()) : [];
 	}
 
+	// Channel-level "is this peer verified" indicator. True when we have at
+	// least one verification entry for the remote user. This is a coarse
+	// signal — a peer with multiple devices where only some are verified
+	// will read as verified here. The fingerprint modal is what surfaces
+	// per-device status. Call ensureVerificationsForUser before relying on
+	// the result, otherwise a cold cache reads as not-verified.
+	isPeerVerified(remoteUserId: string): boolean {
+		const map = this.verificationCache.get(remoteUserId);
+		return map !== undefined && map.size > 0;
+	}
+
 	async ensureVerificationsForUser(remoteUserId: string): Promise<void> {
 		if (this.verificationCache.has(remoteUserId)) return;
 		const inflight = this.verificationLoadPromises.get(remoteUserId);
