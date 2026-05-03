@@ -41,6 +41,40 @@ export interface EncryptedSendResult {
 
 const SUPPORTED_CHANNEL_TYPES = new Set<number>([ChannelTypes.DM]);
 
+// The plaintext sealed inside Olm has historically been the raw message
+// content string. v2 wraps it in a JSON envelope so we can carry
+// per-attachment AES keys (and any future per-message metadata) without
+// changing the wire shape outside of Olm. v1 string and v2 envelope
+// coexist on the wire — the receiver detects format on decrypt.
+interface EnvelopePayloadV2 {
+	v: 2;
+	text: string;
+}
+
+function wrapPlaintext(text: string): string {
+	const envelope: EnvelopePayloadV2 = {v: 2, text};
+	return JSON.stringify(envelope);
+}
+
+// Reverse of wrapPlaintext, with a v1 fallback so messages from older
+// senders (raw strings) keep decrypting cleanly. The detection is
+// deliberately strict — only a JSON object with v === 2 and a string
+// text counts as v2; anything else is treated as a v1 raw string. That
+// way a user who legitimately types `{"v":1,"text":"hi"}` as their
+// actual message body doesn't get mis-parsed.
+function unwrapPlaintext(decrypted: string): string {
+	if (decrypted.length === 0 || decrypted[0] !== '{') return decrypted;
+	try {
+		const parsed = JSON.parse(decrypted) as Partial<EnvelopePayloadV2>;
+		if (parsed && parsed.v === 2 && typeof parsed.text === 'string') {
+			return parsed.text;
+		}
+	} catch {
+		// JSON parse failures fall through to v1.
+	}
+	return decrypted;
+}
+
 // Returns null if the channel isn't E2EE-eligible (not a 1:1 DM, missing
 // own keys, recipient lacks any E2EE devices, etc.) so the caller can
 // fall through to plaintext send. Group DMs and guild channels are
@@ -94,7 +128,7 @@ export async function tryEncryptForChannel(
 
 	let encryptedMessages;
 	try {
-		encryptedMessages = await e2eeManager.encryptForBundles(targetBundles, plaintext);
+		encryptedMessages = await e2eeManager.encryptForBundles(targetBundles, wrapPlaintext(plaintext));
 	} catch (error) {
 		logger.warn('Encryption failed, falling back to plaintext', {error});
 		return null;
@@ -166,7 +200,7 @@ export async function tryDecryptForCurrentDevice(
 	if (!ciphertext) return null;
 
 	try {
-		const plaintext = await e2eeManager.decrypt(
+		const decrypted = await e2eeManager.decrypt(
 			senderUserId,
 			encryptedPayload.sender_device_id,
 			encryptedPayload.sender_identity_key,
@@ -181,7 +215,7 @@ export async function tryDecryptForCurrentDevice(
 			encryptedPayload.sender_device_id,
 			encryptedPayload.sender_identity_key,
 		);
-		return {plaintext, verificationStatus};
+		return {plaintext: unwrapPlaintext(decrypted), verificationStatus};
 	} catch (error) {
 		logger.warn('Failed to decrypt incoming message', {error});
 		return null;
