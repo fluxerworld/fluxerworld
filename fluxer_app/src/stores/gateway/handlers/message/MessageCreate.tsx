@@ -19,6 +19,7 @@
 
 import {
 	buildDecryptedContent,
+	pairEnvelopeAttachments,
 	recordAttachmentKeys,
 	tryDecryptForCurrentDevice,
 } from '@app/lib/e2ee/E2EEMessageIntegration';
@@ -74,8 +75,8 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			const senderUserId = data.author?.id;
 			if (!currentUserId || !senderUserId) return;
 			const result = await tryDecryptForCurrentDevice(currentUserId, senderUserId, data.encrypted_payload);
-			if (result?.attachments.length) {
-				recordAttachmentKeys(data.id, result.attachments);
+			if (result?.attachments.length && data.attachments?.length) {
+				recordAttachmentKeys(data.id, pairEnvelopeAttachments(data.attachments, result.attachments));
 			}
 			const decryptedMessage: Message = {
 				...data,

@@ -46,8 +46,12 @@ const SUPPORTED_CHANNEL_TYPES = new Set<number>([ChannelTypes.DM]);
 // per-attachment AES keys (and any future per-message metadata) without
 // changing the wire shape outside of Olm. v1 string and v2 envelope
 // coexist on the wire — the receiver detects format on decrypt.
+// One entry per encrypted attachment, in the same order as the
+// outgoing multipart files[] / message.attachments[] arrays. The
+// server assigns the durable attachment id post-upload, so we pair
+// entries by *array index* on receive — the receiver inserts the
+// server id when populating the cache.
 export interface EnvelopeAttachmentEntry {
-	id: string;          // matches MessageAttachment.id from the server
 	key: string;         // base64 raw 32-byte AES-256 key
 	iv: string;          // base64 raw 12-byte GCM nonce
 	mime: string;        // original mime (the wire content_type is octet-stream)
@@ -55,6 +59,10 @@ export interface EnvelopeAttachmentEntry {
 	width?: number;
 	height?: number;
 }
+
+// Cache entry: same as the envelope entry but tagged with the wire
+// attachment id so the renderer can look up by id without knowing index.
+export type CachedAttachmentEntry = EnvelopeAttachmentEntry & {id: string};
 
 interface EnvelopePayloadV2 {
 	v: 2;
@@ -99,9 +107,9 @@ function unwrapPlaintext(decrypted: string): UnwrappedPlaintext {
 // doesn't survive a hard refresh, but neither does the in-memory
 // MessageStore, so the contract holds: any message visible in the UI
 // that had encrypted attachments will have its keys here.
-const attachmentKeyCache = new Map<string, Map<string, EnvelopeAttachmentEntry>>();
+const attachmentKeyCache = new Map<string, Map<string, CachedAttachmentEntry>>();
 
-export function recordAttachmentKeys(messageId: string, entries: ReadonlyArray<EnvelopeAttachmentEntry>): void {
+export function recordAttachmentKeys(messageId: string, entries: ReadonlyArray<CachedAttachmentEntry>): void {
 	if (entries.length === 0) return;
 	let bucket = attachmentKeyCache.get(messageId);
 	if (!bucket) {
@@ -111,12 +119,30 @@ export function recordAttachmentKeys(messageId: string, entries: ReadonlyArray<E
 	for (const entry of entries) bucket.set(entry.id, entry);
 }
 
-export function getAttachmentKey(messageId: string, attachmentId: string): EnvelopeAttachmentEntry | null {
+export function getAttachmentKey(messageId: string, attachmentId: string): CachedAttachmentEntry | null {
 	return attachmentKeyCache.get(messageId)?.get(attachmentId) ?? null;
 }
 
 export function hasAttachmentKey(messageId: string, attachmentId: string): boolean {
 	return attachmentKeyCache.get(messageId)?.has(attachmentId) ?? false;
+}
+
+// Pair the envelope's order-matched attachment entries with the wire
+// attachment array so the cache can be keyed by server attachment id.
+// Truncates to the shorter of the two arrays in case the server
+// dropped one of the uploads (oversize, virus scan, etc.) — those
+// entries fall through to undefined-key which the renderer will treat
+// as missing and surface via the placeholder.
+export function pairEnvelopeAttachments(
+	wireAttachments: ReadonlyArray<{id: string}>,
+	envelopeEntries: ReadonlyArray<EnvelopeAttachmentEntry>,
+): Array<CachedAttachmentEntry> {
+	const out: Array<CachedAttachmentEntry> = [];
+	const len = Math.min(wireAttachments.length, envelopeEntries.length);
+	for (let i = 0; i < len; i++) {
+		out.push({...envelopeEntries[i], id: wireAttachments[i].id});
+	}
+	return out;
 }
 
 // Returns null if the channel isn't E2EE-eligible (not a 1:1 DM, missing
@@ -128,6 +154,7 @@ export async function tryEncryptForChannel(
 	channel: ChannelRecord,
 	currentUserId: string,
 	plaintext: string,
+	attachments?: ReadonlyArray<EnvelopeAttachmentEntry>,
 ): Promise<EncryptedSendResult | null> {
 	if (!E2EEStore.isReady) return null;
 	if (!SUPPORTED_CHANNEL_TYPES.has(channel.type)) return null;
@@ -172,7 +199,10 @@ export async function tryEncryptForChannel(
 
 	let encryptedMessages;
 	try {
-		encryptedMessages = await e2eeManager.encryptForBundles(targetBundles, wrapPlaintext(plaintext));
+		encryptedMessages = await e2eeManager.encryptForBundles(
+			targetBundles,
+			wrapPlaintext(plaintext, attachments),
+		);
 	} catch (error) {
 		logger.warn('Encryption failed, falling back to plaintext', {error});
 		return null;

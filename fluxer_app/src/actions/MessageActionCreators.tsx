@@ -29,6 +29,7 @@ import {ConfirmModal} from '@app/components/modals/ConfirmModal';
 import {Endpoints} from '@app/Endpoints';
 import type {JumpOptions} from '@app/lib/ChannelMessages';
 import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {CloudUpload} from '@app/lib/CloudUpload';
 import http from '@app/lib/HttpClient';
 import {HttpError} from '@app/lib/HttpError';
 import {Logger} from '@app/lib/Logger';
@@ -40,8 +41,11 @@ import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
 import E2EEStore from '@app/stores/E2EEStore';
 import GuildMemberStore from '@app/stores/GuildMemberStore';
 import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
+import {encryptFileForUpload, isMimeEncryptable} from '@app/lib/e2ee/E2EEAttachments';
 import {
 	buildDecryptedContent,
+	type EnvelopeAttachmentEntry,
+	pairEnvelopeAttachments,
 	recordAttachmentKeys,
 	tryDecryptForCurrentDevice,
 	tryEncryptForChannel,
@@ -229,8 +233,8 @@ async function decryptHistoryMessages(messages: ReadonlyArray<Message>): Promise
 		if (!senderId) continue;
 		try {
 			const result = await tryDecryptForCurrentDevice(currentUserId, senderId, msg.encrypted_payload);
-			if (result?.attachments.length) {
-				recordAttachmentKeys(msg.id, result.attachments);
+			if (result?.attachments.length && msg.attachments?.length) {
+				recordAttachmentKeys(msg.id, pairEnvelopeAttachments(msg.attachments, result.attachments));
 			}
 			MessageStore.handleMessageUpdate({
 				message: {...msg, content: buildDecryptedContent(result)},
@@ -396,22 +400,50 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 			let encryptedPayload: SendMessageParams['encryptedPayload'] | undefined;
 			let effectiveContent = params.content;
 			let effectiveFlags = params.flags;
+			let envelopeEntries: Array<EnvelopeAttachmentEntry> | undefined;
 
 			if (E2EEStore.isChannelEncrypted(channelId) && !params.skipE2EE) {
-				if (params.hasAttachments || params.stickers?.length) {
-					// Attachments/stickers don't have an E2EE path yet. Don't
-					// silently downgrade — surface a confirmation that lets
-					// the user explicitly opt back out of encryption for this
-					// one message rather than dead-ending them on a toast.
+				if (params.stickers?.length) {
 					promptUnencryptedFallback(channelId, params, 'media');
 					resolve(null);
 					return;
 				}
 
+				if (params.hasAttachments) {
+					const upload = CloudUpload.getMessageUpload(params.nonce);
+					if (!upload || upload.attachments.length === 0) {
+						promptUnencryptedFallback(channelId, params, 'media');
+						resolve(null);
+						return;
+					}
+					if (!upload.attachments.every((att) => isMimeEncryptable(att.file.type))) {
+						promptUnencryptedFallback(channelId, params, 'media');
+						resolve(null);
+						return;
+					}
+					try {
+						const encryptedFiles = await Promise.all(
+							upload.attachments.map((att) =>
+								encryptFileForUpload(att.file, {width: att.width, height: att.height}),
+							),
+						);
+						envelopeEntries = encryptedFiles.map((r) => r.envelopeEntry);
+						CloudUpload.replaceMessageUploadFiles(
+							params.nonce,
+							encryptedFiles.map((r) => ({file: r.encryptedFile})),
+						);
+					} catch (error) {
+						logger.warn('Failed to encrypt attachments, prompting fallback', {error});
+						promptUnencryptedFallback(channelId, params, 'failure');
+						resolve(null);
+						return;
+					}
+				}
+
 				const channel = ChannelStore.getChannel(channelId);
 				const userId = AuthenticationStore.currentUserId;
 				if (channel && userId) {
-					const encrypted = await tryEncryptForChannel(channel, userId, params.content);
+					const encrypted = await tryEncryptForChannel(channel, userId, params.content, envelopeEntries);
 					if (encrypted) {
 						encryptedPayload = encrypted.encrypted_payload;
 						effectiveContent = '';
@@ -443,6 +475,18 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 				(result, error) => {
 					if (result?.body) {
 						logger.debug(`Message sent successfully in channel ${channelId}`);
+						// Sender's own message never round-trips through the
+						// gateway decrypt path (we exclude our own device when
+						// fanning out per-recipient ciphertexts), so populate
+						// the attachment-key cache here against the server-
+						// assigned ids so the sender can decrypt and view
+						// their own image post-send.
+						if (envelopeEntries && envelopeEntries.length > 0 && result.body.attachments?.length) {
+							recordAttachmentKeys(
+								result.body.id,
+								pairEnvelopeAttachments(result.body.attachments, envelopeEntries),
+							);
+						}
 						resolve(result.body);
 					} else {
 						if (error) {
