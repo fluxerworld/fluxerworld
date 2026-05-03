@@ -47,6 +47,7 @@ import {
 	type EnvelopeAttachmentEntry,
 	pairEnvelopeAttachments,
 	recordAttachmentKeys,
+	recordSentPlaintext,
 	tryDecryptForCurrentDevice,
 	tryEncryptForChannel,
 } from '@app/lib/e2ee/E2EEMessageIntegration';
@@ -477,10 +478,14 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 						logger.debug(`Message sent successfully in channel ${channelId}`);
 						// Sender's own message never round-trips through the
 						// gateway decrypt path (we exclude our own device when
-						// fanning out per-recipient ciphertexts), so populate
-						// the attachment-key cache here against the server-
-						// assigned ids so the sender can decrypt and view
-						// their own image post-send.
+						// fanning out per-recipient ciphertexts). Cache both
+						// the plaintext content and any attachment keys
+						// against the server-assigned id so the gateway echo
+						// of our own MESSAGE_CREATE renders the original
+						// text instead of the failure placeholder.
+						if (encryptedPayload) {
+							recordSentPlaintext(result.body.id, params.content);
+						}
 						if (envelopeEntries && envelopeEntries.length > 0 && result.body.attachments?.length) {
 							recordAttachmentKeys(
 								result.body.id,

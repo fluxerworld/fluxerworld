@@ -19,6 +19,7 @@
 
 import {
 	buildDecryptedContent,
+	getSentPlaintext,
 	pairEnvelopeAttachments,
 	recordAttachmentKeys,
 	tryDecryptForCurrentDevice,
@@ -78,9 +79,18 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			if (result?.attachments.length && data.attachments?.length) {
 				recordAttachmentKeys(data.id, pairEnvelopeAttachments(data.attachments, result.attachments));
 			}
+			// Sender's own gateway echo: we never put a ciphertext slot for
+			// our own device, so decrypt returns null. Substitute the
+			// plaintext we cached at send-time so we don't show our own
+			// message as un-decryptable.
+			let content = buildDecryptedContent(result);
+			if (!result && senderUserId === currentUserId) {
+				const cached = getSentPlaintext(data.id);
+				if (cached !== null) content = cached;
+			}
 			const decryptedMessage: Message = {
 				...data,
-				content: buildDecryptedContent(result),
+				content,
 			};
 			MessageStore.handleIncomingMessage({channelId: data.channel_id, message: decryptedMessage});
 		})();

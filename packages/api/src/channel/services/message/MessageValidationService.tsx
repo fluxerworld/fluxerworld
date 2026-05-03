@@ -75,6 +75,9 @@ export class MessageValidationService {
 		const hasFavoriteMeme = Boolean('favorite_meme_id' in data && data.favorite_meme_id != null);
 		const hasStickers = Boolean('sticker_ids' in data && data.sticker_ids != null && data.sticker_ids.length > 0);
 		const hasFlags = data.flags !== undefined && data.flags !== null;
+		const hasEncryptedPayload = Boolean(
+			'encrypted_payload' in data && data.encrypted_payload != null,
+		);
 		const guildFeatures = options?.guildFeatures ?? null;
 
 		const hasVoiceMessageFlag = !!(data.flags && data.flags & MessageFlags.VOICE_MESSAGE);
@@ -90,7 +93,15 @@ export class MessageValidationService {
 			);
 		}
 
-		if (!hasContent && !hasEmbeds && !hasAttachments && !hasFavoriteMeme && !hasStickers && (!isUpdate || !hasFlags)) {
+		if (
+			!hasContent &&
+			!hasEmbeds &&
+			!hasAttachments &&
+			!hasFavoriteMeme &&
+			!hasStickers &&
+			!hasEncryptedPayload &&
+			(!isUpdate || !hasFlags)
+		) {
 			throw new CannotSendEmptyMessageError();
 		}
 

@@ -109,6 +109,23 @@ function unwrapPlaintext(decrypted: string): UnwrappedPlaintext {
 // that had encrypted attachments will have its keys here.
 const attachmentKeyCache = new Map<string, Map<string, CachedAttachmentEntry>>();
 
+// Sender-side plaintext cache: when we send an encrypted message we
+// don't include a ciphertext slot for our own device (we already
+// have the plaintext locally), so the gateway echo of our own
+// MESSAGE_CREATE can't decrypt and would otherwise display the
+// "could not be decrypted" placeholder. Populating this map at send
+// time lets the gateway handler skip the failure path for our own
+// messages and render the original text instead.
+const sentPlaintextCache = new Map<string, string>();
+
+export function recordSentPlaintext(messageId: string, plaintext: string): void {
+	sentPlaintextCache.set(messageId, plaintext);
+}
+
+export function getSentPlaintext(messageId: string): string | null {
+	return sentPlaintextCache.get(messageId) ?? null;
+}
+
 export function recordAttachmentKeys(messageId: string, entries: ReadonlyArray<CachedAttachmentEntry>): void {
 	if (entries.length === 0) return;
 	let bucket = attachmentKeyCache.get(messageId);
