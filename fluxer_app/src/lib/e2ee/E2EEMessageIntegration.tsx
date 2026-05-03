@@ -131,6 +131,24 @@ export function getSentPlaintext(messageId: string): string | null {
 	return sentPlaintextCache.get(messageId) ?? null;
 }
 
+// Sender-side envelope-entries cache, keyed by nonce — same race story as
+// sentPlaintextCache. Lets the gateway echo of our own message populate
+// the per-attachment key cache even when decrypt returns null (no own
+// ciphertext slot), so the receiver-side EncryptedAttachmentBubble path
+// kicks in for the sender's own bubble too.
+const sentEnvelopeEntriesByNonce = new Map<string, ReadonlyArray<EnvelopeAttachmentEntry>>();
+
+export function recordSentEnvelopeEntries(
+	nonce: string,
+	entries: ReadonlyArray<EnvelopeAttachmentEntry>,
+): void {
+	sentEnvelopeEntriesByNonce.set(nonce, entries);
+}
+
+export function getSentEnvelopeEntries(nonce: string): ReadonlyArray<EnvelopeAttachmentEntry> | null {
+	return sentEnvelopeEntriesByNonce.get(nonce) ?? null;
+}
+
 // Cache the verification status produced by tryDecryptForCurrentDevice so
 // the message bubble can render a per-message lock/shield icon without
 // re-running the verification lookup on every render. Populated from the
@@ -153,6 +171,7 @@ export function getMessageVerification(messageId: string): MessageVerificationSt
 export function clearAllMessageCaches(): void {
 	attachmentKeyCache.clear();
 	sentPlaintextCache.clear();
+	sentEnvelopeEntriesByNonce.clear();
 	messageVerificationCache.clear();
 }
 

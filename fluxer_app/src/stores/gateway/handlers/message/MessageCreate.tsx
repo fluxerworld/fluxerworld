@@ -19,6 +19,7 @@
 
 import {
 	buildDecryptedContent,
+	getSentEnvelopeEntries,
 	getSentPlaintext,
 	pairEnvelopeAttachments,
 	recordAttachmentKeys,
@@ -79,6 +80,22 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			const result = await tryDecryptForCurrentDevice(currentUserId, senderUserId, data.encrypted_payload);
 			if (result?.attachments.length && data.attachments?.length) {
 				recordAttachmentKeys(data.id, pairEnvelopeAttachments(data.attachments, result.attachments));
+			} else if (
+				!result &&
+				senderUserId === currentUserId &&
+				data.attachments?.length &&
+				data.nonce
+			) {
+				// Sender's own gateway echo: decrypt always returns null
+				// because we don't include a ciphertext slot for our own
+				// device. Pull the envelope entries we cached at send-time
+				// so the renderer can still route this to the encrypted
+				// bubble instead of treating ciphertext bytes as a
+				// plaintext PDF/image.
+				const sentEntries = getSentEnvelopeEntries(data.nonce);
+				if (sentEntries && sentEntries.length > 0) {
+					recordAttachmentKeys(data.id, pairEnvelopeAttachments(data.attachments, sentEntries));
+				}
 			}
 			if (result) {
 				recordMessageVerification(data.id, result.verificationStatus);

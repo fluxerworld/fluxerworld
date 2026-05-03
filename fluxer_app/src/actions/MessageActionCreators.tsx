@@ -48,6 +48,7 @@ import {
 	pairEnvelopeAttachments,
 	recordAttachmentKeys,
 	recordMessageVerification,
+	recordSentEnvelopeEntries,
 	recordSentPlaintext,
 	tryDecryptForCurrentDevice,
 	tryEncryptForChannel,
@@ -459,6 +460,9 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 						// callback for any look-up paths that already have
 						// the canonical id).
 						recordSentPlaintext(params.nonce, params.content);
+						if (envelopeEntries && envelopeEntries.length > 0) {
+							recordSentEnvelopeEntries(params.nonce, envelopeEntries);
+						}
 					} else {
 						promptUnencryptedFallback(channelId, params, 'failure');
 						resolve(null);
