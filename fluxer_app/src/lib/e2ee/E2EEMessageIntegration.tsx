@@ -246,8 +246,11 @@ export async function tryEncryptForChannel(
 
 	if (!recipientBundles.length) return null;
 
-	const myEcho = ownBundles.filter((b) => b.device_id !== ownDeviceId);
-	const targetBundles = [...recipientBundles, ...myEcho].map((b) => ({
+	// Include the sender's own device in the fan-out so the sender can
+	// decrypt their own messages after a page refresh. Without this slot
+	// the in-memory sentPlaintext cache is the only thing keeping our
+	// own bubbles readable, and that cache dies with the tab.
+	const targetBundles = [...recipientBundles, ...ownBundles].map((b) => ({
 		user_id: b.user_id,
 		device_id: b.device_id,
 		identity_key: b.identity_key,

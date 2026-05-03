@@ -78,8 +78,16 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			const senderUserId = data.author?.id;
 			if (!currentUserId || !senderUserId) return;
 			const result = await tryDecryptForCurrentDevice(currentUserId, senderUserId, data.encrypted_payload);
+			console.log('[E2EE_RECV_DEBUG] ' + JSON.stringify({
+				msgId: data.id,
+				resultPresent: !!result,
+				envelopeAtts: result?.attachments.length,
+				wireAtts: data.attachments?.length,
+				ownMessage: senderUserId === currentUserId,
+			}));
 			if (result?.attachments.length && data.attachments?.length) {
 				recordAttachmentKeys(data.id, pairEnvelopeAttachments(data.attachments, result.attachments));
+				console.log('[E2EE_RECV_DEBUG] recorded keys via decrypt path');
 			} else if (
 				!result &&
 				senderUserId === currentUserId &&

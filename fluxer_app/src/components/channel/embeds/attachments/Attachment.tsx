@@ -318,8 +318,15 @@ export const Attachment: FC<AttachmentProps> = observer(
 		// the original mime/dimensions live in the per-message envelope
 		// cache. Short-circuit the standard mime dispatch when we have a
 		// key — the bubble handles fetch+decrypt and renders inline.
-		if (message && hasAttachmentKey(message.id, attachment.id)) {
-			return wrapSpoiler(<EncryptedAttachmentBubble attachment={attachment} message={message} />);
+		const hasKey = message ? hasAttachmentKey(message.id, attachment.id) : false;
+		console.log('[E2EE_RENDER_DEBUG] ' + JSON.stringify({
+			msgId: message?.id,
+			attId: attachment.id,
+			hasKey,
+			mime: attachment.content_type,
+		}));
+		if (hasKey) {
+			return wrapSpoiler(<EncryptedAttachmentBubble attachment={attachment} message={message!} />);
 		}
 
 		const {
