@@ -54,7 +54,7 @@ let cachedKeyProvider: ExternalE2EEKeyProvider | null = null;
 function ensureWorker(): Worker {
 	if (cachedWorker) return cachedWorker;
 	cachedWorker = new Worker(
-		new URL('livekit-client/dist/livekit-client.e2ee.worker.mjs', import.meta.url),
+		new URL('livekit-client/e2ee-worker', import.meta.url),
 		{type: 'module', name: 'livekit-e2ee'},
 	);
 	return cachedWorker;
