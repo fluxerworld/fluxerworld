@@ -29,6 +29,8 @@ import {
 	type VerificationEntry,
 } from '@app/lib/e2ee/E2EEKeyStore';
 import {e2eeManager} from '@app/lib/e2ee/E2EEManager';
+import {clearAllMessageCaches} from '@app/lib/e2ee/E2EEMessageIntegration';
+import {revokeAllDecryptedAttachments} from '@app/lib/e2ee/EncryptedAttachmentLoader';
 import {Logger} from '@app/lib/Logger';
 import {makeAutoObservable, runInAction} from 'mobx';
 
@@ -486,7 +488,14 @@ class E2EEStore {
 			this.bootstrapPromise = null;
 			this.verificationCache.clear();
 			this.verificationLoadPromises.clear();
+			this.peerDeviceCache.clear();
+			this.peerDeviceFetchedAt.clear();
+			this.peerDeviceInflight.clear();
+			this.lastReplenishCheckAt = 0;
+			this.replenishInflight = null;
 		});
+		clearAllMessageCaches();
+		revokeAllDecryptedAttachments();
 	}
 }
 

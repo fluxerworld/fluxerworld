@@ -146,6 +146,16 @@ export function getMessageVerification(messageId: string): MessageVerificationSt
 	return messageVerificationCache.get(messageId) ?? null;
 }
 
+// Wipe everything the module is holding in memory. Called on logout so
+// the next user signing in on the same install can't see (or be linked
+// to) the previous user's plaintexts, verification states, or
+// attachment keys.
+export function clearAllMessageCaches(): void {
+	attachmentKeyCache.clear();
+	sentPlaintextCache.clear();
+	messageVerificationCache.clear();
+}
+
 export function recordAttachmentKeys(messageId: string, entries: ReadonlyArray<CachedAttachmentEntry>): void {
 	if (entries.length === 0) return;
 	let bucket = attachmentKeyCache.get(messageId);
