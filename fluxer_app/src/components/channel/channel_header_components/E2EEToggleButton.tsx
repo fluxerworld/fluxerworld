@@ -26,7 +26,7 @@ import E2EEStore from '@app/stores/E2EEStore';
 import UserStore from '@app/stores/UserStore';
 import * as NicknameUtils from '@app/utils/NicknameUtils';
 import {useLingui} from '@lingui/react/macro';
-import {LockKeyIcon, LockKeyOpenIcon, ShieldCheckIcon, ShieldIcon} from '@phosphor-icons/react';
+import {LockKeyIcon, LockKeyOpenIcon, ShieldCheckIcon, ShieldIcon, ShieldWarningIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 import type React from 'react';
 import {useCallback, useEffect, useMemo} from 'react';
@@ -50,9 +50,15 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 	useEffect(() => {
 		if (!enabled || !recipientId) return;
 		void E2EEStore.ensureVerificationsForUser(recipientId);
+		// Bound the refresh — the channel header re-mounts whenever the
+		// user navigates between channels, and we don't need to spam the
+		// device-list endpoint each hop.
+		void E2EEStore.refreshPeerDevices(recipientId, {minIntervalMs: 60_000});
 	}, [enabled, recipientId]);
 
-	const peerVerified = recipientId ? E2EEStore.isPeerVerified(recipientId) : false;
+	const verificationStatus = recipientId
+		? E2EEStore.getPeerVerificationStatus(recipientId)
+		: 'unverified';
 
 	const handleToggle = useCallback(() => {
 		E2EEStore.setChannelEncrypted(channelId, !enabled);
@@ -85,12 +91,20 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 			/>
 			{enabled && (
 				<ChannelHeaderIcon
-					icon={peerVerified ? ShieldCheckIcon : ShieldIcon}
-					isSelected={peerVerified}
+					icon={
+						verificationStatus === 'verified'
+							? ShieldCheckIcon
+							: verificationStatus === 'partial'
+								? ShieldWarningIcon
+								: ShieldIcon
+					}
+					isSelected={verificationStatus === 'verified'}
 					label={
-						peerVerified
+						verificationStatus === 'verified'
 							? t`Peer's identity verified — click to review fingerprints`
-							: t`Peer not yet verified — click to compare fingerprints`
+							: verificationStatus === 'partial'
+								? t`Some of this peer's devices aren't verified yet — click to review`
+								: t`Peer not yet verified — click to compare fingerprints`
 					}
 					onClick={handleVerify}
 				/>

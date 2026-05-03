@@ -60,6 +60,15 @@ class E2EEStore {
 	private verificationCache = new Map<string, Map<string, VerificationEntry>>();
 	private verificationLoadPromises = new Map<string, Promise<void>>();
 
+	// Cache of the peer's currently-published device list. Refreshed when
+	// the DM is opened (and on demand) so we can spot devices the peer
+	// added since the last verification — those land as unverified and
+	// drop the channel-level shield to "partial". Without this we'd never
+	// notice a brand-new device until a message decrypt failed.
+	private peerDeviceCache = new Map<string, ReadonlyArray<E2EEActionCreators.E2EEPublicDeviceResponse>>();
+	private peerDeviceFetchedAt = new Map<string, number>();
+	private peerDeviceInflight = new Map<string, Promise<void>>();
+
 	constructor() {
 		makeAutoObservable(this, {}, {autoBind: true});
 	}
@@ -96,6 +105,81 @@ class E2EEStore {
 	isPeerVerified(remoteUserId: string): boolean {
 		const map = this.verificationCache.get(remoteUserId);
 		return map !== undefined && map.size > 0;
+	}
+
+	// Three-state verification readout, computed against the peer's live
+	// device list (not just the verification cache). Falls back to
+	// isPeerVerified when the device list hasn't been fetched yet so we
+	// don't briefly show "unverified" before the network round-trip.
+	//   'verified'   — every published device of the peer is in our
+	//                  verification store (and matches its identity key)
+	//   'partial'    — some but not all peer devices are verified, OR a
+	//                  verified device's identity key has rotated
+	//                  (treated as a re-verify situation)
+	//   'unverified' — no devices verified yet
+	getPeerVerificationStatus(remoteUserId: string): 'verified' | 'partial' | 'unverified' {
+		const verifications = this.verificationCache.get(remoteUserId);
+		const verifiedCount = verifications?.size ?? 0;
+
+		const devices = this.peerDeviceCache.get(remoteUserId);
+		if (!devices) {
+			return verifiedCount > 0 ? 'verified' : 'unverified';
+		}
+
+		if (devices.length === 0) return 'unverified';
+		if (!verifications || verifications.size === 0) return 'unverified';
+
+		let verifiedDevices = 0;
+		let mismatched = false;
+		for (const device of devices) {
+			const entry = verifications.get(device.device_id);
+			if (!entry) continue;
+			if (entry.identity_key !== device.identity_key) {
+				mismatched = true;
+				continue;
+			}
+			verifiedDevices++;
+		}
+
+		if (mismatched) return 'partial';
+		if (verifiedDevices === devices.length) return 'verified';
+		if (verifiedDevices > 0) return 'partial';
+		return 'unverified';
+	}
+
+	getPeerDevices(remoteUserId: string): ReadonlyArray<E2EEActionCreators.E2EEPublicDeviceResponse> | null {
+		return this.peerDeviceCache.get(remoteUserId) ?? null;
+	}
+
+	// Refresh the cached peer device list from the server. Dedupes
+	// concurrent callers via the inflight map. Stale-while-revalidate: a
+	// previous cache stays visible until the new fetch resolves.
+	async refreshPeerDevices(remoteUserId: string, options?: {minIntervalMs?: number}): Promise<void> {
+		const minInterval = options?.minIntervalMs ?? 0;
+		if (minInterval > 0) {
+			const fetchedAt = this.peerDeviceFetchedAt.get(remoteUserId) ?? 0;
+			if (Date.now() - fetchedAt < minInterval) return;
+		}
+		const inflight = this.peerDeviceInflight.get(remoteUserId);
+		if (inflight) return inflight;
+
+		const promise = (async () => {
+			try {
+				const devices = await E2EEActionCreators.listPublicDevices(remoteUserId);
+				runInAction(() => {
+					this.peerDeviceCache.set(remoteUserId, devices);
+					this.peerDeviceFetchedAt.set(remoteUserId, Date.now());
+				});
+			} catch (error) {
+				logger.warn('Failed to refresh peer device list', {remoteUserId, error});
+			}
+		})();
+		this.peerDeviceInflight.set(remoteUserId, promise);
+		try {
+			await promise;
+		} finally {
+			this.peerDeviceInflight.delete(remoteUserId);
+		}
 	}
 
 	async ensureVerificationsForUser(remoteUserId: string): Promise<void> {
