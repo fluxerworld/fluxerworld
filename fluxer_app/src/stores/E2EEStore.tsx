@@ -20,10 +20,12 @@
 import * as E2EEActionCreators from '@app/actions/E2EEActionCreators';
 import * as E2EEBackup from '@app/lib/e2ee/E2EEBackup';
 import {
+	deleteSessionsForRemoteDevice,
 	deleteVerification as deleteVerificationFromIDB,
 	getVerification,
 	getVerificationsForUser,
 	putVerification,
+	setPeerIdentityKey,
 	type VerificationEntry,
 } from '@app/lib/e2ee/E2EEKeyStore';
 import {e2eeManager} from '@app/lib/e2ee/E2EEManager';
@@ -157,6 +159,28 @@ class E2EEStore {
 
 	getPeerDevices(remoteUserId: string): ReadonlyArray<E2EEActionCreators.E2EEPublicDeviceResponse> | null {
 		return this.peerDeviceCache.get(remoteUserId) ?? null;
+	}
+
+	// Manual escape hatch for "encryption is broken with this peer." Wipes
+	// every locally stored Olm session for the peer's devices and the
+	// cached identity-key hashes, so the next encrypt builds a clean
+	// session against whatever identity_key the server hands back. The
+	// rotation guard in tryEncryptForChannel does this automatically when
+	// it detects an identity change, but this button covers the cases
+	// where a session goes bad without a visible identity rotation
+	// (corrupted ratchet, lost recipient state, etc.).
+	async resetSessionsForPeer(remoteUserId: string): Promise<void> {
+		// Refresh the device list before iterating — the cached copy may
+		// predate a re-registration we need to clean up after.
+		await this.refreshPeerDevices(remoteUserId);
+		const devices = this.peerDeviceCache.get(remoteUserId) ?? [];
+		for (const device of devices) {
+			await deleteSessionsForRemoteDevice(remoteUserId, device.device_id);
+			// Reset the cached identity to the current one so the rotation
+			// guard doesn't double-fire on the next encrypt.
+			await setPeerIdentityKey(remoteUserId, device.device_id, device.identity_key);
+		}
+		logger.info('Reset E2EE sessions for peer', {remoteUserId, deviceCount: devices.length});
 	}
 
 	// Refresh the cached peer device list from the server. Dedupes

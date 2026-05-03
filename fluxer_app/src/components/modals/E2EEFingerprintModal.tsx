@@ -141,6 +141,21 @@ export const E2EEFingerprintModal: React.FC<E2EEFingerprintModalProps> = observe
 		const [theirs, setTheirs] = useState<Array<E2EEActionCreators.E2EEPublicDeviceResponse> | null>(null);
 		const [error, setError] = useState<string | null>(null);
 		const [loading, setLoading] = useState(true);
+		const [resetting, setResetting] = useState(false);
+		const [resetDone, setResetDone] = useState(false);
+
+		const handleReset = useCallback(async () => {
+			setResetting(true);
+			setResetDone(false);
+			try {
+				await E2EEStore.resetSessionsForPeer(recipientUserId);
+				setResetDone(true);
+			} catch (err) {
+				logger.warn('Failed to reset peer sessions', {err});
+			} finally {
+				setResetting(false);
+			}
+		}, [recipientUserId]);
 
 		const load = useCallback(async () => {
 			setLoading(true);
@@ -204,6 +219,14 @@ export const E2EEFingerprintModal: React.FC<E2EEFingerprintModalProps> = observe
 					</Modal.ContentLayout>
 				</Modal.Content>
 				<Modal.Footer>
+					<Button
+						variant="danger-secondary"
+						onClick={() => void handleReset()}
+						submitting={resetting}
+						disabled={resetting}
+					>
+						{resetDone ? <Trans>Sessions reset</Trans> : <Trans>Reset encryption sessions</Trans>}
+					</Button>
 					<Button variant="secondary" onClick={() => ModalActionCreators.pop()}>
 						<Trans>Close</Trans>
 					</Button>
