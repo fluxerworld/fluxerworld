@@ -21,7 +21,6 @@ import * as ModalActionCreators from '@app/actions/ModalActionCreators';
 import {modal} from '@app/actions/ModalActionCreators';
 import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
 import * as ReadStateActionCreators from '@app/actions/ReadStateActionCreators';
-import * as ToastActionCreators from '@app/actions/ToastActionCreators';
 import {i18n} from '@lingui/core';
 import {FeatureTemporarilyDisabledModal} from '@app/components/alerts/FeatureTemporarilyDisabledModal';
 import {MessageDeleteFailedModal} from '@app/components/alerts/MessageDeleteFailedModal';
@@ -138,6 +137,10 @@ interface SendMessageParams {
 	stickers?: Array<MessageStickerItem>;
 	tts?: boolean;
 	isRetry?: boolean;
+	// Caller-side override to bypass the channel's E2EE state. Set when
+	// the user has explicitly chosen "send unencrypted" after an
+	// encryption failure prompt — never set this from regular UI paths.
+	skipE2EE?: boolean;
 	encryptedPayload?: {
 		v: number;
 		sender_device_id: string;
@@ -344,6 +347,43 @@ export async function fetchMessages(
 	return promise;
 }
 
+// Pop a confirmation modal when an E2EE channel send can't be encrypted
+// (peer has no E2EE devices, or the message has attachments/stickers
+// which aren't on an encryption path yet). The caller has already
+// abandoned the original send attempt; primary action re-issues with
+// skipE2EE=true so the message goes plaintext exactly once at the user's
+// explicit request. Secondary leaves the optimistic message marked
+// failed so the existing retry button still works.
+function promptUnencryptedFallback(
+	channelId: string,
+	params: SendMessageParams,
+	reason: 'media' | 'failure',
+): void {
+	MessageStore.handleSendFailed({channelId, nonce: params.nonce});
+	ModalActionCreators.push(
+		modal(() => (
+			<ConfirmModal
+				title={i18n._(msg`Couldn't encrypt this message`)}
+				description={
+					reason === 'media'
+						? i18n._(
+								msg`Attachments and stickers aren't encrypted yet. Send this message without encryption?`,
+							)
+						: i18n._(
+								msg`Your contact doesn't have end-to-end encryption set up. Send this message without encryption?`,
+							)
+				}
+				primaryText={i18n._(msg`Send unencrypted`)}
+				primaryVariant="danger-primary"
+				onPrimary={() => {
+					MessageStore.handleSendRetry({channelId, messageId: params.nonce});
+					void send(channelId, {...params, skipE2EE: true, isRetry: true});
+				}}
+			/>
+		)),
+	);
+}
+
 export function send(channelId: string, params: SendMessageParams): Promise<Message | null> {
 	return new Promise<Message | null>((resolve) => {
 		logger.debug(`Enqueueing message for channel ${channelId}`);
@@ -353,16 +393,13 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 			let effectiveContent = params.content;
 			let effectiveFlags = params.flags;
 
-			if (E2EEStore.isChannelEncrypted(channelId)) {
+			if (E2EEStore.isChannelEncrypted(channelId) && !params.skipE2EE) {
 				if (params.hasAttachments || params.stickers?.length) {
-					// Attachments and stickers don't have an E2EE path yet.
-					// Falling back to plaintext silently would defeat the
-					// security promise of the lock toggle, so block the send
-					// outright and let the user choose between disabling
-					// encryption or removing the media.
-					ToastActionCreators.error(
-						i18n._(msg`Attachments and stickers aren't encrypted yet. Remove them, or turn off encryption for this DM to send.`),
-					);
+					// Attachments/stickers don't have an E2EE path yet. Don't
+					// silently downgrade — surface a confirmation that lets
+					// the user explicitly opt back out of encryption for this
+					// one message rather than dead-ending them on a toast.
+					promptUnencryptedFallback(channelId, params, 'media');
 					resolve(null);
 					return;
 				}
@@ -376,12 +413,7 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 						effectiveContent = '';
 						effectiveFlags = (effectiveFlags ?? 0) | MessageFlags.ENCRYPTED;
 					} else {
-						// Same reasoning: rather than ship plaintext under an
-						// encryption-on UI, surface the failure so the user
-						// can decide how to proceed.
-						ToastActionCreators.error(
-							i18n._(msg`Couldn't encrypt this message — your contact may not have set up end-to-end encryption yet.`),
-						);
+						promptUnencryptedFallback(channelId, params, 'failure');
 						resolve(null);
 						return;
 					}
