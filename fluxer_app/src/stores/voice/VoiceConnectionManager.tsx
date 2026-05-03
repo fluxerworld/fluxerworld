@@ -17,7 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {
+	applyVoiceE2EEKey,
+	buildE2EEOptions,
+	deriveCallKeyForDm,
+	isChannelVoiceE2EEEligible,
+} from '@app/lib/e2ee/E2EEVoice';
 import {Logger} from '@app/lib/Logger';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
+import ChannelStore from '@app/stores/ChannelStore';
 import {VoiceConnectionThrottle} from '@app/stores/voice/VoiceConnectionThrottle';
 import {VoiceReconnectManager} from '@app/stores/voice/VoiceReconnectManager';
 import type {Room} from 'livekit-client';
@@ -47,6 +55,7 @@ export interface VoiceConnectionState {
 	reconnecting: boolean;
 	voiceServerEndpoint: string | null;
 	connectionId: string | null;
+	e2eeEnabled: boolean;
 }
 
 const initialConnectionState: VoiceConnectionState = {
@@ -58,6 +67,7 @@ const initialConnectionState: VoiceConnectionState = {
 	reconnecting: false,
 	voiceServerEndpoint: null,
 	connectionId: null,
+	e2eeEnabled: false,
 };
 
 class VoiceConnectionManager {
@@ -97,6 +107,10 @@ class VoiceConnectionManager {
 
 	get connectionId(): string | null {
 		return this.connectionState.connectionId;
+	}
+
+	get e2eeEnabled(): boolean {
+		return this.connectionState.e2eeEnabled;
 	}
 
 	get voiceServerEndpoint(): string | null {
@@ -260,12 +274,45 @@ class VoiceConnectionManager {
 				channelId: resolvedChannelId,
 				voiceServerEndpoint: endpoint,
 				connectionId: connectionId ?? this.connectionState.connectionId,
+				e2eeEnabled: false,
 			};
 		});
 
 		this.throttle.setInFlightConnect(true);
 
-		const room = new LiveKitRoom({adaptiveStream: true, dynacast: true});
+		// 1:1 DM voice/video calls get end-to-end encrypted media via SFrame.
+		// LiveKit's E2EE pipeline runs in a worker; we feature-detect support
+		// before opting in so unsupported browsers fall through to plaintext
+		// rather than failing the call entirely.
+		const callChannel = ChannelStore.getChannel(resolvedChannelId);
+		const wantsVoiceE2EE = isChannelVoiceE2EEEligible(callChannel);
+
+		const room = new LiveKitRoom({
+			adaptiveStream: true,
+			dynacast: true,
+			...(wantsVoiceE2EE ? {e2ee: buildE2EEOptions()} : {}),
+		});
+
+		if (wantsVoiceE2EE && callChannel) {
+			const currentUserId = AuthenticationStore.currentUserId;
+			const otherUserId = callChannel.recipientIds.find((id) => id !== currentUserId);
+			if (currentUserId && otherUserId) {
+				const callConnectionId = connectionId ?? this.connectionState.connectionId ?? resolvedChannelId;
+				deriveCallKeyForDm({
+					channelId: resolvedChannelId,
+					connectionId: callConnectionId,
+					currentUserId,
+					otherUserId,
+				})
+					.then(async (key) => {
+						await applyVoiceE2EEKey(room, key);
+						runInAction(() => {
+							this.connectionState = {...this.connectionState, e2eeEnabled: true};
+						});
+					})
+					.catch((error) => logger.warn('Voice E2EE setup failed', {error}));
+			}
+		}
 
 		onRoomCreated(room, attemptId, guildId, resolvedChannelId);
 

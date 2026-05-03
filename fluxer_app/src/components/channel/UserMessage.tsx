@@ -33,6 +33,7 @@ import {SafeMarkdown} from '@app/lib/markdown';
 import {parse} from '@app/lib/markdown/renderers';
 import {MarkdownContext} from '@app/lib/markdown/renderers/RendererTypes';
 import AccessibilityStore from '@app/stores/AccessibilityStore';
+import {getMessageVerification} from '@app/lib/e2ee/E2EEMessageIntegration';
 import EmojiStore from '@app/stores/EmojiStore';
 import GuildMemberStore from '@app/stores/GuildMemberStore';
 import GuildStore from '@app/stores/GuildStore';
@@ -50,7 +51,7 @@ import {FLUXERBOT_ID} from '@fluxer/constants/src/AppConstants';
 import {MessageEmbedTypes, MessageFlags, MessageStates, MessageTypes} from '@fluxer/constants/src/ChannelConstants';
 import {NodeType} from '@fluxer/markdown_parser/src/types/Enums';
 import {Trans, useLingui} from '@lingui/react/macro';
-import {BellSlashIcon, EyeIcon, WarningCircleIcon} from '@phosphor-icons/react';
+import {BellSlashIcon, EyeIcon, LockKeyIcon, ShieldCheckIcon, ShieldWarningIcon, WarningCircleIcon} from '@phosphor-icons/react';
 import {clsx} from 'clsx';
 import {autorun} from 'mobx';
 import {observer} from 'mobx-react-lite';
@@ -204,6 +205,36 @@ export const UserMessage = observer(() => {
 							<span className={styles.editedLabel}> {t`(edited)`}</span>
 						</TimestampWithTooltip>
 					))}
+				{message.isEncrypted &&
+					(() => {
+						const verification = getMessageVerification(message.id);
+						const Icon =
+							verification === 'changed'
+								? ShieldWarningIcon
+								: verification === 'verified'
+									? ShieldCheckIcon
+									: LockKeyIcon;
+						const tooltip =
+							verification === 'changed'
+								? t`Encrypted, but the sender's identity has changed since you last verified them`
+								: verification === 'verified'
+									? t`Encrypted and from a verified device`
+									: t`This message is end-to-end encrypted`;
+						const label =
+							verification === 'changed'
+								? t`Encrypted, sender identity changed`
+								: verification === 'verified'
+									? t`Encrypted, verified sender`
+									: t`End-to-end encrypted`;
+						return (
+							<Tooltip text={tooltip} position="top">
+								<span className={styles.editedLabel} aria-label={label}>
+									{' '}
+									<Icon size={12} weight="fill" style={{verticalAlign: 'text-bottom'}} />
+								</span>
+							</Tooltip>
+						);
+					})()}
 			</div>
 		);
 	}, [
@@ -214,6 +245,7 @@ export const UserMessage = observer(() => {
 		message.channelId,
 		message.editedTimestamp,
 		message.isEditing,
+		message.isEncrypted,
 		channel,
 		cancelEditing,
 		onSubmit,

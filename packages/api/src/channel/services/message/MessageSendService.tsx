@@ -861,6 +861,7 @@ export class MessageSendService {
 			hasPermission: guild ? hasPermission : undefined,
 			mentionData,
 			allowEmbeds: canEmbedLinks,
+			encryptedPayload: data.encrypted_payload ?? null,
 		});
 
 		const messageType = this.getMessageTypeForRequest(data);

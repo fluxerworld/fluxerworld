@@ -21,6 +21,7 @@ import * as ModalActionCreators from '@app/actions/ModalActionCreators';
 import {modal} from '@app/actions/ModalActionCreators';
 import * as NavigationActionCreators from '@app/actions/NavigationActionCreators';
 import * as ReadStateActionCreators from '@app/actions/ReadStateActionCreators';
+import {i18n} from '@lingui/core';
 import {FeatureTemporarilyDisabledModal} from '@app/components/alerts/FeatureTemporarilyDisabledModal';
 import {MessageDeleteFailedModal} from '@app/components/alerts/MessageDeleteFailedModal';
 import {MessageDeleteTooQuickModal} from '@app/components/alerts/MessageDeleteTooQuickModal';
@@ -28,6 +29,7 @@ import {ConfirmModal} from '@app/components/modals/ConfirmModal';
 import {Endpoints} from '@app/Endpoints';
 import type {JumpOptions} from '@app/lib/ChannelMessages';
 import {ComponentDispatch} from '@app/lib/ComponentDispatch';
+import {CloudUpload} from '@app/lib/CloudUpload';
 import http from '@app/lib/HttpClient';
 import {HttpError} from '@app/lib/HttpError';
 import {Logger} from '@app/lib/Logger';
@@ -36,8 +38,21 @@ import type {MessageRecord} from '@app/records/MessageRecord';
 import AuthenticationStore from '@app/stores/AuthenticationStore';
 import ChannelStore from '@app/stores/ChannelStore';
 import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
+import E2EEStore from '@app/stores/E2EEStore';
 import GuildMemberStore from '@app/stores/GuildMemberStore';
 import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
+import {encryptFileForUpload} from '@app/lib/e2ee/E2EEAttachments';
+import {
+	buildDecryptedContent,
+	type EnvelopeAttachmentEntry,
+	pairEnvelopeAttachments,
+	recordAttachmentKeys,
+	recordMessageVerification,
+	recordSentEnvelopeEntries,
+	recordSentPlaintext,
+	tryDecryptForCurrentDevice,
+	tryEncryptForChannel,
+} from '@app/lib/e2ee/E2EEMessageIntegration';
 import MessageEditMobileStore from '@app/stores/MessageEditMobileStore';
 import MessageEditStore from '@app/stores/MessageEditStore';
 import MessageReferenceStore from '@app/stores/MessageReferenceStore';
@@ -130,6 +145,16 @@ interface SendMessageParams {
 	stickers?: Array<MessageStickerItem>;
 	tts?: boolean;
 	isRetry?: boolean;
+	// Caller-side override to bypass the channel's E2EE state. Set when
+	// the user has explicitly chosen "send unencrypted" after an
+	// encryption failure prompt — never set this from regular UI paths.
+	skipE2EE?: boolean;
+	encryptedPayload?: {
+		v: number;
+		sender_device_id: string;
+		sender_identity_key: string;
+		ciphertexts: Record<string, {type: number; body: string}>;
+	};
 }
 
 export function jumpToPresent(channelId: string, limit = MAX_MESSAGES_PER_CHANNEL): void {
@@ -190,6 +215,41 @@ const tryFetchMessagesCached = (
 
 	return false;
 };
+
+// Walk a freshly-fetched page of messages and decrypt anything tagged
+// ENCRYPTED in the background. The store-level handleLoadMessagesSuccess
+// has already painted the page with placeholder (empty) content, so this
+// just patches the decrypted plaintext in via handleMessageUpdate as
+// each message resolves. Failures are surfaced with a placeholder string.
+async function decryptHistoryMessages(messages: ReadonlyArray<Message>): Promise<void> {
+	if (!E2EEStore.isReady) return;
+	const currentUserId = AuthenticationStore.currentUserId;
+	if (!currentUserId) return;
+
+	const encrypted = messages.filter(
+		(m) => ((m.flags ?? 0) & MessageFlags.ENCRYPTED) !== 0 && m.encrypted_payload,
+	);
+	if (encrypted.length === 0) return;
+
+	for (const msg of encrypted) {
+		const senderId = msg.author?.id;
+		if (!senderId) continue;
+		try {
+			const result = await tryDecryptForCurrentDevice(currentUserId, senderId, msg.encrypted_payload);
+			if (result?.attachments.length && msg.attachments?.length) {
+				recordAttachmentKeys(msg.id, pairEnvelopeAttachments(msg.attachments, result.attachments));
+			}
+			if (result) {
+				recordMessageVerification(msg.id, result.verificationStatus);
+			}
+			MessageStore.handleMessageUpdate({
+				message: {...msg, content: buildDecryptedContent(result)},
+			});
+		} catch (error) {
+			logger.warn('Decrypt history message failed', {messageId: msg.id, error});
+		}
+	}
+}
 
 export async function fetchMessages(
 	channelId: string,
@@ -286,6 +346,7 @@ export async function fetchMessages(
 			MessageReferenceStore.handleMessagesFetchSuccess(channelId, messages);
 
 			void requestMissingGuildMembers(channelId, messages);
+			void decryptHistoryMessages(messages);
 
 			return messages;
 		} catch (error) {
@@ -300,37 +361,161 @@ export async function fetchMessages(
 	return promise;
 }
 
+// Pop a confirmation modal when an E2EE channel send can't be
+// encrypted. Stickers stay on this prompt (no E2EE path for them yet
+// — they're a server-side reference, not a payload we can wrap), and
+// the 'failure' branch fires when encryption itself can't run because
+// the peer hasn't set up E2EE on their end. Primary re-issues with
+// skipE2EE=true so the message goes plaintext exactly once at the
+// user's explicit request.
+function promptUnencryptedFallback(
+	channelId: string,
+	params: SendMessageParams,
+	reason: 'stickers' | 'failure',
+): void {
+	MessageStore.handleSendFailed({channelId, nonce: params.nonce});
+	ModalActionCreators.push(
+		modal(() => (
+			<ConfirmModal
+				title={i18n._(msg`Couldn't encrypt this message`)}
+				description={
+					reason === 'stickers'
+						? i18n._(
+								msg`Stickers aren't encrypted yet. Remove them or send this message without encryption?`,
+							)
+						: i18n._(
+								msg`Your contact doesn't have end-to-end encryption set up. Send this message without encryption?`,
+							)
+				}
+				primaryText={i18n._(msg`Send unencrypted`)}
+				primaryVariant="danger-primary"
+				onPrimary={() => {
+					MessageStore.handleSendRetry({channelId, messageId: params.nonce});
+					void send(channelId, {...params, skipE2EE: true, isRetry: true});
+				}}
+			/>
+		)),
+	);
+}
+
 export function send(channelId: string, params: SendMessageParams): Promise<Message | null> {
 	return new Promise<Message | null>((resolve) => {
 		logger.debug(`Enqueueing message for channel ${channelId}`);
 
-		MessageQueue.enqueue(
-			{
-				type: 'send',
-				channelId,
-				nonce: params.nonce,
-				content: params.content,
-				hasAttachments: params.hasAttachments,
-				allowedMentions: params.allowedMentions,
-				messageReference: params.messageReference,
-				flags: params.flags,
-				favoriteMemeId: params.favoriteMemeId,
-				stickers: params.stickers,
-				tts: params.tts,
-				isRetry: params.isRetry,
-			},
-			(result, error) => {
-				if (result?.body) {
-					logger.debug(`Message sent successfully in channel ${channelId}`);
-					resolve(result.body);
-				} else {
-					if (error) {
-						logger.debug(`Message send failed in channel ${channelId}`, error);
-					}
+		void (async () => {
+			let encryptedPayload: SendMessageParams['encryptedPayload'] | undefined;
+			let effectiveContent = params.content;
+			let effectiveFlags = params.flags;
+			let envelopeEntries: Array<EnvelopeAttachmentEntry> | undefined;
+
+			if (E2EEStore.isChannelEncrypted(channelId) && !params.skipE2EE) {
+				if (params.stickers?.length) {
+					promptUnencryptedFallback(channelId, params, 'stickers');
 					resolve(null);
+					return;
 				}
-			},
-		);
+
+				if (params.hasAttachments) {
+					const upload = CloudUpload.getMessageUpload(params.nonce);
+					if (!upload || upload.attachments.length === 0) {
+						// No upload context found for this nonce — defensive fallback.
+						// The user attached files but the local upload state went away
+						// (cancelled, cleared on tab close, etc.), so there's nothing
+						// to encrypt. Treat as a generic encrypt failure.
+						promptUnencryptedFallback(channelId, params, 'failure');
+						resolve(null);
+						return;
+					}
+					try {
+						const encryptedFiles = await Promise.all(
+							upload.attachments.map((att) =>
+								encryptFileForUpload(att.file, {width: att.width, height: att.height}),
+							),
+						);
+						envelopeEntries = encryptedFiles.map((r) => r.envelopeEntry);
+						CloudUpload.replaceMessageUploadFiles(
+							params.nonce,
+							encryptedFiles.map((r) => ({file: r.encryptedFile})),
+						);
+					} catch (error) {
+						logger.warn('Failed to encrypt attachments, prompting fallback', {error});
+						promptUnencryptedFallback(channelId, params, 'failure');
+						resolve(null);
+						return;
+					}
+				}
+
+				const channel = ChannelStore.getChannel(channelId);
+				const userId = AuthenticationStore.currentUserId;
+				if (channel && userId) {
+					const encrypted = await tryEncryptForChannel(channel, userId, params.content, envelopeEntries);
+					if (encrypted) {
+						encryptedPayload = encrypted.encrypted_payload;
+						effectiveContent = '';
+						effectiveFlags = (effectiveFlags ?? 0) | MessageFlags.ENCRYPTED;
+						// Pre-populate the sender plaintext cache by nonce so
+						// the gateway echo can find it even if it arrives
+						// before the HTTP response (we don't know the server
+						// id yet — that gets added below in the success
+						// callback for any look-up paths that already have
+						// the canonical id).
+						recordSentPlaintext(params.nonce, params.content);
+						if (envelopeEntries && envelopeEntries.length > 0) {
+							recordSentEnvelopeEntries(params.nonce, envelopeEntries);
+						}
+					} else {
+						promptUnencryptedFallback(channelId, params, 'failure');
+						resolve(null);
+						return;
+					}
+				}
+			}
+
+			MessageQueue.enqueue(
+				{
+					type: 'send',
+					channelId,
+					nonce: params.nonce,
+					content: effectiveContent,
+					hasAttachments: params.hasAttachments,
+					allowedMentions: params.allowedMentions,
+					messageReference: params.messageReference,
+					flags: effectiveFlags,
+					favoriteMemeId: params.favoriteMemeId,
+					stickers: params.stickers,
+					tts: params.tts,
+					isRetry: params.isRetry,
+					encryptedPayload,
+				},
+				(result, error) => {
+					if (result?.body) {
+						logger.debug(`Message sent successfully in channel ${channelId}`);
+						// Sender's own message never round-trips through the
+						// gateway decrypt path (we exclude our own device when
+						// fanning out per-recipient ciphertexts). Cache both
+						// the plaintext content and any attachment keys
+						// against the server-assigned id so the gateway echo
+						// of our own MESSAGE_CREATE renders the original
+						// text instead of the failure placeholder.
+						if (encryptedPayload) {
+							recordSentPlaintext(result.body.id, params.content);
+						}
+						if (envelopeEntries && envelopeEntries.length > 0 && result.body.attachments?.length) {
+							recordAttachmentKeys(
+								result.body.id,
+								pairEnvelopeAttachments(result.body.attachments, envelopeEntries),
+							);
+						}
+						resolve(result.body);
+					} else {
+						if (error) {
+							logger.debug(`Message send failed in channel ${channelId}`, error);
+						}
+						resolve(null);
+					}
+				},
+			);
+		})();
 	});
 }
 

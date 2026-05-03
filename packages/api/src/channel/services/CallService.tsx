@@ -243,6 +243,7 @@ export class CallService {
 				ended_timestamp: null,
 			},
 			has_reaction: false,
+			encrypted_payload: null,
 			version: 1,
 		});
 

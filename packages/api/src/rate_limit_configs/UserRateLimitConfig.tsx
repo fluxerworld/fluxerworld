@@ -246,6 +246,56 @@ export const UserRateLimitConfigs = {
 		config: {limit: 40, windowMs: ms('10 seconds')},
 	} as RouteRateLimitConfig,
 
+	USER_E2EE_REGISTER_DEVICE: {
+		bucket: 'user:e2ee:register_device',
+		config: {limit: 4, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+
+	USER_E2EE_LIST_DEVICES: {
+		bucket: 'user:e2ee:list_devices',
+		config: {limit: 30, windowMs: ms('10 seconds')},
+	} as RouteRateLimitConfig,
+
+	USER_E2EE_DELETE_DEVICE: {
+		bucket: 'user:e2ee:delete_device',
+		config: {limit: 8, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+
+	USER_E2EE_ROTATE_PREKEY: {
+		bucket: 'user:e2ee:rotate_prekey',
+		config: {limit: 6, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+
+	USER_E2EE_TOPUP_ONETIME: {
+		bucket: 'user:e2ee:topup_onetime',
+		config: {limit: 12, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+
+	USER_E2EE_CLAIM_BUNDLE: {
+		bucket: 'user:e2ee:claim_bundle',
+		config: {limit: 60, windowMs: ms('10 seconds')},
+	} as RouteRateLimitConfig,
+
+	USER_E2EE_LIST_PUBLIC_DEVICES: {
+		bucket: 'user:e2ee:list_public_devices',
+		config: {limit: 30, windowMs: ms('10 seconds')},
+	} as RouteRateLimitConfig,
+
+	USER_E2EE_BACKUP_GET: {
+		bucket: 'user:e2ee:backup_get',
+		config: {limit: 10, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+
+	USER_E2EE_BACKUP_PUT: {
+		bucket: 'user:e2ee:backup_put',
+		config: {limit: 6, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+
+	USER_E2EE_BACKUP_DELETE: {
+		bucket: 'user:e2ee:backup_delete',
+		config: {limit: 3, windowMs: ms('1 minute')},
+	} as RouteRateLimitConfig,
+
 	USER_HARVEST_LATEST: {
 		bucket: 'user:harvest:latest',
 		config: {limit: 40, windowMs: ms('10 seconds')},

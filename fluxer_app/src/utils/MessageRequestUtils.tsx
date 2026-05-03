@@ -46,6 +46,12 @@ export interface MessageCreateRequest {
 	favorite_meme_id?: string;
 	sticker_ids?: Array<string>;
 	tts?: true;
+	encrypted_payload?: {
+		v: number;
+		sender_device_id: string;
+		sender_identity_key: string;
+		ciphertexts: Record<string, {type: number; body: string}>;
+	};
 }
 
 export interface MessageEditRequest {
@@ -64,6 +70,12 @@ export interface MessageCreatePayload {
 	favoriteMemeId?: string;
 	stickers?: Array<MessageStickerItem>;
 	tts?: boolean;
+	encryptedPayload?: {
+		v: number;
+		sender_device_id: string;
+		sender_identity_key: string;
+		ciphertexts: Record<string, {type: number; body: string}>;
+	};
 }
 
 export interface NormalizedMessageContent {
@@ -78,8 +90,18 @@ export function normalizeMessageContent(content: string, favoriteMemeId?: string
 }
 
 export function buildMessageCreateRequest(payload: MessageCreatePayload): MessageCreateRequest {
-	const {content, nonce, attachments, allowedMentions, messageReference, flags, favoriteMemeId, stickers, tts} =
-		payload;
+	const {
+		content,
+		nonce,
+		attachments,
+		allowedMentions,
+		messageReference,
+		flags,
+		favoriteMemeId,
+		stickers,
+		tts,
+		encryptedPayload,
+	} = payload;
 
 	const requestBody: MessageCreateRequest = {};
 
@@ -117,6 +139,10 @@ export function buildMessageCreateRequest(payload: MessageCreatePayload): Messag
 
 	if (tts) {
 		requestBody.tts = true;
+	}
+
+	if (encryptedPayload) {
+		requestBody.encrypted_payload = encryptedPayload;
 	}
 
 	return requestBody;

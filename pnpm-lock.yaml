@@ -641,6 +641,9 @@ importers:
       '@marsidev/react-turnstile':
         specifier: 'catalog:'
         version: 1.4.2(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+      '@matrix-org/olm':
+        specifier: ^3.2.15
+        version: 3.2.15
       '@phosphor-icons/react':
         specifier: 'catalog:'
         version: 2.1.10(patch_hash=9b0b481de857aa7a7525f023baea9da72be4574ff72825e39d959e6979d78eea)(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
@@ -4666,6 +4669,9 @@ packages:
     peerDependencies:
       react: ^17.0.2 || ^18.0.0 || ^19.0
       react-dom: ^17.0.2 || ^18.0.0 || ^19.0
+
+  '@matrix-org/olm@3.2.15':
+    resolution: {integrity: sha512-S7lOrndAK9/8qOtaTq/WhttJC/o4GAzdfK0MUPpo8ApzsJEC0QjtwrkC3KBXdFP1cD1MXi/mlKR7aaoVMKgs6Q==}
 
   '@mediapipe/tasks-vision@0.10.14':
     resolution: {integrity: sha512-vOifgZhkndgybdvoRITzRkIueWWSiCKuEUXXK6Q4FaJsFvRJuwgg++vqFUMlL0Uox62U5aEXFhHxlhV7Ja5e3Q==}
@@ -13405,6 +13411,8 @@ snapshots:
     dependencies:
       react: 19.2.4
       react-dom: 19.2.4(react@19.2.4)
+
+  '@matrix-org/olm@3.2.15': {}
 
   '@mediapipe/tasks-vision@0.10.14': {}
 

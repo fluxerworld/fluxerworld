@@ -19,12 +19,14 @@
 
 import styles from '@app/components/channel/embeds/attachments/Attachment.module.css';
 import {AttachmentFile} from '@app/components/channel/embeds/attachments/AttachmentFile';
+import {EncryptedAttachmentBubble} from '@app/components/channel/embeds/attachments/EncryptedAttachmentBubble';
 import EmbedAudio from '@app/components/channel/embeds/media/EmbedAudio';
 import {EmbedGif, EmbedGifv} from '@app/components/channel/embeds/media/EmbedGifv';
 import {EmbedImage} from '@app/components/channel/embeds/media/EmbedImage';
 import EmbedVideo from '@app/components/channel/embeds/media/EmbedVideo';
 import VoiceMessagePlayer from '@app/components/channel/embeds/media/VoiceMessagePlayer';
 import {MessageUploadProgress} from '@app/components/channel/MessageUploadProgress';
+import {hasAttachmentKey} from '@app/lib/e2ee/E2EEMessageIntegration';
 import {ExpiryFootnote} from '@app/components/common/ExpiryFootnote';
 import {SpoilerOverlay} from '@app/components/common/SpoilerOverlay';
 import spoilerStyles from '@app/components/common/SpoilerOverlay.module.css';
@@ -309,6 +311,15 @@ export const Attachment: FC<AttachmentProps> = observer(
 
 		if (isUploading(attachment.flags) && message) {
 			return wrapSpoiler(<MessageUploadProgress attachment={attachment} message={message} />);
+		}
+
+		// Encrypted attachments are stored as opaque ciphertext on the
+		// server, so the wire content_type is application/octet-stream and
+		// the original mime/dimensions live in the per-message envelope
+		// cache. Short-circuit the standard mime dispatch when we have a
+		// key — the bubble handles fetch+decrypt and renders inline.
+		if (message && hasAttachmentKey(message.id, attachment.id)) {
+			return wrapSpoiler(<EncryptedAttachmentBubble attachment={attachment} message={message} />);
 		}
 
 		const {

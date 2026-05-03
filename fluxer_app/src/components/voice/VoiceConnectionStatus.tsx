@@ -289,6 +289,7 @@ const VoiceConnectionStatusInner = observer(() => {
 	const currentLatency = MediaEngineStore.currentLatency;
 	const latencyForSignal = currentLatency;
 	const connectionId = MediaEngineStore.connectionId;
+	const voiceE2EEEnabled = MediaEngineStore.voiceE2EEEnabled;
 	const isMobile = voiceState?.is_mobile ?? false;
 	const participantAvatarEntries = useVoiceParticipantAvatarEntries({
 		guildId: storeConnectedGuildId ?? null,
@@ -439,7 +440,19 @@ const VoiceConnectionStatusInner = observer(() => {
 							onContextMenu={handleVoiceConnectionStatusContextMenu}
 						>
 							{isPrivateChannel ? (
-								<span className={styles.channelSourceText}>{channelDisplayName}</span>
+								<span className={styles.channelSourceText}>
+									{voiceE2EEEnabled && (
+										<Tooltip text={t`This call is end-to-end encrypted`} position="top">
+											<LockSimpleIcon
+												weight="fill"
+												size={12}
+												aria-label={t`End-to-end encrypted`}
+												style={{marginRight: '0.25rem', verticalAlign: 'text-bottom'}}
+											/>
+										</Tooltip>
+									)}
+									{channelDisplayName}
+								</span>
 							) : (
 								<span className={styles.channelSourceText}>
 									<span className={styles.channelSourceChannel}>{channelDisplayName}</span>

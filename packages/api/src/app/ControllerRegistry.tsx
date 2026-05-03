@@ -25,6 +25,7 @@ import type {APIConfig} from '@fluxer/api/src/config/APIConfig';
 import {ConnectionController} from '@fluxer/api/src/connection/ConnectionController';
 import {DonationController} from '@fluxer/api/src/donation/DonationController';
 import {DownloadController} from '@fluxer/api/src/download/DownloadController';
+import {E2EEController} from '@fluxer/api/src/e2ee/E2EEController';
 import {FavoriteMemeController} from '@fluxer/api/src/favorite_meme/FavoriteMemeController';
 import {GatewayController} from '@fluxer/api/src/gateway/GatewayController';
 import {GuildController} from '@fluxer/api/src/guild/GuildController';
@@ -37,6 +38,7 @@ import {registerPackControllers} from '@fluxer/api/src/pack/controllers';
 import {ReadStateController} from '@fluxer/api/src/read_state/ReadStateController';
 import {ReportController} from '@fluxer/api/src/report/ReportController';
 import {SearchController} from '@fluxer/api/src/search/controllers/SearchController';
+import {PolarController} from '@fluxer/api/src/polar/PolarController';
 import {StripeController} from '@fluxer/api/src/stripe/StripeController';
 import {TenorController} from '@fluxer/api/src/tenor/TenorController';
 import {TestHarnessController} from '@fluxer/api/src/test/TestHarnessController';
@@ -71,11 +73,15 @@ export function registerControllers(routes: HonoApp, config: APIConfig): void {
 
 	UserController(routes);
 	WebhookController(routes);
+	E2EEController(routes);
 	OAuth2Controller(routes);
 	OAuth2ApplicationsController(routes);
 
 	if (!config.instance.selfHosted) {
 		DonationController(routes);
 		StripeController(routes);
+		if (config.polar?.enabled) {
+			PolarController(routes);
+		}
 	}
 }

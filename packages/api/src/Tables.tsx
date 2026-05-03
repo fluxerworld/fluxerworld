@@ -91,6 +91,14 @@ import {
 	type NcmecSubmissionRow,
 } from '@fluxer/api/src/database/types/CsamTypes';
 import {
+	E2EE_BACKUP_COLUMNS,
+	type E2EEBackupRow,
+	E2EE_DEVICE_COLUMNS,
+	type E2EEDeviceRow,
+	E2EE_ONE_TIME_PREKEY_COLUMNS,
+	type E2EEOneTimePrekeyRow,
+} from '@fluxer/api/src/database/types/E2EETypes';
+import {
 	GUILD_DISCOVERY_BY_STATUS_COLUMNS,
 	GUILD_DISCOVERY_COLUMNS,
 	type GuildDiscoveryByStatusRow,
@@ -1042,4 +1050,22 @@ export const NcmecSubmissions = defineTable<NcmecSubmissionRow, 'report_id'>({
 	name: 'ncmec_submissions',
 	columns: NCMEC_SUBMISSION_COLUMNS,
 	primaryKey: ['report_id'],
+});
+
+export const E2EEDevices = defineTable<E2EEDeviceRow, 'user_id' | 'device_id'>({
+	name: 'e2ee_devices',
+	columns: E2EE_DEVICE_COLUMNS,
+	primaryKey: ['user_id', 'device_id'],
+});
+
+export const E2EEOneTimePrekeys = defineTable<E2EEOneTimePrekeyRow, 'user_id' | 'device_id' | 'key_id'>({
+	name: 'e2ee_one_time_prekeys',
+	columns: E2EE_ONE_TIME_PREKEY_COLUMNS,
+	primaryKey: ['user_id', 'device_id', 'key_id'],
+});
+
+export const E2EEBackups = defineTable<E2EEBackupRow, 'user_id'>({
+	name: 'e2ee_backups',
+	columns: E2EE_BACKUP_COLUMNS,
+	primaryKey: ['user_id'],
 });

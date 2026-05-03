@@ -130,6 +130,9 @@ class MediaEngineFacade {
 	get voiceServerEndpoint(): string | null {
 		return VoiceConnectionManager.voiceServerEndpoint;
 	}
+	get voiceE2EEEnabled(): boolean {
+		return VoiceConnectionManager.e2eeEnabled;
+	}
 
 	get participants(): Readonly<Record<string, LivekitParticipantSnapshot>> {
 		return VoiceParticipantManager.participants;

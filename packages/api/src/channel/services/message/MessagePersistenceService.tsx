@@ -100,6 +100,7 @@ interface CreateMessageParams {
 		mentionEveryone: boolean;
 	};
 	allowEmbeds?: boolean;
+	encryptedPayload?: import('@fluxer/api/src/database/types/MessageTypes').MessageEncryptedPayload | null;
 }
 
 export class MessagePersistenceService {
@@ -247,6 +248,7 @@ export class MessagePersistenceService {
 					: null,
 			call: null,
 			has_reaction: false,
+			encrypted_payload: params.encryptedPayload ?? null,
 			version: 1,
 		};
 

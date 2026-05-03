@@ -228,6 +228,30 @@ class CloudUploadManager {
 		return this.getMessageUploadInternal(nonce);
 	}
 
+	// Swap the underlying File on each attachment of an in-flight
+	// message upload. Used by the E2EE send path which AES-encrypts
+	// every File before the multipart upload runs — the rest of the
+	// pipeline reads `att.file` directly, so replacing it here is
+	// sufficient. `replacements[i]` is paired with `attachments[i]`;
+	// missing entries leave the original file alone.
+	replaceMessageUploadFiles(
+		nonce: string,
+		replacements: ReadonlyArray<{file: File; filename?: string} | undefined>,
+	): void {
+		this.updateMessageUpload(nonce, (current) => ({
+			...current,
+			attachments: current.attachments.map((att, i) => {
+				const swap = replacements[i];
+				if (!swap) return att;
+				return {
+					...att,
+					file: swap.file,
+					filename: swap.filename ?? att.filename,
+				};
+			}),
+		}));
+	}
+
 	subscribeToMessageUpload(nonce: string, listener: MessageUploadListener): () => void {
 		if (!this.messageUploadListeners.has(nonce)) {
 			this.messageUploadListeners.set(nonce, new Set());

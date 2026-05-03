@@ -416,6 +416,7 @@ export class UserChannelService {
 				message_snapshots: null,
 				call: null,
 				has_reaction: false,
+				encrypted_payload: null,
 				version: 1,
 			});
 			systemMessages.push(message);

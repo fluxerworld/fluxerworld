@@ -139,6 +139,8 @@ export const Endpoints = {
 	PREMIUM_REACTIVATE_SUBSCRIPTION: '/premium/reactivate-subscription',
 	STRIPE_CHECKOUT_SUBSCRIPTION: '/stripe/checkout/subscription',
 	STRIPE_CHECKOUT_GIFT: '/stripe/checkout/gift',
+	POLAR_CHECKOUT_SUBSCRIPTION: '/polar/checkout/subscription',
+	POLAR_CHECKOUT_GIFT: '/polar/checkout/gift',
 
 	SWISH_AVAILABLE: '/swish/available',
 	SWISH_PRICES: '/swish/prices',
@@ -169,6 +171,14 @@ export const Endpoints = {
 	USER_GUILDS_LIST: '/users/@me/guilds',
 	USER_GUILDS: (guildId: string) => `/users/@me/guilds/${guildId}`,
 	USER_ME: '/users/@me',
+	USER_E2EE_DEVICES: '/users/@me/e2ee/devices',
+	USER_E2EE_DEVICE: (deviceId: string) => `/users/@me/e2ee/devices/${deviceId}`,
+	USER_E2EE_DEVICE_SIGNED_PREKEY: (deviceId: string) => `/users/@me/e2ee/devices/${deviceId}/signed-prekey`,
+	USER_E2EE_DEVICE_ONE_TIME_PREKEYS: (deviceId: string) =>
+		`/users/@me/e2ee/devices/${deviceId}/one-time-prekeys`,
+	USER_E2EE_CLAIM_KEYS: (userId: string) => `/users/${userId}/e2ee/keys/claim`,
+	USER_E2EE_USER_DEVICES: (userId: string) => `/users/${userId}/e2ee/devices`,
+	USER_E2EE_BACKUP: '/users/@me/e2ee/backup',
 	USER_MENTION: (messageId: string) => `/users/@me/mentions/${messageId}`,
 	USER_MENTIONS: '/users/@me/mentions',
 	USER_MFA_BACKUP_CODES: '/users/@me/mfa/backup-codes',

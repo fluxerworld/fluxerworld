@@ -81,6 +81,14 @@ interface SendMessagePayload extends BaseMessagePayload {
 	 * the failed message stays visible in chat with its resend button instead
 	 * of disappearing into the textarea. */
 	isRetry?: boolean;
+	/** End-to-end encrypted payload, set when the channel is in E2EE mode.
+	 * When present, content is sent empty and the ENCRYPTED flag is set. */
+	encryptedPayload?: {
+		v: number;
+		sender_device_id: string;
+		sender_identity_key: string;
+		ciphertexts: Record<string, {type: number; body: string}>;
+	};
 }
 
 interface EditMessagePayload extends BaseMessagePayload {
@@ -239,6 +247,7 @@ class MessageQueue extends Queue<MessageQueuePayload, HttpResponse<Message> | un
 			favoriteMemeId: payload.favoriteMemeId,
 			stickers: payload.stickers,
 			tts: payload.tts,
+			encryptedPayload: payload.encryptedPayload,
 		});
 
 		logger.debug(`Sending message to channel ${channelId}`);

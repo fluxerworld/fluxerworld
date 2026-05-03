@@ -216,6 +216,10 @@ export class MessageRecord {
 		return this.hasFlag(MessageFlags.SUPPRESS_NOTIFICATIONS);
 	}
 
+	get isEncrypted(): boolean {
+		return this.hasFlag(MessageFlags.ENCRYPTED);
+	}
+
 	isUserMessage(): boolean {
 		return (
 			this.type === MessageTypes.DEFAULT || this.type === MessageTypes.REPLY || this.type === MessageTypes.CLIENT_SYSTEM

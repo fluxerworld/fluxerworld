@@ -33,6 +33,7 @@ import {CallButtons} from '@app/components/channel/channel_header_components/Cal
 import {ChannelHeaderIcon} from '@app/components/channel/channel_header_components/ChannelHeaderIcon';
 import {ChannelNotificationSettingsButton} from '@app/components/channel/channel_header_components/ChannelNotificationSettingsButton';
 import {ChannelPinsButton} from '@app/components/channel/channel_header_components/ChannelPinsButton';
+import {E2EEToggleButton} from '@app/components/channel/channel_header_components/E2EEToggleButton';
 import {UpdaterIcon} from '@app/components/channel/channel_header_components/UpdaterIcon';
 import {InboxButton} from '@app/components/channel/channel_header_components/UtilityButtons';
 import {useChannelSearchState} from '@app/components/channel/channel_view/useChannelSearchState';
@@ -699,6 +700,8 @@ export const ChannelHeader = observer(
 									<VideoCallButton channel={channel} />
 								</>
 							)}
+
+							{isDM && channel && !isMobile && !isBotDMRecipient && <E2EEToggleButton channelId={channel.id} />}
 
 							{shouldShowCreateGroupButton && (
 								<ChannelHeaderIcon icon={UserPlusIcon} label={t`Create Group DM`} onClick={handleOpenCreateGroupDM} />

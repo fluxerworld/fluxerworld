@@ -373,6 +373,10 @@ export async function mapMessageToResponse({
 		response.mention_roles = Array.from(message.mentionedRoleIds).map(String);
 	}
 
+	if (message.encryptedPayload) {
+		response.encrypted_payload = message.encryptedPayload;
+	}
+
 	if (message.mentionedChannelIds.size > 0 && getChannel) {
 		const mentioned = await Promise.all(
 			Array.from(message.mentionedChannelIds).map(async (channelId) => {

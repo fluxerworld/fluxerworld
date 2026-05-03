@@ -19,6 +19,7 @@
 
 import * as QuickSwitcherActionCreators from '@app/actions/QuickSwitcherActionCreators';
 import {QuickSwitcherBottomSheet} from '@app/components/bottomsheets/QuickSwitcherBottomSheet';
+import {E2EEBackupRestorePrompt} from '@app/components/e2ee/E2EEBackupRestorePrompt';
 import {Modals} from '@app/components/modals/Modals';
 import {ContextMenu} from '@app/components/uikit/context_menu/ContextMenu';
 import {Popouts} from '@app/components/uikit/popout/Popouts';
@@ -52,6 +53,7 @@ const GlobalOverlays: React.FC = observer(() => {
 			<ContextMenu />
 			<Toasts />
 			<PiPOverlay />
+			<E2EEBackupRestorePrompt />
 			{isMobile && <QuickSwitcherBottomSheet isOpen={quickSwitcherOpen} onClose={QuickSwitcherActionCreators.hide} />}
 		</>
 	);

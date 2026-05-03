@@ -18,7 +18,7 @@
  */
 
 import type {ChannelID, MessageID, RoleID, UserID, WebhookID} from '@fluxer/api/src/BrandedTypes';
-import type {MessageRow} from '@fluxer/api/src/database/types/MessageTypes';
+import type {MessageEncryptedPayload, MessageRow} from '@fluxer/api/src/database/types/MessageTypes';
 import {Attachment} from '@fluxer/api/src/models/Attachment';
 import {CallInfo} from '@fluxer/api/src/models/CallInfo';
 import {Embed} from '@fluxer/api/src/models/Embed';
@@ -50,6 +50,7 @@ export class Message {
 	readonly messageSnapshots: Array<MessageSnapshot>;
 	readonly call: CallInfo | null;
 	readonly hasReaction: boolean | null;
+	readonly encryptedPayload: MessageEncryptedPayload | null;
 	readonly version: number;
 
 	constructor(row: MessageRow) {
@@ -76,6 +77,7 @@ export class Message {
 		this.messageSnapshots = (row.message_snapshots ?? []).map((snapshot) => new MessageSnapshot(snapshot));
 		this.call = row.call ? new CallInfo(row.call) : null;
 		this.hasReaction = row.has_reaction ?? null;
+		this.encryptedPayload = row.encrypted_payload ?? null;
 		this.version = row.version;
 	}
 
@@ -105,6 +107,7 @@ export class Message {
 				this.messageSnapshots.length > 0 ? this.messageSnapshots.map((snapshot) => snapshot.toMessageSnapshot()) : null,
 			call: this.call?.toMessageCall() ?? null,
 			has_reaction: this.hasReaction ?? null,
+			encrypted_payload: this.encryptedPayload,
 			version: this.version,
 		};
 	}
