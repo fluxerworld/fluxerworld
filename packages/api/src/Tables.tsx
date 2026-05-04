@@ -518,10 +518,11 @@ export const ReadStates = defineTable<ReadStateRow, 'user_id' | 'channel_id'>({
 	primaryKey: ['user_id', 'channel_id'],
 });
 
-export const Messages = defineTable<MessageRow, 'channel_id' | 'bucket' | 'message_id'>({
+export const Messages = defineTable<MessageRow, 'channel_id' | 'bucket' | 'message_id', 'channel_id' | 'bucket'>({
 	name: 'messages',
 	columns: MESSAGE_COLUMNS,
 	primaryKey: ['channel_id', 'bucket', 'message_id'],
+	partitionKey: ['channel_id', 'bucket'],
 });
 
 export const MessagesByAuthor = defineTable<MessageByAuthorRow, 'author_id' | 'channel_id' | 'message_id'>({
