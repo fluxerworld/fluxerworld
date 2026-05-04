@@ -31,7 +31,7 @@ Fluxer World provides clients for multiple platforms:
 
 - Windows  
 - macOS  
-- Linux (tar.gz and Flatpak)  
+- Linux 
 - Android  
 - iOS
 
