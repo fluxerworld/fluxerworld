@@ -364,6 +364,7 @@ export class GuildOperationsService {
 					unicode_emoji: null,
 					hoist: false,
 					mentionable: false,
+					managed: false,
 					version: 1,
 				}),
 			);
