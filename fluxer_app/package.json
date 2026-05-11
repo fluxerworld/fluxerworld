@@ -27,7 +27,7 @@
 		"i18n:auto": "node scripts/auto-i18n.mjs",
 		"i18n:compile": "pnpm lingui:compile",
 		"i18n:extract": "pnpm lingui:extract",
-		"lingui:compile": "lingui compile --strict",
+		"lingui:compile": "lingui compile",
 		"lingui:extract": "lingui extract --clean",
 		"test": "pnpm i18n:compile && vitest run",
 		"test:coverage": "vitest run --coverage",

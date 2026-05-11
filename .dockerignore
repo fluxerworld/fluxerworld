@@ -37,9 +37,12 @@
 **/Thumbs.db
 **/yarn-debug.log*
 **/yarn-error.log*
-/fluxer_app/src/data/emojis.json
 /fluxer_app/src/locales/*/messages.js
 dev
 !fluxer_app/dist
 !fluxer_app/dist/**
 !fluxer_devops/cassandra/migrations
+
+# Required by fluxer_app/rspack.config.mjs during Docker builds
+!fluxer_app/scripts/build/
+!fluxer_app/scripts/build/**

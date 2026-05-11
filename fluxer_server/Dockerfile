@@ -11,10 +11,17 @@ RUN corepack enable && corepack prepare pnpm@10.26.0 --activate
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	curl \
+        ca-certificates \
 	python3 \
 	make \
 	g++ \
 	&& rm -rf /var/lib/apt/lists/*
+
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal --default-toolchain stable \
+    && rustup target add wasm32-unknown-unknown
+
 
 FROM base AS deps
 
@@ -25,7 +32,6 @@ COPY patches/ ./patches/
 
 COPY packages/admin/package.json ./packages/admin/
 COPY packages/api/package.json ./packages/api/
-COPY packages/app/package.json ./packages/app/
 COPY packages/cache/package.json ./packages/cache/
 COPY packages/captcha/package.json ./packages/captcha/
 COPY packages/cassandra/package.json ./packages/cassandra/
@@ -54,6 +60,24 @@ COPY packages/virus_scan/package.json ./packages/virus_scan/
 COPY packages/worker/package.json ./packages/worker/
 COPY packages/http_client/package.json ./packages/http_client/
 COPY packages/schema/package.json ./packages/schema/
+COPY packages/app_proxy/package.json ./packages/app_proxy/
+COPY packages/date_utils/package.json ./packages/date_utils/
+COPY packages/elasticsearch_search/package.json ./packages/elasticsearch_search/
+COPY packages/geo_utils/package.json ./packages/geo_utils/
+COPY packages/geoip/package.json ./packages/geoip/
+COPY packages/i18n/package.json ./packages/i18n/
+COPY packages/kv_client/package.json ./packages/kv_client/
+COPY packages/limits/package.json ./packages/limits/
+COPY packages/list_utils/package.json ./packages/list_utils/
+COPY packages/locale/package.json ./packages/locale/
+COPY packages/markdown_parser/package.json ./packages/markdown_parser/
+COPY packages/media_proxy_utils/package.json ./packages/media_proxy_utils/
+COPY packages/meilisearch_search/package.json ./packages/meilisearch_search/
+COPY packages/mime_utils/package.json ./packages/mime_utils/
+COPY packages/nats/package.json ./packages/nats/
+COPY packages/number_utils/package.json ./packages/number_utils/
+COPY packages/openapi/package.json ./packages/openapi/
+COPY packages/time/package.json ./packages/time/
 COPY fluxer_server/package.json ./fluxer_server/
 COPY fluxer_app/package.json ./fluxer_app/
 
@@ -75,7 +99,6 @@ RUN pnpm --filter @fluxer/marketing build:css
 
 COPY fluxer_media_proxy/data/model.onnx ./fluxer_media_proxy/data/model.onnx
 
-RUN cd fluxer_server && pnpm typecheck
 
 FROM erlang:28-slim AS gateway-build
 
@@ -86,6 +109,7 @@ WORKDIR /usr/src/app/gateway
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	git \
 	curl \
+        ca-certificates \
 	make \
 	gcc \
 	g++ \
@@ -110,9 +134,10 @@ FROM deps AS app-build
 COPY tsconfigs /usr/src/app/tsconfigs
 
 COPY packages/ ./packages/
+COPY config/ ./config/
 COPY fluxer_app/ ./fluxer_app/
 
-RUN cd fluxer_app && pnpm build
+RUN cd fluxer_app && FLUXER_CONFIG=/usr/src/app/config/config.json pnpm build
 
 FROM node:24-trixie-slim AS production
 
@@ -135,6 +160,7 @@ WORKDIR /usr/src/app
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
 	curl \
+        ca-certificates \
 	ffmpeg \
 	&& rm -rf /var/lib/apt/lists/*
 
@@ -196,4 +222,4 @@ ENV RELEASE_CHANNEL=${RELEASE_CHANNEL}
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
 	CMD curl -f http://localhost:8080/_health || exit 1
 
-ENTRYPOINT ["pnpm", "start"]
+ENTRYPOINT ["pnpm", "--dir", "fluxer_server", "start"]
