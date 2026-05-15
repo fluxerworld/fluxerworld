@@ -1,14 +1,3 @@
-// ─── Force X11 ozone backend on Linux ─────────────────────────────────────────
-// Set BEFORE the electron module is imported — Electron 37 reads
-// ELECTRON_OZONE_PLATFORM_HINT during native bring-up, which happens before
-// any JS-side commandLine.appendSwitch is observed. Without this, KDE Plasma 6
-// Wayland sessions silently fall through to the native Wayland Ozone backend
-// even when we ask for X11 from JS — the app starts, gets a taskbar entry,
-// but the window never paints.
-if (process.platform === 'linux') {
-  process.env.ELECTRON_OZONE_PLATFORM_HINT = 'x11';
-}
-
 import {
   app,
   BrowserWindow,
