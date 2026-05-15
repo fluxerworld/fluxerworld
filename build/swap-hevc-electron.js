@@ -41,8 +41,7 @@ module.exports = async function afterPack(context) {
   fs.chmodSync(productExe, 0o755);
 
   // Replace supporting Chromium files (locales, paks, snapshots, GL/Vulkan libs).
-  // libffmpeg.so is NOT in BranchBit's zip — Electron 37 embeds HEVC into the
-  // main binary — so we delete the stock libffmpeg.so to avoid confusion.
+  // libffmpeg.so is intentionally NOT in this list — see comment below.
   const passthrough = [
     'chrome_100_percent.pak',
     'chrome_200_percent.pak',
@@ -71,12 +70,11 @@ module.exports = async function afterPack(context) {
     execSync(`cp -r ${JSON.stringify(localesSrc)} ${JSON.stringify(localesDest)}`);
   }
 
-  // BranchBit's Electron 37 embeds HEVC into the main binary — no separate
-  // libffmpeg.so. Remove the stock one so Chromium doesn't dlopen it.
-  const stockFfmpeg = path.join(dest, 'libffmpeg.so');
-  if (fs.existsSync(stockFfmpeg)) {
-    fs.unlinkSync(stockFfmpeg);
-  }
+  // Leave the stock libffmpeg.so in place. BranchBit's Electron 37 still
+  // dlopens libffmpeg for non-HEVC codecs (Vorbis/Opus/etc.) — deleting it
+  // produces a black-screen-on-launch even though HEVC is compiled into the
+  // main binary. The HEVC support lives in the electron binary itself, not
+  // in libffmpeg, so coexistence is fine.
 
   console.log('[hevc-swap] done');
 };
