@@ -136,19 +136,17 @@ jobs:
       - name: Compile
         run: npm run compile
 
-      # The afterPack hook (build/swap-hevc-electron.js) reads HEVC_ELECTRON_DIR
-      # and replaces the Electron binary in the linux-x64 unpacked dir before
-      # electron-builder creates the tar.gz / deb / rpm / AppImage packages.
-      - name: Build linux-x64 (HEVC binary swap via afterPack)
-        run: npx electron-builder --linux --x64 --publish never
+      # YAML defines arch: [x64, arm64] for each linux target, so a single
+      # --linux command builds both archs. The afterPack hook fires once per
+      # arch — it swaps the Electron binary only for x64 (BranchBit doesn't
+      # publish an arm64 HEVC prebuild). Splitting this into two commands
+      # causes the second to re-package x64 without the swap and overwrite
+      # the artifact, which is what broke v1.0.81 silently.
+      - name: Build (tar.gz, deb, rpm, AppImage) — afterPack swaps HEVC Electron on x64
+        run: npx electron-builder --linux --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEVC_ELECTRON_DIR: /tmp/electron-hevc-x64
-
-      - name: Build linux-arm64 (stock Electron)
-        run: npx electron-builder --linux --arm64 --publish never
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/upload-artifact@v4
         with:
