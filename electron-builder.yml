@@ -98,15 +98,15 @@ linux:
   category:    Network
   # Used in .desktop file
   description: "Fluxer World desktop client"
-  # Bake --ozone-platform=x11 into the .desktop Exec line and the AppImage
-  # AppRun script. Electron 37 reads ozone-platform during native bring-up,
-  # which happens BEFORE main.ts runs — so app.commandLine.appendSwitch and
-  # process.env writes from JS are too late. The flag must be on the CLI of
-  # the actual launcher invocation. Without this, KDE Plasma 6 Wayland
-  # sessions start the app process and load the SPA but never paint the
-  # window (taskbar entry shows, BrowserWindow stays unmapped).
-  executableArgs:
-    - "--ozone-platform=x11"
+  # No executableArgs needed. main.ts detects XDG_SESSION_TYPE at startup and
+  # appendSwitches the right combination of flags per session type:
+  #   - Wayland → --ozone-platform=wayland (via one-time relaunch),
+  #     --use-angle=gl, --in-process-gpu, --enable-features=WaylandWindowDecorations,
+  #     --disable-features=Vulkan
+  #   - X11 → Vulkan ANGLE ICD detection (existing behaviour)
+  # Doing it from JS instead of the launcher means terminal `fluxer-world`
+  # invocations and AppImage double-clicks pick up the right flags too,
+  # not just .desktop-mediated launches.
   target:
     - target: tar.gz
       arch: [x64, arm64]

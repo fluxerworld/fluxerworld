@@ -34,47 +34,62 @@ const ALLOWED_HOSTS = new Set(['fluxer.world', 'cdn.fluxer.world', 'media.fluxer
 // Must be set before any BrowserWindow is created so that Wayland compositors
 // and KDE/GNOME can match the window to the .desktop file and show the correct icon.
 if (process.platform === 'linux') {
+  const isWayland = process.env.XDG_SESSION_TYPE === 'wayland';
+
   app.commandLine.appendSwitch('wayland-app-id', APP_ID);
   app.commandLine.appendSwitch('wm-class', APP_ID);
   // Electron disables speech-dispatcher by default — enable it so /tts works
   // when host has speech-dispatcher + a voice engine (e.g. espeak-ng) installed.
   app.commandLine.appendSwitch('enable-speech-dispatcher');
 
-  // Stability fallback: force X11 (XWayland on Wayland sessions) for all
-  // Linux launches. Electron 37's native Wayland Ozone path is hard-broken
-  // for a non-trivial slice of setups (KDE Plasma + various GPU/Vulkan
-  // combos) — the app starts, takes the single-instance lock, loads the
-  // SPA, shows a taskbar entry, but the actual window never paints.
-  // Running through XWayland is rock-solid in the meantime. Native Wayland
-  // will come back behind a careful detection path once Electron 37 stops
-  // black-windowing.
-  app.commandLine.appendSwitch('ozone-platform', 'x11');
+  // On Wayland sessions the binary must be launched with --ozone-platform=wayland
+  // on its CLI — appendSwitch happens after Electron's native init reads the
+  // ozone flag, so it can't influence the main process. If we're on Wayland and
+  // the flag isn't present, relaunch once with it appended. This makes terminal
+  // launches, AppImage double-clicks, and .desktop entries all converge to the
+  // same working configuration.
+  if (isWayland && !process.argv.some(a => a.startsWith('--ozone-platform'))) {
+    app.relaunch({args: [...process.argv.slice(1), '--ozone-platform=wayland']});
+    app.exit(0);
+  }
 
-  // Build up enable/disable feature lists. Repeated appendSwitch calls for
-  // 'enable-features'/'disable-features' overwrite each other rather than
-  // merging, so we collect into arrays and emit once at the end.
   const enableFeatures: string[] = [
-    // Hardware HEVC video decode where the platform/driver supports it.
     'PlatformHEVCDecoderSupport',
-    // VA-API video decoder (Intel/AMD natively; NVIDIA via libva-nvidia-driver).
     'VaapiVideoDecoder',
-    // Allow VA-API on NVIDIA GPUs (off by default in Chromium since the path
-    // historically only worked on Intel).
     'VaapiIgnoreDriverChecks',
   ];
   const disableFeatures: string[] = [];
 
-  // Vulkan ANGLE if a driver is installed. With X11 ozone above, this is
-  // always safe — the Wayland+Vulkan black-screen path no longer applies.
-  try {
-    const icdDir = '/usr/share/vulkan/icd.d';
-    const hasVulkan = fs.existsSync(icdDir) &&
-      fs.readdirSync(icdDir).some(f => f.endsWith('.json'));
-    if (hasVulkan) {
-      app.commandLine.appendSwitch('use-angle', 'vulkan');
-      enableFeatures.push('Vulkan');
-    }
-  } catch {}
+  if (isWayland) {
+    // Electron 37 invisible-window fix on Wayland (esp. KDE Plasma 6 + AMD):
+    //   - GPU child process picks X11 ozone regardless of the main process
+    //     selection, so its EGL/Vulkan surface creation fails and the
+    //     compositor never sees a buffer to present. Keep GPU work in the main
+    //     process (which IS Wayland) to bypass that bug.
+    //   - ANGLE-Vulkan has no Wayland WSI in Electron 37 (regression vs 33),
+    //     so force ANGLE onto native GL — Mesa drives the AMD/Intel/NV GPU
+    //     directly with no emulation overhead. Disabling the Vulkan feature
+    //     entirely is required because in-process GPU is incompatible with it
+    //     ("Vulkan not supported with in process gpu" in gpu_init.cc).
+    //   - WaylandWindowDecorations lets KWin negotiate client-side decorations
+    //     with our frame: false BrowserWindow.
+    app.commandLine.appendSwitch('use-angle', 'gl');
+    app.commandLine.appendSwitch('in-process-gpu');
+    enableFeatures.push('WaylandWindowDecorations');
+    disableFeatures.push('Vulkan');
+  } else {
+    // X11 session: Vulkan ANGLE works fine here and gives a real perf win on
+    // AMD. Detect ICDs at startup.
+    try {
+      const icdDir = '/usr/share/vulkan/icd.d';
+      const hasVulkan = fs.existsSync(icdDir) &&
+        fs.readdirSync(icdDir).some(f => f.endsWith('.json'));
+      if (hasVulkan) {
+        app.commandLine.appendSwitch('use-angle', 'vulkan');
+        enableFeatures.push('Vulkan');
+      }
+    } catch {}
+  }
 
   if (enableFeatures.length) app.commandLine.appendSwitch('enable-features', enableFeatures.join(','));
   if (disableFeatures.length) app.commandLine.appendSwitch('disable-features', disableFeatures.join(','));
