@@ -1,3 +1,14 @@
+// ─── Force X11 ozone backend on Linux ─────────────────────────────────────────
+// Set BEFORE the electron module is imported — Electron 37 reads
+// ELECTRON_OZONE_PLATFORM_HINT during native bring-up, which happens before
+// any JS-side commandLine.appendSwitch is observed. Without this, KDE Plasma 6
+// Wayland sessions silently fall through to the native Wayland Ozone backend
+// even when we ask for X11 from JS — the app starts, gets a taskbar entry,
+// but the window never paints.
+if (process.platform === 'linux') {
+  process.env.ELECTRON_OZONE_PLATFORM_HINT = 'x11';
+}
+
 import {
   app,
   BrowserWindow,
@@ -12,6 +23,7 @@ import {
   session,
   dialog,
   clipboard,
+  screen,
 } from 'electron';
 import * as path from 'path';
 import * as fs from 'fs';
@@ -259,9 +271,30 @@ function createWindow(): BrowserWindow {
   const initialWidth  = Math.max(saved.width,  MIN_W);
   const initialHeight = Math.max(saved.height, MIN_H);
 
+  // Validate saved x/y against current display layout. If the user changed
+  // monitor configuration (unplugged a screen, switched layouts), saved
+  // coordinates can land entirely off-screen — Electron creates the window
+  // there and it's invisible to the user. Drop the saved position and let
+  // Electron center the window on the active display.
+  let initialX: number | undefined = saved.x;
+  let initialY: number | undefined = saved.y;
+  if (typeof initialX === 'number' && typeof initialY === 'number') {
+    const onScreen = screen.getAllDisplays().some(d => {
+      const b = d.bounds;
+      return initialX! + initialWidth  > b.x &&
+             initialX!                 < b.x + b.width &&
+             initialY! + initialHeight > b.y &&
+             initialY!                 < b.y + b.height;
+    });
+    if (!onScreen) {
+      initialX = undefined;
+      initialY = undefined;
+    }
+  }
+
   const win = new BrowserWindow({
-    x:         saved.x,
-    y:         saved.y,
+    x:         initialX,
+    y:         initialY,
     width:     initialWidth,
     height:    initialHeight,
     minWidth:  MIN_W,
