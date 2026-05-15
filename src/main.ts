@@ -41,7 +41,6 @@ if (process.platform === 'linux') {
 
   const isWayland = process.env.XDG_SESSION_TYPE === 'wayland' ||
                     Boolean(process.env.WAYLAND_DISPLAY);
-  const hasNvidia = fs.existsSync('/proc/driver/nvidia/version');
 
   // Build up enable/disable feature lists. Repeated appendSwitch calls for
   // 'enable-features'/'disable-features' overwrite each other rather than
@@ -57,24 +56,24 @@ if (process.platform === 'linux') {
   ];
   const disableFeatures: string[] = [];
 
-  // Nvidia proprietary drivers on Wayland hang vkAcquireNextImageKHR()
-  // which kills Chromium's GPU process. Force-disable Vulkan on that combo
-  // so the compositor falls back to OpenGL (stable on Nvidia for years).
-  if (hasNvidia && isWayland) {
-    disableFeatures.push('Vulkan');
-  } else {
-    // Use Vulkan ANGLE backend if a Vulkan driver is installed.
-    // Fixes EGL/ANGLE crashes on some AMD + Wayland setups.
-    try {
-      const icdDir = '/usr/share/vulkan/icd.d';
-      const hasVulkan = fs.existsSync(icdDir) &&
-        fs.readdirSync(icdDir).some(f => f.endsWith('.json'));
-      if (hasVulkan) {
-        app.commandLine.appendSwitch('use-angle', 'vulkan');
-        enableFeatures.push('Vulkan');
+  // Opt into Vulkan ANGLE if a driver is installed. On Wayland sessions,
+  // Electron 37's Wayland Ozone path is hard-incompatible with Vulkan
+  // ("ERROR ... '--ozone-platform=wayland' is not compatible with Vulkan"
+  // → black screen on launch). Force X11 Ozone in that case so Vulkan
+  // keeps working via Xwayland — preferable to dropping Vulkan back to
+  // OpenGL on these systems.
+  try {
+    const icdDir = '/usr/share/vulkan/icd.d';
+    const hasVulkan = fs.existsSync(icdDir) &&
+      fs.readdirSync(icdDir).some(f => f.endsWith('.json'));
+    if (hasVulkan) {
+      if (isWayland) {
+        app.commandLine.appendSwitch('ozone-platform', 'x11');
       }
-    } catch {}
-  }
+      app.commandLine.appendSwitch('use-angle', 'vulkan');
+      enableFeatures.push('Vulkan');
+    }
+  } catch {}
 
   if (enableFeatures.length) app.commandLine.appendSwitch('enable-features', enableFeatures.join(','));
   if (disableFeatures.length) app.commandLine.appendSwitch('disable-features', disableFeatures.join(','));
@@ -398,13 +397,15 @@ function createWindow(): BrowserWindow {
   });
 
   // ── window.open / target=_blank ──────────────────────────────────────────
+  // Always route popups to the default browser, including fluxer.world URLs.
+  // The earlier "load internal links in the same window" behavior caused a
+  // full SPA reload when users clicked a fluxer.world link posted in chat —
+  // they expected the link to open externally, not throw away their current
+  // app state. Real intra-app navigation happens via React Router; real
+  // cross-instance deep linking happens via the fluxerworld:// protocol
+  // handler at the top of this file.
   win.webContents.setWindowOpenHandler(({ url }) => {
-    if (isAllowedUrl(url)) {
-      // Internal deep link – load it in the same window instead of a popup.
-      setImmediate(() => win.loadURL(url).catch((err) => console.log("[loadURL] rejected (handled):", err?.message ?? String(err))));
-    } else {
-      shell.openExternal(url).catch(() => {});
-    }
+    shell.openExternal(url).catch(() => {});
     return { action: 'deny' };
   });
 
