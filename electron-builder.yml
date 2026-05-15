@@ -85,6 +85,13 @@ dmg:
       type: link
       path: /Applications
 
+# ── Hooks ────────────────────────────────────────────────────────────────────
+# After packaging the linux-x64 unpacked dir, swap the Electron binary for
+# BranchBit's HEVC-enabled prebuild (gated on env HEVC_ELECTRON_DIR).
+# The earlier --config.electronDist override silently no-op'd through
+# electron-builder's internal pipeline; afterPack is reliable.
+afterPack: build/swap-hevc-electron.js
+
 # ── Linux ─────────────────────────────────────────────────────────────────────
 linux:
   icon:        assets/icons/icon.png

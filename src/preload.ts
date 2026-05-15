@@ -28,6 +28,13 @@ contextBridge.exposeInMainWorld('fluxerLoading', {
 
 contextBridge.exposeInMainWorld('electron', {
 
+  // ── Navigation / External ──────────────────────────────────────────────────
+  // Routes the URL through the main process so it opens in the user's default
+  // browser via shell.openExternal — not inside a new Electron BrowserWindow.
+  openExternal: (url: string): Promise<void> => {
+    return ipcRenderer.invoke('open-external', url);
+  },
+
   // ── Downloads ──────────────────────────────────────────────────────────────
   downloadFile: (url: string, suggestedName: string) => {
     return ipcRenderer.invoke('download-file', url, suggestedName);

@@ -123,9 +123,9 @@ jobs:
 
       # HEVC video decode requires Electron built with proprietary_codecs=true.
       # The official npm `electron` package strips them, so for linux-x64 we
-      # substitute BranchBit's HEVC-enabled Electron prebuilt as the dist
+      # substitute BranchBit's HEVC-enabled Electron prebuilt
       # (https://github.com/BranchBit/electron-chromium-ffmpeg-hevc-prebuilt).
-      # linux-arm64 has no prebuilt available, so it falls back to the stock
+      # linux-arm64 has no prebuilt available — it falls back to the stock
       # Electron 37 binary (no HEVC).
       - name: Fetch HEVC-enabled Electron (linux-x64)
         run: |
@@ -136,10 +136,14 @@ jobs:
       - name: Compile
         run: npm run compile
 
-      - name: Build linux-x64 (with HEVC-enabled Electron)
-        run: npx electron-builder --linux --x64 --publish never --config.electronDist=/tmp/electron-hevc-x64
+      # The afterPack hook (build/swap-hevc-electron.js) reads HEVC_ELECTRON_DIR
+      # and replaces the Electron binary in the linux-x64 unpacked dir before
+      # electron-builder creates the tar.gz / deb / rpm / AppImage packages.
+      - name: Build linux-x64 (HEVC binary swap via afterPack)
+        run: npx electron-builder --linux --x64 --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEVC_ELECTRON_DIR: /tmp/electron-hevc-x64
 
       - name: Build linux-arm64 (stock Electron)
         run: npx electron-builder --linux --arm64 --publish never
