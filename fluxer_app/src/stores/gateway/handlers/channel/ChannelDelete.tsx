@@ -20,6 +20,7 @@
 import ChannelPinsStore from '@app/stores/ChannelPinsStore';
 import ChannelStore from '@app/stores/ChannelStore';
 import DraftStore from '@app/stores/DraftStore';
+import FavoritesStore from '@app/stores/FavoritesStore';
 import GuildReadStateStore from '@app/stores/GuildReadStateStore';
 import type {GatewayHandlerContext} from '@app/stores/gateway/handlers';
 import InviteStore from '@app/stores/InviteStore';
@@ -46,6 +47,7 @@ export function handleChannelDelete(data: ChannelDeletePayload, _context: Gatewa
 
 	SlowmodeStore.deleteChannel(data.id);
 	DraftStore.deleteChannelDraft(data.id);
+	FavoritesStore.removeChannel(data.id);
 	SavedMessagesStore.handleChannelDelete(channel);
 	ChannelPinsStore.handleChannelDelete(channel);
 	ChannelStore.handleChannelDelete({channel});

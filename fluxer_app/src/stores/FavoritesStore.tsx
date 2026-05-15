@@ -147,6 +147,17 @@ class FavoritesStore {
 		this.reorderChannels();
 	}
 
+	handleGuildDelete(guildId: string, unavailable: boolean): void {
+		// Only purge favorites if the user has truly left/lost the guild.
+		// Transient unavailability shouldn't wipe them.
+		if (unavailable) return;
+		const before = this.channels.length;
+		this.channels = this.channels.filter((ch) => ch.guildId !== guildId);
+		if (this.channels.length !== before) {
+			this.reorderChannels();
+		}
+	}
+
 	setChannelNickname(channelId: string, nickname: string | null): void {
 		const channel = this.channels.find((ch) => ch.channelId === channelId);
 		if (!channel) return;

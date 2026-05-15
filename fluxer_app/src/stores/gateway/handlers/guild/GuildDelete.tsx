@@ -19,6 +19,7 @@
 
 import ChannelStore from '@app/stores/ChannelStore';
 import EmojiStore from '@app/stores/EmojiStore';
+import FavoritesStore from '@app/stores/FavoritesStore';
 import GuildAvailabilityStore from '@app/stores/GuildAvailabilityStore';
 import GuildListStore from '@app/stores/GuildListStore';
 import GuildMemberStore from '@app/stores/GuildMemberStore';
@@ -52,6 +53,7 @@ export function handleGuildDelete(data: GuildDeletePayload, _context: GatewayHan
 	GuildReadStateStore.handleGuildDelete({guild: data as Guild});
 	GuildVerificationStore.handleGuildDelete(data.id);
 	ChannelStore.handleGuildDelete({guildId: data.id});
+	FavoritesStore.handleGuildDelete(data.id, data.unavailable ?? false);
 	StickerStore.handleGuildDelete(data.id);
 	EmojiStore.handleGuildDelete({guildId: data.id});
 	PermissionStore.handleGuild();

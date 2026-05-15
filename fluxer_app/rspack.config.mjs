@@ -300,6 +300,16 @@ export default () => {
 				'.cjs',
 				'.po',
 			],
+			// @matrix-org/olm carries a Node fallback path guarded by
+			// `typeof module !== 'undefined'`. The require()s for crypto/path/fs
+			// inside that branch never execute in the browser, but the bundler
+			// still tries to resolve them statically — fail those resolves to
+			// empty modules so the build succeeds.
+			fallback: {
+				crypto: false,
+				path: false,
+				fs: false,
+			},
 		},
 
 		module: {
