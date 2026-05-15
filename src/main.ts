@@ -43,11 +43,25 @@ if (process.platform === 'linux') {
                     Boolean(process.env.WAYLAND_DISPLAY);
   const hasNvidia = fs.existsSync('/proc/driver/nvidia/version');
 
+  // Build up enable/disable feature lists. Repeated appendSwitch calls for
+  // 'enable-features'/'disable-features' overwrite each other rather than
+  // merging, so we collect into arrays and emit once at the end.
+  const enableFeatures: string[] = [
+    // Hardware HEVC video decode where the platform/driver supports it.
+    'PlatformHEVCDecoderSupport',
+    // VA-API video decoder (Intel/AMD natively; NVIDIA via libva-nvidia-driver).
+    'VaapiVideoDecoder',
+    // Allow VA-API on NVIDIA GPUs (off by default in Chromium since the path
+    // historically only worked on Intel).
+    'VaapiIgnoreDriverChecks',
+  ];
+  const disableFeatures: string[] = [];
+
   // Nvidia proprietary drivers on Wayland hang vkAcquireNextImageKHR()
   // which kills Chromium's GPU process. Force-disable Vulkan on that combo
   // so the compositor falls back to OpenGL (stable on Nvidia for years).
   if (hasNvidia && isWayland) {
-    app.commandLine.appendSwitch('disable-features', 'Vulkan');
+    disableFeatures.push('Vulkan');
   } else {
     // Use Vulkan ANGLE backend if a Vulkan driver is installed.
     // Fixes EGL/ANGLE crashes on some AMD + Wayland setups.
@@ -57,10 +71,13 @@ if (process.platform === 'linux') {
         fs.readdirSync(icdDir).some(f => f.endsWith('.json'));
       if (hasVulkan) {
         app.commandLine.appendSwitch('use-angle', 'vulkan');
-        app.commandLine.appendSwitch('enable-features', 'Vulkan');
+        enableFeatures.push('Vulkan');
       }
     } catch {}
   }
+
+  if (enableFeatures.length) app.commandLine.appendSwitch('enable-features', enableFeatures.join(','));
+  if (disableFeatures.length) app.commandLine.appendSwitch('disable-features', disableFeatures.join(','));
 }
 app.name = APP_ID;
 app.setName(APP_ID);
@@ -555,14 +572,21 @@ function createWindow(): BrowserWindow {
   };
 
   // Probe APP_URL via Node fetch — runs in the main process, does NOT
-  // navigate the visible window. Any HTTP response (even 4xx/5xx) means
-  // the host is reachable.
+  // navigate the visible window. A 2xx/3xx/4xx HTTP response means the
+  // host is reachable. 5xx responses indicate the server itself is sick
+  // (deploy, overload, upstream gateway error) — we surface those as
+  // distinct "server error" status so users know it isn't them.
   type ProbeResult = { ok: true } | { ok: false; errorCode: number; errorDescription: string };
   const probeServer = async (): Promise<ProbeResult> => {
     const ac = new AbortController();
     const timer = setTimeout(() => ac.abort(), 8000);
     try {
-      await fetch(APP_URL, { method: 'HEAD', signal: ac.signal });
+      const res = await fetch(APP_URL, { method: 'HEAD', signal: ac.signal });
+      if (res.status >= 500 && res.status < 600) {
+        // Custom out-of-band code (Chromium net errors are negative, ours is
+        // positive to avoid collision); loading.html ERROR_MAP keys on it.
+        return { ok: false, errorCode: res.status, errorDescription: `HTTP ${res.status} from server` };
+      }
       return { ok: true };
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);

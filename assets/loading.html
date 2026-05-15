@@ -189,6 +189,17 @@
       color: var(--text-muted);
       opacity: 0.75;
     }
+    .status-link {
+      margin-top: 0.25rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .status-link a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .status-link a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -201,6 +212,10 @@
       <div id="status" class="status-text">Connecting…</div>
       <div id="detail" class="detail-text"></div>
       <button id="retry" class="btn">Try again</button>
+      <div class="status-link">
+        Check service status at
+        <a href="https://status.fluxer.world" target="_blank" rel="noopener noreferrer">status.fluxer.world</a>
+      </div>
       <div id="hint" class="hint"></div>
     </div>
   </div>
@@ -212,7 +227,8 @@
     const $hint        = document.getElementById('hint');
     const $statusBlock = document.getElementById('status-block');
 
-    // Friendly mappings for common Chromium error codes.
+    // Friendly mappings for common Chromium error codes (negative) AND
+    // server-side HTTP 5xx codes the main process surfaces (positive).
     const ERROR_MAP = {
       '-3':   { status: 'Loading…', detail: '', isError: false, hideBlock: true },
       '-2':   { status: 'Connection failed',     detail: 'Unable to reach fluxer.world. Check your internet connection.' },
@@ -222,6 +238,11 @@
       '-109': { status: 'Network unreachable',   detail: 'Your network has no route to the internet. Check wifi or ethernet.' },
       '-118': { status: 'Connection timed out',  detail: 'fluxer.world isn\'t responding. We\'ll keep trying.' },
       '-501': { status: 'Insecure connection',   detail: 'Connection blocked. This may be a captive portal needing sign-in.' },
+      // Server-side errors (HTTP 5xx from the API/edge). Not your network.
+      '500':  { status: 'Server error',          detail: 'fluxer.world returned an internal error. The team is likely aware.' },
+      '502':  { status: 'Bad gateway',           detail: 'The edge can\'t reach the Fluxer backend right now.' },
+      '503':  { status: 'Service unavailable',   detail: 'fluxer.world is down or overloaded. Usually brief.' },
+      '504':  { status: 'Gateway timeout',       detail: 'The backend isn\'t responding to the edge in time.' },
     };
 
     function setStatus({ errorCode, errorDescription, retryInMs, attempt }) {

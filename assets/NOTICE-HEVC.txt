@@ -1,0 +1,23 @@
+HEVC / H.265 Video Decoder Notice
+==================================
+
+The Linux x86_64 build of Fluxer World includes hardware-accelerated HEVC /
+H.265 video decoding, provided by a custom Electron build with proprietary
+codecs enabled (`proprietary_codecs=true`, `enable_hevc_parser_and_hw_decoder=true`).
+
+This build is sourced from the BranchBit prebuilt Electron release:
+  https://github.com/BranchBit/electron-chromium-ffmpeg-hevc-prebuilt
+
+HEVC is a patent-encumbered codec. Distributing software that includes an
+HEVC decoder may require licensing from patent pool administrators such as
+MPEG LA, Access Advance, and Velos Media. Fluxer World is released under
+AGPL-3.0-or-later and the HEVC support is provided "as-is" with no warranty
+or claim of licensing on behalf of redistributors.
+
+Linux ARM64, macOS, Windows, Android, and iOS builds do NOT bundle an HEVC
+decoder; on those platforms HEVC is decoded via the operating system's
+built-in codec where available.
+
+If you redistribute or commercialize a build of Fluxer World that includes
+the Linux x86_64 binary, consult appropriate legal counsel about HEVC
+patent licensing.

@@ -121,8 +121,28 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/v')
         run: npm version --no-git-tag-version "${GITHUB_REF_NAME#v}" || true
 
-      - name: Build (tar.gz, deb, rpm, AppImage)
-        run: npm run compile && npx electron-builder --linux --publish never
+      # HEVC video decode requires Electron built with proprietary_codecs=true.
+      # The official npm `electron` package strips them, so for linux-x64 we
+      # substitute BranchBit's HEVC-enabled Electron prebuilt as the dist
+      # (https://github.com/BranchBit/electron-chromium-ffmpeg-hevc-prebuilt).
+      # linux-arm64 has no prebuilt available, so it falls back to the stock
+      # Electron 37 binary (no HEVC).
+      - name: Fetch HEVC-enabled Electron (linux-x64)
+        run: |
+          mkdir -p /tmp/electron-hevc-x64
+          curl -sL "https://github.com/BranchBit/electron-chromium-ffmpeg-hevc-prebuilt/releases/download/v37.2.4/v37.2.4-linux-x64-electron-chromium-ffmpeg-hevc-prebuilt.zip" -o /tmp/electron-hevc-x64.zip
+          cd /tmp/electron-hevc-x64 && unzip -oq /tmp/electron-hevc-x64.zip
+
+      - name: Compile
+        run: npm run compile
+
+      - name: Build linux-x64 (with HEVC-enabled Electron)
+        run: npx electron-builder --linux --x64 --publish never --config.electronDist=/tmp/electron-hevc-x64
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build linux-arm64 (stock Electron)
+        run: npx electron-builder --linux --arm64 --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
