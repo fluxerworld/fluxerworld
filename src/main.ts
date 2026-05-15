@@ -16,6 +16,7 @@ import {
 import * as path from 'path';
 import * as fs from 'fs';
 import * as crypto from 'crypto';
+import { pathToFileURL } from 'url';
 import { Store } from './store';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -34,6 +35,9 @@ const ALLOWED_HOSTS = new Set(['fluxer.world', 'cdn.fluxer.world', 'media.fluxer
 if (process.platform === 'linux') {
   app.commandLine.appendSwitch('wayland-app-id', APP_ID);
   app.commandLine.appendSwitch('wm-class', APP_ID);
+  // Electron disables speech-dispatcher by default — enable it so /tts works
+  // when host has speech-dispatcher + a voice engine (e.g. espeak-ng) installed.
+  app.commandLine.appendSwitch('enable-speech-dispatcher');
 
   const isWayland = process.env.XDG_SESSION_TYPE === 'wayland' ||
                     Boolean(process.env.WAYLAND_DISPLAY);
@@ -249,7 +253,9 @@ function createWindow(): BrowserWindow {
     title:     APP_NAME,
     icon:      nativeImage.createFromPath(iconPath),
     // Subtle dark background colour shown while the SPA is loading.
-    backgroundColor: '#13141a',
+    // Matches the SPA's --background-secondary token (hsl(220, 13%, 11.18%))
+    // so the window paint between create and loadFile lines up with loading.html.
+    backgroundColor: '#191b20',
     // Show the window immediately on creation.
     show: !(store.get('startMinimized') || launchHidden),
     // Hide the default menu bar (removes duplicate window controls + File menu)
@@ -261,7 +267,7 @@ function createWindow(): BrowserWindow {
     ...(process.platform === 'win32' && {
       titleBarStyle: 'hidden' as const,
       titleBarOverlay: {
-        color: '#13141a',
+        color: '#191b20',
         symbolColor: '#e4e4e7',
         height: 32,
       },
@@ -518,7 +524,7 @@ function createWindow(): BrowserWindow {
     win.webContents
       .executeJavaScript('localStorage.getItem("theme")', true)
       .then((t: unknown) => {
-        if (typeof t === 'string' && (t === 'light' || t === 'dark')) {
+        if (typeof t === 'string' && (t === 'light' || t === 'dark' || t === 'coal')) {
           store.set('lastKnownTheme', t);
         }
       })
@@ -538,8 +544,15 @@ function createWindow(): BrowserWindow {
     try { win.webContents.send('loading-retrying'); } catch {}
   };
 
-  const showLoadingPage = (): Promise<void> =>
-    win.loadFile(loadingPagePath).then(() => sendLoadingTheme());
+  const showLoadingPage = (): Promise<void> => {
+    const saved = store.get('lastKnownTheme');
+    // Use loadURL with an explicitly built file:// URL — loadFile's `query`
+    // option silently drops the query string for file:// pages in some
+    // Electron versions, so the theme wouldn't make it to the renderer.
+    const fileUrl = pathToFileURL(loadingPagePath);
+    if (saved) fileUrl.searchParams.set('theme', saved);
+    return win.loadURL(fileUrl.href).then(() => sendLoadingTheme());
+  };
 
   // Probe APP_URL via Node fetch — runs in the main process, does NOT
   // navigate the visible window. Any HTTP response (even 4xx/5xx) means
@@ -642,6 +655,14 @@ function createWindow(): BrowserWindow {
     retryAttempt = 0;
     captureTheme();
   });
+
+  // Re-poll the SPA's localStorage so theme switches during a session are
+  // captured before quit — without this, the store stays a theme behind and
+  // the loading page on next launch shows the previous theme.
+  const themePollInterval = setInterval(() => {
+    if (appLoaded) captureTheme();
+  }, 5000);
+  win.on('closed', () => clearInterval(themePollInterval));
 
   // Show the loading page first, then begin probing.
   showLoadingPage()

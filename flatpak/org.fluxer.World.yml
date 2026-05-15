@@ -26,6 +26,9 @@ finish-args:
   # System tray via StatusNotifierItem (KDE/xfce/etc.)
   - --talk-name=org.kde.StatusNotifierWatcher
   - --talk-name=com.canonical.indicator.application
+  # Speech-dispatcher for /tts (host must have speech-dispatcher + a voice engine installed)
+  - --talk-name=org.freedesktop.SpeechDispatcher
+  - --filesystem=xdg-run/speech-dispatcher:ro
   # GPU access for Electron/Chromium rendering
   - --device=dri
   - --env=ELECTRON_OZONE_PLATFORM_HINT=auto

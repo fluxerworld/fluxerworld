@@ -3,40 +3,63 @@
 <head>
   <meta charset="UTF-8">
   <title>Fluxerworld</title>
+  <script>
+    // Apply theme synchronously from query param BEFORE first paint to avoid
+    // a flash of dark default on light/coal users. Main process injects
+    // ?theme=<saved> when loading this page.
+    (function () {
+      try {
+        var t = new URLSearchParams(location.search).get('theme');
+        if (t === 'light' || t === 'dark' || t === 'coal') {
+          document.documentElement.classList.add('theme-' + t);
+        }
+      } catch (e) {}
+    })();
+  </script>
   <style>
+    /* Color tokens mirror /opt/fluxer/fluxer_app/src/styles/generated/color-system.css
+     * so this preboot screen matches the SPA's SplashScreen across themes. */
     :root {
-      /* Mirrors Fluxer's color-system.css tokens. */
-      --bg:           hsl(220, 10%, 98.5%);
-      --text:         hsl(220, 13%, 10%);
-      --text-muted:   hsl(220, 13%, 38%);
-      --accent:       hsl(242, 70%, 55%);
-      --accent-hover: hsl(242, 70%, 48%);
-      --danger:       hsl(0, 75%, 50%);
+      /* Default = dark theme (matches SPA :root defaults). */
+      --bg:           hsl(220, 13%, 11.18%);  /* --background-secondary */
+      --text:         hsl(220, 13%, 96%);     /* --text-primary */
+      --text-muted:   hsl(220, 13%, 78.18%);  /* --text-primary-muted */
+      --accent:       hsl(242, 70%, 55%);     /* --brand-primary */
+      --accent-hover: hsl(242, 100%, 70%);
+      --danger:       hsl(0, 75%, 70%);
     }
-    @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: light) {
       :root {
-        --bg:           hsl(220, 13%, 5%);
-        --text:         hsl(220, 13%, 96%);
-        --text-muted:   hsl(220, 13%, 78%);
+        --bg:           hsl(220, 10%, 92.84%);
+        --text:         hsl(220, 10%, 15%);
+        --text-muted:   hsl(220, 10%, 46.39%);
         --accent:       hsl(242, 70%, 55%);
-        --accent-hover: hsl(242, 100%, 70%);
-        --danger:       hsl(0, 75%, 70%);
+        --accent-hover: hsl(242, 70%, 48%);
+        --danger:       hsl(0, 75%, 50%);
       }
     }
     /* Explicit theme overrides — set by Electron when the user has a
      * known last-used theme (overrides prefers-color-scheme). */
     html.theme-light {
-      --bg:           hsl(220, 10%, 98.5%);
-      --text:         hsl(220, 13%, 10%);
-      --text-muted:   hsl(220, 13%, 38%);
+      --bg:           hsl(220, 10%, 92.84%);
+      --text:         hsl(220, 10%, 15%);
+      --text-muted:   hsl(220, 10%, 46.39%);
       --accent:       hsl(242, 70%, 55%);
       --accent-hover: hsl(242, 70%, 48%);
       --danger:       hsl(0, 75%, 50%);
     }
     html.theme-dark {
-      --bg:           hsl(220, 13%, 5%);
+      --bg:           hsl(220, 13%, 11.18%);
       --text:         hsl(220, 13%, 96%);
-      --text-muted:   hsl(220, 13%, 78%);
+      --text-muted:   hsl(220, 13%, 78.18%);
+      --accent:       hsl(242, 70%, 55%);
+      --accent-hover: hsl(242, 100%, 70%);
+      --danger:       hsl(0, 75%, 70%);
+    }
+    html.theme-coal {
+      --bg:           hsl(220, 13%, 1%);
+      --text:         hsl(220, 13%, 96%);
+      --text-muted:   hsl(220, 13%, 78.18%);
       --accent:       hsl(242, 70%, 55%);
       --accent-hover: hsl(242, 100%, 70%);
       --danger:       hsl(0, 75%, 70%);
@@ -72,10 +95,13 @@
       justify-content: center;
       gap: 1.75rem;
     }
-    /* Logo with strong purple glow around it — matches the SPA splash */
+    /* Matches the SPA SplashScreen: a brand-color circle pulses behind a
+     * static logo. The wrapper is sized larger than the PNG so the pulse
+     * halo is visible around the logo at all times (SPA uses a transparent
+     * SVG, but we have an opaque PNG; sizing it down keeps the effect). */
     .logo-wrap {
-      width: 180px;
-      height: 180px;
+      width: 7rem;
+      height: 7rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -86,33 +112,38 @@
       position: absolute;
       inset: 0;
       border-radius: 50%;
-      background: radial-gradient(circle, hsla(242, 70%, 60%, 0.45) 0%, hsla(242, 70%, 60%, 0) 65%);
-      animation: glow 2s ease-in-out infinite;
+      background-color: var(--accent);
+      opacity: 0.75;
+      animation: splashPulse 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
     }
     .logo {
-      width: 110px;
-      height: 110px;
+      position: relative;
+      z-index: 1;
+      width: 5rem;
+      height: 5rem;
       border-radius: 50%;
       object-fit: cover;
-      animation: pulse 2s ease-in-out infinite;
-      box-shadow: 0 0 36px hsla(242, 70%, 60%, 0.55);
     }
-    .logo-wrap.error .logo {
-      animation: none;
-      filter: grayscale(0.35) brightness(0.85);
-      box-shadow: 0 0 36px hsla(0, 75%, 60%, 0.45);
+    /* Keep animation/colors during error — only the status block changes. */
+    @keyframes splashPulse {
+      0% {
+        transform: scale(1);
+        opacity: 0.75;
+      }
+      75% {
+        transform: scale(2);
+        opacity: 0;
+      }
+      100% {
+        transform: scale(2);
+        opacity: 0;
+      }
     }
-    .logo-wrap.error::before {
-      background: radial-gradient(circle, hsla(0, 75%, 60%, 0.35) 0%, hsla(0, 75%, 60%, 0) 65%);
-      animation: none;
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1);   opacity: 1; }
-      50%      { transform: scale(1.04); opacity: 0.92; }
-    }
-    @keyframes glow {
-      0%, 100% { transform: scale(1);   opacity: 0.65; }
-      50%      { transform: scale(1.15); opacity: 0.95; }
+    @media (prefers-reduced-motion: reduce) {
+      .logo-wrap::before {
+        animation: none;
+        opacity: 0.4;
+      }
     }
     /* Status block — invisible until JS un-hides it (only on error) */
     .status-block {
@@ -226,8 +257,8 @@
     }
 
     function applyTheme(theme) {
-      document.documentElement.classList.remove('theme-light', 'theme-dark');
-      if (theme === 'light' || theme === 'dark') {
+      document.documentElement.classList.remove('theme-light', 'theme-dark', 'theme-coal');
+      if (theme === 'light' || theme === 'dark' || theme === 'coal') {
         document.documentElement.classList.add('theme-' + theme);
       }
     }

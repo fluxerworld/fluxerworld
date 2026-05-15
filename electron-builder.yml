@@ -103,9 +103,15 @@ linux:
 
 deb:
   afterInstall: linux/afterInstall.sh
+  recommends:
+    - speech-dispatcher
+    - espeak-ng
 
 rpm:
   afterInstall: linux/afterInstall.sh
+  depends:
+    - speech-dispatcher
+    - espeak-ng
 
 # ── Artifact naming ───────────────────────────────────────────────────────────
 # Use dashes in the name to match what electron-updater writes in latest.yml.

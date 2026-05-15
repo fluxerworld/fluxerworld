@@ -17,11 +17,11 @@ export interface AppSettings {
   startOnBoot: boolean;
   autostartInitialized: boolean;
   startMinimizedMigrated: boolean;
-  /** Last theme the user had selected in the SPA (light|dark). Captured
+  /** Last theme the user had selected in the SPA (light|dark|coal). Captured
    * by main.ts after each successful load via executeJavaScript on the
    * SPA's localStorage so the bundled loading page can match it on next
    * launch instead of falling back to system prefers-color-scheme. */
-  lastKnownTheme: 'light' | 'dark' | null;
+  lastKnownTheme: 'light' | 'dark' | 'coal' | null;
 }
 
 const DEFAULTS: AppSettings = {

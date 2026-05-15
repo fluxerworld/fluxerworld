@@ -1,5 +1,5 @@
 name: fluxer-world
-version: '1.0.77'
+version: '1.0.79'
 summary: Fluxer World desktop client
 description: |
   Fluxer World is an open-source chat, voice, and community platform.
@@ -41,7 +41,7 @@ apps:
 parts:
   fluxer-world:
     plugin: dump
-    source: https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.77/Fluxer-World-1.0.77-linux-x64.tar.gz
+    source: https://github.com/fluxerworld/fluxerworld/releases/download/v1.0.79/Fluxer-World-1.0.79-linux-x64.tar.gz
     source-type: tar
     override-build: |
       # Install app files
@@ -80,3 +80,9 @@ parts:
       - libgbm1
       - libxss1
       - libxtst6
+      # Text-to-speech for /tts. Strict confinement may still block the daemon
+      # socket; classic confinement would be the bulletproof fix if this ever
+      # turns out to be unusable in practice.
+      - speech-dispatcher
+      - espeak-ng
+      - libspeechd2
