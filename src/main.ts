@@ -39,8 +39,15 @@ if (process.platform === 'linux') {
   // when host has speech-dispatcher + a voice engine (e.g. espeak-ng) installed.
   app.commandLine.appendSwitch('enable-speech-dispatcher');
 
-  const isWayland = process.env.XDG_SESSION_TYPE === 'wayland' ||
-                    Boolean(process.env.WAYLAND_DISPLAY);
+  // Stability fallback: force X11 (XWayland on Wayland sessions) for all
+  // Linux launches. Electron 37's native Wayland Ozone path is hard-broken
+  // for a non-trivial slice of setups (KDE Plasma + various GPU/Vulkan
+  // combos) — the app starts, takes the single-instance lock, loads the
+  // SPA, shows a taskbar entry, but the actual window never paints.
+  // Running through XWayland is rock-solid in the meantime. Native Wayland
+  // will come back behind a careful detection path once Electron 37 stops
+  // black-windowing.
+  app.commandLine.appendSwitch('ozone-platform', 'x11');
 
   // Build up enable/disable feature lists. Repeated appendSwitch calls for
   // 'enable-features'/'disable-features' overwrite each other rather than
@@ -56,20 +63,13 @@ if (process.platform === 'linux') {
   ];
   const disableFeatures: string[] = [];
 
-  // Opt into Vulkan ANGLE if a driver is installed. On Wayland sessions,
-  // Electron 37's Wayland Ozone path is hard-incompatible with Vulkan
-  // ("ERROR ... '--ozone-platform=wayland' is not compatible with Vulkan"
-  // → black screen on launch). Force X11 Ozone in that case so Vulkan
-  // keeps working via Xwayland — preferable to dropping Vulkan back to
-  // OpenGL on these systems.
+  // Vulkan ANGLE if a driver is installed. With X11 ozone above, this is
+  // always safe — the Wayland+Vulkan black-screen path no longer applies.
   try {
     const icdDir = '/usr/share/vulkan/icd.d';
     const hasVulkan = fs.existsSync(icdDir) &&
       fs.readdirSync(icdDir).some(f => f.endsWith('.json'));
     if (hasVulkan) {
-      if (isWayland) {
-        app.commandLine.appendSwitch('ozone-platform', 'x11');
-      }
       app.commandLine.appendSwitch('use-angle', 'vulkan');
       enableFeatures.push('Vulkan');
     }
