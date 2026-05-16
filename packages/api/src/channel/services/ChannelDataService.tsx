@@ -291,6 +291,15 @@ export class ChannelDataService {
 		return this.channelOperationsService.setChannelPermissionOverwrite(params);
 	}
 
+	async setChannelE2EE(params: {
+		userId: UserID;
+		channelId: ChannelID;
+		enabled: boolean;
+		requestCache: RequestCache;
+	}) {
+		return this.channelOperationsService.setChannelE2EE(params);
+	}
+
 	async deleteChannelPermissionOverwrite(params: {
 		userId: UserID;
 		channelId: ChannelID;

@@ -44,6 +44,8 @@ export class Channel {
 	readonly nicknames: Map<string, string>;
 	readonly isSoftDeleted: boolean;
 	readonly indexedAt: Date | null;
+	/** Shared per-conversation E2EE flag for 1:1 DMs. False/null = off. */
+	readonly e2eeEnabled: boolean;
 	readonly version: number;
 
 	constructor(row: ChannelRow) {
@@ -74,6 +76,7 @@ export class Channel {
 		this.nicknames = row.nicks ?? new Map();
 		this.isSoftDeleted = row.soft_deleted;
 		this.indexedAt = row.indexed_at ?? null;
+		this.e2eeEnabled = row.e2ee_enabled ?? false;
 		this.version = row.version;
 	}
 
@@ -111,6 +114,7 @@ export class Channel {
 			nicks: this.nicknames.size > 0 ? this.nicknames : null,
 			soft_deleted: this.isSoftDeleted,
 			indexed_at: this.indexedAt,
+			e2ee_enabled: this.e2eeEnabled,
 			version: this.version,
 		};
 	}

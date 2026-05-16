@@ -59,6 +59,10 @@ export interface ChannelRow {
 	nicks: Nullish<Map<string, string>>;
 	soft_deleted: boolean;
 	indexed_at: Nullish<Date>;
+	/** Shared per-conversation E2EE flag for 1:1 DMs. Either participant can
+	 * toggle. Defaults to false (off). Group DMs and guild channels ignore
+	 * this — only ChannelTypes.DM uses it. */
+	e2ee_enabled: Nullish<boolean>;
 	version: number;
 }
 
@@ -131,6 +135,7 @@ export const CHANNEL_COLUMNS = [
 	'nicks',
 	'soft_deleted',
 	'indexed_at',
+	'e2ee_enabled',
 	'version',
 ] as const satisfies ReadonlyArray<keyof ChannelRow>;
 

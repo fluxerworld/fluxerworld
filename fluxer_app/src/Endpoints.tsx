@@ -73,6 +73,7 @@ export const Endpoints = {
 	OAUTH_AUTHORIZATION: (applicationId: string) => `/oauth2/@me/authorizations/${applicationId}`,
 
 	CHANNEL: (channelId: string) => `/channels/${channelId}`,
+	CHANNEL_E2EE: (channelId: string) => `/channels/${channelId}/e2ee`,
 	CHANNEL_ATTACHMENTS: (channelId: string) => `/channels/${channelId}/attachments`,
 	CHANNEL_INVITES: (channelId: string) => `/channels/${channelId}/invites`,
 	CHANNEL_RECIPIENT: (channelId: string, userId: string) => `/channels/${channelId}/recipients/${userId}`,

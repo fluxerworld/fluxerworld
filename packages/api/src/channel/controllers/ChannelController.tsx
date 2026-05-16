@@ -302,4 +302,30 @@ export function ChannelController(app: HonoApp) {
 			return ctx.body(null, 204);
 		},
 	);
+
+	app.put(
+		'/channels/:channel_id/e2ee',
+		RateLimitMiddleware(RateLimitConfigs.CHANNEL_UPDATE),
+		LoginRequired,
+		Validator('param', ChannelIdParam),
+		Validator('json', z.object({enabled: z.boolean()})),
+		OpenAPI({
+			operationId: 'set_channel_e2ee',
+			summary: 'Toggle shared end-to-end encryption for a 1:1 DM channel',
+			description:
+				'Sets the shared e2ee_enabled flag on a 1:1 DM. Either participant can toggle. The change is broadcast to both clients via CHANNEL_UPDATE so the UI updates without refresh.',
+			responseSchema: null,
+			statusCode: 204,
+			security: ['botToken', 'bearerToken', 'sessionToken'],
+			tags: 'Channels',
+		}),
+		async (ctx) => {
+			const userId = ctx.get('user').id;
+			const channelId = createChannelID(ctx.req.valid('param').channel_id);
+			const {enabled} = ctx.req.valid('json');
+			const requestCache = ctx.get('requestCache');
+			await ctx.get('channelService').setChannelE2EE({userId, channelId, enabled, requestCache});
+			return ctx.body(null, 204);
+		},
+	);
 }

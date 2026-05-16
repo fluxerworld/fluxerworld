@@ -79,6 +79,7 @@ export const ChannelResponse = z.object({
 		.describe('The recipients of the DM channel'),
 	nsfw: z.boolean().optional().describe('Whether the channel is marked as NSFW'),
 	rate_limit_per_user: Int32Type.optional().describe('The slowmode rate limit in seconds'),
+	e2ee_enabled: z.boolean().optional().describe('Whether 1:1 DM end-to-end encryption is enabled (DM channels only)'),
 	nicks: z
 		.record(z.string(), createStringType(1, 32))
 		.optional()
@@ -151,6 +152,7 @@ export interface Channel {
 	readonly recipients?: ReadonlyArray<UserPartial>;
 	readonly nsfw?: boolean;
 	readonly rate_limit_per_user?: number;
+	readonly e2ee_enabled?: boolean;
 	readonly nicks?: Readonly<Record<string, string>>;
 	readonly flags?: number;
 	readonly member_count?: number;

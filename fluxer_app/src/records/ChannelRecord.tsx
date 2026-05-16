@@ -86,6 +86,8 @@ export class ChannelRecord {
 	readonly recipientIds: ReadonlyArray<string>;
 	readonly nsfw: boolean;
 	readonly rateLimitPerUser: number;
+	/** Shared per-conversation E2EE flag for 1:1 DMs. */
+	readonly e2eeEnabled: boolean;
 	readonly nicks: Readonly<Record<string, string>>;
 	readonly flags: number;
 	readonly memberCount?: number;
@@ -112,6 +114,7 @@ export class ChannelRecord {
 		this.lastPinTimestamp = channel.last_pin_timestamp ? new Date(channel.last_pin_timestamp) : null;
 		this.nsfw = channel.nsfw ?? false;
 		this.rateLimitPerUser = channel.rate_limit_per_user ?? 0;
+		this.e2eeEnabled = channel.e2ee_enabled ?? false;
 		this.flags = channel.flags ?? 0;
 		this.nicks = channel.nicks ?? {};
 
@@ -248,6 +251,7 @@ export class ChannelRecord {
 				recipients: newRecipients.length > 0 ? newRecipients : undefined,
 				nsfw: updates.nsfw ?? this.nsfw,
 				rate_limit_per_user: updates.rate_limit_per_user ?? this.rateLimitPerUser,
+				e2ee_enabled: updates.e2ee_enabled ?? this.e2eeEnabled,
 				nicks: updates.nicks ?? this.nicks,
 				flags: updates.flags ?? this.flags,
 				member_count: updates.member_count ?? this.memberCount,
@@ -297,6 +301,7 @@ export class ChannelRecord {
 		if (this.lastPinTimestamp?.getTime() !== other.lastPinTimestamp?.getTime()) return false;
 		if (this.nsfw !== other.nsfw) return false;
 		if (this.rateLimitPerUser !== other.rateLimitPerUser) return false;
+		if (this.e2eeEnabled !== other.e2eeEnabled) return false;
 		if (this.flags !== other.flags) return false;
 
 		if (this.recipientIds.length !== other.recipientIds.length) return false;
@@ -340,6 +345,7 @@ export class ChannelRecord {
 					: undefined,
 			nsfw: this.nsfw,
 			rate_limit_per_user: this.rateLimitPerUser,
+			e2ee_enabled: this.e2eeEnabled,
 			nicks: this.nicks,
 			flags: this.flags,
 			member_count: this.memberCount,

@@ -605,6 +605,31 @@ export class ChannelOperationsService {
 		await this.channelUtilsService.dispatchChannelUpdate({channel: updated, requestCache: params.requestCache});
 	}
 
+	/**
+	 * Toggle the shared E2EE flag on a 1:1 DM channel. Either participant can
+	 * flip it; the change is broadcast to both via dispatchChannelUpdate so
+	 * both clients see the new state in realtime without refresh.
+	 */
+	async setChannelE2EE(params: {
+		userId: UserID;
+		channelId: ChannelID;
+		enabled: boolean;
+		requestCache: RequestCache;
+	}): Promise<void> {
+		const channel = await this.channelRepository.channelData.findUnique(params.channelId);
+		if (!channel) throw new UnknownChannelError();
+		if (channel.type !== ChannelTypes.DM) throw new MissingPermissionsError();
+		if (!channel.recipientIds.has(params.userId)) throw new MissingPermissionsError();
+
+		if (channel.e2eeEnabled === params.enabled) return;
+
+		const updated = await this.channelRepository.channelData.upsert({
+			...channel.toRow(),
+			e2ee_enabled: params.enabled,
+		});
+		await this.channelUtilsService.dispatchChannelUpdate({channel: updated, requestCache: params.requestCache});
+	}
+
 	async deleteChannelPermissionOverwrite(params: {
 		userId: UserID;
 		channelId: ChannelID;

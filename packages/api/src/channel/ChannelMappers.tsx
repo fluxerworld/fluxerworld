@@ -116,6 +116,7 @@ function serializeDMChannel(channel: Channel): ChannelResponse {
 	return {
 		...serializeBaseChannelFields(channel),
 		...serializeMessageableFields(channel),
+		e2ee_enabled: channel.e2eeEnabled,
 	};
 }
 

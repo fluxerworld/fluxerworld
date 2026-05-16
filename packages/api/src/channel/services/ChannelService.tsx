@@ -432,4 +432,8 @@ export class ChannelService {
 	) {
 		return this.channelData.deleteChannelPermissionOverwrite(params);
 	}
+
+	async setChannelE2EE(params: Parameters<ChannelDataService['setChannelE2EE']>[0]) {
+		return this.channelData.setChannelE2EE(params);
+	}
 }
