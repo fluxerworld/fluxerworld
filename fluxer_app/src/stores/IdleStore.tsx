@@ -18,11 +18,15 @@
  */
 
 import LocalPresenceStore from '@app/stores/LocalPresenceStore';
+import PrivacyPreferencesStore from '@app/stores/PrivacyPreferencesStore';
 import {makeAutoObservable} from 'mobx';
 
-const IDLE_DURATION_MS = 1000 * 60 * 5;
-
-const IDLE_CHECK_INTERVAL_MS = Math.floor(IDLE_DURATION_MS * 0.25);
+// Cheap fixed-tick check (15s) regardless of the configured timeout.
+// At configured=5min that's 4 checks/window; at configured=60min it's
+// still imperceptible cost-wise and means the transition is responsive
+// when the user shortens the timeout without having to rewire the
+// interval.
+const IDLE_CHECK_INTERVAL_MS = 15_000;
 
 class IdleStore {
 	idle = false;
@@ -73,9 +77,21 @@ class IdleStore {
 	}
 
 	private updateIdleState(): void {
-		const now = Date.now();
-		const timeSinceActivity = now - this.lastActivityTime;
-		const shouldBeIdle = timeSinceActivity >= IDLE_DURATION_MS;
+		const timeoutMin = PrivacyPreferencesStore.getIdleTimeoutMinutes();
+		// 0 = user opted out of auto-idle entirely. Force idle off (e.g.
+		// if they just changed the setting from on→off while already idle)
+		// and skip the rest of the check.
+		if (timeoutMin === 0) {
+			if (this.idle) {
+				this.idle = false;
+				LocalPresenceStore.updatePresence();
+			}
+			return;
+		}
+
+		const timeoutMs = timeoutMin * 60_000;
+		const timeSinceActivity = Date.now() - this.lastActivityTime;
+		const shouldBeIdle = timeSinceActivity >= timeoutMs;
 		if (shouldBeIdle !== this.idle) {
 			this.idle = shouldBeIdle;
 			LocalPresenceStore.updatePresence();

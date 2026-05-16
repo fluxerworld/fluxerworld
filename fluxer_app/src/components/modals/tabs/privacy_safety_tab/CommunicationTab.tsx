@@ -22,6 +22,11 @@ import {Switch} from '@app/components/form/Switch';
 import {SettingsTabSection} from '@app/components/modals/shared/SettingsTabLayout';
 import styles from '@app/components/modals/tabs/privacy_safety_tab/CommunicationTab.module.css';
 import {RadioGroup} from '@app/components/uikit/radio_group/RadioGroup';
+import {Slider} from '@app/components/uikit/Slider';
+import PrivacyPreferencesStore, {
+	IDLE_TIMEOUT_CHOICES_MIN,
+	type IdleTimeoutChoice,
+} from '@app/stores/PrivacyPreferencesStore';
 import UserSettingsStore from '@app/stores/UserSettingsStore';
 import {GroupDmAddPermissionFlags, IncomingCallFlags} from '@fluxer/constants/src/UserConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
@@ -264,6 +269,36 @@ export const CommunicationTabContent: React.FC = observer(() => {
 						/>
 					</>
 				)}
+			</SettingsTabSection>
+
+			<SettingsTabSection
+				title={<Trans>Idle Timeout</Trans>}
+				description={
+					<Trans>
+						Automatically switch your status to Idle after a period of inactivity. Saved per device — your other
+						signed-in sessions are unaffected.
+					</Trans>
+				}
+			>
+				<div className={styles.idleSliderContainer}>
+					<Slider
+						aria-label={t`Idle timeout duration`}
+						value={PrivacyPreferencesStore.getIdleTimeoutMinutes()}
+						defaultValue={PrivacyPreferencesStore.getIdleTimeoutMinutes()}
+						factoryDefaultValue={5}
+						minValue={IDLE_TIMEOUT_CHOICES_MIN[0]}
+						maxValue={IDLE_TIMEOUT_CHOICES_MIN[IDLE_TIMEOUT_CHOICES_MIN.length - 1]}
+						markers={[...IDLE_TIMEOUT_CHOICES_MIN]}
+						stickToMarkers
+						equidistant
+						markerPosition="below"
+						onValueChange={(v) =>
+							PrivacyPreferencesStore.setIdleTimeoutMinutes(Math.round(v) as IdleTimeoutChoice)
+						}
+						onValueRender={(v) => (Math.round(v) === 0 ? t`Off` : `${Math.round(v)} min`)}
+						onMarkerRender={(m) => (m === 0 ? t`Off` : `${m}m`)}
+					/>
+				</div>
 			</SettingsTabSection>
 		</>
 	);

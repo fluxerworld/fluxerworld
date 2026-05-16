@@ -25,3 +25,7 @@
 	text-transform: uppercase;
 	letter-spacing: 0.05em;
 }
+
+.idleSliderContainer {
+	padding: 0.5rem 0.25rem 1.75rem;
+}
