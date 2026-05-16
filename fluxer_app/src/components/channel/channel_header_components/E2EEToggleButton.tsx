@@ -21,6 +21,7 @@ import * as ModalActionCreators from '@app/actions/ModalActionCreators';
 import {modal} from '@app/actions/ModalActionCreators';
 import {ChannelHeaderIcon} from '@app/components/channel/channel_header_components/ChannelHeaderIcon';
 import {E2EEFingerprintModal} from '@app/components/modals/E2EEFingerprintModal';
+import AuthenticationStore from '@app/stores/AuthenticationStore';
 import ChannelStore from '@app/stores/ChannelStore';
 import E2EEStore from '@app/stores/E2EEStore';
 import UserStore from '@app/stores/UserStore';
@@ -60,8 +61,25 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 		? E2EEStore.getPeerVerificationStatus(recipientId)
 		: 'unverified';
 
-	const handleToggle = useCallback(() => {
-		E2EEStore.setChannelEncrypted(channelId, !enabled);
+	const handleToggle = useCallback(async () => {
+		// Make sure this device has Olm keys before flipping the DM into
+		// encrypted mode — otherwise the peer would see the channel switch
+		// on but our outgoing messages would silently fall back to
+		// plaintext. Safe to call when already bootstrapped; bootstrap is
+		// idempotent.
+		if (!E2EEStore.isReady) {
+			const userId = AuthenticationStore.currentUserId;
+			if (userId) {
+				try {
+					await E2EEStore.bootstrap(userId);
+				} catch {
+					// Surface failures via the channel state regardless —
+					// the server-side flip and CHANNEL_UPDATE still need to
+					// happen so the peer doesn't get stuck in a half-state.
+				}
+			}
+		}
+		void E2EEStore.setChannelEncrypted(channelId, !enabled);
 	}, [channelId, enabled]);
 
 	const handleVerify = useCallback(() => {
@@ -75,8 +93,6 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 		);
 	}, [channelId, recipientId, t]);
 
-	if (!ready) return null;
-
 	return (
 		<>
 			<ChannelHeaderIcon
@@ -85,11 +101,13 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 				label={
 					enabled
 						? t`End-to-end encryption is on (click to disable for this DM)`
-						: t`Enable end-to-end encryption for this DM`
+						: ready
+							? t`Enable end-to-end encryption for this DM`
+							: t`Enable end-to-end encryption for this DM (sets up keys on first use)`
 				}
 				onClick={handleToggle}
 			/>
-			{enabled && (
+			{enabled && ready && (
 				<ChannelHeaderIcon
 					icon={
 						verificationStatus === 'verified'

@@ -18,7 +18,10 @@
  */
 
 import * as E2EEActionCreators from '@app/actions/E2EEActionCreators';
+import {Endpoints} from '@app/Endpoints';
+import http from '@app/lib/HttpClient';
 import * as E2EEBackup from '@app/lib/e2ee/E2EEBackup';
+import ChannelStore from '@app/stores/ChannelStore';
 import {
 	deleteSessionsForRemoteDevice,
 	deleteVerification as deleteVerificationFromIDB,
@@ -85,15 +88,25 @@ class E2EEStore {
 		makeAutoObservable(this, {}, {autoBind: true});
 	}
 
+	// Encryption state lives on the DM channel record now (server-side
+	// shared flag). Reading from ChannelStore means CHANNEL_UPDATE events
+	// from the gateway flow into the UI for both participants without any
+	// extra plumbing. The local `encryptedChannelIds` set is left in place
+	// as a transient mirror in case future code needs to subscribe — but
+	// the channel record is authoritative.
 	isChannelEncrypted(channelId: string): boolean {
-		return this.encryptedChannelIds.has(channelId);
+		const channel = ChannelStore.getChannel(channelId);
+		return Boolean(channel?.e2eeEnabled);
 	}
 
-	setChannelEncrypted(channelId: string, enabled: boolean): void {
-		runInAction(() => {
-			if (enabled) this.encryptedChannelIds.add(channelId);
-			else this.encryptedChannelIds.delete(channelId);
-		});
+	async setChannelEncrypted(channelId: string, enabled: boolean): Promise<void> {
+		// Fire the server-side toggle. The other participant's client gets
+		// CHANNEL_UPDATE via gateway and re-renders without refresh.
+		try {
+			await http.put(Endpoints.CHANNEL_E2EE(channelId), {enabled});
+		} catch (err) {
+			logger.error('Failed to toggle channel E2EE', {channelId, enabled, error: err});
+		}
 	}
 
 	// Returns the cached verification entry, or null if either no entry
@@ -352,24 +365,14 @@ class E2EEStore {
 			return;
 		}
 
-		// No local account on this install. Before generating a fresh device
-		// (which would orphan the user's existing sessions and verifications),
-		// check whether they have an encrypted backup on the server. If so,
-		// pause registration and let the UI prompt for a passphrase.
-		try {
-			const meta = await E2EEBackup.fetchBackupMetadata();
-			if (meta) {
-				runInAction(() => {
-					this.pendingBackup = {created_at: meta.created_at, updated_at: meta.updated_at};
-					this.registrationStatus = 'awaiting_backup_decision';
-				});
-				logger.info('E2EE backup found on server, awaiting decision', meta);
-				return;
-			}
-		} catch (error) {
-			logger.warn('Backup metadata check failed, proceeding to fresh registration', {error});
-		}
-
+		// No local account on this install. We used to pause here to ask the
+		// user whether to restore from a server-side backup before generating
+		// a fresh device. That gate has been removed: a stuck user blocks
+		// the whole conversation (their isReady stays false, so encrypt fails
+		// and the peer keeps getting "can't encrypt" errors). Old test-era
+		// Olm sessions are forward-secret and already unrecoverable, so the
+		// trade-off is acceptable. A future explicit "Restore from backup"
+		// affordance can still call restorePendingBackup() out-of-band.
 		await this.registerFreshDevice(userId);
 	}
 

@@ -18,7 +18,12 @@
  */
 
 const DB_NAME = 'FluxerE2EE';
-const DB_VERSION = 2;
+// Bumped past v3 (which the May-3 ship used briefly with a
+// `message_plaintexts` store before being rolled back). Browsers that
+// upgraded to v3 won't let us re-open with a lower number, so we keep
+// climbing forward. onupgradeneeded creates stores idempotently, so
+// users on v2 or v3 upgrade to v4 cleanly with no data loss.
+const DB_VERSION = 4;
 const ACCOUNT_STORE = 'accounts';
 const SESSION_STORE = 'sessions';
 const META_STORE = 'meta';
@@ -67,15 +72,12 @@ export interface VerificationEntry {
 
 let dbInstance: IDBDatabase | null = null;
 
-async function openDB(): Promise<IDBDatabase> {
-	if (dbInstance) return dbInstance;
+function attemptOpen(): Promise<IDBDatabase> {
 	return new Promise((resolve, reject) => {
 		const request = indexedDB.open(DB_NAME, DB_VERSION);
-		request.onerror = () => reject(new Error('Failed to open E2EE database'));
-		request.onsuccess = () => {
-			dbInstance = request.result;
-			resolve(dbInstance);
-		};
+		request.onerror = () => reject(request.error ?? new Error('Failed to open E2EE database'));
+		request.onblocked = () => reject(new Error('E2EE database open blocked by another tab'));
+		request.onsuccess = () => resolve(request.result);
 		request.onupgradeneeded = (event) => {
 			const db = (event.target as IDBOpenDBRequest).result;
 			if (!db.objectStoreNames.contains(ACCOUNT_STORE)) {
@@ -96,6 +98,36 @@ async function openDB(): Promise<IDBDatabase> {
 			}
 		};
 	});
+}
+
+function deleteDB(): Promise<void> {
+	return new Promise((resolve) => {
+		const request = indexedDB.deleteDatabase(DB_NAME);
+		// Resolve on every terminal state — if we can't delete we still
+		// want to fall through and surface the original open error to the
+		// caller rather than hanging here.
+		request.onsuccess = () => resolve();
+		request.onerror = () => resolve();
+		request.onblocked = () => resolve();
+	});
+}
+
+async function openDB(): Promise<IDBDatabase> {
+	if (dbInstance) return dbInstance;
+	try {
+		dbInstance = await attemptOpen();
+		return dbInstance;
+	} catch (err) {
+		// Most likely cause: an older build left the DB at a higher
+		// version than the current code expects (e.g., the rolled-back v3
+		// `message_plaintexts` ship). The DB can't be downgraded, so wipe
+		// it and rebuild fresh. Olm sessions are lost, but bootstrap will
+		// auto-re-register a new device on the next tick — better than
+		// leaving the user permanently unable to set up E2EE.
+		await deleteDB();
+		dbInstance = await attemptOpen();
+		return dbInstance;
+	}
 }
 
 function reqToPromise<T>(req: IDBRequest<T>): Promise<T> {

@@ -17,31 +17,13 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-// Single point of truth for "is E2EE turned on for this user?" while the
-// feature is gated behind a flag for safety. Because the flag must be
-// read at module-init time on a cold load (Olm bootstrap, gateway
-// MESSAGE_CREATE handler, etc.) the implementation is intentionally
-// synchronous and dependency-free — it consults localStorage with a
-// hard-coded default. To enable for a user open DevTools and run:
-//
-//   localStorage.setItem('fluxer:e2ee:enabled', '1')
-//   location.reload()
-//
-// Flip DEFAULT_ENABLED to true (or read it from the runtime config
-// once a server-side switch lands) when the feature is ready for
-// general rollout.
-
-const STORAGE_KEY = 'fluxer:e2ee:enabled';
-const DEFAULT_ENABLED = false;
+// Single point of truth for "is E2EE turned on for this user?" Bootstrap
+// of Olm keys runs for everyone now — the actual encrypt/plaintext switch
+// is per-DM channel state (ChannelRecord.e2eeEnabled). Keeping the
+// function as the bootstrap entry-point so we can re-gate later (e.g.
+// when MLS / group DM rollout starts) without having to find all the
+// call sites again.
 
 export function isE2EEFeatureEnabled(): boolean {
-	if (typeof window === 'undefined') return DEFAULT_ENABLED;
-	try {
-		const value = window.localStorage.getItem(STORAGE_KEY);
-		if (value === '1') return true;
-		if (value === '0') return false;
-	} catch {
-		// localStorage unavailable (private mode quirks, etc.) — fall through.
-	}
-	return DEFAULT_ENABLED;
+	return true;
 }
