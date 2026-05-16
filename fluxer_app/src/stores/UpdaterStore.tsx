@@ -32,6 +32,22 @@ const VERSION_ENDPOINT = '/version.json';
 const CURRENT_BUILD_SHA = Config.PUBLIC_BUILD_SHA ?? null;
 const ALLOWED_WEB_UPDATE_HOSTS = new Set(['web.fluxer.app', 'web.canary.fluxer.app', 'fluxer.world']);
 
+// Loose semver compare. Returns +1 if a > b, -1 if a < b, 0 if equal.
+// Tolerates "v" prefix and missing trailing segments. Pre-release tags
+// are ignored — we only ship release tags from CI so this is fine.
+function compareSemver(a: string, b: string): number {
+	const parse = (s: string) => s.replace(/^v/, '').split('.').map((n) => parseInt(n, 10) || 0);
+	const pa = parse(a);
+	const pb = parse(b);
+	for (let i = 0; i < Math.max(pa.length, pb.length); i++) {
+		const ai = pa[i] ?? 0;
+		const bi = pb[i] ?? 0;
+		if (ai > bi) return 1;
+		if (ai < bi) return -1;
+	}
+	return 0;
+}
+
 export type UpdaterState = 'idle' | 'checking' | 'available';
 
 export type UpdateType = 'native' | 'web' | 'both' | null;
@@ -326,8 +342,33 @@ class UpdaterStoreImpl {
 				return {available: false, sha: null, buildNumber: null};
 			}
 
-			const payload = (await response.json()) as {sha?: string; buildNumber?: number; buildTimestamp?: string};
+			const payload = (await response.json()) as {
+				sha?: string;
+				buildNumber?: number;
+				buildTimestamp?: string;
+				version?: string;
+			};
 			const updateAvailable = Boolean(payload.sha && CURRENT_BUILD_SHA && payload.sha !== CURRENT_BUILD_SHA);
+
+			// Fallback desktop-update signal. electron-updater on macOS
+			// silently no-ops when the running binary isn't signed by a
+			// real Apple Developer ID (CI builds are ad-hoc signed), so
+			// the native check never fires "available" for Mac users.
+			// Compare version.json's `version` against the running desktop
+			// version and surface a native-update hint here so users get a
+			// prompt to grab the new DMG manually.
+			if (this.isNative && payload.version && this.currentVersion) {
+				if (compareSemver(payload.version, this.currentVersion) > 0 && !this.updateInfo.native.available) {
+					runInAction(() => {
+						this.updateInfo.native = {
+							available: true,
+							downloaded: false,
+							version: payload.version ?? null,
+						};
+						this.refreshUpdateType();
+					});
+				}
+			}
 
 			return {
 				available: updateAvailable,
