@@ -63,6 +63,16 @@ jobs:
         run: npm run compile && npx electron-builder --mac --x64 --publish never
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Self-signed code-signing certificate. Stable across builds so
+          # electron-updater accepts in-app updates between releases. Won't
+          # pass Apple notarisation (Gatekeeper still nags on first install
+          # → right-click + Open), but it unblocks the auto-update flow.
+          CSC_LINK:         ${{ secrets.MAC_CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}
+          # Explicitly opt out of notarisation. electron-builder will try
+          # to call notarytool otherwise and fail because we have no
+          # Apple ID set.
+          CSC_FOR_PULL_REQUEST: 'true'
 
       - name: Detach DMG volumes
         run: |
@@ -75,13 +85,12 @@ jobs:
       - name: Build (dmg arm64)
         run: npx electron-builder --mac --arm64 --publish never
         env:
-          # Notarisation: set these secrets to enable notarisation.
-          # APPLE_ID:                   ${{ secrets.APPLE_ID }}
-          # APPLE_APP_SPECIFIC_PASSWORD: ${{ secrets.APPLE_APP_SPECIFIC_PASSWORD }}
-          # APPLE_TEAM_ID:              ${{ secrets.APPLE_TEAM_ID }}
-          # CSC_LINK:                   ${{ secrets.MAC_CSC_LINK }}
-          # CSC_KEY_PASSWORD:           ${{ secrets.MAC_CSC_KEY_PASSWORD }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_LINK:         ${{ secrets.MAC_CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.MAC_CSC_KEY_PASSWORD }}
+          CSC_FOR_PULL_REQUEST: 'true'
+          # APPLE_ID / APPLE_APP_SPECIFIC_PASSWORD / APPLE_TEAM_ID
+          # commented intentionally — no Apple Dev account, no notarisation.
 
       - name: Merge latest-mac.yml (x64 + arm64)
         run: |
