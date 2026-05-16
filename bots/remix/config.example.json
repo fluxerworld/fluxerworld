@@ -1,0 +1,31 @@
+{
+  "token": "<application_id>.<secret>",
+  "fluxer.js": {
+    "rest": {
+      "api": "https://fluxer.world/api",
+      "timeout": 30000,
+      "retries": 3
+    }
+  },
+  "prefix": "%",
+  "presenceContents": [
+    { "text": "Ping for Prefix", "emoji_name": "🎧", "activity": { "name": "music", "type": 2 } }
+  ],
+  "spotify": {
+    "clientId": "",
+    "clientSecret": ""
+  },
+  "nodelink": {
+    "host": "nodelink",
+    "port": 3000,
+    "password": "youshallnotpass",
+    "requestTimeout": 60000
+  },
+  "mysql": {
+    "host": "fluxer-mysql",
+    "port": 3306,
+    "user": "remix",
+    "password": "remixpass",
+    "database": "remix"
+  }
+}

@@ -1,0 +1,89 @@
+name: fluxer-bots
+
+# Shared infra + bot daemons that run on this host against fluxer.world.
+# Bot source repos live one level up at /opt/fluxer/{fluxy,functious,ratot,vinto,remix}/
+# (cloned from upstream — gitignored here, not part of this repo).
+# Dockerfiles per bot live in this dir so they're version-controlled even though
+# the source isn't. Each bot's .env lives next to its source and is also
+# gitignored (contains the bot_token).
+
+networks:
+  bot-net:
+    external: true
+    name: bot-net
+
+services:
+  fluxer-mongo:
+    image: mongo:7
+    container_name: fluxer-mongo
+    restart: unless-stopped
+    networks: [bot-net]
+    ports: ["127.0.0.1:27017:27017"]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: fluxerbots
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_ROOT_PASSWORD}
+    volumes:
+      - /opt/fluxer/data/mongo:/data/db
+
+  fluxer-mysql:
+    image: mysql:8
+    container_name: fluxer-mysql
+    restart: unless-stopped
+    networks: [bot-net]
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: remix
+      MYSQL_USER: remix
+      MYSQL_PASSWORD: remixpass
+    volumes:
+      - /opt/fluxer/data/mysql:/var/lib/mysql
+
+  nodelink:
+    image: performanc/nodelink:latest
+    container_name: nodelink
+    restart: unless-stopped
+    networks: [bot-net]
+
+  fluxy-bot:
+    build:
+      context: /opt/fluxer/fluxy
+      dockerfile: /opt/fluxer/bots/fluxy/Dockerfile
+    container_name: fluxy-bot
+    restart: unless-stopped
+    networks: [bot-net]
+    env_file: /opt/fluxer/fluxy/.env
+
+  functious-bot:
+    build:
+      context: /opt/fluxer/functious
+      dockerfile: /opt/fluxer/bots/functious/Dockerfile
+    container_name: functious-bot
+    restart: unless-stopped
+    networks: [bot-net]
+    env_file: /opt/fluxer/functious/.env
+
+  ratot-bot:
+    build:
+      context: /opt/fluxer/ratot
+      dockerfile: /opt/fluxer/bots/ratot/Dockerfile
+    container_name: ratot-bot
+    restart: unless-stopped
+    networks: [bot-net]
+    env_file: /opt/fluxer/ratot/.env
+
+  vinto-bot:
+    build:
+      context: /opt/fluxer/vinto
+      dockerfile: /opt/fluxer/bots/vinto/Dockerfile
+    container_name: vinto-bot
+    restart: unless-stopped
+    networks: [bot-net]
+    env_file: /opt/fluxer/vinto/.env
+
+  remix-bot:
+    build:
+      context: /opt/fluxer/remix
+      dockerfile: /opt/fluxer/bots/remix/Dockerfile
+    container_name: remix-bot
+    restart: unless-stopped
+    networks: [bot-net]

@@ -93,3 +93,12 @@ geoip_data
 next-env.d.ts
 .github/agents
 .github/prompts
+
+# Bot daemon source clones — upstream code with local patches, each is
+# its own git repo. The deployment manifest (Dockerfiles, compose,
+# env.example) lives under bots/. Real .env files contain bot tokens.
+/fluxy/
+/functious/
+/ratot/
+/vinto/
+/remix/
