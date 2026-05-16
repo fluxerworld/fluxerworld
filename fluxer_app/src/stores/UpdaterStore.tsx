@@ -21,7 +21,7 @@ import Config from '@app/Config';
 import {Logger} from '@app/lib/Logger';
 import type {UpdaterEvent} from '@app/types/electron.d';
 import {getClientInfo} from '@app/utils/ClientInfoUtils';
-import {getElectronAPI, isElectron} from '@app/utils/NativeUtils';
+import {getElectronAPI, isElectron, openExternalUrl} from '@app/utils/NativeUtils';
 import {makeAutoObservable, runInAction} from 'mobx';
 
 const logger = new Logger('UpdaterStore');
@@ -56,6 +56,11 @@ export interface NativeUpdateInfo {
 	available: boolean;
 	downloaded: boolean;
 	version: string | null;
+	// True when the "available" signal came from the version.json fallback
+	// rather than electron-updater. In that mode there's no downloaded
+	// payload to install in-app — clicking the arrow opens the downloads
+	// page so the user can grab the new build manually.
+	fromJsonFallback?: boolean;
 }
 
 export interface WebUpdateInfo {
@@ -364,6 +369,7 @@ class UpdaterStoreImpl {
 							available: true,
 							downloaded: false,
 							version: payload.version ?? null,
+							fromJsonFallback: true,
 						};
 						this.refreshUpdateType();
 					});
@@ -395,6 +401,15 @@ class UpdaterStoreImpl {
 			if (electronApi && this.updateInfo.native.downloaded) {
 				logger.info('Installing downloaded native update...');
 				await electronApi.updaterInstall();
+				return;
+			}
+			// JSON-fallback case: no downloaded payload available because
+			// electron-updater never produced one (signing block, no
+			// provider configured, etc.). Send the user to the downloads
+			// page so they can grab the new build manually.
+			if (this.updateInfo.native.fromJsonFallback) {
+				logger.info('Opening downloads page for manual native update.');
+				void openExternalUrl('https://fluxer.world/downloads.html');
 			}
 		}
 	}
