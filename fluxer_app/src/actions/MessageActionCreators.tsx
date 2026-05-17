@@ -245,7 +245,13 @@ async function decryptHistoryMessages(messages: ReadonlyArray<Message>): Promise
 		const senderId = msg.author?.id;
 		if (!senderId) continue;
 		try {
-			const result = await tryDecryptForCurrentDevice(currentUserId, senderId, msg.encrypted_payload, msg.channel_id);
+			const result = await tryDecryptForCurrentDevice(
+				currentUserId,
+				senderId,
+				msg.encrypted_payload,
+				msg.channel_id,
+				msg.id,
+			);
 			if (result?.attachments.length && msg.attachments?.length) {
 				recordAttachmentKeys(msg.id, pairEnvelopeAttachments(msg.attachments, result.attachments));
 			}
@@ -508,7 +514,7 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 						// of our own MESSAGE_CREATE renders the original
 						// text instead of the failure placeholder.
 						if (encryptedPayload) {
-							recordSentPlaintext(result.body.id, params.content);
+							recordSentPlaintext(result.body.id, params.content, true);
 						}
 						if (envelopeEntries && envelopeEntries.length > 0 && result.body.attachments?.length) {
 							recordAttachmentKeys(

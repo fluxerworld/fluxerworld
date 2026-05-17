@@ -19,16 +19,18 @@
 
 const DB_NAME = 'FluxerE2EE';
 // One-way ratchet — see feedback_idb_version_bump.md in agent memory.
-// v4 = current 1:1 Olm stores. v5 adds the two Megolm group-session stores
-// (outbound for sender, inbound for recipients) for group DM E2EE.
-// onupgradeneeded creates stores idempotently so any v2/v3/v4 install
-// upgrades to v5 with no data loss.
-const DB_VERSION = 5;
+// v6 adds message_plaintexts: per-message plaintext cache so the
+// receiver can re-render encrypted history on refresh without
+// re-running decrypt (Olm/Megolm both consume per-message material on
+// decrypt — re-attempting fails). v5 had the Megolm stores; v4 the
+// 1:1 Olm stores. Idempotent upgrades preserve data.
+const DB_VERSION = 6;
 const ACCOUNT_STORE = 'accounts';
 const SESSION_STORE = 'sessions';
 const META_STORE = 'meta';
 const OUTBOUND_GROUP_SESSION_STORE = 'outbound_group_sessions';
 const INBOUND_GROUP_SESSION_STORE = 'inbound_group_sessions';
+const MESSAGE_PLAINTEXT_STORE = 'message_plaintexts';
 const VERIFICATION_STORE = 'verifications';
 
 // Pickled Olm state is encrypted at rest using a per-install random key
@@ -100,6 +102,34 @@ export interface PickledInboundGroupSession {
 	created_at: number;
 }
 
+// Plaintext cache for already-decrypted incoming messages. Olm and
+// Megolm both consume per-message material on decrypt, so re-running
+// the cipher on a re-fetched ciphertext after a refresh fails.
+// Caching the plaintext after the first successful decrypt lets the
+// renderer paint the message bubble immediately on history fetch
+// without re-decrypt.
+//
+// The verification_status + attachments fields piggyback on the
+// cache so renderer-side metadata is preserved across refresh too.
+//
+// `attachments` mirrors the EnvelopeAttachmentEntry shape used by the
+// receiver-side bubble — kept structural here to avoid importing the
+// integration module into the storage layer.
+export interface MessagePlaintextEntry {
+	message_id: string;
+	plaintext: string;
+	attachments?: ReadonlyArray<{
+		key: string;
+		iv: string;
+		mime: string;
+		name: string;
+		width?: number;
+		height?: number;
+	}>;
+	verification_status?: 'verified' | 'changed' | 'unverified';
+	created_at: number;
+}
+
 let dbInstance: IDBDatabase | null = null;
 
 function attemptOpen(): Promise<IDBDatabase> {
@@ -139,6 +169,9 @@ function attemptOpen(): Promise<IDBDatabase> {
 				// Lets us look up "all sessions in this channel" when rotating
 				// or wiping a channel's group-session state.
 				store.createIndex('by_channel', 'channel_id', {unique: false});
+			}
+			if (!db.objectStoreNames.contains(MESSAGE_PLAINTEXT_STORE)) {
+				db.createObjectStore(MESSAGE_PLAINTEXT_STORE, {keyPath: 'message_id'});
 			}
 		};
 	});
@@ -433,4 +466,28 @@ export async function deleteAllGroupSessionsForChannel(channelId: string): Promi
 		};
 		cursorReq.onerror = () => reject(cursorReq.error ?? new Error('Failed to wipe channel group sessions'));
 	});
+}
+
+// ── Message plaintext cache ─────────────────────────────────────────────
+// After a successful decrypt, stash the plaintext keyed by message id so
+// a history-fetch on refresh can re-render without re-running Olm/Megolm
+// (both consume per-message material — second decrypt fails).
+
+export async function getMessagePlaintext(messageId: string): Promise<MessagePlaintextEntry | null> {
+	const db = await openDB();
+	const tx = db.transaction([MESSAGE_PLAINTEXT_STORE], 'readonly');
+	const result = await reqToPromise(tx.objectStore(MESSAGE_PLAINTEXT_STORE).get(messageId));
+	return (result as MessagePlaintextEntry | undefined) ?? null;
+}
+
+export async function putMessagePlaintext(entry: MessagePlaintextEntry): Promise<void> {
+	const db = await openDB();
+	const tx = db.transaction([MESSAGE_PLAINTEXT_STORE], 'readwrite');
+	await reqToPromise(tx.objectStore(MESSAGE_PLAINTEXT_STORE).put(entry));
+}
+
+export async function deleteAllMessagePlaintexts(): Promise<void> {
+	const db = await openDB();
+	const tx = db.transaction([MESSAGE_PLAINTEXT_STORE], 'readwrite');
+	await reqToPromise(tx.objectStore(MESSAGE_PLAINTEXT_STORE).clear());
 }

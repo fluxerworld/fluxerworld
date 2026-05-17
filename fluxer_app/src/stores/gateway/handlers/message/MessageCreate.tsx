@@ -24,6 +24,7 @@ import {
 	pairEnvelopeAttachments,
 	recordAttachmentKeys,
 	recordMessageVerification,
+	recordSentPlaintext,
 	tryDecryptForCurrentDevice,
 } from '@app/lib/e2ee/E2EEMessageIntegration';
 import AuthenticationStore from '@app/stores/AuthenticationStore';
@@ -82,6 +83,7 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 				senderUserId,
 				data.encrypted_payload,
 				data.channel_id,
+				data.id,
 			);
 			if (result?.attachments.length && data.attachments?.length) {
 				recordAttachmentKeys(data.id, pairEnvelopeAttachments(data.attachments, result.attachments));
@@ -115,7 +117,13 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			let content = buildDecryptedContent(result);
 			if (!result && senderUserId === currentUserId) {
 				const cached = getSentPlaintext(data.id) ?? (data.nonce ? getSentPlaintext(data.nonce) : null);
-				if (cached !== null) content = cached;
+				if (cached !== null) {
+					content = cached;
+					// Re-persist under the canonical server id in case the
+					// HTTP response landed after the gateway echo and only
+					// the nonce-keyed entry was set.
+					recordSentPlaintext(data.id, cached, true);
+				}
 			}
 			const decryptedMessage: Message = {
 				...data,

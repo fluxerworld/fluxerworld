@@ -23,9 +23,11 @@ import {
 	deleteOutboundGroupSession,
 	deleteSessionsForRemoteDevice,
 	getInboundGroupSession,
+	getMessagePlaintext,
 	getOutboundGroupSession,
 	getPeerIdentityKey,
 	getSessionsForRemoteDevice,
+	putMessagePlaintext,
 	setPeerIdentityKey,
 } from '@app/lib/e2ee/E2EEKeyStore';
 import {e2eeManager} from '@app/lib/e2ee/E2EEManager';
@@ -146,8 +148,24 @@ const attachmentKeyCache = new Map<string, Map<string, CachedAttachmentEntry>>()
 // messages and render the original text instead.
 const sentPlaintextCache = new Map<string, string>();
 
-export function recordSentPlaintext(messageId: string, plaintext: string): void {
+export function recordSentPlaintext(messageId: string, plaintext: string, persist = false): void {
 	sentPlaintextCache.set(messageId, plaintext);
+	// `persist=true` writes to IDB so the sender can re-render their own
+	// bubble after a refresh — encrypted_payload from the server has no
+	// ciphertext slot for our own device, so decrypt always returns null
+	// for our own historical messages without this cache. Only the
+	// server-id keyed call should persist; the nonce-keyed call exists
+	// only for the gateway-echo race and would dump stray entries.
+	if (persist) {
+		void putMessagePlaintext({
+			message_id: messageId,
+			plaintext,
+			verification_status: 'verified',
+			created_at: Date.now(),
+		}).catch((err: unknown) => {
+			logger.warn('Failed to persist sender plaintext', {messageId, err});
+		});
+	}
 }
 
 export function getSentPlaintext(messageId: string): string | null {
@@ -701,11 +719,31 @@ export async function tryDecryptForCurrentDevice(
 	senderUserId: string,
 	encryptedPayload: EncryptedPayload | null | undefined,
 	channelId?: string,
+	messageId?: string,
 ): Promise<DecryptionResult | null> {
 	if (!encryptedPayload) return null;
 	if (!E2EEStore.isReady) return null;
 	const deviceId = E2EEStore.deviceId;
 	if (!deviceId) return null;
+
+	// Plaintext cache check — Olm and Megolm both consume per-message
+	// material on decrypt, so a refresh that re-fetches the same
+	// ciphertext can't re-decrypt. Read the post-first-decrypt plaintext
+	// from IDB if we have it.
+	if (messageId) {
+		try {
+			const cached = await getMessagePlaintext(messageId);
+			if (cached) {
+				return {
+					plaintext: cached.plaintext,
+					attachments: cached.attachments ? [...cached.attachments] : [],
+					verificationStatus: cached.verification_status ?? 'unverified',
+				};
+			}
+		} catch (err) {
+			logger.warn('Plaintext cache read failed; falling through to decrypt', {messageId, err});
+		}
+	}
 
 	// Megolm group DM message — single ciphertext, identified by session.
 	if (encryptedPayload.kind === 'megolm') {
@@ -713,13 +751,17 @@ export async function tryDecryptForCurrentDevice(
 			logger.warn('Megolm message received without channel context, cannot decrypt');
 			return null;
 		}
-		return tryDecryptGroupMessage({
+		const result = await tryDecryptGroupMessage({
 			channelId,
 			currentUserId,
 			currentDeviceId: deviceId,
 			senderUserId,
 			payload: encryptedPayload,
 		});
+		if (result && messageId) {
+			void cacheDecryptedPlaintext(messageId, result);
+		}
+		return result;
 	}
 
 	// 1:1 Olm fan-out — find this device's ciphertext slot.
@@ -744,10 +786,32 @@ export async function tryDecryptForCurrentDevice(
 			encryptedPayload.sender_identity_key,
 		);
 		const unwrapped = unwrapPlaintext(decrypted);
-		return {plaintext: unwrapped.text, attachments: unwrapped.attachments, verificationStatus};
+		const result: DecryptionResult = {
+			plaintext: unwrapped.text,
+			attachments: unwrapped.attachments,
+			verificationStatus,
+		};
+		if (messageId) {
+			void cacheDecryptedPlaintext(messageId, result);
+		}
+		return result;
 	} catch (error) {
 		logger.warn('Failed to decrypt incoming message', {error});
 		return null;
+	}
+}
+
+async function cacheDecryptedPlaintext(messageId: string, result: DecryptionResult): Promise<void> {
+	try {
+		await putMessagePlaintext({
+			message_id: messageId,
+			plaintext: result.plaintext,
+			attachments: result.attachments.length ? result.attachments : undefined,
+			verification_status: result.verificationStatus,
+			created_at: Date.now(),
+		});
+	} catch (err) {
+		logger.warn('Failed to cache decrypted plaintext', {messageId, err});
 	}
 }
 
