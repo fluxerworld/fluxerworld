@@ -153,8 +153,12 @@ get_hoisted_roles_sorted(Roles, GuildId) ->
     %% matching how Discord bumps newer roles down on create).
     lists:sort(
         fun(A, B) ->
-            PosA = maps:get(<<"position">>, A, 0),
-            PosB = maps:get(<<"position">>, B, 0),
+            %% Prefer the explicit hoist_position (set via the role admin's
+            %% drag-to-reorder UI). Fall back to the role-hierarchy position
+            %% so untouched guilds still get a sensible default. Tiebreak by
+            %% role id so older roles win when everything else is equal.
+            PosA = get_effective_hoist_position(A),
+            PosB = get_effective_hoist_position(B),
             case PosA =:= PosB of
                 false -> PosA > PosB;
                 true ->
