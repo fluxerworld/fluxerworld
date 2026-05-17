@@ -145,13 +145,23 @@ get_hoisted_roles_sorted(Roles, GuildId) ->
     %% Sort hoisted roles by role hierarchy position (highest first) so the
     %% sidebar grouping matches what users see in the role-hierarchy UI.
     %% hoist_position used to provide an independent override but it drifted
-    %% out of sync with position whenever roles were re-ordered, putting
-    %% members under unexpected hoisted groups.
+    %% out of sync with position whenever roles were re-ordered.
+    %%
+    %% Older guilds had every non-@everyone role created with the same
+    %% hardcoded position=1, so a plain position sort was unstable. Break
+    %% the tie by role id (older id = older role = higher in hierarchy,
+    %% matching how Discord bumps newer roles down on create).
     lists:sort(
         fun(A, B) ->
             PosA = maps:get(<<"position">>, A, 0),
             PosB = maps:get(<<"position">>, B, 0),
-            PosA > PosB
+            case PosA =:= PosB of
+                false -> PosA > PosB;
+                true ->
+                    IdA = map_utils:get_integer(A, <<"id">>, 0),
+                    IdB = map_utils:get_integer(B, <<"id">>, 0),
+                    IdA < IdB
+            end
         end,
         HoistedRoles
     ).
