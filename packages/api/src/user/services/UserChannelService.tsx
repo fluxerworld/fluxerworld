@@ -380,6 +380,10 @@ export class UserChannelService {
 			nicks: null,
 			soft_deleted: false,
 			indexed_at: null,
+			// New group DMs default to E2EE-on. Users can disable per-DM
+			// via the lock icon in the channel header. Existing group DMs
+			// keep their old value.
+			e2ee_enabled: true,
 			version: 1,
 		};
 

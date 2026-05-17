@@ -203,6 +203,10 @@ export class UserChannelRepository implements IUserChannelRepository {
 			nicks: null,
 			soft_deleted: false,
 			indexed_at: null,
+			// New 1:1 DMs default to E2EE-on. Users can disable per-DM via
+			// the lock icon in the channel header. Existing DMs that were
+			// created before this default flip stay at their old value.
+			e2ee_enabled: true,
 			version: 1,
 		};
 
