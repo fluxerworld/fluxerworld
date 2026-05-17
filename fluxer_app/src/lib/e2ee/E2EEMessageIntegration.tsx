@@ -22,6 +22,7 @@ import {
 	deleteAllGroupSessionsForChannel,
 	deleteOutboundGroupSession,
 	deleteSessionsForRemoteDevice,
+	getInboundGroupSession,
 	getOutboundGroupSession,
 	getPeerIdentityKey,
 	getSessionsForRemoteDevice,
@@ -475,15 +476,31 @@ async function tryEncryptForGroupDm(
 			return null;
 		}
 
-		// Self-readback: Megolm outbound sessions are encrypt-only — they
-		// can't decrypt the ciphertexts they produce. Without this step,
-		// reloading the page makes our own messages display as
-		// "could not be decrypted on this device" while everyone else's
-		// messages are readable (they bootstrapped inbound sessions from
-		// the blobs we just distributed). Import an inbound session
-		// scoped to our own (channel, device, session_id) using the same
-		// session_key so subsequent decrypts of our own messages succeed.
-		try {
+	}
+
+	// Self-readback: Megolm outbound sessions are encrypt-only — they
+	// can't decrypt the ciphertexts they produce. Without this step,
+	// reloading the page makes our own messages display as
+	// "could not be decrypted on this device" while everyone else's
+	// messages are readable (they bootstrapped inbound sessions from
+	// the blobs we distributed). Ensure an inbound copy of our own
+	// current outbound exists in IDB so refreshes can decrypt the
+	// messages we send.
+	//
+	// Critically: only import if one isn't already stored. The
+	// outbound's session_key() returns the key at the CURRENT ratchet
+	// position; importing into IDB now would overwrite an older,
+	// lower-index inbound that already covers earlier messages.
+	// Skipping the import when an inbound already exists preserves
+	// whatever earliest-known-index we already had.
+	try {
+		const existingInbound = await getInboundGroupSession(
+			channel.id,
+			currentUserId,
+			ownDeviceId,
+			sessionInfo.sessionId,
+		);
+		if (!existingInbound) {
 			await e2eeManager.importInboundGroupSession({
 				channelId: channel.id,
 				senderUserId: currentUserId,
@@ -491,11 +508,11 @@ async function tryEncryptForGroupDm(
 				senderIdentityKey,
 				sessionKey: sessionInfo.sessionKey,
 			});
-		} catch (err) {
-			logger.warn('Failed to self-import outbound session for readback', {channelId: channel.id, err});
-			// Not fatal — sending still works, the user just won't see
-			// their own history after a refresh.
 		}
+	} catch (err) {
+		logger.warn('Failed to self-import outbound session for readback', {channelId: channel.id, err});
+		// Not fatal — sending still works, the user just won't see
+		// their own history after a refresh.
 	}
 
 	let encrypted;
