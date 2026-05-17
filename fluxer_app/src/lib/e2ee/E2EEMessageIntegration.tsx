@@ -21,6 +21,7 @@ import * as E2EEActionCreators from '@app/actions/E2EEActionCreators';
 import {
 	deleteSessionsForRemoteDevice,
 	getPeerIdentityKey,
+	getSessionsForRemoteDevice,
 	setPeerIdentityKey,
 } from '@app/lib/e2ee/E2EEKeyStore';
 import {e2eeManager} from '@app/lib/e2ee/E2EEManager';
@@ -216,6 +217,20 @@ export function pairEnvelopeAttachments(
 // fall through to plaintext send. Group DMs and guild channels are
 // deliberately excluded for phase 1 — group sessions need MLS and that's
 // a separate slice.
+// Returns true if at least one of the given devices doesn't yet have a
+// stored Olm session. Used to skip the prekey-claim round trip for chatty
+// DMs where every peer device is already keyed up — the common case.
+async function anyDeviceWithoutSession(
+	userId: string,
+	devices: ReadonlyArray<{device_id: string}>,
+): Promise<boolean> {
+	for (const d of devices) {
+		const sessions = await getSessionsForRemoteDevice(userId, d.device_id);
+		if (sessions.length === 0) return true;
+	}
+	return false;
+}
+
 export async function tryEncryptForChannel(
 	channel: ChannelRecord,
 	currentUserId: string,
@@ -232,32 +247,68 @@ export async function tryEncryptForChannel(
 	if (recipientIds.length !== 1) return null;
 	const recipientId = recipientIds[0];
 
-	let recipientBundles;
-	let ownBundles;
+	// Only call the prekey-claim endpoint when we actually need to start a
+	// new session with a device. For a chatty DM where we already have Olm
+	// sessions with every peer device, this collapses two HTTP round trips
+	// (with prekey consumption) to zero per send. We still hit the cheap
+	// /devices list endpoint so we pick up new devices and detect identity
+	// rotations.
+	//
+	// loadOrCreateOutboundSession returns the existing session when one is
+	// stored, so we only attach a one_time_prekey to the bundle for devices
+	// that lack a session.
+	let recipientDevices;
+	let ownDevices;
 	try {
-		[recipientBundles, ownBundles] = await Promise.all([
-			E2EEActionCreators.claimPrekeyBundles(recipientId),
-			E2EEActionCreators.claimPrekeyBundles(currentUserId),
+		[recipientDevices, ownDevices] = await Promise.all([
+			E2EEActionCreators.listPublicDevices(recipientId),
+			E2EEActionCreators.listPublicDevices(currentUserId),
+		]);
+	} catch (error) {
+		logger.warn('Failed to list peer devices, falling back to plaintext', {error});
+		return null;
+	}
+
+	if (!recipientDevices.length) return null;
+
+	const needsClaimForRecipient = await anyDeviceWithoutSession(recipientId, recipientDevices);
+	const needsClaimForSelf = await anyDeviceWithoutSession(currentUserId, ownDevices);
+
+	let recipientClaims: ReadonlyArray<E2EEActionCreators.E2EEPrekeyBundleResponse> = [];
+	let ownClaims: ReadonlyArray<E2EEActionCreators.E2EEPrekeyBundleResponse> = [];
+	try {
+		[recipientClaims, ownClaims] = await Promise.all([
+			needsClaimForRecipient ? E2EEActionCreators.claimPrekeyBundles(recipientId) : Promise.resolve([]),
+			needsClaimForSelf ? E2EEActionCreators.claimPrekeyBundles(currentUserId) : Promise.resolve([]),
 		]);
 	} catch (error) {
 		logger.warn('Failed to claim prekey bundles, falling back to plaintext', {error});
 		return null;
 	}
 
-	if (!recipientBundles.length) return null;
-
+	// Build target bundles from the device list, layering any freshly
+	// claimed prekeys on top. Devices without a fresh claim still get a
+	// bundle entry — `one_time_prekey: null` is fine when an existing
+	// session is loaded from IDB instead.
+	const claimByKey = new Map<string, E2EEActionCreators.E2EEPrekeyBundleResponse>();
+	for (const c of [...recipientClaims, ...ownClaims]) {
+		claimByKey.set(`${c.user_id}:${c.device_id}`, c);
+	}
 	// Include the sender's own device in the fan-out so the sender can
 	// decrypt their own messages after a page refresh. Without this slot
 	// the in-memory sentPlaintext cache is the only thing keeping our
 	// own bubbles readable, and that cache dies with the tab.
-	const targetBundles = [...recipientBundles, ...ownBundles].map((b) => ({
-		user_id: b.user_id,
-		device_id: b.device_id,
-		identity_key: b.identity_key,
-		registration_id: b.registration_id,
-		signed_prekey: b.signed_prekey,
-		one_time_prekey: b.one_time_prekey ?? null,
-	}));
+	const targetBundles = [...recipientDevices, ...ownDevices].map((d) => {
+		const claim = claimByKey.get(`${d.user_id}:${d.device_id}`);
+		return {
+			user_id: d.user_id,
+			device_id: d.device_id,
+			identity_key: d.identity_key,
+			registration_id: d.registration_id,
+			signed_prekey: d.signed_prekey,
+			one_time_prekey: claim?.one_time_prekey ?? null,
+		};
+	});
 
 	// Detect peer identity rotation: if a device's published
 	// identity_key has changed since we last cached one, any locally
@@ -317,14 +368,11 @@ export async function tryEncryptForChannel(
 		return null;
 	}
 
-	const senderIdentityKey = recipientBundles[0]
-		? '' // we don't surface the local identity key from the manager today;
-		: '';
-	// Use any of our own bundles to fish out our identity key — they all
-	// share the same one because they all originate from the same Olm
+	// Use any of our own device entries to fish out our identity key — they
+	// all share the same one because they all originate from the same Olm
 	// account. This avoids exposing a separate accessor on the manager.
-	const senderBundle = ownBundles.find((b) => b.device_id === ownDeviceId);
-	const finalSenderIdentityKey = senderBundle?.identity_key ?? senderIdentityKey;
+	const senderDevice = ownDevices.find((d) => d.device_id === ownDeviceId);
+	const finalSenderIdentityKey = senderDevice?.identity_key ?? '';
 
 	// Each pre-key message consumes one of the recipient's published
 	// one-time prekeys. New sessions pop ours too. Schedule a throttled
