@@ -464,11 +464,15 @@ export class E2EEManager {
 		session.unpickle(pickleKey, stored.pickle);
 		try {
 			const {plaintext, message_index} = session.decrypt(params.ciphertext);
-			// Persist the ratcheted state so we can decrypt subsequent
-			// messages in the same session without re-importing.
-			const pickle = session.pickle(pickleKey);
 			session.free();
-			await putInboundGroupSession({...stored, pickle});
+			// IMPORTANT: do NOT persist the ratcheted state. Megolm's
+			// internal ratchet may advance during decrypt and forget the
+			// derivation path to earlier indices, which would make a
+			// future history-fetch decrypt of older messages fail (the
+			// classic "everything garbled after refresh" symptom).
+			// The stored pickle is kept at first_known_index — every
+			// future decrypt re-derives from there, which is cheap for
+			// chat-sized session lengths.
 			return {plaintext, messageIndex: message_index};
 		} catch (err) {
 			session.free();
