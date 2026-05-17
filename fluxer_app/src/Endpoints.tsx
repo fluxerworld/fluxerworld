@@ -80,7 +80,12 @@ export const Endpoints = {
 		sessionId: string,
 		recipientDeviceId: string,
 		senderDeviceId: string,
-	) => `/channels/${channelId}/e2ee/group-sessions/${sessionId}/${recipientDeviceId}/${senderDeviceId}`,
+	) =>
+		// session_id comes from libolm base64 which can contain '/' and '+'.
+		// Without encoding those characters break the URL router (slash =
+		// extra path segment). All three path components get encoded for
+		// safety even though device ids are UUIDs in practice.
+		`/channels/${channelId}/e2ee/group-sessions/${encodeURIComponent(sessionId)}/${encodeURIComponent(recipientDeviceId)}/${encodeURIComponent(senderDeviceId)}`,
 	CHANNEL_ATTACHMENTS: (channelId: string) => `/channels/${channelId}/attachments`,
 	CHANNEL_INVITES: (channelId: string) => `/channels/${channelId}/invites`,
 	CHANNEL_RECIPIENT: (channelId: string, userId: string) => `/channels/${channelId}/recipients/${userId}`,

@@ -166,17 +166,28 @@ export const MessageBaseResponseSchema = z.object({
 		.nullish()
 		.describe('The cross-referenced channels mentioned in the message'),
 	encrypted_payload: z
-		.object({
-			v: z.number().int(),
-			sender_device_id: z.string(),
-			sender_identity_key: z.string(),
-			ciphertexts: z.record(
-				z.string(),
-				z.object({type: z.number().int(), body: z.string()}),
-			),
-		})
+		.union([
+			z.object({
+				v: z.number().int(),
+				kind: z.literal('olm').optional(),
+				sender_device_id: z.string(),
+				sender_identity_key: z.string(),
+				ciphertexts: z.record(
+					z.string(),
+					z.object({type: z.number().int(), body: z.string()}),
+				),
+			}),
+			z.object({
+				v: z.number().int(),
+				kind: z.literal('megolm'),
+				sender_device_id: z.string(),
+				sender_identity_key: z.string(),
+				session_id: z.string(),
+				ciphertext: z.string(),
+			}),
+		])
 		.nullish()
-		.describe('End-to-end encrypted ciphertext when the ENCRYPTED flag is set'),
+		.describe('End-to-end encrypted ciphertext when the ENCRYPTED flag is set (Olm 1:1 fan-out or Megolm group session)'),
 	embeds: z.array(MessageEmbedResponse).max(10).nullish().describe('The embeds attached to the message'),
 	attachments: z.array(MessageAttachmentResponse).max(10).nullish().describe('The files attached to the message'),
 	stickers: z.array(MessageStickerResponse).max(3).nullish().describe('The stickers sent with the message'),
@@ -353,12 +364,23 @@ export interface Message {
 	readonly mentions?: ReadonlyArray<MessageMention>;
 	readonly mention_roles?: ReadonlyArray<string>;
 	readonly mention_channels?: ReadonlyArray<ChannelMention>;
-	readonly encrypted_payload?: {
-		v: number;
-		sender_device_id: string;
-		sender_identity_key: string;
-		ciphertexts: Record<string, {type: number; body: string}>;
-	} | null;
+	readonly encrypted_payload?:
+		| {
+				v: number;
+				kind?: 'olm';
+				sender_device_id: string;
+				sender_identity_key: string;
+				ciphertexts: Record<string, {type: number; body: string}>;
+		  }
+		| {
+				v: number;
+				kind: 'megolm';
+				sender_device_id: string;
+				sender_identity_key: string;
+				session_id: string;
+				ciphertext: string;
+		  }
+		| null;
 	readonly embeds?: ReadonlyArray<MessageEmbed>;
 	readonly attachments?: ReadonlyArray<MessageAttachment>;
 	readonly stickers?: ReadonlyArray<MessageStickerItem>;

@@ -264,21 +264,35 @@ export const MessageRequestSchema = z
 		sticker_ids: z.array(SnowflakeType).max(3).nullish().describe('Array of sticker IDs to include (max 3)'),
 		tts: z.boolean().optional().describe('Whether this is a text-to-speech message'),
 		encrypted_payload: z
-			.object({
-				v: z.number().int().min(1),
-				sender_device_id: z.string().min(8).max(64),
-				sender_identity_key: z.string().min(1).max(2048),
-				ciphertexts: z.record(
-					z.string().min(1).max(128),
-					z.object({
-						type: z.number().int().min(0).max(1),
-						body: z.string().min(1).max(65536),
-					}),
-				),
-			})
+			.union([
+				// Olm 1:1 fan-out — one ciphertext per recipient device.
+				z.object({
+					v: z.number().int().min(1),
+					kind: z.literal('olm').optional(),
+					sender_device_id: z.string().min(8).max(64),
+					sender_identity_key: z.string().min(1).max(2048),
+					ciphertexts: z.record(
+						z.string().min(1).max(128),
+						z.object({
+							type: z.number().int().min(0).max(1),
+							body: z.string().min(1).max(65536),
+						}),
+					),
+				}),
+				// Megolm group DM — single ciphertext identified by session_id;
+				// session_keys distributed out-of-band via /e2ee/group-sessions.
+				z.object({
+					v: z.number().int().min(1),
+					kind: z.literal('megolm'),
+					sender_device_id: z.string().min(8).max(64),
+					sender_identity_key: z.string().min(1).max(2048),
+					session_id: z.string().min(1).max(128),
+					ciphertext: z.string().min(1).max(65536),
+				}),
+			])
 			.nullish()
 			.describe(
-				'End-to-end encrypted ciphertext. Required when the ENCRYPTED flag is set; ignored otherwise. Server stores verbatim, never inspects content.',
+				'End-to-end encrypted ciphertext. Olm shape carries per-device ciphertexts for 1:1 DMs; Megolm shape carries a single ciphertext + session_id for group DMs. Required when the ENCRYPTED flag is set; ignored otherwise. Server stores verbatim, never inspects content.',
 			),
 	})
 	.partial();

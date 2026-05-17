@@ -618,7 +618,12 @@ export class ChannelOperationsService {
 	}): Promise<void> {
 		const channel = await this.channelRepository.channelData.findUnique(params.channelId);
 		if (!channel) throw new UnknownChannelError();
-		if (channel.type !== ChannelTypes.DM) throw new MissingPermissionsError();
+		// 1:1 DMs and group DMs both opt into shared E2EE state. Guild
+		// channels are deliberately excluded — bots can't participate in
+		// Olm, so encrypting guild traffic would break integrations.
+		if (channel.type !== ChannelTypes.DM && channel.type !== ChannelTypes.GROUP_DM) {
+			throw new MissingPermissionsError();
+		}
 		if (!channel.recipientIds.has(params.userId)) throw new MissingPermissionsError();
 
 		if (channel.e2eeEnabled === params.enabled) return;
