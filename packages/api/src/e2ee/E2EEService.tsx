@@ -17,13 +17,15 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {UserID} from '@fluxer/api/src/BrandedTypes';
+import type {ChannelID, UserID} from '@fluxer/api/src/BrandedTypes';
 import type {E2EERepository} from '@fluxer/api/src/e2ee/E2EERepository';
 import type {E2EEDevice} from '@fluxer/api/src/models/E2EEDevice';
 import type {
 	E2EEBackupResponse,
 	E2EEBackupUploadRequest,
 	E2EEDeviceResponse,
+	E2EEGroupSessionDistributeRequest,
+	E2EEGroupSessionInboundBlob,
 	E2EEPrekeyBundleResponse,
 	E2EEPublicDeviceResponse,
 	OneTimePrekeyPayload,
@@ -234,5 +236,71 @@ export class E2EEService {
 
 	async deleteBackup(userId: UserID): Promise<void> {
 		await this.repository.deleteBackup(userId);
+	}
+
+	// ── Group session distribution (Megolm) ─────────────────────────────
+	// Channel membership validation happens in the controller before
+	// these run — this service is pure storage. Distribute fans the
+	// sender's Olm-wrapped session_key blobs out to per-recipient-device
+	// rows; the listInbound call returns the caller's pending blobs for
+	// a single channel in one partition read.
+
+	async storeGroupSessionBlobs(params: {
+		channelId: ChannelID;
+		senderUserId: UserID;
+		request: E2EEGroupSessionDistributeRequest;
+	}): Promise<{stored: number}> {
+		const now = new Date();
+		const {request} = params;
+		const rows = request.recipient_blobs.map((blob) => ({
+			recipient_user_id: BigInt(blob.recipient_user_id) as UserID,
+			channel_id: params.channelId,
+			session_id: request.session_id,
+			recipient_device_id: blob.recipient_device_id,
+			sender_user_id: params.senderUserId,
+			sender_device_id: request.sender_device_id,
+			sender_identity_key: request.sender_identity_key,
+			olm_message_type: blob.olm_message_type,
+			olm_ciphertext: blob.olm_ciphertext,
+			created_at: now,
+		}));
+		await this.repository.insertGroupSessionBlobs(rows);
+		return {stored: rows.length};
+	}
+
+	async listInboundGroupSessionBlobs(params: {
+		channelId: ChannelID;
+		recipientUserId: UserID;
+	}): Promise<Array<E2EEGroupSessionInboundBlob>> {
+		const rows = await this.repository.listGroupSessionBlobsForRecipientInChannel(
+			params.recipientUserId,
+			params.channelId,
+		);
+		return rows.map((row) => ({
+			session_id: row.session_id,
+			sender_user_id: row.sender_user_id.toString(),
+			sender_device_id: row.sender_device_id,
+			sender_identity_key: row.sender_identity_key,
+			recipient_device_id: row.recipient_device_id,
+			olm_message_type: row.olm_message_type as 0 | 1,
+			olm_ciphertext: row.olm_ciphertext,
+			created_at: row.created_at.toISOString(),
+		}));
+	}
+
+	async ackGroupSessionBlob(params: {
+		channelId: ChannelID;
+		recipientUserId: UserID;
+		sessionId: string;
+		recipientDeviceId: string;
+		senderDeviceId: string;
+	}): Promise<void> {
+		await this.repository.deleteGroupSessionBlob(
+			params.recipientUserId,
+			params.channelId,
+			params.sessionId,
+			params.recipientDeviceId,
+			params.senderDeviceId,
+		);
 	}
 }

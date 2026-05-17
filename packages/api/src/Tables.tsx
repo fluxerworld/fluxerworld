@@ -95,6 +95,8 @@ import {
 	type E2EEBackupRow,
 	E2EE_DEVICE_COLUMNS,
 	type E2EEDeviceRow,
+	E2EE_GROUP_SESSION_BLOB_COLUMNS,
+	type E2EEGroupSessionBlobRow,
 	E2EE_ONE_TIME_PREKEY_COLUMNS,
 	type E2EEOneTimePrekeyRow,
 } from '@fluxer/api/src/database/types/E2EETypes';
@@ -1069,4 +1071,13 @@ export const E2EEBackups = defineTable<E2EEBackupRow, 'user_id'>({
 	name: 'e2ee_backups',
 	columns: E2EE_BACKUP_COLUMNS,
 	primaryKey: ['user_id'],
+});
+
+export const E2EEGroupSessionBlobs = defineTable<
+	E2EEGroupSessionBlobRow,
+	'recipient_user_id' | 'channel_id' | 'session_id' | 'recipient_device_id' | 'sender_device_id'
+>({
+	name: 'e2ee_group_session_blobs',
+	columns: E2EE_GROUP_SESSION_BLOB_COLUMNS,
+	primaryKey: ['recipient_user_id', 'channel_id', 'session_id', 'recipient_device_id', 'sender_device_id'],
 });

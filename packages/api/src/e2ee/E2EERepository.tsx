@@ -17,12 +17,17 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import type {UserID} from '@fluxer/api/src/BrandedTypes';
+import type {ChannelID, UserID} from '@fluxer/api/src/BrandedTypes';
 import {deleteOneOrMany, fetchMany, fetchOne, upsertOne} from '@fluxer/api/src/database/Cassandra';
-import type {E2EEBackupRow, E2EEDeviceRow, E2EEOneTimePrekeyRow} from '@fluxer/api/src/database/types/E2EETypes';
+import type {
+	E2EEBackupRow,
+	E2EEDeviceRow,
+	E2EEGroupSessionBlobRow,
+	E2EEOneTimePrekeyRow,
+} from '@fluxer/api/src/database/types/E2EETypes';
 import {E2EEDevice} from '@fluxer/api/src/models/E2EEDevice';
 import {E2EEOneTimePrekey} from '@fluxer/api/src/models/E2EEOneTimePrekey';
-import {E2EEBackups, E2EEDevices, E2EEOneTimePrekeys} from '@fluxer/api/src/Tables';
+import {E2EEBackups, E2EEDevices, E2EEGroupSessionBlobs, E2EEOneTimePrekeys} from '@fluxer/api/src/Tables';
 
 const FETCH_DEVICE_CQL = E2EEDevices.selectCql({
 	where: [E2EEDevices.where.eq('user_id'), E2EEDevices.where.eq('device_id')],
@@ -33,6 +38,14 @@ const FETCH_USER_DEVICES_CQL = E2EEDevices.selectCql({
 
 const FETCH_DEVICE_PREKEYS_CQL = E2EEOneTimePrekeys.selectCql({
 	where: [E2EEOneTimePrekeys.where.eq('user_id'), E2EEOneTimePrekeys.where.eq('device_id')],
+});
+
+// "Give me all the group-session blobs I haven't picked up for this
+// channel yet." Single partition read because the table is partitioned
+// by recipient_user_id, so this stays cheap even when the user has
+// blobs across many channels.
+const FETCH_GROUP_SESSION_BLOBS_FOR_RECIPIENT_IN_CHANNEL_CQL = E2EEGroupSessionBlobs.selectCql({
+	where: [E2EEGroupSessionBlobs.where.eq('recipient_user_id'), E2EEGroupSessionBlobs.where.eq('channel_id')],
 });
 
 export class E2EERepository {
@@ -125,5 +138,39 @@ export class E2EERepository {
 
 	async deleteBackup(userId: UserID): Promise<void> {
 		await deleteOneOrMany(E2EEBackups.deleteByPk({user_id: userId}));
+	}
+
+	// ── Group session blobs (Megolm) ────────────────────────────────────
+
+	async insertGroupSessionBlobs(rows: ReadonlyArray<E2EEGroupSessionBlobRow>): Promise<void> {
+		await Promise.all(rows.map((row) => upsertOne(E2EEGroupSessionBlobs.upsertAll(row))));
+	}
+
+	async listGroupSessionBlobsForRecipientInChannel(
+		recipientUserId: UserID,
+		channelId: ChannelID,
+	): Promise<Array<E2EEGroupSessionBlobRow>> {
+		return await fetchMany<E2EEGroupSessionBlobRow>(FETCH_GROUP_SESSION_BLOBS_FOR_RECIPIENT_IN_CHANNEL_CQL, {
+			recipient_user_id: recipientUserId,
+			channel_id: channelId,
+		});
+	}
+
+	async deleteGroupSessionBlob(
+		recipientUserId: UserID,
+		channelId: ChannelID,
+		sessionId: string,
+		recipientDeviceId: string,
+		senderDeviceId: string,
+	): Promise<void> {
+		await deleteOneOrMany(
+			E2EEGroupSessionBlobs.deleteByPk({
+				recipient_user_id: recipientUserId,
+				channel_id: channelId,
+				session_id: sessionId,
+				recipient_device_id: recipientDeviceId,
+				sender_device_id: senderDeviceId,
+			}),
+		);
 	}
 }

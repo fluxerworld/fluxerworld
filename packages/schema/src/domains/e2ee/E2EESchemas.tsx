@@ -135,3 +135,39 @@ export const E2EEBackupResponse = E2EEBackupBlob.extend({
 	updated_at: z.iso.datetime(),
 });
 export type E2EEBackupResponse = z.infer<typeof E2EEBackupResponse>;
+
+// ── Group session distribution (Megolm) ─────────────────────────────────
+// Sender posts one of these per recipient device, each containing the
+// Megolm session key encrypted to that device via Olm. Recipients GET
+// their own blobs, decrypt the Olm envelope, then import the resulting
+// session_key into an InboundGroupSession.
+export const E2EEGroupSessionBlob = z.object({
+	recipient_user_id: z.string(),
+	recipient_device_id: z.string().min(8).max(64),
+	olm_message_type: z.union([z.literal(0), z.literal(1)]),
+	olm_ciphertext: z.string().min(1).max(65536),
+});
+export type E2EEGroupSessionBlob = z.infer<typeof E2EEGroupSessionBlob>;
+
+export const E2EEGroupSessionDistributeRequest = z.object({
+	session_id: z.string().min(1).max(128),
+	sender_device_id: z.string().min(8).max(64),
+	sender_identity_key: z.string().min(1).max(256),
+	recipient_blobs: z.array(E2EEGroupSessionBlob).min(1).max(1024),
+});
+export type E2EEGroupSessionDistributeRequest = z.infer<typeof E2EEGroupSessionDistributeRequest>;
+
+export const E2EEGroupSessionInboundBlob = z.object({
+	session_id: z.string(),
+	sender_user_id: z.string(),
+	sender_device_id: z.string(),
+	sender_identity_key: z.string(),
+	recipient_device_id: z.string(),
+	olm_message_type: z.union([z.literal(0), z.literal(1)]),
+	olm_ciphertext: z.string(),
+	created_at: z.iso.datetime(),
+});
+export type E2EEGroupSessionInboundBlob = z.infer<typeof E2EEGroupSessionInboundBlob>;
+
+export const E2EEGroupSessionInboundListResponse = z.array(E2EEGroupSessionInboundBlob);
+export type E2EEGroupSessionInboundListResponse = z.infer<typeof E2EEGroupSessionInboundListResponse>;

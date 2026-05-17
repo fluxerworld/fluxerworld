@@ -17,19 +17,24 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {createUserID} from '@fluxer/api/src/BrandedTypes';
+import {createChannelID, createUserID} from '@fluxer/api/src/BrandedTypes';
+import {UnknownChannelError} from '@fluxer/errors/src/domains/channel/UnknownChannelError';
+import {MissingPermissionsError} from '@fluxer/errors/src/domains/core/MissingPermissionsError';
 import {DefaultUserOnly, LoginRequired} from '@fluxer/api/src/middleware/AuthMiddleware';
 import {RateLimitMiddleware} from '@fluxer/api/src/middleware/RateLimitMiddleware';
 import {OpenAPI} from '@fluxer/api/src/middleware/ResponseTypeMiddleware';
 import {RateLimitConfigs} from '@fluxer/api/src/RateLimitConfig';
 import type {HonoApp} from '@fluxer/api/src/types/HonoEnv';
 import {Validator} from '@fluxer/api/src/Validator';
-import {UserIdParam} from '@fluxer/schema/src/domains/common/CommonParamSchemas';
+import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
+import {ChannelIdParam, UserIdParam} from '@fluxer/schema/src/domains/common/CommonParamSchemas';
 import {
 	E2EEBackupResponse,
 	E2EEBackupUploadRequest,
 	E2EEDeviceListResponse,
 	E2EEDeviceResponse,
+	E2EEGroupSessionDistributeRequest,
+	E2EEGroupSessionInboundListResponse,
 	E2EEPrekeyBundleListResponse,
 	E2EEPublicDeviceListResponse,
 	RegisterDeviceRequest,
@@ -270,6 +275,121 @@ export function E2EEController(app: HonoApp): void {
 		}),
 		async (ctx) => {
 			await ctx.get('e2eeService').deleteBackup(ctx.get('user').id);
+			return ctx.json({success: true});
+		},
+	);
+
+	// ── Group session distribution (Megolm group DM E2EE) ───────────────
+	// POST: sender fans out per-device Olm-encrypted session_key blobs.
+	// GET:  recipient fetches pending blobs for one channel.
+	// DELETE: recipient acks a blob after successfully importing the
+	//         underlying Megolm session, so the server can GC it.
+	//
+	// Channel membership is validated up front — we don't want one
+	// account dropping blobs into a DM they aren't part of.
+
+	app.post(
+		'/channels/:channel_id/e2ee/group-sessions',
+		RateLimitMiddleware(RateLimitConfigs.CHANNEL_UPDATE),
+		LoginRequired,
+		DefaultUserOnly,
+		Validator('param', ChannelIdParam),
+		Validator('json', E2EEGroupSessionDistributeRequest),
+		OpenAPI({
+			operationId: 'distribute_e2ee_group_session',
+			summary: 'Distribute a Megolm group session key to channel members',
+			responseSchema: z.object({stored: z.number()}),
+			statusCode: 200,
+			security: ['sessionToken', 'bearerToken'],
+			tags: ['E2EE'],
+			description:
+				"Sender posts one blob per recipient device. Each blob contains the Megolm session_key encrypted to that device via the sender's existing Olm session. Recipients fetch and import via the matching GET endpoint.",
+		}),
+		async (ctx) => {
+			const userId = ctx.get('user').id;
+			const channelId = createChannelID(ctx.req.valid('param').channel_id);
+			const channelService = ctx.get('channelService');
+			const channel = await channelService.getChannel({userId, channelId});
+			if (!channel) throw new UnknownChannelError();
+			if (channel.type !== ChannelTypes.DM && channel.type !== ChannelTypes.GROUP_DM) {
+				throw new MissingPermissionsError();
+			}
+			if (!channel.recipientIds.has(userId)) throw new MissingPermissionsError();
+			const result = await ctx
+				.get('e2eeService')
+				.storeGroupSessionBlobs({channelId, senderUserId: userId, request: ctx.req.valid('json')});
+			return ctx.json(result);
+		},
+	);
+
+	app.get(
+		'/channels/:channel_id/e2ee/group-sessions',
+		RateLimitMiddleware(RateLimitConfigs.USER_E2EE_LIST_DEVICES),
+		LoginRequired,
+		DefaultUserOnly,
+		Validator('param', ChannelIdParam),
+		OpenAPI({
+			operationId: 'list_e2ee_group_sessions',
+			summary: 'Fetch pending Megolm group session blobs for this channel',
+			responseSchema: E2EEGroupSessionInboundListResponse,
+			statusCode: 200,
+			security: ['sessionToken', 'bearerToken'],
+			tags: ['E2EE'],
+			description:
+				'Returns every group-session blob a sender has posted for the caller in this channel that the caller has not yet acknowledged. Recipients decrypt the Olm envelope to recover the Megolm session_key, then DELETE the blob.',
+		}),
+		async (ctx) => {
+			const userId = ctx.get('user').id;
+			const channelId = createChannelID(ctx.req.valid('param').channel_id);
+			const channelService = ctx.get('channelService');
+			const channel = await channelService.getChannel({userId, channelId});
+			if (!channel) throw new UnknownChannelError();
+			if (channel.type !== ChannelTypes.DM && channel.type !== ChannelTypes.GROUP_DM) {
+				throw new MissingPermissionsError();
+			}
+			if (!channel.recipientIds.has(userId)) throw new MissingPermissionsError();
+			const blobs = await ctx
+				.get('e2eeService')
+				.listInboundGroupSessionBlobs({channelId, recipientUserId: userId});
+			return ctx.json(blobs);
+		},
+	);
+
+	app.delete(
+		'/channels/:channel_id/e2ee/group-sessions/:session_id/:recipient_device_id/:sender_device_id',
+		RateLimitMiddleware(RateLimitConfigs.USER_E2EE_LIST_DEVICES),
+		LoginRequired,
+		DefaultUserOnly,
+		Validator(
+			'param',
+			z.object({
+				channel_id: z.string(),
+				session_id: z.string().min(1).max(128),
+				recipient_device_id: z.string().min(8).max(64),
+				sender_device_id: z.string().min(8).max(64),
+			}),
+		),
+		OpenAPI({
+			operationId: 'ack_e2ee_group_session_blob',
+			summary: 'Acknowledge a Megolm group session blob after import',
+			responseSchema: z.object({success: z.boolean()}),
+			statusCode: 200,
+			security: ['sessionToken', 'bearerToken'],
+			tags: ['E2EE'],
+			description:
+				'Deletes the server-side blob once the recipient has successfully decrypted and imported it. Idempotent — calling on an already-deleted blob is a no-op.',
+		}),
+		async (ctx) => {
+			const userId = ctx.get('user').id;
+			const params = ctx.req.valid('param');
+			const channelId = createChannelID(BigInt(params.channel_id));
+			await ctx.get('e2eeService').ackGroupSessionBlob({
+				channelId,
+				recipientUserId: userId,
+				sessionId: params.session_id,
+				recipientDeviceId: params.recipient_device_id,
+				senderDeviceId: params.sender_device_id,
+			});
 			return ctx.json({success: true});
 		},
 	);

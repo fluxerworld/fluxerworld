@@ -113,3 +113,36 @@ export const E2EE_BACKUP_COLUMNS = [
 	'created_at',
 	'updated_at',
 ] as const satisfies ReadonlyArray<keyof E2EEBackupRow>;
+
+// One row per (channel, session, sender device, recipient device). The
+// sender posts a Megolm session_key encrypted to each recipient device
+// via Olm; recipients GET their own blobs. Partitioned by
+// recipient_user_id so a "give me my pending blobs for channel X" query
+// is a single partition read. Sender_identity_key is included so the
+// recipient can verify the Olm message bound to the same identity the
+// sender's device is currently advertising.
+export interface E2EEGroupSessionBlobRow {
+	recipient_user_id: UserID;
+	channel_id: import('@fluxer/api/src/BrandedTypes').ChannelID;
+	session_id: string;
+	recipient_device_id: string;
+	sender_user_id: UserID;
+	sender_device_id: string;
+	sender_identity_key: string;
+	olm_message_type: number;
+	olm_ciphertext: string;
+	created_at: Date;
+}
+
+export const E2EE_GROUP_SESSION_BLOB_COLUMNS = [
+	'recipient_user_id',
+	'channel_id',
+	'session_id',
+	'recipient_device_id',
+	'sender_user_id',
+	'sender_device_id',
+	'sender_identity_key',
+	'olm_message_type',
+	'olm_ciphertext',
+	'created_at',
+] as const satisfies ReadonlyArray<keyof E2EEGroupSessionBlobRow>;
