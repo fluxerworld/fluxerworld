@@ -261,14 +261,30 @@ connected_session_user_ids(State) ->
 -spec partition_members_by_online([map()], guild_state()) -> {[map()], [map()]}.
 partition_members_by_online(Members, State) ->
     ConnectedUserIds = connected_session_user_ids(State),
+    MemberPresence = maps:get(member_presence, State, #{}),
     lists:partition(
         fun(Member) ->
             UserId = get_member_user_id(Member),
-            Presence = resolve_presence_for_user(State, UserId),
-            Status = maps:get(<<"status">>, Presence, <<"offline">>),
             IsConnected = sets:is_element(UserId, ConnectedUserIds),
-            IsOnlineStatus = Status =/= <<"offline">> andalso Status =/= <<"invisible">>,
-            IsConnected andalso IsOnlineStatus
+            case IsConnected of
+                false ->
+                    %% No active session in this guild → always offline,
+                    %% regardless of any stale cached presence.
+                    false;
+                true ->
+                    %% Connected. Trust an explicit non-offline/non-invisible
+                    %% status if the user has one; if they have no presence
+                    %% record yet (just connected, no PRESENCE_UPDATE
+                    %% delivered yet), assume online — defaulting to offline
+                    %% here is what made connected members show up as offline.
+                    case maps:get(UserId, MemberPresence, undefined) of
+                        undefined ->
+                            true;
+                        Presence ->
+                            Status = maps:get(<<"status">>, Presence, <<"online">>),
+                            Status =/= <<"offline">> andalso Status =/= <<"invisible">>
+                    end
+            end
         end,
         Members
     ).
