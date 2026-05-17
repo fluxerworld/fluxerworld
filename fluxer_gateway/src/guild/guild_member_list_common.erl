@@ -142,10 +142,15 @@ get_hoisted_roles_sorted(Roles, GuildId) ->
         end,
         Roles
     ),
+    %% Sort hoisted roles by role hierarchy position (highest first) so the
+    %% sidebar grouping matches what users see in the role-hierarchy UI.
+    %% hoist_position used to provide an independent override but it drifted
+    %% out of sync with position whenever roles were re-ordered, putting
+    %% members under unexpected hoisted groups.
     lists:sort(
         fun(A, B) ->
-            PosA = get_effective_hoist_position(A),
-            PosB = get_effective_hoist_position(B),
+            PosA = maps:get(<<"position">>, A, 0),
+            PosB = maps:get(<<"position">>, B, 0),
             PosA > PosB
         end,
         HoistedRoles

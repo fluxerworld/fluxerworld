@@ -44,7 +44,10 @@ import type {UIEvent} from 'react';
 import {useCallback, useMemo, useState} from 'react';
 
 const MEMBER_ITEM_HEIGHT = 44;
-const INITIAL_MEMBER_RANGE: [number, number] = [0, 99];
+// Initial range covers small-to-medium guilds completely on first paint
+// instead of paging in 100 rows at a time. Large guilds still lazy-load
+// the rest via the scroll handler below.
+const INITIAL_MEMBER_RANGE: [number, number] = [0, 499];
 const SCROLL_BUFFER = 50;
 
 function getSeededRandom(seed: number): number {
