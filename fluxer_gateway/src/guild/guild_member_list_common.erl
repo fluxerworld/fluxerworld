@@ -156,11 +156,11 @@ get_hoisted_roles_sorted(Roles, GuildId) ->
             PosA = maps:get(<<"position">>, A, 0),
             PosB = maps:get(<<"position">>, B, 0),
             case PosA =:= PosB of
-                false -> PosA < PosB;
+                false -> PosA > PosB;
                 true ->
                     IdA = map_utils:get_integer(A, <<"id">>, 0),
                     IdB = map_utils:get_integer(B, <<"id">>, 0),
-                    IdA > IdB
+                    IdA < IdB
             end
         end,
         HoistedRoles
