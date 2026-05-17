@@ -22,7 +22,6 @@ import {MemberListContainer} from '@app/components/channel/MemberListContainer';
 import {MemberListItem} from '@app/components/channel/MemberListItem';
 import {MemberListUnavailableFallback} from '@app/components/channel/shared/MemberListUnavailableFallback';
 import {OutlineFrame} from '@app/components/layout/OutlineFrame';
-import {resolveMemberListPresence} from '@app/hooks/useMemberListPresence';
 import {useMemberListSubscription} from '@app/hooks/useMemberListSubscription';
 import type {ChannelRecord} from '@app/records/ChannelRecord';
 import type {GuildMemberRecord} from '@app/records/GuildMemberRecord';
@@ -36,7 +35,6 @@ import * as MemberListUtils from '@app/utils/MemberListUtils';
 import * as NicknameUtils from '@app/utils/NicknameUtils';
 import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 import {GuildOperations} from '@fluxer/constants/src/GuildConstants';
-import {isOfflineStatus} from '@fluxer/constants/src/StatusConstants';
 import {useLingui} from '@lingui/react/macro';
 import clsx from 'clsx';
 import {observer} from 'mobx-react-lite';
@@ -254,59 +252,12 @@ const LazyMemberList = observer(function LazyMemberList({guild, channel}: LazyMe
 		}
 	}
 
-	// Always re-bucket members in the online/offline groups by *current
-	// local* presence — the server's groups payload is a snapshot at the
-	// last SYNC and goes stale as friends go online/offline between
-	// SYNCs. Hoisted-role members keep their bucket because role
-	// membership doesn't change with presence.
-	const hasOnlineGroup = groupedItems.has('online');
-	const hasOfflineGroup = groupedItems.has('offline');
-	if (hasOnlineGroup || hasOfflineGroup) {
-		const currentOnline = groupedItems.get('online') ?? [];
-		const currentOffline = groupedItems.get('offline') ?? [];
-		const reclassifyTargets = currentOnline.concat(currentOffline);
-
-		const onlineMembers: Array<GuildMemberRecord> = [];
-		const offlineMembers: Array<GuildMemberRecord> = [];
-
-		for (const member of reclassifyTargets) {
-			const status = resolveMemberListPresence({
-				guildId: guild.id,
-				channelId: channel.id,
-				userId: member.user.id,
-				enabled: true,
-			});
-
-			if (isOfflineStatus(status)) {
-				offlineMembers.push(member);
-			} else {
-				onlineMembers.push(member);
-			}
-		}
-
-		if (hasOnlineGroup) {
-			groupedItems.set('online', onlineMembers);
-		}
-		if (hasOfflineGroup) {
-			groupedItems.set('offline', offlineMembers);
-		}
-
-		// Only overwrite the server-provided counts once we've actually
-		// loaded every member in the presence-grouped set — otherwise
-		// the displayed count would shrink as the user scrolls and more
-		// members lazy-load in.
-		const presenceCountFromServer =
-			(groupCounts.get('online') ?? 0) + (groupCounts.get('offline') ?? 0);
-		const isPresenceFullyLoaded = reclassifyTargets.length >= presenceCountFromServer;
-		if (isPresenceFullyLoaded) {
-			if (hasOnlineGroup) {
-				groupCounts.set('online', onlineMembers.length);
-			}
-			if (hasOfflineGroup) {
-				groupCounts.set('offline', offlineMembers.length);
-			}
-		}
-	}
+	// The server re-buckets and re-broadcasts the full member list every
+	// time a presence changes, so we trust its buckets and counts as-is.
+	// An earlier client-side recount based on local PresenceStore lookups
+	// pulled offline members into the online bucket whenever the local
+	// store had stale data, leaving the rendered Offline group with only
+	// a stray member or two.
 
 	return (
 		<MemberListContainer channelId={channel.id} onScroll={handleScroll}>
