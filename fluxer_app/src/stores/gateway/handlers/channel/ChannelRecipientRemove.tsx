@@ -17,7 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {handleGroupDmMemberRemoved} from '@app/lib/e2ee/E2EEMessageIntegration';
 import ChannelStore from '@app/stores/ChannelStore';
+import E2EEStore from '@app/stores/E2EEStore';
 import type {GatewayHandlerContext} from '@app/stores/gateway/handlers';
 import QuickSwitcherStore from '@app/stores/QuickSwitcherStore';
 import type {UserPartial} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
@@ -33,4 +35,12 @@ export function handleChannelRecipientRemove(data: ChannelRecipientPayload, _con
 		user: data.user,
 	});
 	QuickSwitcherStore.recomputeIfOpen();
+
+	// Force a fresh outbound Megolm session on next send so the removed
+	// member can't decrypt new messages with the session_key they already
+	// hold. Past messages remain readable to them — Megolm can't take a
+	// shared session_key back once it's distributed, that's the model.
+	if (E2EEStore.isChannelEncrypted(data.channel_id)) {
+		void handleGroupDmMemberRemoved({channelId: data.channel_id});
+	}
 }

@@ -17,7 +17,9 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {handleGroupDmMemberAdded} from '@app/lib/e2ee/E2EEMessageIntegration';
 import ChannelStore from '@app/stores/ChannelStore';
+import E2EEStore from '@app/stores/E2EEStore';
 import type {GatewayHandlerContext} from '@app/stores/gateway/handlers';
 import QuickSwitcherStore from '@app/stores/QuickSwitcherStore';
 import type {UserPartial} from '@fluxer/schema/src/domains/user/UserResponseSchemas';
@@ -33,4 +35,13 @@ export function handleChannelRecipientAdd(data: ChannelRecipientPayload, _contex
 		user: data.user,
 	});
 	QuickSwitcherStore.recomputeIfOpen();
+
+	// Distribute the current Megolm session_key to the new member's
+	// devices if this channel is E2EE-on. No-op for sender clients that
+	// haven't built an outbound session yet, and no-op on the new
+	// member's own client (they won't have an outbound session for a
+	// channel they just joined).
+	if (E2EEStore.isChannelEncrypted(data.channel_id)) {
+		void handleGroupDmMemberAdded({channelId: data.channel_id, addedUserId: data.user.id});
+	}
 }

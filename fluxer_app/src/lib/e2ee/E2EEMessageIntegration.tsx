@@ -19,7 +19,10 @@
 
 import * as E2EEActionCreators from '@app/actions/E2EEActionCreators';
 import {
+	deleteAllGroupSessionsForChannel,
+	deleteOutboundGroupSession,
 	deleteSessionsForRemoteDevice,
+	getOutboundGroupSession,
 	getPeerIdentityKey,
 	getSessionsForRemoteDevice,
 	setPeerIdentityKey,
@@ -840,4 +843,85 @@ async function fetchAndImportGroupSessionFor(params: {
 	}
 
 	return importedTarget;
+}
+
+// ── Membership-change rotation hooks ────────────────────────────────────
+// Wired into CHANNEL_RECIPIENT_ADD/REMOVE gateway handlers. Only sender
+// devices have an outbound session for a given channel — receivers just
+// hold inbound sessions per sender — so the early-out on "do we have an
+// outbound session" naturally scopes these to do work on the right
+// clients.
+
+// A new member just joined a group DM. If we're a sender (we have an
+// active outbound session for this channel), distribute the current
+// session_key to the new member's devices so they can decrypt subsequent
+// messages we send. Past messages stay inaccessible to them (Megolm is
+// forward-secret at the session_key the new member receives).
+export async function handleGroupDmMemberAdded(params: {
+	channelId: string;
+	addedUserId: string;
+}): Promise<void> {
+	if (!E2EEStore.isReady) return;
+	const ownDeviceId = E2EEStore.deviceId;
+	const ownUserId = E2EEStore.currentUserId;
+	if (!ownDeviceId || !ownUserId) return;
+
+	const stored = await getOutboundGroupSession(params.channelId);
+	if (!stored) return; // we haven't sent anything in this channel — nothing to share yet
+
+	// Re-pull the live session_key from the manager so we get whatever
+	// session is current (handles the race where the outbound was just
+	// rotated by a remove-then-add).
+	let sessionInfo;
+	try {
+		sessionInfo = await e2eeManager.getOrCreateOutboundGroupSession(params.channelId);
+	} catch (err) {
+		logger.warn('handleGroupDmMemberAdded: failed to load outbound session', {err});
+		return;
+	}
+
+	const ownDevices = await E2EEActionCreators.listPublicDevices(ownUserId);
+	const senderDevice = ownDevices.find((d) => d.device_id === ownDeviceId);
+	const senderIdentityKey = senderDevice?.identity_key ?? '';
+
+	// Distribute ONLY to the newly added member — existing members
+	// already have the session imported.
+	await distributeGroupSessionToAllMembers({
+		channelId: params.channelId,
+		senderUserId: ownUserId,
+		senderDeviceId: ownDeviceId,
+		senderIdentityKey,
+		sessionId: sessionInfo.sessionId,
+		sessionKey: sessionInfo.sessionKey,
+		memberUserIds: [params.addedUserId],
+	});
+}
+
+// A member just left (or was removed from) a group DM. If we have an
+// outbound session for this channel, wipe it — the next encrypt will
+// build and distribute a fresh session that excludes the removed
+// member's devices. Their stored session_key for the OLD session
+// remains valid for messages we already sent (can't take that back
+// once it's encrypted), but they will not be able to decrypt anything
+// from the new session.
+export async function handleGroupDmMemberRemoved(params: {
+	channelId: string;
+}): Promise<void> {
+	if (!E2EEStore.isReady) return;
+	try {
+		await deleteOutboundGroupSession(params.channelId);
+	} catch (err) {
+		logger.warn('handleGroupDmMemberRemoved: failed to wipe outbound session', {err});
+	}
+}
+
+// Channel was un-encrypted (e2ee toggled off) or removed entirely. Wipe
+// all stored Megolm material for the channel — both our outbound and
+// any inbound sessions from other senders.
+export async function handleGroupDmEncryptionDisabled(channelId: string): Promise<void> {
+	try {
+		await deleteAllGroupSessionsForChannel(channelId);
+	} catch (err) {
+		logger.warn('handleGroupDmEncryptionDisabled: failed to wipe channel sessions', {err});
+	}
 }

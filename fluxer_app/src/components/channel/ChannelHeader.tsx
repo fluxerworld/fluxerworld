@@ -701,7 +701,9 @@ export const ChannelHeader = observer(
 								</>
 							)}
 
-							{isDM && channel && !isMobile && !isBotDMRecipient && <E2EEToggleButton channelId={channel.id} />}
+							{(isDM || isGroupDM) && channel && !isMobile && !isBotDMRecipient && (
+								<E2EEToggleButton channelId={channel.id} />
+							)}
 
 							{shouldShowCreateGroupButton && (
 								<ChannelHeaderIcon icon={UserPlusIcon} label={t`Create Group DM`} onClick={handleOpenCreateGroupDM} />
