@@ -24,7 +24,11 @@ import {
 	getStateVersion,
 	getStoredAccount,
 	type PickledAccount,
+	type PickledInboundGroupSession,
+	type PickledOutboundGroupSession,
 	type PickledSession,
+	putInboundGroupSession,
+	putOutboundGroupSession,
 	putSession,
 	putStoredAccount,
 	putVerification,
@@ -37,7 +41,9 @@ import {Logger} from '@app/lib/Logger';
 
 const logger = new Logger('E2EEBackup');
 
-const BACKUP_VERSION = 1;
+// v2 adds Megolm group sessions (outbound + inbound) for group DM E2EE.
+// v1 backups still restore — the group-session fields default to empty.
+const BACKUP_VERSION = 2;
 const ALGORITHM = 'AES-GCM';
 const KDF = 'PBKDF2-SHA256';
 const KDF_ITERATIONS = 600_000;
@@ -52,6 +58,18 @@ interface BackupPayloadV1 {
 	verifications: Array<VerificationEntry>;
 	pickle_key: string | null;
 }
+
+interface BackupPayloadV2 {
+	v: 2;
+	account: PickledAccount | null;
+	sessions: Array<PickledSession>;
+	verifications: Array<VerificationEntry>;
+	pickle_key: string | null;
+	outbound_group_sessions: Array<PickledOutboundGroupSession>;
+	inbound_group_sessions: Array<PickledInboundGroupSession>;
+}
+
+type BackupPayload = BackupPayloadV1 | BackupPayloadV2;
 
 interface BackupBlob {
 	version: number;
@@ -98,17 +116,21 @@ async function deriveKey(passphrase: string, salt: Uint8Array, iterations: numbe
 	);
 }
 
-async function buildPayload(userId: string): Promise<BackupPayloadV1> {
+async function buildPayload(userId: string): Promise<BackupPayloadV2> {
 	const account = await getStoredAccount(userId);
 	const sessions = await collectAllSessions();
 	const verifications = await collectAllVerifications();
+	const outboundGroupSessions = await collectAllOutboundGroupSessions();
+	const inboundGroupSessions = await collectAllInboundGroupSessions();
 	const pickleKey = await getMeta('pickle_key');
 	return {
-		v: 1,
+		v: 2,
 		account,
 		sessions,
 		verifications,
 		pickle_key: pickleKey,
+		outbound_group_sessions: outboundGroupSessions,
+		inbound_group_sessions: inboundGroupSessions,
 	};
 }
 
@@ -121,6 +143,14 @@ async function collectAllSessions(): Promise<Array<PickledSession>> {
 
 async function collectAllVerifications(): Promise<Array<VerificationEntry>> {
 	return openCursorRead<VerificationEntry>('verifications');
+}
+
+async function collectAllOutboundGroupSessions(): Promise<Array<PickledOutboundGroupSession>> {
+	return openCursorRead<PickledOutboundGroupSession>('outbound_group_sessions');
+}
+
+async function collectAllInboundGroupSessions(): Promise<Array<PickledInboundGroupSession>> {
+	return openCursorRead<PickledInboundGroupSession>('inbound_group_sessions');
 }
 
 function openCursorRead<T>(storeName: string): Promise<Array<T>> {
@@ -208,6 +238,7 @@ export async function fetchBackupMetadata(): Promise<BackupServerResponse | null
 export async function downloadAndRestoreBackup(passphrase: string): Promise<{
 	sessionsRestored: number;
 	verificationsRestored: number;
+	groupSessionsRestored: number;
 }> {
 	const blob = await fetchBackupMetadata();
 	if (!blob) throw new Error('No backup found on the server.');
@@ -229,8 +260,9 @@ export async function downloadAndRestoreBackup(passphrase: string): Promise<{
 	}
 
 	const decoded = new TextDecoder().decode(plaintextBuf);
-	const payload = JSON.parse(decoded) as BackupPayloadV1;
-	if (payload.v !== 1) throw new Error(`Unsupported backup version ${payload.v}`);
+	const payload = JSON.parse(decoded) as BackupPayload;
+	const version = (payload as {v: number}).v;
+	if (version !== 1 && version !== 2) throw new Error(`Unsupported backup version ${version}`);
 
 	if (payload.pickle_key) {
 		await setMeta('pickle_key', payload.pickle_key);
@@ -252,6 +284,22 @@ export async function downloadAndRestoreBackup(passphrase: string): Promise<{
 		verificationsRestored++;
 	}
 
+	// v2 backups carry the Megolm group sessions too. v1 backups simply
+	// don't have these fields — group DM history will be unreadable on
+	// the restored device for any session created before the upgrade,
+	// which is the same trade-off as the original 1:1 launch.
+	let groupSessionsRestored = 0;
+	if (payload.v === 2) {
+		for (const s of payload.outbound_group_sessions) {
+			await putOutboundGroupSession(s);
+			groupSessionsRestored++;
+		}
+		for (const s of payload.inbound_group_sessions) {
+			await putInboundGroupSession(s);
+			groupSessionsRestored++;
+		}
+	}
+
 	// The restore writes bumped the local state version; reset
 	// last-backup-version to current so the staleness banner doesn't
 	// immediately fire ("you just restored, that means your local state
@@ -259,8 +307,13 @@ export async function downloadAndRestoreBackup(passphrase: string): Promise<{
 	const stateVersion = await getStateVersion();
 	await recordBackupStateVersion(stateVersion);
 
-	logger.info('E2EE backup restored', {sessionsRestored, verificationsRestored, stateVersion});
-	return {sessionsRestored, verificationsRestored};
+	logger.info('E2EE backup restored', {
+		sessionsRestored,
+		verificationsRestored,
+		groupSessionsRestored,
+		stateVersion,
+	});
+	return {sessionsRestored, verificationsRestored, groupSessionsRestored};
 }
 
 export async function deleteBackup(): Promise<void> {

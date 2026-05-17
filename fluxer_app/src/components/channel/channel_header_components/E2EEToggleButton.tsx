@@ -21,6 +21,7 @@ import * as ModalActionCreators from '@app/actions/ModalActionCreators';
 import {modal} from '@app/actions/ModalActionCreators';
 import {ChannelHeaderIcon} from '@app/components/channel/channel_header_components/ChannelHeaderIcon';
 import {E2EEFingerprintModal} from '@app/components/modals/E2EEFingerprintModal';
+import {E2EEGroupFingerprintModal} from '@app/components/modals/E2EEGroupFingerprintModal';
 import AuthenticationStore from '@app/stores/AuthenticationStore';
 import ChannelStore from '@app/stores/ChannelStore';
 import E2EEStore from '@app/stores/E2EEStore';
@@ -105,11 +106,14 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 	}, [channelId, enabled]);
 
 	const handleVerify = useCallback(() => {
-		// For a 1:1 DM the modal scopes to one peer. For a group DM there's
-		// nothing useful to display in a single modal yet — pick the first
-		// peer as a starting point so the button still does something
-		// instead of silently no-opping. Full multi-peer fingerprint UI is
-		// a follow-up.
+		// For 1:1 the existing single-peer modal opens directly. For group
+		// DMs we route through a picker that lists every member with their
+		// verification status; clicking a row opens the same single-peer
+		// modal scoped to that member.
+		if (isGroup) {
+			ModalActionCreators.push(modal(() => <E2EEGroupFingerprintModal channelId={channelId} />));
+			return;
+		}
 		if (!primaryRecipientId) return;
 		const recipient = UserStore.getUser(primaryRecipientId);
 		const recipientName = recipient
@@ -118,7 +122,7 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 		ModalActionCreators.push(
 			modal(() => <E2EEFingerprintModal recipientUserId={primaryRecipientId} recipientName={recipientName} />),
 		);
-	}, [channelId, primaryRecipientId, t]);
+	}, [channelId, primaryRecipientId, isGroup, t]);
 
 	return (
 		<>
