@@ -122,13 +122,20 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 				content,
 			};
 			MessageStore.handleIncomingMessage({channelId: data.channel_id, message: decryptedMessage});
+			// Fire the notification AFTER decrypt completes so the body uses
+			// the plaintext instead of the empty string the server stores
+			// for encrypted messages. Sender's own gateway echo still
+			// triggers a notification because handleMessageCreate filters
+			// own-author messages internally — we don't need to short-circuit
+			// here.
+			NotificationStore.handleMessageCreate({message: decryptedMessage});
 		})();
 	} else {
 		MessageStore.handleIncomingMessage({channelId: data.channel_id, message: data});
+		NotificationStore.handleMessageCreate({message: data});
 	}
 
 	MessageReferenceStore.handleMessageCreate(data, false);
-	NotificationStore.handleMessageCreate({message: data});
 	ReadStateStore.handleIncomingMessage({channelId: data.channel_id, message: data});
 	GuildReadStateStore.handleGenericUpdate(data.channel_id);
 	RecentMentionsStore.handleMessageCreate(data);
