@@ -279,6 +279,26 @@ export default {
 		const name = shortcutToName[shortcut] || defaultName;
 		return includeColons && name ? `:${name}:` : name;
 	},
+	// Walk content token-by-token, replacing standalone emoticons (":D",
+	// ":)", "<3" etc.) with their unicode emoji surrogate. Boundary-safe:
+	// only matches tokens delimited by whitespace or string ends so
+	// "<3 you" → "❤️ you" but "1:Dance" stays untouched. Run this at
+	// send-time so encrypted and plaintext messages both ship with the
+	// substitution baked into the content.
+	translateEmoticonsToSurrogates: (content: string): string => {
+		if (!content) return content;
+		// Split keeping delimiters so we can join back together intact.
+		const parts = content.split(/(\s+)/);
+		for (let i = 0; i < parts.length; i++) {
+			const token = parts[i];
+			if (!token || /^\s+$/.test(token)) continue;
+			const name = shortcutToName[token];
+			if (!name) continue;
+			const surrogate = nameToSurrogate[name];
+			if (surrogate) parts[i] = surrogate;
+		}
+		return parts.join('');
+	},
 	forEachEmoji: (callback: (emoji: UnicodeEmoji) => void): void => {
 		emojis.forEach(callback);
 	},

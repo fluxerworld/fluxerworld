@@ -17,6 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import UnicodeEmojis from '@app/lib/UnicodeEmojis';
 import {MessageFlags} from '@fluxer/constants/src/ChannelConstants';
 import type {
 	AllowedMentions,
@@ -105,8 +106,9 @@ export interface NormalizedMessageContent {
 
 export function normalizeMessageContent(content: string, favoriteMemeId?: string): NormalizedMessageContent {
 	const sanitized = removeSilentFlag(content);
+	const withEmoji = UnicodeEmojis.translateEmoticonsToSurrogates(sanitized);
 	const flags = getMessageFlags(content, favoriteMemeId);
-	return {content: sanitized, flags};
+	return {content: withEmoji, flags};
 }
 
 export function buildMessageCreateRequest(payload: MessageCreatePayload): MessageCreateRequest {
