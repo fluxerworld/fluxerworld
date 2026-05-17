@@ -114,7 +114,12 @@ get_member_groups(ListId, State) ->
         <<"id">> => <<"online">>, <<"count">> => guild_member_list_common:count_ungrouped_online(OnlineMembers, HoistedRoles)
     },
     OfflineGroup = #{<<"id">> => <<"offline">>, <<"count">> => length(OfflineMembers)},
-    RoleGroups ++ [OnlineGroup, OfflineGroup].
+    %% Drop zero-count groups so item rows and the groups list stay in lock
+    %% step. build_member_list_items still emitted a header row for an empty
+    %% group, but the client's layout calc skips them, so row indices
+    %% drifted and members landed in the wrong buckets (or got truncated
+    %% past totalRows).
+    [G || G <- RoleGroups ++ [OnlineGroup, OfflineGroup], maps:get(<<"count">>, G, 0) > 0].
 
 -spec subscribe_ranges(binary(), list_id(), [range()], guild_state()) ->
     {guild_state(), boolean(), [range()]}.
