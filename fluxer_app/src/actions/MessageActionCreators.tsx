@@ -149,12 +149,22 @@ interface SendMessageParams {
 	// the user has explicitly chosen "send unencrypted" after an
 	// encryption failure prompt — never set this from regular UI paths.
 	skipE2EE?: boolean;
-	encryptedPayload?: {
-		v: number;
-		sender_device_id: string;
-		sender_identity_key: string;
-		ciphertexts: Record<string, {type: number; body: string}>;
-	};
+	encryptedPayload?:
+		| {
+				v: number;
+				kind?: 'olm';
+				sender_device_id: string;
+				sender_identity_key: string;
+				ciphertexts: Record<string, {type: number; body: string}>;
+		  }
+		| {
+				v: number;
+				kind: 'megolm';
+				sender_device_id: string;
+				sender_identity_key: string;
+				session_id: string;
+				ciphertext: string;
+		  };
 }
 
 export function jumpToPresent(channelId: string, limit = MAX_MESSAGES_PER_CHANNEL): void {
@@ -235,7 +245,7 @@ async function decryptHistoryMessages(messages: ReadonlyArray<Message>): Promise
 		const senderId = msg.author?.id;
 		if (!senderId) continue;
 		try {
-			const result = await tryDecryptForCurrentDevice(currentUserId, senderId, msg.encrypted_payload);
+			const result = await tryDecryptForCurrentDevice(currentUserId, senderId, msg.encrypted_payload, msg.channel_id);
 			if (result?.attachments.length && msg.attachments?.length) {
 				recordAttachmentKeys(msg.id, pairEnvelopeAttachments(msg.attachments, result.attachments));
 			}

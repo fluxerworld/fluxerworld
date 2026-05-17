@@ -77,7 +77,12 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			const currentUserId = AuthenticationStore.currentUserId;
 			const senderUserId = data.author?.id;
 			if (!currentUserId || !senderUserId) return;
-			const result = await tryDecryptForCurrentDevice(currentUserId, senderUserId, data.encrypted_payload);
+			const result = await tryDecryptForCurrentDevice(
+				currentUserId,
+				senderUserId,
+				data.encrypted_payload,
+				data.channel_id,
+			);
 			if (result?.attachments.length && data.attachments?.length) {
 				recordAttachmentKeys(data.id, pairEnvelopeAttachments(data.attachments, result.attachments));
 			} else if (

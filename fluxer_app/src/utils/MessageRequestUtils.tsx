@@ -46,12 +46,22 @@ export interface MessageCreateRequest {
 	favorite_meme_id?: string;
 	sticker_ids?: Array<string>;
 	tts?: true;
-	encrypted_payload?: {
-		v: number;
-		sender_device_id: string;
-		sender_identity_key: string;
-		ciphertexts: Record<string, {type: number; body: string}>;
-	};
+	encrypted_payload?:
+		| {
+				v: number;
+				kind?: 'olm';
+				sender_device_id: string;
+				sender_identity_key: string;
+				ciphertexts: Record<string, {type: number; body: string}>;
+		  }
+		| {
+				v: number;
+				kind: 'megolm';
+				sender_device_id: string;
+				sender_identity_key: string;
+				session_id: string;
+				ciphertext: string;
+		  };
 }
 
 export interface MessageEditRequest {
@@ -70,12 +80,22 @@ export interface MessageCreatePayload {
 	favoriteMemeId?: string;
 	stickers?: Array<MessageStickerItem>;
 	tts?: boolean;
-	encryptedPayload?: {
-		v: number;
-		sender_device_id: string;
-		sender_identity_key: string;
-		ciphertexts: Record<string, {type: number; body: string}>;
-	};
+	encryptedPayload?:
+		| {
+				v: number;
+				kind?: 'olm';
+				sender_device_id: string;
+				sender_identity_key: string;
+				ciphertexts: Record<string, {type: number; body: string}>;
+		  }
+		| {
+				v: number;
+				kind: 'megolm';
+				sender_device_id: string;
+				sender_identity_key: string;
+				session_id: string;
+				ciphertext: string;
+		  };
 }
 
 export interface NormalizedMessageContent {

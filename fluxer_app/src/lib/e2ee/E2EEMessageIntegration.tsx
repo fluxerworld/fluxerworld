@@ -32,12 +32,30 @@ import {ChannelTypes} from '@fluxer/constants/src/ChannelConstants';
 
 const logger = new Logger('E2EEMessageIntegration');
 
-export interface EncryptedPayload {
+// Wire shape for an Olm-fanned-out 1:1 DM message. Each recipient
+// device gets its own ciphertext slot keyed by "user_id:device_id".
+export interface EncryptedPayloadOlm {
 	v: number;
+	kind?: 'olm';
 	sender_device_id: string;
 	sender_identity_key: string;
 	ciphertexts: Record<string, {type: number; body: string}>;
 }
+
+// Wire shape for a Megolm group DM message. Single ciphertext; the
+// session_id identifies which Megolm session was used so the recipient
+// can look up the matching inbound session in IDB (or fetch the
+// session-key blob from the server first if missing).
+export interface EncryptedPayloadMegolm {
+	v: number;
+	kind: 'megolm';
+	sender_device_id: string;
+	sender_identity_key: string;
+	session_id: string;
+	ciphertext: string;
+}
+
+export type EncryptedPayload = EncryptedPayloadOlm | EncryptedPayloadMegolm;
 
 export interface EncryptedSendResult {
 	content: string;
@@ -45,7 +63,7 @@ export interface EncryptedSendResult {
 	encrypted_payload: EncryptedPayload;
 }
 
-const SUPPORTED_CHANNEL_TYPES = new Set<number>([ChannelTypes.DM]);
+const SUPPORTED_CHANNEL_TYPES = new Set<number>([ChannelTypes.DM, ChannelTypes.GROUP_DM]);
 
 // The plaintext sealed inside Olm has historically been the raw message
 // content string. v2 wraps it in a JSON envelope so we can carry
@@ -243,6 +261,14 @@ export async function tryEncryptForChannel(
 	const ownDeviceId = E2EEStore.deviceId;
 	if (!ownDeviceId) return null;
 
+	// Group DMs use Megolm — one ratcheting session per channel, the
+	// session_key distributed to each recipient device via Olm. 1:1 DMs
+	// keep the per-device Olm fan-out (lower per-message overhead when
+	// recipient has many devices, since Megolm shines at >2 members).
+	if (channel.type === ChannelTypes.GROUP_DM) {
+		return tryEncryptForGroupDm(channel, currentUserId, ownDeviceId, plaintext, attachments);
+	}
+
 	const recipientIds = channel.recipientIds.filter((id) => id !== currentUserId);
 	if (recipientIds.length !== 1) return null;
 	const recipientId = recipientIds[0];
@@ -392,6 +418,219 @@ export async function tryEncryptForChannel(
 	};
 }
 
+// Group DM encryption — Megolm session + Olm-wrapped key distribution.
+//
+// 1. Get/create the outbound Megolm session for this channel. If we just
+//    created one (isNew), we need to fan the session_key out to every
+//    recipient device before we can send so receivers can decrypt.
+// 2. Build the wrapped plaintext (same envelope as 1:1 so attachment
+//    keys ride along).
+// 3. encryptGroupMessage produces a single ciphertext + session_id.
+// 4. Wire shape uses the EncryptedPayloadMegolm discriminator so the
+//    receive path knows to branch on session_id rather than per-device
+//    ciphertexts.
+async function tryEncryptForGroupDm(
+	channel: ChannelRecord,
+	currentUserId: string,
+	ownDeviceId: string,
+	plaintext: string,
+	attachments?: ReadonlyArray<EnvelopeAttachmentEntry>,
+): Promise<EncryptedSendResult | null> {
+	const otherRecipientIds = channel.recipientIds.filter((id) => id !== currentUserId);
+	// A "group DM" with only the local user is degenerate — there's nobody
+	// to encrypt to, so fall through to plaintext (which the channel
+	// toggle will eventually prevent at the UI level).
+	if (otherRecipientIds.length === 0) return null;
+
+	const sessionInfo = await e2eeManager.getOrCreateOutboundGroupSession(channel.id);
+
+	// Fetch sender's own identity key for the payload (recipients use it
+	// to verify the sender device's Olm identity matches what the server
+	// advertised when they bootstrap the inbound session).
+	const ownDevices = await E2EEActionCreators.listPublicDevices(currentUserId);
+	const senderDevice = ownDevices.find((d) => d.device_id === ownDeviceId);
+	const senderIdentityKey = senderDevice?.identity_key ?? '';
+
+	if (sessionInfo.isNew) {
+		// Distribute the freshly-created session key to every recipient
+		// device (and our own other devices so this device can self-read
+		// after a reload). Each recipient device gets a small Olm-encrypted
+		// blob carrying the Megolm session_key.
+		const distributed = await distributeGroupSessionToAllMembers({
+			channelId: channel.id,
+			senderUserId: currentUserId,
+			senderDeviceId: ownDeviceId,
+			senderIdentityKey,
+			sessionId: sessionInfo.sessionId,
+			sessionKey: sessionInfo.sessionKey,
+			memberUserIds: [...otherRecipientIds, currentUserId],
+		});
+		if (!distributed) {
+			// Couldn't reach any recipient device — fall back to plaintext
+			// rather than send an undecryptable message.
+			logger.warn('Failed to distribute new group session, falling back to plaintext', {channelId: channel.id});
+			return null;
+		}
+	}
+
+	let encrypted;
+	try {
+		encrypted = await e2eeManager.encryptGroupMessage(channel.id, wrapPlaintext(plaintext, attachments));
+	} catch (err) {
+		logger.warn('Group encrypt failed, falling back to plaintext', {channelId: channel.id, err});
+		return null;
+	}
+
+	E2EEStore.scheduleReplenishCheck();
+
+	return {
+		content: '',
+		flags_to_set: 0,
+		encrypted_payload: {
+			v: 1,
+			kind: 'megolm',
+			sender_device_id: ownDeviceId,
+			sender_identity_key: senderIdentityKey,
+			session_id: encrypted.sessionId,
+			ciphertext: encrypted.ciphertext,
+		},
+	};
+}
+
+// Encrypts the Megolm session_key to every device of every member via
+// 1:1 Olm sessions, then POSTs the blobs to the server in one request.
+// Returns false if no blobs could be built at all; partial fan-out is
+// still considered success — late-joining devices can pick up later
+// sessions on the next message.
+async function distributeGroupSessionToAllMembers(params: {
+	channelId: string;
+	senderUserId: string;
+	senderDeviceId: string;
+	senderIdentityKey: string;
+	sessionId: string;
+	sessionKey: string;
+	memberUserIds: ReadonlyArray<string>;
+}): Promise<boolean> {
+	const allDevicesByMember = await Promise.all(
+		params.memberUserIds.map(async (uid) => {
+			try {
+				return {uid, devices: await E2EEActionCreators.listPublicDevices(uid)};
+			} catch (err) {
+				logger.warn('Failed to list devices for group session distribution', {uid, err});
+				return {uid, devices: []};
+			}
+		}),
+	);
+
+	// Collect bundles we'll need to build Olm sessions with — same logic
+	// as the 1:1 encrypt path: only claim a prekey when no existing
+	// session covers the device.
+	const claimsToFetch = new Set<string>();
+	for (const {uid, devices} of allDevicesByMember) {
+		for (const d of devices) {
+			// Skip the sender's own device — encryptForBundles handles fan-out
+			// to other own devices, but a device can't Olm-encrypt to itself
+			// without confusion. The local IDB already has the session_key
+			// from getOrCreateOutboundGroupSession.
+			if (uid === params.senderUserId && d.device_id === params.senderDeviceId) continue;
+			const existing = await getSessionsForRemoteDevice(uid, d.device_id);
+			if (existing.length === 0) claimsToFetch.add(uid);
+		}
+	}
+
+	const claimsByUser = new Map<string, ReadonlyArray<E2EEActionCreators.E2EEPrekeyBundleResponse>>();
+	await Promise.all(
+		Array.from(claimsToFetch).map(async (uid) => {
+			try {
+				claimsByUser.set(uid, await E2EEActionCreators.claimPrekeyBundles(uid));
+			} catch (err) {
+				logger.warn('Failed to claim prekey bundles for group distribution', {uid, err});
+				claimsByUser.set(uid, []);
+			}
+		}),
+	);
+
+	const bundles: Array<{
+		user_id: string;
+		device_id: string;
+		identity_key: string;
+		registration_id: number;
+		signed_prekey: {id: number; public_key: string; signature: string};
+		one_time_prekey: {id: number; public_key: string} | null;
+	}> = [];
+	for (const {uid, devices} of allDevicesByMember) {
+		const userClaims = claimsByUser.get(uid) ?? [];
+		const claimByDevice = new Map(userClaims.map((c) => [c.device_id, c]));
+		for (const d of devices) {
+			if (uid === params.senderUserId && d.device_id === params.senderDeviceId) continue;
+			const claim = claimByDevice.get(d.device_id);
+			bundles.push({
+				user_id: uid,
+				device_id: d.device_id,
+				identity_key: d.identity_key,
+				registration_id: d.registration_id,
+				signed_prekey: d.signed_prekey,
+				one_time_prekey: claim?.one_time_prekey ?? null,
+			});
+		}
+	}
+
+	if (bundles.length === 0) {
+		logger.warn('No recipient devices to distribute group session to', {channelId: params.channelId});
+		return false;
+	}
+
+	// Wrap the session_key in a small JSON envelope so future fields (key
+	// expiration, room context, etc.) can be added without changing the
+	// Olm-level wire shape.
+	const sessionKeyPayload = JSON.stringify({
+		v: 1,
+		channel_id: params.channelId,
+		session_id: params.sessionId,
+		session_key: params.sessionKey,
+	});
+
+	let encrypted;
+	try {
+		encrypted = await e2eeManager.encryptForBundles(bundles, sessionKeyPayload);
+	} catch (err) {
+		logger.warn('Encrypting group session_key to recipient devices failed', {err});
+		return false;
+	}
+
+	const recipientBlobs: Array<E2EEActionCreators.E2EEGroupSessionBlob> = [];
+	for (let i = 0; i < bundles.length; i++) {
+		const bundle = bundles[i];
+		const enc = encrypted[i];
+		if (!enc) continue;
+		recipientBlobs.push({
+			recipient_user_id: bundle.user_id,
+			recipient_device_id: bundle.device_id,
+			olm_message_type: enc.type as 0 | 1,
+			olm_ciphertext: enc.body,
+		});
+	}
+
+	if (recipientBlobs.length === 0) {
+		logger.warn('All Olm encrypts failed for group session distribution', {channelId: params.channelId});
+		return false;
+	}
+
+	try {
+		await E2EEActionCreators.distributeGroupSession(params.channelId, {
+			session_id: params.sessionId,
+			sender_device_id: params.senderDeviceId,
+			sender_identity_key: params.senderIdentityKey,
+			recipient_blobs: recipientBlobs,
+		});
+	} catch (err) {
+		logger.warn('POST group-sessions failed', {err});
+		return false;
+	}
+
+	return true;
+}
+
 export interface DecryptionResult {
 	plaintext: string;
 	attachments: Array<EnvelopeAttachmentEntry>;
@@ -419,12 +658,29 @@ export async function tryDecryptForCurrentDevice(
 	currentUserId: string,
 	senderUserId: string,
 	encryptedPayload: EncryptedPayload | null | undefined,
+	channelId?: string,
 ): Promise<DecryptionResult | null> {
 	if (!encryptedPayload) return null;
 	if (!E2EEStore.isReady) return null;
 	const deviceId = E2EEStore.deviceId;
 	if (!deviceId) return null;
 
+	// Megolm group DM message — single ciphertext, identified by session.
+	if (encryptedPayload.kind === 'megolm') {
+		if (!channelId) {
+			logger.warn('Megolm message received without channel context, cannot decrypt');
+			return null;
+		}
+		return tryDecryptGroupMessage({
+			channelId,
+			currentUserId,
+			currentDeviceId: deviceId,
+			senderUserId,
+			payload: encryptedPayload,
+		});
+	}
+
+	// 1:1 Olm fan-out — find this device's ciphertext slot.
 	const slot = `${currentUserId}:${deviceId}`;
 	const ciphertext = encryptedPayload.ciphertexts[slot];
 	if (!ciphertext) return null;
@@ -451,4 +707,137 @@ export async function tryDecryptForCurrentDevice(
 		logger.warn('Failed to decrypt incoming message', {error});
 		return null;
 	}
+}
+
+// Megolm decrypt path. On miss (no inbound session stored), fetch the
+// pending session-key blobs for this channel from the server, decrypt
+// the Olm envelope for the matching session_id, import the Megolm
+// session, ack the blob, then decrypt the message.
+async function tryDecryptGroupMessage(params: {
+	channelId: string;
+	currentUserId: string;
+	currentDeviceId: string;
+	senderUserId: string;
+	payload: EncryptedPayloadMegolm;
+}): Promise<DecryptionResult | null> {
+	const {channelId, currentUserId, currentDeviceId, senderUserId, payload} = params;
+
+	const tryDecrypt = async () => {
+		const result = await e2eeManager.decryptGroupMessage({
+			channelId,
+			senderUserId,
+			senderDeviceId: payload.sender_device_id,
+			sessionId: payload.session_id,
+			ciphertext: payload.ciphertext,
+		});
+		const verificationStatus = await E2EEStore.checkVerificationStatusAsync(
+			senderUserId,
+			payload.sender_device_id,
+			payload.sender_identity_key,
+		);
+		const unwrapped = unwrapPlaintext(result.plaintext);
+		return {plaintext: unwrapped.text, attachments: unwrapped.attachments, verificationStatus};
+	};
+
+	try {
+		return await tryDecrypt();
+	} catch (err) {
+		logger.debug('Group session not yet imported, fetching from server', {
+			channelId,
+			sessionId: payload.session_id,
+			err,
+		});
+	}
+
+	// Try to fetch + import the matching session blob.
+	const imported = await fetchAndImportGroupSessionFor({
+		channelId,
+		currentUserId,
+		currentDeviceId,
+		sessionId: payload.session_id,
+		senderDeviceId: payload.sender_device_id,
+	});
+	if (!imported) {
+		logger.warn('No group session blob available for message', {channelId, sessionId: payload.session_id});
+		return null;
+	}
+
+	try {
+		return await tryDecrypt();
+	} catch (err) {
+		logger.warn('Group decrypt failed even after import', {channelId, sessionId: payload.session_id, err});
+		return null;
+	}
+}
+
+// Fetches all pending group-session blobs for this channel + this user,
+// decrypts each via Olm, imports the resulting Megolm session_key, and
+// acks the blob server-side. Returns true if we successfully imported
+// at least the target session.
+async function fetchAndImportGroupSessionFor(params: {
+	channelId: string;
+	currentUserId: string;
+	currentDeviceId: string;
+	sessionId: string;
+	senderDeviceId: string;
+}): Promise<boolean> {
+	let blobs;
+	try {
+		blobs = await E2EEActionCreators.listInboundGroupSessions(params.channelId);
+	} catch (err) {
+		logger.warn('Failed to list inbound group sessions', {err});
+		return false;
+	}
+
+	let importedTarget = false;
+	for (const blob of blobs) {
+		if (blob.recipient_device_id !== params.currentDeviceId) continue;
+		try {
+			const decryptedPayload = await e2eeManager.decrypt(
+				blob.sender_user_id,
+				blob.sender_device_id,
+				blob.sender_identity_key,
+				{
+					device_id: blob.sender_device_id,
+					type: blob.olm_message_type === 1 ? 1 : 0,
+					body: blob.olm_ciphertext,
+				},
+			);
+			const parsed = JSON.parse(decryptedPayload) as {
+				v: number;
+				channel_id: string;
+				session_id: string;
+				session_key: string;
+			};
+			await e2eeManager.importInboundGroupSession({
+				channelId: parsed.channel_id,
+				senderUserId: blob.sender_user_id,
+				senderDeviceId: blob.sender_device_id,
+				senderIdentityKey: blob.sender_identity_key,
+				sessionKey: parsed.session_key,
+			});
+			// Ack — server can GC. Best-effort; if the ack fails we'll
+			// just re-process the same blob on the next miss, which is
+			// idempotent thanks to importInboundGroupSession's put.
+			void E2EEActionCreators.ackGroupSessionBlob(
+				params.channelId,
+				blob.session_id,
+				blob.recipient_device_id,
+				blob.sender_device_id,
+			).catch((err) =>
+				logger.debug('Group session blob ack failed (will retry next miss)', {err}),
+			);
+			if (blob.session_id === params.sessionId && blob.sender_device_id === params.senderDeviceId) {
+				importedTarget = true;
+			}
+		} catch (err) {
+			logger.warn('Failed to import a group session blob', {
+				sessionId: blob.session_id,
+				senderDevice: blob.sender_device_id,
+				err,
+			});
+		}
+	}
+
+	return importedTarget;
 }

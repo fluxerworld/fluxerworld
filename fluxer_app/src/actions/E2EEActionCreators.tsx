@@ -108,3 +108,54 @@ export async function listPublicDevices(targetUserId: string): Promise<Array<E2E
 	const resp = await http.get<Array<E2EEPublicDeviceResponse>>({url: Endpoints.USER_E2EE_USER_DEVICES(targetUserId)});
 	return resp.body;
 }
+
+// ── Megolm group session distribution ──────────────────────────────────
+
+export interface E2EEGroupSessionBlob {
+	recipient_user_id: string;
+	recipient_device_id: string;
+	olm_message_type: 0 | 1;
+	olm_ciphertext: string;
+}
+
+export interface E2EEGroupSessionDistributeRequest {
+	session_id: string;
+	sender_device_id: string;
+	sender_identity_key: string;
+	recipient_blobs: ReadonlyArray<E2EEGroupSessionBlob>;
+}
+
+export interface E2EEGroupSessionInboundBlob {
+	session_id: string;
+	sender_user_id: string;
+	sender_device_id: string;
+	sender_identity_key: string;
+	recipient_device_id: string;
+	olm_message_type: 0 | 1;
+	olm_ciphertext: string;
+	created_at: string;
+}
+
+export async function distributeGroupSession(
+	channelId: string,
+	request: E2EEGroupSessionDistributeRequest,
+): Promise<{stored: number}> {
+	const resp = await http.post<{stored: number}>(Endpoints.CHANNEL_E2EE_GROUP_SESSIONS(channelId), request);
+	return resp.body;
+}
+
+export async function listInboundGroupSessions(channelId: string): Promise<Array<E2EEGroupSessionInboundBlob>> {
+	const resp = await http.get<Array<E2EEGroupSessionInboundBlob>>({
+		url: Endpoints.CHANNEL_E2EE_GROUP_SESSIONS(channelId),
+	});
+	return resp.body;
+}
+
+export async function ackGroupSessionBlob(
+	channelId: string,
+	sessionId: string,
+	recipientDeviceId: string,
+	senderDeviceId: string,
+): Promise<void> {
+	await http.delete(Endpoints.CHANNEL_E2EE_GROUP_SESSION_ACK(channelId, sessionId, recipientDeviceId, senderDeviceId));
+}

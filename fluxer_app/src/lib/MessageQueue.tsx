@@ -82,13 +82,25 @@ interface SendMessagePayload extends BaseMessagePayload {
 	 * of disappearing into the textarea. */
 	isRetry?: boolean;
 	/** End-to-end encrypted payload, set when the channel is in E2EE mode.
-	 * When present, content is sent empty and the ENCRYPTED flag is set. */
-	encryptedPayload?: {
-		v: number;
-		sender_device_id: string;
-		sender_identity_key: string;
-		ciphertexts: Record<string, {type: number; body: string}>;
-	};
+	 * When present, content is sent empty and the ENCRYPTED flag is set.
+	 * The two shapes correspond to Olm 1:1 fan-out (ciphertexts) and
+	 * Megolm group sessions (single ciphertext + session_id). */
+	encryptedPayload?:
+		| {
+				v: number;
+				kind?: 'olm';
+				sender_device_id: string;
+				sender_identity_key: string;
+				ciphertexts: Record<string, {type: number; body: string}>;
+		  }
+		| {
+				v: number;
+				kind: 'megolm';
+				sender_device_id: string;
+				sender_identity_key: string;
+				session_id: string;
+				ciphertext: string;
+		  };
 }
 
 interface EditMessagePayload extends BaseMessagePayload {

@@ -74,6 +74,13 @@ export const Endpoints = {
 
 	CHANNEL: (channelId: string) => `/channels/${channelId}`,
 	CHANNEL_E2EE: (channelId: string) => `/channels/${channelId}/e2ee`,
+	CHANNEL_E2EE_GROUP_SESSIONS: (channelId: string) => `/channels/${channelId}/e2ee/group-sessions`,
+	CHANNEL_E2EE_GROUP_SESSION_ACK: (
+		channelId: string,
+		sessionId: string,
+		recipientDeviceId: string,
+		senderDeviceId: string,
+	) => `/channels/${channelId}/e2ee/group-sessions/${sessionId}/${recipientDeviceId}/${senderDeviceId}`,
 	CHANNEL_ATTACHMENTS: (channelId: string) => `/channels/${channelId}/attachments`,
 	CHANNEL_INVITES: (channelId: string) => `/channels/${channelId}/invites`,
 	CHANNEL_RECIPIENT: (channelId: string, userId: string) => `/channels/${channelId}/recipients/${userId}`,
