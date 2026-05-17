@@ -211,7 +211,6 @@ const LazyMemberList = observer(function LazyMemberList({guild, channel}: LazyMe
 	const groups = memberListState.groups;
 	const seenMemberIds = new Set<string>();
 	const groupCounts = new Map<string, number>();
-	const orderedMembers: Array<GuildMemberRecord> = [];
 
 	for (const group of groups) {
 		groupedItems.set(group.id, []);
@@ -246,23 +245,28 @@ const LazyMemberList = observer(function LazyMemberList({guild, channel}: LazyMe
 		}
 
 		seenMemberIds.add(userId);
-		orderedMembers.push(member);
 		const members = groupedItems.get(groups[groupIndex].id);
 		if (members) {
 			members.push(member);
 		}
 	}
 
-	const hasPresenceOnlyGroups =
-		groups.length > 0 &&
-		groupedItems.has('online') &&
-		groupedItems.has('offline') &&
-		groups.every((group) => group.id === 'online' || group.id === 'offline');
-	if (hasPresenceOnlyGroups) {
+	// Always re-bucket members in the online/offline groups by *current
+	// local* presence — the server's groups payload is a snapshot at the
+	// last SYNC and goes stale as friends go online/offline between
+	// SYNCs. Hoisted-role members keep their bucket because role
+	// membership doesn't change with presence.
+	const hasOnlineGroup = groupedItems.has('online');
+	const hasOfflineGroup = groupedItems.has('offline');
+	if (hasOnlineGroup || hasOfflineGroup) {
+		const currentOnline = groupedItems.get('online') ?? [];
+		const currentOffline = groupedItems.get('offline') ?? [];
+		const reclassifyTargets = currentOnline.concat(currentOffline);
+
 		const onlineMembers: Array<GuildMemberRecord> = [];
 		const offlineMembers: Array<GuildMemberRecord> = [];
 
-		for (const member of orderedMembers) {
+		for (const member of reclassifyTargets) {
 			const status = resolveMemberListPresence({
 				guildId: guild.id,
 				channelId: channel.id,
@@ -277,19 +281,25 @@ const LazyMemberList = observer(function LazyMemberList({guild, channel}: LazyMe
 			}
 		}
 
-		if (groupedItems.has('online')) {
+		if (hasOnlineGroup) {
 			groupedItems.set('online', onlineMembers);
 		}
-		if (groupedItems.has('offline')) {
+		if (hasOfflineGroup) {
 			groupedItems.set('offline', offlineMembers);
 		}
 
-		const isFullyLoaded = seenMemberIds.size >= memberListState.memberCount;
-		if (isFullyLoaded) {
-			if (groupCounts.has('online')) {
+		// Only overwrite the server-provided counts once we've actually
+		// loaded every member in the presence-grouped set — otherwise
+		// the displayed count would shrink as the user scrolls and more
+		// members lazy-load in.
+		const presenceCountFromServer =
+			(groupCounts.get('online') ?? 0) + (groupCounts.get('offline') ?? 0);
+		const isPresenceFullyLoaded = reclassifyTargets.length >= presenceCountFromServer;
+		if (isPresenceFullyLoaded) {
+			if (hasOnlineGroup) {
 				groupCounts.set('online', onlineMembers.length);
 			}
-			if (groupCounts.has('offline')) {
+			if (hasOfflineGroup) {
 				groupCounts.set('offline', offlineMembers.length);
 			}
 		}
@@ -300,7 +310,12 @@ const LazyMemberList = observer(function LazyMemberList({guild, channel}: LazyMe
 			{groups.map((group) => {
 				const members = groupedItems.get(group.id) ?? [];
 				const groupCount = groupCounts.get(group.id) ?? group.count;
-				if (members.length === 0) {
+				// Render the header whenever the server says the group
+				// has members, even if none have lazy-loaded yet —
+				// hiding empty-but-non-zero groups made Online and
+				// Offline disappear whenever a role was hoisted and
+				// loaded first.
+				if (groupCount === 0) {
 					return null;
 				}
 
