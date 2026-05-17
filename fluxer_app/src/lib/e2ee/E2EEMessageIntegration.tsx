@@ -474,6 +474,28 @@ async function tryEncryptForGroupDm(
 			logger.warn('Failed to distribute new group session, falling back to plaintext', {channelId: channel.id});
 			return null;
 		}
+
+		// Self-readback: Megolm outbound sessions are encrypt-only — they
+		// can't decrypt the ciphertexts they produce. Without this step,
+		// reloading the page makes our own messages display as
+		// "could not be decrypted on this device" while everyone else's
+		// messages are readable (they bootstrapped inbound sessions from
+		// the blobs we just distributed). Import an inbound session
+		// scoped to our own (channel, device, session_id) using the same
+		// session_key so subsequent decrypts of our own messages succeed.
+		try {
+			await e2eeManager.importInboundGroupSession({
+				channelId: channel.id,
+				senderUserId: currentUserId,
+				senderDeviceId: ownDeviceId,
+				senderIdentityKey,
+				sessionKey: sessionInfo.sessionKey,
+			});
+		} catch (err) {
+			logger.warn('Failed to self-import outbound session for readback', {channelId: channel.id, err});
+			// Not fatal — sending still works, the user just won't see
+			// their own history after a refresh.
+		}
 	}
 
 	let encrypted;
