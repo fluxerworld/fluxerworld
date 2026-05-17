@@ -125,7 +125,7 @@ async function collectAllVerifications(): Promise<Array<VerificationEntry>> {
 
 function openCursorRead<T>(storeName: string): Promise<Array<T>> {
 	return new Promise((resolve, reject) => {
-		const req = indexedDB.open('FluxerE2EE', 4);
+		const req = indexedDB.open('FluxerE2EE', 5);
 		req.onerror = () => reject(req.error ?? new Error('Failed to open E2EE DB'));
 		req.onsuccess = () => {
 			const db = req.result;

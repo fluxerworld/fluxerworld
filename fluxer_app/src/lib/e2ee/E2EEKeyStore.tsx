@@ -18,15 +18,17 @@
  */
 
 const DB_NAME = 'FluxerE2EE';
-// Bumped past v3 (which the May-3 ship used briefly with a
-// `message_plaintexts` store before being rolled back). Browsers that
-// upgraded to v3 won't let us re-open with a lower number, so we keep
-// climbing forward. onupgradeneeded creates stores idempotently, so
-// users on v2 or v3 upgrade to v4 cleanly with no data loss.
-const DB_VERSION = 4;
+// One-way ratchet — see feedback_idb_version_bump.md in agent memory.
+// v4 = current 1:1 Olm stores. v5 adds the two Megolm group-session stores
+// (outbound for sender, inbound for recipients) for group DM E2EE.
+// onupgradeneeded creates stores idempotently so any v2/v3/v4 install
+// upgrades to v5 with no data loss.
+const DB_VERSION = 5;
 const ACCOUNT_STORE = 'accounts';
 const SESSION_STORE = 'sessions';
 const META_STORE = 'meta';
+const OUTBOUND_GROUP_SESSION_STORE = 'outbound_group_sessions';
+const INBOUND_GROUP_SESSION_STORE = 'inbound_group_sessions';
 const VERIFICATION_STORE = 'verifications';
 
 // Pickled Olm state is encrypted at rest using a per-install random key
@@ -70,6 +72,34 @@ export interface VerificationEntry {
 	source: 'manual' | 'qr_code' | 'signed';
 }
 
+// Megolm outbound group session — one active per channel for the
+// sender. Used for group DM encryption. Rotates on member removal
+// (to lock out the removed device immediately) and periodically
+// (per message-count or age threshold, enforced at use-time).
+export interface PickledOutboundGroupSession {
+	channel_id: string;
+	session_id: string;
+	pickle: string;
+	created_at: number;
+	message_count: number;
+}
+
+// Megolm inbound group session — one per (channel, sender device,
+// session id). Receivers store one of these for each sender they
+// receive an encrypted group message from, so they can ratchet
+// forward and decrypt subsequent messages without further key
+// exchange. Sender_identity_key is captured at receive time so we
+// can detect identity rotation later.
+export interface PickledInboundGroupSession {
+	channel_id: string;
+	sender_user_id: string;
+	sender_device_id: string;
+	session_id: string;
+	pickle: string;
+	sender_identity_key: string;
+	created_at: number;
+}
+
 let dbInstance: IDBDatabase | null = null;
 
 function attemptOpen(): Promise<IDBDatabase> {
@@ -95,6 +125,20 @@ function attemptOpen(): Promise<IDBDatabase> {
 					keyPath: ['remote_user_id', 'remote_device_id'],
 				});
 				store.createIndex('by_remote_user', 'remote_user_id', {unique: false});
+			}
+			if (!db.objectStoreNames.contains(OUTBOUND_GROUP_SESSION_STORE)) {
+				// Only one active outbound session per channel; channel_id is
+				// the natural primary key. New sessions overwrite the old one
+				// when we rotate (member-removal, age, etc.).
+				db.createObjectStore(OUTBOUND_GROUP_SESSION_STORE, {keyPath: 'channel_id'});
+			}
+			if (!db.objectStoreNames.contains(INBOUND_GROUP_SESSION_STORE)) {
+				const store = db.createObjectStore(INBOUND_GROUP_SESSION_STORE, {
+					keyPath: ['channel_id', 'sender_user_id', 'sender_device_id', 'session_id'],
+				});
+				// Lets us look up "all sessions in this channel" when rotating
+				// or wiping a channel's group-session state.
+				store.createIndex('by_channel', 'channel_id', {unique: false});
 			}
 		};
 	});
@@ -323,4 +367,70 @@ function generatePickleKey(): string {
 	let s = '';
 	for (let i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
 	return btoa(s);
+}
+
+// ── Megolm group sessions ───────────────────────────────────────────────
+// Used by group DM E2EE. Outbound = sender's ratcheting session for one
+// channel. Inbound = one per (channel, sender device, session_id) for
+// every group session a recipient has been invited into.
+
+export async function getOutboundGroupSession(channelId: string): Promise<PickledOutboundGroupSession | null> {
+	const db = await openDB();
+	const tx = db.transaction([OUTBOUND_GROUP_SESSION_STORE], 'readonly');
+	const result = await reqToPromise(tx.objectStore(OUTBOUND_GROUP_SESSION_STORE).get(channelId));
+	return (result as PickledOutboundGroupSession | undefined) ?? null;
+}
+
+export async function putOutboundGroupSession(session: PickledOutboundGroupSession): Promise<void> {
+	const db = await openDB();
+	const tx = db.transaction([OUTBOUND_GROUP_SESSION_STORE], 'readwrite');
+	await reqToPromise(tx.objectStore(OUTBOUND_GROUP_SESSION_STORE).put(session));
+}
+
+export async function deleteOutboundGroupSession(channelId: string): Promise<void> {
+	const db = await openDB();
+	const tx = db.transaction([OUTBOUND_GROUP_SESSION_STORE], 'readwrite');
+	await reqToPromise(tx.objectStore(OUTBOUND_GROUP_SESSION_STORE).delete(channelId));
+}
+
+export async function getInboundGroupSession(
+	channelId: string,
+	senderUserId: string,
+	senderDeviceId: string,
+	sessionId: string,
+): Promise<PickledInboundGroupSession | null> {
+	const db = await openDB();
+	const tx = db.transaction([INBOUND_GROUP_SESSION_STORE], 'readonly');
+	const result = await reqToPromise(
+		tx.objectStore(INBOUND_GROUP_SESSION_STORE).get([channelId, senderUserId, senderDeviceId, sessionId]),
+	);
+	return (result as PickledInboundGroupSession | undefined) ?? null;
+}
+
+export async function putInboundGroupSession(session: PickledInboundGroupSession): Promise<void> {
+	const db = await openDB();
+	const tx = db.transaction([INBOUND_GROUP_SESSION_STORE], 'readwrite');
+	await reqToPromise(tx.objectStore(INBOUND_GROUP_SESSION_STORE).put(session));
+}
+
+// Wipe every inbound and outbound session for a channel. Used when E2EE
+// is turned off for the channel, or when the channel is left/deleted.
+export async function deleteAllGroupSessionsForChannel(channelId: string): Promise<void> {
+	const db = await openDB();
+	const tx = db.transaction([OUTBOUND_GROUP_SESSION_STORE, INBOUND_GROUP_SESSION_STORE], 'readwrite');
+	tx.objectStore(OUTBOUND_GROUP_SESSION_STORE).delete(channelId);
+	const idx = tx.objectStore(INBOUND_GROUP_SESSION_STORE).index('by_channel');
+	const cursorReq = idx.openCursor(IDBKeyRange.only(channelId));
+	await new Promise<void>((resolve, reject) => {
+		cursorReq.onsuccess = () => {
+			const cursor = cursorReq.result;
+			if (cursor) {
+				cursor.delete();
+				cursor.continue();
+			} else {
+				resolve();
+			}
+		};
+		cursorReq.onerror = () => reject(cursorReq.error ?? new Error('Failed to wipe channel group sessions'));
+	});
 }

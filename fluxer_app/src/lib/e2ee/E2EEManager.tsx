@@ -20,9 +20,13 @@
 import {
 	deleteSessionsForRemoteDevice,
 	deleteStoredAccount,
+	getInboundGroupSession,
+	getOutboundGroupSession,
 	getPickleKey,
 	getSessionsForRemoteDevice,
 	getStoredAccount,
+	putInboundGroupSession,
+	putOutboundGroupSession,
 	putSession,
 	putStoredAccount,
 } from '@app/lib/e2ee/E2EEKeyStore';
@@ -321,6 +325,155 @@ export class E2EEManager {
 
 	async forgetSessionsForDevice(remoteUserId: string, remoteDeviceId: string): Promise<void> {
 		await deleteSessionsForRemoteDevice(remoteUserId, remoteDeviceId);
+	}
+
+	// ── Megolm (group DM E2EE) ──────────────────────────────────────────
+	// One outbound session per channel for the sender. Returns the
+	// existing session if one is stored; creates and persists a new one
+	// otherwise. The returned object's session_key is the secret that
+	// must be encrypted to each recipient device via Olm and posted to
+	// the group-session endpoint so members can decrypt subsequent
+	// messages.
+	async getOrCreateOutboundGroupSession(channelId: string): Promise<{
+		sessionId: string;
+		sessionKey: string;
+		isNew: boolean;
+	}> {
+		const Olm = await ensureOlmInitialised();
+		const pickleKey = await getPickleKey();
+		const existing = await getOutboundGroupSession(channelId);
+		if (existing) {
+			const session = new Olm.OutboundGroupSession();
+			try {
+				session.unpickle(pickleKey, existing.pickle);
+				const result = {sessionId: session.session_id(), sessionKey: session.session_key(), isNew: false};
+				session.free();
+				return result;
+			} catch (err) {
+				session.free();
+				logger.warn('Stored outbound group session unpickle failed, creating new', {channelId, err});
+				// Fall through to fresh creation.
+			}
+		}
+		const session = new Olm.OutboundGroupSession();
+		session.create();
+		const sessionId = session.session_id();
+		const sessionKey = session.session_key();
+		const pickle = session.pickle(pickleKey);
+		session.free();
+		await putOutboundGroupSession({
+			channel_id: channelId,
+			session_id: sessionId,
+			pickle,
+			created_at: Date.now(),
+			message_count: 0,
+		});
+		return {sessionId, sessionKey, isNew: true};
+	}
+
+	// Encrypt a message with the current outbound group session.
+	// Auto-creates the session if none exists (caller is expected to
+	// distribute the session_key in that case — see isNew on the get
+	// helper for the signal). Always persists the post-encrypt session
+	// state so the ratchet survives reloads.
+	async encryptGroupMessage(channelId: string, plaintext: string): Promise<{
+		sessionId: string;
+		ciphertext: string;
+		messageIndex: number;
+	}> {
+		const Olm = await ensureOlmInitialised();
+		const pickleKey = await getPickleKey();
+		const existing = await getOutboundGroupSession(channelId);
+		if (!existing) {
+			throw new Error(`No outbound group session for channel ${channelId} — call getOrCreateOutboundGroupSession first.`);
+		}
+		const session = new Olm.OutboundGroupSession();
+		session.unpickle(pickleKey, existing.pickle);
+		const ciphertext = session.encrypt(plaintext);
+		const messageIndex = session.message_index();
+		const sessionId = session.session_id();
+		const pickle = session.pickle(pickleKey);
+		session.free();
+		await putOutboundGroupSession({
+			...existing,
+			session_id: sessionId,
+			pickle,
+			message_count: existing.message_count + 1,
+		});
+		return {sessionId, ciphertext, messageIndex};
+	}
+
+	// Persist a received group session key as an inbound session. Called
+	// by recipients when they receive a session_key (decrypted from an
+	// Olm-wrapped session-key payload). Idempotent — if we already have
+	// this session, the put just refreshes the pickle.
+	async importInboundGroupSession(params: {
+		channelId: string;
+		senderUserId: string;
+		senderDeviceId: string;
+		senderIdentityKey: string;
+		sessionKey: string;
+	}): Promise<{sessionId: string}> {
+		const Olm = await ensureOlmInitialised();
+		const pickleKey = await getPickleKey();
+		const session = new Olm.InboundGroupSession();
+		try {
+			session.create(params.sessionKey);
+			const sessionId = session.session_id();
+			const pickle = session.pickle(pickleKey);
+			session.free();
+			await putInboundGroupSession({
+				channel_id: params.channelId,
+				sender_user_id: params.senderUserId,
+				sender_device_id: params.senderDeviceId,
+				session_id: sessionId,
+				pickle,
+				sender_identity_key: params.senderIdentityKey,
+				created_at: Date.now(),
+			});
+			return {sessionId};
+		} catch (err) {
+			session.free();
+			throw err;
+		}
+	}
+
+	// Decrypt an inbound group message. Caller must already have imported
+	// the matching session via importInboundGroupSession — if not, this
+	// throws and the caller is expected to request the session from the
+	// sender (out of band).
+	async decryptGroupMessage(params: {
+		channelId: string;
+		senderUserId: string;
+		senderDeviceId: string;
+		sessionId: string;
+		ciphertext: string;
+	}): Promise<{plaintext: string; messageIndex: number}> {
+		const Olm = await ensureOlmInitialised();
+		const pickleKey = await getPickleKey();
+		const stored = await getInboundGroupSession(
+			params.channelId,
+			params.senderUserId,
+			params.senderDeviceId,
+			params.sessionId,
+		);
+		if (!stored) {
+			throw new Error(`No inbound group session for ${params.channelId}/${params.senderDeviceId}/${params.sessionId}`);
+		}
+		const session = new Olm.InboundGroupSession();
+		session.unpickle(pickleKey, stored.pickle);
+		try {
+			const {plaintext, message_index} = session.decrypt(params.ciphertext);
+			// Persist the ratcheted state so we can decrypt subsequent
+			// messages in the same session without re-importing.
+			const pickle = session.pickle(pickleKey);
+			session.free();
+			await putInboundGroupSession({...stored, pickle});
+			return {plaintext, messageIndex: message_index};
+		} catch (err) {
+			session.free();
+			throw err;
+		}
 	}
 
 	private async loadOrCreateOutboundSession(
