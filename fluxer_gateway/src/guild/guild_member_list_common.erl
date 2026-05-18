@@ -251,7 +251,16 @@ connected_session_user_ids(State) ->
     Sessions = maps:get(sessions, State, #{}),
     maps:fold(
         fun(_SessionId, SessionData, Acc) ->
-            case maps:get(user_id, SessionData, undefined) of
+            Pid = maps:get(pid, SessionData, undefined),
+            %% Defensive: skip sessions whose websocket process has already
+            %% exited but whose entry hasn't been cleaned up yet (DOWN
+            %% delivery can race with member-list reads). Without this guard
+            %% disconnected users linger as "online" until the next restart.
+            PidAlive = case Pid of
+                P when is_pid(P) -> is_process_alive(P);
+                _ -> false
+            end,
+            case PidAlive andalso maps:get(user_id, SessionData, undefined) of
                 UserId when is_integer(UserId), UserId > 0 ->
                     sets:add_element(UserId, Acc);
                 _ ->
