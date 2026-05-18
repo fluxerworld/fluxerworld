@@ -281,21 +281,24 @@ partition_members_by_online(Members, State) ->
             IsConnected = sets:is_element(UserId, ConnectedUserIds),
             case IsConnected of
                 false ->
-                    %% No active session in this guild → always offline,
-                    %% regardless of any stale cached presence.
+                    %% No active session in this guild → always offline.
                     false;
                 true ->
-                    %% Connected. Trust an explicit non-offline/non-invisible
-                    %% status if the user has one; if they have no presence
-                    %% record yet (just connected, no PRESENCE_UPDATE
-                    %% delivered yet), assume online — defaulting to offline
-                    %% here is what made connected members show up as offline.
+                    %% Connected. Trust the cached presence: anything other
+                    %% than online/idle/dnd is offline. No cache entry means
+                    %% the presence module either hasn't published yet OR
+                    %% the user is "appearing offline" (invisible deletes
+                    %% the cache by design). Either way default to offline
+                    %% so invisible users don't leak into the Online bucket
+                    %% with a green dot under them.
                     case maps:get(UserId, MemberPresence, undefined) of
                         undefined ->
-                            true;
+                            false;
                         Presence ->
-                            Status = maps:get(<<"status">>, Presence, <<"online">>),
-                            Status =/= <<"offline">> andalso Status =/= <<"invisible">>
+                            Status = maps:get(<<"status">>, Presence, <<"offline">>),
+                            Status =:= <<"online">> orelse
+                                Status =:= <<"idle">> orelse
+                                Status =:= <<"dnd">>
                     end
             end
         end,
