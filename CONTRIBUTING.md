@@ -1,12 +1,12 @@
-# Contributing to Fluxer
+# Contributing to Fluxerworld
 
 Thanks for contributing. This document explains how we work so your changes can land smoothly and nobody wastes time on work we can't merge.
 
 ## Quick rules (please read)
 
-### 1) All PRs must target `canary`
+### 1) All PRs must target `refactor`
 
-`canary` is our trunk branch. Open all pull requests against `canary`. PRs targeting other branches will be closed or retargeted.
+`refactor` is our trunk branch. Open all pull requests against `refactor`. PRs targeting other branches will be closed or retargeted.
 
 ### 2) All PRs must include a short description
 
@@ -37,28 +37,22 @@ If you're unsure whether something needs an issue first, it probably does.
 
 ### 4) Understand the code you submit
 
-You should understand every change in your PR well enough to explain and defend it during review. You don’t need to write an essay, but you should be able to give a brief summary of what the patch does and why it’s correct. You may not use AI to generate a bug report, pull request description, or GitHub comment in any form, except for a 1:1 translation if English isn't your native language.
-
-The maintainer [uses LLMs in a limited capacity](https://blog.fluxer.app/how-i-built-fluxer-a-discord-like-chat-app/#:~:text=The%20LLMephant%20in%20the%20room). That’s how he was able to build the final version of Fluxer largely on his own over five years, with help from a supportive group of early testers. Without limited, controlled LLM use, he likely would have needed more starting capital to achieve the same result and hire a team of engineers.
-
-If you use LLMs, use them responsibly. They can be helpful for rubber-ducking and for scaffolding boilerplate from thorough specifications, detailed guidance, and test coverage that verifies behaviour rather than implementation. This kind of platform cannot be built via autonomous code generation. Please disclose any LLM usage in your contribution.
-
-We also ask contributors to treat each other with respect on this topic. People hold a wide range of views on LLMs, often rooted in ethical conviction. A contribution that is reviewable, understandable, and properly tested should be evaluated on its merits.
+You should understand every change in your PR well enough to explain and defend it during review. You don’t need to write an essay, but you should be able to give a brief summary of what the patch does and why it’s correct.
 
 ## Workflow
 
 1. Fork the repo (or create a branch if you have access).
-2. Create a feature branch from `canary`.
+2. Create a feature branch from `refactor`.
 3. Make changes.
-4. Open a PR into `canary` with a short description.
+4. Open a PR into `refactor` with a short description.
 5. Address review feedback and CI results.
-6. We squash-merge approved PRs into `canary`.
+6. We squash-merge approved PRs into `refactor`.
 
 We strongly prefer small, focused PRs that are easy to review.
 
 ### Commit style and history
 
-We squash-merge PRs, so the PR title becomes the single commit message on `canary`. For that reason:
+We squash-merge PRs, so the PR title becomes the single commit message on `refactor`. For that reason:
 
 - PR titles must follow Conventional Commits.
 - Individual commits inside the PR don't need to follow Conventional Commits.
@@ -79,7 +73,7 @@ Examples:
 
 - `fix: handle empty response from api`
 - `feat(auth): add passkey login`
-- `docs: clarify canary workflow`
+- `docs: clarify branch workflow`
 - `refactor: simplify retry logic`
 - `chore(ci): speed up checks`
 
@@ -121,7 +115,7 @@ Open the PR when it's ready for review, then iterate based on CI and feedback.
 
 Before requesting review:
 
-- [ ] PR targets `canary`
+- [ ] PR targets `refactor`
 - [ ] PR title follows Conventional Commits (mostly lowercase)
 - [ ] PR includes a short description of what/why
 - [ ] You understand every change in the PR and can explain it during review
@@ -143,6 +137,8 @@ This project follows a Code of Conduct. By participating, you're expected to uph
 
 Please don't report security issues via public GitHub issues.
 
-Use our security policy and reporting instructions here:
+See [`SECURITY.md`](./SECURITY.md) for the reporting process.
 
-- https://fluxer.app/security
+## Upstream relationship
+
+Fluxerworld is a fork of [fluxerapp/fluxer](https://github.com/fluxerapp/fluxer). We track upstream where it makes sense and ship our own features (E2EE for DMs, group DM E2EE, mobile, native desktop builds) on top. Contributions specific to Fluxerworld land here on `refactor`; if your change is fundamentally upstream-shaped, consider also offering it to fluxerapp/fluxer.
