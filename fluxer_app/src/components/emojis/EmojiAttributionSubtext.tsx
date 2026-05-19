@@ -27,13 +27,19 @@ import {Trans, useLingui} from '@lingui/react/macro';
 import {SealCheckIcon} from '@phosphor-icons/react';
 import {observer} from 'mobx-react-lite';
 
-type EmojiAttributionType = 'default' | 'custom_invite_required' | 'custom_unknown' | 'custom_guild';
+type EmojiAttributionType =
+	| 'default'
+	| 'custom_invite_required'
+	| 'custom_unknown'
+	| 'custom_guild'
+	| 'custom_pack';
 type EmojiGuild = Guild | GuildRecord;
 
 export interface EmojiAttribution {
 	type: EmojiAttributionType;
 	guild?: EmojiGuild | null;
 	isVerified?: boolean;
+	packName?: string | null;
 }
 
 export interface EmojiAttributionSource {
@@ -41,6 +47,8 @@ export interface EmojiAttributionSource {
 	guildId?: string | null;
 	guild?: EmojiGuild | null;
 	emojiName?: string | null;
+	packId?: string | null;
+	packName?: string | null;
 }
 
 const getIsVerified = (guild?: EmojiGuild | null): boolean => {
@@ -56,9 +64,19 @@ const getIsVerified = (guild?: EmojiGuild | null): boolean => {
 	return false;
 };
 
-export const getEmojiAttribution = ({emojiId, guildId, guild}: EmojiAttributionSource): EmojiAttribution => {
+export const getEmojiAttribution = ({
+	emojiId,
+	guildId,
+	guild,
+	packId,
+	packName,
+}: EmojiAttributionSource): EmojiAttribution => {
 	if (!emojiId) {
 		return {type: 'default'};
+	}
+
+	if (packId) {
+		return {type: 'custom_pack', packName: packName ?? null};
 	}
 
 	const resolvedGuild = guildId ? (guild ?? GuildStore.getGuild(guildId)) : null;
@@ -100,6 +118,20 @@ export const EmojiAttributionSubtext = observer(function EmojiAttributionSubtext
 			<div className={classes.container}>
 				<span className={classes.text}>
 					<Trans>This is a default emoji on Fluxer.</Trans>
+				</span>
+			</div>
+		);
+	}
+
+	if (attribution.type === 'custom_pack') {
+		return (
+			<div className={classes.container}>
+				<span className={classes.text}>
+					{attribution.packName ? (
+						<Trans>This is a custom emoji from the {attribution.packName} pack.</Trans>
+					) : (
+						<Trans>This is a custom emoji from an expression pack.</Trans>
+					)}
 				</span>
 			</div>
 		);

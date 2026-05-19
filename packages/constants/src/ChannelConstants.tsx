@@ -128,6 +128,7 @@ export const MessageFlags = {
 	VOICE_MESSAGE: 1 << 13,
 	ENCRYPTED: 1 << 18,
 	COMPACT_ATTACHMENTS: 1 << 17,
+	E2EE_CONTROL: 1 << 19,
 } as const;
 
 export const MessageFlagsDescriptions: Record<keyof typeof MessageFlags, string> = {
@@ -136,6 +137,7 @@ export const MessageFlagsDescriptions: Record<keyof typeof MessageFlags, string>
 	VOICE_MESSAGE: 'This message is a voice message',
 	ENCRYPTED: 'This message is end-to-end encrypted; content is opaque to the server',
 	COMPACT_ATTACHMENTS: 'Display attachments in a compact format',
+	E2EE_CONTROL: 'Out-of-band E2EE control envelope (e.g. peer disabled encryption); never rendered to the user',
 };
 
 export const SENDABLE_MESSAGE_FLAGS =
@@ -143,7 +145,8 @@ export const SENDABLE_MESSAGE_FLAGS =
 	MessageFlags.SUPPRESS_NOTIFICATIONS |
 	MessageFlags.COMPACT_ATTACHMENTS |
 	MessageFlags.VOICE_MESSAGE |
-	MessageFlags.ENCRYPTED;
+	MessageFlags.ENCRYPTED |
+	MessageFlags.E2EE_CONTROL;
 
 export const MessageAttachmentFlags = {
 	IS_SPOILER: 1 << 3,

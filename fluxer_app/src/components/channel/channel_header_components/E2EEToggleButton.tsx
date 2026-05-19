@@ -17,6 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
 import * as ModalActionCreators from '@app/actions/ModalActionCreators';
 import {modal} from '@app/actions/ModalActionCreators';
 import {ChannelHeaderIcon} from '@app/components/channel/channel_header_components/ChannelHeaderIcon';
@@ -61,7 +62,15 @@ export const E2EEToggleButton: React.FC<E2EEToggleButtonProps> = observer(({chan
 		: 'unverified';
 
 	const handleToggle = useCallback(() => {
-		E2EEStore.setChannelEncrypted(channelId, !enabled);
+		const next = !enabled;
+		if (!next) {
+			// Send the off-control to the peer before flipping locally so
+			// their toggle mirrors ours. Best-effort — local state still
+			// flips even if the signal can't be sent.
+			void MessageActionCreators.sendE2EEOffControl(channelId);
+		}
+		E2EEStore.setChannelEncrypted(channelId, next);
+		MessageActionCreators.emitE2EEStateMessage(channelId, next);
 	}, [channelId, enabled]);
 
 	const handleVerify = useCallback(() => {

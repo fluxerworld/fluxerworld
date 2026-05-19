@@ -17,17 +17,18 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import * as MessageActionCreators from '@app/actions/MessageActionCreators';
 import {
-	buildDecryptedContent,
 	getSentEnvelopeEntries,
-	getSentPlaintext,
 	pairEnvelopeAttachments,
 	recordAttachmentKeys,
 	recordMessageVerification,
-	tryDecryptForCurrentDevice,
+	resolveEncryptedMessageContent,
 } from '@app/lib/e2ee/E2EEMessageIntegration';
 import AuthenticationStore from '@app/stores/AuthenticationStore';
 import CallStateStore from '@app/stores/CallStateStore';
+import ChannelStore from '@app/stores/ChannelStore';
+import E2EEStore from '@app/stores/E2EEStore';
 import type {GatewayHandlerContext} from '@app/stores/gateway/handlers';
 import GuildMemberStore from '@app/stores/GuildMemberStore';
 import GuildReadStateStore from '@app/stores/GuildReadStateStore';
@@ -38,7 +39,7 @@ import ReadStateStore from '@app/stores/ReadStateStore';
 import RecentMentionsStore from '@app/stores/RecentMentionsStore';
 import TypingStore from '@app/stores/TypingStore';
 import TtsUtils from '@app/utils/TtsUtils';
-import {MessageFlags} from '@fluxer/constants/src/ChannelConstants';
+import {ChannelTypes, MessageFlags} from '@fluxer/constants/src/ChannelConstants';
 import type {GuildMemberData} from '@fluxer/schema/src/domains/guild/GuildMemberSchemas';
 import type {Message} from '@fluxer/schema/src/domains/message/MessageResponseSchemas';
 
@@ -64,7 +65,49 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 	TypingStore.stopTypingOnMessageCreate(data);
 
 	const isEncrypted = ((data.flags ?? 0) & MessageFlags.ENCRYPTED) !== 0;
+	const isE2EEControl = ((data.flags ?? 0) & MessageFlags.E2EE_CONTROL) !== 0;
+
+	// E2EE control envelopes carry no user-visible content. We never render
+	// them: even if the decrypt path fails (forward-secret session lost,
+	// peer rotated identity, etc.), the bubble must not show the
+	// "could not be decrypted" placeholder. The flag is set by
+	// `sendE2EEOffControl` on the wire; the server passes it through.
+	if (isEncrypted && isE2EEControl && data.encrypted_payload) {
+		const channel = ChannelStore.getChannel(data.channel_id);
+		const isDM = channel?.type === ChannelTypes.DM;
+		void (async () => {
+			const currentUserId = AuthenticationStore.currentUserId;
+			const senderUserId = data.author?.id;
+			if (!currentUserId || !senderUserId) return;
+			const fromPeer = senderUserId !== currentUserId;
+			// Only the peer's control message drives our local toggle and
+			// "AES-256 off" notice — the sender already flipped + emitted
+			// locally when they clicked the toggle.
+			if (!fromPeer || !isDM) return;
+			const {result} = await resolveEncryptedMessageContent(
+				data.id,
+				data.nonce,
+				currentUserId,
+				senderUserId,
+				data.encrypted_payload,
+			);
+			// Even on decrypt failure we treat the flagged message as an
+			// off-control: it's a small, authenticated-by-flag-presence
+			// signal, and getting the toggle wrong is worse than missing
+			// the rare misdecrypt case.
+			if (result && result.control !== 'e2ee_off') return;
+			if (E2EEStore.isChannelEncrypted(data.channel_id)) {
+				E2EEStore.setChannelEncrypted(data.channel_id, false);
+				MessageActionCreators.emitE2EEStateMessage(data.channel_id, false);
+			}
+		})();
+		return;
+	}
+
 	if (isEncrypted && data.encrypted_payload) {
+		const channel = ChannelStore.getChannel(data.channel_id);
+		const isDM = channel?.type === ChannelTypes.DM;
+
 		// Surface a placeholder immediately so the bubble appears in chat,
 		// then swap in the decrypted text once Olm finishes. Failures stay
 		// on the placeholder text so the user knows something arrived but
@@ -77,7 +120,25 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			const currentUserId = AuthenticationStore.currentUserId;
 			const senderUserId = data.author?.id;
 			if (!currentUserId || !senderUserId) return;
-			const result = await tryDecryptForCurrentDevice(currentUserId, senderUserId, data.encrypted_payload);
+			const {content, result} = await resolveEncryptedMessageContent(
+				data.id,
+				data.nonce,
+				currentUserId,
+				senderUserId,
+				data.encrypted_payload,
+			);
+
+			const fromPeer = senderUserId !== currentUserId;
+
+			// Mirror the peer's per-DM toggle on receiving real encrypted
+			// content: peer enabled E2EE, our toggle should match so the
+			// next reply also goes encrypted. Deferred until after decrypt
+			// so an off-control doesn't briefly toggle on first.
+			if (isDM && fromPeer && !E2EEStore.isChannelEncrypted(data.channel_id)) {
+				E2EEStore.setChannelEncrypted(data.channel_id, true);
+				MessageActionCreators.emitE2EEStateMessage(data.channel_id, true);
+			}
+
 			if (result?.attachments.length && data.attachments?.length) {
 				recordAttachmentKeys(data.id, pairEnvelopeAttachments(data.attachments, result.attachments));
 			} else if (
@@ -99,18 +160,6 @@ export function handleMessageCreate(data: Message, _context: GatewayHandlerConte
 			}
 			if (result) {
 				recordMessageVerification(data.id, result.verificationStatus);
-			}
-			// Sender's own gateway echo: we never put a ciphertext slot for
-			// our own device, so decrypt returns null. Substitute the
-			// plaintext we cached at send-time so we don't show our own
-			// message as un-decryptable. The cache may be keyed by nonce
-			// (populated before the send) or by server id (populated after
-			// the HTTP response), depending on whether the gateway beat
-			// the response back to us.
-			let content = buildDecryptedContent(result);
-			if (!result && senderUserId === currentUserId) {
-				const cached = getSentPlaintext(data.id) ?? (data.nonce ? getSentPlaintext(data.nonce) : null);
-				if (cached !== null) content = cached;
 			}
 			const decryptedMessage: Message = {
 				...data,

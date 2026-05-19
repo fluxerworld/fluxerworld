@@ -39,7 +39,7 @@ export const DownloadButton = observer(() => {
 	const mergedButtonRef = useMergeRefs([hoverRef, buttonRef]);
 
 	const handleDownload = () => {
-		openExternalUrl('https://fluxer.world/download');
+		openExternalUrl('https://fluxer.world/downloads.html');
 	};
 
 	return (

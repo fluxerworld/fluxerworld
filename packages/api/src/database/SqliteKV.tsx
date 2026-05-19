@@ -296,6 +296,18 @@ class SqliteKvStore {
 
 		this.purgeExpiredStmt = this.db.prepare(`DELETE FROM kv_store WHERE expires_at IS NOT NULL AND expires_at <= ?;`);
 
+		// Background purge of expired rows once a minute. Reads filter
+		// expired rows in-memory anyway, so this is purely about reclaiming
+		// disk — keeping it off the read path is what unblocks the
+		// channel-message scans.
+		setInterval(() => {
+			try {
+				this.purgeExpired(Date.now());
+			} catch (err) {
+				Logger.warn({err}, 'Background TTL purge failed');
+			}
+		}, 60_000).unref();
+
 		this.putStmt = this.db.prepare(`
 			INSERT INTO kv_store (table_name, key, value, expires_at)
 			VALUES (?, ?, ?, ?)
@@ -375,30 +387,33 @@ class SqliteKvStore {
 	}
 
 	scan<T>(table: string, prefix?: string): Array<KvEntry<T>> {
+		// No inline purge: every scan used to BEGIN+DELETE+SELECT+COMMIT
+		// inside a transaction, which serialised every read against every
+		// other read and write — channel-message fetches were stacking up
+		// to 6+ seconds of write-lock contention. The scan loop below
+		// already filters expired rows out of the result, so the only
+		// thing we lose by skipping the DELETE here is on-disk cleanup,
+		// which the periodic background purge below handles.
 		const now = Date.now();
 
-		return this.runInTransaction(() => {
-			this.purgeExpired(now);
+		const rows: Array<KvRow> = prefix
+			? (this.scanPrefixStmt.all(table, prefix, upperBound(prefix)) as Array<KvRow>)
+			: (this.scanAllStmt.all(table) as Array<KvRow>);
 
-			const rows: Array<KvRow> = prefix
-				? (this.scanPrefixStmt.all(table, prefix, upperBound(prefix)) as Array<KvRow>)
-				: (this.scanAllStmt.all(table) as Array<KvRow>);
+		const out: Array<KvEntry<T>> = [];
 
-			const out: Array<KvEntry<T>> = [];
+		for (const row of rows) {
+			if (row.expires_at !== null && row.expires_at <= now) continue;
 
-			for (const row of rows) {
-				if (row.expires_at !== null && row.expires_at <= now) continue;
+			out.push({
+				key: row.key,
+				table,
+				value: deserialize<T>(row.value),
+				expiresAt: row.expires_at,
+			});
+		}
 
-				out.push({
-					key: row.key,
-					table,
-					value: deserialize<T>(row.value),
-					expiresAt: row.expires_at,
-				});
-			}
-
-			return out;
-		});
+		return out;
 	}
 
 	clearAll(): void {

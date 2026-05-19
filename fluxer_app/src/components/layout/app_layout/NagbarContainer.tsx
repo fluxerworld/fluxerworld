@@ -25,6 +25,7 @@ import {EmailVerificationNagbar} from '@app/components/layout/app_layout/nagbars
 import {GiftInventoryNagbar} from '@app/components/layout/app_layout/nagbars/GiftInventoryNagbar';
 import {GuildMembershipCtaNagbar} from '@app/components/layout/app_layout/nagbars/GuildMembershipCtaNagbar';
 import {MobileDownloadNagbar} from '@app/components/layout/app_layout/nagbars/MobileDownloadNagbar';
+import {OutdatedClientNagbar} from '@app/components/layout/app_layout/nagbars/OutdatedClientNagbar';
 import {PendingBulkDeletionNagbar} from '@app/components/layout/app_layout/nagbars/PendingBulkDeletionNagbar';
 import {PremiumExpiredNagbar} from '@app/components/layout/app_layout/nagbars/PremiumExpiredNagbar';
 import {PremiumGracePeriodNagbar} from '@app/components/layout/app_layout/nagbars/PremiumGracePeriodNagbar';
@@ -72,6 +73,8 @@ export const NagbarContainer: React.FC<NagbarContainerProps> = observer(({nagbar
 						return <GuildMembershipCtaNagbar key={nagbar.type} isMobile={mobileLayout.enabled} />;
 					case NagbarType.VISIONARY_MFA:
 						return <VisionaryMfaNagbar key={nagbar.type} isMobile={mobileLayout.enabled} />;
+					case NagbarType.OUTDATED_CLIENT:
+						return <OutdatedClientNagbar key={nagbar.type} isMobile={mobileLayout.enabled} />;
 					default:
 						return null;
 				}

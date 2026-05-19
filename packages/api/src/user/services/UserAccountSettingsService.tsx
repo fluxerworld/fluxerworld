@@ -175,6 +175,7 @@ export class UserAccountSettingsService {
 			updatedRowData.guild_folders = mappedFolders;
 		}
 		if (data.afk_timeout !== undefined) updatedRowData.afk_timeout = data.afk_timeout;
+		if (data.idle_timeout !== undefined) updatedRowData.idle_timeout = data.idle_timeout;
 		if (data.time_format !== undefined) updatedRowData.time_format = data.time_format;
 		if (data.developer_mode !== undefined) updatedRowData.developer_mode = data.developer_mode;
 		if (data.trusted_domains !== undefined) {

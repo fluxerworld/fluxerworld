@@ -250,7 +250,7 @@ export default () => {
 
 		output: {
 			path: DIST_DIR,
-			publicPath: isProduction ? `${CDN_ENDPOINT}/` : '/',
+			publicPath: '/',
 			workerPublicPath: '/',
 			filename: (pathData) => {
 				if (pathData.chunk?.name === 'sw') {
@@ -300,6 +300,15 @@ export default () => {
 				'.cjs',
 				'.po',
 			],
+			// @matrix-org/olm ships a UMD bundle with Node-only require()
+			// calls behind a runtime branch the browser path never takes.
+			// Tell rspack those builtins are unavailable here so it stops
+			// trying to resolve them statically.
+			fallback: {
+				crypto: false,
+				path: false,
+				fs: false,
+			},
 		},
 
 		module: {
@@ -435,6 +444,10 @@ export default () => {
 						from: PUBLIC_DIR,
 						to: DIST_DIR,
 						noErrorOnMissing: true,
+					},
+					{
+						from: path.join(ROOT_DIR, 'node_modules/@matrix-org/olm/olm.wasm'),
+						to: path.join(DIST_DIR, 'assets/olm.wasm'),
 					},
 				],
 			}),

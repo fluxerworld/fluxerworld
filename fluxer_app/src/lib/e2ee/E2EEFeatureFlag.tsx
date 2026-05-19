@@ -32,7 +32,7 @@
 // general rollout.
 
 const STORAGE_KEY = 'fluxer:e2ee:enabled';
-const DEFAULT_ENABLED = false;
+const DEFAULT_ENABLED = true;
 
 export function isE2EEFeatureEnabled(): boolean {
 	if (typeof window === 'undefined') return DEFAULT_ENABLED;

@@ -216,21 +216,27 @@ export class UserContentService {
 
 	async registerPushSubscription(params: {
 		userId: UserID;
-		endpoint: string;
-		keys: {p256dh: string; auth: string};
+		endpoint?: string;
+		keys?: {p256dh: string; auth: string};
 		userAgent?: string;
+		pushType?: 'web' | 'expo';
+		expoToken?: string;
 	}): Promise<PushSubscription> {
-		const {userId, endpoint, keys, userAgent} = params;
+		const {userId, endpoint, keys, userAgent, pushType = 'web', expoToken} = params;
 
-		const subscriptionId = crypto.createHash('sha256').update(endpoint).digest('hex').substring(0, 32);
+		// Generate subscription ID from the unique identifier (endpoint for web, token for expo)
+		const idSource = pushType === 'expo' ? expoToken! : endpoint!;
+		const subscriptionId = crypto.createHash('sha256').update(idSource).digest('hex').substring(0, 32);
 
 		const data: PushSubscriptionRow = {
 			user_id: userId,
 			subscription_id: subscriptionId,
-			endpoint,
-			p256dh_key: keys.p256dh,
-			auth_key: keys.auth,
+			endpoint: endpoint ?? '',
+			p256dh_key: keys?.p256dh ?? '',
+			auth_key: keys?.auth ?? '',
 			user_agent: userAgent ?? null,
+			push_type: pushType,
+			expo_token: expoToken ?? null,
 		};
 
 		return await this.userContentRepository.createPushSubscription(data);

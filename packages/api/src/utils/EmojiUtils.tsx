@@ -290,3 +290,56 @@ function applyReplacements(content: string, replacements: Array<Replacement>): s
 
 	return result;
 }
+
+const EMOTICON_MAP: ReadonlyArray<[RegExp, string]> = [
+	[/(?<!\w):-?\)(?!\w)/g, '\u{1F642}'],
+	[/(?<!\w):-?\((?!\w)/g, '\u{1F641}'],
+	[/(?<!\w):-?D(?!\w)/g, '\u{1F604}'],
+	[/(?<!\w):-?P(?!\w)/gi, '\u{1F61B}'],
+	[/(?<!\w);-?\)(?!\w)/g, '\u{1F609}'],
+	[/(?<!\w):-?O(?!\w)/gi, '\u{1F62E}'],
+	[/(?<!\w)<3(?!\w)/g, '\u{2764}\u{FE0F}'],
+	[/(?<!\w)XD(?!\w)/gi, '\u{1F606}'],
+	[/(?<!\w):-?\/(?!\w)/g, '\u{1F615}'],
+	[/(?<!\w):-?\|(?!\w)/g, '\u{1F610}'],
+	[/(?<!\w)>:-?\((?!\w)/g, '\u{1F620}'],
+	[/(?<!\w)B-?\)(?!\w)/g, '\u{1F60E}'],
+];
+
+export function replaceEmoticons(content: string): string {
+	const escapedContexts = parseEscapedContexts(content);
+
+	const protectedRanges: Array<CodeBlock> = [...escapedContexts];
+
+	CUSTOM_EMOJI_MARKDOWN_REGEX_GLOBAL.lastIndex = 0;
+	let ceMatch: RegExpExecArray | null;
+	while ((ceMatch = CUSTOM_EMOJI_MARKDOWN_REGEX_GLOBAL.exec(content)) !== null) {
+		protectedRanges.push({start: ceMatch.index, end: ceMatch.index + ceMatch[0].length});
+	}
+
+	const urlRegex = /https?:\/\/[^\s)>\]]+/g;
+	let urlMatch: RegExpExecArray | null;
+	while ((urlMatch = urlRegex.exec(content)) !== null) {
+		protectedRanges.push({start: urlMatch.index, end: urlMatch.index + urlMatch[0].length});
+	}
+
+	const isProtected = (index: number): boolean =>
+		protectedRanges.some((r) => index >= r.start && index < r.end);
+
+	let result = content;
+	for (const [pattern, emoji] of EMOTICON_MAP) {
+		pattern.lastIndex = 0;
+		let match: RegExpExecArray | null;
+		const replacements: Array<{start: number; end: number; emoji: string}> = [];
+		while ((match = pattern.exec(result)) !== null) {
+			if (!isProtected(match.index)) {
+				replacements.push({start: match.index, end: match.index + match[0].length, emoji});
+			}
+		}
+		for (let i = replacements.length - 1; i >= 0; i--) {
+			const r = replacements[i];
+			result = result.substring(0, r.start) + r.emoji + result.substring(r.end);
+		}
+	}
+	return result;
+}

@@ -22,6 +22,8 @@ import {Switch} from '@app/components/form/Switch';
 import {SettingsTabSection} from '@app/components/modals/shared/SettingsTabLayout';
 import styles from '@app/components/modals/tabs/privacy_safety_tab/CommunicationTab.module.css';
 import {RadioGroup} from '@app/components/uikit/radio_group/RadioGroup';
+import {Slider} from '@app/components/uikit/Slider';
+import PrivacyPreferencesStore from '@app/stores/PrivacyPreferencesStore';
 import UserSettingsStore from '@app/stores/UserSettingsStore';
 import {GroupDmAddPermissionFlags, IncomingCallFlags} from '@fluxer/constants/src/UserConstants';
 import {Trans, useLingui} from '@lingui/react/macro';
@@ -264,6 +266,28 @@ export const CommunicationTabContent: React.FC = observer(() => {
 						/>
 					</>
 				)}
+			</SettingsTabSection>
+
+			<SettingsTabSection
+				title={<Trans>Idle Status</Trans>}
+				description={
+					<Trans>
+						Automatically mark you as idle after a period of no activity. Slide to 0 to stay online always.
+					</Trans>
+				}
+			>
+				<Slider
+					defaultValue={PrivacyPreferencesStore.getIdleTimeoutMinutes()}
+					value={PrivacyPreferencesStore.getIdleTimeoutMinutes()}
+					onValueChange={(value) => PrivacyPreferencesStore.setIdleTimeoutMinutes(value)}
+					minValue={0}
+					maxValue={60}
+					step={1}
+					markers={[0, 5, 10, 15, 30, 45, 60]}
+					factoryDefaultValue={5}
+					onValueRender={(v) => (v === 0 ? t`Off` : v === 60 ? t`1 hour` : t`${v} min`)}
+					onMarkerRender={(v) => (v === 0 ? t`Off` : v === 60 ? t`1h` : `${v}`)}
+				/>
 			</SettingsTabSection>
 		</>
 	);

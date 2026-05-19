@@ -1200,6 +1200,10 @@
 					"$ref": "#/$defs/stripe_integration",
 					"default": {}
 				},
+				"polar": {
+					"$ref": "#/$defs/polar_integration",
+					"default": {}
+				},
 				"photo_dna": {
 					"$ref": "#/$defs/photo_dna_integration",
 					"default": {}
@@ -1494,6 +1498,34 @@
 					"secret_key",
 					"webhook_secret"
 				]
+			}
+		},
+		"polar_products": {
+			"type": "object",
+			"description": "Polar product IDs keyed by tier.",
+			"properties": {
+				"monthlySubscription": {"type": "string", "default": ""},
+				"yearlySubscription":  {"type": "string", "default": ""},
+				"gift1Month":          {"type": "string", "default": ""},
+				"gift1Year":           {"type": "string", "default": ""}
+			}
+		},
+		"polar_integration": {
+			"type": "object",
+			"description": "Polar.sh Merchant-of-Record payments integration.",
+			"properties": {
+				"enabled": {"type": "boolean", "default": false},
+				"sandbox": {"type": "boolean", "default": true},
+				"apiKey": {"type": "string", "default": ""},
+				"webhookSecret": {"type": "string", "default": ""},
+				"products": {"$ref": "#/$defs/polar_products", "default": {}}
+			},
+			"if": {
+				"required": ["enabled"],
+				"properties": {"enabled": {"const": true}}
+			},
+			"then": {
+				"required": ["apiKey", "webhookSecret"]
 			}
 		},
 		"tenor": {

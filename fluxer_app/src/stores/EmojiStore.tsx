@@ -40,6 +40,12 @@ type GuildEmojiContext = Readonly<{
 	usableEmojis: ReadonlyArray<GuildEmojiRecord>;
 }>;
 
+type PackEmojiContext = Readonly<{
+	packId: string;
+	packName: string;
+	emojis: ReadonlyArray<GuildEmojiRecord>;
+}>;
+
 export function normalizeEmojiSearchQuery(query: string): string {
 	return query['trim']().replace(/^:+/, '').replace(/:+$/, '');
 }
@@ -174,6 +180,27 @@ class EmojiDisambiguations {
 			processGuildEmojis(guild.id);
 		}
 
+		// Also walk expression packs the user owns or has installed. Pack emojis
+		// share the GuildEmojiRecord shape but carry packId/packName instead of
+		// guildId on the FlatEmoji, so the picker can render them as their own
+		// section.
+		for (const pack of emojiGuildRegistry.getPacks()) {
+			pack.emojis.forEach((emoji) => {
+				const emojiForDisambiguation: FlatEmoji = {
+					...emoji,
+					name: emoji.name,
+					uniqueName: emoji.name,
+					allNamesString: emoji.allNamesString,
+					url: emoji.url,
+					useSpriteSheet: false,
+					guildId: undefined,
+					packId: pack.packId,
+					packName: pack.packName,
+				};
+				disambiguateEmoji(emojiForDisambiguation);
+			});
+		}
+
 		return {
 			disambiguatedEmoji: Object.freeze(disambiguatedEmoji),
 			customEmojis: new Map(customEmojis),
@@ -185,10 +212,12 @@ class EmojiDisambiguations {
 
 class EmojiGuildRegistry {
 	private guilds = new Map<string, GuildEmojiContext>();
+	private packs = new Map<string, PackEmojiContext>();
 	private customEmojisById = new Map<string, GuildEmojiRecord>();
 
 	reset(): void {
 		this.guilds.clear();
+		this.packs.clear();
 		this.customEmojisById.clear();
 		EmojiDisambiguations.reset();
 	}
@@ -205,6 +234,11 @@ class EmojiGuildRegistry {
 		this.customEmojisById.clear();
 		for (const guild of this.guilds.values()) {
 			for (const emoji of guild.usableEmojis) {
+				this.customEmojisById.set(emoji.id, emoji);
+			}
+		}
+		for (const pack of this.packs.values()) {
+			for (const emoji of pack.emojis) {
 				this.customEmojisById.set(emoji.id, emoji);
 			}
 		}
@@ -230,6 +264,33 @@ class EmojiGuildRegistry {
 	getGuildEmojis(guildId: string): ReadonlyArray<GuildEmojiRecord> {
 		return this.guilds.get(guildId)?.usableEmojis ?? [];
 	}
+
+	updatePack(packId: string, packName: string, packEmojis: ReadonlyArray<GuildEmoji>): void {
+		const emojiRecords = packEmojis.map((emoji) => new GuildEmojiRecord(packId, emoji));
+		const sortedEmojis = sortBySnowflakeDesc(emojiRecords);
+		const frozenEmojis = Object.freeze(sortedEmojis);
+
+		this.packs.set(packId, {packId, packName, emojis: frozenEmojis});
+		EmojiDisambiguations.reset();
+	}
+
+	deletePack(packId: string): void {
+		this.packs.delete(packId);
+		EmojiDisambiguations.reset();
+	}
+
+	clearPacks(): void {
+		this.packs.clear();
+		EmojiDisambiguations.reset();
+	}
+
+	getPacks(): ReadonlyArray<PackEmojiContext> {
+		return Array.from(this.packs.values());
+	}
+
+	getPackEmojis(packId: string): ReadonlyArray<GuildEmojiRecord> {
+		return this.packs.get(packId)?.emojis ?? [];
+	}
 }
 
 const emojiGuildRegistry = new EmojiGuildRegistry();
@@ -253,6 +314,22 @@ class EmojiStore {
 
 	getGuildEmoji(guildId: string): ReadonlyArray<GuildEmojiRecord> {
 		return emojiGuildRegistry.getGuildEmojis(guildId);
+	}
+
+	getPackEmoji(packId: string): ReadonlyArray<GuildEmojiRecord> {
+		return emojiGuildRegistry.getPackEmojis(packId);
+	}
+
+	updatePack(packId: string, packName: string, packEmojis: ReadonlyArray<GuildEmoji>): void {
+		emojiGuildRegistry.updatePack(packId, packName, packEmojis);
+	}
+
+	deletePack(packId: string): void {
+		emojiGuildRegistry.deletePack(packId);
+	}
+
+	clearPacks(): void {
+		emojiGuildRegistry.clearPacks();
 	}
 
 	getEmojiById(emojiId: string): FlatEmoji | undefined {

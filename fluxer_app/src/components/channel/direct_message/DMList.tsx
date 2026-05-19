@@ -923,6 +923,19 @@ const DMListItem = observer(({channel, isSelected}: {channel: ChannelRecord; isS
 			);
 		}
 
+		// Encrypted message with no plaintext we can render — the server
+		// only sees ciphertext so the preview field is empty. Surface a
+		// lock-prefixed placeholder so the row doesn't look like a blank
+		// "X: " over and over.
+		if (lastMessage.isEncrypted) {
+			return (
+				<>
+					{authorPrefix}
+					<span className={styles.dmItemSubtextItalic}>{t`🔒 Encrypted message`}</span>
+				</>
+			);
+		}
+
 		return null;
 	};
 

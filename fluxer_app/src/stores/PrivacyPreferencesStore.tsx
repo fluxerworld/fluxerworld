@@ -23,6 +23,7 @@ import {makeAutoObservable} from 'mobx';
 class PrivacyPreferencesStore {
 	disableStreamPreviews = false;
 	showActiveNow = true;
+	idleTimeoutMinutes = 5;
 
 	constructor() {
 		makeAutoObservable(this, {}, {autoBind: true});
@@ -30,7 +31,11 @@ class PrivacyPreferencesStore {
 	}
 
 	private async initPersistence(): Promise<void> {
-		await makePersistent(this, 'PrivacyPreferencesStore', ['disableStreamPreviews', 'showActiveNow']);
+		await makePersistent(this, 'PrivacyPreferencesStore', [
+			'disableStreamPreviews',
+			'showActiveNow',
+			'idleTimeoutMinutes',
+		]);
 	}
 
 	getDisableStreamPreviews(): boolean {
@@ -41,12 +46,20 @@ class PrivacyPreferencesStore {
 		return this.showActiveNow;
 	}
 
+	getIdleTimeoutMinutes(): number {
+		return this.idleTimeoutMinutes;
+	}
+
 	setDisableStreamPreviews(value: boolean): void {
 		this.disableStreamPreviews = value;
 	}
 
 	setShowActiveNow(value: boolean): void {
 		this.showActiveNow = value;
+	}
+
+	setIdleTimeoutMinutes(value: number): void {
+		this.idleTimeoutMinutes = value;
 	}
 }
 

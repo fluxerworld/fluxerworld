@@ -27,9 +27,11 @@ import {
 	createReportID,
 	createUserID,
 } from '@fluxer/api/src/BrandedTypes';
+import type {ChannelService} from '@fluxer/api/src/channel/services/ChannelService';
 import {Config} from '@fluxer/api/src/Config';
 import type {IChannelRepository} from '@fluxer/api/src/channel/IChannelRepository';
 import * as MessageHelpers from '@fluxer/api/src/channel/services/message/MessageHelpers';
+import {createRequestCache} from '@fluxer/api/src/middleware/RequestCacheMiddleware';
 import type {MessageAttachment} from '@fluxer/api/src/database/types/MessageTypes';
 import type {DSAReportTicketRow} from '@fluxer/api/src/database/types/ReportTypes';
 import type {IGuildRepositoryAggregate} from '@fluxer/api/src/guild/repositories/IGuildRepositoryAggregate';
@@ -84,6 +86,23 @@ const REPORT_RATE_LIMIT_WINDOW = ms('1 hour');
 const REPORT_RATE_LIMIT_MAX = 5;
 const MESSAGE_CONTEXT_WINDOW = 25;
 
+// Channel where new reports are posted as messages so the admin team sees them
+// in real time. Reading from FLUXER_REPORTS_CHANNEL_ID env var lets ops change
+// it without a code edit; falls back to the hardcoded admin guild #reports
+// channel. Posting is best-effort — failures are swallowed so reports still
+// save to the DB even if the channel is gone or misconfigured.
+const REPORT_NOTIFICATION_CHANNEL_ID =
+	process.env['FLUXER_REPORTS_CHANNEL_ID'] && /^\d+$/.test(process.env['FLUXER_REPORTS_CHANNEL_ID'])
+		? createChannelID(BigInt(process.env['FLUXER_REPORTS_CHANNEL_ID']))
+		: createChannelID(1499163755631014250n);
+// User id used as the message author for the notification. Default is the
+// admin-guild owner (Xuruh) so the post always succeeds against permission
+// checks; override with FLUXER_REPORTS_NOTIFIER_USER_ID if needed.
+const REPORT_NOTIFIER_USER_ID =
+	process.env['FLUXER_REPORTS_NOTIFIER_USER_ID'] && /^\d+$/.test(process.env['FLUXER_REPORTS_NOTIFIER_USER_ID'])
+		? createUserID(BigInt(process.env['FLUXER_REPORTS_NOTIFIER_USER_ID']))
+		: createUserID(1478435633637634048n);
+
 const DSA_CODE_CHARSET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
 const DSA_CODE_SEGMENT_LENGTH = 4;
 const DSA_CODE_SEPARATOR = '-';
@@ -104,6 +123,7 @@ export class ReportService {
 		private snowflakeService: SnowflakeService,
 		private storageService: IStorageService,
 		private reportSearchService: IReportSearchService | null = null,
+		private channelService: ChannelService | null = null,
 	) {
 		this.cleanupInterval = setInterval(() => this.cleanupRateLimitMap(), ms('5 minutes'));
 	}
@@ -191,6 +211,10 @@ export class ReportService {
 			});
 		}
 
+		this.notifyAdminChannel(report).catch((error) => {
+			Logger.error({error, reportId: report.reportId}, 'Failed to post report to admin channel');
+		});
+
 		return report;
 	}
 
@@ -263,6 +287,10 @@ export class ReportService {
 			});
 		}
 
+		this.notifyAdminChannel(report).catch((error) => {
+			Logger.error({error, reportId: report.reportId}, 'Failed to post report to admin channel');
+		});
+
 		return report;
 	}
 
@@ -325,6 +353,10 @@ export class ReportService {
 				Logger.error({error, reportId: report.reportId}, 'Failed to index guild report in search');
 			});
 		}
+
+		this.notifyAdminChannel(report).catch((error) => {
+			Logger.error({error, reportId: report.reportId}, 'Failed to post report to admin channel');
+		});
 
 		return report;
 	}
@@ -400,6 +432,10 @@ export class ReportService {
 				Logger.error({error, reportId: createdReport.reportId}, 'Failed to index DSA report in search');
 			});
 		}
+
+		this.notifyAdminChannel(createdReport).catch((error) => {
+			Logger.error({error, reportId: createdReport.reportId}, 'Failed to post report to admin channel');
+		});
 
 		return createdReport;
 	}
@@ -918,6 +954,72 @@ export class ReportService {
 		if (this.cleanupInterval) {
 			clearInterval(this.cleanupInterval);
 		}
+	}
+
+	private async notifyAdminChannel(report: IARSubmission): Promise<void> {
+		if (!this.channelService) return;
+
+		const systemUser = await this.userRepository.findUnique(REPORT_NOTIFIER_USER_ID);
+		if (!systemUser) return;
+
+		const reporterTag = await this.formatReporterTag(report);
+		const targetTag = await this.formatTargetTag(report);
+		const lines: Array<string> = [
+			`🚨 New ${reportTypeLabel(report.reportType)} report (\`${report.reportId.toString()}\`)`,
+			`**Reporter:** ${reporterTag}`,
+			`**Target:** ${targetTag}`,
+			`**Category:** ${report.category || 'unknown'}`,
+		];
+		if (report.reportedGuildName) {
+			lines.push(`**Guild:** ${report.reportedGuildName}`);
+		}
+		if (report.reportedChannelName) {
+			lines.push(`**Channel:** #${report.reportedChannelName}`);
+		}
+		if (report.additionalInfo) {
+			const truncated =
+				report.additionalInfo.length > 500
+					? `${report.additionalInfo.slice(0, 500)}…`
+					: report.additionalInfo;
+			lines.push(`**Notes:** ${truncated}`);
+		}
+
+		const requestCache = createRequestCache();
+		try {
+			await this.channelService.messages.sendMessage({
+				user: systemUser,
+				channelId: REPORT_NOTIFICATION_CHANNEL_ID,
+				data: {content: lines.join('\n')},
+				requestCache,
+			});
+		} finally {
+			requestCache.clear();
+		}
+	}
+
+	private async formatReporterTag(report: IARSubmission): Promise<string> {
+		if (!report.reporterId) {
+			return report.reporterEmail
+				? `external (${report.reporterEmail})`
+				: 'anonymous';
+		}
+		const reporter = await this.userRepository.findUnique(report.reporterId);
+		if (!reporter) return `\`${report.reporterId.toString()}\``;
+		return `${reporter.username}#${reporter.discriminator.toString().padStart(4, '0')} (\`${reporter.id.toString()}\`)`;
+	}
+
+	private async formatTargetTag(report: IARSubmission): Promise<string> {
+		if (report.reportedUserId) {
+			const reportedUser = await this.userRepository.findUnique(report.reportedUserId);
+			if (reportedUser) {
+				return `${reportedUser.username}#${reportedUser.discriminator.toString().padStart(4, '0')} (\`${reportedUser.id.toString()}\`)`;
+			}
+			return `user \`${report.reportedUserId.toString()}\``;
+		}
+		if (report.reportedGuildId) {
+			return `guild \`${report.reportedGuildId.toString()}\``;
+		}
+		return 'unknown';
 	}
 }
 

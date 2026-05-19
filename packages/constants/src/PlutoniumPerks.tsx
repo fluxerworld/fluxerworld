@@ -149,7 +149,7 @@ export const PLUTONIUM_PERKS: ReadonlyArray<PlutoniumPerk> = [
 		type: 'numeric',
 		status: 'available',
 		i18nKey: 'file_upload_size',
-		freeValue: 25 * 1024 * 1024,
+		freeValue: 50 * 1024 * 1024,
 		plutoniumValue: 500 * 1024 * 1024,
 		limitKey: 'max_attachment_file_size',
 		unit: 'bytes',

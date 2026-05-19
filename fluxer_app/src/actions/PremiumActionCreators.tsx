@@ -51,11 +51,17 @@ export async function createCustomerPortalSession(): Promise<string> {
 	}
 }
 
-export async function createCheckoutSession(priceId: string, isGift: boolean = false): Promise<string> {
+export type CheckoutPlan = 'monthly' | 'yearly' | 'gift_1_month' | 'gift_1_year';
+
+export async function createCheckoutSession(plan: CheckoutPlan): Promise<string> {
 	try {
-		const url = isGift ? Endpoints.STRIPE_CHECKOUT_GIFT : Endpoints.STRIPE_CHECKOUT_SUBSCRIPTION;
-		const response = await http.post<{url: string}>(url, {price_id: priceId});
-		logger.info('Checkout session created', {priceId, isGift});
+		const isGift = plan === 'gift_1_month' || plan === 'gift_1_year';
+		const url = isGift ? Endpoints.POLAR_CHECKOUT_GIFT : Endpoints.POLAR_CHECKOUT_SUBSCRIPTION;
+		const body = isGift
+			? {duration: plan === 'gift_1_month' ? '1_month' : '1_year'}
+			: {billing_cycle: plan === 'monthly' ? 'monthly' : 'yearly'};
+		const response = await http.post<{url: string}>(url, body);
+		logger.info('Checkout session created', {plan});
 		return response.body.url;
 	} catch (error) {
 		logger.error('Checkout session creation failed', error);

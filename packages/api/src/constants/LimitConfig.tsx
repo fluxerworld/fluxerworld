@@ -90,7 +90,7 @@ export function createDefaultLimitConfig(options?: {selfHosted?: boolean}): Limi
 					},
 					{
 						id: LIMIT_RULE_IDS.DEFAULT,
-						limits: {...DEFAULT_PREMIUM_LIMITS},
+						limits: {...DEFAULT_FREE_LIMITS},
 					},
 				],
 	};

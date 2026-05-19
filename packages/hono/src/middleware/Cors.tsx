@@ -30,7 +30,14 @@ export interface CorsOptions {
 }
 
 const DEFAULT_METHODS = ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'];
-const DEFAULT_HEADERS = ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept-Language', 'X-Request-ID'];
+const DEFAULT_HEADERS = [
+	'Content-Type',
+	'Authorization',
+	'X-Requested-With',
+	'Accept-Language',
+	'X-Request-ID',
+	'X-Fluxer-Platform',
+];
 
 export function cors(options: CorsOptions = {}): MiddlewareHandler {
 	const {

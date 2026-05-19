@@ -858,12 +858,14 @@ export function UserAccountController(app: HonoApp) {
 				'Registers a new push notification subscription for the current user. Takes push endpoint and encryption keys from a Web Push API subscription. Returns subscription ID for future reference.',
 		}),
 		async (ctx) => {
-			const {endpoint, keys, user_agent} = ctx.req.valid('json');
+			const body = ctx.req.valid('json');
 			const subscription = await ctx.get('userService').registerPushSubscription({
 				userId: ctx.get('user').id,
-				endpoint,
-				keys,
-				userAgent: user_agent,
+				endpoint: body.endpoint ?? undefined,
+				keys: body.keys ?? undefined,
+				userAgent: body.user_agent,
+				pushType: body.push_type,
+				expoToken: body.expo_token,
 			});
 			return ctx.json({subscription_id: subscription.subscriptionId});
 		},

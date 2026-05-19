@@ -18,11 +18,10 @@
  */
 
 import LocalPresenceStore from '@app/stores/LocalPresenceStore';
+import PrivacyPreferencesStore from '@app/stores/PrivacyPreferencesStore';
 import {makeAutoObservable} from 'mobx';
 
-const IDLE_DURATION_MS = 1000 * 60 * 5;
-
-const IDLE_CHECK_INTERVAL_MS = Math.floor(IDLE_DURATION_MS * 0.25);
+const IDLE_CHECK_INTERVAL_MS = 1000 * 15;
 
 class IdleStore {
 	idle = false;
@@ -73,9 +72,10 @@ class IdleStore {
 	}
 
 	private updateIdleState(): void {
-		const now = Date.now();
-		const timeSinceActivity = now - this.lastActivityTime;
-		const shouldBeIdle = timeSinceActivity >= IDLE_DURATION_MS;
+		const timeoutMinutes = PrivacyPreferencesStore.getIdleTimeoutMinutes();
+		// 0 minutes = user disabled auto-idle entirely
+		const shouldBeIdle =
+			timeoutMinutes > 0 && Date.now() - this.lastActivityTime >= timeoutMinutes * 60 * 1000;
 		if (shouldBeIdle !== this.idle) {
 			this.idle = shouldBeIdle;
 			LocalPresenceStore.updatePresence();

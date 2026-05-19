@@ -18,11 +18,12 @@
  */
 
 const DB_NAME = 'FluxerE2EE';
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 const ACCOUNT_STORE = 'accounts';
 const SESSION_STORE = 'sessions';
 const META_STORE = 'meta';
 const VERIFICATION_STORE = 'verifications';
+const MESSAGE_PLAINTEXT_STORE = 'message_plaintexts';
 
 // Pickled Olm state is encrypted at rest using a per-install random key
 // stored in the same IndexedDB. That's not "secure" against a privileged
@@ -65,6 +66,17 @@ export interface VerificationEntry {
 	source: 'manual' | 'qr_code' | 'signed';
 }
 
+// Decrypted plaintext cached so encrypted history survives a refresh.
+// Sender's own messages can never be decrypted by Olm (no self-slot in
+// the envelope) — they live here keyed by the server-assigned message
+// id so we can recover them on reload. Recipient successes also write
+// here so we don't have to re-decrypt (and risk session corruption) on
+// subsequent loads.
+export interface CachedMessagePlaintext {
+	message_id: string;
+	plaintext: string;
+}
+
 let dbInstance: IDBDatabase | null = null;
 
 async function openDB(): Promise<IDBDatabase> {
@@ -93,6 +105,9 @@ async function openDB(): Promise<IDBDatabase> {
 					keyPath: ['remote_user_id', 'remote_device_id'],
 				});
 				store.createIndex('by_remote_user', 'remote_user_id', {unique: false});
+			}
+			if (!db.objectStoreNames.contains(MESSAGE_PLAINTEXT_STORE)) {
+				db.createObjectStore(MESSAGE_PLAINTEXT_STORE, {keyPath: 'message_id'});
 			}
 		};
 	});
@@ -291,4 +306,17 @@ function generatePickleKey(): string {
 	let s = '';
 	for (let i = 0; i < bytes.length; i++) s += String.fromCharCode(bytes[i]);
 	return btoa(s);
+}
+
+export async function getCachedMessagePlaintext(messageId: string): Promise<string | null> {
+	const db = await openDB();
+	const tx = db.transaction([MESSAGE_PLAINTEXT_STORE], 'readonly');
+	const result = await reqToPromise(tx.objectStore(MESSAGE_PLAINTEXT_STORE).get(messageId));
+	return (result as CachedMessagePlaintext | undefined)?.plaintext ?? null;
+}
+
+export async function putCachedMessagePlaintext(messageId: string, plaintext: string): Promise<void> {
+	const db = await openDB();
+	const tx = db.transaction([MESSAGE_PLAINTEXT_STORE], 'readwrite');
+	await reqToPromise(tx.objectStore(MESSAGE_PLAINTEXT_STORE).put({message_id: messageId, plaintext}));
 }

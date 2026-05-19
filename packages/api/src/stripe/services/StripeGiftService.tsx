@@ -139,6 +139,39 @@ export class StripeGiftService {
 		return gifts.sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
 	}
 
+	/**
+	 * Mint a gift code from a payment-provider-neutral context (e.g. a
+	 * Polar order.paid webhook). Unlike prepareGiftCode this does not
+	 * require a pre-existing payment row — the correlation id (Polar
+	 * order id) is stored via checkout_session_id so duplicate webhook
+	 * deliveries don't double-mint.
+	 */
+	async mintGiftCodeDirect(params: {
+		purchaserId: UserID;
+		durationMonths: number;
+		correlationId: string;
+	}): Promise<string | null> {
+		const existing = await this.userRepository.getPaymentByCheckoutSession(params.correlationId);
+		if (existing?.giftCode) {
+			return existing.giftCode;
+		}
+		const code = await this.generateUniqueGiftCode();
+		await this.userRepository.createGiftCode({
+			code,
+			duration_months: params.durationMonths,
+			created_at: new Date(),
+			created_by_user_id: params.purchaserId,
+			redeemed_at: null,
+			redeemed_by_user_id: null,
+			stripe_payment_intent_id: null,
+			visionary_sequence_number: null,
+			checkout_session_id: params.correlationId,
+			version: 1,
+		});
+		await this.userRepository.linkGiftCodeToCheckoutSession(code, params.correlationId);
+		return code;
+	}
+
 	async prepareGiftCode(
 		checkoutSessionId: string,
 		purchaser: User,

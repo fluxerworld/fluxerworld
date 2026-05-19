@@ -184,8 +184,22 @@ export class PackService {
 	}
 
 	async listUserPacks(userId: UserID): Promise<PackDashboardResponse> {
-		await this.requireExpressionPackAccess(userId);
 		const user = await this.userRepository.findUnique(userId);
+		// "List my packs" answers truthfully for everyone instead of 403'ing.
+		// Bots can't own packs, and create/install is still gated to staff
+		// (see requireExpressionPackAccess), so anyone who isn't staff or is
+		// a bot has a guaranteed-empty dashboard. Returning the empty shape
+		// keeps the client's startup fetch noise-free.
+		const isStaff = user != null && !user.isBot && (user.flags & UserFlags.STAFF) !== 0n;
+		if (!isStaff) {
+			const emptySection: PackDashboardSectionResponse = {
+				installed_limit: 0,
+				created_limit: 0,
+				installed: [],
+				created: [],
+			};
+			return {emoji: emptySection, sticker: emptySection};
+		}
 		const ctx = createLimitMatchContext({user});
 		resolveLimitSafe(this.limitConfigService.getConfigSnapshot(), ctx, 'feature_global_expressions', 0);
 		const createdEmoji = await this.packRepository.listPacksByCreator(userId, 'emoji');

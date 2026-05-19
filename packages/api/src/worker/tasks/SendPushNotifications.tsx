@@ -17,7 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-import {createChannelID, createUserID, type UserID} from '@fluxer/api/src/BrandedTypes';
+import {createUserID, type UserID} from '@fluxer/api/src/BrandedTypes';
 import {Config} from '@fluxer/api/src/Config';
 import {Logger} from '@fluxer/api/src/Logger';
 import type {PushSubscription} from '@fluxer/api/src/models/PushSubscription';
@@ -181,8 +181,6 @@ async function sendWebPush(
 
 		const vapidHeaders = createVapidAuthHeaders(subscription.endpoint, vapidPublicKey, vapidPrivateKey);
 
-		const endpointUrl = new URL(subscription.endpoint);
-
 		const response = await fetch(subscription.endpoint, {
 			method: 'POST',
 			headers: {
@@ -212,6 +210,48 @@ async function sendWebPush(
 	}
 }
 
+// ─── Expo Push ──────────────────────────────────────────────────────────────
+
+async function sendExpoPush(
+	expoToken: string,
+	notification: {title: string; body: string; data: Record<string, unknown>},
+): Promise<{success: boolean; expired?: boolean}> {
+	try {
+		const response = await fetch('https://exp.host/--/api/v2/push/send', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				Accept: 'application/json',
+			},
+			body: JSON.stringify({
+				to: expoToken,
+				title: notification.title,
+				body: notification.body,
+				sound: 'default',
+				priority: 'high',
+				channelId: 'messages',
+				data: notification.data,
+			}),
+		});
+
+		const result = (await response.json()) as {data?: {status?: string; details?: {error?: string}}};
+
+		if (result.data?.status === 'ok') {
+			return {success: true};
+		}
+
+		// DeviceNotRegistered means the token is stale
+		if (result.data?.details?.error === 'DeviceNotRegistered') {
+			return {success: false, expired: true};
+		}
+
+		return {success: false};
+	} catch (error) {
+		Logger.warn({expoToken, error}, 'Failed to send Expo push');
+		return {success: false};
+	}
+}
+
 // ─── Worker Task ─────────────────────────────────────────────────────────────
 
 const sendPushNotifications: WorkerTaskHandler = async (payload, helpers) => {
@@ -220,15 +260,10 @@ const sendPushNotifications: WorkerTaskHandler = async (payload, helpers) => {
 
 	const vapidPublicKey = Config.auth.vapid.publicKey;
 	const vapidPrivateKey = Config.auth.vapid.privateKey;
-
-	if (!vapidPublicKey || !vapidPrivateKey || vapidPublicKey === 'YOUR_VAPID_PUBLIC_KEY') {
-		helpers.logger.debug('VAPID keys not configured, skipping push notifications');
-		return;
-	}
+	const vapidConfigured = vapidPublicKey && vapidPrivateKey && vapidPublicKey !== 'YOUR_VAPID_PUBLIC_KEY';
 
 	const {userRepository} = getWorkerDependencies();
 	const authorId = createUserID(BigInt(validated.authorId));
-	const channelId = createChannelID(BigInt(validated.channelId));
 
 	// Determine recipients
 	let recipientUserIds: Array<UserID>;
@@ -264,19 +299,21 @@ const sendPushNotifications: WorkerTaskHandler = async (payload, helpers) => {
 		? validated.content.substring(0, 200)
 		: 'Sent a message';
 
-	const notificationPayload = JSON.stringify({
+	const notificationData = {
+		url: validated.guildId
+			? `/channels/${validated.guildId}/${validated.channelId}`
+			: `/channels/@me/${validated.channelId}`,
+		channel_id: validated.channelId,
+		target_user_id: null as string | null,
+	};
+
+	const webPushPayload = JSON.stringify({
 		title,
 		body,
 		icon: validated.authorAvatar ?? null,
 		badge: '/badge.png',
 		tag: `channel-${validated.channelId}`,
-		data: {
-			url: validated.guildId
-				? `/channels/${validated.guildId}/${validated.channelId}`
-				: `/channels/@me/${validated.channelId}`,
-			channel_id: validated.channelId,
-			target_user_id: null,
-		},
+		data: notificationData,
 	});
 
 	// Send to all subscriptions
@@ -290,7 +327,19 @@ const sendPushNotifications: WorkerTaskHandler = async (payload, helpers) => {
 		for (const subscription of subscriptions) {
 			sendPromises.push(
 				(async () => {
-					const result = await sendWebPush(subscription, notificationPayload, vapidPublicKey, vapidPrivateKey);
+					const pushType = subscription.pushType;
+
+					let result: {success: boolean; expired?: boolean};
+
+					if (pushType === 'expo' && subscription.expoToken) {
+						result = await sendExpoPush(subscription.expoToken, {title, body, data: notificationData});
+					} else if (vapidConfigured) {
+						result = await sendWebPush(subscription, webPushPayload, vapidPublicKey, vapidPrivateKey);
+					} else {
+						// Web push but VAPID not configured
+						return;
+					}
+
 					if (result.success) {
 						sent++;
 					} else {

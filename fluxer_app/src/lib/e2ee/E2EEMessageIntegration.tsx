@@ -20,7 +20,9 @@
 import * as E2EEActionCreators from '@app/actions/E2EEActionCreators';
 import {
 	deleteSessionsForRemoteDevice,
+	getCachedMessagePlaintext,
 	getPeerIdentityKey,
+	putCachedMessagePlaintext,
 	setPeerIdentityKey,
 } from '@app/lib/e2ee/E2EEKeyStore';
 import {e2eeManager} from '@app/lib/e2ee/E2EEManager';
@@ -69,20 +71,33 @@ export interface EnvelopeAttachmentEntry {
 // attachment id so the renderer can look up by id without knowing index.
 export type CachedAttachmentEntry = EnvelopeAttachmentEntry & {id: string};
 
+// Control messages travel inside the same Olm envelope as content. They
+// signal a per-DM state change to the peer (currently just E2EE off) and
+// are processed instead of being rendered as a chat bubble. Authenticated
+// + tamper-evident because they ride the encrypted path.
+export type E2EEControl = 'e2ee_off';
+
 interface EnvelopePayloadV2 {
 	v: 2;
 	text: string;
 	attachments?: Array<EnvelopeAttachmentEntry>;
+	control?: E2EEControl;
 }
 
 interface UnwrappedPlaintext {
 	text: string;
 	attachments: Array<EnvelopeAttachmentEntry>;
+	control: E2EEControl | null;
 }
 
-function wrapPlaintext(text: string, attachments?: ReadonlyArray<EnvelopeAttachmentEntry>): string {
+function wrapPlaintext(
+	text: string,
+	attachments?: ReadonlyArray<EnvelopeAttachmentEntry>,
+	control?: E2EEControl,
+): string {
 	const envelope: EnvelopePayloadV2 = {v: 2, text};
 	if (attachments && attachments.length > 0) envelope.attachments = [...attachments];
+	if (control) envelope.control = control;
 	return JSON.stringify(envelope);
 }
 
@@ -93,17 +108,18 @@ function wrapPlaintext(text: string, attachments?: ReadonlyArray<EnvelopeAttachm
 // way a user who legitimately types `{"v":1,"text":"hi"}` as their
 // actual message body doesn't get mis-parsed.
 function unwrapPlaintext(decrypted: string): UnwrappedPlaintext {
-	if (decrypted.length === 0 || decrypted[0] !== '{') return {text: decrypted, attachments: []};
+	if (decrypted.length === 0 || decrypted[0] !== '{') return {text: decrypted, attachments: [], control: null};
 	try {
 		const parsed = JSON.parse(decrypted) as Partial<EnvelopePayloadV2>;
 		if (parsed && parsed.v === 2 && typeof parsed.text === 'string') {
 			const attachments = Array.isArray(parsed.attachments) ? parsed.attachments : [];
-			return {text: parsed.text, attachments};
+			const control = parsed.control === 'e2ee_off' ? 'e2ee_off' : null;
+			return {text: parsed.text, attachments, control};
 		}
 	} catch {
 		// JSON parse failures fall through to v1.
 	}
-	return {text: decrypted, attachments: []};
+	return {text: decrypted, attachments: [], control: null};
 }
 
 // Per-message cache of the AES keys we extracted from the v2 envelope.
@@ -221,6 +237,7 @@ export async function tryEncryptForChannel(
 	currentUserId: string,
 	plaintext: string,
 	attachments?: ReadonlyArray<EnvelopeAttachmentEntry>,
+	control?: E2EEControl,
 ): Promise<EncryptedSendResult | null> {
 	if (!E2EEStore.isReady) return null;
 	if (!SUPPORTED_CHANNEL_TYPES.has(channel.type)) return null;
@@ -293,7 +310,7 @@ export async function tryEncryptForChannel(
 	try {
 		encryptedMessages = await e2eeManager.encryptForBundles(
 			targetBundles,
-			wrapPlaintext(plaintext, attachments),
+			wrapPlaintext(plaintext, attachments, control),
 		);
 	} catch (error) {
 		logger.warn('Encryption failed, falling back to plaintext', {error});
@@ -348,6 +365,7 @@ export interface DecryptionResult {
 	plaintext: string;
 	attachments: Array<EnvelopeAttachmentEntry>;
 	verificationStatus: 'verified' | 'changed' | 'unverified';
+	control: E2EEControl | null;
 }
 
 export const ENCRYPTED_FAILURE_PLACEHOLDER =
@@ -398,9 +416,62 @@ export async function tryDecryptForCurrentDevice(
 			encryptedPayload.sender_identity_key,
 		);
 		const unwrapped = unwrapPlaintext(decrypted);
-		return {plaintext: unwrapped.text, attachments: unwrapped.attachments, verificationStatus};
+		return {
+			plaintext: unwrapped.text,
+			attachments: unwrapped.attachments,
+			verificationStatus,
+			control: unwrapped.control,
+		};
 	} catch (error) {
 		logger.warn('Failed to decrypt incoming message', {error});
 		return null;
 	}
+}
+
+// Single entry point used by both the realtime gateway echo path and
+// the history fetch path. Layers persistence on top of Olm decrypt so
+// successful resolutions (Olm decrypt, sender-own plaintext fallback)
+// survive a refresh — Olm sessions are forward-secret and we can't
+// re-decrypt the same ciphertext twice in a row, so without this cache
+// the first-load decrypt happens but a subsequent reload sees the
+// failure placeholder. Returns the same result shape as
+// `tryDecryptForCurrentDevice` plus a `cached` flag for diagnostics.
+export async function resolveEncryptedMessageContent(
+	messageId: string,
+	nonce: string | null | undefined,
+	currentUserId: string,
+	senderUserId: string,
+	encryptedPayload: EncryptedPayload | null | undefined,
+): Promise<{content: string; result: DecryptionResult | null; cached: boolean}> {
+	try {
+		const cached = await getCachedMessagePlaintext(messageId);
+		if (cached !== null) {
+			return {
+				content: cached,
+				result: {plaintext: cached, attachments: [], verificationStatus: 'unverified', control: null},
+				cached: true,
+			};
+		}
+	} catch {
+		// IDB read failure shouldn't block decrypt — fall through.
+	}
+
+	const result = await tryDecryptForCurrentDevice(currentUserId, senderUserId, encryptedPayload);
+
+	let content = buildDecryptedContent(result);
+	let plaintextToPersist: string | null = result ? result.plaintext : null;
+
+	if (!result && senderUserId === currentUserId) {
+		const sent = getSentPlaintext(messageId) ?? (nonce ? getSentPlaintext(nonce) : null);
+		if (sent !== null) {
+			content = sent;
+			plaintextToPersist = sent;
+		}
+	}
+
+	if (plaintextToPersist !== null) {
+		void putCachedMessagePlaintext(messageId, plaintextToPersist).catch(() => {});
+	}
+
+	return {content, result, cached: false};
 }

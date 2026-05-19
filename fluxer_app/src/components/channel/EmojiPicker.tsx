@@ -152,10 +152,8 @@ export const EmojiPicker = observer(
 			previewLimit: 4,
 		});
 
-		const {favoriteEmojis, frequentlyUsedEmojis, customEmojisByGuildId, unicodeEmojisByCategory} = useEmojiCategories(
-			allUpsell.accessibleItems,
-			renderedEmojis,
-		);
+		const {favoriteEmojis, frequentlyUsedEmojis, customEmojisByGuildId, customEmojisByPackId, unicodeEmojisByCategory} =
+			useEmojiCategories(allUpsell.accessibleItems, renderedEmojis);
 		const showFrequentlyUsedButton = frequentlyUsedEmojis.length > 0 && !normalizedSearchTerm;
 		const virtualRows = useVirtualRows(
 			normalizedSearchTerm,
@@ -164,6 +162,8 @@ export const EmojiPicker = observer(
 			frequentlyUsedEmojis,
 			customEmojisByGuildId,
 			unicodeEmojisByCategory,
+			undefined,
+			customEmojisByPackId,
 		);
 
 		const lockedEmojiCount = allUpsell.summary.lockedItems.length;

@@ -20,6 +20,7 @@
 import {Endpoints} from '@app/Endpoints';
 import http from '@app/lib/HttpClient';
 import {Logger} from '@app/lib/Logger';
+import type {GuildEmojiWithUser, GuildStickerWithUser} from '@fluxer/schema/src/domains/guild/GuildEmojiSchemas';
 import type {PackDashboardResponse, PackSummaryResponse} from '@fluxer/schema/src/domains/pack/PackSchemas';
 
 const logger = new Logger('Packs');
@@ -93,6 +94,118 @@ export async function uninstall(packId: string): Promise<void> {
 		await http.delete({url: Endpoints.PACK_INSTALL(packId)});
 	} catch (error) {
 		logger.error(`Failed to uninstall pack ${packId}:`, error);
+		throw error;
+	}
+}
+
+// ── Pack emojis ────────────────────────────────────────────────────────────
+
+export async function listEmojis(packId: string): Promise<ReadonlyArray<GuildEmojiWithUser>> {
+	try {
+		const response = await http.get<ReadonlyArray<GuildEmojiWithUser>>({url: Endpoints.PACK_EMOJIS(packId)});
+		return response.body;
+	} catch (error) {
+		logger.error(`Failed to list emojis for pack ${packId}:`, error);
+		throw error;
+	}
+}
+
+export async function bulkUploadEmojis(
+	packId: string,
+	emojis: Array<{name: string; image: string}>,
+	signal?: AbortSignal,
+): Promise<{success: Array<GuildEmojiWithUser>; failed: Array<{name: string; error: string}>}> {
+	try {
+		const response = await http.post<{
+			success: Array<GuildEmojiWithUser>;
+			failed: Array<{name: string; error: string}>;
+		}>({
+			url: Endpoints.PACK_EMOJI_BULK(packId),
+			body: {emojis},
+			signal,
+		});
+		return response.body;
+	} catch (error) {
+		logger.error(`Failed to bulk upload emojis to pack ${packId}:`, error);
+		throw error;
+	}
+}
+
+export async function updateEmoji(packId: string, emojiId: string, data: {name: string}): Promise<void> {
+	try {
+		await http.patch({url: Endpoints.PACK_EMOJI(packId, emojiId), body: data});
+	} catch (error) {
+		logger.error(`Failed to update emoji ${emojiId} in pack ${packId}:`, error);
+		throw error;
+	}
+}
+
+export async function removeEmoji(packId: string, emojiId: string, purge = false): Promise<void> {
+	try {
+		await http.delete({
+			url: Endpoints.PACK_EMOJI(packId, emojiId),
+			query: purge ? {purge: true} : undefined,
+		});
+	} catch (error) {
+		logger.error(`Failed to remove emoji ${emojiId} from pack ${packId}:`, error);
+		throw error;
+	}
+}
+
+// ── Pack stickers ──────────────────────────────────────────────────────────
+
+export async function listStickers(packId: string): Promise<ReadonlyArray<GuildStickerWithUser>> {
+	try {
+		const response = await http.get<ReadonlyArray<GuildStickerWithUser>>({url: Endpoints.PACK_STICKERS(packId)});
+		return response.body;
+	} catch (error) {
+		logger.error(`Failed to list stickers for pack ${packId}:`, error);
+		throw error;
+	}
+}
+
+export async function bulkUploadStickers(
+	packId: string,
+	stickers: Array<{name: string; description?: string | null; tags?: string; image: string}>,
+	signal?: AbortSignal,
+): Promise<{success: Array<GuildStickerWithUser>; failed: Array<{name: string; error: string}>}> {
+	try {
+		const response = await http.post<{
+			success: Array<GuildStickerWithUser>;
+			failed: Array<{name: string; error: string}>;
+		}>({
+			url: Endpoints.PACK_STICKERS_BULK(packId),
+			body: {stickers},
+			signal,
+		});
+		return response.body;
+	} catch (error) {
+		logger.error(`Failed to bulk upload stickers to pack ${packId}:`, error);
+		throw error;
+	}
+}
+
+export async function updateSticker(
+	packId: string,
+	stickerId: string,
+	data: {name?: string; description?: string | null; tags?: string},
+): Promise<void> {
+	try {
+		await http.patch({url: Endpoints.PACK_STICKER(packId, stickerId), body: data});
+	} catch (error) {
+		logger.error(`Failed to update sticker ${stickerId} in pack ${packId}:`, error);
+		throw error;
+	}
+}
+
+export async function removeSticker(packId: string, stickerId: string, purge = false): Promise<void> {
+	try {
+		await http.delete({
+			url: Endpoints.PACK_STICKER(packId, stickerId),
+			query: purge ? {purge: true} : undefined,
+		});
+	} catch (error) {
+		logger.error(`Failed to remove sticker ${stickerId} from pack ${packId}:`, error);
 		throw error;
 	}
 }

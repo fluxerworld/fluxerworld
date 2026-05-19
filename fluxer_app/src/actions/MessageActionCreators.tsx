@@ -34,7 +34,8 @@ import http from '@app/lib/HttpClient';
 import {HttpError} from '@app/lib/HttpError';
 import {Logger} from '@app/lib/Logger';
 import MessageQueue from '@app/lib/MessageQueue';
-import type {MessageRecord} from '@app/records/MessageRecord';
+import {MessageRecord} from '@app/records/MessageRecord';
+import {UserRecord} from '@app/records/UserRecord';
 import AuthenticationStore from '@app/stores/AuthenticationStore';
 import ChannelStore from '@app/stores/ChannelStore';
 import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
@@ -43,14 +44,13 @@ import GuildMemberStore from '@app/stores/GuildMemberStore';
 import GuildNSFWAgreeStore from '@app/stores/GuildNSFWAgreeStore';
 import {encryptFileForUpload} from '@app/lib/e2ee/E2EEAttachments';
 import {
-	buildDecryptedContent,
 	type EnvelopeAttachmentEntry,
 	pairEnvelopeAttachments,
 	recordAttachmentKeys,
 	recordMessageVerification,
 	recordSentEnvelopeEntries,
 	recordSentPlaintext,
-	tryDecryptForCurrentDevice,
+	resolveEncryptedMessageContent,
 	tryEncryptForChannel,
 } from '@app/lib/e2ee/E2EEMessageIntegration';
 import MessageEditMobileStore from '@app/stores/MessageEditMobileStore';
@@ -61,7 +61,8 @@ import MessageStore from '@app/stores/MessageStore';
 import ReadStateStore from '@app/stores/ReadStateStore';
 import {getApiErrorCode} from '@app/utils/ApiErrorUtils';
 import {APIErrorCodes} from '@fluxer/constants/src/ApiErrorCodes';
-import {MessageFlags} from '@fluxer/constants/src/ChannelConstants';
+import {FLUXERBOT_ID} from '@fluxer/constants/src/AppConstants';
+import {ChannelTypes, MessageFlags, MessageStates, MessageTypes} from '@fluxer/constants/src/ChannelConstants';
 import type {JumpType} from '@fluxer/constants/src/JumpConstants';
 import {MAX_MESSAGES_PER_CHANNEL} from '@fluxer/constants/src/LimitConstants';
 import type {MessageId} from '@fluxer/schema/src/branded/WireIds';
@@ -231,11 +232,49 @@ async function decryptHistoryMessages(messages: ReadonlyArray<Message>): Promise
 	);
 	if (encrypted.length === 0) return;
 
+	// Track the chronologically-latest encryption state signal across
+	// the whole batch. A control_off later than any regular encrypted
+	// message means the peer disabled E2EE after a stream of encrypted
+	// content — we'd be wrong to auto-enable on history. Snowflakes
+	// encode timestamp, so a string compare on the id is a valid order.
+	let latestSignalId: string | null = null;
+	let latestSignalState: boolean | null = null;
+	const recordSignal = (msgId: string, state: boolean): void => {
+		if (latestSignalId === null || msgId > latestSignalId) {
+			latestSignalId = msgId;
+			latestSignalState = state;
+		}
+	};
+
 	for (const msg of encrypted) {
 		const senderId = msg.author?.id;
 		if (!senderId) continue;
+		const isControl = ((msg.flags ?? 0) & MessageFlags.E2EE_CONTROL) !== 0;
+		if (isControl) {
+			// Flagged control envelope — suppress the bubble unconditionally
+			// and treat it as an off-signal regardless of decrypt outcome.
+			recordSignal(msg.id, false);
+			MessageStore.handleMessageDelete({channelId: msg.channel_id, id: msg.id});
+			continue;
+		}
 		try {
-			const result = await tryDecryptForCurrentDevice(currentUserId, senderId, msg.encrypted_payload);
+			const {content, result} = await resolveEncryptedMessageContent(
+				msg.id,
+				msg.nonce,
+				currentUserId,
+				senderId,
+				msg.encrypted_payload,
+			);
+
+			if (result?.control === 'e2ee_off') {
+				// Legacy unflagged control envelope (sent before the flag
+				// was added). Drop the bubble; signal handled below.
+				recordSignal(msg.id, false);
+				MessageStore.handleMessageDelete({channelId: msg.channel_id, id: msg.id});
+				continue;
+			}
+			recordSignal(msg.id, true);
+
 			if (result?.attachments.length && msg.attachments?.length) {
 				recordAttachmentKeys(msg.id, pairEnvelopeAttachments(msg.attachments, result.attachments));
 			}
@@ -243,10 +282,25 @@ async function decryptHistoryMessages(messages: ReadonlyArray<Message>): Promise
 				recordMessageVerification(msg.id, result.verificationStatus);
 			}
 			MessageStore.handleMessageUpdate({
-				message: {...msg, content: buildDecryptedContent(result)},
+				message: {...msg, content},
 			});
 		} catch (error) {
 			logger.warn('Decrypt history message failed', {messageId: msg.id, error});
+		}
+	}
+
+	// Apply the resolved final state once, only if it differs from
+	// what we currently have. Avoids spamming system messages when the
+	// user paginates back through the same history.
+	if (latestSignalState !== null) {
+		const channelId = encrypted[0].channel_id;
+		const channel = ChannelStore.getChannel(channelId);
+		if (channel?.type === ChannelTypes.DM) {
+			const current = E2EEStore.isChannelEncrypted(channelId);
+			if (current !== latestSignalState) {
+				E2EEStore.setChannelEncrypted(channelId, latestSignalState);
+				emitE2EEStateMessage(channelId, latestSignalState);
+			}
 		}
 	}
 }
@@ -435,7 +489,7 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 						envelopeEntries = encryptedFiles.map((r) => r.envelopeEntry);
 						CloudUpload.replaceMessageUploadFiles(
 							params.nonce,
-							encryptedFiles.map((r) => ({file: r.encryptedFile})),
+							encryptedFiles.map((r) => ({file: r.encryptedFile, filename: r.encryptedFile.name})),
 						);
 					} catch (error) {
 						logger.warn('Failed to encrypt attachments, prompting fallback', {error});
@@ -517,6 +571,74 @@ export function send(channelId: string, params: SendMessageParams): Promise<Mess
 			);
 		})();
 	});
+}
+
+// Local-only system message announcing that E2EE turned on or off in
+// this DM. Posted on both sides whenever the per-channel toggle flips
+// (manual click, peer auto-mirror via incoming encrypted message, or
+// peer's e2ee_off control envelope). Uses CLIENT_SYSTEM so it renders
+// as a centered notice and isn't persisted server-side — the toggle
+// state itself is the source of truth.
+export function emitE2EEStateMessage(channelId: string, on: boolean): void {
+	const fluxerbotUser = new UserRecord({
+		id: FLUXERBOT_ID,
+		username: 'Fluxerbot',
+		discriminator: '0000',
+		global_name: null,
+		avatar: null,
+		avatar_color: null,
+		bot: true,
+		system: true,
+		flags: 0,
+	});
+	const nonce = SnowflakeUtils.fromTimestamp(Date.now());
+	const message = new MessageRecord({
+		id: nonce,
+		channel_id: channelId,
+		author: fluxerbotUser.toJSON(),
+		type: MessageTypes.CLIENT_SYSTEM,
+		flags: 0,
+		pinned: false,
+		mention_everyone: false,
+		content: on ? 'AES-256 on' : 'AES-256 off',
+		timestamp: new Date().toISOString(),
+		state: MessageStates.SENT,
+		nonce,
+		attachments: [],
+	});
+	createOptimistic(channelId, message.toJSON());
+}
+
+// Fire-and-forget send of an encrypted control envelope to the peer's
+// device(s). Used when the local user disables E2EE so the peer's
+// client can flip its toggle off in lockstep — without this they'd
+// keep encrypting messages that we'd no longer be sending encrypted
+// back, which is fine cryptographically but surprising as UX.
+// Best-effort: if the encrypt fails (no peer keys, etc.) we just skip
+// the signal — the local toggle still flips, and the peer will see
+// our next plaintext message arrive plaintext.
+export async function sendE2EEOffControl(channelId: string): Promise<void> {
+	const channel = ChannelStore.getChannel(channelId);
+	const userId = AuthenticationStore.currentUserId;
+	if (!channel || !userId) return;
+	const encrypted = await tryEncryptForChannel(channel, userId, '', undefined, 'e2ee_off');
+	if (!encrypted) {
+		logger.warn('E2EE off control encrypt failed, skipping peer signal');
+		return;
+	}
+	const nonce = SnowflakeUtils.fromTimestamp(Date.now());
+	MessageQueue.enqueue(
+		{
+			type: 'send',
+			channelId,
+			nonce,
+			content: '',
+			hasAttachments: false,
+			flags: MessageFlags.ENCRYPTED | MessageFlags.E2EE_CONTROL,
+			encryptedPayload: encrypted.encrypted_payload,
+		},
+		() => {},
+	);
 }
 
 export function edit(channelId: string, messageId: string, content?: string, flags?: number): Promise<Message | null> {
