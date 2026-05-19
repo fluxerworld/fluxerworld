@@ -64,6 +64,7 @@ export class UserSettings {
 	readonly guildPositions: Array<GuildID>;
 	readonly guildFolders: Array<UserGuildFolder>;
 	readonly afkTimeout: number;
+	readonly idleTimeout: number;
 	readonly timeFormat: number;
 	readonly trustedDomains: Set<string>;
 	readonly defaultHideMutedChannels: boolean;
@@ -98,6 +99,7 @@ export class UserSettings {
 		this.guildPositions = row.guild_positions ?? [];
 		this.guildFolders = (row.guild_folders ?? []).map((folder) => new UserGuildFolder(folder));
 		this.afkTimeout = row.afk_timeout ?? 600;
+		this.idleTimeout = row.idle_timeout ?? 1140;
 		this.timeFormat = row.time_format ?? 0;
 		this.trustedDomains = row.trusted_domains ?? new Set();
 		this.defaultHideMutedChannels = row.default_hide_muted_channels ?? false;
@@ -142,6 +144,7 @@ export class UserSettings {
 			guild_positions: this.guildPositions.length > 0 ? this.guildPositions : null,
 			guild_folders: this.guildFolders.length > 0 ? this.guildFolders.map((folder) => folder.toGuildFolder()) : null,
 			afk_timeout: this.afkTimeout,
+			idle_timeout: this.idleTimeout,
 			time_format: this.timeFormat,
 			trusted_domains: this.trustedDomains.size > 0 ? this.trustedDomains : null,
 			default_hide_muted_channels: this.defaultHideMutedChannels,
@@ -205,6 +208,7 @@ export class UserSettings {
 				},
 			],
 			afk_timeout: 600,
+			idle_timeout: 1140,
 			time_format: 0,
 			trusted_domains: new Set(),
 			default_hide_muted_channels: false,

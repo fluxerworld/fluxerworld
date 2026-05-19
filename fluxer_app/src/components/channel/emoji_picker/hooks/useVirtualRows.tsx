@@ -34,6 +34,7 @@ export function useVirtualRows(
 	customEmojisByGuildId: Map<string, Array<FlatEmoji>>,
 	unicodeEmojisByCategory: Map<string, Array<FlatEmoji>>,
 	emojisPerRow: number = EMOJIS_PER_ROW,
+	customEmojisByPackId?: Map<string, Array<FlatEmoji>>,
 ) {
 	const {t, i18n} = useLingui();
 	const collapsedCategories = EmojiPickerStore.collapsedCategories;
@@ -116,6 +117,32 @@ export function useVirtualRows(
 				}
 			}
 
+			if (customEmojisByPackId) {
+				for (const [packId, emojis] of customEmojisByPackId.entries()) {
+					if (emojis.length === 0) continue;
+					const isCollapsed = EmojiPickerStore.isCategoryCollapsed(packId);
+					const packName = emojis[0]?.packName ?? t`Expression Pack`;
+
+					rows.push({
+						type: 'header',
+						category: packId,
+						name: packName,
+						index: currentIndex++,
+					});
+
+					if (!isCollapsed) {
+						for (let i = 0; i < emojis.length; i += emojisPerRow) {
+							rows.push({
+								type: 'emoji-row',
+								emojis: emojis.slice(i, i + emojisPerRow),
+								index: currentIndex++,
+								isCustomEmoji: true,
+							});
+						}
+					}
+				}
+			}
+
 			for (const [category, emojis] of unicodeEmojisByCategory.entries()) {
 				const isCategoryCollapsed = EmojiPickerStore.isCategoryCollapsed(category);
 
@@ -145,8 +172,10 @@ export function useVirtualRows(
 		favoriteEmojis,
 		frequentlyUsedEmojis,
 		customEmojisByGuildId,
+		customEmojisByPackId,
 		unicodeEmojisByCategory,
 		emojisPerRow,
 		collapsedCategories,
+		t,
 	]);
 }

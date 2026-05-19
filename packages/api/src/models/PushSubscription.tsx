@@ -20,6 +20,8 @@
 import type {UserID} from '@fluxer/api/src/BrandedTypes';
 import type {PushSubscriptionRow} from '@fluxer/api/src/database/types/UserTypes';
 
+export type PushType = 'web' | 'expo';
+
 export class PushSubscription {
 	readonly userId: UserID;
 	readonly subscriptionId: string;
@@ -27,6 +29,8 @@ export class PushSubscription {
 	readonly p256dhKey: string;
 	readonly authKey: string;
 	readonly userAgent: string | null;
+	readonly pushType: PushType;
+	readonly expoToken: string | null;
 
 	constructor(row: PushSubscriptionRow) {
 		this.userId = row.user_id;
@@ -35,6 +39,8 @@ export class PushSubscription {
 		this.p256dhKey = row.p256dh_key;
 		this.authKey = row.auth_key;
 		this.userAgent = row.user_agent ?? null;
+		this.pushType = (row.push_type as PushType) ?? 'web';
+		this.expoToken = row.expo_token ?? null;
 	}
 
 	toRow(): PushSubscriptionRow {
@@ -45,6 +51,8 @@ export class PushSubscription {
 			p256dh_key: this.p256dhKey,
 			auth_key: this.authKey,
 			user_agent: this.userAgent,
+			push_type: this.pushType,
+			expo_token: this.expoToken,
 		};
 	}
 }

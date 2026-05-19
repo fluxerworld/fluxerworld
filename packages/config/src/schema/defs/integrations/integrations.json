@@ -28,6 +28,10 @@
 				"$ref": "#/$defs/stripe_integration",
 				"default": {}
 			},
+			"polar": {
+				"$ref": "#/$defs/polar_integration",
+				"default": {}
+			},
 			"photo_dna": {
 				"$ref": "#/$defs/photo_dna_integration",
 				"default": {}

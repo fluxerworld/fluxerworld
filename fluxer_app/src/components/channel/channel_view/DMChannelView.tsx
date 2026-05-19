@@ -241,8 +241,11 @@ const CallParticipantsRow = observer(
 			[channel.guildId, channel.id, participantEntryByUserId],
 		);
 
-		if (participants.length === 0) return null;
-
+		// NOTE: all hooks must be called BEFORE any early return — moving
+		// avatarSize + useMemo above the `participants.length === 0` guard
+		// fixes React #310 ("rendered fewer hooks than expected") that
+		// fired when the call got a CALL_DELETE (e.g. on reject) and
+		// participants dropped to 0 between renders.
 		const avatarSize = getCallAvatarSize(participants.length, windowWidth);
 		const callRippleStyle = useMemo(() => {
 			const rippleOuter = Math.round(avatarSize * 2.05);
@@ -256,6 +259,8 @@ const CallParticipantsRow = observer(
 				'--call-ripple-size-4': `${rippleCore}px`,
 			} as React.CSSProperties;
 		}, [avatarSize]);
+
+		if (participants.length === 0) return null;
 
 		return (
 			<div className={clsx(dmStyles.callParticipantsRow, className)} role="group" aria-label={t`Call participants`}>

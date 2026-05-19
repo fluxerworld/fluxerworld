@@ -238,6 +238,7 @@ export interface UserSettingsRow {
 	guild_positions: Nullish<Array<GuildID>>;
 	guild_folders: Nullish<Array<GuildFolder>>;
 	afk_timeout: Nullish<number>;
+	idle_timeout: Nullish<number>;
 	time_format: Nullish<number>;
 	trusted_domains: Nullish<Set<string>>;
 	default_hide_muted_channels: Nullish<boolean>;
@@ -441,6 +442,8 @@ export interface PushSubscriptionRow {
 	p256dh_key: string;
 	auth_key: string;
 	user_agent: Nullish<string>;
+	push_type: Nullish<string>; // 'web' | 'expo' — null treated as 'web'
+	expo_token: Nullish<string>;
 }
 
 export const PUSH_SUBSCRIPTION_COLUMNS = [
@@ -450,6 +453,8 @@ export const PUSH_SUBSCRIPTION_COLUMNS = [
 	'p256dh_key',
 	'auth_key',
 	'user_agent',
+	'push_type',
+	'expo_token',
 ] as const satisfies ReadonlyArray<keyof PushSubscriptionRow>;
 
 export interface UserContactChangeLogRow {
@@ -492,6 +497,7 @@ export const USER_SETTINGS_COLUMNS = [
 	'guild_positions',
 	'guild_folders',
 	'afk_timeout',
+	'idle_timeout',
 	'time_format',
 	'trusted_domains',
 	'default_hide_muted_channels',

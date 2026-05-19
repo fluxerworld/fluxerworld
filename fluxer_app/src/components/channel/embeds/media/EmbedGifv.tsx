@@ -584,15 +584,15 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 
 		const optimizedAnimatedURL = buildMediaProxyURL(baseProxyURL, {
 			format: 'webp',
-			width: Math.round(displayWidth * 2),
-			height: Math.round(displayHeight * 2),
+			width: Math.round(displayWidth),
+			height: Math.round(displayHeight),
 			animated: true,
 		});
 
 		const optimizedStaticURL = buildMediaProxyURL(baseProxyURL, {
 			format: 'webp',
-			width: Math.round(displayWidth * 2),
-			height: Math.round(displayHeight * 2),
+			width: Math.round(displayWidth),
+			height: Math.round(displayHeight),
 			animated: false,
 		});
 
@@ -812,6 +812,7 @@ export const EmbedGif: FC<GifvEmbedProps & {proxyURL: string; includeButton?: bo
 							)}
 							data-embed-media="gif"
 							loading="lazy"
+							decoding="async"
 							tabIndex={-1}
 							width={renderedDimensions.width}
 							height={renderedDimensions.height}

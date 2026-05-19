@@ -32,6 +32,7 @@ export const NagbarType = {
 	MOBILE_DOWNLOAD: 'mobile-download',
 	GUILD_MEMBERSHIP_CTA: 'guild-membership-cta',
 	VISIONARY_MFA: 'visionary-mfa',
+	OUTDATED_CLIENT: 'outdated-client',
 } as const;
 
 export type NagbarType = ValueOf<typeof NagbarType>;
@@ -59,6 +60,7 @@ export interface NagbarConditions {
 	hasPendingBulkMessageDeletion: boolean;
 	canShowGuildMembershipCta: boolean;
 	canShowVisionaryMfa: boolean;
+	canShowOutdatedClient: boolean;
 }
 
 export const UPDATE_DISMISS_KEY = 'fluxer_update_dismissed_until';

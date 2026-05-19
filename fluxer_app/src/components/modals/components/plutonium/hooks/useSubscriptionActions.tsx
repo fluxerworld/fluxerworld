@@ -19,6 +19,7 @@
 
 import * as PremiumActionCreators from '@app/actions/PremiumActionCreators';
 import * as ToastActionCreators from '@app/actions/ToastActionCreators';
+import {HttpError} from '@app/lib/HttpError';
 import {Logger} from '@app/lib/Logger';
 import {openExternalUrl} from '@app/utils/NativeUtils';
 import {useLingui} from '@lingui/react/macro';
@@ -39,7 +40,11 @@ export const useSubscriptionActions = () => {
 			void openExternalUrl(url);
 		} catch (error) {
 			logger.error('Failed to open customer portal', error);
-			ToastActionCreators.error(t`Failed to open customer portal. Please try again.`);
+			if (error instanceof HttpError && error.status === 404) {
+				ToastActionCreators.success(t`You have no purchase history yet.`);
+			} else {
+				ToastActionCreators.error(t`Failed to open customer portal. Please try again.`);
+			}
 		} finally {
 			setLoadingPortal(false);
 		}

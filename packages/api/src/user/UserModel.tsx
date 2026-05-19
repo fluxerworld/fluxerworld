@@ -136,6 +136,12 @@ export const UserSettingsUpdateRequest = z
 			.describe('Array of guild folder configurations'),
 		custom_status: CustomStatusPayload.nullish().describe('Custom status with text and emoji'),
 		afk_timeout: z.number().int().min(60).max(600).describe('AFK timeout in seconds (60-600)'),
+		idle_timeout: z
+			.number()
+			.int()
+			.min(0)
+			.max(3600)
+			.describe('Idle timeout in seconds (0=disabled, 60-3600)'),
 		time_format: z.number().int().min(0).max(2).describe('Time format preference (0=12h, 1=24h, 2=relative)'),
 		developer_mode: z.boolean().describe('Enable developer mode features'),
 		trusted_domains: z

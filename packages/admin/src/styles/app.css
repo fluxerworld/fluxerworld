@@ -289,6 +289,14 @@ h1, h2, h3, h4, h5, h6 {
 	transition: all 150ms ease-in-out;
 }
 
+/* Hide the checkmark SVG itself when the input is not checked. The
+ * background-color trick alone breaks in dark themes where the
+ * "white check on white background" invisibility doesn't hold. */
+.checkbox-custom svg {
+	opacity: 0;
+	transition: opacity 150ms ease-in-out;
+}
+
 .group:hover .checkbox-custom {
 	border-color: #a1a1aa;
 }
@@ -296,6 +304,10 @@ h1, h2, h3, h4, h5, h6 {
 input:checked + .checkbox-custom {
 	background-color: var(--brand-primary);
 	border-color: var(--brand-primary);
+}
+
+input:checked + .checkbox-custom svg {
+	opacity: 1;
 }
 
 .slider-input {

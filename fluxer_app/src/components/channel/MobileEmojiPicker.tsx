@@ -155,10 +155,8 @@ export const MobileEmojiPicker = observer(
 
 		useSearchInputAutofocus(searchInputRef);
 
-		const {customEmojisByGuildId, unicodeEmojisByCategory, favoriteEmojis, frequentlyUsedEmojis} = useEmojiCategories(
-			allUpsell.accessibleItems,
-			renderedEmojis,
-		);
+		const {customEmojisByGuildId, customEmojisByPackId, unicodeEmojisByCategory, favoriteEmojis, frequentlyUsedEmojis} =
+			useEmojiCategories(allUpsell.accessibleItems, renderedEmojis);
 		const showFrequentlyUsedButton = frequentlyUsedEmojis.length > 0 && !normalizedSearchTerm;
 		const virtualRows = useVirtualRows(
 			normalizedSearchTerm,
@@ -168,6 +166,7 @@ export const MobileEmojiPicker = observer(
 			customEmojisByGuildId,
 			unicodeEmojisByCategory,
 			8,
+			customEmojisByPackId,
 		);
 
 		const lockedEmojiCount = allUpsell.summary.lockedItems.length;

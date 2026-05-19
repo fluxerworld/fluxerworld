@@ -34,6 +34,8 @@ export const EmojiInfoContent = observer(function EmojiInfoContent({emoji}: Emoj
 		guildId: emoji.guildId,
 		guild,
 		emojiName: emoji.name,
+		packId: emoji.packId,
+		packName: emoji.packName,
 	});
 
 	return (

@@ -19,6 +19,7 @@
 
 import Config from '@app/Config';
 import {Logger} from '@app/lib/Logger';
+import {Platform} from '@app/lib/Platform';
 import type {UpdaterEvent} from '@app/types/electron.d';
 import {getClientInfo} from '@app/utils/ClientInfoUtils';
 import {getElectronAPI, isElectron, openExternalUrl} from '@app/utils/NativeUtils';
@@ -334,6 +335,15 @@ class UpdaterStoreImpl {
 
 	private async checkWebUpdate(): Promise<{available: boolean; sha: string | null; buildNumber: number | null}> {
 		if (!ALLOWED_WEB_UPDATE_HOSTS.has(window.location.host)) {
+			return {available: false, sha: null, buildNumber: null};
+		}
+		// Web-update prompts are only useful inside the PWA shell where the
+		// outer container can't auto-reload. Pure browser users get the
+		// latest on refresh; Electron has its own native updater for the
+		// shell + bundles the latest SPA on launch — showing a "reload" arrow
+		// in Electron just confuses people into thinking a real binary
+		// update dropped.
+		if (!Platform.isPWA) {
 			return {available: false, sha: null, buildNumber: null};
 		}
 

@@ -122,6 +122,25 @@ export class StripeService {
 		return this.checkoutService.createCustomerPortalSession(userId);
 	}
 
+	/**
+	 * Expose the premium-management service. Used by the Polar payment
+	 * provider during migration — Polar's webhooks grant/revoke premium
+	 * via the same provider-neutral service. When the Stripe module is
+	 * eventually removed, PremiumService should be lifted out of this
+	 * class and constructed at the top-level ServiceMiddleware.
+	 */
+	getPremiumService(): StripePremiumService {
+		return this.premiumService;
+	}
+
+	/**
+	 * Expose the gift service — used by PolarWebhookService to mint gift
+	 * codes on `order.paid` events with metadata.kind === 'gift'.
+	 */
+	getGiftService(): StripeGiftService {
+		return this.giftService;
+	}
+
 	getPriceIds(countryCode?: string): {
 		monthly: string | null;
 		yearly: string | null;

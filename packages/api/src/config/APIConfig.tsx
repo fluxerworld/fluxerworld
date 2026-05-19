@@ -175,6 +175,19 @@ export interface APIConfig {
 		};
 	};
 
+	polar: {
+		enabled: boolean;
+		sandbox: boolean;
+		apiKey: string;
+		webhookSecret: string;
+		products: {
+			monthlySubscription: string;
+			yearlySubscription: string;
+			gift1Month: string;
+			gift1Year: string;
+		};
+	};
+
 	cloudflare: {
 		purgeEnabled: boolean;
 		zoneId?: string;

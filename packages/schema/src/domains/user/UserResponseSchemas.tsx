@@ -274,6 +274,7 @@ export const UserSettingsResponse = z.object({
 		.describe('The folder structure for organizing guilds in the sidebar'),
 	custom_status: CustomStatusResponse.nullable().describe('The custom status set by the user'),
 	afk_timeout: Int32Type.describe('The idle timeout in seconds before going AFK'),
+	idle_timeout: z.number().int().describe('The idle timeout in seconds before appearing idle (0=disabled)'),
 	time_format: withFieldDescription(TimeFormatTypesSchema, 'The preferred time format setting'),
 	developer_mode: z.boolean().describe('Whether developer mode is enabled'),
 	trusted_domains: z.array(z.string()).max(1000).describe('List of trusted external link domains'),

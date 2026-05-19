@@ -38,7 +38,7 @@ const FALLBACKS = {
 	max_group_dm_recipients: 25,
 	max_private_channels_per_user: 250,
 
-	max_attachment_file_size_free: 25 * 1024 * 1024,
+	max_attachment_file_size_free: 50 * 1024 * 1024,
 } as const;
 
 class LimitsClass {

@@ -28,6 +28,11 @@ export interface GuildEmojiShape {
 	url: string;
 	animated: boolean;
 	user?: UserPartial;
+	/** When set, this emoji belongs to an expression pack rather than a guild
+	 * the user is a member of. The picker uses this to render a pack section
+	 * with the pack name instead of looking the id up in GuildStore. */
+	packId?: string;
+	packName?: string;
 }
 
 export interface UnicodeEmoji {
@@ -44,6 +49,8 @@ export interface UnicodeEmoji {
 	index?: number;
 	diversityIndex?: number;
 	guildId?: string;
+	packId?: string;
+	packName?: string;
 }
 
 export type FlatEmoji = Readonly<

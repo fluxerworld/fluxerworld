@@ -72,39 +72,18 @@ export const useCheckoutActions = (priceIds: PriceIds | null, isGiftSubscription
 				return;
 			}
 
-			if (!priceIds) {
-				logger.error('Price IDs not loaded yet');
-				ToastActionCreators.error(t`Please wait for pricing information to load.`);
-				return;
-			}
-
-			const planConfig: Record<Plan, {id: string | null; gift?: boolean}> = {
-				monthly: {id: priceIds.monthly ?? null},
-				yearly: {id: priceIds.yearly ?? null},
-				gift_1_month: {id: priceIds.gift_1_month ?? null, gift: true},
-				gift_1_year: {id: priceIds.gift_1_year ?? null, gift: true},
-			};
-
-			const selected = planConfig[plan];
-			const priceId = selected.id;
-			const isGift = selected.gift ?? false;
-
-			if (!priceId) {
-				logger.error('Price ID not available for plan', {plan});
-				ToastActionCreators.error(t`This plan is not available at the moment. Please contact support.`);
-				return;
-			}
-
 			setLoadingCheckout(true);
 			try {
-				const checkoutUrl = await PremiumActionCreators.createCheckoutSession(priceId, isGift);
+				// Polar handles currency auto-conversion, so we pass the plan
+				// name directly — no per-currency price-id lookup needed.
+				const checkoutUrl = await PremiumActionCreators.createCheckoutSession(plan);
 
 				if (mobileEnabled) {
 					ModalActionCreators.push(
 						modal(() => (
 							<ConfirmModal
 								title={t`Complete Payment`}
-								description={t`You are now navigating to Stripe to complete the payment. Return to Fluxer once you've completed it!`}
+								description={t`You are now navigating to Polar to complete the payment. Return to Fluxer once you've completed it!`}
 								primaryText={t`OK`}
 								primaryVariant="primary"
 								secondaryText={t`Cancel`}

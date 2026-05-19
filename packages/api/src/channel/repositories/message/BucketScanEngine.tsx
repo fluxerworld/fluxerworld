@@ -242,28 +242,6 @@ export async function scanBucketsWithIndex<Row>(
 			const nextCursor = last - 1;
 			cursorMax = nextCursor >= opts.minBucket ? nextCursor : null;
 		}
-
-		if (remaining > 0) {
-			for (let bucket = opts.maxBucket; remaining > 0 && bucket >= opts.minBucket; bucket--) {
-				if (processedBuckets.has(bucket)) continue;
-				processedBuckets.add(bucket);
-
-				await processBucket(bucket);
-
-				if (shouldStopAfterBucket(bucket)) {
-					trace?.({
-						kind: BucketScanTraceKind.StopAfterBucketReached,
-						minBucket: opts.minBucket,
-						maxBucket: opts.maxBucket,
-						limit: opts.limit,
-						direction: opts.direction,
-						bucket,
-						remaining,
-					});
-					return {rows: out};
-				}
-			}
-		}
 	} else {
 		let cursorMin: number | null = opts.minBucket;
 
@@ -321,28 +299,6 @@ export async function scanBucketsWithIndex<Row>(
 			const last = buckets[buckets.length - 1];
 			const nextCursor = last + 1;
 			cursorMin = nextCursor <= opts.maxBucket ? nextCursor : null;
-		}
-
-		if (remaining > 0) {
-			for (let bucket = opts.minBucket; remaining > 0 && bucket <= opts.maxBucket; bucket++) {
-				if (processedBuckets.has(bucket)) continue;
-				processedBuckets.add(bucket);
-
-				await processBucket(bucket);
-
-				if (shouldStopAfterBucket(bucket)) {
-					trace?.({
-						kind: BucketScanTraceKind.StopAfterBucketReached,
-						minBucket: opts.minBucket,
-						maxBucket: opts.maxBucket,
-						limit: opts.limit,
-						direction: opts.direction,
-						bucket,
-						remaining,
-					});
-					return {rows: out};
-				}
-			}
 		}
 	}
 

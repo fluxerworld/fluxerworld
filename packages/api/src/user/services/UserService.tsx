@@ -551,9 +551,11 @@ export class UserService {
 
 	async registerPushSubscription(params: {
 		userId: UserID;
-		endpoint: string;
-		keys: {p256dh: string; auth: string};
+		endpoint?: string;
+		keys?: {p256dh: string; auth: string};
 		userAgent?: string;
+		pushType?: 'web' | 'expo';
+		expoToken?: string;
 	}): Promise<PushSubscription> {
 		return await this.contentService.registerPushSubscription(params);
 	}

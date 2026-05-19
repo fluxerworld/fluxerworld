@@ -17,6 +17,7 @@
  * along with Fluxer. If not, see <https://www.gnu.org/licenses/>.
  */
 
+import {HTTPException} from 'hono/http-exception';
 import {DefaultUserOnly, LoginRequired} from '@fluxer/api/src/middleware/AuthMiddleware';
 import {RateLimitMiddleware} from '@fluxer/api/src/middleware/RateLimitMiddleware';
 import {OpenAPI} from '@fluxer/api/src/middleware/ResponseTypeMiddleware';
@@ -231,7 +232,10 @@ export function StripeController(app: HonoApp) {
 		}),
 		async (ctx) => {
 			const userId = ctx.get('user').id;
-			const url = await ctx.get('stripeService').createCustomerPortalSession(userId);
+			const url = await ctx.get('polarSubscriptionService').getCustomerPortalUrlForUser(userId);
+			if (!url) {
+				throw new HTTPException(404, {message: 'No purchase history available.'});
+			}
 			return ctx.json({url});
 		},
 	);
@@ -252,7 +256,7 @@ export function StripeController(app: HonoApp) {
 		}),
 		async (ctx) => {
 			const userId = ctx.get('user').id;
-			await ctx.get('stripeService').cancelSubscriptionAtPeriodEnd(userId);
+			await ctx.get('polarSubscriptionService').cancelForUser(userId);
 			return ctx.body(null, 204);
 		},
 	);
@@ -273,7 +277,7 @@ export function StripeController(app: HonoApp) {
 		}),
 		async (ctx) => {
 			const userId = ctx.get('user').id;
-			await ctx.get('stripeService').reactivateSubscription(userId);
+			await ctx.get('polarSubscriptionService').reactivateForUser(userId);
 			return ctx.body(null, 204);
 		},
 	);

@@ -64,7 +64,7 @@ export const UploadManager = observer(({channel}: {channel: ChannelRecord}) => {
 					return;
 				}
 
-				const maxFileSize = UserStore.getCurrentUser()?.maxAttachmentFileSize ?? 25 * 1024 * 1024;
+				const maxFileSize = UserStore.getCurrentUser()?.maxAttachmentFileSize ?? 50 * 1024 * 1024;
 				const oversizedFileCount = files.filter((file) => file.size > maxFileSize).length;
 				if (oversizedFileCount > 0) {
 					ModalActionCreators.push(modal(() => <FileSizeTooLargeModal oversizedFileCount={oversizedFileCount} />));
@@ -123,7 +123,7 @@ export const UploadManager = observer(({channel}: {channel: ChannelRecord}) => {
 					return;
 				}
 
-				const maxFileSize = UserStore.getCurrentUser()?.maxAttachmentFileSize ?? 25 * 1024 * 1024;
+				const maxFileSize = UserStore.getCurrentUser()?.maxAttachmentFileSize ?? 50 * 1024 * 1024;
 				const oversizedFileCount = files.filter((file) => file.size > maxFileSize).length;
 				if (oversizedFileCount > 0) {
 					ModalActionCreators.push(modal(() => <FileSizeTooLargeModal oversizedFileCount={oversizedFileCount} />));

@@ -181,12 +181,14 @@ export class MessageRequestService {
 
 		return mapMessageToResponse({
 			...baseParams,
+			// Bypass channelService.getMessageReactions / setHasReaction —
+			// those re-run getChannelAuthenticated per message (3-4 gateway
+			// RPCs each), which adds up to 100+ extra NATS round-trips for a
+			// 30-message page on guild channels. listMessages already
+			// authenticates once and pre-filters out anything past the
+			// history cutoff, so going to the repo directly is safe.
 			getReactions: (channelId: ChannelID, messageId: MessageID) =>
-				this.channelService.getMessageReactions({
-					userId: params.currentUserId,
-					channelId,
-					messageId,
-				}),
+				this.channelRepository.listMessageReactions(channelId, messageId),
 			setHasReaction: (channelId: ChannelID, messageId: MessageID, hasReaction: boolean) =>
 				this.channelService.setHasReaction(channelId, messageId, hasReaction),
 		});

@@ -334,6 +334,7 @@ export const UserSettingsUpdateRequest = z
 		guild_folders: z.array(GuildFolderSchema).max(200).describe('Guild folder organization'),
 		custom_status: CustomStatusPayload.nullish().describe('Custom status'),
 		afk_timeout: z.number().int().describe('AFK timeout in seconds'),
+		idle_timeout: z.number().int().min(0).max(3600).describe('Idle timeout in seconds (0=disabled, 60-3600)'),
 		time_format: withFieldDescription(TimeFormatTypesSchema, 'Time format preference'),
 		developer_mode: z.boolean().describe('Developer mode enabled'),
 		trusted_domains: z
@@ -399,14 +400,29 @@ export const UserNoteUpdateRequest = z.object({
 });
 export type UserNoteUpdateRequest = z.infer<typeof UserNoteUpdateRequest>;
 
-export const PushSubscribeRequest = z.object({
-	endpoint: URLType.describe('The push subscription endpoint URL'),
-	keys: z.object({
-		p256dh: createStringType(1, 1024).describe('The P-256 ECDH public key'),
-		auth: createStringType(1, 1024).describe('The authentication secret'),
-	}),
-	user_agent: createStringType(1, 1024).optional().describe('The user agent string'),
-});
+export const PushSubscribeRequest = z
+	.object({
+		endpoint: URLType.optional().describe('The push subscription endpoint URL (required for web push)'),
+		keys: z
+			.object({
+				p256dh: createStringType(1, 1024).describe('The P-256 ECDH public key'),
+				auth: createStringType(1, 1024).describe('The authentication secret'),
+			})
+			.optional()
+			.describe('Web Push encryption keys (required for web push)'),
+		user_agent: createStringType(1, 1024).optional().describe('The user agent string'),
+		push_type: z.enum(['web', 'expo']).optional().default('web').describe('Push notification type'),
+		expo_token: createStringType(1, 1024).optional().describe('Expo push token (required for expo push)'),
+	})
+	.refine(
+		(data) => {
+			if (data.push_type === 'expo') {
+				return !!data.expo_token;
+			}
+			return !!data.endpoint && !!data.keys;
+		},
+		{message: 'Web push requires endpoint and keys; expo push requires expo_token'},
+	);
 export type PushSubscribeRequest = z.infer<typeof PushSubscribeRequest>;
 
 export const SubscriptionIdParam = z.object({

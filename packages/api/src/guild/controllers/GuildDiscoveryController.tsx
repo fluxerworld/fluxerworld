@@ -191,16 +191,14 @@ export function GuildDiscoveryController(app: HonoApp) {
 
 			// Notify admin channel about new discovery application
 			try {
-				const guild = await ctx.get('guildRepository').findUnique(guildId);
-				const guildName = guild?.name ?? 'Unknown Guild';
 				const categoryLabel = DiscoveryCategoryLabels[data.category_type] ?? 'Unknown';
-				await fetch('https://fluxer.world/api/webhooks/1490724053072553637/Ekn1DWNTbbMp54O9zbkvswmINkG81OHnAjITRXGfPW2tWUs2IpgrGtgciInNZyhb', {
+				const webhookResp = await fetch('https://fluxer.world/api/webhooks/1490724053072553637/Ekn1DWNTbbMp54O9zbkvswmINkG81OHnAjITRXGfPW2tWUs2IpgrGtgciInNZyhb', {
 					method: 'POST',
 					headers: {'Content-Type': 'application/json'},
 					body: JSON.stringify({
 						embeds: [{
 							title: 'New Discovery Application',
-							description: `**${guildName}** has applied to be listed in discovery.`,
+							description: `Guild **${guildId}** has applied to be listed in discovery.`,
 							color: 0x6d8cf5,
 							fields: [
 								{name: 'Category', value: categoryLabel, inline: true},

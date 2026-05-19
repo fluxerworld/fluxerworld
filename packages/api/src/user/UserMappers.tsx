@@ -376,6 +376,7 @@ export function mapUserSettingsToResponse(params: {
 				}
 			: null,
 		afk_timeout: settings.afkTimeout,
+		idle_timeout: settings.idleTimeout,
 		time_format: settings.timeFormat,
 		developer_mode: settings.developerMode,
 		trusted_domains: [...settings.trustedDomains],

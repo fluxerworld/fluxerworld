@@ -1,0 +1,71 @@
+{
+	"polar_products": {
+		"type": "object",
+		"description": "Polar product IDs keyed by tier.",
+		"additionalProperties": false,
+		"properties": {
+			"monthlySubscription": {
+				"type": "string",
+				"description": "Polar product id for monthly subscription.",
+				"default": ""
+			},
+			"yearlySubscription": {
+				"type": "string",
+				"description": "Polar product id for yearly subscription.",
+				"default": ""
+			},
+			"gift1Month": {
+				"type": "string",
+				"description": "Polar product id for 1-month gift (one-time).",
+				"default": ""
+			},
+			"gift1Year": {
+				"type": "string",
+				"description": "Polar product id for 1-year gift (one-time).",
+				"default": ""
+			}
+		}
+	},
+	"polar_integration": {
+		"type": "object",
+		"description": "Polar.sh Merchant-of-Record payments integration.",
+		"additionalProperties": false,
+		"properties": {
+			"enabled": {
+				"type": "boolean",
+				"description": "Enable Polar payments. Can coexist with Stripe during migration.",
+				"default": false
+			},
+			"sandbox": {
+				"type": "boolean",
+				"description": "Use sandbox-api.polar.sh instead of production.",
+				"default": true
+			},
+			"apiKey": {
+				"type": "string",
+				"description": "Polar Organization Access Token (polar_oat_...).",
+				"default": ""
+			},
+			"webhookSecret": {
+				"type": "string",
+				"description": "Polar webhook signing secret (polar_whs_... or whsec_...).",
+				"default": ""
+			},
+			"products": {
+				"description": "Product IDs for subscription + gift tiers.",
+				"$ref": "#/$defs/polar_products"
+			}
+		},
+		"if": {
+			"required": ["enabled"],
+			"properties": {
+				"enabled": {
+					"const": true
+				}
+			}
+		},
+		"then": {
+			"required": ["apiKey", "webhookSecret"]
+		}
+	}
+}

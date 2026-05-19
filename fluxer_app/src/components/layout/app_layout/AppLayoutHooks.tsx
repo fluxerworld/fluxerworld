@@ -29,8 +29,9 @@ import AppStorage from '@app/lib/AppStorage';
 import DeveloperOptionsStore from '@app/stores/DeveloperOptionsStore';
 import NagbarStore from '@app/stores/NagbarStore';
 import RuntimeConfigStore from '@app/stores/RuntimeConfigStore';
+import UpdaterStore from '@app/stores/UpdaterStore';
 import UserStore from '@app/stores/UserStore';
-import {isDesktop} from '@app/utils/NativeUtils';
+import {isDesktop, isElectron} from '@app/utils/NativeUtils';
 import * as NotificationUtils from '@app/utils/NotificationUtils';
 import {isStandalonePwa} from '@app/utils/PwaUtils';
 import {UserPremiumTypes} from '@fluxer/constants/src/UserConstants';
@@ -217,6 +218,13 @@ export const useNagbarConditions = (): NagbarConditions => {
 		hasPendingBulkMessageDeletion,
 		canShowGuildMembershipCta,
 		canShowVisionaryMfa,
+		canShowOutdatedClient: nagbarState.forceHideUpdateAvailable
+			? false
+			: nagbarState.forceUpdateAvailable
+				? true
+				: isElectron() &&
+					UpdaterStore.updateInfo.native.available &&
+					Date.now() >= nagbarState.outdatedClientDismissedUntil,
 	};
 };
 
@@ -288,6 +296,11 @@ export const useActiveNagbars = (conditions: NagbarConditions): Array<NagbarStat
 				type: NagbarType.MOBILE_DOWNLOAD,
 				priority: 11,
 				visible: conditions.canShowMobileDownload,
+			},
+			{
+				type: NagbarType.OUTDATED_CLIENT,
+				priority: 12,
+				visible: conditions.canShowOutdatedClient,
 			},
 		];
 

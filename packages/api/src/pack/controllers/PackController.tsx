@@ -38,7 +38,6 @@ export function PackController(app: HonoApp) {
 		'/packs',
 		RateLimitMiddleware(RateLimitConfigs.PACKS_LIST),
 		LoginRequired,
-		DefaultUserOnly,
 		OpenAPI({
 			operationId: 'list_user_packs',
 			summary: 'List user packs',

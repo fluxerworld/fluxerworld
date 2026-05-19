@@ -20,6 +20,7 @@
 import UnicodeEmojis from '@app/lib/UnicodeEmojis';
 import EmojiPickerStore from '@app/stores/EmojiPickerStore';
 import GuildListStore from '@app/stores/GuildListStore';
+import PackStore from '@app/stores/PackStore';
 import type {FlatEmoji, UnicodeEmoji} from '@app/types/EmojiTypes';
 import {useMemo} from 'react';
 
@@ -28,6 +29,8 @@ export function useEmojiCategories(
 	_searchResultEmojis: ReadonlyArray<FlatEmoji | UnicodeEmoji>,
 ) {
 	const guilds = GuildListStore.guilds;
+	// Read both lists so MobX re-runs this when packs change.
+	const dashboard = PackStore.dashboard;
 
 	const favoriteEmojis = EmojiPickerStore.getFavoriteEmojis(allEmojis);
 
@@ -55,8 +58,45 @@ export function useEmojiCategories(
 		return sortedGuildEmojisByGuildId;
 	}, [allEmojis, guilds]);
 
+	// Pack emojis — separate map keyed by pack ID so the picker can render
+	// them as their own section with the pack name as the header.
+	const customEmojisByPackId = useMemo(() => {
+		const grouped = new Map<string, Array<FlatEmoji>>();
+		for (const emoji of allEmojis) {
+			if (!emoji.packId) continue;
+			if (!grouped.has(emoji.packId)) {
+				grouped.set(emoji.packId, []);
+			}
+			grouped.get(emoji.packId)!.push(emoji as FlatEmoji);
+		}
+
+		// Order packs deterministically — created first, then installed,
+		// matching the pack settings UI.
+		const orderedPackIds: Array<string> = [];
+		if (dashboard) {
+			for (const pack of dashboard.emoji.created) {
+				if (grouped.has(pack.id)) orderedPackIds.push(pack.id);
+			}
+			for (const pack of dashboard.emoji.installed) {
+				if (grouped.has(pack.id) && !orderedPackIds.includes(pack.id)) {
+					orderedPackIds.push(pack.id);
+				}
+			}
+		}
+		// Catch-all for any pack present in emojis but not in the dashboard yet.
+		for (const packId of grouped.keys()) {
+			if (!orderedPackIds.includes(packId)) orderedPackIds.push(packId);
+		}
+
+		const ordered = new Map<string, Array<FlatEmoji>>();
+		for (const packId of orderedPackIds) {
+			ordered.set(packId, grouped.get(packId)!);
+		}
+		return ordered;
+	}, [allEmojis, dashboard]);
+
 	const unicodeEmojisByCategory = useMemo(() => {
-		const unicodeEmojis = allEmojis.filter((emoji) => emoji.guildId == null);
+		const unicodeEmojis = allEmojis.filter((emoji) => emoji.guildId == null && emoji.packId == null);
 		const unicodeEmojisByCategory = new Map<string, Array<FlatEmoji>>();
 
 		for (const emoji of unicodeEmojis) {
@@ -85,6 +125,7 @@ export function useEmojiCategories(
 		favoriteEmojis,
 		frequentlyUsedEmojis,
 		customEmojisByGuildId,
+		customEmojisByPackId,
 		unicodeEmojisByCategory,
 	};
 }

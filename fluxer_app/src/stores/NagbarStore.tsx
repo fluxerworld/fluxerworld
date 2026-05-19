@@ -35,6 +35,7 @@ export interface NagbarSettings {
 	invitesDisabledDismissed: Record<string, boolean>;
 	guildMembershipCtaDismissed: boolean;
 	visionaryMfaDismissed: boolean;
+	outdatedClientDismissedUntil: number;
 	claimAccountModalShownThisSession: boolean;
 	forceOffline: boolean;
 	forceEmailVerification: boolean;
@@ -74,7 +75,10 @@ export interface NagbarSettings {
 
 export type NagbarToggleKey = Exclude<
 	keyof NagbarSettings,
-	'invitesDisabledDismissed' | 'claimAccountModalShownThisSession' | 'pendingBulkDeletionDismissed'
+	| 'invitesDisabledDismissed'
+	| 'claimAccountModalShownThisSession'
+	| 'pendingBulkDeletionDismissed'
+	| 'outdatedClientDismissedUntil'
 >;
 
 export class NagbarStore implements NagbarSettings {
@@ -92,6 +96,7 @@ export class NagbarStore implements NagbarSettings {
 	invitesDisabledDismissed: Record<string, boolean> = {};
 	guildMembershipCtaDismissed = false;
 	visionaryMfaDismissed = false;
+	outdatedClientDismissedUntil = 0;
 	claimAccountModalShownThisSession = false;
 	forceOffline = false;
 	forceEmailVerification = false;
@@ -150,6 +155,7 @@ export class NagbarStore implements NagbarSettings {
 			'invitesDisabledDismissed',
 			'guildMembershipCtaDismissed',
 			'visionaryMfaDismissed',
+			'outdatedClientDismissedUntil',
 		]);
 	}
 

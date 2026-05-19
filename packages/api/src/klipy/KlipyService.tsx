@@ -81,6 +81,15 @@ export class KlipyService implements IKlipyService {
 			...params,
 		};
 
+		// KLIPY only accepts 2-char locale codes (e.g. "en"), not BCP 47
+		// ("en-US"). Sending the full form returns `result: false` with a
+		// "locale format is invalid" error and empty results, which looks
+		// like "half my searches return nothing" to the user. Strip the
+		// region part before forwarding.
+		if (typeof defaultParams.locale === 'string') {
+			defaultParams.locale = defaultParams.locale.slice(0, 2).toLowerCase();
+		}
+
 		for (const [key, value] of Object.entries(defaultParams)) {
 			if (value !== undefined) {
 				url.searchParams.append(key, value.toString());
@@ -97,11 +106,20 @@ export class KlipyService implements IKlipyService {
 					headers: {'User-Agent': FLUXER_USER_AGENT},
 					signal: AbortSignal.timeout(ms('30 seconds')),
 				});
+				// Don't retry on 429 — retrying only makes the rate-limit
+				// window worse. Surface a typed error so callers can return
+				// an empty result instead of a 500.
+				if (response.status === 429) {
+					const err = new Error('KLIPY rate limited') as Error & {code: string};
+					err.code = 'KLIPY_RATE_LIMITED';
+					throw err;
+				}
 				if (!response.ok) {
 					throw new Error(`Failed to fetch KLIPY data: ${response.statusText}`);
 				}
 				return response.json() as Promise<T>;
 			} catch (error) {
+				if ((error as {code?: string}).code === 'KLIPY_RATE_LIMITED') throw error;
 				if (attempt < MAX_RETRIES - 1) {
 					const delay = BACKOFF_BASE_DELAY * 2 ** attempt;
 					await new Promise((resolve) => setTimeout(resolve, delay));
@@ -152,6 +170,10 @@ export class KlipyService implements IKlipyService {
 	}
 
 	async search(params: {q: string; locale: string; country: string}): Promise<Array<KlipyGifResponse>> {
+		const cacheKey = `klipy:search:${params.country}:${params.locale}:${params.q.toLowerCase().trim()}`;
+		const cached = await this.getCache<Array<KlipyGifResponse>>(cacheKey);
+		if (cached && !cached.isStale) return cached.data;
+
 		const url = this.createURL({
 			endpoint: 'search',
 			params: {
@@ -162,7 +184,18 @@ export class KlipyService implements IKlipyService {
 				limit: 50,
 			},
 		});
-		return this.fetchAndTransformGifs(url);
+		try {
+			const gifs = await this.fetchAndTransformGifs(url);
+			await this.setCache(cacheKey, gifs);
+			return gifs;
+		} catch (err) {
+			// On rate-limit, serve stale cache if we have any so the user
+			// still sees results. Otherwise return empty rather than 500.
+			if ((err as {code?: string}).code === 'KLIPY_RATE_LIMITED') {
+				return cached?.data ?? [];
+			}
+			throw err;
+		}
 	}
 
 	async registerShare(params: {id: string; q: string; locale: string; country: string}): Promise<void> {
@@ -236,6 +269,10 @@ export class KlipyService implements IKlipyService {
 	}
 
 	async suggest(params: {q: string; locale: string}): Promise<Array<string>> {
+		const cacheKey = `klipy:suggest:${params.locale}:${params.q.toLowerCase().trim()}`;
+		const cached = await this.getCache<Array<string>>(cacheKey);
+		if (cached && !cached.isStale) return cached.data;
+
 		const url = this.createURL({
 			endpoint: 'autocomplete',
 			params: {
@@ -244,8 +281,16 @@ export class KlipyService implements IKlipyService {
 				locale: params.locale,
 			},
 		});
-		const {results} = await this.fetchKlipyData<{results: Array<string>}>(url);
-		return results;
+		try {
+			const {results} = await this.fetchKlipyData<{results: Array<string>}>(url);
+			await this.setCache(cacheKey, results);
+			return results;
+		} catch (err) {
+			if ((err as {code?: string}).code === 'KLIPY_RATE_LIMITED') {
+				return cached?.data ?? [];
+			}
+			throw err;
+		}
 	}
 
 	private async getFeaturedGifs(params: {locale: string; country: string}): Promise<Array<KlipyGifResponse>> {

@@ -271,6 +271,20 @@ export function buildAPIConfigFromMaster(master: MasterConfig): APIConfig {
 					}
 				: undefined,
 		},
+		polar: {
+			enabled: (master.integrations as any).polar?.enabled ?? false,
+			sandbox: (master.integrations as any).polar?.sandbox ?? true,
+			apiKey: (master.integrations as any).polar?.apiKey ?? '',
+			webhookSecret: (master.integrations as any).polar?.webhookSecret ?? '',
+			products: {
+				monthlySubscription:
+					(master.integrations as any).polar?.products?.monthlySubscription ?? '',
+				yearlySubscription:
+					(master.integrations as any).polar?.products?.yearlySubscription ?? '',
+				gift1Month: (master.integrations as any).polar?.products?.gift1Month ?? '',
+				gift1Year: (master.integrations as any).polar?.products?.gift1Year ?? '',
+			},
+		},
 		cloudflare: {
 			purgeEnabled: master.integrations.cloudflare.purge_enabled,
 			zoneId: master.integrations.cloudflare.zone_id,
