@@ -43,8 +43,20 @@ let olmModulePromise: Promise<typeof import('@matrix-org/olm')> | null = null;
 async function ensureOlmInitialised(): Promise<typeof import('@matrix-org/olm')> {
 	if (!olmModulePromise) {
 		olmModulePromise = (async () => {
+			// @matrix-org/olm's bundled init() does `OLM_OPTIONS = e` against
+			// an undeclared identifier. Our rspack chunk is "use strict", so
+			// that throws ReferenceError unless OLM_OPTIONS already exists as
+			// a global property. Pre-seed it so the write becomes a property
+			// assignment instead of an implicit-global creation.
+			(globalThis as unknown as {OLM_OPTIONS?: unknown}).OLM_OPTIONS ??= {};
 			const Olm = (await import('@matrix-org/olm')).default;
-			await Olm.init();
+			// rspack emits the wasm with a contenthash name (assets/<hash>.wasm),
+			// but Olm's default locateFile resolves to `<base>/olm.wasm` which
+			// hits Caddy's SPA fallback and gets back app.html — boot fails
+			// with "expected magic word 00 61 73 6d, found 3c 21 64 6f" (= "<!do").
+			// Pin the path to /olm.wasm at webroot; the deploy step copies the
+			// hashed wasm there so this URL always resolves.
+			await Olm.init({locateFile: () => '/olm.wasm'});
 			return Olm;
 		})();
 	}

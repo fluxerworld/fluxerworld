@@ -339,7 +339,9 @@ class E2EEStore {
 				this.registrationStatus = 'error';
 				this.lastError = error instanceof Error ? error.message : String(error);
 			});
-			logger.error('E2EE bootstrap failed', {error});
+			const message = error instanceof Error ? error.message : String(error);
+			const stack = error instanceof Error && error.stack ? error.stack : '(no stack)';
+			logger.error(`E2EE bootstrap failed: ${message} | stack: ${stack}`);
 			throw error;
 		});
 		return this.bootstrapPromise;
