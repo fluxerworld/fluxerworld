@@ -26,7 +26,6 @@ const IMPLICITLY_TRUSTED_DOMAINS = [
 	'fluxer.gg',
 	'fluxer.gift',
 	'fluxerusercontent.com',
-	'fluxerstatic.com',
 ] as const;
 
 const TRUSTED_DOMAINS_LOCALSTORAGE_KEY = 'TrustedDomainStore';

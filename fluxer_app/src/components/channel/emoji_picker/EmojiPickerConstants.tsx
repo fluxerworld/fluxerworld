@@ -36,11 +36,11 @@ interface SpriteSheetVariant {
 	retina: string;
 }
 
-const SPRITE_BASE = 'https://fluxerstatic.com/emoji';
+const SPRITE_BASE = '/emoji';
 const SPRITE_VERSION = '2';
 
 const buildVersionedSpriteUrl = (fileName: string): string => {
-	const url = new URL(`${SPRITE_BASE}/${fileName}`);
+	const url = new URL(`${SPRITE_BASE}/${fileName}`, window.location.origin);
 	url.searchParams.set('v', SPRITE_VERSION);
 	return url.toString();
 };

@@ -22,7 +22,7 @@ import {Platform} from '@app/lib/Platform';
 import {convertToCodePoints} from '@app/utils/EmojiCodepointUtils';
 import type {FC, SVGProps} from 'react';
 
-const TWEMOJI_CDN = 'https://fluxerstatic.com/emoji';
+const TWEMOJI_CDN = '/emoji';
 
 type TwemojiComponent = FC<SVGProps<SVGSVGElement>>;
 

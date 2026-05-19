@@ -25,9 +25,9 @@ import type {LocalVideoTrack} from 'livekit-client';
 
 const logger = new Logger('VideoBackgroundProcessor');
 
-const MEDIAPIPE_TASKS_VISION_WASM_BASE = `https://fluxerstatic.com/libs/mediapipe/tasks-vision/0.10.14/wasm`;
+const MEDIAPIPE_TASKS_VISION_WASM_BASE = `/libs/mediapipe/tasks-vision/0.10.14/wasm`;
 const MEDIAPIPE_SEGMENTER_MODEL_PATH =
-	'https://fluxerstatic.com/libs/mediapipe/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite';
+	'/libs/mediapipe/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite';
 
 export interface BackgroundProcessorOptions {
 	backgroundImageId?: string;

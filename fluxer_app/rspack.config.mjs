@@ -35,7 +35,7 @@ const DIST_DIR = path.join(ROOT_DIR, 'dist');
 const PKGS_DIR = path.join(ROOT_DIR, 'pkgs');
 const PUBLIC_DIR = path.join(ROOT_DIR, 'assets');
 
-const CDN_ENDPOINT = 'https://fluxerstatic.com';
+const CDN_ENDPOINT = '';
 
 function resolveMode() {
 	const modeIndex = process.argv.indexOf('--mode');
@@ -250,7 +250,7 @@ export default () => {
 
 		output: {
 			path: DIST_DIR,
-			publicPath: isProduction ? `${CDN_ENDPOINT}/` : '/',
+			publicPath: '/',
 			workerPublicPath: '/',
 			filename: (pathData) => {
 				if (pathData.chunk?.name === 'sw') {
