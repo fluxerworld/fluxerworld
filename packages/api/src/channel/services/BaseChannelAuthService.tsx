@@ -44,6 +44,16 @@ export interface ChannelAuthOptions {
 	validateNsfw: boolean;
 }
 
+// Channels listed in FLUXER_PREMIUM_LOCKED_CHANNELS (comma-separated ids)
+// require an active Premium subscription to access. Read once at module
+// load; restart the server to update.
+const PREMIUM_LOCKED_CHANNEL_IDS: ReadonlySet<string> = new Set(
+	(process.env.FLUXER_PREMIUM_LOCKED_CHANNELS ?? '')
+		.split(',')
+		.map((id) => id.trim())
+		.filter((id) => id.length > 0),
+);
+
 export abstract class BaseChannelAuthService {
 	protected abstract readonly options: ChannelAuthOptions;
 	protected dmPermissionValidator: DMPermissionValidator;
@@ -183,6 +193,16 @@ export abstract class BaseChannelAuthService {
 		};
 
 		await checkPermission(Permissions.VIEW_CHANNEL);
+
+		// Premium-locked channels: gate on the user's active subscription
+		// state. Standard role permissions still apply on top, so admins
+		// can layer further restrictions if they want.
+		if (PREMIUM_LOCKED_CHANNEL_IDS.has(channel.id.toString())) {
+			const user = await this.userRepository.findUnique(userId);
+			if (!user || !user.isPremium()) {
+				throw new MissingPermissionsError();
+			}
+		}
 
 		const isGuildAgeRestricted = guildDataResult!.nsfw_level === GuildNSFWLevel.AGE_RESTRICTED;
 		const requiresAgeVerification = channel.isNsfw || isGuildAgeRestricted;
