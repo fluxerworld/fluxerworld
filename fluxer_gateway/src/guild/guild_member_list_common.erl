@@ -273,34 +273,33 @@ connected_session_user_ids(State) ->
 
 -spec partition_members_by_online([map()], guild_state()) -> {[map()], [map()]}.
 partition_members_by_online(Members, State) ->
-    ConnectedUserIds = connected_session_user_ids(State),
+    %% Source of truth: the global presence_cache. It holds a payload for
+    %% every user whose external status is online/idle/dnd. Cache is empty
+    %% for offline AND for invisible users (publish_presence_payload
+    %% deletes on offline), so absence = offline. We used to require an
+    %% active session *in this guild's State*, but that's too narrow —
+    %% members only show up in this guild's sessions map when actively
+    %% viewing it, so anyone online in a different channel/guild was
+    %% bucketed offline here. presence_cache is global, fixes that.
     MemberPresence = maps:get(member_presence, State, #{}),
     lists:partition(
         fun(Member) ->
             UserId = get_member_user_id(Member),
-            IsConnected = sets:is_element(UserId, ConnectedUserIds),
-            case IsConnected of
-                false ->
-                    %% No active session in this guild → always offline.
-                    false;
-                true ->
-                    %% Connected. Trust the cached presence: anything other
-                    %% than online/idle/dnd is offline. No cache entry means
-                    %% the presence module either hasn't published yet OR
-                    %% the user is "appearing offline" (invisible deletes
-                    %% the cache by design). Either way default to offline
-                    %% so invisible users don't leak into the Online bucket
-                    %% with a green dot under them.
+            Status = case presence_cache:get(UserId) of
+                {ok, Payload} ->
+                    maps:get(<<"status">>, Payload, <<"offline">>);
+                _ ->
+                    %% Fall back to whatever the guild has heard via bus
+                    %% events. Usually agrees with the cache; the
+                    %% fallback covers a narrow race during startup.
                     case maps:get(UserId, MemberPresence, undefined) of
-                        undefined ->
-                            false;
-                        Presence ->
-                            Status = maps:get(<<"status">>, Presence, <<"offline">>),
-                            Status =:= <<"online">> orelse
-                                Status =:= <<"idle">> orelse
-                                Status =:= <<"dnd">>
+                        undefined -> <<"offline">>;
+                        Pres -> maps:get(<<"status">>, Pres, <<"offline">>)
                     end
-            end
+            end,
+            Status =:= <<"online">> orelse
+                Status =:= <<"idle">> orelse
+                Status =:= <<"dnd">>
         end,
         Members
     ).
