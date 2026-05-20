@@ -19,7 +19,7 @@
 
 import {Config} from '@fluxer/api/src/Config';
 import type {UserRow} from '@fluxer/api/src/database/types/UserTypes';
-import {UserFlags} from '@fluxer/constants/src/UserConstants';
+import {UserFlags, UserPremiumTypes} from '@fluxer/constants/src/UserConstants';
 import {ms} from 'itty-time';
 
 interface PremiumCheckable {
@@ -43,7 +43,13 @@ export function checkIsPremium(user: PremiumCheckable): boolean {
 	}
 
 	if (user.premiumUntil == null) {
-		return true;
+		// Only LIFETIME premium legitimately has no expiry. A SUBSCRIPTION
+		// row missing premium_until is broken data (failed Stripe webhook,
+		// half-applied gift, manual DB tweak gone sideways) and must not
+		// grant perpetual premium — that's how non-paying accounts were
+		// silently keeping premium perks open. Treat as not-premium so the
+		// read-repair strip runs on the next interaction.
+		return user.premiumType === UserPremiumTypes.LIFETIME;
 	}
 
 	const nowMs = Date.now();

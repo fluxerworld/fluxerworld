@@ -99,9 +99,14 @@ export class UserAccountLookupService {
 		}
 
 		const isActuallyPremium = user.isPremium();
-		let premiumType = isActuallyPremium ? (user.premiumType && user.premiumType > 0 ? user.premiumType : 1) : (user.premiumType ?? undefined);
-		let premiumSince = user.premiumSince ?? undefined;
-		let premiumLifetimeSequence = user.premiumLifetimeSequence ?? undefined;
+		// When the user is not actually premium, do NOT leak stored premium_*
+		// fields. They may exist in the DB as residual data from an expired
+		// subscription that the read-repair strip hasn't reached yet, and
+		// returning them lets clients unlock premium features for a user
+		// the server already considers non-premium.
+		let premiumType = isActuallyPremium ? (user.premiumType && user.premiumType > 0 ? user.premiumType : 1) : undefined;
+		let premiumSince = isActuallyPremium ? (user.premiumSince ?? undefined) : undefined;
+		let premiumLifetimeSequence = isActuallyPremium ? (user.premiumLifetimeSequence ?? undefined) : undefined;
 
 		if (user.flags & UserFlags.PREMIUM_BADGE_HIDDEN) {
 			premiumType = undefined;
