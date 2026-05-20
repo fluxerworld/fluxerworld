@@ -62,6 +62,7 @@ const GiftCard: React.FC<GiftCardProps> = observer(({gift, isExpanded, onToggle,
 	const {t, i18n} = useLingui();
 	const currentUser = UserStore.currentUser;
 	const [copied, setCopied] = useState(false);
+	const [codeCopied, setCodeCopied] = useState(false);
 	const [redeeming, setRedeeming] = useState(false);
 
 	const giftUrl = `${RuntimeConfigStore.giftEndpoint}/${gift.code}`;
@@ -79,6 +80,18 @@ const GiftCard: React.FC<GiftCardProps> = observer(({gift, isExpanded, onToggle,
 		} catch (error) {
 			logger.error('Failed to copy gift URL', error);
 			ToastActionCreators.createToast({type: 'error', children: <Trans>Failed to copy URL</Trans>});
+		}
+	};
+
+	const handleCopyCode = async () => {
+		try {
+			await TextCopyActionCreators.copy(i18n, gift.code, true);
+			setCodeCopied(true);
+			ToastActionCreators.createToast({type: 'success', children: <Trans>Gift code copied to clipboard!</Trans>});
+			setTimeout(() => setCodeCopied(false), 2000);
+		} catch (error) {
+			logger.error('Failed to copy gift code', error);
+			ToastActionCreators.createToast({type: 'error', children: <Trans>Failed to copy code</Trans>});
 		}
 	};
 
@@ -128,6 +141,25 @@ const GiftCard: React.FC<GiftCardProps> = observer(({gift, isExpanded, onToggle,
 			{isExpanded && (
 				<div className={styles.giftCardContent}>
 					<div className={styles.giftCardActions}>
+						<div className={styles.giftUrlSection}>
+							<Input
+								id={`gift-code-${gift.code}`}
+								label={t`Gift Code`}
+								value={gift.code}
+								readOnly
+								onClick={(e) => e.currentTarget.select()}
+								rightElement={
+									<Button
+										compact
+										fitContent
+										onClick={handleCopyCode}
+										leftIcon={codeCopied ? <CheckIcon size={16} weight="bold" /> : <CopyIcon size={16} />}
+									>
+										{codeCopied ? t`Copied` : t`Copy`}
+									</Button>
+								}
+							/>
+						</div>
 						<div className={styles.giftUrlSection}>
 							<Input
 								id={`gift-url-${gift.code}`}
