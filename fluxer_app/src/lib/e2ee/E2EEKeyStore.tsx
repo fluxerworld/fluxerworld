@@ -84,6 +84,12 @@ export interface PickledOutboundGroupSession {
 	pickle: string;
 	created_at: number;
 	message_count: number;
+	// Hash of the sorted (user_id|device_id) list this session_key has
+	// been distributed to. When the live recipient set diverges from this
+	// hash (member device added/removed/replaced), the session is dropped
+	// so the next send creates a fresh one + redistributes to all current
+	// devices. Optional for backwards compat with pre-existing rows.
+	recipient_set_hash?: string;
 }
 
 // Megolm inbound group session — one per (channel, sender device,

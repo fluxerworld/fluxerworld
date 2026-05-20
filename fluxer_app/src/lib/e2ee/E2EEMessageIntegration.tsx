@@ -28,6 +28,7 @@ import {
 	getPeerIdentityKey,
 	getSessionsForRemoteDevice,
 	putMessagePlaintext,
+	putOutboundGroupSession,
 	setPeerIdentityKey,
 } from '@app/lib/e2ee/E2EEKeyStore';
 import {e2eeManager} from '@app/lib/e2ee/E2EEManager';
@@ -451,6 +452,36 @@ export async function tryEncryptForChannel(
 // 4. Wire shape uses the EncryptedPayloadMegolm discriminator so the
 //    receive path knows to branch on session_id rather than per-device
 //    ciphertexts.
+// Builds a stable fingerprint of the current recipient device set for a
+// channel. Sorted so different orderings produce the same hash; hashed
+// so the value stored alongside the outbound session stays small even
+// for large groups. Failures to fetch a member's device list contribute
+// an empty list to the hash — same outcome as "no devices" — which is
+// safe: a recovered device list on the next send will change the hash
+// and trigger rotation then.
+async function computeRecipientSetHash(memberUserIds: ReadonlyArray<string>): Promise<string> {
+	const allDeviceKeys: Array<string> = [];
+	const devicesPerMember = await Promise.all(
+		memberUserIds.map(async (uid) => {
+			try {
+				return await E2EEActionCreators.listPublicDevices(uid);
+			} catch {
+				return [];
+			}
+		}),
+	);
+	for (let i = 0; i < memberUserIds.length; i++) {
+		const uid = memberUserIds[i];
+		for (const d of devicesPerMember[i]) {
+			allDeviceKeys.push(`${uid}|${d.device_id}`);
+		}
+	}
+	allDeviceKeys.sort();
+	const encoded = new TextEncoder().encode(allDeviceKeys.join('\n'));
+	const digest = await crypto.subtle.digest('SHA-256', encoded);
+	return Array.from(new Uint8Array(digest), (b) => b.toString(16).padStart(2, '0')).join('');
+}
+
 async function tryEncryptForGroupDm(
 	channel: ChannelRecord,
 	currentUserId: string,
@@ -463,6 +494,28 @@ async function tryEncryptForGroupDm(
 	// to encrypt to, so fall through to plaintext (which the channel
 	// toggle will eventually prevent at the UI level).
 	if (otherRecipientIds.length === 0) return null;
+
+	// Compute the current recipient-device set across all members. This is
+	// the source-of-truth for "who should hold the current session_key".
+	// We hash it and compare against what we stored on the cached outbound
+	// session — if the set has changed (peer rotated devices, new install,
+	// stale dead device retired), we drop the cached session so the next
+	// send creates a fresh one and redistributes to everyone currently
+	// present. Without this rotation, a previously-cached session sticks
+	// around forever and never reaches devices that registered after it
+	// was created.
+	const memberUserIds = [...otherRecipientIds, currentUserId];
+	const currentRecipientHash = await computeRecipientSetHash(memberUserIds);
+
+	const cachedSession = await getOutboundGroupSession(channel.id);
+	if (cachedSession && cachedSession.recipient_set_hash !== currentRecipientHash) {
+		logger.info('Recipient device set changed, rotating outbound group session', {
+			channelId: channel.id,
+			previousHash: cachedSession.recipient_set_hash ?? '(unset)',
+			currentHash: currentRecipientHash,
+		});
+		await deleteOutboundGroupSession(channel.id);
+	}
 
 	const sessionInfo = await e2eeManager.getOrCreateOutboundGroupSession(channel.id);
 
@@ -485,7 +538,7 @@ async function tryEncryptForGroupDm(
 			senderIdentityKey,
 			sessionId: sessionInfo.sessionId,
 			sessionKey: sessionInfo.sessionKey,
-			memberUserIds: [...otherRecipientIds, currentUserId],
+			memberUserIds,
 		});
 		if (!distributed) {
 			// Couldn't reach any recipient device — fall back to plaintext
@@ -494,6 +547,13 @@ async function tryEncryptForGroupDm(
 			return null;
 		}
 
+		// Record which recipient set this freshly-distributed session was
+		// addressed to. Future sends compare against this hash to know when
+		// rotation is required.
+		const fresh = await getOutboundGroupSession(channel.id);
+		if (fresh) {
+			await putOutboundGroupSession({...fresh, recipient_set_hash: currentRecipientHash});
+		}
 	}
 
 	// Self-readback: Megolm outbound sessions are encrypt-only — they
