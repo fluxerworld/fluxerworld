@@ -34,7 +34,6 @@ import {setupHttpClient} from '@app/bootstrap/SetupHttpClient';
 import Config from '@app/Config';
 import {BootstrapErrorScreen} from '@app/components/BootstrapErrorScreen';
 import {ErrorFallback} from '@app/components/ErrorFallback';
-import {NetworkErrorScreen} from '@app/components/NetworkErrorScreen';
 import {initI18n} from '@app/I18n';
 import CaptchaInterceptor from '@app/lib/CaptchaInterceptor';
 import {Logger} from '@app/lib/Logger';
@@ -186,19 +185,24 @@ async function bootstrap(): Promise<void> {
 	TtsUtils.setI18n(i18n);
 	TtsUtils.init();
 
-	try {
-		await RuntimeConfigStore.waitForInit();
-		initSentry();
-	} catch (error) {
-		logger.error('Failed to initialize runtime config:', error);
-		const root = ReactDOM.createRoot(document.getElementById('root')!);
-		root.render(
-			<I18nProvider i18n={i18n}>
-				<NetworkErrorScreen />
-			</I18nProvider>,
-		);
-		return;
+	// Retry runtime-config init indefinitely with exponential backoff
+	// (capped). Showing a dedicated "server unavailable" screen here was
+	// alarming for users and hard to recover from — the loading splash
+	// stays on-screen during this loop, and the SPA picks up the moment
+	// the API answers.
+	let configAttempts = 0;
+	while (true) {
+		try {
+			await RuntimeConfigStore.waitForInit();
+			break;
+		} catch (error) {
+			configAttempts++;
+			const delayMs = Math.min(30_000, 1_000 * 2 ** Math.min(configAttempts, 5));
+			logger.warn(`Runtime config init failed (attempt ${configAttempts}), retrying in ${delayMs}ms`, error);
+			await new Promise((r) => setTimeout(r, delayMs));
+		}
 	}
+	initSentry();
 
 	if (!RuntimeConfigStore.isSelfHosted()) {
 		try {
