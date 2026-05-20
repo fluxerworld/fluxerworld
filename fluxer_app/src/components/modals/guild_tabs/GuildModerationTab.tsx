@@ -172,11 +172,11 @@ const GuildModerationTab: React.FC<{guildId: string}> = observer(({guildId}) => 
 			name: colorizeLabel(t`High`, '#f97316'),
 			desc: t`Requires everything in Medium, plus being a member of the server for at least 10 minutes.`,
 		},
-		{
-			value: GuildVerificationLevel.VERY_HIGH,
-			name: colorizeLabel(t`Very high`, '#ef4444'),
-			desc: t`Requires everything in High, plus a verified phone number.`,
-		},
+		// "Very high" deliberately omitted — it requires a verified phone number,
+		// and Fluxer doesn't collect phone numbers at signup. The server-side
+		// check in GuildVerificationUtils is still in place so any pre-existing
+		// guild row at level 4 would still enforce, but the option is removed
+		// from the UI so it can't be newly selected.
 	];
 
 	const nsfwLevelOptions: ReadonlyArray<SelectOption<number>> = useMemo(
