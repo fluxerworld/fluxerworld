@@ -29,7 +29,7 @@ import {createLimitMatchContext} from '@fluxer/api/src/limits/LimitMatchContextB
 import type {AuthSession} from '@fluxer/api/src/models/AuthSession';
 import type {User} from '@fluxer/api/src/models/User';
 import type {IUserAccountRepository} from '@fluxer/api/src/user/repositories/IUserAccountRepository';
-import {UserPremiumTypes} from '@fluxer/constants/src/UserConstants';
+import {UserFlags, UserPremiumTypes} from '@fluxer/constants/src/UserConstants';
 import {ValidationErrorCodes} from '@fluxer/constants/src/ValidationErrorCodes';
 import {SudoModeRequiredError} from '@fluxer/errors/src/domains/auth/SudoModeRequiredError';
 import {InputValidationError} from '@fluxer/errors/src/domains/core/InputValidationError';
@@ -115,8 +115,20 @@ export class UserAccountSecurityService {
 			});
 			updates.username = newUsername;
 			updates.discriminator = newDiscriminator;
+			if (newDiscriminator !== user.discriminator && data.discriminator === newDiscriminator) {
+				// User picked a specific discriminator (passed the canUseCustomDiscriminator
+				// limit gate inside updateUsername). Stamp PREMIUM_DISCRIMINATOR so the
+				// RpcService strip flow finds it and reverts to an auto-generated value
+				// the moment premium expires. Without this stamp the picked tag persists
+				// forever — which is how non-premium accounts ended up holding reserved
+				// 0001/0002/etc. tags after their premium lapsed.
+				updates.flags = (user.flags | UserFlags.PREMIUM_DISCRIMINATOR) as User['flags'];
+			}
 		} else if (data.discriminator !== undefined) {
 			updates.discriminator = await this.updateDiscriminator({user, discriminator: data.discriminator});
+			if (updates.discriminator !== user.discriminator) {
+				updates.flags = (user.flags | UserFlags.PREMIUM_DISCRIMINATOR) as User['flags'];
+			}
 		}
 
 		if (user.isBot) {
